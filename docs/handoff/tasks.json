@@ -13966,9 +13966,9 @@
    "title": "公館其餘招牌（S1～S17 全部 34 張設計稿）換進 gongguan_shops.glb＋貼圖集 2048×4096＋夜間發光",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "LAWWW2-C 已交付 DL-LW2-GGSIGNS2（b75e50a5 GLB＋gg_signs2_test.patch、6b8e2385 截圖）：LAWWW 換 GLB、套測試 patch、跑 gongguan_glb_integration（加 D83 局部瀏覽器），截圖給使用者看（ART_APPROVED 只有使用者能標）",
+   "next": "GLB＋json 換新、gg_signs2_test.patch 已套（LAWWW-C）；待跑 tests/gongguan_glb_integration.py（瀏覽器，等 QA 批次跑完）；截圖給使用者（場景 ART_APPROVED 只有使用者能標）",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13988,7 +13988,11 @@
     "acceptance": "GLB＋測試 patch＋前後截圖＋README",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": [
+    "6b8e2385",
+    "b75e50a5"
+   ]
   },
   {
    "id": "VAC-A1",
