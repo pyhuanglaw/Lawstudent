@@ -265,6 +265,40 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e2bdceced583f53b6db52e9c26af6ab512c09e69",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa_y1s2.json",
+    "docs/story_planning/ladder/build_ladder_aa_y1s2.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 匯入 ladder_aa_y1s2.json 新的已審版本（取代 3b7e2268 那份）：A2-L1 回覆改「現在煎得還不好看」＋dating_heroine_01 extraIf；Y2-L3 dating_heroine_03 extraIf。build --check 通過",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e2bdceced583f53b6db52e9c26af6ab512c09e69",
+   "files": [
+    "docs/story_planning/AA_11_事件書_陳語彤.md",
+    "docs/story_planning/AA_187_以安語彤_戀愛線補完.md",
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+    "docs/story_planning/AA_209_大一下_16週制.md",
+    "docs/story_planning/AA_71_AA與BB人物共同活動.md",
+    "docs/story_planning/交接包_v2_大一下_草稿.md"
+   ],
+   "state": "已交付（企劃，AA 已審）",
+   "remaining": "大二上、大二下的交往版（AA_216 第三、四節）；R1～R7 規則文件；A4-L5、Y8-L4 需要 replyIf 或拆層",
+   "next": "LAWWW 把以安、語彤大一上下的交往版照這些檔排進 v1／v2；AA 接著做大二",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
