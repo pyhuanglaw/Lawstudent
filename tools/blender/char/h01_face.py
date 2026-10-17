@@ -42,6 +42,8 @@ EYELINE_K = 1.0          # 上眼線粗細倍數
 WING = 0.0030            # 眼尾往外上延伸的長度（m）
 LASH_N, LASH_L = 28, 1.0 # 睫毛根數、長度倍數
 BROW_K, BROW_ARCH = 1.0, 1.0   # 眉毛粗細倍數、眉峰高度倍數（1＝沈以安的柔和弧眉）
+BROW_LEN_D = 0.0          # 眉尾長度加減（m；負＝短眉）；BROW_TAIL＝眉尾再往下多少（m）。預設不變（LAWWW2-C 2026-10-17 經濟系三人：BB-C「三人一樣粗、一樣深」）
+BROW_TAIL = 0.0
 BROW_COL = (0.39, 0.28, 0.215)
 BROW_A = 0.85             # 眉毛濃度
 BROW_SCALE_Z = 1.0        # 眉毛網格（FaceBrow）上下放大（男生的粗眉：原本的網格太窄，畫粗的眉會被網格邊緣切掉）
@@ -740,8 +742,8 @@ def paint_brow(f, R, eyes):
         sel = mask & ((pos[..., 0] > 0) == (s > 0))
         ax = np.abs(pos[..., 0]); z = pos[..., 2]
         top = E['up'].max()
-        b0, bp, b1 = E['a_in'] - 0.0072, E['a_in'] + 0.024, E['a_out'] + 0.0075     # 眉頭、眉峰、眉尾
-        zp = top + 0.0160; z0 = zp - 0.0032 * BROW_ARCH; z1 = zp - 0.0046 * BROW_ARCH
+        b0, bp, b1 = E['a_in'] - 0.0072, E['a_in'] + 0.024, E['a_out'] + 0.0075 + BROW_LEN_D     # 眉頭、眉峰、眉尾
+        zp = top + 0.0160; z0 = zp - 0.0032 * BROW_ARCH; z1 = zp - 0.0046 * BROW_ARCH - BROW_TAIL
         t = np.clip((ax - b0) / (b1 - b0), -0.2, 1.2); tp = (bp - b0) / (b1 - b0)
         zc = np.where(t < tp, z0 + (zp - z0) * np.sin(np.clip(t / tp, 0, 1) * np.pi / 2), zp + (z1 - zp) * (np.clip((t - tp) / (1 - tp), 0, 1) ** 1.6))
         hw = np.where(t < tp, 0.0018 - 0.0003 * (t / tp), 0.0015 * (1 - np.clip((t - tp) / (1 - tp), 0, 1)) ** 1.1 + 0.0001) * BROW_K   # 半粗細
