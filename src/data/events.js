@@ -2154,7 +2154,7 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'kexin',expression:'embarrassed',text:'……嗯。'},{speaker:null,text:'（她轉過去看窗外，很久沒說話。）'},
       {label:'t'},{speaker:'kexin',expression:'neutral',text:'你晚上有事嗎？'},{speaker:'player',text:'……沒有。'},{speaker:'kexin',expression:'smile',text:'那去坐摩天輪。'},
       {scene:'摩天輪',bg:'ferris_wheel'},
-      {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{speaker:'kexin',expression:'thinking',text:'假設，我們從最高點開始交往。'},
+      {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{cg:'cg_ferris_wheel_kexin'},{speaker:'kexin',expression:'thinking',text:'假設，我們從最高點開始交往。'},   /* BCG-06（BB 通過；ART-BB-READY-1017）*/
       {speaker:'player',text:'不用假設。'},{speaker:'kexin',expression:'embarrassed',text:'……好。那就從這裡開始。'},
       {set:{Y0_DATING:true,dating_kexin:true,KX_DATING_SINCE:'2024-10-17'}},{stamp:['E26_DAY']},
       {speaker:null,text:'（你送她回去。回到宿舍，已經快十一點了。）'} ],

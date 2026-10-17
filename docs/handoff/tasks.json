@@ -14287,9 +14287,9 @@
    "title": "BB 已通過、開發分支還沒有的圖（現成事件在等）：linze_prof_hall、cg_ferris_wheel_kexin（BCG-06）、cg_decision_peishan（BCG-16）、cg_study_group_rules＋_photo（CG-2）；背景 graduation_avenue、cypress_trail、bus_night、country_road、linze_auditorium",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "W7 ev_sis_prof_xu_door 現在黑底（bg:'prof_door'）→ linze_prof_hall；ev_y0_e26 註解寫 CG 還沒有 → cg_ferris_wheel_kexin；events.js cg_peishan_decision、cg_plg_rules 是空位。從 BB 分支 approved 資料夾取圖（blob 比對過），註冊 BG／CG_REGISTRY、LICENSES；country_road、linze_auditorium 總表原本沒有任務。其餘 59 張 CG 由 ART-15 總項追（23 張只靠總項）",
+   "next": "【LAWWW-C 18:4x：BB 分支 approved 資料夾的 6 張背景（linze_prof_hall→prof_door、graduation_avenue、linze_auditorium、cypress_trail、bus_night、country_road）、3 張 CG（cg_peishan_decision、cg_plg_rules、cg_ferris_wheel_kexin＝E26 摩天輪「假設，我們從最高點開始交往」前）接上，LICENSES 兩列；bg_images_unit 第 6 項】還沒：cg_study_group_rules_photo（沒去讀書會的群組照片版）等它的事件；graduation_avenue、linze_auditorium、cypress_trail、bus_night、country_road 的事件（ev_sis_graduation、ev_fangyt_mountain、K12b、可昕春假）還沒做。瀏覽器：學姊 W7 研究室門口、E26 摩天輪看圖。",
    "first": {
     "term": "Y0S1",
     "week": null,
