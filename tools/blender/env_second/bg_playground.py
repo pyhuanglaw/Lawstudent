@@ -218,7 +218,7 @@ def tex_cloud(path, seed, W_=512, H_=256):
     a = (a - a.min()) / (a.max() - a.min())
     yy, xx = np.mgrid[0:H_, 0:W_]; env = np.exp(-(((xx - W_ / 2) / (W_ * 0.36)) ** 2 + ((yy - H_ * 0.58) / (H_ * 0.30)) ** 2))
     al = np.clip((a * env - 0.18) * 3.0, 0, 1)
-    rgb = np.stack([0.97 - 0.12 * (yy / H_), 0.97 - 0.10 * (yy / H_), 0.98 - 0.06 * (yy / H_)], -1)
+    rgb = np.stack([0.98 - 0.22 * (yy / H_) ** 1.5, 0.98 - 0.20 * (yy / H_) ** 1.5, 0.99 - 0.14 * (yy / H_) ** 1.5], -1)   # 下緣灰一點（雲的陰影面）
     PI.fromarray((np.concatenate([rgb, al[..., None]], -1) * 255).astype(np.uint8), 'RGBA').save(path)
 
 
@@ -275,8 +275,9 @@ for t in ('NISHITA', 'MULTIPLE_SCATTERING', 'SINGLE_SCATTERING'):
     except Exception: continue
 try: sky.sun_elevation = math.radians(38.0); sky.sun_rotation = math.radians(150); sky.sun_disc = False
 except Exception: pass
-try: sky.air_density = 1.2; sky.dust_density = 2.0
-except Exception: pass
+for k_, v_ in (('air_density', 1.0), ('dust_density', 0.4), ('ozone_density', 3.0)):   # 第四版：天空藍一點（第三版太白，白雲看不出來）
+    try: setattr(sky, k_, v_)
+    except Exception: pass
 nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', '0.32'))
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun)
 sun.data.energy = float(opt('--sun', '3.4')); sun.data.color = (1.0, 0.95, 0.86); sun.data.angle = math.radians(1.0)
