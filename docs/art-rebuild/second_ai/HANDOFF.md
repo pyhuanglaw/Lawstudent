@@ -10,7 +10,93 @@
 > 6. 還沒完成的品質工作：HANDOFF.md 的「方法交接進度」表、「還沒做（我的佇列）」；土地公廟（sop_demo 案例 B 的四處）、機車腳踏車多車型（使用者 20:2x：不要同一個款式只換顏色）。
 > 不叫醒休班的帳號（D75），只用 GitHub 交接。
 
-## 📋 LAWWW2 全部待辦（2026-10-17 00:4x 更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
+## 🔁 交班（最新）：2026-10-17 02:4x UTC｜帳號 B｜LAWWW2-B｜`session_01GV1WG3UeT2DhuDpxeWJsvD`｜正式交班
+- **交班原因**：使用者 02:4x 說「現在正式換班」（D45、D49、D92／HV-10、D93）。
+- **分支**：`claude/funny-albattani-iawshm`。
+  - 成果的最後 SHA 是 `b75e50a5`；交班紀錄的 commit 在它之後。
+  - 交班後**停止寫入**，直到使用者叫回來或下一個帳號照總入口第 4 節接班。
+- **下一班 LAWWW2 的第一步**：接班十四步 → 讀「C. 正在做的工作」→ 完成 ART-GG-SIGNS-2（重拍前後截圖 → README → 交值班的 LAWWW）→ 照下面「全部待辦」由上往下。
+- **LAWWW-B 已經在 02:41Z 交班**，所以這份紀錄只寫在 GitHub，沒有傳訊息給任何人。
+
+### A. 本班完成（帳號 B，2026-10-16 22:00 ～ 10-17 02:4x UTC）
+整合狀態照 RULE_SOURCE 的 `docs/handoff/deliveries.json`。**都沒發布到 `main`**。場景的 `ART_APPROVED` 只有使用者能標，這裡都沒有標。
+
+| 任務 ID | 成果 | SHA | 測試 | 整合 |
+|---|---|---|---|---|
+| ART-GYM-BG1 | 開學典禮背景 v3。使用者 00:3x：「開學典禮可以!!!」 | `a3529675` | ADV 直向、橫向截圖（手機模擬） | LAWWW-B 已登記背景（已整合待測試） |
+| ART-GG-SIGNS | 公館六家招牌換成設計稿；GLB 重建成效能版 | `40b73c64` | 整合測試 ALL PASS 40 | LAWWW-B 已整合（已整合待測試） |
+| ART-DORM-LOFT | 宿舍台大四人房：`dorm_room4.glb`＋layout。使用者 01:3x：「宿舍ok」 | `a09ebf4d` | 疊面 0／0；遊戲內截圖 | LAWWW-B DORM-LOFT-L 整合中 |
+| ART-CAFE-FLOOR | Café 自流坪地板 | `ef689b67` | 截圖 | 已整合待測試 |
+| BUG-COPLANAR-DEV | 萬才館外觀、霖澤館外觀 | `eb3a3bad`、`2b78d35d` | `--check` 差 0 | 已整合待測試 |
+| BUG-COPLANAR-DEV | 霖澤館室內 63 → 0；201 教室 11 → 0；萬才館室內 54 → 4；總圖大廳 129 → 27；法圖 120 → 93（數字是「一定會閃」的面數） | `703f5231`、`209e7eca`、`9dc6727f`、`f1734e3f`、`6f10b1fe` | 遊戲內前後截圖（`test_shots/coplanar_dev/README.md`） | LAWWW-B 已收進開發分支；瀏覽器流程測試沒跑完，排在 QA-HANDOFF-B1 |
+| BUG-WZFLICKER（第二輪）＋疊面第三、四輪 | 溫州街、農業陳列館、體育館主球場、公館、118 巷、Café | `6e5aa462`、`3ccc781e`、`f1d23fd4`、`fba3d65b`、`4faeec0b` | 掃描前後數字 | 已 ACK |
+| QA-W1 座位點 | 小公園鞦韆、體育館長椅、看台 | `636a9661` | — | 給 LAWWW-B |
+
+### B. 全部未完成工作
+見下一節「📋 LAWWW2 全部待辦」（D93，每項都有任務 ID）。總表沒有的標【表外】，交給下一班值班的 LAWWW 補進 `tasks.json`。
+
+### C. 交班時正在做的工作：**ART-GG-SIGNS-2【表外】** 公館其餘招牌全部換成設計稿
+- **來源**：BB-B `2f5d4a3d`／`bc9e0f58`，公館招牌 S1～S17 全部通過，共 34 張 `_fit`。交付紀錄是 DL-BB-GG-SIGNS-S17（ACK，未整合）。
+- **做完的部分（都已 push）**：
+  - `sign_atlas.py`：貼圖集 2048×4096，36 張，高度用了 3878 px。另外有一張夜間發光貼圖 `gg_signs_atlas_emit.jpg`（燈箱整面亮、霓虹用遮罩、不亮的黑色）。
+  - `wz_shopkit.py`：發光貼圖接到材質。
+  - `wz_street.py`：公館的 1F 橫招牌 16 家、店的直立 6 塊、樓上住戶直立 8 塊、二樓大招牌 5 塊、屋頂看板 1 塊全部用貼圖集；GLB 裡不再有 `SIGN_FACE`、`VSIGN_FACE`。
+  - SHA `01984198`（腳本、34 張 `_fit`、貼圖集）。
+  - SHA `b75e50a5`：
+    - `assets/models/env/second_ai/gongguan_shops.glb`（3.13 MB、405 物件）＋`.json`；
+    - 整合測試 patch `docs/art-rebuild/second_ai/patches/gg_signs2_test.patch`，對開發分支 `fbda2ce9`，`git apply --check` 通過。
+- **測試**：
+  - 測試工作樹＝開發分支 `3d477ddb`＋第一批的 patch＋這次的 patch＋新 GLB，`tests/gongguan_glb_integration.py` **ALL PASS 34 項**。第一批是 40 項：拿掉 7 項 canvas 招牌貼圖集的檢查，加 1 項「沒有 `SIGN_FACE`／`VSIGN_FACE`」。
+  - 效能：draw call 是 `?nobldg` 的 1.08～1.15 倍（上限 1.3 倍），三角形 21～26 萬（上限 42 萬）。
+  - 夜間檢查改量 `wz_signs_lit` 的發光強度，20:30 比 11:00 亮：通過。
+- **還沒做**：
+  1. **前後截圖**：在 scratchpad 拍了 20 張，**沒有保存到 repo**，下一班重拍。
+     - 修改前＝第一批的 GLB `40b73c64`；修改後＝`b75e50a5`。
+     - 1280×720，藏起玩家和路人；11:00、21:00 各一張。
+     - 鏡頭（公館區域座標）：
+       - west：眼 (−42, 1.7, 8) → 看 (−58, 5.5, 19)；
+       - mid：(−1, 1.7, 8) → (−13, 5.5, 19)；
+       - g07：(24, 1.7, 6) → (12, 7, 19)；
+       - east：(66, 1.7, 8) → (54, 5.5, 19)；
+       - gate：(2, 1.7, −36) → (−4, 7, 19)。
+     - 用 `tools/blender/env_second/shots/fast_shots.py`。
+  2. `test_shots/gg_signs/README.md` 加第二批一節：哪幾塊換了、前後圖、夜間霓虹（二手唱片）。
+  3. 交給值班的 LAWWW（GLB＋json＋patch），並通知 BB-B「S1～S17 已貼進遊戲模型」。
+  4. 夜間的樣子只用數值檢查過，**沒有用眼睛看過截圖**（霓虹遮罩、燈箱亮度）。
+- **重建指令**：`python3 tools/blender/env_second/sign_atlas.py --set gongguan`，然後 `wz_street.py --set gongguan`（參數見 `test_shots/gg_signs/README.md`）。
+
+### D. 本班的使用者決策與規則
+- 本班沒有新增 D／HV 編號。D90、D93 由 LAWWW-B 寫進規則檔。
+- 使用者直接給 LAWWW2-B 的決定（原文都在這份交接檔各任務底下）：
+  - 23:4x Café 地板：「地板真的太醜 跟桌子顏色太近」→ ART-CAFE-FLOOR。
+  - 23:4x 開學典禮 v1 退件；v2：「頭髮為什麼看起來很灰」＋實際典禮照片；00:3x：「開學典禮可以!!!」。
+  - 00:1x：美術全部給 LAWWW2，照遊戲出現順序做。00:2x：全部待辦都要交接（已寫進 D93）。
+  - 01:0x：宿舍照片，上舖床、下面書桌、四組、進門右邊洗手間，「你改」；01:3x：「宿舍ok」。
+
+### E. 跨 AI 協作
+- **給 LAWWW-B**：
+  - 上面 A 的交付全部 ACK；整合狀態見 A 表。
+  - ART-GG-SIGNS-2 **還沒交付**（只有 WIP，LAWWW-B 交班時已經在 deliveries 註記）。
+- **BB-B**：
+  - S1～S17 招牌設計稿：ACK、使用中（C）。
+  - 02:28 問機場兩張底圖要不要用我的 3D → 我回「交使用者生成」（DELIVERED；對方不需要再回）。原因：VAC-A2 沒開工、計畫裡沒有入境大廳。
+- **AA-B**：
+  - 宿舍室友照 AA_208（`65978067`）。
+  - ART-METHOD6 等 AA-B 交驗證件。
+- 沒有排程中的 send_later；沒有傳訊息給任何休班帳號。
+
+### F. 測試與問題
+- ART-GG-SIGNS-2：前後截圖沒保存、夜間沒用眼睛驗收。
+- 本班所有成果**都沒有 iPhone 實機驗證**，截圖都是 Playwright 手機模擬。
+- 室內疊面剩下：萬才館 4、總圖 27、法圖 93（多半是貼牆、貼地的接觸面，掃描工具不知道遮擋）；宿舍大廳約 10 m²（等四人房接進來）。
+- 陽台盆栽從街上看不到（ART-BALCONY-POTS）。
+- 只在 scratchpad 的東西：
+  - 20 張前後截圖；
+  - 測試工作樹 `lwwt4`（換過 GLB 的開發分支，用完即丟）；
+  - 建置紀錄。
+  - 都可以重做，沒有獨有的成果。
+
+## 📋 LAWWW2 全部待辦（2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 任務 ID 對到 RULE_SOURCE 的 `docs/handoff/tasks.json`。原本的【表外】6 項 LAWWW-B 已經補進總表（89e254a1），下面換成正式 ID；**【表外】**＝總表還沒有的。交班、接班都跑 `python3 tools/handoff/check_handoff.py roles`。接班的人照這張表由上往下做。
 
 ### A. 正在做／等使用者
@@ -21,6 +107,7 @@
    - 受影響：玩家每天起床的房間、坐書桌讀書、睡覺；經濟系那一年的紙箱（原本疊在床上）、阿勳的書桌與保齡球袋；SCN-V3-01 大二的房間也照這個做。
    - 等 AA-B：另外兩個床位的室友（我先做成有生活痕跡、人不在）。
    - 這期間暫停 BUG-COPLANAR-DEV 室內（霖澤館查完、還沒改檔）。
+   - **狀態（02:4x 交班）**：已交付，LAWWW-B DORM-LOFT-L **整合中**（deliveries：DL-LW2-DORM-LOFT）。下一步：等整合後在遊戲裡截圖給使用者再看一次；宿舍大廳的疊面（BUG-COPLANAR-DEV 最後約 10 m²）接著做。
    - **進度（01:4x）**：`tools/blender/env_second/dorm_room4.py` v2（91122d9b），說明與算圖 `test_shots/dorm_loft/README.md`、配置 `layout_v2.json`。
      - **使用者 01:3x「宿舍ok」→ 已交 LAWWW-B**：`assets/models/env/second_ai/dorm_room4.glb`＋`dorm_room4.layout.json`（新檔名，等程式改好再換掉舊的 dorm_interior.glb）。遊戲內截圖在 README。
      - 室友照 AA_208（AA-B 65978067）：203＝L2 祐廷、R2 阿凱、L1 阿哲、R1 柏翰；412＝L2 祐廷、R2 阿勳、L1 韋綸、R1 唐睿；第一晚空床＋名牌。
@@ -29,16 +116,16 @@
 1. **ART-GYM-BG1** 開學典禮背景（8/31）：
    - v1 被使用者退件（家長、幾何公仔「超醜」）；v2 頭髮太灰。
    - v3 照使用者給的實際典禮照片改（af2d5059）：白 T 恤學生、紅地毯台階、插畫背板、燈架、紅綠吊旗。
-   - **使用者 00:3x：「開學典禮可以!!!」**（v3 通過）。1920×1080 正式版算圖中 → `assets/bg/ntu_gym_ceremony.webp` → ADV 截圖 → 交 LAWWW-B 重新登記背景。
+   - **使用者 00:3x：「開學典禮可以!!!」**（v3 通過）。正式版 `a3529675` 已交，LAWWW-B 已登記（已整合待測試）；等使用者在遊戲裡再看一次。
    - 腳本 `bg_gym_ceremony.py`＋`vrm_crowd.py`。
    - 畢業典禮版（學士服）之後做：SCN-V5-02／CG-9。
 2. **ART-GG-SIGNS** 公館招牌：六家（阿鳳、舊路、藥局、輪轉、影印、日日定食，橫＋直立）**已交 LAWWW-B**，說明 `test_shots/gg_signs/README.md`，測試 patch `patches/gg_signs_test.patch`（ALL PASS 40 項）。
-   - 公館 GLB 重建成效能版（物件 815 → 436、三角形 83k → 54k），等 LAWWW-B 整合 SHA。
-   - S5～S18 等使用者生成、BB-B 驗收。
-   - **衍生【表外】ART-BALCONY-POTS**：陽台大葉盆栽（效能第六輪換成模型葉子）從街上幾乎看不到；溫州街、公館一起改（放花架或換大一點的植物）→ 重建 → 兩條街整合測試。
+   - 公館 GLB 重建成效能版（物件 815 → 436、三角形 83k → 54k），LAWWW-B 已整合（已整合待測試）。
+   - **【表外】ART-GG-SIGNS-2（交班時正在做，見上面「C. 正在做的工作」）**：其餘招牌 S1～S17 全部貼進去，GLB＋patch 已 push（`b75e50a5`，ALL PASS 34），還沒拍前後截圖、還沒交付。
+   - **衍生 ART-BALCONY-POTS**（總表已有）：陽台大葉盆栽（效能第六輪換成模型葉子）從街上幾乎看不到；溫州街、公館一起改（放花架或換大一點的植物）→ 重建 → 兩條街整合測試。
 3. **BUG-COPLANAR-DEV** 開發組 GLB 疊面：
-   - 已交：萬才館外觀（eb3a3bad）、霖澤館外觀（2b78d35d）。
-   - 還沒做：霖澤館、萬才館、總圖、法圖、201 室內，各只有幾 m²（窗框×玻璃、樓板×牆頂）。
+   - 已交：萬才館外觀（eb3a3bad）、霖澤館外觀（2b78d35d）；室內霖澤館 63→0（703f5231）、201 11→0（209e7eca）、萬才館 54→4（9dc6727f）、總圖 129→27（f1734e3f）、法圖 120→93（6f10b1fe），LAWWW-B 已收進開發分支，瀏覽器流程測試排在 QA-HANDOFF-B1。
+   - 還沒做：宿舍大廳約 10 m²（等四人房接進來）；萬才館、總圖、法圖剩下的大多是貼牆、貼地的接觸面，要在遊戲裡確認看不看得到再決定改不改。
 
 ### B. 第一週～大一（主線先）
 4. **ART-POLISH** 精修（開局），裡面還沒做的：
@@ -50,7 +137,7 @@
    - 溫州街還有三處小疊面：x 10.35 二樓招牌×亮燈窗玻璃、x 41.4 店面玻璃×窗框細條、x −4.3 金屬條。
    - 公館、118 巷還有鐵捲門×牆腳護牆、重疊冷氣，要重建才修得到；重建前先查結構差異。
    - 美國公寓 7 對、小公園 11 對小的。
-6. **ART-17** 缺圖 2D 背景，照最早出現排：ART-BG16 `ntu_linze`、ART-BG17 `ntu_avenue`（K 系列，v0／大一）、ART-BG14、BG19、BG09／10／12。
+6. **ART-17** 缺圖 2D 背景（BG-04 `nccu_dorm` 等使用者照片；BG-18 可昕那一端已整合待測試），照最早出現排：ART-BG16 `ntu_linze`、ART-BG17 `ntu_avenue`（K 系列，v0／大一）、ART-BG14、BG19、BG09／10／12。
    - ART-BG08（`car_*.webp`）、ART-BG20（`soymilk_shop.webp`）：總表已改成「已整合待測試」（等使用者看畫面）。
 7. **ART-04** 黃金葛 `prop_pothos.glb`：S1～S4 四種大小＋遊戲內截圖（書桌左前角）。
 
@@ -87,6 +174,8 @@
     - 車籃裡的東西；
     - 淑女車再分款。
 25. FIX-WZ-PERF：總表已改成「已實作待整合」，LAWWW-B 在核對 1e445818 有沒有隨小公園 v7 進來。
+
+26. **VAC-A2** 機場：BB-B 02:28 問能不能拍 `airport_departure`、`airport_arrival` 兩張底圖 → 已回「交使用者生成」。VAC-A2 做完後，如果出境下車處拍得出一月陰天那張，再告訴值班的 BB。
 
 - 沒有排程中的 send_later：`list_triggers` 是空的。
 - 對話裡的承諾都已經列在上面。
