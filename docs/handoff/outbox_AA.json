@@ -242,6 +242,29 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "ACK"
+  },
+  {
+   "task": "LIFE-LINE-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "fc545bb53fa9fb0721d9f248009f806798a2f8b3",
+   "files": [
+    "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+    "docs/story_planning/AA_218_附錄A_經濟系一年事件分類.md",
+    "docs/story_planning/AA_218_附錄B_溫書瑀年級平移盤點.md",
+    "docs/story_planning/AA_12_事件書_祐廷主線.md",
+    "docs/story_planning/AA_106_經濟系大一_整合企劃.md",
+    "docs/story_planning/AA_154_v0時間線_開發與驗收規格.md",
+    "docs/story_planning/AA_169_v0_E24c決定_E30辦休學_完整稿.md",
+    "docs/story_planning/AA_213_美國交換改大四上_新時間線.md",
+    "docs/story_planning/AA_99_重新審查_第一階段.md",
+    "docs/story_planning/交接包_v0_經濟系大一_交付清單.md"
+   ],
+   "state": "已交付（企劃時間線；AA 已審）",
+   "remaining": "台詞全部等 BB_188 定稿（BB-C 分支 d5312d3c 是提案）；已發布文字（LAW_START_RECAP、DAY1_NARR、第二天回答、K7 3/22→10/17、characters.js 溫書瑀 year/名片）要使用者批准 BB 稿才改；待使用者：補習班②③同一間、宿營＝第一次見面、E24b2 旁聽、溫書瑀 21 歲",
+   "next": "LAWWW 排施工：可以先做 【裁定】 的骨架（AA_154 0b 節日期、刪除清單、KX_CAR 旗標、E24C_REASON 新值與舊存檔對應），台詞用舊稿占位、不發布；故事匯入白名單照舊不加",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
