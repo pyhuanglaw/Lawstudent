@@ -97,7 +97,7 @@ const CLS=(function(){
   S.liveIn=function(G,zone){ return S.dayItems(G).filter(it=>S.live(G,it)&&it.room.zone===zone&&!S.storyClass(G,it)); };
   S.liveDoor=function(G,door){ return S.dayItems(G).find(it=>S.live(G,it)&&it.room.door===door)||null; };
   /* 教授現在在哪（story3d.js 的 schedFor 用）：上課時在那間教室、下課後 1.5 小時在萬才館（和以前一樣） */
-  S.profWhere=function(G,profId){ for(const it of S.dayItems(G)){ if(it.c.prof!==profId) continue; const h=hr(G); if(S.live(G,it)) return it.room.zone?{zone:it.room.zone,act:'class'}:null; if(h>=it.t1&&h<it.t1+1.5) return {zone:'wancai',act:'office'}; } return null; };
+  S.profWhere=function(G,profId){ for(const it of S.dayItems(G)){ if(it.c.prof!==profId) continue; const h=hr(G); if(S.live(G,it)) return it.room.zone?{zone:it.room.zone,act:'class',room:it.room.room}:null; if(h>=it.t1&&h<it.t1+1.5&&!(typeof CHARACTERS!=='undefined'&&CHARACTERS[profId]&&CHARACTERS[profId].office===false)) return {zone:'wancai',act:'office'}; } return null; };   /* office:false＝下課後不去萬才館（經濟系的魏教授）*/
   // ---------- 文字 ----------
   S.itemText=it=>hhmm(it.t0)+' '+it.c.name+'（'+(it.room.name||'')+'）';
   S.dayLabel=function(G,day){ if(day==null) day=G.day; const d=CALENDAR.dateOf(day), t=CALENDAR.termOf(day), hol=CALENDAR.holiday(day); let s=d.m+'/'+d.d+' '+WD[d.wd];

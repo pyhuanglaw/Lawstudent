@@ -35,7 +35,22 @@ const PORTRAIT_FILES={
    "neutral"
   ]
  },
+ "econ_jiahao": {
+  "campus": [
+   "neutral"
+  ]
+ },
  "econ_pinyu": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "econ_tangrui": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "econ_weilun": {
   "campus": [
    "neutral"
   ]

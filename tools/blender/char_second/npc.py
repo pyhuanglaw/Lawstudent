@@ -5,7 +5,7 @@
 做法照 LAWWW 的人物生產線（tools/blender/char）＋杜可昕、明軒的模組；用法：
   NPC=<名字> /opt/blenv/bin/python tools/blender/char_second/npc.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
 之後：VRM_BASE=<樣本> [VRM_MALE=1] NPC_SMALL=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 路人 [虹膜色]"""
-import sys, os
+import sys, os, json
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)
 sys.path.insert(0, HERE); sys.path.insert(1, CHAR_LIB)
@@ -223,9 +223,12 @@ VARIANTS = {
                  layered=dict(style=outer_style(rgb(232, 228, 216), rgb(64, 66, 54), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.90, pants_ell=(0.070, 0.080), drop=True))),   # 深棕微捲中長髮＋米白針織衫＋深橄欖寬褲＋白球鞋
     # 魏教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
-    'pwei': dict(sex='m', base='HairSample_Male', head=0.95, height=1.72, iris='#2a221c', skin=(0.95, 0.89, 0.84), eye_close=0.22,
-                 face=dict(EYE_SX=1.06, EYE_SZ=0.62, EYE_TILT=-0.005, BROW_ARCH=0.25, BROW_K=1.50, BROW_COL=(0.22, 0.20, 0.19), FACE_NARROW=0.99, CHIN_WIDEN=0.66, JAW_OUT=0.0050, D_CHIN=0.003, MOUTH_K=1.40, MOUTH_DOWN=0.0006),
-                 hair=dict(seed=20261231, part=-22.0, col=(0.33, 0.32, 0.31), tip=(0.042, 0.040, 0.032, 0.026, 0.020, 0.014, 0.008, 0.004, 0.006, 0.008), nape=0.008, vol=0.52, curl=(16, 28)),   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
+    # 第三版（BB-C BB_201 第 4 節：「看起來像國中生」）：頭小一點（0.95 → 0.91）、上身寬厚（torso 1.08）、稍微駝（stoop 1.8 cm）、
+    # 頭髮灰白多一點（0.33 → 0.50）、前額髮際線往後（recede 9°）、眉毛灰、臉寬、嘴角低一點；遠景看得出年紀，臉不精修
+    # 第五版（BB-C BB_201 第 8 節：「頭髮全白的年輕人／燙過的短髮」）：男性短髮——兩側、後腦剪短，露耳朵、後頸；頭頂短、側分；灰黑夾雜（頭頂深灰黑、兩鬢灰白）；肩膀再寬、脖子粗、一點肚子
+    'pwei': dict(sex='m', base='HairSample_Male', head=0.91, height=1.72, iris='#2a221c', skin=(0.93, 0.86, 0.80), eye_close=0.22, torso=1.12, stoop=0.018, neck=1.10, belly=0.016,
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.60, EYE_TILT=-0.010, BROW_ARCH=0.25, BROW_K=1.55, BROW_COL=(0.34, 0.32, 0.30), FACE_NARROW=1.01, CHIN_WIDEN=0.72, JAW_OUT=0.0070, D_CHIN=0.004, MOUTH_K=1.40, MOUTH_DOWN=0.0012),
+                 hair=dict(seed=20261231, part=-22.0, col=(0.20, 0.19, 0.19), temple_col=(0.62, 0.61, 0.60), recede=9.0, tip=(0.078, 0.070, 0.050, 0.044, 0.042, 0.040, 0.040, 0.026, 0.024, 0.022), side_taper=0.65, nape=0.003, vol=0.42, curl=(24, 38)),   # 第四版：前面的髮尾停在髮際線上、往旁邊梳（第三版瀏海還垂在額頭上，看起來年輕）   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
                  clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
@@ -253,6 +256,24 @@ def stage0(m):
     import heroine_05 as H05
     H05.fill_hidden_skin(m['body'], 'Body_00_SKIN', TAG + '_Body_filled')
     if VAR['head'] != 1.0: C.scale_head(arm, [m['face'], m['body']], VAR['head'])
+    if VAR.get('torso') or VAR.get('stoop'):     # 魏教授：上身寬厚、稍微駝（身體和臉一起動，之後的衣服、頭髮照新的身體做）
+        ch, nk = C.bone_head(arm, 'J_Bip_C_Chest'), C.bone_head(arm, 'J_Bip_C_Neck'); sp = C.bone_head(arm, 'J_Bip_C_Spine')
+        tw, st = float(VAR.get('torso', 1.0)), float(VAR.get('stoop', 0.0)); nkk, bl = float(VAR.get('neck', 1.0)), float(VAR.get('belly', 0.0)); hd = C.bone_head(arm, 'J_Bip_C_Head')
+        def sst(a, b, x): t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+        def bulk(P, B=None):
+            z = P[:, 2]; band = sst(sp[2], ch[2] + 0.05, z) * (1 - sst(nk[2] - 0.01, nk[2] + 0.04, z))   # 胸口到肩膀最寬，脖子以上不動
+            arms = np.abs(P[:, 0] - ch[0]) > 0.17                                                       # T 字姿勢伸出去的手臂只跟著移、不放大
+            k = np.where(arms, 1.0, 1 + (tw - 1) * band)
+            x = ch[0] + (P[:, 0] - ch[0]) * k + np.where(arms, np.sign(P[:, 0] - ch[0]) * (tw - 1) * 0.17 * band, 0)
+            y = ch[1] + (P[:, 1] - ch[1]) * np.where(arms, 1.0, 1 + 0.6 * (tw - 1) * band)
+            y = y - st * sst(ch[2], nk[2] + 0.02, z)                                                     # 胸口以上往前（駝）；頭、臉跟著
+            nb = sst(nk[2] - 0.02, nk[2] + 0.02, z) * (1 - sst(hd[2] - 0.03, hd[2] + 0.01, z)) * (~arms)   # 脖子粗一點
+            x = nk[0] + (x - nk[0]) * (1 + (nkk - 1) * nb); y = nk[1] + (y - nk[1]) * (1 + (nkk - 1) * nb)
+            front = np.clip(-(P[:, 1] - ch[1]) / 0.10, 0, 1)                                              # 肚子：肚臍附近往前（前面才推）
+            y = y - bl * front * np.exp(-((z - (sp[2] + 0.02)) / 0.07) ** 2) * (~arms)
+            return np.column_stack([x, y, z])
+        for o in (m['body'], m['face']): C.warp_world(o, bulk)
+        print('  torso x%.2f stoop %.3f' % (tw, st))
     if not male:
         nk = C.bone_head(arm, 'J_Bip_C_Neck'); w = np.clip(C.vgroup_weights(m['body'], {'J_Bip_C_Neck'}), 0, 1)
         C.warp(m['body'], lambda P, B: np.column_stack([nk[0] + (P[:, 0] - nk[0]) * (1 - 0.05 * w), nk[1] + (P[:, 1] - nk[1]) * (1 - 0.05 * w), P[:, 2]]))
@@ -293,10 +314,34 @@ def clothes(m):
     m['clothes'] = obj
 
 
+# 日劇髮型（使用者 2026-10-17：「你可以參考日劇的男女主角的髮型嗎」）：參考日劇裡大學生、年輕上班族常見的髮型種類（不照任何真實演員）。
+# 穿搭、髮色、長度照原本的 VARIANTS；這裡只改瀏海樣式、外翻、波浪（產生器的參數見 npc_hair_f.py、npc_hair_m.py 開頭）。
+#   女：air 空氣瀏海（シースルーバング）、side 斜瀏海、center 中分沒有瀏海（センターパート）、heavy 厚瀏海；flip 外ハネ；wave ゆる巻き
+#   男：center 中分（センターパート；前面的髮尾停在髮際線 tipfront）、heavy 蘑菇頭（マッシュ）、card 原本的一撮一撮（短髮、側分）＋wave 微捲燙
+CENTER_M = (0.060, 0.045, 0.010); MASH_M = (-0.010, -0.010, -0.006)
+JP_STYLE = {
+    'nf1': dict(bang='side', wave=0.006), 'nf2': dict(bang='air', flip=0.028), 'nf3': dict(bang='air', wave=0.012), 'nf4': dict(bang='side', flip=0.020),
+    'nf5': dict(bang='center', part=0.0), 'nf6': dict(bang='air', flip=0.030), 'nf7': dict(bang='side', flip=0.018), 'nf8': dict(bang='heavy'),
+    'nf9': dict(bang='center', part=0.0, wave=0.012), 'nf10': dict(bang='center', part=0.0), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
+    'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', part=0.0, wave=0.010), 'nf16': dict(bang='air'),
+    'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', part=0.0, wave=0.014), 'nf20': dict(bang='air', flip=0.020),
+    'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm3': dict(wave=0.004), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
+    'nm8': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm9': dict(bang='center', tipfront=CENTER_M, part=0.0),
+    'nm10': dict(bang='center', tipfront=CENTER_M, part=0.0), 'nm11': dict(wave=0.004), 'nm12': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
+    'nm14': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.005, vol=1.12), 'nm15': dict(wave=0.005), 'nm17': dict(bang='heavy', tipfront=MASH_M, vol=1.10),
+    'nm18': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm20': dict(wave=0.006),
+    # 不變（短髮、側分、平頭：日劇裡也常見的清爽短髮）：nm1、nm4、nm6、nm7、nm13、nm16、nm19
+}
+
+
 def hair(m):
     import npc_hair_m as HM, npc_hair_f as HF
     mod = HM if VAR['sex'] == 'm' else HF
     mod.P.update(VAR['hair']); mod.P['name'] = TAG
+    st = dict(JP_STYLE.get(NAME, {})) if not os.environ.get('NPC_NO_JP') else {}
+    if 'tipfront' in st: tp = list(mod.P['tip']); tp[:3] = st.pop('tipfront'); mod.P['tip'] = tuple(tp)
+    mod.P.update(st)
+    if os.environ.get('NPC_HAIR'): mod.P.update(json.loads(os.environ['NPC_HAIR']))   # 試做：不改 VARIANTS，用環境變數蓋掉頭髮參數（JSON）
     mod.apply(m)
 
 

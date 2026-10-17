@@ -1,4 +1,4 @@
-/* ===== 人物隨身配件（PROPS）：後背包、帆布托特包、細框眼鏡、銀色小耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾 =====
+/* ===== 人物隨身配件（PROPS）：後背包、帆布托特包、細框眼鏡、銀色小耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾、腳踏車安全帽 =====
    掛在 VRM 的骨頭上（VRoid 骨頭在 rest pose 沒有旋轉，模型檔空間：+x＝角色右側、-x＝左側、-z＝前方、+z＝後方）。
    形狀用圓角、斜面、布料貼圖做成「看得出是什麼」的物件，不是方塊；顏色與 Character Bible 一致。
    角色資料：CHARACTERS[id].char3d.props = ['backpack'...]；遊戲中可用 CHAR.setProp(人物, 'apron', true/false) 切換（例：芷若在咖啡廳工作時才穿圍裙）。 */
@@ -92,6 +92,14 @@ const PROPS = (function(){
 
   function shadeHex(hex,f){ const c=new THREE.Color(hex); c.multiplyScalar(f); return '#'+c.getHexString(); }
   // 掛到哪根骨頭、位置（模型檔空間、相對骨頭）
+  // ---- 腳踏車安全帽（邱韋綸，掛在後背包右側；BB_201 第 1 節）：正式模型 LAWWW2-C tools/blender/char_second/helmet_bike.py → ASSETS 'prop.helmet_bike'（原點在下緣中心、前方 −z、上方 +y）----
+  // o.hang：'side'＝後背包右側（預設，手往後擺可能碰到手肘）、'back'＝背包外面（不會碰到手）；位置是相對 upperChest 的公尺數（helmet_bike.json 的 hang）
+  const HELMET_HANG={side:{pos:[0.178,-0.09,0.15],rot:[0,0,-Math.PI/2]}, back:{pos:[0,-0.10,0.29],rot:[Math.PI/2,0,0]}};
+  function helmet(o){ o=o||{}; const out=new THREE.Group(), g=new THREE.Group(); out.add(g); const h=HELMET_HANG[o.hang||'side']||HELMET_HANG.side; g.position.set(h.pos[0],h.pos[1],h.pos[2]); g.rotation.set(h.rot[0],h.rot[1],h.rot[2]);
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['prop.helmet_bike']) ASSETS.loadOne('prop.helmet_bike').then(c=>{ if(!c||!c.scene) return; const m=c.scene.clone(true);
+      m.traverse(x=>{ if(!x.isMesh) return; x.material=mat('helmet','#'+x.material.color.getHexString(),null); x.castShadow=true; x.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖，PBR 會變暗）
+      g.add(m); }).catch(e=>console.warn('helmet glb',e));
+    return out; }
   const DEF={
     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
@@ -101,6 +109,7 @@ const PROPS = (function(){
     guitar:{bone:'upperChest',make:guitarBag,pos:[0,0,0]},
     folder:{bone:'leftHand',make:folder,pos:[-0.09,-0.02,0.0],rot:[0,0,0]},
     hairtie:{bone:'head',make:hairtie,pos:[0,-0.025,0.116]},
+    helmet:{bone:'upperChest',make:helmet,pos:[0,0,0]},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });
