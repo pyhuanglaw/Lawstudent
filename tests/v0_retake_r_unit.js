@@ -32,33 +32,31 @@ const K=k=>STORY.dayOfKey(k);
 const kx=()=>TH('p:kexin').map(m=>m.text);
 let menus=[], script=[]; GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
 const loop=async()=>{ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } };
-const study=(key,h,flags)=>{ fresh(K(key),h,'boya',Object.assign({LEAVE_WEEK:6,Y0_LEFT:true},flags||{})); G.stage='econ'; G.flags.RT_DAY={day:G.day,type:'study'}; };
+const study=(key,h,flags)=>{ fresh(K(key),h,'home',Object.assign({LEAVE_WEEK:6,Y0_LEFT:true,Y0_MOVED_OUT:true},flags||{})); G.stage='econ'; G.flags.RT_DAY={day:G.day,type:'study'}; const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day; };   /* AA_224 第 6 組：讀書日在祐廷家的餐桌 */
 const runEv=async(id,pick)=>{ said=[]; script=pick==null?[]:[].concat(pick); await EVENTS.run(ev(id)); await new Promise(r=>setTimeout(r,10)); return said.map(x=>x.t); };
 const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVENTS.bind(GM); };
 (async()=>{
   const ids=['ev_y0_r1','ev_y0_r2','ev_y0_r3','ev_y0_r4','ev_y0_r5','ev_y0_r6','ev_y0_r7','ev_y0_rs','ev_y0_rp']; check('0. R 系列九個事件都在',ids.every(i=>!!ev(i))); if(!ids.every(i=>!!ev(i))){ console.log('FAILED '+fails); process.exit(1); }
-  // 1. 可昕到博雅的時間（她自己沒課的時段）
-  const fa=k=>STORY.kxFreeAt({day:K(k)},K(k));
-  check('1. 可昕到博雅：3/28 週五 10:00、3/31 週一 12:20、4/2 週三 17:30（體育下課）、3/27 週四 15:20、4/4 清明 10:00、6/24 暑假 10:00',fa('2025-03-28')===10&&Math.abs(fa('2025-03-31')-(12+20/60))<1e-6&&Math.abs(fa('2025-04-02')-17.5)<1e-6&&Math.abs(fa('2025-03-27')-(15+20/60))<1e-6&&fa('2025-04-04')===10&&fa('2025-06-24')===10,
-    [fa('2025-03-28'),fa('2025-03-31'),fa('2025-04-02'),fa('2025-03-27'),fa('2025-04-04'),fa('2025-06-24')].join(','));
+  // 1. 她 2025-02 休學、沒有課了：kxFreeAt 拿掉，讀書日 10:00 到（AA_224 6-1）
+  check('1. kxFreeAt 拿掉、她 10:00 到祐廷家',typeof STORY.kxFreeAt==='undefined'&&STORY.KX_ARRIVE===10);
   // 2. R1
-  study('2025-03-28',9.9); check('2. 3/28 讀書日、在博雅、她還沒到（09:54）：不演',!EVENTS.check(ev('ev_y0_r1')));
+  study('2025-02-15',9.9); check('2. 2/15 讀書日、在家、她還沒到（09:54）：不演',!EVENTS.check(ev('ev_y0_r1')));
   G.hour=10; check('2. 10:00 她到了：R1，不是輪流句',EVENTS.check(ev('ev_y0_r1'))&&!EVENTS.check(ev('ev_y0_rs')));
   G.flags.RT_DAY={day:G.day,type:'free'}; check('2. 不是讀書日：不演',!EVENTS.check(ev('ev_y0_r1'))); G.flags.RT_DAY={day:G.day,type:'study'};
   let L=await runEv('ev_y0_r1','白飯');
-  check('2. R1：「如果憲法是一間餐廳，第七條是什麼菜？」→ 白飯 →「不行。平等不是每個人拿到一模一樣。」「牙齒不好的客人……」→ 旁白 →「我發現我喜歡吵贏。……」',L[0]==='如果憲法是一間餐廳，第七條是什麼菜？'&&L.includes('不行。平等不是每個人拿到一模一樣。')&&L.includes('牙齒不好的客人，那碗可以煮軟一點。只要有理由。')&&L.includes('（她在筆記本上寫了一行，停了一下。）')&&L[L.length-1]==='我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。',JSON.stringify(L));
+  check('2. R1：開頭「（她第一次來你家。……）」→「如果憲法是一間餐廳，第七條是什麼菜？」→ 白飯 →「不行。平等不是每個人拿到一模一樣。」「牙齒不好的客人……」→ 旁白 →「我發現我喜歡吵贏。……」',L[0]==='（她第一次來你家。你媽端了一盤水果出來，放下就回廚房了。）'&&L[1]==='如果憲法是一間餐廳，第七條是什麼菜？'&&L.includes('不行。平等不是每個人拿到一模一樣。')&&L.includes('牙齒不好的客人，那碗可以煮軟一點。只要有理由。')&&L.includes('（她在筆記本上寫了一行，停了一下。）')&&L[L.length-1]==='我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。',JSON.stringify(L));
   check('2. 同一天不再有輪流句',!EVENTS.check(ev('ev_y0_rs')));
   // 3. R1 沒演到：那句移到下一次；讀書日輪流句（平日 S1）
   study('2025-03-31',12.4); check('3. 3/31 週一 12:24：輪流句',EVENTS.check(ev('ev_y0_rs'))&&!EVENTS.check(ev('ev_y0_r1')));
   L=await runEv('ev_y0_rs');
-  check('3. 平日第一次＝S1「你又比我早到。……我是去上課，不是去玩。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早到。……我是去上課，不是去玩。')&&L.includes('我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
+  check('3. 第一次＝S1「你又比我早起。……說好不可以的。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早起。……說好不可以的。')&&L.includes('我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
   const s3=keep(); G.day=K('2025-04-01'); G.weekday=wdOf(G.day); G.hour=12.4; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 下一個讀書日（週二）：S2 只在週四 → S3「你的螢光筆快沒水了。……」；R1 那句不再說',L.includes('你的螢光筆快沒水了。你今天到底畫了多少？')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
+  check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？我才讀到第二章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？我才讀到第二章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
   back(s3); G.day=K('2025-03-28')+7; G.weekday=wdOf(G.day); G.hour=10.2; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
-  check('3. 週五（她沒課）：S1、S2 不用 → S3',L.includes('你的螢光筆快沒水了。你今天到底畫了多少？'),JSON.stringify(L));
+  check('3. 週五也一樣輪流（她沒有課了）：S2',L.includes('你讀到哪了？……三章？我才讀到第二章。'),JSON.stringify(L));
   // 4. R5
-  study('2025-04-02',17.4); check('4. 4/2 週三 17:24：她還沒到',!EVENTS.check(ev('ev_y0_r5'))); G.hour=17.6; G.events.done.ev_y0_r1=1;
-  check('4. 17:36：R5',EVENTS.check(ev('ev_y0_r5'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r5');
+  study('2025-04-02',9.9); check('4. 4/2 09:54：她還沒到',!EVENTS.check(ev('ev_y0_r5'))); G.hour=10.1; G.events.done.ev_y0_r1=1;
+  check('4. 10:06：R5',EVENTS.check(ev('ev_y0_r5'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r5');
   check('4. R5：「牆上的倒數撕到一百。」→「一百天。像一百題假設題。」「那第一題呢？」「假設我們都考上了——」「她停住。」「不行，這題太早出。」',L.join('|')==='牆上的倒數撕到一百。|一百天。像一百題假設題。|那第一題呢？|假設我們都考上了——|她停住。|不行，這題太早出。',JSON.stringify(L));
   fresh(K('2025-04-02'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1); check('4. 沒去：4/2 21:00 她傳「100」的照片',kx().includes('📷（牆上的倒數：100）'));
   // 5. R2
@@ -76,10 +74,10 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   fresh(K('2025-04-01'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1); check('6. 3/30～4/1 都沒玩樂日：4/1 21:00 杜鵑花照片「它們今天投完了。」',kx().includes('它們今天投完了。'));
   // 7. 沒有 R 的玩樂日：旁白一句輪流
   homeBase('2025-04-10',8.5); script=['出去走走']; await STORY.retakeWake(GM); const q7=OUT.get(G,'rt_play_'+G.day);
-  check('7. 4/10（週四）的玩樂日：她下課以後（15:20）、輪流旁白',q7&&q7.ev==='ev_y0_rp'&&Math.abs(q7.h-(15+20/60))<1e-6,JSON.stringify(q7));
-  G.hour=14.8; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
+  check('7. 4/10（週四）的玩樂日：她沒有課了＝10:00、輪流旁白',q7&&q7.ev==='ev_y0_rp'&&q7.h===10,JSON.stringify(q7));
+  G.hour=9.5; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
   check('7. 第一次＝P1「（你們在公館的二輪戲院看了一部老電影。……）」',L.includes('（你們在公館的二輪戲院看了一部老電影。片尾字幕跑完以前，她不准你站起來。）'),JSON.stringify(L));
-  const s7=keep(); G.day=K('2025-05-20'); G.weekday=wdOf(G.day); G.flags.RT_DAY={day:G.day,type:'play'}; G.outings=[]; G.hour=8.5; STORY.rtPlanPlay(G); G.hour=STORY.kxFreeAt(G)-0.3; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
+  const s7=keep(); G.day=K('2025-05-20'); G.weekday=wdOf(G.day); G.flags.RT_DAY={day:G.day,type:'play'}; G.outings=[]; G.hour=8.5; STORY.rtPlanPlay(G); G.hour=STORY.KX_ARRIVE-0.3; said=[]; script=['和可昕出門']; await loop(); L=said.map(x=>x.t);
   check('7. 5/20：P2 溫州街（到 5/15）過了 → P3 醉月湖',L.includes('（你們坐在醉月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'),JSON.stringify(L));
   // 8. R6
   homeBase('2025-05-06',8.5); script=['出去走走']; await STORY.retakeWake(GM); check('8. 第 12 週第一個玩樂日（5/6）：R6 河濱',OUT.get(G,'rt_play_'+G.day).ev==='ev_y0_r6');

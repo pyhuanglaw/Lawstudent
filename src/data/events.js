@@ -1899,28 +1899,28 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:null,text:'你們走下樓。走廊的窗外，椰林大道的樹已經是夏天的顏色。'},{speaker:'econ_zhengxun',text:'午餐。小福。'},{speaker:null,text:'一路上，他沒有問你下學期要做什麼。'},
       {rel:{econ_zhengxun:{trust:1}}} ],
     after:(G,GM)=>{ if(G.hour<12.5) GM.advance(12.5-G.hour); } },
-  /* 重考期 R 系列（BB_112 第 4 節＋4-1 AB-38，BB-B 4380b0eb；AA_154 A39／A45）。時間、窗口、沒去的照片在 story3d.js（S.kxFreeAt 那一段、phoneRules）。
-     讀書日：她第一次到博雅小桌＝ev_y0_r1（3/28）／ev_y0_r5（4/2）／ev_y0_r2（第 8 週第一個讀書日）／ev_y0_rs（其他日子，一句輪流 S1～S5）；每天只一次（RT_KX）。
+  /* 重考期 R 系列（BB_112 第 4 節＋4-1 AB-38，BB-B 4380b0eb；AA_154 A39／A45；AA_224 第 6 組 @31708531：兩個人都休學，讀書的地方＝祐廷家的餐桌）。時間、窗口、沒去的照片在 story3d.js（rArrived、phoneRules）。
+     讀書日：她到他家的餐桌（在家的選單那一輪演，trigger:'home'）＝ev_y0_r1（2/15，她第一次來你家）／ev_y0_r5（4/2）／ev_y0_r2（第 8 週第一個讀書日）／ev_y0_rs（其他日子，一句輪流 S1～S5）；每天只一次（RT_KX）。
      R1 沒演到：「我發現我喜歡吵贏……」移到下一次（R1B）。玩樂日：ev_y0_r3／ev_y0_r6／ev_y0_rp（旁白一句輪流 P1～P6），habit retake:play。R4、R7 照日期 */
   ...(()=>{ const ST=()=>typeof STORY!=='undefined'?STORY:null, kxAt=k=>({custom:G=>{ const S=ST(); return !!S&&S.rArrived(G)&&S.rStudyKind(G)===k; }});
     const R1B=[{if:{custom:G=>!(G.events.done&&G.events.done.ev_y0_r1)&&!G.flags.R1_LINE},speaker:'kexin',text:'我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。'},{if:{custom:G=>!(G.events.done&&G.events.done.ev_y0_r1)&&!G.flags.R1_LINE},set:{R1_LINE:true}}];
-    const study=(id,title,k,dialogue,once)=>({ id, stage:'econ', title, participants:['kexin'], location:'boya', trigger:'auto', once:once!==false, background:'blur', prereq:kxAt(k), dialogue, after:G=>{ G.flags.RT_KX=G.day; } });
+    const study=(id,title,k,dialogue,once)=>({ id, stage:'econ', title, participants:['kexin'], location:'any', trigger:'home', once:once!==false, background:'blur', prereq:kxAt(k), dialogue, after:G=>{ G.flags.RT_KX=G.day; } });
     const play=(id,title,bg,hours,dialogue,after)=>({ id, stage:'econ', title, participants:['kexin'], location:'any', trigger:'outing', once:id!=='ev_y0_rp', background:'dark', hours, dialogue,
       after:(G,GM)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:play'); if(after) after(G,GM); } });
-    const rsLines=[]; [['「你又比我早到。……我是去上課，不是去玩。」'],['（她放下包包）','「你讀到哪了？……三章？我才剛上完會計。」'],['「你的螢光筆快沒水了。你今天到底畫了多少？」'],['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」'],['「你一直坐在這裡，會不會忘記外面有太陽？……好啦，我坐下了。」']]
+    const rsLines=[]; [['「你又比我早起。……說好不可以的。」'],['（她放下包包）','「你讀到哪了？……三章？我才讀到第二章。」'],['「你的螢光筆快沒水了。你今天到底畫了多少？」'],['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」'],['「你一直坐在這裡，會不會忘記外面有太陽？……好啦，我坐下了。」']]
       .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',text:narr?t:t.replace(/^「|」$/g,'')}); } });
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     return [
-      study('ev_y0_r1','互相出題的第一天','r1',[ {scene:'博雅・自習區'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
+      study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她第一次來你家。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
         {choice:[{text:'「白飯。每一桌都有，每個人拿到的一樣多。」',goto:'a'},{text:'「套餐。男女、宗教、種族、階級、黨派，都是同一份菜單。」',goto:'b'},{text:'「主廚推薦。主廚說了算。」',goto:'c'}]},
         {label:'a'},{speaker:'kexin',text:'不行。平等不是每個人拿到一模一樣。'},{speaker:'kexin',text:'牙齒不好的客人，那碗可以煮軟一點。只要有理由。'},{goto:'e'},
         {label:'b'},{speaker:'kexin',text:'條文背得很好。'},{speaker:'kexin',text:'可是門口寫的那五種客人只是舉例。沒寫到的客人，也不能隨便被請出去。'},{goto:'e'},
         {label:'c'},{speaker:'kexin',text:'錯。這家店最重要的規定：主廚不能因為客人是誰，就隨便決定上什麼菜。要有理由。'},
         {label:'e'},{speaker:null,text:'（她在筆記本上寫了一行，停了一下。）'},{speaker:'kexin',text:'我發現我喜歡吵贏。不是吵贏你，是吵贏一個道理。'},{set:{R1_LINE:true}} ]),
-      study('ev_y0_r5','一百天','r5',[ {scene:'博雅・自習區'},{speaker:null,text:'牆上的倒數撕到一百。'},{speaker:'kexin',text:'一百天。像一百題假設題。'},{speaker:'player',text:'那第一題呢？'},
+      study('ev_y0_r5','一百天','r5',[ {scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:null,text:'牆上的倒數撕到一百。'},{speaker:'kexin',text:'一百天。像一百題假設題。'},{speaker:'player',text:'那第一題呢？'},
         {speaker:'kexin',text:'假設我們都考上了——'},{speaker:null,text:'她停住。'},{speaker:'kexin',text:'不行，這題太早出。'}, ...R1B ]),
-      study('ev_y0_r2','豆花賭注','r2',[ {scene:'博雅・自習區'},{speaker:null,text:'錯一題請一碗。'},{speaker:'kexin',text:'你欠我四碗。'},{speaker:'player',text:'妳欠我三碗。'},{speaker:'kexin',text:'所以你欠我一碗。'},{speaker:'player',text:'……經濟系的算法。'}, ...R1B ]),
-      Object.assign(study('ev_y0_rs','同一張桌子','s',[ {scene:'博雅・自習區'}, ...rsLines, ...R1B ],false),{ after:G=>{ const S=ST(); if(S){ const i=S.rsPick(G); if(i>=0) S.rUse(G,'RS_USED',i); } G.flags.RT_KX=G.day; } }),
+      study('ev_y0_r2','豆花賭注','r2',[ {scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:null,text:'錯一題請一碗。'},{speaker:'kexin',text:'你欠我四碗。'},{speaker:'player',text:'妳欠我三碗。'},{speaker:'kexin',text:'所以你欠我一碗。'},{speaker:'player',text:'……經濟系的算法。'}, ...R1B ]),
+      Object.assign(study('ev_y0_rs','同一張桌子','s',[ {scene:'祐廷家・餐桌',bg:'home_living_day'}, ...rsLines, ...R1B ],false),{ after:G=>{ const S=ST(); if(S){ const i=S.rsPick(G); if(i>=0) S.rUse(G,'RS_USED',i); } G.flags.RT_KX=G.day; } }),
       play('ev_y0_r3','杜鵑花的散步','ntu_avenue',3,[ {scene:'台大・椰林大道',bg:'ntu_avenue'},{speaker:null,text:'杜鵑花節已經過了兩個禮拜，椰林大道旁的杜鵑還沒謝完。'},{speaker:'kexin',text:'假設杜鵑花可以投票，它們會選誰當校長？'},
         {choice:[{text:'「傅鐘。它每天都很準時。」'},{text:'「椰子樹。比較高，看得比較遠。」'},{text:'「它們自己。它們票最多。」'}]},{speaker:'kexin',text:'好，那它們的任期是一個花季。'} ]),
       play('ev_y0_r6','河濱的休息日','riverside',4,[ {scene:'河濱',bg:'riverside'},{speaker:null,text:'（騎到河濱，風從河面吹過來，有一點草的味道。）'},{speaker:'kexin',text:'今天不讀書。這是規定。'},{speaker:'player',text:'誰規定的？'},{speaker:'kexin',text:'我。剛剛。'},
@@ -1940,12 +1940,21 @@ const STORY_EVENTS=[
         dialogue:[ {scene:'保齡球館',bg:'bowling'},{speaker:null,text:'（週六下午兩點，保齡球館。這次不換制服，輸的人請宵夜。）'},{speaker:'econ_zhengxun',text:'昨天那張照片，我存起來了。'},{speaker:'kexin',text:'你們兩個講話，好像在對暗號。'},
           {speaker:'econ_zhengxun',text:'是約定。'},{speaker:null,text:'（第三局打完，你和可昕兩個人的分數加起來，還輸阿勳一個人。）'},{speaker:'kexin',text:'宵夜你請。我們同一隊，你的分數比較低。'},{speaker:'player',text:'……妳剛剛洗溝三次。'},
           {speaker:'kexin',text:'那是戰術。'},{speaker:'econ_zhengxun',text:'（站在球道前面，回頭）這次看好。'},{speaker:null,text:'（十支瓶子一起倒下。這次，大家都看到了。）'} ] } ]; })(),
-  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41）：7/10（四）21:00 大一女舍門口（3D，她暑假住的宿舍樓下；20:45～21:15 走到她旁邊）；21:15 還沒到＝21:30 電話版（第一句旁白換成電話那句）。
+  /* 衝刺班（AA_224 6-4 @31708531；機制 BB_188 A9-3）：2025-06-09～07-09 每週一、三、五 19:00～22:00，祐廷的固定行程（另一間補習班，不是 12 月那間）。
+     第一次去＝三句旁白（沒有選項）；之後的晚上不演，時間跳過（像上課）。某一晚不去（「這次不去」）不扣任何東西。排程在 story3d.js（OUT y0_crm_<day>）*/
+  { id:'ev_y0_cram_class', stage:'econ', title:'衝刺班', participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:3,
+    dialogue:[ {scene:'衝刺班'},
+      {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（另一間補習班。一間坐滿的教室，沒有人認識你。）'},
+      {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（你挑了最後一排。）'},
+      {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（下課的時候，你在筆記最上面寫：「半價」，畫了一個箭頭。）'},
+      {set:{CRAM_CLASS_SEEN:true}} ] },
+  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41；AA_224 6-5 @31708531）：7/10（四）那天兩人在他家讀到九點，她要回家——21:00 在他家樓下演（2D，在家的選單那一輪）；演完她走了，他上樓。
+     21:00～21:30 不在家＝21:30 電話版（第一句旁白換成電話那句；在外面自動演）。
      記 E35_PLAN（sea／sleep／shop）、E35_MET。私訊、出發選單、可昕的站位、睡著被叫醒在 story3d.js（phoneRules、coreCallAt）。
      兩個事件同一段台詞：ev_y0_e35＝在外面（3D，或電話版時人不在家）；ev_y0_e35h＝電話版時人在臺北的家（home3d.js 選單那一輪演）。
      去了的玩家演完直接回家（AA_154 A41 ⑤：22:00 以前到家；旁白不加，LAWWW 定）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（她暑假住的宿舍樓下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
+    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（你家樓下。她要回家了。路燈。她手上拿著准考證，翻過來又翻回去。）'},
       {speaker:'kexin',text:'今天的假設題很簡單。'},{speaker:'kexin',text:'考完，要去哪裡？'},
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「吃妳說的那家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'好。那我帶一顆西瓜。……不要問為什麼。'},{goto:'end'},
@@ -1955,13 +1964,11 @@ const STORY_EVENTS=[
       {if:{flags:['E35_PHONE']},set:{E35_MET:false}},{unless:{flags:['E35_PHONE']},set:{E35_MET:true}},{set:{E35_DONE:true}} ];
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     return [
-      { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',
-        prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE||atHome(G)) return false; if(F.E35_PHONE) return true; if(G.day!==D(G)||G.zone!=='campus'||G.hour<20.75||G.hour>=21.25) return false;
-          const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj, A=STORY.E35_AT; if(!P) return true; const dx=P.position.x-A.x, dz=P.position.z-A.z; return dx*dx+dz*dz<=25; }},
-        dialogue:lines,
-        after:(G,GM)=>{ if(G.flags.E35_MET&&!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) HOME.go(GM).catch(e=>console.warn('E35 HOME.go',e)); } },
-      { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
-        prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE); }},
+      { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',   /* 電話版、人不在家 */
+        prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE&&!atHome(G)); }},
+        dialogue:lines },
+      { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',   /* 在家：21:00 他家樓下（見面）；21:15 以後才回到家＝電話版 */
+        prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE) return false; if(F.E35_PHONE) return true; return G.day===D(G)&&G.hour>=21&&G.hour<21.5; }},
         dialogue:lines } ]; })(),
   /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（KX_CAR only_me 多兩句（AA_224 1-6），8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
      BB-B 754e7136／ec47463b，第②級等 AA-B 確認）。ev_y0_e36＝在外面（走到她旁邊，或 20:30 以後帶到場）；ev_y0_e36h＝帶到場時人在臺北的家。演完接 22:00 放榜的宵夜（ev_y0_e36n，AA_106 3b①）*/
@@ -1969,7 +1976,7 @@ const STORY_EVENTS=[
     const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
     const lines=[ {if:{flags:['E36_FORCE']},speaker:null,text:'（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）'},{scene:'台大・椰林大道'},
       {if:{custom:()=>hab('study')>hab('play')},speaker:null,text:'那本筆記本寫滿了。'},{if:{custom:()=>hab('play')>hab('study')},speaker:null,text:'你們騎過的河堤，比讀過的書還多。……還是考上了。'},
-      {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'kexin',text:'我是政大法律。'},{speaker:'kexin',text:'……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'},
+      {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'player',text:'只高 0.1。'},{speaker:'kexin',text:'上了就是上了。'},{speaker:'kexin',text:'我是政大法律。'},{speaker:'kexin',text:'……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'},
       {if:{flagIs:{KX_CAR:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{KX_CAR:'only_me'}},speaker:'player',text:'不是只有妳。'},   /* AA_224 1-6：改讀 KX_CAR（camp、take_back 不加句子）*/
       {speaker:'kexin',text:'好，消化完了。'},{speaker:'kexin',text:'政大的山比較多。四年後，我會比你強壯。'},
       {choice:[{text:'「政大的山，我陪妳爬。」',set:{E36_REPLY:'climb'},goto:'a'},{text:'「四年後比比看。」',set:{E36_REPLY:'compete'},goto:'b'},{text:'（什麼都不說，陪她走）',set:{E36_REPLY:'silent'},goto:'c'}]},
@@ -1983,7 +1990,7 @@ const STORY_EVENTS=[
       {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',text:'我想每次見面，都不是因為剛好。'},{speaker:'kexin',text:'……這題，我們一起想。'},
       {label:'e'},{speaker:'kexin',text:'走吧。趁我們還在同一個學校。'} ];
     const after=(G,GM)=>{ if(G.hour<22) GM.advance(22-G.hour); };   /* 接 22:00 放榜的宵夜（A21 的順序）*/
-    const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（臺大法律學系。你的名字在上面。）'},{set:{E36_RESULT:true}} ];
+    const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（臺大法律學系，財經法學組。你的名字在上面。）'},{speaker:null,text:'（分數只比那一組的錄取分數高 0.1。）'},{set:{E36_RESULT:true}} ];   /* AA_224 6-6：0.1 只出現在旁白和他那一句 */
     return [
       /* 白天看到結果（AA_154 A49：兩句系統旁白，接著可昕 10:00 的兩則私訊）：ev_y0_e36r＝不在家；ev_y0_e36rh＝在臺北的家 */
       { id:'ev_y0_e36r', stage:'econ', title:'八月放榜', participants:[], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>rdue(G)&&!atHome(G)}, dialogue:rlines },

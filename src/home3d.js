@@ -129,7 +129,7 @@ const HOME=(function(){
       return false; }
     if(o.k==='inv'){ await S.leaveTo(GM,o.P); return false; }
     if(o.k==='school'){ await S.toSchool(GM); return false; }
-    if(o.k==='study'){ if(await confirmMiss(GM,G.hour+2)){ GM.advance(2); const a=DK('2025-03-28'), b=DK('2025-07-10'); if(a!=null&&b!=null&&G.day>=a&&G.day<=b&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); } return H.at; }
+    if(o.k==='study'){ if(await confirmMiss(GM,G.hour+2)){ GM.advance(2); const a=DK('2025-02-15'), b=DK('2025-07-10'); if(a!=null&&b!=null&&G.day>=a&&G.day<=b&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study');   /* AA_224 6-1：重考讀書從 2/15 開始 */ } return H.at; }
     if(o.k==='eat'){ await S.dinner(GM); return H.at; }
     if(await confirmMiss(GM,24+8.5)){ await S.sleep(GM); } return H.at; }   /* 醒來的下一輪問起床選單（重考期，A39）*/
   async function winterRound(GM){ const G=GM.G, H=S.rec(G); const ev=S.homeEvent(G); if(ev){ await EVENTS.run(ev); if(G.flags.Y0_WINTER_DONE){ await S.winterEnd(GM); return false; } if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); return H.at; }
