@@ -13897,7 +13897,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【交班補強核對】①大一下階梯 WIP：build_ladder_aa_y1s2.py（34b1d21a）、ladder_aa_y1s2.json（a853ef49）、build_ladder_bb_y1s2.py＋ladder_bb_y1s2.json（2fd0399d）；開發分支 ladder.js 大一下仍是 72ea87f5 版。**和 AA-B 交班說法不一致**：2fd0399d 裡可昕其實改了 17 處（含交班說沒改的 K2-L1、L2、L5、L6、L8），要 AA 逐句看 diff 才能確定。②**匯入風險**：tools/ladder/import_ladder.py 預設從 AA 分支 head 匯入全部 ladder_*.json，會把這份 WIP 和未確認的 AA_194 大一上 ladder_aa.json 一起帶進來——一定要用「檔名=ref」逐檔指定。③AA_209 本身補登交付（AA 前半核對）。｜已做：第 3 節重訪日 1（6/12 18:00 麵店群戲、revisitDay＝S.dayOfKey(2026-06-12)、REVISIT_MSG 新句、群組「考完了」「六點麵店 併桌」、單身版、可昕版：02dc4fda、2ff27acf、1376b5f8、301c9ad9）；第 4 節第 1、2、3、5 點（kx_grades2 6/12、fam_final 6/12、午場上限 6/6、ps_owed 6/7、W5 檢討會第 15 週、Z6／fangyt_hint 15～16 週、SK05 第 16 週、阿凱邀約考試週 [7,8,9,15,16]、P4e 6/29 10:00、成績三句、Kevin「學弟有車！」：f6780e52、7a148c0d、372c6512）。剩（交班時逐項 grep 確認還沒做）：第 4 節第 4 點期中宵夜旁白「（你想起柏翰這幾週都比較晚回 203。）」（住 203 才播）、K-D5「你們隔天有早八」、KAI_TAPE 照第 2 節；第 6 點偶遇（encounters.js、enc_walk.js）阿哲叫「哥」改看 ZHE_CALLS_GE；第 7 點 A2-L6 linesIf ev_an_study_group→ev_public_law_group；第 8 點 A2-L8 note 7/25～8/8；第 10 點 SMALLTALK 方奕廷 ev_fangyt_z6→ev_fangyt_hint；第 11 點 ev_dorm_late_kai 只播一次或輪換；第 6 節第 1 點附錄 A／B 第 2 節＋本檔 2、2-1 的逐句改稿：只換了一部分（例：talkAn「嗯？我等一下要去總圖。」），沒有逐條核對；附錄 B 第 5 節 BB_167 清單沒核對；第 6 節第 4 點三項例外（重訪日拿掉 8 個回憶選項已做；A2-L5 刪 unless linesIf、ev_b4_left_an 加兩個選項沒確認）；階梯 ladder_aa_y1s2／ladder_bb_y1s2 從 AA 分支重新匯入——**AA-B 02:39 交班：現在是 WIP（2fd0399d，可昕 K2 沒改、AA 沒逐句看 diff），不要匯入，等下一班 AA 收尾給 SHA**（BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；大二 312 室友（AA_208 第 7 節）。做完照 AA_197 1-7 大一下那一列給 AA 核對",
+   "next": "階梯 y1s2＠3b7e2268 已匯入＋A2-L6 條件（3800eb7d）；剩 AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句；沛珊課輔班那句在階梯資料 greet.when（weekday 2～4、18～21）已照規格，程式沒有這句",
    "first": {
     "term": "Y1S2",
     "week": 1,
@@ -13909,7 +13909,10 @@
     "confirmed": true
    },
    "source": "AA-B 2026-10-17 02:09 send_message（AA_209、AA_209 附錄，096136d2）",
-   "authorized": "AA、BB 互審過（BB_180 口氣審）"
+   "authorized": "AA、BB 互審過（BB_180 口氣審）",
+   "sha": [
+    "3800eb7d"
+   ]
   },
   {
    "id": "QA-HANDOFF-B1",
@@ -14232,9 +14235,9 @@
    "title": "實作大二上口語改稿（AA_211＋BB_181 裁定）：匯入 ladder_aa_y2s1／ladder_bb_y2s1＠0ba8d336＋事件、手機、群戲（AA_211 第 2、2-1、3、4 節）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "DL-AA-0ba8d336：①import_ladder（白名單已改）②K3-L7 選項①依 ev_kexin_film_night；A3-L3 選項① LADDER_CHOICE_IF（沒有 PLG_RULES_SEEN）；學姊「值班表你看了嗎？」一次、只給法服成員；（可選）A3-L6、Y3-L5 ev_yu_together 第 15 週起 ③AA_211 第 2、2-1、3、4 節事件與群戲 ④AA 核對",
+   "next": "①階梯匯入＋程式四點已做（3800eb7d，ladder_y1s2_y2s1_unit）②AA_211 第 2、2-1、3、4 節事件、手機、群戲（BB_181 九項的事件部分：E2、E3、明軒 zhe_game、S3-L6 等）③AA 核對",
    "first": {
     "term": "Y2S1",
     "week": 1,
@@ -14246,7 +14249,8 @@
     "confirmed": true
    },
    "sha": [
-    "0ba8d336"
+    "0ba8d336",
+    "3800eb7d"
    ]
   },
   {

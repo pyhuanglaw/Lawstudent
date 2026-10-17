@@ -31,8 +31,8 @@
     "src/data/characters.js"
    ],
    "state": "WIP",
-   "remaining": "第 4 節剩 6 點、附錄逐句、階梯 y1s2",
-   "next": "匯入 DL-AA-3b7e2268 兩個階梯檔（白名單已改）＋A2-L6 LADDER_CHOICE_IF＋沛珊課輔班；AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句",
+   "remaining": "AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句",
+   "next": "階梯已匯入（3800eb7d）；接著做第 4 節剩下 6 點",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17"
   },
@@ -81,11 +81,12 @@
     "docs/story_planning/ladder/ladder_aa_y1s2.json",
     "docs/story_planning/ladder/ladder_bb_y1s2.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "等 LAWWW 匯入",
-   "next": "LAWWW 匯入（AB65-3-Y1S2-L）、測試後改成已整合／已測試",
+   "next": "瀏覽器驗證（對話框裡的新句子）；AA 核對",
    "noDirectIntegrate": false,
-   "source": "DL-AA-3b7e2268（AA-C 04:18Z）"
+   "source": "DL-AA-3b7e2268（AA-C 04:18Z）",
+   "closedBy": "3800eb7d"
   },
   {
    "id": "WIP-AA-211",
@@ -487,11 +488,12 @@
     "docs/story_planning/ladder/ladder_aa_y2s1.json",
     "docs/story_planning/ladder/ladder_bb_y2s1.json"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "",
-   "next": "LAWWW 匯入＋程式四點＋AA_211 事件群戲",
+   "next": "AA_211 第 2、2-1、3、4 節的事件與群戲（AB65-3-Y2S1-L 剩下的）；AA 核對",
    "noDirectIntegrate": false,
-   "source": "DL-AA-0ba8d336"
+   "source": "DL-AA-0ba8d336",
+   "closedBy": "3800eb7d"
   },
   {
    "id": "WIP-AA-213-US",
