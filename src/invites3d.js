@@ -71,7 +71,8 @@ const INV=(function(){
   const clash=(G,who,day,h,stay,skip)=>(G.invites||[]).find(iv=>iv!==skip&&live(iv)&&iv.day===day&&(iv.who===who||who==null)&&Math.abs(iv.h-h)<Math.max(stay,(S.place(iv.place)||{}).stay||1)+0.25);
   /* 這個時間可不可以（不看關係）：開著、沒和別人約、作息沒事、不是半夜 */
   const winOk=(G,P,day,h)=>(!P.days||P.days.includes(wdOf(G,day)))&&(!P.hours||(h>=P.hours[0]-1e-6&&h+P.stay<=P.hours[1]+1e-6));   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
-  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay);
+  const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
+  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
   S.freeAt=(G,id,P,day,h)=>free(G,id,P,day,h);
   S.busyAt=(G,id,day,h,stay)=>busyAt(G,id,day,h,stay);   /* 校外約會的預約檢查用（date3d.js 的 DATE.check：她那時候上課、上班）*/   /* 這個時間本身可不可以（個人規則用：柏翰「九點十分」）*/
   /* 改天：從 h0 起找下一個可以的時間（同一天每 30 分鐘，之後三天的固定時間）*/

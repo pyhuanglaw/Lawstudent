@@ -113,7 +113,7 @@ const DATE=(function(){
     if(a<7) return no('太早了');
     if(b>23.5) return no('回來會超過 23:30，來回趕不上');
     if(typeof CLS!=='undefined'&&CLS.dayItems){ for(const it of (CLS.dayItems(G,day)||[])){ if(it.t1<=a||it.t0>=b) continue;
-      if(it.examMain) return no('那天 '+hm(it.t0)+' 要考'+it.c.name);
+      if(it.examMain||(CLS.examAt&&CLS.examAt(G,day,it.t0,it.t1))) return no('那天 '+hm(it.t0)+' 要考'+it.c.name);
       warns.push(isLaw(it.c)?'會錯過 '+hm(it.t0)+' 的'+it.c.name+'（法律課不點名）':'會少一次出席：'+hm(it.t0)+' 的'+it.c.name); } }
     const sk=o.skip&&(o.skip.trip||o.skip), mine=(G.trips||[]).filter(t=>t.trip!==sk&&t.status==='booked'&&t.day===day);   /* skip：改時間的那一趟（物件或行程 id）*/
     if(mine.length>=2) return no('那天已經約了兩場');

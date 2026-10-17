@@ -430,6 +430,10 @@ const CLS=(function(){
       const lastWeek=days.filter(d=>CALENDAR.termOf(d).week===wk[wk.length-1]); const cand=lastWeek.filter(d=>d>lastMiss).concat(lastWeek.filter(d=>d<=lastMiss));
       for(const d of cand){ const wd=CALENDAR.dateOf(d).wd; if(wd>5||CALENDAR.holiday(d)) continue; for(const s of c.slots){ if(!busy(d,s.block)){ res={day:d,block:s.block,makeup:true}; break; } } if(res) break; } }
     return examDayMemo[mk]=res; };
+  /* 考試時段（D14-T3）：這學期考五題的法律課的期中、期末考在哪一天哪一節（S.examDay）；手機「課表」列出來，約人、約會都避開（invites3d.js 的 free、date3d.js 的 DATE.check）*/
+  S.examList=function(G,termId){ if(!termId) return []; const out=[]; for(const c of S.termCourses(G,termId)){ if(!S.isExamCourse(c)) continue; for(const kind of ['mid','final']){ const d=S.examDay(G,c,termId,kind); if(d){ const b=B(d.block)||{}; out.push({c,kind,day:d.day,block:d.block,t0:b.t0,t1:b.t1,makeup:!!d.makeup}); } } }
+    return out.sort((a,b)=>a.day-b.day||a.t0-b.t0); };
+  S.examAt=function(G,day,h0,h1){ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(day):null; if(!t||!t.exam) return null; return S.examList(G,t.id).find(e=>e.day===day&&e.t0<h1&&e.t1>h0)||null; };
   S.examQuestions=function(courseId,termId){ const out=[]; if(typeof EXAM_BANK!=='undefined') for(const q of EXAM_BANK.questions) if(q.course===courseId&&q.term===termId) out.push(q);
     if(courseId==='crimpro'&&termId==='Y3S1'&&typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(Object.assign({},q,{course:'crimpro',term:'Y3S1',status:'USER_CONFIRMED'}));   /* 刑訴：使用者的 QBANK（沒有週次＝全部）*/
     return out; };
@@ -684,7 +688,9 @@ const CLS=(function(){
     if(!termId) return '<div class="item">沒有課表。</div>'; const cs=S.termCourses(G,termId); const todayWd=CALENDAR.dateOf(G.day).wd; const R=S.rec(G);
     let h='<div class="item"><b>'+S.termName(termId)+'</b>'+(t?'・第 '+t.week+' 週':'（下學期）')+'</div><div class="tt"><div class="tth"></div>'; for(let d=1;d<=5;d++) h+='<div class="tth'+(d===todayWd&&t?' on':'')+'">'+WD[d]+'</div>';
     for(const bk of ['am','pm1','pm2']){ h+='<div class="ttb">'+B(bk).label+'<br><span class="muted">'+hhmm(B(bk).t0)+'</span></div>'; for(let d=1;d<=5;d++){ const c=cs.find(q=>q.slots.some(s=>s.wd===d&&s.block===bk)); h+='<div class="ttc'+(d===todayWd&&t?' on':'')+'">'+(c?esc(c.name)+'<br><span class="muted">'+esc(S.roomName(c))+(c.weeks?'・'+esc(S.weeksText(c)):'')+'</span>':'')+'</div>'; } }
-    h+='</div><div class="item muted">出席：'+cs.map(c=>esc(c.name)+' '+(R.attend[c.id]||0)+(c.weeks?'／'+c.weeks.length:'')+' 次').join('、')+'</div>'; return h; };
+    h+='</div><div class="item muted">出席：'+cs.map(c=>esc(c.name)+' '+(R.attend[c.id]||0)+(c.weeks?'／'+c.weeks.length:'')+' 次').join('、')+'</div>';
+    const ex=S.examList(G,termId); if(ex.length) h+='<div class="item"><b>考試</b><span class="muted">（這段時間不能約人、約會）</span>'+ex.map(e=>{ const dt=CALENDAR.dateOf(e.day), past=e.day<G.day; return '<div class="'+(past?'muted':'')+'" style="margin-top:4px">'+(e.kind==='mid'?'期中':'期末')+'　'+esc(e.c.name)+'　'+dt.m+'/'+dt.d+'（'+'日一二三四五六日'[dt.wd]+'）'+hhmm(e.t0)+'–'+hhmm(e.t1)+'　'+esc(S.roomName(e.c))+(e.makeup?'（補考那一堂）':'')+(past?'　考過了':'')+'</div>'; }).join('')+'</div>';   /* D14-T3：考試時段標在課表 */
+    return h; };
 
   // ---------- 一鍵上課（DL-01，AA_160 第 1 節；AA-B 定案，使用者 10-16 授權 AA-B 主導日常系統）----------
   /* 起床選單（1-2）、直接去上課（1-3）、下課選單（1-4）、翹課（1-5）；期末考到時間自動帶進考場（AA_126 1-1）。
