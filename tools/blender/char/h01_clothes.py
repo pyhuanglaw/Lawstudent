@@ -48,6 +48,7 @@ PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管�
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、阿勳、品妤）
 WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
 TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
 HEM_LOOSE = False         # 下擺不收緊（亞麻上衣；針織衫的羅紋下擺會收）
@@ -849,7 +850,14 @@ def compute_weights(skin, arm, mb, top, pants, shoes):
         return out
     # 軀幹：最近點內插（胸部的彈簧骨不要）
     m = tags == 'torso'
-    Wt = near_w(V[m]); Wt[:, bust] = 0; W[m] = Wt
+    Wt = near_w(V[m]); Wt[:, bust] = 0
+    if NECK_CALM > 0:          # 肩膀上面、落肩線以內的身片：上臂權重漸漸移給上胸（越靠脖子移越多），手放下時那段布不往脖子擠
+        Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
+        uc = col.get('J_Bip_C_UpperChest', col.get('J_Bip_C_Chest'))
+        t = NECK_CALM * sstep(DROP_X + 0.015, DROP_X - 0.035, np.abs(Vt[:, 0])) * sstep(SHOULDER_Z - 0.09, SHOULDER_Z - 0.03, Vt[:, 2])
+        mv = Wt[:, ua].sum(1) * t; Wt[:, ua] *= (1 - t)[:, None]; Wt[:, uc] += mv
+        print('  neck calm: torso verts moved %d (mean arm weight moved %.2f)' % (int((t > 0.05).sum()), float(mv[t > 0.05].mean()) if (t > 0.05).any() else 0.0))
+    W[m] = Wt
     if os.environ.get('WDEBUG'):
         Vt = V[m]; ua = [col[n] for n in ('J_Bip_L_UpperArm', 'J_Bip_R_UpperArm', 'J_Bip_L_Shoulder', 'J_Bip_R_Shoulder') if n in col]
         sel = (np.abs(Vt[:, 0]) > DROP_X - 0.04) & (Vt[:, 2] > SHOULDER_Z - 0.06)
