@@ -151,6 +151,66 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "US-RESCHED-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "30358e31",
+   "files": [
+    "docs/story_planning/AA_213_美國交換改大四上_新時間線.md",
+    "docs/story_planning/AA_158_交換路線狀態機_AA-REQ-08.md",
+    "docs/story_planning/AA_144_交換延畢_研究所_國外行事曆_補充規格.md",
+    "docs/story_planning/AA_12_事件書_祐廷主線.md",
+    "docs/story_planning/AA_180_大三AA事件_到場檢查與日期修正.md",
+    "docs/story_planning/AA_181_大四AA事件_到場檢查與日期修正.md",
+    "docs/story_planning/交接包_v4_交付清單.md",
+    "docs/story_planning/交接包_v4_大三_骨架.md",
+    "docs/story_planning/交接包_v5_交付清單.md",
+    "docs/story_planning/交接包_v5_大四_畢業後_尾聲_骨架.md"
+   ],
+   "state": "WIP",
+   "remaining": "8a2c8faa、cd81a593、8e1f53f3、30358e31 已改 AA_158／144／213；AA_12、180、181、v4、v5 還要改；延畢重算",
+   "next": "AA 照盤點改完交 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "DOC-18W",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a06d3f54",
+   "files": [
+    "docs/story_planning/AA_214_DOC18W_18週舊字樣盤點.md",
+    "docs/story_planning/"
+   ],
+   "state": "WIP",
+   "remaining": "09ecee83、a06d3f54 第一批（跨學年～大一下）完成；大二～大四下待改；AA_154 等連帶項",
+   "next": "AA 分批改",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3df4391a",
+   "files": [
+    "docs/story_planning/AA_215_告白門檻簡化_大一就能在一起.md",
+    "docs/story_planning/AA_113_沈以安新版_人物與四年故事.md",
+    "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+    "docs/story_planning/AA_126_1014決策整合_系統與規則.md",
+    "docs/story_planning/AA_128_校外單獨約會系統.md",
+    "docs/story_planning/AA_11_事件書_陳語彤.md",
+    "docs/story_planning/AA_70_手機與邀約_日常設計.md",
+    "docs/story_planning/AA_187_以安語彤_戀愛線補完.md",
+    "docs/story_planning/ladder/"
+   ],
+   "state": "WIP",
+   "remaining": "以安、語彤交往版盤點與改寫",
+   "next": "AA 盤點後分學期改寫交 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
