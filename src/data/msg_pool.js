@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節（企劃線 8a08c312），BB 九位＝BB_178 第 0～8b 節（64aaaa82，AA-B 核過）。
-   產生器 tools/msg/build_pool.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、重跑產生器。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@67f74502、BB_178@67f74502）。
+   產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "8a08c312", "BB_178": "64aaaa82"},
+ "source":{"AA_202": "67f74502", "BB_178": "67f74502"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},
@@ -58,9 +58,9 @@ const MSG_POOL={
   ]},
   "zhe":{"name":"阿哲","rules":{"replyFree": [1, 3], "noReplyText": "練球時不回", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "極快；「走啦」「+1」、語音、食物照片；叫你「哥」要有 `ZHE_CALLS_GE`，沒有的版本把「哥」拿掉", "wakeLine": [], "otherText": ["阿哲：「走啦」「+1」、語音、食物照片；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["練球"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
-   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["吃飯 你要來嗎"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
+   {"topic": "chat", "tier": "A", "variant": null, "msgs": ["吃飯 你要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["（語音訊息，背景很吵）在麵店啦！"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
-   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在麵店 哥要來嗎"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛", "geFlag": "ZHE_CALLS_GE"},
+   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在麵店 哥要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛", "geFlag": "ZHE_CALLS_GE"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["打球 缺一個"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["躺"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["我也沒抄到", "問小語 她都有抄"], "tags": ["認識小語才有"], "ask": null, "src": "AA_202 6-4 問課"},
@@ -108,7 +108,7 @@ const MSG_POOL={
    {"topic": "share_notes", "tier": "A", "variant": null, "msgs": ["第七週的。"], "tags": [], "ask": null, "src": "AA_202 6-6 分享（講義）", "note": "週數照講義實際的填"},
    {"topic": "share_notes", "tier": "R", "variant": null, "msgs": ["第七週的。"], "tags": [], "ask": null, "src": "AA_202 6-6 分享（講義）", "note": "週數照講義實際的填", "copiedFrom": "A", "copyNote": "同 A"},
    {"topic": "night", "tier": "R", "variant": null, "msgs": ["晚安。"], "tags": [], "ask": null, "src": "AA_202 6-6 晚安"},
-   {"topic": "night", "tier": "R", "variant": null, "msgs": ["這麼早？我還有一章。"], "tags": [], "ask": null, "src": "AA_202 6-6 晚安"},
+   {"topic": "night", "tier": "R", "variant": null, "msgs": ["你先睡。我還有一章。"], "tags": [], "ask": null, "src": "AA_202 6-6 晚安"},
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["期末前還有九天。"], "tags": [], "ask": null, "src": "AA_202 6-6 情況版", "tierMin": true, "note": "天數照日曆算"},
    {"topic": "chat", "tier": "A", "variant": "放假在新竹", "msgs": ["在新竹。週四會上去總圖。"], "tags": [], "ask": null, "src": "AA_202 6-6 情況版", "tierMin": true},
    {"topic": "chat", "tier": "A", "variant": "深夜", "msgs": ["還沒睡，在整理考古題。"], "tags": [], "ask": null, "src": "AA_202 6-6 情況版", "tierMin": true}
@@ -219,7 +219,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在法圖。這裡比研究室安靜。"], "tags": ["在臺灣"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在改論文的第二章。", "第四版了。"], "tags": ["大四"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版"},
    {"topic": "chat", "tier": "L", "variant": "閒聊版", "msgs": ["在研究室。", "茶泡了兩杯，才發現只有我一個人。"], "tags": ["祐廷大二起，在臺灣；帶感情的那一句"], "ask": null, "src": "BB_178 3 閒聊版 在幹嘛", "version": "閒聊版", "affection": true},
-   {"topic": "course", "tier": "A", "variant": null, "msgs": ["哪一題？拍給我。", "先找條文，再對要件。你先寫，寫完再拍給我。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
+   {"topic": "course", "tier": "A", "variant": null, "msgs": ["題目拍給我。", "先找條文，再對要件。你先寫，寫完再拍給我。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "A", "variant": null, "msgs": ["這段我以前也沒抄到。去問老師，有人問他會很高興。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "R", "variant": null, "msgs": ["要交什麼，看課程網站最上面那則公告。", "你看了沒？"], "tags": [], "ask": {"opts": [{"t": "看了。", "r": ["好。"]}, {"t": "還沒。", "r": ["現在去看。"]}]}, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},
    {"topic": "course", "tier": "R", "variant": null, "msgs": ["這題我們以前也吵過。你先寫你的，我看完再說我的想法。"], "tags": [], "ask": null, "src": "BB_178 3 問課", "version": "事務版、閒聊版都一樣"},

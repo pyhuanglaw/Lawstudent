@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Builds msg_pool.json from AA_202 (8a08c312) section 6 and BB_178 (64aaaa82) sections 0-8b.
+# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句).
+# ZHE_ASK = AA_202 6-4 表下「回問」（67f74502）.
 # Every Chinese string below is copied verbatim from the source docs; verify_pool.py checks that.
 import json, os, copy
 
@@ -149,9 +150,10 @@ p.rules = {
     'otherText': ['阿哲：「走啦」「+1」、語音、食物照片；'],
 }
 p.add('chat', 'A', ['練球'])
-p.add('chat', 'A', ['吃飯 你要來嗎'])
+ZHE_ASK = ASK(O('好 我過去', ['快點 我快吃完了']), O('我吃過了', ['好啦 下次']))
+p.add('chat', 'A', ['吃飯 你要來嗎'], ask=ZHE_ASK)
 p.add('chat', 'A', ['（語音訊息，背景很吵）在麵店啦！'])
-p.add('chat', 'R', ['在麵店 哥要來嗎'])
+p.add('chat', 'R', ['在麵店 哥要來嗎'], ask=ZHE_ASK)
 p.add('chat', 'R', ['打球 缺一個'])
 p.add('chat', 'R', ['躺'])
 p.add('course', 'A', ['我也沒抄到', '問小語 她都有抄'], ['認識小語才有'])
@@ -223,7 +225,7 @@ p.copy('share_food', 'A', 'R', '同 A，加「學餐的兩倍。」', add_msgs=[
 p.add('share_notes', 'A', ['第七週的。'], note='週數照講義實際的填')
 p.copy('share_notes', 'A', 'R', '同 A')
 p.add('night', 'R', ['晚安。'])
-p.add('night', 'R', ['這麼早？我還有一章。'])
+p.add('night', 'R', ['你先睡。我還有一章。'])
 p.sit('chat', ['期末前還有九天。'], '考試週', src='AA_202 6-6 情況版', note='天數照日曆算')
 p.sit('chat', ['在新竹。週四會上去總圖。'], '放假在新竹', src='AA_202 6-6 情況版')
 p.sit('chat', ['還沒睡，在整理考古題。'], '深夜', src='AA_202 6-6 情況版')
@@ -438,7 +440,7 @@ p.sit('chat', ['從圖書館出來了。這邊風好大。'], '在美國', ['17:
 p.sit('chat', ['要睡了。'], '在美國', ['22:30'], tier='R', version=XL, variantNote=US, note='同上',
       addIf={'tag': '11～12 月才有第二則', 'msgs': ['這邊的暖氣很乾。']}, src='BB_178 3 閒聊版 在幹嘛 在美國')
 BOTH = '事務版、閒聊版都一樣'
-p.add('course', 'A', ['哪一題？拍給我。', '先找條文，再對要件。你先寫，寫完再拍給我。'], version=BOTH)
+p.add('course', 'A', ['題目拍給我。', '先找條文，再對要件。你先寫，寫完再拍給我。'], version=BOTH)
 p.add('course', 'A', ['這段我以前也沒抄到。去問老師，有人問他會很高興。'], version=BOTH)
 p.add('course', 'R', ['要交什麼，看課程網站最上面那則公告。', '你看了沒？'], version=BOTH,
       ask=ASK(O('看了。', ['好。']), O('還沒。', ['現在去看。'])))
@@ -736,7 +738,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': '8a08c312', 'BB_178': '64aaaa82'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': '67f74502', 'BB_178': '67f74502'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

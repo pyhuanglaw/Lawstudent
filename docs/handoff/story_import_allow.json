@@ -801,17 +801,17 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "8a08c312",
+   "sha": "67f74502",
    "status": "approved",
-   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句",
    "task": "SYS-PHONE-CHAT",
    "kind": "text"
   },
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
-   "sha": "64aaaa82",
+   "sha": "67f74502",
    "status": "approved",
-   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節",
+   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句",
    "task": "SYS-PHONE-CHAT",
    "kind": "text"
   }
