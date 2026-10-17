@@ -1235,9 +1235,9 @@ const STORY = (function(){
       if(wed10!=null&&G.day===wed10&&F.E12_ASKED&&!F.E12_ANSWER&&G.zone==='campus'&&G.hour>=19.75&&G.hour<20.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E12 kexin',e); } }
       if(wed10!=null&&F.E12_ASKED&&!F.E12_ANSWER&&(G.day>wed10||G.hour>=20.25)&&!PHONE.sent(G,'y0_e12_phone')){ F.E12_PHONE=1;
         const opts=[{t:'「那上課要訂特別的椅子。」',post:'那上課要訂特別的椅子。',set:{E12_ANSWER:'chair'},say:[K('對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。'),K('……下次要在湖邊回答。這次先算你的。')]},
-          {t:'「我要第三隻手，幫妳拿尾巴。」',post:'我要第三隻手，幫妳拿尾巴。',set:{E12_ANSWER:'hand'},say:[K('……這是我聽過最好的回答。'),K('……下次要在湖邊回答。這次先算你的。')]},
+          {t:'「我要第三隻手，幫妳拿尾巴。」',post:'我要第三隻手，幫妳拿尾巴。',set:{E12_ANSWER:'hand'},say:[K('第三隻手喔。……好，那尾巴給你拿。'),K('……下次要在湖邊回答。這次先算你的。')]},
           {t:'「為什麼不是貓的？」',post:'為什麼不是貓的？',set:{E12_ANSWER:'cat'},say:[K('貓的太常見了。我想要一個大家都沒想過的東西。'),K('……下次要在湖邊回答。這次先算你的。')]}];
-        PHONE.at(G,wed10,20.5,[K('你沒來。……沒關係，問題不會跑。'),K('那我用打的。'),K('假設，你可以多一個身體部位。你要什麼？'),K('我要長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
+        PHONE.at(G,wed10,20.5,[K('你沒來喔。'),K('沒關係，那我用打的。'),K('假設，你可以多一個身體部位。你要什麼？'),K('我要長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
       if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
     /* E25 我想重考法律（3/19 醉月湖）拿掉：告白併進 10/17 車上（AA_224 1-3，ev_y0_e26）*/
     /* ★LIFE-LINE 第 5 組（AA_224 5-0～5-4 @31708531；機制 BB_188 A9-1）：2/13（四）可昕辦休學 → 19:00 公館的水餃店（E27，固定出遊、只有「出發」；過了時間＝那件結束後直接出發；睡著 coreCallAt）
@@ -1347,7 +1347,7 @@ const STORY = (function(){
         if(!OUT.get(G,'y0_e14')) OUT.plan(G,{id:'y0_e14',ev:'ev_y0_e14',day:fri11,h:19,late:0.25,place:'保齡球館',title:'保齡球館 19:00',travel:'搭公車約 20 分鐘',travelH:1/3}); }
       const q14=OUT.get(G,'y0_e14');
       if(q14&&q14.state!=='done'&&fri11!=null&&(G.day>fri11||(G.day===fri11&&G.hour>=19.25))&&G.day<=fri11+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
-        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？大家都到了。我們等你，快點！'); } finally { GM.sceneEnd(); } q14.state='planned'; await OUT.go(GM,q14); } catch(e){ console.warn('E14 call',e); } finally { y0CallBusy=false; } })(); } }
+        (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？球道開好了，就差你！'); } finally { GM.sceneEnd(); } q14.state='planned'; await OUT.go(GM,q14); } catch(e){ console.warn('E14 call',e); } finally { y0CallBusy=false; } })(); } }
     /* E17 經濟系的拍賣攤（備料 E17a、校慶攤位、沒去的群組照片）：刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17：祐廷 10/17 休學）。事件定義留著（retired） */
     /* E15 經濟系宿營（BB_104 8b-7）：11/22（五）出發選單「社科院門口 12:00：經濟系宿營（三天兩夜）」（15 分鐘沒出發＝沒去）；去了＝11/24 09:00 群組大合照；
        沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「冷笑話我留了一個給你。」*/
@@ -1362,13 +1362,13 @@ const STORY = (function(){
       if(fri12!=null&&!F.E15_WENT&&(G.day>fri12+2||(G.day===fri12+2&&G.hour>=18))&&G.day<=fri12+4&&!PHONE.sent(G,'y0_e15_missed')&&!(q15&&q15.state==='done')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,fri12+2,18,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（大合照。第二排有一個空位，韋綸在旁邊比了一個手勢。）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'冷笑話我留了一個給你。'}],'y0_e15_missed'); } }
     /* E18 即興劇小公演（BB_104 8b-10；AA_154 A36）：11/28（四）21:00 可昕私訊兩則（有 Y0_EXTRA＝唐睿私訊一則）＋出發選單 11/29 19:00（有 Y0_EXTRA＝18:30）；15 分鐘沒出發＝沒去；
-       沒去＝11/30 12:00 唐睿傳一段影片「她接了一句很像你會說的話。」*/
+       沒去＝11/30 12:00 唐睿傳一段影片「可昕昨天公演，接了一句很像你會說的話。」（BB_179 段 C #3）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const thu13=termDay('Y0S1',13,4), fri13=thu13!=null?thu13+1:null, X=!!F.Y0_EXTRA;
       if(thu13!=null&&(G.day>thu13||(G.day===thu13&&G.hour>=21))&&G.day<=fri13&&!PHONE.sent(G,'y0_e18_ask')){
-        PHONE.at(G,thu13,21,X?[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'臨時演員六點半到。你的角色是一棵樹，台詞零句，責任重大。'}]:[{th:'p:kexin',from:'kexin',text:'明天晚上七點，博雅。我們有小公演。'},{th:'p:kexin',from:'kexin',text:'假設你不來，我就在台上講你的壞話。……你會來吧？'}],'y0_e18_ask');
+        PHONE.at(G,thu13,21,X?[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'臨時演員六點半到。你的角色是一棵樹，台詞零句，責任重大。'}]:[{th:'p:kexin',from:'kexin',text:'明天晚上七點，博雅。我們有小公演。'},{th:'p:kexin',from:'kexin',text:'你來的話，我幫你留前面的位子。'}],'y0_e18_ask');
         if(!OUT.get(G,'y0_e18')) OUT.plan(G,{id:'y0_e18',ev:'ev_y0_e18',day:fri13,h:X?18.5:19,late:0.25,place:'博雅教學館',title:X?'博雅 18:30：即興劇小公演（臨時演員）':'博雅 19:00：即興劇小公演',travel:'走過去約 10 分鐘',travelH:1/6}); }
       const q18=OUT.get(G,'y0_e18');
-      if(fri13!=null&&q18&&q18.state!=='done'&&G.day>=fri13+1&&!(G.day===fri13+1&&G.hour<12)&&G.day<=fri13+3&&!PHONE.sent(G,'y0_e18_missed')) PHONE.at(G,fri13+1,12,[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'🎬（一段影片）'},{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'她接了一句很像你會說的話。'}],'y0_e18_missed'); }
+      if(fri13!=null&&q18&&q18.state!=='done'&&G.day>=fri13+1&&!(G.day===fri13+1&&G.hour<12)&&G.day<=fri13+3&&!PHONE.sent(G,'y0_e18_missed')) PHONE.at(G,fri13+1,12,[{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'🎬（一段影片）'},{th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:'可昕昨天公演，接了一句很像你會說的話。'}],'y0_e18_missed'); }
     /* E16 分組報告（E16a、E16b、報告前一晚的私訊、翹課的群組訊息）：刪除（AA_218 第 11 節、AA_154 0b-2）；E16_ROLE 不再寫入 */
     /* E18a 豆花（AA_224 3-4）：12/3（二）21:30 可昕私訊兩則＋出發選單「總圖門口 22:00」（他不能進總圖，在門口演；可以錯過，沒去不記）。
        E22b 法律入門書（AA_224 3-7）：12/20（五）17:00「公館 17:00：等可昕下課」（12/13 補習班以後；可以錯過，沒去不記 E22B_TOLD）*/
@@ -1398,7 +1398,7 @@ const STORY = (function(){
       if(wed17!=null&&(G.day>wed17-2||(G.day===wed17-2&&G.hour>=21))&&G.day<=wed17&&!PHONE.sent(G,'y0_e20_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         PHONE.at(G,wed17-2,21,[{th:T,from:'econ_pinyu',text:'12/25 晚上七點，公館火鍋。禮物兩百以內。地址等一下傳。'}],'y0_e20_ask');
         if(!OUT.get(G,'y0_e20')) OUT.plan(G,{id:'y0_e20',ev:'ev_y0_e20',day:wed17,h:19,late:0.25,place:'公館',title:'公館 19:00：聖誕交換禮物（火鍋）',travel:'走過去約 15 分鐘',travelH:0.25}); }
-      if(wed17!=null&&G.day===wed17&&G.hour>=17&&!PHONE.sent(G,'y0_e20_day')) PHONE.at(G,wed17,17,[{th:T,from:'econ_weilun',name:'韋綸',text:'走啦！今天不念書！'},{th:T,from:'econ_pinyu',text:'念。吃完回去念。'}],'y0_e20_day');
+      if(wed17!=null&&G.day===wed17&&G.hour>=17&&!PHONE.sent(G,'y0_e20_day')) PHONE.at(G,wed17,17,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚火鍋！我中午沒吃，留肚子。'},{th:T,from:'econ_pinyu',text:'我六點下班直接過去。遲到的自己付湯底。'}],'y0_e20_day');
       if(wed17!=null&&!F.GIRAFFE_KEYCHAIN&&!D('ev_y0_e20')&&!D('ev_y0_e20b')&&(G.day>wed17+3||(G.day===wed17+3&&G.hour>=20))&&G.day<=wed17+6&&!PHONE.sent(G,'y0_e20_mail')){   /* AA_224 3-5：12/26～12/28 沒去公館＝12/28 20:00 放家裡信箱、隔天早上拿到（只在那幾天補）*/ F.E20_MAILBOX=wed17+4; PHONE.at(G,wed17+3,20,[{th:'p:kexin',from:'kexin',text:'你的份，我放在你家信箱了。'}],'y0_e20_mail'); }
       if(F.E20_MAILBOX!=null&&!F.GIRAFFE_KEYCHAIN&&G.day>=F.E20_MAILBOX) F.GIRAFFE_KEYCHAIN=true; }
     /* C2 自己的社團（AA_154 A37）：社課邀約、出發選單、唐睿的劇社私訊（Y0_EXTRA）刪除（AA_218 第 11 節、AA_154 0b-2；要不要提前到 10/17 以前等 AA）。E07 選了社團（Y0_CLUB）照舊加進那個社團的群組 */
@@ -1444,9 +1444,9 @@ const STORY = (function(){
        2/2 22:30「寒假胖了是存糧」（過年吃完以後）；那一晚 2/8（六）23:00「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄（「法律。」＝15 分鐘後才回「好。」「……我是在問我自己。晚安。」，AA_224 3-8）。
        回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡 */
     if(S.isEcon(G)){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), D=k=>S.dayOfKey(k), end=S.dayOfKey('2025-02-17'), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&(end==null||G.day<=end), until=d=>(d+1)*24+18;   /* 寒假結束（2/17 開學）以後不補發 */
-      { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[Object.assign(K('假設寒假有一天可以跳過，你要跳哪一天？'),{ask:{id:'y0_e24a',until:until(d),opts:[{t:'今天。',say:[K('……今天有跟我聊天，不能跳。')]},{t:'除夕。',say:[K('除夕有紅包。你很奇怪。')]}]}})],'y0_e24a'); }
-      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[Object.assign(K('今天的假設題：如果你是一碗湯，你是什麼湯？'),{ask:{id:'y0_e24c',until:until(d),opts:[{t:'玉米濃湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'貢丸湯。',say:[K('好。我是味噌湯。很鹹，但對身體好。')]},{t:'……白開水算湯嗎？',say:[K('不算。……好啦，算。我是味噌湯。很鹹，但對身體好。')]}]}})],'y0_e24c'); }   /* 回覆按鈕：BB-B c65b84f0 */
-      { const d=D('2025-02-02'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。我說這是存糧。')],'y0_e24b'); }
+      { const d=D('2025-01-10'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24a')) PHONE.at(G,d,22.5,[K('放假第三週，我已經不知道今天星期幾了')],'y0_e24a');   /* BB_179 段 C #64（AA_200 7-3：不用回）*/ }
+      { const d=D('2025-01-18'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24c')) PHONE.at(G,d,22.5,[Object.assign(K('如果你是一碗湯，你會是什麼湯？'),{ask:{id:'y0_e24c',until:until(d),opts:[{t:'玉米濃湯。',say:[K('好甜。我是味噌湯。')]},{t:'貢丸湯。',say:[K('很台欸。我是味噌湯。')]},{t:'……白開水算湯嗎？',say:[K('不算。……好啦算。我是味噌湯。')]}]}})],'y0_e24c'); }   /* 回覆按鈕：BB-B c65b84f0 */
+      { const d=D('2025-02-02'); if(past(d,22.5)&&!PHONE.sent(G,'y0_e24b')) PHONE.at(G,d,22.5,[K('我媽說我寒假胖了。')],'y0_e24b'); }
       { const d=D('2025-02-08'); if(past(d,23)&&!PHONE.sent(G,'y0_e24n')) PHONE.at(G,d,23,[Object.assign(K('如果可以重來一次選科系，你會選什麼？'),{ask:{id:'y0_e24n',until:until(d),opts:[{t:'法律。'},{t:'我不知道。',say:[K('我也不知道。……晚安。')]},{t:'妳呢？',say:[K('我先問的。……算了，晚安。')]}]}})],'y0_e24n');   /* AA_224 3-8：他已經離開經濟系；這題是她在問她自己 */
         const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。'),K('……我是在問我自己。晚安。')],'y0_e24n_late'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/

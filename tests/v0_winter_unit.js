@@ -39,13 +39,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   script=['過幾天']; said=[]; try{ await HOME.winterStart(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('2. 轉場：在家、寒假模式、選單沒有「回宿舍」',HOME.at(G)&&G.home.winter===true&&G.flags.Y0_WINTER_START&&!menus[0].some(t=>/回宿舍/.test(t))&&menus[0].includes('過幾天')&&menus[0].includes('睡覺'),JSON.stringify(menus[0]));
   check('2. 「過幾天」跳到 1/27（一）21:00（F1），手機收到小年夜的群組',G.day===J27&&Math.abs(G.hour-21)<1e-6&&PHONE.sent(G,'y0_f1'),G.day+' '+G.hour);
-  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「跳過哪一天」、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='假設寒假有一天可以跳過，你要跳哪一天？'&&m.ask.until===(K('2025-01-10')+1)*24+18)&&TH('p:kexin').some(m=>m.text==='今天的假設題：如果你是一碗湯，你是什麼湯？'&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='玉米濃湯。/貢丸湯。/……白開水算湯嗎？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。'));
+  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「不知道今天星期幾」不用回、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='放假第三週，我已經不知道今天星期幾了'&&!m.ask)&&TH('p:kexin').some(m=>m.text==='如果你是一碗湯，你會是什麼湯？'&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='玉米濃湯。/貢丸湯。/……白開水算湯嗎？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。'));
   check('2. 第一次「過幾天」：字卡後面「寒假。你睡到中午，下午幫媽媽跑腿。」「年前的家裡，一直有人在打掃。」（AA_154 A44）',said.map(x=>x.t).join('|')==='寒假。你睡到中午，下午幫媽媽跑腿。|年前的家裡，一直有人在打掃。',JSON.stringify(said));
   // 睡覺會停在 E21 22:00 → E21 自動演
   menus=[]; said=[]; script=['睡覺','過幾天','幫我跟阿嬤','過幾天']; G.home.eat={day:J27}; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   const L=said.map(x=>x.t);
   check('3. 1/27 晚上睡覺（1/28 早上醒）→「過幾天」到 1/28 22:00 → E21（AA_224 3-10 交往中版）「我阿嬤剛剛問我有沒有男朋友。」…「幫我跟阿嬤說新年快樂。」→「她說你明年要來吃飯。……」；不記 E21_ANSWER',L.includes('好了。……我阿嬤剛剛問我有沒有男朋友。')&&L.includes('她說你明年要來吃飯。……她已經在算要煮幾道了。')&&G.flags.E21_ANSWER==null,JSON.stringify(L));
-  check('3. E21 之後「過幾天」跳到 2/8 23:00（E24 那一晚），旁白「過年的幾天，親戚來來去去。……」；2/2「胖了是存糧」收到了',G.day===F8&&Math.abs(G.hour-23)<1e-6&&L.includes('過年的幾天，親戚來來去去。每個人都問你經濟系好不好玩。')&&(run(23,23.05),TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。')),G.day+' '+G.hour);
+  check('3. E21 之後「過幾天」跳到 2/8 23:00（E24 那一晚），旁白「過年的幾天，親戚來來去去。……」；2/2「胖了是存糧」收到了',G.day===F8&&Math.abs(G.hour-23)<1e-6&&L.includes('過年的幾天，親戚來來去去。每個人都問你經濟系好不好玩。')&&(run(23,23.05),TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。')),G.day+' '+G.hour);
   run(23,23.1); const q=TH('p:kexin').find(m=>m.text==='如果可以重來一次選科系，你會選什麼？'); check('4. E24 那一晚：「如果可以重來一次選科系，你會選什麼？」三選一（AA_224 3-8：「法律。」）',!!q&&q.ask.opts.map(o=>o.t).join('/')==='法律。/我不知道。/妳呢？');
   PHONE.answer(G,'y0_e24n',0); run(23.1,23.2); check('4. 「法律。」：她沒有馬上回',!TH('p:kexin').some(m=>m.text==='好。'));
   run(23.2,23.45); check('4. 15 分鐘後「好。」「……我是在問我自己。晚安。」；回答不記錄',TH('p:kexin').some(m=>m.text==='好。')&&TH('p:kexin').some(m=>m.text==='……我是在問我自己。晚安。')&&!Object.keys(G.flags).some(k=>/E24/.test(k)));

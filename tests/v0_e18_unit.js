@@ -25,7 +25,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const K=k=>STORY.dayOfKey(k), T28=K('2024-11-28'), F29=K('2024-11-29'); const e18=STORY_EVENTS.find(e=>e.id==='ev_y0_e18');
   check('0. ev_y0_e18 在',!!e18); if(!e18){ console.log('FAILED '+fails); process.exit(1); }
   fresh(T28,20.5,'dorm',{IMPROV_LINE:'而且我是來接你的計程車。',E12_ANSWER:'cat'}); run(); check('1. 11/28 21:00 以前沒有',!PHONE.sent(G,'y0_e18_ask'));
-  at(T28,21.1); check('1. 21:00 可昕兩則',TH('p:kexin').includes('明天晚上七點，博雅。我們有小公演。')&&TH('p:kexin').includes('假設你不來，我就在台上講你的壞話。……你會來吧？'));
+  at(T28,21.1); check('1. 21:00 可昕兩則',TH('p:kexin').includes('明天晚上七點，博雅。我們有小公演。')&&TH('p:kexin').includes('你來的話，我幫你留前面的位子。'));
   const q=OUT.get(G,'y0_e18'); check('1. 出發選單「博雅 19:00：即興劇小公演」、15 分鐘',!!q&&q.day===F29&&q.h===19&&q.late===0.25&&q.title==='博雅 19:00：即興劇小公演');
   const snap=JSON.stringify(G);
   picks=['她很會接']; said=[]; G.day=F29; G.hour=18.7; await OUT.go(GM,q); let L=said.map(x=>x.t);
@@ -42,6 +42,6 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   picks=['只是笑']; said=[]; G.day=F29; G.hour=18.2; await OUT.go(GM,qx); L=said.map(x=>x.t);
   check('4. Y0_EXTRA：演一棵樹、可昕「（指著台邊的你）那棵樹剛剛偷偷說的那一句。」、唐睿多一句「你是今天最好的一棵樹。」',L[0]==='你在台上演一棵樹，站在台邊不動。'&&L.includes('（指著台邊的你）那棵樹剛剛偷偷說的那一句。')&&!L.includes('那個人剛剛說的那一句。')&&L.includes('你是今天最好的一棵樹。')&&L.includes('我多了一條尾巴。旁邊的人多了一隻手，專門幫我拿尾巴。'));
   // 沒去
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(F29,19.5); OUT.expire(G); at(F29+1,12.2); check('5. 沒去：11/30 12:00 唐睿傳影片＋「她接了一句很像你會說的話。」',TH('p:econ_tangrui').includes('🎬（一段影片）')&&TH('p:econ_tangrui').includes('她接了一句很像你會說的話。'));
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); at(F29,19.5); OUT.expire(G); at(F29+1,12.2); check('5. 沒去：11/30 12:00 唐睿傳影片＋「她接了一句很像你會說的話。」',TH('p:econ_tangrui').includes('🎬（一段影片）')&&TH('p:econ_tangrui').includes('可昕昨天公演，接了一句很像你會說的話。'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

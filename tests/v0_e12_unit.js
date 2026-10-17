@@ -35,18 +35,18 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   run(); check('2. 19:45～20:15 在校園：可昕站在南岸步道',spawned.some(s=>s[0]==='kexin'&&Math.abs(s[2]+98.5)<0.1));
   check('2. 走到她旁邊就演（事件條件成立）',EVENTS.check(e12));
   picks=['第三隻手']; said=[]; await EVENTS.run(e12); const L=said.map(x=>x.t);
-  check('2. 原文四句、「我要第三隻手，幫妳拿尾巴。」→「……這是我聽過最好的回答。」、E12_ANSWER＝hand',L[0]==='假設，你可以多一個身體部位。你要什麼？'&&L[3]==='而且我想知道，有尾巴的人怎麼坐椅子。'&&L[4]==='……這是我聽過最好的回答。'&&G.flags.E12_ANSWER==='hand',JSON.stringify(L));
+  check('2. 原文四句、「我要第三隻手，幫妳拿尾巴。」→「……這是我聽過最好的回答。」、E12_ANSWER＝hand',L[0]==='假設，你可以多一個身體部位。你要什麼？'&&L[3]==='而且我想知道，有尾巴的人怎麼坐椅子。'&&L[4]==='（愣了一下，笑出來）第三隻手喔。……好，那尾巴給你拿。'&&G.flags.E12_ANSWER==='hand',JSON.stringify(L));
   at(D6,20.6); check('2. 演過了：20:30 沒有手機版',!PHONE.sent(G,'y0_e12_phone'));
   // 沒到
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; G.zone='dorm'; at(D6,20.2); check('3. 20:15 以前不發手機版',!PHONE.sent(G,'y0_e12_phone'));
   at(D6,20.6); const T=PHONE.thread(G,'p:kexin').map(m=>m.text);
-  check('3. 20:30 手機版：「你沒來。那我用打的。」＋四則',T.includes('你沒來。……沒關係，問題不會跑。')&&T.includes('那我用打的。')&&T.includes('我要長頸鹿的尾巴。')&&T[T.length-1]==='而且我想知道，有尾巴的人怎麼坐椅子。',JSON.stringify(T.slice(-5)));
+  check('3. 20:30 手機版：「你沒來。那我用打的。」＋四則',T.includes('你沒來喔。')&&T.includes('沒關係，那我用打的。')&&T.includes('我要長頸鹿的尾巴。')&&T[T.length-1]==='而且我想知道，有尾巴的人怎麼坐椅子。',JSON.stringify(T.slice(-5)));
   const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='而且我想知道，有尾巴的人怎麼坐椅子。');
   check('3. 三個接法、一定要回（must）；沒回之前 PHONE.mustOpen',m.ask.must===true&&m.ask.opts.length===3&&PHONE.mustOpen(G,'p:kexin'));
   run(); check('3. 自動打開和可昕的對話',opened.some(o=>o[0]==='msg'&&o[1]==='p:kexin'));
   PHONE.answer(G,m.ask.id,2); check('3. 回「為什麼不是貓的？」：E12_ANSWER＝cat、可以關了；她的回應＋收尾「……下次要在湖邊回答。這次先算你的。」',G.flags.E12_ANSWER==='cat'&&!PHONE.mustOpen(G,'p:kexin')&&(()=>{ const T2=PHONE.thread(G,'p:kexin').map(x=>x.text); return T2.includes('貓的太常見了。我想要一個大家都沒想過的東西。')&&T2[T2.length-1]==='……下次要在湖邊回答。這次先算你的。'; })());
   // 睡著
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 20:30 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來。……沒關係，問題不會跑。'); return x&&x.day===D6&&Math.abs(x.h-20.5)<0.05; })()&&!opened.length);
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 20:30 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來喔。'); return x&&x.day===D6&&Math.abs(x.h-20.5)<0.05; })()&&!opened.length);
   GM.D.active=false; run(); check('4. 事件結束後才打開',opened.length===1);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
