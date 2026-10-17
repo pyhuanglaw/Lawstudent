@@ -1,0 +1,101 @@
+{
+ "role": "LAWWW2",
+ "entries": [
+  {
+   "task": "ART-GG-SIGNS-2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "6b8e2385",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "assets/models/env/second_ai/gongguan_shops.json",
+    "docs/art-rebuild/second_ai/patches/gg_signs2_test.patch",
+    "docs/art-rebuild/second_ai/test_shots/gg_signs/"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 整合（GLB 在 b75e50a5；patch 基準 fbda2ce9，也對 a39a6812 套得上）→ 重跑 tests/gongguan_glb_integration.py；使用者看過才標 ART_APPROVED",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "ART-SCOOTER2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "872226f7",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/scooters_v2_a39a6812.patch"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 用這份取代 scooters_v2.patch（舊的對 a39a6812 在公館測試衝突）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "ART-BIKES2-F",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "fbd7d05e",
+   "files": [
+    "tools/blender/env_second/street_props.py",
+    "assets/models/env/second_ai/street_props.glb",
+    "assets/models/env/second_ai/street_props.json",
+    "docs/art-rebuild/second_ai/patches/bikes_v2f.patch",
+    "docs/art-rebuild/second_ai/test_shots/bikes_v2/README.md"
+   ],
+   "state": "WIP",
+   "remaining": "遊戲內前後截圖（拍攝中）、八項紀錄、Blender 渲染；street_props_integration 沒跑",
+   "next": "LAWWW2-C 補截圖與八項後改成已交付",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "ART-04",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "872226f7",
+   "files": [
+    "tools/blender/env_second/prop_pothos.py",
+    "assets/models/env/second_ai/prop_pothos.glb",
+    "assets/models/env/second_ai/prop_pothos.json",
+    "tools/blender/env_second/shots/pothos_dorm_shots.py"
+   ],
+   "state": "WIP",
+   "remaining": "四人房的遊戲內截圖（排隊中）、README",
+   "next": "LAWWW2-C 拍完截圖後交付；遊戲端接法（PLACE 在 GLB 根節點）由 LAWWW 整合",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "SCN-V3-01",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8a1af723",
+   "files": [
+    "tools/blender/env_second/dorm_y2_items.py",
+    "assets/models/env/second_ai/dorm_y2_items.glb",
+    "assets/models/env/second_ai/dorm_y2_items.json"
+   ],
+   "state": "WIP",
+   "remaining": "座標是舊雙人房；112 用哪一組床位、室友、軟木板位置等 AA 規格（已請 LAWWW-C 轉問）",
+   "next": "AA 規格到了 LAWWW2 重擺",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "ART-V0-DORM",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "50bc183a",
+   "files": [
+    "tools/shots/window_views.py"
+   ],
+   "state": "WIP",
+   "remaining": "dorm_room412 窗景還沒拍（排隊中）；遊戲端換窗景（412 時用 dorm_room412）由 LAWWW 接",
+   "next": "LAWWW2-C 拍 assets/models/env/views/dorm_room412_day/night.webp 後交付",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  }
+ ]
+}

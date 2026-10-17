@@ -201,7 +201,7 @@
     - 淑女車再分款。
 25. FIX-WZ-PERF：總表已改成「已實作待整合」，LAWWW-B 在核對 1e445818 有沒有隨小公園 v7 進來。
 
-26. **VAC-A2** 機場：BB-B 02:28 問能不能拍 `airport_departure`、`airport_arrival` 兩張底圖 → 已回「交使用者生成」。VAC-A2 做完後，如果出境下車處拍得出一月陰天那張，再告訴值班的 BB。
+26. ~~**VAC-A2** 機場 2D 底圖~~：**取消／被取代：DL-BB-f80f574c**（使用者已生成 `airport_departure`、`airport_arrival`，BB 檢查通過；LAWWW-C 04:25 轉告，LAWWW2-C 04:3x 記）。**3D 機場 VAC-A2 照舊**（第 18 項的順序）。
 
 - 沒有排程中的 send_later：`list_triggers` 是空的。
 - 對話裡的承諾都已經列在上面。
