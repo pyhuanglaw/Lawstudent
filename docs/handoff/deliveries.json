@@ -9827,6 +9827,89 @@
    "kind": "wip",
    "reason": "唐睿第十三版＋沛珊第二十一版腳本（還沒交 BB）",
    "task": "ART-CH-TANGRUI"
+  },
+  {
+   "sha": "2d17e325",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v20、韋綸 v13 腳本（成品 60dc7908）；bg_cinema.py 是 BG-19 WIP",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "202a2063",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2-C 交接檔"
+  },
+  {
+   "sha": "a79b88cd",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v19 交 BB-C（被 v20 取代）",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "225a4f26",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v19 腳本",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "69cb020e",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v18 腳本",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "927e6753",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v17 腳本",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "8e2a61a4",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v16 腳本",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "0f19bcb7",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿 v15 交 BB-C（被 v20 取代）",
+   "coveredBy": "DL-LAWWW2-60dc7908"
+  },
+  {
+   "sha": "ee534ba8",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "沛珊第二十六版腳本",
+   "coveredBy": "DL-LAWWW2-552185d9"
+  },
+  {
+   "sha": "280b4691",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "沛珊第二十五版腳本",
+   "coveredBy": "DL-LAWWW2-552185d9"
+  },
+  {
+   "sha": "9aff0d24",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "沛珊第二十四版、唐睿第十五版腳本",
+   "coveredBy": "DL-LAWWW2-552185d9"
+  },
+  {
+   "sha": "e2f396c9",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "唐睿第十四版、沛珊第二十三版腳本",
+   "coveredBy": "DL-LAWWW2-552185d9"
   }
  ]
 }
