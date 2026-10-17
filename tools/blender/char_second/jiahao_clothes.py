@@ -19,7 +19,8 @@ SOCK_Z = (0.068, 0.255)                          # 襪子的高度（參考空�
 STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([240, 240, 236]) / 255.0, SOLE_RGB=np.array([234, 230, 220]) / 255.0,
              GOLD_RGB=np.array([234, 230, 220]) / 255.0, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='denim',
-             SLEEVE_LEN=0.45, SLEEVE_K=0.85, CUFF_EASE=0.010, EASE_K=0.55, DROP_X=0.100, TOP_FIT=0.50, HEM_LOOSE=True, SHOULDER_SAG=0.020, SLEEVE_IN=0.035,   # 第六版（BB_201：薄的工作人員背心，不是羽絨背心）：寬鬆量 0.95 → 0.55、下擺不收
+             SLEEVE_LEN=0.45, SLEEVE_K=0.85, CUFF_EASE=0.010, EASE_K=0.55, DROP_X=0.100, TOP_FIT=0.50, HEM_LOOSE=True, SHOULDER_SAG=0.020, SLEEVE_IN=0.035,
+             NECK_RIB_L=0.012, NECK_RIB_T=0.0, NECK_FOLD=(-0.0015, -0.0005), NECK_CALM=1.0,   # 第十版：背心領口是薄的滾邊（第九版羅紋 2.2 cm、比身片厚 3 mm，遊戲裡像一圈立起來的針織領）   # 第六版（BB_201：薄的工作人員背心，不是羽絨背心）：寬鬆量 0.95 → 0.55、下擺不收
             
              PANTS_ELLIPSE=(0.064, 0.074), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)   # 直筒牛仔褲（明軒的寬度）；第三版：褲管跟著腿走（Sakurada 的腿往內斜，垂直的管子褲腳會張開）
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：

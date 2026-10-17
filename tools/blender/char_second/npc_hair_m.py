@@ -41,7 +41,13 @@ def make_atlas(seed=SEED, regs=None, temple_col=None):
     def reg(name): x0, x1, y0, y1 = REG_[name]; return y1 - y0, x1 - x0
     if temple_col is not None:      # 兩鬢灰白（魏教授）：另一格髮片貼圖，顏色淺
         h, w = reg('cardG'); tc = np.array(temple_col, float)
-        put('cardG', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=tc), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))
+        # 第六版（BB-C：灰黑夾雜）：髮根深色、往髮尾漸漸變灰白，而且一束一束深淺交錯（第五版整片灰：側面看像染了半邊）
+        dark = HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE)
+        gray = HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=tc)
+        t_ = ((np.arange(h) + 0.5) / h)[:, None]
+        pep = np.repeat(rng.random(w // 3 + 1), 3)[:w][None, :]
+        mix = (HB.sstep(0.25, 0.75, t_) * (0.35 + 0.65 * (pep > 0.30)))[..., None]
+        put('cardG', dark * (1 - mix) + gray * mix, HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))
     # 層次髮片：上段一片（髮根），下段分成一撮一撮、長短不一、往中間微靠
     h, w = reg('card')
     put('card', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))   # 第二版：髮尾分束從 55% 改 68%（太多透明的尖端，太陽穴看起來像剃短）
@@ -67,11 +73,18 @@ def apply(m):
 
     def az(a): return abs(((a + 180) % 360) - 180)
 
+    STP = float(P.get('side_taper', 0.0))   # 耳朵上面越靠髮尾越貼頭（韋綸第十二版的做法；魏教授第六版：男性短髮的兩側剪短）；0＝不變
+
+    def side_taper(a, v):
+        if STP <= 0: return 1.0
+        aa = az(a); s_ = float(sstep(45, 70, aa)) * (1 - float(sstep(115, 140, aa)))
+        return 1 - STP * s_ * (1 - float(sstep(0.0, 0.45, v)))
+
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
         top = (0.015 + 0.026 * float(sstep(0.10, 0.55, v)) - 0.010 * float(sstep(0.75, 0.97, v))) * P['vol']   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
         side = 1 - 0.55 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
-        return top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
+        return (top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))) * side_taper(a, v)   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
 
     def line_dir(a, v):
         b0 = HB.hairline_beta(a); d0 = sph(a, b0); g = slerp(d0, dP, v)
@@ -87,7 +100,7 @@ def apply(m):
         if out and az(a) >= 100:            # 後半圈往下的方向：從外面打會打到毛衣的背（髮尾被拉到背上）——改從頭的中心往外打第一個碰到的身體表面（後腦、後頸的皮膚）
             h = H.body.ray_cast(Vector(c), Vector(d), 0.4)[0]
             if h is not None: r = min(r, float(np.dot(np.array(h) - c, d)) + 0.004)
-        return c + d * (r + vol(a, max(v, 0.0)) + extra + (0.006 if out else 0.0)), d
+        return c + d * (r + vol(a, max(v, 0.0)) + extra + (0.006 * side_taper(a, 0.0) if out else 0.0)), d
 
     def v_at_z(a, z_tip, lo=-0.7, hi=0.0):                     # 沿這個方位往下，表面高度到 z_tip 的 v（二分法）
         for _ in range(26):
@@ -140,7 +153,7 @@ def apply(m):
     def card(a, vroot, vtip, off, wfac, reg, nseg=14, bulge=0.0, arch=0.1, curl=0.0):
         vv = np.linspace(vroot, vtip, nseg + 1); P = []; D = []; Wd = []; da = 360.0 / 56
         for i, v in enumerate(vv):
-            t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t)))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）
+            t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t))) * side_taper(a + curl * t * t, max(v, 0.0))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）
             p, d = surf(a + curl * t * t, v, e); q, _ = surf(a + curl * t * t + da, v, e)
             # 寬度＝旁邊 6.4° 那一條的距離；耳朵後面那一條量到耳朵外緣時距離跳到 10 cm 以上，髮片變成一大片往外的翅膀
             # （nm15、nm20：髮片的中線已經被下面兩道限制拉回來，寬度沒有）→ 最多 2.4 cm（正常的地方 1.1～1.5 cm）
@@ -159,7 +172,7 @@ def apply(m):
             P = P + side * (np.sin(2 * math.pi * 1.3 * tt + ph) * k_[:, 0])[:, None] + D * (0.5 * (1 - np.cos(2 * math.pi * 1.3 * tt + ph)) * k_[:, 0])[:, None]
             Tn = tangents(P); side = _unit(np.cross(D, Tn))
         width = np.maximum(np.array(Wd) * wfac, 0.006) * (0.65 + 0.35 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
-        if TCOL is not None and reg in ('card', 'cardB') and 55 < az(a) < 125: reg = 'cardG'
+        if TCOL is not None and reg in ('card', 'cardB') and 50 < az(a) < 150: reg = 'cardG'   # 第六版：耳朵後面到後頸下緣也是（灰的部分只在髮尾）
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=np.linspace(0, 1, len(P)))
 
     for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊（兩側長到 85%：太陽穴、鬢角要蓋滿，不能只靠外層透明的髮尾）

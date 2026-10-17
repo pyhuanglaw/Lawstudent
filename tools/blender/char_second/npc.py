@@ -228,7 +228,7 @@ VARIANTS = {
     # 第五版（BB-C BB_201 第 8 節：「頭髮全白的年輕人／燙過的短髮」）：男性短髮——兩側、後腦剪短，露耳朵、後頸；頭頂短、側分；灰黑夾雜（頭頂深灰黑、兩鬢灰白）；肩膀再寬、脖子粗、一點肚子
     'pwei': dict(sex='m', base='HairSample_Male', head=0.91, height=1.72, iris='#2a221c', skin=(0.93, 0.86, 0.80), eye_close=0.22, torso=1.12, stoop=0.018, neck=1.10, belly=0.016,
                  face=dict(EYE_SX=1.06, EYE_SZ=0.60, EYE_TILT=-0.010, BROW_ARCH=0.25, BROW_K=1.55, BROW_COL=(0.34, 0.32, 0.30), FACE_NARROW=1.01, CHIN_WIDEN=0.72, JAW_OUT=0.0070, D_CHIN=0.004, MOUTH_K=1.40, MOUTH_DOWN=0.0012),
-                 hair=dict(seed=20261231, part=-22.0, col=(0.20, 0.19, 0.19), temple_col=(0.62, 0.61, 0.60), recede=9.0, tip=(0.078, 0.070, 0.050, 0.040, 0.034, 0.030, 0.028, 0.022, 0.020, 0.018), nape=0.003, vol=0.42, curl=(24, 38)),   # 第四版：前面的髮尾停在髮際線上、往旁邊梳（第三版瀏海還垂在額頭上，看起來年輕）   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
+                 hair=dict(seed=20261231, part=-22.0, col=(0.20, 0.19, 0.19), temple_col=(0.62, 0.61, 0.60), recede=9.0, tip=(0.078, 0.070, 0.050, 0.044, 0.042, 0.040, 0.040, 0.026, 0.024, 0.022), side_taper=0.65, nape=0.003, vol=0.42, curl=(24, 38)),   # 第四版：前面的髮尾停在髮際線上、往旁邊梳（第三版瀏海還垂在額頭上，看起來年輕）   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
                  clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,

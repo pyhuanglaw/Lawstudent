@@ -20,6 +20,7 @@ HAIRLINE = [(0, 33), (20, 33), (35, 30), (48, 21), (57, 9), (63, -1), (69, -5), 
 DEEP = np.array([0.045, 0.040, 0.040]); BASE = np.array([0.095, 0.085, 0.082]); LIGHT = np.array([0.165, 0.152, 0.148]); SHEEN = np.array([0.25, 0.24, 0.24])   # 韋綸：近黑（參考圖受光處 #2a2624），高光偏冷灰
 REG = {'card': (0, 384, 0, 1024), 'cardB': (384, 640, 0, 1024), 'bang': (640, 896, 0, 1024), 'shell': (896, 1024, 0, 1024)}
 HEAD = 'J_Bip_C_Head'
+SIDE_TAPER = 0.65          # 第十二版：耳朵上面的頭髮貼頭的程度（0＝不變）
 
 
 def make_atlas(seed=SEED):
@@ -50,11 +51,15 @@ def apply(m):
 
     def az(a): return abs(((a + 180) % 360) - 180)
 
+    def side_taper(a, v):   # 第十二版（遊戲裡正面看太陽穴兩邊各一塊淡色：耳朵上面的頭髮離頭太遠，髮尖的縫看到背景）：耳朵上面（方位 45～125°）越靠髮尾越貼頭，v 0.45 → 0 時蓬的量剩 35%
+        aa = az(a); s_ = float(sstep(45, 70, aa)) * (1 - float(sstep(115, 140, aa)))
+        return 1 - SIDE_TAPER * s_ * (1 - float(sstep(0.0, 0.45, v)))
+
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
         top = 0.017 + 0.020 * float(sstep(0.10, 0.55, v)) - 0.006 * float(sstep(0.75, 0.97, v))   # 第三版（BB-C）：頭頂收（第二版 0.032：頭頂一撮翹起來像鳳梨頂）   # 韋綸第二版：頭頂往上翹、更蓬   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
         side = 1 - 0.32 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 韋綸第三版：兩側、後腦厚一點（第二版 0.55：兩側太薄、看得到頭皮）   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
-        return top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
+        return (top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))) * side_taper(a, v)   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
 
     def line_dir(a, v):
         b0 = HB.hairline_beta(a); d0 = sph(a, b0); g = slerp(d0, dP, v)
@@ -70,7 +75,7 @@ def apply(m):
         if out and az(a) >= 100:            # 後半圈往下的方向：從外面打會打到毛衣的背（髮尾被拉到背上）——改從頭的中心往外打第一個碰到的身體表面（後腦、後頸的皮膚）
             h = H.body.ray_cast(Vector(c), Vector(d), 0.4)[0]
             if h is not None: r = min(r, float(np.dot(np.array(h) - c, d)) + 0.004)
-        return c + d * (r + vol(a, max(v, 0.0)) + extra + (0.006 if out else 0.0)), d
+        return c + d * (r + vol(a, max(v, 0.0)) + extra + (0.006 * side_taper(a, 0.0) if out else 0.0)), d
 
     def v_at_z(a, z_tip, lo=-0.7, hi=0.0):                     # 沿這個方位往下，表面高度到 z_tip 的 v（二分法）
         for _ in range(26):
@@ -120,6 +125,7 @@ def apply(m):
         vv = np.linspace(vroot, vtip, nseg + 1); P = []; D = []; Wd = []; da = 360.0 / 56
         for i, v in enumerate(vv):
             t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t)))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）
+            e *= side_taper(a + curl * t * t, max(v, 0.0))      # 第十二版：耳朵上面的髮片也貼頭
             p, d = surf(a + curl * t * t, v, e); q, _ = surf(a + curl * t * t + da, v, e)
             P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
         P = np.array(P); D = np.array(D)

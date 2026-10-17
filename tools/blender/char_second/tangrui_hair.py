@@ -21,9 +21,10 @@ PART = -4.0               # 瀏海分線（方位角）：略偏人物的左邊
 HAIRLINE = [(0, 33), (20, 33), (35, 30), (48, 21), (57, 9), (63, -1), (69, -5), (76, -1), (86, 8), (98, 7), (108, -6),
             (120, -26), (136, -44), (152, -52), (168, -56), (180, -57)]
 # 顏色（sRGB）：參考圖 02 的深黑棕（頭頂受光處偏暖棕）
-DEEP = np.array([0.050, 0.044, 0.042]); BASE = np.array([0.10, 0.09, 0.086]); LIGHT = np.array([0.172, 0.158, 0.150]); SHEEN = np.array([0.26, 0.245, 0.24])   # 唐睿：黑（受光處 #2c2826）
+DEEP = np.array([0.055, 0.049, 0.046]); BASE = np.array([0.118, 0.106, 0.100]); LIGHT = np.array([0.200, 0.184, 0.175]); SHEEN = np.array([0.30, 0.285, 0.28])   # 唐睿：黑（受光處 #2c2826）；第十一版亮一點點（遊戲裡整顆頭是一塊黑，看不出一團一團的捲）
 REG = {'card': (0, 256, 0, 1024), 'cardB': (256, 448, 0, 1024), 'curl': (448, 896, 0, 1024), 'bang': (896, 960, 0, 1024), 'shell': (960, 1024, 0, 1024)}   # 第四版：大部分給波浪髮束 'curl'
 HEAD = 'J_Bip_C_Head'
+SHELL_OFF = 0.006        # 第十一版：髮殼離頭皮再遠 8 mm（原本 −2 mm）——外形（剪影）交給不透明、圓的髮殼，波浪髮束貼在上面，不再是一根根伸出去的黑線
 
 
 def make_atlas(seed=SEED):
@@ -127,7 +128,7 @@ def apply(m):
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
         for j, v in enumerate(vs):
-            p, d = surf(a, v, -0.002); SP[i, j] = p; SN[i, j] = d
+            p, d = surf(a, v, SHELL_OFF); SP[i, j] = p; SN[i, j] = d
     u0, v0, u1, v1 = HB.reg_uv('shell')
     for p in range(Nu // PAN):
         G = SP[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2); Nn = SN[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2)
@@ -194,25 +195,25 @@ def apply(m):
             p, d = surf(aa_, v, e); P.append(p); Dn.append(d)
         P = np.array(P); Dn = np.array(Dn); T = tangents(P)
         th = np.pi * 1.05 * np.clip((t - 0.66) / 0.34, 0, 1)            # 髮尾勾起來（第五版：勾多一點）
-        out_k = 0.25 if az(a) < 110 else 1.0                            # 臉附近（前額、兩側）：主要往上勾、不往外翹（第四版有髮尾浮在眼睛前面）
+        out_k = 0.25 if az(a) < 110 else 0.35                           # 臉附近（前額、兩側）：主要往上勾、不往外翹（第四版有髮尾浮在眼睛前面）；第十一版後面也是（1.0：往外翹的髮尾側面朝鏡頭，正面看頭頂兩邊一根根飛出去的黑線）
         P = P + Dn * (cr * out_k * (1 - np.cos(th)))[:, None] - T * (cr * np.sin(th) * 0.8)[:, None]
         P = H.push(P, np.full(len(P), 0.004))
         Tn = tangents(P); side = _unit(np.cross(Dn, Tn)); nrm = _unit(Dn - Tn * np.sum(Dn * Tn, 1)[:, None])
         wd = width * (0.70 + 0.30 * sstep(0.0, 0.2, t)) * (1 - 0.25 * sstep(0.60, 1.0, t))   # 第五版：尾端不收那麼細
         mb.ribbon(P, side, nrm, wd, reg, 'head', np.zeros(len(P)), arch=0.18, tt=t)
     n0 = len(mb.F); nlock = 0
-    for layer, (cnt, off0, vr0, vr1) in enumerate(((70, 0.006, (0.45, 0.80), (0.10, 0.20)), (64, 0.013, (0.55, 0.95), (0.16, 0.28)), (44, 0.020, (0.70, 0.98), (0.18, 0.30)))):
+    for layer, (cnt, off0, vr0, vr1) in enumerate(((64, 0.009, (0.45, 0.80), (0.10, 0.20)), (64, 0.014, (0.55, 0.95), (0.16, 0.28)), (60, 0.019, (0.70, 0.98), (0.18, 0.30)))):   # 第十一版：內層在髮殼外面、外層多一點（蓋滿，少一點縫）
         for k in range(cnt):          # 三層：內層貼頭、外層最蓬（頭頂、兩側、後腦）
             a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / cnt; aa = az(a)
             if aa < 34 and layer < 2: continue                          # 前額交給瀏海
             v0 = rng.uniform(*vr0); vt = v_tip(a); v1 = max(vt * (0.95 if aa > 40 else 0.7), v0 - rng.uniform(*vr1))
             wave_lock(a, v0, v1, rng.uniform(0.026, 0.036), rng.uniform(5, 11), rng.uniform(0.9, 1.4), off0 + 0.004 * rng.random(),
-                      rng.uniform(0.010, 0.016), rng.uniform(0, 2 * math.pi)); nlock += 1
+                      rng.uniform(0.006, 0.010), rng.uniform(0, 2 * math.pi)); nlock += 1   # 第十一版：勾小一點（1.0～1.6 cm）
     for row in range(2):           # 捲的瀏海（第五版：兩排 2×16 片、寬一點，蓋住額頭到眉毛；第四版 22 片細的，額頭露很多）
-        for k in range(16):
-            a = -52 + 104 * (k + rng.uniform(0.25, 0.75) + 0.5 * row) / 16.5
-            wave_lock(a, rng.uniform(0.50, 0.72), v_tip(a) - 0.05 + (0.0 if row == 0 else 0.025) + rng.uniform(0.0, 0.02), rng.uniform(0.026, 0.034), rng.uniform(5, 9), rng.uniform(0.7, 1.1),
-                      0.008 + 0.004 * row + 0.004 * rng.random(), rng.uniform(0.003, 0.006), rng.uniform(0, 2 * math.pi)); nlock += 1   # 第六版：再長一點、勾小一點（第五版勾起來的髮尾把瀏海往上翻 3 cm，額頭露出來）
+        for k in range(20):        # 第十一版（BB_201「圓、蓬、往上」「一塊一塊的黑色尖角」）：2×20 片、寬一點、短 2 cm、髮尾往上勾多一點
+            a = -52 + 104 * (k + rng.uniform(0.25, 0.75) + 0.5 * row) / 20.5
+            wave_lock(a, rng.uniform(0.50, 0.72), v_tip(a) - 0.03 + (0.0 if row == 0 else 0.025) + rng.uniform(0.0, 0.015), rng.uniform(0.030, 0.038), rng.uniform(5, 9), rng.uniform(0.7, 1.1),
+                      0.010 + 0.004 * row + 0.004 * rng.random(), rng.uniform(0.005, 0.008), rng.uniform(0, 2 * math.pi)); nlock += 1   # 第六版：再長一點、勾小一點（第五版勾起來的髮尾把瀏海往上翻 3 cm，額頭露出來）
     print('  hair(tangrui): wave locks %d faces %d' % (nlock, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----
