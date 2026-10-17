@@ -4420,8 +4420,8 @@
    "what": "小公園 v8：名牌改成公布欄頂上的橫板（不擋海報）",
    "task": "ART-WZ1",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "",
+   "integration": "已整合待測試",
+   "note": "｜交班補強核對：開發分支 b8073a08 已收 a4c05720（wz_park.glb 同一版）",
    "date": "2026-10-16T18:5xZ"
   },
   {
@@ -5401,6 +5401,58 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L（逐筆核對中：LAWWW-B 2026-10-17 02:5x 使用者要求不得整批標非交付，結果見 docs/handoff/WIP_INVENTORY_2026-10-17.md）"
+  },
+  {
+   "id": "DL-LW2-VACA1",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "4e4f4f36",
+   "what": "寒暑假活動既有美術盤點（交 AA-B）",
+   "task": "VAC-A1",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "AA-B 已收（eaa92b52）（LAWWW-B 交班補強時逐筆核對登記）"
+  },
+  {
+   "id": "DL-LW2-SHOP1V2",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "5d5bb8aa",
+   "what": "機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 照 ART_SOP v1 驗收通過）",
+   "task": "ART-BG-AA185",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "素材，給 4 張 2D 背景用；開發分支沒有這個 GLB、LICENSES 也沒有（LIC-GAPS-1017）（LAWWW-B 交班補強時逐筆核對登記）"
+  },
+  {
+   "id": "DL-LW2-FACETEST",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "8496bf9d",
+   "what": "祐廷 3D 臉試做交件 READY_FOR_ART_REVIEW（BB-B 4d3e2757 驗收通過）",
+   "task": "ART-YUTING-FACETEST",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等使用者決定；模型 23f25a0f、對照表 8623b91e（LAWWW-B 交班補強時逐筆核對登記）"
+  },
+  {
+   "id": "DL-LW2-ARTSOP",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "69e4b181",
+   "what": "ART_SOP.md v1 美術製作 SOP",
+   "task": "ART-SOP",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "只在 funny 分支；示範案例 644a322f 同一筆（LAWWW-B 交班補強時逐筆核對登記）"
   }
  ],
  "ignored": [
@@ -6748,6 +6800,66 @@
    "sha": "4a9a867d",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "AA_185 的另一個 commit（合併後是 d85c1309＝DLV-1016-355）"
+  },
+  {
+   "sha": "644a322f",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "ART_SOP 示範案例 sop_demo/README.md：和 DL-LW2-ARTSOP 同一筆交付"
+  },
+  {
+   "sha": "68a2ca4e",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WORK：方法交接第 4 項，BB-B 做法段併進 bb_support/README（交接紀錄）"
+  },
+  {
+   "sha": "7fc088e6",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WORK：HANDOFF 方法交接表更新（ART-SHOP1 v2 驗收紀錄；交付本身是 DL-LW2-SHOP1V2）"
+  },
+  {
+   "sha": "9c827d1a",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WORK：HANDOFF 記錄 BB-B 驗收祐廷臉試做（交付本身是 DL-LW2-FACETEST）"
+  },
+  {
+   "sha": "abd8fc0b",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP（已涵蓋）：第一批招牌中途 WIP，成果是 DL-LW2-GGSIGNS（40b73c64，已整合待測試）"
+  },
+  {
+   "sha": "0125fac2",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP（已涵蓋）：機車 v2 中途，成果是 DL-LW2-SCOOTER2（f5b7bdb3，未整合）"
+  },
+  {
+   "sha": "5b958ad3",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP（已涵蓋）：機車 v2 第一批，成果是 DL-LW2-SCOOTER2（f5b7bdb3，未整合）"
+  },
+  {
+   "sha": "23f25a0f",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP（已涵蓋）：祐廷臉試做模型，交件是 DL-LW2-FACETEST（8496bf9d）"
+  },
+  {
+   "sha": "8623b91e",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP（已涵蓋）：祐廷臉試做對照表，交件是 DL-LW2-FACETEST（8496bf9d）"
+  },
+  {
+   "sha": "b75e50a5",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP 半成品（沒有交付）：ART-GG-SIGNS-2 約 85%，登記在 tasks.json ART-GG-SIGNS-2 與 WIP_INVENTORY_2026-10-17 第 4 節；交件時另外登記交付"
+  },
+  {
+   "sha": "01984198",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP 半成品（沒有交付）：ART-GG-SIGNS-2 原始檔（sign_atlas.py、貼圖集），同上"
+  },
+  {
+   "sha": "8a1af723",
+   "branch": "origin/claude/funny-albattani-iawshm",
+   "why": "WIP 半成品（沒有交付）：ART-04 黃金葛 S1～S4＋SCN-V3-01 dorm_y2_items.glb 約 60%，登記在兩個任務的 next 與 WIP_INVENTORY 第 4 節"
   }
  ]
 }

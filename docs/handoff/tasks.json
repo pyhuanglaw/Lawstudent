@@ -542,7 +542,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸本批問 LAWWW2-B",
+   "next": "【交班補強 2026-10-17】LAWWW2 WIP 8a1af723（prop_pothos.glb S1～S4、dorm_y2_items.glb，約 60%）：宿舍已換四人房，座標寫的是舊雙人房（推測要重新擺，未驗證）；還沒交付｜放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸本批問 LAWWW2-B",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -6958,7 +6958,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "SYS-06",
+   "next": "【交班補強 2026-10-17】LAWWW2 WIP 8a1af723（prop_pothos.glb S1～S4、dorm_y2_items.glb，約 60%）：宿舍已換四人房，座標寫的是舊雙人房（推測要重新擺，未驗證）；還沒交付｜SYS-06",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -13444,7 +13444,7 @@
    "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
-   "next": "LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
+   "next": "機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 5d5bb8aa 驗收通過，bb_support/scooter_shop_props.*）好了；4 張 2D 背景還沒開工｜LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13891,6 +13891,143 @@
    },
    "source": "LAWWW-B 交班（使用者 2026-10-17 02:3x 正式換班）",
    "authorized": "D83 三級測試"
+  },
+  {
+   "id": "ART-GG-SIGNS-2",
+   "title": "公館其餘招牌（S1～S17 全部 34 張設計稿）換進 gongguan_shops.glb＋貼圖集 2048×4096＋夜間發光",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "約 85%（b75e50a5 WIP、原始檔 01984198）：GLB＋測試 patch（docs/art-rebuild/second_ai/patches/gg_signs2_test.patch，只改 tests/gongguan_glb_integration.py）好了，LAWWW2-B 測試 ALL PASS 34。剩：前後截圖重拍（scratchpad 20 張遺失）、README 第二批、夜間目視、交 LAWWW、通知 BB-B。和 scooters_v2.patch 改同一個測試檔，要排順序",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 交接檔全部待辦【表外】；LAWWW-B 交班補強核對（2026-10-17）",
+   "authorized": "既有授權（交班補登）",
+   "xai": {
+    "spec": "BB-B DL-BB-GG-SIGNS-S17（2f5d4a3d）",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "GLB＋測試 patch＋前後截圖＋README",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-A1",
+   "title": "寒暑假活動既有美術資產盤點（只盤點不製作，交 AA-B）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "4e4f4f36 完成並交 AA-B（企劃線 eaa92b52 已收）；文件 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 funny 分支，參考用；建議複製進開發分支（D88）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "參考／美術",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 21:23 派（AA_199 第 0 節第九點）；LAWWW2-B 交接檔【表外】",
+   "authorized": "既有授權（交班補登）",
+   "xai": {
+    "spec": "AA_199 第 0 節第九點",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "七項逐一標有無＋路徑",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-SOP",
+   "title": "美術製作 SOP（ART_SOP.md v1、SCENE_RULES.md、sop_demo 示範案例）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "69e4b181、644a322f、5c6a0391 完成；開發分支只有 AI_SESSION_HANDOFF HV-9a 的入口，文件本身只在 funny 分支 docs/art-rebuild/second_ai/——下一班把三份複製進開發分支保存（D88：不要只存在一條分支）",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "參考／美術",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "使用者 2026-10-16 20:2x P0 方法交接；LAWWW2-B 交接檔【表外】",
+   "authorized": "既有授權（交班補登）",
+   "xai": {
+    "spec": "使用者 20:2x 方法交接",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "SOP＋示範案例",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-YUTING-FACETEST",
+   "title": "祐廷 3D 臉試做（BB_131 第 11 節）：vroid_yuting_facetest.vrm＋?facetest 選用 patch＋遊戲內對照表",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "8496bf9d 交件 READY_FOR_ART_REVIEW，BB-B 驗收通過（4d3e2757），等使用者決定用不用；模型 23f25a0f、對照表 8623b91e；patch docs/art-rebuild/second_ai/patches/assets3d_facetest.patch（開發分支 src/assets3d.js 124～125 行前後文還在）；tools/char_polish.py --facetest 不在開發分支。可以當 ?facetest 選用整合，不換預設",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "參考／美術",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB_131 第 11 節；LAWWW2-B 交接檔【表外】",
+   "authorized": "既有授權（交班補登）",
+   "xai": {
+    "spec": "BB_131 第 11 節",
+    "owner": "LAWWW2",
+    "branch": "claude/funny-albattani-iawshm",
+    "acceptance": "三距離×三時段×兩畫面對照；BB 驗收",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "LIC-GAPS-1017",
+   "title": "LICENSES.md 缺漏：ntu_gym_ceremony.webp、dorm_room4.glb（兩條分支都沒有）；gym_arena.glb、機車行道具組兩筆（只有 funny 有）",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "照各交付的來源與授權補列；機車行道具組跟 ART-BG-AA185 背景一起進開發分支時補",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "所有玩家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-B 交班補強核對（子代理比對兩條分支）",
+   "authorized": "既有授權（交班補登）"
   }
  ]
 }
