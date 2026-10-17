@@ -1,0 +1,31 @@
+PASS 遊戲載入
+PASS 引擎有 E.simWalk（第二十五批以後）
+  [前置／捷徑] 讀檔進 us_apartment（11:00，條件事件關閉）
+PASS us_apartment：出生點站得住  [0.4, 4]
+PASS us_apartment：14 個互動點都站得到、按鈕會出現、走得到  
+      
+PASS us_apartment：「坐下」走到椅子旁邊的點都走得到  
+      
+  [前置／捷徑] 讀檔進 us_outside（11:00，條件事件關閉）
+PASS us_outside：出生點站得住  [14, -14.5]
+PASS us_outside：3 個互動點都站得到、按鈕會出現、走得到  
+      
+  [前置／捷徑] 讀檔進 airport_dep（11:00，條件事件關閉）
+PASS airport_dep：出生點站得住  [4, 17.8]
+PASS airport_dep：76 個互動點都站得到、按鈕會出現、走得到  
+      
+PASS airport_dep：「坐下」走到椅子旁邊的點都走得到  
+      
+  [前置／捷徑] 讀檔進 airport_arr（11:00，條件事件關閉）
+PASS airport_arr：出生點站得住  [0, -10.8]
+PASS airport_arr：60 個互動點都站得到、按鈕會出現、走得到  
+      
+PASS airport_arr：「坐下」走到椅子旁邊的點都走得到  
+      
+PASS us_apartment：從別區進來的 1 個到達點站得住、走得到出生點  
+      
+PASS us_outside：從別區進來的 2 個到達點站得住、走得到出生點  
+      
+統計：4 個區域、153 個互動點、0 個劇情走路目的地、5 個出入口到達點
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -1,0 +1,379 @@
+diff --git a/index.html b/index.html
+index 40f83fe4..0b38fb61 100644
+--- a/index.html
++++ b/index.html
+@@ -212,6 +212,9 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/boya_layout.js?v=9.10"></script>
+ <script src="src/data/putong_layout.js?v=9.10"></script>
+ <script src="src/teach3d.js?v=9.10"></script>
++<script src="src/data/us_apartment_layout.js?v=9.10"></script>
++<script src="src/data/us_layouts.js?v=9.10"></script>
++<script src="src/us3d.js?v=9.10"></script>
+ <script src="src/audio3d.js?v=9.10"></script>
+ <script src="src/data/characters.js?v=9.10"></script>
+ <script src="src/data/portrait_manifest.js?v=9.10"></script>
+diff --git a/src/assets3d.js b/src/assets3d.js
+index b3f5846d..12270e37 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -93,6 +93,11 @@ const ASSETS = (function(){
+     'bldg.dorm_interior':{url:'assets/models/env/second_ai/dorm_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/dorm_interior.py（宿舍雙人房室內；配置照 zones3d.js dorm 區塊；書與雜物的顏色是頂點色；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'prop.street':{url:'assets/models/env/second_ai/street_props.glb', type:'building', source:'本作 Blender 腳本 tools/blender/env_second/street_props.py（淑女車、路燈、公園長椅：W3.bike／W3.lampPost／長椅的正式模型；開機時預載，W3 的函式同步複製；鐵絲網與鋼絲貼圖本作程式產生、長椅木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},   /* 這個不是 lazy（W3.lampPost()、W3.bike() 是同步建立的）；?nobldg 一樣會關掉 */
+     'bldg.lawlib_interior':{url:'assets/models/env/lawlib_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/lawlib_interior.py（萬才館 法律學院圖書館：一樓櫃台、自習區、討論室、影印室、U 形樓梯、二樓藏書；配置讀 src/data/lawlib_layout.js；書＝一格書模組＋GPU instancing，書背圖集 tools/blender/env_second/lawlib_atlas.py；第二個 AI 製作）', license:'本作；貼圖 Poly Haven CC0；書背的字用文泉驛正黑畫成點陣圖'},
++    'bldg.us_apartment':{url:'assets/models/env/second_ai/us_apartment.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_apartment.py（美國交換：公寓單人戶 1x1＋門外的戶外樓梯平台；配置 src/data/us_apartment_layout.js；家具 ART-US1～US4；LAWWW2-B／LAWWW2-C；區域 src/us3d.js）', license:'本作；貼圖 CC0'},
++    'bldg.us_community':{url:'assets/models/env/second_ai/us_community.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_community.py（美國交換：公寓社區 Linden Grove 戶外，三棟兩層樓、停車場、樹林；配置 us_community.layout.json；LAWWW2-C）', license:'本作；貼圖 CC0'},
++    'bldg.us_cars':{url:'assets/models/env/second_ai/us_cars.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/us_cars.py（美式汽車五款；沒有車牌、廠牌；LAWWW2-C）', license:'本作'},
++    'bldg.airport_dep':{url:'assets/models/env/second_ai/airport_dep.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/airport_t2.py（桃園機場第二航廈遊戲版：出境大廳＋下車處；航空公司、店名虛構；配置 airport_t2.layout.json；LAWWW2-C）', license:'本作；貼圖 CC0'},
++    'bldg.airport_arr':{url:'assets/models/env/second_ai/airport_arr.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/airport_t2.py（桃園機場第二航廈遊戲版：入境大廳；LAWWW2-C）', license:'本作；貼圖 CC0'},
+     'bldg.soclib_interior':{url:'assets/models/env/second_ai/soclib_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/soclib_interior.py（社會科學院 辜先生紀念圖書館一樓開架閱覽室：樹狀柱、天窗、竹製弧形書架、閱覽長桌、窗邊座位、服務台、閘門；配置讀 src/data/soclib_layout.js；第二個 AI 製作 ⑬）', license:'本作；貼圖 Poly Haven CC0'},
+     'bldg.campus_gongtong':{url:'assets/models/env/second_ai/campus_gongtong.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_gongtong.py（共同教學館外觀＋西側木造走廊；校園世界座標；一樓的拱廊柱子、門廊、本體範圍照 zones3d.js campus 區塊的 CK.hall（導航不用改）；外觀是依文字資料的遊戲化設計（土黃色面磚、樓板位置的豎貼面磚帶、洗石子拱窗、山牆青瓷花磚、三四樓逐層退縮），沒有照片；面磚、洗石子、屋瓦、花崗石、紅磚地、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'prop.bike_ride':{url:'assets/models/env/bike_ride.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/bike_ride.py（LAWWW2 ⑫：騎車用的淑女車，零件分開——frame、fork、wheel_f、wheel_r、crank、pedal_r、pedal_l；尺寸表 bike_ride.json；VISUAL_REVIEW（second_ai）第 19 節）；鋼絲與前籃鐵絲網的透明貼圖本作程式產生', license:'本作'},   /* 玩家騎的車（src/bike3d.js）；騎乘姿勢在 character3d.js 的 rideIK */
+diff --git a/src/data/us_apartment_layout.js b/src/data/us_apartment_layout.js
+new file mode 100644
+index 00000000..45dd19a4
+--- /dev/null
++++ b/src/data/us_apartment_layout.js
+@@ -0,0 +1,124 @@
++/* ===== 美國交換：校外學生公寓社區的單人房（大三下，D47）室內配置（LAWWW2-B 2026-10-16 提案 v2；還沒接進遊戲）=====
++   使用者 2026-10-16 直接指示：「美國宿舍不能沿用。美國宿舍我是住在自己租的社區。我租單人房，有自己房間、客廳、廚房。」
++   → 不是學校宿舍、沒有公用廚房：祐廷租校外學生公寓社區的「一房一廳一衛＋廚房＋陽台」（1x1）。
++   v2（同一天，使用者給了三張照片：客廳、社區外觀、廚房吧台；特徵整理在 docs/art-rebuild/second_ai/research/us_apartment_photos.md）：
++     - 大門外面是**戶外的樓梯平台**（breezeway：有屋頂、白柱子、欄杆，走下去是停車場），不是室內的地毯走廊；
++     - 廚房是**獨立的一間**，朝客廳的牆開一個窗口，窗口下是花崗石吧台，客廳這一側擺兩張黑色高腳椅；廚房旁邊是走道，走道底是大門；
++     - 客廳的窗和陽台的玻璃門在**同一面牆**，臥室的門開在客廳的側牆；客廳、廚房是木紋地板，臥室是地毯；
++     - 照片的左右和這份相反（照片裡走道在廚房右邊），不影響。
++   參考（查證，只取特徵，遊戲裡不寫真實社區名、地址、門牌，D77）：布魯明頓東邊的三層樓學生公寓社區；1x1 約 613 平方英尺（約 57 m²）、一房一衛；
++     有家具（黑色皮沙發、單人沙發、深色木茶几、電視櫃）、花崗石流理台、微波爐在爐子上方、洗碗機、屋內洗衣機烘衣機、陽台、吊扇；搭公車去校園。
++   這份配置給遊戲（LAWWW-B 建區域：導航格、互動點、出生點；格式比照 src/data/dorm_layout.js）和 Blender（tools/blender/env_second/us_apartment.py）共用。
++   必須是「const US_APARTMENT_LAYOUT=」後面接純 JSON。
++   座標：x 往東、z 往南；單位公尺；y 往上；地板 y=0、天花板 2.6。導航格 0.4 m，房間和牆的邊界放在「0.2 的奇數倍」（同 dorm_layout.js）。
++   yaw、ry：面向 (sin yaw, cos yaw)（同 engine3d.js 的 atan2(dx,dz)）——0＝面向南、π/2＝面向東、π＝面向北、−π/2＝面向西。（v1 把東西寫反了，v2 更正）
++   家具的 ry：模型正面（人坐下時面向、櫃子打開那一面）朝 +z，轉 ry。
++   配置（俯視，北在上）：
++         陽台（x −2.6～0.2）
++     ┌──────────────客廳──────────────┬────臥室────┐   z −3.0
++     │ 窗        玻璃門        電視    │ 窗   書桌   │
++     │ 沙發  茶几                      門      床   │
++     │ ▔▔吧台▔▔（高腳椅）   走道        │ 門     門   │   z  1.0
++     ├──廚房──────┬窗口┬─┤  ↓    ├櫃┬──衛浴──┼─衣物間─┤
++     │ 冰箱 爐子 水槽 洗碗機 │ 走道 │洗│        │      │
++     └───────────────┴─大門─┴衣┴────────┴──────┘   z  3.0
++            戶外樓梯平台（有屋頂、欄杆；東邊是往下的樓梯 → 停車場）       z 3.0～5.0
++   浴室從臥室進（使用者 2026-10-16 回答）；走道旁的小空間是衣帽櫃。學姊住同一個社區的合租單位（AA-B 8f9408eb），
++   她的廚房（US2）是另外一個配置（照片三那種多房的單位：客廳＋窗口吧台，臥室門上有 A、B），之後另一份檔案。 */
++const US_APARTMENT_LAYOUT={
++  "version":2,
++  "W":15.2, "D":10.4, "cell":0.4, "wallT":0.2, "ceilY":2.6,
++  "unit":{"x0":-4.6,"x1":5.0,"z0":-3.0,"z1":3.0},
++  "balcony":{"x0":-2.6,"x1":0.2,"z0":-4.6,"z1":-3.0,"rail":1.05,"railMat":"wood_brown","note":"內凹的陽台：兩側是外牆，前面是咖啡色木欄杆（外觀照片）"},
++  "breezeway":{"x0":-2.6,"x1":2.2,"z0":3.0,"z1":5.0,"floor":"concrete","roof":true,"rail":{"side":"S","h":1.05,"mat":"white_metal"},
++    "posts":[[-2.4,4.85],[2.0,4.85]],"stairs":{"x0":2.2,"x1":5.0,"z0":3.4,"z1":4.6,"dir":"E","down":true,"note":"往下到停車場（畫面上看得到第一段；走到平台東端就出門）"},
++    "note":"戶外樓梯平台：有屋頂、白柱子、欄杆；看出去是停車場、對面的公寓、樹林。牆上一盞壁燈、門牌"},
++  "rooms":[
++    {"id":"living","x0":-4.6,"x1":1.4,"z0":-3.0,"z1":1.0,"floor":"wood","name":"客廳"},
++    {"id":"kitchen","x0":-4.6,"x1":-1.8,"z0":1.0,"z1":3.0,"floor":"wood","name":"廚房"},
++    {"id":"hallway","x0":-1.8,"x1":-0.2,"z0":1.0,"z1":3.0,"floor":"wood","name":"走道"},
++    {"id":"coat","x0":-0.2,"x1":0.6,"z0":1.0,"z1":1.8,"floor":"wood","name":"衣帽櫃","walk":false,"note":"門開在走道那一側"},
++    {"id":"laundry","x0":-0.2,"x1":0.6,"z0":1.8,"z1":3.0,"floor":"wood","name":"洗衣機櫃","walk":false},
++    {"id":"bath","x0":0.6,"x1":3.0,"z0":1.0,"z1":3.0,"floor":"tile","name":"衛浴"},
++    {"id":"closet","x0":3.0,"x1":5.0,"z0":1.0,"z1":3.0,"floor":"carpet","name":"衣物間"},
++    {"id":"bedroom","x0":1.4,"x1":5.0,"z0":-3.0,"z1":1.0,"floor":"carpet","name":"臥室"}
++  ],
++  "walls":[
++    {"note":"外牆＋隔間（遊戲依這些擋導航；Blender 照這些蓋）。open＝牆上的開口 [a,b]（沿牆的座標）；sill／head＝開口的下緣、上緣（沒寫就是落地、門高 2.05）","list":[
++      {"id":"N","axis":"x","at":-3.0,"from":-4.6,"to":5.0,"open":[[-3.8,-2.6,"window"],[-1.4,-0.6,"patioDoor"],[2.6,3.8,"window"]],"fade":true,"dir":[0,0,1]},
++      {"id":"S","axis":"x","at":3.0,"from":-4.6,"to":5.0,"open":[[-1.4,-0.6,"frontDoor"]],"note":"南牆＝樓梯平台那一面（不淡出：鏡頭在平台時才看得到大門）"},
++      {"id":"W","axis":"z","at":-4.6,"from":-3.0,"to":3.0,"fade":true,"dir":[1,0,0]},
++      {"id":"E","axis":"z","at":5.0,"from":-3.0,"to":3.0,"fade":true,"dir":[-1,0,0]},
++      {"id":"kit_n","axis":"x","at":1.0,"from":-4.6,"to":-1.8,"open":[[-4.2,-2.2,"passThrough"]],"sill":1.05,"head":2.05,"note":"廚房朝客廳的牆：窗口下緣 1.05（吧台），上緣 2.05；窗口上方看得到廚房的吊櫃"},
++      {"id":"kit_e","axis":"z","at":-1.8,"from":1.0,"to":3.0,"open":[[1.4,2.2,"kitchenDoor"]],"note":"廚房從走道進（沒有門板）"},
++      {"id":"lau_w","axis":"z","at":-0.2,"from":1.0,"to":3.0,"open":[[1.0,1.8,"coatDoor"],[1.8,3.0,"laundryDoors"]],"note":"走道東牆：衣帽櫃的門、洗衣機櫃的百葉摺門（都關著，導航擋住）"},
++      {"id":"coat_n","axis":"x","at":1.0,"from":-0.2,"to":0.6,"note":"衣帽櫃的北牆（客廳那一面）"},
++      {"id":"lau_n","axis":"x","at":1.8,"from":-0.2,"to":0.6},
++      {"id":"bath_w","axis":"z","at":0.6,"from":1.0,"to":3.0},
++      {"id":"bath_n","axis":"x","at":1.0,"from":0.6,"to":5.0,"open":[[1.8,2.6,"bathDoor"],[3.4,4.2,"closetDoor"]],"fade":true,"dir":[0,0,-1],"note":"衛浴＋衣物間的北牆（臥室那一面）：浴室、衣物間的門都從臥室開（使用者 10-16：浴室從臥室進去）"},
++      {"id":"bath_e","axis":"z","at":3.0,"from":1.0,"to":3.0},
++      {"id":"tub_e","axis":"z","at":2.22,"from":2.17,"to":3.0,"note":"浴缸東端的短牆（美國的浴缸通常三面是牆；ART-US4 的浴簾桿東端靠這裡；AA-B 問、LAWWW2-B 13:2x 選 a）"},
++      {"id":"bed_w","axis":"z","at":1.4,"from":-3.0,"to":1.0,"open":[[-1.0,-0.2,"bedroomDoor"]],"fade":true,"dir":[1,0,0],"note":"臥室西牆＝客廳的東牆（照片一：臥室門在客廳右邊的牆，門開著看得到床）"},
++      {"id":"bal_w","axis":"z","at":-2.6,"from":-4.6,"to":-3.0,"note":"陽台兩側的外牆"},
++      {"id":"bal_e","axis":"z","at":0.2,"from":-4.6,"to":-3.0}
++    ]}
++  ],
++  "doors":[
++    {"id":"front","x":-1.0,"z":3.0,"w":0.9,"label":"大門","plate":"214","openDoor":true,"style":"sixPanelWhite","note":"門號虛構；門外是樓梯平台"},
++    {"id":"bedroom","x":1.4,"z":-0.6,"w":0.8,"axis":"z","label":"臥室","openDoor":true,"style":"sixPanelWhite"},
++    {"id":"bath","x":2.2,"z":1.0,"w":0.8,"label":"衛浴","closed":"衛浴。","style":"sixPanelWhite","note":"從臥室進"},
++    {"id":"coat","x":-0.2,"z":1.4,"w":0.8,"axis":"z","label":"衣帽櫃","closed":"衣帽櫃。羽絨外套、雪靴。","style":"sixPanelWhite"},
++    {"id":"closet","x":3.8,"z":1.0,"w":0.8,"label":"衣物間","closed":"衣物間。行李箱還塞在最裡面。","style":"sixPanelWhite"},
++    {"id":"laundry","x":-0.2,"z":2.4,"w":1.2,"axis":"z","label":"洗衣機","closed":"洗衣機和烘衣機疊在一起。","style":"louverBifold"},
++    {"id":"patio","x":-1.0,"z":-3.0,"w":0.8,"label":"陽台","glass":true,"note":"單扇的玻璃門（整片玻璃＋百葉），不是拉門"},
++    {"id":"n213","x":-2.6,"z":4.0,"w":0.9,"axis":"z","label":"213","plate":"213","closed":"213。門關著。","breezeway":true}
++  ],
++  "windows":[
++    {"room":"living","side":"N","x0":-3.8,"x1":-2.6,"y0":0.9,"y1":2.1,"blinds":true,"curtains":"黑白圓圈圖案的落地窗簾（照片一）"},
++    {"room":"living","side":"N","x0":-1.4,"x1":-0.6,"y0":0.0,"y1":2.05,"door":"patio","blinds":true},
++    {"room":"bedroom","side":"N","x0":2.6,"x1":3.8,"y0":0.9,"y1":2.1,"blinds":true}
++  ],
++  "exit":{"x":2.0,"z":4.0,"r":1.0,"label":"下樓（停車場）","to":"us_outside","note":"平台東端的樓梯；外面是社區的停車場、公車站（之後的區域）"},
++  "spawns":{
++    "fromOutside":{"x":0.4,"z":4.0,"yaw":-1.5708,"note":"從外面回來：剛爬上樓梯，面向西（看得到大門）"},
++    "entry":{"x":-1.0,"z":2.2,"yaw":3.1416,"note":"一進門：走道，面向北（客廳）"},
++    "bedroom":{"x":2.4,"z":-1.0,"yaw":1.5708,"note":"早上醒來：床尾，面向東（床）；床尾的被子垂到 x 2.73，人的半徑 0.33，所以站 2.4"}
++  },
++  "furniture":[
++    {"type":"fridge","room":"kitchen","x":-4.2,"z":1.8,"w":0.8,"d":0.75,"ry":1.5708,"use":"fridge","note":"白色"},
++    {"type":"counterRun","room":"kitchen","x0":-4.6,"x1":-1.8,"z0":2.4,"z1":3.0,"h":0.92,"note":"南牆的流理台（西南角是轉角櫃）：花崗石檯面（深色斑點）、楓木色上下櫃"},
++    {"type":"range","room":"kitchen","x":-3.4,"z":2.7,"ry":3.1416,"use":"cook","note":"爐子＋烤箱，上面微波爐（照片三）"},
++    {"type":"sink","room":"kitchen","x":-2.7,"z":2.7,"ry":3.1416},
++    {"type":"dishwasher","room":"kitchen","x":-2.1,"z":2.7,"ry":3.1416},
++    {"type":"passShelf","room":"kitchen","x0":-4.0,"x1":-2.2,"z":1.15,"h":1.05,"note":"窗口內側的檯面（廚房那一邊）"},
++    {"type":"breakfastBar","room":"living","x0":-4.1,"x1":-2.1,"z":0.82,"d":0.36,"h":1.05,"note":"窗口外側的吧台（花崗石，客廳這一側懸出）"},
++    {"type":"barStool","room":"living","x":-3.6,"z":0.4,"ry":0,"seat":true,"seatY":0.76,"note":"黑色椅面、鍍鉻腳（照片三）"},
++    {"type":"barStool","room":"living","x":-2.6,"z":0.4,"ry":0,"seat":true,"seatY":0.76},
++    {"type":"sofa","room":"living","x":-4.15,"z":-1.2,"w":2.0,"d":0.9,"ry":1.5708,"seat":true,"note":"黑色皮沙發，靠西牆、面向東"},
++    {"type":"endTable","room":"living","x":-4.25,"z":-2.55,"note":"沙發旁的小桌＋桌燈（黑色底座、圖案燈罩）"},
++    {"type":"armchair","room":"living","x":-3.2,"z":-2.4,"ry":0.8,"seat":true,"note":"黑色皮單人沙發，窗邊的角落"},
++    {"type":"coffeeTable","room":"living","x":-3.0,"z":-1.2,"w":0.6,"d":1.1,"note":"深色木頭"},
++    {"type":"rug","room":"living","x":-3.1,"z":-1.2,"w":2.0,"d":2.6,"note":"橘紅色的地毯"},
++    {"type":"ladderShelf","room":"living","x":-0.1,"z":-2.85,"note":"黑色的梯子形壁架（玻璃門和電視之間）"},
++    {"type":"tvStand","room":"living","x":0.8,"z":-2.4,"w":1.1,"ry":-1.33,"note":"角落、斜放，面向沙發；黑色"},
++    {"type":"ceilingFan","room":"living","x":-1.6,"z":-1.0,"note":"白色五葉＋四個燈罩（照片一、三）"},
++    {"type":"thermostat","room":"living","x":1.3,"z":0.4,"y":1.5,"ry":-1.5708},
++    {"type":"bed","room":"bedroom","x":3.93,"z":-1.0,"w":1.4,"d":2.0,"ry":-1.5708,"use":"sleep","note":"Full；床頭靠東牆（床頭板貼東牆的室內面：x 3.93）、床尾朝西（模型的床尾朝 +z）；灰白人字紋被子（照片一）"},
++    {"type":"nightstand","room":"bedroom","x":4.7,"z":-2.1,"ry":-1.5708,"note":"黑色方格櫃；開口朝西（和床尾同方向；BB-B ART-US3 建議，LAWWW2-B 同意）"},
++    {"type":"desk","room":"bedroom","x":3.2,"z":-2.66,"w":1.2,"d":0.55,"ry":0,"use":"study","note":"北窗下（背面貼北牆的室內面）"},
++    {"type":"deskChair","room":"bedroom","x":3.2,"z":-2.15,"ry":3.1416,"seat":true,"note":"往北 5 cm：離床的被子留空隙"},
++    {"type":"ceilingLight","room":"bedroom","x":3.2,"z":-1.0,"note":"吸頂燈（照片一的臥室看得到）"},
++    {"type":"suitcase","room":"bedroom","x":2.12,"z":-2.45,"w":0.95,"d":0.99,"ry":0,"cx":-0.21,"cz":0.065,"note":"還沒拆完的行李箱，攤平在地上（BB-B ART-US3：蓋子在西邊，整體 x −0.68～+0.27、z −0.43～+0.56；cx、cz＝佔地中心相對原點的位移）；原本 (1.8,−2.55) ry 0.4 蓋子會穿過西牆"},
++    {"type":"tub","room":"bath","x0":0.6,"x1":2.16,"z0":2.17,"z1":3.0,"note":"浴缸淋浴兩用（南牆）"},
++    {"type":"toilet","room":"bath","x":0.95,"z":1.45,"ry":1.5708,"note":"靠西牆、面向東"},
++    {"type":"vanity","room":"bath","x0":2.45,"x1":3.0,"z0":1.4,"z1":2.6,"note":"洗手台＋鏡子（東牆、面向西）"},
++    {"type":"closetRods","room":"closet","note":"吊衣桿、層架"},
++    {"type":"washerDryer","room":"laundry","x":0.2,"z":2.4,"note":"上下疊"},
++    {"type":"balconyChairs","x":-1.6,"z":-4.1,"n":2,"chairs":[[-2.15,-4.1,0.2],[-1.05,-4.1,-0.2]],"table":{"x":-1.6,"z":-4.15,"r":0.3},"note":"ART-US4：兩張木條折疊椅面向欄杆（chairs＝x、z、轉角），中間小圓桌（直徑 0.6）"},
++    {"type":"breezewaySconce","x":-0.2,"z":3.05,"y":2.0},
++    {"type":"doorMat","x":-1.0,"z":3.4}
++  ],
++  "materials":{"note":"照片（使用者 2026-10-16）的顏色，Blender 用 Poly Haven 貼圖再調色","wall":"暖米色（客廳偏米黃、廚房走道偏奶油白）","trim":"白色踢腳板、門框；白色六格門板","floor":"木紋地板（紅棕色，Poly Haven laminate_floor_02 調暖）","bedroom":"米灰色地毯","counter":"深色花崗石","cabinet":"楓木色","ceiling":"白色；走道上方有一段降板（照片三）"},
++  "eventProps":{"note":"US2（學姊煮泡麵）在學姊的合租單位，不在這裡（AA-B 8f9408eb）。這裡之後可能有祐廷自己煮飯、視訊、寫報告的道具，等企劃"},
++  "season":{"note":"窗景、陽台的積雪兩套：雪（1～3 月）、春（4～6 月）；日／夜各一張。窗外是社區的停車場、對面同樣的灰褐色壁板公寓、遠一點的樹林"}
++};
+diff --git a/src/data/us_layouts.js b/src/data/us_layouts.js
+new file mode 100644
+index 00000000..a1276825
+--- /dev/null
++++ b/src/data/us_layouts.js
+@@ -0,0 +1,5 @@
++/* ===== 美國交換（公寓社區戶外）、桃園機場第二航廈的配置：tools/blender/env_second/gen_us_layouts.py 產生，不要手改 =====
++   來源：assets/models/env/second_ai/us_community.layout.json、assets/models/env/second_ai/airport_t2.layout.json（Blender 正式模型讀同一份）。
++   座標：區域座標 x 往東、z 往南、y 往上；單位公尺。遊戲端：src/us3d.js。 */
++const US_COMMUNITY_LAYOUT={"version":1,"bounds":{"x0":-42.0,"x1":42.0,"z0":-32.0,"z1":32.0},"floorH":2.9,"floors":2,"buildings":[{"id":"A","cx":-25.0,"cz":-22.5,"len":28.0,"dep":13.0,"yaw":0.0,"gables":3,"breezeway":[-4.0],"tint":"#777566"},{"id":"B","cx":8.0,"cz":-22.5,"len":32.0,"dep":13.0,"yaw":0.0,"gables":4,"breezeway":[-8.0,6.0],"tint":"#6d6c5f","home":true},{"id":"C","cx":33.5,"cz":6.0,"len":26.0,"dep":13.0,"yaw":-1.5707963267948966,"gables":3,"breezeway":[2.0],"tint":"#8c8572"}],"lot":{"x0":-34.0,"x1":24.0,"z0":-10.0,"z1":10.0},"stall":{"w":2.7,"d":5.5,"aisle":7.0},"stalls":[{"x":-31.65,"z":-6.95,"face":1},{"x":-28.95,"z":-6.95,"face":1},{"x":-26.25,"z":-6.95,"face":1},{"x":-23.55,"z":-6.95,"face":1},{"x":-20.85,"z":-6.95,"face":1},{"x":-18.15,"z":-6.95,"face":1},{"x":-15.45,"z":-6.95,"face":1},{"x":-12.75,"z":-6.95,"face":1},{"x":-10.05,"z":-6.95,"face":1},{"x":-7.35,"z":-6.95,"face":1},{"x":-4.65,"z":-6.95,"face":1},{"x":-1.95,"z":-6.95,"face":1},{"x":0.75,"z":-6.95,"face":1},{"x":3.45,"z":-6.95,"face":1},{"x":6.15,"z":-6.95,"face":1},{"x":8.85,"z":-6.95,"face":1},{"x":11.55,"z":-6.95,"face":1},{"x":14.25,"z":-6.95,"face":1},{"x":16.95,"z":-6.95,"face":1},{"x":19.65,"z":-6.95,"face":1},{"x":-31.65,"z":6.95,"face":-1},{"x":-28.95,"z":6.95,"face":-1},{"x":-26.25,"z":6.95,"face":-1},{"x":-23.55,"z":6.95,"face":-1},{"x":-20.85,"z":6.95,"face":-1},{"x":-18.15,"z":6.95,"face":-1},{"x":-15.45,"z":6.95,"face":-1},{"x":-12.75,"z":6.95,"face":-1},{"x":-10.05,"z":6.95,"face":-1},{"x":-7.35,"z":6.95,"face":-1},{"x":-4.65,"z":6.95,"face":-1},{"x":-1.95,"z":6.95,"face":-1},{"x":0.75,"z":6.95,"face":-1},{"x":3.45,"z":6.95,"face":-1},{"x":6.15,"z":6.95,"face":-1},{"x":8.85,"z":6.95,"face":-1},{"x":11.55,"z":6.95,"face":-1},{"x":14.25,"z":6.95,"face":-1},{"x":16.95,"z":6.95,"face":-1},{"x":19.65,"z":6.95,"face":-1}],"cars":[{"x":-31.724,"z":-7.072,"yaw":-0.015,"kind":"car_pickup","color":"#1f2f4f"},{"x":-28.875,"z":-6.901,"yaw":0.0278,"kind":"car_hatch","color":"#f2f2ef"},{"x":-26.231,"z":-7.022,"yaw":0.0185,"kind":"car_pickup","color":"#b8b2a5"},{"x":-20.858,"z":-6.965,"yaw":0.0001,"kind":"car_sedan","color":"#c9ccd0"},{"x":-18.236,"z":-7.056,"yaw":-0.0081,"kind":"car_sedan","color":"#3d4a3c"},{"x":-15.383,"z":-7.007,"yaw":-0.038,"kind":"car_sedan","color":"#f2f2ef"},{"x":-12.632,"z":-7.065,"yaw":-0.0141,"kind":"car_suv","color":"#1f2f4f"},{"x":-10.145,"z":-7.062,"yaw":-0.0173,"kind":"car_minivan","color":"#2b2d30"},{"x":-7.234,"z":-7.09,"yaw":-0.0367,"kind":"car_suv","color":"#8d9196"},{"x":-1.918,"z":-7.034,"yaw":0.0038,"kind":"car_sedan","color":"#f2f2ef"},{"x":0.704,"z":-7.065,"yaw":-0.0278,"kind":"car_suv","color":"#2b2d30"},{"x":3.366,"z":-6.835,"yaw":0.01,"kind":"car_hatch","color":"#2b2d30"},{"x":6.248,"z":-6.859,"yaw":0.0043,"kind":"car_suv","color":"#b8b2a5"},{"x":11.648,"z":-7.082,"yaw":0.0293,"kind":"car_hatch","color":"#c9ccd0"},{"x":14.349,"z":-6.902,"yaw":0.0133,"kind":"car_sedan","color":"#1f2f4f"},{"x":16.87,"z":-6.88,"yaw":-0.0315,"kind":"car_suv","color":"#8d9196"},{"x":19.583,"z":-6.89,"yaw":-0.0037,"kind":"car_sedan","color":"#8d9196"},{"x":-28.937,"z":6.828,"yaw":3.1792,"kind":"car_suv","color":"#7a1f24"},{"x":-26.191,"z":6.972,"yaw":3.119,"kind":"car_sedan","color":"#2b2d30"},{"x":-20.755,"z":7.077,"yaw":3.1477,"kind":"car_pickup","color":"#c9ccd0"},{"x":-18.174,"z":7.035,"yaw":3.1413,"kind":"car_suv","color":"#2b2d30"},{"x":-15.392,"z":6.864,"yaw":3.1764,"kind":"car_pickup","color":"#3d4a3c"},{"x":-12.862,"z":6.836,"yaw":3.1243,"kind":"car_pickup","color":"#c9ccd0"},{"x":-9.941,"z":7.09,"yaw":3.1301,"kind":"car_sedan","color":"#3d4a3c"},{"x":-7.285,"z":6.913,"yaw":3.1578,"kind":"car_suv","color":"#2b2d30"},{"x":-4.724,"z":7.04,"yaw":3.1603,"kind":"car_minivan","color":"#7a1f24"},{"x":-1.894,"z":7.007,"yaw":3.1581,"kind":"car_minivan","color":"#2b2d30"},{"x":8.834,"z":7.085,"yaw":3.1087,"kind":"car_minivan","color":"#c9ccd0"}],"sidewalk":{"w":1.8},"spawn_home":{"x":14.0,"z":-14.5,"yaw":0.0,"note":"213 樓梯平台往下的樓梯口（us_apartment 的 exit to us_outside）：樓梯間在正中間一跑直上二樓，樓梯腳在樓梯間前緣；出生點在入口白鐵欄杆外面、面向停車場"},"to_home":{"x":14.0,"z":-16.4,"r":1.0,"label":"上樓（213）","to":"us_apartment"},"breezeway_geom":{"w":4.4,"depth":6.0,"stair_w":1.4,"stair_from_front":0.2,"tread":0.25,"steps":18,"landing_depth":1.3,"note":"樓梯間（區域座標：正面往內 6 m）；樓梯在正中間、從前緣往內 0.2 m 開始往後爬到二樓平台；一樓兩側牆後段各一戶的門、二樓平台後牆兩戶的門；入口走道兩側白鐵欄杆（x＝中心±1.25、正面往外 0.2～1.2 m）"},"exit_west":{"x":-40.0,"z":0.0,"r":1.6,"label":"社區出口（往公車站）","to":"us_bus_stop"},"forest":{"z0":18.0,"z1":32.0,"note":"南邊成片的大樹：近的幾棵是模型、後面是一排樹的剪影（走不到）"},"props":[{"type":"mailboxes","x":-6.0,"z":-12.6,"yaw":0.0},{"type":"dumpster","x":-38.0,"z":-12.0,"yaw":1.5708},{"type":"bikerack","x":18.0,"z":-12.6,"yaw":0.0},{"type":"bench","x":26.0,"z":14.0,"yaw":-1.5708},{"type":"lamp","x":-30.0,"z":-10.6,"yaw":0.0},{"type":"lamp","x":-30.0,"z":10.6,"yaw":3.1416},{"type":"lamp","x":-14.0,"z":-10.6,"yaw":0.0},{"type":"lamp","x":-14.0,"z":10.6,"yaw":3.1416},{"type":"lamp","x":2.0,"z":-10.6,"yaw":0.0},{"type":"lamp","x":2.0,"z":10.6,"yaw":3.1416},{"type":"lamp","x":18.0,"z":-10.6,"yaw":0.0},{"type":"lamp","x":18.0,"z":10.6,"yaw":3.1416},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"A","local":[-12.0,7.1]},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"A","local":[12.0,7.1]},{"type":"meters","x":0.0,"z":0.0,"yaw":0.0,"building":"A","local":[-6.4,6.55]},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"B","local":[-14.0,7.1]},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"B","local":[14.0,7.1]},{"type":"meters","x":0.0,"z":0.0,"yaw":0.0,"building":"B","local":[-10.4,6.55]},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"C","local":[-11.0,7.1]},{"type":"ac_unit","x":0.0,"z":0.0,"yaw":0.0,"building":"C","local":[11.0,7.1]},{"type":"meters","x":0.0,"z":0.0,"yaw":0.0,"building":"C","local":[-0.3999999999999999,6.55]}],"trees":[{"x":-32.0,"z":12.2,"kind":"young","h":3.67},{"x":-27.8,"z":12.2,"kind":"young","h":4.21},{"x":-23.6,"z":12.2,"kind":"young","h":3.73},{"x":-19.4,"z":12.2,"kind":"young","h":3.94},{"x":-15.2,"z":12.2,"kind":"young","h":4.34},{"x":-11.0,"z":12.2,"kind":"young","h":4.25},{"x":-6.8,"z":12.2,"kind":"young","h":4.24},{"x":-2.6,"z":12.2,"kind":"young","h":3.49},{"x":1.6,"z":12.2,"kind":"young","h":3.22},{"x":5.8,"z":12.2,"kind":"young","h":4.07},{"x":10.0,"z":12.2,"kind":"young","h":3.86},{"x":14.2,"z":12.2,"kind":"young","h":4.37},{"x":18.4,"z":12.2,"kind":"young","h":4.21},{"x":22.6,"z":12.2,"kind":"young","h":4.35},{"x":-39.844,"z":24.914,"kind":"big","h":11.2},{"x":-35.139,"z":24.542,"kind":"big","h":14.1},{"x":-30.305,"z":24.195,"kind":"big","h":14.9},{"x":-25.715,"z":24.127,"kind":"big","h":15.6},{"x":-20.497,"z":21.453,"kind":"big","h":13.5},{"x":-16.809,"z":21.645,"kind":"big","h":13.6},{"x":-11.975,"z":21.83,"kind":"big","h":13.7},{"x":-6.928,"z":23.507,"kind":"big","h":11.9},{"x":-2.225,"z":24.038,"kind":"big","h":16.3},{"x":2.664,"z":25.775,"kind":"big","h":11.1},{"x":7.159,"z":21.784,"kind":"big","h":15.8},{"x":12.357,"z":21.142,"kind":"big","h":15.0},{"x":15.564,"z":26.728,"kind":"big","h":17.0},{"x":21.019,"z":26.391,"kind":"big","h":14.2},{"x":24.879,"z":23.537,"kind":"big","h":11.2},{"x":30.31,"z":26.176,"kind":"big","h":12.3},{"x":33.946,"z":25.064,"kind":"big","h":15.0},{"x":39.561,"z":21.747,"kind":"big","h":13.5}],"blocks":[{"x0":-39.0,"x1":-31.2,"z0":-29.0,"z1":-16.0,"why":"building A"},{"x0":-31.2,"x1":-26.8,"z0":-29.0,"z1":-22.0,"why":"building A (behind breezeway)"},{"x0":-29.75,"x1":-28.25,"z0":-20.75,"z1":-16.6,"why":"breezeway stair (to_home at its foot)"},{"x0":-30.31,"x1":-30.19,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":-27.81,"x1":-27.69,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":-26.8,"x1":-11.0,"z0":-29.0,"z1":-16.0,"why":"building A"},{"x0":-38.5,"x1":-32.3,"z0":-16.0,"z1":-14.85,"why":"shrubs"},{"x0":-25.5,"x1":-11.5,"z0":-16.0,"z1":-14.85,"why":"shrubs"},{"x0":-8.0,"x1":-2.2,"z0":-29.0,"z1":-16.0,"why":"building B"},{"x0":-2.2,"x1":2.2,"z0":-29.0,"z1":-22.0,"why":"building B (behind breezeway)"},{"x0":-0.75,"x1":0.75,"z0":-20.75,"z1":-16.6,"why":"breezeway stair (to_home at its foot)"},{"x0":-1.31,"x1":-1.19,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":1.19,"x1":1.31,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":2.2,"x1":11.8,"z0":-29.0,"z1":-16.0,"why":"building B"},{"x0":11.8,"x1":16.2,"z0":-29.0,"z1":-22.0,"why":"building B (behind breezeway)"},{"x0":13.25,"x1":14.75,"z0":-20.75,"z1":-16.6,"why":"breezeway stair (to_home at its foot)"},{"x0":12.69,"x1":12.81,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":15.19,"x1":15.31,"z0":-15.85,"z1":-14.75,"why":"entry rail"},{"x0":16.2,"x1":24.0,"z0":-29.0,"z1":-16.0,"why":"building B"},{"x0":-7.5,"x1":-3.3,"z0":-16.0,"z1":-14.85,"why":"shrubs"},{"x0":3.5,"x1":10.7,"z0":-16.0,"z1":-14.85,"why":"shrubs"},{"x0":17.5,"x1":23.5,"z0":-16.0,"z1":-14.85,"why":"shrubs"},{"x0":27.0,"x1":40.0,"z0":-7.0,"z1":5.8,"why":"building C"},{"x0":33.0,"x1":40.0,"z0":5.8,"z1":10.2,"why":"building C (behind breezeway)"},{"x0":27.6,"x1":31.75,"z0":7.25,"z1":8.75,"why":"breezeway stair (to_home at its foot)"},{"x0":25.75,"x1":26.85,"z0":6.69,"z1":6.81,"why":"entry rail"},{"x0":25.75,"x1":26.85,"z0":9.19,"z1":9.31,"why":"entry rail"},{"x0":27.0,"x1":40.0,"z0":10.2,"z1":19.0,"why":"building C"},{"x0":25.85,"x1":27.0,"z0":-6.5,"z1":4.7,"why":"shrubs"},{"x0":25.85,"x1":27.0,"z0":11.5,"z1":18.5,"why":"shrubs"},{"x0":-7.35,"x1":-4.65,"z0":-13.05,"z1":-12.15,"why":"mailboxes"},{"x0":-39.35,"x1":-36.65,"z0":-13.5,"z1":-10.5,"why":"dumpster"},{"x0":16.85,"x1":19.15,"z0":-13.0,"z1":-12.2,"why":"bikerack"},{"x0":25.0,"x1":27.0,"z0":13.65,"z1":14.35,"why":"bench"},{"x0":-30.3,"x1":-29.7,"z0":-10.9,"z1":-10.3,"why":"lamp"},{"x0":-30.3,"x1":-29.7,"z0":10.3,"z1":10.9,"why":"lamp"},{"x0":-14.3,"x1":-13.7,"z0":-10.9,"z1":-10.3,"why":"lamp"},{"x0":-14.3,"x1":-13.7,"z0":10.3,"z1":10.9,"why":"lamp"},{"x0":1.7,"x1":2.3,"z0":-10.9,"z1":-10.3,"why":"lamp"},{"x0":1.7,"x1":2.3,"z0":10.3,"z1":10.9,"why":"lamp"},{"x0":17.7,"x1":18.3,"z0":-10.9,"z1":-10.3,"why":"lamp"},{"x0":17.7,"x1":18.3,"z0":10.3,"z1":10.9,"why":"lamp"},{"x0":-32.3,"x1":-31.7,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-28.1,"x1":-27.5,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-23.9,"x1":-23.3,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-19.7,"x1":-19.1,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-15.5,"x1":-14.9,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-11.3,"x1":-10.7,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-7.1,"x1":-6.5,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-2.9,"x1":-2.3,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":1.3,"x1":1.9,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":5.5,"x1":6.1,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":9.7,"x1":10.3,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":13.9,"x1":14.5,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":18.1,"x1":18.7,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":22.3,"x1":22.9,"z0":11.9,"z1":12.5,"why":"tree young"},{"x0":-40.294,"x1":-39.394,"z0":24.464,"z1":25.364,"why":"tree big"},{"x0":-35.589,"x1":-34.689,"z0":24.092,"z1":24.992,"why":"tree big"},{"x0":-30.755,"x1":-29.855,"z0":23.745,"z1":24.645,"why":"tree big"},{"x0":-26.165,"x1":-25.265,"z0":23.677,"z1":24.577,"why":"tree big"},{"x0":-20.947,"x1":-20.047,"z0":21.003,"z1":21.903,"why":"tree big"},{"x0":-17.259,"x1":-16.359,"z0":21.195,"z1":22.095,"why":"tree big"},{"x0":-12.425,"x1":-11.525,"z0":21.38,"z1":22.28,"why":"tree big"},{"x0":-7.378,"x1":-6.478,"z0":23.057,"z1":23.957,"why":"tree big"},{"x0":-2.675,"x1":-1.775,"z0":23.588,"z1":24.488,"why":"tree big"},{"x0":2.214,"x1":3.114,"z0":25.325,"z1":26.225,"why":"tree big"},{"x0":6.709,"x1":7.609,"z0":21.334,"z1":22.234,"why":"tree big"},{"x0":11.907,"x1":12.807,"z0":20.692,"z1":21.592,"why":"tree big"},{"x0":15.114,"x1":16.014,"z0":26.278,"z1":27.178,"why":"tree big"},{"x0":20.569,"x1":21.469,"z0":25.941,"z1":26.841,"why":"tree big"},{"x0":24.429,"x1":25.329,"z0":23.087,"z1":23.987,"why":"tree big"},{"x0":29.86,"x1":30.76,"z0":25.726,"z1":26.626,"why":"tree big"},{"x0":33.496,"x1":34.396,"z0":24.614,"z1":25.514,"why":"tree big"},{"x0":39.111,"x1":40.011,"z0":21.297,"z1":22.197,"why":"tree big"},{"x0":-42.0,"x1":42.0,"z0":27.5,"z1":32.0,"why":"forest belt S"},{"x0":39.5,"x1":42.0,"z0":-32.0,"z1":32.0,"why":"forest belt E"},{"x0":-42.0,"x1":-39.5,"z0":-32.0,"z1":-6.0,"why":"forest belt W (north of exit road)"},{"x0":-42.0,"x1":-39.5,"z0":6.0,"z1":32.0,"why":"forest belt W (south of exit road)"}],"cars_note":"車由遊戲照 cars 放（us_cars.glb 的 car_sedan／car_suv／car_pickup／car_hatch／car_minivan 節點；car_paint 材質是白色，照 color 上色）；每台的阻擋＝車長×車寬（us_cars.json 的 dims）轉 yaw"};
++const AIRPORT_T2_LAYOUT={"version":1,"terminal":"TPE T2（遊戲版）","dep":{"zone":"airport_dep","bounds":{"x0":-36.0,"x1":36.0,"z0":-18.0,"z1":30.0},"hall":{"x0":-36.0,"x1":36.0,"z0":-18.0,"z1":12.0},"roof":{"eave":10.5,"peak":15.0,"peak_z":-3.0},"facade_z":12.0,"entrances":[{"x":-18.0,"w":3.2},{"x":0.0,"w":3.2},{"x":18.0,"w":3.2},{"x":-32.0,"w":2.4},{"x":32.0,"w":2.4}],"curb":{"walk_z0":12.0,"walk_z1":19.0,"road_z0":19.0,"road_z1":27.0,"canopy_z1":26.0,"canopy_h":8.5,"note":"出境層外：人行道（下車處、行李推車）＋兩線車道（之後放車）；大雨遮從航廈一路蓋到車道外側"},"islands":[{"id":"A","x":-27.0,"z0":-11.0,"z1":5.0,"w":8.4,"spine":2.6,"counter_d":0.9,"pitch":1.9,"airline":"lumen"},{"id":"B","x":-9.0,"z0":-11.0,"z1":5.0,"w":8.4,"spine":2.6,"counter_d":0.9,"pitch":1.9,"airline":"kite"},{"id":"C","x":9.0,"z0":-11.0,"z1":5.0,"w":8.4,"spine":2.6,"counter_d":0.9,"pitch":1.9,"airline":"nanfeng"},{"id":"D","x":27.0,"z0":-11.0,"z1":5.0,"w":8.4,"spine":2.6,"counter_d":0.9,"pitch":1.9,"airline":"harbor"}],"security":{"x0":-6.0,"x1":6.0,"z":-18.0,"depth":2.5,"note":"出境安檢、證照查驗入口（門後是管制區，不做）；門口留一大塊空地＝道別點"},"farewell":{"x":0.0,"z":-13.8,"r":2.5,"label":"安檢入口"},"benches":[{"x":-26.0,"z":-16.4,"yaw":0.0,"n":4},{"x":-19.0,"z":-16.4,"yaw":0.0,"n":4},{"x":19.0,"z":-16.4,"yaw":0.0,"n":4},{"x":26.0,"z":-16.4,"yaw":0.0,"n":4},{"x":-33.0,"z":9.6,"yaw":3.141592653589793,"n":3},{"x":33.0,"z":9.6,"yaw":3.141592653589793,"n":3}],"info_desk":{"x":0.0,"z":-4.0,"r":1.6,"note":"服務台（圓弧櫃台）"},"fids":[{"x":-13.0,"z":-16.8,"y":4.6,"w":6.0,"h":2.4,"face":"S"},{"x":13.0,"z":-16.8,"y":4.6,"w":6.0,"h":2.4,"face":"S"},{"x":-27.0,"z":5.05,"y":3.6,"w":2.2,"h":1.2,"face":"S"},{"x":-9.0,"z":5.05,"y":3.6,"w":2.2,"h":1.2,"face":"S"},{"x":9.0,"z":5.05,"y":3.6,"w":2.2,"h":1.2,"face":"S"},{"x":27.0,"z":5.05,"y":3.6,"w":2.2,"h":1.2,"face":"S"}],"shops":[{"id":"mart","side":"W","z0":-16.0,"z1":-8.0,"name_zh":"日日便利","name_en":"DAILY MART"},{"id":"cafe","side":"W","z0":-4.0,"z1":4.0,"name_zh":"雲端咖啡","name_en":"CLOUD CAFE"},{"id":"fx","side":"E","z0":-16.0,"z1":-11.0,"name_zh":"外幣兌換","name_en":"CURRENCY EXCHANGE"},{"id":"books","side":"E","z0":-6.0,"z1":2.0,"name_zh":"旅人書店","name_en":"TRAVELERS BOOKS"}],"trolleys":[{"x":-24.0,"z":10.4,"n":8},{"x":24.0,"z":10.4,"n":8},{"x":-9.0,"z":13.6,"n":10},{"x":9.0,"z":13.6,"n":10}],"spawn_hall":{"x":0.0,"z":10.0,"yaw":3.141592653589793,"note":"從中間的自動門進來（面向北）"},"spawn_curb":{"x":4.0,"z":17.8,"yaw":3.141592653589793,"note":"下車處：車停在車道邊、人站在人行道（BCG-31）"},"dropoff":{"x":4.0,"z":18.6,"r":1.6,"label":"下車處"},"exit":{"x":-4.0,"z":18.6,"r":1.4,"label":"離開（搭車）","to":null},"interact":[{"id":"checkin_A","x":-21.6,"z":-3.0,"r":1.5,"label":"報到櫃台 A"},{"id":"checkin_B","x":-3.5999999999999996,"z":-3.0,"r":1.5,"label":"報到櫃台 B"},{"id":"checkin_C","x":14.399999999999999,"z":-3.0,"r":1.5,"label":"報到櫃台 C"},{"id":"checkin_D","x":32.4,"z":-3.0,"r":1.5,"label":"報到櫃台 D"},{"id":"info","x":0.0,"z":-1.6,"r":1.2,"label":"服務台"},{"id":"fids","x":13.0,"z":-14.0,"r":2.0,"label":"航班看板"},{"id":"mart","x":-33.0,"z":-12.0,"r":1.4,"label":"便利商店"},{"id":"cafe","x":-33.0,"z":0.0,"r":1.4,"label":"咖啡店"}],"seats":[{"x":-29.41,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-28.79,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-28.17,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-27.55,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-26.93,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-26.31,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-25.69,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-25.07,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-24.45,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-23.83,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-23.21,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-22.59,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-22.41,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-21.79,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-21.17,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-20.55,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-19.93,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-19.31,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-18.69,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-18.07,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-17.45,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-16.83,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-16.21,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-15.59,"z":-16.35,"yaw":0.0,"y":0.45},{"x":15.59,"z":-16.35,"yaw":0.0,"y":0.45},{"x":16.21,"z":-16.35,"yaw":0.0,"y":0.45},{"x":16.83,"z":-16.35,"yaw":0.0,"y":0.45},{"x":17.45,"z":-16.35,"yaw":0.0,"y":0.45},{"x":18.07,"z":-16.35,"yaw":0.0,"y":0.45},{"x":18.69,"z":-16.35,"yaw":0.0,"y":0.45},{"x":19.31,"z":-16.35,"yaw":0.0,"y":0.45},{"x":19.93,"z":-16.35,"yaw":0.0,"y":0.45},{"x":20.55,"z":-16.35,"yaw":0.0,"y":0.45},{"x":21.17,"z":-16.35,"yaw":0.0,"y":0.45},{"x":21.79,"z":-16.35,"yaw":0.0,"y":0.45},{"x":22.41,"z":-16.35,"yaw":0.0,"y":0.45},{"x":22.59,"z":-16.35,"yaw":0.0,"y":0.45},{"x":23.21,"z":-16.35,"yaw":0.0,"y":0.45},{"x":23.83,"z":-16.35,"yaw":0.0,"y":0.45},{"x":24.45,"z":-16.35,"yaw":0.0,"y":0.45},{"x":25.07,"z":-16.35,"yaw":0.0,"y":0.45},{"x":25.69,"z":-16.35,"yaw":0.0,"y":0.45},{"x":26.31,"z":-16.35,"yaw":0.0,"y":0.45},{"x":26.93,"z":-16.35,"yaw":0.0,"y":0.45},{"x":27.55,"z":-16.35,"yaw":0.0,"y":0.45},{"x":28.17,"z":-16.35,"yaw":0.0,"y":0.45},{"x":28.79,"z":-16.35,"yaw":0.0,"y":0.45},{"x":29.41,"z":-16.35,"yaw":0.0,"y":0.45},{"x":-35.48,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-34.86,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-34.24,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-33.62,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-33.0,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-32.38,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-31.76,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-31.14,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":-30.52,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":30.52,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":31.14,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":31.76,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":32.38,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":33.0,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":33.62,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":34.24,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":34.86,"z":9.55,"yaw":3.141592653589793,"y":0.45},{"x":35.48,"z":9.55,"yaw":3.141592653589793,"y":0.45}],"blocks":[{"x0":-31.2,"x1":-22.8,"z0":-11.0,"z1":5.0,"why":"check-in island A"},{"x0":-32.88,"x1":-32.8,"z0":-9.4,"z1":3.0,"why":"queue belt A"},{"x0":-21.2,"x1":-21.12,"z0":-9.4,"z1":3.0,"why":"queue belt A"},{"x0":-13.2,"x1":-4.8,"z0":-11.0,"z1":5.0,"why":"check-in island B"},{"x0":-14.88,"x1":-14.8,"z0":-9.4,"z1":3.0,"why":"queue belt B"},{"x0":-3.2,"x1":-3.12,"z0":-9.4,"z1":3.0,"why":"queue belt B"},{"x0":4.8,"x1":13.2,"z0":-11.0,"z1":5.0,"why":"check-in island C"},{"x0":3.12,"x1":3.2,"z0":-9.4,"z1":3.0,"why":"queue belt C"},{"x0":14.8,"x1":14.88,"z0":-9.4,"z1":3.0,"why":"queue belt C"},{"x0":22.8,"x1":31.2,"z0":-11.0,"z1":5.0,"why":"check-in island D"},{"x0":21.12,"x1":21.2,"z0":-9.4,"z1":3.0,"why":"queue belt D"},{"x0":32.8,"x1":32.88,"z0":-9.4,"z1":3.0,"why":"queue belt D"},{"x0":-36.0,"x1":-6.0,"z0":-18.0,"z1":-17.4,"why":"north wall W"},{"x0":6.0,"x1":36.0,"z0":-18.0,"z1":-17.4,"why":"north wall E"},{"x0":-1.7,"x1":1.7,"z0":-5.7,"z1":-2.3,"why":"info desk (ring)"},{"x0":-29.8,"x1":-22.2,"z0":-16.8,"z1":-16.0,"why":"bench"},{"x0":-22.8,"x1":-15.2,"z0":-16.8,"z1":-16.0,"why":"bench"},{"x0":15.2,"x1":22.8,"z0":-16.8,"z1":-16.0,"why":"bench"},{"x0":22.2,"x1":29.8,"z0":-16.8,"z1":-16.0,"why":"bench"},{"x0":-35.85,"x1":-30.15,"z0":9.2,"z1":10.0,"why":"bench"},{"x0":30.15,"x1":35.85,"z0":9.2,"z1":10.0,"why":"bench"},{"x0":-36.0,"x1":-34.4,"z0":-16.0,"z1":-8.0,"why":"shop mart"},{"x0":-36.0,"x1":-34.4,"z0":-4.0,"z1":4.0,"why":"shop cafe"},{"x0":34.4,"x1":36.0,"z0":-16.0,"z1":-11.0,"why":"shop fx"},{"x0":34.4,"x1":36.0,"z0":-6.0,"z1":2.0,"why":"shop books"},{"x0":-24.45,"x1":-23.55,"z0":8.94,"z1":10.9,"why":"trolleys"},{"x0":23.55,"x1":24.45,"z0":8.94,"z1":10.9,"why":"trolleys"},{"x0":-9.45,"x1":-8.55,"z0":11.9,"z1":14.1,"why":"trolleys"},{"x0":8.55,"x1":9.45,"z0":11.9,"z1":14.1,"why":"trolleys"},{"x0":-36.0,"x1":-33.2,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":-30.8,"x1":-19.6,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":-16.4,"x1":-1.6,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":1.6,"x1":16.4,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":19.6,"x1":30.8,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":33.2,"x1":36.0,"z0":11.85,"z1":12.15,"why":"facade"},{"x0":-36.0,"x1":36.0,"z0":18.85,"z1":19.0,"why":"curb edge (cars on road)"},{"x0":-24.4,"x1":-23.6,"z0":18.2,"z1":18.8,"why":"canopy column"},{"x0":-8.4,"x1":-7.6,"z0":18.2,"z1":18.8,"why":"canopy column"},{"x0":7.6,"x1":8.4,"z0":18.2,"z1":18.8,"why":"canopy column"},{"x0":23.6,"x1":24.4,"z0":18.2,"z1":18.8,"why":"canopy column"}]},"arr":{"zone":"airport_arr","bounds":{"x0":-28.0,"x1":28.0,"z0":-12.0,"z1":12.0},"h":5.6,"customs_door":{"x":0.0,"z":-12.0,"w":3.6,"note":"出關門（毛玻璃自動門）；門後是海關（不做）"},"rail":{"x0":-1.6,"x1":1.6,"z0":-12.0,"z1":-3.0,"flare":4.0,"note":"接機欄杆：從出關門夾出一條 3.2 m 寬的走道，到 z −3 往兩側打開；欄杆外面是接機的人"},"meet":{"x":2.6,"z":-7.0,"r":1.6,"label":"接機處"},"benches":[{"x":-12.0,"z":-10.6,"yaw":0.0,"n":3},{"x":-18.0,"z":-10.6,"yaw":0.0,"n":3},{"x":12.0,"z":-10.6,"yaw":0.0,"n":3},{"x":18.0,"z":-10.6,"yaw":0.0,"n":3},{"x":-14.0,"z":2.0,"yaw":1.5707963267948966,"n":3},{"x":14.0,"z":2.0,"yaw":-1.5707963267948966,"n":3}],"counters":[{"id":"fx","x0":-27.4,"x1":-21.0,"z0":-4.0,"z1":-2.6,"name_zh":"外幣兌換","name_en":"CURRENCY EXCHANGE"},{"id":"info","x0":20.0,"x1":26.0,"z0":-4.0,"z1":-2.6,"name_zh":"旅客服務","name_en":"INFORMATION"},{"id":"sim","x0":-27.4,"x1":-22.0,"z0":3.0,"z1":4.4,"name_zh":"電信門市","name_en":"SIM CARDS"}],"cafe":{"x0":18.0,"x1":28.0,"z0":4.0,"z1":12.0,"name_zh":"雲端咖啡","name_en":"CLOUD CAFE"},"exits":[{"x":-12.0,"w":3.2},{"x":0.0,"w":3.2},{"x":12.0,"w":3.2}],"fids":[{"x":-7.0,"z":-11.9,"y":3.2,"w":4.0,"h":1.6,"face":"S"},{"x":7.0,"z":-11.9,"y":3.2,"w":4.0,"h":1.6,"face":"S"}],"spawn_customs":{"x":0.0,"z":-10.8,"yaw":0.0,"note":"從出關門出來（面向南）"},"spawn_wait":{"x":3.0,"z":-5.0,"yaw":3.141592653589793,"note":"在欄杆外面等人（面向出關門）"},"exit":{"x":0.0,"z":11.2,"r":1.4,"label":"出口（往車道）","to":null},"interact":[{"id":"fx","x":-24.2,"z":-1.6,"r":1.2,"label":"外幣兌換"},{"id":"info","x":23.0,"z":-1.6,"r":1.2,"label":"旅客服務"},{"id":"cafe","x":17.0,"z":8.0,"r":1.4,"label":"咖啡店"},{"id":"fids","x":-7.0,"z":-9.0,"r":1.6,"label":"抵達看板"}],"seats":[{"x":-14.48,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-13.86,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-13.24,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-12.62,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-12.0,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-11.38,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-10.76,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-10.14,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-9.52,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-20.48,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-19.86,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-19.24,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-18.62,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-18.0,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-17.38,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-16.76,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-16.14,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-15.52,"z":-10.55,"yaw":0.0,"y":0.45},{"x":9.52,"z":-10.55,"yaw":0.0,"y":0.45},{"x":10.14,"z":-10.55,"yaw":0.0,"y":0.45},{"x":10.76,"z":-10.55,"yaw":0.0,"y":0.45},{"x":11.38,"z":-10.55,"yaw":0.0,"y":0.45},{"x":12.0,"z":-10.55,"yaw":0.0,"y":0.45},{"x":12.62,"z":-10.55,"yaw":0.0,"y":0.45},{"x":13.24,"z":-10.55,"yaw":0.0,"y":0.45},{"x":13.86,"z":-10.55,"yaw":0.0,"y":0.45},{"x":14.48,"z":-10.55,"yaw":0.0,"y":0.45},{"x":15.52,"z":-10.55,"yaw":0.0,"y":0.45},{"x":16.14,"z":-10.55,"yaw":0.0,"y":0.45},{"x":16.76,"z":-10.55,"yaw":0.0,"y":0.45},{"x":17.38,"z":-10.55,"yaw":0.0,"y":0.45},{"x":18.0,"z":-10.55,"yaw":0.0,"y":0.45},{"x":18.62,"z":-10.55,"yaw":0.0,"y":0.45},{"x":19.24,"z":-10.55,"yaw":0.0,"y":0.45},{"x":19.86,"z":-10.55,"yaw":0.0,"y":0.45},{"x":20.48,"z":-10.55,"yaw":0.0,"y":0.45},{"x":-14.0,"z":-0.48,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":0.14,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":0.76,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":1.38,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":2.0,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":2.62,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":3.24,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":3.86,"yaw":1.5707963267948966,"y":0.45},{"x":-14.0,"z":4.48,"yaw":1.5707963267948966,"y":0.45},{"x":14.0,"z":-0.48,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":0.14,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":0.76,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":1.38,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":2.0,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":2.62,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":3.24,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":3.86,"yaw":-1.5707963267948966,"y":0.45},{"x":14.0,"z":4.48,"yaw":-1.5707963267948966,"y":0.45}],"blocks":[{"x0":-1.68,"x1":-1.6,"z0":-12.0,"z1":-3.0,"why":"arrival rail"},{"x0":-5.6,"x1":-1.6,"z0":-3.04,"z1":-2.96,"why":"arrival rail flare"},{"x0":1.6,"x1":1.68,"z0":-12.0,"z1":-3.0,"why":"arrival rail"},{"x0":1.6,"x1":5.6,"z0":-3.04,"z1":-2.96,"why":"arrival rail flare"},{"x0":-14.85,"x1":-9.15,"z0":-11.0,"z1":-10.2,"why":"bench"},{"x0":-20.85,"x1":-15.15,"z0":-11.0,"z1":-10.2,"why":"bench"},{"x0":9.15,"x1":14.85,"z0":-11.0,"z1":-10.2,"why":"bench"},{"x0":15.15,"x1":20.85,"z0":-11.0,"z1":-10.2,"why":"bench"},{"x0":-14.4,"x1":-13.6,"z0":-0.85,"z1":4.85,"why":"bench"},{"x0":13.6,"x1":14.4,"z0":-0.85,"z1":4.85,"why":"bench"},{"x0":-27.4,"x1":-21.0,"z0":-4.0,"z1":-2.6,"why":"counter fx"},{"x0":-27.4,"x1":-21.0,"z0":-5.4,"z1":-4.0,"why":"counter back fx"},{"x0":20.0,"x1":26.0,"z0":-4.0,"z1":-2.6,"why":"counter info"},{"x0":20.0,"x1":26.0,"z0":-5.4,"z1":-4.0,"why":"counter back info"},{"x0":-27.4,"x1":-22.0,"z0":3.0,"z1":4.4,"why":"counter sim"},{"x0":-27.4,"x1":-22.0,"z0":1.6,"z1":3.0,"why":"counter back sim"},{"x0":18.0,"x1":28.0,"z0":4.0,"z1":5.0,"why":"cafe counter"},{"x0":19.6,"x1":21.4,"z0":6.95,"z1":7.85,"why":"cafe table + chairs"},{"x0":22.0,"x1":23.8,"z0":6.95,"z1":7.85,"why":"cafe table + chairs"},{"x0":24.4,"x1":26.2,"z0":6.95,"z1":7.85,"why":"cafe table + chairs"},{"x0":-18.45,"x1":-17.55,"z0":-6.45,"z1":-5.55,"why":"column"},{"x0":17.55,"x1":18.45,"z0":-6.45,"z1":-5.55,"why":"column"},{"x0":-18.45,"x1":-17.55,"z0":5.55,"z1":6.45,"why":"column"},{"x0":17.55,"x1":18.45,"z0":5.55,"z1":6.45,"why":"column"},{"x0":-4.95,"x1":-4.05,"z0":9.14,"z1":11.1,"why":"trolleys"},{"x0":-28.0,"x1":28.0,"z0":11.85,"z1":12.0,"why":"facade (exits at x −12, 0, 12 are doors: game opens them)"}]},"airlines":{"lumen":"LUMEN AIR 曜光航空","kite":"PACIFIC KITE 太平洋風箏航空","nanfeng":"NANFENG AIRLINES 南風航空","harbor":"HARBOR JET 港灣捷運航空"},"note":"航空公司、店名全部虛構（D77）；看板上的城市是真的地名（不是品牌），航班號碼用虛構的航空代碼"};
+diff --git a/src/us3d.js b/src/us3d.js
+new file mode 100644
+index 00000000..6c800c6a
+--- /dev/null
++++ b/src/us3d.js
+@@ -0,0 +1,202 @@
++/* ===== 美國交換篇（大三下，D47）的區域＋桃園機場第二航廈（LAWWW2-C 2026-10-17；使用者 21:0x「先做1，把美國場景接進遊戲」）=====
++   四個區域，都照 LAWWW2 交的配置（Blender 正式模型讀同一份，兩邊的位置一定一致）：
++     us_apartment  公寓室內（單人戶 1x1＋門外的戶外樓梯平台）：src/data/us_apartment_layout.js；正式模型 bldg.us_apartment
++     us_outside    公寓社區 Linden Grove 的戶外（停車場、三棟兩層樓）：src/data/us_layouts.js 的 US_COMMUNITY_LAYOUT；正式模型 bldg.us_community＋bldg.us_cars（車照配置停）
++     airport_dep   桃園機場第二航廈 出境大廳＋下車處：AIRPORT_T2_LAYOUT.dep；正式模型 bldg.airport_dep
++     airport_arr   桃園機場第二航廈 入境大廳：AIRPORT_T2_LAYOUT.arr；正式模型 bldg.airport_arr
++   連接：us_outside 的「上樓」↔ us_apartment 平台東端的「下樓」。社區往公車站的出口：公車站還沒做，關著（看得懂的告示，D36）。
++         機場：安檢入口「出境（前往美國）」→ us_outside 的社區入口——**這是測試用的接法**：搭飛機、抵達、巴士站 → 超市 → 公寓（AA_144 5-4、US1）
++         是交換系統（LAWWW-C）的事，那邊做好時把 US_LINK 換成真正的流程。下車處「搭車離開」、入境大廳的出口 → 公館（捷運站出口）。
++   座標：區域座標 x 往東、z 往南、y 往上（三份配置都一樣）；yaw＝面向 (sin yaw, cos yaw)；家具的 ry 是 three.js 的旋轉方向，
++         E3.NavGrid.blockRect 的 rot 方向相反（soclib3d.js 的說明），所以傳 −ry。
++   導航：公寓的格子 0.4 m、格子中心在 0.4 的整數倍（配置的牆都在 0.2 的奇數倍＝格子交界，同 dorm_layout.js）：整個先擋住，再打開每個房間；
++         兩個打開的房間中間的牆擋一排格子（門的位置留空）。關著的門（衛浴、衣物間、衣帽櫃、洗衣機櫃、隔壁 213）：房間不打開，門口一個「看」的互動點。
++         社區、機場：格子 0.5 m，照配置的 blocks（長方形，都有 why）＋車。
++   畫面：正式模型載入前、載入失敗時用程序化備用模型（D38 ③：地面、牆、家具的方塊）；載入後整組藏起來，導航、互動點不變。
++   試玩入口（開發用）：網址加 ?usdemo，進到遊戲以後左上角多一顆「美國篇（測試）」按鈕：到機場出境大廳。正式的入口是交換系統。 */
++'use strict';
++const US3=(function(){
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
++  const has=k=>typeof ASSETS!=='undefined'&&!!ASSETS.manifest[k];
++  const G_=()=>typeof GAME!=='undefined'?GAME.G:null;
++  const night=h=>{ h=h%24; return h<6.3||h>=18.2; };
++  /* 正式模型的發光材質（GLOW_*、US_glow）：晚上亮、白天暗。clone 出來的模型共用快取的材質，原本的亮度只記第一次（soclib3d.js 的教訓）*/
++  function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.usBase==null) m.userData.usBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
++  function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.usBase*k; }
++  function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
++  function tiled(tex,rx,ry){ const t=tex.clone(); t.needsUpdate=true; t.wrapS=t.wrapT=THREE.RepeatWrapping; t.repeat.set(rx,ry); return t; }
++  /* 門牌（PLATE_FACE_*，props text）：canvas 畫字；沒有 UV 就照板面補一組（u 沿著板面、v 往下）*/
++  function paintPlate(o,text,bg,fg){ const g=o.geometry; if(!g.attributes.uv){ g.computeBoundingBox(); const bb=g.boundingBox, p=g.attributes.position, uv=new Float32Array(p.count*2), wx=bb.max.x-bb.min.x, wz=bb.max.z-bb.min.z, h=bb.max.y-bb.min.y||1, alongX=wx>=wz;
++      for(let i=0;i<p.count;i++){ uv[i*2]=alongX?(p.getX(i)-bb.min.x)/(wx||1):(p.getZ(i)-bb.min.z)/(wz||1); uv[i*2+1]=1-(p.getY(i)-bb.min.y)/h; } g.setAttribute('uv',new THREE.BufferAttribute(uv,2)); }
++    const c=document.createElement('canvas'); c.width=256; c.height=128; const x=c.getContext('2d'); x.fillStyle=bg||'#7a2a26'; x.fillRect(0,0,256,128); x.fillStyle=fg||'#f4efe6'; x.textAlign='center'; x.textBaseline='middle';
++    x.font='600 72px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif'; x.fillText(String(text||''),128,68);
++    const t=new THREE.CanvasTexture(c); t.colorSpace=THREE.SRGBColorSpace; t.flipY=false; const m=o.material.clone(); m.map=t; m.color=new THREE.Color(0xffffff); o.material=m; }
++  /* 「看」的文字：只寫東西是什麼（企劃還沒寫這些地方的文字；AA 寫好時換掉，劇情文字不由開發組自己編）*/
++  const lookText=s=>s;
++
++  // =================== 公寓室內 us_apartment ===================
++  const APT=()=>US_APARTMENT_LAYOUT;
++  const APT_CLOSED=new Set(['bath','closet','coat','laundry']);   /* 門關著的房間：不打開導航（衛浴從臥室進，這一版門關著；之後要開再打開這兩間＋家具阻擋）*/
++  const APT_BOX={x0:-5.4,z0:-5.4,w:11.6,d:11.2};                /* 導航格：x −5.4～6.2、z −5.4～5.8（格子中心 −5.2、−4.8、…＝0.4 的整數倍）*/
++  function aptNav(L){ const nav=new E3.NavGrid(APT_BOX.w,APT_BOX.d,0.4,APT_BOX.x0,APT_BOX.z0); nav.fillBlocked();
++    const band=(x0,x1,z0,z1)=>{ if(x1-x0>0.01&&z1-z0>0.01) nav.blockRect((x0+x1)/2,(z0+z1)/2,x1-x0,z1-z0,0,0); };
++    for(const r of L.rooms) if(r.walk!==false&&!APT_CLOSED.has(r.id)) nav.freeRect(r.x0,r.z0,r.x1,r.z1);
++    const B=L.balcony, BW=L.breezeway; nav.freeRect(B.x0,B.z0,B.x1,B.z1); nav.freeRect(BW.x0,BW.z0,BW.x1,BW.z1);
++    /* 兩個打開的區域中間的牆：擋一排格子，門留空。門 0.8 m＝兩格，但人物的碰撞半徑 0.32 m：要剛好走在門的正中間 ±8 cm 才過得去，
++       路線走在格子中心（偏 20 cm）就卡在門框（第一次測試：大門、臥室門都卡住）→ 能開的門在導航上多開一格（人的身體約 0.22 m 寬，畫面上不會穿門框）*/
++    band(1.4,1.8,-3.0,-1.0); band(1.4,1.8,0.2,1.0);            // bed_w：客廳｜臥室（臥室門 z −1.0～−0.2，導航開到 0.2）
++    band(-4.6,-1.8,1.0,1.4);                                    // kit_n：客廳｜廚房（窗口有吧台，不能走）
++    band(-2.2,-1.8,1.0,1.4); band(-2.2,-1.8,2.6,3.0);           // kit_e：廚房｜走道（廚房門 z 1.4～2.2，導航開到 2.6）
++    band(BW.x0,-1.4,3.0,3.4); band(-0.2,BW.x1,3.0,3.4);         // 南牆：走道、廚房｜樓梯平台（大門 x −1.4～−0.6，導航開到 −0.2）
++    band(B.x0,-1.4,-3.4,-3.0); band(-0.2,B.x1,-3.4,-3.0);       // 北牆：客廳｜陽台（陽台門 x −1.4～−0.6，導航開到 −0.2）
++    for(const [px,pz] of BW.posts) nav.blockCircle(px,pz,0.36);
++    // 家具
++    const rect=(x,z,w,d,ry,pad)=>nav.blockRect(x,z,w,d,-(ry||0),pad||0);
++    for(const f of L.furniture){ const t=f.type;
++      if(t==='fridge'||t==='bed'||t==='desk') rect(f.x,f.z,f.w,f.d,f.ry);
++      else if(t==='coffeeTable') rect(f.x+0.1,f.z,0.4,f.d,0);   /* 茶几離沙發只有 0.4 m：導航只擋東邊 0.4 m（西邊那一格留給沙發前面的路；人最多碰到桌邊 20 cm）*/
++      else if(t==='sofa'){ const k=f.d-0.55; rect(f.x-Math.sin(f.ry)*k/2,f.z-Math.cos(f.ry)*k/2,f.w,0.55,f.ry); }   /* 沙發只擋後面 0.55 m（坐墊前緣留給走近點）*/
++      else if(t==='counterRun') band(f.x0,f.x1,f.z0+0.1,f.z1);   /* 往後收 10 cm：廚房門（z 1.4～2.2）兩側都被擋，門口要多一格才走得進去 */
++      else if(t==='breakfastBar') rect((f.x0+f.x1)/2,f.z,f.x1-f.x0,f.d,0);
++      else if(t==='endTable'||t==='nightstand') rect(f.x,f.z,0.48,0.48,0);
++      else if(t==='armchair') rect(f.x,f.z,0.8,0.8,f.ry);
++      else if(t==='ladderShelf') rect(f.x,f.z,0.5,0.32,0);
++      else if(t==='tvStand') rect(f.x,f.z,f.w,0.45,f.ry);
++      else if(t==='suitcase') rect(f.x+(f.cx||0),f.z+(f.cz||0),f.w,f.d,f.ry);
++      else if(t==='balconyChairs'){ for(const [cx,cz] of f.chairs) nav.blockCircle(cx,cz,0.22); nav.blockCircle(f.table.x,f.table.z,0.3); } }
++    nav._cm=null; return nav; }
++  /* 備用模型：地板（木紋／地毯／磁磚的顏色）、1.1 m 高的矮牆（剖面看得到格局，不擋鏡頭）、家具方塊 */
++  function aptFallback(L,fb){ const H=1.1; const col={wood:'#9a6a46',carpet:'#b7ada0',tile:'#d9d6cf'};
++    for(const r of L.rooms){ const m=plane(fb,r.x1-r.x0,r.z1-r.z0,M(col[r.floor]||'#b8a48a'),(r.x0+r.x1)/2,(r.z0+r.z1)/2,0.005); m.userData.dyn=true; }
++    for(const a of [L.balcony,L.breezeway]) plane(fb,a.x1-a.x0,a.z1-a.z0,M('#a8a49c'),(a.x0+a.x1)/2,(a.z0+a.z1)/2,0.005);
++    const wm=M('#efe4cf'); for(const w of L.walls[0].list){ const segs=[]; let a=w.from; for(const o of (w.open||[]).slice().sort((p,q)=>p[0]-q[0])){ if(o[0]>a) segs.push([a,o[0]]); a=Math.max(a,o[1]); } if(w.to>a) segs.push([a,w.to]);
++      for(const [s0,s1] of segs){ const len=s1-s0, c=(s0+s1)/2; const m=new THREE.Mesh(new THREE.BoxGeometry(w.axis==='x'?len:0.2,H,w.axis==='x'?0.2:len),wm); m.position.set(w.axis==='x'?c:w.at,H/2,w.axis==='x'?w.at:c); fb.add(m); } }
++    const fm=M('#3a3634'), wd=M('#6a4a34'), wh=M('#e8e4dc'); const box=(x,z,w,d,h,ry,mat)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),mat); m.position.set(x,h/2,z); m.rotation.y=ry||0; fb.add(m); };
++    for(const f of L.furniture){ const t=f.type;
++      if(t==='fridge') box(f.x,f.z,f.w,f.d,1.75,f.ry,wh); else if(t==='counterRun') box((f.x0+f.x1)/2,(f.z0+f.z1)/2,f.x1-f.x0,f.z1-f.z0,f.h,0,wd);
++      else if(t==='breakfastBar') box((f.x0+f.x1)/2,f.z,f.x1-f.x0,f.d,f.h,0,M('#3c3a38'));
++      else if(t==='sofa') box(f.x,f.z,f.w,f.d,0.8,f.ry,fm); else if(t==='armchair') box(f.x,f.z,0.8,0.8,0.8,f.ry,fm);
++      else if(t==='coffeeTable') box(f.x,f.z,f.w,f.d,0.42,0,wd); else if(t==='tvStand') box(f.x,f.z,f.w,0.45,0.55,f.ry,fm);
++      else if(t==='bed') box(f.x,f.z,f.w,f.d,0.55,f.ry,M('#cfcac2')); else if(t==='desk') box(f.x,f.z,f.w,f.d,0.75,f.ry,wd);
++      else if(t==='nightstand'||t==='endTable') box(f.x,f.z,0.45,0.45,0.55,0,fm); else if(t==='barStool') box(f.x,f.z,0.38,0.38,0.76,0,fm); else if(t==='deskChair') box(f.x,f.z,0.46,0.46,0.46,0,fm); } }
++  function aptSeason(root){ const G=G_(); const m=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).m:4; const snow=m>=1&&m<=3;   /* 窗外、陽台：1～3 月雪景、其他春天（配置 season）*/
++    const on=root.getObjectByName('SEASON_SNOW_on'), off=root.getObjectByName('SEASON_SNOW_off'); if(on) on.visible=snow; if(off) off.visible=!snow; }
++  const us_apartment={ id:'us_apartment', name:'美國的公寓', indoor:true, camDist:3.6, seeThru:true, build(E){ const L=APT(), H=L.ceilY||2.6;
++    const z=Z3.room(E,{w:10.4,d:10.4,h:H,windows:false,warm:true,wallColor:'#efe4cf',floorTex:W3.stoneTex('#b48a64'),spawn:Object.assign({},L.spawns.fromOutside)});   /* room() 的框 x、z −5.2～5.2 蓋住整戶＋陽台＋樓梯平台（室內鏡頭照 bounds 夾住）*/
++    const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++    for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
++    z.nav=aptNav(L); aptFallback(L,fb);
++    // 燈：客廳吊扇的燈、臥室吸頂燈、廚房（白天弱、晚上亮）
++    const lamps=[]; for(const [x,zz] of [[-1.6,-1.0],[3.2,-1.0],[-3.2,2.0],[-1.0,2.0],[0,4.0]]){ const l=new THREE.PointLight(0xffe2bc,2,7,2); l.position.set(x,H-0.35,zz); l.userData.on=9; l.userData.off=2; g0.add(l); lamps.push(l); }
++    let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.15); };
++    // 互動點
++    const IT=E.interactables; z.seats=[]; const seat=(x,zz,yaw,label,extra,lift)=>{ const s={x,z:zz,yaw,lv:0}; if(lift) s.lift=lift; z.seats.push(s); IT.push(Object.assign({x,z:zz,radius:0.8,lv:0,label,seat:s},extra||{})); };
++    for(const f of L.furniture){ const t=f.type;
++      if(t==='barStool') seat(f.x,f.z,f.ry||0,'坐在吧台',null,(f.seatY||0.76)-0.45);   /* 高腳椅：椅面 0.76（一般椅子 0.45），人往上抬 0.31 */
++      /* 沙發和茶几中間只有 0.4 m（照片的擺法）、單人沙發前面是茶几的角、書桌椅後面是床和行李箱：「坐下」照預設會走到座位前面 0.5 m（被家具擋住），
++         所以都指定走近點 ap（和 Café 的沙發同一個做法），互動點也放在那裡 */
++      else if(t==='sofa'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-3.8,f.z]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在沙發上',seat:s}); }
++      else if(t==='armchair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-2.2,-2.2]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在單人沙發上',seat:s}); }
++      else if(t==='deskChair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[2.55,-2.0]}; z.seats.push(s); IT.push({x:f.x,z:f.z,radius:0.8,lv:0,label:'坐在書桌前',seat:s,deskStudy:true}); }
++      else if(t==='bed') IT.push({x:f.x-f.d/2-0.45,z:f.z,radius:0.9,lv:0,label:'睡覺',sleep:true});   /* 床尾朝西（x 2.93）：站在床尾 */
++      else if(t==='fridge') IT.push({x:f.x+0.75,z:f.z,radius:0.8,lv:0,label:'打開冰箱',look:lookText('冰箱。')});
++      else if(t==='range') IT.push({x:f.x,z:f.z-0.75,radius:0.8,lv:0,label:'看爐子',look:lookText('電爐和烤箱，上面是微波爐。')}); }
++    for(const d of L.doors) if(d.closed){ const ax=d.axis==='z'; const side=d.id==='coat'||d.id==='laundry'?-1:(d.id==='n213'?1:-1);   /* 門口站哪一邊：衛浴、衣物間從臥室（北邊）；衣帽櫃、洗衣機從走道（西邊）；213 從平台（東邊）*/
++      IT.push({x:ax?d.x+side*0.45:d.x,z:ax?d.z:d.z+side*0.45,radius:0.75,lv:0,label:d.label,look:d.closed}); }
++    { const X=L.exit; IT.push({x:X.x-0.2,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:'us_outside',spawn:Object.assign({},US_COMMUNITY_LAYOUT.spawn_home)}}); }
++    // 正式模型
++    z.formal=false; if(has('bldg.us_apartment')) ASSETS.loadOne('bldg.us_apartment').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++      Z3.attachRoomGLB(z,g0,fb,root); aptSeason(root);
++      root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE/.test(o.name)){ const t=(o.userData&&o.userData.text)||((/(\d{3})/.exec(o.name)||[])[1])||''; paintPlate(o,t); } });
++      glow=glowMats(root,/^US_glow/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('美國公寓正式模型載入失敗，用程序化備用模型',e));
++    return z; } };
++
++  // =================== 公寓社區戶外 us_outside ===================
++  const CAR_DIMS={car_sedan:[4.88,1.84],car_suv:[4.6,1.85],car_pickup:[5.9,2.03],car_hatch:[4.4,1.8],car_minivan:[5.15,2.0]};   /* us_cars.json 的 dims：[車長, 車寬]；車頭朝 +z */
++  const US_LINK={x:-37.5,z:0,yaw:Math.PI/2};   /* 從社區入口（西邊的車道）走進來、面向東：機場的測試接法用（交換系統做好時換掉）*/
++  const us_outside={ id:'us_outside', name:'公寓社區（美國）', indoor:false, cityLight:0.3, size:[84,64], camDist:6.0, build(E){ const L=US_COMMUNITY_LAYOUT, B=L.bounds;
++    const g=new THREE.Group(); const nav=new E3.NavGrid(B.x1-B.x0,B.z1-B.z0,0.5,B.x0,B.z0);
++    nav.blockOutside(B.x0+0.5,B.z0+0.5,B.x1-0.5,B.z1-0.5);
++    for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,b.x1-b.x0,b.z1-b.z0,0,0);
++    for(const c of L.cars){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; nav.blockRect(c.x,c.z,d[1]+0.1,d[0]+0.1,-c.yaw,0); }
++    nav._cm=null;
++    // 鏡頭碰撞：建築本體加高到屋簷（配置的說明）
++    for(const b of L.blocks) if(/^building/.test(b.why)){ const m=new THREE.Mesh(new THREE.BoxGeometry(b.x1-b.x0,6.0,b.z1-b.z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((b.x0+b.x1)/2,3.0,(b.z0+b.z1)/2); g.add(m); E.colliders.push(m); }
++    // 備用模型：草地、停車場、建築的方塊、車的方塊
++    const fb=new THREE.Group(); fb.name='fallback'; g.add(fb);
++    plane(fb,B.x1-B.x0+40,B.z1-B.z0+40,new THREE.MeshStandardMaterial({map:tiled(W3.grassTex(),31,26),roughness:0.95}),0,0,0);
++    { const P=L.lot; plane(fb,P.x1-P.x0,P.z1-P.z0,new THREE.MeshStandardMaterial({map:tiled(W3.asphaltTex(),(P.x1-P.x0)/4,(P.z1-P.z0)/4),roughness:0.9}),(P.x0+P.x1)/2,(P.z0+P.z1)/2,0.01).material.map.userData.asphalt=true; }
++    const sid=M('#777566'); for(const b of L.buildings){ const m=new THREE.Mesh(new THREE.BoxGeometry(b.len,L.floorH*L.floors,b.dep),sid); m.position.set(b.cx,L.floorH*L.floors/2,b.cz); m.rotation.y=b.yaw||0; fb.add(m); }
++    const carFb=new THREE.Group(); fb.add(carFb); for(const c of L.cars){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; const m=new THREE.Mesh(new THREE.BoxGeometry(d[1],1.4,d[0]),M(c.color,{rough:0.4})); m.position.set(c.x,0.7,c.z); m.rotation.y=c.yaw; carFb.add(m); }
++    // 互動點
++    const IT=E.interactables, H_=L.to_home, X=L.exit_west;
++    IT.push({x:H_.x,z:H_.z,radius:H_.r,lv:0,label:'上樓回家',exit:{to:'us_apartment',spawn:Object.assign({},APT().spawns.fromOutside)}});   /* 配置寫「上樓（213）」：公寓那份的門牌是自己 214、隔壁 213（兩份不一致，先不寫號碼）*/
++    IT.push({x:X.x+1.2,z:X.z,radius:X.r,lv:0,label:'社區出口',look:'往公車站的那一段路還沒開放。'});   /* 公車站（us_bus_stop）還沒做：看得懂的關閉（D36）*/
++    for(const p of L.props){ if(p.type==='mailboxes') IT.push({x:p.x,z:p.z+1.1,radius:1.0,lv:0,label:'看信箱',look:lookText('社區的集中信箱。')}); }
++    // 時間：路燈、樓梯間壁燈晚上亮；停著的車燈一直關著
++    let lampGlow=[]; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); };
++    const zone={group:g,nav,spawn:Object.assign({},L.spawn_home),lamps:[],buildings:[],applyTimeOutdoor:zoneTime,onLamps(on){}};
++    if(has('bldg.us_community')) ASSETS.loadOne('bldg.us_community').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; } }); g.add(root);
++      for(const o of fb.children) if(o!==carFb) o.visible=false; lampGlow=glowMats(root,/^GLOW_usc_lamp/); const G=G_(); if(G) zoneTime(G.hour);
++      root.traverse(o=>{ if(o.isMesh&&o.material&&/asphalt/.test(o.material.name||'')&&o.material.map) o.material.map.userData.asphalt=true; }); }).catch(e=>console.warn('公寓社區正式模型載入失敗，用程序化備用模型',e));
++    if(has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
++      const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
++      for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const o=node.clone(true); o.position.set(car.x,0,car.z); o.rotation.set(0,car.yaw,0);
++        o.traverse(q=>{ if(!q.isMesh) return; q.castShadow=true; const ms=[].concat(q.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; }); q.material=Array.isArray(q.material)?ms:ms[0]; });
++        cg.add(o); n++; }
++      if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
++    return zone; } };
++
++  // =================== 桃園機場第二航廈 airport_dep／airport_arr ===================
++  const AP=()=>AIRPORT_T2_LAYOUT;
++  const TAIPEI={to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0}};   /* 搭車離開機場 → 回到台北（公館，校門口那一側；和校園「走出校門」的落點一樣）*/
++  const LOOK_AP={checkin:'報到櫃台。',info:'服務台。',fids:'航班看板。',mart:'便利商店。',cafe:'咖啡店。',fx:'外幣兌換。',info_arr:'旅客服務台。',cafe_arr:'咖啡店。',fids_arr:'抵達看板。'};
++  function apZone(key){ const isDep=key==='dep';
++    return { id:'airport_'+key, name:isDep?'桃園機場 第二航廈 出境大廳':'桃園機場 第二航廈 入境大廳', indoor:true, camDist:isDep?6.0:5.2, build(E){ const L=AP()[key], Bd=L.bounds, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6);
++      const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;   /* room() 以原點為中心：框要蓋住整個範圍（出境的下車處到 z 30）；室內鏡頭照 bounds 夾住 */
++      const sp=isDep?L.spawn_curb:L.spawn_customs;
++      const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#e9e7e2',floorTex:W3.stoneTex('#d8d6d0'),spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}});
++      const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++      for(const w of z.walls) w.visible=false; z.walls.length=0;   /* 大廳挑高、鏡頭不會穿牆：正式模型的牆不淡出（WALL_ap_walls 是一整個節點，跟著一面一面的淡出規則會整組忽隱忽現）*/
++      // 導航
++      const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.5,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);   /* 範圍的邊＝側牆：最外面那一格可以站（0.5 的話靠牆那張長椅最旁邊的位子站不到）*/
++      for(const b0 of L.blocks){ let b=b0;
++        if(/^bench/.test(b.why)){ const s=L.seats.find(q=>q.x>=b.x0-0.05&&q.x<=b.x1+0.05&&q.z>=b.z0-0.05&&q.z<=b.z1+0.05);   /* 長椅：只擋座位後面那一半（坐下要走到椅子前面 0.5 m；第一次整張擋住，走近點卡在椅面上）*/
++          if(s){ const fx=Math.sin(s.yaw), fz=Math.cos(s.yaw); b=Object.assign({},b); if(Math.abs(fz)>=Math.abs(fx)){ if(fz>0) b.z1=s.z; else b.z0=s.z; } else { if(fx>0) b.x1=s.x; else b.x0=s.x; } } }
++        nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.5),Math.max(b.z1-b.z0,0.5),0,0); }   /* 欄杆、牆比一格薄：至少 0.5 m（格子中心才擋得到）*/
++      if(!isDep) for(const d of L.exits) nav.freeRect(d.x-d.w/2+0.2,Bd.z1-1.2,d.x+d.w/2-0.2,Bd.z1-0.5);   /* 入境：正面那一整片是一個阻擋，出口的門由遊戲打開（配置的說明）*/
++      if(isDep){ const C=L.curb; nav.blockRect((Bd.x0+Bd.x1)/2,(C.road_z0+Bd.z1)/2,Bd.x1-Bd.x0,Bd.z1-C.road_z0,0,0); }   /* 車道（下車處以外）：人站在人行道 */
++      nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
++      // 備用模型：地板、櫃台島、店面的方塊
++      const fl=M('#cfccc4'); plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,fl,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2,0.005);
++      const bm=M('#8c8e92'); for(const b of L.blocks){ if(/^(curb|canopy column)/.test(b.why)) continue; const h=/wall|facade|shop/.test(b.why)?3.0:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
++      // 燈：挑高大廳多幾盞（白天弱、晚上亮）
++      const lamps=[]; for(let i=-2;i<=2;i++) for(const zz of (isDep?[-10,2]:[-6,4])){ const l=new THREE.PointLight(0xf6f1e8,3,26,2); l.position.set(i*14,H-1.2,zz); l.userData.on=9; l.userData.off=4; g0.add(l); lamps.push(l); }
++      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點 */
++      // 座位、互動點
++      const IT=E.interactables; z.seats=[];
++      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-0.45)>0.02) st.lift=s.y-0.45; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
++      for(const q of L.interact){ const k=/^checkin/.test(q.id)?'checkin':(isDep?q.id:q.id+'_arr'); const t=LOOK_AP[k]||LOOK_AP[q.id]; if(t) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(t)}); }
++      if(isDep){ const F=L.farewell, X=L.exit;
++        IT.push({x:F.x,z:F.z,radius:F.r,lv:0,label:'出境（前往美國）',usLink:true,exit:{to:'us_outside',spawn:Object.assign({},US_LINK)}});   /* 測試用的接法（見檔案開頭）：交換系統做好時換成搭機、抵達的流程 */
++        IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:'搭車離開（回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})}); }
++      else { const X=L.exit; IT.push({x:X.x,z:X.z-0.4,radius:X.r,lv:0,label:'出口（搭車回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})});
++        IT.push({x:L.meet.x,z:L.meet.z,radius:L.meet.r,lv:0,label:L.meet.label,look:lookText('接機處。')}); }
++      // 正式模型
++      z.formal=false; const KEY='bldg.airport_'+key; if(has(KEY)) ASSETS.loadOne(KEY).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
++        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
++      return z; } }; }
++  const airport_dep=apZone('dep'), airport_arr=apZone('arr');
++
++  // =================== 試玩入口（開發用，?usdemo）===================
++  function demoButton(){ if(typeof location==='undefined'||!/[?&]usdemo\b/.test(location.search)) return; const t=setInterval(()=>{ if(typeof GAME==='undefined'||!GAME.G||!GAME.G.zone) return; clearInterval(t);
++      const b=document.createElement('button'); b.textContent='美國篇（測試）'; b.id='usDemoBtn';
++      Object.assign(b.style,{position:'fixed',left:'calc(env(safe-area-inset-left) + 8px)',top:'calc(env(safe-area-inset-top) + 64px)',zIndex:60,minHeight:'44px',padding:'0 12px',borderRadius:'10px',border:'1px solid #fff8',background:'#1f3350cc',color:'#fff',font:'15px sans-serif'});
++      b.onclick=()=>{ if(GAME.G.zone==='airport_dep') return; GAME.enter('airport_dep',Object.assign({},AP().dep.spawn_curb)); }; document.body.appendChild(b); },500); }
++  demoButton();
++  return {us_apartment,us_outside,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS};
++})();
++Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;
