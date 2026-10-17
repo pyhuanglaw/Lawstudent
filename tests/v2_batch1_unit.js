@@ -44,7 +44,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     const go=async(flags,pk)=>{ fresh(day,15,'library',flags); SOCIAL.meet('classmate_xinci','campus'); SOCIAL.remember('classmate_xinci','LENT_NOTES','x'); picks=pk.slice(); await EVENTS.run(e); return lines(); };
     let L=await go({ECON_PAST_SHARED:'full'},[3]);
     check('慈 2：第四個選項「經濟那科我陪妳看。」（所有玩家都有）',opts[0].length===4&&opts[0][3]==='「經濟那科我陪妳看。」',JSON.stringify(opts[0]));
-    check('慈 2（full）：「你念過的那一年，第三章有教嗎？」→ 你「有。我那時候沒聽懂。」→「那你等一下講給我聽。」（AA_209）→ 對經濟題、ECON_TOGETHER',L.includes('吳芯慈：你念過的那一年，第三章有教嗎？')&&L.includes('祐廷：有。我那時候沒聽懂。')&&L.includes('吳芯慈：那你等一下講給我聽。')&&L.includes('（你們在總圖對經濟題。她列式子，你畫圖。）')&&SOCIAL.has('classmate_xinci','ECON_TOGETHER')&&L[L.length-1]==='吳芯慈：謝謝。我要繼續讀了。',JSON.stringify(L));
+    check('慈 2（full）：「你念過的那一年，第三章有教嗎？」→ 你「有。我那時候沒聽懂。」→「沒關係，我也沒聽懂。等一下一起問老師。」（AA_209 第 8 節）→ 對經濟題、ECON_TOGETHER',L.includes('吳芯慈：你念過的那一年，第三章有教嗎？')&&L.includes('祐廷：有。我那時候沒聽懂。')&&L.includes('吳芯慈：沒關係，我也沒聽懂。等一下一起問老師。')&&L.includes('（你們在總圖對經濟題。她列式子，你畫圖。）')&&SOCIAL.has('classmate_xinci','ECON_TOGETHER')&&L[L.length-1]==='吳芯慈：謝謝。我要繼續讀了。',JSON.stringify(L));
     L=await go({ECON_PAST_SHARED:'half'},[3]);
     check('慈 2（half）：「自學的人，第三章懂嗎？」→「懂一半。」→「好，那你懂的那一半先講。」（AA_209）',L.includes('吳芯慈：自學的人，第三章懂嗎？')&&L.includes('祐廷：懂一半。')&&L.includes('吳芯慈：好，那你懂的那一半先講。')&&opts.length===1,JSON.stringify(L));
     L=await go({},[3,0]);
@@ -159,7 +159,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       check('C16：（系籃比賽。阿哲上場。）三個選項（拍手／記分／送水）',L[0]==='（系籃比賽。阿哲上場。）'&&JSON.stringify(opts[0])==='["（拍手）","（記分）","（送水）"]',JSON.stringify(opts[0]));
       check('C16 拍手：（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）「有聽到！」、WATCHED_GAME（阿哲）',L.includes('（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）')&&L.some(t=>/有聽到！$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1)));
       L=await play(1); check('C16 記分：（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）「沒事啦，多兩分給對面，算我們請客。」',L.includes('（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）')&&L.some(t=>/沒事啦，多兩分給對面，算我們請客。$/.test(t))&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1)));
-      L=await play(2); check('C16 送水：（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）「謝啦。」（他喝掉半瓶，又跑回場上。）（AA_209）',L.includes('（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）')&&L.some(t=>/謝啦。$/.test(t))&&L.includes('（他喝掉半瓶，又跑回場上。）')&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1))); } }
+      L=await play(2); check('C16 送水：（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）「謝啦。」（他把瓶子丟回給你，又跑回場上。）（AA_209 第 8 節）',L.includes('（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）')&&L.some(t=>/謝啦。$/.test(t))&&L.includes('（他把瓶子丟回給你，又跑回場上。）')&&SOCIAL.has('zhe','WATCHED_GAME'),JSON.stringify(L.slice(1))); } }
   /* ---------- 人物面板：每一種記憶都有中文名稱（沒有的話面板直接顯示英文代號）---------- */
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST');   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */

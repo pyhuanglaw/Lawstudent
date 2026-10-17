@@ -1628,7 +1628,7 @@ const STORY = (function(){
       if(fri&&G.day===fri&&h(G)<21&&done('ev_an_dorm_appeal')&&!F.AN_APPEAL_RESULT&&!PHONE.sent(G,'an_appeal_result')&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_01')){ F.AN_APPEAL_RESULT='phone';
         PHONE.at(G,fri,21,[P1('heroine_01','點數減了一點。宿舍說，以後記點以前會先問。'),P1('heroine_01','最後用的是第二份，寫規定沒考慮到急診這種情況。')].concat(F.AN_APPEAL==='ask'?[P1('heroine_01','你說要先問清楚的那句，我放在第一段了。')]:[]).map(x=>{ const y=Object.assign({},x); delete y.dt; return y; }),'an_appeal_result'); }   /* AA_209 附錄A §2（和 ev_an_dorm_appeal_result 一起換）*/
       if(wed&&G.day>=wed-1&&G.day<=wed&&!done('ev_an_dorm_appeal')&&!PHONE.sent(G,'an_appeal_heard')&&PHONE.inGroup(G,'noodle_team')&&S.knows('heroine_01',G)){
-        PHONE.at(G,wed,21.5,[{th:'g:noodle_team',from:'heroine_01',text:'我室友晚歸被記點那個申訴，結果出來了，點數減一點。'}],'an_appeal_heard');/* AA_209 附錄A §2 */ if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!SOCIAL.has('heroine_01','HEARD_ABOUT')) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她室友的申訴過了一半'); } }
+        PHONE.at(G,wed,21.5,[{th:'g:noodle_team',from:'heroine_01',text:'我室友晚歸被記點那個申訴，結果出來了，點數減一點。'}],'an_appeal_heard');/* AA_209 附錄A §2 */ if(typeof SOCIAL!=='undefined'&&SOCIAL.remember&&!SOCIAL.has('heroine_01','HEARD_ABOUT')) SOCIAL.remember('heroine_01','HEARD_ABOUT','室友的申訴結果出來了，點數減一點')/* AA_209 第 8 節第 8 點 */; } }
     /* 寒假拜年（交接包 v2 C3；AA_71 2-8「大一的台詞」，芷若、方奕廷兩則 BB 7451e42 改字）：大一上和大一下之間的春節（S.lunarNewYear＝初一）。只有認識的人：
        麵店團群組初一 11:00 阿哲、以安各一張照片＋拜年，可以回姊姊帶你去吃的牛肉麵（2026-10-14 祐廷改成臺北人，原本是火雞肉飯）或「新年快樂」的貼圖（不回就只是沒回，AA_70 1-9）；
        芷若有點熟以上、有聯絡方式：初一 15:30 私訊（朋友以上多「……我家的。」）；方奕廷有點熟以上、有聯絡方式：初三 15:00 才到（山上沒有訊號），朋友以上隔天公布答案 */
@@ -1666,7 +1666,7 @@ const STORY = (function(){
         if(G.day>=tue-1&&G.day<=thu&&!PHONE.sent(G,'ps_table_ask')) PHONE.at(G,tue,12,[ps('刑總二未遂那一章，我做了一張表，印給大家。'),Object.assign(ps('你的那份，週四演講完，來女舍門口拿？'),{ask:{until:thu*24+20+40/60,opts:[
             {t:'好。',set:{PS_TABLE_REPLY:'ok'},say:[ps('（貼圖：比 OK）')]},{t:'我不一定會去演講。',set:{PS_TABLE_REPLY:'maybe'},say:[ps('那你經過女舍的時候說一聲。')]}]}})],'ps_table_ask');
         if(G.day>=thu&&G.day<=thu+1&&!(G.day===thu&&h(G)<20+40/60)&&!PHONE.sent(G,'ps_table_cancel')) PHONE.at(G,thu,20+40/60,[ps('對不起。課輔班的作業還沒改完，明天要發回去。'),ps('今天下不去了。')],'ps_table_cancel');
-        if(F.PS_CANCEL==='waited'&&G.day>=thu+1&&G.day<=thu+3&&!PHONE.sent(G,'ps_table_waited')) PHONE.at(G,Math.max(thu+1,G.day),G.day>thu+1?G.hour+0.05:12,[ps('昨天謝謝你等。下次我會早點講。')]/* AA_209 附錄B §2 */,'ps_table_waited'); } }
+        if(F.PS_CANCEL==='waited'&&G.day>=thu+1&&G.day<=thu+3&&!PHONE.sent(G,'ps_table_waited')) PHONE.at(G,Math.max(thu+1,G.day),G.day>thu+1?G.hour+0.05:12,[ps('上次謝謝你等。下次我會早點講。')]/* AA_209 第 8 節第 5 點（可能晚兩、三天才補發，「昨天」改「上次」）*/,'ps_table_waited'); } }
     /* 法律系的班級群組 law_class（AA_140 第 4 節 B10；台詞歸 BB-B）：會說話的只有同班（阿哲、小語、柏翰、明軒、芯慈、宥辰、沛珊、以安）；只在事件或手機小事指定時出現、不隨機洗版；玩家不能自由發言，只在選項裡回。
        加入的時間、名稱照 AA_177 第 9 節（下面「法律系（全班）」那一段；原本照年級改名「法律系 大一（全班）」→ 大二…，2026-10-16 改成四年同一個名字）*/
     /* 經濟系那群的群組「走啦」econ_friends（AA_157 第 1 節，AA-B 2026-10-16）：韋綸建的；從法律系開始的玩家、舊存檔第一天就在手機裡，裡面只有 2025-08-13 放榜那晚的一張照片（只有照片說明、沒有台詞）。
@@ -1926,6 +1926,10 @@ const STORY = (function(){
               W('三，'+A.pts[2],{ask:{opts:A.cx.map((c,i)=>({t:c[0],post:'第二點有反例。'+c[0],say:[W(W3B_RESP[i]),ME('哪裡。'),W(A.long[0],{fold:A.long}),ME('那我換一個反例。'),W('……重點是，你的論點比上週好。')],
                 mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'W3b〈'+A.title+'〉'}]}))}})]); }
           else items=[W('📄 校刊投書〈'+A.title+'〉'),W('這篇你讀過了。這次換你先說三個論點。',{ask:{opts:['第一點','第二點','第三點'].map((t,i)=>({t:t+'有問題。',say:[W(i===1?'對。':'再讀一次。')]}))}})];
+          if((n+1)%3===0){ const r=F.W3B_R|0, bh=F.W3B_BH&&typeof F.W3B_BH==='object'?F.W3B_BH:(F.W3B_BH={}), slot=r%3; let rep;   /* 第 3、6、9…篇後面多一則讀書會成員的回話（AA_209 第 8 節，BB_180）：輪流 柏翰／沛珊貼圖／沛珊＋1；柏翰那句一學期最多兩次，之後他的輪次改「＋1」*/
+            if(slot===0){ if((bh[tm.id]|0)<2){ bh[tm.id]=(bh[tm.id]|0)+1; rep={from:'classmate_bohan',text:'第二點我也覺得怪。'}; } else rep={from:'classmate_bohan',text:'＋1'}; }
+            else rep={from:'classmate_peishan',text:slot===1?'（貼圖：舉手）':'＋1'};
+            items.push(Object.assign({th},rep)); F.W3B_R=r+1; }
           items.forEach((m,i)=>{ m.dt=i/60; }); PHONE.at(G,d,20.5,items,tg); F.W3B_N=n+1; } } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
        家族群組 13:00 Kevin 傳畢業照，學姊「恭喜。」（不是「收到」，BB_96 第 5 節）*/
@@ -2071,7 +2075,7 @@ const STORY = (function(){
       if(k==='noodle'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我去。'),{th:ng,from:'heroine_01',text:'收到。行程表多一個人。'}],'spring_pick_msg');
       if(k==='kexin'){ PHONE.at(G,G.day,G.hour+0.05,[me('p:kexin','好。我們去。')].concat(grp?[me(ng,'我這次有約了。'),{th:ng,from:'zhe',text:'……喔～'}]:[]),'spring_pick_msg'); }
       if(k==='dorm'&&grp) PHONE.at(G,G.day,G.hour+0.05,[me(ng,'我這次留在宿舍。'),{th:ng,from:'zhe',text:'好啦，照片會傳給你。'}],'spring_pick_msg'); }
-    if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'理由欄寫『雨』。'},{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
+    if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'好，下午改去室內的地方，我再排一下。'}/* AA_209 第 8 節第 8 點（同 ev_noodle_trip_spring_y1）*/,{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
   /* 模擬法庭的準備分（AA_143 3-2；0～4，不顯示數字）：模 2 去了機車行、模 3 提第三種寫法、模 4 有去、第 8～10 週和以安或柏翰一起準備（MOOT_TOGETHER） */
   S.mootScore=function(G){ const F=G.flags||{}; return (F.MOOT_BIKE_SHOP?1:0)+(F.MOOT_THIRD?1:0)+(F.MOOT_DRILL?1:0)+(F.MOOT_TOGETHER?1:0); };
   /* MOOT_TOGETHER（AA_143 3-3 第 8 項：照 LAWWW-B 的讀法）：大二下第 8～10 週去了公法讀書會，或在總圖、法圖自習時以安或柏翰在場 */

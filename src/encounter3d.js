@@ -15,7 +15,7 @@ const ENC=(function(){
   const D=()=>typeof ENCOUNTERS!=='undefined'?ENCOUNTERS:{rows:[],school:{},labels:{}};
   /* 阿哲叫「哥」（AA_209 第 4 節第 6 點）：和宿舍、宿營一樣看 ZHE_CALLS_GE；沒有的玩家把「哥」拿掉（「哥！」「哥，」開頭、句中的「哥，」、「哥你」→「你」）。偶遇台詞全部經過這裡 */
   const isZhe=w=>!!w&&(w==='zhe'||w.charId==='zhe'||w.id==='zhe'||w.name==='阿哲');
-  S.zheGe=(G,who,t)=>{ if(typeof t!=='string'||!isZhe(who)||(G&&G.flags&&G.flags.ZHE_CALLS_GE)) return t; return t.replace(/^哥[！，]\s*/,'').replace(/^哥你/,'你').replace(/哥，/g,''); };
+  S.zheGe=(G,who,t)=>{ if(typeof t!=='string'||!isZhe(who)) return t; if(G&&G.flags&&G.flags.ZHE_CALLS_GE) return t.replace(/^欸你看，那個人在噴火/,'哥，你看，那個人在噴火');   /* 偶遇 D04：叫「哥」的版本開頭「欸」換「哥，」（AA_209 第 8 節第 6 點）*/ return t.replace(/^哥[！，]\s*/,'').replace(/^哥你/,'你').replace(/哥，/g,''); };
   const ESAY=(GM,who,t)=>GM.say(who,S.zheGe(GM.G,who,t));
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) Object.assign(SOCIAL.MEMORY_LABEL,D().labels||{});
   const ST=()=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES?SOCIAL.STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP'];

@@ -46,6 +46,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.day=D0+42; run(20,21); G.day=D0+56; run(20,21); const t4=txt('g:lawclub_study');
   check('3. 第三篇〈通識課應該取消點名〉、第四次回到第一篇＋「這篇你讀過了。這次換你先說三個論點。」',t4.some(t=>t.includes('〈通識課應該取消點名〉'))&&t4.slice(-2).join('|')==='heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:這篇你讀過了。這次換你先說三個論點。',JSON.stringify(t4.slice(-3)));
   const q4=TH('g:lawclub_study').filter(m=>m.ask).pop(); PHONE.answer(G,q4.ask.id,1); check('3. 選「第二點有問題。」→「對。」',txt('g:lawclub_study').slice(-1)[0]==='heroine_05:對。');
+  // 第 3、6、9 篇後面多一則讀書會成員的回話（AA_209 第 8 節）
+  { const last3=TH('g:lawclub_study').filter(m=>m.tag==='w3b_2'); check('3b. 第三篇的最後一則：柏翰「第二點我也覺得怪。」（每三篇一篇，輪流第 1 個）',last3.length&&last3[last3.length-1].from==='classmate_bohan'&&last3[last3.length-1].text==='第二點我也覺得怪。',JSON.stringify(last3.slice(-2).map(m=>[m.from,m.text])));
+    check('3b. 第一、二、四篇沒有別人的回話',['w3b_0','w3b_1','w3b_3'].every(tg=>!TH('g:lawclub_study').some(m=>m.tag===tg&&(m.from==='classmate_bohan'||m.from==='classmate_peishan'))));
+    const tm=CALENDAR.termOf(G.day).id; G.flags.W3B_N=5; G.flags.W3B_R=1; G.day=D0+70; run(20,21); const p6=TH('g:lawclub_study').filter(m=>m.tag==='w3b_4');
+    check('3b. 第六篇：沛珊（貼圖：舉手）',p6.length&&p6[p6.length-1].from==='classmate_peishan'&&p6[p6.length-1].text==='（貼圖：舉手）',JSON.stringify(p6.slice(-1)));
+    G.flags.W3B_N=8; G.day=D0+84; run(20,21); const p9=TH('g:lawclub_study').filter(m=>m.tag==='w3b_5'); check('3b. 第九篇：沛珊「＋1」',p9.length&&p9[p9.length-1].text==='＋1'&&p9[p9.length-1].from==='classmate_peishan',JSON.stringify(p9.slice(-1)));
+    let kk=6; while(kk<40&&!((CALENDAR.termOf(D0+14*(kk+1))||{}).id==='Y2S1')) kk++; const d12=D0+14*(kk+1), t2=CALENDAR.termOf(d12).id; G.flags.W3B_BH={[t2]:2}; G.flags.W3B_N=11; G.day=d12; G.weekday=wdOf(d12); run(20,21); const p12=TH('g:lawclub_study').filter(m=>m.tag==='w3b_'+kk);
+    check('3b. 柏翰那句這學期已經兩次：他的輪次改「＋1」',p12.length&&p12[p12.length-1].from==='classmate_bohan'&&p12[p12.length-1].text==='＋1',JSON.stringify(p12.slice(-1))); }
   // 不在群組／大三
   fresh(D0+14,20,'dorm',{}); G.events.last.ev_grad_debate=D0; run(20,21); check('4. 不在讀書會群組：沒有',!G.msgs.some(m=>/^w3b_/.test(m.tag||'')));
   const y3=termDay('Y3S1',3,3); setup(y3,20); G.events.last.ev_grad_debate=y3-14; run(20,21); check('4. 大三上：沒有（只到大二）',!G.msgs.some(m=>/^w3b_/.test(m.tag||'')));

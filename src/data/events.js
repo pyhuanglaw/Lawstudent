@@ -1052,7 +1052,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_01',expression:'neutral',text:'一份說規定本身有問題，一份說規定沒問題，只是沒考慮到這種情況。'},   /* AA_209 附錄A §2 */
       {choice:[{text:'「寫第一份。規定錯了，就該改。」',consequences:{flags:{AN_APPEAL:'rule'}},goto:'rule'},{text:'「寫第二份。規定沒錯，是沒想到。」',consequences:{flags:{AN_APPEAL:'case'}},goto:'case'},
         {text:'「先寫一件事：記點以前，應該先問她。」',consequences:{flags:{AN_APPEAL:'ask'}},goto:'ask'},{text:'「我想先聽妳的。」',consequences:{flags:{AN_APPEAL:'listen'}},goto:'listen'}]},
-      {label:'rule'},{speaker:'heroine_01',expression:'thinking',text:'可是門禁本身有道理吧？這樣寫，舍監一看就會擋。'},{speaker:null,text:'（她在第一份旁邊畫了一個問號。）'},{goto:'end'},   /* AA_209 附錄A §2 */
+      {label:'rule'},{speaker:'heroine_01',expression:'thinking',text:'可是門禁本身有道理吧？這樣寫，舍監一看就會擋。'},{speaker:'heroine_01',expression:'thinking',text:'要寫的話，你要證明它對每個人都不合理。'},/* AA_209 第 8 節第 3 點 */{speaker:null,text:'（她在第一份旁邊畫了一個問號。）'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'case'},{speaker:'heroine_01',expression:'smile',text:'我也比較想寫這份。那你挑挑看，哪裡會被打回來？'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'ask'},{speaker:null,text:'（她停住，在草稿最上面寫了一行。）'},/* AA_209 附錄A §2 */{speaker:'heroine_01',expression:'neutral',text:'先問。……對，要先問。'},{goto:'end'},
       {label:'listen'},{speaker:'heroine_01',expression:'neutral',text:'好，我先說。'},{speaker:'heroine_01',expression:'neutral',text:'我最討厭『規定就是規定』這種話。我家以前很多事都這樣，不解釋。'},   /* AA_209 附錄A §2（AA_194 第 1 節要補的那句）*/
@@ -1305,7 +1305,7 @@ const STORY_EVENTS=[
       {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME',note:'大一的系籃比賽：你送水'}]},goto:'water'}]},
       {label:'clap'},{speaker:null,text:'（你在觀眾席拍到手掌發紅。阿哲進球，轉身指著你。）'},{speaker:'zhe',expression:'laugh',text:'有聽到！'},{goto:'end'},
       {label:'score'},{speaker:null,text:'（你坐到記分台，翻牌翻錯一次，裁判看了你一眼。）'},{speaker:'zhe',expression:'smile',text:'沒事啦，多兩分給對面，算我們請客。'},{goto:'end'},
-      {label:'water'},{speaker:null,text:'（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）'},{speaker:'zhe',expression:'smile',text:'謝啦。'},{speaker:null,text:'（他喝掉半瓶，又跑回場上。）'},   /* AA_209 附錄A §2 */
+      {label:'water'},{speaker:null,text:'（中場你把一箱水搬到場邊。阿哲一口氣喝掉半瓶。）'},{speaker:'zhe',expression:'smile',text:'謝啦。'},{speaker:null,text:'（他把瓶子丟回給你，又跑回場上。）'},/* AA_209 第 8 節第 2 點 */   /* AA_209 附錄A §2 */
       {label:'end'} ] },
   { id:'ev_an_azalea_y1', title:'四年，四張', participants:['heroine_01'], location:'campus', trigger:'interact', priority:8, once:true, term:['Y1S2'], weeks:[3], weekday:[6], time:[10,12], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'}}, background:'blur',
     dialogue:[ {speaker:null,text:'（椰林大道的杜鵑開了。以安拿著手機。）'},{speaker:'heroine_01',expression:'neutral',text:'我想每年都在這裡拍一張，拍到畢業。'},   /* AA_209 附錄A §2 */
@@ -3288,7 +3288,7 @@ const STORY_EVENTS_V11=[
       {label:'ec_told'},{speaker:'classmate_xinci',expression:'smile',text:'我就知道。'},{set:{ECON_PAST_SHARED:'full'}},{goto:'ec_together'},
       {label:'ec_self'},{set:{ECON_PAST_SHARED:'half'}},{goto:'ec_half'},
       {label:'ec_not'},{speaker:'classmate_xinci',expression:'neutral',text:'……好，不說也行。'},{goto:'ec_together'},
-      {label:'ec_full'},{speaker:'classmate_xinci',expression:'neutral',text:'你念過的那一年，第三章有教嗎？'},{speaker:'player',text:'有。我那時候沒聽懂。'},{speaker:'classmate_xinci',expression:'smile',text:'那你等一下講給我聽。'}/* AA_209 附錄A §2 */,{goto:'ec_together'},
+      {label:'ec_full'},{speaker:'classmate_xinci',expression:'neutral',text:'你念過的那一年，第三章有教嗎？'},{speaker:'player',text:'有。我那時候沒聽懂。'},{speaker:'classmate_xinci',expression:'smile',text:'沒關係，我也沒聽懂。等一下一起問老師。'}/* AA_209 第 8 節第 7 點 */,{goto:'ec_together'},
       {label:'ec_half'},{speaker:'classmate_xinci',expression:'neutral',text:'自學的人，第三章懂嗎？'},{speaker:'player',text:'懂一半。'},{speaker:'classmate_xinci',expression:'smile',text:'好，那你懂的那一半先講。'}/* AA_209 附錄A §2 */,
       {label:'ec_together'},{speaker:null,text:'（你們在總圖對經濟題。她列式子，你畫圖。）'},{mem:[{npc:'classmate_xinci',tag:'ECON_TOGETHER',note:'在總圖一起對經濟題'}]},
       {label:'end'},{speaker:'classmate_xinci',expression:'smile',text:'謝謝。我要繼續讀了。'} ] },

@@ -120,7 +120,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await playB(1);
     check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','郭沛珊：你真的在等。','郭沛珊：表給你。第二頁我還沒畫完。','郭沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
     run(G.hour,23.9); G.day=thu+1; G.weekday=wdOf(G.day); run(0,13);
-    check('10. 等了十分鐘：隔天 12:00「昨天謝謝你等。下次我會早點講。」（AA_209）',TH(thP).some(m=>m.text==='昨天謝謝你等。下次我會早點講。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
+    check('10. 等了十分鐘：隔天 12:00「上次謝謝你等。下次我會早點講。」（AA_209 第 8 節）',TH(thP).some(m=>m.text==='上次謝謝你等。下次我會早點講。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
     L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
     const wed12=termDay('Y1S2',12,3), thu12=termDay('Y1S2',12,4), mon12=termDay('Y1S2',12,1);
     const later=(day,h,zone,got)=>{ withC(day,h,zone); G.flags.PS_CANCEL='later'; if(got) G.flags.PS_TABLE_GOT=true; return [EVENTS.check(ec,{chain:true}),EVENTS.check(ek)]; };
