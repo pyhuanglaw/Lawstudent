@@ -16295,6 +16295,30 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "QA-SCREEN-1017",
+   "title": "看畫面的自動檢查（使用者 23:3x「很多我一打開遊戲就會發現的錯誤你好像也測不出來」）：tests/screencheck.py（黑畫面、被蓋住、文字超框、按鈕出界、人物不在畫面；縮圖總表給人逐張看）＋tests/screen_smoke.py（幾分鐘一輪）；接進經濟系兩支流程測試",
+   "area": "META",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "跑 screen_smoke（84c8b040）看抓到什麼、修；之後每批改動跑 screen_smoke（幾分鐘），長流程只在發布前跑；使用者在 iPhone 看到的錯，修完把那一類加進 screencheck",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "開新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-17 23:3x「好，照這樣改，先做看畫面的檢查」",
+   "authorized": "使用者",
+   "pausedReason": null,
+   "resumeWhen": null,
+   "sha": "84c8b040"
   }
  ]
 }
