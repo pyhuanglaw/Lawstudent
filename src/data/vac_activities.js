@@ -14,7 +14,18 @@ const VAC_DATA=(function(){
   const Y=G=>G&&G.flags||{};
   const A={
     /* VAC-C02 法律生活營隊輔（系學會高中生營隊，虛構名稱）：AA_241 第 1 節。每年 7/1～7/5（大二起可以當小隊長，台詞下一批）*/
-    C02:{ id:'C02', title:'法律生活營隊輔', cat:'社團志工', season:'summer', days:['07-01','07-05'], slot:'night', place:{kind:'taipei',name:'校內'}, cost:{payer:'none'}, free:'partial',
+    C02:{ id:'C02', title:'法律生活營隊輔', cat:'社團志工', season:'summer', years:['Y1','Y2','Y3'], days:['07-01','07-05'],
+      /* 每年重開（AA_264 77c7f3db）：第二次＝小隊長（第一天三句、CAMP_LEADER，其他天日誌）；第三次以後＝日誌；大二以後才第一次參加＝換人版（芯慈、沛珊不在）*/
+      rep:{ prep2:'籌備會。流程表上的紅色比去年少一點。', prep3:'籌備會。你幫學弟妹把流程表的顏色重新分了一次。',
+        keys2:['報到。有個學員說他哥哥去年也來過，在你那一組。','晚會。這次換你站在旁邊數人頭。','最後一天。卡片比去年多兩張。'],
+        keys3:['報到。你知道充電線要多帶三條。','晚會。學員問法律系難不難，你這次回答得比較快。','最後一天。你把卡片收進放去年那疊卡片的信封。'],
+        leader:{lines:[{narr:'（報到處。你的名牌這次多了一行字：「小隊長」。）'},{who:'npc_jr',name:'隊輔學弟',text:'學長，第二天下午的案例討論，你去年帶過對不對？'},{who:'npc_jr',name:'隊輔學弟',text:'可以教我怎麼帶嗎？'}],
+          choice:[{t:'「先讓他們吵。」',say:[{who:'npc_jr',name:'隊輔學弟',text:'吵完呢？'},{narr:'（你說吵完再問他們為什麼吵。他寫在手背上。）'}]},{t:'「第一場我帶，你在旁邊看。」',say:[{who:'npc_jr',name:'隊輔學弟',text:'好。'},{narr:'（那天下午，他一直站在你後面。）'}]}],set:{CAMP_LEADER:true}},
+        late:{prep:'籌備會。流程表貼在白板上，紅色的格子比你想的多。', day1:'報到。有個學員拖著兩個行李箱，你幫她搬上樓。',
+          eveOpt2:[{who:'npc_camper',name:'學員',text:'……學長你也還在想喔？'},{who:'player',text:'對。'},{who:'npc_camper',name:'學員',text:'那我比較不怕了。'}],
+          last:[{narr:'（學員寫卡片給隊輔。你那一疊最上面那張寫著：「謝謝學長第二天下午沒有放棄我們這組。」）'}],
+          miss:{th:'g:law_class',from:'sysclub',name:'系學會',text:'📷（營隊的大合照）'}},
+        recruit2:{from:'sysclub',name:'系學會',text:'去年當過隊輔的，可以直接報小隊長。'} }, slot:'night', place:{kind:'taipei',name:'校內'}, cost:{payer:'none'}, free:'partial',
       signup:{kind:'group', th:'g:law_class', term:'S2', week:12, wd:1, h:21, until:{term:'S2',week:13,wd:0}, flag:'CAMP_Y1_STAFF',
         msgs:[{from:'sysclub',name:'系學會',text:'【法律生活營 隊輔招募】7/1～7/5，高中生營隊，五天四夜，在校內。籌備會第 13～15 週週三晚上。有興趣的填表單。'},{from:'classmate_xinci',text:'我報了'},{from:'classmate_xinci',text:'有人要一起嗎'},{from:'classmate_peishan',text:'我也報了'}],
         yes:{t:'我也報。',say:[{from:'classmate_xinci',text:'好，我記下來'}]} },
@@ -34,7 +45,8 @@ const VAC_DATA=(function(){
                   {t:'「記得案例討論那組吵贏了。」',say:[{who:'classmate_peishan',text:'（笑）那一組真的很想贏。'}]}]} ],
       miss:{day:'07-05',h:21,who:'classmate_xinci',min:'ACQUAINTANCE',msgs:['營隊結束了','📷（操場上一排高中生和隊輔，比著不同的手勢）','少一個人排班。下次來喔']} },
     /* VAC-C03 日語課（以安也在上）：AA_241 第 2 節。7/7～7/23 週二、四 19:00～21:00，公館的語言中心（虛構）；三個關鍵事件，其他堂寫進日誌 */
-    C03:{ id:'C03', title:'日語課（暑期密集班）', cat:'學習考試', season:'summer', days:['07-07','07-23'], wd:[2,4], slot:'eve', place:{kind:'taipei',name:'公館的語言中心'}, cost:{payer:'family'}, free:'yes',
+    C03:{ id:'C03', title:'日語課（暑期密集班）', cat:'學習考試', season:'summer', years:['Y1','Y2','Y3'], days:['07-07','07-23'],
+      rep:{ keys2:['第一堂。老師記得你，說你去年的作業字很工整。','小考。助詞還是錯在同一個地方。','最後一堂。老師發了一張中級班的報名表。'], keys3:['第一堂。這次你坐第一排。','小考。你比隔壁的人先寫完。','最後一堂。老師問你要不要去考日檢。'] },   /* 大二起沒有以安的私訊：行事曆報名（AA_264 第 3 節）*/ wd:[2,4], slot:'eve', place:{kind:'taipei',name:'公館的語言中心'}, cost:{payer:'family'}, free:'yes',
       signup:{kind:'dm', who:'heroine_01', min:'FAMILIAR', day:'06-20', h:21, until:'06-26', flag:'VAC_C03',
         msgs:['我暑假要上日語課，公館那間，週二四晚上','三個禮拜，在我回台中以前上完','你如果也想學，報名到這個禮拜五'], yes:{t:'我也報。',say:[]}, board:true },   /* 不熟的玩家：公館語言中心的公告欄（行事曆）照樣報得到 */
       keys:[
@@ -94,7 +106,10 @@ const VAC_DATA=(function(){
     /* ===== 出國的活動（AA_242 18fe1b6a 照抄；AA_199 7-4）：學校、團隊、新 NPC 全部虛構；海外的關鍵事件是 2D 場景（底圖等使用者給，先用暗底）=====
        沒錄取（BB-C 13:03，AA_199 3-5／3-7「限制玩家的是時間」）：C08、C11 要用掉一個時段寫申請資料（報名隔天 20:00 宿舍書桌）、C09 面試人要到；沒做＝公布那天「很遺憾」＋阿哲一句，可以改報別的。日子 BB 確認（C08 說明會第 14 週週三 12:20、C09 面試第 7 週週三 19:00、C11 結果第 8 週週一 12:00）。 */
     /* VAC-C08 姊妹校邀請交流（首爾）：AA_242 第 1 節。大一暑假 7/13～7/24 */
-    C08:{ id:'C08', title:'姊妹校暑期交流（首爾）', cat:'海外交流', season:'summer', years:['Y1'], days:['07-13','07-24'], slot:'night', place:{kind:'abroad',name:'首爾',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
+    C08:{ id:'C08', title:'姊妹校暑期交流（首爾）', cat:'海外交流', season:'summer', years:['Y1','Y2','Y3'], days:['07-13','07-24'],
+      rep:{ keys2:[null,'歡迎晚會。智恩來幫忙接待，中文比去年快了一點。','市場。賣醬的老闆認出你，又多塞了一小包。','報告。你又講了麵店，這次有人問阿姨幾歲。','最後一晚。你們在宿舍門口拍照，站的位置跟去年一樣。'],
+        keys3:[null,'歡迎晚會。這次換你跟新來的臺大同學說哪一道不辣。','市場。那家醬的攤位換成她女兒在顧。','報告。麵店講過兩次了，這次你講總圖。','最後一晚。你幫學弟妹把行李搬上巴士。'],
+        recruit2:{from:'sysoffice',name:'系辦',text:'去過的同學也可以再報，名額一樣十個。'} }, slot:'night', place:{kind:'abroad',name:'首爾',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
       signup:{kind:'group', th:'g:law_class', term:'S2', week:6, wd:1, h:12, until:{term:'S2',week:9,wd:5}, flag:'VAC_C08', board:true,
         msgs:[{from:'sysoffice',name:'系辦',text:'【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'}],
         yes:{t:'（交申請書）',say:[]} },
@@ -119,7 +134,11 @@ const VAC_DATA=(function(){
         {day:'09-25',h:20,who:'npc_jieun',name:'智恩',msgs:G=>['今天是秋夕。韓國的中秋。','台灣也吃月餅嗎？'],
           opts:[{t:'吃，還會烤肉。',say:['烤肉？……下次我要去台灣看。']},{t:'吃柚子。',say:['柚子……要查一下。']}]} ] },
     /* VAC-C09 海外志工（柬埔寨的鄉村小學，虛構團隊「暖陽服務隊」）：AA_242 第 2 節。大一暑假 7/27～8/5；說明會第 5 週週三、面試第 7 週（LAWWW 排週三 19:00）、第 10 週公布、行前訓練 6/13 */
-    C09:{ id:'C09', title:'海外志工（暖陽服務隊）', cat:'社團志工', season:'summer', years:['Y1'], days:['07-27','08-05'], slot:'night', place:{kind:'abroad',name:'柬埔寨',tz:-1}, cost:{payer:'family'}, free:'partial',
+    C09:{ id:'C09', title:'海外志工（暖陽服務隊）', cat:'社團志工', season:'summer', years:['Y1','Y2','Y3'], days:['07-27','08-05'],
+      rep:{ pre2:[null,null,'行前訓練。家睿讓你帶新隊員折紙。'], pre3:[null,null,'行前訓練。新隊員問你村子裡熱不熱，你說很熱。'],
+        keys2:['到村子。去年那個不講話的小男生，先跑過來牽你的手。','（第二次來，你已經知道洗手歌怎麼唱了。）','又停電了。這次大家都帶了頭燈。','最後一天。去年畫的那張還貼在教室的牆上。'],
+        keys3:['到村子。家睿畢業了，今年的隊長是去年的新隊員。','上課。小朋友唱洗手歌的時候，換他們教新隊員。','停電。你把多帶的頭燈分給新隊員。','最後一天。村長說，明年學校要加蓋一間教室。'],
+        noSelect:true },   /* 第二次以後：家睿直接邀（7-1），不用再面試 */ slot:'night', place:{kind:'abroad',name:'柬埔寨',tz:-1}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S2', week:3, wd:1, h:9, until:{term:'S2',week:5,wd:3}, flag:'VAC_C09', board:true, yes:{t:'（報名）',say:[]} },
       pre:[
         {term:'S2',week:5,wd:3,h:19,title:'說明會',place:'社科院教室',bg:'classroom_small',lines:[{narr:'（投影片上是一間鐵皮屋頂的教室，二十幾個孩子擠在三張長桌。）'}]},
@@ -139,9 +158,14 @@ const VAC_DATA=(function(){
       /* 7-1 家睿：8/20 21:00（隔年說明會那週的那一則，等每年重開時接）*/
       follow:[
         {day:'08-20',h:21,who:'npc_jiarui',name:'家睿',msgs:G=>['📷（村子小學的教室，牆上貼著你們那天畫的洗手歌）','村長傳來的。他們還在唱。'],
-          opts:[{t:'我也還會唱。',say:['我知道。你唱得最大聲。']},{t:'謝謝你傳。',say:['應該的。大家都有。']}]} ] },
+          opts:[{t:'我也還會唱。',say:['我知道。你唱得最大聲。']},{t:'謝謝你傳。',say:['應該的。大家都有。']}]},
+        /* 隔年大一下（或大二下）第 5 週週一 12:00：「今年服務隊還缺兩個人。」（AA_242 7-1；AA_264 第 0 節第 3 點：報了不重演、照第二次的日誌）*/
+        {next:{term:'S2',week:5,wd:1},h:12,who:'npc_jiarui',name:'家睿',msgs:G=>['今年服務隊還缺兩個人。','你要不要再來一次？不勉強。'],
+          opts:[{t:'我想想。',say:['好。說明會在禮拜三。'],set:{C09_AGAIN:true}},{t:'今年不行。',say:['好。我幫你跟小朋友說。']}]} ] },
     /* VAC-C10 海外大學暑期課（加州的大學，虛構）：AA_242 第 3 節。大二暑假 6/21～7/31（六週、兩門）；大二下第 10～13 週報名，報名隔天去系辦送課程大綱＝C10_CREDIT_FILED；回來大三上第 2 週系辦學分採計 */
-    C10:{ id:'C10', title:'海外大學暑期課（加州）', cat:'學習考試', season:'summer', years:['Y2'], days:['06-21','07-31'], slot:'night', place:{kind:'abroad',name:'加州',tz:-15}, cost:{payer:'family'}, free:'partial',
+    C10:{ id:'C10', title:'海外大學暑期課（加州）', cat:'學習考試', season:'summer', years:['Y2','Y3'], days:['06-21','07-31'],
+      rep:{ pre2:[null], keys2:['第二次飛加州。這次你在飛機上睡得著。','第一堂。教授問誰去年來過，你舉了手。','報告。這次你沒有先寫好講稿。','週末。你帶同組的人去去年那家漢堡店。','期末考。考場的冷氣一樣冷，你帶了外套。'],
+        post2:'學分採計。系辦的人說這次你的表格填得很快。' },   /* 最多兩次（大二、大三暑假）；第二次沒有成績信、Priya */ slot:'night', place:{kind:'abroad',name:'加州',tz:-15}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S2', week:10, wd:1, h:9, until:{term:'S2',week:13,wd:5}, flag:'VAC_C10', board:true, yes:{t:'（報名）',say:[]} },
       pre:[{afterSignup:1,h:12+20/60,title:'系辦（學分採計）',place:'法律系辦',bg:'classroom_small',lines:[{who:'npc_office',name:'系辦助理',text:'要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。'},{who:'npc_office',name:'系辦助理',text:'……國外的課不一定都抵得掉。先問清楚比較好。'}],set:{C10_CREDIT_FILED:true}}],
       select:{name:'海外大學暑期課（加州）'},
@@ -163,7 +187,8 @@ const VAC_DATA=(function(){
       post:{ if:'C10_CREDIT_FILED', yk:yk=>'Y'+(+String(yk).slice(1)+1), term:'S1', week:2, wd:1, h:12+20/60, title:'系辦（學分採計）', place:'法律系辦', bg:'classroom_small',
         lines:[{who:'npc_office',name:'系辦助理',text:'兩門都過了。一門抵選修，一門……老師說內容和我們的課重疊，只能抵一半。'},{who:'npc_office',name:'系辦助理',text:'還是不錯啦。'}] } },
     /* VAC-C11 臺大提名的姊妹校短期課程（東京）：AA_242 第 4 節＋AA_244 第 1 節以安版。大二寒假 1/17～1/30；大二上第 5 週公告、第 6 週截止（甄審結果 LAWWW 排第 8 週週一 12:00）*/
-    C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2'], days:['01-17','01-30'], slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',
+    C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2','Y3','Y4'], days:['01-17','01-30'],
+      rep:{ keys2:['第一堂。這次你聽得懂老師的玩笑。','參訪。去年那間法院的導覽員換人了。'], keys3:['第一堂。同團的學弟妹問你要坐哪裡。','參訪。你在同一個地方等大家集合。'] }, slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',
       signup:{kind:'board', term:'S1', week:5, wd:1, h:9, until:{term:'S1',week:6,wd:5}, flag:'VAC_C11', board:true, yes:{t:'（報名）',say:[]} },
       select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）',need:'VAC_C11_APP'},
       pre:[{afterSignup:1,h:20,title:'寫申請書',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,set:{VAC_C11_APP:true}}],   /* BB-C 13:03：第 6 週截止以前寫申請書，沒寫就沒上 */
@@ -174,7 +199,8 @@ const VAC_DATA=(function(){
           G=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows('heroine_01',G)?{narr:'（休息時間，以安坐在你斜前方，回頭用嘴型說：好冷。）'}:null]},   /* 以安報了東京（AA_244 第 1 節大二寒假）*/
         {day:'01-23',h:14,title:'參訪',bg:null,lines:[{narr:'（參訪的是一個商店街的協會。會長是一位七十幾歲的伯伯，講話很快，翻譯跟不上。）'},{narr:'（最後他拿出一張商店街五十年前的照片。照片裡人很多。）'}]} ] },
     /* VAC-C12 海外語言文化課程（京都，虛構語言學校）：AA_242 第 5 節。大二暑假 8/9～8/27；大二下 3～5 月直接報名（第 3～12 週）。以安七月考完日檢也去（AA_244），FAMILIAR 以上才演同班那版 */
-    C12:{ id:'C12', title:'海外語言文化課程（京都）', cat:'學習考試', season:'summer', years:['Y2'], days:['08-09','08-27'], slot:'night', place:{kind:'abroad',name:'京都',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
+    C12:{ id:'C12', title:'海外語言文化課程（京都）', cat:'學習考試', season:'summer', years:['Y2','Y3'], days:['08-09','08-27'],
+      rep:{ keys2:['第一堂。分班考這次分到中級。','茶道課。你記得茶碗要轉兩次。','最後一天。你在車站買了去年那家的點心。'], keys3:['第一堂。同班的人大多比你小。','茶道課。老師讓你示範給新同學看。','最後一天。你寄了一張明信片回麵店。'] }, slot:'night', place:{kind:'abroad',name:'京都',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
       signup:{kind:'board', term:'S2', week:3, wd:1, h:9, until:{term:'S2',week:12,wd:5}, flag:'VAC_C12', board:true, yes:{t:'（報名）',say:[]} },
       select:{name:'海外語言文化課程（京都）'},
       depart:{zhe:'又去日本',yu:'你是不是住在日本了'}, back:{},

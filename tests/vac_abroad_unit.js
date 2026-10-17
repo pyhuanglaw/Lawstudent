@@ -34,7 +34,7 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const I8=VAC.inst('C08','Y1'), I9=VAC.inst('C09','Y1'), I10=VAC.inst('C10','Y2'), I11=VAC.inst('C11','Y2'), I12=VAC.inst('C12','Y2');
   check('1. 日期：首爾 2026-07-13～24、柬埔寨 7/27～8/5、加州 2027-06-21～07-31、東京 2027-01-17～30、京都 2027-08-09～27',I8.from===D('2026-07-13')&&I8.to===D('2026-07-24')&&I9.from===D('2026-07-27')&&I9.to===D('2026-08-05')&&I10.from===D('2027-06-21')&&I10.to===D('2027-07-31')&&I11.from===D('2027-01-17')&&I11.to===D('2027-01-30')&&I12.from===D('2027-08-09')&&I12.to===D('2027-08-27'));
-  check('1. 這一版只開第一次（C08、C09 大一；C10～C12 大二）；營隊、日語課還是只有大一',!VAC.inst('C08','Y2')&&!VAC.inst('C10','Y1')&&!VAC.inst('C02','Y2')&&!!VAC.inst('C02','Y1'));
+  check('1. 每年重開（AA_264）：暑假最多三次（大一～大三）、加州最多兩次（大二、大三）、東京寒假大二起；第一次開放的那一年才有第一次的公告與台詞',!!VAC.inst('C08','Y2')&&!!VAC.inst('C08','Y3')&&!VAC.inst('C08','Y4')&&!VAC.inst('C10','Y1')&&!!VAC.inst('C10','Y3')&&!VAC.inst('C10','Y4')&&!!VAC.inst('C02','Y2')&&!!VAC.inst('C11','Y4')&&VAC.inst('C02','Y1').first&&!VAC.inst('C02','Y2').first);
   // 2. C08：大一下第 6 週週一 12:00 全班群組系辦公告 → 交申請書 → 第 12 週週一 12:00 錄取通知＋媽媽兩句（行前說明會第 14 週週三 12:20）
   const w6=termDay('Y1S2',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; PHONE.join(G,'law_class','法律系 大一（全班）'); PHONE.join(G,'noodle_team','麵店團'); run(11.9,12.2);
   const T8=txt('g:law_class'); check('2. 系辦公告【交流計畫】…第 9 週週五前交申請書',T8.some(t=>t==='sysoffice:【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'),JSON.stringify(T8));
@@ -157,6 +157,24 @@ GM.money=function(n){ G.money+=n; };
     check('14. 和以安：最後一晚夜市果汁＋「行程表上的都走完了。……」、雙床房「（燈關了。）」；算一次正式約會、她的戀愛 +5',L.some(t=>t.includes('顏色最奇怪的那杯'))&&L.some(t=>t.endsWith('多出來的那一個小時，我沒寫。'))&&L.includes('（燈關了。）')&&DATE.log(G,'heroine_01').count===c0+1&&(SOCIAL.rel('heroine_01').npcRom||0)===n0+5,JSON.stringify(L));
     check('14. 一起去的以安不傳出國期間的訊息',!(G.msgs||[]).some(m=>m.th==='p:heroine_01'&&/^vac_tm_/.test(m.tag||''))); }
   { fresh(D('2026-03-01'),10,'dorm',{}); G.stage='law'; check('14. 學期中第 10 週以前沒有「安排」',!VAC.html(G).includes('data-vac13')); }
+  // 15. 每年重開（AA_264 77c7f3db）
+  { const w12=termDay('Y2S2',12,1); fresh(w12,20.9,'dorm',{}); G.stage='law'; PHONE.join(G,'law_class','法律系（全班）'); VAC.rec(G).reg['C02@Y1']='done'; run(20.9,21.2); const T2=txt('g:law_class');
+    check('15. C02 第二年：同一則系學會公告＋「去年當過隊輔的，可以直接報小隊長。」，沒有芯慈、沛珊的回覆、沒有選項；行事曆可以報名',T2.some(t=>t.includes('【法律生活營 隊輔招募】'))&&T2.includes('sysclub:去年當過隊輔的，可以直接報小隊長。')&&!T2.some(t=>t.startsWith('classmate_xinci'))&&VAC.html(G).includes('data-vac="C02@Y2"'),JSON.stringify(T2));
+    VAC.signup(G,'C02@Y2','yes'); check('15. 第二次參加：nth＝2',VAC.nth(G,VAC.inst('C02','Y2'))===2);
+    said=[]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y2_prep')); check('15. 籌備會：日誌「籌備會。流程表上的紅色比去年少一點。」',lines().join('|')==='籌備會。流程表上的紅色比去年少一點。',JSON.stringify(lines()));
+    G.day=D('2027-07-01'); G.hour=8.5; said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y2')); const L=lines();
+    check('15. 小隊長：第一天「名牌這次多了一行字：「小隊長」」→「第一場我帶，你在旁邊看。」、CAMP_LEADER；晚會、最後一天是日誌',L.some(t=>t.includes('「小隊長」'))&&L.includes('隊輔學弟：好。')&&G.flags.CAMP_LEADER===true&&L.includes('晚會。這次換你站在旁邊數人頭。')&&L.includes('最後一天。卡片比去年多兩張。')&&!L.some(t=>t.startsWith('沛珊')),JSON.stringify(L)); }
+  { fresh(D('2027-07-01'),8.5,'dorm',{}); G.stage='law'; VAC.signup(G,'C02@Y2','yes'); said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y2')); const L=lines();
+    check('15. 大二才第一次參加（換人版）：報到是日誌、晚會照演（選項二「……學長你也還在想喔？」）、最後一天只有卡片那句；沒有芯慈、沛珊',L[0]==='報到。有個學員拖著兩個行李箱，你幫她搬上樓。'&&L.includes('學員：……學長你也還在想喔？')&&L.some(t=>t.includes('謝謝學長第二天下午沒有放棄我們這組'))&&!L.some(t=>/^(沛珊|吳芯慈|芯慈)/.test(t)),JSON.stringify(L)); }
+  { fresh(D('2028-07-01'),8.5,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C02@Y1']='done'; VAC.rec(G).reg['C02@Y2']='done'; VAC.signup(G,'C02@Y3','yes'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y3')); const L=lines();
+    check('15. 第三次：三天都是「第三次以後」的日誌',JSON.stringify(L)===JSON.stringify(['報到。你知道充電線要多帶三條。','晚會。學員問法律系難不難，你這次回答得比較快。','最後一天。你把卡片收進放去年那疊卡片的信封。']),JSON.stringify(L)); }
+  { const w5=termDay('Y2S2',5,1); fresh(w5,11.9,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C09@Y1']='done'; run(11.9,12.2); const J=txt('p:npc_jiarui');
+    check('15. 家睿隔年第 5 週週一 12:00「今年服務隊還缺兩個人。」「你要不要再來一次？不勉強。」',J.includes('npc_jiarui:今年服務隊還缺兩個人。')&&J.includes('npc_jiarui:你要不要再來一次？不勉強。'),JSON.stringify(J));
+    VAC.signup(G,'C09@Y2','yes'); check('15. C09 第二次：不排說明會、面試（家睿直接邀）；行前訓練照排',!OUT.get(G,'vac_C09@Y2_pre0')&&!OUT.get(G,'vac_C09@Y2_pre1')&&!!OUT.get(G,'vac_C09@Y2_pre2'));
+    G.day=termDay('Y2S2',10,1); run(11.9,12.2); check('15. 第二次不用面試也錄取',(G.msgs||[]).some(m=>m.th==='sys'&&m.text.startsWith('【通知】恭喜錄取海外志工'))&&VAC.state(G,'C09@Y2')==='yes');
+    said=[]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y2_pre2')); check('15. 行前訓練：日誌「行前訓練。家睿讓你帶新隊員折紙。」',lines().join('|')==='行前訓練。家睿讓你帶新隊員折紙。'); }
+  { fresh(D('2028-06-01'),10,'dorm',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; check('15. 日本路線大三暑假（在日本到 8/5）：首爾 7/13 不能報；京都 8/9 可以',VAC.blocked(G,VAC.inst('C08','Y3'))&&!VAC.blocked(G,VAC.inst('C12','Y3')));
+    G.flags.EXCHANGE_ROUTE='US'; check('15. 美國路線（7/25 退宿、8/2 出發）：京都 8/9 不能報',VAC.blocked(G,VAC.inst('C12','Y3'))); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

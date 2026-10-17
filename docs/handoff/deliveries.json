@@ -7055,6 +7055,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "第 1 點已做（37135984）；其餘照 D81 排大四"
+  },
+  {
+   "id": "DL-AA-77c7f3db",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "77c7f3db",
+   "what": "AA_264 假期活動每年重開：第二次以後日誌（C01～C12）、C02 小隊長／換人版、C09 家睿隔年邀約、招募公告每年同一句（C02、C08 多一句）、上限（暑假三次、寒假四次、人在國外不能報）；另 AA 8 個階梯檔已審表（77c7f3db）",
+   "task": "VAC-C08-12",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "vac3d.js S.nth／repKey／blocked；C01（海邊，在 story3d）、C04、C05／C13 同目的地第二次還沒接；階梯匯入等記憶中文名稱"
   }
  ],
  "ignored": [
