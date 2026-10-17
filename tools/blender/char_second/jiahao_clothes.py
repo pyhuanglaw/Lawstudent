@@ -20,7 +20,7 @@ STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([240, 240, 2
              GOLD_RGB=np.array([234, 230, 220]) / 255.0, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='denim',
              SLEEVE_LEN=0.45, SLEEVE_K=0.85, CUFF_EASE=0.010, EASE_K=0.95, DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=False,
-             PANTS_ELLIPSE=(0.064, 0.074), PANTS_DROP=False, PANTS_HEM_UP=0.0)   # 直筒牛仔褲（明軒的寬度）
+             PANTS_ELLIPSE=(0.064, 0.074), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)   # 直筒牛仔褲（明軒的寬度）；第三版：褲管跟著腿走（Sakurada 的腿往內斜，垂直的管子褲腳會張開）
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：
 # 牛仔褲褲頭在胯骨上方 10 cm（低腰）；外套下擺在胯骨下面 2 cm（羅紋 4.5 cm，蓋住褲頭）；外套圓領貼脖子根部；T 恤圓領比外套低一點
 STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.085, KNIT_HEM_TOP=1.130, CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.575)   # 外套下擺到胯骨（第一版 1.12：太短）
