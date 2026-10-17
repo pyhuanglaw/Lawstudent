@@ -3,7 +3,9 @@
 LAWWW2-C 2026-10-17 第一版：直接沿用阿哲的 zhe_clothes（h01_clothes＋x_xinci_clothes 的敞開外套、tee_full、拼接、拉鍊；同一個 Sakurada 樣本，高度照用）。
 和阿哲不同：顏色；拼接在肩膀到上臂（參考圖的肩部色塊，阿哲是沿著整條手臂外側的細條）；褲子是短褲（PANTS_HEM_UP）、不是牛仔布；鞋是灰色。
 第二版：白色中筒襪（socks()：沿小腿量出來的一圈一圈，蓋過樣本身體貼圖上畫的深棕色短襪——第一版鞋子上面露出那雙深色襪子）；短褲改短、改窄。
-已知簡化：膝蓋的擦傷沒做；外套是圓領敞開（參考圖是立領）。"""
+第三版（BB-C 2026-10-17 的 8 項）：外套改短袖（到上臂一半）＋放下來的帽子（P04.build_hood，不要前面的帽繩）＋直的下擺（不收）；白色拼接在肩膀到袖子外側＋身體兩側；
+短褲到膝上約 5 cm、比較合身、側邊一條細紅線；襪子往下伸進鞋子（第二版腳跟露出樣本貼圖的深色）；左手腕黑色手錶。
+已知簡化：膝蓋的擦傷、單車安全帽（拿在手上的道具）沒做。"""
 import os, math
 import numpy as np
 import bpy
@@ -17,15 +19,16 @@ MUSTARD = np.array([226, 112, 52]) / 255.0     # 橘色 T 恤（參考圖 #e2703
 DENIM = np.array([40, 46, 68]) / 255.0         # 深藍運動短褲
 ZIP = np.array([214, 214, 210]) / 255.0        # 拉鍊布條（參考圖前襟兩條白線）
 SOCK = np.array([238, 238, 234]) / 255.0       # 白色中筒襪
-SOCK_Z = (0.068, 0.255)                          # 襪子的高度（參考空間：鞋口 0.080 以下開始、到小腿中段；膝蓋約 0.45）
+SOCK_Z = (0.040, 0.255)                          # 襪子的高度（參考空間：伸進鞋子裡、到小腿中段；膝蓋約 0.45）（第三版 0.068 → 0.040：腳跟露出樣本貼圖的深色短襪）
+RED = np.array([176, 38, 42]) / 255.0          # 短褲側邊的細紅線（參考圖正面）
 STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([128, 132, 138]) / 255.0, SOLE_RGB=np.array([234, 230, 220]) / 255.0,
              GOLD_RGB=np.array([234, 230, 220]) / 255.0, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
-             SLEEVE_LEN=1.0, SLEEVE_K=0.78, CUFF_EASE=0.010, EASE_K=0.95, DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=False,
-             PANTS_ELLIPSE=(0.062, 0.070), PANTS_DROP=False, PANTS_HEM_UP=0.56)   # 短褲：膝蓋上面一點（p04 的牛仔短褲 0.62＝大腿中段）；第一版 0.50／(0.068, 0.076) 像七分寬褲   # 第一版 (0.074, 0.086)＋從臀部直落：遊戲裡像喇叭褲
+             SLEEVE_LEN=0.42, SLEEVE_K=0.80, CUFF_EASE=0.016, EASE_K=0.95, DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=True,
+             PANTS_ELLIPSE=(0.057, 0.063), PANTS_DROP=False, PANTS_HEM_UP=0.62, PANTS_FOLLOW=True)   # 第三版：短袖（到上臂一半）、直下擺；短褲 0.56 → 0.62（膝上 5 cm）、窄一點、褲管跟著腿走   # 短褲：膝蓋上面一點（p04 的牛仔短褲 0.62＝大腿中段）；第一版 0.50／(0.068, 0.076) 像七分寬褲   # 第一版 (0.074, 0.086)＋從臀部直落：遊戲裡像喇叭褲
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：
 # 牛仔褲褲頭在胯骨上方 10 cm（低腰）；外套下擺在胯骨下面 2 cm（羅紋 4.5 cm，蓋住褲頭）；外套圓領貼脖子根部；T 恤圓領比外套低一點
-STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.085, KNIT_HEM_TOP=1.130, CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.575)   # 外套下擺到胯骨（第一版 1.12：太短）
+STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.085, KNIT_HEM_TOP=1.105, CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.575)   # 第三版：下擺的邊 4.5 → 2 cm（防風外套的抽繩邊，不是羅紋）   # 外套下擺到胯骨（第一版 1.12：太短）
 SIDE_NECK_M = (0.066, 1.631)
 OPEN_PHI = 24.0      # 外套敞開：比芯慈的開襟衫（31°）窄一點
 
@@ -120,6 +123,78 @@ def socks(skin, mb, mat=6, K_=20, R_=10):
     return n
 
 
+def side_panels(mb, z_top, mat_from=0, mat_to=4, half_angle=24.0):
+    """外套身片兩側（腋下到下擺）的白色拼接：身片的面，離正側面（±x）half_angle 以內、在腋下 z_top 以下（參考圖正面、背面都看得到兩側的白色）"""
+    V = np.array(mb.V); tags = np.array(mb.tag); idx = []; cen = []
+    for i, (f, mi) in enumerate(zip(mb.F, mb.FMAT)):
+        if mi != mat_from or not all(tags[j] == 'torso' for j in f): continue
+        idx.append(i); cen.append(V[list(f)].mean(0))
+    if not idx: return 0
+    cen = np.array(cen); yc = float(np.median(cen[:, 1])); n = 0
+    for i, c in zip(idx, cen):
+        if c[2] > z_top: continue
+        if math.degrees(math.atan2(abs(c[1] - yc), abs(c[0]) + 1e-9)) <= half_angle: mb.FMAT[i] = mat_to; n += 1
+    return n
+
+
+def stripe(tex, rgb=RED, half_w=0.007):
+    """短褲貼圖：外側的縫（u≈0／1，build_pants 的 k=0＝外側）一條細紅線"""
+    S = tex.shape[1]; u = (np.arange(S) + 0.5) / S
+    m = (u < half_w) | (u > 1 - half_w)
+    tex[:, m, :3] = rgb[None, None, :] * (0.95 + 0.05 * np.random.default_rng(3).random((tex.shape[0], int(m.sum()), 1)))
+    return tex
+
+
+def watch(m, side='L', back=0.035, band_w=0.022):
+    """黑色手錶（左手腕；參考圖三格都有）：手腕往手肘 3.5 cm 一圈錶帶（量下臂皮膚最外面＋4 mm）＋手背那一側（T 字姿勢的上面）一個錶面。
+    獨立物件，全部綁下臂骨頭（錶不跟著手腕轉）"""
+    arm, body = m['arm'], m['body']
+    E, Wr = np.array(C.bone_head(arm, 'J_Bip_%s_LowerArm' % side)), np.array(C.bone_head(arm, 'J_Bip_%s_Hand' % side))
+    ax = (Wr - E) / np.linalg.norm(Wr - E); up = np.array([0.0, 0.0, 1.0]); up = up - ax * (up @ ax); up /= np.linalg.norm(up); fr = np.cross(up, ax)
+    sk = K.Skin(body); w = sk.wsum({'J_Bip_%s_LowerArm' % side, 'J_Bip_%s_Hand' % side}); Pa = sk.P[w > 0.5]
+    V, F, UV = [], [], []
+    KS = 20; rows = []
+    for ds in (-band_w / 2, band_w / 2):
+        c0 = Wr - ax * (back + ds); sel = Pa[np.abs((Pa - c0) @ ax) < 0.006]; ring = []
+        for k in range(KS):
+            t = 2 * math.pi * k / KS; d = math.cos(t) * up + math.sin(t) * fr
+            r = (float(((sel - c0) @ d).max()) if len(sel) else 0.03) + 0.004
+            ring.append(len(V)); V.append(c0 + d * r); UV.append((0.25, 0.5))
+        rows.append(ring)
+    for k in range(KS):
+        a, b = rows[0][k], rows[0][(k + 1) % KS]; c_, d_ = rows[1][(k + 1) % KS], rows[1][k]
+        F.append((a, b, c_, d_))
+    # 錶面：手背那一側，扁的圓柱（半徑 1.7 cm、高 7 mm）
+    c0 = Wr - ax * back
+    rr = float(max((np.array(V[i]) - c0) @ up for i in rows[0] + rows[1]))
+    cb = c0 + up * (rr - 0.001); NC = 16; bot = []; topr = []
+    for k in range(NC):
+        t = 2 * math.pi * k / NC; d = math.cos(t) * ax + math.sin(t) * fr
+        bot.append(len(V)); V.append(cb + d * 0.017); UV.append((0.25, 0.5))
+    for k in range(NC):
+        t = 2 * math.pi * k / NC; d = math.cos(t) * ax + math.sin(t) * fr
+        topr.append(len(V)); V.append(cb + up * 0.007 + d * 0.0165); UV.append((0.75 + 0.2 * math.cos(t), 0.5 + 0.4 * math.sin(t)))
+    ctr = len(V); V.append(cb + up * 0.0072); UV.append((0.75, 0.5))
+    for k in range(NC):
+        F.append((bot[k], bot[(k + 1) % NC], topr[(k + 1) % NC], topr[k])); F.append((topr[k], topr[(k + 1) % NC], ctr))
+    me = bpy.data.meshes.new('Watch_W01'); me.from_pydata([tuple(p) for p in V], [], F); me.validate(clean_customdata=False); me.update()
+    uvl = me.uv_layers.new(name='UVMap'); li = np.zeros(len(me.loops), int); me.loops.foreach_get('vertex_index', li)
+    uvl.data.foreach_set('uv', np.array(UV)[li].reshape(-1).astype(np.float32))
+    me.polygons.foreach_set('use_smooth', [False] * len(me.polygons))
+    obj = bpy.data.objects.new('Watch_W01', me)
+    (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
+    S = 64; img = np.zeros((S, S, 4)); img[..., 3] = 1; img[..., :3] = 0.045                      # 錶帶：黑
+    yy, xx = np.mgrid[0:S, 0:S]; rd = np.hypot((xx + 0.5) / S - 0.75, (yy + 0.5) / S - 0.5)
+    img[(xx >= S // 2) & (rd < 0.20), :3] = 0.16; img[(xx >= S // 2) & (rd < 0.17), :3] = 0.10      # 錶圈、錶面（深灰）
+    img[(xx >= S // 2) & (np.abs(rd - 0.12) < 0.012), :3] = 0.30                                      # 刻度環
+    im = C.image_from_array('W01_Watch', img, os.path.join(K.WIP, 'w01_watch.png'))
+    tm = next(mt.name for mt in bpy.data.materials if mt.name.endswith('_CLOTH') and 'Shoes' in mt.name and not mt.name.startswith(('H01_', 'X01_', 'Z01_', 'W01_')))
+    mat = C.mtoon_from(tm, 'W01_Watch_CLOTH', base_img=im)
+    me.materials.append(mat)
+    C.bind(obj, arm, {'J_Bip_%s_LowerArm' % side: np.ones(len(V))})
+    return obj
+
+
 def _texture(rgb, S=1024):
     keep = K.KNIT_RGB; K.KNIT_RGB = rgb
     try: return K.jersey_texture(S)
@@ -136,11 +211,12 @@ def _apply(m, arm, body):
     XC.tee_full(skin, arm, mb, K.PANTS_TOP - 0.03, K.TEE_CREW_Z)
     shoes = K.build_shoes(skin, arm, mb)
     print('  sock faces', socks(skin, mb))
-    print('  shoulder panel faces', sleeve_panels(mb, top, half_angle=80.0, frac=0.42))   # 韋綸：肩膀到上臂、外側一大塊
+    print('  shoulder panel faces', sleeve_panels(mb, top, half_angle=70.0, frac=1.0))   # 第三版：短袖整條外側（肩膀到袖口）   # 第二版：肩膀到上臂、外側一大塊
+    print('  side panel faces', side_panels(mb, float(C.bone_head(arm, 'J_Bip_L_UpperArm')[2]) - 0.07))
     zip_tapes(mb, top['edges'])
     os.makedirs(K.WIP, exist_ok=True)
     imgs = [C.image_from_array('W01_Jacket', _texture(NAVY), os.path.join(K.WIP, 'w01_clothes_Jacket.png')),
-            C.image_from_array('W01_Trouser', K.trouser_texture(), os.path.join(K.WIP, 'w01_clothes_Trouser.png')),
+            C.image_from_array('W01_Trouser', stripe(K.trouser_texture()), os.path.join(K.WIP, 'w01_clothes_Trouser.png')),
             C.image_from_array('W01_Loafer', K.loafer_texture(), os.path.join(K.WIP, 'w01_clothes_Loafer.png')),
             C.image_from_array('W01_Tee', _texture(MUSTARD, 512), os.path.join(K.WIP, 'w01_clothes_Tee.png')),
             C.image_from_array('W01_Panel', _texture(CREAM, 256), os.path.join(K.WIP, 'w01_clothes_Panel.png')),
@@ -195,4 +271,7 @@ def apply(m):
     Mw = np.array(obj.matrix_world); P = C.co(obj) @ Mw[:3, :3].T + Mw[:3, 3]
     C.set_co(obj, (bm.inv(P) - Mw[:3, 3]) @ np.linalg.inv(Mw[:3, :3]).T)
     C.warp_world(body, bm.inv)
+    import p04_clothes as P04
+    P04.build_hood(m, obj, mat_key='Jacket', cords=False, scale=1.10, shade=(0.88, 0.88, 0.92))   # 第三版：防風外套的帽子（參考圖側面、背面）
+    print('  watch', watch(m).name)
     return obj

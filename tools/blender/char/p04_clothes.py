@@ -26,8 +26,9 @@ def _surface_bvh(obj):
     return BVHTree.FromPolygons(P.tolist(), [list(p.vertices) for p in obj.data.polygons])
 
 
-def build_hood(m, clothes):
-    """放下來的帽子：脖子後面一圈粗的帽緣（從左肩頸到右肩頸）＋垂在背上的帽身（圓角三角形，貼著上衣背面外 1 cm）＋兩條帽繩"""
+def build_hood(m, clothes, mat_key='Knit', cords=True, scale=1.0, shade=(0.90, 0.90, 0.92)):
+    """放下來的帽子：脖子後面一圈粗的帽緣（從左肩頸到右肩頸）＋垂在背上的帽身（圓角三角形，貼著上衣背面外 1 cm）＋兩條帽繩
+    mat_key：用哪一個衣服材質的貼圖（名字裡有這個字）；cords：前面兩條帽繩（敞開的外套不要）；scale：帽緣、帽身的大小（高子晴＝1；男生樣本約 1.1）"""
     arm = m['arm']
     N = C.bone_head(arm, 'J_Bip_C_Neck'); U = C.bone_head(arm, 'J_Bip_C_UpperChest')
     bvh = _surface_bvh(clothes)
@@ -37,7 +38,7 @@ def build_hood(m, clothes):
         h = bvh.ray_cast(Vector((x, 0.5, z)), Vector((0, -1, 0)), 1.0)[0]
         return (float(h[1]) if h is not None else N[1] + 0.06) + off
 
-    rx, ry = 0.086, 0.080; c0 = np.array([N[0], N[1] + 0.012, N[2] + 0.004])     # 第二版：帽緣高一點、寬一點（第一版在背上只是一條細線，看不出是帽子）
+    rx, ry = 0.086 * scale, 0.080 * scale; c0 = np.array([N[0], N[1] + 0.012 * scale, N[2] + 0.004])     # 第二版：帽緣高一點、寬一點（第一版在背上只是一條細線，看不出是帽子）
     def rim(th):   # 帽緣中心線（th：0＝正後方，±＝兩側）
         return c0 + np.array([math.sin(th) * rx, math.cos(th) * ry, 0.014 * math.cos(th)])
 
@@ -64,7 +65,7 @@ def build_hood(m, clothes):
             th = math.radians(75 * u)
             top = rim(th)
             wscale = (1 - 0.55 * v ** 1.4) * math.sqrt(max(0.0, 1 - (u * v ** 2) ** 2 * 0.0))
-            x = top[0] * wscale; z = top[2] - 0.215 * v - 0.012 * (1 - math.cos(math.pi * u)) * v
+            x = top[0] * wscale; z = top[2] - 0.215 * scale * v - 0.012 * (1 - math.cos(math.pi * u)) * v
             puff = 0.016 * math.sin(math.pi * min(1.0, v * 1.1)) * (1 - u * u) + 0.010 * (1 - v)     # 帽身中間鼓起來（布料疊在一起的厚度）
             y = max(on_back(x, z, 0.012 + puff), top[1] + tr * 0.4 * (1 - v)) if v > 0.05 else top[1] + tr * 0.8
             V.append(np.array([x, y, z])); UV.append((0.1 + 0.8 * (u + 1) / 2, 0.70 * (1 - v))); W.append(0.25 * (1 - v))
@@ -74,7 +75,7 @@ def build_hood(m, clothes):
             F.append((a0, a1, b1, b0))
     # 3. 帽繩：領口兩側往下 17 cm 的細繩（寬 6 mm 的雙面帶子，前面）
     base = len(V)
-    for sg in (1, -1):
+    for sg in ((1, -1) if cords else ()):
         x0 = sg * 0.030; z0 = N[2] - 0.020
         h = bvh.ray_cast(Vector((x0, -0.5, z0 - 0.05)), Vector((0, 1, 0)), 1.0)[0]
         yf = (float(h[1]) if h is not None else N[1] - 0.08) - 0.006
@@ -93,11 +94,11 @@ def build_hood(m, clothes):
     me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
     obj = bpy.data.objects.new('Clothes_Hood', me)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
-    knit = next(mt for mt in clothes.data.materials if mt and 'Knit' in mt.name)
+    knit = next(mt for mt in clothes.data.materials if mt and mat_key in mt.name)
     img = knit.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_texture.index.source
     # 第三版：帽子用同一張布料貼圖、顏色暗 8%（第二版和上衣同一個材質：遊戲光線下帽身和背後分不出來，看不出有帽子）
     mat = C.mtoon_from(knit.name, 'P04_Hood_CLOTH', base_img=img, double_sided=True)
-    try: mat.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_factor = (0.90, 0.90, 0.92, 1.0)
+    try: mat.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_factor = (*shade, 1.0)
     except Exception as ex: print('  hood factor', ex)
     me.materials.append(mat)
     W = np.array(W)

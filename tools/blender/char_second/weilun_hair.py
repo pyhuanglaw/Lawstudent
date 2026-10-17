@@ -33,7 +33,7 @@ def make_atlas(seed=SEED):
     h, w = reg('card')
     put('card', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))   # 第二版：髮尾分束從 55% 改 68%（太多透明的尖端，太陽穴看起來像剃短）
     h, w = reg('cardB')
-    put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.58, 0.80, 1.0, hw_k=(0.95, 1.3), lean=0.2, power=0.6, full=2.2, minw=3.5))
+    put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.46, 0.72, 1.0, hw_k=(0.85, 1.2), lean=0.22, power=0.6, full=2.0, minw=3.0))   # 第三版：刺刺的碎髮（早一點分束、尖端多、長短差多）
     h, w = reg('bang')
     put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
     h, w = reg('shell')
@@ -52,8 +52,8 @@ def apply(m):
 
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
-        top = 0.019 + 0.032 * float(sstep(0.10, 0.55, v)) - 0.008 * float(sstep(0.75, 0.97, v))   # 韋綸第二版：頭頂往上翹、更蓬   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
-        side = 1 - 0.55 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
+        top = 0.017 + 0.020 * float(sstep(0.10, 0.55, v)) - 0.006 * float(sstep(0.75, 0.97, v))   # 第三版（BB-C）：頭頂收（第二版 0.032：頭頂一撮翹起來像鳳梨頂）   # 韋綸第二版：頭頂往上翹、更蓬   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
+        side = 1 - 0.32 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 韋綸第三版：兩側、後腦厚一點（第二版 0.55：兩側太薄、看得到頭皮）   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
         return top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
 
     def line_dir(a, v):
@@ -87,7 +87,7 @@ def apply(m):
     # 第五版：太陽穴前段（方位 36–55°）留在眉毛高度——側面看，太陽穴就在眼睛正外側，那裡的頭髮垂到眼睛高度會把眼睛整個擋住；
     # 只有耳朵前面的鬢角（60–85°，在眼睛後面）垂到眼睛高度
     TIP_A = [0, 20, 36, 50, 58, 66, 78, 92, 108, 112]
-    TIP_Z = [H.brow_z + 0.036, H.brow_z + 0.034, H.brow_z + 0.024, H.brow_z + 0.014, eye_z + 0.032, eye_z + 0.026, eye_z + 0.018, ear_top + 0.004, ear_top + 0.006, ear_top + 0.008]   # 韋綸第二版：瀏海停在眉毛上方 3.5 cm、太陽穴到眼尾上方、耳朵露出來（第一版照阿哲：瀏海蓋到眉毛，正面看像碗蓋）
+    TIP_Z = [H.brow_z + 0.010, H.brow_z + 0.012, H.brow_z + 0.010, H.brow_z + 0.004, eye_z + 0.020, eye_z + 0.014, eye_z + 0.008, ear_top - 0.006, ear_top - 0.004, ear_top - 0.002]   # 韋綸第三版（BB-C）：瀏海幾撮垂到眉毛、太陽穴與耳朵上面蓋住（第二版瀏海在眉毛上方 3.5 cm、兩側露頭皮）   # 韋綸第二版：瀏海停在眉毛上方 3.5 cm、太陽穴到眼尾上方、耳朵露出來（第一版照阿哲：瀏海蓋到眉毛，正面看像碗蓋）
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
         if aa < 112: return min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
@@ -101,7 +101,7 @@ def apply(m):
             print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 12, 4
-    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 0.97, Nv + 1)
+    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 1.0, Nv + 1)   # 髮殼一直到髮旋（0.97 時髮旋留一個小洞，遊戲裡背面頭頂一個白點＝頭皮；BB-C 韋綸第二版「後腦一塊白色」）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
         for j, v in enumerate(vs):
@@ -157,8 +157,9 @@ def apply(m):
     for k in range(9):
         a = -36 + 72 * (k + rng.uniform(0.2, 0.8)) / 9
         sgn = 1.0 if a > PART else -1.0
-        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.08, 0.02), 0.012 + 0.003 * rng.random(), rng.uniform(1.5, 2.0), 'bang',
-             nseg=16, bulge=0.007 + 0.003 * rng.random(), arch=0.10, curl=sgn * rng.uniform(10, 28))   # 阿哲：有的到眼睛上緣、往兩邊撥得更開（露出額頭）
+        cu = sgn * rng.uniform(4, 12)      # 第三版：髮尾高度照撥過去之後的方位算、只會比目標短（第二版 curl 10–28° 照髮根的方位：兩側的髮束沿臉往下掉）
+        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a + cu) + rng.uniform(0.0, 0.05), 0.012 + 0.003 * rng.random(), rng.uniform(1.5, 2.0), 'bang',
+             nseg=16, bulge=0.007 + 0.003 * rng.random(), arch=0.10, curl=cu)
     n_bang = len(mb.F) - n_shell - n_card
 
     # ---- 4. 物件、材質、權重 ----
@@ -176,6 +177,9 @@ def apply(m):
     mat = C.mtoon_from(tmpl, 'Z01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
     mt.shade_color_factor = (0.80, 0.74, 0.72)        # 第十一版：陰影面不要那麼暗（0.72／0.66）
+    try:      # 第三版（BB-C：背面後腦一塊白色）：Sakurada 樣本頭髮材質的 MatCap（VRM 0.x 的 _SphereAdd）斜著看會發白，關掉
+        mt.matcap_texture.index.source = None; mt.matcap_factor = (0.0, 0.0, 0.0)
+    except Exception as ex: print('  matcap off failed', ex)
     e1 = mat.vrm_addon_extension.mtoon1
     e1.emissive_texture.index.source = None; e1.normal_texture.index.source = None
     me.materials.append(mat)

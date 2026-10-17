@@ -85,7 +85,8 @@ def apply(m):
     # 第五版：太陽穴前段（方位 36–55°）留在眉毛高度——側面看，太陽穴就在眼睛正外側，那裡的頭髮垂到眼睛高度會把眼睛整個擋住；
     # 只有耳朵前面的鬢角（60–85°，在眼睛後面）垂到眼睛高度
     TIP_A = [0, 20, 36, 50, 58, 66, 78, 92, 108, 112]
-    TIP_Z = [H.brow_z - 0.004, H.brow_z - 0.002, H.brow_z - 0.004,   # 阿勳第二版：瀏海到眉毛（第一版垂到眼睛上面、整排像窗簾；參考圖是一撮一撮蓋到眉毛、看得到一點額頭）
+    TIP_Z = [H.brow_z + 0.006, H.brow_z + 0.007, H.brow_z + 0.004,   # 第四版：瀏海到眉毛上緣（第三版遊戲裡髮尖蓋到上眼皮）
+                # 阿勳第二版：瀏海到眉毛（第一版垂到眼睛上面、整排像窗簾；參考圖是一撮一撮蓋到眉毛、看得到一點額頭）
               eye_z + 0.006, eye_z + 0.002, eye_z - 0.004, eye_z - 0.010, ear_top - 0.024, ear_top - 0.020, ear_top - 0.016]   # 明軒：瀏海到眉毛下緣、兩側蓋到耳朵上緣（阿哲在眉毛上方 1.2 cm）   # 阿哲：瀏海髮尾在眉毛上方 1.2 cm（參考圖看得到眉毛）
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
@@ -100,7 +101,7 @@ def apply(m):
             print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 12, 4
-    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 0.97, Nv + 1)
+    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 1.0, Nv + 1)   # 髮殼一直到髮旋（0.97 時髮旋留一個小洞，遊戲裡背面頭頂一個白點＝頭皮；BB-C 韋綸第二版「後腦一塊白色」）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
         for j, v in enumerate(vs):

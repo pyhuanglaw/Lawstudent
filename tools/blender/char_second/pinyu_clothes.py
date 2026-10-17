@@ -16,13 +16,13 @@ STYLE = dict(KNIT_RGB=GREY, TROUSER_RGB=BLACK, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, 
 # 褲頭在腰（藏在帽 T 裡）、帽 T 下擺在胯骨下面（oversize）；圓領比 T 恤高一點（帽 T 的領口貼脖子）
 # 第二版：帽 T 下擺 0.915 → 0.875（參考圖 oversize、蓋到胯下）、身片寬鬆 1.0 → 1.08（第一版遊戲裡已經很蓬）；褲管中心跟著腿走（PANTS_FOLLOW：第一版褲腳往外張開像喇叭褲）、寬一點的直筒；
 # 圓領前中心 1.330 → 1.345（第一版遊戲裡領口上面露出樣本脖子的接縫線）
-STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.875, KNIT_HEM_TOP=0.928, BACK_NECK_Z=1.380, CREW_FRONT_Z=1.345)
+STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.875, KNIT_HEM_TOP=0.928, BACK_NECK_Z=1.385, CREW_FRONT_Z=1.358)   # 第三版 1.345 → 1.358：第二版遊戲裡領口上面還看得到接縫線
 SIDE_NECK_M = (0.078, 1.392)
 
 
 def apply(m):
     obj = PC.run(m, STYLE, STYLE_M, SIDE_NECK_M)
-    P04.build_hood(m, obj)
+    P04.build_hood(m, obj, scale=0.95)   # 品妤 158 cm：帽子小一點（第二版側面看像頸枕）
     obj.name = 'Clothes_P01'
     m['clothes'] = obj
     return obj

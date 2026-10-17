@@ -6,15 +6,64 @@ import p00_face as PF
 import zhe_face as ZF
 
 WEILUN = dict(PF.MALE)
-WEILUN.update(EYE_SZ=0.66, EYE_SX=1.05, EYE_TILT=0.005,               # 平、細一點（阿哲照祐廷 0.72／1.06／0.02）
-              BROW_K=1.70, BROW_ARCH=0.12, BROW_COL=(0.07, 0.06, 0.055), BROW_SCALE_Z=1.45,   # 直的濃眉、近黑（阿哲深棕、ARCH 0.30）
-              JAW_OUT=0.0068, CHIN_WIDEN=0.50, D_CHIN=0.0058,       # 下顎線更硬、下巴不寬、臉稍長（第二版：第一版的臉太軟、太年輕）
+WEILUN.update(EYE_SZ=0.54, EYE_SX=1.14, EYE_TILT=0.0, IRIS_FRAC=0.45,     # 第三版（BB-C）：眼睛細長、單眼皮感、虹膜小一點（第二版 0.66／1.05：大而圓、看起來擔心、年紀小）
+              BROW_K=1.70, BROW_ARCH=0.02, BROW_DROP=0.0060, BROW_COL=(0.06, 0.05, 0.045), BROW_SCALE_Z=1.30,   # 眉毛平、直、壓低（第二版 ARCH 0.12：往上挑）
+              JAW_OUT=0.0085, CHIN_WIDEN=0.58, D_CHIN=0.0050, FACE_NARROW=0.95, CHIN_FWD=0.0030,   # 下顎、臉頰再瘦硬一點（19 歲成人，不要國中生感）
               MOUTH_K=1.34, LIP_A=0.46,                              # 嘴平、唇色淡
-              LIP_OUT=(0.78, 0.53, 0.46), LIP_IN=(0.68, 0.43, 0.38), LIP_HI=(0.86, 0.65, 0.58))
-TAN = (0.89, 0.74, 0.61)          # 阿哲 (0.86, 0.70, 0.56)：淺一點
-SHADE_TAN = (0.93, 0.82, 0.72)
+              LIP_OUT=(0.72, 0.48, 0.40), LIP_IN=(0.62, 0.39, 0.33), LIP_HI=(0.80, 0.60, 0.52))
+TAN = (0.76, 0.58, 0.44)          # 第三版（BB-C）：小麥色、偏暖棕（騎腳踏車曬的；第二版 (0.89, 0.74, 0.61) 偏白偏粉、像室內的人）；臉和身體同一組
+SHADE_TAN = (0.86, 0.68, 0.55)
+NECK_K = 1.07                     # 脖子粗一點（BB-C：不要那麼細長）
+CALF_MM = 9.0                     # 小腿肚往外（騎車的人；樣本座標 mm，遊戲裡約 8 mm）
+
+
+def _shape_body(m):
+    """第三版（BB-C）：脖子粗一點、小腿肚與大腿的肌肉（騎車的人；第二版腿太細直）。只動身體網格（含 shape key），衣服、襪子之後照新的身體做"""
+    import numpy as np
+    import common as C
+    arm, body = m['arm'], m['body']
+    def bh(n): return np.array(C.bone_head(arm, n))
+    me = body.data; P = C.co(body); Mw = np.array(body.matrix_world); Pw = P @ Mw[:3, :3].T + Mw[:3, 3]
+    vg = {g.index: g.name for g in body.vertex_groups}
+    def wsum(names):
+        w = np.zeros(len(me.vertices))
+        for v in me.vertices:
+            for g in v.groups:
+                if vg.get(g.group) in names: w[v.index] += g.weight
+        return w
+    D = np.zeros_like(Pw)
+    # 脖子：脖子骨頭的權重 × 高度輪廓（上下兩端不動：和臉、肩膀接得起來）
+    n0, h0 = bh('J_Bip_C_Neck'), bh('J_Bip_C_Head'); wn = wsum({'J_Bip_C_Neck'})
+    t = (Pw[:, 2] - n0[2]) / max(1e-4, h0[2] - n0[2]); prof = np.clip(np.sin(np.pi * np.clip((t + 0.15) / 0.95, 0, 1)), 0, 1)
+    k = (NECK_K - 1.0) * np.clip(wn, 0, 1) * prof
+    ax = n0[:2] + (h0[:2] - n0[:2]) * np.clip(t, 0, 1)[:, None]
+    D[:, :2] += (Pw[:, :2] - ax) * k[:, None]
+    nn = int((k > 1e-3).sum())
+    # 小腿肚：膝蓋往下 30% 最鼓、後面最多（腓腸肌），前面（脛骨）幾乎不動；大腿前面、外側一點點
+    nc = 0
+    for side in ('L', 'R'):
+        kn, ft, hp = bh('J_Bip_%s_LowerLeg' % side), bh('J_Bip_%s_Foot' % side), bh('J_Bip_%s_UpperLeg' % side)
+        wl = wsum({'J_Bip_%s_LowerLeg' % side}); wu = wsum({'J_Bip_%s_UpperLeg' % side})
+        for w, a, b, peak, sig, amp, back_k in ((wl, kn, ft, 0.30, 0.17, CALF_MM * 1e-3, 0.80), (wu, hp, kn, 0.55, 0.25, 4.0e-3, -0.30)):
+            sel = w > 0.3
+            tt = np.clip((a[2] - Pw[:, 2]) / max(1e-4, a[2] - b[2]), 0, 1)
+            axp = a[:2] + (b[:2] - a[:2]) * tt[:, None]
+            r = Pw[:, :2] - axp; rl = np.linalg.norm(r, axis=1) + 1e-9; rd = r / rl[:, None]
+            back = rd[:, 1]                                  # +y＝後面（VRoid 人物面向 -y）
+            dirk = np.clip(0.25 + back_k * back, 0.0, 1.0) if back_k > 0 else np.clip(0.55 - back_k * (-back), 0.0, 1.0) * 0.8 + 0.2
+            amt = amp * np.exp(-((tt - peak) / sig) ** 2) * dirk * np.clip(w, 0, 1) * sel
+            D[:, :2] += rd * amt[:, None]; nc += int((amt > 1e-4).sum())
+    Dl = D @ np.linalg.inv(Mw[:3, :3]).T
+    C.set_co(body, P + Dl)
+    if me.shape_keys:
+        for kb in me.shape_keys.key_blocks:
+            if kb == me.shape_keys.reference_key: continue   # set_co 已經改了 Basis
+            a = np.empty(len(me.vertices) * 3); kb.data.foreach_get('co', a); kb.data.foreach_set('co', (a.reshape(-1, 3) + Dl).reshape(-1))
+    me.update()
+    return nn, nc
 
 
 def apply(m):
-    PF.run(m, WEILUN, {'Fcl_EYE_Close': 0.0})
+    PF.run(m, WEILUN, {'Fcl_EYE_Close': 0.18})       # 第三版：上眼皮蓋下來一點（單眼皮感、放鬆、有點酷）
     print('  tan skin materials', ZF.tan_skin([m['face'], m['body']], TAN, SHADE_TAN))
+    print('  body shaping (neck verts, leg verts)', _shape_body(m))
