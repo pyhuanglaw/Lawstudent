@@ -1336,18 +1336,18 @@ const STORY_EVENTS=[
        ② 麵店：麵店日（週二、週四）走進麵店就演一句旁白（麵店團才有）；
        ③ 最後一個（小語問祐廷）：吉他社的玩家在社課結束後（afterActivity），其他玩家在麵店散場後走到騎樓（公館，今天有在麵店）；
           要先看過 ① 或 ② 其中一個——所以看到 ③ 的玩家一定看過兩個以上；麵店團的玩家同一個晚上 ②＋③ 就湊齊。整個存檔只問一次（YU2_PICK）*/
-  { id:'ev_yu_sign_soymilk', title:'剛好路過', participants:['yu','zhe'], location:'campus', trigger:'auto', near:{npc:'yu',r:4}, term:['Y1S2'], weeks:[14,15,16], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
+  { id:'ev_yu_sign_soymilk', title:'剛好路過', participants:['yu','zhe'], location:'campus', trigger:'auto', near:{npc:'yu',r:4}, term:['Y1S2'], weeks:[13,14,15], weekday:[1,2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',
     prereq:{flags:['met_yu']},
     dialogue:[ {speaker:null,text:'阿哲出現，帶著兩杯豆漿。'},{speaker:'zhe',expression:'smile',text:'剛好路過。'},{speaker:'yu',expression:'neutral',text:'你宿舍又不在這邊。'},/* AA_209 附錄A §2（阿哲住 203，AA_208）*/{speaker:'zhe',expression:'neutral',text:'……剛好路過。'} ],
     consequences:{stamp:['yu2SoymilkDay']} },
-  { id:'ev_yu_sign_seat', title:'她每次都坐阿哲旁邊', participants:['yu','zhe'], location:'noodle', trigger:'enter', term:['Y1S2'], weeks:[14,15,16], weekday:[2,4], time:[17.5,21], once:true, background:'freeze',
+  { id:'ev_yu_sign_seat', title:'她每次都坐阿哲旁邊', participants:['yu','zhe'], location:'noodle', trigger:'enter', term:['Y1S2'], weeks:[13,14,15], weekday:[2,4], time:[17.5,21], once:true, background:'freeze',
     prereq:{flags:['met_yu'],custom:G=>G.flags.noodleTableDay!=null&&typeof STORY!=='undefined'&&!!STORY.noodleDay&&STORY.noodleDay(G.day)},
     dialogue:[ {speaker:null,text:'小語每次都坐阿哲旁邊。'} ],
     consequences:{stamp:['yu2SeatDay']} },
-  { id:'ev_yu_sign_question_club', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'wancai', trigger:'activity', afterActivity:'club_guitar', term:['Y1S2'], weeks:[14,15,16], once:true, background:'blur',
+  { id:'ev_yu_sign_question_club', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'wancai', trigger:'activity', afterActivity:'club_guitar', term:['Y1S2'], weeks:[13,14,15], once:true, background:'blur',
     prereq:{flags:['met_yu','CLUB_club_guitar'],custom:G=>!G.flags.YU2_PICK&&(G.flags.yu2SoymilkDay!=null||G.flags.yu2SeatDay!=null)},
     dialogue:YU2_QUESTION },
-  { id:'ev_yu_sign_question_arcade', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'gongguan', trigger:'enter', term:['Y1S2'], weeks:[14,15,16], weekday:[2,4], time:[17.5,22], once:true, background:'blur',
+  { id:'ev_yu_sign_question_arcade', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'gongguan', trigger:'enter', term:['Y1S2'], weeks:[13,14,15], weekday:[2,4], time:[17.5,22], once:true, background:'blur',
     prereq:{flags:['met_yu'],custom:G=>{ const F=G.flags; return !F.YU2_PICK&&!F.CLUB_club_guitar&&(F.yu2SoymilkDay!=null||F.yu2SeatDay!=null)&&Array.isArray(F.ndlDays)&&F.ndlDays.includes(G.day); }},
     dialogue:YU2_Q(true) },
   /* 以安新 7 前半「和小語吵架」（交接包 v2 C14；草稿第 3 節、AA_113 新 7）：2026-10-17 改到大一下第 12 週週四的公法讀書會（萬才館研討室；AA_238 5-3：阿哲換柏翰計時，CLS.clubEvent 挑）。原本是第 11 週週二晚上的麵店（麵店日）。台詞、選項照原文；好感數字原文沒有，不加。
@@ -1504,7 +1504,7 @@ const STORY_EVENTS=[
   { id:'ev_kexin_grades_open', title:'一起打開', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'視訊',bg:'video'},
       {speaker:'kexin',expression:'smile',text:'三、二、一——'},
-      {speaker:'kexin',expression:'smile',text:'……都過了。好，寒假開始。'} ],
+      {speaker:'kexin',expression:'smile',text:'……都過了。好，這次才是真的放假。'} ],   /* AA-C 11:23（16 週制：1/5 已經放假兩週）*/
     afterOuting:async(G,GM)=>{ if(typeof CLS!=='undefined'&&CLS.rec&&!CLS.rec(G).grades.Y1S1) await CLS.showGrades(GM,'Y1S1'); },
     outingMissed:(G)=>{ if(typeof CLS!=='undefined'&&CLS.rec){ const R=CLS.rec(G); if(!R.grades.Y1S1) R.note.gradesDue='Y1S1'; } } },
   /* 9-9 大一下 together（AA_157 第 2 節；BB_139 2-1：照大一上兩句，只換「暑假」）：暑假第一天 21:00 視訊一起打開；沒接＝隔天早上照常發成績單 */
