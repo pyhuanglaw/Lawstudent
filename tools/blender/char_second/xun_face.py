@@ -3,11 +3,11 @@
 import p00_face as PF
 
 XUN = dict(PF.MALE)
-XUN.update(EYE_SZ=0.64, EYE_SX=1.07, EYE_TILT=-0.020,              # 細長、眼尾略下垂（韋綸 0.66／平、家豪 0.76／-0.015 但圓）
-           BROW_K=1.45, BROW_ARCH=0.10, BROW_COL=(0.08, 0.068, 0.062), BROW_SCALE_Z=1.30,
-           D_CHIN=0.0072, CHIN_WIDEN=0.42, JAW_OUT=0.0044,          # 臉長、下巴尖一點
-           MOUTH_K=1.26, LIP_A=0.48)
+XUN.update(EYE_SZ=0.55, EYE_SX=1.12, EYE_TILT=-0.012,              # 第二版：更細長、眼尾略垂（第一版 0.64：遊戲裡眼睛圓圓的、很有精神，不像參考圖的冷淡、有點睏）
+           BROW_K=1.15, BROW_ARCH=0.06, BROW_COL=(0.08, 0.068, 0.062), BROW_SCALE_Z=1.10, BROW_DROP=0.0045,   # 第二版：眉毛細一點、低一點、更直（第一版兩條粗黑橫槓）
+           D_CHIN=0.0090, CHIN_WIDEN=0.38, JAW_OUT=0.0050,          # 臉再長一點、下巴尖一點、下顎線清楚
+           MOUTH_K=1.22, LIP_A=0.45)
 
 
 def apply(m):
-    PF.run(m, XUN, {'Fcl_EYE_Close': 0.0})
+    PF.run(m, XUN, {'Fcl_EYE_Close': 0.22})     # 第二版：上眼皮蓋下來一點（冷淡、有點睏；第一版 0）

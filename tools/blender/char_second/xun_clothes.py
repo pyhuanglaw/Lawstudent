@@ -11,7 +11,7 @@ SOLE = np.array([230, 230, 226]) / 255.0
 STYLE = dict(KNIT_RGB=WHITE, TROUSER_RGB=KHAKI, BELT_RGB=None, LEATHER_RGB=WHITE_LEATHER, SOLE_RGB=SOLE, GOLD_RGB=WHITE_LEATHER,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
              SLEEVE_LEN=0.92, SLEEVE_K=0.86, CUFF_EASE=0.020, EASE_K=0.95, DROP_X=0.122, TOP_FIT=0.0, HEM_LOOSE=True,
-             PANTS_ELLIPSE=(0.060, 0.070), PANTS_DROP=False, PANTS_HEM_UP=0.0)
+             PANTS_ELLIPSE=(0.054, 0.062), PANTS_DROP=False, PANTS_HEM_UP=0.0)
 # 高度寫在明軒身上（Sakurada Fumiriya 樣本的單位，身高 1.89 m，遊戲裡縮到 178 cm）：褲頭照阿哲；T 恤下擺在褲頭下 10 cm（蓋住褲頭、到胯骨）；
 # 圓領前中心在脖子根部（阿哲 T 恤 1.575）
 STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.060, KNIT_HEM_TOP=1.075, CREW_FRONT_Z=1.578, BACK_NECK_Z=1.615)

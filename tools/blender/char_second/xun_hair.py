@@ -33,7 +33,7 @@ def make_atlas(seed=SEED):
     h, w = reg('cardB')
     put('cardB', HB._strand_color(rng, h, w, 0.78, sheen=(0.28, 0.44), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 4, 0.58, 0.80, 1.0, hw_k=(0.95, 1.3), lean=0.2, power=0.6, full=2.2, minw=3.5))
     h, w = reg('bang')
-    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
+    put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 3, 0.42, 0.55, 1.0, hw_k=(1.0, 1.4), lean=0.18, power=0.8, full=3.0, minw=4.0))   # 阿勳第二版：每片分 3 撮、尖一點   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
@@ -50,7 +50,7 @@ def apply(m):
 
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
-        top = 0.015 + 0.026 * float(sstep(0.10, 0.55, v)) - 0.010 * float(sstep(0.75, 0.97, v))   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
+        top = 0.018 + 0.032 * float(sstep(0.10, 0.55, v)) - 0.010 * float(sstep(0.75, 0.97, v))   # 阿勳第二版：頭頂蓬一點（參考圖頭頂是亂翹的一團）   # 阿哲：比祐廷蓬（蓬亂的短髮）   # 頭頂前半最蓬、髮旋附近收回來（第六版在遊戲裡髮旋堆成一個圓頂）
         side = 1 - 0.55 * float(sstep(55, 95, aa)) * (1 - 0.4 * float(sstep(120, 160, aa)))   # 兩側貼一點（第三版 0.40：耳朵高度往外蓬，正面看像香菇頭）
         return top * side * (0.6 + 0.4 * max(ca, 0.0)) + max(ca, 0.0) * (0.004 + 0.010 * float(sstep(0.2, 0.6, v)))   # 第八版：後腦薄一點（遊戲裡髮旋後面鼓成一個包）；第十版：前額上方再蓬一點（側面看最高點在前半）
 
@@ -85,7 +85,7 @@ def apply(m):
     # 第五版：太陽穴前段（方位 36–55°）留在眉毛高度——側面看，太陽穴就在眼睛正外側，那裡的頭髮垂到眼睛高度會把眼睛整個擋住；
     # 只有耳朵前面的鬢角（60–85°，在眼睛後面）垂到眼睛高度
     TIP_A = [0, 20, 36, 50, 58, 66, 78, 92, 108, 112]
-    TIP_Z = [H.brow_z - 0.016, H.brow_z - 0.013, H.brow_z - 0.012,   # 阿勳：瀏海再往下約 1 cm（垂到眼睛上面）
+    TIP_Z = [H.brow_z - 0.004, H.brow_z - 0.002, H.brow_z - 0.004,   # 阿勳第二版：瀏海到眉毛（第一版垂到眼睛上面、整排像窗簾；參考圖是一撮一撮蓋到眉毛、看得到一點額頭）
               eye_z + 0.006, eye_z + 0.002, eye_z - 0.004, eye_z - 0.010, ear_top - 0.024, ear_top - 0.020, ear_top - 0.016]   # 明軒：瀏海到眉毛下緣、兩側蓋到耳朵上緣（阿哲在眉毛上方 1.2 cm）   # 阿哲：瀏海髮尾在眉毛上方 1.2 cm（參考圖看得到眉毛）
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
@@ -149,15 +149,15 @@ def apply(m):
     # ---- 3. 瀏海：分線兩邊各自往外撥，一撮一撮、長短不一 ----
     # 第二版：分兩層。底層寬、短一點（蓋住額頭，不透出皮膚）；上層一撮一撮、長短不一（有的到眼睛上緣）、離開額頭一點、從分線往兩邊撥
     # （第一版 14 片同樣長度的窄髮片：正面看像一排梳齒）
-    for k in range(6):         # 底層：窄、短一點（明軒 6 片：額頭蓋多一點，阿哲 5 片露出額頭）
-        a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 6
-        card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.03, 0.06), 0.008 + 0.001 * rng.random(), rng.uniform(1.4, 1.7), 'bang',
+    for k in range(4):         # 底層：窄、短一點（阿勳第二版 4 片：一撮一撮之間看得到一點額頭）
+        a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 4
+        card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.06, 0.10), 0.008 + 0.001 * rng.random(), rng.uniform(1.2, 1.5), 'bang',
              nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 5))
     for k in range(10):        # 上層：一撮一撮、長短不一、往下垂多（明軒 curl 4–14°；阿哲 10–28° 往兩邊撥開）
         a = -38 + 76 * (k + rng.uniform(0.2, 0.8)) / 10
         sgn = 1.0 if a > PART else -1.0
-        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.06, 0.02), 0.012 + 0.003 * rng.random(), rng.uniform(1.5, 2.0), 'bang',
-             nseg=16, bulge=0.007 + 0.003 * rng.random(), arch=0.10, curl=sgn * rng.uniform(4, 14))
+        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.03, 0.06), 0.013 + 0.004 * rng.random(), rng.uniform(1.2, 1.7), 'bang',
+             nseg=16, bulge=0.008 + 0.004 * rng.random(), arch=0.12, curl=sgn * rng.uniform(10, 24))   # 阿勳第二版：往兩邊撥多一點、長短差多一點
     n_bang = len(mb.F) - n_shell - n_card
 
     # ---- 4. 物件、材質、權重 ----
