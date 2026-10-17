@@ -667,5 +667,18 @@
       "receiver": "LAWWW",
       "ack": "已傳 send_message"
     }
+  ],
+  "items": [
+    {
+      "id": "AA254-CONFESS-TERMEND",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
+      "summary": "BB_203（使用者確認）告白只在學期末：七位的心意邀約、婉拒、飯桌一句、回家路上四選項（說出來三種＋先不說→她自己說）、讓我想想、第二次邀約；學姊美國第一場雪（交往中，SIS_ASKED_TWICE）＋S7-L2 linesIf；不發邀約時的手機一句；以安日本挽回 REPAIR 對照；給 BB 的 F3/Z13、Q13/Q15 順序問題。AA_223 的「還沒」作廢。"
+    }
   ]
 }
