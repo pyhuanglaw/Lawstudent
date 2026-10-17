@@ -761,9 +761,9 @@
   },
   {
    "path": "docs/story_planning/free_trip/aa_walk_v1.json",
-   "sha": "fef59a02",
+   "sha": "aca122d2",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）",
+   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）",
    "task": "ENC-B3-1017",
    "kind": "text"
   },
@@ -777,10 +777,26 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "0544a147",
+   "sha": "aca122d2",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）",
    "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
+   "sha": "aca122d2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 18:29／18:31 交付訊息：第 8 節（8-1、8-2、8-5 口語審）",
+   "task": "ENC-B2-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_150_AB23_第二批景點偶遇_BB五位.md",
+   "sha": "aca122d2",
+   "status": "approved",
+   "approvedBy": "AA-B 06:54 核對、AA-C 口語審＋BB-C 口氣審 b13052e5（AA-C 18:31 合併）：第 1～5 節",
+   "task": "ENC-B2-1017",
    "kind": "text"
   }
  ]

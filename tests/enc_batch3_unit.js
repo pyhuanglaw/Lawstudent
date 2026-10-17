@@ -112,6 +112,32 @@ const why=(G,spot)=>{ const w=[]; ENC.candidates(G,spot,w); return w.join(' '); 
     const L=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')};
     await (ENC.meet(gm,rowOf('kexin','D10'),ENC.tier(G,'kexin')));
     check('8. 可昕（交往中）在碧潭一起走：予樂「我先回去了。可昕，玉米你自己吃完。」',L.includes('予樂：我先回去了。可昕，玉米你自己吃完。'),JSON.stringify(L)); } }
+// 9. 第二批景點（AA_162 第 8 節＋BB_150，aca122d2）＋共用的規則
+{ const bad=[];
+  for(const r of ENCOUNTERS.rows){ if(r.kexin) continue; const e=(CHARACTERS[r.who].daily_schedule||[]).find(q=>q.enc===r.spot&&q.from===r.from&&q.to===r.to);
+    if(!e){ bad.push(r.who+'@'+r.spot+':沒有作息'); continue; } for(const k of ['terms','weeks','dates','vacation']){ if(k==='weeks'&&typeof r.weeks==='string'){ if(!Array.isArray(e.weeks)||!e.weeks.every(w=>(w%2===1)===(r.weeks==='odd'))) bad.push(r.who+'@'+r.spot+':單雙週'); continue; } if(JSON.stringify(e[k]||null)!==JSON.stringify(r[k]||null)&&!(k==='terms'&&!r.terms&&e.terms)) bad.push(r.who+'@'+r.spot+':'+k); } }
+  check('9. 全部的列（可昕以外）作息同一筆：terms、weeks、dates、vacation 一樣',!bad.length,bad.join(' '));
+  const off=ENC_WALK.walk.filter(q=>q.act!=='walk'&&!(TRIP.spot(q.spot)&&TRIP.spot(q.spot).points.some(p=>p.id===q.act)));
+  check('9. 所有同行台詞的互動點都在景點上',!off.length,off.map(q=>q.who+':'+q.act).join(' '));
+  const n2=ENCOUNTERS.rows.filter(r=>['D09','D18','D20','D24','D25'].includes(r.spot)).length; check('9. 第二批 11 列（AA 六位＋BB 五位）',n2===11,String(n2));
+  STAGE.heroine_01='FAMILIAR'; let G=mk(STORY.termDay('Y2S1',10,6),16); check('9. 以安 D09：大二上第 10 週週六 16:00',at(G,'D09')==='heroine_01',why(G,'D09'));
+  G=mk(STORY.termDay('Y2S1',16,6),16); check('9. 第 16 週（期末考週）：不在',at(G,'D09')==='');
+  const jp=STORY.termDay('Y3S2',10,6); G=mk(jp,16); check('9. 大三下第 10 週（'+CALENDAR.dateOf(jp).key+'）以安在日本：不出現（presence）',at(G,'D09')===''&&/不在/.test(why(G,'D09')),why(G,'D09')); delete STAGE.heroine_01;
+  G=mk(STORY.termDay('Y3S1',12,6),11); const L=[], menus=[]; const gm={G,say:async(w,t)=>L.push((w?(w.name||w)+'：':'')+t),choose:async o=>{ menus.push(o.map(x=>x.t)); return 0; }};
+  const hit=ENC.candidates(G,'D18').find(c=>c.row.who==='heroine_03'); if(hit) await ENC.meet(gm,hit.row,hit.tier);
+  check('9. 語彤 D18（在做田野）：只點頭的旁白、沒有選單，照樣留 ENC_D18_YT（之後在學校說一句）',!!hit&&!menus.length&&L.includes('（她看到你，點了一下頭，繼續聽阿嬤說話。）')&&SOCIAL.has('heroine_03','ENC_D18_YT'),JSON.stringify({L,menus}));
+  STAGE.heroine_02='FRIEND'; G=mk(STORY.termDay('Y1S1',4,6),15); G.trip={}; check('9. 芷若 D25 朋友：15:00 就能一起走（「19:30 以後」只在西門町）',ENC.canJoin(G,rowOf('heroine_02','D25'),ENC.tier(G,'heroine_02')));
+  G=mk(STORY.termDay('Y1S1',3,6),14); G.trip={}; check('9. 芷若 D02（第三批）朋友：14:00 也能一起走',ENC.canJoin(G,rowOf('heroine_02','D02'),ENC.tier(G,'heroine_02')));
+  G=mk(STORY.termDay('Y1S1',5,6),19); G.trip={}; check('9. 芷若 D04 照舊：19:00 還不一起走（19:30 以後）',!ENC.canJoin(G,rowOf('heroine_02','D04'),ENC.tier(G,'heroine_02'))); delete STAGE.heroine_02;
+  STAGE.heroine_05='FRIEND'; G=mk(STORY.termDay('Y3S1',3,7),11); G.trip={}; check('9. 學姊 D24 朋友：能一起泡腳',ENC.canJoin(G,rowOf('heroine_05','D24'),ENC.tier(G,'heroine_05')));
+  G=mk(STORY.termDay('Y3S1',3,7),11,{flags:{dating_heroine_05:true}}); G.trip={}; check('9. 學姊 D24 交往中：不一起泡（正式見家長不在這裡演）',!ENC.canJoin(G,rowOf('heroine_05','D24'),ENC.tier(G,'heroine_05')));
+  G=mk(STORY.termDay('Y3S1',3,7),11); G.trip={with:{who:'heroine_05',tier:'friend'}}; const L2=[]; await ENC.companionAfter({G,say:async(w,t)=>L2.push((w?(w.name||w)+'：':'')+t)},TRIP.spot('D24'),'D24.footbath');
+  check('9. 泡腳：溫媽媽先說「學弟，坐。」，再換學姊',L2[0]==='溫媽媽：學弟，坐。水很燙，慢慢放。'&&/^溫書瑀：/.test(L2[1]||''),JSON.stringify(L2)); delete STAGE.heroine_05;
+  G=mk(STORY.termDay('Y4S1',13,1),12); G.social={mem:{classmate_bohan:[{tag:'ENC_D09_BH',day:G.day-3}]}}; const q1=ENC.schoolLine(G,'classmate_bohan');
+  G.social.mem.classmate_bohan.push({tag:'ENC_D06_BH',day:G.day-30}); G.daily={}; const q2=ENC.schoolLine(G,'classmate_bohan');
+  check('9. 柏翰貓空之後的一句：美術館那句沒說過＝「不要跟阿哲說」，說過＝「這次可以跟阿哲說」',!!q1&&/不要跟阿哲說/.test(q1.lines[0])&&!!q2&&(q2.tag==='ENC_D06_BH'||/這次可以跟阿哲說/.test(q2.lines[0])),JSON.stringify([q1,q2]));
+  G=mk(STORY.termDay('Y1S1',7,7),16,{flags:{dating_kexin:true}}); G.trip={}; const L3=[]; await ENC.meet({G,say:async(w,t)=>L3.push((w?(w.name||w)+'：':'')+t),choose:async o=>o.findIndex(x=>x.t==='一起走一段')},rowOf('kexin','D09'),ENC.tier(G,'kexin'));
+  const yl=ENC_WALK.intro.find(q=>q.who==='kexin'&&q.spot==='D09'); check('9. 可昕 D09 一起走：予樂先帶邵鈞走（intro 第二批）',!!yl&&L3.includes('予樂：'+yl.line),JSON.stringify(L3)); }
 // 7. 修改前
 { let old=null; try{ old=require('child_process').execSync('git show 9264002f:src/data/encounters.js',{cwd:ROOT,encoding:'utf8',maxBuffer:8<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
   if(!old) console.log('（略過第 7 項：沒有 9264002f 的歷史）'); else check('7. 修改前（9264002f）：沒有第三批景點的偶遇',!/spot:'D26'|spot:'D29'|spot:'D11'/.test(old)); }

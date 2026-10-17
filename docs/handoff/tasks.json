@@ -10571,6 +10571,29 @@
    "tests": "tests/dl08_walk_unit.js"
   },
   {
+   "id": "ENC-B2-1017",
+   "title": "自由出行第二批景點的偶遇（D09 貓空、D18 九份、D20 烏來、D24 礁溪、D25 外澳）：AA 六位（AA_162 第 8 節）＋BB 五位（BB_150）",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器：大一上第 4 週週六去外澳遇到芷若（一起走一段）、大二上第 10 週週六去貓空遇到以安。已知小重疊（照指定週次優先）：子晴 D18 第 13 週週日 16～20 和她單週的大稻埕；芷若 D25 第 4 週週六到 18:30、她的西門町 18:00 起——已告訴 AA-C／BB-C。",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "大一上第 4 週週六（芷若 D25 外澳）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_162 第 8 節＋BB_150 第 1～5 節，企劃線 aca122d2（AA-C 口語審 430df52f＋BB-C 口氣審 b13052e5；AA-C 18:31 交付訊息）",
+   "authorized": "D79／D86（AA 交付的日常內容；BB_150 AA-B 06:54 核對）",
+   "commit": "見 deliveries DL-AA-aca122d2",
+   "tests": "tests/enc_batch3_unit.js 第 9 項、dl07、dl08"
+  },
+  {
    "id": "ENC-B3-1017",
    "title": "自由出行第三批景點的偶遇：AA 六位（AA_271：以安 D26、語彤 D14、柏翰 D11、小語 D01、芯慈 D02、阿哲 D29）＋BB 五位（BB_213：子晴 D01、芷若 D02、學姊 D11、沛珊 D08、可昕 D10）",
    "area": "DL",
@@ -14636,7 +14659,7 @@
    "id": "DL-06B",
    "title": "捷運自由出行第二批：D09 貓空、D18 九份、D20、D24、D25（AA_161 第 4 節、free_trip/spots_v2.json）",
    "status": "已整合待測試",
-   "next": "【LAWWW-C b83fcd59 匯入第二批五處（貓空、九份、烏來、礁溪、外澳）＋底圖 5 張＋SPOT_RULE；瀏覽器 tests/flow_trip_date.py（f7d9cedb）公館站入口→九份→回公館 ALL PASS（手機模擬，不是實機）】【spots_v2.json 已審 32d11245（白名單已加）】AA-C 2026-10-17 06:31（AA_218 第 15 節第 2 點，使用者問「捷運要加入這些地點的計畫為什麼不見了」）：第二批早就寫好、只寫在 DL-06 的 next，現在獨立成任務，可以開工；照 D81 排。匯入前確認 spots_v2.json 的已審版本 commit（白名單）",
+   "next": "【偶遇另見 ENC-B2-1017】【LAWWW-C b83fcd59 匯入第二批五處（貓空、九份、烏來、礁溪、外澳）＋底圖 5 張＋SPOT_RULE；瀏覽器 tests/flow_trip_date.py（f7d9cedb）公館站入口→九份→回公館 ALL PASS（手機模擬，不是實機）】【spots_v2.json 已審 32d11245（白名單已加）】AA-C 2026-10-17 06:31（AA_218 第 15 節第 2 點，使用者問「捷運要加入這些地點的計畫為什麼不見了」）：第二批早就寫好、只寫在 DL-06 的 next，現在獨立成任務，可以開工；照 D81 排。匯入前確認 spots_v2.json 的已審版本 commit（白名單）",
    "first": {
     "term": "Y1S1",
     "week": null,

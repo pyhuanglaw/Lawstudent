@@ -7315,6 +7315,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "整個 commit 套用（含 LICENSES.md、VISUAL_REVIEW、test_shots、Blender 腳本）；遊戲端另修 classes3d.js 聽講桌上小物選法"
+  },
+  {
+   "id": "DL-AA-aca122d2",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "aca122d2",
+   "what": "第二批景點偶遇：AA_162 第 8 節（8-5 口語審、週次改第 10 週／第 14～15 週）＋BB_150 第 1～5 節（BB-C 口氣審 b13052e5）＋aa_walk_v1／bb_walk_v1 重建",
+   "task": "ENC-B2-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "偶遇 11 列、作息、之後的一句、人物頁；enc_walk.js 第二批 24 條換新版；新機制 busyLine（語彤只點頭也留記憶）、同行台詞的 {who,t}（溫媽媽）、presence 不在不出現、芷若「19:30 以後」只在西門町（第三批 D02 也受惠）"
   }
  ],
  "ignored": [

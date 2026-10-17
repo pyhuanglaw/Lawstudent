@@ -43,6 +43,7 @@ const ENC=(function(){
     if(row.weeks&&(Array.isArray(row.weeks)?!row.weeks.includes(T.week):((T.week%2===1)!==(row.weeks==='odd')))) return no('週次');   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/
     if(row.dates&&!(typeof STORY!=='undefined'&&STORY.inDates&&STORY.inDates(G,row.dates))) return no('日期');   /* AA_271：日期區間（含頭尾），以安回台中、阿哲回高雄的日子 */
     if(row.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return no('不是寒暑假');   /* AA_271：語彤 D14 寒暑假的週日 */
+    if(!row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 交換、出國的日子（以安 2028-03-25～08-05 在日本）不出現；在臺北不在台大的照常（AA_271 第 0 節）*/
     const tr=S.tier(G,row.who);
     if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex') return no('可昕：交往中或分開了才有'); if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
@@ -74,7 +75,9 @@ const ENC=(function(){
     if(tr.t==='ex'||tr.t==='catch'){ const i=await GM.choose([{t:'點頭'},{t:'走過去'},{t:'打招呼'}]); if(i!==2) return 'pass';   /* 前任：不加任何關係數值、不留記錄 */
       const k=row.kexin?kxRoute(tr.how):tr.how; const ex=row.ex||{}; const L=tr.t==='ex'?(ex[k]||null):null, N=tr.t==='ex'?(ex[k+'Narr']||null):null;
       if(L) for(const t of L) await ESAY(GM,who,t); if(N) await ESAY(GM,null,N); if(!L&&!N) await ESAY(GM,null,D().NOD); return 'ex'; }
-    if(row.busy==='yes'){ await ESAY(GM,null,'（她在講電話，對你揮揮手。）'); return 'busy'; }
+    if(row.busy==='yes'){ await ESAY(GM,null,row.busyLine||'（她在講電話，對你揮揮手。）');   /* busyLine：她在忙的樣子（AA_162 8：語彤在九份做田野，只點頭）*/
+      if(row.memo&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo);   /* 只點頭也留記憶：之後在學校她會說一句 */
+      R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30); return 'busy'; }
     const join=!exAcq&&S.canJoin(G,row,tr); const ops=[{t:'打招呼'},{t:'不打擾'}]; if(join) ops.push({t:'一起走一段'});   /* 第三批（DL-08）：朋友以上、不忙、這裡有她的同行台詞 */
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
     for(const t of S.linesFor(row,tr.t)) await ESAY(GM,who,t);
@@ -85,7 +88,7 @@ const ENC=(function(){
     R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30);
     { const wk=weekKey(G), k=row.who+'@'+row.spot, W8=R.encWeeks||(R.encWeeks={}); const L=W8[k]||(W8[k]=[]); if(!L.includes(wk)) L.push(wk); (R.encLast||(R.encLast={}))[k]=G.day; }   /* 不同週遇到幾次（小支線）、最後一次在這裡打招呼（重訪）*/
     await S.side(GM,row,tr,who);
-    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot&&(!q.batch||q.batch===3)) await ESAY(GM,{name:q.speaker==='yule'?'予樂':q.speaker},q.line);
+    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,{name:q.speaker==='yule'?'予樂':q.speaker},q.line);
       if(G.trip) G.trip.with={who:row.who,tier:tr.t}; return 'join'; }
     return 'greet'; };
   /* ---------- 第三批（DL-08，AA_160 第 6 節定案；台詞 src/data/enc_walk.js＝aa_walk_v1＋bb_walk_v1）----------
@@ -96,22 +99,23 @@ const ENC=(function(){
   const W=()=>typeof ENC_WALK!=='undefined'?ENC_WALK:{walk:[],leave:[],intro:[],revisit:[],side:[]};
   const weekKey=G=>{ const T=term(G); return T?T.id+'W'+T.week:'D'+Math.floor(G.day/7); };
   const JOIN={heroine_01:{min:'FRIEND',not:['D06.frame']},heroine_03:{min:'FRIEND'},zhe:{},yu:{spots:['D04','D01']},classmate_bohan:{minBy:{D06:'FRIEND',D09:'FAMILIAR',D11:'FRIEND'}},classmate_xinci:{no:true},
-    heroine_02:{min:'FRIEND',from:19.5},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join（第三批 AA_271 rules.join.batch3：以安 D26、語彤 D14、柏翰 D11 朋友以上；小語 D01、阿哲 D29 不限關係；芯慈 D02 不一起走）*/
+    heroine_02:{min:'FRIEND',fromAt:{D04:19.5}},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join（第三批 AA_271 rules.join.batch3：以安 D26、語彤 D14、柏翰 D11 朋友以上；小語 D01、阿哲 D29 不限關係；芯慈 D02 不一起走）*/
   S.JOIN=JOIN;
+  const SPEAKER={wen_mother:'溫媽媽',wen_father:'溫爸爸'};   /* 同行台詞裡不是主要人物的說話者 */
   S.busyNow=function(G,row,tr){ const b=row.busy; if(!b||typeof b==='string') return b||'no'; if(b.until!=null) return G.hour<b.until?b.before:b.then; if(b.acq) return tr.t==='acq'?b.acq:b.friend;
     if(b.y12){ const T=term(G); return T&&/^Y[34]/.test(T.id)?b.y3:b.y12; } return 'no'; };
   const condOk=(G,c,tr)=>{ if(!c) return true; const T=term(G); if(c.terms&&!(T&&c.terms.includes(T.id))) return false; if(c.from!=null&&G.hour<c.from) return false;
     if(c.notDating&&tr.t==='dating') return false; if(c.stageMin&&tr.t!=='dating'&&ST().indexOf(tr.st)<ST().indexOf(c.stageMin)) return false; return true; };
   S.walkLine=function(G,who,spot,act,tr){ const e=(W().walk||[]).find(q=>q.who===who&&q.spot===spot&&q.act===act&&condOk(G,q.cond,tr)); if(!e) return null; const L=tr.t==='dating'&&e.dating&&e.dating.length?e.dating:e.friend; return L&&L.length?L:null; };
   S.canJoin=function(G,row,tr){ if(!G.trip||tr.t==='ex'||tr.t==='catch'||row.join===false) return false; const J=JOIN[row.who]; if(!J||J.no) return false; if(J.dating&&tr.t!=='dating') return false;
-    if(J.spots&&!J.spots.includes(row.spot)) return false; const mn=J.minBy?J.minBy[row.spot]:J.min; if(mn&&tr.t!=='dating'&&ST().indexOf(tr.st)<ST().indexOf(mn)) return false; if(J.from!=null&&G.hour<J.from) return false;
+    if(J.spots&&!J.spots.includes(row.spot)) return false; const mn=J.minBy?J.minBy[row.spot]:J.min; if(mn&&tr.t!=='dating'&&ST().indexOf(tr.st)<ST().indexOf(mn)) return false; { const fr=J.fromAt?J.fromAt[row.spot]:J.from; if(fr!=null&&G.hour<fr) return false; }   /* 芷若「19:30 以後」只在西門町（打工下班才去看電影）；松菸、外澳照朋友以上（BB_213、BB_150）*/
     if(S.busyNow(G,row,tr)==='yes') return false;   /* 「short」不擋：同行規則（aa_walk_v1／bb_walk_v1 的 rules.join）比偶遇表的 busy 新，小語、子晴、沛珊、可昕「short」也有同行台詞 */ return (W().walk||[]).some(q=>q.who===row.who&&q.spot===row.spot&&condOk(G,q.cond,tr)); };
   S.leave=async function(GM,s){ const G=GM.G, T=G.trip; if(!T||!T.with) return false; const c=T.with; T.with=null; const e=(W().leave||[]).find(q=>q.who===c.who&&q.spot===s.id); const t=e?(c.tier==='dating'&&e.dating?e.dating:e.friend):'';
     if(t) await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); return true; };
   /* 景點的下一件事之前：她有沒有這件事的台詞——沒有就先走 */
   S.companionBefore=async function(GM,s,act){ const G=GM.G, T=G.trip; if(!T||!T.with) return; const c=T.with; const tr=S.tier(G,c.who); if(!S.walkLine(G,c.who,s.id,act,Object.assign({},tr,{t:c.tier}))) await S.leave(GM,s); };
   S.companionAfter=async function(GM,s,act){ const G=GM.G, T=G.trip; if(!T||!T.with) return; const c=T.with; const tr=S.tier(G,c.who); const L=S.walkLine(G,c.who,s.id,act,Object.assign({},tr,{t:c.tier}));
-    if(L){ for(const t of L) await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(c.who,'cafe'); } await S.leave(GM,s); };
+    if(L){ for(const t of L){ if(t&&typeof t==='object') await ESAY(GM,{name:SPEAKER[t.who]||nameOf(t.who)},t.t); else await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); }   /* {who,t}：同行的家人先說（BB_150 學姊 D24：溫媽媽叫你坐）*/ if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(c.who,'cafe'); } await S.leave(GM,s); };
   S.revisit=async function(GM,s){ const G=GM.G, R=S.rec(G); const dec=S.decide(G,s.id); const last=R.encLast||{}, rv=R.encRev||(R.encRev={});
     for(const e of (W().revisit||[])){ if(e.spot!==s.id) continue; const k=e.who+'@'+e.spot; const ld=last[k]; if(ld==null||ld>=G.day) continue; if(rv[k]!=null&&rv[k]>=ld) continue; if(dec&&dec.who===e.who) continue;
       const tr=S.tier(G,e.who); const t=tr.t==='ex'?e.afterBreakup:e.normal; rv[k]=G.day; if(!t) continue; await ESAY(GM,null,t); return true; }
