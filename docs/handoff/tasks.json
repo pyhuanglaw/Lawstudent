@@ -2036,7 +2036,7 @@
    "title": "模擬法庭 模 1～6",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "next": "照交接包_v3 實作",
    "priority": "P2",
    "first": {
@@ -2052,7 +2052,9 @@
    "source": "交接包_v3",
    "authorized": "D79",
    "tests": "tests/v3_moot_unit.js、tests/v3_kx_moot_unit.js",
-   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。；可昕的部分（BB_97 9-19，2026-10-16 19:4x）：交往中＝4/23（五）21:00 她問、兩個回覆；說了＋週六模 5＝散場一句、麵店一句（KX_MOOT came）；沒說／沒回＝5/1 22:00 粉專照片＋一則（photo）；說了但平日白天＝散場後一則（call，現在的模 5 是週六不會發生）；tests/v3_kx_moot_unit.js"
+   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。；可昕的部分（BB_97 9-19，2026-10-16 19:4x）：交往中＝4/23（五）21:00 她問、兩個回覆；說了＋週六模 5＝散場一句、麵店一句（KX_MOOT came）；沒說／沒回＝5/1 22:00 粉專照片＋一則（photo）；說了但平日白天＝散場後一則（call，現在的模 5 是週六不會發生）；tests/v3_kx_moot_unit.js",
+   "reason": "使用者 2026-10-17 10:5x 對 LAWWW2-C、AA-C：「刪除模擬法庭」「這不符合我在臺大法律的回憶」；改成大四專題討論的法院旁聽（AA_252，任務 AA252-COURT）",
+   "replacedBy": "AA252-COURT"
   },
   {
    "id": "V3-D17",
@@ -6414,7 +6416,7 @@
    "title": "模擬法庭",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "取消／被取代",
    "next": "—",
    "priority": "P2",
    "first": {
@@ -6430,7 +6432,9 @@
    "source": "稽核 10-16",
    "authorized": "D79",
    "tests": "tests/v3_moot_unit.js",
-   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。"
+   "note": "2026-10-16：模 1～6 照 AA_177 4-7、AA_143 第 3 節（3-3 新字 AA-B ee2c901d）、AA_96 4-3、BB_97 2-6：公告、模 1（201，自我介紹、學姊三件事）／沒到私訊、群組「模擬法庭・賣家組」、三次邀約＋模 5 邀約；moot_2～4（研討室 B 門口參加）；模 5 固定核心（09:45 電話）、結辯三選一、準備分（STORY.mootScore）輸贏與筆記；模 6 出遊輸贏兩版、沒去照片；MOOT_TOGETHER（第 8～10 週公法讀書會或總圖／法圖自習時以安、柏翰在場）。還沒做：可昕 9-19（KX_MOOT）、201 法庭擺法（SCN-V3-03）、機車行 2D 背景。瀏覽器未測。",
+   "reason": "使用者 2026-10-17 10:5x 對 LAWWW2-C、AA-C：「刪除模擬法庭」「這不符合我在臺大法律的回憶」；改成大四專題討論的法院旁聽（AA_252，任務 AA252-COURT）",
+   "replacedBy": "AA252-COURT"
   },
   {
    "id": "SYS-10",
@@ -7043,7 +7047,7 @@
    "title": "模擬法庭（霖澤館 201 改佈置）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "next": "SYS-09",
    "priority": "P2",
    "first": {
@@ -7065,7 +7069,9 @@
     "spec": "霖澤館 201 法庭擺法（模 5 比賽那天，5/1）：桌椅擺成兩邊",
     "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
     "ack": "SENT"
-   }
+   },
+   "reason": "使用者 2026-10-17 10:5x 對 LAWWW2-C、AA-C：「刪除模擬法庭」「這不符合我在臺大法律的回憶」；改成大四專題討論的法院旁聽（AA_252，任務 AA252-COURT）",
+   "replacedBy": "AA252-COURT"
   },
   {
    "id": "SCN-V4-01",
@@ -15240,6 +15246,92 @@
     "acceptance": "條件測試、週次",
     "receiver": "LAWWW",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA252-COURT",
+   "title": "大四下法律專題研究（林昭儀）三場：第 5 週週四規矩、第 6 週週四上午地方法院旁聽（2D 兩張，等使用者給圖）、第 7 週討論四選一（算職涯傾向）；AA_179 主線 4 大二下三則換掉；AA_241 營隊「模擬法庭」改「案例討論」",
+   "area": "V5",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA_252（AA-C e8010267）。模擬法庭已停用（事件 retired、活動 skip、訊息不送；舊存檔旗標留著不讀）。大三上刑訴第 7 週全班法院旁聽要不要留：已問使用者（預設保留）",
+   "first": {
+    "term": "Y4S2",
+    "week": 5,
+    "earliest": "大四下專題第一堂",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者對 LAWWW2-C、AA-C 10:5x",
+   "authorized": "使用者",
+   "xai": {
+    "spec": "AA_252 @e8010267",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "三場事件、職涯傾向；背景等圖",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA249-TERMEND",
+   "title": "學期末聚餐與寒暑假邀約（取代重訪日）：第 16 週最後兩天到放假第 1 週 0～2 次；邀約人照這學期常接觸、玩家也可以約；話題帶出活動卡 C01～C13、揪團、以安假期計畫，接了進行事曆；照年級／畢業／重考／交換／所在地決定能不能來；不強制、不做 CG",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "next": "AA_249（AA-C c0454eb9）；和 HOLIDAY-SYS／VAC 一起設計（VAC-L1 已交，資料結構要補聚餐 → 邀約 → 行事曆）。重訪日 1 三個事件已停用（retired、S.REVISIT_OFF）；承恩換座位改獨立事件《直屬學弟的咖啡》、畢業傍晚改一般聚會",
+   "first": {
+    "term": "Y0S1",
+    "week": 16,
+    "earliest": "經濟系上第一次期末週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者對 AA-C 10:5x",
+   "authorized": "使用者（下一版發布範圍內）",
+   "pausedReason": "跟 HOLIDAY-SYS 一起做",
+   "resumeWhen": "16 週引擎完成",
+   "xai": {
+    "spec": "AA_249 @c0454eb9",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "每學期末聚餐可約可被約、邀約進行事曆",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "MOOT-LADDER",
+   "title": "閒聊階梯裡提到模擬法庭的層要改（學姊 S4「被找去指導模擬法庭」、招呼「模擬法庭的書狀」、可昕 K4 註記）",
+   "area": "V3",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA／BB 改 builder（學姊的層 BB 排），LAWWW 重匯",
+   "first": {
+    "term": "Y2S2",
+    "week": 1,
+    "earliest": "大二下閒聊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 盤點",
+   "authorized": "使用者刪除模擬法庭",
+   "xai": {
+    "spec": "src/data/ladder.js 模擬法庭字樣",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "ladder 沒有模擬法庭",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]

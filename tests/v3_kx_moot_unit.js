@@ -1,4 +1,4 @@
-// 模擬法庭：可昕的部分（BB_97 9-19；V3-D16 的一部分）——不需要瀏覽器。
+// 模擬法庭（V3-D16）——2026-10-17 使用者刪除：檢查停用（AA_252）。用法：node tests/v3_kx_moot_unit.js
 // 檢查：交往中＝4/23（五）21:00 她問、兩個回覆照原文；說了＋週六的模 5＝散場一句、麵店一句（輸贏都一樣），KX_MOOT came；沒說／沒回＝22:00 粉專照片＋一則（photo）；說了但平日白天＝散場後一則（call）；沒交往＝都沒有。用法：node tests/v3_kx_moot_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -34,41 +34,17 @@ GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.pu
 GM.money=function(n){ G.money+=n; };
 
 (async()=>{
-  const NM={'沈以安':'以安','許柏翰':'柏翰','溫書瑀':'學姊','溫學姊':'學姊','吳芯慈':'芯慈','杜可昕':'可昕'}; GM.memo=t=>{ (G.memo=G.memo||[]).push({day:G.day,t}); };
-  const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
-  const dq=D('2027-04-23'), d5=D('2027-05-01'), KT='p:kexin';
-  check('0. 4/23 是大二下第 9 週週五；5/1 第 10 週週六',termDay('Y2S2',9,5)===dq&&termDay('Y2S2',10,6)===d5);
-  const base=(day,h,zone,flags)=>{ fresh(day,h,zone,flags); for(const id of ['heroine_01','classmate_bohan','heroine_05','classmate_xinci','zhe','kexin']) meet(id); PHONE.join(G,'moot_seller','模擬法庭・賣家組'); };
-  base(dq,20.5,'dorm',{dating_kexin:true}); run(20.5,20.95);
-  check('1. 交往中：20:57 還沒有',!PHONE.sent(G,'kx_moot_ask'));
-  run(21,21.2); let m=TH(KT).find(q=>q.tag==='kx_moot_ask');
-  check('1. 21:00 可昕「你最近的訊息都很短。在忙什麼？」＋兩個回覆照原文',!!m&&m.text==='你最近的訊息都很短。在忙什麼？'&&m.ask&&m.ask.opts.map(o=>o.t).join('｜')==='模擬法庭。第 10 週比賽，妳要來嗎？｜一個比賽。比完再跟妳說。',JSON.stringify(m&&m.ask&&m.ask.opts.map(o=>o.t)));
-  PHONE.answer(G,'kx_moot_ask',0);
-  check('2. 說了：「要。我坐最後一排，你不要看我。」、KX_MOOT_TOLD',txt(KT).slice(-1)[0]==='kexin:要。我坐最後一排，你不要看我。'&&G.flags.KX_MOOT_TOLD===true);
-  base(dq,20.5,'dorm',{dating_kexin:true}); run(20.5,21.2); PHONE.answer(G,'kx_moot_ask',1);
-  check('2. 不說：「好。比完要說。」',txt(KT).slice(-1)[0]==='kexin:好。比完要說。'&&G.flags.KX_MOOT_TOLD===false);
-  base(dq,20.5,'dorm',{}); run(20.5,21.2);
-  check('3. 沒交往：不問',!PHONE.sent(G,'kx_moot_ask'));
-  const play=async(id,flags,day,h,zone,pick)=>{ base(day,h,zone,flags); said=[]; opts=[]; picks=[].concat(pick==null?0:pick); await EVENTS.run(ev(id)); return L0(); };
-  let L=await play('ev_moot_5',{dating_kexin:true,KX_MOOT_TOLD:true},d5,9.6,'classroom');
-  check('4. 說了、週六：散場最後一句是可昕「你第二個爭點講得比第一個好。第一個你在發抖。」、KX_MOOT came',L.slice(-1)[0]==='可昕：你第二個爭點講得比第一個好。第一個你在發抖。'&&G.flags.KX_MOOT==='came',JSON.stringify(L.slice(-2)));
-  check('4. 她只有那一句（模 5 裡沒有別的可昕台詞）',L.filter(t=>t.startsWith('可昕：')).length===1);
-  for(const win of [false,true]){ L=await play('ev_moot_6',{dating_kexin:true,KX_MOOT:'came',MOOT_WIN:win},d5,19.1,'noodle');
-    check('5. 麵店（'+(win?'贏':'輸')+'）：最後是豆干那一句和「發抖的人要補充。」',L.slice(-2).join('｜')==='（可昕把自己那份滷味的豆干夾給你。）｜可昕：發抖的人要補充。',JSON.stringify(L.slice(-3))); }
-  L=await play('ev_moot_6',{dating_kexin:true,KX_MOOT:'photo'},d5,19.1,'noodle');
-  check('5. 沒來的話麵店沒有她',!L.some(t=>t.includes('可昕')));
-  L=await play('ev_moot_5',{dating_kexin:true,KX_MOOT_TOLD:false},d5,9.6,'classroom');
-  check('6. 沒說：模 5 沒有她、KX_MOOT photo',!L.some(t=>t.startsWith('可昕：'))&&G.flags.KX_MOOT==='photo');
-  G.events.done.ev_moot_5=1; G.hour=21.5; run(21.5,21.95); const a=PHONE.sent(G,'kx_moot_photo'); run(22,22.2);
-  check('6. 22:00 粉專照片＋「下次要說。我想看你發抖。」（21:57 還沒有）',!a&&txt(KT).slice(-2).join('｜')==='kexin:📷（法律系學會粉專貼的模擬法庭照片）｜kexin:下次要說。我想看你發抖。');
-  L=await play('ev_moot_5',{dating_kexin:true},d5,9.6,'classroom');
-  check('6. 沒回她：當作沒說（photo）',G.flags.KX_MOOT==='photo');
-  /* 說了、平日白天的比賽（現在的模 5 是週六；用 KX_MOOT_CAME 換成平日檢查）*/
-  const wdDay=termDay('Y2S2',10,4); base(wdDay,10,'classroom',{dating_kexin:true,KX_MOOT_TOLD:true});
-  check('7. 說了、平日 10:00＝她有課（不來）；平日 19:00 能來',!KX_MOOT_CAME(G)&&(G.hour=19,KX_MOOT_CAME(G)));
-  base(d5,13,'campus',{dating_kexin:true,KX_MOOT:'call'}); G.events.done.ev_moot_5=1; run(13,13.1);
-  check('7. call：散場後一則「你們學校的評審是不是比較兇？」',txt(KT).slice(-1)[0]==='kexin:你們學校的評審是不是比較兇？');
-  L=await play('ev_moot_5',{KX_MOOT_TOLD:true},d5,9.6,'classroom');
-  check('8. 沒交往：沒有她、不記 KX_MOOT',!L.some(t=>t.startsWith('可昕：'))&&G.flags.KX_MOOT==null);
-  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
-})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
+  /* 2026-10-17 使用者刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252 改成大四專題討論的法院旁聽）：這裡改成檢查「停用」——
+     事件 retired、三場小組討論不開、系上公告／小組群組／邀約／模 6 出遊／可昕的訊息都不送；舊存檔的旗標留著、不再讀 */
+  const ids=['ev_moot_1','ev_moot_2','ev_moot_3','ev_moot_4','ev_moot_5','ev_moot_6'];
+  check('1. 模 1～6 事件留著但都停用（retired）',ids.every(id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return e&&!!e.retired; }));
+  const acts=['moot_2','moot_3','moot_4'].map(id=>ACTIVITIES.list.find(a=>a.id===id));
+  check('2. 小組討論三場不開（skip）',acts.every(a=>a&&!ACTIVITIES.on(a,termDay('Y2S2',a.weeks[0],a.weekday))));
+  check('3. STORY.MOOT_OFF',STORY.MOOT_OFF===true);
+  fresh(STORY.dayOfKey('2027-02-23'),8,'dorm',{dating_kexin:true}); PHONE.join(G,'noodle_team','麵店團');
+  for(let d=STORY.dayOfKey('2027-02-23');d<=STORY.dayOfKey('2027-05-02');d++){ G.day=d; G.weekday=wdOf(d); run(8,23.5,0.5); }
+  PHONE.tick(G); const bad=(G.msgs||[]).filter(m=>/^moot_|^kx_moot/.test(String(m.tag||''))||/模擬法庭/.test(m.text||''));
+  check('4. 大二下整學期：沒有模擬法庭的公告、群組、邀約、可昕的訊息',!bad.length&&!PHONE.inGroup(G,'moot_seller'),JSON.stringify(bad.slice(0,3).map(m=>m.text)));
+  G.flags.MOOT_TOGETHER=false; STORY.mootTogetherCheck(G,'plg'); check('5. 準備分不再累積（mootTogetherCheck 不動）',!G.flags.MOOT_TOGETHER);
+  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

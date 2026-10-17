@@ -1803,7 +1803,8 @@ const STORY = (function(){
           PHONE.at(G,d,20,[{th:'g:noodle_team',from:'heroine_01',text:'📷（說明會的簡報）'},{th:'g:noodle_team',from:'heroine_01',text:'重點在第七頁。'}],'y2_expo_missed'); } }
     /* 模擬法庭（V3-D16；AA_177 4-7、AA_143 3-3）：2/23（二）09:00 系上公告；模 1 沒到＝2/25 13:30 以安私訊兩則；小組群組「模擬法庭・賣家組」（模 1 演完或 13:30）；
        模 2～5 的邀約前一晚 21:00 以安在小組群組；模 5 散場（演完）阿哲當面約＝排 19:00 麵店出遊（模 6）；沒去＝21:30 麵店團群組一張照片 */
-    { const dA=S.dayOfKey('2027-02-23'), d1=S.dayOfKey('2027-02-25'), d5=S.dayOfKey('2027-05-01'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]); if(dA!=null&&d1!=null&&d5!=null&&G.day>=dA&&G.day<=d5+1){
+    /* 2026-10-17 使用者刪除模擬法庭（AA_252）：整段停用（S.MOOT_OFF），舊存檔的旗標留著、不再讀 */
+    { const dA=S.dayOfKey('2027-02-23'), d1=S.dayOfKey('2027-02-25'), d5=S.dayOfKey('2027-05-01'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]); if(!S.MOOT_OFF&&dA!=null&&d1!=null&&d5!=null&&G.day>=dA&&G.day<=d5+1){
         const MG='g:moot_seller', A=t=>({th:MG,from:'heroine_01',text:t}), H=t=>({th:MG,from:'classmate_bohan',text:t});
         if((G.day>dA||G.hour>=9)&&G.day<=d1&&!PHONE.sent(G,'moot_notice')) PHONE.at(G,dA,9,[{th:'sys',name:'系上公告',text:'法律系：大二模擬法庭抽籤，2/25（四）12:20，霖澤館 201。全體大二同學參加。'}],'moot_notice');
         if(ED('ev_moot_1')||G.day>d1||(G.day===d1&&G.hour>=13.5)){ if(!PHONE.inGroup(G,'moot_seller')) PHONE.join(G,'moot_seller','模擬法庭・賣家組');
@@ -2007,7 +2008,8 @@ const STORY = (function(){
         if(F.dating_kexin&&!PHONE.sent(G,'kx_spring_y1')&&G.day<=D.dl) PHONE.at(G,D.inv2,21.5,[{th:'p:kexin',from:'kexin',text:'春假我們開車去哪裡？'},{th:'p:kexin',from:'kexin',text:'我做了行程表。第二頁是假設題，第三頁才是行程。'}],'kx_spring_y1');
         if(G.day>D.dl&&F.SPRING_Y1==null&&(PHONE.sent(G,'an_spring_y1')||PHONE.sent(G,'kx_spring_y1'))) S.springChoose(GM,'dorm',{silent:true}); } }
     /* 重訪日 1（交接包 v2 C20；BB_96 9-10）：大一最後一天中午，交往中的玩家可昕傳「最後一天。你說的那張桌子，我六點到。」；收到以後目標改成 18:00 兩點半 Café */
-    { const rd=S.revisitDay(); if(rd&&G.day===rd&&F.dating_kexin&&!F.REVISIT_Y1){
+    /* 2026-10-17 使用者取消重訪日（AA_249）：下面整段停用（S.REVISIT_OFF），學期末聚餐的新系統跟 HOLIDAY-SYS 一起做 */
+    { const rd=S.REVISIT_OFF?null:S.revisitDay(); if(rd&&G.day===rd&&F.dating_kexin&&!F.REVISIT_Y1){
         if(!PHONE.sent(G,'kx_revisit1')&&G.hour<18) PHONE.at(G,rd,Math.max(12,G.hour),[{th:'p:kexin',from:'kexin',text:'考完了！六點在兩點半，我坐窗邊。'}],'kx_revisit1');   /* AA_209 第 3 節（附錄 B L1985：沒有「那張桌子」的前情）*/
         if(!F.revisitGoalY1&&G.hour>=12&&G.hour<22&&(G.msgs||[]).some(m=>m.tag==='kx_revisit1')){ F.revisitGoalY1=true; GM.setGoal('18:00 兩點半 Café（可昕）'); } }
       /* 沒有和可昕交往（AA 50da3a9）：在麵店團＝17:00 阿哲在群組揪併桌；不在麵店團＝最親近的人（STORY.revisitClosest）。女生 18:00 傳訊息（BB_96 第 11 節）。
@@ -2017,6 +2019,7 @@ const STORY = (function(){
         if(!F.revisitGoalY1&&G.hour>=12&&G.hour<22){ F.revisitGoalY1=true; GM.setGoal(grp?'18:00 阿鳳麵店（麵店團併桌）':'18:00 兩點半 Café（學期最後一天）'); }
         if(!grp&&!PHONE.sent(G,'revisit1_msg')&&G.hour>=17.5){ const c=S.revisitClosest(G), L=c.kind==='female'?REVISIT_MSG[c.id](G):null; if(L) PHONE.at(G,rd,Math.max(18,G.hour),L.map((t,k)=>({th:'p:'+c.id,from:c.id,text:t})),'revisit1_msg'); } } }
     dailyPhone(GM); };
+    S.REVISIT_OFF=true;   /* 使用者 2026-10-17 取消重訪日（AA_249）*/
     S.revisitDay=function(){ return S.dayOfKey('2026-06-12'); };   /* AA_209 第 4 節第 1 點、AA_197 1-6：期末最後一天 6/12（五）（16 週制做好以後改成讀最後一場期末考）*/
   /* 重訪日 1：單身、不在麵店團的玩家，這一年最親近的人（AA 50da3a9、d1fa44f；BB_96 第 11 節）：先看階段、再看熟悉；至少「有點熟」。
      學姊、沛珊這時有伴侶，不算（不傳只給一個人的閒聊私訊）；可昕另外處理。以安、語彤、小語、芯慈、阿哲（AA 的人物）還沒有台詞，暫時不列（已問 AA）。
@@ -2078,9 +2081,10 @@ const STORY = (function(){
     if(F.dating_heroine_03&&(k==='noodle'||k==='dorm')){ const YT=t=>({th:'p:heroine_03',from:'heroine_03',text:t}); PHONE.at(G,D.d0,18,k==='noodle'?[YT('看到群組了。你們那邊也在下雨喔。'),YT('店裡今天很空。')]:[YT('春假店裡很空。你要來吃嗎？')],'yt_spring_msg'); }   /* 和語彤交往中：她春假照樣顧店；第一天傍晚私訊（AA_71 2-10，AA-C e2bdcece；AA_216 大一下 #7）*/
     if(k!=='noodle'&&grp){ const th='g:noodle_team'; PHONE.at(G,D.d0,20.5,[{th,from:'heroine_01',text:'📷（行程表第二版）'},{th,from:'heroine_01',text:'好，下午改去室內的地方，我再排一下。'}/* AA_209 第 8 節第 8 點（同 ev_noodle_trip_spring_y1）*/,{th,from:'zhe',text:'下次你要來。'}],'ndl_spring_photos'); } };
   /* 模擬法庭的準備分（AA_143 3-2；0～4，不顯示數字）：模 2 去了機車行、模 3 提第三種寫法、模 4 有去、第 8～10 週和以安或柏翰一起準備（MOOT_TOGETHER） */
+  S.MOOT_OFF=true;   /* 使用者 2026-10-17：模擬法庭整段刪除（AA_252）*/
   S.mootScore=function(G){ const F=G.flags||{}; return (F.MOOT_BIKE_SHOP?1:0)+(F.MOOT_THIRD?1:0)+(F.MOOT_DRILL?1:0)+(F.MOOT_TOGETHER?1:0); };
   /* MOOT_TOGETHER（AA_143 3-3 第 8 項：照 LAWWW-B 的讀法）：大二下第 8～10 週去了公法讀書會，或在總圖、法圖自習時以安或柏翰在場 */
-  S.mootTogetherCheck=function(G,kind){ if(!G||!G.flags||G.flags.MOOT_TOGETHER) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||T.id!=='Y2S2'||T.week<8||T.week>10) return;
+  S.mootTogetherCheck=function(G,kind){ if(S.MOOT_OFF||!G||!G.flags||G.flags.MOOT_TOGETHER) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||T.id!=='Y2S2'||T.week<8||T.week>10) return;
     if(kind==='plg'||((kind==='study')&&['library','library_hall','lawlib'].includes(G.zone)&&['heroine_01','classmate_bohan'].some(id=>S.present(id,G)&&(()=>{ const e=schedEnt(CHARACTERS[id],G); return !!e&&e.zone===G.zone; })()))) G.flags.MOOT_TOGETHER=true; };
   /* 大一去過幾次法服讀書會（BB_97 4-3 P4「我接。」要 5 次以上）：G.acts.att 的 lawclub_study@<天>，那一天在大一（Y1S1、Y1S2）；中途離開也算去過 */
   /* 大一去過幾次公法讀書會（沛珊 P4「我接。」要 5 次以上；BB_191 §8-7：法服讀書會停用以後改算公法讀書會，中途離開也算）*/

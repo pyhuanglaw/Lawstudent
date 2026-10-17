@@ -1,4 +1,4 @@
-// 模擬法庭 模 1～6（V3-D16、V3-B07；AA_177 4-7、AA_143 第 3 節（AA-B ee2c901d）、AA_96 4-3、BB_97 2-6）——不需要瀏覽器。
+// 模擬法庭（V3-D16）——2026-10-17 使用者刪除：檢查停用（AA_252）。用法：node tests/v3_moot_unit.js
 // 檢查：公告、模 1（2/25 201、自我介紹、學姊三件事）／沒到的私訊與群組；三次邀約＋模 5 邀約；moot_2～4 活動（研討室 B、週四 19:00）；模 2 三選一與機車行；模 3 三選一（第三種兩版）；模 4；模 5 準時／09:45 打電話、結辯三選一（故事版要機車行）、準備分與輸贏、筆記；模 6 輸贏兩版、沒去的照片；MOOT_TOGETHER。用法：node tests/v3_moot_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -34,73 +34,17 @@ GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.pu
 GM.money=function(n){ G.money+=n; };
 
 (async()=>{
-  const NM={'沈以安':'以安','不認識的女生':'以安','許柏翰':'柏翰','溫書瑀':'學姊','溫學姊':'學姊','吳芯慈':'芯慈'}; GM.memo=t=>{ (G.memo=G.memo||[]).push({day:G.day,t}); }; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
-  const dA=D('2027-02-23'), d1=D('2027-02-25'), d5=D('2027-05-01'), MG='g:moot_seller';
-  check('0. 2/25 週四大二下第 1 週；3/11 第 3 週、4/1 第 6 週、4/15 第 8 週（週四）；5/1 週六第 10 週',termDay('Y2S2',1,4)===d1&&termDay('Y2S2',3,4)===D('2027-03-11')&&termDay('Y2S2',6,4)===D('2027-04-01')&&termDay('Y2S2',8,4)===D('2027-04-15')&&termDay('Y2S2',10,6)===d5);
-  const base=(day,h,zone,o)=>{ o=o||{}; fresh(day,h,zone,o.flags); if(o.know!==false){ meet('heroine_01'); meet('classmate_bohan'); } meet('heroine_05'); meet('classmate_xinci'); meet('zhe'); if(o.ndl) PHONE.join(G,'noodle_team','麵店團'); };
-  base(dA,8.5,'dorm'); run(8.5,9.2);
-  check('1. 2/23 09:00 系上公告',(G.msgs||[]).some(m=>m.th==='sys'&&m.text==='法律系：大二模擬法庭抽籤，2/25（四）12:20，霖澤館 201。全體大二同學參加。'));
-  const M1=ev('ev_moot_1');
-  base(d1,12.4,'classroom'); check('2. 2/25 12:24 在 201：模 1 會演；12:00、13:20、別的教室不演',EVENTS.check(M1)&&(()=>{ G.hour=12; const a=EVENTS.check(M1); G.hour=13.3; const b=EVENTS.check(M1); G.hour=12.4; G.zone='linze'; const c=EVENTS.check(M1); return !a&&!b&&!c; })());
-  const play=async(id,pick,o,day,h,zone)=>{ base(day,h,zone,o); said=[]; opts=[]; picks=[].concat(pick); await EVENTS.run(ev(id)); return {L:L0(),O:opts}; };
-  let r=await play('ev_moot_1',0,{},d1,12.4,'classroom');
-  check('2. 認識的玩家：抽到賣家／柏翰／以安畫分工表／學姊三件事；沒有自我介紹',r.L.join('｜')==='（抽到賣家。）｜柏翰：……我們要替說『二手的本來就這樣』的人說話？｜（以安已經在手帳上畫分工表。）｜學姊：三件事。一，先不要討厭你的當事人。二，找他說的話裡對的地方。三，今天先回家睡覺。',JSON.stringify(r.L));
-  r=await play('ev_moot_1',0,{know:false},d1,12.4,'classroom');
-  check('2. 不認識以安、柏翰：兩句自我介紹＋FIRST_MET',r.L[0]==='以安：沈以安。分工表我先畫了。'&&r.L[1]==='柏翰：許柏翰。……考古題沒有這一題。'&&SOCIAL.has('heroine_01','FIRST_MET')&&SOCIAL.has('classmate_bohan','FIRST_MET'),JSON.stringify(r.L.slice(0,2)));
-  base(d1,13,'dorm'); G.events.done.ev_moot_1=1; run(13,13.2);
-  check('3. 模 1 演完：加入「模擬法庭・賣家組」；沒有沒到的私訊',PHONE.inGroup(G,'moot_seller')&&!PHONE.sent(G,'moot_1_missed'));
-  base(d1,13.2,'dorm'); run(13.2,13.45);
-  check('3. 沒到：13:27 還沒有',!PHONE.sent(G,'moot_1_missed'));
-  run(13.5,13.7);
-  check('3. 沒到：13:30 以安私訊兩則、加入群組',txt('p:heroine_01').join('｜')==='heroine_01:抽籤結果出來了。我、你、柏翰。我們是賣家。｜heroine_01:分工表明天給你。'&&PHONE.inGroup(G,'moot_seller'));
-  const inv=async(k,want)=>{ const di=D(k); base(di,20.5,'dorm'); PHONE.join(G,'moot_seller','模擬法庭・賣家組'); run(20.5,20.95); const a=PHONE.sent(G,'moot_inv_'+k); run(21,21.2); return !a&&txt(MG).join('｜')===want; };
-  check('4. 3/10 21:00 模 2 邀約四則',await inv('2027-03-10','heroine_01:明天晚上七點，萬才館研討室。｜heroine_01:題目是二手機車的買賣。每個人帶一個做法來。｜classmate_bohan:做法是指……要背的範圍嗎。｜heroine_01:不是。'));
-  check('4. 3/31 模 3 邀約（伏筆「……明天再說。」）',await inv('2027-03-31','heroine_01:明天七點，研討室。書狀要寫到第三段。｜heroine_01:理由：再不寫，四月就沒了。｜classmate_bohan:我寫了一版。照考古題的格式。｜heroine_01:……明天再說。'));
-  check('4. 4/14 模 4 邀約',await inv('2027-04-14','heroine_01:明天七點，研討室。學姊答應來當法官。｜heroine_01:她說會手下留情。｜classmate_bohan:她上次也這樣說。'));
-  check('4. 4/30 模 5 邀約「明天九點半，201。穿正式一點。」',await inv('2027-04-30','heroine_01:明天九點半，201。穿正式一點。'));
-  const AC=id=>ACTIVITIES.list.find(a=>a.id===id);
-  check('5. moot_2～4：萬才館研討室 B、門口參加、週四 19:00～21:00、只在那一天',['moot_2','moot_3','moot_4'].every(id=>{ const a=AC(id); return !!a&&a.zone==='wancai'&&a.room==='seminarB'&&a.door&&a.t0===19&&a.t1===21&&a.event==='ev_'+id.replace('_','_'); })&&ACTIVITIES.on(AC('moot_2'),D('2027-03-11'))&&!ACTIVITIES.on(AC('moot_2'),D('2027-03-18'))&&ACTIVITIES.on(AC('moot_3'),D('2027-04-01'))&&ACTIVITIES.on(AC('moot_4'),D('2027-04-15')));
-  r=await play('ev_moot_2',0,{},D('2027-03-11'),19,'wancai');
-  check('6. 模 2：以安「我先列計畫。」柏翰「我先背。」；三選一',r.L[0]==='以安：我先列計畫。'&&r.L[1]==='柏翰：我先背。'&&JSON.stringify(r.O[0])==='["「我先去問機車行老闆。」","「我跟柏翰一起背。」","「我照以安的分工表做。」"]');
-  check('6. 機車行：以安兩句、祐廷一句、旁白兩句、老闆兩句、MOOT_BIKE_SHOP',r.L.includes('以安：你去問機車行老闆？')&&r.L.includes('祐廷：當事人會說的話，我想先聽一次。')&&r.L.includes('以安：（寫進手帳）……這個我沒想到。理由欄我先空著，你回來填。')&&r.L.includes('機車行老闆：二手車喔，看人騎的。')&&r.L.slice(-1)[0]==='機車行老闆：同一台車，給騎很兇的人騎一年，比給阿伯騎五年還舊。'&&G.flags.MOOT_BIKE_SHOP===true,JSON.stringify(r.L));
-  r=await play('ev_moot_2',1,{},D('2027-03-11'),19,'wancai');
-  check('6. 跟柏翰背：「……你確定？我一天背四十頁。」＋第十二頁；沒有機車行',r.L.slice(-2).join('｜')==='柏翰：……你確定？我一天背四十頁。｜（那天晚上，你背到第十二頁就睡著了。）'&&!G.flags.MOOT_BIKE_SHOP);
-  r=await play('ev_moot_2',2,{},D('2027-03-11'),19,'wancai');
-  check('6. 照分工表：「好。你負責第三段的資料。」＋兩本書被借走',r.L.slice(-2).join('｜')==='以安：好。你負責第三段的資料。｜（你在法圖找到兩本書，兩本都被借走了。）');
-  r=await play('ev_moot_3',2,{flags:{MOOT_BIKE_SHOP:true}},D('2027-04-01'),19,'wancai');
-  check('7. 模 3：柏翰／以安兩句；有機車行＝第三種「放機車行老闆說的話」；以安、柏翰「……可以。」；MOOT_THIRD',r.L[0]==='柏翰：照考試的寫法比較安全。'&&r.L[1]==='以安：照考試的寫法，評審會睡著。'&&r.O[0][2]==='「第一段照考試的格式。第二段，放機車行老闆說的話。」'&&r.L.includes('以安、柏翰：……可以。')&&r.L.includes('以安：理由：兩個人都不用讓。')&&G.flags.MOOT_THIRD===true,JSON.stringify(r));
-  r=await play('ev_moot_3',2,{},D('2027-04-01'),19,'wancai');
-  check('7. 沒有機車行：第三種「講當事人那天的事」',r.O[0][2]==='「第一段照考試的格式。第二段，講當事人那天的事。」'&&G.flags.MOOT_THIRD===true);
-  r=await play('ev_moot_3',0,{},D('2027-04-01'),19,'wancai');
-  check('7. 站以安：「……謝謝。」柏翰「（沉默三秒）好。那考試的寫法，放附錄。」；不加分',r.L.slice(-2).join('｜')==='以安：……謝謝。｜柏翰：（沉默三秒）好。那考試的寫法，放附錄。'&&!G.flags.MOOT_THIRD);
-  r=await play('ev_moot_3',1,{},D('2027-04-01'),19,'wancai');
-  check('7. 站柏翰：「對吧。」以安去買飲料、三杯',r.L.slice(-3).join('｜')==='柏翰：對吧。｜以安：（把手帳闔起來）好。……我去買飲料。｜（她回來的時候，買了三杯。）');
-  r=await play('ev_moot_4',0,{},D('2027-04-15'),19,'wancai');
-  check('8. 模 4：學姊開場（放榜）、旁白兩句、最長的十秒、MOOT_DRILL',r.L.join('｜')==='學姊：一件事。我前陣子放榜了，心情很好。所以今天會問得比較兇。｜（學姊問到第三題，三個人都答不出來。）｜（研討室安靜了十秒。然後學姊笑了。）｜學姊：重點是——你們剛剛那段沉默，在真的法庭裡是最長的十秒。'&&G.flags.MOOT_DRILL===true,JSON.stringify(r.L));
-  const M5=ev('ev_moot_5');
-  base(d5,9.6,'classroom'); const a5=EVENTS.check(M5); G.zone='dorm'; const b5=EVENTS.check(M5); G.hour=9.8; const c5=EVENTS.check(M5); G.day=d5+7; const e5=EVENTS.check(M5);
-  check('9. 模 5：09:36 在 201 會演；在宿舍 09:36 還不演、09:48 就演（固定核心）；別天不演',a5&&!b5&&c5&&!e5);
-  r=await play('ev_moot_5',0,{},d5,9.6,'classroom');
-  check('9. 準時到：開庭前五句、學姊「一件事。你們準備好了。」；沒有電話',r.L.slice(0,6).join('｜')==='（霖澤館 201 的桌子排成兩邊。對面是芯慈那隊。）｜芯慈：（隔著走道，小聲）你們的分工表，我看到了。很漂亮。｜柏翰：（小聲）她在心理戰。｜以安：（小聲）她在說真話。她的分工表比我的漂亮。｜法官：請賣方代理人陳述。｜學姊：一件事。你們準備好了。'&&!r.L.some(t=>/你在哪/.test(t)),JSON.stringify(r.L));
-  check('9. 沒有機車行：結辯兩個選項；理性版那一句；MOOT_CLOSE',r.O[0].length===2&&r.L.slice(-1)[0]==='祐廷：契約寫的是『二手』，沒有寫『無瑕疵』。我們請評審看的，是雙方在簽約那一天，各自知道什麼。'&&G.flags.MOOT_CLOSE==='reason');
-  check('9. 準備分 0＝輸、筆記「芯慈那隊準備得比你們多一步。」',G.flags.MOOT_SCORE===0&&G.flags.MOOT_WIN===false&&(G.memo||[]).some(m=>m.t==='模擬法庭：芯慈那隊準備得比你們多一步。'));
-  r=await play('ev_moot_5',2,{flags:{MOOT_BIKE_SHOP:true,MOOT_THIRD:true,MOOT_DRILL:true}},d5,9.8,'dorm');
-  check('10. 09:45 沒到：以安「你在哪？……十點開庭。」＋「你一路跑上霖澤館二樓。」',r.L[0]==='以安：你在哪？……十點開庭。'&&r.L[1]==='（你一路跑上霖澤館二樓。）');
-  check('10. 有機車行：三個選項、故事版；準備分 3＝贏、筆記「你們準備得夠，結辯也站得住。」',r.O[0].length===3&&r.L.slice(-1)[0]==='祐廷：我去問過機車行的老闆。他說，每一台二手車，都有上一個主人留下的習慣。我的當事人賣的，是他騎了七年的車。'&&G.flags.MOOT_WIN===true&&G.flags.MOOT_SCORE===3&&(G.memo||[]).some(m=>m.t==='模擬法庭：你們準備得夠，結辯也站得住。'));
-  // 模 6
-  base(d5,12,'dorm'); G.events.done.ev_moot_5=1; G.flags.MOOT_WIN=false; run(12,12.2); const o6=OUT.get(G,'moot_6');
-  check('11. 模 5 演完：排 5/1 19:00 麵店出遊（模 6）',!!o6&&o6.day===d5&&o6.h===19&&o6.ev==='ev_moot_6');
-  const M6=ev('ev_moot_6'); said=[]; await EVENTS.run(M6); let L=L0();
-  check('11. 輸：滷味、學姊「這是最好的輸法」、以安手帳',L.includes('（阿哲把外帶的滷味分給大家。）')&&L.includes('學姊：你們輸給了一個準備得比你們好的隊伍。這是最好的輸法。')&&L.includes('（以安在手帳上寫：「計畫以外：輸了也很開心。」）')&&!L.some(t=>/第三段很好/.test(t)));
-  base(d5,19,'noodle'); G.flags.MOOT_WIN=true; said=[]; await EVENTS.run(M6); L=L0();
-  check('11. 贏：芯慈「你們第三段很好。……我們下次會贏。」、學姊收評分表三句',L.includes('芯慈：你們第三段很好。……我們下次會贏。')&&L.includes('學姊：這張我要留著。不是你們的，是我的。我第一次帶的隊伍。')&&!L.some(t=>/最好的輸法/.test(t)),JSON.stringify(L));
-  base(d5,21,'dorm',{ndl:true}); G.events.done.ev_moot_5=1; run(21,21.6);
-  check('12. 沒去模 6：21:30 麵店團群組「📷（阿哲分的滷味）」',txt('g:noodle_team').slice(-1)[0]==='zhe:📷（阿哲分的滷味）');
-  // MOOT_TOGETHER
-  base(termDay('Y2S2',9,2),15,'library'); STORY.mootTogetherCheck(G,'plg');
-  check('13. 第 9 週去公法讀書會＝MOOT_TOGETHER',G.flags.MOOT_TOGETHER===true);
-  base(termDay('Y2S2',5,2),15,'library'); STORY.mootTogetherCheck(G,'plg');
-  check('13. 第 5 週不算',!G.flags.MOOT_TOGETHER);
-  check('13. 準備分＝四項加總',STORY.mootScore({flags:{MOOT_BIKE_SHOP:1,MOOT_THIRD:1,MOOT_DRILL:1,MOOT_TOGETHER:1}})===4&&STORY.mootScore({flags:{}})===0);
-  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+  /* 2026-10-17 使用者刪除模擬法庭（「這不符合我在臺大法律的回憶」；AA_252 改成大四專題討論的法院旁聽）：這裡改成檢查「停用」——
+     事件 retired、三場小組討論不開、系上公告／小組群組／邀約／模 6 出遊／可昕的訊息都不送；舊存檔的旗標留著、不再讀 */
+  const ids=['ev_moot_1','ev_moot_2','ev_moot_3','ev_moot_4','ev_moot_5','ev_moot_6'];
+  check('1. 模 1～6 事件留著但都停用（retired）',ids.every(id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return e&&!!e.retired; }));
+  const acts=['moot_2','moot_3','moot_4'].map(id=>ACTIVITIES.list.find(a=>a.id===id));
+  check('2. 小組討論三場不開（skip）',acts.every(a=>a&&!ACTIVITIES.on(a,termDay('Y2S2',a.weeks[0],a.weekday))));
+  check('3. STORY.MOOT_OFF',STORY.MOOT_OFF===true);
+  fresh(STORY.dayOfKey('2027-02-23'),8,'dorm',{dating_kexin:true}); PHONE.join(G,'noodle_team','麵店團');
+  for(let d=STORY.dayOfKey('2027-02-23');d<=STORY.dayOfKey('2027-05-02');d++){ G.day=d; G.weekday=wdOf(d); run(8,23.5,0.5); }
+  PHONE.tick(G); const bad=(G.msgs||[]).filter(m=>/^moot_|^kx_moot/.test(String(m.tag||''))||/模擬法庭/.test(m.text||''));
+  check('4. 大二下整學期：沒有模擬法庭的公告、群組、邀約、可昕的訊息',!bad.length&&!PHONE.inGroup(G,'moot_seller'),JSON.stringify(bad.slice(0,3).map(m=>m.text)));
+  G.flags.MOOT_TOGETHER=false; STORY.mootTogetherCheck(G,'plg'); check('5. 準備分不再累積（mootTogetherCheck 不動）',!G.flags.MOOT_TOGETHER);
+  console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
