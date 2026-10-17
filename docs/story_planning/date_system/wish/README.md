@@ -22,11 +22,11 @@
 | 欄位 | 意思 |
 |---|---|
 | `id`、`char`、`loc`、`title`、`source` | 事件 id（`wish_<角色 id>`）、角色、地點、標題、原稿出處 |
-| `wish`、`rule` | 給開發的說明（不顯示）。`rule` 是這一位特別的限制（學姊只在 `SIS_HEALED` 以後；沛珊雙方單身或她是女友；可昕不寫家鄉） |
+| `wish`、`rule` | 給開發的說明（不顯示）。`rule` 是這一位特別的限制（學姊只在 `SIS_EXAM_DONE`（研究所筆試考完，2026-02-02 起；她沒有男朋友，2026-10-17）以後；沛珊雙方單身或她是女友；可昕不寫家鄉） |
 | `record` | 完成時記：`flag`＝`WISH_DONE_<id>`（**第一次和她單獨去她的心願地點就算完成，不管哪一年**，`AA_128` 第 6 節）、`memory`（`SOCIAL.remember(她, tag)`，text 是記憶的說明）、`album`（Life Album 那一張） |
 | `mention` | **聊天提到**（記 `SOCIAL.remember(她,'WISH_KNOWN')`）：`if` 條件、`where` 在哪裡說、`lines`、`choices`。只說一次 |
 | `herInvite` | **她主動約**：`if`、`rule`（`AA_128 4-5`：她自己有伴侶、或她知道祐廷有伴侶時不約）、`perTerm`（每學期最多一次；BB_128 第 3 節共同規則：**每位都是每學期最多一次**、玩家拒絕不扣分不鎖線、至少隔 4 週才可能再問）、`dateWeekday`（0＝日）、`dateTime`（約的時間，14.5＝14:30）、`message`（訊息什麼時候傳）、`lines`（訊息）、`accept`（答應：建立行程 `by:'her'`、`wish:true`）、`decline`（這週不行，不扣分）、`linesIf`（換掉整段訊息的版本） |
-| `playerInvite` | **玩家主動約她去**：`known`（已經 `WISH_KNOWN`）、`unknown`（還不知道；**這一次也算完成心願**）。學姊的 `if` 是 `SIS_HEALED`；沛珊大二下 `retakeTerm` 只答應 D06 |
+| `playerInvite` | **玩家主動約她去**：`known`（已經 `WISH_KNOWN`）、`unknown`（還不知道；**這一次也算完成心願**）。學姊的 `if` 是 `SIS_EXAM_DONE`；沛珊大二下 `retakeTerm` 只答應 D06 |
 | `arrive` | 抵達：`narr` 旁白、`lines`、`extraIf`（條件成立的**都**多說，照順序；交往中和第 6 階單身互斥，所以關係那句只會有一句）、`admission`（有門票，抵達時扣，`AA_128`） |
 | `fixed` | 固定活動（芷若的看電影，120 分，不算互動點） |
 | `hotspots` | 四個互動點：`name`、`minutes`、`cost`（祐廷自己的那份）、`like`、`lines`、`choices`。選項可以有 `if`（不成立就不出現）、`cost`／`extra`（選了才另外扣）、`replyIf`（條件成立時**換掉** reply；取第一個成立的）、`extraIf`（條件成立時在 reply 後面**多說**） |
@@ -45,7 +45,7 @@
 | `unless` | 放在 `if` 裡：裡面的條件成立時，這一條不成立 |
 
 - 原稿寫「第 5 階」「第 6 階（單身）」「交往中」的地方：交往中＝`datingHer:true`；第 6 階（單身）＝`dateStage.min 6`＋`datingHer:false`；第 5 階＝其他情況（`if:{}`）。
-- 用到的旗標與事件：`WATCHED_FILM`（芷若的記憶，Z5 兩個人看）、`ev_zhiruo_third_row`（Z11b 倒數第三排，**還沒實作，id 由 LAWWW-B 定**）、`ATTENDED_SHOW`（子晴 Q12 發表會）、`SIS_HEALED`、`ev_sis_empty_flask`（W4）、`SIS_BEEN_US`（學姊去過美國以後，**暫名**）、`ev_peishan_syllogism`（P2b）、`ev_kexin_trip_spring_y1`（K8）、`KX_TRIP_DEFERRED_DONE`（K8 延到暑假那一趟走完，**暫名**）、`KX_TRIP_Y1S2:'sea'`（K8 選海邊）、`ev_kexin_k18`（K18）、`EX_kexin`（和可昕分開過，`AA_123`）。暫名的請 LAWWW-B 換成實際的旗標，告訴 BB-B。
+- 用到的旗標與事件：`WATCHED_FILM`（芷若的記憶，Z5 兩個人看）、`ev_zhiruo_third_row`（Z11b 倒數第三排，**還沒實作，id 由 LAWWW-B 定**）、`ATTENDED_SHOW`（子晴 Q12 發表會）、`SIS_EXAM_DONE`、`ev_sis_empty_flask`（W4）、`SIS_BEEN_US`（學姊去過美國以後，**暫名**）、`ev_peishan_syllogism`（P2b）、`ev_kexin_trip_spring_y1`（K8）、`KX_TRIP_DEFERRED_DONE`（K8 延到暑假那一趟走完，**暫名**）、`KX_TRIP_Y1S2:'sea'`（K8 選海邊）、`ev_kexin_k18`（K18）、`EX_kexin`（和可昕分開過，`AA_123`）。暫名的請 LAWWW-B 換成實際的旗標，告訴 BB-B。
 - `abroadBlock`：她在國外（芷若在英國、學姊在美國）時不提、不約。`notExamWeek`：那週不是考試週。`noBreaks`：寒暑假不約。`needsCar`：要開車（祐廷台北有車）。
 
 ## `common_bb.json`
