@@ -24,7 +24,8 @@ RED = np.array([176, 38, 42]) / 255.0          # 短褲側邊的細紅線（參�
 STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([128, 132, 138]) / 255.0, SOLE_RGB=np.array([234, 230, 220]) / 255.0,
              GOLD_RGB=np.array([234, 230, 220]) / 255.0, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
-             SLEEVE_LEN=0.42, SLEEVE_K=0.72, CUFF_EASE=0.014, EASE_K=0.95, DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=True,
+             SLEEVE_LEN=0.45, SLEEVE_K=1.05, CUFF_EASE=0.030, EASE_K=0.95, SHOULDER_SAG=0.020, SLEEVE_IN=0.035,   # 第十一版（BB_201：「3D 是無袖背心」——袖子其實有，只是太窄、大半是白色拼接）：寬的短袖（風衣）、稍長
+             DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=True,
              PANTS_ELLIPSE=(0.057, 0.063), PANTS_DROP=False, PANTS_HEM_UP=0.62, PANTS_FOLLOW=True)   # 第三版：短袖（到上臂一半）、直下擺；短褲 0.56 → 0.62（膝上 5 cm）、窄一點、褲管跟著腿走   # 短褲：膝蓋上面一點（p04 的牛仔短褲 0.62＝大腿中段）；第一版 0.50／(0.068, 0.076) 像七分寬褲   # 第一版 (0.074, 0.086)＋從臀部直落：遊戲裡像喇叭褲
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：
 # 牛仔褲褲頭在胯骨上方 10 cm（低腰）；外套下擺在胯骨下面 2 cm（羅紋 4.5 cm，蓋住褲頭）；外套圓領貼脖子根部；T 恤圓領比外套低一點
@@ -258,7 +259,7 @@ def _apply(m, arm, body):
     XC.tee_full(skin, arm, mb, K.PANTS_TOP - 0.03, K.TEE_CREW_Z)
     shoes = K.build_shoes(skin, arm, mb)
     print('  sock faces', socks(skin, mb))
-    print('  shoulder panel faces', sleeve_panels(mb, top, half_angle=46.0, frac=0.80))   # 第四版：外側上面一條（第三版 70°、整條：遊戲裡兩個袖子整顆白，像墊肩）   # 第二版：肩膀到上臂、外側一大塊
+    print('  shoulder panel faces', sleeve_panels(mb, top, half_angle=46.0, frac=0.50))   # 第十一版：拼接只到袖子上半（0.80：整個袖子看起來是白的）   # 第四版：外側上面一條（第三版 70°、整條：遊戲裡兩個袖子整顆白，像墊肩）   # 第二版：肩膀到上臂、外側一大塊
     print('  side panel faces', side_panels(mb, float(C.bone_head(arm, 'J_Bip_L_UpperArm')[2]) - 0.07))
     zip_tapes(mb, top['edges'])
     os.makedirs(K.WIP, exist_ok=True)

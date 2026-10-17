@@ -16,7 +16,9 @@ TAN = (0.68, 0.50, 0.37)          # 第八版（BB_201）：再曬黑一點
 TAN_V7 = (0.76, 0.58, 0.44)          # 第三版（BB-C）：小麥色、偏暖棕（騎腳踏車曬的；第二版 (0.89, 0.74, 0.61) 偏白偏粉、像室內的人）；臉和身體同一組
 SHADE_TAN = (0.82, 0.63, 0.50)
 NECK_K = 1.12                     # 脖子粗一點（BB-C：不要那麼細長；第三版 1.07 遊戲裡還是細）
-CALF_MM = 9.0                     # 小腿肚往外（騎車的人；樣本座標 mm，遊戲裡約 8 mm）
+CALF_MM = 13.0                    # 第十一版（BB_201：運動員的腿）：9 → 13
+THIGH_MM = 7.0
+CALF_MM_V10 = 9.0                     # 小腿肚往外（騎車的人；樣本座標 mm，遊戲裡約 8 mm）
 
 
 def _shape_body(m):
@@ -46,7 +48,7 @@ def _shape_body(m):
     for side in ('L', 'R'):
         kn, ft, hp = bh('J_Bip_%s_LowerLeg' % side), bh('J_Bip_%s_Foot' % side), bh('J_Bip_%s_UpperLeg' % side)
         wl = wsum({'J_Bip_%s_LowerLeg' % side}); wu = wsum({'J_Bip_%s_UpperLeg' % side})
-        for w, a, b, peak, sig, amp, back_k in ((wl, kn, ft, 0.30, 0.17, CALF_MM * 1e-3, 0.80), (wu, hp, kn, 0.55, 0.25, 4.0e-3, -0.30)):
+        for w, a, b, peak, sig, amp, back_k in ((wl, kn, ft, 0.30, 0.17, CALF_MM * 1e-3, 0.80), (wu, hp, kn, 0.55, 0.25, THIGH_MM * 1e-3, -0.30)):
             sel = w > 0.3
             tt = np.clip((a[2] - Pw[:, 2]) / max(1e-4, a[2] - b[2]), 0, 1)
             axp = a[:2] + (b[:2] - a[:2]) * tt[:, None]
