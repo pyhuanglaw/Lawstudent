@@ -21,9 +21,9 @@ SHOE = np.array([28, 28, 30]) / 255.0            # 黑色帆布
 SOLE = np.array([236, 232, 222]) / 255.0         # 白鞋底
 STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=False, SLIM=True, TOP_TEX='jersey',
-             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.16, DROP_X=0.094, TOP_FIT=1.0, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.011, SHOULDER_SKIN=False, DRAPE=0.014, SHOULDER_SAG=0.020,   # 第十六版：肩膀上面低 2 cm（手放下來時不堆）
+             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.16, DROP_X=0.086, TOP_FIT=1.0, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.011, SHOULDER_SKIN=False, DRAPE=0.014, SHOULDER_SAG=0.020,   # 第十六版：肩膀上面低 2 cm（手放下來時不堆）
                # 第十五版（BB-C：領口立起來圍著脖子、胸口以下圓桶）：肩膀改回原本的弧線（貼斜方肌的曲線在靠脖子那頭變陡，羅紋立起來）、領口離脖子 1.8 cm、貼身、垂墜皺褶
-             NECK_RIB_L=0.015, NECK_RIB_T=0.0, NECK_FOLD=(-0.0015, -0.0005), SLEEVE_IN=0.035, BOX_W=0.128)   # 第二十五版：身片的肩膀寬 0.086 → 0.094（背面兩邊肩胛骨上那條細縫＝袖子根和身片的接縫，手放下來時袖子往下轉、背後裂開，看到底下的皮膚；身片多 8 mm 墊在袖子底下）；第二十四版：袖子改回 3.5 cm（5 cm 時袖子的根從領口兩側冒出來，像兩塊深色肩帶；白點其實是皮膚，第二十三版用 arms 修好）；第二十二版（BB-C 5-4 必修 1：左肩的白點＝袖子和身片之間的縫，手放下來時裂開、底下的皮膚已經剪掉，看穿到背景）：袖子再往內 1.5 cm（第二十三版：肩膀下沉 1.4 cm 時領口的羅紋露在肩膀上，像兩條深色肩帶 → 改回 2.0）   # 第十七版：羅紋平的（不做厚度、幾乎不折）、箱形窄 2.4 cm（胸口不往前撐）   # 第十四版：袖子從肩關節往內 3.5 cm（肩膀的洞）   # 第十一版（BB-C 第十版意見）：肩膀不翹（落肩 0.098 → 0.088）、胸口以下貼身（EASE 0.56 → 0.42、FIT 0.62 → 0.85）、羅紋領 1.6 cm、薄   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
+             NECK_RIB_L=0.015, NECK_RIB_T=0.0, NECK_FOLD=(-0.0015, -0.0005), SLEEVE_IN=0.035, BOX_W=0.128)   # 第二十六版：肩膀寬改回 0.086（BB-C 通過的第二十版；0.094 沒有修好背面的細縫）；第二十五版試過：身片的肩膀寬 0.086 → 0.094（背面兩邊肩胛骨上那條細縫＝袖子根和身片的接縫，手放下來時袖子往下轉、背後裂開，看到底下的皮膚；身片多 8 mm 墊在袖子底下）；第二十四版：袖子改回 3.5 cm（5 cm 時袖子的根從領口兩側冒出來，像兩塊深色肩帶；白點其實是皮膚，第二十三版用 arms 修好）；第二十二版（BB-C 5-4 必修 1：左肩的白點＝袖子和身片之間的縫，手放下來時裂開、底下的皮膚已經剪掉，看穿到背景）：袖子再往內 1.5 cm（第二十三版：肩膀下沉 1.4 cm 時領口的羅紋露在肩膀上，像兩條深色肩帶 → 改回 2.0）   # 第十七版：羅紋平的（不做厚度、幾乎不折）、箱形窄 2.4 cm（胸口不往前撐）   # 第十四版：袖子從肩關節往內 3.5 cm（肩膀的洞）   # 第十一版（BB-C 第十版意見）：肩膀不翹（落肩 0.098 → 0.088）、胸口以下貼身（EASE 0.56 → 0.42、FIT 0.62 → 0.85）、羅紋領 1.6 cm、薄   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
 STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=1.046, KNIT_HEM_TOP=1.056, BACK_NECK_Z=1.346, CREW_FRONT_Z=1.306)   # 第十五版：領口再低 1 cm（在鎖骨上方一點）   # 第十版：後領 1.368 → 1.356   # 第四版：下擺紮進裙頭（只蓋到裙頭最上面，小語的做法）、領口貼脖子、後領低一點（後面不鼓成帽子）   # 第二版：領口開一點（第一版 1.342 正面看像高領、脖子整個包住；參考圖看得到鎖骨）
 SIDE_NECK_M = (0.082, 1.356)   # 第二十一版（BB-C 5-4 必修 2：側頸到肩膀的稜線）：側頸點低 6 mm、領口離脖子 1.8 → 1.1 cm（離太遠時側邊的布像一道牆立在脖子旁邊）   # 第十五版：側頸點再往外 8 mm、低 8 mm（脖子兩側看得到一段肩線）
 SIDE_NECK_M_V10 = (0.074, 1.370)   # 第十版：側頸點低 2.2 cm、往外 6 mm——原本領口兩側爬到脖子中段（比肩線高 3 cm），手放下來以後像連帽衫的帽沿（第九版只改領口離脖子的距離，沒用）   # 第四版：領口收小（0.078：領口離脖子很遠，像連帽衫的帽緣）
@@ -73,6 +73,8 @@ def _apply(m, arm, body, wsrc_skirt):
     print('  body pulled deeper under the tee', XC.conform_under(body, obj, 0, SKIRT_REF['z_top'] - 0.025, K.CREW_FRONT_Z - 0.03, inset=0.008, slack=0.005, max_move=0.015))
     print('  shoulders/upper back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.04, K.BACK_NECK_Z - 0.008, inset=0.010, slack=0.008, max_move=0.015))   # 第二十四版：8 mm 以內都收到 1 cm（背面左肩那一點：T 字姿勢時在布裡面 5～8 mm，待機時才穿出來）
     print('  armpit front/back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.10, K.BACK_NECK_Z - 0.008, arms=True, wmin=0.6, xmax=0.15))
+    # 第二十六版：背面兩邊肩胛骨上的細縫還在（第二十～二十五版都一樣）——背上、有肩膀或上臂權重、離布 1.2 cm 以內的皮膚都收到 1.2 cm 深（只動背面）
+    print('  upper back pulled deeper', pull_back(body, obj, K.CREW_FRONT_Z - 0.12, K.BACK_NECK_Z))
     print('  culled skin faces', K.cull_skin(body, obj))
     m['clothes'] = obj
     return obj
@@ -108,6 +110,19 @@ def pull_shoulders(body, cl, z_lo, z_hi, inset=0.007, slack=0.005, max_move=0.01
             W[i] = o + d * max(0.0, dist - inset); moved += 1
     C.set_co(body, (W - Mb[:3, 3]) @ np.linalg.inv(Mb[:3, :3]).T)
     return moved
+
+
+def pull_back(body, cl, z_lo, z_hi):
+    """pull_shoulders 只動背面（身體後半）的點：門檻放寬（權重 ≥ 0.5、離布 1.2 cm 以內 → 收到 1.2 cm 深）"""
+    Mb = np.array(body.matrix_world); W = C.co(body) @ Mb[:3, :3].T + Mb[:3, 3]
+    me = cl.data; Mc = np.array(cl.matrix_world); P = np.empty(len(me.vertices) * 3); me.vertices.foreach_get('co', P); P = P.reshape(-1, 3) @ Mc[:3, :3].T + Mc[:3, 3]
+    yc = 0.5 * (P[:, 1].min() + P[:, 1].max())
+    keep_front = W[:, 1] < yc + 0.01                  # 前半（VRoid 人物面向 −y）不動：暫時把它們的 z 移出範圍
+    co0 = C.co(body).copy(); W2 = W.copy(); W2[keep_front, 2] = -9.0
+    C.set_co(body, (W2 - Mb[:3, 3]) @ np.linalg.inv(Mb[:3, :3]).T)
+    n = pull_shoulders(body, cl, z_lo, z_hi, inset=0.012, slack=0.012, max_move=0.020, arms=True, wmin=0.5, xmax=0.16)
+    co1 = C.co(body); co1[keep_front] = co0[keep_front]; C.set_co(body, co1)
+    return n
 
 
 def long_skirt_weights(skin, mb, arm):
