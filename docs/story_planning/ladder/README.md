@@ -34,7 +34,7 @@
 | `extraIf` | （AA 2026-10-16）`[{if?／unless?, lines}]`：條件成立時，在這一層的 `lines` 後面**多說**這幾句。例：語彤 Y-L5 傘給她的玩家 |
 | `skipIf` | （AA 2026-10-16 提議，BB 的 Q-L3 用）條件成立時，這一層**直接算過**（記層數、不播、不算今天推進），避免 `if` 用 `notMemory` 讓階梯永遠卡住 |
 | `skipAfterWeek` | （BB-C 2026-10-17）數字 N：這學期過了第 N 週、這一層還沒推進，就直接算過（同 `skipIf`：記層數、不播、不算今天推進）。給只在某一週說得通的層（`EVENTS.cond` 沒有週次，`skipIf` 擋不到）。例：學姊 S2-L3（放榜前，第 3～4 週）、S7-L3（大四下：口試倒數，口試前第 14 週為止；2026-10-17 BB-C（AA_263 附錄 B C1））、子晴 Q4-L4（芷若在等信，第 4～11 週；AA_255 附錄 B C12）。`build_ladder_bb_y2s2.py` 的 `--check` 把它當成和 `skipIf` 一樣的防卡關（週次上限不到 16 也可以） |
-| `GRAD_DONE` 旗標（暫名） | （AA 階梯 84bbef37 起用；BB-C 2026-10-17 跟著用）大四下 6/2 畢業典禮演完由 LAWWW 設。典禮前才說得通（說「那天」「典禮」未來式）的層放 `skipIf:{flags:['GRAD_DONE']}`：6/2 晚上、6/3 不播。BB：學姊 S7-L8（`ladder_bb_y4s2.json`，`../BB_210`） |
+| `GRAD_DONE` 旗標（暫名） | （AA 階梯 84bbef37 起用；BB-C 2026-10-17 跟著用）大四下 6/2 畢業典禮演完由 LAWWW 設。典禮前才說得通（說「那天」「典禮」未來式）的層放 `skipIf:{flags:['GRAD_DONE']}`：6/2 晚上、6/3 不播。BB：學姊 S7-L8（`ladder_bb_y4s2.json`，`../BB_210`）。招呼的情境句用 `unless:{flags:['GRAD_DONE']}`：學姊第 15 週「……還有你們的典禮」（2026-10-17 BB-C，`../BB_211`） |
 | `ZZ_DATING` 旗標 | （BB-C 2026-10-17）芷若×子晴 `ZZ.state==='dating'`（`../BB_194` §23）。LAWWW 在狀態變成 dating 時設。用在子晴 Q3-L7、Q4-L4、Q5-L5、Q6-L4 的 `linesIf`（交往中的版本；AA_234） |
 | `extraIf[].mem` | （BB-C 2026-10-17）這一組播了就 `SOCIAL.remember(她, tag)`。用在 `AA_232` 4-1 的鋪陳句（`ZR_ZQ_SETUP_DOOR`、`ZR_ZQ_SETUP_FILM`、`ZQ_ZR_SETUP_ROUTE`、`ZQ_ZR_SETUP_STUCK`）：大一上主要的層播過，大一下的後備層就用 `notMemory` 不再播 |
 | `linesIf`／`extraIf` 的 `if`＋`unless` | 同一組可以同時有 `if` 和 `unless`，兩個都要符合（例：芷若的「我室友」版本給還不認識子晴的玩家） |
