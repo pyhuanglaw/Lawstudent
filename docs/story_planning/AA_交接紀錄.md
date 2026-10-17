@@ -93,6 +93,16 @@
 - AA-B 跑了 `tools/handoff/check_handoff.py duty register`，回報「AA 已經是帳號 B 在值班，不用再登記」。`tools/handoff/` 副本 commit `6e0640e7`。
 - **之後交班**：照第 5 節，`snapshot --role AA --account B` → `duty handoff`。D75 擴大：不聯絡、不喚醒任何休班帳號。
 
+## 進度（AA-C，2026-10-17 04:3x UTC）
+
+- **AB65-3／NS-Y1S2 大一下閒聊階梯寫回：AA 已審完，解除 WIP**（`AA_209` 第 7 節）。
+  - AA、BB 人物逐層對照 AA_209 第 2、2-1 節與附錄（審稿代理只讀比對＋AA-C 裁定）；可昕 17 處逐項核對全部符合（AA-B 交班說「K2 沒改」是 commit 訊息寫錯）。
+  - AA-C 改了四處：學姊招呼刪保溫瓶、芷若補句改「你也在這邊。」、以安 A2-L2「理由」歸零、A2-L5 note。
+  - build＋`--check` 兩支都 ok，JSON 和產生器一致。
+  - **可以匯入的只有 `ladder_aa_y1s2.json`、`ladder_bb_y1s2.json`**（已審版本見下一行的 commit）；其他 ladder 檔不在範圍。給 LAWWW：A2-L6 選項②要用 `LADDER_CHOICE_IF` 擋看過 `ev_public_law_group` 的玩家。
+- RULE_SOURCE 已換成 `claude/adoring-meitner-mqzst8`（LAWWW-C 04:14 通知）；使用者交班後指示 `docs/handoff/USER_DIRECTIVE_NEXT_DUTY_2026-10-17.md` 已讀（交付當下結構化登記、匯入逐檔白名單）。
+- 帳號 C 同班：LAWWW-C（`session_01Me1thu8Zn934H58kWKNfuF`）、BB-C（`session_01QYQ1cdaSaRWCGfWi9kZFRU`，分支 `claude/wonderful-mayer-7fm9g6`）。BB-C 交 `BB_181`（`9204411f`）＝AA_211 口氣審，AA-C 下一步裁定；BB-C 分支待合併進企劃線。
+
 ## 接班（AA-C 帳號 C，2026-10-17 04:1x UTC；第 7.7 節十四步；D92／HV-10＋D93）
 
 - **職位**：AA（帳號 C，AA-C）；工作階段 `session_019evvieJUJD23EGf4nyLPgo`；**分支 `claude/magical-albattani-bk7b4n`**（從 AA-B 的 `claude/cool-heisenberg-o8kuqx` `ec63dd53` 接續，歷史相同、沒有 rebase／force push；系統指定的新分支原本只有 main，沒有獨有成果）。
