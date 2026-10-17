@@ -852,6 +852,7 @@ const STORY = (function(){
       await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();
       const desk=(E.interactables||[]).find(x=>x.deskStudy), seat=desk&&desk.seat;   /* 整理到晚上，第一次坐到書桌前（AA_195 4-2 第 3 點）*/
       if(seat&&P){ GM.sitAt(P,seat); E.cam.distTarget=3.2; }   /* 畫面是暗的時候直接坐好（sitAt 會放到座位上）*/
+      if(E&&E.zone&&E.zone.id==='dorm'){ try{ if(!GM.npc.kai&&GM.spawnNPC) GM.spawnNPC('kai',C.kai,0,0,{seat:dormSeat('R2'),talk:n=>talkKai(GM,n)}); for(const [id,u] of [['classmate_bohan','R1'],['zhe','L1']]) if(!GM.npc[id]&&CHARACTERS[id]&&GM.spawnCharacter){ const st=dormSeat(u); GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); } }catch(e){ console.warn('8/29 室友',e); } }   /* 搬進來那晚三個室友坐在自己的書桌前（進房間時還沒搬，populate 生不出來；DORM-LOFT-L）*/
       await GM.fade(false); for(const t of DAY1_NARR) await GM.say(null,t); F.DAY1_NARR_SEEN=true;   /* 原文不改（從 9/3 搬過來）*/
       if(G.hour<22+40/60) GM.advance(22+40/60-G.hour);   /* 22:40 阿凱的冷氣訊息：人就坐在你後面兩公尺（BB_168 第 1 節；BB_70 4-1「他的第一則訊息是在同一個房間裡傳的」）*/
       await GM.say(null,'（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）');   /* AA-B 00:46（AA_195 4-11）：通知前一句旁白 */
