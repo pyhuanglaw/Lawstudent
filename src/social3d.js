@@ -36,7 +36,7 @@ const SOCIAL = (function(){
   const CAP={fam:6,trust:4,comf:5};
   S.ACT=ACT; S.CAP=CAP;
   S.activity=function(id,kind){ const A=ACT[kind]; if(!A||!G||!G.social) return null; const day=G.day|0; const D=G.social.daily&&G.social.daily.day===day?G.social.daily:(G.social.daily={day,p:{}});
-    const P=D.p[id]||(D.p[id]={acts:{},fam:0,trust:0,comf:0,cap:0}); if(P.acts[kind]) return {};   /* 同一種活動一天一次 */ P.acts[kind]=1;
+    const P=D.p[id]||(D.p[id]={acts:{},fam:0,trust:0,comf:0,cap:0}); if(P.acts[kind]) return {};   /* 同一種活動一天一次 */ P.acts[kind]=1; if(S.onActivity){ try{ S.onActivity(G,id,kind); }catch(e){ console.warn('SOCIAL.onActivity',e); } }   /* 學期末的飯：這學期常接觸的分數（termend3d.js，BB_202 1-1）*/
     const add={}; let capped=false; for(const k in A){ const v=Math.max(0,Math.min(A[k],CAP[k]-(P[k]||0))); if(v<A[k]) capped=true; if(v>0){ add[k]=v; P[k]+=v; } }
     if(Object.keys(add).length) S.adjust(id,add); else if(capped&&!P.cap&&S.feelOn&&!S.capNotes.includes(id)) S.capNotes.push(id);   /* 這一次因為上限什麼都沒加（玩家會以為壞掉）：那一天第一次才提示 */ return add; };
   S.stage=function(id,o){ let r=S.rel(id); if(o&&o.before){ r=Object.assign({},r); r[o.before.k]=o.before.v0; } const flags=G.flags||{}; if(flags['dating_'+id]) return 'RELATIONSHIP'; if(r.rom>=55&&r.npcRom>=45&&r.fam>=55) return 'ROMANTIC_TENSION'; if((r.rom>=30||r.npcRom>=30)&&r.fam>=45&&r.trust>=30) return 'POSSIBLE_ROMANTIC_INTEREST'; if(r.fam>=60&&r.trust>=45&&r.comf>=40) return 'CLOSE_FRIEND'; if(r.fam>=40&&r.trust>=25) return 'FRIEND'; if(r.fam>=20) return 'FAMILIAR'; if(r.fam>=5) return 'ACQUAINTANCE'; return 'STRANGER'; };
