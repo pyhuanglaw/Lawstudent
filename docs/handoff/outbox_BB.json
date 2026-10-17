@@ -360,6 +360,24 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "DATE-REVIEW-1017：D04/D06/D12/D13 BB 五位約會台詞照 AA_188 重審",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "74373b86 / 0542a02b / 84efdcc5 / e4f84942",
+   "files": [
+    "docs/story_planning/date_system/lines/D04.py",
+    "docs/story_planning/date_system/lines/D06.py",
+    "docs/story_planning/date_system/lines/D12.py",
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/lines/D13.json"
+   ],
+   "state": "已交付",
+   "remaining": "其他 28 處、DATE_LINES_COMMON、五個心願事件之後分批",
+   "next": "AA-C 確認後交 LAWWW-C 匯入",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
