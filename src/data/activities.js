@@ -42,7 +42,7 @@ const ACTIVITIES={
      desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
     /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——大一上第 4 週週六（遊戲從第 3 週開始；實際日期【待考證】）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
-    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',
+    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）9/27 回到一般週末；只留給開發起點（直接跳 8/29）防呆 */
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
     /* 公法讀書會（交接包 v2 C14 以安新 7 後半；草稿第 2 節「固定節奏」）：大一下第 12 週起每週四 20:00，萬才館研討室 A（和法服週三讀書會同一類：加入就每週有一格）；第一次＝ev_public_law_group。結束時間原文沒寫，先 21:30 */
@@ -82,7 +82,7 @@ const ACTIVITIES={
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
   canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
-  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
+  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&G&&a.skip(G)) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）*/
     const ds=a.datesW1&&G&&typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)?a.datesW1:a.dates;   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）*/
     if(ds) return ds.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
