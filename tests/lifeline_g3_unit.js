@@ -52,7 +52,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     G.day=w+4; G.hour=7; run(7,7.2); check('3-5 隔天早上拿到長頸鹿鑰匙圈',G.flags.GIRAFFE_KEYCHAIN===true); }
   /* E21a */
   { const d=DK('2024-12-31'); econ(d,18.9,'home',{}); run(18.9,19.2); const gid=PHONE.inGroup(G,'econ_friends')?'g:econ_friends':'g:econ_class', m=txt(gid), q=OUT.get(G,'y0_e21a');
-    check('3-6 12/31 19:00 群組四則（多一則韋綸「祐廷你不用衝刺。十一點來總圖門口接我們。」）＋出發選單「總圖門口 23:00：跨年」',m.length===4&&m[3].endsWith('祐廷你不用衝刺。十一點來總圖門口接我們。')&&q&&q.h===23&&q.title==='總圖門口 23:00：跨年',J([m,q]));
+    check('3-6 12/31 19:00 群組四則（多一則韋綸「祐廷你在家讀你的。十一點來總圖門口接我們。」）＋出發選單「總圖門口 23:00：跨年」',m.length===4&&m[3].endsWith('祐廷你在家讀你的。十一點來總圖門口接我們。')&&q&&q.h===23&&q.title==='總圖門口 23:00：跨年',J([m,q]));
     picks=['書會等我']; await EVENTS.run(ev('ev_y0_e21a')); const L=lines();
     check('3-6 E21a：「（十一點，總圖門口。他們讀到一半跑出來。）」…可昕「……我怕走散。這是藉口。」…「書會等我。」→「（笑出聲）你學韋綸。」、E21A_WENT；沒有「今年最好的一件事」',L[0]==='（十一點，總圖門口。他們讀到一半跑出來。）'&&L.includes('杜可昕：……我怕走散。這是藉口。')&&L.includes('杜可昕：（笑出聲）你學韋綸。')&&G.flags.E21A_WENT===true&&!L.join('').includes('最好的一件事'),L.join('｜'));
     econ(d,18.9,'home',{}); run(18.9,19.2); G.day=d+1; G.hour=0.2; run(0.2,0.3); check('3-6 沒去：可昕「新年快樂。你錯過了一場人潮。……下次你要來。」',txt('p:kexin').includes('kexin:新年快樂。你錯過了一場人潮。……下次你要來。'),J(txt('p:kexin'))); }

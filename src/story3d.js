@@ -1407,10 +1407,10 @@ const STORY = (function(){
     /* C2 自己的社團（AA_154 A37）：社課邀約、出發選單、唐睿的劇社私訊（Y0_EXTRA）刪除（AA_218 第 11 節、AA_154 0b-2；要不要提前到 10/17 以前等 AA）。E07 選了社團（Y0_CLUB）照舊加進那個社團的群組 */
     if(S.isEcon(G)&&F.Y0_CLUB){ const C2={guitar:{g:'y0_guitar',n:'吉他社'},hiking:{g:'y0_hiking',n:'登山社'},badminton:{g:'y0_badminton',n:'羽球社'}}[F.Y0_CLUB]; if(C2&&!PHONE.inGroup(G,C2.g)) PHONE.join(G,C2.g,C2.n); }
     /* E22 期末通宵：刪除（AA_218 第 11 節、AA_154 0b-2）。
-       E21a 跨年（A36、A38）：12/31（二）19:00 群組三則＋出發選單「總圖 B1 19:00：期末衝刺」；沒去＝00:05 群組人潮照片＋可昕私訊 */
+       E21a 跨年（A36、A38；AA_224 3-6）：12/31（二）19:00 群組四則＋出發選單「總圖門口 23:00：跨年」；沒去＝00:05 群組人潮照片＋可昕私訊 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const tue31=S.dayOfKey('2024-12-31'), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
       if(tue31!=null&&G.day===tue31&&G.hour>=19&&!PHONE.sent(G,'y0_e21a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'今晚總圖，期末衝刺！走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'玩到……我說停為止。'},{th:T,from:'econ_weilun',name:'韋綸',text:'祐廷你不用衝刺。十一點來總圖門口接我們。'}],'y0_e21a_ask');   /* AA_224 3-6：他不能進總圖 */
+        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'放假才一個禮拜就跨年了！今晚走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'我們先去總圖讀一下，讀到……我說停為止。'},{th:T,from:'econ_weilun',name:'韋綸',text:'祐廷你在家讀你的。十一點來總圖門口接我們。'}],'y0_e21a_ask');   /* AA_224 3-6：他不能進總圖；16 週制已經放假，不講期末（AA-C 2026-10-17 定稿，AA_269 第 9 節）*/
         if(!OUT.get(G,'y0_e21a')&&G.hour<23.25) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:23,late:0.25,place:'總圖門口',title:'總圖門口 23:00：跨年',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
       if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'新年快樂。你錯過了一場人潮。……下次你要來。'}],'y0_e21a_missed'); }
     /* E19 誤會（期末考完的公館聚餐、19:15 韋綸的電話、1/4「你最近很有禮貌」）拿掉：併進 10/17 車上（AA_224 1-3；AA_219 A-21）*/

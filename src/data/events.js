@@ -2608,7 +2608,7 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'econ_pinyu',text:'這是今晚唯一有效率的事。'},
       {label:'end'},{speaker:null,text:'（兩點，大家收東西。你走回宿舍，在舍監室登記晚歸。）'} ],
     afterOuting:async(G,GM)=>{ if(G.hour<26) GM.advance(26-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
-  /* E21a 跨年（AA_224 3-6 @31708531，交往中的版本；16 週制 12/31 已經放假九天，不提會計考試、改講他的書：AA-C 2026-10-17 定稿，AA_235 5-6）：12/31（二）19:00 經濟系群組四則（多一則韋綸「祐廷你不用衝刺。十一點來總圖門口接我們。」，story3d.js）＋出發選單「總圖門口 23:00：跨年」。
+  /* E21a 跨年（AA_224 3-6 @31708531，交往中的版本；16 週制 12/31 已經放假九天，不提會計考試、改講他的書：AA-C 2026-10-17 定稿，AA_235 5-6）：12/31（二）19:00 經濟系群組四則（多一則韋綸「祐廷你在家讀你的。十一點來總圖門口接我們。」，story3d.js）＋出發選單「總圖門口 23:00：跨年」。
      他不能進總圖：在門口接他們。記 E21A_WENT。演完回家。沒去：00:05 群組人潮照片＋可昕私訊 */
   { id:'ev_y0_e21a', stage:'econ', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'總圖門口'},{speaker:null,text:'（十一點，總圖門口。他們讀到一半跑出來。）'},
