@@ -1047,3 +1047,4 @@
 - **通知**：23:3x LAWWW-C send_message 給 AA-C、BB-C、LAWWW2-C 確認分工（要 ACK）。
 - **寫入**：CLAUDE.md「P0 永久規則：四職位新分工」、PROJECT_DECISIONS D100、TESTING.md 第〇之一節第 5 點（本 commit）。
 - **補充（23:5x 使用者回答 LAWWW-C 的四題）**：「發布也是你的任務，你只有發布前才需要測試」；LAWWW 寫程式時幾秒的檢查＝保留；角色美術＝使用者自己驗收（取代 D59）；2D 背景圖＝BB 跟使用者要；法律課堂內容與考題＝AA。已派給 LAWWW2-C 的 2D 背景（ART-KH-BUS、AA_276 的高雄／台中）改派 BB-C。
+- **P0 更正（23:5x）**：「角色美術改由你（LAWWW-C）驗收」「等一下 角色美術驗收，不是我使用者，是你！」——角色美術由值班 LAWWW 驗收（我把問題選項「你自己驗收」誤解成使用者本人，已改 CLAUDE.md、PROJECT_DECISIONS D100；已通知 BB-C、LAWWW2-C、AA-C）。
