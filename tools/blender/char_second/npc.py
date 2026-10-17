@@ -223,9 +223,11 @@ VARIANTS = {
                  layered=dict(style=outer_style(rgb(232, 228, 216), rgb(64, 66, 54), rgb(238, 238, 234), rgb(226, 224, 218), tex='knit', sleeve_k=0.82, ease=0.90, pants_ell=(0.070, 0.080), drop=True))),   # 深棕微捲中長髮＋米白針織衫＋深橄欖寬褲＋白球鞋
     # 魏教授（prof_wei；AA_159 的 look：五十多歲、灰黑短髮、白襯衫＋深藍毛衣背心、袖子捲到手肘、不戴眼鏡；只在講台上遠景，AA-C：用現有教授底模改裝、不必精做）
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
-    'pwei': dict(sex='m', base='HairSample_Male', head=0.95, height=1.72, iris='#2a221c', skin=(0.95, 0.89, 0.84), eye_close=0.22,
-                 face=dict(EYE_SX=1.06, EYE_SZ=0.62, EYE_TILT=-0.005, BROW_ARCH=0.25, BROW_K=1.50, BROW_COL=(0.22, 0.20, 0.19), FACE_NARROW=0.99, CHIN_WIDEN=0.66, JAW_OUT=0.0050, D_CHIN=0.003, MOUTH_K=1.40, MOUTH_DOWN=0.0006),
-                 hair=dict(seed=20261231, part=-22.0, col=(0.33, 0.32, 0.31), tip=(0.042, 0.040, 0.032, 0.026, 0.020, 0.014, 0.008, 0.004, 0.006, 0.008), nape=0.008, vol=0.52, curl=(16, 28)),   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
+    # 第三版（BB-C BB_201 第 4 節：「看起來像國中生」）：頭小一點（0.95 → 0.91）、上身寬厚（torso 1.08）、稍微駝（stoop 1.8 cm）、
+    # 頭髮灰白多一點（0.33 → 0.50）、前額髮際線往後（recede 9°）、眉毛灰、臉寬、嘴角低一點；遠景看得出年紀，臉不精修
+    'pwei': dict(sex='m', base='HairSample_Male', head=0.91, height=1.72, iris='#2a221c', skin=(0.93, 0.86, 0.80), eye_close=0.22, torso=1.08, stoop=0.018,
+                 face=dict(EYE_SX=1.06, EYE_SZ=0.60, EYE_TILT=-0.010, BROW_ARCH=0.25, BROW_K=1.55, BROW_COL=(0.34, 0.32, 0.30), FACE_NARROW=1.01, CHIN_WIDEN=0.72, JAW_OUT=0.0070, D_CHIN=0.004, MOUTH_K=1.40, MOUTH_DOWN=0.0012),
+                 hair=dict(seed=20261231, part=-22.0, col=(0.50, 0.49, 0.48), recede=9.0, tip=(0.042, 0.040, 0.032, 0.026, 0.020, 0.014, 0.008, 0.004, 0.006, 0.008), nape=0.008, vol=0.52, curl=(16, 28)),   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
                  clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
@@ -253,6 +255,20 @@ def stage0(m):
     import heroine_05 as H05
     H05.fill_hidden_skin(m['body'], 'Body_00_SKIN', TAG + '_Body_filled')
     if VAR['head'] != 1.0: C.scale_head(arm, [m['face'], m['body']], VAR['head'])
+    if VAR.get('torso') or VAR.get('stoop'):     # 魏教授：上身寬厚、稍微駝（身體和臉一起動，之後的衣服、頭髮照新的身體做）
+        ch, nk = C.bone_head(arm, 'J_Bip_C_Chest'), C.bone_head(arm, 'J_Bip_C_Neck'); sp = C.bone_head(arm, 'J_Bip_C_Spine')
+        tw, st = float(VAR.get('torso', 1.0)), float(VAR.get('stoop', 0.0))
+        def sst(a, b, x): t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
+        def bulk(P, B=None):
+            z = P[:, 2]; band = sst(sp[2], ch[2] + 0.05, z) * (1 - sst(nk[2] - 0.01, nk[2] + 0.04, z))   # 胸口到肩膀最寬，脖子以上不動
+            arms = np.abs(P[:, 0] - ch[0]) > 0.17                                                       # T 字姿勢伸出去的手臂只跟著移、不放大
+            k = np.where(arms, 1.0, 1 + (tw - 1) * band)
+            x = ch[0] + (P[:, 0] - ch[0]) * k + np.where(arms, np.sign(P[:, 0] - ch[0]) * (tw - 1) * 0.17 * band, 0)
+            y = ch[1] + (P[:, 1] - ch[1]) * np.where(arms, 1.0, 1 + 0.6 * (tw - 1) * band)
+            y = y - st * sst(ch[2], nk[2] + 0.02, z)                                                     # 胸口以上往前（駝）；頭、臉跟著
+            return np.column_stack([x, y, z])
+        for o in (m['body'], m['face']): C.warp_world(o, bulk)
+        print('  torso x%.2f stoop %.3f' % (tw, st))
     if not male:
         nk = C.bone_head(arm, 'J_Bip_C_Neck'); w = np.clip(C.vgroup_weights(m['body'], {'J_Bip_C_Neck'}), 0, 1)
         C.warp(m['body'], lambda P, B: np.column_stack([nk[0] + (P[:, 0] - nk[0]) * (1 - 0.05 * w), nk[1] + (P[:, 1] - nk[1]) * (1 - 0.05 * w), P[:, 2]]))

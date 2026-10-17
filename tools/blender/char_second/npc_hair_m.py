@@ -53,7 +53,8 @@ def make_atlas(seed=SEED):
 def apply(m):
     _apply_P()
     arm = m['arm']; rng = np.random.default_rng(SEED)
-    HB.HAIRLINE = HAIRLINE; HB.REG_PX = dict(REG)          # h01_hair 的 hairline_beta、reg_uv 讀這兩個模組變數
+    rc = float(P.get('recede', 0.0))   # 前額髮際線往後（年紀；魏教授）：正中 rc 度、額角（30～45°）多 40%，耳朵以後不動
+    HB.HAIRLINE = [(a_, e_ + rc * (1.0 + 0.4 * math.exp(-((a_ - 38) / 14.0) ** 2)) * max(0.0, 1 - a_ / 75.0)) for a_, e_ in HAIRLINE]; HB.REG_PX = dict(REG)          # h01_hair 的 hairline_beta、reg_uv 讀這兩個模組變數
     H = HB.Head(m); c = H.c
     print('  hair(mingxuan): head center', np.round(c, 4), 'R top %.3f brow %.3f..%.3f' % (H.Rtop, H.brow_z, H.brow_top), 'avoid clothes', H.clothes)
     mb = HB.MB(); dP = sph(*POLE)
