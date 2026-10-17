@@ -38,12 +38,12 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   fresh(M6,12.2,'boya',{P2_PICK:'river'}); OUT.plan(G,{id:'x_other',day:M6,h:19,place:'公館',title:'別的約',travelH:0.25}); check('3. 那天已經約了別的出遊：不揪',!EVENTS.check(ev));
   { fresh(M6,12.2,'boya',{P2_PICK:'home'}); SOCIAL.meet('kexin','x'); picks=['跟去']; await EVENTS.run(ev); G.flags.P2B_COUNT=G.flags.P2B_COUNT||0; run();
     check('3. P2 都選「今天先回去」、P2b 跟去：照第一次聚會進「走啦」（系統訊息）',PHONE.inGroup(G,'econ_friends')&&TH('g:econ_friends').includes('韋綸建立了群組「走啦」，把你加了進來。'),JSON.stringify(TH('g:econ_friends')));
-    check('3. 經濟學原理下課不抽「會計終於上完了。」',!said.some(x=>x.t==='會計終於上完了。誰要出去？')); }
+    check('3. 沒有「會計終於上完了。」（改成「經原終於下課了。誰要出去？」，AA-C 2beb591f）',!STORY_EVENTS.find(e=>e.id==='ev_y0_p2b').dialogue.some(l=>l.text==='會計終於上完了。誰要出去？')&&STORY_EVENTS.find(e=>e.id==='ev_y0_p2b').dialogue.some(l=>l.text==='經原終於下課了。誰要出去？')); }
   // 下面 4～12 直接跑事件內容（EVENTS.run 不看觸發條件）：新時間線 10/17 以後不會再觸發，內容留著（AA 還沒定要不要搬）
   // 跟去（第一次＝滷味攤 food）
   fresh(T7,15.2,'putong',{P2_PICK:'river'}); SOCIAL.meet('kexin','x'); SOCIAL.meet('econ_pinyu','x'); SOCIAL.meet('econ_zhengxun','x'); const f0=SOCIAL.rel('econ_pinyu').fam, m0=G.money;
   picks=['跟去']; await EVENTS.run(ev); const L=said.map(x=>x.t);
-  check('4. 韋綸一句（4 句之一，BB_179 段 B #61～64：不再說「走啦」）→ 跟去：滷味攤（品妤吃到一半先去打工）、19:30 結束、−80 元、經濟系朋友熟悉度 +1、P2B_COUNT＝1',['下課了！今天不要直接回宿舍啦。','會計終於上完了。誰要出去？','我問過了，大家都有空。……好啦，我還沒問。','我今天什麼都不想讀了。誰要跟？'].includes(L[0])&&L.includes('公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤吃到一半先走了，要去打工。')&&Math.abs(G.hour-19.5)<1e-6&&G.money===m0-80&&SOCIAL.rel('econ_pinyu').fam===f0+1&&G.flags.P2B_COUNT===1,JSON.stringify(L));
+  check('4. 韋綸一句（4 句之一，BB_179 段 B #61～64：不再說「走啦」）→ 跟去：滷味攤（品妤吃到一半先去打工）、19:30 結束、−80 元、經濟系朋友熟悉度 +1、P2B_COUNT＝1',['下課了！今天不要直接回宿舍啦。','經原終於下課了。誰要出去？','我問過了，大家都有空。……好啦，我還沒問。','我今天什麼都不想讀了。誰要跟？'].includes(L[0])&&L.includes('公館的滷味攤。可昕每一樣都夾一點，阿勳只夾豆干。品妤吃到一半先走了，要去打工。')&&Math.abs(G.hour-19.5)<1e-6&&G.money===m0-80&&SOCIAL.rel('econ_pinyu').fam===f0+1&&G.flags.P2B_COUNT===1,JSON.stringify(L));
   check('4. W7 是期中前：沒有 E13 的選擇',!L.some(t=>/紅燈九十秒/.test(t)));
   check('4. 同一週不再揪',!EVENTS.check(ev));
   const last=G.flags.P2B_LAST;

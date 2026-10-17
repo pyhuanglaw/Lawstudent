@@ -2900,12 +2900,12 @@ const STORY_EVENTS=[
      E13 大家走了以後（BB_104 8b-6）：W10 起（含 Y0S2），那一類還沒演過，散場多一個選擇「先回去了。」／「（陪大家走到最後）」：food＝①公館的路口、night＝②女舍門口、river＝③河濱（STORY.p2bE13）。
      記 P2B_COUNT（跟去的次數）。錢、回宿舍在 after。放在事件表最後：同一堂會計課有固定事件（P1b 等）時先演固定的 */
   /* AA_272 第 13 節（d9aa4d9f）：改成經濟學原理下課（週一上午）、第 6～7 週（10/7、10/14），兩次都揪；P2 去成、和 P2 都選「今天先回去」的玩家都開（跟去＝照第一次聚會進「走啦」）。
-     韋綸那句「會計終於上完了。」（P2B_LN 1）綁會計課，經濟學原理下課不抽（問 AA-C 中）*/
+     韋綸那句改「經原終於下課了。誰要出去？」（AA-C 2beb591f），四句照常輪替 */
   { id:'ev_y0_p2b', stage:'econ', title:'門口有人在揪', participants:['kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.p2bDue&&STORY.p2bDue(G)},
-    dialogue:[ {pick:{flag:'P2B_LN',from:G=>[0,2,3].filter(i=>i!==G.flags.P2B_LAST)}},
+    dialogue:[ {pick:{flag:'P2B_LN',from:G=>[0,1,2,3].filter(i=>i!==G.flags.P2B_LAST)}},
       {if:{flagIs:{P2B_LN:0}},speaker:'韋綸',text:'下課了！今天不要直接回宿舍啦。'},
-      {if:{flagIs:{P2B_LN:1}},speaker:'韋綸',text:'會計終於上完了。誰要出去？'},
+      {if:{flagIs:{P2B_LN:1}},speaker:'韋綸',text:'經原終於下課了。誰要出去？'},
       {if:{flagIs:{P2B_LN:2}},speaker:'韋綸',text:'我問過了，大家都有空。……好啦，我還沒問。'},
       {if:{flagIs:{P2B_LN:3}},speaker:'韋綸',text:'我今天什麼都不想讀了。誰要跟？'},
       {choice:[{text:'「跟去。」',set:{P2B_GO:true},goto:'go'},{text:'「今天先回去。」',set:{P2B_GO:false},goto:'home'}]},
