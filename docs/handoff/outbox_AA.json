@@ -711,6 +711,40 @@
       "status": "READY_FOR_IMPLEMENTATION",
       "doc": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
       "summary": "芯慈大二暑假事務所、麵店團香港 8/25～8/28"
+    },
+    {
+      "id": "AA259-Y3S1-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
+      "summary": "大三上口語改稿：y3s1 階梯重建、給 LAWWW 清單、附錄 B 交 BB"
+    },
+    {
+      "id": "AA260-Y3S2-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_260_大三下口語改稿_AA與BB人物.md",
+      "summary": "大三下口語改稿：y3s2 階梯重建、路線日期（最急）、附錄 B 交 BB"
+    },
+    {
+      "id": "AA262-Y4S1-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_262_大四上口語改稿_AA與BB人物.md",
+      "sha": "752df790",
+      "summary": "大四上口語改稿：y4s1 階梯重建（1781dc41）、語彤跨年搬大四下 Y8-L0（efe33033）、可昕階梯播不到、附錄 B 交 BB"
     }
   ]
 }
