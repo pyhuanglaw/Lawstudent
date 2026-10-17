@@ -72,6 +72,7 @@ async def part1(p, drivers):
     who = [('econ_weilun', -1.2), ('econ_tangrui', 0.0), ('econ_jiahao', 1.2)]   # 左到右：韋綸、唐睿、家豪
     for hour, tag in ((11.0, 'day'), (20.0, 'night')):
         await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); })(%f)" % hour)
+        await pg.evaluate("(()=>{ const E=GAME.E; E.endCinematic(); E.player.obj.visible=false; E.player.path=null; E.player.obj.position.set(%f,0,-3.5); })()" % (SX - 9))   # 玩家移開、藏起來（上一輪拍「遊戲畫面」時站在他們前面）
         for cid, dx in who: await CR.subject(pg, cid, SX + dx, 0.6, 0)
         ok = await wait_models(pg, [c for c, _ in who])
         for cid, _ in who: drivers[cid] = await info(pg, cid)
@@ -102,6 +103,7 @@ async def part3(p, drivers):
     await CR.load(pg)
     for hour, tag in ((11.0, 'day'), (20.0, 'night')):
         await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); })(%f)" % hour)
+        await pg.evaluate("(()=>{ const E=GAME.E; E.endCinematic(); E.player.obj.visible=false; E.player.path=null; E.player.obj.position.set(%f,0,-3.5); })()" % (SX - 9))   # 玩家移開、藏起來（上一輪拍「遊戲畫面」時站在他們前面）
         await CR.subject(pg, 'classmate_peishan', SX, 0.6, 0)
         drivers['_peishan_loaded_' + tag] = await wait_models(pg, ['classmate_peishan'])
         drivers['classmate_peishan'] = await info(pg, 'classmate_peishan')
