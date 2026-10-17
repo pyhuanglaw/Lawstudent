@@ -148,8 +148,8 @@ const STORY = (function(){
       await GM.say(null,'他把臉盆放好，看了你的紙箱第二眼。');
       await GM.say(who,'你知道為什麼經濟系的人搬家，都只帶三個箱子嗎？');
       const i=await GM.choose([{t:'為什麼？'},{t:'因為預算限制？'}]);
-      if(i===0){ await GM.say(who,'因為第四個箱子的效用，比搬它的成本低。'); await GM.say(null,'他停了一下，等你笑。'); await GM.say(who,'……這是我今天想的。成功率大概三成。'); }
-      else { await GM.say(who,'……差不多。'); await GM.say(who,'好。你是一個危險的室友。我會小心。'); }
+      if(i===0){ await GM.say(who,'因為第四個箱子的效用，比搬它的成本低。'); await GM.say(null,'他停了一下，等你笑。'); }
+      else { await GM.say(who,'……差不多。'); await GM.say(null,'（他好像本來想自己講完。）'); }   /* BB_179 段A #3 #5（AA_203 §4）；建議旁白採用 */
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{fam:2});   /* 兩個選項一樣（不記旗標）*/
       await GM.say(who,'被子在最下面那一箱，對不對。'); await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
       await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st={x:1.8,z:2.2,yaw:Math.PI}; GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
@@ -174,7 +174,7 @@ const STORY = (function(){
     if(G.day===d1&&!F.E01_DONE){ y0FirstNight(GM); return true; }
     if(G.day===d1+1&&F.E01_NIGHT&&!F.E01_MORNING&&h(G)<12){ y0Morning(GM); return true; }
     if(F.E01_NIGHT&&!F.E01_BOXES&&!F.E412_MOVEIN&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ const box=F.E01_NIGHT==='sleep'; F.E01_BOXES=true; F.E412_MOVEIN=true; if(box) v0Box(GM,'none'); y0Busy=true; GM.sceneBegin();   /* 先睡的玩家：箱子拆完那一句；所有人：韋綸、唐睿 9/2 迎新以後搬進來（AA_208 第 3 節）*/
-      (async()=>{ if(box) await GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。'); await GM.say(null,'（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）'); })().finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
+      (async()=>{ if(box) await GM.say(null,'你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。'); await GM.say(null,'（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）'); })().finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
     return false; };
   S.y0FirstNight=y0FirstNight; S.y0Morning=y0Morning;
   // ---------- 日程與路人 ----------

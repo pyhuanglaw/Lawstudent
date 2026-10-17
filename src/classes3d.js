@@ -153,8 +153,10 @@ const CLS=(function(){
      遲到超過 15 分鐘才進去＝略過：一句旁白、不記座位（BB-B 2026-10-16 補的那一句；「可跳過」的意思等 AA-B 確認）*/
   S.p1Due=(G,it)=>!!(it&&it.c&&it.c.id==='acct_y0'&&!it.exam&&!(G.flags&&G.flags.Y0_P1_DONE));
   S.P1_SEATS=[['xun','（坐在阿勳旁邊）'],['front','（坐前排）'],['window','（坐靠窗）']];   /* 按鈕字照 AA_154 A51 Q13 */
-  S.P1_LINES=[()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳')+'：「要看租約吧。」','韋綸：「負債！我室友打呼。」',()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_pinyu'):'品妤')+'：「你的室友是費用。」','（遠處，可昕舉手：「住得很開心的話，算資產嗎？」有幾個人笑了。）'];
-  S.P1_SKIP='會計的第一堂。借方在左，貸方在右。阿勳的筆記，比你的整齊。';
+  /* BB_179 段A #25 #26：韋綸、品妤兩句刪（一場只留一兩個人）*/
+  S.P1_LINES=[()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳')+'：「要看租約吧。」','（遠處，可昕舉手：「住得很開心的話，算資產嗎？」有幾個人笑了。）'];
+  S.ECON_W1_MU='第一口珍奶最好喝，第五口就普通了。這叫邊際效用遞減。期中會考。';
+  S.P1_SKIP='黑板已經寫滿了。你只來得及抄最後兩行。';   /* AA_200 7-2（BB_179 段A 文末 4）*/
   /* E04 微積分初體驗（BB_104 8b-1；AA_154 第 98 行）：Y0S1 第 2 週週三上午的微積分，被叫上台寫一題極限。可以錯過（沒去就沒有這一場，之後不提）；遲到超過 15 分鐘也沒有。記憶：無 */
   S.e04Due=(G,it)=>!!(it&&it.c&&it.c.id==='calc_y0s1'&&!it.exam&&it.week===2&&!(G.flags&&G.flags.E04_DONE));
   S.e04=async function(GM){ const G=GM.G; G.flags=G.flags||{}; G.flags.E04_DONE=true; const XN=()=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳';
@@ -240,6 +242,7 @@ const CLS=(function(){
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
+        if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
         if(p1){ for(const l of S.P1_LINES) await GM.say(null,typeof l==='function'?l():l); } else if(ct.react) await GM.say(null,ct.react);
         if(S.e04Due(G,it)) await S.e04(GM);   /* E04 微積分初體驗（BB_104 8b-1）：第 2 週那一堂才有，沒去就沒有 */   /* P1：BB_105 2-3 的四句（阿勳、韋綸、品妤、遠處的可昕）*/

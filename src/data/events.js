@@ -1492,22 +1492,28 @@ const STORY_EVENTS=[
      用一個經濟學名詞介紹自己，記 E02_WORD（'externality'／'equilibrium'／'invisible_hand'；BB_106 SK08、SK14 讀）。家豪學長、韋綸、唐睿還沒有人物資料，先用名字說話。
      時段（AA-B 定案 A，268d529d）：9/2 週一上午是經濟學原理（照上、不停課），下課以後 12:15～17:00 自動，演完時間到 15:00、人在社科院門口 */
   { id:'ev_y0_e02', stage:'econ', title:'開學典禮與迎新', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[1], weekday:[1], time:[12.25,17], once:true, priority:9, background:'dark',
-    dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall'},{speaker:null,text:'開學典禮在社科院的大講堂。前面坐的人，都穿得比平常整齊一點。'},{speaker:null,text:'典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』'},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},   /* 兩句旁白：AA-B 定案（268d529d，AA_154）*/
-      {speaker:'家豪學長',text:'我是宋家豪，大二，今天帶你們這一組。／先輪一圈，講名字、從哪裡來就好。'},{speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},
-      {speaker:'econ_pinyu',expression:'neutral',text:'曾品妤。'},{speaker:'唐睿',text:'（刪；只在旁白「一個一個輪下去」裡帶過）'},{speaker:'家豪學長',text:'唐睿，你才講了五秒。'},
-      {speaker:'kexin',expression:'neutral',text:'杜可昕。我是「邊際效用遞減」，早上經原老師講到的。'},{speaker:'kexin',expression:'neutral',text:'第一次見面最好玩，之後越來越普通。'},{speaker:'kexin',expression:'smile',text:'……開玩笑的。我會越來越好玩。'},
+    dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall'},{speaker:null,text:'開學典禮在社科院的大講堂。你坐在後面，旁邊的人在滑手機。'},{speaker:null,text:'典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』'},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},   /* BB_179 段 A E02 重寫（AA_203 2-1：只講名字和從哪裡來，只有可昕用名詞）；旁白：AA_203 #1、AA_200 7-3 散場、BB 建議旁白全部採用（AA-B 01:34）；祐廷「{name}，臺北。」（AA_200 7-2）*/
+      {speaker:'家豪學長',text:'我是宋家豪，大二，今天帶你們這一組。'},{speaker:'家豪學長',text:'先輪一圈，講名字、從哪裡來就好。'},
+      {speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},{speaker:'家豪學長',text:'等一下帶你們走一圈。'},
+      {speaker:'econ_pinyu',expression:'neutral',text:'曾品妤。'},{speaker:null,text:'（她講完就坐下了。下一個是你。）'},{speaker:'player',text:'{name}，臺北。'},
+      {speaker:null,text:'（一個一個輪下去。大部分的人講完名字和縣市就坐下。）'},
+      {speaker:'kexin',expression:'neutral',text:'杜可昕。我是「邊際效用遞減」，早上經原老師講到的。'},{speaker:'kexin',expression:'smile',text:'第一次見面最好玩，之後越來越普通。……不過我會越來越好玩啦。'},{speaker:null,text:'（有幾個人笑了。）'},
+      {speaker:'家豪學長',text:'好，差不多了。零食在前面，自己拿。'},{speaker:null,text:'（學長在前面發零食。可昕拿了一包，坐到你旁邊。）'},
+      {speaker:'kexin',expression:'neutral',text:'你剛剛只講名字喔？'},{speaker:'kexin',expression:'smile',text:'不然你也挑一個。'},
       {choice:[{text:'「我是『外部性』。我會影響到你們，但不用付錢。」',set:{E02_WORD:'externality'},goto:'ext'},{text:'「我是『均衡』。……我不知道為什麼。」',set:{E02_WORD:'equilibrium'},goto:'eq'},{text:'「我是『看不見的手』。」',set:{E02_WORD:'invisible_hand'},goto:'hand'}]},
-      {label:'ext'},{speaker:'kexin',expression:'teasing',text:'外部性還沒教欸。'},{goto:'end'},
-      {label:'eq'},{speaker:'kexin',expression:'teasing',text:'好，那你是均衡。'},{goto:'end'},
+      {label:'ext'},{speaker:'kexin',expression:'teasing',text:'外部性還沒教欸。'},{speaker:null,text:'（她翻開課本，在目錄找了一下。）'},{goto:'end'},
+      {label:'eq'},{speaker:'kexin',expression:'teasing',text:'好，那你是均衡。'},{speaker:null,text:'（她把零食撕開，分了你一半。）'},{goto:'end'},
       {label:'hand'},{speaker:'kexin',expression:'teasing',text:'亞當斯密那個。這個我高中有聽過。'},
-      {label:'end'} ],
+      {label:'end'},
+      {speaker:'韋綸',text:'（走過來）欸，{name}，你是 412 的吧？我早上去看過，床架上貼的名字有你。'},{speaker:'韋綸',text:'我也是！我晚上才搬進去。'},{speaker:'唐睿',text:'（從後面探頭）412？那我們同一間。我也是晚上。'},   /* 四人房（AA_208、BB_179 第 8 節）*/
+      {speaker:'家豪學長',text:'要走一圈的，跟我來！'},{speaker:null,text:'（可昕站起來，跟著大家往門口走。）'} ],
     consequences:{meet:['econ_pinyu']},
     after:(G,GM)=>{ if(G.hour%24<15) GM.advance(15-G.hour%24); if(G.zone!=='campus'&&GM.enter) GM.enter('campus',{x:97.0,z:-66.5,yaw:-Math.PI/2}); } },
   /* P2 下課後的一群人（BB_105 第 137 行；AA_154 第 101 行）：Y0S1 第 3～5 週週四，初等會計學下課（普通教學館門口的腳踏車停放區）；第一次（之後的 P2b 另做）。
      選公館＝接 ★E05（同一天）；選別的、今天先回去、沒去＝E05 在 9/20（五）傍晚照自己的觸發（ev_y0_e05 的 auto 條件）。韋綸、唐睿還沒有人物資料，先用名字說話 */
   { id:'ev_y0_p2', stage:'econ', title:'下課後的一群人', participants:['kexin'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[3,4,5], background:'blur',
     prereq:{custom:G=>!G.flags.P2_PICK||G.flags.P2_PICK==='home'},   /* 去成一次就不再演；「今天先回去」的玩家下一次會計課下課再演一次（BB_105 P2「那下次！」＝P2b 補上第一次聚會），到第 5 週為止 */
-    dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:'唐睿',text:'（刪；建議旁白「唐睿在旁邊講電話，朝你們比了一個 OK。」）'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
+    dialogue:[ {speaker:'韋綸',text:'走啦！'},{speaker:'econ_pinyu',expression:'neutral',text:'去哪？先說好，我只有一百五。'},{speaker:null,text:'（唐睿在旁邊講電話，朝你們比了一個 OK。）'},{speaker:'kexin',expression:'neutral',text:'（牽著腳踏車）你決定。'},
       {choice:[{text:'公館吃飯',set:{P2_PICK:'gongguan'},goto:'end'},{text:'河濱騎腳踏車',set:{P2_PICK:'river'},goto:'river'},{text:'總圖念書',set:{P2_PICK:'library'},goto:'lib'},{text:'「今天先回去。」',set:{P2_PICK:'home'},goto:'home'}]},
       {label:'river'},{speaker:null,text:'韋綸的鏈子掉了兩次。'},{speaker:'kexin',expression:'smile',text:'你那台要不要拿去修？我的也怪怪的，一起去。'},{goto:'end'},
       {label:'lib'},{speaker:null,text:'唐睿講了四十分鐘的話。'},{speaker:'econ_pinyu',expression:'neutral',text:'今天一頁都沒讀。'},{goto:'end'},
@@ -1534,7 +1540,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'烤肉架是系學會借來的。炭還是黑的。'},
       {speaker:'韋綸',text:'誰要生火？'},
       {speaker:'econ_pinyu',text:'生火的人先吃。'},
-      {speaker:'唐睿',text:'（刪；建議旁白「唐睿已經在分肉了。」，可不加）'},
+      {speaker:null,text:'（唐睿已經在分肉了。）'},
       {choice:[{text:'「阿勳來。」',goto:'f1'},{text:'「韋綸來。」',goto:'f2'},{text:'「我來。」',goto:'f3'}]},
       {label:'f1'},{speaker:null,text:'阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。'},{speaker:'econ_zhengxun',text:'熱力學。'},{speaker:'韋綸',text:'我帶了一整包報紙耶。'},{goto:'meat'},
       {label:'f2'},{speaker:null,text:'火起來的那一秒，韋綸的瀏海也捲起來了。'},{speaker:'韋綸',text:'沒事沒事！……有沒有人聞到頭髮的味道？'},{speaker:'econ_pinyu',text:'有。你先離火遠一點。'},{goto:'meat'},
@@ -1552,7 +1558,7 @@ const STORY_EVENTS=[
      劇社的即興（三個地點）→ 祐廷選社團（Y0_CLUB：guitar／hiking／badminton／none；BB_110 C2 讀它）→ 可昕的一句。沒去：可昕私訊（story3d.js）*/
   { id:'ev_y0_e07', stage:'econ', title:'社團博覽會', participants:['kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[3,4,5], time:[10,17], once:true, background:'blur',
     dialogue:[ {speaker:'韋綸',text:'（手上已經有六張傳單）我每一攤都要看。'},
-      {speaker:'econ_pinyu',text:'（刪；建議旁白「品妤在看每一攤貼的社費。」）'},
+      {speaker:null,text:'（品妤在看每一攤貼的社費。）'},
       {speaker:'kexin',expression:'smile',text:'（從即興劇社的攤位探頭）你們過來，他們要演一段。'},
       {speaker:'劇社社員',text:'請給我們一個地點！'},
       {speaker:'kexin',expression:'neutral',text:'（看你）你說。'},
@@ -1578,7 +1584,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「雞腿的效用比較高。」',goto:'b1'},{text:'「下次換滷肉飯。」',goto:'b2'},{text:'「妳吃什麼？」',goto:'b3'}]},
       {label:'b1'},{speaker:'econ_pinyu',text:'好啦，你吃得開心就好。'},{goto:'end'},
       {label:'b2'},{speaker:'econ_pinyu',text:'不用為了我改。我只是說說。'},{speaker:'kexin',text:'她會一直說。'},{goto:'end'},
-      {label:'b3'},{speaker:'econ_pinyu',text:'我自己帶便當。'},{speaker:'kexin',text:'（刪；改成建議旁白：可昕夾走一塊蛋）'},{speaker:'econ_pinyu',text:'……邊際成本是零。'},
+      {label:'b3'},{speaker:'econ_pinyu',text:'我自己帶便當。'},{speaker:null,text:'（她打開便當盒。可昕伸筷子夾走一塊蛋，品妤沒說話，把便當往自己那邊移了一點。）'},{speaker:'econ_pinyu',text:'……邊際成本是零。'},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(0.75); GM.money&&GM.money(-95); } },
   /* T0a 泡麵之夜（BB_110 第 2 節；AA_154 第 93 行、A2）：經濟系大一上第 5 週颱風假（2024-09-30 週一，calendar.js 的 TYPHOON），白天到晚上在宿舍房間、阿勳在。

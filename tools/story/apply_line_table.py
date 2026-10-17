@@ -19,7 +19,7 @@ def clean(t):
 auto,manual=[],[]
 for r in rows:
     old,new=clean(r['old']),clean(r['new'])
-    if new.startswith('（刪）') or old in ('—','-','') or '【' in new or '→' in new or '／' in old and len(old)<4:
+    if new.startswith('（刪') or old in ('—','-','') or '【' in new or '→' in new or '／' in new or '／' in old or '建議' in new:   # （刪；…）帶說明的刪除、／分成兩句、建議旁白：都要人工（2026-10-17 段 A 曾被當成台詞塞進去）
         manual.append((r,'刪除／新增／結構')); continue
     if re.search(r'（[^）]*(改|接|照|停在|刪|放|移|加)[^）]*）$',new) and not re.match(r'^（.*）$',new):
         manual.append((r,'改成欄有說明')); continue

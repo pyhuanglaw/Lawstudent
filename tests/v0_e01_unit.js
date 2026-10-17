@@ -46,7 +46,7 @@ const XUN='econ_zhengxun';
     check('2. 媽媽的訊息「到了要記得吃晚餐。」（演完也寫進手機的對話串）＋「你已經吃過了。媽媽也知道。」',L[4]==='媽媽（手機）：到了要記得吃晚餐。'&&L[5]==='你已經吃過了。媽媽也知道。'&&(G.msgs||[]).some(m=>m.th==='p:mom'&&m.text==='到了要記得吃晚餐。'),JSON.stringify(L.slice(4,6)));
     check('2. 阿勳進門、自我介紹（盧正勳，經濟系；叫起來像在點名）；祐廷：我叫{name}',L.includes('阿勳：你好。盧正勳，經濟系。')&&L.includes('阿勳：叫我阿勳就好。')&&L.some(t=>t==='祐廷：我叫{name}。也是經濟系。'),JSON.stringify(L.slice(5,9)));
     check('2. 冷笑話選項「為什麼？」「因為預算限制？」',opts[0].join()==='為什麼？,因為預算限制？');
-    check('2. 「為什麼？」：邊際效用是零 → 等你笑 → 成功率大概三成（BB-B 改的那句）',L.includes('阿勳：因為第四個箱子的效用，比搬它的成本低。')&&L.includes('他停了一下，等你笑。')&&L.includes('阿勳：……這是我今天想的。成功率大概三成。'));
+    check('2. 「為什麼？」：效用比成本低 → 等你笑 → 直接接「被子在最下面那一箱」（BB_179 段A #3 刪「成功率大概三成」）',L.includes('阿勳：因為第四個箱子的效用，比搬它的成本低。')&&L[L.indexOf('他停了一下，等你笑。')+1]==='阿勳：被子在最下面那一箱，對不對。'&&!L.some(t=>t.includes('成功率')));
     check('2. 阿勳熟悉 +2（第一次見面以外，事件數值）、認識了',SOCIAL.rel(XUN).fam>=2&&SOCIAL.stage(XUN)!=='STRANGER',JSON.stringify(SOCIAL.rel(XUN)));
     check('2. 22:00：「十點了。被子鋪好了，地上還有兩個箱子沒拆。」選項「先睡。明天再拆。」「今天拆完。」',L.includes('十點了。被子鋪好了，地上還有兩個箱子沒拆。')&&opts[1].join()==='先睡。明天再拆。,今天拆完。');
     check('2. 先睡：E01_NIGHT sleep、E01_DONE；旁白「燈還沒關，你就睡著了」',G.flags.E01_NIGHT==='sleep'&&G.flags.E01_DONE===true&&L.includes('你把兩個箱子推到書桌旁邊的地上。燈還沒關，你就睡著了。'));
@@ -54,11 +54,11 @@ const XUN='econ_zhengxun';
     check('3. 起床：阿勳「你昨天十點就睡了。」「經原九點十分，在博雅。」',L.includes('阿勳：你昨天十點就睡了。')&&L.includes('阿勳：經原九點十分，在博雅。')&&G.flags.E01_MORNING===true);
     check('3. 先睡的那晚不算 01:00 以後才睡',!(G.daily&&G.daily.lateNight===G.day));
     said=[]; G.hour=18; G.zone='dorm'; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10));
-    check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳說，比他預測的早。」一次，接著「（韋綸和唐睿搬進來了。…）」（AA_208 第 3 節）',lines().includes('你終於把箱子拆完了。阿勳說，比他預測的早。')&&lines().indexOf('（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）')===lines().indexOf('你終於把箱子拆完了。阿勳說，比他預測的早。')+1&&G.flags.E01_BOXES===true);
+    check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。」一次，接著「（韋綸和唐睿搬進來了。…）」（AA_208 第 3 節）',lines().includes('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')&&lines().indexOf('（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）')===lines().indexOf('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')+1&&G.flags.E01_BOXES===true);
     said=[]; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10)); check('4. 不再說第二次',!lines().length); }
   // 拆完
   { const L=await start(['預算限制','拆完']);
-    check('5. 「因為預算限制？」：你搶了我的笑點 → 危險的室友',L.includes('阿勳：……差不多。')&&L.includes('阿勳：好。你是一個危險的室友。我會小心。'));
+    check('5. 「因為預算限制？」：……差不多 → 旁白「他好像本來想自己講完」（段A #5 刪「危險的室友」）',L.includes('阿勳：……差不多。')&&L.includes('（他好像本來想自己講完。）')&&!L.some(t=>t.includes('危險的室友')));
     check('5. 拆完：三句旁白（阿勳已經躺下了——BB-B 改的那句；桌燈照著你；兩點）',L.includes('你拆到第三箱的時候，阿勳已經躺下了。')&&L.includes('他的桌燈沒有關。他把燈轉過來，照著你那一邊。')&&L.includes('最後一本書放上書架，是兩點。'));
     check('5. 拆完：E01_NIGHT unpack、阿勳自在 +1',G.flags.E01_NIGHT==='unpack'&&SOCIAL.rel(XUN).comf>=1,JSON.stringify(SOCIAL.rel(XUN)));
     check('5. 隔天 07:40 起床；那晚算「01:00 以後才睡」',G.day===Y0+1&&Math.abs(G.hour-(7+40/60))<1e-6&&G.daily&&G.daily.lateNight===G.day,G.hour+' '+JSON.stringify(G.daily));
