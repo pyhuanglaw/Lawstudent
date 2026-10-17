@@ -133,5 +133,11 @@ const day=k=>STORY.dayOfKey(k);
     said=[]; await EVENTS.run(evB); check('E9. 到教室的旁白',said[0]==='（柏翰坐在第一排正中間，已經在看課本了。）',said.join(' / ')); }
   const wel=ACTIVITIES.list.find(a=>a.id==='welcome_y1s1'), d927=day('2025-09-27');
   check('E5. 有宿營（CAMP_Y1）的局 9/27 舊迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d927,G)===false&&ACTIVITIES.on(wel,d927,{flags:{}})===true);
+  { fresh(); G.flags.introDone=true; G.flags.DORM_FOUR=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_typhoon_noodles_y1'));
+    check('E10. 四人房的颱風夜（AA_208 2-3）：柏翰「（在讀張教授寄來的講義）……第十二頁了。」、阿哲「（拿走一包泡麵）我出熱水。」',said.some(t=>/柏翰：（在讀張教授寄來的講義）……第十二頁了。$/.test(t))&&said.includes('阿哲：（拿走一包泡麵）我出熱水。'),said.slice(0,4).join(' / '));
+    said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
+    check('E11. 四人房的阿凱深夜（AA_208 2-4）：「（阿哲已經睡了，柏翰戴著耳塞。）」',said[0]==='（阿哲已經睡了，柏翰戴著耳塞。）',said.slice(0,2).join(' / '));
+    fresh(); G.flags.introDone=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
+    check('E12. 沒有四人房的舊局不加',!said.some(t=>/柏翰戴著耳塞/.test(t))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

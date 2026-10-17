@@ -250,7 +250,7 @@ const STORY_EVENTS=[
      三個選項都會換鍵盤，不懲罰：說了＝隔天晚上（ev_kai_keyboard_quiet）；蓋棉被、戴耳塞＝一週後他自己發現（ev_kai_dark_circles），再隔天換。現有的「法無明文」（ev_dorm_late_kai）保留 */
   { id:'ev_kai_late_screen', title:'凌晨三點的螢幕', participants:['kai'], location:'dorm', trigger:'sleep', term:['Y1S1'], weeks:[2,3], weekday:[1,2,3,4,5], time:[17.5,27], once:true, background:'blur',   /* BB_170 第 8、9、20 列：住進來的前兩週＝第 2～3 週；day_min 3 換成 introDone；已經換過靜音鍵盤（K-D3／K-D5）的不再演 */
     prereq:{flags:['introDone'],notMemory:[{npc:'kai',tag:'KAI_QUIET_KEYBOARD'}],custom:G=>typeof CLS!=='undefined'&&CLS.dayItems(G,G.day+1).some(it=>!it.exam&&it.t0<12)},   /* introDone、靜音鍵盤：BB_170 */
-    dialogue:[ {speaker:null,text:'凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'},
+    dialogue:[ {speaker:null,text:'凌晨三點。阿凱的螢幕很亮，鍵盤很吵。你明天第一堂就有課。'},{if:{flags:['DORM_FOUR']},speaker:null,text:'（阿哲已經睡了，柏翰戴著耳塞。）'},   /* 四人房（AA_208 2-4）*/
       {choice:[{text:'「阿凱，我明天第一堂有課。」',set:{kaiScreenChoice:0},goto:'said'},{text:'（翻身，用棉被蓋住頭）',set:{kaiScreenChoice:1},end:true},{text:'（戴耳塞）',set:{kaiScreenChoice:2},end:true}]},
       {label:'said'},{speaker:'kai',expression:'neutral',text:'（頭沒回）……喔。'} ],
     consequences:{stamp:['kaiScreenDay']} },
@@ -929,6 +929,7 @@ const STORY_EVENTS=[
   { id:'ev_typhoon_noodles_y1', title:'颱風夜的泡麵', participants:['kai'], location:'dorm', trigger:'auto', term:['Y1S1'], weeks:[7], weekday:[1], time:[18,23], once:true, background:'blur',
     prereq:{custom:G=>typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(G.day)},
     dialogue:[ {speaker:'kai',expression:'laugh',text:'我囤了二十包。這是我人生最正確的決定。'},
+      {if:{flags:['DORM_FOUR']},speaker:'classmate_bohan',expression:'neutral',text:'（在讀張教授寄來的講義）……第十二頁了。'},{if:{flags:['DORM_FOUR']},speaker:'zhe',expression:'smile',text:'（拿走一包泡麵）我出熱水。'},   /* 四人房（AA_208 2-3）：接群組 ty1_g3 柏翰「我讀到第十二頁」*/
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},cg:'cg_typhoon_noodles'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:'npc_fangyt',expression:'neutral',text:'（抱著一盆植物進來）它在陽台會死。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('npc_fangyt',G)},speaker:'kai',expression:'surprised',text:'……你帶一盆植物來吃泡麵？'},
@@ -1477,7 +1478,7 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:G=>{ const F=G.flags, k=F._kxQ; delete F._kxQ; F.KX_K6_EXAM=true; if(!k) return; const Q=F.KX_QUIZ=Object.assign({win:0,lose:0,draw:0},F.KX_QUIZ||{}); Q[k]=(Q[k]|0)+1; } },   /* KX_K6_EXAM：做過 K6 互考（重訪日 1 她那一句讀它，BB_96 9-10）*/
   { id:'ev_dorm_late_kai', title:'半夜', participants:['kai'], location:'dorm', trigger:'enter', time:[23,26], cooldown_days:2, random_weight:0.7, background:'blur', prereq:{flags:['introDone']},   /* BB_170 第 21 列：day_min 3 → introDone 以後 */
-    dialogue:[ {speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
+    dialogue:[ {if:{flags:['DORM_FOUR']},speaker:null,text:'（阿哲已經睡了，柏翰戴著耳塞。）'},{speaker:'kai',expression:'neutral',text:'（頭沒回）欸，你回來了。我這個 bug 追到第三小時。'},   /* 四人房（AA_208 2-4）*/{choice:[{text:'「去睡啦。」',consequences:{rel:{kai:{fam:1,comf:1}}}},{text:'「什麼 bug？」',consequences:{rel:{kai:{fam:2,trust:1}}},goto:'bug'},{text:'（戴上耳機）',consequences:{}}]},{goto:'end'},{label:'bug'},{speaker:'kai',expression:'tired',text:'一個值應該是 0 結果是 undefined。……你們法律系有這種東西嗎？'},{speaker:'player',text:'有。叫「法無明文」。'},{speaker:'kai',expression:'laugh',text:'幹，好爛。'},{label:'end'} ] },
   { id:'ev_library_closing', title:'閉館', participants:[], location:'library', trigger:'auto', time:[21.6,22.2], cooldown_days:1, background:'freeze',
     dialogue:[ {speaker:null,text:'「本館將於十分鐘後閉館——」廣播響起，整個閱覽室同時發出收東西的聲音。'} ], consequences:{goal:'總圖要閉館了'} },
   { id:'ev_pool_greet', title:'好像認識的人', participants:[], location:['campus','library'], trigger:'auto', time:[8,22], day_min:3, cooldown_days:1, random_weight:1.2, prereq:{custom:(G,GM)=>{ return Object.keys(GM.npc).some(id=>id.startsWith('pool_')&&SOCIAL.reveal(id)==='RECOGNIZABLE'&&!G.flags['greet_'+id]); }}, background:'freeze',
