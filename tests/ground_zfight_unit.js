@@ -28,7 +28,7 @@ function flats(Z,zone){ const E=E3; E.scene=new THREE.Scene(); E.q={level:'mediu
 function fighting(F){ const bad=[]; for(let i=0;i<F.length;i++) for(let j=i+1;j<F.length;j++){ const a=F[i], b=F[j]; if(Math.abs(a.y-b.y)>0.0005) continue; const ox=Math.min(a.x1,b.x1)-Math.max(a.x0,b.x0), oz=Math.min(a.z1,b.z1)-Math.max(a.z0,b.z0); if(ox<=0.05||oz<=0.05) continue; if(a.po!==b.po) continue;
     bad.push({x:+((Math.max(a.x0,b.x0)+Math.min(a.x1,b.x1))/2).toFixed(1),z:+((Math.max(a.z0,b.z0)+Math.min(a.z1,b.z1))/2).toFixed(1),y:+a.y.toFixed(3)}); } return bad; }
 // 修正後（目前的程式）
-const Znow=loadZones(fs.readFileSync(path.join(ROOT,'src/zones3d.js','src/data/dorm_room_layout.js'),'utf8'));
+const Znow=loadZones(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'));
 const Fc=flats(Znow,'campus'), badC=fighting(Fc);
 check('1. 校園：同一個高度互相重疊的地面 0 處',badC.length===0,badC.length+' 處 '+JSON.stringify(badC.slice(0,8)));
 const dorm=Fc.filter(f=>f.x0<=20&&f.x1>=20&&f.z0<=47&&f.z1>=47&&Math.abs(f.y-0.02)<0.001);
