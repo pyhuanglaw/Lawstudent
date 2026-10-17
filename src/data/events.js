@@ -1122,8 +1122,8 @@ const STORY_EVENTS=[
      冷戰（AA_112 第 6 節的裂縫）還沒有系統：目前交往中都算她能來。麵店團併桌、單身的版本：邀約的台詞等 AA（已問）*/
   { id:'ev_revisit_y1_kexin', title:'重訪日', participants:['kexin'], location:'cafe', trigger:'auto', priority:8, term:['Y1S2'], time:[18,22], once:true, background:'blur',
     prereq:{flags:['dating_kexin'],custom:G=>typeof STORY!=='undefined'&&!!STORY.revisitDay&&G.day===STORY.revisitDay()&&!G.flags.REVISIT_Y1},
-    dialogue:[ {speaker:'kexin',expression:'smile',text:'（坐下，手放在桌上）假設這張桌子，記得每一個坐過的人。'},
-      {speaker:'kexin',expression:'teasing',text:'它會記得你今年最意外的一件事嗎？說吧。'},
+    dialogue:[ {speaker:'kexin',expression:'smile',text:'（坐下）一年了欸。'},
+      {speaker:'kexin',expression:'smile',text:'你這一年，哪一天印象最深？'},   /* BB_167 4-3：只改問法，八段回憶和她的回應照留（AA_192 的例外）*/
       REVISIT_Y1_CHOICE('k_'),
       {label:'k_retake'},{speaker:'kexin',expression:'smile',text:'一年前你也坐在那間教室。……這次你待到最後了。'},{goto:'mine'},
       {label:'k_bbq'},{if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'teasing',text:'那天阿哲輸給我三個冷笑話。'},{unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'teasing',text:'我只看過照片。玉米還是我們系的好。'},{goto:'mine'},
@@ -1131,11 +1131,9 @@ const STORY_EVENTS=[
       {label:'k_appeal'},{speaker:'kexin',expression:'smile',text:'你們系的人，連宿舍的事都寫成申訴書。……我喜歡。'},{goto:'mine'},
       {label:'k_rain'},{speaker:'kexin',expression:'smile',text:'那天的雨很大。你後來有沒有感冒？'},{goto:'mine'},
       {label:'k_lecture'},{speaker:'kexin',expression:'smile',text:'你說講者最後問的那一題，我也想了很久。'},{goto:'mine'},
-      {label:'k_show'},{speaker:'kexin',expression:'teasing',text:'拍手也算參加。……你一定拍得很用力。'},{goto:'mine'},
-      {label:'k_daily'},{speaker:null,text:'她嘴角先動了。'},{speaker:'kexin',expression:'smile',text:'……這題答得太好。我要記下來。'},
-      {label:'mine'},{speaker:'kexin',expression:'smile',text:'我的最意外？我以為我們會常常吵架。'},
-      {if:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是考古題。'},
-      {unless:{custom:G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0)},speaker:'kexin',expression:'teasing',text:'結果我們吵最多的，是假設題的答案。'} ],
+      {label:'k_show'},{speaker:'kexin',expression:'teasing',text:'你負責拍手喔？那你有拍到手痛嗎？'},{goto:'mine'},   /* SC4 #8 */
+      {label:'k_daily'},{speaker:null,text:'她嘴角先動了。'},{speaker:'kexin',expression:'smile',text:'……嗯，我也是。'},   /* SC4 #35 */
+      {label:'mine'},{speaker:'kexin',expression:'smile',text:'我喔？我本來以為我們會一直吵架。'},{speaker:'kexin',expression:'teasing',text:'結果都在吵考古題。'} ],   /* BB_167 4-3（SC4 #35）*/
     after:G=>{ G.flags.REVISIT_Y1={who:'kexin',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
   /* 重訪日 1——麵店團的群戲（AA_209 第 3 節，AA 分支 096136d2；使用者 AA_193 第 4 節：保留大一最後一天 18:00 的麵店聚會，拿掉「這一年最意外的一件事」）：
      6/12（五）期末最後一科考完，18:00 阿鳳麵店（17:00 阿哲在群組揪，story3d.js phoneRules）。不是輪流報告暑假計畫：有人接話、沒回答、先走。
@@ -1178,21 +1176,18 @@ const STORY_EVENTS=[
     dialogue:[ {if:{custom:G=>STORY.revisitClosest(G).kind==='male'},goto:'q'},
       {speaker:null,text:'你一個人坐在窗邊。'},
       {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'你在筆記本上寫了一行。'},
-      {label:'q'},{speaker:null,text:'這一年，你最意外的一件事是什麼？'},
-      REVISIT_Y1_CHOICE('s_'),
-      {label:'s_retake'},{label:'s_bbq'},{label:'s_noodle'},{label:'s_appeal'},{label:'s_rain'},{label:'s_lecture'},{label:'s_show'},{label:'s_daily'},
-      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_bohan'},goto:'bohan'},{if:{custom:G=>STORY.revisitClosest(G).id==='kai'},goto:'kai'},
-      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},{if:{custom:G=>STORY.revisitClosest(G).id==='zhe'},goto:'zhe'},
+      {label:'q'},   /* AA_209／BB_167 4-3：拿掉「這一年最意外的一件事」和 8 個回憶選項，改聊暑假、回不回家、打工 */
+      {if:{custom:G=>STORY.revisitClosest(G).id==='kai'},goto:'kai'},
+      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},
       {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'這張桌子，從今天開始是你的位子。'},{goto:'end'},
-      {label:'bohan'},{speaker:'classmate_bohan',expression:'neutral',text:'我最意外的是……'},{speaker:'classmate_bohan',expression:'neutral',text:'（推了一下眼鏡）這一題，沒有考古題。'},{goto:'end'},
-      {label:'kai'},{if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel&&SOCIAL.friendLevel('kai')==='CLOSE_FRIEND'},goto:'kai2'},
-      {speaker:'kai',expression:'neutral',text:'我最意外的是……那條膠帶。'},{speaker:'kai',expression:'smile',text:'我寫了『無條件入境』，結果是我一直在出境。'},{speaker:'kai',expression:'smile',text:'……去你那邊拿零食。'},{goto:'end'},
-      {label:'kai2'},{speaker:'kai',expression:'neutral',text:'我最意外的是……膠帶是我自己撕的。'},{speaker:'kai',expression:'smile',text:'本來以為會貼四年。'},{goto:'end'},
-      {label:'mx'},{speaker:'classmate_mingxuan',expression:'laugh',text:'哈哈，我最意外的是……'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我第一次走進一家店，沒有先算 CP 值。'},{speaker:'classmate_mingxuan',expression:'smile',text:'……就是這裡。'},{goto:'end'},
-      {label:'zhe'},{speaker:'zhe',expression:'smile',text:'我最意外的喔……'},{speaker:'zhe',expression:'laugh',text:'我以為大學很難交朋友。結果一個學期，我認識了一整間麵店。'},{goto:'end'},
-      {label:'fy'},{speaker:'npc_fangyt',expression:'neutral',text:'我最意外的是……你的黃金葛長得比我的好。'},{speaker:'npc_fangyt',expression:'neutral',text:'……我回去查了原因。是窗戶的方向。'},
+      {label:'kai'},{if:{custom:G=>!!G.flags.KAI_TAPE&&!(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel&&SOCIAL.friendLevel('kai')==='CLOSE_FRIEND')},goto:'kai1'},
+      {speaker:'kai',expression:'neutral',text:'暑假你回家喔？'},{speaker:'kai',expression:'neutral',text:'我留在臺北，接了一個修電腦的打工。'},{goto:'end'},
+      {label:'kai1'},{speaker:'kai',expression:'neutral',text:'暑假要搬了。地上那條膠帶，我拍了一張才撕。'},{goto:'end'},
+      {label:'mx'},{speaker:'classmate_mingxuan',expression:'neutral',text:'暑假我接了兩個家教。'},{speaker:'classmate_mingxuan',expression:'laugh',text:'哈哈，這樣就存得到錢了。'},{goto:'end'},
+      {label:'fy'},{if:{flags:['POTHOS']},goto:'fy1'},{speaker:'npc_fangyt',expression:'neutral',text:'我暑假要上山做調查，兩個禮拜沒訊號。有事先傳，我下山再回。'},{goto:'end'},
+      {label:'fy1'},{speaker:'npc_fangyt',expression:'neutral',text:'我暑假要上山做調查，兩個禮拜沒訊號。'},{speaker:'npc_fangyt',expression:'neutral',text:'黃金葛記得澆，一週一次就好。'},
       {label:'end'} ],
-    after:G=>{ const c=STORY.revisitClosest(G); G.flags.REVISIT_Y1={who:c.id||'alone',pick:G.flags.REVISIT_Y1_PICK||'daily'}; } },
+    after:G=>{ const c=STORY.revisitClosest(G); G.flags.REVISIT_Y1_PICK='none'; G.flags.REVISIT_Y1={who:c.id||'alone',pick:'none'}; } },
   /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 17 週週三的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
      去了檢討會：會後接著演（afterActivity）；沒去的社員：第 17～18 週第一次在晚上走進萬才館（BB_161 ③），開頭兩句換成「（聽說這週的檢討會很安靜。）」「（你經過萬才館的研討室……）」其他照舊。流程的描述寫成旁白。
      記 NOTICED_HER（W8 的伏筆）／GAVE_HER_NOTE（寫了什麼記在備註；回收見 BB_108）*/
