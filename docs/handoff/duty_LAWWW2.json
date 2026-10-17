@@ -1,10 +1,10 @@
 {
  "role": "LAWWW2",
- "account": "B",
- "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
- "branch": "claude/funny-albattani-iawshm",
- "state": "handed-off",
- "handedOffAt": "2026-10-17T02:49Z",
- "sha": "03c54237",
- "snapshot": "2026-10-17T0248Z_B_LAWWW2.json"
+ "account": "C",
+ "session": "session_015BuNi47yLUt5PviELapMNj",
+ "branch": "claude/focused-cray-c9uwvw",
+ "since": "2026-10-17T04:10Z",
+ "state": "on",
+ "sinceSha": "2d88db5f",
+ "userOk": false
 }
