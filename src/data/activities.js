@@ -50,7 +50,7 @@ const ACTIVITIES={
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     /* 法服學期檢討會（BB_96 2-6 學姊 W5；交接包 v2）：大一下第 17 週週三 19:00–21:00，萬才館研討室 A（門口參加）；群戲用旁白，會後接 W5（afterActivity）*/
-    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[17],weekday:3,t0:19,t1:21,once:true,
+    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[15],weekday:3,t0:19,t1:21,once:true,
       desc:'法服這學期的檢討會。',story:true},
     /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
     {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',

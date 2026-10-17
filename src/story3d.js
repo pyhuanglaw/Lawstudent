@@ -1588,7 +1588,7 @@ const STORY = (function(){
           交往中才有「傳給可昕」：傳＝長頸鹿貼圖＋together「這一科可以先說。其他的，等全部出來再一起開。」／best_one「這科就是你最滿意的那一科吧。」；不傳、單身＝「你把成績單收進抽屜。」。
        ③ 6/29（一）暑假第一天：together＝早上先問「先看／等到晚上」、21:00 視訊（S.holdGrades、ev_kexin_grades_open_y1s2）；best_one＝21:00 她先說「憲法」再問你一科（P4e 已經傳給她的不問）。
        冷戰（AA_112 第 6 節）還沒有系統：交往中都照上面 */
-    { const last=termDay('Y1S2',18,5), K=t=>({th:'p:kexin',from:'kexin',text:t});
+    { const last=S.dayOfKey('2026-06-12'), K=t=>({th:'p:kexin',from:'kexin',text:t});   /* AA_209 第 4 節／AA_198 第 5 節（AA-B 02:28 確認）：約定 6/12（五，期末最後一天）21:00；P4e、一起看在 6/29 成績公布那天 */
       if(last&&F.dating_kexin&&!PHONE.sent(G,'kx_grades2_ask')&&G.day<=last+2&&G.day>=last-1){ F.KX_GRADES_Y1S2=F.KX_GRADES_PACT==='peeked'?'best_one':'together';
         PHONE.at(G,last,21,[K(F.KX_GRADES_Y1S2==='best_one'?'這次換個方式：各自先看，然後各說一科最滿意的。':'這次也一起打開？成績出來那天。')],'kx_grades2_ask'); }
       const took=typeof CLS!=='undefined'&&CLS.termCourses&&CLS.termCourses(G,'Y1S2').some(c=>c.id==='econ_principles_2');
@@ -1601,7 +1601,7 @@ const STORY = (function(){
             {t:'不傳',post:'（不傳）',set:{KX_P4E:'kept'},say:[drawer]}]}}); }
         else items.push(drawer);
         PHONE.at(G,last+1,Math.max(10,G.day===last+1?h(G):10),items,'p4e'); }
-      const sum1=termDay('Y1S2',18,7)+1;
+      const sum1=termDay('Y1S2',18,7)+1;   /* 6/29（一）成績公布那天（AA-B 02:28 確認：一起看、best_one 都在 6/29）*/
       if(sum1&&F.dating_kexin&&F.KX_GRADES_Y1S2==='best_one'&&F.KX_P4E!=='sent'&&G.day>=sum1&&G.day<=sum1+1&&!PHONE.sent(G,'kx_best_one')){
         const cs=CLS.termCourses(G,'Y1S2').filter(c=>c.kind!=='service'), short=c=>c.name.replace(/（.*?）/g,'');
         PHONE.at(G,sum1,21,[K('說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'),Object.assign(K('換你。'),{ask:{until:(sum1+1)*24+24,opts:cs.map(c=>({t:short(c),set:{KX_BEST_ONE_Y1S2:c.id},say:[K(c.id==='econ_principles_2'?'經原？……那一科，我們以前坐在同一間教室。它也替你高興。':'「'+short(c)+'」。好，我記下來了。……明年再比一次。')]}))}})],'kx_best_one'); } }
@@ -1877,7 +1877,7 @@ const STORY = (function(){
        23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。
        三個回覆：閃三下＝SK05_GO（今晚 23:00～23:45 他在法學院廣場的販賣機前，events.js ev_sk05_vending_y1）；閃一下、只回訊息＝這一年沒有這五分鐘 */
     { const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hh=h(G);
-      if(T&&T.id==='Y1S2'&&(T.week===17||T.week===18)&&(G.zone==='linze'||G.zone==='classroom')&&hh>=22+55/60&&hh<23.5&&!PHONE.sent(G,'sk05_y1')){
+      if(T&&T.id==='Y1S2'&&T.week===16&&(G.zone==='linze'||G.zone==='classroom')&&hh>=22+55/60&&hh<23.5&&!PHONE.sent(G,'sk05_y1')){
         silentContact('econ_zhengxun'); const th='p:econ_zhengxun', X=t=>({th,from:'econ_zhengxun',text:t}), N=t=>({th,who:null,text:t}), d=G.day;
         const items=[]; if(!F.MET_XUN) items.push(X('盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'));   /* BB-B 2026-10-16 第①級：照 BB_96 10-1 原文（少後半句會變成熟人正經地重新自我介紹）*/
         items.push(X('你們那邊燈還亮著。'),X('我在社科院四樓，窗邊。看對面。'),N('（對面的窗，燈閃了一下。）'),X('一閃是還活著。兩閃是救我。'));
@@ -1895,7 +1895,7 @@ const STORY = (function(){
         PHONE.at(G,thu,22,[K('演講怎樣？'),Object.assign(K('我今天在系上被教授點名了，好丟臉。'),{ask:{until:(thu+1)*24+18,opts:[o1,{t:'被點名？妳答出來了嗎？',say:called.map(K)},{t:'先說妳的。演講的事等一下說。',say:[K('你先問我的喔。……好，那我先說。')].concat(called.map(K))}]}})],'kx_b4_ask'); } }
     /* 沛珊「欠的，還了。」（BB_96 3-7；BB-B 2026-10-16 02:00）：大一下第 16 週週日 21:00 在班級群組，只有沛珊說話、沒有別人接話。第 11 週選「沒關係」（PS_CANCEL:'ok'）的玩家看到「欠的，還了。」，
        其他玩家（另外兩個選項、沒去女舍、不回）看到「期末加油。」——同一則公開訊息，只有後半句不同。沒有沛珊聯絡方式的玩家，整條線不發生。玩家三選一（貼圖／「謝謝！」／不回），沒有後續、不記數值 */
-    { const sun=termDay('Y1S2',16,7);   /* 週日：CALENDAR 的 wd 是 1～7（7＝週日）*/
+    { const sun=S.dayOfKey('2026-06-07');   /* AA_198 第 5 節：原本第 16 週週日＝6/14 已經考完，「期末加油」不成立 → 6/7（日）*/
       if(sun&&G.day>=sun&&G.day<=sun+1&&!(G.day===sun&&h(G)<21)&&!PHONE.sent(G,'ps_owed')&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&PHONE.inGroup(G,'law_class'))
         PHONE.at(G,sun,21,[{th:'g:law_class',from:'classmate_peishan',text:'📄 刑總二重點。'+(F.PS_CANCEL==='ok'?'欠的，還了。':'期末加油。'),ask:{opts:[{t:'（貼一個貼圖）',post:'（貼圖）'},{t:'謝謝！'}]}}],'ps_owed'); }
     /* W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31，不是法律、不需法律審查）：ev_grad_debate 之後每兩週一次，20:30，大一下到大二（學期中）。
@@ -1920,7 +1920,7 @@ const STORY = (function(){
     /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
        （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
     /* 芷若的午場（BB_96 3-5b）：Z5 拒絕早場（zrDeclineDay，週五）之後第 3 週的週六 09:30 兩則（交往中多一句「方奕廷也去。」）；回覆到 11:25。「起得來。」＝11:40 出遊（ev_zhiruo_matinee）；「今天不行。」這學期不再約 */
-    if(F.zrDeclineDay!=null&&!F.zhiruo_film_date&&typeof OUT!=='undefined'){ const cap=termDay('Y1S2',17,6); let ms=F.zrDeclineDay+22; if(cap!=null&&ms>cap) ms=cap;   /* BB_161 ②：拒絕之後第 3 週的週六，超過第 17 週就排第 17 週週六（Z5 現在可以到第 15 週）*/
+    if(F.zrDeclineDay!=null&&!F.zhiruo_film_date&&typeof OUT!=='undefined'){ const cap=S.dayOfKey('2026-06-06');   /* AA_198 第 5 節：芷若午場上限第 15 週六 6/6 */  let ms=F.zrDeclineDay+22; if(cap!=null&&ms>cap) ms=cap;   /* BB_161 ②：拒絕之後第 3 週的週六，超過第 17 週就排第 17 週週六（Z5 現在可以到第 15 週）*/
       const T3=typeof CALENDAR!=='undefined'?CALENDAR.termOf(ms):null;
       if(T3&&T3.id==='Y1S2'&&T3.week<=17&&ms>F.zrDeclineDay){ const th='p:heroine_02', Z=t=>({th,from:'heroine_02',text:t});
         if((G.day>ms||(G.day===ms&&G.hour>=9.5))&&G.day<=ms&&!PHONE.sent(G,'zr_matinee_ask')){ const L=[Z('今天有午場。你上次說早場起不來。'),Z('十一點四十。這個時間，你總起得來了吧。')]; if(F.dating_kexin) L.push(Z('方奕廷也去。'));
@@ -1949,7 +1949,7 @@ const STORY = (function(){
       const dJ=termDay('Y1S2',3,2), dI=termDay('Y1S2',3,5), dD=termDay('Y1S2',4,5);
       /* W2b 期末（BB_96 2-1，BB 14265eb）：第 17 週週五 21:00 Kevin 在家族群組揪期末聚餐（只有群組訊息，不另做聚餐事件）；學姊照玩家回：
          去了而且請了（TREATED_FAMILY）＝「收到。這次飲料我請。」；沒去家聚、說過要請（SAID_TREAT_SIS）＝學姊、Kevin、學姊三句；其他＝「收到。」*/
-      { const dF=termDay('Y1S2',17,5); if(dF&&G.day>=dF&&G.day<=dF+1&&!PHONE.sent(G,'fam_final_y1s2')){ const went=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
+      { const dF=S.dayOfKey('2026-06-12');   /* AA_198 第 5 節：W2b 家族期末聚餐的訊息 6/12 21:00 */ if(dF&&G.day>=dF&&G.day<=dF+1&&!PHONE.sent(G,'fam_final_y1s2')){ const went=typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER');
           const L=[kv('期末考完，家族聚餐。這次地方我選：公館的火鍋吃到飽。全家族。')];
           if(F.TREATED_FAMILY) L.push(sis('收到。這次飲料我請。'));
           else if(!went&&F.SAID_TREAT_SIS) L.push(sis('你上次說要請全家族飲料。'),kv('學姊以為是客套吧。'),sis('……對。可是我記得。'));

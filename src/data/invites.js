@@ -141,7 +141,7 @@ const INVITE_DATA={
       acc:{brunch:['「十二點 好 那是我的早餐」'],teahouse:['「茶屋要脫鞋嗎 好 我襪子有洞」'],cafe:{A:['「那裡沒有插座給我嗎」']},noodle:['「好 我餓了」']},
       first:{wenzhou:['「散步要幹嘛」','（你說那裡有貓。）','「好」']},
       rule:(G,c,I)=>{ if(c.pid==='brunch'&&c.r.res==='accept'&&c.h<12){ const h2=12+10/60; return {res:'resched',why:'sleep',lines:['「早上 不行 我在睡」'],alt:I.freeAt(G,'kai',c.P,c.day,h2)?{day:c.day,h:h2}:null}; }   /* BB_158 第 6 節：半熟早上改 12:10 */
-        if(c.pid!=='library'||c.r.res!=='accept') return null; const ex=!!(c.term&&[7,8,16,17].includes(c.term.week));   /* 朋友以上：考前一週、考試週答應 */
+        if(c.pid!=='library'||c.r.res!=='accept') return null; const ex=!!(c.term&&[7,8,9,15,16].includes(c.term.week));   /* BB_172 K9（AA_209 第 4 節）*/   /* 朋友以上：考前一週、考試週答應 */
         if(c.band==='R'&&ex) return null; return {res:'decline',why:'sleepy',lines:['「總圖我會睡著」','「考前一週我會去 真的」']}; } },
     classmate_mingxuan:{ walk:{any:[['「我家教的學生問我，念法律是不是要背很多東西。」','「我說，要背，但更要會吵架。他說那他適合。」'],['「我爸昨天傳訊息問我『籃球的三分線是畫在哪裡』。」','「他在看我們比賽的直播。……他還是看不懂。」'],['「這條路我每週走三次。家教、宿舍、家教。……好啦，還有籃球場。」']]},   /* 明軒（5-4）：二、四、六晚上 19–21 家教（個人規則）；Café 的「只能待一小時」朋友以後不說（BB_120 1-6）*/
       acc:{brunch:['「早午餐？哈哈 CP 值不高喔……好啦 週末可以」'],teahouse:['「一盞？哈哈 我很少喝茶 我爸喝 好啊」'],cafe:{A:['「好。但我只能待一小時。」']},noodle:['「阿鳳是公館 CP 值第一名。我研究過。」'],wenzhou:['「散步不用錢，好。」']},

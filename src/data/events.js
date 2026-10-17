@@ -767,7 +767,7 @@ const STORY_EVENTS=[
       {speaker:'classmate_xinci',text:'下次週五，帶我去活大。'},{set:{ECON_LAW_BRIDGE:true}} ] },
   /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節、BB_96 10-5、BB_106 SK05）：期末考週玩家閃三下（story3d.js phoneRules 的 23:00 訊息）→ 阿勳在法學院廣場的販賣機前（作息 SK05_GO），
      走到他旁邊（npcNear）才算「去」；只回訊息不算。記 SK05_Y1；大二、大三照 BB_106 SK05（之後做）。走到一半回頭＝23:45 阿勳傳「……你閃了三下又不來。」「明年再說。」（不扣分）*/
-  { id:'ev_sk05_vending_y1', title:'三閃，販賣機見', participants:[], location:'campus', trigger:'auto', npcNear:'econ_zhengxun', time:[23,23.75], term:['Y1S2'], weeks:[17,18], once:true, background:'blur',
+  { id:'ev_sk05_vending_y1', title:'三閃，販賣機見', participants:[], location:'campus', trigger:'auto', npcNear:'econ_zhengxun', time:[23,23.75], term:['Y1S2'], weeks:[16], once:true, background:'blur',
     prereq:{custom:G=>G.flags.SK05_GO===G.day},
     dialogue:[ {speaker:'阿勳',text:'法律系考試考什麼？'},{speaker:'player',text:'一題寫一整頁。要寫理由。'},{speaker:'阿勳',text:'一整頁？經濟系至少有標準答案。'},{speaker:'阿勳',text:'……好啦，不一定。'},
       {speaker:null,text:'他按了兩罐一樣的飲料，丟一罐給你。'},{speaker:'阿勳',text:'明年也閃三下。'},{set:{SK05_Y1:true,MET_XUN:true}} ] },
@@ -1191,15 +1191,15 @@ const STORY_EVENTS=[
       {label:'fy1'},{speaker:'npc_fangyt',expression:'neutral',text:'我暑假要上山做調查，兩個禮拜沒訊號。'},{speaker:'npc_fangyt',expression:'neutral',text:'黃金葛記得澆，一週一次就好。'},
       {label:'end'} ],
     after:G=>{ const c=STORY.revisitClosest(G); G.flags.REVISIT_Y1_PICK='none'; G.flags.REVISIT_Y1={who:c.id||'alone',pick:'none'}; } },
-  /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 17 週週三的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
+  /* 學姊 W5「她改的便條」（BB_96 2-6；交接包 v2）：大一下第 15 週週三（6/3，AA_198 第 5 節）的法服學期檢討會（activities.js 的 lawclub_review_y1s2）之後；前置 lawclub、法服讀書會去過 3 次以上、只一次。
      去了檢討會：會後接著演（afterActivity）；沒去的社員：第 17～18 週第一次在晚上走進萬才館（BB_161 ③），開頭兩句換成「（聽說這週的檢討會很安靜。）」「（你經過萬才館的研討室……）」其他照舊。流程的描述寫成旁白。
      記 NOTICED_HER（W8 的伏筆）／GAVE_HER_NOTE（寫了什麼記在備註；回收見 BB_108）*/
-  { id:'ev_sis_sticky_notes', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'activity', afterActivity:'lawclub_review_y1s2', term:['Y1S2'], weeks:[17], once:true, background:'blur',
+  { id:'ev_sis_sticky_notes', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'activity', afterActivity:'lawclub_review_y1s2', term:['Y1S2'], weeks:[15], once:true, background:'blur',
     prereq:{flags:['lawclub'],custom:G=>W5_OK(G)},
     dialogue:[ {speaker:null,text:'檢討會上，學姊對一年級的書狀列了十二條缺點，大家臉都很僵。'}].concat(W5_REST) },
-  /* BB_161 ③：沒去檢討會的社員＝第 17～18 週第一次在晚上（18:00 以後）走進萬才館；開頭兩句換成 BB-B 新寫的，接著從「你的書狀上：……」照原文 */
-  { id:'ev_sis_sticky_notes_late', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'enter', term:['Y1S2'], weeks:[17,18], time:[18,23.5], once:true, background:'blur',
-    prereq:{flags:['lawclub'],custom:G=>{ if(!W5_OK(G)) return false; const r=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',17,3):null; if(r!=null&&G.day===r&&G.hour<21) return false; return !(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'lawclub_review_y1s2')); }},   /* 檢討會那天（第 17 週週三）21:00 以前還在開會 */
+  /* BB_161 ③：沒去檢討會的社員＝第 15～16 週第一次在晚上（18:00 以後）走進萬才館；開頭兩句換成 BB-B 新寫的，接著從「你的書狀上：……」照原文 */
+  { id:'ev_sis_sticky_notes_late', title:'她改的便條', participants:['heroine_05'], location:'wancai', trigger:'enter', term:['Y1S2'], weeks:[15,16], time:[18,23.5], once:true, background:'blur',
+    prereq:{flags:['lawclub'],custom:G=>{ if(!W5_OK(G)) return false; const r=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',15,3):null; if(r!=null&&G.day===r&&G.hour<21) return false; return !(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'lawclub_review_y1s2')); }},   /* 檢討會那天（第 17 週週三）21:00 以前還在開會 */
     dialogue:[ {speaker:null,text:'（聽說這週的檢討會很安靜。）'},{speaker:null,text:'（你經過萬才館的研討室。學姊一個人坐在裡面，在每份書狀上貼便條。）'}].concat(W5_REST.slice(1)) },
   /* 子晴 Q5「你負責拍手」（BB_96 4-4、AA_13 G3；交接包 v2）：大一下第 14 週週三的吉他社成發（activities.js 的 guitar_show_y1s2，去看就演）；認識子晴才有。
      演出中三選一（介面的動作）：拍手＝CLAPPED（她下台說的那句＋插座貓貼紙：雙方都單身、和她朋友以上＝直接貼在你的手機殼上，其他＝遞給你）／坐著聽完＝她點頭「你有來。」／先走＝隔天手機「你看到一半。後半比較好。」。
@@ -3123,7 +3123,7 @@ const STORY_EVENTS_V11=[
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天這部，叫《晚春》。你不用記片名。記得是午場就好。'},{set:{ZR_MATINEE_SEEN:true}} ],
     after:G=>{ if(typeof SOCIAL==='undefined') return; const d=!!G.flags.dating_kexin; SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《晚春》的午場（三個人）':'《晚春》的午場'); if(!d) SOCIAL.adjust('heroine_02',{aff:3}); } },
   /* 方奕廷 Z6「隔壁房的人記得的事」（BB_96 3-6；交接包 v2）：大一下第 16～18 週（第 17 週左右）平日 12–13 在校園找他說話；前置 WATCHED_FILM（兩個人看的那一版）、玩家沒有在交往、只一次。記 FANG_HINT */
-  { id:'ev_fangyt_hint', title:'隔壁房的人記得的事', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[16,17,18], weekday:[1,2,3,4,5], time:[12,13], background:'blur',
+  { id:'ev_fangyt_hint', title:'隔壁房的人記得的事', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[15,16], weekday:[1,2,3,4,5], time:[12,13], background:'blur',
     prereq:{memory:[{npc:'heroine_02',tag:'WATCHED_FILM'}],custom:G=>!G.flags.dating_kexin},
     dialogue:[ {speaker:'npc_fangyt',expression:'neutral',text:'你最近常去兩點半？'},
       {speaker:'npc_fangyt',expression:'neutral',text:'芷若跟我高中同班。'},
