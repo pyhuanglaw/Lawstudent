@@ -73,6 +73,12 @@ D['characters'][AN] = {'steps': [
  'note':'大四下以安：補修（X4）、杜鵑花第四張、新 20、新 21、典禮照常（X5）；不說媽媽的職業'}
 
 D['characters'][YT] = {'steps': [
+ {'id':'Y8-L0','if':st(YT,'FRIEND'),'week':[1,4],'skipAfterWeek':4,
+  'lines':['跨年我跟我媽在家看電視。','阿姨十一點打電話來，說她那邊看得到一點煙火。'],
+  'choices':[ch('「跟淡水那次一樣嗎？」','沒有，這次電視播完我們就睡了。',rel={'trust':1}),
+             ch('「好看嗎？」','電視上的很清楚。')],'rel':{'fam':2,'trust':1},'mem':'YT8_NYE_HOME',
+  'linesIf':[{'if':{'memory':[{'npc':YT,'tag':'YT_TAMSUI_SUNSET'}]},'lines':['跨年我跟我媽在家看電視。','廣告的時候，我跟她講了淡水的夕陽。她說下次她也要去。']}],
+  'note':'AA_262：原大四上 Y7-L7（跨年在學期以後、AA_210 3-6 在家陪媽媽看電視）搬來；寒假的事，開學頭四週講，過了第 4 週還沒到朋友就跳過'},
  {'id':'Y8-L1','if':st(YT,'ACQUAINTANCE'),'week':[1,18],
   'lines':['最後一學期了。我只剩四學分。','……週四，還是我的。'],
   'choices':[ch('「週四要做什麼？」','……還是田野。可是不用交了。'),
@@ -134,7 +140,7 @@ def check(d):
             # 防卡關：if 只能放階段（stage）或 any 裡的階段／flagNum
             bad=[k for k in s.get('if',{}) if k not in ('stage','any')]
             if bad: err.append(f"{s['id']} 的 if 只能放階段（防卡關）：{bad}")
-            if 'week' in s and s['week'][1]<18 and not s.get('skipIf'): err.append(f"{s['id']} 週次沒有放寬到第 18 週，也沒有 skipIf（會卡關）")
+            if 'week' in s and s['week'][1]<18 and not s.get('skipIf') and not s.get('skipAfterWeek'): err.append(f"{s['id']} 週次沒有放寬到第 18 週，也沒有 skipIf（會卡關）")
             for t in ('不准賴',):
                 if cid==AN and any(t in x for x in s['lines']+[c2['reply'] for c2 in s.get('choices',[])]): err.append(f"{s['id']} 以安「不准賴」只用在論證")
         g=c.get('greet')
