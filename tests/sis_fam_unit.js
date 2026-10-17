@@ -57,7 +57,9 @@ GM.money=function(n){ G.money+=n; };
   // ③ 家聚
   back(); G.day=d12; G.weekday=5; G.hour=19; said=[]; await EVENTS.run(ev('ev_sis_fam_dinner')); L=lines();
   check('3. 家聚：「（長桌坐了七八個人……）」Kevin 介紹、「書瑀學姊很厲害喔，憲法傳奇，張老師給她 95。」「我先回去了，你們慢慢聊。」',L[0]==='（長桌坐了七八個人，大一到大四都有。）'&&L.some(t=>t.endsWith('書瑀學姊很厲害喔，憲法傳奇，張老師給她 95。'))&&L[L.length-1].endsWith('我先回去了，你們慢慢聊。'),JSON.stringify(L));
+  check('3. 沒做過 W1：祐廷先開口「學姊好，我是祐廷。我是妳的直屬。」→「我知道。名單上看過你的名字。」「我是溫書瑀。課的事可以問我。」（AA-C 15:59）',L.includes('祐廷：學姊好，我是祐廷。我是妳的直屬。')&&L.some(t=>t.endsWith('我知道。名單上看過你的名字。'))&&L.some(t=>t.endsWith('我是溫書瑀。課的事可以問我。')),JSON.stringify(L));
   check('3. 去了：SIS_FAM_DINNER；沒做過 W1 的在這裡算 W1（SIS_W1、met_sis、FIRST_MET）',G.flags.SIS_FAM_DINNER===true&&G.flags.SIS_W1===true&&G.flags.met_sis===true&&SOCIAL.has('heroine_05','FIRST_MET'));
+  { const s2=JSON.stringify(G); back(); G.flags.SIS_W1=true; G.flags.met_sis=true; G.day=d12; G.weekday=5; G.hour=19; said=[]; await EVENTS.run(ev('ev_sis_fam_dinner')); check('3. 做過 W1：沒有自我介紹那三句',!lines().some(t=>/我是妳的直屬|名單上看過/.test(t))); G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); }
   G.events.done.ev_sis_fam_dinner=1; run(21,21.1); check('3. 去了：當晚沒有 Kevin 的照片',!PHONE.sent(G,'sis_fam_photo'));
   G.day=d16; G.weekday=2; run(20.9,21.1); const S=TH('p:heroine_05').map(m=>m.from+':'+m.text);
   check('4. 9/16 21:00 私訊：問憲法怎麼準備、「解題書我推鷗律師那本……」「加油。」、SIS_FAM_MSG',S.includes('player:學姊，想問一下，妳憲法那時候怎麼準備的？')&&S.includes('heroine_05:解題書我推鷗律師那本，題目多，解得也清楚。')&&S[S.length-1]==='heroine_05:加油。'&&G.flags.SIS_FAM_MSG===true,JSON.stringify(S));
