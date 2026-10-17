@@ -6,11 +6,50 @@
 用法：python3 tools/shots/econ_chars_ingame.py <URL> <輸出資料夾>"""
 import asyncio, json, sys, os
 from playwright.async_api import async_playwright
-sys.path.insert(0, os.path.join(os.path.dirname(__file__)))
-import char_review as CR
 
 URL = sys.argv[1]; OUT = sys.argv[2]
 os.makedirs(OUT, exist_ok=True)
+
+
+class CR:
+    """char_review.py 的那幾個函式（它在 import 時就會跑自己的主程式，所以抄過來；位置、做法相同：溫州街小公園前）"""
+    SPOT = (26.0, 0.6)
+    FLAGS = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True, 'wenzhouLine': True}
+    HIDE_HUD = "#hud,#hudR,#joy,#interact,#minimap,#btnMenu,#btnRun,#ctlR,#goal,#toast,#caption,#clock,#bar,#energy,#money,#mdbg,#fps,#devErr,#rotate{display:none!important}"
+
+    @staticmethod
+    async def load(pg):
+        pg.set_default_timeout(180000)   # SwiftShader 很慢：截圖、evaluate 給長一點
+        await pg.goto(URL)
+        for i in range(480):
+            if await pg.evaluate("!!(typeof GAME!=='undefined'&&GAME.running)"): break
+            await pg.wait_for_timeout(500)
+        st = {'zone': 'wenzhou', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': CR.SPOT[0] - 9, 'z': -2.5, 'yaw': 0}, 'flags': CR.FLAGS}
+        await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st, ensure_ascii=False))
+        await pg.wait_for_timeout(2500)
+        await pg.evaluate("GAME.E.applyTime(11.0); GAME.E.npcs.slice().forEach(n=>GAME.E.removeNPC(n)); for(const k in GAME.npc) delete GAME.npc[k]; (GAME.extras||[]).slice().forEach(x=>{ const o=x.obj; if(o&&o.parent) o.parent.remove(o); }); if(GAME.extras) GAME.extras.length=0;")
+
+    @staticmethod
+    async def hud(pg, on):
+        await pg.evaluate("(on=>{ let s=document.getElementById('reviewHide'); if(!on&&!s){ s=document.createElement('style'); s.id='reviewHide'; s.textContent=%s; document.head.appendChild(s); } if(on&&s) s.remove(); })(%s)" % (json.dumps(CR.HIDE_HUD), 'true' if on else 'false'))
+
+    @staticmethod
+    async def cam(pg, pos, look):
+        await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (json.dumps(pos), json.dumps(look)))
+
+    @staticmethod
+    async def subject(pg, cid, x, z, yaw):
+        js = """(c=>{ const E=GAME.E; let n=E.npcs.find(k=>k.charId===c.id); if(!n) n=GAME.spawnCharacter(c.id,c.x,c.z,{yaw:c.yaw});
+          if(!n) return null; n.obj.visible=true; n.obj.position.set(c.x,0,c.z); n.obj.rotation.y=c.yaw; n.path=null; n.speed=0; n.frozen=true; n.beh='idle'; n.greet=false; n.waveT=0; n.pose='idle'; n.idlePose='idle';
+          const u=n.obj.userData; if(u&&u.anim){ u.anim.blink=1e9; u.anim.blinkT=0; }
+          return {key:(u&&u.key)||null, driver:(u&&u.driver)||null}; })(%s)""" % json.dumps({'id': cid, 'x': x, 'z': z, 'yaw': yaw})
+        return await pg.evaluate(js)
+
+    @staticmethod
+    async def remove(pg, cid):
+        await pg.evaluate("(id=>{ const E=GAME.E; const n=E.npcs.find(k=>k.charId===id); if(n){ E.removeNPC(n); for(const k in GAME.npc) if(GAME.npc[k]===n) delete GAME.npc[k]; } })(%s)" % json.dumps(cid))
+
+
 SX, SZ = CR.SPOT
 
 
@@ -80,9 +119,37 @@ async def part3(p, drivers):
     await b.close()
 
 
+async def part4(p, drivers):
+    """坐姿：用溫州街小公園裡真的長椅座位（interactables 的 seat；char_motion.py 的 (23.6, 7.94) 是擴大前的小公園，現在那裡沒有椅子）"""
+    b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
+    pg = await b.new_page(viewport={'width': 1280, 'height': 720})
+    await CR.load(pg)
+    seat = await pg.evaluate("(sp=>{ const c=GAME.E.interactables.filter(i=>i.seat&&/長椅|椅/.test(i.label||'')).sort((a,b)=>Math.hypot(a.x-sp[0],a.z-sp[1])-Math.hypot(b.x-sp[0],b.z-sp[1])); return c[0]?Object.assign({label:c[0].label},c[0].seat):null; })(%s)" % json.dumps(list(CR.SPOT)))
+    drivers['sit_seat'] = seat
+    if not seat:
+        await b.close(); return
+    for cid in ('classmate_peishan', 'econ_weilun', 'econ_jiahao'):
+        for hour, tag in ((11.0, 'day'), (20.0, 'night')):
+            await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); })(%f)" % hour)
+            info = await pg.evaluate("""(c=>{ const E=GAME.E; let n=E.npcs.find(k=>k.charId===c.id); if(!n) n=GAME.spawnCharacter(c.id,c.s.x,c.s.z-1,{yaw:c.s.yaw});
+              GAME.sitAt(n,c.s); n.greet=false; const u=n.obj.userData; if(u.anim){ u.anim.blink=1e9; } E.player.obj.position.set(c.s.x-6,0,c.s.z-6); return {key:u.key,driver:u.driver}; })(%s)""" % json.dumps({'id': cid, 's': seat}))
+            await wait_models(pg, [cid]); await pg.wait_for_timeout(3000)
+            await CR.hud(pg, False)
+            fx, fz = __import__('math').sin(seat['yaw']), __import__('math').cos(seat['yaw'])   # 座位朝向（yaw）：+z 轉 yaw
+            await CR.cam(pg, [seat['x'] + fx * 2.4, 1.0, seat['z'] + fz * 2.4], [seat['x'], 0.65, seat['z']]); await pg.wait_for_timeout(1000)
+            await pg.screenshot(path=f'{OUT}/{cid}_sit_{tag}_front.png')
+            await CR.cam(pg, [seat['x'] + fz * 2.3 + fx * 0.4, 0.9, seat['z'] - fx * 2.3 + fz * 0.4], [seat['x'], 0.6, seat['z']]); await pg.wait_for_timeout(1000)
+            await pg.screenshot(path=f'{OUT}/{cid}_sit_{tag}_side.png')
+            await CR.hud(pg, True)
+        drivers[cid + '_sit'] = info
+        await CR.remove(pg, cid)
+    await b.close()
+
+
 async def part2(p, drivers):
     b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'])
     pg = await b.new_page(viewport={'width': 1280, 'height': 720})
+    pg.set_default_timeout(180000)
     await pg.goto(URL + ('&' if '?' in URL else '?') + 'turbo')
     for i in range(480):
         if await pg.evaluate("!!(typeof GAME!=='undefined'&&GAME.running)"): break
@@ -113,10 +180,11 @@ async def part2(p, drivers):
 async def main():
     drivers = {}
     async with async_playwright() as p:
-        only = set(os.environ.get('ONLY', 'econ,wei,peishan').split(','))
+        only = set(os.environ.get('ONLY', 'econ,wei,peishan,sit').split(','))
         if 'econ' in only: await part1(p, drivers)
         if 'wei' in only: await part2(p, drivers)
         if 'peishan' in only: await part3(p, drivers)
+        if 'sit' in only: await part4(p, drivers)
     json.dump(drivers, open(f'{OUT}/drivers.json', 'w'), ensure_ascii=False, indent=1)
     print(json.dumps(drivers, ensure_ascii=False))
 
