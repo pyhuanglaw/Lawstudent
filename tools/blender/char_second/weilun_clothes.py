@@ -2,7 +2,8 @@
 ＋橘色圓領 T（沒有紮）＋深藍運動短褲（膝蓋上面一點、寬鬆）＋灰色慢跑鞋（白鞋底）。後背包是 src/props3d.js 的 backpack。
 LAWWW2-C 2026-10-17 第一版：直接沿用阿哲的 zhe_clothes（h01_clothes＋x_xinci_clothes 的敞開外套、tee_full、拼接、拉鍊；同一個 Sakurada 樣本，高度照用）。
 和阿哲不同：顏色；拼接在肩膀到上臂（參考圖的肩部色塊，阿哲是沿著整條手臂外側的細條）；褲子是短褲（PANTS_HEM_UP）、不是牛仔布；鞋是灰色。
-第一版的已知簡化：白色中筒襪沒做（鞋子上面是皮膚）；膝蓋的擦傷沒做；外套是圓領敞開（參考圖是立領）。"""
+第二版：白色中筒襪（socks()：沿小腿量出來的一圈一圈，蓋過樣本身體貼圖上畫的深棕色短襪——第一版鞋子上面露出那雙深色襪子）；短褲改短、改窄。
+已知簡化：膝蓋的擦傷沒做；外套是圓領敞開（參考圖是立領）。"""
 import os, math
 import numpy as np
 import bpy
@@ -15,11 +16,13 @@ CREAM = np.array([226, 228, 230]) / 255.0      # 肩膀拼接：白／淺灰（�
 MUSTARD = np.array([226, 112, 52]) / 255.0     # 橘色 T 恤（參考圖 #e27034）
 DENIM = np.array([40, 46, 68]) / 255.0         # 深藍運動短褲
 ZIP = np.array([214, 214, 210]) / 255.0        # 拉鍊布條（參考圖前襟兩條白線）
+SOCK = np.array([238, 238, 234]) / 255.0       # 白色中筒襪
+SOCK_Z = (0.068, 0.255)                          # 襪子的高度（參考空間：鞋口 0.080 以下開始、到小腿中段；膝蓋約 0.45）
 STYLE = dict(KNIT_RGB=NAVY, TROUSER_RGB=DENIM, LEATHER_RGB=np.array([128, 132, 138]) / 255.0, SOLE_RGB=np.array([234, 230, 220]) / 255.0,
              GOLD_RGB=np.array([234, 230, 220]) / 255.0, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
              SLEEVE_LEN=1.0, SLEEVE_K=0.78, CUFF_EASE=0.010, EASE_K=0.95, DROP_X=0.105, TOP_FIT=0.0, HEM_LOOSE=False,
-             PANTS_ELLIPSE=(0.068, 0.076), PANTS_DROP=False, PANTS_HEM_UP=0.50)   # 短褲：膝蓋上面一點（p04 的牛仔短褲 0.62＝大腿中段），寬鬆   # 第一版 (0.074, 0.086)＋從臀部直落：遊戲裡像喇叭褲
+             PANTS_ELLIPSE=(0.062, 0.070), PANTS_DROP=False, PANTS_HEM_UP=0.56)   # 短褲：膝蓋上面一點（p04 的牛仔短褲 0.62＝大腿中段）；第一版 0.50／(0.068, 0.076) 像七分寬褲   # 第一版 (0.074, 0.086)＋從臀部直落：遊戲裡像喇叭褲
 # 高度寫在阿哲身上（Sakurada Fumiriya 樣本：胯 1.103、脊椎 1.288、胸 1.367、上胸 1.444、脖子 1.595、頭 1.684；遊戲裡縮到 178 cm）：
 # 牛仔褲褲頭在胯骨上方 10 cm（低腰）；外套下擺在胯骨下面 2 cm（羅紋 4.5 cm，蓋住褲頭）；外套圓領貼脖子根部；T 恤圓領比外套低一點
 STYLE_M = dict(PANTS_TOP=1.200, PANTS_BAND=1.160, KNIT_HEM=1.085, KNIT_HEM_TOP=1.130, CREW_FRONT_Z=1.588, BACK_NECK_Z=1.617, TEE_CREW_Z=1.575)   # 外套下擺到胯骨（第一版 1.12：太短）
@@ -95,6 +98,28 @@ def trim_tee(cl, tee=3, max_angle=72.0):
     return len(dead)
 
 
+def socks(skin, mb, mat=6, K_=20, R_=10):
+    """白色中筒襪：每隻腳在 SOCK_Z 之間取 R_ 個高度，每個高度量小腿（LowerLeg＋Foot 權重）的一圈點，往 K_ 個方向取最外面的點＋3.5 mm（支撐函數＝凸包，貼著小腿外面）；
+    標成 pants<L/R>，權重照褲管的算法（膝蓋以下＝小腿骨）；cull_skin 會把襪子底下的皮膚（樣本貼圖畫的深色短襪）剪掉"""
+    n = 0
+    for side, sg in (('L', 1.0), ('R', -1.0)):
+        w = skin.wsum({'J_Bip_%s_LowerLeg' % side, 'J_Bip_%s_Foot' % side})
+        Pl = skin.P[(w > 0.5) & (skin.P[:, 0] * sg > 0)]
+        zs = np.linspace(SOCK_Z[0], SOCK_Z[1], R_); I = []; cen = []
+        for zi in zs:
+            sel = Pl[np.abs(Pl[:, 2] - zi) < 0.008]
+            if len(sel) < 8: sel = Pl[np.argsort(np.abs(Pl[:, 2] - zi))[:16]]
+            c = sel[:, :2].mean(0); ring = []
+            for k in range(K_):
+                t = 2 * math.pi * k / K_; d = np.array([math.cos(t), math.sin(t)])
+                r = float(((sel[:, :2] - c) @ d).max()) + 0.0035 + (0.0015 if zi == zs[-1] else 0.0)   # 最上面一圈（羅紋）厚一點
+                ring.append([c[0] + d[0] * r, c[1] + d[1] * r, zi])
+            I.append(mb.add(np.array(ring), 'pants' + side)); cen.append([c[0], c[1], zi])
+        I = np.array(I); UV = np.zeros((R_, K_ + 1, 2)); UV[:, :, 0] = np.linspace(0, 1, K_ + 1)[None, :]; UV[:, :, 1] = np.linspace(0.05, 0.95, R_)[:, None]
+        n += mb.grid(I, UV, closed=True, mat=mat, centers=np.array(cen))
+    return n
+
+
 def _texture(rgb, S=1024):
     keep = K.KNIT_RGB; K.KNIT_RGB = rgb
     try: return K.jersey_texture(S)
@@ -110,6 +135,7 @@ def _apply(m, arm, body):
     top = XC.build_cardigan_open(skin, arm, mb, pants)
     XC.tee_full(skin, arm, mb, K.PANTS_TOP - 0.03, K.TEE_CREW_Z)
     shoes = K.build_shoes(skin, arm, mb)
+    print('  sock faces', socks(skin, mb))
     print('  shoulder panel faces', sleeve_panels(mb, top, half_angle=80.0, frac=0.42))   # 韋綸：肩膀到上臂、外側一大塊
     zip_tapes(mb, top['edges'])
     os.makedirs(K.WIP, exist_ok=True)
@@ -118,7 +144,8 @@ def _apply(m, arm, body):
             C.image_from_array('W01_Loafer', K.loafer_texture(), os.path.join(K.WIP, 'w01_clothes_Loafer.png')),
             C.image_from_array('W01_Tee', _texture(MUSTARD, 512), os.path.join(K.WIP, 'w01_clothes_Tee.png')),
             C.image_from_array('W01_Panel', _texture(CREAM, 256), os.path.join(K.WIP, 'w01_clothes_Panel.png')),
-            C.image_from_array('W01_Zip', _texture(ZIP, 64), os.path.join(K.WIP, 'w01_clothes_Zip.png'))]
+            C.image_from_array('W01_Zip', _texture(ZIP, 64), os.path.join(K.WIP, 'w01_clothes_Zip.png')),
+            C.image_from_array('W01_Sock', _texture(SOCK, 128), os.path.join(K.WIP, 'w01_clothes_Sock.png'))]
     def tmpl(pat):
         return next(mt.name for mt in bpy.data.materials if pat in mt.name and mt.name.endswith('_CLOTH') and not mt.name.startswith(('H01_', 'X01_', 'Z01_', 'W01_')))
     mats = [K.make_mat(tmpl('Tops'), 'W01_Jacket_CLOTH', imgs[0], (0.70, 0.74, 0.86)),
@@ -126,7 +153,8 @@ def _apply(m, arm, body):
             K.make_mat(tmpl('Shoes'), 'W01_Loafer_CLOTH', imgs[2], (0.66, 0.68, 0.78)),
             K.make_mat(tmpl('Tops'), 'W01_Tee_CLOTH', imgs[3], (0.86, 0.78, 0.70)),
             K.make_mat(tmpl('Tops'), 'W01_Panel_CLOTH', imgs[4], (0.84, 0.82, 0.80)),
-            K.make_mat(tmpl('Tops'), 'W01_Zip_CLOTH', imgs[5], (0.80, 0.80, 0.80))]
+            K.make_mat(tmpl('Tops'), 'W01_Zip_CLOTH', imgs[5], (0.80, 0.80, 0.80)),
+            K.make_mat(tmpl('Tops'), 'W01_Sock_CLOTH', imgs[6], (0.86, 0.86, 0.88))]
     W = K.compute_weights(skin, arm, mb, top, pants, shoes)
     obj, bad = mb.build('Clothes_W01', mats)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)

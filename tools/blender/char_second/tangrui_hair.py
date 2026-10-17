@@ -1,7 +1,7 @@
 """唐睿（econ_tangrui）的髮型（參考圖 tangrui.webp：黑色蓬鬆捲髮，一圈一圈、整顆頭比較大、瀏海捲捲的蓋到眉毛、兩側也蓬、耳朵上半蓋住）。
 LAWWW2-C 2026-10-17 第一版：沿用阿哲的 zhe_hair（蓬亂短髮的髮殼、層次髮片、瀏海、頭頂翹的短髮束），改：
 顏色＝黑（受光處 #2c2826）、亂數種子不同、整體更蓬（頭頂 +6 mm、兩側不貼頭：側邊收的比例 0.55 → 0.30）。
-真正一圈一圈的捲（髮片做成螺旋）第一版沒做——先看遊戲裡的量感對不對，再決定要不要做捲的髮片。"""
+第二版：加螺旋的捲髮束（curl_card：沿頭皮往下一小段、繞著轉 1～1.6 圈；整顆頭 150 撮＋前額 16 撮），外層直髮片 40 → 14、上層直瀏海拿掉——第一版正面看是直髮的碗蓋頭。"""
 import math, os
 import numpy as np
 import bpy
@@ -134,7 +134,7 @@ def apply(m):
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
         card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
              bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))
-    for k in range(40):        # 外層：碎、長短不一（頭頂的層次）；阿哲 30 → 40 片、長短與翹的方向更亂
+    for k in range(14):        # 外層：唐睿只留 14 片（直的髮片多了看起來是直髮；捲的量感由下面的捲髮束做）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
         sk = (1 - 0.45 * float(sstep(50, 80, az(a))) * (1 - float(sstep(120, 150, az(a))))) * (1 - 0.4 * float(sstep(110, 150, az(a))))   # 兩側（耳朵附近）、後腦外層貼近一點
         card(a, 0.86 - rng.uniform(0, 0.18), v_tip(a) * rng.uniform(0.45, 1.08), (0.009 + 0.003 * rng.random()) * sk, rng.uniform(1.0, 1.4), 'cardB',
@@ -154,12 +154,35 @@ def apply(m):
         a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 5
         card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.04, 0.08), 0.008 + 0.001 * rng.random(), rng.uniform(1.4, 1.7), 'bang',
              nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 6))
-    for k in range(9):
+    for k in range(0):         # 唐睿：上層的直瀏海拿掉，改成捲髮束（第一版正面看是一排直的髮絲垂到眉毛）
         a = -36 + 72 * (k + rng.uniform(0.2, 0.8)) / 9
         sgn = 1.0 if a > PART else -1.0
         card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.08, 0.02), 0.012 + 0.003 * rng.random(), rng.uniform(1.5, 2.0), 'bang',
              nseg=16, bulge=0.007 + 0.003 * rng.random(), arch=0.10, curl=sgn * rng.uniform(10, 28))   # 阿哲：有的到眼睛上緣、往兩邊撥得更開（露出額頭）
     n_bang = len(mb.F) - n_shell - n_card
+
+    # ---- 3b. 捲髮束（唐睿，LAWWW2-C 2026-10-17）：一撮一撮的螺旋——沿頭皮往下的一小段路徑，繞著它轉 1～1.6 圈（半徑 6～9 mm），
+    # 整撮離開頭皮一點、髮尾收細；頭頂、兩側、後腦到處都有，前額的那幾撮垂到眉毛上面（參考圖：捲捲的瀏海蓋到眉毛）
+    def curl_card(a, v0, v1, rad, turns, width, phase, reg='cardB', n=20):
+        vv = np.linspace(v0, v1, n + 1); base = []; Dn = []
+        for v in vv:
+            p, d = surf(a, v, 0.006 + rad); base.append(p); Dn.append(d)
+        base = np.array(base); Dn = np.array(Dn); T = tangents(base); Bv = _unit(np.cross(Dn, T))
+        t = np.linspace(0, 1, n + 1); phi = phase + 2 * math.pi * turns * t
+        r = rad * (0.35 + 0.65 * sstep(0.0, 0.2, t)) * (1 - 0.35 * t)
+        P = base + (Dn * np.cos(phi)[:, None] + Bv * np.sin(phi)[:, None]) * r[:, None]
+        P = H.push(P, np.full(len(P), 0.004))
+        Tn = tangents(P); side = _unit(np.cross(Dn, Tn))
+        mb.ribbon(P, side, Dn, width * (1.0 - 0.55 * t), reg, 'head', np.zeros(len(P)), arch=0.22, tt=t)
+    n0 = len(mb.F); ncurl = 0
+    for k in range(150):       # 整顆頭：方位角均勻、起點的 v 隨機（頭頂到髮際線），每撮往下 0.18～0.32
+        a = -180 + 360 * (k + rng.uniform(0.0, 1.0)) / 150; aa = az(a)
+        v0 = rng.uniform(0.18, 0.92); v1 = max(v_tip(a) * (0.6 if aa < 40 else 0.9), v0 - rng.uniform(0.18, 0.32))
+        curl_card(a, v0, v1, rng.uniform(0.006, 0.009), rng.uniform(1.0, 1.6), rng.uniform(0.014, 0.020), rng.uniform(0, 2 * math.pi)); ncurl += 1
+    for k in range(16):        # 前額：捲的瀏海（從 v 0.45 附近垂到眉毛上面）
+        a = -42 + 84 * (k + rng.uniform(0.2, 0.8)) / 16
+        curl_card(a, rng.uniform(0.35, 0.55), v_tip(a) + rng.uniform(0.0, 0.05), rng.uniform(0.007, 0.010), rng.uniform(1.1, 1.7), rng.uniform(0.016, 0.022), rng.uniform(0, 2 * math.pi), reg='bang'); ncurl += 1
+    print('  hair(tangrui): curl clumps %d faces %d' % (ncurl, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----
     V = np.array(mb.V); Fc = mb.F

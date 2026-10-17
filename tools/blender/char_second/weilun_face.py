@@ -6,9 +6,9 @@ import p00_face as PF
 import zhe_face as ZF
 
 WEILUN = dict(PF.MALE)
-WEILUN.update(EYE_SZ=0.68, EYE_SX=1.05, EYE_TILT=0.0,               # 平、細一點（阿哲照祐廷 0.72／1.06／0.02）
+WEILUN.update(EYE_SZ=0.66, EYE_SX=1.05, EYE_TILT=0.005,               # 平、細一點（阿哲照祐廷 0.72／1.06／0.02）
               BROW_K=1.70, BROW_ARCH=0.12, BROW_COL=(0.07, 0.06, 0.055), BROW_SCALE_Z=1.45,   # 直的濃眉、近黑（阿哲深棕、ARCH 0.30）
-              JAW_OUT=0.0058, CHIN_WIDEN=0.55, D_CHIN=0.0050,       # 下顎線更硬、下巴不寬
+              JAW_OUT=0.0068, CHIN_WIDEN=0.50, D_CHIN=0.0058,       # 下顎線更硬、下巴不寬、臉稍長（第二版：第一版的臉太軟、太年輕）
               MOUTH_K=1.34, LIP_A=0.46,                              # 嘴平、唇色淡
               LIP_OUT=(0.78, 0.53, 0.46), LIP_IN=(0.68, 0.43, 0.38), LIP_HI=(0.86, 0.65, 0.58))
 TAN = (0.89, 0.74, 0.61)          # 阿哲 (0.86, 0.70, 0.56)：淺一點
