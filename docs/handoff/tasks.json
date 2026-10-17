@@ -15563,6 +15563,34 @@
    },
    "source": "AA_204 27711a39",
    "authorized": "AA 定稿（第②級）；HOLIDAY-SYS"
+  },
+  {
+   "id": "AA255-Y2S2",
+   "title": "AA_255 大二下審稿（5bb04c15）第 4 節程式清單：ladder Y2S2 重新匯入（AA ladder_aa_y2s2 重建；BB 等 SHA；LADDER_REPLY_IF 兩個 key）、語彤不在法服（story3d 9/26 YT_LEGALAID_Y2 改讀 YT_FAFU、FAFU_YT 不播、characters 週六改麵店）、沛珊大二下第 1 週起聯絡不到（訊息事件邀約回覆不發）、學姊 M2／M3／上榜聚餐 2026 年不在大二下播、W3b 不發、子晴 zq_dad／zq_name 加看過 Q6、AA_179 手機訊息換句（zhe_deposit、zhe_final、yt_dish、yt_rent、yu_clubs、yu_exam、bh_final、xc_grade；MISS 每則一句）、syllabus 第 16 週、2027 春節群組；大二上語彤「法服的初談」改雙主修第一週",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA-C 12:18 交（AA_255 第 4 節）；D81：大二（v3）在 v0～v2 之後，但 ladder Y2S2 舊版會讓玩家看到錯的內容，排在下一批",
+   "first": {
+    "term": "Y2S1",
+    "week": 3,
+    "earliest": "大二上 9/26 法服",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_255 5bb04c15",
+   "authorized": "AA 審稿（第②級）；使用者：語彤不加入法服",
+   "xai": {
+    "spec": "AA_255 第 4 節",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "第 4 節逐項",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }

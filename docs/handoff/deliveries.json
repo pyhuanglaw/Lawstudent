@@ -6821,6 +6821,45 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "PROPOSAL：等使用者看；S.BG key 同檔名"
+  },
+  {
+   "id": "DL-AA-5bb04c15",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "5bb04c15",
+   "what": "AA_255 大二下審稿（第 4 節程式清單）",
+   "task": "AA255-Y2S2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "見任務"
+  },
+  {
+   "id": "DL-AA-a9daffbb",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a9daffbb",
+   "what": "AA_254 改字：學姊、芷若的她說／讓我想想／第二次",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "termend_lines.js"
+  },
+  {
+   "id": "DL-BB-bb863739",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "bb863739",
+   "what": "BB_203 大一上學期末門檻：第 5 階、npcRom 子晴 42／沛珊 45／芷若 48／語彤 48／以安 50、祐廷 rom≥30、2 次正式約會",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "termend3d heartWhy 的大一上特例"
   }
  ],
  "ignored": [
