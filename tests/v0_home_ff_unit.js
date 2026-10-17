@@ -8,6 +8,7 @@
 //   7. 時段（使用者 21:5x）：上午、下午、晚上各一件，「讀書」「休息」做到時段結束（不能一直讀）；22:30 以後只能睡；有「看手機」；重考期交往中有「約可昕出門」；
 //   8. 行事曆：6/8 報名衝刺班以後每一晚（一三五 19:00）都排進行事曆；手機「這週」顯示行事曆；快轉停在衝刺班出發前、4/19 模擬考那天、7/10 考前一晚前；
 //   9. 放榜固定考上台大法律（不看讀了幾次書）。
+//  10. BB_214：E27（2/13 19:00）、E14 開始 15 分鐘還沒出發＝保底電話（AA_272 第 6 節）；在家吃晚餐、讀書會錯過 15 分鐘容許的出遊要先問；休學住家裡的人凌晨 2:30 回家（不回 412）。
 // 修改前：沒有 HOME.y0ffOpts（第 1 項就失敗）。用法：node tests/v0_home_ff_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -86,5 +87,14 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   check('8. 快轉停在 4/19 模擬考那天以前',T(G.day,G.hour)<=T(D('2025-04-19'),15.75),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
   // 9：放榜固定考上
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上台大法律（榜單那一句不看讀書次數）',/（臺大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
+
+  // 10：BB_214
+  { econHome('2025-02-13',18); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');
+    G.hour=19; const c0=STORY.homeCall(G); G.hour=19.3; const c1=STORY.homeCall(G);
+    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（19:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在水餃店了，點了兩盤。……快來，我有事要跟你說。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
+    G.hour=18.7; const m=HOME.wouldMiss(G,19.7); check('10. 18:40 吃晚餐一小時會錯過 E27（照它的 15 分鐘容許，原本用 45 分鐘看不到）',m.some(t=>/水餃店/.test(t)),JSON.stringify(m)); }
+  { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('10. E14 的保底電話（韋綸兩句）也在',/'人咧！！保齡球館！！','第一局要開了啦，走啦！'/.test(src)); }
+  { econHome('2024-11-20',26.6); const H=HOME.rec(G); H.at=false; G.zone='campus'; const ent=[]; const en=GM.enter; GM.enter=async(z)=>{ ent.push(z); G.zone=z; }; const gg=HOME.go; let went=false; HOME.go=async()=>{ went=true; H.at=true; }; await STORY.forceHome(GM); HOME.go=gg; GM.enter=en;
+    check('10. 休學住家裡、凌晨 2:30 還在外面：回家（不是 412 宿舍）',went&&!ent.includes('dorm'),JSON.stringify({went,ent})); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

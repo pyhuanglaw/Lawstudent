@@ -1151,8 +1151,8 @@
    "title": "E22b、E23、E24b、E24c 走向法律（E24C_REASON）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "2026-10-16 LAWWW-B 對帳：E22b（E22B_TOLD）、★E23、★E24b（3c89ff51）、★E24c（AA_169，c996e5f3，E24C_REASON）都在 events.js（ev_y0_e22b／e23／e24b／e24b2／e24c），細節記在 V0-B1；剩瀏覽器（經濟系開局在標題畫面打開以後，#25）",
+   "status": "已整合待測試",
+   "next": "AA-C 2026-10-17 20:59：E22b、E23 照遊戲裡現在的版本（AA_224 3-7、5-1，最後一版 996b0d8d），暫停關掉；瀏覽器待 flow_v0_home",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -1167,8 +1167,8 @@
    "source": "交接包_v0、BB_104／105／110／112",
    "authorized": "D79",
    "pausedFrom": "已整合待測試",
-   "pausedReason": "使用者 2026-10-17 05:1x（經 AA-C）：祐廷重考台大法律的主線重大修正（從小想念台大法律、第一次大考差四分、先讀經濟、和經濟系女友的爭執是契機之一；動機、可昕交往起點、E24c 三個理由都會變）——AA_217 批准前，經濟系那年和「為什麼重考」有關的新施工暫停",
-   "resumeWhen": "使用者批准 AA_217（MAIN-MOTIVE-1017）"
+   "pausedReason": null,
+   "resumeWhen": null
   },
   {
    "id": "V0-B1",
@@ -16201,7 +16201,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "瀏覽器：flow_v0_home 從 10/17 用快轉測到 8/29（事件不漏播、日期不錯亂、存讀檔）；劇情差異等 AA-C（放榜客運、她休學理由、衝刺班兩人一起）",
+   "next": "瀏覽器：flow_v0_home 從 10/17 用快轉測到 8/29（事件不漏播、日期不錯亂、存讀檔）；劇情差異等 AA-C（放榜客運、她休學理由、衝刺班兩人一起）｜BB_214 第 1、2、5 點已修（E27／E14 保底電話、吃晚餐先問、休學住家凌晨回家）；第 3、4、6 點（E05 9/20、P2b、L5a）待分段實測確認",
    "first": {
     "term": "Y0S1",
     "week": 7,
@@ -16241,6 +16241,29 @@
    "pausedReason": null,
    "resumeWhen": null,
    "evidence": "tests/exch_min_unit.js"
+  },
+  {
+   "id": "AA272-1017",
+   "title": "AA_272（7050a1a0）經濟系休學→放榜：不能快轉清單、高雄客運 7/24～7/25 公布分數、8/13 手機＋電話、2/13 起可昕住祐廷家（R1、E35 改句）、2/14 一起問補習班（E27 後半移過去）、衝刺班兩人、休學理由三句、保底電話",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "next": "第 6 節保底電話已做（本 commit）；接著第 9 節理由、第 8 節 2/14、第 7 節衝刺班、b16a0761 住祐廷家、第 4 節客運與 8/13",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "2024-10-19 以後",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-C 21:10～21:19（使用者 21:2x～22:0x）",
+   "authorized": "使用者＋AA 定稿",
+   "pausedReason": null,
+   "resumeWhen": null
   }
  ]
 }
