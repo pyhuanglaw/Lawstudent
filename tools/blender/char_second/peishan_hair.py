@@ -327,7 +327,7 @@ def apply(m):
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
         sa = abs(math.sin(math.radians(a)))
-        return 0.0088 + 0.0050 * max(ca, 0) ** 1.2 + 0.0036 * sa ** 2 + 0.0014 * max(-ca, 0)   # 沛珊：比學姊蓬（鬆鬆綁起來）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
+        return 0.0098 + 0.0068 * max(ca, 0) ** 1.2 + 0.0040 * sa ** 2 + 0.0016 * max(-ca, 0)   # 第七版（BB-C v5：「鬆一點，不要往後貼」）：前額頭頂、兩側都再蓬 1～2 mm   # 沛珊：比學姊蓬（鬆鬆綁起來）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
 
     def off_shell(a, v):
         return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
@@ -383,11 +383,9 @@ def apply(m):
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 30
         vb = v_bang(a); vst = vb + (0.03 if vb > 0.01 else 0.0) + rng.uniform(0.0, 0.10)
         swept(a, vst, v_end(a) - rng.uniform(0.0, 0.05), 0.0028 + 0.0008 * rng.random(), rng.uniform(1.1, 1.5),
-              'swept', bulge=0.0010 + 0.0010 * rng.random(), arch=0.11)   # 沛珊：第二層比學姊拱一點點（鬆；第一版 0.0016＋、0.14：頭頂剪影一根根翹起來）     # 溫書瑀：第二層貼得比較近、不拱起（低馬尾往後梳整齊；第一版頭頂的剪影一根根翹起來）
+              'swept', bulge=0.0014 + 0.0010 * rng.random(), arch=0.11)   # 第七版：第二層再拱一點點（鬆）   # 沛珊：第二層比學姊拱一點點（鬆；第一版 0.0016＋、0.14：頭頂剪影一根根翹起來）     # 溫書瑀：第二層貼得比較近、不拱起（低馬尾往後梳整齊；第一版頭頂的剪影一根根翹起來）
     # 太陽穴的髮際線：幾束細碎髮從髮際線稍前方往後梳，讓邊緣不是一條硬線
-    for sgn in (1, -1):
-        for a in (45, 52, 59, 66):
-            swept(sgn * (a + rng.uniform(-2, 2)), -0.03 - 0.02 * rng.random(), 0.34 + 0.1 * rng.random(), 0.0042, 0.62, 'wisp', nseg=10, bulge=0.0015)
+    # 第七版拿掉：BB-C v5「太陽穴的白線」就是這幾束（細碎髮貼圖側著看是亮的線）
     # 後頸幾束沒收進馬尾的短碎髮（參考圖背面）：從髮際線稍上方往下垂 3～4 cm
     for a in (-170, -163, -148, -134, 140, 152, 168):   # 沛珊：後頸沒收進馬尾的碎髮多幾束（鬆）
         b0_ = hairline_beta(a) + 7; q = []
@@ -408,7 +406,11 @@ def apply(m):
     # 沛珊：側分（PART −22°），瀏海往人物的左邊（+）斜撥越過額頭；靠分線、往右邊的兩束短、到顴骨（參考圖側分瀏海）
     # 第二版（照立繪，BB-C 10-17）：不要一排瀏海；從分線兩旁各垂兩綹細的直碎髮，沿臉的兩側到下巴（立繪：額頭露出來、臉旁幾綹細碎髮）
     # 第三版：從太陽穴的髮際線（±32～40°）出發、細、用比較透的碎髮貼圖（第二版從分線旁邊直直垂下、太粗太黑，像兩根棒子）
-    bangs = [(-34, -62, -0.080, 0.009, 'wisp'), (-42, -58, -0.058, 0.007, 'wisp'), (26, 62, -0.082, 0.009, 'wisp'), (34, 58, -0.060, 0.007, 'wisp')]
+    # 第七版（BB-C v5）：分線那一邊（PART 的那一側）一片斜瀏海，從分線旁邊往外撥、蓋住那一邊額頭的角，髮尾到眉尾～眼尾外側（不擋眼鏡中間）；
+    # 另一邊塞到耳後（沒有瀏海）；額頭露出約七成。拿掉第三～六版太陽穴到臉頰的四束細碎髮（BB-C：像鐵絲彎的鉤子）
+    sg = -1.0 if PART < 0 else 1.0
+    bangs = [(PART + sg * 4, PART + sg * 30, 0.010, 0.012, 'bangA'), (PART + sg * 11, PART + sg * 38, -0.004, 0.012, 'bangB'),
+             (PART + sg * 18, PART + sg * 44, -0.018, 0.011, 'bangA'), (PART + sg * 25, PART + sg * 50, -0.030, 0.010, 'bangB')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0
@@ -440,7 +442,7 @@ def apply(m):
         d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
         d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
         jaw = H.c[2] - 0.098
-        for z, dx, dy in ((jaw + 0.012, 0.068, -0.034), (jaw - 0.030, 0.066, -0.040), (jaw - 0.060, 0.070, -0.030)):   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
+        for z, dx, dy in ((jaw + 0.030, 0.068, -0.034), (jaw + 0.008, 0.067, -0.038), (jaw - 0.012, 0.067, -0.036)):   # 第七版：到下巴就停（BB-C v5：3～4 綹細的直碎髮到下巴）   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
             ctrl.append(np.array([sgn * dx, min(H.front_y(sgn * dx, z) - 0.024, dy), z]))
         P = catmull(np.array(ctrl), 16)
         P, s = resample(P, 25)
@@ -455,7 +457,7 @@ def apply(m):
         P = H.push(P, marg)
         Tn = tangents(P)
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in ((0.0, 0.46, 'lock', 0.0), (0.5 * sgn, 0.30, 'lock', 0.003)):   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+        for rot, wfac, reg, dx in (((0.0, 0.34, 'lock', 0.0), (0.5 * sgn, 0.24, 'lock', 0.004)) if sgn * PART > 0 else ((0.0, 0.26, 'lock', 0.0),)):   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
@@ -477,12 +479,7 @@ def apply(m):
             D = _unit(D - Tq * np.sum(D * Tq, 1)[:, None]); sdq = _unit(np.cross(D, Tq))
             wq_ = wq * (0.5 + 0.5 * sstep(0.0, 0.15, np.linspace(0, 1, len(Q))))
             mb.ribbon(Q, sdq, D, wq_, 'lock', 'head', np.zeros(len(Q)), arch=0.12, both=True)
-        # 耳前短碎髮（剛體）
-        Q = []
-        for k in range(9):
-            t = k / 8; d = sph(sgn * (66 + 3 * t), 12 - 34 * t); Q.append(c + d * (H.R(d, True) + 0.006 + 0.004 * math.sin(math.pi * t)))
-        Q = H.push(np.array(Q), 0.005); D = _unit(Q - c); Tn = tangents(Q)
-        mb.ribbon(Q, _unit(np.cross(D, Tn)), D, 0.009, 'wisp', 'head', np.zeros(len(Q)), arch=0.0, both=True)
+        # 耳前短碎髮：第七版拿掉（BB-C v5：像鐵絲彎的鉤子）
     n_side = len(mb.F) - n_shell - n_swept - n_bang
 
     # ---- 5. 馬尾 ----
@@ -570,7 +567,7 @@ def apply(m):
     pony = C.add_bone_chain(arm, 'J_Sec_Hair_Pony', pts, HEAD)
     sides = {}
     for grp, (Ps, ss, jaw) in side_chains.items():
-        s0 = float(np.interp(-jaw, -Ps[:, 2], ss))
+        s0 = float(np.interp(-(jaw + 0.03), -Ps[:, 2], ss))   # 第七版：臉旁碎髮到下巴就停，彈簧骨從下巴上面 3 cm 開始
         js = np.linspace(s0, ss[-1], SIDE_BONES + 1)
         pts = np.stack([np.interp(js, ss, Ps[:, k]) for k in range(3)], -1)
         sides[grp] = (C.add_bone_chain(arm, 'J_Sec_Hair_Side' + grp[-1], pts, HEAD), js)
