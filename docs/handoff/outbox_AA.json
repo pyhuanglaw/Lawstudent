@@ -437,6 +437,51 @@
       "noDirectIntegrate": false,
       "receiver": "LAWWW",
       "ack": "SENT"
+    },
+    {
+      "task": "ROMANCE-P0-LINES-1017",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "60fa1bc5",
+      "files": [
+        "docs/story_planning/AA_227_私下約會知情告白劈腿挽回_核對與台詞.md",
+        "docs/story_planning/AA_228_語彤沛珊_私下約會知情告白劈腿挽回_核對與台詞.md"
+      ],
+      "state": "PROPOSAL（使用者審）",
+      "remaining": "BB 機制；使用者待決（AA_227 第七節、AA_228 第四節）",
+      "next": "使用者審稿；LAWWW 只盤點資料結構",
+      "noDirectIntegrate": true,
+      "receiver": "LAWWW",
+      "ack": "SENT"
+    },
+    {
+      "task": "SIS-LIST-SPEECH-1017",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "8bda1738",
+      "files": [
+        "docs/story_planning/AA_225_溫書瑀條列口語改稿表.md"
+      ],
+      "state": "已交付（AA 審過；『另案』項不實作）",
+      "remaining": "BB：學姊大二以後的法服在場與否、閒聊階梯年級移動；AA：sis_case_y1s2 刪（確認）",
+      "next": "LAWWW 照表改『改』的列；『保留』不動",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "SENT"
+    },
+    {
+      "task": "DL-06C",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "d1a07e38",
+      "files": [
+        "docs/story_planning/free_trip/build_spots_v3.py",
+        "docs/story_planning/free_trip/spots_v3.json",
+        "docs/story_planning/AA_161_自由出行第一批_四個景點的內容.md"
+      ],
+      "state": "已交付",
+      "remaining": "開車才能去的 5 處（D15、D16、D22、D23、D32）待一個人開車的規則；D28～D31 是否當天來回請 LAWWW 看",
+      "next": "LAWWW 匯入 spots_v3（新欄位見 rulesV3）",
+      "noDirectIntegrate": false,
+      "receiver": "LAWWW",
+      "ack": "SENT"
     }
   ]
 }
