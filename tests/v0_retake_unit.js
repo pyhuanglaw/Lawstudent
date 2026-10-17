@@ -45,9 +45,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('3. 4/2（R5）在家：只有兩項',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","先起床再說"]'&&G.flags.RT_DAY.type==='free');
   check('3. 同一天不再問',!(await STORY.retakeWake(GM)));
   // 在家讀書兩小時＝retake:study（2/15 起）
-  home(D15,10); G.home.wakeAsk=null; script=['在家讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('4. 2/15 在家讀書兩小時：retake:study +1',EVENTS.habitCount({key:'retake:study'})===1);
-  home(D15-1,10); G.home.wakeAsk=null; script=['在家讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  home(D15,10); G.home.wakeAsk=null; script=['讀書'];   /* 時段制：讀到 12:00 */ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('4. 2/15 在家讀書（讀到這個時段結束）：retake:study +1',EVENTS.habitCount({key:'retake:study'})===1);
+  home(D15-1,10); G.home.wakeAsk=null; script=['讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('4. 2/14 在家讀書：不算（重考期還沒開始）',EVENTS.habitCount({key:'retake:study'})===0);
   GM.choose=choose0;
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

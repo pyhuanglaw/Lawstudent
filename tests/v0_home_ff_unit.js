@@ -5,6 +5,9 @@
 //   4. 沒事的三天：到第三天早上 08:30，中間的手機訊息照收；
 //   5. 上限 8/29 早上（轉法律系那天）；
 //   6. 從家裡選單真的選「快轉」→「過三天」會跳。
+//   7. 時段（使用者 21:5x）：上午、下午、晚上各一件，「讀書」「休息」做到時段結束（不能一直讀）；22:30 以後只能睡；有「看手機」；重考期交往中有「約可昕出門」；
+//   8. 行事曆：6/8 報名衝刺班以後每一晚（一三五 19:00）都排進行事曆；手機「這週」顯示行事曆；快轉停在衝刺班出發前、4/19 模擬考那天、7/10 考前一晚前；
+//   9. 放榜固定考上台大法律（不看讀了幾次書）。
 // 修改前：沒有 HOME.y0ffOpts（第 1 項就失敗）。用法：node tests/v0_home_ff_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -64,5 +67,24 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   econHome('2024-10-28',9); picks=['快轉','過三天']; const r=HOME.loop?HOME.loop(GM):null; const d0=G.day;
   await new Promise(res=>setTimeout(res,50));
   check('6. 家裡選單有「快轉」、選「過三天」會跳',opts.some(o=>o.includes('快轉'))&&opts.some(o=>o.includes('過三天')),JSON.stringify(opts.slice(0,3)));
+
+  // 7：時段
+  econHome('2025-03-03',9); const sl=HOME.y0Slot(G); G.hour=14; const s2=HOME.y0Slot(G); G.hour=20; const s3=HOME.y0Slot(G); G.hour=22.8; const s4=HOME.y0Slot(G);
+  check('7. 時段：上午到 12:00、下午到 18:00、晚上到 22:30；22:30 以後沒有',sl.end===12&&s2.end===18&&s3.end===22.5&&s4===null,JSON.stringify([sl,s2,s3,s4]));
+  econHome('2025-03-04',9); G.flags.RT_DAY={day:G.day,type:'free'}; picks=['讀書']; opts=[]; const Hh=HOME.rec(G); await HOME.loop(GM).catch(()=>{}); 
+  check('7. 選「讀書」：讀到 12:00（一個時段一件）',opts[0]&&opts[0].includes('讀書')&&opts[0].includes('休息')&&opts[0].includes('看手機'),JSON.stringify(opts[0]));
+  { econHome('2025-03-04',9); G.flags.RT_DAY={day:G.day,type:'free'}; const before=G.hour; const o=opts; check('7. 重考期、交往中、今天沒約：有「約可昕出門」',HOME.y0DateOpen(G)); G.flags.RT_DAY={day:G.day,type:'study'}; check('7. 讀書日：沒有「約可昕出門」',!HOME.y0DateOpen(G)); }
+  // 8：衝刺班
+  econHome('2025-06-08',21.5); G.flags.dating_kexin=true; STORY.phoneRules(GM); PHONE.tick(G); STORY.phoneRules(GM);
+  const crm=OUT.rec(G).filter(q=>/^y0_crm_/.test(q.id)).map(q=>CALENDAR.dateOf(q.day).key);
+  check('8. 6/8 報名以後：衝刺班每一晚都排進行事曆（6/9～7/9 一三五）',crm.length>=13&&crm.includes('2025-06-09')&&crm.includes('2025-07-09')&&crm.every(k=>[1,3,5].includes(CALENDAR.dateOf(STORY.dayOfKey(k)).wd)),JSON.stringify(crm));
+  { const html=CLS.weekHTML(G); check('8. 手機「這週」：休學在家顯示行事曆（有衝刺班）',/行事曆/.test(html)&&/衝刺班/.test(html),html.slice(0,120)); }
+  econHome('2025-06-10',9); G.flags.dating_kexin=true; G.flags.Y0_CRAM_PLANNED=false; PHONE.at(G,D('2025-06-08'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y0_crm_ask'); PHONE.tick(G); STORY.phoneRules(GM);
+  const w8=await HOME.y0Jump(GM,T(G.day+7,8.5));
+  check('8. 快轉停在衝刺班出發前（6/11 週三 19:00 以前）',G.day===D('2025-06-11')&&G.hour<19&&G.hour>=18,JSON.stringify({w8,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
+  econHome('2025-04-15',9); const w9=await HOME.y0Jump(GM,T(G.day+7,8.5));
+  check('8. 快轉停在 4/19 模擬考那天以前',T(G.day,G.hour)<=T(D('2025-04-19'),15.75),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
+  // 9：放榜固定考上
+  { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上台大法律（榜單那一句不看讀書次數）',/（臺大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -1327,7 +1327,9 @@ const STORY = (function(){
        這三晚 19:00～22:00 不排可昕的讀書日、邀約，她的訊息改到 22:10 以後（S.cramNight）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d8=S.dayOfKey('2025-06-08'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
       if(d8!=null&&F.dating_kexin&&(G.day>d8||(G.day===d8&&G.hour>=21))&&G.day<=d8+1&&!PHONE.sent(G,'y0_crm_ask')) PHONE.at(G,d8,21,[K('你報了沒。'),Y('報了。明天開始。'),K('好。'),K('我不去。你上完回來講給我聽，等於我上了半價。')],'y0_crm_ask');
-      if(S.cramNight(G)&&G.hour<19.25&&!OUT.get(G,'y0_crm_'+G.day)) OUT.plan(G,{id:'y0_crm_'+G.day,ev:'ev_y0_cram_class',day:G.day,h:19,late:0.25,place:'衝刺班',title:'衝刺班 19:00～22:00',travel:'捷運 約 30 分鐘',travelH:0.5,no:'這次不去'}); }
+      const crm=d=>({id:'y0_crm_'+d,ev:'ev_y0_cram_class',day:d,h:19,late:0.25,place:'衝刺班',title:'衝刺班 19:00～22:00',travel:'捷運 約 30 分鐘',travelH:0.5,no:'這次不去'});
+      if(S.cramNight(G)&&G.hour<19.25&&!OUT.get(G,'y0_crm_'+G.day)) OUT.plan(G,crm(G.day));
+      if(PHONE.sent(G,'y0_crm_ask')&&!F.Y0_CRAM_PLANNED){ F.Y0_CRAM_PLANNED=true; const b=S.dayOfKey('2025-07-09'); for(let d=G.day+1;b!=null&&d<=b;d++) if(S.cramNight(G,d)&&!OUT.get(G,'y0_crm_'+d)) OUT.plan(G,crm(d)); } }   /* 報名以後每一晚都排進行事曆（使用者 21:5x：衝刺班要真的出現在行事曆上）*/
     /* E35 考完以後的約定（AA_154 A47；私訊 BB-B BB_104 8b-18「考完以後」）：E35_PLAN 有值＝7/14（一）20:00 可昕私訊兩則（不用回）；7/19（六）摘要日在 events.js（ev_y0_e35s）*/
     if(S.isEcon(G)&&F.E35_PLAN){ const d=S.dayOfKey('2025-07-14'), K=t=>({th:'p:kexin',from:'kexin',text:t}), M={sea:['你說考完要去海邊。我查好了。','星期六，客運早上八點。西瓜我負責。'],
         sleep:['你說考完要睡一整天。我查好了。','星期六整天下雨。很適合。……我說過，我也要睡。'],shop:['巷子那家我查好了。','星期六中午有開。我訂位了，兩個人。']}[F.E35_PLAN];

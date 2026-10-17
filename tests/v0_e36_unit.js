@@ -61,8 +61,8 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   run(23.5,23.6); const P=grp(); check('3. 23:30「走啦」群組：品妤 📷 宵夜攤＋「放榜紀念。」、韋綸「這張我要設成桌布。」、阿勳「……我眨眼了。」',P.includes('📷（宵夜攤，大家擠在一張桌子）')&&P.includes('放榜紀念。')&&P.includes('這張我要設成桌布。')&&P.includes('……我眨眼了。'),JSON.stringify(P));
   check('3. 一次',!EVENTS.check(e)&&!EVENTS.check(eh));
   // 4. 沒出門、在家：20:30 帶到場
-  back(); G.hour=20; said=[]; script=['在家讀書','照樣','四年後','到時候']; await loop(); L=said.map(x=>x.t);
-  check('4. 在家讀書到 22:00 → 20:30 以後的那一輪：帶到場（旁白「（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）」）→ 原文；compete、later',L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('好。輸的人，請一年的宵夜。')&&G.flags.E36_REPLY==='compete'&&G.flags.E36_PACT==='later'&&L.includes('……你說的喔。')&&L.includes('你們一直吃到攤子收攤。'),JSON.stringify(L));
+  back(); G.hour=20; said=[]; script=['讀書','照樣','四年後','到時候'];   /* 時段制（使用者 21:5x）：晚上讀到 22:30 */ await loop(); L=said.map(x=>x.t);
+  check('4. 在家讀書（晚上讀到 22:30）→ 20:30 以後的那一輪：帶到場（旁白「（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）」）→ 原文；compete、later',L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('好。輸的人，請一年的宵夜。')&&G.flags.E36_REPLY==='compete'&&G.flags.E36_PACT==='later'&&L.includes('……你說的喔。')&&L.includes('你們一直吃到攤子收攤。'),JSON.stringify(L));
   // 5. 在家先睡：20:30 手機震醒 → 帶到場
   back(); G.hour=19; said=[]; script=['睡覺','照樣','陪妳爬','妳想怎麼做']; await loop(); L=said.map(x=>x.t);
   check('5. 19:00 在家睡覺 → 20:30 被叫醒（同一天）→ 帶到場；climb、ask「我想每次見面，都不是因為剛好。」',G.day===D&&L.includes('（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）')&&L.includes('你是台大的。……好。週末的話可以。')&&G.flags.E36_REPLY==='climb'&&G.flags.E36_PACT==='ask'&&L.includes('我不想每次都看誰剛好有空才見。'),JSON.stringify(L)+' '+G.day+' '+G.hour);

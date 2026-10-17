@@ -122,7 +122,9 @@ const HOME=(function(){
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:'從家裡出發　'+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }   /* A46 ②：從家裡出發一律 30 分鐘（OUT.trip）*/
     for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
     if(h<22) O.push({t:'去學校',hint:'捷運＋公車 約 30 分鐘',k:'school'});
-    O.push({t:'在家讀書',hint:'兩小時',k:'study'});
+    { const sl=S.y0Slot(G); if(sl){ O.push({t:'讀書',hint:sl.name+'：讀到 '+hm(sl.end),k:'study',to:sl.end}); O.push({t:'休息',hint:'到 '+hm(sl.end),k:'rest',to:sl.end}); } }   /* 時段制（使用者 21:5x）：上午、下午、晚上各做一件，做完到下一個時段 */
+    if(S.y0DateOpen(G)) O.push({t:'約可昕出門',hint:'今天 '+hm(Math.max(10,Math.ceil(h+0.5)))+' 以後',k:'date'});
+    O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'});
     if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'});
     if(S.y0ffOpts(G)) O.push({t:'快轉',hint:'到下一個有事的日子／過三天／過一週',k:'ff'});   /* D99：休學在家十個月，原本只能一天一天睡 */
     O.push({t:'睡覺',hint:'隔天早上在家醒來',k:'sleep'});
@@ -134,7 +136,10 @@ const HOME=(function(){
       return false; }
     if(o.k==='inv'){ await S.leaveTo(GM,o.P); return false; }
     if(o.k==='school'){ await S.toSchool(GM); return false; }
-    if(o.k==='study'){ if(await confirmMiss(GM,G.hour+2)){ GM.advance(2); const a=DK('2025-02-15'), b=DK('2025-07-10'); if(a!=null&&b!=null&&G.day>=a&&G.day<=b&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study');   /* AA_224 6-1：重考讀書從 2/15 開始 */ } return H.at; }
+    if(o.k==='study'){ if(await confirmMiss(GM,o.to)){ GM.advance(Math.max(0.5,o.to-G.hour)); const a=DK('2025-02-15'), b=DK('2025-07-10'); if(a!=null&&b!=null&&G.day>=a&&G.day<=b&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study');   /* AA_224 6-1：重考讀書從 2/15 開始 */ } return H.at; }
+    if(o.k==='rest'){ if(await confirmMiss(GM,o.to)){ GM.advance(Math.max(0.5,o.to-G.hour)); if(GM.energy) GM.energy(15); } return H.at; }
+    if(o.k==='date'){ if(typeof STORY!=='undefined'&&STORY.rtPlanPlay) STORY.rtPlanPlay(G); if(GM.toast) GM.toast('和可昕約好了：今天出門。',2600); return H.at; }
+    if(o.k==='phone'){ if(GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(null); if(typeof ADV!=='undefined') ADV.begin({background:bg()}); } return H.at; }
     if(o.k==='eat'){ await S.dinner(GM); return H.at; }
     if(await confirmMiss(GM,24+8.5)){ await S.sleep(GM); } return H.at; }   /* 醒來的下一輪問起床選單（重考期，A39）*/
   async function winterRound(GM){ const G=GM.G, H=S.rec(G); const ev=S.homeEvent(G); if(ev){ await EVENTS.run(ev); if(G.flags.Y0_WINTER_DONE){ await S.winterEnd(GM); return false; } if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); return H.at; }
@@ -233,6 +238,21 @@ const HOME=(function(){
   S.breakArrive=async function(GM){ const G=GM.G, now=T(G.day,G.hour), P=S.breakPts(G).filter(p=>Math.abs(T(p.day,p.h)-now)<1e-6);
     for(const p of P){ if(p.k==='lottery'||p.k==='lottery3'){ phoneTick(GM); await GM.say(null,p.k==='lottery'?'換一層樓，換一個房間。':'換一層樓，換一個房間。三年，第三個房間。'); }   /* AA_183 3-2（大二）；AA_170 第 2 節（大三，2026-10-16 改「換一層樓」）*/
       if(p.k==='sum'&&G.day===DK('2026-07-20')&&hasJob(G)) await GM.say(null,'暑假的班照排。你從家裡搭捷運去上班。'); } };   /* 大一暑假 7/20：大一下有打工的玩家多一句（AA_183 3-2）*/
+  /* ===== 經濟系休學在家的時段與序章行事曆（使用者 2026-10-17 21:5x：「退宿後到法律系開學，改成在家生活＋重要日期推進」）=====
+     時段：上午（到 12:00）、下午（到 18:00）、晚上（到 22:30）。「讀書」「休息」做到這個時段結束（一個時段一件；22:30 以後只能睡覺）。
+     行事曆：照日期一定會有的（衝刺班每一晚、4/19 模擬考那天、7/10 考前一晚、8/13 放榜、8/22 法律系宿營、8/29 搬進法律系宿舍）＋已經排定的出遊、答應的邀約；
+     手機「今天」「這週」顯示（classes3d.js），快轉停在它們前面。名稱是系統字，不是劇情台詞。*/
+  S.y0Slot=function(G){ const h=G.hour; if(h<5) return null; if(h<11.5) return {name:'上午',end:12}; if(h<17.5) return {name:'下午',end:18}; if(h<22) return {name:'晚上',end:22.5}; return null; };
+  S.y0DateOpen=function(G){ const F=G.flags||{}; if(!F.dating_kexin||typeof STORY==='undefined'||!STORY.retakeOn||!STORY.retakeOn(G)||G.hour>=16) return false; if(typeof OUT!=='undefined'&&OUT.get&&OUT.get(G,'rt_play_'+G.day)) return false; const r=F.RT_DAY; return !(r&&r.day===G.day&&r.type==='study'); };   /* 重考期（2/15～7/10）、交往中、今天還沒約、不是讀書日 */
+  S.Y0_FIXED=[['2025-04-19',15.75,'模擬考那天（總圖外）'],['2025-07-10',21,'考試前一晚'],['2025-08-13',10,'放榜'],['2025-08-22',8,'法律系迎新宿營'],['2025-08-29',15,'搬進法律系宿舍']];
+  S.y0Cal=function(G,days){ days=days||14; const out=[], now=T(G.day,G.hour), end=T(G.day+days,24);
+    for(const [k,h,t] of S.Y0_FIXED){ const d=DK(k); if(d!=null&&T(d,h)>=now-1&&T(d,h)<end) out.push({day:d,h,t,fixed:true}); }
+    if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned'&&T(q.day,q.h)>=now-1&&T(q.day,q.h)<end) out.push({day:q.day,h:q.h,t:q.title||q.place||'出遊'});
+    if(Array.isArray(G.invites)) for(const iv of G.invites) if(iv.state==='accepted'&&T(iv.day,iv.h)>=now-1&&T(iv.day,iv.h)<end){ const P=typeof INV!=='undefined'&&INV.place?INV.place(iv.place)||{}:{}; out.push({day:iv.day,h:iv.h,t:'和'+(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||'')}); }
+    return out.sort((a,b)=>T(a.day,a.h)-T(b.day,b.h)); };
+  S.y0CalHTML=function(G,days){ const L=S.y0Cal(G,days), esc=t=>String(t).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c]);
+    return '<div class="item"><b>行事曆</b><span class="muted">（接下來 '+(days||14)+' 天）</span>'+(L.length?L.map(q=>'<div style="margin-top:4px">'+esc(dateLabel(T(q.day,q.h)))+'　'+esc(q.t)+'</div>').join(''):'<div class="muted" style="margin-top:4px">沒有排定的事。</div>')+'</div>'; };
+  S.y0FixedNext=function(G,now){ let best=null; for(const [k,h] of S.Y0_FIXED){ const d=DK(k); if(d==null) continue; const x=T(d,h)-0.5; if(x>now+1e-6&&(best==null||x<best)) best=x; } return best; };   /* 快轉停在固定日子前 30 分鐘 */
   /* ===== 經濟系休學在家的快轉（D99 第一優先，2026-10-17）：10/19 退宿到 8/29 十個月都住家裡，家裡選單原本只能一天一天「睡覺」。
      選項照法律系放假的快轉（到下一個有事的日子／過三天／過一週／不用了）。每 15 分鐘看一次，有下面任何一件就停在那裡：家裡要演的事件（trigger home）、
      固定核心的電話（STORY.homeCall）、該出發的出遊、當面約、手機收到要回的訊息（有選項的，不讓玩家錯過邀約）；約好的出遊、當面約照 breakNext 提早停。
@@ -244,7 +264,7 @@ const HOME=(function(){
     const dn=Math.min(T(G.day+30,8.5),end), d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:'有事就停（最多到 '+dateLabel(dn)+'）',to:dn},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
   S.y0Jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); let n=0, mo=null, why=null, tt=T(G.day,G.hour); const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0;
-    { const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; }
+    { const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; const fx=S.y0FixedNext(G,tt); if(fx!=null&&fx<t) t=fx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
       if(Math.abs(tt-Math.round(tt))<1e-6){
         if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
