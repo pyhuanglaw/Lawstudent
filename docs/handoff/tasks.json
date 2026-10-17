@@ -10021,8 +10021,8 @@
    "title": "經濟系那年祐廷的宿舍房間（第 0 間）：沿用 203 的模型，換房號、窗景，室友阿勳的床（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "窗景已交付 DL-LW2-POTHOS-412（639f0188：dorm_room412_day／_night.webp）；LAWWW：dormSet 412 時 room() view 換 dorm_room412、房號牌 412（dorm_hall）。室友阿勳的床照 AA_208（四人房 412：阿勳 R2、唐睿 R1、韋綸 L1）",
+   "status": "已整合待測試",
+   "next": "窗景 dorm_room412_day／_night 已接（zones3d.js dorm：經濟系 view＝dorm_room412；v0_dorm_props_unit 第 4 項）；門牌 412 原本就有（dorm3d.js homeOf）。等瀏覽器看經濟系 412 白天、晚上的窗外",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -10042,7 +10042,10 @@
     "spec": "AA_145 §5",
     "acceptance": "GLB 或貼圖＋說明（哪些節點換）；遊戲內截圖",
     "ack": "DELIVERED"
-   }
+   },
+   "sha": [
+    "639f0188"
+   ]
   },
   {
    "id": "WIP-02-BIKE",
@@ -14381,6 +14384,25 @@
     "DATE-S2",
     "DATE-S6"
    ]
+  },
+  {
+   "id": "DORM-Y2-312",
+   "title": "大二房間門牌 112→312（AA_177 改字、AA_208 7-1：三樓、看得到另一邊的樹）：dorm3d.js HOMES.y2 plate 112（一樓）要改；宿舍走廊模型只有兩層，照「房號只是門牌」的做法選一扇門＋312 窗景",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "大二上開學",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   }
   }
  ]
 }

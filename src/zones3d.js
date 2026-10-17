@@ -1324,11 +1324,11 @@ const Z3 = (function(){
   // ---------- 宿舍房間 ----------
   /* 宿舍房間＝台大四人房（DORM-LOFT-L；LAWWW2-B a09ebf4d，使用者 2026-10-17 01:0x 照片、01:3x「宿舍ok」）：上舖床、下面書桌四組（左右各兩組）、進門右邊洗手間、窗在後牆中間。
      配置全部讀 DORM_ROOM（src/data/dorm_room_layout.js，和 dorm_room4.glb 同一份）；玩家是 L2（左邊靠門那組）。203（法律系）＝祐廷、阿凱 R2、柏翰 R1、阿哲 L1；412（經濟系）＝祐廷、阿勳 R2、唐睿 R1、韋綸 L1（AA_208）。
-     年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（韋綸、唐睿 9/2 才搬進來）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
+     年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（韋綸、唐睿 9/2 才搬進來）。窗景：法律系 203＝dorm_room、經濟系 412＝dorm_room412（四樓、往東偏，ART-V0-DORM）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
   const DORM_SETS={ '203':{hide:/^(Y412_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, '412':{hide:/^(Y203_|ROOMMATE_KAI$|NAMETAG_)/}, '412_first_night':{hide:/^(Y203_|ROOMMATE_KAI$|Y412_TANGRUI$|Y412_WEILUN$|BEDDING_R1$|BEDDING_L1$)/} };
   function dormSetKey(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return F.E412_MOVEIN?'412':'412_first_night'; return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
-    const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:'dorm_room',viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
+    const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:econ?'dorm_room412':'dorm_room',viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     for(const b of R.blocks) nav.blockRect((b.x[0]+b.x[1])/2,(b.z[0]+b.z[1])/2,b.x[1]-b.x[0],b.z[1]-b.z[0],0,0);   /* 四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間 */

@@ -6287,7 +6287,7 @@
    "task": "ART-04",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall"
+   "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall｜412 窗景已整合（LAWWW-C 本 commit）；黃金葛（ART-04）還沒接"
   },
   {
    "id": "DL-AA-AB215",
