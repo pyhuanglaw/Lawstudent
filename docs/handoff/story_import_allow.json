@@ -415,6 +415,21 @@
    "approvedBy": "AA-C 2026-10-17（第②級 AA 定稿，可以實作）：第 1～4、6、7 節進 src/data/vac_activities.js（C02 營隊隊輔、C03 日語課、C05 日本五天、VA-02／05／11）；第 5 節柏翰週四總圖另做",
    "task": "VAC-C08-12",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
+   "sha": "89835b3a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js",
+   "task": "BB203-CONFESS-1017",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "8fdcc961",
+     "approvedBy": "AA-C 2026-10-17 11:47Z 交付（第②級 AA 定稿；BB_203 使用者確認，使用者 11:40 直接對 LAWWW-C「告白只在學期末」）：第 0～7、9 節進 src/data/termend_lines.js"
+    }
+   ],
+   "note": "AA-C 12:39：台詞不變（89835b3a）；語彤年數照實際經過（0026c2bc，AA_259）；門檻說明改 30（BB_203 303fe766）"
   }
  ]
 }

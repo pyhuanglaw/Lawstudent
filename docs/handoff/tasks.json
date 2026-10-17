@@ -14993,9 +14993,9 @@
    "title": "AA_241 大一暑假：營隊隊輔 7/1～5、以安日語課 7/7～7/23 週二四、日本五天 8/24～28（阿凱）、小語營隊照片、柏翰週四總圖、返鄉訊息、交往中的反應",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "進行中",
    "priority": "P1",
-   "next": "AA_241（e74e2577）；等 HOLIDAY-SYS。大一寒假 AA_204（帳號 B 4048e3ec 起，deliveries 未整合）一起接",
+   "next": "【12:5x LAWWW-C c552738d】C02 營隊隊輔、C03 日語課、C05 日本五天已做（vac3d.js）；還沒：AA_241 其餘場景對照｜AA_241（e74e2577）；等 HOLIDAY-SYS。大一寒假 AA_204（帳號 B 4048e3ec 起，deliveries 未整合）一起接",
    "first": {
     "term": "Y1S2",
     "week": 17,
@@ -15008,8 +15008,6 @@
    },
    "source": "AA-C 10:27",
    "authorized": "AA 定稿（AA_197 第②級）",
-   "pausedReason": "等 HOLIDAY-SYS",
-   "resumeWhen": "16 週引擎＋假期系統完成",
    "xai": {
     "spec": "AA_241 @e74e2577",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -15277,9 +15275,9 @@
    "title": "學期末聚餐與寒暑假邀約（取代重訪日）：第 16 週最後兩天到放假第 1 週 0～2 次；邀約人照這學期常接觸、玩家也可以約；話題帶出活動卡 C01～C13、揪團、以安假期計畫，接了進行事曆；照年級／畢業／重考／交換／所在地決定能不能來；不強制、不做 CG",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "AA_249（AA-C c0454eb9）；和 HOLIDAY-SYS／VAC 一起設計（VAC-L1 已交，資料結構要補聚餐 → 邀約 → 行事曆）。重訪日 1 三個事件已停用（retired、S.REVISIT_OFF）；承恩換座位改獨立事件《直屬學弟的咖啡》、畢業傍晚改一般聚會",
+   "next": "【12:5x LAWWW-C】和 BB203-CONFESS-1017 同一套做完：src/termend3d.js＋src/data/termend_lines.js（時段、contact 分數、心意／朋友／保底邀約、只接一個、AA_250 0-1／10-1 開場、大一上～大四上話題池、飯桌一句、可昕、女朋友學期末約會、不在台灣的人不約）；tests/termend_unit.js 全過。還沒：大四下畢業傍晚、瀏覽器流程｜AA_249（AA-C c0454eb9）；和 HOLIDAY-SYS／VAC 一起設計（VAC-L1 已交，資料結構要補聚餐 → 邀約 → 行事曆）。重訪日 1 三個事件已停用（retired、S.REVISIT_OFF）；承恩換座位改獨立事件《直屬學弟的咖啡》、畢業傍晚改一般聚會",
    "first": {
     "term": "Y0S1",
     "week": 16,
@@ -15292,8 +15290,6 @@
    },
    "source": "使用者對 AA-C 10:5x",
    "authorized": "使用者（下一版發布範圍內）",
-   "pausedReason": "跟 HOLIDAY-SYS 一起做",
-   "resumeWhen": "16 週引擎完成",
    "xai": {
     "spec": "AA_249 @c0454eb9",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -15363,9 +15359,9 @@
    "title": "AA_250 學期末聚餐話題池（大一上～大四上八份＋大四下畢業傍晚）、第 9 節可昕每學期末約會、新活動卡 C14 事務所參觀、C15 朋友約的單日小事（AA_199 7-6）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "AA_250 @12c46007、9b721b36；接 AA249-TERMEND（跟 HOLIDAY-SYS 一起做）",
+   "next": "【12:5x LAWWW-C】和 BB203-CONFESS-1017 同一套做完：src/termend3d.js＋src/data/termend_lines.js（時段、contact 分數、心意／朋友／保底邀約、只接一個、AA_250 0-1／10-1 開場、大一上～大四上話題池、飯桌一句、可昕、女朋友學期末約會、不在台灣的人不約）；tests/termend_unit.js 全過。還沒：大四下畢業傍晚、瀏覽器流程｜AA_250 @12c46007、9b721b36；接 AA249-TERMEND（跟 HOLIDAY-SYS 一起做）",
    "first": {
     "term": "Y0S1",
     "week": 16,
@@ -15378,8 +15374,6 @@
    },
    "source": "AA-C 10:58、11:00",
    "authorized": "AA 定稿（使用者 AA_249）",
-   "pausedReason": "等 HOLIDAY-SYS",
-   "resumeWhen": "16 週引擎＋假期系統",
    "xai": {
     "spec": "AA_250 @12c46007／9b721b36",
     "branch": "claude/magical-albattani-bk7b4n",
