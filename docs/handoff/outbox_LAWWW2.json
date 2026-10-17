@@ -198,19 +198,21 @@
     "tools/blender/env_second/us_cars.py",
     "assets/models/env/second_ai/us_cars.glb",
     "assets/models/env/second_ai/us_cars.json",
-    "docs/art-rebuild/second_ai/test_shots/us_cars/",
     "tools/blender/env_second/us_community_layout_gen.py",
     "assets/models/env/second_ai/us_community.layout.json",
     "tools/blender/env_second/us_community.py",
     "assets/models/env/second_ai/us_community.glb",
-    "assets/models/env/second_ai/us_community.json"
+    "assets/models/env/second_ai/us_community.json",
+    "tools/blender/env_second/textures/gen/us_siding_*.png",
+    "docs/art-rebuild/second_ai/test_shots/us_community/",
+    "LICENSES.md"
    ],
-   "state": "WIP",
-   "remaining": "汽車五款第二版做法完成（渲染看過、輪廓乾淨）；社區戶外照使用者 05:2x 第二張社區照片改：兩層樓、橄欖灰褐／淺米色壁板、樓梯間入口山牆、紅磚柱＋紅色社區牌（空白）、入口白鐵欄杆、深灰柏油；渲染驗收、八項、README",
-   "next": "LAWWW2-C 渲染驗收→交件（README＋八項＋接法）",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "遊戲內截圖（等 LAWWW 接成區域 us_outside）；季節（冬天版）等 AA_213；車的數量／降階看遊戲效能",
+   "next": "LAWWW 照 us_community.layout.json 建區域 us_outside（blocks、spawn_home、to_home→us_apartment、exit_west→us_bus_stop、cars 用 us_cars.glb 節點上色）；接好後 LAWWW2 拍遊戲內截圖",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   }
  ]
 }

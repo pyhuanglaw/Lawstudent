@@ -101,7 +101,7 @@ def build(name, C, xoff):
         bottom.append((wz + ra + 0.02, yb0))
     bottom.append((zof(1.0) - 0.02, yb0 + 0.06))
     top = []
-    ts = [i / 40 for i in range(41)]
+    ts = sorted(set([i / 40 for i in range(41)] + [st[0] for st in ST]))   # 每一站都要在（擋風玻璃的起點不能被跳過）
     for t in reversed(ts):
         top.append((zof(t), interp(ST, t, 1)))
     # 車頭、車尾的面往內收一點點（斜的保險桿）
@@ -110,10 +110,13 @@ def build(name, C, xoff):
     extrude_profile(paint, prof, -hw, hw, bevel=min(0.11, W * 0.06), segs=4)
     # 平面上車頭、車尾的角收圓：越靠兩端 x 縮越多
     for v in paint.bm.verts:
-        z = -v.co.y; u = abs(z) / (Lc / 2); f = 1.0 - 0.10 * max(0.0, (u - 0.82) / 0.18) ** 1.6
+        z = -v.co.y; u = abs(z) / (Lc / 2); q = max(0.0, min(1.0, (u - 0.68) / 0.32)); f = 1.0 - 0.09 * q * q * (3 - 2 * q)
         v.co.x *= f
+        t = (z + Lc / 2) / Lc; ytop = interp(ST, min(max(t, 0.0), 1.0), 1)
+        if v.co.z > ytop - 0.03 and 0.06 < t < 0.94: v.co.z += 0.035 * max(0.0, 1.0 - (v.co.x / hw) ** 2)   # 引擎蓋、後車廂中間微微拱起（不是平板）
     # ---- 車窗段：腰線上的側面輪廓（擋風玻璃、車頂、後擋），擠出後上面往內收（tumblehome）----
-    gts = [t for t in ts if interp(ST, t, 2) is not None and interp(ST, t, 2) > interp(ST, t, 1) + 0.03]
+    tr0 = min(st[0] for st in ST if st[2] is not None); tr1 = max(st[0] for st in ST if st[2] is not None)
+    gts = [t for t in ts if tr0 <= t <= tr1 and interp(ST, t, 2) is not None and interp(ST, t, 2) > interp(ST, t, 1) + 0.03]   # 只在有車頂高度的站之間（之前 None 的鄰站會內插出一段平台）
     if gts:
         ta, tb = gts[0], gts[-1]
         gp = [(zof(ta) - 0.01, interp(ST, ta, 1) - 0.01), (zof(tb) + 0.01, interp(ST, tb, 1) - 0.01)]
@@ -124,6 +127,7 @@ def build(name, C, xoff):
         yb_ = min(interp(ST, t, 1) for t in gts); yr_ = max(interp(ST, t, 2) for t in gts); rw = max(st[4] for st in ST)
         for v in gm.bm.verts:
             y = v.co.z; u = max(0.0, min(1.0, (y - yb_) / max(yr_ - yb_, 1e-3))); v.co.x *= 1.0 - (1.0 - rw / 0.95) * u ** 1.4
+            if u > 0.96: v.co.z += 0.03 * max(0.0, 1.0 - (v.co.x / (hg * rw / 0.95)) ** 2)   # 車頂中間拱起
         paint.add_bm(gm.bm); gm.bm.free()
         # 玻璃：側窗（前、後；中間 B 柱）、擋風玻璃、後擋——比車窗段表面外面 3 mm 的面片
         def width_at(y): u = max(0.0, min(1.0, (y - yb_) / max(yr_ - yb_, 1e-3))); return hg * (1.0 - (1.0 - rw / 0.95) * u ** 1.4)
@@ -146,6 +150,25 @@ def build(name, C, xoff):
                 H1 = [bm.verts.new(g2b(side * (width_at(y) + 0.004), y, zof(t))) for (t, y) in hi]
                 for k in range(n):
                     q = (L1[k], L1[k + 1], H1[k + 1], H1[k]); bm.faces.new(q if side > 0 else q[::-1])
+        for p in mids:                                                     # B 柱（中間的柱子）貼黑色飾板（真車多半是黑的）
+            for side in (1, -1):
+                bm = glass.bm; n = 4; rows = []
+                for k in range(n + 1):
+                    t = p[0] + (p[1] - p[0]) * k / n
+                    y0_ = interp(ST, t, 1) + 0.05; y1_ = interp(ST, t, 2) - 0.06
+                    rows.append((t, y0_, y1_))
+                Vb = [(trim.bm.verts.new(g2b(side * (width_at(y0_) + 0.005), y0_, zof(t))), trim.bm.verts.new(g2b(side * (width_at(y1_) + 0.005), y1_, zof(t)))) for (t, y0_, y1_) in rows]
+                for k in range(n):
+                    q = (Vb[k][0], Vb[k + 1][0], Vb[k + 1][1], Vb[k][1]); trim.bm.faces.new(q if side > 0 else q[::-1])
+        # 車門接縫：A 柱下、B 柱下、後門後緣（細深色線，腰線到側裙）
+        seams = [A_[0] + 0.01] + [(p[0] + p[1]) / 2 for p in mids] + ([Cc[1] - 0.02] if len(mids) else [])
+        for t in seams:
+            if not (0.12 < t < 0.9): continue
+            ylo = yb0 + 0.12; yhi = interp(ST, t, 1) - 0.02
+            for side in (1, -1):
+                xx = side * (hw + 0.002)
+                q = [g2b(xx, ylo, zof(t) - 0.004), g2b(xx, ylo, zof(t) + 0.004), g2b(xx, yhi, zof(t) + 0.004), g2b(xx, yhi, zof(t) - 0.004)]
+                vs = [trim.bm.verts.new(c) for c in q]; trim.bm.faces.new(vs if side > 0 else vs[::-1])
         for (t0, t1, front) in ((A_[0], tb, True), (ta, Cc[1], False)):   # 擋風玻璃（A 柱 → 車頂前緣）、後擋（車頂後緣 → C 柱）
             n = 8; rows = []
             for k in range(n + 1):
@@ -165,7 +188,8 @@ def build(name, C, xoff):
     trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zfr - 0.20, zfr - 0.01, r=0.04, seg=2)   # 前下護板（黑）
     trim.rbox(-hw * 0.88, hw * 0.88, clr + 0.04, clr + 0.18, zre + 0.01, zre + 0.20, r=0.04, seg=2)   # 後下護板
     yh = interp(ST, 0.975, 1) - 0.04
-    trim.rbox(-W * 0.2, W * 0.2, yh - 0.24, yh - 0.05, zfr - 0.05, zfr - 0.02, r=0.02, seg=1)         # 水箱罩
+    trim.rbox(-W * 0.22, W * 0.22, yh - 0.26, yh - 0.04, zfr - 0.05, zfr - 0.015, r=0.03, seg=2)        # 水箱罩
+    for k in range(3): trim.box(-W * 0.2, W * 0.2, yh - 0.22 + k * 0.06, yh - 0.205 + k * 0.06, zfr - 0.015, zfr - 0.005)   # 水箱罩橫條
     head = Mesh(name + '_headlights', M['head']); tail = Mesh(name + '_taillights', M['tail']); chrome = Mesh(name + '_chrome', M['chrome'])
     for s_ in (1, -1):
         head.rbox(s_ * W * 0.31 - 0.16, s_ * W * 0.31 + 0.16, yh - 0.13, yh - 0.02, zfr - 0.06, zfr - 0.025, r=0.02, seg=1)

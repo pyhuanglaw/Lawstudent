@@ -23,7 +23,7 @@ FLOOR_H, FLOORS = 2.9, 2   # 使用者 2026-10-17 照片：兩層樓
 BUILDINGS = [
     {'id': 'A', 'cx': -25.0, 'cz': -22.5, 'len': 28.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 3, 'breezeway': [-4.0], 'tint': '#777566'},
     {'id': 'B', 'cx': 8.0, 'cz': -22.5, 'len': 32.0, 'dep': 13.0, 'yaw': 0.0, 'gables': 4, 'breezeway': [-8.0, 6.0], 'tint': '#6d6c5f', 'home': True},
-    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#9a927f'},
+    {'id': 'C', 'cx': 33.5, 'cz': 6.0, 'len': 26.0, 'dep': 13.0, 'yaw': -math.pi / 2, 'gables': 3, 'breezeway': [2.0], 'tint': '#8c8572'},
 ]
 # 停車場：柏油範圍、兩排車位（車頭朝車道）、車道
 LOT = {'x0': -34.0, 'x1': 24.0, 'z0': -10.0, 'z1': 10.0}
@@ -50,8 +50,10 @@ bx = HOME['cx'] + HOME['breezeway'][1]; front_z = HOME['cz'] + HOME['dep'] / 2
 L = {'version': 1, 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1}, 'floorH': FLOOR_H, 'floors': FLOORS,
      'buildings': BUILDINGS, 'lot': LOT, 'stall': {'w': STALL_W, 'd': STALL_D, 'aisle': AISLE}, 'stalls': STALLS, 'cars': CARS,
      'sidewalk': {'w': 1.8},
-     'spawn_home': {'x': round(bx + 1.6, 3), 'z': round(front_z + 1.6, 3), 'yaw': 0.0, 'note': '213 樓梯平台往下的樓梯口（us_apartment 的 exit to us_outside）'},
-     'to_home': {'x': round(bx + 1.6, 3), 'z': round(front_z + 0.9, 3), 'r': 1.0, 'label': '上樓（213）', 'to': 'us_apartment'},
+     'spawn_home': {'x': round(bx, 3), 'z': round(front_z + 1.5, 3), 'yaw': 0.0, 'note': '213 樓梯平台往下的樓梯口（us_apartment 的 exit to us_outside）：樓梯間在正中間一跑直上二樓，樓梯腳在樓梯間前緣；出生點在入口白鐵欄杆外面、面向停車場'},
+     'to_home': {'x': round(bx, 3), 'z': round(front_z - 0.4, 3), 'r': 1.0, 'label': '上樓（213）', 'to': 'us_apartment'},
+     'breezeway_geom': {'w': 4.4, 'depth': 6.0, 'stair_w': 1.4, 'stair_from_front': 0.2, 'tread': 0.25, 'steps': 18, 'landing_depth': 1.3,
+                        'note': '樓梯間（區域座標：正面往內 6 m）；樓梯在正中間、從前緣往內 0.2 m 開始往後爬到二樓平台；一樓兩側牆後段各一戶的門、二樓平台後牆兩戶的門；入口走道兩側白鐵欄杆（x＝中心±1.25、正面往外 0.2～1.2 m）'},
      'exit_west': {'x': X0 + 2.0, 'z': 0.0, 'r': 1.6, 'label': '社區出口（往公車站）', 'to': 'us_bus_stop'},
      'forest': {'z0': 18.0, 'z1': Z1, 'note': '南邊成片的大樹：近的幾棵是模型、後面是一排樹的剪影（走不到）'}}
 PROPS = []
@@ -74,6 +76,56 @@ for k in range(18):
 L['props'], L['trees'] = PROPS, TREES
 
 
+def W_(b, u, v):
+    """建築局部 (u 沿正面、v 往正面外) → 區域 (x, z)"""
+    c, s_ = math.cos(b['yaw']), math.sin(b['yaw'])
+    return (b['cx'] + u * c + v * s_, b['cz'] - u * s_ + v * c)
+
+
+def rect_w(b, u0, u1, v0, v1):
+    pts = [W_(b, u, v) for u in (u0, u1) for v in (v0, v1)]
+    return {'x0': round(min(p[0] for p in pts), 3), 'x1': round(max(p[0] for p in pts), 3), 'z0': round(min(p[1] for p in pts), 3), 'z1': round(max(p[1] for p in pts), 3)}
+
+
+# 導航阻擋（給遊戲；長方形、區域座標）：建築本體（樓梯間凹進去的地方走得進去，只擋中間的樓梯）、正面灌木帶、路燈、小東西、樹幹、外圍樹林
+BLOCKS = []
+for b in BUILDINGS:
+    Lb, Db = b['len'], b['dep']; bw = 4.4; vF = Db / 2
+    cuts = sorted([(c - bw / 2, c + bw / 2) for c in b['breezeway']])
+    u = -Lb / 2
+    for (x0, x1) in cuts:
+        BLOCKS.append(dict(rect_w(b, u, x0, -Db / 2, vF), why='building ' + b['id']))
+        BLOCKS.append(dict(rect_w(b, x0, x1, -Db / 2, vF - 6.0), why='building ' + b['id'] + ' (behind breezeway)'))
+        xm = (x0 + x1) / 2
+        BLOCKS.append(dict(rect_w(b, xm - 0.75, xm + 0.75, vF - 4.75, vF - 0.6), why='breezeway stair (to_home at its foot)'))
+        for xr in (xm - 1.25, xm + 1.25): BLOCKS.append(dict(rect_w(b, xr - 0.06, xr + 0.06, vF + 0.15, vF + 1.25), why='entry rail'))
+        u = x1
+    BLOCKS.append(dict(rect_w(b, u, Lb / 2, -Db / 2, vF), why='building ' + b['id']))
+    k = -Lb / 2 + 0.5                                           # 灌木帶（樓梯間入口前 ±3.4 m 留走道）
+    segs = []; cur = None
+    while k < Lb / 2 - 0.5:
+        ok = not any(abs(k - bx) < 3.4 for bx in b['breezeway'])
+        if ok and cur is None: cur = k
+        if not ok and cur is not None: segs.append((cur, k)); cur = None
+        k += 0.1
+    if cur is not None: segs.append((cur, Lb / 2 - 0.5))
+    for (a_, c_) in segs: BLOCKS.append(dict(rect_w(b, a_, c_, vF, vF + 1.15), why='shrubs'))
+for p in PROPS:
+    if 'building' in p: continue
+    hs = {'lamp': (0.3, 0.3), 'mailboxes': (1.35, 0.45), 'dumpster': (1.5, 1.35), 'bikerack': (1.15, 0.4), 'bench': (0.35, 1.0)}.get(p['type'], (0.4, 0.4))
+    hx, hz = (hs[1], hs[0]) if abs(math.sin(p['yaw'])) > 0.5 else hs
+    BLOCKS.append({'x0': round(p['x'] - hx, 3), 'x1': round(p['x'] + hx, 3), 'z0': round(p['z'] - hz, 3), 'z1': round(p['z'] + hz, 3), 'why': p['type']})
+for t in TREES:
+    r = 0.3 if t['kind'] == 'young' else 0.45
+    BLOCKS.append({'x0': round(t['x'] - r, 3), 'x1': round(t['x'] + r, 3), 'z0': round(t['z'] - r, 3), 'z1': round(t['z'] + r, 3), 'why': 'tree ' + t['kind']})
+BLOCKS += [{'x0': X0, 'x1': X1, 'z0': Z1 - 4.5, 'z1': Z1, 'why': 'forest belt S'},
+           {'x0': X1 - 2.5, 'x1': X1, 'z0': Z0, 'z1': Z1, 'why': 'forest belt E'},
+           {'x0': X0, 'x1': X0 + 2.5, 'z0': Z0, 'z1': -6.0, 'why': 'forest belt W (north of exit road)'},
+           {'x0': X0, 'x1': X0 + 2.5, 'z0': 6.0, 'z1': Z1, 'why': 'forest belt W (south of exit road)'}]
+L['blocks'] = BLOCKS
+L['cars_note'] = '車由遊戲照 cars 放（us_cars.glb 的 car_sedan／car_suv／car_pickup／car_hatch／car_minivan 節點；car_paint 材質是白色，照 color 上色）；每台的阻擋＝車長×車寬（us_cars.json 的 dims）轉 yaw'
+
+
 def check(L):
     bad = []
     s = L['spawn_home']
@@ -82,6 +134,10 @@ def check(L):
         if abs(s['x'] - b['cx']) < hl and abs(s['z'] - b['cz']) < hd: bad.append(('spawn in building', b['id']))
     for c in L['cars']:
         if abs(c['x'] - s['x']) < 3.0 and abs(c['z'] - s['z']) < 3.5: bad.append(('car at spawn', c['x'], c['z']))
+    for k in ('spawn_home', 'to_home', 'exit_west'):
+        p = L[k]
+        for r in L['blocks']:
+            if r['x0'] < p['x'] < r['x1'] and r['z0'] < p['z'] < r['z1']: bad.append((k + ' blocked', r['why']))
     return bad
 
 

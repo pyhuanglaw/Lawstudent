@@ -365,7 +365,7 @@ def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
     for j in range(ncard):
         a_ = rng.uniform(0, 2 * math.pi)
         if face is not None and math.cos(a_) * face[0] + math.sin(a_) * face[1] < -0.2: continue
-        e_ = math.asin(rng.uniform(-0.45, 1.0)); rr = rng.uniform(0.72, 1.02)
+        e_ = math.asin(rng.uniform(-0.85, 1.0)); rr = rng.uniform(0.72, 1.02)   # 下半部也要有葉子（從樹下往上看不能是一塊深色的芯）
         px, py, pz = cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_)
         leaf_card(cards, px, py, pz, csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
 def tree(x, z, h, big):
@@ -396,9 +396,13 @@ def belt(pts, face):
         trunk.cyl((x, 0, z), (x, h * 0.55, z), rng.uniform(0.18, 0.28), seg=6, r2=0.14)
         crown(x, h * 0.62, z, r_, h * 0.36, r_, int(5.5 * r_ * r_), 2.1, face)
         crown(x + rng.uniform(-1.5, 1.5), h * 0.85, z + rng.uniform(-1, 1), r_ * 0.65, h * 0.2, r_ * 0.65, int(2.5 * r_ * r_), 1.8, face)
+        if rng.random() < 0.8:   # 樹林邊緣的灌叢（下層），樹幹之間不會直接看穿到外面
+            ry_ = rng.uniform(1.0, 1.4)
+            crown(x + rng.uniform(-2.0, 2.0) + face[0] * 1.2, ry_ * 0.8, z + face[1] * 1.2, rng.uniform(1.6, 2.4), ry_, rng.uniform(1.4, 2.0), 46, 1.0, face)
 step = 5.2
 belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z1'] - 1.5 + rng.uniform(-1, 1)) for k in range(int((BD_['x1'] - BD_['x0'] - 4) / step) + 1)], (0, -1))      # 南
 belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z0'] - 0.5 + rng.uniform(-0.6, 0.6)) for k in range(int((BD_['x1'] - BD_['x0'] - 4) / step) + 1)], (0, 1))      # 北（建築背後）
+belt([(BD_['x0'] + 4.6 + k * step + rng.uniform(-0.8, 0.8), BD_['z1'] + 3.5 + rng.uniform(-1, 1)) for k in range(int((BD_['x1'] - BD_['x0'] - 6) / step) + 1)], (0, -1))    # 南邊第二排（樹幹之間不會看到地平線）
 belt([(BD_['x1'] + 0.5, BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8)) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)], (-1, 0))                             # 東
 belt([(BD_['x0'] - 0.5, z) for z in [BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)] if abs(z) > 7.0], (1, 0))   # 西（出口車道留缺口）
 trunk.finish(root, uv=False); cards.finish(root, uv=False, merge=False); core.finish(root, uv=False, smooth=True)
