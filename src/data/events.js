@@ -1177,9 +1177,12 @@ const STORY_EVENTS=[
       {speaker:null,text:'你一個人坐在窗邊。'},
       {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'你在筆記本上寫了一行。'},
       {label:'q'},   /* AA_209／BB_167 4-3：拿掉「這一年最意外的一件事」和 8 個回憶選項，改聊暑假、回不回家、打工 */
+      {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_bohan'},goto:'bohan'},{if:{custom:G=>STORY.revisitClosest(G).id==='zhe'},goto:'zhe'},
       {if:{custom:G=>STORY.revisitClosest(G).id==='kai'},goto:'kai'},
       {if:{custom:G=>STORY.revisitClosest(G).id==='classmate_mingxuan'},goto:'mx'},{if:{custom:G=>STORY.revisitClosest(G).id==='npc_fangyt'},goto:'fy'},
       {if:{custom:G=>STORY.revisitClosest(G).kind==='none'},speaker:null,text:'這張桌子，從今天開始是你的位子。'},{goto:'end'},
+      {label:'bohan'},{speaker:'classmate_bohan',expression:'neutral',text:'成績二十九號才出來。'},{speaker:'classmate_bohan',expression:'neutral',text:'我暑假回新竹，禮拜四會上來總圖。你要的話可以一起。'},{goto:'end'},   /* AA-B 02:23 */
+      {label:'zhe'},{if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'哥，我七月一號就回高雄了。'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'欸我七月一號就回高雄了。'},{speaker:'zhe',expression:'smile',text:'你暑假在臺北喔？那我回來再找你吃麵。'},{goto:'end'},
       {label:'kai'},{if:{custom:G=>!!G.flags.KAI_TAPE&&!(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel&&SOCIAL.friendLevel('kai')==='CLOSE_FRIEND')},goto:'kai1'},
       {speaker:'kai',expression:'neutral',text:'暑假你回家喔？'},{speaker:'kai',expression:'neutral',text:'我留在臺北，接了一個修電腦的打工。'},{goto:'end'},
       {label:'kai1'},{speaker:'kai',expression:'neutral',text:'暑假要搬了。地上那條膠帶，我拍了一張才撕。'},{goto:'end'},

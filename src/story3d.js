@@ -1994,7 +1994,7 @@ const STORY = (function(){
       /* 沒有和可昕交往（AA 50da3a9）：在麵店團＝17:00 阿哲在群組揪併桌；不在麵店團＝最親近的人（STORY.revisitClosest）。女生 18:00 傳訊息（BB_96 第 11 節）。
          目標的字是 LAWWW 加的（不在麵店團的玩家沒有人揪，用目標提醒傍晚去兩點半）*/
       if(rd&&G.day===rd&&!F.dating_kexin&&!F.REVISIT_Y1){ const grp=PHONE.inGroup(G,'noodle_team');
-        if(grp&&!PHONE.sent(G,'zhe_revisit1')&&G.hour<18) PHONE.at(G,rd,Math.max(17,G.hour),[{th:'g:noodle_team',from:'zhe',text:'學期最後一天。麵店，六點，併桌。'}],'zhe_revisit1');   /* AA_209 第 3 節：群戲改在麵店（原句的「兩點半」→「麵店」，問 AA）*/
+        if(grp&&!PHONE.sent(G,'zhe_revisit1')&&G.hour<18) PHONE.at(G,rd,Math.max(17,G.hour),[{th:'g:noodle_team',from:'zhe',text:'考完了'},{th:'g:noodle_team',from:'zhe',text:'六點麵店 併桌'}],'zhe_revisit1');   /* AA_209 第 3 節（AA-B 02:23）*/
         if(!F.revisitGoalY1&&G.hour>=12&&G.hour<22){ F.revisitGoalY1=true; GM.setGoal(grp?'18:00 阿鳳麵店（麵店團併桌）':'18:00 兩點半 Café（學期最後一天）'); }
         if(!grp&&!PHONE.sent(G,'revisit1_msg')&&G.hour>=17.5){ const c=S.revisitClosest(G), L=c.kind==='female'?REVISIT_MSG[c.id](G):null; if(L) PHONE.at(G,rd,Math.max(18,G.hour),L.map((t,k)=>({th:'p:'+c.id,from:c.id,text:t})),'revisit1_msg'); } } }
     dailyPhone(GM); };
@@ -2002,8 +2002,7 @@ const STORY = (function(){
   /* 重訪日 1：單身、不在麵店團的玩家，這一年最親近的人（AA 50da3a9、d1fa44f；BB_96 第 11 節）：先看階段、再看熟悉；至少「有點熟」。
      學姊、沛珊這時有伴侶，不算（不傳只給一個人的閒聊私訊）；可昕另外處理。以安、語彤、小語、芯慈、阿哲（AA 的人物）還沒有台詞，暫時不列（已問 AA）。
      回傳 {id, kind:'male'|'female'|'none'} */
-  const REVISIT_MALE=['kai','classmate_mingxuan','npc_fangyt'],   /* 柏翰、阿哲：暑假版的句子等 AA（02:2x 已問），先不列入，免得播「最意外」的舊句 */
-  REVISIT_MALE_PENDING=['classmate_bohan','zhe'], REVISIT_FEMALE=['heroine_02','heroine_04','heroine_01','heroine_03','yu','classmate_xinci'];   /* 阿哲、以安、語彤、小語、芯慈：AA 2100018（交接包 v2 草稿第 3 節）*/
+  const REVISIT_MALE=['classmate_bohan','kai','classmate_mingxuan','npc_fangyt','zhe'],   /* 柏翰、阿哲暑假版：AA-B 02:23（AA_209 第 3 節）*/ REVISIT_FEMALE=['heroine_02','heroine_04','heroine_01','heroine_03','yu','classmate_xinci'];   /* 阿哲、以安、語彤、小語、芯慈：AA 2100018（交接包 v2 草稿第 3 節）*/
   S.revisitClosest=function(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES) return {id:null,kind:'none'}; const st=id=>SOCIAL.STAGES.indexOf(SOCIAL.stage(id)), min=SOCIAL.STAGES.indexOf('FAMILIAR');
     let best=null; for(const id of REVISIT_MALE.concat(REVISIT_FEMALE)){ if(!S.knows(id,G)) continue; if(REVISIT_FEMALE.includes(id)&&typeof INV!=='undefined'&&INV.hasContact&&!INV.hasContact(G,id)) continue;   /* 女生是傳訊息：要有她的聯絡方式 */ const s=st(id); if(s<min) continue; const f=(SOCIAL.rel(id)||{}).fam||0;
       if(!best||s>best.s||(s===best.s&&f>best.f)) best={id,s,f}; }
