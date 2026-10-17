@@ -4930,9 +4930,9 @@
    "sha": "945fd4d2",
    "what": "腳踏車 v2：street_props.glb 多 6 款＋bikes_v2.patch（world3d.js bikeAny、zones3d.js 路邊停車、腳踏車行指定款式、street_props_integration 測試）",
    "task": "ART-BIKES2-INT",
-   "msg": "DELIVERED",
+   "msg": "ACK",
    "integration": "未整合",
-   "note": "疊在 scooters_v2.patch 之後；broken 組失敗是既有問題"
+   "note": "疊在 scooters_v2.patch 之後；broken 組失敗是既有問題；LAWWW-B 2026-10-17 ACK：整合排在 CAMP-L1 之後，後續項目 ART-BIKES2-F"
   },
   {
    "id": "DL-BB177",

@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-16T09:3xZ",
+  "updated": "2026-10-17 D93 逐職位核對補登",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -44,6 +44,53 @@
    "ACK",
    "ACTIONED",
    "自領"
+  ],
+  "reconcileIgnore": {
+   "A-*": "BB_173 第 3 節的矛盾編號（AB65-5 的子項）",
+   "VA-*": "AA_199 4-2 的假期活動編號（HOL-VA 的子項）",
+   "CG-9": "CG 編號（ART-15；畢業典禮 CG，跟 SCN-V5-02 一起）"
+  },
+  "offList": [
+   {
+    "role": "LAWWW2",
+    "match": "垂直切片",
+    "task": "ART-VSLICE"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "ART-WZ0",
+    "task": "ART-WZ0"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "BUG-WZFLICKER 尾巴",
+    "task": "BUG-WZFLICKER-2"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "AA_185 §8",
+    "task": "ART-BG-AA185"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "方法交接",
+    "task": "ART-METHOD6"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "腳踏車 v2 後續",
+    "task": "ART-BIKES2-F"
+   },
+   {
+    "role": "AA",
+    "match": "學姊和男友在校園一起出現",
+    "task": "V2-SIS-BF"
+   },
+   {
+    "role": "BB",
+    "match": "常態工作",
+    "task": "BB-ROUTINE"
+   }
   ]
  },
  "tasks": [
@@ -9080,8 +9127,8 @@
    "title": "2D 背景 car「車上（祐廷開車）」（BG 追蹤表 BG-08）：ev_kexin_trip_spring_y1 春假開車旅行",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "從駕駛座看出去：方向盤、儀表板、擋風玻璃外的路；早上、晚上、雨天三版",
+   "status": "已整合待測試",
+   "next": "等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9101,7 +9148,8 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "evidence": "car_morning／car_night／car_rain.webp（LAWWW2-B 702a2838）已接進 src/outings3d.js（S.BG.car_*、carVariant）"
   },
   {
    "id": "ART-BG11",
@@ -9192,8 +9240,8 @@
    "title": "2D 背景 soymilk_shop「豆漿店」（BG 追蹤表 BG-20）：ev_zhiruo_early_show",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "台式早餐店：街屋構件＋麵店構件（不鏽鋼台、豆漿桶、燒餅爐）",
+   "status": "已整合待測試",
+   "next": "等使用者看實際遊戲畫面（場景美術只有使用者能標 ART_APPROVED）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9213,7 +9261,8 @@
     "spec": "AA_147 第 2 節＋docs/art-rebuild/second_ai/BG_TRACKER.md",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名",
     "ack": "DELIVERED"
-   }
+   },
+   "evidence": "soymilk_shop.webp 已接進 src/outings3d.js（S.BG.soymilk_shop）"
   },
   {
    "id": "ART-BG09",
@@ -11109,8 +11158,8 @@
    "title": "溫州街效能：主巷 draw call 降到 310 左右（wz_street_integration 的 351～401 對 310）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "第三輪 e680d48a 收進 v9.9（LAWWW-B 選 A：第二輪的貼圖集把木紋、磁磚壓糊；第三輪畫面正確）：瀏覽器 303／286／321 次、43.1／40.7／44.3 萬三角形；wz_street_integration 只有效能一項沒過（已知、不改門檻），cafe_glb_integration 全過。第四輪（v9.9 之後）：合併同一種貼圖的店、刪店內看不到的面、遠景店內改頂點色，目標 ≤ 310 次、≤ 42 萬；第四輪 5a78a151 收進開發分支（9735698a，下一版）：LAWWW2-B 量 289／272／307 次（≤ 310）、三角形 43.3／40.9／44.5 萬（還超 42 萬）；LAWWW 這邊待跑 wz_street_integration",
+   "status": "已實作待整合",
+   "next": "LAWWW2-B 回報 1e445818 wz_street_integration ALL PASS；LAWWW-B 核對內容是否已隨小公園 v7（5e688f34）整合，沒有就整合後重跑",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -12133,9 +12182,9 @@
    "title": "公館店面招牌重新設計（35 面：21 橫式＋14 種直立）：BB 寫生圖提示詞 → 使用者生成 → LAWWW2 換成圖片貼圖",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【BB-B 00:08】S1～S4 通過、可以直接用 _fit 版：阿鳳 gg_afeng、舊路 gg_jiulu、藥局 gg_yaoju、輪轉 gg_lunzhuan（docs/story_planning/signs_approved/，_fit 補到 6.50×0.64、0.74×2.60）；S5 影印已給使用者，S6～S18 照「待使用者生成圖片清單.md」。→ LAWWW2-B 可以先換這四家。｜【2026-10-16 23:4x 整合測試】tests/gongguan_glb_integration.py 招牌三項 FAIL：atlas 49 面（測試要 50）、直立招牌 35 格（要 36）、G03 店的橫招牌沒有 canvas 字——修閃爍之前的 GLB（3ccc781e~1）就是 49，不是這次造成；已問 LAWWW2-B G03 是不是故意拿掉（招牌重做時一起處理、測試一起更新）。｜①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
+   "next": "BB-B 00:08 通過 S1～S4（signs_approved/gg_*_fit）→ LAWWW2-B 排在典禮背景之後先換（公館 GLB 重建中，先查結構差異）；S5～S18 等使用者生成",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12308,7 +12357,10 @@
     "acceptance": "可以從朋友清單／對話串主動傳訊息、對方照規格回",
     "receiver": "AA-B",
     "ack": "ACK"
-   }
+   },
+   "aliases": [
+    "MSG-L1"
+   ]
   },
   {
    "id": "BUG-LIB-PILLAR",
@@ -13288,6 +13340,344 @@
    },
    "source": "AA-B 正式交付 2026-10-17 00:20（DL-AA-AB652）",
    "authorized": "使用者 23:5x 交給 AA 的逐學期改稿＋AA、BB 互審（D79 照定稿實作）"
+  },
+  {
+   "id": "ART-VSLICE",
+   "title": "垂直切片：溫州街 Café 前黃昏做到商業水準（後製、黃昏光、街道 AO＋路面、人物光影）（ART-POLISH 的一部分）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局（溫州街）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "使用者直接指示（ART-POLISH，LAWWW2-B 05:14 轉述）",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "ART-POLISH／ART_SOP",
+    "acceptance": "同鏡頭前後截圖（白天、黃昏）",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-WZ0",
+   "title": "溫州街舊店面翻修：盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "LAWWW2-B 盤點舊店面",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局（溫州街）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "ART-POLISH 範圍（使用者 05:1x）",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "ART-POLISH",
+    "acceptance": "前後白天晚上截圖；wz_street_integration ALL PASS",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-WZFLICKER-2",
+   "title": "疊面閃爍尾巴：溫州街三處（x 10.35 二樓招牌×亮燈窗、x 41.4 店面玻璃×窗框、x −4.3 金屬條）；公館、118 巷鐵捲門×護牆、重疊冷氣（要重建、先查結構差異）；美國公寓 7 對、小公園 11 對",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局（溫州街、公館）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "BUG-WZFLICKER 的延續",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "BUG-WZFLICKER r2／glb_coplanar.py",
+    "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-BG-AA185",
+   "aliases": [
+    "ART-SHOP1"
+   ],
+   "title": "AA_185 第 8 節的 2D 背景四張：公館機車行（BB-B ART-SHOP1 v2 道具＋升降台上的新機車）、老國小操場、視訊的國外住處、日本教室",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "AA_185 各事件（待 AA-B 確認最早那一張）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "AA_185（企劃線）",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "AA_185 第 8 節、BB_132 ART-SHOP1",
+    "acceptance": "1920×1080 webp、遊戲內截圖",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-METHOD6",
+   "title": "美術方法交接第 6 項：AA-B 做驗證件（土地公廟供品組），交 LAWWW2-B 驗收",
+   "area": "ART",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "AA-B 交驗證件 → LAWWW2-B 照方法交接表驗收",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "LAWWW2 HANDOFF 方法交接表（D86 互助）",
+   "xai": {
+    "spec": "LAWWW2 HANDOFF 方法交接表第 6 項",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "LAWWW2-B 驗收紀錄",
+    "receiver": "LAWWW2-B",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-BIKES2-F",
+   "title": "腳踏車 v2 後續：老鐵馬、登山車比導航阻擋長 8 cm；老鐵馬要鏽和褪色；車籃裡的東西；淑女車再分款",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "LAWWW2-B；長度先對齊導航阻擋（LAWWW-B 整合時一起改）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開局（校園停車架）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
+   "authorized": "ART-BIKES2 的延續",
+   "xai": {
+    "receiver": "LAWWW-B",
+    "branch": "claude/funny-albattani-iawshm",
+    "spec": "DL-LW2-BIKES2（945fd4d2）",
+    "acceptance": "遊戲內截圖；長度和導航阻擋一致",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB65-2",
+   "title": "AA：大一上 BB 人物事件逐句改稿（AB-65 第 2 項）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "已實作待整合",
+   "priority": "P1",
+   "next": "AA_207 已交（e2f2f9df）；LAWWW-B 照 AB65-2-L 實作，AA-B 做完核對",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（cool-heisenberg e2f2f9df，AA_交接紀錄「AA-B 全部待辦」A 表）；D93 逐職位核對",
+   "authorized": "使用者 23:5x 交給 AA（AB-65）",
+   "xai": {
+    "spec": "AA_207",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB65-3",
+   "title": "AA：大一下～大四每學期 AA＋BB 人物（招呼 → 閒聊 → 好感升級 → 手機 → 事件）（AB-65 第 3 項）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "照學期順序",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一下",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（cool-heisenberg e2f2f9df，AA_交接紀錄「AA-B 全部待辦」A 表）；D93 逐職位核對",
+   "authorized": "使用者 23:5x（AB-65）",
+   "xai": {
+    "spec": "AB-65",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB65-4",
+   "title": "AA：重訪日群體對話（AA 骨架＋BB 人物句子；大一 6/12 18:00 麵店不統一題目，AA_193 第 4 節）（AB-65 第 4 項）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "跟各學期一起",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一 6/12",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（cool-heisenberg e2f2f9df，AA_交接紀錄「AA-B 全部待辦」A 表）；D93 逐職位核對",
+   "authorized": "使用者 23:5x（AB-65）",
+   "xai": {
+    "spec": "AA_193 第 4 節",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB65-5",
+   "title": "AA：BB_173 第 3 節的矛盾 A-4、A-5（沛珊放榜那天在哪、大二下的「家」）、A-6（子晴「公司叫貓」和「小公司實習」）、A-10、A-11（AB-65 第 5 項）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA-B 裁定後交 LAWWW-B",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "大二下",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（cool-heisenberg e2f2f9df，AA_交接紀錄「AA-B 全部待辦」A 表）；D93 逐職位核對",
+   "authorized": "使用者 23:5x（AB-65）",
+   "xai": {
+    "spec": "BB_173 第 3 節",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AB65-6",
+   "title": "AA：零星（lad/y3s1:556、BB_170 剩下的項目）（AB-65 第 6 項）",
+   "area": "STORY",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "AA-B",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（cool-heisenberg e2f2f9df，AA_交接紀錄「AA-B 全部待辦」A 表）；D93 逐職位核對",
+   "authorized": "使用者 23:5x（AB-65）",
+   "xai": {
+    "spec": "BB_170",
+    "owner": "AA",
+    "branch": "claude/cool-heisenberg-o8kuqx",
+    "acceptance": "照規格交付、互審紀錄",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "V2-SIS-BF",
+   "title": "學姊和男友在校園一起出現（BB_122 2-1；程式還沒有）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "問 AA-B：出現的學期、週次、地點、次數、台詞（BB_122 2-1 原文）→ 照規格實作",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "待 AA-B 確認（學姊大三上分手之前）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA-B 全部待辦（AA_交接紀錄 B 表「（無 ID）」）；D93 逐職位核對",
+   "authorized": "BB_122（使用者批准的學姊線）"
   }
  ]
 }

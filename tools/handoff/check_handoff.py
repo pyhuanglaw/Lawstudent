@@ -442,7 +442,8 @@ def roles(args):
     data = json.loads(src.read(TASKS))
     have = {canon(i) for t in data['tasks'] for i in [t['id']] + (t.get('aliases') or [])}   # aliases：其他職位用的別名（例：AA 寫 MSG-L1＝SYS-PHONE-CHAT）
     meta = data.get('meta', {})
-    ignore = {canon(k) for k in (meta.get('reconcileIgnore') or {})}
+    ignore = {canon(k) for k in (meta.get('reconcileIgnore') or {})}   # 結尾 -* ＝整組前綴（例：VA-* 是 HOL-VA 的子項編號）
+    ign = lambda i: canon(i) in ignore or any(k.endswith('-*') and canon(i).startswith(k[:-1]) for k in ignore)
     offlist = meta.get('offList') or []   # [{role, match, task}]：表外那一行含 match 就算已經補成 task
     duty = json.loads(src.read(duty_state.DUTY))
     bad, report = [], []
@@ -507,7 +508,7 @@ def roles(args):
             if re.match(r'^\s*([-*]|\d+\.)\s', l):
                 parents.append((ind, l))
         for i in sorted(ids):
-            if canon(i) not in have and canon(i) not in ignore:
+            if canon(i) not in have and not ign(i):
                 missing.append(i)
         report.append(f'{role}：{where} @ {sha}，全部待辦 {len(sec)} 行、提到 {len(ids)} 個 ID')
         for i in missing:
