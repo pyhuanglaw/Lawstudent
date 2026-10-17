@@ -187,7 +187,7 @@
 | 公館豆花店 | 2D `gongguan_douhua` | E18a 2024-12-03（W14） | E18a、E18b | **已有** |
 | 公館火鍋店 | 2D `gongguan_hotpot` | E20（W17） | E20、主線 7 | 等生成 |
 | 跨年人潮 | 2D `newyear_crowd` | E21a 2024-12-31（W18） | E21a | 等生成 |
-| 公館滷味攤 | 2D `gongguan_luwei` | E19 2025-01-03（W18） | E19、E28、大一 A15 | 等 LAWWW2-B／生成 |
+| 公館滷味攤 | 2D `gongguan_luwei` | E19 2025-01-02（四，W18；`AA_154` A34） | E19、E28、大一 A15 | 等 LAWWW2-B／生成 |
 | 臺北的家：客廳、陽台、祐廷的房間 | 2D `home_living`、`home_balcony`、`home_room` | E21 除夕 2025-01-28（寒假） | E21、E23、E36 | 等生成 |
 | 宿舍頂樓 | 2D `dorm_roof` | E24c 2025-03-13（Y0S2 W4） | E24c、大一跨年 | 等生成 |
 | 摩天輪 | 2D `ferris_wheel`＋CG BCG-06（已通過） | E26 2025-03-22（Y0S2 W5） | E26、K7 | 底圖等生成 |
