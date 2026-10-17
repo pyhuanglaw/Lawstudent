@@ -371,7 +371,7 @@ const GAME = (function(){
     // 腳步聲
     const P=E.player; if(P.pose==='walk'||P.pose==='run'){ stepAcc+=dt*(P.pose==='run'?3.2:1.9); if(stepAcc>=1){ stepAcc=0; A3.step(P.pose==='run',E.indoor); G.stats.steps++; } if(G.stats.steps%400===0&&G.stats.steps>0) {} }
     if(E.frame%3===0&&$('mdbg').style.display!=='none') movementTelemetry(realDt*3);
-    updateInteract(); if(typeof GUIDE!=='undefined') GUIDE.tick(realDt); if(E.frame%2===0) drawMinimap(); if(E.frame%30===0){ updateHUD(); if(STORY.tick) STORY.tick(GM,dt*30); if(typeof EVENTS!=='undefined'&&EVENTS.tick&&G.social) EVENTS.tick(dt*30); if(G.hour>=24+2.5&&!E.player.busy&&STORY.forceHome) STORY.forceHome(GM); }
+    updateInteract(); if(typeof GUIDE!=='undefined') GUIDE.tick(realDt); if(E.frame%2===0) drawMinimap(); if(E.frame%30===0){ updateHUD(); if(!entering){ if(STORY.tick) STORY.tick(GM,dt*30); if(typeof EVENTS!=='undefined'&&EVENTS.tick&&G.social) EVENTS.tick(dt*30); if(G.hour>=24+2.5&&!E.player.busy&&STORY.forceHome) STORY.forceHome(GM); } }   /* 換區域（含讀檔）的淡出淡入期間不判斷劇情：applySave 先換上存檔的 G 才 await enter，這段時間 G.zone 是新區域、玩家還站在舊位置——2026-10-17 回歸：讀檔回到霖澤館門口，小安追上來（離門 6 m 才觸發）在載入途中就開演 */
     if(E.frame%120===0) A3.setScene(G.zone,G.hour,G.weather);
     if(performance.now()-GM.lastAuto>45000) autosave();
     E.render(); fpsN++; fpsAcc+=realDt; if(fpsAcc>=1){ GM.fps=fpsN/fpsAcc; fpsN=0; fpsAcc=0; if(S.fps) $('fps').textContent=GM.fps.toFixed(0)+' fps · '+E.renderer.info.render.calls+' calls · '+E.renderer.info.render.triangles+' tris'; } }
