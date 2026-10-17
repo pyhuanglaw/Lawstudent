@@ -1641,11 +1641,45 @@ const STORY_EVENTS=[
   { id:'ev_y0_xl1', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
+  /* LIFE-LINE 第 4 組（AA_224 4-1、4-2 @31708531；機制 BB_188 A9-1）。兩件都是一定會發生的主線（新開局 CRAM_FREE_KNOWN 一定是 true）。
+     在家＝home3d 的選單那一輪演（trigger:'home'）；不在家＝在外面自動演（auto）；同一段台詞兩個事件（同 E35 的做法）。睡著＝coreCallAt 叫醒（story3d.js）。
+     4-1 小吵架：2024-12-12（四）22:00 電話，沒有選項；不另寫和好（隔天晚上補習班的私訊就過去了）。
+     4-2 以前的補習班：2024-12-13（五）14:00 以後第一次（2D）；主任不出場對話。當晚 21:00 祐廷傳給可昕（story3d.js）。記 CRAM_FREE_KNOWN */
+  ...(()=>{ const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const fight=[ {scene:'電話'},
+      {speaker:'kexin',expression:'neutral',text:'我明天早上九點有小考。你剛剛傳了三則貓的影片。'},{speaker:'player',text:'好看嗎。'},
+      {speaker:'kexin',expression:'annoyed',text:'……你休學在家，每天到底在幹嘛？'},{speaker:null,text:'（他沒有馬上回。）'},
+      {speaker:'player',text:'睡覺。看影片。等妳下課。'},{speaker:'kexin',expression:'neutral',text:'我不是那個意思。'},{speaker:'player',text:'我知道。……妳去讀書。'},
+      {set:{KX_FIGHT_1212:true}} ];
+    const cram=[ {scene:'以前的補習班'},
+      {speaker:null,text:'隔天下午，你在外面晃，晃到以前的補習班那條街。'},
+      {speaker:null,text:'高三那年，指考前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。'},
+      {speaker:null,text:'你本來就有想過，要不要再考一次。……問問看而已。'},
+      {speaker:null,text:'（騎樓下。玻璃門裡，主任站在櫃台旁邊講電話。）'},
+      {speaker:null,text:'你走到對面的飲料店，點了一杯最便宜的，站在門口等。'},
+      {speaker:null,text:'二十分鐘後，主任拿著外套出來，往捷運站的方向走，轉過街角。'},
+      {speaker:null,text:'你又等了五分鐘。'},
+      {speaker:null,text:'（你推門進去。櫃台的工作人員抬頭看你。）'},
+      {speaker:'工作人員',text:'……你是祐廷嗎？'},{speaker:'player',text:'……對。'},
+      {speaker:'工作人員',text:'主任走之前交代過，說你會來。'},{speaker:'player',text:'……'},
+      {speaker:'工作人員',text:'你要問重考班對吧。我看一下你上次的成績。……差四分。差四分以內的可以免費。'},
+      {choice:[{text:'「……他怎麼知道我會來？」',goto:'a'},{text:'「我只是來問問。」',goto:'b'},{text:'「主任還有說什麼嗎？」',goto:'c'}]},
+      {label:'a'},{speaker:'工作人員',text:'他沒說。他只說你會來。'},{goto:'end'},
+      {label:'b'},{speaker:'工作人員',text:'好。這是簡章。'},{goto:'end'},
+      {label:'c'},{speaker:'工作人員',text:'沒有。就這一句。'},
+      {label:'end'},{speaker:null,text:'（回去的捷運上，你把簡章翻了兩遍。）'},{speaker:null,text:'（然後你查了今年台大法律的錄取分數，看了很久。）'},
+      {set:{CRAM_FREE_KNOWN:true}} ];
+    const fightDue=G=>{ const d=D('2024-12-12'); return d!=null&&G.day===d&&G.hour>=22&&!G.flags.KX_FIGHT_1212&&!!G.flags.dating_kexin; };
+    const cramDue=G=>{ const d=D('2024-12-13'); return d!=null&&G.day>=d&&G.day<=d+1&&(G.day>d||G.hour>=14)&&!G.flags.CRAM_FREE_KNOWN; };
+    return [
+      { id:'ev_y0_fight', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>fightDue(G)&&!atHome(G)}, dialogue:fight },
+      { id:'ev_y0_fight_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>fightDue(G)}, dialogue:fight },
+      { id:'ev_y0_cram', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'auto', once:true, background:'dark', hours:2, prereq:{custom:G=>cramDue(G)&&!atHome(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } },
+      { id:'ev_y0_cram_h', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>cramDue(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } } ]; })(),
   /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在臺北的家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
-     她在外婆家、他在臺北的家。不記分支旗標；第三個選項「那妳呢？跟家裡說了嗎？」只在她說在想休學（KX_THINK_LEAVE，AA_224 4-3）以後出現。原本的 E21_ANSWER 不再寫 */
-  { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22; }},
-    dialogue:[ {scene:'臺北的家',bg:'home_living'},
+     她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）；第三個選項「那妳呢？跟家裡說了嗎？」只在她說在想休學（KX_THINK_LEAVE，AA_224 4-3）以後出現。原本的 E21_ANSWER 不再寫 */
+  ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22&&!G.flags.E21_CALLED; }, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+  const lines=[ {scene:'臺北的家',bg:'home_living'},
       {speaker:'kexin',expression:'neutral',text:'（很吵）你等一下，我走到陽台。'},
       {speaker:'kexin',expression:'smile',text:'好了。……我阿嬤剛剛問我有沒有男朋友。'},
       {speaker:'kexin',expression:'neutral',text:'我說有。她問他在做什麼。'},
@@ -1655,7 +1689,9 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',expression:'smile',text:'她說你明年要來吃飯。……她已經在算要煮幾道了。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'neutral',text:'還沒。'},{speaker:'kexin',expression:'neutral',text:'……今天先不說。過年。'},{speaker:'player',text:'嗯。'},
-      {label:'end'},{speaker:'kexin',expression:'embarrassed',text:'新年快樂。……今年第一個打給你的。'} ] },
+      {label:'end'},{speaker:'kexin',expression:'embarrassed',text:'新年快樂。……今年第一個打給你的。'},{set:{E21_CALLED:true}} ];
+  return [ { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:lines },
+    { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines } ]; })(),   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
   /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15）：寒假最後一天 2/16（日）18:00，臺北的家，自動、沒有選項。演完記 Y0_WINTER_DONE（home3d.js 接著回宿舍）。
      那本《民法》之後跟著搬到法律系的房間（房間物件「書架上的舊《民法》」已經有）*/
   { id:'ev_y0_e23', stage:'econ', title:'看不懂的民法', participants:[], location:'any', trigger:'home', once:true, background:'dark',

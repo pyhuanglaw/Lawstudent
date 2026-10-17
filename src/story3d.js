@@ -1321,6 +1321,21 @@ const STORY = (function(){
         if(!OUT.get(G,'y0_e18a')&&G.hour<22.25) OUT.plan(G,{id:'y0_e18a',ev:'ev_y0_e18a',day:d3,h:22,late:0.25,place:'總圖門口',title:'總圖門口 22:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
       if(d20!=null&&G.day===d20&&G.hour<17.25&&F.dating_kexin&&F.CRAM_FREE_KNOWN&&!OUT.get(G,'y0_e22b')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e22b))
         OUT.plan(G,{id:'y0_e22b',ev:'ev_y0_e22b',day:d20,h:17,late:0.25,place:'公館的咖啡店',title:'公館 17:00：等可昕下課',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+    /* LIFE-LINE 第 4 組（AA_224 4-2、4-3 @31708531＝BB_188 A2-3、A2-4）：
+       ① 12/13 補習班當晚 21:00（演完以後）祐廷傳給可昕；前一晚的小吵架就這樣過去，不另寫和好。
+       ② 可昕記錯大一國文作業：1/3（五）21:00 截圖＋三個選項；1/6（一）21:00 葉老師回信；1/11（六）22:00「我在想要不要休學。」＋三個選項，記 KX_THINK_LEAVE（除夕電話第三個選項讀它）。
+       葉老師不醜化；「被當」只寫「可能」*/
+    if(S.isEcon(G)&&F.dating_kexin){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t}), D=k=>S.dayOfKey(k), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&G.day<=d+2;
+      { const d=D('2024-12-13'); if(F.CRAM_FREE_KNOWN&&past(d,21)&&!PHONE.sent(G,'y0_cram_msg')&&G.day<=d+1) PHONE.at(G,G.day===d?d:G.day,G.day===d?21:Math.max(9,G.hour),[Y('我今天去以前的補習班。等主任走了才進去。'),Y('然後櫃台說，主任交代過我會來。'),K('哈哈哈哈哈哈'),K('……那你要去嗎？'),Y('還不知道。'),K('好。')],'y0_cram_msg'); }
+      { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
+          {t:'寄信問葉老師？',say:[K('正在寫。……寫第三版了。第一版太像在哭，第二版太像律師函。')]},
+          {t:'妳先不要慌。',say:[K('我沒有慌。我在把截圖放大，看紅字是不是會變黑。'),K('……好啦。我寫信問葉老師。')]},
+          {t:'要不要我現在過去？',say:[K('你又沒課。……好啦，來。我在社科院一樓。'),{who:null,text:'（他去，她把信給他看，他改了一個錯字。）'}]}]}})],'y0_kx_essay1'); }
+      { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說遲交照課程大綱第一頁的規定處理，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
+      { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('我算了一下。那份作業占很多。'),K('可能會被當。也可能不會。'),K('我不想等到成績出來才知道。……我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
+          {t:'妳想好了再跟我說。',set:{KX_THINK_LEAVE:'wait'},say:[K('嗯。我會。')]},
+          {t:'休學的生活還可以。我可以教妳怎麼睡到十點。',set:{KX_THINK_LEAVE:'sleep'},say:[K('……你是在安慰我還是在炫耀。'),Y('都有。')]},
+          {t:'先吃飯。',set:{KX_THINK_LEAVE:'eat'},say:[K('……好。鹽酥雞。')]}]}})],'y0_kx_essay3'); } } }
     /* E20 聖誕交換禮物（BB_153；AA_154 A36）：12/23（一）21:00 品妤群組；12/25（三）17:00 韋綸＋品妤；出發選單 12/25 19:00；沒去＝12/26～12/28 第一次走進公館（events.js ev_y0_e20b，她在捷運出口等），
        12/28 20:00 以前沒去＝可昕私訊「你的份，我放在你家信箱了。」→ 隔天早上拿到 GIRAFFE_KEYCHAIN（AA_224 3-5）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const wed17=termDay('Y0S1',17,3), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
@@ -2466,7 +2481,7 @@ const STORY = (function(){
     if(past(S.Y0_LEAVE_DAY,17+40/60)&&!(done.ev_y0_e26&&F.KX_CAR)){ if(!F.KX_CAR) F.KX_CAR=car||'only_me'; done.ev_y0_e26=done.ev_y0_e26||s.day; Object.assign(F,{Y0_DATING:true,KX_DATING_SINCE:'2024-10-17'}); if(s.stage==='econ'||F.PLAYED_Y0) F.dating_kexin=F.EX_kexin?F.dating_kexin:true;
       if(Array.isArray(s.outings)) for(const q of s.outings) if(q.id==='y0_e26'&&q.state!=='done') q.state='done'; }
     else if(car&&!F.KX_CAR) F.KX_CAR=car;
-    for(const x of S.LIFE_FIXED) if(past(x.key,x.h)&&!done[x.ev]){ done[x.ev]=s.day; Object.assign(F,x.set); }
+    for(const x of S.LIFE_FIXED) if(past(x.key,x.h)&&!done[x.ev]&&!Object.keys(x.set).every(k=>F[k])){ done[x.ev]=s.day; Object.assign(F,x.set); }   /* 旗標已經有（例：在家演的 ev_y0_cram_h）＝演過 */
     return true; };
   S.P2B_CUT=S.Y0_LEAVE_DAY;   /* P2b 只到休學那天以前（AA_218 第 11 節、AA_154 0b-2：10/17 以後的 P2b 和所有「會計下課」觸發刪除）：11/7 的腳踏車只剩群組版 */
   S.p2bDue=function(G){ if(!S.isEcon(G)||typeof CALENDAR==='undefined') return false; const F=G.flags||{}; if(!F.P2_PICK) return false; const t=CALENDAR.termOf(G.day); if(!t||t.exam) return false;
@@ -2487,6 +2502,8 @@ const STORY = (function(){
     if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; { const q=OUT.get(G,'y1_camp'); if(q&&q.state!=='done'&&q.day===G.day&&G.hour<8&&!(G.flags||{}).CAMP_Y1) return 8; }   /* 宿營那天睡著：08:00 醒來直接出發（AA_205 2-3）*/ for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
+    { const d=S.dayOfKey('2024-12-12'); if(d!=null&&G.day===d&&G.hour<22&&G.flags.dating_kexin&&!G.flags.KX_FIGHT_1212) return 22; }   /* AA_224 4-1：12/12 22:00 的電話，睡著也會接到 */
+    { const d=S.dayOfKey('2025-01-28'); if(d!=null&&G.day===d&&G.hour<22&&!G.flags.E21_CALLED) return 22; }   /* E21 除夕 22:00 的電話 */
     const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&G.flags.E35_ASKED&&!G.flags.E35_DONE&&G.hour<21.5) return 21.5;   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
     const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&!G.flags.E36_RESULT&&G.hour<10) return 10;   /* E36 放榜：睡著也在 10:00 醒來看榜單 */
     if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */
