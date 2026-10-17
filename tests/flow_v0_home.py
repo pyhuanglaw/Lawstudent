@@ -18,8 +18,9 @@ SEG_FROM = os.environ.get('SEG_FROM')
 PREFER = ['出發', '快轉', '到下一個有事的日子', '直接去', '好', '答應']
 WATCH = ['ev_y0_e12', 'ev_y0_e14', 'ev_y0_e18', 'ev_y0_e18a', 'ev_y0_fight', 'ev_y0_fight_h', 'ev_y0_cram', 'ev_y0_cram_h', 'ev_y0_e22b', 'ev_y0_e20', 'ev_y0_e21', 'ev_y0_e21o',
          'ev_y0_e23', 'ev_y0_e27', 'ev_y0_e28', 'ev_y0_e24c', 'ev_y0_r1', 'ev_y0_r2', 'ev_y0_r3', 'ev_y0_r4', 'ev_y0_r5', 'ev_y0_r6', 'ev_y0_r7', 'ev_y0_rs', 'ev_y0_e18b', 'ev_y0_e34',
-         'ev_y0_cram_class', 'ev_y0_e35', 'ev_y0_e35h', 'ev_y0_e36', 'ev_y0_e36h', 'ev_y0_e36r', 'ev_y0_e36rh', 'ev_y0_e36n', 'ev_y0_e37']
-FLAGS = ['CRAM_FREE_KNOWN', 'E22B_TOLD', 'BIKE_LOOKED_UP', 'RETAKE_TOGETHER', 'E24C_REASON', 'E18A_DOUHUA', 'KX_THINK_LEAVE', 'E35_PLAN', 'E36_RESULT', 'PLAYED_Y0', 'dating_kexin']
+         'ev_y0_cram_class', 'ev_y0_e27b', 'ev_y0_e35h', 'ev_y0_exam1h', 'ev_y0_exam1', 'ev_y0_exam2', 'ev_y0_kh_bus_h', 'ev_y0_kh_bus', 'ev_y0_kh_home_h', 'ev_y0_kh_home',
+         'ev_y0_e36', 'ev_y0_e36h', 'ev_y0_e36r', 'ev_y0_e36rh', 'ev_y0_e37']
+FLAGS = ['CRAM_FREE_KNOWN', 'E22B_TOLD', 'BIKE_LOOKED_UP', 'RETAKE_TOGETHER', 'E24C_REASON', 'E18A_DOUHUA', 'KX_THINK_LEAVE', 'CRAM_ASKED_TOGETHER', 'E35_PLAN', 'MATH_100', 'KH_GO', 'SCORE_REPLY', 'KH_MADEUP', 'E36_RESULT', 'E36_PACT', 'PLAYED_Y0', 'dating_kexin']
 PENDING = "(()=>{ const G=GAME.G; const a=(typeof PHONE!=='undefined'&&PHONE.pending)?PHONE.pending(G).map(m=>PHONE.th(m)):[]; const b=(G.invites||[]).filter(v=>v.state==='offered'||v.state==='changed').map(v=>{ const m=(G.msgs||[]).find(q=>q.iv===v.id); return m?PHONE.th(m):null; }).filter(Boolean); return a.concat(b); })()"
 
 
@@ -107,7 +108,7 @@ async def main():
         print('   旗標', json.dumps(res['fl'], ensure_ascii=False), flush=True)
         run.check('玩到 8/29 進法律系（stage law）', res['stage'] == 'law' and res['key'] >= '2025-08-29', json.dumps({k: res[k] for k in ('key', 'h', 'stage', 'zone')}, ensure_ascii=False))
         run.check('二月那一場：E23、E27、E24c 都演過（AA_269 第 8 點）', all(k in res['ev'] for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')), json.dumps({k: res['ev'].get(k) for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')}))
-        run.check('考試、放榜：E35 或 E35h、E36 或 E36h／E36r、E36n、E37（第 9、10 點）', ('ev_y0_e35' in res['ev'] or 'ev_y0_e35h' in res['ev']) and any(k in res['ev'] for k in ('ev_y0_e36', 'ev_y0_e36h', 'ev_y0_e36r', 'ev_y0_e36rh')) and 'ev_y0_e37' in res['ev'], json.dumps({k: res['ev'].get(k) for k in WATCH[-8:]}))
+        run.check('考試、放榜（AA_272 第 4、10、11 節）：E35h、考場、對答案、7/25 成績公布（客運版或在家版）、8/13 早上旁白＋晚上電話、E37', 'ev_y0_e35h' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_exam1h', 'ev_y0_exam1')) and 'ev_y0_exam2' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_kh_bus_h', 'ev_y0_kh_bus', 'ev_y0_kh_home_h', 'ev_y0_kh_home')) and any(k in res['ev'] for k in ('ev_y0_e36r', 'ev_y0_e36rh')) and any(k in res['ev'] for k in ('ev_y0_e36', 'ev_y0_e36h')) and 'ev_y0_e37' in res['ev'], json.dumps({k: res['ev'].get(k) for k in WATCH[-15:]}, ensure_ascii=False))
         run.check('沒有用到卡住保險', res['fb'] == 0, str(res['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))

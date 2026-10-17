@@ -16244,12 +16244,12 @@
   },
   {
    "id": "AA272-1017",
-   "title": "AA_272（7050a1a0）經濟系休學→放榜：不能快轉清單、高雄客運 7/24～7/25 公布分數、8/13 手機＋電話、2/13 起可昕住祐廷家（R1、E35 改句）、2/14 一起問補習班（E27 後半移過去）、衝刺班兩人、休學理由三句、保底電話",
+   "title": "AA_272（c8baae2b）經濟系休學→放榜：不能快轉清單、高雄客運 7/24～7/25 公布分數、8/13 手機＋電話、2/13 起可昕住祐廷家、2/14 一起問補習班（十三萬）、衝刺班兩人、休學理由（一百分、零分）、E35 住在一起、考試兩天、保底電話",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "第 6 節保底電話已做（本 commit）；接著第 9 節理由、第 8 節 2/14、第 7 節衝刺班、b16a0761 住祐廷家、第 4 節客運與 8/13",
+   "next": "等 AA-C 回三題（在家版晚上的電話台詞、在家版第三個選項、8/13 電話裡「陪她走」「她走慢了一點」「她笑了一下，可是沒有看你」怎麼改）；瀏覽器 flow_v0_home 跑 10/17→8/29",
    "first": {
     "term": "Y0S1",
     "week": 7,
@@ -16263,7 +16263,38 @@
    "source": "AA-C 21:10～21:19（使用者 21:2x～22:0x）",
    "authorized": "使用者＋AA 定稿",
    "pausedReason": null,
-   "resumeWhen": null
+   "resumeWhen": null,
+   "evidence": "tests/lifeline_g4/g5/g6_unit.js、tests/v0_e35_unit.js、tests/v0_e36_unit.js"
+  },
+  {
+   "id": "ART-KH-BUS",
+   "title": "經濟系 7/25 成績公布那天的 2D 底圖：客運車廂（白天）、高雄客運站出口（白天）、客運站外面的便利商店（晚上）",
+   "area": "V0",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
+   "first": {
+    "term": "Y0S2",
+    "week": 0,
+    "earliest": "2025-07-25（經濟系重考年）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_272 第 5 節（AA-C c8baae2b）",
+   "authorized": "AA 定稿；D99 第一優先（經濟系完整流程）的背景",
+   "pausedReason": null,
+   "resumeWhen": null,
+   "xai": {
+    "spec": "AA_272 第 4 節 4-2、4-3",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "三張 2D 背景（同 assets/bg 規格，webp）；店名照 D77 用替代名",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   }
  ]
 }

@@ -81,6 +81,28 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { const d=DK('2025-08-13'); econ(d,10,'home',{}); await EVENTS.run(ev('ev_y0_e36rh')); const L=lines();
     check('6-6 E36 早上三句：「（臺大法律學系，財經法學組。你的名字在上面。）」「（分數只比那一組的錄取分數高 0.1。）」',J(L)===J(['（八月十三日，早上十點。榜單公布了。）','（臺大法律學系，財經法學組。你的名字在上面。）','（分數只比那一組的錄取分數高 0.1。）']),J(L));
     const D=ev('ev_y0_e36').dialogue.map(x=>x.text); const i=D.indexOf('台大法律。恭喜你。真的。');
-    check('6-6 E36 晚上：「台大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→「上了就是上了。」→「我是政大法律。」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&D[i+3]==='我是政大法律。'); }
+    check('6-6 E36 晚上的電話（AA_272 4-4）：「台大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→「上了就是上了。」→ KX_CAR；最後「月底我就上去了。……」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&D[i+3]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&D.filter(Boolean).pop()==='月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。'); }
+  /* AA_272 4-1～4-3：7/24 21:00 邀約 → 7/25 客運版（一整天）／在家版（10:00 手機） */
+  { const d24=DK('2025-07-24'), d25=DK('2025-07-25'); econ(d24,20.9,'home',{E35_DONE:true,EXAM2_DONE:true}); run(20.9,21.1);
+    const q=(G.msgs||[]).find(x=>x.tag==='y0_kh_ask'&&x.ask); const K=txt('p:kexin');
+    check('4-1 7/24 21:00：「明天公布成績。」「你要不要來高雄？我不想一個人查。」＋「好。我搭早上的客運。」／「我在家查就好。」',K.includes('kexin:明天公布成績。')&&!!q&&q.text==='你要不要來高雄？我不想一個人查。'&&J(q.ask.opts.map(o=>o.t))===J(['好。我搭早上的客運。','我在家查就好。']),J(K.slice(-2)));
+    check('4-1 快轉停在 7/24 21:15',HOME.y0FixedNext(G,Tm(d24,20))===Tm(d24,21.25));
+    const snap=JSON.stringify(G);
+    PHONE.answer(G,'y0_kh_ask',0); check('4-1 選客運：KH_GO bus',G.flags.KH_GO==='bus');
+    G.day=d25; G.hour=8.5; const bh=EVENTS.check(ev('ev_y0_kh_bus_h')), hh=EVENTS.check(ev('ev_y0_kh_home_h'));
+    said=[]; picks=['先不要講分數','以後我們不在同一個學校']; await EVENTS.run(ev('ev_y0_kh_bus_h')); const L=lines();
+    const iB=L.indexOf('（國道上。你已經坐了一個多小時。）'), iS=L.indexOf('杜可昕：你從下車到現在，都沒有看我。'), iM=L.indexOf('（她把一袋東西塞給你。是她家巷口的肉粽，還是熱的。）');
+    check('4-2 7/25 早上在家：客運版（在家版不演）；「（國道上。……）」「（十點。成績公布了。）」…「（差了一大截。）」「（還有兩個小時。）」',bh&&!hh&&iB===0&&L.includes('（十點。成績公布了。）')&&L.includes('（差了一大截。）')&&L.includes('（還有兩個小時。）')&&G.flags.SCORE_REPLY==='later',J(L.slice(0,3)));
+    check('4-3 客運站：「恭喜你。」…「你從下車到現在，都沒有看我。」→ 三選一（KH_FIGHT）→「……我知道我考不好。我不用你幫我難過。」「我先回家。你自己逛一下。」',iS>iB&&G.flags.KH_FIGHT==='school'&&L.includes('杜可昕：我先回家。你自己逛一下。')&&L.includes('（她走了。你在客運站外面站了很久。）'));
+    const P=TH('p:kexin').map(m=>m.from+':'+m.text);
+    check('4-3 18:30 的私訊收進手機：「你回臺北的車幾點。」→「九點。」→「我八點去車站。」；手機也有 10:00 那三則',P.includes('kexin:你回臺北的車幾點。')&&P.includes('player:九點。')&&P.includes('kexin:我八點去車站。')&&P.includes('kexin:查到了。'),J(P.slice(-4)));
+    check('4-3 20:00 和好：「下午那樣，對不起。」…肉粽 →「車上吃。不要在車上難過。」→「（九點的客運開了。你在車上把肉粽吃完。）」、KH_MADEUP；演完 00:10 到家',iM>iS&&L.includes('杜可昕：車上吃。不要在車上難過。')&&L[L.length-1]==='（九點的客運開了。你在車上把肉粽吃完。）'&&G.flags.KH_MADEUP===true&&Math.abs(G.hour-(24+10/60))<1e-6,J([L.slice(-1),G.hour]));
+    check('4 演過以後不再演（兩個版本都不演）',!EVENTS.check(ev('ev_y0_kh_bus_h'))&&!EVENTS.check(ev('ev_y0_kh_home_h')));
+    G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); PHONE.answer(G,'y0_kh_ask',1); const K2=txt('p:kexin');
+    check('4-1 選在家：她回「好。」、KH_GO home',K2[K2.length-1]==='kexin:好。'&&G.flags.KH_GO==='home');
+    G.day=d25; G.hour=9.9; const h0=EVENTS.check(ev('ev_y0_kh_home_h')); G.hour=10; const h1=EVENTS.check(ev('ev_y0_kh_home_h'));
+    said=[]; picks=['我的還好']; await EVENTS.run(ev('ev_y0_kh_home_h')); const L2=lines();
+    check('4-2 在家版：10:00 才演；手機三則＋三選一＋「（差了一大截。）」；沒有客運的三句旁白；沒有客運站、和好',!h0&&h1&&L2.includes('（十點。成績公布了。）')&&L2.includes('（差了一大截。）')&&G.flags.SCORE_REPLY==='fine'&&!L2.some(t=>/國道|窗外是一片一片的田|還有兩個小時|客運站|肉粽/.test(t))&&!G.flags.KH_MADEUP,J(L2));
+    G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=d25; G.hour=10; check('4-1 7/24 沒回：在家版',EVENTS.check(ev('ev_y0_kh_home_h'))&&!EVENTS.check(ev('ev_y0_kh_bus_h'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
