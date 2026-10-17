@@ -523,6 +523,9 @@ except Exception as ex:
     print('plants skipped', ex)
 
 # ================= 合併、匯出 =================
+# 同材質合併（draw call）：會淡出的牆、門照群組各自合併（名稱留 WALL_<id>／DOOR_<id> 開頭）；門牌字面、電梯門不動（遊戲要找名字）
+L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('PLATE_FACE', 'ELEV_')),
+                    key=lambda ob: (ob.parent.name if ob.parent is not None and ob.parent.name.startswith(('WALL_', 'DOOR_')) else ''))
 st = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:

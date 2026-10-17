@@ -183,12 +183,12 @@
     "assets/models/env/second_ai/socsci_bldg1f.layout.json",
     "docs/art-rebuild/second_ai/test_shots/socsci_bldg1f/"
    ],
-   "state": "WIP",
-   "remaining": "Blender 室內模型（大廳、電梯樓梯核心、走廊、經濟學系辦公室櫃台、101 教室）、渲染、八項；房間用途等 AA-C（D79）",
-   "next": "LAWWW2-C 做 Blender 模型；之後 LAWWW 照 layout.json 建區域（導航、座位、互動點、出口）",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "遊戲內截圖（等 LAWWW 接成區域）；房間用途等 AA-C",
+   "next": "LAWWW 照 socsci_bldg1f.layout.json 建區域（導航、出口、互動點、座位），社科院大樓正面加入口；接好後 LAWWW2 拍遊戲內截圖",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   },
   {
    "task": "SCN-US-01",
