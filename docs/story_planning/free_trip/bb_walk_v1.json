@@ -608,7 +608,7 @@
   {
    "who": "heroine_02",
    "spot": "D02",
-   "act": "D02.pond",
+   "act": "walk",
    "friend": [
     "那個阿伯每個禮拜都在。上次他也拍同一隻。"
    ],
