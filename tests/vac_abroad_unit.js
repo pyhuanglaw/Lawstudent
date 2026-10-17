@@ -175,6 +175,9 @@ GM.money=function(n){ G.money+=n; };
     said=[]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y2_pre2')); check('15. 行前訓練：日誌「行前訓練。家睿讓你帶新隊員折紙。」',lines().join('|')==='行前訓練。家睿讓你帶新隊員折紙。'); }
   { fresh(D('2028-06-01'),10,'dorm',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; check('15. 日本路線大三暑假（在日本到 8/5）：首爾 7/13 不能報；京都 8/9 可以',VAC.blocked(G,VAC.inst('C08','Y3'))&&!VAC.blocked(G,VAC.inst('C12','Y3')));
     G.flags.EXCHANGE_ROUTE='US'; check('15. 美國路線（7/25 退宿、8/2 出發）：京都 8/9 不能報',VAC.blocked(G,VAC.inst('C12','Y3'))); }
+  // 16. 同一個目的地第二次（AA_264 C05／C13；阿凱的日本團算一次）
+  { fresh(D('2027-07-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C05@Y1']='done'; picks=['日本','自己去','3 天',0]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0]; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
+    check('16. 日本第二次：機場「這次你記得先把行動電源拿出來。」、「第二次來。你沒看地圖就找到了住的地方。」、最後一晚伴手禮那句',L.includes('機場。這次你記得先把行動電源拿出來。')&&L.includes('第二次來。你沒看地圖就找到了住的地方。')&&L.includes('最後一晚。伴手禮買得比上次少，因為知道誰會吃。')&&!L.some(t=>t.includes('電路板')),JSON.stringify(L)); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
