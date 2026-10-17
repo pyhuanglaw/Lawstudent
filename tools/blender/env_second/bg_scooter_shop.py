@@ -174,7 +174,7 @@ def tex_calendar(path):
 tex_floor_mask(os.path.join(TMP, 'floor_mask.png')); tex_tiles(os.path.join(TMP, 'tiles.png'))
 tex_sign(os.path.join(TMP, 'sign.png'), '順發機車行', sub='買賣・維修・保養・輪胎')
 tex_vsign(os.path.join(TMP, 'vsign.png'), '機車行'); tex_calendar(os.path.join(TMP, 'cal.png'))
-FLOOR = mask_mat('sh_floor', os.path.join(TEXR, 'granular_concrete', 'granular_concrete_diff_1k.jpg'), os.path.join(TMP, 'floor_mask.png'), 3.0, (0.60, 0.60, 0.58), 0.86, 0.72, 0.42)
+FLOOR = mask_mat('sh_floor', os.path.join(TEXR, 'granular_concrete', 'granular_concrete_diff_1k.jpg'), os.path.join(TMP, 'floor_mask.png'), 3.0, (0.60, 0.60, 0.58), 0.86, 0.86, 0.55)   # 第三版：機油漬深一點、亮一點（旁白「地上都是機油」）
 TILES = img_mat('sh_tiles', os.path.join(TMP, 'tiles.png'), rough=0.35)
 
 
@@ -211,7 +211,7 @@ for poly in me.polygons:
         co = me.vertices[me.loops[li].vertex_index].co; x, y, z = co.x, co.z, -co.y
         u = (x if abs(poly.normal.x) < 0.5 else z) / 4.0; uvl.data[li].uv = (u, y / 1.30)
 m = Mesh('ceiling', M['conc']); m.box(X0 - 0.12, X1 + 0.12, H, H + 0.15, ZB - 0.12, ZA); m.finish()
-m = Mesh('beam', M['plaster_out']); m.box(X0 - 0.6, X1 + 0.6, H - 0.42, H, ZF - 0.05, ZF + 0.35); m.finish()      # 店面上方的梁（騎樓）
+m = Mesh('beam', M['plaster_out']); m.box(X0 - 9.0, X1 + 9.0, H - 0.42, H, ZF - 0.05, ZF + 0.35); m.box(X0 - 9.0, X1 + 9.0, H - 0.5, H, ZA - 0.55, ZA); m.finish()   # 第三版：梁接到隔壁（第二版上面兩個角看得到天空）      # 店面上方的梁（騎樓）
 # 鐵捲門：捲起來的箱子＋兩邊的導軌
 m = Mesh('shutter_box', M['shutter']); m.rbox(X0 + 0.05, X1 - 0.05, H - 0.70, H - 0.42, ZF + 0.02, ZF + 0.36, r=0.05); m.finish()
 m = Mesh('rails', M['metal'])
@@ -299,15 +299,16 @@ m = Mesh('pillars', M['facade'])
 for x in (X0 - 0.62, X1 + 0.02): m.box(x, x + 0.6, 0, H, ZA - 0.6, ZA)
 m.finish()
 m = Mesh('neighbor_shutters', M['shutter'])
-m.box(X0 - 4.2, X0 - 0.62, 0, H - 0.42, ZF - 0.02, ZF + 0.02); m.box(X1 + 0.62, X1 + 4.0, 0, H - 0.42, ZF - 0.02, ZF + 0.02); m.finish()
+m.box(X0 - 8.6, X0 - 0.62, 0, H - 0.42, ZF - 0.02, ZF + 0.02); m.box(X1 + 0.62, X1 + 8.6, 0, H - 0.42, ZF - 0.02, ZF + 0.02); m.finish()
 m = Mesh('neighbor_walls', M['facade'])
 m.box(X0 - 0.62, X0 - 0.12, 0, H, ZF - 0.3, ZF + 0.02); m.box(X1 + 0.12, X1 + 0.62, 0, H, ZF - 0.3, ZF + 0.02)
 m.box(X0 - 4.4, X0 - 4.0, 0, H, ZA - 0.6, ZA); m.box(X1 + 3.9, X1 + 4.3, 0, H, ZA - 0.6, ZA)
 m.finish()
-m = Mesh('arcade_floor', M['terrazzo']); m.box(X0 - 4.5, X1 + 4.5, -0.02, 0.0, ZF + 1.2, ZA); m.box(X0 - 4.5, X0, -0.02, 0.0, ZF, ZF + 1.2); m.box(X1, X1 + 4.5, -0.02, 0.0, ZF, ZF + 1.2); m.finish()
-m = Mesh('curb', M['conc']); m.box(X0 - 4.5, X1 + 4.5, -0.15, 0.0, ZA, ZA + 0.12); m.finish()
+m = Mesh('arcade_floor', M['terrazzo']); m.box(X0 - 9.0, X1 + 9.0, -0.02, 0.0, ZF + 1.2, ZA); m.box(X0 - 9.0, X0, -0.02, 0.0, ZF, ZF + 1.2); m.box(X1, X1 + 9.0, -0.02, 0.0, ZF, ZF + 1.2); m.finish()
+m = Mesh('curb', M['conc']); m.box(X0 - 9.0, X1 + 9.0, -0.15, 0.0, ZA, ZA + 0.12); m.finish()
 m = Mesh('street', M['asph']); m.box(X0 - 8, X1 + 8, -0.17, -0.15, ZA + 0.12, ZA + 12); m.finish()
-m = Mesh('arcade_ceiling', M['conc']); m.box(X0 - 4.5, X0 - 0.12, H, H + 0.15, ZF, ZA); m.box(X1 + 0.12, X1 + 4.5, H, H + 0.15, ZF, ZA); m.finish()
+m = Mesh('arcade_ceiling', M['conc']); m.box(X0 - 9.0, X0 - 0.12, H, H + 0.15, ZF, ZA); m.box(X1 + 0.12, X1 + 9.0, H, H + 0.15, ZF, ZA); m.finish()
+m = Mesh('upper_facade', M['facade']); m.box(X0 - 9.0, X1 + 9.0, H, H + 4.0, ZA - 0.6, ZA); m.finish()
 
 # ---------------- 道具：BB-B 的機車行道具組（照 SPREAD 的位置匯入）、機車 ----------------
 before = set(bpy.data.objects)
@@ -355,7 +356,8 @@ def place(key, x, y, z, yaw, col):
 
 # 機車的長軸：scooter.glb 的車頭朝 +z（遊戲座標）。升降台沿 x：車頭朝 +x（yaw −90°）；檯面頂 0.34 m
 place('scooter_S1B', -0.05, 0.34, 0.05, 0.0, '#f1f1ee')                         # 升降台上的「新機車」（白色、新款通勤）：側面朝鏡頭、車頭朝右（scooter.glb 的長軸是 x：yaw 0＝車頭朝 +x）
-place('scooter_S1A', -2.0, 0.0, 4.15, math.radians(140), '#22344f')              # 騎樓停的兩台：斜停（3/4 側面）
+place('scooter_S1A', -2.75, 0.0, 4.7, math.radians(132), '#22344f')             # 騎樓停的兩台：斜停（3/4 側面）；第四版往左後挪（第三版擋住升降台）
+place('scooter_S7', 2.35, 0.0, 1.35, math.radians(196), '#c9ccd0')              # 店裡右牆邊等修的一台
 place('scooter_S2', 2.15, 0.0, 4.3, math.radians(38), '#8f1f24')
 # 拆下來的輪胎（靠著升降台）、工具箱、地上的扳手、紙箱、騎樓的安全帽
 def tire_obj(name, mat, r, depth):
@@ -375,8 +377,6 @@ m = Mesh('wrench', M['metal']); m.box(-0.55, -0.27, 0.0, 0.012, 0.95, 0.975); m.
 m = Mesh('boxes', M['cardboard'])
 m.box(-2.95, -2.45, 0.0, 0.42, -1.5, -1.1); m.box(-2.9, -2.5, 0.0, 0.30, -1.0, -0.65); m.box(-2.92, -2.5, 0.42, 0.72, -1.47, -1.12)
 m.finish()
-m = Mesh('helmet', M['white']); m.ell((-2.1, 0.98, 4.35), 0.13, 0.12, 0.15, seg=16, rings=8); m.finish()
-m = Mesh('helmet_visor', M['dark']); m.ell((-2.1, 0.97, 4.47), 0.11, 0.06, 0.05, seg=12, rings=6); m.finish()
 m = Mesh('hose', M['black'])
 pts = [(1.45 + 0.35 * math.cos(t), 0.02, 0.62 + 0.45 + 0.30 * math.sin(t)) for t in np.linspace(0, 5.5, 24)]
 for a_, b_ in zip(pts[:-1], pts[1:]): m.cyl(a_, b_, 0.012, seg=6)
@@ -409,9 +409,9 @@ point_light('vsign_glow', X0 - 0.32, 2.3, ZA + 0.5, 25, (1.0, 0.93, 0.85), 0.3)
 area_light('street_bounce', -1.0, 1.4, ZA + 3.0, 6.0, 2.5, float(opt('--bounce', '120')), (0.55, 0.62, 0.9), rot=(math.radians(-90), 0, 0))   # 巷子的天空反光（藍紫）
 
 # ---------------- 鏡頭：站在巷子邊、騎樓外緣，往店裡看（升降台在畫面中間偏左，招牌、神明燈、工具牆都看得到） ----------------
-eye = tuple(map(float, opt('--eye', '0.1,1.5,9.7').split(','))); look = tuple(map(float, opt('--look', '0.25,1.25,0.0').split(',')))
+eye = tuple(map(float, opt('--eye', '-1.7,1.45,7.4').split(','))); look = tuple(map(float, opt('--look', '0.7,1.15,0.0').split(',')))   # 第三版：左前方、近一點、斜看進店裡（第二版正面、太對稱，像模型展示）
 cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
-cam.data.lens = float(opt('--lens', '20')); cam.data.sensor_width = 36; cam.location = g2b(*eye)
+cam.data.lens = float(opt('--lens', '21')); cam.data.sensor_width = 36; cam.location = g2b(*eye)
 cam.rotation_euler = (g2b(*look) - g2b(*eye)).to_track_quat('-Z', 'Y').to_euler()
 sc.render.filepath = os.path.abspath(OUT); sc.render.image_settings.file_format = 'PNG'
 bpy.ops.render.render(write_still=True)

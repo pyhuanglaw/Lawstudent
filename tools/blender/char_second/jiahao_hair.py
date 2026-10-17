@@ -10,6 +10,7 @@ LAWWW2-C 2026-10-17 第一版：
 import math
 import numpy as np
 import bpy, bmesh
+from mathutils import Vector
 import common as C
 import h01_hair as HB
 from h01_hair import _unit, sph
@@ -135,9 +136,41 @@ def build_cap(m, hair):
     return obj
 
 
+def cap_bangs(m, hair, n=11):
+    """第五版：帽緣下面一排短瀏海（參考圖帽舌底下看得到一撮一撮的瀏海；第四版把帽緣附近的髮片壓進帽子裡，前面一根都看不到）。
+    每撮：從帽緣內側 5 mm 往下到眉毛上面，寬 1.6 cm，貼著額頭外 6 mm；用頭髮的同一個材質、weilun_hair 貼圖的 'bang' 區；綁頭骨"""
+    H = HB.Head(m); c = H.c; arm = m['arm']
+    u0, v0, u1, v1 = HB.reg_uv('bang')
+    V, F, UV = [], [], []
+    for k in range(n):
+        a = -48 + 96 * (k + 0.5) / n + np.random.default_rng(20 + k).uniform(-3, 3)
+        # 帽緣的仰角（build_cap 的 z_rim）：前面在眉毛上緣＋1.6 cm——這裡直接用高度：根部 brow_top＋1.1 cm、髮尾 brow_z＋0.4～1.2 cm
+        z_root = H.brow_top + 0.011; z_tip = H.brow_z + 0.004 + 0.008 * ((k * 7) % 3) / 2
+        segs = 6; base = len(V)
+        for j in range(segs + 1):
+            t = j / segs; z = z_root + (z_tip - z_root) * t
+            d = sph(a, 0.0); dh = np.array([d[0], d[1], 0.0]); dh /= np.linalg.norm(dh)
+            hit = H.body.ray_cast(Vector(np.array([c[0], c[1], z])), Vector(dh), 0.25)[0]      # 那個高度的額頭表面：從頭的中心水平往外打
+            ps = (np.array(hit) if hit is not None else np.array([c[0], c[1], z]) + dh * 0.09) + dh * (0.006 + 0.002 * (1 - t))
+            side = np.array([-dh[1], dh[0], 0.0]); w = 0.008 * (1.0 - 0.45 * t)
+            V.append(ps - side * w); V.append(ps + side * w)
+            vv = v1 - (v1 - v0) * t; UV.append((u0, vv)); UV.append((u1, vv))
+        for j in range(segs):
+            i0 = base + 2 * j; F.append((i0, i0 + 1, i0 + 3, i0 + 2))
+    me = bpy.data.meshes.new('Hair_CapBangs'); me.from_pydata([tuple(map(float, v)) for v in V], [], F); me.validate(); me.update()
+    uvl = me.uv_layers.new(name='UVMap'); li = np.zeros(len(me.loops), int); me.loops.foreach_get('vertex_index', li)
+    uvl.data.foreach_set('uv', np.array(UV)[li].reshape(-1).astype(np.float32))
+    me.polygons.foreach_set('use_smooth', [True] * len(me.polygons))
+    ob = bpy.data.objects.new('Hair_CapBangs', me); (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(ob)
+    me.materials.append(hair.data.materials[0]); C.bind(ob, arm, {HEAD: np.ones(len(V))})
+    print('  cap bangs', n, 'verts', len(V))
+    return ob
+
+
 def apply(m):
     WH.SEED = 20261019
     hair = WH.apply(m)
     cap = build_cap(m, hair)
+    cap_bangs(m, hair)
     m['cap'] = cap
     return hair
