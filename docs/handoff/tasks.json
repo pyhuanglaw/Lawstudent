@@ -14722,7 +14722,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P2",
-   "next": "【13:5x LAWWW-C】AA_260 第 4 節第 1 點做好：ROUTE_DATES 日本 2/20 退宿、3/25 出發、8/5 返台；美國 8/2～12/23（退宿 7/25 LAWWW 暫排，AA_144 寫「7 月下旬」）、時差夏令 −12、11/5 起 −13；以安 presence 3/25～8/5；學姊 presence 8/2～12/23（大三下在臺灣）；第 6 點期末飯：玩家整段在國外不發、中途回來（美國 12/23）那天起發；tests 改（sys10_route、presence、lifeline_q34 第四年視訊、invite_people、dl12_bb158、bb163_taipei、termend 9i）。還沒：日本路線以安那一頓（AA_250 6-2，等 AA 給她約的訊息）、送機時間（10:00 報到、12:00 起飛、沒去版 11:40）、交換路線的事件日期全面對照（AA_201／AA_213）｜【13:0x AA_260 9d00435c 最急】JP out 2028-02-20、出發 03-25、回 08-05；US 2028-08-02～12-23；以安 presence 3/25～8/5；學姊 presence 8/2～12/23（BB_206 4484e4a2 同）｜AA_158 已改（AA-C 9df430fa）：日本照 AA_201——2028-02-20 退宿、2/21～3/24 在臺灣住家裡（台灣區域照常、不在臺大修課）、3/24 19:00 以安餞行、3/25 10:00 出發（CG-22，和以安同一班）、8/5 返台，以安不在台灣 2028-03-25～08-05；美國照 AA_213——大四上 7 月下旬退宿、8/2 出發、12/23 返台，大三下的美國玩家照台灣路線。改法：ROUTE_DATES、characters.js heroine_01 absentDates、台灣事件條件改「那天人在台灣」；lifeline_q34 第四年改成視訊。D81：排在發布之後。",
+   "next": "【15:3x LAWWW-C】AA_260 第 4 節第 3～5 點：語彤 2027-12-16 起週四不顧店（田野訪談）、公法讀書會大三下第 1～5 週、LADDER_HOLD Y6-L1／L7（YT_EV13）、Y6-L5（RENT_RENEWED）、招呼③（base 也看 LADDER_GREET_IF）；tests/aa260_y3s2_unit.js。還沒：第 6 點日本路線以安那頓（AA_250 6-2）的邀約訊息（等 AA）、第 7 點 syllabus／invites。｜【13:5x LAWWW-C】AA_260 第 4 節第 1 點做好：ROUTE_DATES 日本 2/20 退宿、3/25 出發、8/5 返台；美國 8/2～12/23（退宿 7/25 LAWWW 暫排，AA_144 寫「7 月下旬」）、時差夏令 −12、11/5 起 −13；以安 presence 3/25～8/5；學姊 presence 8/2～12/23（大三下在臺灣）；第 6 點期末飯：玩家整段在國外不發、中途回來（美國 12/23）那天起發；tests 改（sys10_route、presence、lifeline_q34 第四年視訊、invite_people、dl12_bb158、bb163_taipei、termend 9i）。還沒：日本路線以安那一頓（AA_250 6-2，等 AA 給她約的訊息）、送機時間（10:00 報到、12:00 起飛、沒去版 11:40）、交換路線的事件日期全面對照（AA_201／AA_213）｜【13:0x AA_260 9d00435c 最急】JP out 2028-02-20、出發 03-25、回 08-05；US 2028-08-02～12-23；以安 presence 3/25～8/5；學姊 presence 8/2～12/23（BB_206 4484e4a2 同）｜AA_158 已改（AA-C 9df430fa）：日本照 AA_201——2028-02-20 退宿、2/21～3/24 在臺灣住家裡（台灣區域照常、不在臺大修課）、3/24 19:00 以安餞行、3/25 10:00 出發（CG-22，和以安同一班）、8/5 返台，以安不在台灣 2028-03-25～08-05；美國照 AA_213——大四上 7 月下旬退宿、8/2 出發、12/23 返台，大三下的美國玩家照台灣路線。改法：ROUTE_DATES、cha",
    "first": {
     "term": "Y3S1",
     "week": 11,
@@ -15591,7 +15591,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P2",
-   "next": "【13:0x LAWWW-C】第 3 點（同 AA_255）、第 4 點 ev_yutong_thanks 收到大一下～大二上、第 2 點 public_law_group 大三上第 1～7、10～15 週、第 5 點期末飯不在台灣的人不約（3f81e322）、第 7 點以安兩句做好。還沒：第 1 點 ladder Y3S1 重新匯入（等 AA 給已審 SHA）、第 6 點學姊 presence（跟 ROUTE-DATES-1017）、Y5-L7 JOB_NOODLE、日期改動（語彤事件 13／14、聖誕紙箱）｜D81：v3 大二、v4 大三照順序；期末飯在不在的部分已做（termend3d friendOk、S.FROM）",
+   "next": "【15:3x LAWWW-C】ladder Y3S1 已照 25e89f6e／408398d7 匯入（59ba1153、32d28974）；A5-L6 條件拿掉；學姊 presence 跟 ROUTE-DATES 做了；Y5-L7 的 linesIf 讀 JOB_NOODLE（麵店打工系統 DL-10 還沒有，做好時設）。剩：語彤事件 13（12/16）、14（11/24）、聖誕紙箱 12/26 三件本身還沒做（v4 照 D81 排），做的時候照 AA_259 第 2 節日期；事件 13 做好設 YT_EV13、事件 14 設 RENT_RENEWED。｜【13:0x LAWWW-C】第 3 點（同 AA_255）、第 4 點 ev_yutong_thanks 收到大一下～大二上、第 2 點 public_law_group 大三上第 1～7、10～15 週、第 5 點期末飯不在台灣的人不約（3f81e322）、第 7 點以安兩句做好。還沒：第 1 點 ladder Y3S1 重新匯入（等 AA 給已審 SHA）、第 6 點學姊 presence（跟 ROUTE-DATES-1017）、Y5-L7 JOB_NOODLE、日期改動（語彤事件 13／14、聖誕紙箱）｜D81：v3 大二、v4 大三照順序；期末飯在不在的部分已做（termend3d friendOk、S.FROM）",
    "first": {
     "term": "Y3S1",
     "week": 1,
