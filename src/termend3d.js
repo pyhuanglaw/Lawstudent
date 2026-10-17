@@ -64,8 +64,8 @@ const TERMEND=(function(){
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
     if(typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return false;   /* C8：分手以後還不能重新開始 */
     const c=S.cond(G,id);
-    if(!c.ok) return c.why==='low'||c.why==='knows'?{nope:c.why}:false;   /* C1、C2 只是還沒到、C5 她自己有伴侶：不傳 */
-    if(c.decline==='preexam'||c.decline==='prerank') return {nope:'preexam'};   /* 學姊：放榜（2026-03-23）以前不發（5-3）*/
+    if(!c.ok){ if(c.why==='low'||c.why==='knows') return {nope:c.why}; if(c.why==='partner') return Lx.NOPE.partner&&Lx.NOPE.partner[id]?{nope:'partner'}:false; return false; }   /* 手機一句只給 C5 她自己有交往對象、C6 低潮、C10 她知道（含 5-3 第二欄沒到）；C1、C2 只是還沒到，不傳（BB_203 5-4，AA_254 第 9 節 8c76052b）*/
+    if(c.decline==='preexam'||c.decline==='prerank') return false;   /* 學姊：放榜（2026-03-23）以前不發、也不傳（5-3 第一欄，AA_254 第 9 節刪了那一句）*/
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[id]:null; if(D&&typeof D.hideIf==='function'&&D.hideIf(G,null)) return false;   /* 沛珊重考期：聯絡不到，不傳 */
     return true; };
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
@@ -99,7 +99,8 @@ const TERMEND=(function(){
     if(now<T(w.from,0)) return; const P=S.plan(G,w), R=S.rec(G,w.id), Lx=L(); R.asks=R.asks||{};
     const until=T(w.to,18);
     const d1=P.back||w.from;   /* 玩家回來那天（不在國外＝時段第一天）*/
-    for(const id in P.nope){ const t=(Lx.NOPE[P.nope[id]]||{})[id], tag='te_nope_'+w.id+'_'+id; if(t&&now>=T(d1,20)&&!PHONE.sent(G,tag)) PHONE.at(G,d1,20,[{th:'p:'+id,from:id,text:t}],tag); }
+    for(const id in P.nope){ const t=(Lx.NOPE[P.nope[id]]||{})[id], tag='te_nope_'+w.id+'_'+id, mine=x=>!!(x&&x.who===id);   /* 時段的最後一天 20:00（BB_203 5-4）；這學期玩家已經約她吃過期末飯＝不傳；一學期一人一句 */
+      if(t&&now>=T(w.to,20)&&!PHONE.sent(G,tag)&&!mine(R.picked)&&!mine(R.done)) PHONE.at(G,w.to,20,[{th:'p:'+id,from:id,text:t}],tag); }
     let n=0; const send=(id,kind,txt,no)=>{ const tag='te_'+w.id+'_'+id, h=20.5+(n++)*0.15, d0=Math.max(S.fromDay(w,id),P.back||w.from); if(now<T(d0,h)||PHONE.sent(G,tag)||R.picked) return;   /* 已經接了一場（收到的或自己約的）就不再發 */ const T2=lines(txt,G);
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
@@ -133,7 +134,7 @@ const TERMEND=(function(){
     finally{ GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
   /* ---- 飯（出遊事件 ev_termend_dinner 的 beforeOuting；保底阿凱直接叫）---- */
   const run=async(GM,who,arr)=>{ const G=GM.G, me={name:nm(who),charId:who}; for(let x of arr){ x=resolve(x,G); if(x==null) continue; if(Array.isArray(x)){ await run(GM,who,x); continue; }
-      if(typeof x==='string') await GM.say(me,x); else if(x.narr) await GM.say(null,x.narr);
+      if(typeof x==='string') await GM.say(me,x); else if(x.cg!==undefined){ if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(x.cg); }   /* {cg:id}：這一刻換成 CG（沒登錄的圖＝不顯示，照立繪）*/ else if(x.narr) await GM.say(null,x.narr);
       else if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）');   /* confess_lines.js 的寫法 */
       else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text);
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
@@ -224,8 +225,11 @@ const TERMEND=(function(){
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
     const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t})));
     const start=()=>{ const K=S.knownOthers(G,who); const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&K.length){ const O=G.flags.OPEN_OK||(G.flags.OPEN_OK={}), M=O[who]||(O[who]={}); for(const y of K) M[y]=true; } return ok; };   /* 知情還發的邀約，答應＝她同意祐廷同時和那些人交往（OPEN_OK，BB_194 §6）*/
-    if(k<3){ if(!start()) return 'blocked'; const yes=h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]); await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
-    const second=Rt.think[who]!=null; await run(GM,who,second?h.she2:h.she);
+    const again=Rt.think[who]!=null;   /* 第二次（上次選了「讓我想想」）*/
+    if(k<3){ if(!start()) return 'blocked'; const yes=again&&h.yes2?h.yes2:(h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]));   /* 第二次玩家先說：她上次已經先說過，換 yes2（AA_254 第 0 節第 7 點）*/
+      if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
+      await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
+    await run(GM,who,again?h.she2:h.she);
     const a=await GM.choose(Lx.ANSWER.map(t=>({t})));
     if(a===0){ if(!start()) return 'blocked'; (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };

@@ -8,7 +8,7 @@ const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.repla
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+let cgs=[]; global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(id){ cgs.push(id); }}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
 let said=[], opts=[], picks=[], G=null;
 const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
@@ -63,7 +63,7 @@ GM.money=function(n){ G.money+=n; };
     const q=OUT.get(G,'te_Y1S1'); check('4. 接以安＝排出遊（12/20 19:00、學期末的飯）；芯慈自動婉拒（「好。那開學見。」）',!!q&&q.te.who==='heroine_01'&&q.te.kind==='heart'&&q.day===D('2025-12-20')&&q.h===19&&b.ans===1&&(G.msgs||[]).some(m=>m.from==='classmate_xinci'&&m.text==='好。那開學見。'),JSON.stringify(q)); }
   // 5. 飯 → 回家的路上：說出來＝交往
   { said=[]; picks=[0]; const q=OUT.get(G,'te_Y1S1'); await TERMEND.dinner(GM,q); const L=lines();
-    check('5. 一對一的開場（簡餐，AA_250 10-1）、話題池兩句、飯桌一句、收尾',L.includes('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&L.some(t=>t.includes('民總最後一題，我寫到時間到。'))&&L.some(t=>t.includes('我這學期的手帳寫了一百二十頁。……有一頁不給你看。'))&&L.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'),JSON.stringify(L));
+    check('5. 一對一的開場（簡餐，AA_250 10-1）、話題池兩句、飯桌一句、收尾',L.includes('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&L.some(t=>t.includes('民總最後一題，我寫到時間到。'))&&L.some(t=>t.includes('我這學期很少出來吃飯。……今天是特地訂的。'))&&L.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'),JSON.stringify(L));
     check('5. 語彤：三選一照 AA_187 9-2、麵店打烊後的開場',TERMEND_LINES.HEART.heroine_03.optsFrom==='confess'&&TERMEND_LINES.HEART.heroine_03.place==='noodle_closed'&&TERMEND_LINES.PLACE.noodle_closed.open==='（鐵門拉下一半。店裡只開了長桌上那一盞燈。）');
     check('5. 回家的路上：研討室「我的手帳放在這裡。……白板還沒擦。」；選項＝以安的三句＋（先不說）',L.some(t=>t.includes('我的手帳放在這裡。……白板還沒擦。'))&&opts[opts.length-1].length===4&&opts[opts.length-1][3]==='（先不說）',JSON.stringify(opts[opts.length-1]));
     check('5. 說出來＝她答應（confess_lines；旁白是旁白）＋交往（dating_heroine_01）',L.some(t=>t.includes('好。我們在一起。'))&&L.includes('（她翻開手帳，翻到後面某一頁，又闔起來。）')&&G.flags.dating_heroine_01===true,JSON.stringify(L.slice(-4))); }
@@ -80,9 +80,32 @@ GM.money=function(n){ G.money+=n; };
     check('6. 下學期：第二次的邀約「考完了吧 宵夜」「上次那個 你想好沒」',a.includes('考完了吧 宵夜')&&a.includes('上次那個 你想好沒'),JSON.stringify(a));
     PHONE.answer(G,'te_Y1S2_heroine_04',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S2'); said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
     check('6. 第二次她說的後半「我上次講的，沒有收回。……換你。」→ 好＝交往',L.some(t=>t.includes('我上次講的，沒有收回。……換你。'))&&G.flags.dating_heroine_04===true&&G.termend.think.heroine_04==null); }
+  const hookFor0=TERMEND.hookFor; TERMEND.hookFor=()=>null;   /* 6b：不讓假期鉤子吃掉選項 */
+  // 6b. 第二次玩家先說＝yes2（AA_254 第 0 節第 7 點）；第一次先說的以安有 CG-11 的位置
+  fresh(D('2026-06-11'),20,'campus',{}); G.stage='law'; meet('heroine_04'); R('heroine_04',70,50,45); SOCIAL.rel('heroine_04').npcRom=35; DATE.log(G,'heroine_04').count=4; DATE.log(G,'heroine_04').wish=true; G.termend={think:{heroine_04:'Y1S1'}};
+  { run(20,21); PHONE.answer(G,'te_Y1S2_heroine_04',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S2'); said=[]; picks=[0]; await TERMEND.dinner(GM,q); const L=lines();
+    check('6b. 第二次、玩家選說出來：子晴「欸……你先講了喔」「好啦。」→ 交往',L.some(t=>t.endsWith('欸……你先講了喔'))&&L.some(t=>t.endsWith('好啦。'))&&G.flags.dating_heroine_04===true&&G.termend.think.heroine_04==null,JSON.stringify(L.slice(-4))); }
+  fresh(D('2025-12-18'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true;
+  { run(20,21); PHONE.answer(G,'te_Y1S1_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S1'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
+    check('6b. 以安她說：坐回來、手帳舉到下巴前面；CG-11 在那一刻（cg_reason_column_heroine01）',L.includes('（她坐回你對面，翻開手帳，舉到下巴前面。只露出眼睛。）')&&JSON.stringify(cgs)===JSON.stringify(['cg_reason_column_heroine01'])&&L.some(t=>t.endsWith('理由我會補完。……你先回答。')),JSON.stringify(L.slice(-8))); }
+  fresh(D('2025-12-18'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true;
+  { run(20,21); PHONE.answer(G,'te_Y1S1_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
+    check('6b. 以安玩家先說：CG-11 放在她答應那一句（AA-C 16:5x）',JSON.stringify(cgs)===JSON.stringify(['cg_reason_column_heroine01'])&&G.flags.dating_heroine_01===true); }
+  fresh(D('2026-06-11'),20,'campus',{}); G.stage='law'; meet('heroine_01'); R('heroine_01',70,50,45); SOCIAL.rel('heroine_01').npcRom=40; DATE.log(G,'heroine_01').count=4; DATE.log(G,'heroine_01').wish=true; G.termend={think:{heroine_01:'Y1S1'}};
+  { run(20,21); PHONE.answer(G,'te_Y1S2_heroine_01',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_Y1S2'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); const L=lines();
+    check('6b. 以安第二次：她說的後半「上次寫的那一行還在。我把後面寫完了。……你要看嗎？」、不放 CG',L.some(t=>t.endsWith('上次寫的那一行還在。我把後面寫完了。……你要看嗎？'))&&!cgs.length,JSON.stringify(L.slice(-6))); }
+  TERMEND.hookFor=hookFor0;
+  // 7b. 不發心意邀約的手機一句：時段最後一天 20:00（BB_203 5-4）；C5 她自己有交往對象（沛珊大一下和柏翰）；玩家已經約她吃過＝不傳
+  fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
+  { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,23.5,0.25); check('7b. 沛珊大一下（和柏翰交往中＝C5）：時段第一天不傳、不發心意邀約',!(G.msgs||[]).some(x=>/^te_(nope_)?Y1S2_classmate_peishan/.test(x.tag||'')));
+    G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2); const m=(G.msgs||[]).find(x=>x.tag==='te_nope_Y1S2_classmate_peishan');
+    check('7b. 最後一天 20:00 傳 C5 那一句「期末考完了！這次我有約了……下次再問你問題喔。」',!!m&&m.text==='期末考完了！這次我有約了……下次再問你問題喔。'&&m.h===20,JSON.stringify(m)); }
+  fresh(D('2026-06-11'),12,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',70,50,45); SOCIAL.rel('classmate_peishan').npcRom=40; DATE.log(G,'classmate_peishan').count=4; DATE.log(G,'classmate_peishan').wish=true;
+  { const w=TERMEND.windowOf('Y1S2'); G.day=w.from; G.weekday=wdOf(G.day); run(0.1,1); TERMEND.rec(G,'Y1S2').picked={who:'classmate_peishan',kind:'friend',day:G.day,by:'player'}; G.day=w.to; G.weekday=wdOf(G.day); run(19.8,20.2);
+    check('7b. 這學期玩家已經自己約她吃過期末飯：不傳',!(G.msgs||[]).some(x=>x.tag==='te_nope_Y1S2_classmate_peishan')); }
   // 7. 學姊：筆試前不發心意邀約，傳那一句；語彤大一下 6/19 以後的週四
   fresh(D('2025-12-18'),19.9,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',45,30,20); SOCIAL.rel('heroine_05').npcRom=40; DATE.log(G,'heroine_05').count=4; DATE.log(G,'heroine_05').wish=true;
-  { run(19.9,20.2); const m=(G.msgs||[]).find(x=>x.tag==='te_nope_Y1S1_heroine_05'); check('7. 學姊筆試前：20:00「這學期的期末，我在讀書。……謝謝你這學期陪我讀。」，沒有心意的邀約',!!m&&m.text==='這學期的期末，我在讀書。……謝謝你這學期陪我讀。'&&!(G.msgs||[]).some(x=>x.tag==='te_Y1S1_heroine_05')); }
+  { run(19.9,20.2); const w=TERMEND.window(G); G.day=w.to; G.weekday=wdOf(G.day); run(19.9,20.2); check('7. 學姊筆試前：不發心意邀約，也不傳手機一句（5-3 第一欄，AA_254 第 9 節 8c76052b 刪了那一句）',!(G.msgs||[]).some(x=>/^te_(nope_)?Y1S1_heroine_05/.test(x.tag||''))); }
   fresh(D('2026-06-11'),12,'campus',{}); G.stage='law';
   { const d=TERMEND.dinnerDay(G,TERMEND.windowOf('Y1S2'),TERMEND_LINES.HEART.heroine_03,'heroine_03'); check('7. 語彤大一下：6/18 筆試以後的週四（6/25 超出時段＝那就 6/19 以後的第一天）',d!=null&&d>=D('2026-06-19')&&d<=D('2026-06-21'),String(d-D('2026-06-19'))); }
   // 8. 交往中的女朋友：另外的學期末約會，不佔名額

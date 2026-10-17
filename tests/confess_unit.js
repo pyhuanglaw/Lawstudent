@@ -98,7 +98,7 @@ const ADV2=global.ADV; ADV2.active=false;
   // 11 答應還是還沒（BB_191 第 10 節 @f3ae0e82）：答應線、第三次一定答應、兩週＋再一次正式約會
   check('11. 答應線（10-2）：子晴 62、沛珊 65、語彤 68、芷若 68、學姊 70、以安 72',JSON.stringify(DATE.YES_LINE)===JSON.stringify({heroine_04:62,classmate_peishan:65,heroine_03:68,heroine_02:68,heroine_05:70,heroine_01:72}));
   fresh(day,9,'dorm',{}); ready('heroine_03'); atConfess={id:'heroine_03',v:67}; r=await go('heroine_03',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
-  check('11. 語彤 npcRom 67（答應線 −1）：還沒（「現在不行……」）、記 YT_NOT_YET 第 1 次、沒有交往、數值不扣',!G.flags.dating_heroine_03&&r.L.some(x=>x.startsWith('陳語彤：現在不行'))&&G.flags.YT_NOT_YET&&G.flags.YT_NOT_YET.n===1&&SOCIAL.rel('heroine_03').npcRom>=67,JSON.stringify(r.L.slice(-3)));
+  check('11. 語彤 npcRom 67（答應線 −1）：沒有「還沒」（YT_NOT_YET 作廢，AA-C 16:44）＝答應、交往中、沒有 YT_NOT_YET',G.flags.dating_heroine_03===true&&!G.flags.YT_NOT_YET&&!r.L.some(x=>x.startsWith('陳語彤：現在不行')),JSON.stringify(r.L.slice(-3)));
   fresh(day,9,'dorm',{}); ready('heroine_03'); atConfess={id:'heroine_03',v:69}; r=await go('heroine_03',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']);
   check('11. 語彤 npcRom 69（答應線 +1）：答應、交往中',G.flags.dating_heroine_03===true);
   fresh(day,9,'dorm',{}); ready('heroine_01'); atConfess={id:'heroine_01',v:60}; r=await go('heroine_01',['河邊欄杆','差不多了','告訴她','我喜歡妳。」']); const n1=DATE.log(G,'heroine_01').notYetN;

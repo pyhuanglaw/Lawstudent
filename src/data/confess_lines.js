@@ -30,8 +30,7 @@ const CONFESS_LINES={
     only:(G,t)=>!!t&&Array.isArray(t.locs)&&t.locs[0]==='D13',
     say:['河邊風好大。……你今天一直在想事情。'],
     choice:[{t:'「我喜歡妳。」'},{t:'「我們要不要在一起？」'},{t:'「我喜歡妳。妳不用急著回答。」'}],
-    yes:['……你先說了。',{who:'narr',text:'（她低頭，把書包拉鍊拉上又拉開。）'},'我本來也想講，可是一直不知道什麼時候講。',{who:'heroine_03',text:'……好。',expr:'embarrassed'}],   /* 她第一次的 embarrassed 表情放在這一刻（AA_187 2-2）*/
-    notYet:['現在不行……不是因為你。我現在店裡跟學校都顧不好，沒辦法再多一件事。'], notYetFlag:'YT_NOT_YET' },
+    yes:['……你先說了。',{who:'narr',text:'（她低頭，把書包拉鍊拉上又拉開。）'},'我本來也想講，可是一直不知道什麼時候講。',{who:'heroine_03',text:'……好。',expr:'embarrassed'}],   /* 她第一次的 embarrassed 表情放在這一刻（AA_187 2-2）*/ },   /* 語彤沒有「還沒」：YT_NOT_YET 作廢（BB_203 沒有「還沒」；AA-C 16:44 告白文件對齊第 9 點）*/
   /* 學姊：AA_223 第 1 節（企劃線 8dac7e49；筆試前婉拒照 BB_122 ★-2 原句）。筆試 2026-02-02 以前＝preexam；筆試後到放榜 2026-03-23 以前＝prerank（使用者同意 BB_190 LOGIC-14）：
      選項照樣出現、她婉拒、不鎖線（DATE.canConfess 的 decline）；放榜以後照一般流程 */
   heroine_05:{ src:'AA_223 第 1 節 @8dac7e49',
