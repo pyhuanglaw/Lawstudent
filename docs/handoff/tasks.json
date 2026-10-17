@@ -16201,7 +16201,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "瀏覽器：flow_v0_home 從 10/17 用快轉測到 8/29（事件不漏播、日期不錯亂、存讀檔）；劇情差異等 AA-C（放榜客運、她休學理由、衝刺班兩人一起）｜BB_214 第 1、2、5 點已修（E27／E14 保底電話、吃晚餐先問、休學住家凌晨回家）；第 3、4、6 點（E05 9/20、P2b、L5a）待分段實測確認",
+   "next": "瀏覽器：flow_v0_home 從 10/17 用快轉測到 8/29（事件不漏播、日期不錯亂、存讀檔）｜BB_214 全部已改：第 1、2 節（E27／E14 保底電話、E05 那天演完以前不能回家、E06 睡著隔天補）、第 3 節（P1b1 第 4～5 週先於 P2、P2b 經原下課 10/7、10/14，AA_272 第 13 節）、第 4 節（L5a 窗口、E23 凌晨回家）；BB_216 B 背景接上（145abd17）；重考期快轉照讀書日算（c168b15b）｜瀏覽器第 2、3 段（9/9→10/17）在跑",
    "first": {
     "term": "Y0S1",
     "week": 7,
@@ -16216,7 +16216,7 @@
    "authorized": "D99 第一優先",
    "pausedReason": null,
    "resumeWhen": null,
-   "evidence": "tests/v0_home_ff_unit.js"
+   "evidence": "tests/v0_home_ff_unit.js、tests/v0_bb214_unit.js、tests/v0_p1b_unit.js、tests/v0_p2b_unit.js"
   },
   {
    "id": "US-MIN-FLOW",
@@ -16225,7 +16225,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "瀏覽器流程（大三上申請 → 8/2 出發 → 抵達 → 公寓睡兩晚）；接 LAWWW2-C 的 airport_dep／us_outside／us_apartment patch；返台 12/23、課、出遊、人物照 AA／BB 規格之後做",
+   "next": "瀏覽器 tests/flow_exch_min.py（efddb20c，經濟系分段測完再跑，SwiftShader 一次一支）；LAWWW2-C 的美國區域 patch（01964faa，us_zones.diff）還是 WIP 檢查點，交付後再接；返台 12/23、課、出遊、人物照 AA／BB 規格之後做",
    "first": {
     "term": "Y3S1",
     "week": 1,
