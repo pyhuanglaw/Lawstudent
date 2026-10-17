@@ -1,3 +1,12 @@
+# 第六版：袖子蓋到手背（BB-C ed0d36bc 第 3 點；LAWWW2-C 2026-10-17 20:3x UTC；等 BB-C 驗收，D59）
+- 標準圖「袖子蓋到手背」，第五版袖口停在手腕 → `pinyu_clothes.py`：`SLEEVE_LEN` 1.03 → 1.12（過手腕約 5–6 cm、蓋住手背一半），袖口鬆一點（`CUFF_EASE` 0.014 → 0.018）。臉、頭髮、褲子沒動。
+- `assets/models/char/second_ai/bl_econ_pinyu.vrm` 換成第六版（3.1 MB）。
+- 手腕特寫（遊戲渲染器、待機、拿保溫瓶；上排第五版、下排第六版；正面、左手外側、右手外側）：![](v6_sleeve_v5_v6.webp)
+- 待機、走路、坐下（正面、45°）：![](v6_body.webp)
+- 要 LAWWW-C 接進遊戲、拍白天站著和走路的遊戲內截圖，BB-C 才標 ART_APPROVED。
+
+---
+
 # 隨身物：工程計算機、黑色保溫瓶（BB_131「手上常拿」；LAWWW2-C 2026-10-17；第二版 20:2x UTC；等 BB-C 驗收，D59）
 - 模型（`tools/blender/char_second/prop_pinyu.py`）：
   - `assets/models/char/second_ai/calc_engineering.glb`：工程計算機 16×8×1.6 cm、660 個三角形；深灰機身、液晶（兩行數字的小塊）、太陽能板；上三排小的功能鍵、下五排數字鍵，一顆橘色運算鍵；**沒有牌子、型號**。
