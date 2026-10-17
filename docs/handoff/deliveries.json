@@ -7237,6 +7237,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 107c1b21 接進遊戲；遊戲內截圖給 BB-C 待拍"
+  },
+  {
+   "id": "DL-LAWWW2-0100994c",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0100994c",
+   "what": "ART-17 最後兩張 2D 背景：gongguan_cinema（ev_zhiruo_early_show）、yongkang_curry（ev_family_dinner）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "outings3d.js 的 key 本來就指到這兩個檔名，接上檔案即可；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [
