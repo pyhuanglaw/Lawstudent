@@ -7094,6 +7094,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "大一上還缺 SIS_MOCK_EXAM；大一下 ZR_ZQ_SETUP_*／ZQ_ZR_SETUP_*（extraIf 的記憶）"
+  },
+  {
+   "id": "DL-BB-4c3c17f1",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "4c3c17f1",
+   "what": "階梯記憶中文名稱補齊：SIS_MOCK_EXAM（4b6153a2）、ZR_ZQ_SETUP_DOOR／FILM、ZQ_ZR_SETUP_STUCK／ROUTE（BB_130、BB_133）",
+   "task": "AA-LADDER-977",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "labelsRef 加 4c3c17f1；大一上、大一下換新版（不再保留舊版）"
+  },
+  {
+   "id": "DL-AA-84bbef37",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "84bbef37",
+   "what": "AA_263 大四下階梯重建（已審）：以安 A8-L1～L8、語彤 Y8-L0～L8、兩人招呼；週次上限 15、GRAD_DONE 暫名、AA_152 記憶名稱；主文件 9b38a1a5",
+   "task": "AA263-Y4S2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "白名單 ladder_aa_y4s2 改 84bbef37、labelsRef 加 84bbef37；GRAD_DONE 等畢業典禮做好時設（目前沒有設，skipIf 不觸發，skipAfterWeek 照常）"
   }
  ],
  "ignored": [
@@ -9540,6 +9566,20 @@
    "kind": "wip",
    "task": "ART-05",
    "reason": "沛珊第五版建置中（LAWWW2 自己標「建置中」），不是交付；完成時另交"
+  },
+  {
+   "sha": "676c3e2b",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "ART-05",
+   "reason": "沛珊第八版（頭髮）交 BB-C 驗收中，D59 未通過前不是交付"
+  },
+  {
+   "sha": "4c88f5dd",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "ART-05",
+   "reason": "沛珊第十五版上衣（BB-C 第十四版意見），驗收中，D59 未通過前不是交付"
   }
  ]
 }

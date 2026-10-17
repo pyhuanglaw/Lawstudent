@@ -459,8 +459,8 @@ const STORY = (function(){
     'A3-L6':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19'),
     'Y3-L5':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19')};
   /* AA_186 第 6 節 C（條件類，AA-B 19:1x 照做）：「妳們和好了？」只給看過吵架那一場的玩家（以安 A2-L6：ev_an_yu_argument；A5-L6 芯慈：慈 3）；linesIf 指到不存在的 ev_an_study_group 改讀公法讀書會 */
-  S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']},'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},'A5-L6':{'「妳們和好了？」':{events:['ev_xinci_second']}},
-    'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_209（3b7e2268）：以安 A2-L6「我可以去嗎？」去過公法讀書會的不出現；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
+  S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
+    'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
   S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
     'A4-L5':{'「妳跟我講話好像也是。」':[{if:{flags:['dating_heroine_01']},reply:'真的？……跟你講話本來就不用敬語啊。'}]},

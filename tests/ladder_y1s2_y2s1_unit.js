@@ -30,11 +30,11 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入：AA 25e89f6e、BB 408398d7／f6269502）',/白名單/.test(LADDER.source)&&LADDER.source.includes('25e89f6e')&&LADDER.source.includes('408398d7'),LADDER.source);
   { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
     check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
-  // A2-L6（大一下以安）「我可以去嗎？」去過公法讀書會的不出現
-  fresh(termDay('Y1S2',5,2),12,'campus',{}); let [st]=stepOf('Y1S2','heroine_01','A2-L6');
-  check('1. A2-L6 沒去過公法讀書會：兩個選項都有（含「我可以去嗎？」）',STORY.ladChoices(st).map(c=>c.t).includes('「我可以去嗎？」'),JSON.stringify(STORY.ladChoices(st).map(c=>c.t)));
+  // A-L11（大一上以安；AA_238 5-5 讀書會改到大一上，「我可以去嗎？」從 A2-L6 搬來）去過公法讀書會的不出現
+  fresh(termDay('Y1S1',11,2),12,'campus',{}); let [st]=stepOf('Y1S1','heroine_01','A-L11');
+  check('1. A-L11 沒去過公法讀書會：兩個選項都有（含「我可以去嗎？」）',STORY.ladChoices(st).map(c=>c.t).includes('「我可以去嗎？」'),JSON.stringify(STORY.ladChoices(st).map(c=>c.t)));
   G.events.done.ev_public_law_group=1;
-  check('1. A2-L6 去過公法讀書會（ev_public_law_group）：「我可以去嗎？」不出現、另一個還在',!STORY.ladChoices(st).map(c=>c.t).includes('「我可以去嗎？」')&&STORY.ladChoices(st).length===1,JSON.stringify(STORY.ladChoices(st).map(c=>c.t)));
+  check('1. A-L11 去過公法讀書會（ev_public_law_group）：「我可以去嗎？」不出現、另一個還在',!STORY.ladChoices(st).map(c=>c.t).includes('「我可以去嗎？」')&&STORY.ladChoices(st).length===1,JSON.stringify(STORY.ladChoices(st).map(c=>c.t)));
   // A3-L3（大二上以安）「三條是哪三條？」看過規則的不出現
   fresh(termDay('Y2S1',5,2),12,'campus',{}); [st]=stepOf('Y2S1','heroine_01','A3-L3');
   check('2. A3-L3 沒看過讀書會規則：「三條是哪三條？」在',STORY.ladChoices(st).map(c=>c.t).includes('「三條是哪三條？」'));

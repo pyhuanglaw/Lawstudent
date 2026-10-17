@@ -15695,6 +15695,34 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AA263-Y4S2",
+   "title": "AA_263 大四下口語審（9b38a1a5）給 LAWWW：階梯 84bbef37 已匯入；畢業典禮 6/2 演完設 GRAD_DONE；畢業那天傍晚（接心意邀約的 17:30 吃飯＋回家路上、沒接的 17:30 Café、20:30 學姊生日；不把 Y4S2 加進一般期末飯時段）；「讓我想想」接 AA_266（2029-07-14 最後一次、7/13 21:00 邀約）；課表補修保險法週三上午、國考讀書會週三 19:30；方奕廷 presence、學姊「重點是」句子（invites.js、encounters.js、enc_walk.js、story3d.js）照附錄 B 第 4 節第 3、4 點；JOB_NOODLE、LADDER_REPLY_IF 三處（AA_152）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "階梯已匯入（白名單 84bbef37）；其餘照 D81 在大四下排",
+   "first": {
+    "term": "Y4S2",
+    "week": 1,
+    "earliest": "大四下開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_263（AA-C 9b38a1a5／84bbef37）",
+   "authorized": "AA 審稿交付",
+   "xai": {
+    "spec": "AA_263 給 LAWWW",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }

@@ -40,11 +40,14 @@ GM.money=function(n){ G.money+=n; };
   check('B. 暫停的改寫沒有進來（B4 後半場、值班那一句照舊）',/你後半場不在。最精彩的你錯過了/.test(txt1('ev_b4_partial_an'))&&/……我只問了一句。/.test(txt1('ev_y2_yt_duty_heard')));
   const A2=LADDER.byTerm.Y1S2.heroine_01.steps.find(s=>s.id==='A2-L6');
   fresh(D('2026-05-11'),12,'campus');
-  // 2026-10-17 大一下改稿（AA_209，AA-C 已審 3b7e2268）：A2-L6 的「妳們和好了？」換成「小語也會去？」、linesIf 直接寫 ev_public_law_group；「我可以去嗎？」去過公法讀書會的不出現（LADDER_CHOICE_IF）
-  check('C1. 新版 A2-L6 沒去過公法讀書會：「小語也會去？」「我可以去嗎？」兩個選項（沒有「妳們和好了？」）',J(STORY.ladChoices(A2).map(c=>c.t))==='["「小語也會去？」","「我可以去嗎？」"]',J(STORY.ladChoices(A2).map(c=>c.t)));
-  G.events.done.ev_public_law_group=1;
-  check('C1. 去過公法讀書會：「我可以去嗎？」不出現',J(STORY.ladChoices(A2).map(c=>c.t))==='["「小語也會去？」"]');
-  check('C2. 去過公法讀書會：linesIf 換成讀書會那一套',J(STORY.ladLines(A2,G,'heroine_01'))===J(A2.linesIf[0].lines)&&A2.linesIf[0].if.events[0]==='ev_public_law_group');
+  // 2026-10-17 AA_238 5-5（25e89f6e）：讀書會改到大一上，A2-L6 改成大一下的讀書會；「妳們和好了？」只給看過吵架（ev_an_yu_argument）的玩家；「我可以去嗎？」搬到大一上 A-L11（去過公法讀書會的不出現）
+  check('C1. 新版 A2-L6 沒看過吵架：只有「小語還是每次都帶宵夜？」',J(STORY.ladChoices(A2).map(c=>c.t))==='["「小語還是每次都帶宵夜？」"]',J(STORY.ladChoices(A2).map(c=>c.t)));
+  G.events.done.ev_an_yu_argument=1;
+  check('C1. 看過吵架：「妳們和好了？」也出現',J(STORY.ladChoices(A2).map(c=>c.t))==='["「妳們和好了？」","「小語還是每次都帶宵夜？」"]',J(STORY.ladChoices(A2).map(c=>c.t)));
+  { const L11=LADDER.byTerm.Y1S1.heroine_01.steps.find(s=>s.id==='A-L11'); delete G.events.done.ev_public_law_group;
+    check('C2. 大一上 A-L11 沒去過公法讀書會：兩個選項都有（含「我可以去嗎？」）',J(STORY.ladChoices(L11).map(c=>c.t))==='["「小語也會去？」","「我可以去嗎？」"]',J(STORY.ladChoices(L11).map(c=>c.t)));
+    G.events.done.ev_public_law_group=1;
+    check('C2. 去過公法讀書會：「我可以去嗎？」不出現；linesIf 換成讀書會那一套',J(STORY.ladChoices(L11).map(c=>c.t))==='["「小語也會去？」"]'&&J(STORY.ladLines(L11,G,'heroine_01'))===J(L11.linesIf[0].lines)&&L11.linesIf[0].if.events[0]==='ev_public_law_group'); }
   check('C2. 舊資料的 ev_an_study_group 照舊讀成公法讀書會（LADDER_EVENT_ALIAS）',J(STORY.ladLines({id:'X',lines:['舊'],linesIf:[{if:{events:['ev_an_study_group']},lines:['新']}]},G,'heroine_01'))==='["新"]');
   check('C3. 語彤 Y5-L6 等續約（RENT_RENEWED）',!STORY.LADDER_HOLD['Y5-L6']({flags:{}})&&STORY.LADDER_HOLD['Y5-L6']({flags:{RENT_RENEWED:true}}));
   check('D1. E25 旁白用「你」',/她笑著打你的手臂/.test(txt1('ev_y0_e25'))&&/她拉住你的袖子/.test(txt1('ev_y0_e25'))&&!/打他的手臂|拉住他的袖子/.test(txt1('ev_y0_e25')));
