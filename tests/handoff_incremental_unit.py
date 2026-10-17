@@ -150,6 +150,10 @@ expect('二 職位沒有水位線 → 異常（要先建立基準）', r['BB']['
 WM['roles']['BB']['open'] = ['AB-65', 'GONE-1']
 r = I.scan(d, WM, DV, TASKS, DUTY, remote=False, outboxes={'BB': OB})
 expect('二 水位線記的未結項目 GONE-1 不在總表 → 異常（舊漏項不能被水位線藏起來）', any('GONE-1' in p for p in r['BB']['problems']), r)
+# 中文檔名（2026-10-17 真實案例：AA_158、BB_00 的 commit 照路徑分類不到，因為 diff-tree 把中文轉成跳脫字元）
+cz = commit(d, 'docs/story_planning/AA_158_交換路線狀態機.md', '中文檔名')
+expect('三 中文檔名：commit_files 回傳原本的中文路徑（不是 \\345… 跳脫）', I.commit_files(d, cz) == ['docs/story_planning/AA_158_交換路線狀態機.md'], I.commit_files(d, cz))
+expect('三 中文檔名的 commit 照 outbox 路徑分類得到', I.path_owner(I.commit_files(d, cz), 'AA', {'entries': [{'task': 'US-RESCHED-1017', 'files': ['docs/story_planning/AA_158_交換路線狀態機.md']}]}) == 'outbox 路徑：US-RESCHED-1017')
 shutil.rmtree(d)
 
 # ---------- 三、照路徑分類（outbox 登記的檔案、自己的交接檔） ----------
@@ -158,6 +162,7 @@ expect('三 只改 outbox 登記的檔案（資料夾 / 也算）→ 歸到那�
 expect('三 只改自己的交接檔 → 進度紀錄', I.path_owner(['docs/art-rebuild/second_ai/HANDOFF.md'], 'LAWWW2', OB2) == 'outbox 路徑：進度紀錄')
 expect('三 有一個檔不在 outbox 也不是交接檔 → 不分類（要人看）', I.path_owner(['tools/blender/char_second/weilun.py', 'src/story3d.js'], 'LAWWW2', OB2) is None)
 expect('三 別的職位的交接檔不算', I.path_owner(['docs/story_planning/AA_交接紀錄.md'], 'LAWWW2', OB2) is None)
+expect('三 AA 的 commit 合併進 BB 分支：照 AA 的 outbox 分類（any_owner）', I.any_owner(['docs/story_planning/AA_158.md'], 'BB', {'AA': {'entries': [{'task': 'US-RESCHED-1017', 'files': ['docs/story_planning/AA_158.md']}]}, 'BB': {'entries': []}}) == 'outbox 路徑：US-RESCHED-1017')
 expect('三 沒有改任何檔（空 commit）→ 不分類', I.path_owner([], 'LAWWW2', OB2) is None)
 
 # ---------- 三、WIP 索引不能無故消失 ----------

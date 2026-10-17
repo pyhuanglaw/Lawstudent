@@ -6288,6 +6288,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall"
+  },
+  {
+   "id": "DL-AA-AB215",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4a9b8b77",
+   "what": "AA_215 告白門檻簡化、大一就能在一起（使用者 05:1x 定案）：stage≥6 && dateLog.count≥4 && dateLog.wish && willing(id)，拿掉 storyGate；willing 保留四種情況",
+   "task": "ROM-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-C 04:52Z。學姊分手週次（大二上，提案第 9 週）等 BB-C；交往中版本陸續交付。實作任務 ROM-1017-L"
+  },
+  {
+   "id": "DL-BB-US-IMAGES",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "0758caf3／61f6517a／c055fc11",
+   "what": "美國改大四上後的圖：bg_approved jp_konbini、jp_room、us_airport、us_bus_station_winter、us_bus_station（夏末）、us_classroom、us_restaurant、chicago_lake；cg_approved/cg_sf_bridge_fog_heroine05.webp（BCG-48，舊金山 SF2，使用者批准、BB ART_APPROVED）",
+   "task": "SCN-US-2D",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "BB-C 04:55Z（outbox 5cf41006）。照 D81 大三／大四再接；BB_98／99 新規格等 AA 核對"
   }
  ],
  "ignored": [

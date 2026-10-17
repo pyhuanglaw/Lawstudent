@@ -50,7 +50,9 @@
    "VA-*": "AA_199 4-2 的假期活動編號（HOL-VA 的子項）",
    "CG-9": "CG 編號（ART-15；畢業典禮 CG，跟 SCN-V5-02 一起）",
    "BG-18": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG18（可昕視訊背景；BB-B 02:1x：自強十舍單人房照片排進 BG-18）",
-   "BG-04": "LAWWW2 的 BG 追蹤表編號＝自強十舍樓下長椅；被使用者生成的 nccu_dorm 取代（任務 ART-10，已整合待測試），BB-B 02:1x 記 LAWWW2-B 已 ACK『BG-04 不做』"
+   "BG-04": "LAWWW2 的 BG 追蹤表編號＝自強十舍樓下長椅；被使用者生成的 nccu_dorm 取代（任務 ART-10，已整合待測試），BB-B 02:1x 記 LAWWW2-B 已 ACK『BG-04 不做』",
+   "DL-*": "交付 ID（deliveries.json），不是任務 ID",
+   "BCG-*": "CG 編號（BB 的 CG 清單）：大一～大四由 ART-15 總項、美國篇由 SCN-US-CG 追，不另開任務"
   },
   "offList": [
    {
@@ -6608,8 +6610,8 @@
    "title": "美國公寓社區：祐廷單人戶（臥室＋客廳＋廚房＋衛浴＋陽台）＋社區外觀（使用者 10-16 更正：不是學校宿舍）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "進行中",
+   "next": "【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置以 LAWWW2-B us_apartment_layout.js v2（e30bf43f＋3cc72780 浴室從臥室進、衣帽櫃：戶外樓梯平台 breezeway、獨立廚房＋窗口吧台、8 房、yaw 照 atan2(dx,dz)）為準；學姊 C 棟合租戶另一份配置；會所自習室、校園一段、超市；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6634,18 +6636,15 @@
     "spec": "使用者 10-16 經 LAWWW2-B 轉達；AA-B 8f9408eb；BB_98 4517c707",
     "acceptance": "layout.js＋GLB（MODEL_READY）、導航與互動點照 layout；US_EXCHANGE_PLAN 第 3 節",
     "ack": "SENT"
-   },
-   "pausedFrom": "進行中",
-   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
-   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
+   }
   },
   {
    "id": "SCN-US-03",
    "title": "美式大型超市",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "待開工",
+   "next": "【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6665,18 +6664,15 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
-   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
+   }
   },
   {
    "id": "SCN-US-02",
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "待開工",
+   "next": "【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6696,10 +6692,7 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   },
-   "pausedFrom": "待開工",
-   "pausedReason": "使用者 2026-10-17 04:4x（對 AA-C）：祐廷的美國交換改成大三申請、大四上去（2028-08 初～12 底），取代 AA_158、AA_144 X1～X3 的「大三下 1/19～6/24」；學姊、日本路線的改法待使用者確認",
-   "resumeWhen": "AA-C 結構化交付新的美國線時間線（含 SYS-10 美國日期、學姊、日本路線是否不動）"
+   }
   },
   {
    "id": "SCN-US-2D",
@@ -6928,7 +6921,7 @@
    "title": "經濟系系館（社科院現有 3D＋ART-01）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "取消／被取代",
    "next": "用途已轉問 AA-C（D79，LAWWW-C 04:5x）：v0 劇情用到社科院哪幾間、事件與週次、要不要能走進去、能不能坐；回覆後 LAWWW2 排在 v0 人物之後。ART-01 已接線（外觀、圖書館的門、大樓的門不開）；大樓室內（一樓大廳、系辦、迎新教室）等 SOCSCI_PLAN 第③步：AA-B 確認用途後排",
    "priority": "P1",
    "first": {
@@ -6950,7 +6943,9 @@
     "spec": "社科院大樓室內（一樓大廳、系辦、迎新教室；用途等 AA-B 確認後開工）",
     "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
     "ack": "SENT"
-   }
+   },
+   "reason": "使用者 2026-10-17 05:4x（對 AA-C）：「社科院不做 3D 室內」；AA_173 第 1 節（AA-B 依 AA_106 2-4、使用者 10-13 定案）。v0 用社科院外觀 3D（CK.modern）＋2D soc_hall、soc_classroom",
+   "replacedBy": "ART-01"
   },
   {
    "id": "SCN-V0-02",
@@ -9398,7 +9393,7 @@
    "title": "阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
@@ -9419,14 +9414,17 @@
     "spec": "企劃線 docs/story_planning/art_reference/xun.webp（BB_131 人物標準圖；設定 BB_116 第 12 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "ART-CH-PINYU",
    "title": "品妤（曾品妤 econ_pinyu）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P2",
    "first": {
@@ -9447,7 +9445,10 @@
     "spec": "企劃線 docs/story_planning/art_reference/pinyu.webp（BB_131 人物標準圖；設定 BB_116 第 11 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "V0-ARTPLAN",
@@ -9896,7 +9897,7 @@
    "title": "韋綸（econ_weilun）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
@@ -9917,14 +9918,17 @@
     "spec": "企劃線 art_reference/weilun.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "ART-CH-TANGRUI",
    "title": "唐睿（econ_tangrui）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
@@ -9945,14 +9949,17 @@
     "spec": "企劃線 art_reference/tangrui.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "ART-CH-JIAHAO",
    "title": "家豪學長（econ_jiahao）的 3D 人物：路人底模改臉、髮型、衣服（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "v0 用；人物 id 等 AA-REQ-06（characters.js）；先照立繪做",
    "priority": "P2",
    "first": {
@@ -9973,14 +9980,17 @@
     "spec": "企劃線 art_reference/jiahao.webp（BB_131 標準圖，立繪 8fbe1e1a 已通過）；AA_145 §5",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "ART-CH-WEI",
    "title": "魏教授（prof_wei）的 3D 人物：講台老師底模改（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "next": "v0 經濟學原理（大講堂）用；外觀等 AA-REQ-06",
    "priority": "P3",
    "first": {
@@ -10001,7 +10011,10 @@
     "spec": "AA_145 §5；人物資料等 AA-REQ-06（BB）",
     "acceptance": "VRM（講台老師底模改）；BB-B D59",
     "ack": "DELIVERED"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「修改人物的事情暫停」（經濟系人物算不算在內，LAWWW2-C 已問使用者）；建置成果保留（outbox WIP）",
+   "resumeWhen": "使用者確認經濟系人物可以繼續，或另行指示"
   },
   {
    "id": "ART-V0-DORM",
@@ -13395,7 +13408,7 @@
    "title": "垂直切片：溫州街 Café 前黃昏做到商業水準（後製、黃昏光、街道 AO＋路面、人物光影）（ART-POLISH 的一部分）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P1",
    "next": "LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
    "first": {
@@ -13416,14 +13429,17 @@
     "spec": "ART-POLISH／ART_SOP",
     "acceptance": "同鏡頭前後截圖（白天、黃昏）",
     "ack": "ACK"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「溫州街修改也暫停」",
+   "resumeWhen": "使用者另行指示"
   },
   {
    "id": "ART-WZ0",
    "title": "溫州街舊店面翻修：盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P2",
    "next": "LAWWW2-B 盤點舊店面",
    "first": {
@@ -13444,7 +13460,10 @@
     "spec": "ART-POLISH",
     "acceptance": "前後白天晚上截圖；wz_street_integration ALL PASS",
     "ack": "ACK"
-   }
+   },
+   "pausedFrom": "待開工",
+   "pausedReason": "使用者 2026-10-17 05:0x 對 LAWWW2-C：「溫州街修改也暫停」",
+   "resumeWhen": "使用者另行指示"
   },
   {
    "id": "BUG-WZFLICKER-2",
@@ -14312,9 +14331,9 @@
    "title": "戀愛規則改版（使用者 2026-10-17 05:1x）：告白只看「第 6 階＋至少 4 次正式校外約會（含一次心願地點）」、取消各人 storyGate；學姊以外大一就能交往；學姊改大二分手（取代 V4-G34 的大三上第 9 週）；「之後才在一起」的事件補交往版",
    "area": "SYS",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P1",
-   "next": "AA 寫 AA_215（學姊大二上或下分手、willing 保不保留還在問使用者）；AA、BB 盤點要補交往版的事件；交付後 LAWWW 改告白判斷（拿掉 storyGate(id)，AA_128 3-2）、學姊分手週次。**AA_215 交付前不要動 romance 判斷**",
+   "next": "AA_215 已交付（4a9b8b77，DL-AA-AB215）：告白＝stage≥6 且 dateLog.count≥4 且 dateLog.wish 且 willing(id)，拿掉 storyGate(id)；willing 保留（低潮期、paused、她有伴侶、她知道祐廷有伴侶）。學姊大二上分手（AA 提案第 9 週）等 BB-C 確認；各人交往中版本 AA、BB 陸續交付",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14331,7 +14350,32 @@
     "spec": "AA_215（AA-C 撰寫中）",
     "acceptance": "規格定稿＋結構化交付；交往版事件清單",
     "ack": "ACK"
-   }
+   },
+   "aliases": [
+    "ROM-GATE-1017"
+   ]
+  },
+  {
+   "id": "ROM-1017-L",
+   "title": "實作告白規則改版（AA_215）：拿掉 storyGate、條件改成第 6 階＋4 次約會＋心願地點＋willing；學姊以外大一就能交往",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "照 AA_215（4a9b8b77）改告白判斷；不動學姊分手週次（等 BB-C）；單元測試（舊存檔不壞、交往中的關係保留）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一開局（告白條件影響所有人）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "sha": [
+    "4a9b8b77"
+   ]
   }
  ]
 }

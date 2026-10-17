@@ -178,7 +178,7 @@ REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.js
 
 
 def only_registry(root, sha):
-    rc, files = _git(root, 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)
+    rc, files = _git(root, '-c', 'core.quotepath=off', 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)
     fs = [f for f in files.splitlines() if f]
     return rc == 0 and bool(fs) and all(REGISTRY.match(f) for f in fs)
 
@@ -210,8 +210,17 @@ def path_owner(files, role, outbox):
     return 'outbox 路徑：' + '、'.join(sorted(h for h in hit if h))
 
 
+def any_owner(files, role, outboxes):
+    """先看這個分支的職位，再看其他職位（例：AA 的 commit 合併進 BB 分支，照 AA 的 outbox 分類）。"""
+    for r in [role] + [x for x in ROLES if x != role]:
+        o = path_owner(files, r, (outboxes or {}).get(r))
+        if o:
+            return o
+    return None
+
+
 def commit_files(root, sha):
-    rc, out = _git(root, 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)
+    rc, out = _git(root, '-c', 'core.quotepath=off', 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)   # 中文檔名不要轉成 \345… 跳脫（2026-10-17：不加這個，中文檔名永遠比對不到）
     return out.splitlines() if rc == 0 else []
 
 
@@ -309,7 +318,7 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
                 r['classified'] += 1
             elif only_registry(root, s):   # 只改登記檔（outbox、duty_*.json、快照）：照檔案路徑分類，不看訊息文字
                 r['classified'] += 1
-            elif path_owner(commit_files(root, s), role, outboxes.get(role)):   # 只改 outbox 已登記的檔案或自己的交接檔
+            elif any_owner(commit_files(root, s), role, outboxes):   # 只改 outbox 已登記的檔案或交接檔（企劃線互相合併：別的職位登記的檔案也算那個職位的）
                 r['classified'] += 1
             else:
                 r['unclassified'].append((s[:8], subj[:80]))

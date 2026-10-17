@@ -272,7 +272,7 @@ def check(args):
                         _ob[_r] = json.loads(_rc.stdout)
                     except Exception:
                         pass
-            path_ok = lambda br, sha: bool(_role_of.get(br)) and bool(INC.path_owner(INC.commit_files(args.root, sha), _role_of[br], _ob.get(_role_of[br])))
+            path_ok = lambda br, sha: bool(INC.any_owner(INC.commit_files(args.root, sha), _role_of.get(br, 'LAWWW'), _ob))
             for br, base in (dv.get('scannedThrough') or {}).items():
                 lines = git_lines(args.root, 'log', '--no-merges', '--format=%h %s', f'{base}..{br}')
                 if lines is None:
