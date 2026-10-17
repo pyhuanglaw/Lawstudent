@@ -5245,6 +5245,162 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "待跑 flow_library_floors、flow_library_scene、法圖測試｜LAWWW-B 交班時回 ACK（2026-10-17 02:4x，交付紀錄＝跨 AI 文件）：已收進開發分支 b6f471f7；瀏覽器流程交班時沒跑完，排在 QA-HANDOFF-B1"
+  },
+  {
+   "id": "DL-BB-BG-NCCUDORM-DAY",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "a840ae37",
+   "what": "背景 nccu_dorm_day（自強十舍白天）",
+   "task": "ART-10",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。006d729b 註冊備用（K1b 在晚上照舊用 nccu_dorm）"
+  },
+  {
+   "id": "DL-BB-BG-LIBB1",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "d4540129",
+   "what": "背景 ntu_lib_b1（總圖 B1 自習室）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 接上經濟系 E22、E21a"
+  },
+  {
+   "id": "DL-BB-BG-HOTELTWIN",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "07dfb48a",
+   "what": "背景 trip_hotel_twin（旅館雙床房，寒暑假 VAC-B3）",
+   "task": "VAC-B3",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。ae8eddaf 註冊"
+  },
+  {
+   "id": "DL-BB-BG-JPNIGHT",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9a5d4718",
+   "what": "背景 jp_street_night（寒暑假 VAC-B3）",
+   "task": "VAC-B3",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。94bf2a11 註冊備用、還沒有事件用"
+  },
+  {
+   "id": "DL-BB-BG-CRAM",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "ebee8f16",
+   "what": "背景 cram_class（補習班，VAC-B3）",
+   "task": "VAC-B3",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。b6f471f7 註冊備用"
+  },
+  {
+   "id": "DL-BB-BG-CAMPSCHOOL",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "489a824a",
+   "what": "背景 camp_school（VAC-B3）",
+   "task": "VAC-B3",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。94bf2a11 註冊備用"
+  },
+  {
+   "id": "DL-BB-BG-TRAINDAY",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "956ebf50",
+   "what": "背景 train_day（VAC-B3）",
+   "task": "VAC-B3",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。372c6512 註冊備用"
+  },
+  {
+   "id": "DL-BB-GG-SIGNS-S17",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "2f5d4a3d",
+   "what": "公館招牌 S1～S17 全部通過（signs_approved/ 34 張 _fit）",
+   "task": "ART-GG-SIGNS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。LAWWW2-B 整包貼進 gongguan_shops.glb（LAWWW2-B 已 ACK，進行中 ART-GG-SIGNS-2 WIP 01984198）"
+  },
+  {
+   "id": "DL-BB-POSTCARD-ZR",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "5c8e7539",
+   "what": "芷若明信片③～⑥（props_approved/pc_zr_3～6，BB 定稿；之前沒通知過 LAWWW-B）",
+   "task": "V4-B01",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。大三英國明信片（Z10、V4-G29）實作時接"
+  },
+  {
+   "id": "DL-BB-BB179",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "9ebf6663",
+   "what": "BB_179 經濟系前傳改稿寫回（AB-66）",
+   "task": "AB-66",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。V0-REWRITE-L 段 A 已用；段 B～E 未做"
+  },
+  {
+   "id": "DL-BB-AB67",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "030bbce4",
+   "what": "AB-67 四人房 BB 句子（阿凱 8/29、經濟系 412）",
+   "task": "AA208-L",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。a943ea1d、277c67dc"
+  },
+  {
+   "id": "DL-BB-BB180",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "8b720ae1",
+   "what": "BB_180 大一下口氣審（交 AA-B，AA_209 2-1 裁定）＋BB_177 第 8 節顧火烤肉版",
+   "task": "AB-65",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "BB-B 02:40 交班通知列為交付；LAWWW-B 交班時登記。顧火 e39749d9；大一下其餘見 AB65-3-Y1S2-L"
   }
  ],
  "ignored": [
@@ -6592,6 +6748,631 @@
    "sha": "4a9a867d",
    "branch": "origin/claude/cool-heisenberg-o8kuqx",
    "why": "AA_185 的另一個 commit（合併後是 d85c1309＝DLV-1016-355）"
+  },
+  {
+   "sha": "55717c12",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "68e09326",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "0bb74c4f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "84b325f0",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "3cdb2c60",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "89b84b26",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d073885f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "69c07596",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b15bd19c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "97181f2e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "0237aae3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "04c32fda",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "3ee58191",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "f2b7216a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "0abfc964",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5f6f7e82",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ab2b3e19",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "c2a60470",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "c24a286f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "7bd9dea6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "e3b11c15",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5393a647",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "cd516344",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "845bdf99",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "67a10218",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5def44c5",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "1fc104a2",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "447b911e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "717a932e",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ec5968bd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "f5c272f4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "559b2b2d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "87fe7ac6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5c686d69",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5f31b5af",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "fa2091d3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "e26716cc",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "eee886d8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "e627d747",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "9b52d3f1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8e4acda8",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "040c9ddb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5f4ae837",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "21e8ef64",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "9f28df6b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "a96e787c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "9a4c25b4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "a15fece9",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "4d719c6f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "2fa87b54",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "dc3fc4ea",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "19d9c02d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "aa1ad7bc",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "7d2c8c89",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "544d7475",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "c73e1779",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "a8e8d429",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8941b36f",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5aa55f62",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ac9bc2ad",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "eff96dab",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "0e8bb177",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "56c6755d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "20d0e9d6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "998bbfb7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8985d243",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "a03853d4",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d514be45",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "1eeece1c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "3b0d8dfb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "bc760ae3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ad25b0f3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "957baa6b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "aa318d13",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b8938d9c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8421efdb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "6e47a450",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "e5b1aac6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "f50a5392",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b66dadca",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "23b60b44",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ffda8ed3",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "99770466",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "7bd1afd1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "93e5c0bd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b17c5dcb",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d3c04223",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ed25e960",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "1595f2b1",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d6f1aefe",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8d967328",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "bb9b4ce7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "bc1d0e7d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "4d3e2757",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "47e4cc19",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "c876a733",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "23c50135",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "7b9cd06a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b800fbce",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "9416d28d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "2f38aced",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "865f8c53",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "45f5ed3d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5e02f346",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "524b12e6",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b446ea4c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "5871d068",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ccac458a",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "61c9140c",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "ca8e33bd",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d0703a31",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "9701bdc7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "23f8fe9b",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "c50a3f64",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d5b801b7",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "77285c24",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "d8042bc0",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "7d529456",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "1fda84ac",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "085d9771",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "4551d52d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "1bf2a324",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "8eaafd9d",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "b8c036d5",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
+  },
+  {
+   "sha": "a5a54293",
+   "branch": "origin/claude/elegant-brown-fcos7n",
+   "why": "BB-B 02:40 交班通知：不是交付（BB_00 紀錄、提示詞、待生成清單更新等）；LAWWW-B 交班時依 BB-B 分類放進 ignored，沒逐筆打開"
   }
  ]
 }

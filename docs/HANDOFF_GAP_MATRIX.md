@@ -59,13 +59,14 @@
 **E｜跨 AI 協作**（帳號 B 四職位都在值班、都收到使用者換班）
 - 交付：DL-LW2-COPLANAR-LINZE／201／WANCAI／LIB → 交班時在交付紀錄回 ACK（已整合待測試）；DL-LW2-DORM-LOFT ACK、已整合；BB-B 背景圖與 CG 交付已登記（DL-BB-*）。
 - 等別人：AA-B 寫回 ladder_aa_y1s2／ladder_bb_y1s2 的 SHA（BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；AA 照 AA_197 1-7 驗收大一下、宿營；使用者看四人房、cg 已定稿。
+- **同班其他職位交班（02:39～02:4x 收到通知）**：AA-B 已交班（`claude/cool-heisenberg-o8kuqx` 遠端 `ec63dd53`，登記 `c54ee4df`，快照 `2026-10-17T0238Z_B_AA.json`，roles AA OK）——**大一下閒聊階梯 ladder_*_y1s2.json 還是 WIP（2fd0399d），不要匯入**，等下一班 AA 給 SHA；AA_211 大二上等 BB-B 口氣審。BB-B 已交班（`claude/elegant-brown-fcos7n` `55717c12`，duty_BB handed-off）；BB 快照由 LAWWW-B 代做 `2026-10-17T0244Z_B_BB.json`；BB 的交付 12 筆補登（DL-BB-BG-*、DL-BB-GG-SIGNS-S17、DL-BB-POSTCARD-ZR 明信片③～⑥、DL-BB-BB179、DL-BB-AB67、DL-BB-BB180），其餘 125 個 BB commit 照 BB-B 分類放進 ignored（沒逐筆打開）；BB 下一班第一件：BB_181 大二上口氣審回 AA-B。LAWWW2-B 交班時還沒收到它的通知（duty 仍是 on）；`duty sync` 已跑。
 - 沒有傳訊息給休班的帳號 A、C（D75）。
 
 **F｜測試與問題**
 - 單元測試：最後一次整套是 01:57 前後（253 項、5 項失敗，之後逐一修好、個別重跑通過）；**之後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑**。相關的 camp_y1_unit、v0_e01、v0_e02 在 b9eaacf3 重跑通過。
 - 瀏覽器通過：flow_camp_y1、interior_glb_integration（宿舍）、flow_dorm_hall。**沒跑或沒跑完**：flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖、大一下重訪日 1。
 - iPhone 實機：本班沒有任何實機確認；BUG-IOS-RELOAD、BUG-MAPBLACK、BUG-02 需要使用者實機。
-- 交接工具（02:4x）：`roles` **OK**（BG-04、BG-18、ART-BALCONY-POTS 已對到任務）；`duty verify` OK；`check` **異常 249 項未處理，全部是第 6 項**（AA 分支 125、BB 分支 109、LAWWW2 分支 15）是符合交付關鍵字、還沒在 deliveries.json 登記或放進 ignored 的 commit——大多是企劃稿、WIP、已經用整包 DL 登記的內容，**沒有逐筆核對**，所以 `scannedThrough` 沒往前移；其餘以 check 的實際輸出為準。
+- 交接工具（02:4x）：`roles` **OK**（BG-04、BG-18、ART-BALCONY-POTS 已對到任務）；`duty verify` OK；`check` **異常 116 項未處理，全部是第 6 項**（AA 分支 101、LAWWW2 分支 15；BB 分支已照 BB-B 交班通知登記或放 ignored）是符合交付關鍵字、還沒在 deliveries.json 登記或放進 ignored 的 commit——大多是企劃稿、WIP、已經用整包 DL 登記的內容，**沒有逐筆核對**，所以 `scannedThrough` 沒往前移；其餘以 check 的實際輸出為準。
 
 **下一班第一步**：照 `AI_SESSION_HANDOFF.md` 第 4 節接班十四步（`duty find` → `duty plan` → `check` → `roles` → `duty verify`），然後先做 **QA-HANDOFF-B1**（整套單元測試＋沒跑完的瀏覽器流程），再接 DORM-LOFT-L 室友瀏覽器測、AB65-3-Y1S2-L 第 4 節剩項、CAMP-FIX-614 程式 8。
 

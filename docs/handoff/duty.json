@@ -35,7 +35,7 @@
    "account": "B",
    "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "8b1cdbea",
+   "sha": "01984198",
    "since": "2026-10-15",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -45,21 +45,24 @@
    "account": "B",
    "session": "session_016ACZaD4oB9tX94WqQR4dkS",
    "branch": "claude/cool-heisenberg-o8kuqx",
-   "sha": "32f62032",
-   "since": "2026-10-15",
-   "state": "on",
+   "sha": "c54ee4df",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "e0bfe32e"
+   "sinceSha": null,
+   "handedOffAt": "2026-10-17T02:39Z",
+   "handoffSnapshot": "2026-10-17T0238Z_B_AA.json"
   },
   "BB": {
    "account": "B",
    "session": "session_01J1g2TPcPzWrihXSY2WvseV",
    "branch": "claude/elegant-brown-fcos7n",
-   "sha": "e393e8b4",
-   "since": "2026-10-15",
-   "state": "on",
+   "sha": "a9868928",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "3b0d8dfb"
+   "sinceSha": null,
+   "handedOffAt": "2026-10-17T02:39Z"
   }
  },
  "lastHandoff": {
@@ -112,7 +115,7 @@
  ],
  "pending": null,
  "anomalies": [],
- "seq": 3,
+ "seq": 4,
  "chain": [
   {
    "seq": 1,
@@ -134,6 +137,13 @@
    "account": "B",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 4,
+   "at": "2026-10-17T02:44Z",
+   "account": "-",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
   }
  ]
 }

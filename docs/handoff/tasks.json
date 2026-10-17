@@ -12780,7 +12780,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -12996,7 +12996,7 @@
    "owner": "BB",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "BB-B 02:40 交班：BB 部分已交付（等 LAWWW 整合，跟 VAC-L1）。｜BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13023,9 +13023,9 @@
    "title": "假期 BB 人物部分 B3",
    "area": "STORY",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "BB-B 02:40 交班：寒暑假 5 張背景都通過（trip_hotel_twin、jp_street_night、cram_class、camp_school、train_day；DL-BB-BG-*），LAWWW-B 已註冊（trip_hotel_twin 有事件用，其餘備用），等假期系統（HOLIDAY-SYS、VAC-L1）接事件。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13857,7 +13857,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "已做：第 3 節重訪日 1（6/12 18:00 麵店群戲、revisitDay＝S.dayOfKey(2026-06-12)、REVISIT_MSG 新句、群組「考完了」「六點麵店 併桌」、單身版、可昕版：02dc4fda、2ff27acf、1376b5f8、301c9ad9）；第 4 節第 1、2、3、5 點（kx_grades2 6/12、fam_final 6/12、午場上限 6/6、ps_owed 6/7、W5 檢討會第 15 週、Z6／fangyt_hint 15～16 週、SK05 第 16 週、阿凱邀約考試週 [7,8,9,15,16]、P4e 6/29 10:00、成績三句、Kevin「學弟有車！」：f6780e52、7a148c0d、372c6512）。剩（交班時逐項 grep 確認還沒做）：第 4 節第 4 點期中宵夜旁白「（你想起柏翰這幾週都比較晚回 203。）」（住 203 才播）、K-D5「你們隔天有早八」、KAI_TAPE 照第 2 節；第 6 點偶遇（encounters.js、enc_walk.js）阿哲叫「哥」改看 ZHE_CALLS_GE；第 7 點 A2-L6 linesIf ev_an_study_group→ev_public_law_group；第 8 點 A2-L8 note 7/25～8/8；第 10 點 SMALLTALK 方奕廷 ev_fangyt_z6→ev_fangyt_hint；第 11 點 ev_dorm_late_kai 只播一次或輪換；第 6 節第 1 點附錄 A／B 第 2 節＋本檔 2、2-1 的逐句改稿：只換了一部分（例：talkAn「嗯？我等一下要去總圖。」），沒有逐條核對；附錄 B 第 5 節 BB_167 清單沒核對；第 6 節第 4 點三項例外（重訪日拿掉 8 個回憶選項已做；A2-L5 刪 unless linesIf、ev_b4_left_an 加兩個選項沒確認）；階梯 ladder_aa_y1s2／ladder_bb_y1s2 從 AA 分支重新匯入（等 AA-B 寫回的 SHA；BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；大二 312 室友（AA_208 第 7 節）。做完照 AA_197 1-7 大一下那一列給 AA 核對",
+   "next": "已做：第 3 節重訪日 1（6/12 18:00 麵店群戲、revisitDay＝S.dayOfKey(2026-06-12)、REVISIT_MSG 新句、群組「考完了」「六點麵店 併桌」、單身版、可昕版：02dc4fda、2ff27acf、1376b5f8、301c9ad9）；第 4 節第 1、2、3、5 點（kx_grades2 6/12、fam_final 6/12、午場上限 6/6、ps_owed 6/7、W5 檢討會第 15 週、Z6／fangyt_hint 15～16 週、SK05 第 16 週、阿凱邀約考試週 [7,8,9,15,16]、P4e 6/29 10:00、成績三句、Kevin「學弟有車！」：f6780e52、7a148c0d、372c6512）。剩（交班時逐項 grep 確認還沒做）：第 4 節第 4 點期中宵夜旁白「（你想起柏翰這幾週都比較晚回 203。）」（住 203 才播）、K-D5「你們隔天有早八」、KAI_TAPE 照第 2 節；第 6 點偶遇（encounters.js、enc_walk.js）阿哲叫「哥」改看 ZHE_CALLS_GE；第 7 點 A2-L6 linesIf ev_an_study_group→ev_public_law_group；第 8 點 A2-L8 note 7/25～8/8；第 10 點 SMALLTALK 方奕廷 ev_fangyt_z6→ev_fangyt_hint；第 11 點 ev_dorm_late_kai 只播一次或輪換；第 6 節第 1 點附錄 A／B 第 2 節＋本檔 2、2-1 的逐句改稿：只換了一部分（例：talkAn「嗯？我等一下要去總圖。」），沒有逐條核對；附錄 B 第 5 節 BB_167 清單沒核對；第 6 節第 4 點三項例外（重訪日拿掉 8 個回憶選項已做；A2-L5 刪 unless linesIf、ev_b4_left_an 加兩個選項沒確認）；階梯 ladder_aa_y1s2／ladder_bb_y1s2 從 AA 分支重新匯入——**AA-B 02:39 交班：現在是 WIP（2fd0399d，可昕 K2 沒改、AA 沒逐句看 diff），不要匯入，等下一班 AA 收尾給 SHA**（BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；大二 312 室友（AA_208 第 7 節）。做完照 AA_197 1-7 大一下那一列給 AA 核對",
    "first": {
     "term": "Y1S2",
     "week": 1,
