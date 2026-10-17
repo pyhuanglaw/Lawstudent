@@ -1,0 +1,26 @@
+{
+ "_note": "BB-C 2026-10-17：AA_128 4-1 的 DATE_PREFS（BB 五位）。只填有兩種以上交通的地點；玩家改掉時她說 BB_128 3-7「改交通」那一句。以安、語彤由 AA 填。",
+ "heroine_02": {
+  "D18": {"transport": "mrt+coach", "why": "她想在客運上看書、看山"},
+  "D26": {"transport": "hsr", "why": "回臺中都搭高鐵，習慣"},
+  "D30": {"transport": "rail", "why": "火車，可以看書"}
+ },
+ "heroine_04": {
+  "D27": {"transport": "hsr", "why": "高鐵上可以寫 code"},
+  "D28": {"transport": "hsr", "why": "同上"},
+  "D29": {"transport": "hsr", "why": "同上"}
+ },
+ "heroine_05": {
+  "D19": {"transport": "mrt+coach", "why": "照時刻表"},
+  "D30": {"transport": "rail", "why": "火車比較準時"}
+ },
+ "classmate_peishan": {
+  "D17": {"transport": "coach", "why": "客運比較便宜"},
+  "D24": {"transport": "coach", "why": "同上"},
+  "D21": {"transport": "mrt+bus", "why": "同上"}
+ },
+ "kexin": {
+  "D25": {"transport": "rail", "why": "火車會沿著海開（BB_128 3-5）"},
+  "D30": {"transport": "rail", "why": "同上"}
+ }
+}

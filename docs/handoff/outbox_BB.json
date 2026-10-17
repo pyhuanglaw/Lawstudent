@@ -345,6 +345,21 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "DATE-S6 預約句子＋DATE_PREFS（BB 五位）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+    "docs/story_planning/date_system/date_prefs_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "以安、語彤的答應／改時間／取消／改交通／DATE_PREFS 由 AA 寫；BB 稿未經 AA 審",
+   "next": "LAWWW-C 接 DATE-S6",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
