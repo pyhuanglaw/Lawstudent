@@ -1430,12 +1430,12 @@ const STORY = (function(){
        葉老師不醜化；「被當」只寫「可能」*/
     if(S.isEcon(G)&&F.dating_kexin){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t}), D=k=>S.dayOfKey(k), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&G.day<=d+2;
       { const d=D('2024-12-13'); if(F.CRAM_FREE_KNOWN&&past(d,21)&&!PHONE.sent(G,'y0_cram_msg')&&G.day<=d+1) PHONE.at(G,G.day===d?d:G.day,G.day===d?21:Math.max(9,G.hour),[Y('我今天去以前的補習班。等主任走了才進去。'),Y('然後櫃台說，主任交代過我會來。'),K('哈哈哈哈哈哈'),K('……那你要去嗎？'),Y('還不知道。'),K('好。')],'y0_cram_msg'); }
-      { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
+      /* 可昕休學的理由（使用者 22:0x 定案：期末占 100% 的作業記錯時間、寫信求補救、老師拒絕；AA_272 第 9 節 7050a1a0 改三句）*/ { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('國文的期末報告。整科只算這一份。'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
           {t:'寄信問葉老師？',say:[K('正在寫。……寫第三版了。第一版太像在哭，第二版太像律師函。')]},
           {t:'妳先不要慌。',say:[K('我沒有慌。我在把截圖放大，看紅字是不是會變黑。'),K('……好啦。我寫信問葉老師。')]},
           {t:'要不要我現在過去？',say:[K('你又沒課。……好啦，來。我在社科院一樓。'),{who:null,text:'（你過去了。她把信給你看，你改了一個錯字。）'}]}]}})],'y0_kx_essay1'); }
-      { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說遲交照課程大綱第一頁的規定處理，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
-      { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('我算了一下。那份作業占很多。'),K('可能會被當。也可能不會。'),K('我不想等到成績出來才知道。……我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
+      { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說不能補交，遲交照課程大綱第一頁的規定扣分，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
+      { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('我算了一下。整科就那一份，扣完分。'),K('可能會被當。也可能不會。'),K('我不想等到成績出來才知道。……我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
           {t:'妳想好了再跟我說。',set:{KX_THINK_LEAVE:'wait'},say:[K('嗯。我會。')]},
           {t:'休學的生活還可以。我可以教妳怎麼睡到十點。',set:{KX_THINK_LEAVE:'sleep'},say:[K('……你是在安慰我還是在炫耀。'),Y('都有。')]},
           {t:'先吃飯。',set:{KX_THINK_LEAVE:'eat'},say:[K('……好。鹽酥雞。')]}]}})],'y0_kx_essay3'); } } }

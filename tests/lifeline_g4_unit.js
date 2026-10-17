@@ -49,8 +49,8 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { const d=DK('2024-12-13'); econ(d,15,'home',{}); check('4-2 在家：home 版的 ev_y0_cram_h 可以演（同一段）',EVENTS.check(ev('ev_y0_cram_h'))&&J(ev('ev_y0_cram_h').dialogue)===J(ev('ev_y0_cram').dialogue)); }
   /* 4-3 */
   { econ(DK('2025-01-03'),20.9,'home',{}); run(20.9,21.1); const m=(G.msgs||[]).filter(x=>x.th==='p:kexin'), q=m.find(x=>x.ask);
-    check('4-3 1/3 21:00：截圖、「我以為是下週五。」「是上週五。」＋三個選項；第三個「我在社科院一樓。」（他不能進總圖）',m.length===3&&m[1].text==='我以為是下週五。'&&q&&J(q.ask.opts.map(o=>o.t))===J(['寄信問葉老師？','妳先不要慌。','要不要我現在過去？'])&&J(q.ask.opts[2].say).includes('我在社科院一樓。'),J(m.map(x=>x.text)));
-    G.day=DK('2025-01-06'); run(20.9,21.1); check('4-3 1/6 21:00：葉老師回了（沒有選項）',txt('p:kexin').includes('kexin:很客氣。說遲交照課程大綱第一頁的規定處理，對每個人都一樣。'));
+    check('4-3 1/3 21:00：截圖、「國文的期末報告。整科只算這一份。」（AA_272 第 9 節）、「我以為是下週五。」「是上週五。」＋三個選項；第三個「我在社科院一樓。」（他不能進總圖）',m.length===4&&m[1].text==='國文的期末報告。整科只算這一份。'&&m[2].text==='我以為是下週五。'&&q&&J(q.ask.opts.map(o=>o.t))===J(['寄信問葉老師？','妳先不要慌。','要不要我現在過去？'])&&J(q.ask.opts[2].say).includes('我在社科院一樓。'),J(m.map(x=>x.text)));
+    G.day=DK('2025-01-06'); run(20.9,21.1); check('4-3 1/6 21:00：葉老師回了（沒有選項）',txt('p:kexin').includes('kexin:很客氣。說不能補交，遲交照課程大綱第一頁的規定扣分，對每個人都一樣。'));
     G.day=DK('2025-01-11'); run(21.9,22.1); const q3=(G.msgs||[]).find(x=>x.tag==='y0_kx_essay3'&&x.ask);
     check('4-3 1/11 22:00：「我在想要不要休學。」＋三個選項、記 KX_THINK_LEAVE',!!q3&&q3.text==='我在想要不要休學。'&&q3.ask.opts.length===3&&!!G.flags.KX_THINK_LEAVE);
     PHONE.answer(G,'y0_kx_essay3',1); run(22.1,22.3); const t=txt('p:kexin');
