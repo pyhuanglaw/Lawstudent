@@ -120,6 +120,16 @@ def build_cap(m, hair):
     dead = [f for f in hb.faces if inside_f(f)]
     bmesh.ops.delete(hb, geom=dead, context='FACES')
     loose = [v for v in hb.verts if not v.link_faces]; bmesh.ops.delete(hb, geom=loose, context='VERTS')
+    # 第四版：留下來的髮片，靠近帽緣（帽緣上面 4° 以內）的點壓到帽冠裡面 3 mm（第三版帽緣前面一圈髮尖從帽冠穿出來）
+    Mi = np.linalg.inv(Mh); npull = 0
+    for v in hb.verts:
+        p = Mh[:3, :3] @ np.array(v.co) + Mh[:3, 3]; q = p - c; r = float(np.linalg.norm(q)); d = q / max(r, 1e-9)
+        a = math.degrees(math.atan2(d[0], -d[1])); e = math.degrees(math.asin(max(-1.0, min(1.0, d[2]))))
+        if e > float(np.interp(a, np.r_[A - 360, A, A + 360], np.r_[erim, erim, erim])) - 4.0:
+            rc = rad(d, 0.0) - 0.003
+            if r > rc:
+                pn = c + d * rc; v.co = (Mi[:3, :3] @ pn + Mi[:3, 3]).tolist(); npull += 1
+    print('  hair verts pulled under the cap', npull)
     hb.to_mesh(hair.data); hb.free(); hair.data.update()
     print('  cap: verts %d faces %d (rim elevation %.1f..%.1f°); hair faces under the cap removed %d' % (len(V), len(F), erim.min(), erim.max(), len(dead)))
     return obj

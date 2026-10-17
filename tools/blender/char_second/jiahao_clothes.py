@@ -54,7 +54,7 @@ def zip_tapes(mb, edges, w=0.008, mat=5):
         mb.grid(np.stack([A, B], 1), UV, closed=False, mat=mat, centers=cen)
 
 
-def tee_under_jacket(cl, tee=3, jacket=(0, 4, 5), inset=0.004, slack=0.002, max_move=0.02):
+def tee_under_jacket(cl, tee=3, jacket=(0, 4, 5), inset=0.004, slack=0.002, max_move=0.02, z_max=9.0):
     """T 恤收進外套裡面：從軀幹中心線往外打，T 恤的點如果在外套外面（或離外套不到 2 mm），拉回到外套裡面 4 mm。
     第三版：側面看外套腋下後方露出一小塊芥末黃（外套在腋下往內收，T 恤照身體加寬鬆量，比外套寬）。前面敞開的地方打不到外套，不動"""
     from mathutils import Vector
@@ -65,7 +65,9 @@ def tee_under_jacket(cl, tee=3, jacket=(0, 4, 5), inset=0.004, slack=0.002, max_
     vt = np.unique(np.concatenate([np.array(list(p.vertices)) for p in me.polygons if p.material_index == tee]))
     bv = BVHTree.FromPolygons(P.tolist(), FJ); T = P[vt]; moved = 0
     for i in vt:
-        w = P[i]; band = T[np.abs(T[:, 2] - w[2]) < 0.012]
+        w = P[i]
+        if w[2] > z_max: continue          # 家豪第四版：領口附近不收（背心敞開、貼著肩膀：T 恤被收到皮膚底下，脖子兩側露出兩塊皮膚）
+        band = T[np.abs(T[:, 2] - w[2]) < 0.012]
         if len(band) < 8: continue
         o = np.array([0.0, 0.5 * (band[:, 1].min() + band[:, 1].max()), w[2]])
         d = w - o; d[2] = 0.0; L = float(np.linalg.norm(d))
@@ -156,7 +158,7 @@ def _apply(m, arm, body):
     C.bind(obj, arm, K.weights_dict(skin, W))
     print('  dropped loose verts (open front)', XC.drop_loose(obj))
     print('  tee faces removed at the sides/back (under the jacket)', trim_tee(obj))
-    print('  tee pulled under the jacket', tee_under_jacket(obj))
+    print('  tee pulled under the jacket', tee_under_jacket(obj, z_max=K.TEE_CREW_Z - 0.07))
     print('  body pulled under the tee', XC.conform_under(body, obj, 3, K.PANTS_TOP - 0.03, K.TEE_CREW_Z + 0.065))
     me = obj.data; tris = {}
     for p in me.polygons: tris[p.material_index] = tris.get(p.material_index, 0) + len(p.vertices) - 2
