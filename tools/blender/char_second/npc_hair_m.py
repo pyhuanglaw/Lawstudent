@@ -137,6 +137,9 @@ def apply(m):
         # 安全網：髮片的點離頭的中心不超過 H.Rtop＋4 cm（LAWWW2-C 2026-10-17：耳朵後面、後頸側邊的髮尾往外下方找高度時，
         # 量到耳朵、肩膀外緣，髮尾跑到 27 cm 外，遊戲裡變成一條細線或一片黑色翅膀：nm5、nm10、nm12、nm14、nm15、nm20）
         rmax = H.Rtop + 0.04; rr = np.linalg.norm(P - c, axis=1); kk = np.minimum(1.0, rmax / np.maximum(rr, 1e-6)); P = c + (P - c) * kk[:, None]
+        # 第二道：離頭皮（這個方向的頭皮半徑）不超過 4 cm——耳朵後下方往外伸的髮尾在頭中心 15 cm 以內，第一道抓不到（nm15、nm20）
+        dd = P - c; rr = np.linalg.norm(dd, axis=1); du = dd / np.maximum(rr, 1e-6)[:, None]
+        lim = np.array([H.R(u) for u in du]) + 0.04; P = c + dd * np.minimum(1.0, lim / np.maximum(rr, 1e-6))[:, None]
         Tn = tangents(P); side = _unit(np.cross(D, Tn))
         width = np.maximum(np.array(Wd) * wfac, 0.006) * (0.65 + 0.35 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=np.linspace(0, 1, len(P)))
