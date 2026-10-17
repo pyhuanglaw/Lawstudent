@@ -67,8 +67,8 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('Z2 加入小組群組，她的第一則「我負責剪片。不要叫我上台。」',PHONE.inGroup(G,'ge_econ')&&T.length===1&&T[0].from==='heroine_02'&&T[0].text==='我負責剪片。不要叫我上台。',JSON.stringify(T.map(m=>m.text)));
     fresh(fri,12.3,'putong'); picks=['報告很爛']; await EVENTS.run(e); check('Z2 另一個加入的選項：沒有「網拍」那兩句、照樣加入',!lines().some(t=>/一千元的相機/.test(t))&&G.flags.ge_group_zhiruo===true&&G.flags.geGroupDay===fri);
     fresh(fri,12.3,'putong'); picks=['已經有組']; await EVENTS.run(e); STORY.phoneRules(GM); check('Z2 「我已經有組了。」：不加入群組',!G.flags.ge_group_zhiruo&&!PHONE.inGroup(G,'ge_econ'));
-    const fin=ev('ev_zhiruo_ge_final'); fresh(dayOfWeek(17,3),20,'dorm',{ge_group_zhiruo:true}); const a=EVENTS.check(fin); fresh(dayOfWeek(18,3),20,'dorm',{ge_group_zhiruo:true}); const b=EVENTS.check(fin);
-    await EVENTS.run(fin); check('Z2 期末（第 18 週）旁白一行（不排「第一個」），第 17 週還沒有',a===false&&b===true&&lines()[0]==='三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'&&!/第一個/.test(lines()[0])); }
+    const fin=ev('ev_zhiruo_ge_final'); fresh(dayOfWeek(15,3),20,'dorm',{ge_group_zhiruo:true}); const a=EVENTS.check(fin); fresh(dayOfWeek(16,3),20,'dorm',{ge_group_zhiruo:true}); const b=EVENTS.check(fin);
+    await EVENTS.run(fin); check('Z2 期末（第 16 週，16 週制）旁白一行（不排「第一個」），第 15 週還沒有',a===false&&b===true&&lines()[0]==='三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'&&!/第一個/.test(lines()[0])); }
   /* ---------- W2（法服讀書會）停用；沛珊 P1／P1b 搬到公法讀書會（AA_236 A1、BB_191 §8-7、AA_222）---------- */
   { const e=ev('ev_studygroup_wed'), wed=dayOfWeek(5,3);
     fresh(wed,19.2,'wancai',{lawclub:true}); check('W2 法服讀書會停用：ev_studygroup_wed、ev_studygroup_p1b、_missed 都標 retired，不會觸發',!!e.retired&&!!ev('ev_studygroup_p1b').retired&&!!ev('ev_studygroup_p1b_missed').retired&&EVENTS.check(e)===false);

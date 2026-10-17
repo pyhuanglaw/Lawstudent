@@ -39,7 +39,7 @@ check('次數還沒滿：第 15、16 週有補做',has(w15.day)&&has(w16.day));
   check('成績單不列服務學習（只記次數）',!('service_1' in CLS.reportFor(G,'Y1S1')),JSON.stringify(CLS.reportFor(G,'Y1S1')));
   /* 學期結束的成績單：服務學習寫次數，不寫「過了／不錯／很好」（2026-10-13 這個測試抓到：原本寫成「服務學習（一）：undefined」）*/
   { let dEnd=null; for(let d=60; d<260&&!dEnd; d++){ const a=CALENDAR.termOf(d-1), b=CALENDAR.termOf(d); if(a&&a.id==='Y1S1'&&(!b||b.id!=='Y1S1')) dEnd=d; }
-    G.day=dEnd; G.hour=7.5; said.length=0; await CLS.morning(GM); const msg=said.find(t=>/憲法/.test(t))||'';
+    G.day=CALENDAR.gradeDay('Y1S1'); G.hour=7.5; said.length=0; await CLS.morning(GM);   /* 16 週制：成績公布日（放假後第 3 個週一 1/5）才發 */ const msg=said.find(t=>/憲法/.test(t))||'';
     check('大一上的成績單：服務學習（一）寫「9／9 次」、沒有 undefined',/服務學習（一）：9／9 次/.test(msg)&&!/undefined/.test(msg),msg.slice(0,160)); }
   /* 補做：缺兩次的玩家 */
   G.courses={}; const R2=CLS.rec(G); said.length=0;

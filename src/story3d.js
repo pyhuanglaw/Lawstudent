@@ -1022,7 +1022,11 @@ const STORY = (function(){
   S.classPhotoOk=G=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return false; const OK=['FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP']; return S.CLASS_PHOTO_IDS.filter(id=>OK.includes(SOCIAL.stage(id))).length>=5; };
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
-  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }
+  /* 第 N 週星期 wd 是哪一天。16 週制（2026-10-17）以後第 17、18 週已經是寒暑假：照日期往後推（日子和 18 週制時完全一樣），不回傳 null——
+     舊的寫法 termDay(…,17 或 18,…) 先維持原本的日子（多數事件 AA 決定日期不動、改成放假版，AA_198 第 2 節）；逐一改掉的清單在 docs/handoff/WEEK16_REFS_2026-10-17.md、AA_243 第 4 節 */
+  const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined'){ for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } }
+      if(r==null&&CALENDAR.termDays&&week>0&&wd>=1&&wd<=7){ const R=CALENDAR.termDays(term); if(R&&week>(R.to-R.from+1)/7) r=R.from+(week-1)*7+(wd-1); } }
+    return termDayCache[k]=r; }
   /* 明軒的「公館一百元以內」清單（BB_70 5-6 F-M1；店名照遊戲裡的店，D77）*/
   S.MX_FM1={head:'公館一百元以內（明軒版）。按 CP 值排。不接受申訴。',title:'公館一百元以內（明軒版）',
     rows:[['林家乾麵（溫州街）','小碗乾麵＋貢丸湯','70','飽足感除以價錢，第一名。沒有之一。'],['阿鳳麵店','乾麵＋餛飩湯','85','滷蛋另外算。阿姨有時候多給一顆，這個不能算進排名。'],
@@ -1611,11 +1615,12 @@ const STORY = (function(){
             {t:'（貼一張颱風的貼圖）',post:'🌀（颱風的貼圖）',set:{TY1_REPLY:'sticker'},say:[{from:'yu',text:'這張貼圖比講義有用。'}]}]}}],'ty1_g4'); } } }
     /* 聖誕交換禮物（A20、AA_71 2-6）：阿哲在麵店團群組揪（第 17 週週一 12/22 21:00；之後才加入群組的，加入時看到）。活動本身是 ev_xmas_exchange（12/24 週三中午霖澤館一樓）*/
     { const mon=termDay('Y1S1',17,1); if(mon&&PHONE.inGroup(G,'noodle_team')&&G.day>=mon&&(G.day<mon+2||(G.day===mon+2&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_ask')){ const late=G.day>mon||h(G)>=21;
-        PHONE.at(G,late?G.day:mon,late?h(G):21,[{th:'g:noodle_team',from:'zhe',text:'聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。'}],'xmas_ask'); } }
+        PHONE.at(G,late?G.day:mon,late?h(G):21,[{th:'g:noodle_team',from:'zhe',text:'聖誕交換禮物，週三晚上六點半，麵店。一百五以內。'}],'xmas_ask'); } }   /* AA_204 1-2（16 週制：12/22 是寒假第一天，聖誕改 12/24 18:30 麵店）*/
+    { const xd=S.dayOfKey('2025-12-24'); if(xd!=null&&PHONE.inGroup(G,'noodle_team')&&PHONE.sent(G,'xmas_ask')&&typeof OUT!=='undefined'&&!OUT.get(G,'xmas_y1')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)&&(G.day<xd||(G.day===xd&&h(G)<18.75))) OUT.plan(G,{id:'xmas_y1',ev:'ev_xmas_exchange',day:xd,h:18.5,late:0.25,place:'阿鳳麵店',title:'聖誕交換禮物',travel:'走過去約 10 分鐘',travelH:1/6}); }   /* AA_204 1-1：照出遊，15 分鐘沒到＝沒去 */
     /* 週二晚上的第二則提醒（AA-B 10-16，AA_160 3-4 B）：22:00 小語、22:02 阿哲、22:03 小語；條件和 xmas_ask 一樣（在群組、還沒演）；之後才加入的在加入時看到。書店真的開到 22:30 */
-    { const mon=termDay('Y1S1',17,1), tue=mon!=null?mon+1:null; if(tue!=null&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)&&(G.day>tue||(G.day===tue&&h(G)>=22))&&(G.day<tue+1||(G.day===tue+1&&h(G)<12+10/60))&&!PHONE.sent(G,'xmas_eve1')){ const late=G.day>tue||h(G)>=22.1;
-        const d0=late?G.day:tue, t0=late?h(G):22; PHONE.at(G,d0,t0,[{th:'g:noodle_team',from:'yu',text:'明天中午十二點十分，霖澤館一樓！禮物記得包起來。'}],'xmas_eve1'); PHONE.at(G,d0,t0+2/60,[{th:'g:noodle_team',from:'zhe',text:'我還沒買。'}],'xmas_eve2'); PHONE.at(G,d0,t0+3/60,[{th:'g:noodle_team',from:'yu',text:'……書店開到十點半。'}],'xmas_eve3'); } }
-    { const wed=termDay('Y1S1',17,3); if(wed&&G.day===wed&&h(G)>=12&&h(G)<13+40/60&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)){ const D=G.daily||(G.daily={}); if(D.xmasToast!==wed){ D.xmasToast=wed; GM.toast('今天 12:10～13:40：聖誕交換禮物（霖澤館一樓）',4800); } } }   /* 當天 12:00 一則提醒（AA_160 3-4 B）*/
+    { const mon=termDay('Y1S1',17,1), tue=mon!=null?mon+1:null; if(tue!=null&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)&&(G.day>tue||(G.day===tue&&h(G)>=22))&&(G.day<tue+1||(G.day===tue+1&&h(G)<18.5))&&!PHONE.sent(G,'xmas_eve1')){ const late=G.day>tue||h(G)>=22.1;
+        const d0=late?G.day:tue, t0=late?h(G):22; PHONE.at(G,d0,t0,[{th:'g:noodle_team',from:'yu',text:'明天晚上六點半麵店！禮物記得包起來。'}],'xmas_eve1');   /* AA_204 1-2 */ PHONE.at(G,d0,t0+2/60,[{th:'g:noodle_team',from:'zhe',text:'我還沒買。'}],'xmas_eve2'); PHONE.at(G,d0,t0+3/60,[{th:'g:noodle_team',from:'yu',text:'……書店開到十點半。'}],'xmas_eve3'); } }
+    { const wed=termDay('Y1S1',17,3); if(wed&&G.day===wed&&h(G)>=12&&h(G)<18.5&&PHONE.inGroup(G,'noodle_team')&&!(G.events&&G.events.done&&G.events.done.ev_xmas_exchange)){ const D=G.daily||(G.daily={}); if(D.xmasToast!==wed){ D.xmasToast=wed; GM.toast('今天 18:30：聖誕交換禮物（麵店）',4800); } } }   /* AA_204 1-2 */   /* 當天 12:00 一則提醒（AA_160 3-4 B）*/
     /* 跨年（A21、BB_95 9-7）：一週前（第 17 週週三 12/24 21:00）可昕問；KX_NYE_PICK 換成 KX_NYE:{1:…}（每年一筆）；12/31 排出遊：河堤 23:30（開車）、頂樓 23:45（走上去）；
        沒有回她、在麵店團群組的玩家：頂樓（AA 的群戲，沒有視訊）。河堤回來的路上（00:12）麵店團群組：頂樓的照片＋阿哲「我們就說有看到。」*/
     { const nye=termDay('Y1S1',18,3);

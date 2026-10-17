@@ -35,9 +35,9 @@ const D=id=>STORY.DAILY_PHONE.find(d=>d.id===id);
 const txt=(id,day)=>D(id).items(G,0).map(x=>x.th+'｜'+x.text+(x.dt?'｜+'+Math.round(x.dt*60)+'分':''));
 const hm=x=>{ const m=Math.round((x%24)*60); return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
-const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',17,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
+const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',16,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
 (async()=>{
-  check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 17 週是期末考',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
+  check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 16 週是期末考（16 週制；變數名照舊）',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
   check('每天的手機小事有 BB_120 1-7c 的 14 則（方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','ps_r','ps_c','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&STORY.DAILY_PHONE.length>=23);
   if(!D('zq_a1')){ console.log('FAILED '+fails); process.exit(1); }
   /* ---------- A 子晴 ---------- */
@@ -58,7 +58,7 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     check('A 朋友：實際收到的時間（私訊 22:10、群組 22:40）',G.msgs.slice(g0).length===3&&G.msgs.slice(g0)[2].th==='g:guitar',JSON.stringify(G.msgs.slice(g0).map(m=>m.th+'｜'+m.text)));
     R('heroine_04',...LV.CLO);
     check('A 好朋友：「你今天吃飯了嗎。」「這是問句。」',D('zq_c1').ok(G,W5TUE)&&txt('zq_c1').join('/')==='p:heroine_04｜你今天吃飯了嗎。/p:heroine_04｜這是問句。｜+1分',txt('zq_c1').join('/'));
-    check('A 好朋友：期末考那兩週才問「期末考還好嗎。」「這是問句。」「……不用回很長。」',!D('zq_c2').ok(G,W5TUE)&&D('zq_c2').ok(G,W17MON)&&txt('zq_c2').map(s=>s.split('｜')[1]).join('/')==='期末考還好嗎。/這是問句。/……不用回很長。');
+    check('A 好朋友：期末考那一週才問（16 週制）「期末考還好嗎。」「這是問句。」「……不用回很長。」',!D('zq_c2').ok(G,W5TUE)&&D('zq_c2').ok(G,W17MON)&&txt('zq_c2').map(s=>s.split('｜')[1]).join('/')==='期末考還好嗎。/這是問句。/……不用回很長。');
     PHONE.rec(G).groups={}; check('A 朋友：不在吉他社群組，只有私訊那兩則',(R('heroine_04',...LV.FRI),D('zq_r1').items(G,0).length===2)); }
   /* ---------- B 沛珊 ---------- */
   { fresh(W5TUE,8,'dorm'); PHONE.join(G,'public_law','公法讀書會'); R('classmate_peishan',...LV.ACQ);   /* BB_191 §8-7：沛珊的問題改在公法讀書會群組 */

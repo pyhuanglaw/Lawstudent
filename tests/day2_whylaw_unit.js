@@ -92,7 +92,7 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     const LEGIT=['我媽說我寒假胖了。我說這是存糧。','我媽說她不好意思拒絕。','我媽說今年要包一百個。'];   /* 法服值班民眾第 6 件（AA_184）；阿哲的大二過年（AA_143 2-1，AA-B 9035ede0）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
     check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
     const h=CHARACTERS.heroine_01;
-    check('5 以安的 family_context＝「母親是法官，單親；家在台中」',h.family_context==='母親是法官，單親；家在台中',h.family_context);
+    check('5 以安的 family_context＝「母親是法官，單親；家在台中，家境寬裕」（2026-10-17 使用者經 BB-C）',h.family_context==='母親是法官，單親；家在台中，家境寬裕',h.family_context);
     check('5 以安的 contradictions 只換那半句：「媽媽是法官，她不想被當成「法官的女兒」」，沒有書記官',/媽媽是法官，她不想被當成「法官的女兒」/.test(h.contradictions)&&!/書記官/.test(JSON.stringify(h)),h.contradictions); }
   // ---------- 6 ev_an_mother 停用 ----------
   { fresh(); G.zone='campus'; G.hour=18.0; G.day=12; SOCIAL.adjust('heroine_01',{fam:25,trust:10}); const ev=STORY_EVENTS.find(e=>e.id==='ev_an_mother'); const ctl=Object.assign({},ev); delete ctl.retired;

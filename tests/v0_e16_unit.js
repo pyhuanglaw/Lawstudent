@@ -25,7 +25,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const RET=id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return !!e&&typeof e.retired==='string'&&e.retired.includes('AA_218'); };
   check('0. ev_y0_e16a（分組）、ev_y0_e16b（報告）定義還在（給舊存檔）、標 retired（AA_218 第 11 節）',RET('ev_y0_e16a')&&RET('ev_y0_e16b'));
   const items=w=>{ for(let d=-400;d<0;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y0S1'||t.week!==w) continue; const it=CLS.dayItems({day:d,hour:8,stage:'econ',flags:{}},d).find(x=>x.c.id==='econ_principles_y0'&&!x.exam); if(it) return it; } };
-  const w15=items(15), w16=items(16); check('0. 經原第 15 週 12/9、第 16 週 12/16',CALENDAR.dateOf(w15.day).key==='2024-12-09'&&CALENDAR.dateOf(w16.day).key==='2024-12-16');
+  const w15=items(15), w16=items(14); check('0. 經原第 15 週 12/9；第 16 週 16 週制是期末考週，改用第 14 週 12/2 檢查（E16 已停用，日子不影響）',CALENDAR.dateOf(w15.day).key==='2024-12-09'&&CALENDAR.dateOf(w16.day).key==='2024-12-02');
   const after=async(it,pick)=>{ G.day=it.day; G.hour=it.t1+0.05; G.weekday=wdOf(it.day); said=[]; picks=pick?[pick]:[]; const r=await CLS.afterClassEvent(GM,it); return {r,L:said.map(x=>x.t)}; };
   fresh(w15.day,w15.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; let x=await after(w15,'寫報告');
   check('1. 第 15 週經原下課：不演分組（沒有小桌子、沒有「你要做哪一塊？」）、E16_ROLE 沒寫',!x.r&&!x.L.length&&!G.events.done.ev_y0_e16a&&G.flags.E16_ROLE===undefined,JSON.stringify([x.r,x.L.slice(0,2),G.flags.E16_ROLE]));

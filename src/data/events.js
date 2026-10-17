@@ -238,7 +238,7 @@ const STORY_EVENTS=[
       {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'嗯。'},{speaker:null,text:'她點頭。'},{speaker:'heroine_02',expression:'neutral',text:'我也這樣跟自己說了兩個月。'},
       {label:'end'} ] },
   // ────────────────────────────────────────── 子晴：室友的同學、吉他社
-  { id:'ev_zhiruo_ge_final', title:'期末的短片', participants:[], location:['dorm','campus','putong'], trigger:'enter', term:['Y1S1'], once:true, prereq:{flags:['ge_group_zhiruo'],custom:G=>{ if(typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=18; }}, background:'freeze',   /* BB_95 2-4 期末：旁白一行帶過（AA_108 第 4 節 #27：不排「第一個」）*/
+  { id:'ev_zhiruo_ge_final', title:'期末的短片', participants:[], location:['dorm','campus','putong'], trigger:'enter', term:['Y1S1'], once:true, prereq:{flags:['ge_group_zhiruo'],custom:G=>{ if(typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=16; }}, background:'freeze',   /* BB_95 2-4 期末：旁白一行帶過（AA_108 第 4 節 #27：不排「第一個」）；16 週制：期末週＝第 16 週（原本第 18 週，AA_198 大一上「必搬」）*/
     dialogue:[ {speaker:null,text:'三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'} ] },
   { id:'ev_kai_mentions_ziqing', title:'室友的同學', participants:['kai'], location:'dorm', trigger:'interact', priority:6, once:true, minWeek:{term:'Y1S1',week:4},   /* BB_170 第 18 列：改看週次（第 4 週起；原本 day_min 6）。BB_95 2-3：落在第 4 週（9/22 週一＝第 6 天），社團博覽會（第 5 週）之前；台詞全部保留 */ time:[18,26], prereq:{notMemory:[{npc:'heroine_04',tag:'FIRST_MET'}]}, background:'blur',   /* 已經認識子晴就不用轉述（BB 6-1）*/
     dialogue:[ {speaker:'kai',expression:'smile',text:'欸，我們系有個學姊，高子晴，吉他社的。她說社團缺人，問我有沒有朋友想來。'},{speaker:'kai',expression:'neutral',text:'我說我室友是法律系的，她說「法律系也可以啊，只要不會告我們」。'},{choice:[{text:'「什麼時候？」',consequences:{flags:{guitar_invite:true},rel:{heroine_04:{fam:2}},goal:'吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室'},goto:'when'},{text:'「我不會彈吉他。」',consequences:{flags:{guitar_invite:true}},goto:'no'},{text:'「你去就好。」',consequences:{rel:{kai:{fam:-1}}},end:true}]},{label:'when'},{speaker:'kai',expression:'smile',text:'第五週開始，週一、週三晚上七點，在萬才館一樓的多功能教室。她說不用會彈。'},{goto:'end'},{label:'no'},{speaker:'kai',expression:'laugh',text:'她說一年級的沒有人會。週一、週三晚上七點，萬才館。'},{label:'end'} ] },
@@ -947,33 +947,34 @@ const STORY_EVENTS=[
      柏翰的考古題由以安沒收（以安在場才有那一句；旁白的「又」只給中秋烤肉看過沒收的玩家：MIDAUTUMN_Y1＋BBQ_BOHAN_SEIZED，AA 交付清單 A20）；語彤抽到筆記本記 GIFT_NOTEBOOK_YT（AA_11 事件 16）。
      明軒的禮物（BB_95 3-6b，2026-10-14）：三色螢光筆；祐廷抽到＝「多買的。……我用不到啦。」＋（綠色螢光筆）「上次那支綠的還在嗎？……」或（SAW_HIM_STUDY）「……你什麼都沒看到。」，記道具 XMAS_HL3；
      別人抽到＝阿哲、明軒各一句。AA 的「小事」是條列，旁白照條列的字寫成句子 */
-  { id:'ev_xmas_exchange', title:'聖誕交換禮物', participants:[], location:'linze', trigger:'auto', term:['Y1S1'], weeks:[17], weekday:[3], time:[12+10/60,13+40/60], once:true, keep:'fixed', background:'blur',   /* 窗口放寬到 12:10～13:40（AA_160 3-4 B，AA-B 10-16 第一級條件小修）*/
-    prereq:{custom:(G,GM)=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&!(GM&&GM.E&&GM.E.player&&(GM.E.player.lv|0)!==0)&&XMAS_HERE(G).length>0},
-    dialogue:[ {speaker:null,text:'抽籤交換禮物。'},{speaker:null,text:'每個人的禮物都很像他們自己。'},
+  /* 16 週制（AA_198 第 2 節第 1 點、AA_204 第 1 節 @4048e3ec）：改到 12/24（三）18:30 麵店，照出遊（OUT：story3d.js 的 xmas_y1，開始後 15 分鐘還沒到＝沒去）；原本第 17 週週三中午霖澤館一樓 */
+  { id:'ev_xmas_exchange', title:'聖誕交換禮物', participants:[], location:'any', trigger:'outing', once:true, keep:'fixed', background:'blur', hours:2,
+    prereq:{custom:(G,GM)=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&XMAS_HERE(G).length>0},
+    dialogue:[ {scene:'阿鳳麵店'},{speaker:null,text:'（麵店最裡面那張桌子。老闆娘多拿了兩張椅子過來。）'},{if:{custom:G=>XMAS_HERE(G).includes('heroine_03')},speaker:null,text:'（語彤今天沒班，坐在客人這一邊。）'},{speaker:null,text:'（禮物先疊在桌子中間，吃完再抽。）'},
       {speaker:null,text:'你帶來的禮物是——'},
       {choice:[{text:'一本小筆記本',set:{XMAS_GIFT:'notebook'}},{text:'一包咖啡豆',set:{XMAS_GIFT:'coffee'}},{text:'一張手寫卡片',set:{XMAS_GIFT:'card'}}]},
       {pick:{flag:'XMAS_TO',from:G=>XMAS_HERE(G)}},
       {if:{flagIs:{XMAS_TO:'heroine_01'}},speaker:null,text:'抽到你禮物的是以安。'},
-      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'notebook'}},speaker:'heroine_01',expression:'smile',text:'剛好。手帳的理由欄不夠寫了。'},
-      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我不喝咖啡。……期末會喝。好。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'notebook'}},speaker:'heroine_01',expression:'smile',text:'剛好。我的快用完了。'},
+      {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'coffee'}},speaker:'heroine_01',expression:'neutral',text:'我不太喝咖啡。……開學以後會用到。謝謝。'},
       {if:{flagIs:{XMAS_TO:'heroine_01',XMAS_GIFT:'card'}},speaker:'heroine_01',expression:'neutral',text:'字很工整。我收著。'},
       {if:{flagIs:{XMAS_TO:'heroine_03'}},speaker:null,text:'抽到你禮物的是語彤。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},speaker:'heroine_03',expression:'neutral',text:'嗯。……我還不知道要寫什麼。先收著。'},
-      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'我帶去店裡。阿姨會好奇。'},
-      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'card'}},speaker:'heroine_03',expression:'neutral',text:'嗯。我會看兩次。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'coffee'}},speaker:'heroine_03',expression:'neutral',text:'放店裡好了。阿姨會想喝喝看。'},
+      {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'card'}},speaker:'heroine_03',expression:'neutral',text:'嗯。回去再看。'},
       {if:{flagIs:{XMAS_TO:'heroine_03',XMAS_GIFT:'notebook'}},mem:[{npc:'heroine_03',tag:'GIFT_NOTEBOOK_YT',note:'聖誕交換禮物：抽到你送的筆記本，還不知道要寫什麼'}]},
       {if:{flagIs:{XMAS_TO:'zhe'}},speaker:null,text:'抽到你禮物的是阿哲。'},
       {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'notebook'}},speaker:'zhe',expression:'laugh',text:'好，我拿來寫菜單。'},
       {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'coffee'}},speaker:'zhe',expression:'neutral',text:'可以配滷味嗎？'},
       {if:{flagIs:{XMAS_TO:'zhe',XMAS_GIFT:'card'}},speaker:'zhe',expression:'laugh',text:'你寫這麼多字，我會哭耶。……沒事啦。'},
       {if:{flagIs:{XMAS_TO:'classmate_bohan'}},speaker:null,text:'抽到你禮物的是柏翰。'},
-      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'notebook'}},speaker:'classmate_bohan',expression:'neutral',text:'我拿來整理考古題。……這次不會被沒收吧。'},
-      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'coffee'}},speaker:'classmate_bohan',expression:'neutral',text:'期末很需要。謝謝。'},
-      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'card'}},speaker:'classmate_bohan',expression:'neutral',text:'……沒有人寫卡片給我過。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'notebook'}},speaker:'classmate_bohan',expression:'neutral',text:'我拿來整理考古題。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'coffee'}},speaker:'classmate_bohan',expression:'neutral',text:'下學期很需要。謝謝。'},
+      {if:{flagIs:{XMAS_TO:'classmate_bohan',XMAS_GIFT:'card'}},speaker:'classmate_bohan',expression:'neutral',text:'……謝謝。我回去看。'},
       {if:{flagIs:{XMAS_TO:'classmate_xinci'}},speaker:null,text:'抽到你禮物的是芯慈。'},
       {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'notebook'}},speaker:'classmate_xinci',expression:'neutral',text:'格線的嗎？……空白的也好。謝謝。'},
       {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'coffee'}},speaker:'classmate_xinci',expression:'smile',text:'追劇的時候剛好。謝謝。'},
-      {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'card'}},speaker:'classmate_xinci',expression:'smile',text:'你寫得比我整齊。……騙你的，我比較整齊。'},
+      {if:{flagIs:{XMAS_TO:'classmate_xinci',XMAS_GIFT:'card'}},speaker:'classmate_xinci',expression:'smile',text:'謝謝。你寫好多。'},
       {if:{flagIs:{XMAS_TO:'yu'}},speaker:null,text:'抽到你禮物的是小語。'},
       {if:{flagIs:{XMAS_TO:'yu',XMAS_GIFT:'notebook'}},speaker:'yu',expression:'laugh',text:'我要拿來寫三個社團的行事曆！'},
       {if:{flagIs:{XMAS_TO:'yu',XMAS_GIFT:'coffee'}},speaker:'yu',expression:'laugh',text:'我拿去社辦泡給大家喝！'},
@@ -985,7 +986,7 @@ const STORY_EVENTS=[
       {if:{flagIs:{XMAS_TO:'classmate_mingxuan',XMAS_GIFT:'card'}},speaker:'classmate_mingxuan',expression:'neutral',text:'卡片喔。……我帶回家。'},
       {pick:{flag:'XMAS_FROM',from:G=>XMAS_FROM_POOL(G)}},
       {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:null,text:'你抽到以安的禮物：一本空白的手帳。'},
-      {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'neutral',text:'一頁行程，一頁理由欄。理由要自己寫。'},
+      {if:{flagIs:{XMAS_FROM:'heroine_01'}},speaker:'heroine_01',expression:'neutral',text:'我自己也用這一款。'},
       {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:null,text:'你抽到語彤的禮物：一包阿姨的辣椒醬。'},
       {if:{flagIs:{XMAS_FROM:'heroine_03'}},speaker:'heroine_03',expression:'neutral',text:'很辣。不要一次吃完。'},
       {if:{flagIs:{XMAS_FROM:'zhe'}},speaker:null,text:'你抽到阿哲的禮物：一盒滷味。'},
@@ -1006,7 +1007,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>{ const h=XMAS_HERE(G); return h.includes('classmate_mingxuan')&&h.includes('zhe')&&G.flags.XMAS_FROM!=='classmate_mingxuan'; }},speaker:'zhe',expression:'laugh',text:'你送螢光筆？你？'},
       {if:{custom:G=>{ const h=XMAS_HERE(G); return h.includes('classmate_mingxuan')&&h.includes('zhe')&&G.flags.XMAS_FROM!=='classmate_mingxuan'; }},speaker:'classmate_mingxuan',expression:'neutral',text:'多買的啦。'},
       {if:{custom:G=>XMAS_MX_YU(G)},speaker:null,text:'明軒抽到小語的巨大玩偶，揹著它去搭公車。'} ],
-    consequences:{flags:{XMAS_Y1:true},memo:'聖誕交換禮物（霖澤館一樓）'} },
+    consequences:{flags:{XMAS_Y1:true},memo:'聖誕交換禮物（麵店）'} },
   /* 颱風假 T1a「泡麵之夜」（BB_110 第 2 節、交付清單 B3，2026-10-14 第 2 級 AA×BB）：颱風假（calendar.js 的 TYPHOON：第 7 週週一）晚上 18–23 點在宿舍房間。
      阿凱囤了泡麵；隔壁的方奕廷抱著植物過來——玩家見過他才有和他有關的三句（交付清單第 0 節第 1 條：沒見過的人不出現）。
      「不可抗力」只當玩笑、沒有人下結論（BB 2026-10-14 法律查核，BB_115 L436）。「看情況。」記 SAID_DEPENDS（大二 F2 阿凱的聊天機器人多一句）。
@@ -2405,7 +2406,7 @@ const STORY_EVENTS=[
       {set:{GIRAFFE_KEYCHAIN:true,_e20g:null}},{rel:{econ_pinyu:{fam:1},econ_zhengxun:{fam:1},kexin:{comf:2}}} ],
     afterOuting:(G,GM)=>{ if(GM.money) GM.money(-500); } },
   /* E20b（AA_224 3-5）：他不在社科院門口出現了——12/26～12/28 第一次走進公館就演（她在捷運出口等他）；12/28 20:00 以前沒去公館＝私訊、放家裡信箱（story3d.js）*/
-  { id:'ev_y0_e20b', stage:'econ', title:'你的份', participants:['kexin'], location:'gongguan', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
+  { id:'ev_y0_e20b', stage:'econ', title:'你的份', participants:['kexin'], location:'gongguan', trigger:'auto', once:true, background:'blur',   /* 16 週制：12/26～12/28 已經是寒假，學期條件拿掉（日子在 custom 裡）*/
     prereq:{custom:G=>{ if(G.flags.GIRAFFE_KEYCHAIN||(G.events&&G.events.done&&G.events.done.ev_y0_e20)||typeof STORY==='undefined') return false; const a=STORY.dayOfKey('2024-12-26'), b=STORY.dayOfKey('2024-12-28'); return a!=null&&G.day>=a&&(G.day<b||(G.day===b&&G.hour<20)); }},
     dialogue:[ {scene:'公館・捷運出口'},{speaker:'kexin',expression:'neutral',text:'你昨天沒來。'},
       {speaker:null,text:'她把一個小東西塞進你手裡。一隻長頸鹿鑰匙圈，脖子短短的。'},

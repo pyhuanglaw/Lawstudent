@@ -30,7 +30,7 @@ const ADV2=global.ADV; ADV2.active=false;
 (async()=>{
   const d0=termDay('Y1S2',1,1); fresh(d0,9,'dorm',{}); G.contacts.heroine_03=1;
   const ex=CLS.examList(G,'Y1S2'); const wk=e=>CALENDAR.termOf(e.day).week;
-  check('1. 大一下的考試清單：有期中、期末，期中在第 8～9 週、期末在第 17～18 週，時間是那一節',ex.some(e=>e.kind==='mid')&&ex.some(e=>e.kind==='final')&&ex.every(e=>(e.kind==='mid'?[8,9]:[17,18]).includes(wk(e))&&e.t1>e.t0),JSON.stringify(ex.map(e=>[e.c.name,e.kind,wk(e),e.t0])));
+  check('1. 大一下的考試清單：有期中、期末，期中在第 8～9 週、期末在第 16 週（16 週制），時間是那一節',ex.some(e=>e.kind==='mid')&&ex.some(e=>e.kind==='final')&&ex.every(e=>(e.kind==='mid'?[8,9]:[16]).includes(wk(e))&&e.t1>e.t0),JSON.stringify(ex.map(e=>[e.c.name,e.kind,wk(e),e.t0])));
   const e=ex.find(x=>x.kind==='mid'); check('1. CLS.examAt：那一節有考試；前一天、同一天別的時間沒有',!!CLS.examAt(G,e.day,e.t0,e.t1)&&!CLS.examAt(G,e.day-1,e.t0,e.t1)&&!CLS.examAt(G,e.day,22,23));
   check('1. 不是考試週：沒有考試',!CLS.examAt(G,d0,0,24));
   // 課表

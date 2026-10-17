@@ -28,12 +28,12 @@ const GM={get G(){ return G; },E:{zone:null,interactables:[],player:{busy:false,
 const fresh=(day,hour)=>{ G={day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'wancai',flags:{},events:{done:{},last:{}},energy:80,goal:'',goalDest:null}; EVENTS.bind(GM); log=[]; chose=[]; caps=[]; answers=[]; return G; };
 const A=id=>ACTIVITIES.list.find(a=>a.id===id);
 const dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } return null; };
-const W=[5,6,7,10,11,12,13,14,15,16];
+const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停（AA_197 1-1）*/
 (async()=>{
   /* A：資料 */
   const g=A('club_guitar'), l=A('lawclub_study'), x=A('club_expo_y1s1'), b=A('dept_basketball');
   check('四筆都在、story:false：吉他社（萬才館多功能教室，門口）、法服讀書會（研討室 A，門口）、博覽會（椰林大道）、系籃（體育館門口）',!!(g&&l&&x&&b)&&[g,l,x,b].every(a=>a.story===false)&&g.zone==='wancai'&&g.room==='multi'&&g.door&&l.room==='seminarA'&&l.door&&x.zone==='campus'&&x.spot&&b.zone==='campus'&&b.spot);
-  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會 9/30、10/1 11–17；社團都在第 5～7、10～16 週',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-30","2025-10-01"]'&&x.t0===11&&x.t1===17&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
+  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會 9/30、10/1 11–17；社團都在第 5～7、10～15 週（16 週制：第 16 週期末考，社課停，AA_197 1-1）',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-30","2025-10-01"]'&&x.t0===11&&x.t1===17&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
   check('旁白：吉他社 6、法服 5、辯論社 6、登山社 5、系籃 5 句（AA 6-8 (d) 的表），都沒有人物的名字',[[g,6],[l,5],[A('club_debate'),6],[A('club_hiking'),5],[b,5]].every(([a,n])=>(a.narr||[]).length===n)&&[g,l,b,A('club_debate'),A('club_hiking')].every(a=>a.narr.every(t=>!Object.values(CHARACTERS).some(c=>c.name&&t.includes(c.name)))));
   const mon5=dOf(5,1), wed5=dOf(5,3), tue5=dOf(5,2), mon4=dOf(4,1), mon8=dOf(8,1), fri5=dOf(5,5);
   const monOK=W.map(w=>dOf(w,1)).find(d=>d&&!CALENDAR.holiday(d)), wedOK=W.map(w=>dOf(w,3)).find(d=>d&&!CALENDAR.holiday(d)), friOK=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d));

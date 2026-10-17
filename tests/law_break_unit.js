@@ -36,15 +36,15 @@ GM.money=function(n){ G.money+=n; };
   if(!HOME.breakOf||!HOME.breakStart){ console.log('FAIL 0. 沒有 HOME.breakOf／breakStart'); console.log('FAILED 1'); process.exit(1); }
   // 1. 放假的範圍
   const W1=HOME.breakOf(D('2026-01-12')), S1=HOME.breakOf(D('2026-07-20')), W2=HOME.breakOf(D('2027-02-01')), S2=HOME.breakOf(D('2027-07-01'));
-  check('1. 大一寒假 1/5～2/22、大一暑假 6/29～9/6、大二寒假 1/11～2/21、大二暑假 6/28～9/5',W1.key==='Y1W'&&W1.from===D('2026-01-05')&&W1.to===D('2026-02-22')&&S1.key==='Y1S'&&S1.from===D('2026-06-29')&&S1.to===D('2026-09-06')&&W2.key==='Y2W'&&W2.from===D('2027-01-11')&&W2.to===D('2027-02-21')&&S2.key==='Y2S'&&S2.from===D('2027-06-28')&&S2.to===D('2027-09-05'),JSON.stringify([W1,S1]));
-  check('1. 學期中、經濟系那一年的暑假、大四畢業以後＝不是',HOME.breakOf(D('2026-01-04'))===null&&HOME.breakOf(D('2026-02-23'))===null&&HOME.breakOf(D('2025-07-20'))===null&&HOME.breakOf(D('2029-08-01'))===null);
+  check('1. 16 週制（AA_197 1-6）：大一寒假 12/22～2/22、大一暑假 6/15～9/6、大二寒假 12/28～2/21、大二暑假 6/14～9/5',W1.key==='Y1W'&&W1.from===D('2025-12-22')&&W1.to===D('2026-02-22')&&S1.key==='Y1S'&&S1.from===D('2026-06-15')&&S1.to===D('2026-09-06')&&W2.key==='Y2W'&&W2.from===D('2026-12-28')&&W2.to===D('2027-02-21')&&S2.key==='Y2S'&&S2.from===D('2027-06-14')&&S2.to===D('2027-09-05'),JSON.stringify([W1,S1,W2,S2]));
+  check('1. 學期中、經濟系那一年的暑假、大四畢業以後＝不是',HOME.breakOf(D('2025-12-21'))===null&&HOME.breakOf(D('2026-02-23'))===null&&HOME.breakOf(D('2025-07-20'))===null&&HOME.breakOf(D('2029-08-01'))===null);
   // 2. 要演的日子
   fresh(D('2026-01-12'),10,'dorm',{}); G.stage='law';
   const P=HOME.breakPts(G).map(p=>CALENDAR.dateOf(p.day).key.slice(5)+'@'+p.h+':'+p.k);
   check('2. 大一寒假：1/20、2/5 摘要日；2/16 12:00 除夕；2/17 11:00 初一；2/22 17:00 回宿舍',JSON.stringify(P)===JSON.stringify(['01-20@18.5:sum','02-05@18.5:sum','02-16@12:eve','02-17@11:cny','02-22@17:back']),JSON.stringify(P));
   check('2. 寒假結束＝2/22 17:00；暑假結束＝9/6 08:30（主線 3）；大三寒假沒有表＝開學前一天 17:00',HOME.breakEnd(G)===Tm(D('2026-02-22'),17)&&HOME.breakEnd(G,HOME.breakOf(D('2026-08-01')))===Tm(D('2026-09-06'),8.5)&&HOME.breakEnd(G,HOME.breakOf(D('2028-01-20')))===Tm(HOME.breakOf(D('2028-01-20')).to,17));
   // 3. 回家的時機
-  fresh(D('2026-01-05'),7.5,'dorm',{}); G.stage='law';
+  fresh(D('2025-12-22'),7.5,'dorm',{}); G.stage='law';   /* 16 週制：寒假第一天＝12/22 */
   check('3. 寒假第一天早上：要回家',HOME.breakStartDue(G)===true);
   G.stage='econ'; check('3. 經濟系＝不算',!HOME.breakStartDue(G)); G.stage='law';
   G.hour=3; check('3. 凌晨（還沒起床）＝還沒',!HOME.breakStartDue(G)); G.hour=7.5;
@@ -71,14 +71,14 @@ GM.money=function(n){ G.money+=n; };
   const m10=(G.msgs||[]).find(m=>m.text==='測試：1/10 22:30 的訊息');
   check('6. 跳過的 1/10 22:30 訊息照原本的時間收進手機',!!m10&&m10.day===D('2026-01-10')&&Math.abs(m10.h-22.5)<0.02,m10&&JSON.stringify([m10.day,m10.h]));
   check('6. 第一個選單：過幾天（跳到 1/20（二）18:30）、睡覺；沒有回宿舍、去學校',opts[0].some(t=>/^過幾天/.test(t))&&opts[0].includes('睡覺')&&!opts[0].some(t=>/回宿舍|去學校/.test(t)),JSON.stringify(opts[0]));
-  check('6. 字卡依序：1/20 → 2/5 → 2/16 → 2/17 → 2/22 → 回宿舍',JSON.stringify(cards.map(c=>c[0]))===JSON.stringify(['1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）17:00','回宿舍']),JSON.stringify(cards));
+  check('6. 字卡依序：12/31 跨年（16 週制，跨年在寒假）→ 1/20 → 2/5 → 2/16 → 2/17 → 2/22 → 回宿舍',JSON.stringify(cards.map(c=>c[0]))===JSON.stringify(['12/31（三）23:00','1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）17:00','回宿舍']),JSON.stringify(cards));
   check('6. 跳過的旁白：1/20「寒假的早上…」、2/5「年前…」、2/16 同一格＝「棉被曬過一次，又收了起來。」（AA-B）、2/17「過年的幾天…」、2/22「寒假的最後一週…」',L.includes('寒假的早上，家裡比宿舍安靜。')&&L.includes('年前，媽媽把你的房間也算進大掃除。')&&L.filter(t=>t==='年前，媽媽把你的房間也算進大掃除。').length===1&&L.includes('棉被曬過一次，又收了起來。')&&L.includes('過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。')&&L.includes('寒假的最後一週，你把下學期的課表抄進手帳。'),JSON.stringify(L.filter(t=>/寒假|年前|過年/.test(t))));
   check('6. 除夕：主線 2（親戚的土地資料）在家演，FAMILY_LAND_Y1 有值',!!G.flags.FAMILY_LAND_Y1&&!!G.events.done.ev_chiayi_land_y1);
   check('6. 初一：麵店團的拜年收進來（11:00）',PHONE.sent(G,'cny_noodle'));
   check('6. 2/22：「明天開學。你回宿舍。」→ 字卡「回宿舍」→ 宿舍房間；不在家、放假模式結束',L.includes('明天開學。你回宿舍。')&&entered[entered.length-1]==='dorm'&&!HOME.at(G)&&!G.home.lbreak&&G.day===D('2026-02-22')&&G.hour>=17.6,JSON.stringify([G.day,G.hour,entered]));
   check('6. 回宿舍以後：同一個寒假不再回家、平日不能回家',!HOME.breakStartDue(G)&&!HOME.breakMode(G));
   // 7. 暑假：6/29 回家 → 7/9 語彤生日 → 7/15 抽籤 → 7/20（打工多一句）→ 8/25 → 9/6 主線 3
-  fresh(D('2026-06-29'),7.5,'dorm',{JOB_TUTOR:true}); G.stage='law'; meet('heroine_03'); meet('zhe'); meet('yu'); PHONE.join(G,'noodle_team','麵店團');
+  fresh(D('2026-06-15'),7.5,'dorm',{JOB_TUTOR:true});   /* 16 週制：暑假第一天＝6/15 */ G.stage='law'; meet('heroine_03'); meet('zhe'); meet('yu'); PHONE.join(G,'noodle_team','麵店團');
   said=[]; cards=[]; await HOME.breakStart(GM); L=lines();
   check('7. 暑假第一天：「宿舍到六月底。你把一年的東西裝進四個紙箱。」→ 回臺北的家',L[0]==='宿舍到六月底。你把一年的東西裝進四個紙箱。'&&cards[0][0]==='回臺北的家'&&G.home.lbreak==='Y1S');
   picks=[]; for(let i=0;i<60;i++) picks.push('過幾天'); said=[]; cards=[]; entered=[];

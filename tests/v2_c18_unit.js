@@ -47,8 +47,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     E.player.obj.position.x=0; E.player.obj.position.z=0; GM.npc={}; }
   /* ② 麵店 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };
-    const r={tue:at(14,2,18),thu:at(16,4,20.5),wed:at(14,3,18),w13:at(13,2,18),late:at(14,2,21.2),noTeam:at(14,2,18,{noTeam:true}),notMet:at(14,2,18,{notMet:true}),gg:at(14,2,18,{zone:'gongguan'})};
-    check('② 麵店：大一下第 14～16 週的麵店日（週二、週四）17:30–21:00 走進麵店；麵店團、認識小語才有（週三、第 13 週、21:12、沒有麵店團、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
+    const r={tue:at(14,2,18),thu:at(15,4,20.5),wk16:at(16,4,20.5),wed:at(14,3,18),w13:at(13,2,18),late:at(14,2,21.2),noTeam:at(14,2,18,{noTeam:true}),notMet:at(14,2,18,{notMet:true}),gg:at(14,2,18,{zone:'gongguan'})};
+    check('② 麵店：大一下第 14～15 週的麵店日（週二、週四；16 週制：第 16 週期末考，不是麵店日）17:30–21:00 走進麵店；麵店團、認識小語才有（週三、第 13 週、21:12、沒有麵店團、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wk16&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
     at(14,2,18); await EVENTS.run(eB); check('② 台詞：（小語每次都坐阿哲旁邊。）只有一句、沒有選項',JSON.stringify(lines())==='["小語每次都坐阿哲旁邊。"]'&&!opts.length&&G.flags.yu2SeatDay===G.day,JSON.stringify(lines())); }
   /* 吉他社大一下 */
   { const M=w=>termDay('Y1S2',w,1);

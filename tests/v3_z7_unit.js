@@ -38,7 +38,7 @@ GM.money=function(n){ G.money+=n; };
   const Z7=ev('ev_zhiruo_applied'), BELL=STORY_EVENTS.find(e=>e.dialogue&&e.dialogue.some(l=>l.choice&&l.choice.some(c=>/交換申請交了嗎/.test(c.text))));
   check('0. Z7 打開、大二上、Café、ROM 有載入',!!Z7&&!Z7.off&&Z7.term.includes('Y2S1')&&Z7.location==='cafe'&&typeof ROM!=='undefined');
   const d=D('2026-12-10'); let bk=null; for(let x=d+1;x<d+80;x++){ if(!CALENDAR.termOf(x)){ bk=x; break; } }
-  check('0. 12/10 週四、大二上第 14 週；寒假第一天在第 18 週之後',wdOf(d)===4&&termDay('Y2S1',14,4)===d&&bk>termDay('Y2S1',18,1),bk);
+  check('0. 12/10 週四、大二上第 14 週；寒假第一天在第 16 週之後（16 週制：12/28）',wdOf(d)===4&&termDay('Y2S1',14,4)===d&&bk>termDay('Y2S1',16,7)&&CALENDAR.dateOf(bk).key==='2026-12-28',bk);
   const base=(day,hour,zone,o)=>{ o=o||{}; fresh(day,hour,zone,o.flags); meet('heroine_02'); R('heroine_02',...LV.FAM); if(o.z4!==false){ G.events.done.ev_zhiruo_secret=1; SOCIAL.remember('heroine_02','SHARED_SECRET',''); } if(o.contact!==false){ G.contacts=G.contacts||{}; G.contacts.heroine_02=day-30; } if(o.dating){ G.flags['dating_'+o.dating]=true; if(o.knows) ROM.learn(G,'heroine_02',o.dating); } };
   const ZTH='p:heroine_02', N3='heroine_02:交換申請，剛剛按了送出。英國那一間。｜heroine_02:截止是十二點。我在十一點五十九分按的。｜heroine_02:……手還在抖。下次你來店裡，再跟你說。';
   base(d,23.5,'dorm'); run(23.5,23.95);
@@ -53,11 +53,11 @@ GM.money=function(n){ G.money+=n; };
   check('2. 沒演過 Z4：沒有',!PHONE.sent(G,'zr_z7_msg'));
   base(d,23.5,'dorm',{contact:false}); run(23.5,23.995,0.01);
   check('2. 沒有她的聯絡方式：沒有',!PHONE.sent(G,'zr_z7_msg'));
-  base(d+20,10,'dorm'); run(10,10.1);
-  check('2. 舊存檔第 17 週才讀：補在 12/10 23:59（不再限七天）',PHONE.sent(G,'zr_z7_msg'));
+  base(termDay('Y2S1',16,3),10,'dorm'); run(10,10.1);
+  check('2. 舊存檔第 16 週（期末週）才讀：補在 12/10 23:59（不再限七天）',PHONE.sent(G,'zr_z7_msg'));
   const at=(day,hh,o)=>{ base(day,hh,'cafe',o); return EVENTS.check(Z7); };
-  const w18=termDay('Y2S1',18,5);
-  check('3. 12/10 當天不演；12/11、12/18（第 15 週）、第 18 週週五都演；寒假第一天不演',!at(d,15)&&at(d+1,15)&&at(d+8,15)&&at(w18,15)&&!at(bk,15));
+  const w18=termDay('Y2S1',16,5);   /* 16 週制：學期最後一週＝第 16 週 */
+  check('3. 12/10 當天不演；12/11、12/18（第 15 週）、第 16 週週五都演；寒假第一天不演',!at(d,15)&&at(d+1,15)&&at(d+8,15)&&at(w18,15)&&!at(bk,15));
   check('3. 22:00 以後不演；11:00 可以',!at(d+1,22.5)&&at(d+1,11.2));
   check('3. 沒演過 Z4 不演；在溫州街不演',!at(d+1,15,{z4:false})&&(()=>{ base(d+1,15,'wenzhou'); return !EVENTS.check(Z7); })());
   const play=async(pick,o,withMsg)=>{ base(d+1,15,'cafe',o); if(withMsg){ PHONE.at(G,d,23.98,[{th:ZTH,from:'heroine_02',text:'x'}],'zr_z7_msg'); PHONE.tick(G); } said=[]; opts=[]; picks=[pick]; await EVENTS.run(Z7); return {L:L0(),O:opts[0]||[]}; };

@@ -61,7 +61,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     fresh(termDay('Y1S2',12,1),18,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','麵店團'); run(18,22); check('大一下第 12 週週一（舊的邀請日）沒有邀請',!txt('g:law_class').concat(txt('g:noodle_team')).some(t=>/公法讀書會/.test(t))); }
   /* 後半：活動、第一次、作息 */
   { const th=termDay('Y1S2',12,4);
-    check('公法讀書會：大一上第 10～16 週、大一下第 2～7、10、12～16 週的週四 20:00–21:30、萬才館研討室 A（門口參加）；大一上第 9 週、大一下第 11 週、週三都沒有',ACTIVITIES.on(A,th)&&ACTIVITIES.on(A,termDay('Y1S2',16,4))&&ACTIVITIES.on(A,termDay('Y1S2',4,4))&&ACTIVITIES.on(A,termDay('Y1S1',10,4))&&ACTIVITIES.on(A,termDay('Y1S1',16,4))&&!ACTIVITIES.on(A,termDay('Y1S1',9,4))&&!ACTIVITIES.on(A,termDay('Y1S2',11,4))&&!ACTIVITIES.on(A,termDay('Y1S2',12,3))&&A.t0===20&&A.t1===21.5&&A.zone==='wancai'&&A.room==='seminarA'&&A.door===true);
+    check('公法讀書會：大一上第 10～15 週、大一下第 2～7、10、12～15 週的週四（16 週制：第 16 週期末停） 20:00–21:30、萬才館研討室 A（門口參加）；大一上第 9 週、大一下第 11 週、週三都沒有',ACTIVITIES.on(A,th)&&ACTIVITIES.on(A,termDay('Y1S2',15,4))&&!ACTIVITIES.on(A,termDay('Y1S2',16,4))&&ACTIVITIES.on(A,termDay('Y1S2',4,4))&&ACTIVITIES.on(A,termDay('Y1S1',10,4))&&ACTIVITIES.on(A,termDay('Y1S1',15,4))&&!ACTIVITIES.on(A,termDay('Y1S1',9,4))&&!ACTIVITIES.on(A,termDay('Y1S2',11,4))&&!ACTIVITIES.on(A,termDay('Y1S2',12,3))&&A.t0===20&&A.t1===21.5&&A.zone==='wancai'&&A.room==='seminarA'&&A.door===true);
     fresh(th,19.9,'wancai'); check('第一次去：CLS.clubEvent 是 ev_public_law_group',CLS.clubEvent(G,A)===e2);
     await EVENTS.run(e2); const L=lines();
     check('第一次：（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）（小語在旁邊補：「可以吃東西。」）、PUBLIC_LAW_GROUP',JSON.stringify(L)===JSON.stringify(['（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）','（小語在旁邊補：「可以吃東西。」）'])&&G.flags.PUBLIC_LAW_GROUP===true,JSON.stringify(L));

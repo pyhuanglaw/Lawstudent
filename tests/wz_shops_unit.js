@@ -53,8 +53,8 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
   const MON=dayOf('2025-10-06'), TUE=dayOf('2025-10-07'), WED=dayOf('2025-10-08'), SAT=dayOf('2025-10-11'), SUN=dayOf('2025-10-12');
   check('5. 半熟：週一公休；週二 08:00 開；週六 07:30 開、15:00 關',!PLACES.isOpen('wz_brunch',10,MON)&&PLACES.isOpen('wz_brunch',8,TUE)&&!PLACES.isOpen('wz_brunch',7.6,TUE)&&PLACES.isOpen('wz_brunch',7.6,SAT)&&!PLACES.isOpen('wz_brunch',15,SAT));
   check('5. 影印：週日公休；平日 09:00～22:00',!PLACES.isOpen('wz_print',12,SUN)&&PLACES.isOpen('wz_print',9,MON)&&!PLACES.isOpen('wz_print',22.5,MON));
-  let ex=null; for(let d=MON;d<MON+120&&!ex;d++){ const t=CALENDAR.termOf(d); if(t&&t.week===17&&CALENDAR.dateOf(d).wd===3) ex=d; }
-  check('5. 影印：考試週（第 17 週）開到 24:00',!!ex&&PLACES.isOpen('wz_print',23.5,ex),String(ex));
+  let ex=null; for(let d=MON;d<MON+120&&!ex;d++){ const t=CALENDAR.termOf(d); if(t&&t.week===16&&CALENDAR.dateOf(d).wd===3) ex=d; }
+  check('5. 影印：考試週（第 16 週，16 週制）開到 24:00',!!ex&&PLACES.isOpen('wz_print',23.5,ex),String(ex));
   check('5. 一盞：週一、週二公休；週三 12:00～20:00',!PLACES.isOpen('wz_teahouse',14,MON)&&!PLACES.isOpen('wz_teahouse',14,TUE)&&PLACES.isOpen('wz_teahouse',14,WED)&&!PLACES.isOpen('wz_teahouse',11,WED)&&!PLACES.isOpen('wz_teahouse',20,WED));
   const t1=PLACES.closedText('wz_teahouse',14,MON), t2=PLACES.closedText('wz_brunch',16,TUE);
   check('5. 關門的說明：「一盞 今天公休。下次開門：這週三 12:00。」不推薦去總圖',t1==='一盞 今天公休。下次開門：這週三 12:00。',t1);

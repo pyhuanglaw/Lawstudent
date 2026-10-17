@@ -179,7 +179,7 @@ const CLS=(function(){
     if(sy) return {board:sy.board||[c.name+'：'+t,'',''],line:sy.line,react:pickReact(sy.react,it),tpl:sy.tpl,obs:sy.obs,call:sy.call,recall:sy.recall};
     if(c.pool&&c.pool.lines&&c.pool.lines.length){ const L=c.pool.lines; return {board:[c.name+'：'+t,'本週：'+t,''],line:L[(it.day+it.week)%L.length],react:pickReact(c.pool.react,it),prof:c.pool.prof_label}; }
     const f=(c.prof&&STYLE[c.prof])||GENERAL; const [line,react]=f(t); const ti=(TEACH.indexOf(it.week)); const nt=ti>=0&&ti<TEACH.length-1?S.topic(c,TEACH[ti+1]):'';
-    return {board:[c.name+'：'+t,'本週：'+t,nt&&nt!==t?'下週：'+nt:(it.week<8?'第 8～9 週期中考':'第 17～18 週期末考')],line,react}; };
+    return {board:[c.name+'：'+t,'本週：'+t,nt&&nt!==t?'下週：'+nt:(it.week<8?'第 8～9 週期中考':'第 16 週期末考')],line,react}; };
   /* 討論型 B 課堂（AA_119；BB 的 syllabus 裡 obs.kind==='discuss'）：教授一問 → 三個看法＋「我想先聽別人說」（最後一個選項）→ 兩三位同學依序回應 → 教授收尾（不說誰對）。
      記下玩家的看法：R.disc[record]＝選項的序號（record＝B_<學期>_<課>_w<週>；最後一個＝先聽別人說；存在 G.courses，舊存檔從空的開始）。
      去過就有那一週的「理解」（obs.understand → G.flags 的 U_*，AA_117 第 2 節）。不計分、不影響成績（AA_119 第 0 節）。
@@ -420,7 +420,7 @@ const CLS=(function(){
      兩堆：課堂題（askedIn＝這學期這門課在課堂上問過，或 source:'CLASS_DISC'）優先，不夠才從題庫題補（EXAM_MIX）。兩堆加起來不到 5 題＝不開考。
      抽到的題號存進存檔：讀檔再考是同一份。選項不洗牌、答案不動。 */
   S.EXAM_MIX='class_first';   /* 課堂題最多 5 題，不夠才從題庫補（AA_126 1-5 方案一定案，2026-10-15；3_2 已拿掉）*/
-  S.EXAM_WEEKS={mid:[8,9],final:[17,18]};
+  S.EXAM_WEEKS={mid:[8,9],final:[16]};   /* 16 週制（AA_197 1-6）：期末只有第 16 週 */
   S.isExamCourse=c=>!!c&&typeof EXAM_BANK!=='undefined'&&!!EXAM_BANK.courseMap[c.id]&&EXAM_BANK.courseMap[c.id].exam==='mc5';
   const examDayMemo={};
   /* 這門課這個考試的日子：考試週裡那門課第一堂不是假日的課；都放假（例：大一上民法總則 12/25、1/1）＝放假那一堂之後，第二週第一個同一時段空著的平日（1/2 週五下午一）*/
@@ -440,7 +440,7 @@ const CLS=(function(){
     if(courseId==='crimpro'&&termId==='Y3S1'&&typeof QBANK!=='undefined') for(const q of QBANK) if(q.complete!==false) out.push(Object.assign({},q,{course:'crimpro',term:'Y3S1',status:'USER_CONFIRMED'}));   /* 刑訴：使用者的 QBANK（沒有週次＝全部）*/
     return out; };
   const okStatus=(q,termId)=>termId==='Y4S1'||termId==='Y4S2'?q.status==='Y4_CROSS_REVIEWED':q.status==='USER_CONFIRMED';
-  S.examPool=function(courseId,termId,kind){ const maxW=kind==='mid'?7:18; const cls=[], bank=[];
+  S.examPool=function(courseId,termId,kind){ const maxW=kind==='mid'?7:15;   /* 16 週制：期末考範圍到第 15 週（AA_198：原本第 16 週的題目範圍改到第 15 週）*/ const cls=[], bank=[];
     for(const q of S.examQuestions(courseId,termId)){ if(!okStatus(q,termId)) continue; if(q.scopeWeek!=null&&q.scopeWeek>maxW) continue; const asked=(q.askedIn&&(q.askedIn.course||courseId)===courseId&&(!q.askedIn.term||q.askedIn.term===termId))||q.source==='CLASS_DISC'; (asked?cls:bank).push(q); }
     return {cls,bank}; };
   const hashStr=str=>{ let h=2166136261>>>0; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,16777619)>>>0; } return h>>>0; };

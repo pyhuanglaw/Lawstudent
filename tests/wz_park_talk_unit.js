@@ -47,7 +47,7 @@ const TREE={park:'tree',seat:{x:26,z:19.65,yaw:Math.PI}};
     check('5. 20:00 以後：三句輪流',a[0]===PARK.LINES.SWING[0]&&a[1]===PARK.LINES.SWING[1]&&a[2]===PARK.LINES.SWING[2]&&a[3]===PARK.LINES.SWING[0]);
     const s1=mkGM(G); await PARK.interact(s1,{park:'shrine'}); const s2=mkGM(G); await PARK.interact(s2,{park:'shrine'});
     check('5. 土地公：平常那句；當天再拜「你已經拜過了。」',s1.L.says[0]===PARK.LINES.SHRINE.normal&&s2.L.says[0]==='你已經拜過了。');
-    const Ge=mk(termDay('Y1S1',17,3),10); const s3=mkGM(Ge); await PARK.interact(s3,{park:'shrine'}); const Gl=mk(termDay('Y4S2',5,3),10); const s4=mkGM(Gl); await PARK.interact(s4,{park:'shrine'});
+    const Ge=mk(termDay('Y1S1',16,3),10); const s3=mkGM(Ge); await PARK.interact(s3,{park:'shrine'}); const Gl=mk(termDay('Y4S2',5,3),10); const s4=mkGM(Gl); await PARK.interact(s4,{park:'shrine'});
     check('5. 考試週、大四下各自那一句',s3.L.says[0]===PARK.LINES.SHRINE.exam&&s4.L.says[0]===PARK.LINES.SHRINE.last);
     const f1=mkGM(mk(dayOf('2025-10-04'),10)); await PARK.interact(f1,{park:'fountain'}); const Gs=mk(dayOf('2026-07-04'),15); const f2=mkGM(Gs); await PARK.interact(f2,{park:'fountain'}); const f3=mkGM(Gs); await PARK.interact(f3,{park:'fountain'}); const f4=mkGM(mk(dayOf('2025-10-04'),22.5)); await PARK.interact(f4,{park:'fountain'});
     check('5. 直飲台：平常、夏天、22:00 以後；一天第二次不說話、0 分鐘',f1.L.says[0]===PARK.LINES.FOUNTAIN.normal&&f2.L.says[0]===PARK.LINES.FOUNTAIN.summer&&!f3.L.says.length&&f4.L.says[0]===PARK.LINES.FOUNTAIN.night&&f1.L.adv===0); }

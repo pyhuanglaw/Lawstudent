@@ -36,7 +36,7 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const KNOW=(ids,lv)=>{ for(const id of ids){ R(id,...(lv||LV.FAM)); meet(id); } };
   const S913=362, S920=369;
-  check('期間：大二上第 1 週的週日是 9/13、大二下第 18 週的週日是 6/27',CALENDAR.dateOf(S913).m===9&&CALENDAR.dateOf(S913).d===13&&CALENDAR.termOf(S913).id==='Y2S1'&&CALENDAR.dateOf(649).m===6&&CALENDAR.dateOf(649).d===27&&CALENDAR.termOf(649).week===18);
+  { const L=CALENDAR.termDays('Y2S2').to; check('期間：大二上第 1 週的週日是 9/13、大二下第 16 週（16 週制最後一週）的週日是 6/13',CALENDAR.dateOf(S913).m===9&&CALENDAR.dateOf(S913).d===13&&CALENDAR.termOf(S913).id==='Y2S1'&&CALENDAR.dateOf(L).m===6&&CALENDAR.dateOf(L).d===13&&CALENDAR.termOf(L).week===16&&CALENDAR.termOf(L+1)===null); }
   // 1. 第一週：20:59 還沒有、21:00 跳出來
   fresh(S913,20.5,'campus',{lawclub:true}); KNOW(['heroine_01','zhe','heroine_04','kai','classmate_bohan']);
   run(20.5,20.95); const before=(G.msgs||[]).filter(m=>m.th==='sys'&&/這週的訊息/.test(m.text)||m.ask&&/^need_/.test(m.ask.grp||'')).length;

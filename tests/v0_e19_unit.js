@@ -22,10 +22,10 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const K=k=>STORY.dayOfKey(k), J2=K('2025-01-02');
+  const K=k=>STORY.dayOfKey(k), J2=K('2024-12-19');   /* 16 週制：113 上期末週 12/16～12/20，最後一場（會計）週四 12/19（原本 1/2）*/
   const eb=STORY_EVENTS.find(e=>e.id==='ev_y0_e22b'), e19=STORY_EVENTS.find(e=>e.id==='ev_y0_e19'); check('0. E22b、E19 在',!!eb&&!!e19); if(!eb){ console.log('FAILED '+fails); process.exit(1); }
   { fresh(J2-3,10,'dorm'); const t0=Date.now(), fe=STORY.y0FinalEnd(G), dt=Date.now()-t0; const t1=Date.now(); STORY.y0FinalEnd(G); const dt2=Date.now()-t1;
-    check('0. A34：最後一場期末考照課表算＝1/2（四）15:10（會計）；第二次用記住的結果（'+dt+' ms → '+dt2+' ms）',!!fe&&fe.day===J2&&Math.abs(fe.h-(15+10/60))<1e-6&&dt2<=2);
+    check('0. A34：最後一場期末考照課表算＝12/19（四）15:10（會計；16 週制）；第二次用記住的結果（'+dt+' ms → '+dt2+' ms）',!!fe&&fe.day===J2&&Math.abs(fe.h-(15+10/60))<1e-6&&dt2<=2);
     check('0. A34：上午考完的話 E22b 從 13:30 開始；下午考完＝考完 20 分鐘',STORY.e22bFrom({h:11})===13.5&&Math.abs(STORY.e22bFrom({h:15+10/60})-15.5)<1e-6); }
   const ck=(day,h,zone,lv)=>{ fresh(day,h,zone); E.player.lv=lv|0; global.GAME={E}; return EVENTS.check(eb); };
   /* （E22b 的舊觸發檢查拿掉：AA_224 3-7 改成 12/20 公館的咖啡店，新的測試在 tests/lifeline_g3_unit.js）*/

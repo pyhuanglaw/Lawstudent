@@ -24,7 +24,7 @@ const C=CALENDAR, P=PLACES;
   const work=['2025-09-17','2025-10-07','2025-10-20','2026-02-23','2026-04-07'];   /* 2025-10-13 是颱風假（calendar.js 的 TYPHOON，交付清單 B3），改用 10/20 */ const b2=work.filter(k=>C.holiday(dayOf(k))); check('平常的上課日不是假日',!b2.length,b2.join(',')); }
 // 學期
 { const t=C.termOf(1); check('第 1 天是大一上第 3 週（9/1 開學）',t&&t.id==='Y1S1'&&t.week===3,JSON.stringify(t));
-  const mid=C.termOf(dayOf('2025-10-20')), fin=C.termOf(dayOf('2025-12-22')); check('第 8～9 週期中、第 17～18 週期末',mid&&mid.exam==='mid'&&mid.week===8&&fin&&fin.exam==='final'&&fin.week===17,JSON.stringify([mid,fin]));
+  const mid=C.termOf(dayOf('2025-10-20')), fin=C.termOf(dayOf('2025-12-15')), brk=C.termOf(dayOf('2025-12-22')); check('16 週制：第 8～9 週期中、第 16 週期末（12/15）、12/22 起寒假（AA_197 1-6）',mid&&mid.exam==='mid'&&mid.week===8&&fin&&fin.exam==='final'&&fin.week===16&&brk===null&&C.dateOf(C.gradeDay('Y1S1')).key==='2026-01-05',JSON.stringify([mid,fin,brk]));
   check('寒假（2026-01-12）不在學期裡；大一下 2026-02-23 是第 1 週',!C.termOf(dayOf('2026-01-12'))&&C.termOf(dayOf('2026-02-23')).id==='Y1S2'&&C.termOf(dayOf('2026-02-23')).week===1);
   check('kind：學期間／寒暑假／假日',C.kind(dayOf('2025-10-07'))==='term'&&C.kind(dayOf('2026-01-12'))==='break'&&C.kind(dayOf('2025-10-10'))==='holiday'&&C.kind(dayOf('2026-07-15'))==='break'); }
 // 五年日曆（使用者 2026-10-13，D56：經濟系大一 2024 學年＋法律系四年，同一個世界連續運作）：2024-08 到 2029-07 每一天都算得出日期、星期、學期、假日；

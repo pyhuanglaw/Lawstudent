@@ -36,7 +36,7 @@ const ENC=(function(){
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
     if(G.stage==='econ') return no('econ');
     const T=term(G), h=G.hour;
-    if(T&&T.week>=17&&T.week<=18) return no('期末考週');
+    if(T&&T.exam==='final') return no('期末考週');   /* 16 週制：第 16 週 */
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain') return no('下雨');
     if(!row.days.includes(G.weekday)) return no('星期'); if(!(h>=row.from&&h<row.to)) return no('時段');
     if((row.terms||row.weeks)&&!T) return no('不在學期裡'); if(row.terms&&!row.terms.includes(T.id)) return no('學期');

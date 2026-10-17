@@ -40,18 +40,21 @@ function mkGM(G,answer){ const log=[]; return {G,log,D:{active:false},E:{player:
     const rep=CLS.reportFor(G,'Y1S1'); check('6. 成績單：憲法（上）「未開考（題庫不足）」（不算被當）',rep.const_1==='未開考（題庫不足）',JSON.stringify(rep));
     const G0=mkG(dayOf('2026-06-15'),9); const r0=CLS.drawExam(G0,'const_2','Y1S2','final'); check('6. 憲法（下）沒有正式題目：不開考',r0.ok===false&&r0.n===0); }
   // 6. ?dev 的除錯面板列出這學期不開考的課（game3d.js 的 devAssetReport 讀 CLS.examShort）
-  { const G=mkG(dayOf('2025-12-22'),9); const sh=typeof CLS.examShort==='function'?CLS.examShort(G,'Y1S1'):null;
+  { const G=mkG(dayOf('2025-12-15'),9); const sh=typeof CLS.examShort==='function'?CLS.examShort(G,'Y1S1'):null;   /* 16 週制：12/15 是期末週 */
     check('6. ?dev 清單（CLS.examShort）：大一上有憲法（上）（不到 5 題）、沒有民法總則（夠 5 題）',!!sh&&sh.some(e=>e.id==='const_1'&&e.n<5)&&!sh.some(e=>e.id==='civ_general'),JSON.stringify(sh));
-    const sh2=typeof CLS.examShort==='function'?CLS.examShort(G):null; check('6. 不給學期就用今天的學期（2025-12-22＝大一上）',JSON.stringify(sh2)===JSON.stringify(sh)); }
+    const sh2=typeof CLS.examShort==='function'?CLS.examShort(G):null; check('6. 不給學期就用今天的學期（2025-12-15＝大一上）',JSON.stringify(sh2)===JSON.stringify(sh)); }
   { const G=mkG(dayOf('2027-06-20'),9); const r=CLS.drawExam(G,'admin_remedy','Y2S2','final'); check('6. 行政救濟法（BB-B cd62e99 補到 5 題）：可以開考',r.ok&&r.qs.length===5); }
-  // 7. 一門課一學期只考一次；民法總則補考日
-  { const G=mkG(dayOf('2025-12-22'),8); const d=CLS.examDay(G,CLS.byId('civ_general'),'Y1S1','final'); const dt=d&&CALENDAR.dateOf(d.day);
-    check('7. 大一上民法總則（週四 12/25、1/1 都放假）：期末考排在 1/2 週五下午一',!!d&&d.makeup&&dt.m===1&&dt.d===2&&d.block==='pm1',JSON.stringify({d,dt}));
-    const it=CLS.dayItems(G,d.day).find(x=>x.c.id==='civ_general'); check('7. 1/2 那天的課表有民法總則（考試）',!!it&&it.exam==='final'&&it.examMain===true&&it.slot.block==='pm1');
-    let n=0; for(let day=dayOf('2025-12-22');day<=dayOf('2026-01-04');day++) n+=CLS.dayItems(G,day).filter(x=>x.c.id==='crim_gen1').length;
+  // 7. 一門課一學期只考一次；考試那天放假＝同一週補考（16 週制：期末只有第 16 週）
+  { const G=mkG(dayOf('2025-12-15'),8); const d=CLS.examDay(G,CLS.byId('civ_general'),'Y1S1','final'); const dt=d&&CALENDAR.dateOf(d.day);
+    check('7. 大一上民法總則：期末考在第 16 週週四 12/18 下午一（16 週制以後 12/25、1/1 在寒假，不用補考）',!!d&&!d.makeup&&dt.m===12&&dt.d===18&&d.block==='pm1',JSON.stringify({d,dt}));
+    const it=CLS.dayItems(G,d.day).find(x=>x.c.id==='civ_general'); check('7. 12/18 那天的課表有民法總則（考試）',!!it&&it.exam==='final'&&it.examMain===true&&it.slot.block==='pm1');
+    let n=0; for(let day=dayOf('2025-12-15');day<=dayOf('2025-12-21');day++) n+=CLS.dayItems(G,day).filter(x=>x.c.id==='crim_gen1').length;
     check('7. 刑法總則（一）在期末考週只考一次（不是每一堂都考）',n===1,'次數 '+n);
-    let m=0; for(let day=dayOf('2027-11-01');day<=dayOf('2028-02-20');day++){ const t=CALENDAR.termOf(day); if(!t||t.id!=='Y3S1'||!(t.week===17||t.week===18)) continue; m+=CLS.dayItems(mkG(day,8),day).filter(x=>x.c.id==='crimpro').length; }
-    check('7. 刑事訴訟法（一週兩堂）在期末考週（第 17～18 週）只考一次',m===1,'次數 '+m); }
+    let m=0; for(let day=dayOf('2027-11-01');day<=dayOf('2028-02-20');day++){ const t=CALENDAR.termOf(day); if(!t||t.id!=='Y3S1'||t.week!==16) continue; m+=CLS.dayItems(mkG(day,8),day).filter(x=>x.c.id==='crimpro').length; }
+    check('7. 刑事訴訟法（一週兩堂）在期末考週（第 16 週）只考一次',m===1,'次數 '+m);
+    /* 放假補考：期末週有國定假日的學期（AA_197 1-6：115 上 12/25、115 下端午 6/9、116 上 12/24），找一門考試那天剛好放假的課 */
+    let mk=null; for(const T of ['Y2S1','Y2S2','Y3S1']) for(const c of CLS.termCourses(mkG(CALENDAR.termDays(T).from,8),T)){ if(mk||!CLS.isExamCourse(c)) continue; const e=CLS.examDay(mkG(CALENDAR.termDays(T).from,8),c,T,'final'); if(e&&e.makeup) mk={c:c.id,T,e}; }
+    check('7. 考試那堂放假：補在同一週（第 16 週）沒有衝堂、不是假日的平日'+(mk?'（'+mk.c+' '+mk.T+'）':'（這幾個學期沒有遇到，照規則檢查）'),!mk||(CALENDAR.termOf(mk.e.day).week===16&&!CALENDAR.holiday(mk.e.day)&&CALENDAR.dateOf(mk.e.day).wd<=5),JSON.stringify(mk)); }
   // 課堂題優先（假資料：只在這個測試裡把兩題標成課堂上問過）
   { const qs=EXAM_BANK.questions.filter(q=>q.course==='family_law'&&q.term==='Y2S2'); const real=new Map(qs.filter(q=>q.askedIn).map(q=>[q,q.askedIn])); for(const q of real.keys()) delete q.askedIn;   /* 2026-10-15 起題庫有真的課堂題（BB 排的 ask）：這一段只看兩題假資料，先拿掉、最後放回 */
     const a=qs[qs.length-1], b=qs[qs.length-2]; a.askedIn={term:'Y2S2',course:'family_law',week:3}; b.source='CLASS_DISC';

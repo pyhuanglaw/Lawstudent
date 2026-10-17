@@ -22,7 +22,7 @@ const PLACES={
      rules 的時間：[開, 關]（小時）；null＝不開。其他地點照舊是每天同一個時間（open／close） */
   /* 有 rules 的地點：這一天的開放時間 [開, 關]、或 null（不開）。day 沒給就用現在的遊戲日（GAME.G.day） */
   windowOf(zone,day){ const o=PLACES.hours[zone]; if(!o||!o.rules) return undefined; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1;
-    if(o.rules.week){ if(typeof CALENDAR==='undefined') return o.rules.week[1]||o.rules.week[3]; const w=o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null; if(o.rules.examClose){ const t=CALENDAR.termOf(day); if(t&&[8,9,17,18].includes(t.week)) return [w[0],o.rules.examClose]; } return w; }   /* 店家：照星期 */
+    if(o.rules.week){ if(typeof CALENDAR==='undefined') return o.rules.week[1]||o.rules.week[3]; const w=o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null; if(o.rules.examClose){ const t=CALENDAR.termOf(day); if(t&&t.exam) return [w[0],o.rules.examClose]; } return w; }   /* 店家：照星期 */
     if(typeof CALENDAR==='undefined') return o.rules.term.wd;
     const k=CALENDAR.kind(day); if(k==='holiday') return o.rules.holiday||null; const r=o.rules[k]; if(!r) return null; if(!CALENDAR.weekend(day)) return r.wd;
     const wd=CALENDAR.dateOf(day).wd; if(wd===6&&'sat' in r) return r.sat; if(wd===7&&'sun' in r) return r.sun; return r.we; },   /* 週六、週日不一樣的地點寫 sat／sun（社科院圖書館）；一樣的寫 we */

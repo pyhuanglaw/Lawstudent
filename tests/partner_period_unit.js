@@ -29,7 +29,7 @@ check('2. 沛珊大二上第 6 週：還有；第 7 週：沒有了',on('classma
 check('3. 小語大二上第 14 週：沒有；第 15 週（12/19 系籃賽後的語 3）：有',!on('yu',at('Y2S1',14))&&on('yu',at('Y2S1',15)),String(CALENDAR.dateOf(dayOf('Y2S1',15)).m)+'月');
 check('3. 小語大四下：還有（到尾聲）',on('yu',at('Y4S2',5)));
 { const p=Object.assign({},CHARACTERS.yu.partner,{startEvent:'ev_test_yu3'}); check('3. 開始的事件（語 3）演過了：第 12 週就有',STORY.partnerOn(at('Y2S1',12,{ev_test_yu3:1}),p)&&!STORY.partnerOn(at('Y2S1',12),p)); }
-check('4. 舊格式 {from, until}（整學期）照舊',STORY.partnerOn(at('Y2S1',17),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y2S2',1),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y1S1',5),{from:'Y1S2',until:'Y2S1'}));
+check('4. 舊格式 {from, until}（整學期）照舊',STORY.partnerOn(at('Y2S1',16),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y2S2',1),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y1S1',5),{from:'Y1S2',until:'Y2S1'}));
 { const G=Object.assign({rel:{},social:null,weekday:1,hour:10,contacts:{},invites:[],msgs:[]},at('Y3S1',10)); SOCIAL.bind(G); const P=INV.place('noodle');
   const G9=Object.assign({rel:{},social:null,weekday:1,hour:10,contacts:{},invites:[],msgs:[]},at('Y3S1',9)); SOCIAL.bind(G9); const b9=INV.partnerBlock(G9,'heroine_05',P); SOCIAL.bind(G); const b10=INV.partnerBlock(G,'heroine_05',P);
   check('5. 邀約：學姊任何時候吃飯都不被「有伴侶」擋（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',b9===false&&b10===false,JSON.stringify({b9,b10})); }

@@ -112,7 +112,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     ask(null); toNye(20); check('跨年：沒有回她、沒有麵店團群組：沒有排',!OUT.get(G,'nye')); }
   /* ---------- A22 期末最後一頓（AA_71 2-13）---------- */
   { fresh(100,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S1','final'); const tm=le&&CALENDAR.termOf(le.day);
-    check('A22：大一上最後一科期末考考完的時間在第 17～18 週（第 '+(le&&le.day)+' 天 '+(le&&le.h)+'）',!!le&&tm&&tm.id==='Y1S1'&&tm.week>=17&&tm.week<=18);
+    check('A22：大一上最後一科期末考考完的時間在第 16 週（16 週制；第 '+(le&&le.day)+' 天 '+(le&&le.h)+'）',!!le&&tm&&tm.id==='Y1S1'&&tm.week===16);
     const e=ev('ev_term_last_meal'); const at=(day,h,flags,zone)=>{ fresh(day,h,zone||'noodle',flags); return EVENTS.check(e); };
     const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{}),cafe:at(le.day,18,{noodleTableDay:9},'cafe'),later:at(le.day+1,19,{noodleTableDay:9}),late:at(le.day,22.5,{noodleTableDay:9})};
     check('A22：最後一科考完以後傍晚進麵店才有（考完前一天、沒有麵店團、不是麵店、22:00 以後：沒有；隔天還有）',r.after&&!r.before&&!r.noTeam&&!r.cafe&&r.later&&!r.late,JSON.stringify(r));
@@ -120,17 +120,17 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A22：旁白＋阿姨「考完了，吃好一點。」（AA_71 2-13 原文）；只一次',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&said[2].who==='阿姨'&&!EVENTS.check(e),JSON.stringify(said)); }
   /* ---------- 交接包 v2 C19：大一下的期末最後一頓（同一段原文，另一個 id）---------- */
   { fresh(250,10,'campus'); const le=CLS.lastExamEnd(G,'Y1S2','final'); const tm=le&&CALENDAR.termOf(le.day); const e=ev('ev_term_last_meal_y1s2');
-    check('C19：大一下最後一科期末考考完在第 17～18 週',!!le&&tm&&tm.id==='Y1S2'&&tm.week>=17&&tm.week<=18,JSON.stringify(le));
+    check('C19：大一下最後一科期末考考完在第 16 週（16 週制）',!!le&&tm&&tm.id==='Y1S2'&&tm.week===16,JSON.stringify(le));
     const at=(day,h,flags)=>{ fresh(day,h,'noodle',flags); return EVENTS.check(e); };
     const r={after:at(le.day,Math.max(le.h+0.2,17.5),{noodleTableDay:9}),before:at(le.day-1,18,{noodleTableDay:9}),noTeam:at(le.day,Math.max(le.h+0.2,17.5),{})};
     check('C19：大一下最後一科考完以後傍晚進麵店才有（之前、沒有麵店團：沒有）',r.after&&!r.before&&!r.noTeam,JSON.stringify(r));
     fresh(le.day,18,'noodle',{noodleTableDay:9}); G.events.done.ev_term_last_meal=true; await EVENTS.run(e);
     check('C19：大一上演過了，大一下照樣有一次（旁白＋阿姨「考完了，吃好一點。」）',JSON.stringify(lines())===JSON.stringify(['期末最後一科考完。麵店團一定吃一頓。','阿姨多送了一盤小菜。','考完了，吃好一點。'])&&!EVENTS.check(e),JSON.stringify(lines())); }
   /* ---------- 可昕：期末成績寒假第一天一起打開（BB_95 9-8）---------- */
-  { const LAST=termDay(18,5); let BRK=LAST; while(CALENDAR.termOf(BRK)) BRK++;
-    check('期末成績：期末考週最後一個上課日＝'+CALENDAR.dateOf(LAST).key+'、寒假第一天＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2026-01-02'&&!CALENDAR.termOf(BRK)&&CALENDAR.termOf(BRK-1));
+  { const LAST=termDay(16,5), BRK=CALENDAR.gradeDay('Y1S1');   /* 16 週制（AA_198 第 2 節第 3 點）：12/19 期末最後一天約、1/5 成績公布那天一起看；變數名照舊。台詞「寒假第一天一起打開」要 AA 改（已通知） */
+    check('期末成績：期末考週最後一天＝'+CALENDAR.dateOf(LAST).key+'、成績公布＝'+CALENDAR.dateOf(BRK).key,CALENDAR.dateOf(LAST).key==='2025-12-19'&&CALENDAR.dateOf(BRK).key==='2026-01-05'&&!CALENDAR.termOf(BRK));
     const ask=(pick)=>{ fresh(LAST,20,'dorm',{dating_kexin:true}); run(20,21.2); const m=G.msgs.find(x=>x.tag==='kx_grades_ask'); if(pick!=null) PHONE.answer(G,m.ask.id,pick); return m; };
-    const m=ask(null); check('期末成績：1/2 21:00 她傳「成績出來先不要給對方看。寒假第一天一起打開。」、兩個回覆（原文）',!!m&&m.text==='成績出來先不要給對方看。寒假第一天一起打開。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我會忍不住。"]');
+    const m=ask(null); check('期末成績：12/19 21:00 她傳「成績出來先不要給對方看。寒假第一天一起打開。」、兩個回覆（原文）',!!m&&m.text==='成績出來先不要給對方看。寒假第一天一起打開。'&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["好。","我會忍不住。"]');
     ask(1); check('期末成績：「我會忍不住。」→「那你偷看的時候，表情不要寫在訊息裡。」（約定照樣成立）',G.msgs.some(x=>x.text==='那你偷看的時候，表情不要寫在訊息裡。')&&G.flags.KX_GRADES_PACT_SET===true);
     const morning=async(flags,pk)=>{ fresh(BRK,7.5,'dorm',Object.assign({dating_kexin:true},flags||{})); picks=pk||[]; await CLS.morning(GM); return lines(); };
     let L=await morning({},[]); check('期末成績：沒有約定的玩家：寒假第一天早上直接發成績單',L[0]==='大一上的成績出來了。'&&!!CLS.rec(G).grades.Y1S1&&!opts.some(o=>o.includes('先看。')),JSON.stringify(L));

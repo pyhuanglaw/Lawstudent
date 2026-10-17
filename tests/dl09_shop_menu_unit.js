@@ -49,7 +49,7 @@ const near=(a,b)=>Math.abs(a-b)<1e-6;
     const Gn=mk(termDay('Y1S1',5,2),15); const gn=mkGM(Gn,[0]); await WZS.interact(gn,{wzShop:'print',kind:'print'}); check('5. 下一週重新輪（池重置）',WZS.PRINT_LINES.some(l=>l.replace('{科目}','民法總則')===gn.L.says[0]||l.replace('{科目}','憲法')===gn.L.says[0]));
     const Ge=mk(termDay('Y1S1',8,2),15); const ex=[]; for(let i=0;i<2;i++){ const g=mkGM(Ge,[0]); await WZS.interact(g,{wzShop:'print',kind:'print'}); ex.push(g.L.says[0]); }
     check('5. 期中考週（第 8 週）：考試週的兩句（考古題、「這週大家都在印{科目}」）',new Set(ex).size===2&&ex.some(t=>/考古題/.test(t))&&ex.some(t=>/^阿德：「這週大家都在印(民法總則|憲法)。」$/.test(t)),ex.join(' / '));
-    const Gl=mk(termDay('Y1S1',17,3),22.5); const lates=[]; for(let i=0;i<3;i++){ const g=mkGM(Gl,[0]); await WZS.interact(g,{wzShop:'print',kind:'print'}); lates.push(g.L.says[0]); Gl.hour=22.5; }
+    const Gl=mk(termDay('Y1S1',16,3),22.5); const lates=[]; for(let i=0;i<3;i++){ const g=mkGM(Gl,[0]); await WZS.interact(g,{wzShop:'print',kind:'print'}); lates.push(g.L.says[0]); Gl.hour=22.5; }
     check('5. 期末考週 22:00 以後：多「店裡只剩你和影印機的聲音」那一句',lates.includes(WZS.PRINT_LATE),lates.join(' / '));
     const gs=mkGM(mk(termDay('Y1S1',4,2),15),[0]); await WZS.interact(gs,{wzShop:'print',kind:'stationery'});
     check('6. 文具：四樣（35／20／30／15）、0 分鐘、只有旁白',gs.L.menus[0].slice(0,4).map(t=>t.replace(/.*　/,'')).join(',')==='35 元,20 元,30 元,15 元'&&gs.L.spent===35&&gs.L.adv===0&&gs.L.says[0]==='新的螢光筆。你在想第一個要畫的是哪一條。'); }
