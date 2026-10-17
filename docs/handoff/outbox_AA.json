@@ -380,6 +380,20 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "LIFE-HS-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "655ce005a9777cdba15d117e26eca3e088cfa617",
+   "files": [
+    "docs/story_planning/AA_218_祐廷人生主線修訂提案.md"
+   ],
+   "state": "已交付（使用者批准台詞）",
+   "remaining": "9/4 以前找她說話的行為（BB 定機制）；法服週三讀書會拿掉與條件改法（BB 盤點中）",
+   "next": "LAWWW 實作 AA_218 17-3 的 W1（取代 talkSis W1）與社博 club_expo_y1s1 法服攤位（含還沒 W1 的合併版）；人物頁已改前社長",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
