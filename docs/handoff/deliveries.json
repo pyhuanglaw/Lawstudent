@@ -7120,6 +7120,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "白名單 ladder_aa_y4s2 改 84bbef37、labelsRef 加 84bbef37；GRAD_DONE 等畢業典禮做好時設（目前沒有設，skipIf 不觸發，skipAfterWeek 照常）"
+  },
+  {
+   "id": "DL-LAWWW2-ad0552ff",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ad0552ff",
+   "what": "沛珊第十六版 VRM（頭髮 BB-C 通過、上衣驗收中）＋glasses_peishan.json；經濟系三人臉分開、魏教授第四版（等 BB-C 驗收）",
+   "task": "ART-05",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "只先換沛珊的 VRM（同檔名）；經濟系三人、魏教授等 V0-ECON-CHARS 的 BB-C D59 驗收後再接；上衣通過後 LAWWW 拍遊戲截圖（眼鏡、白天、晚上）給 BB-C 標 ART_APPROVED"
   }
  ],
  "ignored": [
@@ -9580,6 +9593,48 @@
    "kind": "wip",
    "task": "ART-05",
    "reason": "沛珊第十五版上衣（BB-C 第十四版意見），驗收中，D59 未通過前不是交付"
+  },
+  {
+   "sha": "f92bf52d",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "4d88125e",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "e28600c2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "51540636",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "c408e992",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
+  },
+  {
+   "sha": "cb6a8d79",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "同一批人物模型交 BB-C 驗收的過程版，最後一版 ad0552ff"
   }
  ]
 }
