@@ -46,7 +46,9 @@ if(process.argv[2]==='child'){
     // 5. unloadVRM
     out.unloadWhileHeld=ASSETS.unloadVRM(A[0]); CHAR.release(hold); out.unloadAfterRelease=ASSETS.unloadVRM(A[0]); out.goneAfter=!ASSETS.has(A[0]);
     const k2=B[0]; await ASSETS.loadOne(k2); const c1=CHAR.build({model:k2,height:1.6}), c2=CHAR.build({model:k2,height:1.6}); out.twoVrm=[c1,c2].map(x=>x.userData.key);   /* 上面換過池子，k2 可能已經放掉：先載回來 */
-    out.unloadWithClone=ASSETS.unloadVRM(k2); CHAR.release(c2); out.unloadTplOnly=ASSETS.unloadVRM(k2); CHAR.release(c1); out.unloadFree=ASSETS.unloadVRM(k2);
+    out.unloadWithClone=ASSETS.unloadVRM(k2); CHAR.release(c2); out.unloadTplOnly=ASSETS.unloadVRM(k2); CHAR.release(c1);
+    const T=new Set(); ASSETS.cache[k2].tpl.vrm.scene.traverse(o=>{ for(const m of [].concat(o.material||[])){ if(m&&m.uniforms) for(const q in m.uniforms){ const v=m.uniforms[q]&&m.uniforms[q].value; if(v&&v.isTexture) T.add(v); } } }); let disp=0; for(const t of T) t.addEventListener('dispose',()=>disp++);
+    out.unloadFree=ASSETS.unloadVRM(k2); out.texFreed=[disp,T.size];   /* MToon 的貼圖在 uniforms（batch 16：沒放掉，換區域貼圖一直長）*/
     await ASSETS.loadOne(k2); out.reload=ASSETS.has(k2)&&CHAR.build({model:k2,height:1.6}).userData.driver;
     out.unloadedCount=ASSETS.unloaded|0;
     console.log(JSON.stringify(out)); process.exit(0);
@@ -73,6 +75,7 @@ if(process.argv[2]==='child'){
   check('4. 畫質低：池子 3 女＋3 男',d.low===6,String(d.low));
   check('5. unloadVRM：樣板借出時不放、還回去才放',d.unloadWhileHeld===false&&d.unloadAfterRelease===true&&d.goneAfter===true);
   check('5. unloadVRM：有複製品時不放（樣板＋複製品都還才放）',(d.twoVrm||[]).length===2&&d.twoVrm.every(k=>k===(d.B||[])[0])&&d.unloadWithClone===false&&d.unloadTplOnly===false&&d.unloadFree===true,JSON.stringify([d.twoVrm,d.unloadWithClone,d.unloadTplOnly,d.unloadFree]));
+  check('5. 放掉的時候貼圖全部釋放（MToon 的 uniforms 裡的貼圖也算；修正前 0 張）',!!d.texFreed&&d.texFreed[1]>10&&d.texFreed[0]===d.texFreed[1],JSON.stringify(d.texFreed));
   check('5. 放掉以後可以重新下載、建得出來',d.reload==='vrm',String(d.reload));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 }

@@ -252,7 +252,7 @@ const CHAR = (function(){
     refresh(zoneId,level){ const P=this, all=ANON_KEYS(), sz=level==='low'?P.sizeLow:P.size; P.pick={}; P.uses={}; if(!all.length){ P.cur=[]; return P.cur; }
       const by=s=>all.filter(k=>ASSETS.manifest[k].sex===s), take=(L,n)=>{ if(L.length<=n) return L.slice(); const o=[]; for(let i=0;i<n;i++) o.push(L[(P.rot*n+i)%L.length]); return o; };
       const next=take(by('f'),sz.f).concat(take(by('m'),sz.m)); P.rot++;
-      for(const k of next) if(!ASSETS.has(k)) ASSETS.loadOne(k).catch(e=>{ console.warn('anon pool load',k,e&&e.message); if(ASSETS.status) delete ASSETS.status[k]; });   /* 下載失敗：下次輪到再試 */
+      for(const k of next) if(!ASSETS.has(k)) ASSETS.loadOne(k).then(()=>{ if(!P.cur.includes(k)&&ASSETS.unloadVRM) ASSETS.unloadVRM(k); }).catch(e=>{ console.warn('anon pool load',k,e&&e.message); if(ASSETS.status) delete ASSETS.status[k]; });   /* 下載到的時候池子已經換了（換區域很快）：直接放掉；下載失敗：下次輪到再試 */
       for(const k of all) if(!next.includes(k)&&ASSETS.unloadVRM) ASSETS.unloadVRM(k);   /* 全部掃一次（不只上一輪的）：換區域太快時晚到的那幾個也會放掉；還有人在用的 unloadVRM 不會放 */
       P.cur=next; return next; },
     choose(id,sex){ const P=this; if(P.pick[id]) return P.pick[id]; if(!P.cur.length) P.refresh(); const L=P.cur.filter(k=>ASSETS.manifest[k]&&ASSETS.manifest[k].sex===sex); if(!L.length) return null;

@@ -208,7 +208,9 @@ const ASSETS = (function(){
   const disposeClone=vrm=>{ try{ vrm.scene.traverse(o=>{ if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); }); }catch(e){ console.warn('VRM clone dispose',e); } };
   /* 整個放掉一個 VRM（樣板也釋放）：沒有人在用（樣板沒借出、沒有複製品）才放；下次要用再下載。路人底模輪替用（C.anonPool）*/
   A.unloadVRM=function(key){ const c=A.cache[key]; if(!c||!c.tpl||c.tpl.inUse||(c.clones&&c.clones.length)) return false; const seen=new Set();
-    const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
+    /* 貼圖要從 uniforms 找：VRM 的 MToon 是 ShaderMaterial，貼圖放在 uniforms（for…in 一張都找不到——2026-10-17 batch 16 zone_memory：換區域回校園貼圖 659→801→980→1101，幾何沒有長）*/
+    const tex=v=>{ if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } };
+    const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k of Object.getOwnPropertyNames(m)) tex(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) tex(u.value); } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
     try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); }catch(e){ console.warn('VRM unload',key,e); }
     delete A.cache[key]; delete A.status[key]; A.unloaded=(A.unloaded|0)+1; return true; };
   A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
