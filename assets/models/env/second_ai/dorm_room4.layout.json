@@ -69,7 +69,10 @@
    "side": "R",
    "sets": {
     "203": "bohan",
-    "412": "tangrui"
+    "412": "tangrui",
+    "312": "bohan",
+    "507": "bohan",
+    "409": "bohan"
    },
    "u": [
     -3.395,
@@ -129,7 +132,10 @@
    "side": "R",
    "sets": {
     "203": "kai",
-    "412": "xun"
+    "412": "xun",
+    "312": "fresh",
+    "507": "peer",
+    "409": "fresh"
    },
    "u": [
     -0.98,
@@ -189,7 +195,10 @@
    "side": "L",
    "sets": {
     "203": "zhe",
-    "412": "weilun"
+    "412": "weilun",
+    "312": "zhe",
+    "507": "soph",
+    "409": "soph"
    },
    "u": [
     -3.395,
@@ -249,7 +258,10 @@
    "side": "L",
    "sets": {
     "203": "yuting",
-    "412": "yuting"
+    "412": "yuting",
+    "312": "yuting",
+    "507": "yuting",
+    "409": "yuting"
    },
    "u": [
     -0.98,
@@ -398,7 +410,11 @@
  "sets": {
   "203": "藏 Y412_*、NAMETAG_*；其他照常",
   "412": "藏 Y203_*、ROOMMATE_KAI；阿勳的書桌、保齡球袋、紙箱用 v0_dorm_props（位置見 units 的 412）",
-  "412_first_night": "412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）"
+  "412_first_night": "412 再藏 Y412_TANGRUI、Y412_WEILUN、BEDDING_R1、BEDDING_L1，顯示 NAMETAG_TANGRUI、NAMETAG_WEILUN（AA_208 第 3 節）",
+  "312": "大二（AA_208 第 7 節）：只顯示 Y312_*；藏 Y203_*、ROOMMATE_KAI、Y412_*、Y507_*、Y409_*、NAMETAG_*",
+  "507": "大三（第 8 節）：只顯示 Y507_*；其他年份的都藏",
+  "409": "大四（第 8 節）：只顯示 Y409_*；其他年份的都藏",
+  "note": "203、412 那幾組也要藏 Y312_／Y507_／Y409_（2026-10-17 加的三年）"
  },
  "v0_props": {
   "XUN_DESK": {

@@ -1373,11 +1373,14 @@ const Z3 = (function(){
   /* 宿舍房間＝台大四人房（DORM-LOFT-L；LAWWW2-B a09ebf4d，使用者 2026-10-17 01:0x 照片、01:3x「宿舍ok」）：上舖床、下面書桌四組（左右各兩組）、進門右邊洗手間、窗在後牆中間。
      配置全部讀 DORM_ROOM（src/data/dorm_room_layout.js，和 dorm_room4.glb 同一份）；玩家是 L2（左邊靠門那組）。203（法律系）＝祐廷、阿凱 R2、柏翰 R1、阿哲 L1；412（經濟系）＝祐廷、阿勳 R2、唐睿 R1、韋綸 L1（AA_208）。
      年份切換 z.dormSet(key)：'203'、'203_movein'（8/29 阿哲還沒到）、'412'、'412_first_night'（韋綸、唐睿 9/2 才搬進來）。窗景：法律系 203＝dorm_room、經濟系 412＝dorm_room412（四樓、往東偏，ART-V0-DORM）。備用模型（GLB 載入失敗）是簡單的床桌方塊（D38 ③）。*/
-  const DORM_SETS={ '203':{hide:/^(Y412_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, '412':{hide:/^(Y203_|ROOMMATE_KAI$|NAMETAG_)/}, '412_first_night':{hide:/^(Y203_|ROOMMATE_KAI$|Y412_TANGRUI$|Y412_WEILUN$|BEDDING_R1$|BEDDING_L1$)/} };
-  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return F.E412_MOVEIN?'412':'412_first_night'; return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
-  /* 每年的窗景（AA_183 第 5 節；LAWWW2-C 393eda85 的 dorm_room218／105，tools/shots/window_views.py）：經濟系 412、大一 203、大三 218（球場的燈）、大四 105（一樓：宿舍門口的路燈）。
-     大二已經改成 312（三樓、看得到另一邊的樹；AA_208 7-1、DORM-Y2-312）：112（一樓、腳踏車架）的窗景不接，312 的窗景請 LAWWW2 拍，來之前照舊用 203 那張。ROOM_Y3／ROOM_Y4 是 dorm3d.js homeOf 用的旗標名，搬房間事件做的時候照這兩個設 */
-  function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return F.ROOM_Y4?'dorm_room105':F.ROOM_Y3?'dorm_room218':'dorm_room'; }
+  /* 大二～大四（LAWWW2-C 2026-10-17，AA_208 第 7、8 節；dorm_room4.glb 的 Y312_／Y507_／Y409_ 各組）：312＝祐廷、阿哲、柏翰、大一學弟；507＝祐廷、柏翰、大二學弟、別系的同屆；409＝祐廷、柏翰、大二學弟、大一學弟。
+     舊的四組也要藏這三年的東西（GLB 和這段要一起換）*/
+  const DORM_SETS={ '203':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_)/}, '203_movein':{hide:/^(Y412_|Y312_|Y507_|Y409_|NAMETAG_|Y203_ZHE$|BEDDING_L1$)/}, '412':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '412_first_night':{hide:/^(Y203_|Y312_|Y507_|Y409_|ROOMMATE_KAI$|Y412_TANGRUI$|Y412_WEILUN$|BEDDING_R1$|BEDDING_L1$)/},
+    '312':{hide:/^(Y203_|Y412_|Y507_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '507':{hide:/^(Y203_|Y412_|Y312_|Y409_|ROOMMATE_KAI$|NAMETAG_)/}, '409':{hide:/^(Y203_|Y412_|Y312_|Y507_|ROOMMATE_KAI$|NAMETAG_)/} };
+  function dormSetKey(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return F.E412_MOVEIN?'412':'412_first_night'; if(F.ROOM_Y4) return '409'; if(F.ROOM_Y3) return '507'; if(F.ROOM_Y2) return '312'; return (F.LAW_MOVEIN_DAY!=null&&G.day===F.LAW_MOVEIN_DAY&&!F.KAI_MOVEIN)?'203_movein':'203'; }
+  /* 每年的窗景（AA_208 第 7、8 節；LAWWW2-C 4fa4a1e2，tools/shots/window_views.py）：經濟系 412、大一 203（朝舟山路）；大二 312（三樓）、大三 507（五樓）、大四 409（四樓）都朝宿舍背面的樟樹。
+     393eda85 的 112／218／105（照較舊的 AA_183）作廢、照片已刪。ROOM_Y2／ROOM_Y3／ROOM_Y4 是 dorm3d.js homeOf 用的旗標名，搬房間事件做的時候照這三個設 */
+  function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return F.ROOM_Y4?'dorm_room409':F.ROOM_Y3?'dorm_room507':F.ROOM_Y2?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
     const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
@@ -1401,7 +1404,7 @@ const Z3 = (function(){
     /* 宿舍走廊（D44）：房門出去是二樓走廊、自己的房門前（src/dorm3d.js）；沒有載入 dorm3d 時照舊直接回校園 */ if(typeof DM3!=='undefined') E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'走出房間',exit:{to:'dorm_hall',spawn:Object.assign({},DM3.homeOf?DM3.homeOf(typeof GAME!=='undefined'&&GAME.G).spawn:DORM_LAYOUT.home.spawn)}}); else E.interactables.push({x:RM.exit[0],z:RM.exit[1],radius:1.4,label:'離開宿舍',exit:{to:'campus',spawn:{x:20,z:54,yaw:Math.PI}}});
     E.interactables.push({x:z.spots.roomItems[0],z:z.spots.roomItems[1],radius:0.6,label:'看看房間裡的東西',roomItems:true});   /* 交接包 v1 第 1 節「房間物件」（玩家書桌前；story3d.js 的 roomItems）*/
     P3.mergeStatic(g);
-    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
+    z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */

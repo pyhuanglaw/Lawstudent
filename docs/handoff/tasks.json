@@ -6989,8 +6989,8 @@
    "title": "第二個房間（主線 3）2D＋物件",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "規格：AA_208 第 7-1 節（AA 分支 908ab287；AA-C 04:40）：大二 312（＝舊稱 112）用 dorm_room4，換房號與三樓窗景；祐廷 L2（大一五件＋主線 3 新物件）、阿哲 L1（籃球、零食箱、電風扇）、柏翰 R1（整齊的書、檯燈、考古題資料夾、耳塞）、大一學弟 R2 背景（新生手冊、兩個紙箱）；軟木板在祐廷書桌前的牆。WIP 8a1af723 照這個重擺",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】規格：AA_208 第 7-1 節（AA 分支 908ab287；AA-C 04:40）：大二 312（＝舊稱 112）用 dorm_room4，換房號與三樓窗景；祐廷 L2（大一五件＋主線 3 新物件）、阿哲 L1（籃球、零食箱、電風扇）、柏翰 R1（整齊的書、檯燈、考古題資料夾、耳塞）、大一學弟 R2 背景（新生手冊、兩個紙箱）；軟木板在祐廷書桌前的牆。WIP 8a1af723 照這個重擺",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -14331,9 +14331,9 @@
    "title": "大三男一舍 507、大四 409 的宿舍房間：沿用四人房模型 dorm_room4，換房號牌與窗外景（AA_208 第 8 節）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "照 DL-AA-DORMY34（AA 分支 4a6841eb，AA_208 第 8 節）：dorm_room4 換房號 507／409、window_views 加兩組窗景；交付時寫 outbox_LAWWW2.json",
+   "next": "【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】照 DL-AA-DORMY34（AA 分支 4a6841eb，AA_208 第 8 節）：dorm_room4 換房號 507／409、window_views 加兩組窗景；交付時寫 outbox_LAWWW2.json",
    "first": {
     "term": "Y3S1",
     "week": 1,
@@ -14492,7 +14492,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
+   "next": "【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】還沒：HOMES.y2 的 plate、門的位置（dorm3d.js），搬房間事件設 ROOM_Y2 的時機。【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
    "first": {
     "term": "Y2S1",
     "week": 1,
