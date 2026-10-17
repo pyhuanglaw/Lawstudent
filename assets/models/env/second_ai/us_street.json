@@ -1,0 +1,12 @@
+{
+ "objects": 33,
+ "unique_meshes": 33,
+ "tris": 31863,
+ "tris_drawn": 31863,
+ "materials": 38,
+ "out": "assets/models/env/second_ai/us_street.glb",
+ "bytes": 2850156,
+ "texres": 512,
+ "tris_total": 31863,
+ "layout": "us_street.layout.json"
+}
