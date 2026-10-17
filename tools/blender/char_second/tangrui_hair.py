@@ -24,7 +24,7 @@ HAIRLINE = [(0, 33), (20, 33), (35, 30), (48, 21), (57, 9), (63, -1), (69, -5), 
 DEEP = np.array([0.055, 0.049, 0.046]); BASE = np.array([0.118, 0.106, 0.100]); LIGHT = np.array([0.200, 0.184, 0.175]); SHEEN = np.array([0.30, 0.285, 0.28])   # 唐睿：黑（受光處 #2c2826）；第十一版亮一點點（遊戲裡整顆頭是一塊黑，看不出一團一團的捲）
 REG = {'card': (0, 256, 0, 1024), 'cardB': (256, 448, 0, 1024), 'curl': (448, 896, 0, 1024), 'bang': (896, 960, 0, 1024), 'shell': (960, 1024, 0, 1024)}   # 第四版：大部分給波浪髮束 'curl'
 HEAD = 'J_Bip_C_Head'
-HL = np.array([0.29, 0.20, 0.15])   # 第十六版：深咖啡的亮面（BB_201 第 10 節）
+HL = np.array([0.40, 0.28, 0.20])   # 第十六版：深咖啡的亮面（BB_201 第 10 節）；第十七版亮一點（#664733：0.29 在遊戲的卡通明暗下幾乎看不出來）
 SIDE_TAPER = 0.40                   # 第十六版：太陽穴的淡色（耳朵上面的髮尾離頭太遠，從縫看到背景）——照韋綸的做法，只收一半（唐睿兩側要蓬）
 SHELL_OFF = 0.006        # 第十一版：髮殼離頭皮再遠 8 mm（原本 −2 mm）——外形（剪影）交給不透明、圓的髮殼，波浪髮束貼在上面，不再是一根根伸出去的黑線
 
@@ -135,8 +135,10 @@ def apply(m):
     A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 1.0, Nv + 1)   # 髮殼一直到髮旋（0.97 時髮旋留一個小洞，遊戲裡背面頭頂一個白點＝頭皮；BB-C 韋綸第二版「後腦一塊白色」）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
+        aa_ = az(a); wt_ = float(sstep(38, 55, aa_)) * (1 - float(sstep(100, 118, aa_)))
+        vlo = min(0.0, v_tip(a) * 0.6) * wt_ if wt_ > 0 else 0.0     # 第十七版：太陽穴那一段髮殼往下延伸到髮尾的六成（髮際線以下只有半透明的髮片，正面看太陽穴一塊淡色＝看穿到背景）
         for j, v in enumerate(vs):
-            p, d = surf(a, v, SHELL_OFF); SP[i, j] = p; SN[i, j] = d
+            p, d = surf(a, vlo + (1 - vlo) * v, SHELL_OFF); SP[i, j] = p; SN[i, j] = d
     u0, v0, u1, v1 = HB.reg_uv('shell')
     for p in range(Nu // PAN):
         G = SP[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2); Nn = SN[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2)
@@ -229,7 +231,7 @@ def apply(m):
             a = -52 + 104 * (k + rng.uniform(0.35, 0.65) + 0.5 * row) / (nb + 0.5)
             a += rng.uniform(-3, 3)
             wave_lock(a, rng.uniform(0.50, 0.70), v_tip(a) - 0.03 + (0.0 if row == 0 else 0.02) + rng.uniform(-0.01, 0.02), rng.uniform(0.042, 0.075), rng.uniform(2, 4), rng.uniform(0.5, 0.8),
-                      0.010 + 0.004 * row + 0.003 * rng.random(), rng.uniform(0.010, 0.016), rng.uniform(0, 2 * math.pi), flip=True, solid=True, hl=(12 <= a <= 52)); nlock += 1   # 第六版：再長一點、勾小一點（第五版勾起來的髮尾把瀏海往上翻 3 cm，額頭露出來）
+                      0.010 + 0.004 * row + 0.003 * rng.random(), rng.uniform(0.010, 0.016), rng.uniform(0, 2 * math.pi), flip=abs(a) < 28, solid=True, hl=(12 <= a <= 52)); nlock += 1   # 第十七版：只有中間的往上翻（兩側也翻時太陽穴旁邊像翅膀）   # 第六版：再長一點、勾小一點（第五版勾起來的髮尾把瀏海往上翻 3 cm，額頭露出來）
     print('  hair(tangrui): wave locks %d faces %d' % (nlock, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----
