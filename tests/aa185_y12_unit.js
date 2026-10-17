@@ -57,6 +57,6 @@ GM.money=function(n){ G.money+=n; };
   { const S8=ev('ev_midterm_supper_y1s2'); check('3-8. 大一下期中晚餐：場景之後一句旁白「（阿姨的手腕綁著護腕。今天端麵的是語彤。）」',S8.dialogue[1].text==='（阿姨的手腕綁著護腕。今天端麵的是語彤。）'); }
   // 3-11
   { const X=ev('ev_xinci_double'); const d=X.day_min+1; fresh(d,14,'library'); G.weekday=wdOf(d); meet('classmate_xinci'); said=[]; picks=[0]; await EVENTS.run(X); const L=L0();
-    check('3-11. 慈 2 不需要慈 1：前置只要認識她；沒有借過筆記＝第一句「……你也在重修經原？」',JSON.stringify(X.prereq)==='{"memory":[{"npc":"classmate_xinci","tag":"FIRST_MET"}]}'&&L[0]==='芯慈：……你也在重修經原？',JSON.stringify(L.slice(0,2))); }
+    check('3-11. 慈 2 不需要慈 1：前置只要認識她；沒有借過筆記＝第一句「你也有修經原喔？我在後面看到你。」（AA_209：前面一句旁白）',JSON.stringify(X.prereq)==='{"memory":[{"npc":"classmate_xinci","tag":"FIRST_MET"}]}'&&L[0]==='（總圖裡，她壓低聲音。）'&&L[1]==='芯慈：你也有修經原喔？我在後面看到你。',JSON.stringify(L.slice(0,2))); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

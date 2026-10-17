@@ -41,12 +41,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const days={}; for(const id of IDS){ const k=G.flags.dpDayOf&&G.flags.dpDayOf[id]; days[k]=(days[k]||0)+1; } check('一天最多一則',Object.values(days).every(n=>n===1),JSON.stringify(days));
     const T=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>m.text);
     check('學姊（家族群組，有 FAMILY_THREE_THINGS）：「今天讀到一個判決。三件事。……下次聚餐給你們看。」',T('g:family_law').includes('今天讀到一個判決。三件事。一，很長。二，很好。三，學弟妹一定會反對。下次聚餐給你們看。'));
-    check('芷若（單身）：「今天有人點熱可可加濃縮。不是你。我差點以為是你。」；拉花照片沒有字',T('p:heroine_02').includes('今天有人點熱可可加濃縮。不是你。我差點以為是你。')&&T('p:heroine_02').includes('📷（拉花）')&&!T('p:heroine_02').includes('今天的拉花。老闆說及格。'),JSON.stringify(T('p:heroine_02')));
+    check('芷若（單身）：「今天有客人點熱可可加濃縮欸」「我還以為只有我會這樣喝」（AA_209）；拉花照片沒有字',T('p:heroine_02').includes('今天有客人點熱可可加濃縮欸')&&T('p:heroine_02').includes('我還以為只有我會這樣喝')&&T('p:heroine_02').includes('📷（拉花）')&&!T('p:heroine_02').includes('今天的拉花。老闆說及格。'),JSON.stringify(T('p:heroine_02')));
     check('子晴（PLAYTESTED、FIRST_BUG）：「📎 cat_v0.3」→ 三分鐘後「插座修好了」',JSON.stringify(T('p:heroine_04').slice(-2))==='["📎 cat_v0.3","插座修好了"]',JSON.stringify(T('p:heroine_04')));
     check('阿凱：「你的黃金葛長新葉了」「我幫你澆了」「不用謝」「我只是順手」',JSON.stringify(T('p:kai').filter(t=>/黃金葛|澆|不用謝|順手/.test(t)))==='["你的黃金葛長新葉了","我幫你澆了","不用謝","我只是順手"]',JSON.stringify(T('p:kai')));
-    check('明軒（家教）：學生問的那一句',T('p:classmate_mingxuan').includes('今天我學生問：『老師，法律系的人吵架都會贏嗎？』我說會。你學生問什麼？'));
+    check('明軒（家教）：兩則（AA_209 附錄B §2、2-1 第 2 列）',JSON.stringify(T('p:classmate_mingxuan').slice(-2))==='["今天家教的學生段考考完了 終於可以喘一下 哈哈","你們期中考也快了吧 加油"]',JSON.stringify(T('p:classmate_mingxuan')));
     check('沛珊（SAW_HER_TEACH）：白板照片＋「他們叫我老師。好奇怪。」',JSON.stringify(T('p:classmate_peishan').slice(-2))==='["📷（課輔班白板上歪歪的「謝謝沛珊老師」）","他們叫我老師。好奇怪。"]',JSON.stringify(T('p:classmate_peishan')));
-    check('方奕廷：「黃金葛可以剪一段水耕。要不要我教你。三分鐘。」',T('p:npc_fangyt').includes('黃金葛可以剪一段水耕。要不要我教你。三分鐘。')); }
+    check('方奕廷：「黃金葛可以剪一段下來水耕」「週末我拿瓶子過去 隔壁而已」（AA_209）',JSON.stringify(T('p:npc_fangyt').slice(-2))==='["黃金葛可以剪一段下來水耕","週末我拿瓶子過去 隔壁而已"]',JSON.stringify(T('p:npc_fangyt'))); }
   { all({flags:{dating_kexin:true,FIRST_BUG:false}}); const T=th=>(G.msgs||[]).filter(m=>m.th===th);
     const zr=T('p:heroine_02'); const coco=zr.find(m=>/熱可可/.test(m.text)), art=zr.filter(m=>/拉花/.test(m.text));
     check('交往中：芷若改在 15:10、友情版「今天有人點熱可可加濃縮。我以為只有我會喝這個。」；拉花多一句「今天的拉花。老闆說及格。」',coco&&coco.text==='今天有人點熱可可加濃縮。我以為只有我會喝這個。'&&Math.abs(coco.h-(15+10/60))<0.11&&art.map(m=>m.text).join('|')==='📷（拉花）|今天的拉花。老闆說及格。',JSON.stringify(zr.map(m=>m.h+' '+m.text)));

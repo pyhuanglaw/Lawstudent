@@ -22,7 +22,7 @@ const ENCOUNTERS={
     {who:'yu',spot:'D04',why:'她在一家二手衣店裡，兩手各拿一件外套。',days:[6],from:17,to:20,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D04_YU',away:'在西門町',
       lines:{acq:['欸！{name}？你也來逛？','對了，我在幫學姊挑外套，你覺得哪件——好啦，你一定說都一樣。'],friend:['欸你來評評理，這兩件明明不一樣，她們說一樣。','……好啦我知道，是一樣。我只是想要有人跟我說不一樣。']},src:'AA_162 1、2-4'},
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
-      lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['要件：排隊、等、拿到。','我現在卡在第二個要件。……不要笑。']},src:'AA_162 1、2-4'},
+      lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
     // ---- D06 臺北市立美術館 ----
     {who:'heroine_05',spot:'D06',why:'她站在一幅畫前面，手上拿著展覽的說明。',days:[0],from:13,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y4S1','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_SIS',away:'在美術館',
       lines:{acq:['學弟。……你也看展？','我排了兩個小時。還剩四十分鐘。'],friend:['一件事。這一區的說明牌，我每一塊都讀完了。','……你不用。看你想看的就好。'],dating:['你來了。……我沒有約你。','重點是，我剛好在想，如果你在就好了。']},
@@ -41,7 +41,7 @@ const ENCOUNTERS={
     {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
       lines:{acq:['啊，嗨！……我在找一本舊的繪本。','找到了我就回去。你也逛逛。'],friend:['你來得正好。幫我看這兩本，哪一本小孩會喜歡？','……你選的那本字比較少。對，就是這本。'],dating:['……你怎麼知道我在這裡？','不知道也來了？那我們一起找。書單有七本。']},src:'BB_144 1、3-4'},
     {who:'heroine_03',spot:'D12',why:'她拿著相機，蹲在一間南北貨行的騎樓下。',days:[0],from:15,to:18,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:{y12:'no',y3:'short'},join:'friend',memo:'ENC_D12_YT',away:'在大稻埕拍照',
-      lines:{acq:['……你？','我在拍手。老闆娘的手。不要問。'],friend:['（她把鏡頭蓋遞給你）「拿一下。」','這條街，每一間店都有一個不肯退休的人。'],dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
+      lines:{acq:['……你？','我在拍老闆娘包貨的手，課堂作業。'],friend:['（她把鏡頭蓋遞給你）「拿一下。」','這條街好多店都是阿公阿嬤在顧。'],/* AA_209 附錄A §2 */dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
       ex:{apart_life:['……嗨。'],apart_lifeNarr:'（她舉起相機，示意她在忙。）',apart_driftNarr:'（她看到你，把相機收起來，走進騎樓另一邊。）'},src:'AA_162 1、2-2、3'},
     // ---- D13 淡水金色水岸 ----
     {who:'kexin',spot:'D13',why:'她和予樂、邵鈞坐在河邊等夕陽。',days:[0],from:16.5,to:19,terms:null,stageMin:null,kexin:true,busy:'short',join:'dating',memo:'ENC_D13_KX',memoIf:'dating',
@@ -63,7 +63,7 @@ const ENCOUNTERS={
     ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次麵店團一起去。']},
     ENC_D04_YU:{who:'yu',lines:['欸，上次那件外套，學姊最後買了另一件。……對，第三件。']},
     ENC_D06_BH:{who:'classmate_bohan',lines:['上次在美術館的事，不要跟阿哲說。']},
-    ENC_D04_XC:{who:'classmate_xinci',lines:['上次那張小卡，我拿到了。……謝謝你沒笑。']}
+    ENC_D04_XC:{who:'classmate_xinci',lines:['上次那張小卡我有排到。']}   /* AA_209 附錄A §2 */
   },
   /* 人物頁「記得的事」的字 */
   labels:{ENC_D04_ZR:'在西門町的電影院門口遇到她',ENC_D12_ZQ:'在大稻埕碼頭遇到她',ENC_D06_SIS:'在美術館遇到學姊',ENC_D12_PS:'在迪化街的舊書店門口遇到她',ENC_D13_KX:'在淡水遇到她',

@@ -43,26 +43,26 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   /* 四個選項 */
   const play=async(k)=>{ fresh(W5,20,'library'); R('heroine_01',10); SOCIAL.meet('heroine_01','campus'); picks=[k]; await EVENTS.run(e); return lines(); };
   { const L=await play(0);
-    check('開場：旁白＋以安四句（草稿原文）',L[0]==='以安的桌上攤著兩份草稿，理由欄寫得密密麻麻。'&&L[1]==='沈以安：我室友被記點了。晚歸二十分鐘。'&&L[2]==='沈以安：她陪隔壁寢的同學去急診。記點以前，沒有人問她那天發生什麼事。'&&L[3]==='沈以安：申訴我幫她寫。你幫我讀。然後站另一邊，反駁我。'&&L[4]==='沈以安：第一份寫：這條規定錯了。第二份寫：規定沒錯，是它沒想到這種情況。',JSON.stringify(L.slice(0,5)));
+    check('開場：旁白＋以安四句（AA_209 附錄A §2 改稿）',L[0]==='（以安的桌上攤著兩份草稿，劃得很亂。）'&&L[1]==='沈以安：我室友被記點了。晚歸二十分鐘。'&&L[2]==='沈以安：她陪隔壁寢的同學去急診。記點以前，沒有人問她那天發生什麼事。'&&L[3]==='沈以安：我在幫她寫申訴，寫了兩個版本。你可以幫我看哪裡講不通嗎？直接講沒關係。'&&L[4]==='沈以安：一份說規定本身有問題，一份說規定沒問題，只是沒考慮到這種情況。',JSON.stringify(L.slice(0,5)));
     check('四個選項（原文）',JSON.stringify(opts[0])===JSON.stringify(['「寫第一份。規定錯了，就該改。」','「寫第二份。規定沒錯，是沒想到。」','「先寫一件事：記點以前，應該先問她。」','「我想先聽妳的。」']),JSON.stringify(opts[0]));
-    check('選 1：「那你要證明它對每個人都錯。……門禁本身沒有道理嗎？」＋問號、AN_APPEAL＝rule',L.includes('沈以安：那你要證明它對每個人都錯。……門禁本身沒有道理嗎？')&&L.includes('（她在第一份旁邊畫了一個問號。）')&&G.flags.AN_APPEAL==='rule',JSON.stringify(L.slice(5))); }
-  { const L=await play(1); check('選 2：「我也是這樣想。……所以我才要你反駁我。不准賴。」、case',L.includes('沈以安：我也是這樣想。……所以我才要你反駁我。不准賴。')&&G.flags.AN_APPEAL==='case'); }
-  { const L=await play(2); check('選 3：她把這句抄進理由欄的第一行＋「先問。……對，要先問。」、ask',L.includes('（她停住，把這句抄進理由欄的第一行。）')&&L.includes('沈以安：先問。……對，要先問。')&&G.flags.AN_APPEAL==='ask'); }
-  { const L=await play(3); check('選 4：「好，我先說。說完你一定要反駁。」、listen',L.includes('沈以安：好，我先說。說完你一定要反駁。')&&G.flags.AN_APPEAL==='listen'&&L.length===6,JSON.stringify(L.slice(5))); }
+    check('選 1：「可是門禁本身有道理吧？這樣寫，舍監一看就會擋。」（AA_209）＋問號、AN_APPEAL＝rule',L.includes('沈以安：可是門禁本身有道理吧？這樣寫，舍監一看就會擋。')&&L.includes('（她在第一份旁邊畫了一個問號。）')&&G.flags.AN_APPEAL==='rule',JSON.stringify(L.slice(5))); }
+  { const L=await play(1); check('選 2：「我也比較想寫這份。那你挑挑看，哪裡會被打回來？」（AA_209）、case',L.includes('沈以安：我也比較想寫這份。那你挑挑看，哪裡會被打回來？')&&G.flags.AN_APPEAL==='case'); }
+  { const L=await play(2); check('選 3：（她停住，在草稿最上面寫了一行。）（AA_209）＋「先問。……對，要先問。」、ask',L.includes('（她停住，在草稿最上面寫了一行。）')&&L.includes('沈以安：先問。……對，要先問。')&&G.flags.AN_APPEAL==='ask'); }
+  { const L=await play(3); check('選 4：「好，我先說。」「我最討厭『規定就是規定』這種話。…」（AA_209）、listen',L.includes('沈以安：好，我先說。')&&L.includes('沈以安：我最討厭『規定就是規定』這種話。我家以前很多事都這樣，不解釋。')&&G.flags.AN_APPEAL==='listen'&&L.length===7,JSON.stringify(L.slice(5))); }
   /* 第 7 週：總圖當面 */
   { const F0={AN_APPEAL:'ask'}; fresh(W7MON,10,'library',F0); G.events.done.ev_an_dorm_appeal=true; SOCIAL.meet('heroine_01','campus');
     check('結果：第 7 週在總圖見到她才有（第 6 週沒有）',EVENTS.check(r)&&(()=>{ const d=G.day; G.day=termDay('Y1S2',6,1); G.weekday=wdOf(G.day); const x=EVENTS.check(r); G.day=d; G.weekday=wdOf(d); return !x; })());
     said=[]; await EVENTS.run(r); const L=lines();
-    check('結果（當面）：兩句＋選過「先問」的多一句「你說的那一句，我放在第一段。」',L[0]==='沈以安：點數減了一點。宿舍說，以後記點以前會先問。'&&L[1]==='沈以安：我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。'&&L[2]==='沈以安：你說的那一句，我放在第一段。'&&G.flags.AN_APPEAL_RESULT==='met',JSON.stringify(L));
+    check('結果（當面）：兩句＋選過「先問」的多一句「你說要先問清楚的那句，我放在第一段了。」（AA_209）',L[0]==='沈以安：點數減了一點。宿舍說，以後記點以前會先問。'&&L[1]==='沈以安：最後用的是第二份，寫規定沒考慮到急診這種情況。'&&L[2]==='沈以安：你說要先問清楚的那句，我放在第一段了。'&&G.flags.AN_APPEAL_RESULT==='met',JSON.stringify(L));
     fresh(W7FRI,8,'dorm',Object.assign({},F0,{AN_APPEAL_RESULT:'met'})); G.events.done.ev_an_dorm_appeal=true; G.contacts.heroine_01=3; run(8,22);
     check('當面聽過的：週五晚上不再傳訊息',!G.msgs.some(m=>m.tag==='an_appeal_result')); }
   /* 第 7 週週五還沒見到：手機 */
   { fresh(W7FRI,8,'dorm',{AN_APPEAL:'case'}); G.events.done.ev_an_dorm_appeal=true; G.contacts.heroine_01=3; run(8,22); const M=G.msgs.filter(m=>m.tag==='an_appeal_result').map(m=>m.th+'｜'+m.text);
-    check('結果（手機）：第 7 週週五 21:00 私訊同樣的兩句（選的不是「先問」：沒有第三句）',JSON.stringify(M)===JSON.stringify(['p:heroine_01｜點數減了一點。宿舍說，以後記點以前會先問。','p:heroine_01｜我本來想證明規定是錯的。後來發現規定沒錯，是它沒想到這種情況。'])&&G.flags.AN_APPEAL_RESULT==='phone',JSON.stringify(M));
+    check('結果（手機）：第 7 週週五 21:00 私訊同樣的兩句（選的不是「先問」：沒有第三句）',JSON.stringify(M)===JSON.stringify(['p:heroine_01｜點數減了一點。宿舍說，以後記點以前會先問。','p:heroine_01｜最後用的是第二份，寫規定沒考慮到急診這種情況。'])&&G.flags.AN_APPEAL_RESULT==='phone',JSON.stringify(M));
     G.zone='library'; G.day=W7FRI+3; check('手機傳過了：之後不會再當面說一次',!EVENTS.check(r)); }
   /* 沒遇到的玩家 */
   { fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); SOCIAL.meet('heroine_01','campus'); run(8,22); const M=G.msgs.filter(m=>m.tag==='an_appeal_heard');
-    check('沒遇到的玩家：第 7 週週三 21:30 麵店團群組「我室友的申訴過了一半。」、記「聽說」',M.length===1&&M[0].th==='g:noodle_team'&&M[0].text==='我室友的申訴過了一半。'&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(M));
+    check('沒遇到的玩家：第 7 週週三 21:30 麵店團群組「我室友晚歸被記點那個申訴，結果出來了，點數減一點。」（AA_209）、記「聽說」',M.length===1&&M[0].th==='g:noodle_team'&&M[0].text==='我室友晚歸被記點那個申訴，結果出來了，點數減一點。'&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(M));
     fresh(W7WED,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); SOCIAL.meet('heroine_01','campus'); G.events.done.ev_an_dorm_appeal=true; run(8,22);
     check('遇到過的玩家：群組不會有這句',!G.msgs.some(m=>m.tag==='an_appeal_heard')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

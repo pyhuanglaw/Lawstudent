@@ -43,7 +43,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     fresh(termDay('Y1S2',14,2),8.6,'campus'); met(); GM.npc={yu:{id:'yu',charId:'yu',obj:{position:{x:-46,y:0,z:20.94}},lv:0}}; E.player.obj.position.x=-46; E.player.obj.position.z=31;
     const far=EVENTS.tick(0.1); E.player.obj.position.z=23.5; const near=EVENTS.tick(0.1); await new Promise(r=>setTimeout(r,30));
     check('① 引擎：10 m 外不演、2.6 m 內演',!far&&near&&!!G.events.done.ev_yu_sign_soymilk,JSON.stringify({far,near}));
-    check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」小語「你住公館。」阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','小語：你住公館。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
+    check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」小語「你宿舍又不在這邊。」（AA_209）阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','小語：你宿舍又不在這邊。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
     E.player.obj.position.x=0; E.player.obj.position.z=0; GM.npc={}; }
   /* ② 麵店 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };

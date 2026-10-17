@@ -29,7 +29,7 @@ const REL_LINES=(function(){
     bye:{base:['「掰啦！」'],FRIEND:['「下次我請。」'],CLOSE_FRIEND:['「到家說一聲。……幹嘛，我媽都這樣說。」']},
     contact:{FRIEND:'阿哲'} },
   yu:{
-    up:{ FAMILIAR:{l:['「你也是一個人吃早餐的那種人？……我是說，好的那種。」']}, FRIEND:{l:['「我很少約人。你是第三個。」']}, CLOSE_FRIEND:{l:['「一個人很好。……但有時候兩三個人更好。這是我最近才知道的。」']} },
+    up:{ FAMILIAR:{l:['「欸你是不是住宿舍？我好像常在早餐店看到你。」']}, FRIEND:{l:['「我很少約人。你是第三個。」']}, CLOSE_FRIEND:{l:['「一個人很好。……但有時候兩三個人更好。這是我最近才知道的。」']} },   /* FAMILIAR：AA_209 第 2 節（附錄 A 第 4 節第 7 點；小語住板橋、通勤）*/
     bye:{base:['「那我先走囉。」'],FRIEND:['「下次早餐，我知道一家。」'],CLOSE_FRIEND:['「今天很好。真的。」']},
     contact:{FRIEND:'小語'} },
   classmate_bohan:{

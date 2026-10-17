@@ -41,15 +41,15 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('前半：法律審查標記已拿掉（BB-B 第 27 批審過，BB_115 L483；BB_161 第 3 節）',!e1.legal_review);
     const play=async k=>{ fresh(T11,18,'noodle'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',10); SOCIAL.meet('yu','noodle'); R('yu',10); picks=[k]; await EVENTS.run(e1); return lines(); };
     let L=await play(0);
-    check('前半：小語「上街要先申請？那還叫自由嗎？」以安「先分清楚。…」小語「妳好冷。」以安「妳沒有結構。」阿哲「麵要坨了。」；四個選項（原文）',
-      JSON.stringify(L.slice(0,5))===JSON.stringify(['小語：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','小語：妳好冷。','沈以安：妳沒有結構。','阿哲：麵要坨了。'])&&JSON.stringify(opts[0])==='["「我站小語。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃麵）"]',JSON.stringify([L.slice(0,5),opts[0]]));
-    check('前半 選 1：小語「看吧！」以安「理由？……不准賴。」',JSON.stringify(L.slice(5))===JSON.stringify(['小語：看吧！','沈以安：理由？……不准賴。'])&&G.flags.AN_YU_ARGUMENT==='yu',JSON.stringify(L.slice(5)));
-    L=await play(1); check('前半 選 2：以安「謝謝。理由？」小語「你們兩個好可怕。」',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：謝謝。理由？','小語：你們兩個好可怕。'])&&G.flags.AN_YU_ARGUMENT==='an',JSON.stringify(L.slice(5)));
+    check('前半：小語「上街要先申請？那還叫自由嗎？」以安「先分清楚。…」小語「妳每次都先挑我用詞。」以安「因為用詞不清楚，…」（AA_209）阿哲「麵要坨了。」；四個選項（原文）',
+      JSON.stringify(L.slice(0,5))===JSON.stringify(['小語：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','小語：妳每次都先挑我用詞。','沈以安：因為用詞不清楚，我們就會在吵兩件不一樣的事。','阿哲：麵要坨了。'])&&JSON.stringify(opts[0])==='["「我站小語。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃麵）"]',JSON.stringify([L.slice(0,5),opts[0]]));
+    check('前半 選 1：小語「看吧！」以安「那你說說看，哪裡不對？」（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['小語：看吧！','沈以安：那你說說看，哪裡不對？'])&&G.flags.AN_YU_ARGUMENT==='yu',JSON.stringify(L.slice(5)));
+    L=await play(1); check('前半 選 2：以安「謝謝。」（她轉回去跟小語繼續講，聲音小了一點。）（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：謝謝。','（她轉回去跟小語繼續講，聲音小了一點。）'])&&G.flags.AN_YU_ARGUMENT==='an',JSON.stringify(L.slice(5)));
     L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）小語「……幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','小語：……幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
     L=await play(3); check('前半 選 4（先吃麵）：阿哲「明智。」',JSON.stringify(L.slice(5))===JSON.stringify(['阿哲：明智。'])&&G.flags.AN_YU_ARGUMENT==='noodle',JSON.stringify(L.slice(5))); }
   /* 不在場：群組聽說 */
   { fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); run(17,23.9); const L=TH('g:noodle_team').filter(m=>!String(m.tag||'').startsWith('b4_')).map(m=>(m.from||'')+':'+m.text).filter(t=>!/建立了/.test(t));   /* 同一天中午以安在群組揪 B4 演講（交接包 v2 C13，tag b4_invite）：不算在這一項 */
-    check('不在場的玩家：21:30 小語「我跟以安吵架了。」、22:10「……吵得很好。」，記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了。','yu:……吵得很好。'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
+    check('不在場的玩家：21:30 小語連發三則（AA_209 附錄A §2），記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了','yu:不是真的吵啦 是在講上街要不要申請','yu:講到麵都坨了'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
     fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_an_yu_argument=1; run(17,23.9); check('在場看過的玩家：群組沒有這兩句',!txt('g:noodle_team').some(t=>/吵架/.test(t))); }
   /* 後半：邀請 */
   { const M=termDay('Y1S2',12,1);

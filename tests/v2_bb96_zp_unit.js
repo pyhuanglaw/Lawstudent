@@ -46,7 +46,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('Z4 三個選項照原文',JSON.stringify(opts[0])==='["「妳想去嗎？」","「先交件再說，錄取了再煩惱。」","「家裡的事比較重要吧。」"]',JSON.stringify(opts[0]));
     check('「妳想去嗎？」：（她沉默很久。）「……想。」（捲頭髮三圈）「好可怕。說出來就變成真的了。」；trust+8 aff+3；SHARED_SECRET；Z4_PICK want',JSON.stringify(r1.L.slice(6))==='["她沉默很久。","林芷若：……想。","她用手指捲頭髮，捲了三圈。","林芷若：好可怕。說出來就變成真的了。"]'&&r1.d.trust===8&&r1.d.aff===3&&SOCIAL.has('heroine_02','SHARED_SECRET')&&G.flags.Z4_PICK==='want',JSON.stringify(r1.d));
     r1=await play(0,true); check('交往中「妳想去嗎？」：一樣的台詞，只有 trust+8（沒有 aff）',r1.L[r1.L.length-1]==='林芷若：好可怕。說出來就變成真的了。'&&r1.d.trust===8&&r1.d.aff===0&&JSON.stringify(opts[0]).split('妳想去嗎').length===2,JSON.stringify(r1.d)+' '+JSON.stringify(opts[0]));
-    r1=await play(1); check('「先交件再說」：「你們法律系都這樣講話嗎？」（她笑了。）「……可是你說得對。」；trust+5 resp+4',JSON.stringify(r1.L.slice(6))==='["林芷若：你們法律系都這樣講話嗎？","她笑了。","林芷若：……可是你說得對。"]'&&r1.d.trust===5&&r1.d.resp===4&&G.flags.Z4_PICK==='apply',JSON.stringify(r1.d));
+    r1=await play(1); check('「先交件再說」：「你講得好簡單喔。」（AA_209）（她笑了。）「……可是你說得對。」；trust+5 resp+4',JSON.stringify(r1.L.slice(6))==='["林芷若：你講得好簡單喔。","她笑了。","林芷若：……可是你說得對。"]'&&r1.d.trust===5&&r1.d.resp===4&&G.flags.Z4_PICK==='apply',JSON.stringify(r1.d));
     r1=await play(2); check('「家裡的事比較重要吧。」：不扣分——「嗯。」（她點頭。）「我也這樣跟自己說了兩個月。」；trust+2、comf 沒有減',JSON.stringify(r1.L.slice(6))==='["林芷若：嗯。","她點頭。","林芷若：我也這樣跟自己說了兩個月。"]'&&r1.d.trust===2&&r1.d.comf>=0&&G.flags.Z4_PICK==='family',JSON.stringify(r1.d)); }
   /* P3b */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'wenzhou'); if(!o.noP2) G.events.done.ev_peishan_doubt=1; return EVENTS.check(p); };

@@ -41,8 +41,8 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const nm=CHARACTERS.heroine_02.name;
   const invite=async(pick,dating)=>{ prep(FRI,20,'cafe',dating?{dating_kexin:true}:{}); const r0=Object.assign({},SOCIAL.rel('heroine_02')); picks=[pick]; await EVENTS.run(inv); const r1=SOCIAL.rel('heroine_02'); return {L:lines(),d:{aff:(r1.aff||0)-(r0.aff||0),fam:r1.fam-r0.fam}}; };
   { let r=await invite('幾點');
-    check('單身：「明天店休。我要一個人去看《東京物語》的重映，早場。」「……「一個人」是說本來。你要來嗎？不來也沒關係，真的。」；「幾點？」aff+6；zhiruo_film_date、zhiruoFilmDay',r.L[0]===nm+'：明天店休。我要一個人去看《東京物語》的重映，早場。'&&r.L[1]===nm+'：……「一個人」是說本來。你要來嗎？不來也沒關係，真的。'&&r.d.aff===6&&G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI,JSON.stringify(r));
-    r=await invite('幾點',true); check('交往中：「明天店休。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？」；「幾點？」沒有 aff',r.L[0]===nm+'：明天店休。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？'&&r.L.length>=2&&r.d.aff===0&&G.flags.zhiruo_film_date===true,JSON.stringify(r));
+    check('單身：「明天我沒班，要去看《東京物語》重映，早場。」「……你要不要一起？不來也沒關係啦。」（AA_209）；「幾點？」aff+6；zhiruo_film_date、zhiruoFilmDay',r.L[0]===nm+'：明天我沒班，要去看《東京物語》重映，早場。'&&r.L[1]===nm+'：……你要不要一起？不來也沒關係啦。'&&r.d.aff===6&&G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI,JSON.stringify(r));
+    r=await invite('幾點',true); check('交往中：「明天我沒班。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？」（AA_209：店休→我沒班）；「幾點？」沒有 aff',r.L[0]===nm+'：明天我沒班。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？'&&r.L.length>=2&&r.d.aff===0&&G.flags.zhiruo_film_date===true,JSON.stringify(r));
     r=await invite('起不來'); check('「早場我起不來。」：「好。那下次有午場再說。」；不扣分（aff 沒有減）；沒有 zhiruo_film_date',r.L[r.L.length-1]===nm+'：好。那下次有午場再說。'&&r.d.aff>=0&&!G.flags.zhiruo_film_date,JSON.stringify(r));
     r=await invite('看過了',true); check('劇透那一條（交往中）：算答應、沒有 aff',G.flags.zhiruo_film_date===true&&G.flags.zhiruoFilmDay===FRI&&r.d.aff===0,JSON.stringify(r.d));
     await invite('幾點'); run(20,20.2); const q=OUT.get(G,'zr_early_show'); check('答應：排出遊——隔天週六 09:40 戲院門口碰面、10:00 開演（AA_147 #3；ev_zhiruo_early_show）',!!q&&q.day===FRI+1&&Math.abs(q.h-(9+40/60))<0.01&&/10:00 開演/.test(q.title)&&q.ev==='ev_zhiruo_early_show',JSON.stringify(q)); }
@@ -69,7 +69,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const r={ok:at(15,2,12.5),w16:at(16,1,12.2),w14:at(14,2,12.5),w17:at(17,2,12.5),sat:at(15,6,12.5),late:at(15,2,13.2),dating:at(15,2,12.5,{dating:true}),group:at(15,2,12.5,{group:true}),none:at(15,2,12.5,{film:false})};   /* Z6 改第 15～16 週（AA_198 第 5 節）*/
     check('Z6：第 15～16 週平日 12–13 在校園、兩個人看過早場、沒有在交往（第 14 週、第 17 週、週六、13:12、交往中、三個人的版本、沒看過都沒有）',r.ok&&r.w16&&!r.w14&&!r.w17&&!r.sat&&!r.late&&!r.dating&&!r.group&&!r.none,JSON.stringify(r));
     at(17,2,12.5); await EVENTS.run(z6); const F=CHARACTERS.npc_fangyt.name;
-    check('Z6 台詞照原文；FANG_HINT',JSON.stringify(lines())===JSON.stringify([F+'：你最近常去兩點半？',F+'：芷若跟我高中同班。',F+'：她高中每天放學都去看二輪電影。一個人。',F+'：她都不跟人講。我是有一次剛好在戲院遇到她。',F+'：（停了一下）……她喜歡小津。你如果要約她，不要約好萊塢的。',F+'：我不是叫你約她。我只是說。'])&&SOCIAL.has('npc_fangyt','FANG_HINT'),JSON.stringify(lines()));
+    check('Z6 台詞照 AA_209 2-1 第 4 列；FANG_HINT',JSON.stringify(lines())===JSON.stringify([F+'：你最近常去兩點半喔？',F+'：我跟芷若高中同校。她那時候就常一個人去看二輪。',F+'：好，我先去上課了。'])&&SOCIAL.has('npc_fangyt','FANG_HINT'),JSON.stringify(lines()));
     check('記憶的中文說明：WATCHED_FILM、WATCHED_FILM_GROUP、FANG_HINT',['WATCHED_FILM','WATCHED_FILM_GROUP','FANG_HINT'].every(k=>!!SOCIAL.MEMORY_LABEL[k])); }
   // 芷若的午場（BB_96 3-5b）、電影票根（3-5c）
   { const mat=ev('ev_zhiruo_matinee'); check('午場：事件在',!!mat);

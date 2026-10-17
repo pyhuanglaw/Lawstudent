@@ -57,7 +57,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(30,20,'campus',{}); G.stage='law'; const dd=termDay('Y1S2',5,3); G.events.last.ev_grad_debate=dd; PHONE.join(G,'lawclub_study','法服讀書會'); G.day=dd+14; G.hour=20.6; STORY.phoneRules(GM); PHONE.tick(G);
     const T=(G.msgs||[]).filter(m=>m.tag==='w3b_0').map(m=>m.text); check('⑧ 沒有 W3_STANCE＝第一則照舊「這篇。三個論點。」',T[0]==='這篇。三個論點。',JSON.stringify(T.slice(0,2))); }
   // ⑨ 方奕廷：訊息後面接一句旁白
-  { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('⑨ 方奕廷水耕那則後面接「（實際講了二十分鐘。）」',/三分鐘。'\),\{th:'p:npc_fangyt',text:'（實際講了二十分鐘。）'/.test(src)); }
+  { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('⑨ 方奕廷水耕那則：AA_209 附錄B §2 換成兩則（旁白「（實際講了二十分鐘。）」一起拿掉）',/seq\('npc_fangyt',\['黃金葛可以剪一段下來水耕','週末我拿瓶子過去 隔壁而已'\]\)/.test(src)&&!/text:'（實際講了二十分鐘。）'/.test(src)); }
   // ⑩ 家教「我先想想」：月底前三天才說的玩家，答覆後第 3 天問、名額留 7 天
   { const d0=D('2026-03-28'); fresh(d0,16,'campus',{tutorThinkDay:d0}); G.stage='law'; G.day=d0+3; G.hour=21.1; STORY.phoneRules(GM); PHONE.tick(G);
     const ask=(G.msgs||[]).find(m=>m.tag==='mx_tutor_ask2'); check('⑩ 3/28 說「我先想想」→ 3/31 21:00「家教的事，想好了嗎？」',!!ask&&ask.day===d0+3&&ask.text==='家教的事，想好了嗎？');
@@ -72,7 +72,7 @@ GM.money=function(n){ G.money+=n; };
   { const wk=EV('ev_kexin_our_day_wk'); fresh(termDay('Y1S2',10,5),19.5,'campus',{dating_kexin:true,K6_RESPONSE:'understand'}); G.stage='law';
     const mk=(day,id)=>{ OUT.plan(G,{id,ev:'ev_kexin_our_day_wk',day,h:19,place:'公館',title:'x'}); OUT.plan(G,{id:'other_'+day,ev:'ev_x',day,h:18,place:'公館',title:'y'}); OUT.get(G,'other_'+day).state='done'; const q=OUT.get(G,id); q.state='missed'; G.day=day; G.hour=20; wk.outingMissed(G,GM,q); PHONE.tick(G); };
     mk(termDay('Y1S2',10,5),'kx_od_a'); mk(termDay('Y1S2',11,5),'kx_od_b'); const K=(G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text);
-    check('⑬ 理解→「你上次那樣對我，我也那樣對你。好，改天。」（只一次）→ 下一次「好，這週換一天。」',K[0]==='你上次那樣對我，我也那樣對你。好，改天。'&&K[1]==='好，這週換一天。',JSON.stringify(K)); }
+    check('⑬ 理解→「上次是我改期，這次換你。好，改天。」（AA_209；只一次）→ 下一次「好，這週換一天。」',K[0]==='上次是我改期，這次換你。好，改天。'&&K[1]==='好，這週換一天。',JSON.stringify(K)); }
   // ⑭ 她自己的事件那一週不排固定格
   { const d2=termDay('Y1S2',2,5); fresh(d2,22,'campus',{dating_kexin:true,KX_OUR_DAY:{day:'fri',mode:'ntu'}}); G.stage='law'; OUT.plan(G,{id:'kx_our_day1',ev:'ev_kexin_our_day',day:d2,h:19,place:'x',title:'x'}); OUT.get(G,'kx_our_day1').state='done';
     OUT.plan(G,{id:'kx_trip_y1s2',ev:'ev_kexin_trip_spring_y1',day:D('2026-04-03'),h:8,place:'x',title:'x'});
