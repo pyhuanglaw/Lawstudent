@@ -1,3 +1,19 @@
+# 「公館美食地圖」筆記本（BB_109 識別物；BB_201「有的話拿在手上」；LAWWW2-C 2026-10-17 19:4x UTC；等 BB-C 驗收，D59）
+- 模型：`assets/models/char/second_ai/notebook_foodmap.glb`（`tools/blender/char_second/prop_foodmap_notebook.py`，274 個三角形、42 KB）。
+  - A6 左右的硬殼筆記本（18.5×13×1.8 cm）、牛皮紙封面；
+  - 封面上手畫的地圖：彎彎的路、紅色圓點（去過的店）、冒熱氣的小碗；
+  - 一條紙膠帶標籤「公館美食地圖」（他自己取的外號，不是店名）；
+  - 書口和上緣冒出一排彩色索引貼（寫滿了的樣子）、一條黑色鬆緊帶；
+  - 圖是本作用 PIL 畫的，沒有真實店名、商標（D77）。
+- 拿法：照遊戲現有的資料夾配件（`folder`）——左手、平拿；站著時直拿在身側，走路時跟著手擺。
+- 接進遊戲（LAWWW-C）：`docs/art-rebuild/second_ai/patches/props_foodmap_jiahao.js`（`PROPS.DEF.foodmap`＋manifest），`CHARACTERS.econ_jiahao.char3d.props` 加 `'foodmap'`。
+- Blender 預覽：![](foodmap_blender.webp)
+- 遊戲渲染器（test_charlook，v10 的 VRM＋上面的 patch；上排待機、下排走路）：![](foodmap_look.webp)
+- 手的特寫（待機正面、待機 45°、走路 45°、側面）：![](foodmap_hands.webp)
+- 還沒做：拿起來翻開的動作（只有拿著）；遊戲內截圖要等 LAWWW-C 接進去。
+
+---
+
 # v10：衣服＋表情（BB_201 第 3、7 節；LAWWW2-C 2026-10-17 14:2x UTC；等 BB-C 驗收）
 - 背心（第 3 節「薄的、像隊輔或工作人員的背心」）：
   - 布薄、下襬平（羅紋 4.5 cm → 1.6 cm）、前面敞開、比身體寬鬆（寬鬆量 0.95 → 0.55，下擺不收）；
