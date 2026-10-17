@@ -200,7 +200,7 @@ const STORY = (function(){
   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
   /* 路人的數量（使用者 2026-10-17 P0：「路人數量要再加倍」）：走路的路人、騎車的人、公共建築門口的人流都乘這個；畫質 low／medium 照舊再打折（qf）*/
   S.CROWD_X=2;
-  S.populate=function(zoneId,GM){ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId);   /* 換區域：路人底模的池子輪一次 */ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };
+  S.populate=function(zoneId,GM){ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId,GM.E&&GM.E.q&&GM.E.q.level);   /* 換區域：路人底模的池子輪一次（畫質低＝少載一點）*/ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };
     /* 週末回家的第二個入口：校門口（AA_134 第 3 節「宿舍或校門口的『回家』選項」；AA-B 2026-10-16 確認，時段同宿舍：週五 17:00～週日 21:30）。
        位置在校門內側、從公館進校園的出生點 (-119,0) 旁邊（站得住、走得到、不和「走出校門」(-126,0) 半徑 3 重疊；scratchpad gate_check 用 Node 的校園導航格量過）*/
     if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});
