@@ -176,6 +176,8 @@
 - **iPhone 黑畫面、Safari 重新載入、出遊卡住**：LAWWW-B 的範圍，AA 這班沒有處理，現況以 LAWWW-B 交接為準。
 - **D93 逐職位核對**（交班前，dev 分支 `fbda2ce9` 的 `tools/handoff/check_handoff.py roles --role AA --ref origin/claude/modest-rubin-2lyp7g`）：「AA：待辦 60 行、提到 42 個 ID；結果 OK」，**異常 0 項**。本節寫完後再跑一次，結果寫在本節最後一行。
 
+**交班最後核對**：D93 逐職位核對重跑（AA 分支 `571d2b93`，規則來源 `origin/claude/modest-rubin-2lyp7g`）：待辦 60 行、提到 43 個 ID，結果 OK，**異常 0 項**。交班快照 `docs/handoff/snapshots/2026-10-17T0238Z_B_AA.json`；交班登記 `docs/handoff/duty_AA.json`（state `handed-off`，sha＝最後 commit）。
+
 ## AA-B 全部待辦（2026-10-17 02:4x UTC 交班時更新；D93 持續登記；使用者 00:0x「待辦事項全部都要交接」；接班的人先看這裡）
 
 > 規則：`docs/AI_SESSION_HANDOFF.md` 第 5 節 B 類（RULE_SOURCE `e844a0e6`）。下面是 AA-B 的**全部**待辦，不只手上那一件。狀態照 `AA_199` 第 5 節的用語。總表 `tasks.json` 沒有的，已列給 LAWWW-B 補。
