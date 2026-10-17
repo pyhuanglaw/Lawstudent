@@ -37,24 +37,24 @@ GM.money=function(n){ G.money+=n; };
   const g=(day,flags)=>{ fresh(day,10,'campus',flags||{}); return G; };
   check('0. 2027-11-15 是大三上第 11 週、11-22 第 12 週',CALENDAR.termOf(D('2027-11-15')).week===11&&CALENDAR.termOf(D('2027-11-22')).week===12);
   g(D('2028-01-10'),{}); check('1. 未決定：route null、不在國外',STORY.route(G)===null&&!STORY.abroad(G));
-  for(const [r,dep,ret,out] of [['JP','2028-01-08','2028-07-15','2028-01-07'],['US','2028-01-19','2028-06-24','2028-01-18']]){
+  for(const [r,dep,ret,out] of [['JP','2028-03-25','2028-08-05','2028-02-20'],['US','2028-08-02','2028-12-23','2028-07-25']]){   /* AA_260 第 4 節第 1 點（9d00435c）：使用者改期 */
     g(D(dep)-1,{EXCHANGE_ROUTE:r}); const a0=STORY.abroad(G), m0=STORY.movedOut(G);
     g(D(out),{EXCHANGE_ROUTE:r}); const m1=STORY.movedOut(G), a1=STORY.abroad(G);
     g(D(dep),{EXCHANGE_ROUTE:r}); const a2=STORY.abroad(G), w2=STORY.routeWeek(G);
     g(D(dep)+14,{EXCHANGE_ROUTE:r}); const w3=STORY.routeWeek(G);
     g(D(ret)-1,{EXCHANGE_ROUTE:r}); const a4=STORY.abroad(G); g(D(ret),{EXCHANGE_ROUTE:r}); const a5=STORY.abroad(G), m5=STORY.movedOut(G);
-    check('2. '+r+'：出發前一天（＝'+out+' 退宿那天）不在國外、已退宿；'+dep+' 出發＝在國外、第 1 週；兩週後第 3 週；'+ret+' 返台當天不在國外',!a0&&m0&&m1&&!a1&&a2&&w2===1&&w3===3&&a4&&!a5&&!m5,JSON.stringify({a0,m0,m1,a1,a2,w2,w3,a4,a5,m5}));
+    check('2. '+r+'：出發前一天不在國外、已退宿（'+out+' 退宿）；'+dep+' 出發＝在國外、第 1 週；兩週後第 3 週；'+ret+' 返台當天不在國外',!a0&&m0&&m1&&!a1&&a2&&w2===1&&w3===3&&a4&&!a5&&!m5,JSON.stringify({a0,m0,m1,a1,a2,w2,w3,a4,a5,m5}));
   }
-  g(D('2028-02-01'),{EXCHANGE_ROUTE:'JP'}); check('3. 時差：日本 +1',STORY.tzOffset(G)===1);
-  g(D('2028-03-11'),{EXCHANGE_ROUTE:'US'}); const u1=STORY.tzOffset(G); g(D('2028-03-12'),{EXCHANGE_ROUTE:'US'}); const u2=STORY.tzOffset(G);
-  check('3. 時差：美國 3/11 −13、3/12 起 −12',u1===-13&&u2===-12,u1+' '+u2);
+  g(D('2028-04-01'),{EXCHANGE_ROUTE:'JP'}); check('3. 時差：日本 +1',STORY.tzOffset(G)===1);
+  g(D('2028-11-04'),{EXCHANGE_ROUTE:'US'}); const u1=STORY.tzOffset(G); g(D('2028-11-05'),{EXCHANGE_ROUTE:'US'}); const u2=STORY.tzOffset(G);
+  check('3. 時差：美國（印第安納）11/4 夏令 −12、11/5 起冬令 −13',u1===-12&&u2===-13,u1+' '+u2);
   g(D('2028-03-12'),{EXCHANGE_ROUTE:'TW'}); check('3. 台灣路線沒有時差、不在國外',STORY.tzOffset(G)===0&&!STORY.abroad(G));
   g(D('2027-11-21'),{}); const b0=STORY.routeBackfill(G); g(D('2027-11-22'),{}); const b1=STORY.routeBackfill(G), v1=G.flags.EXCHANGE_ROUTE;
   g(D('2028-03-01'),{EXCHANGE_ROUTE:'US'}); const b2=STORY.routeBackfill(G);
   check('4. 舊存檔：第 11 週還不補；第 12 週起沒有路線補 TW；已選的不動',!b0&&b1&&v1==='TW'&&!b2&&G.flags.EXCHANGE_ROUTE==='US');
-  g(D('2028-01-07'),{}); const an0=STORY.presence('heroine_01',G).here; g(D('2028-01-08'),{}); const an1=STORY.presence('heroine_01',G); g(D('2028-07-15'),{}); const an2=STORY.presence('heroine_01',G).here;
-  check('5. 以安（所有玩家）：1/7 在、1/8～7/14 在日本、7/15 回來',an0&&!an1.here&&an1.away==='日本'&&an2,JSON.stringify(an1));
-  g(D('2028-01-04'),{}); const s0=STORY.presence('heroine_05',G).here; g(D('2028-01-05'),{}); const s1=STORY.presence('heroine_05',G); g(D('2028-03-01'),{}); const s2=STORY.presence('heroine_05',G);
-  check('5. 學姊：1/4 在、1/5 起在美國（寒假也算）、大三下照舊不在',s0&&!s1.here&&s1.away==='美國'&&!s2.here,JSON.stringify([s1,s2]));
+  g(D('2028-03-24'),{}); const an0=STORY.presence('heroine_01',G).here; g(D('2028-03-25'),{}); const an1=STORY.presence('heroine_01',G); g(D('2028-08-05'),{}); const an2=STORY.presence('heroine_01',G).here;
+  check('5. 以安（所有玩家）：3/24 在、3/25～8/4 在日本、8/5 回來（AA_260）',an0&&!an1.here&&an1.away==='日本'&&an2,JSON.stringify(an1));
+  g(D('2028-08-01'),{}); const s0=STORY.presence('heroine_05',G).here; g(D('2028-08-02'),{}); const s1=STORY.presence('heroine_05',G); g(D('2028-03-01'),{}); const s2=STORY.presence('heroine_05',G); g(D('2028-12-23'),{}); const s3=STORY.presence('heroine_05',G).here;
+  check('5. 學姊（BB_206、AA_260）：8/1 在、8/2～12/22 在美國、大三下在臺灣、12/23 回來',s0&&!s1.here&&s1.away==='美國'&&s2.here&&s3,JSON.stringify([s1,s2]));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -75,8 +75,8 @@ GM.money=function(n){ G.money+=n; };
   setup(Y4SAT,14); at(Y4SAT,14); const z3=ask(ZQ,'cafe',Y4SAT,16);
   check('6. 週末下午約 Café：接受',z3.res==='accept'||z3.res==='here',JSON.stringify(z3));
   // 7. 芷若大三上、學姊大三下照舊約不到
-  setup(termDay('Y3S1',5,2),9); const a7=INV.decide(G,'heroine_02','cafe',termDay('Y3S1',5,2),19); setup(termDay('Y3S2',5,2),9); const b7=INV.decide(G,'heroine_05','cafe',termDay('Y3S2',5,2),19);
-  check('7. 芷若大三上、學姊大三下：照舊「這學期不在學校」（國外）',a7.why==='away'&&b7.why==='away'&&!INV.canInvite(G,'heroine_05'));
+  setup(termDay('Y3S1',5,2),9); const a7=INV.decide(G,'heroine_02','cafe',termDay('Y3S1',5,2),19); setup(termDay('Y4S1',5,2),9); const b7=INV.decide(G,'heroine_05','cafe',termDay('Y4S1',5,2),19);
+  check('7. 芷若大三上、學姊大四上（美國 2028-08-02～12-23，AA_260）：照舊「這學期不在學校」（國外）',a7.why==='away'&&b7.why==='away'&&!INV.canInvite(G,'heroine_05'));
   // 8. 大二上（還在台大）照原本的作息
   const y2s1=termDay('Y2S1',5,3); setup(y2s1,19.5); e=ent(PS); check('8. 大二上（休學前）照原本的作息（週三法服讀書會）',CALENDAR.termOf(y2s1).id==='Y2S1'&&(!e||e.taipei!==true),JSON.stringify(e));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

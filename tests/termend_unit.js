@@ -135,6 +135,14 @@ GM.money=function(n){ G.money+=n; };
     check('9h. 子晴知情：沒照實說＝不發（只傳那一句）；照實說＝發；閃躲過＝不發',!a.heart.includes('heroine_04')&&a.nope.heroine_04==='knows'&&b.heart.includes('heroine_04')&&!c.heart.includes('heroine_04'),JSON.stringify([a,b,c].map(x=>[x.heart,x.nope])));
     check('9h. 以安知情：照實說＋戀愛 76＝不發、77＝發',!d.heart.includes('heroine_01')&&e.heart.includes('heroine_01'),JSON.stringify([d.heart,e.heart]));
     check('9h. 子晴有 OPEN_OK（同意過）＝不算知情、照一般條件發',f.heart.includes('heroine_04'),JSON.stringify(f.heart)); }
+  // 9i. 玩家人在國外（AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：日本路線大三下整段在日本＝臺灣什麼都不發；美國路線大四上 12/23 回來＝那天起才發
+  { const W=TERMEND.windowOf('Y3S2'); fresh(W.from,9,'campus',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; meet('classmate_xinci'); R('classmate_xinci',30,10,5); G.termend={contact:{Y3S2:{classmate_xinci:{pts:9,k:{}}}},think:{}};
+    const P=TERMEND.plan(G,W); run(20,21); G.hour=20.5;
+    check('9i. 日本路線大三下：plan.abroad、沒有任何邀約、阿凱也不問',P.abroad&&!P.friend.length&&!P.fallback&&!(G.msgs||[]).some(m=>/^te_/.test(m.tag||''))&&(G.zone='dorm',!TERMEND.kaiDue(G)),JSON.stringify(P));
+    const W4=TERMEND.windowOf('Y4S1'); fresh(W4.from,9,'campus',{EXCHANGE_ROUTE:'US'}); G.stage='law'; meet('classmate_xinci'); R('classmate_xinci',30,10,5); G.termend={contact:{Y4S1:{classmate_xinci:{pts:9,k:{}}}},think:{}};
+    const P4=TERMEND.plan(G,W4), back=D('2028-12-23'); run(20,21);
+    const early=(G.msgs||[]).some(m=>m.tag==='te_Y4S1_classmate_xinci'); G.day=back; run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_Y4S1_classmate_xinci');
+    check('9i. 美國路線大四上：回來那天（12/23）20:30 起才約；時段第一天沒有',!P4.abroad&&P4.back===back&&!early&&!!m&&m.day===back,JSON.stringify([P4.back,back,early,m&&m.day])); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }

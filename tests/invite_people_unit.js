@@ -61,12 +61,12 @@ fresh(MON,9); rel('classmate_xinci',25,8,4); r=ask('classmate_xinci','noodle',MO
 check('6. 芯慈當天約吃飯：「我要先算時間。……好，可以。」→ 改到明天',r.res==='resched'&&L(r)==='「我要先算時間。……好，可以。」'&&r.alt&&r.alt.day===MON+1,r.res+' '+JSON.stringify(r.alt));
 r=ask('classmate_xinci','noodle',MON+1,18.5); check('6. 芯慈隔天的吃飯（週二 18:30）：答應（同一句）',r.res==='accept'&&L(r)==='「我要先算時間。……好，可以。」',r.res+' '+L(r));
 // 7 學姊
-const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S1'&&wdOf(d)===wd&&t.week===5) return d; } };   /* 原本用大三下；SYS-21 起學姊大三下在美國（約不到），改用大四上 */
+const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y3S2'&&wdOf(d)===wd&&t.week===5) return d; } };   /* 大三下（學姊美國改到大四上 2028-08-02～12-23，AA_260／BB_206：大三下在臺灣）*/
 fresh(MON,9); rel('heroine_05',65,50,45); W8=true; r=ask('heroine_05','wenzhou',SAT,15.5);
 check('7. 學姊大一約散步：不會因為「有伴侶」婉拒（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',r.why!=='partner',r.res+' '+r.why);
 const SAT3=Y3(6), MON3=Y3(1); fresh(SAT3,9); rel('heroine_05',65,50,45); W8=false; r=ask('heroine_05','wenzhou',SAT3,10);
 check('7. 學姊 W8 以前約散步：「散步沒有目的。……我還不會。」「週三晚上我在法圖。要讀書的話，可以一起。」（AA_238 3-3；婉拒，不給改天）',r.res==='decline'&&L(r)==='「散步沒有目的。……我還不會。」｜「週三晚上我在法圖。要讀書的話，可以一起。」'&&!r.alt,r.res+' '+L(r));
-W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大四上的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
+W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大三下的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後。重點是我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後。重點是我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「我就在總圖。三樓。不要講話，傳訊息。」',r.res==='here'&&L(r)==='「我就在總圖。三樓。不要講話，傳訊息。」',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='「今天不看筆記。」',r.res+' '+L(r));

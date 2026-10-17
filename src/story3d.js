@@ -2776,8 +2776,10 @@ const STORY = (function(){
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:K[t]||'absent'}; return {here:true}; };   /* kinds：覆寫原因的種類（taipei＝在臺北、不在台大：沛珊大二下起、子晴大四，BB_163——校園作息換成她那份、邀約照她的規則，不先擋）*/   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
   /* 交換路線（SYS-10；AA_158，AA-B 2026-10-16）：G.flags.EXCHANGE_ROUTE＝'TW'／'JP'／'US'（大三上第 11 週志願表，AA_30 場景 0；AA_90 的值）。
      準備出發、在國外、回來了都用日期算，不另存。台灣路線的事件寫「不是 JP、也不是 US」（未決定也算在台灣）。
-     日期（AA_158 第 3 節）：JP 1/7 退宿、1/8 出發（和以安同一班）、7/15 返台；US 1/18 退宿、1/19 出發、6/24 返台。時差（第 4 節）：日本 +1；美國 −13，2028-03-12 起 −12 */
-  const ROUTE_DATES={ JP:{out:'2028-01-07',dep:'2028-01-08',arrive:'2028-01-08',ret:'2028-07-15',place:'日本關西的大學城'}, US:{out:'2028-01-18',dep:'2028-01-19',arrive:'2028-01-19',ret:'2028-06-24',place:'美國印第安納'} };
+     日期（AA_260 第 4 節第 1 點 9d00435c、AA_201、AA_213、BB_204 4c：使用者 2026-10-17 改期）：JP 2/20 退宿、3/25 出發（和以安同一班）、8/5 返台；US 大四上 8/2 出發、12/23 回來（學姊同一班），
+     X1 退宿「2028-07 下旬」（AA_144 第 12 行；日子 LAWWW 暫排 7/25，等 AA 給）。舊日期（JP 1/7～7/15、US 1/18～6/24，AA_158 第 3 節）作廢。
+     時差：日本 +1；美國（印第安納，東部時間）夏令 −12，2028-11-05 起冬令 −13 */
+  const ROUTE_DATES={ JP:{out:'2028-02-20',dep:'2028-03-25',arrive:'2028-03-25',ret:'2028-08-05',place:'日本關西的大學城'}, US:{out:'2028-07-25',dep:'2028-08-02',arrive:'2028-08-02',ret:'2028-12-23',place:'美國印第安納'} };
   S.ROUTE_DATES=ROUTE_DATES;
   /* 以安的戀愛前置（AA-B 2026-10-16 20:33；交換志願表 V4-E10，AA_30 場景 0、AA_113 第 6 節）：判斷的那一刻四項都成立才算，不成立一律演友情版、不給暗示。
      a 公法讀書會：加入（PUBLIC_LAW_GROUP／CLUB_public_law_group）而且聽完至少 3 次（活動出席紀錄 G.acts.att 的 public_law_group@日）；
@@ -2803,7 +2805,7 @@ const STORY = (function(){
   S.abroad=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.dep), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* 出發日 ≦ 今天 ＜ 返台日 */
   S.movedOut=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.out), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* X1 退宿以後到返台：台灣沒有宿舍 */
   S.routeWeek=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R||!S.abroad(G)) return null; const a=S.dayOfKey(R.arrive); return Math.floor((G.day-a)/7)+1; };   /* 國外事件的週次：(今天 − 抵達日) ÷ 7 ＋ 1 */
-  S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const dst=S.dayOfKey('2028-03-12'); return dst!=null&&day>=dst?-12:-13; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
+  S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const std=S.dayOfKey('2028-11-05'); return std!=null&&day>=std?-13:-12; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
   /* 舊存檔：大三上第 11 週（志願表那一週）過了還沒有路線的，補 'TW'（AA_158 第 1 節）*/
   S.routeBackfill=function(G){ if(!G||!G.flags||G.flags.EXCHANGE_ROUTE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); const ord=['Y3S1','Y3S2','Y4S1','Y4S2'];
     const after=t?((t.id==='Y3S1'&&t.week>=12)||ord.indexOf(t.id)>0):(()=>{ const d=S.dayOfKey('2027-11-22'); return d!=null&&G.day>=d; })(); if(!after) return false; G.flags.EXCHANGE_ROUTE='TW'; return true; };

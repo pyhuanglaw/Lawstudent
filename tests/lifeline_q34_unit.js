@@ -74,17 +74,17 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('Q4 第三年：卡片「第三年。我們好像真的會一直轉下去。」→「轉到頭暈怎麼辦？」→「那就一起暈。」；KX_ANNIV {3:river}',r.L.includes('杜可昕：……這本我要用完。')&&r.L.some(t=>t.endsWith('第三年。我們好像真的會一直轉下去。'))&&J(r.o[0])===J(['「會啊。」','「轉到頭暈怎麼辦？」','（不說話，看著她）'])&&r.L.includes('杜可昕：那就一起暈。')&&G.flags.KX_ANNIV[3]==='river',J(r.L)); }
   { fresh(A(3)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A(3); run(19,19.6);
     check('Q4 第三年沒選地點：當天 19:30 卡片的照片「週年快樂。下次你準備。」、KX_ANNIV {3:missed}、沒有出遊',(G.flags.KX_ANNIV||{})[3]==='missed'&&TH('p:kexin').some(m=>m.tag==='kx_anniv_photo3'&&m.text==='週年快樂。下次你準備。')&&!OUT.get(G,'kx_anniv3')); }
-  { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1);
+  { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'TW'}); run(20.9,21.1);
     const P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask4');
-    check('Q4 第四年（美國路線、照 AA_158 那天已經回台灣）：「下禮拜二。第四年。……平日也要過。」三個地點；不是視訊',P.length===1&&P[0].text==='下禮拜二。第四年。……平日也要過。'&&P[0].ask.opts.length===3&&!OUT.get(G,'kx_anniv4v')&&!STORY.kxAnnivVideo(G,4),J(P));
+    check('Q4 第四年（台灣路線）：「下禮拜二。第四年。……平日也要過。」三個地點；不是視訊',P.length===1&&P[0].text==='下禮拜二。第四年。……平日也要過。'&&P[0].ask.opts.length===3&&!OUT.get(G,'kx_anniv4v')&&!STORY.kxAnnivVideo(G,4),J(P));
     PHONE.answer(G,P[0].ask.id,0); run(21.1,21.2); const r=await playYear(4,'湯餃','不說話');
     check('Q4 第四年：卡片「第四年。」、選項同第三年 →「……幹嘛一直看。」；KX_ANNIV {4:wheel}',r.L.includes('杜可昕：……這是我收過最燙的禮物。')&&r.L.some(t=>t.endsWith('第四年。'))&&r.L.includes('杜可昕：……幹嘛一直看。')&&G.flags.KX_ANNIV[4]==='wheel',J(r.L)); }
-  { const US=STORY.ROUTE_DATES.US, keep=Object.assign({},US); US.dep='2028-08-20'; US.arrive='2028-08-20'; US.ret='2028-12-20'; US.out='2028-08-19';   /* [前置／捷徑] 假設以後美國交換改到大四上 */
-    try{ fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1); const q=OUT.get(G,'kx_anniv4v');
+  { /* 美國路線 2028-08-02～12-23（AA_260 第 4 節第 1 點）：第四年（2028-10-17）那天人在美國 */
+    { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1); const q=OUT.get(G,'kx_anniv4v');
       G.day=A(4)-1; G.hour=21.1; const gift=EVENTS.check(ev('ev_k7_gift_prep_n'));
       said=[]; G.day=A(4); G.hour=20.5; q.state='planned'; await OUT.go(GM,q); const L=lines();
       check('Q4 第四年那天在美國：沒有邀約、沒有準備的東西；她 21:00 打視訊（接起來）三句；KX_ANNIV {4:video}',!TH('p:kexin').some(m=>m.tag==='kx_anniv_ask4')&&!gift&&q&&q.h===21&&q.verb==='接起來'&&J(L.filter(t=>t.startsWith('杜可昕')).slice(0,3))===J(['杜可昕：週年快樂。你那邊是早上吧。','杜可昕：卡片我寄了，下禮拜才會到。','杜可昕：……你回來我們再去一次摩天輪。'])&&G.flags.KX_ANNIV[4]==='video',J([q,L])); }
-    finally { Object.assign(US,keep); } }
+  }
   { fresh(A(2)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); run(20.9,21.1); check('Q4 沒在交往：第二年沒有邀約、沒有出遊',!TH('p:kexin').some(m=>/^kx_anniv/.test(m.tag||''))&&!OUT.get(G,'kx_anniv2')); }
   { fresh(D('2025-10-10'),20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); check('Q4 第一年照舊（kx_anniv_ask 兩句、三個地點），沒有第二年的訊息',TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask').length===2&&!TH('p:kexin').some(m=>m.tag==='kx_anniv_ask2')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

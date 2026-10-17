@@ -23,7 +23,7 @@ const PD=INVITE_DATA.people;
 const tryAt=(id,pid,day,hs)=>{ const G=mkG(day); for(const h of hs){ const r=INV.decide(G,id,pid,day,h); if(r.res==='accept') return {G,h,r:INV.personal(G,id,INV.place(pid),day,h,r)}; } return {G,h:null,r:INV.decide(G,id,pid,day,hs[0])}; };
 const SAT=dayOf('2025-10-11'), SUN=dayOf('2025-10-12'), WED=dayOf('2025-10-15'), THU=dayOf('2025-10-16');
 const BH=[8,8.5,9,9.5,10,10.5,11,11.5,12,12.25], TH=[12,13,14,15,16,17,18];
-const S3SAT=termDay('Y4S1',5,6);   /* 學姊的伴侶到大三上第 9 週（characters.js partner）：之後才約得到半熟、一盞；大三下她在美國（SYS-21），用大四上 */
+const S3SAT=termDay('Y3S2',5,6);   /* 學姊美國改到大四上（AA_260／BB_206），大三下在臺灣 */   /* 學姊的伴侶到大三上第 9 週（characters.js partner）：之後才約得到半熟、一盞；大三下她在美國（SYS-21），用大四上 */
 { let ok=true, info=[];
   for(const [id,band] of [['heroine_02','A'],['heroine_02','R'],['heroine_05','A'],['heroine_05','R'],['classmate_peishan','A'],['classmate_peishan','R'],['kexin','A'],['kexin','R']]){
     STAGE[id]=band==='R'?'FRIEND':'FAMILIAR'; const S6=id==='heroine_05'?S3SAT:SAT, S7=id==='heroine_05'?S3SAT+1:SUN; let x=tryAt(id,'brunch',S6,BH); if(x.h==null) x=tryAt(id,'brunch',S7,BH); const want=PD[id].acc.brunch[band];
