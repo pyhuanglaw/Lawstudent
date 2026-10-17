@@ -11,7 +11,7 @@ if(m){ const E={npcs:[]}; const freeSeat=new Function('E','return ('+m[0].trim()
   E.npcs.push({seat:{x:q2.x,z:q2.z}}); check('三個位置都有人：不坐（長椅坐滿了）',freeSeat(bench)===null);
   E.npcs.push({seatTarget:{x:2,z:2}}); check('單人椅有人正要坐：不坐（有人坐了）',freeSeat(chair)===null); }
 check('座位選單先檢查 freeSeat（坐滿了就提示、不走過去）',/const fs=freeSeat\(it\.seat\); if\(!fs\)\{ toast\(/.test(src));
-const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8'); check('椰林大道南側 x=25 的長椅移到 x=17（離小椰林道椰子樹）',/const x=\(x0===25&&s<0\)\?17:x0;/.test(z));
+const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js','src/data/dorm_room_layout.js'),'utf8'); check('椰林大道南側 x=25 的長椅移到 x=17（離小椰林道椰子樹）',/const x=\(x0===25&&s<0\)\?17:x0;/.test(z));
 { const vm=require('vm'); global.window=global; vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/wz_park_layout.js'),'utf8').replace(/^const WZ_PARK_LAYOUT\s*=/m,'global.WZ_PARK_LAYOUT='));
   const L=global.WZ_PARK_LAYOUT; const benches=L.items.filter(i=>i.kind==='bench'); const bad=[];
   for(const st of L.seats.filter(q=>/長椅/.test(q.label))){ const b=benches.reduce((a,q)=>!a||Math.hypot(q.x-st.x,q.z-st.z)<Math.hypot(a.x-st.x,a.z-st.z)?q:a,null); const fwd=(st.x-b.x)*Math.sin(st.yaw)+(st.z-b.z)*Math.cos(st.yaw), side=Math.abs((st.x-b.x)*Math.cos(st.yaw)-(st.z-b.z)*Math.sin(st.yaw)); if(fwd<0||fwd>0.12||side>0.5) bad.push([st.label,st.x,st.z,+fwd.toFixed(2)]); }

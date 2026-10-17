@@ -60,7 +60,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 不認識語彤：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,10.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 11:00 以前不觸發',!tick());
   fresh(dk('2026-09-18'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/18 不觸發',!tick());
-  check('5. 校園的帳篷在大二的博覽會兩天也擺（zones3d FAIR_DAYS；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-16','2026-09-17'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
+  check('5. 校園的帳篷在大二的博覽會兩天也擺（zones3d FAIR_DAYS；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-16','2026-09-17'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js','src/data/dorm_room_layout.js'),'utf8')));
   // 6. 開學第一頓
   const d17=dk('2026-09-17'); fresh(d17,16,'campus',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); meet('heroine_03'); G.flags.met_yu=true;
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));

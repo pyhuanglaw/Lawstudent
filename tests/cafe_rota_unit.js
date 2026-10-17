@@ -29,7 +29,7 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
-  const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
+  const zsrc=fs.readFileSync(path.join(ROOT,'src/zones3d.js','src/data/dorm_room_layout.js'),'utf8');
   check('0. Café 有「看班表」的互動點（吧檯前 0.7,-3.7）',/\{x:0\.7,z:-3\.7,radius:0\.9,label:'看班表',cafeRota:true\}/.test(zsrc));
   if(!STORY.cafeRota){ console.log('FAILED '+(fails+1)); process.exit(1); }
   const look=async day=>{ fresh(day,15,'cafe'); G.stage=day<1?'econ':'law'; said=[]; await STORY.interact({cafeRota:true},GM); return said.map(s=>s.t); };
