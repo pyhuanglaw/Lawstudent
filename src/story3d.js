@@ -2264,17 +2264,17 @@ const STORY = (function(){
         return [K(DAILY_KEVIN[n]),W('收到。')].concat(n===3?[Object.assign(K('學姊妳到底有沒有看'),{dt:2/60}),W('有。三分十二秒。',3/60)]:[]); }},
     /* sis_study_eve（週二晚上「明天讀書會。三件事……」）刪：法服沒有讀書會（BB_191 §7-3）*/
     {id:'ziqing_five',h:()=>17.5,ok:(G,day)=>PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day),
-      items:()=>['今天','社課','C 和弦','不會的不能走','這不是問句'].map(t=>({th:'g:guitar',from:'heroine_04',text:t}))},
+      items:()=>['今天社課','練 C 和弦','不會的不准走喔'].map(t=>({th:'g:guitar',from:'heroine_04',text:t}))}   /* BB_175 D3（AA-B 互審 AA_200 第 1 節）：拿掉「這不是問句」（留給大三下 Q11）*/,
     {id:'ziqing_black',h:()=>15.6,ok:G=>PHONE.inGroup(G,'guitar')&&!!G.flags.ZIQING_MAKING_SOMETHING,
       items:()=>[{th:'g:guitar',from:'heroine_04',text:'📷（截圖：畫面全黑，角落只有一個小小的插座）'},{th:'g:guitar',from:'heroine_04',text:'不要問。'}]},
     {id:'zhiruo_latte',h:G=>zrKnows(G)?15+10/60:22+7/60,ok:G=>gotBefore(G,'heroine_02'),
-      items:()=>[{th:'p:heroine_02',from:'heroine_02',text:'今天有個客人點「跟昨天一樣」。我不知道他昨天是誰。我做了拿鐵。他說對。'}]},
+      items:()=>seq('heroine_02',['欸今天超好笑','有個客人一進來就說『跟昨天一樣』','我根本不知道他昨天是誰','我就隨便做了拿鐵','他說對'])}   /* BB_175 D5 */,
     {id:'kai_snack',h:()=>22.7,ok:()=>typeof SOCIAL==='undefined'||!SOCIAL.friendLevel||['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('kai')),live:G=>G.zone!=='dorm'&&G.zone!=='cvs',   /* BB_120 1-5「固定的改變」：有點熟以後，半夜的「宵夜？」才有你的份 */
       items:()=>['宵夜？','我餓了','我已經在便利商店了','你要什麼'].map((t,k)=>({th:'p:kai',from:'kai',text:t,dt:k/60}))},
     {id:'fangyt_leaf',h:()=>20,ok:(G,day)=>!!G.flags.POTHOS&&G.flags.pothosWaterWk===weekNo(day)&&gotBefore(G,'npc_fangyt'),
-      items:()=>[{th:'p:npc_fangyt',from:'player',who:null,text:'📷（黃金葛長出一片新葉）'},{th:'p:npc_fangyt',from:'npc_fangyt',text:'新葉。你的。'}]},
+      items:()=>[{th:'p:npc_fangyt',from:'player',who:null,text:'📷（黃金葛長出一片新葉）'},{th:'p:npc_fangyt',from:'npc_fangyt',text:'新葉耶。',dt:1/60},{th:'p:npc_fangyt',from:'npc_fangyt',text:'你養得不錯。',dt:2/60}]}   /* BB_175 D7 */,
     {id:'mingxuan_bento',h:()=>12.1,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY')&&gotBefore(G,'classmate_mingxuan'),
-      items:()=>[{th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:'公館新開一家便當店，八十。已加進清單。你什麼都沒看到。'}]},
+      items:()=>seq('classmate_mingxuan',['公館新開一家便當 八十塊','我加進清單了','念書念到餓的時候可以去 哈哈'])}   /* BB_175 D8（AA-B 互審：拿掉「不要跟別人講」）*/,
     {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'public_law')&&!S.psGone(G),   /* BB_191 §8-7：公法讀書會群組 */
       items:()=>[{th:'g:public_law',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]},
     /* BB_120 1-7c「固定的改變」（BB 2026-10-14，第②級）：照熟度傳的訊息，只在那個階段（過了就不補）。子晴「認識」只有事情、發在吉他社群組（還沒有私訊）；
@@ -2282,31 +2282,31 @@ const STORY = (function(){
     {id:'zq_a1',h:()=>21,ok:(G,day)=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day+1),
       items:()=>[{th:'g:guitar',from:'heroine_04',text:'明天社課 19:00。萬才館一樓。帶琴。'}]},
     {id:'zq_a2',h:()=>22+10/60,ok:G=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar'),
-      items:()=>seq('heroine_04',['📎 cat_v0.3','測試版。'],'g:guitar')},
+      items:()=>seq('heroine_04',['📎 練習曲_v2.pdf','新的譜。'],'g:guitar')}   /* BB_175 D11：檔名是貓的遊戲＝Q6 以前說破，換成吉他社真的會傳的 */,
     {id:'zq_f1',h:()=>21.5,ok:G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04'),
-      items:()=>['欸不是','滷味','十點後','半價','你要來'].map(t=>P1('heroine_04',t))},
+      items:()=>['滷味','十點後半價','你要來嗎'].map(t=>P1('heroine_04',t))}   /* BB_175 D12：拿掉「欸不是」*/,
     {id:'zq_f2',h:()=>23,ok:G=>fl('heroine_04')==='FAMILIAR'&&gotBefore(G,'heroine_04'),
-      items:()=>['欸不是','我的貓','卡在牆裡','出不來','不用回'].map(t=>P1('heroine_04',t))},
+      items:()=>['我的貓','卡在牆裡','出不來','……不用回'].map(t=>P1('heroine_04',t))}   /* BB_175 D13：拿掉「欸不是」；玩家以為是真的貓，Q6 才知道是遊戲裡的（伏筆）*/,
     {id:'zq_r1',h:()=>22+10/60,ok:G=>fl('heroine_04')==='FRIEND'&&gotBefore(G,'heroine_04'),
-      items:G=>seq('heroine_04',['📎 cat_v0.9','這版貓會爬樓梯。']).concat(PHONE.inGroup(G,'guitar')?[{th:'g:guitar',from:'heroine_04',text:'新版本。測試的人報名。',dt:0.5}]:[])},
+      items:G=>(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game)?seq('heroine_04',['📎 cat_v0.9','這版貓會爬樓梯。']).concat(PHONE.inGroup(G,'guitar')?[{th:'g:guitar',from:'heroine_04',text:'新版本 要測的人報名',dt:0.5}]:[]):seq('heroine_04',['你聽過這首嗎','📎（一段吉他錄音）','我自己錄的 很爛不要笑'])}   /* BB_175 D14：看過 Q6 照留（群組那則改字）；還沒看過＝吉他錄音、群組不發 */,
     {id:'zq_c1',h:()=>19+40/60,ok:G=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04'),
-      items:()=>seq('heroine_04',['你今天吃飯了嗎。','這是問句。'])},
+      items:()=>seq('heroine_04',['你今天有吃飯嗎'])}   /* BB_175 D15：「這是問句」是 Q11 的那一刻 */,
     {id:'zq_c2',h:()=>22.5,ok:(G,day)=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')&&(CALENDAR.termOf(day)||{}).exam==='final',
-      items:()=>seq('heroine_04',['期末考還好嗎。','這是問句。','……不用回很長。'])},
+      items:()=>seq('heroine_04',['期末考還好嗎','不用回很長'])}   /* BB_175 D16 */,
     /* 沛珊：問題換人問——「認識」在讀書會群組問所有人（23:10）、「有點熟」私訊書頁照片（23:20、23:21）、「朋友」長訊息最後問你（上課日）、「好朋友」不問、等你問（23:05、23:06）*/
     {id:'ps_a',h:()=>23+10/60,ok:G=>fl('classmate_peishan')==='ACQUAINTANCE'&&PHONE.inGroup(G,'public_law'),   /* BB_191 §8-7：公法讀書會群組 */
-      items:()=>seq('classmate_peishan',['睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','大家明天可以回答。'],'g:public_law')},
+      items:()=>seq('classmate_peishan',['睡前突然想到','如果有人把東西忘在教室，隔天被別人拿走，這樣算偷嗎？','大家明天再回就好'],'g:public_law')}   /* BB_175 D17（AA_200 第 1 節：沒有人回，停在問題）*/,
     {id:'ps_f',h:()=>23+20/60,ok:G=>fl('classmate_peishan')==='FAMILIAR'&&gotBefore(G,'classmate_peishan'),
-      items:()=>seq('classmate_peishan',['📷（一頁書，劃了一行線）','這行讓我想到讀書會那題。你不用回。'])},
+      items:()=>seq('classmate_peishan',['📷（一頁書，劃了一行線）','這行讓我想到讀書會那題','你不用回喔'])}   /* BB_175 D18 */,
     {id:'ps_r',h:()=>23,ok:(G,day)=>fl('classmate_peishan')==='FRIEND'&&gotBefore(G,'classmate_peishan')&&CALENDAR.dateOf(day).wd<=5&&!CALENDAR.holiday(day),
       items:()=>seq('classmate_peishan',['今天老師說，法律是最低限度的道德。','我抄下來了。可是回家的路上一直在想：','那最高限度的，是誰在管？','……你覺得呢？'])},
     {id:'ps_c',h:()=>23+5/60,ok:G=>fl('classmate_peishan')==='CLOSE_FRIEND'&&gotBefore(G,'classmate_peishan'),
-      items:()=>seq('classmate_peishan',['今天我沒有問題。','你有的話，我在。'])},
+      items:()=>seq('classmate_peishan',['今天我沒有要問的','你有想講的就傳 我還沒睡'])}   /* BB_175 D20 */,
     /* 方奕廷「有點熟」以前（「學弟好」開頭、學名、一段說明、最後一句很短的真話）：九、十月台灣欒樹；十月以後黃金葛的葉子（欒樹那則先）；寒流前那則是定時的（phoneRules：第一波寒流前一晚）*/
     {id:'fy_tree',h:()=>20.5,ok:(G,day)=>fyEarly(G)&&[9,10].includes(CALENDAR.dateOf(day).m),
       items:()=>seq('npc_fangyt',['學弟好。舟山路的台灣欒樹開花了。','📷 Koelreuteria elegans。秋天先開黃花，再結粉紅色的果。','很漂亮。'])},
     {id:'fy_pothos',h:()=>20.5,ok:(G,day)=>{ const m=CALENDAR.dateOf(day).m; return fyEarly(G)&&!!G.flags.POTHOS&&m!==9&&(m!==10||dpSent(G,'fy_tree')); },
-      items:()=>seq('npc_fangyt',['學弟好。你的黃金葛葉子，最近有沒有變黃？','變黃通常是水太多。不是你的錯，是它比較挑。','拍給我看。'])},
+      items:()=>seq('npc_fangyt',['學弟好。你的黃金葛葉子，最近有沒有變黃？','變黃通常是水澆太多，它比較挑，不一定是你的問題。','拍給我看。'])}   /* BB_175 D22 */,
     /* 大一下的手機小事（BB_96 第 5 節；交接包 v2）：只在大一下（term）。學姊的畢業照那則在 C17（固定日子）；子晴成發倒數那則在 Q5（固定日子）。
        芷若「熱可可加濃縮」要 Z3（ASKED_HER_DRINK）、明軒那則要家教打工（JOB_TUTOR）——兩個都已接，條件成立以後自然會出現 */
     /* sis_case_y1s2（學姊在家族群組分享判決）刪：她不在群組主動發言（AA_218 17-12）*/

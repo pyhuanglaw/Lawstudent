@@ -12075,9 +12075,9 @@
    "title": "BB_175 大一上手機小事 22 則改字（D3、D5、D7、D8、D11～D18、D20、D22；D14 拆兩版、D11 檔名、D17 換題目）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "照 BB_175（elegant-brown edebddd5）改 story3d.js DAILY；第 2 週起已做（047cf8d9）",
+   "next": "【LAWWW-C 19:3x 照 BB_175 edebddd5（AA-B 互審 AA_200 第 1 節）改 story3d.js DAILY 14 則（D3、D5、D7、D8、D11～D18、D20、D22；照留的 D1、D2、D4、D6、D9、D10、D19、D21 不動；D2 sis_study_eve 遊戲裡沒有這個 id，讀書會前一天的提醒是另一條）；D14 照 Q6 前後分兩版。bb120_fixed_unit、v1_batch5_unit 照新句改，v1_batch3_unit 學姊作息改用內容找（前面插了偶遇作息）】照 BB_175（elegant-brown edebddd5）改 story3d.js DAILY；第 2 週起已做（047cf8d9）",
    "first": {
     "term": "Y1S1",
     "week": 2,

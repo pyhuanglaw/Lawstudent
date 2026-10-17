@@ -814,6 +814,14 @@
    "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句",
    "task": "SYS-PHONE-CHAT",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_175_AB65_大一上第3批_手機小事_BB人物.md",
+   "sha": "edebddd5",
+   "status": "approved",
+   "approvedBy": "AA-B 互審通過（AA_200 第 1 節，2026-10-16 21:32）；D8 照建議改：改稿欄",
+   "task": "V1-BB175",
+   "kind": "text"
   }
  ]
 }
