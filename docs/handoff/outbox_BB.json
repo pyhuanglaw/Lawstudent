@@ -119,6 +119,60 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "SCN-US-2D",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "61f6517a",
+   "files": [
+    "docs/story_planning/bg_approved/us_bus_station.webp",
+    "docs/story_planning/bg_approved/us_bus_station_winter.webp",
+    "docs/story_planning/bg_approved/us_airport.webp",
+    "docs/story_planning/bg_approved/us_classroom.webp",
+    "docs/story_planning/bg_approved/us_restaurant.webp",
+    "docs/story_planning/bg_approved/chicago_lake.webp",
+    "docs/story_planning/bg_approved/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 D81 大四上美國線再接；chicago_dino、chicago_pizza、sf_* 在 S6",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "SCN-JP-2D",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "0758caf3",
+   "files": [
+    "docs/story_planning/bg_approved/jp_konbini.webp",
+    "docs/story_planning/bg_approved/jp_room.webp"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 D81 大三下日本線再接",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "AB65-5",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "c055fc11",
+   "files": [
+    "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md",
+    "docs/story_planning/BB_184_美國篇改期_重畫CG與舊金山背景提示詞.md",
+    "docs/story_planning/BB_98_交接包v4_大三.md",
+    "docs/story_planning/BB_99_交接包v4_大四_尾聲.md",
+    "docs/story_planning/cg_approved/cg_sf_bridge_fog_heroine05.webp",
+    "docs/story_planning/CG_正式製作清單.md"
+   ],
+   "state": "WIP",
+   "remaining": "美國交換改大四上（使用者決定，AA_213）：BB 規格已改，AA 核對中；大四上其他 BB 人物的美國版、重畫 CG 四張未完成；告白規則大改（AA_215）會再動",
+   "next": "AA 核對 → BB 補大四上美國版 → LAWWW 整合",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
