@@ -34,7 +34,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   check('C20：可昕的重訪日 1 事件在',!!e&&!!STORY.revisitDay);
   if(!e||!STORY.revisitDay){ console.log('FAILED '+fails); process.exit(1); }
   const RD=STORY.revisitDay(), dt=CALENDAR.dateOf(RD), t=CALENDAR.termOf(RD);
-  check('日子：大一下第 18 週最後一天（2026-06-28 週日）',t&&t.id==='Y1S2'&&t.week===18&&dt.y===2026&&dt.m===6&&dt.d===28&&!(CALENDAR.termOf(RD+1)&&CALENDAR.termOf(RD+1).id==='Y1S2'),JSON.stringify({dt,t}));
+  check('日子：期末最後一天 2026-06-12（五）（AA_209 第 4 節第 1 點、AA_197 1-6）',t&&t.id==='Y1S2'&&dt.y===2026&&dt.m===6&&dt.d===12&&dt.wd===5,JSON.stringify({dt,t}));
   /* 中午的訊息＋目標 */
   { fresh(RD,9,'dorm',{dating_kexin:true}); let goal=''; GM.setGoal=t=>{ goal=t; }; run(9,13); const L=txt('p:kexin');
     check('交往中：中午 12:00 可昕「最後一天。你說的那張桌子，我六點到。」；收到以後目標「18:00 兩點半 Café（可昕）」',JSON.stringify(L.slice(-1))==='["kexin:最後一天。你說的那張桌子，我六點到。"]'&&goal==='18:00 兩點半 Café（可昕）'&&Math.abs((TH('p:kexin').slice(-1)[0]||{}).h-12)<0.01,JSON.stringify(L)+' '+goal);

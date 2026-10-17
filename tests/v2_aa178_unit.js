@@ -41,7 +41,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // ④
   { const e=ev('ev_revisit_y1_noodle'), line='我最意外的是，你真的每個禮拜二、四都來。', L=e.dialogue.find(l=>l.text===line);
     const ok=(days,old)=>{ fresh(wk('Y1S2',18,3),19,'cafe'); if(old){ G.flags.ndlDays=[5]; } else { G.habits={'meal:noodle':{n:days,first:1,last:days,days:Array.from({length:days},(_,i)=>i+2)}}; } return EVENTS.cond(L.if); };
-    check('④ 重訪日阿哲那句：這一年在麵店坐下 10 天＝說、9 天＝不說；舊存檔沒有習慣紀錄＝照「去過麵店」',!!L&&ok(10)&&!ok(9)&&ok(0,true)); }
+    check('④ 重訪日 1 改成麵店群戲（AA_209 第 3 節，拿掉「這一年最意外」）：阿哲「每個禮拜二、四都來」那句已經不在',!L); }
   // ⑤
   { const e=ev('ev_y1_boya_regular'); const a=wk('Y1S2',11,1); const sat=n=>{ fresh(a+n,14,'boya'); G.habits={'seat:boya:study':{n:3,days:[a,a+2,a+n].slice(0,3)}}; return EVENTS.check(e); };
     check('⑤ 博雅小桌的常客：第 11～12 週內第三天坐下＝「你又在這裡。」；只坐兩天不演',!!e&&e.trigger==='seat'&&e.seatRoom==='study'&&e.dialogue[0].text==='你又在這裡。'&&sat(5)&&(()=>{ fresh(a+5,14,'boya'); G.habits={'seat:boya:study':{n:2,days:[a,a+5]}}; return !EVENTS.check(e); })());
