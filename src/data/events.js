@@ -974,7 +974,8 @@ const STORY_EVENTS=[
      「麵店團一定吃一頓」那句旁白照 2-13 的字；阿姨的一句原文 */
   { id:'ev_term_last_meal', title:'期末最後一頓', participants:[], location:'noodle', trigger:'enter', term:['Y1S1'], time:[17,22], once:true, background:'blur',
     prereq:{custom:G=>{ if(G.flags.noodleTableDay==null||typeof CLS==='undefined'||!CLS.lastExamEnd) return false; const e=CLS.lastExamEnd(G,'Y1S1','final'); return !!e&&(G.day>e.day||(G.day===e.day&&G.hour>=e.h)); }},
-    dialogue:[ {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&STORY.classPhotoOk&&STORY.classPhotoOk(G)},cg:'cg_class_photo_y1'},   /* BCG-46 期末合照（BB_132 第 69 組；新畫面，不是新事件——拍完去麵店，AA_71 2-13）：其他八人裡至少五位 FRIEND 以上，相簿才存 */
+      {speaker:null,text:'期末最後一科考完。麵店團一定吃一頓。'},{speaker:null,text:'阿姨多送了一盤小菜。'},{speaker:'阿姨',text:'考完了，吃好一點。'} ],
     consequences:{memo:'期末最後一頓（阿鳳麵店）'} },
   /* 學姊 W4：空的保溫瓶（交接包 v2、BB_96 2-5）：大一下第 8～9 週、總圖、平日 14～17（她的作息本來就在總圖）、有點熟以上、once。輕的一場：她不哭、不說累。
      選項 2 之後一週「保溫瓶上貼了一張便條：已裝滿」——遊戲沒有保溫瓶的模型，先沒有（之後做道具時補）*/

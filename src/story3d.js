@@ -971,6 +971,9 @@ const STORY = (function(){
     if(!F.TEA_REMIND&&hr>=17.5&&hr<18.5){ F.TEA_REMIND=true; if(GM.toast) GM.toast('手機｜提醒：18:30 新生茶會（萬才館一樓大廳）',4200); GM.setGoal('18:30 新生茶會（萬才館一樓大廳）'); }   /* AA_195 4-5：9/2 下午 17:30 手機提醒 */
     if(G.zone==='wancai'&&!F.TEA_STEP&&hr>=18.5&&hr<20.5&&!F.met_sis){ void S.teaSignIn(GM); return true; }
     if(G.zone==='wancai'&&F.TEA_STEP===1) S.teaSpot(GM); return false; };
+  /* BCG-46 期末合照（BB_132 第 69 組、CG 清單）：照片裡另外八個人（明軒、宥辰、柏翰、阿哲、沛珊、小語、以安、芯慈）至少五位 FRIEND 以上 */
+  S.CLASS_PHOTO_IDS=['classmate_mingxuan','classmate_youchen','classmate_bohan','zhe','classmate_peishan','yu','heroine_01','classmate_xinci'];
+  S.classPhotoOk=G=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return false; const OK=['FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP']; return S.CLASS_PHOTO_IDS.filter(id=>OK.includes(SOCIAL.stage(id))).length>=5; };
   /* 手機上照旗標排時間的訊息（內容照企劃組原文）。每 0.5 秒（S.tick）；同一則用 tag 只排一次 */
   /* 某學期第幾週星期幾是第幾天（wd：1＝週一…7＝週日）；沒有＝null */
   const termDayCache={}; function termDay(term,week,wd){ const k=term+'|'+week+'|'+wd; if(k in termDayCache) return termDayCache[k]; let r=null; if(typeof CALENDAR!=='undefined') for(let d=(/^Y0/.test(term)?-420:-30);d<1500;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week&&CALENDAR.dateOf(d).wd===wd){ r=d; break; } } return termDayCache[k]=r; }

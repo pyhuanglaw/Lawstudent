@@ -13240,9 +13240,9 @@
    "title": "CG 班級合照 cg_class_photo_y1（BB-B 合成 086de6dd，READY_FOR_REVIEW，等使用者看；通過後放相簿，BB_118 5-1：其他八人裡至少五位 FRIEND 以上）",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "等使用者看；通過後 LAWWW-B 接相簿條件",
+   "next": "使用者 01:2x「就用這張」（BB-B 3cdb2c60）；assets/cg/class/cg_class_photo_y1.webp＋CG_REGISTRY；ev_term_last_meal 開頭顯示（八人裡至少五位 FRIEND 以上才存相簿，STORY.classPhotoOk）；等瀏覽器實際看一次",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13766,7 +13766,7 @@
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
    "priority": "P0",
-   "next": "等 LAWWW2-B 的配置 JSON 與使用者點頭的模型；劇情（另外兩張床、紙箱、阿勳書桌）等 AA-B",
+   "next": "LAWWW2-B a6040823 給了配置 docs/art-rebuild/second_ai/test_shots/dorm_loft/layout_v2.json（四組座位、梯子睡覺點、洗手間門、月曆位置、窗、LOFT_<組>_TOP seethru_ 材質、203／412 年份切換 sets、v0_props 新位置）；GLB 等使用者點頭。到了以後照配置改 zones3d.js dorm＋作息（AA208-L）",
    "pausedReason": "要 LAWWW2-B 的配置 JSON",
    "resumeWhen": "LAWWW2-B 交配置 JSON（使用者看過小圖）",
    "first": {
