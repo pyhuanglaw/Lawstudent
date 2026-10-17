@@ -49,6 +49,10 @@ async def main():
         run.check('中途截圖都有（遊覽車、破冰、揭曉、校門）', seen >= set(SHOTS.values()), str(sorted(seen)))
         run.check('8/29 搬宿舍：MET_KAI、阿凱 FIRST_MET＝dorm、22:40 冷氣訊息、目標「整理行李…」（AA_195 4-2）', st['metKai'] and st['kaiMet'] == 'dorm' and st['kaiMsg'] and st['hour'] >= 22.6 and st['goal'] == '整理行李。缺的東西明天去公館買。', json.dumps(st, ensure_ascii=False))
         run.check('家族群組已加入（8/30 21:00 Kevin 的訊息排好）', 'family_law' in st['groups'], str(st['groups']))
+        # DORM-LOFT-L（b9eaacf3，QA-HANDOFF-B1 第 ③ 點）：8/29 晚上轉場後，阿凱 R2、柏翰 R1、阿哲 L1 在四人房自己的位子上（AA_208）
+        seats = await pg.evaluate("""(()=>{ const r={}; for(const [id,u] of [['kai','R2'],['classmate_bohan','R1'],['zhe','L1']]){ const n=GAME.npc&&GAME.npc[id], s=STORY.dormSeat(u); r[id]=n&&n.obj?+Math.hypot(n.obj.position.x-s.x,n.obj.position.z-s.z).toFixed(2):null; } r.hour=+GAME.G.hour.toFixed(2); return r; })()""")
+        run.check('8/29 晚上：阿凱 R2、柏翰 R1、阿哲 L1 都在四人房自己的位子（離座位 0.8 m 以內）', all(seats.get(k) is not None and seats[k] < 0.8 for k in ('kai', 'classmate_bohan', 'zhe')), json.dumps(seats, ensure_ascii=False))
+        await run.shot(pg, 'dorm_829_seats')
         run.check('沒有 JS 錯誤', not errs, '; '.join(errs[:5]))
         await b.close()
     sys.exit(run.finish())
