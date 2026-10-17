@@ -7354,6 +7354,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "GLB、layout、patch 一起換；舊 218／105 照片已從開發分支刪"
+  },
+  {
+   "id": "DL-LAWWW2-899f9bcd",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "899f9bcd",
+   "what": "大二房間拆箱的物件 dorm_y2_items.glb 搬到四人房 L2（軟木板、民總課本、相簿、彈片、螢光筆、泡麵、紙箱；READY_FOR_ART_REVIEW）",
+   "task": "SCN-V3-01",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "遊戲端接法：zones3d.js loadY2Items／setY2Items、story3d.js unboxY2、home3d.js"
   }
  ],
  "ignored": [
