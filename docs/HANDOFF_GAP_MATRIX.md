@@ -38,7 +38,7 @@
   - **宿舍四人房**（DORM-LOFT-L＋ART-DORM-LOFT，使用者 01:3x「宿舍ok」）：dorm_room4.glb＋配置資料檔 → zones3d.js 改讀 DORM_ROOM（69e74460～5d66f7bb）；瀏覽器 interior_glb_integration 宿舍 ALL PASS 42、flow_dorm_hall ALL PASS。**b9eaacf3（WIP）8/29 當晚 203 補生三位室友：瀏覽器沒測**。場景美術**沒有** ART_APPROVED（要使用者看）。
   - **3D 場景疊面修正**（BUG-COPLANAR-DEV）：整合 LAWWW2-B 201、萬才館室內（3d4d1969）、總圖大廳、法圖（b6f471f7）、霖澤館室內（d6ce40cf）；**萬才館／總圖／法圖／霖澤館／201 的瀏覽器流程交班時沒跑完**（QA-HANDOFF-B1）。
   - **大一下口語改稿 AB65-3-Y1S2-L**（AA_209）：重訪日 1 改 6/12 麵店群戲、日期條件（02dc4fda～372c6512）；剩項見 B。
-  - **經濟系前傳改稿 V0-REWRITE-L**：BB JSON、段 A 全部、E15 CG（bdfdb9d3、3f050385、a41bfca0、793e78aa、f93ba38a）；剩段 B～E 等。
+  - **經濟系前傳改稿**（V0-REWRITE-L）：BB JSON、段 A 全部、E15 CG（bdfdb9d3、3f050385、a41bfca0、793e78aa、f93ba38a）；剩段 B～E 等。
   - 背景圖接上（BB-B 生成、已通過）：nccu_dorm（晚／白天）、yongkang_curry、gongguan_cinema、ntu_lib_b1、trip_hotel_twin；備用註冊 cram_class、jp_street_night、camp_school、train_day；CG：cg_econ_camp、cg_class_photo_y1。
   - 規則：D90／HV-9（使用者訊息優先、短回合）、D93／HV-11（逐職位待辦核對、`check_handoff.py roles`）寫進五份規則檔。
 
@@ -65,7 +65,7 @@
 - 單元測試：最後一次整套是 01:57 前後（253 項、5 項失敗，之後逐一修好、個別重跑通過）；**之後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑**。相關的 camp_y1_unit、v0_e01、v0_e02 在 b9eaacf3 重跑通過。
 - 瀏覽器通過：flow_camp_y1、interior_glb_integration（宿舍）、flow_dorm_hall。**沒跑或沒跑完**：flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖、大一下重訪日 1。
 - iPhone 實機：本班沒有任何實機確認；BUG-IOS-RELOAD、BUG-MAPBLACK、BUG-02 需要使用者實機。
-- 交接工具（02:4x）：`roles` **OK**（BG-04、BG-18、ART-BALCONY-POTS 已對到任務）；`duty verify` OK；`check` **異常 249 項未處理**：第 6 項 248 筆（AA 分支 125、BB 分支 109、LAWWW2 分支 15）是符合交付關鍵字、還沒在 deliveries.json 登記或放進 ignored 的 commit——大多是企劃稿、WIP、已經用整包 DL 登記的內容，**沒有逐筆核對**，所以 `scannedThrough` 沒往前移；其餘以 check 的實際輸出為準。
+- 交接工具（02:4x）：`roles` **OK**（BG-04、BG-18、ART-BALCONY-POTS 已對到任務）；`duty verify` OK；`check` **異常 249 項未處理，全部是第 6 項**（AA 分支 125、BB 分支 109、LAWWW2 分支 15）是符合交付關鍵字、還沒在 deliveries.json 登記或放進 ignored 的 commit——大多是企劃稿、WIP、已經用整包 DL 登記的內容，**沒有逐筆核對**，所以 `scannedThrough` 沒往前移；其餘以 check 的實際輸出為準。
 
 **下一班第一步**：照 `AI_SESSION_HANDOFF.md` 第 4 節接班十四步（`duty find` → `duty plan` → `check` → `roles` → `duty verify`），然後先做 **QA-HANDOFF-B1**（整套單元測試＋沒跑完的瀏覽器流程），再接 DORM-LOFT-L 室友瀏覽器測、AB65-3-Y1S2-L 第 4 節剩項、CAMP-FIX-614 程式 8。
 
