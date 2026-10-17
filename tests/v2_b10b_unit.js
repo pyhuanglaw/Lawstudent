@@ -115,13 +115,13 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     check('7. 日期：6/26 是第 18 週週五、暑假第一天是 6/29（一）',CALENDAR.dateOf(last).key==='2026-06-26'&&CALENDAR.dateOf(sum1).key==='2026-06-29',CALENDAR.dateOf(last).key+' '+CALENDAR.dateOf(sum1).key);
     const s99=(flags)=>{ fresh(last,20,'dorm',Object.assign({dating_kexin:true},flags)); STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); return KM(); };
     const a=s99({}), a2=G.flags.KX_GRADES_Y1S2, b=s99({KX_GRADES_PACT:'peeked'}), b2=G.flags.KX_GRADES_Y1S2, c=s99({KX_GRADES_PACT:'kept'});
-    check('7. 9-9：舊存檔／kept＝「這次也一起打開？暑假第一天。」together；peeked＝「這次換個方式：…」best_one',a.slice(-1)[0]==='這次也一起打開？暑假第一天。'&&a2==='together'&&b.slice(-1)[0]==='這次換個方式：各自先看，然後各說一科最滿意的。'&&b2==='best_one'&&c.slice(-1)[0]==='這次也一起打開？暑假第一天。',JSON.stringify([a,b]));
+    check('7. 9-9：舊存檔／kept＝「這次也一起打開？成績出來那天。」together；peeked＝「這次換個方式：…」best_one',a.slice(-1)[0]==='這次也一起打開？成績出來那天。'&&a2==='together'&&b.slice(-1)[0]==='這次換個方式：各自先看，然後各說一科最滿意的。'&&b2==='best_one'&&c.slice(-1)[0]==='這次也一起打開？成績出來那天。',JSON.stringify([a,b]));
     const p4e=(att,flags,pick)=>{ fresh(last+1,9.9,'dorm',flags); CLS.rec(G).attend.econ_principles_2=att; STORY.phoneRules(GM); G.hour=10.05; PHONE.tick(G); const sys=SM(); const q=sys.find(m=>m.ask); if(q&&pick!=null) PHONE.answer(G,q.ask.id,pick); return {sys:SM().map(m=>m.text),xc:G.msgs.filter(m=>m.th==='p:classmate_xinci').map(m=>(m.from==='player'?'我：':'')+m.text),k:KM(),q}; };
     const r1=p4e(8,{}), r2=p4e(3,{});
     check('7. P4e 6/27 10:00：去了 6 堂以上＝「一年前沒拿到的，這次拿到了。」；單身＝「你把成績單收進抽屜。」',JSON.stringify(r1.sys)==='["經濟學原理（下）的成績公布了。","一年前沒拿到的，這次拿到了。","你把成績單收進抽屜。"]'&&!r1.q,JSON.stringify(r1.sys));
     check('7. P4e 5 堂以下：芯慈「過了吧？……」→ 我「請妳吃飯。」→「兩次。」＋「……靠一本借來的筆記拿到了。」',JSON.stringify(r2.xc)==='["過了吧？……我的筆記功不可沒。","我：請妳吃飯。","兩次。"]'&&r2.sys.includes('一年前沒拿到的，這次靠一本借來的筆記拿到了。'),JSON.stringify(r2));
     const r3=p4e(8,{dating_kexin:true,KX_GRADES_Y1S2:'together'},0), r4=p4e(8,{dating_kexin:true,KX_GRADES_PACT:'peeked'},0), r5=p4e(8,{dating_kexin:true,KX_GRADES_Y1S2:'together'},1);
-    check('7. P4e 交往中傳給可昕：長頸鹿貼圖＋together「這一科可以先說。…」／best_one「這科就是你最滿意的那一科吧。」；不傳＝「你把成績單收進抽屜。」',JSON.stringify(r3.k.slice(-3))==='["📷（經濟學原理（下）的成績）","（貼圖：長頸鹿）","這一科可以先說。其他的，暑假第一天一起開。"]'&&r4.k.slice(-1)[0]==='這科就是你最滿意的那一科吧。'&&r5.sys.slice(-1)[0]==='你把成績單收進抽屜。'&&!r5.k.some(t=>t.startsWith('📷')),JSON.stringify([r3.k,r4.k,r5.sys]));
+    check('7. P4e 交往中傳給可昕：長頸鹿貼圖＋together「這一科可以先說。…」／best_one「這科就是你最滿意的那一科吧。」；不傳＝「你把成績單收進抽屜。」',JSON.stringify(r3.k.slice(-3))==='["📷（經濟學原理（下）的成績）","（貼圖：長頸鹿）","這一科可以先說。其他的，等全部出來再一起開。"]'&&r4.k.slice(-1)[0]==='這科就是你最滿意的那一科吧。'&&r5.sys.slice(-1)[0]==='你把成績單收進抽屜。'&&!r5.k.some(t=>t.startsWith('📷')),JSON.stringify([r3.k,r4.k,r5.sys]));
     const BO=['說好的，各說一科。我先：憲法。老師說我的答案像在寫信。','換你。'], bo=(flags)=>{ fresh(sum1,20.9,'dorm',Object.assign({dating_kexin:true,KX_GRADES_Y1S2:'best_one'},flags)); STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); return G.msgs.filter(m=>m.th==='p:kexin'&&BO.includes(m.text)); };
     const m1=bo({}); const q=m1.find(m=>m.ask), ko=q?q.ask.opts.map(o=>o.t):[];
     check('7. best_one 6/29 21:00：「說好的，各說一科。我先：憲法。…」「換你。」、選這學期的一科（短名）',m1.length===2&&m1[0].text==='說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'&&ko.includes('經濟學原理')&&ko.includes('刑法總則')&&!ko.some(t=>t.includes('（')),JSON.stringify(ko));
@@ -131,7 +131,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'together'}); picks=['等到晚上']; let held=await STORY.holdGrades(GM,'Y1S2'); const plan=(G.outings||[]).find(o=>o.id==='kx_grades2');
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); const held2=await STORY.holdGrades(GM,'Y1S2');
     const ev2=ev('ev_kexin_grades_open_y1s2');
-    check('7. together 暑假第一天早上：「大一下的成績出來了。」先看／等到晚上、21:00 視訊（「……都過了。好，暑假開始。」）；best_one 照常發',held===true&&!!plan&&plan.h===21&&held2===false&&!!ev2&&ev2.dialogue.some(l=>l.text==='……都過了。好，暑假開始。'),JSON.stringify([held,plan,held2])); }
+    check('7. together 暑假第一天早上：「大一下的成績出來了。」先看／等到晚上、21:00 視訊（「……都過了。好，這下暑假真的開始了。」）；best_one 照常發',held===true&&!!plan&&plan.h===21&&held2===false&&!!ev2&&ev2.dialogue.some(l=>l.text==='……都過了。好，這下暑假真的開始了。'),JSON.stringify([held,plan,held2])); }
   /* 8. 坐在 3D 座位上課（inScene）也演課前／課後事件（AA-B 2026-10-16 回報：原本只有門口上課才演） */
   { const seat=async(day,hour,flags)=>{ fresh(day,hour,'putong',Object.assign({introDone:true,classDone:true,afternoonDone:true},flags)); said=[]; opts=[]; caps=[]; picks=['今天不行']; if(flags.P4D_ANSWER) G.events.done.ev_econ_hallway=1; const it=CLS.dayItems(G).find(x=>x.c.id==='econ_principles_2'); if(!it) return null; await CLS.attend(GM,it,{inScene:true}); return lines(); };
     const F3=termDay('Y1S2',3,5), F8=termDay('Y1S2',8,5);
