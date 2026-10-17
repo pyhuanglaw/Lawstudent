@@ -40,6 +40,12 @@
    - 沛珊第十版 `fe8d4ee0` 交 BB-C（頭髮照 BB-C v5 四點；領口側頸點低 2.2 cm、後領低 1.2 cm＝「像連帽衫」的真正原因）；等 BB-C 回覆。還沒做：肩膀亮縫、坐姿長裙、白鞋頭、眼鏡近照、晚上照片。
    - 經濟系（BB_201）：`vrm_finish2.py` 加 `VRM_REST`（把微笑烘進基本臉）；三人的臉參數分開（韋綸 v8、唐睿 v7、家豪 v6 建置中）。
      之後：韋綸短袖連帽風衣＋安全帽、唐睿 polo 領＋便利貼、家豪薄背心、魏教授年紀（npc.py 的 pwei：eye_close 0.22 是睏的原因）、四人並排＋坐下＋經原教室遠景。
+5. 14:xx 進度：
+   - 沛珊：第十四版頭髮 BB-C **通過**；上衣第十六版在驗（領口立起來的兩個原因：肩膀貼斜方肌的曲線、T 字姿勢的肩膀太高 → SHOULDER_SAG）。上衣過了請 LAWWW-C 拍遊戲內截圖（眼鏡、白天、晚上），BB-C 才標 ART_APPROVED。
+   - 經濟系：BB-C 臉型方向**對**；表情一輪（嘴窄、眉毛分開）在驗；衣服第一輪建置中（韋綸寬短袖、唐睿 POLO 領＋口袋便利貼、家豪薄背心）。
+   - 魏教授第四版在驗（灰白、髮際線往後、額頭露出、上身寬、稍駝）；眼鏡請 LAWWW-C 決定。
+   - h01_clothes 新選項（預設不變）：NECK_GAP、SHOULDER_SKIN、SLEEVE_IN、NECK_RIB_L／T、NECK_FOLD、DRAPE、SHOULDER_SAG；h01_face：BROW_LEN_D、BROW_TAIL；vrm_finish2：VRM_REST；npc.py：torso、stoop；npc_hair_m：recede。
+   - 還沒做：韋綸的安全帽（後背包側邊的配件 GLB）、家豪的美食地圖筆記本、四人並排＋坐下照、經原教室遠景（LAWWW-C）。
 
 ### 📋 分批順序（LAWWW2-C 2026-10-17 10:4x；使用者 10:4x 經 LAWWW-C：「各自審核每一批要做什麼、排出順序，手上沒事就先做下一批」）
 D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tools/handoff/check_handoff.py queue --owner LAWWW2`（72 項）。
