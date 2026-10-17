@@ -356,7 +356,7 @@ def place(key, x, y, z, yaw, col):
 
 # 機車的長軸：scooter.glb 的車頭朝 +z（遊戲座標）。升降台沿 x：車頭朝 +x（yaw −90°）；檯面頂 0.34 m
 place('scooter_S1B', -0.05, 0.34, 0.05, 0.0, '#f1f1ee')                         # 升降台上的「新機車」（白色、新款通勤）：側面朝鏡頭、車頭朝右（scooter.glb 的長軸是 x：yaw 0＝車頭朝 +x）
-place('scooter_S1A', -2.75, 0.0, 4.7, math.radians(132), '#22344f')             # 騎樓停的兩台：斜停（3/4 側面）；第四版往左後挪（第三版擋住升降台）
+place('scooter_S1A', -3.25, 0.0, 5.0, math.radians(128), '#22344f')             # 騎樓停的兩台：斜停（3/4 側面）；第四版往左後挪（第三版擋住升降台）
 place('scooter_S7', 2.35, 0.0, 1.35, math.radians(196), '#c9ccd0')              # 店裡右牆邊等修的一台
 place('scooter_S2', 2.15, 0.0, 4.3, math.radians(38), '#8f1f24')
 # 拆下來的輪胎（靠著升降台）、工具箱、地上的扳手、紙箱、騎樓的安全帽
@@ -395,7 +395,7 @@ for t in ('NISHITA', 'MULTIPLE_SCATTERING', 'SINGLE_SCATTERING'):
     except Exception: continue
 try: sky.sun_elevation = math.radians(4.0); sky.sun_rotation = math.radians(250); sky.sun_disc = False
 except Exception: pass
-nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', '0.22'))
+nt.links.new(sky.outputs['Color'], nt.nodes['Background'].inputs['Color']); nt.nodes['Background'].inputs['Strength'].default_value = float(opt('--sky', '0.13'))
 sun = bpy.data.objects.new('sun', bpy.data.lights.new('sun', 'SUN')); sc.collection.objects.link(sun)
 sun.data.energy = float(opt('--sun', '2.6')); sun.data.color = (1.0, 0.62, 0.36); sun.data.angle = math.radians(1.5)
 sun.rotation_euler = (math.radians(84), 0, math.radians(-128))
@@ -406,7 +406,7 @@ point_light('street_lamp', -5.5, 4.4, 8.0, float(opt('--street', '700')), (1.0, 
 m = Mesh('work_lamp_shade', M['green']); m.cyl((0.25, 2.05, 0.35), (0.25, 1.92, 0.35), 0.03, seg=16, r2=0.14); m.cyl((0.25, 2.05, 0.35), (0.25, H, 0.35), 0.006, seg=6); m.finish()
 point_light('shrine_glow', 2.875, 2.6, ZB + 0.3, 8, (1.0, 0.2, 0.12), 0.05)
 point_light('vsign_glow', X0 - 0.32, 2.3, ZA + 0.5, 25, (1.0, 0.93, 0.85), 0.3)
-area_light('street_bounce', -1.0, 1.4, ZA + 3.0, 6.0, 2.5, float(opt('--bounce', '120')), (0.55, 0.62, 0.9), rot=(math.radians(-90), 0, 0))   # 巷子的天空反光（藍紫）
+area_light('street_bounce', -1.0, 1.4, ZA + 3.0, 6.0, 2.5, float(opt('--bounce', '70')), (0.55, 0.62, 0.9), rot=(math.radians(-90), 0, 0))   # 巷子的天空反光（藍紫）
 
 # ---------------- 鏡頭：站在巷子邊、騎樓外緣，往店裡看（升降台在畫面中間偏左，招牌、神明燈、工具牆都看得到） ----------------
 eye = tuple(map(float, opt('--eye', '-1.7,1.45,7.4').split(','))); look = tuple(map(float, opt('--look', '0.7,1.15,0.0').split(',')))   # 第三版：左前方、近一點、斜看進店裡（第二版正面、太對稱，像模型展示）
