@@ -130,6 +130,17 @@ GM.money=function(n){ G.money+=n; };
     check('12. 小語（FAMILIAR）第一次遇到「你回來了！伴手禮咧！」、只一次；交往中的以安沒有（她有重逢）',a&&!b&&!c&&lines().join('|')==='小語：你回來了！伴手禮咧！',JSON.stringify(lines()));
     G.day=D('2026-08-30'); delete VAC.rec(G).backSeen; check('12. 超過 30 天不說',!(await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu')));
     check('12. talkCharacter 在閒聊前呼叫 VAC.backGreet',/VAC\.backGreet\(GM,who,id\)/.test(require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'))); }
+  // 13. 朋友揪團（AA_244 3-2、BB_200 第 8 節）：大二方奕廷日本的山、大三子晴曼谷
+  { fresh(D('2027-07-10'),20.9,'dorm',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',30,10,5); PHONE.join(G,'noodle_team','麵店團'); run(20.9,21.2);
+    const F=txt('p:npc_fangyt'); check('13. 7/10 21:00 方奕廷「八月一號到四號，去日本爬山。」…「機票我查過了，下禮拜會漲。」、三個回覆',F.includes('npc_fangyt:八月一號到四號，去日本爬山。')&&F.includes('npc_fangyt:機票我查過了，下禮拜會漲。')&&(G.msgs||[]).find(m=>m.ask&&m.ask.id==='vac_ask_T02@Y2').ask.opts.length===3,JSON.stringify(F));
+    PHONE.answer(G,'vac_ask_T02@Y2',0); STORY.phoneRules(GM); check('13. 去。→「好。鞋子要能走八個小時的。」、媽媽「機票多少？我轉給你。」、8/1 05:00 出發',txt('p:npc_fangyt').includes('npc_fangyt:好。鞋子要能走八個小時的。')&&!!OUT.get(G,'vac_T02@Y2')&&OUT.get(G,'vac_T02@Y2').day===D('2027-08-01'));
+    G.day=D('2027-08-01'); G.hour=5; said=[]; await VAC.outing(GM,OUT.get(G,'vac_T02@Y2')); const L=lines();
+    check('13. 日本的山：機場水壺、「這棵，台灣沒有。」、山屋「明天四點起來，看日出。」、溫泉街「這座山還有一條路沒走。」；8/4',L.some(t=>t.includes('已經裝滿了'))&&L.some(t=>t.endsWith('這棵，台灣沒有。'))&&L.some(t=>t.endsWith('明天四點起來，看日出。'))&&L.some(t=>t.endsWith('這座山還有一條路沒走。'))&&G.day===D('2027-08-04'),JSON.stringify(L)); }
+  { fresh(D('2027-07-10'),20.9,'dorm',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',10,0,0); run(20.9,21.2); check('13. 和方奕廷不到 FAMILIAR：沒有邀約',!txt('p:npc_fangyt').length); }
+  { fresh(D('2028-06-10'),20.9,'dorm',{EXCHANGE_ROUTE:'US'}); G.stage='law'; meet('heroine_04'); R('heroine_04',30,10,5); run(20.9,21.2); const Z=txt('p:heroine_04');
+    check('13. 大三 6/10 子晴「欸 七月三號到七號 曼谷」「有個獨立遊戲展 我想去看」「阿凱也去」（美國路線 7 月初還在臺灣）',Z.includes('heroine_04:欸 七月三號到七號 曼谷')&&Z.includes('heroine_04:阿凱也去'),JSON.stringify(Z));
+    fresh(D('2028-06-10'),20.9,'dorm',{EXCHANGE_ROUTE:'JP'}); G.stage='law'; meet('heroine_04'); R('heroine_04',30,10,5); run(20.9,21.2); const noAsk=!txt('p:heroine_04').length; G.day=D('2028-07-05'); run(20.9,21.2); G.day=D('2028-07-07'); run(20.9,21.2);
+    const J=txt('p:heroine_04'); check('13. 日本路線（人在日本）：沒有邀約；7/5 子晴「📷（遊戲展的入口）」「你不在 好可惜」；沒有「沒去」那則',noAsk&&J.includes('heroine_04:你不在 好可惜')&&!J.includes('heroine_04:阿凱吃了三份'),JSON.stringify(J)); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

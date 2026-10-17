@@ -62,6 +62,35 @@ const VAC_DATA=(function(){
           choice:[{t:'「好，我排。」',say:[{who:'kai',text:'不要排博物館。'}]},{t:'「下次叫阿哲一起。」',say:[{who:'kai',text:'他會一直問哪裡可以吃。……好啊。'}]}]} ],
       back:{day:'08-28'},   /* 阿哲「伴手禮咧」（AA_241；出國第幾次照 AA_242 0-3）*/
       miss:{day:'08-28',h:21,who:'kai',msgs:['📷（秋葉原的街，招牌一層一層疊上去）','買到了']} },
+    /* ===== 朋友揪團出國（C13 的一種；BB_200 第 8 節、台詞 AA_244 3-2 b667820f）：每個暑假一位、要和揪的人 FAMILIAR 以上 ===== */
+    /* 大二暑假：方奕廷，日本的山（8/1～8/4）；7/10 21:00 私訊、週五（7/16）前回 */
+    T02:{ id:'T02', title:'日本的山（方奕廷那一團）', cat:'海外旅遊', season:'summer', years:['Y2'], days:['08-01','08-04'], slot:'night', place:{kind:'abroad',name:'日本',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
+      signup:{kind:'dm', who:'npc_fangyt', min:'FAMILIAR', day:'07-10', h:21, until:'07-16', flag:'VAC_T02',
+        msgs:['八月一號到四號，去日本爬山。','登山社兩個人。你要的話，第四個位子。','機票我查過了，下禮拜會漲。'],
+        yes:{t:'去。',say:[{from:'npc_fangyt',text:'好。鞋子要能走八個小時的。'}],family:'機票多少？我轉給你。'},
+        later:{t:'我體力不太行。',say:[{from:'npc_fangyt',text:'第二天有纜車。……我不坐，你可以坐。週五前跟我說。'}]},
+        no:{t:'這次不行。',say:[{from:'npc_fangyt',text:'好。有拍到樹，再給你看。'}]} },
+      trip:{ start:{day:'08-01',h:5}, end:{day:'08-04',h:20}, placeName:'日本的山', home:'auto' }, back:{},
+      keys:[
+        {day:'08-01',h:5,title:'出發',bg:null,lines:[{narr:'（早上五點的機場。方奕廷的背包上掛著一個水壺，已經裝滿了。）'}]},
+        {day:'08-02',h:10,title:'山上第一天',bg:null,lines:[{narr:'（步道上的霧很濃。方奕廷走在最前面，每隔一段就停下來看一棵樹。）'},{who:'npc_fangyt',text:'這棵，台灣沒有。'}]},
+        {day:'08-02',h:21,title:'山屋那晚',bg:null,lines:[{narr:'（山屋的燈九點就關了。黑暗裡有人在打呼。）'},{who:'npc_fangyt',text:'（小聲）明天四點起來，看日出。'}]},
+        {day:'08-03',h:20,title:'下山那晚',bg:'trip_jp_onsen',lines:[{narr:'（溫泉街的燈籠一路亮到坡底。）'},{who:'npc_fangyt',text:'這座山還有一條路沒走。'}]} ],
+      miss:{day:'08-03',h:20,who:'npc_fangyt',min:'FAMILIAR',msgs:['📷（山頂的雲海）','到了']} },
+    /* 大三暑假：子晴，曼谷（7/3～7/7）；6/10 21:00 私訊。日本路線的玩家人在日本（到 8/5）收不到，7/5 改傳照片。芷若×子晴交往中的版本（BB_194 §23）等那條線做好再接 */
+    T03:{ id:'T03', title:'曼谷（子晴那一團）', cat:'海外旅遊', season:'summer', years:['Y3'], days:['07-03','07-07'], slot:'night', place:{kind:'abroad',name:'曼谷',tz:-1}, cost:{payer:'family',local:'self'}, free:'partial',
+      signup:{kind:'dm', who:'heroine_04', min:'FAMILIAR', day:'06-10', h:21, until:'06-16', flag:'VAC_T03', unless:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP',
+        msgs:['欸 七月三號到七號 曼谷','有個獨立遊戲展 我想去看','阿凱也去'],
+        yes:{t:'去。',say:[{from:'heroine_04',text:'好 機票我來比價'}],family:'機票多少？我轉給你。'},
+        later:{t:'遊戲展是什麼？',say:[{from:'heroine_04',text:'去了就知道'},{from:'heroine_04',text:'這禮拜回我'}]},
+        no:{t:'這次不行。',say:[{from:'heroine_04',text:'好吧 帶東西給你'}]} },
+      alt:{day:'07-05',h:21,who:'heroine_04',min:'FAMILIAR',if:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP',msgs:['📷（遊戲展的入口）','你不在 好可惜']},
+      trip:{ start:{day:'07-03',h:8}, end:{day:'07-07',h:18}, placeName:'曼谷', home:'auto' }, back:{},
+      keys:[
+        {day:'07-04',h:14,title:'遊戲展',bg:null,lines:[{narr:'（展場很小，攤位一個挨著一個。子晴在一個攤位前站了二十分鐘，一直玩同一關。）'},{who:'heroine_04',text:'這關設計得很爛。……可是我停不下來。'}]},
+        {day:'07-05',h:20,title:'夜市',bg:'trip_th_nightmarket',lines:[{narr:'（阿凱一個人吃了三份炒河粉。）'},{who:'kai',text:'……還有一攤。'}]},
+        {day:'07-06',h:21,title:'最後一晚',bg:null,lines:[{who:'heroine_04',text:'回去我就要進工作室了。……先吃這一攤。'}]} ],
+      miss:{day:'07-07',h:21,who:'heroine_04',min:'FAMILIAR',msgs:['📷（夜市）','阿凱吃了三份'],unless:G=>typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='JP'} },
     /* ===== 出國的活動（AA_242 18fe1b6a 照抄；AA_199 7-4）：學校、團隊、新 NPC 全部虛構；海外的關鍵事件是 2D 場景（底圖等使用者給，先用暗底）=====
        沒錄取（BB-C 13:03，AA_199 3-5／3-7「限制玩家的是時間」）：C08、C11 要用掉一個時段寫申請資料（報名隔天 20:00 宿舍書桌）、C09 面試人要到；沒做＝公布那天「很遺憾」＋阿哲一句，可以改報別的。日子 BB 確認（C08 說明會第 14 週週三 12:20、C09 面試第 7 週週三 19:00、C11 結果第 8 週週一 12:00）。 */
     /* VAC-C08 姊妹校邀請交流（首爾）：AA_242 第 1 節。大一暑假 7/13～7/24 */
