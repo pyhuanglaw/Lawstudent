@@ -1994,7 +1994,7 @@ const STORY_EVENTS=[
       {label:'t'},{speaker:'econ_zhengxun',text:'經濟系的十分鐘。邊際的。'},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(2/3); } },
-  { id:'ev_y0_a1_note', stage:'econ', title:'門上的紙條', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[9,10,11], once:true, background:'blur',
+  { id:'ev_y0_a1_note', retired:'AA-C 2026-10-17 07:28 Q2：刪除（10/19 退宿以後不會回 412）。定義留給已經演過的舊存檔', stage:'econ', title:'門上的紙條', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[9,10,11], once:true, background:'blur',
     prereq:{custom:G=>!(G.events&&G.events.done&&G.events.done.ev_y0_a1)&&typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(G.day).key>='2024-11-01'&&(CALENDAR.dateOf(G.day).key>'2024-11-01'||G.hour>=12)},
     dialogue:[ {speaker:null,text:'期中考完，阿勳在門上貼了一張紙：「第四題，答案是零。」'} ] },
   /* B2 小桌子的午後（BB_105 B2、4-4；AA_154 第 112 行）：Y0S1 第 6～7 週週一（10/7、10/14；第 5 週颱風停課）經原下課後，在博雅的自習區（101 旁小桌）坐下，可昕自己走過來。

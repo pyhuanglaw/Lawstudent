@@ -1,4 +1,4 @@
-// v0 T1 全系的秘密（KNOWS_TANG）、A1 凌晨兩點的微積分（XUN_WARM）與沒去的紙條（BB_112；AA_154 第 111、119 行）——不需要瀏覽器。用法：node tests/v0_t1_a1_unit.js
+// v0 T1 全系的秘密（KNOWS_TANG）、A1 凌晨兩點的微積分（XUN_WARM）與沒去的紙條（已刪，AA-C Q2）（BB_112；AA_154 第 111、119 行）——不需要瀏覽器。用法：node tests/v0_t1_a1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -33,6 +33,6 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   { fresh(K('2024-10-15'),24.5,'dorm'); picks=['數字有溫度']; await EVENTS.run(a1); const L=said.map(x=>x.t);
     check('2. A1 原文、「我覺得很好。數字有溫度。」→「……你也是怪人。」、XUN_WARM',L[0]==='你那題，答案是零。'&&L.includes('（四十分鐘後。）')&&L[L.length-1]==='……你也是怪人。'&&G.flags.XUN_WARM===true,JSON.stringify(L.slice(-3)));
     G.day=K('2024-11-02'); G.hour=20; G.weekday=wdOf(G.day); check('3. 玩過 A1：期中後沒有門上的紙條',!EVENTS.check(note)); }
-  check('3. 沒玩過 A1：11/1 中午以後回宿舍有紙條；10/31 沒有',ck(note,'2024-11-01',13,'dorm')&&ck(note,'2024-11-04',20,'dorm')&&!ck(note,'2024-10-31',20,'dorm'));
+  check('3. A1 門上紙條刪除（AA-C 2026-10-17 Q2：10/19 退宿以後不會回 412）：標 retired，沒玩過 A1 的人 11/1 回宿舍也沒有',!!note.retired&&!ck(note,'2024-11-01',13,'dorm')&&!ck(note,'2024-11-04',20,'dorm'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

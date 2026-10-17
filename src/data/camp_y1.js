@@ -35,7 +35,7 @@ const CAMP_Y1_EVENTS=[
       {set:{CAMP_BUS:'win'}},
       {label:'arrive'},
       {scene:'山上的青年活動中心',bg:'econ_camp'},
-      {if:{flags:['PLAYED_Y0']},speaker:null,text:'（這個營地你去年來過。那時候是十一月，比較冷。）'} ] },
+      {if:{flags:['PLAYED_Y0']},speaker:null,text:'（這個營地你去年來過，經濟系的宿營。）'}   /* AA-C 07:52 Q5：經濟系宿營改 2024-08-23～25（AA_218），拿掉「十一月，比較冷」*/ ] },
 
   /* 8/22 10:30 始業式、小隊時間：破冰（BB_177 第 2 節：小隊輔、隊呼＝破綻 0、照生日排隊＝破綻 1、名字接龍；AA_205 6-12 祐廷報生日、阿哲／芯慈／柏翰／祐廷的接龍）*/
   { id:'ev_camp_d1_ice', stage:'any', title:'迎新宿營：破冰', participants:[], location:'any', trigger:'camp', once:true, background:'dark',

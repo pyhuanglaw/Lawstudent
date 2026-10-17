@@ -1,4 +1,4 @@
-// v0 P2b 門口有人在揪（AA_154 2-5a；BB_105 P2b，BB-B 6d59df01）：週四會計下課 40%（只到 10/17 以前，AA_218 第 11 節）、跟去的五種去處與結束時間、L5b、E13 三種散場——不需要瀏覽器。
+// v0 P2b 門口有人在揪（AA_154 2-5a；BB_105 P2b，BB-B 6d59df01）：週四會計下課 40%（只到 10/17 以前，AA_218 第 11 節）、跟去的五種去處與結束時間、L5b；E13 三種散場已刪（AA-C Q1）——不需要瀏覽器。
 // 修改前沒有 ev_y0_p2b（全部失敗）。用法：node tests/v0_p2b_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -10,12 +10,12 @@ for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
-let said=[], picks=[], rels=[], G=null;
+let said=[], picks=[], rels=[], opts=[], G=null;
 const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0,endCinematic(){}};
 const GM={get G(){ return G; },E,D:{active:false},npc:{},
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
   titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(id,d){ rels.push([id,d]); },walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
-  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
 const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const fresh=(day,hour,zone,flags,stage)=>{ G={v:3,day,hour,zone,stage:stage||'econ',weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
   SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=[]; rels=[]; };
@@ -48,21 +48,18 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('5. 韋綸的句子不連續重複',G.flags.P2B_LAST!==last);
   check('5. 第二次＝河濱 river：17:00 結束、接 L5b（溫州街牽車、韋綸／品妤／阿勳三句）、L5B_DONE',L2.some(t=>/^騎腳踏車到河濱/.test(t))&&L2.includes('這條巷子很適合拍電影。')&&L2.includes('機率上，總有人在這裡拍過。')&&Math.abs(G.hour-17)<1e-6&&G.flags.L5B_DONE===true&&G.flags.P2B_COUNT===2,JSON.stringify(L2));
   check('5. river 沒有花錢、沒有 E13③（韋綸的腳踏車還沒演）',G.money===5000&&!L2.some(t=>/河會記得/.test(t)));
-  // 第三次（night：總圖讀到九點）W12 期中後：E13 ② 女舍門口
+  // 第三次（night：總圖讀到九點）W12：E13 已刪（AA-C 2026-10-17 Q1：10/17 就交往了，retired）——散場沒有「陪大家走到最後」
   FL=snapF(); fresh(T12,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
-  picks=['跟去','陪大家走到最後','順路而已']; await EVENTS.run(ev); let L3=said.map(x=>x.t);
-  check('6. 第三次＝總圖讀到九點（21:00）→ 期中後多一個選擇 → ② 女舍門口「我到了。」…「男宿在另一邊。」、E13_NIGHT、invite:kexin +1、回宿舍',L3.some(t=>/^大家去總圖讀到九點/.test(t))&&L3.includes('我到了。')&&L3.includes('……我發現了。只是沒說。')&&L3.includes('男宿在另一邊。')&&G.flags.E13_NIGHT===true&&EVENTS.habitCount({key:'invite:kexin'})===1&&G.zone==='dorm'&&Math.abs(G.hour-21)<1e-6,JSON.stringify(L3));
+  opts=[]; picks=['跟去']; await EVENTS.run(ev); let L3=said.map(x=>x.t);
+  check('6. 第三次＝總圖讀到九點（21:00）、回宿舍；E13 已刪：沒有「先回去了／陪大家走到最後」、沒有女舍門口那段、不記 E13_NIGHT',L3.some(t=>/^大家去總圖讀到九點/.test(t))&&!L3.includes('我到了。')&&!opts.some(o=>o.some(x=>/陪大家走到最後/.test(x)))&&!G.flags.E13_NIGHT&&G.zone==='dorm'&&Math.abs(G.hour-21)<1e-6,JSON.stringify(L3));
   // 第四次（夜市，night）：② 已經演過，不再問
   FL=snapF(); fresh(T13,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
   picks=['跟去']; await EVENTS.run(ev); let L4=said.map(x=>x.t);
-  check('7. 第四次＝夜市（21:30、−80）；night 的 E13 演過了，不再問',L4.some(t=>/^先各自去讀書/.test(t))&&Math.abs(G.hour-21.5)<1e-6&&G.money===5000-80&&!L4.includes('我到了。'),JSON.stringify(L4));
-  // 第六次（food，W15）：E13 ① 公館的路口
+  check('7. 第四次＝夜市（21:30、−80）；沒有 E13',L4.some(t=>/^先各自去讀書/.test(t))&&Math.abs(G.hour-21.5)<1e-6&&G.money===5000-80&&!L4.includes('我到了。'),JSON.stringify(L4));
+  // 第六次（food，W15）：E13 已刪
   FL=snapF(); FL.P2B_COUNT=5; fresh(T15,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
-  picks=['跟去','陪大家走到最後','現在']; await EVENTS.run(ev); let L6=said.map(x=>x.t);
-  check('8. food（期中後）→ ① 公館的路口「紅燈九十秒。」→「現在已經在用了。」、E13_FOOD',L6.includes('紅燈九十秒。')&&L6.includes('現在已經在用了。')&&G.flags.E13_FOOD===true,JSON.stringify(L6));
-  // 選「先回去了。」＝沒有 E13
-  FL=snapF(); FL.P2B_COUNT=5; delete FL.E13_FOOD; fresh(T14,15.2,'putong',Object.assign(FL,{P2B_SEEN:false}));
-  picks=['跟去','先回去了']; await EVENTS.run(ev); check('8. 選「先回去了。」：不演、E13_FOOD 沒記',!said.some(x=>x.t==='紅燈九十秒。')&&!G.flags.E13_FOOD);
+  opts=[]; picks=['跟去']; await EVENTS.run(ev); let L6=said.map(x=>x.t);
+  check('8. food（W15）：沒有 E13 ①（「紅燈九十秒。」）、不記 E13_FOOD、沒有散場的選擇',!L6.includes('紅燈九十秒。')&&!G.flags.E13_FOOD&&!opts.some(o=>o.some(x=>/陪大家走到最後/.test(x))),JSON.stringify(L6));
   // 今天先回去
   FL=snapF(); fresh(T14,15.2,'putong',Object.assign(FL,{P2B_SEEN:false,P2B_WK:null})); const c0=G.flags.P2B_COUNT|0;
   picks=['今天先回去']; await EVENTS.run(ev); check('9. 「今天先回去。」→ 韋綸「那下次！」、次數不變、時間不跳',said.some(x=>x.t==='那下次！')&&(G.flags.P2B_COUNT|0)===c0&&Math.abs(G.hour-15.2)<1e-6&&!EVENTS.check(ev));
@@ -83,7 +80,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   let FB=Object.assign({},G.flags); FB.P2B_COUNT=1; STORY.P2B_P=1; fresh(T11,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
   picks=['跟去','先找路出去']; await EVENTS.run(ev); check('12. 腳踏車之後第一次 river：L5b（還沒演過）',said.some(x=>x.t==='這條巷子很適合拍電影。')&&G.flags.L5B_DONE===true);
   FB=Object.assign({},G.flags); FB.P2B_COUNT=1; fresh(T13,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
-  picks=['跟去','陪大家走到最後','我騎很慢']; await EVENTS.run(ev); check('12. 再下一次 river：E13③ 河濱「假設河會記得……」→「那它會記得很久。」、E13_RIVER',said.some(x=>x.t==='假設河會記得每一個從這裡騎過去的人。')&&said.some(x=>x.t==='那它會記得很久。')&&G.flags.E13_RIVER===true);
+  opts=[]; picks=['跟去']; await EVENTS.run(ev); check('12. 再下一次 river：E13③ 已刪（沒有「假設河會記得……」、不記 E13_RIVER）',!said.some(x=>x.t==='假設河會記得每一個從這裡騎過去的人。')&&!G.flags.E13_RIVER&&!opts.some(o=>o.some(x=>/陪大家走到最後/.test(x))));
   // 沒去版
   const bikeAsk=()=>PHONE.thread(G,'g:econ_friends').find(m=>m.text==='我的車被認走了。有沒有人懂法律？');
   fresh(BD,17.4,'dorm',{P2_PICK:'river'}); PHONE.join(G,'econ_friends','走啦'); run(); check('13. 沒去：17:30 以前沒有',!bikeAsk());
