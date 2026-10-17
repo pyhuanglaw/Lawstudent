@@ -92,6 +92,6 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   at(BD,18.05); check('14. 不回：18:00 阿勳「去派出所。留著對話紀錄。」、沒有記號',TH('g:econ_friends').includes('去派出所。留著對話紀錄。')&&!G.flags.BIKE_LOOKED_UP&&!G.flags.WL_BIKE);
   G=JSON.parse(snapA); SOCIAL.bind(G); EVENTS.bind(GM); at(BD,18.2); check('14. 沒回：18:00 阿勳一樣說；選項過期',TH('g:econ_friends').includes('去派出所。留著對話紀錄。')&&!PHONE.answer(G,'y0_bike',0));
   at(BD+14,20.9); check('15. 兩週後 21:00 以前沒有',!TH('g:econ_friends').includes('賣車的人找到了。錢拿回一半。另一半當學費。'));
-  at(BD+14,21.1); check('15. 11/21 21:00 韋綸「賣車的人找到了。……」可昕「學費的邊際效用很高。」',TH('g:econ_friends').includes('賣車的人找到了。錢拿回一半。另一半當學費。')&&TH('g:econ_friends').includes('學費的邊際效用很高。'));
+  at(BD+14,21.1); check('15. 11/21 21:00 韋綸「賣車的人找到了。……」可昕「拿回一半很好了啦。」（BB_179 段 B #71）',TH('g:econ_friends').includes('賣車的人找到了。錢拿回一半。另一半當學費。')&&TH('g:econ_friends').includes('拿回一半很好了啦。')&&!TH('g:econ_friends').includes('學費的邊際效用很高。'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -1430,14 +1430,14 @@ const STORY = (function(){
       if(F.WL_BIKE_ASK==='look'&&!PHONE.sent(G,'y0_bike_look')&&!(GM.D&&GM.D.active)){ F.WL_BIKE_ASK='looked'; F.BIKE_LOOKED_UP=true; F.WL_BIKE=true; if(GM.advance) GM.advance(1);
         PHONE.at(G,G.day,G.hour,[{th:T,from:'player',who:null,text:'被偷的東西，原主兩年內可以要回去。車要還，可是你可以去找賣你的人。紀錄都留著。'},WL('……好。我去派出所。')],'y0_bike_look'); }
       if(G.day>=bd&&(G.day>bd||G.hour>=18)&&G.day<=bd+2&&PHONE.sent(G,'y0_bike_ask')&&!/^look/.test(F.WL_BIKE_ASK||'')&&!PHONE.sent(G,'y0_bike_xun')) PHONE.at(G,bd,18,[{th:T,from:'econ_zhengxun',name:'阿勳',text:'去派出所。留著對話紀錄。'}],'y0_bike_xun');
-      if((G.day>bd+14||(G.day===bd+14&&G.hour>=21))&&G.day<=bd+18&&!PHONE.sent(G,'y0_bike_after')) PHONE.at(G,bd+14,21,[WL('賣車的人找到了。錢拿回一半。另一半當學費。'),{th:T,from:'kexin',text:'學費的邊際效用很高。'}],'y0_bike_after'); } }
-    /* F1 經濟系群組的小年夜（BB_110 F1；AA_154 A17、A18）：2025-01-27（一）21:00「走啦」（沒有就全班群組）十則＋可昕的假設題；回覆三選一：
-       轉給表叔＝阿勳一句、Y0_UNCLE；轉給品妤＝品妤一句；「（已讀，不回）」＝可昕一句、Y0_F1_SEEN。完全沒打開手機＝什麼都沒有（群組照樣留著）。回覆開到 1/28 18:00（除夕晚上是 E21 的電話；AA_154 A43），過了只能看、什麼都不記 */
+      if((G.day>bd+14||(G.day===bd+14&&G.hour>=21))&&G.day<=bd+18&&!PHONE.sent(G,'y0_bike_after')) PHONE.at(G,bd+14,21,[WL('賣車的人找到了。錢拿回一半。另一半當學費。'),{th:T,from:'kexin',text:'拿回一半很好了啦。'}],'y0_bike_after');   /* 可昕那句照 BB_179 段 B #71（AA_269 C8）*/ } }
+    /* F1 經濟系群組的小年夜（BB_110 F1；AA_154 A17、A18；台詞照 BB_179 段 E 3-3 M20～M26、選項照 AA_200 7-4，AA_269 C7）：2025-01-27（一）21:00「走啦」（沒有就全班群組）八則＋可昕問年夜飯幾個人；回覆三選一：
+       「加阿勳的表叔，十三個。」＝阿勳一句、Y0_UNCLE；「四個。」＝品妤一句；「（已讀，不回）」＝可昕一句、Y0_F1_SEEN。完全沒打開手機＝什麼都沒有（群組照樣留著）。回覆開到 1/28 18:00（除夕晚上是 E21 的電話；AA_154 A43），過了只能看、什麼都不記 */
     if(S.isEcon(G)){ const fd=S.dayOfKey('2025-01-27'); if(fd!=null&&(G.day>fd||(G.day===fd&&G.hour>=21))&&G.day<=fd+3&&!PHONE.sent(G,'y0_f1')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class'; if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
       const T='g:'+gid, M=(from,name,text)=>({th:T,from,name,text}), PY=t=>M('econ_pinyu','品妤',t), TR=t=>M('econ_tangrui','唐睿',t), XU=t=>M('econ_zhengxun','阿勳',t), WL=t=>M('econ_weilun','韋綸',t);
-      PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。我要讓她知道代價。'),XU('紅包的期望值我算好了。'),XU('三個阿姨、兩個舅舅、一個不知道為什麼會來的表叔。'),XU('表叔的變異數很大。'),
-        WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),
-        Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
+      PHONE.at(G,fd,21,[PY('📷（一張表格）各縣市年菜價格比較。台北最貴。'),TR('妳為什麼要做這個？'),PY('我媽叫我去買。'),XU('我家今年三個阿姨、兩個舅舅，還有一個不知道為什麼會來的表叔。'),
+        WL('📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！'),TR('從哪裡騎？'),WL('枋寮。……好啦，坐火車到枋寮。'),TR('（貼圖：拍手）'),
+        Object.assign({th:T,from:'kexin',text:'明天年夜飯你們家幾個人？我家十二個'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'加阿勳的表叔，十三個。',set:{Y0_UNCLE:true},say:[XU('……他應該會很困惑。')]},{t:'四個。',say:[PY('跟我家一樣。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回喔。'}]}]}})],'y0_f1'); } }
     /* T3 沒去（BB_112 T3）：第 1 週沒演到＝2/21（五）21:00 群組品妤「今天收到一台計算機。很實用。」韋綸「……全系都在笑。」（時間暫定）*/
     if(S.isEcon(G)){ const d=S.dayOfKey('2025-02-21'); if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!(G.events&&G.events.done&&G.events.done.ev_y0_t3)&&!PHONE.sent(G,'y0_t3_miss')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid;
       if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); }
