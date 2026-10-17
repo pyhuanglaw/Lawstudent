@@ -142,14 +142,14 @@ const STORY = (function(){
       const n=GM.npc[XUN]||GM.spawnCharacter(XUN,0.2,2.6,{yaw:Math.PI,pose:'idle'}); if(n){ GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine) GM.cine('two',E.player.obj,n.obj); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.meet) SOCIAL.meet(XUN,'dorm');
       const who=xunWho(GM);
-      await GM.say(who,'你好。盧正勳，經濟系。'); await GM.say(who,'大家叫我阿勳。正勳兩個字，叫起來像在點名。');
+      await GM.say(who,'你好。盧正勳，經濟系。'); await GM.say(who,'叫我阿勳就好。');
       await GM.say(ME(G),'我叫{name}。也是經濟系。');
-      await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。……這不是冷笑話。這是事實。');
+      await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。');
       await GM.say(null,'他把臉盆放好，看了你的紙箱第二眼。');
       await GM.say(who,'你知道為什麼經濟系的人搬家，都只帶三個箱子嗎？');
       const i=await GM.choose([{t:'為什麼？'},{t:'因為預算限制？'}]);
-      if(i===0){ await GM.say(who,'因為第四個箱子的邊際效用是零。'); await GM.say(null,'他停了一下，等你笑。'); await GM.say(who,'……這是我今天想的。成功率大概三成。'); }
-      else { await GM.say(who,'……你搶了我的笑點。'); await GM.say(who,'好。你是一個危險的室友。我會小心。'); }
+      if(i===0){ await GM.say(who,'因為第四個箱子的效用，比搬它的成本低。'); await GM.say(null,'他停了一下，等你笑。'); await GM.say(who,'……這是我今天想的。成功率大概三成。'); }
+      else { await GM.say(who,'……差不多。'); await GM.say(who,'好。你是一個危險的室友。我會小心。'); }
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{fam:2});   /* 兩個選項一樣（不記旗標）*/
       await GM.say(who,'被子在最下面那一箱，對不對。'); await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
       await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st={x:1.8,z:2.2,yaw:Math.PI}; GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
@@ -166,7 +166,7 @@ const STORY = (function(){
   let y0Busy=false;
   async function y0Morning(GM){ const G=GM.G, F=G.flags; if(!S.isEcon(G)||!F.E01_NIGHT||F.E01_MORNING||y0Busy) return false; y0Busy=true; F.E01_MORNING=true;
     GM.sceneBegin(); try{ const n=GM.npc[XUN]||GM.spawnCharacter(XUN,1.8,2.2,{seat:{x:1.8,z:2.2,yaw:Math.PI},pose:'sit'}); const E=GM.E; if(n&&GM.cine) GM.cine('two',E.player.obj,n.obj); const who=xunWho(GM);
-      const L=F.E01_NIGHT==='unpack'?['你拆到兩點。我以為你在搬家。','……你本來就在搬家。好，這句不算冷笑話。']:['你十點就睡了。我以為你是機器人。','……機器人也要充電。你充得很完整。'];
+      const L=F.E01_NIGHT==='unpack'?['你拆到兩點。','你的鬧鐘響了兩次。它快七分鐘，我剛剛對過。']:['你昨天十點就睡了。','經原九點十分，在博雅。'];
       for(const t of L) await GM.say(who,t); }
     finally { GM.sceneEnd(); y0Busy=false; } if(GM.autosave) GM.autosave(); return true; }
   /* 待在房間裡（S.tick）：E01 演到一半關掉遊戲 → 從頭演；起床那一句沒聽到（讀檔）→ 補；先睡的玩家 9/2 晚上回房間 → 箱子拆完那一句 */
@@ -1086,9 +1086,9 @@ const STORY = (function(){
        沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本 */
     if(S.isEcon(G)&&F.E05_OPEN&&!F.E06_DONE&&F.E05_DAY!=null&&G.day===F.E05_DAY){ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
       if(G.zone==='campus'&&P&&hh<23&&hh>=(F.E05_END||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
-        PHONE.at(G,G.day,G.hour,[K('你剛剛經過我們宿舍。'),K('我在三樓看到一個人騎腳踏車騎得很認真。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。你騎腳踏車的樣子很好認。')]},{t:'不是。',say:[K('好。那那個人很像你。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
+        PHONE.at(G,G.day,G.hour,[K('你剛剛經過我們宿舍。'),K('我在三樓看到一個人騎腳踏車騎得很認真。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。我還在想要不要從窗戶叫你。')]},{t:'不是。',say:[K('好喔，那是我看錯了。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
       else if(hh>=22.5){ F.E06_DONE='e06'; const first={carry:'你今天說要載我，',fix:'你今天說要幫我修車，',steady:'你今天說你車很穩，'}[F.E05_OPEN]||'你今天說要載我，';
-        PHONE.at(G,G.day,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('（廉價訊號：說了不用付出代價的話。我剛學的，想用用看。）',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('我猜了。我猜你在想要怎麼回。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
+        PHONE.at(G,G.day,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('廉價訊號，就是說了也不用付出代價的話。／我最近看到的詞，想用用看。',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('那我當你是真心的。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
     /* 經濟系那一年的兩個群組（AA_157）：全班群組 econ_class「經濟系 大一（全班）」在 E02 迎新那天加入（寫法照法律系的全班群組：不發訊息）；
        「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，ev_y0_p2b）*/
     if(S.isEcon(G)){ const e02=termDay('Y0S1',1,1), mon3=termDay('Y0S1',3,1), sat3=termDay('Y0S1',3,6);
@@ -1097,7 +1097,7 @@ const STORY = (function(){
       /* ★E08 中秋系烤（BB_153；AA_154 第 88 行）：9/16（一）21:00 全班群組揪；9/21（六）16:00～17:00 韋綸私訊，回「好」＝出遊 17:00 河濱（ev_y0_e08）；
          「今天不行」、沒回、出發選單選不去＝沒去：21:30 群組一張照片＋可昕私訊（BB_104 AB-09，不用回、不扣分）*/
       if(mon3!=null&&sat3!=null&&PHONE.inGroup(G,'econ_class')&&G.day<=sat3) PHONE.at(G,mon3,21,[{th:'g:econ_class',text:'中秋系烤：9/21（六）17:00，河濱。自備餐具。'},{th:'g:econ_class',from:'econ_weilun',name:'韋綸',text:'走啦！'}],'y0_e08_grp');
-      if(sat3!=null&&G.day===sat3&&G.hour>=16&&G.hour<17&&!PHONE.sent(G,'y0_e08_dm')) PHONE.at(G,sat3,Math.max(16,G.hour),[{th:'p:econ_weilun',from:'econ_weilun',name:'韋綸',text:'走啦！我在舟山路門口。',ask:{until:sat3*24+17,opts:[{t:'好',set:{E08_GO:'yes'}},{t:'今天不行',set:{E08_GO:'no'}}]}}],'y0_e08_dm');
+      if(sat3!=null&&G.day===sat3&&G.hour>=16&&G.hour<17&&!PHONE.sent(G,'y0_e08_dm')) PHONE.at(G,sat3,Math.max(16,G.hour),[{th:'p:econ_weilun',from:'econ_weilun',name:'韋綸',text:'烤肉你要去嗎？我在舟山路門口，可以一起走過去。',ask:{until:sat3*24+17,opts:[{t:'好',set:{E08_GO:'yes'}},{t:'今天不行',set:{E08_GO:'no'}}]}}],'y0_e08_dm');
       if(F.E08_GO==='yes'&&typeof OUT!=='undefined'&&sat3!=null&&G.day===sat3&&!OUT.get(G,'y0_e08')) OUT.plan(G,{id:'y0_e08',ev:'ev_y0_e08',day:sat3,h:17,place:'河濱',title:'中秋系烤',travel:'和韋綸走過去',travelH:0.25});
       const q8=typeof OUT!=='undefined'?OUT.get(G,'y0_e08'):null;
       if(sat3!=null&&!(q8&&q8.state==='done')&&(G.day>sat3||(G.day===sat3&&G.hour>=18))&&G.day<=sat3+2&&!PHONE.sent(G,'y0_e08_missed'))

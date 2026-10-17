@@ -153,7 +153,7 @@ const CLS=(function(){
      遲到超過 15 分鐘才進去＝略過：一句旁白、不記座位（BB-B 2026-10-16 補的那一句；「可跳過」的意思等 AA-B 確認）*/
   S.p1Due=(G,it)=>!!(it&&it.c&&it.c.id==='acct_y0'&&!it.exam&&!(G.flags&&G.flags.Y0_P1_DONE));
   S.P1_SEATS=[['xun','（坐在阿勳旁邊）'],['front','（坐前排）'],['window','（坐靠窗）']];   /* 按鈕字照 AA_154 A51 Q13 */
-  S.P1_LINES=[()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳')+'：「……要看租約。」','韋綸：「負債！我室友打呼。」',()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_pinyu'):'品妤')+'：「你的室友是費用。」','（遠處，可昕舉手：「是情緒上的資產，財務上的費用。」全班笑。）'];
+  S.P1_LINES=[()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_zhengxun'):'阿勳')+'：「要看租約吧。」','韋綸：「負債！我室友打呼。」',()=>(typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName('econ_pinyu'):'品妤')+'：「你的室友是費用。」','（遠處，可昕舉手：「住得很開心的話，算資產嗎？」有幾個人笑了。）'];
   S.P1_SKIP='會計的第一堂。借方在左，貸方在右。阿勳的筆記，比你的整齊。';
   /* E04 微積分初體驗（BB_104 8b-1；AA_154 第 98 行）：Y0S1 第 2 週週三上午的微積分，被叫上台寫一題極限。可以錯過（沒去就沒有這一場，之後不提）；遲到超過 15 分鐘也沒有。記憶：無 */
   S.e04Due=(G,it)=>!!(it&&it.c&&it.c.id==='calc_y0s1'&&!it.exam&&it.week===2&&!(G.flags&&G.flags.E04_DONE));
@@ -161,7 +161,7 @@ const CLS=(function(){
     await GM.say(null,'（老師在黑板寫了一題極限，轉過身。）'); await GM.say(null,'老師：靠窗第三排，穿灰色的。上來寫。'); await GM.say(null,'（你走上去。粉筆很短。）');
     const k=await GM.choose([{t:'硬著頭皮寫'},{t:'回頭看阿勳'},{t:'「我不會。」'}]);
     await GM.say(null,['寫到一半卡住。阿勳在台下用嘴形說：「分子分母同除。」','阿勳已經寫完了，把筆記本轉過來給你看。','老師：「誠實。下課前我們一起會。」'][k]||'');
-    await GM.say(null,'老師：……好，答案對。下去吧。'); await GM.say(null,'（回到座位，韋綸睡得很熟，筆還握在手上。）'); await GM.say(null,XN()+'：（小聲）他第一分鐘就睡了。這是天分。'); };
+    await GM.say(null,'老師：……好，答案對。下去吧。'); await GM.say(null,'（回到座位，韋綸睡得很熟，筆還握在手上。）'); await GM.say(null,XN()+'：（小聲）他第一分鐘就睡了。'); };
   /* 選單「法律」頁（使用者 2026-10-16 試玩：一開始就列出刑訴三大類、而且只有刑訴）：只列玩家真的上過的法律課——每一門寫上過幾堂、每一週的主題
      （審查過的週＝黑板第一行；還沒審查＝課表的主題）；考試週、缺席不算。現在這學期在前，之前的學期在後。經濟、日文、體育、國文、通識不列 */
   const LAWNAME=/法|憲|刑|民|債|物權|親屬|繼承|訴訟|行政|票據|勞動|財稅|海商|判決|證券|智慧財產/, NOTLAW=/經濟|日文|微積分|會計|體育|國文|英文（|通識/;

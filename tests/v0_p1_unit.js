@@ -18,12 +18,12 @@ function itemFor(week){ const CID='acct_y0'; for(let d=-400;d<0;d++){ const t=CA
   check('0. 找到會計第 1、2、3 週；第 1 週是 9/5（四）13:20',!!w1&&!!w2&&!!w3&&d1.m===9&&d1.d===5&&Math.abs(w1.t0-(13+20/60))<0.01,JSON.stringify([d1,w1&&w1.t0]));
   const W1=SYLLABUS.courses.acct_y0.find(q=>q.w===1), W2=SYLLABUS.courses.acct_y0.find(q=>q.w===2);
   const seats='choose:（坐在阿勳旁邊） / （坐前排） / （坐靠窗）'   /* 按鈕字照 AA_154 A51 */, opts='choose:'+W1.call.options.map(o=>'「'+o+'」').join(' / ');
-  const P1=['……要看租約。','負債！我室友打呼。','你的室友是費用。'];
+  const P1=['要看租約吧。','負債！我室友打呼。','你的室友是費用。'];
   // 1. 第 1 週準時
   { const G=mkG(w1.day,w1.t0-0.05), GM=mkGM(G,1); GM.choose=async o=>{ GM.log.push('choose:'+o.map(q=>q.t).join(' / ')); return 2; }; await CLS.attend(GM,w1,{inScene:true}); const L=GM.log;
     const iS=L.indexOf(seats), iT=L.findIndex(t=>t.endsWith(W1.line)), iC=L.indexOf(opts);
     check('1. 先選坐哪裡（阿勳旁邊／前排／靠窗）→ 老師「今天第一題。你的宿舍，是資產還是負債？」',iS>=0&&iT>iS,JSON.stringify(L.slice(0,4)));
-    check('1. 阿勳、韋綸、品妤三句＋遠處的可昕（BB_105 2-3 原文、照順序）',P1.every((t,k)=>L[iT+1+k]&&L[iT+1+k].endsWith('「'+t+'」'))&&L[iT+4]==='（遠處，可昕舉手：「是情緒上的資產，財務上的費用。」全班笑。）',JSON.stringify(L.slice(iT,iT+6)));
+    check('1. 阿勳、韋綸、品妤三句＋遠處的可昕（BB_105 2-3 原文、照順序）',P1.every((t,k)=>L[iT+1+k]&&L[iT+1+k].endsWith('「'+t+'」'))&&L[iT+4]==='（遠處，可昕舉手：「住得很開心的話，算資產嗎？」有幾個人笑了。）',JSON.stringify(L.slice(iT,iT+6)));
     check('1. 被點到：三個回答＋共用收尾',iC>iT+4&&W1.call.follow.every(f=>L.some(t=>t.endsWith(f))));
     check('1. Y0_P1_SEAT＝window（選第三個）、Y0_P1_DONE',G.flags.Y0_P1_SEAT==='window'&&G.flags.Y0_P1_DONE===true,JSON.stringify(G.flags));
     G.day=w2.day; G.hour=w2.t0-0.05; const GM2=mkGM(G,0); await CLS.attend(GM2,w2,{inScene:true});
