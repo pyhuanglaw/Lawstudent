@@ -169,6 +169,8 @@ const DATE=(function(){
     const now=G.day*24+G.hour; for(const t of G.trips){ if(t.status!=='booked'||t.reminded) continue; const dep=t.day*24+t.depart; if(now>=dep-1&&now<dep){ t.reminded=true; const L=S.loc(t.locs[0])||{}; if(GM.toast) GM.toast('手機｜提醒：'+hm(t.depart)+'，你約了'+nameOf(t.who)+'去'+(L.name||'')+'。',3200); } } };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
+  /* 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）：那天約好的校外約會。h＝出發前 30 分鐘（鬧鐘）、dep＝出發時間（story3d.js 的 wakeAlarms、小睡；classes3d.js 的 skipStops 停在出發前 10 分鐘）*/
+  S.alarmsFor=function(G,day){ return (G.trips||[]).filter(t=>t.status==='booked'&&t.day===day).map(t=>{ const L=S.loc(t.locs[0])||{}, label='和'+nameOf(t.who)+'去'+(L.name||''); return {h:t.depart-0.5,dep:t.depart,label,why:label+'（'+hm(t.depart)+' 出發）'}; }).sort((a,b)=>a.h-b.h); };
   /* 出發時間到了（AA_128 4-2、4-3）：出發／改時間／今天不去了。晚 60 分鐘以內照常出發；更晚只剩改時間、不去 */
   S.prompt=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t){ q.state='missed'; return 'no'; }
     const now=G.day*24+G.hour, dep=t.day*24+t.depart, late=now-dep>1;

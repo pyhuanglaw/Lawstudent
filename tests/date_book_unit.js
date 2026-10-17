@@ -123,5 +123,14 @@ const ADV2=global.ADV; ADV2.active=false;
   const tm3=DATE.book(G,{who:'heroine_01',locs:['D13'],transport:'mrt',day:day+1,depart:15}); said=[]; await DATE.drop(GM,OUT.get(G,'date_'+tm3.trip),DATE.trip(G,tm3.trip));
   check('9. 30 天內第二次取消：FLAKED、放鴿子那一句',G.flags.FLAKED_heroine_01!=null&&lines().some(x=>/他會臨時取消/.test(x)),lines().join(' | '));
   check('9. 輪流的位置存在 dateLog（存檔裡；讀檔補預設）',!!DATE.log(G,'heroine_01').lineIdx&&DATE.log(G,'heroine_01').lineIdx.move===3&&DATE.log(G,'heroine_01').lineIdx.move3===1,JSON.stringify(DATE.log(G,'heroine_01').lineIdx));
+  // ---------- 10 睡覺的鬧鐘、跳過時間的停點（DATE-S4；AA_128 4-1）----------
+  { fresh(day,22,'dorm',{dating_heroine_03:true}); G.contacts.heroine_03=1; const t=DATE.book(G,{who:'heroine_03',locs:['D13'],transport:'mrt',day:day+1,depart:11});
+    const A=STORY.wakeAlarms(G,day+1).find(a=>/淡水/.test(a.why)); check('10. 明天 11:00 的約會：鬧鐘 10:30（出發前 30 分鐘）',!!A&&Math.abs(A.h-10.5)<1e-6,JSON.stringify(A));
+    const noon=STORY.bedOptions(G).find(o=>o.kind==='sleep'&&/中午/.test(o.t)); check('10. 晚上上床「睡到明天中午」：鬧鐘 10:30 叫醒、提示寫約會',!!noon&&Math.abs(noon.wake-10.5)<1e-6&&/淡水/.test(noon.hint)&&/10:30/.test(noon.hint),JSON.stringify(noon));
+    G.day=day+1; G.weekday=(G.weekday+1)%7; G.hour=9;
+    const nap=STORY.napOptions(G,2).find(o=>o.t==='小睡 2 小時'); check('10. 當天 09:00 小睡 2 小時：10:30 叫醒（不是 11:00）',!!nap&&Math.abs(nap.to-10.5)<1e-6&&/出發前 30 分鐘/.test(nap.hint),JSON.stringify(nap));
+    const eve=STORY.bedOptions(G).find(o=>/睡到傍晚/.test(o.t)); check('10. 「睡到傍晚（不設鬧鐘）」：提示會錯過約會',!!eve&&/會錯過：11:00 和/.test(eve.hint),eve&&eve.hint);
+    const st=CLS.skipStops(GM,14); check('10. 跳過時間到 14:00：停在 10:50（出發前 10 分鐘）',st.length&&Math.abs(st[0].h-(11-1/6))<1e-6&&/出發時間/.test(st[0].why),JSON.stringify(st));
+    DATE.trip(G,t.trip).status='cancelled'; check('10. 取消以後：沒有鬧鐘、不停',!STORY.wakeAlarms(G,day+1).some(a=>/淡水/.test(a.why))&&!CLS.skipStops(GM,14).some(q=>/出發時間/.test(q.why))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
