@@ -409,6 +409,20 @@
       "noDirectIntegrate": false,
       "receiver": "LAWWW",
       "ack": "SENT"
+    },
+    {
+      "task": "YT-EV7-EV9-NOFAFU-1017",
+      "branch": "claude/magical-albattani-bk7b4n",
+      "sha": "49f2788d783f89d317097fab21da439ca7d6eeb3",
+      "files": [
+        "docs/story_planning/AA_11_事件書_陳語彤.md"
+      ],
+      "state": "READY_FOR_REVIEW（台詞 AA 寫完；機制等 BB-C）",
+      "remaining": "BB 定：阿姨知道交往的旗標、柏翰 knows、不在場轉述時機、YT_DUTY_HEARD 讀法；BB_97 2-10 與 L1318 的處理",
+      "next": "BB-C 補機制後 LAWWW 實作：事件 7 刪、麵店閒聊；事件 9 陪阿姨來（柏翰接案）",
+      "noDirectIntegrate": true,
+      "receiver": "LAWWW",
+      "ack": "SENT"
     }
   ]
 }
