@@ -12,7 +12,8 @@ import json, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 SPOTS = json.load(open(os.path.join(HERE, 'spots_v1.json'), encoding='utf-8'))['spots']
 SPOTS += json.load(open(os.path.join(HERE, 'spots_v2.json'), encoding='utf-8'))['spots']  # 第二批（AB-23，BB_150）
-ACTS = {s['id']: {'walk'} | {p['id'] for p in s['points']} for s in SPOTS}
+SPOTS += json.load(open(os.path.join(HERE, 'spots_v3.json'), encoding='utf-8'))['spots']  # 第三批（BB_213）
+ACTS = {s['id']: {'walk'} | {p['id'] for p in s['points']} | ({s['walk']['point']} if isinstance(s.get('walk'), dict) and s['walk'].get('point') else set()) for s in SPOTS}
 WHO = {'heroine_02', 'heroine_04', 'heroine_05', 'classmate_peishan', 'kexin'}
 BAN = ['不要跟別人講', '不要跟別人說', '你是第一個', '我請你', '我可以問一個奇怪的問題嗎', '兩張票', '存檔', '脖子還是很短', '香菜', '剛好坐兩個人']
 
@@ -159,6 +160,52 @@ REVISIT += [
     {'batch': 2, 'who': 'heroine_05', 'spot': 'D24', 'normal': '泡腳池。上次學姊和她爸媽坐在這裡。', 'afterBreakup': '泡腳池。水還是一樣燙。'},
     {'batch': 2, 'who': 'classmate_peishan', 'spot': 'D20', 'normal': '老街口。上次沛珊在這裡幫小孩戴帽子。', 'afterBreakup': '老街口。'},
     {'batch': 2, 'who': 'heroine_02', 'spot': 'D25', 'normal': '堤防上。上次芷若在這裡，等浪碎掉的那一秒。', 'afterBreakup': '堤防上。'},
+]
+
+# ── 第三批（BB_213；spots_v3）：子晴 D01、芷若 D02、學姊 D11、沛珊 D08、可昕 D10 ──
+def w3(who, spot, act, friend, dating, cond=None):
+    e = w(who, spot, act, friend, dating, cond); e['batch'] = 3; return e
+
+WALK += [
+    w3('heroine_04', 'D01', 'walk', ['市集的人都很會講自己的東西。我不行。'], ['你走裡面。外面一直有人推。']),
+    w3('heroine_04', 'D01', 'D01.market', ['這攤的老闆也是做遊戲的。他說周邊比遊戲好賣。'], ['那隻貓的你買。我買狗的。']),
+    w3('heroine_04', 'D01', 'D01.lawn', ['坐一下。我平常都坐在電腦前面，站太久腳會痠。'], ['草有點濕。坐我的外套上面。']),
+    w3('heroine_02', 'D02', 'D02.books', ['這一區是電影書。我每次來都翻同一本，都沒買。'], ['這本你幫我拿著。結帳的時候我再決定。']),
+    w3('heroine_02', 'D02', 'D02.corridor', ['這條長廊的光，拍起來會像老電影。'], ['你站那格窗下面。不要動，我記一下光。']),
+    w3('heroine_02', 'D02', 'D02.pond', ['那個阿伯每個禮拜都在。上次他也拍同一隻。'], ['慢慢走。下一場四點才開始。']),
+    w3('heroine_05', 'D11', 'D11.library', ['這棟是木頭蓋的。屋頂有草，下雨的水會存起來用。'], ['這一頁讀完我就闔起來。你等我。']),
+    w3('heroine_05', 'D11', 'D11.footbath', ['讀完書泡腳，是我給自己的規定。'], ['水很燙。你慢慢放，不要逞強。']),
+    w3('heroine_05', 'D11', 'D11.valley', ['地熱谷的水是酸的，不能碰。告示寫得很清楚。'], ['霧好大。你站近一點。']),
+    w3('classmate_peishan', 'D08', 'D08.penguin', ['小孩貼在玻璃上不走。我也想貼，可是我是大人。'], ['你抱那個小的。他看不到。']),
+    w3('classmate_peishan', 'D08', 'D08.train', ['列車上我坐最後面，才看得到全部的人。'], ['你坐前面那節，我坐後面。這樣就不會有人掉。']),
+    w3('classmate_peishan', 'D08', 'walk', ['走到下一個休息區就好。他們的腳比較短。'], ['你走慢一點。最小的那個一直跟著你。']),
+    w3('kexin', 'D10', 'D10.bridge', [], ['吊橋會晃。你不要故意晃。']),
+    w3('kexin', 'D10', 'D10.boat', [], ['天鵝船要兩個人踩。予樂踩到一半就不踩了。']),
+    w3('kexin', 'D10', 'D10.snack', [], ['這攤的玉米比剛剛那攤好吃。我今天吃過兩攤了。']),
+]
+LEAVE += [
+    {'batch': 3, 'who': 'heroine_04', 'spot': 'D01', 'friend': '我要回去了。今天晚上要把那隻貓畫出來。', 'dating': '捷運站那邊人很多。你走前面，我跟著。'},
+    {'batch': 3, 'who': 'heroine_02', 'spot': 'D02', 'friend': '我要進去了。下一場要開始了。', 'dating': '你先走。我看完傳訊息給你，跟你說好不好看。'},
+    {'batch': 3, 'who': 'heroine_05', 'spot': 'D11', 'friend': '我要回去了。計畫本上還有兩件事。', 'dating': '支線只有一站。坐我旁邊。'},
+    {'batch': 3, 'who': 'classmate_peishan', 'spot': 'D08', 'friend': '我們要回去吃午餐了。謝謝你幫忙數。', 'dating': '回去的捷運上他們一定會睡著。你可以一起搭嗎？'},
+    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'friend': '', 'dating': '我回政大了。到宿舍傳訊息給你。'},
+]
+INTRO += [
+    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'speaker': 'yule', 'line': '我先回去了。可昕，玉米你自己吃完。'},
+]
+REVISIT += [
+    {'batch': 3, 'who': 'heroine_04', 'spot': 'D01', 'normal': '市集那一攤。上次子晴在這裡拿著一個像素鑰匙圈。', 'afterBreakup': '市集那一攤，今天賣的是別的東西。'},
+    {'batch': 3, 'who': 'heroine_02', 'spot': 'D02', 'normal': '書店門口的長椅。上次芷若坐在這裡，手上一本電影書。', 'afterBreakup': '書店門口的長椅，現在沒有人。'},
+    {'batch': 3, 'who': 'heroine_05', 'spot': 'D11', 'normal': '圖書館的木頭陽台。上次學姊坐在這裡讀書。', 'afterBreakup': '圖書館的陽台，那個位子坐著別人。'},
+    {'batch': 3, 'who': 'classmate_peishan', 'spot': 'D08', 'normal': '企鵝館門口。上次沛珊在這裡數小孩。', 'afterBreakup': '企鵝館門口，一群小孩貼在玻璃上。'},
+    {'batch': 3, 'who': 'kexin', 'spot': 'D10', 'normal': '河邊的台階。上次可昕和予樂坐在這裡吃玉米。', 'afterBreakup': '河邊的台階，烤玉米的味道還在。'},
+]
+FOLLOWUP += [
+    {'batch': 3, 'mem': 'ENC_D01_ZQ', 'who': 'heroine_04', 'where': '一般聊天', 'line': '華山那隻貓，我後來畫進去了。在第二關的角落。'},
+    {'batch': 3, 'mem': 'ENC_D02_ZR', 'who': 'heroine_02', 'where': 'Café 的閒聊', 'line': '松菸那天四點那場，我後來看了。你要我講給你聽嗎？'},
+    {'batch': 3, 'mem': 'ENC_D11_SIS', 'who': 'heroine_05', 'where': '一般聊天', 'line': '北投那天你走得很早。下次可以待到中午。'},
+    {'batch': 3, 'mem': 'ENC_D08_PS', 'who': 'classmate_peishan', 'where': '一般聊天', 'line': '動物園那天，小孩回去一直問我你是誰。'},
+    {'batch': 3, 'mem': 'ENC_D10_KX', 'who': 'kexin', 'where': '手機（只有交往中）', 'line': '碧潭那天予樂說，你吃玉米的樣子很認真。'},
 ]
 
 RULES = {
