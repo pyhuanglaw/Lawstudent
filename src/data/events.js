@@ -300,6 +300,12 @@ const STORY_EVENTS=[
       {unless:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（搬家後還有幾箱沒拆。）'},
       {speaker:null,text:'（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'} ],
     after:G=>{ G.flags.SIS_C2_ROOM=G.day; G.flags.SIS_C2_H=Math.min(23.5,Math.max(16,(G.hour%24)+0.25)); if(typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'sis_notebook','筆記本那一頁',''); } },   /* Life Album 收「筆記本那一頁」（BB_188 C2）：號碼不能看得清楚，先不放圖 */
+  /* 寒假沒報補習（C04W）的玩家：平日 18:00～18:30 在公館，Kevin 去補習班上班前招呼一次（AA_241 9-2；BB_198 大一寒假那列；大二寒假起、一個假期一次；VAC.kevinDoor）*/
+  { id:'ev_kevin_cram_door', title:'補習班門口', participants:[], location:'gongguan', trigger:'auto', weekday:[1,2,3,4,5], time:[18,18.5], priority:3, background:'blur',
+    prereq:{custom:G=>typeof VAC!=='undefined'&&!!VAC.kevinDoor&&!!VAC.kevinDoor(G)},
+    dialogue:[ {speaker:'Kevin',text:'學弟！路過喔？我要上班了，下次聊。',unless:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}},
+      {speaker:'Kevin',text:'又是你。……真的不報一下？我開玩笑的。',if:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}} ],   /* 第二個假期以後換這一句 */
+    after:G=>{ const k=typeof VAC!=='undefined'&&VAC.kevinDoor?VAC.kevinDoor(G):null; if(k) (G.flags.KEVIN_DOOR||(G.flags.KEVIN_DOOR={}))[k]=G.day; } },
   /* 子晴問阿凱（AA_218 17-11 @5063fbaf 台詞；BB_191 9-7 觸發）：上課日 17:00 資工系下課問的（romance3d.js zqAskTick 記 ZQ_ASK_KAI_D、寫 knowsGF.heroine_04 told_by:kai），
      那晚玩家第一次睡覺時演給玩家看（睡覺觸發；字卡「17:00　資工系館」、暗底：走廊的圖還沒有）。祐廷不在場、不知道（ytKnows 不變）*/
   { id:'ev_zq_ask_kai', title:'你室友有女朋友嗎', participants:[],   /* 祐廷不在場：不放 participants（會被算成認識、期末的「一起在場」）；立繪照每一句的 speaker */ location:'any', trigger:'sleep', once:true, priority:6, background:'dark', sleepCard:['17:00','資工系館'],

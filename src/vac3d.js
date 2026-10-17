@@ -19,10 +19,11 @@ const VAC=(function(){
   S.YEARS=['Y1','Y2','Y3','Y4'];
   S.yearsOf=A=>A.years||(A.year?[A.year]:['Y1']);   /* 每張卡第一次開放的那一年（AA_199 7-5 每年都開：第二次以後的台詞等 AA 補，這一版只開第一次）*/
   S.dayOf=function(yk,season,mmdd){ const n=+String(yk).slice(1), m=+mmdd.slice(0,2), y=season==='summer'?2025+n:(m>=7?2024+n:2025+n); return DK(y+'-'+mmdd); };
-  S.inst=function(id,yk){ const A=Dt()&&Dt().A[id]; if(!A) return null; if(!S.yearsOf(A).includes(yk)) return null; const from=S.dayOf(yk,A.season,A.days[0]), to=S.dayOf(yk,A.season,A.days[1]); if(from==null||to==null) return null;
+  S.inst=function(id,yk){ const A0=Dt()&&Dt().A[id]; if(!A0) return null; const A=A0.byYear&&A0.byYear[yk]?Object.assign({},A0,A0.byYear[yk]):A0;   /* byYear：那一年的日子不一樣（C04 每個假期的考試日不同，AA_199 7-2）*/ if(!S.yearsOf(A).includes(yk)) return null; const from=S.dayOf(yk,A.season,A.days[0]), to=S.dayOf(yk,A.season,A.days[1]); if(from==null||to==null) return null;
     return {id,yk,key:id+'@'+yk,A,from,to,first:S.yearsOf(A)[0]===yk}; };
   /* 第幾次參加（AA_264：照實際參加的次數，不看年級）：報名的時候記下來 */
-  S.nth=function(G,I){ const V=S.rec(G); if(V.nth&&V.nth[I.key]) return V.nth[I.key]; let n=1; for(const k in V.reg) if(k!==I.key&&k.split('@')[0]===I.id&&V.reg[k]==='done') n++; return n; };
+  const ser=id=>{ const A=Dt()&&Dt().A[id]; return (A&&A.series)||id; };   /* series：寒暑假分兩張卡、算同一系列的第幾次（C04 和 C04W：補習每個假期都算）*/
+  S.nth=function(G,I){ const V=S.rec(G); if(V.nth&&V.nth[I.key]) return V.nth[I.key]; let n=1; for(const k in V.reg) if(k!==I.key&&ser(k.split('@')[0])===ser(I.id)&&V.reg[k]==='done') n++; return n; };
   /* 人在國外的期間不能報（AA_264 第 0 節：日本路線 2/20～8/5、美國路線 8/2～12/23）*/
   S.blocked=function(G,I){ if(typeof STORY==='undefined'||!STORY.movedOut) return false; for(let d=I.from;d<=I.to;d++){ const g=Object.assign({},G,{day:d}); if(STORY.movedOut(g)||STORY.abroad(g)) return true; } return false; };
   /* 第二次以後的關鍵事件（AA_264 第 1、2 節）：日誌一行；C02 第二次第一天＝小隊長三句；大二以後才第一次參加的 C02＝換人版。null＝那一場不演 */
@@ -34,6 +35,9 @@ const VAC=(function(){
     if(kind==='prep'){ if(n>=2) return n>=3&&R.prep3?R.prep3:R.prep2; if(!I.first&&R.late) return R.late.prep; return undefined; }
     if(kind==='pre'&&n>=2){ const L=(n>=3&&R.pre3)?R.pre3:R.pre2; return L?L[i]:undefined; }
     if(kind==='post'&&n>=2) return R.post2; return undefined; };
+  /* 寒假沒報 C04 的玩家：平日 18:00～18:30 經過公館的補習班門口，Kevin 招呼一次（AA_241 9-2；大二寒假起，一個假期一次；ev_kevin_cram_door）*/
+  S.kevinDoor=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf) return null; const B=HOME.breakOf(G.day); if(!B||!/^Y[23]W$/.test(B.key)) return null; const yk=B.key.slice(0,2);
+    if(S.enrolled(G,'C04W',yk)) return null; const K=G.flags.KEVIN_DOOR; if(K&&K[B.key]!=null) return null; return B.key; };
   S.all=function(){ const out=[]; const D=Dt(); if(!D) return out; for(const yk of S.YEARS) for(const id of Object.keys(D.A)){ const I=S.inst(id,yk); if(I) out.push(I); } return out; };
   S.state=(G,key)=>S.rec(G).reg[key]||null;
   S.enrolled=function(G,id,yk){ const R=S.rec(G).reg; for(const k in R) if((k===id+'@'+(yk||'')||(!yk&&k.split('@')[0]===id))&&(R[k]==='yes'||R[k]==='done')) return true; return false; };
@@ -55,7 +59,8 @@ const VAC=(function(){
   /* 報名：記下來、家裡出錢的家人群組一句、排關鍵事件（出遊）*/
   S.signup=function(G,key,how){ const V=S.rec(G), [id,yk]=key.split('@'), I=S.inst(id,yk); if(!I) return false; V.reg[key]=how||'yes'; if(V.reg[key]!=='yes') return true; (V.when||(V.when={}))[key]=G.day; (V.nth||(V.nth={}))[key]=S.nth(G,I);
     const s=I.A.signup||{}; if(s.flag) G.flags[s.flag]=true;
-    if(s.yes&&s.yes.family&&typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); PHONE.at(G,G.day,G.hour,[{th:'g:home',from:'mom',name:'媽媽',text:s.yes.family}],'vac_fam_'+key); }   /* AA_199 3-7：家裡出的，家人群組一句 */
+    if(s.famMsgs&&typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); const M=s.famMsgs.map(t=>({th:'g:home',from:'mom',name:'媽媽',text:t})); if(s.famReply) M[M.length-1].ask={id:'vac_famr_'+key,opts:[{t:s.famReply.t,say:s.famReply.say.map(t=>({th:'g:home',from:'mom',name:'媽媽',text:t}))}]}; PHONE.at(G,G.day,Math.max(21,G.hour),M,'vac_fam_'+key); }   /* 當晚 21:00 家人群組（C04：AA_241 第 10 節；回不回都可以）*/
+    else if(s.yes&&s.yes.family&&typeof PHONE!=='undefined'){ PHONE.join(G,'home','家人'); PHONE.at(G,G.day,G.hour,[{th:'g:home',from:'mom',name:'媽媽',text:s.yes.family}],'vac_fam_'+key); }   /* AA_199 3-7：家裡出的，家人群組一句 */
     S.plan(G,I); return true; };
   /* 學期裡的前置事件（說明會、面試、系辦、行前訓練）：{term:'S2',week,wd} 或 {day:'MM-DD'}；報名以後排出遊 */
   S.preDay=function(I,p,G){ if(p.afterSignup!=null){ const w=G&&G.vac&&G.vac.when&&G.vac.when[I.key]; return w!=null?w+p.afterSignup:null; } return p.day?S.dayOf(I.yk,I.A.season,p.day):termDay((p.yk?p.yk(I.yk):I.yk)+p.term,p.week,p.wd); };
@@ -65,7 +70,7 @@ const VAC=(function(){
     (A.pre||[]).forEach((p,i)=>{ if(S.repLine(G,I,'pre',i)===null){ if(p.set) Object.assign(G.flags,p.set); return; }   /* 第二次以後不演的前置（家睿直接邀、不用面試）*/ const d=S.preDay(I,p,G); if(d!=null&&(d>G.day||(d===G.day&&G.hour<p.h))) OUT.plan(G,{id:'vac_'+I.key+'_pre'+i,ev:'ev_vac_key',day:d,h:p.h,late:0.25,place:p.place,title:A.title+'：'+p.title,travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'pre'+i}}); });
     if(A.prep){ const pd=termDay(I.yk+A.prep.term,A.prep.week,A.prep.wd); if(pd!=null&&(pd>G.day||(pd===G.day&&G.hour<A.prep.h))) OUT.plan(G,{id:'vac_'+I.key+'_prep',ev:'ev_vac_key',day:pd,h:A.prep.h,late:0.25,place:A.prep.place,title:A.title+'：籌備會',travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'prep'}}); }
     if(A.trip){ const sd=S.dayOf(I.yk,A.season,A.trip.start.day); OUT.plan(G,{id:'vac_'+I.key,ev:'ev_vac_key',day:sd,h:A.trip.start.h,late:0.5,place:A.trip.placeName,title:A.title+'（出發）',travel:A.place.kind==='abroad'?'去機場 約 1 小時':'走過去約 10 分鐘',travelH:A.place.kind==='abroad'?1:1/6,back:A.place.kind==='abroad'?'回到臺北。':'營隊結束。',vac:{key:I.key,k:'trip'}}); return; }
-    (A.keys||[]).forEach((k,i)=>{ const d=S.dayOf(I.yk,A.season,k.day); OUT.plan(G,{id:'vac_'+I.key+'_'+i,ev:'ev_vac_key',day:d,h:k.h,late:0.25,place:A.place.name,title:A.title+'：'+k.title,travel:'走過去約 15 分鐘',travelH:0.25,vac:{key:I.key,k:i}}); }); };
+    (A.keys||[]).forEach((k,i)=>{ const d=S.dayOf(I.yk,A.season,k.day); OUT.plan(G,{id:'vac_'+I.key+'_'+i,ev:'ev_vac_key',day:d,h:k.h,late:0.25,place:k.place||A.place.name,title:A.title+'：'+k.title,travel:k.travel||'走過去約 15 分鐘',travelH:k.travelH||0.25,vac:{key:I.key,k:i}}); }); };   /* k.place：那一場在別的地方（C04 的正式考試在別的學校）*/
   /* 取消這一項排好的出遊（沒錄取）*/
   S.drop=function(G,I){ if(typeof OUT==='undefined'||!OUT.rec) return; for(const q of OUT.rec(G)) if(q.vac&&q.vac.key===I.key&&q.state==='planned') q.state='cancelled'; };
   /* ---- 手機（story3d.js 的 S.phoneRules 每次呼叫）：邀約、選了以後、沒去、大一暑假的訊息 ---- */
@@ -107,6 +112,14 @@ const VAC=(function(){
         if(m.ans!=null&&z.at==null) z.at=now;
         if(z.at!=null){ z.done=true; if(z.at<=T(z.d,18)) PHONE.at(G,z.d,23+10/60,z.texts.map(t=>({th:'p:heroine_04',from:'heroine_04',text:t})),z.tag+'_2'); }
         else if(now>T(z.d,18)) z.done=true; }
+      /* 考前提醒（C04：Kevin 考試日前七天 21:00 私訊，只給報了的；AA_241 9-3）*/
+      const rm=I.A.remind; if(rm&&(V.reg[I.key]==='yes'||V.reg[I.key]==='done')){ const kd=S.dayOf(I.yk,I.A.season,I.A.keys[rm.key].day), rd=kd!=null?kd-rm.before:null, tg='vac_rem_'+I.key;
+        if(rd!=null&&now>=T(rd,rm.h)&&G.day<=rd+2&&!PHONE.sent(G,tg)){ const th='p:'+rm.who, M=rm.msgs.map(t=>({th,from:rm.who,name:rm.name,text:t})); if(rm.opts) M[M.length-1].ask={id:tg,until:T(rd+2,24),opts:rm.opts.map(o=>({t:o.t,say:o.say.map(t=>({th,from:rm.who,name:rm.name,text:t}))}))}; PHONE.at(G,rd,rm.h,M,tg); } }
+      /* 分數（C04：考完 days 天後的系統字「成績出來了。」；分數照去了幾場和這一系列考過幾次算，AA_241 第 10 節「分數照程式」；比上一次同一種考試高＝「比上次多。」AA_264）*/
+      const sc=I.A.score; if(sc&&V.reg[I.key]==='done'){ const kd=S.dayOf(I.yk,I.A.season,I.A.keys[I.A.keys.length-1].day), sd=kd!=null?kd+sc.days:null, tg='vac_score_'+I.key;
+        if(sd!=null&&now>=T(sd,sc.h)&&G.day<=sd+3&&!PHONE.sent(G,tg)){ const SC=V.score||(V.score={}), prev=Object.keys(SC).filter(k=>SC[k].test===sc.test).map(k=>SC[k]).sort((a,b)=>a.day-b.day), att=(V.att||{})[I.key]|0;
+          const n=sc.test==='toeic'?Math.min(950,640+35*att+50*prev.length):Math.min(110,68+4*att+6*prev.length), last=prev.length?prev[prev.length-1].n:null; SC[I.key]={test:sc.test,n,day:sd};
+          PHONE.at(G,sd,sc.h,[{th:'sys',text:'成績出來了。'},{th:'sys',text:sc.name+' '+n+' 分。'+(last!=null&&n>last?'比上次多。':'')}],tg); } }
       /* 成績（AA_242 3-6）：學校的信、A 版截圖傳家人群組 */
       const gr=S.nth(G,I)===1&&I.A.grades; if(gr&&V.reg[I.key]==='done'){ const gd=S.dayOf(I.yk,I.A.season,gr.day), tg='vac_grade_'+I.key; if(gd!=null&&now>=T(gd,gr.h)&&G.day<=gd+3&&!PHONE.sent(G,tg)){ const A2=!!F.C10_STUDY, V2=A2?gr.A:gr.B, M=[{th:'sys',text:gr.mail},{th:'sys',text:V2.narr}];
           if(A2&&V2.mom){ PHONE.join(G,'home','家人'); M.push({th:'g:home',from:'player',name:G.name||'祐廷',text:'📷（成績單的截圖）'}); for(const t of V2.mom) M.push({th:'g:home',from:'mom',name:'媽媽',text:t}); } PHONE.at(G,gd,gr.h,M,tg); } }
@@ -245,7 +258,7 @@ const VAC=(function(){
       if(A.post&&typeof OUT!=='undefined'&&(!A.post.if||G.flags[A.post.if])){ const p=A.post, d=S.preDay(I,p,G); if(d!=null) OUT.plan(G,{id:'vac_'+I.key+'_post',ev:'ev_vac_key',day:d,h:p.h,late:0.25,place:p.place,title:A.title+'：'+p.title,travel:'走過去約 10 分鐘',travelH:1/6,vac:{key:I.key,k:'post'}}); }
       return true; }
     if(v.k==='post'){ const rl=S.repLine(G,I,'post'); if(A.post) await S.key(GM,typeof rl==='string'?{bg:A.post.bg,lines:[{narr:rl}]}:A.post,I); return true; }
-    const k=(A.keys||[])[v.k]; if(k){ const kk=S.repKey(G,I,v.k,k); if(kk) await S.key(GM,kk,I); if(v.k===(A.keys.length-1)){ V.reg[I.key]='done'; V.seen[id]=true; } } return true; };
+    const k=(A.keys||[])[v.k]; if(k){ const kk=S.repKey(G,I,v.k,k); if(kk) await S.key(GM,kk,I); (V.att||(V.att={}))[I.key]=(V.att[I.key]|0)+1;   /* 去了幾場（C04 的分數照這個算）*/ if(v.k===(A.keys.length-1)){ V.reg[I.key]='done'; V.seen[id]=true; } } return true; };
   S.missed=function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return; const V=S.rec(G); if(v.k==='trip'||v.k===0) V.reg[v.key]='missed';
     if(v.k==='re'&&typeof PHONE!=='undefined'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R) PHONE.at(G,q.day+1,12,R.miss.map(t=>({th:'p:'+v.who,from:v.who,text:t})),'vac_remiss_'+v.key+'_'+v.who); } };   /* 重逢沒到：隔天她傳一則（AA_242 8-6）*/
   /* ---- 手機「活動」頁的假期行事曆（AA_199 3-2）：報名了的、還可以報名的 ---- */

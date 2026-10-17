@@ -12,6 +12,21 @@
    行的寫法同 termend_lines.js：字串＝說話的人；{narr:'（…）'}＝旁白；{who, text}＝別人說；choice＝[{t, say:[行…], set:{旗標}, rel:{id:{…}}}]。 */
 const VAC_DATA=(function(){
   const Y=G=>G&&G.flags||{};
+  /* VAC-C04 的共用部分（第一堂 Kevin 那段分寒暑假；模擬考、累到不行、正式考試；AA_241 第 9、10 節、AA_264 第 2 節）*/
+  const KV=t=>({who:'kevin',name:'Kevin',text:t});
+  const C04_REP={ keys2:['補習班第一堂。櫃台的人說：「又來了喔。」','模擬考。聽力比上次多對了幾題。','單字本寫到第三本了。','考場是同一間學校。這次你知道廁所在哪裡。'],
+                  keys3:['第一堂。你坐到上次同一個位子。','模擬考。閱讀的時間終於夠用了。','你背單字背到睡著，燈沒關。','考完，你在校門口吃了一個飯糰。'] };
+  const C04_SIGNUP=(term,flag)=>({kind:'board', term, week:12, wd:1, h:12, flag, famMsgs:['補習費轉過去了。','上課不要坐最後一排。'], famReply:{t:'收到，謝謝。',say:['👍']}});
+  const C04_REMIND={key:3,before:7,h:21,who:'kevin',name:'Kevin',msgs:['考前一週了','不要熬夜 前一天背的單字都會忘','考完請我喝飲料'],opts:[{t:'好，考完請學長。',say:['我記住了喔']},{t:'學長也是熬夜背的吧。',say:['所以我知道會忘']}]};   /* 9-3：考試日前七天 21:00 */
+  const C04_KEYS=(season,[d0,dm,dt,de])=>[
+    season==='winter'
+      ?{day:d0,h:19,title:'第一堂',bg:'cram_class',lines:[{narr:'（發講義的助教抬起頭，是 Kevin。）'},KV('欸，學弟？你也來這裡補？'),KV('坐前面，後面聽不清楚。講義多給你一份，上一期的。')],
+        choice:[{t:'「學長在這裡打工？」',say:[KV('寒假班的助教。時薪還可以，順便練聽力。')]},{t:'「謝謝學長。」',say:[KV('不用謝。不要跟老師說我多給的。')]}], set:{KEVIN_TA_MET:true}}
+      :{day:d0,h:19,title:'第一堂',bg:'cram_class',lines:[{narr:'（發講義的助教是 Kevin。他看到你，把講義往你桌上一放。）'},Object.assign(KV(''),{text:G=>G.flags.KEVIN_TA_MET?'暑假也來？坐前面，冷氣比較不吵。這期老師講比較快，跟不上就問我。':'欸，學弟？你也來這裡補？這期老師講比較快，跟不上就問我。'})],   /* 暑假版只給寒假見過他的（KEVIN_TA_MET），暑假才第一次來的用另一句（8c76052b）*/
+        choice:[{t:'「學長暑假也在？」',say:[KV('暑假班人多，老闆說我不能請假。')]},{t:'「謝謝學長。」',say:[KV('下課教室我還要掃，你們走慢一點沒關係。')]}], set:{KEVIN_TA_MET:true}},
+    {day:dm,h:19,title:'模擬考',bg:'cram_class',lines:[{narr:'第一次模擬考。聽力的速度比你想的快很多。'}]},
+    {day:dt,h:19,title:'累到不行的一天',bg:null,lines:[G=>({narr:typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(G).at?'回到家，單字本攤在胸口就睡著了。':'補完習回宿舍，單字本攤在胸口就睡著了。'})]},   /* 住家裡的玩家換一句 */
+    {day:de,h:9,title:'正式考試',bg:null,place:'考場（別的學校）',travel:'捷運約 30 分鐘',travelH:0.5,lines:[{narr:'考場在別的學校。你提早半小時到，還是找了一下教室。'}]} ];
   const A={
     /* VAC-C02 法律生活營隊輔（系學會高中生營隊，虛構名稱）：AA_241 第 1 節。每年 7/1～7/5（大二起可以當小隊長，台詞下一批）*/
     C02:{ id:'C02', title:'法律生活營隊輔', cat:'社團志工', season:'summer', years:['Y1','Y2','Y3'], days:['07-01','07-05'],
@@ -56,6 +71,18 @@ const VAC_DATA=(function(){
           choice:[{t:'「那兩個真的很像。」',say:[{who:'heroine_01',text:'很像不是理由。'},{narr:'（她在筆記本上把兩個字各寫了十遍。）'}]},{t:'「我錯了五個。」',say:[{who:'heroine_01',text:'……那下課一起練。十分鐘。'}],rel:{heroine_01:{fam:2}}}]},
         {day:'07-23',h:19,title:'最後一堂',bg:'classroom_small',lines:[{who:'heroine_01',text:'下禮拜我回台中，8 號回來。'},{who:'heroine_01',text:'日文我會繼續背。'}],
           choice:[{t:'「好，我也背。」',say:[{who:'heroine_01',text:'說好了。'}]},{t:'「回來要考我嗎？」',say:[{who:'heroine_01',text:'考第三課的單字。你上次沒背完。'}]}]} ] },
+    /* VAC-C04 托福／多益補習＋考試（AA_199 7-2；台詞 AA_241 第 9、10 節、AA_264 第 2 節）：公館二樓的英語補習班（BB_176 2-5 那塊招牌），每週一、三晚上；
+       助教是 Kevin（BB-C 定不新增補習班同學 NPC）。日子：大一暑假 7/6～8/12、考試 8/22（六）；大二寒假考 2027-01-23（六）、大二暑假 2027-08-28（六）、大三寒假多益 2028-01-16（日）。
+       之後各假期的上課日 LAWWW 照「放假後第一個週一～考前那週的週三」排。寒假是另一張卡 C04W（series 同一系列，第二次以後的日誌照 AA_264 算在一起）。
+       報名：手機假期行事曆（board）；當晚 21:00 家人群組媽媽兩則。關鍵事件：第一堂（第一次＝Kevin 那段，之後日誌）、模擬考、累到不行的一天、正式考試（別的學校）；考完 10 天後系統字「成績出來了。」 */
+    C04:{ id:'C04', series:'C04', title:'托福補習（暑期班）', cat:'學習考試', season:'summer', years:['Y1','Y2'], days:['07-06','08-12'], wd:[1,3], slot:'eve', place:{kind:'taipei',name:'公館的英語補習班'}, cost:{payer:'family'}, free:'yes',
+      signup:C04_SIGNUP('S2','VAC_C04'), rep:C04_REP, keys:C04_KEYS('summer',['07-06','07-22','08-03','08-22']),
+      byYear:{ Y2:{ days:['07-12','08-18'], keys:C04_KEYS('summer',['07-12','07-28','08-09','08-28']) } },
+      remind:C04_REMIND, score:{days:10,h:21,test:'toefl',name:'托福'} },
+    C04W:{ id:'C04W', series:'C04', title:'托福補習（寒假班）', cat:'學習考試', season:'winter', years:['Y2','Y3'], days:['12-28','01-20'], wd:[1,3], slot:'eve', place:{kind:'taipei',name:'公館的英語補習班'}, cost:{payer:'family'}, free:'yes',
+      signup:C04_SIGNUP('S1','VAC_C04W'), rep:C04_REP, keys:C04_KEYS('winter',['12-28','01-06','01-11','01-23']),
+      byYear:{ Y3:{ title:'多益補習（寒假班）', days:['12-27','01-12'], keys:C04_KEYS('winter',['12-27','01-05','01-10','01-16']), score:{days:10,h:21,test:'toeic',name:'多益'} } },   /* 大三寒假考多益（小語也考這一天）*/
+      remind:C04_REMIND, score:{days:10,h:21,test:'toefl',name:'托福'} },
     /* VAC-C05 日本五天（阿凱那一團）：AA_241 第 3 節。只有大一暑假（之後是 C13 出國旅遊）；機票家裡出、當地自己出 */
     C05:{ id:'C05', title:'日本五天（阿凱那一團）', cat:'海外交流', season:'summer', year:'Y1', days:['08-24','08-28'], slot:'night', place:{kind:'abroad',name:'日本',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
       signup:{kind:'dm', who:'kai', day:'07-15', h:21, until:'07-19', flag:'VAC_C05',
