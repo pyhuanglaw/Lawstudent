@@ -48,6 +48,9 @@ PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管�
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+NECK_RIB_L = 0.022          # 領口羅紋的寬度（沿布面）；NECK_RIB_T＝羅紋比身片厚多少；NECK_FOLD＝羅紋往內折的量（r、z）。預設不變；沛珊第十一版 0.016／0.0015／(−0.004, −0.003)（BB-C：45 度看像一圈管子）
+NECK_RIB_T = 0.003
+NECK_FOLD = (-0.006, -0.004)
 NECK_GAP = 0.013           # 領口離脖子的距離（後半圈＋側面）；預設不變。沛珊第九版 0.008（1.3 cm 時領口一圈離脖子遠，正面看像連帽衫的帽緣）
 SHOULDER_SKIN = False      # 肩膀上面那一段（落肩線 → 領口）：False＝原本的凸弧（靠肩膀那頭先升高，像一個圓頂）；True＝靠肩膀那頭慢慢升、貼著斜方肌（LAWWW2-C 2026-10-17，沛珊、經濟系四人「像連帽衫」）
 NECK_CALM = 0.0           # 0～1：肩膀上面、靠脖子那一段身片的上臂權重移給上胸（預設 0＝不變）。手從 T 字放下來時，那段布跟著上臂往上、往脖子擠，變成領口周圍一圈像連帽衫的鼓起（LAWWW2-C 2026-10-17，沛珊、阿勳、品妤）
@@ -491,10 +494,10 @@ def build_top(skin, arm, mb, pants):
         dense = np.array(dense)
         # 領邊羅紋：最後 2.2 cm
         s = np.concatenate([[0], np.cumsum(np.linalg.norm(np.diff(dense, axis=0), axis=1))]); L = s[-1]
-        sb = np.linspace(0, L - 0.022, NB); sn = np.linspace(L - 0.022, L, NNECK + 1)[1:]
+        sb = np.linspace(0, L - NECK_RIB_L, NB); sn = np.linspace(L - NECK_RIB_L, L, NNECK + 1)[1:]
         body_rz = np.stack([np.interp(sb, s, dense[:, 0]), np.interp(sb, s, dense[:, 1])], -1)
-        neck_rz = np.stack([np.interp(sn, s, dense[:, 0]) + 0.003, np.interp(sn, s, dense[:, 1])], -1)
-        fold = neck_rz[-1] + np.array([-0.006, -0.004])
+        neck_rz = np.stack([np.interp(sn, s, dense[:, 0]) + NECK_RIB_T, np.interp(sn, s, dense[:, 1])], -1)
+        fold = neck_rz[-1] + np.array(NECK_FOLD)
         band_rz = []
         for i, z in enumerate(hem_rows):
             r = max(band_r(k, z) + 0.011, box_r(k, KNIT_HEM_TOP + 0.08) - 0.020) + 0.003 * (i / NBAND) + 0.002 * math.sin(math.pi * i / NBAND)
@@ -502,7 +505,7 @@ def build_top(skin, arm, mb, pants):
             band_rz.append((r, z))
         band_rz = np.array(band_rz); hem_fold = band_rz[0] + np.array([-0.005, 0.004])
         col = np.concatenate([[hem_fold], band_rz, body_rz[1:], neck_rz, [fold]])
-        vs = np.concatenate([[0.755], 0.76 + (hem_rows - KNIT_HEM) * 2.0, 0.02 + sb[1:] * 1.4, 0.90 + (sn - (L - 0.022)) * 3.0, [0.975]])
+        vs = np.concatenate([[0.755], 0.76 + (hem_rows - KNIT_HEM) * 2.0, 0.02 + sb[1:] * 1.4, 0.90 + (sn - (L - NECK_RIB_L)) * 3.0 * 0.022 / NECK_RIB_L, [0.975]])
         cols.append((col, vs))
     R = len(cols[0][0])
     P = np.zeros((R, K, 3)); UV = np.zeros((R, K + 1, 2)); cens = []

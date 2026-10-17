@@ -18,15 +18,16 @@ except ImportError:      # 只預覽貼圖時（一般 python3）不需要 bpy
 
 HEAD = 'J_Bip_C_Head'
 PART = -10.0             # 分線的方位角（度）：中間偏一邊（第二版，照立繪；第一版 −22° 側分＋一排瀏海，BB-C 10-17 不通過）
-TIE_ELEV = -24.0         # 綁點的仰角（度，從頭的中心往正後方量）：後頸上方（低馬尾）
+TIE_ELEV = -44.0         # 第十一版（BB-C：馬尾太高，和眼睛差不多高；立繪綁在後頸、耳垂以下）：−24° → −44°   # 綁點的仰角（度，從頭的中心往正後方量）：後頸上方（低馬尾）
 PONY_BONES = 6
 SIDE_BONES = 3
 PONY_HIT = 0.034          # 低馬尾比較細； 馬尾彈簧骨的碰撞半徑：馬尾朝身體那一側約 4 cm 厚，走路、急轉身時不會壓進背（之後穿毛衣也留了厚度）
 SEED = 20261016
 
 # 髮際線（方位角 → 仰角，度；方位角 0＝前額正中、90＝人物左耳、180＝後頸）：前額 → 太陽穴 → 耳前的鬢角 → 越過耳朵上緣 → 耳後 → 後頸
-HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 10), (66, 2), (74, -1), (82, 0), (90, 1), (100, 0),
-            (108, -10), (118, -34), (132, -54), (150, -64), (165, -69), (180, -72)]
+# 第十一版（BB-C：耳朵上方的頭髮要蓋住耳朵上面三分之一到一半）：耳朵上方那一段低 6～9°
+HAIRLINE = [(0, 35), (20, 34), (35, 31), (50, 21), (58, 10), (66, 1), (74, -6), (82, -9), (90, -9), (100, -7),
+            (108, -14), (118, -34), (132, -54), (150, -64), (165, -69), (180, -72)]
 
 # ---------------- 小工具 ----------------
 def _unit(v):
@@ -168,7 +169,7 @@ def make_atlas(seed=SEED):
     # 臉旁碎髮：下段 22% 分成 3 束較寬的尖端（遠看不會變成一條條細線）
     x0, x1, y0, y1 = REG_PX['lock']; h, w = y1 - y0, x1 - x0
     A = _clumps(rng, h, w, 3, 0.78, 0.9, 1.0, edge_taper=0.06, hw_k=(1.1, 1.35), power=0.9, full=1.7, minw=3.0)
-    put('lock', _strand_color(rng, h, w, 0.8, tip_light=0.10), A)
+    put('lock', _strand_color(rng, h, w, 0.8, tip_light=0.14, base=BASE * 1.22), A)   # 第十一版：臉旁碎髮、斜瀏海亮一點（BB-C：深黑褐，不要純黑）
     # 瀏海：一束主髮束＋兩側較短的小束，收成尖端
     # （第二版，2026-10-10：原本每片 3 個寬三角形尖端，近看像鋸齒；參考圖是細的空氣瀏海）
     # 上段 45%（髮根、越過髮際線）合成一片；下段分成 5 束細髮束，長短不一、慢慢收尖、往中間微靠（一小撮一小撮），束和束之間露出額頭
@@ -327,7 +328,7 @@ def apply(m):
     def vol(a):     # 髮殼加厚：頭頂／前額蓬、兩側貼、後腦中等
         a = abs(((a + 180) % 360) - 180); ca = math.cos(math.radians(a))
         sa = abs(math.sin(math.radians(a)))
-        return 0.0110 + 0.0085 * max(ca, 0) ** 1.2 + 0.0055 * sa ** 2 + 0.0016 * max(-ca, 0)   # 第八版：再鬆一點（第七版在遊戲裡還是貼著頭）
+        return 0.0110 + 0.0085 * max(ca, 0) ** 1.2 + 0.0120 * sa ** 2 + 0.0016 * max(-ca, 0)   # 第十一版（BB-C：太陽穴高度每邊比頭寬 1.5～2 cm）：兩側 0.0055 → 0.012   # 第八版：再鬆一點（第七版在遊戲裡還是貼著頭）
         # 第七版（BB-C v5：「鬆一點，不要往後貼」）：前額頭頂、兩側都再蓬 1～2 mm   # 沛珊：比學姊蓬（鬆鬆綁起來）   # 低馬尾：往後梳整齊，頭頂、兩側比沈以安服貼   # 前額頭頂蓬、兩側耳上也有蓬度（參考圖頭髮離頭皮約 2 cm）
 
     def off_shell(a, v):
@@ -349,7 +350,7 @@ def apply(m):
         return 0.0
 
     # ---- 1. 髮殼 ----
-    Nu, Nv, PAN = 64, 15, 4
+    Nu, Nv, PAN = 128, 15, 4      # 第十一版：64 → 128（BB-C：髮際線前緣一階一階的）
     A_ = np.linspace(-180, 180, Nu + 1)
     vmax = min(v_end(a) for a in A_) + 0.02
     vs = np.linspace(0, vmax, Nv + 1)
@@ -377,8 +378,8 @@ def apply(m):
         tt = 0.965 * (1 - (vv - vstart) / (vstop - vstart))       # 綁點那端＝髮根（貼圖上緣）；第八版：髮際線那端不用到貼圖最尖的 3.5%（第七版髮際線一排白點）
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=tt)
 
-    for k in range(52):
-        a = -180 + 360 * (k + 0.5) / 52 + rng.uniform(-1.5, 1.5)
+    for k in range(72):            # 第十一版：52 → 72（髮際線前緣的鋸齒）
+        a = -180 + 360 * (k + 0.5) / 72 + rng.uniform(-1.2, 1.2)
         swept(a, v_bang(a) + (rng.uniform(0.0, 0.03) if v_bang(a) < 0.01 else 0.02), v_end(a), 0.0016 + 0.0010 * rng.random(), 1.75, 'swept')
     for k in range(30):
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 30
@@ -411,8 +412,10 @@ def apply(m):
     # 另一邊塞到耳後（沒有瀏海）；額頭露出約七成。拿掉第三～六版太陽穴到臉頰的四束細碎髮（BB-C：像鐵絲彎的鉤子）
     sg = -1.0 if PART < 0 else 1.0
     # 第八版：用 lock 貼圖（第七版用空氣瀏海的 bangA／B：一條一條透光，遊戲裡幾乎看不到）、寬一點、三片疊在一起
-    bangs = [(PART + sg * 3, PART + sg * 28, 0.012, 0.020, 'lock'), (PART + sg * 10, PART + sg * 36, 0.000, 0.020, 'lock'),
-             (PART + sg * 18, PART + sg * 44, -0.016, 0.018, 'lock')]
+    # 第十一版（BB-C：像一整塊，要分幾綹）：五片窄一點（1.1～1.3 cm）、長短不一、髮尾分開
+    bangs = [(PART + sg * 2, PART + sg * 26, 0.014, 0.012, 'lock'), (PART + sg * 7, PART + sg * 32, 0.004, 0.013, 'lock'),
+             (PART + sg * 12, PART + sg * 37, -0.006, 0.013, 'lock'), (PART + sg * 17, PART + sg * 42, -0.016, 0.012, 'lock'),
+             (PART + sg * 22, PART + sg * 47, -0.026, 0.011, 'lock')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0
@@ -427,7 +430,7 @@ def apply(m):
         bt = beta_at_z(at, H.brow_z + zt + rng.uniform(-0.002, 0.002))
         am = ah + (at - ah) * 0.5; bm = bh + (bt - bh) * 0.5; dm = sph(am, bm); p_m = c + dm * (H.R(dm, True) + 0.0088)
         dt_ = sph(at, bt); p_t = c + dt_ * (H.R(dt_, True) + 0.0052)
-        P = catmull(np.array([p_root, p_h, p_m, p_t]), 10); P, sl = resample(P, 15); n = len(P)
+        P = catmull(np.array([p_root, p_h, p_m, p_t]), 20); P, sl = resample(P, 32); n = len(P)   # 第十一版：15 → 32 點（BB-C：瀏海下緣一階一階）
         P = H.push(P, np.linspace(0.009, 0.0045, n)); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2; P = H.push(P, np.linspace(0.009, 0.0045, n))
         D = _unit(P - c); Tn = tangents(P)
         side = _unit(np.cross(D, Tn)); width = w0 * (0.55 + 0.45 * sstep(0.0, 0.3, np.linspace(0, 1, n)))
@@ -444,7 +447,7 @@ def apply(m):
         d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
         d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
         jaw = H.c[2] - 0.098
-        for z, dx, dy in ((jaw + 0.030, 0.068, -0.034), (jaw + 0.008, 0.067, -0.038), (jaw - 0.012, 0.067, -0.036)):   # 第七版：到下巴就停（BB-C v5：3～4 綹細的直碎髮到下巴）   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
+        for z, dx, dy in ((jaw + 0.030, 0.069, -0.034), (jaw + 0.008, 0.072, -0.037), (jaw - 0.012, 0.070, -0.035)):   # 第十一版：中段往外彎一點（BB-C：軟、有一點彎）   # 第七版：到下巴就停（BB-C v5：3～4 綹細的直碎髮到下巴）   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
             ctrl.append(np.array([sgn * dx, min(H.front_y(sgn * dx, z) - 0.024, dy), z]))
         P = catmull(np.array(ctrl), 16)
         P, s = resample(P, 25)
@@ -465,7 +468,7 @@ def apply(m):
             twist = np.linspace(0, 0.15 * sgn, len(P))[:, None]   # 第八版：少扭一點（0.5：下端轉過來，正面看往內勾）
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = (0.031 - 0.011 * sstep(0.12, 0.42, s / L) + 0.006 * sstep(0.5, 0.85, s / L)) * wfac * (0.5 + 0.5 * sstep(0.0, 0.12, s / L))   # 第二版加寬（原本 2.4 cm：正面看像兩條細麵）
+            width = 0.010 * (wfac / 0.26) * (1 - 0.70 * sstep(0.15, 1.0, s / L)) * (0.6 + 0.4 * sstep(0.0, 0.08, s / L))   # 第十一版（BB-C：根部約 1 cm、往下變細、末端半透明；第十版到下巴還是一樣寬，像黑鐵絲）
             mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
@@ -491,7 +494,7 @@ def apply(m):
     def by(z, gap): return H.back_y(z) + gap
     ctrl = [T0, T0 + b0 * 0.022, T0 + np.array([0, 0.026, -0.040])]
     for z, gap in ((zN + 0.045, 0.040), (zN - 0.020, 0.040), (zN - 0.090, 0.036), (zN - 0.160, 0.031), (zN - 0.205, 0.027)):
-        ctrl.append(np.array([0, by(z, gap), z]))
+        if z < T0[2] - 0.050: ctrl.append(np.array([0, by(z, gap), z]))   # 第十一版：綁點低了，比綁點高的控制點不用（不然馬尾先往上再往下）
     P = catmull(np.array(ctrl), 24); P, s = resample(P, 120)
     sph_p = colliders(arm, {HEAD, 'J_Bip_C_Neck', 'J_Bip_C_UpperChest', 'J_Bip_C_Spine'})
     i_lift = int(np.searchsorted(s, 0.06))
