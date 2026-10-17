@@ -5052,7 +5052,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【LAWWW-C e3c89ae8：結算寫花了多少錢（含來回車資）、拍照位置存進相簿（G.album；合照要第 6 階或交往中）、第三次以後的快速約會（她喜歡的兩個、跳過抵達與收尾、直接結算；選單「自己選／快速約會」）、手機「相簿」頁（自由出行、約會、CG）；date_scene_unit 第 7 段、瀏覽器 probe:album 橫向＋直向 ALL PASS。還沒：2D 熱區與人物圖層（要 coords）、心願事件、其他 28 處地點台詞、{lastDrink}】【LAWWW-C 2a6c0a30：預約句子（答應／交往中答應／改時間／第三次／改交通／取消／放鴿子）＋DATE_PREFS 照白名單 5e910dd2 匯入 src/data/date_lines.js（tools/date/import_date_lines.py），接進預約、改時間、取消；date_book_unit 第 9 段】還沒：各地點 lines（AA-C 先改 D04、D06、D12、D13 再逐地點交已審 commit）、2D 熱區與人物圖層、likes、Life Album、快速約會；底圖核准待使用者裁定。【BB-C 8b7edfdf：BB_128 3-7 五位的答應／改時間／改三次／改交通＋date_prefs_bb.json，BB 稿 AA 未審→不匯入（白名單規則）；以安、語彤由 AA 寫；AA-C 正在逐地點盤點 lines／底圖／coords 哪些已審】第一版：文字選單的互動點（時間、花費照 point_specs；時間不夠灰掉、按了提示）、門票、5-3 結算（第一次／第二次／第三次以後＋心願）、0 個互動點不算、DATED_1；有底圖的地點用 OUT.BG 的 dXX_base_* 當背景。還沒做：2D 熱區與人物圖層、各地點台詞（lines/Dxx.json）、她喜歡哪些互動點（likes）、Life Album、快速約會",
+   "next": "【AA-C 01e9d706／0b478a53（10-17 17:59）交了：solo_before_aa_v1.json 第一～三批「你來過一次」27 處（以安、語彤）、wish_aa.json 以安 D07 心願 arrive.extraIf 的 freeVisited＋AA_127 大一版五句（textIf 新欄位）——遊戲還沒有各地點的 arrive 台詞和心願事件，這兩份等那裡做好一起接；白名單先不加】【LAWWW-C e3c89ae8：結算寫花了多少錢（含來回車資）、拍照位置存進相簿（G.album；合照要第 6 階或交往中）、第三次以後的快速約會（她喜歡的兩個、跳過抵達與收尾、直接結算；選單「自己選／快速約會」）、手機「相簿」頁（自由出行、約會、CG）；date_scene_unit 第 7 段、瀏覽器 probe:album 橫向＋直向 ALL PASS。還沒：2D 熱區與人物圖層（要 coords）、心願事件、其他 28 處地點台詞、{lastDrink}】【LAWWW-C 2a6c0a30：預約句子（答應／交往中答應／改時間／第三次／改交通／取消／放鴿子）＋DATE_PREFS 照白名單 5e910dd2 匯入 src/data/date_lines.js（tools/date/import_date_lines.py），接進預約、改時間、取消；date_book_unit 第 9 段】還沒：各地點 lines（AA-C 先改 D04、D06、D12、D13 再逐地點交已審 commit）、2D 熱區與人物圖層、likes、Life Album、快速約會；底圖核准待使用者裁定。【BB-C 8b7edfdf：BB_128 3-7 五位的答應／改時間／改三次／改交通＋date_prefs_bb.json，BB 稿 AA 未審→不匯入（白名單規則）；以安、語彤由 AA 寫；AA-C 正在逐地點盤點 lines／底圖／coords 哪些已審】第一版：文字選單的互動點（時間、花費照 point_specs；時間不夠灰掉、按了提示）、門票、5-3 結算（第一次／第二次／第三次以後＋心願）、0 個互動點不算、DATED_1；有底圖的地點用 OUT.BG 的 dXX_base_* 當背景。還沒做：2D 熱區與人物圖層、各地點台詞（lines/Dxx.json）、她喜歡哪些互動點（likes）、Life Album、快速約會",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -10569,6 +10569,29 @@
    "authorized": "D79（AA-B 定案的系統規格）",
    "commit": "95222efd",
    "tests": "tests/dl08_walk_unit.js"
+  },
+  {
+   "id": "ENC-B3-1017",
+   "title": "自由出行第三批景點的 AA 六位偶遇（AA_271）：以安 D26 臺中、語彤 D14 漁人碼頭、柏翰 D11 新北投、小語 D01 華山、芯慈 D02 松菸、阿哲 D29 駁二",
+   "area": "DL",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "next": "瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位的第三批（BB_213）還是 PROPOSAL，等 AA 審完交付。",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一寒假（2026-01-20 起以安在臺中、1/2 起阿哲在高雄）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "AA_271（AA-C 01e9d706）＋aa_walk_v1.json（0b478a53），AA-C 17:59 交付訊息；第②級日常內容（AA_160）",
+   "authorized": "D79／D86（AA 交付的日常內容）",
+   "commit": "見 deliveries DL-AA-01e9d706",
+   "tests": "tests/enc_batch3_unit.js、tests/dl07_enc_unit.js、tests/dl08_walk_unit.js"
   },
   {
    "id": "LADDER-Y3Y4",

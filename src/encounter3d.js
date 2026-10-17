@@ -40,7 +40,9 @@ const ENC=(function(){
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain') return no('下雨');
     if(!row.days.includes(G.weekday)) return no('星期'); if(!(h>=row.from&&h<row.to)) return no('時段');
     if((row.terms||row.weeks)&&!T) return no('不在學期裡'); if(row.terms&&!row.terms.includes(T.id)) return no('學期');
-    if(row.weeks&&((T.week%2===1)!==(row.weeks==='odd'))) return no('單雙週');
+    if(row.weeks&&(Array.isArray(row.weeks)?!row.weeks.includes(T.week):((T.week%2===1)!==(row.weeks==='odd')))) return no('週次');   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/
+    if(row.dates&&!(typeof STORY!=='undefined'&&STORY.inDates&&STORY.inDates(G,row.dates))) return no('日期');   /* AA_271：日期區間（含頭尾），以安回台中、阿哲回高雄的日子 */
+    if(row.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return no('不是寒暑假');   /* AA_271：語彤 D14 寒暑假的週日 */
     const tr=S.tier(G,row.who);
     if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex') return no('可昕：交往中或分開了才有'); if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
@@ -91,8 +93,8 @@ const ENC=(function(){
      小支線：不同週在同一個地方打招呼的第幾次 → 那一步的台詞（芷若「同一排」、子晴「碼頭關」、柏翰「第三個小時」）；只留 ENC_ 記憶，不改任何劇情條件。 */
   const W=()=>typeof ENC_WALK!=='undefined'?ENC_WALK:{walk:[],leave:[],intro:[],revisit:[],side:[]};
   const weekKey=G=>{ const T=term(G); return T?T.id+'W'+T.week:'D'+Math.floor(G.day/7); };
-  const JOIN={heroine_01:{min:'FRIEND',not:['D06.frame']},heroine_03:{min:'FRIEND'},zhe:{},yu:{spots:['D04']},classmate_bohan:{minBy:{D06:'FRIEND',D09:'FAMILIAR'}},classmate_xinci:{no:true},
-    heroine_02:{min:'FRIEND',from:19.5},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join */
+  const JOIN={heroine_01:{min:'FRIEND',not:['D06.frame']},heroine_03:{min:'FRIEND'},zhe:{},yu:{spots:['D04','D01']},classmate_bohan:{minBy:{D06:'FRIEND',D09:'FAMILIAR',D11:'FRIEND'}},classmate_xinci:{no:true},
+    heroine_02:{min:'FRIEND',from:19.5},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join（第三批 AA_271 rules.join.batch3：以安 D26、語彤 D14、柏翰 D11 朋友以上；小語 D01、阿哲 D29 不限關係；芯慈 D02 不一起走）*/
   S.JOIN=JOIN;
   S.busyNow=function(G,row,tr){ const b=row.busy; if(!b||typeof b==='string') return b||'no'; if(b.until!=null) return G.hour<b.until?b.before:b.then; if(b.acq) return tr.t==='acq'?b.acq:b.friend;
     if(b.y12){ const T=term(G); return T&&/^Y[34]/.test(T.id)?b.y3:b.y12; } return 'no'; };

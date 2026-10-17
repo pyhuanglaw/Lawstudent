@@ -750,6 +750,22 @@
    "approvedBy": "AA-C 2026-10-17 17:36（全檔照 AA_188 口語審 01029de1；BB 人物照 BB_212 換 6f6e9c7e）：話題池 1-1～7-1、邀約鉤子、9-2 可昕、10-1～10-4 用新句（劃線後的那一句）",
    "task": "BB203-CONFESS-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_271_自由出行第三批_AA偶遇與來過一次.md",
+   "sha": "01e9d706",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 17:59 交付訊息（第②級日常內容）：第 1 節偶遇表、1-1 第一二句、1-2 前任反應",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/free_trip/aa_walk_v1.json",
+   "sha": "0b478a53",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 17:59 交付訊息：只用第三批景點（D26、D14、D11、D01、D02、D29）的 walk／leave／revisit／followUp；第一、二批照遊戲裡的 AA_209 改稿",
+   "task": "ENC-B3-1017",
+   "kind": "text"
   }
  ]
 }

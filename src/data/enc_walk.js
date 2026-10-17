@@ -1,4 +1,4 @@
-/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。 */
+/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。第三批景點（spots_v3）的 AA 六位：AA_271，aa_walk_v1.json@0b478a53（AA-C 2026-10-17）只加 D26、D14、D11、D01、D02、D29 的條目；以安 D06、阿哲 D04 照 AA_209 附錄 A 的口語改稿（2473d167），不換回 json 的舊句。 */
 const ENC_WALK={
  "source": "企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。",
  "rules": {
@@ -811,7 +811,154 @@ const ENC_WALK={
     "這杯的拉花歪了。……坐在這裡，就算了。"
    ],
    "batch": 2
-  }
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "D26.village",
+  "friend": [
+   "這間的檸檬飲料，我高中下課常常來買。"
+  ],
+  "dating": [
+   "你喝喝看。我高中都點這一杯。"
+  ]
+ },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "walk",
+  "friend": [
+   "從這裡走到美術館大概十五分鐘。走慢一點也來得及。"
+  ],
+  "dating": [
+   "走這邊，樹比較多，比較不會曬。"
+  ]
+ },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "D26.museum",
+  "friend": [
+   "國美館不用門票。我國中來這裡寫生，畫得很爛。"
+  ],
+  "dating": [
+   "這個展我還沒看過。剛好一起看。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "D14.ferry",
+  "friend": [
+   "坐後面。前面浪會打上來，相機會濕。"
+  ],
+  "dating": [
+   "你坐裡面。我想坐靠水那邊。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "D14.sunset",
+  "friend": [
+   "要拍的話就是現在。再幾分鐘就沒了。"
+  ],
+  "dating": [
+   "你站過去一點。好，不要動。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "walk",
+  "friend": [
+   "這邊的人都在釣魚。我站了十分鐘，沒看到誰釣到。"
+  ],
+  "dating": [
+   "走慢一點。前面有一塊木板是鬆的。"
+  ]
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "walk",
+  "friend": [
+   "這條溪的水是熱的。我上次來，還以為哪裡失火。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "D11.valley",
+  "friend": [
+   "告示說不能碰。我本來想試試看有多燙，還好沒有。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "D11.museum",
+  "friend": [
+   "這裡以前是公共浴場。說明我看完了，你要自己看還是我講？"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "D01.market",
+  "friend": [
+   "欸這攤可以試吃！對了你吃辣嗎？這片好像有辣。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "D01.wall",
+  "friend": [
+   "你幫我拍一張。不要拍到腳，我今天鞋子很醜。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "walk",
+  "friend": [
+   "那根煙囪以前是在燒什麼？酒廠嗎？等一下我查。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "walk",
+  "friend": [
+   "那艘船我高中騎車上學每天都看到。應該不是同一艘啦。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "D29.sculpture",
+  "friend": [
+   "這個我小時候以為是外星人的船。現在看還是很像。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "D29.rail",
+  "friend": [
+   "這條鐵道以前有火車喔，我阿公說的。他說的我都沒查過。"
+  ],
+  "dating": []
+ }
  ],
  "leave": [
   {
@@ -944,7 +1091,37 @@ const ENC_WALK={
    "spot": "D25",
    "friend": "火車快來了。這卷底片洗出來，給你一張。",
    "dating": "火車上我想睡一下。……到了叫我，不要叫太早。"
-  }
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "friend": "我媽傳訊息了，我要回去。你回臺北的車幾點？",
+  "dating": "五點了，我要回家吃飯。到臺北傳訊息給我。"
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "friend": "我搭這班回去。我媽在等我吃飯。",
+  "dating": "我媽在等吃飯。你陪我到捷運站就好。"
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "friend": "我要回去了，還有一份考古題。下禮拜考完再說。",
+  "dating": ""
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "friend": "我要回板橋了，晚上家裡有親戚來。第六個章你看到要跟我說喔！",
+  "dating": ""
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "friend": "我同學要去打球了。你回台北的高鐵幾點？不要錯過喔。",
+  "dating": ""
+ }
  ],
  "intro": [
   {
@@ -1116,7 +1293,43 @@ const ENC_WALK={
    "spot": "D25",
    "normal": "堤防上。上次芷若在這裡，等浪碎掉的那一秒。",
    "afterBreakup": "堤防上。"
-  }
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "normal": "審計新村那間小店門口的階梯，今天坐著別人。",
+  "afterBreakup": "你沒有往審計新村那排小店走。"
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "normal": "渡輪站的長椅上沒有人。下一班船還要二十分鐘。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "normal": "圖書館靠窗的位子坐著一個高中生，桌上也攤著考古題。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "normal": "展場出口的蓋章台前面排著幾個小孩。你想起小語在找第六個章。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "classmate_xinci",
+  "spot": "D02",
+  "normal": "展覽的出口換了一檔新的。門口沒有人在對收據。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "normal": "港邊的台階空著。你想起阿哲他們三個在分一包鹹酥雞。",
+  "afterBreakup": ""
+ }
  ],
  "side": [
   {
