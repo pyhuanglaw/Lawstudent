@@ -6,10 +6,10 @@ import p00_face as PF
 import zhe_face as ZF
 
 WEILUN = dict(PF.MALE)
-WEILUN.update(EYE_SZ=0.60, EYE_SX=1.10, EYE_TILT=0.02, IRIS_FRAC=0.47,     # 第八版（BB_201：四個人同一張臉、看起來很睏）：眼睛張開、眼尾微微往上（有精神、眼神直）
+WEILUN.update(EYE_SZ=0.58, EYE_SX=1.16, EYE_TILT=0.03, IRIS_FRAC=0.47,   # 第九版：差別再拉大——細長、眼尾往上（三個人裡最銳利）     # 第八版（BB_201：四個人同一張臉、看起來很睏）：眼睛張開、眼尾微微往上（有精神、眼神直）
                    # 第三版（BB-C）：眼睛細長、單眼皮感、虹膜小一點（第二版 0.66／1.05：大而圓、看起來擔心、年紀小）
               BROW_K=1.70, BROW_ARCH=0.02, BROW_DROP=0.0060, BROW_COL=(0.06, 0.05, 0.045), BROW_SCALE_Z=1.30,   # 眉毛平、直、壓低（第二版 ARCH 0.12：往上挑）
-              JAW_OUT=0.0110, CHIN_WIDEN=0.48, D_CHIN=0.0055, FACE_NARROW=0.92, CHIN_FWD=0.0020,   # 第八版：下顎、顴骨更有稜角（BB_201）   # 下顎、臉頰再瘦硬一點（19 歲成人，不要國中生感）
+              JAW_OUT=0.0120, CHIN_WIDEN=0.40, D_CHIN=0.0085, FACE_NARROW=0.90, CHIN_FWD=0.0025,   # 第九版：長臉、窄、下巴長而有角   # 第八版：下顎、顴骨更有稜角（BB_201）   # 下顎、臉頰再瘦硬一點（19 歲成人，不要國中生感）
               MOUTH_K=1.34, LIP_A=0.46,                              # 嘴平、唇色淡
               LIP_OUT=(0.72, 0.48, 0.40), LIP_IN=(0.62, 0.39, 0.33), LIP_HI=(0.80, 0.60, 0.52))
 TAN = (0.68, 0.50, 0.37)          # 第八版（BB_201）：再曬黑一點
