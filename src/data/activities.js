@@ -32,7 +32,8 @@ const ACTIVITIES={
      narr:['（今天練 C、G、Am 三個和弦。換和弦的時候，整間教室都慢了半拍。）','（今天輪流彈一首。你彈錯了第二小節，大家笑得比你大聲。）','（有人帶了洋芋片。練習的時間，比吃東西的時間短一點。）',
            '（今天練刷法：下、下、上、上、下、上。你的右手比左手聽話。）','（學長示範一首老歌。大家安靜聽完，然後各自練回自己的和弦。）','（手指上的紅痕沒那麼痛了。你多撐了兩首歌。）']},
     /* 大一下也有（交接包 v2：第 4 週讀書會結束後的沛珊和柏翰、第 14 週和成發同一晚、第 15 週「最後幾次」）；大一下的週次原文沒寫，先排第 2～7、10～16 週（期中、期末沒有；已問 AA）*/
-    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S1:[1,2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[1,2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
+    /* 2026-10-17 停用（使用者 AA_218 17-4：法服沒有讀書會也沒有社課；AA_236 A1、BB_191 §7）：skip＝不再開；id 留著——博覽會選單的「法服」＝報名（ev_sis_club_expo）、舊存檔的出席紀錄 lawclub_study@<天> 照讀 */
+    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',skip:()=>true,zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S1:[1,2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[1,2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
      desc:'刑訴題庫每次兩三題（讀書會的方式：先聽爭點怎麼吵）。',story:false,narrAt:'start',
      narr:['（白板上寫著今天的兩個爭點。大家先安靜讀五分鐘。）','（今天的題目是學長姊從題庫裡挑的。一年級坐後面，先聽。）','（研討室的冷氣很強。有人把外套借給隔壁，然後開始吵第一題。）',
            '（今天來的人比上週少兩個。題目反而讀得比較深。）','（結束前，每個人把今天的爭點用一句話寫在白板上。）']},
@@ -45,12 +46,14 @@ const ACTIVITIES={
     {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）9/27 回到一般週末；只留給開發起點（直接跳 8/29）防呆 */
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
-    /* 公法讀書會（交接包 v2 C14 以安新 7 後半；草稿第 2 節「固定節奏」）：大一下第 12 週起每週四 20:00，萬才館研討室 A（和法服週三讀書會同一類：加入就每週有一格）；第一次＝ev_public_law_group。結束時間原文沒寫，先 21:30 */
-    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2','Y2S1','Y2S2'],weeks:[12,13,14,15,16],termWeeks:{Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:4,t0:20,t1:21.5,
+    /* 公法讀書會（交接包 v2 C14 以安新 7 後半）：每週四 20:00～21:30，萬才館研討室 A；第一次＝ev_public_law_group。
+       2026-10-17 改到大一上第 10 週開始（AA_218 17-4 使用者批准；BB_191 §8-1、8-6）：大一上 10～16 週；大一下 2～7、10、12～16 週（第 11 週週四以安在博雅 B4 講座，停一次）；大二下加第 1 週（沛珊交接 P4，§8-7）*/
+    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,12,13,14,15,16],Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15,16],Y2S2:[1,2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:4,t0:20,t1:21.5,
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     /* 法服學期檢討會（BB_96 2-6 學姊 W5；交接包 v2）：大一下第 17 週週三 19:00–21:00，萬才館研討室 A（門口參加）；群戲用旁白，會後接 W5（afterActivity）*/
-    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[15],weekday:3,t0:19,t1:21,once:true,
+    /* 2026-10-17 停用（W5 已刪，BB_122 ★-6；BB_191 §7-1 #2）*/
+    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',skip:()=>true,zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[15],weekday:3,t0:19,t1:21,once:true,
       desc:'法服這學期的檢討會。',story:true},
     /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
     {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',

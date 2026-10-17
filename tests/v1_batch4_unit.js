@@ -91,23 +91,18 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
       await EVENTS.run(ev('ev_kai_dark_circles')); check('K1 黑眼圈：「你黑眼圈好重，是我嗎。」（BB_95 原文）、當晚還沒換',lines()[0]==='你黑眼圈好重，是我嗎。'&&enterEv()!=='ev_kai_keyboard_quiet');
       const F2=Object.assign({},G.flags), EV2=JSON.parse(JSON.stringify(G.events)); fresh(b+8,19,'dorm',F2); G.events=EV2; withKai();   /* 演過的事件（once）跟著存檔 */ check('K1 「'+pick+'」：黑眼圈的隔天晚上換鍵盤（不懲罰，只是晚一點）',enterEv()==='ev_kai_keyboard_quiet'); }
     check('K1 現有的「法無明文」（ev_dorm_late_kai）照舊在',!!ev('ev_dorm_late_kai')&&ev('ev_dorm_late_kai').dialogue.some(l=>l.text==='有。叫「法無明文」。')); }
-  /* ---------- P1b 讀書會的下一週：學姊的回答（BB_95 3-4）---------- */
-  { const wedOf=w=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===3) return d; } }, w5=wedOf(5), A={id:'lawclub_study'};
-    const club=(day,flags,extra)=>{ fresh(day,19,'wancai',Object.assign({lawclub:true},flags)); G.events.done.ev_studygroup_wed=1; if(extra) extra(); const e=CLS.clubEvent(G,A); return e?e.id:null; };
-    /* P1 那一次記下日期 */
-    fresh(w5,19.2,'wancai',{lawclub:true}); picks=['收書包']; await EVENTS.run(ev('ev_studygroup_wed')); check('P1 那一次讀書會記下日期（peishanAskedDay）',G.flags.PEISHAN_ASKED_WHY===true&&G.flags.peishanAskedDay===w5,String(G.flags.peishanAskedDay));
-    const P={PEISHAN_ASKED_WHY:true,peishanAskedDay:w5};
-    check('P1b 下一週（7 天內）的讀書會一開始：學姊的回答',club(w5+7,P)==='ev_studygroup_p1b');
-    check('P1b 同一天（P1 那一次）不會接著演',club(w5,P)===null);
-    check('P1b 隔週沒來、兩週後才來：沛珊轉述（ev_studygroup_p1b_missed）',club(w5+14,P)==='ev_studygroup_p1b_missed');
-    check('P1b 舊存檔沒有 P1 的日期：當作沒來（轉述）',club(w5+7,{PEISHAN_ASKED_WHY:true})==='ev_studygroup_p1b_missed');
-    check('P1b 沒有 P1（沒問過）：照舊沒有人物事件（旁白＋題目）',club(w5+7,{})===null);
-    check('P1b 演過之後：下一次讀書會照舊（不會再演、也不轉述）',club(w5+14,P,()=>{ G.events.done.ev_studygroup_p1b=1; })===null);
-    fresh(w5+7,19,'wancai',Object.assign({lawclub:true},P)); G.events.done.ev_studygroup_wed=1; await EVENTS.run(ev('ev_studygroup_p1b')); const L=lines();
-    check('P1b 學姊（BB_95 原文）：三件事、一、二、三……、她停住、三我還在想；兩題（讀書會）；沛珊「（小聲）她第一次沒講完三件。」',JSON.stringify(L)===JSON.stringify(['上週的問題。我想了一週。三件事。','一，因為會考。','二，因為背了，才有東西可以吵。','三……','她停住。','三我還在想。今天讀刑訴。','（小聲）她第一次沒講完三件。'])&&legalAsked===2,JSON.stringify(L)+' 題目 '+legalAsked);
-    check('P1b 之後：SIS_ANSWERED_WHY（大二上 P3 會讀）',G.flags.SIS_ANSWERED_WHY===true);
-    fresh(w5+14,19,'wancai',Object.assign({lawclub:true},P)); G.events.done.ev_studygroup_wed=1; await EVENTS.run(ev('ev_studygroup_p1b_missed'));
-    check('P1b 沒來的玩家：沛珊「（小聲）學姊上週回答了。她說她還在想。」、兩題、SIS_ANSWERED_WHY',lines()[0]==='（小聲）學姊上週回答了。她說她還在想。'&&legalAsked===2&&G.flags.SIS_ANSWERED_WHY===true,JSON.stringify(lines())); }
+  /* ---------- P1／P1b 搬到以安的公法讀書會（方案 A；BB_191 §8-7、AA_222）：classes3d.js 的 clubEvent 在公法讀書會那一次挑 ---------- */
+  { const thuOf=w=>STORY.termDay('Y1S1',w,4), t11=thuOf(11), A={id:'public_law_group'};
+    const club=(day,flags,extra)=>{ fresh(day,20.1,'wancai',flags||{}); G.events.done.ev_public_law_group=1; SOCIAL.meet('classmate_peishan','campus'); SOCIAL.meet('heroine_01','campus'); if(extra) extra(); const e=CLS.clubEvent(G,A); return e?e.id:null; };
+    check('法服讀書會停用：週三那一場不挑任何人物事件',(()=>{ fresh(STORY.termDay('Y1S1',5,3),19,'wancai',{lawclub:true}); return CLS.clubEvent(G,{id:'lawclub_study'})===null; })());
+    check('公法讀書會第一次（還沒演過白板）：先演白板 ev_public_law_group',(()=>{ fresh(STORY.termDay('Y1S1',10,4),20.1,'wancai',{}); const e=CLS.clubEvent(G,A); return !!e&&e.id==='ev_public_law_group'; })());
+    check('P1：第 11 週的公法讀書會（已認識沛珊）＝ev_peishan_why_plg',club(t11,{})==='ev_peishan_why_plg');
+    const P={PEISHAN_ASKED_WHY:true,peishanAskedDay:t11};
+    check('P1b：7 天內下一次＝以安回答 ev_peishan_why_answer_plg',club(t11+7,P)==='ev_peishan_why_answer_plg');
+    check('P1b：同一天（P1 那一次）不會接著演',club(t11,P)===null);
+    check('P1b：兩週後才來＝沒有獨立場面（AA_222：P-L3 帶一句）',club(t11+14,P)===null);
+    check('P1b 演過之後：不再演',club(t11+7,P,()=>{ G.flags.PS_WHY_ANSWERED=true; })===null);
+    check('舊存檔已經聽過學姊回答（SIS_ANSWERED_WHY）：P1b 不再演',club(t11+7,Object.assign({SIS_ANSWERED_WHY:true},P))===null); }
   /* ---------- P2b 沛珊：三段論（BB_95 3-5）---------- */
   { const e=ev('ev_peishan_syllogism'), dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } };
     const can=(day,h,zone,done)=>{ fresh(day,h,zone,{dating_kexin:true}); if(done) G.events.done.ev_peishan_doubt=1; return EVENTS.check(e); };

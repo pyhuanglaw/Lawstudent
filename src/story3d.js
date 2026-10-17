@@ -282,7 +282,7 @@ const STORY = (function(){
     else if(zoneId==='dorm'){ if(hr>=18||hr<8){ GM.spawnNPC('kai',C.kai,0,0,{seat:dormSeat('R2'),talk:n=>talkKai(GM,n)}); }
       if(F.DORM_FOUR&&!S.isEcon(G)&&hr>=22&&hr<23.5&&typeof CALENDAR!=='undefined'&&/^Y1/.test((CALENDAR.termOf(G.day)||{}).id||'')){ for(const [id,u,from] of [['zhe','L1',22],['classmate_bohan','R1',22.5]]) if(hr>=from&&CHARACTERS[id]&&!GM.npc[id]){ const st=dormSeat(u); GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); } }   /* AA208-L（AA_208 2-4）：四人房的室友晚上在房間：阿哲 22:00 以後（練球、麵店之後）、柏翰 22:30 以後（總圖閉館）；23:30 以後都在上舖（看不到） */
       if(typeof HOME!=='undefined'){ const hs=(E.zone&&E.zone.spots&&E.zone.spots.home)||[2.35,-0.9]; E.interactables.push({x:hs[0],z:hs[1],radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); } }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（四人房：門口鞋櫃旁）*/
-    if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); } if(G.weekday===3&&hr>=18.8&&hr<21){ GM.spawnNPC('sis',C.sis,-3,3.6,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',21); }
+    if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); }   /* 週三晚上 18:48 學姊在萬才館（法服讀書會）拿掉：讀書會停用（AA_236 A1），她週三晚上在法圖（作息）*/
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
       /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。學姊在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
          大一可以在旁邊看（「在旁邊看法服值班」，S.fafuWatch）。門口的告示照有沒有值班寫下一次的日期 */
@@ -1098,7 +1098,11 @@ const STORY = (function(){
       const late=!dating&&h>=22+7/60-0.02, yday=dating||late;
       PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是通識小組的芷若。'),Z('……也是 Café 的那個。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
     /* 學姊 W2（BB_95 2-5）：第一次參加讀書會那晚 22:30（她的睡前時間），發在法服讀書會的群組（給所有新來的人，不是私訊）*/
-    if(F.studyGroupFirstDay!=null&&!PHONE.sent(G,'lawstudy_grp1')){ PHONE.join(G,'lawclub_study','法服讀書會'); const W=t=>({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:t}); PHONE.at(G,F.studyGroupFirstDay,22.5,[W('三件事。'),W('一，下週還是刑訴，一年級聽就好。'),W('二，民總第三章自己先讀，那個比較重要。'),W('三，不要遲到。')],'lawstudy_grp1'); }
+    /* 法服群組（BB_191 §7-0）：社博報名（SIS_CLUB_EXPO／lawclub）那一刻加入，顯示名「法服」（群組 id 照舊 lawclub_study，舊存檔原本叫「法服讀書會」的一起改名）。
+       學姊在讀書會群組的「三件事」刪（法服沒有讀書會）；現任社長的歡迎一則等 AA */
+    if((F.SIS_CLUB_EXPO||F.lawclub||F.CLUB_lawclub_study)&&PHONE.rec){ const g=PHONE.join(G,'lawclub_study','法服'); if(g&&g.name==='法服讀書會') g.name='法服'; }
+    /* 公法讀書會群組（BB_191 §8-7）：第一次去公法讀書會就加入；沛珊的題目、講義、交接的訊息在這裡 */
+    if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group')) PHONE.join(G,'public_law','公法讀書會');
     /* 子晴 Q2（BB_95 2-6）：第一次去吉他社的晚上被拉進群組 */
     /* 校慶（BB_95 3-7）：子晴——在吉他社群組、INVITED_CLUB——攤位照片 */
     if(F.festivalBoothDay!=null&&PHONE.inGroup(G,'guitar')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','INVITED_CLUB')&&!PHONE.sent(G,'fest_guitar')) PHONE.at(G,F.festivalBoothDay,Math.max(12,h(G)),[{th:'g:guitar',from:'heroine_04',text:'📷 吉他撥片賣了三個。三個都是阿凱買的。'}],'fest_guitar');
@@ -1387,7 +1391,7 @@ const STORY = (function(){
       { const d=D('2025-02-08'); if(past(d,23)&&!PHONE.sent(G,'y0_e24n')) PHONE.at(G,d,23,[Object.assign(K('如果可以重來一次選科系，你會選什麼？'),{ask:{id:'y0_e24n',until:until(d),opts:[{t:'法律。'},{t:'我不知道。',say:[K('我也不知道。……晚安。')]},{t:'妳呢？',say:[K('我先問的。……算了，晚安。')]}]}})],'y0_e24n');   /* AA_224 3-8：他已經離開經濟系；這題是她在問她自己 */
         const m=PHONE.byAsk&&PHONE.byAsk(G,'y0_e24n'); if(m&&m.ans===0&&!PHONE.sent(G,'y0_e24n_late')) PHONE.at(G,G.day,G.hour+0.25,[K('好。'),K('……我是在問我自己。晚安。')],'y0_e24n_late'); } }
     /* 校慶問答攤（BB_95 3-7，DL-04B）：前一天（週五）21:00 法服群組，學姊提醒；沒加入法服的玩家改成校園公告欄的旁白（AMBIENT 的 festEve）*/
-    if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
+    if(PHONE.inGroup(G,'lawclub_study')){ const fs=termDay('Y1S1',11,6); if(fs&&G.day===fs-1) PHONE.at(G,fs-1,21,[{th:'g:lawclub_study',from:'npc_lawclub_pres',name:'法服社長',text:'明天校慶，問答攤十點開。輪班表在記事本。'}],'fest_eve_lawclub'); }
     /* 家族聚餐（BB_95 3-8）：前一週 Kevin 在家族群組約；前一天 Kevin 提醒；沒去的玩家 22:00 Kevin 貼資料夾。學姊自己起頭的群組訊息都刪（使用者 08:1x「她根本就不是主動在群組會說話的人」，AA_218 17-12、17-12a）*/
     if(PHONE.inGroup(G,'family_law')){ const fri=termDay('Y1S1',14,5); if(fri){ const th='g:family_law', sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
       if(G.day>=fri-7&&G.day<=fri) PHONE.at(G,fri-7,20.5,[kv('家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）'),sis('收到。')],'fam_dinner_invite');
@@ -1644,14 +1648,17 @@ const STORY = (function(){
         PHONE.at(G,ny+2,15,[Y('📷（山上的雲海和一棵松樹）'),Y('新年快樂。初一拍的，山上沒有訊號。')].concat(fr?[Y('這棵你猜。')]:[Y('台灣二葉松，Pinus taiwanensis。針葉兩根一束。'),Y('山上聽不到鞭炮。很好。')]),'cny_fangyt');
         if(fr) PHONE.at(G,ny+3,10,[Y('答案：台灣二葉松。針葉兩根一束，名字就是提示。')],'cny_fangyt_answer'); } } }
     /* 以安新 7（交接包 v2 C14）：①第 11 週週二晚上沒在麵店看到吵架（ev_an_yu_argument 沒演）＝21:30 小語在麵店團群組連發三則（AA_209 附錄A §2），記「聽說」；
-       ②公法讀書會的邀請：第 12 週週一 21:00 麵店團群組以安「公法讀書會。週四晚上八點，萬才館研討室。」小語「我也是發起人喔。」（所有人都收到：不在麵店團、有以安聯絡方式的＝她私訊同一句）*/
+       ②公法讀書會的邀請（2026-10-17 改到大一上第 10 週，見下面）*/
     { const tue=termDay('Y1S2',11,2), mon=termDay('Y1S2',12,1), done=id=>!!(G.events&&G.events.done&&G.events.done[id]);
       if(tue&&G.day>=tue&&G.day<=tue+1&&!(G.day===tue&&h(G)<21.5)&&!done('ev_an_yu_argument')&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_yu_heard')){ const th='g:noodle_team';
         PHONE.at(G,tue,21.5,[{th,from:'yu',text:'我跟以安吵架了'},{th,from:'yu',text:'不是真的吵啦 是在講上街要不要申請'},{th,from:'yu',text:'講到麵都坨了'}],'an_yu_heard');   /* AA_209 附錄A §2：連發三則（原本 22:10 的「……吵得很好。」換掉）*/
         if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她和小語吵架了'); }
-      if(mon&&G.day>=mon-1&&G.day<=mon+3&&!PHONE.sent(G,'plg_invite')){
-        if(PHONE.inGroup(G,'noodle_team')){ const th='g:noodle_team'; PHONE.at(G,mon,21,[{th,from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'},{th,from:'yu',text:'我也是發起人喔。'}],'plg_invite'); }
-        else if(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_01')) PHONE.at(G,mon,21,[{th:'p:heroine_01',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite'); } }
+      /* 邀請改到大一上第 10 週週一 21:00、法律系全班群組（AA_218 17-4；BB_191 §8-1、8-6 第 4 點：她是被全班拱出來的，所有法律系同學都收到）。
+         以安那一句照用；小語「我也是發起人喔。」拿掉（新設定：小語是第一個來的，不是發起人）；「被拱出來」的那一句等 AA。不在全班群組、有以安聯絡方式的＝她私訊同一句 */
+      const mon1=termDay('Y1S1',10,1);
+      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&!PHONE.sent(G,'plg_invite')){
+        if(PHONE.inGroup(G,'law_class')) PHONE.at(G,mon1,21,[{th:'g:law_class',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite');
+        else if(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_01')) PHONE.at(G,mon1,21,[{th:'p:heroine_01',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite'); } }
     /* B4 博雅午後講座（交接包 v2 C13；BB_105 4-5、AA_115 第 1 節）：①第 11 週週二 12:30 麵店團群組以安揪人（和以安新 7 前半同一天；時間是 LAWWW 排的），小語、阿哲回；
        玩家回「我去。」／「我看看。」／不回都一樣（只記 B4_REPLY），去不去看週四有沒有走進博雅 101。②沒去（missed:B4）：週四 21:30 小語在群組轉述（AA_209 附錄A §2：三則） */
     { const tue=termDay('Y1S2',11,2), thu=termDay('Y1S2',11,4);
@@ -1702,8 +1709,7 @@ const STORY = (function(){
         if(typeof OUT!=='undefined'&&!OUT.get(G,'plg_sat')&&(G.day<sat||h(G)<14.25)) OUT.plan(G,{id:'plg_sat',ev:'ev_plg_rules_after',day:sat,h:14,late:0.25,place:'萬才館研討室',title:'公法讀書會的補讀',travel:'走過去約 10 分鐘',travelH:1/6}); }
       if(!(F.PUBLIC_LAW_GROUP||F.CLUB_public_law_group)&&!G.events.done.ev_plg_rules&&!PHONE.sent(G,'plg_torn')&&(G.day>thu||h(G)>=22)&&G.day<=thu+2){ PHONE.at(G,thu,G.day===thu?Math.max(22,h(G)):22,[N('yu','我把以安的規則撕掉一半了。'),N('heroine_01','……剩下的那一半是對的。')],'plg_torn'); if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','HEARD_ABOUT','讀書會的規則被小語撕掉一半（聽說）'); } } }
     /* 學姊 W6 交接（BB_97 2-1；BB-B 75c1b2b1 改第 6 週）的家族群組那句：沒加入法服＝大二上第 6 週週三 21:30；社員第 6、7 週都沒去讀書會＝第 7 週週三 21:30（照 AA_176 R7 的時段）*/
-    if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_handover_group')&&!(G.events.done&&G.events.done.ev_sis_handover)){ const mem=!!(F.lawclub||F.CLUB_lawclub_study), d=termDay('Y2S1',mem?7:6,3);
-      if(d!=null&&(G.day>d||(G.day===d&&h(G)>=21.5))&&G.day<=d+14) PHONE.at(G,d,21.5,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到。'}],'sis_handover_group'); }
+    /* 「學姊卸任了！」（sis_handover_group）刪：W6 交接刪了，她在祐廷大一時已經是前任社長（BB_191 §7-3）*/
     /* 阿凱 K3 宿舍分開了，宵夜沒有（BB_97 4-1，BB-B 定稿）：大二搬完房間（ROOM_Y2）以後，大二上每個週日 23:00、大二下每個月第一個週日 23:00 阿凱私訊；
        第一次多一句「我這棟樓下的滷味比較好吃……」。去＝出發選單（宿舍旁的滷味攤，2D，ev_kai_sunday_supper）；「這週不行」＝「好。下週日。」；不回＝下週日照樣問，
        連續三週沒回，第三週的回覆期限過了多一句「你還活著吧？……活著就好。下週日。」（只說一次）。去了 3 次以上（habit kai_supper、365 天內）＝阿凱 SUNDAY_SUPPER */
@@ -1763,11 +1769,11 @@ const STORY = (function(){
           opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
-    /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週三那晚 21:30，讀書會群組她的最後一則（題目整理交給柏翰）。
-       翰 3 祐廷接的版本（AA_40）：第 2 週週三 21:00 柏翰在全班群組貼一張全班小考的分數分布圖，自己那一格用紅框圈起來，沒有字（AA_118）*/
-    { const w1=termDay('Y2S2',1,3); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'ps_p4_missed'))
-        PHONE.at(G,w1,21.5,[{th:'g:lawclub_study',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
-      const w2=termDay('Y2S2',2,3); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
+    /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週四那晚 21:30，公法讀書會群組她的最後一則（題目整理交給柏翰）（BB_191 §8-7：原本週三法服讀書會群組）。
+       翰 3 祐廷接的版本（AA_40）：第 2 週週四 21:00 柏翰在全班群組貼一張全班小考的分數分布圖，自己那一格用紅框圈起來，沒有字（AA_118）*/
+    { const w1=termDay('Y2S2',1,4); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'public_law')&&!PHONE.sent(G,'ps_p4_missed'))
+        PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
+      const w2=termDay('Y2S2',2,4); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
         PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）'}],'han3_chart'); }
     /* 沛珊 P4b 換你陪我念（BB_97 4-4；大二下第 2 週起，前置 MIRROR_PEISHAN 或和她朋友以上）：第 2 週週五 21:00 她私訊（時間 LAWWW-B 排，已告訴 AA-B）。
        她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
@@ -1858,7 +1864,7 @@ const STORY = (function(){
           PHONE.at(G,d,21.5,[K('📷（合照。學姊坐中間，難得笑得很開。）'),K('沒來的人錯過學姊請客。千載難逢。')],'sis_m3_dinner_photo'); } }
     /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
     { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
-        if(PHONE.inGroup(G,'lawclub_study')) it.push({th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'這週讀書會我請假。……第一次。'});
+        /* 學姊在讀書會群組「這週讀書會我請假。……第一次。」刪（法服沒有讀書會，BB_191 §7-3；要不要換成家族群組別的事等 AA）*/
         if(PHONE.inGroup(G,'family_law')) it.push({th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊請假了？？',dt:2/60});
         if(it.length){ const L=it.map((x,k)=>{ const y=Object.assign({},x); delete y.dt; return y; }); PHONE.at(G,d27,21,L,'sis_w8_leave'); } } }
     { const d13=S.dayOfKey('2026-11-13'); if(d13!=null&&G.day===d13&&S.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'fair_y2_call')) PHONE.at(G,d13,21,[{th:'g:lawclub_study',from:'heroine_03',text:'明天九點半，攤位集合。'}],'fair_y2_call');
@@ -2081,6 +2087,8 @@ const STORY = (function(){
   S.mootTogetherCheck=function(G,kind){ if(!G||!G.flags||G.flags.MOOT_TOGETHER) return; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||T.id!=='Y2S2'||T.week<8||T.week>10) return;
     if(kind==='plg'||((kind==='study')&&['library','library_hall','lawlib'].includes(G.zone)&&['heroine_01','classmate_bohan'].some(id=>S.present(id,G)&&(()=>{ const e=schedEnt(CHARACTERS[id],G); return !!e&&e.zone===G.zone; })()))) G.flags.MOOT_TOGETHER=true; };
   /* 大一去過幾次法服讀書會（BB_97 4-3 P4「我接。」要 5 次以上）：G.acts.att 的 lawclub_study@<天>，那一天在大一（Y1S1、Y1S2）；中途離開也算去過 */
+  /* 大一去過幾次公法讀書會（沛珊 P4「我接。」要 5 次以上；BB_191 §8-7：法服讀書會停用以後改算公法讀書會，中途離開也算）*/
+  S.plgY1Count=function(G){ const A=(G.acts&&G.acts.att)||{}; let n=0; for(const k in A){ const m=/^public_law_group@(-?\d+)$/.exec(k); if(!m) continue; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(+m[1]):null; if(t&&/^Y1S[12]$/.test(t.id)) n++; } return n+S.lawclubY1Count(G); };   /* 舊存檔去過的法服讀書會也算 */
   S.lawclubY1Count=function(G){ const A=(G.acts&&G.acts.att)||{}; let n=0; for(const k in A){ const m=/^lawclub_study@(-?\d+)$/.exec(k); if(!m) continue; const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(+m[1]):null; if(t&&/^Y1S[12]$/.test(t.id)) n++; } return n; };
   /* 大一的春節初一（遊戲第一個「春節」、前一天是「除夕」：2026-02-17）；寒假拜年（C3）用 */
   let lunarNY; S.lunarNewYear=function(){ if(lunarNY!==undefined) return lunarNY; lunarNY=null; if(typeof CALENDAR==='undefined'||!CALENDAR.holiday) return null; for(let d=2;d<500;d++){ if(CALENDAR.holiday(d)==='春節'&&CALENDAR.holiday(d-1)==='除夕'){ lunarNY=d; break; } } return lunarNY; };
@@ -2118,8 +2126,7 @@ const STORY = (function(){
     {id:'kevin_video',max:()=>DAILY_KEVIN.length,h:()=>21.3,ok:G=>PHONE.inGroup(G,'family_law'),
       items:(G,n)=>{ const K=t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t}), W=(t,dt)=>({th:'g:family_law',from:'heroine_05',name:'溫學姊',text:t,dt:dt||0});
         return [K(DAILY_KEVIN[n]),W('收到。')].concat(n===3?[Object.assign(K('學姊妳到底有沒有看'),{dt:2/60}),W('有。三分十二秒。',3/60)]:[]); }},
-    {id:'sis_study_eve',h:()=>17+5/60,ok:(G,day)=>PHONE.inGroup(G,'lawclub_study')&&CALENDAR.dateOf(day).wd===2&&actOn('lawclub_study',day+1),
-      items:()=>[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'明天讀書會。三件事。一，研討室 A。二，研討室 A。三，上次走錯的那位，也是研討室 A。'}]},
+    /* sis_study_eve（週二晚上「明天讀書會。三件事……」）刪：法服沒有讀書會（BB_191 §7-3）*/
     {id:'ziqing_five',h:()=>17.5,ok:(G,day)=>PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day),
       items:()=>['今天','社課','C 和弦','不會的不能走','這不是問句'].map(t=>({th:'g:guitar',from:'heroine_04',text:t}))},
     {id:'ziqing_black',h:()=>15.6,ok:G=>PHONE.inGroup(G,'guitar')&&!!G.flags.ZIQING_MAKING_SOMETHING,
@@ -2132,8 +2139,8 @@ const STORY = (function(){
       items:()=>[{th:'p:npc_fangyt',from:'player',who:null,text:'📷（黃金葛長出一片新葉）'},{th:'p:npc_fangyt',from:'npc_fangyt',text:'新葉。你的。'}]},
     {id:'mingxuan_bento',h:()=>12.1,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_mingxuan','SAW_HIM_STUDY')&&gotBefore(G,'classmate_mingxuan'),
       items:()=>[{th:'p:classmate_mingxuan',from:'classmate_mingxuan',text:'公館新開一家便當店，八十。已加進清單。你什麼都沒看到。'}]},
-    {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'lawclub_study'),
-      items:()=>[{th:'g:lawclub_study',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]},
+    {id:'peishan_handout',h:()=>21.6,ok:G=>PHONE.inGroup(G,'public_law'),   /* BB_191 §8-7：公法讀書會群組 */
+      items:()=>[{th:'g:public_law',from:'classmate_peishan',text:'📷（講義的照片，邊角畫了一個問號）'}]},
     /* BB_120 1-7c「固定的改變」（BB 2026-10-14，第②級）：照熟度傳的訊息，只在那個階段（過了就不補）。子晴「認識」只有事情、發在吉他社群組（還沒有私訊）；
        「有點熟」一句拆五則；「朋友」測試版先私訊給你（22:10），同一晚 22:40 群組才出現；「好朋友」真的問問題（第二組在期末考那兩週）*/
     {id:'zq_a1',h:()=>21,ok:(G,day)=>fl('heroine_04')==='ACQUAINTANCE'&&PHONE.inGroup(G,'guitar')&&actOn('club_guitar',day+1),
@@ -2151,8 +2158,8 @@ const STORY = (function(){
     {id:'zq_c2',h:()=>22.5,ok:(G,day)=>fl('heroine_04')==='CLOSE_FRIEND'&&gotBefore(G,'heroine_04')&&(CALENDAR.termOf(day)||{}).exam==='final',
       items:()=>seq('heroine_04',['期末考還好嗎。','這是問句。','……不用回很長。'])},
     /* 沛珊：問題換人問——「認識」在讀書會群組問所有人（23:10）、「有點熟」私訊書頁照片（23:20、23:21）、「朋友」長訊息最後問你（上課日）、「好朋友」不問、等你問（23:05、23:06）*/
-    {id:'ps_a',h:()=>23+10/60,ok:G=>fl('classmate_peishan')==='ACQUAINTANCE'&&PHONE.inGroup(G,'lawclub_study'),
-      items:()=>seq('classmate_peishan',['睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','大家明天可以回答。'],'g:lawclub_study')},
+    {id:'ps_a',h:()=>23+10/60,ok:G=>fl('classmate_peishan')==='ACQUAINTANCE'&&PHONE.inGroup(G,'public_law'),   /* BB_191 §8-7：公法讀書會群組 */
+      items:()=>seq('classmate_peishan',['睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','大家明天可以回答。'],'g:public_law')},
     {id:'ps_f',h:()=>23+20/60,ok:G=>fl('classmate_peishan')==='FAMILIAR'&&gotBefore(G,'classmate_peishan'),
       items:()=>seq('classmate_peishan',['📷（一頁書，劃了一行線）','這行讓我想到讀書會那題。你不用回。'])},
     {id:'ps_r',h:()=>23,ok:(G,day)=>fl('classmate_peishan')==='FRIEND'&&gotBefore(G,'classmate_peishan')&&CALENDAR.dateOf(day).wd<=5&&!CALENDAR.holiday(day),
@@ -2229,7 +2236,7 @@ const STORY = (function(){
     ...(()=>{ const Y2=T=>!!T&&/^Y2S[12]$/.test(T.id), Y2a=(w0)=>T=>!!T&&T.id==='Y2S1'&&T.week>=(w0||1), Y2b=T=>!!T&&T.id==='Y2S2', done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
       const kx=G=>!!G.flags.dating_kexin;
       const L=[
-        ['y2_sis_shift',Y2,20+40/60,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'lawclub_study'),()=>[{th:'g:lawclub_study',from:'heroine_05',name:'溫學姊',text:'今天的值班表，柏翰排錯了。我沒說。……我說了。'}]],
+        /* y2_sis_shift（W6 交接後「今天的值班表，柏翰排錯了。」）刪：W6 刪了（BB_191 §7-3）*/
         ['y2_kevin_retire',Y2,20,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到',dt:2/60}]],
         ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'📷（一個保溫瓶）'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天裝熱水。咖啡喝太多了，換一天。',dt:1/60},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊妳改喝熱水了？',dt:3/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:5/60}]],   /* W8 選了熱水以後（BB_97 第 5 節；理由大家都懂、不是只對某一個人的暗示）*/
         ['y2_sis_m2read',Y2b,17+5/60,G=>PHONE.sent(G,'sis_m2')&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_m3'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天讀了四章。一件事：腰很痛。'}]],   /* BB_97 第 5 節：M2 之後（M3 放榜以前）*/
@@ -2295,7 +2302,7 @@ const STORY = (function(){
     L.push(['civ',T.civ[0],[T.civ[1]]]);
     if(G.events&&G.events.done&&G.events.done.ev_an_report_feedback){ const c={A:'『兩邊的利益都有看到。』',B:'『反方意見比正方精彩。』',C:'『無過失的判斷標準寫得好。』'}[F.cafeView]; if(c) L.push(['report',T.report[0],[c,'不是寫給你的，可是你留著。']]); }   /* 看過以安的「報告發回來」；照 cafeView */
     L.push(['noodle',T.noodle[0],[T.noodle[1]]]);
-    if(att('lawclub_study')||(F.LAWCLUB_SAT_VISITS|0)>0) L.push(['duty',T.duty[0],[T.duty[1]]]);   /* 參加過法服（讀書會或週六值班）*/
+    if((F.LAWCLUB_SAT_VISITS|0)>0) L.push(['duty',T.duty[0],[T.duty[1]]]);   /* 參加過法服（讀書會或週六值班）*/
     if(F.POTHOS) L.push(['pothos',T.pothos[0],[(F.pothosWaterN|0)>0?'比去年長了一點。':'他說忘記澆也不會死。他說對了。']]);   /* 大一和方奕廷說過話（黃金葛）；有沒有澆過水 */
     if(F.GREEN_HIGHLIGHTER) L.push(['green',T.green[0],[T.green[1]]]);   /* 公車站坐到明軒旁邊 */
     if(has('classmate_xinci','LENT_NOTES')) L.push(['sticky',T.sticky[0],[T.sticky[1]]]);   /* 借筆記給芯慈（慈 1）*/
@@ -2714,7 +2721,7 @@ const STORY = (function(){
     const ST=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES?SOCIAL.STAGES:[], st=typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('heroine_01'):'STRANGER';
     const friend=ST.indexOf(st)>=ST.indexOf('FRIEND')&&ST.indexOf('FRIEND')>=0;
     const dating=Object.keys(F).filter(k=>/^dating_/.test(k)&&F[k]===true), since=S.breakupDaysAgo(G), single=!dating.length&&since>=28;
-    const ok=group&&argued>=2&&friend&&single;
+    const ok=argued>=2&&friend&&single;   /* a 項（公法讀書會＋聽完 3 次）拿掉：讀書會不是門檻，是她心動的地方（AA_113 L123–124、AA_215；AA-C 2026-10-17 07:50，BB_191 §8-6 第 1 點）；group、attend 只留給除錯 */
     return why?{ok,group,attend,argued,friend,stage:st,single,dating,since}:ok; };
   S.route=G=>{ const r=G&&G.flags&&G.flags.EXCHANGE_ROUTE; return r==='JP'||r==='US'||r==='TW'?r:null; };
   S.routeAbroadRoute=G=>{ const r=S.route(G); return r==='JP'||r==='US'?r:null; };   /* 國外路線（JP／US）；台灣、未決定＝null */

@@ -61,9 +61,9 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     check('A 好朋友：期末考那兩週才問「期末考還好嗎。」「這是問句。」「……不用回很長。」',!D('zq_c2').ok(G,W5TUE)&&D('zq_c2').ok(G,W17MON)&&txt('zq_c2').map(s=>s.split('｜')[1]).join('/')==='期末考還好嗎。/這是問句。/……不用回很長。');
     PHONE.rec(G).groups={}; check('A 朋友：不在吉他社群組，只有私訊那兩則',(R('heroine_04',...LV.FRI),D('zq_r1').items(G,0).length===2)); }
   /* ---------- B 沛珊 ---------- */
-  { fresh(W5TUE,8,'dorm'); PHONE.join(G,'lawclub_study','法服讀書會'); R('classmate_peishan',...LV.ACQ);
-    check('B 認識：讀書會群組 23:10「睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？」「大家明天可以回答。」',D('ps_a').ok(G,W5TUE)&&hm(D('ps_a').h(G))==='23:10'&&JSON.stringify(txt('ps_a'))===JSON.stringify(['g:lawclub_study｜睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','g:lawclub_study｜大家明天可以回答。｜+1分']),JSON.stringify(txt('ps_a')));
-    const thu=termDay('Y1S1',5,4); fresh(thu,8,'dorm',{dpN:{peishan_handout:1}}); PHONE.join(G,'lawclub_study','法服讀書會'); R('classmate_peishan',...LV.ACQ);   /* 週二是讀書會前一天（先輪到學姊的提醒）；講義照片那則已經傳過 */
+  { fresh(W5TUE,8,'dorm'); PHONE.join(G,'public_law','公法讀書會'); R('classmate_peishan',...LV.ACQ);   /* BB_191 §8-7：沛珊的問題改在公法讀書會群組 */
+    check('B 認識：公法讀書會群組 23:10「睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？」「大家明天可以回答。」',D('ps_a').ok(G,W5TUE)&&hm(D('ps_a').h(G))==='23:10'&&JSON.stringify(txt('ps_a'))===JSON.stringify(['g:public_law｜睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','g:public_law｜大家明天可以回答。｜+1分']),JSON.stringify(txt('ps_a')));
+    const thu=termDay('Y1S1',5,4); fresh(thu,8,'dorm',{dpN:{peishan_handout:1}}); PHONE.join(G,'public_law','公法讀書會'); R('classmate_peishan',...LV.ACQ);   /* 週二是讀書會前一天（先輪到學姊的提醒）；講義照片那則已經傳過 */
     run(8,24); check('B 認識：實際走過一天，23:10 收到（她的問題，問所有人）',dp().map(m=>m.text).join('/')==='睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？/大家明天可以回答。',dp().map(m=>m.text).join('/'));
     G.contacts.classmate_peishan=W5TUE-3; R('classmate_peishan',...LV.FAM);
     check('B 有點熟：23:20 私訊書頁照片、23:21「這行讓我想到讀書會那題。你不用回。」',!D('ps_a').ok(G,W5TUE)&&D('ps_f').ok(G,W5TUE)&&hm(D('ps_f').h(G))==='23:20'&&JSON.stringify(txt('ps_f'))===JSON.stringify(['p:classmate_peishan｜📷（一頁書，劃了一行線）','p:classmate_peishan｜這行讓我想到讀書會那題。你不用回。｜+1分']),JSON.stringify(txt('ps_f')));

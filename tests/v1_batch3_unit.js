@@ -69,19 +69,20 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     fresh(fri,12.3,'putong'); picks=['已經有組']; await EVENTS.run(e); STORY.phoneRules(GM); check('Z2 「我已經有組了。」：不加入群組',!G.flags.ge_group_zhiruo&&!PHONE.inGroup(G,'ge_econ'));
     const fin=ev('ev_zhiruo_ge_final'); fresh(dayOfWeek(17,3),20,'dorm',{ge_group_zhiruo:true}); const a=EVENTS.check(fin); fresh(dayOfWeek(18,3),20,'dorm',{ge_group_zhiruo:true}); const b=EVENTS.check(fin);
     await EVENTS.run(fin); check('Z2 期末（第 18 週）旁白一行（不排「第一個」），第 17 週還沒有',a===false&&b===true&&lines()[0]==='三分鐘的短片，旁白是你。片尾名單照筆畫排，你的名字後面多了兩個字：（旁白）。'&&!/第一個/.test(lines()[0])); }
-  /* ---------- W2＋P1 ---------- */
-  { const e=ev('ev_studygroup_wed'); const wed=dayOfWeek(5,3); const P1=['（舉手，停了一下）……我們為什麼要背這個？','因為會考。','（笑）好。這是一個答案。','……好問題。下週回答。'];
-    fresh(wed,19.2,'wancai',{lawclub:true}); picks=['收書包']; await EVENTS.run(e); const S2=said.map(s=>s.t), L=lines(); const q1=S2.indexOf('〔題目〕');
-    check('W2 開場、柏翰照舊；三題 legal',L[0]==='來了？坐。今天讀刑訴——一年級聽不懂沒關係，先聽爭點怎麼吵。'&&legalAsked===3);
-    check('W2 沛珊 P1 四句在第一題之後（BB_95 2-5 原文）、設 PEISHAN_ASKED_WHY',JSON.stringify(S2.slice(q1+1,q1+5))===JSON.stringify(P1)&&G.flags.PEISHAN_ASKED_WHY===true,JSON.stringify(S2.slice(q1,q1+6)));
-    check('W2 「……我二月要交大專生研究計畫。你們大三就會知道那是什麼東西。」（沒有「公法組」）',L.includes('今天先到這裡。……我二月要交大專生研究計畫。你們大三就會知道那是什麼東西。')&&!L.some(t=>/公法組/.test(t)));
-    check('W2 選「收書包」也走到散會：便條（一，論點不清。二，引用錯頁。三，字太醜。）',L.some(t=>/便條/.test(t)&&/一，論點不清。二，引用錯頁。三，字太醜。/.test(t)));
-    check('W2 沒認識沛珊：散會時「郭沛珊。法律一。剛剛那個問題是我問的。」、記 FIRST_MET',L[L.length-1]==='郭沛珊。法律一。剛剛那個問題是我問的。'&&SOCIAL.has('classmate_peishan','FIRST_MET'),L[L.length-1]);
-    STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G); const T=PHONE.thread(G,'g:lawclub_study');
-    check('W2 那晚 22:30 法服讀書會群組（不是私訊）的四句',PHONE.inGroup(G,'lawclub_study')&&JSON.stringify(T.map(m=>m.text))===JSON.stringify(['三件事。','一，下週還是刑訴，一年級聽就好。','二，民總第三章自己先讀，那個比較重要。','三，不要遲到。'])&&T.every(m=>m.name==='溫學姊')&&!PHONE.thread(G,'p:heroine_05').length,JSON.stringify(T.map(m=>m.text)));
-    fresh(wed,19.2,'wancai',{lawclub:true}); SOCIAL.meet('classmate_peishan','campus'); picks=['研究計畫是什麼']; await EVENTS.run(e);
-    check('W2 已經認識沛珊（迎新見過）：問了問題、散會不再自我介紹',lines().includes('（舉手，停了一下）……我們為什麼要背這個？')&&!lines().some(t=>/郭沛珊。法律一/.test(t)));
-    fresh(wed,19.2,'wancai',{lawclub:true,PEISHAN_ASKED_WHY:true}); await EVENTS.run(e); check('W2 P1 只有一次（PEISHAN_ASKED_WHY 之後不再問）',!lines().some(t=>/為什麼要背這個/.test(t))); }
+  /* ---------- W2（法服讀書會）停用；沛珊 P1／P1b 搬到公法讀書會（AA_236 A1、BB_191 §8-7、AA_222）---------- */
+  { const e=ev('ev_studygroup_wed'), wed=dayOfWeek(5,3);
+    fresh(wed,19.2,'wancai',{lawclub:true}); check('W2 法服讀書會停用：ev_studygroup_wed、ev_studygroup_p1b、_missed 都標 retired，不會觸發',!!e.retired&&!!ev('ev_studygroup_p1b').retired&&!!ev('ev_studygroup_p1b_missed').retired&&EVENTS.check(e)===false);
+    STORY.phoneRules(GM); G.hour=22.55; PHONE.tick(G);
+    check('加入法服（lawclub）＝在「法服」群組；學姊在群組的「三件事」沒有了',PHONE.inGroup(G,'lawclub_study')&&PHONE.rec(G).groups.lawclub_study.name==='法服'&&!PHONE.thread(G,'g:lawclub_study').length); }
+  { const P1=ev('ev_peishan_why_plg'), P1b=ev('ev_peishan_why_answer_plg'), thu=STORY.termDay('Y1S1',11,4);
+    fresh(thu,20.2,'wancai',{}); SOCIAL.meet('classmate_peishan','campus'); const ok=EVENTS.check(P1); await EVENTS.run(P1);
+    check('P1（公法讀書會，大一上第 11 週起）：AA_222 五句、記 PEISHAN_ASKED_WHY、peishanAskedDay',ok&&JSON.stringify(lines())===JSON.stringify(['（大家在背基本權的審查標準。白板上寫滿了「目的」「手段」「必要」。）','（舉手，停了一下）……我們為什麼要背這個？','因為會考。','（有人笑出來。）','（想了一下）這個我下次回答妳。我想一下怎麼講比較清楚。'])&&G.flags.PEISHAN_ASKED_WHY===true&&G.flags.peishanAskedDay===thu&&EVENTS.check(P1)===false,JSON.stringify(lines()));
+    const same=EVENTS.check(P1b); G.day=thu+7; const nx=EVENTS.check(P1b); await EVENTS.run(P1b);
+    check('P1b：同一天不演；7 天內下一次讀書會＝以安回答（AA_222）、記 PS_WHY_ANSWERED',same===false&&nx===true&&JSON.stringify(lines().slice(-5))===JSON.stringify(['上禮拜沛珊問的，為什麼要背審查標準。','我想了一下。不背的話，討論的時候只能說「我覺得不合理」，可是講不出哪裡不合理。','背起來，至少大家吵的時候用的是同一套話。','……好，這樣我可以接受。','那今天讀比例原則。'])&&G.flags.PS_WHY_ANSWERED===true,JSON.stringify(lines().slice(-5)));
+    fresh(thu,20.2,'wancai',{PEISHAN_ASKED_WHY:true,peishanAskedDay:thu-8}); check('P1b：超過 7 天就沒有（AA_222：沒來那次由 P-L3 帶一句）',EVENTS.check(P1b)===false);
+    fresh(STORY.termDay('Y1S1',10,4),20.2,'wancai',{}); SOCIAL.meet('classmate_peishan','campus'); const w10=EVENTS.check(P1); G.day=STORY.termDay('Y1S2',7,4); const y7=EVENTS.check(P1); G.day=STORY.termDay('Y1S2',8,4); const y8=EVENTS.check(P1);
+    fresh(thu,20.2,'wancai',{}); const unmet=EVENTS.check(P1);
+    check('P1 的時間：大一上第 10 週（第一次讀書會）不演、大一下第 7 週以前可以、第 8 週以後不演；還不認識沛珊不演',w10===false&&y7===true&&y8===false&&unmet===false,JSON.stringify([w10,y7,y8,unmet])); }
   /* ---------- Q2 ---------- */
   { const e=ev('ev_ziqing_club'); const mon=dayOfWeek(5,1);
     for(const inv of [true,false]){ fresh(mon,19.2,'wancai',inv?{guitar_invite:true}:{}); await EVENTS.run(e); const L=lines();

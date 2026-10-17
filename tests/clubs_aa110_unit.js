@@ -69,12 +69,9 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   check('已經認識子晴：不再自動播事件；旁白照順序 6 句、每句一次，第 7、8 次只有「社課結束了。」',!ran.length&&narrSeen.slice(0,6).every((t,i)=>t.startsWith(g.narr[i]))&&narrSeen.slice(6).every(t=>t==='｜社課結束了。'),JSON.stringify(narrSeen.map(t=>t.slice(0,10))));
   { G={day:clubDays[1],hour:19.1,weekday:3,zone:'wancai',flags:{},events:{done:{},last:{}}}; log=[]; await CLS.attendActivity(GM,g,{door:true}); const i=log.indexOf('〔轉暗〕'), j=log.indexOf(g.narr[0]); check('吉他社：轉暗 → 旁白 → 社課結束了',i>=0&&j>i,JSON.stringify(log)); }
   check('換學期旁白從頭開始（同一學期才不重複）',(()=>{ G={day:clubDays[0],hour:19.1,weekday:1,flags:{},acts:{narr:{'club_guitar@Y1S1':6}}}; const a1=CLS.clubNarr(G,g); let d2=null; for(let d=150;d<400&&!d2;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S2') d2=d; } G.day=d2; const a2=CLS.clubNarr(G,g); return a1===''&&a2===g.narr[0]; })());
-  /* E：法服讀書會——第一次整段事件，之後旁白＋題庫兩三題（學姊問）*/
+  /* E：法服讀書會停用（AA_236 A1；使用者 AA_218 17-4：法服沒有讀書會也沒有社課）：週三研討室 A 的門沒有「參加：法服讀書會」，也不演、不出題 */
   fresh(wedOK,19.05); ran.length=0; asked.length=0; G.flags={}; await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
-  check('研討室 A 的門：「參加：法服讀書會」→ 第一次播 ev_studygroup_wed（整段），沒有另外的旁白、題目；記下 lawclub、CLUB_lawclub_study',(chose[0]||[])[0]==='參加：法服讀書會'&&ran.join()==='ev_studygroup_wed'&&!asked.length&&!log.some(t=>l.narr.includes(t))&&G.flags.lawclub===true&&G.flags.CLUB_lawclub_study===true,JSON.stringify(log));
-  { const d2=clubDays.find(d=>d>wedOK&&CALENDAR.dateOf(d).wd===3); G.day=d2; G.weekday=3; G.hour=19.05; log=[]; ran.length=0; asked.length=0; await CLS.attendActivity(GM,l,{door:true});
-    const iN=log.indexOf(l.narr[0]), iQ=log.findIndex(t=>/〔題目/.test(t)), iF=log.indexOf('〔轉暗〕');
-    check('第二次：不再播事件；一句旁白（法服那一組的第一句）→ 題庫兩三題（學姊問，讀書會的包裝）→ 轉暗',!ran.length&&iN>=0&&iQ>iN&&iF>iQ&&asked.length>=2&&asked.length<=3&&asked.every(q=>q==='heroine_05:study'),JSON.stringify(log)); }
+  check('研討室 A 的門（週三晚上）：沒有「參加：法服讀書會」、不演事件、不出題、不記 lawclub',!ACTIVITIES.on(l,wedOK,G)&&!(chose[0]||[]).some(t=>/法服讀書會/.test(t))&&!ran.length&&!asked.length&&!G.flags.lawclub,JSON.stringify([chose[0],log.slice(0,3)]));
   /* F：週三晚上只能選一個 */
   fresh(wedOK,19.1); MEM.heroine_04=['FIRST_MET']; G.events.done.ev_studygroup_wed=1; await CLS.roomDoor(GM,'wancai','multi',{});
   check('週三：去了吉他社（到 21:00），法服讀書會就不能再參加（走進哪一間就是哪一個）',ACTIVITIES.attended(G,'club_guitar',G.day)&&!ACTIVITIES.canJoin(G,l));
