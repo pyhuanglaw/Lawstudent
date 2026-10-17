@@ -1,0 +1,26 @@
+{
+ "glb": "assets/models/char/second_ai/calc_engineering.glb",
+ "owner": "econ_pinyu",
+ "bytes": 62752,
+ "size_m": [
+  0.08,
+  0.016,
+  0.16
+ ],
+ "origin": "中心；螢幕朝 +y、液晶那一端朝 −z",
+ "hold": {
+  "bone": "leftHand",
+  "pos": [
+   -0.07,
+   -0.02,
+   0.0
+  ],
+  "rot": [
+   0,
+   0,
+   0
+  ],
+  "note": "照資料夾（folder）的拿法：左手平拿"
+ },
+ "note": "沒有牌子、型號（D77）"
+}

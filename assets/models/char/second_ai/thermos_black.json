@@ -1,0 +1,26 @@
+{
+ "glb": "assets/models/char/second_ai/thermos_black.glb",
+ "owner": "econ_pinyu",
+ "bytes": 28964,
+ "size_m": [
+  0.07,
+  0.243,
+  0.07
+ ],
+ "origin": "瓶身中間；瓶蓋朝 +y",
+ "hold": {
+  "bone": "rightHand",
+  "pos": [
+   0.07,
+   -0.03,
+   0.0
+  ],
+  "rot": [
+   0,
+   0,
+   0
+  ],
+  "note": "右手直握（瓶蓋朝上）；位置要在遊戲裡對手掌"
+ },
+ "note": "沒有牌子（D77）"
+}

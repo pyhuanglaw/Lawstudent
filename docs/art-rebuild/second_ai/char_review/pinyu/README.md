@@ -1,3 +1,16 @@
+# 隨身物：工程計算機、黑色保溫瓶（BB_131「手上常拿」；LAWWW2-C 2026-10-17 19:5x UTC；等 BB-C 驗收，D59）
+- 模型（`tools/blender/char_second/prop_pinyu.py`）：
+  - `assets/models/char/second_ai/calc_engineering.glb`：工程計算機 16×8×1.6 cm、660 個三角形；深灰機身、液晶（兩行數字的小塊）、太陽能板；上三排小的功能鍵、下五排數字鍵，一顆橘色運算鍵；**沒有牌子、型號**。
+  - `assets/models/char/second_ai/thermos_black.glb`：黑色保溫瓶 直徑 7 cm、高 22 cm、810 個三角形；霧黑瓶身、銀色細環、亮一點的瓶蓋＋提環；沒有牌子。
+- 拿法：計算機照資料夾（`folder`）左手平拿；保溫瓶右手直握、瓶蓋朝上。兩個可以同時拿，也可以只拿一個。
+- 接進遊戲（LAWWW-C）：`docs/art-rebuild/second_ai/patches/props_pinyu.js`（`PROPS.DEF.calc`、`PROPS.DEF.thermos`＋manifest）；`CHARACTERS.econ_pinyu.char3d.props` 加 `'calc'`、`'thermos'`。
+- Blender 預覽：![](props_blender.webp)
+- 遊戲渲染器（test_charlook，第五版 VRM＋上面的 patch；正面、45°、側面）：![](props_look.webp)
+- 手的特寫（右手保溫瓶、左手計算機、45°、側面）：![](props_hands.webp)
+- 還沒做到的：黑色保溫瓶貼著黑褲子不明顯（設定就是黑色）；寬袖子蓋到手背，握的位置要在遊戲裡再對一次。
+
+---
+
 # ART-CH-PINYU 曾品妤（econ_pinyu）3D 人物（LAWWW2-C 2026-10-17；第五版；狀態 READY_FOR_ART_REVIEW → 等 BB 驗收，D59）
 
 - **參考**：BB_131 通過的標準圖 `docs/story_planning/art_reference/pinyu.webp`（企劃線）：經濟系一年級、19 歲、158 cm；面無表情、偶爾翻白眼、難得大笑；黑色高丸子頭（有點亂）＋透得到額頭的空氣瀏海＋臉旁兩撮碎髮；灰色 oversize 連帽上衣（袖子蓋到手背）＋黑色寬直筒長褲＋灰白老爹鞋；手上常拿工程計算機、黑色保溫瓶（配件之後另外做）。
