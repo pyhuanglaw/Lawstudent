@@ -821,15 +821,23 @@ const STORY = (function(){
   /* 8/29 搬進宿舍那晚（AA_195 4-2 的旁白＋BB_168 第 1 節 ev_kai_movein）：阿凱初遇 → 整理到快十點 → 第一次坐到書桌前播 DAY1_NARR → 22:40 阿凱的冷氣訊息 → 目標。
      台詞全部照企劃原文（D79）；記 MET_KAI（阿凱的宿舍階梯 K-D1～ 要它）、阿凱 ACQUAINTANCE、手機聯絡人。中途關掉：讀檔回到那天的宿舍再演一次（game3d.js applySave）*/
   async function kaiMoveIn(GM){ const G=GM.G, F=G.flags, E=GM.E, P=E&&E.player; if(F.KAI_MOVEIN) return false; GM.sceneBegin(); GM.letterbox(true);
-    try{ const kai=GM.npc.kai, who=kaiWho(GM);
-      if(kai&&P) GM.cine('two',P.obj,kai.obj); if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'kai'});
+    try{ const kai=GM.npc.kai, who=kaiWho(GM), npcWho=id=>GM.npc[id]||{name:typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id,charId:id}, bo=npcWho('classmate_bohan'), zhe=npcWho('zhe');
+      if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'classmate_bohan'});   /* 四人房（AA_208 2-1，使用者 00:5x）：柏翰早上就搬好了 */
+      await GM.say(null,'（靠窗那張書桌已經有人用了。書排得很整齊，旁邊一盞檯燈、一疊資料夾。）');
+      await GM.say(bo,'（從書裡抬頭）喔，是你。'); await GM.say(bo,'門口那張床是你的。我早上就來了。');
+      if(kai&&P) GM.cine('two',P.obj,kai.obj); if(typeof ADV!=='undefined'&&ADV.show) ADV.show('right','kai');
       await GM.say(null,'（房間裡已經有一個人。他背對著門，正在把一台很大的主機塞進書桌底下。地上一堆紙箱。）');
-      await GM.say(who,'（回頭）喔，嗨。'); await GM.say(who,'你睡那邊喔？我東西先放了一點過去，等一下移。');
+      await GM.say(who,'（回頭）喔，嗨。'); await GM.say(who,'你那組在門口那邊喔？我東西先放了一點過去，等一下拿走。');   /* AA_208 第 6 節：四人房每人一組床桌（原「你睡那邊喔？…等一下移。」；BB 確認口氣中）*/
       const i=await GM.choose([{t:'沒關係，你先放。'},{t:'我是'+G.name+'，法律系。'},{t:'（點頭，先搬自己的東西）'}]);   /* 不加數值（BB_168 第 1 節）*/
       if(i===0){ await GM.say(who,'好，謝謝。'); await GM.say(null,'（他又轉回去接線。）'); }
-      else if(i===1){ await GM.say(who,'阿凱。資工。'); await GM.say(who,'法律系喔，那你書應該很多。櫃子大的那格給你。'); }
+      else if(i===1){ await GM.say(who,'阿凱。資工。'); await GM.say(who,'法律系喔，那你書應該很多。衣櫃大的那格給你。'); }   /* 「櫃子」→「衣櫃」（AA_208 第 6 節）*/
       else await GM.say(null,'（他也點了一下頭，兩個人各忙各的。）');
       if(typeof SOCIAL!=='undefined') SOCIAL.meet('kai','dorm'); F.MET_KAI=true; if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts.kai==null) G.contacts.kai=G.day; }   /* 影響：MET_KAI、阿凱 ACQUAINTANCE、聯絡人多一個阿凱 */
+      if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); await GM.fade(true); if(G.hour<19) GM.advance(19-G.hour); await GM.fade(false);   /* 阿哲約 19:00 從高雄上來（AA_208 2-1；AA_205 6-4「29 號再上來搬宿舍」）*/
+      if(typeof ADV!=='undefined') ADV.begin({background:'blur',right:'zhe'});
+      await GM.say(null,'（門被撞開。阿哲拖著一個超大的行李箱，背上還有一顆籃球。）');
+      await GM.say(zhe,F.ZHE_CALLS_GE?'哥！你也這間喔！':'欸！你也這間喔！'); await GM.say(zhe,'（看到柏翰）柏翰也在？那宿營那間只差一個明軒。'); await GM.say(bo,'明軒住別棟。');   /* 阿凱的反應一句等 BB-B */
+      F.DORM_FOUR=true;   /* 四人房：阿哲、柏翰也住 203 */
       await GM.say(null,'（你們各自整理到快十點。他的電腦開機的聲音很大。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
       await GM.fade(true); if(G.hour<21+55/60) GM.advance(21+55/60-G.hour); if(E) E.endCinematic();
       const desk=(E.interactables||[]).find(x=>x.deskStudy), seat=desk&&desk.seat;   /* 整理到晚上，第一次坐到書桌前（AA_195 4-2 第 3 點）*/
@@ -839,7 +847,7 @@ const STORY = (function(){
       await GM.say(null,'（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）');   /* AA-B 00:46（AA_195 4-11）：通知前一句旁白 */
       if(typeof PHONE!=='undefined'){ const K=t=>({from:'kai',text:t}); if(GM.toast) GM.toast('手機｜阿凱：你的冷氣遙控器在我這',2600);
         await phoneScene(GM,'p:kai',[K('你的冷氣遙控器在我這')],{opts:[{t:'你可以直接講啊',say:[K('我耳機戴著 懶得拿下來'),K('幾度')]},{t:'好 開幾度',say:[K('27 可以嗎 我怕冷')]}]}); }
-      F.DORM_AC=27; await GM.say(null,'（遙控器最後放在兩張書桌中間。）');   /* 兩個回覆後面冷氣都開到 27 度 */
+      F.DORM_AC=27; await GM.say(null,'（阿哲說他都可以，柏翰已經戴上耳塞了。）'); await GM.say(null,'（遙控器最後放在兩張書桌中間。）');   /* AA_208 第 6 節 */   /* 兩個回覆後面冷氣都開到 27 度 */
       if(seat&&P) GM.standUp(P); F.KAI_MOVEIN=true;
     } finally { GM.letterbox(false); GM.sceneEnd(); }
     GM.setGoal('整理行李。缺的東西明天去公館買。'); if(GM.autosave) GM.autosave(); return true; }
