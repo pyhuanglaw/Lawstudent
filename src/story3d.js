@@ -1290,9 +1290,12 @@ const STORY = (function(){
        → 2/21（五）21:00 群組 T3＋22:00 唐睿私訊（下面）。舊 E27（3/26 總圖門口）、E28（3/26 宵夜攤）、E24c（3/13 頂樓）作廢。E28、E24c 在這裡標演過（之後的手機小事、閒聊階梯讀它們）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d=S.dayOfKey('2025-02-13'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]);
       if(d!=null&&G.day>=d-1&&G.day<=d&&F.dating_kexin&&!OUT.get(G,'y0_e27')&&!ED('ev_y0_e27')) OUT.plan(G,{id:'y0_e27',ev:'ev_y0_e27',day:d,h:19,must:true,late:0.25,place:'公館的水餃店',title:'公館 19:00：水餃店',travel:'捷運＋公車 約 30 分鐘',travelH:0.5});
+      { const d14=S.dayOfKey('2025-02-14'); if(d14!=null&&F.E27B_PLAN&&ED('ev_y0_e27')&&!ED('ev_y0_e27b')&&!OUT.get(G,'y0_e27b')&&(G.day<d14||(G.day===d14&&G.hour<15.25))) OUT.plan(G,{id:'y0_e27b',ev:'ev_y0_e27b',day:d14,h:15,must:true,late:0.25,place:'以前的補習班',title:'以前的補習班 15:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }   /* AA_272 8-2：2/14 一起去問補習班 */
       const q27=OUT.get(G,'y0_e27');
       if(q27&&q27.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=q27.h+0.25))&&G.day<=d+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
         (async()=>{ try{ q27.state='planned'; await OUT.go(GM,q27); } catch(e){ console.warn('E27 dumplings',e); } finally { y0CallBusy=false; } })(); }
+      { const qb=OUT.get(G,'y0_e27b'), d14=S.dayOfKey('2025-02-14'); if(qb&&qb.state!=='done'&&d14!=null&&(G.day>d14||(G.day===d14&&G.hour>=qb.h+0.25))&&G.day<=d14+1&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ qb.state='planned'; await OUT.go(GM,qb); } catch(e){ console.warn('E27b cram',e); } finally { y0CallBusy=false; } })(); } }   /* 在外面（3D）過了 15:15：直接出發（在家的是 homeCall 電話）*/
       const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, M=(from,name,text)=>({th:T,from,name,text});
       if(d!=null&&F.RETAKE_TOGETHER&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+2&&!PHONE.sent(G,'y0_e28_grp')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         const dd=G.day===d?d:G.day, h=G.day===d?22.5:Math.max(9,G.hour);
@@ -2564,12 +2567,12 @@ const STORY = (function(){
     if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
-  const CORE_OUT=['y0_e14','y0_e26','y0_e27','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
+  const CORE_OUT=['y0_e14','y0_e26','y0_e27','y0_e27b','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
   S.E37_CALL='你在哪？我在校門口了。太陽好大。';   /* AA_206 2-4（M19；和 E26 電話同一個模板）*/
   S.e37CallDue=function(G){ if(!(S.isEcon(G)||(G.flags&&G.flags.PLAYED_Y0))||typeof OUT==='undefined'||(G.events&&G.events.done&&G.events.done.ev_y0_e37)) return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
   /* 在臺北的家（休學後）時的固定核心電話：home3d.js 的選單每一輪先問這裡；有＝電話一句 → 直接進出遊（從家裡出發）*/
   /* 沒出發的保底電話（AA_272 第 6 節，BB_214 第 1、2 點：在家吃晚餐、讀書會錯過 E27、E14）：開始 15 分鐘後還沒出發＝電話兩句 → 直接出遊 */
-  S.CORE_CALLS=[{id:'y0_e27',ev:'ev_y0_e27',who:'可昕（電話）',lines:['人呢？','我在水餃店了，點了兩盤。……快來，我有事要跟你說。']},{id:'y0_e14',ev:'ev_y0_e14',who:'韋綸（電話）',lines:['人咧！！保齡球館！！','第一局要開了啦，走啦！']}];
+  S.CORE_CALLS=[{id:'y0_e27b',ev:'ev_y0_e27b',who:'可昕（電話）',lines:['我在補習班樓下了。你呢？']},{id:'y0_e27',ev:'ev_y0_e27',who:'可昕（電話）',lines:['人呢？','我在水餃店了，點了兩盤。……快來，我有事要跟你說。']},{id:'y0_e14',ev:'ev_y0_e14',who:'韋綸（電話）',lines:['人咧！！保齡球館！！','第一局要開了啦，走啦！']}];
   S.coreCallDue=function(G){ if(typeof OUT==='undefined') return null; for(const c of S.CORE_CALLS){ const q=OUT.get(G,c.id); if(!q||q.state!=='planned'||(G.events&&G.events.done&&G.events.done[c.ev])) continue; const t=q.day*24+q.h+0.25, now=G.day*24+G.hour; if(now>=t&&now<t+1) return Object.assign({q},c); } return null; };
   S.homeCall=function(G){ if(S.campCallDue(G)) return {q:OUT.get(G,'y1_camp')}; if(S.e37CallDue(G)) return {q:OUT.get(G,'y0_e37'),who:'可昕（電話）',line:S.E37_CALL}; const c=S.coreCallDue(G); if(c) return {q:c.q,who:c.who,line:c.lines[0],line2:c.lines[1]}; return null; };   /* 宿營：沒有人打電話，直接出發（line 空）*/
   /* T2 唐睿的練習（AA_154 第 127 行）：每次經原下課擲一次 50%（同一天只擲一次，記在 T2_DAY／T2_HIT）；E18 演過就不再觸發 */

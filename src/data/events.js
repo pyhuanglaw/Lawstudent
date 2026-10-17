@@ -2175,13 +2175,24 @@ const STORY_EVENTS=[
       {label:'q'},{speaker:'kexin',expression:'serious',text:'先說好。我考法律，不是因為你。'},{speaker:'kexin',expression:'neutral',text:'我寒假就在查了。你只是剛好先說。'},
       {if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說『先看看而已』那本，我那時候就知道是什麼了。'},
       {unless:{flags:['CRAM_FREE_KNOWN']},goto:'r_end'},
-      {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',expression:'neutral',text:'我呢？'},{speaker:'player',text:'……妳三類。社會沒考過，要從頭上。全額。'},{speaker:'kexin',expression:'neutral',text:'那你去上啊。免費耶。'},
+      {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',expression:'neutral',text:'我呢？'},{speaker:'player',text:'……不知道。妳是自然組。'},{speaker:'kexin',expression:'neutral',text:'那明天一起去問。'},{set:{E27B_PLAN:true}},{goto:'r_set'},   /* AA_272 8-1（使用者 22:0x）：三選一、「所以說好了」搬到 2/14 ev_y0_e27b */
+      {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},   /* 沒有 CRAM_FREE_KNOWN 的舊存檔照原本 */
+      {label:'r_set'},      {set:{RETAKE_TOGETHER:true}},{stamp:['E27_DAY']} ] },
+  /* ★E27b 一起去問補習班（AA_272 8-2，7050a1a0；使用者 22:0x「2 月決定重考以後，兩個人一起再去問可昕能不能免費……去問重考班也要有劇情」）：2025-02-14（五）15:00 以前的補習班（同 12/13 那一間，主任不出場）；
+     固定出遊、不能快轉；15:15 還沒出發＝可昕電話（story3d.js CORE_CALLS）。原本 E27 的三選一和結尾搬來這裡；記 CRAM_ASKED_TOGETHER。R1 照舊 2/15 */
+  { id:'ev_y0_e27b', stage:'econ', title:'一起去問補習班', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'以前的補習班'},
+      {speaker:null,text:'（同一個櫃台。上次那個工作人員認得你。）'},{speaker:'工作人員',text:'你決定來了？'},{speaker:'player',text:'我是來問她的。'},
+      {speaker:'工作人員',text:'（看了可昕一眼）同學之前是哪一組？'},{speaker:'kexin',expression:'neutral',text:'自然組。'},
+      {speaker:'工作人員',text:'喔……那就不行了。免費的是原本社會組、差四分以內的。'},{speaker:'工作人員',text:'自然組轉考要全科從頭上。一整年的話，學費十二萬八。這是早鳥價。'},
+      {speaker:'kexin',expression:'neutral',text:'……好。謝謝。'},{speaker:null,text:'（你們走出來。樓下的飲料店，跟十二月那天同一家。）'},
+      {speaker:'kexin',expression:'neutral',text:'十二萬八。'},{speaker:'kexin',expression:'neutral',text:'你去上啊。你免費耶。'},
       {choice:[{text:'「那我也在家讀。」',goto:'h1'},{text:'「我們都在家讀，比較好約。」',goto:'h2'},{text:'「那我們都在家讀。社會我陪妳從頭讀。」',goto:'h3'}]},
       {label:'h1'},{speaker:'kexin',expression:'surprised',text:'……你確定？'},{speaker:'player',text:'確定。而且我進去會遇到主任。'},{speaker:'kexin',expression:'smile',text:'……好。在家讀。'},{goto:'r_end'},
       {label:'h2'},{speaker:'kexin',expression:'teasing',text:'約讀書。'},{speaker:'player',text:'約讀書。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'r_end'},
       {label:'h3'},{speaker:'kexin',expression:'teasing',text:'你社會考壞過耶。'},{speaker:'player',text:'所以我比較知道哪裡會壞。'},{speaker:'kexin',expression:'smile',text:'……好。'},
       {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
-      {set:{RETAKE_TOGETHER:true}},{stamp:['E27_DAY']} ] },
+      {set:{CRAM_ASKED_TOGETHER:true}} ] },
   /* E28 告訴朋友（BB_153 E28 完整稿；AA_154 A20）：3/26（三）21:00 公館的宵夜（2D 出遊，背景 gongguan_luwei），22:00 結束。讀 E19_ASK 三個版本；品妤、阿勳自在 +1（韋綸、唐睿沒有人物資料）*/
   { id:'ev_y0_e28', retired:'AA_224 5-3（LIFE-LINE，2026-10-17）：3/26 宵夜攤作廢；改成 2/13 22:30 經濟系群組（story3d.js）。定義留給已經演過的舊存檔', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'公館・宵夜攤',bg:'gongguan_luwei'},

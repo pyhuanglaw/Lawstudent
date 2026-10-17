@@ -42,9 +42,16 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* E27 */
   { econ(d12,10,'home',{}); run(10,10.1); const q=OUT.get(G,'y0_e27');
     check('5-1 E27 固定出遊：2/13 19:00 公館的水餃店、must（只有「出發」）',q&&q.day===d13&&q.h===19&&q.must===true&&q.ev==='ev_y0_e27',J(q));
-    econ(d13,19,'home',{E22B_TOLD:false}); picks=['一起重考吧','那我也在家讀']; await EVENTS.run(ev('ev_y0_e27')); const L=lines();
-    check('5-1 E27：「我今天辦完了。」…祐廷「那我們都已經休學了，就一起重考吧。」→「……你是說真的？」「真的。」「好。」→「先說好。我考法律，不是因為你。」→（先看看而已）那一句 → 補習班免費 →「那我也在家讀。」→「同一張桌子。」「你不可以偷偷比我早起。」、RETAKE_TOGETHER、E27_DAY',
-      L[0]==='杜可昕：我今天辦完了。'&&L.includes('杜可昕：……你是說真的？')&&L.includes('杜可昕：先說好。我考法律，不是因為你。')&&L.includes('杜可昕：你說『先看看而已』那本，我那時候就知道是什麼了。')&&L.includes('祐廷：那間補習班說我可以免費。')&&L.includes('杜可昕：……好。在家讀。')&&L[L.length-1]==='杜可昕：還有，你不可以偷偷比我早起。'&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27_DAY!=null,J(L));
+    econ(d13,19,'home',{E22B_TOLD:false}); picks=['一起重考吧']; await EVENTS.run(ev('ev_y0_e27')); const L=lines();
+    check('5-1 E27（AA_272 8-1）：「我今天辦完了。」…「一起重考吧」→「……你是說真的？」…「先說好。我考法律，不是因為你。」→（先看看而已）→「那間補習班說我可以免費。」「我呢？」「……不知道。妳是自然組。」「那明天一起去問。」；RETAKE_TOGETHER、E27_DAY、E27B_PLAN',
+      L[0]==='杜可昕：我今天辦完了。'&&L.includes('杜可昕：……你是說真的？')&&L.includes('杜可昕：先說好。我考法律，不是因為你。')&&L.includes('杜可昕：你說『先看看而已』那本，我那時候就知道是什麼了。')&&L.includes('祐廷：那間補習班說我可以免費。')&&L.includes('祐廷：……不知道。妳是自然組。')&&L[L.length-1]==='杜可昕：那明天一起去問。'&&!L.some(t=>/在家讀|同一張桌子/.test(t))&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27_DAY!=null&&G.flags.E27B_PLAN===true,J(L));
+    { const s0=opts.slice(); G.events.done.ev_y0_e27=1; G.hour=22; run(22,22.1); const qb=OUT.get(G,'y0_e27b');
+      check('5-1 E27b（AA_272 8-2）：E27 演完排 2/14 15:00 以前的補習班（固定、must）',!!qb&&qb.day===d13+1&&qb.h===15&&qb.must===true&&qb.ev==='ev_y0_e27b',J(qb));
+      G.day=d13+1; G.hour=15.3; const c=STORY.homeCall(G); check('5-1 E27b 15:15 還沒出發：可昕電話「我在補習班樓下了。你呢？」',!!c&&c.q===qb&&c.line==='我在補習班樓下了。你呢？',J(c&&c.line));
+      said=[]; opts=[]; picks=['那我也在家讀']; await EVENTS.run(ev('ev_y0_e27b')); const Lb=lines();
+      check('5-1 E27b：櫃台（自然組不能免費、十二萬八早鳥價）→ 飲料店「你去上啊。你免費耶。」→ 三選一「那我也在家讀。」→「……好。在家讀。」→「所以說好了。同一張桌子。」「你不可以偷偷比我早起。」、CRAM_ASKED_TOGETHER',
+        Lb[0]==='（同一個櫃台。上次那個工作人員認得你。）'&&Lb.includes('工作人員：自然組轉考要全科從頭上。一整年的話，學費十二萬八。這是早鳥價。')&&Lb.includes('杜可昕：你去上啊。你免費耶。')&&Lb.includes('杜可昕：……好。在家讀。')&&Lb[Lb.length-1]==='杜可昕：還有，你不可以偷偷比我早起。'&&G.flags.CRAM_ASKED_TOGETHER===true&&opts[0].length===3,J(Lb));
+      opts=s0; }
     check('5-1 E27 三個說法都是祐廷提的（選項三個）',opts[0].length===3&&opts[0].every(t=>t.startsWith('「')));
     econ(d13,19,'home',{CRAM_FREE_KNOWN:false}); picks=['一起考吧']; await EVENTS.run(ev('ev_y0_e27')); const L2=lines();
     check('5-1 沒有 CRAM_FREE_KNOWN（防呆）：沒有「你十二月去補習班那天」的選項、沒有「那間補習班說我可以免費」，照樣說好',opts[0].length===2&&!L2.join('').includes('補習班')&&G.flags.RETAKE_TOGETHER===true); }
