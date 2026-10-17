@@ -6,7 +6,7 @@ AA-C AA_185 要的三張（第四張「公館機車行」已刪：模擬法庭�
 |---|---|---|
 | `assets/bg/video_far_us.webp`（1672×941） | 主線 8「遠方」：台灣 2028-03-16 19:30 麵店打視訊，美國那邊 07:30，天剛亮、外面還有雪（AA_185 1-2） | `bg_video_far.py us`＋`bg_paint.py` |
 | `assets/bg/video_far_jp.webp`（1672×941） | 同一場，日本那邊 20:30：國際學生宿舍的單人房（AA_145 3-6） | `bg_video_far.py jp`＋`bg_paint.py` |
-| `assets/bg/old_school_playground.webp`（1672×941） | 大二春假小旅行第一站：沛珊選的老國小（AA_185 3-5、AA_143 2-4：「教室都鎖著」「阿哲坐在溜滑梯上」） | `bg_playground.py`＋`bg_paint.py` |
+| `assets/bg/old_school_playground.webp`（1672×941） | ~~大二春假小旅行第一站：沛珊選的老國小~~ → **目前沒有排到戲**（AA-C 13:01：沛珊大二下聯絡不到，改語彤排行程，第一站去市場；先留著，之後國小的場景可以用） | `bg_playground.py`＋`bg_paint.py` |
 
 - 鏡頭：視訊的兩張是他桌上筆電的鏡頭（高 1.1 m），人物站的位置（畫面中間）留空，立繪疊上去。
 - 後製：`bg_paint.py` 的繪畫感，和遊戲裡已通過的手繪風底圖放在一起不突兀。
