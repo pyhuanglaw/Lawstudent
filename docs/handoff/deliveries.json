@@ -6936,8 +6936,8 @@
    "what": "已審 SHA：AA_242 18fe1b6a、AA_256 71b184ba、AA_244 b667820f、AA_199 67f0f9e9（白名單）",
    "task": "VAC-C08-12",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": ""
+   "integration": "已整合待測試",
+   "note": "AA_242 第 0～5 節、7-1 智恩／家睿已做（vac3d.js、vac_activities.js）；第 6、8 節等 BB_200"
   }
  ],
  "ignored": [

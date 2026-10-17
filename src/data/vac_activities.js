@@ -1,5 +1,5 @@
 /* 假期活動（VAC；AA_199 第 3 節活動卡、7-2／7-4／7-5；任務 HOLIDAY-SYS／VAC-C08-12）——資料表。流程在 src/vac3d.js。
-   **台詞照 AA 定稿照抄，這裡不改字、不自己寫**：大一暑假 AA_241（企劃線 claude/magical-albattani-bk7b4n）。
+   **台詞照 AA 定稿照抄，這裡不改字、不自己寫**：大一暑假 AA_241（企劃線 claude/magical-albattani-bk7b4n）；出國 C08～C12 AA_242（18fe1b6a）。選項裡的（交申請書）（報名）是操作，不是台詞。
    每一張活動卡：
      id、title、cat（類別）、season（summer／winter）、
      year：只有某一年（例：C05 阿凱那一團＝Y1，之後是 C13 出國旅遊）；沒寫＝每個同季的假期都開（AA_199 7-5 第 1 點），日期用 days（月-日）照那一年換；
@@ -60,8 +60,96 @@ const VAC_DATA=(function(){
         {day:'08-26',h:12,title:'中間一天',bg:null,lines:[{narr:'（便利商店的飯糰有二十幾種。阿凱每一種都拍了照。）'},{who:'kai',text:'回去給我室友看。'},{who:'kai',text:'……喔，你就是我室友。'}]},
         {day:'08-27',h:20,title:'最後一晚',bg:'jp_street_night',lines:[{who:'kai',text:'下次換你排行程。我排的都是店。'}],
           choice:[{t:'「好，我排。」',say:[{who:'kai',text:'不要排博物館。'}]},{t:'「下次叫阿哲一起。」',say:[{who:'kai',text:'他會一直問哪裡可以吃。……好啊。'}]}]} ],
-      back:{day:'08-28',group:[{from:'zhe',text:'伴手禮咧'}]},
-      miss:{day:'08-28',h:21,who:'kai',msgs:['📷（秋葉原的街，招牌一層一層疊上去）','買到了']} } };
+      back:{day:'08-28'},   /* 阿哲「伴手禮咧」（AA_241；出國第幾次照 AA_242 0-3）*/
+      miss:{day:'08-28',h:21,who:'kai',msgs:['📷（秋葉原的街，招牌一層一層疊上去）','買到了']} },
+    /* ===== 出國的活動（AA_242 18fe1b6a 照抄；AA_199 7-4）：學校、團隊、新 NPC 全部虛構；海外的關鍵事件是 2D 場景（底圖等使用者給，先用暗底）=====
+       錄取一律通過（AA_199 3-5 的沒錄取＝等 BB 定條件）。C08 的行前說明會日子 LAWWW 暫排（第 14 週週三 12:20，等 BB 確認）。 */
+    /* VAC-C08 姊妹校邀請交流（首爾）：AA_242 第 1 節。大一暑假 7/13～7/24 */
+    C08:{ id:'C08', title:'姊妹校暑期交流（首爾）', cat:'海外交流', season:'summer', years:['Y1'], days:['07-13','07-24'], slot:'night', place:{kind:'abroad',name:'首爾',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
+      signup:{kind:'group', th:'g:law_class', term:'S2', week:6, wd:1, h:12, until:{term:'S2',week:9,wd:5}, flag:'VAC_C08', board:true,
+        msgs:[{from:'sysoffice',name:'系辦',text:'【交流計畫】姊妹校暑期交流（首爾），7/13～7/24，對方學校負擔食宿。名額 10 名，需系上推薦，第 9 週週五前交申請書。'}],
+        yes:{t:'（交申請書）',say:[]} },
+      select:{term:'S2',week:12,wd:1,h:12,name:'姊妹校暑期交流（首爾）',briefAt:{term:'S2',week:14,wd:3,h:12+20/60}},
+      depart:{zhe:'記得吃炸雞',yu:'幫我看有沒有好看的筆'}, back:{},
+      trip:{ start:{day:'07-13',h:8}, end:{day:'07-24',h:18}, placeName:'首爾', home:'auto' },
+      keys:[
+        {day:'07-13',h:8,title:'出發',bg:null,lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},
+        {day:'07-13',h:19,title:'歡迎晚會',bg:null,lines:[{narr:'（長桌上擺了一整排小菜。對面的女生拿起一個小碟子，放到你前面。）'},{who:'npc_jieun',name:'智恩',text:'這個，不辣。我試過。'},{who:'npc_jieun',name:'智恩',text:'你是……法律？'}],
+          choice:[{t:'「對，法律系。」',say:[{who:'npc_jieun',name:'智恩',text:'我的朋友說，法律系的人，很會吵架。'},{narr:'（她說完自己笑了。）'}]},{t:'「妳中文好好。」',say:[{who:'npc_jieun',name:'智恩',text:'我學三年了。……可是你們說話太快。'}]}]},
+        {day:'07-18',h:14,title:'傳統市場',bg:null,lines:[{narr:'（市場很窄，兩邊的攤位往中間擠。智恩走在前面，每到一個攤位就回頭講一句。）'},{who:'npc_jieun',name:'智恩',text:'這個是做年糕的。那個是賣魚的。那個……我也不知道。'},{who:'npc_jieun',name:'智恩',text:'（問了老闆）她說是她媽媽做的醬。賣了四十年。'}],
+          choice:[{t:'「買一罐。」',say:[{narr:'（老闆多塞了一小包給你。智恩翻譯：「她說，帶回去給家裡的人。」）'}]},{t:'「四十年喔。」',say:[{who:'npc_jieun',name:'智恩',text:'嗯。她說她女兒不想接。'}]}]},
+        {day:'07-22',h:14,title:'分組報告',bg:null,lines:[{narr:'（分組報告的題目是「兩國的大學生，一天怎麼過」。你們這組的投影片只做好一半。）'},{who:'npc_jieun',name:'智恩',text:'你的部分，可以講你們的……麵店嗎？你一直在說的那個。'}],
+          choice:[{t:'「好，我講麵店。」',say:[{narr:'（報告的時候，講到週二週四的麵店，下面有人笑了。）'}]},{t:'「我講宿舍。」',say:[{narr:'（你講到宿舍規則有十七頁，對方的學生睜大眼睛。）'}]}]},
+        {day:'07-23',h:20,title:'最後一晚',bg:null,lines:[{who:'npc_jieun',name:'智恩',text:'明天你們走了以後，我要寫報告。'},{who:'npc_jieun',name:'智恩',text:'老師說要寫「交流的心得」。……我不知道要寫什麼。'}],
+          choice:[{t:'「寫市場那個阿姨。」',say:[{who:'npc_jieun',name:'智恩',text:'……好。那個可以寫。'}]},{t:'「寫你們的炸雞。」',say:[{who:'npc_jieun',name:'智恩',text:'（笑）老師會生氣。'}],set:{C08_CHICKEN:true}}]} ],
+      /* 7-1 智恩：回國一週後、那年中秋（2026-09-25）*/
+      follow:[
+        {day:'07-31',h:20,who:'npc_jieun',name:'智恩',msgs:G=>[(G.name||'祐廷')+'，你好。我是智恩。',G.flags.C08_CHICKEN?'我的中文報告，老師給我 A。……因為我寫了炸雞。':'我的中文報告，老師給我 A。謝謝你們。'],
+          opts:[{t:'恭喜！',say:['謝謝。有空來首爾，我請你吃炸雞。這次不辣。']},{t:'炸雞有用。',say:['（笑）對。炸雞有用。']}]},
+        {day:'09-25',h:20,who:'npc_jieun',name:'智恩',msgs:G=>['今天是秋夕。韓國的中秋。','台灣也吃月餅嗎？'],
+          opts:[{t:'吃，還會烤肉。',say:['烤肉？……下次我要去台灣看。']},{t:'吃柚子。',say:['柚子……要查一下。']}]} ] },
+    /* VAC-C09 海外志工（柬埔寨的鄉村小學，虛構團隊「暖陽服務隊」）：AA_242 第 2 節。大一暑假 7/27～8/5；說明會第 5 週週三、面試第 7 週（LAWWW 排週三 19:00）、第 10 週公布、行前訓練 6/13 */
+    C09:{ id:'C09', title:'海外志工（暖陽服務隊）', cat:'社團志工', season:'summer', years:['Y1'], days:['07-27','08-05'], slot:'night', place:{kind:'abroad',name:'柬埔寨',tz:-1}, cost:{payer:'family'}, free:'partial',
+      signup:{kind:'board', term:'S2', week:3, wd:1, h:9, until:{term:'S2',week:5,wd:3}, flag:'VAC_C09', board:true, yes:{t:'（報名）',say:[]} },
+      pre:[
+        {term:'S2',week:5,wd:3,h:19,title:'說明會',place:'社科院教室',bg:'classroom_small',lines:[{narr:'（投影片上是一間鐵皮屋頂的教室，二十幾個孩子擠在三張長桌。）'}]},
+        {term:'S2',week:7,wd:3,h:19,title:'面試',place:'社科院教室',bg:'classroom_small',lines:[{who:'npc_jiarui',name:'家睿',text:'為什麼想去？'}],
+          choice:[{t:'「想看看不一樣的地方。」',say:[{who:'npc_jiarui',name:'家睿',text:'好。……那邊很熱，蚊子很多，沒有冷氣。你可以嗎？'},{who:'player',text:'可以。'}]},{t:'「想教小朋友。」',say:[{who:'npc_jiarui',name:'家睿',text:'教英文跟衛教，十天。教不了太多，但可以教一點。'}]}]},
+        {day:'06-13',h:10,title:'行前訓練',place:'社科院教室',bg:'classroom_small',lines:[{who:'npc_jiarui',name:'家睿',text:'洗手歌，每個人都要會。我們會唱一百次。'},{narr:'（他真的唱了一次。全隊跟著唱。）'}]} ],
+      select:{term:'S2',week:10,wd:1,h:12,name:'海外志工（暖陽服務隊）',briefAt:{day:'06-13',h:10}},
+      depart:{zhe:'防蚊液帶了沒',yu:'要拍小朋友的照片喔'}, back:{},
+      trip:{ start:{day:'07-27',h:7}, end:{day:'08-05',h:18}, placeName:'柬埔寨', home:'auto', endLines:[{narr:'（你把那張畫夾進書桌前的軟木板。）'}] },
+      keys:[
+        {day:'07-28',h:15,title:'到村子第一天',bg:null,lines:[{narr:'（車開了四個小時，最後一段是紅土路。學校的鐵皮屋頂曬得發燙。）'},{narr:'（孩子從教室門口探頭，看到你們，又縮回去。）'},{who:'npc_jiarui',name:'家睿',text:'第一天都這樣。明天就會黏上來了。'}]},
+        {day:'07-30',h:10,title:'上課',bg:null,lines:[{narr:'（你負責教數字。寫到 7 的時候，前排一個小男孩舉手，用很慢的英文說他七歲。）'}],
+          choice:[{t:'（寫一個大大的 7，指他）',say:[{narr:'（他笑得很開心，跑去跟旁邊的人講。）'}]},{t:'（問他叫什麼名字）',say:[{who:'npc_dara',name:'小男孩',text:'Dara。'},{narr:'（之後每一堂，他都坐第一排。）'}],set:{C09_DARA:true}}]},
+        {day:'08-02',h:21,title:'停電的一晚',bg:null,lines:[{narr:'（晚上下大雨，停電。隊員擠在宿舍的走廊，點了兩支蠟燭。）'},{who:'npc_jiarui',name:'家睿',text:'每年都會停一次。去年停了兩天。'},{who:'npc_jiarui',name:'家睿',text:'……明天如果還沒來電，就帶孩子在外面上課。'}],
+          choice:[{t:'「在樹下上。」',say:[{who:'npc_jiarui',name:'家睿',text:'好。你負責找一棵夠大的。'}]},{t:'「那洗手歌還唱嗎？」',say:[{who:'npc_jiarui',name:'家睿',text:'唱啊。洗手歌不用電。'}]}]},
+        {day:'08-04',h:15,title:'最後一天',bg:null,lines:[{narr:'（孩子把一張畫塞進你手裡。畫上是一棟房子，旁邊站著很多個火柴人。）'},{narr:'（最旁邊那個火柴人比別人高，頭上寫著你的名字，拼錯了一個字母。）'}]} ],
+      /* 7-1 家睿：8/20 21:00（隔年說明會那週的那一則，等每年重開時接）*/
+      follow:[
+        {day:'08-20',h:21,who:'npc_jiarui',name:'家睿',msgs:G=>['📷（村子小學的教室，牆上貼著你們那天畫的洗手歌）','村長傳來的。他們還在唱。'],
+          opts:[{t:'我也還會唱。',say:['我知道。你唱得最大聲。']},{t:'謝謝你傳。',say:['應該的。大家都有。']}]} ] },
+    /* VAC-C10 海外大學暑期課（加州的大學，虛構）：AA_242 第 3 節。大二暑假 6/21～7/31（六週、兩門）；大二下第 10～13 週報名，報名隔天去系辦送課程大綱＝C10_CREDIT_FILED；回來大三上第 2 週系辦學分採計 */
+    C10:{ id:'C10', title:'海外大學暑期課（加州）', cat:'學習考試', season:'summer', years:['Y2'], days:['06-21','07-31'], slot:'night', place:{kind:'abroad',name:'加州',tz:-15}, cost:{payer:'family'}, free:'partial',
+      signup:{kind:'board', term:'S2', week:10, wd:1, h:9, until:{term:'S2',week:13,wd:5}, flag:'VAC_C10', board:true, yes:{t:'（報名）',say:[]} },
+      pre:[{afterSignup:1,h:12+20/60,title:'系辦（學分採計）',place:'法律系辦',bg:'classroom_small',lines:[{who:'npc_office',name:'系辦助理',text:'要採計的話，先把課程大綱給我，系上審過才算。出國前送，回來帶成績單。'},{who:'npc_office',name:'系辦助理',text:'……國外的課不一定都抵得掉。先問清楚比較好。'}],set:{C10_CREDIT_FILED:true}}],
+      select:{name:'海外大學暑期課（加州）'},
+      depart:{zhe:'你要去六個禮拜喔？？',yu:'時差多少'}, back:{},
+      trip:{ start:{day:'06-21',h:7}, end:{day:'07-31',h:20}, placeName:'加州', home:'auto' },
+      keys:[
+        {day:'06-21',h:7,title:'出發',bg:null,lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},
+        {day:'06-23',h:9,title:'第一堂課',bg:null,lines:[{narr:'（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
+          choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
+        {day:'07-02',h:10,title:'第一次報告',bg:null,lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
+        {day:'07-11',h:13,title:'週末',bg:null,lines:[],
+          choice:[{t:'海邊',say:[{narr:'（風很大。Priya 說她第一次看到太平洋的另一邊。）'}]},{t:'校園的圖書館',say:[{narr:'（週末的圖書館沒什麼人。你在窗邊讀了一下午，窗外的草地有人在丟飛盤。）'}]}]},
+        {day:'07-30',h:9,title:'期末考',bg:null,lines:[{narr:'（考卷四題，三小時。你寫完第三題的時候，旁邊的 Priya 已經在檢查了。）'}]} ],
+      post:{ if:'C10_CREDIT_FILED', yk:yk=>'Y'+(+String(yk).slice(1)+1), term:'S1', week:2, wd:1, h:12+20/60, title:'系辦（學分採計）', place:'法律系辦', bg:'classroom_small',
+        lines:[{who:'npc_office',name:'系辦助理',text:'兩門都過了。一門抵選修，一門……老師說內容和我們的課重疊，只能抵一半。'},{who:'npc_office',name:'系辦助理',text:'還是不錯啦。'}] } },
+    /* VAC-C11 臺大提名的姊妹校短期課程（東京）：AA_242 第 4 節＋AA_244 第 1 節以安版。大二寒假 1/17～1/30；大二上第 5 週公告、第 6 週截止（甄審結果 LAWWW 排第 8 週週一 12:00）*/
+    C11:{ id:'C11', title:'姊妹校冬季短期課程（東京）', cat:'海外交流', season:'winter', years:['Y2'], days:['01-17','01-30'], slot:'night', place:{kind:'abroad',name:'東京',tz:1}, cost:{payer:'family'}, free:'partial',
+      signup:{kind:'board', term:'S1', week:5, wd:1, h:9, until:{term:'S1',week:6,wd:5}, flag:'VAC_C11', board:true, yes:{t:'（報名）',say:[]} },
+      select:{term:'S1',week:8,wd:1,h:12,name:'姊妹校冬季短期課程（東京）'},
+      depart:{zhe:'冬天的東京欸',yu:'帶暖暖包'}, back:{},
+      trip:{ start:{day:'01-17',h:7}, end:{day:'01-30',h:18}, placeName:'東京', home:'auto' },
+      keys:[
+        {day:'01-18',h:9,title:'第一堂',bg:null,lines:[{narr:'（教室的暖氣很強，窗戶上都是霧。老師在黑板上寫了今天的主題：「大學生與地方社區」。）'},{narr:'（同團的臺大學生小聲說：「好像通識課。」）'},
+          G=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows('heroine_01',G)?{narr:'（休息時間，以安坐在你斜前方，回頭用嘴型說：好冷。）'}:null]},   /* 以安報了東京（AA_244 第 1 節大二寒假）*/
+        {day:'01-23',h:14,title:'參訪',bg:null,lines:[{narr:'（參訪的是一個商店街的協會。會長是一位七十幾歲的伯伯，講話很快，翻譯跟不上。）'},{narr:'（最後他拿出一張商店街五十年前的照片。照片裡人很多。）'}]} ] },
+    /* VAC-C12 海外語言文化課程（京都，虛構語言學校）：AA_242 第 5 節。大二暑假 8/9～8/27；大二下 3～5 月直接報名（第 3～12 週）。以安七月考完日檢也去（AA_244），FAMILIAR 以上才演同班那版 */
+    C12:{ id:'C12', title:'海外語言文化課程（京都）', cat:'學習考試', season:'summer', years:['Y2'], days:['08-09','08-27'], slot:'night', place:{kind:'abroad',name:'京都',tz:1}, cost:{payer:'family',local:'self'}, free:'partial',
+      signup:{kind:'board', term:'S2', week:3, wd:1, h:9, until:{term:'S2',week:12,wd:5}, flag:'VAC_C12', board:true, yes:{t:'（報名）',say:[]} },
+      select:{name:'海外語言文化課程（京都）'},
+      depart:{zhe:'又去日本',yu:'你是不是住在日本了'}, back:{},
+      trip:{ start:{day:'08-09',h:7}, end:{day:'08-27',h:22}, placeName:'京都', home:'auto' },
+      keys:[
+        {day:'08-10',h:9,title:'第一堂',bg:null,lines:[G=>AN_IN(G)?[{narr:'（休息時間，走廊另一頭有人叫你的名字。是以安，她在中級班。）'},{who:'heroine_01',text:'你也來了？'},{who:'heroine_01',text:'我七月考完日檢，想說趁暑假多練口說。'}]:[{narr:'（教室裡有十二個人，來自八個國家。老師用日文說了一句話，大家都笑了，你沒聽懂。）'}]],
+          choiceIf:G=>AN_IN(G), choice:[{t:'「妳是中級喔。」',say:[{who:'heroine_01',text:'上個月才升的。……你不要叫我老師。'}]},{t:'「下課一起吃飯？」',say:[{who:'heroine_01',text:'好。我知道一間便宜的，我查過了。'}]}]},
+        {day:'08-19',h:14,title:'文化課：茶道',bg:null,lines:[{narr:'（跪坐十分鐘以後，你的腳麻了。老師說，茶碗要轉兩次。）'},{narr:'（你轉了三次。老師看了一眼，沒說話，笑了一下。）'}]},
+        {day:'08-27',h:15,title:'最後一天',bg:null,lines:[{narr:'（老師發了結業證書，上面的名字用片假名寫，你念了兩次才念對。）'},G=>AN_IN(G)?[{who:'heroine_01',text:'你的名字片假名好長。'},{who:'heroine_01',text:'……我幫你念一次。'}]:null]} ] } };
+  /* 以安也在京都的語言課：FAMILIAR 以上（AA_242 5-1；她的假期計畫 AA_244 第 1 節大二暑假）*/
+  function AN_IN(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.has||!SOCIAL.has('heroine_01','FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage('heroine_01'))>=A.indexOf('FAMILIAR'); }
   /* 大一暑假的訊息（AA_241 第 4、6、7 節）：VA-05 小語的營隊、VA-02 返鄉回臺北、VA-11 交往中的反應 */
   const MSGS=[
     {tag:'va05_1',day:'2026-07-06',h:21.5,th:'g:noodle_team',ms:[{from:'yu',text:'📷（山上的營地，一排帳篷）'},{from:'yu',text:'隊輔第一天 我已經沒聲音了'}]},
@@ -83,5 +171,5 @@ const VAC_DATA=(function(){
     {tag:'va11_exam_yt',day:'2026-06-19',h:12,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
-  return {A,MSGS,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）'};
+  return {A,MSGS,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12）'};
 })();
