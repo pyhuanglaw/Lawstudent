@@ -1,9 +1,13 @@
-# ART-DORM-LOFT：宿舍 203 改成台大四人房（v1 預覽，等使用者看）
+# ART-DORM-LOFT：宿舍 203 改成台大四人房
 
 - **起因**：使用者 2026-10-17 01:0x 直接給 LAWWW2-B，附一張實際宿舍照片：
   「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個／你改」
   （照片有人入鏡，**沒有放進 repo**。）
-- **狀態**：`WORK_IN_PROGRESS`（v2）。先給使用者看算圖，使用者點頭後才換 `dorm_interior.glb`、交 LAWWW-B。
+- **狀態**：**使用者看過 v1、v2 算圖，說「宿舍ok」（2026-10-17 01:3x）**。已交 LAWWW-B。
+  - 遊戲程式那一半（走路、座位、睡覺、窗景、年份切換）由 LAWWW-B 做（DORM-LOFT-L）。
+  - 場景美術的 `ART_APPROVED` 由使用者決定，接進遊戲後請使用者在遊戲裡再看一次。
+- **檔案**：`assets/models/env/second_ai/dorm_room4.glb`（＋`.json`）、配置 `assets/models/env/second_ai/dorm_room4.layout.json`（和這裡的 `layout_v2.json` 相同）。
+  - 用新檔名：舊的 `dorm_interior.glb` 照舊，等程式改好再換。不然舊的走路範圍會對不上新家具。
 - **腳本**：`tools/blender/env_second/dorm_room4.py`（舊的雙人房 `dorm_interior.py` 保留）。
   ```
   /opt/blenv/bin/python tools/blender/env_second/dorm_room4.py -- --out <glb> --layout <layout.json>
@@ -64,8 +68,26 @@
 | ![](v2_kai.webp) 阿凱 | ![](v2_zhe.webp) 阿哲 |
 | ![](v2_412_first_night.webp) 經濟系第一晚：唐睿的空床＋名牌 | ![](v2_game_cam.webp) 遊戲鏡頭的高度 |
 
+## 遊戲內截圖（交件前檢查）
+- 做法：
+  - 測試工作樹＝開發分支 `3d477ddb`，把 `dorm_interior.glb` 暫時換成這個模型；
+  - 用 JS 藏起 412 的東西和名牌；
+  - 也藏起舊位置的月曆、傳單和書桌上的小物（舊配置的座標）。
+- 手機模擬（Playwright），**不是真機**。走路、座位還是舊程式，所以只拍畫面。
+- 窗外的景還在舊的位置（x 1.5），新窗只有右半邊看得到景；LAWWW-B 改 `winXs [0]` 以後就對了。
+
+| | |
+|---|---|
+| ![](game_door_day.webp) 從門口（11:00） | ![](game_yuting_desk.webp) 祐廷那組 |
+| ![](game_bohan_window.webp) 柏翰那組（16:00） | ![](game_door_night.webp) 晚上 21:30 |
+
+手機直向 390×844：![](game_phone_portrait.webp)
+
+- 疊面掃描（`check_coplanar.py`）：一定會閃 0、遠處才閃 0。203、412 兩套東西互斥，不算。
+- 規格：88 個物件、1.45 萬三角形、39 個材質、0.94 MB。
+
 ## 還沒做／要決定的
-1. 遊戲裡還沒接：導航、坐書桌、睡覺（上舖）、窗景、鏡頭（上舖會擋鏡頭）要 LAWWW-B 改 `zones3d.js`。
+1. 遊戲裡還沒接：導航、坐書桌、睡覺（上舖）、窗景、鏡頭（上舖會擋鏡頭）、年份切換要 LAWWW-B 改 `zones3d.js`（DORM-LOFT-L）。
 2. 房間 6 m 寬，中間走道約 4 m，比照片寬（為了第三人稱鏡頭）。要更像實際可以縮到 5 m。
 3. 室友與紙箱：AA-B 已定（AA_208，見 v2）。
 4. 大二的房間（SCN-V3-01）之後照同一套做。

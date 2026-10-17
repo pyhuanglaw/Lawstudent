@@ -22,7 +22,7 @@
    - 等 AA-B：另外兩個床位的室友（我先做成有生活痕跡、人不在）。
    - 這期間暫停 BUG-COPLANAR-DEV 室內（霖澤館查完、還沒改檔）。
    - **進度（01:4x）**：`tools/blender/env_second/dorm_room4.py` v2（91122d9b），說明與算圖 `test_shots/dorm_loft/README.md`、配置 `layout_v2.json`。
-     - v1、v2 算圖已傳給使用者，**等使用者點頭**才換 `assets/models/env/second_ai/dorm_interior.glb`、正式交 LAWWW-B。
+     - **使用者 01:3x「宿舍ok」→ 已交 LAWWW-B**：`assets/models/env/second_ai/dorm_room4.glb`＋`dorm_room4.layout.json`（新檔名，等程式改好再換掉舊的 dorm_interior.glb）。遊戲內截圖在 README。
      - 室友照 AA_208（AA-B 65978067）：203＝L2 祐廷、R2 阿凱、L1 阿哲、R1 柏翰；412＝L2 祐廷、R2 阿勳、L1 韋綸、R1 唐睿；第一晚空床＋名牌。
      - LAWWW-B 已 ACK（DORM-LOFT-L，程式那一半），layout_v2 已給他。
      - 疊面掃描：一定會閃 0、遠處才閃 0。

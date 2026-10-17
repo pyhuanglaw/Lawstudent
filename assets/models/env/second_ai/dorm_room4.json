@@ -1,0 +1,10 @@
+{
+ "objects": 88,
+ "unique_meshes": 88,
+ "tris": 14494,
+ "tris_drawn": 14494,
+ "materials": 39,
+ "out": "assets/models/env/second_ai/dorm_room4.glb",
+ "bytes": 937788,
+ "texres": 512
+}
