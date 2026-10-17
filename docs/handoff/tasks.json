@@ -16157,7 +16157,7 @@
    "priority": "P2",
    "next": "D99：排在三個優先項目之後（不插隊）；照 BB_120 第 3 節作廢列改程式",
    "first": {
-    "term": "Y5",
+    "term": "META",
     "week": 0,
     "earliest": "畢業後國考",
     "mainline": true,
