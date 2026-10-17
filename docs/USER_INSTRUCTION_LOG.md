@@ -1046,3 +1046,4 @@
 - **停止**：LAWWW-C 自己跑的瀏覽器測試（經濟系 9/9→10/17 那一輪 23:3x 停掉），改派 BB-C；早先要 LAWWW2-C「交付前自己跑 screen_smoke」的那句作廢。
 - **通知**：23:3x LAWWW-C send_message 給 AA-C、BB-C、LAWWW2-C 確認分工（要 ACK）。
 - **寫入**：CLAUDE.md「P0 永久規則：四職位新分工」、PROJECT_DECISIONS D100、TESTING.md 第〇之一節第 5 點（本 commit）。
+- **補充（23:5x 使用者回答 LAWWW-C 的四題）**：「發布也是你的任務，你只有發布前才需要測試」；LAWWW 寫程式時幾秒的檢查＝保留；角色美術＝使用者自己驗收（取代 D59）；2D 背景圖＝BB 跟使用者要；法律課堂內容與考題＝AA。已派給 LAWWW2-C 的 2D 背景（ART-KH-BUS、AA_276 的高雄／台中）改派 BB-C。
