@@ -3,9 +3,9 @@
  "note": "交付登記（D82）：每一筆交付都要對到 tasks.json 的任務；msg＝SENT／DELIVERED／ACK／ACTIONED（接收方有沒有回 ACK）；integration＝未整合／已整合待測試／已驗收／不整合／參考用。scannedThrough＝每條交付分支已經看過的最後一個 commit：check_handoff.py 只掃它以後的 commit（增量）。看過、不是交付的 commit 放 ignored。　**scannedThrough 只在 check 跑完、列出的 commit 都登記或放進 ignored 之後才往前移**（2026-10-16：先移再跑會什麼都掃不到）。",
  "pattern": "交付|ART_APPROVED|READY_FOR_ART_REVIEW|MODEL_READY|通過|驗收|閒聊階梯|交接包|法律審查|盤點|清查|裁定|規則檔|AA_1\\d\\d|BB_1\\d\\d",
  "scannedThrough": {
-  "origin/claude/funny-albattani-iawshm": "f0c2bfec",
-  "origin/claude/cool-heisenberg-o8kuqx": "f73d6690",
-  "origin/claude/elegant-brown-fcos7n": "44220616"
+  "origin/claude/funny-albattani-iawshm": "2d88db5f",
+  "origin/claude/cool-heisenberg-o8kuqx": "ec63dd53",
+  "origin/claude/elegant-brown-fcos7n": "55717c12"
  },
  "deliveries": [
   {
@@ -5670,10 +5670,10 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "be4e84e6",
    "what": "AA_199 第 2 節寒暑假活動研究表（VAC-R1）＋研究原文附錄（核心／可選／只當背景、重要事實、查不到的）。總表沒有 VAC-R1，應屬 VAC-S1 的前置",
-   "task": "",
+   "task": "VAC-S1",
    "msg": "ACK",
    "integration": "參考用",
-   "note": "整合：參考用（研究資料，不直接實作）｜證據：AA_199 任務表 VAC-R1「DELIVERED 21:4x」；規格要等 VAC-S1 定稿（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜任務 ID 對不到總表："
+   "note": "整合：參考用（研究資料，不直接實作）｜證據：AA_199 任務表 VAC-R1「DELIVERED 21:4x」；規格要等 VAC-S1 定稿（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜任務 ID 對不到總表：｜研究表 VAC-R1 總表沒有獨立任務，屬 VAC-S1（多活動行事曆骨架）"
   },
   {
    "id": "DL-AA-434c4040",
@@ -5930,7 +5930,7 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "6e934e86",
    "what": "AA_194 第 3 節：AA 六位（以安、語彤、阿哲、小語、柏翰、芯慈）好感升級與道別 rel_lines 逐句改稿（不寫死地點時刻、讀書會分版）",
-   "task": "",
+   "task": "V1-AA194-L",
    "msg": "ACK",
    "integration": "未整合",
    "note": "整合：未整合｜證據：src/data/rel_lines.js 還是舊句（有「我記人的名字要寫下來」，沒有「你名字是哪個字」）；第 3 節各列有 BB-B 互審註記、21:3x 照 AA_200 再改；AA_209 附錄 A 寫「rel_lines.js、invites.js 不分學期，AA_194 已經改過，開發分支還是舊句，等同步」。總表沒有任務：V1-INV-WORDING 只涵蓋第 4 節 invites；建議另開任務或併入 V1-INV-WORDING。注意 AA_194 最新版是 6e94d8d7（21:58）（LAWWW-B 2026-10-17 交班補強：唯讀子代理逐筆核對、LAWWW-B 登記）｜任務 ID 對不到總表："

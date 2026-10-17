@@ -35,11 +35,13 @@
    "account": "B",
    "session": "session_01GV1WG3UeT2DhuDpxeWJsvD",
    "branch": "claude/funny-albattani-iawshm",
-   "sha": "01984198",
-   "since": "2026-10-15",
-   "state": "on",
+   "sha": "03c54237",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": "23f25a0f"
+   "sinceSha": null,
+   "handedOffAt": "2026-10-17T02:49Z",
+   "handoffSnapshot": "2026-10-17T0248Z_B_LAWWW2.json"
   },
   "AA": {
    "account": "B",
@@ -115,7 +117,7 @@
  ],
  "pending": null,
  "anomalies": [],
- "seq": 4,
+ "seq": 5,
  "chain": [
   {
    "seq": 1,
@@ -143,6 +145,13 @@
    "at": "2026-10-17T02:44Z",
    "account": "-",
    "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 5,
+   "at": "2026-10-17T03:13Z",
+   "account": "-",
+   "role": "LAWWW2",
    "event": "sync"
   }
  ]

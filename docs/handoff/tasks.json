@@ -97,6 +97,11 @@
     "role": "LAWWW2",
     "match": "ART-BALCONY-POTS",
     "task": "ART-BALCONY-POTS"
+   },
+   {
+    "role": "LAWWW2",
+    "match": "ART-GG-SIGNS-2",
+    "task": "ART-GG-SIGNS-2"
    }
   ]
  },
@@ -14112,7 +14117,7 @@
    }
   },
   {
-   "id": "ROOM4",
+   "id": "DORM-Y34",
    "title": "大三、大四的宿舍房間（AA-B 交班 A 類 ROOM4；接 AA_208 四人房：大一 203、大二 312）",
    "area": "STORY",
    "owner": "AA",
@@ -14138,7 +14143,10 @@
     "acceptance": "住處與室友表",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "aliases": [
+    "ROOM4"
+   ]
   },
   {
    "id": "ART-BB-READY-1017",

@@ -74,7 +74,7 @@ LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 - **大一下閒聊階梯（特別確認）**：產生器重跑和 commit 裡的 JSON 一致；開發分支 ladder.js 大一下＝72ea87f5 版。**AA-B 交班說「可昕 K2 沒改」，但 2fd0399d 實際改了可昕 17 處**——要 AA 逐句看 diff。**匯入工具預設會把 AA 分支所有 ladder_*.json 一起帶進來，一定要逐檔用「檔名=ref」**。
 - **AA_211（特別確認）**：`docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md`＋附錄，最後 `8f837d93`（附錄 A `65a2aab8`）；AA 的裁定、群戲三場、給 LAWWW 8 點都寫好；等 BB_181 口氣審（BB 分支 5c8e7539，交班中斷、沒傳給 AA）；y2s1 階梯寫回還沒開始；還沒交 LAWWW。
 - **登記修正**：DLV-1016-397（88585540，AA 口頭禪配額）原本標已整合待測試，實際沒進開發分支（ladder.js 舊句還在）→ 改未整合。
-- **總表補建**：ROOM4（大三、大四房間，AA）、HOL-NYE-Y3、HOL-NYE-Y4；ART-WZ7 加別名 WZ7。HOLIDAY-SYS、AA186-FIX、V1-AA194-L、AB65-3-Y1S2-L 的 next 補上核對結果。
+- **總表補建**：DORM-Y34（別名 ROOM4，大三、大四房間，AA）、HOL-NYE-Y3、HOL-NYE-Y4；ART-WZ7 加別名 WZ7。HOLIDAY-SYS、AA186-FIX、V1-AA194-L、AB65-3-Y1S2-L 的 next 補上核對結果。
 - **拿不準的 6 筆**（子代理判斷，下一班可複核）：125f4d1a、d7cf6e78（AA_194 大一上階梯，可能其實算交付）、c50a3f64、a5a54293（WIP 或已被後續版本吸收）、b8c036d5（經濟系部分有沒有跟 BB_179 進去沒逐句核對）、5871d068（BB_167 用「參考用」登記）。
 
 - 分類結果（out_aa2.json）：{'DELIVERY新登記': 19, 'DELIVERY已涵蓋': 3, 'WORK': 34, 'WIP': 7, '已登記略過': 0}
@@ -331,3 +331,6 @@ LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 - 範圍：`check_handoff.py check` 第 6 項列出的 commit（交付分支 `scannedThrough` 以後、符合交付關鍵字、還沒登記），02:49 重新列出：AA 分支 126、BB 分支 113、LAWWW2 分支 16（比交班時的 249 多，是各職位交班 commit）。
 - LAWWW-B 02:4x 曾把 BB 分支 125 筆照 BB-B 的交班說法整批放進 ignored；使用者 02:5x 要求不得整批標非交付，**已撤回**，改逐筆核對。
 - 分類：DELIVERY（正式交付，登記 deliveries.json 並寫整合狀態）／WORK（一般工作紀錄，放 ignored 並寫具體原因）／WIP（半成品，登記在本檔並寫完成程度與能不能整合）。
+- **最後結果（2026-10-17 03:1x）**：`roles` OK、`check` OK（十一項）、`duty verify` OK；deliveries.json 的 scannedThrough 移到 AA `ec63dd53`、BB `55717c12`、LAWWW2 `2d88db5f`。LAWWW 檢查點快照 `snapshots/2026-10-17T0314Z_B_LAWWW.json`（正式交班基準仍是 0240Z）。
+- **沒做完、交給下一班（帳號 A 或 C）**：①拿不準的約 26 筆（AA 9＋6、BB 約 11，各節列了 SHA 與子代理的理由）複核；②關鍵字沒抓到的清單外 commit（BB 905d7a27、3ea1eac7、019bd293、8f781b12；AA 218a0dba 已補登）核對；③ LAWWW2 只在 funny 分支的原始檔（ART_SOP、SCENE_RULES、VAC-A1 盤點、dorm_room4.py 等腳本、wip_backup bundle）照 D88 複製一份進開發分支保存——這是檔案搬移，不是登記，這次沒做。
+
