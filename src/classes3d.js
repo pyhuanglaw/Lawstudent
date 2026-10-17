@@ -355,13 +355,15 @@ const CLS=(function(){
   S.fairMenu=async function(GM,a){ const G=GM.G, h=hr(G), F=G.flags||(G.flags={});
     if(!ACTIVITIES.on(a,G.day,G)||h<a.t0||h>=a.t1){ GM.caption('',a.title+'：'+(!ACTIVITIES.on(a,G.day,G)?'':h<a.t0?'今天 '+hhmm(a.t0)+' 開始。':'今天的攤位收了。')+(a.desc||''),4200); return 0; }
     if(!ACTIVITIES.attendedAny(G,a.id,G.day)) ACTIVITIES.markAttended(G,a);   /* 去過博覽會（出席紀錄：之後的事件可以用 attended）*/
-    const L=(a.clubs||[]).map(id=>ACTIVITIES.list.find(q=>q.id===id)).filter(Boolean); let n=0;
+    const L=(a.clubs||[]).map(id=>ACTIVITIES.list.find(q=>q.id===id)).filter(Boolean); let n=0, expo=false;
     GM.sceneBegin(); try{ await GM.say(null,'椰林大道上一整排攤位。公告欄貼著今天擺攤的社團。');
       for(let guard=0;guard<12;guard++){ const opts=L.map(c=>{ const j=!!F['CLUB_'+c.id]; return {t:(c.clubName||c.title)+(j?'（已加入）':''),hint:S.clubWhen(c)}; }); opts.push({t:'逛完了'});
         const i=await GM.choose(opts); if(i<0||i>=L.length) break; const c=L[i];
         if(F['CLUB_'+c.id]){ await GM.say(null,'「'+(c.clubName||c.title)+'」的表你已經填過了。'); continue; }
+        if(c.id==='lawclub_study'&&!F.SIS_CLUB_EXPO&&typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_sis_club_expo')){ expo=true; break; }   /* 法服：走到攤位前（學姊那一段，AA_218 17-3），不是只填表 */
         F['CLUB_'+c.id]=true; if(c.id==='lawclub_study') F.lawclub=true; n++; await GM.say(null,'你在「'+(c.clubName||c.title)+'」的攤位填了表。'+S.clubWhen(c)+'。'); }
     } finally { GM.sceneEnd(); }
+    if(expo){ await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_sis_club_expo')); n++; }
     if(n&&GM.autosave) GM.autosave(); return n; };
   /* 座位（霖澤館 201）：這堂課現在可以上 → 坐下時的第一個選項（game3d.js 的 seatMenu）*/
   S.seatClass=function(G,seat){ if(!G) return null; if(seat&&seat.room) return S.liveIn(G,G.zone).find(it=>it.room.room===seat.room&&S.status(G,it)==='open')||null;   /* 建築裡的教室（共同教學館 101…）：座位在那一間 */

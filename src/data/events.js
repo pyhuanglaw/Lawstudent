@@ -149,6 +149,29 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'smile',text:'（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。'} ],
     consequences:{flags:{met_sis:true,SIS_W1:true}},
     after:(G,GM,npcs)=>{ if(GM.rel) GM.rel('sis',3); const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },
+  /* 社團博覽會・法服的攤位（AA_218 17-3 社博，使用者 07:5x 批准；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版——17-6 的 ②～④ 等使用者批准後再加成條件）。
+     9/30、10/1 11:00～17:00 椰林大道法服的帳篷（story3d.js 的互動點；博覽會選單選法服也演這一段）。只一次，記 SIS_CLUB_EXPO；祐廷直接寫報名表＝加入法服（lawclub、CLUB_lawclub_study）。
+     合併版同時算 W1（SIS_W1、met_sis、FIRST_MET、學姊 +3）。「學姐」「學長」是背景社員，不取名 */
+  { id:'ev_sis_club_expo', title:'社團博覽會・法服', participants:['heroine_05'], location:'campus', trigger:'manual', once:true, background:'blur',
+    prereq:{custom:G=>!G.flags.SIS_CLUB_EXPO},
+    dialogue:[ {speaker:null,text:'（椰林大道上一整排帳篷。你走到法服的攤位前。）'},
+      {speaker:'學姐',text:'學弟，要不要聽一下？我們是法律服務社——'},
+      {if:{flags:['SIS_W1']},goto:'main'},
+      {speaker:null,text:'（帳篷後面走出來一個綁馬尾的人。你認得她——Facebook 大頭貼上那個學姊。）'},
+      {speaker:'player',text:'學姊好，我是{name}，妳的直屬學弟。'},
+      {speaker:'heroine_05',expression:'neutral',text:'喔，hi。'},
+      {speaker:'heroine_05',expression:'neutral',text:'（對旁邊的學姐）這我直屬學弟，我來跟他講。'},
+      {set:{SIS_W1:true,met_sis:true,_EXPO_MERGED:true}},{goto:'common'},
+      {label:'main'},{speaker:null,text:'（帳篷後面走出來一個綁馬尾的人，看到你。）'},
+      {speaker:'heroine_05',expression:'surprised',text:'{name}？'},
+      {speaker:'heroine_05',expression:'neutral',text:'這我直屬學弟，我來跟他講。'},
+      {label:'common'},{speaker:'學長',text:'喔，學弟，她是我們前任社長。'},
+      {speaker:'heroine_05',expression:'neutral',text:'以前的事了啦。我現在大四，在準備研究所，已經不是社長了。'},
+      {speaker:'heroine_05',expression:'smile',text:'不過法服真的很不錯。每兩個禮拜會有一個禮拜六有法律服務，民眾會來問問題，學長姐會帶你。'},
+      {speaker:null,text:'（你直接拿起報名表寫了名字。）'},
+      {speaker:'heroine_05',expression:'smile',text:'這麼快？……好啊，歡迎。'} ],
+    consequences:{flags:{SIS_CLUB_EXPO:true,lawclub:true,CLUB_lawclub_study:true}},
+    after:(G,GM)=>{ if(G.flags._EXPO_MERGED){ delete G.flags._EXPO_MERGED; if(GM.rel) GM.rel('sis',3); } } },
   { id:'ev_noodle_yutong', title:'阿鳳麵店', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:5, once:true, prereq:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}, background:'blur',   /* AA_186 第 6 節 A（AA-B 19:1x：不改字的修正照做）：只演一次——原本 cooldown 2 天，每兩天重演一次初見、擋掉她的閒聊階梯 */
     dialogue:[ {speaker:'heroine_03',expression:'surprised',text:'……你？'},{speaker:'heroine_03',expression:'neutral',text:'這是我阿姨的店。二、四晚上我來幫忙。'},{if:{memory:[{npc:'heroine_03',tag:'SHARED_UMBRELLA'}]},speaker:'heroine_03',expression:'smile',text:'傘還在我這。你還記得那天嗎？雨大到看不見校門。'},{if:{memory:[{npc:'heroine_03',tag:'HELPED'}]},speaker:'heroine_03',expression:'smile',text:'你的傘我帶來了，放在櫃台後面。……那天你到底有沒有淋濕？'},{if:{notMemory:[{npc:'heroine_03',tag:'SHARED_UMBRELLA'},{npc:'heroine_03',tag:'HELPED'}]},speaker:'heroine_03',expression:'neutral',text:'圖書館那天之後就沒再看到你。你都幾點去？'},{if:{events:['ev_rain_library_door']},unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')},speaker:null,text:'（她把手機推過來。）'},{if:{events:['ev_rain_library_door']},unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')},speaker:'heroine_03',expression:'neutral',text:'傘的事。……你的聯絡方式。'},{if:{events:['ev_rain_library_door'],memory:[{npc:'heroine_03',tag:'HELPED'}]},unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03')},speaker:'heroine_03',expression:'neutral',text:'我還你傘的時候要找你。',consequences:{contact:'heroine_03'}},{if:{events:['ev_rain_library_door']},unless:{custom:G=>(typeof INV!=='undefined'&&INV.hasContact(G,'heroine_03'))||(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','HELPED'))},speaker:'heroine_03',expression:'neutral',text:'下次下雨的時候找你。',consequences:{contact:'heroine_03'}},{choice:[{text:'「乾麵，加滷蛋。」',consequences:{rel:{heroine_03:{fam:3,comf:2}},mem:[{npc:'heroine_03',tag:'SHARED_MEAL',note:'她端來的乾麵'}],money:-75,energy:20,advance:0.5}},{text:'「妳阿姨的店？那妳從小就在公館？」',consequences:{rel:{heroine_03:{fam:4,trust:3}},mem:[{npc:'heroine_03',tag:'TALKED_FAMILY',note:'她從小在麵店長大'}]},goto:'family'},{text:'「今天忙嗎？我改天再來。」',consequences:{rel:{heroine_03:{fam:1}}},end:true}]},{goto:'end'},{label:'family'},{speaker:'heroine_03',expression:'thinking',text:'嗯。我媽身體不太好，我阿姨一個人顧不來。'},{speaker:'heroine_03',expression:'neutral',text:'這個我從小就做了。……乾麵？要不要加蛋？'},{speaker:'player',text:'乾麵。加滷蛋。'},{set:{},rel:{heroine_03:{comf:3}},mem:[{npc:'heroine_03',tag:'SHARED_MEAL'}],advance:0.5},{label:'end'},{speaker:'heroine_03',expression:'smile',text:'慢慢吃。碗放著就好。'} ] },
   // ────────────────────────────────────────── 芷若：咖啡廳店員／通識課

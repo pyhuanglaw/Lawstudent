@@ -85,7 +85,7 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   fresh(e930,17.2); await CLS.spotInteract(GM,x); check('17:12：「今天的攤位收了」',/攤位收了/.test(caps[0]||''),caps[0]);
   fresh(e930,12); answers=[0,0,1,5]; await CLS.spotInteract(GM,x);
   check('12:00：選單列五個社團（吉他社、法服、辯論社、登山社、系籃）＋逛完了',chose[0]&&chose[0].length===6&&/吉他社/.test(chose[0][0])&&/法服/.test(chose[0][1])&&/辯論社/.test(chose[0][2])&&/登山社/.test(chose[0][3])&&/系籃/.test(chose[0][4])&&chose[0][5]==='逛完了',JSON.stringify(chose[0]));
-  check('選了就加入（CLUB_club_guitar；法服也記 lawclub）；再看一次寫「已加入」、再選一次說填過了；逛完了離開',G.flags.CLUB_club_guitar===true&&G.flags.CLUB_lawclub_study===true&&G.flags.lawclub===true&&/已加入/.test(chose[1][0])&&log.some(t=>/表你已經填過了/.test(t))&&chose.length===4&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose.map(c=>c[0]+'/'+c[1])));
+  check('選了就加入（CLUB_club_guitar）；再看一次寫「已加入」、再選一次說填過了；選法服＝離開選單、演法服攤位那一段（AA_218 17-3：學姊、寫報名表）（ev_sis_club_expo；加入法服由那一段記，這裡的 EVENTS.run 是替身）',G.flags.CLUB_club_guitar===true&&log.includes('〔事件 ev_sis_club_expo〕')&&/已加入/.test(chose[1][0])&&log.some(t=>/表你已經填過了/.test(t))&&chose.length===3&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose.map(c=>c[0]+'/'+c[1])));
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);
