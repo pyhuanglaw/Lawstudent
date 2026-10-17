@@ -87,7 +87,8 @@ def apply(m):
     # 第五版：太陽穴前段（方位 36–55°）留在眉毛高度——側面看，太陽穴就在眼睛正外側，那裡的頭髮垂到眼睛高度會把眼睛整個擋住；
     # 只有耳朵前面的鬢角（60–85°，在眼睛後面）垂到眼睛高度
     TIP_A = [0, 20, 36, 50, 58, 66, 78, 92, 108, 112]
-    TIP_Z = [H.brow_z + 0.010, H.brow_z + 0.012, H.brow_z + 0.010, H.brow_z + 0.004, eye_z + 0.020, eye_z + 0.014, eye_z + 0.008, ear_top - 0.006, ear_top - 0.004, ear_top - 0.002]   # 韋綸第三版（BB-C）：瀏海幾撮垂到眉毛、太陽穴與耳朵上面蓋住（第二版瀏海在眉毛上方 3.5 cm、兩側露頭皮）   # 韋綸第二版：瀏海停在眉毛上方 3.5 cm、太陽穴到眼尾上方、耳朵露出來（第一版照阿哲：瀏海蓋到眉毛，正面看像碗蓋）
+    TIP_Z = [H.brow_z + 0.022, H.brow_z + 0.024, H.brow_z + 0.020, H.brow_z + 0.016, eye_z + 0.034, eye_z + 0.030, eye_z + 0.026, ear_top + 0.012, ear_top + 0.012, ear_top + 0.010]   # 第五版（BB_201：「拖把頭、鬢角蓋住耳朵，要剪短、耳朵露出來」）：整圈再短 1.2～1.8 cm、耳朵上面露出來
+    TIP_Z_V4 = [H.brow_z + 0.010, H.brow_z + 0.012, H.brow_z + 0.010, H.brow_z + 0.004, eye_z + 0.020, eye_z + 0.014, eye_z + 0.008, ear_top - 0.006, ear_top - 0.004, ear_top - 0.002]   # 韋綸第三版（BB-C）：瀏海幾撮垂到眉毛、太陽穴與耳朵上面蓋住（第二版瀏海在眉毛上方 3.5 cm、兩側露頭皮）   # 韋綸第二版：瀏海停在眉毛上方 3.5 cm、太陽穴到眼尾上方、耳朵露出來（第一版照阿哲：瀏海蓋到眉毛，正面看像碗蓋）
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
         if aa < 112: return min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
@@ -100,7 +101,7 @@ def apply(m):
             vt = v_tip(a); p, d = surf(a, vt); p0, _ = surf(a, 0.0)
             print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
-    Nu, Nv, PAN = 64, 12, 4
+    Nu, Nv, PAN = 128, 12, 4      # 2026-10-17 BB_201 第 7 節（頭髮鋸齒，照沛珊第十四版）：64 → 128
     A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 1.0, Nv + 1)   # 髮殼一直到髮旋（0.97 時髮旋留一個小洞，遊戲裡背面頭頂一個白點＝頭皮；BB-C 韋綸第二版「後腦一塊白色」）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
@@ -115,7 +116,7 @@ def apply(m):
     n_shell = len(mb.F)
 
     # ---- 2. 層次髮片（從髮旋往外，髮根＝貼圖上緣）----
-    def card(a, vroot, vtip, off, wfac, reg, nseg=14, bulge=0.0, arch=0.1, curl=0.0):
+    def card(a, vroot, vtip, off, wfac, reg, nseg=22, bulge=0.0, arch=0.1, curl=0.0):
         vv = np.linspace(vroot, vtip, nseg + 1); P = []; D = []; Wd = []; da = 360.0 / 56
         for i, v in enumerate(vv):
             t = i / nseg; e = (off + bulge * math.sin(math.pi * min(1.0, t * 1.2))) * (0.15 + 0.85 * float(sstep(0.0, 0.35, t)))   # 髮根那一段貼近：三層髮片都從髮旋出發，髮根一起往外推會在髮旋堆成圓頂；第十二版再貼平（外層髮根排成一圈，遊戲裡頭微低時後腦上方像一道台階、一個包）

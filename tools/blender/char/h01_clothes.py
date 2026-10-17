@@ -48,6 +48,7 @@ PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管�
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
 PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
+BOX_W = 0.152              # 身片「箱形」的半寬（胸口以下；肩膀接到 DROP_X）。預設不變；沛珊第十七版 0.128（BB-C：胸口往前撐、圓鼓鼓：箱形比她的胸寬 2 cm 以上）
 SHOULDER_SAG = 0.0         # 肩膀上面那一段比 T 字姿勢的皮膚低多少（m；靠肩膀最多、到領口 0）。T 字姿勢的肩膀比手放下來高 2～3 cm，照 T 字做的布手放下來以後堆在肩膀上面（沛珊「肩膀到領口的布堆成一團」）；預設不變
 DRAPE = 0.0                # 胸口以下的垂墜皺褶（半徑的起伏比例，0＝不變）；沛珊第十五版 0.014（BB-C：棉 T 有往下垂的自然皺褶，現在是圓桶）
 DRAPE_N = 7
@@ -437,7 +438,7 @@ def build_top(skin, arm, mb, pants):
     EASE = np.where(np.abs(np.sin(th)) > 0.5, 0.024, 0.016) * EASE_K
     HR = np.zeros((K, len(zgrid)))
     for iz, z in enumerate(zgrid):
-        W = 0.152 + (DROP_X - 0.152) * float(sstep(1.28, 1.34, z))
+        W = BOX_W + (DROP_X - BOX_W) * float(sstep(1.28, 1.34, z))
         Df = RBmax[0, iz] + 0.024 * EASE_K; Db = RBmax[K // 2, iz] + 0.022 * EASE_K
         pts = [dirs[k][:2] * (RBmax[k, iz] + EASE[k]) for k in range(K)]
         for k in range(K):
