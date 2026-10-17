@@ -266,7 +266,9 @@ const HOME=(function(){
     return [{t:'到下一個有事的日子',hint:'有事就停（最多到 '+dateLabel(dn)+'）',to:dn},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
   S.y0Jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); let n=0, mo=null, why=null, tt=T(G.day,G.hour); const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0;
     { const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; const fx=S.y0FixedNext(G,tt); if(fx!=null&&fx<t) t=fx; }
+    const ra=DK('2025-02-15'), rb=DK('2025-07-10'); let dPrev=G.day;   /* AA_272 第 2 節：重考期快轉跨過的日子照「讀書日」算（retake:study；E36 的旁白讀它）*/
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
+      if(G.day!==dPrev){ dPrev=G.day; if(ra!=null&&rb!=null&&G.day>ra&&G.day<=rb&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); }
       if(Math.abs(tt-Math.round(tt))<1e-6){
         if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
         if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME y0Jump phone',e); } } }

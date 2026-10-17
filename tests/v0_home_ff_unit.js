@@ -96,5 +96,8 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('10. E14 的保底電話（韋綸兩句）也在',/'人咧！！保齡球館！！','第一局要開了啦，走啦！'/.test(src)); }
   { econHome('2024-11-20',26.6); const H=HOME.rec(G); H.at=false; G.zone='campus'; const ent=[]; const en=GM.enter; GM.enter=async(z)=>{ ent.push(z); G.zone=z; }; const gg=HOME.go; let went=false; HOME.go=async()=>{ went=true; H.at=true; }; await STORY.forceHome(GM); HOME.go=gg; GM.enter=en;
     check('10. 休學住家裡、凌晨 2:30 還在外面：回家（不是 412 宿舍）',went&&!ent.includes('dorm'),JSON.stringify({went,ent})); }
+  { econHome('2025-03-03',9); G.flags.RETAKE_TOGETHER=true; const h0=EVENTS.habitCount({key:'retake:study'}); const w=await HOME.y0Jump(GM,T(G.day+3,8.5)); const days=G.day-D('2025-03-03');
+    check('11. 重考期快轉跨過的日子照讀書日算（AA_272 第 2 節，retake:study；E36 旁白讀它）',EVENTS.habitCount({key:'retake:study'})-h0===days&&days>=1,JSON.stringify([w,days,EVENTS.habitCount({key:'retake:study'})-h0]));
+    econHome('2024-11-04',9); const h1=EVENTS.habitCount({key:'retake:study'}); await HOME.y0Jump(GM,T(G.day+3,8.5)); check('11. 重考期以前（11 月）快轉不算',EVENTS.habitCount({key:'retake:study'})===h1); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })();
