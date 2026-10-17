@@ -4986,8 +4986,8 @@
    "title": "預約與衝突檢查",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "依賴 D14-T3",
+   "status": "已整合待測試",
+   "next": "LAWWW-C 83f7f81f：DATE.canAsk／check／menu／pickWhen（AA_128 4-1：考試、已約行程、一天兩場、一日遊、校園邀約、其他出遊、她的作息、23:30、錢；祐廷的課照排、提示錯過哪一堂或少一次出席）；INV.flow 女主角多「去校外…」；tests/date_book_unit.js 27 項。考試週不排過夜：過夜這一版還不開放。D14-T3（課表、行事曆標考試）另做。待：瀏覽器實際操作（AA_128 第 9 節）、BB 的她答應／改交通／DATE_PREFS",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5008,7 +5008,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
+   "next": "【LAWWW-C 83f7f81f：出發前 60 分鐘手機提醒（DATE.tick，OUT.tick 每 0.5 秒呼叫）、改時間「選別的日期和時間」完整選單（重新檢查雙方日程）、每天一次 daily】還沒做：睡覺鬧鐘（出發前 30 分鐘叫醒，要改 story3d.js 的睡覺）、跨過出發時間的各種情況（快轉停在出發時間）、她的交通偏好、改三次她的一句（BB）。第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5029,7 +5029,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
+   "next": "【LAWWW-C 83f7f81f：出發前 60 分鐘手機提醒（DATE.tick，OUT.tick 每 0.5 秒呼叫）、改時間「選別的日期和時間」完整選單（重新檢查雙方日程）、每天一次 daily】還沒做：睡覺鬧鐘（出發前 30 分鐘叫醒，要改 story3d.js 的睡覺）、跨過出發時間的各種情況（快轉停在出發時間）、她的交通偏好、改三次她的一句（BB）。第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13966,7 +13966,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
+   "next": "LAWWW-C 2026-10-17 06:1x：瀏覽器第二～六批：gongguan_glb、wz_street、dorm_start_memory、zone_memory、flow_linze_floors（改第 11 天後）、reachability_all（3b6af99f 修鞦韆走近點、四人房書桌 deskScene 走 seatApproach 後）ALL PASS；修好：8/29 三個室友沒生出來（E.zone.id→G.zone，camp_y1_unit F4b）、場景小物重抓時載入畫面寫「重新下載中」；street_props_integration「載入失敗」照 10-17「不准退化」改測試（擋 30 秒＝還在載入畫面、恢復後用正式模型）重跑中；map_canvas_leak 強制 GC 後換區域仍多 19 張 canvas（4.8 百萬像素）＝真的留著，調查中（BUG-MAPBLACK）；大一下重訪等階梯對話框的瀏覽器驗證還沒做。｜LAWWW-C 2026-10-17：①整套單元測試全部通過（修 B 交班留下的 4 個失敗：v3_batch1 路徑、bg_images、v2_b37、v2_b9，0402040b；之後新增測試一起 258／258）；②瀏覽器（乾淨 worktree 0402040b）：flow_camp_y1、flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、interior_glb_integration 全部 ALL PASS；flow_linze_floors 失敗是測試前提過期（第 8 天＝9/24 星期三，服務學習把玩家帶去法圖），改第 11 天（fd928d90）重跑排第五批；③8/29 室友坐姿：flow_camp_y1 已加檢查（37004d10），第二批重跑；④大一下重訪等階梯對話框的瀏覽器驗證還沒做。容器缺 Python Playwright 時：pip install playwright（不要 playwright install，用 /opt/pw-browsers/chromium）",
    "first": {
     "term": "Y1S1",
     "week": 0,
