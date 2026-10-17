@@ -141,13 +141,19 @@ const ASSETS = (function(){
      在第一次畫出來（上傳 GPU）之前縮；同一張圖只縮一次。網址 ?texfull＝不縮；?texcap＝桌機也縮（測試用）。 */
   A.texCap=(()=>{ try{ const q=location.search||''; if(/[?&]texfull/.test(q)) return null; const ua=navigator.userAgent||''; const mobile=/iPhone|iPad|iPod|Android|Mobile/i.test(ua)||(navigator.maxTouchPoints>1&&/Macintosh/.test(ua)); return (mobile||/[?&]texcap/.test(q))?{color:1024,data:512}:null; }catch(e){ return null; } })();
   const TEX_KEYS=['map','emissiveMap','normalMap','roughnessMap','metalnessMap','aoMap','bumpMap','alphaMap','lightMap','shadeMultiplyTexture','shadingShiftTexture','rimMultiplyTexture','matcapTexture','outlineWidthMultiplyTexture','uvAnimationMaskTexture'];
-  const capDone=new WeakSet(), capImg=new Map();
+  const capDone=new WeakSet(), capImg=new WeakMap();   /* WeakMap：原圖沒有人用了就可以回收（原本 Map 的 key 會把全尺寸原圖一直留著）*/
+  const capImgKeys=[];   /* 這一次 capTextures 縮過的原圖（做完檢查要不要 close）*/
   A.capTextures=function(root){ const cap=A.texCap; if(!cap||!root||typeof document==='undefined') return 0; let n=0;
     root.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m) continue; for(const k of TEX_KEYS){ const t=m[k]; if(!t||!t.isTexture||capDone.has(t)) continue; capDone.add(t); const im=t.image; const w=im&&(im.width||im.videoWidth||0), h=im&&(im.height||0); const lim=(k==='map'||k==='emissiveMap'||k==='matcapTexture')?cap.color:cap.data;
       if(!w||!h||Math.max(w,h)<=lim||t.isCanvasTexture||t.isDataTexture) continue; const key=im; let c=capImg.get(key)&&capImg.get(key)[lim];
-      if(!c){ const sc=lim/Math.max(w,h); c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*sc)); c.height=Math.max(1,Math.round(h*sc)); try{ c.getContext('2d').drawImage(im,0,0,c.width,c.height); }catch(e){ continue; } const o2=capImg.get(key)||{}; o2[lim]=c; capImg.set(key,o2); }
+      capImgKeys.push(key); if(!c){ const sc=lim/Math.max(w,h); c=document.createElement('canvas'); c.width=Math.max(1,Math.round(w*sc)); c.height=Math.max(1,Math.round(h*sc)); try{ c.getContext('2d').drawImage(im,0,0,c.width,c.height); }catch(e){ continue; } const o2=capImg.get(key)||{}; o2[lim]=c; capImg.set(key,o2); }
       if(c._bmResult){ t.image=c._bmResult; t.needsUpdate=true; n++; continue; }   /* 同一張原圖已經縮好、換成 bitmap 了 */
-      t.image=c; t.needsUpdate=true; n++; (c._capTex||(c._capTex=[])).push(t); toBitmap(c); } } }); A.capped=(A.capped|0)+n; return n; };
+      t.image=c; t.needsUpdate=true; n++; (c._capTex||(c._capTex=[])).push(t); toBitmap(c); } } });
+    if(n){ const used=new Set(), old=new Set(); root.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m) continue; for(const k of TEX_KEYS){ const t=m[k]; if(t&&t.isTexture&&t.image) used.add(t.image); } } });
+      /* 縮過的原圖（GLTFLoader 在 iOS 17 以上是 ImageBitmap，全尺寸、不會被系統丟掉）：這個模型裡已經沒有貼圖用它了就 close()，不再佔記憶體（BUG-IOS-RELOAD ③）。
+         context 掉了恢復時重新上傳的是縮好的那份（canvas 或 bitmap），不需要原圖 */
+      for(const k of capImgKeys.splice(0)){ if(used.has(k)||old.has(k)) continue; old.add(k); if(typeof ImageBitmap!=='undefined'&&k instanceof ImageBitmap&&k.width){ A.freedBytes=(A.freedBytes|0)+k.width*k.height*4; try{ k.close(); }catch(e){} A.freed=(A.freed|0)+1; } } }
+    A.capped=(A.capped|0)+n; return n; };
   /* 縮好的 canvas 換成 ImageBitmap、canvas 釋放：iOS Safari 的 2D canvas 有總量上限（超過整個 canvas 會變黑，懷疑和 BUG-MAPBLACK「按地圖變黑」有關）；ImageBitmap 不算在內。
      先用 canvas 上傳（第一次畫就是縮過的），bitmap 好了再換一次；context 掉了恢復時 bitmap 還在，可以重新上傳。 */
   function toBitmap(c){ if(c._bm||typeof createImageBitmap!=='function') return; c._bm=true; createImageBitmap(c).then(bm=>{ c._bmResult=bm; for(const t of (c._capTex||[])){ if(t.image===c){ t.image=bm; t.needsUpdate=true; } } c._capTex=null; c.width=1; c.height=1; }).catch(()=>{}); }
