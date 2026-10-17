@@ -1004,6 +1004,10 @@ const STORY_EVENTS=[
   { id:'ev_vac_key', title:'假期活動', participants:[], location:'any', trigger:'outing', background:'dark', hours:0.5, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof VAC!=='undefined') await VAC.outing(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
+  /* 學期末的飯帶出的單日小活動（AA_251：C14 事務所參觀、C15 朋友約的單日小事；termend3d.js 的 dayOuting）*/
+  { id:'ev_te_day', title:'假期的一天', participants:[], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ if(typeof TERMEND!=='undefined') await TERMEND.dayOuting(GM,q); },
+    outingMissed:(G,GM,q)=>{ if(typeof TERMEND!=='undefined'&&TERMEND.dayMissed) TERMEND.dayMissed(GM,q); } },
   /* 學期末的飯（BB_203；termend3d.js）：一對一，出遊的 2D；整段在 beforeOuting（開場、話題池、飯桌一句、收尾；心意的邀約接回家的路上）*/
   { id:'ev_termend_dinner', title:'學期末的飯', participants:[], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof TERMEND!=='undefined') await TERMEND.dinner(GM,q); },

@@ -4,9 +4,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|DATE|ROM|CONFESS_LINES|TERMEND|TERMEND_LINES|DATE_LOCATIONS|DATE_LINES|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/data/date_locations.js','src/data/date_lines.js','src/data/confess_lines.js','src/date3d.js','src/data/termend_lines.js','src/termend3d.js','src/data/vac_activities.js','src/vac3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -143,6 +143,32 @@ GM.money=function(n){ G.money+=n; };
     const P4=TERMEND.plan(G,W4), back=D('2028-12-23'); run(20,21);
     const early=(G.msgs||[]).some(m=>m.tag==='te_Y4S1_classmate_xinci'); G.day=back; run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_Y4S1_classmate_xinci');
     check('9i. 美國路線大四上：回來那天（12/23）20:30 起才約；時段第一天沒有',!P4.abroad&&P4.back===back&&!early&&!!m&&m.day===back,JSON.stringify([P4.back,back,early,m&&m.day])); }
+  // 11. 邀約鉤子（AA_250 x-2、10-1）＋C14／C15（AA_251）：不接的選項、傳日子的訊息還沒有（等 AA）＝鉤子不出現；測試時暫時放測試字串
+  { const TL=TERMEND_LINES; fresh(D('2025-12-19'),19,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01');
+    check('11. 不接的選項、芯慈傳日子的訊息還沒有：鉤子不出現',TERMEND.hookFor(G,'Y1S1','classmate_xinci')===null&&TL.HOOK_NO===null);
+    const keep={no:TL.HOOK_NO,c14:TL.C14.msg,c15:TL.C15.yu_camp.msg,ph:TL.C15.yu_camp.photo}; TL.HOOK_NO='〔測試：不接〕'; TL.C14.msg='〔測試〕{日期}'; TL.C15.yu_camp.msg='〔測試〕{日期}'; TL.C15.yu_camp.photo=['〔測試照片〕'];
+    try{
+      said=[]; opts=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'classmate_xinci',kind:'friend',term:'Y1S1'}}); const L=lines();
+      const ci=L.findIndex(t=>t.includes('寒假我爸那邊……要不要一起去事務所看看？只是看。')), cl=L.findIndex(t=>t.includes('（餐盤疊好，拿去回收。外面的路燈已經亮了。）'));
+      check('11. 芯慈的期末飯：話題之後、收尾之前說鉤子；選項「「好。」」／不接',ci>0&&cl>ci&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「好。」','〔測試：不接〕']),JSON.stringify([L,opts]));
+      const q=OUT.get(G,'c14_Y1S1'), d=TERMEND.c14Day('Y1S1'), x=CALENDAR.dateOf(d);
+      { const d0=G.day, h0=G.hour; G.day=d0+1; G.hour=21.1; PHONE.tick(G); const mm=(G.msgs||[]).find(m=>m.from==='classmate_xinci'&&/〔測試〕/.test(m.text||'')); G.day=d0; G.hour=h0;
+      check('11. 接了＝C14 事務所參觀：寒假第三週的週三 10:00；隔天 21:00 芯慈傳日子（{日期}換成 1/7（三）那種）',!!q&&q.day===d&&q.h===10&&x.wd%7===3&&!CALENDAR.termOf(d)&&!!mm&&mm.text==='〔測試〕'+x.m+'/'+x.d+'（三）',JSON.stringify([q,x,mm]));}
+      said=[]; picks=[0]; await TERMEND.dayOuting(GM,q); const L2=lines();
+      check('11. C14 那天：電梯門打開、芯慈「這是我爸。」、芯慈爸爸問「你們法律系現在都教什麼？」（還沒旁聽過開庭＝只有一個回答）、白板、「我以前來這裡，都只坐櫃台。」；記 C14_VISITED',L2.includes('（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）')&&L2.some(t=>t==='芯慈爸爸：你們法律系現在都教什麼？')&&L2.some(t=>t.endsWith('考試沒變。'))&&L2.some(t=>t.includes('都只坐櫃台'))&&G.flags.C14_VISITED===G.day,JSON.stringify(L2));
+      TERMEND.dayMissed(GM,q); said=[]; const a1=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci'), a2=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci');
+      check('11. 沒去：芯慈下次見面一句「我自己去了。我爸問你怎麼沒來。」（只一次）',a1&&!a2&&lines().some(t=>t.includes('我自己去了。我爸問你怎麼沒來。')),JSON.stringify(lines()));
+      fresh(D('2026-06-11'),19,'campus',{}); G.stage='law'; meet('heroine_01'); said=[]; opts=[]; picks=[1]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'friend',term:'Y1S2'}});
+      check('11. 不接：不報名、記 hook ok:false',!VAC.enrolled(G,'C03','Y1')&&G.termend.Y1S2.hook&&G.termend.Y1S2.hook.ok===false,JSON.stringify(G.termend.Y1S2.hook));
+      fresh(D('2026-06-11'),19,'campus',{}); G.stage='law'; meet('heroine_01'); said=[]; opts=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'friend',term:'Y1S2'}});
+      check('11. 以安大一下「暑假我要上日語課。」→「我也想報。」＝直接報名 C03（大一暑假日語課）',lines().some(t=>t.includes('暑假我要上日語課。'))&&VAC.enrolled(G,'C03','Y1'));
+      fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y1S2'}});
+      const q5=OUT.get(G,'c15_yu_camp'); check('11. 小語「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 11:00 營地）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===11,JSON.stringify(q5));
+      said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追小語、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
+      TERMEND.dayMissed(GM,q5); G.day=q5.day+1; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：隔天她傳照片',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='〔測試照片〕'));
+      fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('heroine_04');
+      check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(TL.C15.zq_play.msg='〔測試〕{日期}',SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04'))); TL.C15.zq_play.msg=null;
+    } finally { TL.HOOK_NO=keep.no; TL.C14.msg=keep.c14; TL.C15.yu_camp.msg=keep.c15; TL.C15.yu_camp.photo=keep.ph; } }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
