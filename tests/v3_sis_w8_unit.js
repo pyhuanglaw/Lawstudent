@@ -60,7 +60,7 @@ GM.money=function(n){ G.money+=n; };
   // 6. 11/27 的兩則
   const d27=D('2026-11-27'); fresh(d27,20,'campus'); PHONE.join(G,'lawclub_study','法服讀書會'); PHONE.join(G,'family_law','法律系直屬家族'); run(20,21.2);
   const m1=txt('g:lawclub_study'), m2=txt('g:family_law');
-  check('6. 沒演到 W8：11/27 21:00 讀書會群組「這週讀書會我請假。……第一次。」、家族群組 Kevin「學姊請假了？？」',m1.includes('heroine_05:這週讀書會我請假。……第一次。')&&m2.includes('kevin:學姊請假了？？'),JSON.stringify([m1,m2]));
+  check('6. 沒演到 W8：11/27 21:00 讀書會群組那句拿掉（法服沒有讀書會，BB_191 §7-3）；家族群組 Kevin「學姊請假了？？」照舊（要不要換句等 AA_238）',!m1.some(t=>/請假/.test(t))&&m2.includes('kevin:學姊請假了？？'),JSON.stringify([m1,m2]));
   fresh(d27,20,'campus'); G.events.done.ev_sis_collapse=1; PHONE.join(G,'lawclub_study','法服讀書會'); run(20,21.2); check('6. 演過 W8：沒有那兩則',!txt('g:lawclub_study').some(t=>/請假/.test(t)));
   // 7. W9
   const d28=D('2026-11-28'); const at9=(hh,lv)=>{ fresh(d28,hh,'campus'); meet('heroine_05'); R('heroine_05',...lv); return EVENTS.check(W9); };

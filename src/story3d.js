@@ -899,21 +899,20 @@ const STORY = (function(){
     await phoneScene(GM,'p:kexin',[...(F.PLAYED_Y0&&!S.week1Start(G)?[K('第二次的大一。我們都是重考上來的。')]:[]),K(am?'早安。今天的假設題。':'今天的假設題。'),K('假設你在台大讀的案例，和我在政大讀的是同一個。'),K('兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？'),K('……不用回答。我只是想知道你讀到哪了。')],
       {opts:[{t:'讀到一半。案例比想像的長。',say:[K('我也是。讀到一半去泡麵，回來就忘了誰告誰。'),K(end)]},{t:'寫自己老師的。',say:[K('好現實。……但是對的。'),K(end)]},{t:'讀到一半，在想妳。',say:[K('那就是沒在讀。回去讀，讀完再想。'),K(end)]}]});
     return true; }
-  /* 家族群組（BB_95 4-1；ev_family_group_pin）：第一天晚上回宿舍後手機亮起。群組名「法律系直屬家族」（家族制度的叫法需查證）；置頂是學姊開學前發的；
+  /* 家族群組（BB_95 4-1；ev_family_group_pin）：第一天晚上回宿舍後手機亮起。群組名「法律系直屬家族」（家族制度的叫法需查證）；置頂是 Kevin 開學前發的（2026-10-17 改，原本學姊）；
      回「（舉手）」或「活著。」設 FAM_GROUP_REPLIED（學姊第一次見面 talkSis 會讀），Kevin：「很好，有一個活的。」；不回就是不回。舊存檔已經過了第一天的不補 */
   function familyGroupD1(GM){ const G=GM.G, F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return; if(S.week1Start(G)){ S.familyW0(G,{now:true}); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：新的家族學弟妹都進群了嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); return; }   /* 開學改 9/1 的局：開學前那一版（8/30 沒排到的舊存檔，到 9/3 立刻補）*/ F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
     const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
-    PHONE.postAt(G,Object.assign(sis('學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。'),{pin:true}),-16,21);   /* 開學前（8/31）發的置頂 */
+    PHONE.postAt(G,Object.assign(kv('學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'),{pin:true}),-16,21);   /* 開學前發的置頂：2026-10-17 改 Kevin 發（AA_218 L512 家族群組 (A)、17-12：學姊不在家族群組主動發言）*/
     PHONE.post(G,Object.assign(kv('第三週了，直屬學弟妹還活著嗎？要考古題的舉手'),{ask:{opts:[{t:'（舉手）',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]},{t:'活著。',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]}]}}));
-    PHONE.post(G,sis('先看置頂。')); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
-  /* 家族群組 W0（BB_168 6-3、BB_177 11-1；AA_195 4-3）：開學改 9/1 的局提早到 8/30（六）晚上（21:00）。置頂是學姊開學前一週（8/25）發的、字照舊；
+    /* 學姊「先看置頂。」刪（AA_218 L512、17-12）*/ if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
+  /* 家族群組 W0（BB_168 6-3、BB_177 11-1；AA_195 4-3）：開學改 9/1 的局提早到 8/30（六）晚上（21:00）。置頂是 Kevin 8/30 發的（2026-10-17 AA_218 L512；原本學姊 8/25 那則刪）；
      Kevin 是同家族的大二學長（不是直屬，直屬只有學姊）。去過宿營（CAMP_Y1）的玩家：Kevin 認出臥底那一隊的學弟（BB_177 11-1）；沒去的照 BB_168 6-3。回了設 FAM_GROUP_REPLIED（9/2 茶會、學姊第一次見面會讀）；不回就是不回 */
   S.familyW0=function(G,o){ o=o||{}; const F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return false; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
     const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t}), nm=G.name||'祐廷';
-    PHONE.postAt(G,Object.assign(sis('學弟妹好。三件事。一，開學第一週不要買二手書，先等學長姐的。二，民總很重要。三，有問題可以問，但先自己查。'),{pin:true}),S.dayOfKey('2025-08-25'),21);
     const camp=!!F.CAMP_Y1, L=camp?['新的家族學弟妹都進群了嗎？','欸 '+nm+'？我當臥底那一隊的？原來你是我們家族的','所以我宿營騙了自己家的學弟三天 好啦對不起','考古題茶會那天給你們。']:['新的家族學弟妹都進群了嗎？','有進來的舉個手，考古題茶會那天給你們。'];
     const opts=(camp?['是我。','（貼圖）']:['（舉手）','我在。']).map(t=>({t,set:{FAM_GROUP_REPLIED:true},say:[kv('好，收到一個。')]}));
-    const items=L.map((t,k)=>k===L.length-1?Object.assign(kv(t),{ask:{opts}}):kv(t));
+    const items=[Object.assign(kv('學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'),{pin:true})].concat(L.map((t,k)=>k===L.length-1?Object.assign(kv(t),{ask:{opts}}):kv(t)));   /* 置頂：Kevin 8/30 21:00 發、排在宿營那幾句前面（AA_218 L512 家族群組 (A)：家族開學前就分好，9/4 分的是家族裡的直屬；學姊 8/25 那則刪，17-12）*/
     if(o.now) for(const it of items) PHONE.post(G,it); else PHONE.at(G,S.dayOfKey('2025-08-30'),21,items,'fam_w0');
     PHONE.at(G,S.dayOfKey('2025-09-05'),20,[kv('周老師說的那本，我有舊的。'),kv('📷（一本書的封面，邊角捲起來）'),Object.assign(kv('要的說，先說先拿。'),{ask:{opts:[{t:'我要。',set:{KEVIN_OLD_BOOK:true},say:[kv('好，下禮拜一放系學會辦公室，寫你名字。')]}]}})],'kevin_old_book');   /* 9/5（五）20:00 Kevin 的舊書（BB_168 第 7 節「影響」、AA_200 2-11a）：群組裡所有人都看得到；不回就沒有後續 */
     return true; };
@@ -2237,7 +2236,7 @@ const STORY = (function(){
       const kx=G=>!!G.flags.dating_kexin;
       const L=[
         /* y2_sis_shift（W6 交接後「今天的值班表，柏翰排錯了。」）刪：W6 刪了（BB_191 §7-3）*/
-        ['y2_kevin_retire',Y2,20,G=>done(G,'ev_sis_handover')&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊卸任了！'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'收到',dt:2/60}]],
+        /* y2_kevin_retire（Kevin「學姊卸任了！」）刪：她在祐廷大一時已經是前任社長，沒有卸任這件事（BB_191 §7-3）；舊存檔演過 W6 的也不再送 */
         ['y2_sis_hotwater',Y2,17+5/60,G=>!!G.flags.HOT_WATER&&PHONE.inGroup(G,'family_law'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'📷（一個保溫瓶）'},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天裝熱水。咖啡喝太多了，換一天。',dt:1/60},{th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊妳改喝熱水了？',dt:3/60},{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'偶爾。',dt:5/60}]],   /* W8 選了熱水以後（BB_97 第 5 節；理由大家都懂、不是只對某一個人的暗示）*/
         ['y2_sis_m2read',Y2b,17+5/60,G=>PHONE.sent(G,'sis_m2')&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'sis_m3'),()=>[{th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'今天讀了四章。一件事：腰很痛。'}]],   /* BB_97 第 5 節：M2 之後（M3 放榜以前）*/
         ['y2_ps_42',Y2b,21+30/60,G=>PHONE.sent(G,'ps_p4b')&&(G.weekday===6||G.weekday===0),()=>G.flags.PS_P4B_GROUP?[{th:'g:ps_study',from:'classmate_peishan',text:'今天念了 42 頁。你們呢？'}]:[P1('classmate_peishan','今天念了 42 頁。你呢？')]],   /* BB_97 第 5 節：P4b 之後的週末晚上 */

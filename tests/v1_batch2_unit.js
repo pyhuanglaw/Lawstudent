@@ -2,7 +2,7 @@
 // 檢查（修改前都會失敗：沒有 PHONE、沒有可昕、第一天沒有旁白和訊息、語彤事件 3 還在出刑訴題）：
 //   A 手機：一對一、群組（置頂）、未讀、看過、排定時間（準時、睡過頭照原時間補、同一則只送一次）、回覆（祐廷那一句＋對方的回覆＋旗標＋記憶，回過不能再回）。
 //   B 新遊戲第一天：案例那一句之後是三句旁白（原文、順序），接著可昕的四則訊息（「可昕（手機）」）、三個回覆、她的回答＋「晚安。不要讀到太晚。」；手機裡有整段；
-//     交往中（dating_kexin）、有她的聯絡方式；家族群組「法律系直屬家族」：學姊的置頂（開學前）、Kevin 的問題可以回、學姊「先看置頂。」。
+//     交往中（dating_kexin）、有她的聯絡方式；家族群組「法律系直屬家族」：Kevin 的置頂（開學前；2026-10-17 改，原本學姊，AA_218 L512）、Kevin 的問題可以回（學姊「先看置頂。」刪，17-12）。
 //   C 家族群組：回「（舉手）」或「活著。」設 FAM_GROUP_REPLIED、Kevin「很好，有一個活的。」；不回就沒有旗標。
 //   D 重進宿舍、讀檔：不重播（訊息不會變兩份）。
 //   E 舊存檔：讀檔遷移後交往中、有聯絡方式；第三天以後的早上補一次（旁白＋早上版：「早安。今天的假設題。」、最後「去上課吧……」）；只補一次；看過的不補；家族群組不補。
@@ -70,9 +70,9 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('B 旗標 KX_FIRST_MSG、交往中、有她的聯絡方式（不會跳「加了聯絡方式」的訊息）',G.flags.KX_FIRST_MSG===true&&G.flags.dating_kexin===true&&INV.hasContact(G,'kexin')&&!G.msgs.some(q=>/加了.*可昕/.test(q.text)));
     check('B 交往中＝關係階段 RELATIONSHIP',SOCIAL.stage('kexin')==='RELATIONSHIP',SOCIAL.stage('kexin'));
     const F=KX('g:family_law'); const pin=F.find(q=>q.pin);
-    check('B 家族群組「法律系直屬家族」：學姊開學前的置頂（三件事）',PHONE.inGroup(G,'family_law')&&PHONE.title(G,'g:family_law')==='法律系直屬家族'&&pin&&pin.name==='溫學姊'&&/三件事/.test(pin.text)&&pin.day<1,JSON.stringify(pin));
-    const kq=F.find(q=>q.from==='kevin');
-    check('B Kevin「第三週了，直屬學弟妹還活著嗎？要考古題的舉手」可以回（（舉手）／活著。），學姊「先看置頂。」',kq&&kq.text==='第三週了，直屬學弟妹還活著嗎？要考古題的舉手'&&JSON.stringify(kq.ask.opts.map(x=>x.t))===JSON.stringify(['（舉手）','活著。'])&&F.some(q=>q.name==='溫學姊'&&q.text==='先看置頂。'));
+    check('B 家族群組「法律系直屬家族」：Kevin 開學前的置頂（AA_218 L512 原文）',PHONE.inGroup(G,'family_law')&&PHONE.title(G,'g:family_law')==='法律系直屬家族'&&pin&&pin.from==='kevin'&&pin.text==='學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'&&pin.day<1,JSON.stringify(pin));
+    let kq=null;
+    check('B Kevin「第三週了，直屬學弟妹還活著嗎？要考古題的舉手」可以回（（舉手）／活著。）；學姊沒有發言（17-12）',(kq=F.find(q=>q.from==='kevin'&&!q.pin))&&kq.text==='第三週了，直屬學弟妹還活著嗎？要考古題的舉手'&&JSON.stringify(kq.ask.opts.map(x=>x.t))===JSON.stringify(['（舉手）','活著。'])&&!F.some(q=>q.from==='heroine_05'));
     check('B 第一天就在手機上看到學姊（不需要見面：沒有因此「認識」她）',!SOCIAL.has('heroine_05','FIRST_MET'));
     check('B 有通知（toast）',toasts.some(t=>/可昕/.test(t))&&toasts.some(t=>/法律系直屬家族/.test(t)),JSON.stringify(toasts));
     /* C 家族群組回覆 */

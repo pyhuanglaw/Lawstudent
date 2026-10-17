@@ -85,7 +85,7 @@ const ACTIVITIES={
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
   canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
-  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&G&&a.skip(G)) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）*/
+  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&a.skip(G||{flags:{}})) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）；沒給 G 的呼叫也照 skip 判斷（法服讀書會停用＝()=>true）*/
     const ds=a.datesW1&&G&&typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)?a.datesW1:a.dates;   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）*/
     if(ds) return ds.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/

@@ -65,9 +65,9 @@ const day=k=>STORY.dayOfKey(k);
     check('F6. 演過就不再演（KAI_MOVEIN）',said.length===n0); }
   // ---------- G 家族群組 W0：8/30 21:00（BB_168 6-3、BB_177 11-1）----------
   { const fam=()=>G.msgs.filter(m=>m.th==='g:family_law'), q=(G.phone.q||[]).map(x=>x.tag+'@'+x.day+'/'+x.h);
-    check('G1. 搬宿舍以後：已在家族群組、學姊置頂 8/25、Kevin 排在 8/30 21:00（還沒發）',PHONE.inGroup(G,'family_law')&&fam().some(m=>m.pin&&m.day===day('2025-08-25')&&/三件事/.test(m.text))&&q.includes('fam_w0@'+day('2025-08-30')+'/21')&&!fam().some(m=>m.from==='kevin'),q.join(' '));
+    check('G1. 搬宿舍以後：已在家族群組；Kevin 的置頂和宿營那幾句排在 8/30 21:00（還沒發；學姊 8/25 那則刪，AA_218 L512、17-12）',PHONE.inGroup(G,'family_law')&&!fam().some(m=>m.from==='heroine_05')&&q.includes('fam_w0@'+day('2025-08-30')+'/21')&&!fam().some(m=>m.from==='kevin'),q.join(' '));
     G.day=day('2025-08-30'); G.hour=21.05; PHONE.tick(G); const kv=fam().filter(m=>m.from==='kevin'), last=kv[kv.length-1];
-    check('G2. 去過宿營的版本：Kevin 認出臥底那一隊（有玩家名字）、四則、最後一則可以回「是我。／（貼圖）」',kv.length===4&&kv[1].text==='欸 祐廷？我當臥底那一隊的？原來你是我們家族的'&&kv[3].text==='考古題茶會那天給你們。'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='是我。/（貼圖）',kv.map(m=>m.text).join(' | '));
+    check('G2. 去過宿營的版本：Kevin 的置頂排第一（AA_218 L512），接著認出臥底那一隊（有玩家名字）、四則、最後一則可以回「是我。／（貼圖）」',kv.length===5&&kv[0].pin&&kv[2].text==='欸 祐廷？我當臥底那一隊的？原來你是我們家族的'&&kv[4].text==='考古題茶會那天給你們。'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='是我。/（貼圖）',kv.map(m=>m.text).join(' | '));
     const r=PHONE.answer(G,last.ask.id,1);
     check('G3. 回了 → FAM_GROUP_REPLIED、Kevin「好，收到一個。」',G.flags.FAM_GROUP_REPLIED===true&&fam().some(m=>m.text==='好，收到一個。'),JSON.stringify(r&&r.out&&r.out.map(m=>m.text)));
     const n1=G.msgs.length; await STORY._v1.familyGroupD1(GM);
@@ -103,7 +103,7 @@ const day=k=>STORY.dayOfKey(k);
     check('H8. 9/3 讀案例那晚的可昕訊息（新局）拿掉「第二次的大一。我們都是重考上來的。」，假設題照舊',!said.some(t=>/第二次的大一/.test(t))&&said.some(t=>/今天的假設題/.test(t)),said.slice(0,3).join(' | ')); }
   fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-09-03'); STORY.familyW0(G,{now:true});
   { const kv=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin');
-    check('G5. 沒去宿營的版本（BB_168 6-3）：「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===2&&kv[1].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[1].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
+    check('G5. 沒去宿營的版本（BB_168 6-3）：Kevin 的置頂排第一（AA_218 L512）、「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===3&&kv[0].pin&&/^學弟妹好～我是 Kevin，大二。/.test(kv[0].text)&&kv[2].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[2].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
   fresh(); G.flags.CAMP_Y1=true; G.day=day('2025-08-29'); G.hour=9; picks=['我是']; await STORY.startLawWeek1(GM,null,{day:G.day,hour:15,econ:true});
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0);
     check('F7. 經濟系轉過來：「你去年也搬過一次宿舍」在行李箱那句前面；錢不重設',ix('你去年也搬過一次宿舍，這次只有一個行李箱。')>=0&&ix('你去年也搬過一次宿舍')<ix('行李箱的輪子')&&G.money===22000,String(G.money));

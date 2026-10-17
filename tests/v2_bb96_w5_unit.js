@@ -39,7 +39,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const opts3=db.dialogue.find(l=>l.choice).choice.map(o=>o.set&&o.set.W3_STANCE);
     check('W3 和學姊吵一次：三個選項記 W3_STANCE（no／diff／unsure），台詞和數字照舊',JSON.stringify(opts3)==='["no","diff","unsure"]'&&db.dialogue.find(l=>l.choice).choice[0].rel.heroine_05.resp===6,JSON.stringify(opts3)); }
   const W17=termDay('Y1S2',15,3);   /* 檢討會改第 15 週週三 6/3（AA_198 第 5 節；變數名照舊）*/
-  check('檢討會：大一下第 15 週週三（6/3）19:00–21:00、萬才館研討室 A（門口參加）',ACTIVITIES.on(RV,W17)&&!ACTIVITIES.on(RV,W17-7)&&RV.room==='seminarA'&&RV.door===true&&RV.t0===19);
+  check('檢討會停用（法服沒有社課，AA_218 17-4、BB_191 §7）：大一下第 15 週週三不辦；定義留著（舊存檔出席紀錄照讀）',!!RV&&!ACTIVITIES.on(RV,W17)&&RV.room==='seminarA'&&RV.t0===19);
   const setup=(o)=>{ o=o||{}; fresh(W17,19.05,'wancai',Object.assign({lawclub:o.lawclub!==false},o.flags||{})); const A=(G.acts=G.acts||{}).att=(G.acts.att||{}); for(let k=0;k<(o.n==null?3:o.n);k++) A['lawclub_study@'+(W17-70+k*7)]={h:19}; };
   const nm=CHARACTERS.heroine_05.name;
   /* W5「她改的便條」刪除（使用者 2026-10-17，AA_218 17-1）：標 retired、檢討會後不演、晚上走進萬才館也不演；舊存檔看過的旗標、記憶的說明照留 */

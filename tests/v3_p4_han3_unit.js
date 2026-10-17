@@ -1,5 +1,6 @@
 // 沛珊 P4 交接讀書會＋柏翰 翰 3 分數表（BB_97 4-3；AA_40、AA_177 第 5 節；任務 V3-B15）——不需要瀏覽器。
-// 檢查：大二下第 1 週週三讀書會的 clubEvent＝P4（她在場）；「我接。」要大一讀書會 5 次以上；沒去 21:30 群組最後一則；翰 3 第 2 週週三（柏翰接）、選項、她走了；一個月後的旁白；祐廷接＝3/3 21:00 全班群組分布圖。用法：node tests/v3_p4_han3_unit.js
+// 2026-10-17 起在以安的公法讀書會（週四 20:00，BB_191 §8-7、AA_222；法服沒有讀書會）。
+// 檢查：大二下第 1 週週四讀書會的 clubEvent＝P4（她在場）；「我接。」要大一公法讀書會 5 次以上（舊存檔的法服讀書會也算）；沒去 21:30 公法讀書會群組最後一則；翰 3 第 2 週週四（柏翰接）、選項、她走了；一個月後的旁白；祐廷接＝3/4 21:00 全班群組分布圖。用法：node tests/v3_p4_han3_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -35,13 +36,13 @@ GM.money=function(n){ G.money+=n; };
 
 (async()=>{
   const NM={'郭沛珊':'沛珊','陳沛珊':'沛珊','許柏翰':'柏翰'}; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
-  const A=ACTIVITIES.list.find(a=>a.id==='lawclub_study');
-  const w1=termDay('Y2S2',1,3), w2=termDay('Y2S2',2,3), w6=termDay('Y2S2',6,3);
-  check('0. 大二下第 1 週週三＝2/24、第 2 週週三＝3/3',D('2027-02-24')===w1&&D('2027-03-03')===w2);
-  const y1att=(n)=>{ const att=ACTIVITIES.rec(G).att; const d0=termDay('Y1S1',3,3); for(let i=0;i<n;i++) att['lawclub_study@'+(d0+7*i)]={h:19,end:'full'}; };
-  const base=(day,o)=>{ o=o||{}; fresh(day,19,'wancai',o.flags); meet('classmate_peishan'); meet('classmate_bohan'); meet('heroine_05'); if(o.att) y1att(o.att); };
+  const A=ACTIVITIES.list.find(a=>a.id==='public_law_group');
+  const w1=termDay('Y2S2',1,4), w2=termDay('Y2S2',2,4), w6=termDay('Y2S2',6,4);
+  check('0. 大二下第 1 週週四＝2/25、第 2 週週四＝3/4',D('2027-02-25')===w1&&D('2027-03-04')===w2);
+  const y1att=(n)=>{ const att=ACTIVITIES.rec(G).att; const d0=termDay('Y1S1',10,4); for(let i=0;i<n;i++) att['public_law_group@'+(d0+7*i)]={h:20,end:'full'}; };
+  const base=(day,o)=>{ o=o||{}; fresh(day,20,'wancai',o.flags); meet('classmate_peishan'); meet('classmate_bohan'); meet('heroine_05'); if(o.att) y1att(o.att); };
   base(w1);
-  check('1. 第 1 週週三 19:00 沛珊在萬才館（BB_163 的 W1 讀書會；這學期 reachable、不是 present）',STORY.reachable('classmate_peishan',G)&&!STORY.present('classmate_peishan',G)&&(()=>{ const s=STORY.schedFor&&STORY.schedFor('classmate_peishan',G); return !s||s.zone==='wancai'; })());
+  check('1. 第 1 週週四 20:00 沛珊在萬才館（公法讀書會；這學期 reachable、不是 present）',STORY.reachable('classmate_peishan',G)&&!STORY.present('classmate_peishan',G)&&(()=>{ const s=STORY.schedFor&&STORY.schedFor('classmate_peishan',G); return !s||s.zone==='wancai'; })());
   let e=CLS.clubEvent(G,A);
   check('1. 讀書會的 clubEvent＝ev_peishan_handover',!!e&&e.id==='ev_peishan_handover',e&&e.id);
   base(w1+7); e=CLS.clubEvent(G,A);
@@ -49,19 +50,21 @@ GM.money=function(n){ G.money+=n; };
   const play=async(id,pick,o)=>{ base(o.day,o); said=[]; opts=[]; picks=[pick]; await EVENTS.run(ev(id)); return {L:L0(),O:opts[0]||[]}; };
   let r=await play('ev_peishan_handover',0,{day:w1,att:5});
   check('2. 三句：下週起……／誰要接？／不要變成比分數的地方',r.L.slice(0,3).join('｜')==='沛珊：下週起，我就不在這裡了。｜沛珊：每週的題目整理……（看柏翰，又看祐廷）誰要接？｜沛珊：只有一個條件：不要變成比分數的地方。',JSON.stringify(r.L));
-  check('2. 大一去過 5 次：「我接。」／（不說話）；選「我接。」＝STUDYGROUP_LEADER',JSON.stringify(r.O)==='["「我接。」","（不說話）"]'&&G.flags.STUDYGROUP_LEADER===true&&STORY.lawclubY1Count(G)===5);
+  check('2. 大一去過 5 次：「我接。」／（不說話）；選「我接。」＝STUDYGROUP_LEADER',JSON.stringify(r.O)==='["「我接。」","（不說話）"]'&&G.flags.STUDYGROUP_LEADER===true&&STORY.plgY1Count(G)===5);
   r=await play('ev_peishan_handover',0,{day:w1,att:4});
   check('2. 只去過 4 次：只有（不說話）、不設 STUDYGROUP_LEADER',JSON.stringify(r.O)==='["（不說話）"]'&&!G.flags.STUDYGROUP_LEADER);
-  base(w1); y1att(3); ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y2S1',3,3))]={h:19,end:'full'}; ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y2S1',4,3))]={h:19,end:'left'};
-  check('2. 大二上去的不算（大一只有 3 次）',STORY.lawclubY1Count(G)===3);
-  base(w1); PHONE.join(G,'lawclub_study','法服讀書會'); G.hour=21; run(21,21.4);
+  base(w1); y1att(3); ACTIVITIES.rec(G).att['public_law_group@'+(termDay('Y2S1',3,4))]={h:20,end:'full'}; ACTIVITIES.rec(G).att['public_law_group@'+(termDay('Y2S1',4,4))]={h:20,end:'left'};
+  check('2. 大二上去的不算（大一只有 3 次）',STORY.plgY1Count(G)===3);
+  base(w1); y1att(3); ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y1S1',5,3))]={h:19,end:'full'}; ACTIVITIES.rec(G).att['lawclub_study@'+(termDay('Y1S1',6,3))]={h:19,end:'full'};
+  check('2. 舊存檔大一去過的法服讀書會也算（3＋2＝5）',STORY.plgY1Count(G)===5);
+  base(w1); PHONE.join(G,'public_law','公法讀書會'); G.hour=21; run(21,21.4);
   check('3. 沒去：21:24 還沒有',!PHONE.sent(G,'ps_p4_missed'));
   run(21.5,21.7);
-  check('3. 沒去：21:30 讀書會群組「題目整理交給柏翰了。不要變成比分數的地方。」',txt('g:lawclub_study').slice(-1)[0]==='classmate_peishan:題目整理交給柏翰了。不要變成比分數的地方。');
-  base(w1); PHONE.join(G,'lawclub_study','法服讀書會'); G.events.done.ev_peishan_handover=1; run(21.5,21.7);
+  check('3. 沒去：21:30 公法讀書會群組「題目整理交給柏翰了。不要變成比分數的地方。」',txt('g:public_law').slice(-1)[0]==='classmate_peishan:題目整理交給柏翰了。不要變成比分數的地方。');
+  base(w1); PHONE.join(G,'public_law','公法讀書會'); G.events.done.ev_peishan_handover=1; run(21.5,21.7);
   check('3. 有去：沒有那一則',!PHONE.sent(G,'ps_p4_missed'));
   base(w2); e=CLS.clubEvent(G,A);
-  check('4. 柏翰接：第 2 週週三讀書會＝翰 3',!!e&&e.id==='ev_bohan_scores',e&&e.id);
+  check('4. 柏翰接：第 2 週週四讀書會＝翰 3',!!e&&e.id==='ev_bohan_scores',e&&e.id);
   base(w2,{flags:{STUDYGROUP_LEADER:true}}); e=CLS.clubEvent(G,A);
   check('4. 祐廷接：第 2 週沒有翰 3',!e||e.id!=='ev_bohan_scores');
   r=await play('ev_bohan_scores',0,{day:w2});
@@ -71,14 +74,14 @@ GM.money=function(n){ G.money+=n; };
   check('4. 什麼都不做：沒有「她走了。」',!r.L.includes('柏翰：她走了。'));
   base(w6); e=CLS.clubEvent(G,A);
   check('5. 一個月後（第 6 週）：「來對題目的人從十二個變五個。」',!!e&&e.id==='ev_bohan_scores_month'&&ev('ev_bohan_scores_month').dialogue[0].text==='（來對題目的人從十二個變五個。）');
-  base(termDay('Y2S2',5,3)); e=CLS.clubEvent(G,A);
+  base(termDay('Y2S2',5,4)); e=CLS.clubEvent(G,A);
   check('5. 第 5 週還沒有',!e||e.id!=='ev_bohan_scores_month');
   base(w6,{flags:{STUDYGROUP_LEADER:true}}); e=CLS.clubEvent(G,A);
   check('5. 祐廷接：沒有',!e||e.id!=='ev_bohan_scores_month');
   base(w2,{flags:{STUDYGROUP_LEADER:true}}); PHONE.join(G,'law_class','法律系（全班）'); run(20.5,20.95);
   check('6. 祐廷接：20:57 還沒有',!PHONE.sent(G,'han3_chart'));
   run(21,21.2);
-  check('6. 祐廷接：3/3 21:00 柏翰在全班群組貼分布圖（沒有字）',txt('g:law_class').slice(-1)[0]==='classmate_bohan:📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）');
+  check('6. 祐廷接：3/4 21:00 柏翰在全班群組貼分布圖（沒有字）',txt('g:law_class').slice(-1)[0]==='classmate_bohan:📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）');
   base(w2); PHONE.join(G,'law_class','法律系（全班）'); run(20.5,21.5);
   check('6. 柏翰接：沒有分布圖',!PHONE.sent(G,'han3_chart'));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
