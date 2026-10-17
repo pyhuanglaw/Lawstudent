@@ -75,10 +75,12 @@ def outside_tex(path, W=1600, H=900, seed=7):
         for fy in range(top + 30, H, 70):
             for fx in range(x + 20, x + w - 40, 60): d.rectangle([fx, fy, fx + 34, fy + 40], fill=(c - 46, c - 40, c - 30))
         x += w + r.randint(10, 60)
-    for k in range(26):
-        cx = r.randint(-60, W + 60); cy = r.randint(int(H * 0.45), H); rr = r.randint(90, 200); g = r.randint(90, 130)
-        d.ellipse([cx - rr, cy - rr, cx + rr, cy + rr], fill=(int(g * 0.62), g, int(g * 0.55)))
-    im = im.filter(ImageFilter.GaussianBlur(9)); im.save(path); return path
+    for k in range(14):                                                                # 樹幹
+        x0 = r.randint(0, W); d.rectangle([x0, int(H * 0.62), x0 + r.randint(10, 18), H], fill=(84, 74, 64))
+    for k in range(90):                                                                # 樹冠：小一點、多一點、深淺不一（第一版 26 個大圓：像色塊）
+        cx = r.randint(-60, W + 60); cy = r.randint(int(H * 0.40), int(H * 0.85)); rr = r.randint(40, 110); g = r.randint(84, 140)
+        d.ellipse([cx - rr, cy - int(rr * 0.8), cx + rr, cy + int(rr * 0.8)], fill=(int(g * 0.60), g, int(g * 0.52)))
+    im = im.filter(ImageFilter.GaussianBlur(6)); im.save(path); return path
 
 
 def clock_tex(path, S=512):
@@ -201,10 +203,11 @@ if SCENE == 'room':
         for z in (wz0, wz1): acc('alu').box(X1 - 0.08, X1 + 0.01, 1.2, 2.7, z - 0.03, z + 0.03)
         for y in (1.2, 2.66): acc('alu').box(X1 - 0.08, X1 + 0.01, y, y + 0.04, wz0, wz1)
         acc('alu').box(X1 - 0.18, X1 - 0.14, 2.82, 2.86, wz0 - 0.1, wz1 + 0.1)          # 百葉的軌道
-        n = int((wz1 - wz0 + 0.2) / 0.09)
-        for k in range(n):                                                             # 垂直百葉：每片轉 70°，看得到窗外的光（第一版 60°：整片白，像一塊白板）
-            zc = wz0 - 0.1 + 0.09 * (k + 0.5); a = math.radians(70); dx, dz = 0.045 * math.sin(a), 0.045 * math.cos(a)
-            acc('blind').quad([(X1 - 0.16 - dx, 1.05, zc - dz), (X1 - 0.16 + dx, 1.05, zc + dz), (X1 - 0.16 + dx, 2.82, zc + dz), (X1 - 0.16 - dx, 2.82, zc - dz)])
+        # 垂直百葉收在窗的兩端（每端 12 片疊在一起）：從旁聽席是斜著看這面牆，百葉拉上時整片葉片疊成一面白牆（第一～三版）
+        for zz0, sg in ((wz0 - 0.08, 1.0), (wz1 + 0.08, -1.0)):
+            for k in range(12):
+                zc = zz0 + sg * 0.018 * k; a = math.radians(84); dx, dz = 0.045 * math.sin(a), 0.045 * math.cos(a)
+                acc('blind').quad([(X1 - 0.16 - dx, 1.05, zc - dz), (X1 - 0.16 + dx, 1.05, zc + dz), (X1 - 0.16 + dx, 2.82, zc + dz), (X1 - 0.16 - dx, 2.82, zc - dz)])
     ceiling_grid(X0, X1, Z0, Z1, H, [(x, z) for x in (-2.4, 0.0, 2.4) for z in (-4.8, -2.4, 0.0, 2.4)])
     # 道具
     P = LAY

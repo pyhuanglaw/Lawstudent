@@ -106,6 +106,7 @@ def apply(m):
         z_hl = surf(a, 0.0)[0][2]
         return min(-0.02, v_at_z(a, z_hl - P['nape'] - 0.012 * float(sstep(130, 170, aa)), lo=-0.15))   # 明軒：後頸長 1.5 cm（參考圖後面看髮尾蓋住脖子上段）   # 最多延伸 12%（正後方的方向再往下就是朝正下方，會穿進脖子）
 
+    WAVE = float(P.get('wave', 0.0))   # 微捲燙的振幅（公尺；0＝直髮）
     if os.environ.get('HAIR_DEBUG'):
         for a in (0, 20, 36, 45, 50, 56, 62, 70, 76, 84, 92, 100, 108, 116, 130, 150, 165, 175, 180):
             vt = v_tip(a); p, d = surf(a, vt); p0, _ = surf(a, 0.0)
@@ -143,6 +144,10 @@ def apply(m):
         dd = P - c; rr = np.linalg.norm(dd, axis=1); du = dd / np.maximum(rr, 1e-6)[:, None]
         lim = np.array([H.R(u) for u in du]) + 0.04; P = c + dd * np.minimum(1.0, lim / np.maximum(rr, 1e-6))[:, None]
         Tn = tangents(P); side = _unit(np.cross(D, Tn))
+        if WAVE > 0:                    # 微捲燙（ゆるパーマ）：髮片後半段左右、上下起伏（日劇男主角常見；使用者 2026-10-17「參考日劇的男女主角的髮型」）
+            tt = np.linspace(0, 1, len(P)); ph = a * 0.37; k_ = (WAVE * np.array(sstep(0.15, 0.5, tt)))[:, None]
+            P = P + side * (np.sin(2 * math.pi * 1.3 * tt + ph) * k_[:, 0])[:, None] + D * (0.5 * (1 - np.cos(2 * math.pi * 1.3 * tt + ph)) * k_[:, 0])[:, None]
+            Tn = tangents(P); side = _unit(np.cross(D, Tn))
         width = np.maximum(np.array(Wd) * wfac, 0.006) * (0.65 + 0.35 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=np.linspace(0, 1, len(P)))
 

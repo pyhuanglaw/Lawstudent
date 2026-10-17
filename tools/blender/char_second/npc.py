@@ -5,7 +5,7 @@
 做法照 LAWWW 的人物生產線（tools/blender/char）＋杜可昕、明軒的模組；用法：
   NPC=<名字> /opt/blenv/bin/python tools/blender/char_second/npc.py -- <輸出.vrm 或 -> [--blend 工作檔] [--from-blend 工作檔] [--stages stage0,face,clothes,hair] [--render 前綴] [--views ...]
 之後：VRM_BASE=<樣本> [VRM_MALE=1] NPC_SMALL=1 python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 路人 [虹膜色]"""
-import sys, os
+import sys, os, json
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)
 sys.path.insert(0, HERE); sys.path.insert(1, CHAR_LIB)
@@ -297,6 +297,7 @@ def hair(m):
     import npc_hair_m as HM, npc_hair_f as HF
     mod = HM if VAR['sex'] == 'm' else HF
     mod.P.update(VAR['hair']); mod.P['name'] = TAG
+    if os.environ.get('NPC_HAIR'): mod.P.update(json.loads(os.environ['NPC_HAIR']))   # 試做：不改 VARIANTS，用環境變數蓋掉頭髮參數（JSON）
     mod.apply(m)
 
 

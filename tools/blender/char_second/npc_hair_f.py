@@ -1,6 +1,11 @@
 """路人（女）髮型產生器：從杜可昕的 kexin_hair.py（直長髮＋空氣瀏海，LAWWW 的 p03_hair 改的）參數化。
 npc.py 在 apply 之前設定 P：seed、part（分線）、col（底色 sRGB；深、亮、高光照比例算）、tip（10 個方位的髮尾高度，相對脖子，公尺）、
-n_main／n_outer（主層、外層髮片數：路人少一點，檔案小）、name（物件／材質／貼圖名稱的前綴）。其餘做法和可昕的一樣。"""
+n_main／n_outer（主層、外層髮片數：路人少一點，檔案小）、name（物件／材質／貼圖名稱的前綴）。其餘做法和可昕的一樣。
+日劇髮型（使用者 2026-10-17：「你可以參考日劇的男女主角的髮型嗎」）：
+  bang：瀏海——'air' 空氣瀏海（シースルーバング，預設）、'side' 斜瀏海（分線那邊短、露出額角，往另一邊撥到眼尾）、
+        'center' 中分沒有瀏海（センターパート：兩片長的臉旁髮從中間往兩邊撥，額頭中間露出來）、'heavy' 厚瀏海（蓋到眉毛）
+  flip：髮尾外翻（外ハネ）的量，公尺（0＝直髮；鮑伯、及肩 0.02～0.035）
+  wave：髮尾的波浪（ゆる巻き）的振幅，公尺（預設 0.0015＝幾乎直髮；大波浪 0.010～0.016）"""
 import math, os
 import numpy as np
 import bpy
@@ -88,6 +93,7 @@ def apply(m):
             else: lo = mid
         return (lo + hi) / 2
 
+    FLIP, WAVE, BANG = float(P.get('flip', 0.0)), float(P.get('wave', 0.0015)), P.get('bang', 'air')
     eye_z = H.brow_z - 0.024
     z_hang = H.brow_z - 0.052           # 耳垂附近：這個高度以下頭髮改成往下垂
     # 髮尾高度（方位角 → z）：前面兩側到下巴（框住臉）、兩側到肩膀、後面最長
@@ -130,14 +136,16 @@ def apply(m):
             # 第六、七版每片隨機外翻 0.8–1.8 cm：比旁邊翻得多的那一片，正面看就是一條往外飄的細線（兩側的髮片在正面看是側著的）
             F = float(np.interp(az(a), [36, 55, 70, 110, 135, 180], [0.004, 0.005, 0.004, 0.004, 0.005, 0.006]))   # 直髮：髮尾幾乎不外張
             fv = F + 0.35 * (flip - 0.013) - 0.004 * tight - 0.005 * edge
+            fo = FLIP * float(sstep(36, 52, az(a))) * (1 - 0.35 * edge)          # 外ハネ：髮尾最後三成往外翻、往上翹
             p0 = P[-1]; rad = _unit(np.array([p0[0] - c[0], p0[1] - c[1], 0.0]))
             tan = _unit(np.cross([0, 0, 1.0], rad))
             zt = z_tip(a) + tip_dz; n2 = 12; L2 = max(p0[2] - zt, 0.02)
             low = []
             for k in range(1, n2 + 1):
                 t = k / n2
-                q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3) + tan * wave * math.sin(math.pi * 1.6 * t + wph) * float(sstep(0.25, 0.6, t))
-                q[2] = p0[2] - L2 * t + 0.25 * fv * float(sstep(0.80, 1.0, t))   # 髮尾外翻時微微往上
+                q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3 + fo * float(sstep(0.62, 1.0, t)) ** 2) + tan * wave * math.sin(math.pi * 1.6 * t + wph) * float(sstep(0.25, 0.6, t))
+                q += rad * 0.5 * wave * (1 - math.cos(math.pi * 3.2 * t + wph)) * float(sstep(0.25, 0.6, t)) * float(WAVE > 0.004)   # 大波浪：髮束也前後起伏（不只左右擺）
+                q[2] = p0[2] - L2 * t + 0.25 * fv * float(sstep(0.80, 1.0, t)) + 0.55 * fo * float(sstep(0.70, 1.0, t))   # 髮尾外翻時微微往上
                 q[0] += math.copysign(1.0, p0[0] - c[0]) * float(np.interp(az(a), [100, 115, 140, 165, 180], [0.0, 0.030, 0.034, 0.018, 0.0])) * float(sstep(0.05, 0.7, t))   # 可昕：背後往兩邊散開（蓋住肩胛骨；第二版之前只有頭的寬度）
                 q[1] += float(np.interp(az(a), [72, 82, 100, 112, 125], [0.0, 0.050, 0.060, 0.040, 0.0])) * float(sstep(0.0, 0.55, t))   # 第四版：正側面的頭髮往後、從肩膀後面垂下
                 low.append(q)
@@ -155,7 +163,7 @@ def apply(m):
             P = H.push(P, np.r_[np.full(nseg + 1, 0.003), np.full(len(low), 0.008)])
             # 被肩膀（T 字姿勢）推出去的也收回來：最多比設計的外張多 4 mm（可昕：只有兩側 64–100°；前面貼胸口、背後往兩邊散開的不收）
             if 64 <= az(a) < 78:
-                r0 = float(np.hypot(p0[0] - c[0], p0[1] - c[1])); rmax = r0 + fv + 0.004
+                r0 = float(np.hypot(p0[0] - c[0], p0[1] - c[1])); rmax = r0 + fv + fo + 0.004
                 hz = np.hypot(P[nseg + 1:, 0] - c[0], P[nseg + 1:, 1] - c[1]); k = np.minimum(1.0, rmax / np.maximum(hz, 1e-6))
                 P[nseg + 1:, 0] = c[0] + (P[nseg + 1:, 0] - c[0]) * k; P[nseg + 1:, 1] = c[1] + (P[nseg + 1:, 1] - c[1]) * k
             P = H.push(P, np.r_[np.full(nseg + 1, 0.003), np.full(len(low), 0.006)])     # 陳語彤的頭髮垂到鎖骨、肩胛骨：收回來之後再推出衣服一次（不穿進 T 恤）
@@ -188,7 +196,7 @@ def apply(m):
         a = -180 + 360 * (k + rng.uniform(0.25, 0.75)) / NM
         if az(a) < 36: continue
         hang_card(a, 0.90 - rng.uniform(0, 0.06), 0.0040 + 0.001 * rng.random(), rng.uniform(1.5, 1.8), 'lock',
-                  curl=rng.uniform(-1.5, 1.5), wave=0.0015 * rng.random(), wph=rng.uniform(0, 6.28), flip=0.008 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.008, 0.006))   # 直髮：幾乎沒有波浪
+                  curl=rng.uniform(-1.5, 1.5), wave=WAVE * (0.6 + 0.4 * rng.random()) if WAVE > 0.004 else WAVE * rng.random(), wph=rng.uniform(0, 6.28), flip=0.008 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.008, 0.006))   # 直髮：幾乎沒有波浪（wave 大的：ゆる巻き）
     GR.append(('main', f0, len(mb.F))); f0 = len(mb.F)
     DBG['layer'] = 'outer'
     NO = P['n_outer']
@@ -199,7 +207,7 @@ def apply(m):
         cu = rng.uniform(-6, 6); wv = 0.008 + 0.005 * rng.random(); ph = rng.uniform(0, 6.28); fl = 0.010 + 0.008 * rng.random(); td = rng.uniform(-0.025, 0.020)
         # 第八版：兩側（55–130°）的外層收進主層裡面（正面看，正側面的髮片是側著的，比主層突出就是一條往外飄的細線）
         sk = float(sstep(55, 70, az(a)) * (1 - sstep(115, 130, az(a))))
-        hang_card(a, vr, of - 0.0040 * sk, wf, rg, curl=0.3 * cu * (1 - 0.7 * sk), wave=0.15 * wv, wph=ph, flip=fl, tip_dz=0.6 * td, tight=sk)
+        hang_card(a, vr, of - 0.0040 * sk, wf, rg, curl=0.3 * cu * (1 - 0.7 * sk), wave=0.15 * wv * WAVE / 0.0015 if WAVE > 0.004 else 0.15 * wv, wph=ph, flip=fl, tip_dz=0.6 * td, tight=sk)
     GR.append(('outer', f0, len(mb.F)))
     n_card = len(mb.F) - n_shell
 
@@ -219,10 +227,28 @@ def apply(m):
         width = wfac * 0.011 * (0.55 + 0.45 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
         if os.environ.get('HAIR_DEBUG'): print('   fringe a0=%.1f drift=%.1f tip %s w %.3f' % (a0, drift, np.round(P[-1], 3).tolist(), wfac * 0.011))
         mb.ribbon(P, side, D, width, 'bang', 'head', np.zeros(len(P)), arch=0.10, tt=np.linspace(0, 1, len(P)))
-    for k, a0 in enumerate((-30.0, -21.5, -13.0, -4.5, 4.5, 13.0, 21.5, 30.0)):     # 可昕：8 片（第六版：6 片在遊戲裡太稀，像幾根黑線）
-        s_ = abs(a0) / 30.0
-        z_end = H.brow_z - 0.004 - 0.010 * float(sstep(0.45, 1.0, s_)) + rng.uniform(-0.003, 0.003)     # 可昕：長到眉毛下面一點（第一版到眼睛上緣：太長）
-        fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.36 + rng.uniform(0, 0.06), rng.uniform(1.45, 1.65), z_end, math.copysign(1.5 + 7.0 * s_, a0))   # 細一點：更輕薄
+    if BANG == 'air':
+        for k, a0 in enumerate((-30.0, -21.5, -13.0, -4.5, 4.5, 13.0, 21.5, 30.0)):     # 可昕：8 片（第六版：6 片在遊戲裡太稀，像幾根黑線）
+            s_ = abs(a0) / 30.0
+            z_end = H.brow_z - 0.004 - 0.010 * float(sstep(0.45, 1.0, s_)) + rng.uniform(-0.003, 0.003)     # 可昕：長到眉毛下面一點（第一版到眼睛上緣：太長）
+            fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.36 + rng.uniform(0, 0.06), rng.uniform(1.45, 1.65), z_end, math.copysign(1.5 + 7.0 * s_, a0))   # 細一點：更輕薄
+    elif BANG == 'side':                # 斜瀏海：從分線往另一邊撥；分線那邊短（額角露出來）、另一邊長到眼尾
+        sg = -1.0 if PART > 0 else 1.0
+        for k, t in enumerate(np.linspace(0.0, 1.0, 7)):
+            a0 = PART + sg * (-6.0 + 36.0 * t)
+            z_end = H.brow_top + 0.018 - (H.brow_top + 0.018 - (eye_z - 0.006)) * float(t) ** 0.8 + rng.uniform(-0.003, 0.003)
+            fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.38 + rng.uniform(0, 0.05), rng.uniform(1.55, 1.75), z_end, sg * (9.0 + 9.0 * t))
+    elif BANG == 'center':              # 中分沒有瀏海：兩邊各三片長的臉旁髮，從分線往外撥（額頭中間露出來）、長到顴骨～下巴
+        for sgn in (1.0, -1.0):
+            for k, t in enumerate((0.0, 0.5, 1.0)):
+                a0 = PART + sgn * (8.0 + 14.0 * t)
+                z_end = eye_z - 0.030 - 0.030 * t + rng.uniform(-0.004, 0.004)
+                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.42 + rng.uniform(0, 0.05), rng.uniform(1.6, 1.8), z_end, sgn * (16.0 + 8.0 * t))
+    elif BANG == 'heavy':               # 厚瀏海：11 片、寬一點、直直蓋到眉毛
+        for k, a0 in enumerate(np.linspace(-32.0, 32.0, 11)):
+            s_ = abs(a0) / 32.0
+            z_end = H.brow_z - 0.006 - 0.006 * float(sstep(0.6, 1.0, s_)) + rng.uniform(-0.002, 0.002)
+            fringe_card(a0 + rng.uniform(-0.8, 0.8), 0.34 + rng.uniform(0, 0.04), rng.uniform(1.8, 2.0), z_end, math.copysign(1.0 + 3.0 * s_, a0) if a0 else 0.5)
     for sgn in (1.0, -1.0):             # 兩側的長瀏海（太陽穴前面，長到顴骨），接到臉旁的頭髮
         fringe_card(sgn * 38.0, 0.40, 2.0, eye_z - 0.022, sgn * 8.0)
     n_bang = len(mb.F) - n_shell - n_card
