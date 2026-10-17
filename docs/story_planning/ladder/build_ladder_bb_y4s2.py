@@ -38,6 +38,10 @@ D['characters']['heroine_05'] = {'friendOnly': True,
            {'id': 'S7-L2',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'FAMILIAR'}},
             'lines': ['在美國有人問我還好嗎，我第一次都回答還好。', '後來有個同學隔天又問一次，我才真的講。'],  # 2026-10-17 BB-C（照 AA_237 208fbe40，外部審稿）
+            'linesIf': [{'if': {'flags': ['dating_heroine_05', 'SIS_ASKED_TWICE'], 'flagIs': {'EXCHANGE_ROUTE': 'US'}},
+                         'lines': ['在美國有人問我還好嗎，我第一次都回答還好。', '後來有個人當場又問一次。……我才真的講。', '你知道是誰。']},
+                        {'if': {'flags': ['dating_heroine_05'], 'flagIs': {'EXCHANGE_ROUTE': 'US'}},
+                         'lines': ['在美國有人問我還好嗎，我第一次都回答還好。', '後來我自己隔天傳了訊息。……第一次沒等別人問。']}],  # 2026-10-17 BB-C（AA_254 8-1 a361270c；BB_203 第 3 節：交往中、美國路線的第一場雪）
 
             'choices': [{'t': '「那學姊還好嗎？」', 'reply': '……你問第二次，我再回答。', 'rel': {'trust': 1}}, {'t': '「我會記得問兩次。」', 'reply': '好。……你已經比我先學會了。'}],
             'rel': {'fam': 2, 'trust': 1},
