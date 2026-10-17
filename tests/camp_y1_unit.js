@@ -124,6 +124,13 @@ const day=k=>STORY.dayOfKey(k);
   check('E3. 有 ZHE_CALLS_GE：「哥，早。」',said.includes('阿哲：哥，早。'));
   said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_mingxuan_ball'));
   check('E4. 兩人三腳和明軒一組：系籃開頭「欸，宿營兩人三腳那個。你也來打球喔？」、不再自我介紹',said[0]==='江明軒：欸，宿營兩人三腳那個。你也來打球喔？'&&!said.some(t=>/阿哲的隊友/.test(t)),said.slice(0,2).join(' / '));
+  { G.flags.DORM_FOUR=true; delete G.flags.ZHE_W1_CAMP; delete G.flags.ZHE_W1_DORM; G.flags.LAW_START_DAY=day('2025-08-29'); G.flags.MAIN_D1=-13; G.day=day('2025-09-01');
+    const evD=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_dorm'), evM=STORY_EVENTS.find(e=>e.id==='ev_zhe_w1_meet'), evB=STORY_EVENTS.find(e=>e.id==='ev_bohan_w1_front');
+    check('E6. 四人房（DORM_FOUR）：9/1 早上宿舍版的條件成立',!!evD&&evD.location==='dorm'&&evD.prereq.custom(G)===true);
+    const fam1=JSON.stringify(G.rel.zhe||null); said=[]; picks=['溫州街有一間麵店']; await EVENTS.run(evD);
+    check('E7. 宿舍版（AA_208 2-2）：柏翰的床已整理好 → 哥，你第一堂什麼？→ 憲法。→ 一起走 → 這三天都吃便利商店 → 麵店；ZHE_W1_NOODLE、不加熟悉',said.join('|').indexOf('（早上，柏翰的床已經整理好了，人不在。）|阿哲：哥，你第一堂什麼？|祐廷：憲法。|阿哲：我也是。一起走。|阿哲：中午吃什麼？我這三天都吃便利商店。|阿哲：麵店喔，好。在哪？')===0&&G.flags.ZHE_W1_NOODLE===true&&G.flags.ZHE_W1_DORM===true&&JSON.stringify(G.rel.zhe||null)===fam1,said.join(' / '));
+    check('E8. 宿舍版演過：教室的宿營版不再演；到教室「柏翰坐在第一排正中間」',evM.prereq.custom(G)===false&&evB.prereq.custom(G)===true);
+    said=[]; await EVENTS.run(evB); check('E9. 到教室的旁白',said[0]==='（柏翰坐在第一排正中間，已經在看課本了。）',said.join(' / ')); }
   const wel=ACTIVITIES.list.find(a=>a.id==='welcome_y1s1'), d927=day('2025-09-27');
   check('E5. 有宿營（CAMP_Y1）的局 9/27 舊迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d927,G)===false&&ACTIVITIES.on(wel,d927,{flags:{}})===true);
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

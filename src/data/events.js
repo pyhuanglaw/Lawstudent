@@ -2976,7 +2976,7 @@ const STORY_EVENTS_V11=[
      那天沒遇到（沒去、上課以後才進教室）改 9/3（三）刑總第一堂前（第二句換）。兩堂都沒遇到，9/4 campusMorning 演初遇版（story3d.js zheW1Morning）。
      「念過經濟系」留給 P4（9/5）、「叫你哥」留給迎新，這一場不提。阿哲從玩家後面那一排出現（spawn dist −1.1）*/
   { id:'ev_zhe_w1_meet', title:'第一堂課前', participants:['zhe'], location:'classroom', trigger:'seat', time:[7,9+10/60], once:true, background:'blur', spawn:{npc:'zhe',dist:-1.1,pose:'idle'},
-    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&(!G.flags.MET_ZHE||(STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')))&&(G.day===STORY.dayOfKey('2025-09-01')||G.day===STORY.dayOfKey('2025-09-03'))},   /* 宿營認識的（CAMP-L1）：演宿營版（AA_205 6-2：已經認識，不換名字、不加熟悉）*/
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&!G.flags.ZHE_W1_DORM&&(!G.flags.MET_ZHE||(STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')))&&(G.day===STORY.dayOfKey('2025-09-01')||G.day===STORY.dayOfKey('2025-09-03'))},   /* 宿營認識的（CAMP-L1）：演宿營版（AA_205 6-2：已經認識，不換名字、不加熟悉）*/
     dialogue:[ {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')},speaker:null,text:'（你坐下沒多久，後面的人用筆輕輕戳了一下你的肩膀。）'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')},speaker:null,text:'（你坐下沒多久，有人把書包放到你旁邊的位子。）'},
       {if:{custom:G=>(G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'zhe'))(G)&&G.flags.ZHE_CALLS_GE},speaker:'zhe',expression:'smile',text:'哥，早。'},
@@ -2993,6 +2993,21 @@ const STORY_EVENTS_V11=[
       {label:'bell'},{speaker:null,text:'（老師走進來，教室安靜下來。阿哲把手機收進口袋。）'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'zhe')},set:{MET_ZHE:true,ZHE_W1_CAMP:true}},{if:{custom:G=>!!G.flags.ZHE_W1_CAMP},goto:'end'},
       {set:{MET_ZHE:true},consequences:{rel:{zhe:{fam:1}}}},{label:'end'} ] },
+  /* 四人房（AA_208 2-2；使用者 00:5x）：阿哲也住 203，9/1 第一堂課的早上在宿舍約一起走（取代教室裡的宿營版）。三個選項和回應照 AA_195 4-8、ZHE_W1_NOODLE 照記；不換名字、不加熟悉（宿營已經認識）*/
+  { id:'ev_zhe_w1_dorm', title:'第一堂課的早上', participants:['zhe'], location:'dorm', trigger:'auto', time:[6,10], once:true, background:'blur', spawn:{npc:'zhe',dist:1.4,pose:'idle'},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&!!G.flags.DORM_FOUR&&!G.flags.ZHE_W1_CAMP&&G.day===STORY.dayOfKey('2025-09-01')},
+    dialogue:[ {speaker:null,text:'（早上，柏翰的床已經整理好了，人不在。）'},
+      {if:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'哥，你第一堂什麼？'},{unless:{flags:['ZHE_CALLS_GE']},speaker:'zhe',expression:'smile',text:'欸，你第一堂什麼？'},
+      {speaker:'player',text:'憲法。'},{speaker:'zhe',expression:'smile',text:'我也是。一起走。'},{speaker:'zhe',expression:'neutral',text:'中午吃什麼？我這三天都吃便利商店。'},
+      {choice:[{text:'「溫州街有一間麵店，便宜，份量也夠。」',consequences:{flags:{ZHE_W1_NOODLE:true}},goto:'noodle'},{text:'「往捷運站那邊走，店比較多。」',goto:'mrt'},{text:'「我也還在找。」',goto:'still'}]},
+      {label:'noodle'},{speaker:'zhe',expression:'smile',text:'麵店喔，好。在哪？'},{speaker:null,text:'（你跟他講了大概的位置，他打進手機裡。）'},{goto:'end'},
+      {label:'mrt'},{speaker:'zhe',expression:'neutral',text:'昨天就是在那邊繞的……好，我再去一次。'},{goto:'end'},
+      {label:'still'},{speaker:'zhe',expression:'neutral',text:'好喔，那我中午再問問看別人。'},
+      {label:'end'},{set:{MET_ZHE:true,ZHE_W1_CAMP:true,ZHE_W1_DORM:true}} ] },
+  /* 到教室（AA_208 2-2）：柏翰坐第一排正中間 */
+  { id:'ev_bohan_w1_front', title:'第一排', participants:[], location:'classroom', trigger:'enter', once:true, background:'blur',
+    prereq:{custom:G=>!!G.flags.ZHE_W1_DORM&&typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2025-09-01')},
+    dialogue:[ {speaker:null,text:'（柏翰坐在第一排正中間，已經在看課本了。）'} ] },
   { id:'ev_zhiruo_ge_group', title:'經原分組', participants:['heroine_02'], location:'putong', term:['Y1S1'], trigger:'auto', near:{npc:'heroine_02',r:5}, time:[12.1,13], weekday:[5], once:true, minWeek:{term:'Y1S1',week:4}, background:'blur',   /* AA_195 4-7 A4：看週次（第 4 週週五起；原本 day_min 10，主線第一天提早以後會跑到 9/12）。AA_120 7-5 第 2 項：使用者已定 Z2 在重修的經原第 4 週週五（AA_110 1-5）——只改觸發：大一上、週五經原下課後、普通教學館、第 4 週起（2025-09-26＝第 10 天）；對話不動 */   /* 可以是第一次見面（BB 6-1、AA_120 3-1）：還沒見過的話她先報名字 */
     dialogue:[ {speaker:'heroine_02',expression:'surprised',text:'欸！法律系！你也修「經濟學原理」？'},{unless:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}]},speaker:'heroine_02',expression:'smile',text:'林芷若，外文二。'},{speaker:'heroine_02',expression:'smile',text:'剛剛分組，我們那組缺一個人。要不要？期末報告是「一件你覺得不合理的定價」。'},{choice:[{text:'「好。網拍標錯價算不算？」',consequences:{mem:[{npc:'heroine_02',tag:'SHARED_CLASS',note:'通識經濟學同組'}],rel:{heroine_02:{fam:6,resp:3}},flags:{ge_group_zhiruo:true}},goto:'price'},{text:'「我報告很爛，妳確定？」',consequences:{mem:[{npc:'heroine_02',tag:'SHARED_CLASS',note:'通識經濟學同組'}],rel:{heroine_02:{fam:5,comf:3}},flags:{ge_group_zhiruo:true}}},{text:'「我已經有組了。」',consequences:{rel:{heroine_02:{fam:1}},mem:[{npc:'heroine_02',tag:'DECLINED_INVITE'}]},end:true}]},{goto:'join'},{label:'price'},{speaker:'heroine_02',expression:'surprised',text:'（眼睛一亮）一千元的相機那種？你們法律系上課講這個？'},{speaker:'heroine_02',expression:'smile',text:'……好，這個可以拍成短片。我剪片。你負責講。'},{label:'join'},{speaker:'heroine_02',expression:'laugh',text:'太好了。組員裡有一個法律系的，老師會怕我們。'},{stamp:['geGroupDay']} ] },   /* BB_95 2-4：「網拍標錯價」之後的接點（法律說法需法律審查：遊戲裡只當報告題目、不給結論）；加入小組群組（geGroupDay，phoneRules）*/
   /* 芷若 Z5 邀約（BB_96 3-5，交接包 v2 改）：大一下第 12～15 週（BB_161 ②）的週五 19–22 在 Café（她週五晚上的班；週六不在）、Z4（ev_zhiruo_secret）之後、有點熟以上、只一次。
