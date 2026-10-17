@@ -1212,11 +1212,11 @@ const STORY = (function(){
     if(F.festivalBoothDay!=null&&PHONE.inGroup(G,'guitar')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_04','INVITED_CLUB')&&!PHONE.sent(G,'fest_guitar')) PHONE.at(G,F.festivalBoothDay,Math.max(12,h(G)),[{th:'g:guitar',from:'heroine_04',text:'📷 吉他撥片賣了三個。三個都是阿凱買的。'}],'fest_guitar');
     /* ★E06／D2（BB_104 第 8-3 節、BB_105 D2；AA_154 第 103 行、A4）：E05 那一晚。E05 結束到 23:00 之間經過大一女舍門口 30 m 內＝D2（她在三樓看到你）；
        沒有就 22:30 E06（她先傳；第一句照 E05 的開口）。只會有一個版本 */
-    if(S.isEcon(G)&&F.E05_OPEN&&!F.E06_DONE&&F.E05_DAY!=null&&G.day===F.E05_DAY){ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
-      if(G.zone==='campus'&&P&&hh<23&&hh>=(F.E05_END||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
+    if(S.isEcon(G)&&F.E05_OPEN&&!F.E06_DONE&&F.E05_DAY!=null&&(G.day===F.E05_DAY||G.day===F.E05_DAY+1)){   /* 22:30 以前睡著：隔天醒來收到 E05 那晚 22:30 的 E06（BB_214 第 2 節）*/ const K=(t,o)=>Object.assign({th:'p:kexin',from:'kexin',text:t},o||{}), P=GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position, hh=h(G);
+      if(G.day===F.E05_DAY&&G.zone==='campus'&&P&&hh<23&&hh>=(F.E05_END||0)&&Math.hypot(P.x+93,P.z-56)<30){ F.E06_DONE='d2';
         PHONE.at(G,G.day,G.hour,[K('我剛剛在三樓，看到一個很像你的人經過我們宿舍。'),K('是你嗎？',{ask:{opts:[{t:'是我。',say:[K('我就知道。我還在想要不要從窗戶叫你。')]},{t:'不是。',say:[K('好喔，那是我看錯了。')]},{t:'妳在監視我？',say:[K('我在吹頭髮。窗戶剛好在那邊。')]}]}})],'y0_d2'); }
-      else if(hh>=22.5){ F.E06_DONE='e06'; const first={carry:'你今天說要載我，',fix:'你今天說要幫我修車，',steady:'你今天說你車很穩，'}[F.E05_OPEN]||'你今天說要載我，';
-        PHONE.at(G,G.day,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('廉價訊號，就是說了也不用付出代價的話。／我最近看到的詞，想用用看。',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('那我當你是真心的。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
+      else if(hh>=22.5||G.day>F.E05_DAY){ F.E06_DONE='e06'; const first={carry:'你今天說要載我，',fix:'你今天說要幫我修車，',steady:'你今天說你車很穩，'}[F.E05_OPEN]||'你今天說要載我，';
+        PHONE.at(G,F.E05_DAY,22.5,[K('問你一件事。'),K(first+'是真心的，還是經濟學上的「廉價訊號」？'),K('廉價訊號，就是說了也不用付出代價的話。／我最近看到的詞，想用用看。',{ask:{opts:[{t:'真心的。',say:[K('好。那下次我的車鏈掉，你要負責。')]},{t:'妳猜。',say:[K('那我當你是真心的。')]},{t:'那妳傳這則訊息，是什麼訊號？',say:[K('……你很會。晚安。')]}]}})],'y0_e06'); } }
     /* 經濟系那一年的兩個群組（AA_157）：全班群組 econ_class「經濟系 大一（全班）」在 E02 迎新那天加入（寫法照法律系的全班群組：不發訊息）；
        「走啦」econ_friends 在 P2 第一次去成的那晚由韋綸建立（第一則是系統訊息，照麵店團）。今天先回去的玩家等下一次（P2b，ev_y0_p2b）*/
     if(S.isEcon(G)){ const e02=termDay('Y0S1',1,1), mon3=termDay('Y0S1',3,1), sat3=termDay('Y0S1',3,6);
@@ -2674,6 +2674,9 @@ const STORY = (function(){
   S.y0FinalEnd=function(G){ if(typeof CLS==='undefined'||!CLS.lastExamEnd||!CLS.termCourses) return null; const key=CLS.termCourses(G,'Y0S1').map(c=>c.id).join(','); const c=FE_CACHE.get(G);
     if(c&&c.key===key) return c.v; let v=null; try{ v=CLS.lastExamEnd(G,'Y0S1','final'); }catch(e){ v=null; } FE_CACHE.set(G,{key,v}); return v; };
   S.e22bFrom=fe=>fe.h<12?13.5:fe.h+20/60;
+  /* E05「要我載妳嗎？」那天（9/20 週五，17:00～19:30 自動演）：演完以前不能回家（BB_214 第 2 節：週五 17:00 就回家的玩家永遠沒有 E05、E06、D2）。home3d.js canGo 讀 */
+  S.homeHold=function(G){ if(!S.isEcon(G)||!G.flags||G.flags.E05_DAY!=null) return null; const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(!e||(G.events&&G.events.done&&G.events.done.ev_y0_e05)) return null;
+    const d=S.termDay('Y0S1',3,5); return d!=null&&G.day===d&&G.hour<19.5?'e05':null; };
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; { const q=OUT.get(G,'y1_camp'); if(q&&q.state!=='done'&&q.day===G.day&&G.hour<8&&!(G.flags||{}).CAMP_Y1) return 8; }   /* 宿營那天睡著：08:00 醒來直接出發（AA_205 2-3）*/ for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
     { const d=S.dayOfKey('2024-12-12'); if(d!=null&&G.day===d&&G.hour<22&&G.flags.dating_kexin&&!G.flags.KX_FIGHT_1212) return 22; }   /* AA_224 4-1：12/12 22:00 的電話，睡著也會接到 */
     { const d=S.dayOfKey('2025-01-28'); if(d!=null&&G.day===d&&G.hour<22&&!G.flags.E21_CALLED) return 22; }   /* E21 除夕 22:00 的電話 */

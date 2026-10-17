@@ -2871,7 +2871,7 @@ const STORY_EVENTS=[
   /* L5a 長頸鹿拉花（BB_110 L5a；AA_154 A8、A42）：只有 10/12（六）：10/11（五）21:00 經濟系群組可昕約＋出發選單「兩點半 Café 14:00」（14:15 還沒到＝沒去；story3d.js）；
      13:45～14:15 走進 Café 就演。店員是芷若（外文一、剛開始打工）：事件把她放到櫃台，名字只顯示「店員」，不自我介紹、不記 FIRST_MET、不給聯絡方式（法律系 Z1 才算第一次說話）。
      玩家點什麼記 Y0_CAFE_ORDER（熱拿鐵／冰美式／熱可可；Z1 的回聲之後做）。沒去＝10/12 16:00 群組品妤的照片＋可昕一句（story3d.js）*/
-  { id:'ev_y0_l5a', stage:'econ', title:'長頸鹿拉花', participants:['kexin'], location:'cafe', trigger:'auto', term:['Y0S1'], weeks:[6], weekday:[6], time:[13.75,14.25], once:true, background:'blur',
+  { id:'ev_y0_l5a', stage:'econ', title:'長頸鹿拉花', participants:['kexin'], location:'cafe', trigger:'auto', term:['Y0S1'], weeks:[6], weekday:[6], time:[13.75,14.8], once:true, background:'blur',   /* 出發選單開到 14:15、從家裡要 30 分鐘：到店最晚約 14:45（BB_214 第 4 節）*/
     spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3,
     dialogue:[ {speaker:null,text:'店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'},
       {choice:[{text:'熱拿鐵',set:{Y0_CAFE_ORDER:'熱拿鐵'}},{text:'冰美式',set:{Y0_CAFE_ORDER:'冰美式'}},{text:'熱可可',set:{Y0_CAFE_ORDER:'熱可可'}}]},

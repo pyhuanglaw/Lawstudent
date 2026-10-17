@@ -46,6 +46,7 @@ const settle=async()=>{ for(let i=0;i<50;i++){ await new Promise(r=>setTimeout(r
   { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-95,y:0,z:50}; STORY.phoneRules(GM); PHONE.tick(G); const L=T(); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G); const L2=T();
     check('6. D2：E05 那晚 20:30 經過女舍門口 30 m 內：「我剛剛在三樓，看到一個很像你的人經過我們宿舍。」…「是你嗎？」（三個回覆）；22:30 不再有 E06',L.includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&L.includes('是你嗎？')&&G.flags.E06_DONE==='d2'&&!L2.includes('問你一件事。'),JSON.stringify(L2)); }
   { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-40,y:0,z:0}; STORY.phoneRules(GM); PHONE.tick(G); check('6. 離女舍遠（> 30 m）：沒有 D2',!T().includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&!G.flags.E06_DONE); E.player.obj.position={x:0,y:0,z:0}; }
-  { fresh(D19+1,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 隔天晚上不會補 E06（只在 E05 那一晚）',!T().includes('問你一件事。')); }
+  { fresh(D19+1,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 22:30 以前睡著：隔天收到 E05 那晚 22:30 的 E06（BB_214 第 2 節；只一次）',T().filter(t=>t==='問你一件事。').length===1&&G.flags.E06_DONE==='e06'); }
+  { fresh(D19+2,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 過兩天就不補',!T().includes('問你一件事。')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
