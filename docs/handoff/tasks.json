@@ -835,11 +835,11 @@
   },
   {
    "id": "ART-14",
-   "title": "約會底圖（32 處只有 9 處）、以安／語彤約會人物圖",
+   "title": "約會底圖（32 處都有底圖：使用者生成、BB 檢查通過；場景 ART_APPROVED 待使用者裁定 D59）、以安／語彤約會人物圖",
    "area": "ART",
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
-   "next": "去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
+   "next": "【AA-C 06:18 盤點更正：32 處（33 張）底圖都有，流程是使用者生成、BB 檢查通過；BB 檢查算不算核准 AA-C 在問使用者；遊戲裡已有的 d04／d06／d12／d13 維持現狀】去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5260,7 +5260,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5281,7 +5281,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5302,7 +5302,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5323,7 +5323,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5344,7 +5344,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5365,7 +5365,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5386,7 +5386,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5407,7 +5407,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5428,7 +5428,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5449,7 +5449,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5470,7 +5470,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5491,7 +5491,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5512,7 +5512,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5533,7 +5533,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5554,7 +5554,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5575,7 +5575,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5617,7 +5617,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5764,7 +5764,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5785,7 +5785,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5806,7 +5806,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5827,7 +5827,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5848,7 +5848,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5869,7 +5869,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5890,7 +5890,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5911,7 +5911,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "台詞已交（企劃線 cf959b8f）；等 SYS-03、04 與底圖",
+   "next": "【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6647,8 +6647,8 @@
    "title": "美式大型超市",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
+   "status": "已實作待整合",
+   "next": "【LAWWW2-C 06:16Z 交付 2f4ae940（DL-LW2-USMKT）：超市室內 us_market.glb＋layout（interact 8 個、blocks 41 個）；LAWWW-C ACK】接成區域 us_market 排在 v0～v2 之後（D81）。【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 2）；社區名 Linden Grove（椴樹林社區）、超市 Prairie Basket（草原超市）（AA_144 5-4，企劃線 d4174bbd，D77 虛構）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -14541,7 +14541,7 @@
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
    "priority": "P1",
-   "next": "台詞暫停（使用者 A、B、C 三段自己修改；BB_188 A5-1 不交付；13-1 已發布直屬事件兩處也等）。LAWWW-C 06:2x 核對結果：①遊戲裡沒有任何高中版的立繪、3D、CG、場景（立繪只有 heroine_05 campus／formal；祐廷沒有立繪）→ 要新美術：高中版祐廷（金色燙髮）、高中版溫書瑀（披肩長髮、不綁馬尾）的立繪或 CG（角色美術 BB 驗收 D59）、高中校慶場景背景（LAWWW2）、Life Album 筆記本那一頁的道具（號碼遮住、不得出現真實電話）；大學版照現行（她綁馬尾、他不是金髮）要再對一次 3D 模型；②條件照 AA_218：C＝B 發生過＋她放榜之後，不綁好感與交往（程式等台詞來了一起做）；③Life Album 系統還沒有（DATE-S6 的一部分）。美術派工待 AA 統籌規格（D86）",
+   "next": "【AA-C 06:14 AA_218 13-2（ecaaf4e3）使用者再修正事實＋暫緩實作 A／B／C 舊對話、CG、道具、觸發條件；06:18 13-3（738ef307）：C 改成交往後她搬家整理舊東西時——觸發＝dating_heroine_05 且交往滿 4 週，遇到她下一個搬家日 M1 2026-06-20／M2 2027-07-03／M3 2028-07-15／M4 2029-01-06／M5 2029-06-23（第一次符合那天，只一次），取消 2026-04-08；沒交往不觸發。LAWWW-C 核對：寫得出來——ROM 的 since 是學期週次字串（Y1S2W5），要在 ROM.start 加 sinceDay（數字日），舊存檔從 since 換算；BB_188 C 新稿待使用者審，照舊暫緩】台詞暫停（使用者 A、B、C 三段自己修改；BB_188 A5-1 不交付；13-1 已發布直屬事件兩處也等）。LAWWW-C 06:2x 核對結果：①遊戲裡沒有任何高中版的立繪、3D、CG、場景（立繪只有 heroine_05 campus／formal；祐廷沒有立繪）→ 要新美術：高中版祐廷（金色燙髮）、高中版溫書瑀（披肩長髮、不綁馬尾）的立繪或 CG（角色美術 BB 驗收 D59）、高中校慶場景背景（LAWWW2）、Life Album 筆記本那一頁的道具（號碼遮住、不得出現真實電話）；大學版照現行（她綁馬尾、他不是金髮）要再對一次 3D 模型；②條件照 AA_218：C＝B 發生過＋她放榜之後，不綁好感與交往（程式等台詞來了一起做）；③Life Album 系統還沒有（DATE-S6 的一部分）。美術派工待 AA 統籌規格（D86）",
    "first": {
     "term": "Y1S1",
     "week": null,

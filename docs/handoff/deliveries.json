@@ -2406,10 +2406,10 @@
    "branch": "claude/cool-heisenberg-o8kuqx",
    "sha": "410a1fe4",
    "what": "D16 北海岸停車休息：以安「這是我的規則，不是建議。」、學姊「這是我的規定。」（BB_115 L474）；D16.json 重建",
-   "task": "DATE-L32",
+   "task": "DATE-L16",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "約會台詞還沒接進遊戲；接 DATE-L32 時照新版（97deb60c BB-B 已同步）"
+   "note": "約會台詞還沒接進遊戲；接 DATE-L32 時照新版（97deb60c BB-B 已同步）（2026-10-17 LAWWW-C：AA-C 指出原本誤記在 DATE-L32，改 DATE-L16）"
   },
   {
    "id": "DLV-1016-201",
@@ -6431,6 +6431,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "BB 稿、AA 還沒審：照匯入安全規則不進遊戲（白名單不加），等 AA 審完附 commit；程式先留接口（DATE.LINES／PREFS 空的）"
+  },
+  {
+   "id": "DL-LW2-USMKT",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2f4ae940",
+   "what": "美國超市室內 Prairie Basket：us_market.glb（98.7k 三角形、6.3 MB）＋us_market.layout.json（spawn、exit→us_outside、interact 8、blocks 41）；商品假包裝（D77）；README、渲染、LICENSES",
+   "task": "SCN-US-03",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "D81：美國篇排在 v0～v2 之後接"
+  },
+  {
+   "id": "DL-AA-792577ef",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "792577ef",
+   "what": "約會預約句子七位齊：BB_128 3-7＋date_prefs_bb.json（AA 已審語氣，可以用；BB-C 8b7edfdf）、AA_127 第 8 節＋date_prefs_aa.json（5e910dd2）；取消、放鴿子：BB_128 3-6、AA_127 1-7、2-7",
+   "task": "DATE-S6",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "已審：可以加進匯入白名單（date_prefs 兩個 JSON 直接匯；句子從 md 照抄成資料檔）"
   }
  ],
  "ignored": [
