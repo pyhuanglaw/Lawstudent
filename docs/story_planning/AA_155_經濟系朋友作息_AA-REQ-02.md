@@ -43,9 +43,9 @@ daily_schedule:[
   {days:[5],from:12+25/60,to:13+15/60,zone:null,away:'在活大吃午餐',terms:['Y1S2'],noHoliday:true,note:'SK03 是事件（2D）'},
   // 週四晚上：共同教學館自習區讀統計（AA_115「常在共同教學館讀統計」）
   {days:[4],from:20.8,to:23,zone:'gongtong',act:'read',label:'自習區',terms:['Y1S2'],weeks:[11],noHoliday:true,note:'BB_96 10-3 可玩切片：第 11 週週四 20:50 以後（還沒見過的玩家照 10-3 先重新介紹）'},
-  {days:[4],from:19,to:23,zone:'gongtong',act:'read',label:'自習區',terms:['Y1S2'],weeks:[2,3,4,5,6,7,8,9,10,12,13,14,15,16,17,18],noHoliday:true,if:{flags:['MET_XUN']},note:'其他週四：P4d 之後才在'},
+  {days:[4],from:19,to:23,zone:'gongtong',act:'read',label:'自習區',terms:['Y1S2'],weeks:[2,3,4,5,6,7,8,9,10,12,13,14,15,16],noHoliday:true,if:{flags:['MET_XUN']},note:'其他週四：P4d 之後才在'},
   // 期末考週：社科院四樓讀書（SK05 的手機訊息從這裡來；販賣機那五分鐘由事件放人）
-  {days:[0,1,2,3,4],from:21,to:23,zone:null,away:'在社科院四樓的窗邊讀書',terms:['Y1S2'],weeks:[17,18],note:'BB_106 SK05：晚上 11 點的事件把他放到法學院廣場的販賣機（npcNear）'}
+  {days:[0,1,2,3,4],from:21,to:23,zone:null,away:'在社科院四樓的窗邊讀書',terms:['Y1S2'],weeks:[16],note:'BB_106 SK05：晚上 11 點的事件把他放到法學院廣場的販賣機（npcNear）'}
 ]
 ```
 

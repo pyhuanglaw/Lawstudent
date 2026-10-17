@@ -121,6 +121,36 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "未派"
+  },
+  {
+   "task": "ROM-GATE-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4a9b8b77db890ec1cce7d30eb09bbabe0a5b3ca5",
+   "files": [
+    "docs/story_planning/AA_215_告白門檻簡化_大一就能在一起.md"
+   ],
+   "state": "已交付",
+   "remaining": "學姊分手週次等 BB-C；以安、語彤、BB 五位的交往中版本陸續交",
+   "next": "LAWWW 改告白判斷（拿掉 storyGate）；AA 盤點以安、語彤",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "US-RESCHED-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "30358e31",
+   "files": [
+    "docs/story_planning/AA_213_美國交換改大四上_新時間線.md",
+    "docs/story_planning/AA_158_交換路線狀態機_AA-REQ-08.md",
+    "docs/story_planning/AA_144_交換延畢_研究所_國外行事曆_補充規格.md"
+   ],
+   "state": "WIP",
+   "remaining": "AA_12 主線 7～10、AA_180、AA_181、交接包 v4／v5、延畢重算；BB 那邊 BB_183 已交",
+   "next": "AA 照盤點改完交 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
