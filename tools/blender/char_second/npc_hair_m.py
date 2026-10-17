@@ -31,13 +31,17 @@ def _apply_P():
     BASE = b; DEEP = b * 0.5; LIGHT = np.minimum(b * 1.63, 1.0); SHEEN = np.minimum(b * 2.4, 1.0)
 
 
-def make_atlas(seed=SEED):
+def make_atlas(seed=SEED, regs=None, temple_col=None):
     HB.DEEP, HB.BASE, HB.LIGHT, HB.SHEEN = DEEP, BASE, LIGHT, SHEEN
+    REG_ = regs or REG
     rng = np.random.default_rng(seed); W = HB.W
     img = np.zeros((W, W, 4)); img[..., :3] = BASE
     def put(name, col, A):
-        x0, x1, y0, y1 = REG[name]; img[y0:y1, x0:x1, :3] = col; img[y0:y1, x0:x1, 3] = A
-    def reg(name): x0, x1, y0, y1 = REG[name]; return y1 - y0, x1 - x0
+        x0, x1, y0, y1 = REG_[name]; img[y0:y1, x0:x1, :3] = col; img[y0:y1, x0:x1, 3] = A
+    def reg(name): x0, x1, y0, y1 = REG_[name]; return y1 - y0, x1 - x0
+    if temple_col is not None:      # 兩鬢灰白（魏教授）：另一格髮片貼圖，顏色淺
+        h, w = reg('cardG'); tc = np.array(temple_col, float)
+        put('cardG', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=tc), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))
     # 層次髮片：上段一片（髮根），下段分成一撮一撮、長短不一、往中間微靠
     h, w = reg('card')
     put('card', HB._strand_color(rng, h, w, 0.78, sheen=(0.22, 0.38), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 5, 0.68, 0.84, 1.0, hw_k=(0.95, 1.3), lean=0.12, power=0.65, full=2.4, minw=3.5))   # 第二版：髮尾分束從 55% 改 68%（太多透明的尖端，太陽穴看起來像剃短）
@@ -53,8 +57,10 @@ def make_atlas(seed=SEED):
 def apply(m):
     _apply_P()
     arm = m['arm']; rng = np.random.default_rng(SEED)
+    TCOL = P.get('temple_col')        # 兩鬢灰白：耳朵前後（方位 55～125°）的髮片用淺色的那一格
+    REGX = dict(REG, card=(0, 256, 0, 1024), cardG=(256, 384, 0, 1024)) if TCOL is not None else REG
     rc = float(P.get('recede', 0.0))   # 前額髮際線往後（年紀；魏教授）：正中 rc 度、額角（30～45°）多 40%，耳朵以後不動
-    HB.HAIRLINE = [(a_, e_ + rc * (1.0 + 0.4 * math.exp(-((a_ - 38) / 14.0) ** 2)) * max(0.0, 1 - a_ / 75.0)) for a_, e_ in HAIRLINE]; HB.REG_PX = dict(REG)          # h01_hair 的 hairline_beta、reg_uv 讀這兩個模組變數
+    HB.HAIRLINE = [(a_, e_ + rc * (1.0 + 0.4 * math.exp(-((a_ - 38) / 14.0) ** 2)) * max(0.0, 1 - a_ / 75.0)) for a_, e_ in HAIRLINE]; HB.REG_PX = dict(REGX)          # h01_hair 的 hairline_beta、reg_uv 讀這兩個模組變數
     H = HB.Head(m); c = H.c
     print('  hair(mingxuan): head center', np.round(c, 4), 'R top %.3f brow %.3f..%.3f' % (H.Rtop, H.brow_z, H.brow_top), 'avoid clothes', H.clothes)
     mb = HB.MB(); dP = sph(*POLE)
@@ -153,6 +159,7 @@ def apply(m):
             P = P + side * (np.sin(2 * math.pi * 1.3 * tt + ph) * k_[:, 0])[:, None] + D * (0.5 * (1 - np.cos(2 * math.pi * 1.3 * tt + ph)) * k_[:, 0])[:, None]
             Tn = tangents(P); side = _unit(np.cross(D, Tn))
         width = np.maximum(np.array(Wd) * wfac, 0.006) * (0.65 + 0.35 * sstep(0.0, 0.3, np.linspace(0, 1, len(P))))
+        if TCOL is not None and reg in ('card', 'cardB') and 55 < az(a) < 125: reg = 'cardG'
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=np.linspace(0, 1, len(P)))
 
     for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊（兩側長到 85%：太陽穴、鬢角要蓋滿，不能只靠外層透明的髮尾）
@@ -228,7 +235,7 @@ def apply(m):
     obj = bpy.data.objects.new('Hair_' + P['name'], me)
     (arm.users_collection[0] if arm.users_collection else bpy.context.scene.collection).objects.link(obj)
     wip = os.path.join(C.ROOT, 'tools', 'vroid_wip', 'bl'); os.makedirs(wip, exist_ok=True)
-    img = C.image_from_array(P['name'] + '_HairCard', make_atlas(P['seed']), os.path.join(wip, P['name'].lower() + '_hair_atlas.png'))
+    img = C.image_from_array(P['name'] + '_HairCard', make_atlas(P['seed'], REGX, TCOL), os.path.join(wip, P['name'].lower() + '_hair_atlas.png'))
     tmpl = next((mt.name for mt in bpy.data.materials if 'HAIR' in mt.name and getattr(mt, 'vrm_addon_extension', None)), None)
     mat = C.mtoon_from(tmpl, P['name'] + '_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon

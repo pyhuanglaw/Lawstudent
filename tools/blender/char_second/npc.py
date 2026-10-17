@@ -225,9 +225,10 @@ VARIANTS = {
     # 臉：眼睛小一點、上眼皮重（年紀）、眉毛平、下顎寬一點；皮膚暗一點點；頭髮灰黑、短、整齊側分；衣服 wei_clothes（背心＋白袖子＋白色內層）
     # 第三版（BB-C BB_201 第 4 節：「看起來像國中生」）：頭小一點（0.95 → 0.91）、上身寬厚（torso 1.08）、稍微駝（stoop 1.8 cm）、
     # 頭髮灰白多一點（0.33 → 0.50）、前額髮際線往後（recede 9°）、眉毛灰、臉寬、嘴角低一點；遠景看得出年紀，臉不精修
-    'pwei': dict(sex='m', base='HairSample_Male', head=0.91, height=1.72, iris='#2a221c', skin=(0.93, 0.86, 0.80), eye_close=0.22, torso=1.08, stoop=0.018,
+    # 第五版（BB-C BB_201 第 8 節：「頭髮全白的年輕人／燙過的短髮」）：男性短髮——兩側、後腦剪短，露耳朵、後頸；頭頂短、側分；灰黑夾雜（頭頂深灰黑、兩鬢灰白）；肩膀再寬、脖子粗、一點肚子
+    'pwei': dict(sex='m', base='HairSample_Male', head=0.91, height=1.72, iris='#2a221c', skin=(0.93, 0.86, 0.80), eye_close=0.22, torso=1.12, stoop=0.018, neck=1.10, belly=0.016,
                  face=dict(EYE_SX=1.06, EYE_SZ=0.60, EYE_TILT=-0.010, BROW_ARCH=0.25, BROW_K=1.55, BROW_COL=(0.34, 0.32, 0.30), FACE_NARROW=1.01, CHIN_WIDEN=0.72, JAW_OUT=0.0070, D_CHIN=0.004, MOUTH_K=1.40, MOUTH_DOWN=0.0012),
-                 hair=dict(seed=20261231, part=-22.0, col=(0.50, 0.49, 0.48), recede=9.0, tip=(0.078, 0.070, 0.050, 0.026, 0.020, 0.014, 0.008, 0.004, 0.006, 0.008), nape=0.008, vol=0.52, curl=(24, 38)),   # 第四版：前面的髮尾停在髮際線上、往旁邊梳（第三版瀏海還垂在額頭上，看起來年輕）   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
+                 hair=dict(seed=20261231, part=-22.0, col=(0.20, 0.19, 0.19), temple_col=(0.62, 0.61, 0.60), recede=9.0, tip=(0.078, 0.070, 0.050, 0.040, 0.034, 0.030, 0.028, 0.022, 0.020, 0.018), nape=0.003, vol=0.42, curl=(24, 38)),   # 第四版：前面的髮尾停在髮際線上、往旁邊梳（第三版瀏海還垂在額頭上，看起來年輕）   # 第二版：短、整齊、側分往兩邊梳開、露出額頭和耳朵（第一版瀏海蓋到眉毛、蓬：像年輕人）；灰一點
                  clothes=None, clothes_mod='wei_clothes'),
 }
 FEMALE_FACE = dict(D_CHIN=0.006, BROW_DROP=0.0042, EYE_SX=1.05, EYE_SZ=0.68, EYE_TILT=0.0, EYE_IN=0.0027, EYE_LIFT=0.0004, CHEEK_TINT_K=1.0,
@@ -257,7 +258,7 @@ def stage0(m):
     if VAR['head'] != 1.0: C.scale_head(arm, [m['face'], m['body']], VAR['head'])
     if VAR.get('torso') or VAR.get('stoop'):     # 魏教授：上身寬厚、稍微駝（身體和臉一起動，之後的衣服、頭髮照新的身體做）
         ch, nk = C.bone_head(arm, 'J_Bip_C_Chest'), C.bone_head(arm, 'J_Bip_C_Neck'); sp = C.bone_head(arm, 'J_Bip_C_Spine')
-        tw, st = float(VAR.get('torso', 1.0)), float(VAR.get('stoop', 0.0))
+        tw, st = float(VAR.get('torso', 1.0)), float(VAR.get('stoop', 0.0)); nkk, bl = float(VAR.get('neck', 1.0)), float(VAR.get('belly', 0.0)); hd = C.bone_head(arm, 'J_Bip_C_Head')
         def sst(a, b, x): t = np.clip((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t)
         def bulk(P, B=None):
             z = P[:, 2]; band = sst(sp[2], ch[2] + 0.05, z) * (1 - sst(nk[2] - 0.01, nk[2] + 0.04, z))   # 胸口到肩膀最寬，脖子以上不動
@@ -266,6 +267,10 @@ def stage0(m):
             x = ch[0] + (P[:, 0] - ch[0]) * k + np.where(arms, np.sign(P[:, 0] - ch[0]) * (tw - 1) * 0.17 * band, 0)
             y = ch[1] + (P[:, 1] - ch[1]) * np.where(arms, 1.0, 1 + 0.6 * (tw - 1) * band)
             y = y - st * sst(ch[2], nk[2] + 0.02, z)                                                     # 胸口以上往前（駝）；頭、臉跟著
+            nb = sst(nk[2] - 0.02, nk[2] + 0.02, z) * (1 - sst(hd[2] - 0.03, hd[2] + 0.01, z)) * (~arms)   # 脖子粗一點
+            x = nk[0] + (x - nk[0]) * (1 + (nkk - 1) * nb); y = nk[1] + (y - nk[1]) * (1 + (nkk - 1) * nb)
+            front = np.clip(-(P[:, 1] - ch[1]) / 0.10, 0, 1)                                              # 肚子：肚臍附近往前（前面才推）
+            y = y - bl * front * np.exp(-((z - (sp[2] + 0.02)) / 0.07) ** 2) * (~arms)
             return np.column_stack([x, y, z])
         for o in (m['body'], m['face']): C.warp_world(o, bulk)
         print('  torso x%.2f stoop %.3f' % (tw, st))
