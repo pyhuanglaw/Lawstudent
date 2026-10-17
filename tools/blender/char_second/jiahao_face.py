@@ -5,9 +5,10 @@ import p00_face as PF
 import zhe_face as ZF
 
 JIAHAO = dict(PF.MALE)
-JIAHAO.update(EYE_SZ=0.76, EYE_SX=1.07, EYE_TILT=-0.015,          # 大一點、眼尾略往下（韋綸 0.66 細、平）
+JIAHAO.update(EYE_SZ=0.72, EYE_SX=1.08, EYE_TILT=-0.035, FACE_NARROW=1.0,   # 第六版（BB_201）：圓臉、眼尾往下（親切；待機的笑眼另外烘 Fcl_EYE_Joy）
+                        # 大一點、眼尾略往下（韋綸 0.66 細、平）
               BROW_K=1.35, BROW_ARCH=0.38, BROW_COL=(0.09, 0.075, 0.068), BROW_SCALE_Z=1.30,
-              D_CHIN=0.0024, CHIN_WIDEN=0.66, JAW_OUT=0.0034,       # 臉圓、下巴短
+              D_CHIN=0.0010, CHIN_WIDEN=0.86, JAW_OUT=0.0065,       # 第六版：臉更圓、下巴更短       # 臉圓、下巴短
               MOUTH_K=1.55, LIP_A=0.58)
 WARM = (0.95, 0.87, 0.78)
 SHADE_WARM = (0.97, 0.91, 0.85)
