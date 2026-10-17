@@ -238,6 +238,13 @@
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
    "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/free_trip/spots_v2.json",
+   "sha": "32d11245",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:41Z：旁白照 AA_188 口語修訂 20 處（結構、地點、時間、車資、條件沒動），build_spots_v2.py 產生器 ok",
+   "task": "DL-06B"
   }
  ]
 }

@@ -6457,6 +6457,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "已審：可以加進匯入白名單（date_prefs 兩個 JSON 直接匯；句子從 md 照抄成資料檔）"
+  },
+  {
+   "id": "DL-LW2-AIRPORT",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "5aeb3220",
+   "what": "VAC-A2 第二航廈：airport_dep.glb（出境大廳＋下車處，7.6 萬三角形）、airport_arr.glb（入境大廳）＋airport_t2.layout.json（spawn、道別點、座位 66／54、blocks）；航空公司與店名虛構；README、LICENSES",
+   "task": "VAC-A2",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "最早 2026-08-24（阿凱去日本，大一升大二暑假）＝比美國篇早；照 D81 排在 v2 之後、美國篇之前；真實照片對照等使用者"
   }
  ],
  "ignored": [
