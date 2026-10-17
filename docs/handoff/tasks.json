@@ -15858,7 +15858,7 @@
   },
   {
    "id": "FIX-STAIRS-ARM",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -15872,8 +15872,9 @@
    },
    "title": "上樓梯第一段手臂往前平舉（沛珊；平台以後正常）——動畫或 footIK／手的 IK",
    "owner": "LAWWW",
-   "next": "BB-C 15:49（BB_197 5-5）：玩家看得到；查 character3d 樓梯動畫第一段的手臂",
-   "source": "BB-C D59 驗收 20e63582"
+   "next": "瀏覽器重拍：第一段手臂正常（ingame_review/…/peishan_motion_after_fix.webp）；等 BB-C 看",
+   "source": "BB-C D59 驗收 20e63582",
+   "sha": "051e5c45"
   },
   {
    "id": "ART-JIAHAO-JOY",
@@ -15942,6 +15943,32 @@
     "spec": "docs/art-rebuild/ingame_review/2026-10-17_econ_peishan/wei.webp",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "近距離頭髮沒有黑白破碎條紋",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-PS-SKIRT-HAND",
+   "status": "待開工",
+   "priority": "P2",
+   "owner": "LAWWW2",
+   "title": "沛珊走路擺手時手穿過長裙（平台、第二段；裙子不跟手臂動）",
+   "next": "LAWWW-C 16:1x 截圖 peishan_motion_after_fix.webp；LAWWW2／BB 看怎麼處理（裙襬寬一點、手臂擺幅、或裙子加骨頭）",
+   "source": "LAWWW-C 遊戲內截圖",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "沛珊走路（第一週）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/art-rebuild/ingame_review/2026-10-17_econ_peishan/peishan_motion_after_fix.webp",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "走路、上樓梯時手不穿過裙子；BB-C 看",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
