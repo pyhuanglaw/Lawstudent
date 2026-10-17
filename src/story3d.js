@@ -961,8 +961,8 @@ const STORY = (function(){
   function familyGroupD1(GM){ const G=GM.G, F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return; if(S.week1Start(G)){ S.familyW0(G,{now:true}); if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：新的家族學弟妹都進群了嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); return; }   /* 開學改 9/1 的局：開學前那一版（8/30 沒排到的舊存檔，到 9/3 立刻補）*/ F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');
     const sis=t=>({th,from:'heroine_05',name:'溫學姊',text:t}), kv=t=>({th,from:'kevin',name:'Kevin',text:t});
     PHONE.postAt(G,Object.assign(kv('學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'),{pin:true}),-16,21);   /* 開學前發的置頂：2026-10-17 改 Kevin 發（AA_218 L512 家族群組 (A)、17-12：學姊不在家族群組主動發言）*/
-    PHONE.post(G,Object.assign(kv('第三週了，直屬學弟妹還活著嗎？要考古題的舉手'),{ask:{opts:[{t:'（舉手）',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]},{t:'活著。',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]}]}}));
-    /* 學姊「先看置頂。」刪（AA_218 L512、17-12）*/ if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，直屬學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
+    PHONE.post(G,Object.assign(kv('第三週了，家族的學弟妹還活著嗎？要考古題的舉手'),{ask:{opts:[{t:'（舉手）',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]},{t:'活著。',set:{FAM_GROUP_REPLIED:true},say:[kv('很好，有一個活的。')]}]}}));
+    /* 學姊「先看置頂。」刪（AA_218 L512、17-12）；Kevin 不是直屬，「直屬學弟妹」→「家族的學弟妹」（BB_95 e627d747，使用者 23:3x）*/ if(GM.toast) GM.toast('手機｜法律系直屬家族｜Kevin：第三週了，家族的學弟妹還活著嗎？',4200); if(GM.phoneBadge) GM.phoneBadge(); }
   /* 家族群組 W0（BB_168 6-3、BB_177 11-1；AA_195 4-3）：開學改 9/1 的局提早到 8/30（六）晚上（21:00）。置頂是 Kevin 8/30 發的（2026-10-17 AA_218 L512；原本學姊 8/25 那則刪）；
      Kevin 是同家族的大二學長（不是直屬，直屬只有學姊）。去過宿營（CAMP_Y1）的玩家：Kevin 認出臥底那一隊的學弟（BB_177 11-1）；沒去的照 BB_168 6-3。回了設 FAM_GROUP_REPLIED（9/2 茶會、學姊第一次見面會讀）；不回就是不回 */
   S.familyW0=function(G,o){ o=o||{}; const F=G.flags; if(F.FAM_GROUP_SENT||typeof PHONE==='undefined') return false; F.FAM_GROUP_SENT=true; const th='g:family_law'; PHONE.join(G,'family_law','法律系直屬家族');

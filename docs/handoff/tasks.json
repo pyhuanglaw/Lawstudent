@@ -11945,7 +11945,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P1",
-   "next": "【交班補強核對】BB_177 e627d747：story3d.js 879～880 行 Kevin 還說「第三週了，直屬學弟妹還活著嗎？」，要改成「家族的學弟妹」（Kevin 不是直屬，使用者 23:3x）。｜W1_AUDIT（docs/handoff/W1_AUDIT_2026-10-17.md）21 項：1～17、19、21 完成（單元測試 camp_y1_unit A～L、aa195_411_unit 全過），18 不做；20（16 週制）另做。下一步：瀏覽器流程測試把 9/2 茶會、8/30 目標實際走一遍；四人房作息等 DORM-LOFT-L；?start1 改成預設以前跑完整回歸（REL-NEXT）",
+   "next": "【已改 2026-10-17 20:3x LAWWW-C】Kevin「第三週了，家族的學弟妹還活著嗎？」（BB_95 e627d747）。｜W1_AUDIT（docs/handoff/W1_AUDIT_2026-10-17.md）21 項：1～17、19、21 完成（單元測試 camp_y1_unit A～L、aa195_411_unit 全過），18 不做；20（16 週制）另做。下一步：瀏覽器流程測試把 9/2 茶會、8/30 目標實際走一遍；四人房作息等 DORM-LOFT-L；?start1 改成預設以前跑完整回歸（REL-NEXT）",
    "first": {
     "term": "Y1S1",
     "week": 1,

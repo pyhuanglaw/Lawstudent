@@ -72,7 +72,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     const F=KX('g:family_law'); const pin=F.find(q=>q.pin);
     check('B 家族群組「法律系直屬家族」：Kevin 開學前的置頂（AA_218 L512 原文）',PHONE.inGroup(G,'family_law')&&PHONE.title(G,'g:family_law')==='法律系直屬家族'&&pin&&pin.from==='kevin'&&pin.text==='學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。'&&pin.day<1,JSON.stringify(pin));
     let kq=null;
-    check('B Kevin「第三週了，直屬學弟妹還活著嗎？要考古題的舉手」可以回（（舉手）／活著。）；學姊沒有發言（17-12）',(kq=F.find(q=>q.from==='kevin'&&!q.pin))&&kq.text==='第三週了，直屬學弟妹還活著嗎？要考古題的舉手'&&JSON.stringify(kq.ask.opts.map(x=>x.t))===JSON.stringify(['（舉手）','活著。'])&&!F.some(q=>q.from==='heroine_05'));
+    check('B Kevin「第三週了，家族的學弟妹還活著嗎？要考古題的舉手」（BB_95 e627d747：Kevin 不是直屬）可以回（（舉手）／活著。）；學姊沒有發言（17-12）',(kq=F.find(q=>q.from==='kevin'&&!q.pin))&&kq.text==='第三週了，家族的學弟妹還活著嗎？要考古題的舉手'&&JSON.stringify(kq.ask.opts.map(x=>x.t))===JSON.stringify(['（舉手）','活著。'])&&!F.some(q=>q.from==='heroine_05'));
     check('B 第一天就在手機上看到學姊（不需要見面：沒有因此「認識」她）',!SOCIAL.has('heroine_05','FIRST_MET'));
     check('B 有通知（toast）',toasts.some(t=>/可昕/.test(t))&&toasts.some(t=>/法律系直屬家族/.test(t)),JSON.stringify(toasts));
     /* C 家族群組回覆 */
