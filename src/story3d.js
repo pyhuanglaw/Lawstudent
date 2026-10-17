@@ -1326,7 +1326,7 @@ const STORY = (function(){
     /* 衝刺班（AA_224 6-4；機制 BB_188 A9-3）：6/8（日）21:00 可昕私訊；6/9～7/9 每週一、三、五 19:00～22:00 祐廷的固定行程（出發選單「這次不去」不扣東西；第一次去＝三句旁白，之後時間跳過）。
        這三晚 19:00～22:00 不排可昕的讀書日、邀約，她的訊息改到 22:10 以後（S.cramNight）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d8=S.dayOfKey('2025-06-08'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
-      if(d8!=null&&F.dating_kexin&&(G.day>d8||(G.day===d8&&G.hour>=21))&&G.day<=d8+1&&!PHONE.sent(G,'y0_crm_ask')) PHONE.at(G,d8,21,[K('你報了沒。'),Y('報了。明天開始。'),K('好。'),K('我不去。你上完回來講給我聽，等於我上了半價。')],'y0_crm_ask');
+      if(d8!=null&&F.dating_kexin&&(G.day>d8||(G.day===d8&&G.hour>=21))&&G.day<=d8+1&&!PHONE.sent(G,'y0_crm_ask')) PHONE.at(G,d8,21,[K('衝刺班你報了沒。'),Y('報了。兩個。明天七點。'),K('好。這次我付我自己的。'),K('不准幫我付。')],'y0_crm_ask');   /* AA_272 第 7 節：兩個人一起去 */
       const crm=d=>({id:'y0_crm_'+d,ev:'ev_y0_cram_class',day:d,h:19,late:0.25,place:'衝刺班',title:'衝刺班 19:00～22:00',travel:'捷運 約 30 分鐘',travelH:0.5,no:'這次不去'});
       if(S.cramNight(G)&&G.hour<19.25&&!OUT.get(G,'y0_crm_'+G.day)) OUT.plan(G,crm(G.day));
       if(PHONE.sent(G,'y0_crm_ask')&&!F.Y0_CRAM_PLANNED){ F.Y0_CRAM_PLANNED=true; const b=S.dayOfKey('2025-07-09'); for(let d=G.day+1;b!=null&&d<=b;d++) if(S.cramNight(G,d)&&!OUT.get(G,'y0_crm_'+d)) OUT.plan(G,crm(d)); } }   /* 報名以後每一晚都排進行事曆（使用者 21:5x：衝刺班要真的出現在行事曆上）*/

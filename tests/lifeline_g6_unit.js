@@ -46,11 +46,11 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { econ(d15,7.5,'campus',{},false); G.home={at:false}; check('6-2 不在家的時候，讀書日的 R 不會在外面演',!EVENTS.check(ev('ev_y0_rs'))); }
   /* 衝刺班 */
   { const d8=DK('2025-06-08'); econ(d8,20.9,'home',{}); run(20.9,21.1);
-    check('6-4 6/8 21:00：「你報了沒。」「報了。明天開始。」「好。」「我不去。你上完回來講給我聽，等於我上了半價。」',J(txt('p:kexin'))===J(['kexin:你報了沒。','player:報了。明天開始。','kexin:好。','kexin:我不去。你上完回來講給我聽，等於我上了半價。']),J(txt('p:kexin')));
+    check('6-4 6/8 21:00（AA_272 第 7 節：兩個人一起去）：「衝刺班你報了沒。」「報了。兩個。明天七點。」「好。這次我付我自己的。」「不准幫我付。」',J(txt('p:kexin'))===J(['kexin:衝刺班你報了沒。','player:報了。兩個。明天七點。','kexin:好。這次我付我自己的。','kexin:不准幫我付。']),J(txt('p:kexin')));
     G.day=d8+1; G.weekday=wdOf(G.day); G.hour=9; run(9,9.1); const q=OUT.get(G,'y0_crm_'+G.day); G.day=d8+2; G.hour=9; run(9,9.1); const q2=OUT.get(G,'y0_crm_'+G.day);
     check('6-4 6/9（一）衝刺班 19:00～22:00 的出發選單、可以「這次不去」；6/10（二）沒有',q&&q.h===19&&q.no==='這次不去'&&q.ev==='ev_y0_cram_class'&&!q2,J([q,q2]));
     G.day=d8+1; await EVENTS.run(ev('ev_y0_cram_class')); const L=lines(); said=[]; await EVENTS.run(ev('ev_y0_cram_class')); const L2=lines();
-    check('6-4 第一次：三句旁白（最後一排、「半價」）；之後不演',L.join('｜')==='（另一間補習班。一間坐滿的教室，沒有人認識你。）｜（你挑了最後一排。）｜（下課的時候，你在筆記最上面寫：「半價」，畫了一個箭頭。）'&&L2.length===0,J([L,L2]));
+    check('6-4 第一次：兩句旁白（你們、最後一排兩個位子；「半價」刪，AA_272 第 7 節）；之後不演',L.join('｜')==='（另一間補習班。一間坐滿的教室，沒有人認識你們。）｜（你們挑了最後一排，兩個位子。）'&&L2.length===0,J([L,L2]));
     check('6-4 衝刺班的晚上（一三五）＝cramNight；7/10 不是',STORY.cramNight(G,d8+1)&&STORY.cramNight(G,d8+3)&&!STORY.cramNight(G,d8+2)&&!STORY.cramNight(G,DK('2025-07-10'))); }
   /* E35 */
   { const d=DK('2025-07-10'); econ(d,17.9,'home',{}); run(17.9,18.2);
