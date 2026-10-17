@@ -334,8 +334,18 @@ def apply(m):
     def off_shell(a, v):
         return 0.0022 + vol(a) * float(sstep(0.0, 0.42, v)) * (1 - 0.35 * float(sstep(0.72, 0.95, v))) + 0.0065 * float(sstep(0.82, 1.0, v))
 
+    dV = sph(180, 40)       # 第十一版：綁點低（−44°）時，前面的髮片從前額直接 slerp 到綁點會走另一邊（從臉前面繞過去）→ 改走「經過後腦上方」的二次曲線
     def line_dir(a, v):
-        return slerp(sph(a, hairline_beta(a)), dT, v)
+        d0 = sph(a, hairline_beta(a)); om = math.acos(float(np.clip(np.dot(d0, dT), -1, 1)))
+        g = slerp(d0, dT, v)
+        w = float(sstep(2.2, 2.7, om))
+        if w <= 0: return g
+        q = slerp(slerp(d0, dV, v), slerp(dV, dT, v), v)
+        return _unit(g * (1 - w) + q * w)
+
+    def path_len(a):        # 沿 line_dir 的角長度（v_end 用；二次曲線比直接 slerp 長）
+        pts = [line_dir(a, t) for t in np.linspace(0, 1, 41)]
+        return float(sum(math.acos(float(np.clip(np.dot(p0, p1), -1, 1))) for p0, p1 in zip(pts[:-1], pts[1:])))
 
     def surf(a, v, extra=0.0):
         d = line_dir(a, v); return c + d * (H.R(d) + off_shell(a, v) + extra), d
@@ -343,8 +353,7 @@ def apply(m):
     RT = H.R(dT); T0 = c + dT * (RT + off_shell(180, 1.0))
 
     def v_end(a):    # 髮片停在綁點外 1.4 cm（髮圈蓋住）
-        d0 = sph(a, hairline_beta(a)); om = math.acos(float(np.clip(np.dot(d0, dT), -1, 1)))
-        return 1 - (0.014 / RT) / om
+        return 1 - (0.014 / RT) / max(0.3, path_len(a))
 
     def v_bang(a):   # 瀏海區（前額）的範圍：第二版沒有瀏海（立繪：額頭露出來、往後梳），往後梳的髮片從髮際線開始
         return 0.0
