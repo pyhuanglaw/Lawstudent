@@ -173,6 +173,32 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "US-RESCHED-1017",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "7dd8d11a",
+   "files": [
+    "docs/story_planning/BB_98_交接包v4_大三.md",
+    "docs/story_planning/BB_99_交接包v4_大四_尾聲.md",
+    "docs/story_planning/BB_90_溫學姊主線_四年大綱_支線條件.md",
+    "docs/story_planning/BB_173_BB人物假期劇情清單.md",
+    "docs/story_planning/溫書瑀_角色企劃.md",
+    "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md",
+    "docs/story_planning/BB_184_美國篇改期_重畫CG與舊金山背景提示詞.md",
+    "docs/story_planning/CG_正式製作清單.md",
+    "docs/story_planning/待使用者生成圖片清單.md",
+    "docs/story_planning/BB_132_校外約會CG生成單.md",
+    "docs/story_planning/bg_approved/",
+    "docs/story_planning/cg_approved/",
+    "docs/story_planning/props_approved/"
+   ],
+   "state": "WIP",
+   "remaining": "美國交換改大四上（使用者，AA_213）：18b1881c、2101823f、d194e4a1、23cd428d、0f357540、741ff5fe、41f50ea2、777ed032、dfbd1f88、e813de21、2b8ecfe5、c055fc11；大四上其他 BB 人物的美國版、四張重畫 CG 還沒；告白規則大改（AA_215）會再動",
+   "next": "AA 核對時間線 → BB 補大四上美國版、給重畫 CG 提示詞 → LAWWW 整合",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
