@@ -12135,7 +12135,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI",
    "priority": "P1",
-   "next": "【2026-10-16 23:4x 整合測試】tests/gongguan_glb_integration.py 招牌三項 FAIL：atlas 49 面（測試要 50）、直立招牌 35 格（要 36）、G03 店的橫招牌沒有 canvas 字——修閃爍之前的 GLB（3ccc781e~1）就是 49，不是這次造成；已問 LAWWW2-B G03 是不是故意拿掉（招牌重做時一起處理、測試一起更新）。｜①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
+   "next": "【BB-B 00:08】S1～S4 通過、可以直接用 _fit 版：阿鳳 gg_afeng、舊路 gg_jiulu、藥局 gg_yaoju、輪轉 gg_lunzhuan（docs/story_planning/signs_approved/，_fit 補到 6.50×0.64、0.74×2.60）；S5 影印已給使用者，S6～S18 照「待使用者生成圖片清單.md」。→ LAWWW2-B 可以先換這四家。｜【2026-10-16 23:4x 整合測試】tests/gongguan_glb_integration.py 招牌三項 FAIL：atlas 49 面（測試要 50）、直立招牌 35 格（要 36）、G03 店的橫招牌沒有 canvas 字——修閃爍之前的 GLB（3ccc781e~1）就是 49，不是這次造成；已問 LAWWW2-B G03 是不是故意拿掉（招牌重做時一起處理、測試一起更新）。｜①尺寸表已交（LAWWW2-B 735f0830）②BB-B 寫提示詞中（22:00 ACK）③使用者生成 ④LAWWW2-B 換上：照 G03 做法 sk_sign_<店> 節點＋拿掉 *_FACE_*（zones3d.js 不用改；公館測試 DESIGNED 清單附 patch）⑤公館白天／夜間截圖",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12669,7 +12669,7 @@
    "owner": "BB",
    "status": "待開工",
    "priority": "P2",
-   "next": "BB-B 向使用者拿 CG（使用者 21:49 Q4）；沒有之前程式用 econ_camp 背景。程式改 ev_y0_e15：字卡＋CG＋三句旁白（AA_154 A54），拿掉夜遊三選一、寢室冷笑話；邀約、出發選單、E15_WENT、afterOuting、11/24 群組合照、沒去的版本照舊。跟 BB_179 經濟系那包一起排（cg_law_camp_squad 作廢）",
+   "next": "BB 提示詞已寫（BB_132 第 71 組 E1～E4），等使用者生成。｜BB-B 向使用者拿 CG（使用者 21:49 Q4）；沒有之前程式用 econ_camp 背景。程式改 ev_y0_e15：字卡＋CG＋三句旁白（AA_154 A54），拿掉夜遊三選一、寢室冷笑話；邀約、出發選單、E15_WENT、afterOuting、11/24 群組合照、沒去的版本照舊。跟 BB_179 經濟系那包一起排（cg_law_camp_squad 作廢）",
    "first": {
     "term": "Y0S2",
     "week": 0,
@@ -12933,9 +12933,9 @@
    "title": "假期 BB 人物部分 B1",
    "area": "STORY",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "BB_171 假期所在地與跨年已交 AA-B（BB-B 00:08）。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13180,6 +13180,93 @@
    },
    "source": "AA-B 全部待辦交接（AA 分支 a2621bfa，AA_交接紀錄「AA-B 全部待辦」）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」",
    "authorized": "使用者（AA、BB 企劃制度）"
+  },
+  {
+   "id": "BCG-46",
+   "title": "CG 班級合照 cg_class_photo_y1（BB-B 合成 086de6dd，READY_FOR_REVIEW，等使用者看；通過後放相簿，BB_118 5-1：其他八人裡至少五位 FRIEND 以上）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "next": "等使用者看；通過後 LAWWW-B 接相簿條件",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一下班級合照",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 全部待辦交接（BB 分支 2184eb5d，BB_00「BB 全部待辦（交班用）」）",
+   "authorized": "使用者（CG 由使用者確認）",
+   "xai": {
+    "spec": "BB_118 5-1",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "使用者看過",
+    "receiver": "LAWWW-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "VAC-B2",
+   "title": "BB_173 假期劇情清單（BB-B 已交 AA-B）",
+   "area": "STORY",
+   "owner": "BB",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "next": "AA-B 收；之後隨 VAC-L1 實作",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB-B 全部待辦交接（BB 分支 2184eb5d，BB_00「BB 全部待辦（交班用）」）",
+   "authorized": "使用者（企劃制度）",
+   "xai": {
+    "spec": "BB_173",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "AA 互審",
+    "receiver": "AA-B",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BB-ROUTINE",
+   "title": "BB 常態工作：AB-65 每批 BB 人物口吻互審（AA_206 已回）、角色美術驗收（D59）、法律審查（有人請才做）",
+   "area": "STORY",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "常態",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-B 全部待辦交接（BB 分支 2184eb5d，BB_00「BB 全部待辦（交班用）」）",
+   "authorized": "D59、D86",
+   "xai": {
+    "spec": "BB_00",
+    "owner": "BB",
+    "branch": "claude/elegant-brown-fcos7n",
+    "acceptance": "—",
+    "receiver": "AA-B／LAWWW-B",
+    "ack": "ACK"
+   }
   }
  ]
 }
