@@ -8,6 +8,8 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
+import screencheck as SC   # 看畫面的自動檢查（使用者 2026-10-17 23:3x）
+SCK = None   # main() 建立；drive() 每組新選項、每段對話開頭檢查一次
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_law_break'
@@ -22,13 +24,16 @@ async def pick(pg, cdp, prefer):
 
 async def drive(pg, cdp, until_js, prefer, max_s=240):
     """點對話、照 prefer 點選項，直到 until_js 成立；回傳 (成功, 看過的選項)"""
-    seen = []
+    seen = []; was_dlg = False
     for _ in range(int(max_s * 2)):
         if await pg.evaluate(until_js): return True, seen
         s = await L.state(pg)
         fade = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()")
+        if SCK and s['dlg'] and not was_dlg: await SCK.check(pg, '對話 ' + s['dtext'][:12])
+        was_dlg = bool(s['dlg'])
         if s['choices']:
             opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24))")
+            if SCK and (not seen or seen[-1] != opts): await SCK.check(pg, '選項 ' + '|'.join(opts)[:16])
             seen.append(opts); print('   選項', opts, flush=True)
             await pick(pg, cdp, prefer)
         elif s['dlg']:
@@ -39,7 +44,8 @@ async def drive(pg, cdp, until_js, prefer, max_s=240):
 
 
 async def main():
-    run = L.Run('flow_law_break', OUT)
+    global SCK
+    run = L.Run('flow_law_break', OUT); SCK = SC.Checker(run, OUT)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(TURBO); run.check('遊戲載入', await L.wait_loaded(pg))
@@ -93,6 +99,7 @@ async def main():
         run.check('黑幕沒有擋住對話', not any(x == ['<黑幕下有對話>'] for x in seen + seen2))
         await run.shot(pg, 'dorm_0222')
         run.check('全程沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
+        SCK.finish()
         await b.close()
     return run.finish()
 

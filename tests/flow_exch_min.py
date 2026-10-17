@@ -9,6 +9,8 @@ import asyncio, json, sys
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
+import screencheck as SC   # 看畫面的自動檢查（使用者 2026-10-17 23:3x）
+SCK = None   # main() 建立；drive() 每組新選項、每段對話開頭檢查一次
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_exch_min'
@@ -24,13 +26,16 @@ async def pick(pg, cdp, prefer):
 
 async def drive(pg, cdp, until_js, prefer, max_s=240):
     """點對話、照 prefer 點選項，直到 until_js 成立；手機、筆記本蓋住選項時先關掉。回傳 (成功, 看過的選項)"""
-    seen = []
+    seen = []; was_dlg = False
     for _ in range(int(max_s * 2)):
         if await pg.evaluate(until_js): return True, seen
         s = await L.state(pg)
         if s['choices'] and s.get('paused') and await L.close_panels(pg, cdp): continue
+        if SCK and s['dlg'] and not was_dlg: await SCK.check(pg, '對話 ' + s['dtext'][:12])
+        was_dlg = bool(s['dlg'])
         if s['choices']:
             opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,24))")
+            if SCK and (not seen or seen[-1] != opts): await SCK.check(pg, '選項 ' + '|'.join(opts)[:16])
             seen.append(opts); print('   選項', opts, flush=True)
             await pick(pg, cdp, prefer)
         elif s['dlg']:
@@ -52,6 +57,7 @@ async def walk_use(pg, cdp, run, label, wait_s=20):
     s = await L.state(pg)
     ok = ok and (s['interact'] or '').startswith(label)
     run.check('走到「%s」、互動鍵出現' % label, ok, json.dumps({k: s[k] for k in ('zone', 'x', 'z', 'interact')}, ensure_ascii=False))
+    if ok and SCK: await SCK.check(pg, '走到「%s」' % label)
     if ok: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
     return ok
 
@@ -60,7 +66,8 @@ ZONE = "(GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id)"
 
 
 async def main():
-    run = L.Run('flow_exch_min', OUT)
+    global SCK
+    run = L.Run('flow_exch_min', OUT); SCK = SC.Checker(run, OUT)
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(TURBO); run.check('遊戲載入', await L.wait_loaded(pg))
@@ -108,6 +115,7 @@ async def main():
             run.check('B. 隔天出門：公寓社區', ok)
         await run.shot(pg, 'b_out_again')
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
+        SCK.finish()
         await b.close()
     return run.finish()
 
