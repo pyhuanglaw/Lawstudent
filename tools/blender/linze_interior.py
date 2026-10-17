@@ -195,10 +195,10 @@ def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
 YJ = Y1 - 0.03                    # 一樓、二樓的牆在這裡接（藏在二樓樓板裡）：原本一樓牆頂和二樓地板同一個平面，二樓靠牆一條會閃（BUG-COPLANAR-DEV）
 wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0, yhi=YJ)
 wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1, ylo=YJ)
-box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, YJ, -D / 2 - T / 2, D / 2, L0, props={'dir': [1, 0, 0]})
-box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2, L1, props={'dir': [1, 0, 0]})
-box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2, D / 2, L0)
-box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2, L1, props={'dir': [-1, 0, 0]})
+box('L0_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, 0, YJ, -D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [1, 0, 0]})
+box('L1_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [1, 0, 0]})
+box('L0_wallbase_W', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, 0, 0.12, -D / 2 + T / 2, D / 2 - 0.08, L0)
+box('L1_WALL_E', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, YJ, RY, -D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [-1, 0, 0]})
 # 東面一樓：玻璃門面（直櫺每 1.75 m）、入口自動門（兩扇玻璃）
 gh = Y1 - 0.3
 GXE = W / 2 - 0.05                # 玻璃放在直櫺深度的中間（原本和直櫺外面同一個平面，玻璃和框會閃）
@@ -222,7 +222,7 @@ for i in range(9):
     box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2 + 0.01, L0, props=FS)
 for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
     box(f'L0_transom_S_{k}', MAT['frame'], -W / 2 + T / 2, W / 2 - T / 2, yy - 0.06, yy + 0.06, D / 2 - 0.13, D / 2 + 0.005, L0, props=FS)
-box('L0_glass_top_S', MAT['granite'], -W / 2, W / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)
+box('L0_glass_top_S', MAT['granite'], -W / 2 + T / 2, W / 2 - T / 2, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0)   # 夾在東西牆中間（東西牆往南多 5 cm 包住牆角）
 
 # ---------------- 樓梯：每一階一塊石材（實心到地面）、平台、第二跑；東側玻璃欄板＋不鏽鋼扶手、西牆扶手 ----------------
 def flight(prefix, zb, base, n):
@@ -261,8 +261,8 @@ for i, f in enumerate(L['furniture']):
         back = abs(f.get('ry', 0)) > 1   # ry=π：靠背在 +z（南）
         box(f'{pre}_sofa_base_{i}', MAT['leather'], x0, x1, y + 0.06, y + 0.42, z0, z1, P, bevel=0.04)
         bz0, bz1 = (z1 - 0.2, z1) if back else (z0, z0 + 0.2)
-        box(f'{pre}_sofa_back_{i}', MAT['leather'], x0, x1, y + 0.42, y + 0.85, bz0, bz1, P, bevel=0.04)
-        for sx in (x0 - 0.005, x1 - 0.175): box(f'{pre}_sofa_arm_{i}_{sx:.1f}', MAT['leather'], sx, sx + 0.18, y + 0.42, y + 0.62, z0 + 0.006, z1 - 0.006, P, bevel=0.03)   # 扶手比座墊寬 5 mm、比椅背短 6 mm（不同平面）
+        box(f'{pre}_sofa_back_{i}', MAT['leather'], x0, x1, y + 0.38, y + 0.85, bz0, bz1, P, bevel=0.04)   # 椅背、扶手的底伸進座墊裡（原本和座墊頂同一個平面）
+        for sx in (x0 - 0.005, x1 - 0.175): box(f'{pre}_sofa_arm_{i}_{sx:.1f}', MAT['leather'], sx, sx + 0.18, y + 0.37, y + 0.62, z0 + 0.006, z1 - 0.006, P, bevel=0.03)   # 扶手比座墊寬 5 mm、比椅背短 6 mm（不同平面）
         for (lx, lz) in ((x0 + 0.1, z0 + 0.1), (x1 - 0.1, z0 + 0.1), (x0 + 0.1, z1 - 0.1), (x1 - 0.1, z1 - 0.1)): box(f'{pre}_sofa_leg_{i}_{lx:.1f}{lz:.1f}', MAT['frame'], lx - 0.025, lx + 0.025, y, y + 0.06, lz - 0.025, lz + 0.025, P)
     elif f['type'] == 'planter':
         bm = bmesh.new(); bmesh.ops.create_cone(bm, cap_ends=True, segments=20, radius1=f['r'] * 0.88, radius2=f['r'], depth=0.6)
