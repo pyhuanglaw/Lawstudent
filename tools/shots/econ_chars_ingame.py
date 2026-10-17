@@ -3,7 +3,7 @@
 ② 魏教授：經濟系大一、經原上課中（第 4 週週一 10:00），從博雅 101 後排看講台（實際遊戲畫面＋拉近一張）——作息自己把他放上講台，不是腳本放的。
 ③ 沛珊（第二十六版，戴眼鏡）：同一個位置，白天、晚上的正面、45 度、背面、臉（坐姿用 tools/shots/char_motion.py classmate_peishan）。
 [前置]：讀檔、人物用 GAME.spawnCharacter 放（①）；②只讀檔。drivers.json 記每個人實際用的模型（確認不是備用人物）。
-用法：python3 tools/shots/econ_chars_ingame.py <URL> <輸出資料夾>"""
+用法：python3 tools/shots/econ_chars_ingame.py <URL> <輸出資料夾>（ONLY=econ,wei,peishan,sit 選哪幾段；WHO=id:x偏移,... 換第①段拍的人）"""
 import asyncio, json, sys, os
 from playwright.async_api import async_playwright
 
@@ -70,6 +70,7 @@ async def part1(p, drivers):
     pg = await b.new_page(viewport={'width': 1280, 'height': 720})
     await CR.load(pg)
     who = [('econ_weilun', -1.2), ('econ_tangrui', 0.0), ('econ_jiahao', 1.2)]   # 左到右：韋綸、唐睿、家豪
+    if os.environ.get('WHO'): who = [(w.split(':')[0], float(w.split(':')[1])) for w in os.environ['WHO'].split(',')]   # 例：WHO=econ_jiahao:-0.6,econ_pinyu:0.6（家豪筆記本、品妤保溫瓶，2026-10-17）
     for hour, tag in ((11.0, 'day'), (20.0, 'night')):
         await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); })(%f)" % hour)
         await pg.evaluate("(()=>{ const E=GAME.E; E.endCinematic(); E.player.obj.visible=false; E.player.path=null; E.player.obj.position.set(%f,0,-3.5); })()" % (SX - 9))   # 玩家移開、藏起來（上一輪拍「遊戲畫面」時站在他們前面）
