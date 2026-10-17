@@ -15524,12 +15524,12 @@
   },
   {
    "id": "BB119-Y4-1017",
-   "title": "BB_119 第 3 節：沛珊 11/08、子晴 11/10 那兩場不再告白（改大四上學期末走 BB_203）；芷若 8/26 照演、兩個選項都不交往（記 ZR_WAIT，等使用者決定）",
+   "title": "BB_119 第 3 節：沛珊 11/08、子晴 11/10 那兩場不再告白（改大四上學期末走 BB_203）；芷若 2028-08-26 最後一場可以告白（使用者選甲：例外；我等妳回來＝交往遠距、我先收著＝朋友）",
    "area": "ROM",
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "BB-C de5a530a；排在大四上（v5）那一批；芷若 ZR_WAIT 等使用者",
+   "next": "使用者選甲（BB 7d4a3707）：芷若 8/26 告白是 BB_203 的例外（C1～C10、C7 不算；ZZ dating 不發生）；ZR_WAIT 作廢。排在大四上那一批｜BB-C de5a530a；排在大四上（v5）那一批；芷若 ZR_WAIT 等使用者",
    "first": {
     "term": "Y4S1",
     "week": 10,
@@ -15542,6 +15542,27 @@
    },
    "source": "BB-C 1f22f20e（de5a530a）",
    "authorized": "BB_203 使用者確認"
+  },
+  {
+   "id": "Y1-WINTER-AA204",
+   "title": "AA_204 大一寒假（27711a39）：跨年四段＋交往中版（2-5）、12/29 海邊一日遊、返鄉回臺北訊息、ZHE_SNACK_Y1；1-4 聖誕群戲後和以安、語彤單獨（另做）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "next": "【LAWWW-C 12:4x 81778de0】第 2～4 節做好：12/26 阿哲揪＋海邊六則、跨年麵店→管制線（明軒定稿）→頂樓→群組、交往中以安跑步、語彤電話（頂樓在事件裡、不在頂樓出遊系統接起來）、12/29 海邊、返鄉六則、ZHE_SNACK_Y1；tests/y1_winter_aa204_unit 全過。還沒：1-4 聖誕群戲後單獨約（要先有 AA_127 聖誕單獨約）、瀏覽器流程",
+   "first": {
+    "term": "Y1S1",
+    "week": 17,
+    "earliest": "12/26 阿哲揪跨年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_204 27711a39",
+   "authorized": "AA 定稿（第②級）；HOLIDAY-SYS"
   }
  ]
 }

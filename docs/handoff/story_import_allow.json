@@ -389,6 +389,20 @@
      "approvedBy": "AA-C 2026-10-17 交付（第②級 AA 定稿；acf92ff0 第 10 節＋375b91dd 子晴 Q6 條件）：0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_204_大一寒假_AA場景台詞_16週制.md",
+   "sha": "27711a39",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 12:11Z（取代 4048e3ec；含 2-5 交往中的跨年、1-4，AA 審過可以實作；明軒管制線定稿）：第 1 節已做（xmas_y1）；第 2～4 節進 events.js／story3d.js；1-4 另做",
+   "task": "Y1-WINTER-AA204",
+   "history": [
+    {
+     "sha": "4048e3ec",
+     "approvedBy": "AA-C 交付（AA_204 第 1 節已整合）"
+    }
+   ],
+   "kind": "text"
   }
  ]
 }
