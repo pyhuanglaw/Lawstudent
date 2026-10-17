@@ -1632,7 +1632,7 @@ const STORY_EVENTS=[
       {label:'end'} ],
     consequences:{memo:'颱風假：宿舍的泡麵之夜（經濟系那一年）'} },
   /* XL-1 阿勳一句（AA_154 第 107 行、A28；BB_110 T0a 的記憶）：泡麵之夜拿出肉燥的玩家（Y0_SAUCE），第 8 週第一次在宿舍遇到阿勳（他晚上在房間）*/
-  { id:'ev_y0_xl1', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
+  { id:'ev_y0_xl1', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'那罐肉燥', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[8], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_SAUCE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'那罐肉燥還有嗎？我期中需要它。'} ] },
   /* ★E21 除夕的電話（BB_104 8-7；AA_154 第 211 行）：1/28（二）22:00 在臺北的家（寒假模式的選單到這個時間就演，home3d.js；trigger:'home'）。
@@ -1667,7 +1667,7 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(0.5); } },
   /* ★E24b 法學緒論的第一堂（BB_104 8b-17；AA_154 第 225 行）：Y0S2 第 1 週週二 13:20 法學緒論（共同；選課結果一定有這門，courses.js law_intro）下課，黃教授在門口叫住你。記 E24B_HUANG（法律系黃教授「又是你」讀它）*/
-  { id:'ev_y0_e24b', stage:'econ', title:'法學緒論的第一堂', participants:['prof_huang'], location:'any', trigger:'class', afterClass:'law_intro', term:['Y0S2'], weeks:[1], once:true, background:'blur',
+  { id:'ev_y0_e24b', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'法學緒論的第一堂', participants:['prof_huang'], location:'any', trigger:'class', afterClass:'law_intro', term:['Y0S2'], weeks:[1], once:true, background:'blur',
     dialogue:[ {speaker:'prof_huang',text:'（在黑板寫「法律在哪裡？」）你們不用背法條。只要知道，法律在哪裡。'},{speaker:null,text:'（下課，她在門口叫住你。）'},
       {speaker:'prof_huang',text:'你是經濟系的？經濟系的人修這門課，通常想知道一件事。'},{speaker:'prof_huang',text:'你想知道什麼？'},
       {choice:[{text:'「規則是誰定的。」',goto:'a'},{text:'「我也不知道。」',goto:'b'},{text:'「我家有一本民法。」',goto:'c'}]},
@@ -1677,7 +1677,7 @@ const STORY_EVENTS=[
       {label:'end'},{set:{E24B_HUANG:true}} ] },
   /* ★E24b 偷偷旁聽法律系（BB_104 8b-17；AA_154 第 226 行）：2/26（三）上午（翹了微積分），固定的經過、沒有選項。這一版是當天早上自動的 2D 旁白（3D 走進霖澤館之後做），
      演完時間到 12:10、人在霖澤館的穿堂（走出穿堂時回頭看）。低馬尾的女生是背景（法律系的人這一年不對話）*/
-  { id:'ev_y0_e24b2', stage:'econ', title:'偷偷旁聽', participants:[], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
+  { id:'ev_y0_e24b2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'偷偷旁聽', participants:[], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-26'):null; return d!=null&&G.day===d&&G.hour>=7&&G.hour<10.5&&!!G.flags.E24B_HUANG; }},
     dialogue:[ {scene:'霖澤館'},{speaker:null,text:'（你翹了微積分，走進霖澤館。一間大教室，你坐最後一排。）'},
       {speaker:null,text:'（台上在講一個案子。前排一個綁低馬尾的女生舉手，說了一段話，大家都在抄。）'},
@@ -1761,10 +1761,10 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'今天的宵夜，你們兩個請。這是宣布的代價。'},{speaker:'kexin',expression:'laugh',text:'……妳這是命令。'},{speaker:'econ_pinyu',text:'對。'},
       {speaker:null,text:'可昕和你一起走回去，路上只說了一句。'},{speaker:'kexin',expression:'smile',text:'說出來了。'},
       {rel:{econ_pinyu:{comf:1},econ_zhengxun:{comf:1}}} ] },
-  /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行）：3/27（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
+  /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行；日期 AA_218 第 11 節：2024-10-17（四），台詞等 BB_188）：10/17（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
      寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
-  { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-27'):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
+  { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
     dialogue:[ {scene:'行政大樓'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
       {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
       {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},
@@ -1778,16 +1778,16 @@ const STORY_EVENTS=[
       {label:'l'},{speaker:null,text:'你沒有等下課，先走了。'},
       {label:'end'} ],
     after:(G,GM)=>{ if(G.flags.E30_WAITED&&G.hour<15+10/60) GM.advance(15+10/60-G.hour); } },
-  /* E30 當晚：檯燈上的便利貼（AA_169；BB_112 A3 原文）：3/27 22:00 以後第一次在宿舍房間。E30_WAITED 的玩家多一行小字。記 Y0_STICKY（A3 跟著裝箱、R7 讀它）*/
-  { id:'ev_y0_e30_note', stage:'econ', title:'便利貼', participants:[], location:'dorm', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-27'):null; return d!=null&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&(G.day>d||G.hour>=22); }},   /* AA_154 A48 ①：3/27 22:00 以後、搬走以前第一次在宿舍房間（原本只到 3/28 06:00）*/
+  /* E30 當晚：檯燈上的便利貼（AA_169；BB_112 A3 原文）：休學那天（10/17）22:00 以後第一次在宿舍房間。E30_WAITED 的玩家多一行小字。記 Y0_STICKY（A3 跟著裝箱、R7 讀它）*/
+  { id:'ev_y0_e30_note', stage:'econ', title:'便利貼', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&(G.day>d||G.hour>=22); }},   /* AA_154 A48 ①：休學那天 22:00 以後、搬走以前第一次在宿舍房間（原本只到隔天 06:00）*/
     dialogue:[ {speaker:null,text:'檯燈上多了一張便利貼。阿勳的字。'},{speaker:'便利貼',text:'保齡球欠我一場。'},
       {if:{flags:['E30_WAITED']},speaker:null,text:'下面還有一行小字：「今天的下課，算你有來。」'},{set:{Y0_STICKY:true}} ] },
-  /* A3 搬出宿舍那天（BB_112 A3；AA_154 第 234 行、A23）：3/29（六）在宿舍房間（09:00 以後；一整天都沒回宿舍＝20:00 以後在哪裡都演，劇情事實、一定會有）。
+  /* A3 搬出宿舍那天（BB_112 A3；AA_154 第 234 行、A23；日期 AA_218 第 11 節、AA_154 0b-1：2024-10-19（六））：10/19（六）在宿舍房間（09:00 以後；一整天都沒回宿舍＝20:00 以後在哪裡都演，劇情事實、一定會有）。
      阿勳幫你封箱；選要不要請他吃飯（請了＝小福的雞腿便當；沒請＝他自己去買、傳一張照片）。演完搬回臺北的家（HOME.moveOut：之後每天從家裡出發，AA_154 1-3b）；
      便利貼跟著搬（Y0_STICKY_HOME）。按鈕字是動作（企劃沒寫按鈕字）*/
-  { id:'ev_y0_a3', stage:'econ', title:'搬出宿舍那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-29'):null; return d!=null&&G.day>=d&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&((G.zone==='dorm'&&G.hour>=9)||G.hour>=20); }},   /* A46 ①：3/29 以後、還沒搬（當天沒演到，之後第一次符合就演；人在家＝home3d 的 S.a3FromHome 先帶回宿舍）*/
+  { id:'ev_y0_a3', stage:'econ', title:'搬出宿舍那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_MOVE_DAY):null; return d!=null&&G.day>=d&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&((G.zone==='dorm'&&G.hour>=9)||G.hour>=20); }},   /* A46 ①：10/19 以後、還沒搬（當天沒演到，之後第一次符合就演；人在家＝home3d 的 S.a3FromHome 先帶回宿舍）*/
     dialogue:[ /* AA_154 A48 ②：A3 開始時還沒看過便利貼（例：從家裡帶回宿舍）＝先演那一則（和 ev_y0_e30_note 同一段）*/
       {if:{custom:G=>!G.flags.Y0_STICKY},speaker:null,text:'檯燈上多了一張便利貼。阿勳的字。'},{if:{custom:G=>!G.flags.Y0_STICKY},speaker:'便利貼',text:'保齡球欠我一場。'},
       {if:{custom:G=>!G.flags.Y0_STICKY&&!!G.flags.E30_WAITED},speaker:null,text:'下面還有一行小字：「今天的下課，算你有來。」'},{if:{custom:G=>!G.flags.Y0_STICKY},set:{Y0_STICKY:true}},
@@ -1944,12 +1944,12 @@ const STORY_EVENTS=[
     return [ { id:'ev_y0_e35s', stage:'econ', title:'考完了', participants:[], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines, after },
              { id:'ev_y0_e35sh', stage:'econ', title:'考完了', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines, after } ]; })(),
   /* XL-2 阿勳一句（表叔；BB_110 F1 的回聲，AA_154 A28、A43）：Y0S2 第 1 週第一次在宿舍遇到阿勳（和 XL-1 同一套），F1 選了「轉給表叔」（Y0_UNCLE）才說 */
-  { id:'ev_y0_xl2', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
+  { id:'ev_y0_xl2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'表叔的變異數', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S2'], weeks:[1], time:[18,24], once:true, background:'blur',
     prereq:{custom:G=>!!(G.flags&&G.flags.Y0_UNCLE)},
     dialogue:[ {speaker:'econ_zhengxun',text:'表叔今年給了兩倍。我的模型壞了。'} ] },
   /* P1b 會計作業：平衡不了的那一行（BB_105 P1b；AA_154 第 96、105 行）：會計課下課後的走廊，兩種輪流——第 1 次（10/3，第 5 週；和誰對答案）、第 2 次（10/17，第 7 週，有韋綸）。
      同一堂課下課 P2 還要演（「今天先回去」的玩家）的話 P2 先（afterClass 一堂只演一件）；第 1 次沒趕上第 5 週就在第 7 週，那樣第 2 次就沒有 */
-  { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[5,6,7], once:true, background:'blur',
+  { id:'ev_y0_p1b1', stage:'econ', title:'平衡不了的那一行', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[5,6], once:true, background:'blur',
     dialogue:[ {speaker:'econ_pinyu',text:'（翻作業）借貸不平衡。差一百元。'},
       {speaker:'econ_zhengxun',text:'……你把折舊記成收入了。'},
       {choice:[{text:'和阿勳對',goto:'x'},{text:'和品妤對',goto:'p'},{text:'自己再算一次',goto:'s'}]},
@@ -1958,7 +1958,7 @@ const STORY_EVENTS=[
       {label:'s'},{speaker:null,text:'（算到第三次，平了。）'},{speaker:'econ_pinyu',text:'恭喜，你花了二十分鐘。'},
       {label:'end'} ],
     consequences:{stamp:['P1B1_DAY']} },
-  { id:'ev_y0_p1b2', stage:'econ', title:'平衡不了的那一行（二）', participants:['econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[7], once:true, background:'blur',
+  { id:'ev_y0_p1b2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'平衡不了的那一行（二）', participants:['econ_zhengxun'], location:'any', trigger:'class', afterClass:'acct_y0', term:['Y0S1'], weeks:[7], once:true, background:'blur',
     prereq:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_p1b1)&&G.flags.P1B1_DAY!==G.day},
     dialogue:[ {speaker:'韋綸',text:'我的平衡了！'},{speaker:'econ_zhengxun',text:'（看了一眼）……你兩邊都寫零。'} ] },
   /* T1 全系的秘密（BB_112 T1；AA_154 第 111 行）：Y0S1 第 5～6 週平日中午在校園，切到小福（E09 之後的那幾週；9/30 颱風假、10/10 國慶沒有）。記 KNOWS_TANG（法律系 BB_106 4-2① 的選項讀它）。
@@ -1977,7 +1977,7 @@ const STORY_EVENTS=[
     after:(G,GM)=>{ GM.advance(0.5); } },
   /* A1 凌晨兩點的微積分（BB_112 A1；AA_154 第 119 行）：Y0S1 第 7 週平日的深夜（10/15 群組聚會、10/16 E10 那兩晚除外），在宿舍房間、阿勳在。
      「我覺得很好。數字有溫度。」記 XUN_WARM（法律系大三 SK13 多一句）。沒去：期中考完（11/1 以後）門上的紙條（ev_y0_a1_note）*/
-  { id:'ev_y0_a1', stage:'econ', title:'凌晨兩點的微積分', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[7], weekday:[1,4,5], time:[24,27], once:true, background:'blur',
+  { id:'ev_y0_a1', stage:'econ', title:'凌晨兩點的微積分', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[7], weekday:[2], time:[24.5,26], once:true, background:'blur',
     dialogue:[ {speaker:'econ_zhengxun',text:'你那題，答案是零。'},
       {speaker:'player',text:'你怎麼知道我在寫哪一題？'},
       {speaker:'econ_zhengxun',text:'你嘆氣的方式，是第四題的嘆氣。'},
@@ -2062,7 +2062,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'你不念書，我也不念了。'},
       {set:{E10_STUDY:'chat'}} ] },
   /* E11 期中考：考完走出普通教學館（BB_104 8b-5；AA_154 第 122 行）：Y0S1 第 9 週最後一科＝10/31（四）下午的初等會計（考場在普通；AA_154 寫 11/1，週五沒有考試——已問 AA-B）。考試一定會考，沒有沒去版。記憶：無 */
-  { id:'ev_y0_e11', stage:'econ', title:'期中考後', participants:['econ_zhengxun','econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'acct_y0', afterExam:'mid', term:['Y0S1'], weeks:[9], once:true, background:'blur',
+  { id:'ev_y0_e11', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'期中考後', participants:['econ_zhengxun','econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'acct_y0', afterExam:'mid', term:['Y0S1'], weeks:[9], once:true, background:'blur',
     dialogue:[ {speaker:'韋綸',text:'我第三題寫了一整頁。'},
       {speaker:'econ_zhengxun',text:'第三題的答案是零。'},
       {speaker:null,text:'（全體沉默。）'},
@@ -2105,13 +2105,13 @@ const STORY_EVENTS=[
   /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行、A36）：分兩段。
      前半＝11/8（五）19:00 社科院系學會辦公室備料（2D 出遊到 21:00；12:30 群組約＋出發選單，story3d.js）；
      後半＝11/9（六）10:00～16:00 走到椰林的經濟系攤位（帳篷，zones3d.js isFairDay）。前一晚沒去也演後半（開頭換成白板那句＋「你昨天沒來，所以今天你喊。」，BB-B 定稿 AA_154 76eed22b）。兩天都沒去＝18:00 群組照片 */
-  { id:'ev_y0_e17a', stage:'econ', title:'備料', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+  { id:'ev_y0_e17a', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'備料', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'社科院・系學會辦公室',bg:'soc_office'},
       {speaker:'econ_pinyu',text:'珍奶一杯成本二十八。要賣多少？'},
       {speaker:'kexin',expression:'neutral',text:'不定價。用荷蘭式拍賣：從一百往下喊，有人說要就成交。'},
       {speaker:'econ_zhengxun',text:'……第一杯會賣得很貴。'},
       {speaker:'kexin',expression:'smile',text:'對。那是給最想喝的人。'} ] },
-  { id:'ev_y0_e17', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,16], once:true, background:'blur',
+  { id:'ev_y0_e17', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'經濟系的拍賣攤', participants:['econ_pinyu','kexin'], location:'campus', near:{x:-3,z:14,r:20}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[6], time:[10,16], once:true, background:'blur',
     dialogue:[ {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:null,text:'（校慶當天。攤位前排了人。可昕把擴音器交給你。）'},
       {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:'kexin',expression:'teasing',text:'你喊。從一百開始。'},
       {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e17a)},speaker:null,text:'（校慶當天。經濟系的攤位前排了人。白板上寫著：珍奶，荷蘭式拍賣，從一百往下喊。）'},
@@ -2171,7 +2171,7 @@ const STORY_EVENTS=[
     after:(G,GM)=>{ GM.advance(0.75); } },
   /* E16 經濟學原理的分組報告：囚犯困境（BB_104 8b-8；AA_154 第 133、134 行）：第 15 週（12/9）經原下課在博雅小桌分工（E16_ROLE：slides／report／stage）；
      第 16 週（12/16）經原那堂上台報告（角色那一句＋報告結束＋魏教授）。寫報告的玩家 12/15 23:00 可昕私訊兩則（story3d.js）。第 16 週翹課＝品妤群組一句、E16_ROLE:'absent' */
-  { id:'ev_y0_e16a', stage:'econ', title:'分組', participants:['econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[15], once:true, background:'blur',
+  { id:'ev_y0_e16a', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'分組', participants:['econ_pinyu','kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[15], once:true, background:'blur',
     dialogue:[ {speaker:null,text:'（第 15 週，經原教到囚犯困境。下課後，四個人在博雅的小桌子。）'},
       {speaker:'econ_pinyu',text:'下週上台：囚犯困境。我們分一下工。'},
       {speaker:'韋綸',text:'我負責……（手機響了）我先接一下。'},
@@ -2180,7 +2180,7 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'重複賽局。很好，我喜歡。'},
       {speaker:'kexin',expression:'neutral',text:'（看你）你要做哪一塊？'},
       {choice:[{text:'做簡報',set:{E16_ROLE:'slides'}},{text:'寫報告',set:{E16_ROLE:'report'}},{text:'上台',set:{E16_ROLE:'stage'}}]} ] },
-  { id:'ev_y0_e16b', stage:'econ', title:'分組報告', participants:['kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[16], once:true, background:'blur',
+  { id:'ev_y0_e16b', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'分組報告', participants:['kexin'], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[16], once:true, background:'blur',
     dialogue:[ {if:{flagIs:{E16_ROLE:'report'}},speaker:null,text:'韋綸那段由你補。'},
       {if:{flagIs:{E16_ROLE:'slides'}},speaker:null,text:'簡報最後一頁，可昕偷放了一題：「假設兩個囚犯是朋友，還會背叛嗎？」'},
       {if:{flagIs:{E16_ROLE:'stage'}},speaker:null,text:'魏教授問了最難的一題。台下的可昕比了一個「慢慢來」。'},
@@ -2227,7 +2227,7 @@ const STORY_EVENTS=[
   /* C2 祐廷自己的社團（BB_110 第 3 節；AA_154 第 123 行、A7、A37）：照 E07 選的社團（Y0_CLUB），第 10 週社課當天 12:30 社團群組一則＋出發選單（story3d.js）。
      吉他社 11/4（一）19:00 萬才館一樓（3D：走進萬才館就演，出發選單帶到門口）；登山社 11/5（二）19:00 行前會（2D 出遊）；羽球社 11/7（四）19:00 新體一樓（3D）。
      「不參加」＝11/5 21:00 唐睿私訊問要不要當臨時演員（Y0_EXTRA，E18 讀它）。15 分鐘沒到＝沒去，沒有沒去版 */
-  { id:'ev_y0_c2_guitar', stage:'econ', title:'吉他社的第一堂', participants:[], location:'wancai', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[1], time:[18.75,19.25], once:true, background:'blur',
+  { id:'ev_y0_c2_guitar', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，C2 刪除（要不要提前到 10/17 以前等 AA）。定義留給已經演過的舊存檔', stage:'econ', title:'吉他社的第一堂', participants:[], location:'wancai', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[1], time:[18.75,19.25], once:true, background:'blur',
     prereq:{custom:G=>G.flags.Y0_CLUB==='guitar'},
     dialogue:[ {speaker:'社長',text:'今天只教一個和弦。C。三根手指，按到聲音乾淨為止。'},
       {speaker:'player',text:'（彈）……'},
@@ -2241,19 +2241,19 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'社長',text:'按三個月就知道了。我按了三年，還不知道。'},
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(1.5); } },
-  { id:'ev_y0_c2_hiking', stage:'econ', title:'登山社的行前會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  { id:'ev_y0_c2_hiking', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，C2 刪除（要不要提前到 10/17 以前等 AA）。定義留給已經演過的舊存檔', stage:'econ', title:'登山社的行前會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'登山社・行前會'},
       {speaker:'學長',text:'背包裡最重要的是什麼？'},
       {speaker:null,text:'大家說水、外套、手電筒。'},
       {speaker:'學長',text:'垃圾袋。'} ] },
-  { id:'ev_y0_c2_badminton', stage:'econ', title:'羽球社的第一次', participants:[], location:'gym', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[4], time:[18.75,19.25], once:true, background:'blur',
+  { id:'ev_y0_c2_badminton', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，C2 刪除（要不要提前到 10/17 以前等 AA）。定義留給已經演過的舊存檔', stage:'econ', title:'羽球社的第一次', participants:[], location:'gym', trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[4], time:[18.75,19.25], once:true, background:'blur',
     prereq:{custom:G=>G.flags.Y0_CLUB==='badminton'},
     dialogue:[ {speaker:'學姊',text:'羽球最重要的是，不要打到自己的頭。'},
       {speaker:null,text:'三分鐘後，你打到自己的頭。'} ],
     after:(G,GM)=>{ GM.advance(1.5); } },
   /* E22 期末考週（BB_104 8b-13；AA_154 A38）：12/22（日）20:00 經濟系群組（韋綸、品妤，BB-B 草稿、AA-B 照用）＋出發選單「總圖 B1 22:00：期末通宵」（story3d.js）。
      總圖 B1 的 24 小時自習室還沒有 3D：2D 出遊（底圖 ntu_lib_b1，BB-B d4540129）。01:00 演；02:00 收東西回宿舍、晚歸登記。隔天 12/23 是經原期末考。沒去：01:00 群組照片 */
-  { id:'ev_y0_e22', stage:'econ', title:'期末通宵', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,
+  { id:'ev_y0_e22', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'期末通宵', participants:['econ_pinyu','econ_zhengxun','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,
     beforeOuting:(G,GM)=>{ if(G.hour<25) GM.advance(25-G.hour); },
     dialogue:[ {scene:'總圖 B1・24 小時自習室',bg:'ntu_lib_b1'},
       {speaker:null,text:'（凌晨一點，總圖 B1 的自習室。整排的桌子都有人，只聽得到翻頁和鍵盤的聲音。）'},
@@ -2320,7 +2320,7 @@ const STORY_EVENTS=[
       {label:'end'} ] },
   /* A2 室友的抽屜（BB_112 A2；AA_154 第 140 行、A14）：1/5（日）20:00 以後在宿舍房間，收行李回家過寒假之前；E22b 發生過（E22B_TOLD 有值）。
      「我可能會想很久。」記 XUN_KNEW（E24c 阿勳那句換）。沒有 E22b 就沒有 */
-  { id:'ev_y0_a2', stage:'econ', title:'室友的抽屜', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[0], time:[20,23.5], once:true, background:'blur',
+  { id:'ev_y0_a2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'室友的抽屜', participants:['econ_zhengxun'], location:'dorm', trigger:'auto', term:['Y0S1'], weeks:[18], weekday:[0], time:[20,23.5], once:true, background:'blur',
     prereq:{custom:G=>G.flags.E22B_TOLD!==undefined&&G.flags.E22B_TOLD!==null},
     dialogue:[ {speaker:'econ_zhengxun',text:'（拿起他桌上的書）《法學入門》。'},
       {speaker:'econ_zhengxun',text:'你讀這本的表情，跟我讀經原一樣。'},
@@ -2343,7 +2343,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'可昕笑到把湯匙掉在地上。'} ] },
   /* T2 唐睿的練習（BB_112 T2；AA_154 第 127 行）：Y0S1 第 10～13 週週一經濟學原理真的上完，走出教室時唐睿在隔壁借用的劇社教室叫住你（afterClass，每次 50%，一次；E18 11/29 以後不再觸發；STORY.t2Due）。
      沒玩過 T1（沒有 KNOWS_TANG）的玩家，唐睿說漏嘴那一句接在第一句後面（位置待 BB-B 確認）；演完都記 KNOWS_TANG；「繼續演品妤」＝TANG_REHEARSAL（大四 4-2① 的回聲）*/
-  { id:'ev_y0_t2', stage:'econ', title:'唐睿的練習', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[10,11,12,13], once:true, background:'blur',
+  { id:'ev_y0_t2', retired:'AA_218 第 11 節、AA_154 0b-2（2026-10-17）：祐廷 2024-10-17 休學，這件刪除。定義留給已經演過的舊存檔', stage:'econ', title:'唐睿的練習', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_y0', term:['Y0S1'], weeks:[10,11,12,13], once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.t2Due&&STORY.t2Due(G)},
     dialogue:[ {speaker:'唐睿',text:'你來得剛好。站那裡。你是品妤。'},
       {unless:{flags:['KNOWS_TANG']},speaker:'唐睿',text:'……不對，你忘記我剛剛說的。'},

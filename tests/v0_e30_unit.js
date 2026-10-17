@@ -1,4 +1,4 @@
-// v0 ★E30 辦休學的那天（AA_169 完整稿）：3/27 起休學、14:40 自動、等下課／先走（群組 15:12）、15:10 以後只剩先走、當晚便利貼——不需要瀏覽器。
+// v0 ★E30 辦休學的那天（AA_169 完整稿）：2024-10-17 起休學（AA_218 第 11 節；原本 3/27）、14:40 自動、等下課／先走（群組 15:12）、15:10 以後只剩先走、當晚便利貼——不需要瀏覽器。
 // 修改前沒有 ev_y0_e30（全部失敗）。用法：node tests/v0_e30_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -23,9 +23,11 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const D=STORY.dayOfKey('2025-03-27'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e30'), note=STORY_EVENTS.find(e=>e.id==='ev_y0_e30_note'); check('0. E30、便利貼在；3/27 是週四',!!ev&&!!note&&CALENDAR.dateOf(D).wd===4); if(!ev||!note){ console.log('FAILED '+fails); process.exit(1); }
-  fresh(D-1,20,'dorm'); run(); check('1. 3/26：還沒休學',!G.flags.Y0_LEFT);
-  fresh(D,8,'dorm'); run(); check('1. 3/27 起休學（Y0_LEFT）：那天的經濟系的課都不排',G.flags.Y0_LEFT===true&&!CLS.dayItems(G,D).length,JSON.stringify(CLS.dayItems(G,D).map(i=>i.c.id)));
+  const D=STORY.dayOfKey('2024-10-17'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e30'), note=STORY_EVENTS.find(e=>e.id==='ev_y0_e30_note'); check('0. E30、便利貼在；10/17 是週四、STORY.Y0_LEAVE_DAY＝2024-10-17',!!ev&&!!note&&CALENDAR.dateOf(D).wd===4&&STORY.Y0_LEAVE_DAY==='2024-10-17'); if(!ev||!note){ console.log('FAILED '+fails); process.exit(1); }
+  fresh(D-1,20,'dorm'); run(); check('1. 10/16：還沒休學',!G.flags.Y0_LEFT);
+  fresh(D,8,'dorm'); run(); check('1. 10/17 起休學（Y0_LEFT）：那天的經濟系的課（英文、會計）都不排',G.flags.Y0_LEFT===true&&!CLS.dayItems(G,D).length,JSON.stringify(CLS.dayItems(G,D).map(i=>i.c.id)));
+  { fresh(D-1,8,'dorm'); run(); const before=CLS.dayItems(G,D-1).map(i=>i.c.id); fresh(D+5,8,'dorm'); run(); let later=0; for(let d=D;d<D+120;d++) later+=CLS.dayItems(G,d).length;
+    check('1. 休學前一天（10/16 週三）還有經濟系的課；10/17 以後四個月（含期中、期末考週）一堂都不排',before.includes('calc_y0s1')&&later===0,JSON.stringify(before)+' / '+later); }
   const ck=h=>{ fresh(D,h,'campus'); return EVENTS.check(ev); }; check('2. 14:40 起自動；14:30 不演',ck(14.7)&&!ck(14.5));
   fresh(D,14.7,'campus'); SOCIAL.meet('econ_zhengxun','x'); SOCIAL.meet('econ_pinyu','x'); const f0=SOCIAL.rel('econ_pinyu').fam; picks=['等他們下課']; await EVENTS.run(ev); let L=said.map(x=>x.t);
   check('3. 行政大樓「星期四下午，行政大樓。你把申請書交出去。」→ 承辦人 →…「阿勳在裡面，對你舉了一下筆。」→「等他們下課。」→ 阿勳「你在窗外站很久。我以為你要來上課。」… 唐睿「那就不算走。」',L[0]==='星期四下午，行政大樓。你把申請書交出去。'&&L.includes('阿勳在裡面，對你舉了一下筆。')&&L.includes('你在窗外站很久。我以為你要來上課。')&&L[L.length-1]==='那就不算走。',JSON.stringify(L));

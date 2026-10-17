@@ -1,4 +1,4 @@
-// v0 E22b 法律入門書、★E19 誤會（BB_104 8b-14、8-6；AA_154 A33、A34）——不需要瀏覽器。用法：node tests/v0_e19_unit.js
+// v0 E22b 法律入門書、★E19 誤會（BB_104 8b-14、8-6；AA_154 A33、A34）：舊版綁期末的觸發（沒有休學時的計算）＋ 10/17 休學以後不再單獨排（AA_218 第 9～11 節）——不需要瀏覽器。用法：node tests/v0_e19_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -32,15 +32,16 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   fresh(J2,16,'library_hall'); picks=['法律的書']; said=[]; await EVENTS.run(eb); let L=said.map(x=>x.t);
   check('1. 「法律的書。」→「……經濟系的讀法律？」「好，我不問。等你想說再說。」、E22B_TOLD＝true',L[0]==='（總圖二樓的書架。你拿了一本法律入門書。）'&&L[L.length-1]==='好，我不問。等你想說再說。'&&G.flags.E22B_TOLD===true);
   fresh(J2,16,'library_hall'); picks=['沒什麼']; said=[]; await EVENTS.run(eb); check('1. 「沒什麼。」→ 拿得很緊、E22B_TOLD＝false',said.some(x=>x.t==='沒什麼的書，你拿得很緊。')&&G.flags.E22B_TOLD===false);
-  fresh(J2,15,'campus'); G.events.done.ev_y0_e02=1; run(); check('2. E19：15:10 以前沒有',!PHONE.sent(G,'y0_e19_ask'));
-  at(J2,15.3); check('2. 會計考完：群組韋綸「考完了！今晚七點，公館。寒假前最後一次，走啦！」、出發選單 19:00',TH('g:econ_class').includes('考完了！今晚七點，公館。寒假前最後一次，走啦！')&&OUT.get(G,'y0_e19').h===19);
-  const snap=JSON.stringify(G);
-  picks=['是不是喜歡']; said=[]; G.hour=18.7; await OUT.go(GM,OUT.get(G,'y0_e19')); L=said.map(x=>x.t);
+  // E19 舊版（A33、A34：最後一場期末考那天）：AA_218 第 9～11 節、AA_154 0b-1 併進 10/17 車上那一段（KX_CAR，台詞等 BB_188）。10/17 休學以後期末考不排＝不再單獨排
+  fresh(J2,15,'campus'); G.events.done.ev_y0_e02=1; at(J2,15.3); at(J2,19.3);
+  check('2. E19 不再單獨排：休學（Y0_LEFT）以後沒有期末考（y0FinalEnd＝null）、1/2 沒有群組邀約、沒有出發選單、19:15 沒有電話',G.flags.Y0_LEFT===true&&STORY.y0FinalEnd(G)==null&&!PHONE.sent(G,'y0_e19_ask')&&!OUT.get(G,'y0_e19')&&STORY.coreCallAt(G)==null&&!said.some(x=>x.t==='你在哪？大家都到了。我們等你，快點！'));
+  check('2. E22b 休學以後不綁期末（AA_154 0b-1「休學在家自己借來讀」，新觸發等 BB_188）：1/2 15:30 在總圖二樓不觸發',(()=>{ fresh(J2,16,'library_hall'); run(); E.player.lv=1; global.GAME={E}; return G.flags.Y0_LEFT===true&&!EVENTS.check(eb); })());
+  // 內容（舊存檔已經排好的出遊照演；之後改寫的參考）：直接跑事件
+  const go=async pick=>{ fresh(J2,19,'campus'); picks=[pick]; said=[]; await EVENTS.run(e19); return said.map(x=>x.t); };
+  L=await go('是不是喜歡');
   check('3. 直接問：「……你覺得呢？」…「……不是唐睿。」…「我要趕捷運了。寒假快樂。」→「誤會解開了一半。另一半，你沒有問。」、E19_ASK＝direct',L.includes('……不是唐睿。')&&L.includes('（她自己站起來）我要趕捷運了。寒假快樂。')&&L[L.length-1]==='誤會解開了一半。另一半，你沒有問。'&&G.flags.E19_ASK==='direct');
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); picks=['很會講話']; said=[]; await OUT.go(GM,OUT.get(G,'y0_e19')); check('3. 開玩笑問：「對啊。比某些人會。」、joke',said[said.length-1].t==='對啊。比某些人會。'&&G.flags.E19_ASK==='joke');
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); picks=['不問']; said=[]; await OUT.go(GM,OUT.get(G,'y0_e19')); check('3. 不問：E19_ASK＝none',G.flags.E19_ASK==='none'); at(J2+2,22.2); check('3. 不問：1/4 22:00 可昕「你最近很有禮貌。我不習慣。」',TH('p:kexin').includes('你最近很有禮貌。我不習慣。'));
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=['不問']; at(J2,19.3); for(let i=0;i<30&&!said.some(x=>x.t==='（九點多，唐睿說明天一早要排練，先走了。）');i++) await new Promise(r=>setTimeout(r,10)); check('4. 19:15 沒出發：韋綸打電話直接進出遊',said[0]&&said[0].t==='你在哪？大家都到了。我們等你，快點！'&&said.some(x=>x.t==='（九點多，唐睿說明天一早要排練，先走了。）'));
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=J2; G.hour=18; check('4. 18:00 睡覺：19:15 被電話吵醒',Math.abs(STORY.coreCallAt(G)-19.25)<0.01);
+  await go('很會講話'); check('3. 開玩笑問：「對啊。比某些人會。」、joke',said[said.length-1].t==='對啊。比某些人會。'&&G.flags.E19_ASK==='joke');
+  await go('不問'); check('3. 不問：E19_ASK＝none',G.flags.E19_ASK==='none');
   await new Promise(r=>setTimeout(r,30));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

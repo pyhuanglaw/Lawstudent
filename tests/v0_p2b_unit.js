@@ -1,4 +1,4 @@
-// v0 P2b 門口有人在揪（AA_154 2-5a；BB_105 P2b，BB-B 6d59df01）：週四會計下課 40%、跟去的五種去處與結束時間、L5b、E13 三種散場——不需要瀏覽器。
+// v0 P2b 門口有人在揪（AA_154 2-5a；BB_105 P2b，BB-B 6d59df01）：週四會計下課 40%（只到 10/17 以前，AA_218 第 11 節）、跟去的五種去處與結束時間、L5b、E13 三種散場——不需要瀏覽器。
 // 修改前沒有 ev_y0_p2b（全部失敗）。用法：node tests/v0_p2b_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -23,15 +23,17 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const K=k=>STORY.dayOfKey(k), T7=K('2024-10-17'), T8=K('2024-10-24'), T9=K('2024-10-31'), T11=K('2024-11-14'), T12=K('2024-11-21'), T13=K('2024-11-28'), T14=K('2024-12-05'), T15=K('2024-12-12'), T17=K('2024-12-26'), S5=K('2025-03-20'), S6=K('2025-03-27');
+  const K=k=>STORY.dayOfKey(k), W6=K('2024-10-09'), T7=K('2024-10-17'), T8=K('2024-10-24'), T9=K('2024-10-31'), T11=K('2024-11-14'), T12=K('2024-11-21'), T13=K('2024-11-28'), T14=K('2024-12-05'), T15=K('2024-12-12'), T17=K('2024-12-26'), S5=K('2025-03-20'), S6=K('2025-03-27');
   const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_p2b'); check('0. P2b 在、放在事件表最後（同一堂會計課的固定事件先演）',!!ev&&STORY_EVENTS.indexOf(ev)>STORY_EVENTS.findIndex(e=>e.id==='ev_y0_p1b2')); if(!ev){ console.log('FAILED '+fails); process.exit(1); }
   STORY.P2B_P=1; GM.money=d=>{ G.money+=d; };
-  fresh(T7,15.2,'putong'); check('1. P2 還沒演過：不揪',!EVENTS.check(ev));
-  fresh(T7,15.2,'putong',{P2_PICK:'river'}); check('1. W7 週四會計下課：揪（擲中）',EVENTS.check(ev));
-  STORY.P2B_P=0; fresh(T7,15.2,'putong',{P2_PICK:'river'}); check('1. 沒擲中：不揪',!EVENTS.check(ev)); STORY.P2B_P=1;
+  fresh(W6,15.2,'putong'); check('1. P2 還沒演過：不揪',!EVENTS.check(ev));
+  fresh(W6,15.2,'putong',{P2_PICK:'river'}); check('1. 10/17 以前（W6）：擲中就揪',EVENTS.check(ev));
+  STORY.P2B_P=0; fresh(W6,15.2,'putong',{P2_PICK:'river'}); check('1. 沒擲中：不揪',!EVENTS.check(ev)); STORY.P2B_P=1;
+  fresh(T7,15.2,'putong',{P2_PICK:'river'}); check('1. 10/17（休學那天，W7 週四會計下課）起不揪（AA_218 第 11 節、AA_154 0b-2）',!EVENTS.check(ev));
   const due=d=>{ fresh(d,15.2,'putong',{P2_PICK:'home'}); return EVENTS.check(ev); };
-  check('2. 期中考週（W8、W9）、期末（W17）不揪；Y0S2 W5 揪、W6（休學後）不揪',!due(T8)&&!due(T9)&&!due(T17)&&due(S5)&&!due(S6));
-  fresh(T7,15.2,'putong',{P2_PICK:'river'}); OUT.plan(G,{id:'x_other',day:T7,h:19,place:'公館',title:'別的約',travelH:0.25}); check('3. 那天已經約了別的出遊：不揪',!EVENTS.check(ev));
+  check('2. 10/17 以後都不揪：W8、W9、W11、W17、Y0S2 W5、W6',!due(T8)&&!due(T9)&&!due(T11)&&!due(T17)&&!due(S5)&&!due(S6));
+  fresh(W6,15.2,'putong',{P2_PICK:'river'}); OUT.plan(G,{id:'x_other',day:W6,h:19,place:'公館',title:'別的約',travelH:0.25}); check('3. 那天已經約了別的出遊：不揪',!EVENTS.check(ev));
+  // 下面 4～12 直接跑事件內容（EVENTS.run 不看觸發條件）：新時間線 10/17 以後不會再觸發，內容留著（AA 還沒定要不要搬）
   // 跟去（第一次＝滷味攤 food）
   fresh(T7,15.2,'putong',{P2_PICK:'river'}); SOCIAL.meet('kexin','x'); SOCIAL.meet('econ_pinyu','x'); SOCIAL.meet('econ_zhengxun','x'); const f0=SOCIAL.rel('econ_pinyu').fam, m0=G.money;
   picks=['跟去']; await EVENTS.run(ev); const L=said.map(x=>x.t);
@@ -69,7 +71,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 韋綸的腳踏車（AA_154 2-5b）：11/7 固定
   const BD=K('2024-11-07'); STORY.P2B_P=0;
   fresh(BD,15.2,'putong',{P2_PICK:'river',Y0_CLUB:'badminton'}); OUT.plan(G,{id:'y0_c2',day:BD,h:19,place:'羽球社',title:'新體 19:00',travelH:1/6});
-  check('11. 11/7：沒擲中、當晚還有羽球社也一定揪',EVENTS.check(ev));
+  check('11. 11/7：不再一定揪（10/17 以後沒有 P2b；腳踏車只剩 17:30 群組版）',!EVENTS.check(ev));
   SOCIAL.meet('kexin','x'); SOCIAL.meet('econ_pinyu','x'); SOCIAL.meet('econ_zhengxun','x'); const fb=SOCIAL.rel('econ_zhengxun').fam;
   picks=['跟去','所有權']; await EVENTS.run(ev); const LB=said.map(x=>x.t);
   check('11. 跟去＝腳踏車：陌生人「這台是我的。上個月被偷的。」…韋綸「……祐廷，你不是在看法律的書嗎？」',LB.includes('這台是我的。上個月被偷的。')&&LB.includes('……祐廷，你不是在看法律的書嗎？')&&!LB.some(t=>/^騎腳踏車到河濱/.test(t)),JSON.stringify(LB));

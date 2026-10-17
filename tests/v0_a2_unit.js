@@ -1,4 +1,4 @@
-// v0 A2 室友的抽屜（BB_112 A2；AA_154 A14）——不需要瀏覽器。用法：node tests/v0_a2_unit.js
+// v0 A2 室友的抽屜：刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17 祐廷 10/17 休學）——事件標 retired、1/5 晚上在宿舍不再觸發、XUN_KNEW 不再寫。不需要瀏覽器。用法：node tests/v0_a2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -22,10 +22,11 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const K=k=>STORY.dayOfKey(k), J5=K('2025-01-05'); const a2=STORY_EVENTS.find(e=>e.id==='ev_y0_a2'); check('0. ev_y0_a2 在',!!a2); if(!a2){ console.log('FAILED '+fails); process.exit(1); }
+  const K=k=>STORY.dayOfKey(k), J5=K('2025-01-05'); const a2=STORY_EVENTS.find(e=>e.id==='ev_y0_a2');
+  check('0. ev_y0_a2 定義還在（給舊存檔）、標 retired（AA_218 第 11 節）',!!a2&&typeof a2.retired==='string'&&a2.retired.includes('AA_218')); if(!a2){ console.log('FAILED '+fails); process.exit(1); }
   const ck=(day,h,zone,fl)=>{ fresh(day,h,zone,fl); return EVENTS.check(a2); };
-  check('1. 1/5（日）20:00 在宿舍、有 E22b（true 或 false）：有；沒有 E22b、1/4、19:30、在校園：沒有',ck(J5,20.5,'dorm',{E22B_TOLD:true})&&ck(J5,21,'dorm',{E22B_TOLD:false})&&!ck(J5,20.5,'dorm',{})&&!ck(J5-1,20.5,'dorm',{E22B_TOLD:true})&&!ck(J5,19.5,'dorm',{E22B_TOLD:true})&&!ck(J5,20.5,'campus',{E22B_TOLD:true}));
-  fresh(J5,20.5,'dorm',{E22B_TOLD:true}); picks=['想很久']; said=[]; await EVENTS.run(a2); const L=said.map(x=>x.t);
-  check('1. 原文：《法學入門》、表情、「好像找到東西了。」；「我可能會想很久。」→「那就想很久。我在。」、XUN_KNEW',L[0]==='（拿起他桌上的書）《法學入門》。'&&L[3]==='好像找到東西了。'&&L[L.length-1]==='那就想很久。我在。'&&G.flags.XUN_KNEW===true);
+  check('1. 1/5（日）20:00～23:30 在宿舍、有 E22b（true 或 false）：條件不再成立',!ck(J5,20.5,'dorm',{E22B_TOLD:true})&&!ck(J5,21,'dorm',{E22B_TOLD:false})&&!ck(J5,23,'dorm',{E22B_TOLD:true}));
+  fresh(J5,20.5,'dorm',{E22B_TOLD:true}); picks=['想很久']; EVENTS.tick(0); await new Promise(r=>setTimeout(r,5)); const L=said.map(x=>x.t);
+  check('2. 1/5 20:30 在宿舍跑自動事件：沒有演（沒有「《法學入門》」「那就想很久。我在。」）、done 和 XUN_KNEW 沒寫',!G.events.done.ev_y0_a2&&!L.includes('（拿起他桌上的書）《法學入門》。')&&!L.includes('那就想很久。我在。')&&G.flags.XUN_KNEW===undefined,JSON.stringify(L.slice(0,2)));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

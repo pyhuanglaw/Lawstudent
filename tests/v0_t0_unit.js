@@ -1,4 +1,4 @@
-// v0 颱風假：T0b 照常上課的喜劇（手機）、T0a 泡麵之夜、XL-1 阿勳一句（BB_110 第 2 節；AA_154 第 92、93、107 行）——不需要瀏覽器。
+// v0 颱風假：T0b 照常上課的喜劇（手機）、T0a 泡麵之夜、XL-1 阿勳一句已刪除（AA_218 第 11 節）（BB_110 第 2 節；AA_154 第 92、93、107 行）——不需要瀏覽器。
 // 修改前：沒有 ev_y0_t0a（第 0 項失敗）。用法：node tests/v0_t0_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -33,7 +33,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
     check('1. T0a 原文：六包泡麵、邊際效用遞減、韋綸「走啦！去看風！」、「現在是六包、四個人。我要重算。」',L[0]==='我們有六包泡麵、三個人、一個颱風。'&&L[2]==='（推門進來，全身濕）走啦！去看風！'&&L[5]==='現在是六包、四個人。我要重算。',JSON.stringify(L.slice(0,6)));
     check('1. 肉燥：「……這改變了整個模型。」、Y0_SAUCE',L[L.length-1]==='……這改變了整個模型。'&&G.flags.Y0_SAUCE===true);
     const W8=(()=>{ for(let d=D30;d<D30+40;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y0S1'&&t.week===8) return d; } })();
-    G.day=W8; G.hour=20; G.weekday=wdOf(W8); check('2. XL-1：第 8 週晚上在宿舍，有 Y0_SAUCE 就有阿勳那一句',EVENTS.check(xl1));
+    G.day=W8; G.hour=20; G.weekday=wdOf(W8); check('2. XL-1 刪除（AA_218 第 11 節：10/17 休學）：事件標 retired，第 8 週晚上在宿舍、有 Y0_SAUCE 也不觸發',!!xl1.retired&&!EVENTS.check(xl1));
     G.flags.Y0_SAUCE=false; check('2. 沒有 Y0_SAUCE 就沒有',!EVENTS.check(xl1)); }
   { fresh(D30,14,'dorm'); picks=['猜拳']; await EVENTS.run(t0a); const L=said.map(x=>x.t);
     check('1. 猜拳：「阿勳輸了三次，第四次說：『這不是機率，是颱風。』」、不記 Y0_SAUCE',L[L.length-1]==='阿勳輸了三次，第四次說：「這不是機率，是颱風。」'&&!G.flags.Y0_SAUCE); }
