@@ -2346,7 +2346,7 @@ const STORY_EVENTS=[
       {label:'end'} ],
     after:(G,GM)=>{ GM.advance(G.flags.B2_PICK==='chat'?2/3:1/6); } },
   /* C1 即興劇社的熱身（BB_110 第 3 節；AA_154 第 113 行）：Y0S1 第 6 週晚上（10/10 除外），可昕邀（story3d.js：17:30 私訊，回好＝出遊 19:00 博雅借用的教室）。不管 E07 選了什麼都可以去。
-     記 IMPROV_LINE＝祐廷接的那一句（E18 小公演可昕接住它）。沒去：22:00 可昕「你錯過了一隻企鵝。」*/
+     記 IMPROV_LINE＝祐廷接的那一句（E18 小公演可昕接住它）。沒去：22:00 可昕「今天唐睿演了一隻企鵝。大家笑到練不下去。」（BB_179 段 E M4）*/
   { id:'ev_y0_c1', stage:'econ', title:'即興劇社的熱身', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'博雅・借用的教室',bg:'classroom_small'},
       {speaker:'社長',text:'熱身。規則只有一個：對方說什麼，你都說「對，而且——」。'},

@@ -59,7 +59,7 @@ async def main():
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         ok = False
         for _ in range(240):
-            ok = await pg.evaluate("(GAME.G.msgs||[]).some(m=>m.tag==='te_Y1S1_heroine_01'&&(m.day<GAME.G.day||m.h<=GAME.G.hour))")
+            ok = await pg.evaluate("['te_Y1S1_heroine_01','te_Y1S1_classmate_xinci'].every(t=>(GAME.G.msgs||[]).some(m=>m.tag===t&&(m.day<GAME.G.day||m.h<=GAME.G.hour)))")   # 以安 20:30、芯慈 20:39（一則一則隔 9 分鐘）
             if ok: break
             s = await L.state(pg)
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
@@ -76,7 +76,13 @@ async def main():
             await pg.evaluate("document.querySelector(%s).scrollIntoView({block:'center'})" % json.dumps(sel)); await pg.wait_for_timeout(300)
             await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
         await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(1200)
-        q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'te_Y1S1'); return q?{who:q.te&&q.te.who,kind:q.te&&q.te.kind,day:q.day,h:q.h}:null; })()")
+        q = None
+        for _ in range(40):   # 回覆以後，下一次手機規則（S.phone → pickCheck）才排出遊
+            q = await pg.evaluate("(()=>{ const q=OUT.get(GAME.G,'te_Y1S1'); return q?{who:q.te&&q.te.who,kind:q.te&&q.te.kind,day:q.day,h:q.h}:null; })()")
+            if q and await pg.evaluate("(GAME.G.msgs||[]).some(m=>m.from==='classmate_xinci'&&m.text==='好。那開學見。')"): break
+            await pg.wait_for_timeout(500)
+        dbg = await pg.evaluate("(()=>{ const R=TERMEND.rec(GAME.G,'Y1S1'); return {picked:R.picked||null, flags:{p:GAME.G.flags.TE_PICK||null,n:GAME.G.flags.TE_NO||null}, asks:R.asks||null, ans:((GAME.G.msgs||[]).find(m=>m.ask&&m.ask.id==='te_Y1S1_heroine_01')||{}).ans, h:GAME.G.hour}; })()")
+        print('   回覆以後', json.dumps(dbg, ensure_ascii=False), flush=True)
         d20 = await pg.evaluate("STORY.dayOfKey('2025-12-20')")
         xc = await pg.evaluate("(GAME.G.msgs||[]).some(m=>m.from==='classmate_xinci'&&m.text==='好。那開學見。')")
         run.check('按「好。」＝排成 12/20 19:00 學期末的飯（心意）；芯慈自動婉拒「好。那開學見。」', bool(q) and q['who'] == 'heroine_01' and q['kind'] == 'heart' and q['day'] == d20 and q['h'] == 19 and xc, json.dumps([q, xc], ensure_ascii=False))
