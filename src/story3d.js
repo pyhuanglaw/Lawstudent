@@ -165,7 +165,9 @@ const STORY = (function(){
       if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);
       G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=16; if(E) E.hour=G.hour;
       await GM.say(null,'（回到家，你倒在床上，一覺睡到晚上。）');
-      if(typeof PHONE!=='undefined'){ const th='g:econ_squad3'; PHONE.join(G,'econ_squad3','經濟系第三小隊'); PHONE.at(G,G.day,21,[{th,from:XUN,name:'阿勳',text:'📷（活動中心門口，七個人的合照）'},{th,from:'econ_weilun',name:'韋綸',text:'我還在累'},{th,from:'kexin',name:'可昕',text:'睡飽了嗎第三小隊'}],'econ_camp_group'); }   /* 7-2 第 6 點：玩家不用回 */
+      if(typeof PHONE!=='undefined'){ const th='g:econ_squad3'; PHONE.join(G,'econ_squad3','經濟系第三小隊'); G.hour=21; if(E) E.hour=G.hour;
+        await phoneScene(GM,th,[{from:XUN,name:'阿勳',text:'📷（活動中心門口，七個人的合照）'},{from:'econ_weilun',name:'韋綸',text:'我還在累'},{from:'kexin',name:'可昕',text:'睡飽了嗎第三小隊'}]); }   /* 7-2 第 6 點：玩家不用回。
+        在劇情裡演（手機畫面）：原本用 PHONE.at 排 21:00，但宿營接著一路演到 9/1 宿舍第一晚、9/2 起床，中間沒有空檔讓手機送，三則拖到 9/2 早上才出現（flow_v0_start 第 7 組 2026-10-17）*/
       await GM.say(null,'開學前那一週，你在家把要帶去宿舍的東西裝進三個紙箱。');
       F.E15_WENT=true; F.ECON_CAMP_DONE=true;
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
