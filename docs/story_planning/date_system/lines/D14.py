@@ -119,7 +119,7 @@ H['heroine_05']=dict(  # 溫學姊
  })
 H['classmate_peishan']=dict(  # 沛珊
  likes={'D14.bridge':'like','D14.boardwalk':'like','D14.ferry':'normal','D14.sunset':'like'},
- arrive=dict(first=('any',['漁人碼頭！我第一次來。','桃園也有海，可是我很少去。']),
+ arrive=dict(first=('any',['漁人碼頭！我第一次來。','台中也有海，可是我很少去。']),
    normal=[('any',['我早到了十五分鐘。在公車站看海。']),('any',['海的味道好鹹。']),('high',['跟你出來，我發現我話變多了。'])],
    dating=[('any',['今天不帶書。……好啦，帶了一本小的。'])]),
  close=dict(first=('any',['今天好像什麼都沒做，可是很滿。','我想帶我爸媽來看海。']),

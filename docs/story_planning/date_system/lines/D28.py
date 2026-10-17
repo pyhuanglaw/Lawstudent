@@ -118,7 +118,7 @@ H['heroine_05']=dict(  # 溫學姊
     normal=[('any',['海風好大。我的頭髮全亂了。']),('any',['海面一閃一閃的。']),('high',['跟你看夕陽，我不會想明天的會議。'])],
     remember=('any',['上次看完夕陽，我回旅館早早就睡了。睡得很好。']),dating=[('any',['（她靠著你的肩膀）……再一下。夕陽還沒下去。'])]),
  })
-H['classmate_peishan']=dict(  # 沛珊（家在桃園）
+H['classmate_peishan']=dict(  # 沛珊（家在台中）
  likes={'D28.museum':'like','D28.circle':'normal','D28.alley':'like','D28.sunset':'like'},
  arrive=dict(first=('any',['臺南！我第一次出去兩天。','我爸媽說，好好玩，店裡不用擔心。']),
    normal=[('any',['早餐吃了牛肉湯。我爸會想學。']),('any',['太陽好大。我帶了帽子。']),('high',['跟你出來兩天，我發現我可以不用一直準備。'])],

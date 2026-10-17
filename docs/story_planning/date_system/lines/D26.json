@@ -2274,11 +2274,11 @@
      "lines": [
       {
        "who": "classmate_peishan",
-       "text": "臺中！我第一次來。"
+       "text": "臺中！……是我家這邊。"
       },
       {
        "who": "classmate_peishan",
-       "text": "我很少離開北部。早餐店沒有休假。"
+       "text": "今天換我當地陪。可是這幾個地方，我其實也很少來。"
       }
      ]
     },
@@ -2288,7 +2288,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "我跟我爸媽說，今天去臺中。他們說，好遠。"
+        "text": "我跟我爸媽說，今天在臺中，可是不回家吃飯。他們說，好。"
        }
       ]
      },
@@ -2329,11 +2329,11 @@
      "lines": [
       {
        "who": "classmate_peishan",
-       "text": "今天去了好遠的地方。"
+       "text": "今天在自己家這邊當觀光客。"
       },
       {
        "who": "classmate_peishan",
-       "text": "我買了太陽餅給我爸媽。我爸一定說他也會做。"
+       "text": "太陽餅給你帶回去。我爸一定說他也會做。"
       }
      ]
     },
@@ -2352,7 +2352,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "下次換我帶路。……去桃園。"
+        "text": "下次換我帶路。……去我家那間早餐店。"
        }
       ]
      }
@@ -2376,11 +2376,11 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "（草悟道）……好長的公園！"
+        "text": "（草悟道）……我高中放學常常走這裡。"
        },
        {
         "who": "classmate_peishan",
-        "text": "可以一直走嗎？"
+        "text": "今天要走完嗎？"
        }
       ],
       "choice": [
@@ -2428,7 +2428,7 @@
        "lines": [
         {
          "who": "classmate_peishan",
-         "text": "以前我覺得公園就是小小一塊。原來可以這麼長。"
+         "text": "以前每天走，都沒發現它這麼長。"
         }
        ]
       }
@@ -2460,29 +2460,29 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "（美術館）……好大！"
+        "text": "（美術館）……國小校外教學以後，我就沒進來過了。"
        },
        {
         "who": "classmate_peishan",
-        "text": "不用錢？真的嗎？"
+        "text": "你要看全部嗎？"
        }
       ],
       "choice": [
        {
-        "t": "「真的。」",
+        "t": "「看全部。」",
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "……那我要看全部。"
+          "text": "……好，那我帶路。我記得入口在這邊。"
          }
         ]
        },
        {
-        "t": "「好問題。」",
+        "t": "「看妳想看的。」",
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "……那我問櫃台。"
+          "text": "……那先去雕塑公園。"
          }
         ]
        }
@@ -2596,7 +2596,7 @@
        "lines": [
         {
          "who": "classmate_peishan",
-         "text": "我爸媽的早餐店，如果在這裡，會不會比較多人。"
+         "text": "我爸媽的早餐店在另一區。……那邊沒有這麼多年輕人。"
         }
        ]
       }

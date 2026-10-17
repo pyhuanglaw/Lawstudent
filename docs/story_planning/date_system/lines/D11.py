@@ -120,7 +120,7 @@ H['heroine_05']=dict(  # 溫學姊
  })
 H['classmate_peishan']=dict(  # 沛珊
  likes={'D11.museum':'like','D11.valley':'normal','D11.library':'like','D11.footbath':'like'},
- arrive=dict(first=('any',['北投！我第一次來。','桃園也有溫泉，可是我從來沒去過。']),
+ arrive=dict(first=('any',['北投！我第一次來。','台中也有溫泉，可是我從來沒去過。']),
    normal=[('any',['我早到了十五分鐘。在車站看地圖。']),('any',['空氣的味道好特別。']),('high',['跟你出來，我發現我話變多了。'])],
    dating=[('any',['今天不帶書。……好啦，帶了一本小的。'])]),
  close=dict(first=('any',['今天好像什麼都沒做，可是很滿。','我想帶我爸媽來泡腳。']),

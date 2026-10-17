@@ -117,7 +117,7 @@ H['heroine_05']=dict(  # 溫學姊
     normal=[('any',['車廂的木頭椅子，被坐得很光滑。']),('any',['鐵軌旁邊長了草。']),('high',['以前我覺得慢的東西沒有效率。現在覺得慢的東西比較好看。'])],
     remember=('any',['上次說排進假期的行程。……我真的排了。']),dating=[('any',['（她坐在車廂裡，手背碰到你的手背）……沒事。就這樣。'])]),
  })
-H['classmate_peishan']=dict(  # 沛珊（家在桃園）
+H['classmate_peishan']=dict(  # 沛珊（家在台中）
  likes={'D27.veranda':'normal','D27.shop':'like','D27.tree':'like','D27.rail':'like'},
  arrive=dict(first=('any',['嘉義！我第一次這麼南邊。','木頭的房子好漂亮。']),
    normal=[('any',['我爸媽說，嘉義的雞肉飯一定要吃。']),('any',['我在車上看了窗外一整路。']),('high',['跟你出遠門，我比較敢一個人做決定了。'])],
