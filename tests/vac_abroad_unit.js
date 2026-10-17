@@ -178,6 +178,13 @@ GM.money=function(n){ G.money+=n; };
   // 16. 同一個目的地第二次（AA_264 C05／C13；阿凱的日本團算一次）
   { fresh(D('2027-07-01'),10,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C05@Y1']='done'; picks=['日本','自己去','3 天',0]; await VAC.plan13(GM); const r=VAC.rec(G).t13[0]; G.day=r.from; G.hour=8; said=[]; await VAC.outing(GM,OUT.get(G,'vac_t13_1')); const L=lines();
     check('16. 日本第二次：機場「這次你記得先把行動電源拿出來。」、「第二次來。你沒看地圖就找到了住的地方。」、最後一晚伴手禮那句',L.includes('機場。這次你記得先把行動電源拿出來。')&&L.includes('第二次來。你沒看地圖就找到了住的地方。')&&L.includes('最後一晚。伴手禮買得比上次少，因為知道誰會吃。')&&!L.some(t=>t.includes('電路板')),JSON.stringify(L)); }
+  // 17. C01 麵店團海邊每年寒假（AA_264）：大一去過＝大二「今年還去海邊嗎」「一樣禮拜一」→ 日誌；大三「海邊」「照舊」
+  { const d=VAC.c01Day('Y2'); fresh(d-3,21,'dorm',{VA03_BEACH:'went'}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21,21.2); const Z=txt('g:noodle_team');
+    check('17. 大二寒假第一週週一前三天 21:05：阿哲「今年還去海邊嗎」「一樣禮拜一」',Z.includes('zhe:今年還去海邊嗎')&&Z.includes('zhe:一樣禮拜一')&&CALENDAR.dateOf(d).wd%7===1,JSON.stringify(Z));
+    PHONE.answer(G,'vac_c01ask_Y2',0); STORY.phoneRules(GM); const q=OUT.get(G,'vac_c01_Y2'); check('17. 我去＝那個週一 08:50 臺北車站',!!q&&q.day===d);
+    G.day=d; G.hour=8.9; said=[]; await VAC.outing(GM,q); check('17. 第二次的日誌三行',JSON.stringify(lines())===JSON.stringify(['第二次去海邊。阿哲說他記得帶防曬，結果帶的是乳液。','浪比去年大。柏翰坐在離海最遠的地方看書。','回程的車上，一半的人睡著了。']),JSON.stringify(lines()));
+    const d3=VAC.c01Day('Y3'); G.day=d3-3; G.hour=21; run(21,21.2); check('17. 大三：「海邊」「照舊」',txt('g:noodle_team').includes('zhe:海邊')&&txt('g:noodle_team').includes('zhe:照舊'));
+    fresh(d-3,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21,21.2); check('17. 大一沒去過：這一版不揪（第一次要照 AA_204）',!txt('g:noodle_team').some(t=>t.includes('海邊'))); }
   // 9. 存讀檔
   { VAC.rec(G).reg['C03@Y1']='yes'; const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('9. 存讀檔：報名狀態留著',VAC.state(G,'C03@Y1')==='yes'); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
