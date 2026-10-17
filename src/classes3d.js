@@ -273,6 +273,7 @@ const CLS=(function(){
       { const p4=ev('ev_peishan_handover'); if(p4&&(typeof STORY==='undefined'||!STORY.reachable||STORY.reachable('classmate_peishan',G))&&EVENTS.check(p4,{chain:true})) return p4; }   /* 她這學期休學、人在臺北＝reachable 不是 present，作息那一晚在萬才館 */
       for(const id of ['ev_bohan_scores','ev_bohan_scores_month']){ const e=ev(id); if(e&&(id!=='ev_bohan_scores'||here('classmate_bohan'))&&EVENTS.check(e,{chain:true})) return e; }
       if(!(G.events&&G.events.done&&G.events.done.ev_public_law_group)&&!/^Y2/.test((typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)||{}).id||'')) return ev('ev_public_law_group');   /* 公法讀書會第一次：白板（交接包 v2 C14）；門口參加＝2D 畫面，不看人在不在 */
+      { const ay=ev('ev_an_yu_argument'); if(ay&&here('heroine_01')&&EVENTS.check(ay,{chain:true})) return ay; }   /* 大一下第 12 週週四：以安和小語吵架（AA_238 5-3，原本麵店）*/
       if(here('classmate_peishan')&&here('heroine_01')) for(const id of ['ev_peishan_why_answer_plg','ev_peishan_why_plg']){ const e=ev(id); if(e&&EVENTS.check(e,{chain:true})) return e; }   /* P1b（下一次，以安回答）優先於 P1 */
       return null; }
     if(a.id==='club_guitar'){ const met=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','FIRST_MET'); if(!met) return here('heroine_04')?ev('ev_ziqing_club'):null;

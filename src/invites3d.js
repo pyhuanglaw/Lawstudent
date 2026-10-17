@@ -103,7 +103,7 @@ const INV=(function(){
       dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),r};   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
     if(q){ Object.assign(out,q); if(out.res==='resched'&&!out.alt){ out.res='decline'; } return out; }
-    const tb=k=>{ const v=p[k]&&p[k][P.id]; return v==null?null:(Array.isArray(v)?v:(v[c.band]||null)); };
+    const tb=k=>{ let v=p[k]&&p[k][P.id]; if(typeof v==='function') v=v(G,c); return v==null?null:(Array.isArray(v)?v:(v[c.band]||null)); };   /* 函式＝照時間換句（以安：讀書會開始以前，AA_238 5-7）*/
     const H=tb('here'); if(H&&(r.res==='accept'||r.res==='resched')){ const e=entAt(G,id,day,h);   /* 照作息，她那時候本來就在那裡（芷若上班的 Café、以安在總圖）*/
       if(e&&(e.zone===P.zone||(P.zone==='library_hall'&&e.zone==='library'))){ out.res='here'; out.lines=H.slice(); delete out.alt; return out; } }
     if(r.res==='accept'){ const L=(c.first&&p.first&&p.first[P.id])||tb('acc'); if(L) out.lines=L.slice(); }

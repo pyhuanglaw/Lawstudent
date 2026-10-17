@@ -1349,18 +1349,18 @@ const STORY_EVENTS=[
   { id:'ev_yu_sign_question_arcade', title:'阿哲是不是對每個人都這麼好', participants:['yu'], location:'gongguan', trigger:'enter', term:['Y1S2'], weeks:[14,15,16], weekday:[2,4], time:[17.5,22], once:true, background:'blur',
     prereq:{flags:['met_yu'],custom:G=>{ const F=G.flags; return !F.YU2_PICK&&!F.CLUB_club_guitar&&(F.yu2SoymilkDay!=null||F.yu2SeatDay!=null)&&Array.isArray(F.ndlDays)&&F.ndlDays.includes(G.day); }},
     dialogue:YU2_Q(true) },
-  /* 以安新 7 前半「和小語吵架」（交接包 v2 C14；草稿第 3 節、AA_113 新 7）：大一下第 11 週週二晚上的麵店（麵店日）。台詞、選項照原文；好感數字原文沒有，不加。
-     記 AN_YU_ARGUMENT（選了哪一個；之後新 8 可以用）。不在場的玩家：小語在麵店團群組連發三則（AA_209 附錄A §2；story3d.js phoneRules，記「聽說」）。
+  /* 以安新 7 前半「和小語吵架」（交接包 v2 C14；草稿第 3 節、AA_113 新 7）：2026-10-17 改到大一下第 12 週週四的公法讀書會（萬才館研討室；AA_238 5-3：阿哲換柏翰計時，CLS.clubEvent 挑）。原本是第 11 週週二晚上的麵店（麵店日）。台詞、選項照原文；好感數字原文沒有，不加。
+     記 AN_YU_ARGUMENT（選了哪一個；之後新 8 可以用）。不在場的玩家：那個週四 22:00 小語在麵店團群組連發三則（AA_238 5-4；story3d.js phoneRules，記「聽說」）。
      法律：集會遊行「許可制／報備制」的爭論，只呈現兩邊的理由、不給結論——BB-B 審過（BB_115 L483，BB_161 第 3 節）（原本 LEGAL_REVIEW_REQUIRED）*/
-  { id:'ev_an_yu_argument', title:'吵架', participants:['heroine_01','yu','zhe'], location:'noodle', trigger:'enter', priority:9, once:true, term:['Y1S2'], weeks:[11], weekday:[2], time:[17.5,21], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'},custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES.indexOf(SOCIAL.stage('yu'))>=SOCIAL.STAGES.indexOf('ACQUAINTANCE')}, background:'blur',   /* 法律審查：BB-B 第 27 批審過（BB_115 L483，集會遊行法 §8 許可制，以安只講區分、沒有結論；BB_161 第 3 節）。AA_178 ③：以安、小語都 ACQUAINTANCE 以上才演；不符合＝在麵店團群組的照樣收到兩則（story3d.js）*/
+  { id:'ev_an_yu_argument', title:'吵架', participants:['heroine_01','yu','classmate_bohan'], location:'wancai', trigger:'club', priority:9, once:true, term:['Y1S2'], weeks:[12], weekday:[4], prereq:{stage:{npc:'heroine_01',min:'ACQUAINTANCE'},custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES.indexOf(SOCIAL.stage('yu'))>=SOCIAL.STAGES.indexOf('ACQUAINTANCE')}, background:'blur',   /* 法律審查：BB-B 第 27 批審過（BB_115 L483，集會遊行法 §8 許可制，以安只講區分、沒有結論；BB_161 第 3 節）。AA_178 ③：以安、小語都 ACQUAINTANCE 以上才演；不符合＝在麵店團群組的照樣收到兩則（story3d.js）*/
     dialogue:[ {speaker:'yu',expression:'serious',text:'上街要先申請？那還叫自由嗎？'},{speaker:'heroine_01',expression:'serious',text:'先分清楚。是要申請許可，還是讓人知道你要用哪一條路。'},
-      {speaker:'yu',expression:'annoyed',text:'妳每次都先挑我用詞。'},{speaker:'heroine_01',expression:'neutral',text:'因為用詞不清楚，我們就會在吵兩件不一樣的事。'},{speaker:'zhe',expression:'neutral',text:'麵要坨了。'},   /* AA_209 附錄A §2 */
+      {speaker:'yu',expression:'annoyed',text:'妳每次都先挑我用詞。'},{speaker:'heroine_01',expression:'neutral',text:'因為用詞不清楚，我們就會在吵兩件不一樣的事。'},{speaker:'classmate_bohan',expression:'neutral',text:'（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。'},   /* AA_238 5-3（原本麵店、阿哲「麵要坨了。」）*/
       {choice:[{text:'「我站小語。」',consequences:{flags:{AN_YU_ARGUMENT:'yu'}},goto:'yu'},{text:'「我站以安。」',consequences:{flags:{AN_YU_ARGUMENT:'an'}},goto:'an'},
-        {text:'「妳們講的是同一件事的兩邊。」',consequences:{flags:{AN_YU_ARGUMENT:'both'}},goto:'both'},{text:'（先吃麵）',consequences:{flags:{AN_YU_ARGUMENT:'noodle'}},goto:'noodle'}]},
+        {text:'「妳們講的是同一件事的兩邊。」',consequences:{flags:{AN_YU_ARGUMENT:'both'}},goto:'both'},{text:'（先吃小語帶的宵夜）',consequences:{flags:{AN_YU_ARGUMENT:'noodle'}},goto:'noodle'}]},
       {label:'yu'},{speaker:'yu',expression:'laugh',text:'看吧！'},{speaker:'heroine_01',expression:'neutral',text:'那你說說看，哪裡不對？'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'an'},{speaker:'heroine_01',expression:'neutral',text:'謝謝。'},{speaker:null,text:'（她轉回去跟小語繼續講，聲音小了一點。）'},{goto:'end'},   /* AA_209 附錄A §2 */
       {label:'both'},{speaker:null,text:'（兩個人同時轉過來看你。）'},{speaker:'yu',expression:'surprised',text:'……幹嘛突然這麼有道理。'},{goto:'end'},
-      {label:'noodle'},{speaker:'zhe',expression:'smile',text:'明智。'},
+      {label:'noodle'},{speaker:'classmate_bohan',expression:'neutral',text:'明智。……我也要一塊。'},
       {label:'end'} ] },
   /* 以安新 7 後半「公法讀書會第一次」（交接包 v2 C14）：活動「公法讀書會」（activities.js，大一下第 12 週起每週四 20:00，萬才館研討室 A；所有人都收到邀請，AA_115：不懲罰先走、沒去演講的人）。
      第一次去：白板（原文）；加入就每週四有一格（CLUB_public_law_group），記 PUBLIC_LAW_GROUP。不去也照常，之後還是會被邀 */

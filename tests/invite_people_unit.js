@@ -65,7 +65,7 @@ const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.
 fresh(MON,9); rel('heroine_05',65,50,45); W8=true; r=ask('heroine_05','wenzhou',SAT,15.5);
 check('7. 學姊大一約散步：不會因為「有伴侶」婉拒（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',r.why!=='partner',r.res+' '+r.why);
 const SAT3=Y3(6), MON3=Y3(1); fresh(SAT3,9); rel('heroine_05',65,50,45); W8=false; r=ask('heroine_05','wenzhou',SAT3,10);
-check('7. 學姊 W8 以前約散步：「散步沒有目的。……我還不會。」「週三讀書會可以。」（婉拒，不給改天）',r.res==='decline'&&L(r)==='「散步沒有目的。……我還不會。」｜「週三讀書會可以。」'&&!r.alt,r.res+' '+L(r));
+check('7. 學姊 W8 以前約散步：「散步沒有目的。……我還不會。」「週三晚上我在法圖。要讀書的話，可以一起。」（AA_238 3-3；婉拒，不給改天）',r.res==='decline'&&L(r)==='「散步沒有目的。……我還不會。」｜「週三晚上我在法圖。要讀書的話，可以一起。」'&&!r.alt,r.res+' '+L(r));
 W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大四上的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
 fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後。重點是我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後。重點是我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「我就在總圖。三樓。不要講話，傳訊息。」',r.res==='here'&&L(r)==='「我就在總圖。三樓。不要講話，傳訊息。」',r.res+' '+L(r));

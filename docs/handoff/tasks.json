@@ -14819,9 +14819,9 @@
    "title": "AA_238 法服讀書會停用後缺的台詞：社博歡迎、法律服務現場換人（學姊四年不在現場）、學姊 S-L3／婉拒散步／研究所志向搬總圖、P-L3、以安被全班拱出來＋小語 +1、吵架改研討室、聽說改週四 22:00、invites L76、理由欄",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "AA_238 @01f3ce42（AA 定稿）。階梯 builder 96ccd3fd：A-L11（LADDER_CHOICE_IF 加「我可以去嗎？」notEvents）、A2-L6 改寫、A3-L9、A4-L6 從 json 匯入",
+   "next": "做好：§1 社博報名當晚社長歡迎（fafu_welcome）、§2 法律服務現場學姊換社長／學長／值班的學長（S.fafuLead；S.fafuSisHere 一律 false；w5／w8／w11 刪；志工值班的學姊句子 BB_160 ①～⑪ 跟著拿掉，已問 AA 要不要補學長的句子）、§3-3 婉拒散步、§3-5、§5-1 被拱出來、§5-2 邀請＋小語 +1（私訊備案拿掉）、§5-3 吵架改第 12 週週四公法讀書會（柏翰）、§5-4 聽說改週四 22:00、§5-7 invites 第 10 週以前。還沒：§3-1／3-4／4 P-L3（BB builder）、§5-5／5-6（AA builder 96ccd3fd、977c7b9f，AA-LADDER-977 一起匯入）、§5-8 理由欄（事件 ev_an_reason_column 還沒實作）。單元測試 266 全過。",
    "first": {
     "term": "Y1S1",
     "week": 5,

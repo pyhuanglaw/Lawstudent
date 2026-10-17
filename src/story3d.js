@@ -284,10 +284,10 @@ const STORY = (function(){
       if(typeof HOME!=='undefined'){ const hs=(E.zone&&E.zone.spots&&E.zone.spots.home)||[2.35,-0.9]; E.interactables.push({x:hs[0],z:hs[1],radius:0.6,lv:0,label:'收拾背包回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }}); } }   /* 週末回家（AA_137 第 6 節）：週五 17:00 以後到週日 21:30 才出現（四人房：門口鞋櫃旁）*/
     if(zoneId==='wancai'){ if(hr>=15.2&&hr<17){ GM.spawnNPC('sis',C.sis,4,-5,{yaw:Math.PI,talk:n=>talkSis(GM,n)}); tm('sis',17); } if(isThu(G)&&hr>=15.2&&hr<16.2){ GM.spawnNPC('prof',PROF,-5,1.2,{yaw:0,talk:n=>talkProf(GM,n)}); }   /* 週三晚上 18:48 學姊在萬才館（法服讀書會）拿掉：讀書會停用（AA_236 A1），她週三晚上在法圖（作息）*/
       /* 萬才館室內兩層樓（第三階段，D42）的背景路人：一個照路線上下樓（一樓大廳 → 樓梯 → 二樓門廳 → 走廊的研討室門口 → 走回一樓），一個在二樓走廊靠著欄杆往下看。不是劇情人物、沒有對話 */
-      /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。學姊在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
+      /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。社長（大二起學長）在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
          大一可以在旁邊看（「在旁邊看法服值班」，S.fafuWatch）。門口的告示照有沒有值班寫下一次的日期 */
       if(S.fafuDuty(G)&&hr>=9&&hr<12){ const ex=(nm,x,z,ry)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:nm,beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:0}); };
-        if(S.fafuSisHere(G)) GM.spawnNPC('sis',C.sis,0.95,1.25,{yaw:-0.6}); else ex('研究所學姊',0.95,1.25,-0.6); ex('研究所學長',-0.95,1.25,0.6); ex('研究所學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);   /* 學姊在不在照年級（BB_160：大三下在美國、大四偶爾）*/
+        ex(S.fafuLead(G),0.95,1.25,-0.6); ex('研究所學長',-0.95,1.25,0.6); ex('研究所學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);   /* 圓桌帶的人＝S.fafuLead（社長／學長；學姊四年都不在，AA_238 第 2 節）*/
         if(S.fafuWatchable(G)) E.interactables.push({x:2.3,z:3.1,radius:1.3,lv:0,label:'在旁邊看法服值班',fafuWatch:true,get hidden(){ return !S.fafuWatchable(GM.G)||GM.G.hour>=12; }});
         if(S.fafuMember(G)) E.interactables.push({x:-1.6,z:3.4,radius:1.3,lv:0,label:'坐到圓桌（做初談紀錄）',fafuShift:true,get hidden(){ return !S.fafuShiftable(GM.G); }}); }
       if((G.stage||'law')==='law') E.interactables.push({x:-2.2,z:5.8,radius:0.7,lv:0,label:'看門口的告示',get look(){ return S.fafuNotice(GM.G); }});
@@ -470,10 +470,10 @@ const STORY = (function(){
   S.fafuSpecial=G=>G.day===S.dayOfKey('2026-09-26');
   const FAFU_WEEKS=[3,5,7,11,13,15];   /* 一學期的值班週（單週、第 3 週起、考試週停）*/
   S.fafuK=G=>{ const t=CALENDAR.termOf(G.day); return t?FAFU_WEEKS.indexOf(t.week)+1:0; };   /* 這學期第幾次值班 */
-  /* 學姊今天在不在（BB_160 1-1～1-4；大一照 V1-F 一直在）*/
-  S.fafuSisHere=G=>{ const t=CALENDAR.termOf(G.day); if(!t) return false; const k=S.fafuK(G);
-    if(/^Y1/.test(t.id)||t.id==='Y2S1'||t.id==='Y3S1') return true; if(t.id==='Y2S2') return t.week<=15; if(t.id==='Y3S2') return false;
-    if(t.id==='Y4S1') return k%2===1; if(t.id==='Y4S2') return t.week<=9&&k%3===1; return false; };
+  /* 學姊不在法律服務現場（2026-10-17 AA_218 17-7、AA_238 第 2 節：大四不參加週六服務、讀碩士以後也不回法服，四年都沒有她）。
+     現場帶的人：大一＝社長（現任，法三，不取名）；大二＝去年的社長（法四，顯示名「學長」，記得你）；大三、大四＝值班的學長。每次都在（原本的 S.fafuSisHere 條件改成「每次都在」）*/
+  S.fafuSisHere=G=>false;
+  S.fafuLead=G=>{ const t=(CALENDAR.termOf(G.day)||{}).id||''; return /^Y1/.test(t)?'社長':(/^Y2/.test(t)?'學長':'值班的學長'); };
   S.fafuShiftable=G=>S.fafuDuty(G)&&S.fafuMember(G)&&!S.fafuSpecial(G)&&G.hour<12&&(G.flags||{}).LAWCLUB_SAT_LAST!==G.day;
   S.FAFU_OPEN=[['研究所學姊','今天兩桌。你跟我。'],['研究所學長','紀錄表在左邊。先寫日期。'],['研究所學長','今天人可能比較多。慢慢來。']];
   S.FAFU_CASES=[['一位大學生，機車停在騎樓被拖吊了','我只停了五分鐘。','研究所學長','那天的時間、地點先寫清楚。單子還在嗎？'],
@@ -484,7 +484,7 @@ const STORY = (function(){
     ['一位女兒替媽媽來，媽媽在路上被推銷，買了一整套保健食品','我媽說她不好意思拒絕。','研究所學姊','買的日期、收據、對方留的電話，今天就先找出來。'],
     ['一個高中生，打工的地方要他簽一張單子，上面寫「自願不投保」','不簽的話，他說我就不能來。','研究所學長','這張單子我們幫你問清楚，這幾天回你。'],
     ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','研究所學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
-  S.FAFU_STAY=['（後來又來了一位，學姊自己接了。）','（你把上週的紀錄重新抄了一次。）'];
+  S.FAFU_STAY=['（後來又來了一位，學長自己接了。）','（你把上週的紀錄重新抄了一次。）'];
   S.FAFU_YT=['……阿伯又來了。他每次都帶橘子。','紀錄我幫你對過了。少寫一個日期。','今天沒有麵店的人來。還好。'];
   S.FAFU_BH=['班表排好了。你下次是單週。','我以為社長只要排班。……還要買垃圾袋。'];
   /* 學姊的句子（BB_160 第 1 節）：front＝排在最前面（開場之後）；back＝民眾之後；sign＝結尾旁白改成學姊簽名；noon＝結尾之後「（她坐到十二點。）」。每一句只說一次 */
@@ -526,43 +526,42 @@ const STORY = (function(){
     finally{ GM.sceneEnd(); }
     if(GM.memo) GM.memo('法服值班：做了一份初談紀錄'); if(GM.autosave) GM.autosave(); return true; };
   S.fafuNotice=function(G){ const base='法律服務　隔週週六 9:00～12:00　萬才館一樓'; if(S.fafuDuty(G)&&G.hour<12) return base; const n=S.fafuSat(G.day); if(!n) return base; const d=CALENDAR.dateOf(n.day); return base+'　下一次：'+d.m+'/'+d.d+'（六）'; };
-  const FAFU_POOL=[{t:'今天來的是一位媽媽，問孩子打工被扣薪水的事。學長說：「我們先把時間和金額寫下來。」'},{sis:'學弟，又來了。……站那邊，看得比較清楚。'},
-    {t:'一位阿嬤來問家裡的事，說到一半開始講她先生年輕的時候。學姊沒有打斷她。'},{sis:'今天那位，你回去想想看，第一個問題應該問什麼。……不用告訴我。'},
-    {t:'上午很安靜，只來了一位。學長趁空檔教新的志工怎麼寫初談紀錄。'},{sis:'（她在初談紀錄上劃了一條線）一件事。字要寫得讓下一個人看得懂。'},
-    {t:'有人拿著一張和解書來，問能不能簽。學姊說：「我們先一起看一下，上面寫了什麼。」'}];   /* AA_163 的旁白池四句、BB_145 的學姊三句，輪流、不重複到用完 */
+  const FAFU_POOL=[{t:'今天來的是一位媽媽，問孩子打工被扣薪水的事。學長說：「我們先把時間和金額寫下來。」'},{lead:'又來了？站那邊，看得比較清楚。'},
+    {t:'一位阿嬤來問家裡的事，說到一半開始講她先生年輕的時候。社長沒有打斷她。'},{lead:'今天那位，你回去想想看，第一個問題應該問什麼。'},
+    {t:'上午很安靜，只來了一位。學長趁空檔教新的志工怎麼寫初談紀錄。'},{lead:'（在初談紀錄上劃了一條線）字要寫得讓下一個人看得懂。'},
+    {t:'有人拿著一張和解書來，問能不能簽。社長說：「我們先一起看一下，上面寫了什麼。」'}];   /* AA_163 的旁白池四句、BB_145 的三句（2026-10-17 AA_238 2-3：說話的人改社長，旁白的「學姊」改「社長」），輪流、不重複到用完 */
   /* 沒加入法服、大二起還在旁邊看的玩家：學姊的句子（BB_160 第 5 節，BB-B 00fdb990；第②級）。原則和 BB_145 一樣：不講法律結論、不勸他加入。
      她在場那天（S.fafuSisHere）最多一句，和 AA_163 的旁白池一起輪、不重複到用完；每個年級第一次她在場排最前面、只一次（大二 ⓐ1／ⓐ2／ⓐ3、大三上 ⓒ、大四 ⓓ）。
      ⓐ 照大一的紀錄分：聽過「明年記得報名」（LAWCLUB_SAT_FIVE）＝ⓐ1；大一來過＝ⓐ2；大一沒來過＝ⓐ3（BB_145 第 1 節那兩句，在第一次來的那一場說）。⑦ 簽名、⑨ ⑩ 只有志工有 */
   S.fafuWYear=G=>{ const t=(CALENDAR.termOf(G.day)||{}).id||''; return /^Y2/.test(t)?'y2':(t==='Y3S1'?'y3':(/^Y4/.test(t)?'y4':null)); };
-  const FAFU_W1={a1:['我說過，明年記得報名。','……你沒報。也好。站那邊，看得最清楚。'],a2:['學弟。沒報名，也還是來。','……三件事。站那邊。不要插話。回去寫下來。'],
-    a3:['學弟。旁聽可以。三件事。','一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。'],c:['學弟，還是旁邊？','……兩件事。看我怎麼問。看他在哪裡停下來。'],d:['一件事。','……下次換你告訴我，今天哪一句最重要。']};
+  const FAFU_FIRST2=['第一次來？站這邊聽就好。','不要插話，也先不要給意見。看我們怎麼問。……問題問對了，事情就清楚一半。'];   /* AA_238 2-1 */
+  const FAFU_W1={a1:['我說過，明年可以報名。……你沒報。也好，站那邊，看得最清楚。'],a2:['沒報名，也還是來。站那邊，回去記得寫下來。'],
+    a3:FAFU_FIRST2,c:['還是站旁邊？看我們怎麼問，看他在哪裡停下來。'],d:['下次換你告訴我，今天哪一句最重要。']};   /* AA_238 2-4：大二＝學長（去年的社長）、大三大四＝值班的學長 */
   S.FAFU_W1=FAFU_W1;
-  S.fafuWatchLine=function(G){ const F=G.flags, W=F.FAFU_W||(F.FAFU_W={}), yr=S.fafuWYear(G), here=S.fafuSisHere(G);
-    if(here&&yr&&!W[yr]){ W[yr]=G.day; if(yr==='y2'){ const y1seen=!!F.FAFU_Y1_SEEN||(!!F.LAWCLUB_SAT_FIRST&&!F.FAFU_FIRST_Y2PLUS); return {sis:F.LAWCLUB_SAT_FIVE?FAFU_W1.a1:(y1seen?FAFU_W1.a2:FAFU_W1.a3)}; } return {sis:yr==='y3'?FAFU_W1.c:FAFU_W1.d}; }
-    const m3=S.dayOfKey('2027-03-19'), extra=[];
-    if(here&&yr==='y2'){ extra.push({id:'wb',sis:['哪天想坐下來，跟我說。','……不說也沒關係。']}); if(m3!=null&&G.day>=m3) extra.push({id:'w5',sis:['一件事。九月我還在這裡。……換一個身分。']}); }
-    if(here&&yr==='y3') extra.push({id:'w8',sis:['帶橘子的阿伯問我是不是升官了。','……我說，是升學。']});
-    if(here&&yr==='y4') extra.push({id:'w11',sis:['我論文的第三章，是在這張圓桌旁邊想出來的。']});
-    const pool=FAFU_POOL.map((q,i)=>q.sis?null:{id:'n'+i,t:q.t}).filter(Boolean).concat(extra);
+  S.fafuWatchLine=function(G){ const F=G.flags, W=F.FAFU_W||(F.FAFU_W={}), yr=S.fafuWYear(G), here=true;   /* 帶的人每次都在（AA_238 2-4）*/
+    if(here&&yr&&!W[yr]){ W[yr]=G.day; if(yr==='y2'){ const y1seen=!!F.FAFU_Y1_SEEN||(!!F.LAWCLUB_SAT_FIRST&&!F.FAFU_FIRST_Y2PLUS); return {lead:F.LAWCLUB_SAT_FIVE?FAFU_W1.a1:(y1seen?FAFU_W1.a2:FAFU_W1.a3)}; } return {lead:yr==='y3'?FAFU_W1.c:FAFU_W1.d}; }
+    const extra=[];
+    if(here&&yr==='y2') extra.push({id:'wb',lead:['哪天想坐下來，跟我說。……不說也沒關係。']});   /* w5、w8、w11 是學姊自己的事，刪（AA_238 2-4）*/
+    const pool=FAFU_POOL.map((q,i)=>q.lead?null:{id:'n'+i,t:q.t}).filter(Boolean).concat(extra);
     const used=Array.isArray(F.fafuWUsed)?F.fafuWUsed:(F.fafuWUsed=[]); let cand=pool.filter(q=>!used.includes(q.id)); if(!cand.length){ used.length=0; cand=pool; }
     const it=cand[0]; used.push(it.id); return it; };
-  S.fafuWatch=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuWatchable(G)||G.hour>=12) return false; const sis={name:'溫學姊',charId:'heroine_05'}, y1=/^Y1/.test((CALENDAR.termOf(G.day)||{}).id||'');
+  S.fafuWatch=async function(GM){ const G=GM.G, F=G.flags; if(!S.fafuWatchable(G)||G.hour>=12) return false; const lead={name:S.fafuLead(G)}, y1=/^Y1/.test((CALENDAR.termOf(G.day)||{}).id||'');
     if(y1) F.FAFU_Y1_SEEN=true;   /* 大一來看過（BB_160 第 5 節 ⓐ2 用）*/
     if(F.LAWCLUB_SAT_LAST!==G.day){ F.LAWCLUB_SAT_LAST=G.day; F.LAWCLUB_SAT_VISITS=(F.LAWCLUB_SAT_VISITS|0)+1; }   /* 同一個週六只算一次（AA_132 落點 A 讀它；大二起的值班也算）*/
     GM.sceneBegin(); try{
       if(!F.LAWCLUB_SAT_FIRST){ F.LAWCLUB_SAT_FIRST=true;   /* 第一次（AA_163 的旁白＋研究所學長；BB_145 第 1 節）*/
         await GM.say(null,'圓桌旁坐著一位阿伯，手上一疊影印的紙。他說房東不還押金。');
-        await GM.say(null,'學姊沒有馬上回答。她先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。');
+        await GM.say(null,'社長沒有馬上回答。他先問：「租約還在嗎？什麼時候搬走的？當初押金付了多少？」研究所的學長在旁邊一項一項寫下來。');   /* AA_238 2-1 */
         await GM.say(null,'阿伯講到一半，忽然說：「我是不是很麻煩？」'); await GM.say({name:'研究所學長'},'不會。您慢慢說，我們先把事情弄清楚。');
         if(!y1) F.FAFU_FIRST_Y2PLUS=true;
-        if(y1||S.fafuSisHere(G)){ await GM.say(null,'（阿伯被學長帶去填表。學姊走到大廳角落，在祐廷旁邊停下來，聲音壓得很低。）');
-          await GM.say(sis,'學弟。旁聽可以。三件事。'); await GM.say(sis,'一，不要插話。二，不要給意見。三，看學長怎麼問。……問題問對了，事情就清楚一半。');
-          if(!y1){ const W=F.FAFU_W||(F.FAFU_W={}); W[S.fafuWYear(G)]=G.day; } } }   /* 大二起才第一次來看（沒加入法服）、學姊在場：BB_160 第 5 節 ⓐ3＝BB_145 第 1 節那兩句（第一次來的人，大幾都一樣）*/
-      else { let it=null; if(y1&&(F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={sis:'你來了五次了。……明年記得報名。'}; }   /* BB_145 第 4 句：只一次、排最前 */
+        { const who=y1?lead:{name:'值班的學長'}; await GM.say(null,y1?'（阿伯被學長帶去填表。社長走到大廳角落，在你旁邊停下來，聲音壓得很低。）':'（阿伯被學長帶去填表。值班的學長走到大廳角落，在你旁邊停下來，聲音壓得很低。）');
+          for(const l of FAFU_FIRST2) await GM.say(who,l);
+          if(!y1){ const W=F.FAFU_W||(F.FAFU_W={}); W[S.fafuWYear(G)]=G.day; } } }   /* AA_238 2-1：大一＝社長；大二起才第一次來的（沒加入法服）＝值班的學長，台詞同上兩句 */
+      else { let it=null; if(y1&&(F.LAWCLUB_SAT_VISITS|0)>=5&&!F.LAWCLUB_SAT_FIVE){ F.LAWCLUB_SAT_FIVE=true; it={lead:'你來五次了。明年可以報名當志工，來坐圓桌。'}; }   /* BB_145 第 4 句（AA_238 2-2 改社長）：只一次、排最前 */
         else if(y1){ const used=Array.isArray(F.fafuPoolUsed)?F.fafuPoolUsed:[]; let cand=FAFU_POOL.map((q,i)=>i).filter(i=>!used.includes(i)); if(!cand.length){ used.length=0; cand=FAFU_POOL.map((q,i)=>i); } const k=cand[0]; used.push(k); F.fafuPoolUsed=used; it=FAFU_POOL[k]; }
         else it=S.fafuWatchLine(G);   /* 大二起（沒加入法服、四年都可以來看，AA_184）：學姊對旁觀的人說的話（BB_160 第 5 節）和旁白池一起輪 */
-        const sayIt=async x=>{ for(const l of [].concat(x)) await GM.say(sis,l); };
-        if(it.sis) await sayIt(it.sis); else await GM.say(null,it.t); if(y1||it.sis) await GM.say(null,'（學姊點頭，回到圓桌。）'); }
+        const sayIt=async x=>{ for(const l of [].concat(x)) await GM.say(lead,l); };
+        if(it.lead) await sayIt(it.lead); else await GM.say(null,it.t); if(y1||it.lead) await GM.say(null,y1?'（社長點頭，回到圓桌。）':'（學長點頭，回到圓桌。）'); }
     } finally { GM.sceneEnd(); }
     await GM.fade(true); GM.advance(Math.min(0.5,Math.max(0,12-G.hour))); await GM.fade(false); return true; };   /* 時間推進 30 分鐘，可以待到 12:00；不扣時段次數（AA_160 第 2 節）*/
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
@@ -1099,7 +1098,9 @@ const STORY = (function(){
     /* 學姊 W2（BB_95 2-5）：第一次參加讀書會那晚 22:30（她的睡前時間），發在法服讀書會的群組（給所有新來的人，不是私訊）*/
     /* 法服群組（BB_191 §7-0）：社博報名（SIS_CLUB_EXPO／lawclub）那一刻加入，顯示名「法服」（群組 id 照舊 lawclub_study，舊存檔原本叫「法服讀書會」的一起改名）。
        學姊在讀書會群組的「三件事」刪（法服沒有讀書會）；現任社長的歡迎一則等 AA */
-    if((F.SIS_CLUB_EXPO||F.lawclub||F.CLUB_lawclub_study)&&PHONE.rec){ const g=PHONE.join(G,'lawclub_study','法服'); if(g&&g.name==='法服讀書會') g.name='法服'; }
+    if((F.SIS_CLUB_EXPO||F.lawclub||F.CLUB_lawclub_study)&&PHONE.rec){ const had=PHONE.inGroup(G,'lawclub_study'), g=PHONE.join(G,'lawclub_study','法服'); if(g&&g.name==='法服讀書會') g.name='法服';
+      /* 社博報名當晚 21:00 社長的歡迎（AA_238 第 1 節）：只在這一刻剛加入的（舊存檔早就在群組裡的不補）*/
+      if(!had&&F.SIS_CLUB_EXPO&&!PHONE.sent(G,'fafu_welcome')) PHONE.at(G,G.day,Math.max(21,G.hour),[{th:'g:lawclub_study',from:'npc_lawclub_pres',name:'社長',text:'歡迎新社員！法律服務是隔週六早上九點到十二點，萬才館一樓。第一次來站旁邊聽就好，不用準備。有問題直接在群組問。'}],'fafu_welcome'); }
     /* 公法讀書會群組（BB_191 §8-7）：第一次去公法讀書會就加入；沛珊的題目、講義、交接的訊息在這裡 */
     if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group')) PHONE.join(G,'public_law','公法讀書會');
     /* 子晴 Q2（BB_95 2-6）：第一次去吉他社的晚上被拉進群組 */
@@ -1648,16 +1649,16 @@ const STORY = (function(){
         if(fr) PHONE.at(G,ny+3,10,[Y('答案：台灣二葉松。針葉兩根一束，名字就是提示。')],'cny_fangyt_answer'); } } }
     /* 以安新 7（交接包 v2 C14）：①第 11 週週二晚上沒在麵店看到吵架（ev_an_yu_argument 沒演）＝21:30 小語在麵店團群組連發三則（AA_209 附錄A §2），記「聽說」；
        ②公法讀書會的邀請（2026-10-17 改到大一上第 10 週，見下面）*/
-    { const tue=termDay('Y1S2',11,2), mon=termDay('Y1S2',12,1), done=id=>!!(G.events&&G.events.done&&G.events.done[id]);
-      if(tue&&G.day>=tue&&G.day<=tue+1&&!(G.day===tue&&h(G)<21.5)&&!done('ev_an_yu_argument')&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_yu_heard')){ const th='g:noodle_team';
-        PHONE.at(G,tue,21.5,[{th,from:'yu',text:'我跟以安吵架了'},{th,from:'yu',text:'不是真的吵啦 是在講上街要不要申請'},{th,from:'yu',text:'講到麵都坨了'}],'an_yu_heard');   /* AA_209 附錄A §2：連發三則（原本 22:10 的「……吵得很好。」換掉）*/
+    { const thu=termDay('Y1S2',12,4), done=id=>!!(G.events&&G.events.done&&G.events.done[id]), went=thu!=null&&!!(G.acts&&G.acts.att&&G.acts.att['public_law_group@'+thu]);
+      if(thu&&G.day>=thu&&G.day<=thu+1&&!(G.day===thu&&h(G)<22)&&!done('ev_an_yu_argument')&&!went&&PHONE.inGroup(G,'noodle_team')&&!PHONE.sent(G,'an_yu_heard')){ const th='g:noodle_team';
+        PHONE.at(G,thu,22,[{th,from:'yu',text:'我跟以安吵架了'},{th,from:'yu',text:'不是真的吵啦 是在講上街要不要申請'},{th,from:'yu',text:'柏翰還幫我們計時'}],'an_yu_heard');   /* AA_238 5-4：吵架改到第 12 週週四公法讀書會，那晚 22:00；收到的人＝在麵店團、那晚沒去讀書會（原本第 11 週週二 21:30「講到麵都坨了」）*/
         if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_01','HEARD_ABOUT','聽說她和小語吵架了'); }
       /* 邀請改到大一上第 10 週週一 21:00、法律系全班群組（AA_218 17-4；BB_191 §8-1、8-6 第 4 點：她是被全班拱出來的，所有法律系同學都收到）。
          以安那一句照用；小語「我也是發起人喔。」拿掉（新設定：小語是第一個來的，不是發起人）；「被拱出來」的那一句等 AA。不在全班群組、有以安聯絡方式的＝她私訊同一句 */
       const mon1=termDay('Y1S1',10,1);
-      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&!PHONE.sent(G,'plg_invite')){
-        if(PHONE.inGroup(G,'law_class')) PHONE.at(G,mon1,21,[{th:'g:law_class',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite');
-        else if(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_01')) PHONE.at(G,mon1,21,[{th:'p:heroine_01',from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。'}],'plg_invite'); } }
+      if(mon1&&G.day>=mon1-1&&G.day<=mon1+3&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'plg_invite')){ const th='g:law_class', cls={th,name:'同學'};   /* AA_238 5-1、5-2：那天早上憲法發回期中考；20:30 被全班拱出來、21:00 邀請（沒加班群的玩家開學典禮就會加，原本的私訊備案拿掉）*/
+        PHONE.at(G,mon1,20.5,[Object.assign({text:'憲法期中有人知道第三題到底在問什麼嗎'},cls),Object.assign({text:'我到現在還是不知道憲法在幹嘛'},cls),{th,from:'zhe',text:'問沈以安啊 她考超高'},Object.assign({text:'真的假的 以安開課'},cls),{th,from:'heroine_01',text:'……我不是老師。'},{th,from:'heroine_01',text:'可是可以一起讀。'}],'plg_pushed');
+        PHONE.at(G,mon1,21,[{th,from:'heroine_01',text:'公法讀書會。週四晚上八點，萬才館研討室。想來的就來，不用報名。'},{th,from:'yu',text:'+1 可以帶宵夜嗎'},{th,from:'heroine_01',text:'……可以。'}],'plg_invite'); } }
     /* B4 博雅午後講座（交接包 v2 C13；BB_105 4-5、AA_115 第 1 節）：①第 11 週週二 12:30 麵店團群組以安揪人（和以安新 7 前半同一天；時間是 LAWWW 排的），小語、阿哲回；
        玩家回「我去。」／「我看看。」／不回都一樣（只記 B4_REPLY），去不去看週四有沒有走進博雅 101。②沒去（missed:B4）：週四 21:30 小語在群組轉述（AA_209 附錄A §2：三則） */
     { const tue=termDay('Y1S2',11,2), thu=termDay('Y1S2',11,4);
