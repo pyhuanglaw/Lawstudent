@@ -150,6 +150,17 @@ async def state(pg):
     return await pg.evaluate(STATE_JS)
 
 
+async def close_panels(pg, cdp):
+    """手機、筆記本、大地圖開著（遊戲暫停）：像玩家一樣按「收起來／返回遊戲」關掉。回傳關了哪些（2026-10-17：手機蓋住下課選單，測試一直點被蓋住的選項）"""
+    shut = []
+    for pid, btn in (('phone', '#btnPhoneClose'), ('menu', '#btnClose'), ('bigmap', '#bmClose')):
+        if await pg.evaluate("(id=>{ const e=document.getElementById(id); return !!e&&!e.classList.contains('hide'); })('%s')" % pid):
+            if await pg.evaluate("(s=>!!document.querySelector(s))('%s')" % btn): await tap(pg, cdp, btn)
+            else: await pg.keyboard.press('Escape')
+            await pg.wait_for_timeout(600); shut.append(pid)
+    return shut
+
+
 async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=700):
     """像玩家一樣點對話、選選項（選第 pick 個），直到 until(state) 為真；回傳最後的 state。對話一直停在同一句、或沒有對話也沒有進展超過 60 秒都會停下來"""
     last_change = time.time(); last = None
@@ -160,6 +171,7 @@ async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=
         if key != last: last = key; last_change = time.time()
         if time.time() - last_change > 60:
             run.note('超過 60 秒沒有任何進展：' + json.dumps(s, ensure_ascii=False)); return s
+        if s['choices'] and s.get('paused') and await close_panels(pg, cdp): continue
         if s['choices']:
             await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button'); (b[i]||b[0]).scrollIntoView({block:'center'}); })(%d)" % pick)
             c = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button'); const e=b[i]||b[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % pick)

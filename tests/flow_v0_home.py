@@ -85,7 +85,7 @@ async def main():
                 run.note('超過 4 分鐘沒有進展：' + json.dumps(s, ensure_ascii=False)); await run.shot(pg, 'stuck_%d' % recover)
                 recover += 1
                 if recover > 3: break
-                await pg.keyboard.press('Escape'); stuck_t = time.time(); continue
+                shut = await L.close_panels(pg, cdp); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
             if s['dlg']:
                 if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"):
                     fade_run += 1
@@ -96,6 +96,9 @@ async def main():
             if pend and (s['choices'] or not s['busy']):
                 a = await answer_phone(pg, cdp, pend[0]); answered += 1
                 print('   手機回覆：', pend[0], a, flush=True); await pg.wait_for_timeout(800); continue
+            if s['choices'] and s.get('paused'):
+                shut = await L.close_panels(pg, cdp)
+                if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
                 c = await pick_choice(pg, cdp)
                 if c: print('   ▶', c[2], '／', c[3], flush=True)

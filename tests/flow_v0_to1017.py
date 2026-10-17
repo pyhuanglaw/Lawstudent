@@ -124,7 +124,10 @@ async def main():
                 run.note('超過 4 分鐘沒有進展：' + json.dumps(s, ensure_ascii=False)); await run.shot(pg, 'stuck_%d' % recover)
                 recover += 1
                 if recover > 3: break
-                await pg.keyboard.press('Escape'); stuck_t = time.time(); continue
+                shut = await L.close_panels(pg, cdp); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
+            if s['choices'] and s.get('paused'):
+                shut = await L.close_panels(pg, cdp)
+                if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
                 free_since = None
                 c = await pick_choice(pg, cdp)
