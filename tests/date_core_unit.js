@@ -44,7 +44,7 @@ DATE.knowWish(G,'heroine_01'); check('4. 知道了還沒去＝「她提過想去
 // 她當時願意
 G.flags.dating_kexin=true; ROM.learn(G,'heroine_03','kexin');
 check('5. 她知道祐廷有伴侶 → 不能告白（knows）',DATE.canConfess(G,'heroine_03').why==='knows');
-G.flags.dating_kexin=false; G.flags.romance.heroine_03.knows=[];
+G.flags.dating_kexin=false; delete G.flags.knowsRel.heroine_03;
 ROM.get(G,'heroine_03').status='paused'; check('5. 在等你說清楚（paused）→ 不能告白',DATE.canConfess(G,'heroine_03').why==='paused'); ROM.get(G,'heroine_03').status='none';
 // 學姊暫停
 setRel('heroine_05',{fam:60,trust:45,comf:40,npcRom:55,rom:30});

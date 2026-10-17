@@ -1,6 +1,6 @@
 // 多段感情（v6；現行規則＝企劃線 AA_140 第 0 節、AA_126 第 9 節、AA_128 4-5；使用者 2026-10-14、10-16：可以同時和多位交往）——不需要瀏覽器。
 // 每一段關係各自計算：開始不因已有伴侶擋；分開只有那一段；CLEANUP_DONE 只擋分開以後開始新的一段；舊存檔補 romance／ROMANCE_HISTORY；
-// 「她知道」才擋正式單獨約會（法律系開場可昕交往中：以安、語彤、沛珊知道＝麵店團 K3 起；芷若、子晴、學姊不知道）。
+// 「她知道」才擋正式單獨約會：誰知道照各人的 knowsRel（BB_191 第 1、9 節：K3 選①在場、聽朋友說、祐廷自己說；阿凱一定知道可昕）；固定名單 KEXIN_KNOWN 拿掉。
 // 2026-10-16 改版前（同一時間最多一段）：第 3、10、12 項失敗。用法：node tests/romance_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 global.window=global;
@@ -22,12 +22,22 @@ let G2={day:5,flags:{}}; ROM.rec(G2); check('9. 沒有交往過的存檔：歷�
 let G3={day:20,flags:{dating_kexin:true}}; ROM.rec(G3);
 check('10. 法律系開場可昕交往中、K3 以前：大家都還不知道',['heroine_01','heroine_03','classmate_peishan','heroine_02','heroine_04','heroine_05'].every(x=>ROM.knows(G3,x).length===0));
 G3.flags.KX_MET_NOODLE_TEAM=true;
-check('10. K3（中秋烤肉可昕來過）以後：以安、語彤、沛珊知道；芷若、子晴、學姊不知道',['heroine_01','heroine_03','classmate_peishan'].every(x=>ROM.knows(G3,x)[0]==='kexin')&&['heroine_02','heroine_04','heroine_05'].every(x=>ROM.knows(G3,x).length===0));
-ROM.learn(G3,'heroine_02','kexin'); check('11. 祐廷親口說（ROM.learn）：芷若也知道了；只有她，不會傳給子晴',ROM.knows(G3,'heroine_02')[0]==='kexin'&&ROM.knows(G3,'heroine_04').length===0);
-ROM.end(G3,'kexin','apart_talk'); check('12. 和可昕分開以後：知道的人也不擋了（knows 只算現在還在交往的人）',['heroine_01','heroine_02'].every(x=>ROM.knows(G3,x).length===0));
-// 懷疑（AA_126 9-2；參數 0-3 P1）
-let G4={day:30,flags:{}}; ROM.rec(G4); ROM.suspect(G4,'heroine_04',20); ROM.suspect(G4,'heroine_04',25); const s1=G4.flags.romance.heroine_04.suspicion; ROM.suspect(G4,'heroine_04',10);
-check('13. 懷疑累積；已經 ≥40 再有新證據＝加倍',s1===45&&G4.flags.romance.heroine_04.suspicion===65,s1+' → '+G4.flags.romance.heroine_04.suspicion);
-ROM.weekly(G4); check('13. 每週自然下降 5',G4.flags.romance.heroine_04.suspicion===60);
+check('10. 可昕來過烤肉（KX_MET_NOODLE_TEAM）不等於台大的人知道：固定名單拿掉（BB_191 9-4 #1；沛珊根本不在 K3）',['heroine_01','heroine_03','classmate_peishan','heroine_02','heroine_04','heroine_05'].every(x=>ROM.knows(G3,x).length===0)&&!ROM.KEXIN_KNOWN);
+ROM.learn(G3,'heroine_02','kexin','yt_told'); check('11. ROM.learn：芷若知道了（knowsRel 記來源、日子）；只有她，不會傳給子晴',ROM.knows(G3,'heroine_02')[0]==='kexin'&&ROM.knows(G3,'heroine_04').length===0&&G3.flags.knowsRel.heroine_02.kexin.source==='yt_told'&&G3.flags.knowsRel.heroine_02.kexin.state==='confirmed'&&G3.flags.knowsRel.heroine_02.kexin.day===20);
+check('11. 已經知道的再 learn 一次：不覆蓋第一次的來源',ROM.learn(G3,'heroine_02','kexin','told_by:heroine_04')===false&&G3.flags.knowsRel.heroine_02.kexin.source==='yt_told');
+check('11. 阿凱（室友）一定知道可昕；ytKnows 預設 false',ROM.knowsGF(G3,'kai')&&!ROM.knowsGF(G3,'heroine_01')&&!ROM.ytKnows(G3,'heroine_02','kexin'));
+ROM.tellBy(G3,'heroine_01','kexin'); check('11. 祐廷自己說（tellBy）：yt_told＋ytKnows（他知道她知道）',ROM.knowsGF(G3,'heroine_01')&&G3.flags.knowsRel.heroine_01.kexin.source==='yt_told'&&ROM.ytKnows(G3,'heroine_01','kexin'));
+check('11. gfNow：交往中而且她知道',ROM.gfNow(G3,'heroine_01')&&!ROM.gfNow(G3,'heroine_03'));
+ROM.end(G3,'kexin','apart_talk'); check('12. 和可昕分開以後：知道的人也不擋了（knows 只算現在還在交往的人）；知道過的紀錄不刪',['heroine_01','heroine_02'].every(x=>ROM.knows(G3,x).length===0)&&ROM.knowsGF(G3,'heroine_01')&&!ROM.gfNow(G3,'heroine_01'));
+// K3 選①（BB_191 9-2、9-4 #2）：在場的人才知道
+global.STORY={knows:(id)=>['heroine_01','yu'].includes(id)};
+let G5={day:40,flags:{dating_kexin:true,KX_INTRO:'gf'}}; ROM.rec(G5);
+check('13. K3 選①（舊存檔遷移也一樣）：阿哲一定在、在場（STORY.knows）的以安、小語知道，他也知道他們知道；不認識的語彤、柏翰，不在 K3 的沛珊、芷若不知道',['zhe','heroine_01','yu'].every(x=>ROM.knowsGF(G5,x)&&ROM.ytKnows(G5,x,'kexin')&&G5.flags.knowsRel[x].kexin.source==='ev_mid_autumn_bbq')&&['heroine_03','classmate_bohan','classmate_peishan','heroine_02'].every(x=>!ROM.knowsGF(G5,x)));
+let G6={day:40,flags:{dating_kexin:true,KX_INTRO:'quiz',KX_MET_NOODLE_TEAM:true}}; ROM.rec(G6);
+check('13. K3 選②③（只說是經濟系的同學）：誰都不知道（阿凱除外）',['zhe','heroine_01','yu','classmate_peishan'].every(x=>!ROM.knowsGF(G6,x))&&ROM.knowsGF(G6,'kai'));
+let G7={day:40,flags:{dating_kexin:true,dating_heroine_02:true,romance:{heroine_03:{status:'none',since:null,knows:['heroine_02'],suspicion:0,history:[]}}}}; ROM.rec(G7);
+check('13. 舊欄位 romance[X].knows 第一次讀檔搬到 knowsRel（source legacy）',ROM.knows(G7,'heroine_03')[0]==='heroine_02'&&G7.flags.knowsRel.heroine_03.heroine_02.source==='legacy'&&G7.flags.knowsRel_V===1);
+check('13. 懷疑值不再累積：ROM.suspect、ROM.weekly 拿掉（BB_191 第 1 節）',typeof ROM.suspect==='undefined'&&typeof ROM.weekly==='undefined');
+delete global.STORY;
 check('14. acceptsOpen 預設 false（七位，0-3 P2）',Object.values(ROM.PARAMS.acceptsOpen).length===7&&Object.values(ROM.PARAMS.acceptsOpen).every(v=>v===false));
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

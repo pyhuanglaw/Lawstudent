@@ -44,8 +44,8 @@ GM.money=function(n){ G.money+=n; };
   check('2. 出遊地點「公館的日日定食」',OUT.get(G,'sis_m3_dinner').place==='公館的日日定食');
   fresh(m3,20.9,'dorm'); meet('heroine_05'); SOCIAL.remember('heroine_05','FAMILY_DINNER',''); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2);
   check('2. 有 FAMILY_DINNER：永康街那家咖哩',txt(FAM).slice(-1)[0]==='kevin:學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。');
-  const f2=termDay('Y2S2',2,5); fresh(f2,20.9,'dorm'); meet('classmate_peishan'); SOCIAL.remember('classmate_peishan','MIRROR_PEISHAN',''); G.flags.dating_kexin=true; run(20.9,21.3);
-  check('3. P4b 交往中＝小組；第 2 週週五 21:00 第一句',PHONE.inGroup(G,'ps_study')&&txt('g:ps_study').includes('classmate_peishan:明天總圖，老位子旁邊的長桌。想來的就來，不用回。'),J(txt('g:ps_study')));
+  const f2=termDay('Y2S2',2,5); fresh(f2,20.9,'dorm'); meet('classmate_peishan'); SOCIAL.remember('classmate_peishan','MIRROR_PEISHAN',''); G.flags.dating_kexin=true; ROM.learn(G,'classmate_peishan','kexin','yt_told'); run(20.9,21.3);   /* 她知道（BB_191 9-4 #4）*/
+  check('3. P4b 交往中、她知道＝小組；第 2 週週五 21:00 第一句',PHONE.inGroup(G,'ps_study')&&txt('g:ps_study').includes('classmate_peishan:明天總圖，老位子旁邊的長桌。想來的就來，不用回。'),J(txt('g:ps_study')));
   G.day=f2+7; G.weekday=5; run(20.9,21.2); G.day=f2+14; run(20.9,21.2); G.day=f2+21; run(20.9,21.2);
   const ps=txt('g:ps_study').filter(x=>x.startsWith('classmate_peishan:'));
   check('3. 每週五換一句、三句輪流',ps[1]==='classmate_peishan:這週末我在總圖。進度：債總第三章。……你們不用回，來就好。'&&ps[2]==='classmate_peishan:週末總圖。阿哲說要補債各，我先幫他占位。'&&ps[3]===ps[0],J(ps));

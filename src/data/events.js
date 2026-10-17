@@ -6,6 +6,9 @@
 /* 群戲「只有認識的人在場」（交接包 v1 交付清單第 0 節第 1 點）：if:EV_KNOWS('id')／if:EV_KNOWS('a','b')＝都認識了（STORY.knows：FIRST_MET；小語 met_yu；阿哲開場就熟）*/
 const EV_KNOWS=(...ids)=>({custom:G=>typeof STORY!=='undefined'&&!!STORY.knows&&ids.every(id=>STORY.knows(id,G))});
 /* 可昕來看模 5（BB_97 9-19）：交往中、第 9 週回她「模擬法庭。第 10 週比賽，妳要來嗎？」（KX_MOOT_TOLD）、比賽在週末或平日 18:00 以後（平日白天她有課）*/
+/* 她知不知道祐廷現在和可昕交往（knowsGF；BB_191 9-4 #3～#6）：台大角色的台詞、選項、條件讀這個，不讀 dating_kexin */
+const GFN=(G,id)=>typeof ROM!=='undefined'&&ROM.gfNow?ROM.gfNow(G,id):!!(G.flags&&G.flags.dating_kexin);
+const GF=id=>({custom:G=>GFN(G,id)});
 const KX_MOOT_CAME=G=>{ const F=G.flags||{}; if(!F.dating_kexin||F.KX_MOOT_TOLD!==true) return false; const wd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).wd:6; return wd>=6||(G.hour%24)>=18; };
 /* 小語 語 2 的最後一個徵兆（交接包 v2 C18、AA_40 語 2 的表）：吉他社的社課後、麵店散場後的騎樓兩個地方共用同一段 */
 const YU2_Q=arcade=>[ {speaker:'yu',expression:'neutral',text:'欸，阿哲是不是對每個人都這麼好？'},
@@ -183,8 +186,8 @@ const STORY_EVENTS=[
       {speaker:'heroine_02',expression:'neutral',text:'誰來印考卷、哪一台又卡紙。'},
       {speaker:'heroine_02',expression:'thinking',text:'我去英國的話，那邊是下午三點。'},
       {speaker:'heroine_02',expression:'neutral',text:'……她十點要打給誰？'},
-      {choice:[{text:'「妳想去嗎？」',unless:{flags:['dating_kexin']},set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8,aff:3}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
-        {text:'「妳想去嗎？」',if:{flags:['dating_kexin']},set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
+      {choice:[{text:'「妳想去嗎？」',unless:GF('heroine_02'),set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8,aff:3}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
+        {text:'「妳想去嗎？」',if:GF('heroine_02'),set:{Z4_PICK:'want'},consequences:{rel:{heroine_02:{trust:8}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你問她想不想去'}]},goto:'want'},
         {text:'「先交件再說，錄取了再煩惱。」',set:{Z4_PICK:'apply'},consequences:{rel:{heroine_02:{trust:5,resp:4}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：先交件再說'}]},goto:'do'},
         {text:'「家裡的事比較重要吧。」',set:{Z4_PICK:'family'},consequences:{rel:{heroine_02:{trust:2}},mem:[{npc:'heroine_02',tag:'SHARED_SECRET',note:'十點的電話：你說家裡的事比較重要'}]},goto:'fam'}]},
       {label:'want'},{speaker:null,text:'她沉默很久。'},{speaker:'heroine_02',expression:'neutral',text:'……想。'},{speaker:null,text:'她用手指捲頭髮，捲了三圈。'},{speaker:'heroine_02',expression:'smile',text:'好可怕。說出來就變成真的了。'},{goto:'end'},
@@ -280,7 +283,7 @@ const STORY_EVENTS=[
      交往中（v1 一開始都是）：「去外面講」（總圖門口的階梯），她不說「我請你」（AA_112 8-1）；單身：「去 Café？我請你。」。ADV 背景（Café 窗邊、總圖門口的階梯）還沒有，先用目前畫面。
      法律說明 BB-B 審過（BB_115 L442；BB_161 第 3 節）。「我小時候翻民法」只用 AA_12 的原意（翻得到、看不懂）。影響：筆記的第一頁第一次改寫（NOTE_PAGE1，AA_12 0-3 第 3 點；措辭需法律審查）、沛珊記憶 NOT_FOR_ME */
   { id:'ev_peishan_syllogism', title:'三段論', participants:['classmate_peishan'], location:['library','library_hall'], trigger:'interact', priority:5, weekday:[1,2,3,4,5], time:[16,19], term:['Y1S1'], weeks:[6,7], once:true, prereq:{events:['ev_peishan_doubt']}, background:'blur',
-    dialogue:[ {if:{flags:['dating_kexin']},speaker:'classmate_peishan',expression:'neutral',text:'總圖不能講話。去外面講。'},{unless:{flags:['dating_kexin']},speaker:'classmate_peishan',expression:'smile',text:'總圖不能講話。去 Café？我請你。'},
+    dialogue:[ {if:GF('classmate_peishan'),speaker:'classmate_peishan',expression:'neutral',text:'總圖不能講話。去外面講。'},{unless:GF('classmate_peishan'),speaker:'classmate_peishan',expression:'smile',text:'總圖不能講話。去 Café？我請你。'},
       {speaker:'classmate_peishan',expression:'thinking',text:'老師說法律的推理是三段論。大前提是法條，小前提是事實，結論是……把事實放進法條。'},
       {speaker:'player',text:'（在紙上畫了三個框）所以先找規則，再看這件事符不符合，最後才說結果。'},{speaker:'player',text:'……我小時候翻民法，就是少了中間那一步。'},
       {speaker:'classmate_peishan',expression:'smile',text:'（看著那三個框）你講得很開心耶。'},{speaker:'classmate_peishan',expression:'thinking',text:'我聽完的感覺是，人被放進一個框裡。'},{speaker:'classmate_peishan',expression:'thinking',text:'……我是不是不適合念這個。'},
@@ -494,7 +497,7 @@ const STORY_EVENTS=[
       {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。經濟系有一個人，冷笑話講到全營地睡著。'},
       {label:'end'} ],
     consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
-    after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; } },
+    after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
   /* 以安新 3 宿舍的規則（交付清單 A14；交接包_v1 第 3 節、AA_113 事件 3）：祐廷不在，轉述。麵店團群組的訊息在 story3d.js 的 phoneRules（第 7 週週二晚上）；
      沒有加入麵店團群組的玩家，改成沛珊當面說同樣的內容（第 7 週起找她說話；要認識她）。只記旗標 AN_DORM_RULES（聽說，不寫成玩家在場）*/
   { id:'ev_an_dorm_rules_peishan', title:'宿舍的規則', participants:['classmate_peishan'], location:'any', trigger:'interact', priority:3, term:['Y1S1'], once:true, background:'blur',
@@ -1223,8 +1226,8 @@ const STORY_EVENTS=[
       {speaker:null,text:'（全場笑。）'},
       {choice:[{text:'（拍手）',set:{ZQ_SHOW:'clap'},goto:'clap'},{text:'（坐著聽完）',set:{ZQ_SHOW:'came'},goto:'came'},{text:'（先走）',set:{ZQ_SHOW:'half'},goto:'end'}]},
       {label:'clap'},{speaker:'heroine_04',expression:'laugh',text:'我看到你了。你拍得超大聲。很丟臉。……謝啦。'},
-      {if:{custom:G=>!G.flags.dating_kexin&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她把一張插座貓貼紙，直接貼在你的手機殼上。）'},
-      {unless:{custom:G=>!G.flags.dating_kexin&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她遞給你一張插座貓貼紙。）'},
+      {if:{custom:G=>!GFN(G,'heroine_04')&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她把一張插座貓貼紙，直接貼在你的手機殼上。）'},
+      {unless:{custom:G=>!GFN(G,'heroine_04')&&typeof SOCIAL!=='undefined'&&['FRIEND','CLOSE_FRIEND'].includes(SOCIAL.friendLevel('heroine_04'))},speaker:null,text:'（她遞給你一張插座貓貼紙。）'},
       {mem:[{npc:'heroine_04',tag:'CLAPPED',note:'大一下的吉他社成發：你拍手'}]},{goto:'end'},
       {label:'came'},{speaker:null,text:'（她下台經過，點個頭。）'},{speaker:'heroine_04',expression:'neutral',text:'你有來。'},
       {label:'end'} ] },
@@ -2554,7 +2557,7 @@ const STORY_EVENTS=[
     prereq:{custom:G=>!G.flags.STUDYGROUP_LEADER},
     dialogue:[ {speaker:null,text:'（來對題目的人從十二個變五個。）'} ] },
   /* 沛珊 P4b 在 Café 的那一次（BB_97 4-4、AA_177 第 8 節②）：第 8 週週六 4/17，12:30 她傳「總圖滿了。兩點半，靠窗。」（story3d.js）→ 13:00～15:00 走進 Café 就演；可以錯過。
-     只有兩個人的版本（祐廷在和別人交往＝小組版，照舊在總圖，沒有這一次）。CG BCG-35 放在她把便條推過來的那一拍 */
+     只有兩個人的版本（祐廷在和別人交往、她也知道＝小組版，照舊在總圖，沒有這一次）。CG BCG-35 放在她把便條推過來的那一拍 */
   { id:'ev_peishan_cafe_42', title:'今天念了 42 頁', participants:['classmate_peishan'], location:'cafe', trigger:'auto', once:true, term:['Y2S2'], time:[13,15], background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2027-04-17')&&!G.flags.PS_P4B_GROUP&&!!(G.msgs&&G.msgs.some(m=>m.tag==='ps_p4b_cafe'))},
     spawn:{npc:'classmate_peishan',dist:1.6,pose:'idle'},
@@ -3073,26 +3076,26 @@ const STORY_EVENTS_V11=[
      單身：照原文兩句；交往中（AA_108 第 5 節）：改成多人——「……方奕廷也去。……你要來嗎？」，數字沒有 aff。「早場我起不來。」不扣分：「好。那下次有午場再說。」（記 zrDeclineDay；三週後的週六＝午場 ev_zhiruo_matinee，BB_96 3-5b）。
      「幾點？」或劇透那一條都算答應：zhiruo_film_date＋zhiruoFilmDay（隔天週六 10:00 的早場＝出遊 ev_zhiruo_early_show，story3d.js 排）*/
   { id:'ev_zhiruo_film_night', title:'週末看片', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[12,13,14,15], weekday:[5],   /* BB_161 ②：Z4 之後的週五，第 12～15 週（原本只有第 12～13 週，Z4 晚一週就整條沒了）*/ time:[19,22], prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},memory:[{npc:'heroine_02',tag:'SHARED_SECRET'}],events:['ev_zhiruo_secret']}, background:'blur',
-    dialogue:[ {unless:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'明天我沒班，要去看《東京物語》重映，早場。'},   /* AA_209 附錄B §2 */
-      {unless:{flags:['dating_kexin']},speaker:'heroine_02',expression:'embarrassed',text:'……你要不要一起？不來也沒關係啦。'},   /* AA_209 附錄B §2 */
-      {if:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'明天我沒班。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？'},   /* AA_209 附錄B §2（交往中的版本「店休」也改成「我沒班」）*/
-      {choice:[{text:'「幾點？」',unless:{flags:['dating_kexin']},consequences:{rel:{heroine_02:{aff:6,fam:5,comf:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》'}],flags:{zhiruo_film_date:true},stamp:['zhiruoFilmDay']},goto:'yes'},
-        {text:'「幾點？」',if:{flags:['dating_kexin']},consequences:{rel:{heroine_02:{fam:5,comf:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》（三個人）'}],flags:{zhiruo_film_date:true},stamp:['zhiruoFilmDay']},goto:'yes'},
+    dialogue:[ {unless:GF('heroine_02'),speaker:'heroine_02',expression:'smile',text:'明天我沒班，要去看《東京物語》重映，早場。'},   /* AA_209 附錄B §2 */
+      {unless:GF('heroine_02'),speaker:'heroine_02',expression:'embarrassed',text:'……你要不要一起？不來也沒關係啦。'},   /* AA_209 附錄B §2 */
+      {if:GF('heroine_02'),speaker:'heroine_02',expression:'smile',text:'明天我沒班。我要去看《東京物語》的重映，早場。方奕廷也去。……你要來嗎？'},   /* AA_209 附錄B §2（交往中的版本「店休」也改成「我沒班」）*/
+      {choice:[{text:'「幾點？」',unless:GF('heroine_02'),consequences:{rel:{heroine_02:{aff:6,fam:5,comf:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》'}],flags:{zhiruo_film_date:true},stamp:['zhiruoFilmDay']},goto:'yes'},
+        {text:'「幾點？」',if:GF('heroine_02'),consequences:{rel:{heroine_02:{fam:5,comf:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》（三個人）'}],flags:{zhiruo_film_date:true},stamp:['zhiruoFilmDay']},goto:'yes'},
         {text:'「早場我起不來。」',consequences:{rel:{heroine_02:{fam:1}},mem:[{npc:'heroine_02',tag:'DECLINED_INVITE',note:'看片邀約（她說下次有午場再說）'}],stamp:['zrDeclineDay']},goto:'no'},
         {text:'「我看過了。結局是——」',consequences:{rel:{heroine_02:{comf:2}}},goto:'spoil'}]},
       {label:'yes'},{speaker:'heroine_02',expression:'smile',text:'十點。公館的那間。你遲到我就自己進去。'},{goto:'end'},
       {label:'no'},{speaker:'heroine_02',expression:'neutral',text:'好。那下次有午場再說。'},{goto:'end'},
       {label:'spoil'},{speaker:'heroine_02',expression:'annoyed',text:'不准講！'},{speaker:'heroine_02',expression:'laugh',text:'……好啦，那部電影沒有結局可以劇透。你這樣算答應了嗎？'},
-      {unless:{flags:['dating_kexin']},set:{zhiruo_film_date:true},stamp:['zhiruoFilmDay'],rel:{heroine_02:{aff:4,fam:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》'}]},
-      {if:{flags:['dating_kexin']},set:{zhiruo_film_date:true},stamp:['zhiruoFilmDay'],rel:{heroine_02:{fam:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》（三個人）'}]},{label:'end'} ] },
+      {unless:GF('heroine_02'),set:{zhiruo_film_date:true},stamp:['zhiruoFilmDay'],rel:{heroine_02:{aff:4,fam:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》'}]},
+      {if:GF('heroine_02'),set:{zhiruo_film_date:true},stamp:['zhiruoFilmDay'],rel:{heroine_02:{fam:4}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'答應一起看《東京物語》（三個人）'}]},{label:'end'} ] },
   /* 芷若 Z5 早場（BB_96 3-5 的新事件 ev_zhiruo_early_show；交接包 v2）：週五答應以後，週六 10:00（出遊）。2D「公館・二輪戲院」（虛構）→ 2D「豆漿店」。台詞照原文；表情 sad 改 thinking。
      單身：兩個人，記 WATCHED_FILM（方奕廷 Z6 的前置）；交往中：三個人（方奕廷），最後問「笠智眾是誰？」的是方奕廷，記 WATCHED_FILM_GROUP（不觸發 Z6）；不出 CG。
      三個「下次」記 Z5_NEXT（hers／mine／roommate；兩週內的回聲：片單、Café 點餐「你挑好了嗎？」、阿凱來 Café）。電影票根（房間物件）：BB_96 3-5c（story3d.js 的 roomItemList）；CG 候選（戲院門口，她拿著兩張票根）還沒有 */
   { id:'ev_zhiruo_early_show', title:'東京物語的早場', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,   /* 09:40 碰面 → 約 12:40 回來（10:00～12:00 電影、豆漿店）。戲院門口碰面那一拍：BB-B c86cd8cf（BCG-21 cg_two_tickets_heroine02）*/
     dialogue:[ {scene:'公館・二輪戲院',bg:'gongguan_cinema'},
-      {unless:{flags:['dating_kexin']},speaker:null,text:'九點四十，巷子裡的二輪戲院。她已經到了。'},{unless:{flags:['dating_kexin']},cg:'cg_two_tickets_heroine02'},
-      {unless:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'（把兩張票舉到臉旁邊）早。……票我先買了。'},{unless:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'早場的人比較少。我喜歡。'},
-      {if:{flags:['dating_kexin']},speaker:'heroine_02',expression:'neutral',text:'（看了一下手錶）方奕廷已經進去了。……他坐倒數第三排。我教的。'},   /* 戲院門口碰面那一拍（BB_96 3-5，BB-B c86cd8cf）：雙方單身＝BCG-21 疊在這一拍；交往中三個人、不出 CG */
+      {unless:GF('heroine_02'),speaker:null,text:'九點四十，巷子裡的二輪戲院。她已經到了。'},{unless:GF('heroine_02'),cg:'cg_two_tickets_heroine02'},
+      {unless:GF('heroine_02'),speaker:'heroine_02',expression:'smile',text:'（把兩張票舉到臉旁邊）早。……票我先買了。'},{unless:GF('heroine_02'),speaker:'heroine_02',expression:'smile',text:'早場的人比較少。我喜歡。'},
+      {if:GF('heroine_02'),speaker:'heroine_02',expression:'neutral',text:'（看了一下手錶）方奕廷已經進去了。……他坐倒數第三排。我教的。'},   /* 戲院門口碰面那一拍（BB_96 3-5，BB-B c86cd8cf）：雙方單身＝BCG-21 疊在這一拍；交往中三個人、不出 CG */
       {scene:'豆漿店',bg:'soymilk_shop'},
       {speaker:'heroine_02',expression:'thinking',text:'我每次看都在想，那個媽媽到東京看小孩，大家都很忙。'},
       {speaker:'heroine_02',expression:'thinking',text:'最後對她最好的，是一個不是她小孩的人。'},
@@ -3100,40 +3103,40 @@ const STORY_EVENTS_V11=[
       {speaker:'heroine_02',expression:'thinking',text:'我在台北，對每個客人都很好。'},
       {speaker:'heroine_02',expression:'smile',text:'（喝豆漿）好了，太沉重了。'},
       {speaker:'heroine_02',expression:'smile',text:'你覺得那個老闆，像不像笠智眾？'},
-      {unless:{flags:['dating_kexin']},speaker:'player',text:'誰？'},
-      {if:{flags:['dating_kexin']},speaker:'npc_fangyt',expression:'neutral',text:'笠智眾是誰？'},
+      {unless:GF('heroine_02'),speaker:'player',text:'誰？'},
+      {if:GF('heroine_02'),speaker:'npc_fangyt',expression:'neutral',text:'笠智眾是誰？'},
       {speaker:'heroine_02',expression:'smile',text:'……沒事。下次帶你看別部。'},
       {choice:[{text:'「下次妳挑。」',set:{Z5_NEXT:'hers'},goto:'h'},{text:'「下次我挑。」',set:{Z5_NEXT:'mine'},goto:'m'},{text:'「我下次帶我室友來。」',set:{Z5_NEXT:'roommate'},goto:'r'}]},
       {label:'h'},{speaker:'heroine_02',expression:'smile',text:'好。我列一張表給你。很長。'},{goto:'end'},
       {label:'m'},{speaker:'heroine_02',expression:'laugh',text:'你？你看過幾部電影？'},{speaker:null,text:'她笑。'},{speaker:'heroine_02',expression:'smile',text:'……好，你挑。我不笑你。大概。'},{goto:'end'},
       {label:'r'},{speaker:'heroine_02',expression:'neutral',text:'……好。'},
       {label:'end'} ],
-    after:G=>{ G.flags.zhiruoFilmSeenDay=G.day; if(typeof SOCIAL==='undefined') return; const d=!!G.flags.dating_kexin; SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《東京物語》的早場（三個人）':'《東京物語》的早場'); } },
+    after:G=>{ G.flags.zhiruoFilmSeenDay=G.day; if(typeof SOCIAL==='undefined') return; const d=GFN(G,'heroine_02'); SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《東京物語》的早場（三個人）':'《東京物語》的早場'); } },
   /* Z5 的回聲「我下次帶我室友來」（BB_96 3-5）：早場之後兩週內走進 Café，阿凱真的來了一次（只一次）*/
   { id:'ev_kai_cafe_film', title:'聽說這裡有電影', participants:['kai','heroine_02'], location:'cafe', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>G.flags.Z5_NEXT==='roommate'&&G.flags.zhiruoFilmSeenDay!=null&&G.day>G.flags.zhiruoFilmSeenDay&&G.day-G.flags.zhiruoFilmSeenDay<=14},
     dialogue:[ {speaker:'kai',expression:'neutral',text:'聽說這裡有電影。'},{speaker:'heroine_02',expression:'neutral',text:'……這裡是咖啡廳。'} ] },
   /* 芷若的午場（BB_96 3-5b，BB-B 2026-10-16 補；Z5 被拒絕的後續）：Z5 選「早場我起不來。」（zrDeclineDay）之後第 3 週的週六 09:30 她傳訊息（story3d.js），「起得來。」＝11:40 公館二輪戲院（出遊）。
      散場（13:30，和 Z5 共用背景）兩個選項：「那下午要做什麼？」comf 3／「下次我早場起得來。」trust 3、ZR_EARLY_PROMISE（大二 Z7 的回聲）。
-     單身：WATCHED_FILM（同 Z5 兩人版：Z6、BB_113 照樣出現）＋aff 3；交往中（同 Z5 用 dating_kexin）：三個人、WATCHED_FILM_GROUP。ZR_MATINEE_SEEN＝房間的票根是午場那一張 */
+     單身：WATCHED_FILM（同 Z5 兩人版：Z6、BB_113 照樣出現）＋aff 3；交往中、她也知道（同 Z5 讀 knowsGF）：三個人、WATCHED_FILM_GROUP。ZR_MATINEE_SEEN＝房間的票根是午場那一張 */
   { id:'ev_zhiruo_matinee', title:'晚春的午場', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,   /* 11:40 開演 → 13:30 散場 → 走到溫州街約 14:00 */
     dialogue:[ {scene:'公館・二輪戲院',bg:'gongguan_cinema'},
       {speaker:null,text:'散場的時候，外面還是白天。'},
-      {if:{flags:['dating_kexin']},speaker:'npc_fangyt',text:'午場出來太陽還在。我每次都覺得被騙。'},{if:{flags:['dating_kexin']},speaker:'heroine_02',expression:'smile',text:'……我也是。'},
+      {if:GF('heroine_02'),speaker:'npc_fangyt',text:'午場出來太陽還在。我每次都覺得被騙。'},{if:GF('heroine_02'),speaker:'heroine_02',expression:'smile',text:'……我也是。'},
       {speaker:'heroine_02',expression:'thinking',text:'（瞇起眼睛）午場最可惜的就是這個。'},
       {speaker:'heroine_02',expression:'thinking',text:'看完一部電影出來，世界應該要變一點。結果太陽還在原來的地方。'},
       {speaker:'heroine_02',expression:'smile',text:'……可是也有好處。看完，還有一整個下午。'},
       {choice:[{text:'「那下午要做什麼？」',consequences:{rel:{heroine_02:{comf:3}}},goto:'a'},{text:'「下次我早場起得來。」',consequences:{rel:{heroine_02:{trust:3}},flags:{ZR_EARLY_PROMISE:true}},goto:'b'}]},
       {label:'a'},{speaker:'heroine_02',expression:'smile',text:'我兩點要去溫州街。……還有半小時。你決定。'},
-      {unless:{flags:['dating_kexin']},speaker:null,text:'你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。'},
-      {if:{flags:['dating_kexin']},speaker:null,text:'你們三個人走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。'},
+      {unless:GF('heroine_02'),speaker:null,text:'你們沿著新生南路慢慢走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。'},
+      {if:GF('heroine_02'),speaker:null,text:'你們三個人走到溫州街。她一路在講剛剛那個父親說的話，講到一半停下來。'},
       {speaker:'heroine_02',expression:'laugh',text:'……我講太多了。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_02',expression:'smile',text:'真的？那下次是早場。你說的，我記下來了。'},
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天這部，叫《晚春》。你不用記片名。記得是午場就好。'},{set:{ZR_MATINEE_SEEN:true}} ],
-    after:G=>{ if(typeof SOCIAL==='undefined') return; const d=!!G.flags.dating_kexin; SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《晚春》的午場（三個人）':'《晚春》的午場'); if(!d) SOCIAL.adjust('heroine_02',{aff:3}); } },
+    after:G=>{ if(typeof SOCIAL==='undefined') return; const d=!!GFN(G,'heroine_02'); SOCIAL.remember('heroine_02',d?'WATCHED_FILM_GROUP':'WATCHED_FILM',d?'《晚春》的午場（三個人）':'《晚春》的午場'); if(!d) SOCIAL.adjust('heroine_02',{aff:3}); } },
   /* 方奕廷 Z6「隔壁房的人記得的事」（BB_96 3-6；交接包 v2）：大一下第 16～18 週（第 17 週左右）平日 12–13 在校園找他說話；前置 WATCHED_FILM（兩個人看的那一版）、玩家沒有在交往、只一次。記 FANG_HINT */
   { id:'ev_fangyt_hint', title:'隔壁房的人記得的事', participants:['npc_fangyt'], location:'campus', trigger:'interact', priority:7, once:true, term:['Y1S2'], weeks:[15,16], weekday:[1,2,3,4,5], time:[12,13], background:'blur',
-    prereq:{memory:[{npc:'heroine_02',tag:'WATCHED_FILM'}],custom:G=>!G.flags.dating_kexin},
+    prereq:{memory:[{npc:'heroine_02',tag:'WATCHED_FILM'}],custom:G=>!GFN(G,'heroine_02')},
     dialogue:[ {speaker:'npc_fangyt',expression:'neutral',text:'你最近常去兩點半喔？'},   /* AA_209 2-1 第 4 列（BB_180；取代 AA_209 第 2 節和附錄 B 的版本）*/
       {speaker:'npc_fangyt',expression:'neutral',text:'我跟芷若高中同校。她那時候就常一個人去看二輪。'},
       {speaker:'npc_fangyt',expression:'neutral',text:'好，我先去上課了。'},
@@ -3203,7 +3206,7 @@ const STORY_EVENTS_V11=[
         {text:'「這比我想的好玩。」',unless:{custom:G=>typeof SOCIAL!=='undefined'&&(SOCIAL.has('heroine_04','ARGUED_ABOUT_CAREER')||SOCIAL.has('heroine_04','CONTEST_DAY'))},consequences:{rel:{heroine_04:{trust:5,aff:4}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:'測試她做的遊戲'}]},goto:'better'},
         {text:'「總圖二樓靠窗那排的插座是壞的。」',consequences:{rel:{heroine_04:{trust:6,resp:5}},mem:[{npc:'heroine_04',tag:'PLAYTESTED',note:'測試她做的遊戲'}],flags:{FIRST_BUG:true}},goto:'bug'}]},
       {label:'cat'},{speaker:'heroine_04',expression:'serious',text:'因為牠的手機沒電了。'},{speaker:'heroine_04',expression:'laugh'},{speaker:null,text:'（她說得很認真，然後自己笑到趴在桌上。）'},{goto:'end'},
-      {label:'better'},{unless:{flags:['dating_kexin']},speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話，我會當真。'},{if:{flags:['dating_kexin']},speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話。我會真的把它做完。'},{goto:'end'},
+      {label:'better'},{unless:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話，我會當真。'},{if:GF('heroine_04'),speaker:'heroine_04',expression:'smile',text:'你不要突然講這種話。我會真的把它做完。'},{goto:'end'},
       {label:'bug'},{speaker:null,text:'（她愣住，打開程式碼。）'},{speaker:'heroine_04',expression:'surprised',text:'……真的假的。我加進去。'},
       {label:'end'} ] },
   /* 阿凱 K2「工程師也是人」（BB_96 4-3，交接包 v2，新事件）：子晴 Q6 之後第一個在宿舍和他說話的晚上（他 18 點以後都在宿舍）；兩週內沒說到話就不演。

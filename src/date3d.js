@@ -274,7 +274,15 @@ const DATE=(function(){
   /* ===== 告白（ROM-1017-L／SYS-02；AA_215 第 1 節（使用者定案）、AA_128 3-1～3-3、AA_126 4-2）=====
      正式校外約會的結尾、條件到齊（canConfess）＋這一位的台詞已經交付（data/confess_lines.js）才出現「（告訴她）」；不說不扣分。
      答應＝ROM.start（dating_<id>、交往紀錄）；還沒＝記 notYetFlag，不鎖線：兩週後、而且中間再多一次正式校外約會才會再出現；
+     答應還是還沒（BB_191 第 10 節 @f3ae0e82，不擲骰）：她願意時，她的戀愛（npcRom）到她的答應線（YES_LINE；第 6 階是 55，AA 可以調）＝答應，沒到＝還沒；
+     「還沒」兩次以後的那一次（第三次告白）一定答應（仍然願意、仍是第 6 階）；「還沒」不扣數值、不改階段；
      學姊研究所筆試以前（decline:'preexam'）＝婉拒、記 preexamFlag，一樣不鎖線（筆試前再說還是婉拒）。台詞一律照交付的定稿，這裡不寫字 */
+  S.YES_LINE={heroine_04:62,classmate_peishan:65,heroine_03:68,heroine_02:68,heroine_05:70,heroine_01:72};
+  S.confessDecide=function(G,id){ const L=S.log(G,id); if((L.notYetN|0)>=2) return 'yes'; const line=S.YES_LINE[id]; if(line==null) return 'yes';
+    const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):null; return r&&(+r.npcRom||0)>=line?'yes':'notYet'; };
+  /* 這一趟有沒有吃東西的互動點（AA_223 第 3 節：餐廳、小吃、甜點、飲料都算；只逛、只玩扭蛋不算）：子晴告白的第一句 */
+  S.EAT=['D04.snack','D05.cafe','D06.cafe','D09.tea','D10.snack','D12.tea','D13.drink','D15.store','D16.rest','D18.snack','D18.teahouse','D20.street','D22.fish','D23.cook','D24.street','D25.cafe','D28.alley','D30.stall','D31.egg','D32.stall'];
+  S.ate=t=>!!t&&Array.isArray(t.spots)&&t.spots.some(id=>S.EAT.includes(id));
   const CL=id=>(typeof CONFESS_LINES!=='undefined'&&CONFESS_LINES[id])||null;
   const CV=(x,G,...a)=>typeof x==='function'?x(G,...a):x;   /* 台詞表的欄位可以是陣列，或照情況給陣列的函式 (G,t,k) */
   S.confessReady=function(G,id,t){ const c=S.canConfess(G,id), D=CL(id); if(!c.ok) return c; if(!D||!D.yes) return {ok:false,why:'lines'};
@@ -287,12 +295,12 @@ const DATE=(function(){
         if(Array.isArray(x.choice)){ const kk=await GM.choose(x.choice.map(q=>({t:q.t}))); await run((x.choice[kk]||{}).say); continue; }   /* 中間的小選擇（例：學姊婉拒以後「好。」／「我知道了。」）*/
         if(x.who==='narr') await GM.say(null,/^（/.test(x.text)?x.text:'（'+x.text+'）'); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text); else if(x.who===id) await GM.say(me,x.text,o); else await GM.say({name:nameOf(x.who),charId:x.who},x.text,o); } };
     await run(CV(D.say,G,t)); let k=-1; const ch=CV(D.choice,G,t); if(Array.isArray(ch)&&ch.length){ k=await GM.choose(ch.map(q=>({t:q.t}))); await run((ch[k]||{}).say); }
-    const res=c.decline==='preexam'?'preexam':(typeof D.unwillingIf==='function'&&D.unwillingIf(G,t)?'unwilling':(typeof D.decide==='function'?D.decide(G,t,k):'yes'));   /* unwilling：她當時不願意（AA_223：沛珊重考期等），選項照樣出現、她婉拒、不鎖線 */
+    const res=c.decline==='preexam'?'preexam':(typeof D.unwillingIf==='function'&&D.unwillingIf(G,t)?'unwilling':(typeof D.decide==='function'?D.decide(G,t,k):S.confessDecide(G,id)));   /* unwilling：她當時不願意（AA_223：沛珊重考期等），選項照樣出現、她婉拒、不鎖線 */
     if(res==='yes'&&typeof ROM!=='undefined'&&ROM.start&&ROM.start(G,id)){ await run(CV(D.yes,G,t,k)); (G.flags.confessed||(G.flags.confessed={}))[id]=G.day; return 'yes'; }
     L.notYet={day:G.day,count:L.count|0};
     if(res==='preexam'){ await run(CV(D.preexam,G,t,k)); if(D.preexamFlag) G.flags[D.preexamFlag]=G.day; return 'preexam'; }
     if(res==='unwilling'){ await run(CV(D.unwilling,G,t,k)); return 'unwilling'; }
-    await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]=G.day; return 'notYet'; };
+    L.notYetN=(L.notYetN|0)+1; L.notYet.n=L.notYetN; await run(CV(D.notYet,G,t,k)); if(D.notYetFlag) G.flags[D.notYetFlag]={n:L.notYetN,day:G.day}; return 'notYet'; };
   /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
   S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
   /* 相簿（Life Album，AA_128 5-1、5-2 拍照位置）：拍照的互動點存一張（底圖＋她的人物圖層；合照要第 6 階或交往中）。G.album＝[{kind,trip,who,loc,day,h,both}]；手機「相簿」照時間排 */

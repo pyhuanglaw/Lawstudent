@@ -37,7 +37,7 @@ GM.money=function(n){ G.money+=n; };
   const ps='classmate_peishan', PT='p:classmate_peishan';
   const f=termDay('Y2S2',2,5), c=D('2027-04-17');
   check('0. 第 2 週週五＝3/5；4/17 是第 8 週週六',D('2027-03-05')===f&&termDay('Y2S2',8,6)===c);
-  const base=(day,h,o)=>{ o=o||{}; fresh(day,h,'dorm',o.flags); meet(ps); if(o.mirror) SOCIAL.remember(ps,'MIRROR_PEISHAN',''); if(o.friend) R(ps,...LV.FRI); else R(ps,...LV.FAM); if(o.dating) G.flags['dating_'+o.dating]=true; };
+  const base=(day,h,o)=>{ o=o||{}; fresh(day,h,'dorm',o.flags); meet(ps); if(o.mirror) SOCIAL.remember(ps,'MIRROR_PEISHAN',''); if(o.friend) R(ps,...LV.FRI); else R(ps,...LV.FAM); if(o.dating) G.flags['dating_'+o.dating]=true; if(o.knows) ROM.learn(G,ps,o.dating,'yt_told'); };   /* 她知道祐廷在和別人交往（BB_191 9-4 #4）*/
   base(f,20.5,{mirror:true}); run(20.5,20.95);
   check('1. 20:57 還沒有',!PHONE.sent(G,'ps_p4b'));
   run(21,21.2); let t=txt(PT), m=TH(PT).find(x=>x.ask&&x.ask.id==='ps_p4b');
@@ -52,14 +52,16 @@ GM.money=function(n){ G.money+=n; };
   base(f,20.9,{}); run(20.9,21.5);
   check('3. 有點熟、沒有 MIRROR_PEISHAN：沒有',!PHONE.sent(G,'ps_p4b'));
   base(f,20.9,{mirror:true,dating:'kexin'}); run(20.9,21.6);
-  check('4. 交往中（別人）：私訊照樣、加入小組「陪重考生念書」、阿哲「我來補債各。」',PHONE.sent(G,'ps_p4b')&&PHONE.inGroup(G,'ps_study')&&txt('g:ps_study').slice(-1)[0]==='zhe:我來補債各。'&&G.flags.PS_P4B_GROUP===true);
+  check('4. 和可昕交往中、沛珊不知道（BB_191 9-4 #4）：兩個人的版本（沒有小組）',PHONE.sent(G,'ps_p4b')&&!PHONE.inGroup(G,'ps_study')&&!G.flags.PS_P4B_GROUP);
+  base(f,20.9,{mirror:true,dating:'kexin',knows:true}); run(20.9,21.6);
+  check('4. 交往中（別人）、她知道：私訊照樣、加入小組「陪重考生念書」、阿哲「我來補債各。」',PHONE.sent(G,'ps_p4b')&&PHONE.inGroup(G,'ps_study')&&txt('g:ps_study').slice(-1)[0]==='zhe:我來補債各。'&&G.flags.PS_P4B_GROUP===true);
   base(f,20.9,{mirror:true,dating:ps}); run(20.9,21.6);
   check('4. 和沛珊本人交往：兩個人的版本（沒有小組）',PHONE.sent(G,'ps_p4b')&&!PHONE.inGroup(G,'ps_study'));
   // 便條
   const AM=INVITE_DATA.people[ps].afterMeet; const sat=termDay('Y2S2',3,6);
   base(f,20.9,{mirror:true}); run(20.9,21.2); G.day=sat;
   check('5. 總圖見面之後：「（她遞過來一張便條：「今天念了 42 頁。你呢？」）」；Café 沒有',JSON.stringify(AM(G,{day:sat},'library'))==='["（她遞過來一張便條：「今天念了 42 頁。你呢？」）"]'&&AM(G,{day:sat},'cafe')==null);
-  base(f,20.9,{mirror:true,dating:'kexin'}); run(20.9,21.6); G.day=sat;
+  base(f,20.9,{mirror:true,dating:'kexin',knows:true}); run(20.9,21.6); G.day=sat;
   check('5. 小組版：「你們呢？」',/你們呢/.test(AM(G,{day:sat},'library')[0]));
   base(sat,10,{mirror:true});
   check('5. P4b 還沒發生：沒有便條',AM(G,{day:sat},'library')==null);
@@ -72,7 +74,7 @@ GM.money=function(n){ G.money+=n; };
   check('6. 13:30 在 Café：會演；15:30 不演；4/24 不演',EVENTS.check(EV)&&(()=>{ G.hour=15.5; const a=EVENTS.check(EV); G.hour=13.5; G.day=c+7; const b=EVENTS.check(EV); G.day=c; return !a&&!b; })());
   const cg=[]; const c0=ADV.cg; ADV.cg=id=>{ cg.push(id); }; said=[]; try{ await EVENTS.run(EV); } finally { ADV.cg=c0; }
   check('6. CG cg_cafe_42pages_peishan＋便條那一句；CG 登記、圖檔在',cg.includes('cg_cafe_42pages_peishan')&&lines().slice(-1)[0]==='（她把便條推過來：「今天念了 42 頁。你呢？」）'&&/cg_cafe_42pages_peishan:\{file:'assets\/cg\/classmate_peishan\/cg_cafe_42pages\.webp'/.test(require('fs').readFileSync(require('path').join(ROOT,'src/adv3d.js'),'utf8'))&&require('fs').existsSync(require('path').join(ROOT,'assets/cg/classmate_peishan/cg_cafe_42pages.webp')));
-  base(f,20.9,{mirror:true,dating:'kexin'}); run(20.9,21.6); G.day=c; G.weekday=6; run(12,13);
+  base(f,20.9,{mirror:true,dating:'kexin',knows:true}); run(20.9,21.6); G.day=c; G.weekday=6; run(12,13);
   check('6. 小組版：沒有「總圖滿了」、Café 不演',!PHONE.sent(G,'ps_p4b_cafe')&&(()=>{ G.zone='cafe'; G.hour=13.5; return !EVENTS.check(EV); })());
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
