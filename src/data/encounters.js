@@ -24,7 +24,7 @@ const ENCOUNTERS={
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
       lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
     // ---- D06 臺北市立美術館 ----
-    {who:'heroine_05',spot:'D06',why:'她站在一幅畫前面，手上拿著展覽的說明。',days:[0],from:13,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y4S1','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_SIS',away:'在美術館',
+    {who:'heroine_05',spot:'D06',why:'她站在一幅畫前面，手上拿著展覽的說明。',days:[0],from:13,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_SIS',away:'在美術館',
       lines:{acq:['學弟。……你也看展？','我排了兩個小時。還剩四十分鐘。'],friend:['一件事。這一區的說明牌，我每一塊都讀完了。','……你不用。看你想看的就好。'],dating:['你來了。……我沒有約你。','重點是，我剛好在想，如果你在就好了。']},
       ex:{apart_talk:['學弟。……一件事。我先走了。']},src:'BB_144 1、3-3'},
     {who:'classmate_peishan',spot:'D06',why:'她在兒童區，看小孩畫畫。',days:[0],from:9.5,to:12,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],stageMin:'FAMILIAR',flags:['WISH_DONE_classmate_peishan'],busy:'no',join:true,memo:null,away:'在美術館',
