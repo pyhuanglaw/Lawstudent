@@ -12690,6 +12690,27 @@
     "receiver": "LAWWW-B",
     "ack": "未派"
    }
+  },
+  {
+   "id": "REL-NEXT",
+   "title": "下一個正式版（v9.10）：開發分支累積的修正與內容（iPhone 試玩 bug、QA-W1 座位與閃爍、Café 地板、宿營開局…）一起發布",
+   "area": "REL",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "使用者 2026-10-16 22:5x「不用小更新」：不發小更新，等正式版。發布前照 D85＋TESTING.md 第五節（乾淨 checkout 的發布前清單＋從標題開新遊戲的流程）；宿營開局（CAMP-L1）改預設之後再發。原本工作階段待辦「Release v9.10」補進總表（使用者 00:2x：待辦全部要交接）",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "所有玩家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "工作階段待辦 #38 補登；使用者 22:5x、00:2x",
+   "authorized": "D85（LAWWW 自主發布）"
   }
  ]
 }
