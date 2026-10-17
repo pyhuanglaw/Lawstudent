@@ -27,7 +27,7 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         run.setup('讀檔：校園 11:00')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 34, 'z': -91.8, 'yaw': 3.14},
+        await L.load_state(pg, {'zone': 'campus', 'hour': 11.0, 'day': 11, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 34, 'z': -91.8, 'yaw': 3.14},
                                 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True}}, quiet_events=True)
         await pg.wait_for_timeout(3000)
 
