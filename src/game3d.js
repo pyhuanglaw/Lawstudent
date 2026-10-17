@@ -410,6 +410,7 @@ const GAME = (function(){
     const ft=typeof FREE_TRIPS!=='undefined'?FREE_TRIPS.spots||[]:[]; for(const ph of ((G.places||{}).photos||[])){ const sp=ft.find(s=>s.id===ph.spot)||{}; items.push({t:ph.day*24+(ph.h||0),bg:img(sp.bg),cap:(sp.name||ph.spot)+'・'+when(ph.day)}); }
     for(const a of (G.album||[])){ if(a.kind!=='date') continue; const L=typeof DATE!=='undefined'&&DATE.loc?DATE.loc(a.loc)||{}:{}, key=Object.keys(BG).find(k=>k.startsWith(String(a.loc||'').toLowerCase()+'_base')), pf=typeof PORTRAIT_FILES!=='undefined'&&PORTRAIT_FILES[a.who]&&PORTRAIT_FILES[a.who].campus?'assets/portraits/'+a.who+'/campus/neutral.webp':'';
       items.push({t:a.day*24+(a.h||0),bg:key?img(key):'',fg:pf,cap:(L.name||a.loc)+'・'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(a.who):a.who)+(a.both?'（合照）':'')+'・'+when(a.day)}); }
+    for(const a of (G.album||[])){ if(a.kind!=='memory') continue; items.push({t:a.day*24+(a.h||0),bg:a.bg?'assets/bg/'+a.bg+'.webp':'',cap:(a.title||'')+'・'+when(a.day)}); }   /* 劇情收進相簿的一頁（STORY.albumMemory；例：學姊 A5-1 的「高二的校慶」「筆記本那一頁」）：bg 空白＝還沒有圖（筆記本的號碼不能看得清楚，先不放圖）*/
     const cg=typeof CG_REGISTRY!=='undefined'?(((G.cg||{}).unlocked)||[]).filter(id=>CG_REGISTRY[id]):[];
     if(!items.length&&!cg.length) return '<div class="item muted">還沒有照片。自由出行可以拍一張，和她出去的時候也可以在拍照的地方拍。</div>';
     items.sort((a,b)=>b.t-a.t); let h='';
@@ -479,7 +480,7 @@ const GAME = (function(){
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
   function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); }
   let phoneWaiters=[];
-  function closePhone(){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); }
+  function closePhone(){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); if(typeof STORY!=='undefined'&&STORY.afterPhoneClose&&!D.active) STORY.afterPhoneClose(GM).catch(e=>console.warn('afterPhoneClose',e)); }   /* 看完手機以後的旁白（學姊 A5-1 B：按讚、加好友）*/
   GM.openPhone=openPhone; GM.closePhone=closePhone;
   /* 劇情打開手機的某一段對話（第一天可昕的訊息）：玩家關掉手機才繼續 */
   GM.phoneThread=th=>new Promise(res=>{ phoneWaiters.push(res); openPhone('msg',th); });

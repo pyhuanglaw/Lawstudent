@@ -65,7 +65,7 @@ const ROM=(function(){
   S.canStart=function(G,id){ const R=S.get(G,id); if(R.status==='dating'||R.status==='paused') return false;
     if(R.status==='friend_after_catch'&&R.restartDay!=null&&G.day<R.restartDay) return false;
     return G.flags.CLEANUP_DONE!==false; };
-  S.start=function(G,id){ if(!S.canStart(G,id)) return false; const F=G.flags, R=S.get(G,id); F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});
+  S.start=function(G,id){ if(!S.canStart(G,id)) return false; const F=G.flags, R=S.get(G,id); F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});
     S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
   /* 修補：歷史不變、裂縫歸零 */
   S.mend=function(G,id){ if(S.CRACK[id]) G.flags[S.CRACK[id]]=0; };

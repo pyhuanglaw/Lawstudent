@@ -245,6 +245,61 @@ const STORY_EVENTS=[
   /* 社團博覽會・法服的攤位（AA_218 17-3 社博，使用者 07:5x 批准；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版。17-6 的 ④ 9/16 私訊是強制演出，所以做過 W1 的人到社博時一定有 ②～④ 至少一次＝主版本前提成立；家聚第一次見到她的也算 W1）。
      9/30、10/1 11:00～17:00 椰林大道法服的帳篷（story3d.js 的互動點；博覽會選單選法服也演這一段）。只一次，記 SIS_CLUB_EXPO；祐廷直接寫報名表＝加入法服（lawclub、CLUB_lawclub_study）。
      合併版同時算 W1（SIS_W1、met_sis、FIRST_MET、學姊 +3）。「學姐」「學長」是背景社員，不取名 */
+  /* 學姊 A5-1 新版 C1（BB_188 @05571a45 原文，使用者 10:3x 對 LAWWW-C「通過」；實作照 AA_218 17-13 第 3、5 點）：她研究所放榜（3/23，SIS_RESULT_OUT）以後，
+     2026-04-08（三）16:30 法學院圖書館外的台階；玩家不在校內就延到下一個週三 16:30（跳過考試週＝大一下第 8～9 週），最晚第 15 週。B 發生過（9/3 加好友）才有；不必交往、沒有好感門檻。
+     祐廷說完「……等一下。我高二校慶好像被問過。」以後插播回想 A（BB_188 A 十項回覆版），演完回到台階。CG BCG-49 還沒有：先用操場的一般背景。記 SIS_FESTIVAL_MET（C2 讀）*/
+  { id:'ev_sis_c1_festival', title:'高二的校慶', participants:['heroine_05'], location:['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1'], trigger:'auto', term:['Y1S2'], weeks:[7,10,11,12,13,14,15], weekday:[3], time:[16.5,18], once:true, priority:7, background:'blur',
+    prereq:{flags:['SIS_CONTACTED','SIS_RESULT_OUT'],custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey('2026-04-08')},
+    dialogue:[ {scene:'臺大・法學院圖書館外的台階',bg:'ntu_linze'},{speaker:null,text:'（你走過法學院圖書館外面的台階，學姊坐在最上面一階，旁邊放著一杯咖啡。）'},
+      {speaker:'heroine_05',expression:'neutral',text:'你下學期通識選好了嗎？'},
+      {speaker:'player',text:'還沒。有推薦的嗎？'},
+      {speaker:'heroine_05',expression:'smile',text:'我大一修過一門，還滿好玩的。期末要分組做訪談，還要錄影。'},
+      {speaker:'heroine_05',expression:'neutral',text:'我們那組回我高中，校慶那天去找學弟妹，問有沒有人願意之後配合我們錄影。'},
+      {speaker:'player',text:'妳高中就是我高中啊。'},
+      {speaker:'heroine_05',expression:'neutral',text:'對啊。'},
+      {speaker:'player',text:'……等一下。我高二校慶好像被問過。一群大學生，說他們是台大法律的，要錄影、要約好幾次。'},
+      {scene:'回想・高二上的校慶',bg:'camp_school'},
+      {speaker:null,text:'（高二上，校慶。操場邊排滿攤位，很吵。你手上一碗剉冰，煉乳快要和紅豆化在一起。）'},
+      {speaker:null,text:'（三、四個大學生走過來。後面一個長頭髮的女生拿著筆記本，翻開的那頁已經寫了好幾個電話。）'},
+      {speaker:'組員',text:'學弟，不好意思打擾一下。我們是台大法律系的，在做通識課的作業。'},
+      {speaker:'組員',text:'想找願意之後配合我們訪談的同學，要錄影，大概會約幾次。'},
+      {speaker:'player',text:'……要錄影喔。'},
+      {speaker:'player',text:'（低頭挖了一口冰）嗯……我想一下。'},
+      {speaker:'另一個組員',text:'沒關係，你可以先考慮。留個電話給我們？之後排好時間再打給你。'},
+      {speaker:'player',text:'喔，好。'},
+      {speaker:null,text:'（你一邊挖冰，一邊把號碼念出來。後面那個女生低頭抄進筆記本。）'},
+      {speaker:'溫書瑀',text:'不好意思，最後四個數字再念一次？'},   /* 回想裡不用現在的立繪（她那時長髮放下來、沒綁；BCG-49 之後補）：字串名字、不對到 heroine_05 */
+      {speaker:null,text:'（你又念了一次。冰滴到手上，你換一隻手拿。）'},
+      {speaker:'組員',text:'好，謝謝學弟！'},
+      {speaker:null,text:'（他們往下一攤走。你低頭繼續吃冰。冰已經化掉一半了。）'},
+      {scene:'臺大・法學院圖書館外的台階',bg:'ntu_linze'},
+      {speaker:'heroine_05',expression:'surprised',text:'真的假的？你高二是哪一年？'},
+      {speaker:'player',text:'高二上。……那時候妳大一。'},
+      {speaker:'heroine_05',expression:'neutral',text:'那就是我們啊。'},
+      {speaker:'player',text:'真的假的。'},
+      {speaker:'heroine_05',expression:'smile',text:'不然誰會這麼巧。我們那天問了十幾組。'},
+      {speaker:'heroine_05',expression:'neutral',text:'你那時候有答應嗎？'},
+      {speaker:'player',text:'我在吃冰，說要想一下。他們叫我留電話，我就留了。後來也沒人打來。'},
+      {speaker:'heroine_05',expression:'neutral',text:'我們後來好像一個都沒打。……抱歉。'},
+      {speaker:'player',text:'所以那天妳也在。'},
+      {speaker:'heroine_05',expression:'neutral',text:'應該在。可是我完全不記得你。'},
+      {speaker:'player',text:'我也沒看到妳的臉。我一直在看我的冰。'},
+      {choice:[{text:'「我們那時候就見過了耶。」',goto:'met'},{text:'「妳那時候長什麼樣子？」',goto:'look'},{text:'「早知道那天就好好看一下。」',goto:'see'}]},
+      {label:'met'},{speaker:'heroine_05',expression:'smile',text:'對啊。好神奇。'},{goto:'end'},
+      {label:'look'},{speaker:'heroine_05',expression:'neutral',text:'頭髮放下來，沒綁。你呢？'},{speaker:'player',text:'……金色的。'},{speaker:'heroine_05',expression:'surprised',text:'金色？'},{speaker:null,text:'（她笑到停不下來。）'},{goto:'end'},
+      {label:'see'},{speaker:'heroine_05',expression:'neutral',text:'看了也不會記得啦。'},{speaker:'heroine_05',expression:'smile',text:'……不過真的很巧。'},
+      {label:'end'},{set:{SIS_FESTIVAL_MET:true}} ],
+    after:G=>{ if(typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'sis_hs_festival','高二的校慶','camp_school'); } },   /* Life Album 收「高二的校慶」（AA_218 17-13 第 5 點；BCG-49 還沒有圖，先用操場）*/
+  /* C2 她家搬家（BB_188 C2 ①，AA_218 15-7、17-13 第 4 點）：只有和她交往中、C1 演過（SIS_FESTIVAL_MET）才演，日子是 STORY.sisC2Day（7/11 已交往＝當天；之後才交往＝隔 3 天以上的第一個週六）。
+     2D 只演她：她的房間（沒有背景圖，暗底）。之後的私訊在 story3d.js（sis_c2_msg，照片＋三個選項）。
+     那天沒演到（暑假快轉、整天在外面）：之後第一個能演的時候補，第一句換成「搬家後還有幾箱沒拆。」（AA 給的另一句；LAWWW 只是讓它不會整個錯過）*/
+  { id:'ev_sis_c2_room', title:'筆記本', participants:['heroine_05'], location:'any', trigger:'auto', time:[15,23], once:true, priority:7, background:'dark',
+    prereq:{flags:['dating_heroine_05','SIS_FESTIVAL_MET'],custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.sisC2Day?STORY.sisC2Day(G):null; return d!=null&&G.day>=d; }},
+    dialogue:[ {scene:'溫學姊的房間'},
+      {if:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（家裡要搬家。她的房間地上好幾個紙箱，一半已經封起來。）'},
+      {unless:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（搬家後還有幾箱沒拆。）'},
+      {speaker:null,text:'（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'} ],
+    after:G=>{ G.flags.SIS_C2_ROOM=G.day; G.flags.SIS_C2_H=Math.min(23.5,Math.max(16,(G.hour%24)+0.25)); if(typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'sis_notebook','筆記本那一頁',''); } },   /* Life Album 收「筆記本那一頁」（BB_188 C2）：號碼不能看得清楚，先不放圖 */
   { id:'ev_sis_club_expo', title:'社團博覽會・法服', participants:['heroine_05'], location:'campus', trigger:'manual', once:true, background:'blur',
     prereq:{custom:G=>!G.flags.SIS_CLUB_EXPO},
     dialogue:[ {speaker:null,text:'（椰林大道上一整排帳篷。你走到法服的攤位前。）'},

@@ -348,6 +348,10 @@ const STORY = (function(){
     const hit=ent=>{ if(!ent.days.includes(wd)) return false; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; }   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.weeks&&(!T||!ent.weeks.includes(T.week))) return false; if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.to;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
     const L=(c.daily_schedule||[]).filter(ent=>tp?!!ent.taipei:ent.taipei!==true); for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
   S.schedEnt=schedEnt;
+  S.sisC2Day=function(G){ const F=G.flags||{}; if(!F.dating_heroine_05||!F.SIS_FESTIVAL_MET) return null; const m=S.dayOfKey('2026-07-11'); if(m==null) return null; const since=F.SIS_DATING_D!=null?F.SIS_DATING_D:G.day; if(since<=m) return m; for(let d=since+3;d<since+12;d++) if(CALENDAR.dateOf(d).wd%7===6) return d; return null; };   /* C2：7/11 已交往＝當天；之後才交往＝隔 3 天以上的第一個週六（AA_218 17-13 第 4 點）；C1 沒演過（SIS_FESTIVAL_MET）不演 */
+  S.albumMemory=function(G,id,title,bg){ const A=Array.isArray(G.album)?G.album:(G.album=[]); if(A.some(x=>x.kind==='memory'&&x.id===id)) return false; A.push({kind:'memory',id,title,bg:bg||'',day:G.day,h:+((G.hour||0)%24).toFixed(2)}); return true; };   /* 相簿的一頁（game3d.js albumHTML 的 memory）：同一個 id 只收一次 */
+  S.afterPhoneClose=async function(GM){ const G=GM.G, F=G.flags; if(!G||F.SIS_B_FRIEND||typeof PHONE==='undefined'||!PHONE.sent(G,'sis_b_comment')) return false; const m=(G.msgs||[]).find(x=>x.tag==='sis_b_comment'), sn=G.phone&&G.phone.seen&&G.phone.seen['g:law_board']; if(!m||m.day>G.day||(m.day===G.day&&m.h>G.hour)||sn==null||sn<m.day*24+m.h) return false;   /* 玩家打開自介版、看到她的留言以後，關手機時演（AA_218 17-13 第 1 點：「第一次打開手機看到留言時」；手機開著不能演旁白，所以在關手機那一刻）*/
+    F.SIS_B_FRIEND=true; if(!GM.say) return true; GM.sceneBegin(); try{ await GM.say(null,'（你按了讚，點進她的名字，送出交友邀請。）'); await GM.say(null,'（她的大頭貼是在總圖前面拍的，綁著馬尾，看著鏡頭外面的某個地方。）'); await GM.say(null,'（你多看了兩秒。）'); } finally { GM.sceneEnd(); } return true; };
   S.bohanSummer=G=>{ if(!G||(G.stage||'law')!=='law'||typeof HOME==='undefined'||!HOME.breakOf) return false; const B=HOME.breakOf(G.day), d=S.dayOfKey('2026-06-27'); return !!B&&B.key==='Y1S'&&d!=null&&G.day>=d; };   /* 柏翰大一暑假回新竹（AA_241 第 6 節 6/27）；週四來總圖（第 5 節）*/
   /* 法律系同屆（department 法律系、year 1、不是外校、不是路人 B 層）：祐廷那一堂「必修」正在上（CLS.live）＝人在那間教室坐著——作息表（daily_schedule）原本是手寫的、和課表對不上，
      使用者試玩：「常常我去上課遇不到她，或她在圖書館」「以安不在教室卻會回答老師」（9/22 憲法）。選修、通識、體育照各自的作息；劇情課（第一、二天）照劇情 */
@@ -970,7 +974,7 @@ const STORY = (function(){
     return true; };
   /* 開學典禮那天被加進班群（AA_195 4-4；群組用四年同一個的 law_class「法律系（全班）」，AA_177 第 9 節）：系學會貼茶會公告、不具名的同學問系服（不算認識任何人）。
      典禮演到「你被加進一個群組」那一句時加入；典禮被跳過、或 14:40 才補的，照舊在那個時間加入。8/31 以後才補的不排貼文（茶會的公告過期了也沒意義） */
-  S.lawClassJoinY1=function(G){ if(typeof PHONE==='undefined'||PHONE.inGroup(G,'law_class')) return false; const d0=S.dayOfKey('2025-08-31'), g=PHONE.join(G,'law_class','法律系（全班）');
+  S.lawClassJoinY1=function(G){ if(typeof PHONE==='undefined'||PHONE.inGroup(G,'law_class')) return false; const d0=S.dayOfKey('2025-08-31'), g=PHONE.join(G,'law_class','法律系（全班）'); if(!PHONE.inGroup(G,'law_board')){ const gb=PHONE.join(G,'law_board','法律系新生（自介版）'); if(gb&&G.day!==d0) gb.day=d0; }   /* 系上的網路社群（AA_218 17-13：貼文＋留言，不是班群；和班群一起加入）*/
     { const d2=S.dayOfKey('2025-09-09'), M=(id,nm,t)=>({th:'g:law_class',from:id,name:nm,text:t}); if(G.day<=d2&&!PHONE.sent(G,'ps_w2_msg')) PHONE.at(G,d2,22,[M('classmate_peishan','沛珊','請問有人知道民總的指定教科書要買哪一本嗎'),M('classmate_peishan','沛珊','老師說了兩本 我只抄到一本'),M('zhe','阿哲','我有學長的舊版 你要的話我拍給你'),M('classmate_peishan','沛珊','好 謝謝！')],'ps_w2_msg'); }   /* 第 2 週平日 22:00 班群（BB_168 2-2；9/4 民總第一堂之後）：玩家不用回 */
     if(G.day!==d0){ g.day=d0; return true; }
     const t=Math.max(h(G),14), C=x=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:x}), Q=x=>({th:'g:law_class',name:'同學',text:x});
@@ -1158,6 +1162,23 @@ const STORY = (function(){
     if(F.ZR_GRP_REPLY&&!PHONE.sent(G,'zr_dm1')){ const r=(G.msgs||[]).find(m=>m.th==='g:ge_econ'&&m.from==='player'), d=r?r.day:G.day, h=r?r.h:G.hour, dating=zrKnows(G), Z=t=>({th:'p:heroine_02',from:'heroine_02',text:t});
       const late=!dating&&h>=22+7/60-0.02, yday=dating||late;
       PHONE.at(G,dating||late?d+1:d,dating?15+10/60:22+7/60,[Z('我是通識小組的芷若。'),Z('……也是 Café 的那個。'),Z(yday?'你昨天在群組回得很快。我以為法律系的人都很慢。':'你剛剛在群組回得很快。我以為法律系的人都很慢。')],'zr_dm1'); }
+    /* 學姊 A5-1 新版（BB_188 @05571a45，使用者 10:3x 對 LAWWW-C「通過」；實作照 AA_218 17-13）：
+       B 9/1 21:00 系上社群（law_board）的自我介紹（前後幾則不具名同學的自介）→ 9/2 12:30 她的留言 → 第一次關手機時旁白（按讚、加好友，afterPhoneClose）→ 9/3 08:00 她接受（聯絡人）→ 9/3 21:00 祐廷先私訊（強制）；
+       9/4 21:00 家族群組 Kevin 點到她、她兩句；C1 在 events.js（ev_sis_c1_festival）；C2 她家搬家（ev_sis_c2_room＋這裡的私訊）。只在 9/1 以前開始法律系的新局 */
+    if((G.stage||'law')==='law'&&PHONE.inGroup(G,'law_board')){ const d1=S.dayOfKey('2025-09-01'), past=(d,hh)=>G.day>d||(G.day===d&&G.hour>=hh), T='g:law_board', Q=(nm,t)=>({th:T,name:nm,text:t}), nm=G.name||'祐廷';
+      const start=F.LAW_START_DAY==null||F.LAW_START_DAY<=d1;
+      if(start&&past(d1,21)&&G.day<=d1+2&&!PHONE.sent(G,'sis_b_intro')) PHONE.at(G,d1,21,[Q('怡君','大家好，我是怡君，台中人，喜歡貓。請多指教。'),Q('家瑋','我是家瑋，高雄來的，興趣是看電影。'),{th:T,from:'player',text:'大家好，我是'+nm+'，財經法學組，澄嶼高中畢業，重考一年。興趣是數學跟睡覺。請多指教。'},Q('品萱','我是品萱，宜蘭人。第一次住宿舍，有點緊張。')],'sis_b_intro');   /* ○○高中＝澄嶼高中（虛構，LAWWW 定；AA_218 17-13 第 1 點）；前後的自介是一般同學（沒有 from、不算認識誰；名字只顯示在貼文上），LAWWW 寫一般的 */
+      if(PHONE.sent(G,'sis_b_intro')&&past(d1+1,12.5)&&G.day<=d1+3&&!PHONE.sent(G,'sis_b_comment')) PHONE.at(G,d1+1,12.5,[{th:T,from:'heroine_05',name:'溫書瑀',text:'歡迎學弟～選課或宿舍有問題可以私訊問我。'}],'sis_b_comment');
+      if(PHONE.sent(G,'sis_b_comment')&&past(d1+2,8)&&!F.SIS_CONTACTED){ F.SIS_CONTACTED=true; if(typeof INV!=='undefined'&&INV.addContact) INV.addContact(G,'heroine_05'); }   /* 她 9/3 早上接受交友邀請＝加進聯絡人 */
+      if(F.SIS_CONTACTED&&past(d1+2,21)&&G.day<=d1+4&&!PHONE.sent(G,'sis_b_dm')){ const P=t=>({th:'p:heroine_05',from:'player',text:t}), H=t=>({th:'p:heroine_05',from:'heroine_05',text:t});
+        PHONE.at(G,d1+2,21,[P('學姊好，謝謝妳的留言。想問一下，民總要先買哪一本嗎？'),H('先不要買。第一堂課老師會說用哪一本。'),H('真的想先看的話，系圖有，二樓。'),P('好，謝謝學姊。'),H('不會。')],'sis_b_dm'); }
+      if(F.FAM_GROUP_SENT&&PHONE.inGroup(G,'family_law')&&PHONE.sent(G,'sis_b_comment')&&past(d1+3,21)&&G.day<=d1+5&&!PHONE.sent(G,'sis_b_fam')){ const FT='g:family_law';
+        PHONE.at(G,d1+3,21,[{th:FT,from:'kevin',name:'Kevin',text:'歡迎學弟！我是你直屬學長，上面那位是我們的直屬學姊。'},{th:FT,from:'heroine_05',name:'溫學姊',text:'學弟好。我們留言區見過了。'},{th:FT,from:'kevin',name:'Kevin',text:'你們認識？'},{th:FT,from:'heroine_05',name:'溫學姊',text:'他自介我有留言。'}],'sis_b_fam'); } }
+    { const r=S.dayOfKey('2026-03-23'); if(r!=null&&G.day>=r&&!F.SIS_RESULT_OUT) F.SIS_RESULT_OUT=true; }   /* 她研究所放榜（AA_218 第 1 節；C1 的前置）*/
+    /* C2 她家搬家（AA_218 15-7、17-13 第 4 點）：7/11（六）已經交往＝當天 15:00 房間（ev_sis_c2_room）、16:00 私訊；之後才交往＝交往成立隔 3 天以上的第一個週六。一直沒交往不演 */
+    if(F.dating_heroine_05&&F.SIS_DATING_D==null) F.SIS_DATING_D=(typeof ROM!=='undefined'&&ROM.get&&ROM.get(G,'heroine_05').sinceDay!=null)?ROM.get(G,'heroine_05').sinceDay:G.day;
+    if(F.SIS_C2_ROOM!=null&&!PHONE.sent(G,'sis_c2_msg')){ const ch=F.SIS_C2_H||16; if(G.day>F.SIS_C2_ROOM||(G.day===F.SIS_C2_ROOM&&G.hour>=ch)){ const H=t=>({th:'p:heroine_05',from:'heroine_05',text:t});   /* 房間那場演完以後（ev_sis_c2_room 的 after 記 SIS_C2_H：16:00，晚演的就演完 15 分鐘後）*/
+      PHONE.at(G,F.SIS_C2_ROOM,ch,[H('📷（一張照片：筆記本的一頁，手寫的好幾個電話號碼，有的有名字，中間一行沒有。）'),H('剛剛整理東西看到的。'),{th:'p:heroine_05',from:'player',text:'哈哈，真的是我的號碼。妳還留著喔。'},Object.assign(H('我自己都忘了。'),{ask:{id:'sis_c2',opts:[{t:'那本不要丟。',say:[H('不會丟啦。')]},{t:'我現在過去幫妳整理。',say:[H('好啊。來了先幫我搬書。')]},{t:'早知道那天就抬頭看一下。',say:[H('你在吃冰耶。')]}]}})],'sis_c2_msg'); F.SIS_FESTIVAL_NOTEBOOK=true; } }   /* 照片上的號碼畫面不可辨識（只寫「中間一行沒有」名字）*/
     /* 學姊 W1 到社博之間的接觸（AA_218 17-6，使用者 10:2x 批准；AA-C e4a8ba67 選 (a)）：
        ① 9/8（一）21:00 家族群組 Kevin 揪家聚 → 排出遊 9/12（五）19:00 家聚（回不回都可以去）；② 走廊在 events.js（ev_sis_fam_hall*，要 W1）；
        ③ 家聚 ev_sis_fam_dinner；沒去＝當晚 21:00 Kevin 群組照片、9/15（一）21:00 Kevin「憲法有問題可以問書瑀學姊」（17-8）；
