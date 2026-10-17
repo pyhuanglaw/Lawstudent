@@ -170,6 +170,25 @@
    "noDirectIntegrate": true,
    "receiver": "BB",
    "ack": "未派"
+  },
+  {
+   "task": "SCN-V0-01",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "(下一個 commit)",
+   "files": [
+    "tools/blender/env_second/socbldg_layout_gen.py",
+    "tools/blender/env_second/socbldg_interior.py",
+    "assets/models/env/second_ai/socsci_bldg1f.glb",
+    "assets/models/env/second_ai/socsci_bldg1f.json",
+    "assets/models/env/second_ai/socsci_bldg1f.layout.json",
+    "docs/art-rebuild/second_ai/test_shots/socsci_bldg1f/"
+   ],
+   "state": "WIP",
+   "remaining": "Blender 室內模型（大廳、電梯樓梯核心、走廊、經濟學系辦公室櫃台、101 教室）、渲染、八項；房間用途等 AA-C（D79）",
+   "next": "LAWWW2-C 做 Blender 模型；之後 LAWWW 照 layout.json 建區域（導航、座位、互動點、出口）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
   }
  ]
 }
