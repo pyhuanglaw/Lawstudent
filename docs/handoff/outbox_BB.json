@@ -524,6 +524,50 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "使用者 P0：子晴×芷若完整事件（BB_192）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5e2556a5 / b10e9701",
+   "files": [
+    "docs/story_planning/使用者指示_20261017_子晴芷若_私下約會雙重交往友情挽回_原文.md",
+    "docs/story_planning/BB_192_子晴芷若_私下約會雙重交往友情挽回.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "芷若挽回線台詞下一批；使用者確認",
+   "next": "AA 核對日程 → 使用者確認 → LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "使用者 P0：以安／書瑀／可昕完整事件（BB_193）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "257fe7f1 / d38829b9",
+   "files": [
+    "docs/story_planning/使用者指示_20261017_以安書瑀可昕_私下約會知情告白劈腿挽回_原文.md",
+    "docs/story_planning/BB_193_以安書瑀可昕_私下約會知情告白劈腿挽回.md"
+   ],
+   "state": "已交付（PROPOSAL）",
+   "remaining": "書瑀可昕的知情來源待使用者；以安稱呼、書卷獎紀錄待 AA",
+   "next": "AA 核對 → 使用者確認 → LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、模板）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "df8fc8df",
+   "files": [
+    "docs/story_planning/BB_190_劇情審查_BB人物與口語.md"
+   ],
+   "state": "已交付",
+   "remaining": "13、14、16、18 待使用者",
+   "next": "AA 整合 AA_219",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
