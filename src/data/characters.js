@@ -7,8 +7,9 @@
    SYS-21（BB_134 第 9 點，AA-B 確認）：芷若大三上、大四在英國（absent）；學姊大三下在美國（absent）；沛珊大二下休學重考、大三起在別的學校、子晴大三下畢業以後在工作室——
      這兩個人沒出國、人在臺北（BB_163）：kinds taipei＝校園作息換成標了 taipei 的那幾筆（taipei:'both'＝兩種時候都用），邀約不先擋、照 invites.js 她們的規則。
      只管 3D 校園的作息、當面約（手機「約不了的原因」）；她們的手機訊息、劇情事件照各自的事件條件
+   溫書瑀沒有 partner（使用者 2026-10-17 P0「她一開始就沒有男朋友，只是考研究所之前不想交往」「要改就直接改」，AA_218 第 16 節、BB_122 ★ 節）：筆試 2026-02-02 以前告白會被婉拒、不鎖線（src/date3d.js 的 DATE.canConfess）。
    partner：有伴侶的期間——兩個人單獨的邀約（吃飯、散步）不約（src/invites3d.js partnerBlock、STORY.partnerOn）。AA 2026-10-14：照劇情事件結束、不照整學期，事件沒發生照日期保底：
-     學姊到「一件事。我上週分手了。」那一場（BB_90 大三上期中；保底：大三上第 9 週結束）、沛珊到「她和柏翰分開了」（BB_97；保底：大二上第 6 週結束）、
+     〔學姊的伴侶已作廢：使用者 2026-10-17 P0〕沛珊到「她和柏翰分開了」（BB_97；保底：大二上第 6 週結束）、
      小語從「語 3 在一起」（AA_40，大二上十二月；保底：大二上第 13 週＝12/1 那週）起和阿哲交往到尾聲。endEvent／startEvent 等那些事件做好時填事件 id。*/
 'use strict';
 const CHARACTERS = {
@@ -44,7 +45,7 @@ const CHARACTERS = {
     daily_schedule:[{days:[1,2,3,4,5],from:9,to:20,zone:null,act:'out',away:'在工作室上班',taipei:true,note:'BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲工作室（不在世界上）'},{days:[1,2,3,4,5],from:20+10/60,to:22,zone:'cafe',act:'read',taipei:true,note:'BB_163 第 2 節：下班以後照她的習慣在兩點半'},{days:[1,3],from:19,to:21,zone:'wancai',act:'club',weeks:[5,6,7,10,11,12,13,14,15,16],noHoliday:true,note:'吉他社社課（AA_110 6-8，AA 暫定：第 5 週起的週一、週三 19–21，萬才館多功能教室；多功能教室進不去，人在門口的大廳。考試週、放假不辦）'},{days:[2,4,5],from:14,to:17,zone:'campus',act:'wander'},{days:[1,2,3,4,5],from:22,to:24,zone:'gongguan',act:'wander',taipei:'both'},{days:[6,0],from:15,to:18,zone:'gongguan',act:'wander',note:'14:00 起床、15:00 以後才出門（AA_137 第 8 節第 5 點；原本 13–16）',taipei:'both'},{days:[6],from:18,to:21,zone:null,act:'out',away:'在西門町打電動',enc:'D04',note:'自由出行的偶遇（DL-07）；BB_144）',taipei:'both'},{days:[0],from:16,to:19,zone:null,act:'out',away:'在大稻埕',enc:'D12',terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[1,3,5,7,9,11,13,15,17,19],note:'自由出行的偶遇（DL-07）；BB_144：單週週日取代原本的公館）',taipei:'both'}],
     story_arc:['室友阿凱的同學→吉他社→她翹掉的比賽→家裡的期待→她的作品'], possible_endings:['她做出第一個遊戲、你在名單裡','和好家裡','各走各的但常聯絡'],
     char3d:{spec:{id:'heroine_04',height:1.69,build:'slim',sex:'f',skin:'#f3d9c4',hair:{color:'#3b2a1e',style:'chicBob'},face:{iris:'#3a2a22',brow:'soft',lash:true},outfit:{top:{type:'hoodie',color:'#6a6f8a',inner:'#6a6f8a'},bottom:{type:'jeans',color:'#3a3f4a'},shoes:{type:'sneaker',color:'#ffffff',sole:'#e0b95b'},bag:'shoulder',bagColor:'#2b2b2b'},posture:{sway:0.03}},model:'char.heroine_04',height:1.69}, portrait:'heroine_04' },
-  heroine_05:{ id:'heroine_05', presence:{absent:['Y3S2'],away:{Y3S2:'美國'},absentDates:[['2028-01-05','2028-02-14','美國','abroad']]}, partner:{from:'Y1S1',untilWeek:{term:'Y3S1',week:9},endEvent:null}, name:'溫書瑀', nickname:'溫學姊', age:21, height_cm:172, zodiac:'雙子座', gender:'f', department:'法律系', year:3, social_layer:'D', visual_tier:3,
+  heroine_05:{ id:'heroine_05', presence:{absent:['Y3S2'],away:{Y3S2:'美國'},absentDates:[['2028-01-05','2028-02-14','美國','abroad']]}, name:'溫書瑀', nickname:'溫學姊', age:21, height_cm:172, zodiac:'雙子座', gender:'f', department:'法律系', year:3, social_layer:'D', visual_tier:3,
     height_range:'171–173', visual_identity:'低馬尾、乾淨白襯衫＋卡其長褲＋樂福鞋；隨身一本判決節錄', hair:'深棕、低馬尾', eyes:'銳利、疲倦時會泛紅', clothing_style:'俐落、像已經在上班', accessories:['判決節錄','保溫瓶','名牌識別證（法服）'],
     personality:'語速快、效率高、對學弟妹嚴格但會照顧', speech_pattern:'條列式說話、常說「重點是」', humor:'諷刺但不傷人', strengths:['公法','組織'], weaknesses:['不會休息','不承認累'],
     contradictions:'看起來是最清楚自己要什麼的人（法研所公法組），其實已經開始懷疑要不要繼續念法律；社長身分讓她不能說', family_context:'父母都是公務員，期待她考司法官', academic_status:'前 5%', career_goal:'對外說法研所，私下在考慮出國念別的', romantic_style:'把感情排在計畫之後，直到計畫崩了', social_circle:['heroine_03','npc_ta_chen','prof_xu'],

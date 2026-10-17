@@ -48,6 +48,6 @@ G.flags.dating_kexin=false; G.flags.romance.heroine_03.knows=[];
 ROM.get(G,'heroine_03').status='paused'; check('5. 在等你說清楚（paused）→ 不能告白',DATE.canConfess(G,'heroine_03').why==='paused'); ROM.get(G,'heroine_03').status='none';
 // 學姊暫停
 setRel('heroine_05',{fam:60,trust:45,comf:40,npcRom:55,rom:30});
-check('6. 學姊：AA_218 批准前一律不出現告白（hold）',DATE.canConfess(G,'heroine_05').why==='hold');
+check('6. 學姊不再暫停（hold 拿掉）（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',DATE.canConfess(G,'heroine_05').why!=='hold'&&!DATE.HOLD.heroine_05,JSON.stringify(DATE.canConfess(G,'heroine_05')));
 check('7. 一起去過的地方：語彤 4 次、第一次是淡水＋漁人碼頭',DATE.history(G,'heroine_03').length===4&&DATE.history(G,'heroine_03')[0].locs.join()===[DATE_DATA.locations.D13.name,DATE_DATA.locations.D14.name].join());
 console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);

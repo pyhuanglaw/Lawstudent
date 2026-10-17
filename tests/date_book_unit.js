@@ -36,6 +36,11 @@ const ADV2=global.ADV; ADV2.active=false;
   G.flags.dating_heroine_03=true; ca=DATE.canAsk(G,'heroine_03'); check('1. 交往中不看階段',ca.ok,JSON.stringify(ca)); delete G.flags.dating_heroine_03;
   check('1. 不是七位女主角：不能約',!DATE.canAsk(G,'zhe').ok);
   delete G.contacts.heroine_03; check('1. 沒有聯絡方式：照 INV.whyNot 的原因',!DATE.canAsk(G,'heroine_03').ok); G.contacts.heroine_03=1;
+  // 學姊：筆試（2026-02-02）以前告白會被婉拒、不鎖線（使用者 2026-10-17 P0：她一開始就沒有男朋友；BB_122 ★-1、★-2）
+  { const r5=SOCIAL.rel('heroine_05'); Object.assign(r5,{fam:70,trust:55,comf:50,npcRom:60,rom:35}); const L5=DATE.log(G,'heroine_05'); L5.count=4; L5.wish=true; const d0=G.day, w0=G.weekday, exam=STORY.dayOfKey('2026-02-02');
+    G.day=exam-10; const a=DATE.canConfess(G,'heroine_05'); G.day=exam+1; const b=DATE.canConfess(G,'heroine_05'); G.day=d0; G.weekday=w0;
+    check('1. 學姊：沒有伴侶（canAsk 不會說她有交往的對象）',!/交往的對象/.test(DATE.canAsk(G,'heroine_05').why||''),JSON.stringify(DATE.canAsk(G,'heroine_05')));
+    check('1. 學姊：筆試以前條件到齊＝告白選項照樣出現、她婉拒（decline:preexam，不鎖線）；筆試以後照一般條件',a.ok&&a.decline==='preexam'&&b.ok&&!b.decline,JSON.stringify([a,b])); }
   // ---------- 2 衝突檢查 ----------
   const base={who:'heroine_03',locs:['D13'],transport:'mrt'};
   let c=DATE.check(G,Object.assign({},base,{day,depart:15})); check('2. 週六 15:00 淡水：可以，算好回程、花費（車資來回＋門票）',c.ok&&c.plan.back>15&&c.cost===c.plan.fare+(DATE.loc('D13').admission|0),JSON.stringify(c));

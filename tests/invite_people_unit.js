@@ -63,7 +63,7 @@ r=ask('classmate_xinci','noodle',MON+1,18.5); check('6. 芯慈隔天的吃飯（
 // 7 學姊
 const Y3=(wd)=>{ for(let d=600;d<1600;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y4S1'&&wdOf(d)===wd&&t.week===5) return d; } };   /* 原本用大三下；SYS-21 起學姊大三下在美國（約不到），改用大四上 */
 fresh(MON,9); rel('heroine_05',65,50,45); W8=true; r=ask('heroine_05','wenzhou',SAT,15.5);
-check('7. 學姊大一（有男朋友，partner Y1S1～Y3S1）約散步：照「兩個人單獨」的規則婉拒（不是個性台詞）',r.res==='decline'&&r.why==='partner'&&!r.lines,r.res+' '+r.why);
+check('7. 學姊大一約散步：不會因為「有伴侶」婉拒（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',r.why!=='partner',r.res+' '+r.why);
 const SAT3=Y3(6), MON3=Y3(1); fresh(SAT3,9); rel('heroine_05',65,50,45); W8=false; r=ask('heroine_05','wenzhou',SAT3,10);
 check('7. 學姊 W8 以前約散步：「散步沒有目的。……我還不會。」「週三讀書會可以。」（婉拒，不給改天）',r.res==='decline'&&L(r)==='「散步沒有目的。……我還不會。」｜「週三讀書會可以。」'&&!r.alt,r.res+' '+L(r));
 W8=true; r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊 W8 以後（大四上的週六）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));

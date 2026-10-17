@@ -18,10 +18,11 @@ check('STORY.partnerOn 存在',typeof STORY.partnerOn==='function'); if(typeof S
 const dayOf=(term,week)=>{ for(let d=1;d<2200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===week) return d; } return null; };
 const at=(term,week,done)=>({day:dayOf(term,week),events:{done:done||{}},flags:{}});
 const on=(id,G)=>STORY.partnerOn(G,CHARACTERS[id].partner);
-check('1. 學姊大一上：有伴侶',on('heroine_05',at('Y1S1',3)));
-check('1. 學姊大三上第 9 週：還有（保底到第 9 週結束）',on('heroine_05',at('Y3S1',9)));
-check('1. 學姊大三上第 10 週：沒有了（以前算到大三上整學期）',!on('heroine_05',at('Y3S1',10)));
-{ const p=Object.assign({},CHARACTERS.heroine_05.partner,{endEvent:'ev_test_sis_breakup'}); check('1. 結束的事件（「一件事。我上週分手了。」）演過了：大二就沒有了',!STORY.partnerOn(at('Y2S2',3,{ev_test_sis_breakup:1}),p)&&STORY.partnerOn(at('Y2S2',3),p)); }
+check('1. 學姊沒有伴侶設定（characters.js 沒有 partner）（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',!CHARACTERS.heroine_05.partner);
+const SISP={from:'Y1S1',untilWeek:{term:'Y3S1',week:9},endEvent:null};   /* 原本學姊的格式，留著測 untilWeek／endEvent 的機制 */
+check('1. untilWeek：大三上第 9 週還有（保底到第 9 週結束）',STORY.partnerOn(at('Y3S1',9),SISP));
+check('1. untilWeek：第 10 週沒有了',!STORY.partnerOn(at('Y3S1',10),SISP));
+{ const p=Object.assign({},SISP,{endEvent:'ev_test_sis_breakup'}); check('1. 結束的事件（「一件事。我上週分手了。」）演過了：大二就沒有了',!STORY.partnerOn(at('Y2S2',3,{ev_test_sis_breakup:1}),p)&&STORY.partnerOn(at('Y2S2',3),p)); }
 check('2. 沛珊大一上：沒有',!on('classmate_peishan',at('Y1S1',8)));
 check('2. 沛珊大一下：有',on('classmate_peishan',at('Y1S2',2)));
 check('2. 沛珊大二上第 6 週：還有；第 7 週：沒有了',on('classmate_peishan',at('Y2S1',6))&&!on('classmate_peishan',at('Y2S1',7)));
@@ -31,5 +32,5 @@ check('3. 小語大四下：還有（到尾聲）',on('yu',at('Y4S2',5)));
 check('4. 舊格式 {from, until}（整學期）照舊',STORY.partnerOn(at('Y2S1',17),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y2S2',1),{from:'Y1S2',until:'Y2S1'})&&!STORY.partnerOn(at('Y1S1',5),{from:'Y1S2',until:'Y2S1'}));
 { const G=Object.assign({rel:{},social:null,weekday:1,hour:10,contacts:{},invites:[],msgs:[]},at('Y3S1',10)); SOCIAL.bind(G); const P=INV.place('noodle');
   const G9=Object.assign({rel:{},social:null,weekday:1,hour:10,contacts:{},invites:[],msgs:[]},at('Y3S1',9)); SOCIAL.bind(G9); const b9=INV.partnerBlock(G9,'heroine_05',P); SOCIAL.bind(G); const b10=INV.partnerBlock(G,'heroine_05',P);
-  check('5. 邀約：大三上第 9 週約學姊吃飯被擋、第 10 週起不擋',b9===true&&b10===false,JSON.stringify({b9,b10})); }
+  check('5. 邀約：學姊任何時候吃飯都不被「有伴侶」擋（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）',b9===false&&b10===false,JSON.stringify({b9,b10})); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -49,7 +49,7 @@ const DATE=(function(){
   S.newTripId=function(G){ S.rec(G); return 'T'+String(G.trips.length+1).padStart(4,'0'); };
 
   /* 她當時願意（AA_128 3-1 第 5 點、AA_215 第 1 節，保留）：不在低潮期；沒有在等你說清楚（paused）；她自己沒有伴侶；她不知道祐廷有伴侶 */
-  S.LOW={};   /* 各人的低潮期判斷 {id:G=>bool}（學姊分手後 6 週等，AA_218／BB_122 批准後接；2026-10-17 學姊相關暫停） */
+  S.LOW={};   /* 各人的低潮期判斷 {id:G=>bool}（學姊沒有男朋友、沒有分手後的低潮：使用者 2026-10-17 P0；之後別人有再接） */
   S.willing=function(G,id){ const F=G.flags||{};
     if(S.LOW[id]&&S.LOW[id](G)) return {ok:false,why:'low'};
     if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'paused'}; if(ROM.knows&&ROM.knows(G,id).length) return {ok:false,why:'knows'}; }
@@ -57,13 +57,16 @@ const DATE=(function(){
     if(F['dating_'+id]) return {ok:false,why:'dating'};
     return {ok:true}; };
   /* 告白的選項出不出現（AA_215：stage≥6 && count≥4 && wish && willing；沒有故事閘門）。
-     學姊：分手、陪伴、分手後 6 週等條件在 AA_218 批准前暫停（2026-10-17 使用者人生主線修訂），先一律不出現。
+     學姊：沒有男朋友（使用者 2026-10-17 P0）；筆試 2026-02-02 以前婉拒（decline:'preexam'），之後照一般條件。
      可昕（開場交往中）、已經在交往的：不檢查次數（AA_128 3-3）。 */
-  S.HOLD={heroine_05:'AA_218 批准前暫停（學姊的分手時間與條件要重定）'};
+  S.HOLD={};   /* 學姊原本在這裡暫停（等分手條件）；使用者 2026-10-17 P0：她一開始就沒有男朋友 → 拿掉，改成下面的筆試前婉拒 */
+  /* 學姊：研究所筆試（2026-02-02）結束以前不想交往（BB_122 ★-1、★-2）：條件到齊時告白的選項照樣出現，她婉拒、不鎖線（decline:'preexam'，事件 ev_sis_confess_preexam 照 BB_122 ★-2）；筆試以後照一般條件 */
+  S.SIS_EXAM_END='2026-02-02';
+  S.sisPreexam=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(S.SIS_EXAM_END):null; return d!=null&&G.day<=d; };
   S.canConfess=function(G,id){ if(S.HOLD[id]) return {ok:false,why:'hold',note:S.HOLD[id]};
     const L=S.log(G,id), st=S.stageNum(id);
     if(st<6) return {ok:false,why:'stage',stage:st}; if(L.count<4) return {ok:false,why:'count',count:L.count}; if(!L.wish) return {ok:false,why:'wish'};
-    const w=S.willing(G,id); if(!w.ok) return {ok:false,why:w.why}; return {ok:true}; };
+    const w=S.willing(G,id); if(!w.ok) return {ok:false,why:w.why}; if(id==='heroine_05'&&S.sisPreexam(G)) return {ok:true,decline:'preexam'}; return {ok:true}; };
   /* 人物頁的進度提示（AA_128 3-2；不寫數字） */
   S.hint=function(G,id){ const L=S.log(G,id); if(S.stageNum(id)<5) return null;
     if(L.count<4) return '再多一些兩個人出去的時間';

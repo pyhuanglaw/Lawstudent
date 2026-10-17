@@ -68,7 +68,7 @@ ROM.learn(G,'heroine_03','heroine_02');
 check('8. 語彤知道以後：「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_heroine_02=false; SOCIAL.rel('heroine_05').fam=25;
 global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),present:()=>true};
-check('8. 祐廷單身、學姊這學期有伴侶（characters.js partner）：學姊吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
+check('8. 祐廷單身、學姊沒有伴侶（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）：學姊吃飯不會出現「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))!==W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
 check('8. 沛珊（大一下才有伴侶）：大一上照常（吃飯只看熟不熟）',I.partnerBlock(G,'classmate_peishan',P('noodle'))===false);
 delete global.STORY;
 check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow）',/hint:S\.placeWhy\(G,id,Q\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
