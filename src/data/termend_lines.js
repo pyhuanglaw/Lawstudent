@@ -30,7 +30,7 @@ const TERMEND_LINES=(function(){
       she2:['上學期寫的那一行還在。我把理由寫完了。……你要看嗎？'] },
     heroine_03:{ src:'AA_254 第 2 節', place:'noodle_closed', placeName:'麵店打烊以後', optsFrom:'confess',   /* 三選一照 AA_187 9-2（AA-C 11:58 確認），答應照 AA_254 第 2 節 */ wd:4, h:21, walkBg:null, walkPlace:'汀州路・她家樓下',
       invite:'禮拜四我沒顧店。……店裡打烊以後，我煮。只有我們。', decline:'好。那我顧店。',
-      table:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10):null; return T&&T.id==='Y1S1'?'這碗沒放蔥。……你都會挑出來，我看了一學期。':'這碗沒放蔥。……你都會挑出來，我看了兩年。'; },   /* 大一上的學期末改「看了一學期」*/
+      table:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10):null, id=T?T.id:'Y2S1', n=id==='Y1S1'?'一學期':(id==='Y1S2'?'一年':(/^Y2/.test(id)?'兩年':'三年')); return '這碗沒放蔥。……你都會挑出來，我看了'+n+'。'; },   /* 照學期換：大一上一學期、大一下一年、大二兩年、大三起三年（AA_254 8a652775）*/
       walk:['我家到了。……你要說什麼就現在說，我媽在樓上會看到。'],
       yes:['……嗯。',{narr:'（她低頭看了一下自己的鞋子。耳朵紅了。）'},{text:'好。……我上去了。明天店裡見。',expr:'embarrassed'}],   /* 第一次 embarrassed（AA_187 2-2）；CG-12 還沒有圖 */
       she:['你一直坐我斜對面。','……我想坐你旁邊。','這是我說的。你要回答。'],
