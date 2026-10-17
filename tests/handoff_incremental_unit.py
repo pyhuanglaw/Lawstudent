@@ -152,6 +152,14 @@ r = I.scan(d, WM, DV, TASKS, DUTY, remote=False, outboxes={'BB': OB})
 expect('二 水位線記的未結項目 GONE-1 不在總表 → 異常（舊漏項不能被水位線藏起來）', any('GONE-1' in p for p in r['BB']['problems']), r)
 shutil.rmtree(d)
 
+# ---------- 三、照路徑分類（outbox 登記的檔案、自己的交接檔） ----------
+OB2 = {'role': 'LAWWW2', 'entries': [{'task': 'ART-CH-WEILUN', 'files': ['tools/blender/char_second/weilun.py', 'assets/models/char/']}]}
+expect('三 只改 outbox 登記的檔案（資料夾 / 也算）→ 歸到那個任務', I.path_owner(['tools/blender/char_second/weilun.py', 'assets/models/char/x.vrm'], 'LAWWW2', OB2) == 'outbox 路徑：ART-CH-WEILUN')
+expect('三 只改自己的交接檔 → 進度紀錄', I.path_owner(['docs/art-rebuild/second_ai/HANDOFF.md'], 'LAWWW2', OB2) == 'outbox 路徑：進度紀錄')
+expect('三 有一個檔不在 outbox 也不是交接檔 → 不分類（要人看）', I.path_owner(['tools/blender/char_second/weilun.py', 'src/story3d.js'], 'LAWWW2', OB2) is None)
+expect('三 別的職位的交接檔不算', I.path_owner(['docs/story_planning/AA_交接紀錄.md'], 'LAWWW2', OB2) is None)
+expect('三 沒有改任何檔（空 commit）→ 不分類', I.path_owner([], 'LAWWW2', OB2) is None)
+
 # ---------- 三、WIP 索引不能無故消失 ----------
 prev = {'items': [{'id': 'WIP-A', 'task': 'AB-65', 'state': 'WIP'}, {'id': 'WIP-B', 'task': 'ART-SHOP1', 'state': 'WIP'}]}
 cur = {'items': [{'id': 'WIP-A', 'task': 'AB-65', 'state': 'WIP'}]}

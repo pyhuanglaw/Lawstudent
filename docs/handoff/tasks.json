@@ -546,8 +546,8 @@
    "title": "prop_pothos.glb",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【交班補強 2026-10-17】LAWWW2 WIP 8a1af723（prop_pothos.glb S1～S4、dorm_y2_items.glb，約 60%）：宿舍已換四人房，座標寫的是舊雙人房（推測要重新擺，未驗證）；還沒交付｜放宿舍 203 窗台（黃金葛事件、互動點已有）；位置尺寸本批問 LAWWW2-B",
+   "status": "已實作待整合",
+   "next": "已交付 DL-LW2-POTHOS-412（639f0188）：LAWWW 接 F.POTHOS 放置、POTHOS_S1～S4 照 pothosWaterN 切 visible",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -6929,7 +6929,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "ART-01 已接線（外觀、圖書館的門、大樓的門不開）；大樓室內（一樓大廳、系辦、迎新教室）等 SOCSCI_PLAN 第③步：AA-B 確認用途後排",
+   "next": "用途已轉問 AA-C（D79，LAWWW-C 04:5x）：v0 劇情用到社科院哪幾間、事件與週次、要不要能走進去、能不能坐；回覆後 LAWWW2 排在 v0 人物之後。ART-01 已接線（外觀、圖書館的門、大樓的門不開）；大樓室內（一樓大廳、系辦、迎新教室）等 SOCSCI_PLAN 第③步：AA-B 確認用途後排",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -8071,7 +8071,7 @@
    "area": "V4",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "和 D14-T14 一起",
+   "next": "【使用者 10-17 05:1x 改成大二分手，等 ROM-1017（AA_215）】和 D14-T14 一起",
    "priority": "P2",
    "first": {
     "term": "Y2S2",
@@ -9399,12 +9399,12 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "next": "（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
-    "term": "Y1S2",
-    "week": 11,
-    "earliest": "大一下 10-3 共同教學館自習區、SK05 販賣機前（3D NPC）；v0 整年",
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那年 412 室友（AA_208：阿勳 R2），經濟系第 1 週就上場",
     "mainline": false,
     "blocks": false,
     "prereq": false,
@@ -10008,8 +10008,8 @@
    "title": "經濟系那年祐廷的宿舍房間（第 0 間）：沿用 203 的模型，換房號、窗景，室友阿勳的床（AA_145 §5）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "LAWWW2：房號牌、窗景圖、阿勳那一側的床鋪佈置（GLB 節點或貼圖）；LAWWW：v0 的 dorm 區域變體接線",
+   "status": "已實作待整合",
+   "next": "窗景已交付 DL-LW2-POTHOS-412（639f0188：dorm_room412_day／_night.webp）；LAWWW：dormSet 412 時 room() view 換 dorm_room412、房號牌 412（dorm_hall）。室友阿勳的床照 AA_208（四人房 412：阿勳 R2、唐睿 R1、韋綸 L1）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -12480,7 +12480,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "先套 ART-SCOOTER2 scooters_v2.patch → bikes_v2.patch（945fd4d2）→ street_props_integration、campus_glb_integration、nav（老鐵馬、登山車 1.83～1.86 m vs 路邊阻擋 1.7 m）→ 回 SHA 給 LAWWW2-B；broken 組（擋 street_props.glb）183 秒沒載入完、applySave busy null，62cb7307 原樣也失敗→另開 BUG 查",
+   "next": "改用 LAWWW2-C 的 bikes_v2f.patch（DL-LW2-BIKES2F 09f2660a，取代 bikes_v2.patch）：先套 scooters_v2_a39a6812.patch（872226f7）再套 bikes_v2f.patch、換 street_props.glb；跑 street_props_integration、reachability_all（腳踏車行導航改了）、溫州街／公館局部瀏覽器",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13539,9 +13539,9 @@
    "title": "腳踏車 v2 後續：老鐵馬、登山車比導航阻擋長 8 cm；老鐵馬要鏽和褪色；車籃裡的東西；淑女車再分款",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P3",
-   "next": "LAWWW2-B；長度先對齊導航阻擋（LAWWW-B 整合時一起改）",
+   "next": "已交付 DL-LW2-BIKES2F（09f2660a）；由 ART-BIKES2-INT 一起整合",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14260,7 +14260,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）",
+   "next": "AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）；使用者 05:0x：交往中的話兩人 12/16 先飛舊金山待一週、12/23 一起回（沒交往的學姊 12/16 自己回），舊金山是新事件（BB-C 寫），之後可能要舊金山 2D 背景（等 BB 規格再派 LAWWW2）；BB_98／99 已改（BB 分支 23cd428d）等 AA 核對",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -14305,6 +14305,32 @@
     "spec": "AA_213（AA-C 交付後）",
     "acceptance": "季節改好的場景清單＋遊戲內截圖",
     "ack": "未派"
+   }
+  },
+  {
+   "id": "ROM-1017",
+   "title": "戀愛規則改版（使用者 2026-10-17 05:1x）：告白只看「第 6 階＋至少 4 次正式校外約會（含一次心願地點）」、取消各人 storyGate；學姊以外大一就能交往；學姊改大二分手（取代 V4-G34 的大三上第 9 週）；「之後才在一起」的事件補交往版",
+   "area": "SYS",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "AA 寫 AA_215（學姊大二上或下分手、willing 保不保留還在問使用者）；AA、BB 盤點要補交往版的事件；交付後 LAWWW 改告白判斷（拿掉 storyGate(id)，AA_128 3-2）、學姊分手週次。**AA_215 交付前不要動 romance 判斷**",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一開局（告白條件影響所有人）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_215（AA-C 撰寫中）",
+    "acceptance": "規格定稿＋結構化交付；交往版事件清單",
+    "ack": "ACK"
    }
   }
  ]

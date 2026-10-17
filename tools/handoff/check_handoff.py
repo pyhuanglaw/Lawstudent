@@ -256,12 +256,29 @@ def check(args):
         if args.no_git:
             skipped.append('6（交付分支掃描）：--no-git')
         else:
+            try:
+                _duty = json.loads(src.read(duty_state.DUTY))
+            except FileNotFoundError:
+                _duty = {}
+            _ob, _role_of = {}, {}
+            for _r, _x in (_duty.get('roles') or {}).items():
+                _b = (_x or {}).get('branch')
+                if not _b:
+                    continue
+                _role_of['origin/' + _b] = _r
+                _rc = subprocess.run(['git', 'show', f'origin/{_b}:{INC.OUTBOX.format(role=_r)}'], cwd=args.root, capture_output=True, text=True)
+                if _rc.returncode == 0:
+                    try:
+                        _ob[_r] = json.loads(_rc.stdout)
+                    except Exception:
+                        pass
+            path_ok = lambda br, sha: bool(_role_of.get(br)) and bool(INC.path_owner(INC.commit_files(args.root, sha), _role_of[br], _ob.get(_role_of[br])))
             for br, base in (dv.get('scannedThrough') or {}).items():
                 lines = git_lines(args.root, 'log', '--no-merges', '--format=%h %s', f'{base}..{br}')
                 if lines is None:
                     skipped.append(f'6（{br} 從 {base} 以後）：git 找不到這個分支或 commit（先 git fetch）')
                     continue
-                hits = [l for l in lines if pat.search(l.split(' ', 1)[1] if ' ' in l else '') and l[:7] not in known and l[:7] not in flagged and not INC.only_registry(args.root, l.split(' ', 1)[0])]   # 只改登記檔（outbox 等）照路徑算已登記
+                hits = [l for l in lines if pat.search(l.split(' ', 1)[1] if ' ' in l else '') and l[:7] not in known and l[:7] not in flagged and not INC.only_registry(args.root, l.split(' ', 1)[0]) and not path_ok(br, l.split(' ', 1)[0])]   # 只改登記檔、outbox 登記的檔案或職位自己的交接檔：照路徑算已登記
                 flagged.update(l[:7] for l in hits)   # 企劃線互相合併，同一個 commit 會出現在兩條分支：只報一次
                 for l in reversed(hits):
                     A(6, f'{br}：{l[:110]}——符合交付關鍵字但沒登記（登記進 deliveries 或放進 ignored）')

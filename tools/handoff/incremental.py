@@ -183,6 +183,38 @@ def only_registry(root, sha):
     return rc == 0 and bool(fs) and all(REGISTRY.match(f) for f in fs)
 
 
+PROGRESS_FILES = {   # 各職位自己的交接檔（進度紀錄）：只改這些的 commit＝進度紀錄，照路徑分類
+    'LAWWW2': ['docs/art-rebuild/second_ai/HANDOFF.md'],
+    'AA': ['docs/story_planning/AA_交接紀錄.md'],
+    'BB': ['docs/story_planning/BB_00_協作規範與交接紀錄.md'],
+}
+
+
+def path_owner(files, role, outbox):
+    """一個 commit 改的檔案，是不是全部落在這個職位 outbox 登記過的檔案（或資料夾，結尾 /）、或它自己的交接檔裡。
+    是＝回傳說明（歸到哪個任務）；否＝None。照路徑判斷，不看 commit 訊息。"""
+    fs = [f for f in files if f]
+    if not fs:
+        return None
+    own = PROGRESS_FILES.get(role, [])
+    entries = (outbox or {}).get('entries', [])
+    hit = set()
+    for f in fs:
+        if f in own or REGISTRY.match(f):
+            hit.add('進度紀錄')
+            continue
+        m = [e for e in entries if any(f == x or (x.endswith('/') and f.startswith(x)) for x in e.get('files') or [])]
+        if not m:
+            return None
+        hit.add(m[-1].get('task'))
+    return 'outbox 路徑：' + '、'.join(sorted(h for h in hit if h))
+
+
+def commit_files(root, sha):
+    rc, out = _git(root, 'diff-tree', '--no-commit-id', '--name-only', '-r', sha)
+    return out.splitlines() if rc == 0 else []
+
+
 def outbox_shas(root, duty, remote=True, read_local=None):
     """各職位分支上的 outbox 登記過的 commit（前 7 碼 → 說明）。check 第 6 項也用它，交付登記在 outbox 就不用再進 deliveries。"""
     out = {}
@@ -276,6 +308,8 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
             elif s[:7] in shas:
                 r['classified'] += 1
             elif only_registry(root, s):   # 只改登記檔（outbox、duty_*.json、快照）：照檔案路徑分類，不看訊息文字
+                r['classified'] += 1
+            elif path_owner(commit_files(root, s), role, outboxes.get(role)):   # 只改 outbox 已登記的檔案或自己的交接檔
                 r['classified'] += 1
             else:
                 r['unclassified'].append((s[:8], subj[:80]))

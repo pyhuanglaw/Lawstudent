@@ -311,14 +311,13 @@
    "role": "LAWWW2",
    "task": "ART-SCOOTER2",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "f5b7bdb3",
+   "sha": "872226f7",
    "files": [
-    "assets/models/env/second_ai/scooter.glb",
-    "docs/art-rebuild/second_ai/patches/scooters_v2.patch"
+    "docs/art-rebuild/second_ai/patches/scooters_v2_a39a6812.patch"
    ],
    "state": "已交付",
    "remaining": "",
-   "next": "LAWWW git apply（基準 62cb7307，之後開發分支改過 9 個 commit）＋溫州街／公館整合測試",
+   "next": "LAWWW git apply scooters_v2_a39a6812.patch（對 a39a6812）＋溫州街／公館整合測試",
    "noDirectIntegrate": false,
    "source": "DL-LW2-SCOOTER2"
   },
@@ -327,16 +326,16 @@
    "role": "LAWWW2",
    "task": "ART-BIKES2-INT",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "945fd4d2",
+   "sha": "09f2660a",
    "files": [
     "assets/models/env/second_ai/street_props.glb",
-    "docs/art-rebuild/second_ai/patches/bikes_v2.patch"
+    "docs/art-rebuild/second_ai/patches/bikes_v2f.patch"
    ],
    "state": "已交付",
    "remaining": "",
-   "next": "疊在 scooters_v2.patch 之後套；後續 ART-BIKES2-F（LAWWW2）",
+   "next": "LAWWW 先套 scooters_v2_a39a6812.patch 再套 bikes_v2f.patch；跑 street_props_integration、reachability_all",
    "noDirectIntegrate": false,
-   "source": "DL-LW2-BIKES2"
+   "source": "DL-LW2-BIKES2F"
   },
   {
    "id": "WIP-L2-YUTING-FACE",
@@ -359,16 +358,16 @@
    "role": "LAWWW2",
    "task": "ART-04",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "8a1af723",
+   "sha": "639f0188",
    "files": [
     "assets/models/env/second_ai/prop_pothos.glb",
     "assets/models/env/second_ai/dorm_y2_items.glb"
    ],
-   "state": "WIP",
-   "remaining": "約 60%",
-   "next": "座標是舊雙人房，照四人房重新擺、遊戲內截圖（SCN-V3-01 同一批）",
+   "state": "已交付",
+   "remaining": "SCN-V3-01 大二 312 物件照 AA_208 7-1 重擺（還沒做）",
+   "next": "黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
    "noDirectIntegrate": true,
-   "source": "WIP_INVENTORY_2026-10-17"
+   "source": "DL-LW2-POTHOS-412"
   },
   {
    "id": "WIP-L2-SHOP-BG",
