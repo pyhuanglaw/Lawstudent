@@ -7,7 +7,7 @@
 
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
-你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；帳號 B 值班期間是 `claude/modest-rubin-2lyp7g`），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
+你讀到的這份如果是在帳號 A 停住的分支上（`claude/confident-ritchie-8rwh7t`、`claude/second-ai-env-art`、`claude/story-planning`），**那是舊版**。照 `docs/AI_SESSION_HANDOFF.md` 第 0a 節找 RULE_SOURCE（`python3 tools/handoff/check_handoff.py duty find`；2026-10-17 起帳號 C 值班：`claude/adoring-meitner-mqzst8`；不要寫死分支名），讀那裡的版本。下面每一條的全文都在 RULE_SOURCE 的 CLAUDE.md；規則版本紀錄在 AI_SESSION_HANDOFF.md 第 13 節（HV-3～HV-7）。
 
 | 決策 | 一句話 | 對你的影響 |
 |---|---|---|
@@ -98,7 +98,7 @@
   1. 現在哪個帳號值班（`onDuty`）；2. 上一任是哪個帳號（`previous`）；3. 四個職位各由哪個工作階段負責（`roles.<職位>.session`）；4. 各職位的有效分支（`roles.<職位>.branch`）；5. 各職位最後確認的 SHA（`roles.<職位>.sha`）；6. 哪些帳號休班中、哪些還沒啟用（`accountState`：on／off／unused）；7. RULE_SOURCE 分支、規則版本、規則 SHA（`ruleSource`、`ruleVersion`）；8. 最近一次交班的快照（`lastHandoff.snapshots`）；9. 還沒完成的交班、異常（`pending`、`anomalies`）。
   - 每個職位在**自己的分支**上另有一份 `docs/handoff/duty_<職位>.json`（自己的登記：帳號、工作階段、分支、交班時間與快照）。LAWWW 用 `duty sync` 收進 `duty.json`；兩邊對不起來＝異常，不能當正常。
   - `duty.json` 有一條**登記鏈**（`seq`＋`chain`：每次接班、交班加一筆）。新的一班一定包含上一班的整條鏈；**兩條鏈互不包含＝分岔，工具不選、回報使用者**。
-- **RULE_SOURCE＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`。現在：`origin/claude/modest-rubin-2lyp7g`（LAWWW-B，帳號 B）。**
+- **RULE_SOURCE＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`。現在：`origin/claude/adoring-meitner-mqzst8`（LAWWW-C，帳號 C，2026-10-17 04:1x 起；之前是帳號 B 的 `claude/modest-rubin-2lyp7g`）——以 `duty find` 為準。**
   - `main` 只在正式發布時更新，**不是**規則來源。休班帳號的分支停在它交班那一刻，上面的 `CLAUDE.md` 是舊版。工作階段啟動時載入的 `CLAUDE.md`、很長的舊對話記憶**都可能是舊的**：一律以 RULE_SOURCE 為準。
   - **只有值班的 LAWWW 改五份永久規則檔**（`CLAUDE.md`、本檔、`docs/HANDOFF_GAP_MATRIX.md`、`docs/PROJECT_DECISIONS.md`、`docs/USER_INSTRUCTION_LOG.md`）和 `docs/handoff/` 的任務資料、`duty.json`。其他職位在自己的交接檔用任務 ID 寫，或傳給 LAWWW 抄進來。
 - **找法（任何帳號、任何職位都一樣；不要寫死分支名）**：
@@ -488,7 +488,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 - **休息中的帳號什麼都不用對它說**，等你要它接班時再說 ③ 那一句。
 - **值班的 AI 不會去叫醒休息中的帳號**（D75、HV-10）；跨帳號只靠 GitHub。
-- 第 7 節的提示詞最新版在 RULE_SOURCE 分支上（現在：`claude/modest-rubin-2lyp7g` 的 `docs/AI_SESSION_HANDOFF.md`）。
+- 第 7 節的提示詞最新版在 RULE_SOURCE 分支上（用 `duty find` 找；2026-10-17 起是 `claude/adoring-meitner-mqzst8` 的 `docs/AI_SESSION_HANDOFF.md`）。
 
 收到 ③ 那一句（或貼了第 7 節提示詞）的 AI：照第 4 節十四步做。**你的舊對話再長、啟動時載入的 CLAUDE.md 再熟悉，都以 RULE_SOURCE 的版本為準**（另一個帳號值班期間可能新增或修訂了規則）。
 
@@ -548,6 +548,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-12a** | 2026-10-17 | **休班帳號回歸自動找最新規則**（使用者授權 ChatGPT 直接寫入）：A／B／C 任一帳號的既有工作階段收到「我回來了，請同步 GitHub 最新進度，接續工作。」就自行 fetch 全部分支、`duty find` 照登記鏈找 RULE_SOURCE、讀最新規則、交班紀錄、WIP 與待辦、照十四步接班；不依賴舊對話或舊版 CLAUDE.md、不假設只有 A／B 或上一任一定是 B、不要求使用者提醒規則版本或分支名。和 D92（duty find、十四步）、D94（WIP 索引）相容；LAWWW-C 核對 diff（只新增、無刪除），並把第 0a、8 節與 CLAUDE.md 開頭寫死的「現在是 modest-rubin」改成以 `duty find` 為準 | 使用者 2026-10-17 04:4x（ChatGPT 代寫，28aac0e2、936a158e；使用者 04:5x 對 LAWWW-C 確認授權） | CLAUDE.md、本檔開頭兩段＋第 0a、8 節 | 28aac0e2、936a158e、（本 commit） |
 | **HV-12** | 2026-10-17 | **D94 增量交接**：四職位已核對水位線（`watermarks.json`；只核對以後的新 commit、每個都要結構化分類、通過且 push 才前進、歷史改寫／分岔／SHA 不見／未結消失 fail closed）；交付當下登記 outbox（`OUTBOX_TEMPLATE.md`）；`ignored` 列舉 kind；`roles` 錨定標題、0 項或無 ID 報異常；永久 WIP 索引 `wip.json`（快照比對不能消失）；劇情匯入白名單；`check_handoff.py incr`；回歸測試 `tests/handoff_incremental_unit.py`（兩起事故＋帳號 B 真實資料）。成本：B 全面 255 筆 → 增量 26 筆（0.2 秒）→ 1 筆。**D95 自主連續工作的執行方式**（澄清 D87／D90：短回合不是停工、send_later 接續、回報不是結束、接不下去照實說、LAWWW 確認四職位不閒置）。D92、D93 的檢查全部保留 | 使用者 2026-10-17 04:2x【P0｜交接制度效能改善】、04:3x【P0｜修正四職位自主連續工作方式】；交班後補記 USER_DIRECTIVE_NEXT_DUTY_2026-10-17 | CLAUDE.md 兩節、本檔第 4 節第 8、14 步、第 5 節第 3 步、PROJECT_DECISIONS D94、D95、USER_INSTRUCTION_LOG、`tools/handoff/incremental.py`、`check_handoff.py incr`、`tools/story/import_guard.py`、`docs/handoff/{watermarks,wip,story_import_allow}.json` | 1caeedb7、edcde94e、a3d60445、（本 commit） |
 | **HV-11** | 2026-10-17 | **D93 所有職位持續登記待辦、交接逐職位核對**：四個職位工作期間持續登記五種待辦（新增任務、衍生待辦、已批准未實作的企劃、待整合成果、未完成測試）；各職位寫自己交接檔的「全部待辦」、值班 LAWWW 同步進 `tasks.json`；交班、接班都跑 `check_handoff.py roles` 逐職位比對（不能只對上一任 LAWWW 的清單），OK 或每項異常都處理過才能說交接完整；`meta.offList`（【表外】對到哪個任務）、`meta.reconcileIgnore`（不是任務的子項編號）、任務的 `aliases`。第一次核對找到漏登 12 項，已補（89e254a1） | 使用者 2026-10-17 約 00:3x（對 LAWWW-B：「再請 LAWWW-B 補強一句永久規則……每次交班及接班必須逐職位比對」） | CLAUDE.md D93 一節、本檔第 4 節第 3、9 步、第 5 節 B 類與第 3 步、第 6 節、第 7 節八份提示詞、`tools/handoff/check_handoff.py roles`、PROJECT_DECISIONS D93、USER_INSTRUCTION_LOG | f1bee4b0、89e254a1、（本 commit） |
 | **HV-10** | 2026-10-16 | **D92 A／B／C 三帳號任意輪值與完整無縫交接**：帳號 C（LAWWW-C、LAWWW2-C、AA-C、BB-C）；任意方向交接、上一任一律以 GitHub 的 `docs/handoff/duty.json` 登記鏈為準（不照固定順序、不靠記憶、不看 commit 時間），來源不一致或分岔不猜、回報使用者；唯一值班狀態九樣＋各職位自己的 `duty_<職位>.json`；接班十四步（第 4 節）、交班六類 A～F（第 5 節）；使用者換班時說的話（第 8 節）；工具 `duty` 子指令＋`snapshot --account C`；任務 owner 永遠是職位、交付記帳號／分支／commit；**D75 擴大到所有休班帳號**；第 7 節通用提示詞＋帳號 C 四份；六方向＋三條連續輪值＋十種異常的模擬（19／19 PASS）。取代：HV-3 的「RULE_SOURCE 只寫在第 0a 節一行」、HV-3／HV-4 的十步接班與五樣交班、D49 的 A⇄B 限定 | 使用者 2026-10-16 21:35（【P0】升級 A／B／C 三帳號任意輪值）、22:02（換班時要說什麼） | CLAUDE.md、本檔第 0a、1、4～9、12～14 節、`docs/handoff/duty.json`、`tools/handoff/duty_state.py`、`check_handoff.py`、`tests/handoff_duty_sim.py`、`docs/handoff/HANDOFF_SIM_HV10.md`、PROJECT_DECISIONS D92 | 3d6f0079…（本批，見第 12 節） |

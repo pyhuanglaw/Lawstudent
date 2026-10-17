@@ -13,6 +13,12 @@
 
 ---
 
+## 2026-10-17 約 04:4x～04:5x UTC（使用者授權 ChatGPT 直接寫入 RULE_SOURCE，並對 LAWWW-C 確認）休班帳號回歸自動找最新規則（HV-12a）
+- **要求**：A／B／C 任一帳號回來只需說「我回來了，請同步 GitHub 最新進度，接續工作。」；接班者自行 fetch、`duty find` 找 RULE_SOURCE、讀最新規則／交班紀錄／WIP／待辦、照十四步接班後直接延續；不依賴舊對話、不假設只有 A／B、不要求使用者提醒版本或分支名。限制：舊工作階段要實際重新同步 GitHub 才讀得到。
+- **commit**：使用者（ChatGPT）28aac0e2（AI_SESSION_HANDOFF.md）、936a158e（CLAUDE.md），直接推到 claude/adoring-meitner-mqzst8；LAWWW-C 本機的 30811b37 用 merge 合併（2db5b632），沒有 force push。
+- **LAWWW-C 核對**：兩個 commit 只新增、沒有刪除；和 D92、D94、HV-12 相容；duty find（seq 7）、duty verify、incr 都 OK（LAWWW 分支 classify=false，使用者的文件 commit 不影響水位線）。修正既有的過期寫法（第 0a 節、第 8 節、CLAUDE.md 開頭寫死「現在是 modest-rubin」）。
+- **通知**：LAWWW2-C、AA-C、BB-C。
+
 ## 2026-10-17 約 04:3x UTC（使用者直接對 LAWWW-C）修正四職位自主連續工作方式（D95／HV-12）
 - **要求**：D87 照舊；D90 短回合不是停工理由，回合結束前保存、讀通知、用平台支援的接續機制（send_later）繼續；回報不是結束；等別人時協調並做不相依的；只有真的要使用者才問；接不下去照實說；各職位自己維持佇列，LAWWW-C 確認四職位沒有無故閒置。澄清 D87／D90，不取代。
 - **通知**：LAWWW2-C、AA-C、BB-C（04:3x send_message，DELIVERED；ACK 見 AI_SESSION_HANDOFF 第 14 節）。
