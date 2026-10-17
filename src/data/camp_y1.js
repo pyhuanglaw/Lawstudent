@@ -204,8 +204,8 @@ const CAMP_Y1_EVENTS=[
       {speaker:'凱文',text:'換手！你搧好久了。'},
       {if:{custom:G=>(G.flags.CAMP_MOLE_CLUE|0)>=2&&!G.flags.CAMP_GUESS_OFFERED},choice:[{text:'「你是不是來過這裡？」',set:{CAMP_GUESS_OFFERED:true},goto:'ask'},{text:'不問',set:{CAMP_GUESS_OFFERED:true},goto:'noask'}]},
       {goto:'after'},
-      {label:'ask'},{speaker:'凱文',text:'高中的時候跟社團來過啦。……好久以前了。'},{speaker:null,text:'（他走快了兩步，去跟前面的人講話。）'},{set:{CAMP_MOLE_GUESSED:true}},{goto:'after'},
-      {label:'noask'},{speaker:null,text:'（他把手電筒照到你腳前面。）'},{speaker:'凱文',text:'這邊有個洞喔。'},{goto:'after'},
+      {label:'ask'},{speaker:'凱文',text:'高中的時候跟社團來過啦。……好久以前了。'},{speaker:null,text:'（他低頭一直搧，搧得比剛剛用力。）'},{set:{CAMP_MOLE_GUESSED:true}},{goto:'after'},   /* BB_177 第 8 節烤肉版（BB 分支 8b720ae1；AA_205 6-14）*/
+      {label:'noask'},{speaker:'凱文',text:'火有點太大了，肉往旁邊移一點。'},{speaker:null,text:'（他把夾子塞給你，自己去搧另一邊。）'},{goto:'after'},
       {label:'quiz'},
       {speaker:null,text:'（學長姐出題：「營地的廁所有幾間？」你答對了，小隊多一盤香腸。）'},
       {speaker:'凱文',text:'（跑回來）加菜！香腸！'},

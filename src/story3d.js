@@ -977,7 +977,7 @@ const STORY = (function(){
     if(G.zone==='wancai'&&(F.TEA_STEP===1||(F.TEA_STEP>=3&&hr<20.5))) S.teaSpot(GM); return false; };
   /* 茶會以後（BB_168 第 7 節「之後」）：Kevin 還在，找他說話只有一句（選①考古題的「晚上丟」；其他人「有問題都可以問我」）*/
   S.teaKevin=async function(GM){ const F=GM.G.flags; GM.sceneBegin(); try{ await teaLines(GM,[KV(F.TEA_EXAM===1?'考古題晚上丟喔，記得看群組。':'有問題都可以問我，學姊比較忙。')]); } finally { GM.sceneEnd(); } return true; };
-  S.teaWave=async function(GM){ const F=GM.G.flags; GM.sceneBegin(); try{ await teaLines(GM,['（七點十分，Kevin 在家族那一桌朝你招手。）',KV('學弟，過來一下。')]); } finally { GM.sceneEnd(); } F.TEA_STEP=2; return S.teaSis(GM); };
+  S.teaWave=async function(GM){ const F=GM.G.flags; GM.sceneBegin(); try{ await teaLines(GM,['（七點十分，Kevin 在家族那一桌朝你招手。）',KV('學弟！這邊，家族這桌。')]);   /* AA_205 6-14⑤（10-17 定字）*/ } finally { GM.sceneEnd(); } F.TEA_STEP=2; return S.teaSis(GM); };
   /* BCG-46 期末合照（BB_132 第 69 組、CG 清單）：照片裡另外八個人（明軒、宥辰、柏翰、阿哲、沛珊、小語、以安、芯慈）至少五位 FRIEND 以上 */
   S.CLASS_PHOTO_IDS=['classmate_mingxuan','classmate_youchen','classmate_bohan','zhe','classmate_peishan','yu','heroine_01','classmate_xinci'];
   S.classPhotoOk=G=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.stage) return false; const OK=['FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION','RELATIONSHIP']; return S.CLASS_PHOTO_IDS.filter(id=>OK.includes(SOCIAL.stage(id))).length>=5; };

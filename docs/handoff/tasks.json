@@ -13829,7 +13829,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "AA 定的 8 項＋程式 1～7 已做（dbb4d86e、038c0d0e、884d47d6）；剩：烤肉「顧火」回應等 BB-B、程式 8 經濟系路線宿營（2-3）→ 做完才把 ?start1 當預設；瀏覽器 flow_camp_y1 跑一次",
+   "next": "全部做完（dbb4d86e、038c0d0e、884d47d6、顧火＋茶會定字本 commit）；剩程式 8 經濟系路線宿營 → 做完才把 ?start1 當預設；瀏覽器 flow_camp_y1 跑一次",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -13842,6 +13842,27 @@
    },
    "source": "AA-B 2026-10-17 02:02 send_message（AA_205 6-14，dc490ec7）",
    "authorized": "AA、BB 互審過的定稿（CAMP-R1）"
+  },
+  {
+   "id": "AB65-3-Y1S2-L",
+   "title": "大一下口語改稿（AA_209＋附錄 A／B，AA 分支 096136d2）＋重訪日 1 麵店群戲（第 3 節，換掉 ev_revisit_y1_noodle、revisitDay 改期末最後一天）＋第 4 節日期條件＋附錄 B 第 5 節 BB_167 已改程式未換；大二 312 室友（AA_208 第 7 節）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "附錄 A／B 第 2 節＋本檔 2、2-1 → 附錄 B 第 5 節 → 第 3 節重訪日 1 → 第 4 節 → 第 6 節例外；做完照 AA_197 1-7 大一下那列給 AA 核對",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "大一下開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-B 2026-10-17 02:09 send_message（AA_209、AA_209 附錄，096136d2）",
+   "authorized": "AA、BB 互審過（BB_180 口氣審）"
   }
  ]
 }
