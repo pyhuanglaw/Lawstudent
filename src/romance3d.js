@@ -51,7 +51,9 @@ const ROM=(function(){
     if(STORY.presence&&!STORY.presence(id,Gx).here) return false; const e=STORY.schedEnt(CHARACTERS[id],Gx); return !!(e&&e.zone&&S.CAMPUS_ZONES.includes(e.zone)); };
   S.meetOn=function(G,r,day){ if(typeof CALENDAR==='undefined') return null; const wd=CALENDAR.dateOf(day).wd%7;
     if(r.meet==='plg'){ if(wd!==4||typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return null; const d0=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',6,1):null; if(d0==null||day<d0) return null;
-      const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); return a&&ACTIVITIES.on(a,day,G)?{t0:a.t0,t1:a.t1}:null; }
+      const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); if(!a||!ACTIVITIES.on(a,day,G)) return null;
+      const Gx=Object.assign({},G,{day,hour:a.t0,weekday:4}), at=id=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,Gx); return p.here||p.kind==='taipei'; };
+      return at(r.from)&&at(r.to)?{t0:a.t0,t1:a.t1}:null; }   /* 兩人都要出席（BB-C 16:42）：沛珊聯絡不到的那段（2026-12-18～2027-08-06）、以安在日本不算；沛珊回來以後在別的學校（taipei）照常來讀書會 */
     if(r.meet==='fri'){ if(wd!==5) return null; for(const hh of [14.25,14.75,15.25,15.75]) if(onCampus(G,r.from,day,hh,5)&&onCampus(G,r.to,day,hh,5)) return {t0:14,t1:16}; return null; }
     return null; };
   S.spreadTick=function(G){ if(!G||!G.flags) return 0; const F=G.flags, R=S.relRec(G), scan=F.spreadScan&&typeof F.spreadScan==='object'?F.spreadScan:(F.spreadScan={}), now=G.day*24+(G.hour||0); let n=0;
@@ -62,7 +64,7 @@ const ROM=(function(){
   S.zqAskReady=function(G){ const F=G.flags||{}; if(!F.dating_kexin||F.dating_heroine_04||F.ZQ_ASK_KAI_D!=null||S.knowsGF(G,'heroine_04')) return false;
     return typeof DATE!=='undefined'&&DATE.stageNum&&DATE.stageNum('heroine_04')>=5; };
   S.zqAskTick=function(G){ const F=G.flags||{}; if(!S.zqAskReady(G)||(G.hour||0)<17||typeof CALENDAR==='undefined') return false; const wd=CALENDAR.dateOf(G.day).wd%7, T=CALENDAR.termOf(G.day);
-    if(wd<1||wd>5||!T||CALENDAR.holiday(G.day)) return false; if(typeof STORY!=='undefined'&&STORY.presence&&(!STORY.presence('heroine_04',G).here||!STORY.presence('kai',G).here)) return false; F.ZQ_ASK_KAI_D=G.day; S.learn(G,'heroine_04','kexin','told_by:kai',{day:G.day,h:17}); return true; };   /* 上課日（學期中、不是國定假日）的 17:00 以後第一次看到條件都成立＝那天 17:00 問的；ytKnows 不變（祐廷不知道）*/
+    if(wd<1||wd>5||!T||CALENDAR.holiday(G.day)) return false; if(typeof STORY!=='undefined'&&STORY.presence&&(!STORY.presence('heroine_04',G).here||!STORY.presence('kai',G).here)) return false; if(!onCampus(G,'heroine_04',G.day,16.5,wd)) return false; F.ZQ_ASK_KAI_D=G.day;   /* 那天是子晴在校園的日子（BB-C 16:42：二、四、五 14～17，照她的作息）*/ S.learn(G,'heroine_04','kexin','told_by:kai',{day:G.day,h:17}); return true; };   /* 上課日（學期中、不是國定假日）的 17:00 以後第一次看到條件都成立＝那天 17:00 問的；ytKnows 不變（祐廷不知道）*/
   /* 現在是哪個學期第幾週：'Y1S1W5'；不在學期裡（寒暑假）＝'D'＋第幾天 */
   S.when=function(G){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; return T?T.id+'W'+(T.week|0):'D'+G.day; };
   const blank=()=>({status:'none',since:null,knows:[],suspicion:0,history:[]});

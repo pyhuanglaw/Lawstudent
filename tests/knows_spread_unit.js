@@ -52,7 +52,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 一層：沛珊不再往下傳（語彤、芷若、子晴不會因此知道）',!ROM.knowsGF(G,'heroine_03')&&!ROM.knowsGF(G,'heroine_02')&&!ROM.knowsGF(G,'heroine_04'));
   // 子晴問阿凱
   const R=SOCIAL.rel.bind(SOCIAL), setZq=(fam,trust,comf,npcRom)=>{ const r=R('heroine_04'); r.fam=fam; r.trust=trust; r.comf=comf; r.npcRom=npcRom; };
-  const wed=STORY.termDay('Y1S2',4,3);
+  const wed=STORY.termDay('Y1S2',4,4);   /* 週四：子晴在校園的日子（二、四、五 14～17）*/
   law(wed,16.9); setZq(45,30,20,35); check('2. 子晴第 5 階',DATE.stageNum('heroine_04')===5,String(DATE.stageNum('heroine_04')));
   ROM.zqAskTick(G); check('2. 17:00 以前不問',G.flags.ZQ_ASK_KAI_D==null);
   G.hour=17; ROM.zqAskTick(G); K=(G.flags.knowsRel.heroine_04||{}).kexin;
@@ -66,20 +66,24 @@ GM.money=function(n){ G.money+=n; };
   law(wed,17); setZq(45,30,20,25); ROM.zqAskTick(G); check('2. 第 4 階：不問',G.flags.ZQ_ASK_KAI_D==null);
   law(wed,17,{dating_heroine_04:true}); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 和子晴交往中：不問',G.flags.ZQ_ASK_KAI_D==null);
   law(wed,17,{dating_kexin:false}); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 沒和可昕交往：不問',G.flags.ZQ_ASK_KAI_D==null);
+  { const wd3=STORY.termDay('Y1S2',4,3); law(wd3,17.5); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 週三（子晴下午不在校園）：不問',G.flags.ZQ_ASK_KAI_D==null); G.day=wd3+1; G.hour=17; ROM.zqAskTick(G); check('2. 隔天週四 17:00：問',G.flags.ZQ_ASK_KAI_D===wd3+1); }
+  { const gone=STORY.dayOfKey('2027-01-07'); law(k3,15); ROM.learn(G,'heroine_01','kexin','ev_mid_autumn_bbq'); G.flags.knowsRel.heroine_01.kexin.day=STORY.dayOfKey('2026-12-20'); G.flags.knowsRel.heroine_01.kexin.h=10;
+    G.day=STORY.dayOfKey('2027-08-01'); G.hour=12; ROM.spreadTick(G); check('1. 沛珊聯絡不到的那段（2026-12-18～2027-08-06）：讀書會她不在，不傳',!ROM.knowsGF(G,'classmate_peishan'));
+    G.day=STORY.termDay('Y2S2',12,4)+400; G.hour=12; ROM.spreadTick(G); K=(G.flags.knowsRel.classmate_peishan||{}).kexin; check('1. 她回來以後的第一次讀書會照常傳',!!K&&K.day>=STORY.dayOfKey('2027-08-06'),JSON.stringify(K)); }
   { const sat=STORY.termDay('Y1S2',4,6); law(sat,18); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 週六：不問（等上課日）',G.flags.ZQ_ASK_KAI_D==null); }
   { const brk=STORY.dayOfKey('2026-07-15'); law(brk,18); G.weekday=wdOf(brk); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 暑假：不問',G.flags.ZQ_ASK_KAI_D==null); }
   law(wed,17); setZq(45,30,20,35); ROM.learn(G,'heroine_04','kexin','ev_mid_autumn_bbq'); ROM.zqAskTick(G); check('2. 已經知道：不問',G.flags.ZQ_ASK_KAI_D==null);
   // 子晴⇄芷若
   law(wed,17); setZq(45,30,20,35); ROM.zqAskTick(G);
-  const fri=wed+2; check('3. 兩天後是週五',wdOf(fri)===5);
+  const fri=wed+1; check('3. 隔天是週五',wdOf(fri)===5);
   G.day=fri; G.hour=15; ROM.spreadTick(G); check('3. 週五 15:00（還在 14～16 裡面）：芷若還不知道',!ROM.knowsGF(G,'heroine_02'));
   G.hour=16; ROM.spreadTick(G); K=(G.flags.knowsRel.heroine_02||{}).kexin;
   check('3. 週五 16:00：芷若知道（told_by:heroine_04，那一天）——大一下她 15～16 在校園',!!K&&K.source==='told_by:heroine_04'&&K.day===fri,JSON.stringify(K));
-  { const w1=STORY.termDay('Y1S1',10,3); law(w1,17); setZq(45,30,20,35); ROM.zqAskTick(G); const f1=w1+2; G.day=f1; G.hour=16.5; ROM.spreadTick(G);
+  { const w1=STORY.termDay('Y1S1',10,4); law(w1,17); setZq(45,30,20,35); ROM.zqAskTick(G); const f1=w1+1; G.day=f1; G.hour=16.5; ROM.spreadTick(G);
     check('3. 大一上的週五（芷若 13～17 在 Café 打工）：不傳',!ROM.knowsGF(G,'heroine_02')); }
-  { const w2=STORY.termDay('Y3S1',4,3); law(w2,17); setZq(45,30,20,35); ROM.learn(G,'heroine_04','kexin','told_by:kai'); G.day=w2+2; G.hour=16.5; ROM.spreadTick(G);
+  { const w2=STORY.termDay('Y3S1',4,4); law(w2,17); setZq(45,30,20,35); ROM.learn(G,'heroine_04','kexin','told_by:kai'); G.day=w2+1; G.hour=16.5; ROM.spreadTick(G);
     check('3. 芷若在英國的學期（大三上）：不傳',!ROM.knowsGF(G,'heroine_02')); }
-  { law(wed,10); ROM.learn(G,'heroine_02','kexin','yt_told'); G.day=wed+2; G.hour=16.2; ROM.spreadTick(G); K=(G.flags.knowsRel.heroine_04||{}).kexin;
+  { law(wed,10); ROM.learn(G,'heroine_02','kexin','yt_told'); G.day=wed+1; G.hour=16.2; ROM.spreadTick(G); K=(G.flags.knowsRel.heroine_04||{}).kexin;
     check('3. 反過來：芷若先知道 → 下一個週五子晴知道（told_by:heroine_02）',!!K&&K.source==='told_by:heroine_02',JSON.stringify(K)); }
   { law(fri,15.5); ROM.learn(G,'heroine_04','kexin','told_by:kai'); G.hour=16.5; ROM.spreadTick(G); check('3. 週五 15:30 才知道：那天 14～16 不算（要下一次）',!ROM.knowsGF(G,'heroine_02')); G.day=fri+7; G.hour=16; ROM.spreadTick(G); check('3. 下一個週五才傳',(G.flags.knowsRel.heroine_02||{}).kexin&&G.flags.knowsRel.heroine_02.kexin.day===fri+7); }
   // 舊存檔（沒有 h）

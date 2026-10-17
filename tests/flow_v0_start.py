@@ -42,7 +42,11 @@ async def main():
         ok, log = await drive(pg, cdp, run, "GAME.G&&GAME.G.stage==='econ'&&GAME.G.zone==='dorm'&&!!GAME.G.flags.E01_DONE&&!GAME.E.player.busy&&!GAME.D.active", [], 400)
         d = await pg.evaluate("(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key; return {stage:G.stage, day:G.day, key:k, hour:+G.hour.toFixed(2), zone:G.zone}; })()")
         await run.shot(pg, 'e01_done')
-        g7 = await pg.evaluate("(()=>{ const G=GAME.G, F=G.flags; return {camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, kx:SOCIAL.has('kexin','FIRST_MET'), sq:(G.msgs||[]).filter(m=>m.th==='g:econ_squad3').length}; })()")
+        G7 = "(()=>{ const G=GAME.G, F=G.flags; return {camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, kx:SOCIAL.has('kexin','FIRST_MET'), sq:(G.msgs||[]).filter(m=>m.th==='g:econ_squad3').length}; })()"
+        for _ in range(40):   # 8/25 21:00 的小隊群組排在手機佇列；劇情演出中 STORY.tick 不跑，控制權回來後的第一個 tick 才送進手機（SwiftShader 一幀可能要好幾秒）
+            g7 = await pg.evaluate(G7)
+            if g7['sq'] >= 3: break
+            await pg.wait_for_timeout(1000)
         run.check('第 7 組：先演 8/23～25 經濟系宿營（遊覽車上認識可昕、選了一個回答、小隊群組三則）', g7['camp'] and g7['bus'] in ('nosleep', 'watching') and g7['kx'] and g7['sq'] == 3, json.dumps(g7, ensure_ascii=False))
         # E01 的最後一個選項「先睡。明天再拆。」直接睡到 9/2 早上（劇情設計，AA_154 A24）；選「再拆一箱」的話停在 9/1 晚上，要自己走到床邊睡
         run.check('經濟系開局：2024-09-01 男宿第一晚（E01）演完、恢復控制（9/1 晚上，或 E01 結尾睡著到 9/2 早上）', ok and d['stage'] == 'econ' and d['key'] in ('2024-09-01', '2024-09-02'), json.dumps(d) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
