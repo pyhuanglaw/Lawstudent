@@ -4944,8 +4944,8 @@
    "title": "三種相處的分法（計數）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "依賴 D14-T8",
+   "status": "進行中",
+   "next": "src/date3d.js 資料面已做：G.dateLog／trips／groupTrips（讀檔補預設、不追溯）、五個條件判斷 DATE.counts、DATE.complete（一趟一次、心願、byLoc）、團體出遊、第 6 階 DATE.stageNum（AA_126 4-1）；tests/date_core_unit.js。還沒接：校園與學校附近的 A 類相處（不計數、第 5 階以上戀愛 +1）、人物頁顯示",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -4965,8 +4965,8 @@
    "title": "地點資料 D01～D32 匯入",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "寫匯入工具",
+   "status": "已整合待測試",
+   "next": "tools/date/import_dates.py 照白名單（date_locations.json@d85c1309、point_specs.json@dae42964）匯入 src/data/date_locations.js（32 處、128 個互動點）；台詞（lines/Dxx.json）、心願（wish/）等 DATE-S6 畫面時再匯",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -14392,7 +14392,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
+   "next": "通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
    "first": {
     "term": "Y1S1",
     "week": 1,

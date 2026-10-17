@@ -264,7 +264,8 @@ const GAME = (function(){
     if(s.flags&&typeof s.flags==='object'&&!s.flags.KX_DEC3_MIGRATED&&s.flags.KX_DEC3==null&&!(s.events&&s.events.done&&s.events.done.ev_kexin_birthday_y1s2)){ const F=s.flags; if(F.KX_BDAY&&typeof F.KX_BDAY==='object'&&F.KX_BDAY[1]!=null){ F.KX_DEC3=Object.assign({},F.KX_DEC3||{}); if(F.KX_DEC3[1]==null) F.KX_DEC3[1]=F.KX_BDAY[1]; delete F.KX_BDAY[1]; if(!Object.keys(F.KX_BDAY).length) delete F.KX_BDAY; }
       if(F.KX_BDAY_VISIT){ F.KX_DEC3_VISIT=true; delete F.KX_BDAY_VISIT; } if(F.KX_BDAY_MSG){ F.KX_DEC3_MSG=true; delete F.KX_BDAY_MSG; } }
     if(s.flags&&typeof s.flags==='object') s.flags.KX_DEC3_MIGRATED=true;
-    if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
+    if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }
+    if(typeof DATE!=='undefined'){ try{ DATE.rec(s); }catch(e){ console.warn('DATE.rec',e); } }   /* 校外單獨約會（DATE-S1）：補 dateLog、trips、groupTrips（空的，不追溯以前的出遊，AA_128 1-3）*/   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }

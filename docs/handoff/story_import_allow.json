@@ -156,6 +156,20 @@
    "status": "approved",
    "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
    "task": "SYS-15"
+  },
+  {
+   "path": "docs/story_planning/date_system/date_locations.json",
+   "sha": "d85c1309",
+   "status": "approved",
+   "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
+   "task": "DATE-S2"
+  },
+  {
+   "path": "docs/story_planning/date_system/point_specs.json",
+   "sha": "dae42964",
+   "status": "approved",
+   "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
+   "task": "DATE-S2"
   }
  ]
 }
