@@ -57,9 +57,26 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('6-5 7/10 18:00：沒有「今晚九點，我宿舍樓下。」、沒有女舍門口的出發選單',!txt('p:kexin').some(t=>t.includes('宿舍樓下'))&&!OUT.get(G,'y0_e35')&&G.flags.E35_ASKED===true);
     G.hour=20; check('6-5 睡著：coreCallAt 停在 21:00',STORY.coreCallAt(G)===21);
     G.hour=20.9; const a=EVENTS.check(ev('ev_y0_e35h')); G.hour=21; const b=EVENTS.check(ev('ev_y0_e35h')); picks=['海邊']; await EVENTS.run(ev('ev_y0_e35h')); const L=lines();
-    check('6-5 21:00 在家：他家樓下「（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）」、E35_MET、沒有回家的移動（他已經在家）',!a&&b&&L[0]==='（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'&&G.flags.E35_MET===true&&!ev('ev_y0_e35h').after,J([a,b,L[0]])); }
-  { const d=DK('2025-07-10'); econ(d,21.6,'campus',{E35_ASKED:true},false); G.home={at:false}; run(21.6,21.7);
-    check('6-5 21:30 以後人在外面：電話版（E35_PHONE、在外面自動演）',G.flags.E35_PHONE===true&&EVENTS.check(ev('ev_y0_e35'))); }
+    check('6-5 21:00 在家：他家樓下「（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）」、E35_MET、沒有回家的移動（他已經在家）',!a&&b&&L[0]==='（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'&&G.flags.E35_MET===true&&!ev('ev_y0_e35h').after,J([a,b,L[0]]));
+    check('6-5 收尾（AA_272 第 10 節）：「五分鐘到了。上去吧。明天要早起。」＋「（她先轉身上樓。走到二樓，回頭等你。）」；沒有「我回去了」「巷口」',L.includes('杜可昕：五分鐘到了。上去吧。明天要早起。')&&L[L.length-1]==='（她先轉身上樓。走到二樓，回頭等你。）'&&!L.join('').includes('我回去了')&&!L.join('').includes('巷口'),J(L.slice(-2))); }
+  /* AA_272 第 10 節（7975ffdf）：住在一起——收尾一起上樓；電話版拿掉；21:00 不在家＝「你在哪。我在樓下等你。」，24:00 以前回家就演，都沒回家＝不演 */
+  { const d=DK('2025-07-10'); econ(d,20.9,'campus',{E35_ASKED:true},false); G.home={at:false}; run(20.9,21.1);
+    const m=txt('p:kexin'); check('6-5 21:00 人在外面：她傳「你在哪。我在樓下等你。」；沒有電話版（E35_PHONE）、外面不演',m.includes('kexin:你在哪。我在樓下等你。')&&!G.flags.E35_PHONE&&!EVENTS.check(ev('ev_y0_e35')),J(m.slice(-2)));
+    econ(d,23.5,'home',{E35_ASKED:true}); check('6-5 23:30 回到家：在家演（ev_y0_e35h）',EVENTS.check(ev('ev_y0_e35h')));
+    econ(d+1,0.2,'home',{E35_ASKED:true}); check('6-5 24:00 以前都沒回家：隔天不演、E35_PLAN 不記',!EVENTS.check(ev('ev_y0_e35h'))&&!G.flags.E35_PLAN); }
+  /* AA_272 第 11 節：考試的兩天（7/11 考場、7/12 晚上對答案），都不能快轉 */
+  { const d11=DK('2025-07-11'), d12=DK('2025-07-12'); econ(d11,4.9,'home',{E35_DONE:true});
+    const a=EVENTS.check(ev('ev_y0_exam1h')); G.hour=7; const b=EVENTS.check(ev('ev_y0_exam1h')), o=EVENTS.check(ev('ev_y0_exam1'));
+    said=[]; await EVENTS.run(ev('ev_y0_exam1h')); const L=lines();
+    check('11-1 7/11 早上在家：考場「（考場在一間高中……）」「（她坐在你前面。）」→「（回頭，小聲）……我手好冰。」「我也是。」「加油。」「加油。」→ 鐘響；在家不演外面那一個；沒有偷看、後腦勺',!a&&b&&!o&&L[0]==='（考場在一間高中。教室門口貼著座位表。）'&&L.includes('（她坐在你前面。）')&&L.includes('杜可昕：（回頭，小聲）……我手好冰。')&&L.includes('祐廷：我也是。')&&L.filter(x=>/：加油。$/.test(x)).length===2&&L[L.length-1]==='（鐘響。她轉回去，把筆放在准考證旁邊，排得很整齊。）'&&!L.join('').includes('偷看')&&!L.join('').includes('後腦勺'),J(L));
+    check('11-1 演完跳到 7/12（六）19:00（字卡帶過兩天）、EXAM1_DONE',G.day===d12&&G.hour===19&&G.flags.EXAM1_DONE===true,J([G.day-d12,G.hour]));
+    const c=EVENTS.check(ev('ev_y0_exam2')); said=[]; await EVENTS.run(ev('ev_y0_exam2')); const L2=lines();
+    check('11-2 7/12 19:00 在家：對答案「（全對。）」「……你數學一百？」「好像是。」「我錯一題。」「……就一題。」「其他科明天再對。今天先這樣。」、MATH_100；沒有錯三題',c&&L2.includes('（全對。）')&&L2.includes('杜可昕：……你數學一百？')&&L2.includes('祐廷：好像是。')&&L2.includes('杜可昕：我錯一題。')&&L2[L2.length-1]==='杜可昕：其他科明天再對。今天先這樣。'&&G.flags.MATH_100===true&&!L2.join('').includes('三題'),J(L2));
+    check('11 演過以後都不再演',!EVENTS.check(ev('ev_y0_exam1h'))&&!EVENTS.check(ev('ev_y0_exam1'))&&!EVENTS.check(ev('ev_y0_exam2')));
+    econ(d11,9,'campus',{E35_DONE:true},false); G.home={at:false}; check('11-1 7/11 人不在家：外面那一個演（ev_y0_exam1）',EVENTS.check(ev('ev_y0_exam1'))&&!EVENTS.check(ev('ev_y0_exam2')));
+    econ(DK('2025-07-10'),22,'home',{E35_DONE:true}); const fx=HOME.y0FixedNext(G,Tm(G.day,G.hour)); check('11 快轉不能跳過 7/11：從 7/10 22:00 快轉停在 7/11 06:30；行事曆有「分科測驗」',fx===Tm(d11,6.5)&&HOME.y0Cal(G,3).some(q=>q.t==='分科測驗'),J([fx-Tm(d11,0)]));
+    econ(DK('2025-01-02'),10,'home',{}); const f3=HOME.y0FixedNext(G,Tm(G.day,G.hour)); econ(DK('2025-01-05'),10,'home',{}); const f6=HOME.y0FixedNext(G,Tm(G.day,G.hour));
+    check('第 9 節 1/3、1/6 不能快轉：快轉停在 1/3 21:15、1/6 21:15（訊息收到以後）；行事曆不寫',f3===Tm(DK('2025-01-03'),21.25)&&f6===Tm(DK('2025-01-06'),21.25)&&!HOME.y0Cal(G,3).some(q=>!q.t),J([f3,f6])); }
   /* E36 */
   { const d=DK('2025-08-13'); econ(d,10,'home',{}); await EVENTS.run(ev('ev_y0_e36rh')); const L=lines();
     check('6-6 E36 早上三句：「（臺大法律學系，財經法學組。你的名字在上面。）」「（分數只比那一組的錄取分數高 0.1。）」',J(L)===J(['（八月十三日，早上十點。榜單公布了。）','（臺大法律學系，財經法學組。你的名字在上面。）','（分數只比那一組的錄取分數高 0.1。）']),J(L));

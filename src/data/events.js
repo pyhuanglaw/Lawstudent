@@ -2027,7 +2027,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（你推門進去。櫃台的工作人員抬頭看你。）'},
       {speaker:'工作人員',text:'……你是祐廷嗎？'},{speaker:'player',text:'……對。'},
       {speaker:'工作人員',text:'主任走之前交代過，說你會來。'},{speaker:'player',text:'……'},
-      {speaker:'工作人員',text:'你要問重考班對吧。我看一下你上次的成績。……差四分。差四分以內的可以免費。'},
+      {speaker:'工作人員',text:'你要問重考班對吧。我看一下你上次的成績。……你這樣可以免費。'},
       {choice:[{text:'「……他怎麼知道我會來？」',goto:'a'},{text:'「我只是來問問。」',goto:'b'},{text:'「主任還有說什麼嗎？」',goto:'c'}]},
       {label:'a'},{speaker:'工作人員',text:'他沒說。他只說你會來。'},{goto:'end'},
       {label:'b'},{speaker:'工作人員',text:'好。這是簡章。'},{goto:'end'},
@@ -2178,15 +2178,16 @@ const STORY_EVENTS=[
       {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',expression:'neutral',text:'我呢？'},{speaker:'player',text:'……不知道。妳是自然組。'},{speaker:'kexin',expression:'neutral',text:'那明天一起去問。'},{set:{E27B_PLAN:true}},{goto:'r_set'},   /* AA_272 8-1（使用者 22:0x）：三選一、「所以說好了」搬到 2/14 ev_y0_e27b */
       {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},   /* 沒有 CRAM_FREE_KNOWN 的舊存檔照原本 */
       {label:'r_set'},      {set:{RETAKE_TOGETHER:true}},{stamp:['E27_DAY']} ] },
-  /* ★E27b 一起去問補習班（AA_272 8-2，7050a1a0；使用者 22:0x「2 月決定重考以後，兩個人一起再去問可昕能不能免費……去問重考班也要有劇情」）：2025-02-14（五）15:00 以前的補習班（同 12/13 那一間，主任不出場）；
+  /* ★E27b 一起去問補習班（AA_272 8-2，52c73c73：櫃台進去幫她問、管理說沒有社會科分數不行、全年二十萬剩下十三萬；使用者 22:0x「2 月決定重考以後，兩個人一起再去問可昕能不能免費……去問重考班也要有劇情」）：2025-02-14（五）15:00 以前的補習班（同 12/13 那一間，主任不出場）；
      固定出遊、不能快轉；15:15 還沒出發＝可昕電話（story3d.js CORE_CALLS）。原本 E27 的三選一和結尾搬來這裡；記 CRAM_ASKED_TOGETHER。R1 照舊 2/15 */
   { id:'ev_y0_e27b', stage:'econ', title:'一起去問補習班', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'以前的補習班'},
       {speaker:null,text:'（同一個櫃台。上次那個工作人員認得你。）'},{speaker:'工作人員',text:'你決定來了？'},{speaker:'player',text:'我是來問她的。'},
-      {speaker:'工作人員',text:'（看了可昕一眼）同學之前是哪一組？'},{speaker:'kexin',expression:'neutral',text:'自然組。'},
-      {speaker:'工作人員',text:'喔……那就不行了。免費的是原本社會組、差四分以內的。'},{speaker:'工作人員',text:'自然組轉考要全科從頭上。一整年的話，學費十二萬八。這是早鳥價。'},
+      {speaker:'工作人員',text:'同學之前是哪一組？'},{speaker:'kexin',expression:'neutral',text:'自然組。……現在在臺大經濟。'},
+      {speaker:'工作人員',text:'臺大經濟喔。（看了她的成績）國英數都很高耶。你們等一下，我去幫妳問。'},{speaker:null,text:'（她走進後面的辦公室。你們在櫃台前站了快十分鐘。）'},
+      {speaker:'工作人員',text:'不好意思。管理那邊說，沒有社會科的分數，就沒辦法。'},{speaker:'工作人員',text:'要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。'},
       {speaker:'kexin',expression:'neutral',text:'……好。謝謝。'},{speaker:null,text:'（你們走出來。樓下的飲料店，跟十二月那天同一家。）'},
-      {speaker:'kexin',expression:'neutral',text:'十二萬八。'},{speaker:'kexin',expression:'neutral',text:'你去上啊。你免費耶。'},
+      {speaker:'kexin',expression:'neutral',text:'十三萬。'},{speaker:'kexin',expression:'neutral',text:'你去上啊。你免費耶。'},
       {choice:[{text:'「那我也在家讀。」',goto:'h1'},{text:'「我們都在家讀，比較好約。」',goto:'h2'},{text:'「那我們都在家讀。社會我陪妳從頭讀。」',goto:'h3'}]},
       {label:'h1'},{speaker:'kexin',expression:'surprised',text:'……你確定？'},{speaker:'player',text:'確定。而且我進去會遇到主任。'},{speaker:'kexin',expression:'smile',text:'……好。在家讀。'},{goto:'r_end'},
       {label:'h2'},{speaker:'kexin',expression:'teasing',text:'約讀書。'},{speaker:'player',text:'約讀書。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'r_end'},
@@ -2325,28 +2326,53 @@ const STORY_EVENTS=[
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（另一間補習班。一間坐滿的教室，沒有人認識你們。）'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（你們挑了最後一排，兩個位子。）'},   /* AA_272 第 7 節（7050a1a0；使用者「我們……考前一個月去衝刺班」）：兩個人一起去，「半價」那句刪 */
       {set:{CRAM_CLASS_SEEN:true}} ] },
-  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41；AA_224 6-5 @31708531）：7/10（四）那天兩人在他家讀到九點，她要回家——21:00 在他家樓下演（2D，在家的選單那一輪）；演完她走了，他上樓。
-     21:00～21:30 不在家＝21:30 電話版（第一句旁白換成電話那句；在外面自動演）。
-     記 E35_PLAN（sea／sleep／shop）、E35_MET。私訊、出發選單、可昕的站位、睡著被叫醒在 story3d.js（phoneRules、coreCallAt）。
-     兩個事件同一段台詞：ev_y0_e35＝在外面（3D，或電話版時人不在家）；ev_y0_e35h＝電話版時人在臺北的家（home3d.js 選單那一輪演）。
-     去了的玩家演完直接回家（AA_154 A41 ⑤：22:00 以前到家；旁白不加，LAWWW 定）*/
+  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41；AA_224 6-5；AA_272 第 10 節 7975ffdf：住在一起以後）：7/10（四）21:00 在他家樓下演（2D，在家的選單那一輪）；演完兩個人一起上樓。
+     不用邀約私訊（18:00 只記 E35_ASKED）；電話版拿掉。21:00 他不在家＝她傳「你在哪。我在樓下等你。」（story3d.js），24:00 以前回到家就演同一段；都沒回家＝不演、E35_PLAN 不記。
+     記 E35_PLAN（sea／sleep／shop）、E35_MET。ev_y0_e35 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {if:{flags:['E35_PHONE']},speaker:null,text:'（電話裡，她那邊有翻紙的聲音。）'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
+    const lines=[ {speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
       {speaker:'kexin',text:'准考證我看了第四次了。'},{speaker:'kexin',text:'考完要去哪？先講好，我才睡得著。'},
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「妳選一家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',text:'我也要睡。那天誰都不要叫我。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',text:'我選？……那公館巷子裡那家。我經過好幾次，每次都在排隊。'},
-      {label:'end'},{if:{flags:['E35_PHONE']},speaker:'kexin',text:'我要去睡了。你也快去睡。'},{unless:{flags:['E35_PHONE']},speaker:'kexin',text:'五分鐘到了。我回去了。'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（她走到巷口，回頭揮了一下手。）'},   /* 見面版的收尾：AA-C 定稿（AA_269 第 9 節；BB_179 #65 是女舍門口的版本，AA_224 6-5 地點改成你家樓下）*/
-      {if:{flags:['E35_PHONE']},set:{E35_MET:false}},{unless:{flags:['E35_PHONE']},set:{E35_MET:true}},{set:{E35_DONE:true}} ];
-    const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+      {label:'end'},{speaker:'kexin',text:'五分鐘到了。上去吧。明天要早起。'},{speaker:null,text:'（她先轉身上樓。走到二樓，回頭等你。）'},
+      {set:{E35_MET:true}},{set:{E35_DONE:true}} ];
     return [
-      { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',   /* 電話版、人不在家 */
-        prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE&&!atHome(G)); }},
-        dialogue:lines },
-      { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',   /* 在家：21:00 他家樓下（見面）；21:15 以後才回到家＝電話版 */
-        prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE) return false; if(F.E35_PHONE) return true; return G.day===D(G)&&G.hour>=21&&G.hour<21.5; }},
+      { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',   /* 舊的電話版（AA_272 第 10 節拿掉）：不再觸發 */
+        prereq:{custom:()=>false}, dialogue:lines },
+      { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',   /* 21:00～24:00 在家 */
+        prereq:{custom:G=>{ const F=G.flags; if(!F.E35_ASKED||F.E35_DONE) return false; return G.day===D(G)&&G.hour>=21&&G.hour<24; }},
         dialogue:lines } ]; })(),
+  /* ★考試的兩天（AA_272 第 11 節 885c1c2b＋c8baae2b、117b6081；使用者 22:4x、22:5x）：都不能快轉（home3d.js Y0_FIXED 7/11）。
+     11-1 7/11（五）考場（2D classroom_small）：她坐在他前面，互相加油；演完字卡「7/11～7/12　分科測驗」帶過兩天，直接到 7/12（六）19:00 臺北的家。
+     11-2 7/12 晚上餐桌對答案（2D home_living）：他數學一百，她錯一題；記 MATH_100（只是紀錄）。
+     ev_y0_exam1h＝在家（home3d.js 選單那一輪）；ev_y0_exam1＝人不在家（演完回家）*/
+  ...(()=>{ const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
+    const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const due1=G=>{ const d=DK('2025-07-11'); return d!=null&&G.day===d&&G.hour>=5&&!!G.flags.dating_kexin&&!G.flags.EXAM1_DONE; };
+    const due2=G=>{ const d=DK('2025-07-12'); return d!=null&&G.day===d&&G.hour>=19&&!!G.flags.EXAM1_DONE&&!G.flags.EXAM2_DONE; };
+    const lines1=[ {scene:'考場',bg:'classroom_small'},
+      {speaker:null,text:'（考場在一間高中。教室門口貼著座位表。）'},
+      {speaker:null,text:'（你的准考證號碼，和她的只差一號。五月報名那天，兩個人坐在餐桌兩邊，一人一台電腦，同時按下送出。）'},
+      {speaker:null,text:'（她坐在你前面。）'},
+      {speaker:'kexin',text:'（回頭，小聲）……我手好冰。'},{speaker:'player',text:'我也是。'},
+      {speaker:'kexin',text:'加油。'},{speaker:'player',text:'加油。'},
+      {speaker:null,text:'（鐘響。她轉回去，把筆放在准考證旁邊，排得很整齊。）'},
+      {titleCard:'7/11～7/12',sub:'分科測驗'},{set:{EXAM1_DONE:true}} ];
+    const after1=(G,GM)=>{ const d=DK('2025-07-12'); if(d!=null&&typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,d,19); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };
+    const lines2=[ {scene:'祐廷家・餐桌',bg:'home_living'},
+      {speaker:null,text:'（晚上，補習班的解答出來了。兩個人坐在餐桌兩邊，一題一題對。）'},
+      {speaker:null,text:'（數學對完，你又從第一題重新對了一次。）'},
+      {speaker:null,text:'（全對。）'},
+      {speaker:'kexin',text:'……你數學一百？'},{speaker:'player',text:'好像是。'},
+      {speaker:'kexin',text:'我錯一題。'},{speaker:'kexin',text:'……就一題。'},
+      {speaker:'kexin',text:'其他科明天再對。今天先這樣。'},
+      {set:{MATH_100:true,EXAM2_DONE:true}} ];
+    return [
+      { id:'ev_y0_exam1h', stage:'econ', title:'考場', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due1}, dialogue:lines1, after:after1 },
+      { id:'ev_y0_exam1', stage:'econ', title:'考場', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due1(G)&&!atHome(G)}, dialogue:lines1, after:after1 },
+      { id:'ev_y0_exam2', stage:'econ', title:'對答案', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due2}, dialogue:lines2 } ]; })(),
   /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（KX_CAR only_me 多兩句（AA_224 1-6），8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
      BB-B 754e7136／ec47463b，第②級等 AA-B 確認）。ev_y0_e36＝在外面（走到她旁邊，或 20:30 以後帶到場）；ev_y0_e36h＝帶到場時人在臺北的家。演完接 22:00 放榜的宵夜（ev_y0_e36n，AA_106 3b①）*/
   ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);

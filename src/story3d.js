@@ -1321,11 +1321,11 @@ const STORY = (function(){
     if(S.isEcon(G)){ const d34=S.dayOfKey(S.Y0_E34_DAY), XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), done34=!!(G.events&&G.events.done&&G.events.done.ev_y0_e34);
       if(d34!=null&&(G.day>d34-1||(G.day===d34-1&&G.hour>=21))&&G.day<=d34&&!PHONE.sent(G,'y0_e34_ask')) PHONE.at(G,d34-1,21,[XU('明天經原最後一堂。十二點十分下課。')],'y0_e34_ask');
       if(d34!=null&&!done34&&(G.day>d34||(G.day===d34&&G.hour>=12.25))&&G.day<=d34+2&&!PHONE.sent(G,'y0_e34_miss')) PHONE.at(G,d34,12.25,[XU('經原上完了。老師最後一句說：選了要付什麼。')],'y0_e34_miss'); }
-    /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41）：7/10（四）18:00 可昕私訊兩則（BB-B 6d59df01）＋出發選單「女舍門口 21:00」（從臺北的家約 30 分鐘，帶到大一女舍門口的長椅旁）；
-       20:45～21:15 走到她旁邊就演（3D，E35_MET:true）；21:15 還沒到＝21:30 電話版（E35_PHONE：在家＝home3d 選單那一輪演、睡著＝電話叫醒（coreCallAt）、在別的事件裡＝結束後；E35_MET:false）*/
+    /* ★E35 考試的前一晚（AA_224 6-5；AA_272 第 10 節 7975ffdf：住在一起）：7/10（四）18:00 只記 E35_ASKED（不傳邀約）；21:00 在家＝home3d 選單那一輪演（ev_y0_e35h）；
+       21:00 不在家＝她傳「你在哪。我在樓下等你。」，24:00 以前回到家就演；睡著＝21:00 醒來（coreCallAt）。電話版（E35_PHONE）拿掉 */
     if(S.isEcon(G)){ const d35=S.dayOfKey('2025-07-10'), K=t=>({th:'p:kexin',from:'kexin',text:t});
-      if(d35!=null&&G.day===d35&&G.hour>=18&&!F.E35_ASKED&&!F.E35_DONE) F.E35_ASKED=true;   /* AA_224 6-5：那天兩人在他家讀到九點（她要回家），21:00 他家樓下（ev_y0_e35h）；舊的 18:00「今晚九點，我宿舍樓下。」與出發選單拿掉（字句問 AA 中）*/
-      if(d35!=null&&F.E35_ASKED&&!F.E35_DONE&&(G.day>d35||G.hour>=21.5)) F.E35_PHONE=true; }
+      if(d35!=null&&G.day===d35&&G.hour>=18&&!F.E35_ASKED&&!F.E35_DONE) F.E35_ASKED=true;
+      if(d35!=null&&G.day===d35&&G.hour>=21&&F.E35_ASKED&&!F.E35_DONE&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))&&!PHONE.sent(G,'y0_e35_where')) PHONE.at(G,d35,21,[K('你在哪。我在樓下等你。')],'y0_e35_where'); }
     /* 衝刺班（AA_224 6-4；機制 BB_188 A9-3）：6/8（日）21:00 可昕私訊；6/9～7/9 每週一、三、五 19:00～22:00 祐廷的固定行程（出發選單「這次不去」不扣東西；第一次去＝三句旁白，之後時間跳過）。
        這三晚 19:00～22:00 不排可昕的讀書日、邀約，她的訊息改到 22:10 以後（S.cramNight）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d8=S.dayOfKey('2025-06-08'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
@@ -1433,12 +1433,12 @@ const STORY = (function(){
        葉老師不醜化；「被當」只寫「可能」*/
     if(S.isEcon(G)&&F.dating_kexin){ const K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t}), D=k=>S.dayOfKey(k), past=(d,h)=>d!=null&&(G.day>d||(G.day===d&&G.hour>=h))&&G.day<=d+2;
       { const d=D('2024-12-13'); if(F.CRAM_FREE_KNOWN&&past(d,21)&&!PHONE.sent(G,'y0_cram_msg')&&G.day<=d+1) PHONE.at(G,G.day===d?d:G.day,G.day===d?21:Math.max(9,G.hour),[Y('我今天去以前的補習班。等主任走了才進去。'),Y('然後櫃台說，主任交代過我會來。'),K('哈哈哈哈哈哈'),K('……那你要去嗎？'),Y('還不知道。'),K('好。')],'y0_cram_msg'); }
-      /* 可昕休學的理由（使用者 22:0x 定案：期末占 100% 的作業記錯時間、寫信求補救、老師拒絕；AA_272 第 9 節 7050a1a0 改三句）*/ { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('國文的期末報告。整科只算這一份。'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
+      /* 可昕休學的理由（使用者 22:0x 定案：期末占 100% 的作業記錯時間、寫信求補救、老師拒絕；AA_272 第 9 節 ae4806a9：一百分、沒交零分、一定被當）*/ { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('國文的期末報告。整科就這一份，一百分。'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
           {t:'寄信問葉老師？',say:[K('正在寫。……寫第三版了。第一版太像在哭，第二版太像律師函。')]},
           {t:'妳先不要慌。',say:[K('我沒有慌。我在把截圖放大，看紅字是不是會變黑。'),K('……好啦。我寫信問葉老師。')]},
           {t:'要不要我現在過去？',say:[K('你又沒課。……好啦，來。我在社科院一樓。'),{who:null,text:'（你過去了。她把信給你看，你改了一個錯字。）'}]}]}})],'y0_kx_essay1'); }
-      { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說不能補交，遲交照課程大綱第一頁的規定扣分，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
-      { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('我算了一下。整科就那一份，扣完分。'),K('可能會被當。也可能不會。'),K('我不想等到成績出來才知道。……我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
+      { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說不能補交，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
+      { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('沒交就是零分。整科零分。'),K('這科一定會被當。'),K('我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
           {t:'妳想好了再跟我說。',set:{KX_THINK_LEAVE:'wait'},say:[K('嗯。我會。')]},
           {t:'休學的生活還可以。我可以教妳怎麼睡到十點。',set:{KX_THINK_LEAVE:'sleep'},say:[K('……你是在安慰我還是在炫耀。'),Y('都有。')]},
           {t:'先吃飯。',set:{KX_THINK_LEAVE:'eat'},say:[K('……好。鹽酥雞。')]}]}})],'y0_kx_essay3'); } } }
@@ -2673,7 +2673,7 @@ const STORY = (function(){
   S.coreCallAt=function(G){ if(!S.isEcon(G)||typeof OUT==='undefined') return null; { const q=OUT.get(G,'y1_camp'); if(q&&q.state!=='done'&&q.day===G.day&&G.hour<8&&!(G.flags||{}).CAMP_Y1) return 8; }   /* 宿營那天睡著：08:00 醒來直接出發（AA_205 2-3）*/ for(const id of CORE_OUT){ const q=OUT.get(G,id); if(q&&q.state!=='done'&&q.day===G.day){ const t=q.h+(q.late!=null?q.late:0.75); if(G.hour<t) return t; } }
     { const d=S.dayOfKey('2024-12-12'); if(d!=null&&G.day===d&&G.hour<22&&G.flags.dating_kexin&&!G.flags.KX_FIGHT_1212) return 22; }   /* AA_224 4-1：12/12 22:00 的電話，睡著也會接到 */
     { const d=S.dayOfKey('2025-01-28'); if(d!=null&&G.day===d&&G.hour<22&&!G.flags.E21_CALLED) return 22; }   /* E21 除夕 22:00 的電話 */
-    const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&!G.flags.E35_DONE&&G.hour<21) return 21;   /* E35（AA_224 6-5）：睡著＝21:00 醒來，她要回家了 */   /* E35 電話版（AA_154 A41 ④）：睡著＝21:30 電話叫醒 */
+    const d35=S.dayOfKey('2025-07-10'); if(d35!=null&&G.day===d35&&!G.flags.E35_DONE&&G.hour<21) return 21;   /* E35（AA_224 6-5、AA_272 第 10 節）：睡著＝21:00 醒來，她在樓下 */
     const d36=S.dayOfKey('2025-08-13'); if(d36!=null&&G.day===d36&&!G.flags.E36_RESULT&&G.hour<10) return 10;   /* E36 放榜：睡著也在 10:00 醒來看榜單 */
     if(d36!=null&&G.day===d36&&G.flags.E36_ASKED&&!(G.events&&G.events.done&&G.events.done.ev_y0_e36)&&G.hour<20.5) return 20.5;   /* E36 帶到場（A35 ④）：睡著＝20:30 手機震醒 */
     return null; };
