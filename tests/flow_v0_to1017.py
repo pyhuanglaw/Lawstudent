@@ -16,6 +16,7 @@ import asyncio, json, sys, time, os, datetime
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
+import screencheck as SC   # 看畫面的自動檢查（使用者 2026-10-17 23:3x）
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_v0_to1017'
@@ -69,7 +70,7 @@ async def quick_go(pg, cdp, key):
 
 
 async def main():
-    run = L.Run('flow_v0_to1017', OUT)
+    run = L.Run('flow_v0_to1017', OUT); sc = SC.Checker(run, OUT); day_check = None; was_dlg = False; last_opts = None
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
@@ -118,6 +119,7 @@ async def main():
                     info = await pg.evaluate("({h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,stage:GAME.G.stage})")
                     print(f'  [{(time.time()-t_start)/60:6.1f} 分] {key} {json.dumps(info, ensure_ascii=False)}', flush=True)
                     if key.endswith('-01') or key in ('2024-09-02', '2024-10-15', '2024-10-16', '2024-10-17'): await run.shot(pg, 'day_' + key)
+                    day_check = key
             s = await L.state(pg)
             sig = (s['dtext'], s['choices'], s['zone'], round(s['x'], 1), round(s['z'], 1), s['hour'])
             if sig != last_sig: last_sig = sig; stuck_t = time.time()
@@ -131,9 +133,13 @@ async def main():
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
                 free_since = None
+                opts_now = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
+                if opts_now != last_opts: last_opts = opts_now; await sc.check(pg, '%s 選項 %s' % (last_key, opts_now[:16]))
                 c = await pick_choice(pg, cdp)
                 if c: print('   ▶', c[2], '／', c[3], flush=True)
                 await pg.wait_for_timeout(900); continue
+            if s['dlg'] and not was_dlg: await sc.check(pg, '%s 對話 %s' % (last_key, s['dtext'][:12]))
+            was_dlg = bool(s['dlg'])
             if s['dlg']:
                 free_since = None
                 if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"):
@@ -148,6 +154,7 @@ async def main():
             if time.time() - free_since < 7:
                 await pg.wait_for_timeout(800); continue
             free_since = None
+            if day_check: await sc.check(pg, '%s 空下來 %s' % (day_check, s['zone'])); day_check = None
             # 空下來：白天跳過時間，晚上回去睡
             if s['hour'] < 21 and skip_fail_day != (last_key, int(s['hour'])):
                 lab = await skip_time(pg, cdp)
@@ -165,6 +172,7 @@ async def main():
             if ok and not s['dlg'] and not s['choices'] and s['interact']:
                 await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         await run.shot(pg, 'end')
+        sc.finish()
         st = await pg.evaluate("""(()=>{ const G=GAME.G, F=G.flags; return {key:CALENDAR.dateOf(G.day).key, h:+G.hour.toFixed(2), stage:G.stage, zone:G.zone,
           camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, dk:!!F.dating_kexin, since:F.KX_DATING_SINCE||null, e26:F.E26_DAY||null, car:F.KX_CAR||null,
           e15:(G.outings||[]).filter(q=>q.id==='y0_e15').length, fb:GAME.walkFallbacks||0}; })()""")

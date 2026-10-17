@@ -11,6 +11,7 @@ import asyncio, json, sys, time, os
 from playwright.async_api import async_playwright
 sys.path.insert(0, os.path.dirname(__file__))
 import playlib as L
+import screencheck as SC   # 看畫面的自動檢查（使用者 2026-10-17 23:3x）
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_v0_home'
@@ -44,7 +45,7 @@ async def answer_phone(pg, cdp, th):
 
 
 async def main():
-    run = L.Run('flow_v0_home', OUT)
+    run = L.Run('flow_v0_home', OUT); sc = SC.Checker(run, OUT); was_dlg = False; last_opts = None
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
@@ -86,6 +87,8 @@ async def main():
                 recover += 1
                 if recover > 3: break
                 shut = await L.close_panels(pg, cdp); run.note('  關掉的面板：' + json.dumps(shut)); stuck_t = time.time(); continue
+            if s['dlg'] and not was_dlg: await sc.check(pg, '%s 對話 %s' % (last_key, s['dtext'][:12]))
+            was_dlg = bool(s['dlg'])
             if s['dlg']:
                 if await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()"):
                     fade_run += 1
@@ -100,11 +103,14 @@ async def main():
                 shut = await L.close_panels(pg, cdp)
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
             if s['choices']:
+                opts_now = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
+                if opts_now != last_opts: last_opts = opts_now; await sc.check(pg, '%s 選項 %s' % (last_key, opts_now[:16]))
                 c = await pick_choice(pg, cdp)
                 if c: print('   ▶', c[2], '／', c[3], flush=True)
                 await pg.wait_for_timeout(900); continue
             await pg.wait_for_timeout(800)
         await run.shot(pg, 'end')
+        sc.finish()
         res = await pg.evaluate("((W,F)=>{ const G=GAME.G, L=G.events.last||{}, D=G.events.done||{}; const ev={}; for(const k of W) if(D[k]) ev[k]=L[k]!=null?CALENDAR.dateOf(L[k]).key:'done'; const fl={}; for(const k of F) fl[k]=G.flags[k]===undefined?null:G.flags[k]; return {key:CALENDAR.dateOf(G.day).key,h:+G.hour.toFixed(2),stage:G.stage,zone:G.zone,ev,fl,fb:GAME.walkFallbacks||0}; })(%s,%s)" % (json.dumps(WATCH), json.dumps(FLAGS)))
         print('結束', json.dumps(res, ensure_ascii=False), flush=True)
         for k in WATCH: print('   ', k, res['ev'].get(k, '— 沒有發生'), flush=True)
