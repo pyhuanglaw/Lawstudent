@@ -1,11 +1,11 @@
 {
  "objects": 52,
  "unique_meshes": 52,
- "tris": 13710,
- "tris_drawn": 13710,
+ "tris": 13770,
+ "tris_drawn": 13770,
  "materials": 13,
  "out": "assets/models/env/second_ai/court_props.glb",
- "bytes": 1045264,
+ "bytes": 1049464,
  "texres": 512,
  "layout": {
   "room": {

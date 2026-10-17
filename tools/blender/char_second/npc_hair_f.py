@@ -150,7 +150,7 @@ def apply(m):
                 q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3 + fo * float(sstep(0.55, 1.0, t)) ** 1.6) + tan * wave * math.sin(math.pi * 1.6 * t + wph) * float(sstep(0.25, 0.6, t))
                 q += rad * 0.5 * wave * (1 - math.cos(math.pi * 3.2 * t + wph)) * float(sstep(0.25, 0.6, t)) * float(WAVE > 0.004)   # 大波浪：髮束也前後起伏（不只左右擺）
                 q[2] = p0[2] - L2 * t + 0.25 * fv * float(sstep(0.80, 1.0, t)) + 0.55 * fo * float(sstep(0.70, 1.0, t))   # 髮尾外翻時微微往上
-                q[0] += math.copysign(1.0, p0[0] - c[0]) * float(np.interp(az(a), [100, 115, 140, 165, 180], [0.0, 0.030, 0.034, 0.018, 0.0])) * float(sstep(0.05, 0.7, t))   # 可昕：背後往兩邊散開（蓋住肩胛骨；第二版之前只有頭的寬度）
+                q[0] += math.copysign(1.0, p0[0] - c[0]) * float(np.interp(az(a), [100, 115, 140, 165, 180], [0.0, 0.008, 0.012, 0.008, 0.0])) * float(sstep(0.05, 0.7, t))   # 背後往兩邊散開：路人 3 cm → 1 cm（散開的髮片在正面看是側著的，跑到臉旁頭髮的外面，變成肩膀兩邊一條一條的細線：nf5、nf12、nf16、nf19）
                 q[1] += float(np.interp(az(a), [72, 82, 100, 112, 125], [0.0, 0.050, 0.060, 0.040, 0.0])) * float(sstep(0.0, 0.55, t))   # 第四版：正側面的頭髮往後、從肩膀後面垂下
                 low.append(q)
             low = np.array(low)
@@ -248,9 +248,11 @@ def apply(m):
         for sgn in (1.0, -1.0):
             for k, t in enumerate((0.0, 0.5, 1.0)):
                 # 第二版：越過髮際線的那一點往下 6%（蓋住額頭上面的兩個角；第一版額頭整片露出來，顯得很大）
-                a0 = PART + sgn * (2.0 + 5.0 * t)       # 第三版：從更靠近分線的地方、在額頭上面低一點的地方往外撥（八字形蓋住額頭的兩個角）
+                # 第三版（v2 −0.10、往外 24°）失敗：髮片在眼睛的方位（15～30°）就往下，蓋住眼睛（nf9、nf5 重建）→ 回到第二版的路徑：
+                # 先往外撥到 35～50°（眼睛外面）才往下；額頭的兩個角露出來（中分本來就是這樣），髮片寬一點
+                a0 = PART + sgn * (4.0 + 9.0 * t)
                 z_end = eye_z - 0.040 - 0.035 * t + rng.uniform(-0.004, 0.004)
-                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(2.3, 2.5), z_end, sgn * (24.0 + 6.0 * t), early=0.5, reg='lock', v2=-0.10 - 0.04 * t)
+                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(2.1, 2.3), z_end, sgn * (31.0 + 6.0 * t), early=0.7, reg='lock', v2=0.0)
     elif BANG == 'heavy':               # 厚瀏海：11 片、寬一點、直直蓋到眉毛
         for k, a0 in enumerate(np.linspace(-32.0, 32.0, 11)):
             s_ = abs(a0) / 32.0
