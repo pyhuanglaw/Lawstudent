@@ -46,6 +46,7 @@ CUFF_EASE = 0.0085        # 袖口離手臂的距離（長袖羅紋收口 8.5 mm
 TOP_TEX = 'knit'          # 上衣布料：'knit'（粗針織，沈以安、祐廷）／'linen'（亞麻，林芷若）
 PANTS_DROP = True         # 寬褲從臀部直落（False：合身褲，褲管照腿的形狀）
 PANTS_HEM_UP = 0.0        # 褲腳往上（九分褲：露出腳踝）
+PANTS_FOLLOW = False      # 褲管中心線跟著腿骨（大腿根 → 膝蓋 → 腳踝）走；False＝舊做法（垂直的管子，x 固定 0.086）。腿往內斜的樣本（Sakurada：膝蓋 x 0.055、腳踝 0.043）用舊做法時褲腳在腳的外側、遊戲裡像喇叭褲（LAWWW2-C 2026-10-17，阿勳）
 EASE_K = 0.85             # 身片寬鬆量的倍數（沈以安第二版 1.0 → 0.85：側面看毛衣從胸口直落、下擺收緊，像氣球）
 WSRC = None               # 權重來源：VRoid 原本的上衣網格（祐廷：連帽上衣）。有的話，毛衣的身片、袖子根部照它的權重（VRoid 調過手放下的姿勢）
 TOP_FIT = 0.0             # 上衣合身度（0＝從胸口直落的寬鬆箱形：沈以安、祐廷；林芷若 0.65：腰部跟著身體收）
@@ -293,6 +294,12 @@ def build_pants(skin, arm, mb):
     if PANTS_HEM_UP > 0: zl = [z for z in zl if z > 0.09 + PANTS_HEM_UP + 0.012] + [0.09 + PANTS_HEM_UP]   # 九分褲：褲腳上面的圈不能低於褲腳
     zs = np.array(zt + zl)
     def zhem(ph): return 0.049 - 0.020 * np.sin(ph) + PANTS_HEM_UP        # 後面 3 cm、前面 6.9 cm（褲管蓋在鞋面上）
+    legx = {}
+    if PANTS_FOLLOW:
+        for side in ('L', 'R'):
+            pts = [C.bone_head(arm, 'J_Bip_%s_%s' % (side, b)) for b in ('Foot', 'LowerLeg', 'UpperLeg')]
+            legx[side] = (np.array([p[2] for p in pts]), np.array([abs(p[0]) for p in pts]))
+        print('  pants follow legs', {k: np.round(v[1], 3).tolist() for k, v in legx.items()})
     legs = {}
     for side, sg in (('L', 1.0), ('R', -1.0)):
         # 褲頭在腰上（1.03–1.085 m）：那裡的皮膚綁 Spine＋Chest，每個頂點單一骨頭的權重常常 < 0.5——第一版只用 Hips/Spine、門檻 0.5，
@@ -303,6 +310,7 @@ def build_pants(skin, arm, mb):
             zz = 0.06 if isinstance(z, str) else z
             wl = sstep(z_crotch + 0.07, z_crotch - 0.05, zz)              # 0：臀部（貼身體）、1：寬褲管
             cx = 0.073 + (0.086 - 0.073) * wl; cy = hips_c[1] + 0.004 - 0.004 * wl
+            if PANTS_FOLLOW: cx = 0.073 + (max(0.040, float(np.interp(zz, *legx[side]))) - 0.073) * wl
             a = PANTS_ELLIPSE[0]; b = PANTS_ELLIPSE[1] + 0.020 * (PANTS_ELLIPSE[1] / 0.102) * np.clip((0.80 - zz) / 0.70, 0, 1)
             gap = -0.004 if zz > z_crotch - 0.005 else 0.0015     # 胯下以上：兩片在中線稍微重疊（前後中縫沒有縫隙）
             ring = []

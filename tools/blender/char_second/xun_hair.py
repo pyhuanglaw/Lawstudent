@@ -155,9 +155,10 @@ def apply(m):
              nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 5))
     for k in range(10):        # 上層：一撮一撮、長短不一、往下垂多（明軒 curl 4–14°；阿哲 10–28° 往兩邊撥開）
         a = -38 + 76 * (k + rng.uniform(0.2, 0.8)) / 10
-        sgn = 1.0 if a > PART else -1.0
-        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.03, 0.06), 0.013 + 0.004 * rng.random(), rng.uniform(1.2, 1.7), 'bang',
-             nseg=16, bulge=0.008 + 0.004 * rng.random(), arch=0.12, curl=sgn * rng.uniform(10, 24))   # 阿勳第二版：往兩邊撥多一點、長短差多一點
+        sgn = 1.0 if a > PART else -1.0; cu = sgn * rng.uniform(6, 14)
+        # 阿勳第三版：髮尾的高度照「撥過去之後」的方位算（第二版照髮根的方位、curl 10–24°：兩側的髮束撥到 50–60° 時沿臉往下掉到眼睛、顴骨）；只會比目標短、不會更長
+        card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a + cu) + rng.uniform(0.0, 0.05), 0.013 + 0.004 * rng.random(), rng.uniform(1.2, 1.7), 'bang',
+             nseg=16, bulge=0.008 + 0.004 * rng.random(), arch=0.12, curl=cu)
     n_bang = len(mb.F) - n_shell - n_card
 
     # ---- 4. 物件、材質、權重 ----
@@ -175,6 +176,9 @@ def apply(m):
     mat = C.mtoon_from(tmpl, 'M01_HairCard_HAIR', base_img=img, alpha='MASK', cutoff=0.5, double_sided=False, outline=0.0)
     mt = mat.vrm_addon_extension.mtoon1.extensions.vrmc_materials_mtoon
     mt.shade_color_factor = (0.80, 0.74, 0.72)        # 第十一版：陰影面不要那麼暗（0.72／0.66）
+    try:      # 阿勳第三版：Sakurada 樣本的頭髮材質有一張 MatCap（VRM 0.x 的 _SphereAdd）：遊戲裡頭頂、後腦斜著看一圈白邊、一塊淺色（韋綸後腦的白斑同一個原因）
+        mt.matcap_texture.index.source = None; mt.matcap_factor = (0.0, 0.0, 0.0)
+    except Exception as ex: print('  matcap off failed', ex)
     e1 = mat.vrm_addon_extension.mtoon1
     e1.emissive_texture.index.source = None; e1.normal_texture.index.source = None
     me.materials.append(mat)

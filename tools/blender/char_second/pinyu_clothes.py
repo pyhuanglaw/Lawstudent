@@ -11,10 +11,12 @@ SHOE = np.array([204, 204, 200]) / 255.0          # 灰白老爹鞋
 SOLE = np.array([232, 230, 224]) / 255.0
 STYLE = dict(KNIT_RGB=GREY, TROUSER_RGB=BLACK, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, GOLD_RGB=SOLE, BELT_RGB=None,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
-             SLEEVE_LEN=1.0, SLEEVE_K=0.97, CUFF_EASE=0.012, EASE_K=1.0, DROP_X=0.118, TOP_FIT=0.0, HEM_LOOSE=False,
-             PANTS_ELLIPSE=(0.066, 0.074), PANTS_DROP=False, PANTS_HEM_UP=0.0)
+             SLEEVE_LEN=1.03, SLEEVE_K=1.0, CUFF_EASE=0.014, EASE_K=1.08, DROP_X=0.122, TOP_FIT=0.0, HEM_LOOSE=False,
+             PANTS_ELLIPSE=(0.068, 0.076), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)
 # 褲頭在腰（藏在帽 T 裡）、帽 T 下擺在胯骨下面（oversize）；圓領比 T 恤高一點（帽 T 的領口貼脖子）
-STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.915, KNIT_HEM_TOP=0.965, BACK_NECK_Z=1.380, CREW_FRONT_Z=1.330)
+# 第二版：帽 T 下擺 0.915 → 0.875（參考圖 oversize、蓋到胯下）、身片寬鬆 1.0 → 1.08（第一版遊戲裡已經很蓬）；褲管中心跟著腿走（PANTS_FOLLOW：第一版褲腳往外張開像喇叭褲）、寬一點的直筒；
+# 圓領前中心 1.330 → 1.345（第一版遊戲裡領口上面露出樣本脖子的接縫線）
+STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=0.875, KNIT_HEM_TOP=0.928, BACK_NECK_Z=1.380, CREW_FRONT_Z=1.345)
 SIDE_NECK_M = (0.078, 1.392)
 
 

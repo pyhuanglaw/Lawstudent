@@ -178,7 +178,7 @@ def make_atlas(seed=SEED):
     # → 上段 56% 合成一片、下段 3 撮（彼此略重疊、長短不一），髮片之間的空隙露出額頭
     for nm, lens in (('bangA', (0.82, 1.0)), ('bangB', (0.78, 0.96))):
         x0, x1, y0, y1 = REG_PX[nm]; h, w = y1 - y0, x1 - x0
-        A = _clumps(rng, h, w, 3, 0.56, lens[0], lens[1], hw_k=(1.0, 1.3), lean=0.12, power=0.85, full=1.8, minw=3.0)
+        A = _clumps(rng, h, w, 3, 0.44, lens[0], lens[1], hw_k=(0.85, 1.15), lean=0.18, power=0.85, full=1.6, minw=2.6)   # 品妤：下段分得早一點、束細一點（透空）
         put(nm, _strand_color(rng, h, w, 0.82, tip_light=0.05), A)
     # 髮殼：不透明、偏暗；髮際線那一端細細的鋸齒
     x0, x1, y0, y1 = REG_PX['shell']; h, w = y1 - y0, x1 - x0
@@ -415,13 +415,14 @@ def apply(m):
     # 第二版 10 束 1.7–2.0 cm、髮尾一樣高：正面看是一整片鋸齒狀的厚瀏海
     # 第四版：瀏海用 bangA／bangB（髮束下半段分成一根一根細絲、中間透空）——參考圖是透得到額頭的空氣瀏海；
     # 第三版用 lock（整片的髮束、尖端鋸齒）窄一點、間隔開，正面看像一把梳子。髮尾高低錯開，兩側長到顴骨、接到臉旁的碎髮
-    bangs = [(-4, -5, 0.004, 0.018, 'bangA'), (5, 6, 0.006, 0.018, 'bangB'), (-12, -14, 0.000, 0.019, 'bangB'), (13, 15, 0.002, 0.019, 'bangA'),
-             (-21, -24, -0.006, 0.019, 'bangA'), (22, 25, -0.003, 0.019, 'bangB'), (-29, -34, -0.016, 0.018, 'bangB'), (30, 35, -0.013, 0.018, 'bangA'),
-             (-37, -44, -0.032, 0.016, 'lock'), (38, 45, -0.030, 0.016, 'lock'),
-             (-8, -9, 0.008, 0.007, 'wisp'), (9, 10, 0.005, 0.007, 'wisp')]
+    # 品妤第二版：參考圖的瀏海蓋過眉毛、髮尾到上眼皮，一撮一撮之間透得到額頭（第一版髮尾停在眉毛上緣、第二排把空隙補滿：正面看是一整片齊的鋸齒瀏海）
+    bangs = [(-4, -5, -0.008, 0.017, 'bangA'), (5, 6, -0.006, 0.017, 'bangB'), (-12, -14, -0.012, 0.018, 'bangB'), (13, 15, -0.010, 0.018, 'bangA'),
+             (-21, -25, -0.019, 0.018, 'bangA'), (22, 26, -0.017, 0.018, 'bangB'), (-29, -35, -0.030, 0.017, 'bangB'), (30, 36, -0.028, 0.017, 'bangA'),
+             (-37, -45, -0.046, 0.016, 'lock'), (38, 46, -0.044, 0.016, 'lock'),
+             (-8, -9, -0.002, 0.007, 'wisp'), (9, 11, -0.004, 0.007, 'wisp')]
     # 芯慈第八版：第二排（在第一排的空隙、離額頭近 2 mm、髮尾高 4–6 mm）——第七版正面看一根根分開、額頭空很多，參考圖是一片蓬鬆、透得到額頭的瀏海
-    bangs2 = [(0, 0, 0.010, 0.017, 'bangB'), (-8, -10, 0.006, 0.017, 'bangA'), (9, 11, 0.008, 0.017, 'bangB'), (-17, -19, 0.004, 0.017, 'bangB'),
-              (18, 20, 0.005, 0.017, 'bangA'), (-25, -29, -0.004, 0.017, 'bangA'), (26, 30, -0.002, 0.017, 'bangB')]
+    # 品妤第二版：第二排只留 4 撮（中間分線那一撮、±17° 拿掉）、髮尾比第一排高 6–8 mm——空隙才看得到額頭
+    bangs2 = [(-8, -10, -0.001, 0.015, 'bangA'), (9, 11, 0.001, 0.015, 'bangB'), (-25, -29, -0.012, 0.016, 'bangA'), (26, 30, -0.010, 0.016, 'bangB')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0
@@ -470,7 +471,7 @@ def apply(m):
             P = H.push(P, marg); P[1:-1] = P[1:-1] * 0.6 + (P[:-2] + P[2:]) * 0.2
         Tn = tangents(P)
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
-        for rot, wfac, reg, dx in ((0.0, 0.36, 'lock', 0.0), (0.5 * sgn, 0.26, 'wisp', 0.003)):   # 芯慈第八版：0.48／0.30 → 0.36／0.26（正面看像兩條深色緞帶）    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
+        for rot, wfac, reg, dx in ((0.0, 0.46, 'lock', 0.0), (0.5 * sgn, 0.32, 'wisp', 0.003)):   # 品妤第二版：0.36／0.26 → 0.46／0.32（第一版遊戲裡臉旁兩條像黑色鐵絲）   # 芯慈第八版：0.48／0.30 → 0.36／0.26（正面看像兩條深色緞帶）    # 芯慈：細細的兩綹（第一版 0.70／0.45：像兩條黑色緞帶）    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
             sd = _unit(np.cross(nrm, Tn))
             twist = np.linspace(0, 0.5 * sgn, len(P))[:, None]
@@ -480,7 +481,7 @@ def apply(m):
             mb.ribbon(P + nrm * dx, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
         # 臉頰旁較短的碎髮（太陽穴 → 顴骨 → 下顎，剛體）：和長的臉旁碎髮一起做出參考圖那種包住臉側的層次
-        for a_r, a_m, wq in ((52, 60, 0.011),):
+        for a_r, a_m, wq in ((52, 60, 0.015), (46, 55, 0.012)):   # 品妤：太陽穴兩撮（丸子頭把頭髮往上梳，參考圖太陽穴、耳朵上面有散下來的碎髮）
             q = []
             d = sph(sgn * a_r, 24); q.append(c + d * (H.R(d) + 0.0035))
             d = sph(sgn * (a_r + 5), 4); q.append(c + d * (H.R(d, True) + 0.007))
@@ -528,11 +529,14 @@ def apply(m):
         ph0 = 2 * math.pi * k / K + rng.uniform(-0.15, 0.15)
         th_a = math.radians(rng.uniform(110, 122)); th_b = math.radians(rng.uniform(16, 30))
         n = 44; t = np.linspace(0, 1, n)
-        ths = th_a + (th_b - th_a) * t; phs = ph0 + 2 * math.pi * 1.25 * t
-        ex = 0.06 + 0.07 * (k % 4) / 3 + 0.05 * rng.random()
-        P = np.array([bun_pt(a_, b_, ex) for a_, b_ in zip(ths, phs)])
+        dirn = 1.0 if k % 3 else -1.0                        # 品妤第二版：三條裡一條反方向繞（第一版全部同方向：髮髻像一圈一圈疊起來的頭巾）
+        ths = th_a + (th_b - th_a) * t; phs = ph0 + dirn * 2 * math.pi * rng.uniform(0.85, 1.3) * t
+        ex0 = 0.05 + 0.08 * (k % 4) / 3 + 0.06 * rng.random()
+        loop = (0.22 + 0.10 * rng.random()) if k % 5 == 2 else 0.0      # 鬆開的一圈（亂丸子頭：有幾圈翹出來）
+        exs = ex0 + 0.035 * np.sin(2 * np.pi * (rng.uniform(1.5, 3.0) * t + rng.random())) + loop * np.sin(np.pi * np.clip((t - 0.3) / 0.45, 0, 1))
+        P = np.array([bun_pt(a_, b_, e_) for a_, b_, e_ in zip(ths, phs, exs)])
         Nr = _unit(P - Cb); Tn = tangents(P); side = _unit(np.cross(Nr, Tn))
-        width = (0.025 + 0.005 * rng.random()) * (0.55 + 0.45 * np.sin(np.pi * np.clip(t * 1.08, 0, 1)))
+        width = (0.020 + 0.012 * rng.random()) * (0.55 + 0.45 * np.sin(np.pi * np.clip(t * 1.08, 0, 1)))
         mb.ribbon(P, side, Nr, width, 'long', 'head', np.zeros(n), arch=0.20, tt=np.interp(t, [0, 0.85, 1], [0.04, 0.55, 0.80]))   # 髮尾的分束（貼圖 t>0.84）不用：纏起來的頭髮是連續的
     # 5c 髮髻底下的一圈：往後梳的頭髮收進髮髻的地方（底面邊緣的幾束短髮片，從頭皮往髮髻）
     for k in range(9):
@@ -542,8 +546,8 @@ def apply(m):
         Q = catmull(np.array([p0, q0, q1]), 6); Q, sq = resample(Q, 12)
         Dq = _unit(Q - Cb); Tq = tangents(Q)
         mb.ribbon(Q, _unit(np.cross(Dq, Tq)), Dq, 0.022, 'swept', 'head', np.zeros(len(Q)), arch=0.12, tt=np.linspace(0.95, 0.15, len(Q)))
-    for k in range(5):                                      # 5d 品妤：從丸子頭掉下來的碎髮（短、往下垂、往外翹）
-        ph = rng.uniform(-math.pi * 0.9, -math.pi * 0.1) if k < 3 else rng.uniform(0, 2 * math.pi)
+    for k in range(0):                                      # 5d 品妤：從丸子頭掉下來的碎髮——第二版拿掉（第一版 5 條：遊戲裡側面看是幾根黑色的棍子插在髮髻上；亂的感覺改靠反方向繞、鬆開的幾圈）
+        ph = rng.uniform(-math.pi * 0.9, -math.pi * 0.1) if k < 5 else rng.uniform(0, 2 * math.pi)
         q0 = bun_pt(math.radians(rng.uniform(60, 110)), ph, 0.12)
         q1 = q0 + np.array([rng.uniform(-0.02, 0.02), rng.uniform(0.0, 0.02), -0.035]); q2 = q1 + np.array([rng.uniform(-0.03, 0.03), 0.012, -0.03])
         Q = catmull(np.array([q0, q1, q2]), 6); Q, sq = resample(Q, 10)
