@@ -195,7 +195,7 @@ def watch(m, side='L', back=0.035, band_w=0.022):
     return obj
 
 
-def unpaint_socks(body, z_max=0.22, z_ref=(0.33, 0.50), name='W01_Body_nosock'):
+def unpaint_socks(body, z_max=0.34, z_ref=(0.38, 0.52), name='W01_Body_nosock'):   # 第七版 0.22 → 0.34：樣本的深色短襪在後面畫到 0.3 左右（第五、六版白襪上緣後面還看得到深棕色）
     """第五版（BB-C 第 7 點：背面腳跟的深色斑點）：樣本的身體貼圖在腳踝、腳畫了一雙深棕色短襪——待機動畫腳踝一轉，腳跟的皮膚從白襪底下露出來。
     把身體網格在 z_max 以下（樣本座標；腳踝、腳）那些面的貼圖範圍裡、暗的像素改成小腿（z_ref）皮膚的中位數；露出來也只是皮膚"""
     import h01_face as F
