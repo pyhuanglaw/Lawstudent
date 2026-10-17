@@ -361,6 +361,22 @@
    "approvedBy": "使用者 2026-10-17 10:3x 對 LAWWW-C 批准 17-6；AA-C 加 16 週日期（17-6）與 A5-1 實作對齊（17-13）：只限 17-6、17-13",
    "task": "SIS-176-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
+   "sha": "8fdcc961",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 11:47Z 交付（第②級 AA 定稿；BB_203 使用者確認，使用者 11:40 直接對 LAWWW-C「告白只在學期末」）：第 0～7、9 節進 src/data/termend_lines.js",
+   "task": "BB203-CONFESS-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
+   "sha": "375b91dd",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 交付（第②級 AA 定稿；acf92ff0 第 10 節＋375b91dd 子晴 Q6 條件）：0-1、1-1、2-1、第 10 節進 src/data/termend_lines.js",
+   "task": "BB203-CONFESS-1017",
+   "kind": "text"
   }
  ]
 }
