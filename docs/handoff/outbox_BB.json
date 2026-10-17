@@ -451,6 +451,36 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "法服沒有讀書會＋沛珊柏翰併入公法讀書會＋以安讀書會大一上（BB_191 §7、§8、8-7）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5dcf26a1",
+   "files": [
+    "docs/story_planning/BB_191_多線戀愛知情機制_女生聊天發現_語彤雙主修.md",
+    "docs/story_planning/ladder/build_ladder_bb.py",
+    "docs/story_planning/ladder/ladder_bb.json"
+   ],
+   "state": "已交付",
+   "remaining": "BB_122 ★-7 台詞待使用者；9/2 茶會、8/30 群組矛盾待定；§9 knowsGF 未完",
+   "next": "LAWWW-C 實作（台詞 AA_222 bb83443d）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
+  },
+  {
+   "task": "D59 品妤第五版驗收（要改）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5dcf26a1",
+   "files": [
+    "docs/story_planning/BB_00_協作規範與交接紀錄.md"
+   ],
+   "state": "已交付",
+   "remaining": "等第六版",
+   "next": "LAWWW2-C 改",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW2",
+   "ack": "SENT"
   }
  ]
 }
