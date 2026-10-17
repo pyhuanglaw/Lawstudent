@@ -73,7 +73,7 @@ const CAMP_Y1_EVENTS=[
       {choice:[{text:'「便利商店的飯糰。」'},{text:'「一杯豆漿，在車上喝完了。」'},{text:'「我媽塞給我的三明治。」'}]},   /* AA_205 6-12 定版（10-17）*/
       {speaker:'小隊輔',text:'好，七個人都記住了吧。'},
       {speaker:'凱文',text:'記住了！'},
-      {set:{MET_ZHE:true,CAMP_KEVIN:true},meet:[{id:'zhe',where:'camp'},{id:'classmate_xinci',where:'camp'},{id:'classmate_peishan',where:'camp'},{id:'classmate_mingxuan',where:'camp'},{id:'classmate_bohan',where:'camp'}]} ] },
+      {set:{MET_ZHE:true,CAMP_KEVIN:true},rel:{zhe:{fam:1}},meet:[{id:'kevin',where:'camp'},{id:'zhe',where:'camp'},{id:'classmate_xinci',where:'camp'},{id:'classmate_peishan',where:'camp'},{id:'classmate_mingxuan',where:'camp'},{id:'classmate_bohan',where:'camp'}]} ] },
 
   /* 8/22 13:30 大地遊戲（三關選兩關）：①兩人三腳（AA_205 6-13 第 3 項：給玩家選搭檔，阿哲 AA／明軒 BB_177 3-1 記 MX_CAMP_PAIR；贏輸隨機）
      ②沛珊那一關（BB_177 3-2，P0：交換聯絡方式）③全隊跑完（BB_177 3-3）*/
