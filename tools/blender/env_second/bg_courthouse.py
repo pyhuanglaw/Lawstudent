@@ -152,10 +152,10 @@ def wainscot(m, axis, fixed, a0, a1, h=1.1, face=1, step=0.9):
         if axis == 'x': m.box(p0, p1, y0, y1, fixed + face * d0, fixed + face * d1)
         else: m.box(fixed + face * d0, fixed + face * d1, y0, y1, p0, p1)
     bx(a0, a1, 0.0, h, 0.0, 0.02)
-    for k in range(n + 1):
-        p = a0 + (a1 - a0) * k / n; bx(p - 0.03, p + 0.03, 0.0, h, 0.02, 0.035)
-    for y in (0.0, h - 0.06): bx(a0, a1, y, y + 0.06, 0.02, 0.035)
-    bx(a0, a1, h - 0.02, h + 0.03, 0.0, 0.05)                                         # 上緣的壓條
+    for k in range(n + 1):                                                             # 直的框夾在上下的框中間（重疊的面在 Cycles 裡是黑方塊）
+        p = a0 + (a1 - a0) * k / n; bx(p - 0.03, p + 0.03, 0.10, h - 0.06, 0.02, 0.035)
+    bx(a0, a1, h - 0.06, h - 0.021, 0.02, 0.033)                                       # 上面的框
+    bx(a0, a1, h - 0.021, h + 0.03, 0.0, 0.05)                                         # 上緣的壓條
     bx(a0, a1, 0.0, 0.10, 0.02, 0.04)                                                  # 踢腳
 
 

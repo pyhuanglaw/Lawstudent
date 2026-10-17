@@ -293,10 +293,33 @@ def clothes(m):
     m['clothes'] = obj
 
 
+# 日劇髮型（使用者 2026-10-17：「你可以參考日劇的男女主角的髮型嗎」）：參考日劇裡大學生、年輕上班族常見的髮型種類（不照任何真實演員）。
+# 穿搭、髮色、長度照原本的 VARIANTS；這裡只改瀏海樣式、外翻、波浪（產生器的參數見 npc_hair_f.py、npc_hair_m.py 開頭）。
+#   女：air 空氣瀏海（シースルーバング）、side 斜瀏海、center 中分沒有瀏海（センターパート）、heavy 厚瀏海；flip 外ハネ；wave ゆる巻き
+#   男：center 中分（センターパート；前面的髮尾停在髮際線 tipfront）、heavy 蘑菇頭（マッシュ）、card 原本的一撮一撮（短髮、側分）＋wave 微捲燙
+CENTER_M = (0.060, 0.045, 0.010); MASH_M = (-0.010, -0.010, -0.006)
+JP_STYLE = {
+    'nf1': dict(bang='side', wave=0.006), 'nf2': dict(bang='air', flip=0.028), 'nf3': dict(bang='air', wave=0.012), 'nf4': dict(bang='side', flip=0.020),
+    'nf5': dict(bang='center'), 'nf6': dict(bang='air', flip=0.030), 'nf7': dict(bang='side', flip=0.018), 'nf8': dict(bang='heavy'),
+    'nf9': dict(bang='center', wave=0.012), 'nf10': dict(bang='center'), 'nf11': dict(bang='side'), 'nf12': dict(bang='air'),
+    'nf13': dict(bang='air', flip=0.022), 'nf14': dict(bang='heavy'), 'nf15': dict(bang='center', wave=0.010), 'nf16': dict(bang='air'),
+    'nf17': dict(bang='side', wave=0.008), 'nf18': dict(bang='side', flip=0.024), 'nf19': dict(bang='center', wave=0.014), 'nf20': dict(bang='air', flip=0.020),
+    'nm2': dict(bang='heavy', tipfront=MASH_M, vol=1.12), 'nm3': dict(wave=0.004), 'nm5': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
+    'nm8': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm9': dict(bang='center', tipfront=CENTER_M, part=0.0),
+    'nm10': dict(bang='center', tipfront=CENTER_M, part=0.0), 'nm11': dict(wave=0.004), 'nm12': dict(bang='heavy', tipfront=MASH_M, vol=1.12),
+    'nm14': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.005, vol=1.12), 'nm15': dict(wave=0.005), 'nm17': dict(bang='heavy', tipfront=MASH_M, vol=1.10),
+    'nm18': dict(bang='center', tipfront=CENTER_M, part=0.0, wave=0.004), 'nm20': dict(wave=0.006),
+    # 不變（短髮、側分、平頭：日劇裡也常見的清爽短髮）：nm1、nm4、nm6、nm7、nm13、nm16、nm19
+}
+
+
 def hair(m):
     import npc_hair_m as HM, npc_hair_f as HF
     mod = HM if VAR['sex'] == 'm' else HF
     mod.P.update(VAR['hair']); mod.P['name'] = TAG
+    st = dict(JP_STYLE.get(NAME, {})) if not os.environ.get('NPC_NO_JP') else {}
+    if 'tipfront' in st: tp = list(mod.P['tip']); tp[:3] = st.pop('tipfront'); mod.P['tip'] = tuple(tp)
+    mod.P.update(st)
     if os.environ.get('NPC_HAIR'): mod.P.update(json.loads(os.environ['NPC_HAIR']))   # 試做：不改 VARIANTS，用環境變數蓋掉頭髮參數（JSON）
     mod.apply(m)
 

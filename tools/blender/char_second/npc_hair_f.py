@@ -126,6 +126,7 @@ def apply(m):
         # 第八版：正側面（80–100°）的髮片從頭最寬的地方往下收 6 mm。正面看，正側面的髮片是側著的（一條線），
         # 半徑和 70–80° 的髮片一樣時，它會比「看得到髮面」的那些多突出 r(1−sin75°)≈4 mm，中間露出背景，變成一條往外飄的細線
         edge = float(sstep(76, 86, az(a)) * (1 - sstep(94, 104, az(a))))
+        wave = wave * (1 - 0.85 * float(sstep(60, 78, az(a)) * (1 - sstep(108, 125, az(a)))))   # 兩側（正面看是側著的）不起波浪：nf5 試做大波浪時兩側變成一條條往外的細線
         P = []; D = []
         for i, v in enumerate(vv):
             t = i / nseg; e = off * (0.15 + 0.85 * float(sstep(0.0, 0.35, t))) + bul * float(sstep(0.0, 0.30, -v)) - 0.006 * edge * float(sstep(0.30, 0.0, v))
@@ -215,9 +216,9 @@ def apply(m):
     # ---- 3. 空氣瀏海（同沈以安 h01_hair 的做法）：少數幾片寬的瀏海片（2.4–2.8 cm），貼圖下段分成 5 束細髮束；
     #      從頭頂前面往前越過髮際線（離額頭約 1.2 cm 的空氣感）、沿額頭往下，髮尾到眉毛，兩側長一點。
     #      第一版是 15 條窄髮束，近看是一排尖刺。
-    def fringe_card(a0, vroot, wfac, z_end, drift, early=0.2, reg='bang'):
+    def fringe_card(a0, vroot, wfac, z_end, drift, early=0.2, reg='bang', v2=0.02):
         a_end = a0 + drift
-        ctrl = np.array([[a0 * 0.6, vroot], [a0 + early * drift, 0.02], [a0 + 0.6 * drift, v_at_z(a0 + 0.6 * drift, (H.brow_top + 0.030 + z_end) / 2)], [a_end, v_at_z(a_end, z_end)]])
+        ctrl = np.array([[a0 * 0.6, vroot], [a0 + early * drift, v2], [a0 + 0.6 * drift, v_at_z(a0 + 0.6 * drift, (H.brow_top + 0.030 + z_end) / 2)], [a_end, v_at_z(a_end, z_end)]])
         AV = catmull(ctrl, 8); P = []; D = []; n = len(AV)
         for i, (a, v) in enumerate(AV):
             tt = i / (n - 1); e = 0.0045 + 0.0080 * float(sstep(0.0, 0.25, tt)) * (1 - 0.55 * float(sstep(0.30, 1.0, tt)))
@@ -243,9 +244,10 @@ def apply(m):
         # 第一版：三片從額頭中間往下再往外撥，用空氣瀏海的貼圖（一條一條透光）——正面看像額頭上一排黑色梳齒
         for sgn in (1.0, -1.0):
             for k, t in enumerate((0.0, 0.5, 1.0)):
-                a0 = PART + sgn * (5.0 + 9.0 * t)
+                # 第二版：越過髮際線的那一點往下 6%（蓋住額頭上面的兩個角；第一版額頭整片露出來，顯得很大）
+                a0 = PART + sgn * (3.0 + 7.0 * t)
                 z_end = eye_z - 0.040 - 0.035 * t + rng.uniform(-0.004, 0.004)
-                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(1.9, 2.1), z_end, sgn * (31.0 + 6.0 * t), early=0.75, reg='lock')
+                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(2.0, 2.2), z_end, sgn * (30.0 + 6.0 * t), early=0.55, reg='lock', v2=-0.06 - 0.03 * t)
     elif BANG == 'heavy':               # 厚瀏海：11 片、寬一點、直直蓋到眉毛
         for k, a0 in enumerate(np.linspace(-32.0, 32.0, 11)):
             s_ = abs(a0) / 32.0

@@ -81,7 +81,7 @@ def atlas_mat(name, rough=0.6):
     return m
 MA = atlas_mat('ct_atlas')
 M = {'wood': L.pbr('ct_wood', 'walnut_veneer', maps=('diff', 'rough'), tile=1.2, target='#6e4b32'),        # 法檯、擋板、欄杆：中深色木作
-     'wood_l': L.pbr('ct_wood_light', 'wood_table_001', maps=('diff', 'rough'), tile=1.0, target='#a47a52'),  # 桌面、長椅
+     'wood_l': L.pbr('ct_wood_light', 'walnut_veneer', maps=('diff', 'rough'), tile=1.6, target='#a07a54'),   # 桌面、欄杆扶手（第一版 wood_table_001：旁聽席看過去紋路太粗，像軟木塞板）
      'wood_p': L.pbr('ct_wood_pew', 'walnut_veneer', maps=('diff', 'rough'), tile=1.6, target='#8a6444'),       # 旁聽席長椅（第一版用 wood_table_001：近景紋路太粗，像合板）
      'leather': L.pbr('ct_leather', 'fabric_leather_02', maps=('diff', 'nor'), tile=0.5, target='#1c1c1e'),
      'mesh': L.flat('ct_mesh', '#26272a', rough=0.85),                                                           # 辦公椅的網布
@@ -119,16 +119,16 @@ def panel_front(m, x0, x1, y0, y1, z, n=None, inset=0.012, frame=0.06):
     """木作擋板的正面（朝 +z）：外框＋一格一格凹進去的板（台灣法庭常見的框板木作）"""
     n = n or max(1, int(round((x1 - x0) / 0.75)))
     m.box(x0, x1, y0, y1, z - 0.03, z)                                                # 底板
-    for k in range(n + 1):                                                            # 直的框
-        xx = x0 + (x1 - x0) * k / n; m.rbox(max(x0, xx - frame / 2), min(x1, xx + frame / 2), y0, y1, z, z + inset, r=0.004, seg=1)
-    for yy in (y0, y1 - frame): m.rbox(x0, x1, yy, yy + frame, z, z + inset, r=0.004, seg=1)   # 上下的框
+    for k in range(n + 1):                                                            # 直的框（夾在上下的框中間，不重疊：重疊的面在 Cycles 裡是黑方塊）
+        xx = x0 + (x1 - x0) * k / n; m.rbox(max(x0, xx - frame / 2), min(x1, xx + frame / 2), y0 + frame, y1 - frame, z, z + inset, r=0.004, seg=1)
+    for yy in (y0, y1 - frame): m.rbox(x0, x1, yy, yy + frame, z, z + inset - 0.002, r=0.004, seg=1)   # 上下的框（比直的框薄 2 mm）
     m.rbox(x0, x1, y0, y0 + 0.08, z, z + inset + 0.006, r=0.004, seg=1)              # 踢腳
 
 def desk(g, name, w, d, h=0.76, front_panel=True):
     """法庭的桌子：檯面（淺木）＋兩側板＋正面擋板（木作框板，到地）；坐的人在 −z 那一側、擋板在 +z"""
     t = Mesh(name + '_top', M['wood_l']); t.rbox(-w / 2 - 0.02, w / 2 + 0.02, h - 0.035, h, -d / 2, d / 2 + 0.03, r=0.01); t.finish(parent=g)
     m = Mesh(name + '_body', M['wood'])
-    for sx in (-1, 1): m.box(sx * w / 2 - 0.025, sx * w / 2 + 0.025, 0.0, h - 0.035, -d / 2 + 0.02, d / 2)
+    for sx in (-1, 1): m.box(sx * w / 2 - 0.025, sx * w / 2 + 0.025, 0.0, h - 0.035, -d / 2 + 0.02, d / 2 - 0.032)   # 側板停在擋板後面（第一版同一個面）
     if front_panel: panel_front(m, -w / 2, w / 2, 0.0, h - 0.035, d / 2, n=max(1, int(round(w / 0.9))))
     m.finish(parent=g)
 
@@ -171,14 +171,14 @@ def item(name):
 # ---------------- 法檯 ----------------
 BW, BD, BH = 6.4, 1.9, 0.45          # 平台寬、深、高
 g = item('CT_BENCH')
-pl = Mesh('CT_BENCH_platform', M['wood']); pl.box(-BW / 2, BW / 2, 0.0, BH, -BD, 0.0); pl.finish(parent=g)
+pl = Mesh('CT_BENCH_platform', M['wood']); pl.box(-BW / 2 + 0.045, BW / 2 - 0.045, 0.0, BH - 0.001, -BD, -0.035); pl.finish(parent=g)   # 縮在正面板、側板裡面（第一版和正面板同一個面：黑塊）
 carpet = Mesh('CT_BENCH_carpet', L.flat('ct_bench_carpet', '#3c4552', rough=0.95)); carpet.box(-BW / 2 + 0.02, BW / 2 - 0.02, BH, BH + 0.006, -BD + 0.02, -0.72); carpet.finish(parent=g)
 fr = Mesh('CT_BENCH_front', M['wood']); TOP = BH + 0.76; FH = 1.30
-panel_front(fr, -BW / 2, BW / 2, 0.0, FH, 0.0, n=8, frame=0.08, inset=0.016)
+panel_front(fr, -BW / 2, BW / 2, 0.0, FH - 0.042, 0.0, n=8, frame=0.08, inset=0.016)   # 上緣交給壓條
 fr.rbox(-BW / 2 - 0.04, BW / 2 + 0.04, FH - 0.04, FH, -0.70, 0.05, r=0.012)               # 前緣的壓條（檯面外框）
-for sx in (-1, 1): fr.box(sx * BW / 2 - 0.04, sx * BW / 2, 0.0, FH, -0.72, 0.0)        # 兩側板
+for sx in (-1, 1): fr.box(sx * BW / 2 - 0.04, sx * BW / 2 - 0.001, 0.0, FH - 0.041, -0.72, -0.031)        # 兩側板（停在正面板後面、壓條下面）
 fr.finish(parent=g)
-tp = Mesh('CT_BENCH_desk', M['wood_l']); tp.box(-BW / 2, BW / 2, TOP - 0.03, TOP, -0.70, -0.04); tp.finish(parent=g)   # 法官的桌面（比前緣低 9 cm）
+tp = Mesh('CT_BENCH_desk', M['wood_l']); tp.box(-BW / 2 + 0.041, BW / 2 - 0.041, TOP - 0.03, TOP, -0.69, -0.04); tp.finish(parent=g)   # 法官的桌面（比前緣低 9 cm）
 a = AMesh('CT_BENCH_items')
 for k, (x, pk) in enumerate(((-2.0, 1), (0.0, 0), (2.0, 1))):
     nameplate(a, x - 0.05, TOP, -0.16, pk)                                               # 桌牌（前緣擋著，只看得到上半）
@@ -258,7 +258,7 @@ def rail(g, name, x0, x1):
 g = item('CT_RAIL'); rail(g, 'CT_RAIL_body', -2.0, 2.0)
 g = item('CT_GATE')
 po = Mesh('CT_GATE_posts', M['wood'])
-for sx in (-1, 1): po.rbox(sx * 0.45 - 0.05, sx * 0.45 + 0.05, 0.0, 0.98, -0.05, 0.05, r=0.01); po.rbox(sx * 0.45 - 0.065, sx * 0.45 + 0.065, 0.98, 1.02, -0.065, 0.065, r=0.01)
+for sx in (-1, 1): po.rbox(sx * 0.45 - 0.045, sx * 0.45 + 0.045, 0.0, 0.98, -0.05, 0.05, r=0.01); po.rbox(sx * 0.45 - 0.06, sx * 0.45 + 0.06, 0.98, 1.02, -0.065, 0.065, r=0.01)
 po.finish(parent=g)
 dl = Mesh('CT_GATE_door', M['wood'])                                                  # 門扇：關著（法庭裡的人進出才開）
 panel_front(dl, -0.39, 0.39, 0.10, 0.80, 0.015, n=1, frame=0.05); dl.box(-0.39, 0.39, 0.10, 0.80, -0.015, 0.0)
@@ -274,7 +274,7 @@ s.finish(parent=g)
 f = Mesh('CT_PEW_frame', M['wood'])
 for xx in (-PW / 2 + 0.04, 0.0, PW / 2 - 0.04):
     f.box(xx - 0.03, xx + 0.03, 0.0, 0.42, -0.18, -0.12); f.box(xx - 0.03, xx + 0.03, 0.0, 0.96, 0.18, 0.24)              # 前腳、後腳（後腳往上接靠背）
-    f.box(xx - 0.03, xx + 0.03, 0.36, 0.42, -0.20, 0.22)
+    f.box(xx - 0.024, xx + 0.024, 0.36, 0.419, -0.199, 0.219)                        # 橫撐（比腳細一點，不和腳的面重疊）
 for sx in (-1, 1): f.rbox(sx * PW / 2 - 0.03, sx * PW / 2 + 0.03, 0.42, 0.66, -0.20, 0.22, r=0.01)                         # 扶手側板
 f.finish(parent=g)
 

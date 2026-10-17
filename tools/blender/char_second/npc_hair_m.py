@@ -194,9 +194,10 @@ def apply(m):
         # 第一版：5 片從額頭中間往下才往外撥——額頭只有 4 cm 高（男生的髮際線 33°），中間的髮片蓋住額頭，正面看還是一排刺
         for sgn in (1.0, -1.0):
             for k, t in enumerate(np.linspace(0.0, 1.0, 4)):
-                a0 = PART + sgn * (3.0 + 12.0 * t)
+                # 第二版：髮根從頭頂前面（v 0.30）開始（第一版 0.42：髮根都擠在分線上，頭頂中間堆成一根尖角）；最外面的不超過 45°（太陽穴外面的髮尾往外飄）
+                a0 = PART + sgn * (3.0 + 10.0 * t)
                 z_end = H.brow_top + 0.012 - (H.brow_top + 0.012 - (eye_z + 0.006)) * float(t) + rng.uniform(-0.003, 0.003)
-                curtain(a0 + rng.uniform(-1.0, 1.0), 0.42 + rng.uniform(0, 0.05), rng.uniform(1.9, 2.1), z_end, sgn * (30.0 + 8.0 * t), lift=0.012, early=0.7, reg='card')
+                curtain(a0 + rng.uniform(-1.0, 1.0), 0.30 + rng.uniform(0, 0.04), rng.uniform(1.9, 2.1), z_end, sgn * (26.0 + 6.0 * t), lift=0.010, early=0.7, reg='card')
     elif BANG == 'heavy':       # 蘑菇頭：9 片寬髮片排滿，蓋到眉毛，兩側往下接鬢角
         for k, a0 in enumerate(np.linspace(-34.0, 34.0, 9)):
             s_ = abs(a0) / 34.0
