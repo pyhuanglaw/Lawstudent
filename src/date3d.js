@@ -13,7 +13,7 @@ const DATE=(function(){
   const D=()=>typeof DATE_DATA!=='undefined'?DATE_DATA:{locations:{},points:{points:{}},heroineIds:{}};
   S.HEROINES=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   /* 舊存檔：補欄位、不改已有的；不追溯以前的出遊、CG、告白 */
-  S.rec=function(G){ if(!G) return null; if(!G.dateLog||typeof G.dateLog!=='object') G.dateLog={}; if(!Array.isArray(G.trips)) G.trips=[]; if(!Array.isArray(G.groupTrips)) G.groupTrips=[]; return G; };
+  S.rec=function(G){ if(!G) return null; if(!G.dateLog||typeof G.dateLog!=='object') G.dateLog={}; if(!Array.isArray(G.trips)) G.trips=[]; if(!Array.isArray(G.groupTrips)) G.groupTrips=[]; if(!G.dateMemory||typeof G.dateMemory!=='object') G.dateMemory={}; return G; };
   S.log=function(G,id){ S.rec(G); const L=G.dateLog[id]||(G.dateLog[id]={count:0,wishKnown:false,wish:false,byLoc:{},cancels:[],last:null});
     if(!L.byLoc) L.byLoc={}; if(!Array.isArray(L.cancels)) L.cancels=[]; return L; };
   S.loc=id=>D().locations[id]||null;
@@ -197,18 +197,59 @@ const DATE=(function(){
   S.points=function(locId){ const P=(D().points||{}).points||{}; return Object.keys(P).filter(k=>k.startsWith(locId+'.')).map(k=>Object.assign({id:k},P[k])); };
   S.GAIN=[{npcRom:5,rom:4,comf:4,fam:2,trust:2},{npcRom:3,rom:2,comf:2,fam:1,trust:1},{npcRom:2,rom:2,comf:1,fam:1,trust:0}];
   S.LIKE={like:{npcRom:1,comf:1},normal:{comf:1},dislike:{}};
-  S.likeOf=(id,spot)=>((S.LINES&&S.LINES[spot.split('.')[0]]&&S.LINES[spot.split('.')[0]].likes||{})[id]||{})[spot]||'normal';   /* 她喜歡哪些互動點（BB／AA 標，lines/Dxx.json；還沒匯入時都算普通）*/
+  S.likeOf=(id,spot)=>((((LN().loc||{})[spot.split('.')[0]]||{}).likes||{})[id]||{})[spot]||'normal';   /* 她喜歡哪些互動點（BB／AA 標，lines/Dxx.json；還沒匯入的地點都算普通）*/
+  /* ===== 各地點的台詞（DATE-S6；BB_128 2-6、2-7、2-9；lines/Dxx.json 白名單匯入）=====
+     選句順序（2-9）：心願事件 → 第一次 → 記得上次（第二次，或上次點過同一個互動點）→ 交往中 → 普通（照階段：低＝剛到第 5 階、中＝第 5 階後段（和她正式出去過兩次以上）、高＝第 6 階；排除最近用過的 3 套）。
+     可昕：normal 就是交往中的版本（她開場是女友），分開以後用 afterBreakup。who:'note'＝給開發的註記（不顯示；「記 TASTE＝…」照記）、who:'narr'＝旁白。
+     {sunset}＝那天淡水的日落時間（算出來的）；{lastDrink}＝上次點的飲料：TASTE 的說法 AA 還沒給（S.TASTE_WORD），有這個欄位的那一套先跳過。
+     心願事件（wishEvent）是另外的整場（AA_127、BB_128 第 3 節），還沒做：先照普通的抵達句。 */
+  S.TASTE_WORD={};
+  S.mem=function(G,id,loc){ S.rec(G); const M=G.dateMemory[id]||(G.dateMemory[id]={}); const m=M[loc]||(M[loc]={picks:[],last:[],taste:null,photos:0,recent:[]}); if(!Array.isArray(m.picks)) m.picks=[]; if(!Array.isArray(m.last)) m.last=[]; if(!Array.isArray(m.recent)) m.recent=[]; return m; };   /* picks＝和她在這裡點過的互動點、last＝上一次點的 */
+  S.tierOf=function(G,id){ const st=S.stageNum(id); return st>=6?'high':((S.log(G,id).count|0)>=2?'mid':'low'); };
+  S.sunset=function(day){ const dt=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(day):null; if(!dt) return '傍晚';   /* NOAA 簡化公式：淡水 25.17°N、121.44°E、UTC+8 */
+    const N=Math.floor((Date.UTC(dt.y,dt.m-1,dt.d)-Date.UTC(dt.y,0,0))/864e5), g=2*Math.PI/365*(N-1), eq=229.18*(0.000075+0.001868*Math.cos(g)-0.032077*Math.sin(g)-0.014615*Math.cos(2*g)-0.040849*Math.sin(2*g)),
+      de=0.006918-0.399912*Math.cos(g)+0.070257*Math.sin(g)-0.006758*Math.cos(2*g)+0.000907*Math.sin(2*g)-0.002697*Math.cos(3*g)+0.00148*Math.sin(3*g), la=25.17*Math.PI/180,
+      ha=Math.acos(Math.cos(90.833*Math.PI/180)/(Math.cos(la)*Math.cos(de))-Math.tan(la)*Math.tan(de))*180/Math.PI, min=720-4*(121.44-ha)-eq+480; return hm(min/60); };
+  const setUsable=(G,id,set,t)=>{ if(!set||!Array.isArray(set.lines)) return false; const tx=JSON.stringify(set.lines); if(/\{lastDrink\}/.test(tx)){ const tw=S.TASTE_WORD[S.mem(G,id,t.locs[0]).taste]; if(!tw) return false; } return true; };
+  S.pickSet=function(G,id,pool,t,key){ const m=S.mem(G,id,t.locs[0]), tier=S.tierOf(G,id); const all=(pool||[]).map((x,i)=>({x,k:key+'#'+i})).filter(o=>setUsable(G,id,o.x,t));
+    let ok=all.filter(o=>!o.x.tier||o.x.tier==='any'||o.x.tier===tier); if(!ok.length) ok=all; if(!ok.length) return null; const fresh=ok.filter(o=>!m.recent.includes(o.k)); const c=fresh.length?fresh[0]:ok.slice().sort((a,b)=>m.recent.indexOf(a.k)-m.recent.indexOf(b.k))[0];   /* 都用過了：挑最久以前用的 */
+    m.recent=m.recent.filter(k=>k!==c.k); m.recent.push(c.k); while(m.recent.length>3) m.recent.shift(); return c.x; };
+  S.playSet=async function(GM,id,set,t){ if(!set) return false; const G=GM.G, m=S.mem(G,id,t.locs[0]), me={name:nameOf(id),charId:id};
+    const fill=x=>String(x).replace(/\{sunset\}/g,S.sunset(t.day)).replace(/\{lastDrink\}/g,S.TASTE_WORD[m.taste]||'');
+    const run=async L=>{ for(const ln of (L||[])){ if(!ln||ln.who==='note'){ const mm=ln&&/記 `?TASTE`?＝`?([^`]+)`?/.exec(ln.text||''); if(mm) m.taste=mm[1]==='玩家點的'?'player':mm[1]; continue; }
+        const tx=fill(ln.text); if(ln.who==='narr') await GM.say(null,/^（/.test(tx)?tx:'（'+tx+'）'); else if(ln.who===id) await GM.say(me,tx); else if(ln.who==='player'||ln.who==='you') await GM.say({name:G.name||'祐廷'},tx); else await GM.say({name:nameOf(ln.who),charId:ln.who},tx); } };
+    await run(set.lines); if(Array.isArray(set.choice)&&set.choice.length){ const k=await GM.choose(set.choice.map(c=>({t:c.t}))); await run((set.choice[k]||{}).reply); } return true; };
+  const LL=(id,loc)=>((((LN().loc||{})[loc]||{}).lines||{})[id])||null;
+  const brokeUp=(G,id)=>id==='kexin'&&!(G.flags&&G.flags.dating_kexin);
+  S.arriveLine=async function(GM,t,visits){ const G=GM.G, id=t.who, A=(LL(id,t.locs[0])||{}).arrive; if(!A) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
+    let set=null; if(!visits&&A.first&&!A.first.wishEvent) set=A.first; if(!set&&dating&&id!=='kexin'&&(A.dating||[]).length) set=S.pickSet(G,id,A.dating,t,'arrive.dating'); if(!set&&brokeUp(G,id)&&(A.afterBreakup||[]).length) set=S.pickSet(G,id,A.afterBreakup,t,'arrive.after'); if(!set) set=S.pickSet(G,id,A.normal,t,'arrive.normal');
+    return S.playSet(GM,id,set,t); };
+  S.spotLine=async function(GM,t,pid,visits){ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
+    let set=null; if(!before&&H.first&&!H.first.wishEvent) set=hi&&H.firstHigh?H.firstHigh:H.first;
+    if(!set&&(visits===1||m.last.includes(pid))&&H.remember&&setUsable(G,id,H.remember,t)) set=H.remember;   /* 記得上次：第二次，或上一次點過同一個互動點（BB_128 2-6）*/
+    if(!set&&dating&&id!=='kexin'&&(H.dating||[]).length) set=S.pickSet(G,id,H.dating,t,pid+'.dating');
+    if(!set&&brokeUp(G,id)&&(H.afterBreakup||[]).length) set=S.pickSet(G,id,H.afterBreakup,t,pid+'.after');
+    if(!set&&S.likeOf(id,pid)==='dislike'){ const dl=((((LN().loc||{})[t.locs[0]]||{}).dislikeLine||{})[id]||{})[pid]; if(dl) set={lines:[{who:id,text:dl}]}; }
+    if(!set) set=S.pickSet(G,id,H.normal,t,pid+'.normal');
+    const played=await S.playSet(GM,id,set,t);
+    if(hi){ const xk=Object.keys(H).find(k=>k.indexOf('extra:合照')===0); const x=xk&&H[xk]; if(x) await S.playSet(GM,id,Array.isArray(x)?S.pickSet(G,id,x,t,pid+'.extra'):x,t); }   /* 合照：第 6 階以上或交往中才有的那一句 */
+    if(!m.picks.includes(pid)) m.picks.push(pid); return played; };
+  S.closeLine=async function(GM,t,visits){ const G=GM.G, id=t.who, C=(LL(id,t.locs[0])||{}).closing; if(!C) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
+    let set=null; if(!visits&&C.first&&!C.first.wishEvent) set=C.first; if(!set&&dating&&id!=='kexin'&&(C.dating||[]).length) set=S.pickSet(G,id,C.dating,t,'close.dating'); if(!set&&brokeUp(G,id)&&(C.afterBreakup||[]).length) set=S.pickSet(G,id,C.afterBreakup,t,'close.after'); if(!set) set=S.pickSet(G,id,C.normal,t,'close.normal');
+    return S.playSet(GM,id,set,t); };
   S.scene=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t) return false; const who={name:nameOf(t.who),charId:t.who}; const loc=t.locs[0], L=S.loc(loc);
     const visits=(S.log(G,t.who).byLoc[loc]|0); const endH=t.day*24+t.back-S.travel(loc,t.transport).minutes/60; const spots=[];
-    await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
+    await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票'); await S.arriveLine(GM,t,visits);   /* 抵達句（第一次／普通／交往中）*/
     const pts=S.points(loc);
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>({t:p.name,hint:(p.min|0)+' 分'+(p.cost?'　'+p.cost+' 元':''),dis:now+(p.min|0)/60>endH,why:'時間差不多了'})).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast('時間差不多了'); n--; continue; }   /* 灰掉的（時間不夠）按了只提示，不結束 */
-      const p=left[k]; spots.push(p.id); if(p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);
-      const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); }
-    t.spots=spots;
-    if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(t.who,{fam:1}); t.status='cancelled'; await GM.say(who,'……就這樣？'); return {counted:false}; }   /* 做了 0 個就離開：不算次數、熟悉 +1（「就這樣？」是 AA_128 5-2 的例句，各人的句子 BB 寫）*/
+      const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);   /* 互動點的反應（沒有台詞的地點照舊一句旁白）*/
+      const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]);
+      if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
+    t.spots=spots; S.mem(G,t.who,loc).last=spots.slice();
+    if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(t.who,{fam:1}); t.status='cancelled'; if(!await S.speak(GM,t.who,'leaveEarly',t,{obj:null})) await GM.say(who,'……就這樣？'); return {counted:false}; }   /* 一個都沒做就走：她那一句（BB_128 3-6；沒有的人照 AA_128 5-2 的例句）*/
+    await S.closeLine(GM,t,visits);   /* 收尾句（第一次／普通／交往中）*/   /* 做了 0 個就離開：不算次數、熟悉 +1（「就這樣？」是 AA_128 5-2 的例句，各人的句子 BB 寫）*/
     t.status='done'; const firstWish=S.wishOf(t.who)===loc&&!S.log(G,t.who).wish;
     const r=S.complete(G,t);
     if(r.counted&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ SOCIAL.adjust(t.who,S.GAIN[Math.min(visits,2)]); if(firstWish) SOCIAL.adjust(t.who,{npcRom:4,trust:3}); }
