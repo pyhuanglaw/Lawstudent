@@ -6899,6 +6899,45 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": ""
+  },
+  {
+   "id": "DL-BB-7025eccb",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "7025eccb",
+   "what": "BB_207 學姊熱水鏈落地（AA_261 同意）：ev_sis_empty_flask 改大一上第 8～9 週法圖、新 ev_sis_hot_water 第 14～15 週（BCG-01、HOT_WATER／請一罐）、停用 W6／W7／W8／W9 舊事件、W15 保溫瓶三版、needed_msgs 學姊大二上兩則刪；AA_258 6-4 大二下 3/12 學姊家族聚餐 ev_family_dinner_y2s2",
+   "task": "BB207-SIS-HOTWATER",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "台詞 AA_261（等已審 SHA）"
+  },
+  {
+   "id": "DL-BB-knows-1243",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "303fe766",
+   "what": "BB_203 5-3 第三欄：她知情時的額外條件（子晴照實說沒閃躲、沛珊 70 沒說謊、語彤 73、芷若 6 次＋Z5/Z7、學姊 75、以安 77、可昕 85）＋答應寫 OPEN_OK",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "termend3d KNOWS_OK／willing／OPEN_OK；tests 9h"
+  },
+  {
+   "id": "DL-AA-sha-1245",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "18fe1b6a",
+   "what": "已審 SHA：AA_242 18fe1b6a、AA_256 71b184ba、AA_244 b667820f、AA_199 67f0f9e9（白名單）",
+   "task": "VAC-C08-12",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [

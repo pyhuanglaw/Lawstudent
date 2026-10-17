@@ -124,6 +124,17 @@ GM.money=function(n){ G.money+=n; };
     meet('heroine_02'); const r=SOCIAL.rel('heroine_02'); Object.assign(r,{fam:60,trust:45,comf:40,npcRom:60}); const L=DATE.log(G,'heroine_02'); L.count=4; L.wish=true; G.termend={contact:{Y3S1:{heroine_02:{pts:12,k:{}}}},think:{}};
     const P=TERMEND.plan(G,W3); G.flags.dating_heroine_02=true; G.termend.Y3S1={}; const Pg=TERMEND.plan(G,W3);
     check('9g. 芷若大三上：條件到齊也沒有心意、朋友的邀約；交往中也沒有女朋友的期末約會',!P.heart.includes('heroine_02')&&!P.friend.includes('heroine_02')&&!Pg.gf.includes('heroine_02'),JSON.stringify([P,Pg])); }
+  // 9h. 她知道祐廷在和別人交往（BB_203 5-3 第三欄、BB_194 §6；BB-C 12:43）：一般條件＋表；有 OPEN_OK 的不算知情
+  { const W=TERMEND.windowOf('Y1S2'); fresh(W.from,9,'campus',{}); G.stage='law'; meet('heroine_04'); meet('heroine_01');
+    if(ROM.start) ROM.start(G,'heroine_02'); else G.flags.dating_heroine_02=true; ROM.learn(G,'heroine_04','heroine_02','test'); ROM.learn(G,'heroine_01','heroine_02','test');
+    for(const id of ['heroine_04','heroine_01']){ Object.assign(SOCIAL.rel(id),{fam:50,trust:30,comf:20,npcRom:40}); const L=DATE.log(G,id); L.count=4; L.wish=true; }
+    const P=()=>{ TERMEND.rec(G).Y1S2={}; return TERMEND.plan(G,W); };
+    const a=P(); G.flags.YT_HONEST={heroine_04:true,heroine_01:true}; const b=P(); G.flags.YT_DODGED={heroine_04:true}; const c=P(); delete G.flags.YT_DODGED;
+    SOCIAL.rel('heroine_01').npcRom=76; const d=P(); SOCIAL.rel('heroine_01').npcRom=77; const e=P();
+    G.flags.YT_HONEST={}; G.flags.OPEN_OK={heroine_04:{heroine_02:true}}; const f=P();
+    check('9h. 子晴知情：沒照實說＝不發（只傳那一句）；照實說＝發；閃躲過＝不發',!a.heart.includes('heroine_04')&&a.nope.heroine_04==='knows'&&b.heart.includes('heroine_04')&&!c.heart.includes('heroine_04'),JSON.stringify([a,b,c].map(x=>[x.heart,x.nope])));
+    check('9h. 以安知情：照實說＋戀愛 76＝不發、77＝發',!d.heart.includes('heroine_01')&&e.heart.includes('heroine_01'),JSON.stringify([d.heart,e.heart]));
+    check('9h. 子晴有 OPEN_OK（同意過）＝不算知情、照一般條件發',f.heart.includes('heroine_04'),JSON.stringify(f.heart)); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }

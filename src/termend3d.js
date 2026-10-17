@@ -31,11 +31,34 @@ const TERMEND=(function(){
   const atLeast=(id,st)=>{ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage(id))>=A.indexOf(st); };
   const romStatus=(G,id)=>typeof ROM!=='undefined'&&ROM.get?ROM.get(G,id).status:'none';
   /* ---- 心意的邀約發不發（BB_203 第 5 節）：true＝發；{nope:'low'|'knows'|'preexam'}＝不發但時段第一天傳那一句（AA_254 第 9 節）；false＝不發、不傳 ---- */
+  /* 她知道祐廷正在和別人交往的時候（BB_203 第 5 節 5-3 第三欄、BB_194 §6／§13-4；BB-C 12:43）：先過一般條件，再看這張表，到了＝照樣發心意邀約，沒到＝不發、只傳那一句。
+     知情＝knowsRel[X][Y]、Y 在交往中、沒有 OPEN_OK[X][Y]（她明確同意祐廷同時和 Y 交往）。數字不隨 30 降低。YT_HONEST／YT_DODGED／YT_LIED 是 {她:true} 或 旗標_她 */
+  const fl=(G,k,id)=>{ const F=G.flags||{}, v=F[k]; return !!((v&&typeof v==='object'&&v[id])||F[k+'_'+id]); };
+  const romOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.rel?(+SOCIAL.rel(id).npcRom||0):0;
+  const seen=(G,ids)=>ids.some(e=>G.events&&G.events.done&&G.events.done[e]);
+  S.KNOWS_OK={
+    heroine_04:G=>fl(G,'YT_HONEST','heroine_04')&&!fl(G,'YT_DODGED','heroine_04'),
+    classmate_peishan:G=>fl(G,'YT_HONEST','classmate_peishan')&&romOf('classmate_peishan')>=70&&!fl(G,'YT_LIED','classmate_peishan'),
+    heroine_03:G=>fl(G,'YT_HONEST','heroine_03')&&romOf('heroine_03')>=73,
+    heroine_02:G=>fl(G,'YT_HONEST','heroine_02')&&(DATE.log(G,'heroine_02').count|0)>=6&&seen(G,['ev_zhiruo_film_night','ev_zhiruo_early_show','ev_zhiruo_applied']),   /* 看過 Z5 或 Z7 */
+    heroine_05:G=>fl(G,'YT_HONEST','heroine_05')&&romOf('heroine_05')>=75,
+    heroine_01:G=>fl(G,'YT_HONEST','heroine_01')&&romOf('heroine_01')>=77,
+    kexin:G=>romOf('kexin')>=85&&!fl(G,'YT_LIED','kexin') };
+  S.openOk=(G,x,y)=>!!(G.flags&&G.flags.OPEN_OK&&G.flags.OPEN_OK[x]&&G.flags.OPEN_OK[x][y]);
+  S.knownOthers=(G,id)=>typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).filter(p=>!S.openOk(G,id,p)):[];
+  /* 她當時願意（DATE.willing 的條件，知情那一項改看上面的表）*/
+  S.willing=function(G,id){ const F=G.flags||{};
+    if(DATE.LOW&&DATE.LOW[id]&&DATE.LOW[id](G)) return {ok:false,why:'low'};
+    if(typeof ROM!=='undefined'&&ROM.get){ const R=ROM.get(G,id); if(R&&R.status==='paused') return {ok:false,why:'paused'}; }
+    if(S.knownOthers(G,id).length&&!(S.KNOWS_OK[id]&&S.KNOWS_OK[id](G))) return {ok:false,why:'knows'};
+    const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))) return {ok:false,why:'partner'};
+    if(F['dating_'+id]) return {ok:false,why:'dating'};
+    return {ok:true}; };
   /* 告白的條件（BB_203 第 5 節 303fe766）：C1 她的戀愛 < 30、C2 正式約會不到 4 次或沒有心願地點＝還沒到；C4～C10 她當時願意（DATE.willing）；學姊筆試前、放榜前婉拒 */
   S.cond=function(G,id){ if(DATE.HOLD&&DATE.HOLD[id]) return {ok:false,why:'hold'};
     const r=typeof SOCIAL!=='undefined'&&SOCIAL.rel?SOCIAL.rel(id):{}, L=DATE.log(G,id);
     if((+r.npcRom||0)<S.ROM_MIN) return {ok:false,why:'rom'}; if((L.count|0)<4) return {ok:false,why:'count'}; if(!L.wish) return {ok:false,why:'wish'};
-    const ww=DATE.willing?DATE.willing(G,id):{ok:true}; if(!ww.ok) return {ok:false,why:ww.why};
+    const ww=S.willing(G,id); if(!ww.ok) return {ok:false,why:ww.why};
     if(id==='heroine_05'&&DATE.sisPreexam&&DATE.sisPreexam(G)) return {ok:true,decline:'preexam'}; if(id==='heroine_05'&&DATE.sisPrerank&&DATE.sisPrerank(G)) return {ok:true,decline:'prerank'}; return {ok:true}; };
   S.heartWhy=function(G,id,w){ if(typeof DATE==='undefined'||!DATE.log) return false; const Lx=L(); if(!Lx||!Lx.HEART[id]) return false;
     if(G.flags&&G.flags['dating_'+id]) return false;   /* C4：交往中＝女朋友的學期末約會 */
@@ -140,7 +163,7 @@ const TERMEND=(function(){
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
     const k=await GM.choose(say3.concat([Lx.NOT_YET_OPT]).map(t=>({t})));
-    const start=()=>typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true);
+    const start=()=>{ const K=S.knownOthers(G,who); const ok=typeof ROM!=='undefined'&&ROM.start?ROM.start(G,who):((G.flags['dating_'+who]=true),true); if(ok&&K.length){ const O=G.flags.OPEN_OK||(G.flags.OPEN_OK={}), M=O[who]||(O[who]={}); for(const y of K) M[y]=true; } return ok; };   /* 知情還發的邀約，答應＝她同意祐廷同時和那些人交往（OPEN_OK，BB_194 §6）*/
     if(k<3){ if(!start()) return 'blocked'; const yes=h.yes||(D&&D.yes?(typeof D.yes==='function'?D.yes(G,null,k):D.yes):[]); await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
     const second=Rt.think[who]!=null; await run(GM,who,second?h.she2:h.she);
     const a=await GM.choose(Lx.ANSWER.map(t=>({t})));

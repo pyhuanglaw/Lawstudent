@@ -14963,9 +14963,9 @@
    "title": "寒暑假活動卡 C01～C13（每個寒暑假都開放的模板，AA_199 7-5 4ff1220c；C13 出國旅遊：日韓泰越港）＋出國活動卡 C08～C12（姊妹校首爾 7/13～24、柬埔寨志工 7/27～8/5、加州暑期課 6/21～7/31（學分採計）、東京冬季短期 1/17～30、京都語言課 8/9～27）＋海外期間機制（手機時差、3D 不能走、關鍵事件 2D）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P1",
-   "next": "【12:0x】AA_242 7-1（18fe1b6a）、AA_256 VA-09／VA-10（71b184ba）｜AA_199 7-4（d73e391c）升第一批；台詞 AA_242；BB 寫底圖提示詞與機制。排在 HOLIDAY-SYS、VAC-L1 之後",
+   "next": "【12:4x AA-C】已審 SHA 到齊：AA_242 18fe1b6a、AA_256 71b184ba、AA_244 b667820f、AA_199 67f0f9e9（白名單已加）｜【12:0x】AA_242 7-1（18fe1b6a）、AA_256 VA-09／VA-10（71b184ba）｜AA_199 7-4（d73e391c）升第一批；台詞 AA_242；BB 寫底圖提示詞與機制。排在 HOLIDAY-SYS、VAC-L1 之後",
    "first": {
     "term": "Y1S2",
     "week": 17,
@@ -14978,8 +14978,6 @@
    },
    "source": "AA-C 10:31、BB-C 10:35",
    "authorized": "使用者（出國志工、暑期課、文化交流原本就在寒暑假規劃裡）",
-   "pausedReason": "等 HOLIDAY-SYS／VAC-L1",
-   "resumeWhen": "假期系統完成",
    "xai": {
     "spec": "AA_199 7-4 @d73e391c；AA_242",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -15610,6 +15608,34 @@
     "spec": "AA_259 第 4 節（企劃線 claude/wonderful-mayer-7fm9g6 cf864bff）",
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "清單每項做完並有單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BB207-SIS-HOTWATER",
+   "title": "學姊熱水鏈（BB_207 7025eccb、AA_261）：ev_sis_empty_flask 改大一上第 8～9 週法圖（旁白「她在寫考古題」）、新 ev_sis_hot_water（第 14～15 週一起念書 22:00 結束、自習室外飲水機；裝熱水＝BCG-01＋HOT_WATER；請一罐＝下次一起念書再一次、她第一句「……又空了。」）、停用 ev_sis_collapse／ev_sis_handover／ev_sis_prof_xu_door／ev_sis_skip_interview、W15 保溫瓶三版（HOT_WATER／HELPED／都沒有）、needed_msgs 學姊大二上兩則刪、大二下 2027-03-12 ev_family_dinner_y2s2",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "等 AA_261 已審 SHA；D81 大一上先做",
+   "first": {
+    "term": "Y1S1",
+    "week": 8,
+    "earliest": "大一上第 8 週（空保溫瓶）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB_207（BB-C 7025eccb）＋AA_261",
+   "authorized": "BB 交付（AA 同意）",
+   "xai": {
+    "spec": "BB_207＋AA_261",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "事件照規格觸發、單元測試",
     "receiver": "LAWWW",
     "ack": "ACK"
    }

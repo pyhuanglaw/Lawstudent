@@ -444,6 +444,41 @@
    "status": "approved",
    "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
    "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單"
+  },
+  {
+   "path": "docs/story_planning/AA_242_出國活動台詞_交流志工暑期課.md",
+   "sha": "18fe1b6a",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：C08～C12 出國活動已審（含 375b91dd 子晴 Q6 條件、7-1 新 NPC 訊息）"
+  },
+  {
+   "path": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
+   "sha": "71b184ba",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 麵店團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
+  },
+  {
+   "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
+   "sha": "b667820f",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改"
+  },
+  {
+   "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
+   "sha": "67f0f9e9",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：C04 考試日"
+  },
+  {
+   "path": "docs/story_planning/BB_207_學姊大二上舊事件整理_熱水移到備考期.md",
+   "sha": "7025eccb",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "BB-C 12:43：學姊熱水鏈落地（AA_261 同意）；台詞在 AA_261（等 AA 給已審 SHA）"
   }
  ]
 }
