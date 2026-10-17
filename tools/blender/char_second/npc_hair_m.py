@@ -1,13 +1,16 @@
 """路人（男）髮型產生器：從明軒的 mingxuan_hair.py（它是阿哲 zhe_hair → 祐廷 p00_hair 改的）參數化。
 npc.py 在 apply 之前設定 P：seed、part（分線）、col（底色 sRGB）、tip（10 個方位的髮尾高度：前 3 個相對眉毛、中 4 個相對眼睛、後 3 個相對耳朵上緣，公尺）、
-nape（後頸髮尾在髮際線下幾公尺）、vol（頭頂蓬度倍數）、curl（上層瀏海往兩邊撥的角度範圍）、name（名稱前綴）。"""
+nape（後頸髮尾在髮際線下幾公尺）、vol（頭頂蓬度倍數）、curl（上層瀏海往兩邊撥的角度範圍）、name（名稱前綴）。
+日劇髮型（使用者 2026-10-17：「你可以參考日劇的男女主角的髮型嗎」）：
+  bang：'card'（預設：一撮一撮的髮片）、'center' 中分（センターパート：簾狀的寬髮片從中間往兩邊撥，額頭中間露出一個三角形）、
+        'heavy' 蘑菇頭（マッシュ：寬髮片排滿、圓圓地蓋到眉毛）；wave：微捲燙的振幅（公尺）"""
 import math, os
 import numpy as np
 import bpy
 from mathutils import Vector
 import common as C
 import h01_hair as HB
-from h01_hair import _unit, sph, slerp, sstep, tangents
+from h01_hair import _unit, sph, slerp, sstep, tangents, catmull
 
 P = dict(seed=20261200, part=8.0, col=(0.15, 0.138, 0.135), tip=(-0.004, -0.002, -0.008, 0.006, 0.002, -0.004, -0.010, -0.024, -0.020, -0.016), nape=0.028, vol=1.0, curl=(4, 14), name='NM0')
 SEED = 20261016
@@ -171,14 +174,42 @@ def apply(m):
                  nseg=10, bulge=0.002, arch=0.10, curl=-sgn * rng.uniform(2, 8))
     n_card = len(mb.F) - n_shell
 
+    # ---- 3'. 日劇髮型的瀏海：寬的簾狀髮片（做法同女生的空氣瀏海 fringe_card：頭頂前面往前越過髮際線、沿額頭往下、往兩邊撥）----
+    BANG = P.get('bang', 'card')
+    def curtain(a0, vroot, wfac, z_end, drift, lift=0.010, early=0.15, reg='bang'):
+        a_end = a0 + drift
+        ctrl = np.array([[a0 * 0.5, vroot], [a0 + early * drift, 0.02], [a0 + 0.6 * drift, v_at_z(a0 + 0.6 * drift, (H.brow_top + 0.035 + z_end) / 2)], [a_end, v_at_z(a_end, z_end)]])
+        AV = catmull(ctrl, 8); Pc = []; Dc = []; n = len(AV)
+        for i, (aa_, vv_) in enumerate(AV):
+            tt = i / (n - 1); e = 0.005 + lift * float(sstep(0.0, 0.25, tt)) * (1 - 0.6 * float(sstep(0.30, 1.0, tt)))   # 髮根蓬起來、髮尾貼額頭
+            p_, d_ = surf(aa_, vv_, e); Pc.append(p_); Dc.append(d_)
+        Pc = H.push(np.array(Pc), 0.0045); Dc = np.array(Dc)
+        for _ in range(2): Pc[1:-1] = Pc[1:-1] * 0.5 + (Pc[:-2] + Pc[2:]) * 0.25
+        Tn = tangents(Pc); Dc = _unit(Dc - Tn * np.sum(Dc * Tn, 1)[:, None]); side = _unit(np.cross(Dc, Tn))
+        if WAVE > 0:
+            tt = np.linspace(0, 1, len(Pc)); Pc = Pc + side * (WAVE * 0.8 * np.sin(2 * math.pi * 1.1 * tt + a0 * 0.3) * np.array(sstep(0.2, 0.6, tt)))[:, None]
+        width = wfac * 0.011 * (0.6 + 0.4 * sstep(0.0, 0.3, np.linspace(0, 1, len(Pc))))
+        mb.ribbon(Pc, side, Dc, width, reg, 'head', np.zeros(len(Pc)), arch=0.12, tt=np.linspace(0, 1, len(Pc)))
+    if BANG == 'center':        # 中分：兩邊各 4 片，從分線一開始就往兩側撥（髮際線的高度已經到額角），額頭中間露出一個倒 V；髮尾在太陽穴、眉尾到眼尾的高度
+        # 第一版：5 片從額頭中間往下才往外撥——額頭只有 4 cm 高（男生的髮際線 33°），中間的髮片蓋住額頭，正面看還是一排刺
+        for sgn in (1.0, -1.0):
+            for k, t in enumerate(np.linspace(0.0, 1.0, 4)):
+                a0 = PART + sgn * (3.0 + 12.0 * t)
+                z_end = H.brow_top + 0.012 - (H.brow_top + 0.012 - (eye_z + 0.006)) * float(t) + rng.uniform(-0.003, 0.003)
+                curtain(a0 + rng.uniform(-1.0, 1.0), 0.42 + rng.uniform(0, 0.05), rng.uniform(1.9, 2.1), z_end, sgn * (30.0 + 8.0 * t), lift=0.012, early=0.7, reg='card')
+    elif BANG == 'heavy':       # 蘑菇頭：9 片寬髮片排滿，蓋到眉毛，兩側往下接鬢角
+        for k, a0 in enumerate(np.linspace(-34.0, 34.0, 9)):
+            s_ = abs(a0) / 34.0
+            z_end = H.brow_z - 0.004 - 0.014 * float(sstep(0.5, 1.0, s_)) + rng.uniform(-0.002, 0.002)
+            curtain(a0 + rng.uniform(-0.8, 0.8), 0.36 + rng.uniform(0, 0.04), rng.uniform(2.0, 2.2), z_end, math.copysign(1.0 + 4.0 * s_, a0) if abs(a0) > 1 else 0.5, lift=0.013)
     # ---- 3. 瀏海：分線兩邊各自往外撥，一撮一撮、長短不一 ----
     # 第二版：分兩層。底層寬、短一點（蓋住額頭，不透出皮膚）；上層一撮一撮、長短不一（有的到眼睛上緣）、離開額頭一點、從分線往兩邊撥
     # （第一版 14 片同樣長度的窄髮片：正面看像一排梳齒）
-    for k in range(6):         # 底層：窄、短一點（明軒 6 片：額頭蓋多一點，阿哲 5 片露出額頭）
+    for k in range(6 if BANG == 'card' else 0):         # 底層：窄、短一點（明軒 6 片：額頭蓋多一點，阿哲 5 片露出額頭）；日劇髮型的瀏海另外做（上面 3'）
         a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 6
         card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.03, 0.06), 0.008 + 0.001 * rng.random(), rng.uniform(1.4, 1.7), 'bang',
              nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 5))
-    for k in range(10):        # 上層：一撮一撮、長短不一、往下垂多（明軒 curl 4–14°；阿哲 10–28° 往兩邊撥開）
+    for k in range(10 if BANG == 'card' else 0):        # 上層：一撮一撮、長短不一、往下垂多（明軒 curl 4–14°；阿哲 10–28° 往兩邊撥開）
         a = -38 + 76 * (k + rng.uniform(0.2, 0.8)) / 10
         sgn = 1.0 if a > PART else -1.0
         card(a, 0.50 + rng.uniform(0, 0.20), v_tip(a) + rng.uniform(-0.06, 0.02), 0.012 + 0.003 * rng.random(), rng.uniform(1.5, 2.0), 'bang',
