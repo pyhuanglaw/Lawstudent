@@ -835,6 +835,7 @@ const STORY = (function(){
       if(seat&&P){ GM.sitAt(P,seat); E.cam.distTarget=3.2; }   /* 畫面是暗的時候直接坐好（sitAt 會放到座位上）*/
       await GM.fade(false); for(const t of DAY1_NARR) await GM.say(null,t); F.DAY1_NARR_SEEN=true;   /* 原文不改（從 9/3 搬過來）*/
       if(G.hour<22+40/60) GM.advance(22+40/60-G.hour);   /* 22:40 阿凱的冷氣訊息：人就坐在你後面兩公尺（BB_168 第 1 節；BB_70 4-1「他的第一則訊息是在同一個房間裡傳的」）*/
+      await GM.say(null,'（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）');   /* AA-B 00:46（AA_195 4-11）：通知前一句旁白 */
       if(typeof PHONE!=='undefined'){ const K=t=>({from:'kai',text:t}); if(GM.toast) GM.toast('手機｜阿凱：你的冷氣遙控器在我這',2600);
         await phoneScene(GM,'p:kai',[K('你的冷氣遙控器在我這')],{opts:[{t:'你可以直接講啊',say:[K('我耳機戴著 懶得拿下來'),K('幾度')]},{t:'好 開幾度',say:[K('27 可以嗎 我怕冷')]}]}); }
       F.DORM_AC=27; await GM.say(null,'（遙控器最後放在兩張書桌中間。）');   /* 兩個回覆後面冷氣都開到 27 度 */

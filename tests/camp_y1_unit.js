@@ -49,8 +49,8 @@ const day=k=>STORY.dayOfKey(k);
   // ---------- F 8/29 搬進宿舍（AA_195 4-2＋BB_168 第 1 節 ev_kai_movein）----------
   { const ix=t=>said.findIndex(x=>x.indexOf(t)>=0), km=(G.social.mem.kai||[]).find(m=>m.tag==='FIRST_MET');
     check('F1. 日期卡「8 月 29 日（五）｜16:05 · 男生宿舍」',cards.includes('8 月 29 日（五）｜16:05 · 男生宿舍'),cards.slice(-2).join(' / '));
-    const o=[ix('行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'),ix('（房間裡已經有一個人。'),ix('阿凱：（回頭）喔，嗨。'),ix('阿凱：好，謝謝。'),ix('（你們各自整理到快十點。'),ix('以前遇到事情，你會去翻民法。'),ix('經濟系的那一年，你不是一個人過的。'),ix('阿凱（手機）：你的冷氣遙控器在我這'),ix('（遙控器最後放在兩張書桌中間。）')];
-    check('F2. 順序：行李箱 → 阿凱初遇（預設選第一個「好，謝謝」）→ 整理到快十點 → DAY1_NARR 三句 → 22:40 冷氣訊息 → 遙控器',o.every((v,k)=>v>=0&&(k===0||v>o[k-1])),o.join(','));
+    const o=[ix('行李箱的輪子在宿舍走廊上一直卡到地磚的縫。'),ix('（房間裡已經有一個人。'),ix('阿凱：（回頭）喔，嗨。'),ix('阿凱：好，謝謝。'),ix('（你們各自整理到快十點。'),ix('以前遇到事情，你會去翻民法。'),ix('經濟系的那一年，你不是一個人過的。'),ix('（十點四十，手機響了一聲。是阿凱傳的。他人就坐在你後面兩公尺。）'),ix('阿凱（手機）：你的冷氣遙控器在我這'),ix('（遙控器最後放在兩張書桌中間。）')];
+    check('F2. 順序：行李箱 → 阿凱初遇（預設選第一個「好，謝謝」）→ 整理到快十點 → DAY1_NARR 三句 → 十點四十的旁白 → 22:40 冷氣訊息 → 遙控器',o.every((v,k)=>v>=0&&(k===0||v>o[k-1])),o.join(','));
     check('F3. MET_KAI、KAI_MOVEIN、阿凱 FIRST_MET＝dorm、ACQUAINTANCE、手機聯絡人有阿凱',F.MET_KAI===true&&F.KAI_MOVEIN===true&&km&&km.note==='dorm'&&SOCIAL.stage('kai')==='ACQUAINTANCE'&&G.contacts.kai!=null,JSON.stringify({km,st:SOCIAL.stage('kai')}));
     check('F4. 坐到書桌前（第一次）、站起來；22:40 以後、冷氣 27 度、目標「整理行李。缺的東西明天去公館買。」',GM.sat&&GM.sat.x===1.8&&GM.stood&&G.hour>=22+40/60-1e-6&&F.DORM_AC===27&&G.goal==='整理行李。缺的東西明天去公館買。'&&F.DAY1_NARR_SEEN===true,G.hour+' '+G.goal);
     const km2=G.msgs.filter(m=>m.th==='p:kai');

@@ -5102,6 +5102,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-B 2026-10-17 00:5x 整合 GLB＋測試 patch；gongguan_glb_integration 等 flow_camp_y1 跑完再跑（不同時跑兩個瀏覽器測試）"
+  },
+  {
+   "id": "DL-LW2-GYMBG1-V3",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "a3529675",
+   "what": "ART-GYM-BG1 開學典禮背景 v3 正式版 ntu_gym_ceremony.webp 1920×1080（使用者 00:3x 看小圖「開學典禮可以!!!」）",
+   "task": "ART-GYM-BG1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-B 登記 OUT.BG.ntu_gym_ceremony，8/31 STORY.ceremonyY1 用；場景美術 ART_APPROVED 只有使用者能標，要讓使用者在遊戲裡再看一次"
   }
  ],
  "ignored": [
