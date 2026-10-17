@@ -5219,6 +5219,19 @@
    "msg": "DELIVERED",
    "integration": "已整合待測試",
    "note": "白天版 nccu_dorm_day 使用者修圖中"
+  },
+  {
+   "id": "DL-BB-BG19-CINEMA",
+   "date": "2026-10-17",
+   "from": "BB-B",
+   "account": "B",
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "f2a891bb",
+   "what": "背景 gongguan_cinema（公館二輪戲院門口，芷若 Z5／Z5b 共用，BG-19）",
+   "task": "ART-BG19",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "取代黑畫面"
   }
  ],
  "ignored": [

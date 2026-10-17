@@ -9212,8 +9212,8 @@
    "title": "2D 背景 gongguan_cinema「公館・二輪戲院」（BG 追蹤表 BG-19）：ev_zhiruo_early_show",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "查證公館二輪戲院（店名照 D77）；門口、售票口、海報（不放真實電影）",
+   "status": "已整合待測試",
+   "next": "BB-B f2a891bb 通過、LAWWW-B 換上 assets/bg/gongguan_cinema.webp；瀏覽器看一次 Z5",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
