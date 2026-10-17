@@ -2523,7 +2523,7 @@ const STORY_EVENTS=[
      GIRAFFE_KEYCHAIN 去不去都一定拿到：沒去＝12/26 第一次經過社科院門口（ev_y0_e20b），18:00 以前沒經過＝20:00 私訊、隔天早上拿到 */
   { id:'ev_y0_e20', stage:'econ', title:'聖誕交換禮物', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'公館・火鍋店',bg:'gongguan_hotpot'},
-      {speaker:null,text:'十二月二十五日，晚上七點。期末考週的中間，大家還是來了。'},
+      {speaker:null,text:'十二月二十五日，晚上七點。放寒假第三天，大家都還沒回家。'},
       {speaker:null,text:'公館的火鍋店。品妤訂的位子，剛好六個人。'},
       {speaker:'econ_pinyu',text:'（脫掉補習班的外套）湯底我點好了，可以續三次。'},
       {speaker:'唐睿',text:'先交換禮物再吃，不然韋綸會先吃完。'},

@@ -29,7 +29,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const q=OUT.get(G,'y0_e20'); check('1. 出發選單 12/25 19:00、15 分鐘',!!q&&q.day===D25&&q.h===19&&q.late===0.25);
   const snap=JSON.stringify(G);
   GM.money=d=>{ G.money+=d; }; for(const id of ['kexin','econ_pinyu','econ_zhengxun']) SOCIAL.meet(id,'campus'); picks=['沙沙']; said=[]; const m0=G.money, py=SOCIAL.rel('econ_pinyu').fam||0, kc=SOCIAL.rel('kexin').comf||0; G.hour=18.7; await OUT.go(GM,q); const L=said.map(x=>x.t);
-  check('2. 原文：十二月二十五日、六個人、看形狀猜',L[0]==='十二月二十五日，晚上七點。期末考週的中間，大家還是來了。'&&L.includes('抽籤太慢。一個人拿一個，看形狀猜。不能拿自己的。'));
+  check('2. 原文：十二月二十五日（AA-C 選 A：放寒假第三天）、六個人、看形狀猜',L[0]==='十二月二十五日，晚上七點。放寒假第三天，大家都還沒回家。'&&L.includes('抽籤太慢。一個人拿一個，看形狀猜。不能拿自己的。'));
   check('2. 撲克牌（阿勳）；沒拿記帳本＝唐睿「品妤的？……我會每一筆都記。」',L.includes('撲克牌。寒假教你算牌。')&&L.includes('（記帳本在唐睿手上。他翻了兩頁，收進背包。）'));
   check('2. 長頸鹿鑰匙圈：阿勳掛檯燈、店門口她塞一隻給你、GIRAFFE_KEYCHAIN',L.includes('她把一隻一模一樣的長頸鹿，塞進你手裡。')&&L[L.length-1]==='好，解散。到了在群組講一聲。'&&G.flags.GIRAFFE_KEYCHAIN===true);
   check('2. 錢 −500、品妤 +1、可昕自在 +2',G.money===m0-500&&(SOCIAL.rel('econ_pinyu').fam||0)-py===1&&(SOCIAL.rel('kexin').comf||0)-kc===2,JSON.stringify([m0-G.money]));
