@@ -16193,6 +16193,30 @@
    "authorized": "使用者",
    "pausedReason": null,
    "resumeWhen": null
+  },
+  {
+   "id": "V0-HOME-FF",
+   "title": "經濟系休學在家（10/19～8/29）家裡選單加「快轉」：到下一個有事的日子／過三天／過一週（原本只能一天一天睡）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "next": "瀏覽器：寫 10/17 → 8/29 的驗收流程（用快轉），實際走完 AA_269 第 6 節第 5～10 點",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "2024-10-19 退宿後在家",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 盤點（使用者 21:0x D99）",
+   "authorized": "D99 第一優先",
+   "pausedReason": null,
+   "resumeWhen": null,
+   "evidence": "tests/v0_home_ff_unit.js"
   }
  ]
 }
