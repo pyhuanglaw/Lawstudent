@@ -154,6 +154,11 @@ D['characters']['heroine_05'] = {'friendOnly': True,
             'choices': [{'t': '「學姊想像得到？」', 'reply': '想像得到啊。所以我念很慢。'}, {'t': '「我們這學期也在上。」', 'reply': '那剛好。你上到訴願的時候，想一下我剛剛說的。', 'rel': {'resp': 1}}],
             'rel': {'fam': 2, 'resp': 1},
             'note': '大一上 S-L7（被政府擋住的事）的延伸；不講法律結論（2026-10-17 口語改稿：選項①回覆照 AA_209 附錄 B；主句照留）；2026-10-17 BB-C 照新年級搬層（BB_195）：原 S2-L2'},
+           {'id': 'S4-Lx', 'if': {'stage': {'npc': 'heroine_05', 'min': 'FAMILIAR'}}, 'week': [3, 16],
+            'lines': ['碩三上，我想去美國交換一學期。指導教授說可以。', '……還很久。可是我已經在看學校了。'],
+            'choices': [{'t': '「學姊會去多久？」', 'reply': '一學期。七月出發，十二月回來。'}, {'t': '「我大四也想去美國。」', 'reply': '……那你要先查好你們系的交換。不要等我提醒你。', 'rel': {'trust': 1}}],
+            'rel': {'fam': 2},
+            'note': '2026-10-17 BB-C（照 AA_253 §1 a4b13b9d；BB_204）：交換地點由志願表時的交往對象決定，最晚要在大二下學期末和她在一起；這一層讓玩家在那之前知道她要去美國。學姊這學期 9 層'},
            {'id': 'S4-L3',
             'if': {'stage': {'npc': 'heroine_05', 'min': 'FAMILIAR'}},
             'unlessWeekdayTime': {'weekday': [5], 'time': [17, 21]},
@@ -274,7 +279,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=8: err.append(cid+' 不是 8 層')
+        if len(ids)!=8+{'heroine_05':1}.get(cid,0): err.append(cid+' 層數不對')  # 2026-10-17 BB-C：學姊多一層 S4-Lx（AA_253 §1）
         for s in c['steps']:
             for l in texts(s):
                 if len(l)>48: err.append(f"{s['id']} 台詞太長（{len(l)}）：{l}")
