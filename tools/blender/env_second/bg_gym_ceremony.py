@@ -7,8 +7,12 @@
   v1（3eb86bfb）用幾何拼的公仔、上層看台放家長，使用者 2026-10-16 23:5x 退件：「開學典禮是學生要坐在座位上吧 怎麼一堆家長 而且超醜!!!」
 - 舞台：七位來賓、講台致詞的人（同一批人物、深色西裝色表）；大螢幕轉播講台（另一台鏡頭先拍、模糊、壓暗）。
 - 白天室內燈光：屋頂的燈（面光源）＋舞台前的暖色投射燈。
+--grad（LAWWW2-C 2026-10-17，SCN-V5-02／G6 校級畢業典禮；BG-23 寫的「換橫幅、換學士服共用」）：
+- 背板「畢業典禮／Commencement」，杜鵑換成六月的鳳凰花（紅橙）；
+- 學生穿黑色學士服（衣服、褲子全黑）、戴方帽（帽板＋流蘇），背上的披肩顏色每個人不同（校級典禮是全校各學院；不照真實學院配色）；
+- 上層看台（4、5F）坐一部分家長（便服）：畢業典禮家長會來（開學典禮被退件的是「一堆家長」，畢業典禮相反）。
 用法：
-  /opt/blenv/bin/python tools/blender/env_second/bg_gym_ceremony.py -- <輸出.png> [--res 1920x1080] [--samples 96] [--text 開學典禮]
+  /opt/blenv/bin/python tools/blender/env_second/bg_gym_ceremony.py -- <輸出.png> [--res 1920x1080] [--samples 96] [--text 開學典禮] [--grad]
        [--eye x,y,z --look x,y,z --lens mm] [--dof 焦距m] [--fstop 4] [--fill 0.92] [--exposure 0]
 座標＝gym_arena 區域座標（x 東、y 上、z 南；舞台在北邊 z −21.6～−15.6）。"""
 import json, math, os, random, subprocess, sys
@@ -24,7 +28,8 @@ OUT = os.path.abspath(A_[0])
 def opt(name, default):
     return A_[A_.index(name) + 1] if name in A_ else default
 RW, RH = map(int, opt('--res', '1920x1080').split('x')); SAMPLES = int(opt('--samples', '96'))
-TEXT = opt('--text', '開學典禮'); FILL = float(opt('--fill', '0.93'))
+GRAD = '--grad' in A_
+TEXT = opt('--text', '畢業典禮' if GRAD else '開學典禮'); FILL = float(opt('--fill', '0.93'))
 TMP = os.path.join(os.path.dirname(OUT), 'bg_gym_tex'); os.makedirs(TMP, exist_ok=True)
 FONT = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 LAY = json.loads(subprocess.check_output(['node', '-e', "process.stdout.write(JSON.stringify(require('./src/data/gym_layout.js')))"], cwd=L.ROOT))
@@ -146,15 +151,22 @@ if '--v2stage' not in A_:
             for _ in range(260):
                 x = rr.uniform(xa, xb); y = rr.uniform(560 + abs((x - (xa + xb) / 2)) * -0.15, H + 20); r = rr.uniform(14, 30)
                 d.ellipse([x - r * 1.4, y - r * 0.8, x + r * 1.4, y + r * 0.8], fill=rr.choice([(111, 158, 106), (134, 181, 125), (96, 140, 92)]))
-            for _ in range(420):
-                x = rr.uniform(xa, xb); y = rr.uniform(590, H + 10); r = rr.uniform(9, 17); c = rr.choice([(244, 166, 193), (238, 143, 179), (249, 198, 214), (255, 250, 250), (233, 119, 159)])
+            for _ in range(420 if not GRAD else 160):                                        # 畢業典禮（六月）：花叢的花少一點、換成紅橙
+                x = rr.uniform(xa, xb); y = rr.uniform(590, H + 10); r = rr.uniform(9, 17)
+                c = rr.choice([(244, 166, 193), (238, 143, 179), (249, 198, 214), (255, 250, 250), (233, 119, 159)] if not GRAD else [(232, 86, 52), (244, 122, 62), (214, 66, 44), (250, 164, 92)])
                 for k in range(5):
                     a = k * 2 * math.pi / 5 + rr.random(); d.ellipse([x + math.cos(a) * r * 0.7 - r * 0.6, y + math.sin(a) * r * 0.7 - r * 0.6, x + math.cos(a) * r * 0.7 + r * 0.6, y + math.sin(a) * r * 0.7 + r * 0.6], fill=c)
                 d.ellipse([x - 3, y - 3, x + 3, y + 3], fill=(240, 210, 120))
+        if GRAD:                                                                              # 鳳凰木：後面的樹冠上一團團紅橙的花
+            for cx, cy, r in ((420, 600, 330), (1980, 610, 340), (650, 640, 240), (1760, 650, 250)):
+                for _ in range(int(r * 0.9)):
+                    a = rr.uniform(0, 2 * math.pi); q = rr.random() ** 0.6; x = cx + math.cos(a) * r * q; y = cy + math.sin(a) * r * 0.8 * q
+                    if y > 640 and (x < 700 or x > 1700): pass
+                    rad = rr.uniform(8, 18); d.ellipse([x - rad, y - rad * 0.7, x + rad, y + rad * 0.7], fill=rr.choice([(226, 78, 46), (240, 108, 56), (206, 58, 40), (248, 150, 80)]))
         f1 = ImageFont.truetype(FONT, 150); f2 = ImageFont.truetype(FONT, 46)
-        t1 = '開學典禮'; sp = 40; ws = [d.textbbox((0, 0), ch, font=f1) for ch in t1]; tw = sum(b[2] - b[0] for b in ws) + sp * (len(t1) - 1); x = (W - tw) / 2
+        t1 = TEXT; sp = 40; ws = [d.textbbox((0, 0), ch, font=f1) for ch in t1]; tw = sum(b[2] - b[0] for b in ws) + sp * (len(t1) - 1); x = (W - tw) / 2
         for ch, b in zip(t1, ws): d.text((x - b[0], 40), ch, font=f1, fill=(92, 62, 45), stroke_width=3, stroke_fill=(92, 62, 45)); x += (b[2] - b[0]) + sp
-        t2 = 'Opening Ceremony'; b2 = d.textbbox((0, 0), t2, font=f2); d.text(((W - (b2[2] - b2[0])) / 2, 222), t2, font=f2, fill=(138, 104, 82))
+        t2 = 'Commencement' if GRAD else 'Opening Ceremony'; b2 = d.textbbox((0, 0), t2, font=f2); d.text(((W - (b2[2] - b2[0])) / 2, 222), t2, font=f2, fill=(138, 104, 82))
         d.rectangle([14, 14, W - 14, H - 14], outline=(214, 182, 150), width=6)
         im.filter(ImageFilter.GaussianBlur(0.8)).save(path)
     BDP = os.path.join(TMP, 'v3_backdrop.png'); backdrop_png(BDP)
@@ -196,11 +208,79 @@ VC.TMPDIR = os.path.join(TMP, 'vrm_tmp')
 CHAR = os.path.join(L.ROOT, 'assets', 'models', 'char')
 SPECS = [('npc_m1', 1.72), ('npc_m2', 1.75), ('npc_f1', 1.60), ('npc_f2', 1.62)]
 VARS = []
+# ---- 畢業典禮（--grad）：學士服、方帽、披肩
+GOWN = {'top': (['#141417'] * 6 + ['#1b1b1f'] * 3 + ['#202026'], 1.0), 'bottom': (['#141417'] * 3 + ['#1b1b1f'], 5.29),
+        'shoe': (['#1c1c1e'] * 4 + ['#3a2a20', '#f1f1ee'], 11.3), 'hair': (['#0b0a09'] * 6 + ['#120e0c'] * 4 + ['#1e1611'] * 2 + ['#3a2a1e'], 7.13)}
+HOOD = ['#f2efe6', '#d9b44a', '#8fb3d9', '#5f8f5a', '#e08a3a', '#7a5a9a', '#b8343a', '#9a9a9a', '#2f5d8c', '#e6c7d0']   # 披肩顏色：全校各學院混在一起（不照真實的學院配色）
+
+
+def grad_mats():
+    if 'grad_cap' in bpy.data.materials: return bpy.data.materials['grad_cap'], bpy.data.materials['grad_hood'], bpy.data.materials['grad_tassel']
+    cap = bpy.data.materials.new('grad_cap'); b = cap.node_tree.nodes['Principled BSDF']; b.inputs['Base Color'].default_value = (0.012, 0.012, 0.014, 1); b.inputs['Roughness'].default_value = 0.55
+    hood = bpy.data.materials.new('grad_hood'); nt = hood.node_tree; b = nt.nodes['Principled BSDF']; b.inputs['Roughness'].default_value = 0.6
+    rp = VC.ramp_node(nt, HOOD, 3.71); nt.links.new(rp.outputs['Color'], b.inputs['Base Color'])
+    ts = bpy.data.materials.new('grad_tassel'); b = ts.node_tree.nodes['Principled BSDF']; b.inputs['Base Color'].default_value = (0.62, 0.45, 0.12, 1); b.inputs['Roughness'].default_value = 0.5
+    return cap, hood, ts
+
+
+def add_grad(me, pitch):
+    """方帽（帽身＋帽板＋流蘇）跟著頭的低頭角度；披肩貼著背（上寬下窄的 U），每個人的顏色由材質的 Object Info → Random 決定。網格面向 +y（Blender）"""
+    cap, hood, ts = grad_mats()
+    ci = len(me.materials); me.materials.append(cap); me.materials.append(hood); me.materials.append(ts)
+    bm = bmesh.new(); bm.from_mesh(me); bm.verts.ensure_lookup_table()
+    pts = [v.co.copy() for v in bm.verts]; top = max(p.z for p in pts)
+    head = [p for p in pts if p.z > top - 0.06]; hx = sum(p.x for p in head) / len(head); hy = sum(p.y for p in head) / len(head)
+    piv = Vector((hx, hy, top - 0.05)); R = Matrix.Rotation(math.radians(-pitch * 0.8), 4, 'X')
+    def add_box(c, sx, sy, sz, mi, rot=None):
+        r_ = bmesh.ops.create_cube(bm, size=1.0)['verts']
+        for v in r_:
+            v.co = Vector((v.co.x * sx, v.co.y * sy, v.co.z * sz)) + c
+            if rot is not None: v.co = piv + (rot @ (v.co - piv))
+        for f in {f for v in r_ for f in v.link_faces}: f.material_index = mi
+    def add_cyl(a, b_, r, mi, seg=10, rot=None):
+        d = b_ - a; res = bmesh.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r, radius2=r, depth=d.length)
+        q = d.normalized().to_track_quat('Z', 'Y').to_matrix().to_4x4(); mid = (a + b_) / 2
+        for v in res['verts']:
+            v.co = mid + (q @ v.co)
+            if rot is not None: v.co = piv + (rot @ (v.co - piv))
+        for f in {f for v in res['verts'] for f in v.link_faces}: f.material_index = mi
+    add_cyl(Vector((hx, hy, top - 0.075)), Vector((hx, hy, top + 0.004)), 0.098, ci, seg=14, rot=R)          # 帽身
+    add_box(Vector((hx, hy, top + 0.011)), 0.25, 0.25, 0.012, ci, rot=R)                                     # 帽板
+    add_cyl(Vector((hx + 0.12, hy - 0.05, top + 0.012)), Vector((hx + 0.125, hy - 0.06, top - 0.11)), 0.006, ci + 2, seg=5, rot=R)   # 流蘇
+    # 披肩（第二版）：從兩肩往背中間收成 V 形的彩色滾邊（第一版整塊填色的梯形，近看像背了一塊牌子）；V 裡面就是黑色的學士服
+    body = [p for p in pts if top - 0.56 < p.z < top - 0.2]
+    def onback(x, z):
+        near = [p.y for p in body if abs(p.x - x) < 0.03 and abs(p.z - z) < 0.03]
+        return Vector((x, (min(near) if near else hy - 0.12) - 0.007, z))
+    BW, NSEG = 0.05, 6
+    for sx in (-1, 1):
+        a = Vector((hx + sx * 0.135, 0, top - 0.25)); b = Vector((hx, 0, top - 0.47))   # 肩上 → 背中間（x、z；y 之後貼背）
+        d = (b - a); d.y = 0; d.normalize(); nrm = Vector((-d.z, 0, d.x))                 # 在背面上和帶子垂直的方向
+        rows = []
+        for k in range(NSEG + 1):
+            c = a + (b - a) * (k / NSEG); w = BW * (1 - 0.35 * k / NSEG)
+            rows.append([bm.verts.new(onback(c.x + nrm.x * w * t, c.z + nrm.z * w * t)) for t in (-0.5, 0.5)])
+        for k in range(NSEG):
+            f = bm.faces.new((rows[k][0], rows[k + 1][0], rows[k + 1][1], rows[k][1])); f.material_index = ci + 1
+    bm.to_mesh(me); bm.free()
+
 for i, (nm_, h_) in enumerate(SPECS):
     for j, pose in enumerate(('lap', 'look', 'down')):
-        VARS.append(VC.seated_variant(os.path.join(CHAR, f'vroid_{nm_}.vrm'), f'crowd_{nm_}_{pose}', h_ * random.Random(i * 7 + j).uniform(0.98, 1.02), pose, lean=random.Random(i * 5 + j).uniform(-4, 6), pal=VC.FRESHMEN))
+        VARS.append(VC.seated_variant(os.path.join(CHAR, f'vroid_{nm_}.vrm'), f'crowd_{nm_}_{pose}', h_ * random.Random(i * 7 + j).uniform(0.98, 1.02), pose, lean=random.Random(i * 5 + j).uniform(-4, 6), pal=GOWN if GRAD else VC.FRESHMEN))
+        if GRAD: add_grad(VARS[-1], VC.POSES[pose]['head'][1])
 coll = bpy.data.collections.new('crowd'); sc.collection.children.link(coll)
 nppl = [0]
+
+
+PARENTS = []
+if GRAD:
+    for i, (nm_, h_) in enumerate(SPECS):
+        PARENTS.append(VC.seated_variant(os.path.join(CHAR, f'vroid_{nm_}.vrm'), f'parent_{nm_}', h_ * 0.99, ('lap', 'look')[i % 2], lean=2.0))
+
+
+def seat_parent(px, y, pz, ry):
+    me = PARENTS[rng.randrange(len(PARENTS))]; ob = bpy.data.objects.new(f'parent_{nppl[0]}', me); coll.objects.link(ob); nppl[0] += 1
+    ob.location = g2b(px, y, pz); ob.rotation_euler = (0, 0, ry + math.pi + rng.uniform(-0.15, 0.15))
 
 
 def seat_person(px, y, pz, ry, tag):
@@ -247,7 +327,15 @@ for sd in AR['stands']:
             for k in range(n):
                 sx = a + 0.05 + (k + 0.5) * (b - a - 0.1) / n
                 if rng.random() < FILL * (0.97 - 0.02 * r): px, _, pz = xf.p(sx, y, z0 + 0.5); seat_person(px, y, pz, xf.ry + math.pi, side)
-    # 上層看台（4、5F）不放人：使用者「開學典禮是學生要坐在座位上吧 怎麼一堆家長」
+    # 上層看台（4、5F）：開學典禮不放人（使用者「開學典禮是學生要坐在座位上吧 怎麼一堆家長」）；畢業典禮坐一部分家長（便服）
+    if GRAD:
+        for r in range(UP['rows']):
+            y = UP['h0'] + r * UP['rise']; z0 = U0 + r * UP['tread']
+            for (a, b) in cut(t0, t1):
+                n = int((b - a - 0.1) / SR['seatPitch'])
+                for k in range(n):
+                    sx = a + 0.05 + (k + 0.5) * (b - a - 0.1) / n
+                    if rng.random() < 0.5 - 0.02 * r: px, _, pz = xf.p(sx, y, z0 + 0.45); seat_parent(px, y, pz, xf.ry + math.pi)
 # 舞台上：七位來賓坐在來賓桌後面（面向觀眾）、一位在講台致詞——同一批人物，衣服換成深色西裝的色表
 SUIT = {'top': (['#22252b', '#1e2533', '#2b2b2e', '#3a3d44'], 1.0), 'bottom': (['#22252b', '#1e2533', '#2b2b2e'], 1.0), 'shoe': (['#141414'], 1.0)}
 sh = AR['sets']['stage']['h']
