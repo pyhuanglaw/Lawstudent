@@ -193,7 +193,7 @@
   {
    "task": "SCN-US-01",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "9a86ba2a",
+   "sha": "8825bea0",
    "files": [
     "tools/blender/env_second/us_cars.py",
     "assets/models/env/second_ai/us_cars.glb",
@@ -209,10 +209,30 @@
    ],
    "state": "已交付",
    "remaining": "遊戲內截圖（等 LAWWW 接成區域 us_outside）；季節（冬天版）等 AA_213；車的數量／降階看遊戲效能",
-   "next": "LAWWW 照 us_community.layout.json 建區域 us_outside（blocks、spawn_home、to_home→us_apartment、exit_west→us_bus_stop、cars 用 us_cars.glb 節點上色）；接好後 LAWWW2 拍遊戲內截圖",
+   "next": "LAWWW 照 us_community.layout.json 建區域 us_outside（blocks、spawn_home、to_home→us_apartment、exit_west→us_bus_stop、cars 用 us_cars.glb 節點上色）；接好後 LAWWW2 拍遊戲內截圖（LAWWW-C ACK：DL-LW2-USCOMM、已實作待整合 5d9a2b4d；接法排在 v0～v2 之後）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACK"
+  },
+  {
+   "task": "SCN-US-03",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/blender/env_second/us_market_layout_gen.py",
+    "assets/models/env/second_ai/us_market.layout.json",
+    "tools/blender/env_second/us_market_tex.py",
+    "tools/blender/env_second/us_market.py",
+    "assets/models/env/second_ai/us_market.glb",
+    "assets/models/env/second_ai/us_market.json",
+    "tools/blender/env_second/textures/gen/us_mk_*"
+   ],
+   "state": "WIP",
+   "remaining": "超市室內第一版建好（86k 三角形、5.3 MB）：渲染驗收、修正、門外窗景（社區停車場渲染）、README、八項",
+   "next": "LAWWW2-C",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
   }
  ]
 }

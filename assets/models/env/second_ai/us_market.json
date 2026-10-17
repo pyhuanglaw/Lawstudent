@@ -1,0 +1,12 @@
+{
+ "objects": 43,
+ "unique_meshes": 43,
+ "tris": 85638,
+ "tris_drawn": 85638,
+ "materials": 39,
+ "out": "assets/models/env/second_ai/us_market.glb",
+ "bytes": 5458512,
+ "texres": 512,
+ "tris_total": 85638,
+ "layout": "us_market.layout.json"
+}

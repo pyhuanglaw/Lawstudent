@@ -67,7 +67,7 @@ def blocks(L):
     def r(x0, x1, z0, z1, why): B.append({'x0': round(x0, 3), 'x1': round(x1, 3), 'z0': round(z0, 3), 'z1': round(z1, 3), 'why': why})
     for c in L['checkouts']: r(c['x'] - 0.45, c['x'] + 0.45, c['z0'], c['z1'], 'checkout lane %d' % c['n']); r(c['x'] + 0.45, c['x'] + 1.1, c['z1'] - 1.2, c['z1'] - 0.4, 'register stand')
     for s in L['self_checkout']: r(s['x'] - 0.5, s['x'] + 0.5, s['z'] - 0.35, s['z'] + 0.35, 'self checkout')
-    d = L['service_desk']; r(d['x0'], d['x1'], d['z0'], d['z1'], 'service desk'); r(X0, d['x0'], d['z0'] - 1.2, d['z1'], 'service back')
+    d = L['service_desk']; r(d['x0'], d['x1'], d['z0'], d['z1'], 'service desk'); r(X0, d['x1'], d['z0'] - 1.45, d['z0'], 'service staff area + back cabinet')
     c = L['carts']; r(c['x0'], c['x1'], c['z0'], c['z1'], 'carts')
     for t in L['seasonal']: r(t['x'] - t['w'] / 2, t['x'] + t['w'] / 2, t['z'] - t['d'] / 2, t['z'] + t['d'] / 2, t['kind'])
     for t in L['produce_tables']: r(t['x'] - t['w'] / 2, t['x'] + t['w'] / 2, t['z'] - t['d'] / 2, t['z'] + t['d'] / 2, 'produce table')

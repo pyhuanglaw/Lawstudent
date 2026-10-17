@@ -4,7 +4,8 @@
   **全部是假包裝**：色塊、色帶、橢圓、幾條淡色橫線當字；不畫任何真實品牌、商標、可讀的商品名（D77）。
   每種商品連著擺 2～5 個（真的貨架就是這樣），商品之間、上面露出深色貨架背板；列 0～15 的類別見 ROWS。
 - us_mk_signs.png：區域招牌（PRODUCE、DAIRY…，一般英文字，不是品牌）＋走道號碼牌＋店名 Prairie Basket（AA_144 虛構）。
-- us_mk_wire.png：推車、購物籃的鐵絲網（透明貼圖）。"""
+- us_mk_wire.png：推車、購物籃的鐵絲網（透明貼圖）。
+- us_mk_fruit_<種類>.jpg：水果堆的無縫貼圖（256 px＝0.4 m）：蘋果、柳橙、香蕉、甜椒、馬鈴薯、洋蔥、檸檬、生菜、哈密瓜。"""
 import math, os, random
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
@@ -119,6 +120,42 @@ def tex_signs(path):
     im.save(path)
 
 
+FRUIT_TEX = {'apple': (0.042, ['#b8232b', '#c93a2c', '#9e1f2a', '#d0533a', '#a8302a', '#c84a30']), 'orange': (0.044, ['#e98a1d', '#f09a2a', '#dd7c18', '#f2a43a']),
+             'banana': (0.05, ['#e8cf3c', '#f0d84a', '#d9c034', '#c8b84a']), 'pepper': (0.045, ['#c8202a', '#e6b81e', '#2f7a2a', '#e86a1a']),
+             'potato': (0.04, ['#a07a4e', '#8e6a42', '#b08a5c', '#9a7448']), 'onion': (0.04, ['#c8964e', '#b8823e', '#d8a868', '#e8dcc0']),
+             'lemon': (0.033, ['#f2dc3a', '#e8d030', '#f6e45a']), 'greens': (0.06, ['#3f7a32', '#5a9a3e', '#2f6a2a', '#7ab04a']), 'melon': (0.09, ['#7ea04a', '#e0c890', '#8aa858', '#c8b878'])}
+
+
+def tex_fruit(path, kind, S=256, M_=0.4):
+    """一種水果堆的無縫貼圖（S px＝M_ 公尺，上下左右都接得起來）：六角排列、位置抖動、每顆自己的顏色、邊緣暗、左上一點高光，縫是深色陰影"""
+    r_m, cols = FRUIT_TEX[kind]; ppm = S / M_; R = r_m * ppm; rr = random.Random(hash(kind) & 0xffff)
+    im = Image.new('RGB', (S, S), (38, 30, 22)); px = im.load()
+    sp = 2 * R * 0.96; cs = []
+    ny = max(1, int(round(S / (sp * 0.866)))); dy = S / ny; nx = max(1, int(round(S / sp))); dx = S / nx
+    for j in range(ny):
+        for i in range(nx):
+            el = {'banana': rr.uniform(1.9, 2.4), 'potato': rr.uniform(0.72, 0.9), 'pepper': rr.uniform(0.85, 1.0), 'melon': rr.uniform(0.8, 0.95)}.get(kind, rr.uniform(0.9, 1.0))
+            cs.append(((i + (0.5 if j % 2 else 0)) * dx + rr.uniform(-0.2, 0.2) * R, j * dy + rr.uniform(-0.2, 0.2) * R, hx(rr.choice(cols)), rr.uniform(0.95, 1.1), el, rr.uniform(0, math.pi), rr.uniform(0.0, 0.35)))
+    for y in range(S):
+        for x in range(S):
+            best = None
+            for (cx, cy, col, k, el, ang, zo) in cs:
+                for ox in (-S, 0, S):
+                    for oy in (-S, 0, S):
+                        ddx, ddy = x - (cx + ox), y - (cy + oy)
+                        if abs(ddx) > 2.5 * R or abs(ddy) > 2.5 * R: continue
+                        ca, sa = math.cos(ang), math.sin(ang); u = (ddx * ca + ddy * sa) / el; v = (-ddx * sa + ddy * ca)
+                        d = math.hypot(u, v) / (R * k)
+                        if d < 1:
+                            hgt = k * math.sqrt(1 - d * d) + zo                                    # 球面高度：最上面那顆蓋住下面的（不是最近的那顆）
+                            if best is None or hgt > best[4]: best = (d, col, ddx / (R * k), ddy / (R * k), hgt)
+            if best:
+                d, col, nx_, ny_, _h = best; shade_ = 0.55 + 0.45 * math.sqrt(max(0.0, 1 - d * d)) - 0.12 * ny_
+                hl = max(0.0, 1 - math.hypot(nx_ + 0.35, ny_ + 0.4) / 0.28) * 0.55
+                px[x, y] = tuple(min(255, int(c * shade_ + 255 * hl)) for c in col)
+    im.convert('RGB').save(path, quality=88)
+
+
 def tex_wire(path):
     """鐵絲網（推車籃）：銀灰色的格子，其他透明"""
     im = Image.new('RGBA', (256, 256), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
@@ -129,4 +166,5 @@ def tex_wire(path):
 
 if __name__ == '__main__':
     tex_products(os.path.join(GEN, 'us_mk_products.png')); tex_signs(os.path.join(GEN, 'us_mk_signs.png')); tex_wire(os.path.join(GEN, 'us_mk_wire.png'))
+    for k in FRUIT_TEX: tex_fruit(os.path.join(GEN, 'us_mk_fruit_%s.jpg' % k), k)
     print('ok')
