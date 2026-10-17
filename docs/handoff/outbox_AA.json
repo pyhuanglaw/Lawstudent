@@ -302,6 +302,20 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ROM-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e6db83020ba90ab44f326dad050cbde61ac1726e",
+   "files": [
+    "docs/story_planning/BB_189_大二交往中_芷若子晴.md"
+   ],
+   "state": "已交付（BB 寫、AA 審時間線）",
+   "remaining": "沛珊、學姊的交往版（BB）；以安、語彤大二（AA，進行中）",
+   "next": "LAWWW 照 v3 排：芷若 Z7（12/10）、Z7b、Z8、Z9（6/3）與子晴 Q7～Q9 的交往中版本；兩位同時交往照 AA_126 9-2 不自動抓包",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
