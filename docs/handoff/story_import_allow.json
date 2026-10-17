@@ -479,6 +479,20 @@
    "status": "approved",
    "approvedBy": "BB-C（2026-10-17 交付給 LAWWW-C）",
    "note": "BB-C 12:43：學姊熱水鏈落地（AA_261 同意）；台詞在 AA_261（等 AA 給已審 SHA）"
+  },
+  {
+   "path": "docs/story_planning/AA_261_回BB207_學姊熱水與空的保溫瓶.md",
+   "sha": "16919f86",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:51：AA_261 已審（AA 分支），機制 BB_207 7b39f636"
+  },
+  {
+   "path": "docs/story_planning/BB_207_學姊大二上舊事件整理_熱水移到備考期.md",
+   "sha": "7b39f636",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:51：機制、時間照這一版"
   }
  ]
 }

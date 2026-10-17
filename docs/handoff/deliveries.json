@@ -6938,6 +6938,71 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "AA_242 第 0～5 節、7-1 智恩／家睿已做（vac3d.js、vac_activities.js）；第 6、8 節等 BB_200"
+  },
+  {
+   "id": "DL-LW2-45fa5907",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "45fa5907",
+   "what": "路人第五批：日劇髮型（女 nf1～nf20、男 nm2/3/5/8/9/10/11/12/14/15/17/18/20，33 個 VRM 同檔名；長髮肩膀細線修掉）",
+   "task": "NPC-CROWD-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "路人單元測試過；遊戲內 20＋20 排排站等瀏覽器批次"
+  },
+  {
+   "id": "DL-AA-16919f86",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "16919f86",
+   "what": "AA_261 學姊熱水鏈台詞已審（ev_sis_hot_water、W4 旁白一句、W15 有／沒有 HOT_WATER、W7 作廢）；機制照 BB_207 7b39f636",
+   "task": "BB207-SIS-HOTWATER",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-BB-1769c7ce",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "1769c7ce",
+   "what": "BB_194 §24：YT_HONEST／YT_DODGED／YT_LIED 在哪裡設（選項標 yt:honest|dodge|claimEnded|claimNone，claim 比 REL_STATE；逐場對照表）",
+   "task": "BB194-YTFLAGS",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-BB-4484e4a2",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "4484e4a2",
+   "what": "BB_206 大三上口語審給 LAWWW 程式清單（y3s1／y3s2／y2s2 階梯重新匯入、學姊 presence 2028-08-02～12-23、期末飯不在國內不發、invites 大三換句、enc_walk、SMALLTALK、週日宵夜、週年第三年、大三上 BB 事件）",
+   "task": "AA259-Y3S1",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-9d00435c",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "9d00435c",
+   "what": "AA_260 大三下審稿第 4 節：路線日期（JP out 2/20、出發 3/25、回 8/5；US 2028-08-02～12-23；以安 presence 3/25～8/5）、y3s2／y3s1 階梯重建、送機時間、語彤作息、公法讀書會大三下第 1～5 週、LADDER_HOLD、期末飯人在國外、以安挽回 skipIf",
+   "task": "ROUTE-DATES-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
   }
  ],
  "ignored": [

@@ -14674,7 +14674,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "cedb64dc：LAWWW2 路人底模預設打開（anon＋lazy，開場不預載）、CHAR.anonPool 每次換區域輪替 4 女＋4 男、沒用的釋放（ASSETS.unloadVRM）、同一區域平均分配；STORY.CROWD_X＝2。單元 anon_pool／crowd／npc_ambient 通過；瀏覽器 probe crowd_pool＋zone_memory 在 batch 15。LAWWW2 第二批 nf5–8／nm5–8 交付後加進 manifest（ART-NPC-40）。｜第二批整合後共 16 個底模；畫質低 3＋3（43d695d7）。沛珊換日系風（使用者，經 LAWWW2-C）：換色模型灰藍 T＋米白長裙。",
+   "next": "【13:0x】LAWWW2 路人第五批 45fa5907（日劇髮型 33 個）已整合，路人單元測試過；遊戲內排排站等瀏覽器批次｜cedb64dc：LAWWW2 路人底模預設打開（anon＋lazy，開場不預載）、CHAR.anonPool 每次換區域輪替 4 女＋4 男、沒用的釋放（ASSETS.unloadVRM）、同一區域平均分配；STORY.CROWD_X＝2。單元 anon_pool／crowd／npc_ambient 通過；瀏覽器 probe crowd_pool＋zone_memory 在 batch 15。LAWWW2 第二批 nf5–8／nm5–8 交付後加進 manifest（ART-NPC-40）。｜第二批整合後共 16 個底模；畫質低 3＋3（43d695d7）。沛珊換日系風（使用者，經 LAWWW2-C）：換色模型灰藍 T＋米白長裙。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14722,7 +14722,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA_158 已改（AA-C 9df430fa）：日本照 AA_201——2028-02-20 退宿、2/21～3/24 在臺灣住家裡（台灣區域照常、不在臺大修課）、3/24 19:00 以安餞行、3/25 10:00 出發（CG-22，和以安同一班）、8/5 返台，以安不在台灣 2028-03-25～08-05；美國照 AA_213——大四上 7 月下旬退宿、8/2 出發、12/23 返台，大三下的美國玩家照台灣路線。改法：ROUTE_DATES、characters.js heroine_01 absentDates、台灣事件條件改「那天人在台灣」；lifeline_q34 第四年改成視訊。D81：排在發布之後。",
+   "next": "【13:0x AA_260 9d00435c 最急】JP out 2028-02-20、出發 03-25、回 08-05；US 2028-08-02～12-23；以安 presence 3/25～8/5；學姊 presence 8/2～12/23（BB_206 4484e4a2 同）｜AA_158 已改（AA-C 9df430fa）：日本照 AA_201——2028-02-20 退宿、2/21～3/24 在臺灣住家裡（台灣區域照常、不在臺大修課）、3/24 19:00 以安餞行、3/25 10:00 出發（CG-22，和以安同一班）、8/5 返台，以安不在台灣 2028-03-25～08-05；美國照 AA_213——大四上 7 月下旬退宿、8/2 出發、12/23 返台，大三下的美國玩家照台灣路線。改法：ROUTE_DATES、characters.js heroine_01 absentDates、台灣事件條件改「那天人在台灣」；lifeline_q34 第四年改成視訊。D81：排在發布之後。",
    "first": {
     "term": "Y3S1",
     "week": 11,
@@ -15619,7 +15619,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "等 AA_261 已審 SHA；D81 大一上先做",
+   "next": "AA_261 已審 16919f86（AA 分支）＋BB_207 7b39f636：開工｜等 AA_261 已審 SHA；D81 大一上先做",
    "first": {
     "term": "Y1S1",
     "week": 8,
@@ -15636,6 +15636,34 @@
     "spec": "BB_207＋AA_261",
     "branch": "claude/adoring-meitner-mqzst8",
     "acceptance": "事件照規格觸發、單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BB194-YTFLAGS",
+   "title": "YT_HONEST／YT_DODGED／YT_LIED 照 BB_194 §24（1769c7ce）在各場設：選項標 yt:'honest'|'dodge'|'claimEnded'|'claimNone'，claim 比 REL_STATE（和事實相反＝YT_LIED[X][Y]，真的＝YT_HONEST）；劇本固定照實的台詞直接記 YT_HONEST；以安 3-2、學姊 4-3、子晴 6-2/6-3、芷若 6-2、沛珊語彤 AA_228、發現當場的誤會",
+   "area": "ROM",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "期末飯知情門檻（551587ed）讀這三個旗標；設的那幾場在交往被發現的流程裡，照 D81 跟著那幾場做",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "第一次被她知道祐廷有別人",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB_194 §24（BB-C 1769c7ce）",
+   "authorized": "BB 交付",
+   "xai": {
+    "spec": "BB_194 §24",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "各場選項記旗標、期末飯知情門檻讀得到",
     "receiver": "LAWWW",
     "ack": "ACK"
    }
