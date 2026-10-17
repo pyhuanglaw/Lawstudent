@@ -61,7 +61,7 @@ for sgn in (-1, 1):
                                      'color': rng.choice(['#f2f2ef', '#c9ccd0', '#8d9196', '#2b2d30', '#1f2f4f', '#7a1f24', '#3d4a3c', '#b8b2a5'])})
         x += 6.5
 L['cars'] = CARS
-L['spawn'] = {'x': -30.0, 'z': 8.2, 'yaw': math.pi / 2, 'note': '南側人行道、面向東（往校門）'}
+L['spawn'] = {'x': -30.0, 'z': 7.4, 'yaw': math.pi / 2, 'note': '南側人行道、面向東（往校門）；z 8.2 → 7.4：原本離腳踏車架只有 10 cm，人物（半徑 0.32）站不住（tests/nav_us_unit.js 抓到）'}
 L['exits'] = [{'id': 'west', 'x': X0 + 1.5, 'z': 8.0, 'r': 1.6, 'label': '往市中心', 'to': None}, {'id': 'campus', 'x': X1 - 2.0, 'z': 0.0, 'r': 2.0, 'label': '進校園', 'to': None}]
 L['interact'] = [{'id': 'shop_' + b['kind'], 'x': round((b['x0'] + b['x1']) / 2, 2), 'z': round(b['front'] - (1 if b['front'] > 0 else -1) * (1.0 + b['setback']), 2), 'r': 1.2, 'label': b['shop']}
                  for b in BLDGS if b['kind'] in ('cafe', 'books', 'pizza', 'tea', 'bakery', 'noodle')]
@@ -94,8 +94,9 @@ def check(L):
     for k in ['spawn'] + ['exits']:
         pts = L[k] if isinstance(L[k], list) else [L[k]]
         for p in pts:
-            for b in L['blocks']:
-                if b['x0'] < p['x'] < b['x1'] and b['z0'] < p['z'] < b['z1']: bad.append((k, b['why']))
+            for b in L['blocks']:   # 出生點、出口離阻擋至少 0.4 m（人物的碰撞半徑 0.32 m＋格子）
+                dx = max(b['x0'] - p['x'], 0, p['x'] - b['x1']); dz = max(b['z0'] - p['z'], 0, p['z'] - b['z1'])
+                if math.hypot(dx, dz) < 0.4: bad.append((k, b['why']))
     for it in L['interact']:
         for b in L['blocks']:
             if b['x0'] < it['x'] < b['x1'] and b['z0'] < it['z'] < b['z1']: bad.append(('interact ' + it['id'], b['why']))
