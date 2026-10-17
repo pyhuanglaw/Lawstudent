@@ -791,6 +791,52 @@
       "doc": "docs/story_planning/AA_266_畢業後七月_最後一次的心意邀約.md",
       "sha": "979acf95",
       "summary": "畢業傍晚選讓我想想的人，7/14 最後一次"
+    },
+    {
+      "id": "AA267-POSTGRAD-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_267_畢業後篇尾聲口語改稿_AA與BB人物.md",
+      "sha": "55b95c6a",
+      "summary": "畢業後篇、大五上、尾聲口語改稿；國考結果、語彤結局等使用者"
+    },
+    {
+      "id": "AA268-TERMEND-SELF-INVITE",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_268_玩家自己約期末飯_三種句子.md",
+      "sha": "377bef12",
+      "summary": "玩家自己約期末飯：答應、自動婉拒、ended 婉拒"
+    },
+    {
+      "id": "AA269-V0-AUDIT",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_269_經濟系V0舊清單對帳_驗收短清單.md",
+      "sha": "1fb2e4cf",
+      "summary": "經濟系舊清單對帳、驗收短清單、手機小事重排"
+    },
+    {
+      "id": "AA270-HOOKS-C14C15",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_270_期末飯邀約鉤子_C14C15補句.md",
+      "sha": "caeaf97f",
+      "summary": "期末飯鉤子不接、傳日子、C15 沒去照片"
     }
   ]
 }
