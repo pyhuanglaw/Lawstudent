@@ -97,7 +97,7 @@ def tex_airlines(path):
 
 
 CITIES_D = [('東京/成田', 'TOKYO NARITA'), ('大阪/關西', 'OSAKA KANSAI'), ('舊金山', 'SAN FRANCISCO'), ('洛杉磯', 'LOS ANGELES'), ('首爾/仁川', 'SEOUL INCHEON'), ('香港', 'HONG KONG'),
-            ('新加坡', 'SINGAPORE'), ('曼谷', 'BANGKOK'), ('芝加哥', 'CHICAGO'), ('福岡', 'FUKUOKA'), ('沖繩/那霸', 'OKINAWA NAHA'), ('札幌', 'SAPPORO'), ('紐約', 'NEW YORK'), ('東京/羽田', 'TOKYO HANEDA')]
+            ('新加坡', 'SINGAPORE'), ('曼谷', 'BANGKOK'), ('芝加哥', 'CHICAGO'), ('福岡', 'FUKUOKA'), ('金邊', 'PHNOM PENH'), ('札幌', 'SAPPORO'), ('紐約', 'NEW YORK'), ('東京/羽田', 'TOKYO HANEDA')]
 
 
 def tex_fids(path, arrive=False):
@@ -108,10 +108,12 @@ def tex_fids(path, arrive=False):
     cols = [(20, '時間 Time'), (150, '航班 Flight'), (300, ('出發地 From' if arrive else '目的地 Destination')), (650, ('行李轉盤 Belt' if arrive else '櫃台 Counter')), (830, '備註 Remarks')]
     for x, t in cols: d.text((x, 64), t, font=fz, fill=(160, 170, 180))
     codes = ['LM', 'PK', 'NF', 'HJ']; t = 6 * 60 + 40 if not arrive else 5 * 60 + 10
+    # 寒暑假出國、交換會飛的地方一定要在看板上（AA-C 2026-10-17：C08 首爾、C09 柬埔寨、C10 加州、C11 東京、C12 京都＝大阪關西；美國交換經芝加哥），打散在前 13 列裡
+    MUST = [CITIES_D[k] for k in (4, 0, 10, 2, 1, 8, 3)]; r.shuffle(MUST); MUST = MUST + [None] * 6; r.shuffle(MUST); MUST = [m if m else r.choice(CITIES_D) for m in MUST]
     for i in range(13):
         y = 100 + i * 31
         if i % 2 == 0: d.rectangle([0, y - 3, W, y + 27], fill=(16, 20, 26))
-        t += r.choice([10, 15, 20, 25]); c = r.choice(codes); zh, en = r.choice(CITIES_D)
+        t += r.choice([10, 15, 20, 25]); c = r.choice(codes); zh, en = MUST[i] if i < len(MUST) else r.choice(CITIES_D)
         rem = r.choice((['已抵達 Landed', '準時 On Time', '準時 On Time', '延誤 Delayed', '提早 Early']) if arrive else ['準時 On Time', '準時 On Time', '登機 Boarding', '延誤 Delayed', '報到中 Check-in'])
         col = {'延誤': (240, 90, 70), '登機': (120, 220, 120), '已抵': (120, 220, 120)}.get(rem[:2], WHT)
         d.text((20, y), '%02d:%02d' % (t // 60 % 24, t % 60), font=fe, fill=WHT); d.text((150, y), '%s %d' % (c, r.randint(100, 899)), font=fe, fill=WHT)

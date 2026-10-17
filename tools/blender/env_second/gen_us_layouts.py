@@ -10,6 +10,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', '..')
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'src', 'data', 'us_layouts.js')
 SRC = [('US_COMMUNITY_LAYOUT', 'assets/models/env/second_ai/us_community.layout.json'),
        ('US_MARKET_LAYOUT', 'assets/models/env/second_ai/us_market.layout.json'),
+       ('US_ASIAN_MARKET_LAYOUT', 'assets/models/env/second_ai/us_asian_market.layout.json'),   # 大超市對面的小亞洲超市（使用者 2026-10-17 23:0x；us_asian_market_layout_gen.py）
        ('AIRPORT_T2_LAYOUT', 'assets/models/env/second_ai/airport_t2.layout.json')]
 parts = ['/* ===== 美國交換（公寓社區戶外）、桃園機場第二航廈的配置：tools/blender/env_second/gen_us_layouts.py 產生，不要手改 =====\n'
          '   來源：' + '、'.join(p for _, p in SRC) + '、src/data/us_apartment_layout.js（Blender 正式模型讀同一份）。\n'

@@ -10,7 +10,8 @@
 | `us_outside` | 公寓社區戶外（三棟兩層樓、停車場 28 台車、樹林、**會所**） | 社區入口（登機抵達）、B 棟東邊樓梯口「回公寓」→ 公寓、C 棟樓梯口「上樓（C 棟 208）」→ 合租戶、停車場南邊會所門廊下「會所」（`usClub:'door'`，看得到說明；裡面不做 3D：會所的晚餐是 2D）、入口「出門（去超市）」→ 超市 |
 | `us_apartment` | 祐廷的單人戶 214＋門外的樓梯平台 | 平台 → 大門 → 走道 → 客廳（沙發、單人沙發、吧台高腳椅）／廚房（冰箱、爐子）／臥室（「睡覺」、書桌）／陽台；平台東端「出門」→ 社區 |
 | `us_shared` | 學姊她們的 C 棟 208（三人合租，US2 的共用廚房；BB_217） | 同一套格局：獨立廚房（冰箱上的手寫輪值表＋便條、爐子）、窗口吧台＋兩張高腳椅（坐下＝US2 開始的地方）、客廳；臥室 A、B、C 三扇門關著（門牌 A／B／C、白板、海報、貼紙）；生活痕跡（沙發上的毯子、沒收完的行李箱、半乾的盆栽、米袋、醬油、三種碗）；「出門」→ 社區 C 棟樓梯口 |
-| `us_market` | 草原超市 Prairie Basket | 入口 → 蔬果、乳製品（牛奶、蛋）、熟食、冷凍、八條走道、結帳 →「離開超市」→ 社區入口 |
+| `us_market` | 草原超市 Prairie Basket | 入口 → 蔬果、乳製品（牛奶、蛋）、熟食、冷凍、八條走道、結帳 →「離開超市」→ 社區入口；出口旁「過馬路（對面的亞洲超市）」→ 亞洲超市 |
+| `us_asian_market` | **對面的小亞洲超市「竹葉亞洲超市」**（虛構；使用者 23:0x） | 門口 → 四排貨架（泡麵＝`usMarket:'asia_noodles'`，US1 的台灣泡麵；醬料；零食餅乾；乾貨茶葉）、西牆的米、東牆青菜豆腐、北牆冷凍水餃、飲料冰箱、結帳櫃台（紅燈籠、月曆）；正面玻璃看得到馬路對面的草原超市；「過馬路（回大超市）」→ 大超市、「回社區（搭公車）」→ 社區入口 |
 
 - 檔案：`src/us3d.js`（新，US3）、`src/data/us_layouts.js`（新，`tools/blender/env_second/gen_us_layouts.py` 產生：社區、超市、機場、單人戶、合租戶五份配置）、`index.html` 兩行（`exchange3d.js` 後面）、`src/assets3d.js` 第二個 AI 區塊七筆。
 - 模型：`assets/models/env/second_ai/` 的 `us_apartment.glb`、`us_shared.glb`（新）、`us_community.glb`、`us_cars.glb`、`us_market.glb`、`airport_dep.glb`、`airport_arr.glb`——**都在 LAWWW2-C 分支 `claude/focused-cray-c9uwvw`，LAWWW-C 的分支上還沒有**：`git checkout origin/claude/focused-cray-c9uwvw -- assets/models/env/second_ai/{us_apartment,us_shared,us_community,us_cars,us_market,airport_dep,airport_arr}.glb`（沒有 GLB 也能玩：用程序化的備用模型）。
@@ -18,6 +19,7 @@
 - 和 LAWWW-C 的交換系統（`src/exchange3d.js`，EXCH）：這個檔後載入，同名蓋過它的臨時場景；載入時寫 `EXCH.SPAWN`（出發＝下車處、抵達＝社區入口、睡醒／凌晨走回公寓＝臥室床尾）；機場安檢入口是它的 `exchFly`；公寓「睡覺」（`sleep:true`）、「出門」；社區「回公寓」。
 - 給交換系統接的欄位：`usGoOut`（社區「出門」）、`usShared`（C 棟門口 `door`、合租戶的冰箱 `chores`、爐子 `stove`、高腳椅 `bar`：US2 的演出）、`usMarket`（超市每個互動的 id：`dairy`＝US1「看蛋的日期」、`aisle_snacks`＝零食區……）、`US3.SPAWN`（各區域的出生點；`us_shared_kitchen`＝廚房裡學姊站爐子前那一側）、`US3.C208`（C 棟樓梯口）、`US3.SPAWN.us_clubhouse`（會所門口的走道、面向停車場：會所裡的 2D 演完回到社區站這裡）。
 - **US2 的道具**（BB_217：鍋子＋長筷子、紅色和黃色兩包沒有字的泡麵、三個碗、吧台上祐廷那一側的英文報告＋紅筆圈）：平常藏著；交換系統演出時呼叫 `GAME.E.zone.us2(true)`（合租戶區域；模型還沒載入時先記著，載入後照開關），演完 `us2(false)`。
+- **機場是通用的**（使用者 23:0x「寒暑假出國都用的到機場，不只有交換學生」；LAWWW-C 同意）：安檢入口在交換出發那一趟（`flags.US_DEPARTED && !US_ARRIVED`）是 `exchFly` 的「登機：飛往美國」，其他時候是通用的 `{label:'登機', airportBoard:true}`（寒暑假系統 VAC 出發時攔下來換成自己的字卡；沒人攔只顯示「今天沒有要搭的飛機」）；出國 `US3.SPAWN.airport_dep`、回國 `US3.SPAWN.airport_arr`。機場不放目的地資料、不判斷誰要出發。看板加了金邊（C09 柬埔寨），首爾、東京、大阪關西、舊金山、洛杉磯、芝加哥本來就有。
 - 測試入口（開發用）：網址加 `?usdemo`，進遊戲以後左上角「美國篇（測試）」→ 機場出境大廳。正式入口是交換系統（大四上 8/2 出發）。
 
 ## 測試（手機模擬：Playwright＋SwiftShader，iPhone 橫向、CDP 觸控；**不是真機**）
@@ -43,7 +45,7 @@
 
 ## 還沒有的（老實說）
 - **劇情**：US1～US4 的演出、送機、返台（12/23）、美國的課、出遊都還沒接（LAWWW-C 的交換系統）；這次只有場景走得進去。
-- 超市沒有亞洲食品走道（US1「台灣泡麵」放哪一條要企劃或 LAWWW-C 決定）。
+- 超市前的停車場、馬路還不是走得到的戶外：大超市和亞洲超市之間現在是「過馬路」直接接過去（第二階段做成真的走過去）。
 - 公車站、美國校園、主街沒有接成區域（BB_215：公車站、校園先不做 3D，主街不需要）。
 - 季節：社區的樹、草是夏末的綠；12/2 以後的雪只有公寓窗外和陽台有（社區戶外、超市窗外還沒有）。
 - 場景美術要使用者看過才標 `ART_APPROVED`；沒有真機測試。
