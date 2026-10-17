@@ -7404,8 +7404,8 @@
    "sha": "0e191286",
    "what": "家豪美食地圖筆記本第二版（A6、手寫標籤；掛左前臂 leftLowerArm，GLB 載入時對手骨頭定位）＋props_foodmap_jiahao.js；取代 0621bea6",
    "task": "ART-JIAHAO-FOODMAP",
-   "integration": "未整合",
-   "note": "BB-C 20:01 配件這一關通過（BB_201 13-1、5d3983e3）；接好要給 BB-C 白天站著、走路的遊戲內截圖再標 ART_APPROVED"
+   "integration": "已整合待測試",
+   "note": "BB-C 20:01 配件這一關通過（BB_201 13-1、5d3983e3）；接好要給 BB-C 白天站著、走路的遊戲內截圖再標 ART_APPROVED；2026-10-17 20:3x LAWWW-C 接進 props3d（foodmap，左前臂）＋MODEL_PROPS；截圖待拍"
   },
   {
    "date": "2026-10-17",
@@ -7417,8 +7417,8 @@
    "sha": "91ca1bca",
    "what": "品妤工程計算機 calc_engineering.glb、黑色保溫瓶 thermos_black.glb＋props_pinyu.js（保溫瓶第二版 2ef1ca4b）",
    "task": "ART-PINYU-PROPS",
-   "integration": "未整合",
-   "note": "BB-C 20:01：還在改，先不要接；平常 props 只放 thermos，計算機留給事件"
+   "integration": "已整合待測試",
+   "note": "BB-C f331e153 配件通過（保溫瓶第二版 2ef1ca4b）；LAWWW-C 接進 props3d（thermos 右前臂、calc 左前臂留給事件），平常只拿 thermos；截圖待拍"
   },
   {
    "date": "2026-10-17",
@@ -7432,6 +7432,19 @@
    "task": "SCN-V5-02",
    "integration": "未整合",
    "note": "G6 校級典禮事件做的時候接（D81：大四尾聲）；法律學院典禮用既有 linze_auditorium"
+  },
+  {
+   "id": "DL-LAWWW2-05c57da1",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "05c57da1",
+   "what": "曾品妤第六版 bl_econ_pinyu.vrm（袖子蓋到手背，BB-C ed0d36bc 第 3 點）",
+   "task": "ART-PINYU-PROPS",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 接進 manifest char.econ_pinyu＋CHARACTERS.econ_pinyu.char3d.model；等 BB-C 看遊戲內截圖（站著、走路）標 ART_APPROVED"
   }
  ],
  "ignored": [

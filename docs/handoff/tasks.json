@@ -16089,9 +16089,9 @@
    "title": "宋家豪「公館美食地圖」筆記本拿在手上（BB_109 識別物、BB_201）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "接 0e191286（PROPS.DEF.foodmap={bone:leftLowerArm,make}＋manifest＋econ_jiahao props）；拍白天站著、走路給 BB-C 標 ART_APPROVED",
+   "next": "拍家豪白天站著、走路的遊戲內截圖給 BB-C 標 ART_APPROVED",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -16113,16 +16113,17 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "0e191286"
+   "sha": "0e191286",
+   "evidence": "tests/v0_econ_chars_unit.js 第 6 項"
   },
   {
    "id": "ART-PINYU-PROPS",
-   "title": "品妤的保溫瓶（平常拿）、工程計算機（事件用）",
+   "title": "品妤第六版 3D 接進遊戲＋保溫瓶（平常拿）、工程計算機（事件用）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "BB-C 通過後接 props_pinyu.js；props 平常只放 thermos",
+   "next": "拍品妤白天站著、走路的遊戲內截圖給 BB-C 標 ART_APPROVED；計算機等上課／讀書／考試事件用 CHAR.setProp",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -16135,8 +16136,8 @@
    },
    "source": "LAWWW2-C 19:54／20:06（91ca1bca、2ef1ca4b）",
    "authorized": "D59（BB 驗收）",
-   "pausedReason": "BB-C 還在改",
-   "resumeWhen": "BB-C 通過",
+   "pausedReason": null,
+   "resumeWhen": null,
    "xai": {
     "spec": "BB_201",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16144,7 +16145,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "2ef1ca4b"
+   "sha": "05c57da1",
+   "evidence": "tests/v0_econ_chars_unit.js 第 6 項"
   }
  ]
 }
