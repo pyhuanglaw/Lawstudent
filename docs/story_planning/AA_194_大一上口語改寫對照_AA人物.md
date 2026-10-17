@@ -1,7 +1,7 @@
 # AA_194　大一上口語改寫對照（AA 的人物，逐學期第一批）
 
 > AA-B，2026-10-16 20:4x（UTC）起。依據：使用者 20:3x 正式決定（`AA_193`）、準則 `AA_188`、`AA_189`（再修後）、`AA_190`（上下文 75 項）。
-> 狀態：**AA-B 改完，等 BB-B 互審**，互審後交 LAWWW-B。改的是企劃檔 `ladder/build_ladder_aa.py`→`ladder_aa.json`；開發分支的 `ladder.js` 由 LAWWW-B 同步。
+> 狀態：~~AA-B 改完，等 BB-B 互審~~ → **定稿：BB 互審通過（6e94d8d7），已交 LAWWW（2026-10-17 AA-C 更新檔頭）**。改的是企劃檔 `ladder/build_ladder_aa.py`→`ladder_aa.json`；開發分支的 `ladder.js` 由 LAWWW-B 同步。
 > 不動：層數、id、條件（`if`、週次、地點）、選項數量、記憶與關係數值（除非下表另外寫）。要回退：看這張表的「原句」，或 git 上一個版本。
 
 ## 1. 以安（heroine_01）大一上
