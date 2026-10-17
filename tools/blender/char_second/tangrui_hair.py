@@ -1,7 +1,8 @@
 """唐睿（econ_tangrui）的髮型（參考圖 tangrui.webp：黑色蓬鬆捲髮，一圈一圈、整顆頭比較大、瀏海捲捲的蓋到眉毛、兩側也蓬、耳朵上半蓋住）。
 LAWWW2-C 2026-10-17 第一版：沿用阿哲的 zhe_hair（蓬亂短髮的髮殼、層次髮片、瀏海、頭頂翹的短髮束），改：
 顏色＝黑（受光處 #2c2826）、亂數種子不同、整體更蓬（頭頂 +6 mm、兩側不貼頭：側邊收的比例 0.55 → 0.30）。
-第二版：加螺旋的捲髮束（curl_card：沿頭皮往下一小段、繞著轉 1～1.6 圈；整顆頭 150 撮＋前額 16 撮），外層直髮片 40 → 14、上層直瀏海拿掉——第一版正面看是直髮的碗蓋頭。"""
+第二版：加螺旋的捲髮束（curl_card：沿頭皮往下一小段、繞著轉 1～1.6 圈；整顆頭 150 撮＋前額 16 撮），外層直髮片 40 → 14、上層直瀏海拿掉——第一版正面看是直髮的碗蓋頭。
+第三版：捲髮束 220＋26 撮、半徑 9～13 mm、離頭皮遠一點（量感）；底層直瀏海也拿掉、前額內層變短（第二版前額還是一排直的髮尾）。"""
 import math, os
 import numpy as np
 import bpy
@@ -129,7 +130,7 @@ def apply(m):
 
     for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊（兩側長到 85%：太陽穴、鬢角要蓋滿，不能只靠外層透明的髮尾）
         a = -180 + 360 * (k + 0.5) / 56 + rng.uniform(-1.5, 1.5); aa = az(a)
-        card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa))))), 0.0015, 1.7, 'card')
+        card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa)))) * (0.35 + 0.65 * float(sstep(30, 60, aa)))), 0.0015, 1.7, 'card')   # 唐睿第三版：前額的內層短一點（直的髮尾會從捲髮下面露出來）
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
         card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.8, 1.0), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
@@ -150,7 +151,7 @@ def apply(m):
     # ---- 3. 瀏海：分線兩邊各自往外撥，一撮一撮、長短不一 ----
     # 第二版：分兩層。底層寬、短一點（蓋住額頭，不透出皮膚）；上層一撮一撮、長短不一（有的到眼睛上緣）、離開額頭一點、從分線往兩邊撥
     # （第一版 14 片同樣長度的窄髮片：正面看像一排梳齒）
-    for k in range(5):         # 阿哲：底層 10 → 5 片、窄、短（第一、二版正面看是一整片蓋住額頭的瀏海，像碗蓋）
+    for k in range(0):         # 唐睿第三版：底層直瀏海也拿掉（前額全部用捲髮束）
         a = -40 + 80 * (k + rng.uniform(0.3, 0.7)) / 5
         card(a, 0.62 + rng.uniform(0, 0.08), v_tip(a) + rng.uniform(0.04, 0.08), 0.008 + 0.001 * rng.random(), rng.uniform(1.4, 1.7), 'bang',
              nseg=16, bulge=0.005, arch=0.08, curl=(1.0 if a > PART else -1.0) * rng.uniform(2, 6))
@@ -166,7 +167,7 @@ def apply(m):
     def curl_card(a, v0, v1, rad, turns, width, phase, reg='cardB', n=20):
         vv = np.linspace(v0, v1, n + 1); base = []; Dn = []
         for v in vv:
-            p, d = surf(a, v, 0.006 + rad); base.append(p); Dn.append(d)
+            p, d = surf(a, v, 0.010 + 1.2 * rad); base.append(p); Dn.append(d)
         base = np.array(base); Dn = np.array(Dn); T = tangents(base); Bv = _unit(np.cross(Dn, T))
         t = np.linspace(0, 1, n + 1); phi = phase + 2 * math.pi * turns * t
         r = rad * (0.35 + 0.65 * sstep(0.0, 0.2, t)) * (1 - 0.35 * t)
@@ -175,13 +176,13 @@ def apply(m):
         Tn = tangents(P); side = _unit(np.cross(Dn, Tn))
         mb.ribbon(P, side, Dn, width * (1.0 - 0.55 * t), reg, 'head', np.zeros(len(P)), arch=0.22, tt=t)
     n0 = len(mb.F); ncurl = 0
-    for k in range(150):       # 整顆頭：方位角均勻、起點的 v 隨機（頭頂到髮際線），每撮往下 0.18～0.32
-        a = -180 + 360 * (k + rng.uniform(0.0, 1.0)) / 150; aa = az(a)
+    for k in range(220):       # 整顆頭：方位角均勻、起點的 v 隨機（頭頂到髮際線），每撮往下 0.18～0.32（第三版 150 → 220、半徑加大）
+        a = -180 + 360 * (k + rng.uniform(0.0, 1.0)) / 220; aa = az(a)
         v0 = rng.uniform(0.18, 0.92); v1 = max(v_tip(a) * (0.6 if aa < 40 else 0.9), v0 - rng.uniform(0.18, 0.32))
-        curl_card(a, v0, v1, rng.uniform(0.006, 0.009), rng.uniform(1.0, 1.6), rng.uniform(0.014, 0.020), rng.uniform(0, 2 * math.pi)); ncurl += 1
-    for k in range(16):        # 前額：捲的瀏海（從 v 0.45 附近垂到眉毛上面）
-        a = -42 + 84 * (k + rng.uniform(0.2, 0.8)) / 16
-        curl_card(a, rng.uniform(0.35, 0.55), v_tip(a) + rng.uniform(0.0, 0.05), rng.uniform(0.007, 0.010), rng.uniform(1.1, 1.7), rng.uniform(0.016, 0.022), rng.uniform(0, 2 * math.pi), reg='bang'); ncurl += 1
+        curl_card(a, v0, v1, rng.uniform(0.009, 0.013), rng.uniform(1.0, 1.6), rng.uniform(0.016, 0.024), rng.uniform(0, 2 * math.pi)); ncurl += 1
+    for k in range(26):        # 前額：捲的瀏海（從 v 0.45 附近垂到眉毛上面；第三版 16 → 26）
+        a = -48 + 96 * (k + rng.uniform(0.2, 0.8)) / 26
+        curl_card(a, rng.uniform(0.35, 0.55), v_tip(a) + rng.uniform(0.0, 0.05), rng.uniform(0.009, 0.012), rng.uniform(1.1, 1.7), rng.uniform(0.018, 0.024), rng.uniform(0, 2 * math.pi), reg='bang'); ncurl += 1
     print('  hair(tangrui): curl clumps %d faces %d' % (ncurl, len(mb.F) - n0))
 
     # ---- 4. 物件、材質、權重 ----
