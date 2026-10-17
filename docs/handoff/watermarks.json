@@ -1,0 +1,47 @@
+{
+ "version": 1,
+ "note": "四職位已核對水位線（使用者 2026-10-17 P0 交接制度效能改善）：sha 以前的 commit 已核對過、不重掃；以後的每個非合併 commit 都要有結構化分類（deliveries／ignored kind／outbox／tasks.sha）。只有 check_handoff.py incr --advance 在全部分類、沒有異常、已 commit＋push 時才前進；history 留每一次的舊值。LAWWW 的 classify=false：值班 LAWWW 自己的整合分支不逐筆分類（成果直接寫在 tasks.json），但祖先關係、未結項目照查。基準＝帳號 B 交班時逐筆核對 255 筆的結果（WIP_INVENTORY_2026-10-17.md）。",
+ "roles": {
+  "LAWWW": {
+   "branch": "claude/modest-rubin-2lyp7g",
+   "sha": "bd1ea4ddfd16b6e4a579c92d350f0c8151c1c1df",
+   "at": "2026-10-17T03:14Z",
+   "by": "LAWWW-C（接班查核）",
+   "scanned": null,
+   "evidence": "帳號 B LAWWW 最後一個 commit（交班＋交接補強＋使用者授權補記）；LAWWW-C 接班時查核、合併成 bfd5f40d",
+   "open": [],
+   "history": [],
+   "classify": false
+  },
+  "LAWWW2": {
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "2d88db5feca738887c92313ec6eb5b0ea9a70f59",
+   "at": "2026-10-17T03:14Z",
+   "by": "LAWWW-B（交接補強）",
+   "scanned": null,
+   "evidence": "帳號 B 交接補強逐筆核對 16 筆（bbb4301b）＋deliveries scannedThrough；d3eeb8bb 已 push",
+   "open": [],
+   "history": []
+  },
+  "AA": {
+   "branch": "claude/cool-heisenberg-o8kuqx",
+   "sha": "ec63dd53bf31143de68b11b4901409588ecd3121",
+   "at": "2026-10-17T03:14Z",
+   "by": "LAWWW-B（交接補強）",
+   "scanned": null,
+   "evidence": "帳號 B 交接補強逐筆核對 126 筆（c02a440e、1af66e42）＋scannedThrough；d3eeb8bb 已 push",
+   "open": [],
+   "history": []
+  },
+  "BB": {
+   "branch": "claude/elegant-brown-fcos7n",
+   "sha": "55717c12003d94c055e7202562d38950e6590b4e",
+   "at": "2026-10-17T03:14Z",
+   "by": "LAWWW-B（交接補強）",
+   "scanned": null,
+   "evidence": "帳號 B 交接補強逐筆核對 113 筆（558f381b）＋scannedThrough；d3eeb8bb 已 push",
+   "open": [],
+   "history": []
+  }
+ }
+}

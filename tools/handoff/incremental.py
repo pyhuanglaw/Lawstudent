@@ -139,6 +139,10 @@ def wip_problems(w, tasks, root=None):
             for s in re.split(r'[、,\s]+', x['sha']):
                 if s and _git(root, 'cat-file', '-e', s + '^{commit}')[0] != 0:
                     out.append(f'WIP {i}：commit {s} 找不到（先 fetch；被改寫的話要追查）')
+            s0 = re.split(r'[、,\s]+', x['sha'])[0]
+            for f in x.get('files') or []:   # 檔案要能在那個 commit 找到（定位得到才算找得回來）
+                if not f.endswith('/') and _git(root, 'cat-file', '-e', f'{s0}:{f}')[0] != 0:
+                    out.append(f'WIP {i}：{f} 在 {s0} 找不到')
     return out
 
 
@@ -233,6 +237,9 @@ def scan(root, wm, dv, tasks, duty, remote=True, outboxes=None, roles=None):
         lst = [l for l in lines.splitlines() if l]
         r['new'] = int(total or 0)
         r['scanned'] = len(lst)
+        if w.get('classify') is False:   # 值班 LAWWW 的整合分支：不逐筆分類（成果寫在 tasks.json），祖先與未結項目照查
+            r['classified'] = len(lst)
+            lst = []
         for l in lst:
             s, subj = l[:40], l[41:]
             if s[:7] in bad_ignored:

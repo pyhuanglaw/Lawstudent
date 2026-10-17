@@ -8512,6 +8512,49 @@
    "kind": "not_delivery",
    "reason": "BB_00 進度紀錄（BB_181 裁定結果、大二上 BB 階梯改由 AA 分支維護）",
    "why": "BB_00 進度紀錄"
+  },
+  {
+   "sha": "edd6fa8a",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "why": "LAWWW2-C 接班登記（duty register）",
+   "reason": "LAWWW2-C 接班登記（duty register）"
+  },
+  {
+   "sha": "df71ec95",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "not_delivery",
+   "why": "LAWWW2 半成品六項核對紀錄（HANDOFF.md），已收進 wip.json",
+   "reason": "LAWWW2 半成品六項核對紀錄（HANDOFF.md），已收進 wip.json"
+  },
+  {
+   "sha": "1b8160a1",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "why": "AA-C 接班登記",
+   "reason": "AA-C 接班登記"
+  },
+  {
+   "sha": "ad1ee0aa",
+   "branch": "origin/claude/wonderful-mayer-7fm9g6",
+   "kind": "handoff_record",
+   "why": "BB-C 接班登記",
+   "reason": "BB-C 接班登記"
+  },
+  {
+   "sha": "61685dd6",
+   "branch": "origin/claude/wonderful-mayer-7fm9g6",
+   "kind": "not_delivery",
+   "why": "給使用者的生圖提示詞清單（S3 四張），成品是 f80f574c＝DL-BB-f80f574c",
+   "reason": "給使用者的生圖提示詞清單（S3 四張），成品是 f80f574c＝DL-BB-f80f574c"
+  },
+  {
+   "sha": "0487e9fb",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "wip",
+   "why": "AA_212 AB65-5 裁定、派 BB-C 重排 A-4／A-5（wip.json WIP-AA-212-AB655）",
+   "task": "AB65-5",
+   "reason": "AA_212 AB65-5 裁定、派 BB-C 重排 A-4／A-5（wip.json WIP-AA-212-AB655）"
   }
  ]
 }
