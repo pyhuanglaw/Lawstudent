@@ -125,7 +125,7 @@ const CAMP_Y1_EVENTS=[
   { id:'ev_camp_d1_party', stage:'any', title:'迎新宿營：迎新晚會', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・餐廳',bg:'econ_camp'},
       {speaker:'classmate_xinci',text:'（看了一下手機）晚會七點，在草地。'},   /* AA_205 3-2（10-17 補宿營版）*/
-      {scene:'營地・迎新晚會',bg:'econ_camp'},
+      {advance:1.5},{scene:'營地・迎新晚會',bg:'econ_camp'},   /* 18:00 晚餐 → 19:30 晚會（AA_205 6-14 程式 4）*/
       {speaker:null,text:'（晚會是學長姐的場子。隊輔劇演的是系上的老師，台下笑得最大聲的是大二。）'},
       {speaker:null,text:'（學長姐跳舞的時候，凱文跟著小聲唱，歌詞一句都沒漏。）'},
       {inc:{CAMP_MOLE_CLUE:1},set:{CAMP_CLUE2:true}} ] },
@@ -152,7 +152,7 @@ const CAMP_Y1_EVENTS=[
   { id:'ev_camp_d2_quiz', stage:'any', title:'迎新宿營：法律闖關', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地的空地',bg:'econ_camp'},
       {speaker:null,text:'（七點早操。阿哲最後一個到，外套穿反了。）'},
-      {scene:'營地的教室',bg:'econ_camp_room'},
+      {advance:2},{scene:'營地的教室',bg:'econ_camp'},   /* 07:00 早操 → 09:00 闖關；背景不用八人寢室（6-14 程式 4）*/
       {speaker:'關主學長',text:'這關很簡單。我念一個故事，你們討論五分鐘，派一個人上來講你們覺得怎樣。沒有標準答案。'},
       {speaker:'關主學長',text:'便利商店的店員把一瓶三千塊的紅酒，標價標成三百。你拿去結帳，店員刷了三百，你付了錢。隔天店長打電話給你，說標錯了，要你把酒拿回來，或是補兩千七。你要還嗎？'},
       {speaker:null,text:'（小隊圍成一圈。）'},
@@ -236,7 +236,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:'classmate_peishan',text:'（小聲）難怪他夜遊都不用看地圖。'},
       {speaker:null,text:'（柏翰把手上的名牌翻過來看，好像背面會寫答案。）'},
       {speaker:'zhe',text:'……所以充電線要還學長嗎？'},
-      {if:{flags:['CAMP_MOLE_GUESSED']},speaker:null,text:'回到隊伍時，Kevin 經過你旁邊，小聲說：「你問我的時候，我差點就承認了。」'},
+      {if:{flags:['CAMP_MOLE_GUESSED']},speaker:null,text:'（回到隊伍時，Kevin 經過你旁邊，小聲說：「你問我的時候，我差點就承認了。」）'},   /* 6-14 程式 6：旁白加括號 */
       {set:{CAMP_MOLE_REVEALED:true}} ] },
 
   /* 8/23 22:30 夜談（AA_205 6-8 開頭聊臥底；接 AA_195 4-10 的明軒「你幾年次的」三選一，一字不改）*/
@@ -294,7 +294,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（結業式很短。系學會會長說了一句「開學見」，大家就去搬行李了。）'},
       {scene:'遊覽車上',bg:'car'},
       {speaker:null,text:'（回程的車上，大部分的人都睡著了。阿哲睡得最早。）'},
-      {scene:'臺大校門口',bg:'dark'},
+      {advance:2},{scene:'臺大校門口',bg:'dark'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
       {speaker:null,text:'（十二點半，遊覽車停在校門口。大家拖著行李，往不同的方向走。）'},
       {speaker:'zhe',text:'我先回高雄，29 號再上來搬宿舍。'},
       {choice:[{text:'「好，開學見。」'},{text:'「這麼遠還跑一趟？」',goto:'far'}]},

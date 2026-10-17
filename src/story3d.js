@@ -774,7 +774,7 @@ const STORY = (function(){
     const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
-    if(it.teaTable){ await S.teaTable(GM); return true; }   /* 9/2 新生茶會：窗邊家族那一桌 */
+    if(it.teaTable){ if(GM.G.flags.TEA_STEP>=3) await S.teaKevin(GM); else await S.teaTable(GM); return true; }   /* 9/2 新生茶會：窗邊家族那一桌（學姊那段以後：Kevin 一句）*/
     if(it.exit&&await S.teaLeave(GM,it)) return true;   /* 19:10 以前想走（BB_168 第 7 節第 4 步）*/
     if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; } if(it.wzShop&&typeof WZS!=='undefined'){ await WZS.interact(GM,it); return true; }   /* 溫州街三家店的選單（AA_172）*/   /* 溫州街小公園（AA_171）*/
     if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/
@@ -974,7 +974,9 @@ const STORY = (function(){
     if(!F.TEA_REMIND&&hr>=17.5&&hr<18.5){ F.TEA_REMIND=true; if(GM.toast) GM.toast('手機｜提醒：18:30 新生茶會（萬才館一樓大廳）',4200); GM.setGoal('18:30 新生茶會（萬才館一樓大廳）'); }   /* AA_195 4-5：9/2 下午 17:30 手機提醒 */
     if(G.zone==='wancai'&&!F.TEA_STEP&&hr>=18.5&&hr<20.5&&!F.met_sis){ void S.teaSignIn(GM); return true; }
     if(G.zone==='wancai'&&F.TEA_STEP===1&&!F.met_sis&&!F.TEA_LEFT&&!F.TEA_WAVE&&hr>=19+10/60&&hr<20.5&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!(GM.D&&GM.D.active)){ F.TEA_WAVE=true; void S.teaWave(GM); return true; }   /* AA_205 6-14⑤：19:10 學姊到了，還沒走到家族那一桌的 */
-    if(G.zone==='wancai'&&F.TEA_STEP===1) S.teaSpot(GM); return false; };
+    if(G.zone==='wancai'&&(F.TEA_STEP===1||(F.TEA_STEP>=3&&hr<20.5))) S.teaSpot(GM); return false; };
+  /* 茶會以後（BB_168 第 7 節「之後」）：Kevin 還在，找他說話只有一句（選①考古題的「晚上丟」；其他人「有問題都可以問我」）*/
+  S.teaKevin=async function(GM){ const F=GM.G.flags; GM.sceneBegin(); try{ await teaLines(GM,[KV(F.TEA_EXAM===1?'考古題晚上丟喔，記得看群組。':'有問題都可以問我，學姊比較忙。')]); } finally { GM.sceneEnd(); } return true; };
   S.teaWave=async function(GM){ const F=GM.G.flags; GM.sceneBegin(); try{ await teaLines(GM,['（七點十分，Kevin 在家族那一桌朝你招手。）',KV('學弟，過來一下。')]); } finally { GM.sceneEnd(); } F.TEA_STEP=2; return S.teaSis(GM); };
   /* BCG-46 期末合照（BB_132 第 69 組、CG 清單）：照片裡另外八個人（明軒、宥辰、柏翰、阿哲、沛珊、小語、以安、芯慈）至少五位 FRIEND 以上 */
   S.CLASS_PHOTO_IDS=['classmate_mingxuan','classmate_youchen','classmate_bohan','zhe','classmate_peishan','yu','heroine_01','classmate_xinci'];

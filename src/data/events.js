@@ -463,6 +463,14 @@ const STORY_EVENTS=[
       {unless:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'阿哲負責烤。'},
       {cg:'cg_midautumn_riverside'},   /* CG-14 中秋的河濱（BB 2026-10-14 ART_APPROVED）：去烤肉的玩家都有，從這一句起 */
       {speaker:null,text:'你被分到顧火。火一直熄。'},
+      {if:{flags:['ZHE_CALLS_GE']},goto:'ge_after'},   /* AA_195 4-9（CAMP-FIX-614 程式 7）：到中秋烤肉還沒有「哥」的玩家（夜談選「跟你們一樣啦」），阿哲問同一段；選項、效果同夜談 */
+      {speaker:'zhe',text:'欸，你幾年次的？感覺你比我們大一點。'},
+      {choice:[{text:'「我大一歲。」',goto:'ge_old'},{text:'「我念過一年經濟，重考的。」',unless:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_econ'},{text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'ge_said'},{text:'「跟你們一樣啦。」',goto:'ge_same'}]},
+      {label:'ge_old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},
+      {label:'ge_econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},{goto:'ge_after'},
+      {label:'ge_said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'ge_after'},
+      {label:'ge_same'},{speaker:'zhe',text:'好喔。'},
+      {label:'ge_after'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_01',G)},speaker:null,text:'以安帶了一張「烤肉時間表」。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('heroine_03',G)},speaker:null,text:'語彤帶了阿姨醃的肉。全場最好吃。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_bohan',G)},speaker:null,text:'柏翰帶了考古題，被沒收了。'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('classmate_bohan',G)},set:{BBQ_BOHAN_SEIZED:true}},

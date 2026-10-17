@@ -15,17 +15,17 @@ global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/activities.js','src/data/characters.js','src/data/events.js','src/data/camp_y1.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js']) load(f);
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},setBg(){},hide(){},slots:{}}; global.CHAR={setExpr(){}};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-let G=null, said=[], cards=[], picks=[], entered=[];
+let G=null, sayHr={}, said=[], cards=[], picks=[], entered=[];
 const P={busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0};
 const GM={get G(){ return G; },E:{q:{level:'medium'},player:P,zone:{roomAt:()=>null,seats:[]},npcs:[],extras:[],interactables:[{deskStudy:true,seat:{x:1.8,z:-1.9,yaw:Math.PI}}],levels:null,setWeather(){},endCinematic(){},cam:{distTarget:0}},D:{active:false,busyDepth:0},npc:{},
   advance(h){ G.hour+=h; },sitAt(p,seat){ GM.sat=seat; },standUp(){ GM.stood=true; },rel(id,n){ GM.rels=(GM.rels||[]).concat([[id,n]]); },
   sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){ GM.saves=(GM.saves|0)+1; },energy(){},money(){},setGoal(g){ G.goal=g; },toast(){},updateHUD(){},letterbox(){},fade:()=>Promise.resolve(),
   titleCard:async(a,b)=>{ cards.push(a+'｜'+(b||'')); },
-  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); },
+  say:async(who,t)=>{ said.push(typeof who==='string'?who+'：'+t:(who&&who.name?who.name+'：'+t:t)); if(G&&/晚會是學長姐的場子|這關很簡單|十二點半，遊覽車停在校門口/.test(t)) sayHr[t.slice(0,6)]=G.hour; },
   choose:async opts=>{ if(GM.prefer){ const k=opts.findIndex(o=>GM.prefer.some(w=>o.t.indexOf(w)>=0)); if(k>=0) return k; } const want=picks.shift(); if(want==null) return 0; const k=opts.findIndex(o=>o.t.indexOf(want)>=0); return k<0?0:k; },
   enter:async(z,sp)=>{ entered.push(z); G.zone=z; }};
 const fresh=()=>{ G={day:1,weekday:3,hour:21.2,zone:'dorm',stage:'law',name:'祐廷',money:22000,flags:{},choices:{},events:{done:{},last:{},count:0},rel:{},social:null,msgs:[],goal:''};
-  SOCIAL.bind(G); EVENTS.bind(GM); if(INV.bind) INV.bind(G); said=[]; cards=[]; picks=[]; entered=[]; GM.saves=0; };
+  SOCIAL.bind(G); EVENTS.bind(GM); if(INV.bind) INV.bind(G); said=[]; sayHr={}; cards=[]; picks=[]; entered=[]; GM.saves=0; };
 const flush=()=>new Promise(r=>setTimeout(r,10));
 const day=k=>STORY.dayOfKey(k);
 (async()=>{
@@ -37,6 +37,7 @@ const day=k=>STORY.dayOfKey(k);
   check('A1. 12 段都演完（events.done）、CAMP_Y1、沒有 campStep',STORY.CAMP_SEQ.every(([id])=>G.events.done[id])&&F.CAMP_Y1===true&&F.campStep==null,STORY.CAMP_SEQ.filter(([id])=>!G.events.done[id]).join());
   check('A2. 字卡：8/22 迎新宿營、第 2 天、第 3 天',cards[0]==='2025 年 8 月 22 日（五）｜迎新宿營'&&cards.some(c=>/8 月 23 日（六）｜迎新宿營 第 2 天/.test(c))&&cards.some(c=>/8 月 24 日（日）｜迎新宿營 第 3 天/.test(c)),cards.join(' / '));
   check('A3. 小隊五個同學 FIRST_MET，note＝camp；MET_ZHE',ids.every(id=>met(id)&&met(id).note==='camp')&&F.MET_ZHE===true,ids.map(id=>id+':'+(met(id)?met(id).note:'-')).join(' '));
+  check('A3d. 6-14 程式 4：宿營中間推時間（晚會 19:30、闖關 09:00、回校門 12:30）',Object.values(sayHr).length===3&&Math.abs(sayHr['（晚會是學長']-19.5)<0.01&&Math.abs(sayHr['這關很簡單。']-9)<0.01&&Math.abs(sayHr['（十二點半，']-12.5)<0.01,JSON.stringify(sayHr));
   check('A3b. 6-14 程式 1、2：凱文 FIRST_MET 宿營時就記（camp）、阿哲熟悉 +1（ACQUAINTANCE 的 5 再加 1）',!!met('kevin')&&met('kevin').note==='camp'&&SOCIAL.rel('zhe').fam>=6,JSON.stringify([met('kevin'),SOCIAL.rel('zhe').fam]));
   check('A3c. 6-14 程式 3：人物面板記憶顯示日期（8/22）、地點中文（宿營）',SOCIAL.dayLabel(met('zhe').day)==='8/22'&&SOCIAL.noteShown('zhe',met('zhe'))==='宿營'&&SOCIAL.noteShown('kai',{tag:'FIRST_MET',note:'dorm'})==='宿舍',SOCIAL.dayLabel(met('zhe').day)+' '+SOCIAL.noteShown('zhe',met('zhe')));
   check('A4. 臥底揭曉 CAMP_MOLE_REVEALED、破綻至少 3 個（隊呼、生日、晚會）、CAMP_SEEN＝["yu"]',F.CAMP_MOLE_REVEALED===true&&(F.CAMP_MOLE_CLUE|0)>=3&&JSON.stringify(F.CAMP_SEEN)==='["yu"]',JSON.stringify({c:F.CAMP_MOLE_CLUE,s:F.CAMP_SEEN}));

@@ -127,7 +127,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
     { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
       check('K3：「妳去妳們系的。」＝週六晚上她傳烤玉米的照片＋「我們的玉米比較好。」',JSON.stringify(c)==='["📷（烤玉米）","我們的玉米比較好。"]',JSON.stringify(c)); }
-    const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',flags||{}); if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
+    const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',Object.assign({ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（v1_batch12 測）*/ if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
     let L=await playBBQ({},null,[]);
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));
     L=await playBBQ({met_yu:true},()=>{ for(const id of ['heroine_01','heroine_03','classmate_bohan','npc_fangyt']) SOCIAL.remember(id,'FIRST_MET',''); },[]);
