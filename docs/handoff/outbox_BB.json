@@ -466,7 +466,7 @@
    "next": "LAWWW-C 實作（台詞 AA_222 bb83443d）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
   },
   {
    "task": "D59 品妤第五版驗收（要改）",
@@ -509,7 +509,7 @@
    "next": "LAWWW-C 實作（AA 檔 bd51750b）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
   },
   {
    "task": "學姊條件清理（AA_223 取代註記、SIS_HEALED 等作廢、沛珊她單身）＋★-8 不在群組主動說話",
