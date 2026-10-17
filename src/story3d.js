@@ -303,8 +303,10 @@ const STORY = (function(){
      國定假日、寒暑假不在；這個時段剛好有自己的課（之後若再開課）就照課表 */
   S.profLobby=function(c,G){ if(!c||!c.lobby||!c.time||!(c.time[1]>c.time[0])||c.weekday!==G.weekday) return false; const hr=h(G); if(hr<c.time[0]||hr>=c.time[1]) return false;
     if(typeof CALENDAR==='undefined') return false; const T=CALENDAR.termOf(G.day); return !!T&&!CALENDAR.holiday(G.day); };
+  /* AA_195 4-8：阿哲在 8/29～9/3 照常上課（9/1 憲法、9/3 刑總）；LEGACY_IDS 的「afternoonDone 以後才照作息出現」只對新局、只對上課時間放寬（已經認識他以後） */
+  const zheClassOk=(id,c,G)=>{ if(id!=='zhe'||!S.week1Start(G)||!G.flags.MET_ZHE) return false; const e=schedEnt(c,G); return !!(e&&e.act==='class'); };
   function schedFor(id,zoneId,G){ const c=CHARACTERS[id], F=G.flags, hr=h(G), wd=G.weekday; if(!c) return null; if(c.presence&&!S.reachable(id,G)) return null;   /* 這學期不在學校（presence，AA_110 第 3 節）；「在臺北、不在台大」（kind taipei，BB_163）照她自己那份作息 */
-    if(LEGACY_IDS.includes(id)){ if(!F.afternoonDone||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
+    if(LEGACY_IDS.includes(id)){ if((!F.afternoonDone&&!zheClassOk(id,c,G))||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
     if(c.social_layer==='E'&&typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ const w=CLS.profWhere(G,id); if(!w) return S.profLobby(c,G)&&zoneId===c.lobby?{prof:'lobby'}:null; if(w.zone==='classroom'&&zoneId==='classroom') return {prof:'class',until:null}; if(w.zone==='wancai'&&zoneId==='wancai') return {prof:'wancai'}; return null; }   /* 課表（D52）：上課時在教室、下課後 1.5 小時在萬才館 */
     if(c.social_layer==='E'){ if(zoneId==='classroom'&&c.weekday===wd&&hr>=c.time[0]-0.3&&hr<c.time[1]) return {prof:'class'}; if(zoneId==='wancai'&&c.weekday===wd&&hr>=c.time[1]&&hr<c.time[1]+1.5) return {prof:'wancai'}; return null; }
     if(c.social_layer==='B') return null; const ent=schedEnt(c,G); return ent&&ent.zone===zoneId?ent:null; }
@@ -884,7 +886,9 @@ const STORY = (function(){
     return true; };
   /* 開學典禮那天被加進班群（AA_195 4-4；群組用四年同一個的 law_class「法律系（全班）」，AA_177 第 9 節）：系學會貼茶會公告、不具名的同學問系服（不算認識任何人）。
      典禮演到「你被加進一個群組」那一句時加入；典禮被跳過、或 14:40 才補的，照舊在那個時間加入。8/31 以後才補的不排貼文（茶會的公告過期了也沒意義） */
-  S.lawClassJoinY1=function(G){ if(typeof PHONE==='undefined'||PHONE.inGroup(G,'law_class')) return false; const d0=S.dayOfKey('2025-08-31'), g=PHONE.join(G,'law_class','法律系（全班）'); if(G.day!==d0){ g.day=d0; return true; }
+  S.lawClassJoinY1=function(G){ if(typeof PHONE==='undefined'||PHONE.inGroup(G,'law_class')) return false; const d0=S.dayOfKey('2025-08-31'), g=PHONE.join(G,'law_class','法律系（全班）');
+    { const d2=S.dayOfKey('2025-09-09'), M=(id,nm,t)=>({th:'g:law_class',from:id,name:nm,text:t}); if(G.day<=d2&&!PHONE.sent(G,'ps_w2_msg')) PHONE.at(G,d2,22,[M('classmate_peishan','沛珊','請問有人知道民總的指定教科書要買哪一本嗎'),M('classmate_peishan','沛珊','老師說了兩本 我只抄到一本'),M('zhe','阿哲','我有學長的舊版 你要的話我拍給你'),M('classmate_peishan','沛珊','好 謝謝！')],'ps_w2_msg'); }   /* 第 2 週平日 22:00 班群（BB_168 2-2；9/4 民總第一堂之後）：玩家不用回 */
+    if(G.day!==d0){ g.day=d0; return true; }
     const t=Math.max(h(G),14), C=x=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:x}), Q=x=>({th:'g:law_class',name:'同學',text:x});
     PHONE.at(G,d0,t,[{th:'g:law_class',text:'你被加進「法律系（全班）」。'},C('新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。'),C('不用報名，來就好。')],'law_class_join');
     PHONE.at(G,d0,t+0.25,[Q('請問要穿系服嗎'),Q('我們還沒有系服吧')],'law_class_q');   /* 不具名（AA_195 4-4）*/ return true; };
@@ -2678,7 +2682,7 @@ const STORY = (function(){
   S.reachable=(id,G)=>{ const p=S.presence(id,G); return p.here||p.kind==='taipei'; };   /* 約得到、在這個世界上（在臺北、不在台大也算：沛珊重考那一學期起、子晴畢業以後，BB_163）；present 是「在台大」*/
   S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;
     const pr0=S.presence(id,G); if(!pr0.here&&pr0.kind!=='taipei') return pr0.away?{zone:null,act:'',away:pr0.away}:null;
-    if(LEGACY_IDS.includes(id)&&(!F.afternoonDone||F.classNow)) return null;
+    if(LEGACY_IDS.includes(id)&&((!F.afternoonDone&&!zheClassOk(id,c,G))||F.classNow)) return null;
     const ent=schedEnt(c,G); if(!ent) return pr0.kind==='taipei'?(pr0.away?{zone:null,act:'',away:pr0.away}:null):(c.school?{zone:null,act:'',away:'在'+c.school}:null); const end=ent.to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60), until=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
     if(ent.zone==null) return ent.away?{zone:null,act:ACT[ent.act]||'',away:ent.away,until}:null;   /* 不在遊戲的場景裡（例：在小福吃午餐）*/
     return {zone:ent.zone, room:ent.room||null, act:ent.label||ACT[ent.act]||'', until}; };   /* label：這一筆自己的說法（芷若：「剛下課，在 101 門口」）*/

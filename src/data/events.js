@@ -688,7 +688,7 @@ const STORY_EVENTS=[
   ...(()=>{ const wk=G=>typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).week|0:0, on=G=>['chair','law'].includes(G.flags.SK04_REPLY);
     const base={ participants:[], location:'any', trigger:'class', beforeClass:'english_y1', term:['Y1S1'], once:true, background:'blur' };
     return [
-      Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G); return w>=3&&w<=5&&!G.flags.SK04_REPLY; }},
+      Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G), w1=typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G); return (w1?w>=1&&w<=3:w>=3&&w<=5)&&!G.flags.SK04_REPLY; }},   /* AA_195 4-7 C：開學改 9/1 的局第 1～3 週（舊局照舊第 3～5 週）*/
         dialogue:[ {speaker:null,text:'桌角貼著一張便利貼。'},{speaker:'便利貼',text:'這個位子的插座是壞的。'},
           {choice:[{text:'「椅子也是。」',set:{SK04_REPLY:'chair'}},{text:'「已報修。——法律系」',set:{SK04_REPLY:'law'}},{text:'（不回）',set:{SK04_REPLY:'none'}}]} ],
         after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=1; } }),
@@ -705,7 +705,7 @@ const STORY_EVENTS=[
      （大一上第 3～6 週；社科圖開著、接下來 75 分鐘沒有課：STORY.sk01Ready）。阿勳兩則私訊（沒玩經濟系那一年的先多一則重新介紹）→
      「去社科圖」＝直接 2D（soc_library，社科院在對面不用走過去；一小時）／「先回宿舍」＝他回一個貼圖，第 4 天以後第一次經過法學院廣場，二樓的窗口揮手（ev_sk01_wave）。
      去不去都記 MET_XUN（法律系時期第一次聯絡：大一下的 P4d 換成已經聯絡過的開頭）、SK01_CHOICE（go／home）、SK01_DAY。玩過經濟系那一年的玩家多一句保齡球（R7 打過、沒打過都通）*/
-  { id:'ev_sk01_soc', title:'對面的舊系館', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[3,4,5,6], once:true, background:'blur', near:{x:33,z:-97,r:10},
+  { id:'ev_sk01_soc', title:'對面的舊系館', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], weeks:[1,2,3,4,5,6],   /* AA_195 4-7 C：第 1～6 週（舊局第 3 週才開始，照樣到第 6 週）*/ once:true, background:'blur', near:{x:33,z:-97,r:10},
     prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.sk01Ready(G)},
     dialogue:[ {unless:{flags:['PLAYED_Y0']},phone:'econ_zhengxun',text:'是我，阿勳。你經濟系那年的室友。'},
       {phone:'econ_zhengxun',text:'你在對面喔？我在二樓看到你了。'},
@@ -725,7 +725,7 @@ const STORY_EVENTS=[
     consequences:{flags:{MET_XUN:true},stamp:['SK01_DAY'],memo:'經濟系那年的室友阿勳，在對面的社科院傳訊息來'} },
   /* SK01 選了「先回宿舍」：第 4 天以後第一次經過法學院廣場（霖澤館和萬才館之間；看得到社科院的正面），一句旁白（BB_106 SK01 定稿）*/
   { id:'ev_sk01_wave', title:'', participants:[], location:'campus', trigger:'auto', term:['Y1S1'], once:true, background:'blur', near:{x:61,z:-94,r:22}, time:[8.5,19.5],
-    prereq:{custom:G=>G.flags.SK01_CHOICE==='home'&&G.day>=4&&G.day>(G.flags.SK01_DAY|0)},
+    prereq:{custom:G=>G.flags.SK01_CHOICE==='home'&&G.flags.SK01_DAY!=null&&G.day>G.flags.SK01_DAY},   /* AA_195 4-7 C：SK01 的隔天以後（原本另外寫死 G.day>=4，開學改 9/1 以後第 4 天還在開學前）*/
     dialogue:[ {speaker:null,text:'社科院二樓的窗口，有人在對你揮手。是阿勳。……他揮完就轉身進去了。'} ] },
   /* SK02 你的系外套還在這裡（BB_106 SK02，BB-B 2026-10-16 定稿 d5224961；AA_154 A52 ②）：SK01 之後，大一上第 4～7 週平日 13:00～17:00（系辦開門），
      阿勳第 4 週週一 15:00 的私訊（story3d.js phoneRules 'sk02_dm'；SK01 比週一晚的，排在 SK01 隔天以後第一個平日）→ 走到社科院大樓的門口〔3D，西面主入口〕→ 2D 系辦（soc_office）。

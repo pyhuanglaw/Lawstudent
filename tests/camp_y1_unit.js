@@ -178,5 +178,18 @@ const day=k=>STORY.dayOfKey(k);
     fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-08-29'); STORY.familyW0(G); G.day=day('2025-09-05'); G.hour=20.1; PHONE.tick(G);
     const kb=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin'&&m.day===day('2025-09-05')), last=kb[kb.length-1];
     check('K10. 9/5 20:00 Kevin 的舊書（所有在群組的人）：三則、可以回「我要。」→ KEVIN_OLD_BOOK、「下禮拜一放系學會辦公室」',kb.length===3&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='我要。'&&(PHONE.answer(G,last.ask.id,0),G.flags.KEVIN_OLD_BOOK===true)&&G.msgs.some(m=>m.text==='好，下禮拜一放系學會辦公室，寫你名字。'),kb.map(m=>m.text).join(' | ')); }
+  // ---------- L 第一週其餘（W1_AUDIT 第 7、16、17、19 項）----------
+  { fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29'),MET_ZHE:true}); G.day=day('2025-09-01'); G.weekday=1; G.hour=9.5;
+    const CLS0=global.CLS; global.CLS={dayItems:G=>G.hour>=9&&G.hour<12.2?[{c:{kind:'required',id:'const_1'},room:{zone:'linze',room:'201'},t0:9+10/60,t1:12+10/60,key:'const_1'}]:[],live:()=>true};   /* 課表的替身：9/1 憲法 9:10～12:10 */
+    const z=STORY.whereIs(GM,'zhe'); check('L1. 新局、認識阿哲以後：9/1 上課時間在教室（同班必修，AA_195 4-8：LEGACY_IDS 只對上課時間放寬）',!!(z&&z.zone==='linze'),JSON.stringify(z));
+    G.hour=20; const z2=STORY.whereIs(GM,'zhe'); check('L2. 下課以後（主線第一天下午之前）照舊不猜',z2===null,JSON.stringify(z2));
+    G.flags.MET_ZHE=false; G.hour=9.5; check('L3. 還沒認識阿哲：照舊不猜',STORY.whereIs(GM,'zhe')===null); global.CLS=CLS0;
+    fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29')}); G.day=day('2025-08-31'); G.hour=14.2; STORY.lawClassJoinY1(G); G.day=day('2025-09-09'); G.hour=22.1; PHONE.tick(G);
+    const lc=G.msgs.filter(m=>m.th==='g:law_class'&&m.day===day('2025-09-09')).map(m=>m.name+':'+m.text);
+    check('L4. 第 2 週 9/9 22:00 班群（BB_168 2-2）：沛珊問民總教科書、阿哲「我有學長的舊版」',lc.join('|')==='沛珊:請問有人知道民總的指定教科書要買哪一本嗎|沛珊:老師說了兩本 我只抄到一本|阿哲:我有學長的舊版 你要的話我拍給你|沛珊:好 謝謝！',lc.join(' | '));
+    check('L5. 校慶 11/15、運動會 11/21 停課（AA_195 第 3 節：CALENDAR.SCHOOL）',CALENDAR.holiday(day('2025-11-21'))==='運動會（停課）'&&CALENDAR.holiday(day('2025-11-15'))==='校慶'&&CALENDAR.kind(day('2025-11-21'))==='holiday');
+    const sk01=STORY_EVENTS.find(e=>e.id==='ev_sk01_soc'), n1=STORY_EVENTS.find(e=>e.id==='ev_sk04_note1');
+    fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29')}); G.day=day('2025-09-10');
+    check('L6. SK01 第 1～6 週；SK04 第一張便利貼新局第 2 週可以（第 1～3 週）、第 4 週不行',JSON.stringify(sk01.weeks)==='[1,2,3,4,5,6]'&&!!n1&&(n1.prereq.custom(G)!==false||true)&&(()=>{ const ok2=n1.prereq.custom(G); G.day=day('2025-09-24'); const ok4=n1.prereq.custom(G); return ok2!==false&&ok4===false; })()); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

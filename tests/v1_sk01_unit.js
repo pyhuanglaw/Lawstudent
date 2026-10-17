@@ -60,7 +60,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 4. 先回宿舍 → 第 4 天以後經過法學院廣場揮手
   fresh(D2,17.8,'campus',{classDone:true,metAn:true,afternoonDone:true}); G.stage='law'; at(33,-97); picks=['先回宿舍']; tick(); await wait(); L=lines();
   check('4. 先回宿舍：阿勳回一個貼圖、時間不動、MET_XUN 照記',L[L.length-1].endsWith('（貼圖）')&&Math.abs(G.hour-17.8)<1e-6&&G.flags.MET_XUN&&G.flags.SK01_CHOICE==='home',JSON.stringify(L));
-  G.day=3; G.weekday=wdOf(3); G.hour=10; at(61,-94); check('4. 第 3 天經過廣場＝還沒有',!tick());
+  G.hour=18.5; at(61,-94); check('4. SK01 那一天經過廣場＝還沒有（AA_195 4-7 C：SK01 的隔天以後；原本寫死第 4 天以後）',!tick());
   G.day=4; G.weekday=wdOf(4); G.hour=10; at(80,-90); tick(); await wait(); L=lines();
   check('4. 第 4 天經過法學院廣場：揮手那句',L[0]==='社科院二樓的窗口，有人在對你揮手。是阿勳。……他揮完就轉身進去了。',JSON.stringify(L));
   check('4. 只有一次',!tick());
