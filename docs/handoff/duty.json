@@ -3,33 +3,37 @@
  "note": "唯一權威的值班狀態（D92／HV-10，使用者 2026-10-16 21:35）。只有值班中的 LAWWW 寫（check_handoff.py duty register／handoff）；其他職位在自己分支寫 docs/handoff/duty_<職位>.json。接班以這份＋正式交班紀錄為準，不照 A→B→C 的順序猜、不看 commit 時間判定值班權。不一致就 duty verify、查不清楚回報使用者。",
  "ruleVersion": "HV-11",
  "ruleSource": {
-  "branch": "claude/modest-rubin-2lyp7g",
-  "sha": "9266693c",
-  "updated": "2026-10-16T21:45Z"
+  "branch": "claude/adoring-meitner-mqzst8",
+  "sha": "bfd5f40d",
+  "updated": "2026-10-17T04:09Z"
  },
  "accounts": [
   "A",
   "B",
   "C"
  ],
- "onDuty": null,
+ "onDuty": "C",
  "previous": "B",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "unused"
+  "C": "on"
  },
  "roles": {
   "LAWWW": {
-   "account": "B",
-   "session": "session_01DvRVNNnivf7da7qqWuGmw6",
-   "branch": "claude/modest-rubin-2lyp7g",
-   "sha": "d11fc9d1",
-   "since": "2026-10-15",
-   "state": "handed-off",
-   "progressFile": "docs/ART_REBUILD_PROGRESS.md",
-   "handedOffAt": "2026-10-17T02:41Z",
-   "handoffSnapshot": "2026-10-17T0240Z_B_LAWWW.json"
+   "account": "C",
+   "session": "session_01Me1thu8Zn934H58kWKNfuF",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "bfd5f40d",
+   "sinceSha": "bfd5f40d",
+   "since": "2026-10-17T04:09Z",
+   "state": "on",
+   "prev": {
+    "account": "B",
+    "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+    "branch": "claude/modest-rubin-2lyp7g",
+    "sha": "d11fc9d1"
+   }
   },
   "LAWWW2": {
    "account": "B",
@@ -113,11 +117,40 @@
    "from": "2026-10-15",
    "until": null,
    "endKind": null
+  },
+  {
+   "account": "B",
+   "role": "LAWWW",
+   "roles": {
+    "LAWWW": {
+     "session": "session_01DvRVNNnivf7da7qqWuGmw6",
+     "branch": "claude/modest-rubin-2lyp7g",
+     "sha": "d11fc9d1",
+     "since": "2026-10-15",
+     "handedOffAt": "2026-10-17T02:41Z",
+     "state": "handed-off"
+    }
+   },
+   "until": "2026-10-17T04:09Z"
   }
  ],
  "pending": null,
- "anomalies": [],
- "seq": 5,
+ "anomalies": [
+  {
+   "kind": "post-handoff-writes",
+   "role": "LAWWW",
+   "from": "B",
+   "to": "C",
+   "at": "2026-10-17T04:15Z",
+   "note": "duty verify 第 6 項：B 的 claude/modest-rubin-2lyp7g 在交班 d11fc9d1 之後還有 11 個 commit（f500db19～bd1ea4dd）。LAWWW-C 查核：只改 docs/handoff/、AI_SESSION_HANDOFF.md、ART_REBUILD_PROGRESS.md、HANDOFF_GAP_MATRIX.md，沒有遊戲程式；內容是交班登記、使用者 02:5x 要求的交接補強（255 筆逐筆核對、WIP_INVENTORY）、使用者授權的交班後文件補記（0b84319f、bd1ea4dd，USER_DIRECTIVE_NEXT_DUTY_2026-10-17）。B 交班後沒有再寫（最後 bd1ea4dd 11:18+0800）。已全部合併進 bfd5f40d。第 6 項警告會繼續出現（工具依 SHA 重算），照使用者指示保留、不掩蓋；改善列入 HANDOFF-IMPROVE-1017",
+   "resolved": true,
+   "evidence": [
+    "d11fc9d1..bd1ea4dd",
+    "bfd5f40d"
+   ]
+  }
+ ],
+ "seq": 6,
  "chain": [
   {
    "seq": 1,
@@ -153,6 +186,13 @@
    "account": "-",
    "role": "LAWWW2",
    "event": "sync"
+  },
+  {
+   "seq": 6,
+   "at": "2026-10-17T04:09Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
   }
  ]
 }

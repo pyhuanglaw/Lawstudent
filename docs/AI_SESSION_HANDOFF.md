@@ -112,11 +112,11 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：帳號 B 值班中**（2026-10-15 23:02 UTC 起；上一任帳號 A，2026-10-14 17:40 UTC 交班；帳號 C 還沒啟用）。
+**現在：帳號 C 值班中**（LAWWW-C 2026-10-17 04:1x UTC 接班；上一任帳號 B，2026-10-17 02:40 UTC 交班；帳號 A 休班。LAWWW2-C、AA-C、BB-C 由使用者各自啟用，登記後 `duty sync` 收進來）。
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
-| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**（D85）、派工 | 休班：LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`；分支 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`） | **已交班：LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`**（2026-10-15 23:02 UTC 接班，基準 `c8b3eab`；**2026-10-17 02:40 UTC 交班**（使用者正式換班），交出 `d11fc9d1`、快照 `snapshots/2026-10-17T0240Z_B_LAWWW.json`；交班紀錄≠新帳號已接班） | 未啟用：LAWWW-C | **`claude/modest-rubin-2lyp7g`**（＝RULE_SOURCE） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」＋`docs/HANDOFF_GAP_MATRIX.md` 第 1 節 |
+| **LAWWW** | 開發負責人：核心系統、人物、建築室內、整合、測試、**正式發布**（D85）、派工 | 休班：LAWWW `session_01Eds6msqpsuzNEw98sdw8JX`（2026-10-14 約 17:40 交班，最後 commit `78402e1`；分支 `claude/confident-ritchie-8rwh7t` 停在 `c8b3eab`） | **已交班：LAWWW-B `session_01DvRVNNnivf7da7qqWuGmw6`**（2026-10-15 23:02 UTC 接班，基準 `c8b3eab`；**2026-10-17 02:40 UTC 交班**（使用者正式換班），交出 `d11fc9d1`、快照 `snapshots/2026-10-17T0240Z_B_LAWWW.json`；交班紀錄≠新帳號已接班） | **值班中：LAWWW-C `session_01Me1thu8Zn934H58kWKNfuF`**（2026-10-17 04:1x UTC 接班，合併 `claude/modest-rubin-2lyp7g` 的 `bd1ea4dd` 為 `bfd5f40d`；正常交班接班，無 no-handoff） | **`claude/adoring-meitner-mqzst8`**（＝RULE_SOURCE；B 的 `claude/modest-rubin-2lyp7g` 停在 `bd1ea4dd`） | `docs/ART_REBUILD_PROGRESS.md` 最上面「交接（最新）」＋`docs/HANDOFF_GAP_MATRIX.md` 第 1 節 |
 | **LAWWW2** | 環境美術：Blender、3D 場景、角色模型調整、2D 背景 | 休班：LAWWW2 `session_01AC1WVgJSmoJK1uRsPK2Zn1`（2026-10-14 17:38Z 交班，最後 commit `8e1061a`；`claude/second-ai-env-art`） | **值班中：LAWWW2-B `session_01GV1WG3UeT2DhuDpxeWJsvD`**（2026-10-15 接班，基準 `8e1061a`） | 未啟用：LAWWW2-C | **`claude/funny-albattani-iawshm`**（WIP 分支見 `docs/handoff/BRANCH_INVENTORY.md`） | `docs/art-rebuild/second_ai/HANDOFF.md` |
 | **AA** | 劇情企劃：四年故事架構、主線、時間線、系統與劇情規劃；可以分派 BB（D86） | 休班：AA `session_019Y3emYqxxC4Ch1GGf4fMzw`（`claude/story-planning` 停在 `0d278bb`） | **值班中：AA-B `session_016ACZaD4oB9tX94WqQR4dkS`**（2026-10-15 23:1x 接班，基準 `0d278bb`） | 未啟用：AA-C | **`claude/cool-heisenberg-o8kuqx`**（企劃線，BB 的交付也合到這裡） | `docs/story_planning/AA_交接紀錄.md` |
 | **BB** | 劇情企劃：角色、人物關係、事件、對話與支線；角色美術驗收（D59） | 休班：BB `session_01XVHYLaK9Vcnae3U1aAJoZv`（`claude/story-planning`） | **值班中：BB-B `session_01J1g2TPcPzWrihXSY2WvseV`**（2026-10-15 23:1x 接班，基準 `13e8d43`） | 未啟用：BB-C | **`claude/elegant-brown-fcos7n`**（交付由 AA 合進企劃線） | `docs/story_planning/BB_00_協作規範與交接紀錄.md` |
@@ -526,6 +526,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-17 04:1x | LAWWW-B（帳號 B）→ **LAWWW-C（帳號 C）** | LAWWW | `bd1ea4dd`（`claude/modest-rubin-2lyp7g`），合併進 `claude/adoring-meitner-mqzst8` 為 `bfd5f40d` | 第一次啟用帳號 C（使用者貼 7.5 提示詞）。duty find seq 5、check／duty verify／roles 結束碼都 0；B 交班後的 11 個 commit 是交接補強與使用者授權的交班後文件補記（`0b84319f`、`bd1ea4dd`）。接班後先做使用者 10-17 下一班指示（USER_DIRECTIVE_NEXT_DUTY_2026-10-17）的接班優先事項，再做 QA-HANDOFF-B1 與增量交接改善 |
 | 2026-10-16 22:0x | （制度修訂，不是換班） | 四個 | `b1d95de2` 之後 | HV-10（D92）：A／B／C 三帳號任意方向輪值；唯一值班狀態 `docs/handoff/duty.json`（初始化 seq 1：帳號 B 值班、上一任 A、C 未啟用）；`check_handoff.py duty find／plan／register／handoff／sync／verify`；模擬 19／19 PASS（`docs/handoff/HANDOFF_SIM_HV10.md`）。**沒有換班**：帳號 B 繼續值班、A 休班不喚醒、C 等使用者啟用 |
 | 2026-10-16 02:22 | （制度修訂，不是換班） | 四個 | `4e13d63f` 之後 | HV-4（D82、D81）：增量交接＋自動對帳工具；用這次 A→B 交接實際驗證：重建 A 的交班快照（`snapshots/2026-10-14T1740Z_A_LAWWW.json`，94 個 ID）→ 沒有任務消失；第一次跑抓到 6 個真的異常（取消的替代 ID 寫成 SHA、兩個取消沒寫替代、交付分支 1 個沒登記、閱讀版兩個 ID 對不上），處理後 OK；交付登記 31 筆；從上次同步以後三條交付分支 32 個 commit 掃完。帳號 B 的第一份快照（checkpoint）也存了 |
 | 2026-10-16 02:2x | （制度修訂，不是換班） | 四個 | `4d0170d4` 之後 | HV-3（D80、D79）：RULE_SOURCE、永久任務總表、接班對帳、交班五樣、A／B 共用提示詞。A→B 對帳結果：原 LAWWW 交班清單每一項都有對應 ID、沒有消失；約 180 個任務原本沒登記（總表第 12 節）。靜態模擬 B→A：見總表第 13 節 |
@@ -571,6 +572,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-10-17 04:1x | LAWWW-C | C | HV-11／RULE_SOURCE bd1ea4dd（已讀 D92 十四步；duty register 見本 commit） | 是 | 有：USER_DIRECTIVE_NEXT_DUTY_2026-10-17（接班後執行中） | 沒有 | 回合 1 個，超過上限 0 個 | LAWWW-C 自己登記 |
 | 2026-10-16 22:1x | LAWWW2-B | B | HV-10／duty 補登記 8b1cdbea | 是（ACK HV-10，22:09） | 沒有 | — | — | LAWWW2-B 訊息 22:09、22:10，LAWWW-B 代登記 |
 | 2026-10-16 22:1x | AA-B | B | HV-10／duty 補登記 32f62032 | 是（ACK HV-10，22:08） | 沒有 | — | — | AA-B 訊息 22:08、22:10，LAWWW-B 代登記 |
 | 2026-10-16 22:1x | BB-B | B | HV-10／duty 補登記 e393e8b4 | 是（ACK HV-10，22:08） | 沒有 | — | — | BB-B 訊息 22:08、22:10，LAWWW-B 代登記 |
