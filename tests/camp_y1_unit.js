@@ -139,5 +139,21 @@ const day=k=>STORY.dayOfKey(k);
     check('E11. 四人房的阿凱深夜（AA_208 2-4）：「（阿哲已經睡了，柏翰戴著耳塞。）」',said[0]==='（阿哲已經睡了，柏翰戴著耳塞。）',said.slice(0,2).join(' / '));
     fresh(); G.flags.introDone=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
     check('E12. 沒有四人房的舊局不加',!said.some(t=>/柏翰戴著耳塞/.test(t))); }
+  // ---------- J 9/2 國文沛珊、通識明軒（BB_168 2-1、3-1；BB_177 第 10、12 節）----------
+  { const ev=id=>STORY_EVENTS.find(e=>e.id===id), w1=()=>{ G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-09-02'); G.weekday=2; };
+    fresh(); w1(); SOCIAL.meet('classmate_peishan','camp'); said=[]; picks=['我也差點走錯'];
+    check('J1. 9/2 國文找教室：上課前（beforeClass chinese_y1）、只在 9/2',ev('ev_ps_w1_room').beforeClass==='chinese_y1'&&ev('ev_ps_w1_room').prereq.custom(G)===true);
+    await EVENTS.run(ev('ev_ps_w1_room'));
+    check('J2. 宿營認識的版本：「（在門口看到你，走過來）欸，{name}。你也是這間嗎？」→「我也差點走錯。」→「這邊的門牌好小。」（她先推門）；不記 PS_W1_SEEN',said.some(t=>/沛珊：（在門口看到你，走過來）欸，(\{name\}|祐廷)。你也是這間嗎？$/.test(t))&&said.some(t=>/沛珊：這邊的門牌好小。$/.test(t))&&said.includes('（她先推門。）')&&!G.flags.PS_W1_SEEN,said.join(' / '));
+    said=[]; picks=['有，你要拍嗎']; check('J3. 下課借筆記的條件（同一天、找教室演過）',ev('ev_ps_w1_notes').afterClass==='chinese_y1'&&ev('ev_ps_w1_notes').prereq.custom(G)===true); await EVENTS.run(ev('ev_ps_w1_notes'));
+    check('J4. 下課：「剛剛最後那段你有抄到嗎？他講好快。」→ 拍兩張 →「謝謝。我下次會抄快一點。」',said.some(t=>/（轉過來）剛剛最後那段你有抄到嗎？他講好快。$/.test(t))&&said.includes('（她拍了兩張。）')&&said.some(t=>/謝謝。我下次會抄快一點。$/.test(t)),said.join(' / '));
+    fresh(); w1(); said=[]; picks=['我也在找']; await EVENTS.run(ev('ev_ps_w1_room'));
+    check('J5. 沒去宿營的版本：「不好意思，請問這間是大一國文嗎？法律系那班。」→ 一起進去；記 PS_W1_SEEN',said.some(t=>/不好意思，請問這間是大一國文嗎？法律系那班。$/.test(t))&&said.some(t=>/那我們一起進去好了，錯了一起出來。$/.test(t))&&G.flags.PS_W1_SEEN===true,said.join(' / '));
+    fresh(); w1(); SOCIAL.meet('classmate_mingxuan','camp'); said=[]; picks=['有，運氣好']; await EVENTS.run(ev('ev_mx_w1_addclass'));
+    check('J6. 通識門口明軒（宿營認識）：「（點個頭）欸。你也加這門？」→ 沒抽到 → 老師「這堂人數已經滿了…」→「我去看另一堂，下一節的。」；記 MX_W1_SEEN',ev('ev_mx_w1_addclass').beforeClass==='ge_film_y1s1'&&said.some(t=>/（點個頭）欸。你也加這門？$/.test(t))&&said.includes('老師：這堂人數已經滿了。沒選到的同學，加選期間有人退就有機會，不用在門口等。')&&said.some(t=>/我去看另一堂，下一節的。$/.test(t))&&G.flags.MX_W1_SEEN===true,said.join(' / '));
+    G.day=day('2025-09-10'); said=[]; await EVENTS.run(ev('ev_mingxuan_ball'));
+    check('J7. 系籃（有 MX_W1_SEEN、沒有兩人三腳）開頭「欸，你是電影那堂有選到的那個？」、9/15 前「我還在等有人退，大概沒望了。」',/欸，你是電影那堂有選到的那個？$/.test(said[0]||'')&&/我還在等有人退，大概沒望了。$/.test(said[1]||''),said.slice(0,3).join(' / '));
+    G.day=day('2025-09-20'); G.events.done={}; said=[]; await EVENTS.run(ev('ev_mingxuan_ball'));
+    check('J8. 9/15 以後：「我後來沒加到，去修別的了。」',/我後來沒加到，去修別的了。$/.test(said[1]||''),said.slice(0,3).join(' / ')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

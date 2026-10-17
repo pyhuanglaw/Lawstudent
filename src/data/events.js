@@ -226,7 +226,7 @@ const STORY_EVENTS=[
   { id:'ev_zhe_dinner', title:'公館吃什麼', participants:['zhe'], location:['campus','gongguan'], trigger:'interact', priority:2, time:[17,20], cooldown_days:1, random_weight:0.7, background:'blur',
     dialogue:[ {speaker:'zhe',expression:'smile',text:'公館吃什麼？我在麵店、滷味、便利商店之間掙扎二十分鐘了。'},{choice:[{text:'「麵店。」',consequences:{rel:{zhe:{fam:2}},mem:[{npc:'zhe',tag:'SHARED_MEAL',note:'一起去麵店'}],goal:'公館 阿鳳麵店'}},{text:'「我還有東西要讀，下次。」',consequences:{rel:{zhe:{fam:0}},mem:[{npc:'zhe',tag:'DECLINED_INVITE'}]}},{text:'「便利商店，快。」',consequences:{rel:{zhe:{fam:1}}}}]},{speaker:'zhe',expression:'laugh',text:'好啦。走。'} ] },
   { id:'ev_mingxuan_ball', title:'系籃', participants:['classmate_mingxuan'], location:'campus', trigger:'interact', priority:3, cooldown_days:2, background:'blur', minWeek:{term:'Y1S1',week:2}, prereq:{flags:['classDone']},   /* BB_170 第 17 列：9/4 民總以後（「他說你上課很敢講」）、第 2 週起 */
-    dialogue:[ {if:{flags:['MX_CAMP_PAIR']},speaker:'classmate_mingxuan',expression:'smile',text:'欸，宿營兩人三腳那個。你也來打球喔？'},   /* BB_177 第 12 節（宿營兩人三腳和他一組）*/
+    dialogue:[ {if:{flags:['MX_CAMP_PAIR']},speaker:'classmate_mingxuan',expression:'smile',text:'欸，宿營兩人三腳那個。你也來打球喔？'},{if:{custom:G=>!!G.flags.MX_W1_SEEN&&!G.flags.MX_CAMP_PAIR},speaker:'classmate_mingxuan',expression:'neutral',text:'欸，你是電影那堂有選到的那個？'},{if:{custom:G=>!!G.flags.MX_W1_SEEN&&!G.flags.MX_CAMP_PAIR&&typeof STORY!=='undefined'&&G.day<STORY.dayOfKey('2025-09-15')},speaker:'classmate_mingxuan',expression:'neutral',text:'我還在等有人退，大概沒望了。'},{if:{custom:G=>!!G.flags.MX_W1_SEEN&&!G.flags.MX_CAMP_PAIR&&typeof STORY!=='undefined'&&G.day>=STORY.dayOfKey('2025-09-15')},speaker:'classmate_mingxuan',expression:'neutral',text:'我後來沒加到，去修別的了。'},   /* BB_168 3-1 接回來（9/15 加選截止前後兩版）；有 MX_CAMP_PAIR 只用宿營那句（BB_177 第 12 節）*/   /* BB_177 第 12 節（宿營兩人三腳和他一組）*/
       {unless:{memory:[{npc:'classmate_mingxuan',tag:'FIRST_MET'}]},speaker:'classmate_mingxuan',expression:'smile',text:'江明軒。阿哲的隊友。他說你上課很敢講。'},{speaker:'classmate_mingxuan',expression:'neutral',text:'週五練球缺人，來不來？不會打也可以，來當經理。'},{choice:[{text:'「好。」',consequences:{rel:{classmate_mingxuan:{fam:4,comf:3},zhe:{fam:2}},flags:{ball_invite:true}}},{text:'「我運動白痴。」',consequences:{rel:{classmate_mingxuan:{fam:2}}}},{text:'「你看起來都沒在念書，成績怎麼那麼好？」',if:{stage:{npc:'classmate_mingxuan',min:'ACQUAINTANCE'}},consequences:{rel:{classmate_mingxuan:{fam:3,trust:2}}},goto:'study'}]},{goto:'end'},{label:'study'},{speaker:'classmate_mingxuan',expression:'laugh',text:'上課專心，回家不念。……還有我沒錢補習，只好上課專心。'},{label:'end'} ] },
   // ────────────────────────────────────────── 生活小事件（auto / enter）
   { id:'ev_rain_no_umbrella', title:'下雨了', participants:[], location:'campus', trigger:'enter', weather:'rain', day_min:3, cooldown_days:2, random_weight:0.6, background:'freeze',
@@ -3009,6 +3009,39 @@ const STORY_EVENTS_V11=[
   { id:'ev_bohan_w1_front', title:'第一排', participants:[], location:'classroom', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>!!G.flags.ZHE_W1_DORM&&typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2025-09-01')},
     dialogue:[ {speaker:null,text:'（柏翰坐在第一排正中間，已經在看課本了。）'} ] },
+  /* 9/2（二）國文第一堂：沛珊找教室（BB_168 2-1；BB_177 第 10 節：宿營認識的一律用已認識版、不記 PS_W1_SEEN）。上課前（beforeClass）演、下課接借筆記；不加數值、不出法律題目 */
+  { id:'ev_ps_w1_room', title:'找教室', participants:['classmate_peishan'], location:'any', trigger:'class', beforeClass:'chinese_y1', once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&G.day===STORY.dayOfKey('2025-09-02')},
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'classmate_peishan')},goto:'camp'},
+      {speaker:'classmate_peishan',expression:'neutral',text:'（拿著手機，對照門口的教室號碼）不好意思，請問這間是大一國文嗎？法律系那班。'},
+      {choice:[{text:'「對。」',goto:'u1'},{text:'「我也在找，應該是這間。」',goto:'u2'}]},
+      {label:'u1'},{speaker:'classmate_peishan',expression:'smile',text:'喔好，謝謝。'},{speaker:null,text:'（她進去，坐在你斜前面那排。）'},{goto:'useen'},
+      {label:'u2'},{speaker:'classmate_peishan',expression:'smile',text:'那我們一起進去好了，錯了一起出來。'},{speaker:null,text:'（她先推門。）'},
+      {label:'useen'},{set:{PS_W1_SEEN:true}},{goto:'end'},
+      {label:'camp'},{speaker:'classmate_peishan',expression:'smile',text:'（在門口看到你，走過來）欸，{name}。你也是這間嗎？'},{speaker:'classmate_peishan',expression:'neutral',text:'我剛剛跑去另一棟，走錯了。'},
+      {choice:[{text:'「對，這間。」',goto:'c1'},{text:'「我也差點走錯。」',goto:'c2'}]},
+      {label:'c1'},{speaker:'classmate_peishan',expression:'smile',text:'好，那我跟你進去。'},{goto:'end'},
+      {label:'c2'},{speaker:'classmate_peishan',expression:'neutral',text:'這邊的門牌好小。'},{speaker:null,text:'（她先推門。）'},
+      {label:'end'} ] },
+  { id:'ev_ps_w1_notes', title:'最後那段', participants:['classmate_peishan'], location:'any', trigger:'class', afterClass:'chinese_y1', once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&G.day===STORY.dayOfKey('2025-09-02')&&!!(G.events&&G.events.done&&G.events.done.ev_ps_w1_room)},
+    dialogue:[ {speaker:'classmate_peishan',expression:'neutral',text:'（轉過來）剛剛最後那段你有抄到嗎？他講好快。'},
+      {choice:[{text:'「有，你要拍嗎？」',goto:'a'},{text:'「我也沒抄完。」',goto:'b'}]},
+      {label:'a'},{speaker:null,text:'（她拍了兩張。）'},{speaker:'classmate_peishan',expression:'smile',text:'謝謝。我下次會抄快一點。'},{goto:'end'},
+      {label:'b'},{speaker:'classmate_peishan',expression:'neutral',text:'那我去問前面那個人。'},{speaker:null,text:'（她真的去問了。）'},
+      {label:'end'} ] },
+  /* 9/2（二）下午通識「電影與敘事」第一堂門口：明軒碰運氣（BB_168 3-1；114 學年起沒有人工加簽）。宿營認識的：第一句換成點個頭（BB_177 第 12 節），其餘照舊。記 MX_W1_SEEN，不算認識、不加數值 */
+  { id:'ev_mx_w1_addclass', title:'通識第一堂門口', participants:['classmate_mingxuan'], location:'any', trigger:'class', beforeClass:'ge_film_y1s1', once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&G.day===STORY.dayOfKey('2025-09-02')},
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'classmate_mingxuan')},goto:'camp'},
+      {speaker:'classmate_mingxuan',expression:'neutral',text:'（站在門口看手機上的選課結果，看到你要進去）這堂你有選到喔？'},{goto:'ask'},
+      {label:'camp'},{speaker:'classmate_mingxuan',expression:'neutral',text:'（點個頭）欸。你也加這門？'},
+      {label:'ask'},{choice:[{text:'「有，運氣好。」',goto:'yes'},{text:'（點頭，進教室）',goto:'nod'}]},
+      {label:'yes'},{speaker:'classmate_mingxuan',expression:'smile',text:'好好喔。我沒抽到。'},{speaker:'classmate_mingxuan',expression:'neutral',text:'想說來第一堂看看，說不定有人退。'},
+      {speaker:null,text:'（上課鐘響，老師走到門口。）'},{speaker:'老師',text:'這堂人數已經滿了。沒選到的同學，加選期間有人退就有機會，不用在門口等。'},
+      {speaker:'classmate_mingxuan',expression:'neutral',text:'……好吧。'},{speaker:'classmate_mingxuan',expression:'neutral',text:'我去看另一堂，下一節的。'},{speaker:null,text:'（他走了。）'},{goto:'end'},
+      {label:'nod'},{speaker:null,text:'（他往旁邊讓了一下，又低頭看手機。）'},
+      {label:'end'},{set:{MX_W1_SEEN:true}} ] },
   { id:'ev_zhiruo_ge_group', title:'經原分組', participants:['heroine_02'], location:'putong', term:['Y1S1'], trigger:'auto', near:{npc:'heroine_02',r:5}, time:[12.1,13], weekday:[5], once:true, minWeek:{term:'Y1S1',week:4}, background:'blur',   /* AA_195 4-7 A4：看週次（第 4 週週五起；原本 day_min 10，主線第一天提早以後會跑到 9/12）。AA_120 7-5 第 2 項：使用者已定 Z2 在重修的經原第 4 週週五（AA_110 1-5）——只改觸發：大一上、週五經原下課後、普通教學館、第 4 週起（2025-09-26＝第 10 天）；對話不動 */   /* 可以是第一次見面（BB 6-1、AA_120 3-1）：還沒見過的話她先報名字 */
     dialogue:[ {speaker:'heroine_02',expression:'surprised',text:'欸！法律系！你也修「經濟學原理」？'},{unless:{memory:[{npc:'heroine_02',tag:'FIRST_MET'}]},speaker:'heroine_02',expression:'smile',text:'林芷若，外文二。'},{speaker:'heroine_02',expression:'smile',text:'剛剛分組，我們那組缺一個人。要不要？期末報告是「一件你覺得不合理的定價」。'},{choice:[{text:'「好。網拍標錯價算不算？」',consequences:{mem:[{npc:'heroine_02',tag:'SHARED_CLASS',note:'通識經濟學同組'}],rel:{heroine_02:{fam:6,resp:3}},flags:{ge_group_zhiruo:true}},goto:'price'},{text:'「我報告很爛，妳確定？」',consequences:{mem:[{npc:'heroine_02',tag:'SHARED_CLASS',note:'通識經濟學同組'}],rel:{heroine_02:{fam:5,comf:3}},flags:{ge_group_zhiruo:true}}},{text:'「我已經有組了。」',consequences:{rel:{heroine_02:{fam:1}},mem:[{npc:'heroine_02',tag:'DECLINED_INVITE'}]},end:true}]},{goto:'join'},{label:'price'},{speaker:'heroine_02',expression:'surprised',text:'（眼睛一亮）一千元的相機那種？你們法律系上課講這個？'},{speaker:'heroine_02',expression:'smile',text:'……好，這個可以拍成短片。我剪片。你負責講。'},{label:'join'},{speaker:'heroine_02',expression:'laugh',text:'太好了。組員裡有一個法律系的，老師會怕我們。'},{stamp:['geGroupDay']} ] },   /* BB_95 2-4：「網拍標錯價」之後的接點（法律說法需法律審查：遊戲裡只當報告題目、不給結論）；加入小組群組（geGroupDay，phoneRules）*/
   /* 芷若 Z5 邀約（BB_96 3-5，交接包 v2 改）：大一下第 12～15 週（BB_161 ②）的週五 19–22 在 Café（她週五晚上的班；週六不在）、Z4（ev_zhiruo_secret）之後、有點熟以上、只一次。
