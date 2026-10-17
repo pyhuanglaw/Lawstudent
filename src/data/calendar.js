@@ -1,6 +1,7 @@
 /* ===== 遊戲日曆（2026-10-13）：日期、學期、寒暑假、國定假日 =====
    - 第 1 天＝2025-09-17（週三）（D48；AA_103 第 0 節：祐廷大一＝2025 學年）。日期只在程式內部用，畫面不顯示年份。
-   - 學期（AA_104 第 2 節）：每學期 18 週（第 8～9 週期中、第 17～18 週期末）；寒暑假沒有課。
+   - 學期：**16 週制**（使用者 2026-10-16 21:08 P0、10-17「16周才是對的」；AA_197 1-6、AA_198）：第 1～15 週上課、第 8～9 週期中、第 16 週期末、第 17 週起放假；寒暑假沒有課。
+     成績公布＝放假後第 3 個週一（C.gradeDay；AA_197 1-6：114 學年 1/5、6/29）。原本 18 週（AA_104 第 2 節）。
      開學日：114-1＝2025-09-01（AA_104）；其他學期是 LAWWW 暫定（2026-10-13 已請 AA 確認：AA_104 寫的 2026-02-16 是除夕），AA 改了就改這張表。
    - 國定假日：紀念日及節日實施條例（2025 年修正：新增教師節 9/28、臺灣光復暨金門古寧頭大捷紀念日 10/25、行憲紀念日 12/25、除夕前一日）。
      補假：週六放的提前到週五、週日放的延到週一（春節：落在週末的那幾天補在連假之後的上班日；兒童節與清明同一天時前一天放，逢週四改後一天）。
@@ -15,9 +16,9 @@ const CALENDAR=(function(){
   // 學期（id、開學日＝那一週的週一、週數）
   /* 經濟系大一（AA_106：2024 學年，Y0S1／Y0S2，開學日需查證台大 113 學年度行事曆）：使用者 2026-10-13（D56）要五年日曆在同一個世界連續運作。
      第 1 天仍是 2025-09-17（法律系的第一天，舊存檔不受影響）；經濟系那一年在第 1 天之前（第 -379 天起），劇情做好之前遊戲不會走到那裡。 */
-  const TERMS=[ {id:'Y0S1',start:'2024-09-02',weeks:18}, {id:'Y0S2',start:'2025-02-17',weeks:18},
-                {id:'Y1S1',start:'2025-09-01',weeks:18}, {id:'Y1S2',start:'2026-02-23',weeks:18}, {id:'Y2S1',start:'2026-09-07',weeks:18}, {id:'Y2S2',start:'2027-02-22',weeks:18},
-                {id:'Y3S1',start:'2027-09-06',weeks:18}, {id:'Y3S2',start:'2028-02-14',weeks:18}, {id:'Y4S1',start:'2028-09-04',weeks:18}, {id:'Y4S2',start:'2029-02-19',weeks:18} ];
+  const TERMS=[ {id:'Y0S1',start:'2024-09-02',weeks:16}, {id:'Y0S2',start:'2025-02-17',weeks:16},
+                {id:'Y1S1',start:'2025-09-01',weeks:16}, {id:'Y1S2',start:'2026-02-23',weeks:16}, {id:'Y2S1',start:'2026-09-07',weeks:16}, {id:'Y2S2',start:'2027-02-22',weeks:16},
+                {id:'Y3S1',start:'2027-09-06',weeks:16}, {id:'Y3S2',start:'2028-02-21',weeks:16}, {id:'Y4S1',start:'2028-09-04',weeks:16}, {id:'Y4S2',start:'2029-02-19',weeks:16} ];   /* 16 週制（AA_197 1-6）；大三下開學 2/21（AA_198 第 2 節第 6 點，原本 2/14）*/
   for(const T of TERMS){ T.t0=parse(T.start); T.t1=T.t0+T.weeks*7*DAY; }
   // 農曆節日（國曆日期）與清明
   /* 2024：經濟系那一年（D56）。放假規則照 2025 年修正後的（平行世界、虛構年份：不還原真實 2024 的放假日，使用者 D56「不需要還原 2011 年的建築、科技或考試制度」的同一個原則；LAWWW 的技術決定）*/
@@ -53,8 +54,12 @@ const CALENDAR=(function(){
     holiday(day){ const t=C.tOf(day), y=new Date(t).getUTCFullYear(), k=key(t); return holidaysOf(y)[k]||holidaysOf(y+1)[k]||null; },   /* 隔年元旦落在週六：補假在今年 12/31 */
     holidaysOf,
     typhoon(day){ return !!TYPHOON[C.dateOf(day).key]; },   /* 颱風假那一天（停課、下雨）*/
-    /* 這一天在哪個學期：{id, week（1～18）, exam：'mid'｜'final'｜null}；寒暑假＝null */
-    termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=17?'final':null)}; } } return null; },
+    /* 這一天在哪個學期：{id, week（1～16）, exam：'mid'（第 8～9 週）｜'final'（第 16 週）｜null}；寒暑假＝null */
+    termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=T.weeks?'final':null)}; } } return null; },
+    /* 學期的天數範圍（第 1 天＝開學週一、最後一天＝第 16 週週日）*/
+    termDays(id){ const T=TERMS.find(x=>x.id===id); if(!T) return null; const d0=Math.round((T.t0-DAY1)/DAY)+1; return {from:d0,to:d0+T.weeks*7-1}; },
+    /* 成績公布日（AA_197 1-6）：放假後第 3 個週一＝第 16 週之後第 3 個週一（114-1＝2026-01-05、114-2＝2026-06-29）*/
+    gradeDay(id){ const r=C.termDays(id); return r?r.to+1+14:null; },
     /* 'holiday'（國定、校定假日）／'term'（學期間）／'break'（寒暑假） */
     kind(day){ if(C.holiday(day)) return 'holiday'; return C.termOf(day)?'term':'break'; },
     weekend(day){ return C.dateOf(day).wd>=6; }
