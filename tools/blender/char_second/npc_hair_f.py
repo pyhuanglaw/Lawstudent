@@ -119,6 +119,9 @@ def apply(m):
     # ---- 2. 垂落的髮片：上段沿頭皮（球面參數）、耳下以下往下垂 ----
     def hang_card(a, vroot, off, wfac, reg, nseg=12, curl=0.0, wave=0.0, wph=0.0, flip=0.010, tip_dz=0.0, short=False, tight=0.0):
         """a：方位；vroot：髮根（髮旋附近）；short＝只到 z_hang（內層、頭頂層）"""
+        # 長髮的正側面（80–102°）只到耳下：往下垂的那段會掛在 T 字姿勢的肩膀上折出去、再被收回來，正面看是一條發亮的「<」折線
+        # （nf12、nf16、nf19、nf9 都有；2026-10-17 日劇髮型重建時一起修）。正面看的輪廓由前側（55–78°）、後面（110° 以後）的髮片撐住
+        if not short and 80 <= az(a) <= 102 and z_tip(a) < neck_z - 0.04: short = True
         vh = min(-0.02, v_at_z(a, z_hang)) if not short else min(-0.02, v_at_z(a, z_hang + 0.02))
         vv = np.linspace(vroot, vh, nseg + 1)
         # 第七版：兩側從髮際線往下漸漸蓬出 1 cm（第六版在耳朵高度貼著耳朵往內收、下面再往外張，正面看像兩束低馬尾）
@@ -137,7 +140,7 @@ def apply(m):
             # 第六、七版每片隨機外翻 0.8–1.8 cm：比旁邊翻得多的那一片，正面看就是一條往外飄的細線（兩側的髮片在正面看是側著的）
             F = float(np.interp(az(a), [36, 55, 70, 110, 135, 180], [0.004, 0.005, 0.004, 0.004, 0.005, 0.006]))   # 直髮：髮尾幾乎不外張
             fv = F + 0.35 * (flip - 0.013) - 0.004 * tight - 0.005 * edge
-            fo = FLIP * float(sstep(36, 52, az(a))) * (1 - 0.35 * edge)          # 外ハネ：髮尾最後三成往外翻、往上翹
+            fo = FLIP * float(sstep(36, 52, az(a))) * (1 - edge) * (1 - 0.6 * float(sstep(64, 78, az(a)) * (1 - sstep(108, 122, az(a)))))   # 外ハネ：髮尾最後三成往外翻、往上翹；正側面（正面看是側著的）不翻——nf7 試做：翻出去又被收回來，髮片扭成一條發亮的 S
             p0 = P[-1]; rad = _unit(np.array([p0[0] - c[0], p0[1] - c[1], 0.0]))
             tan = _unit(np.cross([0, 0, 1.0], rad))
             zt = z_tip(a) + tip_dz; n2 = 12; L2 = max(p0[2] - zt, 0.02)
@@ -245,9 +248,9 @@ def apply(m):
         for sgn in (1.0, -1.0):
             for k, t in enumerate((0.0, 0.5, 1.0)):
                 # 第二版：越過髮際線的那一點往下 6%（蓋住額頭上面的兩個角；第一版額頭整片露出來，顯得很大）
-                a0 = PART + sgn * (3.0 + 7.0 * t)
+                a0 = PART + sgn * (2.0 + 5.0 * t)       # 第三版：從更靠近分線的地方、在額頭上面低一點的地方往外撥（八字形蓋住額頭的兩個角）
                 z_end = eye_z - 0.040 - 0.035 * t + rng.uniform(-0.004, 0.004)
-                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(2.0, 2.2), z_end, sgn * (30.0 + 6.0 * t), early=0.55, reg='lock', v2=-0.06 - 0.03 * t)
+                fringe_card(a0 + rng.uniform(-1.0, 1.0), 0.48 + rng.uniform(0, 0.05), rng.uniform(2.3, 2.5), z_end, sgn * (24.0 + 6.0 * t), early=0.5, reg='lock', v2=-0.10 - 0.04 * t)
     elif BANG == 'heavy':               # 厚瀏海：11 片、寬一點、直直蓋到眉毛
         for k, a0 in enumerate(np.linspace(-32.0, 32.0, 11)):
             s_ = abs(a0) / 32.0
