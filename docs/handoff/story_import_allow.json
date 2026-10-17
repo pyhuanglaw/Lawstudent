@@ -798,6 +798,22 @@
    "approvedBy": "AA-B 06:54 核對、AA-C 口語審＋BB-C 口氣審 b13052e5（AA-C 18:31 合併）：第 1～5 節",
    "task": "ENC-B2-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
+   "sha": "8a08c312",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池",
+   "task": "SYS-PHONE-CHAT",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
+   "sha": "64aaaa82",
+   "status": "approved",
+   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節",
+   "task": "SYS-PHONE-CHAT",
+   "kind": "text"
   }
  ]
 }

@@ -7328,6 +7328,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "偶遇 11 列、作息、之後的一句、人物頁；enc_walk.js 第二批 24 條換新版；新機制 busyLine（語彤只點頭也留記憶）、同行台詞的 {who,t}（溫媽媽）、presence 不在不出現、芷若「19:30 以後」只在西門町（第三批 D02 也受惠）"
+  },
+  {
+   "id": "DL-MSG1-1017",
+   "date": "2026-10-17",
+   "from": "AA-B／BB-B（帳號 B 交付，AA-B 核過）",
+   "account": "B",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8a08c312／64aaaa82",
+   "what": "MSG-1 玩家主動傳訊息：AA_202 第 1～6 節（規格＋AA 六位回覆池）、BB_178（BB 九位回覆池第二版，AA 核過）",
+   "task": "SYS-PHONE-CHAT",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "src/data/msg_pool.js 391 則逐字；src/msg3d.js 機制"
   }
  ],
  "ignored": [

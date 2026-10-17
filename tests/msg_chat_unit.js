@@ -96,4 +96,34 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try
     check('F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）',!miss.length,miss.slice(0,8).join(' ｜ ')+(miss.length>8?' …共 '+miss.length:'')); }
   const n=Object.values(P).reduce((a,p)=>a+(p.replies||[]).length,0); check('F2. 十五位都有回覆池',Object.keys(P).length>=15&&n>200,Object.keys(P).length+' 人、'+n+' 則'); }
 else console.log('（略過 F：src/data/msg_pool.js 還沒有）');
+// G 真的回覆池的規則（BB_178 各人那一節）
+if(REAL){ global.MSG_POOL=realPool; const P=realPool.people;
+  const mk=(id,stage,d,h,flags)=>{ fresh(d,h,flags); INV.addContact(G,id); STAGE[id]=stage; return G; };
+  { mk('heroine_05',2,day,10); const a=MSG.replyAt(G,'heroine_05'); G.hour=13; const b=MSG.replyAt(G,'heroine_05'); G.hour=23; const c=MSG.replyAt(G,'heroine_05');
+    check('G1. 學姊很準時：10:00 傳→12:10 回、13:00→17:05、23:00→隔天 12:10（先「抱歉，昨天十點半就睡了。」）',Math.abs(a.h-(12+10/60))<1e-6&&Math.abs(b.h-(17+5/60))<1e-6&&c.day===day+1&&c.late&&MSG.timing('heroine_05').wakeLine[0]==='抱歉，昨天十點半就睡了。',JSON.stringify([a,b,c]));
+    G.hour=10; const e=MSG.pick(G,'heroine_05','chat'); const vv=x=>x.version||x.variant;
+    check('G2. 學姊有點熟＝事務版的句子（事務版或兩版都用）',!!e&&/事務版|都/.test(vv(e)||''),JSON.stringify(e));
+    STAGE.heroine_05=3; const e2=MSG.pick(G,'heroine_05','chat'); check('G2. 朋友、兩人都單身＝閒聊版',!!e2&&/閒聊版|都/.test(vv(e2)||''),JSON.stringify(e2)); }
+  { const zq=P.heroine_04.replies.find(e=>e.immediateOnly); mk('heroine_04',6,day,22.5,{dating_heroine_04:true}); G.events.done.ev_ziqing_secret_game=1;   /* 22:30（23:00 起是深夜，情況版優先）*/
+    let hit=false; for(let i=0;i<8;i++){ const e=MSG.pick(G,'heroine_04','chat',null,{immediate:false}); if(e===zq) hit=true; }
+    let hit2=false; for(let i=0;i<8;i++){ const e=MSG.pick(G,'heroine_04','chat',null,{immediate:true}); if(e===zq) hit2=true; }
+    check('G3. 子晴「你就傳了」只在立即回覆',!!zq&&!hit&&hit2); }
+  { mk('zhe',3,day,15); const ge=P.zhe.replies.filter(e=>e.geFlag); let bad=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'zhe','chat'); if(e&&e.geFlag) bad++; }
+    G.flags.ZHE_CALLS_GE=true; let ok=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'zhe','chat'); if(e&&e.geFlag) ok++; }
+    check('G4. 阿哲有「哥」的句子：沒有 ZHE_CALLS_GE 不用、有了才用',ge.length>0&&bad===0&&(ok>0||!ge.some(e=>e.topic==='chat')),JSON.stringify({bad,ok})); }
+  { const dis=P.heroine_02.replies.filter(e=>e.disabled); const uk=STORY.dayOfKey('2028-10-20'); mk('heroine_02',3,uk,15); let used=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'heroine_02','chat'); if(e&&e.disabled) used++; }
+    check('G5. 芷若大四在倫敦的句子（BB 停用）不播；那段按鈕也不開',dis.length>0&&used===0&&!MSG.open(G,'heroine_02').ok); }
+  { const tue=STORY.termDay('Y1S1',5,2); mk('classmate_mingxuan',3,tue,19.5); const r=MSG.send(G,'classmate_mingxuan','chat'); const q=PHONE.rec(G).q[0];
+    check('G6. 明軒週二 19:30（家教）：21:05 一次回，先「剛家教完 你說什麼」再接一般句',r.ok&&Math.abs(q.h-(21+5/60))<1e-6&&q.items[0].text==='剛家教完 你說什麼'&&q.items.length>=2,JSON.stringify(q)); }
+  { mk('heroine_04',3,day,10); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','chat'); const q=PHONE.rec(G).q[0];
+    check('G6b. 子晴早上傳：下午兩點多回，開頭「早／剛看到」或「剛起床」（上午傳的），再接一般句、不接「你就傳了」',q.h>=14&&q.h<14.4&&['早','剛起床'].includes(q.items[0].text)&&q.items.length>=3&&!q.items.some(x=>x.text==='你就傳了'),JSON.stringify(q.items)); }
+  { mk('kai',3,day,10); const at=MSG.replyAt(G,'kai'); check('G7. 阿凱一點以前傳的：一點多回，先「剛醒」',at.late&&at.h>=13&&at.h<13.4&&MSG.timing('kai').wakeLine[0]==='剛醒',JSON.stringify(at)); }
+  { mk('heroine_03',3,STORY.termDay('Y1S1',5,2),18); const at=MSG.replyAt(G,'heroine_03'); check('G8. 語彤週二麵店時間：20:30 以後才回',Math.abs(at.h-20.5)<1e-6,JSON.stringify(at)); }
+  /* 全部的人、話題、層、時間掃一遍：不出錯、不挑到停用的；平日下午學期中每個人的「在幹嘛」都挑得到 */
+  { const errs=[], none=[]; const ids=Object.keys(P).filter(id=>id!=='kevin'); const days=[day,STORY.termDay('Y2S1',8,6),STORY.dayOfKey('2026-07-15'),STORY.dayOfKey('2027-01-20'),STORY.termDay('Y3S2',16,3),STORY.termDay('Y4S1',3,1)];
+    for(const id of ids) for(const d of days) for(const h of [9,15,20,23.5,1]) for(const st of [1,3,4,6]){ try{ fresh(d,h,id==='kexin'?{dating_kexin:true}:{}); INV.addContact(G,id); STAGE[id]=st; G.events.done.ev_ziqing_secret_game=1;
+        for(const tp of ['chat','course','share','night']){ const e=MSG.pick(G,id,tp,tp==='share'?'cat':null); if(e&&e.disabled) errs.push(id+':停用'); }
+        if(d===day&&h===15&&st===3&&MSG.open(G,id).ok&&!MSG.pick(G,id,'chat')) none.push(id); }catch(x){ errs.push(id+':'+x.message); } }
+    check('G9. 15 人 × 6 天 × 5 個時間 × 4 個關係掃過：不出錯、不挑到停用的',!errs.length,errs.slice(0,5).join(' '));
+    check('G9. 大一上平日 15:00、朋友：每個開得了的人「在幹嘛」都挑得到句子',!none.length,none.join(' ')); } }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
