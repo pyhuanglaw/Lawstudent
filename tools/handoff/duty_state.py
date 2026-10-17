@@ -197,6 +197,12 @@ def verify(args, d=None, out=None):
                     rc, n = git(args.root, 'rev-list', '--count', f'{last}..{href}')
                     rc2, files = git(args.root, 'diff', '--name-only', last, href)
                     real = [f for f in files.splitlines() if f and not (f.startswith('docs/handoff/') or f == ROSTER_DOC)]   # 交班本身的紀錄（duty_*.json、快照、值班表）不算繼續寫
+                    # 接班的 LAWWW 查核過、記在 anomalies（kind post-handoff-writes、reviewedThrough＝查到的那個 commit）：分支停在那裡就只列資訊；之後又有新 commit 照樣報異常（fail closed）
+                    rv = [a for a in d.get('anomalies') or [] if a.get('kind') == 'post-handoff-writes' and a.get('role') == r and a.get('branch') == hb and a.get('resolved') and a.get('reviewedThrough')]
+                    rc3, tip = git(args.root, 'rev-parse', href)
+                    if rv and rc3 == 0 and any(tip.strip().startswith(a['reviewedThrough']) for a in rv):
+                        info.append(f'{r}：帳號 {h.get("account")} 的分支 {hb} 交班（{last}）以後的 {n} 個 commit 已查核（{rv[-1]["reviewedThrough"]}，見 anomalies）')
+                        continue
                     if rc == 0 and n.isdigit() and int(n) > 0 and real:
                         A(6, f'{r}：帳號 {h.get("account")} 的分支 {hb} 在它交班（{last}）以後還有 {n} 個 commit——疑似兩個帳號同時寫同一個職位；查清楚以前不要合併、不要覆寫，回報使用者')
     # 11 職位登記的 WIP 分支：還沒整合進自己的分支＝未整合（不能當作完成，也不能刪）
