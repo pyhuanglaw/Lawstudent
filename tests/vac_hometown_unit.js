@@ -38,6 +38,10 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const a=pr('kexin','2025-12-22'); check('1. 12/22 放假第一天：可昕在高雄（kind home）',a.here===false&&a.kind==='home'&&a.home==='高雄',J(a));
   check('1. 2/20 還在高雄、2/21（開學前 2 天）回臺北',pr('kexin','2026-02-20').kind==='home'&&pr('kexin','2026-02-21').here===true);
   check('1. 暑假 2026-07-10：可昕在高雄；沛珊在台中',pr('kexin','2026-07-10').home==='高雄'&&pr('classmate_peishan','2026-07-10').home==='台中');
+  // 1 例外（AA_276 第 1 節、13c583c9）：已經排在臺北的活動照常，結束隔天才回老家——沛珊大一暑假 C02 營隊隊輔 7/1～7/5，7/6 才回台中；可昕照舊放假第一天就回高雄
+  { const b=pr('classmate_peishan','2026-06-20'), c=pr('classmate_peishan','2026-07-05'), d=pr('classmate_peishan','2026-07-06');
+    check('1 例外. 沛珊 6/20、7/5 還在臺北（C02 營隊），7/6 回台中',b.kind!=='home'&&c.kind!=='home'&&d.kind==='home'&&d.home==='台中',J([b.kind,c.kind,d.kind]));
+    check('1 例外. 只限那個暑假：寒假 2025-12-22 沛珊照舊在台中；可昕 6/20 在高雄',pr('classmate_peishan','2025-12-22').kind==='home'&&pr('kexin','2026-06-20').kind==='home'); }
   check('1. 學期中 2026-03-10：都在臺北',pr('kexin','2026-03-10').here===true&&pr('classmate_peishan','2026-03-10').here===true);
   check('1. 經濟系那年的寒假（2025-01-20）不算（照 AA_272）',pr('kexin','2025-01-20','econ').here===true&&STORY.homeAway({day:DK('2025-01-20')})===false);
   check('1. 其他人不受影響：以安 2026-07-10 照舊',pr('heroine_01','2026-07-10').kind!=='home');
