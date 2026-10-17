@@ -3248,7 +3248,7 @@ const STORY_EVENTS_V11=[
   { id:'ev_almost_late', title:'快遲到', participants:[], location:'campus', trigger:'enter', weekday:[2], time:[9.9,10.25], day_min:3, cooldown_days:6, background:'freeze',
     dialogue:[ {speaker:null,text:'十點二十的課。你看了一眼手機，開始用走的假裝自己沒有在跑。'} ], consequences:{goal:'霖澤館：上課'} },
   { id:'ev_course_selection', title:'選課結果', participants:[], location:'dorm', trigger:'enter', day_min:5, once:true, time:[7,12], background:'freeze',
-    dialogue:[ {speaker:null,text:'選課結果出來了。通識「城市與散步」——沒選上。備取十七。'},{choice:[{text:'沒選到的那堂，等第二階段有人退選，再上網加加看。',consequences:{flags:{ge_walk_waitlist:true},memo:'通識「城市與散步」備取，打算加簽'}},{text:'算了，下學期再選。',consequences:{memo:'通識「城市與散步」沒選上，下學期再選'}}]} ] },   /* 交接包 v1 第 1 節：祐廷本來就要重修經原（必修），不設 ge_econ */
+    dialogue:[ {speaker:null,text:'選課結果出來了。通識「城市與散步」——沒選上。備取十七。'},{choice:[{text:'沒選到的那堂，等第二階段有人退選，再上網加加看。',consequences:{flags:{ge_walk_waitlist:true},memo:'通識「城市與散步」備取，等第二階段退選'}},{text:'算了，下學期再選。',consequences:{memo:'通識「城市與散步」沒選上，下學期再選'}}]} ] },   /* 交接包 v1 第 1 節：祐廷本來就要重修經原（必修），不設 ge_econ */
   { id:'ev_forgot_book', title:'忘記還書', participants:[], location:'library', trigger:'enter', day_min:6, cooldown_days:7, random_weight:0.4, background:'freeze',
     dialogue:[ {speaker:null,text:'櫃台叫住你：「同學，你有一本《民法總則》逾期三天。」'},{choice:[{text:'繳罰款（30 元）',consequences:{money:-30}},{text:'「我明天拿來。」',consequences:{flags:{book_overdue:true}}}]} ] },
   { id:'ev_midnight_snack', title:'考前宵夜', participants:['zhe'], location:'dorm', trigger:'enter', weeks:[7,8],   /* AA_195 4-7 A5：期中前（第 7～8 週）；期末前那次等 16 週制（E 類）*/ time:[22,24.5], cooldown_days:5, random_weight:0.5, background:'freeze',
