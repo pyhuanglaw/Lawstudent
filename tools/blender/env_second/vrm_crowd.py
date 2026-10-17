@@ -24,6 +24,11 @@ PAL = {
     'shoe': (['#f1f1ee'] * 4 + ['#1c1c1e'] * 3 + ['#8b8f96', '#c8b79c'], 11.3),
     'hair': (['#151110'] * 6 + ['#211813'] * 4 + ['#2e2119'] * 3 + ['#4a3427', '#5e4431'], 7.13),
 }
+# 開學典禮（使用者 00:2x 給的實際典禮照片）：新生幾乎都穿白色 T 恤、黑頭髮
+FRESHMEN = {
+    'top': (['#f5f5f2'] * 14 + ['#eceae4', '#dfe3e8', '#2a2d33'], 1.0),
+    'hair': (['#0b0a09'] * 7 + ['#120e0c'] * 4 + ['#1e1611'] * 2, 7.13),
+}
 
 def kind_of(name):
     n = name.upper()
@@ -40,12 +45,15 @@ def remat(m, cache, pal=None):
     tx = [n for n in m.node_tree.nodes if n.type == 'TEX_IMAGE']
     img = tx[0].image if tx else None; k = kind_of(m.name)
     nm = bpy.data.materials.new('crowd_' + m.name); nt = nm.node_tree; N = nt.nodes; bs = N['Principled BSDF']
-    bs.inputs['Roughness'].default_value = 0.45 if k == 'hair' else (0.8 if k else 0.55)
+    bs.inputs['Roughness'].default_value = 0.72 if k == 'hair' else (0.8 if k else 0.55)
+    if k == 'hair':   # 黑髮、霧面：反光很弱（使用者 00:2x「他們頭髮為什麼看起來很灰」——原本 0.45 的光澤把屋頂整排白燈反成一片灰）
+        try: bs.inputs['Specular IOR Level'].default_value = 0.18
+        except Exception: pass
     if img:
         t = N.new('ShaderNodeTexImage'); t.image = img
         if k:
             bw = N.new('ShaderNodeRGBToBW'); nt.links.new(t.outputs['Color'], bw.inputs['Color'])
-            gm = N.new('ShaderNodeMath'); gm.operation = 'POWER'; gm.inputs[1].default_value = 0.6; nt.links.new(bw.outputs['Val'], gm.inputs[0])
+            gm = N.new('ShaderNodeMath'); gm.operation = 'POWER'; gm.inputs[1].default_value = 1.4 if k == 'hair' else 0.6; nt.links.new(bw.outputs['Val'], gm.inputs[0])   # 頭髮：貼圖的明暗壓深（不要淡淡的灰）
             mx = N.new('ShaderNodeMix'); mx.data_type = 'RGBA'; mx.blend_type = 'MULTIPLY'; mx.inputs['Factor'].default_value = 1.0
             rp = ramp_node(nt, *P_[k])
             nt.links.new(rp.outputs['Color'], mx.inputs[6]); 
