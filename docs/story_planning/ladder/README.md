@@ -1,6 +1,6 @@
 # 閒聊階梯資料（大一上；使用者 2026-10-15 全案通過，直接實作。大一下起一學期一個檔，2026-10-16）
 
-- **經濟系大一（Y0S1、Y0S2，v0）**：可昕、品妤、唐睿、阿勳、韋綸：`ladder_bb_y0s1.json`（K0／PY0／TR0／XN0／WL0-L1～8）、`ladder_bb_y0s2.json`（K0b／PY0b／TR0b／XN0b／WL0b-L1～8；可昕整學期都在交往，第 1 週起〔2026-10-17 BB-C，AA_218 第 10 節：2024-10-17 交往〕；大一上的可昕 K0 只到第 6 週）；原稿說明 `../BB_146`；`build_ladder_bb_y0s1.py`、`build_ladder_bb_y0s2.py`；BB-B 2026-10-16（AB-20）。
+- **經濟系大一（Y0S1、Y0S2，v0）**：可昕、品妤、唐睿、阿勳、韋綸：`ladder_bb_y0s1.json`（K0／PY0／TR0／XN0／WL0-L1～8）、`ladder_bb_y0s2.json`（K0b／PY0b／TR0b／XN0b／WL0b-L1～8；可昕整學期都在交往，第 1 週起〔2026-10-17 BB-C，AA_218 第 10 節：2024-10-17 交往〕；大一上的可昕 K0-L1～L8 只到第 6 週（交往前，不讀 `dating_kexin`、都 `skipAfterWeek:6`），後面接交往後的 K0-Lx1～Lx8（第 7～16 週，`if` 只放 `dating_kexin`），一共 16 層〔2026-10-17 BB-C（照 AA_235 71d62646）〕）；原稿說明 `../BB_146`；`build_ladder_bb_y0s1.py`、`build_ladder_bb_y0s2.py`；BB-B 2026-10-16（AB-20）。
 
 - `ladder_bb.json`：BB-B 的芷若（heroine_02）、子晴（heroine_04）、溫學姊（heroine_05；S-L3、S-L6 已刪，目前 6 層，AA 補 2 層）、沛珊（classmate_peishan）、可昕（kexin）＋室友阿凱宿舍事件（`kaiDorm`）。原稿 `../BB_130_閒聊階梯_芷若子晴學姊沛珊_室友阿凱.md`；由 `build_ladder_bb.py` 產生（改台詞改 .py，再跑一次）。
 - `ladder_aa.json`：AA-B 的以安（heroine_01）、語彤（heroine_03）。原稿 `../AA_135`、`../AA_136`；由 `build_ladder_aa.py` 產生。
