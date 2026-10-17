@@ -18,6 +18,8 @@ PROPS = json.loads(OPT['--props']) if OPT.get('--props', '').startswith('[') els
 EXTRA = dict(a.split('=', 1) for a in [sys.argv[i + 1] for i in range(1, len(sys.argv) - 1) if sys.argv[i] == '--asset'])
 QS = {'tpose': '&tpose=1', 'walk': '&pose=walk&speed=1.4', 'sit': '&pose=sit'}.get(MODE, '') + ('&blchar' if '--blchar' in sys.argv else '')   # --blchar：開發分支（2026-10-14 起）沒有 ?blchar 時會把 blOnly 的人物（芯慈等）從 manifest 拿掉
 VIEWS = {'walk': ('body_front', 'body_q45', 'body_side'), 'sit': ('body_front', 'body_q45', 'body_side', 'hips_side')}.get(MODE, ('face_front', 'face_q45', 'face_side', 'body_front', 'body_q45', 'body_back'))
+if OPT.get('--views'): VIEWS = tuple(OPT['--views'].split(','))     # --views a,b：只拍這幾個（可以是 --vdef 定義的）
+VDEF = [sys.argv[i + 1] for i in range(1, len(sys.argv) - 1) if sys.argv[i] == '--vdef']   # --vdef "top_back=[0,head+1.1,1.9,0,-0.05]"：多定義一個鏡頭（test_charlook 的 V 表：位置 x,y,z、看的點的模式、高度）
 URL = 'assets/models/char/second_ai/_lookdev_%s.vrm' % TAG
 os.makedirs(OUT, exist_ok=True)
 INJ = ("<script src=\"src/props3d.js\"></script>\n<script>ASSETS.manifest['char.lookdev_test']=Object.assign({},ASSETS.manifest[%s],{url:%s,height:%s});"
@@ -35,6 +37,7 @@ async def main():
         async def page(route):
             r = await route.fetch(); body = (await r.text()).replace('<script src="src/props3d.js"></script>', INJ)
             if OPT.get('--bg'): body = body.replace('0xc9c6bf', '0x' + OPT['--bg'])   # --bg ff00ff：背景換成洋紅，衣服的破洞（看穿到背景）和皮膚分得出來
+            body = body.replace('const V={', 'const V=window.__V={', 1)          # --vdef 用：鏡頭表掛到 window（原本在函式裡）
             await route.fulfill(response=r, body=body, headers={'content-type': 'text/html; charset=utf-8'})
         await pg.route(re.compile(r'.*/test_charlook\.html.*'), page)
         vb = open(VRM, 'rb').read()
@@ -49,6 +52,8 @@ async def main():
             if await pg.evaluate('!!window.__ready'): break
             await pg.wait_for_timeout(500)
         print('log', (await pg.evaluate("document.getElementById('log').textContent")).strip().replace('\n', ' | '))
+        for d in VDEF:
+            k, e = d.split('=', 1); await pg.evaluate("(()=>{ const V=window.__V, head=V.face_front[1]+0.02; V[%r]=%s; })()" % (k, e))
         for v in VIEWS:
             await pg.evaluate("window.__view(%r)" % v); await pg.wait_for_timeout(1500)
             await pg.screenshot(path=f'{OUT}/{TAG}_look_{v}{"" if MODE == "idle" else "_" + MODE}.png')
