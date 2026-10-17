@@ -5232,6 +5232,19 @@
    "msg": "DELIVERED",
    "integration": "已整合待測試",
    "note": "取代黑畫面"
+  },
+  {
+   "id": "DL-LW2-COPLANAR-LIB",
+   "date": "2026-10-17",
+   "from": "LAWWW2-B",
+   "account": "B",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "6f10b1fe",
+   "what": "BUG-COPLANAR-DEV 總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）：library_interior.glb、lawlib_interior.glb＋json＋腳本；節點、材質名稱不變",
+   "task": "BUG-COPLANAR-DEV",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "待跑 flow_library_floors、flow_library_scene、法圖測試"
   }
  ],
  "ignored": [
