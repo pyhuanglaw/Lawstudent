@@ -12566,7 +12566,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【59facb8b 夜間材質清單洩漏修好後，宿舍開局貼圖 130→76、回宿舍 127→101（dorm_start_memory 改成來回兩次比）；「宿舍開局貼圖數和校園一樣多」的調查結論：是那個洩漏】①止血（2e30f326、a73e27f9、f0a0fb30）②手機貼圖上限（1051004f）③已做：ADV 立繪／CG 快取 16 張（7b36a99f）、全畫面 2D 不畫 3D（55d014eb）；還要做：貼圖上傳後釋放 CPU 端圖片（風險：context lost 後要能重傳，先量）、宿舍開局貼圖數和校園一樣多的調查（tests/dorm_start_memory.py，LAWWW-C 排瀏覽器第四批）④iPhone 實機請使用者確認（需要發版）",
+   "next": "【17:3x LAWWW-C 評估「貼圖上傳後釋放 CPU 端圖片」：不做（不安全）】①換區域時 engine3d.js disposeGroup 會 dispose 這一區所有非 shared 的貼圖，包括 ASSETS.cache 裡建築 GLB 的貼圖；再進同一區時 three.js 從 texture.image 重新上傳——放掉 image＝回到去過的區域貼圖全黑。②context 掉了恢復時也要 texture.image（assets3d 的設計就是留縮好的 bitmap 給恢復用）。③已經做的：手機貼圖上限（顏色 1024、資料 512）、縮過的原圖 close()、canvas 換 bitmap、ADV 快取 16 張、全畫面 2D 不畫 3D、夜間材質洩漏。比較安全的下一步（要先量）：離開區域時把下一區用不到的建築 GLB 從 ASSETS.cache 拿掉（GPU 和 CPU 兩份都放），再進來時重新抓（瀏覽器 HTTP 快取）——代價是再進來要重新解析；需要瀏覽器量 renderer.info 與 JS heap（不能和回歸批次同時跑）。④iPhone 實機確認要等下一版發布。｜【59facb8b 夜間材質清單洩漏修好後，宿舍開局貼圖 130→76、回宿舍 127→101（dorm_start_memory 改成來回兩次比）；「宿舍開局貼圖數和校園一樣多」的調查結論：是那個洩漏】①止血（2e30f326、a73e27f9、f0a0fb30）②手機貼圖上限（1051004f）③已做：ADV 立繪／CG 快取 16 張（7b36a99f）、全畫面 2D 不畫 3D（55d014eb）；還要做：貼圖上傳後釋放 CPU 端圖片（風險：context lost 後要能重傳，先量）、宿舍開局貼圖數和校園一樣多的調查（tests/dorm_start_memory.py，LAWWW-C 排瀏覽器第四批）④iPhone 實機請使用者確認（需要發版）",
    "first": {
     "term": "Y1S1",
     "week": 1,
