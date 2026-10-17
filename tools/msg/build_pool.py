@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句).
+# Builds msg_pool.json from AA_202 section 6 and BB_178 sections 0-8b (first version 8a08c312 / 64aaaa82; 67f74502: AA-C 2026-10-17 回問／問句改句; b61e4f55: 同內容，和 MSG-2 用同一個版本).
 # ZHE_ASK = AA_202 6-4 表下「回問」（67f74502）.
 # Every Chinese string below is copied verbatim from the source docs; verify_pool.py checks that.
 import json, os, copy
@@ -738,7 +738,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': '67f74502', 'BB_178': '67f74502'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'b61e4f55'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

@@ -5,15 +5,17 @@
 //   D 層：A／R／L；L 只給戀愛對象（交往中，或第 5 階以上而且兩人都單身）；同一層輪流用；情況版（放假、深夜）先用；標籤不對不用。
 //   E 熟悉度：SOCIAL.activity 'msg'（一天最多 +1）；一週第 4 次起不加。
 //   F 真的回覆池（src/data/msg_pool.js）在的話：每一句都在 AA_202 第 6 節或 BB_178 的原文裡（逐字）。
+//   H 第二批話題（MSG-2，src/data/msg2_pool.js）：生日當天才有「生日快樂」；1/1、除夕到初三才有「新年快樂」；「還好嗎」在那件事以後 3 天內、「謝謝」7 天內一次；
+//     條件對不到遊戲裡的事件就不開；分年份的生日列；學姊事務版用 A；沛珊消失期已送達不回；方奕廷過年初三 15:00 才回；旁白不算她的訊息；每一句逐字在 AA_202／AA_257 原文裡。
 // 修改前：沒有 MSG（第 A 項就失敗）。用法：node tests/msg_chat_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|ROM|MSG|MSG_POOL|HOME)$/.test(n)?'global.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|ROM|MSG|MSG_POOL|MSG2_POOL|HOME)$/.test(n)?'global.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 const REAL=fs.existsSync(path.join(ROOT,'src/data/msg_pool.js'));
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(['src/msg3d.js'])) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(fs.existsSync(path.join(ROOT,'src/data/msg2_pool.js'))?['src/data/msg2_pool.js']:[]).concat(['src/msg3d.js'])) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 let G=null; const STAGE={};
@@ -126,4 +128,54 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people;
         if(d===day&&h===15&&st===3&&MSG.open(G,id).ok&&!MSG.pick(G,id,'chat')) none.push(id); }catch(x){ errs.push(id+':'+x.message); } }
     check('G9. 15 人 × 6 天 × 5 個時間 × 4 個關係掃過：不出錯、不挑到停用的',!errs.length,errs.slice(0,5).join(' '));
     check('G9. 大一上平日 15:00、朋友：每個開得了的人「在幹嘛」都挑得到句子',!none.length,none.join(' ')); } }
+// H 第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂；AA_202 第 7 節、AA_257、BB_178 第 10 節）
+if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2=MSG2_POOL.people;
+  const mk=(id,stage,d,h,flags)=>{ fresh(d,h,flags); INV.addContact(G,id); STAGE[id]=stage; return G; };
+  const tk=id=>MSG.topics(G,id).map(q=>q.k); const K=k=>STORY.dayOfKey(k);
+  const reply=()=>{ const q=PHONE.rec(G).q; return q.length?q[q.length-1].items.map(x=>x.text):[]; };
+  { let src=''; try{ for(const [f,k] of [['AA_202_玩家主動傳訊息_規格.md','AA_202'],['AA_257_MSG2_BB九位回覆池.md','AA_257']]) src+=cp.execSync('git show '+MSG2_POOL.source[k]+':"docs/story_planning/'+f+'"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(x){ src=''; }
+    if(!src) console.log('（略過 H1：沒有企劃原文的歷史）'); else { const miss=[]; let n=0; for(const id in P2) for(const e of P2[id].replies) for(const t of (e.msgs||[]).concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[])).concat(e.ask?[e.ask.q]:[])){ n++; if(src.indexOf(t.replace(/\*\*/g,''))<0) miss.push(id+':'+t); }
+      check('H1. MSG-2 每一句（含回問）都在 AA_202 第 7 節／AA_257 原文裡（逐字）',!miss.length&&n>150,miss.slice(0,6).join(' ｜ ')+' 共 '+n+' 句'); } }
+  { mk('heroine_01',1,K('2025-09-14'),15); const a=tk('heroine_01').includes('bday'); G.day=K('2025-09-15'); G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('bday');
+    check('H2. 以安 9/15：當天才有「生日快樂」',!a&&b); const r=MSG.send(G,'heroine_01','bday'); check('H2. 傳了：回「謝謝。」（A）',r.ok&&r.text==='生日快樂'&&reply()[0]==='謝謝。',JSON.stringify(reply())); }
+  { const ny=k=>{ mk('heroine_01',3,K(k),15); return tk('heroine_01').includes('newyear'); };
+    check('H3. 新年快樂：1/1、除夕（2026-02-16）、初三（02-19）有；除夕前一日（02-15）、初四（02-20）、1/2 沒有',ny('2026-01-01')&&ny('2026-02-16')&&ny('2026-02-19')&&!ny('2026-02-15')&&!ny('2026-02-20')&&!ny('2026-01-02')); }
+  { const d0=STORY.termDay('Y1S2',12,4); const okAt=dd=>{ mk('heroine_01',3,dd,15); G.events.done.ev_an_yu_argument=1; G.events.last.ev_an_yu_argument=d0; return tk('heroine_01').includes('ok'); };
+    check('H4. 以安「還好嗎」：和小語吵架那天起 3 天內有，第 4 天以後、還沒吵架的沒有',okAt(d0)&&okAt(d0+3)&&!okAt(d0+4)&&(mk('heroine_01',3,d0,15),!tk('heroine_01').includes('ok')));
+    okAt(d0+1); MSG.send(G,'heroine_01','ok'); check('H4. 回 R「還好。……想一下就好了。」',reply().join('/')==='還好。……想一下就好了。',JSON.stringify(reply())); }
+  { mk('zhe',3,K('2025-11-03'),15); check('H5. 阿哲「還好嗎」（系籃輸球那天）：遊戲裡還沒有那一場，不開',!tk('zhe').includes('ok')&&!MSG.conds2(G,'zhe','ok').length); }
+  { const d=STORY.termDay('Y1S1',5,3); mk('heroine_01',3,d,15); const R=MSG.rec(G); const a=tk('heroine_01').includes('thanks');
+    global.MSG_POOL=FAKE; MSG.send(G,'heroine_01','course'); global.MSG_POOL=REAL?realPool:FAKE; const h=R.help.heroine_01;
+    G.day=d+1; G.weekday=wdOf(G.day); const b=tk('heroine_01').includes('thanks'); MSG.send(G,'heroine_01','thanks'); const rp=reply().join('/');
+    G.day=d+2; G.weekday=wdOf(G.day); const c=tk('heroine_01').includes('thanks');
+    check('H6. 以安問課回了筆記照片（通則）：之後才有「謝謝」，傳過一次就不再有',!a&&!!h&&h.k==='notes'&&b&&!c,JSON.stringify({a,h,b,c}));
+    check('H6. 「謝謝」回 R「不會。下次換你。」',rp==='不會。下次換你。',rp);
+    G.day=d+9; G.weekday=wdOf(G.day); R.thx={}; check('H6. 超過 7 天：沒有',!tk('heroine_01').includes('thanks')); }
+  { const d=STORY.termDay('Y1S1',4,5); const z=fl=>{ mk('heroine_02',3,d+1,15,fl); G.events.done.ev_zhiruo_ge_group=1; G.events.last.ev_zhiruo_ge_group=d; return tk('heroine_02').includes('thanks'); };
+    check('H7. 芷若 Z2 經原小組：選了加入（ge_group_zhiruo）才有「謝謝」，「我已經有組了」沒有',z({ge_group_zhiruo:true})&&!z({})); }
+  { const s=(k,st,fl)=>{ mk('heroine_05',st,K(k),10,fl); return tk('heroine_05').includes('bday'); };
+    check('H8. 學姊 6/2：2026 有；2028（照 BB_98 2-11，句子還沒進回覆池）先不開',s('2026-06-02',3)&&!s('2028-06-02',3));
+    s('2026-06-02',2); MSG.send(G,'heroine_05','bday'); check('H8. 有點熟（事務版）：回 A「謝謝。」',reply().slice(-1)[0]==='謝謝。',JSON.stringify(reply()));
+    s('2027-06-02',3); MSG.send(G,'heroine_05','bday'); check('H8. 朋友、兩人都單身：回 R「謝謝。今天的計畫本，我沒有排事情。」',reply().slice(-1)[0]==='謝謝。今天的計畫本，我沒有排事情。',JSON.stringify(reply())); }
+  { const zq=k=>{ mk('heroine_04',3,K(k),15); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','bday'); return reply().join('/'); };
+    const a=zq('2027-02-10'), b=zq('2029-02-10'); check('H9. 子晴生日 R：2027「我今天收到一個 bug 當禮物」、2029 換「同事買了一個很大的蛋糕」',/bug/.test(a)&&/同事買了一個很大的蛋糕/.test(b),a+' ｜ '+b); }
+  { mk('classmate_peishan',3,K('2027-03-15'),15); const t=tk('classmate_peishan'); const r=MSG.send(G,'classmate_peishan','bday');
+    check('H10. 沛珊 2027-03-15（重考消失期）：「生日快樂」照開、已送達、不回，記下傳過',t.includes('bday')&&r.ok&&r.silent&&!PHONE.rec(G).q.length&&MSG.rec(G).bday['classmate_peishan:2027']===G.day,JSON.stringify(t)); }
+  { mk('heroine_04',6,STORY.termDay('Y2S1',3,1),20,{dating_heroine_04:true}); G.events.done.ev_ziqing_secret_game=1; G.events.done.ev_ziqing_lab_letter=1; G.events.last.ev_ziqing_lab_letter=G.day;
+    MSG.send(G,'heroine_04','ok'); const q=PHONE.rec(G).q.slice(-1)[0]; const last=q&&q.items[q.items.length-1]; const op=last&&last.ask&&last.ask.opts;
+    check('H11. 子晴 L「還好嗎」（Q7）：最後一則帶回問「好 打給我」「現在不行 晚一點」',!!op&&op.map(o=>o.t).join('/')==='好 打給我/現在不行 晚一點',JSON.stringify(op&&op.map(o=>o.t)));
+    check('H11. 回問裡的旁白不算她的訊息（from 空的）',!!op&&op[0].say[0].from===null&&/^（旁白：/.test(op[0].say[0].text)&&op[1].say[0].from==='heroine_04'); }
+  { mk('npc_fangyt',3,K('2026-02-17'),10); MSG.send(G,'npc_fangyt','newyear'); const q=PHONE.rec(G).q.slice(-1)[0];
+    check('H12. 方奕廷過年（初一 10:00 傳）：R「初一在山上」那則初三 15:00 以後才回',!!q&&q.day===K('2026-02-19')&&q.h>=15&&/大雪山/.test(q.items.map(x=>x.text).join('/')),JSON.stringify(q&&{day:q.day,h:q.h,t:q.items.map(x=>x.text)}));
+    mk('npc_fangyt',3,K('2026-01-01'),10); MSG.send(G,'npc_fangyt','newyear'); check('H12. 1/1 傳：回「新年快樂。剛下山。」（不延後）',reply().join('/')==='新年快樂。剛下山。'&&PHONE.rec(G).q.slice(-1)[0].day===G.day,JSON.stringify(reply())); }
+  { mk('zhe',3,K('2025-11-02'),15); MSG.send(G,'zhe','bday'); const a=reply().join('/'); mk('zhe',3,K('2025-11-02'),15,{ZHE_CALLS_GE:true}); MSG.send(G,'zhe','bday'); const b=reply().join('/');
+    check('H13. 阿哲生日：沒有 ZHE_CALLS_GE 用 A「謝啦！！」，有了才用「哥記得！！」',a==='謝啦！！'&&/哥記得/.test(b),a+' ｜ '+b); }
+  { mk('heroine_02',3,K('2026-01-01'),15); MSG.send(G,'heroine_02','newyear'); const a=reply().join('/'); mk('heroine_02',3,K('2026-02-17'),15); MSG.send(G,'heroine_02','newyear'); const b=reply().join('/');
+    check('H14. 芷若新年 R：1/1（大一）「店裡今天公休」、過年「台中家裡陽台的盆栽」',a==='新年快樂。店裡今天公休。'&&/盆栽/.test(b),a+' ｜ '+b); }
+  { const errs=[]; const ids=Object.keys(P2).filter(id=>id!=='kevin'); const days=['2025-09-15','2026-01-01','2026-02-17','2026-06-02','2027-02-10','2027-03-15','2028-04-24','2028-06-02','2029-01-01'].map(K);
+    for(const id of ids) for(const d of days) for(const st of [1,3,6]){ try{ fresh(d,15,id==='kexin'?{dating_kexin:true}:{}); INV.addContact(G,id); STAGE[id]=st; G.events.done.ev_ziqing_secret_game=1;
+      for(const tp of ['thanks','bday','ok','newyear']){ const e=MSG.pick2(G,id,tp,true); if(e&&(!e.e.msgs.length||e.e.disabled)) errs.push(id+':'+tp); }
+      for(const q of MSG.topics(G,id)) if(MSG.isT2(q.k)){ const r=MSG.send(G,id,q.k); if(!r.ok) errs.push(id+':'+q.k+':'+r.why); break; } }catch(x){ errs.push(id+':'+x.message); } }
+    check('H15. 14 人 × 9 個日子 × 3 個關係掃過第二批話題：不出錯、不挑到空的或停用的句子、開了就傳得出去',!errs.length,errs.slice(0,5).join(' ')); } }
+else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

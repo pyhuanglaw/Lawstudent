@@ -12494,7 +12494,8 @@
    },
    "aliases": [
     "MSG-L1"
-   ]
+   ],
+   "notes": "2026-10-17 20:2x LAWWW-C：MSG-2 接進遊戲（謝謝／生日快樂／還好嗎／新年快樂；AA_202 第 7 節、AA_257、BB_178 第 10 節，全部 @b61e4f55）。條件表（AA_202 7-1「LAWWW 照各人事件的旗標列」）在 src/msg3d.js 的 EV2；遊戲裡還沒有那一場的條件不開：以安家教學生被駁回／交換出發前一週、阿哲系籃輸球、小語營隊結束、柏翰國考前一週、芷若 Z9（ev_zhiruo_last_shift 未實作）、子晴 Q8、學姊舊教科書／5-2 低潮夜／US2／W15、可昕 K10c、阿凱 K5、明軒 M2、方奕廷 F3。AA 六位「謝謝」先用通則（問課回了筆記照片）；語彤沒有問課所以「謝謝」不開——待 AA/BB 給事件旗標。學姊 2028、2029 生日照 BB_98 2-11／BB_99 2-6（句子不在回覆池）先不開。沛珊 2027 生日已送達不回、記在 G.msgChat.bday（放榜那則 BB_119 1b-3 實作時要加「……三月那則，我後來有看到。謝謝。」）。可昕走向 C 生日一句：還沒有走向 C，不開。"
   },
   {
    "id": "BUG-LIB-PILLAR",
@@ -16082,6 +16083,37 @@
     "parallel": true,
     "confirmed": true
    }
+  },
+  {
+   "id": "ART-JIAHAO-FOODMAP",
+   "title": "宋家豪「公館美食地圖」筆記本拿在手上（BB_109 識別物、BB_201）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "等待其他AI",
+   "priority": "P2",
+   "next": "BB-C 驗收拿法和樣子（D59）後照韋綸安全帽的接法接：PROPS.DEF.foodmap＋manifest prop.notebook_foodmap＋econ_jiahao.char3d.props",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "2024-08-23 宿營／412 宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 19:46（0621bea6）",
+   "authorized": "D59（BB 驗收）",
+   "pausedReason": "等 BB-C 驗收",
+   "resumeWhen": "BB-C 回驗收結果",
+   "xai": {
+    "spec": "BB_109、BB_201",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "BB-C 看拿法、樣子；遊戲裡經濟系場景家豪拿著",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": "0621bea6"
   }
  ]
 }

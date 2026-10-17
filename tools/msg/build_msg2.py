@@ -4,9 +4,9 @@
 
 這支腳本只是資料：所有中文字串都是從來源文件逐字複製的字面值，不解析來源、不改寫。
 來源（唯讀 git show）：
-  AA_202 @0ec9b2d7  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
+  AA_202 @b61e4f55  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
   AA_257 @b61e4f55  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆）
-  BB_178 @67f74502  docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md 第 10 節（BB 九位條件）
+  BB_178 @b61e4f55  docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md 第 10 節（BB 九位條件）
 抄錄時只拿掉 markdown 粗體記號 `**`，並把表格裡的 <br> 拆成清單項；其他字元（含全形標點、emoji、反引號）照抄。
 輸出：同資料夾的 msg2_pool.json（UTF-8、ensure_ascii=False、indent=1）。
 """
@@ -70,7 +70,7 @@ AA202_NOTES = [
 
 PEOPLE = {}
 
-# ================================================================ AA 六位（AA_202 @0ec9b2d7 第 7 節）
+# ================================================================ AA 六位（AA_202 @b61e4f55 第 7 節）
 S = "AA_202 7-3 以安"
 PEOPLE["heroine_01"] = person(
     "以安", "09-15",
@@ -208,7 +208,7 @@ PEOPLE["classmate_xinci"] = person(
     ],
     birthdayText="芯慈 3/28", style="句子完整、客氣；00:30 以後很多話")
 
-# ================================================================ BB 九位（回覆 AA_257 @b61e4f55；條件 BB_178 @67f74502 第 10 節）
+# ================================================================ BB 九位（回覆 AA_257 @b61e4f55；條件 BB_178 @b61e4f55 第 10 節）
 T3 = "BB_178 10-3"
 T2 = "BB_178 10-2"
 T1 = "BB_178 10-1"
@@ -664,7 +664,7 @@ AA257_REVIEW = [
 ]
 
 DATA = {
-    "source": {"AA_202": "0ec9b2d7", "AA_257": "b61e4f55", "BB_178": "67f74502"},
+    "source": {"AA_202": "b61e4f55", "AA_257": "b61e4f55", "BB_178": "b61e4f55"},
     "conventions": CONVENTIONS,
     "topics": TOPICS,
     "aa202Notes": AA202_NOTES,

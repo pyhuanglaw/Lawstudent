@@ -39,7 +39,7 @@ const MSG=(function(){
   const T=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
   const stageNum=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):(()=>{ const st=typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage(id):'STRANGER'; return Math.max(0,['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION'].indexOf(st)); })();
   const weekKey=G=>{ const t=T(G); return t?t.id+'W'+t.week:'D'+Math.floor(G.day/7); };
-  S.rec=function(G){ if(!G.msgChat||typeof G.msgChat!=='object') G.msgChat={}; const R=G.msgChat; for(const k of ['sent','wk','rot','says']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+  S.rec=function(G){ if(!G.msgChat||typeof G.msgChat!=='object') G.msgChat={}; const R=G.msgChat; for(const k of ['sent','wk','rot','says','help','thx','bday']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
   /* 祐廷和別人交往中，而且她知道（AA_202 第 4 節，2026-10-17：只在她知道時才算） */
   S.takenFor=function(G,id){ const F=G.flags||{}; for(const k in F){ if(k.indexOf('dating_')!==0||!F[k]) continue; const p=k.slice(7); if(p===id) continue;
       if(typeof ROM!=='undefined'&&ROM.knowsOf?ROM.knowsOf(G,id,p):true) return true; } return false; };
@@ -73,7 +73,7 @@ const MSG=(function(){
       if(q.k==='night'){ if(h<21.5&&h>=5) continue; if(S.takenFor(G,id)&&FEMALE.has(id)) continue; if(!(tier==='L'||stageNum(id)>=4)) continue; if(o.mode==='business') continue; }
       if(!S.hasPool(id,q.k==='share'?'share':q.k,o.mode)) continue;
       out.push(q); }
-    return out; };
+    return out.concat(S.topics2(G,id,o)); };
   const topicKeys=(topic,sub)=>topic==='share'?['share_'+sub,'share']:[topic];
   S.hasPool=(id,topic,mode)=>{ const L=((POOL().people[id]||{}).replies||[]); return L.some(e=>(topic==='share'?/^share/.test(e.topic):e.topic===topic)&&!e.disabled&&versionOk(e,mode)); };
   /* ---------- 挑哪一句 ---------- */
@@ -147,20 +147,115 @@ const MSG=(function(){
     const bu=S.busyUntil(G,id); const fast=Tm.fastFrom!=null&&h>=Tm.fastFrom&&h<Tm.fastTo; const m=fast?seedMin(G,id,0,2):seedMin(G,id,Tm.free[0],Tm.free[1]);
     if(bu!=null&&bu>h) return {day,h:bu+m/60,late:false,after:true};
     return {day,h:h+m/60,late:false,immediate:m<=2}; };
+  /* ---------- 第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂；AA_202 第 7 節、AA_257、BB_178 第 10 節）---------- */
+  const POOL2=()=>typeof MSG2_POOL!=='undefined'?MSG2_POOL:{people:{},topics:{}};
+  const TOPICS2=[{k:'thanks',t:'謝謝'},{k:'bday',t:'生日快樂'},{k:'ok',t:'還好嗎'},{k:'newyear',t:'新年快樂'}];
+  S.isT2=k=>TOPICS2.some(q=>q.k===k);
+  const dayOf=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
+  const evDay=(G,e)=>{ const L=G.events&&G.events.last; return L&&L[e]!=null?L[e]:null; };
+  const calY=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).y:0;
+  /* 新年＝1/1，以及除夕到初三（calendar.js 的春節假：「除夕」「春節」×3；不含除夕前一日和補假）*/
+  const hol=d=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.holidaysOf) return null; const x=CALENDAR.dateOf(d); return CALENDAR.holidaysOf(x.y)[x.key]||null; };
+  S.lunarNY=G=>{ const n=hol(G.day); return n==='除夕'||n==='春節'; };
+  const chuSan=G=>{ for(let d=G.day;d>=G.day-4;d--) if(hol(d)==='除夕') return d+3; return null; };
+  const isMD=(G,m,d)=>{ const x=md(G); return !!x&&x.m===m&&x.d===d; };
+  S.newYearDay=G=>isMD(G,1,1)||S.lunarNY(G);
+  /* 「謝謝」「還好嗎」的「事」對到遊戲裡的哪一場（AA_202 7-1「條件表 LAWWW 照各人事件的旗標列」、7-2；BB_178 10-2、10-3）：
+     ev＝那一場演過那天起算（G.events.last）；flag＝那一場要選到的選項；help:'notes'＝問課時對方回了筆記照片（通則）；on／dates＝固定日期；msg＝她傳的那則（PHONE.sent）；stage＝熟悉度門檻。
+     表裡沒有的（遊戲裡還沒有那一場、日期還沒定：家教學生的家被駁回、交換出發前一週、系籃輸球、小語的營隊、國考前一週、M2、F3、學姊 US2、W15…）＝不開 */
+  const EV2={
+    'heroine_01:yu_argument':{ev:'ev_an_yu_argument'},
+    'heroine_03:aunt_hand':{ev:'ev_yutong_absent'},   /* AA_11 事件 4：阿姨扭到手、她顧店的那兩週 */
+    'heroine_03:dm_exam_eve':{on:'2026-06-17'},   /* 雙主修筆試 6/18（AA_250 第 2 節）的前一天 */
+    'classmate_bohan:split_peishan':{ev:'ev_peishan_bohan_split'},
+    'classmate_xinci:rank_second':{ev:'ev_xinci_second'},
+    'heroine_02:z2_ge_group':{ev:'ev_zhiruo_ge_group',flag:'ge_group_zhiruo'},   /* 選「我已經有組了」的沒有這個旗標 */
+    'heroine_02:z9_ticket':{ev:'ev_zhiruo_last_shift'},
+    'heroine_02:notes_photo':{help:'notes'},
+    'heroine_02:z4_secret':{ev:'ev_zhiruo_secret'},
+    'heroine_02:z7_applied':{msg:'zr_z7_msg',dates:['2026-12-10','2026-12-13']},   /* 12/10 23:59 她傳「我交了」，3 天（12/11～12/13）*/
+    'heroine_04:q7_lab_letter':{ev:'ev_ziqing_lab_letter'},
+    'heroine_04:q8_dad_visit':{ev:'ev_ziqing_dad_visit'},
+    'heroine_05:old_books':{ev:'ev_sis_books_y1s2'},
+    'heroine_05:low_night':{ev:'ev_sis_low_night'},
+    'heroine_05:grad_exam':{dates:['2026-02-01','2026-02-02'],stage:2},
+    'classmate_peishan:notes_files':{help:'notes'},
+    'classmate_peishan:p3_retake':{ev:'ev_peishan_decision'},
+    'classmate_peishan:bohan_split':{ev:'ev_peishan_bohan_split',stage:2},
+    'kexin:k10c_bad_exam':{ev:'ev_kexin_bad_exam'},
+    'kai:k1_keyboard':{ev:'ev_kai_keyboard_quiet'},
+    'kai:k2_engineer':{ev:'ev_kai_engineer'},
+    'kai:k5_sue':{ev:'ev_kai_can_they_sue'},
+    'classmate_mingxuan:m1_highlighter':{ev:'ev_mingxuan_notes',flag:'GREEN_HIGHLIGHTER'},   /* 坐到他旁邊的那個選項 */
+    'classmate_mingxuan:tutor_intro':{ev:'ev_mingxuan_tutor_intro',flag:'TUTOR_WD'},   /* 答應的那一次 */
+    'classmate_mingxuan:notes_photo':{help:'notes'},
+    'npc_fangyt:f1_pothos':{ev:'ev_fangyt_pothos',flag:'POTHOS'},
+    'kevin:old_book':{flag:'KEVIN_OLD_BOOK',from:['2025-09-05',20]},
+    'kevin:notes_exams':{help:'notes'} };
+  const AA6_NOTES=['heroine_01','zhe','yu','classmate_bohan','classmate_xinci'];   /* AA 六位的「謝謝」沒有固定事件：先用通則（問課她回了筆記照片）；語彤沒有問課，不開 */
+  S.conds2=function(G,id,topic){ const P=POOL2().people[id]; if(!P) return []; let L=(P.conds&&P.conds[topic])||[];
+    if(topic==='thanks'&&!L.length&&AA6_NOTES.includes(id)) L=[{key:'notes_photo'}];
+    const R=S.rec(G), out=[], n0=topic==='thanks'?7:3;
+    for(const c of L){ const m=EV2[id+':'+c.key]||(c.key==='notes_photo'&&AA6_NOTES.includes(id)?{help:'notes'}:null); if(!m) continue;
+      const nd=(String(c.days||'').match(/(\d+) 天/)||[])[1], n=nd?+nd:n0; let d=null;
+      if(m.ev){ d=evDay(G,m.ev); if(d==null) continue; if(m.flag&&(G.flags||{})[m.flag]==null) continue; if(m.flag&&G.flags[m.flag]===false) continue; }
+      else if(m.help){ const h=R.help[id]; if(!h||h.k!==m.help) continue; d=h.day; if(c.date&&c.date!=='同班期間'&&!S.tagOk(G,id,c.date)) continue; }
+      else if(m.flag){ if(!(G.flags||{})[m.flag]) continue; d=dayOf(m.from[0]); if(d==null||G.day<d||(G.day===d&&G.hour%24<m.from[1])) continue; }
+      if(m.on){ if(!inDates(G,m.on,m.on)) continue; d=G.day; }
+      if(m.dates){ if(!inDates(G,m.dates[0],m.dates[1])) continue; if(d==null) d=dayOf(m.dates[0]); }
+      if(m.msg&&!(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,m.msg))) continue;
+      if(m.stage&&stageNum(id)<m.stage) continue;
+      if(d==null) continue;
+      if(!m.on&&!m.dates&&(G.day<d||G.day>d+n)) continue;
+      if(topic==='thanks'&&R.thx[id+':'+c.key]===d) continue;
+      out.push({key:c.key,day:d}); }
+    return out.sort((a,b)=>b.day-a.day); };
+  /* 生日的分年份列：y2026_2027＝那幾年；y2028_japan＝那一年而且祐廷在日本；route_c（可昕走向 C）還沒有這條路線＝不用 */
+  const bdayRowOk=(G,key)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
+    if(/_japan$/.test(key)) return typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'&&!!STORY.abroad&&STORY.abroad(G); return true; };
+  /* 第二批的標籤（AA_257 寫在句子後面括號裡的） */
+  const TAG2=[[/^過年(；初三 15:00 以後才回)?$/,G=>S.lunarNY(G)],[/^1\/1，大一、大二$/,G=>isMD(G,1,1)&&yearNow(G)>=1&&yearNow(G)<=2],
+    [/^(\d{1,2})\/(\d{1,2})$/,(G,m)=>isMD(G,+m[1],+m[2])],[/^2025、2026，Café 有班$/,G=>calY(G)===2025||calY(G)===2026],
+    [/^看過 Q6 才用；沒看過：只有第一則$/,()=>true],   /* 子晴的私訊本來就要 Q6 以後才開 */
+    [/^(阿姨扭到手|筆試前一天|分開以後|國考前)$/,(G,m,e)=>e.cond!=null]];   /* 這幾個是「事」的名字，和 cond 同一件 */
+  const tag2Ok=(G,id,e,tag)=>{ for(const [re,f] of TAG2){ const m=String(tag).match(re); if(m) return f(G,m,e); } return S.tagOk(G,id,tag); };
+  const usable2=(G,id,e)=>!e.disabled&&!e.noReply&&(e.msgs||[]).length>0&&!(e.flags||[]).some(f=>!(G.flags&&G.flags[f]))&&(e.tags||[]).every(g=>tag2Ok(G,id,e,g));
+  S.pick2=function(G,id,topic,peek){ const P=POOL2().people[id]; if(!P) return null; const o=S.open(G,id), tier=o.mode==='business'?'A':S.tier(G,id), R=S.rec(G);   /* 學姊閒聊條件不成立：四個話題都用 A（事務版；BB_178 10-6）*/
+    let all=(P.replies||[]).filter(e=>e.topic===topic), act=null;
+    if(topic==='thanks'||topic==='ok'){ act=S.conds2(G,id,topic)[0]; if(!act) return null; all=all.filter(e=>e.cond==null||e.cond===act.key); }
+    if(topic==='bday') all=all.filter(e=>bdayRowOk(G,e.cond));
+    const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
+    for(const tr of order){ const inT=all.filter(e=>e.tier===tr); if(!inT.length) continue;
+      const spec=inT.filter(e=>e.cond!=null), ok=(spec.length?spec:inT).filter(e=>usable2(G,id,e));
+      if(!ok.length){ if(topic==='bday'&&spec.length) return null; continue; }   /* 學姊 2028、2029 照 BB_98 2-11、BB_99 2-6（那兩節的句子還沒進回覆池）：那兩年先不開 */
+      return {e:peek?ok[0]:rot(R,id,'2:'+topic+tr+(act?'|'+act.key:''),ok),act}; }
+    return null; };
+  S.topics2=function(G,id,o){ const P=POOL2().people[id], out=[]; if(!P) return out; const x=md(G);
+    for(const q of TOPICS2){
+      if(q.k==='bday'&&!(x&&P.birthday===String(x.m).padStart(2,'0')+'-'+String(x.d).padStart(2,'0'))) continue;
+      if(q.k==='newyear'&&!S.newYearDay(G)) continue;
+      if(o.mode==='silent'){ if(q.k==='bday'||q.k==='newyear') out.push(q); continue; }   /* 沛珊重考消失期：生日、新年照開，已送達、不回（BB_178 10-0 第 7 點）*/
+      if(S.pick2(G,id,q.k,true)) out.push(q); }
+    return out; };
   /* ---------- 送出 ---------- */
-  S.playerText=function(G,id,topic,sub){ if(topic==='share'){ const p=PHOTOS.find(q=>q.k===sub)||PHOTOS[0]; return p.post; } const R=S.rec(G), L=SAY[topic]||['在幹嘛']; const k='say:'+topic; const i=(R.rot[k]|0)%L.length; R.rot[k]=i+1; return L[i]; };
+  S.playerText=function(G,id,topic,sub){ if(S.isT2(topic)){ const L=(POOL2().topics[topic]||{}).say||[topic], R=S.rec(G), k='say:'+topic, i=(R.rot[k]|0)%L.length; R.rot[k]=i+1; return L[i]; }
+    if(topic==='share'){ const p=PHOTOS.find(q=>q.k===sub)||PHOTOS[0]; return p.post; } const R=S.rec(G), L=SAY[topic]||['在幹嘛']; const k='say:'+topic; const i=(R.rot[k]|0)%L.length; R.rot[k]=i+1; return L[i]; };
   /* 回問選項（3-1 第 6 點）：cond「接到問課」只在問課開的時候有、goto course＝接她問課的回覆；「在美國時換成」只在她在美國時 */
   S.askOpts=function(G,id,e,nm,ctx){ if(!e.ask||!e.ask.opts) return null; const abroad=S.tok(G,id,'在美國'), course=S.topics(G,id).some(q=>q.k==='course');
     const out=[]; for(const q of e.ask.opts){ if(q.cond&&/在美國時換成/.test(q.cond)&&!abroad) continue; if(q.goto==='course'&&(abroad||!course)) continue;
-      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } out.push({t:q.t,say:r.map(x=>({from:id,name:nm,text:x}))}); }
+      let r=q.r||[]; if(q.goto==='course'){ const c=S.pick(G,id,'course',null,ctx); r=c?c.msgs:[]; } out.push({t:q.t,say:r.map(x=>/^（旁白：/.test(x)?{from:null,text:x}:{from:id,name:nm,text:x})}); }
     return out.length?{opts:out}:null; };
   S.send=function(G,id,topic,sub){ if(!S.canSend(G,id)) return {ok:false,why:S.open(G,id).why||'今天傳過了'}; if(!S.topics(G,id).some(q=>q.k===topic)) return {ok:false,why:'這個話題現在不行'};
     const R=S.rec(G), o=S.open(G,id), th='p:'+id; const text=S.playerText(G,id,topic,sub);
     if(typeof PHONE!=='undefined') PHONE.post(G,{th,from:'player',who:null,text});
     R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++;
+    if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
     const at=S.replyAt(G,id); const ctx={immediate:!!at.immediate,win:!!at.win,late:!!at.late};
-    const e=S.pick(G,id,topic,sub,ctx);
+    const t2=S.isT2(topic), pk=t2?S.pick2(G,id,topic):null; const e=t2?(pk&&pk.e):S.pick(G,id,topic,sub,ctx);
+    if(pk&&pk.act&&topic==='thanks') R.thx[id+':'+pk.act.key]=pk.act.day;   /* 謝謝：同一件事一次 */
+    if(t2&&e&&(e.tags||[]).some(g=>/初三 15:00 以後才回/.test(g))){ const c3=chuSan(G); if(c3!=null&&(at.day<c3||(at.day===c3&&at.h<15))) Object.assign(at,{day:c3,h:15+seedMin(G,id,0,30)/60,late:false,after:true,immediate:false}); }   /* 方奕廷過年在山上（AA_257 §8）*/
+    if(topic==='course'&&e&&e.msgs.some(t=>/^（照片/.test(t))) R.help[id]={k:'notes',day:at.day};   /* 問課附筆記照片（BB_178 10-3 的「通則」）→ 7 天內有「謝謝」*/
     const items=[]; const nm=id==='kevin'?'Kevin':undefined;
     const pre=topic==='night'?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));
     if(pre) for(const t of pre.msgs) items.push({th,from:id,name:nm,text:t});

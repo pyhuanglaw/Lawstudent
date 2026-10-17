@@ -7367,6 +7367,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "遊戲端接法：zones3d.js loadY2Items／setY2Items、story3d.js unboxY2、home3d.js"
+  },
+  {
+   "id": "DL-MSG2-1017",
+   "date": "2026-10-17",
+   "from": "AA",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b61e4f55",
+   "what": "MSG-2 玩家主動傳訊息第二批（謝謝、生日快樂、還好嗎、新年快樂）：AA_202 第 7 節（AA 六位）、AA_257（BB 九位，含 19:44 補的十處回問）、BB_178 第 10 節（條件）",
+   "task": "SYS-PHONE-CHAT",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "MSG-2 第二批話題：AA-C 19:44「MSG-2 全部用 b61e4f55」；LAWWW-C 接進 src/msg3d.js＋src/data/msg2_pool.js，tests/msg_chat_unit.js 第 H 項。瀏覽器還沒看"
+  },
+  {
+   "id": "DL-LAWWW2-0621bea6",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0621bea6",
+   "what": "宋家豪「公館美食地圖」筆記本 notebook_foodmap.glb（274 三角形、42 KB）＋props 片段 PROPS.DEF.foodmap（左手）＋manifest prop.notebook_foodmap；CHARACTERS.econ_jiahao.char3d.props 加 foodmap",
+   "task": "ART-JIAHAO-FOODMAP",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 BB-C 驗收拿法和樣子（D59）再接；接法同韋綸安全帽"
   }
  ],
  "ignored": [
@@ -10040,6 +10066,13 @@
    "kind": "covered",
    "reason": "唐睿第十四版、沛珊第二十三版腳本",
    "coveredBy": "DL-LAWWW2-552185d9"
+  },
+  {
+   "sha": "c53a6276",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "reason": "宿舍大二～大四窗景 312／507／409 的 WIP，後續 4fa4a1e2 一起交付",
+   "coveredBy": "DL-LAWWW2-4fa4a1e2"
   }
  ]
 }
