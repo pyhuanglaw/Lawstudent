@@ -152,7 +152,7 @@ def apply(m):
 
     for k in range(56):        # 內層：貼頭、短一點，蓋住髮殼的邊（兩側長到 85%：太陽穴、鬢角要蓋滿，不能只靠外層透明的髮尾）
         a = -180 + 360 * (k + 0.5) / 56 + rng.uniform(-1.5, 1.5); aa = az(a)
-        card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa)))) * (0.35 + 0.65 * float(sstep(30, 60, aa)))), 0.0015, 1.7, 'card')   # 唐睿第三版：前額的內層短一點（直的髮尾會從捲髮下面露出來）
+        card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa)))) * (0.80 + 0.20 * float(sstep(30, 60, aa)))), 0.0015, 1.7, 'card')   # 第十五版：前額 0.35 → 0.80（墊在瀏海後面：第十四版中層縮短以後，瀏海中間露出一條額頭）   # 唐睿第三版：前額的內層短一點（直的髮尾會從捲髮下面露出來）
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
         card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.6, 0.8) if az(a) > 60 else 0.02, 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',   # 第十四版：前面（方位 60° 以內）只到髮際線——直髮片的尖端從往內收的瀏海下面露出來，第十二、十三版看起來還是一排尖角
@@ -202,8 +202,8 @@ def apply(m):
         Tn = tangents(P); side = _unit(np.cross(Dn, Tn)); nrm = _unit(Dn - Tn * np.sum(Dn * Tn, 1)[:, None])
         if solid:   # 第十三版（BB_201 第 9 節「幾大片圓弧、末端不要尖」）：不透明的整片（髮殼那一格貼圖），尾端的半圓用網格做——
             # 貼圖的透明邊緣做出來的圓頭，遠看或斜看時被 alpha 門檻切成尖角（第十二版還是一排尖角）
-            reg = 'shell'; end = np.clip((t - 0.70) / 0.30, 0, 1)
-            wd = width * 0.55 * (0.80 + 0.20 * sstep(0.0, 0.2, t)) * np.maximum(np.sqrt(np.clip(1 - end ** 2, 0, 1)), 0.06)   # 0.55：curl 貼圖不透明的部分只有中間一半，整片時寬度跟著縮
+            reg = 'shell'; end = np.clip((t - 0.85) / 0.15, 0, 1)        # 第十五版：只在最後 15% 收成半圓（第十四版 30%：圓頭拉得太長，看起來還是尖的）
+            wd = width * 0.70 * (0.80 + 0.20 * sstep(0.0, 0.2, t)) * np.maximum(np.sqrt(np.clip(1 - end ** 2, 0, 1)), 0.06)   # 0.70：寬一點、片和片重疊（第十四版 0.55，兩片中間露出一條額頭）
         else:
             wd = width * (0.70 + 0.30 * sstep(0.0, 0.2, t)) * (1 - 0.25 * sstep(0.60, 1.0, t))   # 第五版：尾端不收那麼細
         mb.ribbon(P, side, nrm, wd, reg, 'head', np.zeros(len(P)), arch=0.18, tt=t)

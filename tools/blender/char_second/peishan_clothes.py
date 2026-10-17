@@ -23,7 +23,7 @@ STYLE = dict(KNIT_RGB=WINE, TROUSER_RGB=NAVY, LEATHER_RGB=SHOE, SOLE_RGB=SOLE, G
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=False, SLIM=True, TOP_TEX='jersey',
              SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.012, EASE_K=0.16, DROP_X=0.086, TOP_FIT=1.0, HEM_LOOSE=False, NECK_CALM=1.0, NECK_GAP=0.011, SHOULDER_SKIN=False, DRAPE=0.014, SHOULDER_SAG=0.020,   # 第十六版：肩膀上面低 2 cm（手放下來時不堆）
                # 第十五版（BB-C：領口立起來圍著脖子、胸口以下圓桶）：肩膀改回原本的弧線（貼斜方肌的曲線在靠脖子那頭變陡，羅紋立起來）、領口離脖子 1.8 cm、貼身、垂墜皺褶
-             NECK_RIB_L=0.015, NECK_RIB_T=0.0, NECK_FOLD=(-0.0015, -0.0005), SLEEVE_IN=0.050, BOX_W=0.128)   # 第二十二版（BB-C 5-4 必修 1：左肩的白點＝袖子和身片之間的縫，手放下來時裂開、底下的皮膚已經剪掉，看穿到背景）：袖子再往內 1.5 cm（第二十三版：肩膀下沉 1.4 cm 時領口的羅紋露在肩膀上，像兩條深色肩帶 → 改回 2.0）   # 第十七版：羅紋平的（不做厚度、幾乎不折）、箱形窄 2.4 cm（胸口不往前撐）   # 第十四版：袖子從肩關節往內 3.5 cm（肩膀的洞）   # 第十一版（BB-C 第十版意見）：肩膀不翹（落肩 0.098 → 0.088）、胸口以下貼身（EASE 0.56 → 0.42、FIT 0.62 → 0.85）、羅紋領 1.6 cm、薄   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
+             NECK_RIB_L=0.015, NECK_RIB_T=0.0, NECK_FOLD=(-0.0015, -0.0005), SLEEVE_IN=0.035, BOX_W=0.128)   # 第二十四版：袖子改回 3.5 cm（5 cm 時袖子的根從領口兩側冒出來，像兩塊深色肩帶；白點其實是皮膚，第二十三版用 arms 修好）；第二十二版（BB-C 5-4 必修 1：左肩的白點＝袖子和身片之間的縫，手放下來時裂開、底下的皮膚已經剪掉，看穿到背景）：袖子再往內 1.5 cm（第二十三版：肩膀下沉 1.4 cm 時領口的羅紋露在肩膀上，像兩條深色肩帶 → 改回 2.0）   # 第十七版：羅紋平的（不做厚度、幾乎不折）、箱形窄 2.4 cm（胸口不往前撐）   # 第十四版：袖子從肩關節往內 3.5 cm（肩膀的洞）   # 第十一版（BB-C 第十版意見）：肩膀不翹（落肩 0.098 → 0.088）、胸口以下貼身（EASE 0.56 → 0.42、FIT 0.62 → 0.85）、羅紋領 1.6 cm、薄   # 第九版：領口貼脖子、肩膀上面貼著斜方肌（第五～八版像連帽衫的一圈）   # 第四版（照立繪，BB-C 10-17：膨、短、方）：合身、下擺紮進裙頭   # 第三版：合身一點（第二版 EASE 0.90／FIT 0.15 在遊戲裡像連帽上衣）
 STYLE_M = dict(PANTS_TOP=1.050, PANTS_BAND=1.022, KNIT_HEM=1.046, KNIT_HEM_TOP=1.056, BACK_NECK_Z=1.346, CREW_FRONT_Z=1.306)   # 第十五版：領口再低 1 cm（在鎖骨上方一點）   # 第十版：後領 1.368 → 1.356   # 第四版：下擺紮進裙頭（只蓋到裙頭最上面，小語的做法）、領口貼脖子、後領低一點（後面不鼓成帽子）   # 第二版：領口開一點（第一版 1.342 正面看像高領、脖子整個包住；參考圖看得到鎖骨）
 SIDE_NECK_M = (0.082, 1.356)   # 第二十一版（BB-C 5-4 必修 2：側頸到肩膀的稜線）：側頸點低 6 mm、領口離脖子 1.8 → 1.1 cm（離太遠時側邊的布像一道牆立在脖子旁邊）   # 第十五版：側頸點再往外 8 mm、低 8 mm（脖子兩側看得到一段肩線）
 SIDE_NECK_M_V10 = (0.074, 1.370)   # 第十版：側頸點低 2.2 cm、往外 6 mm——原本領口兩側爬到脖子中段（比肩線高 3 cm），手放下來以後像連帽衫的帽沿（第九版只改領口離脖子的距離，沒用）   # 第四版：領口收小（0.078：領口離脖子很遠，像連帽衫的帽緣）
@@ -71,7 +71,7 @@ def _apply(m, arm, body, wsrc_skirt):
     # 第十九版：第十八版只動了 12 個點（那一步只收「已經在布外面」的皮膚；T 字姿勢時胸口的皮膚在布裡面 3～4 mm，
     # 手放下來時腋下前面的布跟著上臂往內，皮膚才穿出來）——領口以下、離布不到 5 mm 的軀幹皮膚都收到布裡面 8 mm
     print('  body pulled deeper under the tee', XC.conform_under(body, obj, 0, SKIRT_REF['z_top'] - 0.025, K.CREW_FRONT_Z - 0.03, inset=0.008, slack=0.005, max_move=0.015))
-    print('  shoulders/upper back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.04, K.BACK_NECK_Z - 0.008))
+    print('  shoulders/upper back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.04, K.BACK_NECK_Z - 0.008, inset=0.010, slack=0.008, max_move=0.015))   # 第二十四版：8 mm 以內都收到 1 cm（背面左肩那一點：T 字姿勢時在布裡面 5～8 mm，待機時才穿出來）
     print('  armpit front/back pulled under the tee', pull_shoulders(body, obj, K.CREW_FRONT_Z - 0.10, K.BACK_NECK_Z - 0.008, arms=True, wmin=0.6, xmax=0.15))
     print('  culled skin faces', K.cull_skin(body, obj))
     m['clothes'] = obj
