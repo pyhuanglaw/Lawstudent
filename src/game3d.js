@@ -386,7 +386,10 @@ const GAME = (function(){
     body.querySelectorAll('[data-vac]').forEach(b=>b.onclick=()=>{ if(typeof VAC!=='undefined'&&VAC.signup(G,b.dataset.vac,'yes')){ toast('報名了：已經排進行事曆',2600); autosave(); } renderPhone(); });   /* 假期活動報名（AA_199 3-2）*/
     body.querySelectorAll('[data-ask]').forEach(b=>b.onclick=()=>{ const t=b.dataset.ask, i=t.lastIndexOf('|'); const r=typeof PHONE!=='undefined'?PHONE.answer(G,t.slice(0,i),+t.slice(i+1)):null; if(r&&!phoneThread) phoneThread=PHONE.th(r.m); renderPhone(); phoneBadge(); autosave(); });   /* 回覆（交接包 v1）：回了之後打開那一段對話，看得到對方的回覆 */
     body.querySelectorAll('[data-th]').forEach(b=>b.onclick=()=>{ phoneThread=b.dataset.th; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
-    body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
+    body.querySelectorAll('[data-msgto]').forEach(b=>b.onclick=()=>{ phoneMsgPick=b.dataset.msgto; phoneMsgShare=false; renderPhone(); });   /* 傳訊息：先選話題（SYS-PHONE-CHAT）*/
+    body.querySelectorAll('[data-msgt]').forEach(b=>b.onclick=()=>{ const [pid,tp,sub]=b.dataset.msgt.split('|'); if(tp==='cancel'){ phoneMsgPick=null; phoneMsgShare=false; renderPhone(); return; } if(tp==='share'&&!sub){ phoneMsgShare=true; renderPhone(); return; }
+      const r=MSG.send(G,pid,tp,sub); phoneMsgPick=null; phoneMsgShare=false; if(!r.ok) toast(r.why||'現在不能傳'); renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
+    body.querySelectorAll('[data-thback]').forEach(b=>b.onclick=()=>{ phoneThread=null; phoneMsgPick=null; phoneMsgShare=false; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-place]').forEach(b=>b.onclick=async()=>{ const pl=PLACE_LIST().find(q=>q[0]+'|'+q[1]===b.dataset.place); if(pl) await quickGo(pl); });
     body.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(findPerson(b.dataset.find)) closePhone(); });
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
@@ -455,14 +458,16 @@ const GAME = (function(){
     return h; }
   /* 手機「訊息」（D54 ⑥）：約人、對方的回答、沒赴約……最新的在上面；對方約你、改約的有回覆的按鈕（src/invites3d.js）*/
   /* 手機「訊息」（交接包 v1：群組、置頂、可以回的訊息，src/phone3d.js）：最上面是「待回覆」（邀約、可以回的訊息）、對話串（點了看整段，群組的置頂在最上面），下面照舊是最近的訊息 */
-  let phoneThread=null;
+  let phoneThread=null, phoneMsgPick=null, phoneMsgShare=false;
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>'<button class="btn'+(k===0?' pri':'')+'" data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+'</button>').join('')+'</div>';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
     const pid=th.startsWith('p:')?th.slice(2):null, why=pid&&typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,pid):'x', canInv=!!pid&&!why&&INV.hasContact(G,pid)&&INV.canInvite(G,pid);   /* 一對一的對話裡也可以約（約人和訊息放在一起：使用者 2026-10-15）*/
-    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+'</div>';
+    const mo=pid&&typeof MSG!=='undefined'?MSG.open(G,pid):null, msgBtn=mo&&mo.ok?(MSG.sentToday(G,pid)?'<span class="muted" style="font-size:12px;align-self:center">今天傳過了</span>':'<button class="btn" data-msgto="'+escH(pid)+'">傳訊息</button>'):'';   /* 玩家主動傳訊息（SYS-PHONE-CHAT，src/msg3d.js）*/
+    let h='<div class="item phrow"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+msgBtn+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+'</div>';
+    if(mo&&mo.ok&&phoneMsgPick===pid&&!MSG.sentToday(G,pid)){ const tp=MSG.topics(G,pid); h+='<div class="item"><div class="muted">傳什麼？</div><div class="row2" style="gap:6px;flex-wrap:wrap;margin-top:6px">'+(phoneMsgShare?MSG.PHOTOS.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|share|'+q.k)+'">'+escH(q.t)+'</button>').join(''):tp.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|'+q.k)+'">'+escH(q.t)+'</button>').join(''))+'<button class="btn" data-msgt="'+escH(pid+'|cancel')+'">取消</button></div></div>'; }
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
     for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?askBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）*/
     return h; }
