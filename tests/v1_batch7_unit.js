@@ -66,7 +66,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
   { const play=async(pk)=>{ fresh(SAT3,13.5,'dorm'); OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:SAT3,h:14,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發'].concat(pk); const r=await tickOut(); return r; };
     const r=await play(['影子不會講話','她推薦']); const L=lines();
     check('出發：轉場（標題卡「去政大找可昕｜開車約 30 分鐘」）、深色底開始',r==='go'&&titles[0]==='去政大找可昕｜開車約 30 分鐘'&&bgs[0]==='begin:dark',JSON.stringify({titles,bgs:bgs.slice(0,3)}));
-    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・校門口（字幕；AA_137 7-1：停車場改成校門；校門、小吃街有 2D 背景（LAWWW2-B 825c038））',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校門口"]'&&JSON.stringify(bgs.slice(2))==='["img","img","img"]',JSON.stringify({caps,bgs}));
+    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・校門口（字幕；AA_137 7-1：停車場改成校門；校門、小吃街有 2D 背景（LAWWW2-B 825c038））',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校門口"]'&&JSON.stringify(bgs.slice(2,5))==='["img","img","img"]',JSON.stringify({caps,bgs}));   /* 最後多一個 begin:dark＝演完和可昕的那幾句留在 2D 畫面（BUG-OUTING-STUCK，使用者 2026-10-16：她人不在、對話還在），是刻意的 */
     const K1=['校門口。她在揮手，只戴一邊的耳環，今天是一隻小長頸鹿。',   /* 2026-10-16 BB_95 9-1：所有玩家都是長頸鹿（BCG-27）*/
       '暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。',   /* 第二句 2026-10-16 照 AA_140 3-5 F 改（BB-B 的句子）*/
       '我在這裡念了三個禮拜，所以比你懂這裡三個禮拜。','她指了左邊、右邊、後面。','法學院。山。也是山。政大的地圖重點就是：山。','假設你的影子先到政大，它可以幫你點餐嗎？'];

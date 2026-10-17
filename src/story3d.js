@@ -82,8 +82,38 @@ const STORY = (function(){
     if(GM.titleCard){ const dt=S.dateOf(d); await GM.titleCard('2025 年 '+dt.m+' 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday%7]+'）',d===d0?'搬進男生宿舍':'',2000); }
     if(o.econ&&GM.say){ if(GM.sceneBegin) GM.sceneBegin(); try{ await GM.say(null,'你去年也搬過一次宿舍，這次只有一個行李箱。'); } finally { if(GM.sceneEnd) GM.sceneEnd(); } }   /* 經濟系版的開頭（AA-B 21:09，AA_197）*/   /* 文字等 AA_195 第 4 節（8/29～8/31 的事件）*/
     if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };
+  /* 開學前迎新宿營 8/22～24（CAMP-L1；AA_205 第 2～4 節、BB_177 第五版；台詞在 src/data/camp_y1.js）：新遊戲第一段，三天兩夜全部在 2D 畫面演（人不在臺北）。
+     一段一個事件，依 CAMP_SEQ 的日子（8/22 起第幾天）與時間跑；每段演完記 F.campStep 並自動存檔——中途被踢回標題或關掉，讀檔回來從下一段接著演（game3d.js applySave 呼叫 S.campY1 resume）。
+     開頭：加入「法律系 114 新生（系學會）」群組（8/15 公告、8/21 小隊名單，AA_205 2-2）；演完：回家旁白（2-2）、小隊群組 camp_squad_y1（8/24 21:00 合照、BB_177 13-3、阿哲「29 號見」；8/29 18:00 阿哲，AA_205 6-4）。 */
+  S.CAMP_SEQ=[['ev_camp_d1_bus',0,8.5],['ev_camp_d1_ice',0,10.5],['ev_camp_d1_field',0,13.5],['ev_camp_d1_party',0,18],['ev_camp_d1_walk',0,21.5],
+    ['ev_camp_d2_quiz',1,7],['ev_camp_d2_water',1,14],['ev_camp_d2_bbq',1,17.5],['ev_camp_d2_fire',1,20],['ev_camp_d2_talk',1,22.5],['ev_camp_d3_quiz',2,7.5],['ev_camp_d3_end',2,10.5]];
+  S.campGroups=function(G,d0){ if(typeof PHONE==='undefined') return; const NEW='g:law_new', SQ='g:camp_squad_y1';
+    if(!PHONE.inGroup(G,'law_new')){ PHONE.join(G,'law_new','法律系 114 新生（系學會）');
+      PHONE.postAt(G,{th:NEW,from:'law_assoc',name:'系學會',text:'迎新宿營 8/22～8/24，三天兩夜，山上的青年活動中心。新生都要參加，車子、住宿、吃的系學會處理。8/22 早上八點半校門集合。'},d0-7,20);
+      PHONE.postAt(G,{th:NEW,from:'law_assoc',name:'系學會',text:'小隊名單｜第七小隊：'+(G.name||'祐廷')+'、張哲維、吳芯慈、郭沛珊、江明軒、許柏翰、凱文'},d0-1,21); }
+    if(!PHONE.sent(G,'camp_squad_photo')) PHONE.at(G,d0+2,21,[{th:SQ,text:'（小隊輔傳了一張照片：營地門口，七個人，Kevin 拿著翻到背面的名牌。）'},{th:SQ,from:'camp_leader',name:'小隊輔',text:'照片都在相簿了 自己存'},{th:SQ,text:'（群組裡「凱文」變成「Kevin 大二」）'},
+      {th:SQ,from:'kevin',name:'Kevin 大二',text:'改名了 以後叫學長'},{th:SQ,from:'kevin',name:'Kevin 大二',text:'民總考古題我有 開學再說'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'（一張他睡在車上的照片，不知道誰拍的）'},{th:SQ,from:'classmate_mingxuan',name:'明軒',text:'這張誰拍的 哈哈'},{th:SQ,from:'zhe',name:'阿哲',text:'29 號見'}],'camp_squad_photo');
+    if(!PHONE.sent(G,'camp_squad_829')) PHONE.at(G,d0+7,18,[{th:SQ,from:'zhe',name:'阿哲',text:'我搬好了 宿舍好熱'}],'camp_squad_829'); };
+  S.campY1=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G, F=G.flags, d0=S.dayOfKey('2025-08-22'); if(d0==null||F.CAMP_Y1) return false;
+    F.CAMP_Y1_ON=true; const from=F.campStep|0; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
+    if(GM.sceneBegin) GM.sceneBegin(); try{
+      if(from===0&&GM.titleCard){ G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=8.5; if(E) E.hour=G.hour; await GM.titleCard('2025 年 8 月 22 日（五）','迎新宿營',2200); }
+      for(let i=from;i<S.CAMP_SEQ.length;i++){ const [id,off,hr]=S.CAMP_SEQ[i], ev=STORY_EVENTS.find(e=>e.id===id); if(!ev) continue;
+        const day=d0+off; if(day!==G.day){ G.day=day; G.weekday=CALENDAR.dateOf(day).wd%7; if(GM.titleCard){ const dt=S.dateOf(day); await GM.titleCard('8 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday]+'）','迎新宿營 第 '+(off+1)+' 天',1600); } }
+        G.hour=hr; if(E) E.hour=hr; if(GM.updateHUD) GM.updateHUD();
+        if(typeof ev.before==='function') ev.before(G);
+        if(typeof ADV!=='undefined') ADV.begin({background:ev.background||'dark'});
+        await EVENTS.run(ev); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+        F.campStep=i+1; if(GM.autosave) GM.autosave(true); }
+      /* 回家（AA_205 2-2）：8/24 下午；8/25～28 不演 */
+      G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=15; if(E) E.hour=G.hour;
+      if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); if(GM.say) await GM.say(null,'（回到家，你把營地帶回來的衣服丟進洗衣機。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+      F.CAMP_Y1=true; F.CAMP_Y1_ON=false; delete F.campStep;
+    } finally { if(GM.sceneEnd) GM.sceneEnd(); }
+    if(o.next!==false) await S.startLawWeek1(GM,null);   /* 接著 8/29 搬宿舍（新遊戲、讀檔接著演都一樣）*/
+    return true; };
   S.newGame=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false);
-    if(S.START1()){ await S.startLawWeek1(GM,S.LAW_START_RECAP_W1); return; }
+    if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* ?start1：新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍。整段瀏覽器流程測過才改成預設（使用者 2026-10-16 強制參加、AA_205）*/
     G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
   /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚已接（AA_154 A24）*/
   S.newGameEcon=async function(GM){ const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return S.newGame(GM);
