@@ -2,6 +2,8 @@
 
 # AA_146 任務索引（tasks.json）首次出現時間：AA-B 核對
 
+> **（DOC-18W，AA-C 2026-10-17）16 週制**：本檔寫的「第 17～18 週」「第 18 週」是舊的 18 週制。現在照使用者確認的 16 週制（第 16 週期末、第 17 週起放假），**日期以 `AA_197` 1-6 為準，各事件搬到哪裡以 `AA_198`（八學期影響清單）與 `AA_243`（16 週可行性裁定）為準**；本檔內文不逐句改。
+
 > AA-B 2026-10-16。LAWWW-B 的任務索引在開發分支 `67322a65` 的 `docs/handoff/tasks.json`，其中 `first.confirmed:false` 的 344 項請 AA-B 核對（D81：玩家越早遇到的越先做）。
 > **怎麼用**：
 > - 給程式讀的是 `AA_146_tasks_first核對.json`，每項有 `term, week, earliest, mainline, confirmed:true`；`aa` 欄是 `ok`（照原樣確認）／`fix`（改了）／`void`（作廢或已解決）。
