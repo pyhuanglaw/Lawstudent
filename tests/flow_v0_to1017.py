@@ -6,8 +6,13 @@
 走路一律點地面／搖桿（playlib.go_to），不瞬移；不改旗標、不撥時間。網址不用 ?turbo（真實速度；SwiftShader 很慢，整支要好幾個小時）。
 檢查（10/17 晚上）：每一天都過到（沒有跳日）、宿營旗標（ECON_CAMP_OPEN、E15_BUS）、10/17 一天（dating_kexin、KX_DATING_SINCE、E26_DAY、KX_CAR）、
 11 月不排 E15、沒有卡住保險（walkFallbacks）、黑幕沒有擋住對話、沒有 JS 例外。中途卡住超過 4 分鐘會截圖、記下狀態後停止（判失敗）。
-用法：python3 tests/flow_v0_to1017.py URL [輸出資料夾]"""
-import asyncio, json, sys, time
+分段跑（2026-10-17：整支 SwiftShader 下約每遊戲日 9 分鐘、整段 7 小時，背景工作的上限是 2 小時，一次都沒跑完）：
+  SEG_TO=2024-09-10  過完這一天（隔天早上空下來）就用選單存到欄位 1，把存檔寫到 SEG_SAVE 的檔案，這一段結束；
+  SEG_FROM=<檔案>    從上一段的存檔開始（寫進欄位 1，標題「讀取」欄位 1——和玩家讀檔一樣）。
+  每一段檢查：那一段每一天都過到、沒有卡住保險、黑幕沒有擋住對話、沒有 JS 例外；最後一段（到 10/17）再檢查宿營、交往、11 月不排 E15。
+  網址可以加 ?lowres 讓 SwiftShader 快一點（只看劇情與日期走不走得下去；畫面驗收另外拍，TESTING.md 第 26 行）。
+用法：python3 tests/flow_v0_to1017.py URL [輸出資料夾]（環境變數 SEG_FROM、SEG_TO、SEG_SAVE 見上）"""
+import asyncio, json, sys, time, os, datetime
 from playwright.async_api import async_playwright
 sys.path.insert(0, __import__('os').path.dirname(__file__))
 import playlib as L
@@ -16,6 +21,8 @@ URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_v0_to1017'
 PREFER = ['直接去上課', '直接去考場', '出發', '先不要', '先睡。明天再拆。', '睡到明天早上', '睡覺']   # 「照樣跳過會錯過：…」→「先不要」（不翹課）
 END_JS = "(()=>{ const G=GAME.G, d=STORY.dayOfKey('2024-10-17'); return G.day>d||(G.day===d&&G.hour>=22.6); })()"
+SEG_FROM, SEG_TO, SEG_SAVE = os.environ.get('SEG_FROM'), os.environ.get('SEG_TO'), os.environ.get('SEG_SAVE')
+if SEG_TO and SEG_TO >= '2024-10-17': SEG_TO = None   # 最後一段照原本的終點
 
 # 下一步要去哪裡：寢室 ← 宿舍門廳 ← 校園 ← 其他區域
 NEXT_HOP = """(()=>{ const G=GAME.G, E=GAME.E, z=G.zone, its=E.interactables||[];
@@ -68,13 +75,36 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         await pg.evaluate("localStorage.clear()")
-        await L.tap(pg, cdp, '#btnNew')
+        if SEG_FROM:   # 上一段的存檔 → 欄位 1 → 標題「讀取」（[前置] 只是把上一段玩到的存檔放回去）
+            await pg.evaluate("(s=>localStorage.setItem('fatiao3d_slot_1',s))(%s)" % json.dumps(open(SEG_FROM, encoding='utf-8').read()))
+            await pg.reload(); await L.wait_loaded(pg)
+            await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
+            c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 1'))||b[1]||b[0]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+            if c: await L.touch_tap(cdp, c[0], c[1])
+            for _ in range(240):
+                if await pg.evaluate("!!GAME.G&&GAME.running&&GAME.G.stage==='econ'"): break
+                await pg.wait_for_timeout(500)
+            run.check('[前置] 讀取上一段的存檔（欄位 1）', await pg.evaluate("!!GAME.G&&GAME.G.stage==='econ'"), await pg.evaluate("GAME.G?CALENDAR.dateOf(GAME.G.day).key:null"))
+        else:
+            await L.tap(pg, cdp, '#btnNew')
+        seg_saved = False; first_key = None
         days, last_key, stuck_t, last_sig, fade_block, recover = [], None, time.time(), None, 0, 0
         t_start = time.time(); skip_fail_day = None; free_since = None
         while time.time() - t_start < 6 * 3600:
             if await pg.evaluate("!!GAME.G&&GAME.running"):
                 if await pg.evaluate(END_JS): break
                 key = await pg.evaluate("CALENDAR.dateOf(GAME.G.day).key")
+                if first_key is None: first_key = key
+                if SEG_TO and key > SEG_TO:   # 這一段過完了：隔天空下來就存檔
+                    st0 = await L.state(pg)
+                    if not st0['dlg'] and not st0['choices'] and not st0['busy']:
+                        await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(1200)
+                        await L.tap(pg, cdp, '.tabs button[data-tab="save"]'); await pg.wait_for_timeout(1200)
+                        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='存檔')[0]; if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1500)
+                        slot = await pg.evaluate("localStorage.getItem('fatiao3d_slot_1')")
+                        if slot and SEG_SAVE: open(SEG_SAVE, 'w', encoding='utf-8').write(slot)
+                        seg_saved = bool(slot); break
                 if key != last_key:
                     last_key = key; days.append(key)
                     info = await pg.evaluate("({h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,stage:GAME.G.stage})")
@@ -125,15 +155,20 @@ async def main():
           camp:!!F.ECON_CAMP_OPEN, bus:F.E15_BUS||null, dk:!!F.dating_kexin, since:F.KX_DATING_SINCE||null, e26:F.E26_DAY||null, car:F.KX_CAR||null,
           e15:(G.outings||[]).filter(q=>q.id==='y0_e15').length, fb:GAME.walkFallbacks||0}; })()""")
         print('結束', json.dumps(st, ensure_ascii=False), flush=True)
-        run.check('一路玩到 10/17 晚上（沒有中途卡住停下）', await pg.evaluate(END_JS), json.dumps(st, ensure_ascii=False))
-        import datetime
-        want = []; d = datetime.date(2024, 9, 1)
-        while d <= datetime.date(2024, 10, 17): want.append(d.isoformat()); d += datetime.timedelta(days=1)
+        d0 = datetime.date.fromisoformat(first_key if (SEG_FROM and first_key) else '2024-09-01'); d1 = datetime.date.fromisoformat(SEG_TO or '2024-10-17')
+        if d0 < datetime.date(2024, 9, 1): d0 = datetime.date(2024, 9, 1)
+        want = []; d = d0
+        while d <= d1: want.append(d.isoformat()); d += datetime.timedelta(days=1)
         miss = [k for k in want if k not in days]
-        run.check('9/1～10/17 每一天都過到（沒有跳日）', not miss, json.dumps(miss[:10]))
+        if SEG_TO:
+            run.check(f'這一段玩到 {SEG_TO} 過完、隔天存檔（欄位 1）', seg_saved, json.dumps(st, ensure_ascii=False))
+        else:
+            run.check('一路玩到 10/17 晚上（沒有中途卡住停下）', await pg.evaluate(END_JS), json.dumps(st, ensure_ascii=False))
+        run.check(f'{want[0] if want else d0}～{d1} 每一天都過到（沒有跳日）', not miss, json.dumps(miss[:10]))
         run.check('宿營：ECON_CAMP_OPEN、遊覽車回答 E15_BUS', st['camp'] and st['bus'] in ('nosleep', 'watching'), json.dumps(st, ensure_ascii=False))
-        run.check('10/17：交往（dating_kexin、KX_DATING_SINCE、E26_DAY）、車上的回答 KX_CAR', st['dk'] and bool(st['since']) and bool(st['e26']) and bool(st['car']), json.dumps(st, ensure_ascii=False))
-        run.check('11 月不排 E15', st['e15'] == 0)
+        if not SEG_TO:
+            run.check('10/17：交往（dating_kexin、KX_DATING_SINCE、E26_DAY）、車上的回答 KX_CAR', st['dk'] and bool(st['since']) and bool(st['e26']) and bool(st['car']), json.dumps(st, ensure_ascii=False))
+            run.check('11 月不排 E15', st['e15'] == 0)
         run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))
