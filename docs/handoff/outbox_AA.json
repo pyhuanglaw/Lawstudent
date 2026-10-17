@@ -226,6 +226,22 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "LIFE-LINE-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b2615f71f44cc2225e52205da8c3a5969f3e9f1e",
+   "files": [
+    "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+    "docs/story_planning/AA_218_附錄A_經濟系一年事件分類.md",
+    "docs/story_planning/AA_218_附錄B_溫書瑀年級平移盤點.md"
+   ],
+   "state": "WIP",
+   "remaining": "待使用者確認 8 項（休學日、交往起點與摩天輪、爭執、重考班主任、作業課名、重考班制度、碩三赴美方式、年齡）；AA_12／106／154／169／213 照 AA_218 改寫；BB 台詞稿",
+   "next": "AA 照裁定改寫 AA 檔；BB 改 BB_188／122／183；三者到齊結構化交付 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "ACK"
   }
  ]
 }
