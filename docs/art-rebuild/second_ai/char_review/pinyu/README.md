@@ -1,13 +1,22 @@
-# 隨身物：工程計算機、黑色保溫瓶（BB_131「手上常拿」；LAWWW2-C 2026-10-17 19:5x UTC；等 BB-C 驗收，D59）
+# 隨身物：工程計算機、黑色保溫瓶（BB_131「手上常拿」；LAWWW2-C 2026-10-17；第二版 20:2x UTC；等 BB-C 驗收，D59）
 - 模型（`tools/blender/char_second/prop_pinyu.py`）：
   - `assets/models/char/second_ai/calc_engineering.glb`：工程計算機 16×8×1.6 cm、660 個三角形；深灰機身、液晶（兩行數字的小塊）、太陽能板；上三排小的功能鍵、下五排數字鍵，一顆橘色運算鍵；**沒有牌子、型號**。
   - `assets/models/char/second_ai/thermos_black.glb`：黑色保溫瓶 直徑 7 cm、高 22 cm、810 個三角形；霧黑瓶身、銀色細環、亮一點的瓶蓋＋提環；沒有牌子。
-- 拿法：計算機貼著左手掌、保溫瓶右手直握（瓶蓋朝上）。兩個都**掛在前臂**（不是手）：掛在手上時走路動畫手腕一轉，東西就轉成水平（家豪筆記本 BB-C 退件的原因，同一個做法一起改）。兩個可以同時拿，也可以只拿一個。
-- 接進遊戲（LAWWW-C）：`docs/art-rebuild/second_ai/patches/props_pinyu.js`（`PROPS.DEF.calc`、`PROPS.DEF.thermos`＋manifest）；`CHARACTERS.econ_pinyu.char3d.props` 加 `'calc'`、`'thermos'`。
+- 接進遊戲（LAWWW-C）：`docs/art-rebuild/second_ai/patches/props_pinyu.js`（`PROPS.DEF.calc`、`PROPS.DEF.thermos`＋manifest）。
+
+## 第二版：照 BB-C 驗收（BB_201 §14，ed0d36bc）改的
+| BB-C 的意見 | 改法 |
+|---|---|
+| ① 平常只拿保溫瓶（兩手都拿像要去考試）；計算機給上課、讀書、考試的事件 | patch 的說明改成平常 `props` 只放 `'thermos'`；計算機的配件照留，事件裡再加 |
+| ② 保溫瓶貼著黑褲子看不到：(a) 握上半段往前斜，或 (b) 手指勾提環垂在手下 | **選 (b)**：提環勾在手指上、瓶子垂在手下面，銀環和瓶蓋露出來。(a) 試過：寬袖口蓋住手腕，銀環和瓶蓋還是被蓋住；遊戲的手是放鬆張開的，勾提環比握瓶身自然 |
+| ③ 袖子應該蓋到手背（這版停在手腕） | 人物模型的事，下次送驗收時一起改（還沒改） |
+
+- 兩件都**掛在前臂**（不是手）：掛在手上時走路動畫手腕一轉，東西就轉成水平（家豪筆記本退件的原因）。位置在載入時照前臂到手的距離算。
 - Blender 預覽：![](props_blender.webp)
-- 遊戲渲染器（test_charlook，第五版 VRM＋上面的 patch；正面、45°、側面）：![](props_look.webp)
-- 手的特寫（上排待機、下排走路；左到右：正前、左手外側（計算機）、右手外側（保溫瓶））：![](props_hands.webp)
-- 還沒做到的：黑色保溫瓶貼著黑褲子不明顯（設定就是黑色）；寬袖子蓋到手背，握的位置要在遊戲裡再對一次。
+- 遊戲渲染器（只拿保溫瓶；上排待機、下排走路；正面、45°、側面）：![](props_look.webp)
+- 右手特寫（上排待機、下排走路；正前、斜前外側、側面）：![](props_hands.webp)
+- 第一版（兩件都拿、保溫瓶握在手裡貼著褲子）：![](props_hands_v1.webp)
+- 還沒做到的：袖子蓋到手背（人物模型）；計算機在事件裡的位置（桌上或手上）要等事件。
 
 ---
 
