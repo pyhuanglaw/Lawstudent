@@ -378,6 +378,49 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "使用者 P0 指示原文存檔（2026-10-17 多線戀愛、自然抓包、語彤雙主修）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "2343081c",
+   "files": [
+    "docs/story_planning/使用者指示_20261017_多線戀愛自然抓包語彤雙主修_原文.md"
+   ],
+   "state": "已交付",
+   "remaining": "兩句依隱私規則略寫（只留意思）",
+   "next": "無",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "法服讀書會出席當條件的地方盤點（AA_218 17-3；只盤點不改）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "e596654f",
+   "files": [
+    "docs/story_planning/BB_191_多線戀愛知情機制_女生聊天發現_語彤雙主修.md"
+   ],
+   "state": "已交付",
+   "remaining": "等使用者決定法服形式（6-4 三個問題）後才改",
+   "next": "使用者決定 → BB 改條件、AA 改台詞 → LAWWW-C 實作",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
+  },
+  {
+   "task": "法服條件改寫（沒有讀書會／社課）＋以安讀書會改到大一上的觸發條件（AA_218 17-4）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "ae9c0b03 / 2613fd15 / 152be8ab",
+   "files": [
+    "docs/story_planning/BB_191_多線戀愛知情機制_女生聊天發現_語彤雙主修.md",
+    "docs/story_planning/溫書瑀_角色企劃.md"
+   ],
+   "state": "已交付",
+   "remaining": "7-2 沛珊讀書會方案（A/B/C）待使用者；芷若子晴怎麼認識的待使用者；【AA】台詞六類",
+   "next": "AA 問使用者 7-2、寫台詞 → BB 改條件 → LAWWW-C 實作",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
