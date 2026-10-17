@@ -135,7 +135,7 @@ const STORY = (function(){
   async function y0FirstNight(GM){ const G=GM.G, F=G.flags, E=GM.E; if(!S.isEcon(G)||F.E01_DONE||y0Busy) return false; y0Busy=true; let night=null;
     GM.sceneBegin(); GM.letterbox(true);
     try{ G.hour=21; E.hour=G.hour; if(GM.updateHUD) GM.updateHUD();
-      v0Box(GM,'onbed'); for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的床上。','她說：「先拆被子。」被子在最下面那一箱。']) await GM.say(null,t);
+      v0Box(GM,'onbed'); for(const t of ['開學前一天，晚上九點。男生宿舍四樓，四一二。','媽媽傍晚才走。她把三個紙箱疊在你的書桌上。','她說：「先拆被子。」被子在最下面那一箱。','（另外兩組床桌還是空的，上舖的床架上貼著名字：韋綸、唐睿。）']) await GM.say(null,t);   /* 四人房（AA_208 第 3、6 節）：床在上舖，紙箱疊在書桌上；韋綸、唐睿 9/2 迎新以後才搬進來 */
       GM.advance(2/60); if(typeof PHONE!=='undefined') await phoneScene(GM,'p:mom',[{from:'mom',name:'媽媽',text:'到了要記得吃晚餐。'}]); else await GM.say({name:'媽媽（手機）'},'到了要記得吃晚餐。');
       await GM.say(null,'你已經吃過了。媽媽也知道。');
       await GM.say(null,'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
@@ -155,7 +155,7 @@ const STORY = (function(){
       await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st={x:1.8,z:2.2,yaw:Math.PI}; GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
       v0Box(GM,'bed'); await GM.say(null,'十點了。被子鋪好了，地上還有兩個箱子沒拆。');
       const j=await GM.choose([{t:'先睡。明天再拆。'},{t:'今天拆完。'}]);
-      if(j===0){ F.E01_NIGHT='sleep'; v0Box(GM,'foot'); await GM.say(null,'你把兩個箱子推到床尾。燈還沒關，你就睡著了。'); night='sleep'; }
+      if(j===0){ F.E01_NIGHT='sleep'; v0Box(GM,'foot'); await GM.say(null,'你把兩個箱子推到書桌旁邊的地上。燈還沒關，你就睡著了。');   /* AA_208 第 6 節：床在上舖（原「推到床尾」）*/ night='sleep'; }
       else { F.E01_NIGHT='unpack'; v0Box(GM,'none'); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{comf:1});
         for(const t of ['你拆到第三箱的時候，阿勳已經躺下了。','他的桌燈沒有關。他把燈轉過來，照著你那一邊。','最後一本書放上書架，是兩點。']) await GM.say(null,t);
         GM.advance(Math.max(0,26-G.hour)); night='unpack'; }   /* 02:00 睡：G.hour 26＝01:00 以後才睡（sleepNow 記 lateNight）*/
@@ -173,7 +173,8 @@ const STORY = (function(){
   S.y0Tick=function(GM){ const G=GM.G, F=G.flags, d1=S.y0Day1(); if(!S.isEcon(G)||G.zone!=='dorm'||y0Busy||GM.E.player.busy||(GM.D&&GM.D.active)) return false;
     if(G.day===d1&&!F.E01_DONE){ y0FirstNight(GM); return true; }
     if(G.day===d1+1&&F.E01_NIGHT&&!F.E01_MORNING&&h(G)<12){ y0Morning(GM); return true; }
-    if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ F.E01_BOXES=true; v0Box(GM,'none'); y0Busy=true; GM.sceneBegin(); GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。').finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
+    if(F.E01_NIGHT&&!F.E01_BOXES&&!F.E412_MOVEIN&&(G.day>d1+1||(G.day===d1+1&&h(G)>=17))){ const box=F.E01_NIGHT==='sleep'; F.E01_BOXES=true; F.E412_MOVEIN=true; if(box) v0Box(GM,'none'); y0Busy=true; GM.sceneBegin();   /* 先睡的玩家：箱子拆完那一句；所有人：韋綸、唐睿 9/2 迎新以後搬進來（AA_208 第 3 節）*/
+      (async()=>{ if(box) await GM.say(null,'你終於把箱子拆完了。阿勳說，比他預測的早。'); await GM.say(null,'（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）'); })().finally(()=>{ GM.sceneEnd(); y0Busy=false; }); return true; }
     return false; };
   S.y0FirstNight=y0FirstNight; S.y0Morning=y0Morning;
   // ---------- 日程與路人 ----------

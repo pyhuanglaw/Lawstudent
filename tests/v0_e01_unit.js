@@ -42,19 +42,19 @@ const XUN='econ_zhengxun';
   // 先睡
   { const L=await start(['為什麼','先睡']);
     check('2. 標題卡「2024 年 9 月 1 日（日）｜開學前一天」',cards[0]==='2024 年 9 月 1 日（日）｜開學前一天',cards.join(' / '));
-    check('2. 21:00 三句旁白（四樓 412、三個紙箱、先拆被子）',L[0]==='開學前一天，晚上九點。男生宿舍四樓，四一二。'&&L[1]==='媽媽傍晚才走。她把三個紙箱疊在你的床上。'&&L[2]==='她說：「先拆被子。」被子在最下面那一箱。',JSON.stringify(L.slice(0,3)));
-    check('2. 媽媽的訊息「到了要記得吃晚餐。」（演完也寫進手機的對話串）＋「你已經吃過了。媽媽也知道。」',L[3]==='媽媽（手機）：到了要記得吃晚餐。'&&L[4]==='你已經吃過了。媽媽也知道。'&&(G.msgs||[]).some(m=>m.th==='p:mom'&&m.text==='到了要記得吃晚餐。'),JSON.stringify(L.slice(3,5)));
+    check('2. 21:00 旁白（四樓 412、三個紙箱疊在書桌上、先拆被子、另外兩組床桌空著貼名字；AA_208 第 3、6 節四人房）',L[0]==='開學前一天，晚上九點。男生宿舍四樓，四一二。'&&L[1]==='媽媽傍晚才走。她把三個紙箱疊在你的書桌上。'&&L[2]==='她說：「先拆被子。」被子在最下面那一箱。'&&L[3]==='（另外兩組床桌還是空的，上舖的床架上貼著名字：韋綸、唐睿。）',JSON.stringify(L.slice(0,4)));
+    check('2. 媽媽的訊息「到了要記得吃晚餐。」（演完也寫進手機的對話串）＋「你已經吃過了。媽媽也知道。」',L[4]==='媽媽（手機）：到了要記得吃晚餐。'&&L[5]==='你已經吃過了。媽媽也知道。'&&(G.msgs||[]).some(m=>m.th==='p:mom'&&m.text==='到了要記得吃晚餐。'),JSON.stringify(L.slice(4,6)));
     check('2. 阿勳進門、自我介紹（盧正勳，經濟系；叫起來像在點名）；祐廷：我叫{name}',L.includes('阿勳：你好。盧正勳，經濟系。')&&L.includes('阿勳：大家叫我阿勳。正勳兩個字，叫起來像在點名。')&&L.some(t=>t==='祐廷：我叫{name}。也是經濟系。'),JSON.stringify(L.slice(5,9)));
     check('2. 冷笑話選項「為什麼？」「因為預算限制？」',opts[0].join()==='為什麼？,因為預算限制？');
     check('2. 「為什麼？」：邊際效用是零 → 等你笑 → 成功率大概三成（BB-B 改的那句）',L.includes('阿勳：因為第四個箱子的邊際效用是零。')&&L.includes('他停了一下，等你笑。')&&L.includes('阿勳：……這是我今天想的。成功率大概三成。'));
     check('2. 阿勳熟悉 +2（第一次見面以外，事件數值）、認識了',SOCIAL.rel(XUN).fam>=2&&SOCIAL.stage(XUN)!=='STRANGER',JSON.stringify(SOCIAL.rel(XUN)));
     check('2. 22:00：「十點了。被子鋪好了，地上還有兩個箱子沒拆。」選項「先睡。明天再拆。」「今天拆完。」',L.includes('十點了。被子鋪好了，地上還有兩個箱子沒拆。')&&opts[1].join()==='先睡。明天再拆。,今天拆完。');
-    check('2. 先睡：E01_NIGHT sleep、E01_DONE；旁白「燈還沒關，你就睡著了」',G.flags.E01_NIGHT==='sleep'&&G.flags.E01_DONE===true&&L.includes('你把兩個箱子推到床尾。燈還沒關，你就睡著了。'));
+    check('2. 先睡：E01_NIGHT sleep、E01_DONE；旁白「燈還沒關，你就睡著了」',G.flags.E01_NIGHT==='sleep'&&G.flags.E01_DONE===true&&L.includes('你把兩個箱子推到書桌旁邊的地上。燈還沒關，你就睡著了。'));
     check('3. 隔天 9/2 07:00 起床；換日標題寫日期「9 月 2 日」（不是第 −379 天）',G.day===Y0+1&&Math.abs(G.hour-7)<1e-6&&cards.some(c=>c.startsWith('9 月 2 日｜')),G.day+' '+G.hour+' '+cards.join(' / '));
     check('3. 起床：阿勳「你十點就睡了。我以為你是機器人。」「……機器人也要充電。你充得很完整。」',L.includes('阿勳：你十點就睡了。我以為你是機器人。')&&L.includes('阿勳：……機器人也要充電。你充得很完整。')&&G.flags.E01_MORNING===true);
     check('3. 先睡的那晚不算 01:00 以後才睡',!(G.daily&&G.daily.lateNight===G.day));
     said=[]; G.hour=18; G.zone='dorm'; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10));
-    check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳說，比他預測的早。」一次',lines().includes('你終於把箱子拆完了。阿勳說，比他預測的早。')&&G.flags.E01_BOXES===true);
+    check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳說，比他預測的早。」一次，接著「（韋綸和唐睿搬進來了。…）」（AA_208 第 3 節）',lines().includes('你終於把箱子拆完了。阿勳說，比他預測的早。')&&lines().indexOf('（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）')===lines().indexOf('你終於把箱子拆完了。阿勳說，比他預測的早。')+1&&G.flags.E01_BOXES===true);
     said=[]; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10)); check('4. 不再說第二次',!lines().length); }
   // 拆完
   { const L=await start(['預算限制','拆完']);

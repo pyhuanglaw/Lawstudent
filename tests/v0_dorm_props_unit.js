@@ -18,6 +18,6 @@ const V=Z3.v0BoxFromFlags; check('2. 紙箱狀態：還沒過開學那晚＝床�
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const build=G=>{ global.GAME={G}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const z=Z3.ZONES.dorm.build(E); delete global.GAME; return z; };
 { const z=build({stage:'econ',flags:{},day:-15}); const g=z.group.getObjectByName('v0_dorm_props'); check('3. 經濟系：房間裡有 v0_dorm_props（dyn，不參加合併）、setV0Box、目前狀態＝床上',!!g&&g.userData.dyn===true&&typeof z.setV0Box==='function'&&z.v0Box==='onbed');
   const z2=build({stage:'law',flags:{},day:20}); check('3. 法律系（203）：沒有這些小物件；setV0Box 是空函式',!z2.group.getObjectByName('v0_dorm_props')&&typeof z2.setV0Box==='function'); }
-{ const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const i1=st.indexOf("v0Box(GM,'onbed')"), i2=st.indexOf("v0Box(GM,'bed')"), i3=st.indexOf("v0Box(GM,'foot')"), i4=st.indexOf("F.E01_NIGHT='unpack'; v0Box(GM,'none')"), i5=st.indexOf("F.E01_BOXES=true; v0Box(GM,'none')");
+{ const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const i1=st.indexOf("v0Box(GM,'onbed')"), i2=st.indexOf("v0Box(GM,'bed')"), i3=st.indexOf("v0Box(GM,'foot')"), i4=st.indexOf("F.E01_NIGHT='unpack'; v0Box(GM,'none')"), i5=st.indexOf("F.E412_MOVEIN=true; if(box) v0Box(GM,'none')");   /* 9/2 晚上：先睡的玩家箱子拆完（AA_208 起和韋綸、唐睿搬進來同一段）*/
   check('4. E01：開場床上 → 22:00 床邊地上 → 先睡推到床尾／拆完不見 → 隔天晚上拆完不見（story3d.js 的順序）',i1>0&&i2>i1&&i3>i2&&i4>i3&&i5>i4); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
