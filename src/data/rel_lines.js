@@ -37,7 +37,7 @@ const REL_LINES=(function(){
     bye:{base:['「那我先走囉。」'],FRIEND:['「下次早餐換那家，我傳地址給你。」'],CLOSE_FRIEND:['「啊我要遲到了，掰掰！」']},
     contact:{FRIEND:'小語'} },
   classmate_bohan:{   /* AA_194 6e94d8d7 第 3 節：升三階（《第三月台》片名虛構）、道別 FRIEND／CLOSE */
-    up:{ FAMILIAR:{l:['「你一週大概念幾小時？我想調一下我的時間表。」']}, FRIEND:{l:['「禮拜四下午我在總圖四樓。要一起讀的話，我幫你占位子。」']}, CLOSE_FRIEND:{l:['「你有看《第三月台》嗎？我昨天下午去看了。」','「結尾那段我沒看懂，你看了再跟我說。」']} },
+    up:{ FAMILIAR:{l:['「你一週大概念幾小時？我想調一下我的時間表。」']}, FRIEND:{l:['「禮拜四下午我在總圖三樓。要一起讀的話，我幫你占位子。」']}, CLOSE_FRIEND:{l:['「你有看《第三月台》嗎？我昨天下午去看了。」','「結尾那段我沒看懂，你看了再跟我說。」']} },
     bye:{base:['「時間到了，我回去念。」'],FRIEND:['「我先回去了，這章今天要看完。」'],CLOSE_FRIEND:['「我先走了，有空再約。」']},
     contact:{FRIEND:'柏翰'} },
   classmate_xinci:{   /* AA_194 6e94d8d7 第 3 節：升三階、道別 base／CLOSE */
