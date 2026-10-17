@@ -1140,7 +1140,7 @@ const STORY_EVENTS=[
   /* 主線 2（交接包 v2 C2）：除夕（STORY.lunarNewYear 的前一天，2026-02-16）。固定節點：除夕 12:00 以後、人有空就演（auto，在哪裡都可以——家裡用 2D）；
      如果除夕還沒演就上床，睡覺時演（sleep）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。事件 id 照舊是 ev_chiayi_*（存檔的 events.done 記這個 id，改名會讓舊存檔再演一次）。演完時間往後 2 小時。記全域旗標 FAMILY_LAND_Y1（teacher／ask／lawyer；大三主線 9、大二上物權第 7 週的回想讀它）*/
   { id:'ev_chiayi_land_y1', title:'親戚的土地資料', participants:[], location:'any', trigger:'auto', priority:9, time:[12,24], once:true, background:'dark',
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.lunarNewYear&&STORY.lunarNewYear()!=null&&G.day===STORY.lunarNewYear()-1&&!G.flags.FAMILY_LAND_Y1},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.lunarNewYear&&STORY.lunarNewYear()!=null&&G.day===STORY.lunarNewYear()-1&&!G.flags.FAMILY_LAND_Y1&&(typeof HOME==='undefined'||!HOME.lawBreak||!HOME.lawBreak(G)||HOME.at(G))},   /* 16 週制寒假可以留宿舍（AA_197 1-2）：主線 2 在家演——人在宿舍的，17:00 回家以後才演 */
     dialogue:LAND_Y1, consequences:{advance:2} },
   { id:'ev_chiayi_land_y1_bed', title:'親戚的土地資料', participants:[], location:'any', trigger:'sleep', priority:9, once:true, background:'dark',
     prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.lunarNewYear&&STORY.lunarNewYear()!=null&&G.day===STORY.lunarNewYear()-1&&!G.flags.FAMILY_LAND_Y1&&!(G.events&&G.events.done&&G.events.done.ev_chiayi_land_y1)},
