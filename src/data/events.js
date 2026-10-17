@@ -1648,7 +1648,7 @@ const STORY_EVENTS=[
   ...(()=>{ const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const fight=[ {scene:'電話'},
       {speaker:'kexin',expression:'neutral',text:'我明天早上九點有小考。你剛剛傳了三則貓的影片。'},{speaker:'player',text:'好看嗎。'},
-      {speaker:'kexin',expression:'annoyed',text:'……你休學在家，每天到底在幹嘛？'},{speaker:null,text:'（他沒有馬上回。）'},
+      {speaker:'kexin',expression:'annoyed',text:'……你休學在家，每天到底在幹嘛？'},{speaker:null,text:'（你沒有馬上回。）'},
       {speaker:'player',text:'睡覺。看影片。等妳下課。'},{speaker:'kexin',expression:'neutral',text:'我不是那個意思。'},{speaker:'player',text:'我知道。……妳去讀書。'},
       {set:{KX_FIGHT_1212:true}} ];
     const cram=[ {scene:'以前的補習班'},

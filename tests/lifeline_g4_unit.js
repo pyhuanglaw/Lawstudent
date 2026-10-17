@@ -36,7 +36,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* 4-1 */
   { const d=DK('2024-12-12'); econ(d,21.9,'campus',{}); const a=EVENTS.check(ev('ev_y0_fight')); G.hour=22; const b=EVENTS.check(ev('ev_y0_fight'));
     await EVENTS.run(ev('ev_y0_fight')); const L=lines();
-    check('4-1 12/12 22:00 電話（22:00 以前不會）：「我明天早上九點有小考。你剛剛傳了三則貓的影片。」…「（他沒有馬上回。）」…「我知道。……妳去讀書。」；沒有選項',!a&&b&&L[0]==='杜可昕：我明天早上九點有小考。你剛剛傳了三則貓的影片。'&&L.includes('（他沒有馬上回。）')&&L[L.length-1]==='祐廷：我知道。……妳去讀書。'&&opts.length===0,J(L));
+    check('4-1 12/12 22:00 電話（22:00 以前不會）：「我明天早上九點有小考。你剛剛傳了三則貓的影片。」…「（你沒有馬上回。）」…「我知道。……妳去讀書。」；沒有選項',!a&&b&&L[0]==='杜可昕：我明天早上九點有小考。你剛剛傳了三則貓的影片。'&&L.includes('（你沒有馬上回。）')&&L[L.length-1]==='祐廷：我知道。……妳去讀書。'&&opts.length===0,J(L));
     check('4-1 演過以後在家的那一個不會再演',!EVENTS.check(ev('ev_y0_fight_h')));
     econ(d,20,'home',{}); check('4-1 睡著：coreCallAt 停在 22:00',STORY.coreCallAt(G)===22); }
   /* 4-2 */

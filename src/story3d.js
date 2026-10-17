@@ -1339,7 +1339,7 @@ const STORY = (function(){
       { const d=D('2025-01-03'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay1')) PHONE.at(G,d,21,[K('📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）'),K('我以為是下週五。'),Object.assign(K('是上週五。'),{ask:{id:'y0_kx_essay1',until:(d+1)*24+18,opts:[
           {t:'寄信問葉老師？',say:[K('正在寫。……寫第三版了。第一版太像在哭，第二版太像律師函。')]},
           {t:'妳先不要慌。',say:[K('我沒有慌。我在把截圖放大，看紅字是不是會變黑。'),K('……好啦。我寫信問葉老師。')]},
-          {t:'要不要我現在過去？',say:[K('你又沒課。……好啦，來。我在社科院一樓。'),{who:null,text:'（他去，她把信給他看，他改了一個錯字。）'}]}]}})],'y0_kx_essay1'); }
+          {t:'要不要我現在過去？',say:[K('你又沒課。……好啦，來。我在社科院一樓。'),{who:null,text:'（你過去了。她把信給你看，你改了一個錯字。）'}]}]}})],'y0_kx_essay1'); }
       { const d=D('2025-01-06'); if(past(d,21)&&!PHONE.sent(G,'y0_kx_essay2')) PHONE.at(G,d,21,[K('葉老師回了。'),K('很客氣。說遲交照課程大綱第一頁的規定處理，對每個人都一樣。'),K('……他說得沒錯。第一頁我有看。我只是記錯日子。')],'y0_kx_essay2'); }
       { const d=D('2025-01-11'); if(past(d,22)&&!PHONE.sent(G,'y0_kx_essay3')){ F.KX_THINK_LEAVE=F.KX_THINK_LEAVE||true; PHONE.at(G,d,22,[K('我算了一下。那份作業占很多。'),K('可能會被當。也可能不會。'),K('我不想等到成績出來才知道。……我不想要成績單上有一個不及格。'),Object.assign(K('我在想要不要休學。'),{ask:{id:'y0_kx_essay3',until:(d+1)*24+18,opts:[
           {t:'妳想好了再跟我說。',set:{KX_THINK_LEAVE:'wait'},say:[K('嗯。我會。')]},
