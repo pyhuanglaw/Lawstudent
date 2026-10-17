@@ -36,7 +36,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   check('1. 經濟系開局（9/1）：沒有「走啦」、沒有 8/13 的照片、還沒有全班群組',!PHONE.inGroup(G,'econ_friends')&&!PHONE.sent(G,'econ_photo_0813')&&!PHONE.inGroup(G,'econ_class'));
   G.events.done.ev_y0_e02=1; at(D2,15);
   check('1. E02 迎新那天：加入「經濟系 大一（全班）」（沒有訊息）',PHONE.inGroup(G,'econ_class')&&PHONE.rec(G).groups.econ_class.name==='經濟系 大一（全班）'&&!TH('g:econ_class').length);
-  at(D16,21.1); check('2. 9/16（一）21:00 全班群組：「中秋系烤：9/21（六）17:00，河濱。自備餐具。」＋韋綸「走啦！」',JSON.stringify(TH('g:econ_class'))===JSON.stringify(['中秋系烤：9/21（六）17:00，河濱。自備餐具。','走啦！']),JSON.stringify(TH('g:econ_class')));
+  at(D16,21.1); check('2. 9/16（一）21:00 全班群組：「中秋系烤：9/21（六）17:00，河濱。自備餐具。」＋韋綸「我要去！有人要一起走過去嗎？」（段A #56）',JSON.stringify(TH('g:econ_class'))===JSON.stringify(['中秋系烤：9/21（六）17:00，河濱。自備餐具。','我要去！有人要一起走過去嗎？']),JSON.stringify(TH('g:econ_class')));
   check('1. 還沒有 P2：沒有「走啦」',!PHONE.inGroup(G,'econ_friends'));
   G.flags.P2_PICK='home'; at(D19,16); check('1. P2 選「今天先回去」：不建「走啦」',!PHONE.inGroup(G,'econ_friends'));
   G.flags.P2_PICK='river'; at(D19,17); check('1. P2 去成（河濱）：韋綸建立了群組「走啦」',PHONE.inGroup(G,'econ_friends')&&TH('g:econ_friends')[0]==='韋綸建立了群組「走啦」，把你加了進來。',JSON.stringify(TH('g:econ_friends')));

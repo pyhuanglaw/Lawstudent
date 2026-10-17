@@ -45,8 +45,8 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // E09
   check('3. E09：第 4 週週一～週四 12:10～13:15；週五（9/27 教師節連假）、第 5 週、11:30 不行',ck(e9,D23,12.3)&&ck(e9,D23+3,13)&&!ck(e9,D27,12.3)&&!ck(e9,D23+7,12.3)&&!ck(e9,D23,11.5));
   { fresh(D23,12.3,'campus'); picks=['妳吃什麼']; const m0=G.money; await EVENTS.run(e9); const L=said.map(x=>x.t);
-    check('3. E09 原文：九十五元、五十五、阿勳「……四十元。」、可昕',L[0]==='（看你的餐盤）雞腿便當加紅茶，九十五元。'&&L[2]==='……四十元。'&&L[3]==='還有放棄了跟我們吃一樣的東西。',JSON.stringify(L.slice(0,4)));
-    check('3. 「妳吃什麼？」→ 零元、她媽媽做的、邊際成本是零',JSON.stringify(L.slice(-3))===JSON.stringify(['我自己帶便當。','（她打開便當盒。可昕伸筷子夾走一塊蛋，品妤沒說話，把便當往自己那邊移了一點。）','……邊際成本是零。']),JSON.stringify(L.slice(-3))); }
+    check('3. E09（BB_179 段A #58～#60）：品妤只算一次錢，沒有阿勳「四十元」、可昕「放棄了」',L[0]==='（看你的餐盤）雞腿便當加紅茶，九十五喔。隔壁的滷肉飯才五十五。'&&!L.some(t=>/四十元|你剛剛放棄了什麼|跟我們吃一樣的東西/.test(t)),JSON.stringify(L.slice(0,3)));
+    check('3. 「妳吃什麼？」→ 我自己帶便當、可昕夾走一塊蛋（段A #62～#64：沒有「零元」「邊際成本是零」）',JSON.stringify(L.slice(-2))===JSON.stringify(['我自己帶便當。','（她打開便當盒。可昕伸筷子夾走一塊蛋，品妤沒說話，把便當往自己那邊移了一點。）']),JSON.stringify(L.slice(-3))); }
   // E04（課堂）
   { const itemFor=week=>{ for(let d=-400;d<0;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y0S1'||t.week!==week) continue; const it=CLS.dayItems({day:d,hour:8,stage:'econ',flags:{}},d).find(x=>x.c.id==='calc_y0s1'&&!x.exam); if(it) return it; } return null; };
     const w2=itemFor(2), w3=itemFor(3); check('4. 微積分第 2 週是 9/11（三）',!!w2&&w2.day===D11);
