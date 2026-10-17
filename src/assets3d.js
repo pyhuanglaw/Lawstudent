@@ -107,17 +107,18 @@ const ASSETS = (function(){
     // ==== 第二個 AI 區塊結束 ====
     'char.mixamo_clips':{url:'assets/models/char/mixamo_clips.glb', type:'clips', source:'three.js examples (Xbot.glb, Mixamo)', license:'Mixamo 動畫（Adobe 條款：可用於專案，不可單獨再散布）'},
   };
-  /* 路人底模（LAWWW2 Blender，docs/art-rebuild/second_ai/patches/npc_ambient_1ca527d.patch；2026-10-14 LAWWW 整合）：網址加 ?npcnew 才放進 manifest——
-     預設不載入（ambient 會在開場預載，8 個約 20 MB；使用者看過截圖再決定）。只給沒有名字的路人用（character3d.js 的 AMB_ANON），有名字的人物照舊用可換色的模型 */
-  if(typeof location!=='undefined'&&/[?&]npcnew\b/.test(location.search||'')) Object.assign(A.manifest,{
-    'char.npc_nm1':    {url:'assets/models/char/second_ai/bl_npc_nm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.7,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：深棕短髮、深藍 T、卡其褲',license:'CC0'},
-    'char.npc_nm2':    {url:'assets/models/char/second_ai/bl_npc_nm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色蓬鬆短髮、灰針織衫、黑長褲',license:'CC0'},
-    'char.npc_nm3':    {url:'assets/models/char/second_ai/bl_npc_nm3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：淺棕側分短髮、磚紅針織衫、淺灰長褲',license:'CC0'},
-    'char.npc_nm4':    {url:'assets/models/char/second_ai/bl_npc_nm4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,ambient:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色側分瀏海、白 T、橄欖綠長褲',license:'CC0'},
-    'char.npc_nf1':    {url:'assets/models/char/second_ai/bl_npc_nf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：棕色及肩髮、淺綠 T、白寬褲',license:'CC0'},
-    'char.npc_nf2':    {url:'assets/models/char/second_ai/bl_npc_nf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：黑色鮑伯頭、白 V 領、深藍牛仔褲',license:'CC0'},
-    'char.npc_nf3':    {url:'assets/models/char/second_ai/bl_npc_nf3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕長髮、深藍針織衫、淺色牛仔褲',license:'CC0'},
-    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'}});
+  /* 路人底模（LAWWW2 Blender；2026-10-14 整合）：使用者 2026-10-17 P0（「長得很像的路人真的太多了」「路人數量要再加倍」，經 LAWWW2-C、AA-C 轉達）→ 預設打開。
+     anon：只給沒有名字的路人（character3d.js 的 C.anonPool）；lazy：不在開場預載——每次換區域從池子挑最多 4 女＋4 男在背景下載、沒有人在用的放掉（A.unloadVRM）。
+     有名字、要換色的人物照舊用 npc_f1／f2／m1／m2（AMB）。網址加 ?npcold 回到舊的四個樣本 */
+  if(!(typeof location!=='undefined'&&/[?&]npcold\b/.test(location.search||''))) Object.assign(A.manifest,{
+    'char.npc_nm1':    {url:'assets/models/char/second_ai/bl_npc_nm1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.7,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：深棕短髮、深藍 T、卡其褲',license:'CC0'},
+    'char.npc_nm2':    {url:'assets/models/char/second_ai/bl_npc_nm2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.8,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色蓬鬆短髮、灰針織衫、黑長褲',license:'CC0'},
+    'char.npc_nm3':    {url:'assets/models/char/second_ai/bl_npc_nm3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.76,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Male」：淺棕側分短髮、磚紅針織衫、淺灰長褲',license:'CC0'},
+    'char.npc_nm4':    {url:'assets/models/char/second_ai/bl_npc_nm4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.73,ambient:true,anon:true,lazy:true,sex:'m',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Sakurada_Fumiriya」：黑色側分瀏海、白 T、橄欖綠長褲',license:'CC0'},
+    'char.npc_nf1':    {url:'assets/models/char/second_ai/bl_npc_nf1.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.62,ambient:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：棕色及肩髮、淺綠 T、白寬褲',license:'CC0'},
+    'char.npc_nf2':    {url:'assets/models/char/second_ai/bl_npc_nf2.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,ambient:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：黑色鮑伯頭、白 V 領、深藍牛仔褲',license:'CC0'},
+    'char.npc_nf3':    {url:'assets/models/char/second_ai/bl_npc_nf3.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.66,ambient:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「Victoria_Rubin」：灰棕長髮、深藍針織衫、淺色牛仔褲',license:'CC0'},
+    'char.npc_nf4':    {url:'assets/models/char/second_ai/bl_npc_nf4.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.6,ambient:true,anon:true,lazy:true,sex:'f',source:'LAWWW2 Blender 改作 VRoid CC0 樣本「HairSample_Female」：紅棕長髮、珊瑚色 T、米色寬褲',license:'CC0'}});
   // 網址加 ?nobldg：不載入建築的正式模型（Blender GLB），只看程序化備用模型（新舊比較、載入失敗時的樣子）
   if(typeof location!=='undefined'&&/[?&]nobldg\b/.test(location.search||'')) for(const k of Object.keys(A.manifest)) if(k.startsWith('bldg.')||k==='prop.street'||k==='prop.trees') delete A.manifest[k];
   // 網址加 ?blchar：有 Blender 正式製作版本的人物（manifest 的 blUrl）改用 Blender 版（v9.4 起；沈以安是示範角色）。
@@ -197,6 +198,11 @@ const ASSETS = (function(){
      原本只從 clones 拿掉，骨架貼圖沒釋放：VRoid 人物一個約 16 張，換區域時每個路人都留下一批（2026-10-16 BUG-01 zone_memory：GPU 貼圖追蹤找到的就是這個——
      回到校園一次多 70～80 張、溫州街的路人 2×16 張；iOS Safari 記憶體到上限會重新載入網頁＝跳回標題）。幾何、材質是和 tpl 共用的，不能釋放 */
   const disposeClone=vrm=>{ try{ vrm.scene.traverse(o=>{ if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); }); }catch(e){ console.warn('VRM clone dispose',e); } };
+  /* 整個放掉一個 VRM（樣板也釋放）：沒有人在用（樣板沒借出、沒有複製品）才放；下次要用再下載。路人底模輪替用（C.anonPool）*/
+  A.unloadVRM=function(key){ const c=A.cache[key]; if(!c||!c.tpl||c.tpl.inUse||(c.clones&&c.clones.length)) return false; const seen=new Set();
+    const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k in m){ const v=m[k]; if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
+    try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); }catch(e){ console.warn('VRM unload',key,e); }
+    delete A.cache[key]; delete A.status[key]; A.unloaded=(A.unloaded|0)+1; return true; };
   A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
   A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
   // 清單（給 REVIEW / LICENSES 用）

@@ -58,4 +58,9 @@ check('大一女舍：週六白天零星（wkday）、晚上（wkeve）',slotKey
   G.hour=12.25; CROWD.tick(GM,2); check('再跳到 12:15（下課後）：門口有剛下課的人',E.npcs.filter(n=>n.crowd==='gongtong').length>=2);
   G.hour=24+3; CROWD.tick(GM,2); check('跳到深夜 03:00：兩個門口都沒有人',!E.npcs.some(n=>n.crowd));
   G.day=T+1; G.hour=24+18; CROWD.tick(GM,2); const f=E.npcs.filter(n=>n.crowd==='fdorm'); check('隔天 18:00：大一女舍門口有傍晚回來的人',f.length>=2,f.length+' 人'); }
+// ---------- 路人加倍（使用者 2026-10-17 P0「路人數量要再加倍」：STORY.CROWD_X）----------
+{ const one=[], two=[], bad=[]; for(let d=T;d<T+7;d++) for(const spot of CROWD.SPOTS) for(const sl of spot.slots(mkG(d,0))){ STORY.CROWD_X=undefined; one.push(CROWD.group(mkG(d,sl.t0),spot,sl).length); STORY.CROWD_X=2; const g=CROWD.group(mkG(d,sl.t0),spot,sl); two.push(g.length); for(const p of g) if(!E.canStand(p.x,p.z,0.3,0)) bad.push(spot.id+'/'+sl.key+'@'+d+' ('+p.x+','+p.z+')'); }
+  STORY.CROWD_X=undefined;
+  check('STORY.CROWD_X＝2：每一群人數是原本的兩倍',one.length>0&&one.every((n,i)=>two[i]===n*2),JSON.stringify(one.slice(0,6))+' → '+JSON.stringify(two.slice(0,6)));
+  check('STORY.CROWD_X＝2：一週裡多出來的人也都站得住',!bad.length,bad.slice(0,4).join(' | ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

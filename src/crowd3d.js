@@ -45,7 +45,7 @@ const CROWD=(function(){
   S.SPOTS.push(...S.indoorSpots());
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定 */
-  S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); const n=slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)); const out=[]; const base=1000+Math.floor(r()*500);
+  S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*((typeof STORY!=='undefined'&&STORY.CROWD_X)||1));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）*/ const out=[]; const base=1000+Math.floor(r()*500);
     for(let k=0;k<n;k++){ const x=spot.c[0]+(r()-0.5)*2*spot.spread[0], z=spot.c[1]+(r()-0.5)*2*spot.spread[1]; let spec=base+k*(spot.female?2:1); if(spot.female&&spec%2) spec++;   /* extraSpec：偶數＝女生 */
       out.push({x:+x.toFixed(2),z:+z.toFixed(2),spec,pose:r()<slot.talk?'talk':slot.pose}); }
     /* 聊天的人轉向彼此（找最近的另一個人），其他的面向門口或馬路 */
