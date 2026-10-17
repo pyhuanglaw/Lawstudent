@@ -16089,9 +16089,9 @@
    "title": "宋家豪「公館美食地圖」筆記本拿在手上（BB_109 識別物、BB_201）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
-   "next": "BB-C 驗收拿法和樣子（D59）後照韋綸安全帽的接法接：PROPS.DEF.foodmap＋manifest prop.notebook_foodmap＋econ_jiahao.char3d.props",
+   "next": "接 0e191286（PROPS.DEF.foodmap={bone:leftLowerArm,make}＋manifest＋econ_jiahao props）；拍白天站著、走路給 BB-C 標 ART_APPROVED",
    "first": {
     "term": "Y0S1",
     "week": 0,
@@ -16104,8 +16104,8 @@
    },
    "source": "LAWWW2-C 19:46（0621bea6）",
    "authorized": "D59（BB 驗收）",
-   "pausedReason": "等 BB-C 驗收",
-   "resumeWhen": "BB-C 回驗收結果",
+   "pausedReason": null,
+   "resumeWhen": null,
    "xai": {
     "spec": "BB_109、BB_201",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16113,7 +16113,38 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "sha": "0621bea6"
+   "sha": "0e191286"
+  },
+  {
+   "id": "ART-PINYU-PROPS",
+   "title": "品妤的保溫瓶（平常拿）、工程計算機（事件用）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "next": "BB-C 通過後接 props_pinyu.js；props 平常只放 thermos",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "2024-08-23 宿營／412 宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 19:54／20:06（91ca1bca、2ef1ca4b）",
+   "authorized": "D59（BB 驗收）",
+   "pausedReason": "BB-C 還在改",
+   "resumeWhen": "BB-C 通過",
+   "xai": {
+    "spec": "BB_201",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "BB-C 看拿法；遊戲裡品妤拿著保溫瓶",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "sha": "2ef1ca4b"
   }
  ]
 }

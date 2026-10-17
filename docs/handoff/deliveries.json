@@ -7392,7 +7392,46 @@
    "task": "ART-JIAHAO-FOODMAP",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "等 BB-C 驗收拿法和樣子（D59）再接；接法同韋綸安全帽"
+   "note": "被 0e191286 取代（LAWWW2-C 20:06：不要用這一版）"
+  },
+  {
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LAWWW2-0e191286",
+   "sha": "0e191286",
+   "what": "家豪美食地圖筆記本第二版（A6、手寫標籤；掛左前臂 leftLowerArm，GLB 載入時對手骨頭定位）＋props_foodmap_jiahao.js；取代 0621bea6",
+   "task": "ART-JIAHAO-FOODMAP",
+   "integration": "未整合",
+   "note": "BB-C 20:01 配件這一關通過（BB_201 13-1、5d3983e3）；接好要給 BB-C 白天站著、走路的遊戲內截圖再標 ART_APPROVED"
+  },
+  {
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LAWWW2-91ca1bca",
+   "sha": "91ca1bca",
+   "what": "品妤工程計算機 calc_engineering.glb、黑色保溫瓶 thermos_black.glb＋props_pinyu.js（保溫瓶第二版 2ef1ca4b）",
+   "task": "ART-PINYU-PROPS",
+   "integration": "未整合",
+   "note": "BB-C 20:01：還在改，先不要接；平常 props 只放 thermos，計算機留給事件"
+  },
+  {
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "msg": "ACK",
+   "id": "DL-LAWWW2-60322c02",
+   "sha": "60322c02",
+   "what": "BG-25 畢業典禮背景 assets/bg/ntu_gym_graduation.webp（BG-23 同場景同鏡頭 --grad；READY_FOR_ART_REVIEW，場景美術等使用者）",
+   "task": "SCN-V5-02",
+   "integration": "未整合",
+   "note": "G6 校級典禮事件做的時候接（D81：大四尾聲）；法律學院典禮用既有 linze_auditorium"
   }
  ],
  "ignored": [
