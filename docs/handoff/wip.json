@@ -476,6 +476,37 @@
    "next": "AA 大三上批次寫回後交 LAWWW",
    "noDirectIntegrate": true,
    "source": "outbox_AA d4457d32"
+  },
+  {
+   "id": "WIP-AA-Y2S1-LADDER",
+   "role": "AA",
+   "task": "AB65-3-Y2S1-L",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0ba8d336",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa_y2s1.json",
+    "docs/story_planning/ladder/ladder_bb_y2s1.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 匯入＋程式四點＋AA_211 事件群戲",
+   "noDirectIntegrate": false,
+   "source": "DL-AA-0ba8d336"
+  },
+  {
+   "id": "WIP-AA-213-US",
+   "role": "AA",
+   "task": "US-RESCHED-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b3a21b20",
+   "files": [
+    "docs/story_planning/"
+   ],
+   "state": "WIP",
+   "remaining": "AA_158、144、12、180、181、v4、v5 逐檔改；BB_98／99、CG（BB-C）",
+   "next": "AA 定稿後結構化交付",
+   "noDirectIntegrate": true,
+   "source": "AA-C 04:37Z"
   }
  ]
 }

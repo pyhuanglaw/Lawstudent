@@ -261,7 +261,7 @@ def check(args):
                 if lines is None:
                     skipped.append(f'6（{br} 從 {base} 以後）：git 找不到這個分支或 commit（先 git fetch）')
                     continue
-                hits = [l for l in lines if pat.search(l.split(' ', 1)[1] if ' ' in l else '') and l[:7] not in known and l[:7] not in flagged]
+                hits = [l for l in lines if pat.search(l.split(' ', 1)[1] if ' ' in l else '') and l[:7] not in known and l[:7] not in flagged and not INC.only_registry(args.root, l.split(' ', 1)[0])]   # 只改登記檔（outbox 等）照路徑算已登記
                 flagged.update(l[:7] for l in hits)   # 企劃線互相合併，同一個 commit 會出現在兩條分支：只報一次
                 for l in reversed(hits):
                     A(6, f'{br}：{l[:110]}——符合交付關鍵字但沒登記（登記進 deliveries 或放進 ignored）')

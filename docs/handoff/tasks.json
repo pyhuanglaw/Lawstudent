@@ -6987,7 +6987,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【交班補強 2026-10-17】LAWWW2 WIP 8a1af723（prop_pothos.glb S1～S4、dorm_y2_items.glb，約 60%）：宿舍已換四人房，座標寫的是舊雙人房（推測要重新擺，未驗證）；還沒交付｜SYS-06",
+   "next": "規格：AA_208 第 7-1 節（AA 分支 908ab287；AA-C 04:40）：大二 312（＝舊稱 112）用 dorm_room4，換房號與三樓窗景；祐廷 L2（大一五件＋主線 3 新物件）、阿哲 L1（籃球、零食箱、電風扇）、柏翰 R1（整齊的書、檯燈、考古題資料夾、耳塞）、大一學弟 R2 背景（新生手冊、兩個紙箱）；軟木板在祐廷書桌前的牆。WIP 8a1af723 照這個重擺",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -7003,10 +7003,10 @@
    "authorized": "D79",
    "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
    "xai": {
-    "receiver": "LAWWW",
-    "branch": "claude/funny-albattani-iawshm",
-    "spec": "第二個房間的 2D 與物件（SYS-06；程式已接，物件圖由 LAWWW2）",
-    "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "AA_208 第 7-1 節（908ab287）",
+    "acceptance": "312 房號、窗景、四組物件照表、遊戲內截圖",
     "ack": "SENT"
    }
   },
@@ -14224,6 +14224,82 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "AA_208 第 8 節（AA 分支 4a6841eb）",
     "acceptance": "房號牌、窗景兩組、遊戲內截圖（507、409 各一張）、不改四人房導航",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "AB65-3-Y2S1-L",
+   "title": "實作大二上口語改稿（AA_211＋BB_181 裁定）：匯入 ladder_aa_y2s1／ladder_bb_y2s1＠0ba8d336＋事件、手機、群戲（AA_211 第 2、2-1、3、4 節）",
+   "area": "V3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "DL-AA-0ba8d336：①import_ladder（白名單已改）②K3-L7 選項①依 ev_kexin_film_night；A3-L3 選項① LADDER_CHOICE_IF（沒有 PLG_RULES_SEEN）；學姊「值班表你看了嗎？」一次、只給法服成員；（可選）A3-L6、Y3-L5 ev_yu_together 第 15 週起 ③AA_211 第 2、2-1、3、4 節事件與群戲 ④AA 核對",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "Y2S1W01",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": [
+    "0ba8d336"
+   ]
+  },
+  {
+   "id": "US-RESCHED-1017",
+   "title": "美國交換改期（使用者 2026-10-17）：祐廷大四上 2028-08-02 出發、12-23 返台；學姊同學期（碩二上）07-19 出發；大三下美國路線改照台灣路線；大四上 US 玩家不在台灣（AA_213）",
+   "area": "V4",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上 8/2 祐廷出發去美國（AA_213）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_213（b3a21b20，WIP）",
+    "acceptance": "新時間線逐檔改完、--check ok、結構化交付（檔案、SHA）",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-US-SEASON",
+   "title": "美國篇場景改季節：8 月出發、12 月回來（us_bus_station 等改成夏末；冬天場景保留給 12 月），隨 AA_213 新時間線",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "next": "等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "大四上 8/2 祐廷出發去美國（AA_213）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "pausedReason": "AA_213 還是 WIP",
+   "resumeWhen": "AA-C 交付 AA_213",
+   "xai": {
+    "receiver": "LAWWW2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "AA_213（AA-C 交付後）",
+    "acceptance": "季節改好的場景清單＋遊戲內截圖",
     "ack": "未派"
    }
   }

@@ -25,10 +25,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s1.json",
-   "sha": "72ea87f5",
+   "sha": "0ba8d336",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C 2026-10-17 04:39Z 交付 DL-AA-0ba8d336（AA_211 第 7 節；只限這個檔）",
+   "task": "AB65-3-Y2S1-L",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s2.json",
@@ -101,10 +107,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "72ea87f5",
+   "sha": "0ba8d336",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C 2026-10-17 04:39Z 交付 DL-AA-0ba8d336（AA_211 第 7 節；只限這個檔）",
+   "task": "AB65-3-Y2S1-L",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
