@@ -6600,6 +6600,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "等 BB-C 的 D59 驗收；README 自己列了沒好的：肩膀鼓一圈、坐下裙子成塊（下一版）。驗收通過才接進遊戲"
+  },
+  {
+   "id": "DL-AA-2562f736",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2562f736",
+   "what": "AA_253 §9～§11：交換一起出發一起回來、留臺灣她在國外（訊息→視訊→飛去告白：以安 2028-07-06～10、學姊 10/7～14）、語彤延畢 2030",
+   "task": "BB204-EXROUTE",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "觸發條件等 BB-C 定機制；排在 BB203-CONFESS-1017 之後"
+  },
+  {
+   "id": "DL-BB-fe829f72",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fe829f72",
+   "what": "BB_204 使用者新決定：交換地點由交往對象決定、美國一起 8/2～12/23、挽回不等學期末、留臺灣兩種版本",
+   "task": "BB204-EXROUTE",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "和 ROUTE-DATES-1017 一起做；學姊 absentDates 改 8/2～12/23"
   }
  ],
  "ignored": [
