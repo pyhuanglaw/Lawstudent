@@ -3,7 +3,7 @@
 - **起因**：使用者 2026-10-17 01:0x 直接給 LAWWW2-B，附一張實際宿舍照片：
   「台大宿舍是這樣 床在上面 書桌在下面 一個房間有四組這個／門口進來右邊是洗手間 再進來是四組這個／你改」
   （照片有人入鏡，**沒有放進 repo**。）
-- **狀態**：`WORK_IN_PROGRESS`。先給使用者看算圖，使用者點頭後才換 `dorm_interior.glb`、交 LAWWW-B。
+- **狀態**：`WORK_IN_PROGRESS`（v2）。先給使用者看算圖，使用者點頭後才換 `dorm_interior.glb`、交 LAWWW-B。
 - **腳本**：`tools/blender/env_second/dorm_room4.py`（舊的雙人房 `dorm_interior.py` 保留）。
   ```
   /opt/blenv/bin/python tools/blender/env_second/dorm_room4.py -- --out <glb> --layout <layout.json>
@@ -36,8 +36,36 @@
 | ![](v1_overview.webp) 全景 | ![](v1_game_cam.webp) 遊戲鏡頭的高度 |
 | ![](v1_entry.webp) 從門口進來 | |
 
+## v2（01:3x）：照 AA_208 放四位室友的東西（AA 分支 65978067；使用者在 AA 對話裡決定「新增兩個室友，用現有人物」）
+- 誰用哪一組（同一個模型 203、412 共用，換東西就好）：
+
+| 組 | 位置 | 203（法律系大一） | 412（經濟系那年） |
+|---|---|---|---|
+| L2 | 左前（門口那組） | **祐廷**：行李箱、《經濟學原理》、舊《民法》、六法、筆電 | **祐廷**：經濟系的書、筆電（第一晚紙箱用 v0_dorm_props，疊在書桌上） |
+| R2 | 右前（洗手間旁） | **阿凱**：雙螢幕、電腦主機、耳機、零食 | **阿勳**：v0_dorm_props 的 XUN_DESK、XUN_BOWLING |
+| L1 | 左後 | **阿哲**：籃球、一箱零食、桌上型電風扇 | **韋綸**：腳踏車安全帽、椅子上一堆衣服 |
+| R1 | 右後（靠窗、先到） | **柏翰**：排得很整齊的書、檯燈、考古題資料夾、耳塞盒 | **唐睿**：劇本、掛在床欄外的戲服 |
+
+- 節點：
+  - `Y203_YUTING`、`ROOMMATE_KAI`、`Y203_ZHE`、`Y203_BOHAN`、`Y412_YUTING`、`Y412_TANGRUI`、`Y412_WEILUN`：每個人的東西，可以整組藏起來；
+  - `LOFT_<組>_TOP`：1.5 m 以上的床板、床欄、吊桿、床墊、扶手上段，材質是 `seethru_*`（鏡頭擋到時走樹幹透視）；
+  - `BEDDING_<組>`：被子、枕頭；
+  - `NAMETAG_TANGRUI`、`NAMETAG_WEILUN`：經濟系第一晚空床的名牌（「412 唐睿」「412 韋綸」，貼圖 `textures/gen/dorm_labels.png`）。
+- 洗手間門上加了門牌（男女圖示＋「洗手間」）。
+- 遊戲要切換的（`layout_v2.json` 的 `sets`）：
+  - 203：藏 `Y412_*`、`NAMETAG_*`；
+  - 412：藏 `Y203_*`、`ROOMMATE_KAI`；
+  - 412 第一晚：再藏 `Y412_TANGRUI`、`Y412_WEILUN`、`BEDDING_R1`、`BEDDING_L1`，顯示名牌。
+- 月曆：洗手間北面隔間朝房間那一面留了空牆（`calendar_spot`）。社團傳單：祐廷書桌前、層架旁邊的空牆（`wall_spot_by_desk`）。
+
+| | |
+|---|---|
+| ![](v2_yuting.webp) 祐廷（門口那組） | ![](v2_bohan.webp) 柏翰（靠窗） |
+| ![](v2_kai.webp) 阿凱 | ![](v2_zhe.webp) 阿哲 |
+| ![](v2_412_first_night.webp) 經濟系第一晚：唐睿的空床＋名牌 | ![](v2_game_cam.webp) 遊戲鏡頭的高度 |
+
 ## 還沒做／要決定的
 1. 遊戲裡還沒接：導航、坐書桌、睡覺（上舖）、窗景、鏡頭（上舖會擋鏡頭）要 LAWWW-B 改 `zones3d.js`。
 2. 房間 6 m 寬，中間走道約 4 m，比照片寬（為了第三人稱鏡頭）。要更像實際可以縮到 5 m。
-3. 經濟系那一年「紙箱疊在床上」、另外兩個床位的室友：等 AA-B。
+3. 室友與紙箱：AA-B 已定（AA_208，見 v2）。
 4. 大二的房間（SCN-V3-01）之後照同一套做。
