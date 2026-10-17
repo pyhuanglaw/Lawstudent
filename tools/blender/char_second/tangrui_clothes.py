@@ -12,7 +12,7 @@ BLUE = np.array([112, 150, 204]) / 255.0          # 參考圖 POLO 衫 #7096cc�
 STYLE = dict(KNIT_RGB=BLUE, TROUSER_RGB=np.array([236, 234, 228]) / 255.0, BELT_RGB=None,
              LEATHER_RGB=np.array([150, 152, 156]) / 255.0, SOLE_RGB=np.array([232, 230, 224]) / 255.0, GOLD_RGB=np.array([232, 230, 224]) / 255.0,
              SHOE_STYLE='sneaker', NECK_STYLE='V', HEM_OVER_PANTS=True, SLIM=False, TOP_TEX='jersey', TROUSER_TEX='twill',
-             SLEEVE_LEN=0.40, SLEEVE_K=0.72, CUFF_EASE=0.014, EASE_K=0.45, DROP_X=0.095, TOP_FIT=0.80, HEM_LOOSE=True, SHOULDER_SAG=0.020, SLEEVE_IN=0.035,   # 第七版（BB_201：像膨膨的連帽上衣）：沛珊的做法——肩膀下沉、袖子往內、貼身
+             SLEEVE_LEN=0.40, SLEEVE_K=0.62, CUFF_EASE=0.008, EASE_K=0.16, DROP_X=0.090, TOP_FIT=1.0, HEM_LOOSE=True, SHOULDER_SAG=0.020, SLEEVE_IN=0.035, NECK_CALM=1.0,   # 第十二版（BB_201 第 9 節：polo 太鼓，「照沛珊的做法降低離身體的距離；polo 是貼身針織，袖口一圈羅紋」）：寬鬆量 0.45 → 0.16、合身 0.8 → 1、袖子細、袖口貼手臂   # 第七版（BB_201：像膨膨的連帽上衣）：沛珊的做法——肩膀下沉、袖子往內、貼身
             
              PANTS_ELLIPSE=(0.060, 0.068), PANTS_DROP=False, PANTS_HEM_UP=0.0, PANTS_FOLLOW=True)   # 第四版：袖子細一點、褲管跟著腿走（第三版白長褲往下張開像喇叭褲）
 # 高度（HairSample_Male 樣本，柏翰量過：胯 0.964、脊椎 1.149、脖子 1.456）：褲頭照柏翰；POLO 衫下擺在胯骨上面一點（不紮、蓋過褲頭 11 cm）；V 字最低點比柏翰的襯衫低 1 cm
@@ -85,4 +85,24 @@ def apply(m):
     obj = P5.apply(m)
     print('  polo placket: faces removed below the chest', trim_placket(STYLE_M['V_BOTTOM'] - PLACKET_LEN))
     pocket_notes(m, obj)
+    print('  cuff rib rows', cuff_rib(obj))
+    import x_xinci_clothes as XC, peishan_clothes as PS
+    body = m['body']; ki = next(i for i, mt in enumerate(obj.data.materials) if mt and 'Knit' in mt.name)
+    # 貼身以後，手放下來時胸口、肩膀的皮膚會從布裡穿出來（沛珊第十七～二十版）：同樣收進去（前面 V 字開口不動）
+    print('  body pulled under the polo', XC.conform_under(body, obj, ki, STYLE_M['PANTS_TOP'] - 0.03, STYLE_M['V_BOTTOM'] - 0.03, inset=0.008, slack=0.005, max_move=0.015))
+    print('  shoulders pulled under the polo', PS.pull_shoulders(body, obj, STYLE_M['V_BOTTOM'] - 0.04, STYLE_M['BACK_NECK_Z'] - 0.008, mat_idx=ki))
     return obj
+
+
+def cuff_rib(obj):
+    """第十二版（BB_201 第 9 節「袖口一圈羅紋」）：身片貼圖 v 0.80～0.94（袖口那一圈；下擺在 0.76～0.79、領子用中間）畫粗一點、深一點的羅紋——
+    jersey 原本的羅紋 180 條、亮度只差 14%，遊戲裡看不出來"""
+    knit = next(mt for mt in obj.data.materials if mt and 'Knit' in mt.name)
+    img = knit.vrm_addon_extension.mtoon1.pbr_metallic_roughness.base_color_texture.index.source
+    W, H = img.size; a = np.empty(W * H * 4, np.float32); img.pixels.foreach_get(a); a = a.reshape(H, W, 4)   # 第 0 列在下面：v＝(列＋0.5)／高
+    v = (np.arange(H) + 0.5) / H; u = (np.arange(W) + 0.5) / W
+    band = (v > 0.80) & (v < 0.94)
+    rib = 0.80 + 0.20 * np.abs(np.cos(np.pi * ((u * 120) % 1.0 - 0.5))) ** 1.5
+    a[band, :, :3] *= rib[None, :, None]
+    img.pixels.foreach_set(a.reshape(-1)); img.update(); img.pack()
+    return int(band.sum())

@@ -77,7 +77,7 @@ def _apply(m, arm, body, wsrc_skirt):
     return obj
 
 
-def pull_shoulders(body, cl, z_lo, z_hi, inset=0.007, slack=0.005, max_move=0.012):
+def pull_shoulders(body, cl, z_lo, z_hi, inset=0.007, slack=0.005, max_move=0.012, mat_idx=0):
     """第二十版（第十九版背面兩邊肩胛骨上方、坐下時肩膀上面還有淡色）：XC.conform_under 只動軀幹骨頭權重 ≥ 0.8 的點，
     肩膀上面、背上靠肩膀那一段的皮膚有肩膀骨頭的權重，沒有被收進去。這裡把肩膀骨頭也算進來、範圍到後領，
     前面領口開口那一塊（|x| < 9 cm、身體前半）不動：那裡收進去，領口邊緣會看到一圈凹下去的皮膚。"""
@@ -85,7 +85,7 @@ def pull_shoulders(body, cl, z_lo, z_hi, inset=0.007, slack=0.005, max_move=0.01
     from mathutils.bvhtree import BVHTree
     me = cl.data; Mc = np.array(cl.matrix_world)
     P = np.empty(len(me.vertices) * 3); me.vertices.foreach_get('co', P); P = P.reshape(-1, 3) @ Mc[:3, :3].T + Mc[:3, 3]
-    F = [list(p.vertices) for p in me.polygons if p.material_index == 0]
+    F = [list(p.vertices) for p in me.polygons if p.material_index == mat_idx]   # mat_idx：上衣的材質（沛珊 0；唐睿的 polo 是 Knit 那一格）
     T = P[np.unique(np.concatenate([np.array(f) for f in F]))]
     bv = BVHTree.FromPolygons(P.tolist(), F)
     Mb = np.array(body.matrix_world); co = C.co(body); W = co @ Mb[:3, :3].T + Mb[:3, 3]
