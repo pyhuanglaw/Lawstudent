@@ -1,4 +1,4 @@
-"""法律系的寒假（AA_197 1-1～1-3，16 週制；HOLIDAY-SYS）的瀏覽器流程：大一上最後一天（2026-01-04 週日）晚上在宿舍 → 走到床邊睡覺 →
+"""法律系的寒假（AA_197 1-1～1-3，16 週制；HOLIDAY-SYS）的瀏覽器流程：寒假（16 週制 12/22 起）裡的 2026-01-04 週日晚上在宿舍 → 走到床邊睡覺 →
 1/5 早上在宿舍醒來（成績單、系統字「寒假宿舍照常開放。……」，**不回家**）→ 床的「快轉」→「過一週」（字卡寫「宿舍」）→
 宿舍房間的「收拾背包回臺北的家」→ 住家裡（選單：快轉／睡覺／回宿舍住）→ 一路「快轉 → 到下一個有事的日子」：1/20 → 2/5 →（交往中：2/14）→ 2/16 除夕（主線 2 在家演）→ 2/17 → 2/22 12:00
 → 選「回宿舍住」→ 宿舍房間（沒有「明天開學。你回宿舍。」字卡）。全程沒有 JS 例外、黑幕不擋對話。
@@ -47,10 +47,10 @@ async def main():
         st = {'stage': 'law', 'zone': 'dorm', 'day': d4, 'weekday': 0, 'hour': 22, 'pos': {'x': -0.6, 'z': -0.4, 'yaw': 3.14},
               'flags': {'KX_FIRST_MSG': True, 'fundsV2': 1, 'allowanceMonth': 1, 'introDone': True, 'classDone': True, 'metAn': True},
               'events': {'done': {}, 'last': {}, 'count': 0}}
-        run.setup('讀檔到大一上最後一天（2026-01-04 週日）22:00 宿舍房間')
+        run.setup('讀檔到寒假裡的 2026-01-04（日）22:00 宿舍房間（16 週制寒假 12/22 起；還沒在寒假裡醒來過，第一次醒來要有系統字）')
         await L.load_state(pg, st)
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; const c=GAME.titleCard; window.__cards=[]; GAME.titleCard=function(a,b){ window.__cards.push(String(a)+'｜'+String(b||'')); return c.apply(this,arguments); }; })()")
-        await pg.evaluate("(()=>{ window.__toasts=[]; const t=GAME.toast; GAME.toast=function(x){ window.__toasts.push(String(x||'')); return t.apply(this,arguments); }; })()")
+        await pg.evaluate("(()=>{ window.__toasts=[]; const t=GAME.toast; GAME.toast=function(x){ window.__toasts.push(String(x||'')); return t.apply(this,arguments); }; window.__warn=[]; const w=console.warn; console.warn=function(){ window.__warn.push([...arguments].map(String).join(' ').slice(0,200)); return w.apply(this,arguments); }; })()")
         bed = await L.find_it(pg, '睡覺')
         ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.7, '床')
         s = await L.state(pg)
@@ -59,7 +59,8 @@ async def main():
         await pick(pg, cdp, ['睡到明天早上', '睡覺'])
         ok, seen = await drive(pg, cdp, "GAME.G.day===STORY.dayOfKey('2026-01-05')&&GAME.G.zone==='dorm'&&!document.querySelector('#choices button')&&!(document.getElementById('dlg')&&getComputedStyle(document.getElementById('dlg')).display!=='none'&&document.getElementById('dlg').offsetParent)", ['先看'], 240)
         said = await pg.evaluate("window.__said||[]"); toasts = await pg.evaluate("window.__toasts||[]"); cards = await pg.evaluate("window.__cards||[]")
-        run.check('1/5 早上在宿舍醒來：成績單、系統字「寒假宿舍照常開放。要回家的話，從選單選『回家』。」；沒有「回臺北的家」字卡（不強制回家）', any('成績出來了' in t for t in said) and any('寒假宿舍照常開放' in t for t in toasts) and not any(c.startswith('回臺北的家') for c in cards) and not await pg.evaluate("HOME.at(GAME.G)"), json.dumps([said[-4:], toasts[-3:], cards[-2:]], ensure_ascii=False))
+        diag = await pg.evaluate("({bnote:(HOME.rec(GAME.G)||{}).bnote||null, brk:HOME.lawBreak(GAME.G), at:HOME.at(GAME.G), warn:(window.__warn||[]).slice(-5)})")
+        run.check('1/5 早上在宿舍醒來：成績單、系統字「寒假宿舍照常開放。要回家的話，從選單選『回家』。」；沒有「回臺北的家」字卡（不強制回家）', any('成績出來了' in t for t in said) and any('寒假宿舍照常開放' in t for t in toasts) and not any(c.startswith('回臺北的家') for c in cards) and not await pg.evaluate("HOME.at(GAME.G)"), json.dumps([said[-4:], toasts[-3:], cards[-2:], diag], ensure_ascii=False))
         await run.shot(pg, 'dorm_0105')
         bed = await L.find_it(pg, '睡覺')
         ok = bool(bed) and await L.go_to(pg, cdp, run, bed['x'], bed['z'], bed['r'] * 0.7, '床')
@@ -71,7 +72,7 @@ async def main():
         ok, seen = await drive(pg, cdp, "GAME.G.day>%d&&!document.querySelector('#choices button')" % d0, ['先看'], 120)
         cards = await pg.evaluate("window.__cards||[]")
         run.check('過一週：字卡寫「宿舍」（中間有事會先停）', any(c.endswith('宿舍') for c in cards), json.dumps(cards[-3:], ensure_ascii=False))
-        home = await L.find_it(pg, '回臺北的家')
+        home = await L.find_it(pg, '收拾背包回臺北的家')   # 宿舍房間的那一個（校園的叫「回臺北的家」）
         ok = bool(home) and await L.go_to(pg, cdp, run, home['x'], home['z'], home['r'] * 0.7, '回家')
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         ok, seen = await drive(pg, cdp, "HOME.at(GAME.G)&&GAME.G.home.lbreak==='Y1W'&&!!document.querySelector('#choices button')", ['先看'], 120)
