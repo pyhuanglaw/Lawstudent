@@ -1,4 +1,4 @@
-// 大一下（AA_209，3b7e2268）、大二上（AA_211，0ba8d336）閒聊階梯：白名單匯入＋資料做不到的程式點（AB65-3-Y1S2-L、AB65-3-Y2S1-L）。用法：node tests/ladder_y1s2_y2s1_unit.js
+// 大一下（AA_209，3b7e2268→e2bdcece 交往版）、大二上（AA_211，0ba8d336）閒聊階梯：白名單匯入＋資料做不到的程式點（AB65-3-Y1S2-L、AB65-3-Y2S1-L）。用法：node tests/ladder_y1s2_y2s1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -27,7 +27,9 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.find(s=>s.id===id),L.steps.findIndex(s=>s.id===id)]; };
 (async()=>{
-  check('0. ladder.js 來自匯入白名單：大一下＠3b7e2268、大二上＠0ba8d336',/白名單/.test(LADDER.source)&&LADDER.source.includes('3b7e2268')&&LADDER.source.includes('0ba8d336'),LADDER.source);
+  check('0. ladder.js 來自匯入白名單：大一下＠e2bdcece（AA-C 06:02Z 交往版，取代 3b7e2268）、大二上＠0ba8d336',/白名單/.test(LADDER.source)&&LADDER.source.includes('e2bdcece')&&LADDER.source.includes('0ba8d336'),LADDER.source);
+  { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
+    check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
   // A2-L6（大一下以安）「我可以去嗎？」去過公法讀書會的不出現
   fresh(termDay('Y1S2',5,2),12,'campus',{}); let [st]=stepOf('Y1S2','heroine_01','A2-L6');
   check('1. A2-L6 沒去過公法讀書會：兩個選項都有（含「我可以去嗎？」）',STORY.ladChoices(st).map(c=>c.t).includes('「我可以去嗎？」'),JSON.stringify(STORY.ladChoices(st).map(c=>c.t)));
