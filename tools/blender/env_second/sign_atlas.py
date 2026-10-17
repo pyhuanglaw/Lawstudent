@@ -30,6 +30,10 @@ SIGNS = {
     'xiaoshubao_decal': ('xiaoshubao', 'decal', None, False), 'xiaoshubao_v': ('xiaoshubao', 'v', None, False),
     'yizhan_lantern': ('yizhan_lantern', 'lantern', None, True), 'yizhan_plaque': ('yizhan_lantern', 'plaque', None, False),
 }
+# 公館（--set gongguan → gg_signs_atlas.*）：BB-B 補好比例的 _fit 版（6.50×0.64 m 橫、0.74×2.60 m 直），整張用、不切不拉（BB-B 00:08 通過 S1～S4，00:1x、00:2x 再通過兩家）
+GG = {'riri_mart_h': ('riri_mart', 'h', 5.9, True)}
+for _n, _lit in (('afeng', False), ('jiulu', False), ('yaoju', True), ('lunzhuan', False), ('yingyin', True), ('ririteishoku', False)):
+    GG[f'gg_{_n}_h'] = (f'gg_{_n}_h_fit', 'full_h', None, _lit); GG[f'gg_{_n}_v'] = (f'gg_{_n}_v_fit', 'full_v', None, _lit)
 HH = 156      # 橫招牌在貼圖集裡的高度（px）：6.5 m 寬的板面約 1060 px（每公尺 160 px）
 VW = 72       # 直立招牌的寬度
 
@@ -68,10 +72,13 @@ def extend(im, target):
     return out
 
 
-def main():
+def main(SIGNS=SIGNS, NAME='wz_signs_atlas'):
     items = {}
     for key, (fn, part, target, lit) in SIGNS.items():
-        im = Image.open(os.path.join(SRC, fn + '.webp')).convert('RGB'); a = np.asarray(im).astype(np.float32); bs = boxes(a)
+        im = Image.open(os.path.join(SRC, fn + '.webp')).convert('RGB')
+        if part == 'full_h': items[key] = dict(img=im.resize((int(im.size[0] * 170 / im.size[1]), 170), Image.LANCZOS), lit=lit, part='h'); continue
+        if part == 'full_v': items[key] = dict(img=im.resize((200, int(im.size[1] * 200 / im.size[0])), Image.LANCZOS), lit=lit, part='v'); continue
+        a = np.asarray(im).astype(np.float32); bs = boxes(a)
         if part == 'h': b = max(bs, key=lambda b: (b[2] - b[0]) / (b[3] - b[1])); c = extend(crop(im, b), target); c = c.resize((int(c.size[0] * HH / c.size[1]), HH), Image.LANCZOS)
         elif part == 'decal':                                                       # 課輔班的窗貼：只取有顏色的字和書包那一塊（含一點玻璃）
             b = max(bs, key=lambda b: (b[2] - b[0]) / (b[3] - b[1])); c0 = crop(im, b, 6); ca = np.asarray(c0).astype(np.float32); sat = ca.max(2) - ca.min(2)
@@ -97,10 +104,13 @@ def main():
     out = {}
     for k, (x, y, w, h) in meta.items():
         out[k] = dict(uv=[(x + 1) / S, 1 - (y + h - 1) / S, (x + w - 1) / S, 1 - (y + 1) / S], aspect=round(w / h, 4), lit=items[k]['lit'], part=items[k]['part'])
-    atlas.save(os.path.join(GEN, 'wz_signs_atlas.jpg'), quality=90)
-    json.dump(out, open(os.path.join(GEN, 'wz_signs_atlas.json'), 'w'), indent=1, ensure_ascii=False)
+    assert y + rowh <= S, ('貼圖集放不下', y + rowh)
+    atlas.save(os.path.join(GEN, NAME + '.jpg'), quality=90)
+    json.dump(out, open(os.path.join(GEN, NAME + '.json'), 'w'), indent=1, ensure_ascii=False)
     print('saved atlas', len(out), 'items; used height', y + rowh)
 
 
 if __name__ == '__main__':
-    main()
+    import sys
+    if '--set' in sys.argv and sys.argv[sys.argv.index('--set') + 1] == 'gongguan': main(GG, 'gg_signs_atlas')
+    else: main()
