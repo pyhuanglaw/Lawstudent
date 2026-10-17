@@ -291,6 +291,22 @@
    "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
    "task": "DL-06B",
    "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md",
+   "sha": "e6c064a3",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 08:28Z 交付（LIFE-LINE 第 1～6 組定稿；ca2fc169 之後照 BB_190 BB-LOGIC-06／07／03 修成 e6c064a3，AA 明說「請照這版」）；D98 台詞由 AA 寫；事實與日期照使用者裁定 AA_218 第 9～12、15 節。第 7 組（開局日期）不在內",
+   "task": "LIFE-LINE-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
+   "sha": "d171faef",
+   "status": "approved",
+   "approvedBy": "只限 AA_224 寫「照用 BB_188 A2-x」的那幾段（A2-1e 除夕電話、A2-1b、A2-2、A2-3、A2-4、A2-5／A2-6 的底稿）與 A9 機制（BB 管機制，D98）；AA_224 衝突時以 AA_224 為準",
+   "task": "LIFE-LINE-1017",
+   "kind": "text"
   }
  ]
 }

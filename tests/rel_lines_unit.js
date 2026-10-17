@@ -1,8 +1,7 @@
 // 好感看得見：門檻台詞、見面結束的一句、手機聯絡人的名字、見面時的旁白（使用者 2026-10-14 試玩 v9.6：「約了朋友在溫州街散步，是不是沒有增加好感？
 // 在咖啡廳遇到溫學姊跟他講話好像也沒有增進什麼感情」；內容＝企劃分支 AA_124 1-6〔886ff09〕、BB_120 第 1 節〔6338153〕，第②級）。不需要瀏覽器：
 //   1. 資料：13 個人都在 CHARACTERS、三階的門檻台詞、三種見面結束的一句；BB 的七位四個地點的旁白、聯絡人；台詞的格式（「」或（））
-//   2. 門檻台詞：升到有點熟的下一次見面說一次、說過就不再說；跳階（認識 → 好朋友）只說最高的；朋友的條件（學姊 W8）不成立就先不說、
-//      W8 以前學姊一律算有點熟（聯絡人、見面結束的一句也是）；小選擇照選的回答
+//   2. 門檻台詞：升到有點熟的下一次見面說一次、說過就不再說；跳階（認識 → 好朋友）只說最高的；學姊照一般階段（AA_219 A-11 拿掉 W8 上限）；小選擇照選的回答
 //   3. 見面結束的一句照現在的階段；明軒二四六（家教的晚上）換一句；阿凱好朋友那句大一和大二以後不一樣；{name} 換成玩家的名字
 //   4. 見面時的旁白：地點×階段；「—」的格子照舊（null）；明軒總圖朋友以上看 SAW_HIM_STUDY；說話的那種（「開頭）是那個人說的
 //   5. 任一方有伴侶時，芷若好朋友那句的旁白拿掉
@@ -42,14 +41,11 @@ R('heroine_01',25);
   gm=mockGM(); ok1=await SOCIAL.playUp(gm,{name:"以安"},"heroine_01"); check("2. 說過就不再說",!ok1&&!gm.out.length);
   R('heroine_03',8); R('heroine_03',65,50,45); gm=mockGM(); await SOCIAL.playUp(gm,{name:'語彤'},'heroine_03');
   check('2. 語彤從「認識」直接跳到「好朋友」：只說最高的那一句，之後不補說低的',gm.out.join('｜')==='S:「阿姨問你這禮拜會不會來。」｜S:「她說她記得你都點什麼。」'&&SOCIAL.upLine('heroine_03')===null,gm.out.join('｜'));
-  // 學姊：W8 以前一律算有點熟
+  // 學姊：照一般階段（AA_219 A-11：W8 上限拿掉；「筆試前不想交往」只影響告白）
   R('heroine_05',45,30,10); W8=false;
-  check('2. 學姊「朋友」但 W8 還沒發生：台詞上算「有點熟」（聯絡人「溫書瑀（直屬）」、見面結束「辛苦了，早點回去休息。」）',SOCIAL.friendLevel('heroine_05')==='FAMILIAR'&&SOCIAL.contactName('heroine_05')==='溫書瑀（直屬）'&&steps(SOCIAL.byeLine('heroine_05'))[0]==='「辛苦了，早點回去休息。」',SOCIAL.contactName('heroine_05'));
+  check('2. 學姊「朋友」、W8 還沒發生：照一般階段算「朋友」（聯絡人「溫學姊」），不再卡在「有點熟」',SOCIAL.friendLevel('heroine_05')==='FRIEND'&&SOCIAL.contactName('heroine_05')==='溫學姊',SOCIAL.friendLevel('heroine_05')+' '+SOCIAL.contactName('heroine_05'));
   gm=mockGM(); await SOCIAL.playUp(gm,{name:'溫學姊'},'heroine_05');
-  check('2. 學姊 W8 以前：先說「有點熟」的便條那一句',gm.out[1]==='S:「你的名字是這樣寫吧？」',gm.out.join('｜'));
-  check('2. 學姊 W8 以前：朋友那句先不說',SOCIAL.upLine('heroine_05')===null);
-  W8=true; const u=SOCIAL.upLine('heroine_05');
-  check('2. W8 之後的下一次見面：朋友那句（筆電闔上）、聯絡人改「溫學姊」',u&&u.stage==='FRIEND'&&u.l[0]==='（她把筆電闔上。）'&&SOCIAL.contactName('heroine_05')==='溫學姊',JSON.stringify(u));
+  check('2. 學姊 W8 以前就說朋友那句（筆電闔上；跳階只說最高的）',gm.out[0]==='N:（她把筆電闔上。）'&&SOCIAL.upLine('heroine_05')===null,gm.out.join('｜'));
   R('heroine_04',65,50,45); gm=mockGM([2]); await SOCIAL.playUp(gm,{name:'子晴'},'heroine_04');
   check('2. 子晴好朋友的小選擇：選「妳呢？」→ 兩句回答',gm.out.join('｜')==='S:「你最近還好嗎？看起來很累。」｜C:還好。/有點累。/妳呢？｜S:「我？還行啦。」｜S:「就最近都很晚睡。」',gm.out.join('｜'));
   // ---------- 3. 見面結束的一句 ----------

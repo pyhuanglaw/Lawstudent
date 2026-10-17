@@ -49,7 +49,7 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   check('2. 19:15 起家裡的選單有「出發：椰林大道 20:00」；出發＝30 分鐘，19:55 到校園',(menus[0]||[]).some(t=>t.includes('椰林大道 20:00'))&&G.zone==='campus'&&!HOME.at(G)&&Math.abs(G.hour-(20-1/12))<1e-6,JSON.stringify(menus[0])+' '+G.hour);
   spawned=[]; GM.npc={}; run(G.hour,G.hour); check('2. 19:45～20:30 可昕在椰林大道的長椅旁',spawned.some(s=>s[0]==='kexin'&&s[1]===STORY.E36_AT.x&&s[2]===STORY.E36_AT.z));
   check('2. 走到她旁邊：演（在家的版本不演）',EVENTS.check(e)&&!EVENTS.check(eh)); G.zone='gongguan'; check('2. 不在校園：不演',!EVENTS.check(e)); G.zone='campus';
-  G.flags.E25_ANSWER='only_me'; said=[]; script=['陪她走','每週一天']; await EVENTS.run(e); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
+  G.flags.KX_CAR='only_me'; said=[];   /* AA_224 1-6：E36 改讀 KX_CAR */ script=['陪她走','每週一天']; await EVENTS.run(e); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
   const i1=L.indexOf('……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'), i2=L.indexOf('好，消化完了。');
   check('3. 「台大法律。恭喜你。真的。」「我是政大法律。」「……我有一點點不甘心……」→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「好，消化完了。」',L[0]==='台大法律。恭喜你。真的。'&&L[1]==='我是政大法律。'&&i1>=0&&L[i1+1]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[i1+2]==='不是只有妳。'&&i2===i1+3&&!L.some(t=>/手機螢幕還亮著榜單/.test(t)),JSON.stringify(L));
   check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('那本筆記本寫滿了。')&&!L.some(t=>/河堤，比讀過的書還多/.test(t)));

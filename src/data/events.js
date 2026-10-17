@@ -1709,7 +1709,7 @@ const STORY_EVENTS=[
   /* ★E25「我想重考法律。」（BB_104 8-8、第 4 節「痕跡」；AA_154 A35）：3/19（三）19:45～20:15（晚到＝延到 21:30）醉月湖南岸步道走到她旁邊就演；21:30 還沒到＝帶到場（E25_FORCE，story3d.js）。
      「不是唐睿」只給 E19 直接問或開玩笑問的玩家。三個回答都是接受，記 E25_ANSWER（first_day／only_me／new_year）。回答之後她說一句「痕跡」（只說一句，順序：E19 直接問 ＞ E21 認真回答「好」 ＞
      常常主動約她（invite:kexin 5 次以上）＞ 都用玩笑帶過（E19、E21 都是玩笑）＞ E19 不問 ＞ 預設）。之後接 E26 摩天輪 */
-  { id:'ev_y0_e25', stage:'econ', title:'我想重考法律', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+  { id:'ev_y0_e25', retired:'AA_224 1-3（LIFE-LINE，2026-10-17）：告白併進 10/17 車上（ev_y0_e26），3/19 醉月湖這一場不再演。定義留給已經演過的舊存檔', stage:'econ', title:'我想重考法律', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
     prereq:{custom:G=>{ const F=G.flags; if(!F.E25_ASKED) return false; if(F.E25_FORCE) return true; const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-19'):null; if(G.day!==d||G.zone!=='campus'||G.hour<19.75||G.hour>=(F.E25_LATE?21.5:20.25)) return false;
       const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; if(!P) return true; const dx=P.position.x+36, dz=P.position.z+98.5; return dx*dx+dz*dz<=25; }},
     dialogue:[ {if:{flags:['E25_FORCE']},speaker:null,text:'（你跑到醉月湖的時候，她還坐在那裡。）'},
@@ -1730,13 +1730,30 @@ const STORY_EVENTS=[
       {if:{flagIs:{E19_ASK:'none'}},speaker:'kexin',expression:'neutral',text:'你那陣子什麼都沒問，很有禮貌。我差點以為你不在乎。'},{if:{flagIs:{E19_ASK:'none'}},goto:'end'},
       {speaker:'kexin',expression:'neutral',text:'我想了一整個寒假，要怎麼跟你說。結果你先說了你要走。'},
       {label:'end'} ] },
-  /* ★E26 摩天輪（BB_104 8-9；AA_154 A40）：3/22（六）出遊（17:30 捷運站 → 坐到摩天輪是晚上）。台詞照原文；CG（車廂、台北夜景，接吻以靠近、淡出處理）還沒有：先用 ferris_wheel 背景。
-     兩人從這裡開始交往：記 Y0_DATING、E26_DAY（dating_kexin 等換到法律系時再設，AA_154 2-4b 第 5 點）。票根＝之後的房間物件（法律系房間「摩天輪的票根」）*/
-  { id:'ev_y0_e26', stage:'econ', title:'摩天輪', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3.5,
-    dialogue:[ {scene:'摩天輪',bg:'ferris_wheel'},
+  /* ★E26＝LIFE-LINE 第 1 組（AA_224 1-3、1-4 @e6c064a3；機制 BB_188 A9）：2024-10-17（休學那天）17:40 社科院門口車上（他開家裡的車來）→ 去吃飯（不演）→ 20:30 摩天輪 → 送她回去，回到宿舍快十一點（接 ev_y0_e30_note 便利貼）。
+     取代舊 E19 誤會、E21 除夕「不然要在一起嗎」、E25 醉月湖告白、3/22 的摩天輪。三個回答都是接受，記 KX_CAR（camp／only_me／take_back）。
+     這天開始交往：dating_kexin、Y0_DATING、KX_DATING_SINCE、E26_DAY（法律系房間的票根「兩個人開始交往的那一天」）。排程在 story3d.js（15:30 私訊之後的固定出遊 y0_e26）。
+     「睡醒的時候。」AA_224 表格寫在她那一欄，照語意是祐廷的回答（她問「你那天一直在睡覺」）*/
+  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:5.2,
+    dialogue:[ {speaker:null,text:'（你到家，拿了家裡的車鑰匙。）'},
+      {scene:'台大・社科院門口',bg:'car_night'},{speaker:null,text:'（社科院門口。她拉開車門坐進來。）'},
+      {speaker:'kexin',expression:'smile',text:'所以你現在是自由人了。'},{speaker:'player',text:'……我跟妳說一件事。說完妳可以下車。'},
+      {speaker:'kexin',expression:'surprised',text:'好恐怖。說。'},{speaker:'player',text:'我喜歡過妳。'},{speaker:'kexin',expression:'surprised',text:'「過」？'},
+      {speaker:'player',text:'九月的時候。後來我以為妳喜歡唐睿，就算了。'},{speaker:'kexin',expression:'thinking',text:'唐睿？'},
+      {speaker:'player',text:'中秋系烤那天，妳一直跟他講話。'},{speaker:'kexin',expression:'neutral',text:'他在問我會計作業。他問了一個晚上。'},
+      {speaker:'kexin',expression:'annoyed',text:'……你是不是很笨。'},{speaker:'player',text:'可能是。'},
+      {speaker:'kexin',expression:'embarrassed',text:'我喜歡的是你。'},{speaker:'kexin',expression:'neutral',text:'你今天說你休學，我第一個想到的是：完了，他要跑了。'},
+      {choice:[{text:'「其實從宿營那天就是了。」',set:{KX_CAR:'camp'},goto:'a'},{text:'「……我一直以為只有我。」',set:{KX_CAR:'only_me'},goto:'b'},{text:'「……不是『過』。是現在。」',set:{KX_CAR:'take_back'},goto:'c'}]},
+      {label:'a'},{speaker:'kexin',expression:'surprised',text:'宿營？你那天一直在睡覺。'},{speaker:'player',text:'睡醒的時候。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'t'},
+      {label:'b'},{speaker:'kexin',expression:'smile',text:'笨。兩個都是。'},{goto:'t'},
+      {label:'c'},{speaker:'kexin',expression:'embarrassed',text:'……嗯。'},{speaker:null,text:'（她轉過去看窗外，很久沒說話。）'},
+      {label:'t'},{speaker:'kexin',expression:'neutral',text:'你晚上有事嗎？'},{speaker:'player',text:'……沒有。'},{speaker:'kexin',expression:'smile',text:'那去坐摩天輪。'},
+      {scene:'摩天輪',bg:'ferris_wheel'},
       {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{speaker:'kexin',expression:'thinking',text:'假設，我們從最高點開始交往。'},
-      {speaker:'kexin',expression:'smile',text:'那之後每一圈，都會再回到這裡。'},{speaker:'player',text:'這是妳今天的假設題？'},{speaker:'kexin',expression:'embarrassed',text:'不是問題。是提議。'},
-      {set:{Y0_DATING:true}},{stamp:['E26_DAY']} ] },
+      {speaker:'player',text:'不用假設。'},{speaker:'kexin',expression:'embarrassed',text:'……好。那就從這裡開始。'},
+      {set:{Y0_DATING:true,dating_kexin:true,KX_DATING_SINCE:'2024-10-17'}},{stamp:['E26_DAY']},
+      {speaker:null,text:'（你送她回去。回到宿舍，已經快十一點了。）'} ],
+    afterOuting:async(G,GM)=>{ if(GM.enter&&!G.flags.Y0_MOVED_OUT) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },   /* 回到宿舍（412）：接著是檯燈上的便利貼 */
   /* ★E27「我不是因為你。」（BB_104 8-10；AA_154 A35）：3/26（三）13:15～14:00（晚到＝延到 15:00）在總圖門口走到她旁邊就演（她在門廊前 (78.6,0)）；15:00 還沒到＝帶到場（E27_FORCE，story3d.js）。
      她自己的決定（5-2 的第一層）。E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列的兩個版本；接在「我寒假就在查了」之後）*/
   { id:'ev_y0_e27', stage:'econ', title:'我不是因為你', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
@@ -1767,16 +1784,16 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'今天的宵夜，你們兩個請。這是宣布的代價。'},{speaker:'kexin',expression:'laugh',text:'……妳這是命令。'},{speaker:'econ_pinyu',text:'對。'},
       {speaker:null,text:'可昕和你一起走回去，路上只說了一句。'},{speaker:'kexin',expression:'smile',text:'說出來了。'},
       {rel:{econ_pinyu:{comf:1},econ_zhengxun:{comf:1}}} ] },
-  /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行；日期 AA_218 第 11 節：2024-10-17（四），台詞等 BB_188）：10/17（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
+  /* ★E30 辦休學的那天，朋友還在上課（AA_169 完整稿；AA_154 第 232 行；日期 AA_218 第 11 節：2024-10-17（四）；AA_224 1-1 @e6c064a3 加兩行旁白）：休學≠決定重考（決定在 2025-02，AA_224 第 5 組）。10/17（四）14:40 自動（在別的事件或出遊裡＝結束後馬上；15:10 以後就只剩「先走」）。
      寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
   { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
     dialogue:[ {scene:'行政大樓'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
       {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
-      {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},
+      {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},{speaker:null,text:'（可昕坐在前排，背對窗戶。她沒有看到你。）'},   /* AA_224 1-1：她要在 15:30 的訊息裡才知道 */
       {set:{LEAVE_WEEK:6}},
       {choice:[{text:'「等他們下課。」',if:{custom:G=>G.hour<15+10/60},set:{E30_WAITED:true},goto:'w'},{text:'「先走。」',set:{E30_WAITED:false},goto:'l'}]},
-      {label:'w'},{speaker:null,text:'你在走廊的長椅上坐到三點十分。下課鐘響了。'},
+      {label:'w'},{speaker:null,text:'你在走廊的長椅上坐到三點十分。下課鐘響了。'},{speaker:null,text:'（可昕抱著書從前門出去，往下一間教室跑。）'},
       {speaker:'econ_zhengxun',text:'你在窗外站很久。我以為你要來上課。'},{speaker:'econ_pinyu',text:'辦完了？'},{speaker:'player',text:'辦完了。'},
       {speaker:'econ_pinyu',text:'……好。那今天的筆記，我不借你了。你用不到。'},{speaker:'韋綸',text:'欸，那你以後還會來社科院嗎？'},
       {speaker:'player',text:'會啊。宿舍這週末要搬。……可是我會回來。'},{speaker:'唐睿',text:'那就不算走。'},
@@ -1894,14 +1911,14 @@ const STORY_EVENTS=[
       { id:'ev_y0_e35h', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark',
         prereq:{custom:G=>{ const F=G.flags; return !!(F.E35_ASKED&&F.E35_PHONE&&!F.E35_DONE); }},
         dialogue:lines } ]; })(),
-  /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（E25_ANSWER only_me 多兩句，8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
+  /* ★E36 放榜：晚上的椰林大道（BB_104 8-11、8b-19；AA_154 A35）：8-11 可昕的台詞（KX_CAR only_me 多兩句（AA_224 1-6），8-8 的表）→ E36_REPLY（climb／compete／silent）→ 椰林大道的路燈 → E36_PACT（weekly／later／ask；
      BB-B 754e7136／ec47463b，第②級等 AA-B 確認）。ev_y0_e36＝在外面（走到她旁邊，或 20:30 以後帶到場）；ev_y0_e36h＝帶到場時人在臺北的家。演完接 22:00 放榜的宵夜（ev_y0_e36n，AA_106 3b①）*/
   ...(()=>{ const D=()=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-13'):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
     const lines=[ {if:{flags:['E36_FORCE']},speaker:null,text:'（你到椰林大道的時候，她坐在路邊的椅子上，手機螢幕還亮著榜單。）'},{scene:'台大・椰林大道'},
       {if:{custom:()=>hab('study')>hab('play')},speaker:null,text:'那本筆記本寫滿了。'},{if:{custom:()=>hab('play')>hab('study')},speaker:null,text:'你們騎過的河堤，比讀過的書還多。……還是考上了。'},
       {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'kexin',text:'我是政大法律。'},{speaker:'kexin',text:'……我有一點點不甘心。一點點。不是因為你，是想跟自己比。'},
-      {if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{E25_ANSWER:'only_me'}},speaker:'player',text:'不是只有妳。'},
+      {if:{flagIs:{KX_CAR:'only_me'}},speaker:'kexin',text:'你那天說，你以為只有你。……我現在懂那個感覺了。'},{if:{flagIs:{KX_CAR:'only_me'}},speaker:'player',text:'不是只有妳。'},   /* AA_224 1-6：改讀 KX_CAR（camp、take_back 不加句子）*/
       {speaker:'kexin',text:'好，消化完了。'},{speaker:'kexin',text:'政大的山比較多。四年後，我會比你強壯。'},
       {choice:[{text:'「政大的山，我陪妳爬。」',set:{E36_REPLY:'climb'},goto:'a'},{text:'「四年後比比看。」',set:{E36_REPLY:'compete'},goto:'b'},{text:'（什麼都不說，陪她走）',set:{E36_REPLY:'silent'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'你是台大的。……好。週末的話可以。'},{goto:'p'},
@@ -2307,7 +2324,7 @@ const STORY_EVENTS=[
       {label:'end'} ] },
   /* ★E19 誤會（BB_104 8-6、第 3-1 節 E19 那一列；AA_154 第 139 行、A33、A34；固定核心）：1/2（四）會計考完，群組韋綸約（story3d.js）＋出發選單 19:00；19:15 沒出發＝韋綸打電話直接進出遊。
      E19_ASK：direct／joke／none（E25、E28 讀它）。開頭三句旁白與品妤那句取自 BB_104 第 3-1 節 E19 那一列的描述（等 BB-B 確認或給定稿）；不問的版本她之後傳一則（story3d.js） */
-  { id:'ev_y0_e19', stage:'econ', title:'誤會', participants:['econ_pinyu','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
+  { id:'ev_y0_e19', retired:'AA_224 1-3（LIFE-LINE，2026-10-17）：「以為她喜歡唐睿」併進 10/17 車上（ev_y0_e26），寒假前的聚餐不再單獨演。定義留給已經演過的舊存檔', stage:'econ', title:'誤會', participants:['econ_pinyu','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'公館'},
       {speaker:null,text:'（公館的聚餐。考完了，桌上的菜一盤一盤上來。）'},   /* 開頭：BB-B 定稿（BB_104，6d59df01）*/
       {speaker:null,text:'（可昕和唐睿聊劇社，聊到整桌都在聽。唐睿學了一段即興，她笑到筷子掉了。）'},

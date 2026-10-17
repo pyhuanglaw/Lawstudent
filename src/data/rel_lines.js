@@ -8,10 +8,10 @@
    contact：手機聯絡人的名字（base＝還不是朋友時；到 FRIEND／CLOSE_FRIEND 換）。沒有的人照舊。
    meet：約好的見面時的旁白（取代「你和某某在某地坐坐」）：地點（invites.js 的 cafe／library／noodle／wenzhou）× 階段（A＝認識、F＝有點熟、R＝朋友以上）。
        「—」（沒有那一格）照舊用一般的旁白。字串以「開頭的是那個人說的話，其他是旁白。
-   cap：這個人的階段在台詞上最多算到哪裡（學姊：W8「今天先不改了」ev_sis_collapse 以前一律算「有點熟」，BB_120 1-1）。
+   cap：這個人的階段在台詞上最多算到哪裡（原本學姊 W8 以前一律算「有點熟」；AA_219 A-11 2026-10-17 拿掉：學姊照一般階段，「筆試前不想交往」只影響告白）。
    台詞的格式：字串以（開頭＝旁白，其他＝那個人說的話；{n:'…',solo:true}＝任一方有伴侶時拿掉的旁白；{name}＝玩家的名字。 */
 const REL_LINES=(function(){
-  const W8=G=>typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&EVENTS.cond({events:['ev_sis_collapse']}));   /* AA_177 第 8 節①：W8 演過，或過了大二上第 12 週 */
+  /* 學姊的 W8 上限（cap）拿掉了（AA_219 A-11），這裡不再需要 W8 的判斷 */
   const tutorNight=G=>[2,4,6].includes(G.weekday);   /* 明軒二四六晚上家教（BB_120 1-7b 他的那一句） */
   const zrShift=G=>G.zone==='cafe'&&typeof STORY!=='undefined'&&!!STORY.ladWorking&&STORY.ladWorking(G,'heroine_02');   /* 芷若在 Café 而且在上班（BB_169 a4ccf909 Z-1、Z-2；AA_200 第 2 節第 15 項的 onShift） */
   const zqQ6=G=>!!(G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);   /* 看過子晴 Q6（BB_169 a4ccf909 Q-2、Q-3b、Q-8、Q-9；BB_166 1-1） */
@@ -45,11 +45,10 @@ const REL_LINES=(function(){
     bye:{base:['「我還有事，先走喔。」'],FRIEND:['「下週同一時間？我寫進去了。」'],CLOSE_FRIEND:['「欸，已經這麼晚了？」','「我要去搭車了，先走。」']},
     contact:{FRIEND:'芯慈'} },
   /* ---------- BB 的七位（BB_120 第 1 節；2026-10-16 口語改稿照 BB_169 第 1～7 節，a4ccf909） ---------- */
-  heroine_05:{   /* 溫書瑀（1-1）：朋友、好朋友要等 W8（ev_sis_collapse）之後；W8 以前台詞一律算「有點熟」。BB_169 a4ccf909 第 1 節 W-1～W-20 */
-    cap:G=>W8(G)?null:'FAMILIAR',
+  heroine_05:{   /* 溫書瑀（1-1）：照一般階段（AA_219 A-11：原本 W8 以前一律算「有點熟」、朋友和好朋友要等 W8，拿掉）。BB_169 a4ccf909 第 1 節 W-1～W-20 */
     up:{ FAMILIAR:{l:['（她推過來一張便條。最上面寫的是你的名字，不是「學弟」。）','「你的名字是這樣寫吧？」']},
-      FRIEND:{wait:W8,l:['（她把筆電闔上。）','「今天寫完了，難得。」','「你要吃什麼？我請你。」']},
-      CLOSE_FRIEND:{wait:W8,l:['「這段你幫我看一下，我寫得有點亂。」'],ch:[{t:'第二句太長。',r:['「……對。」','（她刪了半句）']},{t:'我看不太懂。',r:['「嗯……那我再改改。」']},{t:'我覺得很好。',r:['「好。那就這樣交。」']}]} },
+      FRIEND:{l:['（她把筆電闔上。）','「今天寫完了，難得。」','「你要吃什麼？我請你。」']},
+      CLOSE_FRIEND:{l:['「這段你幫我看一下，我寫得有點亂。」'],ch:[{t:'第二句太長。',r:['「……對。」','（她刪了半句）']},{t:'我看不太懂。',r:['「嗯……那我再改改。」']},{t:'我覺得很好。',r:['「好。那就這樣交。」']}]} },
     bye:{base:['「辛苦了，早點回去休息。」'],FRIEND:['「下次你排時間，我都可以。」'],CLOSE_FRIEND:['「回去小心。到了傳一下。」']},
     contact:{base:'溫書瑀（直屬）',FRIEND:'溫學姊'},
     /* Café 的學姊（BB_120 1-1，使用者點名）：晚上在 Café 每晚第一次和她說話＝①打招呼 ②小交流（輪流）③她推過來的便條；同一晚再找她只有一句。
