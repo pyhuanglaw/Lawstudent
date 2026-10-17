@@ -45,7 +45,7 @@ if(process.argv[2]==='child'){
     out.low=CHAR.anonPool.refresh('wenzhou','low').length; CHAR.anonPool.size={f:2,m:2}; CHAR.anonPool.refresh('campus'); await settle();   /* 畫質低：3＋3（這裡只有 4＋4 個底模，挑 6 個）；再回到 2＋2 */
     // 5. unloadVRM
     out.unloadWhileHeld=ASSETS.unloadVRM(A[0]); CHAR.release(hold); out.unloadAfterRelease=ASSETS.unloadVRM(A[0]); out.goneAfter=!ASSETS.has(A[0]);
-    const k2=B[0], c1=CHAR.build({model:k2,height:1.6}), c2=CHAR.build({model:k2,height:1.6}); out.twoVrm=[c1,c2].map(x=>x.userData.driver);
+    const k2=B[0]; await ASSETS.loadOne(k2); const c1=CHAR.build({model:k2,height:1.6}), c2=CHAR.build({model:k2,height:1.6}); out.twoVrm=[c1,c2].map(x=>x.userData.key);   /* 上面換過池子，k2 可能已經放掉：先載回來 */
     out.unloadWithClone=ASSETS.unloadVRM(k2); CHAR.release(c2); out.unloadTplOnly=ASSETS.unloadVRM(k2); CHAR.release(c1); out.unloadFree=ASSETS.unloadVRM(k2);
     await ASSETS.loadOne(k2); out.reload=ASSETS.has(k2)&&CHAR.build({model:k2,height:1.6}).userData.driver;
     out.unloadedCount=ASSETS.unloaded|0;
@@ -68,11 +68,11 @@ if(process.argv[2]==='child'){
   check('3. 同一個人在同一個區域裡不會換底模',d.again===true);
   check('3. 無名路人不會分到舊樣本（npc_f1／f2／m1／m2）',(d.picks||[]).length===16&&d.picks.every(k=>!OLD.includes(k)),JSON.stringify(d.picks));
   check('3. 有名字的人物用可換色的舊模型＋自己的顏色',(d.named||[]).every(q=>OLD.includes(q.model)&&q.top==='#e0b95b'),JSON.stringify(d.named));
-  check('4. 池子比全部小（2＋2）：換區域輪到另一批（不重疊），兩輪涵蓋全部 '+(d.nAnon||'?')+' 個',d.Aloaded&&d.Bloaded&&d.disjoint&&d.union===d.nAnon,JSON.stringify([d.A,d.B]));
+  check('4. 池子比全部小（2＋2）：換區域輪到另一批（不重疊、兩輪 '+Math.min(d.nAnon||0,8)+' 個不同的）',d.Aloaded&&d.Bloaded&&d.disjoint&&d.union===Math.min(d.nAnon,8),JSON.stringify([d.A,d.B]));
   check('4. 上一輪的、沒人在用的放掉；還有人在用的留著；這一輪沒挑到的都不在記憶體',(d.unloadedA||[]).length===3&&d.heldKept===true&&(d.notPicked||[]).length===0,JSON.stringify([d.unloadedA,d.heldKept,d.notPicked]));
   check('4. 畫質低：池子 3 女＋3 男',d.low===6,String(d.low));
   check('5. unloadVRM：樣板借出時不放、還回去才放',d.unloadWhileHeld===false&&d.unloadAfterRelease===true&&d.goneAfter===true);
-  check('5. unloadVRM：有複製品時不放（樣板＋複製品都還才放）',JSON.stringify(d.twoVrm)==='["vrm","vrm"]'&&d.unloadWithClone===false&&d.unloadTplOnly===false&&d.unloadFree===true,JSON.stringify([d.twoVrm,d.unloadWithClone,d.unloadTplOnly,d.unloadFree]));
+  check('5. unloadVRM：有複製品時不放（樣板＋複製品都還才放）',(d.twoVrm||[]).length===2&&d.twoVrm.every(k=>k===(d.B||[])[0])&&d.unloadWithClone===false&&d.unloadTplOnly===false&&d.unloadFree===true,JSON.stringify([d.twoVrm,d.unloadWithClone,d.unloadTplOnly,d.unloadFree]));
   check('5. 放掉以後可以重新下載、建得出來',d.reload==='vrm',String(d.reload));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 }

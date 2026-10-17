@@ -6509,6 +6509,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 整合在 32df2882（VRM 檔一起進了 076d307c，見 32df2882 說明）；人物近拍截圖比對還沒做"
+  },
+  {
+   "id": "DL-LW2-NPC-B2",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9442e59b",
+   "what": "路人第二批：bl_npc_nf5–8／nm5–8（新）＋nf4、nm3 低彩度重建（珊瑚色→炭灰、磚紅→駝色）；manifest 條目 b1680957（anon、lazy、ambient、sex）",
+   "task": "ART-NPC-40",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 只拿 VRM 和 manifest 條目；npc_crowd_batch2.patch 的三項已由 cedb64dc 涵蓋，沒套。同一個 commit 的 AA185 背景（機車行、美國公寓早上）另外跟各自任務整合"
   }
  ],
  "ignored": [

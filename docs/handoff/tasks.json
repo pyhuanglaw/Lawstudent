@@ -14665,7 +14665,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "cedb64dc：LAWWW2 路人底模預設打開（anon＋lazy，開場不預載）、CHAR.anonPool 每次換區域輪替 4 女＋4 男、沒用的釋放（ASSETS.unloadVRM）、同一區域平均分配；STORY.CROWD_X＝2。單元 anon_pool／crowd／npc_ambient 通過；瀏覽器 probe crowd_pool＋zone_memory 在 batch 15。LAWWW2 第二批 nf5–8／nm5–8 交付後加進 manifest（ART-NPC-40）。",
+   "next": "cedb64dc：LAWWW2 路人底模預設打開（anon＋lazy，開場不預載）、CHAR.anonPool 每次換區域輪替 4 女＋4 男、沒用的釋放（ASSETS.unloadVRM）、同一區域平均分配；STORY.CROWD_X＝2。單元 anon_pool／crowd／npc_ambient 通過；瀏覽器 probe crowd_pool＋zone_memory 在 batch 15。LAWWW2 第二批 nf5–8／nm5–8 交付後加進 manifest（ART-NPC-40）。｜第二批整合後共 16 個底模；畫質低 3＋3（43d695d7）。沛珊換日系風（使用者，經 LAWWW2-C）：換色模型灰藍 T＋米白長裙。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14687,7 +14687,7 @@
    "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P0",
-   "next": "第一批 nf1–4／nm1–4 已在遊戲（cedb64dc 起預設打開）；第二批 nf5–8／nm5–8 製作中（b6f9f9eb 腳本），一批交一批；交付格式照 manifest（anon:true, lazy:true, ambient:true, sex）。",
+   "next": "第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
    "first": {
     "term": "Y1S1",
     "week": 1,
