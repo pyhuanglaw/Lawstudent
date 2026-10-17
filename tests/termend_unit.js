@@ -117,6 +117,13 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',30,0,0); G.termend={contact:{Y4S1:{heroine_05:{pts:9,k:{}}}},think:{}};
     run(20,21); const a=PHONE.sent(G,'te_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21);
     check('9f. 學姊大四上：12/21 不約、12/24 20:30 起約',!a&&PHONE.sent(G,'te_Y4S1_heroine_05')&&txt('p:heroine_05').includes('heroine_05:期末考完了嗎？法圖旁邊那家，我請你。'),JSON.stringify(txt('p:heroine_05'))); }
+  // 9g. 不在台灣的人不約（AA_259 第 4 節第 5 點）：芷若大三上、大四上（英國）、以安大三下（日本）；交往中的芷若在英國也不發女朋友的期末約會
+  { const W3=TERMEND.windowOf('Y3S1'), W4=TERMEND.windowOf('Y4S1'), W32=TERMEND.windowOf('Y3S2');
+    fresh(W3.from,9,'campus',{}); G.stage='law';
+    check('9g. 芷若大三上、大四上不在；以安大三下不在；以安大三上、芷若大三下在',TERMEND.away(G,W3,'heroine_02')&&TERMEND.away(G,W4,'heroine_02')&&TERMEND.away(G,W32,'heroine_01')&&!TERMEND.away(G,W3,'heroine_01')&&!TERMEND.away(G,W32,'heroine_02'));
+    meet('heroine_02'); const r=SOCIAL.rel('heroine_02'); Object.assign(r,{fam:60,trust:45,comf:40,npcRom:60}); const L=DATE.log(G,'heroine_02'); L.count=4; L.wish=true; G.termend={contact:{Y3S1:{heroine_02:{pts:12,k:{}}}},think:{}};
+    const P=TERMEND.plan(G,W3); G.flags.dating_heroine_02=true; G.termend.Y3S1={}; const Pg=TERMEND.plan(G,W3);
+    check('9g. 芷若大三上：條件到齊也沒有心意、朋友的邀約；交往中也沒有女朋友的期末約會',!P.heart.includes('heroine_02')&&!P.friend.includes('heroine_02')&&!Pg.gf.includes('heroine_02'),JSON.stringify([P,Pg])); }
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
