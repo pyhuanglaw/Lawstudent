@@ -4,6 +4,7 @@
 用法：python3 char_lookdev.py <網址根> <VRM 檔> <輸出資料夾> [idle|walk|sit|tpose] --base char.zhe --height 1.78 --tag zhe [--props backpack]
   --props 也可以是 JSON（配件有參數時），例如 '[{"name":"glasses","glb":"prop.glasses_bohan"},"backpack"]'；
   --blchar：網址加 &blchar（開發分支：沒有它時 blOnly 的人物不在 manifest 裡，--base 用它們會失敗）
+  --js 檔案：在 props3d 後面多執行一段 JS（例：還沒整合的配件 patch）
   --asset key=網址：多加一個 lazy 的配件 GLB（例如 prop.glasses_bohan=assets/models/char/second_ai/glasses_bohan.glb；伺服器要有這個檔案，或在目前目錄下有同一個相對路徑的檔案（直接從本機送出））
 （芯慈用 xinci_lookdev.py；這支是一般化的版本）"""
 import asyncio, json, os, re, sys
@@ -21,6 +22,8 @@ os.makedirs(OUT, exist_ok=True)
 INJ = ("<script src=\"src/props3d.js\"></script>\n<script>ASSETS.manifest['char.lookdev_test']=Object.assign({},ASSETS.manifest[%s],{url:%s,height:%s});"
        "CHAR.MODEL_PROPS['char.lookdev_test']=%s;%s</script>") % (json.dumps(BASE), json.dumps(URL), HEIGHT, json.dumps(PROPS),
        ''.join("ASSETS.manifest[%s]={url:%s,type:'building',lazy:true};" % (json.dumps(k), json.dumps(v)) for k, v in EXTRA.items()))
+for i in range(1, len(sys.argv) - 1):      # --js 檔案：在 props3d 後面多執行一段（例：還沒整合的配件 patch，docs/art-rebuild/second_ai/patches/props_helmet_weilun.js）
+    if sys.argv[i] == '--js': INJ = INJ.replace('<script>ASSETS.manifest', '<script>' + open(sys.argv[i + 1], encoding='utf-8').read() + '</script>\n<script>ASSETS.manifest', 1)
 
 
 async def main():
