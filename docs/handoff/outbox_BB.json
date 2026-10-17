@@ -317,6 +317,20 @@
    "noDirectIntegrate": true,
    "receiver": "AA",
    "ack": "SENT"
+  },
+  {
+   "task": "YT-LIFE-REVISION AA_218 第 13 節（高中校慶 A、社群 B、通識課 C、W0/W1 核對）",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "(本 commit)",
+   "files": [
+    "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md"
+   ],
+   "state": "已交付",
+   "remaining": "PROPOSAL；C 日期與地點是提案；高中虛構名 LAWWW 定；W0 置頂時間、W1 第一句改法等使用者看過",
+   "next": "AA-C 審；LAWWW 檢查高中版造型與 Life Album",
+   "noDirectIntegrate": true,
+   "receiver": "AA",
+   "ack": "SENT"
   }
  ]
 }
