@@ -4,6 +4,7 @@
 用法：python3 char_lookdev.py <網址根> <VRM 檔> <輸出資料夾> [idle|walk|sit|tpose] --base char.zhe --height 1.78 --tag zhe [--props backpack]
   --props 也可以是 JSON（配件有參數時），例如 '[{"name":"glasses","glb":"prop.glasses_bohan"},"backpack"]'；
   --blchar：網址加 &blchar（開發分支：沒有它時 blOnly 的人物不在 manifest 裡，--base 用它們會失敗）
+  --bg 色碼：背景色（例 ff00ff；找衣服破洞用）
   --js 檔案：在 props3d 後面多執行一段 JS（例：還沒整合的配件 patch）
   --asset key=網址：多加一個 lazy 的配件 GLB（例如 prop.glasses_bohan=assets/models/char/second_ai/glasses_bohan.glb；伺服器要有這個檔案，或在目前目錄下有同一個相對路徑的檔案（直接從本機送出））
 （芯慈用 xinci_lookdev.py；這支是一般化的版本）"""
@@ -33,6 +34,7 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e))); pg.on('console', lambda m: errs.append(m.text) if m.type == 'error' else None)
         async def page(route):
             r = await route.fetch(); body = (await r.text()).replace('<script src="src/props3d.js"></script>', INJ)
+            if OPT.get('--bg'): body = body.replace('0xc9c6bf', '0x' + OPT['--bg'])   # --bg ff00ff：背景換成洋紅，衣服的破洞（看穿到背景）和皮膚分得出來
             await route.fulfill(response=r, body=body, headers={'content-type': 'text/html; charset=utf-8'})
         await pg.route(re.compile(r'.*/test_charlook\.html.*'), page)
         vb = open(VRM, 'rb').read()

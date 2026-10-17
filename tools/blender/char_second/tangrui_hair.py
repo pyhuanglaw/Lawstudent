@@ -155,7 +155,7 @@ def apply(m):
         card(a, 0.97, min(0.0, v_tip(a) * (0.55 + 0.30 * float(sstep(36, 58, aa)) * (1 - float(sstep(100, 120, aa)))) * (0.35 + 0.65 * float(sstep(30, 60, aa)))), 0.0015, 1.7, 'card')   # 唐睿第三版：前額的內層短一點（直的髮尾會從捲髮下面露出來）
     for k in range(40):        # 中層：蓬一點
         a = -180 + 360 * (k + rng.uniform(0.2, 0.8)) / 40
-        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.6, 0.8), 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',
+        card(a, 0.90 - rng.uniform(0, 0.08), v_tip(a) * rng.uniform(0.6, 0.8) if az(a) > 60 else 0.02, 0.0045 + 0.001 * rng.random(), rng.uniform(1.3, 1.6), 'cardB',   # 第十四版：前面（方位 60° 以內）只到髮際線——直髮片的尖端從往內收的瀏海下面露出來，第十二、十三版看起來還是一排尖角
              bulge=0.002 + 0.002 * rng.random(), arch=0.12, curl=rng.uniform(-6, 6))   # 第四版：短一點（直的髮尾不要從波浪髮束下面露出來）
     for k in range(0):         # 第四版：外層直髮片全部拿掉        # 外層：唐睿只留 14 片（直的髮片多了看起來是直髮；捲的量感由下面的捲髮束做）
         a = -180 + 360 * (k + rng.uniform(0.1, 0.9)) / 40
