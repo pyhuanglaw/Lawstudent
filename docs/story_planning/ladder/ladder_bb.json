@@ -1117,7 +1117,7 @@
        "min": "ACQUAINTANCE"
       },
       "events": [
-       "ev_studygroup_wed"
+       "ev_public_law_group"
       ],
       "memory": [
        {
@@ -1132,12 +1132,12 @@
        "min": "FAMILIAR"
       },
       "notEvents": [
-       "ev_studygroup_wed"
+       "ev_public_law_group"
       ]
      },
-     "note": "2026-10-16 BB-B：沒去週三讀書會的玩家原本會永遠卡在 P-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過",
+     "note": "2026-10-16 BB-B：沒去週三讀書會的玩家原本會永遠卡在 P-L3 → 到 FAMILIAR 還沒去過就 skipIf 直接算過（2026-10-17 BB-C：法服沒有讀書會，沛珊的讀書會併進以安的公法讀書會＝BB_191 8-7；條件改 ev_public_law_group，「學姊」→「以安」照 AA_222）",
      "lines": [
-      "上次讀書會學姊最後補的那句，你有寫到嗎？",
+      "上次讀書會以安最後補的那句，你有寫到嗎？",
       "我只寫到一半。"
      ],
      "choices": [
