@@ -54,12 +54,12 @@ WALK = [
     w('classmate_bohan', 'D06', 'walk', ['……坐在草上，第一次。我以前覺得會弄髒褲子。'], cond={'terms': Y3UP}),
     w('classmate_bohan', 'D06', 'D06.cafe', ['一杯一百五。我算過，等於三份影印的考古題。……我不印考古題了。'], cond={'terms': Y3UP}),
     # 第二批（AA_162 8-3）
-    # 阿哲 D25（大二起下學期第 14～16 週週六 14:00～18:00）；下雨時浪邊灰掉（spots_v2）
+    # 阿哲 D25（大二起下學期第 14～15 週週六 14:00～18:00）；下雨時浪邊灰掉（spots_v2）
     w('zhe', 'D25', 'D25.shore', ['哥你站那裡，浪來了就跳。……跳得太早了。']),
-    w('zhe', 'D25', 'D25.cafe', ['我第一次在海邊喝咖啡。很貴。很值得。好啦是很貴。']),
+    w('zhe', 'D25', 'D25.cafe', ['我要冰的。剛剛喝了太多海水。']),
     # 柏翰 D09（大四上第 12 週週六 15:00～19:00）
-    w('classmate_bohan', 'D09', 'D09.tea', ['這壺茶兩百五。我沒有算它等於幾份影印。……我在進步。'], cond={'terms': ['Y4S1']}),
-    w('classmate_bohan', 'D09', 'D09.gondola', ['我以前覺得，坐纜車是浪費時間。……現在覺得，時間本來就是拿來浪費一點的。'], cond={'terms': ['Y4S1']}),
+    w('classmate_bohan', 'D09', 'D09.tea', ['這壺茶兩百五。……算了，今天不算錢。'], cond={'terms': ['Y4S1']}),
+    w('classmate_bohan', 'D09', 'D09.gondola', ['坐纜車要二十幾分鐘。以前我一定會帶單字卡。'], cond={'terms': ['Y4S1']}),
     # 第三批（AA_271；AA-C 2026-10-17）。出現的條件在 AA_271 第 1 節的偶遇表；這裡只寫一起走一段
     # 以安 D26（她回台中的日子，週六 14:00～17:00；朋友以上）
     w('heroine_01', 'D26', 'D26.village', ['這間的檸檬飲料，我高中下課常常來買。'], ['你喝喝看。我高中都點這一杯。']),
@@ -91,7 +91,7 @@ LEAVE = [
     {'who': 'yu', 'spot': 'D04', 'friend': '學姊在等我了！我們下次再一起逛。真的，這次是真的。', 'dating': ''},
     {'who': 'classmate_bohan', 'spot': 'D06', 'friend': '十二點我要回總圖。……今天的兩個小時，不算浪費。', 'dating': ''},
     {'who': 'zhe', 'spot': 'D25', 'friend': '系籃的要去吃海鮮了。你要一起嗎？不要的話，下週練球見。', 'dating': ''},
-    {'who': 'classmate_bohan', 'spot': 'D09', 'friend': '我搭下一班下山。明天開始，我又要念書了。……今天謝謝。', 'dating': ''},
+    {'who': 'classmate_bohan', 'spot': 'D09', 'friend': '我搭下一班下山。明天又要開始念了。今天謝謝你。', 'dating': ''},
     # 第三批（AA_271）
     {'who': 'heroine_01', 'spot': 'D26', 'friend': '我媽傳訊息了，我要回去。你回臺北的車幾點？', 'dating': '五點了，我要回家吃飯。到臺北傳訊息給我。'},
     {'who': 'heroine_03', 'spot': 'D14', 'friend': '我搭這班回去。我媽在等我吃飯。', 'dating': '我媽在等吃飯。你陪我到捷運站就好。'},
@@ -111,7 +111,7 @@ REVISIT = [  # AA_162 7-7；第二批六句 AA-B 2026-10-16 補
     {'who': 'heroine_03', 'spot': 'D18', 'normal': '擦香爐的阿嬤還在。今天沒有人訪問她，她一樣擦得很慢。', 'afterBreakup': '你經過那間廟，沒有進去。'},
     {'who': 'zhe', 'spot': 'D25', 'normal': '浪還是一樣大。你想起阿哲被打倒，站起來大笑的樣子。', 'afterBreakup': ''},
     {'who': 'yu', 'spot': 'D20', 'normal': '老街口今天沒有人在點名。你想起小語數到二十四。', 'afterBreakup': ''},
-    {'who': 'classmate_bohan', 'spot': 'D09', 'normal': '纜車站外面的長椅空著。你想起柏翰說，世界沒有毀滅。', 'afterBreakup': ''},
+    {'who': 'classmate_bohan', 'spot': 'D09', 'normal': '纜車站外面的長椅空著。你想起柏翰那天沒帶書，一個人坐在這裡。', 'afterBreakup': ''},
     {'who': 'classmate_xinci', 'spot': 'D18', 'normal': '茶樓的窗邊坐著另一對人，也拿著手機在比對什麼。', 'afterBreakup': ''},
     # 第三批（AA_271）
     {'who': 'heroine_01', 'spot': 'D26', 'normal': '審計新村那間小店門口的階梯，今天坐著別人。', 'afterBreakup': '你沒有往審計新村那排小店走。'},
@@ -140,11 +140,11 @@ FOLLOWUP = [  # AA_162 第 4 節、8-2
     {'mem': 'ENC_D04_YU', 'who': 'yu', 'where': '一般聊天', 'line': '欸，上次那件外套，學姊最後買了另一件。……對，第三件。'},
     {'mem': 'ENC_D06_BH', 'who': 'classmate_bohan', 'where': '一般聊天', 'line': '上次在美術館的事，不要跟阿哲說。'},
     {'mem': 'ENC_D04_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '上次那張小卡我有排到。', 'note': 'AA_209 附錄 A（芯慈 encounters D04）口語改稿'},
-    {'mem': 'ENC_D18_YT', 'who': 'heroine_03', 'where': '一般聊天', 'line': '九份那天，阿嬤說了四十年的事。……你站在旁邊，沒有走。謝謝。'},
+    {'mem': 'ENC_D18_YT', 'who': 'heroine_03', 'where': '一般聊天', 'line': '九份那天，你在旁邊站好久。阿嬤後來問我你是誰。'},
     {'mem': 'ENC_D25_ZHE', 'who': 'zhe', 'where': '一般聊天', 'line': '哥，上次外澳那個浪，我回去背痛三天。下次還要去。'},
     {'mem': 'ENC_D09_BH', 'who': 'classmate_bohan', 'where': '一般聊天', 'line': '貓空那天的事，不要跟阿哲說。……你知道我是什麼意思。',
      'lineIf': {'cond': '有 ENC_D06_BH（美術館那句已經說過）', 'line': '貓空那天的事……這次可以跟阿哲說。推甄完了，我不怕他笑。'}},
-    {'mem': 'ENC_D18_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '我們後來找到那個角度了。第三個要件，光，差了一點。……我還是很高興。'},
+    {'mem': 'ENC_D18_XC', 'who': 'classmate_xinci', 'where': '一般聊天', 'line': '我們後來找到那個角度了。光差一點，不過還是拍了。'},
     # 第三批（AA_271 1-3）
     {'mem': 'ENC_D26_AN', 'who': 'heroine_01', 'where': '一般聊天', 'line': '上次在臺中，我媽那張清單最後還是漏買一樣。我又跑了一趟。'},
     {'mem': 'ENC_D14_YT', 'who': 'heroine_03', 'where': '一般聊天', 'line': '漁人碼頭那天，你後來搭幾點的車？我那班好擠。'},
