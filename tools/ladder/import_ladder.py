@@ -56,6 +56,8 @@ def mems(cs):
             if st.get('mem'): yield st['mem']
             for ch in st.get('choices') or []:
                 if ch.get('mem'): yield ch['mem']
+            for x in (st.get('linesIf') or []) + (st.get('extraIf') or []):   # linesIf／extraIf 那一套自己的記憶
+                if x.get('mem'): yield x['mem']
 skipped = {}
 dst = os.path.join(ROOT, 'src', 'data', 'ladder.js')
 try:   # 上一次匯入的版本：缺中文名稱的學期先保留舊的（不讓那一學期整個消失）

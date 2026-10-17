@@ -1,20 +1,26 @@
 {
  "version": 1,
  "note": "劇情匯入白名單（使用者 2026-10-17 P0）：逐檔列路徑＋來源 commit；status 只有 approved 才匯入（WIP／pending 拒絕）；新版本要 AA（人物台詞先經 BB）明確交付「已審版本＋commit」才改這裡，由值班 LAWWW 更新。大一下閒聊階梯可昕 17 處（AA 分支 WIP）還沒審，不在名單。labelsRef＝讀記憶中文名稱表的企劃線 commit。",
- "labelsRef": "72ea87f5",
+ "labelsRef": [
+  "25e89f6e",
+  "9eef2167",
+  "f6269502",
+  "72ea87f5"
+ ],
  "files": [
   {
    "path": "docs/story_planning/ladder/ladder_aa.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y1s2.json",
-   "sha": "e2bdcece",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:02Z 交付（outbox_AA.json ROM-1017 e2bdcece：以安、語彤大一上下交往版審完；A2-L1 回覆改「現在煎得還不好看」＋dating_heroine_01 extraIf、Y2-L3 dating_heroine_03 extraIf；build --check 通過；只限這個檔）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
    "task": "ROM-1017",
    "history": [
     {
@@ -25,88 +31,98 @@
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
     }
-   ]
+   ],
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s1.json",
-   "sha": "0ba8d336",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 04:39Z 交付 DL-AA-0ba8d336（AA_211 第 7 節；只限這個檔）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
     }
-   ]
+   ],
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s2.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s2.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s1.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s2.json",
-   "sha": "72ea87f5",
+   "sha": "25e89f6e",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "baa5c577",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:54Z：已審版本＝baa5c577（AB-65 大一上 BB 七位口語改寫 → AA_200 互審 a03853d4 → 條件寫法 a4ccf909 → K-D5「你們隔天有早八」＋學姊註解拿掉男友前提；檔內沒有承遠、男友、推甄、法三）；取代 72ea87f5",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
     }
-   ]
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
-   "sha": "9ebf6663",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
-   "sha": "9ebf6663",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "a73c6299",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 05:12Z 交付 DL-AA-a73c6299（ROM-1017：芷若 Z2-L1／L8、子晴 Q2-L1／L8 交往中 extraIf；BB-C 口氣減一處；只限這個檔）",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "ROM-1017",
    "history": [
     {
@@ -117,55 +133,62 @@
      "sha": "3b7e2268",
      "approvedBy": "AA-C 2026-10-17 04:18Z 交付 DL-AA-3b7e2268（AA_209 第 7 節：可昕 17 處逐項核對；只限這個檔）"
     }
-   ]
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "0ba8d336",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 04:39Z 交付 DL-AA-0ba8d336（AA_211 第 7 節；只限這個檔）",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
      "sha": "72ea87f5",
      "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
     }
-   ]
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
-   "sha": "72ea87f5",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "72ea87f5",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "72ea87f5",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
-   "sha": "72ea87f5",
+   "sha": "f6269502",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:34）",
+   "task": "SYS-15",
+   "note": "BB-C：大四上口語審完，可以匯入"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "72ea87f5",
+   "sha": "408398d7",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）",
-   "task": "SYS-15"
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/date_system/date_locations.json",

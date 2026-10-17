@@ -15217,9 +15217,9 @@
    "title": "AA 閒聊階梯照 16 週放寬週次（977c7b9f）＋AA_238 的 A-L11、A2-L6、A3-L9、A4-L6（96ccd3fd）從 json 重匯",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【12:0x AA-C f3f3564e】要重新匯入的 AA 階梯：ladder_aa_y1s2（語彤 Y2-L7）、y2s1～y4s1（語彤不加入法服）、y3s1／y4s2（交往版、3/25）；逐檔加白名單再 import_ladder｜照 import_guard 白名單；和 16 週引擎同一批測",
+   "next": "【15:2x LAWWW-C】一次匯入：AA 8 檔 25e89f6e、BB 9 檔 408398d7＋y4s1 f6269502；labelsRef 讀 AA／BB 兩個分支；換新版：Y0S1、Y0S2、Y2S1～Y4S2；大一上、大一下等 BB 補 SIS_MOCK_EXAM、ZR_ZQ／ZQ_ZR_SETUP 名稱（先維持舊版）。程式：skipAfterWeek、linesIf／extraIf 的 mem 會記、A4-L5／A4-L7 交往版回覆換新 key、A3-L6／Y3-L5 的 12/19 日期條件；匯入器缺名稱的學期保留舊版｜【12:0x AA-C f3f3564e】要重新匯入的 AA 階梯：ladder_aa_y1s2（語彤 Y2-L7）、y2s1～y4s1（語彤不加入法服）、y3s1／y4s2（交往版、3/25）；逐檔加白名單再 import_ladder｜照 import_guard 白名單；和 16 週引擎同一批測",
    "first": {
     "term": "Y1S1",
     "week": 1,

@@ -7068,6 +7068,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "vac3d.js S.nth／repKey／blocked；C01（海邊，在 story3d）、C04、C05／C13 同目的地第二次還沒接；階梯匯入等記憶中文名稱"
+  },
+  {
+   "id": "DL-AA-25e89f6e",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "25e89f6e",
+   "what": "AA 階梯記憶中文名稱補齊（AA_265 總表 34 個；fd3efd9b：YT3_LAW_CLASS、YT8_NYE_HOME、YT3/YT4_INTAKE_LEAD 改名）；8 個階梯 JSON 已審",
+   "task": "AA-LADDER-977",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "匯入：大二上～大四下 AA 檔換新版；大一上下等 BB 的 SIS_MOCK_EXAM、ZR_ZQ／ZQ_ZR_SETUP 名稱"
+  },
+  {
+   "id": "DL-BB-9eef2167",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "9eef2167",
+   "what": "BB 階梯記憶中文名稱 16 個（KX0D_*、SIS6_*、SIS7_*、SIS8_*）；y4s1 f6269502；BB_209 大四上程式清單（f6269502／9e48cccb）",
+   "task": "AA-LADDER-977",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "大一上還缺 SIS_MOCK_EXAM；大一下 ZR_ZQ_SETUP_*／ZQ_ZR_SETUP_*（extraIf 的記憶）"
   }
  ],
  "ignored": [

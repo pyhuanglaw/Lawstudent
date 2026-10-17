@@ -27,7 +27,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.find(s=>s.id===id),L.steps.findIndex(s=>s.id===id)]; };
 (async()=>{
-  check('0. ladder.js 來自匯入白名單：大一下＠e2bdcece（AA-C 06:02Z 交往版，取代 3b7e2268）、大二上＠0ba8d336',/白名單/.test(LADDER.source)&&LADDER.source.includes('e2bdcece')&&LADDER.source.includes('0ba8d336'),LADDER.source);
+  check('0. ladder.js 來自匯入白名單（2026-10-17 一次匯入：AA 25e89f6e、BB 408398d7／f6269502）',/白名單/.test(LADDER.source)&&LADDER.source.includes('25e89f6e')&&LADDER.source.includes('408398d7'),LADDER.source);
   { const st=LADDER.byTerm.Y1S2.heroine_01.steps.find(x=>x.id==='A2-L1'), y3=LADDER.byTerm.Y1S2.heroine_03.steps.find(x=>x.id==='Y2-L3');
     check('0b. ROM-1017 交往版：A2-L1 選項②回覆「等我多練幾次，現在煎得還不好看。」、交往中多一句（extraIf dating_heroine_01）；Y2-L3 交往中多一句（dating_heroine_03）',st&&st.choices[1].reply==='等我多練幾次，現在煎得還不好看。'&&(st.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_01'))&&y3&&(y3.extraIf||[]).some(x=>JSON.stringify(x.if||{}).includes('dating_heroine_03')),JSON.stringify([st&&st.choices[1],y3&&y3.extraIf])); }
   // A2-L6（大一下以安）「我可以去嗎？」去過公法讀書會的不出現
@@ -47,7 +47,7 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   check('3. K3-L7 選項①去過電影夜：原本的回覆（「我知道。你哭的時候也很認真。」）',STORY.ladReply(st,c1)===c1.reply&&/哭的時候/.test(c1.reply),STORY.ladReply(st,c1));
   const c2=st.choices.find(c=>c.t!=='「我看電影很認真。」'); check('3. K3-L7 選項②不受影響',STORY.ladReply(st,c2)===c2.reply);
   // A4-L5、A4-L7（大二下以安）和她交往中的回覆（ROM-1017，AA-C b39f0bb9 的 note）
-  for(const [id,ct,def,dat] of [['A4-L5','「對誰練習？」','……對老師。還有一些人。','……對老師。還有你。'],['A4-L7','「放下什麼？」','……讀書會。家教。……還有一些人。我會回來，可是會錯過。','……讀書會。家教。……還有你。我會回來，可是會錯過。']]){
+  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給小語。」','嗯。家教比較難，學生才剛習慣我。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
     fresh(termDay('Y2S2',6,2),12,'campus',{}); const [s4]=stepOf('Y2S2','heroine_01',id); const ch=s4.choices.find(c=>c.t===ct);
     check('3b. '+id+' '+ct+'：沒交往＝原本的回覆',STORY.ladReply(s4,ch)===def,STORY.ladReply(s4,ch));
     G.flags.dating_heroine_01=true; check('3b. '+id+' '+ct+'：和以安交往中＝交往版「……還有你。」',STORY.ladReply(s4,ch)===dat,STORY.ladReply(s4,ch));
@@ -56,9 +56,8 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   const greetAt=(day,flags)=>{ fresh(day,10,'campus',flags); return STORY.ladGreet(G,'heroine_05'); };
   const d7=termDay('Y2S1',7,1);
   let g=greetAt(d7,{}); check('4. 不是法服成員：第 7 週不說「值班表你看了嗎？」',!/值班表你看了嗎/.test(g||''),g);
-  g=greetAt(d7,{lawclub:true}); check('4. 法服成員第 7 週：「值班表你看了嗎？……」',/^值班表你看了嗎/.test(g||''),g);
+  g=greetAt(d7,{lawclub:true}); check('4. 法服成員第 7 週也不說（BB 2026-10-17：學姊不參加法服週六服務，這句刪了）',!/值班表你看了嗎/.test(g||''),g);
   G.day=d7+1; G.weekday=wdOf(G.day); const g2=STORY.ladGreet(G,'heroine_05'); check('4. 隔天同一個存檔：不再說第二次（只說一次）',!/值班表你看了嗎/.test(g2||''),g2);
-  check('4. 只說一次的紀錄存在 G.social（存讀檔保留）',!!(G.social.greetOnce&&G.social.greetOnce['值班表你看了嗎？']));
   // A3-L6、Y3-L5：演過 ev_yu_together 從第 15 週可以播
   const atStep=(who,id,week,done)=>{ fresh(termDay('Y2S1',week,2),12,'campus',{}); R(who,...LV.FAM); const [s,i]=stepOf('Y2S1',who,id); const D=STORY.ladData(G,who); G.social.ladder=G.social.ladder||{}; G.social.ladderDay=G.social.ladderDay||{}; G.social.greetUsed=G.social.greetUsed||{}; G.social.ladder[D.key]=i; if(done) G.events.done.ev_yu_together=1; const n=STORY.ladNext(G,who); return n&&n.id; };
   for(const [who,id] of [['heroine_01','A3-L6'],['heroine_03','Y3-L5']]){
@@ -72,6 +71,6 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
     G.flags[flag]=true; const L2=STORY.ladLines(s2,G,who); const ex=s2.extraIf[0].lines;
     check(`6. ${id} 交往中（${flag}）多兩句；沒交往不出現`,base===s2.lines.length&&L2.length===base+ex.length&&ex.every(x=>L2.map(y=>typeof y==='string'?y:y.t).includes(x)),JSON.stringify(L2).slice(0,200));
   }
-  check('6. 白名單：ladder_bb_y1s2 來自 a73c6299',LADDER.source.includes('a73c6299'),LADDER.source);
+  check('6. 白名單：BB 的大一下（ladder_bb_y1s2）來自 408398d7',LADDER.source.includes('408398d7'),LADDER.source);
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
