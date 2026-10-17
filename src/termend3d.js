@@ -93,6 +93,8 @@ const TERMEND=(function(){
     if(!P.heart.length&&!P.friend.length){ const b=C.find(x=>x.c>0&&atLeast(x.id,'ACQUAINTANCE')); if(b) P.friend=[b.id]; else P.fallback='kai'; }   /* BB_203 第 1 節第 7 點 */
     R.plan=P; return P; };
   const resolve=(x,G)=>typeof x==='function'?x(G):x;
+  /* 她的心意邀約規格：HEART[id] 疊上那一學期的 over（沛珊大三起的地點、大四上的版本…）*/
+  S.heart=function(id,term){ const Lx=L(), h=Lx&&Lx.HEART[id]; if(!h) return null; let o=h; for(const v of (h.over||[])) if(v.terms.includes(term)){ o=Object.assign({},o,v); delete o.terms; } return o; };
   const lines=(x,G)=>{ x=resolve(x,G); return x==null?[]:(Array.isArray(x)?x:[x]); };
   /* ---- 手機（story3d.js 的 S.phoneRules 每次呼叫）---- */
   S.phone=function(GM){ const G=GM.G; if(!S.ON||typeof PHONE==='undefined'||!L()) return; const w=S.window(G); if(!w) { S.pickCheck(GM); return; } const now=T(G.day,G.hour);
@@ -106,7 +108,7 @@ const TERMEND=(function(){
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag); S.planKexin(G,w); } }   /* 可昕：她排好了，直接排出遊（不佔名額）*/
     for(const id of P.gf){ const g=Lx.GF[id], tag='te_gf_'+w.id+'_'+id; if(now>=T(d1,20.25)&&!PHONE.sent(G,tag)) PHONE.at(G,d1,20.25,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until,opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); }
-    for(const id of P.heart){ const h=Lx.HEART[id], again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
+    for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ const f=Lx.FRIEND[id]; send(id,'friend',w.id==='Y1S1'?f.y1s1:f.gen,f.no); }
     S.pickCheck(GM); };
   /* 接了一個：排出遊、其他的自動婉拒；女朋友的學期末約會另外排 */
@@ -114,7 +116,7 @@ const TERMEND=(function(){
     if(who==='heroine_03'&&w.id==='Y1S2'){ const d=DK('2026-06-19'); if(d!=null) lo=Math.max(lo,d); }   /* 語彤 6/18 雙主修筆試以前不來（AA_250 第 2 節）*/
     if(spec.wd!=null){ for(let d=lo;d<=w.to;d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===spec.wd&&ok(d)) return d; } }
     for(let d=Math.max(lo,w.from+2,pb+2);d<=w.to;d++) if(ok(d)) return d; for(let d=lo;d<=w.to;d++) if(ok(d)) return d; return null; };
-  S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?Lx.HEART[who]:(kind==='gf'?Lx.GF[who]:(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec||typeof OUT==='undefined') return false;
+  S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?Lx.GF[who]:(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec||typeof OUT==='undefined') return false;
     const hh=(kind==='friend'&&spec.hGen&&w.id!=='Y1S1')?spec.hGen:(spec.h||18.5), day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who); if(day==null) return false; const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
     return OUT.plan(G,{id:'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:'走過去約 15 分鐘',travelH:0.25,te:{term:w.id,who,kind}}); };
   S.planKexin=function(G,w){ const Lx=L(), K=Lx.KX[w.id], PL=Lx.KX_PLACE[K.place]; if(!K||!PL||typeof OUT==='undefined') return false; const day=S.dinnerDay(G,w,{h:PL.h,wd:K.wd},'kexin'); if(day==null) return false;
@@ -140,14 +142,15 @@ const TERMEND=(function(){
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
-    const spec=kind==='heart'?Lx.HEART[who]:(kind==='gf'?Lx.GF[who]:(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec) return false;
-    const P=Lx.PLACE[spec.place]||{}; if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:P.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark',right:{charId:who,expression:'neutral'}});
+    const spec=kind==='heart'?S.heart(who,te.term):(kind==='gf'?Lx.GF[who]:(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec) return false;
+    const INV2TE={noodle:['noodle','noodle_closed']}, other=!!te.place&&!(INV2TE[te.place]||[]).includes(spec.place);   /* 玩家自己約、選的店不是她那一家（AA_268 第 1 節）：開場收尾照選的那一家、不說飯桌一句 */
+    const P=other?(Lx.PLACE[(INV2TE[te.place]||[])[0]]||{name:te.placeName||'',open:'（'+(te.placeName||'')+'。）'}):(Lx.PLACE[spec.place]||{}); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:P.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark',right:{charId:who,expression:'neutral'}});
     const pool=((Lx.POOL[te.term]||{})[who]||[]).map(x=>resolve(x,G)).filter(x=>x!=null), me={name:G.name||'祐廷'}; let ri=0;
     const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
     if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
-    else { await GM.say(null,P.open||'（'+(spec.placeName||P.name||'')+'。）');
+    else { await GM.say(null,P.open||'（'+(other?P.name:(spec.placeName||P.name||''))+'。）');
       if(kind==='gf'){ await run(GM,who,lines(spec.table,G)); await talk(2); }
-      else if(kind==='heart'){ await talk(2); await run(GM,who,lines(spec.table,G)); }
+      else if(kind==='heart'){ await talk(2); if(!other) await run(GM,who,lines(spec.table,G)); }
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/
       if(P.close) await GM.say(null,P.close); }
@@ -218,7 +221,7 @@ const TERMEND=(function(){
   S.missed=function(GM,q){ const G=GM.G, te=q&&q.te; if(!te||te.kind!=='kexin'||typeof PHONE==='undefined') return; const Lx=L(), K=Lx.KX[te.term], PL=K&&Lx.KX_PLACE[K.place]; if(!PL) return;
     PHONE.at(G,G.day,Math.max(G.hour,q.h+0.75),PL.miss.map(t=>({th:'p:kexin',from:'kexin',text:t})),'te_kx_miss_'+te.term); };   /* 沒去：她傳「我在河堤（正門）等了一下」「你還好嗎」（AA_250 9-2）*/
   /* ---- 回家的路上（AA_254 第 0 節）---- */
-  S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=Lx.HEART[who], R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
+  S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:h.walkBg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(h.walkBg):'dark',right:{charId:who,expression:'neutral'}});
     await run(GM,who,h.walk);
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
@@ -230,7 +233,7 @@ const TERMEND=(function(){
       if(!again&&h.yesCg) await run(GM,who,[{cg:resolve(h.yesCg,G)}]);   /* 自己先說的玩家也有那張 CG，放在她答應的那一句（AA-C 16:5x）；第二次不放 */
       await run(GM,who,yes); (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='yes'; return 'yes'; }
     await run(GM,who,again?h.she2:h.she);
-    const a=await GM.choose(Lx.ANSWER.map(t=>({t})));
+    const a=await GM.choose((h.answer||Lx.ANSWER).map(t=>({t})));   /* 沛珊大四上：「從今天開始認識。」／「……讓我想一下。」*/
     if(a===0){ if(!start()) return 'blocked'; (G.flags.confessed||(G.flags.confessed={}))[who]=G.day; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await run(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
   return S;

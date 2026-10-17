@@ -215,5 +215,31 @@ GM.money=function(n){ G.money+=n; };
   // 10. 存讀檔
   { fresh(D('2025-12-20'),10,'campus',{}); G.termend={think:{heroine_04:'Y1S1'},Y1S1:{plan:{heart:[],friend:['classmate_xinci'],fallback:null,gf:[],nope:{}},picked:{who:'classmate_xinci',kind:'friend',day:1}},contact:{Y1S1:{zhe:{pts:3,k:{chat:1}}}}};
     const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); check('10. 存讀檔：邀約、接了誰、讓我想想、分數都留著',G.termend.think.heroine_04==='Y1S1'&&G.termend.Y1S1.picked.who==='classmate_xinci'&&TERMEND.score(G,'Y1S1','zhe')===3); }
+  // 13. 每學期不同的版本（over）＋玩家選的店不是她那一家（AA_254 8c76052b、AA_268 第 1 節）
+  { const hf=TERMEND.hookFor; TERMEND.hookFor=()=>null;
+    const setup=(term,id,fl)=>{ const w=TERMEND.windowOf(term); fresh(w.from,12,'campus',fl||{}); G.stage='law'; meet(id); R(id,70,50,45); SOCIAL.rel(id).npcRom=40; DATE.log(G,id).count=4; DATE.log(G,id).wish=true; return w; };
+    let w=setup('Y3S1','classmate_peishan'); run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_Y3S1_classmate_peishan'); check('13. 沛珊大三上：心意邀約照發',!!m,JSON.stringify((G.msgs||[]).filter(x=>/^te_/.test(x.tag||'')).map(x=>x.tag)));
+    PHONE.answer(G,'te_Y3S1_classmate_peishan',0); STORY.phoneRules(GM); let q=OUT.get(G,'te_Y3S1');
+    check('13. 沛珊大三起：地點＝舊路書房旁邊的簡餐',!!q&&q.place==='舊路書房旁邊的簡餐',JSON.stringify(q&&q.place));
+    check('13. 沛珊大三起：回家走溫州街到小公園；大一還是新生南路',TERMEND.heart('classmate_peishan','Y3S1').walkPlace==='溫州街・小公園'&&TERMEND.heart('classmate_peishan','Y1S2').walkPlace==='新生南路・往捷運站');
+    w=setup('Y4S1','classmate_peishan'); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[3,0]; await TERMEND.dinner(GM,q); let L=lines();
+    check('13. 沛珊大四上先不說：BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」＝交往',L.some(x=>x.endsWith('我可以問一個奇怪的問題嗎？'))&&L.some(x=>x.endsWith('如果我們兩個都不是當年的樣子了，還可以重新認識嗎？'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「從今天開始認識。」','「……讓我想一下。」'])&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts[opts.length-1]));
+    w=setup('Y4S1','heroine_04'); run(20,21); let a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
+    check('13. 子晴大四上（已經畢業）：「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」',JSON.stringify(a)===JSON.stringify(['欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱']),JSON.stringify(a));
+    w=setup('Y4S1','heroine_04',{EXCHANGE_ROUTE:'US'}); G.day=w.to-2; run(20,21); a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);
+    check('13. 子晴大四上美國路線：「欸 你回來了齁 宵夜」',a[0]==='欸 你回來了齁 宵夜',JSON.stringify(a));
+    w=setup('Y4S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[3,0]; await TERMEND.dinner(GM,q); L=lines();
+    const i3=L.findIndex(x=>x.endsWith('……你要不要試試看，被我分一點時間？'));
+    check('13. 語彤大四上她說＝事件 16 三句＋理由一句（沒有 NOTICED_EMPTY_SEAT＝碗拿到櫃台），CG-12 在最後一句',L.some(x=>x.endsWith('我以前覺得，喜歡一個人要有時間。'))&&L.some(x=>x.endsWith('你每次吃完，都自己把碗拿到櫃台。'))&&i3>0&&JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03'])&&G.flags.dating_heroine_03===true,JSON.stringify(cgs));
+    w=setup('Y4S1','heroine_03'); SOCIAL.remember('heroine_03','NOTICED_EMPTY_SEAT',''); run(20,22); PHONE.answer(G,'te_Y4S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
+    check('13. 語彤大四上玩家先說：CG-12 放在她答應那一句',JSON.stringify(cgs)===JSON.stringify(['cg_share_time_heroine03']));
+    w=setup('Y3S1','heroine_03'); run(20,22); PHONE.answer(G,'te_Y3S1_heroine_03',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y3S1'); cgs=[]; said=[]; picks=[0]; await TERMEND.dinner(GM,q);
+    check('13. 語彤大三上：不放 CG-12（只有大四上）',!cgs.length&&G.flags.dating_heroine_03===true);
+    // 玩家自己約、選的店
+    w=setup('Y1S2','heroine_01'); TERMEND.plan(G,w); said=[]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'heart',term:'Y1S2',place:'brunch',placeName:'半熟'}}); L=lines();
+    check('13. 玩家約以安去半熟（不是她那一家）：開場照半熟、不說飯桌一句、照樣走回研究室',L[0]==='（半熟。）'&&!L.some(x=>x.includes('今天是特地訂的'))&&L.some(x=>x.includes('我的手帳放在這裡')),JSON.stringify(L.slice(0,4)));
+    w=setup('Y1S2','heroine_03'); TERMEND.plan(G,w); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_03',kind:'heart',term:'Y1S2',place:'noodle',placeName:'阿鳳麵店'}}); L=lines();
+    check('13. 玩家約語彤去麵店（剛好是她那一家）：說飯桌一句',L.some(x=>x.includes('這碗沒放蔥')),JSON.stringify(L.slice(0,5)));
+    TERMEND.hookFor=hf; }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

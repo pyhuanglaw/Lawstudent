@@ -148,7 +148,7 @@ const INV=(function(){
   S.meetable=function(G,id){ const e=S.entryFor(G,id); return e&&e.invite&&e.invite.state==='accepted'&&G.zone===e.zone?e.invite:null; };
   /* 見面：一起待一段時間（旁白）、時間過去、留一筆小記憶、熟一點點（不推進戀愛：使用者第 7 點）、習慣記憶 */
   S.meet=async function(GM,iv,n){ const G=GM.G, P=S.place(iv.place), nm=nameOf(iv.who); if(!P) return;
-    if(iv.te&&typeof TERMEND!=='undefined'&&TERMEND.dinner){ iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await TERMEND.dinner(GM,{te:{who:iv.who,kind:iv.te.kind,term:iv.te.term}}); await GM.fade(true); GM.advance(P.stay); await GM.fade(false);
+    if(iv.te&&typeof TERMEND!=='undefined'&&TERMEND.dinner){ iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ await TERMEND.dinner(GM,{te:{who:iv.who,kind:iv.te.kind,term:iv.te.term,place:iv.place,placeName:P.name}}); await GM.fade(true); GM.advance(P.stay); await GM.fade(false);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(iv.who,'meal'); S.msg(G,iv.who,'和'+nm+'吃了學期末的飯。',iv); } finally { GM.sceneEnd(); } if(n){ n.beh='idle'; n.path=null; } if(GM.autosave) GM.autosave(); return; }   /* 玩家自己約的期末飯：整場照 TERMEND.dinner（心意的接回家的路上）*/
     iv.state='done'; GM.sceneBegin({adv:iv.who}); try{ const lines=((D().people[iv.who]||{}).scene||{})[P.id], who={name:nm,obj:n&&n.obj,charId:iv.who}, SO=typeof SOCIAL!=='undefined'?SOCIAL:{};
       if(iv.ask) await S.walkAsk(GM,iv,who);   /* 一起走路時抽到的選項句：走到了、見面開始前選（BB_120 1-7c） */
