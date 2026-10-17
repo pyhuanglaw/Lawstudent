@@ -22,7 +22,8 @@ const STORY = (function(){
   S.PROF=PROF;
   const AN=Object.assign({},C.hero_f,{id:'an',name:'小安',model:'char.heroine_01',height:1.66});
   let seed=7; const rnd=()=>{ seed=(seed*16807)%2147483647; return (seed-1)/2147483646; };
-  function extraSpec(i){ const f=(i%2===0); const tops=f?[['tee','#f7f4ee'],['knit','#c9a24f'],['cardiganOpen','#4a6c8c'],['shirt','#ffffff'],['tee','#8c3b47']]:[['tee','#2b2b3a'],['shirtOpen','#eef0f2'],['hoodie','#3a3f4a'],['tee','#2f5d50'],['shirt','#dfe3ea']]; const bots=f?[['skirtMid','#2e3340'],['wideLeg','#3b2a1e'],['jeans','#4a5a78'],['skirtLong','#5c3a21']]:[['jeans','#2b2b3a'],['slacks','#3a3f4a'],['jeans','#4a5a78'],['slacks','#7b6a5a']]; const hairs=f?['softMid','longStraight','ponyLow','chicBob','wavyMid']:['shortTextured','shortClean','softMid']; const t=tops[i%tops.length], b=bots[(i*3)%bots.length]; return {id:'x'+i,name:'',height:f?1.58+(i%4)*0.03:1.70+(i%4)*0.03,build:(i%5===0)?'athletic':'slim',sex:f?'f':'m',skin:['#f3d9c4','#efd0b3','#e6c3a4','#f6dcc9'][i%4],hair:{color:['#2a1d16','#1f1613','#3b2a1e','#4b2e1e'][(i*7)%4],style:hairs[(i*5)%hairs.length]},face:{iris:'#3a2a22',brow:f?'soft':'thick',lash:f,glasses:i%4===1},outfit:{top:{type:t[0],color:t[1],inner:'#ffffff'},bottom:{type:b[0],color:b[1]},shoes:{type:['sneaker','canvas','loafer'][i%3],color:['#f4f1ea','#2b2118','#3a6fb0'][i%3],sole:'#ffffff'},bag:[null,'backpack','tote','shoulder'][i%4],bagColor:['#3b3f4a','#d9d3c6','#3b2a1e','#4a4238'][i%4]},posture:{sway:0.02}}; }
+  /* 女路人第 5 套原本是鮮紅 T（#8c3b47），使用者 2026-10-17：「臺大不要再有這麼鮮豔紅色上衣的女生」→ 灰綠（LAWWW2-C 查到的那一格）*/
+  function extraSpec(i){ const f=(i%2===0); const tops=f?[['tee','#f7f4ee'],['knit','#c9a24f'],['cardiganOpen','#4a6c8c'],['shirt','#ffffff'],['tee','#9aa392']]:[['tee','#2b2b3a'],['shirtOpen','#eef0f2'],['hoodie','#3a3f4a'],['tee','#2f5d50'],['shirt','#dfe3ea']]; const bots=f?[['skirtMid','#2e3340'],['wideLeg','#3b2a1e'],['jeans','#4a5a78'],['skirtLong','#5c3a21']]:[['jeans','#2b2b3a'],['slacks','#3a3f4a'],['jeans','#4a5a78'],['slacks','#7b6a5a']]; const hairs=f?['softMid','longStraight','ponyLow','chicBob','wavyMid']:['shortTextured','shortClean','softMid']; const t=tops[i%tops.length], b=bots[(i*3)%bots.length]; return {id:'x'+i,name:'',height:f?1.58+(i%4)*0.03:1.70+(i%4)*0.03,build:(i%5===0)?'athletic':'slim',sex:f?'f':'m',skin:['#f3d9c4','#efd0b3','#e6c3a4','#f6dcc9'][i%4],hair:{color:['#2a1d16','#1f1613','#3b2a1e','#4b2e1e'][(i*7)%4],style:hairs[(i*5)%hairs.length]},face:{iris:'#3a2a22',brow:f?'soft':'thick',lash:f,glasses:i%4===1},outfit:{top:{type:t[0],color:t[1],inner:'#ffffff'},bottom:{type:b[0],color:b[1]},shoes:{type:['sneaker','canvas','loafer'][i%3],color:['#f4f1ea','#2b2118','#3a6fb0'][i%3],sole:'#ffffff'},bag:[null,'backpack','tote','shoulder'][i%4],bagColor:['#3b3f4a','#d9d3c6','#3b2a1e','#4a4238'][i%4]},posture:{sway:0.02}}; }
   S.extraSpec=extraSpec;
   // ---------- 法律內容 ----------
   const CASE={id:'case_camera',title:'指定案例：網拍相機 1,000 元',body:'賣家在拍賣網站把一台市價約一萬元的相機標成 1,000 元（少打一個零）。買家下標付款，賣家拒絕出貨。爭點：網頁標價是「要約」還是「要約之引誘」？賣家能否主張錯誤撤銷？'};
@@ -1192,21 +1193,26 @@ const STORY = (function(){
         PHONE.at(G,wed10,20.5,[K('你沒來。……沒關係，問題不會跑。'),K('那我用打的。'),K('假設，你可以多一個身體部位。你要什麼？'),K('我要長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
       if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
     /* E25 我想重考法律（3/19 醉月湖）拿掉：告白併進 10/17 車上（AA_224 1-3，ev_y0_e26）*/
-    /* ★E27 我不是因為你（BB_104 8-10；AA_154 A35）：3/26（三）12:10 可昕私訊兩則＋出發選單「總圖門口 13:30」（帶到總圖門廊前）；13:15～14:00 走到她旁邊就演（3D）；
-       14:00 還沒到＝她傳「我在總圖門口。」、窗口延到 15:00（體育課 15:30 以前）；15:00 還沒到＝帶到場（E27_FORCE）。不做手機版 */
-    if(S.isEcon(G)){ const d27=S.dayOfKey('2025-03-26'), K=t=>({th:'p:kexin',from:'kexin',text:t}), done27=!!(G.events&&G.events.done&&G.events.done.ev_y0_e27);
-      if(d27!=null&&G.day===d27&&G.hour>=12+10/60&&!PHONE.sent(G,'y0_e27_ask')&&!done27){ F.E27_ASKED=true; PHONE.at(G,d27,12+10/60,[K('一點半，總圖門口。不用帶書。'),K('我有一件事，要先跟你說，再跟別人說。')],'y0_e27_ask');
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e27')&&G.hour<14) OUT.plan(G,{id:'y0_e27',goto:{zone:'campus',x:75,z:0,yaw:Math.PI/2},early:1/12,day:d27,h:13.5,late:0.5,place:'總圖門口',title:'總圖門口 13:30',travel:'走過去',travelH:1/6}); }
-      if(d27!=null&&G.day===d27&&F.E27_ASKED&&!done27&&G.hour>=14&&!PHONE.sent(G,'y0_e27_late')){ F.E27_LATE=true; PHONE.at(G,d27,14,[K('我在總圖門口。')],'y0_e27_late'); }
-      if(d27!=null&&F.E27_ASKED&&!done27&&G.zone==='campus'&&G.day===d27&&G.hour>=13.25&&G.hour<(F.E27_LATE?15:14)&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',78.6,0,{yaw:-Math.PI/2}); }catch(e){ console.warn('E27 kexin',e); } }
-      if(d27!=null&&F.E27_ASKED&&!done27&&(G.day>d27||G.hour>=15)) F.E27_FORCE=true; }
-    /* E28 告訴朋友（BB_153 E28；AA_154 A20、AA-B 2026-10-16 改觸發）：3/26（三）19:30 群組韋綸「宵夜！公館！走啦！」＋可昕私訊；出發選單「公館 21:00：宵夜」（2D 出遊）；
-       21:30 還沒出發＝沒去：22:00 群組品妤（E19_ASK＝none 多唐睿一句）*/
-    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d28=S.dayOfKey('2025-03-26'); if(d28!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done28=!!(G.events&&G.events.done&&G.events.done.ev_y0_e28);
-      if(G.day===d28&&G.hour>=19.5&&!PHONE.sent(G,'y0_e28_ask')&&!done28){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,d28,19.5,[{th:T,from:'econ_weilun',name:'韋綸',text:'宵夜！公館！走啦！'},{th:'p:kexin',from:'kexin',text:'今天要講嗎？……我覺得今天可以。'}],'y0_e28_ask');
-        if(!OUT.get(G,'y0_e28')&&G.hour<21.5) OUT.plan(G,{id:'y0_e28',ev:'ev_y0_e28',day:d28,h:21,late:0.5,place:'公館',title:'公館 21:00：宵夜',travel:'走過去約 15 分鐘',travelH:0.25}); }
-      if(!done28&&PHONE.sent(G,'y0_e28_ask')&&(G.day>d28||G.hour>=22)&&G.day<=d28+2&&!PHONE.sent(G,'y0_e28_miss')){ const L=[{th:T,from:'econ_pinyu',name:'品妤',text:'宣布兩件事：祐廷和可昕。還有，他們要重考。'}]; if(F.E19_ASK==='none') L.push({th:T,from:'econ_tangrui',name:'唐睿',text:'等一下，你們什麼時候開始的？？'}); PHONE.at(G,d28,22,L,'y0_e28_miss'); } } }
+    /* ★LIFE-LINE 第 5 組（AA_224 5-0～5-4 @31708531；機制 BB_188 A9-1）：2/13（四）可昕辦休學 → 19:00 公館的水餃店（E27，固定出遊、只有「出發」；過了時間＝那件結束後直接出發；睡著 coreCallAt）
+       → 22:30 經濟系群組 E28（朋友早就知道他們在交往，只宣布重考；韋綸那句看 BIKE_LOOKED_UP；品妤、阿勳自在 +1）→ 23:00 阿勳私訊 E24c（同一個過去、三種說法，記 E24C_REASON；阿勳信任 +2）
+       → 2/21（五）21:00 群組 T3＋22:00 唐睿私訊（下面）。舊 E27（3/26 總圖門口）、E28（3/26 宵夜攤）、E24c（3/13 頂樓）作廢。E28、E24c 在這裡標演過（之後的手機小事、閒聊階梯讀它們）*/
+    if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d=S.dayOfKey('2025-02-13'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]);
+      if(d!=null&&G.day>=d-1&&G.day<=d&&F.dating_kexin&&!OUT.get(G,'y0_e27')&&!ED('ev_y0_e27')) OUT.plan(G,{id:'y0_e27',ev:'ev_y0_e27',day:d,h:19,must:true,late:0.25,place:'公館的水餃店',title:'公館 19:00：水餃店',travel:'捷運＋公車 約 30 分鐘',travelH:0.5});
+      const q27=OUT.get(G,'y0_e27');
+      if(q27&&q27.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=q27.h+0.25))&&G.day<=d+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
+        (async()=>{ try{ q27.state='planned'; await OUT.go(GM,q27); } catch(e){ console.warn('E27 dumplings',e); } finally { y0CallBusy=false; } })(); }
+      const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, M=(from,name,text)=>({th:T,from,name,text});
+      if(d!=null&&F.RETAKE_TOGETHER&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+2&&!PHONE.sent(G,'y0_e28_grp')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
+        const dd=G.day===d?d:G.day, h=G.day===d?22.5:Math.max(9,G.hour);
+        PHONE.at(G,dd,h,[{th:T,from:'player',who:null,text:'我跟可昕要重考。'},M('econ_zhengxun','阿勳','喔。'),M('econ_zhengxun','阿勳','……那保齡球還打嗎。你欠我一場。'),M('econ_tangrui','唐睿','（貼圖：加油）'),
+          M('econ_pinyu','品妤','可昕也休學了？那下學期分組誰要跟我。'),{th:T,from:'kexin',text:'妳可以跟唐睿。'},M('econ_tangrui','唐睿','（貼圖：沉默）'),M('econ_weilun','韋綸',F.BIKE_LOOKED_UP?'考完要說。我請你們吃飯。腳踏車那次欠的。':'考完要說。我請你們吃飯。')],'y0_e28_grp');
+        if(typeof SOCIAL!=='undefined'){ SOCIAL.adjust('econ_pinyu',{comf:1}); SOCIAL.adjust('econ_zhengxun',{comf:1}); } if(G.events&&G.events.done&&!G.events.done.ev_y0_e28) G.events.done.ev_y0_e28=dd; }
+      if(d!=null&&PHONE.sent(G,'y0_e28_grp')&&(G.day>d||(G.day===d&&G.hour>=23))&&G.day<=d+2&&!PHONE.sent(G,'y0_e24c_why')){ const XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), dd=G.day===d?d:G.day, h=G.day===d?23:Math.max(9,G.hour);
+        PHONE.at(G,dd,h,[XU('欸。群組不好問。'),Object.assign(XU('你為什麼要重考？我是認真問。'),{ask:{id:'y0_e24c_why',until:(dd+1)*24+18,opts:[
+          {t:'我從小就想念台大法律。第一次社會考壞了，總分差四分。經濟系很好，我只是放不下。',set:{E24C_REASON:'honest'},say:[XU('……差四分喔。那很煩。'),XU('考上要請保齡球。')]},
+          {t:'本來就想念法律。第一次沒考上。',set:{E24C_REASON:'short'},say:[XU('好。懂了。')]},
+          {t:'說來話長。考完跟你說。',set:{E24C_REASON:'later'},say:[XU('好。考完。我記著。')]}]}})],'y0_e24c_why');
+        if(typeof SOCIAL!=='undefined') SOCIAL.adjust('econ_zhengxun',{trust:2}); if(G.events&&G.events.done&&!G.events.done.ev_y0_e24c) G.events.done.ev_y0_e24c=dd; } }
     /* E18b 可昕的生日（BB_104 8b-11；AA_154 第 240 行）：4/23（三）21:00 群組品妤約（時間暫定，照 E14）＋出發選單 4/24（四）19:00 公館豆花店（2D 出遊，晚 15 分鐘＝沒去）；
        沒去＝4/24 21:00 群組品妤貼蛋糕照片＋可昕私訊、E18B_GIFT＝none */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d18=S.dayOfKey('2025-04-24'); if(d18!=null){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, done18=!!(G.events&&G.events.done&&G.events.done.ev_y0_e18b);
@@ -1381,7 +1387,9 @@ const STORY = (function(){
         Object.assign({th:T,from:'kexin',text:'假設紅包可以轉讓，你們會轉給誰？'},{ask:{id:'y0_f1',until:(fd+1)*24+18,opts:[{t:'轉給表叔。增加他的變異數。',set:{Y0_UNCLE:true},say:[XU('……這是今年最好的經濟學。')]},{t:'轉給品妤，讓她付年菜。',say:[PY('收到。不退。')]},{t:'（已讀，不回）',post:false,set:{Y0_F1_SEEN:true},say:[{th:T,from:'kexin',text:(G.name||'祐廷')+'已讀不回。這也是一種答案。'}]}]}})],'y0_f1'); } }
     /* T3 沒去（BB_112 T3）：第 1 週沒演到＝2/21（五）21:00 群組品妤「今天收到一台計算機。很實用。」韋綸「……全系都在笑。」（時間暫定）*/
     if(S.isEcon(G)){ const d=S.dayOfKey('2025-02-21'); if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!(G.events&&G.events.done&&G.events.done.ev_y0_t3)&&!PHONE.sent(G,'y0_t3_miss')){ const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid;
-      if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); } }
+      if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,d,21,[{th:T,from:'econ_pinyu',name:'品妤',text:'今天收到一台計算機。很實用。'},{th:T,from:'econ_weilun',name:'韋綸',text:'……全系都在笑。'}],'y0_t3_miss'); }
+      if(d!=null&&PHONE.sent(G,'y0_t3_miss')&&(G.day>d||(G.day===d&&G.hour>=22))&&G.day<=d+3&&!PHONE.sent(G,'y0_t3_tr')){ const TR=t=>({th:'p:econ_tangrui',from:'econ_tangrui',name:'唐睿',text:t});   /* AA_224 5-4：唐睿私訊祐廷 */
+        PHONE.at(G,G.day===d?d:G.day,G.day===d?22:Math.max(9,G.hour),[TR('她說很實用。'),Object.assign(TR('……這樣算成功嗎。'),{ask:{id:'y0_t3_tr',until:(d+1)*24+18,opts:[{t:'算。',say:[TR('好。')]},{t:'下次送花。',say:[TR('花不能按。')]}]}})],'y0_t3_tr'); } }
     /* E24 每晚的訊息（BB_104 8b-16；AA_154 A44）：寒假可昕私訊，順序固定：1/10 22:30「跳過哪一天」（選項有除夕，排在除夕前）、1/18 22:30「什麼湯」、
        2/2 22:30「寒假胖了是存糧」（過年吃完以後）；那一晚 2/8（六）23:00「如果可以重來一次選科系，你會選什麼？」三選一，回答不記錄（「法律。」＝15 分鐘後才回「好。」「……我是在問我自己。晚安。」，AA_224 3-8）。
        回覆開到隔天 18:00。寒假模式跳過的日子：照時間戳記收在手機裡 */
@@ -2410,7 +2418,7 @@ const STORY = (function(){
     if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
-  const CORE_OUT=['y0_e14','y0_e26','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
+  const CORE_OUT=['y0_e14','y0_e26','y0_e27','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
   S.E37_CALL='你在哪？我在校門口。太陽很大，我會等，可是我會曬黑。';
   S.e37CallDue=function(G){ if(!(S.isEcon(G)||(G.flags&&G.flags.PLAYED_Y0))||typeof OUT==='undefined'||(G.events&&G.events.done&&G.events.done.ev_y0_e37)) return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
   /* 在臺北的家（休學後）時的固定核心電話：home3d.js 的選單每一輪先問這裡；有＝電話一句 → 直接進出遊（從家裡出發）*/
@@ -2512,8 +2520,7 @@ const STORY = (function(){
   S.E35_AT={x:-91,z:55.6};
   S.E36_AT={x:-23.6,z:-12};   /* E36 可昕在椰林大道的長椅（-25,-13）旁邊（BB_104 8-11「她坐在路邊的椅子上」）*/   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
-    { const e24=S.isEcon(G)&&typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_e24c'):null, d=S.dayOfKey('2025-03-13');   /* E24c 的邊界情況（AA_169）：3/13 晚上 22:00 以前先睡＝睡前先演 */
-      if(e24&&d!=null&&G.day===d&&G.hour<22&&G.hour>=17&&!(G.events&&G.events.done&&G.events.done.ev_y0_e24c)&&typeof EVENTS!=='undefined'){ await EVENTS.run(e24); } }
+    /* E24c 的睡前邊界（3/13 頂樓）拿掉：E24c 改成 2/13 23:00 阿勳的私訊（AA_224 5-2）*/
     { const cw=S.coreCallAt(G); if(cw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance(cw-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(GM.toast) GM.toast('手機響了。',2400); return; } }
     GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); if(!S.opening(G)){ try{ await nightEvent(GM); }catch(e){ console.warn('nightEvent',e); } }   /* 睡著之後、天亮之前（trigger 'sleep'）*/ if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡：隔天是「累」的一天（明軒那句；AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7;   /* DL-02：睡覺不再補體力（前一晚打電動的「隔天精力 −10」也不用了）*/ G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))?'rain':(Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'));   /* 颱風假整天下雨（calendar.js 的 TYPHOON）*/ E.setWeather(G.weather); F.companion=null; F.nightKai=false;
     if(S.mainDay(G)===2&&!S.week1Start(G)){ G.hour=13.05; E.hour=G.hour; GM.sceneEnd(); await GM.titleCard('第二天','週四 13:05 · 霖澤館前',2400); await GM.enter('campus',{x:26,z:-90,yaw:Math.PI}); return; }

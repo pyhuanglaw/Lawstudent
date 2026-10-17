@@ -25,9 +25,9 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const K=k=>STORY.dayOfKey(k), M1=K('2025-02-17'), T1=K('2025-02-18'), F21=K('2025-02-21'), W26=K('2025-02-26');
   const t3=STORY_EVENTS.find(e=>e.id==='ev_y0_t3'), e24=STORY_EVENTS.find(e=>e.id==='ev_y0_e24b'), au=STORY_EVENTS.find(e=>e.id==='ev_y0_e24b2'), RET=e=>!!e&&typeof e.retired==='string'&&e.retired.includes('AA_218');
-  check('0. T3、E24b、旁聽的定義都在；T3 照舊（沒有 retired），E24b 與旁聽標 retired（AA_218 第 11 節）',!!t3&&!t3.retired&&RET(e24)&&RET(au)); if(!t3||!e24||!au){ console.log('FAILED '+fails); process.exit(1); }
+  check('0. T3、E24b、旁聽的定義都在；三個都標 retired（E24b、旁聽：AA_218 第 11 節；T3 小福的現場版：AA_224 5-4，只剩群組版）',!!t3&&!!t3.retired&&RET(e24)&&RET(au)); if(!t3||!e24||!au){ console.log('FAILED '+fails); process.exit(1); }
   const ck=(e,d,h,z,f)=>{ fresh(d,h,z,f); return EVENTS.check(e); };
-  check('1. T3：Y0S2 第 1 週平日中午在校園；第 2 週、早上不演',ck(t3,M1,12.2,'campus')&&ck(t3,F21,13,'campus')&&!ck(t3,M1+7,12.2,'campus')&&!ck(t3,M1,11,'campus'));
+  check('1. T3 小福的現場版不再演（retired；群組版＋唐睿私訊在 tests/lifeline_g5_unit.js）',!ck(t3,M1,12.2,'campus')&&!ck(t3,F21,13,'campus'));
   fresh(M1,12.2,'campus'); picks=['拍拍他的肩']; await EVENTS.run(t3); let L=said.map(x=>x.t);
   check('1. T3：開頭旁白 → 唐睿遞盒子 … 品妤「謝謝。精算考試剛好用得到。這台很好。」…「……那是文具。」→（拍拍他的肩）→「你不要同情我。……好啦，可以同情一點。」',L[0]==='（開學第一週。情人節是上週五，那時候還在放寒假。）'&&L.includes('謝謝。精算考試剛好用得到。這台很好。')&&L.includes('……那是文具。')&&L[L.length-1]==='你不要同情我。……好啦，可以同情一點。',JSON.stringify(L));
   fresh(F21,20.9,'dorm'); PHONE.join(G,'econ_friends','走啦'); run(); check('2. T3 沒去：21:00 以前沒有',!PHONE.sent(G,'y0_t3_miss')); at(F21,21.1);

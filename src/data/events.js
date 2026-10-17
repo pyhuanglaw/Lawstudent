@@ -1692,15 +1692,16 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'kexin',expression:'embarrassed',text:'新年快樂。……今年第一個打給你的。'},{set:{E21_CALLED:true}} ];
   return [ { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:lines },
     { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines } ]; })(),   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
-  /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15）：寒假最後一天 2/16（日）18:00，臺北的家，自動、沒有選項。演完記 Y0_WINTER_DONE（home3d.js 接著回宿舍）。
+  /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15；AA_224 5-1 @31708531）：2/12（三）20:00，臺北的家，沒有選項（隔天 2/13 18:00 以前回到家也會演）；他住家裡了，沒有行李箱、不回宿舍。
+     記 Y0_WINTER_DONE（舊流程的寒假模式用）。
      那本《民法》之後跟著搬到法律系的房間（房間物件「書架上的舊《民法》」已經有）*/
   { id:'ev_y0_e23', stage:'econ', title:'看不懂的民法', participants:[], location:'any', trigger:'home', once:true, background:'dark',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-16'):null; return d!=null&&G.day===d&&G.hour>=18; }},
+    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-02-12'):null; return d!=null&&((G.day===d&&G.hour>=20)||(G.day===d+1&&G.hour<18)); }},
     dialogue:[ {scene:'臺北的家',bg:'home_living'},{speaker:null,text:'（臺北的家，你的房間。書架最上面有一本舊《民法》。）'},
       {speaker:null,text:'小時候遇到事情，你就去翻這本書。'},{speaker:null,text:'現在還是看不懂。可是你想知道，看得懂的人在看什麼。'},
-      {speaker:null,text:'（樓下有人叫你吃飯。）'},{speaker:null,text:'（你把書放回去，又拿下來，放進行李箱。）'},{set:{Y0_WINTER_DONE:true}} ] },
+      {speaker:null,text:'（樓下有人叫你吃飯。）'},{speaker:null,text:'（你把書拿下來，放在書桌上。這次沒有放回去。）'},{set:{Y0_WINTER_DONE:true}} ] },
   /* T3 情人節的計算機（BB_112 T3；AA_154 第 224 行）：Y0S2 第 1 週平日中午的小福（照 T1 的掛法），唐睿、品妤都在。沒去＝2/21（五）21:00 群組品妤、韋綸（時間暫定，story3d.js）*/
-  { id:'ev_y0_t3', stage:'econ', title:'情人節的計算機', participants:['econ_pinyu'], location:'campus', trigger:'auto', term:['Y0S2'], weeks:[1], weekday:[1,2,3,4,5], time:[12.1,13.25], once:true, background:'blur',
+  { id:'ev_y0_t3', retired:'AA_224 5-4（LIFE-LINE，2026-10-17）：他不在小福了，只有群組版（2/21 21:00）＋唐睿私訊。定義留給已經演過的舊存檔', stage:'econ', title:'情人節的計算機', participants:['econ_pinyu'], location:'campus', trigger:'auto', term:['Y0S2'], weeks:[1], weekday:[1,2,3,4,5], time:[12.1,13.25], once:true, background:'blur',
     prereq:{custom:G=>typeof CALENDAR==='undefined'||!CALENDAR.holiday(G.day)},
     dialogue:[ {scene:'小福',bg:'xiaofu'},{speaker:null,text:'（開學第一週。情人節是上週五，那時候還在放寒假。）'},
       {speaker:'唐睿',text:'（遞給品妤一個盒子）……情人節。這個給妳。'},{speaker:'econ_pinyu',text:'（打開）工程計算機。'},{speaker:'econ_pinyu',text:'謝謝。精算考試剛好用得到。這台很好。'},
@@ -1731,7 +1732,7 @@ const STORY_EVENTS=[
   /* ★E24c 決定（AA_169 完整稿；AA_154 第 227 行）：3/13（四）22:00 宿舍頂樓（3D 頂樓還沒有：先用 dorm_roof 背景），祐廷一個人做的決定、整段不提可昕。
      邊界情況（AA_169）：22:00 不在男宿＝那天晚上第一次走進男宿時開始；22:00 以前先睡＝按下睡覺時先演（story3d.js 的 sleepNow 前面）。
      寫 E24C_REASON（understand／ought／unsaid；AA_12 0-2 讀它）；讀 XUN_KNEW（阿勳那句的原文兩個版本）；阿勳信任 +2 */
-  { id:'ev_y0_e24c', stage:'econ', title:'決定', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
+  { id:'ev_y0_e24c', retired:'AA_224 5-2（LIFE-LINE，2026-10-17）：3/13 頂樓一個人決定作廢；改成 2/13 23:00 阿勳的私訊（story3d.js）。定義留給已經演過的舊存檔', stage:'econ', title:'決定', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'dark',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-13'):null; if(d==null) return false; const h=G.hour; return (G.zone==='dorm'||G.zone==='dorm_hall')&&((G.day===d&&h>=22)||(G.day===d+1&&h<6)); }},
     dialogue:[ {scene:'宿舍頂樓',bg:'dorm_roof'},
       {speaker:null,text:'星期四晚上十點，你睡不著，走上宿舍頂樓。'},{speaker:null,text:'風很大。對面那棟樓，還有幾扇窗是亮的。'},
@@ -1793,24 +1794,31 @@ const STORY_EVENTS=[
       {set:{Y0_DATING:true,dating_kexin:true,KX_DATING_SINCE:'2024-10-17'}},{stamp:['E26_DAY']},
       {speaker:null,text:'（你送她回去。回到宿舍，已經快十一點了。）'} ],
     afterOuting:async(G,GM)=>{ if(GM.enter&&!G.flags.Y0_MOVED_OUT) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },   /* 回到宿舍（412）：接著是檯燈上的便利貼 */
-  /* ★E27「我不是因為你。」（BB_104 8-10；AA_154 A35）：3/26（三）13:15～14:00（晚到＝延到 15:00）在總圖門口走到她旁邊就演（她在門廊前 (78.6,0)）；15:00 還沒到＝帶到場（E27_FORCE，story3d.js）。
-     她自己的決定（5-2 的第一層）。E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列的兩個版本；接在「我寒假就在查了」之後）*/
-  { id:'ev_y0_e27', stage:'econ', title:'我不是因為你', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
-    prereq:{custom:G=>{ const F=G.flags; if(!F.E27_ASKED) return false; if(F.E27_FORCE) return true; const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-03-26'):null; if(G.day!==d||G.zone!=='campus'||G.hour<13.25||G.hour>=(F.E27_LATE?15:14)) return false;
-      const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; if(!P) return true; const dx=P.position.x-78.6, dz=P.position.z; return dx*dx+dz*dz<=25; }},
-    dialogue:[ {if:{flags:['E27_FORCE']},speaker:null,text:'（你到總圖門口的時候，她坐在台階上，在手機上記東西。）'},
-      {speaker:'kexin',expression:'serious',text:'我也要考。法律。台大法律。'},
-      {choice:[{text:'「……欸？」',goto:'r1'},{text:'（忍不住笑出來）',goto:'r2'},{text:'「妳確定？」',goto:'r3'}]},   /* 三種反應（BB-B c8637b3f，BB_104 8-10 併好的版本；不記旗標）*/
-      {label:'r1'},{speaker:'kexin',expression:'annoyed',text:'你那什麼表情？我也可以很突然。'},{goto:'r_end'},
-      {label:'r2'},{speaker:'kexin',expression:'smile',text:'你笑什麼？……好啦，我也很開心。'},{goto:'r_end'},
-      {label:'r3'},{speaker:'kexin',expression:'serious',text:'確定。我比你早確定。'},
-      {label:'r_end'},{speaker:'player',text:'……因為我？'},{speaker:'kexin',expression:'neutral',text:'不是。我寒假就在查了。你只是剛好比我早說。'},
-      {if:{flagIs:{E22B_TOLD:true}},speaker:'kexin',expression:'smile',text:'你那本法律入門，我那時候就看到了。'},{if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說那本是『沒什麼』。我那時候就知道是什麼了。'},   /* E22B_TOLD 有值才多一句（BB_104 3-3 E27 那一列；位置待 BB-B 確認）*/
-      {speaker:'kexin',expression:'serious',text:'理由是我自己的。我說不出最想念哪一科，可是我很確定，我想要。'},
-      {speaker:'kexin',expression:'smile',text:'所以我們說好——一起準備。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
-      {stamp:['E27_DAY']} ] },
+  /* ★E27＝「一起重考吧」（AA_224 5-1 @31708531＝BB_188 A2-5＋A2-6；機制 BB_188 A9-1）：2025-02-13（四）可昕辦完休學，19:00 公館的水餃店（2D；固定出遊、沒有「不去」，story3d.js）。
+     祐廷提出（三個說法都是他說的）；舊 E27「我不是因為你」併進來（她自己的理由）。CRAM_FREE_KNOWN 才有「那間補習班說我可以免費」那一段（新開局一定有）。
+     記 RETAKE_TOGETHER、E27_DAY。不寫人生演講、哭著感謝、拯救、她為了他重考 */
+  { id:'ev_y0_e27', stage:'econ', title:'一起重考吧', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    dialogue:[ {scene:'公館・水餃店'},
+      {speaker:'kexin',expression:'neutral',text:'我今天辦完了。'},
+      {speaker:'kexin',expression:'neutral',text:'表格上有一格「原因」。我寫「個人生涯規劃」。櫃台說大家都寫這個。'},
+      {speaker:'player',text:'……我十月也寫這個。'},{speaker:'kexin',expression:'smile',text:'那我們很普通。'},
+      {speaker:'kexin',expression:'thinking',text:'（吃了一顆水餃）然後呢？我們兩個都休學了。接下來要幹嘛。'},
+      {choice:[{text:'「那我們都已經休學了，就一起重考吧。」',goto:'p1'},{text:'「我要再考一次。法律。……妳要不要一起？」',if:{flags:['CRAM_FREE_KNOWN']},goto:'p2'},{text:'「一起考吧。兩個人在家讀，比一個人不會偷懶。」',goto:'p3'}]},
+      {label:'p1'},{speaker:null,text:'（她停了一下。）'},{speaker:'kexin',expression:'surprised',text:'……你是說真的？'},{speaker:'player',text:'真的。'},{speaker:'kexin',expression:'smile',text:'好。'},{goto:'q'},
+      {label:'p2'},{speaker:'kexin',expression:'neutral',text:'你十二月去補習班那天就想考了吧。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',expression:'smile',text:'好。一起。'},{goto:'q'},
+      {label:'p3'},{speaker:'kexin',expression:'teasing',text:'你是說我會盯你。'},{speaker:'player',text:'對。'},{speaker:'kexin',expression:'smile',text:'……好。我盯你。'},
+      {label:'q'},{speaker:'kexin',expression:'serious',text:'先說好。我考法律，不是因為你。'},{speaker:'kexin',expression:'neutral',text:'我寒假就在查了。你只是剛好先說。'},
+      {if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說『先看看而已』那本，我那時候就知道是什麼了。'},
+      {unless:{flags:['CRAM_FREE_KNOWN']},goto:'r_end'},
+      {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',expression:'neutral',text:'我呢？'},{speaker:'player',text:'……妳三類。社會沒考過，要從頭上。全額。'},{speaker:'kexin',expression:'neutral',text:'那你去上啊。免費耶。'},
+      {choice:[{text:'「那我也在家讀。」',goto:'h1'},{text:'「我們都在家讀，比較好約。」',goto:'h2'},{text:'「那我們都在家讀。社會我陪妳從頭讀。」',goto:'h3'}]},
+      {label:'h1'},{speaker:'kexin',expression:'surprised',text:'……你確定？'},{speaker:'player',text:'確定。而且我進去會遇到主任。'},{speaker:'kexin',expression:'smile',text:'……好。在家讀。'},{goto:'r_end'},
+      {label:'h2'},{speaker:'kexin',expression:'teasing',text:'約讀書。'},{speaker:'player',text:'約讀書。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'r_end'},
+      {label:'h3'},{speaker:'kexin',expression:'teasing',text:'你社會考壞過耶。'},{speaker:'player',text:'所以我比較知道哪裡會壞。'},{speaker:'kexin',expression:'smile',text:'……好。'},
+      {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。同一張桌子。你畫架構，我出假設題。'},{speaker:'kexin',expression:'smile',text:'還有，你不可以偷偷比我早起。'},
+      {set:{RETAKE_TOGETHER:true}},{stamp:['E27_DAY']} ] },
   /* E28 告訴朋友（BB_153 E28 完整稿；AA_154 A20）：3/26（三）21:00 公館的宵夜（2D 出遊，背景 gongguan_luwei），22:00 結束。讀 E19_ASK 三個版本；品妤、阿勳自在 +1（韋綸、唐睿沒有人物資料）*/
-  { id:'ev_y0_e28', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+  { id:'ev_y0_e28', retired:'AA_224 5-3（LIFE-LINE，2026-10-17）：3/26 宵夜攤作廢；改成 2/13 22:30 經濟系群組（story3d.js）。定義留給已經演過的舊存檔', stage:'econ', title:'告訴朋友', participants:['kexin','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'公館・宵夜攤',bg:'gongguan_luwei'},
       {speaker:null,text:'晚上九點。公館的宵夜攤，六個人擠一張圓桌。'},{speaker:null,text:'可昕在桌子底下踢了你一下。'},
       {speaker:'player',text:'我們有兩件事要說。'},{speaker:'kexin',expression:'embarrassed',text:'……第一件。我們在一起了。'},{speaker:'player',text:'第二件。我們要重考。法律。'},
