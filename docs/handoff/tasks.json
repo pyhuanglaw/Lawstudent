@@ -13119,7 +13119,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13139,7 +13139,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "note": ""
   },
   {
    "id": "HOL-VA",
@@ -14152,7 +14153,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14172,7 +14173,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "note": ""
   },
   {
    "id": "HOL-NYE-Y4",
@@ -14181,7 +14183,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14201,7 +14203,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "note": ""
   },
   {
    "id": "DORM-Y34",
@@ -14469,7 +14472,7 @@
    "owner": "AA",
    "status": "已整合待測試",
    "priority": "P0",
-   "next": "【LAWWW-C 2026-10-17 09:40 現況】第 1～6 組（AA_224 @31708531）＋2-c（@ff3f2a4b：法律系時期「為什麼重考？」宿營夜談／迎新只問一次、K7 第二～四年）都做進遊戲、單元測試通過（lifeline_g1／g3／g4／g5／g6／q34、knows_gf 等；分支 claude/adoring-meitner-mqzst8 到 6d63f49f）；瀏覽器回歸（flow_v0_start、flow_v0_tolaw、flow_camp_y1、flow_main_day12）在 batch 15 跑。還沒：第 7 組（新遊戲從 8/23 開局、經濟系那一年從標題進得去）等使用者；美國／日本交換日期等 AA_158 改版（ROUTE-DATES-1017）。使用者門檻：全部做進遊戲才發布。｜舊紀錄：【使用者 08:2x：這是下一版的發布門檻——全部做進遊戲才發。AA-C 08:2x 已收到交付順序（10/17 那一天 → 已發布回聲 → 休學後 → 12 月 → 2 月 → 重考期 → 宿營）】【LAWWW-C 6c0cfe3e：AA-C Q1 E13 retired、Q2 A1 門上紙條 retired、Q5 營地旁白改「去年來過，經濟系的宿營」；Q4 kxFreeAt 等 AA 寫 R 系列新稿】【LAWWW-C c2a0348c 骨架 A＋B（AA-C 06:01 授權的【裁定】骨架）：刪除 16 件 retired＋排程拿掉（XL-1／XL-2／E11／P1b2／E16ab／E17a／E17／C2／E22／A2／T2／E24b／E24b2；P2b 只到 10/17 前、P1b1 只排第 5、6 週）；E30／便利貼／Y0_LEFT＝2024-10-17、A3＝10/19、Y0S1 課加 y0leave、A1＝10/15 深夜、退宿後不進寒假模式。還沒：KX_CAR、E24C_REASON（等 BB 值名）、二月日期（等 AA）、E15 宿營開局（等使用者）、E26 改 10/17 晚上、E12／E14／E18／E20 休學後版本、E13 新觸發、kxFreeAt 和 R 系列（等 BB_188）、K7 法律系週年 10/17（等 BB 改字）；疑問四件記在 LOGIC_AUDIT 補充節】【AA_218 第 15 節（29ff65cb）使用者十項：已發布文字方向批准（念過一年→一個多月、K7 3/22→10/17、溫書瑀大四＋名片、直屬置頂 8/31→9/4），字句等 BB 稿＋使用者；補習班同一間、宿營＝和可昕初見、E24b2 旁聽拿掉、溫書瑀 21 歲確認】【AA-C 06:01 fc545bb5：AA 時間線已交付，可以先排【裁定】骨架（日期、刪除清單、KX_CAR、E24C_REASON 新值＋舊存檔對應）；AA_218 第 13、14 節（fc359589）使用者 P0：高中校慶→大一上社群相識→大一下 3～4 月緣分揭曉；台詞暫停（使用者自己改）；LAWWW 核對造型（高中她披肩長髮、他金色燙髮）、場景圖、CG、事件條件（C＝B 發生過＋她放榜後，不綁好感交往）、Life Album 筆記本（號碼遮住）】【AA_218 第 9 節（3066c0b5）、第 10 節（aef565dc，覆蓋第 9 節的 11/2、11/9）：交往＝休學當天＝摩天輪那天 2024-10-17；K7 週年改 10/17（已發布的 3/22 要改）；摩天輪票根照留；爭執→回補習班問重考在 2024-12 中、正式決定 2025-02；可昕記錯作業的課是大一國文、在家念書＋衝刺班；祐廷法律系財經法學組（高錄取分數 0.1，放榜時呈現；新生分配直屬才知道是溫書瑀）；重考班主任那件待使用者補。AA-C：等 AA、BB 稿到齊一起交付，之前不實作】【AA_218（企劃線 b2615f71；使用者 2026-10-17 05:5x 裁定，已裁定的不用再批准）】已裁定：經濟系宿營 2024 年 8 月；祐廷 10 月休學；可昕 2025 年 2 月休學；祐廷提出一起重考；取消「推甄沒去面試、那根蔥、假設題、把書拿反」等。受影響（AA_218 第 5 節，明細附錄 A）：E15（移 2024-08）、E30（休學日、拿掉「要重考」）、A3、腳踏車（群組版）、E12／E14／E18／E18a／E20、E22b、E24、E23＋E24c（2 月）、E27（祐廷提出一起重考）、E28、R1～R8、E35（地點）、E36（取消「那根蔥」）、E37；刪 E16、E17、E22、A2、E24b、T2、C2（或提前）；E19、E21a、E21、E25、E26 待確認（交往起點）。待確認不實作：休學日、交往起點、摩天輪、爭執、重考班主任、可昕記錯作業的課名、重考班免費資格、學姊碩三赴美。已發布的回聲（開場回顧、DAY1、房間物件、K3、K7、自我介紹、第二天回答、學姊年級和名片）等 BB 台詞稿（BB_188）和 AA_218 一起交付才實作；白名單繼續擋過時版本，舊版保留",
+   "next": "【10:4x 使用者定第 7 組：直接進經濟系，見 LIFE-G7-1017】【LAWWW-C 2026-10-17 09:40 現況】第 1～6 組（AA_224 @31708531）＋2-c（@ff3f2a4b：法律系時期「為什麼重考？」宿營夜談／迎新只問一次、K7 第二～四年）都做進遊戲、單元測試通過（lifeline_g1／g3／g4／g5／g6／q34、knows_gf 等；分支 claude/adoring-meitner-mqzst8 到 6d63f49f）；瀏覽器回歸（flow_v0_start、flow_v0_tolaw、flow_camp_y1、flow_main_day12）在 batch 15 跑。還沒：第 7 組（新遊戲從 8/23 開局、經濟系那一年從標題進得去）等使用者；美國／日本交換日期等 AA_158 改版（ROUTE-DATES-1017）。使用者門檻：全部做進遊戲才發布。｜舊紀錄：【使用者 08:2x：這是下一版的發布門檻——全部做進遊戲才發。AA-C 08:2x 已收到交付順序（10/17 那一天 → 已發布回聲 → 休學後 → 12 月 → 2 月 → 重考期 → 宿營）】【LAWWW-C 6c0cfe3e：AA-C Q1 E13 retired、Q2 A1 門上紙條 retired、Q5 營地旁白改「去年來過，經濟系的宿營」；Q4 kxFreeAt 等 AA 寫 R 系列新稿】【LAWWW-C c2a0348c 骨架 A＋B（AA-C 06:01 授權的【裁定】骨架）：刪除 16 件 retired＋排程拿掉（XL-1／XL-2／E11／P1b2／E16ab／E17a／E17／C2／E22／A2／T2／E24b／E24b2；P2b 只到 10/17 前、P1b1 只排第 5、6 週）；E30／便利貼／Y0_LEFT＝2024-10-17、A3＝10/19、Y0S1 課加 y0leave、A1＝10/15 深夜、退宿後不進寒假模式。還沒：KX_CAR、E24C_REASON（等 BB 值名）、二月日期（等 AA）、E15 宿營開局（等使用者）、E26 改 10/17 晚上、E12／E14／E18／E20 休學後版本、E13 新觸發、kxFreeAt 和 R 系列（等 BB_188）、K7 法律系週年 10/17（等 BB 改字）；疑問四件記在 LOGIC_AUDIT 補充節】【AA_218 第 15 節（29ff65cb）使用者十項：已發布文字方向批准（念過一年→一個多月、K7 3/22→10/17、溫書瑀大四＋名片、直屬置頂 8/31→9/4），字句等 BB 稿＋使用者；補習班同一間、宿營＝和可昕初見、E24b2 旁聽拿掉、溫書瑀 21 歲確認】【AA-C 06:01 fc545bb5：AA 時間線已交付，可以先排【裁定】骨架（日期、刪除清單、KX_CAR、E24C_REASON 新值＋舊存檔對應）；AA_218 第 13、14 節（fc359589）使用者 P0：高中校慶→大一上社群相識→大一下 3～4 月緣分揭曉；台詞暫停（使用者自己改）；LAWWW 核對造型（高中她披肩長髮、他金色燙髮）、場景圖、CG、事件條件（C＝B 發生過＋她放榜後，不綁好感交往）、Life Album 筆記本（號碼遮住）】【AA_218 第 9 節（3066c0b5）、第 10 節（aef565dc，覆蓋第 9 節的 11/2、11/9）：交往＝休學當天＝摩天輪那天 2024-10-17；K7 週年改 10/17（已發布的 3/22 要改）；摩天輪票根照留；爭執→回補習班問重考在 2024-12 中、正式決定 2025-02；可昕記錯作業的課是大一國文、在家念書＋衝刺班；祐廷法律系財經法學組（高錄取分數 0.1，放榜時呈現；新生分配直屬才知道是溫書瑀）；重考班主任那件待使用者補。AA-C：等 AA、BB 稿到齊一起交付，之前不實作】【AA_218（企劃線 b2615f71；使用者 2026-10-17 05:5x 裁定，已裁定的不用再批准）】已裁定：經濟系宿營 2024 年 8 月；祐廷 10 月休學；可昕 2025 年 2 月休學；祐廷提出一起重考；取消「推甄沒去面試、那根蔥、假設題、把書拿反」等。受影響（AA_218 第 5 節，明細附錄 A）：E15（移 2024-08）、E30（休學日、拿掉「要重考」）、A3、腳踏車（群組版）、E12／E14／E18／E18a／E20、E22b、E24、E23＋E24c（2 月）、E27（祐廷提出一起重考）、E28、R1～R8、E35（地點）、E36（取消「那根蔥」）、E37；刪 E16、E17、E22、A2、E24b、T2、C2（或提前）；E19、E21a、E21、E25、E26 待確認（交往起點）。待確認不實作：休學日、交往起點、摩天輪、爭執、重考班主任、可昕記錯作業的課名、重考班免費資格、學姊碩三赴美。已發布的回聲（開場回顧、DAY1、房間物件、K3、K7、自我介紹、第二天回答、學姊年級和名片）等 BB 台詞稿（BB_188）和 AA_218 一起交付才實作；白名單繼續擋過時版本，舊版保留",
    "first": {
     "term": "Y0S1",
     "week": 18,
@@ -14780,6 +14783,378 @@
    },
    "replacedBy": "LIFE-HS-1017",
    "reason": "和 LIFE-HS-1017 重複（LAWWW-C 2026-10-17 開錯），併入 LIFE-HS-1017；授權照舊是使用者 10:3x「通過」"
+  },
+  {
+   "id": "LIFE-G7-1017",
+   "title": "LIFE-LINE 第 7 組：新遊戲直接從經濟系那一年開始（2024-08-23 宿營），不給選擇",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "next": "使用者 2026-10-17 10:4x 定案（「經濟系是先發生的，所以就是直接進經濟系啦，沒有選擇的問題」）。等 AA-C 寫第 7 組可實作規格（開局到第一天、法律系開局怎麼處理、舊存檔）；LAWWW2 盤點經濟系開場美術。",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "新遊戲第一個畫面（2024-08-23 經濟系宿營）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者直接對 LAWWW-C",
+   "authorized": "使用者 2026-10-17 10:4x",
+   "pausedReason": "等 AA-C 規格",
+   "resumeWhen": "AA-C 第 7 組規格 SHA",
+   "xai": {
+    "spec": "AA_224 第 7 組（待 AA 依定案改寫）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "新遊戲從 2024-08-23 開局、一路玩到法律系；法律系開局的舊存檔照舊讀",
+    "receiver": "AA",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "AA238-1017",
+   "title": "AA_238 法服讀書會停用後缺的台詞：社博歡迎、法律服務現場換人（學姊四年不在現場）、學姊 S-L3／婉拒散步／研究所志向搬總圖、P-L3、以安被全班拱出來＋小語 +1、吵架改研討室、聽說改週四 22:00、invites L76、理由欄",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_238 @01f3ce42（AA 定稿）。階梯 builder 96ccd3fd：A-L11（LADDER_CHOICE_IF 加「我可以去嗎？」notEvents）、A2-L6 改寫、A3-L9、A4-L6 從 json 匯入",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "社團博覽會、法服第一次服務",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:24",
+   "authorized": "使用者裁定 AA_218 17-4、17-7；AA 定稿（D98）",
+   "xai": {
+    "spec": "AA_238 @01f3ce42",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "§1～§5 逐項；單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "SIS-176-1017",
+   "title": "AA_218 17-6：學姊 W1 到社團博覽會之間的接觸（①9/8 21:00 ②9/10 12:10（遇不到延 9/12）③9/12 19:00 家聚 ④9/16 21:00 強制）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "使用者 10:3x 批准（預設改「可以」）；AA_218「### 17-6」@60fc8720 照 16 週加日期。③ 沒去的先演 L511 那則 9/15 Kevin。要加白名單（路徑＋commit）",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "9/8 21:00",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:31",
+   "authorized": "使用者 2026-10-17 10:3x 直接對 LAWWW-C",
+   "xai": {
+    "spec": "AA_218 ### 17-6 @60fc8720",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "①～④ 照日期與條件；單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA243-P01",
+   "title": "AA_243 P0-1：校園單獨相處的戀愛 +1（她、祐廷各 +1，一天一次）改從朋友（第 3 階）開始算——不然第 5 階以前沒有戀愛值來源，芷若、沛珊到不了正式約會",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "next": "AA_243 @91a39ebf 裁定（BB_199 P0-1 方案 A）。改完跑一次大一的模擬，結果回 AA、BB",
+   "first": {
+    "term": "Y1S1",
+    "week": 3,
+    "earliest": "第一次和女主角校園單獨相處",
+    "mainline": true,
+    "blocks": true,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:35、AA-C 10:36",
+   "authorized": "AA 裁定第②級（AA_243）",
+   "xai": {
+    "spec": "AA_243 @91a39ebf；BB_199 P0-1",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "大一模擬：各女主到第 5 階的週次",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA243-P02",
+   "title": "AA_243 P0-2：芷若×子晴 6/5 交往擋到玩家的戀愛線（第③級等使用者）——先照已批准日期做，4-4 觸發條件做成一個開關（甲／乙／丙只改一行）",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_243 @91a39ebf；BB 說使用者已選甲、寫進 BB_199 §23（93ae9539）——實作前核對是否已定甲",
+   "first": {
+    "term": "Y1S2",
+    "week": 15,
+    "earliest": "6/5 芷若×子晴",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:36、BB-C 10:35",
+   "authorized": "使用者（甲，經 BB 轉述，待核）",
+   "xai": {
+    "spec": "AA_243；BB_199 §23 @93ae9539",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "開關一行切換甲乙丙；單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA243-16W",
+   "title": "AA_243 16 週裁定（AA_240 可行性 → 事件週次、累積門檻、撞期強制觸發）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "next": "使用者授權 AA 決定撞期的強制觸發／延期（AA_197 84a9f537）。LAWWW 的 16 週引擎（HOLIDAY-SYS）先做，事件週次等 AA_243 定案一起改；程式引用清單 docs/handoff/WEEK16_REFS_2026-10-17.md",
+   "first": {
+    "term": "Y0S1",
+    "week": 16,
+    "earliest": "經濟系上第一次期末週",
+    "mainline": true,
+    "blocks": true,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:36",
+   "authorized": "使用者「16周才是對的」＋全權授權 AA",
+   "pausedReason": "等 AA_243 完整清單",
+   "resumeWhen": "AA-C 交 SHA",
+   "xai": {
+    "spec": "AA_240／AA_243",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "每學期七件驗收（AA_197 1-7）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "VAC-C08-12",
+   "title": "出國活動卡 C08～C12（姊妹校首爾 7/13～24、柬埔寨志工 7/27～8/5、加州暑期課 6/21～7/31（學分採計）、東京冬季短期 1/17～30、京都語言課 8/9～27）＋海外期間機制（手機時差、3D 不能走、關鍵事件 2D）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "next": "AA_199 7-4（d73e391c）升第一批；台詞 AA_242；BB 寫底圖提示詞與機制。排在 HOLIDAY-SYS、VAC-L1 之後",
+   "first": {
+    "term": "Y1S2",
+    "week": 17,
+    "earliest": "大一暑假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:31、BB-C 10:35",
+   "authorized": "使用者（出國志工、暑期課、文化交流原本就在寒暑假規劃裡）",
+   "pausedReason": "等 HOLIDAY-SYS／VAC-L1",
+   "resumeWhen": "假期系統完成",
+   "xai": {
+    "spec": "AA_199 7-4 @d73e391c；AA_242",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "活動卡可報名、期間手機照時差、回來學分",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA241-SUMMER",
+   "title": "AA_241 大一暑假：營隊隊輔 7/1～5、以安日語課 7/7～7/23 週二四、日本五天 8/24～28（阿凱）、小語營隊照片、柏翰週四總圖、返鄉訊息、交往中的反應",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "next": "AA_241（e74e2577）；等 HOLIDAY-SYS。大一寒假 AA_204（帳號 B 4048e3ec 起，deliveries 未整合）一起接",
+   "first": {
+    "term": "Y1S2",
+    "week": 17,
+    "earliest": "大一暑假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:27",
+   "authorized": "AA 定稿（AA_197 第②級）",
+   "pausedReason": "等 HOLIDAY-SYS",
+   "resumeWhen": "16 週引擎＋假期系統完成",
+   "xai": {
+    "spec": "AA_241 @e74e2577",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "日期照 16 週；單元＋瀏覽器",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AN-Y3S2-PRE",
+   "title": "以安大三下出發前 4 層閒聊（AA 01b0c591）",
+   "area": "V4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "AA 01b0c591；從 ladder json 匯入（照 import_guard 白名單）",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "大三下出發前",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:36",
+   "authorized": "AA 定稿",
+   "xai": {
+    "spec": "AA 01b0c591",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "匯入、條件測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BB198-VACB22",
+   "title": "BB_198（VAC-B2-2）假期空白補規劃（BB）",
+   "area": "SYS",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "BB-C 第一批進行中",
+   "first": {
+    "term": "Y1S1",
+    "week": 17,
+    "earliest": "大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:35",
+   "authorized": "AA_197 第②級",
+   "xai": {
+    "spec": "BB_198",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "BB 人物假期所在地與活動、16 週日期",
+    "receiver": "AA",
+    "ack": "自領"
+   }
+  },
+  {
+   "id": "BB199-1017",
+   "title": "BB_199 BB 修正：階梯週次照 16 週；P0-1 第 5 階戀愛值來源（已由 AA_243 裁定）；P0-2 §23",
+   "area": "SYS",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "BB-C 第一批進行中",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上期末週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:35",
+   "authorized": "使用者 16 週 P0",
+   "xai": {
+    "spec": "BB_199",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "ladder_bb 週次 16 週",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   }
+  },
+  {
+   "id": "BB-C08-12",
+   "title": "出國活動 C08～C12 的底圖提示詞＋出國期間機制（BB）",
+   "area": "SYS",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "next": "BB-C 第一批；提示詞照 D97（純場景一次四份、不附圖）",
+   "first": {
+    "term": "Y1S2",
+    "week": 17,
+    "earliest": "大一暑假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:35",
+   "authorized": "AA_199 7-4",
+   "xai": {
+    "spec": "BB 提示詞檔",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "D97 格式",
+    "receiver": "LAWWW2",
+    "ack": "自領"
+   }
+  },
+  {
+   "id": "BB-PS3D-D59",
+   "title": "沛珊 3D 第三版的角色美術驗收（D59，BB）",
+   "area": "ART",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "next": "LAWWW2 b2d7c1a6 已整合（85a8a23f）；款式（領口、坐下裙子、髮型）待 LAWWW2",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "沛珊第一次出現",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:35",
+   "authorized": "D59",
+   "xai": {
+    "spec": "立繪 classmate_peishan.webp",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "遊戲內截圖對照立繪",
+    "receiver": "LAWWW2",
+    "ack": "自領"
+   }
   }
  ]
 }
