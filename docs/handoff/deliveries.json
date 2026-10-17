@@ -6314,6 +6314,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "BB-C 04:55Z（outbox 5cf41006）。照 D81 大三／大四再接；BB_98／99 新規格等 AA 核對"
+  },
+  {
+   "id": "DL-AA-a73c6299",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a73c6299",
+   "what": "ladder_bb_y1s2.json 交往中版（BB_187）：芷若 Z2-L1、Z2-L8，子晴 Q2-L1、Q2-L8 加 extraIf（dating_heroine_02／04），交往中的玩家多兩句；取代 eeb25c35（BB-C 減子晴一處「欸不是」）",
+   "task": "ROM-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "AA-C 05:11Z、05:12Z 更正；blob e40e0862 核對一致；只匯入這一檔｜LAWWW-C 匯入（只有芷若、子晴變動），ladder_y1s2_y2s1_unit 第 6 項"
   }
  ],
  "ignored": [

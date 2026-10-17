@@ -58,5 +58,12 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
     check(`5. ${id} 第 15 週演過 ev_yu_together：可以播`,atStep(who,id,15,true)===id,atStep(who,id,15,true));
     check(`5. ${id} 第 16 週沒演過也照資料播`,atStep(who,id,16,false)===id);
   }
+  // ROM-1017（BB_187，a73c6299）：交往中的芷若、子晴在大一下階梯多兩句（extraIf dating_*）
+  for(const [who,id,flag] of [['heroine_02','Z2-L1','dating_heroine_02'],['heroine_04','Q2-L8','dating_heroine_04']]){
+    fresh(termDay('Y1S2',5,2),12,'campus',{}); const [s2]=stepOf('Y1S2',who,id); const base=STORY.ladLines(s2,G,who).length;
+    G.flags[flag]=true; const L2=STORY.ladLines(s2,G,who); const ex=s2.extraIf[0].lines;
+    check(`6. ${id} 交往中（${flag}）多兩句；沒交往不出現`,base===s2.lines.length&&L2.length===base+ex.length&&ex.every(x=>L2.map(y=>typeof y==='string'?y:y.t).includes(x)),JSON.stringify(L2).slice(0,200));
+  }
+  check('6. 白名單：ladder_bb_y1s2 來自 a73c6299',LADDER.source.includes('a73c6299'),LADDER.source);
   console.log(fails?`\nFAILED ${fails}`:'\nALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
