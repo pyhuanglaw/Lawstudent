@@ -55,5 +55,18 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // 5. 出國：女朋友在老家照樣約得出國（VAC.gfCan 不因為在老家說不行）
   { const g=law('2026-07-01',12,{dating_kexin:true}); const r=VAC.gfCan?VAC.gfCan(g,'kexin','jp',g.day+10,g.day+14):'skip';
     check('5. 暑假約在高雄的女朋友出國：不會因為「不在臺北」直接說不行',r!=='no',J(r)); }
+  // 6. 沛珊重考消失期（2026-12-18～2027-08-06）：交往中的玩家是例外（AA_276 第 4 節、13c583c9；使用者 23:5x）
+  { const ps='classmate_peishan', D0=DK('2026-12-18');
+    const g1=law('2027-03-01',15); R(ps,30,20,20); G.contacts[ps]=D0-100; const a=STORY.presence(ps,g1);
+    check('6. 沒交往：聯絡不到（unreachable）、群組也不在（psGone）、訊息只顯示已送達（silent）',a.kind==='unreachable'&&STORY.psGone(g1)&&MSG.open(g1,ps).mode==='silent',J([a.kind,MSG.open(g1,ps)]));
+    const g2=law('2027-03-01',15,{dating_classmate_peishan:true}); g2.flags.romance={[ps]:{status:'dating',sinceDay:D0-30}}; R(ps,30,20,20); G.contacts[ps]=D0-100; const b=STORY.presence(ps,g2);
+    check('6. 12/18 以前開始交往、還在交往：她在台中老家（kind home、keep）',b.here===false&&b.kind==='home'&&b.keep===true&&b.home==='台中',J(b));
+    check('6. 例外時群組、其他人照樣聯絡不到（psGone 仍成立）；她的私訊不是 silent',STORY.psGone(g2)&&MSG.open(g2,ps).mode!=='silent',J(MSG.open(g2,ps)));
+    G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m1=txt('p:'+ps);
+    G.day++; G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m2=txt('p:'+ps);
+    check('6. 每晚 23:00 以後一則，輪流（第一晚「兩回考古題」、第二晚「一大鍋湯」）',m1.length===1&&/兩回考古題/.test(m1[0])&&m2.length===2&&/一大鍋湯/.test(m2[1])&&G.flags.PS_KEPT===true,J(m2));
+    const g3=law('2027-03-01',15,{dating_classmate_peishan:true}); g3.flags.romance={[ps]:{status:'dating',sinceDay:D0+5}};
+    check('6. 消失期開始以後才交往：照原規則聯絡不到',STORY.presence(ps,g3).kind==='unreachable');
+    check('6. 放榜那天（8/6）起照舊在臺北的規則（不是 keep）',!STORY.presence(ps,law('2027-08-06',15,{dating_classmate_peishan:true})).keep); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

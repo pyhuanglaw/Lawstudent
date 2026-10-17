@@ -61,7 +61,7 @@ const MSG=(function(){
     if(id==='heroine_02'&&pr&&pr.here===false) return {ok:false,why:'她在英國，只寄明信片'};   /* 大三上交換、大四英國念研究所（presence absent Y3S1／Y4S1／Y4S2）*/
     if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
     if(id==='heroine_05'){ if(stageNum(id)<2) return {ok:false,why:'還不熟'}; const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }
-    if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')) return {ok:true,mode:'silent'};
+    if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')&&!(typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G))) return {ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4 節）：她會回 */
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };

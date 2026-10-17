@@ -1145,6 +1145,7 @@ const STORY = (function(){
     return null; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
   S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+    if(S.psKeep(G)&&!PHONE.sent(G,'ps_keep_'+G.day)){ const n=+F.PS_KEEP_N||0; F.PS_KEEP_N=n+1; F.PS_KEPT=true; PHONE.at(G,G.day,23+(G.day%6)/10,[{th:'p:classmate_peishan',from:'classmate_peishan',text:S.PS_KEEP_NIGHT[n%S.PS_KEEP_NIGHT.length]}],'ps_keep_'+G.day); }   /* 沛珊重考消失期、交往中（AA_276 第 4 節）：每晚 23:00 以後一則 */
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
        美式「水我少加了一點」、茶「我多泡了十秒」、點心「挑」；交往中隔天 15:10 才傳：飲料都是「你昨天的那杯，是我做的。好喝的話，跟老闆說。」*/
@@ -2856,7 +2857,7 @@ const STORY = (function(){
   const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
   S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true};
-    if(P.absentDates&&S.dayOfKey) for(const [a,b,away,kind] of P.absentDates){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<d1) return {here:false,away:away||'',kind:kind||'abroad'}; }   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
+    if(P.absentDates&&S.dayOfKey) for(const [a,b,away,kind,ex] of P.absentDates){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<d1){ if(ex==='keepDating'&&P.home&&S.keepDating(id,G,d0)) return {here:false,away:'在'+P.home+'老家念書',kind:'home',home:P.home,keep:true}; return {here:false,away:away||'',kind:kind||'abroad'}; } }   /* keepDating：AA_276 第 4 節，消失期開始時和玩家交往中＝只有玩家聯絡得到（在老家）*/   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
     if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)&&!S.homeStay(P,G)) return {here:false,away:'寒暑假在'+P.home+'的家',kind:'home',home:P.home};   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北 */
     const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
     const A=P.away||{}, K=P.kinds||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)) return {here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'};
@@ -2913,7 +2914,13 @@ const STORY = (function(){
     return L.some(k=>{ const d=S.dayOfKey(k); return d!=null&&d>=B.from&&d<=B.to&&G.day<=d; }); };
   S.present=(id,G)=>S.presence(id,G).here;
   /* 沛珊的重考消失期（BB_205 第 3 節、BB_194 §19）：2026-12-18（P4 交接隔天）～2027-08-06 放榜，聯絡不到（presence absentDates 的 unreachable）*/
-  S.psGone=(G,day)=>S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})).kind==='unreachable';
+  S.psGone=(G,day)=>{ const p=S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})); return p.kind==='unreachable'||!!p.keep; };   /* 交往中的例外（keep）也算：群組、其他人照樣聯絡不到她 */
+  /* AA_276 第 4 節（使用者 23:5x「除非玩家有跟他交往」）：消失期開始那天（d0）玩家和她交往中、到現在還在交往＝例外。交往是 d0 以前開始的（ROM 的 sinceDay；舊存檔、測試沒有紀錄的算以前）*/
+  S.keepDating=function(id,G,d0){ const F=G&&G.flags; if(!F||F['dating_'+id]!==true) return false; const R=F.romance&&F.romance[id]; return !(R&&R.sinceDay!=null&&R.sinceDay>=d0); };
+  S.psKeep=G=>!!S.presence('classmate_peishan',G).keep;
+  /* 每晚 23:00 以後她傳一則（AA_276 第 4 節，輪流）；放榜回來那段的替換句（放榜那天的事件做好時用：F.PS_KEPT＝整段都聯絡著）*/
+  S.PS_KEEP_NIGHT=['今天寫完兩回考古題。地理還是最爛。','我媽煮了一大鍋湯，說喝完才可以去念書。','晚安。今天念書念到一半，有想到你。','模擬考的分數出來了。先不要問。','窗外下雨了。台中很少下這麼大。','今天沒有念完。明天補。晚安。'];
+  S.PS_KEEP_BACK='那半年，只有你知道我在幹嘛。……你一次都沒有跟別人說。';   /* 取代「我那時候誰都沒回。你也是。」（BB_194 第 19 節）*/
   /* 大一下期中那兩週（第 8～9 週，語彤顧店的那一週，AA_11 事件 4）有沒有去過總圖：Y1_MID_LIB；舊存檔沒有這個旗標就看習慣記錄（place:library…）*/
   S.y1MidLib=function(G){ const F=G.flags||{}; if(F.Y1_MID_LIB) return true; const a=termDay('Y1S2',8,1), b=termDay('Y1S2',9,7); if(a==null||b==null) return false;
     const H=G.habits||{}; return Object.keys(H).some(k=>/^place:library(_hall)?:/.test(k)&&(H[k].days||[]).some(d=>d>=a&&d<=b)); };
