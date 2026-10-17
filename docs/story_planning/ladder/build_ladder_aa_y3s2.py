@@ -88,9 +88,9 @@ D['characters'][YT] = {'steps': [
  'when':[{'weekday':[4],'time':[17,20],'t':'（她拿著田野筆記）……今天要去問修鞋的老闆。要一起嗎？'},
          {'location':['noodle'],'weekday':[2],'time':[17.5,20],'t':'……今天是我。阿哲他們坐老位子。'},
          {'location':['library_hall','library'],'weekday':[1,3,5],'time':[19,21.5],'t':'（她在靠窗的位子整理筆記）……嗯。'},
-         {'weekday':[6],'time':[9,12],'location':['wancai'],'weekParity':'odd','t':'（她把椅子擺成斜的）……今天人比較少。'},
+         {'weekday':[6],'time':[9,12],'location':['noodle'],'t':'（她把田野筆記攤在長桌上）……禮拜六早上，這裡最安靜。'},
          {'weather':'rain','t':'……下雨。……田野改天。'}]},
- 'note':'大三下留在台灣：週二麵店、週四田野（工讀生顧店）、一三五總圖、單週週六法服'}
+ 'note':'大三下留在台灣：週二麵店、週四田野（工讀生顧店）、一三五總圖、週六早上麵店（不加入法服，AA_218 17-11）'}
 def check(d):
     err=[]
     for cid,c in d['characters'].items():
