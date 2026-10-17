@@ -177,11 +177,17 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "5e910dd2",
+   "sha": "abad2fa0",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017（BB_128 3-7 照 AA_188 口語版重寫，以 abad2fa0 為準，取代 5e910dd2；outbox_AA b8952924）",
    "task": "DATE-S6",
-   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子"
+   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子",
+   "history": [
+    {
+     "sha": "5e910dd2",
+     "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
@@ -203,6 +209,34 @@
    "sha": "5e910dd2",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D04.json",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D06.json",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D12.json",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D13.json",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
    "task": "DATE-S6"
   }
  ]
