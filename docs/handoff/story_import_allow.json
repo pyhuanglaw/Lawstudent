@@ -766,6 +766,22 @@
    "approvedBy": "AA-C 2026-10-17 17:59 交付訊息：只用第三批景點（D26、D14、D11、D01、D02、D29）的 walk／leave／revisit／followUp；第一、二批照遊戲裡的 AA_209 改稿",
    "task": "ENC-B3-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
+   "sha": "b0c20f70",
+   "status": "approved",
+   "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/free_trip/bb_walk_v1.json",
+   "sha": "b0c20f70",
+   "status": "approved",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放",
+   "task": "ENC-B3-1017",
+   "kind": "text"
   }
  ]
 }

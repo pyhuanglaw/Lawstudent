@@ -7289,6 +7289,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "偶遇六列、作息、同行台詞已接（本批）；以安 D06、阿哲 D04 的同行句遊戲裡是 AA_209 附錄 A 的口語改稿（2473d167），json 還是舊句，沒有換回；solo_before、wish_aa 等 DATE-S6 的地點台詞與心願事件"
+  },
+  {
+   "id": "DL-BB-b0c20f70",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "b0c20f70",
+   "what": "BB_213 自由出行第三批 BB 五位偶遇（第 1、2 節）＋bb_walk_v1.json batch:3（walk 15／leave 5／intro 1／revisit 5／followUp 5）＋solo_before_bb_v1.json＋wish_bb.json（D03、D05 freeVisited）；AA-C 核對通過",
+   "task": "ENC-B3-1017",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "偶遇五列、作息、同行台詞已接；D02.pond 互動點不存在先不放；solo_before_bb、wish_bb 等 DATE-S6"
   }
  ],
  "ignored": [

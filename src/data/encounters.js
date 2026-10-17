@@ -70,7 +70,23 @@ const ENCOUNTERS={
       lines:{acq:['{name}？你也來松菸。','我來看一個劇的特展。周邊買太多了，在對收據。'],friend:['你來得剛好，幫我看一下這張收據是不是算錯。','（你看了一下）「……沒算錯。是我買太多。」']},src:'AA_271 1、1-1'},
     // ---- D29 高雄駁二（阿哲回高雄的日子：寒假 1/2～2/19、暑假 7/1～8/20，除夕到初三在家不排；大一寒假到大四寒假。除夕照 calendar.js 的 LUNAR）----
     {who:'zhe',spot:'D29',why:'他和兩個高中同學坐在港邊的台階上，三個人在分一包鹹酥雞。',days:[6],from:14,to:17.5,terms:null,dates:[['2026-01-02','2026-02-15'],['2026-07-01','2026-08-20'],['2027-01-02','2027-02-04'],['2027-02-09','2027-02-19'],['2027-07-01','2027-08-20'],['2028-01-02','2028-01-24'],['2028-01-29','2028-02-19'],['2028-07-01','2028-08-20'],['2029-01-02','2029-02-11'],['2029-02-16','2029-02-19']],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D29_ZHE',away:'在高雄',
-      lines:{acq:['欸？你怎麼在高雄！','我同學說駁二沒什麼好逛。你看，台北的人都跑來了。'],friend:['哥！你來高雄怎麼沒跟我說？','吃一塊。這家我們高中吃到大，台北吃不到。']},src:'AA_271 1、1-1'}
+      lines:{acq:['欸？你怎麼在高雄！','我同學說駁二沒什麼好逛。你看，台北的人都跑來了。'],friend:['哥！你來高雄怎麼沒跟我說？','吃一塊。這家我們高中吃到大，台北吃不到。']},src:'AA_271 1、1-1'},
+    /* ---- 第三批景點的 BB 五位：BB_213 第 1、2 節（BB-C；AA-C 核對通過 b0c20f70，2026-10-17）。一人一處；心願地點、外縣市不放；週次避開 AA 六位。 ---- */
+    {who:'heroine_04',spot:'D01',why:'她在週末市集的一攤前面，手上拿著一個像素的鑰匙圈。',days:[0],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[5,12],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D01_ZQ',away:'在華山逛市集',
+      lines:{acq:['欸不是，你也來華山？','我在看這個鑰匙圈。點陣的，跟我畫的很像。'],friend:['你看這個。一隻像素貓，十六乘十六。','老闆說是自己點的。我想問他用什麼軟體，又不敢問。'],dating:['你怎麼也在這裡？','剛好。幫我挑一個，我挑不下去。']},
+      ex:{apart_drift:['好久不見。我逛完了，先走。']},src:'BB_213 1、2'},
+    {who:'heroine_02',spot:'D02',why:'她坐在書店門口的長椅上，手上一本電影書，旁邊放著一張票根。',days:[6],from:13,to:17,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S2'],weeks:[3,11],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D02_ZR',away:'在松菸看電影',
+      lines:{acq:['你也來松菸？','我剛看完早場。在等下一場。'],friend:['早場的人很少。我一個人坐一整排。','下一場四點。你要不要也看？不看也沒關係。'],dating:['你怎麼在這裡？','下一場還有一個小時。陪我坐一下就好。']},
+      ex:{apart_life:['嗨。這裡的書店很好，你慢慢逛。']},src:'BB_213 1、2'},
+    {who:'heroine_05',spot:'D11',why:'她坐在北投圖書館的木頭陽台上，桌上攤著一本書和計畫本。',days:[6],from:10,to:15,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],weeks:[6],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_SIS',away:'在北投圖書館',
+      lines:{acq:['學弟。你也來北投？','我每個月來這裡讀一次書。這裡比法圖安靜。'],friend:['這裡的位子要早點來，我九點就到了。','你要坐的話，我旁邊還有一個。'],dating:['你怎麼也在北投？','我還要讀一個小時。讀完一起去泡腳。']},
+      ex:{apart_talk:['學弟。我讀完這一章就走。']},src:'BB_213 1、2（大四上在美國，BB_204 4c）'},
+    {who:'classmate_peishan',spot:'D08',why:'她在企鵝館門口，數著一排戴黃帽子的小孩。',days:[6],from:9,to:13,terms:['Y1S2','Y3S2','Y4S2'],weeks:[9],stageMin:'ACQUAINTANCE',busy:'short',join:true,exAsAcq:true,memo:'ENC_D08_PS',away:'帶課輔班去動物園',
+      lines:{acq:['{name}！我們課輔班來校外教學。','他們一直問企鵝會不會冷。我也不知道。'],friend:['你可以幫我數一下嗎？應該是十二個。','我數了三次，每次都不一樣。'],dating:['你怎麼也在動物園？','那你今天幫我帶後面那半排。']},
+      extra:{if:'WZ_PS_KIDS',name:'綁馬尾的小女生',text:'法律系的哥哥！你也來動物園嗎？'},src:'BB_213 1、2（下雨課輔班不出遊：D08 是戶外，照規則沒有偶遇；沒有前任版＝照認識那兩句、不一起走）'},
+    {who:'kexin',spot:'D10',why:'她和予樂坐在河邊的台階上，一人一根烤玉米。',days:[0],from:16,to:19,terms:null,weeks:[10],stageMin:null,kexin:true,rainOk:true,busy:'short',join:'dating',memo:'ENC_D10_KX',memoIf:'dating',
+      lines:{dating:['我們讀完書下山，予樂說想吃玉米。','你要的話，我分你一半。']},
+      ex:{kx_b:['嗨。我們在吃玉米。'],kx_bNarr:'（她笑了一下，跟予樂走了。）',kx_c:['好久不見。這裡傍晚人比較少。','我們要回去了。']},src:'BB_213 1、2（雨天台階有遮，照常）'}
   ],
   /* 第一次在這裡打招呼以後，她（他）下一次正常聊天時說一次（AA_162 第 4 節、BB_144 第 4 節；R7：劇情事件不讀 ENC_）。
      place：只在那個區域說（芷若在 Café）；phone：改成手機小事（語彤傳照片、可昕不在台大）。 */
@@ -92,10 +108,17 @@ const ENCOUNTERS={
     ENC_D11_BH:{who:'classmate_bohan',lines:['北投那間圖書館，期中前你要去的話跟我講。我早上會先到。']},
     ENC_D01_YU:{who:'yu',lines:['欸，華山那個第六個章！在廁所旁邊。我又跑去一次。']},
     ENC_D02_XC:{who:'classmate_xinci',lines:['松菸那個特展下禮拜就撤了。我又去了一次，這次只買一樣。']},
-    ENC_D29_ZHE:{who:'zhe',lines:['上次在駁二，我同學說你很好聊。下次回高雄再約。']}
+    ENC_D29_ZHE:{who:'zhe',lines:['上次在駁二，我同學說你很好聊。下次回高雄再約。']},
+    /* BB_213 第三批（bb_walk_v1.json batch:3 的 followUp；b0c20f70）*/
+    ENC_D01_ZQ:{who:'heroine_04',lines:['華山那隻貓，我後來畫進去了。在第二關的角落。']},
+    ENC_D02_ZR:{who:'heroine_02',place:['cafe'],lines:['松菸那天四點那場，我後來看了。你要我講給你聽嗎？']},
+    ENC_D11_SIS:{who:'heroine_05',lines:['北投那天你走得很早。下次可以待到中午。']},
+    ENC_D08_PS:{who:'classmate_peishan',lines:['動物園那天，小孩回去一直問我你是誰。']},
+    ENC_D10_KX:{who:'kexin',phone:['碧潭那天予樂說，你吃玉米的樣子很認真。']}
   },
   /* 人物頁「記得的事」的字 */
   labels:{ENC_D04_ZR:'在西門町的電影院門口遇到她',ENC_D12_ZQ:'在大稻埕碼頭遇到她',ENC_D06_SIS:'在美術館遇到學姊',ENC_D12_PS:'在迪化街的舊書店門口遇到她',ENC_D13_KX:'在淡水遇到她',
     ENC_D06_AN:'在美術館遇到她',ENC_D12_YT:'在迪化街遇到她',ENC_D04_ZHE:'在西門町遇到他',ENC_D04_YU:'在西門町遇到她',ENC_D06_BH:'在美術館遇到他',ENC_D04_XC:'在西門町遇到她',
-    ENC_D26_AN:'在臺中遇到她',ENC_D14_YT:'在漁人碼頭遇到她',ENC_D11_BH:'在北投的圖書館遇到他',ENC_D01_YU:'在華山遇到她',ENC_D02_XC:'在松菸遇到她',ENC_D29_ZHE:'在高雄駁二遇到他'}
+    ENC_D26_AN:'在臺中遇到她',ENC_D14_YT:'在漁人碼頭遇到她',ENC_D11_BH:'在北投的圖書館遇到他',ENC_D01_YU:'在華山遇到她',ENC_D02_XC:'在松菸遇到她',ENC_D29_ZHE:'在高雄駁二遇到他',
+    ENC_D01_ZQ:'在華山的市集遇到她',ENC_D02_ZR:'在松菸的書店門口遇到她',ENC_D11_SIS:'在北投圖書館遇到學姊',ENC_D08_PS:'在動物園遇到她',ENC_D10_KX:'在碧潭遇到她'}
 };

@@ -10572,11 +10572,11 @@
   },
   {
    "id": "ENC-B3-1017",
-   "title": "自由出行第三批景點的 AA 六位偶遇（AA_271）：以安 D26 臺中、語彤 D14 漁人碼頭、柏翰 D11 新北投、小語 D01 華山、芯慈 D02 松菸、阿哲 D29 駁二",
+   "title": "自由出行第三批景點的偶遇：AA 六位（AA_271：以安 D26、語彤 D14、柏翰 D11、小語 D01、芯慈 D02、阿哲 D29）＋BB 五位（BB_213：子晴 D01、芷若 D02、學姊 D11、沛珊 D08、可昕 D10）",
    "area": "DL",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位的第三批（BB_213）還是 PROPOSAL，等 AA 審完交付。",
+   "next": "瀏覽器：寒暑假週六去臺中／高雄、大一下第 6 週週日去新北投各遇到一次（打招呼、一起走一段、離開、之後在學校的一句）。「你來過一次」（solo_before_aa_v1.json）和以安 D07 心願的 freeVisited（wish_aa.json 0b478a53）要等約會地點台詞（DATE-S6 各地點 lines）和心願事件做好才接，見 DATE-S6。BB 五位已接（BB_213＋bb_walk_v1 batch:3 @b0c20f70）；芷若 D02「D02.pond」景點沒有這個互動點，等 BB 確認；solo_before_bb、wish_bb（芷若 D05、子晴 D03 freeVisited）同樣等 DATE-S6。子晴第 5 週週日 D01（15～18）和 D12 單週（16～19）重疊，遊戲照指定週次優先，已問 BB。",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -10588,7 +10588,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "source": "AA_271（AA-C 01e9d706）＋aa_walk_v1.json（0b478a53），AA-C 17:59 交付訊息；第②級日常內容（AA_160）",
+   "source": "AA_271（AA-C 01e9d706）＋aa_walk_v1.json（0b478a53），AA-C 17:59 交付訊息；第②級日常內容（AA_160）；BB_213（BB-C，AA-C 核對 b0c20f70）＋bb_walk_v1.json batch:3，BB-C 18:00 交付訊息",
    "authorized": "D79／D86（AA 交付的日常內容）",
    "commit": "見 deliveries DL-AA-01e9d706",
    "tests": "tests/enc_batch3_unit.js、tests/dl07_enc_unit.js、tests/dl08_walk_unit.js"
