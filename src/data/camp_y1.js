@@ -256,7 +256,14 @@ const CAMP_Y1_EVENTS=[
         {text:'「我不是說過了嗎？」',if:{custom:G=>G.flags.ECON_PAST_SHARED==='full'},goto:'said'},
         {text:'「跟你們一樣啦。」',goto:'same'}]},
       {label:'old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
-      {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},{goto:'after'},
+      {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
+      /* 「為什麼重考？」（AA_224 2-c、6-8；AA-C 2026-10-17 Q3）：第一次說出口，明軒問；說法照經濟系那年阿勳問的（E24C_REASON：honest＝長句、其他和只玩法律系＝短句）。
+         只問一次（WHY_RETAKE_ASKED）：夜談沒說的，迎新選「念過經濟系」時小語補問（events.js ev_welcome_y1s1）*/
+      {if:{flags:['WHY_RETAKE_ASKED']},goto:'after'},
+      {speaker:'classmate_mingxuan',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
+      {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
+      {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'classmate_mingxuan',text:'好，懂了。'},{goto:'after'},
+      {label:'why_h'},{speaker:'player',text:'我從小就想念這裡。第一次社會考壞了，總分差了四分。先去念經濟，念了一個多月。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'after'},
       {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
       {label:'same'},{speaker:'zhe',text:'好喔。'},
       {label:'after'},
