@@ -67,4 +67,7 @@ function napGM(day,hour){ const gm=newGM('dorm',day,hour,F0); const G=gm.G; G.en
   { const gm=napGM(5,22.0); const titles=[]; Object.assign(gm,{titleCard:async(a,b)=>titles.push(a+' '+b),enter:async()=>{},money(){},memo(){}}); gm.E.setWeather=()=>{}; gm.G.weather='clear';
     const o=STORY.bedOptions(gm.G).find(q=>q.wake===12); await STORY.sleepNow(gm,o.wake,o.alarm);
     check('選「睡到明天中午」：醒來是第 6 天 12:00（標題寫 12:00）',gm.G.day===6&&Math.abs(gm.G.hour-12)<0.01&&titles.some(t=>/12:00/.test(t)),titles.join(' / ')+' '+gm.G.day+' '+gm.G.hour); }
+  { const g0=newGM('dorm',6,22,F0).G, orig=CLS.dayItems, os=CLS.storyClass; CLS.dayItems=()=>[{t0:15.5,c:{name:'測試課',id:'x'},key:'x',room:{}}]; CLS.storyClass=()=>false;
+    const o=STORY.bedOptions(g0).find(q=>q.kind==='sleep'); CLS.dayItems=orig; CLS.storyClass=os;
+    check('明天第一堂 15:30：叫醒 14:30 那一項寫「睡到明天下午（14:30）」，不寫「早上」（BB-C BB_218）',!!o&&o.t==='睡到明天下午（14:30）',JSON.stringify(o&&o.t)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

@@ -2555,7 +2555,7 @@ const STORY = (function(){
       if(hh<17.5){ const ms=S.missText(G,G.day,hh,18), dm=typeof DATE!=='undefined'&&DATE.alarmsFor?DATE.alarmsFor(G,G.day).filter(q=>q.dep>hh&&q.dep<18).map(q=>hm(q.dep)+' '+q.label):[]; const miss=[ms,dm.length?'會錯過：'+dm.join('、'):''].filter(Boolean).join('。'); out.push({kind:'nap',to:18,t:'睡到傍晚（不設鬧鐘）',hint:'睡到 18:00'+(miss?'。'+miss:'')}); } }
     else { const day=G.day+1, its=typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'?CLS.dayItems(G,day).filter(it=>!CLS.storyClass(Object.assign({},G,{day}),it)):[], first=its.length?its[0]:null, A=S.wakeAlarms(G,day);
       const morning=first?Math.max(6.5,first.t0-1):7.5;
-      for(const [k,lab,w0,why] of [['morning','睡到明天早上',morning,first?(first.exam?'考試 ':'第一堂 ')+hm(first.t0)+' '+first.c.name+'前一小時':'明天沒有課'],['noon','睡到明天中午',12,''],['afternoon','睡到明天下午',14,''],['evening','睡到明天晚上',18,'']]){
+      for(const [k,lab,w0,why] of [['morning',morning>=17?'睡到明天晚上':morning>=13?'睡到明天下午':morning>=11?'睡到明天中午':'睡到明天早上',morning,first?(first.exam?'考試 ':'第一堂 ')+hm(first.t0)+' '+first.c.name+'前一小時':'明天沒有課'],['noon','睡到明天中午',12,''],['afternoon','睡到明天下午',14,''],['evening','睡到明天晚上',18,'']]){
         if(k!=='morning'&&w0<=morning+0.05) continue; let w=w0, hint=hm(w)+(why?'（'+why+'）':''); const a=A.find(q=>q.h<w);
         if(a){ w=Math.max(6.5,a.h); hint=hm(w0)+'——但'+a.why+'，鬧鐘 '+hm(w)+' 會叫醒你'; } else { const ms=S.missText(G,day,0,w); if(ms) hint+='。'+ms; }
         if(!out.some(o=>Math.abs(o.wake-w)<0.02)) out.push({kind:'sleep',wake:w,alarm:a?a.why:null,t:lab+(k==='morning'?'（'+hm(w)+'）':''),hint}); } }
