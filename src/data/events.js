@@ -2211,7 +2211,7 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',text:'我也要睡。那天誰都不要叫我。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',text:'我選？……那公館巷子裡那家。我經過好幾次，每次都在排隊。'},
-      {label:'end'},{if:{flags:['E35_PHONE']},speaker:'kexin',text:'我要去睡了。你也快去睡。'},{unless:{flags:['E35_PHONE']},speaker:'kexin',text:'明天考場見。……不對。考完見。'},   /* 見面版的收尾：BB_179 段 D #65 寫「五分鐘到了。我上去了。」是女舍門口的版本，AA_224 6-5 地點改成你家樓下，等 AA 給句子 */
+      {label:'end'},{if:{flags:['E35_PHONE']},speaker:'kexin',text:'我要去睡了。你也快去睡。'},{unless:{flags:['E35_PHONE']},speaker:'kexin',text:'五分鐘到了。我回去了。'},{unless:{flags:['E35_PHONE']},speaker:null,text:'（她走到巷口，回頭揮了一下手。）'},   /* 見面版的收尾：AA-C 定稿（AA_269 第 9 節；BB_179 #65 是女舍門口的版本，AA_224 6-5 地點改成你家樓下）*/
       {if:{flags:['E35_PHONE']},set:{E35_MET:false}},{unless:{flags:['E35_PHONE']},set:{E35_MET:true}},{set:{E35_DONE:true}} ];
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     return [
@@ -2608,20 +2608,20 @@ const STORY_EVENTS=[
       {label:'c'},{speaker:'econ_pinyu',text:'這是今晚唯一有效率的事。'},
       {label:'end'},{speaker:null,text:'（兩點，大家收東西。你走回宿舍，在舍監室登記晚歸。）'} ],
     afterOuting:async(G,GM)=>{ if(G.hour<26) GM.advance(26-G.hour); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },
-  /* E21a 跨年（AA_224 3-6 @31708531，交往中的版本）：12/31（二）19:00 經濟系群組四則（多一則韋綸「祐廷你不用衝刺。十一點來總圖門口接我們。」，story3d.js）＋出發選單「總圖門口 23:00：跨年」。
+  /* E21a 跨年（AA_224 3-6 @31708531，交往中的版本；16 週制 12/31 已經放假九天，不提會計考試、改講他的書：AA-C 2026-10-17 定稿，AA_235 5-6）：12/31（二）19:00 經濟系群組四則（多一則韋綸「祐廷你不用衝刺。十一點來總圖門口接我們。」，story3d.js）＋出發選單「總圖門口 23:00：跨年」。
      他不能進總圖：在門口接他們。記 E21A_WENT。演完回家。沒去：00:05 群組人潮照片＋可昕私訊 */
   { id:'ev_y0_e21a', stage:'econ', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'總圖門口'},{speaker:null,text:'（十一點，總圖門口。他們讀到一半跑出來。）'},
       {speaker:'韋綸',text:'跨年還有一個小時。走啦！'},
-      {speaker:'econ_pinyu',text:'後天考會計。'},
-      {speaker:'韋綸',text:'會計會等我們。煙火不會。'},
+      {speaker:'econ_pinyu',text:'……放假我反而想念書。我是不是有病。'},
+      {speaker:'韋綸',text:'書會等你。煙火不會。'},
       {scene:'信義區',bg:'newyear_crowd'},
       {speaker:null,text:'（信義區的人潮。人多到走不動。可昕把手塞進你的外套口袋。）'},
       {speaker:'kexin',expression:'embarrassed',text:'……我怕走散。這是藉口。'},
       {speaker:null,text:'（倒數。煙火。）'},
       {speaker:'kexin',expression:'smile',text:'新年快樂。'},
-      {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「會計會等妳們。」',goto:'b'}]},
-      {label:'a'},{speaker:'kexin',expression:'smile',text:'……明天考會計。'},{goto:'end'},
+      {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「書會等我。」',goto:'b'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'……新年快樂。今年換你考。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'laugh',text:'（笑出聲）你學韋綸。'},
       {label:'end'},{set:{E21A_WENT:true}} ] },
   /* E22b 法律入門書（AA_224 3-7 @31708531）：不綁期末、不在總圖——2024-12-20（五）17:00，12/13 補習班以後；出發選單「公館 17:00：等可昕下課」（公館的咖啡店，2D；story3d.js）。

@@ -57,7 +57,7 @@ async def main():
         run.check('走到床邊、出現「睡覺」', ok and s['interact'].startswith('睡覺'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
         await pick(pg, cdp, ['睡到明天早上', '睡覺'])
-        ok, seen = await drive(pg, cdp, "GAME.G.day===STORY.dayOfKey('2026-01-05')&&GAME.G.zone==='dorm'&&!document.querySelector('#choices button')&&!(document.getElementById('dlg')&&getComputedStyle(document.getElementById('dlg')).display!=='none'&&document.getElementById('dlg').offsetParent)", ['先看'], 240)
+        ok, seen = await drive(pg, cdp, "GAME.G.day===STORY.dayOfKey('2026-01-05')&&!!GAME.E.zone&&!!GAME.E.zone.def&&GAME.E.zone.def.id==='dorm'&&(HOME.rec(GAME.G).bnote==='Y1W'||(window.__toasts||[]).length>1)&&!document.querySelector('#choices button')&&!(document.getElementById('dlg')&&getComputedStyle(document.getElementById('dlg')).display!=='none'&&document.getElementById('dlg').offsetParent)", ['先看'], 240)   # G.day 在起床字卡之前就是 1/5：要等成績單演完、系統字出來（2026-10-17 批次 19、20 在字卡那 2 秒就判定醒來了）
         said = await pg.evaluate("window.__said||[]"); toasts = await pg.evaluate("window.__toasts||[]"); cards = await pg.evaluate("window.__cards||[]")
         diag = await pg.evaluate("({bnote:(HOME.rec(GAME.G)||{}).bnote||null, brk:HOME.lawBreak(GAME.G), at:HOME.at(GAME.G), warn:(window.__warn||[]).slice(-5)})")
         run.check('1/5 早上在宿舍醒來：成績單、系統字「寒假宿舍照常開放。要回家的話，從選單選『回家』。」；沒有「回臺北的家」字卡（不強制回家）', any('成績出來了' in t for t in said) and any('寒假宿舍照常開放' in t for t in toasts) and not any(c.startswith('回臺北的家') for c in cards) and not await pg.evaluate("HOME.at(GAME.G)"), json.dumps([said[-4:], toasts[-3:], cards[-2:], diag], ensure_ascii=False))
