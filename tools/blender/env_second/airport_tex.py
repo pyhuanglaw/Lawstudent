@@ -4,6 +4,7 @@
 - ap_shops.png（2048×768，6 列）：店家招牌（全部虛構，D77）：日日便利 DAILY MART、雲端咖啡 CLOUD CAFE、旅人書店、外幣兌換、電信門市、旅客服務。
 - ap_airlines.png（1024×512，2×2）：四家虛構航空公司的櫃台背板（標誌是簡單幾何形狀＋名字；不像任何真實航空公司）。
 - ap_fids_dep.png、ap_fids_arr.png（1024×512）：出發、抵達看板（黑底黃字；航班號碼是虛構代碼，城市是真的地名）。
+- ap_ads.png（2048×1024）：四張燈箱廣告（風景插畫＋一行字，沒有品牌）。
 - ap_ceiling.png、ap_ceiling_nor.png（256×256 無縫）：金屬格柵天花板（一條一條的鋁格柵＋縫的陰影）。
 字型：WenQuanYi Zen Hei（GPL-2.0＋字型嵌入例外；只畫成點陣圖，不附字型檔）、DejaVu Sans。"""
 import math, os, random
@@ -152,8 +153,43 @@ def tex_outside(path, arrive=False):
     im.save(path)
 
 
+def tex_ads(path):
+    """燈箱廣告四張（2048×1024，每張 512×1024 直式）：簡化的風景插畫（山的日出、海岸、城市夜景、茶園）＋一行字；沒有品牌、商標"""
+    W, H = 512, 1024; im = Image.new('RGB', (W * 4, H)); d = ImageDraw.Draw(im); r = random.Random(21)
+    fz = ImageFont.truetype(CJK, 64); fe = ImageFont.truetype(LAT, 30)
+    def grad(x0, top, bot, y0=0, y1=H):
+        for y in range(y0, y1):
+            t = (y - y0) / max(1, y1 - y0 - 1); d.line([(x0, y), (x0 + W - 1, y)], fill=tuple(int(a + (b - a) * t) for a, b in zip(top, bot)))
+    # 1 山的日出
+    x0 = 0; grad(x0, (250, 196, 140), (120, 150, 196)); d.ellipse([x0 + 300, 260, x0 + 420, 380], fill=(255, 236, 190))
+    for k, (col, base) in enumerate((((96, 112, 150), 560), ((70, 84, 118), 650), ((46, 56, 82), 760))):
+        pts = [(x0, H)] + [(x0 + i * 32, base - r.randint(0, 140) - (60 if 4 < i < 9 else 0)) for i in range(17)] + [(x0 + W, H)]; d.polygon(pts, fill=col)
+    d.text((x0 + 40, 820), '山與雲之間', font=fz, fill=(250, 246, 236)); d.text((x0 + 44, 900), 'Above the Clouds', font=fe, fill=(250, 246, 236))
+    # 2 海岸
+    x0 = W; grad(x0, (120, 190, 230), (200, 230, 240), 0, 520); grad(x0, (40, 120, 160), (20, 70, 110), 520, H)
+    d.polygon([(x0, 520), (x0 + 220, 430), (x0 + 330, 520)], fill=(90, 110, 90)); d.ellipse([x0 + 380, 110, x0 + 460, 190], fill=(255, 250, 230))
+    for k in range(9): y = 560 + k * 40; d.line([(x0 + 20, y), (x0 + W - 20, y)], fill=(90, 160, 196), width=3)
+    d.text((x0 + 40, 820), '回到海邊', font=fz, fill=(250, 246, 236)); d.text((x0 + 44, 900), 'Back to the Coast', font=fe, fill=(250, 246, 236))
+    # 3 城市夜景
+    x0 = 2 * W; grad(x0, (20, 26, 60), (70, 60, 110))
+    for k in range(30):
+        bx = x0 + r.randint(0, W - 60); bw = r.randint(30, 80); bh = r.randint(120, 380); d.rectangle([bx, 760 - bh, bx + bw, 760], fill=(30, 34, 56))
+        for j in range(bh // 18):
+            for i in range(bw // 14):
+                if r.random() < 0.45: d.rectangle([bx + 4 + i * 14, 760 - bh + 6 + j * 18, bx + 10 + i * 14, 760 - bh + 14 + j * 18], fill=(250, 214, 140))
+    d.polygon([(x0 + 250, 120), (x0 + 270, 120), (x0 + 290, 760), (x0 + 230, 760)], fill=(40, 46, 74))   # 一棟很高的塔樓（剪影）
+    d.rectangle([x0, 760, x0 + W, H], fill=(16, 18, 30)); d.text((x0 + 40, 820), '夜晚的城市', font=fz, fill=(250, 246, 236)); d.text((x0 + 44, 900), 'City Lights', font=fe, fill=(250, 246, 236))
+    # 4 茶園
+    x0 = 3 * W; grad(x0, (200, 226, 236), (236, 240, 230), 0, 400)
+    for k in range(14):
+        y = 380 + k * 46; d.ellipse([x0 - 60, y, x0 + W + 60, y + 120], fill=(70 + k * 4, 130 + k * 3, 70))
+        for i in range(0, W, 26): d.ellipse([x0 + i, y + 10, x0 + i + 30, y + 40], fill=(90 + k * 4, 150 + k * 3, 80))
+    d.text((x0 + 40, 820), '一杯茶的時間', font=fz, fill=(40, 60, 40)); d.text((x0 + 44, 900), 'Time for Tea', font=fe, fill=(40, 60, 40))
+    im.save(path)
+
+
 if __name__ == '__main__':
     tex_signs(os.path.join(GEN, 'ap_signs.png')); tex_shops(os.path.join(GEN, 'ap_shops.png')); tex_airlines(os.path.join(GEN, 'ap_airlines.png'))
     tex_fids(os.path.join(GEN, 'ap_fids_dep.png')); tex_fids(os.path.join(GEN, 'ap_fids_arr.png'), True)
-    tex_ceiling(os.path.join(GEN, 'ap_ceiling.png'), os.path.join(GEN, 'ap_ceiling_nor.png')); tex_outside(os.path.join(GEN, 'ap_outside.png'))
+    tex_ceiling(os.path.join(GEN, 'ap_ceiling.png'), os.path.join(GEN, 'ap_ceiling_nor.png')); tex_outside(os.path.join(GEN, 'ap_outside.png')); tex_ads(os.path.join(GEN, 'ap_ads.png'))
     print('ok')

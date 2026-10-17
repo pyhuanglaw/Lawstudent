@@ -232,10 +232,10 @@
    ],
    "state": "已交付",
    "remaining": "遊戲內截圖（等 LAWWW 接成區域 us_market）；超市外觀沒有做（需要時再排）",
-   "next": "LAWWW 照 us_market.layout.json 建區域 us_market（blocks、spawn、exit→us_outside、interact 8 個、PLATE_FACE_lane_<n> 車道號碼）；接好後 LAWWW2 拍遊戲內截圖",
+   "next": "LAWWW 照 us_market.layout.json 建區域 us_market（blocks、spawn、exit→us_outside、interact 8 個、PLATE_FACE_lane_<n> 車道號碼）；接好後 LAWWW2 拍遊戲內截圖（LAWWW-C ACK：DL-LW2-USMKT、已實作待整合 725c684a）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "ACK"
   },
   {
    "task": "VAC-A2",
@@ -248,14 +248,16 @@
     "tools/blender/env_second/airport_t2.py",
     "assets/models/env/second_ai/airport_dep.glb",
     "assets/models/env/second_ai/airport_arr.glb",
-    "tools/blender/env_second/textures/gen/ap_*"
+    "tools/blender/env_second/textures/gen/ap_*",
+    "docs/art-rebuild/second_ai/test_shots/airport_t2/",
+    "LICENSES.md"
    ],
-   "state": "WIP",
-   "remaining": "第二航廈出境（含下車處）＋入境第一版建好（出境 4.2 萬、入境 1.5 萬三角形）：渲染驗收、修正、README、八項；等使用者給第二航廈照片再對外觀",
-   "next": "LAWWW2-C（規格：AA-C 2026-10-17 05:56 回覆）",
-   "noDirectIntegrate": true,
+   "state": "已交付",
+   "remaining": "遊戲內截圖（等 LAWWW 接成區域 airport_dep、airport_arr）；對照第二航廈真實照片（等使用者給）；下車處的車由遊戲放",
+   "next": "LAWWW 照 airport_t2.layout.json 的 dep、arr 建兩個區域（blocks、spawn_hall／spawn_curb、farewell、dropoff、spawn_customs／spawn_wait、meet、seats、interact）；接好後 LAWWW2 拍遊戲內截圖",
+   "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派"
+   "ack": "SENT"
   }
  ]
 }

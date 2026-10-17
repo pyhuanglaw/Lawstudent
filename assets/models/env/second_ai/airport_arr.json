@@ -1,13 +1,13 @@
 {
- "objects": 22,
- "unique_meshes": 22,
- "tris": 15116,
- "tris_drawn": 15116,
- "materials": 36,
+ "objects": 23,
+ "unique_meshes": 23,
+ "tris": 17476,
+ "tris_drawn": 17476,
+ "materials": 37,
  "out": "assets/models/env/second_ai/airport_arr.glb",
- "bytes": 1338472,
+ "bytes": 1548852,
  "texres": 512,
- "tris_total": 15116,
+ "tris_total": 17476,
  "layout": "airport_t2.layout.json",
  "area": "arr"
 }

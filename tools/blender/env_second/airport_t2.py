@@ -221,6 +221,32 @@ def shopfront(side, z0, z1, kind, xwall, h=4.2):
 
 
 PROD = Mesh('ap_products', M['prod'])
+ADS = Mesh('GLOW_ap_ads', img_mat('GLOW_ap_ads_m', 'ap_ads.png', rough=0.4, emit=0.6))
+
+
+def ad_box(x, z, face, k, y=2.5, w=1.5, h=3.0):
+    """燈箱廣告（四張之一）：深灰外框＋發光畫面"""
+    sign_board(ADS, pn, x, y, z, w, h, face, (k / 4 + 0.002, 0.002, (k + 1) / 4 - 0.002, 0.998), depth=0.16)
+
+
+def recycle_bin(x, z, yaw=0.0):
+    """分類回收桶（三格）：不鏽鋼桶身、三個不同顏色的投入口"""
+    c, s_ = math.cos(yaw), math.sin(yaw)
+    for k, col in enumerate(('#2f6db5', '#3a8a4a', '#d8a32a')):
+        u = (k - 1) * 0.36; cx, cz = x + u * c, z - u * s_
+        st.rbox(cx - 0.17, cx + 0.17, 0.0, 0.85, cz - 0.17, cz + 0.17, r=0.03, seg=2)
+        f0 = set(pv.bm.faces); pv.crbox(cx - 0.17, cx + 0.17, 0.85, 0.9, cz - 0.17, cz + 0.17, col, r=0.015, seg=1)
+
+
+def wall_cladding(axis, fixed, a0, a1, skip=(), inward=1):
+    """牆下半部的深灰金屬板（0～3.2 m，每 1.8 m 一片、片與片之間 2 cm 的縫）；skip＝不貼的區間（店面、入口）"""
+    a = a0
+    while a < a1 - 0.1:
+        b_ = min(a1, a + 1.8)
+        if not any(not (b_ <= s0 or a >= s1) for (s0, s1) in skip):
+            if axis == 'x': pn.box(a + 0.01, b_ - 0.01, 0.0, 3.2, min(fixed, fixed + inward * 0.04), max(fixed, fixed + inward * 0.04))
+            else: pn.box(min(fixed, fixed + inward * 0.04), max(fixed, fixed + inward * 0.04), 0.0, 3.2, a + 0.01, b_ - 0.01)
+        a = b_
 
 # =====================================================================================
 if AREA == 'dep':
@@ -291,13 +317,25 @@ if AREA == 'dep':
             n = int((z1 - z0) / isl['pitch'])
             for k in range(n):
                 za = z0 + k * isl['pitch'] + 0.05; zb = za + isl['pitch'] - 0.1
-                xc0, xc1 = xb0 + s * 0.8, xb0 + s * 1.7                                             # 櫃台
-                wt.rbox(min(xc0, xc1), max(xc0, xc1), 0.0, 1.0, za, za + 1.05, r=0.02, seg=1)
-                tp.box(min(xc0, xc1) - 0.02, max(xc0, xc1) + 0.02, 1.0, 1.04, za - 0.02, za + 1.07)
-                f0 = set(pv.bm.faces); pv.box(min(xc0 + s * 0.1, xc0 + s * 0.13), max(xc0 + s * 0.1, xc0 + s * 0.13), 1.04, 1.36, za + 0.3, za + 0.75); pv.paint([f for f in pv.bm.faces if f not in f0], '#1d1f22')   # 螢幕（背面）
-                xs0, xs1 = xc1, xc1 + s * 0.9                                                      # 磅秤輸送帶（客人放行李）
-                st.box(min(xs0, xs1), max(xs0, xs1), 0.0, 0.32, za + 1.1, zb); rb.box(min(xs0, xs1), max(xs0, xs1), 0.32, 0.34, za + 1.15, zb - 0.05)
-                f0 = set(pv.bm.faces); pv.box(min(xc1, xc1 + s * 0.02), max(xc1, xc1 + s * 0.02), 0.7, 0.95, za + 0.3, za + 0.75); pv.paint([f for f in pv.bm.faces if f not in f0], '#2a2c2f')   # 櫃台正面的號碼面板
+                xc0, xc1 = xb0 + s * 0.8, xb0 + s * 1.7                                             # 櫃台：員工那側的工作檯（0.76）、客人那側高起來的檯面（1.08）、內縮的踢腳
+                lo_, hi_ = min(xc0, xc1), max(xc0, xc1)
+                wt.rbox(lo_, hi_, 0.1, 0.76, za, za + 1.05, r=0.03, seg=2)
+                pn.box(lo_ + 0.05, hi_ - 0.05, 0.0, 0.1, za + 0.05, za + 1.0)                           # 踢腳（深灰、內縮）
+                tp.rbox(lo_ - 0.02, hi_ + 0.02, 0.76, 0.8, za - 0.02, za + 1.07, r=0.01, seg=1)          # 工作檯面
+                xf0 = xc1 - s * 0.32
+                wt.rbox(min(xf0, xc1), max(xf0, xc1), 0.8, 1.06, za, za + 1.05, r=0.02, seg=1)           # 客人那側的高檯
+                tp.rbox(min(xf0, xc1 + s * 0.06), max(xf0, xc1 + s * 0.06), 1.06, 1.1, za - 0.03, za + 1.08, r=0.015, seg=2)
+                f0 = set(pv.bm.faces); pv.crbox(min(xc0 + s * 0.25, xc0 + s * 0.28), max(xc0 + s * 0.25, xc0 + s * 0.28), 0.8, 1.2, za + 0.3, za + 0.75, '#1d1f22', r=0.01, seg=1)   # 員工螢幕（背面）
+                f0 = set(pv.bm.faces); pv.crbox(min(xc0 + s * 0.45, xc0 + s * 0.6), max(xc0 + s * 0.45, xc0 + s * 0.6), 0.8, 0.84, za + 0.35, za + 0.75, '#2a2c2e', r=0.01, seg=1)   # 鍵盤
+                pv.crbox(min(xc0 + s * 0.3, xc0 + s * 0.5), max(xc0 + s * 0.3, xc0 + s * 0.5), 0.8, 0.95, za + 0.82, za + 0.98, '#e8e8e4', r=0.02, seg=1)   # 標籤印表機
+                px_ = xc1 + s * 0.05; pz_ = za + 0.08                                                  # 櫃台號碼燈（不鏽鋼細桿＋小螢幕）
+                st.cyl((px_, 1.1, pz_), (px_, 1.75, pz_), 0.02, seg=6)
+                f0 = set(pv.bm.faces); pv.crbox(min(px_ - s * 0.02, px_ + s * 0.02), max(px_ - s * 0.02, px_ + s * 0.02), 1.62, 1.84, pz_ - 0.2, pz_ + 0.2, '#1a1c1e', r=0.01, seg=1)
+                dl.box(min(px_ + s * 0.021, px_ + s * 0.024), max(px_ + s * 0.021, px_ + s * 0.024), 1.65, 1.81, pz_ - 0.17, pz_ + 0.17)
+                xs0, xs1 = xc1, xc1 + s * 0.9                                                      # 磅秤輸送帶：不鏽鋼底座、黑色輸送帶、兩側低擋板、前緣斜坡
+                st.box(min(xs0, xs1), max(xs0, xs1), 0.0, 0.26, za + 1.1, zb); rb.box(min(xs0, xs1) + 0.02, max(xs0, xs1) - 0.02, 0.26, 0.29, za + 1.14, zb - 0.04)
+                for zz in (za + 1.1, zb - 0.03): st.box(min(xs0, xs1), max(xs0, xs1), 0.26, 0.42, zz, zz + 0.03)
+                st.box(min(xs1, xs1 + s * 0.12), max(xs1, xs1 + s * 0.12), 0.0, 0.06, za + 1.1, zb)
             # 上方吊的航空公司燈箱（兩面、每 4 m 一塊）＋燈箱下的小號碼燈
             k = 0; zz = z0 + 2.0
             while zz < z1 - 1.0:
@@ -315,7 +353,7 @@ if AREA == 'dep':
     pn.box(sx0 - 0.6, sx0, 0.0, 4.6, Z0 - 0.3, Z0 + 0.3); pn.box(sx1, sx1 + 0.6, 0.0, 4.6, Z0 - 0.3, Z0 + 0.3); pn.box(sx0 - 0.6, sx1 + 0.6, 4.0, 4.6, Z0 - 0.3, Z0 + 0.3)
     wl2 = Mesh('ap_security_inside', M['wall']); wl2.box(sx0, sx1, 0.0, 0.02, Z0 - S['depth'], Z0); wl2.box(sx0 - 0.05, sx0, 0.0, 4.0, Z0 - S['depth'], Z0); wl2.box(sx1, sx1 + 0.05, 0.0, 4.0, Z0 - S['depth'], Z0); wl2.box(sx0, sx1, 4.0, 4.05, Z0 - S['depth'], Z0); wl2.finish(root)
     fr.quad([(sx0, 0.0, Z0 - S['depth']), (sx1, 0.0, Z0 - S['depth']), (sx1, 4.0, Z0 - S['depth']), (sx0, 4.0, Z0 - S['depth'])])
-    sign_board(sg, pn, 0.0, 5.6, Z0 + 0.25, 8.6, 1.28, 'S', row_uv(SIGN['passport'], 8, 0.0, 0.42), depth=0.16)
+    sign_board(sg, pn, 0.0, 5.6, Z0 + 0.25, 8.2, 1.28, 'S', row_uv(SIGN['passport'], 8, 0.0, 0.40), depth=0.16)
     wt.rbox(sx0 + 0.6, sx0 + 1.8, 0.0, 1.1, Z0 - 1.2, Z0 - 0.6, r=0.03, seg=1); wt.rbox(sx1 - 1.8, sx1 - 0.6, 0.0, 1.1, Z0 - 1.2, Z0 - 0.6, r=0.03, seg=1)   # 查驗台
     stanchion_line(-1.2, Z0 - 0.3, Z0 + 3.0); stanchion_line(1.2, Z0 - 0.3, Z0 + 3.0)
     # ---- 大航班看板、服務台、吊掛指標 ----
@@ -327,12 +365,20 @@ if AREA == 'dep':
     bm_ = L.lathe([(1.15, 0.0), (1.6, 0.0), (1.6, 1.05), (1.15, 1.05), (1.15, 0.0)], seg=28)   # 圓環形服務台（裡面站服務人員）
     wt.add_bm(bm_, Matrix.Translation(g2b(ix, 0, iz))); bm_.free()
     bm_ = L.lathe([(1.1, 1.05), (1.66, 1.05), (1.66, 1.09), (1.1, 1.09), (1.1, 1.05)], seg=28); tp.add_bm(bm_, Matrix.Translation(g2b(ix, 0, iz))); bm_.free()
-    sign_board(sh_, pn, ix, 3.4, iz, 3.0, 0.375, 'S', row_uv(SHOP['info'], 6, 0.25, 0.75), depth=0.1, back=row_uv(SHOP['info'], 6, 0.25, 0.75))
-    st.cyl((ix - 1.2, 3.62, iz), (ix - 1.2, roof_y(iz), iz), 0.01, seg=3); st.cyl((ix + 1.2, 3.62, iz), (ix + 1.2, roof_y(iz), iz), 0.01, seg=3)
-    for (sx, sz, key, face, w) in ((0.0, 8.0, 'dep', 'N', 6.0), (-18.0, 8.0, 'checkin', 'N', 6.0), (18.0, 8.0, 'checkin', 'N', 6.0), (0.0, 4.0, 'exit', 'S', 3.0),
-                                   (-27.0, -14.0, 'exit', 'S', 3.0), (27.0, -14.0, 'carts', 'N', 3.0)):
+    sign_board(sh_, pn, ix, 2.7, iz, 3.0, 0.375, 'S', row_uv(SHOP['info'], 6, 0.25, 0.75), depth=0.1, back=row_uv(SHOP['info'], 6, 0.25, 0.75))
+    st.cyl((ix - 1.2, 2.9, iz), (ix - 1.2, roof_y(iz), iz), 0.01, seg=3); st.cyl((ix + 1.2, 2.9, iz), (ix + 1.2, roof_y(iz), iz), 0.01, seg=3)
+    # 指標朝向：往北走（進來）的人看到的是朝南那一面（'S'）；往南走（出去）的人看朝北那一面（'N'）
+    for (sx, sz, key, face, w) in ((0.0, 8.0, 'dep', 'S', 6.0), (-18.0, 8.0, 'checkin', 'S', 6.0), (18.0, 8.0, 'checkin', 'S', 6.0), (0.0, 2.0, 'exit', 'N', 3.0),
+                                   (-27.0, -14.0, 'exit', 'N', 3.0), (27.0, -14.0, 'carts', 'S', 3.0)):
         sign_board(sg, pn, sx, 4.2, sz, w, 0.375 * w / 6.0 * 2.0 if w < 6 else 0.375, face, row_uv(SIGN[key], 8, 0.0, 1.0 if w >= 6 else 0.55), depth=0.12)
         for e in (-w / 2 + 0.3, w / 2 - 0.3): st.cyl((sx + e, 4.45, sz), (sx + e, roof_y(sz), sz), 0.01, seg=3)
+    # ---- 牆面：下半部金屬板、燈箱廣告、回收桶 ----
+    wall_cladding('x', Z0, X0, X1, skip=((S['x0'] - 0.7, S['x1'] + 0.7),), inward=1)
+    shop_sk = {'W': [(sp['z0'], sp['z1']) for sp in J['shops'] if sp['side'] == 'W'], 'E': [(sp['z0'], sp['z1']) for sp in J['shops'] if sp['side'] == 'E']}
+    wall_cladding('z', X0, Z0, Z1 - 0.3, skip=shop_sk['W'], inward=1); wall_cladding('z', X1, Z0, Z1 - 0.3, skip=shop_sk['E'], inward=-1)
+    for k, x in enumerate((-31.0, -23.0, 23.0, 31.0)): ad_box(x, Z0 + 0.12, 'S', k)
+    ad_box(X0 + 0.12, 8.0, 'E', 1); ad_box(X1 - 0.12, -8.5, 'W', 3); ad_box(X1 - 0.12, 7.0, 'W', 0)
+    for (bx, bz, yw) in ((-22.5, -16.9, 0.0), (22.5, -16.9, 0.0), (-6.5, 9.6, 0.0), (6.5, 9.6, 0.0), (-34.9, -1.0, math.pi / 2), (34.9, 4.0, math.pi / 2)): recycle_bin(bx, bz, yw)
     # ---- 店面（東西牆）、候機椅、盆栽、推車 ----
     for shp in J['shops']: shopfront(shp['side'], shp['z0'], shp['z1'], shp['id'], X0 if shp['side'] == 'W' else X1)
     for b in J['benches']: bench(b['x'], b['z'], b['yaw'], b['n'])
@@ -404,6 +450,11 @@ else:
     for s in (-1, 1):
         x = rl['x1'] if s > 0 else rl['x0']
         rail((x, rl['z0'] + 0.4), (x, rl['z1'])); rail((x, rl['z1']), (x + s * rl['flare'], rl['z1']))
+    wall_cladding('x', Z0, X0, X1, skip=((cx0 - 0.2, cx1 + 0.2),), inward=1)
+    wall_cladding('z', X0, Z0, Z1, skip=[(c['z0'] - 1.5, c['z1']) for c in J['counters'] if c['x0'] < 0], inward=1)
+    wall_cladding('z', X1, Z0, Z1, skip=[(c['z0'] - 1.5, c['z1']) for c in J['counters'] if c['x0'] > 0] + [(J['cafe']['z0'] - 0.3, Z1)], inward=-1)
+    for k, x in enumerate((-21.0, -15.0, 15.0, 21.0)): ad_box(x, Z0 + 0.12, 'S', k, y=2.6, w=1.3, h=2.6)
+    for (bx, bz, yw) in ((-9.2, -11.4, 0.0), (9.2, -11.4, 0.0), (-6.0, 11.4, 0.0), (6.0, 11.4, 0.0)): recycle_bin(bx, bz, yw)
     # 等候椅、櫃台、咖啡店、南牆玻璃出口
     for b in J['benches']: bench(b['x'], b['z'], b['yaw'], b['n'])
     for c in J['counters']:
@@ -442,8 +493,8 @@ else:
     for (cx, cz) in ((-18.0, -6.0), (18.0, -6.0), (-18.0, 6.0), (18.0, 6.0)): co.cyl((cx, 0.0, cz), (cx, HH, cz), 0.4, seg=18)
     trolley_row(-4.5, 10.6, 8)
 
-for m_ in (pv, st, mu, gl, wt, pn, tp, rb, se, sg, sh_, al, dl, co, bl, fr, fdD, fdA, PROD):
-    if not m_.empty(): m_.finish(root, uv=(m_ in (tp,)), merge=not (m_ in (sg, sh_, al, fdD, fdA, PROD)))
+for m_ in (pv, st, mu, gl, wt, pn, tp, rb, se, sg, sh_, al, dl, co, bl, fr, fdD, fdA, PROD, ADS):
+    if not m_.empty(): m_.finish(root, uv=(m_ in (tp,)), merge=not (m_ in (sg, sh_, al, fdD, fdA, PROD, ADS)))
 if LEAF is not None and not LEAF.empty(): LEAF.finish(root, uv=False, merge=False)
 L.merge_by_material(root, keep=lambda ob: ob.name.startswith('WALL_') or ob.name.startswith('DOOR_'))
 st_ = L.export(OUT, gpu_instances=False)
