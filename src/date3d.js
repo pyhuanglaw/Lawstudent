@@ -244,23 +244,36 @@ const DATE=(function(){
     let set=null; if(!visits&&C.first&&!C.first.wishEvent) set=C.first; if(!set&&dating&&id!=='kexin'&&(C.dating||[]).length) set=S.pickSet(G,id,C.dating,t,'close.dating'); if(!set&&brokeUp(G,id)&&(C.afterBreakup||[]).length) set=S.pickSet(G,id,C.afterBreakup,t,'close.after'); if(!set) set=S.pickSet(G,id,C.normal,t,'close.normal');
     return S.playSet(GM,id,set,t); };
   S.scene=async function(GM,q){ const G=GM.G, t=S.trip(G,q.dateTrip); if(!t) return false; const who={name:nameOf(t.who),charId:t.who}; const loc=t.locs[0], L=S.loc(loc);
-    const visits=(S.log(G,t.who).byLoc[loc]|0); const endH=t.day*24+t.back-S.travel(loc,t.transport).minutes/60; const spots=[];
-    await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票'); await S.arriveLine(GM,t,visits);   /* 抵達句（第一次／普通／交往中）*/
-    const pts=S.points(loc);
+    const visits=(S.log(G,t.who).byLoc[loc]|0); const endH=t.day*24+t.back-S.travel(loc,t.transport).minutes/60; const spots=[], m0=G.money|0;
+    const pts=S.points(loc), qk=visits>=2?S.quickPick(G,t.who,pts,endH):null;   /* 快速約會（AA_128 5-4：同一個地點第三次以後）*/
+    await GM.say(null,'（'+L.name+'。）'); if(L.admission&&GM.money) GM.money(-L.admission,L.name+' 門票');
+    if(qk&&(await GM.choose([{t:'自己選',hint:'照常一個一個選'},{t:'快速約會',hint:'她喜歡的：'+qk.map(p=>p.name).join('、')+'，直接結算'}]))===1){   /* 系統做兩個她喜歡的互動點、跳過介紹（抵達句、反應、收尾），直接結算 */
+      for(const p of qk){ spots.push(p.id); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name); const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p); }
+      return S.settle(GM,t,spots,pts,visits,m0,{quick:true}); }
+    await S.arriveLine(GM,t,visits);   /* 抵達句（第一次／普通／交往中）*/
     for(let n=0;n<4;n++){ const now=G.day*24+G.hour; const left=pts.filter(p=>!spots.includes(p.id));
       const opts=left.map(p=>({t:p.name,hint:(p.min|0)+' 分'+(p.cost?'　'+p.cost+' 元':''),dis:now+(p.min|0)/60>endH,why:'時間差不多了'})).concat([{t:n?'差不多了，回去吧':'就這樣回去'}]);
       const k=await GM.choose(opts.map(o=>o.dis?{t:o.t,hint:o.why,dim:true}:o)); if(k>=left.length) break; if(opts[k].dis){ if(GM.toast) GM.toast('時間差不多了'); n--; continue; }   /* 灰掉的（時間不夠）按了只提示，不結束 */
       const p=left[k]; spots.push(p.id); const said=await S.spotLine(GM,t,p.id,visits); if(!said&&p.act) await GM.say(null,'（'+p.act+'。）'); if(GM.advance) GM.advance((p.min|0)/60); if(p.cost&&GM.money) GM.money(-p.cost,p.name);   /* 互動點的反應（沒有台詞的地點照舊一句旁白）*/
-      const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]);
+      const lk=S.likeOf(t.who,p.id); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&Object.keys(S.LIKE[lk]).length) SOCIAL.adjust(t.who,S.LIKE[lk]); S.photoAt(GM,t,p);
       if(spots.length===3&&pts.length>3) await S.speak(GM,t.who,'enough',t,{obj:null});   /* 第三個互動點之後她說一句「差不多了」（BB_128 2-5 第 5 步；不分地點）*/ }
     t.spots=spots; S.mem(G,t.who,loc).last=spots.slice();
     if(!spots.length){ if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(t.who,{fam:1}); t.status='cancelled'; if(!await S.speak(GM,t.who,'leaveEarly',t,{obj:null})) await GM.say(who,'……就這樣？'); return {counted:false}; }   /* 一個都沒做就走：她那一句（BB_128 3-6；沒有的人照 AA_128 5-2 的例句）*/
     await S.closeLine(GM,t,visits);   /* 收尾句（第一次／普通／交往中）*/   /* 做了 0 個就離開：不算次數、熟悉 +1（「就這樣？」是 AA_128 5-2 的例句，各人的句子 BB 寫）*/
-    t.status='done'; const firstWish=S.wishOf(t.who)===loc&&!S.log(G,t.who).wish;
+    return S.settle(GM,t,spots,pts,visits,m0); };
+  /* 結算（AA_128 5-1 第 5 步、5-3）：去了哪裡、做了什麼、花了多少錢（祐廷自己的：門票、互動點、來回車資）、照片存進相簿；不顯示好感數字 */
+  S.settle=async function(GM,t,spots,pts,visits,m0,o){ const G=GM.G, loc=t.locs[0], L=S.loc(loc);
+    t.spots=spots; S.mem(G,t.who,loc).last=spots.slice(); t.status='done'; const firstWish=S.wishOf(t.who)===loc&&!S.log(G,t.who).wish;
     const r=S.complete(G,t);
     if(r.counted&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust){ SOCIAL.adjust(t.who,S.GAIN[Math.min(visits,2)]); if(firstWish) SOCIAL.adjust(t.who,{npcRom:4,trust:3}); }
     if(r.counted&&r.count===1) G.flags['DATED_1_'+t.who]=true;   /* 第一次之後：當晚她傳一張照片或一句話（AA_128 5-5；訊息內容 BB 寫）*/
-    await GM.say(null,'（今天去了'+L.name+'：'+spots.map(id=>(pts.find(p=>p.id===id)||{}).name).join('、')+'。）');   /* 結算畫面第一版：去了哪裡、做了什麼（不顯示好感數字）*/
+    const spent=Math.max(0,(m0|0)-(G.money|0))+(t.fare|0), ph=(G.album||[]).some(a=>a.trip===t.trip);
+    await GM.say(null,'（今天去了'+L.name+'：'+spots.map(id=>(pts.find(p=>p.id===id)||{}).name).join('、')+'。'+(spent?'花了 '+spent+' 元'+(t.fare?'（含來回車資）':'')+'。':'')+(ph?'照片存進相簿。':'')+'）');   /* 結算畫面：去了哪裡、做了什麼、花了多少錢、相簿（不顯示好感數字）*/
     return r; };
+  /* 快速約會可以做的兩個：她喜歡的優先，不夠用普通的補（不用她不太喜歡的）；時間要夠。少於兩個就不提供 */
+  S.quickPick=function(G,id,pts,endH){ const now=G.day*24+G.hour; let tot=0; const ok=[]; for(const lk of ['like','normal']) for(const p of pts){ if(ok.length>=2) break; if(S.likeOf(id,p.id)!==lk||ok.includes(p)) continue; if(now+(tot+(p.min|0))/60>endH) continue; ok.push(p); tot+=p.min|0; } return ok.length>=2?ok:null; };
+  /* 相簿（Life Album，AA_128 5-1、5-2 拍照位置）：拍照的互動點存一張（底圖＋她的人物圖層；合照要第 6 階或交往中）。G.album＝[{kind,trip,who,loc,day,h,both}]；手機「相簿」照時間排 */
+  S.photoAt=function(GM,t,p){ if(!/\.photo$/.test(p.id)) return false; const G=GM.G; if(!Array.isArray(G.album)) G.album=[]; if(G.album.some(a=>a.trip===t.trip)) return false;
+    const both=!!(G.flags&&G.flags['dating_'+t.who])||S.stageNum(t.who)>=6; G.album.push({kind:'date',trip:t.trip,who:t.who,loc:t.locs[0],day:G.day,h:+(G.hour%24).toFixed(2),both}); if(GM.toast) GM.toast('照片存進相簿',2200); return true; };
   return S;
 })();

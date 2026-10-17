@@ -376,7 +376,7 @@ const GAME = (function(){
   // ---------- 啟動 ----------
   // ---------- 手機（D54 的順序第 4 步：今天、課表；訊息、朋友之後）----------
   let phoneOpen=false, phoneTab='today';
-  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():(phoneTab==='events'?eventsHTML():(phoneTab==='msg'?msgHTML():invTodayHTML()+CLS.todayHTML(G)))));
+  function renderPhone(){ if(!phoneOpen||typeof CLS==='undefined'||!G) return; const body=$('phoneBody'); body.innerHTML=phoneTab==='week'?CLS.weekHTML(G):(phoneTab==='places'?placesHTML():(phoneTab==='friends'?friendsHTML():(phoneTab==='events'?eventsHTML():(phoneTab==='msg'?msgHTML():(phoneTab==='album'?albumHTML():invTodayHTML()+CLS.todayHTML(G))))));
     body.querySelectorAll('[data-inv]').forEach(b=>b.onclick=async()=>{ if(E.player.busy){ toast('現在不能約人'); return; } closePhone(); sceneBegin(); try{ await INV.flow(GM,b.dataset.inv,null,false); } finally { sceneEnd(); } openPhone('msg'); });   /* 手機約人（使用者第 3 點）*/
     body.querySelectorAll('[data-ans]').forEach(b=>b.onclick=()=>{ const [iv,a]=b.dataset.ans.split('|'); const r=a.startsWith('c:')?INV.answerChange(G,iv,a.slice(2)):INV.answer(G,iv,a); if(r&&r.res==='later'){ const v=INV.byId(G,iv); if(v){ closePhone(); sceneBegin(); INV.flow(GM,v.who,null,false).finally(()=>{ sceneEnd(); openPhone('msg'); }); return; } } renderPhone(); });   /* 對方約你／改約的回覆 */
     body.querySelectorAll('[data-skip]').forEach(b=>b.onclick=async()=>{ closePhone(); await CLS.skipTo(GM,+b.dataset.skip); });
@@ -400,6 +400,18 @@ const GAME = (function(){
     closePhone(); if(menuOpen) closeMenu(); if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);   /* 活動中快速前往＝中途離開（AA_110 5-2）*/
     advance(st.mins/60); await enter(z,sp||undefined); toast((st.bike?'騎了 ':'走了 ')+st.mins+' 分鐘到'+label,2600); }
   GM.quickGo=quickGo;
+  /* 相簿（Life Album，AA_128 5-1；AA_185 2-5）：自由出行拍的照片（G.places.photos）、校外約會的拍照位置（G.album：底圖加她的人物圖層；合照要第 6 階或交往中）、解鎖的 CG（G.cg.unlocked）。照時間排，新的在前 */
+  function albumHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]), BG=typeof OUT!=='undefined'&&OUT.BG?OUT.BG:{}, img=k=>(BG[k]||{}).image||'', items=[];
+    const when=(d,h)=>{ if(typeof CALENDAR==='undefined') return ''; const x=CALENDAR.dateOf(d); return x.y+'/'+x.m+'/'+x.d; };
+    const ft=typeof FREE_TRIPS!=='undefined'?FREE_TRIPS.spots||[]:[]; for(const ph of ((G.places||{}).photos||[])){ const sp=ft.find(s=>s.id===ph.spot)||{}; items.push({t:ph.day*24+(ph.h||0),bg:img(sp.bg),cap:(sp.name||ph.spot)+'・'+when(ph.day)}); }
+    for(const a of (G.album||[])){ if(a.kind!=='date') continue; const L=typeof DATE!=='undefined'&&DATE.loc?DATE.loc(a.loc)||{}:{}, key=Object.keys(BG).find(k=>k.startsWith(String(a.loc||'').toLowerCase()+'_base')), pf=typeof PORTRAIT_FILES!=='undefined'&&PORTRAIT_FILES[a.who]&&PORTRAIT_FILES[a.who].campus?'assets/portraits/'+a.who+'/campus/neutral.webp':'';
+      items.push({t:a.day*24+(a.h||0),bg:key?img(key):'',fg:pf,cap:(L.name||a.loc)+'・'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(a.who):a.who)+(a.both?'（合照）':'')+'・'+when(a.day)}); }
+    const cg=typeof CG_REGISTRY!=='undefined'?(((G.cg||{}).unlocked)||[]).filter(id=>CG_REGISTRY[id]):[];
+    if(!items.length&&!cg.length) return '<div class="item muted">還沒有照片。自由出行可以拍一張，和她出去的時候也可以在拍照的地方拍。</div>';
+    items.sort((a,b)=>b.t-a.t); let h='';
+    if(items.length) h+='<div class="item"><div class="albGrid">'+items.map(x=>'<div class="alb" style="background-image:url('+esc(x.bg)+')">'+(x.fg?'<img src="'+esc(x.fg)+'" alt="">':'')+'<div class="cap">'+esc(x.cap)+'</div></div>').join('')+'</div></div>';
+    if(cg.length) h+='<div class="item"><div class="muted">CG</div><div class="albGrid">'+cg.map(id=>'<div class="alb" style="background-image:url('+esc(CG_REGISTRY[id].file)+')"><div class="cap">'+esc(CG_REGISTRY[id].title||'')+'</div></div>').join('')+'</div></div>';
+    return h; }
   function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item"><button class="btn pri" data-bigmap="1">打開整張地圖（也可以點右上角的小地圖）</button></div><div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';   /* 選單「地圖」併進來（2026-10-16）*/
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
