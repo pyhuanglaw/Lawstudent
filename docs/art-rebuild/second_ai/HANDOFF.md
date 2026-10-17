@@ -98,7 +98,9 @@
      - 第二版用現在的路人 `bl_npc`（12 位）、外殼＋烤色，遊戲端不用改；
      - 說明與修改前後：`test_shots/seated_figures_v2/README.md`。
    - 工具：`glb_share_geometry.py` 加資料相同的 accessor 合併、`--qnormals`（法線 8 位元）；`uvpack.pack` 加 `weight`；`char_lookdev.py` 加 `--views`、`--vdef`。
-   - 下一步：312／507／409 交件 → 批 4 其他場景（V3／V4／V5 房間、畢業典禮）→ 家豪筆記本（選做）→ 戲院、咖哩店精修。
+   - ✅ 宿舍大二～大四交件 `4fa4a1e2`（窗景＋十二組擺設＋patch）→ LAWWW-C **已整合 `c1931118`**（宿舍單元測試 28 支通過、瀏覽器下一批）；112／218／105 的照片已刪。
+   - ✅ 大二房間拆箱的物件 `dorm_y2_items.glb` 搬到四人房 L2 → 交 LAWWW-C（`899f9bcd`，DELIVERED）。
+   - 下一步：畢業典禮（SCN-V5-02）→ 家豪筆記本（選做）→ 戲院、咖哩店精修。
 
 ### 📋 分批順序（LAWWW2-C 2026-10-17 10:4x；使用者 10:4x 經 LAWWW-C：「各自審核每一批要做什麼、排出順序，手上沒事就先做下一批」）
 D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tools/handoff/check_handoff.py queue --owner LAWWW2`（72 項）。
