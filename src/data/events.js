@@ -300,7 +300,7 @@ const STORY_EVENTS=[
       {unless:{custom:G=>G.day===STORY.dayOfKey('2026-07-11')},speaker:null,text:'（搬家後還有幾箱沒拆。）'},
       {speaker:null,text:'（書架最下面一層，一本封面有點皺的筆記本。大一的通識課。她翻開，停在一頁，笑了一下，拿起手機拍照。）'} ],
     after:G=>{ G.flags.SIS_C2_ROOM=G.day; G.flags.SIS_C2_H=Math.min(23.5,Math.max(16,(G.hour%24)+0.25)); if(typeof STORY!=='undefined'&&STORY.albumMemory) STORY.albumMemory(G,'sis_notebook','筆記本那一頁',''); } },   /* Life Album 收「筆記本那一頁」（BB_188 C2）：號碼不能看得清楚，先不放圖 */
-  /* 寒假沒報補習（C04W）的玩家：平日 18:00～18:30 在公館，Kevin 去補習班上班前招呼一次（AA_241 9-2；BB_198 大一寒假那列；大二寒假起、一個假期一次；VAC.kevinDoor）*/
+  /* 公館的補習班門口：平日 18:00～18:30，Kevin 去上班前招呼一次（AA_241 9-2；BB_198 大一寒假那列 d142d98d：大一寒假每個玩家都有、日本那週 1/24～1/31 除外；大二寒假起只給沒報 C04W 的；一個假期一次；VAC.kevinDoor）*/
   { id:'ev_kevin_cram_door', title:'補習班門口', participants:[], location:'gongguan', trigger:'auto', weekday:[1,2,3,4,5], time:[18,18.5], priority:3, background:'blur',
     prereq:{custom:G=>typeof VAC!=='undefined'&&!!VAC.kevinDoor&&!!VAC.kevinDoor(G)},
     dialogue:[ {speaker:'Kevin',text:'學弟！路過喔？我要上班了，下次聊。',unless:{custom:G=>!!G.flags.KEVIN_DOOR&&Object.keys(G.flags.KEVIN_DOOR).length>0}},
