@@ -1355,6 +1355,15 @@ const Z3 = (function(){
     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
     z.setV0Box=()=>{};
+    /* ART-04 黃金葛（方奕廷送的，POTHOS）：法律系 203 祐廷書桌上（GLB 根節點 place：L2 書桌 +z 端前緣）；四種大小照澆水次數（S.pothosSize）。只在拿到以後載入 */
+    z.pothosState=null; z.setPothos=(on,n)=>{ const k=on?'S'+pothosSize(n):null; if(z.pothosState===k) return; z.pothosState=k; if(!on){ const o=g0.getObjectByName('dorm_pothos'); if(o) o.visible=false; return; }
+      const show=pg=>{ pg.visible=true; pg.traverse(o=>{ if(/^POTHOS_S\d$/.test(o.name)) o.visible=o.name==='POTHOS_'+k; }); };
+      let pg=g0.getObjectByName('dorm_pothos'); if(pg){ show(pg); return; }
+      if(econ||typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.pothos']) return;
+      pg=new THREE.Group(); pg.name='dorm_pothos'; pg.userData.dyn=true; g0.add(pg);
+      ASSETS.loadOne('bldg.pothos').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); let P=null; root.traverse(o=>{ if(!P&&o.userData&&o.userData.place) P=o.userData.place; });
+        P=P||{x:-2.39,y:0.76,z:0.145,ry:Math.PI/2}; root.position.set(P.x,P.y,P.z); root.rotation.set(0,P.ry||0,0);
+        root.traverse(m=>{ if(m.isMesh){ m.castShadow=true; m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } }); pg.add(root); show(pg); }).catch(e=>console.warn('黃金葛載入失敗',e)); };
     if(econ&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.v0_dorm_props']){ const vg=new THREE.Group(); vg.name='v0_dorm_props'; vg.userData.dyn=true; g0.add(vg); const VP=R.v0_props;
       z.v0Box=v0BoxFromFlags(GAME.G.flags||{}); z.setV0Box=s=>{ z.v0Box=s; for(const [k,n] of [['onbed','BOXES_ONBED'],['bed','BOXES_BED'],['foot','BOXES_FOOT']]){ const o=vg.getObjectByName(n); if(o) o.visible=s===k; } };
       ASSETS.loadOne('bldg.v0_dorm_props').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
@@ -1363,6 +1372,8 @@ const Z3 = (function(){
         put('BOOK_ECON',{x:me.desk_center[0],y:me.desk_top_y,z:me.desk_u[1]-0.25},0,0,Math.PI/2+0.2); put('XUN_DESK',VP.XUN_DESK); put('XUN_BOWLING',VP.XUN_BOWLING);
         z.setV0Box(z.v0Box); }).catch(e=>console.warn('經濟系宿舍的小物件載入失敗',e)); }
     return z; } };
+  /* 黃金葛的大小（ART-04；json 寫「LAWWW 定規則」）：每週最多澆一次（story3d.js pothosScene），沒澆不長大。0～5 次＝S1 剛送來、6～19＝S2、20～39＝S3（一年多）、40 以上＝S4 */
+  function pothosSize(n){ n=n|0; return n>=40?4:n>=20?3:n>=6?2:1; }
   function v0BoxFromFlags(F){ if(!F.E01_NIGHT) return 'onbed'; if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES) return 'foot'; return 'none'; }
   /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
      牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
@@ -1406,5 +1417,5 @@ const Z3 = (function(){
       return z; } }; }
   const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
   const ZONES={campus,gongguan,wenzhou,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
 })();

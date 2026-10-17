@@ -2312,10 +2312,11 @@ const STORY = (function(){
     GM.memo('搬進第二個房間'); if(GM.autosave) GM.autosave(); return true; };
   async function roomItems(GM){ GM.sceneBegin(); try{ const L=S.roomItemList(GM.G); for(let n=0;n<12;n++){ const i=await GM.choose([...L.map(r=>({t:r[0]})),{t:'不看了'}]); if(i<0||i>=L.length) break; for(const t of [].concat(L[i][1])) await GM.say(null,t); } } finally { GM.sceneEnd(); } }
   /* 宿舍房間裡跟著劇情出現的東西（交接包 v1 第 4 批，BB_95 3-1、3-2）：黃金葛（POTHOS，方奕廷送的，書桌旁）、阿凱書桌下的鍵盤盒子（KAI_SILENT_KB；看過就收起來）。
-     進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛的小盆栽還沒有——先只有互動點；小道具集中成一批「環境細節」，主要工作穩定後一起做（D70，使用者 2026-10-14：低優先）*/
+     進宿舍、待在宿舍時（S.tick）補上，同一個東西不重複加。3D 模型：黃金葛 prop_pothos.glb（ART-04，LAWWW2-C 639f0188）由 zones3d.js 的 z.setPothos 放、照澆水次數換大小 */
   S.dormItems=function(GM){ const G=GM.G, F=G.flags, E=GM.E; if(G.zone!=='dorm'||!E||!E.interactables) return; const has=k=>E.interactables.some(it=>it[k]);
     const SP=(E.zone&&E.zone.spots)||{pothos:[0.7,-2.3],kaiBox:[0.6,1.5],fyPots:[1.0,-1.6]};   /* 四人房（DORM-LOFT-L）：黃金葛在玩家書桌、盒子在阿凱書桌下、三盆植物在後牆窗台（zones3d.js 的 z.spots）*/
     if(F.POTHOS&&!has('pothos')) E.interactables.push({x:SP.pothos[0],z:SP.pothos[1],radius:0.6,label:'黃金葛',pothos:true});
+    if(E.zone&&E.zone.setPothos) E.zone.setPothos(!!F.POTHOS,F.pothosWaterN|0);   /* ART-04：盆栽模型、大小跟著澆水次數（zones3d.js）*/
     if(F.KAI_SILENT_KB&&!F.KAI_BOX_SEEN&&!has('kaiBox')) E.interactables.push({x:SP.kaiBox[0],z:SP.kaiBox[1],radius:0.7,label:'書桌下的盒子',kaiBox:true});
     const FP=F.fyPots; if(FP&&FP.hand!=null&&!FP.done&&!has('fyPots')) E.interactables.push({x:SP.fyPots[0],z:SP.fyPots[1],radius:0.55,label:'方奕廷的三盆植物',fyPots:true}); };
   /* 黃金葛：每週（週一開始）澆一次就夠；沒澆也不會枯，只是不長大（BB_95 3-1；v1 只有一個大小，澆了幾次記在 pothosWaterN，之後長大用）*/

@@ -6286,8 +6286,8 @@
    "what": "ART-04 黃金葛改放四人房 L2 書桌 +z 端（prop_pothos.glb place (−2.39,0.76,0.145) ry π/2；F.POTHOS 時放、POTHOS_S1～S4 照 pothosWaterN 切）＋ART-V0-DORM 412 窗景 assets/models/env/views/dorm_room412_day.webp、_night.webp",
    "task": "ART-04",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall｜412 窗景已整合（LAWWW-C 本 commit）；黃金葛（ART-04）還沒接"
+   "integration": "已整合待測試",
+   "note": "LAWWW2-C 04:46Z（更正 SHA；outbox cf9cb323）。412 窗景是 v0（D81 較早）：dormSet 412 時 room() view 換 dorm_room412；房號牌在 dorm_hall｜412 窗景已整合（LAWWW-C 本 commit）；黃金葛（ART-04）還沒接｜黃金葛也已整合（LAWWW-C 本 commit）"
   },
   {
    "id": "DL-AA-AB215",

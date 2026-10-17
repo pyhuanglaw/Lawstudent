@@ -548,8 +548,8 @@
    "title": "prop_pothos.glb",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "已交付 DL-LW2-POTHOS-412（639f0188）：LAWWW 接 F.POTHOS 放置、POTHOS_S1～S4 照 pothosWaterN 切 visible",
+   "status": "已整合待測試",
+   "next": "已接（zones3d.js z.setPothos＋story3d.js dormItems；大小 0～5／6～19／20～39／40＋次澆水＝S1～S4；v0_dorm_props_unit 第 5 項）。等瀏覽器看 L2 書桌上的盆栽（白天、晚上、四種大小）",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -564,7 +564,8 @@
    "source": "LAWWW2-B 清查 e3d6779 ④；LAWWW-B 10-16 回覆要接",
    "authorized": "D79",
    "sha": [
-    "2baa5ac1"
+    "2baa5ac1",
+    "639f0188"
    ],
    "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
    "xai": {

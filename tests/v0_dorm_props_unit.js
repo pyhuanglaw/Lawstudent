@@ -20,6 +20,11 @@ const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const build=G=>{ gl
   const z2=build({stage:'law',flags:{},day:20}); check('3. 法律系（203）：沒有這些小物件；setV0Box 是空函式',!z2.group.getObjectByName('v0_dorm_props')&&typeof z2.setV0Box==='function'); }
   { const pv=z=>(z.wins||[]).map(w=>w.userData&&w.userData.pview).filter(Boolean); const ze=build({stage:'econ',flags:{},day:-15}), zl=build({stage:'law',flags:{},day:20});
     check('4. 窗景（ART-V0-DORM）：經濟系 412＝dorm_room412、法律系 203＝dorm_room；兩張圖都在',pv(ze).length>0&&pv(ze).every(v=>v==='dorm_room412')&&pv(zl).length>0&&pv(zl).every(v=>v==='dorm_room')&&['day','night'].every(t=>fs.existsSync(path.join(ROOT,'assets/models/env/views/dorm_room412_'+t+'.webp'))),JSON.stringify([pv(ze),pv(zl)])); }
+  { const zl=build({stage:'law',flags:{POTHOS:true},day:20}), ze=build({stage:'econ',flags:{},day:-15});
+    check('5. 黃金葛（ART-04）：大小規則 0～5→S1、6～19→S2、20～39→S3、40→S4',[0,5,6,19,20,39,40,99].map(Z3.pothosSize).join()==='1,1,2,2,3,3,4,4');
+    check('5. 法律系房間有 setPothos；沒拿到（off）不建模型；經濟系不載入',typeof zl.setPothos==='function'&&(zl.setPothos(false,0),!zl.group.getObjectByName('dorm_pothos'))&&(ze.setPothos(true,3),!ze.group.getObjectByName('dorm_pothos')));
+    zl.setPothos(true,7); check('5. 拿到了：建 dorm_pothos 群組（dyn，模型載入後放到 L2 書桌）、狀態 S2',!!zl.group.getObjectByName('dorm_pothos')&&zl.pothosState==='S2'&&zl.group.getObjectByName('dorm_pothos').userData.dyn===true);
+    check('5. 資產在 manifest、GLB 檔在 repo',!!ASSETS.manifest['bldg.pothos']&&fs.existsSync(path.join(ROOT,ASSETS.manifest['bldg.pothos'].url))); }
 { const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const i1=st.indexOf("v0Box(GM,'onbed')"), i2=st.indexOf("v0Box(GM,'bed')"), i3=st.indexOf("v0Box(GM,'foot')"), i4=st.indexOf("F.E01_NIGHT='unpack'; v0Box(GM,'none')"), i5=st.indexOf("F.E412_MOVEIN=true; if(box) v0Box(GM,'none')");   /* 9/2 晚上：先睡的玩家箱子拆完（AA_208 起和韋綸、唐睿搬進來同一段）*/
   check('4. E01：開場床上 → 22:00 床邊地上 → 先睡推到床尾／拆完不見 → 隔天晚上拆完不見（story3d.js 的順序）',i1>0&&i2>i1&&i3>i2&&i4>i3&&i5>i4); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
