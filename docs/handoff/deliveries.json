@@ -6626,6 +6626,58 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "和 ROUTE-DATES-1017 一起做；學姊 absentDates 改 8/2～12/23"
+  },
+  {
+   "id": "DL-AA-8fdcc961",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8fdcc961",
+   "what": "AA_254 告白只在學期末：心意邀約、婉拒、飯桌一句、回家路上四選項、她說、讓我想想、第二次；學姊美國第一場雪；不發時的手機一句；以安日本 REPAIR（a361270c 起）",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "第②級 AA 定稿；匯入前加進 story_import_allow"
+  },
+  {
+   "id": "DL-AA-acf92ff0",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "acf92ff0",
+   "what": "AA_250 第 10 節：學期末的飯一對一、朋友邀約一對一句、婉拒、女朋友學期末約會、保底阿凱／阿哲",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "麵店團群體聚會不佔名額（大一下 6/12 等 BB 確認）"
+  },
+  {
+   "id": "DL-BB-900f5e38",
+   "date": "2026-10-17",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "900f5e38",
+   "what": "BB_203 第 5 節不發心意邀約條件表；BB_191 §10、BB_194 §6 指向 BB_203；BB_204 第 9 節留臺灣遠距、律師考試",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "BB_204 第 9 節屬 BB204-EXROUTE；律師考試結果只在這條線固定或每條線，要和 AA 確認"
+  },
+  {
+   "id": "DL-AA-375b91dd",
+   "date": "2026-10-17",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "375b91dd",
+   "what": "子晴做遊戲的句子加「看過 Q6（ev_ziqing_secret_game）」條件與替代句（AA_250／251／254／242）；芷若英國日期 2027-09～2028-02 中＋畢業後一年（b667820f）",
+   "task": "BB203-CONFESS-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "芷若英國日期另影響 ROUTE／absentDates，排進 BB204-EXROUTE 那批"
   }
  ],
  "ignored": [
