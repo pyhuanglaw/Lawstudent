@@ -1,0 +1,13 @@
+{
+ "_note": "AA-C 2026-10-17：AA_128 4-1 的 DATE_PREFS（以安、語彤）。只填有兩種以上交通的地點；玩家改掉時她說 AA_127 第 8 節「改交通」那一句。沒填的照系統預設。",
+ "heroine_01": {
+  "D26": {"transport": "hsr", "why": "回臺中都搭高鐵；在車上可以看書"},
+  "D27": {"transport": "hsr", "why": "同上，時間最好算"},
+  "D28": {"transport": "hsr", "why": "同上"}
+ },
+ "heroine_03": {
+  "D09": {"transport": "mrt", "why": "家裡沒有車，習慣搭捷運"},
+  "D20": {"transport": "mrt+bus", "why": "同上"},
+  "D21": {"transport": "mrt+bus", "why": "同上"}
+ }
+}
