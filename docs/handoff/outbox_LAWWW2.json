@@ -111,10 +111,11 @@
     "tools/blender/char_second/weilun_face.py",
     "tools/blender/char_second/weilun_clothes.py",
     "tools/blender/char_second/weilun_hair.py",
-    "docs/art-rebuild/second_ai/char_review/weilun/"
+    "docs/art-rebuild/second_ai/char_review/weilun/",
+    "tools/blender/char/p04_clothes.py"
    ],
    "state": "WIP",
-   "remaining": "BB-C 04:57 要改八項（HANDOFF）；使用者 05:0x 暫停人物（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
+   "remaining": "BB-C 04:57 的八項全部寫進第三版腳本（25745cbf），建置中；建好拍 lookdev 送 BB-C（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "人物恢復後做第三版",
    "noDirectIntegrate": true,
    "receiver": "BB",
@@ -162,14 +163,31 @@
     "tools/blender/char_second/xun.py",
     "tools/blender/char_second/xun_face.py",
     "tools/blender/char_second/xun_hair.py",
-    "tools/blender/char_second/xun_clothes.py"
+    "tools/blender/char_second/xun_clothes.py",
+    "tools/blender/char/h01_clothes.py",
+    "tools/blender/char_second/char_build.sh"
    ],
    "state": "WIP",
-   "remaining": "腳本第一版；建置停在臉（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
+   "remaining": "第三版建好、lookdev 拍了（褲子已直、臉接近），第四版建置中（上衣不要像毛衣、表情不要像難過、瀏海到眉毛、髮殼補到髮旋）；送 BB-C 驗收前還沒交（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）",
    "next": "使用者 05:0x 暫停人物；恢復後繼續",
    "noDirectIntegrate": true,
    "receiver": "BB",
    "ack": "未派"
+  },
+  {
+   "task": "ART-CH-PINYU",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "",
+   "files": [
+    "tools/blender/char_second/pinyu.py",
+    "tools/blender/char_second/pinyu_face.py",
+    "tools/blender/char_second/pinyu_clothes.py",
+    "tools/blender/char_second/pinyu_hair.py",
+    "assets/models/char/second_ai/bl_econ_pinyu.vrm",
+    "docs/art-rebuild/second_ai/char_review/pinyu/"
+   ],
+   "state": "WIP",
+   "remaining": "第二版建好、lookdev 拍了（褲子已直、帽 T 夠長）；第三版腳本（瀏海細一點、臉旁碎髮不折鉤、領口蓋住接縫、帽子小一點）待建（使用者 06:5x：恢復，照 AA-C 順序：阿勳→品妤→韋綸→唐睿→家豪→魏教授）"
   },
   {
    "task": "SCN-V0-01",
