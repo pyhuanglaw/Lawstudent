@@ -17,7 +17,7 @@
 
 LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 
-## 2. AA（AA-B，分支 `claude/cool-heisenberg-o8kuqx`，已交班 `ec63dd53`）——前半 63 筆已核對、後半 63 筆核對中
+## 2. AA（AA-B，分支 `claude/cool-heisenberg-o8kuqx`，已交班 `ec63dd53`）——已核對（126 筆）
 
 ### 2-1. 前半 63 筆（唯讀子代理逐筆打開 diff、grep 開發分支 src/；LAWWW-B 登記）
 
@@ -68,6 +68,96 @@ LAWWW-B 沒有本機沒 push 的檔案、沒有 WIP 分支。
 | DL-AA-28cc392a | DATE-S8 | 未整合 | BB_171 C1／C3／C7 對齊：AA_128 大一暑假芷若 7/1～8/25、以安 7/25～8/8 在台中、子晴學姊過年改已定案；AA_197 1-6 2028/12/31 是週日 |
 | DL-AA-9925f201 | ART-GYM-BG1 | 已整合待測試 | AA_195 4-4：開學典禮背景規格（新體育館內部典禮、畢業典禮共用、不放真實校徽；做好前用 ntu_avenue、不擋改預設） |
 
+
+### 2-2. 後半 63 筆（AA-B 寫 43 筆、BB 分支合併進來 20 筆）
+
+- **大一下閒聊階梯（特別確認）**：產生器重跑和 commit 裡的 JSON 一致；開發分支 ladder.js 大一下＝72ea87f5 版。**AA-B 交班說「可昕 K2 沒改」，但 2fd0399d 實際改了可昕 17 處**——要 AA 逐句看 diff。**匯入工具預設會把 AA 分支所有 ladder_*.json 一起帶進來，一定要逐檔用「檔名=ref」**。
+- **AA_211（特別確認）**：`docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md`＋附錄，最後 `8f837d93`（附錄 A `65a2aab8`）；AA 的裁定、群戲三場、給 LAWWW 8 點都寫好；等 BB_181 口氣審（BB 分支 5c8e7539，交班中斷、沒傳給 AA）；y2s1 階梯寫回還沒開始；還沒交 LAWWW。
+- **登記修正**：DLV-1016-397（88585540，AA 口頭禪配額）原本標已整合待測試，實際沒進開發分支（ladder.js 舊句還在）→ 改未整合。
+- **總表補建**：ROOM4（大三、大四房間，AA）、HOL-NYE-Y3、HOL-NYE-Y4；ART-WZ7 加別名 WZ7。HOLIDAY-SYS、AA186-FIX、V1-AA194-L、AB65-3-Y1S2-L 的 next 補上核對結果。
+- **拿不準的 6 筆**（子代理判斷，下一班可複核）：125f4d1a、d7cf6e78（AA_194 大一上階梯，可能其實算交付）、c50a3f64、a5a54293（WIP 或已被後續版本吸收）、b8c036d5（經濟系部分有沒有跟 BB_179 進去沒逐句核對）、5871d068（BB_167 用「參考用」登記）。
+
+- 分類結果（out_aa2.json）：{'DELIVERY新登記': 19, 'DELIVERY已涵蓋': 3, 'WORK': 34, 'WIP': 7, '已登記略過': 0}
+
+**AA 後半的半成品（WIP）**
+
+| 任務 ID | 內容 | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩餘工作 | 能不能整合 |
+|---|---|---|---|---|---|---|---|
+| VAC-S1（另含 VAC-T1、VAC-X1） | AA_199 寒暑假多活動行事曆建檔：使用者 VAC 指令紀錄（第 0 節）、四份交付的位置、跨 AI 任務表第一版（VAC-R1～D1） | `docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md`、`docs/story_planning/AA_199_附錄_寒暑假活動研究原文.md` | `claude/cool-heisenberg-o8kuqx` | `e2ab9073` | 第一版只有指令紀錄＋任務表；之後補到：研究表 VAC-R1（第 2 節）、行事曆骨架 v0.1（第 3 節，VAC-S1）、五年時間線初稿（第 4 節，VAC-T1）、AA 六位假期活動第一批（4-2）、使用者 Q1～Q5 決定（6-0）。AA_199 最後 commit 599deb38（10-16 22:25） | VAC-S1 定稿（等 LAWWW 的 VAC-L1 技術短評）；VAC-T1、VAC-X1 補完；HOL-VA 台詞；AA-B 交班列在 C 類「還沒開始」 | 不行：研究與企劃階段，程式 VAC-L1 排在 HOLIDAY-SYS（16 週制）之後 |
+| None | AA_194 第 2 節：語彤大一上閒聊階梯 29 處（ladder_aa.json；Y-L1 條件補 ev_library_door_phone、傘選項只給給過傘的人、招呼不綁地點時段） | `docs/story_planning/ladder/build_ladder_aa.py`、`docs/story_planning/ladder/ladder_aa.json`、`docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md` | `claude/cool-heisenberg-o8kuqx` | `125f4d1a` | JSON 已產生（ladder_aa.json 在 AA 分支最後一次修改就是這筆）；和開發分支 ladder.js 比，以安 45、語彤 45 個字串不同 | AA_194 檔頭還寫「AA-B 改完，等 BB-B 互審」，找不到第 1～2 節的互審紀錄；AA 沒有把 SHA 交 LAWWW-B；AA-B 交班紀錄沒列這項；總表沒有對應任務 | 不行（先請 AA 確認互審與交付）；匯入時要用 import_ladder.py 的「檔名=ref」單檔指定，不能直接用 AA 分支 head（會把 y1s2 WIP 一起匯入） |
+| None | AA_194 第 1 節：以安大一上閒聊階梯 26 處（問法、收尾、口頭禪、招呼不看時段、週五回台中改每月、A-L8 考後版、A-L9 換成期中週次）；AA_194 建檔 | `docs/story_planning/ladder/build_ladder_aa.py`、`docs/story_planning/ladder/ladder_aa.json`、`docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md` | `claude/cool-heisenberg-o8kuqx` | `d7cf6e78` | 同 125f4d1a（以安部分）；第 1 節「跟著要改」兩件（A2-L5、ev_an_dorm_appeal）後來列進 AA_209 | 同 125f4d1a；AN_L9_REASON→AN_L9_MIDTERM_WEEK 要 LAWWW 搜程式 | 不行（同 125f4d1a） |
+| AB65-3（#39、#40 屬 PLAN-1016-ROM） | AA_189 照使用者審稿再修（小語火鍋、以安讀書會、語彤阿姨、柏翰聊電影、以安家庭背景移到室友申訴）——AA_189 最新版 | `docs/story_planning/AA_189_台詞改稿對照_第一批.md` | `claude/cool-heisenberg-o8kuqx` | `3a4a7608` | 41 項改稿，使用者 20:3x 審過；第一、二節（好感升級、大一上階梯）已併入 AA_194；#32 ev_b4_left_an 進 AA_209 | 第三～五節沒看到被哪個交付包接走（開發分支都還是舊句）：#31 初次見面自我介紹（talkCharacter）、#33 ev_an_report_followup、#34 AA_179 第 4 節「沒回」、#35～#36 以安手機兩則、#38 A8-L6、#39～#40 AA_187 戀愛線、#41 小福最後一天 | 不行：AA_189 自己寫「確認以前不交 LAWWW-B」，要 AA 併進各學期改稿包 |
+| AB-65（另含 AA186-FIX 暫停的「AB-62 子晴那封信」） | AB-62 B：BB_166 程式台詞定稿（草稿）；學姊伴侶註記更正（顧承遠，陳助教是朋友：BB_133、BB_136、ladder_bb_y1s2／y2s1）；BB_167 附錄 SC5 | `docs/story_planning/BB_166_AB62_程式台詞定稿.md`、`docs/story_planning/BB_133_閒聊階梯_大一下_芷若子晴學姊沛珊可昕.md`、`docs/story_planning/BB_136_閒聊階梯_大二上_芷若子晴學姊沛珊可昕.md`、`docs/story_planning/BB_167_附錄/SC5_訊息邀約同行偶遇.md` | `claude/cool-heisenberg-o8kuqx` | `c50a3f64` | 定稿字寫完（子晴、沛珊、學姊、可昕、芷若 17 小節）；1-1 已進 BB_169（DL-BB-A4CC）與 AA_209 附錄 B 第 5 節，4-1 進 AA_209；zq_game、SMALLTALK、沛珊兩場分手進 AA_211（等口氣審） | BB_166 檔頭仍是「草稿，等使用者確認才交 LAWWW-B」（最後 commit 5e02f346）；學姊 3-1～3-4、可昕 4-2、芷若 5-1～5-4 沒看到被哪個交付包接走 | 不行：由 AA 各學期改稿包轉交；BB 要更新檔頭狀態 |
+| AB65-3 | AA_190：以安、語彤閒聊階梯（八學期）上下文與事實問題 75 項＋AA-B 裁定五件（杜鵑花誰拍、紅紙、週五回台中、A2-L6、A3-L3） | `docs/story_planning/AA_190_以安語彤閒聊階梯_上下文與事實問題清單.md` | `claude/cool-heisenberg-o8kuqx` | `fa7d9c6c` | 清單完成；大一上（AA_194）、大一下（AA_209）已照用 | 大二上～大四下還沒逐項對（AA_211 沒引用 AA_190）；給 LAWWW-B 的系統層建議（greet.base 的「早／今天／下一堂」移到 greet.when＋time）還沒交 | 不行：是審查清單，不是改稿；要跟各學期改稿一起交 |
+| AB65-3（大一上部分＝V1-BB168） | AB-62／AB-63 草稿：BB 閒聊階梯口頭禪減量（子晴「欸不是」、學姊條列、沛珊「奇怪的問題」、可昕「假設」），10 檔；commit 自己寫「LAWWW-B 先不要匯入」 | `docs/story_planning/ladder/build_ladder_bb*.py`、`docs/story_planning/ladder/ladder_bb.json`、`docs/story_planning/ladder/ladder_bb_y1s2.json`、`ladder_bb_y2s1～y3s2.json` | `claude/cool-heisenberg-o8kuqx` | `a5a54293` | 大一上已被 BB_169 再改（DL-BB-A4CC，未整合）；大一下由 AA 分支接手（WIP 2fd0399d）；大二上～大三下的改動留在 BB 分支（8421efdb 版）。開發分支 ladder.js（來源 72ea87f5，18:37）全部沒有 | 跟 AB65-3 各學期一起交：大二上照 AA_211 寫回、大二下起逐學期 | 不行：草稿，要跟各學期改稿包一起 |
+
+**新登記的交付**（未整合的要排進施工）
+
+| 交付 ID | 任務 | 整合 | 內容 |
+|---|---|---|---|
+| DL-AA-c3159886 | START-WEEK | 已整合待測試 | 使用者 21:25「這一版舊存檔不用相容」：AA_198 第 3 節存檔遷移、補償表作廢，AA_197 同步；AA_195 B7b 阿哲麵店選項改「她在整理今天的筆記」→「整理筆記。嗯哼。」 |
+| DL-AA-b4551331 | HOLIDAY-SYS | 未整合 | AA_197 1-5 跨年重排：大一 12/31 寒假版（12/26 群組揪、19:00 麵店→22:30 人太多→23:40 頂樓、阿哲「我們就說有看到」、NYE_Y1 四值）、AA 六位六件事表、其他四年方向；附帶 AA_199 任務表 |
+| DL-AA-54fcb10b | HOLIDAY-SYS | 未整合 | AA_197 1-6：期末考週的國定假日（115 下端午、116 上 12/24 補假、116 下端午補假）、成績照公布日發 |
+| DL-AA-a7f3eaee | HOLIDAY-SYS | 未整合 | AA_198 16 週制八學期影響清單（必搬／重寫／可留、存檔遷移、施工順序）＋AA 決定：聖誕留真正日期改放假聚會、成績放假後第 3 個週一、重訪日 1 6/12、階梯週次、大三下開學 2/21 |
+| DL-AA-cae26a6a | HOLIDAY-SYS | 未整合 | AA_197 1-6 逐學期日期表（113 經濟系、114～117 法律系；116、117 推測；成績＝放假後第 3 個週一；換房間日、成績日；要改的五件） |
+| DL-AA-d5b5d188 | START-WEEK | 已整合待測試 | AA_195 4-8 阿哲初遇 ev_zhe_w1_meet（9/1 憲法第一堂問中午吃什麼；備案 9/3 刑總、9/4 早上版；不搶 P4、迎新叫哥） |
+| DL-AA-c8078993 | HOLIDAY-SYS | 未整合 | AA_197 1-1～1-4：學期運作／生活運作、假期的一天（快轉是選項、除夕回家）、宿舍寒暑假不清空、暑住一鍵、AA 六位假期所在地；AA_183 在家模式部分作廢 |
+| DL-AA-ea6b2919 | START-WEEK | 已整合待測試 | AA_195 4-7 D：經濟系轉場也改 8/29、Y0_SUMMER 留兩句、字卡與回顧句 |
+| DL-AA-a119fceb | HOLIDAY-SYS | 未整合 | 使用者 P0 21:08 16 週制假期生活制度：AA_197 第 0 節決定紀錄（必測九項、每學期七件）；AA_195 2-4 結案（8/29 照舊、直接有住宿資格）、民總保留週四下午、茶會分流 |
+| DL-AA-6fd71f3b | START-WEEK | 已整合待測試 | AA_196 大一上時間線盤點原文、AA_195 附錄研究原文、AA_195 4-7 盤點的處理（程式 15 項、AA 改字 9 項、BB 7 項） |
+| DL-AA-f2d0b952 | START-WEEK | 已整合待測試 | AA_195 4-1：民總是下午（明天下午）、23:30 以後回宿舍的短版 |
+| DL-AA-7b2d057f | START-WEEK | 參考用 | AA_195 1-2 校曆（113～115 學年實際日期、116 以後推測）；2-4 祐廷是臺北人不能 8/29 住男一舍、三個方案給使用者 |
+| DL-AA-a4b165e7 | START-WEEK | 已整合待測試 | AA_195 4-1：9/3 晚上宿舍旁白改稿（不再自我介紹、不寫「上週」、課綱寫會點人、案例影本、DAY1_NARR 移到 8/29）＋給 BB-B 的阿凱、可昕、家族群組時間問題 |
+| DL-AA-a353a009 | START-WEEK | 未整合 | 使用者三件決定寫進 AA_195 2-0（16 週制、8/29 搬宿舍、9/27～28 迎新為虛構）＋交接紀錄；AA_194 柏翰 CLOSE 道別換句（和芯慈撞，BB-B 互審） |
+| DL-AA-6e934e86 |  | 未整合 | AA_194 第 3 節：AA 六位（以安、語彤、阿哲、小語、柏翰、芯慈）好感升級與道別 rel_lines 逐句改稿（不寫死地點時刻、讀書會分版） |
+| DL-AA-798da2af | START-WEEK | 已整合待測試 | AA_195 第 1～3 節：開局與大一上時間線查證（開學典禮 8/31、新生入住、迎新、16 週、民總時段）＋要使用者確認的三件＋AA 自己定的（民總週四、相機案例改第一堂暖身、校定假日） |
+| DL-AA-d8042bc0 | ART-PT-SIS-FORMAL | 已整合待測試 | BB_131 §12：學姊面試西裝立繪 heroine_05/formal 三張（neutral、serious、smile）BB 驗收通過（D59 角色美術） |
+| DL-AA-085d9771 | AA186-FIX | 未整合 | AB-62 C（小福）收尾：日文課 G4b 參照改活大（japanese.py→JP.json、BB_102 重新產生）；BB_144 away「在小福吃午餐」大一下以後改「在活大吃午餐」；BB_161 標新名稱 |
+| DL-AA-b8c036d5 | AA186-FIX | 未整合 | AB-62 A＋C：BB_104～107、112、113、119、124、135、137、164 補錨（照片配字、「上次」說是哪次、暗號第一次自己說明）；小福 2026 春以後改活大；明軒德國出發和 AA_140 G12 對齊；可昕前任句長 |
+
+
+> 唯讀核對（2026-10-17）。來源：AA 分支 git 紀錄、`AA_交接紀錄.md`「交班（AA-B 帳號 B，2026-10-17 02:4x）」與「AA-B 全部待辦」、開發分支 `claude/modest-rubin-2lyp7g` 的 `src/`、`docs/handoff/tasks.json`、`deliveries.json`。
+> 「和開發分支差幾處」是把 JSON 的每個字串欄位（不含 note）逐一比對 `src/data/ladder.js` 得到的數字。
+
+#### 2-3. 半成品
+
+| 任務 ID | 檔案路徑 | 分支 | 最後 commit | 完成程度 | 剩餘工作 | 能不能整合 |
+|---|---|---|---|---|---|---|
+| AB65-3／NS-Y1S2（大一下閒聊階梯寫回 JSON） | `docs/story_planning/ladder/build_ladder_aa_y1s2.py`、`ladder_aa_y1s2.json`、`build_ladder_bb_y1s2.py`、`ladder_bb_y1s2.json` | AA 分支 | aa 產生器 `34b1d21a`、aa JSON `a853ef49`（02:29）；bb 兩檔 `2fd0399d`（02:35，WIP） | 兩份 JSON 都和產生器的輸出一致（在 scratchpad 重跑確認）。七人都有改：以安 56／115、語彤 45／110、芷若 35、子晴 27、學姊 24、沛珊 23、可昕 19 個字串和開發分支不同。**可昕 K2 其實有改**：`2fd0399d` 的可昕比 `646490c5` 多 17 處，包括交班說「沒改」的 K2-L1（寒假天數、二十三→四十一次）、K2-L2、K2-L5（公車→開車）、K2-L6、K2-L8，另有 K2-L4、K2-L7 | AA 還沒逐句看 diff（對 `AA_209` 第 2 節、2-1、附錄 A／B）；確認可昕 K2 是否完整（commit 訊息和交班紀錄都寫「未完成」，和內容對不上）；commit 拿掉 WIP 字樣；把 SHA 給 LAWWW-B | **不行**：commit 訊息寫「不要匯入」。`tools/ladder/import_ladder.py` 預設 REF 是 AA 分支 head，而且一次匯入全部 `ladder_*.json`，現在照預設跑會把這份 WIP 一起匯入 |
+| AB65-3（大二上 `AA_211`） | `docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md`（142 行）、`AA_211_附錄_審稿原文.md`（419 行） | AA 分支 | `8f837d93`（02:25；附錄 A `65a2aab8`） | AA 的裁定寫完：結論、AA 的調整 10 項、群戲三場新稿（開學第一頓、中秋、期中走出教室）、16 週／312 室友／條件、給 BB 的三問、給 LAWWW 的 8 點 | 等 BB-B 口氣審：BB 分支 `BB_181_AA211口氣審_大二上BB人物_WIP.md`（`5c8e7539`，41 行，交班時中斷，還沒傳給 AA-B）；AA 裁定 → 寫回 `ladder_aa_y2s1.json`（最後 `88585540`）、`ladder_bb_y2s1.json`（AA 分支最後 `c50a3f64`，要從 BB 分支 `8421efdb` 搬）；之後才交 LAWWW-B | **不行**：還沒過 BB 口氣審，也還沒交 LAWWW-B；總表沒有獨立任務（只寫在 AB-65 的 next） |
+| （沒有任務 ID）`AA_194` 第 1～2 節：以安、語彤大一上閒聊階梯 | `docs/story_planning/ladder/build_ladder_aa.py`、`ladder_aa.json`；`AA_194_大一上口語改寫對照_AA人物.md` | AA 分支 | `125f4d1a`（10-16 20:46；以安 `d7cf6e78`） | JSON 已產生；以安 45、語彤 45 個字串和開發分支不同 | `AA_194` 檔頭還寫「等 BB-B 互審」，找不到這兩節的互審紀錄；AA 沒有交 SHA；**AA-B 交班紀錄和總表都沒有這一項** | **不行**，要先請 AA 確認；匯入時用 `import_ladder.py` 的「檔名=ref」單檔指定 |
+| （沒有任務 ID）`AA_194` 第 3 節：AA 六位 rel_lines | `AA_194_大一上口語改寫對照_AA人物.md` | AA 分支 | `6e934e86`（第 3 節）；全檔最後 `6e94d8d7` | 改稿完成，各列有 BB-B 互審註記，21:3x 照 `AA_200` 再改；`AA_209` 附錄 A 寫「開發分支還是舊句，等同步」 | LAWWW 換 `src/data/rel_lines.js`；需要一個任務（`V1-INV-WORDING` 只涵蓋第 4 節 invites） | 可以（本清單登記為 DELIVERY 未整合） |
+| VAC-S1、VAC-T1、VAC-X1 | `AA_199_寒暑假多活動行事曆_研究企劃與分工.md`、`AA_199_附錄_寒暑假活動研究原文.md` | AA 分支 | `599deb38`（10-16 22:25） | 研究表 VAC-R1、行事曆骨架 v0.1（第 3 節）、五年時間線初稿（第 4 節）、AA 六位假期活動第一批（4-2）、使用者 Q1～Q5 決定 | VAC-S1 定稿（等 LAWWW 的 VAC-L1 技術短評）；VAC-T1、VAC-X1 補完；HOL-VA 台詞 | 不行：研究與企劃階段；程式排在 HOLIDAY-SYS 之後 |
+| HOL-NYE-Y2（大二～大四跨年） | `AA_210_大二到大四跨年_16週制.md` | AA 分支 | `b550eb29`（10-17 01:44） | 規格完成 | 跟大二上、大三上、大四上的施工包交 LAWWW-B；可昕大三、阿哲大四兩句等 AB-65 那兩學期 | 規格可以用，但 AA 還沒交 |
+| AB65-3（＋PLAN-1016-ROM）：`AA_189` 剩下的改稿 | `AA_189_台詞改稿對照_第一批.md` | AA 分支 | `3a4a7608`（10-16 20:34） | 41 項使用者審過；第一、二節已併入 `AA_194`；#32 進 `AA_209` | 第三～五節沒看到被哪個交付包接走：#31 初次見面自我介紹（talkCharacter）、#33 ev_an_report_followup、#34 AA_179 第 4 節、#35～#36 以安手機兩則、#38 A8-L6、#39～#40 AA_187 戀愛線（暫停中）、#41 小福最後一天 | 不行：`AA_189` 自己寫「不交 LAWWW-B」，要併進各學期包 |
+| AB65-3：`AA_190` 上下文問題清單 | `AA_190_以安語彤閒聊階梯_上下文與事實問題清單.md` | AA 分支 | `1777d471`（內容 `fa7d9c6c`） | 75 項＋AA 裁定五件；大一上、大一下已照用 | 大二上～大四下還沒逐項對（`AA_211` 沒引用）；系統層建議（greet.base 的「早／今天／下一堂」移到 greet.when＋time）還沒交 LAWWW-B | 不行：審查清單，不是改稿 |
+| AB65-4、AB65-5、AB65-6 | 跟各學期包 | AA 分支 | — | 重訪日 1 完成（`AA_209` 第 3 節，已實作） | 重訪日 2～5；`BB_173` 第 3 節 A-4／A-5／A-6／A-10／A-11；`lad/y3s1:556`、`BB_170` 剩下的 | 還沒做 |
+| ROOM4（**總表沒有這個 ID**） | `AA_208_宿舍四人房_室友.md` | AA 分支 | `a4529998` | 大一 203、經濟系 412、大二 312 定好（大一、經濟系的部分已由 AA208-L、DORM-LOFT-L 實作） | 大三、大四的房間；LAWWW 做完後 AA 核對 | 大三大四還沒寫 |
+| ART-METHOD6（暫停） | `tools/blender/env_second/aa_support/` | AA 分支 | `92d99dee` 寫了做法 | 驗證件（土地公廟供品組）沒做 | 劇情優先，LAWWW2 正式派工時才做 | — |
+
+#### 2-4. 也是半成品、但在 BB 分支或由 BB 寫的（AA 分支有合併進來）
+
+| 任務 ID | 檔案 | 最後 commit | 狀態 |
+|---|---|---|---|
+| AB-65（另含 AA186-FIX 暫停的「AB-62 子晴那封信」） | `BB_166_AB62_程式台詞定稿.md` | `5e02f346` | 檔頭還寫「草稿，等使用者確認才交 LAWWW-B」；1-1、4-1 已進 `BB_169`、`AA_209`；zq_game、SMALLTALK、沛珊兩場分手進 `AA_211`；學姊 3-1～3-4、可昕 4-2、芷若 5-1～5-4 沒看到被哪個交付包接走 |
+| AB65-3 | BB 閒聊階梯 `ladder_bb_y2s1`～`y4s2`（BB 分支 `8421efdb` 版：口頭禪減量 `a5a54293`＋16 週週次） | `8421efdb` | 開發分支 ladder.js（來源 `72ea87f5`）都沒有；大二上照 `AA_211` 由 AA 寫回，大二下起逐學期 |
+| AB65-3 | `BB_181_AA211口氣審_大二上BB人物_WIP.md`（BB 分支） | `5c8e7539` | 交班時中斷、沒傳給 AA-B；BB 下一班第一件 |
+
+#### 2-5. AA-B 交班紀錄列的全部未完成與 WIP（照原文抄任務 ID）
+
+- **C 類，交班當下正在做**：①大一下閒聊階梯寫回 JSON（AB65-3 的一部分；WIP `34b1d21a`、`a853ef49`、`2fd0399d`）；②大二上 `AA_211` 等 BB-B 口氣審。沒有背景代理在跑；沒有只存在本機的成果。
+- **A 類，AA 自己做**：AB65-2（已交，等 LAWWW 實作後核對）、NS-Y1S2（`AA_209` 已交；閒聊階梯 WIP）、AB65-3、AB65-4（重訪日 2～5）、AB65-5、AB65-6、ROOM4（大三大四的房間）。
+- **B 類，等別人、AA 要接手驗收或互審**：CAMP-L1（經濟系路線的宿營還沒做）、START-WEEK、MSG-L1（＝SYS-PHONE-CHAT）、AB-66／BB_179、ART-CG-ECONCAMP、HOLIDAY-SYS、「16 週共用系統」（沒有獨立 ID，＝HOLIDAY-SYS）、VAC-L1、VAC-X2、V4-G34、V2-SIS-BF、VAC-A2、VAC-B1、VAC-B3。
+- **C 類，還沒開始**：VAC-S1、VAC-T1、VAC-X1、HOL-NYE-Y2～Y4（總表 ID 是 HOL-NYE-Y2；`AA_210` 規格已完成）、HOL-VA、DOC-18W、MSG-2（要先定 AA 六位的生日）、AA-103-SP（併大三上那批，`LEGAL_REVIEW_REQUIRED`）、Y3S1-XMAS（併大三上那批）。
+- **D 類，暫停（劇情優先）**：ART-US1、ART-SOY1、WZ7（總表是 ART-WZ7）、ART-METHOD6。
+- **E 類，只存在對話裡**：BB-B 口頭答應拿 `cg_econ_camp`、`BB_179` 把 E15 標 CG、E26／E37 標 AA 改；LAWWW-B 口頭答應新局從 8/22 開始先放 `?start1` 後面、舊 9/27 迎新只留防呆、宿營音響斷電不演。沒有 `send_later`。
+- **跨 AI 還沒結的**：AA 答應給 LAWWW-B 的閒聊階梯 SHA **還沒給**；BB-B 對 `AA_211` 的口氣審**沒回**。
+- **和總表對不上的 ID**：ROOM4（總表沒有，最接近的是 AA208-L、DORM-LOFT-L，但大三大四房間不在裡面）；WZ7（＝ART-WZ7）；HOL-NYE-Y2～Y4（＝HOL-NYE-Y2）。
+
+#### 2-6. 順手發現（不在這一半的 63 筆裡）
+
+- **`88585540`（AA 口頭禪配額，`DLV-1016-397` 登記為「已整合待測試」）其實不在開發分支**：`src/data/ladder.js` 的來源是 `72ea87f5`（10-16 18:37，早於 `88585540` 的 18:56），以安「……我坐最後一排。理由：第一次。」「……不要叫。理由：我會臉紅。」等舊句都還在。大一下～大四下每學期以安、語彤各有 2～17 處沒進去。
+- ART-SHOP1 機車行道具組 v2 的最終交件 `d9388b2a`（BB 分支 21:23）、LAWWW2-B 驗收合併 `5d5bb8aa`，在 deliveries.json 沒有登記（不在這一半的清單裡）。
 
 ## 3. BB（BB-B，分支 `claude/elegant-brown-fcos7n`，已交班 `55717c12`）——核對中
 
