@@ -2,7 +2,7 @@
 原本大地圖每打開一次就新開一張導航格 canvas 不釋放（b3d67056 修：每個導航格只畫一張、關地圖釋放大地圖畫布、換區域釋放）。
 1. [前置] 讀檔到校園 11:00。
 2. 真實操作：點小地圖打開大地圖、點「關閉」，重複 5 次——還在用的 canvas（寬×高 > 0）張數和像素總量不能越開越多。
-3. 真實操作：換區域（進兩點半 Café 再回來；[前置] 用 GAME.enter）後再開關一次，canvas 不累積。
+3. 真實操作：換區域（進兩點半 Café 再回來；[前置] 用 GAME.enter）兩輪，各開關一次：第 2 輪不比第 1 輪多（第 1 輪含 Café 第一次的快取）。
 每次數之前用 CDP 強制回收記憶體（HeapProfiler.collectGarbage）：數的是還有人用的 canvas。
 （Playwright 手機模擬；iPhone 實機的記憶體上限要使用者確認。）
 用法：python3 tests/map_canvas_leak.py URL [輸出資料夾]"""
@@ -61,11 +61,18 @@ async def main():
         run.check('開關 5 次：還在用的 canvas 張數不增加（第 1 次之後）', all(s['n'] <= stats[0]['n'] for s in stats[1:]), json.dumps([base] + stats))
         run.check('開關 5 次：canvas 像素總量不增加（容許 0.05 百萬像素）', all(s['mpx'] <= stats[0]['mpx'] + 0.05 for s in stats[1:]), json.dumps(stats))
         run.check('關掉大地圖後，大地圖畫布已釋放（#bmCanvas 寬高 0）', await pg.evaluate("(()=>{ const c=document.getElementById('bmCanvas'); return !!c&&c.width*c.height===0; })()"))
-        run.setup('換區域：進兩點半 Café 再回校園（GAME.enter）')
-        await pg.evaluate("void GAME.enter('cafe')"); await pg.wait_for_timeout(4000)
-        await pg.evaluate("void GAME.enter('campus')"); await pg.wait_for_timeout(5000)
-        ok, s2 = await cycle('after_zone')
-        run.check('換區域再回來開關一次：canvas 張數不比第 1 次多 2 張以上、像素不多 0.5 百萬', ok and s2['n'] <= stats[0]['n'] + 2 and s2['mpx'] <= stats[0]['mpx'] + 0.5, json.dumps([stats[0], s2]))
+        run.setup('換區域：進兩點半 Café 再回校園（GAME.enter），做兩輪')
+        rounds = []
+        for r in range(2):
+            await pg.evaluate("void GAME.enter('cafe')"); await pg.wait_for_timeout(4000)
+            await pg.evaluate("void GAME.enter('campus')"); await pg.wait_for_timeout(5000)
+            ok, s2 = await cycle(f'after_zone_{r + 1}'); rounds.append(s2)
+            run.check(f'換區域第 {r + 1} 輪再回來開關一次：大地圖打得開、關得掉', ok)
+        # 第 1 輪會多出 Café 第一次進去才建的快取（cafeStreetCache、W3.canvasTex 的招牌與窗景：之後重用，不會再建），所以比第 2 輪和第 1 輪：
+        # 換區域本身不能讓 canvas 越來越多（BUG-MAPBLACK：59facb8b 之前每進一次校園多一套 2048×512 的字牌 atlas）
+        run.note(f'開關 5 次後 {stats[0]}；第 1 輪 {rounds[0]}（含 Café 第一次的快取）；第 2 輪 {rounds[1]}')
+        run.check('換區域第 2 輪：canvas 張數不比第 1 輪多 2 張以上、像素不多 0.5 百萬（沒有每換一次就累積）', rounds[1]['n'] <= rounds[0]['n'] + 2 and rounds[1]['mpx'] <= rounds[0]['mpx'] + 0.5, json.dumps(rounds))
+        run.check('換區域第 1 輪：比換區域前多的只有 Café 第一次的快取（不超過 1.5 百萬像素）', rounds[0]['mpx'] <= stats[0]['mpx'] + 1.5, json.dumps([stats[0], rounds[0]]))
         run.check('沒有 JS 錯誤', not errs, '; '.join(errs[:5]))
         await b.close()
     sys.exit(run.finish())
