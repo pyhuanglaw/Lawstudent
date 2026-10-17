@@ -97,7 +97,7 @@
 
 > - **職位**：AA（帳號 B，AA-B）；工作階段 `session_016ACZaD4oB9tX94WqQR4dkS`；**分支 `claude/cool-heisenberg-o8kuqx`**。最後 SHA 見本節最後一行與 `git log -1 origin/claude/cool-heisenberg-o8kuqx`。
 > - **交班後 AA-B 停止寫入**，直到使用者叫回或下一班接班。沒有傳訊息給休班的 A、C 帳號。沒有合併 main、沒有發布。
-> - **全部待辦**照下一節「AA-B 全部待辦」（D93 逐職位核對：`check_handoff.py roles --role AA` 交班前跑過，結果 OK，見 F 類最後）。
+> - **待辦總表**照下一節（D93 逐職位核對：`check_handoff.py roles --role AA` 交班前跑過，結果 OK，見 F 類最後）。
 
 ### A. 本班已完成成果（企劃文件；都只在 AA 分支，**沒有發布**；AA 不跑遊戲測試）
 
@@ -119,7 +119,7 @@
 
 ### B. 全部未完成工作
 
-- **照下一節「AA-B 全部待辦」A～E 五類**（本次交班已更新到 02:4x）。重點：
+- **照下一節（AA-B 的待辦總表）A～E 五類**（本次交班已更新到 02:4x）。重點：
   - A 類 AA 自己做：AB65-3（大一下的閒聊階梯寫回、大二上等 BB 審、大二下起逐學期）、AB65-4（重訪日 2～5）、AB65-5、AB65-6、ROOM4（大三大四的房間）。
   - B 類等別人：CAMP-L1（經濟系路線宿營）、START-WEEK、MSG-L1、AB-66、ART-CG-ECONCAMP、HOLIDAY-SYS、16 週共用系統、VAC-L1、VAC-X2、V4-G34、V2-SIS-BF、VAC-A2、VAC-B1／B3。
   - C 類還沒開始：VAC-S1、VAC-T1／X1、HOL-VA、DOC-18W、MSG-2（要先定生日）、AA-103-SP（併大三上批）、Y3S1-XMAS（併大三上批）。
@@ -174,7 +174,7 @@
 - AA 只寫企劃、不跑遊戲測試。本班**沒有任何實機（iPhone）測試**。宿營、開學第一週的核對是讀程式（開發分支 `69e74460`），沒有實際玩。
 - **還沒驗收的**：CAMP-FIX-614（已整合待測試）；經濟系路線的宿營（還沒做）；`?start1` 還不是預設；`AA_209`、`AA_211` 還沒實作；閒聊階梯寫回還沒看 diff。
 - **iPhone 黑畫面、Safari 重新載入、出遊卡住**：LAWWW-B 的範圍，AA 這班沒有處理，現況以 LAWWW-B 交接為準。
-- **D93 逐職位核對**（交班前，dev 分支 `fbda2ce9` 的 `tools/handoff/check_handoff.py roles --role AA --ref origin/claude/modest-rubin-2lyp7g`）：「AA：全部待辦 60 行、提到 42 個 ID；結果 OK」，**異常 0 項**。本節寫完後再跑一次，結果寫在本節最後一行。
+- **D93 逐職位核對**（交班前，dev 分支 `fbda2ce9` 的 `tools/handoff/check_handoff.py roles --role AA --ref origin/claude/modest-rubin-2lyp7g`）：「AA：待辦 60 行、提到 42 個 ID；結果 OK」，**異常 0 項**。本節寫完後再跑一次，結果寫在本節最後一行。
 
 ## AA-B 全部待辦（2026-10-17 02:4x UTC 交班時更新；D93 持續登記；使用者 00:0x「待辦事項全部都要交接」；接班的人先看這裡）
 
