@@ -48,21 +48,27 @@ const OUT=(function(){
   S.tick=function(GM){ const G=GM&&GM.G; if(busy||!G) return null; for(const q of S.expire(G)) S.onMissed(GM,q);
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
-  S.prompt=async function(GM,q){ const G=GM.G; let k=1; GM.sceneBegin();
+  S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
     try{ k=await GM.choose([{t:(q.verb||'出發')+'：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')},{t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}]); } finally { GM.sceneEnd(); }   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
     if(k===1){ q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
   /* 出發：轉場 → 抵達（不早於約好的時間）→ 演事件（深色底開始，避免看到原本的 3D 畫面）→ 時間往後 → 回到原本的地方 */
   S.go=async function(GM,q,o){ const G=GM.G, ev=evOf(q.ev), tr=S.trip(G,q,o&&o.fromHome);   /* o.fromHome：從家裡的選單出發（選單先把「在家」關掉了）*/
-    if(!q.goto&&ev&&typeof EVENTS!=='undefined'){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
+    const dt=!!q.dateTrip&&typeof DATE!=='undefined';   /* 校外單獨約會：抵達後演 DATE.scene（不是 STORY_EVENTS 的事件）*/
+    if(dt||(!q.goto&&ev&&typeof EVENTS!=='undefined')){ if(GM.autosave) GM.autosave(); running.add(q.id); } else q.state='done';   /* 出發前先存一次（使用者 2026-10-16：去政大找可昕跳回標題、自動存檔在出發前很久，要一直重來）；演完才標 done */
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
       if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
-    if(!ev||typeof EVENTS==='undefined') return false;
+    if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
     q.arrived=true; if(GM.autosave) GM.autosave(true);   /* 到了再存一次：中途被踢回標題，讀檔就是到了那裡、重新演這一段（不用再搭一次車）*/
+    if(dt){ const L0=DATE.loc((DATE.trip(G,q.dateTrip)||{locs:[]}).locs[0])||{}; const bg=Object.keys(S.BG).find(k=>k.startsWith(String(L0.id||'').toLowerCase()+'_base'));
+      if(typeof ADV!=='undefined') ADV.begin({background:bg?S.bg(bg):'dark'}); await GM.fade(false);
+      try{ await DATE.scene(GM,q); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+      const tr2=DATE.trip(G,q.dateTrip); await GM.fade(true); GM.advance(tr2?(DATE.travel(tr2.locs[0],tr2.transport)||{minutes:30}).minutes/60:0.5); if(tr2&&tr2.fare&&GM.money) GM.money(-tr2.fare,'交通'); await GM.fade(false); if(GM.caption) GM.caption('',q.back||'回到台大。',2400);
+      if(GM.autosave) GM.autosave(); return true; }
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
     await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/

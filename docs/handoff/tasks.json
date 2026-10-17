@@ -5007,8 +5007,8 @@
    "title": "出發地與交通",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5028,8 +5028,8 @@
    "title": "出發時間到：改時間、FLAKED",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "—",
+   "status": "進行中",
+   "next": "第一版（src/date3d.js＋outings3d.js）：預約算交通與回程（開車從宿舍去回各 +30 分）、接 OUT；出發時間問「出發／改時間／今天不去了」、晚 60 分鐘以上只剩改時間／不去、改時間（晚一小時、明天同時）、當天取消與 FLAKED（30 天內第二次、自在 -2、30 天清掉）；tests/date_trip_unit.js。還沒做：完整日期時間選單、出發前 60 分鐘提醒、睡覺鬧鐘、跨過出發時間的各種情況、她的交通偏好、改三次她的一句（BB）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -5049,8 +5049,8 @@
    "title": "半互動約會（2D 疊圖、熱區、結算、Life Album）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "BB_132；ART-14",
+   "status": "進行中",
+   "next": "第一版：文字選單的互動點（時間、花費照 point_specs；時間不夠灰掉、按了提示）、門票、5-3 結算（第一次／第二次／第三次以後＋心願）、0 個互動點不算、DATED_1；有底圖的地點用 OUT.BG 的 dXX_base_* 當背景。還沒做：2D 熱區與人物圖層、各地點台詞（lines/Dxx.json）、她喜歡哪些互動點（likes）、Life Album、快速約會",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
