@@ -14900,12 +14900,12 @@
   },
   {
    "id": "AA243-P02",
-   "title": "AA_243 P0-2：芷若×子晴 6/5 交往擋到玩家的戀愛線（第③級等使用者）——先照已批准日期做，4-4 觸發條件做成一個開關（甲／乙／丙只改一行）",
+   "title": "AA_243 P0-2：芷若×子晴 6/5 交往——使用者已選甲（BB_194 §23-2 條件 5，93ae9539）：那學期祐廷正在追其中一人時，4-4 順延到下學期同一天；不用做開關",
    "area": "V2",
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "AA_243 @91a39ebf；BB 說使用者已選甲、寫進 BB_199 §23（93ae9539）——實作前核對是否已定甲",
+   "next": "AA-C 2af03a63：直接照甲做。AA_243 @91a39ebf；BB 說使用者已選甲、寫進 BB_199 §23（93ae9539）——實作前核對是否已定甲",
    "first": {
     "term": "Y1S2",
     "week": 15,
@@ -14917,7 +14917,7 @@
     "confirmed": true
    },
    "source": "AA-C 10:36、BB-C 10:35",
-   "authorized": "使用者（甲，經 BB 轉述，待核）",
+   "authorized": "使用者對 BB-C 選甲（BB_194 §23-2 @93ae9539；AA_243 第 2 節）",
    "xai": {
     "spec": "AA_243；BB_199 §23 @93ae9539",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -14958,7 +14958,7 @@
   },
   {
    "id": "VAC-C08-12",
-   "title": "出國活動卡 C08～C12（姊妹校首爾 7/13～24、柬埔寨志工 7/27～8/5、加州暑期課 6/21～7/31（學分採計）、東京冬季短期 1/17～30、京都語言課 8/9～27）＋海外期間機制（手機時差、3D 不能走、關鍵事件 2D）",
+   "title": "寒暑假活動卡 C01～C13（每個寒暑假都開放的模板，AA_199 7-5 4ff1220c；C13 出國旅遊：日韓泰越港）＋出國活動卡 C08～C12（姊妹校首爾 7/13～24、柬埔寨志工 7/27～8/5、加州暑期課 6/21～7/31（學分採計）、東京冬季短期 1/17～30、京都語言課 8/9～27）＋海外期間機制（手機時差、3D 不能走、關鍵事件 2D）",
    "area": "SYS",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
@@ -15154,6 +15154,92 @@
     "acceptance": "遊戲內截圖對照立繪",
     "receiver": "LAWWW2",
     "ack": "自領"
+   }
+  },
+  {
+   "id": "AA245-PSBH",
+   "title": "AA_245 沛珊×柏翰沒在一起的版本：ev_midterm_supper_y1s2 換柏翰算麵錢三句（outingMissed 不傳）；ev_peishan_split／ev_peishan_bohan_split 只演一件、沒在一起兩件都不演；characters.js L68 條件照 BB_100 2-3",
+   "area": "V2",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "AA_245（AA-C 2af03a63）",
+   "first": {
+    "term": "Y1S2",
+    "week": 8,
+    "earliest": "大一下期中宵夜",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:40",
+   "authorized": "AA 定稿（D98）",
+   "xai": {
+    "spec": "AA_245 @2af03a63",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "兩版本各自單元測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "V0-ECON-CHARS",
+   "title": "經濟系人物 3D 接進遊戲：韋綸 v7、唐睿 v6、家豪 v5、魏教授 v2（LAWWW2 9fe25037）＋阿勳 v6（4bf1ae20）、品妤 v5（e1b9133a）——manifest、CAST、身高照 AA_145；412 室友、經濟系課堂",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "next": "BB-C D59 驗收中；通過的照 ART-05 做法直接預設，沒通過的先只在 ?blchar。韋綸、唐睿、家豪、魏教授在 CHARACTERS 還沒有 3D 人物資料，要補",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "2024-08-23 宿營／412 宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 10:40",
+   "authorized": "D59（BB 驗收）",
+   "pausedReason": "等 BB-C D59 驗收",
+   "resumeWhen": "BB-C 回驗收結果",
+   "xai": {
+    "spec": "AA_145；BB 參考圖",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內截圖給 BB；412 宿舍、經濟系課堂看得到",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "AA-LADDER-977",
+   "title": "AA 閒聊階梯照 16 週放寬週次（977c7b9f）＋AA_238 的 A-L11、A2-L6、A3-L9、A4-L6（96ccd3fd）從 json 重匯",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "照 import_guard 白名單；和 16 週引擎同一批測",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上閒聊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10:24、10:40",
+   "authorized": "AA 定稿",
+   "xai": {
+    "spec": "ladder_aa_* @977c7b9f",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "條件測試、週次",
+    "receiver": "LAWWW",
+    "ack": "ACK"
    }
   }
  ]

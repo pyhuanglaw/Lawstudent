@@ -1861,11 +1861,7 @@ const STORY = (function(){
         if(F.SIS_M3_DINNER_GO===true&&typeof OUT!=='undefined'&&!OUT.get(G,'sis_m3_dinner')) OUT.plan(G,{id:'sis_m3_dinner',ev:'ev_sis_results_dinner',day:d,h:19,late:0.25,place:curry?'永康街的咖哩店':'公館的日日定食',title:'學姊上榜聚餐',travel:curry?'約 20 分鐘':'走過去約 10 分鐘',travelH:curry?1/3:1/6});
         if(!(G.events&&G.events.done&&G.events.done.ev_sis_results_dinner)&&(G.day>d||G.hour>=21.5)&&!PHONE.sent(G,'sis_m3_dinner_photo'))
           PHONE.at(G,d,21.5,[K('📷（合照。學姊坐中間，難得笑得很開。）'),K('沒來的人錯過學姊請客。千載難逢。')],'sis_m3_dinner_photo'); } }
-    /* 學姊 W8 沒演到的玩家（不熟或沒到，BB_97 2-3、AA_177 第 8 節①）：11/27（五）21:00 讀書會群組她請假；Kevin 在家族群組問（不靠語彤轉述）*/
-    { const d27=S.dayOfKey('2026-11-27'); if(d27!=null&&G.day===d27&&!(G.events&&G.events.done&&G.events.done.ev_sis_collapse)&&!PHONE.sent(G,'sis_w8_leave')){ const it=[];
-        /* 學姊在讀書會群組「這週讀書會我請假。……第一次。」刪（法服沒有讀書會，BB_191 §7-3；要不要換成家族群組別的事等 AA）*/
-        if(PHONE.inGroup(G,'family_law')) it.push({th:'g:family_law',from:'kevin',name:'Kevin',text:'學姊請假了？？',dt:2/60});
-        if(it.length){ const L=it.map((x,k)=>{ const y=Object.assign({},x); delete y.dt; return y; }); PHONE.at(G,d27,21,L,'sis_w8_leave'); } } }
+    /* 學姊 W8 沒演到的玩家的兩則（讀書會群組她請假、家族群組 Kevin「學姊請假了？？」）都刪：法服沒有讀書會（BB_191 §7-3）；Kevin 那句單獨留著會讓人以為學姊還在法服（AA-C 2af03a63）*/
     { const d13=S.dayOfKey('2026-11-13'); if(d13!=null&&G.day===d13&&S.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'fair_y2_call')) PHONE.at(G,d13,21,[{th:'g:lawclub_study',from:'heroine_03',text:'明天九點半，攤位集合。'}],'fair_y2_call');
       const d12=S.dayOfKey('2026-11-12'), fr=()=>['FRIEND','CLOSE_FRIEND'].includes(typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel('zhe'):'');   /* 只在那一天問（friendLevel 會替沒有紀錄的人建一筆空的關係）*/
       if(d12!=null&&G.day===d12&&!F.ZHE2_ASKED&&!PHONE.sent(G,'zhe2_msg')&&fr()){ F.ZHE2_ASKED=d12; PHONE.at(G,d12,20.25,[{th:'p:zhe',from:'player',who:null,text:'今天週四，你沒去麵店？'}],'zhe2_ask'); PHONE.at(G,d12,20.5,[{th:'p:zhe',from:'zhe',text:'沒事啦，在練球',ask:{id:'zhe2_go',until:d12*24+21.5,opts:[{t:'我去找你。',set:{ZHE2_GO:d12}}]}}],'zhe2_msg'); }
