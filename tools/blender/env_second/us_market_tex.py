@@ -156,6 +156,23 @@ def tex_fruit(path, kind, S=256, M_=0.4):
     im.convert('RGB').save(path, quality=88)
 
 
+def tex_menu(path):
+    """熟食區的菜單燈箱（三塊並排，1536×512）：深色底、白色大標、一行一行的品項（一般英文字＋價格；不是品牌）"""
+    im = Image.new('RGB', (1536, 512), (28, 34, 30)); d = ImageDraw.Draw(im)
+    fh = ImageFont.truetype(FONT, 54); fi = ImageFont.truetype(FONT.replace('-Bold', ''), 30)
+    boards = [('SANDWICHES', ['Turkey Club', 'Italian Sub', 'Veggie Wrap', 'Grilled Cheese', 'BLT']), ('HOT FOODS', ['Fried Chicken', 'Mac & Cheese', 'Mashed Potatoes', 'Soup of the Day', 'Pizza Slice']),
+              ('BAKERY', ['Fresh Bread', 'Bagels (6)', 'Muffins', 'Cookies (12)', 'Birthday Cakes'])]
+    r = random.Random(5)
+    for i, (h, items) in enumerate(boards):
+        x0 = i * 512; d.rectangle([x0 + 6, 6, x0 + 505, 505], outline=(212, 170, 60), width=5)
+        tw = d.textlength(h, font=fh); d.text((x0 + (512 - tw) / 2, 28), h, font=fh, fill=(246, 242, 230))
+        for k, it in enumerate(items):
+            y = 130 + k * 70; d.text((x0 + 40, y), it, font=fi, fill=(236, 232, 220))
+            pr = '$%d.%02d' % (r.randint(3, 11), r.choice([49, 79, 99, 29])); tw = d.textlength(pr, font=fi); d.text((x0 + 472 - tw, y), pr, font=fi, fill=(240, 200, 90))
+            d.line([(x0 + 40, y + 46), (x0 + 472, y + 46)], fill=(70, 78, 72), width=1)
+    im.save(path)
+
+
 def tex_wire(path):
     """鐵絲網（推車籃）：銀灰色的格子，其他透明"""
     im = Image.new('RGBA', (256, 256), (0, 0, 0, 0)); d = ImageDraw.Draw(im)
@@ -167,4 +184,5 @@ def tex_wire(path):
 if __name__ == '__main__':
     tex_products(os.path.join(GEN, 'us_mk_products.png')); tex_signs(os.path.join(GEN, 'us_mk_signs.png')); tex_wire(os.path.join(GEN, 'us_mk_wire.png'))
     for k in FRUIT_TEX: tex_fruit(os.path.join(GEN, 'us_mk_fruit_%s.jpg' % k), k)
+    tex_menu(os.path.join(GEN, 'us_mk_menu.png'))
     print('ok')

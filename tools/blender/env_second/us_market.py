@@ -54,7 +54,7 @@ M = {'floor': L.pbr('usm_floor', 'large_floor_tiles_02', tile=1.2, target='#d4d2
      'shelf': L.flat('usm_shelf', '#d7d7d2', rough=0.45, metal=0.3),
      'peg': L.flat('usm_pegboard', '#b9b9b4', rough=0.6, metal=0.15),
      'kick': L.flat('usm_kickplate', '#4a4c4e', rough=0.5, metal=0.25),
-     'price': L.flat('usm_price_strip', '#f2f2ee', rough=0.5),
+     'price': L.flat('usm_price_strip', '#d8d9d6', rough=0.5),
      'prod': img_mat('usm_products', 'us_mk_products.png', rough=0.42),
      'signs': img_mat('usm_signs', 'us_mk_signs.png', rough=0.6),
      'wire': img_mat('usm_wire', 'us_mk_wire.png', rough=0.35, clip=True),
@@ -227,12 +227,12 @@ def gondola_side(gx, z0, z1, side, cat, d=1.2, hh=1.95, levels=LEVELS):
     fx = gx + side * d / 2
     for ys in levels:
         sh.box(min(gx, fx), max(gx, fx), ys, ys + SHELF_T, z0, z1)
-        pr.box(min(fx, fx + side * 0.012), max(fx, fx + side * 0.012), ys - 0.035, ys + SHELF_T, z0, z1)
+        pr.box(min(fx, fx + side * 0.012), max(fx, fx + side * 0.012), ys - 0.012, ys + SHELF_T, z0, z1)
         z = z0 + rng.uniform(0.1, 0.5)
         while z < z1 - 0.1:                                                                     # 價格標籤（偶爾黃色的特價）
             col = '#f4d23c' if rng.random() < 0.18 else '#fbfbf8'
             xt = fx + side * 0.014
-            tags.poly([(xt, ys - 0.03, z), (xt, ys - 0.03, z + 0.07), (xt, ys, z + 0.07), (xt, ys, z)][::(1 if side > 0 else -1)], col)
+            tags.poly([(xt, ys - 0.01, z), (xt, ys - 0.01, z + 0.07), (xt, ys + 0.028, z + 0.07), (xt, ys + 0.028, z)][::(1 if side > 0 else -1)], col)
             z += rng.uniform(0.25, 0.6)
     products_run(prod, cat, 'z', z0 + 0.01, z1 - 0.01, fx - side * 0.02, d / 2 - 0.12, side, levels)
 for g in J['gondolas']:
@@ -247,6 +247,7 @@ for g in J['gondolas']:
         for ys in LEVELS[:4]:
             sh.box(gx - 0.6, gx + 0.6, ys, ys + SHELF_T, min(ze, ef), max(ze, ef)); pr.box(gx - 0.6, gx + 0.6, ys - 0.035, ys + SHELF_T, min(ef, ef + dirz * 0.012), max(ef, ef + dirz * 0.012))
         sh.box(gx - 0.6, gx + 0.6, 0.15, 1.6, min(ze, ze + dirz * 0.03), max(ze, ze + dirz * 0.03))
+        for xs_ in (gx - 0.62, gx + 0.6): sh.box(xs_, xs_ + 0.02, 0.0, 1.6, min(ze, ef), max(ze, ef))   # 端架兩側的側板（走道上看過去不會看到商品的側面）
         products_run(prod, 'promo', 'x', gx - 0.58, gx + 0.58, ef - dirz * 0.02, 0.6, dirz, LEVELS[:4])
         # 號碼牌：走道上方（每條貨架東邊那一條走道）——兩面
     k = g['aisle'] - 1; sx = g['x'] + 1.45; sz = -1.8
@@ -310,7 +311,7 @@ def fruit_bin(c, s_dir, t_dir, ls, lt, kind, lift=0.0):
     m = FMESH[kind]; bm = m.bm; uvl = bm.loops.layers.uv.verify()
     n_ = s_dir.cross(t_dir).normalized()
     if n_.y < 0: n_ = -n_
-    res = 0.07; ns, nt_ = max(2, int(ls / res)), max(2, int(lt / res)); amp = min(0.07, 0.18 * min(ls, lt))
+    res = 0.06; ns, nt_ = max(2, int(ls / res)), max(2, int(lt / res)); amp = min(0.1, 0.24 * min(ls, lt))
     du, dv = rng.uniform(0, 1), rng.uniform(0, 1); V = {}
     for i in range(ns + 1):
         for k in range(nt_ + 1):
@@ -355,7 +356,11 @@ fr2.finish(root, uv=False)
 # 蔬果區、超市裡的小東西（頂點色）：塑膠袋捲、水果秤、地上的濕地板告示
 pv = CMesh('usm_props', M['vc'])
 for (sx_, sz_) in ((12.0, 4.6), (19.6, -9.0)):
-    pv.crbox(sx_ - 0.15, sx_ + 0.15, 0.0, 1.3, sz_ - 0.15, sz_ + 0.15, '#9aa0a4', r=0.02, seg=1); pv.crbox(sx_ - 0.18, sx_ + 0.18, 1.3, 1.62, sz_ - 0.12, sz_ + 0.12, '#e8eef0', r=0.03, seg=1)   # 袋子架
+    f0 = set(pv.bm.faces)                                                                          # 塑膠袋架：圓底座、細桿、上面一捲袋子（橫的）、一個撕下來的袋子垂著
+    pv.cyl((sx_, 0.0, sz_), (sx_, 0.03, sz_), 0.2, seg=14); pv.cyl((sx_, 0.03, sz_), (sx_, 1.35, sz_), 0.022, seg=8); pv.cyl((sx_ - 0.16, 1.32, sz_), (sx_ + 0.16, 1.32, sz_), 0.012, seg=6)
+    pv.paint([f for f in pv.bm.faces if f not in f0], '#8a8e92')
+    f0 = set(pv.bm.faces); pv.cyl((sx_ - 0.14, 1.26, sz_), (sx_ + 0.14, 1.26, sz_), 0.07, seg=12); pv.paint([f for f in pv.bm.faces if f not in f0], '#e6ecee')
+    pv.poly([(sx_ - 0.1, 1.26, sz_ + 0.07), (sx_ + 0.1, 1.26, sz_ + 0.07), (sx_ + 0.09, 0.92, sz_ + 0.09), (sx_ - 0.09, 0.92, sz_ + 0.09)], '#dfe6e8')
 f0 = set(pv.bm.faces); pv.bm.verts.ensure_lookup_table()
 for (sx_, sz_) in ((11.4, -9.6),):                                                                 # 濕地板告示（黃色 A 字牌，沒有字）
     pv.poly([(sx_ - 0.2, 0.0, sz_ + 0.18), (sx_ + 0.2, 0.0, sz_ + 0.18), (sx_ + 0.15, 0.62, sz_), (sx_ - 0.15, 0.62, sz_)], '#f2c81e')
@@ -377,28 +382,52 @@ for (yy, z0_, z1_) in ((0.85, Z0 + 0.45, Z0 + mc['d'] - 0.05), (1.3, Z0 + 0.45, 
             z += 0.19
         x += 0.26
 fr3.finish(root, uv=False)
-dl = J['deli']
-gc = Mesh('usm_deli_glass', M['glass']); wd.rbox(dl['x0'], dl['x1'], 0.0, 0.9, dl['counter_z'] - 0.45, dl['counter_z'] + 0.45, r=0.02, seg=2)
-gc.quad([(dl['x0'], 0.9, dl['counter_z'] + 0.45), (dl['x1'], 0.9, dl['counter_z'] + 0.45), (dl['x1'], 1.35, dl['counter_z'] + 0.05), (dl['x0'], 1.35, dl['counter_z'] + 0.05)])
-gc.finish(root, uv=False)
-fr.bm.free() if False else None
-cnt = Mesh('usm_deli_top', M['counter']); cnt.box(dl['x0'], dl['x1'], 1.35, 1.39, dl['counter_z'] - 0.45, dl['counter_z'] + 0.08); cnt.finish(root)
-x = dl['x0'] + 0.15
-while x < dl['x1'] - 0.4:                                                                        # 展示櫃裡的熟食（一盤一盤）
-    pv.cbox(x, x + 0.38, 0.9, 0.92, dl['counter_z'] - 0.35, dl['counter_z'] + 0.25, '#e8e8e4')
-    pv.crbox(x + 0.03, x + 0.35, 0.92, 0.99, dl['counter_z'] - 0.32, dl['counter_z'] + 0.22, rng.choice(['#c88a4a', '#e0c070', '#8a4a2a', '#d8b890', '#6a8a3a', '#e8d8b0', '#b84a2a']), r=0.02, seg=1)
+dl = J['deli']; cz_ = dl['counter_z']
+# 熟食展示櫃台：前面木作面板＋不鏽鋼踢腳、裡面發光的展示底板＋一盤一盤的熟食、彎玻璃（四段近似弧面）、不鏽鋼頂框；後面員工那一側是不鏽鋼工作台
+ss = Mesh('usm_stainless', M['chrome']); gc = Mesh('usm_deli_glass', M['glass']); cbd = Mesh('usm_case_back2', M['caseback'])
+wd.box(dl['x0'], dl['x1'], 0.12, 0.88, cz_ + 0.4, cz_ + 0.45); ss.box(dl['x0'], dl['x1'], 0.0, 0.12, cz_ + 0.38, cz_ + 0.45)
+cbd.box(dl['x0'] + 0.02, dl['x1'] - 0.02, 0.0, 0.86, cz_ - 0.45, cz_ + 0.4)
+cl4 = Mesh('GLOW_usm_deli_floor', M['caselight']); cl4.box(dl['x0'] + 0.04, dl['x1'] - 0.04, 0.86, 0.88, cz_ - 0.4, cz_ + 0.38); cl4.finish(root, uv=False)
+arc = [(0.0, 0.0), (0.1, 0.02), (0.22, 0.07), (0.33, 0.16), (0.4, 0.3), (0.42, 0.45)]   # （往後、往上）從前下緣開始的弧
+for (t0, y0), (t1, y1) in zip(arc, arc[1:]):
+    gc.quad([(dl['x0'], 0.88 + y0, cz_ + 0.45 - t0), (dl['x1'], 0.88 + y0, cz_ + 0.45 - t0), (dl['x1'], 0.88 + y1, cz_ + 0.45 - t1), (dl['x0'], 0.88 + y1, cz_ + 0.45 - t1)])
+ss.box(dl['x0'], dl['x1'], 1.33, 1.36, cz_ - 0.45, cz_ + 0.03)                                          # 頂框（不鏽鋼）
+for xx in (dl['x0'], (dl['x0'] + dl['x1']) / 2, dl['x1']): ss.box(xx - 0.02, xx + 0.02, 0.88, 1.36, cz_ - 0.45, cz_ + 0.45)   # 兩端與中間的立框
+ss.box(dl['x0'], dl['x1'], 0.88, 0.92, cz_ - 0.9, cz_ - 0.45); cbd.box(dl['x0'], dl['x1'], 0.0, 0.88, cz_ - 0.9, cz_ - 0.48)  # 員工那一側的工作台
+x = dl['x0'] + 0.12
+while x < dl['x1'] - 0.4:                                                                          # 展示櫃裡的熟食（一盤一盤，前低後高兩排）
+    for row_, (zz0, zz1, yy) in enumerate(((cz_ + 0.02, cz_ + 0.34, 0.88), (cz_ - 0.36, cz_ - 0.04, 1.0))):
+        if row_ == 1: ss.box(x, x + 0.38, 0.88, 1.0, zz0, zz1)
+        pv.cbox(x, x + 0.38, yy, yy + 0.02, zz0, zz1, '#e8e8e4')
+        pv.crbox(x + 0.03, x + 0.35, yy + 0.02, yy + 0.08, zz0 + 0.03, zz1 - 0.03, rng.choice(['#c88a4a', '#e0c070', '#8a4a2a', '#d8b890', '#6a8a3a', '#e8d8b0', '#b84a2a', '#f0e0c0']), r=0.02, seg=1)
+        if rng.random() < 0.5: tags.cbox(x + 0.15, x + 0.23, yy + 0.08, yy + 0.13, zz1 - 0.02, zz1 - 0.01, '#f4f1e6')   # 價格小牌
     x += 0.42
-bz = dl['z0'] + 0.05                                                                              # 後面的麵包架（三層，一條一條的麵包）＋烤箱
-wd.box(dl['x0'] + 0.3, dl['x1'] - 2.0, 0.0, 1.9, bz, bz + 0.5)
-for yy in (0.6, 1.05, 1.5):
-    x = dl['x0'] + 0.4
-    while x < dl['x1'] - 2.2:
-        pv.ell((x + 0.1, yy + 0.06, bz + 0.3), 0.1, 0.06, 0.16, seg=8, rings=4); pv.paint(list(pv.bm.faces)[-32:], rng.choice(['#b87a3a', '#c88a4a', '#a8682a', '#d8a868']))
-        x += 0.22
-fr4 = Mesh('usm_oven', M['chrome']); fr4.box(dl['x1'] - 1.8, dl['x1'] - 0.3, 0.0, 1.9, bz, bz + 0.85); fr4.finish(root, uv=False)
-pv.cbox(dl['x1'] - 1.7, dl['x1'] - 0.4, 0.9, 1.5, bz + 0.851, bz + 0.86, '#1d1e20')
-mb = Mesh('GLOW_usm_menu', M['screen'])
-for k in range(3): mb.box(dl['x0'] + 0.6 + k * 2.0, dl['x0'] + 2.3 + k * 2.0, 2.5, 3.3, Z0 + 0.03, Z0 + 0.06)
+# 後面的麵包架（開放式三層木架＋背板，一條一條的麵包、可頌、袋裝吐司）＋不鏽鋼烤箱
+bz = dl['z0'] + 0.05; bx0, bx1 = dl['x0'] + 0.3, dl['x1'] - 2.1
+wd.box(bx0, bx1, 0.0, 1.9, bz, bz + 0.03)
+for yy in (0.3, 0.75, 1.2, 1.65): wd.box(bx0, bx1, yy - 0.03, yy, bz, bz + 0.5)
+for xs_ in (bx0, bx1 - 0.03): wd.box(xs_, xs_ + 0.03, 0.0, 1.9, bz, bz + 0.5)
+for yy in (0.3, 0.75, 1.2, 1.65):
+    x = bx0 + 0.1
+    while x < bx1 - 0.2:
+        kind = rng.random()
+        f0 = set(pv.bm.faces)
+        if kind < 0.45: pv.ell((x + 0.1, yy + 0.06, bz + 0.3), 0.1, 0.065, 0.17, seg=8, rings=4); col = rng.choice(['#b87a3a', '#c88a4a', '#a8682a', '#d8a868'])   # 長條麵包
+        elif kind < 0.75: pv.crbox(x, x + 0.2, yy, yy + 0.13, bz + 0.15, bz + 0.45, '#f0ece2', r=0.03, seg=1); col = None                     # 袋裝吐司（透明袋＋白麵包）
+        else: pv.ell((x + 0.1, yy + 0.05, bz + 0.3), 0.09, 0.05, 0.06, seg=8, rings=4); col = '#d89a4a'                                        # 可頌、圓麵包
+        if col: pv.paint([f for f in pv.bm.faces if f not in f0], col)
+        x += 0.24
+ss.box(dl['x1'] - 1.9, dl['x1'] - 0.3, 0.0, 1.95, bz, bz + 0.85)                                         # 烤箱：不鏽鋼本體、玻璃門（暗）、把手、控制面板
+pv.cbox(dl['x1'] - 1.75, dl['x1'] - 0.45, 0.85, 1.45, bz + 0.851, bz + 0.86, '#1d1e20'); ss.box(dl['x1'] - 1.7, dl['x1'] - 0.5, 1.5, 1.53, bz + 0.86, bz + 0.92)
+pv.cbox(dl['x1'] - 1.75, dl['x1'] - 0.45, 1.6, 1.85, bz + 0.851, bz + 0.86, '#2a2c2e')
+for k in range(4): pv.cyl((dl['x1'] - 1.6 + k * 0.12, 1.72, bz + 0.86), (dl['x1'] - 1.6 + k * 0.12, 1.72, bz + 0.88), 0.025, seg=8)
+mbm = img_mat('GLOW_usm_menu', 'us_mk_menu.png', rough=0.4, emit=0.6)
+mb = Mesh('GLOW_usm_menu', mbm); bm_ = mb.bm; uvl = bm_.loops.layers.uv.verify()
+for k in range(3):                                                                                       # 菜單燈箱（三塊，字是一般英文＋價格）
+    xa, xb = dl['x0'] + 0.5 + k * 2.0, dl['x0'] + 2.3 + k * 2.0
+    f = bm_.faces.new([bm_.verts.new(g2b(*q)) for q in ((xa, 2.45, Z0 + 0.07), (xb, 2.45, Z0 + 0.07), (xb, 3.35, Z0 + 0.07), (xa, 3.35, Z0 + 0.07))])
+    for lp, uv in zip(f.loops, ((k / 3, 0), ((k + 1) / 3, 0), ((k + 1) / 3, 1), (k / 3, 1))): lp[uvl].uv = uv
+    pv.cbox(xa - 0.04, xb + 0.04, 2.41, 3.39, Z0 + 0.02, Z0 + 0.065, '#1a1c1e')
 mb.finish(root, uv=False)
 
 # ================= 結帳 =================
@@ -470,10 +499,21 @@ for t_ in J['seasonal']:
     x, z, w, d = t_['x'], t_['z'], t_['w'], t_['d']
     if t_['kind'] == 'flowers':                                                                   # 花：三層木架＋花桶（一束一束）
         wd.box(x - w / 2, x + w / 2, 0.0, 0.5, z - d / 2, z + d / 2); wd.box(x - w / 2, x + w / 2, 0.5, 0.8, z - d / 2, z)
-        for k in range(10):
+        for k in range(10):                                                                       # 花桶（深灰）裡插三、四束花：每束＝牛皮紙或透明包裝的圓錐＋七、八朵小花＋幾片葉子
             fx_ = x - w / 2 + 0.15 + (k % 5) * (w - 0.3) / 4; fz_ = z + (0.25 if k < 5 else -0.25); fy = 0.5 if k < 5 else 0.8
-            pv.cyl((fx_, fy, fz_), (fx_, fy + 0.25, fz_), 0.1, seg=8); pv.paint(list(pv.bm.faces)[-10:], '#3a3c3e')
-            f0 = set(pv.bm.faces); pv.ell((fx_, fy + 0.42, fz_), 0.15, 0.14, 0.15, seg=8, rings=5); pv.paint([f for f in pv.bm.faces if f not in f0], rng.choice(['#e84a6a', '#f2c83a', '#f2f0ea', '#c83a8a', '#ef8a3a', '#9a5ac8']))
+            f0 = set(pv.bm.faces); pv.cyl((fx_, fy, fz_), (fx_, fy + 0.24, fz_), 0.1, seg=10, r2=0.12); pv.paint([f for f in pv.bm.faces if f not in f0], '#3a3c3e')
+            col = rng.choice(['#e84a6a', '#f2c83a', '#f4efe6', '#c83a8a', '#ef8a3a', '#9a5ac8', '#f08aa8'])
+            for b_ in range(rng.randint(3, 4)):
+                bx, bz_ = fx_ + rng.uniform(-0.05, 0.05), fz_ + rng.uniform(-0.05, 0.05); lean = (rng.uniform(-0.08, 0.08), rng.uniform(-0.08, 0.08))
+                f0 = set(pv.bm.faces); wrap = rng.choice(['#c8a878', '#e8eef0', '#d8c8a8'])
+                pv.cyl((bx, fy + 0.15, bz_), (bx + lean[0], fy + 0.5, bz_ + lean[1]), 0.02, seg=7, r2=0.085, caps=False); pv.paint([f for f in pv.bm.faces if f not in f0], wrap)
+                for j in range(rng.randint(6, 8)):
+                    a_ = j * 2.4 + rng.uniform(0, 0.5); rr_ = rng.uniform(0.0, 0.065)
+                    hx_, hy, hz = bx + lean[0] + rr_ * math.cos(a_), fy + 0.52 + rng.uniform(-0.03, 0.04), bz_ + lean[1] + rr_ * math.sin(a_)
+                    f0 = set(pv.bm.faces); pv.ell((hx_, hy, hz), 0.032, 0.022, 0.032, seg=6, rings=3); pv.paint([f for f in pv.bm.faces if f not in f0], col if rng.random() < 0.85 else '#f4efe6')
+                for j in range(3):
+                    a_ = rng.uniform(0, 2 * math.pi); f0 = set(pv.bm.faces)
+                    pv.poly([(bx + lean[0], fy + 0.45, bz_ + lean[1]), (bx + lean[0] + 0.1 * math.cos(a_), fy + 0.5, bz_ + lean[1] + 0.1 * math.sin(a_)), (bx + lean[0] + 0.03 * math.cos(a_ + 0.5), fy + 0.53, bz_ + lean[1] + 0.03 * math.sin(a_ + 0.5))], '#3f6a32')
     else:                                                                                         # 一棧板的瓶裝水（塑膠膜包好的箱子）
         wd.box(x - w / 2, x + w / 2, 0.0, 0.14, z - d / 2, z + d / 2)
         for i in range(int(w / 0.4)):
@@ -481,6 +521,7 @@ for t_ in J['seasonal']:
                 for yy in range(3): pv.crbox(x - w / 2 + i * 0.4 + 0.01, x - w / 2 + i * 0.4 + 0.39, 0.14 + yy * 0.26, 0.39 + yy * 0.26, z - d / 2 + j * 0.5 + 0.01, z - d / 2 + j * 0.5 + 0.49, '#bcd6e6', r=0.02, seg=1)
 # 補貨中的紙箱（第五條走道尾端）
 for k in range(4): pv.cbox(J['gondolas'][4]['x'] + 0.7, J['gondolas'][4]['x'] + 1.1, k * 0.3, k * 0.3 + 0.29, -8.6 + (k % 2) * 0.05, -8.2 + (k % 2) * 0.05, '#b8925a')
+ss.finish(root, uv=False); gc.finish(root, uv=False); cbd.finish(root, uv=False)
 for k_, m_ in FMESH.items():
     if not m_.empty(): m_.finish(root, uv=False, merge=False, smooth=True)
 for m_ in (wd, prod, sh, pg, kk, pr, tags, sg, fv, pv, wr, rd, ch):
