@@ -8069,6 +8069,58 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 07:2x：檔案照 e315997b 帶進來；seated_figures_unit、desk_furniture_unit 過；前後截圖看過（後排頭頂白塊變少）。vroid_build.py 重新產生 npc_f1 時臉的暗部要一起改（記在任務）"
+  },
+  {
+   "id": "DL-AA-8ec9ae99",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8ec9ae99",
+   "what": "AA_298：衝刺班 6/9～7/9 每天、只停有戲的日子（retake_home 加 RH-C0～C5、cram_cards、bg、after）；模擬考 R4 拿掉；R3 改大安森林公園；E34 拿掉；媽媽問宿舍（住家裡過濾）；為什麼重考的回答改短",
+   "task": "AA298-RETAKE-FIX-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（阿勳私訊老實選項）"
+  },
+  {
+   "id": "DL-AA-e79002de",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e79002de",
+   "what": "AA_298 更正：衝刺班是另一間補習班（管理人員、不知道分數）、6/8 15:00 當面報名、O6 改 7/10 看考場",
+   "task": "Q-CRAM-SPRINT-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-294cea95",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "294cea95",
+   "what": "AA_298 第 7、8 節：考場高中教室（exam_hs_classroom）、爸爸長期在上海家裡只有媽媽（home_lines 重匯、home3d dinner/takeCar 改媽媽、home_unit 4、6）、retake_home 換 294cea95",
+   "task": "AA298-RETAKE-FIX-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA 已推 6652f497（考場單人桌椅旁白）"
+  },
+  {
+   "id": "DL-BB-33489d28",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "33489d28",
+   "what": "BG-HOME-1018 全部 11 張：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night（＋home_dining_cny）",
+   "task": "BG-HOME-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 07:3x 接"
   }
  ],
  "ignored": [
