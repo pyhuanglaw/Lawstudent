@@ -20118,7 +20118,7 @@
   },
   {
    "id": "CAMP-PORTRAITS-1018",
-   "title": "法律系宿營台上常常沒人：凱文（24 句）、小隊輔（12 句）沒有立繪；旁白時同小隊的人也不在台上",
+   "title": "法律系宿營台上常常沒人：差在 Kevin 沒有立繪（使用者 15:5x：「營地差在Kevin沒有立繪」）",
    "area": "v1",
    "owner": "BB",
    "status": "待開工",
@@ -20135,7 +20135,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「法律系宿營至少可以出現人物立繪吧 都只有場景很空耶」",
    "authorized": "使用者直接指示",
-   "next": "下一班 BB：凱文、小隊輔的立繪照 D97 跟使用者要（有人物：單獨一輪、附參考圖）；LAWWW：宿營各段開頭讓同小隊的人（阿哲、明軒、沛珊…）站在台上（camp_y1.js participants）",
+   "next": "使用者 15:5x 說差在 Kevin（小隊輔不用）。Kevin 外型使用者選「潮流大哥型」：180 公分、黑髮中長微捲、單耳銀耳環；宿營穿統一隊 T 外面加一件敞開的寬版襯衫、寬褲、老爹鞋。程式已接好（camp_y1.js：speaker npc_kevin＋name 凱文／Kevin，PORTRAITS.npc_kevin）。下一班 BB：照 D97 寫 Kevin 立繪提示詞（600×1000 透明背景全身、neutral／smile／laugh／surprised；附 assets/portraits/zhe/campus/neutral.webp 當比例與畫風參考）向使用者要；收到放 assets/portraits/npc_kevin/campus/、跑 python3 tools/gen_portrait_manifest.py",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
