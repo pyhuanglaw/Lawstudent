@@ -17499,7 +17499,7 @@
    "title": "劇情結束後鏡頭轉回來太快、會暈：宿舍認識阿勳後、隔天起床（X08）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -17513,7 +17513,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "v9.10.1"
+   "next": "engine3d.js endCinematic：跟隨鏡頭接在劇情鏡頭現在的方位（不繞半圈）、1.1 秒內慢慢拉回距離、看的點慢慢移過去；推搖桿或轉鏡頭就加快；換區域照舊直接到位。待 BB-C 瀏覽器看（經濟系第一晚認識阿勳、隔天起床）"
   },
   {
    "id": "BUG-CAMP-CUT-1018",
@@ -17629,10 +17629,10 @@
   },
   {
    "id": "BUG-WIND-1018",
-   "title": "不管坐哪個椅子風都從椰林大道吹過來（X13）",
+   "title": "坐一下的旁白「風從椰林大道那頭吹過來」不管坐哪裡都會出現（使用者 10-18 更正：不是風向，是這句文字，X13）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y0S1",
@@ -17646,7 +17646,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "v9.10.1"
+   "next": "game3d.js：這一句只在校園戶外；室內、其他區域只用另外兩句。各區域自己的「坐一下」旁白要 AA 寫（之後問）"
   },
   {
    "id": "PERF-ZONE-ENTER-1018",
@@ -17759,6 +17759,27 @@
    "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
    "authorized": "使用者直接要求",
    "next": "v9.10.1"
+  },
+  {
+   "id": "BUG-BENCH-OCC-1018",
+   "title": "椰林大道的長椅還是會坐到有人的位子、直接壓在上面（使用者 10-18 06:0x）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次在椰林大道坐長椅",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:0x",
+   "authorized": "使用者直接要求",
+   "next": "原因：校園長椅上讀書的路人（story3d.js）沒有帶 seat，freeSeat 不知道那個位子有人。修：加 seat:st。待 BB-C 瀏覽器"
   }
  ]
 }
