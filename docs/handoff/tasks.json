@@ -19316,7 +19316,7 @@
    },
    "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）",
    "authorized": "P0 bug",
-   "next": "讀程式還沒找到：OUT.go（sceneBegin／finally sceneEnd 對稱）、ECONFF.advance／runEv、story3d 19:15 韋綸保底電話（要 !busy）都看過。下一步：用使用者存檔在瀏覽器從 9/13 18:30 重跑保齡球，每秒記 D.busyDepth、player.busy、ECONFF.busy、EVENTS.running，找沒放開的 sceneBegin；暫時解法：重新讀檔（讀檔會清掉鎖）"
+   "next": "瀏覽器重現三次都沒卡住（10-18 13:xx LAWWW-C）：①turbo；②不用 turbo、使用者存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01 開始、22.59 結束，sceneBegin／sceneEnd 成對，之後接著跳到 9/18、9/20、10/12、10/16 都正常。差別：使用者的出遊在 21:50 結束（到達 19:20＋2.5 小時），重現是 22:35～22:50 結束——懷疑 21:50～22:30 之間在宿舍有東西接上來。③用使用者存檔原樣（21:50、b1 已演）讀進去等 4 分鐘：結果見下一筆。暫時解法更正：遊戲裡卡住時「讀取」和「回標題」都會被擋（busyDepth>0 → 「劇情還在進行」），要重新整理網頁、從標題畫面讀檔（讀檔清掉鎖，game3d.js 318）。下一步：問使用者卡住前一刻做了什麼（按了哪裡、手機有沒有跳出來、有沒有按跳過）；另外考慮在 sceneBegin 加防呆：busy 超過 N 秒、沒有對話／選項／事件／2D／淡入淡出時自動放開並記 console.warn"
   }
  ]
 }
