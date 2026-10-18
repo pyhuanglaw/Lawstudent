@@ -59,15 +59,6 @@ D['characters'][PY] = {'friendOnly': True, 'steps': [
   'choices':[ch('「那我呢？」','你本來就免費，沒什麼好算的。'),
              ch('「妳也算太多了。」','習慣了啦。不算我會睡不著。')],'rel':{'fam':2},'mem':'PY0B_BEST_DEAL',
   'note':'AA_224 5-1：祐廷差四分可以免費、可昕全額 → 兩人在家讀。不寫金額'},
- {'id':'PY0b-L5','if':st(PY,'FAMILIAR'),'week':[9,16],
-  'lines':['可昕半夜傳訊息給我，說她要「重新開機」。','我問她什麼意思，她說把燈關掉再打開。你也這樣嗎？'],
-  'choices':[ch('「我會去洗臉。」','好，比較正常。我會跟她說，你建議洗臉。'),
-             ch('「我也會。」','你們兩個是同一台電腦喔。')],'rel':{'fam':2,'comf':1},'mem':'PY0B_REBOOT',
-  'note':'2026-10-17 BB-C（照 AA_235 71d62646）：可昕這學期不住宿舍，品妤看不到她半夜在做什麼 → 改成訊息'},
- {'id':'PY0b-L6','if':st(PY,'FAMILIAR'),'week':[11,16],
-  'lines':['我報名了精算的第一科考試。明年考。','先報名，錢繳了我就不會想逃。'],
-  'choices':[ch('「妳不會逃。」','……你怎麼知道。好啦，報名費不便宜，我不會讓它浪費。',rel={'trust':1}),
-             ch('「我們一起考試。」','你們七月，我明年。……好，算一起。')],'rel':{'fam':2,'trust':1},'mem':'PY0B_EXAM_SIGNUP'},
  {'id':'PY0b-L7','if':st(PY,'FAMILIAR'),'week':[13,16],
   'lines':['唐睿最近一直問我，計算機好不好用。','很好用啊。他已經問第五次了，是不是記性變差了？'],
   'choices':[ch('「可能是。」','我會叫他多吃魚。'),
@@ -244,7 +235,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 6 if cid==PY else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
