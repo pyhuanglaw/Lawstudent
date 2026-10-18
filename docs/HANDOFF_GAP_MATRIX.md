@@ -44,7 +44,7 @@
 - **AA295-KX-NOHYPO-1018**：08:4x 交給背景子代理在 worktree 做（逐句替換＋測試）；**還沒合併進開發分支——交班時如果還沒合併，就當作沒做，下一班照 AA_295 重做**。
 - P0：QA-PLAYTHROUGH-1018（BB 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 探測在背景：scratchpad ff6/，跑完轉 docs/qa/econ_transcript_*.md 給 AA；scratchpad 交班不會留，下一班重跑 `tests/econ_ff_probe1.py`、`econ_ff_probe2.py`）。
 - 待開工：BUG-DATE-0831-1018（BB 重現中；已知部分見 tasks.json）、BUG-NO-CLERK-1018、AA294-SKIPCLASS-1018、Y0S1 階梯（等 AA 名稱表）、AA299 圖。
-- 等 LAWWW2 整合（D99：v9.10.1 以後）：ART-YU-3D-1018（615a3cbf）、ART-EXT-TEACH（511f6cd6）、ART-LIB-VIEW-1018（ed0196e4）。
+- **使用者 09:0x：v9.10.1 也要包含** AA295-KX-NOHYPO-1018、BUG-DATE-0831-1018、BUG-NO-CLERK-1018（已整合 0f492509）、LAWWW2 三樣 ART-YU-3D-1018／ART-EXT-TEACH／ART-LIB-VIEW-1018（已整合 72287f55）。
 - v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。**發布條件**：BB 四種玩法＋AA 讀劇本兩關都過、跑 docs/TESTING.md 第五節。
 
 **C｜正在做的**：AA295 子代理（worktree）；背景探測 by3mou72w；等 BB 的 QA-AA300 結果。
