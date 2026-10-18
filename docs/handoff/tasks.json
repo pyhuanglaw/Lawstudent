@@ -530,7 +530,7 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "【02:3x LAWWW-C 46f83074】使用者 02:2x 改放進 v9.10：區域 lane118（zones3d.js buildLane118＋lane118_street.glb）、校園霖澤館後面小廣場的後門、src/lane118.js（點餐、常客、阿哲週一揪人）、lane118_shops.js（import_lane118.py 從 AA_280@02ed9b0a）。tests/lane118_unit.js ALL PASS；瀏覽器 tests/flow_lane118.py 下一輪自測，之後給 BB-C。｜【01:5x】內容到了：企劃 AA_280（AA 分支 02ed9b0a）——九間店營業時間與公休、菜單、點餐台詞（「（你點了{品名}。）」共用＋每間招呼／吃完）、常客表（阿哲、小語、柏翰、明軒、芯慈、以安、沛珊到 2026-12-16、語彤大二起、學姊 9/4 以後）、阿哲午餐揪人（大一上第 2 週週一 12:00 起、每週一輪四間）；現有午餐場景不搬。v9.10 後 AA 加白名單再接。｜【2026-10-18 01:4x LAWWW-C】v9.10 發布後第一項（D46 還在；暫停不是交接遺失）。｜等排 118 巷區域",
+   "next": "【02:4x LAWWW-C】瀏覽器 tests/flow_lane118.py ALL PASS（後門 → 118 巷 → 阿哲在六張犁麵舖門口 → 週一休的店 → 一起點餐扣 150 → 走回後門；沒有卡住保險、沒有 JS 例外）。派 BB-C 測。｜【02:3x LAWWW-C 46f83074】使用者 02:2x 改放進 v9.10：區域 lane118（zones3d.js buildLane118＋lane118_street.glb）、校園霖澤館後面小廣場的後門、src/lane118.js（點餐、常客、阿哲週一揪人）、lane118_shops.js（import_lane118.py 從 AA_280@02ed9b0a）。tests/lane118_unit.js ALL PASS；瀏覽器 tests/flow_lane118.py 下一輪自測，之後給 BB-C。｜【01:5x】內容到了：企劃 AA_280（AA 分支 02ed9b0a）——九間店營業時間與公休、菜單、點餐台詞（「（你點了{品名}。）」共用＋每間招呼／吃完）、常客表（阿哲、小語、柏翰、明軒、芯慈、以安、沛珊到 2026-12-16、語彤大二起、學姊 9/4 以後）、阿哲午餐揪人（大一上第 2 週週一 12:00 起、每週一輪四間）；現有午餐場景不搬。v9.10 後 AA 加白名單再接。｜【2026-10-18 01:4x LAWWW-C】v9.10 發布後第一項（D46 還在；暫停不是交接遺失）。｜等排 118 巷區域",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -14736,9 +14736,9 @@
    "title": "溫書瑀年級往後一年（使用者 05:2x 鎖定）：祐廷法律大一＝她大四（準備法研所）、大二＝碩一、大三＝碩二、大四待批准；程式、人物資料（CHARACTERS、立繪說明、年齡）「法律三」→「法律四」，CLAUDE.md 第 9 條同步",
    "area": "V1",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【使用者 P0（AA_218 第 16 節）：她沒有男朋友——8b0768e5 已拿掉 partner、筆試前告白婉拒不鎖線；只讀審查 LOGIC_AUDIT_LAWWW_1017.md f6ae38f5】【AA_218 第 9 節：溫書瑀碩三以交換學生身分赴美、21 歲；和祐廷同組（財經法學組）所以是直屬。CLAUDE.md 第 9 點「溫書瑀 21／法律三」要等規格交付時一起改（使用者裁定，D79 第③級已裁定）】【AA_218（企劃線 b2615f71；使用者 2026-10-17 05:5x 裁定，已裁定的不用再批准）】溫書瑀：祐廷法律大一＝她大四，準備一般入學考試，大一上約第 13 週和男友分手；祐廷法律大四＝她碩三在學。受影響（AA_218 第 5 節，明細附錄 B）：W0～W2、W7、校慶、W8、W9（推甄部分取消）、M1、M2、M3、上榜聚餐、W5、W10、ev_sis_handover、ev_sis_prof_xu_door、ev_sis_collapse、閒聊階梯 S2～S7、needed_msgs sis_*、法服週六值班、partner.untilWeek（→大一上第 13 週）、characters.js year:4、名片「法律系四年級」、美國 US0～US4／W15c／M6～M9；學姊相關事件學期提早一年（和祐廷綁在一起的節點留在祐廷的日曆）。等 BB 改稿（BB_122、BB_183、BB_188）和 AA_218 交付再改程式與 CLAUDE.md 第 9 條；年齡 21 歲待確認",
+   "next": "【2026-10-18 02:4x LAWWW-C】AA 02:2x「恢復條件已經成立，剩程式」：資料頁、朋友列表的年級改照祐廷的學年（SOCIAL.yearTag＋characters.js heroine_05 的 yearByPY／deptByPY）：大一「法律系・四年級」、大二～大四「法研所・碩一／碩二／碩三」。tests/year_tag_unit.js ALL PASS。BB-C 測資料頁畫面後可以關。｜【使用者 P0（AA_218 第 16 節）：她沒有男朋友——8b0768e5 已拿掉 partner、筆試前告白婉拒不鎖線；只讀審查 LOGIC_AUDIT_LAWWW_1017.md f6ae38f5】【AA_218 第 9 節：溫書瑀碩三以交換學生身分赴美、21 歲；和祐廷同組（財經法學組）所以是直屬。CLAUDE.md 第 9 點「溫書瑀 21／法律三」要等規格交付時一起改（使用者裁定，D79 第③級已裁定）】【AA_218（企劃線 b2615f71；使用者 2026-10-17 05:5x 裁定，已裁定的不用再批准）】溫書瑀：祐廷法律大一＝她大四，準備一般入學考試，大一上約第 13 週和男友分手；祐廷法律大四＝她碩三在學。受影響（AA_218 第 5 節，明細附錄 B）：W0～W2、W7、校慶、W8、W9（推甄部分取消）、M1、M2、M3、上榜聚餐、W5、W10、ev_sis_handover、ev_sis_prof_xu_door、ev_sis_collapse、閒聊階梯 S2～S7、needed_msgs sis_*、法服週六值班、partner.untilWeek（→大一上第 13 週）、characters.js year:4、名片「法律系四年級」、美國 US0～US4／W15c／M6～M9；學姊相關事件學期提早一年（和祐廷綁在一起的節點留在祐廷的日曆）。等 BB 改稿（BB_122、BB_183、BB_188）和 AA_218 交付再改程式與 CLAUDE.md 第 9 條；年齡 21 歲待確認",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14768,7 +14768,7 @@
    "owner": "AA",
    "status": "等待其他AI／素材",
    "priority": "P1",
-   "next": "等 AA_218 批准與規格交付；日期（115 學年度筆試 2/1～2、放榜 3/9、3/23）上線前要核對台大法研所招生簡章，查不到只寫月份",
+   "next": "【2026-10-18 02:4x】AA：v9.10 發布後 AA 寫規格；recheckOn 改發布當天。｜等 AA_218 批准與規格交付；日期（115 學年度筆試 2/1～2、放榜 3/9、3/23）上線前要核對台大法研所招生簡章，查不到只寫月份",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14786,7 +14786,7 @@
    "pausedReason": "學姊準備法研所那一年的生活系統規格",
    "resumeWhen": "AA 交規格（備考期事件頻率、可邀約時間）",
    "pausedBy": "使用者 05:4x",
-   "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
+   "recheckOn": "v9.10 發布當天",
    "xai": {
     "receiver": "LAWWW-C",
     "branch": "claude/magical-albattani-bk7b4n（AA 分支）→ 白名單",
@@ -16604,7 +16604,7 @@
    "id": "ART-US2-FIX-1018",
    "title": "C 棟 208（US2 廚房）美術修正：泡麵袋、9/13 傍晚燈光、生活痕跡、外套門／手寫輪值表／臥室兩張床",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "已實作待整合",
    "prio": "P3",
    "first": {
     "term": "Y4S1",
@@ -16624,9 +16624,9 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "遊戲內截圖",
     "receiver": "LAWWW-C",
-    "ack": "未派"
+    "ack": "ACK"
    },
-   "next": "等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）",
+   "next": "【02:2x LAWWW2-C 交件 356d77c6（outbox 96352d2f）：公寓、合租戶窄廚房冰箱與爐子互動點分開、廚房兩面隔間牆會淡出；patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff；GLB 同檔名】v9.10 發布後套；整合時核對 BB_217 第 7 節四點（泡麵袋、燈光、生活痕跡、外套門／輪值表／兩張床）是不是這一包，沒做的留在這項。｜等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
   },
@@ -16769,9 +16769,9 @@
    "title": "118 巷的地面與台大後門（lane118_street.glb 沒有地面；LAWWW-C 接區域時用套件補的柏油、人行道、辛亥路、斑馬線、方塊門柱與圍牆是暫代）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
-   "next": "使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
+   "next": "【02:2x LAWWW2-C 領了（先補 D101 暫停中一節，再做 118 巷）；辛亥復興門沒有使用者照片，照一般台大校門石材門柱＋鐵欄杆做、標 PROPOSAL】｜使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
    "first": {
     "term": "Y1S1",
     "week": 2,
@@ -16787,7 +16787,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "src/data/lane118_layout.js v1；zones3d.js buildLane118 的暫代位置",
     "acceptance": "GLB 地面與後門和配置座標一致；遊戲內截圖；LAWWW 接上後藏起暫代",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   }
  ]
