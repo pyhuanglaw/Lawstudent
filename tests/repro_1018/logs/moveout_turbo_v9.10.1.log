@@ -1,0 +1,21 @@
+[    0s] day -379 8 dorm steps= ev= phone=False
+[    9s] day -368 19 dorm steps=4,5,6 ev= phone=False
+[   20s] day -368 21.84 dorm steps=4,5,6,b1 ev=ev_y0_e14 phone=False
+[   30s] day -361 17 dorm steps=4,5,6,7,8,b1 ev=ev_y0_e14 phone=False
+[   43s] day -361 18.51 dorm steps=4,5,6,7,8,9,b1 ev=ev_y0_e14,ev_y0_e05 phone=False
+[   65s] day -360 13 dorm steps=4,5,6,7,8,9,b1 ev=ev_y0_e14,ev_y0_e05 phone=True
+[  112s] day -360 17 dorm steps=4,5,6,7,8,9,12,b1 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08 phone=False
+[  119s] day -352 23 dorm steps=4,5,6,7,8,9,12,13,14,16,17,18,19,b1,t1,t2,t3,t4,t5 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08 phone=True
+[  134s] day -339 14 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,b1,t1,t2,t3,t4,t5 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08 phone=False
+[  159s] day -339 14.01 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,b1,t1,t2,t3,t4,t5 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a phone=False
+[  176s] day -336 19 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a phone=False
+[  194s] day -336 22.59 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather phone=False
+[  205s] day -334 14.67 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather phone=False
+[  217s] day -334 15.5 cafe steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,27,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather,ev_y0_e30 phone=False
+[  250s] day -334 19.17 dorm steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,27,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather,ev_y0_e30,ev_y0_e26 phone=False
+[  254s] day -334 22.82 dorm steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,27,28,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather,ev_y0_e30,ev_y0_e26 phone=False
+[  269s] day -322 12.17 dorm steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,27,28,b1,t1,t2,t3,t4,t5,t6 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather,ev_y0_e30,ev_y0_e26 phone=False
+[  283s] day -322 12.17 dorm steps=4,5,6,7,8,9,12,13,14,16,17,18,19,21,22,23,25,26,27,28,b1,t1,t2,t3,t4,t5,t6,x29 ev=ev_y0_e14,ev_y0_e05,ev_y0_e08,ev_y0_l5a,ev_y0_gather,ev_y0_e30,ev_y0_e26,ev_y0_xiaofu phone=False
+REACHED ev_y0_xiaofu
+errs []
+final {"d":-322,"h":12.172667333333333,"z":"dorm","stage":"econ"}
