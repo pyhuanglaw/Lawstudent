@@ -16843,13 +16843,13 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:3x 使用者：四座全部改，不限外型】外觀換 Blender；室內本來就是正式模型（dorm_hall.glb、dorm_room4.glb）沿用；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x LAWWW2 03:06 回報：男一舍當時只讀了 zones3d.js 座標、沒有建模型或檔案，沒有 WIP；03:2x 恢復的訊息它下一則會讀到】｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【03:18 LAWWW2 ACK，開始男一舍；分支最新 53d9ef55（ART-US-SEASON 半成品 WIP）】｜【03:3x 使用者：四座全部改，不限外型】外觀換 Blender；室內本來就是正式模型（dorm_hall.glb、dorm_room4.glb）沿用；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x LAWWW2 03:06 回報：男一舍當時只讀了 zones3d.js 座標、沒有建模型或檔案，沒有 WIP；03:2x 恢復的訊息它下一則會讀到】｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內同角度前後截圖；導航阻擋不變或附新的",
     "receiver": "LAWWW-C",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -16959,6 +16959,33 @@
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99；USER_WANTS A16 排「v9.10 後」）",
    "recheckOn": "v9.10 發布當天"
+  },
+  {
+   "id": "SCN-US-IU-1018",
+   "title": "美國校園照 Indiana 校區真的樣子和路線改；其他地區照樣子設計、先不開放進出（使用者 10-18 03:1x 直接對 LAWWW2-C，附空拍圖；照片不進 repo）",
+   "area": "SCN",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國交換抵達（2028-08）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
+   "next": "LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "xai": {
+    "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "GLB＋遊戲內截圖；不開放的區域看得懂地關起來",
+    "receiver": "LAWWW-C",
+    "ack": "ACK"
+   }
   }
  ]
 }
