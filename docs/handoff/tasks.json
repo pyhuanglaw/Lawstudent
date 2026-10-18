@@ -19646,6 +19646,55 @@
    "source": "使用者 2026-10-18 14:1x 截圖（同一則「烤肉沒接到cg」）；LAWWW-C 看截圖發現，使用者沒有直接說",
    "authorized": "一般 bug",
    "next": "查 adv3d.js 直向畫面兩人時的排法：說話的人要在前面；D99 不影響遊玩的外觀問題先記錄"
+  },
+  {
+   "id": "BUG-LATTE-CLERK-1018",
+   "title": "經濟系 10/12 長頸鹿拉花：店員看起來像穿藍色衣服的經濟系同學（照劇情應該是芷若站櫃台，名字只顯示「店員」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 6,
+    "earliest": "10/12 長頸鹿拉花",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:2x：「咖啡店拉花 店員 好像是藍色衣服經濟系同學」",
+   "authorized": "一般 bug",
+   "next": "程式：ev_y0_l5a spawn heroine_02 在吧檯中間 (-2.5,-5.15)；v9.10.1 起 Café 另有一個一般店員（story3d.js clerk，路人底模，(-0.6,-5.25)）。瀏覽器實演截圖中（scratchpad/latte）；可能的修法：拉花那段把一般店員藏起來，櫃台只留芷若"
+  },
+  {
+   "id": "BLACK-BG-AUDIT-1018",
+   "title": "黑畫面盤點：所有 2D 對話演出時沒有圖（深色底）或地點不對的段落，下一班 BB 照清單用 D97 的方式向使用者要圖",
+   "area": "ART",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系開學起",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:2x：「桌遊也沒畫面 類似的事情幫我檢查哪些都黑畫面等下一個帳號BB教我補充」",
+   "authorized": "使用者直接指示",
+   "next": "清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "docs/handoff/BLACK_BG_AUDIT_1018.md；D97；D104",
+    "acceptance": "清單上經濟系的每一組都有使用者生的圖交 LAWWW，或使用者說不用",
+    "ack": "未派"
+   }
   }
  ]
 }

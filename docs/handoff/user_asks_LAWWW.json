@@ -81,6 +81,33 @@
    "status": "還沒做",
    "wants": "X43",
    "task": "CG-ECON-BBQ-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-10",
+   "at": "2026-10-18T14:2x",
+   "quote": "咖啡店拉花 店員 好像是藍色衣服經濟系同學",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X44",
+   "task": "BUG-LATTE-CLERK-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-11",
+   "at": "2026-10-18T14:2x",
+   "quote": "桌遊也沒畫面",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X45",
+   "task": "BLACK-BG-AUDIT-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-12",
+   "at": "2026-10-18T14:2x",
+   "quote": "類似的事情幫我檢查哪些都黑畫面等下一個帳號BB教我補充",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X45",
+   "task": "BLACK-BG-AUDIT-1018"
   }
  ]
 }

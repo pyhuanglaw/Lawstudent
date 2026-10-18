@@ -5,7 +5,8 @@ try:
     p = (json.load(sys.stdin).get('prompt') or '').strip()
 except Exception:
     p = ''
-if p:
+SYS = ('<task-notification', '[SYSTEM NOTIFICATION', '<agent-message', '<webhook-payload', '<wake ', '<scheduled')
+if p and not any(m in p[:400] for m in SYS):   # 背景工作完成、子代理回報、排程叫醒也會走 UserPromptSubmit：那些不是使用者的訊息，不提醒（14:1x 發現）
     print(json.dumps({'hookSpecificOutput': {'hookEventName': 'UserPromptSubmit', 'additionalContext':
         '（自動提醒 HV-18，使用者 2026-10-18 選定）使用者剛傳了訊息。如果是要求、修改、決定、選擇題答案、取消：回覆時就寫進你職位的 '
         'docs/handoff/user_asks_<LAWWW|LAWWW2|AA|BB>.json，一則一筆（id、at、quote＝原話、kind＝原話／選擇題答案／轉述／AI解讀、status、wants＝USER_WANTS 的列或 task＝任務 ID），'
