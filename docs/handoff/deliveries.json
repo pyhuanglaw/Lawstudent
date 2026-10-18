@@ -8212,6 +8212,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "922789ba"
+  },
+  {
+   "id": "DL-LAWWW2-ed0196e4",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ed0196e4",
+   "what": "ART-LIB-VIEW-1018 總圖窗景：一面牆一張大平面、視差（library_views.diff、窗景照片 4 張、重拍工具）",
+   "task": "ART-LIB-VIEW-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "D99 第 5 點：不在三個優先項目，先登記；v9.10.1 發布後整合"
   }
  ],
  "ignored": [
