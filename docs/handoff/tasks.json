@@ -16892,7 +16892,7 @@
    "title": "普通教學館、博雅教學館：外觀＋室內換 Blender（teach3d.js、boya／putong_layout.js）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16906,7 +16906,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【05:4x LAWWW-C】第一批外觀 a72be0cc 已整合（campus_teach_ext.diff：manifest、ckTag、載入、套件五層；導航、DOORS 不動）；nav_buildings、nav_levels、teach_class、boya_lecture、kit_nav_check ALL PASS；LICENSES 加一列；建築美術 READY_FOR_ART_REVIEW。第二批室內 LAWWW2 做中（接法 LAWWW 同意：桌椅另外兩組不藏）｜【03:3x 使用者：四座全部改，不限外型】外觀＋室內都換 Blender：室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、桌上小物沿用 LAWWW2 的 GLB，空橋沿用 skybridge.glb；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "已整合（v9.10.1）：博雅、普通室內 GLB＋campus_teach_int.diff（511f6cd6）；nav_teach、teach_*、desk_furniture 單元測試過。BB 測畫面",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -17608,7 +17608,7 @@
    "title": "小語 3D 還是舊人物（紅褲子），路人都變好看了她很突兀（X12）",
    "area": "P0",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -17622,7 +17622,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "LAWWW2 05:46 ACK，排在 TEACH 室內前面、現在做",
+   "next": "已整合（v9.10.1，使用者 10-18「這些也要包含」）：bl_yu.vrm＋bag_yu.glb、char_yu.diff。角色美術驗收（D100a，LAWWW）：遊戲內截圖看過（長捲髮、開襟外套、紅裙、斜背包）；BB 測遊戲內",
    "xai": {
     "spec": "使用者 10-18 05:3x：小語還是舊人物、紅褲子很醜；照 characters.js 的小語設定和立繪（assets/portraits/yu/campus）做新的 3D",
     "branch": "claude/focused-cray-c9uwvw",
@@ -17857,7 +17857,7 @@
    "title": "總圖窗景很假（使用者 10-18 06:2x）：窗外是遊戲畫面拍的平面圖 library_view_*.webp",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -17871,7 +17871,7 @@
    },
    "source": "使用者 2026-10-18 06:2x",
    "authorized": "使用者直接要求",
-   "next": "LAWWW2 決定做法（真的 3D 遠景、視差的窗景、或重拍）；導航不動",
+   "next": "已整合（v9.10.1）：library_views.diff＋窗景照片 4 張（ed0196e4）。BB 測畫面",
    "xai": {
     "spec": "使用者 10-18：「總圖窗景很假」。現在窗外是 tools/shots/library_views.py 拍的遊戲畫面平面貼圖（library_view_*.webp）",
     "branch": "claude/focused-cray-c9uwvw",

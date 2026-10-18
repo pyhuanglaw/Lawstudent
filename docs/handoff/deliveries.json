@@ -7937,7 +7937,7 @@
    "what": "ART-YU-3D-1018 小語 3D：bl_yu.vrm、bag_yu.glb、char_yu.diff（對 ba6e9aa4）、char_review/yu 截圖",
    "task": "ART-YU-3D-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-C 06:3x ACK；排在經濟系 P0 後面整合、遊戲內截圖驗收（D100a）。沒做到：背後帽子、走路右手穿包、坐姿沒截圖"
   },
   {
@@ -7976,7 +7976,7 @@
    "what": "ART-EXT-TEACH 第二批：博雅、普通室內 GLB＋campus_teach_int.diff（對 ba6e9aa4）",
    "task": "ART-EXT-TEACH",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-C 06:4x 收到；排在經濟系 P0 後面整合；LAWWW2 自測 teach_class、boya_lecture、desk_furniture、seated_figures、nav_buildings 過，沒測 reachability_all"
   },
   {
@@ -8223,7 +8223,7 @@
    "what": "ART-LIB-VIEW-1018 總圖窗景：一面牆一張大平面、視差（library_views.diff、窗景照片 4 張、重拍工具）",
    "task": "ART-LIB-VIEW-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "D99 第 5 點：不在三個優先項目，先登記；v9.10.1 發布後整合"
   },
   {
