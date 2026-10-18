@@ -145,13 +145,15 @@ const ECONFF=(()=>{
     if(e.trigger==='outing'&&typeof OUT!=='undefined'){ const q=(G.outings||[]).find(o=>o.ev===id&&o.state==='planned'); if(q){ await OUT.go(GM,q); return true; } }
     const ok=EVENTS.check(e)||(EVENTS.cond&&EVENTS.cond(e.prereq)&&e.trigger!=='outing');
     if(!ok) return false; await EVENTS.run(e); return true; }
+  /* 跳的途中收到的訊息：最新那一則要回的（沒有就最新那一則）在哪一段對話（AA_300 第 6 節）*/
+  S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const m=P.length?P[P.length-1]:((G.msgs||[]).filter(x=>x.from!=='player').slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };
   S.busy=false;
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;
     const day=DK(s.key); let h=s.cls?(t-day*24):s.h;
     if(t>now+0.05){ const d0=G.day; await GM.fade(true);
       const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour);
-      if(res==='msg'){ if(GM.updateHUD) GM.updateHUD(); await GM.fade(false); if(GM.openPhone) GM.openPhone(); return true; }   /* 收到要回的訊息：先回，回完下一次再接 */
+      if(res==='msg'){ if(GM.updateHUD) GM.updateHUD(); await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
       if(s.zone&&G.zone!==s.zone&&GM.enter) await GM.enter(s.zone,s.at?Object.assign({lv:0},s.at):undefined,{noFade:true});
       else if(s.at&&E&&E.placeAt){ E.placeAt(E.player,s.at.x,s.at.z,0); E.player.obj.rotation.y=s.at.yaw||0; }
       const line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
@@ -198,7 +200,7 @@ const ECONFF=(()=>{
     if(S.rhOn(G)||(RH()&&DK(RH().range[0])===G.day+1)){ const nd=(rd!=null&&S.rhOn(G))?Math.max(G.day+1,rd+S.RH_EVERY):G.day+1, e=S.rhPick(Object.assign({},G,{day:nd})), hh=e?S.RH_H[e.kind]||14:14, t=nd*24+hh; if(t<to&&t>now+0.05) to=t; }   /* 重考期：每 RH_EVERY 天停一次（使用者 10-18：「重考不用每天停」）*/
     if(to<=now+0.05) return H.at;
     const why=await HOME.y0Jump(GM,to);
-    if(why==='msg'&&GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(null); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); }   /* 要回的訊息：打開手機回（D103）*/
+    if(why==='msg'&&GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(S.newestTh(G),{skip:true}); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); }   /* 要回的訊息：打開手機回（D103）*/
     return H.at; };
   /* 要到外面演的一步：玩樂日＝排可昕的出遊、出發；3D＝帶到現場、站好、演、回家 */
   S.run2=async function(GM,s){ const G=GM.G, E=GM.E, H=HOME.rec(G); const r=S.rec(G);

@@ -504,10 +504,10 @@ const GAME = (function(){
   /* 對話、選項出來的時候，手機、筆記本開著就先收起來（BB-C BB_218：起床約 4 秒後才出「早安。今天的課：」，玩家先打開手機，對話就壓在手機下面；
      2026-10-17 經濟系 9/11 下課選單同樣被手機蓋住）。一定要回的訊息（ask.must）還沒回時不收。不跑 afterPhoneClose（那是玩家自己看完手機的旁白）*/
   function uncover(){ if(menuOpen) closeMenu(); if(phoneOpen&&!(G&&typeof PHONE!=='undefined'&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined))){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); } }
-  function closePhone(){ phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); if(typeof STORY!=='undefined'&&STORY.afterPhoneClose&&!D.active) STORY.afterPhoneClose(GM).catch(e=>console.warn('afterPhoneClose',e)); }   /* 看完手機以後的旁白（學姊 A5-1 B：按讚、加好友）*/
+  function closePhone(){ if($('btnPhoneClose')) $('btnPhoneClose').textContent='收起來'; phoneOpen=false; phoneThread=null; $('phone').classList.add('hide'); E.paused=false; phoneBadge(); const w=phoneWaiters; phoneWaiters=[]; for(const f of w) f(); if(typeof STORY!=='undefined'&&STORY.afterPhoneClose&&!D.active) STORY.afterPhoneClose(GM).catch(e=>console.warn('afterPhoneClose',e)); }   /* 看完手機以後的旁白（學姊 A5-1 B：按讚、加好友）*/
   GM.openPhone=openPhone; GM.closePhone=closePhone;
   /* 劇情打開手機的某一段對話（第一天可昕的訊息）：玩家關掉手機才繼續 */
-  GM.phoneThread=th=>new Promise(res=>{ phoneWaiters.push(res); openPhone('msg',th); });
+  GM.phoneThread=(th,o)=>new Promise(res=>{ phoneWaiters.push(res); openPhone('msg',th); if(o&&o.skip&&$('btnPhoneClose')) $('btnPhoneClose').textContent='跳過'; });   /* o.skip：事件接事件跳的途中打開的，「收起來」寫「跳過」（AA_300 第 6 節）*/
   /* 手機按鈕上的未讀數字（別人傳來、還沒打開那一段對話看過的）*/
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;
