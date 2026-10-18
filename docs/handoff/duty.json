@@ -36,7 +36,7 @@
     "sha": "d11fc9d1"
    },
    "handedOffAt": "2026-10-18T14:51Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-10-18T1451Z_C_LAWWW.json"
+   "handoffSnapshot": "2026-10-18T1451Z_C_LAWWW.json"
   },
   "LAWWW2": {
    "account": "C",
@@ -48,7 +48,7 @@
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
    "sinceSha": null,
    "handedOffAt": "2026-10-18T12:24Z",
-   "handoffSnapshot": "docs/handoff/snapshots/2026-10-18T1224Z_C_LAWWW2.json"
+   "handoffSnapshot": "2026-10-18T1224Z_C_LAWWW2.json"
   },
   "AA": {
    "account": "C",
@@ -89,10 +89,10 @@
     "ref": "origin/claude/wonderful-mayer-7fm9g6"
    },
    "LAWWW2": {
-    "file": "docs/handoff/snapshots/2026-10-18T1224Z_C_LAWWW2.json",
+    "file": "2026-10-18T1224Z_C_LAWWW2.json",
     "ref": "origin/claude/focused-cray-c9uwvw"
    },
-   "LAWWW": "docs/handoff/snapshots/2026-10-18T1451Z_C_LAWWW.json"
+   "LAWWW": "2026-10-18T1451Z_C_LAWWW.json"
   },
   "closed": true
  },
