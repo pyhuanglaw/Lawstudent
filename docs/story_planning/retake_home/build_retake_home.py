@@ -175,7 +175,10 @@ for c in cram_cards:
     for x in long:
         if _d(c['from'])<=_d(x['date'])<=_d(c['to']) and x.get('theme')=='衝刺班': err.append(f"卡 {c['from']}～{c['to']} 蓋到 {x['id']}")
 if err: sys.exit('\n'.join(err))
-D={'_comment':__doc__,'range':ALL,'cram':{'from':CRAM[0],'to':CRAM[1],'hours':['09:00','21:00'],'note':'每天去；只停 long 的日子，中間跳過出 cram_cards'},'cram_cards':cram_cards,'room':'可昕睡姊姊的房間（使用者 10-18 選擇題）','short':short,'long':long}
+# AA_300（使用者 10-18：重考期在家「只留長場景」、經濟系那一年縮到約 30 分鐘）：每天的短場景不演；長場景只演這五段，其他留著資料、不演
+PLAY=['RH-L1','RH-L5','RH-C0','RH-C4','RH-L6']
+assert all(any(x['id']==p for x in long) for p in PLAY)
+D={'_comment':__doc__,'daily':False,'play':PLAY,'range':ALL,'cram':{'from':CRAM[0],'to':CRAM[1],'hours':['09:00','21:00'],'note':'每天去；只停 long 的日子，中間跳過出 cram_cards'},'cram_cards':cram_cards,'room':'可昕睡姊姊的房間（使用者 10-18 選擇題）','short':short,'long':long}
 if '--check' not in sys.argv:
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'retake_home_v1.json'),'w',encoding='utf-8') as f:
         json.dump(D,f,ensure_ascii=False,indent=1); f.write('\n')
