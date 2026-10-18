@@ -18614,6 +18614,34 @@
    "source": "使用者 2026-10-18 07:1x（同意）",
    "authorized": "使用者同意",
    "next": "瀏覽器探測（scratchpad ff/probe2.py）掛 ADV.log 收台詞 → transcript.json → docs/qa/econ_transcript_*.md → AA-C 讀。第二階段退宿後卡住，正在查"
+  },
+  {
+   "id": "ART-SEATFIG-1018",
+   "title": "博雅 101 坐著的替身禿頭（頭頂白塊）、臉發白、看起來小（BB-C 10-18 報告 b_／e_）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在博雅 101 上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18",
+   "authorized": "bug 修正",
+   "next": "LAWWW2 e315997b 已整合（LOD1 頭頂重烤、vroid_npc_f1 臉暗部 0.838）；替身大小量過不是比例沒改。tools/vroid_build.py 重新產生 npc_f1 時臉的暗部要 0.838。待 BB-C 重拍",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB-C 10-18 博雅 101 報告",
+    "acceptance": "遊戲內前後截圖；seated_figures_unit 過",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }

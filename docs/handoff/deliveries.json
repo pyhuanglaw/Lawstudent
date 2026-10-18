@@ -10756,6 +10756,13 @@
    "kind": "wip",
    "task": "SCN-US-02",
    "reason": "美國校園第二階段 WIP（us_campus_layout_gen.py）；v9.10 收件範圍外，LAWWW2 繼續在自己分支做，交付時再登記"
+  },
+  {
+   "sha": "d5f3e23c",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "ART-EXT-TEACH",
+   "reason": "普通、博雅室內 WIP；正式交付是 511f6cd6（DL-LAWWW2-511f6cd6）"
   }
  ]
 }
