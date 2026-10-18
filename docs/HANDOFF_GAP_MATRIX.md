@@ -42,7 +42,7 @@
 - **第一項（使用者最在意）AA300-ECON30-1018**：經濟系縮到約 30 分鐘——52bf3f16 已推（只停 29 場、日期卡 22 句、重考期短場景關掉、新遊戲按鈕字）。**還沒做**：AA_300 第 6 節手機畫面的「跳過」按鈕、要回的訊息多「跳過」選項；不在 29 場的邀約私訊還會問（答應了也不排出遊）→ 問 AA 要不要拿掉。**BB 瀏覽器實測 QA-AA300-1018 已派（SENT）**。
 - P0：QA-PLAYTHROUGH-1018（BB-C 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 的探測在背景跑：scratchpad ff6/transcript1.json、transcript2.json → docs/qa/econ_transcript_*.md → AA）。
 - AA298-RETAKE-FIX-1018、Q-E36-CALL-1018：已整合待測試（a9446ebb、74e3889b）。KX-INVITE-LAW-1018（法律系可以約可昕）已整合待測試。
-- 待開工：MSG-KX-Y0-1018（AA_301 06cc756e：經濟系那一年主動傳訊息給可昕）、BUG-DATE-0831-1018（9/1 早上畫面寫 8/31；econff setT 週日已改 0）、AA296-KXCALL-1018（y0_kx_leave 改電話）、BG-CAMP-1018（BB 548989d6 交 10 張，宿營各場景換 bg）、DORM-AFTER-MOVEOUT-1018（P2）、AA295-KX-NOHYPO-1018、AA294、BUG-NO-CLERK、BUG-ECON-FRIENDS、BUG-HOME-BIKE-HINT。
+- 待開工：MSG-KX-Y0-1018（AA_301 06cc756e：經濟系那一年主動傳訊息給可昕）、BUG-DATE-0831-1018（9/1 早上畫面寫 8/31；econff setT 週日已改 0）、AA296-KXCALL-1018（y0_kx_leave 改電話）、BG-CAMP-1018（BB 548989d6 交 10 張，宿營各場景換 bg）、DORM-AFTER-MOVEOUT-1018（P2）、AA295-KX-NOHYPO-1018、AA294-SKIPCLASS-1018、BUG-NO-CLERK-1018、BUG-ECON-FRIENDS-1018、BUG-HOME-BIKE-HINT-1018。
 - 等 AA：Y0S1 階梯記憶名稱表（KX0_EGG／KX0_SHOP）、AA299 遊覽車／家裡的車圖。
 - 等 LAWWW2 整合：ART-YU-3D-1018 小語（615a3cbf，char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6，campus_teach_int.diff）。
 - v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。
