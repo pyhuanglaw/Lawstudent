@@ -19049,6 +19049,34 @@
    "source": "BB-C 2026-10-18 回報",
    "authorized": "使用者回報（我休學退宿了還能去宿舍）",
    "next": "game3d.js 約 370 行 HOME.canGo(G)&&!(HOME.at&&HOME.at(G))；[捷徑] 讀檔 2024-10-21 15:00 在校園（home.at=false、base=true、Y0_MOVED_OUT）重現。AA_300 以後休學期間不太會在校園，P2"
+  },
+  {
+   "id": "Q-AA300-INVITES-1018",
+   "title": "AA_300 以後，不在 29 場裡的出遊不排，可是排它們的私訊／群組邀約還會問「去不去」（答應了也不出門）：AA 列要整個不傳或改成不問的補充句",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "經濟系開學以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 2026-10-18 整合 AA_300 時發現",
+   "authorized": "AA_300（使用者選擇題）",
+   "next": "AA-C 回表 → LAWWW 改 story3d 的邀約",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_300 第 1、2 節",
+    "acceptance": "每一則經濟系那一年的邀約私訊：傳／不傳／改成補充句",
+    "ack": "SENT"
+   }
   }
  ]
 }
