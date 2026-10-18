@@ -7573,8 +7573,8 @@
    "what": "BB_132 第 80 組經濟系四張 2D 背景（admin_office、trip_sea〔下雨的海邊，浮水印已補〕、cram_street、hotpot_door；BB_216 A 節後四處）",
    "task": "ART-17",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "LAWWW-C 02:4x：admin_office（ev_y0_e30 行政大樓）、cram_street（ev_y0_cram／cram_h）、hotpot_door（ev_y0_e20 火鍋店門口）已接；trip_sea 先不接——ev_y0_e35s 的「7/19（六）」字卡下面三個分支是「海很藍」／「雨下了一整天（在家睡）」／「巷子裡的店」，下雨的海邊三個都對不上；trip_sea 也是大一下春假開車旅行的海邊（ART-BG09，夕陽），已問 BB／AA"
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 02:4x：admin_office（ev_y0_e30 行政大樓）、cram_street（ev_y0_cram／cram_h）、hotpot_door（ev_y0_e20 火鍋店門口）已接；trip_sea 先不接——ev_y0_e35s 的「7/19（六）」字卡下面三個分支是「海很藍」／「雨下了一整天（在家睡）」／「巷子裡的店」，下雨的海邊三個都對不上；trip_sea 也是大一下春假開車旅行的海邊（ART-BG09，夕陽），已問 BB／AA｜02:5x BB-C 22bf4908：雨天那張改名 y0_sea_rain、標「備用、不接」；7/19 分支背景：sleep＝home_living（已接）、shop 深色底、sea 等 y0_sea_blue（BB 向使用者要）"
   }
  ],
  "ignored": [

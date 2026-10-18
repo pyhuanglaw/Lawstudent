@@ -8269,7 +8269,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "進行中",
-   "next": "【02:4x】BB_132 第 79 組四張接進遊戲（a46637d3 → DL-BB-a46637d3）：水餃店、家樓下、公館、總圖門口夜；第 80 組（行政大樓、海邊、補習班街、火鍋店）使用者在生。｜【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
+   "next": "【02:5x】第 80 組：行政大樓、補習班街、火鍋店門口已接（e9cfbf80）；雨天海邊不接（BB 22bf4908）；7/19 sea 分支要晴天海邊 y0_sea_blue（BB 下一批提示詞），sleep 分支先用 home_living。｜【02:4x】BB_132 第 79 組四張接進遊戲（a46637d3 → DL-BB-a46637d3）：水餃店、家樓下、公館、總圖門口夜；第 80 組（行政大樓、海邊、補習班街、火鍋店）使用者在生。｜【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",

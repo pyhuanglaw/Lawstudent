@@ -2493,7 +2493,8 @@ const STORY_EVENTS=[
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
-    const lines=[ {scene:'7/19（六）'},{if:{flagIs:{E35_PLAN:'sea'}},speaker:null,text:'那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。'},
+    const lines=[ {scene:'7/19（六）',if:{flagIs:{E35_PLAN:'sleep'}},bg:'home_living'},{scene:'7/19（六）',unless:{flagIs:{E35_PLAN:'sleep'}}},   /* 背景照分支（BB-C 22bf4908）：sleep＝在家（home_living）；sea 等晴天的海邊 y0_sea_blue；shop 深色底 */
+      {if:{flagIs:{E35_PLAN:'sea'}},speaker:null,text:'那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。'},
       {if:{flagIs:{E35_PLAN:'sleep'}},speaker:null,text:'雨下了一整天。你睡到下午三點，醒來的時候，她剛好傳來一張窗外下雨的照片。'},
       {if:{flagIs:{E35_PLAN:'shop'}},speaker:null,text:'巷子裡那家店很小。她點了兩份一樣的，說這樣才公平。'},{set:{E35_SUM:true}} ];
     const after=(G,GM)=>{ if(G.hour<20) GM.advance(20-G.hour); };
