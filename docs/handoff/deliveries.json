@@ -8209,9 +8209,9 @@
    "sha": "548989d6",
    "what": "BG-CAMP-1018 宿營背景 10 張（camp_bbq、camp_field、camp_bonfire、camp_party_hall、camp_quiz、camp_dining、camp_trail、camp_classroom、camp_yard_day／night）",
    "task": "BG-CAMP-1018",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "LAWWW 要把宿營各場景的 bg 換掉"
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "922789ba"
   }
  ],
  "ignored": [
