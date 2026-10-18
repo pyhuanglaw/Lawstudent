@@ -1,0 +1,23 @@
+--- a/tests/flow_exch_min.py
++++ b/tests/flow_exch_min.py
+@@ -55,6 +55,9 @@
+         run.check('找到互動點「%s」' % label, False, json.dumps(await pg.evaluate("GAME.E.interactables.map(i=>i.label)"), ensure_ascii=False)); return False
+     ok = await L.go_to(pg, cdp, run, it['x'], it['z'], max(0.5, it['r'] * 0.7), label)
+     s = await L.state(pg)
++    for _ in range(12):   # 互動鍵在下一幀才更新：到了以後等一下再判（v4 一到就判，按鈕還沒出來）
++        if (s['interact'] or '').startswith(label): break
++        await pg.wait_for_timeout(500); s = await L.state(pg)
+     ok = ok and (s['interact'] or '').startswith(label)
+     run.check('走到「%s」、互動鍵出現' % label, ok, json.dumps({k: s[k] for k in ('zone', 'x', 'z', 'interact')}, ensure_ascii=False))
+     if ok and SCK: await SCK.check(pg, '走到「%s」' % label)
+@@ -116,7 +119,9 @@
+             idle_js = "(GAME.G.hour>=18&&!GAME.D.active&&!document.querySelector('#choices button')&&!(GAME.E.player&&GAME.E.player.busy))"
+             await pg.wait_for_timeout(1500)
+             ok, seen = await drive(pg, cdp, done_js + '||(GAME.G.day===%d&&' % d0 + idle_js + ')', ['睡到明天早上', '先起床', '好'], 120)
+-            if await pg.evaluate(done_js): ok = True; break
++            # 醒來那一刻可能接著跳成績通知等對話：日子和地點對了就算醒來（對話留給後面的步驟點掉）
++            if await pg.evaluate("GAME.G.day===%d&&%s==='us_apartment'" % (d0 + 1, ZONE)):
++                await drive(pg, cdp, done_js, ['好'], 60); ok = True; break
+             ok = False
+         info = await pg.evaluate("({day:GAME.G.day,h:GAME.G.hour,z:%s})" % ZONE)
+         run.check('B. 睡覺：隔天早上在美國的公寓醒來（不是台灣的宿舍）', ok, json.dumps(info, ensure_ascii=False))
