@@ -2813,3 +2813,9 @@
 ```
 - BB 檢查：小、只有幾張桌；桌上兩份一樣的；沒有人和字。
 - 一併登記：`AA_185` 3-5 的公館機車行屬於模擬法庭（`AA_177` 4-7），文件狀態表已標作廢，不生；日本的房間 `jp_room`、日本語言課程用 `classroom_small`，都已經有圖。
+
+### 第 82 組：遊戲裡深色底的 9 張（2026-10-18 BB-C；`BB_220` A 節）
+- 事件 2 張：`library_b1`（`ev_bohan_group_session` 考古題小組）、`wancai_seminar`（`ev_plg_rules_after` 讀書會「人回來了」，八個人、長桌、白板）。
+- 出國活動 7 張：C08 歡迎晚會 `intl_seoul_dinner`、C08 最後一晚 `intl_seoul_night`、C10 第一堂課／第一次報告／期末考 `intl_ca_classroom`、C10 週末（海邊）`intl_ca_beach`、C11 第一堂（暖氣、窗戶起霧）`intl_tokyo_classroom`、C11 參訪 `intl_tokyo_shotengai`、C12 茶道 `intl_kyoto_tearoom`。
+- C08、C10 的「出發」不用新圖：用現有的 `airport_departure`。
+- 提示詞全文在使用者對話（2026-10-18 03:4x），格式同第 79 組。
