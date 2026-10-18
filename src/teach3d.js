@@ -156,7 +156,9 @@ const TB3=(function(){
       zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
   // ---- 家具（備用）＋互動點 ----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
-    const up1=new THREE.Group(); up1.position.y=Y1; fb1.add(up1); const grpOf=lv=>lv?up1:fb0; const dummy={blockRect(){}};
+    /* 桌椅、長椅、公告欄、講堂椅（grpOf）放在備用模型群組（fb0／fb1）外面的 fu0／fu1：正式室內模型（ASSETS 'bldg.<id>_interior'，B3.attachFormal）載入後會藏起 fb0／fb1，
+       桌椅要留著（正式模型只有殼和固定設備：黑板、講桌、階梯教室的平台、沙發、關著的門；LAWWW2-C 2026-10-18 ART-EXT-TEACH）。原本是 fb0 和 fb1 裡的 up1 */
+    const fu0=new THREE.Group(), fu1=new THREE.Group(); fu0.name='furniture0'; fu1.name='furniture1'; fu1.position.y=Y1; fu0.userData.dyn=true; fu1.userData.dyn=true; lv0.add(fu0); lv1.add(fu1); const up1=fu1; const grpOf=lv=>lv?fu1:fu0; const dummy={blockRect(){}};
     // 教室：黑板、講桌、學生桌；互動：看教室（門口）
     for(const r of L.rooms){ const y=r.lv?Y1:0, bb=bins[r.lv];
       /* 關著的房間：門板在 doorZ 那一道牆的外側（走廊那一側），門口的說明在牆外 0.9 m（原本一律放在 z0 那一側：洗手間的門口說明跑到建築外面、走不到）*/
@@ -202,7 +204,7 @@ const TB3=(function(){
       /* 沙發：從正前方走過去坐（前面 0.5 m 還在沙發的範圍裡，站得住的地方在前面 0.8 m 左右）——互動點往前 0.4 m，站在沙發前就出現「坐在沙發上」*/
       if(st.kind==='sofa'){ IT.push({x:st.x+Math.sin(st.yaw)*0.4,z:st.z+Math.cos(st.yaw)*0.4,radius:0.75,lv:st.lv,label,seat:st,study:true}); continue; }
       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
-    mergeFurniture(fb0); mergeFurniture(up1);   /* 2026-10-13 LAWWW2 審查：博雅空著每個畫面 570–810 次 draw call——每張椅子、桌子各自是網格 */
+    mergeFurniture(fu0); mergeFurniture(fu1);   /* 2026-10-13 LAWWW2 審查：博雅空著每個畫面 570–810 次 draw call——每張椅子、桌子各自是網格 */
     for(const s of swap) if(s) mergeFurniture(s); furnitureGLB(zone,swap,swapItems);
     b0.build(fb0); b1.build(fb1); return seats; }
   /* 一層的桌椅（Z3.desk／Z3.chair、小圓桌，userData.furn）合成每種材質一個網格：位置、樣子不變，只是少畫很多次。座位、導航、互動點是資料，不受影響 */
@@ -267,7 +269,7 @@ const TB3=(function(){
     const walls=[], walkMeshes=[], slabs=[], outs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
     const innerM=M('#ece6da'); innerM.userData.seeThrough=true;   /* 隔間、走廊牆擋住鏡頭時網點透空 */
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},seeThru:true,layout:L,
-      fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+      fadeWalls(cam){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position);   /* 正式模型的牆（B3.attachFormal）頂點是世界座標、position 是原點：用包圍盒中心 */ const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs) B3.setOutView(o,h,weather,night); },
       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
       roomAt(x,z,lv){ for(const r of L.rooms){ if((r.lv|0)!==(lv|0)) continue; if(x>r.x0&&x<r.x1&&z>r.z0&&z<r.z1) return r.id; } for(const a of (L.areas||[])){ if((a.lv|0)===(lv|0)&&x>a.x0&&x<a.x1&&z>a.z0&&z<a.z1) return a.id; } return 'hall'; },   /* 房間 → 範圍（areas）→ 大廳 */
@@ -281,6 +283,12 @@ const TB3=(function(){
     for(const [x,y,z,on,off] of L.lights){ const l=new THREE.PointLight(0xfff4e6,off,16,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
     zone.teacherSpots={}; for(const r of L.rooms){ const lc=r.lectern; if(!lc||r.stage!=='S') continue; const bx=r.board?r.board.x:(r.x0+r.x1)/2, sx=bx<lc.x?-1:1;   /* 階梯教室（講台在南邊）：老師站在講桌靠黑板中間那一側、面向座位（-z）；story3d.js 的作息（CLS.profWhere）用 */
       zone.teacherSpots[r.id]={x:lc.x+sx*(lc.w/2+0.45),z:lc.z+0.2,yaw:Math.PI,lv:r.lv|0}; }
+    /* 室內正式模型（LAWWW2-C teach_interior.py → ASSETS 'bldg.<id>_interior'；普通、博雅，2026-10-18 ART-EXT-TEACH）：和法圖、萬才館同一套接法（B3.attachFormal：L0_root／L1_root、WALL_*）；
+       隔間牆（tb_partition）擋住鏡頭時照樣網點透空。導航、座位、互動點、桌椅都不變；載入前、載入失敗照舊是備用模型 */
+    zone.formal=false; { const GK='bldg.'+id+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest&&ASSETS.manifest[GK]) ASSETS.loadOne(GK).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true);
+      B3.attachFormal(zone,root,fb0,fb1,lv0,lv1,walls,walkMeshes);
+      for(const r of [lv0,lv1]) r.traverse(o=>{ if(o.isMesh&&o.material&&/^tb_partition/.test(o.material.name||'')&&!o.material.userData.seeThrough){ o.material.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(o.material); } });
+    }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e)); }
     const EN=L.entrance; E.interactables.push({x:EN.exit.x,z:EN.exit.z,radius:EN.exit.r,lv:0,label:'走出'+L.name,exit:{to:'campus',spawn:EN.campus?Object.assign({},EN.campus):undefined}});   /* campus 還沒定（博雅：校園的位置等使用者決定）＝校園的預設出生點 */
     return zone; } }; }
   const ZONES={ gongtong:makeZone('gongtong') }; if(typeof BOYA_LAYOUT!=='undefined') ZONES.boya=makeZone('boya'); if(typeof PUTONG_LAYOUT!=='undefined') ZONES.putong=makeZone('putong');

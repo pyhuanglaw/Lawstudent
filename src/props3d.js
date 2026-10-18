@@ -114,6 +114,14 @@ const PROPS = (function(){
   // 曾品妤（BB_131「手上常拿工程計算機、黑色保溫瓶」；LAWWW2-C 2ef1ca4b，BB-C f331e153）：計算機長邊沿著前臂、螢幕朝外（事件用）；保溫瓶提環勾在手指上、瓶蓋朝上（平常拿）
   const calc=heldGlb('prop.calc_engineering','calc_engineering',0.055,-0.024,[0,Math.PI/2,0]);
   const thermos=heldGlb('prop.thermos_black','thermos_black',0.21,-0.022,[0,0,Math.PI/2]);
+  // ---- 掛在骨頭上的整組 GLB（模型檔的座標＝那根骨頭底下：x 人物右邊、y 上、z 後面；LAWWW2-C 2026-10-18）----
+  //      小語的側背包（tools/blender/char_second/prop_yu.py：右肩側背、背帶照她的身體量過；坐下時藏起來，同後背包）
+  function boneGlb(key,name){ return function(o){ const g=new THREE.Group(); g.name=name;
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const n=c.scene.clone(true);
+      n.traverse(m=>{ if(!m.isMesh) return; const s=m.material; m.material=new THREE.MeshToonMaterial({color:s.color.clone(), map:s.map||null, vertexColors:!!s.vertexColors, side:THREE.DoubleSide}); m.castShadow=true; m.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖）
+      g.add(n); }).catch(e=>console.warn(name+' glb',e));
+    return g; }; }
+  const bagYu=boneGlb('prop.bag_yu','bag_yu');
   const DEF={
     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
@@ -127,6 +135,7 @@ const PROPS = (function(){
     foodmap:{bone:'leftLowerArm',make:foodmap},
     calc:{bone:'leftLowerArm',make:calc},
     thermos:{bone:'rightLowerArm',make:thermos},
+    bag_yu:{bone:'upperChest',make:bagYu,pos:[0,0,0]},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

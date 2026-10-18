@@ -1,0 +1,13 @@
+{
+ "glb": "assets/models/char/second_ai/bag_yu.glb",
+ "owner": "yu",
+ "bytes": 174952,
+ "bone": "upperChest",
+ "pos": [
+  0,
+  0,
+  0
+ ],
+ "fit": "tools/blender/char_second/prop_yu_fit.json",
+ "note": "座標＝upperChest 骨頭底下（x 人物右邊、y 上、z 後面）；坐下時藏起來；沒有牌子（D77）"
+}
