@@ -1,0 +1,78 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index ef112a0d..578fbeaa 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -42,6 +42,7 @@ const ASSETS = (function(){
+     'char.econ_jiahao': {url:'assets/models/char/second_ai/bl_econ_jiahao.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.70,source:'本作 Blender（LAWWW2-C 03179efb 第十版，tools/blender/char_second/jiahao*.py；參考圖 jiahao.webp）；底模 VRoid β 版 CC0 樣本「Sakurada Fumiriya」（pixiv）',license:'CC0 底模＋本作'},   /* 宋家豪：BB-C 2026-10-17 驗收通過（BB_201 第 3、7 節）*/
+     'char.econ_pinyu': {url:'assets/models/char/second_ai/bl_econ_pinyu.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.58,source:'本作 Blender（LAWWW2-C 05c57da1 第六版，tools/blender/char_second/pinyu*.py；參考圖 pinyu.webp，BB_131 標準圖）；底模 VRoid β 版 CC0 樣本「Darkness Shibu」（pixiv）',license:'CC0 底模＋本作'},   /* 曾品妤：BB-C 配件通過 f331e153；等遊戲內截圖驗收（D59）*/
+     'char.prof_wei': {url:'assets/models/char/second_ai/bl_prof_wei.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.72,source:'本作 Blender（LAWWW2-C 03179efb 第六版，tools/blender/char_second/npc.py 的 pwei、wei_clothes.py）；底模 VRoid β 版 CC0 樣本「HairSample_Male」（pixiv）',license:'CC0 底模＋本作'},   /* 魏教授（遠景）：BB-C 2026-10-17 驗收通過（BB_201 第 8 節）；眼鏡是配件 */
++    'char.yu': {url:'assets/models/char/second_ai/bl_yu.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.63,source:'本作 Blender（LAWWW2-C 2026-10-18，tools/blender/char_second/yu*.py；D59，參考圖 yu.webp、立繪 assets/portraits/yu/）；底模 VRoid β 版 CC0 樣本「Sendagaya Shibu」（pixiv）',license:'CC0 底模＋本作'},   /* 小語（李語晴）：大波浪中長髮＋金色髮夾、拼色風衣、白 T、酒紅中長裙、白帆布鞋；包＋吊飾是配件 prop.bag_yu */
+     'char.kexin': {url:'assets/models/char/second_ai/bl_kexin.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.64,source:'本作 Blender（LAWWW2，tools/blender/char_second/kexin*.py；D59，參考圖 kexin.webp）；底模 VRoid β 版 CC0 樣本「Victoria Rubin」（pixiv）',license:'CC0 底模＋本作'},   /* 杜可昕：這一年只出現在 2D 場景（政大、出遊），3D 模型先給之後「她來台大」的事件用（?blchar 才載入）*/
+     'char.heroine_03': {url:'assets/models/char/vroid_heroine_03.vrm',blUrl:'assets/models/char/bl_heroine_03.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.59,source:'VRoid CC0 樣本「Sendagaya Shibu」＋「HairSample_Male」的長褲＋「HairSample_Female」的球鞋（pixiv）；本作修改：拿掉制服、深色 T 恤、牛仔褲；後背包是 src/props3d.js',license:'CC0'},
+     'char.heroine_04': {url:'assets/models/char/vroid_heroine_04.vrm',blUrl:'assets/models/char/bl_heroine_04.vrm',type:'vrm',anims:'char.mixamo_clips',height:1.69,source:'VRoid CC0 樣本「Vita」＋「HairSample_Male」的連帽上衣與短褲＋「HairSample_Female」的球鞋＋「Sendagaya Shibu」的虹膜（pixiv）；吉他袋是 src/props3d.js',license:'CC0'},
+@@ -120,6 +121,7 @@ const ASSETS = (function(){
+     'prop.helmet_bike':{url:'assets/models/char/second_ai/helmet_bike.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/helmet_bike.py（LAWWW2-C：邱韋綸的公路車安全帽——黑色外殼、銀色側條、長條通風孔、深灰內襯、下巴帶）', license:'本作'},
+     'prop.notebook_foodmap':{url:'assets/models/char/second_ai/notebook_foodmap.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_foodmap_notebook.py（LAWWW2-C 0e191286：宋家豪的「公館美食地圖」筆記本——牛皮紙封面、手畫地圖、紙膠帶標籤、索引貼、鬆緊帶；圖是 PIL 畫的，沒有店名、商標）', license:'本作'},
+     'prop.calc_engineering':{url:'assets/models/char/second_ai/calc_engineering.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C：品妤的工程計算機——深灰機身、液晶、按鍵；沒有牌子、型號）', license:'本作'},
++    'prop.bag_yu':{url:'assets/models/char/second_ai/bag_yu.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_yu.py（LAWWW2-C 2026-10-18：小語的黑色尼龍側背包、背帶、登山扣＋三個社團吊飾——天秤、麥克風、吉他；沒有牌子）', license:'本作'},
+     'prop.thermos_black':{url:'assets/models/char/second_ai/thermos_black.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/char_second/prop_pinyu.py（LAWWW2-C 2ef1ca4b：品妤的黑色保溫瓶——霧黑瓶身、瓶蓋、提環；沒有牌子）', license:'本作'},
+     'bldg.library_3f':{url:'assets/models/env/second_ai/library_3f.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/library_3f.py（LAWWW2 ⑪：總圖 3F 閱覽區——長桌、椅子、三面書架牆、窗框；座位、互動點、導航、東側電梯照遊戲原本的；書背與牌子 lib3f_atlas.py）', license:'本作；貼圖 CC0'},
+     /* 美國交換篇＋桃園機場（LAWWW2-C 2026-10-17，src/us3d.js）*/
+diff --git a/src/character3d.js b/src/character3d.js
+index 0ce4510d..850fe872 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -115,7 +115,7 @@ const CHAR = (function(){
+     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
+     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
+     return root; }
+-  C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
++  C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
+     'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]}],'char.heroine_05':['folder','hairtie']};
+   // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
+   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
+@@ -216,7 +216,7 @@ const CHAR = (function(){
+     for(const L of LEGS) for(const n of L){ if(!B[n]||n===L[0]) continue; lo=Math.min(lo,B[n].getWorldPosition(SFV[1]).y); }
+     if(!isFinite(lo)) return; const sc=h.getWorldScale(SFV[2]).y||1; u.model.position.y+=(gy+u.sitFloor+0.05-lo)/sc; u.model.updateWorldMatrix(false,true); }
+   function animateVRM(h,dt,st){ const u=h.userData; const a=u.anim; a.t+=dt; const pose=st.pose||'idle'; const B=u.bones; const spd=st.speed||0; const vrm=u.vrm; const sx=u.sx||1;
+-    if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k of ['backpack','guitar']){ const o=u.props[k]; if(o) o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }
++    if(u.props){ const sitting=pose==='sit'||pose==='read'; for(const k of ['backpack','guitar','bag_yu']){ const o=u.props[k]; if(o) o.visible=!sitting&&!(u.propOn&&u.propOn[k]===false); } }
+     u.ride=pose==='ride'?(st.ride||{crank:0}):null;
+     if(pose==='ride'){ if(!a.static||a.staticKind!=='ride'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='ride'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; setBonesV(B,RIDE_VRM,sx); if(B.Head) B.Head.rotation.set(-0.22*sx,0,0); }   /* 頭往上抬，看前面的路（胸口、頭每一幀都由表重設，下面的注視「加」轉角不會累加）*/   /* 騎車：人物的高度、前後位置在 rideIK 依髖關節對座墊 */
+     else if(pose==='sit'||pose==='read'){ if(!a.static||a.staticKind!=='sit'){ for(const n in a.actions) a.actions[n].stop(); a.static=true; a.staticKind='sit'; a.cur=null; vrm.humanoid.resetNormalizedPose(); } u.ikDrop=0; u.ikSt=null; u.model.position.y=(u.model.userData.baseY||0)-0.47*u.k; u.model.position.z=0; setBonesV(B,SIT_VRM,sx); if(u.sitFloor) setBonesV(B,SEIZA_VRM,sx); if(pose==='read'){ setBonesV(B,READ_VRM,sx); if(B.Head) B.Head.rotation.set((0.35+Math.sin(a.t*0.6)*0.02)*sx,0,0); } else { if(B.Head) B.Head.rotation.set(Math.sin(a.t*0.7)*0.03*sx,Math.sin(a.t*0.4)*0.15,0); } if(B.Spine) B.Spine.rotation.set(0.06*sx,0,0); if(B.Spine1) B.Spine1.rotation.set(0,0,0); }   /* 胸口每一幀也要重設：下面的注視是在胸口「加」轉角，坐姿沒有動畫把骨頭蓋回去，不重設就會一直累加、整個上半身在椅子上轉圈（使用者 2026-10-11 回報，tests/seated_look_unit.js）*/
+@@ -238,7 +238,7 @@ const CHAR = (function(){
+   // 建立順序：VRM（spec.model）→ GLB（spec.model 或 spec.fallbackModel，例如主角的 TEMP_PLAYER_DEV_MODEL）→ 程序化 placeholder
+   /* 角色 → 正式 3D 模型（VRoid CC0 改作）。主要角色各自一個模型；其他人（含路人、教授、不熟同學）用路人底模，
+      顏色沿用各自原本的穿搭設定（髮色、上衣、褲裙），用材質顏色相乘。這裡只決定「外觀」，不影響移動、碰撞、存檔。 */
+-  C.CAST={hero_m:{model:'char.yuting'},an:{model:'char.heroine_01'},hero_f:{model:'char.heroine_01'},heroine_01:{model:'char.heroine_01'},zhe:{model:'char.zhe'},heroine_02:{model:'char.heroine_02'},heroine_03:{model:'char.heroine_03'},heroine_04:{model:'char.heroine_04'},heroine_05:{model:'char.heroine_05'},sis:{model:'char.heroine_05'},classmate_xinci:{model:'char.classmate_xinci'},classmate_peishan:{model:'char.classmate_peishan'},classmate_bohan:{model:'char.classmate_bohan'},kexin:{model:'char.kexin'}};   /* 芯慈：manifest 有才用（?blchar，blOnly）*/
++  C.CAST={hero_m:{model:'char.yuting'},an:{model:'char.heroine_01'},hero_f:{model:'char.heroine_01'},heroine_01:{model:'char.heroine_01'},zhe:{model:'char.zhe'},heroine_02:{model:'char.heroine_02'},heroine_03:{model:'char.heroine_03'},heroine_04:{model:'char.heroine_04'},heroine_05:{model:'char.heroine_05'},sis:{model:'char.heroine_05'},classmate_xinci:{model:'char.classmate_xinci'},classmate_peishan:{model:'char.classmate_peishan'},classmate_bohan:{model:'char.classmate_bohan'},kexin:{model:'char.kexin'},yu:{model:'char.yu'}};   /* 芯慈：manifest 有才用（?blchar，blOnly）*/
+   const AMB={f:['char.npc_f1','char.npc_f2'],m:['char.npc_m1','char.npc_m2']};
+   /* 沒有名字的路人（STORY.extraSpec 的 id 'x0'、'x1'…：教室聽眾、自習區、路上的人）另外一組：LAWWW2 的路人底模（各自的臉與穿搭、不換色；網址加 ?npcnew 才載入，assets3d.js）。
+      有名字的人物（方奕廷、教授、不熟同學…）照舊用 AMB＋自己的顏色（tint），不會因為分到新模型失去穿搭（CLAUDE.md：角色不能因為共用路人模型而失去識別）*/
+diff --git a/src/props3d.js b/src/props3d.js
+index e5b5bca2..45043976 100644
+--- a/src/props3d.js
++++ b/src/props3d.js
+@@ -114,6 +114,14 @@ const PROPS = (function(){
+   // 曾品妤（BB_131「手上常拿工程計算機、黑色保溫瓶」；LAWWW2-C 2ef1ca4b，BB-C f331e153）：計算機長邊沿著前臂、螢幕朝外（事件用）；保溫瓶提環勾在手指上、瓶蓋朝上（平常拿）
+   const calc=heldGlb('prop.calc_engineering','calc_engineering',0.055,-0.024,[0,Math.PI/2,0]);
+   const thermos=heldGlb('prop.thermos_black','thermos_black',0.21,-0.022,[0,0,Math.PI/2]);
++  // ---- 掛在骨頭上的整組 GLB（模型檔的座標＝那根骨頭底下：x 人物右邊、y 上、z 後面；LAWWW2-C 2026-10-18）----
++  //      小語的側背包（tools/blender/char_second/prop_yu.py：右肩側背、背帶照她的身體量過；坐下時藏起來，同後背包）
++  function boneGlb(key,name){ return function(o){ const g=new THREE.Group(); g.name=name;
++    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const n=c.scene.clone(true);
++      n.traverse(m=>{ if(!m.isMesh) return; const s=m.material; m.material=new THREE.MeshToonMaterial({color:s.color.clone(), map:s.map||null, vertexColors:!!s.vertexColors, side:THREE.DoubleSide}); m.castShadow=true; m.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖）
++      g.add(n); }).catch(e=>console.warn(name+' glb',e));
++    return g; }; }
++  const bagYu=boneGlb('prop.bag_yu','bag_yu');
+   const DEF={
+     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
+     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
+@@ -127,6 +135,7 @@ const PROPS = (function(){
+     foodmap:{bone:'leftLowerArm',make:foodmap},
+     calc:{bone:'leftLowerArm',make:calc},
+     thermos:{bone:'rightLowerArm',make:thermos},
++    bag_yu:{bone:'upperChest',make:bagYu,pos:[0,0,0]},
+   };
+   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
+   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

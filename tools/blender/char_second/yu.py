@@ -38,6 +38,8 @@ def stage0(m):
     C.prune_springs(arm)
     import heroine_05 as H05      # 透明的皮膚（原本衣服蓋住的地方）補成皮膚色：襯衫開第一顆扣子的 V 字領口看得到
     H05.fill_hidden_skin(m['body'], 'Body_00_SKIN', 'Y01_Body_filled')
+    from classmate_xinci import bare_legs      # 第二版：樣本的身體貼圖在小腿、腳畫了黑色長襪（第一版腿是黑的）；參考圖是光腳穿帆布鞋
+    bare_legs(m['body'], name='Y01_Body_skin')
     H = C.scale_head(arm, [m['face'], m['body']], HEAD_SCALE)
     nk = C.bone_head(arm, 'J_Bip_C_Neck')
     w = np.clip(C.vgroup_weights(m['body'], {'J_Bip_C_Neck'}), 0, 1)

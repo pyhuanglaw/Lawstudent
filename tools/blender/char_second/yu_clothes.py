@@ -3,7 +3,7 @@
         拼色照參考圖：肩膀、上胸一圈淡黃；前面胸口一道白、下面灰藍；側面白；背後淡黃和灰藍以 V 字（人字）分開；
         袖子從肩膀往下淡黃→白→灰藍→淡黃→灰藍（斜斜的色帶）→白袖口；前襟兩條淡黃的邊、白色拉鍊布。
   白 T：圓領、紮進裙子（敞開的外套中間看得到）。
-  裙子：酒紅色、過膝（膝蓋下面一點）、A 字、柔軟的直褶；高腰、同色細腰帶＋方扣，扣子旁邊垂下一段帶尾。
+  裙子：酒紅色、過膝（膝蓋下面一點；第二版短 4 cm：第一版到小腿中段）、A 字、柔軟的直褶；高腰、同色細腰帶＋方扣，扣子旁邊垂下一段帶尾。
   鞋：白色帆布鞋（白鞋底、一條紅線）。
 做法：
   1. 外套＝芯慈、可昕的開襟做法（x_xinci_clothes.build_cardigan_open：h01_clothes 的上衣、前面敞開），另外一個網格，寬鬆量比 T 恤大。
@@ -16,7 +16,8 @@
      合併成外套同一個物件、同一個材質（少一個 draw call），顏色是淡黃。
 高度直接寫在參考空間（沈以安，p00_clothes.REF：膝 0.552、胯 0.904、脊椎 0.997、胸 1.111、上胸 1.235、脖子 1.350）——
 芯慈的基底（Darkness Shibu）和參考是同一個身體，她的數字可以直接比；小語的基底（Sendagaya Shibu）照地標分段對到參考空間做、再轉回來。
-已知的簡化：參考圖背後的帽子（淡黃、中間一條灰藍）這一版沒有做，用淡黃立領代替；黑色斜背包、三個吊飾、金色髮夾是配件（之後另外做）。"""
+已知的簡化：參考圖背後的帽子（淡黃、中間一條灰藍）沒有做，用淡黃立領代替（LAWWW2-C 10-18 試做兩版：沿領口往下鋪的布，被頭髮蓋住、形狀皺成一片，比沒有更怪，拿掉）；
+側背包＋三個吊飾是配件 prop_yu.py（bag_yu.glb），金色髮夾在頭髮（yu_hair.py）。"""
 import os, math
 import numpy as np
 import bpy
@@ -38,7 +39,7 @@ RED_LINE = np.array([176, 54, 52]) / 255.0       # 鞋底的紅線
 
 REF = PC.REF
 # 參考空間的高度
-SKIRT = dict(z_top=1.052, z_band=1.024, z_hip=0.885, z_hem=0.455, hem_rx=0.300, hem_ry=0.262, n_dir=96, pleats=22, pleat_amp=0.010)
+SKIRT = dict(z_top=1.052, z_band=1.024, z_hip=0.885, z_hem=0.495, hem_rx=0.300, hem_ry=0.262, n_dir=96, pleats=22, pleat_amp=0.010)
 INNER = dict(KNIT_RGB=TEE_RGB, TROUSER_RGB=SKIRT_RGB, BELT_RGB=None, LEATHER_RGB=CANVAS_RGB, SOLE_RGB=SOLE_RGB, GOLD_RGB=CANVAS_RGB,
              SHOE_STYLE='sneaker', NECK_STYLE='crew', HEM_OVER_PANTS=False, SLIM=False, TOP_TEX='jersey',
              SLEEVE_LEN=0.40, SLEEVE_K=0.80, CUFF_EASE=0.012, EASE_K=0.80, DROP_X=0.112, TOP_FIT=0.35, HEM_LOOSE=False,
