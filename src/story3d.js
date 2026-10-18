@@ -2926,9 +2926,10 @@ const STORY = (function(){
     if(F.dating_heroine_03&&!OUT.get(G,'yt_nye_call_y2')&&G.day===nye&&hh>=23) OUT.plan(G,{id:'yt_nye_call_y2',ev:'ev_yt_nye_call_y2',day:nye+1,h:1/60,place:'電話',title:'語彤打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});
     if(!after) return;
     if(F.NYE_Y2!=='roof'&&!F.NYE_Y2) F.NYE_Y2='none';
-    if(inG){ const P=[M('zhe','（照片：人擠人，前面一個人的手機舉得很高，煙火被一棟大樓擋掉一半）'),M('yu','人超多')]; if(F.NYE_Y2==='roof'&&F.NYE_Y2_PHOTO) P.push({th:T,from:'player',who:null,text:'（照片：頂樓，很遠的地方亮了一下）'},M('zhe','你們那邊比較清楚耶'));
+    if(inG){ const P=[M('zhe','（照片：人擠人，前面一個人的手機舉得很高，煙火被一棟大樓擋掉一半）'),M('yu','人超多')]; /* 〔NYE_Y2_PHOTO〕玩家的照片＋阿哲「你們那邊比較清楚耶」：照片說明 AA 還沒給（D79：台詞先問 AA，不放暫用句），句子到了再接 */
       PHONE.at(G,nye,24+5/60,P,'nye_y2_photo'); if(S.knows('classmate_xinci',G)) PHONE.at(G,nye,24+6/60,[M('classmate_xinci','新年快樂。')],'nye_y2_xc'); }
     if(!F.dating_heroine_01&&fam('heroine_01')&&!fam('heroine_01','FRIEND')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_01',from:'heroine_01',text:'新年快樂。'}],'nye_y2_an');
+    if(fam('kai')) PHONE.at(G,nye,24+9/60,[{th:'p:kai',from:'kai',text:'新年快樂。我們這棟頂樓也有人，但沒有你們那邊吵。'}],'nye_y2_kai');   /* 阿凱大二起住別棟、不上這棟頂樓（AA_210 1-5，9c641efa）*/
     if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+8/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'},{th:'p:heroine_03',from:'heroine_03',text:'（照片：店門口拉下一半的鐵門）'}],'nye_y2_yt');
     if(inG&&(G.day>nye+1||(G.day===nye+1&&hh>=20))) PHONE.at(G,nye+1,20,[M('zhe','我明天回高雄')],'nye_y2_zhe'); };
   S.psGone=(G,day)=>{ const p=S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})); return p.kind==='unreachable'||!!p.keep; };   /* 交往中的例外（keep）也算：群組、其他人照樣聯絡不到她 */

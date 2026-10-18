@@ -127,7 +127,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
     check('9. 回「我那幾天不行。」→ 阿哲「靠 好啦 下次」、沒有行程',txt(g).includes('zhe:靠 好啦 下次')&&!OUT.get(G,'vac_va10'));
     step('2027-08-25',16.5); step('2027-08-28',21.5); const B2=txt(g);
-    check('9. 沒去：8/25 小語在地鐵門外的照片、8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/地鐵的門外/.test(t))&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
+    check('9. 沒去：8/25 阿哲傳小語在月台上的照片＋「第一天就丟一個」、小語「是門自己關的！！」（AA_256@247198e8）；8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/隔著地鐵的車門玻璃/.test(t))&&B2.includes('zhe:第一天就丟一個')&&B2.includes('yu:是門自己關的！！')&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); step('2027-08-01',20.5); const N=txt('p:zhe');
     step('2027-08-04',10); check('9. 不回：8/1 阿哲私訊「香港 你到底要不要」；8/3 以後還沒回＝不去',N.includes('zhe:香港 你到底要不要')&&G.flags.VA10==='no'&&!OUT.get(G,'vac_va10'),J([N,G.flags.VA10])); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
