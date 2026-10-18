@@ -62,6 +62,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - 沒有 iPhone 實機測試。
 
 **發布後檢查（docs/TESTING.md 第五節，LAWWW-C 對乾淨 checkout `4c0cbefc`，10-18 12:3x～14:xx）**：deploy_check、reachability_all **ALL PASS**；**minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL**——搖桿、拖曳、點地面在測試裡完全不動（玩家沒有 busy；v9.10 發布前 `feb2bc37` 這三支 ALL PASS）；save_compat_v7 沒跑完（使用者 03:4x 說不用舊存檔測試）。還沒查出是測試狀態造成的（懷疑要回覆的訊息自動打開手機蓋住搖桿）還是遊戲真的擋輸入；使用者實玩可以走路。原文、推測、第一步：`docs/handoff/TEST_RESULTS_1018.md` 第 1 節（任務 REL-9101-POSTCHECK-1018，P0）。**修好、重跑通過以前不發 v9.10.2。** v9.10.2 候選（開發分支）一定要帶 `a0926112`（劇情鎖住 10 秒放開讀檔的保底），清單在同一份文件第 5 節。
+**【10-18 22:2x 更正：v9.10.1 沒有問題，第五節全部補齊、全部通過】**上面三支失敗的原因查清楚了：讀檔的狀態有一則沒回的邀約（預設交往中的可昕，第 3 天 19:30「週末來政大？我當導遊。」），v9.10.1 起要回覆的訊息會自動打開手機、遊戲暫停（D103），測試跑到一半手機跳出來，之後全部不動；v9.10.1 和開發分支一模一樣（`tests/repro_1018/phone_pending_probe.py`），遊戲沒有擋輸入。改了測試（只測移動、換區域的讀檔前關掉自動打開，標 [前置]；溫州街真實流程像玩家一樣點「收起來」；開發分支 `2ad61c5f`、`e3ec5d5e`），對 `4c0cbefc` 單獨重跑（沒有同時跑別的瀏覽器）：minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real **ALL PASS**（另外開發分支也跑了 p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real、minimap_direction，ALL PASS）；deploy_check、reachability_all 原本就 ALL PASS；save_compat_v7 照使用者 03:4x 不跑。紀錄：`docs/handoff/TEST_RESULTS_1018.md` 第 1 節。
 
 ## v9.10（2026-10-18 05:11 UTC 發布 `8c63ea53`，PR #6；GitHub Pages 部署 run 39099701891 05:13 成功）——經濟系＋寒暑假＋16 週＋全部題目
 

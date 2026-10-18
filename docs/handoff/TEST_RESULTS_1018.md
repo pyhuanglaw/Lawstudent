@@ -38,7 +38,7 @@ RESULT: 26 FAIL → 霖澤館前（教室出口）：搖桿右 …; 校園預設
 - 證據：失敗當下的截圖是手機畫面（那一則訊息＋兩個選項）；`tests/repro_1018/phone_pending_probe.py` 讀同一個狀態，v9.10.1 和開發分支都在讀檔後約 5 秒自動打開、`paused:true`，兩版一模一樣（不是版本差異）。
 - minimap_direction 原本就有「讀檔後收起手機」，但只在第 2.5、3 秒收：手機剛好晚一點才跳就收不到（時過時不過）。
 - 改測試（`2ad61c5f` 以後）：`playlib.load_state(quiet_events=True)` 一起關掉 `STORY.phoneAuto`；p0_movement、zone_transitions 讀檔前關掉（都標 [前置]）；touch_flow_wenzhou（從標題開始的真實流程）手機跳出來就像玩家一樣點「收起來」。
-- 結果：p0_movement 改好的版本開發分支 ALL PASS（舊版本在 v9.10.1 25 FAIL）；touch_flow_wenzhou 改好的版本 v9.10.1、開發分支都 ALL PASS。其他幾支的重跑結果補在下面（`$S/joy/rerun2.log`）。
+- 結果（22:0x～22:2x，單獨跑、沒有同時跑別的瀏覽器）：改好的測試對 v9.10.1 `4c0cbefc`：minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real **ALL PASS**；對開發分支：同樣五支 ALL PASS。改之前的 p0_movement 在 v9.10.1 是 25 FAIL（同一個原因）。**REL-9101-POSTCHECK-1018 結案：v9.10.1 沒有問題**。
 
 **比較**：v9.10 發布前（乾淨 checkout `feb2bc37`，10-18 04:1x）minimap_direction、p0_movement、touch_flow_wenzhou **ALL PASS**。所以壞掉的範圍在 `feb2bc37`～`f4b47480` 之間。
 
