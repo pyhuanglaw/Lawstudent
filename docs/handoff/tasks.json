@@ -18915,14 +18915,14 @@
    },
    "source": "AA-C b289fe65（AA_300、DL-AA-b289fe65）",
    "authorized": "使用者選擇題（只留長場景、四段全選、約 30 分鐘、可以選、照這份）",
-   "next": "52bf3f16 已推（econff3d S.KEEP／cut／CARDS／cardLine、EVENTS.check 擋、OUT.plan 不排、rhOn 關、新遊戲按鈕字）。第 6 節：c5e312fe 直接打開那一段對話、按鈕寫「跳過」。不在 29 場的邀約私訊還會問（答應了不會排出遊）→ 請 AA 看要不要拿掉那些私訊。BB 瀏覽器實測 QA-AA300-1018"
+   "next": "52bf3f16 已推（econff3d S.KEEP／cut／CARDS／cardLine、EVENTS.check 擋、OUT.plan 不排、rhOn 關、新遊戲按鈕字）。第 6 節：c5e312fe 直接打開那一段對話、按鈕寫「跳過」。不在 29 場的邀約私訊還會問（答應了不會排出遊）→ 請 AA 看要不要拿掉那些私訊。BB 瀏覽器實測 QA-AA300-1018；BB QA-AA300 ALL PASS（52bf3f16）後又修四件（見 QA-AA300-1018）"
   },
   {
    "id": "QA-AA300-1018",
    "title": "BB 瀏覽器實測 AA_300：新遊戲（經濟系）一路睡覺／快轉到法律系，數停點、日期卡句子、總時間、多出來的停點",
    "area": "v0",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -18936,13 +18936,13 @@
    },
    "source": "LAWWW-C 2026-10-18 派工",
    "authorized": "D100（測試歸 BB）",
-   "next": "BB-C 回報重現步驟＋截圖",
+   "next": "BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/adoring-meitner-mqzst8",
     "spec": "AA_300 第 1、4 節",
     "acceptance": "停點只有 29 場＋手機畫面；日期卡一句照第 4 節；總時間；法律系開局照舊",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {

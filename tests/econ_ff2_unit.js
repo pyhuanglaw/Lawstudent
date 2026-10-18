@@ -78,6 +78,7 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
   { const gs=mkG('2024-10-19',18,{Y0_MOVED_OUT:true,ECON_FULL:false}); gs.flags.ECONFF={done:{},lines:[]}; const ids=[]; for(let k=0;k<20;k++){ const s=ECONFF.next2(gs); if(!s) break; ids.push(s.ev||s.play||s.rh); ECONFF.rec(gs).done[s.n]=1; }
     check('AA_300：休學在家只停 29 場裡的（E12、RH-L1 洗碗、R3 大安森林公園、RH-L5 粽子、RH-C0 報名、RH-C4 笑出來、RH-L6 熱牛奶）；soc_door、R6、其他長場景、每天的短場景都不停',JSON.stringify(ids)===JSON.stringify(['ev_y0_e12','RH-L1','ev_y0_r3','RH-L5','RH-C0','RH-C4','RH-L6']),JSON.stringify(ids));
     gs.day=dayOf('2025-03-03'); gs.hour=10; check('AA_300：重考期每天的短場景關掉（rhOn false）',!ECONFF.rhOn(gs));
-    gs.day=dayOf('2025-07-13'); check('AA_300：沒演到的對答案＝MATH_100 預設 true',(ECONFF.defaults(gs),gs.flags.MATH_100===true)); }
+    gs.day=dayOf('2025-07-13'); check('AA_300：沒演到的對答案＝MATH_100 預設 true',(ECONFF.defaults(gs),gs.flags.MATH_100===true));
+    { const g2=mkG('2024-12-20',10,{Y0_MOVED_OUT:true,ECON_FULL:false}); ECONFF.defaults(g2); const g3=mkG('2024-12-10',10,{Y0_MOVED_OUT:true,ECON_FULL:false}); ECONFF.defaults(g3); check('AA_300：12/13 過了就記 CRAM_FREE_KNOWN（2/13 才會約 2/14 一起去問補習班）；12/13 以前不記',g2.flags.CRAM_FREE_KNOWN===true&&!g3.flags.CRAM_FREE_KNOWN); } }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

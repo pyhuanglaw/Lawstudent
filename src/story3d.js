@@ -56,7 +56,7 @@ const STORY = (function(){
      stage 'law'、day 1（9/17）21:12、宿舍 203，接法律系第一天的開場。帶過去的：旗標、記憶、好感、手機、錢；可昕 dating_kexin＝true、KX_FIRST_MSG＝false（法律系第一天照常播她的第一則＋經濟系版的第一句）；
      MET_XUN、MET_PINYU、KNOWS_TANG（認識的人不重新自我介紹，BB_96 10-1 P4d）；PLAYED_Y0（AA 建議）。觸發：在家＝home3d 選單那一輪（醒來以後）；不在家＝S.tick */
   S.Y0_SUMMER=['暑假剩下的日子，過得很快。','整個暑假你都住在家裡。媽媽每天問你，新宿舍還缺什麼。','八月底，你搬進法律系的宿舍。同一個校園，換了一棟樓。','書桌上，經濟學原理還沒收起來。'];
-  S.toLawDue=G=>{ if(!S.isEcon(G)) return false; const d=S.dayOfKey(S.START1()?'2025-08-29':'2025-08-31');   /* 選 1：8/29 下午搬宿舍，和新局同一場（AA-B 21:09，AA_197 第 0 節）*/ return d!=null&&(G.day>d||(G.day===d&&G.hour>=6)); };
+  S.toLawDue=G=>{ if(!S.isEcon(G)) return false; const d=S.dayOfKey(S.START1()?'2025-08-29':'2025-08-31');   /* 選 1：8/29 下午搬宿舍，和新局同一場（AA-B 21:09，AA_197 第 0 節）*/ return d!=null&&(G.day>d||(G.day===d&&G.hour>=5)); };   /* 05:00＝休學在家的快轉終點（HOME.y0FfEnd）：到了就轉，不會被「睡覺」睡過 8/29（BB-C 10-18 BUG-E37-LATE-0830）*/
   let toLawBusy=false;
   S.toLaw=async function(GM){ if(toLawBusy) return false; toLawBusy=true; const G=GM.G, E=GM.E, F=G.flags;
     try{ if(typeof ADV!=='undefined'&&ADV.end) ADV.end();

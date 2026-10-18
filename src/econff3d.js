@@ -113,7 +113,8 @@ const ECONFF=(()=>{
   S.cardLine=function(G,d0,d1){ if(!S.short(G)||d1-d0<2) return null; const r=S.rec(G), k0=d0+1, k1=d1-1;
     for(const [a,b,t] of S.CARDS){ if(r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };
   /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
-  S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true; };
+  S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'), c=DK('2024-12-13'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true;
+    if(c!=null&&G.day>=c&&!F.CRAM_FREE_KNOWN) F.CRAM_FREE_KNOWN=true; };   /* 12/13 補習班那場不演：過了就算知道可以免費（AA_300 第 4 節；沒有它 2/13 水餃店不會約 2/14 一起去問補習班，BB-C 10-18 QA-AA300）*/
   S.off=()=>typeof location!=='undefined'&&/[?&]nofastecon\b/.test(location.search||'');
   S.on=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.E01_MORNING||F.Y0_MOVED_OUT) return false;
     const a=DK('2024-09-02'), b=DK('2024-10-20'); return a!=null&&b!=null&&G.day>=a&&G.day<b; };   /* 9/2 E01 早上以後～10/19 退宿 */

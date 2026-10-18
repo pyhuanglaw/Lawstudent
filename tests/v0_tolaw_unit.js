@@ -55,7 +55,7 @@ let cards=[], backups=[], entered=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'�
   check('4. 法律系第一天可昕的第一則：先「第二次的大一。我們都是重考上來的。」再「今天讀到哪了？」（AA_295）',K[0]==='第二次的大一。我們都是重考上來的。'&&K[1]==='今天讀到哪了？',JSON.stringify(K.slice(0,3)));
   fresh(5,21,'dorm',{KX_FIRST_MSG:false}); G.stage='law'; said=[]; await STORY._v1.kexinFirstMsg(GM,'night'); check('4. 從法律系開始的玩家：沒有那一句',said[0]&&said[0].t==='今天讀到哪了？');
   // 5. 不在家（例：8/31 早上人在校園）：toLawDue 也成立（S.tick 那一條）；法律系存檔永遠不成立
-  fresh(D31,7,'campus',{LEAVE_WEEK:6}); G.stage='econ'; check('5. 8/31 06:00 以後人在校園：toLawDue 成立；05:00 不成立',STORY.toLawDue(G)&&(()=>{ G.hour=5; return !STORY.toLawDue(G); })());
+  fresh(D31,7,'campus',{LEAVE_WEEK:6}); G.stage='econ'; check('5. 05:00 以後人在校園：toLawDue 成立；04:30 不成立（05:00＝休學在家快轉的終點，BUG-E37-LATE-0830）',STORY.toLawDue(G)&&(()=>{ G.hour=5; const a=STORY.toLawDue(G); G.hour=4.5; return a&&!STORY.toLawDue(G); })());
   fresh(D31,7,'campus'); G.stage='law'; check('5. 法律系的存檔：不成立',!STORY.toLawDue(G));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
