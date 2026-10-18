@@ -16604,7 +16604,7 @@
    "id": "ART-US2-FIX-1018",
    "title": "C 棟 208（US2 廚房）美術修正：泡麵袋、9/13 傍晚燈光、生活痕跡、外套門／手寫輪值表／臥室兩張床",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "暫停",
    "prio": "P3",
    "first": {
     "term": "Y4S1",
@@ -16624,11 +16624,42 @@
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "遊戲內截圖",
     "receiver": "LAWWW-C",
-    "ack": "ACK"
+    "ack": "未派"
    },
-   "next": "【02:2x LAWWW2-C 交件 356d77c6（outbox 96352d2f）：公寓、合租戶窄廚房冰箱與爐子互動點分開、廚房兩面隔間牆會淡出；patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff；GLB 同檔名】v9.10 發布後套；整合時核對 BB_217 第 7 節四點（泡麵袋、燈光、生活痕跡、外套門／輪值表／兩張床）是不是這一包，沒做的留在這項。｜等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）",
+   "next": "【02:5x LAWWW-C 更正】LAWWW2 02:2x 用這個編號交的 356d77c6 是廚房冰箱與鏡頭（USER_WANTS X05），改登記在 BUG-US-KITCHEN-1018；這一項（BB_217 第 7 節四點）照舊暫停。｜等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
+  },
+  {
+   "id": "BUG-US-KITCHEN-1018",
+   "title": "美國公寓、合租戶窄廚房：冰箱和爐子的互動點疊在一起、鏡頭跑到牆外看不到人（BB-C 10-18 測出；USER_WANTS X05）",
+   "area": "US",
+   "owner": "LAWWW",
+   "status": "已實作待整合",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國交換抵達公寓（8 月）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "BB-C 10-18 測試；USER_WANTS X05",
+   "next": "LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
+   "pausedReason": "美國交換是第三優先，v9.10 收件範圍外",
+   "resumeWhen": "v9.10 發布後",
+   "pausedBy": "LAWWW-C（D99＋使用者 10-18 01:0x v9.10 收件範圍）",
+   "recheckOn": "v9.10 發布當天",
+   "xai": {
+    "spec": "BB-C 測試回報；docs/art-rebuild/second_ai/test_shots/us2_fix_1018/README.md",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "nav_us_unit 通過＋BB-C 真實流程",
+    "receiver": "LAWWW-C",
+    "ack": "ACK"
+   }
   },
   {
    "id": "PS-RESULTS-1018",

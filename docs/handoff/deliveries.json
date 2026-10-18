@@ -7518,8 +7518,8 @@
    "account": "C",
    "branch": "claude/focused-cray-c9uwvw",
    "sha": "356d77c6",
-   "what": "ART-US2-FIX-1018 公寓、合租戶窄廚房：冰箱、爐子互動點分開；kit_n、kit_e 隔間牆會淡出（us_apartment.glb、us_shared.glb 重匯）；patch us2_fix_1018.diff（us3d.js、us_layouts.js、nav_us_unit.js）；README docs/art-rebuild/second_ai/test_shots/us2_fix_1018/；outbox 96352d2f",
-   "task": "ART-US2-FIX-1018",
+   "what": "（LAWWW2 標 ART-US2-FIX-1018，撞名，改登記 BUG-US-KITCHEN-1018）公寓、合租戶窄廚房：冰箱、爐子互動點分開；kit_n、kit_e 隔間牆會淡出（us_apartment.glb、us_shared.glb 重匯）；patch us2_fix_1018.diff（us3d.js、us_layouts.js、nav_us_unit.js）；README docs/art-rebuild/second_ai/test_shots/us2_fix_1018/；outbox 96352d2f",
+   "task": "BUG-US-KITCHEN-1018",
    "msg": "ACK",
    "integration": "未整合",
    "note": "v9.10 收件範圍外（美國交換），發布後套；BB-C 重跑 flow_us_exchange"
