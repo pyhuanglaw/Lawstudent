@@ -18536,13 +18536,13 @@
    },
    "source": "使用者 2026-10-18 07:2x",
    "authorized": "使用者直接要求（D97、D100）",
-   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）",
+   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
     "spec": "使用者 10-18 原話；D97",
     "acceptance": "home_<房間>_<day|night>.webp 一套、風格一致",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   }
  ]
