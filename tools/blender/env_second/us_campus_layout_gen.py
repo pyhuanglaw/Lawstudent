@@ -38,8 +38,10 @@ L = {'version': 2, 'zone': 'us_campus', 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0,
      'spawn_bus': {'x': BUS['x'] + 3.4, 'z': 20.6, 'yaw': math.pi, 'note': '公車到站（字卡）以後站在站牌旁邊、面向法學院（北）'},
      'spawn_class_out': {'x': 0.0, 'z': round(FOOT_Z + 1.3, 3), 'yaw': 0.0, 'note': '下課從法學院出來：台階下、面向馬路（南）'},
      'spawn_gate': {'x': GATE['cx'], 'z': 11.4, 'yaw': 0.0, 'note': '從活動中心回來（之後做活動中心時用）：校門口、面向馬路'},
+     'spawn_library_out': {'x': 2.6, 'z': round(FOOT_Z + 1.3, 3), 'yaw': 0.0, 'note': '從法學院圖書館出來（us_lawlib 的出口）：台階下偏東、面向馬路'},
      'interact': [
-         {'id': 'class', 'x': 0.0, 'z': round(FOOT_Z + 0.6, 3), 'r': 1.4, 'label': '進教室', 'note': '法學院台階下（教室是 2D：LAWWW-C 接「進教室」→ 2D 課堂 → 下課回到 spawn_class_out）'},
+         {'id': 'class', 'x': 0.0, 'z': round(FOOT_Z + 0.6, 3), 'r': 1.2, 'label': '進教室', 'note': '法學院台階下（教室是 2D：LAWWW-C 接「進教室」→ 2D 課堂 → 下課回到 spawn_class_out）'},
+         {'id': 'library', 'x': 2.6, 'z': round(FOOT_Z + 0.6, 3), 'r': 1.0, 'label': '進圖書館', 'note': '法學院圖書館（us_lawlib；SCN-US-LIB）：圖書館在東翼，從同一個大門進去；和「進教室」相距 2.6 m（半徑 1.2＋1.0 不重疊）'},
          {'id': 'bus', 'x': BUS['x'], 'z': 21.0, 'r': 1.4, 'label': '搭公車（回社區）', 'note': '公車站（字卡，回 us_outside 的社區入口）'},
          {'id': 'gate', 'x': GATE['cx'], 'z': 10.6, 'r': 1.8, 'label': '往活動中心', 'note': '校門（活動中心還沒做：LAWWW-C 接成關著的出口，通用提示）'},
      ]}
@@ -103,7 +105,7 @@ L['blocks'] = BLOCKS
 
 def check(L):
     bad = []
-    pts = [('spawn_bus', L['spawn_bus']), ('spawn_class_out', L['spawn_class_out']), ('spawn_gate', L['spawn_gate'])] + [('it ' + i['label'], i) for i in L['interact']]
+    pts = [('spawn_bus', L['spawn_bus']), ('spawn_class_out', L['spawn_class_out']), ('spawn_gate', L['spawn_gate']), ('spawn_library_out', L['spawn_library_out'])] + [('it ' + i['label'], i) for i in L['interact']]
     for nm, p in pts:
         for r in L['blocks']:
             if r['x0'] - 0.35 < p['x'] < r['x1'] + 0.35 and r['z0'] - 0.35 < p['z'] < r['z1'] + 0.35: bad.append((nm, r['why']))
