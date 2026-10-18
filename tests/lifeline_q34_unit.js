@@ -2,7 +2,7 @@
 // Q3 法律系時期「為什麼重考？」：宿營夜談選「我念過經濟系，一個多月，重考的。」→ 明軒問；honest＝長句＋阿哲「差四分喔……那真的很煩。」，其他和只玩法律系＝短句＋明軒「好，懂了。」；
 //    夜談沒說的，迎新選「我二十歲。念過經濟系，一個多月。」→ 小語補問（「好，懂了。」是小語）；兩處合計只問一次；「大一歲」不問。
 // Q4 K7 第二～四年：第二年 2026-10-17（六）「下禮拜六週年。這次我選地方。」＝政大山下；第三年 2027-10-17（日）、第四年 2028-10-17（二）三個地點照第一年；
-//    前一晚 21:00 起選準備的東西（四樣）、當天 18:30 出遊；卡片換句（第一年那句「假設我們從最高點開始交往。」不再出現）；沒選地點＝卡片照片；
+//    前一晚 21:00 起選準備的東西（四樣）、當天 18:30 出遊；卡片換句（第一年那句「那天在最高的地方，我們誰都沒說話。」不再出現）；沒選地點＝卡片照片；
 //    第四年那天在美國＝視訊（照 AA_158 的日期不會發生，測試暫時把美國的日期改到包含那一天）；沒在交往＝沒有。
 // 改版前會失敗。用法：node tests/lifeline_q34_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -61,7 +61,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('Q4 第二年 10/10 21:00：「下禮拜六週年。這次我選地方。」（沒有選項）→ 政大山下、排 10/17 18:30',J(P.map(m=>m.text))===J(['下禮拜六週年。這次我選地方。'])&&!P[0].ask&&G.flags.KX_ANNIV_PLACE_2==='shop'&&q&&q.day===A(2)&&q.h===18.5&&q.ap==='shop'&&q.place==='政大・山下的小吃街',J([P,q]));
     const r=await playYear(2,'票根','明年也是');
     check('Q4 第二年 10/16 21:00 選準備的東西（四樣同第一年）→ K7_GIFT_2；不動第一年的 K7_GIFT',r.g[0]==='明天是週年。你準備的東西：'&&r.go[0].length===4&&G.flags.K7_GIFT_2==='ticket'&&G.flags.K7_GIFT===undefined,J([r.g,G.flags.K7_GIFT_2]));
-    check('Q4 第二年：反應同第一年（票根「你學我。」）→ 卡片「第二年。」三選一 →「你說的喔。」；沒有第一年那句；KX_ANNIV {2:shop}、暫存旗標清掉',r.L.includes('杜可昕：你學我。')&&r.L.some(t=>t.endsWith('第二年。'))&&J(r.o[0])===J(['「明年也是。」','「時間好快。」','（握住她的手）'])&&r.L.includes('杜可昕：你說的喔。')&&!r.L.some(t=>t.includes('最高點開始交往'))&&G.flags.KX_ANNIV[2]==='shop'&&G.flags.KX_ANNIV[1]==='wheel'&&G.flags._kxAY===undefined&&G.flags._kxAP===undefined,J(r.L));
+    check('Q4 第二年：反應同第一年（票根「你學我。」）→ 卡片「第二年。」三選一 →「你說的喔。」；沒有第一年那句；KX_ANNIV {2:shop}、暫存旗標清掉',r.L.includes('杜可昕：你學我。')&&r.L.some(t=>t.endsWith('第二年。'))&&J(r.o[0])===J(['「明年也是。」','「時間好快。」','（握住她的手）'])&&r.L.includes('杜可昕：你說的喔。')&&!r.L.some(t=>t.includes('我們誰都沒說話'))&&G.flags.KX_ANNIV[2]==='shop'&&G.flags.KX_ANNIV[1]==='wheel'&&G.flags._kxAY===undefined&&G.flags._kxAP===undefined,J(r.L));
     const k=r.L.indexOf('杜可昕：你說的喔。'); check('Q4 第二年：卡片之後是「後面幾頁，她說：『回去再看。』」（同第一年）',k>0&&r.L[k+1]==='後面幾頁，她說：『回去再看。』',J(r.L.slice(k,k+2))); }
   { fresh(A(2)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A(2); G.hour=17.5; const q=OUT.get(G,'kx_anniv2'); q.state='planned'; said=[]; picks=['握住']; await OUT.go(GM,q); const L=lines();
     check('Q4 第二年沒選準備的東西＝「你人來了就好。」；握住她的手＝「（她沒有說話。手握緊了一點。）」',L.includes('杜可昕：你人來了就好。')&&L.includes('（她沒有說話。手握緊了一點。）')&&G.flags.K7_GIFT_2==='none',J(L)); }

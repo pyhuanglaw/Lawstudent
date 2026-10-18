@@ -57,7 +57,7 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   // 4. R5
   study('2025-04-02',9.9); check('4. 4/2 09:54：她還沒到',!EVENTS.check(ev('ev_y0_r5'))); G.hour=10.1; G.events.done.ev_y0_r1=1;
   check('4. 10:06：R5',EVENTS.check(ev('ev_y0_r5'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r5');
-  check('4. R5：「牆上的倒數撕到一百。」→「一百天。像一百題假設題。」「那第一題呢？」「假設我們都考上了——」「她停住。」「不行，這題太早出。」',L.join('|')==='牆上的倒數撕到一百。|一百天。像一百題假設題。|那第一題呢？|假設我們都考上了——|她停住。|不行，這題太早出。',JSON.stringify(L));
+  check('4. R5（AA_295）：「牆上的倒數撕到一百。」→「一百天。」「妳在想什麼？」「我們都考上的話——」「她停住。」「不行，這個太早講。」',L.join('|')==='牆上的倒數撕到一百。|一百天。|妳在想什麼？|我們都考上的話——|她停住。|不行，這個太早講。',JSON.stringify(L));
   fresh(K('2025-04-02'),20,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; run(20.9,21.1); check('4. 沒去：4/2 21:00 她傳「100」的照片',kx().includes('📷（牆上的倒數：100）'));
   // 5. R2
   study('2025-04-07',12.4); check('5. 第 8 週第一個讀書日（4/7 週一）：R2',EVENTS.check(ev('ev_y0_r2'))&&!EVENTS.check(ev('ev_y0_rs'))); L=await runEv('ev_y0_r2');

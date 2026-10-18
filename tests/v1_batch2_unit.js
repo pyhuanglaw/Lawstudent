@@ -5,7 +5,7 @@
 //     交往中（dating_kexin）、有她的聯絡方式；家族群組「法律系直屬家族」：Kevin 的置頂（開學前；2026-10-17 改，原本學姊，AA_218 L512）、Kevin 的問題可以回（學姊「先看置頂。」刪，17-12）。
 //   C 家族群組：回「（舉手）」或「活著。」設 FAM_GROUP_REPLIED、Kevin「很好，有一個活的。」；不回就沒有旗標。
 //   D 重進宿舍、讀檔：不重播（訊息不會變兩份）。
-//   E 舊存檔：讀檔遷移後交往中、有聯絡方式；第三天以後的早上補一次（旁白＋早上版：「早安。今天的假設題。」、最後「去上課吧……」）；只補一次；看過的不補；家族群組不補。
+//   E 舊存檔：讀檔遷移後交往中、有聯絡方式；第三天以後的早上補一次（旁白＋早上版：「早安。今天讀到哪了？」、最後「去上課吧……」）；只補一次；看過的不補；家族群組不補。
 //   F 芷若的第一則私訊：交往中＝加帳號隔天 15:10、第三句是友情版；單身＝當天 22:07、第三句照第一次點的東西；時間到才出現；收到後有她的聯絡方式。
 //   G 語彤事件 3：三個選項照 AA_11、不出題、最後一句；「我知道誰會知道」→ 學姊 22:30 四句（BB_95 4-3）→ 截圖轉給語彤「……法服是什麼？」（有聯絡方式）／麵店當面（沒有）；
 //     裝懂 → BLUFFED；結果（阿姨週三去了法服）在那一週的週三之後才出現。
@@ -57,16 +57,16 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('A 回過不能再回、不在「待回覆」',PHONE.answer(G,m.ask.id,1)===null&&!PHONE.pending(G).includes(m)); }
   /* ---------- B 新遊戲第一天 ---------- */
   const d0=defaults('祐廷'); check('B 新遊戲預設和可昕交往中（dating_kexin）',d0.flags.dating_kexin===true);
-  fresh(1,21.2,'dorm',d0.flags); picks=['寫自己老師']; await STORY.onEnter('dorm',GM);
+  fresh(1,21.2,'dorm',d0.flags); picks=['講了兩個小時']; await STORY.onEnter('dorm',GM);
   { const L=lines(), i=L.findIndex(t=>/書桌上放著明天民法總則/.test(t));
     const NARR=['以前遇到事情，你會去翻民法。翻得到條文，卻不知道條文和條文怎麼接起來，也不知道怎麼用在一件真的事情上。','這次不一樣。這次有人要教你怎麼讀。','休學到重考的那幾個月，你不是一個人過的。'];
     check('B 案例那一句之後是三句旁白（AA_12 原文、順序）',i>=0&&JSON.stringify(L.slice(i+1,i+4))===JSON.stringify(NARR),JSON.stringify(L.slice(i+1,i+4)));
-    const KXL=['今天的假設題。','假設你在台大讀的案例，和我在政大讀的是同一個。','兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？','……不用回答。我只是想知道你讀到哪了。'];
+    const KXL=['今天讀到哪了？','我們老師今天講的案例，好像跟你們的是同一個。','兩個老師講的不一樣。……我好奇你們的怎麼講。','……不用回答。我只是想知道你讀到哪了。'];   /* AA_295 */
     check('B 接著是可昕的四則訊息（對話框名字「可昕（手機）」）',JSON.stringify(L.slice(i+4,i+8))===JSON.stringify(KXL)&&said[i+4].who==='可昕（手機）',JSON.stringify(said.slice(i+4,i+8)));
     const o=opts.find(q=>q.some(t=>/讀到一半/.test(t)))||[];
-    check('B 三個回覆（BB_95 9-0 原文）',JSON.stringify(o)===JSON.stringify(['讀到一半。案例比想像的長。','寫自己老師的。','讀到一半，在想妳。']),JSON.stringify(o));
-    check('B 她的回答＋「晚安。不要讀到太晚。」',L[i+8]==='好現實。……但是對的。'&&L[i+9]==='晚安。不要讀到太晚。',JSON.stringify(L.slice(i+8,i+10)));
-    const T=KX('p:kexin'); check('B 手機裡有整段（四則＋祐廷的回覆＋她的兩句）、回過了',T.length===7&&T[4].from==='player'&&T[4].text==='寫自己老師的。'&&T[3].ans===1,JSON.stringify(T.map(q=>q.text)));
+    check('B 三個回覆（BB_95 9-0 原文）',JSON.stringify(o)===JSON.stringify(['讀到一半。案例比想像的長。','我們老師講了兩個小時。','讀到一半，在想妳。']),JSON.stringify(o));
+    check('B 她的回答＋「晚安。不要讀到太晚。」',L[i+8]==='……我們也是。我只記得他的領帶。'&&L[i+9]==='晚安。不要讀到太晚。',JSON.stringify(L.slice(i+8,i+10)));
+    const T=KX('p:kexin'); check('B 手機裡有整段（四則＋祐廷的回覆＋她的兩句）、回過了',T.length===7&&T[4].from==='player'&&T[4].text==='我們老師講了兩個小時。'&&T[3].ans===1,JSON.stringify(T.map(q=>q.text)));
     check('B 旗標 KX_FIRST_MSG、交往中、有她的聯絡方式（不會跳「加了聯絡方式」的訊息）',G.flags.KX_FIRST_MSG===true&&G.flags.dating_kexin===true&&INV.hasContact(G,'kexin')&&!G.msgs.some(q=>/加了.*可昕/.test(q.text)));
     check('B 交往中＝關係階段 RELATIONSHIP',SOCIAL.stage('kexin')==='RELATIONSHIP',SOCIAL.stage('kexin'));
     const F=KX('g:family_law'); const pin=F.find(q=>q.pin);
@@ -80,7 +80,7 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('C 回「（舉手）」：FAM_GROUP_REPLIED、Kevin「很好，有一個活的。」',before===undefined&&G.flags.FAM_GROUP_REPLIED===true&&KX('g:family_law').slice(-1)[0].text==='很好，有一個活的。');
     /* D 重進宿舍、再呼叫：不重播 */
     const n0=G.msgs.length; said=[]; await STORY.onEnter('dorm',GM); const r2=await STORY._v1.kexinFirstMsg(GM,'night');
-    check('D 重進宿舍、再呼叫：不重播（訊息數不變、沒有再演）',G.msgs.length===n0&&r2===false&&!lines().some(t=>/今天的假設題/.test(t))); }
+    check('D 重進宿舍、再呼叫：不重播（訊息數不變、沒有再演）',G.msgs.length===n0&&r2===false&&!lines().some(t=>/今天讀到哪了/.test(t))); }
   { fresh(1,21.2,'dorm',defaults('祐廷').flags); picks=['讀到一半。']; await STORY.onEnter('dorm',GM);
     check('C 不回家族群組：沒有 FAM_GROUP_REPLIED',G.flags.FAM_GROUP_REPLIED===undefined&&PHONE.pending(G).some(q=>q.from==='kevin')); }
   /* ---------- E 舊存檔 ---------- */
@@ -90,12 +90,12 @@ const migrate=new Function('defaults','SAVE_VER',g3.slice(g3.indexOf('  function
     check('E 已經設過的不動（之後分開設成 false，讀檔不會又變回交往中）',migrate({v:3,name:'x',rel:{},flags:{dating_kexin:false}}).flags.dating_kexin===false);
     fresh(4,22,'dorm',s.flags); G.contacts=s.contacts; await STORY.sleepNow(GM); const L=lines();
     const i=L.indexOf('休學到重考的那幾個月，你不是一個人過的。');
-    check('E 第三天以後的早上：補一次（旁白＋早上版第一句「早安。今天的假設題。」）',G.day===5&&i>=0&&L[i+1]==='早安。今天的假設題。',JSON.stringify(L.slice(0,8)));
-    check('E 早上版最後一句「去上課吧。下課再跟我說你讀到哪了。」、中間相同',L.includes('去上課吧。下課再跟我說你讀到哪了。')&&L.includes('兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？')&&!L.includes('晚安。不要讀到太晚。'));
+    check('E 第三天以後的早上：補一次（旁白＋早上版第一句「早安。今天讀到哪了？」）',G.day===5&&i>=0&&L[i+1]==='早安。今天讀到哪了？',JSON.stringify(L.slice(0,8)));
+    check('E 早上版最後一句「去上課吧。下課再跟我說你讀到哪了。」、中間相同',L.includes('去上課吧。下課再跟我說你讀到哪了。')&&L.includes('兩個老師講的不一樣。……我好奇你們的怎麼講。')&&!L.includes('晚安。不要讀到太晚。'));
     check('E 家族群組沒有補發',!PHONE.inGroup(G,'family_law'));
-    said=[]; await STORY.sleepNow(GM); check('E 只補一次（再睡一次不會再出現）',!lines().some(t=>/假設題/.test(t)));
-    fresh(4,22,'dorm',{introDone:true,KX_FIRST_MSG:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 看過的（有 KX_FIRST_MSG）不補',!lines().some(t=>/假設題/.test(t)));
-    fresh(1,22,'dorm',{introDone:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 第二天（劇情的那一天）不補，等第三天的早上',G.day===2&&!lines().some(t=>/假設題/.test(t))); }
+    said=[]; await STORY.sleepNow(GM); check('E 只補一次（再睡一次不會再出現）',!lines().some(t=>/今天讀到哪了/.test(t)));
+    fresh(4,22,'dorm',{introDone:true,KX_FIRST_MSG:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 看過的（有 KX_FIRST_MSG）不補',!lines().some(t=>/今天讀到哪了/.test(t)));
+    fresh(1,22,'dorm',{introDone:true,dating_kexin:true}); await STORY.sleepNow(GM); check('E 第二天（劇情的那一天）不補，等第三天的早上',G.day===2&&!lines().some(t=>/今天讀到哪了/.test(t))); }
   /* ---------- F 芷若的第一則私訊 ---------- */
   for(const [dating,order] of [[true,'手沖'],[false,'手沖'],[true,'檸檬塔'],[false,'檸檬塔'],[false,'拿鐵'],[true,'拿鐵'],[false,'卡布奇諾'],[false,'熱可可'],[false,'美式'],[false,'茶']]){ fresh(20,15,'cafe',{dating_kexin:dating,zhiruoShopContactDay:20,zhiruoFirstOrder:order}); STORY.phoneRules(GM); PHONE.tick(G);
     const at=dating?{day:21,h:15+10/60}:{day:20,h:22+7/60}, before=at.day*24+at.h-0.1; G.day=Math.floor(before/24); G.hour=before-G.day*24; PHONE.tick(G);
