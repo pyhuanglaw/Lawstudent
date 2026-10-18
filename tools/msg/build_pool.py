@@ -552,11 +552,13 @@ p.sit('chat', ['在寫報告。', '寫到第三頁了。'], '深夜', tier='L', 
 p.sit('chat', ['睡不著。', '在滑山下那家店的菜單。'], '深夜', tier='L', variantNote='兩則輪流')
 p.sit('chat', ['我這邊要睡了。', '你那邊應該才剛開始。'], '祐廷在國外', ['美國路線'], tier='L', variantNote='只在她那邊 23:30 以後')
 p.sit('chat', ['我這邊十二點了。', '你那邊一點了，快去睡。'], '祐廷在國外', ['日本路線'], tier='L', variantNote='只在她那邊 23:30 以後')
-p.add('share_cat', 'L', ['（長頸鹿貼圖）', '政大的貓比較胖。'])
-p.add('share_food', 'L', ['下次你來政大，我帶你吃這邊的。'])
+p.add('share_cat', 'L', ['（長頸鹿貼圖）', '政大的貓比較胖。'], ['學期中'])
+p.add('share_cat', 'L', ['（長頸鹿貼圖）', '我家巷口的貓比政大的還胖。'], ['在老家'])   # AA-C 2026-10-18（AA_276：寒暑假她在高雄）
+p.add('share_food', 'L', ['下次你來政大，我帶你吃這邊的。'], ['學期中'])
+p.add('share_food', 'L', ['高雄的你沒吃過。你來我再帶你去。'], ['在老家'])
 p.add('share_notes', 'L', ['我們的講義也這樣。', '法律系都一樣。'])
 p.add('night', 'L', ['晚安。', '（長頸鹿貼圖）'])
-p.add('night', 'L', ['晚安。予樂已經在打呼了。'])
+p.add('night', 'L', ['晚安。予樂已經在打呼了。'], ['學期中'])
 people.append(p)
 
 # ───────────────────────── BB_178 6 阿凱 ─────────────────────────
@@ -738,7 +740,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': '741e94f1'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

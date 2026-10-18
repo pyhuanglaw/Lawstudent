@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@741e94f1）。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@bb6baddf）。
    產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "b61e4f55", "BB_178": "741e94f1"},
+ "source":{"AA_202": "b61e4f55", "BB_178": "bb6baddf"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},
@@ -296,11 +296,13 @@ const MSG_POOL={
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在宿舍。予樂在講她的報告，講了四十分鐘。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["在等公車。", "你呢？"], "tags": [], "ask": {"opts": [{"t": "在念書。", "r": ["好。我也要開始念了。"]}, {"t": "在宿舍。", "r": ["我也快到了。"]}]}, "src": "BB_178 5 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["予樂問我在跟誰傳訊息。", "我說不告訴她。"], "tags": ["學期中；帶感情的那一句"], "ask": null, "src": "BB_178 5 在幹嘛", "affection": true},
-   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "政大的貓比較胖。"], "tags": [], "ask": null, "src": "BB_178 5 分享 貓"},
-   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["下次你來政大，我帶你吃這邊的。"], "tags": [], "ask": null, "src": "BB_178 5 分享 吃的"},
+   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "政大的貓比較胖。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 貓"},
+   {"topic": "share_cat", "tier": "L", "variant": null, "msgs": ["（長頸鹿貼圖）", "我家巷口的貓比政大的還胖。"], "tags": ["在老家"], "ask": null, "src": "BB_178 5 分享 貓"},
+   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["下次你來政大，我帶你吃這邊的。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 分享 吃的"},
+   {"topic": "share_food", "tier": "L", "variant": null, "msgs": ["高雄的你沒吃過。你來我再帶你去。"], "tags": ["在老家"], "ask": null, "src": "BB_178 5 分享 吃的"},
    {"topic": "share_notes", "tier": "L", "variant": null, "msgs": ["我們的講義也這樣。", "法律系都一樣。"], "tags": [], "ask": null, "src": "BB_178 5 分享 講義"},
    {"topic": "night", "tier": "L", "variant": null, "msgs": ["晚安。", "（長頸鹿貼圖）"], "tags": [], "ask": null, "src": "BB_178 5 晚安"},
-   {"topic": "night", "tier": "L", "variant": null, "msgs": ["晚安。予樂已經在打呼了。"], "tags": [], "ask": null, "src": "BB_178 5 晚安"},
+   {"topic": "night", "tier": "L", "variant": null, "msgs": ["晚安。予樂已經在打呼了。"], "tags": ["學期中"], "ask": null, "src": "BB_178 5 晚安"},
    {"topic": "chat", "tier": "L", "variant": "考試週", "msgs": ["在念。不要吵我。", "……十分鐘後可以吵。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 考試週", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "L", "variant": "考試週", "msgs": ["在念。", "（長頸鹿貼圖）"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 考試週", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "L", "variant": "放假、在家", "msgs": ["在家。", "（照片：窗外一條很普通的街）", "這裡什麼都沒有，很好念書。"], "tags": [], "ask": null, "src": "BB_178 5 在幹嘛 放假、在家", "tierMin": true, "variantNote": "她家不寫在哪裡，`BB_104`；寒假 1/2～2/19、暑假兩週；兩則輪流"},
