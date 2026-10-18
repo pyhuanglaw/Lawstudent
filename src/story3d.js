@@ -332,6 +332,7 @@ const STORY = (function(){
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ if(zoneId==='campus') CLS.addDoors(GM,'campus'); if(CLS.addActSpots) CLS.addActSpots(GM,zoneId);   /* 活動的集合點（AA_110 6-3）*/ if(zoneId==='classroom'&&!F.classNow&&!(isThu(G)&&!F.classDone)) CLS.syncRoom(GM); if(E.zone&&E.zone.layout) CLS.syncRoom(GM);   /* 建築裡的教室（共同教學館…，D55）*/ }catch(e){ console.warn('CLS populate',e); } }   /* 課表（D52）：共同教學館、體育館的門口；201 上課時的同學 */
     if(typeof CROWD!=='undefined'){ try{ CROWD.enter(GM,zoneId); }catch(e){ console.warn('CROWD.enter',e); } }   /* 公共場景的人流（D55）：照現在的時間直接排好；同一天同一時段進出看到同一批人 */
     GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } }
+    if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：常客、約好的午餐站到店門口（AA_280 第 3、4 節）*/
   };
   // ---------- 資料驅動的 NPC 日程（CHARACTERS[*].daily_schedule）與不熟同學 pool ----------
   const LEGACY_IDS=['heroine_01','heroine_05','zhe','yu','kai','prof_zhou'];
@@ -882,6 +883,7 @@ const STORY = (function(){
     if(it.shop==='tea'){ await counter(GM,'清葉茶行',[['珍珠奶茶',60,10],['青茶 微糖',40,6]]); return true; }
     if(it.shop==='book'){ await bookshop(GM); return true; }
     if(it.eat==='noodle'){ await noodleScene(GM,it); return true; }
+    if(it.shop118&&typeof L118!=='undefined'){ await L118.order(GM,it.shop118); return true; }   /* 118 巷店門口點餐（src/lane118.js，AA_280）*/
     if(it.notice==='lawclub'){ GM.sceneBegin(); await GM.say(null,'【法律服務社 招募新社員】隔週週六上午，萬才館一樓，民眾法律諮詢（學長姊帶著做）。新社員先跟著旁聽、做紀錄。報名請到社團博覽會的攤位。'); if(!F.lawclub){ F.lawclub=true; GM.memo('看了法律服務社的招募公告'); GM.addNote('club_law','法律服務社','隔週週六上午 萬才館一樓（民眾法律諮詢）。新社員先旁聽、做紀錄。');   /* AA-C 2026-10-18 01:2x（比對工具）：週三讀書會、模擬法庭、聯絡人溫學姊都是作廢的設定（法服沒有讀書會 BB_191 §7、學姊不在法服）*/   /* 地點、週次照 AA_110 6-8（原本寫萬才館 201：遊戲裡沒有這間）；BUG-10：照 AA_132 F7 的新字（麵店那一版 F7 原文多「阿哲說一年級去會被操」，看公告的玩家沒聽阿哲說過，不放）*/ } GM.sceneEnd(); return true; }
     if(it.mrt){ if(typeof TRIP!=='undefined'){ await TRIP.menu(GM); return true; } GM.sceneBegin(); await GM.say(null,'捷運公館站。今天的生活範圍還在走路可以到的地方。'); GM.sceneEnd(); return true; }   /* 自由出行（DL-06，AA_160 第 5 節）*/
     /* 201 的課照課表（src/classes3d.js，D52）；沒有課的時候照常走得進去（D54）。v9.5 以前：週四、週二以外會先跳一句「今天沒有民法總則」 */
@@ -1144,7 +1146,7 @@ const STORY = (function(){
       const lines=S.neededMissFor(G,NEEDED_MSGS.list.find(x=>x.id===it[0]),id); if(!lines) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
     return null; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
-  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof L118!=='undefined'){ try{ L118.phone(G); L118.tick(G); }catch(e){ console.warn('L118.phone',e); } }   /* 阿哲週一揪 118 巷午餐（AA_280 第 4 節）*/ if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     if(S.psKeep(G)&&!PHONE.sent(G,'ps_keep_'+G.day)){ const n=+F.PS_KEEP_N||0; F.PS_KEEP_N=n+1; F.PS_KEPT=true; PHONE.at(G,G.day,23+(G.day%6)/10,[{th:'p:classmate_peishan',from:'classmate_peishan',text:S.PS_KEEP_NIGHT[n%S.PS_KEEP_NIGHT.length]}],'ps_keep_'+G.day); }   /* 沛珊重考消失期、交往中（AA_276 第 4 節）：每晚 23:00 以後一則 */
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
