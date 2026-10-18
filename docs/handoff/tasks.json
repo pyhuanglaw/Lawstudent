@@ -18488,6 +18488,34 @@
     "acceptance": "休學期間（尤其 2/13 以後）不再要求玩家進台大；新地點與台詞",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "Q-CRAM-SPRINT-1018",
+   "title": "衝刺班沒有報名的過程、不是當初那家補習班（使用者 10-18：「衝刺班什麼時候報名的？完全沒有，就直接出現衝刺班這個選項，不是當初重考那家辦的」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 15,
+    "earliest": "6/8 衝刺班私訊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:2x",
+   "authorized": "使用者回報（劇情歸 AA）",
+   "next": "已轉 AA-C：報名當面演、要是 E27b 那家補習班",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；D103",
+    "acceptance": "衝刺班有當面報名的場景、是同一家補習班",
+    "ack": "SENT"
+   }
   }
  ]
 }
