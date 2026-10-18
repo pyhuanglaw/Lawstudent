@@ -8,7 +8,10 @@ const PORTRAIT_FILES={
  },
  "classmate_mingxuan": {
   "campus": [
-   "neutral"
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "smile"
   ]
  },
  "classmate_peishan": {
@@ -27,7 +30,12 @@ const PORTRAIT_FILES={
  },
  "classmate_xinci": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile",
+   "surprised",
+   "thinking",
+   "tired"
   ]
  },
  "classmate_youchen": {
@@ -184,7 +192,13 @@ const PORTRAIT_FILES={
  },
  "yu": {
   "campus": [
-   "neutral"
+   "annoyed",
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "serious",
+   "smile",
+   "surprised"
   ]
  },
  "yule": {
@@ -196,7 +210,10 @@ const PORTRAIT_FILES={
  },
  "zhe": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile",
+   "surprised"
   ]
  }
 };

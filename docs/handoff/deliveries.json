@@ -7692,6 +7692,58 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:4x：C08～C12 每個場景都有背景；library_b1（ev_bohan_group_session）、wancai_seminar（ev_plg_rules_after）原本事件就寫了 bg、沒登錄；被取代、遊戲沒用到的 intl_ca_campus、intl_ca_dorm、intl_tokyo_winter 從 assets/bg 拿掉（原檔照舊在 bg_approved）"
+  },
+  {
+   "id": "DL-BB-80928e46",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "80928e46",
+   "what": "明軒三張表情（smile、laugh、embarrassed）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:0x：tools/portraits/matte_gray.py --noscale 去背（修了兩腿中間被圍住的灰底沒去掉：fromarray 唯讀、floodfill 寫不進去；白鞋不誤刪）→ assets/portraits/classmate_mingxuan/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-f9c17c22",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f9c17c22",
+   "what": "阿哲三張表情（smile、laugh、surprised）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:0x：tools/portraits/matte_gray.py --noscale 去背（修了兩腿中間被圍住的灰底沒去掉：fromarray 唯讀、floodfill 寫不進去；白鞋不誤刪）→ assets/portraits/zhe/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-121aa2f0",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "121aa2f0",
+   "what": "小語六張表情（smile、laugh、embarrassed、serious、annoyed、surprised）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:0x：tools/portraits/matte_gray.py --noscale 去背（修了兩腿中間被圍住的灰底沒去掉：fromarray 唯讀、floodfill 寫不進去；白鞋不誤刪）→ assets/portraits/yu/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；頭髮邊有一圈淡淡的亮邊（來源圖本身的光暈，neutral 也有、更明顯），不影響遊玩、只記錄（D99）"
+  },
+  {
+   "id": "DL-BB-dc8313a6",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "dc8313a6",
+   "what": "芯慈五張表情（smile、thinking、laugh、surprised、tired）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:0x：tools/portraits/matte_gray.py --noscale 去背（修了兩腿中間被圍住的灰底沒去掉：fromarray 唯讀、floodfill 寫不進去；白鞋不誤刪）→ assets/portraits/classmate_xinci/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；四張從五格圖放大的比 smile 軟一點，遊戲裡的大小看不出來，不用重生"
   }
  ],
  "ignored": [
