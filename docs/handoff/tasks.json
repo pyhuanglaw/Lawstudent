@@ -17478,7 +17478,7 @@
    "title": "人走路方向和動作不一致：往後、左後方、左前方走，動作卻是往前走（使用者 10-18 05:3x 玩 v9.10，USER_WANTS X07）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -17492,7 +17492,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "v9.10.1"
+   "next": "原因：路人先用備用模型、正式 VRM 載好後換（CHAR.upgrade），用 quaternion.copy 帶朝向；朝向超過 ±90° 時 Euler 變成 (π, π−y, π)，引擎之後只改 rotation.y，看起來的方向＝π−y（往後、斜後方）。瀏覽器探針：校園 32 個人裡 11 個是這樣。修：upgrade 改用 rotation.copy；engine3d.js 加 flatYaw（轉向前把 (π,·,π) 改回 (0,y,0)，已經壞的也會恢復）。tests/walkdir_unit.js（修改前 ① 失敗）。待：LAWWW 瀏覽器探針重跑、BB-C 看校園路人"
   },
   {
    "id": "BUG-CAMSNAP-1018",

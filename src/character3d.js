@@ -276,7 +276,7 @@ const CHAR = (function(){
     const r=C.resolveModel(u.buildSpec); if(!C.canVRM(r)) return false; if(u.driver==='proc') return true; return !!(u.wantModel&&u.key!==u.wantModel&&r.model===u.wantModel); };
   // 用同一個 spec 重新建立，放在原本的位置（位置、朝向、姿勢、表情、配件開關、外面掛上去的東西都帶過去），舊的釋放。回傳新的（失敗回 null，舊的不動）
   C.upgrade=function(h){ const u=h.userData; let nh; try{ nh=C.build(u.buildSpec); }catch(e){ console.warn('model upgrade failed',e); return null; } if(nh.userData.driver==='proc'){ return null; }
-    nh.position.copy(h.position); nh.quaternion.copy(h.quaternion); nh.scale.copy(h.scale); nh.visible=h.visible;
+    nh.position.copy(h.position); nh.rotation.copy(h.rotation); nh.scale.copy(h.scale); nh.visible=h.visible;   /* 用 Euler 複製，不要 quaternion.copy（2026-10-18 使用者「人走路會往後走、往左後方走，動作是往前走」）：朝向超過 ±90° 時四元數換回 Euler 會變成 (π, π−y, π)，引擎之後只改 rotation.y，看起來的方向變成 π−y（往後、斜後方走）*/
     for(const c of [...h.children]) if(!u.ownKids||!u.ownKids.has(c)) nh.add(c);
     const a=u.anim, na=nh.userData.anim; if(a&&na&&a.pose) na.pose=a.pose; if(a&&a.expr&&a.expr!=='normal') C.setExpr(nh,a.expr);
     if(u.propOn) for(const k in u.propOn) C.setProp(nh,k,u.propOn[k]);

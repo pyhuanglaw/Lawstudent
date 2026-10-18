@@ -251,7 +251,10 @@ const E3 = (function(){
         // 目前位置本身站不住（卡在阻擋格裡）時不用這個，交給 escapeOK（否則可能從阻擋格被帶進另一個小空隙）
         else if(!stuckIn(ent)){ const st=Math.hypot(nx-o.position.x,nz-o.position.z); for(const a of [0.52,-0.52,0.87,-0.87,1.22,-1.22]){ const c=Math.cos(a), sn=Math.sin(a), rx=dx*c-dz*sn, rz=dx*sn+dz*c, tx=o.position.x+rx*st, tz=o.position.z+rz*st; if(cs(tx,tz)){ o.position.x=tx; o.position.z=tz; ent.blockedAt.slide='turn'; break; } } } } } else { o.position.x=nx; o.position.z=nz; }
     settleY(ent,dt);
-    const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
+    flatYaw(o); const targetYaw=Math.atan2(dx,dz); let d=targetYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*12); }
+  /* 人物只轉 y：rotation 變成 (±π, y, ±π)（四元數換回 Euler、超過 ±90° 的朝向）時改回 (0, π−y, 0)——看起來的方向一樣，之後改 rotation.y 才是真的轉向（2026-10-18 路人往後走）。騎車的側傾（z 小角度）不動 */
+  function flatYaw(o){ const r=o.rotation; if(Math.abs(r.x)>1.5&&Math.abs(r.z)>1.5){ r.set(0,Math.atan2(Math.sin(Math.PI-r.y),Math.cos(Math.PI-r.y)),0); } }
+  E.flatYaw=flatYaw;
   // 多樓層（v9.4）：E.levels＝這個區域每一層的導航格（沒有就是 null＝單層）；E.nav 永遠是「玩家所在那一層」（舊程式照用）；NPC 用自己的層（n.lv）
   function navOf(lv){ const L=E.levels; return L?(L[lv|0]||L[0]):E.nav; }
   // 路線的轉折點：在 tol 以內、而且「從現在的位置到下一個點」的直線人物過得去（losR，和找路平滑時同一個檢查）才換下一個點；不然繼續走到轉折點上（d<6 cm），
@@ -320,7 +323,7 @@ const E3 = (function(){
     if(n.beh==='wander'&&(n.talk||n.talkLabel)&&!n.leaving&&E.player&&(n.lv|0)===(E.player.lv|0)){ const pp=E.player.obj.position, dd=Math.hypot(pp.x-o.position.x,pp.z-o.position.z);
       if((dd<(n.held?3.5:2.8)&&!E.player.busy)||(n.held&&E.player.busy)){ if(n.path){ n.path=null; n.onArrive=null; } n.timer=Math.max(n.timer,1.5); if(!n.held){ n.held=true; if(!n.lookAt) n.lookAt=pp; } }
       else if(n.held){ n.held=false; if(n.lookAt===pp) n.lookAt=null; } }
-    if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
+    if(n.beh==='chat'&&n.chatWith){ if(!(E.player&&E.player.busy)){ flatYaw(o); const c=n.chatWith.obj; const ty=Math.atan2(c.position.x-o.position.x,c.position.z-o.position.z); let dd=ty-o.rotation.y; dd=Math.atan2(Math.sin(dd),Math.cos(dd)); if(Math.abs(dd)>0.05) o.rotation.y+=dd*Math.min(1,dt*3); if(!n.lookAt||n.lookAt!==c.position) n.lookAt=c.position; } if(n.chatLead&&!(E.player&&E.player.busy)&&n.timer<=0){ const b=n.chatWith; const aTalks=n.pose!=='talk'; n.pose=aTalks?'talk':'idle'; n.idlePose=n.pose; b.pose=aTalks?'idle':'talk'; b.idlePose=b.pose; n.timer=1.8+Math.random()*3.5; } }
     else if(n.beh==='passenger'&&E.player){ const P=E.player.obj, y=P.rotation.y, k=(E.player.ride&&E.player.ride.scale)||1, PS=E.PASSENGER, fx=Math.sin(y), fz=Math.cos(y), rx=Math.cos(y), rz=-Math.sin(y);   /* 載妹墊（使用者 2026-10-15、AA_137 第 5 節）：女生側坐（臉朝車的左邊 +x）、男生跨坐（朝車頭）；車的座標：+z 車頭、+x 左邊 */
       const lp=(bx,bz)=>[P.position.x+rx*bx*k+fx*bz*k,P.position.z+rz*bx*k+fz*bz*k];   /* 車的座標 → 世界 */
       if(!E.player.riding){ const [mx,mz]=lp(PS.mount[0],PS.mount[1]); n.beh='follow'; n.mountT=null; o.position.x=mx; o.position.z=mz; o.position.y=P.position.y; o.rotation.set(0,y,0); n.pose=n.idlePose='idle'; n.lv=E.player.lv|0; if(E.onRide) E.onRide(n,false); }   /* 下車：站到車的左後方（mount_point），照舊跟著走 */
@@ -339,7 +342,7 @@ const E3 = (function(){
     if(!moving&&(n.pose==='walk'||n.pose==='run')){ n.pose=n.beh==='follow'?'idle':(n.idlePose||'idle'); if(n.beh==='follow') n.idlePose='idle'; n.speed=0; }   /* 跟著你走的人停下來是站著（原本退回作息的坐姿：使用者 2026-10-16「我停下來她就恢復坐姿」）*/
     // 打招呼：認識的人靠近時揮手
     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
-    if(!moving&&n.faceYaw!=null&&!n.frozen){ let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
+    if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
     // 距離 LOD：遠處路人不畫、動畫降頻
     const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
