@@ -26,33 +26,26 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 14:5x UTC 正式交班
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 22:5x UTC 第二次正式交班
 
-使用者 14:4x：「還沒沒有做完的事情就登記好之後 交班 測試的結果都要留下來讓接班的人可以直接開始修」。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**AA-C、BB-C、LAWWW2-C 已先交班**。細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+使用者 22:4x：「訊息這邊做好 就可以交班」。這一班是 21:3x 回來接班（上一任＝LAWWW-C 自己 14:51 交班，中間沒有人值班）；使用者 21:4x：「其他帳號先不用回來，你先自己修」——**AA-C、BB-C、LAWWW2-C 一直是交班狀態**（`duty verify` 異常 2 的三項就是這個）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0 節。**
 
-**★ 下一班 LAWWW 第一件事：`docs/handoff/TEST_RESULTS_1018.md`**（測試結果原文、重現腳本 `tests/repro_1018/`、建議第一步）：
-1. **REL-9101-POSTCHECK-1018（P0）**：v9.10.1 發布後檢查，minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL（搖桿、拖曳、點地面在測試裡完全不動；v9.10 發布前 feb2bc37 ALL PASS）。先二分（8c63ea53 ↔ f4b47480），查是測試狀態（自動打開的手機？）還是遊戲真的擋輸入。
-2. **BUG-MOVEOUT-STUCK-1018（P0）**：搬回家那段問完以後回到宿舍 3D 卡住、沒有劇情也沒有按鈕。
-3. **BUG-BOWL-STUCK-1018（P0）**：保底 a0926112 已做；四次重現都沒卡住；使用者存檔在 tests/repro_1018/。
-4. 修好以後出 v9.10.2（候選清單見 TEST_RESULTS 第 5 節，一定要帶 a0926112）；發布前跑 docs/TESTING.md 第五節＋HV-15 第 5 點。
+**A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
+- **v9.10.1 發布後檢查結案**（REL-9101-POSTCHECK-1018）：失敗是測試沒處理要回覆的訊息自動打開手機（遊戲暫停），兩版一模一樣；改測試後 minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real 對 v9.10.1 `4c0cbefc` 和開發分支 ALL PASS（docs/RELEASES.md v9.10.1）。
+- **從高雄回來閃出臺北的家修好**（BUG-KH-HOMEFLASH-1018，`2ad61c5f`）：住家裡時 3D 底下鋪的圖跟著 2D 的背景（tests/home_backdrop_unit.js，舊程式 5 FAIL）。
+- **手機訊息照 LINE＋使用者選 B**（PHONE-LINE-UI-1018，`3b2f2618`、`f4a5755f`）：自動跳出來先停在列表；每列頭像字、名字、最新一句、時間、未讀、待回覆；點進去從最新一句開始、往上滑看舊的、表頭固定；直向橫向截圖 `shots/phone_line_*.png`。
+- **卡住紀錄**（`d3643e46`）：卡住 10 秒時存「哪一段沒結束」到瀏覽器 `fatiao3d_stuck`，匯出存檔帶 `_stuck`；stale_lock_escape PASS。搬家卡住在 v9.10.1 重現兩次沒卡住（加速＋一般速度照使用者選擇），腳本在 tests/repro_1018/。
+- duty verify 同帳號回來誤報修好（`7c7363b3`，handoff_duty_sim 20/20）；USER_WANTS J10 補負責人。
 
-**A｜本班成果（v9.10.1 發布 12:1x 以後，全部在開發分支、都還沒發布）**
-- 劇情鎖住的保底（a0926112）：除錯面板寫出是誰開的那一段；鎖住 10 秒、畫面上什麼都沒在演，選單的讀取／回標題不再被擋（使用者「卡住要讀檔說現在有劇情不能讀」）。經濟系跳日期期間鎖住、跳完放開（5a351d1b）。
-- 經濟系：拉花那段吧檯只留芷若、店員用芷若立繪（2e28928c、09ff80aa）；休學電話講完不回咖啡店（2e28928c，E30 接下一段）；可昕階梯 K0-Lx2 拿掉；跨年／高雄回來／出家門不再露出醉月湖（fa03d80d、2af6c40d）；一層樓的家「下樓」改字；在家講電話用家裡背景、四張新背景代號先接好（df06fdc8）；快轉收到訊息就停、按跳過繼續（b0b5d954）；可昕表情照台詞標記；衝刺班「她已經不笑了」拿掉。
-- 手機直向 ADV 只顯示說話的人、旁白變暗（4a03aadf）；自動跳出的手機對話捲到最新（fa03d80d）。
-- 宿營 Kevin 立繪位置接好（f09cf0e7，圖還沒有）。美國校園、法學院圖書館、四季（d3fdab82）。AA_307 句子、階梯最終版＋retake_home（a60f111e、5ac83dbc）。
-- 交接制度 HV-18（使用者「交接規則到底要怎麼寫他們才不會還有東西沒寫」，選「三個都做」）：每個職位的使用者要求當下寫進 `docs/handoff/user_asks_<職位>.json`、`.claude/settings.json` 的 UserPromptSubmit 提醒、`check_handoff.py asks`；D105（使用者的決定用選擇題問）、D106。
-- 黑畫面盤點 `docs/handoff/BLACK_BG_AUDIT_1018.md`（31 段，`node tools/story/black_bg_audit.js --md` 重產）。
+**B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①問使用者要不要保留訊息列表上方的待回覆區塊（UA-LAWWW-1018-43，AI 解讀、asks 報 1 項異常就是這個）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
 
-**B｜全部未完成**：見 TEST_RESULTS_1018.md 第 1、2、4 節；USER_WANTS.md X31～X63；`check_handoff.py queue --owner LAWWW`。給 AA 的（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE、ECON-TERM-END-CUE、KH-RETAKE-PACING、CRAM-LEAVE-LAUGH、KH-SCORE-TIMING、KX-EXPR、HOME-ONEFLOOR 確認、AA-LAW-RECONFIRM）、給 BB 的（BLACK-BG-AUDIT、CAMP-PORTRAITS：Kevin「潮流大哥型」提示詞、CG-NOPERSON、TEST_RESULTS 第 3 節的瀏覽器驗證）都在總表。等使用者的圖：BG-ECON-B1-1018（四張背景）、CG-ECON-BBQ-1018（使用者說先記錄、之後帳號補）。
+**C｜正在做的**：沒有（背景工作都跑完了）。
 
-**C｜正在做的**：沒有在跑的背景工作。保齡球根本原因、搬家卡住、高雄閃家裡、發布後測試失敗都停在「待開工／查到一半」，狀態在 TEST_RESULTS。
+**D｜本班新的使用者決策**：21:4x 其他帳號先不用回來、LAWWW 自己修（UA-LAWWW-1018-41）；22:4x 手機自動跳出來選 B＋LINE 的預覽與捲動（UA-LAWWW-1018-42）；22:4x 訊息做好就交班（UA-LAWWW-1018-44）。
 
-**D｜本班新的使用者決策**：HV-18、D105、D106；K0-Lx2 整段拿掉；E30 講完回臺北的家跟媽媽說；Kevin 外型潮流大哥型；CG 只有那三張、日本全 2D、美國市場做停車場和馬路；烤肉 CG 生一張新的（先記錄、之後補）。
+**E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
 
-**E｜跨 AI**：AA-C、BB-C、LAWWW2-C 都已交班；本班沒有傳訊息給休班帳號（D75）。給 AA、BB 的工作都寫在總表與 USER_WANTS。
-
-**F｜測試**：TEST_RESULTS_1018.md 第 1、3 節（v9.10.1 發布後檢查、stale_lock_escape 新 PASS 舊 FAIL、econ_ff ⑧、node 單元測試全過、還沒瀏覽器驗證的清單）。
+**F｜測試**：見 TEST_RESULTS 第 0 節表格；node 單元測試：home_backdrop、phone_line_list、phone_auto（改成開列表）、v0_kxphone、v3_phone_small、econ_ff、econ_ff2、v0_home_ff、home_unit 全過。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -328,6 +321,35 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+- **（2026-10-18 22:5x C 帳號第二次交班前的第 1 節原文：14:5x 第一次交班）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 14:5x UTC 正式交班
+
+  使用者 14:4x：「還沒沒有做完的事情就登記好之後 交班 測試的結果都要留下來讓接班的人可以直接開始修」。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**AA-C、BB-C、LAWWW2-C 已先交班**。細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+
+  **★ 下一班 LAWWW 第一件事：`docs/handoff/TEST_RESULTS_1018.md`**（測試結果原文、重現腳本 `tests/repro_1018/`、建議第一步）：
+  1. **REL-9101-POSTCHECK-1018（P0）**：v9.10.1 發布後檢查，minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL（搖桿、拖曳、點地面在測試裡完全不動；v9.10 發布前 feb2bc37 ALL PASS）。先二分（8c63ea53 ↔ f4b47480），查是測試狀態（自動打開的手機？）還是遊戲真的擋輸入。
+  2. **BUG-MOVEOUT-STUCK-1018（P0）**：搬回家那段問完以後回到宿舍 3D 卡住、沒有劇情也沒有按鈕。
+  3. **BUG-BOWL-STUCK-1018（P0）**：保底 a0926112 已做；四次重現都沒卡住；使用者存檔在 tests/repro_1018/。
+  4. 修好以後出 v9.10.2（候選清單見 TEST_RESULTS 第 5 節，一定要帶 a0926112）；發布前跑 docs/TESTING.md 第五節＋HV-15 第 5 點。
+
+  **A｜本班成果（v9.10.1 發布 12:1x 以後，全部在開發分支、都還沒發布）**
+  - 劇情鎖住的保底（a0926112）：除錯面板寫出是誰開的那一段；鎖住 10 秒、畫面上什麼都沒在演，選單的讀取／回標題不再被擋（使用者「卡住要讀檔說現在有劇情不能讀」）。經濟系跳日期期間鎖住、跳完放開（5a351d1b）。
+  - 經濟系：拉花那段吧檯只留芷若、店員用芷若立繪（2e28928c、09ff80aa）；休學電話講完不回咖啡店（2e28928c，E30 接下一段）；可昕階梯 K0-Lx2 拿掉；跨年／高雄回來／出家門不再露出醉月湖（fa03d80d、2af6c40d）；一層樓的家「下樓」改字；在家講電話用家裡背景、四張新背景代號先接好（df06fdc8）；快轉收到訊息就停、按跳過繼續（b0b5d954）；可昕表情照台詞標記；衝刺班「她已經不笑了」拿掉。
+  - 手機直向 ADV 只顯示說話的人、旁白變暗（4a03aadf）；自動跳出的手機對話捲到最新（fa03d80d）。
+  - 宿營 Kevin 立繪位置接好（f09cf0e7，圖還沒有）。美國校園、法學院圖書館、四季（d3fdab82）。AA_307 句子、階梯最終版＋retake_home（a60f111e、5ac83dbc）。
+  - 交接制度 HV-18（使用者「交接規則到底要怎麼寫他們才不會還有東西沒寫」，選「三個都做」）：每個職位的使用者要求當下寫進 `docs/handoff/user_asks_<職位>.json`、`.claude/settings.json` 的 UserPromptSubmit 提醒、`check_handoff.py asks`；D105（使用者的決定用選擇題問）、D106。
+  - 黑畫面盤點 `docs/handoff/BLACK_BG_AUDIT_1018.md`（31 段，`node tools/story/black_bg_audit.js --md` 重產）。
+
+  **B｜全部未完成**：見 TEST_RESULTS_1018.md 第 1、2、4 節；USER_WANTS.md X31～X63；`check_handoff.py queue --owner LAWWW`。給 AA 的（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE、ECON-TERM-END-CUE、KH-RETAKE-PACING、CRAM-LEAVE-LAUGH、KH-SCORE-TIMING、KX-EXPR、HOME-ONEFLOOR 確認、AA-LAW-RECONFIRM）、給 BB 的（BLACK-BG-AUDIT、CAMP-PORTRAITS：Kevin「潮流大哥型」提示詞、CG-NOPERSON、TEST_RESULTS 第 3 節的瀏覽器驗證）都在總表。等使用者的圖：BG-ECON-B1-1018（四張背景）、CG-ECON-BBQ-1018（使用者說先記錄、之後帳號補）。
+
+  **C｜正在做的**：沒有在跑的背景工作。保齡球根本原因、搬家卡住、高雄閃家裡、發布後測試失敗都停在「待開工／查到一半」，狀態在 TEST_RESULTS。
+
+  **D｜本班新的使用者決策**：HV-18、D105、D106；K0-Lx2 整段拿掉；E30 講完回臺北的家跟媽媽說；Kevin 外型潮流大哥型；CG 只有那三張、日本全 2D、美國市場做停車場和馬路；烤肉 CG 生一張新的（先記錄、之後補）。
+
+  **E｜跨 AI**：AA-C、BB-C、LAWWW2-C 都已交班；本班沒有傳訊息給休班帳號（D75）。給 AA、BB 的工作都寫在總表與 USER_WANTS。
+
+  **F｜測試**：TEST_RESULTS_1018.md 第 1、3 節（v9.10.1 發布後檢查、stale_lock_escape 新 PASS 舊 FAIL、econ_ff ⑧、node 單元測試全過、還沒瀏覽器驗證的清單）。
 
 - **（2026-10-18 14:5x C 帳號正式交班前的第 1 節原文：C 帳號 07:4x 預寫）**
   ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 07:4x UTC 預先寫好（使用者 07:1x：「中間應該會換帳號做……我這個帳號每週使用量到 85%，大概兩小時」）

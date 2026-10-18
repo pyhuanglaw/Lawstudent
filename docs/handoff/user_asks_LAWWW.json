@@ -195,7 +195,7 @@
    "at": "2026-10-18T15:0x",
    "quote": "手機訊息跳出出來，結果還要往下滑新的在最下面，我希望你可以參考line每個人物的對話框點進去才看得到人物由上往下排列最新的訊息在上面如果你這一批做不完你就記錄成任務",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X50",
    "task": "PHONE-LINE-UI-1018"
   },
@@ -366,16 +366,16 @@
    "at": "2026-10-18T21:4x",
    "quote": "其他帳號先不用回來，你先自己修",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "task": "REL-9101-POSTCHECK-1018",
-   "note": "AA-C、BB-C、LAWWW2-C 維持交班（duty verify 異常 2 那三項是這個原因）；LAWWW-C 自己修 REL-9101-POSTCHECK-1018、BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018、BUG-KH-HOMEFLASH-1018。BB 不在，修好的由 LAWWW-C 自己做瀏覽器驗證（回覆時已告訴使用者）；台詞照舊不自己寫（D79／D100），要改台詞的記給 AA"
+   "note": "AA-C、BB-C、LAWWW2-C 維持交班（duty verify 異常 2 那三項是這個原因）；LAWWW-C 自己修 REL-9101-POSTCHECK-1018、BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018、BUG-KH-HOMEFLASH-1018。BB 不在，修好的由 LAWWW-C 自己做瀏覽器驗證（回覆時已告訴使用者）；台詞照舊不自己寫（D79／D100），要改台詞的記給 AA（22:5x：這一班修完交班，AA-C、BB-C、LAWWW2-C 沒有叫回來）"
   },
   {
    "id": "UA-LAWWW-1018-42",
    "at": "2026-10-18T22:4x",
    "quote": "B 但line預覽 會看到那個人的最新的一句 / 而且打開來就是從最新的一句開始 / 往上拉，才會看到之前的",
    "kind": "選擇題答案",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X50",
    "task": "PHONE-LINE-UI-1018",
    "note": "問題：要回覆的訊息讓手機自動跳出來時停在哪裡（A 直接進那段對話／B 先停在對話列表）。答 B：自動跳出來停在列表；列表每一列看得到那個人的最新一句；點進去從最新一句開始（捲到最下面），往上拉才看到之前的"
@@ -386,10 +386,20 @@
    "quote": "（LAWWW-C 解讀）照 LINE：列表上方的「待回覆」區塊拿掉，改成那一列標「待回覆」，點進去才回；經濟系跳日期收到訊息停下來時也先停在列表（按「跳過」繼續）",
    "kind": "AI解讀",
    "confirmed": false,
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X50",
    "task": "PHONE-LINE-UI-1018",
    "note": "回覆使用者時已說明，使用者要保留就恢復"
+  },
+  {
+   "id": "UA-LAWWW-1018-44",
+   "at": "2026-10-18T22:4x",
+   "quote": "訊息這邊做好 就可以交班",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X50",
+   "task": "PHONE-LINE-UI-1018",
+   "note": "手機訊息（LINE 式列表、B）在瀏覽器確認完就交班（P0 換班程序：保存、登記沒做完的、快照、duty handoff；不合併 main、不發布）"
   }
  ]
 }
