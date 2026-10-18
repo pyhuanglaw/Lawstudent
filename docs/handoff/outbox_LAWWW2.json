@@ -539,6 +539,22 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-YU-3D-1018 小語 3D",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "615a3cbf",
+   "files": [
+    "assets/models/char/second_ai/bl_yu.vrm",
+    "assets/models/char/second_ai/bag_yu.glb",
+    "tools/blender/char_second/yu*.py",
+    "tools/blender/char_second/prop_yu.py",
+    "docs/art-rebuild/second_ai/patches/char_yu.diff",
+    "docs/art-rebuild/second_ai/char_review/yu/"
+   ],
+   "state": "已交付（MODEL_READY；角色美術等 LAWWW-C 驗收）",
+   "remaining": "背後的帽子沒做；走路時右手會穿過包；坐姿沒截圖",
+   "next": "LAWWW-C 套 char_yu.diff（對 ba6e9aa4）＋從我的分支拿 bl_yu.vrm、bag_yu.glb"
   }
  ]
 }
