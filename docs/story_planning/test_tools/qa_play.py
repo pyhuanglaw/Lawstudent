@@ -56,6 +56,11 @@ async def main():
                 if stuck > 4: break
             if s['dlg'] and not was_dlg: await sc.check(pg, '%s 對話 %s' % (last_key, s['dtext'][:12]))
             was_dlg = bool(s['dlg'])
+            if s['dlg'] and await phone_open(pg):   # 手機自己打開、蓋在對話上：玩家會先處理手機（回要回的那一則，沒有就收起來）
+                pend1 = [] if MODE == 'nophone' else await pg.evaluate(PENDING)
+                if pend1: a = await answer_phone(pg, cdp, pend1[0]); answered += 1; print('   （手機蓋在對話上）回覆', pend1[0], a, flush=True)
+                else: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700)
+                continue
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(550); idle = 0; continue
             if MODE == 'nophone':
                 if await phone_open(pg): phone_closed += 1; await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); continue
