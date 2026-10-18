@@ -16888,7 +16888,7 @@
    "title": "普通教學館、博雅教學館：外觀＋室內換 Blender（teach3d.js、boya／putong_layout.js）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16902,7 +16902,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:3x 使用者：四座全部改，不限外型】外觀＋室內都換 Blender：室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、桌上小物沿用 LAWWW2 的 GLB，空橋沿用 skybridge.glb；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【05:4x LAWWW-C】第一批外觀 a72be0cc 已整合（campus_teach_ext.diff：manifest、ckTag、載入、套件五層；導航、DOORS 不動）；nav_buildings、nav_levels、teach_class、boya_lecture、kit_nav_check ALL PASS；LICENSES 加一列；建築美術 READY_FOR_ART_REVIEW。第二批室內 LAWWW2 做中（接法 LAWWW 同意：桌椅另外兩組不藏）｜【03:3x 使用者：四座全部改，不限外型】外觀＋室內都換 Blender：室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、桌上小物沿用 LAWWW2 的 GLB，空橋沿用 skybridge.glb；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
