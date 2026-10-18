@@ -19228,7 +19228,8 @@
    },
    "source": "BB-C 11:14 QA-AA300 第一輪（5e634610）",
    "authorized": "bug 修正（D85）",
-   "next": "【11:46 BB-C 遊戲內 FIXED（92b8eb5c）：11/6 17:45 當面版演完、只有一次「回臺北的家」、18:49 多的字卡沒了；探測劇本 v2 也確認】f483c2a9：ECONFF 第二階段不排 y0_e12 出遊，改由 STEPS2 h3 17:45 直接帶到湖邊（v0_e12_unit 第 7 項）；BB 在 f483c2a9 重看 11/6"
+   "next": "【11:46 BB-C 遊戲內 FIXED（92b8eb5c）：11/6 17:45 當面版演完、只有一次「回臺北的家」、18:49 多的字卡沒了；探測劇本 v2 也確認】f483c2a9：ECONFF 第二階段不排 y0_e12 出遊，改由 STEPS2 h3 17:45 直接帶到湖邊（v0_e12_unit 第 7 項）；BB 在 f483c2a9 重看 11/6",
+   "evidence": "f483c2a9 修正；tests/v0_e12_unit.js 第 7 項（修正前會失敗）；BB-C 11:46 遊戲內新遊戲快轉到 11/6（92b8eb5c）當面版演完；docs/qa/econ_transcript_2_休學到放榜_1018b.md 11/6 17:45"
   },
   {
    "id": "US-CAMPUS-WIRE-1018",
