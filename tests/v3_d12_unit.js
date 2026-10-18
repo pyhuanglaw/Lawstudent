@@ -74,6 +74,13 @@ GM.money=function(n){ G.money+=n; };
     const E3=ev('ev_y3_newyear'); fresh(d3,23.5,'dorm',{EXCHANGE_ROUTE:'JP',dating_heroine_01:true,dating_kexin:true,KX_NYE:{3:'video'}}); meet('heroine_01'); meet('classmate_xinci'); said=[]; await EVENTS.run(E3); const L3=lines();
     check('大三頂樓：鹹酥雞、以安的行李、日本路線「你跟以安同一班喔？」「對。」、芯慈「捷運好多人。」、可昕視訊「我數到零就掛。」、倒數小語起頭；沒有美國路線那句',L3.includes('（十一點半。阿哲和小語已經在了，地上放著一袋鹹酥雞。）')&&L3.includes('阿哲：你跟以安同一班喔？')&&L3.some(t=>/：對。$/.test(t))&&L3.includes('吳芯慈：捷運好多人。')&&L3.some(t=>/我數到零就掛。/.test(t))&&L3.includes('（倒數是小語起的頭，數到三，大家才跟上。）')&&L3.includes('（零點。煙火照樣只看得到上半截。鹹酥雞的袋子被風吹得沙沙響。）')&&!L3.some(t=>/一月就走/.test(t)),JSON.stringify(L3));
     check('大三和以安交往中：她留下來「你排一下。」、選項「好。／妳不是最會排嗎？」；NYE_Y3＝roof',L3.includes('沈以安：你排一下。')&&L3.includes('沈以安：排好傳給我。')&&!L3.includes('沈以安：我也回去了。')&&G.flags.NYE_Y3==='roof',JSON.stringify(L3.slice(-6))); }
+  // 3. 跨年大四（AA_210 第 3 節）
+  { const d4=STORY.dayOfKey('2028-12-31'); fresh(d4,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const g=txt('g:noodle_team'), o4=OUT.get(G,'nye_y4');
+    check('大四跨年：12/31 21:00 群組三句（「十一點半，頂樓。」「最後一年了耶」「所以要來」）；23:30 頂樓',JSON.stringify(g)===JSON.stringify(['zhe:十一點半，頂樓。','yu:最後一年了耶','zhe:所以要來'])&&!!o4,JSON.stringify(g));
+    fresh(d4,20,'campus'); SOCIAL.rel('zhe').fam=30; meet('zhe'); run(20,21.2); check('大四跨年：不在群組＝阿哲私訊「十一點半，頂樓。」',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:十一點半，頂樓。']));
+    const E4=ev('ev_y4_newyear'); fresh(d4,23.5,'dorm',{Y4_PATH:'grad',dating_heroine_01:true}); meet('heroine_01'); meet('classmate_xinci'); said=[]; await EVENTS.run(E4); const L4=lines();
+    check('大四頂樓：芯慈的野餐墊、「看得到一點。」、考研究所沒推上＝單字卡（柏翰「今天先不要看。」）、倒數芯慈起頭、和以安交往中「明天中午一起吃飯？」',L4.includes('（十一點半。芯慈比你們都早到，已經把野餐墊鋪好了。）')&&L4.includes('阿哲：看得到一點。')&&L4.includes('許柏翰：今天先不要看。')&&L4.includes('（倒數是芯慈起的頭，比電視早了一秒。）')&&L4.includes('沈以安：明天中午一起吃飯？')&&!L4.some(t=>/講義/.test(t))&&G.flags.NYE_Y4==='roof',JSON.stringify(L4));
+    fresh(d4,23.2,'dorm',{dating_heroine_03:true}); run(23.2,23.3); const c=OUT.get(G,'yt_nye_call_y4'); check('大四和語彤交往中：00:01 她打電話來（接起來）',!!c&&c.verb==='接起來'&&c.day===d4+1); }
   const N=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_heroine_01:true}); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
   check('3. 頂樓：「今年頂樓的人少了兩個」；以安在場（交往中）；沒有期末考週的句子；交往中下樓「……手給我。」',L.includes('（十一點半。今年頂樓的人少了兩個。）')&&L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&!L.some(t=>/回去念|宵夜/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
   const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));
