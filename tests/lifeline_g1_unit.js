@@ -44,6 +44,13 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('1-2 私訊那十則不再傳（AA_296）',!M.some(m=>m.text==='我今天去辦休學了。'||m.text==='？？？'),JSON.stringify(M.map(m=>m.text)));
     const q=OUT.get(G,'y0_e26');
     check('1-2 固定出遊 y0_e26：當天 17:40 社科院門口、must（只有「出發」）、回程「回到宿舍。」',q&&q.day===d30&&Math.abs(q.h-(17+40/60))<1e-6&&q.must===true&&q.ev==='ev_y0_e26'&&q.back==='回到宿舍。',JSON.stringify(q)); }
+  /* AA_304 第 1 列：過了 19:00 還沒出發＝不演，照 KX_CAR 預設帶過；已經演過的不重演 */
+  { econ(d30,15.2,'campus',{LEAVE_WEEK:6,E30_WAITED:true}); G.events.done.ev_y0_e30=d30; run(15.2,15.6); const q=OUT.get(G,'y0_e26'); let went=0; const og=OUT.go; OUT.go=async()=>{ went++; };
+    run(19.0,19.3); OUT.go=og;
+    check('AA_304-1 10/17 過了 19:00 還沒出發：車上不演（不出發）、交往照記、KX_CAR 預設 only_me',went===0&&q.state==='done'&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_CAR==='only_me'&&!!G.events.done.ev_y0_e26,JSON.stringify({went,st:q.state,car:G.flags.KX_CAR}));
+    econ(d30,15.2,'campus',{LEAVE_WEEK:6,E30_WAITED:true}); G.events.done.ev_y0_e30=d30; run(15.2,15.6); const q2=OUT.get(G,'y0_e26'); G.events.done.ev_y0_e26=d30; let went2=0; OUT.go=async()=>{ went2++; };
+    run(18.0,18.3); OUT.go=og;
+    check('AA_304-1 車上已經演過（events.done）：不重演、出遊記成完成',went2===0&&q2.state==='done',JSON.stringify({went2,st:q2.state})); }
   /* ---------- 車上＋摩天輪 ---------- */
   const car=ev('ev_y0_e26');
   for(const [pick,val] of [['宿營','camp'],['只有我','only_me'],['是現在','take_back']]){ econ(d30,17+40/60,'campus',{}); picks=[pick]; await EVENTS.run(car); const L=lines();

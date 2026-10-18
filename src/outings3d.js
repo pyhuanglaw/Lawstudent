@@ -85,7 +85,9 @@ const OUT=(function(){
     const kxTail=(ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&typeof ADV!=='undefined'; if(kxTail) ADV.begin({background:ev.background||'dark',right:{charId:'kexin',expression:'neutral'}});   /* 演完以後和可昕的那幾句（沒回的訊息、閒聊階梯）還在政大：畫面留在那裡，不要露出原本的 3D（使用者 2026-10-16：她人根本不在這，對話還在）*/
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.neededMiss) await STORY.neededMiss(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin');   /* 主線 4：上週的訊息沒回，見面的時候帶過一句（BB_97 11-2）*/
     if((ev.participants||[]).includes('kexin')&&typeof STORY!=='undefined'&&STORY.ladNext){ const md=q.verb==='接起來'||q.place==='視訊'?'video':'meet', st=STORY.ladNext(G,'kexin',md);   /* 可昕的閒聊階梯（BB_130：只在見面／視訊推進，路上不推進）：演完那一段接著聊一層；今天推進過或條件不到就不聊（不用短招呼）*/
-      if(st) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
+      let go=!!st; if(go&&G.stage==='econ'&&G.flags&&G.flags.Y0_MOVED_OUT&&md==='meet'){   /* AA_304 第 10 列：休學在家那一年，她的階梯講的是家裡的事（餐桌、鉛筆盒），不直接接在外面的場景後面：傍晚以後先回到家，白天不接 */
+        if(G.hour<17) go=false; else { if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(S.bg('home_living')); await GM.say(null,'（晚上，回到家。）'); } }
+      if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     if(kxTail&&ADV.active) ADV.end();
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
     } finally { GM.sceneEnd(); }

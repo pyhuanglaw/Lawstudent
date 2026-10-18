@@ -2410,7 +2410,7 @@ const STORY_EVENTS=[
      ev_y0_exam1h＝在家（home3d.js 選單那一輪）；ev_y0_exam1＝人不在家（演完回家）*/
   ...(()=>{ const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
-    const due1=G=>{ const d=DK('2025-07-11'); return d!=null&&G.day===d&&G.hour>=5&&!!G.flags.dating_kexin&&!G.flags.EXAM1_DONE; };
+    const due1=G=>{ const d=DK('2025-07-11'); return d!=null&&G.day===d&&G.hour>=7.5&&!!G.flags.dating_kexin&&!G.flags.EXAM1_DONE; };
     const due2=G=>{ const d=DK('2025-07-12'); return d!=null&&G.day===d&&G.hour>=19&&!!G.flags.EXAM1_DONE&&!G.flags.EXAM2_DONE; };
     const lines1=[ {scene:'考場',bg:'exam_hs_classroom'},   /* 高中教室、單人桌椅（AA_298 第 7 節；使用者生成 BB-C 0182b085）*/
       {speaker:null,text:'（考場在一間高中。教室門口貼著座位表。）'},

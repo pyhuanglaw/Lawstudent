@@ -64,7 +64,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     econ(d+1,0.2,'home',{E35_ASKED:true}); check('6-5 24:00 以前都沒回家：隔天不演、E35_PLAN 不記',!EVENTS.check(ev('ev_y0_e35h'))&&!G.flags.E35_PLAN); }
   /* AA_272 第 11 節：考試的兩天（7/11 考場、7/12 晚上對答案），都不能快轉 */
   { const d11=DK('2025-07-11'), d12=DK('2025-07-12'); econ(d11,4.9,'home',{E35_DONE:true});
-    const a=EVENTS.check(ev('ev_y0_exam1h')); G.hour=7; const b=EVENTS.check(ev('ev_y0_exam1h')), o=EVENTS.check(ev('ev_y0_exam1'));
+    G.hour=7.4; const a=EVENTS.check(ev('ev_y0_exam1h')); G.hour=7+40/60; const b=EVENTS.check(ev('ev_y0_exam1h')), o=EVENTS.check(ev('ev_y0_exam1'));
     said=[]; await EVENTS.run(ev('ev_y0_exam1h')); const L=lines();
     check('11-1 7/11 早上在家：考場「（考場在一間高中……）」「（她坐在你前面。）」→「（回頭，小聲）……我手好冰。」「我也是。」「加油。」「加油。」→ 鐘響；在家不演外面那一個；沒有偷看、後腦勺',!a&&b&&!o&&L[0]==='（考場在一間高中。教室門口貼著座位表。）'&&L.includes('（她坐在你前面。）')&&L.includes('杜可昕：（回頭，小聲）……我手好冰。')&&L.includes('祐廷：我也是。')&&L.filter(x=>/：加油。$/.test(x)).length===2&&L[L.length-1]==='（鐘響。她轉回去，把筆放在准考證旁邊，排得很整齊。）'&&!L.join('').includes('偷看')&&!L.join('').includes('後腦勺'),J(L));
     check('11-1 演完跳到 7/12（六）19:00（字卡帶過兩天）、EXAM1_DONE',G.day===d12&&G.hour===19&&G.flags.EXAM1_DONE===true,J([G.day-d12,G.hour]));
@@ -72,7 +72,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('11-2 7/12 19:00 在家：對答案「（全對。）」「……你數學一百？」「好像是。」「我錯一題。」「……就一題。」「其他科明天再對。今天先這樣。」、MATH_100；沒有錯三題',c&&L2.includes('（全對。）')&&L2.includes('杜可昕：……你數學一百？')&&L2.includes('祐廷：好像是。')&&L2.includes('杜可昕：我錯一題。')&&L2[L2.length-1]==='杜可昕：其他科明天再對。今天先這樣。'&&G.flags.MATH_100===true&&!L2.join('').includes('三題'),J(L2));
     check('11 演過以後都不再演',!EVENTS.check(ev('ev_y0_exam1h'))&&!EVENTS.check(ev('ev_y0_exam1'))&&!EVENTS.check(ev('ev_y0_exam2')));
     econ(d11,9,'campus',{E35_DONE:true},false); G.home={at:false}; check('11-1 7/11 人不在家：外面那一個演（ev_y0_exam1）',EVENTS.check(ev('ev_y0_exam1'))&&!EVENTS.check(ev('ev_y0_exam2')));
-    econ(DK('2025-07-10'),22,'home',{E35_DONE:true}); const fx=HOME.y0FixedNext(G,Tm(G.day,G.hour)); check('11 快轉不能跳過 7/11：從 7/10 22:00 快轉停在 7/11 06:30；行事曆有「分科測驗」',fx===Tm(d11,6.5)&&HOME.y0Cal(G,3).some(q=>q.t==='分科測驗'),J([fx-Tm(d11,0)]));
+    econ(DK('2025-07-10'),22,'home',{E35_DONE:true}); const fx=HOME.y0FixedNext(G,Tm(G.day,G.hour)); check('11 快轉不能跳過 7/11：從 7/10 22:00 快轉停在 7/11 07:40（AA_304 第 12 列：進考場、找座位；原本 05:00 就演）；行事曆有「分科測驗」',Math.abs(fx-Tm(d11,7+40/60))<1e-6&&HOME.y0Cal(G,3).some(q=>q.t==='分科測驗'),J([fx-Tm(d11,0)]));
     econ(DK('2025-01-02'),10,'home',{}); const f3=HOME.y0FixedNext(G,Tm(G.day,G.hour)); econ(DK('2025-01-05'),10,'home',{}); const f6=HOME.y0FixedNext(G,Tm(G.day,G.hour));
     check('第 9 節 1/3、1/6 不能快轉：快轉停在 1/3 21:15、1/6 21:15（訊息收到以後）；行事曆不寫',f3===Tm(DK('2025-01-03'),21.25)&&f6===Tm(DK('2025-01-06'),21.25)&&!HOME.y0Cal(G,3).some(q=>!q.t),J([f3,f6])); }
   /* E36 */
