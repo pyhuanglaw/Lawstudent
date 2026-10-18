@@ -18131,6 +18131,27 @@
    "source": "BB-C 2026-10-18 06:25",
    "authorized": "bug 修正（台詞要留的話 AA 寫）",
    "next": "PLAYED_Y0 不重設 KX_FIRST_MSG；要不要留一則等 AA-C（BB-C 已同步）"
+  },
+  {
+   "id": "UX-MRT-FAR-1018",
+   "title": "捷運公館站的選單看起來像搭捷運就能到花蓮、高雄、臺南、嘉義、臺中（使用者 10-18：「捷運可以去嗎」「我快氣死」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在捷運公館站自由出行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x",
+   "authorized": "使用者回報（系統字）",
+   "next": "freetrip3d.js：台北的排前面、外縣市的排後面，名字後面寫「（外縣市・要轉車）」，開頭說明「外縣市的要先搭捷運，再轉火車、高鐵或客運」；交通照資料（例：捷運到台北車站＋火車到花蓮站＋公車到七星潭）。tests/dl06_trip_unit.js。待 BB-C 看選單"
   }
  ]
 }

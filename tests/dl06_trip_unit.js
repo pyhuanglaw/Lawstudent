@@ -50,7 +50,7 @@ const sp=id=>TRIP.spot(id);
   { const G=mkG(SAT,13); const gm=mkGM(G,[1, '到館外的草地走走', '看展', '看展', '回去', '回公館']);
     // 選單第 2 項（index 1）是北美館
     const r=await TRIP.menu(gm);
-    check('3. 「捷運公館站。要去哪裡？」二十七個景點（第一批四、第二批五、第三批十八）＋不去了',gm.L.says[0]==='捷運公館站。要去哪裡？'&&gm.L.menus[0].length===28&&gm.L.menus[0][27]==='不去了',JSON.stringify(gm.L.menus[0].length));
+    check('3. 「捷運公館站。…外縣市的要先搭捷運，再轉火車、高鐵或客運…要去哪裡？」二十七個景點（第一批四、第二批五、第三批十八）＋不去了',/^捷運公館站。台北的地方搭捷運就到；外縣市的要先搭捷運，再轉火車、高鐵或客運/.test(gm.L.says[0])&&gm.L.menus[0].length===28&&gm.L.menus[0][27]==='不去了',JSON.stringify(gm.L.menus[0].length));
     check('3. 出發扣下午 1 次',CLS.slotRec(G).used.pm===1,JSON.stringify(CLS.slotRec(G).used));
     check('3. 標題卡「捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘」',gm.L.cards[0]==='捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘',gm.L.cards[0]);
     check('3. 第一次來：arrive[0]',gm.L.says[1]===sp('D06').arrive[0],gm.L.says[1]);
@@ -85,6 +85,10 @@ const sp=id=>TRIP.spot(id);
     const G5=mkG(SAT,17); const gm5=mkGM(G5,[2,'沿著迪化街走','沿著迪化街走','回去','回公館']); await TRIP.menu(gm5);
     check('5. 晚上還有次數：跨進晚上 30 分鐘以上，下午、晚上各扣 1 次',CLS.slotRec(G5).used.pm===1&&CLS.slotRec(G5).used.ev===1,JSON.stringify(CLS.slotRec(G5).used)); }
   // 6. 拍照：淡水的拍照點本身就是拍照（沒有另外的「拍一張照」）；西門町有「拍一張照」，一趟一張
+  // 外縣市（2026-10-18 使用者：「捷運可以去花蓮、高雄、台南、嘉義、台中嗎」）：台北的排前面；外縣市的名字寫「（外縣市・要轉車）」、排後面、交通是先搭捷運再轉車
+  { const G=mkG(SAT,9); const gm=mkGM(G,['不去了']); await TRIP.menu(gm); const m=gm.L.menus[0].slice(0,-1); const fi=m.findIndex(t=>/（外縣市・要轉車）/.test(t));
+    const farN=m.filter(t=>/（外縣市・要轉車）/.test(t)).length; check('外縣市：花蓮、高雄、臺南、嘉義、臺中都標「外縣市・要轉車」、全部排在台北的後面',farN>=5&&fi>0&&m.slice(fi).every(t=>/（外縣市・要轉車）/.test(t))&&['花蓮','高雄','臺南','嘉義','臺中'].every(c=>m.some(t=>t.includes(c)&&/外縣市/.test(t))),farN+' '+JSON.stringify(m.slice(fi-1)));
+    const L2=TRIP.list().filter(s=>s.transit.legs&&s.transit.legs.some(l=>l.mode==='rail'||l.mode==='hsr'||l.mode==='coach')); check('外縣市的交通都是先搭捷運、再轉車（不是捷運直達）',L2.length>=5&&L2.every(s=>s.transit.legs[0].mode==='mrt'&&s.transit.legs.length>=2),L2.filter(s=>!(s.transit.legs[0].mode==='mrt'&&s.transit.legs.length>=2)).map(s=>s.name).join(',')); }
   { const G=mkG(SAT,16); const gm=mkGM(G,[0,'拍一張照','回去','回公館']); await TRIP.menu(gm);
     check('6. 西門町有「拍一張照」：存進相簿、選單上不再出現',G.places.photos.length===1&&G.places.photos[0].spot==='D04'&&!gm.L.menus[2].includes('拍一張照'),JSON.stringify(gm.L.menus[2]));
     const G2=mkG(SAT,15); const gm2=mkGM(G2,[3,'回去','回公館']); await TRIP.menu(gm2);
