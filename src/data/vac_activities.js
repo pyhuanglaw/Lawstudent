@@ -148,9 +148,9 @@ const VAC_DATA=(function(){
         {day:'07-13',h:8,title:'出發',bg:null,lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},
         {day:'07-13',h:19,title:'歡迎晚會',bg:null,lines:[{narr:'（長桌上擺了一整排小菜。對面的女生拿起一個小碟子，放到你前面。）'},{who:'npc_jieun',name:'智恩',text:'這個，不辣。我試過。'},{who:'npc_jieun',name:'智恩',text:'你是……法律？'}],
           choice:[{t:'「對，法律系。」',say:[{who:'npc_jieun',name:'智恩',text:'我的朋友說，法律系的人，很會吵架。'},{narr:'（她說完自己笑了。）'}]},{t:'「妳中文好好。」',say:[{who:'npc_jieun',name:'智恩',text:'我學三年了。……可是你們說話太快。'}]}]},
-        {day:'07-18',h:14,title:'傳統市場',bg:null,lines:[{narr:'（市場很窄，兩邊的攤位往中間擠。智恩走在前面，每到一個攤位就回頭講一句。）'},{who:'npc_jieun',name:'智恩',text:'這個是做年糕的。那個是賣魚的。那個……我也不知道。'},{who:'npc_jieun',name:'智恩',text:'（問了老闆）她說是她媽媽做的醬。賣了四十年。'}],
+        {day:'07-18',h:14,title:'傳統市場',bg:'intl_seoul_market',lines:[{narr:'（市場很窄，兩邊的攤位往中間擠。智恩走在前面，每到一個攤位就回頭講一句。）'},{who:'npc_jieun',name:'智恩',text:'這個是做年糕的。那個是賣魚的。那個……我也不知道。'},{who:'npc_jieun',name:'智恩',text:'（問了老闆）她說是她媽媽做的醬。賣了四十年。'}],
           choice:[{t:'「買一罐。」',say:[{narr:'（老闆多塞了一小包給你。智恩翻譯：「她說，帶回去給家裡的人。」）'}]},{t:'「四十年喔。」',say:[{who:'npc_jieun',name:'智恩',text:'嗯。她說她女兒不想接。'}]}]},
-        {day:'07-22',h:14,title:'分組報告',bg:null,lines:[{narr:'（分組報告的題目是「兩國的大學生，一天怎麼過」。你們這組的投影片只做好一半。）'},{who:'npc_jieun',name:'智恩',text:'你的部分，可以講你們的……麵店嗎？你一直在說的那個。'}],
+        {day:'07-22',h:14,title:'分組報告',bg:'intl_seoul_campus',lines:[{narr:'（分組報告的題目是「兩國的大學生，一天怎麼過」。你們這組的投影片只做好一半。）'},{who:'npc_jieun',name:'智恩',text:'你的部分，可以講你們的……麵店嗎？你一直在說的那個。'}],
           choice:[{t:'「好，我講麵店。」',say:[{narr:'（報告的時候，講到週二週四的麵店，下面有人笑了。）'}]},{t:'「我講宿舍。」',say:[{narr:'（你講到宿舍規則有十七頁，對方的學生睜大眼睛。）'}]}]},
         {day:'07-23',h:20,title:'最後一晚',bg:null,lines:[{who:'npc_jieun',name:'智恩',text:'明天你們走了以後，我要寫報告。'},{who:'npc_jieun',name:'智恩',text:'老師說要寫「交流的心得」。……我不知道要寫什麼。'}],
           choice:[{t:'「寫市場那個阿姨。」',say:[{who:'npc_jieun',name:'智恩',text:'……好。那個可以寫。'}]},{t:'「寫你們的炸雞。」',say:[{who:'npc_jieun',name:'智恩',text:'（笑）老師會生氣。'}],set:{C08_CHICKEN:true}}]} ],
@@ -176,12 +176,12 @@ const VAC_DATA=(function(){
       depart:{zhe:'防蚊液帶了沒',yu:'要拍小朋友的照片喔'}, back:{},
       trip:{ start:{day:'07-27',h:7}, end:{day:'08-05',h:18}, placeName:'柬埔寨', home:'auto', signalAfter:22, dark:'08-02', endLines:[{narr:'（你把那張畫夾進書桌前的軟木板。）'}] },
       keys:[
-        {day:'07-28',h:15,title:'到村子第一天',bg:null,lines:[{narr:'（車開了四個小時，最後一段是紅土路。學校的鐵皮屋頂曬得發燙。）'},{narr:'（孩子從教室門口探頭，看到你們，又縮回去。）'},{who:'npc_jiarui',name:'家睿',text:'第一天都這樣。明天就會黏上來了。'}]},
-        {day:'07-30',h:10,title:'上課',bg:null,lines:[{narr:'（你負責教數字。寫到 7 的時候，前排一個小男孩舉手，用很慢的英文說他七歲。）'}],
+        {day:'07-28',h:15,title:'到村子第一天',bg:'intl_cambodia_classroom',lines:[{narr:'（車開了四個小時，最後一段是紅土路。學校的鐵皮屋頂曬得發燙。）'},{narr:'（孩子從教室門口探頭，看到你們，又縮回去。）'},{who:'npc_jiarui',name:'家睿',text:'第一天都這樣。明天就會黏上來了。'}]},
+        {day:'07-30',h:10,title:'上課',bg:'intl_cambodia_classroom',lines:[{narr:'（你負責教數字。寫到 7 的時候，前排一個小男孩舉手，用很慢的英文說他七歲。）'}],
           choice:[{t:'（寫一個大大的 7，指他）',say:[{narr:'（他笑得很開心，跑去跟旁邊的人講。）'}]},{t:'（問他叫什麼名字）',say:[{who:'npc_dara',name:'小男孩',text:'Dara。'},{narr:'（之後每一堂，他都坐第一排。）'}],set:{C09_DARA:true}}]},
-        {day:'08-02',h:21,title:'停電的一晚',bg:null,lines:[{narr:'（晚上下大雨，停電。隊員擠在宿舍的走廊，點了兩支蠟燭。）'},{who:'npc_jiarui',name:'家睿',text:'每年都會停一次。去年停了兩天。'},{who:'npc_jiarui',name:'家睿',text:'……明天如果還沒來電，就帶孩子在外面上課。'}],
+        {day:'08-02',h:21,title:'停電的一晚',bg:'intl_cambodia_night',lines:[{narr:'（晚上下大雨，停電。隊員擠在宿舍的走廊，點了兩支蠟燭。）'},{who:'npc_jiarui',name:'家睿',text:'每年都會停一次。去年停了兩天。'},{who:'npc_jiarui',name:'家睿',text:'……明天如果還沒來電，就帶孩子在外面上課。'}],
           choice:[{t:'「在樹下上。」',say:[{who:'npc_jiarui',name:'家睿',text:'好。你負責找一棵夠大的。'}]},{t:'「那洗手歌還唱嗎？」',say:[{who:'npc_jiarui',name:'家睿',text:'唱啊。洗手歌不用電。'}]}]},
-        {day:'08-04',h:15,title:'最後一天',bg:null,lines:[{narr:'（孩子把一張畫塞進你手裡。畫上是一棟房子，旁邊站著很多個火柴人。）'},{narr:'（最旁邊那個火柴人比別人高，頭上寫著你的名字，拼錯了一個字母。）'}]} ],
+        {day:'08-04',h:15,title:'最後一天',bg:'intl_cambodia_classroom',lines:[{narr:'（孩子把一張畫塞進你手裡。畫上是一棟房子，旁邊站著很多個火柴人。）'},{narr:'（最旁邊那個火柴人比別人高，頭上寫著你的名字，拼錯了一個字母。）'}]} ],
       /* 7-1 家睿：8/20 21:00（隔年說明會那週的那一則，等每年重開時接）*/
       follow:[
         {day:'08-20',h:21,who:'npc_jiarui',name:'家睿',msgs:G=>['📷（村子小學的教室，牆上貼著你們那天畫的洗手歌）','村長傳來的。他們還在唱。'],
@@ -200,10 +200,10 @@ const VAC_DATA=(function(){
       trip:{ start:{day:'06-21',h:7}, end:{day:'07-31',h:20}, placeName:'加州', home:'auto', missWeek:3, videoWd:0, videoH:10 },
       keys:[
         {day:'06-21',h:7,title:'出發',bg:null,lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},
-        {day:'06-23',h:9,title:'第一堂課',bg:null,lines:[{narr:'（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
+        {day:'06-23',h:9,title:'第一堂課',bg:'intl_ca_campus',lines:[{narr:'（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
           choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
         {day:'07-02',h:10,title:'第一次報告',bg:null,lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
-        {day:'07-11',h:13,title:'週末',bg:null,lines:[],
+        {day:'07-11',h:13,title:'週末',bg:'intl_ca_dorm',lines:[],
           choice:[{t:'海邊',say:[{narr:'（風很大。Priya 說她第一次看到太平洋的另一邊。）'}]},{t:'校園的圖書館',say:[{narr:'（週末的圖書館沒什麼人。你在窗邊讀了一下午，窗外的草地有人在丟飛盤。）'}],set:{C10_STUDY:true}}]},   /* 成績 A／B＋：AA「照讀書的次數」——遊戲沒有假期日誌，這一版看週末有沒有去圖書館（C10_STUDY，等 BB 定）*/
         {day:'07-30',h:9,title:'期末考',bg:null,lines:[{narr:'（考卷四題，三小時。你寫完第三題的時候，旁邊的 Priya 已經在檢查了。）'}]} ],
       /* 成績（AA_242 3-6 79adc9f2）：8/10 學校的信；A 版截圖傳家人群組、媽媽兩句；B＋版不傳。Priya 8/10 問成績、2027-09-14 問學分（7-1）*/

@@ -7640,6 +7640,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:1x：assets/bg/、OUT.BG 登錄（hometown 十張原本 OUT.BG 沒有登錄＝深色底）；7/19 三個分支都有背景"
+  },
+  {
+   "id": "DL-BB-9a6eb60e",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "9a6eb60e",
+   "what": "出國活動 C08～C10 六張 2D 背景（intl_seoul_campus／market、intl_cambodia_classroom／night、intl_ca_campus／dorm）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:3x：C08 傳統市場＝market、分組報告＝campus；C09 到村子、上課、最後一天＝classroom、停電＝night；C10 第一堂課＝campus、週末＝dorm；出發、歡迎晚會、最後一晚、第一次報告、期末考沒有對應的圖，維持深色底"
   }
  ],
  "ignored": [
