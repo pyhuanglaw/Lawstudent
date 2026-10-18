@@ -178,4 +178,8 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
       for(const q of MSG.topics(G,id)) if(MSG.isT2(q.k)){ const r=MSG.send(G,id,q.k); if(!r.ok) errs.push(id+':'+q.k+':'+r.why); break; } }catch(x){ errs.push(id+':'+x.message); } }
     check('H15. 14 人 × 9 個日子 × 3 個關係掃過第二批話題：不出錯、不挑到空的或停用的句子、開了就傳得出去',!errs.length,errs.slice(0,5).join(' ')); } }
 else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
+// 方奕廷暑假上山（BB_171 第 1 節）：沒訊號，下山那天 15:00 才回；回台中過年的期間照平常
+{ fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-20');
+  check('I1. 方奕廷 7/10 上山：7/20（下山那天）15:00 才回',at.day===back&&at.h===15&&at.late===true,JSON.stringify(at));
+  fresh(STORY.dayOfKey('2026-07-25'),20); const a2=MSG.replyAt(G,'npc_fangyt'); check('I1. 下山以後照平常',!(a2.day===back&&a2.h===15)&&a2.day<=G.day+1,JSON.stringify(a2)); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

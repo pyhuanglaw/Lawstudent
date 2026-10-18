@@ -118,7 +118,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外小語的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';
     law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2);
-    const L=TH(g), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組九則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===9&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
+    const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組九則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===9&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
     PHONE.answer(G,'va10_ask',0); G.hour=21.4; STORY.phoneRules(GM); const q=OUT.get(G,'vac_va10');
     check('9. 回「我也去。」→ 行事曆 8/25 出發（香港）',G.flags.VA10==='yes'&&!!q&&q.day===DK('2027-08-25'),J(q));
     said=[]; G.day=DK('2027-08-25'); G.hour=8; await VAC.outing(GM,q); const S0=said.map(x=>x.t);

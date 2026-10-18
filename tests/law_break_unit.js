@@ -108,9 +108,9 @@ GM.money=function(n){ G.money+=n; };
   { said=[]; cards=[]; await HOME.breakStart(GM);
     const pol=o=>{ const T=o.map(q=>q.t||q.text); for(const w of ['快轉','到下一個有事的日子']){ const k=T.indexOf(w); if(k>=0) return k; } return 0; }; const ch0=GM.choose; GM.choose=async o=>pol(o); cards=[]; entered=[]; said=[];
     await HOME.loop(GM); GM.choose=ch0; const L=lines();
-    const bd=(G.msgs||[]).find(m=>m.tag==='yt_bday_y1'&&m.th==='g:noodle_team'), lot=(G.msgs||[]).find(m=>m.tag==='dorm_lottery_y2'), zl=(G.msgs||[]).find(m=>m.tag==='dorm_lottery_y2_zhe');
+    const bd=(G.msgs||[]).find(m=>m.tag==='yt_bday_y1'&&m.th==='g:noodle_team'), lot=(G.msgs||[]).find(m=>m.tag==='dorm_lottery_y2'), zl=(G.msgs||[]).filter(m=>m.tag==='dorm_lottery_y2_zhe').map(m=>m.from+':'+m.text).join('|');
     check('9. 7/9 12:00 麵店團：小語「今天語彤生日！」＋按鈕「傳一句生日快樂」',!!bd&&bd.from==='yu'&&bd.text==='今天語彤生日！'&&bd.ask&&bd.ask.opts[0].t==='傳一句生日快樂'&&bd.day===D('2026-07-09')&&Math.abs(bd.h-12)<0.02);
-    check('9. 7/15 10:00 宿舍系統抽籤＋旁白「換一層樓，換一個房間。」＋10:05 阿哲',!!lot&&lot.text==='大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'&&L.includes('換一層樓，換一個房間。')&&!!zl&&zl.text==='抽到了！哥你哪一間？……我們還是不同棟。');
+    check('9. 7/15 10:00 宿舍系統抽籤＋旁白「換一層樓，換一個房間。」＋10:05 阿哲「又同一間」、柏翰 312（AA_208 第 9 節）',!!lot&&lot.text==='大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'&&L.includes('換一層樓，換一個房間。')&&zl==='zhe:抽到了！|zhe:欸我們又同一間！！|classmate_bohan:我也是。312。',zl);
     check('9. 7/20：大一下有打工＝「暑假的班照排。你從家裡搭捷運去上班。」',L.includes('暑假的班照排。你從家裡搭捷運去上班。'));
     check('9. 字卡：6/29 成績 → 7/9 → 7/15 → 7/20 → 8/25 → 9/6 → 主線 3 的「回宿舍」',JSON.stringify(cards.map(c=>c[0]).slice(0,7))===JSON.stringify(['6/29（一）08:30','7/9（四）12:00','7/15（三）10:00','7/20（一）18:30','8/25（二）18:30','9/6（日）08:30','回宿舍']),JSON.stringify(cards.map(c=>c[0])));
     check('9. 9/6：主線 3（「明天開學。今天搬進新的房間。」→ 拆箱）；住家裡結束、ROOM_Y2',L.includes('明天開學。今天搬進新的房間。')&&!!G.flags.ROOM_Y2&&!HOME.at(G)&&!G.home.lbreak&&entered[entered.length-1]==='dorm'); }
@@ -119,6 +119,14 @@ GM.money=function(n){ G.money+=n; };
   const dm=(G.msgs||[]).find(m=>m.tag==='yt_bday_y1'); check('10. 不在群組、和語彤有點熟＝她的私訊放同一個按鈕',!!dm&&dm.th==='p:heroine_03'&&dm.ask.opts[0].t==='傳一句生日快樂');
   { const r=PHONE.answer(G,'yt_bday_y1',0); check('10. 傳了＝語彤「……謝謝。阿姨說要請你吃滷蛋。下次來。」',!!r&&r.out.some(m=>m.from==='heroine_03'&&m.text==='……謝謝。阿姨說要請你吃滷蛋。下次來。')); }
   fresh(D('2026-07-09'),12.5,'dorm',{}); G.stage='law'; HOME.breakPhone(GM); PHONE.tick(G); check('10. 不熟、不在群組＝沒有',!(G.msgs||[]).some(m=>m.tag==='yt_bday_y1'));
+  // 10b. 每年 7/15 抽籤（AA_208 第 9 節）：大三阿哲二樓、大四「我又二樓」；ZHE_CALLS_GE＝「哥我們又同一間！！」；不在群組、和阿哲有點熟＝私訊（沒有柏翰那句）
+  { const zt=tag=>(G.msgs||[]).filter(m=>m.tag===tag).map(m=>m.th+'|'+m.from+':'+m.text);
+    fresh(D('2027-07-15'),10.2,'dorm',{}); G.stage='law'; meet('zhe'); PHONE.join(G,'noodle_team','麵店團'); HOME.breakPhone(GM); PHONE.tick(G);
+    check('10b. 大三 7/15：「抽到了」「我二樓」「你們兩個五樓 同一棟啦 一樣找得到我」、柏翰「507。」',JSON.stringify(zt('dorm_lottery_y3_zhe'))===JSON.stringify(['g:noodle_team|zhe:抽到了','g:noodle_team|zhe:我二樓','g:noodle_team|zhe:你們兩個五樓 同一棟啦 一樣找得到我','g:noodle_team|classmate_bohan:507。']),JSON.stringify(zt('dorm_lottery_y3_zhe')));
+    fresh(D('2028-07-15'),10.2,'dorm',{}); G.stage='law'; meet('zhe'); R('zhe',30,0,0); HOME.breakPhone(GM); PHONE.tick(G);
+    check('10b. 大四、不在群組、和阿哲有點熟：私訊「抽到了」「我又二樓」「你們兩個又同一間喔 好啦」',JSON.stringify(zt('dorm_lottery_y4_zhe'))===JSON.stringify(['p:zhe|zhe:抽到了','p:zhe|zhe:我又二樓','p:zhe|zhe:你們兩個又同一間喔 好啦']),JSON.stringify(zt('dorm_lottery_y4_zhe')));
+    fresh(D('2026-07-15'),10.2,'dorm',{ZHE_CALLS_GE:true}); G.stage='law'; meet('zhe'); PHONE.join(G,'noodle_team','麵店團'); HOME.breakPhone(GM); PHONE.tick(G);
+    check('10b. 大二、阿哲叫哥：「哥我們又同一間！！」',zt('dorm_lottery_y2_zhe').includes('g:noodle_team|zhe:哥我們又同一間！！')); }
   // 11. 週末回家住到放假：人在家＝住家裡（沒有回家的字卡）
   fresh(D('2026-01-05'),8.5,'campus',{}); G.stage='law'; { const H=HOME.rec(G); H.at=true; H.day=D('2026-01-04'); H.wakeAsk=G.day; }
   picks=['回宿舍住']; said=[]; cards=[]; entered=[]; opts=[];
