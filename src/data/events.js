@@ -127,9 +127,9 @@ const XMAS_FROM_POOL=G=>{ const h=XMAS_HERE(G); const p=h.filter(id=>!(id==='yu'
 /* 可昕自己讀書時傳的書桌照片（BB_95 9-5：婉拒、沒回、沒接）*/
 const KX_DESK_PHOTO=[{th:'p:kexin',from:'kexin',text:'📷（她的書桌）'},{th:'p:kexin',from:'kexin',text:'我自己讀了。你欠我一次。'}];
 /* 學姊的熱水（AA_261 第 3 節 16919f86）：兩次共用的場面，first＝她的第一句 */
-function SIS_STUDY_OK(G){ const r=G.social&&G.social.rel&&G.social.rel.heroine_05; return !!(r&&(+r.fam||0)>=40&&(+r.trust||0)>=25)&&!!(G.events&&G.events.done&&G.events.done.ev_sis_w1); }
+function SIS_STUDY_OK(G){ const r=G.social&&G.social.rel&&G.social.rel.heroine_05; return !!(r&&(+r.fam||0)>=40&&(+r.trust||0)>=25)&&!!((G.flags&&G.flags.SIS_W1)||(G.events&&G.events.done&&G.events.done.ev_sis_w1)); }   /* 讀 SIS_W1：家聚、社博第一次見到她的人也有（AA_284 1-1；原本只認 ev_sis_w1）*/
 function SIS_HOT_WATER(first){ return [
-  {speaker:null,text:'（十點。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上是空的保溫瓶，沒有按。）'},
+  {speaker:null,text:'（九點四十分，閉館的廣播響了。自習室的燈一盞一盞關掉。她站在走廊的飲水機前面，手上是空的保溫瓶，沒有按。）'},
   {speaker:'heroine_05',text:first},{speaker:'heroine_05',text:'……算完就不想算了。'},
   {choice:[{text:'「我去幫妳裝熱水。」',set:{HOT_WATER:true},goto:'hot'},{text:'「我請妳喝一罐。」',goto:'can'}]},
   {label:'hot'},{speaker:null,text:'（你接過保溫瓶。飲水機的熱水出得很慢，你等了一下。）'},{speaker:null,text:'（她接過去，兩手抱著。）'},{speaker:'heroine_05',text:'……好燙。'},
@@ -1346,14 +1346,14 @@ const STORY_EVENTS=[
   { id:'ev_sis_flask_full', title:'已裝滿', participants:[], location:'lawlib', trigger:'auto', npcNear:'heroine_05', once:true, background:'blur',
     prereq:{custom:G=>G.flags.flaskCoffeeDay!=null&&G.day>G.flags.flaskCoffeeDay&&G.day<=G.flags.flaskCoffeeDay+7},
     dialogue:[ {speaker:null,text:'（她的保溫瓶上貼了一張便條：「已裝滿」。）'} ] },
-  /* 學姊「熱水」（BB_207 第 2 節 7b39f636、台詞 AA_261 第 3 節 16919f86）：大一上第 14～15 週（她準備 2026-02-02 研究所筆試），一起念書那晚 22:00 她走的時候、法圖自習室外的走廊；CG BCG-01 沿用。
-     「一起念書」＝第 3 階以上（熟悉 ≥40、信任 ≥25）、演過 W1，那晚她在法圖念到 22:00（作息：大一上第 14～15 週週一～四 19～22 在法圖）、玩家也在法圖。
+  /* 學姊「熱水」（BB_207 第 2 節 7b39f636、台詞 AA_261 第 3 節 16919f86）：大一上第 14～15 週（她準備 2026-02-02 研究所筆試），一起念書那晚 21:30～21:45 閉館前（法圖 21:45 閉館會請人出去；AA_284 1-1）、法圖自習室外的走廊；CG BCG-01 沿用。
+     「一起念書」＝第 3 階以上（熟悉 ≥40、信任 ≥25）、演過 W1，那晚她在法圖念到閉館（作息：大一上第 14～15 週週一～四 19～21:45 在法圖）、玩家也在法圖。
      「我去幫妳裝熱水。」＝HOT_WATER；演過空的保溫瓶、選了黑咖啡（HELPED）的「謝謝」前多一句。「我請妳喝一罐。」＝不記；第 16 週以前下一次一起念書的晚上同一個場面再一次（她的第一句「……又空了。」），第二次也沒選就結束 */
-  { id:'ev_sis_hot_water', title:'熱水', participants:['heroine_05'], location:'lawlib', trigger:'auto', npcNear:'heroine_05', term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21.75,22.5], once:true, priority:9, background:'blur',
+  { id:'ev_sis_hot_water', title:'熱水', participants:['heroine_05'], location:'lawlib', trigger:'auto', npcNear:'heroine_05', term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21.5,21.75], once:true, priority:9, background:'blur',
     prereq:{custom:G=>SIS_STUDY_OK(G)},
     dialogue:SIS_HOT_WATER('我在算還剩幾天。'),
     consequences:{stamp:['sisHotWaterDay'],memo:'學姊的保溫瓶，熱水'} },
-  { id:'ev_sis_hot_water_again', title:'熱水', participants:['heroine_05'], location:'lawlib', trigger:'auto', npcNear:'heroine_05', term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21.75,22.5], once:true, priority:9, background:'blur',
+  { id:'ev_sis_hot_water_again', title:'熱水', participants:['heroine_05'], location:'lawlib', trigger:'auto', npcNear:'heroine_05', term:['Y1S1'], weeks:[14,15], weekday:[1,2,3,4], time:[21.5,21.75], once:true, priority:9, background:'blur',
     prereq:{custom:G=>SIS_STUDY_OK(G)&&G.flags.sisHotWaterDay!=null&&G.day>G.flags.sisHotWaterDay&&!G.flags.HOT_WATER},
     dialogue:SIS_HOT_WATER('……又空了。') },
   /* 阿凱 K2 的回聲（BB_108 第 1 節 KAI_JOINS_TEST）：K2 之後第二週的晚上回到房間——說好「下次測試我叫你一起」的玩家：「測試。你說好的。」三個小時；其他選項：他自己測，隔天說「你錯過了史上最難的一關」 */
