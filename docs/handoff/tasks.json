@@ -522,8 +522,8 @@
    "area": "ART",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "等排 118 巷區域",
-   "priority": "P3",
+   "next": "【2026-10-18 01:4x LAWWW-C】v9.10 發布後第一項（D46 還在；暫停不是交接遺失）。｜等排 118 巷區域",
+   "priority": "P1",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -540,8 +540,8 @@
     "add0720b",
     "f570fff3"
    ],
-   "pausedReason": "沒有對應區域或使用者降低優先",
-   "resumeWhen": "排到對應區域／使用者改優先"
+   "pausedReason": "v9.10 收件範圍外（使用者 2026-10-18 01:0x）；排在 v9.10 發布後第一項（使用者 01:4x 問 118 巷「那個才是法學院的人會去吃飯的地方」，AA-C 建議、使用者沒反對）",
+   "resumeWhen": "v9.10 發布後第一項：src/lane118.js 區域（從台大後門出去、走得進去、店門口點餐），用 src/data/lane118_layout.js 草案 v1＋lane118_street.glb；內容（菜單價格、誰常去、午餐揪人、哪些午餐場景搬過來）AA-C 在 AA 分支準備"
   },
   {
    "id": "ART-04",
