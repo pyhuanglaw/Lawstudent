@@ -2963,11 +2963,11 @@ const STORY_EVENTS=[
      13:45～14:15 走進 Café 就演。店員是芷若（外文一、剛開始打工）：事件把她放到櫃台，名字只顯示「店員」，不自我介紹、不記 FIRST_MET、不給聯絡方式（法律系 Z1 才算第一次說話）。
      玩家點什麼記 Y0_CAFE_ORDER（熱拿鐵／冰美式／熱可可；Z1 的回聲之後做）。沒去＝10/12 16:00 群組品妤的照片＋可昕一句（story3d.js）*/
   { id:'ev_y0_l5a', stage:'econ', title:'長頸鹿拉花', participants:['kexin'], location:'cafe', trigger:'auto', term:['Y0S1'], weeks:[6], weekday:[6], time:[13.75,14.8], once:true, background:'blur',   /* 出發選單開到 14:15、從家裡要 30 分鐘：到店最晚約 14:45（BB_214 第 4 節）*/
-    spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3, hideClerks:true,   /* 吧檯只留芷若（BUG-LATTE-CLERK-1018）*/
+    spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3, hideClerks:true,   /* 吧檯只留芷若；店員那兩句用芷若的立繪、名字照樣「店員」（使用者 10-18：「咖啡店的店員你放到唐睿」——原本店員沒有立繪，畫面留著上一句唐睿的；BUG-LATTE-CLERK-1018）*/
     dialogue:[ {speaker:null,text:'（溫州街的 Café。可昕說這間的拉花會畫長頸鹿，拉了大家來驗證。）'},{speaker:null,text:'店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'},
       {choice:[{text:'熱拿鐵',set:{Y0_CAFE_ORDER:'熱拿鐵'}},{text:'冰美式',set:{Y0_CAFE_ORDER:'冰美式'}},{text:'熱可可',set:{Y0_CAFE_ORDER:'熱可可'}}]},
-      {speaker:'kexin',expression:'smile',text:'可以畫長頸鹿嗎？'},{speaker:null,text:'她想了一下。'},{speaker:'店員',text:'……我試試看。'},
-      {speaker:null,text:'畫出來的長頸鹿脖子很短。'},{speaker:'唐睿',text:'這是馬。'},{speaker:'店員',text:'這是很努力的長頸鹿。'},
+      {speaker:'kexin',expression:'smile',text:'可以畫長頸鹿嗎？'},{speaker:null,text:'她想了一下。'},{speaker:'heroine_02',name:'店員',text:'……我試試看。'},
+      {speaker:null,text:'畫出來的長頸鹿脖子很短。'},{speaker:'唐睿',text:'這是馬。'},{speaker:'heroine_02',name:'店員',text:'這是很努力的長頸鹿。'},
       {speaker:null,text:'可昕笑到把湯匙掉在地上。'} ] },
   /* T2 唐睿的練習（BB_112 T2；AA_154 第 127 行）：Y0S1 第 10～13 週週一經濟學原理真的上完，走出教室時唐睿在隔壁借用的劇社教室叫住你（afterClass，每次 50%，一次；E18 11/29 以後不再觸發；STORY.t2Due）。
      沒玩過 T1（沒有 KNOWS_TANG）的玩家，唐睿說漏嘴那一句接在第一句後面（位置待 BB-B 確認）；演完都記 KNOWS_TANG；「繼續演品妤」＝TANG_REHEARSAL（大四 4-2① 的回聲）*/

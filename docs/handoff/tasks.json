@@ -19664,9 +19664,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-18 14:2x：「咖啡店拉花 店員 好像是藍色衣服經濟系同學」",
+   "source": "使用者 2026-10-18 14:2x：「咖啡店拉花 店員 好像是藍色衣服經濟系同學」；14:4x 補充：「咖啡店的店員你放到唐睿」",
    "authorized": "一般 bug",
-   "next": "修好（LAWWW-C 14:3x）：ev_y0_l5a hideClerks:true → events3d.js 把一般店員標 hidden、engine3d.js 每格顯示照 n.hidden；瀏覽器實演：改前兩人站吧檯（heroine_02＋路人底模 npc_nf6），改後一般店員 visible=false。等 v9.10.2 發布"
+   "next": "真正原因（14:4x）：店員沒有立繪，店員說話時畫面留著上一句唐睿（「這是馬。」）的立繪、名字寫「店員」→ 看起來唐睿是店員。修法：店員兩句改 speaker heroine_02＋name:\"店員\"（events3d.js 支援 l.name），不記 FIRST_MET；3D 吧檯的一般店員也藏起來（hideClerks＋engine3d n.hidden，瀏覽器實演確認）。等 v9.10.2"
   },
   {
    "id": "BLACK-BG-AUDIT-1018",
