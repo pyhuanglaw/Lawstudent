@@ -403,6 +403,8 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 ### ★ 最新佇列（LAWWW-C 派工 2026-10-17 23:49，D99／D100；取代下面舊的順序）
 1. **ART-CH-XUN**：阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）。經濟系第一優先、412 室友，遊戲裡現在是程序化的備用人物；外觀照 AA 的設定和既有經濟系人物（韋綸、唐睿、家豪）的風格；**交 LAWWW-C 驗收**（角色美術驗收改由 LAWWW-C，23:40 更正）。
 2. **SCN-US-02**：美國校園（**已交 `1e6987cb`**，照使用者的法學院照片；LAWWW-C 接線）。
+2a. **ART-L118-GROUND**（v9.10，LAWWW-C 02:10 派）：**已交 `aef6da80`**（README `test_shots/lane118_ground/README.md`、patch `patches/lane118_ground.diff`）。
+2a-2. **校園四處方盒外觀**（LAWWW-C 02:41 派；使用者 10-18 02:3x「做好就開」，USER_WANTS X04；118 巷之後、ART-US-SEASON 之前）：ART-EXT-M1 男一舍 → ART-EXT-GATE 臺大校門 → ART-EXT-TEACH 普通／博雅教學館外觀 → ART-EXT-MRT 捷運公館站出口。D38：Blender → GLB，位置、導航阻擋照 zones3d.js 現在套件的座標；每處交 GLB＋遊戲內同角度前後截圖；READY_FOR_ART_REVIEW。
 2b. **SCN-US-LIB**：法學院圖書館 3D（LAWWW-C 00:36 排；照片的文字描述在上面）。**已交 `f39f3aef`**（README `test_shots/us_lawlib/README.md`；v9.10 後整合）。
 2c. **ART-US2-FIX-1018**（**已交 `356d77c6`**，README `test_shots/us2_fix_1018/README.md`、patch `patches/us2_fix_1018.diff`）：公寓廚房（BB-C 測出，LAWWW-C 00:50 派）：
     - 冰箱互動點 (−3.45, 1.8) 和爐子 (−2.95, 1.95) 半徑都 0.8，站冰箱前出「看爐子」→ 分開，加「站在冰箱門前最近的是冰箱」的檢查；

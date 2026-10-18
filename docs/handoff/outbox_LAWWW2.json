@@ -446,6 +446,26 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-L118-GROUND",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "aef6da80",
+   "files": [
+    "assets/models/env/second_ai/lane118_ground.glb",
+    "assets/models/env/second_ai/lane118_ground.json",
+    "tools/blender/env_second/lane118_ground.py",
+    "tools/blender/env_second/lane118_ground_tex.py",
+    "tools/blender/env_second/textures/gen/l118_road_*.jpg",
+    "docs/art-rebuild/second_ai/patches/lane118_ground.diff",
+    "docs/art-rebuild/second_ai/test_shots/lane118_ground/"
+   ],
+   "state": "已交付（v9.10；MODEL_READY、READY_FOR_ART_REVIEW；後門 PROPOSAL：沒有照片）",
+   "remaining": "辛亥復興門照片；路燈沿用 W3.lampPost；街道家具（樹穴、消防栓）沒做",
+   "next": "LAWWW-C 套 patch（對 bf99b3b3：assets3d.js 加 bldg.lane118_ground；zones3d.js buildLane118 暫代地面加 dyn、載入後藏起來、路面 asphalt＋roadMats、燈籠 addNight）＋從我的分支拿 GLB；BB 測 flow_lane118",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
