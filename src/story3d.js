@@ -738,6 +738,7 @@ const STORY = (function(){
   function inView(E,o){ const cam=E.camera; if(!cam||typeof THREE==='undefined'||!THREE.Vector3.prototype.project) return true; const v=new THREE.Vector3(o.x,o.y+1.0,o.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; }
   function refreshSchedule(GM){ const E=GM.E, G=GM.G; if(!G.social||!E.zone||!E.player) return; const zoneId=G.zone;
     try{ populateSchedule(zoneId,GM,true); }catch(e){ console.warn('schedule refresh failed',e); }
+    if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：待在巷子裡時段到了的常客也會來（進來的時候還沒到 12:10 的話，原本整段都不會出現）*/
     lingerMove(GM,zoneId); roomMove(GM,zoneId);
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;
       if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);

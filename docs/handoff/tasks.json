@@ -16729,7 +16729,7 @@
    "id": "BUG-BB218-1018",
    "title": "BB_218 經濟系第一段的兩個遊戲問題：經濟系課堂老師一句顯示 undefined（日子是負數，輪流序號變負）；9/1 晚上 412 和阿勳的對話鏡頭卡進上舖床板",
    "status": "已整合待測試",
-   "next": "2026-10-18 01:3x LAWWW-C：classes3d.js S.rot（取正的餘數；同樣的負數問題 home3d 家裡吃飯、story3d 閒聊招呼、點頭招呼一起改）；宿舍 z.camBox 鏡頭只在中間走道、412 第一晚兩人鏡頭從房間裡往門口拍。tests/syllabus_unit.js 經濟系 173 堂（舊版失敗、新版通過）。等 BB-C 重拍 2024-09-04 課堂、9/1 412 那幾格｜01:3x LAWWW-C 第 2 層自測（D100f；[前置／捷徑] ?y0 經濟系開局按鈕直接到 9/1 21:00）：412 那幾句鏡頭在 (-1.15,1.55,-0.35)，看得到房間、玩家、門口的阿勳，不再只有床底（截圖 docs/art-rebuild/review_shots/xun_412_e01_b0d5730a.png）；課堂 undefined 還要 BB 看 9/4",
+   "next": "【02:1x BB-C a965a8e7】第 1 點 FIXED：e6e75fd5 從新遊戲 9/1→9/4 ALL PASS、undefined 0 句（9/3 國文、9/4 微積分、體育都正常）；9/9～9/26 在跑。第 2 點（412 鏡頭）LAWWW-C 01:3x 自測通過｜2026-10-18 01:3x LAWWW-C：classes3d.js S.rot（取正的餘數；同樣的負數問題 home3d 家裡吃飯、story3d 閒聊招呼、點頭招呼一起改）；宿舍 z.camBox 鏡頭只在中間走道、412 第一晚兩人鏡頭從房間裡往門口拍。tests/syllabus_unit.js 經濟系 173 堂（舊版失敗、新版通過）。等 BB-C 重拍 2024-09-04 課堂、9/1 412 那幾格｜01:3x LAWWW-C 第 2 層自測（D100f；[前置／捷徑] ?y0 經濟系開局按鈕直接到 9/1 21:00）：412 那幾句鏡頭在 (-1.15,1.55,-0.35)，看得到房間、玩家、門口的阿勳，不再只有床底（截圖 docs/art-rebuild/review_shots/xun_412_e01_b0d5730a.png）；課堂 undefined 還要 BB 看 9/4",
    "first": {
     "term": "Y0S1",
     "week": 1,
@@ -16763,6 +16763,32 @@
    },
    "pausedBy": "使用者 01:3x",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
+  },
+  {
+   "id": "ART-L118-GROUND",
+   "title": "118 巷的地面與台大後門（lane118_street.glb 沒有地面；LAWWW-C 接區域時用套件補的柏油、人行道、辛亥路、斑馬線、方塊門柱與圍牆是暫代）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次從法學院後門走去 118 巷",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "receiver": "LAWWW-C",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "src/data/lane118_layout.js v1；zones3d.js buildLane118 的暫代位置",
+    "acceptance": "GLB 地面與後門和配置座標一致；遊戲內截圖；LAWWW 接上後藏起暫代",
+    "ack": "SENT"
+   }
   }
  ]
 }

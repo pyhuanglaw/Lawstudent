@@ -35,12 +35,13 @@ const L118=(function(){
     for(const r of S.regularsAt(G,shopId)) if(GM.npc&&GM.npc[r.id]&&met(r.id)&&!out.includes(r.id)) out.push(r.id);
     return out; };
   const lineOf=(id,shopId)=>{ const rs=((D()&&D().regulars)||[]).filter(r=>r.id===id); return (rs.find(r=>r.shop===shopId)||rs[0]||{}).line||null; };
-  /* 進到 118 巷：常客、約好的午餐站到店門口 */
+  /* 進到 118 巷、待在巷子裡（story3d.js refreshSchedule 每幾秒叫一次）：時段到了的常客、約好的午餐站到店門口；已經在的不重複 */
   S.populate=function(GM){ const G=GM.G; if(!GM||!GM.spawnCharacter||!LAY()) return 0; let n=0; const at={};
-    const put=(id,shopId)=>{ if(GM.npc[id]) return; const d=S.door(shopId); if(!d) return; const k=at[shopId]=(at[shopId]|0)+1; const x=d.x+(d.side==='W'?0.7:-0.7), z=d.z+(k-1)*0.85-0.4;
-      const c=GM.spawnCharacter(id,x,z,{yaw:d.yaw+(d.side==='W'?0:0),pose:'idle'}); if(c){ c.idlePose='idle'; n++; } };
-    const L=S.lunchNow(G); if(L) for(const id of L.with) put(id,L.shop);
-    for(const r of S.regularsAt(G)) put(r.id,r.shop);
+    for(const id in GM.npc){ const q=GM.npc[id]; if(q&&q.l118Shop) at[q.l118Shop]=(at[q.l118Shop]|0)+1; }
+    const put=(id,shopId,until)=>{ if(GM.npc[id]) return; const d=S.door(shopId); if(!d) return; const k=at[shopId]=(at[shopId]|0)+1; const x=d.x+(d.side==='W'?0.7:-0.7), z=d.z+(k-1)*0.85-0.4;
+      const c=GM.spawnCharacter(id,x,z,{yaw:d.yaw,pose:'idle'}); if(c){ c.idlePose='idle'; c.l118Shop=shopId; c.until=until; n++; } };   /* until：時段結束（story3d.js refreshSchedule 讓他走開） */
+    const L=S.lunchNow(G); if(L) for(const id of L.with) put(id,L.shop,14);
+    for(const r of S.regularsAt(G)) put(r.id,r.shop,r.to);
     return n; };
   /* 店門口點餐 */
   S.order=async function(GM,shopId){ const G=GM.G, s=S.shop(shopId), Dd=D(); if(!s||!Dd) return false; GM.sceneBegin();
