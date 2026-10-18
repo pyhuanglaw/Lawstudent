@@ -1,6 +1,6 @@
 """Blender 模型渲染圖（驗收用，D38 第 12.8 節的⑤；不是遊戲截圖）：匯入 GLB → Cycles（CPU、低取樣＋降噪）→ PNG。
 這個沙盒的 EEVEE 要用軟體 OpenGL，一張圖十幾分鐘還出不來，所以用 Cycles。
-用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--exposure EV] [--view Standard] [--hide 名稱]... [--noemit] [--point x,y,z,W]...
+用法：/opt/blenv/bin/python tools/blender/env_second/render_cycles.py -- <glb[,glb…]> <輸出資料夾> <前綴> <views.json> [--res 960x600] [--samples 24] [--night] [--ground] [--threads N] [--tint 材質=#色碼]... [--season summer|autumn|bare|snow] [--exposure EV] [--view Standard] [--hide 名稱]... [--noemit] [--point x,y,z,W]...
 views.json：[["名稱", [眼睛 x,y,z], [看的點 x,y,z], 鏡頭焦距mm], ...]（遊戲座標）"""
 import json, math, os, sys
 import bpy
@@ -13,6 +13,8 @@ night = '--night' in A
 g2b = lambda x, y, z: Vector((x, -z, y))
 bpy.ops.wm.read_factory_settings(use_empty=True)
 for one in glb.split(','): bpy.ops.import_scene.gltf(filepath=os.path.abspath(one))   # 可以一次載入好幾個（同一套世界座標，例如溫州街的四個 GLB）
+if '--season' in A:   # 美國篇的季節（us_season.py）：照 SEASON_MATS 換材質、照 seasons 開關季節網格
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import us_season as _SEA; _SEA.apply_preview(None, A[A.index('--season') + 1])
 sc = bpy.context.scene; sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'; sc.cycles.samples = samples
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass

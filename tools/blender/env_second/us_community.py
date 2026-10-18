@@ -91,6 +91,25 @@ try:
 except Exception as ex:
     PL = None; print('plants', ex)
 
+# ================= 季節（ART-US-SEASON，us_season.py）=================
+# 8/2 到、12/23 回來：夏末 → 秋天紅葉 → 初冬落光 → 12 月初下雪。同一個 GLB：遊戲照日期換材質（SEASON_MATS）、開關季節網格（SEASON_GEO_*）
+import us_season as SEA   # noqa: E402
+CAR = SEA.carrier(root)
+# 樹的葉片卡分三組（每棵樹一組）：夏天都是深綠的闊葉；秋天各自轉紅、轉橙、轉黃（社區的樹不會同一天、同一個顏色）；初冬和雪天換成落光的細枝
+LEAF_T = []
+for k_, png in zip('abc', ('us_leaves_red.png', 'us_leaves_orange.png', 'us_leaves_yellow.png')):
+    m_ = SEA.leaf_mat(f'usc_leaf_tree_{k_}', 'us_leaves_summer.png'); LEAF_T.append(m_)
+    SEA.swap(CAR, m_, 'autumn', SEA.leaf_mat('t', png))
+    SEA.swap(CAR, m_, 'bare', SEA.leaf_mat('t', 'us_twigs.png'))
+    SEA.swap(CAR, m_, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))
+TWIG_IN = SEA.leaf_mat('usc_twig_inner', 'us_twigs.png'); SEA.swap(CAR, TWIG_IN, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))   # 落光以後樹冠裡面的細枝（只有初冬、雪天）
+LITTER = SEA.leaf_mat('usc_leaf_litter', 'us_leaf_litter.png', rough=0.85)                                                         # 樹下的落葉（秋天、初冬）
+SEA.swap(CAR, M['grass'], 'autumn', L.pbr('t', 'grass_ground', tile=3.0, target='#646b43', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))   # 秋天：草稍微轉黃
+SEA.swap(CAR, M['grass'], 'bare', L.pbr('t', 'withered_grass', tile=3.0, target='#857a58', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))  # 初冬：枯黃的草
+SEA.swap(CAR, M['grass'], 'snow', L.pbr('t', 'snow_02', tile=3.0, target='#e6eaee', normal=0.5, maps=('diff', 'nor'), rough_value=0.75))       # 雪
+SEA.swap(CAR, M['roof'], 'snow', L.pbr('t', 'snow_02', tile=1.4, target='#e2e6ea', normal=0.4, maps=('diff', 'nor'), rough_value=0.8))          # 屋頂積雪
+SEA.swap(CAR, M['asph'], 'snow', L.pbr('t', 'asphalt_02', tile=3.0, target='#56565a', normal=0.4, maps=('diff', 'nor'), rough_value=0.55))      # 雪天：剷過雪、濕的柏油（深一點、比較亮）
+
 
 def facade_rects(w, h, holes):
     """立面 0～w × 0～h 扣掉洞（[(x0,x1,y0,y1)]）剩下的長方形：照洞的 x 邊界切成直條，每條再扣掉洞的 y 範圍"""
@@ -437,6 +456,8 @@ cb.finish(root)
 sh = Mesh('usc_shrub_core', L.flat('usc_shrub_core', '#1e2d19', rough=0.98))
 leaf_mat0 = PM['leaf_small'] if PL else L.flat('usc_leaf', '#4a6a3a', rough=0.8)
 shc = Mesh('usc_shrub_cards', leaf_mat0)
+SEA.swap(CAR, leaf_mat0, 'snow', SEA.leaf_mat('t', 'us_shrub_snow.png'))   # 灌木是常綠的：只有雪天葉子上面積雪
+SEA.swap(CAR, sh.mat if hasattr(sh, 'mat') else bpy.data.materials['usc_shrub_core'], 'snow', L.flat('t', '#b9c0c4', rough=0.9))
 def leaf_card(m, px, py, pz, sz, yaw, tilt):
     ca, sa = math.cos(yaw), math.sin(yaw)
     def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
@@ -461,10 +482,21 @@ sh.finish(root, uv=False, smooth=True); shc.finish(root, uv=False, merge=False)
 # 樹：小樹（樹穴，細樹幹＋小樹冠）＋南邊樹林前緣的大樹＋外圍一整圈樹林（走不到）
 #   樹冠＝幾團深綠色的芯（填洞、遠看是樹冠的體積）＋芯的表面一片一片的葉片卡（和灌木同一張葉子貼圖）；樹幹旋轉體、微微傾斜，大樹有兩三根主枝伸進樹冠
 trunk = Mesh('usc_trunks', L.flat('usc_bark', '#54473b', rough=0.9))
-cards = Mesh('usc_tree_cards', leaf_mat0)
+CARDS = [Mesh(f'usc_tree_cards_{k_}', m_) for k_, m_ in zip('abc', LEAF_T)]; cards = CARDS[0]
 core = Mesh('usc_tree_core', L.flat('usc_tree_core', '#1c2a18', rough=0.98))   # 芯：很暗、不反光、平滑著色（從葉片卡的縫看進去是樹冠裡面的陰影）
+SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usc_tree_core'], 'autumn', L.flat('t', '#2e2015', rough=0.98))   # 秋天：芯偏紅褐（從紅葉的縫看進去不是綠的）
+twin = Mesh('usc_twig_inner', TWIG_IN)      # 初冬、雪天：樹冠裡面也有細枝（芯藏起來以後，樹冠不是一個空殼）
+litm = Mesh('usc_leaf_litter', LITTER)      # 秋天、初冬：樹下的落葉
+def litter(x, z, r, n):
+    uvl = litm.bm.loops.layers.uv.verify()
+    for k in range(n):
+        a_ = rng.uniform(0, 2 * math.pi); d_ = r * math.sqrt(rng.uniform(0, 1)); sz = rng.uniform(1.0, 1.7); yaw = rng.uniform(0, math.pi)
+        cx, cz = x + math.cos(a_) * d_, z + math.sin(a_) * d_; ca, sa = math.cos(yaw) * sz / 2, math.sin(yaw) * sz / 2
+        f = litm.bm.faces.new([litm.bm.verts.new(g2b(cx + du * ca - dv * sa, -0.012, cz + du * sa + dv * ca)) for (du, dv) in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+        for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
 CORE_C = ['#24361f', '#283b22', '#2d4126', '#223320']
 def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
+    global cards
     """一團樹冠：芯（抖動過的橢球）＋表面的葉片卡；face＝(fx, fz) 時只在朝那邊的半邊放葉片卡（外圍樹林只做看得到的那一面）"""
     v0 = set(core.bm.verts)
     core.ell((cx, cy, cz), rx * 0.74, ry * 0.74, rz * 0.74, seg=8, rings=5)
@@ -477,7 +509,12 @@ def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
         e_ = math.asin(rng.uniform(-0.85, 1.0)); rr = rng.uniform(0.72, 1.02)   # 下半部也要有葉子（從樹下往上看不能是一塊深色的芯）
         px, py, pz = cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_)
         leaf_card(cards, px, py, pz, csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
+    for j in range(int(ncard * 0.3)):                                                         # 裡面的細枝（只有落葉以後看得到）
+        a_ = rng.uniform(0, 2 * math.pi); e_ = math.asin(rng.uniform(-0.6, 1.0)); rr = rng.uniform(0.2, 0.7)
+        leaf_card(twin, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(1.0, 1.5), rng.uniform(0, math.pi), rng.uniform(-0.6, 0.6))
 def tree(x, z, h, big):
+    global cards
+    cards = CARDS[rng.randrange(3)]
     lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)) if big else (0.0, 0.0)
     rb = rng.uniform(0.2, 0.32) if big else 0.07
     bt = L.lathe([(rb * 1.35, 0.0), (rb, 0.35), (rb * 0.8, h * 0.4), (rb * 0.55, h * 0.62)], seg=9 if big else 6)
@@ -496,15 +533,20 @@ def tree(x, z, h, big):
         for k in range(3):
             a_ = k * 2.1 + rng.uniform(0, 0.6)
             crown(x + math.cos(a_) * 0.35, h * 0.74 + rng.uniform(-0.15, 0.25), z + math.sin(a_) * 0.35, 0.8, 0.7, 0.8, 26, 0.6)
-for t in J['trees']: tree(t['x'], t['z'], t['h'], t['kind'] == 'big')
+for t in J['trees']:
+    tree(t['x'], t['z'], t['h'], t['kind'] == 'big')
+    litter(t['x'], t['z'], t['h'] * (0.3 if t['kind'] == 'big' else 0.22) + 0.6, 9 if t['kind'] == 'big' else 4)
 # 外圍樹林（走不到）：區域四周一圈連續的樹冠（芯＋朝內那一面的葉片卡）；西邊出口車道留缺口；北邊在建築背後（從停車場看得到屋頂後面的樹，照片）
 BD_ = J['bounds']
 def belt(pts, face):
+    global cards
     for (x, z) in pts:
+        cards = CARDS[rng.randrange(3)]
         h = rng.uniform(11, 17); r_ = rng.uniform(3.6, 5.0)
         trunk.cyl((x, 0, z), (x, h * 0.55, z), rng.uniform(0.18, 0.28), seg=6, r2=0.14)
         crown(x, h * 0.62, z, r_, h * 0.36, r_, int(5.5 * r_ * r_), 2.1, face)
         crown(x + rng.uniform(-1.5, 1.5), h * 0.85, z + rng.uniform(-1, 1), r_ * 0.65, h * 0.2, r_ * 0.65, int(2.5 * r_ * r_), 1.8, face)
+        litter(x + face[0] * r_ * 0.9, z + face[1] * r_ * 0.9, r_ * 0.8, 3)
         if rng.random() < 0.8:   # 樹林邊緣的灌叢（下層），樹幹之間不會直接看穿到外面
             ry_ = rng.uniform(1.0, 1.4)
             crown(x + rng.uniform(-2.0, 2.0) + face[0] * 1.2, ry_ * 0.8, z + face[1] * 1.2, rng.uniform(1.6, 2.4), ry_, rng.uniform(1.4, 2.0), 46, 1.0, face)
@@ -514,7 +556,11 @@ belt([(BD_['x0'] + 2 + k * step + rng.uniform(-0.8, 0.8), BD_['z0'] - 0.5 + rng.
 belt([(BD_['x0'] + 4.6 + k * step + rng.uniform(-0.8, 0.8), BD_['z1'] + 3.5 + rng.uniform(-1, 1)) for k in range(int((BD_['x1'] - BD_['x0'] - 6) / step) + 1)], (0, -1))    # 南邊第二排（樹幹之間不會看到地平線）
 belt([(BD_['x1'] + 0.5, BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8)) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)], (-1, 0))                             # 東
 belt([(BD_['x0'] - 0.5, z) for z in [BD_['z0'] + 4 + k * step + rng.uniform(-0.8, 0.8) for k in range(int((BD_['z1'] - BD_['z0'] - 8) / step) + 1)] if abs(z) > 7.0], (1, 0))   # 西（出口車道留缺口）
-trunk.finish(root, uv=False); cards.finish(root, uv=False, merge=False); core.finish(root, uv=False, smooth=True)
+trunk.finish(root, uv=False)
+for cm in CARDS: cm.finish(root, uv=False, merge=False)
+SEA.geo(root, 'tree_core', 'summer,autumn', core, uv=False, smooth=True)   # 芯：落葉以後藏起來
+SEA.geo(root, 'twig_inner', 'bare,snow', twin, uv=False, merge=False)
+SEA.geo(root, 'leaf_litter', 'autumn,bare', litm, uv=False, merge=False)
 
 # ================= 小東西 =================
 pv = CMesh('usc_props', M['vc']); br = Mesh('usc_bronze_parts', M['bronze']); lp_ = Mesh('GLOW_usc_lamps', M['lamp'])
@@ -554,7 +600,7 @@ for p in J['props']:
         pv.cbox(x - 1.0, x + 0.9, 1.15, 1.6, z - 0.01, z, '#8a8b89')
 pv.finish(root, uv=False); br.finish(root, uv=False); lp_.finish(root, uv=False)
 
-L.merge_by_material(root, keep=lambda ob: False)
+L.merge_by_material(root, keep=SEA.keep)
 st = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:
@@ -584,5 +630,5 @@ if PREVIEW:   # 驗收渲染用：把車停進去（每台一個顏色的材質�
     for o in list(src.values()):                       # 原本並排的那一組（沒上色）整組刪掉
         for ch in list(o.children_recursive): bpy.data.objects.remove(ch, do_unlink=True)
         bpy.data.objects.remove(o, do_unlink=True)
-    bpy.ops.export_scene.gltf(filepath=PREVIEW, export_format='GLB', use_visible=False)
+    bpy.ops.export_scene.gltf(filepath=PREVIEW, export_format='GLB', use_visible=False, export_extras=True)   # extras：季節網格的 seasons 屬性（render_cycles.py --season 照這個開關）
     print('preview', PREVIEW)
