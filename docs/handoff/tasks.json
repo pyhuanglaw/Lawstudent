@@ -16653,7 +16653,7 @@
     "confirmed": true
    },
    "src": "BB-C 10-18 測試；USER_WANTS X05",
-   "next": "【04:2x LAWWW-C】356d77c6＋efaca16f 已整合（提前到 v9.10：發布前清單唯一的已知問題就是臥室 A 走不到；只動美國公寓兩個區域）；nav_us_unit ALL PASS；待：LAWWW reachability_all --zones us_shared,us_apartment（瀏覽器），BB-C 看廚房冰箱、爐子｜【03:2x LAWWW2 efaca16f：臥室 A 門口已併進同一包（電視櫃、行李箱移位，us_shared.glb 重匯，reachability us_shared ALL PASS）】｜【02:5x LAWWW-C 發布前 reachability_all（f24c1e9f，乾淨 checkout）】us_shared「臥室 A」(0.95,-2.2) 走不到：卡在 (0.57,-1.74)，電視櫃斜放在門口、行李箱（BB_217 生活痕跡）在北邊，中間比人窄。其他 25 個區域全過。已請 LAWWW2 併進 us2_fix 那包（移電視櫃或行李箱，GLB 和 layout 一起），v9.10 發布後套。｜LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
+   "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】reachability_all us_shared、us_apartment、campus ALL PASS（臥室 A 門口走得到）；deploy_check 29 區域 ALL PASS；剩 BB-C 看廚房冰箱、爐子｜【04:2x LAWWW-C】356d77c6＋efaca16f 已整合（提前到 v9.10：發布前清單唯一的已知問題就是臥室 A 走不到；只動美國公寓兩個區域）；nav_us_unit ALL PASS；待：LAWWW reachability_all --zones us_shared,us_apartment（瀏覽器），BB-C 看廚房冰箱、爐子｜【03:2x LAWWW2 efaca16f：臥室 A 門口已併進同一包（電視櫃、行李箱移位，us_shared.glb 重匯，reachability us_shared ALL PASS）】｜【02:5x LAWWW-C 發布前 reachability_all（f24c1e9f，乾淨 checkout）】us_shared「臥室 A」(0.95,-2.2) 走不到：卡在 (0.57,-1.74)，電視櫃斜放在門口、行李箱（BB_217 生活痕跡）在北邊，中間比人窄。其他 25 個區域全過。已請 LAWWW2 併進 us2_fix 那包（移電視櫃或行李箱，GLB 和 layout 一起），v9.10 發布後套。｜LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
    "pausedReason": "美國交換是第三優先，v9.10 收件範圍外",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99＋使用者 10-18 01:0x v9.10 收件範圍）",
@@ -17450,7 +17450,7 @@
    },
    "source": "LAWWW2-C 10-18 04:21（night_rereg.diff＋night_rereg_check.py，e0e39091）",
    "authorized": "D85",
-   "next": "原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
+   "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】night_rereg_check PASS（白天 0、天黑 1、進宿舍回來白天 0、再天黑 1）；剩 BB-C 看溫州街、Café 天黑以後的窗｜原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
   }
  ]
 }
