@@ -1055,3 +1055,9 @@
 - 處理：LAWWW-C 插隊做完 exam_ai 匯入（e7c5c924：匯入工具加讀 exam_ai、漏收檢查；抽題 課堂題 → 正式題庫 → AI 題補到 5 題；8 門課可以開考）；RELEASES.md v9.10 列為必要項目；瀏覽器驗證派 BB-C（發布前 LAWWW 完整測試再看一次）。
 - 通知：AA-C（回 commit 和題數）、BB-C（測試項目）。
 
+## 2026-10-18 00:1x UTC（對 LAWWW-C，直接）：開發文件過時清單授權 AA 自己改（D100c）
+- 收到：2026-10-18 約 00:12 UTC，使用者直接回 LAWWW-C 的回報「CLAUDE.md 和 docs/ 是我負責的檔，所以由我改」：「授權給AA自己改」。
+- 內容：AA_277（AA-C 32e84828）列的 CLAUDE.md、docs/ 過時段落，由 AA 改；取代「只有值班 LAWWW 改五份永久規則檔」在這件事上的限制。
+- 做法：AA 交 patch（以 RULE_SOURCE 最新 HEAD 為底），LAWWW-C 套用、檢查、push。docs/handoff/*.json、tools/、src/、tests/ 不在範圍。
+- 通知：AA-C（同一回合 send_message）。
+
