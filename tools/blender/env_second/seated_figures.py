@@ -2,6 +2,7 @@
 LAWWW 2026-10-13 20:02Z：配色用「預先烤好幾種、每種一個網格」。使用者：101 不先做 400 個完整 3D 人物；LAWWW2 做低成本坐姿人物。
   /opt/blenv/bin/python tools/blender/env_second/seated_figures.py [-- --out 輸出.glb] [--only npc_nf1]
 
+第三版（LAWWW2-C 2026-10-18，ART-SEATFIG-1018，使用者「博雅 101 有人禿頭」）：頭頂、後腦勺烤到衣服的顏色（白、淺藍斑點）→ hair_cleanup()。
 第二版（LAWWW2-C 2026-10-17，ART-NPC-HAIR-STREAK：博雅 101 坐著的同學頭髮是黑白碎片）：
   第一版用舊的 VRoid 樣本路人（vroid_npc_f1／f2／m1／m2），直接減面成 1,500 個三角形再展 UV——頭髮的髮片減面後是很多細長的三角形，
   UV 島變成幾千個小點（貼圖集上面四分之三幾乎是黑的），遊戲裡頭髮、衣服都是碎點。
@@ -224,6 +225,50 @@ def bake(high, low, img, clear=True, extra=()):
     with ctx(low, [high, *extra, low]): bpy.ops.object.bake(type='EMIT', use_selected_to_active=True, margin=2, use_clear=clear)
 
 
+def hair_cleanup(img, lows, arm, high):
+    """第三版（ART-SEATFIG-1018，使用者「博雅 101 有人禿頭」）：頭頂、後腦勺的頭髮上有白色、淺藍色的斑點——
+    烤色的射線從髮束的縫穿過內層，打到後面的毛衣、衣領（nf1 的白衣、深色長髮的淺藍襯衫）；遠看像禿頭。
+    做法：站姿時「頭頂（頭骨以上 7 cm）」和「臉的另一邊、離原本的頭髮 3 cm 以內」的面一定是頭髮（長髮披在背上的部分也算）；這些面在貼圖上的像素裡，
+    比頭髮的平均色（樣本頭髮貼圖不透明部分的平均）亮 0.18 以上、而且差 0.22 以上的（白、淺藍的斑點）換成頭髮色。
+    （試做第一次：用這一區的中位數當基準、差 0.20 就換——nf3 的那一區中位數是皮膚色，頭髮被換成皮膚色，更像禿頭）"""
+    import numpy as np
+    w, h = img.size; a = np.empty(w * h * 4, np.float32); img.pixels.foreach_get(a); a = a.reshape(h, w, 4)
+    hz = H(arm, 'J_Bip_C_Head').z; nz = H(arm, 'J_Bip_C_Neck').z; hc = H(arm, 'J_Bip_C_Head')
+    fm = {i for i, m in enumerate(high.data.materials) if m and 'Face_00_SKIN' in m.name}
+    fv = [high.matrix_world @ high.data.vertices[v].co for p_ in high.data.polygons if p_.material_index in fm for v in p_.vertices]
+    if not fv: print('  hair cleanup: no face', flush=True); return
+    fc = sum(fv, Vector()) / len(fv); fdir = Vector((fc.x - hc.x, fc.y - hc.y, 0.0)).normalized()     # 臉朝哪邊（水平）
+    lin = high.get('hair_col', (0.1, 0.08, 0.07)); ref = np.array([v * 12.92 if v <= 0.0031308 else 1.055 * v ** (1 / 2.4) - 0.055 for v in lin])   # 線性 → sRGB（烤出來的貼圖是 sRGB）
+    from mathutils.kdtree import KDTree
+    hm = {i for i, m in enumerate(high.data.materials) if m and m.name.endswith('_HAIR')}
+    hv = list({v for p_ in high.data.polygons if p_.material_index in hm for v in p_.vertices}); kd = KDTree(max(1, len(hv)))
+    for i, v in enumerate(hv): kd.insert(high.matrix_world @ high.data.vertices[v].co, i)
+    kd.balance()
+    mask = np.zeros((h, w), bool)
+    for low in lows:
+        me = low.data; uv = me.uv_layers.active; mw = low.matrix_world
+        for p_ in me.polygons:
+            c = mw @ p_.center; off = Vector((c.x - hc.x, c.y - hc.y, 0.0))
+            top = c.z > hz + 0.07; back = off.length > 0.02 and off.normalized().dot(fdir) < -0.2 and hv and kd.find(c)[2] < 0.03
+            if not (top or back): continue
+            T = [uv.data[li].uv for li in p_.loop_indices]
+            for k in range(1, len(T) - 1):
+                tri = np.array([[T[0].x * w, T[0].y * h], [T[k].x * w, T[k].y * h], [T[k + 1].x * w, T[k + 1].y * h]])
+                x0, y0 = np.floor(tri.min(0)).astype(int); x1, y1 = np.ceil(tri.max(0)).astype(int)
+                x0, y0 = max(x0, 0), max(y0, 0); x1, y1 = min(x1, w - 1), min(y1, h - 1)
+                if x1 < x0 or y1 < y0: continue
+                yy, xx = np.mgrid[y0:y1 + 1, x0:x1 + 1]; P = np.stack([xx + 0.5, yy + 0.5], -1)
+                (ax, ay), (bx, by), (cx, cy) = tri; d = (by - cy) * (ax - cx) + (cx - bx) * (ay - cy)
+                if abs(d) < 1e-9: continue
+                l1 = ((by - cy) * (P[..., 0] - cx) + (cx - bx) * (P[..., 1] - cy)) / d; l2 = ((cy - ay) * (P[..., 0] - cx) + (ax - cx) * (P[..., 1] - cy)) / d
+                mask[y0:y1 + 1, x0:x1 + 1] |= (l1 >= -0.02) & (l2 >= -0.02) & (1 - l1 - l2 >= -0.02)
+    if not mask.any(): print('  hair cleanup: no head faces', flush=True); return
+    rgb = a[..., :3]; lum = rgb @ np.array([0.30, 0.59, 0.11]); rl = float(ref @ np.array([0.30, 0.59, 0.11]))
+    bad = mask & (lum > rl + 0.18) & (np.abs(rgb - ref).max(-1) > 0.22)
+    rgb[bad] = ref; a[..., :3] = rgb; img.pixels.foreach_set(a.ravel())
+    print('  hair cleanup: head px %d, replaced %d (hair %s)' % (int(mask.sum()), int(bad.sum()), np.round(ref, 3).tolist()), flush=True)
+
+
 def fill_misses(img, passes=40):
     """烤色時射線沒打到東西的像素（全黑）用旁邊的顏色補：寬褲兩條褲管在站姿時貼在一起，外殼把兩腿之間連成一片，
     那一片的射線打不到東西，坐下以後膝蓋前面是一條黑帶（nf1 的白色寬褲）。島和島之間的空白也一起補（貼圖沒有 mipmap，邊緣不會滲黑）"""
@@ -369,6 +414,7 @@ def build():
         bake_target(low0, img); bake_target(low1, img); bake(high, low0, img, clear=True, extra=ex); bake(high, low1, img, clear=False, extra=ex)
         if fill: bpy.data.objects.remove(fill, do_unlink=True)
         fill_misses(img)
+        hair_cleanup(img, (low0, low1), arm, high)
         img.filepath_raw = os.path.join(TMP, f'{base}_c0.png'); img.file_format = 'PNG'; img.save()
         for pose in POSES:
             T = apply_pose(arm, high, pose)
