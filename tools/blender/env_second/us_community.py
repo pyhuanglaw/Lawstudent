@@ -484,7 +484,7 @@ sh.finish(root, uv=False, smooth=True); shc.finish(root, uv=False, merge=False)
 trunk = Mesh('usc_trunks', L.flat('usc_bark', '#54473b', rough=0.9))
 CARDS = [Mesh(f'usc_tree_cards_{k_}', m_) for k_, m_ in zip('abc', LEAF_T)]; cards = CARDS[0]
 core = Mesh('usc_tree_core', L.flat('usc_tree_core', '#1c2a18', rough=0.98))   # 芯：很暗、不反光、平滑著色（從葉片卡的縫看進去是樹冠裡面的陰影）
-SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usc_tree_core'], 'autumn', L.flat('t', '#2e2015', rough=0.98))   # 秋天：芯偏紅褐（從紅葉的縫看進去不是綠的）
+SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usc_tree_core'], 'autumn', L.flat('t', '#6a3422', rough=0.98))   # 秋天：芯偏紅褐（從紅葉的縫看進去不是綠的）；第一版 #2e2015 遊戲裡是一塊塊黑的
 twin = Mesh('usc_twig_inner', TWIG_IN)      # 初冬、雪天：樹冠裡面也有細枝（芯藏起來以後，樹冠不是一個空殼）
 litm = Mesh('usc_leaf_litter', LITTER)      # 秋天、初冬：樹下的落葉
 def litter(x, z, r, n):

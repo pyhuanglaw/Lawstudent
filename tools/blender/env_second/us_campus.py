@@ -179,7 +179,7 @@ ra.finish(root); ri.finish(root); rc.finish(root)
 # ================= 樹（芯＋葉片卡，和社區同一個做法）=================
 trunk = Mesh('usu_trunks', BARK); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
 CARDS = [Mesh(f'usu_tree_cards_{k_}', m_) for k_, m_ in zip('abc', LEAF_T)]; cards = CARDS[0]                       # 季節：每棵樹隨機一組（秋天不會整片同一個顏色）
-SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usu_tree_core'], 'autumn', L.flat('t', '#3a2a1c', rough=0.98))   # 秋天：芯偏紅褐
+SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usu_tree_core'], 'autumn', L.flat('t', '#6a3824', rough=0.98))   # 秋天：芯偏紅褐（太暗的話遊戲裡是一塊塊黑的）
 bcards = Mesh('usu_shrub_cards', LEAF); bcore = Mesh('usu_shrub_core', L.flat('usu_shrub_core', '#33472a', rough=0.98))   # 花台的灌木（常綠，和樹分開）
 SEA.swap(CAR, bcore.mat if hasattr(bcore, 'mat') else bpy.data.materials['usu_shrub_core'], 'snow', L.flat('t', '#b9c0c4', rough=0.9))
 twin = Mesh('usu_twig_inner', TWIG_IN); litm = Mesh('usu_leaf_litter', LITTER)
