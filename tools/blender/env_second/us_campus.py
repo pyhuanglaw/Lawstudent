@@ -165,8 +165,8 @@ def leaf_card(m, px, py, pz, sz, yaw, tilt):
     f = m.bm.faces.new([m.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
     uvl = m.bm.loops.layers.uv.verify()
     for lp_, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp_[uvl].uv = uv
-def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
-    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.62, ry * 0.62, rz * 0.62, seg=7, rings=4)
+def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None, cf=0.62):
+    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * cf, ry * cf, rz * cf, seg=7, rings=4)
     for vv in core.bm.verts:
         if vv not in v0: k = rng.uniform(0.88, 1.08); c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * k
     for j in range(ncard):
@@ -271,7 +271,7 @@ for p in J['props']:
                 flower(cx_, 0.56 + r * 1.45 + (0.08 if j == 0 else 0.0), cz_, 0.03, c)
 st.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
 
-def tree(x, z, h, y0=0.0, far=False):
+def tree(x, z, h, y0=0.0, far=False, woods=False):
     lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)); rb = rng.uniform(0.28, 0.42)
     bt = L.lathe([(rb * 1.4, 0.0), (rb, 0.4), (rb * 0.82, h * 0.38), (rb * 0.55, h * 0.6)], seg=9)
     trunk.add_bm(bt, Matrix.Translation(g2b(x, y0, z)) @ Matrix(((1, 0, lean[0]), (0, 1, -lean[1]), (0, 0, 1))).to_4x4()); bt.free()
@@ -281,10 +281,10 @@ def tree(x, z, h, y0=0.0, far=False):
         trunk.cyl((x + lean[0] * yb, yb, z + lean[1] * yb), (x + math.cos(a_) * cr * 0.7, cy + rng.uniform(-0.5, 1.0), z + math.sin(a_) * cr * 0.7), rb * 0.4, seg=6, r2=rb * 0.18)
     for k in range(rng.randint(4, 6)):
         a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.2, 0.6); r_ = cr * rng.uniform(0.48, 0.68)
-        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int((3.2 if far else 8) * r_ * r_), 2.4 if far else 1.7)
+        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int((4.0 if far else 6.0 if woods else 8) * r_ * r_), 2.3 if far else 1.9 if woods else 1.7, cf=0.5 if far else 0.56 if woods else 0.62)   # 樹林：近的 6r²、遠的 4r²（GLB 不要太大）
 for t in J['trees']:
     on_lawn = any(x0 <= t['x'] <= x1 and z0 <= t['z'] <= z1 for (x0, x1, z0, z1) in LAWNS)
-    tree(t['x'], t['z'], t['h'], LH if on_lawn else 0.0, far=t.get('far'))
+    tree(t['x'], t['z'], t['h'], LH if on_lawn else 0.0, far=t.get('far'), woods=t.get('woods'))
 tree(J['drive']['x'], J['drive']['z'], 9.0, 0.15)
 OCF = [(h['cx'] - h['W'] / 2, h['cx'] + h['W'] / 2, h['cz'] - h['D'] / 2, h['cz'] + h['D'] / 2) for h in J['oldcampus']]
 def belt(pts, face, hr=(13, 19)):

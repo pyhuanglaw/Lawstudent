@@ -82,7 +82,8 @@ while _n < WOODS['n'] and _tries < 4000:
     if any(c['x0'] < x < c['x1'] and c['z0'] < z < c['z1'] for c in WOODS['clear']) or _onpath(x, z): continue
     if any(math.hypot(x - t['x'], z - t['z']) < 4.2 for t in TREES): continue
     if PLAZA['x0'] - 2 < x < PLAZA['x1'] + 2 and z > GATE['cz'] - 4.0: continue        # 校門廣場、門樓後面留空
-    put_tree(x, z, rng.uniform(13, 20)); TREES[-1]['far'] = 1; _n += 1              # far：離人行道 15 m 以上，用比較省的樹（葉片卡大、少）
+    put_tree(x, z, rng.uniform(13, 20)); _n += 1; TREES[-1]['woods'] = 1
+    if z < -12.0: TREES[-1]['far'] = 1                                                # far：離校門廣場 20 m 以上，用比較省的樹（葉片卡大、少）；近的照一般的樹（第一版全部省版：校門口看得到樹冠裡深色的芯）
 PROPS = []
 for x in (-88.0 + 2.0 + k * 17.0 for k in range(9)):                          # 人行道靠草坪那一側的深綠色路燈（照片）
     if abs(x) > 3.0 and not (BUS['x'] - 3 < x < BUS['x'] + 3) and not (PLAZA['x0'] - 1 < x < PLAZA['x1'] + 1): PROPS.append({'type': 'lamp_green', 'x': round(x, 2), 'z': 17.55, 'yaw': 0.0})
