@@ -4,8 +4,8 @@
  "ruleVersion": "HV-18",
  "ruleSource": {
   "branch": "claude/adoring-meitner-mqzst8",
-  "sha": "3468c35c",
-  "updated": "2026-10-18T21:32Z"
+  "sha": "ee0338e7",
+  "updated": "2026-10-18T23:00Z"
  },
  "accounts": [
   "A",
@@ -13,12 +13,12 @@
   "C",
   "D"
  ],
- "onDuty": null,
+ "onDuty": "C",
  "previous": "C",
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "off",
+  "C": "on",
   "D": "unused"
  },
  "roles": {
@@ -26,18 +26,16 @@
    "account": "C",
    "session": "session_01Me1thu8Zn934H58kWKNfuF",
    "branch": "claude/adoring-meitner-mqzst8",
-   "sha": "5f88b67f",
-   "sinceSha": "3468c35c",
-   "since": "2026-10-18T21:32Z",
-   "state": "handed-off",
+   "sha": "ee0338e7",
+   "sinceSha": "ee0338e7",
+   "since": "2026-10-18T23:00Z",
+   "state": "on",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
-    "sha": "de904154"
-   },
-   "handedOffAt": "2026-10-18T22:49Z",
-   "handoffSnapshot": "2026-10-18T2249Z_C_LAWWW.json"
+    "sha": "5f88b67f"
+   }
   },
   "LAWWW2": {
    "account": "C",
@@ -213,7 +211,7 @@
    ]
   }
  ],
- "seq": 12,
+ "seq": 13,
  "chain": [
   {
    "seq": 1,
@@ -298,6 +296,13 @@
    "account": "C",
    "role": "LAWWW",
    "event": "handoff"
+  },
+  {
+   "seq": 13,
+   "at": "2026-10-18T23:00Z",
+   "account": "C",
+   "role": "LAWWW",
+   "event": "register"
   }
  ]
 }
