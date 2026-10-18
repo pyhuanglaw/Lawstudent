@@ -17699,7 +17699,7 @@
    "title": "公館店面外觀重做（使用者 10-18 05:5x「從外面看都好醜」，X16）",
    "area": "P0",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -17713,7 +17713,7 @@
    },
    "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
    "authorized": "使用者直接要求",
-   "next": "LAWWW2 05:50 排序：小語 → TEACH 室內 → GG-SHOPS → MRT → SCN-US v3 → US-SEASON",
+   "next": "LAWWW2 05:50 排序：小語 → TEACH 室內 → GG-SHOPS → MRT → SCN-US v3 → US-SEASON｜LAWWW2 307787c1 第一輪（每家不同的門、騎樓地磚、紙條、夜間光暈；樓上公寓、馬路、公車亭沒改）已換 gongguan_shops.glb／.json；待 BB-C 看公館、使用者看",
    "xai": {
     "spec": "使用者 10-18 05:5x：公館的店面從外面看都好醜，希望修改；照 D77 店名用諧音／替代名",
     "branch": "claude/focused-cray-c9uwvw",
@@ -18754,7 +18754,7 @@
    },
    "source": "AA-C 1c341e21（AA_299）；使用者 10-18",
    "authorized": "使用者直接要求（D104）",
-   "next": "BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換",
+   "next": "BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -18832,6 +18832,69 @@
     "acceptance": "cram_class 一張",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-ECON-AWAY-LAW-1018",
+   "title": "法律系那幾年手機朋友列表上經濟系同學顯示「這學期不在學校」（使用者 10-18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "法律系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者回報",
+   "next": "invites3d.js：econ_* 在法律系（不在、不是回家／旅行）＝「在台大經濟系」。friends_list_unit、invite_people_unit 過；待 BB-C"
+  },
+  {
+   "id": "BUG-ECON-FRIENDS-1018",
+   "title": "經濟系那年手機「朋友」第一、二個是阿哲、阿凱（還不認識）（BB-C 07:45 kxmap_probe）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "9/2 經濟系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:45",
+   "authorized": "bug 修正",
+   "next": "GM.knownIds／朋友列表：經濟系 stage 不列法律系的人（zhe、kai 是 legacy 開場就熟——要用 STORY.knows 或 stage 過濾）"
+  },
+  {
+   "id": "BUG-HOME-BIKE-HINT-1018",
+   "title": "退宿後在臺北的家打開手機跳出「宿舍門口東邊停著你的腳踏車」提示（BB-C 07:45）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:45",
+   "authorized": "bug 修正",
+   "next": "bike3d.js 的提示：HOME.at／HOME.baseMode 時不提示（或腳踏車跟著搬回家）"
   }
  ]
 }

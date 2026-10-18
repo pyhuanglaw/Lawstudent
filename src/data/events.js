@@ -2394,7 +2394,7 @@ const STORY_EVENTS=[
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const due1=G=>{ const d=DK('2025-07-11'); return d!=null&&G.day===d&&G.hour>=5&&!!G.flags.dating_kexin&&!G.flags.EXAM1_DONE; };
     const due2=G=>{ const d=DK('2025-07-12'); return d!=null&&G.day===d&&G.hour>=19&&!!G.flags.EXAM1_DONE&&!G.flags.EXAM2_DONE; };
-    const lines1=[ {scene:'考場',bg:'classroom_small'},
+    const lines1=[ {scene:'考場',bg:'exam_hs_classroom'},   /* 高中教室、單人桌椅（AA_298 第 7 節；使用者生成 BB-C 0182b085）*/
       {speaker:null,text:'（考場在一間高中。教室門口貼著座位表。）'},
       {speaker:null,text:'（你的准考證號碼，和她的只差一號。五月報名那天，兩個人坐在餐桌兩邊，一人一台電腦，同時按下送出。）'},
       {speaker:null,text:'（單人的桌椅，一張一張隔開排好。）'},{speaker:null,text:'（她坐在你前面。）'},   /* 使用者 10-18：「重考的考場是高中教室，真正的高中教室，位置不會連在一起」「他在我前面」（AA_298 第 7 節）*/
