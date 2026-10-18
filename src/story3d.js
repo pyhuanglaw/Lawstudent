@@ -1313,7 +1313,7 @@ const STORY = (function(){
        → 22:30 經濟系群組 E28（朋友早就知道他們在交往，只宣布重考；韋綸那句看 BIKE_LOOKED_UP；品妤、阿勳自在 +1）→ 23:00 阿勳私訊 E24c（同一個過去、三種說法，記 E24C_REASON；阿勳信任 +2）
        → 2/21（五）21:00 群組 T3＋22:00 唐睿私訊（下面）。舊 E27（3/26 總圖門口）、E28（3/26 宵夜攤）、E24c（3/13 頂樓）作廢。E28、E24c 在這裡標演過（之後的手機小事、閒聊階梯讀它們）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d=S.dayOfKey('2025-02-13'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]);
-      if(d!=null&&G.day>=d-1&&G.day<=d&&F.dating_kexin&&!OUT.get(G,'y0_e27')&&!ED('ev_y0_e27')) OUT.plan(G,{id:'y0_e27',ev:'ev_y0_e27',day:d,h:19,must:true,late:0.25,place:'公館的水餃店',title:'公館 19:00：水餃店',travel:'捷運＋公車 約 30 分鐘',travelH:0.5});
+      if(d!=null&&G.day>=d-1&&G.day<=d&&F.dating_kexin&&!OUT.get(G,'y0_e27')&&!ED('ev_y0_e27')) OUT.plan(G,{id:'y0_e27',ev:'ev_y0_e27',day:d,h:14,must:true,late:0.25,place:'行政大樓',title:'14:00 行政大樓：陪可昕辦休學',travel:'捷運＋公車 約 30 分鐘',travelH:0.5});   /* AA_303 第 17 場：陪她辦完休學，再去水餃店 */
       { const d14=S.dayOfKey('2025-02-14'); if(d14!=null&&F.E27B_PLAN&&ED('ev_y0_e27')&&!ED('ev_y0_e27b')&&!OUT.get(G,'y0_e27b')&&(G.day<d14||(G.day===d14&&G.hour<15.25))) OUT.plan(G,{id:'y0_e27b',ev:'ev_y0_e27b',day:d14,h:15,must:true,late:0.25,place:'以前的補習班',title:'以前的補習班 15:00',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }   /* AA_272 8-2：2/14 一起去問補習班 */
       const q27=OUT.get(G,'y0_e27');
       if(q27&&q27.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=q27.h+0.25))&&G.day<=d+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;

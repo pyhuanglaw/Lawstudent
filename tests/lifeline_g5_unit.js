@@ -41,10 +41,10 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('5-1 E23：2/12 20:00 在家（19:59 不會；隔天 18:00 以前回家也會；之後不會）、最後「（你把書拿下來，放在書桌上。這次沒有放回去。）」、沒有行李箱',!a&&b&&c&&!x&&L[L.length-1]==='（你把書拿下來，放在書桌上。這次沒有放回去。）'&&!L.join('').includes('行李箱'),J([a,b,c,x,L.slice(-2)])); }
   /* E27 */
   { econ(d12,10,'home',{}); run(10,10.1); const q=OUT.get(G,'y0_e27');
-    check('5-1 E27 固定出遊：2/13 19:00 公館的水餃店、must（只有「出發」）',q&&q.day===d13&&q.h===19&&q.must===true&&q.ev==='ev_y0_e27',J(q));
-    econ(d13,19,'home',{E22B_TOLD:false}); picks=['一起重考吧']; await EVENTS.run(ev('ev_y0_e27')); const L=lines();
-    check('5-1 E27（AA_272 8-1）：「我今天辦完了。」…「一起重考吧」→「……你是說真的？」…「先說好。我考法律，不是因為你。」→（先看看而已）→「那間補習班說我可以免費。」「我呢？」「……不知道。妳是自然組。」「那明天一起去問。」；RETAKE_TOGETHER、E27_DAY、E27B_PLAN',
-      L[0]==='杜可昕：我今天辦完了。'&&L.includes('杜可昕：……你是說真的？')&&L.includes('杜可昕：先說好。我考法律，不是因為你。')&&L.includes('杜可昕：你說『先看看而已』那本，我那時候就知道是什麼了。')&&L.includes('祐廷：那間補習班說我可以免費。')&&L.includes('祐廷：……不知道。妳是自然組。')&&L[L.length-1]==='杜可昕：那明天一起去問。'&&!L.some(t=>/在家讀|同一張桌子/.test(t))&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27_DAY!=null&&G.flags.E27B_PLAN===true,J(L));
+    check('5-1 E27 固定出遊：2/13 14:00 行政大樓（AA_303 第 17 場：陪她辦休學）、must（只有「出發」）',q&&q.day===d13&&q.h===14&&q.place==='行政大樓'&&q.must===true&&q.ev==='ev_y0_e27',J(q));
+    econ(d13,19,'home',{E22B_TOLD:false}); picks=['歡迎']; await EVENTS.run(ev('ev_y0_e27')); const L=lines();
+    check('5-1 E27（AA_303 第 17 場）：行政大樓「（二月十三日，行政大樓。你陪她來的。）」→「……十五分鐘。跟你那時候一樣。」→ 水餃店「從今天開始，我們兩個都是休學的人了。」→「歡迎。」→「……一點都不想被歡迎。」；休學原因、一起重考不在這裡（在高雄）；RETAKE_TOGETHER、E27_DAY、E27B_PLAN',
+      L[0]==='（二月十三日，行政大樓。你陪她來的。）'&&L.includes('杜可昕：……十五分鐘。跟你那時候一樣。')&&L.includes('杜可昕：從今天開始，我們兩個都是休學的人了。')&&L.includes('杜可昕：……一點都不想被歡迎。')&&!L.some(t=>/國文那份報告|你是說真的/.test(t))&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27_DAY!=null&&G.flags.E27B_PLAN===true,J(L));
     { const s0=opts.slice(); G.events.done.ev_y0_e27=1; G.hour=22; run(22,22.1); const qb=OUT.get(G,'y0_e27b');
       check('5-1 E27b（AA_272 8-2）：E27 演完排 2/14 15:00 以前的補習班（固定、must）',!!qb&&qb.day===d13+1&&qb.h===15&&qb.must===true&&qb.ev==='ev_y0_e27b',J(qb));
       G.day=d13+1; G.hour=15.3; const c=STORY.homeCall(G); check('5-1 E27b 15:15 還沒出發：可昕電話「我在補習班樓下了。你呢？」',!!c&&c.q===qb&&c.line==='我在補習班樓下了。你呢？',J(c&&c.line));
@@ -52,7 +52,9 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
       check('5-1 E27b：櫃台（AA_272 8-2 52c73c73：進去幫她問、管理說沒有社會科分數不行、全年二十萬剩下十三萬；沒有免費標準、沒有十二萬八）→ 飲料店「你去上啊。你免費耶。」→ 三選一「那我也在家讀。」→「……好。在家讀。」→「所以說好了。每天早上，比誰先坐到桌子前面。」「輸的人請早餐。……我不會輸。」（AA_293 第 9 節）、CRAM_ASKED_TOGETHER',
         Lb[0]==='（同一個櫃台。上次那個工作人員認得你。）'&&Lb.includes('工作人員：不好意思。管理那邊說，沒有社會科的分數，就沒辦法。')&&Lb.includes('工作人員：要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。')&&Lb.includes('杜可昕：十三萬。')&&!Lb.join('').includes('十二萬八')&&!Lb.join('').includes('差四分以內')&&Lb.includes('杜可昕：你去上啊。你免費耶。')&&Lb.includes('杜可昕：……好。在家讀。')&&Lb.includes('杜可昕：所以說好了。每天早上，比誰先坐到桌子前面。')&&Lb[Lb.length-1]==='杜可昕：輸的人請早餐。……我不會輸。'&&G.flags.CRAM_ASKED_TOGETHER===true&&opts[0].length===3,J(Lb));
       opts=s0; }
-    check('5-1 E27 三個說法都是祐廷提的（選項三個）',opts[0].length===3&&opts[0].every(t=>t.startsWith('「')));
+    check('5-1 E27 兩個選項（「歡迎。」「明天去問補習班。」）',opts[0].length===2&&opts[0].every(t=>t.startsWith('「')));
+    { econ(DK('2025-02-02'),15,'home',{}); picks=['我要再考一次']; said=[]; await EVENTS.run(ev('ev_y0_kh3')); const K=lines();
+      check('5-1 高雄三天兩夜（AA_303 第 15 場）：「（大年初三。你開了四個多小時的車到高雄……）」→ 蓮池潭「我在想要不要休學。」→ 三選一（祐廷提）→「先說好。我考法律，不是因為你。」→「那回台北，一起去問。」；RETAKE_TOGETHER、E27B_PLAN',K[0].startsWith('（大年初三。')&&K.includes('杜可昕：我在想要不要休學。')&&K.includes('杜可昕：好。一起。')&&K[K.length-1]==='杜可昕：那回台北，一起去問。'&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27B_PLAN===true,J(K)); }
     econ(d13,19,'home',{CRAM_FREE_KNOWN:false}); picks=['一起考吧']; await EVENTS.run(ev('ev_y0_e27')); const L2=lines();
     check('5-1 沒有 CRAM_FREE_KNOWN（防呆）：沒有「你十二月去補習班那天」的選項、沒有「那間補習班說我可以免費」，照樣說好',opts[0].length===2&&!L2.join('').includes('補習班')&&G.flags.RETAKE_TOGETHER===true); }
   /* E28、E24c */
