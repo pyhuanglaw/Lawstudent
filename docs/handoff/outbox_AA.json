@@ -667,5 +667,199 @@
       "receiver": "LAWWW",
       "ack": "已傳 send_message"
     }
+  ],
+  "items": [
+    {
+      "id": "AA254-CONFESS-TERMEND",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
+      "summary": "BB_203（使用者確認）告白只在學期末：七位的心意邀約、婉拒、飯桌一句、回家路上四選項（說出來三種＋先不說→她自己說）、讓我想想、第二次邀約；學姊美國第一場雪（交往中，SIS_ASKED_TWICE）＋S7-L2 linesIf；不發邀約時的手機一句；以安日本挽回 REPAIR 對照；給 BB 的 F3/Z13、Q13/Q15 順序問題。AA_223 的「還沒」作廢。"
+    },
+    {
+      "id": "AA257-MSG2-BB9",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
+      "summary": "MSG-2 BB 九位回覆池（照 BB_178 第 10 節）＋10-7 核對"
+    },
+    {
+      "id": "AA253-ABROAD-T123-BAR",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_253_交換地點由交往對象決定_台詞.md",
+      "summary": "§10-3 留臺灣她在國外 T1～T3 句子、邀約時點、學姊 10/10 照片；§11-1 律師讀書小組成立、出題、放榜"
+    },
+    {
+      "id": "AA256-VA09-VA10",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
+      "summary": "芯慈大二暑假事務所、麵店團香港 8/25～8/28"
+    },
+    {
+      "id": "AA259-Y3S1-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
+      "summary": "大三上口語改稿：y3s1 階梯重建、給 LAWWW 清單、附錄 B 交 BB"
+    },
+    {
+      "id": "AA260-Y3S2-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_260_大三下口語改稿_AA與BB人物.md",
+      "summary": "大三下口語改稿：y3s2 階梯重建、路線日期（最急）、附錄 B 交 BB"
+    },
+    {
+      "id": "AA262-Y4S1-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_262_大四上口語改稿_AA與BB人物.md",
+      "sha": "752df790",
+      "summary": "大四上口語改稿：y4s1 階梯重建（1781dc41）、語彤跨年搬大四下 Y8-L0（efe33033）、可昕階梯播不到、附錄 B 交 BB"
+    },
+    {
+      "id": "AA263-Y4S2-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_263_大四下口語改稿_AA與BB人物.md",
+      "sha": "cf884aee",
+      "summary": "大四下口語改稿：y4s2 階梯（84bbef37）、畢業傍晚排法、畢業那天邀約台詞、課表"
+    },
+    {
+      "id": "AA264-VAC-REPEAT",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_264_假期活動每年重開_第二次以後的台詞.md",
+      "sha": "77c7f3db",
+      "summary": "假期活動第二次以後的日誌、C02 小隊長、招募公告"
+    },
+    {
+      "id": "AA265-LADDER-LABELS",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_265_閒聊階梯_記憶名稱總表_以安語彤.md",
+      "sha": "25e89f6e",
+      "summary": "AA 階梯記憶中文名總表"
+    },
+    {
+      "id": "AA266-JULY-LAST-HEART",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_266_畢業後七月_最後一次的心意邀約.md",
+      "sha": "979acf95",
+      "summary": "畢業傍晚選讓我想想的人，7/14 最後一次"
+    },
+    {
+      "id": "AA267-POSTGRAD-colloquial",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_267_畢業後篇尾聲口語改稿_AA與BB人物.md",
+      "sha": "55b95c6a",
+      "summary": "畢業後篇、大五上、尾聲口語改稿；國考結果、語彤結局等使用者"
+    },
+    {
+      "id": "AA268-TERMEND-SELF-INVITE",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_268_玩家自己約期末飯_三種句子.md",
+      "sha": "377bef12",
+      "summary": "玩家自己約期末飯：答應、自動婉拒、ended 婉拒"
+    },
+    {
+      "id": "AA269-V0-AUDIT",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_269_經濟系V0舊清單對帳_驗收短清單.md",
+      "sha": "1fb2e4cf",
+      "summary": "經濟系舊清單對帳、驗收短清單、手機小事重排"
+    },
+    {
+      "id": "AA270-HOOKS-C14C15",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_270_期末飯邀約鉤子_C14C15補句.md",
+      "sha": "caeaf97f",
+      "summary": "期末飯鉤子不接、傳日子、C15 沒去照片"
+    },
+    {
+      "id": "AA271-FREE-TRIP-B3",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_271_自由出行第三批_AA六位偶遇.md",
+      "sha": "fef59a02",
+      "summary": "第三批偶遇 AA 六位、solo_before_aa、wish_aa（0b478a53）、aa_walk 同步 AA_209 改稿"
+    },
+    {
+      "id": "AA162-B2-ENC-REVIEW",
+      "date": "2026-10-17",
+      "to": [
+        "LAWWW-C",
+        "BB-C"
+      ],
+      "status": "READY_FOR_IMPLEMENTATION",
+      "doc": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
+      "sha": "430df52f",
+      "summary": "第二批偶遇口語審（AA_162 8-5、BB_150）；以安 D09 第 10 週、阿哲 D25 第 14～15 週；BB 句子 BB-C 口氣審中"
+    }
   ]
 }
