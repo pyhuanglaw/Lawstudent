@@ -7653,6 +7653,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:3x：C08 傳統市場＝market、分組報告＝campus；C09 到村子、上課、最後一天＝classroom、停電＝night；C10 第一堂課＝campus、週末＝dorm；出發、歡迎晚會、最後一晚、第一次報告、期末考沒有對應的圖，維持深色底"
+  },
+  {
+   "id": "DL-BB-61a1db97",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "61a1db97",
+   "what": "可昕 campus teasing 立繪（portrait_approved/kexin_campus_teasing_source.png，灰底 971×1619）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:4x：角色美術驗收（D100a）——同一個人、同一套衣服（長黑髮、長頸鹿耳環、牛仔外套、帆布袋、寬褲、帆布鞋），調皮的笑和 smile 分得開，通過；去背（tools/portraits/matte_gray.py）、縮放到和 smile 同一個外框（頭頂 y40、底 980，差 1 px）→ assets/portraits/kexin/campus/teasing.webp；portrait manifest 重掃。事件裡 kexin teasing 54 次不再退回 neutral"
   }
  ],
  "ignored": [
