@@ -922,7 +922,7 @@
    "title": "可昕第 9 節半成品 patch（帳號 A；文字過時）",
    "area": "WIP",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "取消／被取代",
    "next": "以 BB_96 第 9 節最新版重寫（V2-B9）；patch 保留",
    "priority": "P1",
    "first": {
@@ -938,7 +938,10 @@
    "source": "wip_backup/kexin_y1s2_s9_wip_2026-10-14.patch",
    "authorized": "D79",
    "pausedReason": "文字過時（9-1 嘉義）",
-   "resumeWhen": "V2-B9 開工時參考，不套用"
+   "resumeWhen": "V2-B9 開工時參考，不套用",
+   "reason": "AA-C 2026-10-18 01:46（AA_279 第 4 點）：可昕第 9 節舊 patch 文字過時（9-1 嘉義），現行可昕設定照 AA_276；patch 留在 wip_backup 不刪",
+   "replacedBy": "NONE",
+   "authorizedBy": "AA-C 2026-10-18 01:46（AA_279 第 4 點；劇情歸 AA，D100）"
   },
   {
    "id": "WIP-02",
@@ -8075,7 +8078,7 @@
    "title": "學姊分手照 BB_122 C1～C4 檢查點，不固定在大三上第 9 週",
    "area": "V4",
    "owner": "LAWWW",
-   "status": "暫停",
+   "status": "取消／被取代",
    "next": "【AA_218（企劃線 b2615f71；使用者 2026-10-17 05:5x 裁定，已裁定的不用再批准）：學姊分手改成祐廷法律大一上約第 13 週（取代 12/4 大二上），partner.untilWeek 跟著改；等 BB_122 改稿交付再改程式】【使用者 10-17 05:1x 改成大二分手，等 ROM-1017（AA_215）】和 D14-T14 一起",
    "priority": "P2",
    "first": {
@@ -8092,7 +8095,10 @@
    "authorized": "D79",
    "pausedFrom": "待開工",
    "pausedReason": "等 BB_122 改稿交付（AA_218 已裁定大一上約第 13 週）",
-   "resumeWhen": "BB_122 改稿＋AA_215 學姊段落交付"
+   "resumeWhen": "BB_122 改稿＋AA_215 學姊段落交付",
+   "reason": "AA-C 2026-10-18 01:46（AA_279 第 4 點）：學姊沒有男朋友，學姊分手這件事不存在了（AA_223、BB_194）",
+   "replacedBy": "NONE",
+   "authorizedBy": "AA-C 2026-10-18 01:46（AA_279 第 4 點；劇情歸 AA，D100）"
   },
   {
    "id": "V0-G40",
@@ -14709,11 +14715,9 @@
    "title": "學姊 W1 第一次見面改成祐廷先開口（AA_218 17-3，台詞 655ce005 使用者批准）；9/2 茶會學姊那段的衝突",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "台詞已批准，等 BB-C 定觸發機制（台詞寫「總圖前的長椅」，她大一上的作息不在那裡；9/4 以前找她說話怎麼處理）和 9/2 茶會學姊那段要不要拿掉（和「9/4 分直屬」衝突，BB-C 說等 AA／使用者）。LAWWW-C 08:1x 已問 BB-C。talkSis W1 照舊不動",
-   "pausedReason": "觸發機制與茶會衝突待 BB／使用者",
-   "resumeWhen": "BB-C 回覆 W1 觸發與茶會處理",
+   "next": "【2026-10-18 01:5x LAWWW-C】AA-C 01:46 裁定（AA_279）：觸發照 AA_218 17-3（總圖台階 9/4～9/29 平日午休、Café 版，台詞 655ce005）早就做好；①9/4 以前找她＝「（她在看手機，沒有抬頭。）」不算對話、不記關係（talkSis、talkCharacter 都改，S.sisPreW1）；②茶會裡學姊那段早已拿掉；9/29 前沒遇到不補演。v1_batch3_unit 加 9/4 以前三個地點。｜台詞已批准，等 BB-C 定觸發機制（台詞寫「總圖前的長椅」，她大一上的作息不在那裡；9/4 以前找她說話怎麼處理）和 9/2 茶會學姊那段要不要拿掉（和「9/4 分直屬」衝突，BB-C 說等 AA／使用者）。LAWWW-C 08:1x 已問 BB-C。talkSis W1 照舊不動",
    "first": {
     "term": "Y1S1",
     "week": 1,

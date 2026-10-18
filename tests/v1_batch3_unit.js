@@ -48,7 +48,9 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
   { fresh(D4+1,15,'library',{}); await STORY._v1.talkSis(GM,sisN);
     check('9/4 以後、還沒 W1，在閱覽室：只有「（你認出她是 Facebook 大頭貼上那個學姊。閱覽室不能講話。）」，不記認識',JSON.stringify(lines())===JSON.stringify(['（你認出她是 Facebook 大頭貼上那個學姊。閱覽室不能講話。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET'),JSON.stringify(lines()));
     G.zone='wancai'; said=[]; await STORY._v1.talkSis(GM,sisN);
-    check('還沒 W1，在萬才館：陌生人那一行旁白（W1 只在台階和 Café）',JSON.stringify(lines())===JSON.stringify(['（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'])&&!G.flags.met_sis,JSON.stringify(lines())); }
+    check('還沒 W1，在萬才館：陌生人那一行旁白（W1 只在台階和 Café）',JSON.stringify(lines())===JSON.stringify(['（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'])&&!G.flags.met_sis,JSON.stringify(lines()));
+    for(const z of ['library','wancai','campus']){ fresh(D4-2,15,z,{}); said=[]; await STORY._v1.talkSis(GM,sisN);
+      check('9/4 以前（'+z+'）：只有「（她在看手機，沒有抬頭。）」，不算對話、不記關係（AA-C 2026-10-18 SIS-W1 第 ① 點）',JSON.stringify(lines())===JSON.stringify(['（她在看手機，沒有抬頭。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET')&&!((SOCIAL.rel('heroine_05').talked|0)>0),JSON.stringify(lines())); } }
   /* 社博・法服的攤位（AA_218 17-3；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版）*/
   const expo=ev('ev_sis_club_expo'), COMMON=['喔，學弟，她是我們前任社長。','以前的事了啦。我現在大四，在準備研究所，已經不是社長了。','不過法服真的很不錯。每兩個禮拜會有一個禮拜六有法律服務，民眾會來問問題，學長姐會帶你。','（你直接拿起報名表寫了名字。）','這麼快？……好啊，歡迎。'];
   { fresh(STORY.dayOfKey('2025-09-30'),12,'campus',{SIS_W1:true,met_sis:true}); SOCIAL.meet('heroine_05','campus'); relCalls=[]; await EVENTS.run(expo); const L=lines();
