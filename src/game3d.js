@@ -464,7 +464,7 @@ const GAME = (function(){
   let phoneThread=null, phoneMsgPick=null, phoneMsgShare=false;
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
-  const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>'<button class="btn'+(k===0?' pri':'')+'" data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+'</button>').join('')+'</div>';
+  const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>{ const blk=typeof PHONE!=='undefined'&&PHONE.optBlocked&&PHONE.optBlocked(G,o); return '<button class="btn'+(k===0&&!blk?' pri':'')+'"'+(blk?' disabled style="opacity:.5"':'')+' data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+(blk&&o.need.why?'（'+escH(o.need.why)+'）':'')+'</button>'; }).join('')+'</div>';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */
     const pid=th.startsWith('p:')?th.slice(2):null, why=pid&&typeof INV!=='undefined'&&INV.whyNot?INV.whyNot(G,pid):'x', canInv=!!pid&&!why&&INV.hasContact(G,pid)&&INV.canInvite(G,pid);   /* 一對一的對話裡也可以約（約人和訊息放在一起：使用者 2026-10-15）*/
