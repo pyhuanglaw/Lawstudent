@@ -7965,6 +7965,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "AA-C 直接推開發分支；v0_e30_unit、lifeline_g1/g3/g4 過"
+  },
+  {
+   "id": "DL-LAWWW2-511f6cd6",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "511f6cd6",
+   "what": "ART-EXT-TEACH 第二批：博雅、普通室內 GLB＋campus_teach_int.diff（對 ba6e9aa4）",
+   "task": "ART-EXT-TEACH",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 06:4x 收到；排在經濟系 P0 後面整合；LAWWW2 自測 teach_class、boya_lecture、desk_furniture、seated_figures、nav_buildings 過，沒測 reachability_all"
   }
  ],
  "ignored": [
