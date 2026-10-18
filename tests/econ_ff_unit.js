@@ -51,4 +51,11 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   ECONFF.advance=save;
   const src=['src/story3d.js','src/home3d.js'].map(f=>fs.readFileSync(path.join(ROOT,f),'utf8')).join('\n');
   check('⑦ 宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都先問 ECONFF.sleepJump',(src.match(/ECONFF\.sleepJump\(GM\)/g)||[]).length>=3);
+  // ⑧ 跳日期的黑幕、日期卡期間玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy），跳完一定放開；中途收到訊息停下來也放開
+  { let depth=0, nB=0, nE=0; const seen=[]; const GM={G:mkG('2024-09-09',20),E:null,sceneBegin(){ depth++; nB++; },sceneEnd(){ depth--; nE++; },fade:async on=>{ seen.push('fade'+(on?1:0)+':'+depth); },titleCard:async()=>{ seen.push('card:'+depth); },autosave(){}};
+    GM.G.flags.ECONFF={done:{4:1,5:1,6:1},lines:[]}; pend=0; await ECONFF.advance(GM);
+    check('⑧ 跳到 9/13 保齡球：黑幕、日期卡期間鎖住（depth 1），跳完放開（depth 0、開關次數相同）',depth===0&&nB===1&&nE===1&&seen.includes('fade1:1')&&seen.includes('card:1')&&seen.includes('fade0:1'),JSON.stringify(seen)+' depth='+depth);
+    const G2=mkG('2024-09-09',20); G2.flags.ECONFF={done:{4:1,5:1,6:1},lines:[]}; depth=0; nB=0; nE=0; let opened=0; global.STORY.phoneRules=()=>{ if(G2.hour>=21) pend=1; };
+    await ECONFF.advance(Object.assign({},GM,{G:G2,phoneThread:()=>{ opened++; return new Promise(()=>{}); }}));
+    check('⑧ 跳的途中收到要回的訊息：打開手機、放開鎖（depth 0）',depth===0&&nB===1&&nE===1&&opened===1,'depth='+depth+' opened='+opened); pend=0; global.STORY.phoneRules=()=>{}; }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0); })();
