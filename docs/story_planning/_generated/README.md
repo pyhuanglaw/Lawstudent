@@ -40,7 +40,7 @@
 - **date_lines.js 沒有產生**：`tools/date/import_date_lines.py` 在你乾淨的 `a895bc62` 上就會停，因為白名單有重複的 approved（BB_188：`d171faef`、`05571a45`；AA_224：`ff3f2a4b`、`4e3a7c2b`，可能還有別的）。請你整理白名單的重複項以後再跑這支，D04、D12 就會換成台中版。
 
 ## 第三批：開發文件過時標記（2026-10-18，使用者授權 AA 自己改 CLAUDE.md、docs/）
-- 檔案：`docs_outdated_1018.patch`（對開發分支 `aed7fbd8` 的 `git diff`）。只加標記、補現況，不刪任何內容。
+- 檔案（LAWWW-C 00:13 的格式，底版 `7f252728`，分兩個）：`docs_cleanup_7f252728_CLAUDE.patch`、`docs_cleanup_7f252728_docs.patch`。只加標記、補現況，不刪任何內容。
 - `CLAUDE.md`：
   - 期末考 D73 那兩處標「已被取代」，換成 483 題的現行規則。
   - 目前版本改 v9.9.1。

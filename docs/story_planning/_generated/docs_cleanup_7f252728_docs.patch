@@ -1,0 +1,72 @@
+diff --git a/docs/DUAL_AI_BOARD.md b/docs/DUAL_AI_BOARD.md
+index 411e1805..5d0804f7 100644
+--- a/docs/DUAL_AI_BOARD.md
++++ b/docs/DUAL_AI_BOARD.md
+@@ -1,5 +1,7 @@
+ # 雙 AI 工作看板
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**兩個 AI 時期（2026-10-10～10-14）的工作看板，已停用。現行：四職位分工照 `CLAUDE.md` D100／D100a；任務總表 `docs/HANDOFF_GAP_MATRIX.md`；值班 `docs/AI_SESSION_HANDOFF.md`。
++
+ - 分工與規則：[`docs/SECOND_AI_HANDOFF.md`](SECOND_AI_HANDOFF.md)。
+ - 每個 AI 只改自己那一節。狀態用 D38 的驗收狀態，加上「進行中」「排隊」「被擋」。
+ - 「已整合」＝已經 merge 進開發分支 `claude/confident-ritchie-8rwh7t`。
+diff --git a/docs/REVIEW_NOTES.md b/docs/REVIEW_NOTES.md
+index 91437905..92dd8493 100644
+--- a/docs/REVIEW_NOTES.md
++++ b/docs/REVIEW_NOTES.md
+@@ -1,5 +1,7 @@
+ # REVIEW_NOTES — 目前最不滿意／最擔心的 10 個技術問題
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7 時期的十個技術疑慮，有些已經解決（例：人物已改 VRoid VRM）。現況以 `CLAUDE.md`「目前狀態」和 `docs/HANDOFF_GAP_MATRIX.md` 為準。
++
+ 1. **人物資產大多仍是 placeholder**。兩條 pipeline 都已驗證：rigged GLB（RPM 範例＋Mixamo 重定向 v2）給主角、VRM（three-vrm 自 TS 原始碼打包＋官方 Mixamo→humanoid 作法）給小安；但只有這兩個模型可用（環境無法下載其他人物），其他四位女主角與所有 NPC 仍是程序化人物。VRM 實例用 pool（預先 parse 2 個），同時出現超過 2 個同模型人物會退回 placeholder。要正式解決需要外部提供依 Character Bible 製作的 VRM。
+ 2. **三種人物來源並存**（legacy `spawnNPC`、`spawnCharacter`、extras）與 id 別名（an↔heroine_01 等）。第一、二天劇情是程式碼，之後的人物是資料驅動；同一人（小安）在兩個系統裡的日程與狀態可能不一致。應把 legacy 劇情改寫成事件資料並移除別名。
+ 3. **draw call 與三角形數**：人物每個約 40 mesh（無 skinning，層級合併只能合併髮型），教室同畫面 12 人≈ 500 draw call；low-poly-tree 9.4k 三角形一棵（已限 14 棵）。真機（尤其中階 Android）表現未知，只在 SwiftShader 測過。
+diff --git a/docs/REVIEW_README.md b/docs/REVIEW_README.md
+index 3dd94db9..12fa516b 100644
+--- a/docs/REVIEW_README.md
++++ b/docs/REVIEW_README.md
+@@ -1,5 +1,7 @@
+ # 《法條之外：台灣法律人生》SOURCE REVIEW README
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7／原型 v2（2026-09-27）時期的系統總覽，很多段落已經改變（人物改 VRoid VRM、多樓層、16 週日曆、經濟系開局、寒暑假等）。技術架構可以參考，現況以 `CLAUDE.md` 和 `docs/RELEASES.md` 為準。
++
+ 版本：3D×ADV 原型 v2（2026-09-27）。本文件給另一位工程師／AI 做 code / architecture / game-design review 用。
+ 
+ ## A. 專案目前如何啟動
+diff --git a/docs/SECOND_AI_HANDOFF.md b/docs/SECOND_AI_HANDOFF.md
+index 1fa1c647..f9e023c4 100644
+--- a/docs/SECOND_AI_HANDOFF.md
++++ b/docs/SECOND_AI_HANDOFF.md
+@@ -1,5 +1,7 @@
+ # 第二個 AI 交接文件（環境美術工作階段）
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**第二個 AI（帳號 A 的 LAWWW2）在 10-10 的交接文件。現行 LAWWW2 的交接檔是 `docs/art-rebuild/second_ai/HANDOFF.md`，分工照 `CLAUDE.md` D100／D100a（LAWWW2 做 3D 美術、人物小錯誤可修）。
++
+ - 建立：2026-10-10 晚上（台灣時間），由第一個 AI 寫（工作階段「LAWWW」）。依據是使用者的〈雙 Claude Code 工作階段分工與即時協作指令〉。
+ - 這份文件給第二個 Claude Code 工作階段（環境美術）。新的工作階段讀完這份＋`CLAUDE.md` 就可以開工，不必再問使用者專案背景。
+ - 分工有變動時由第一個 AI 改這份文件，並用訊息通知第二個 AI。工作看板在 [`docs/DUAL_AI_BOARD.md`](DUAL_AI_BOARD.md)。
+diff --git a/docs/TIMELINE_COMPAT_AUDIT.md b/docs/TIMELINE_COMPAT_AUDIT.md
+index 1f9405df..34cffff5 100644
+--- a/docs/TIMELINE_COMPAT_AUDIT.md
++++ b/docs/TIMELINE_COMPAT_AUDIT.md
+@@ -1,5 +1,7 @@
+ # 五年日曆相容性評估：經濟系大一（Y0）→ 重考 → 法律系四年
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**10-13 的五年日曆評估（18 週、經濟系舊時間線）。現行：16 週制；經濟系照 LIFE-LINE（2024-10-17 休學，`docs/story_planning/AA_224`、`AA_272`）；時間線以企劃 `docs/story_planning/00_現行設定總表.md` 第 1 節為準。相容性的技術做法（事件 ID、存檔）仍可參考。
++
+ - 第二版：2026-10-13 晚（回應 ChatGPT 審查第五點：怎麼保留法律系第一、二天的劇情、事件 ID、舊存檔、時間順序；技術風險；遷移方案）。盤點的程式版本：開發分支 `3ed2286`。
+ - 第一版：2026-10-13 下午，放在最後的附錄。
+ - **這份文件沒有改任何程式。** 經濟系主線還沒批准，照使用者的規定，現在只評估、不提前改核心程式。
+diff --git a/docs/WAKEUP_REPORT_2026-10-10.md b/docs/WAKEUP_REPORT_2026-10-10.md
+index 8a884f9a..bdfb1cdd 100644
+--- a/docs/WAKEUP_REPORT_2026-10-10.md
++++ b/docs/WAKEUP_REPORT_2026-10-10.md
+@@ -1,5 +1,7 @@
+ # 起床報告：九小時雙 AI 自主開發（2026-10-10 12:05–21:05 UTC＝台灣 10/10 20:05 – 10/11 05:05）
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**2026-10-10 九小時自主開發的一次性報告，只作紀錄。
++
+ > 寫的人：LAWWW（第一個 AI，主開發與發布）。LAWWW2（第二個 AI）的成果也整理在這裡，原始紀錄在 `docs/DUAL_AI_BOARD.md`。
+ > 所有測試都是 **Playwright 手機模擬（SwiftShader）**，**不是 iPhone 實機**。沒有任何美術標成 `ART_APPROVED`，要你看過才算。
+ 
