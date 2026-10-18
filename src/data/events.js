@@ -2227,7 +2227,7 @@ const STORY_EVENTS=[
      寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
   { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
-    dialogue:[ {scene:'行政大樓',bg:'admin_office'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
+    dialogue:[ {scene:'行政大樓',bg:'admin_office'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:null,text:'（承辦人蓋了章，把收據推過來。）'},{speaker:'承辦人',text:'好了。'},
       {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
       {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},{speaker:null,text:'（可昕坐在前排，背對窗戶。她沒有看到你。）'},   /* AA_224 1-1：她要在 15:30 的訊息裡才知道 */
       {set:{LEAVE_WEEK:6}},
