@@ -1,12 +1,12 @@
 {
  "objects": 43,
  "unique_meshes": 43,
- "tris": 82241,
- "tris_drawn": 82241,
+ "tris": 84469,
+ "tris_drawn": 84469,
  "materials": 48,
  "out": "assets/models/env/second_ai/us_campus.glb",
- "bytes": 6113944,
+ "bytes": 5855620,
  "texres": 512,
- "tris_total": 82241,
+ "tris_total": 84469,
  "layout": "us_campus.layout.json"
 }

@@ -250,20 +250,21 @@ def law_school(root, name, cx, cz, yaw=0.0, M=None, rng=None):
     mk['trim'].box(-TU - 0.08, TU + 0.08, 0.0, FL + 0.15, TV0 - 0.08, TV1 - 0.2)
     # ---- 台階（七階）＋門前平台＋兩側石砌矮牆＋兩條不鏽鋼扶手
     vL = 0.6; foot = vL + (NSTEP - 1) * TREAD
-    mk['trim'].box(-2.4, 2.4, 0.0, FL, -0.02, vL)
+    SW, CW = 3.6, 4.4                                                                               # 台階半寬、兩側矮牆外緣（第二版：照片的台階幾乎和塔一樣寬；第一版 2.4 太窄）
+    mk['trim'].box(-SW, SW, 0.0, FL, -0.02, vL)
     for k in range(1, NSTEP):
-        mk['trim'].box(-2.4, 2.4, 0.0, k * RISE, vL + (NSTEP - 1 - k) * TREAD, vL + (NSTEP - k) * TREAD)
+        mk['trim'].box(-SW, SW, 0.0, k * RISE, vL + (NSTEP - 1 - k) * TREAD, vL + (NSTEP - k) * TREAD)
     for s in (-1, 1):
-        u0, u1 = sorted((s * 2.4, s * 3.25))
+        u0, u1 = sorted((s * SW, s * CW))
         mk['lime'].box(u0, u1, 0.0, FL + 0.85, -0.02, 1.8); mk['trim'].box(u0 - 0.05, u1 + 0.05, FL + 0.85, FL + 0.97, -0.02, 1.85)
         mk['lime'].box(u0, u1, 0.0, 1.15, 1.8, foot + 0.25); mk['trim'].box(u0 - 0.05, u1 + 0.05, 1.15, 1.27, 1.8, foot + 0.3)
-        x = s * 0.85
+        x = s * 1.0
         for (v, y) in ((0.35, FL), (foot - 0.15, 0.15)): mk['steel'].cyl((x, y, v), (x, y + 0.92, v), 0.025, seg=8)
         mk['steel'].cyl((x, FL + 0.92, 0.35), (x, 0.15 + 0.92, foot - 0.15), 0.025, seg=8)
         mk['steel'].cyl((x, 1.07, foot - 0.15), (x, 1.07, foot + 0.15), 0.025, seg=8); mk['steel'].cyl((x, 1.07, foot + 0.15), (x, 0.0, foot + 0.15), 0.025, seg=8)
         mk['steel'].cyl((x, FL + 0.92, 0.35), (x, FL + 0.92, 0.05), 0.025, seg=8)
     blocks.append((-TU - 0.2, TU + 0.2, TV0 - 0.2, TV1 + 0.1, 'law tower'))
-    blocks.append((-3.35, 3.35, TV1, foot - 0.35, 'law steps（台階上半；門口互動點在台階下）'))
+    blocks.append((-CW - 0.1, CW + 0.1, TV1, foot - 0.35, 'law steps（台階上半；門口互動點在台階下）'))
     # ---- 東翼：兩層（一樓方窗、二樓挑高長窗）、城垛女兒牆、緩坡石板瓦屋頂
     def wing(u0, u1, v0, v1, H, P, rows, bay):
         nb = max(1, int(round((u1 - u0) / bay))); bw = (u1 - u0) / nb
@@ -310,7 +311,7 @@ def campus_gate(root, name, cx, cz, yaw=0.0, M=None):
     g = B.group(name, root, {'kind': 'us_campus_gate'}); g.location = (cx, -cz, 0.0); g.rotation_euler = (0.0, 0.0, yaw)
     mk = {k: Mesh(f'{name}_{k}', M[k]) for k in M}
     blocks = []
-    OPEN, TWR, SPAN, PIER = 3.6, 2.4, 3.2, 1.2      # 半開口、塔寬、側門跨距、外側石柱寬
+    OPEN, TWR, SPAN, PIER = 3.6, 2.2, 3.2, 1.2      # 半開口、塔寬（第二版 2.2：照片的塔比較細）、側門跨距、外側石柱寬
     SH, CH = 8.4, 8.85                               # 塔身頂、簷口頂
     for s in (-1, 1):
         u0, u1 = sorted((s * OPEN, s * (OPEN + TWR))); v0, v1 = -TWR / 2, TWR / 2
@@ -335,23 +336,25 @@ def campus_gate(root, name, cx, cz, yaw=0.0, M=None):
         Fi = Face((s * OPEN, -s * TWR / 2), (0, s), (-s, 0))
         lantern(mk, Fi, TWR / 2, 3.9, out=0.38)
         # 八角亭：八角鼓座（每面一個小圓拱窗、角上小圓柱）、簷口、八角尖頂、石頭尖飾
-        ucx = (u0 + u1) / 2; R = 1.02; y0, y1 = CH, CH + 1.9
+        ucx = (u0 + u1) / 2; R = 0.95; y0, y1 = CH, CH + 2.7                                    # 八角亭（第二版：高一點、窗長一點；第一版矮胖）
         oc = [(ucx + R * math.cos(math.pi / 8 + k * math.pi / 4), R * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
         for k in range(8):
             p, q = oc[k], oc[(k + 1) % 8]; ln = math.hypot(q[0] - p[0], q[1] - p[1]); t = ((q[0] - p[0]) / ln, (q[1] - p[1]) / ln); n = (t[1], -t[0])
             F_ = Face(p, t, n); a0, a1 = ln / 2 - 0.2, ln / 2 + 0.2
-            ap = arch_ellipse(a0, a1, y0 + 1.05, 0.2, n=6)
-            wall(mk, F_, ln, y0, y1, [(a0, a1, y0 + 0.35, y0 + 1.25)])
-            arch_opening(mk, F_, a0, a1, y0 + 0.35, ap, 0.22)
-            poly(mk['dark'], F_, [(a0, y0 + 0.35), (a1, y0 + 0.35), (a1, y0 + 1.25), (a0, y0 + 1.25)], -0.22)
+            ap = arch_ellipse(a0, a1, y0 + 1.85, 0.2, n=6)
+            wall(mk, F_, ln, y0, y1, [(a0, a1, y0 + 0.4, y0 + 2.05)])
+            arch_opening(mk, F_, a0, a1, y0 + 0.4, ap, 0.22)
+            poly(mk['dark'], F_, [(a0, y0 + 0.4), (a1, y0 + 0.4), (a1, y0 + 2.05), (a0, y0 + 2.05)], -0.22)
             mk['trim'].cyl((p[0] + n[0] * 0.04, y0, p[1] + n[1] * 0.04), (p[0] + n[0] * 0.04, y1, p[1] + n[1] * 0.04), 0.07, seg=6)
         prism(mk['trim'], [(ucx + (R + 0.14) * math.cos(math.pi / 8 + k * math.pi / 4), (R + 0.14) * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)], y1, y1 + 0.22)
-        apex = (ucx, y1 + 1.75, 0.0); rr = R - 0.05
-        oc2 = [(ucx + rr * math.cos(math.pi / 8 + k * math.pi / 4), rr * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
+        rr = R - 0.05; yb = y1 + 0.22                                                               # 八角尖頂：兩段（下段比較緩、上段尖），照片的尖頂細長
+        def oct_(r, y): return [(ucx + r * math.cos(math.pi / 8 + k * math.pi / 4), y, r * math.sin(math.pi / 8 + k * math.pi / 4)) for k in range(8)]
+        lo, mid = oct_(rr, yb), oct_(0.5, yb + 0.9); apex = (ucx, yb + 2.5, 0.0)
         for k in range(8):
-            p, q = oc2[k], oc2[(k + 1) % 8]
-            mk['lime'].bm.faces.new([mk['lime'].bm.verts.new(g2b(*v)) for v in ((p[0], y1 + 0.22, p[1]), (q[0], y1 + 0.22, q[1]), apex)])
-        mk['trim'].sphere((ucx, y1 + 1.85, 0.0), 0.16, seg=8, rings=5); mk['trim'].cyl((ucx, y1 + 1.95, 0.0), (ucx, y1 + 2.35, 0.0), 0.07, seg=6, r2=0.01)
+            a1_, b1_, a2_, b2_ = lo[k], lo[(k + 1) % 8], mid[k], mid[(k + 1) % 8]
+            mk['lime'].quad([a1_, b1_, b2_, a2_])
+            mk['lime'].bm.faces.new([mk['lime'].bm.verts.new(g2b(*v)) for v in (a2_, b2_, apex)])
+        mk['trim'].sphere((ucx, yb + 2.55, 0.0), 0.17, seg=8, rings=5); mk['trim'].cyl((ucx, yb + 2.65, 0.0), (ucx, yb + 3.15, 0.0), 0.07, seg=6, r2=0.01)
         blocks.append((u0 - 0.15, u1 + 0.15, v0 - 0.15, v1 + 0.15, 'gate tower'))
         # 側門：尖拱（跨 3.2、起拱 3.3、拱高 1.9）、牆厚 1.1、平的壓頂；最外面的石柱
         a_u0, a_u1 = sorted((s * (OPEN + TWR), s * (OPEN + TWR + SPAN))); wv = 0.55; TOPW = 6.3

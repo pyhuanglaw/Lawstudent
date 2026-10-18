@@ -52,7 +52,7 @@ XW, XE = CR[1]['x1'], CR[0]['x0']                      # 主人行道的兩端�
 gf = Mesh('usu_ground_far', M['grass_far']); gf.box(-320, 320, -0.3, -0.25, -320, 320); gf.finish(root, uv=False)          # 地平線（看不到盡頭的空白）
 gr = Mesh('usu_grass', M['grass'], tile=3.0)
 # 草坪和亂石矮牆不重疊（牆在草坪外面、背靠背）：第一版牆埋在草坪裡、外面那一面和草坪的側面疊在一起 → 算圖變黑
-WX, FX, CX = WK['x1'] + 0.4, FO['x1'] + 0.4, 3.25                       # 走道牆外緣、小廣場側牆外緣、台階側牆外緣
+WX, FX, CX = WK['x1'] + 0.4, FO['x1'] + 0.4, 4.4                        # 走道牆外緣、小廣場側牆外緣、台階側牆外緣（us_law_kit 的 CW）
 LAWNS = [(FX, XE - 0.8, -14.0, RZ), (WX, FX, FO['z1'] + 0.4, RZ), (CX, FO['x1'], J['law']['cz'], FO['z0']),
          (PZ['x1'] + 0.4, -FX, -14.0, RZ), (-FX, -WX, FO['z1'] + 0.4, RZ), (-FO['x1'], -CX, J['law']['cz'], FO['z0']),
          (XW + 0.8, PZ['x0'] - 0.4, -14.0, RZ)]
@@ -124,6 +124,23 @@ if abs(J['law']['cz'] + law['steps_foot_v'] - J['steps_foot_z']) > 0.02: print('
 for h in J['halls']:
     UK.gothic_hall(root, 'hall_' + h['id'], h['cx'], h['cz'], length=h['len'], depth=h['dep'], floors=h['floors'], yaw=h['yaw'], M=UM, rng=rng, tower=h['tower'], detail=0)   # 背景：不做花窗、鉛條
 
+# ================= 樹（芯＋葉片卡，和社區同一個做法）=================
+trunk = Mesh('usu_trunks', BARK); cards = Mesh('usu_tree_cards', LEAF); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
+def leaf_card(m, px, py, pz, sz, yaw, tilt):
+    ca, sa = math.cos(yaw), math.sin(yaw)
+    def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
+    f = m.bm.faces.new([m.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
+    uvl = m.bm.loops.layers.uv.verify()
+    for lp_, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp_[uvl].uv = uv
+def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
+    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.62, ry * 0.62, rz * 0.62, seg=7, rings=4)
+    for vv in core.bm.verts:
+        if vv not in v0: k = rng.uniform(0.88, 1.08); c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * k
+    for j in range(ncard):
+        a_ = rng.uniform(0, 2 * math.pi)
+        if face is not None and math.cos(a_) * face[0] + math.sin(a_) * face[1] < -0.2: continue
+        e_ = math.asin(rng.uniform(-0.85, 1.0)); rr = rng.uniform(0.72, 1.02)
+        leaf_card(cards, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
 # ================= 花台（石灰岩矮花台＋土＋灌木和花）=================
 pt = Mesh('usu_planter_stone', LM['lime'], tile=1.9); ptc = Mesh('usu_planter_cap', LM['trim']); so = Mesh('usu_planter_soil', M['soil'])
 shrub = CMesh('usu_shrubs', M['vc'])
@@ -142,9 +159,8 @@ def ring(m, outer, inner, y0, y1):
 FLOWERS = ['#c8384a', '#e8e2d8', '#d8a02a', '#8a4fb0', '#e07a3a']
 def flower(x, y, z, h, col):   # 一朵花＝朝上的一片小方塊（2 個三角形）
     shrub.poly([(x - h, y, z - h), (x + h, y, z - h), (x + h, y, z + h), (x - h, y, z + h)][::-1], col)
-def bush(x, y, z, r, col):
-    before = set(shrub.bm.faces); shrub.ell((x, y, z), r, r * 0.8, r, seg=7, rings=4)
-    shrub.paint([f for f in shrub.bm.faces if f not in before], col)
+def bush(x, y, z, r, col):   # 小灌木＝和樹同一個做法（芯＋葉片卡）；第一版是有稜角的綠色球，近看像玩具
+    crown(x, y, z, r, r * 0.8, r, max(6, int(70 * r * r)), 0.22)
 for p in J['planters']:
     o, i = outline(p), outline(p, 0.22)
     ring(pt, o, i, 0.0, 0.44); ring(ptc, outline(p, -0.04), outline(p, 0.24), 0.44, 0.52)
@@ -222,23 +238,6 @@ for p in J['props']:
                 flower(cx_, 0.56 + r * 1.45 + (0.08 if j == 0 else 0.0), cz_, 0.03, c)
 st.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
 
-# ================= 樹（芯＋葉片卡，和社區同一個做法）=================
-trunk = Mesh('usu_trunks', BARK); cards = Mesh('usu_tree_cards', LEAF); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
-def leaf_card(m, px, py, pz, sz, yaw, tilt):
-    ca, sa = math.cos(yaw), math.sin(yaw)
-    def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
-    f = m.bm.faces.new([m.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
-    uvl = m.bm.loops.layers.uv.verify()
-    for lp_, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp_[uvl].uv = uv
-def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None):
-    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * 0.62, ry * 0.62, rz * 0.62, seg=7, rings=4)
-    for vv in core.bm.verts:
-        if vv not in v0: k = rng.uniform(0.88, 1.08); c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * k
-    for j in range(ncard):
-        a_ = rng.uniform(0, 2 * math.pi)
-        if face is not None and math.cos(a_) * face[0] + math.sin(a_) * face[1] < -0.2: continue
-        e_ = math.asin(rng.uniform(-0.85, 1.0)); rr = rng.uniform(0.72, 1.02)
-        leaf_card(cards, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
 def tree(x, z, h, y0=0.0):
     lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)); rb = rng.uniform(0.28, 0.42)
     bt = L.lathe([(rb * 1.4, 0.0), (rb, 0.4), (rb * 0.82, h * 0.38), (rb * 0.55, h * 0.6)], seg=9)

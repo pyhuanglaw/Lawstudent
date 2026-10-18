@@ -20,9 +20,9 @@ LAWN_H = 0.5
 LAW = {'cx': 0.0, 'cz': 4.0, 'yaw': 0.0, 'note': '法學院（us_law_kit.law_school）：塔的正面在 z 4、台階往南到 z 7.12'}
 FOOT_V = 0.6 + 6 * 0.42                            # 台階最下面一階的前緣（us_law_kit：vL＋6×TREAD）
 FOOT_Z = LAW['cz'] + FOOT_V
-FORE = {'x0': -4.6, 'x1': 4.6, 'z0': FOOT_Z, 'z1': 9.8, 'note': '台階前的小廣場（石板）'}
+FORE = {'x0': -5.8, 'x1': 5.8, 'z0': FOOT_Z, 'z1': 9.8, 'note': '台階前的小廣場（石板）'}
 WALK = {'x0': -2.0, 'x1': 2.0, 'z0': 9.8, 'z1': 17.0, 'note': '人行道 → 法學院的走道（穿過亂石矮牆）'}
-GATE = {'cx': -66.0, 'cz': 8.6, 'yaw': 0.0, 'open': 7.2, 'width': 20.8, 'note': '校門（us_law_kit.campus_gate）：兩座門樓、中間開口 7.2 m；門後＝往活動中心（區域出口）'}
+GATE = {'cx': -66.0, 'cz': 8.6, 'yaw': 0.0, 'open': 7.2, 'width': 20.4, 'note': '校門（us_law_kit.campus_gate）：兩座門樓、中間開口 7.2 m；門後＝往活動中心（區域出口）'}
 PLAZA = {'x0': -80.0, 'x1': -52.0, 'z0': 9.8, 'z1': 17.0, 'note': '校門前的紅磚廣場（石灰岩矮花台）'}
 BUS = {'x': -24.0, 'z': 19.4, 'w': 4.2, 'd': 1.6, 'note': '公車站：玻璃候車亭、長椅、站牌（只有 BUS 圖示，沒有公司名）；開口朝馬路'}
 HALLS = [   # 校門後面的老系館（背景，走不到）：us_campus_kit.gothic_hall（陡屋頂、尖拱窗的學院哥德式）
@@ -47,7 +47,7 @@ L = {'version': 2, 'zone': 'us_campus', 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0,
 TREES = []
 def put_tree(x, z, h):
     TREES.append({'x': round(x, 2), 'z': round(z, 2), 'h': round(h, 1)})
-for (x, z) in ((-12.5, 12.8), (-21.0, 9.5), (-30.0, 13.4), (-39.5, 6.0), (-46.0, 13.0), (12.0, 12.6), (21.5, 8.8), (31.0, 13.2), (40.5, 7.5), (46.5, 13.6),
+for (x, z) in ((-15.5, 13.4), (-21.0, 9.5), (-30.0, 13.4), (-39.5, 6.0), (-46.0, 13.0), (12.0, 12.6), (21.5, 8.8), (31.0, 13.2), (40.5, 7.5), (46.5, 13.6),
                (-84.0, 12.0), (-84.5, 2.0)):
     put_tree(x + rng.uniform(-0.8, 0.8), z + rng.uniform(-0.6, 0.6), rng.uniform(13, 17))
 for (x, z) in ((-75.0, 1.0), (-57.0, 0.5), (-76.0, -10.0), (-55.0, -12.0), (-48.0, -2.0), (-60.0, -20.0), (-73.0, -20.5)):
@@ -60,8 +60,8 @@ for x in (-59.0, -73.0): PROPS.append({'type': 'lamp', 'x': x, 'z': 16.2, 'yaw':
 PROPS.append({'type': 'ped_sign', 'x': 4.2, 'z': 21.7, 'yaw': 0.0})          # 黃色菱形的行人標誌（照片；沒有字）
 PROPS.append({'type': 'bikerack', 'x': 8.5, 'z': 17.9, 'yaw': 0.0})
 PROPS.append({'type': 'trash', 'x': BUS['x'] - 3.0, 'z': 17.8, 'yaw': 0.0})
-PROPS.append({'type': 'trash', 'x': 3.6, 'z': 9.3, 'yaw': 0.0})
-for x in (-3.9, 3.9): PROPS.append({'type': 'barrel', 'x': x, 'z': round(FOOT_Z + 0.55, 3), 'yaw': 0.0})   # 台階兩側的木桶花盆（照片）
+PROPS.append({'type': 'trash', 'x': -5.0, 'z': 9.2, 'yaw': 0.0})
+for x in (-5.0, 5.0): PROPS.append({'type': 'barrel', 'x': x, 'z': round(FOOT_Z + 0.65, 3), 'yaw': 0.0})   # 台階兩側的木桶花盆（照片）
 for (x, z, yaw) in ((-60.5, 16.0, math.pi), (-71.5, 16.0, math.pi)): PROPS.append({'type': 'bench', 'x': x, 'z': z, 'yaw': yaw})
 L['trees'], L['props'] = TREES, PROPS
 
@@ -70,23 +70,23 @@ BLOCKS = []
 def B_(x0, x1, z0, z1, why): BLOCKS.append({'x0': round(min(x0, x1), 3), 'x1': round(max(x0, x1), 3), 'z0': round(min(z0, z1), 3), 'z1': round(max(z0, z1), 3), 'why': why})
 lx, lz = LAW['cx'], LAW['cz']
 B_(lx - 6.2, lx + 6.2, lz - 14.2, lz + 0.1, 'building law tower（遊戲的鏡頭碰撞：why 以 building 開頭）')
-B_(lx - 3.35, lx + 3.35, lz, lz + FOOT_V - 0.35, 'law steps（台階上半；門口互動點在台階下）')
+B_(lx - 4.5, lx + 4.5, lz, lz + FOOT_V - 0.35, 'law steps（台階＋兩側矮牆，上半；門口互動點在台階下）')
 B_(lx + 6.0, lx + 44.2, lz - 14.2, lz - 1.8, 'building law east wing')
 B_(lx - 36.2, lx - 6.0, lz - 14.2, lz - 4.8, 'building law west wing')
 # 高起來的草坪（亂石矮牆後面）：走道、台階前的小廣場、校門廣場之外全部
 B_(FORE['x1'], CROSS[0]['x0'] - 0.2, Z0, RET_Z + 0.4, 'raised lawn east（亂石矮牆）')
 B_(WALK['x1'], FORE['x1'], FORE['z1'], RET_Z + 0.4, 'raised lawn beside walk E')
-B_(3.25, FORE['x1'], Z0, FOOT_Z + 0.3, 'raised lawn beside steps E（前緣一道矮牆 0.3 m）')
+B_(4.4, FORE['x1'], Z0, FOOT_Z + 0.3, 'raised lawn beside steps E（前緣一道矮牆 0.3 m）')
 B_(PLAZA['x1'], FORE['x0'], Z0, RET_Z + 0.4, 'raised lawn west（亂石矮牆）')
 B_(FORE['x0'], WALK['x0'], FORE['z1'], RET_Z + 0.4, 'raised lawn beside walk W')
-B_(FORE['x0'], -3.25, Z0, FOOT_Z + 0.3, 'raised lawn beside steps W（前緣一道矮牆 0.3 m）')
+B_(FORE['x0'], -4.4, Z0, FOOT_Z + 0.3, 'raised lawn beside steps W（前緣一道矮牆 0.3 m）')
 B_(CROSS[1]['x1'] + 0.2, PLAZA['x0'], Z0, RET_Z + 0.4, 'raised lawn west of plaza')
-B_(-3.35, 3.35, Z0, lz - 14.0, 'behind law school')
+B_(-4.5, 4.5, Z0, lz - 14.0, 'behind law school')
 # 校門：門樓、側門＋外側石柱（us_law_kit.campus_gate 的 blocks_local）、門後（區域出口）
 gx, gz = GATE['cx'], GATE['cz']
 for s in (-1, 1):
-    B_(gx + s * 3.6 - s * 0.15, gx + s * 6.0 + s * 0.15, gz - 1.35, gz + 1.35, 'building gate tower')
-    B_(gx + s * 6.0, gx + s * 10.55, gz - 0.8, gz + 0.8, 'gate side arch + pier')
+    B_(gx + s * 3.6 - s * 0.15, gx + s * 5.8 + s * 0.15, gz - 1.25, gz + 1.25, 'building gate tower')
+    B_(gx + s * 5.8, gx + s * 10.35, gz - 0.8, gz + 0.8, 'gate side arch + pier')
 B_(PLAZA['x0'], PLAZA['x1'], Z0, gz - 1.0, 'behind the gate（往活動中心：區域出口，互動點在門口）')
 for p in PLANTERS: B_(p['x'] - p['w'] / 2 - 0.1, p['x'] + p['w'] / 2 + 0.1, p['z'] - p['d'] / 2 - 0.1, p['z'] + p['d'] / 2 + 0.1, 'planter')
 # 馬路、路口
