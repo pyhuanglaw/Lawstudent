@@ -7822,6 +7822,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-C 04:3x：tools/portraits/matte_gray.py --noscale 去背、重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；順手修了林教授原本 neutral 兩腿中間的淺色底和腳下的影子（舊檔去背沒去乾淨）"
+  },
+  {
+   "id": "DL-BB-8c350559",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "8c350559",
+   "what": "陳助教整套立繪（neutral、thinking、smile；新人物）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:4x：matte_gray.py --noscale 去背 → assets/portraits/npc_ta_chen/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：三張同一個人、同一套衣服，和 characters.js 的外觀（偏瘦、黑色軟髮、細金屬圓框眼鏡、深灰藍開襟毛衣、白襯衫、深色西裝褲、深棕樂福鞋、深褐側背包、一疊紙）一致；之前沒有立繪的句子改顯示立繪"
   }
  ],
  "ignored": [

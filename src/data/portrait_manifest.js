@@ -188,6 +188,13 @@ const PORTRAIT_FILES={
    "neutral"
   ]
  },
+ "npc_ta_chen": {
+  "campus": [
+   "neutral",
+   "smile",
+   "thinking"
+  ]
+ },
  "prof_huang": {
   "campus": [
    "neutral"
