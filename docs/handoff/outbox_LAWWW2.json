@@ -367,6 +367,23 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-CH-XUN",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "4580d0c5",
+   "files": [
+    "assets/models/char/second_ai/bl_econ_zhengxun.vrm",
+    "docs/art-rebuild/second_ai/char_review/xun/",
+    "tools/blender/char_second/xun_clothes.py",
+    "tools/blender/char_second/xun_face.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW-C 驗收（D100：角色美術由 LAWWW-C 驗收）；通過再整合進遊戲（econ_zhengxun 的 char3d.model）；不通過照 LAWWW-C 的意見再修",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
