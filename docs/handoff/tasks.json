@@ -16461,9 +16461,9 @@
    "title": "經濟系 7/25 成績公布那天的 2D 底圖：客運車廂（白天）、高雄客運站出口（白天）、客運站外面的便利商店（晚上）",
    "area": "V0",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "23:5x 使用者：2D 背景由 BB 跟使用者要（D100），從 LAWWW2 改派 BB；23:1x 派給 LAWWW2-C（機場＋亞洲超市 patch 交付以後先做這三張）；現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
+   "next": "【2026-10-18 02:4x LAWWW-C】BB-C 23612343 四張接進遊戲：OUT.BG 加 kh_bus_day／kh_bus_station／kh_store_night／kh_river_night；ev_y0_kh_bus 三個 scene 加 bg；愛河邊跨年深夜換 kh_river_night（大一 ev_nye_river＋大二～大四 ev_kx_nye_river_y2～y4，同一個地點、同一個時段；原本暫用河濱 riverside）。BB-C 在遊戲裡看。｜23:5x 使用者：2D 背景由 BB 跟使用者要（D100），從 LAWWW2 改派 BB；23:1x 派給 LAWWW2-C（機場＋亞洲超市 patch 交付以後先做這三張）；現在用深色底＋地點字幕（events.js ev_y0_kh_bus*）；有圖就加進 OUT.BG（outings3d.js）並在事件的 scene 行加 bg",
    "first": {
     "term": "Y0S2",
     "week": 0,

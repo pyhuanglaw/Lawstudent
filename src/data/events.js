@@ -1219,7 +1219,7 @@ const STORY_EVENTS=[
      「好。」＝河堤（出遊，和 K1b 的河堤共用背景；回宿舍的路上麵店團群組傳頂樓的照片）；「我答應麵店團要去頂樓了。」＝宿舍頂樓，零點前一分鐘她打視訊來（不扣分；她不在這裡和麵店團見面）。
      沒有回她、在麵店團群組裡的玩家照 AA 的群戲去頂樓（沒有視訊）。記 KX_NYE:{1:'river'|'roof'}（BB_107 第 13 節：節日每年一筆）*/
   { id:'ev_nye_river', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,   /* AA_276 第 3 節第 1 點：去高雄跨年；0.5 小時＋凌晨一點的高鐵回臺北 */
-    dialogue:[ {scene:'高雄・愛河邊',bg:'riverside'},   /* AA_137 7-1：跨年的河堤不是政大，用河濱的背景（和 K1b 共用不再成立）*/
+    dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},   /* 愛河邊跨年深夜（ART-KH-BUS，BB-C 23612343；原本暫用河濱 riverside）*/
       {speaker:null,text:'河堤上的人不多。煙火在很遠的地方，聲音晚了好幾秒才到。'},
       {speaker:'kexin',expression:'smile',text:'今年我們不去人多的地方。'},
       {speaker:'kexin',expression:'teasing',text:'假設煙火的聲音永遠晚幾秒，那我們聽到的最後一聲，是今年的還是明年的？'},
@@ -2413,14 +2413,14 @@ const STORY_EVENTS=[
       bus?{speaker:null,text:'（你把手機蓋在腿上。窗外是一片一片的田。）'}:null,
       {speaker:null,text:'（考上的話，你在臺大，她在政大。兩間學校，兩邊的課。以後不會每天坐在同一張桌子了。）'},
       bus?{speaker:null,text:'（還有兩個小時。）'}:null ].filter(Boolean);
-    const busLines=[ to(10),{scene:'客運上'},...score(true),
-      to(12+10/60),{scene:'高雄・客運站出口'},
+    const busLines=[ to(10),{scene:'客運上',bg:'kh_bus_day'},...score(true),
+      to(12+10/60),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
       {speaker:'kexin',text:'恭喜你。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',text:'你從下車到現在，都沒有看我。'},
       {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
       {speaker:'kexin',text:'……我知道我考不好。我不用你幫我難過。'},{speaker:'kexin',text:'我先回家。你自己逛一下。'},{leave:'kexin'},
       {speaker:null,text:'（她走了。你在客運站外面站了很久。）'},
       to(18.5),{phone:'kexin',text:'你回臺北的車幾點。'},{phoneMe:'kexin',text:'九點。'},{phone:'kexin',text:'我八點去車站。'},
-      to(20),{scene:'高雄・客運站外面的便利商店'},
+      to(20),{scene:'高雄・客運站外面的便利商店',bg:'kh_store_night'},
       {speaker:'kexin',text:'下午那樣，對不起。'},{speaker:'player',text:'我也是。我不知道要講什麼。'},
       {speaker:'kexin',text:'政大也是法律。四年以後，我們考同一個考試。'},{speaker:'kexin',text:'……而且政大到臺大，捷運不用一個小時。比高雄近多了。'},{speaker:'player',text:'嗯。'},
       {speaker:null,text:'（她把一袋東西塞給你。是她家巷口的肉粽，還是熱的。）'},
@@ -3230,7 +3230,7 @@ const STORY_EVENTS=[
      留在臺北＝23:59 她打視訊（ev_kx_nye_video_y2～y4，「接起來」；大二在頂樓的版本接在 ev_y2_newyear 裡）。台詞一字照 5-2 */
   { id:'ev_kx_nye_river_y2', title:'跨年（大二・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
-    dialogue:[ {scene:'高雄・愛河邊',bg:'riverside'},{speaker:null,text:'（愛河邊。她站在橋下等你，手插在外套口袋裡。）'},
+    dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她站在橋下等你，手插在外套口袋裡。）'},
       {if:{custom:G=>(G.flags.KX_NYE||{})[1]==='river'},speaker:'kexin',text:'第二年了。你認得路了吧。'},{if:{custom:G=>(G.flags.KX_NYE||{})[1]!=='river'},speaker:'kexin',text:'這邊人比較少。我小時候都在這裡看。'},
       {speaker:null,text:'（零點。煙火在河的另一邊。）'},{speaker:'kexin',text:'新年快樂。'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'（牽她的手）',goto:'b'}]},
@@ -3240,7 +3240,7 @@ const STORY_EVENTS=[
     consequences:{memo:'跨年：高雄・愛河邊（大二）'} },
   { id:'ev_kx_nye_river_y3', title:'跨年（大三・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
-    dialogue:[ {scene:'高雄・愛河邊',bg:'riverside'},{speaker:null,text:'（愛河邊。她帶了兩個暖暖包，一個塞進你的外套口袋。）'},{speaker:'kexin',text:'今年比去年冷。'},
+    dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她帶了兩個暖暖包，一個塞進你的外套口袋。）'},{speaker:'kexin',text:'今年比去年冷。'},
       {speaker:null,text:'（零點。煙火在河的另一邊。）'},{speaker:'kexin',text:'新年快樂。'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「暖暖包還妳。」',goto:'b'}]},
       {label:'a'},{speaker:'kexin',text:'嗯。'},{goto:'end'},
@@ -3249,7 +3249,7 @@ const STORY_EVENTS=[
     consequences:{memo:'跨年：高雄・愛河邊（大三）'} },
   { id:'ev_kx_nye_river_y4', title:'跨年（大四・高雄）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     beforeOuting:(G,GM)=>{ if(GM.money) GM.money(-2980,'交通'); },
-    dialogue:[ {scene:'高雄・愛河邊',bg:'riverside'},{speaker:null,text:'（愛河邊。她已經占好了位置，就在橋旁邊。）'},{speaker:'kexin',text:'這個位置我從國中就想占。今年終於占到。'},
+    dialogue:[ {scene:'高雄・愛河邊',bg:'kh_river_night'},{speaker:null,text:'（愛河邊。她已經占好了位置，就在橋旁邊。）'},{speaker:'kexin',text:'這個位置我從國中就想占。今年終於占到。'},
       {speaker:null,text:'（零點。煙火在河的另一邊。）'},{speaker:'kexin',text:'新年快樂。'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「明年也來。」',goto:'b'}]},
       {label:'a'},{speaker:'kexin',text:'新年快樂。'},{goto:'end'},
