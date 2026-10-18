@@ -18348,6 +18348,48 @@
     "acceptance": "E27 裡可昕當面說出休學原因",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "UX-HOME-SAVE-1018",
+   "title": "在家不能存檔（使用者 10-18：「而且在家也不能存檔很麻煩」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "第一次回臺北的家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x（X26）",
+   "authorized": "使用者直接要求",
+   "next": "home3d.js 四個家裡選單（休學在家、寒假、放假、週末回家）加「存檔」→ GM.saveMenu 打開存檔分頁、關掉回到家裡選單。待 BB-C 在家存一次、讀回來"
+  },
+  {
+   "id": "UX-PHONE-AUTOOPEN-1018",
+   "title": "要回覆的手機訊息到了自動打開（D103：使用者「我根本不會看手機」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一則要回覆的訊息",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x",
+   "authorized": "使用者直接要求",
+   "next": "自由行動時有新的「要回覆」訊息（ask）→ 空下來就自動打開那個對話；經濟系事件模式下劇情訊息自動打開。和 ECON-FF-PHASE2 一起做"
   }
  ]
 }

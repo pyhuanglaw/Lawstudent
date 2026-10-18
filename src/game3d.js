@@ -328,6 +328,7 @@ const GAME = (function(){
     menuOpen=true; E.paused=true; $('menu').classList.remove('hide'); renderNotes(); renderPeople(); renderLegal(); renderMap(); renderSlots(); if(tab) switchTab(tab); }
   function closeMenu(){ menuOpen=false; E.paused=false; $('menu').classList.add('hide'); }
   GM.openMenu=openMenu; GM.closeMenu=closeMenu;
+  GM.saveMenu=()=>new Promise(res=>{ openMenu('save'); const iv=setInterval(()=>{ if(!menuOpen){ clearInterval(iv); res(); } },200); });   /* 在家的選單「存檔」：打開存檔分頁，關掉以後回到家裡的選單（home3d.js）*/
   GM.openMenu=t=>openMenu(t);
   function switchTab(t){ document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===t)); document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x.id==='tab-'+t)); $('menuTitle').textContent={notes:'筆記本',people:'人物',legal:'法律',map:'地圖',save:'存檔',settings:'設定',help:'說明'}[t]; }
   const GRAD_LABEL={NONE:null,CURIOUS:'有點好奇',CONSIDERING:'認真考慮中',PREPARING:'準備中',APPLYING:'報名了',ADMITTED:'錄取'};
