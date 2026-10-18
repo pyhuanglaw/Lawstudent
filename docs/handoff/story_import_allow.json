@@ -2,6 +2,7 @@
  "version": 1,
  "note": "劇情匯入白名單（使用者 2026-10-17 P0）：逐檔列路徑＋來源 commit；status 只有 approved 才匯入（WIP／pending 拒絕）；新版本要 AA（人物台詞先經 BB）明確交付「已審版本＋commit」才改這裡，由值班 LAWWW 更新。大一下閒聊階梯可昕 17 處（AA 分支 WIP）還沒審，不在名單。labelsRef＝讀記憶中文名稱表的企劃線 commit。",
  "labelsRef": [
+  "225ac957",
   "54ae1a94",
   "4c3c17f1",
   "84bbef37",
@@ -102,7 +103,7 @@
    "path": "docs/story_planning/ladder/ladder_bb.json",
    "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
+   "approvedBy": "AA-C 定稿（DL-AA-225ac957：記憶名稱補 KX0_SHOP／KX0_EGG；之前 9fecc202 AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
@@ -114,7 +115,7 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
-   "sha": "9fecc202",
+   "sha": "225ac957",
    "status": "approved",
    "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "SYS-15",
