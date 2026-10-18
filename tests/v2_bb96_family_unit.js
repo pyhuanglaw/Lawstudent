@@ -58,7 +58,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const nm=CHARACTERS.heroine_05.name;
     let L=await dinner({SAID_TREAT_SIS:true,SAID_HAS_CAR:true});
     check('有 SAID_TREAT_SIS：「（看菜單三十秒）兩件事。一，我要辣的。二，飲料學弟請，咖哩我請。」「重點是，這不是客套。」（Kevin 遲到七分鐘。）「Kevin，下次的地方你選。」＋載人；TREATED_FAMILY',
-      JSON.stringify(L)===JSON.stringify([nm+'：（看菜單三十秒）兩件事。一，我要辣的。二，飲料學弟請，咖哩我請。',nm+'：重點是，這不是客套。','Kevin 遲到七分鐘。',nm+'：Kevin，下次的地方你選。','家聚結束，你順路載三個人回學校。學姊坐後座，一路在講下學期的家族讀書會。'])&&G.flags.TREATED_FAMILY===true&&SOCIAL.has('heroine_05','FAMILY_DINNER')&&SOCIAL.has('heroine_05','TREATED_FAMILY'),JSON.stringify(L));
+      JSON.stringify(L)===JSON.stringify([nm+'：（看菜單三十秒）兩件事。一，我要辣的。二，飲料學弟請，咖哩我請。',nm+'：重點是，這不是客套。','Kevin 遲到七分鐘。',nm+'：Kevin，下次的地方你選。','家聚結束，你順路載三個人回學校。學姊坐後座，一路在問學弟妹下學期選什麼課。'])&&G.flags.TREATED_FAMILY===true&&SOCIAL.has('heroine_05','FAMILY_DINNER')&&SOCIAL.has('heroine_05','TREATED_FAMILY'),JSON.stringify(L));
     L=await dinner({}); check('沒有 SAID_TREAT_SIS：「二，今天我請。」「重點是，下次誰都不要遲到。」；沒有載人；沒有 TREATED_FAMILY',JSON.stringify(L)===JSON.stringify([nm+'：（看菜單三十秒）兩件事。一，我要辣的。二，今天我請。',nm+'：重點是，下次誰都不要遲到。','Kevin 遲到七分鐘。',nm+'：Kevin，下次的地方你選。'])&&!G.flags.TREATED_FAMILY&&SOCIAL.has('heroine_05','FAMILY_DINNER'),JSON.stringify(L)); }
   /* 三件事 */
   { const three=(flags)=>{ fresh(dD,20,'dorm',flags||{}); PHONE.join(G,'family_law','法律系直屬家族'); run(20,21.6); return fam().filter(m=>m.day===dD&&Math.abs(m.h-21.5)<0.01).map(m=>m.text); };

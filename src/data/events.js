@@ -1571,7 +1571,7 @@ const STORY_EVENTS=[
       {unless:{flags:['SAID_TREAT_SIS']},speaker:'heroine_05',expression:'neutral',text:'重點是，下次誰都不要遲到。'},
       {speaker:null,text:'Kevin 遲到七分鐘。'},
       {speaker:'heroine_05',expression:'neutral',text:'Kevin，下次的地方你選。'},
-      {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在講下學期的家族讀書會。'} ],
+      {if:{flags:['SAID_HAS_CAR']},speaker:null,text:'家聚結束，你順路載三個人回學校。學姊坐後座，一路在問學弟妹下學期選什麼課。'} ],
     after:G=>{ if(typeof SOCIAL==='undefined') return; SOCIAL.remember('heroine_05','FAMILY_DINNER','永康街的咖哩'); if(G.flags.SAID_TREAT_SIS){ G.flags.TREATED_FAMILY=true; SOCIAL.remember('heroine_05','TREATED_FAMILY','說要請全家族飲料，真的請了'); } } },
   /* 沛珊 P3b「課輔班的下午」（BB_96 3-3，交接包 v2）：大一下第 5 週起，週二或週四 16:30–18:00 走進溫州街，P2（ev_peishan_doubt）之後、只一次。
      她不用在 3D 裡出現：直接換成 2D 背景「溫州街・課輔班門口」（圖還沒有＝深色底＋字幕）。第二個選項只給去過法服讀書會的玩家（CLUB_lawclub_study）。

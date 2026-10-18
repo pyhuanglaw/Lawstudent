@@ -39,7 +39,7 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
   { fresh(D4+1,12.4,'campus',{}); E.player.obj.position.x=81; E.player.obj.position.z=3; const ok=EVENTS.check(w1); await EVENTS.run(w1);
     check('W1 台階（9/5 12:24）：開頭「（她坐在總圖門口的台階上看手機……）」＋九句（AA_218 17-3）',ok&&JSON.stringify(lines())===JSON.stringify(['（她坐在總圖門口的台階上看手機，頭髮綁成馬尾。你認得她——Facebook 大頭貼上那個學姊。）'].concat(W1L)),JSON.stringify(lines()));
     check('W1：SIS_W1、met_sis、FIRST_MET、學姊 +3；只一次',G.flags.SIS_W1===true&&G.flags.met_sis===true&&SOCIAL.has('heroine_05','FIRST_MET')&&relCalls.some(([id,v])=>id==='sis'&&v===3)&&EVENTS.check(w1)===false);
-    said=[]; await STORY._v1.talkSis(GM,sisN); const R=['兩件事。一，判決要看事實。二，不要只背結論。','法服週三晚上。來不來都可以。重點是先來看一次。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。'];
+    said=[]; await STORY._v1.talkSis(GM,sisN); const R=['兩件事。一，判決要看事實。二，不要只背結論。','法圖九點四十五關門。我都待到最後。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。'];
     check('W1 之後和她說話：照舊的隨機台詞（閒聊階梯以外）',lines().length===1&&R.includes(lines()[0]),JSON.stringify(lines())); }
   { fresh(D4+1,20,'cafe',{}); const ok=EVENTS.check(w1); await EVENTS.run(w1);
     check('W1 Café 版：開頭「（她坐在靠窗的位子看手機……）」，後面相同（「我要去圖書館了」照留）',ok&&lines()[0]==='（她坐在靠窗的位子看手機，頭髮綁成馬尾。你認得她——Facebook 大頭貼上那個學姊。）'&&JSON.stringify(lines().slice(1))===JSON.stringify(W1L),JSON.stringify(lines())); }

@@ -2091,10 +2091,10 @@ const STORY = (function(){
             items.push(Object.assign({th},rep)); F.W3B_R=r+1; }
           items.forEach((m,i)=>{ m.dt=i/60; }); PHONE.at(G,d,20.5,items,tg); F.W3B_N=n+1; } } }
     /* 法四學長姊畢業的群組（交接包 v2 C17；AA_71 2-12）：大一下第 15 週週六。法服群組（加入法服的玩家）12:30 有人傳合照＋「恭喜學長姊！法服永遠歡迎回來值班！」（傳的人：法服社長——法三的學長姊、不具名，社團公告的口氣；AA 2026-10-14）；
-       家族群組 13:00 Kevin 傳畢業照，學姊「恭喜。」（不是「收到」，BB_96 第 5 節）*/
+       家族群組 13:00 Kevin 傳畢業照＋「學姊畢業快樂！！」、學姊「謝謝。」（祐廷大一那年她自己是法四、也畢業：AA_284 1-4；原本 BB_96 第 5 節的「恭喜。」）*/
     { const gd=termDay('Y1S2',15,6); if(gd&&G.day>=gd-1&&G.day<=gd+1){
       if(PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'grad_lawclub')){ const th='g:lawclub_study'; PHONE.at(G,gd,12.5,[{th,from:'npc_lawclub_pres',name:'法服社長',text:'📷（學長姊穿學士服、抱著花的合照）'},{th,from:'npc_lawclub_pres',name:'法服社長',text:'恭喜學長姊！法服永遠歡迎回來值班！'}],'grad_lawclub'); }
-      if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（學長姊的畢業照）'},{th,from:'heroine_05',name:'溫學姊',text:'恭喜。'}],'grad_family'); } } }
+      if(PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'grad_family')){ const th='g:family_law'; PHONE.at(G,gd,13,[{th,from:'kevin',name:'Kevin',text:'📷（書瑀學姊和法四學長姊的畢業照）'},{th,from:'kevin',name:'Kevin',text:'學姊畢業快樂！！'},{th,from:'heroine_05',name:'溫學姊',text:'謝謝。'}],'grad_family'); } } }
     /* 芷若 Z5（BB_96 3-5；交接包 v2）：週五答應（zhiruoFilmDay）＝隔天週六 10:00 的早場（出遊 ev_zhiruo_early_show）；「下次妳挑」的回聲：兩天後 21:00 她傳一張很長的片單
        （單身＝私訊；交往中＝三個人的群組，方奕廷回「這張表要看到明年」）*/
     /* 芷若的午場（BB_96 3-5b）：Z5 拒絕早場（zrDeclineDay，週五）之後第 3 週的週六 09:30 兩則（交往中、她也知道＝多一句「方奕廷也去。」）；回覆到 11:25。「起得來。」＝11:40 出遊（ev_zhiruo_matinee）；「今天不行。」這學期不再約 */
@@ -2783,7 +2783,9 @@ const STORY = (function(){
     const CS=F.SIS_CAFE||(F.SIS_CAFE={}), P=st=>SOCIAL.playSteps(GM,n,id,st);
     if(CS.night===G.day){ await P(D.again); return true; }
     CS.night=G.day; let lv=SOCIAL.friendLevel(id); if(lv==='STRANGER') lv='ACQUAINTANCE';
-    const tired=lv!=='ACQUAINTANCE'&&!!D.tired&&(S.fafuDuty(G)||!!(typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).exam));   /* BB_169 W-11：她累的晚上＝單週週六法服值班、日曆標成考試週（看日曆的標記，不寫死週次） */
+    const T0=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, y2=S.dayOfKey('2026-08-01'), y1=y2!=null&&G.day<y2;
+    const busy=y1?(!!(T0&&(T0.exam||T0.week===14||T0.week===15))||CALENDAR.dateOf(G.day).m===1):(S.fafuDuty(G)||!!(T0&&T0.exam));
+    const tired=lv!=='ACQUAINTANCE'&&!!D.tired&&busy;   /* BB_169 W-11：她累的晚上＝單週週六法服值班、日曆標成考試週（看日曆的標記，不寫死週次）；祐廷大一那年她在準備法研所、不值法服（AA_284 1-6）：期中、期末考週、第 14～15 週、1 月 */
     await P(tired?D.tired:(D.hello[lv]||D.hello.ACQUAINTANCE));
     if(((CS.k|0)%2)===0){ await P(D.today.ask); const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):null, st=R&&R.lastStudy&&R.lastStudy.day===G.day?R.lastStudy:null;
       const O=D.today.opts.filter(o=>o.need!=='studied'||st); const k=await GM.choose(O.map(o=>({t:o.need==='studied'?'（說今天念的'+st.name+'）':o.t}))); if(O[k]) await P(O[k].r); }
@@ -2806,7 +2808,7 @@ const STORY = (function(){
   async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'});
     if(!F.met_sis){ const d4=S.dayOfKey('2025-09-04'); await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:G.day>=d4&&(G.zone==='library'||G.zone==='library_hall')?'（你認出她是 Facebook 大頭貼上那個學姊。閱覽室不能講話。）':'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }
     SOCIAL.talkedTo('heroine_05'); if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'heroine_05',n)){ GM.sceneEnd(); return; } if(F.met_sis&&G.zone==='cafe'&&await sisCafe(GM,n)){ GM.sceneEnd(); return; }
-    if(!(await S.ladderTalk(GM,n,'heroine_05'))){ const l=['兩件事。一，判決要看事實。二，不要只背結論。','法服週三晚上。來不來都可以。重點是先來看一次。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。']; await GM.say(n,l[(Math.random()*l.length)|0]); }   /* 閒聊階梯（BB_130）優先 */ if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_05',n); GM.sceneEnd(); }
+    if(!(await S.ladderTalk(GM,n,'heroine_05'))){ const l=['兩件事。一，判決要看事實。二，不要只背結論。','法圖九點四十五關門。我都待到最後。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。']; await GM.say(n,l[(Math.random()*l.length)|0]); }   /* 閒聊階梯（BB_130）優先 */ if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_05',n); GM.sceneEnd(); }
   /* 室友阿凱的宿舍事件（BB_130 第 6 節；LADDER.kaiDorm K-D1～6；使用者 2026-10-15 試玩回報：室友要有故事——打電動、吵架、和好）：
      K-D1 晚上找他說話（週日～四 21～24、一週一次）＝一起打一場；K-D2 第二次以上、打完已經 23 點以後＝一場變三場（時間到 02:00；選「八點。」隔天早上精力 −10）；
      K-D3 有早八的早上（7:00～8:30）、昨晚沒一起打，在宿舍 30%＝鍵盤聲；不說話累積 KAI_FRICTION，到 3 或選「你到底要不要睡？」＝K-D4 吵架（之後兩天他只說「嗯」）；
