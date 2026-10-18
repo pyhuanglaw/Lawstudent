@@ -47,6 +47,24 @@
 | ART-US-SEASON 美國篇四季 | `407ec3f5` | `us_community.glb`、`us_campus.glb` 帶四季＋`patches/us_season.diff`（us3d.js＋tests/us_season_unit.js）；test_shots/us_season_1018/ |
 | SCN-US-02 v3 美國校園老校區（空拍圖） | `90c2896e` | `us_campus.glb`＋`us_campus.layout.json` 第 3 版；新組件 `us_oldcampus_kit.py`；導航、出生點、互動點和第 2 版逐項相同；test_shots/us_oldcampus_1018/ |
 
+- **⏸ 收尾（使用者 12:4x：「使用量大概在半小時到上限 先做收尾」）**——BUG-WZFLICKER-2 做到一半，WIP 在這個 commit：
+  - 已改（`wz_shopkit.py`，用不合併的掃描驗過，GLB **還沒重建、還沒交付**）：
+    - 二樓窗的割字貼紙 −0.13 → −0.124（離玻璃 6 mm；x 10.35 那一處消失）；
+    - 淺店內的地板、側牆、天花板前緣在玻璃後面 1.2 cm；
+    - 側牆厚 8 → 9.4 cm（x −4.3、−20.7 鋁框×店內那兩處消失）。
+  - `wz_street.py` 加除錯開關：`WZ_NOMERGE=1` 不合併，`tools/glb_coplanar.py` 就看得到零件名字。
+  - **還沒做**：
+    - A5 日日便利的飲料冰箱：冰箱玻璃（zb＋0.56）和兩側板的前面同一個平面，`sk_in_A5` 在 x 47.4 還有 4.9 m² 沒查清楚；
+    - 公館的冷氣、招牌架還沒查；
+    - 三份 GLB 用新腳本重建、前後數字、Blender／遊戲內截圖。
+  - **118 巷**：用現在的腳本重建（還沒有這次的改動），鐵捲門×牆腳護牆 21.8 m² → 0、非牆面的疊面 61 → 16.5 m²。
+    - 但結構和開發分支的 GLB 不同（860 → 652 物件、74 → 84 材質：店面換成新的組件），要先看畫面再交。
+  - 下一班第一步：
+    1. 先查 A5 冰箱；
+    2. 用 `wz_street.py -- --set wenzhou|gongguan|lane118` 重建三份；
+    3. `glb_coplanar.py` 前後數字（開發分支：溫州街 619.35、公館 397.75、118 巷 423.41 m²）；
+    4. 118 巷前後截圖。
+  - 下一項：ART-BALCONY-POTS（P3）。
 - **LAWWW-C 11:47 派的第三批**：1. US-CAMPUS-WIRE-1018 交了 `4cee25c8`；2. BUG-WZFLICKER-2（溫州街三處＋公館、118 巷鐵捲門疊面）**進行中**；3. ART-BALCONY-POTS（P3）。BUG-COPLANAR-DEV 已整合 7e287c19；ART-CH-PINYU LAWWW-C 確認取消。
 - **LAWWW-C 11:32 派的第二批**：
   1. SCN-US-IU：回覆「已照空拍圖做完」（90c2896e）；

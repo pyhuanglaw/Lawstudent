@@ -476,7 +476,7 @@ def housefront_v2(spec, xf, W, rng, rec):
             if rng.random() < 0.6: inst(GRILLE, f'dgrille_{spec["id"]}', xf, wx, 0.95, z)
     if sf.get('decal'):                                                                          # 二樓中間那扇窗的割字貼紙（課輔班）
         it = SIGN_ATLAS[sf['decal']]; n_ = max(1, round(W / 3.6)); cxw = -W / 2 + (n_ // 2 + 0.5) * W / n_; ww_ = min(2.2, W / n_ - 0.9) - 0.1; yw0 = GH + FH * 0.52 - 0.75 + 0.18
-        sign_tex(xf, sf['decal'], cxw, yw0, ww_, -0.13, f'sk_decal_{spec["id"]}')
+        sign_tex(xf, sf['decal'], cxw, yw0, ww_, -0.124, f'sk_decal_{spec["id"]}')   # 貼在玻璃前面 6 mm（BUG-WZFLICKER-2：原本和窗玻璃同一個平面）
     if sf.get('banner'):                                                                         # 樓梯口旁邊掛的帆布布條
         it = SIGN_ATLAS[sf['banner'][0]]; bx_ = sf['banner'][1]; bw_ = 0.5; bh_ = bw_ / it['aspect']
         xf.cyl(acc(SK['wood_dk']), (bx_ - 0.3, 0.95 + bh_ + 0.03, z + 0.05), (bx_ + 0.3, 0.95 + bh_ + 0.03, z + 0.05), 0.012, seg=6)
@@ -526,12 +526,13 @@ def shallow_interior(spec, xf, iw, gz, ih):
     kind = spec['shop']['type']; pid = spec['id']; y0 = 0.15; yt = ih + 0.15; zb = gz - DI; cm = _cm(f'sk_in_{pid}')
     rr = random.Random(sum(ord(c) for c in pid) * 31)
     flo = {'noodle': 'f_mosaic', 'cvs': 'f_white', 'print': 'f_granite', 'laundry': 'f_terrazzo', 'teishoku': 'wood_dk', 'books': 'wood_lt', 'fruit': 'f_concrete', 'brunch': 'wood_lt'}.get(kind, 'f_white')
-    xf.box(acc(SK[flo]), -iw / 2, iw / 2, 0.0, y0, zb, gz)
+    gzf = gz - 0.012                                                                                        # 店內的前緣在玻璃後面 1.2 cm（BUG-WZFLICKER-2：地板、側牆、天花板的前面原本和玻璃同一個平面）
+    xf.box(acc(SK[flo]), -iw / 2, iw / 2, 0.0, y0, zb, gzf)
     wallc = {'noodle': '#f1e7d6', 'cvs': '#f4f4f0', 'print': '#eef0ee', 'laundry': '#dceaf0', 'teishoku': '#e8dcc4', 'books': '#e6dcc8', 'fruit': '#efe8d8', 'brunch': '#f3ede2'}.get(kind, '#eeeeea')
     vb = lambda *a, **k: xf_vbox(cm, xf, *a, **k)
     vb(-iw / 2, iw / 2, y0, yt, zb - 0.05, zb, wallc, r=0)
-    for sx in (-1, 1): vb(sx * iw / 2 - 0.04, sx * iw / 2 + 0.04, y0, yt, zb, gz, wallc, r=0)
-    xf.box(acc(M['ceilA']), -iw / 2, iw / 2, yt, yt + 0.05, zb, gz)
+    for sx in (-1, 1): vb(sx * iw / 2 - 0.047, sx * iw / 2 + 0.047, y0, yt, zb, gzf, wallc, r=0)   # 側牆厚 9.4 cm（BUG-WZFLICKER-2：內面原本和店面鋁框的側面同一個平面）
+    xf.box(acc(M['ceilA']), -iw / 2, iw / 2, yt, yt + 0.05, zb, gzf)
     warm = kind in ('teishoku', 'books', 'brunch', 'fruit', 'noodle')
     for lx in ([-iw / 4, iw / 4] if iw > 5 else [0.0]):
         xf.box(acc(M['tube']), lx - 0.5, lx + 0.5, yt - 0.03, yt, zb + DI * 0.45 - 0.05, zb + DI * 0.45 + 0.05)
