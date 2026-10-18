@@ -81,6 +81,17 @@ GM.money=function(n){ G.money+=n; };
     const E4=ev('ev_y4_newyear'); fresh(d4,23.5,'dorm',{Y4_PATH:'grad',dating_heroine_01:true}); meet('heroine_01'); meet('classmate_xinci'); said=[]; await EVENTS.run(E4); const L4=lines();
     check('大四頂樓：芯慈的野餐墊、「看得到一點。」、考研究所沒推上＝單字卡（柏翰「今天先不要看。」）、倒數芯慈起頭、和以安交往中「明天中午一起吃飯？」',L4.includes('（十一點半。芯慈比你們都早到，已經把野餐墊鋪好了。）')&&L4.includes('阿哲：看得到一點。')&&L4.includes('許柏翰：今天先不要看。')&&L4.includes('（倒數是芯慈起的頭，比電視早了一秒。）')&&L4.includes('沈以安：明天中午一起吃飯？')&&!L4.some(t=>/講義/.test(t))&&G.flags.NYE_Y4==='roof',JSON.stringify(L4));
     fresh(d4,23.2,'dorm',{dating_heroine_03:true}); run(23.2,23.3); const c=OUT.get(G,'yt_nye_call_y4'); check('大四和語彤交往中：00:01 她打電話來（接起來）',!!c&&c.verb==='接起來'&&c.day===d4+1); }
+  // 芷若在英國的跨年（AA_210 5-7）＋大四沒去的照片
+  { const d3=STORY.dayOfKey('2027-12-31'), d4=STORY.dayOfKey('2028-12-31'), zr='heroine_02';
+    fresh(d4,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); OUT.get(G,'nye_y4').state='missed'; G.day=d4+1; G.hour=0.2; STORY.phoneRules(GM); PHONE.tick(G); const p4=TH('g:noodle_team').filter(m=>m.tag==='nye_y4_photo').map(m=>m.text);
+    check('大四沒去：00:05 小語「野餐墊上的五個人，芯慈坐在正中間」、芯慈「今年我最早到。」',p4.length===2&&/芯慈坐在正中間/.test(p4[0])&&p4[1]==='今年我最早到。',JSON.stringify(p4));
+    fresh(d3,23.5,'dorm',{dating_heroine_02:true}); meet(zr); run(23.5,24.0,0.05); const e3=txt('p:'+zr); const v3=OUT.get(G,'zr_nye_video_y3');
+    check('芷若交往中（大三）：12/31 23:59「你那邊快零點了吧。」「我這邊還是下午。等一下打給你。」；1/1 08:00 視訊（接起來）',JSON.stringify(e3)===JSON.stringify(['heroine_02:你那邊快零點了吧。','heroine_02:我這邊還是下午。等一下打給你。'])&&!!v3&&v3.day===d3+1&&v3.h===8&&v3.verb==='接起來',JSON.stringify([e3,v3]));
+    const V3=ev('ev_zr_nye_video_y3'); said=[]; await EVENTS.run(V3); const LV=lines(); check('芷若視訊（大三）：開場兩句、窗外煙火、收尾「我要去睡了。你去吃早餐。」',LV.some(t=>/我這邊剛好跨年。/.test(t))&&LV.includes('（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）')&&LV.some(t=>/我要去睡了。你去吃早餐。/.test(t)),JSON.stringify(LV));
+    V3.outingMissed(G,GM,{day:d3+1}); G.day=d3+1; G.hour=9; PHONE.tick(G); check('芷若視訊沒接：08:30「沒關係。你那邊早上了，可能還在睡。新年快樂。」',txt('p:'+zr).includes('heroine_02:沒關係。你那邊早上了，可能還在睡。新年快樂。'));
+    fresh(d4+1,7.5,'dorm'); meet(zr); SOCIAL.rel(zr).fam=65; SOCIAL.rel(zr).trust=50; SOCIAL.rel(zr).comf=45; run(7.5,8.2); const f4=txt('p:'+zr);
+    check('芷若好朋友（大四）：1/1 08:00「新年快樂。這邊剛剛才倒數完。」＋「臺灣的煙火我在網路上看了。比這邊大。」',f4.includes('heroine_02:新年快樂。這邊剛剛才倒數完。')&&f4.includes('heroine_02:臺灣的煙火我在網路上看了。比這邊大。'),JSON.stringify(f4));
+    fresh(d4+1,7.5,'dorm'); meet(zr); run(7.5,8.2); check('芷若只是認識：什麼都不收（5-7 第 2 點）',!txt('p:'+zr).length); }
   const N=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_heroine_01:true}); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
   check('3. 頂樓：「今年頂樓的人少了兩個」；以安在場（交往中）；沒有期末考週的句子；交往中下樓「……手給我。」',L.includes('（十一點半。今年頂樓的人少了兩個。）')&&L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&!L.some(t=>/回去念|宵夜/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
   const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));
