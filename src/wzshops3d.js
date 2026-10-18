@@ -57,15 +57,22 @@ const WZS=(()=>{
                 ['便利貼',30,'一疊便利貼。你已經想好第一張要寫什麼了。'],['透明資料夾（A4）',15,'你把剛印好的東西放進去。看起來比較像回事了。']];   /* 只是一句旁白，不放進背包 */
 
   // ---------- 共用：品項＋價錢的選單 ----------
-  async function buy(GM,items,h,after){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
+  /* 點完坐下來吃（2026-10-18 使用者：「溫州街店面點餐是站著吃完？」）：找最近的空位（GM.freeSeat），黑幕裡坐好，吃完站起來；已經坐著就不換位子；沒有空位照舊 */
+  async function seated(GM,fn){ const E=GM.E, P=E&&E.player; if(!P||P.seat||!GM.sitAt){ await fn(); return; } const pp=P.obj.position; let best=null, bd=1e9;
+    for(const s of ((E.zone&&E.zone.seats)||[])){ const f=GM.freeSeat?GM.freeSeat(s):s; if(!f) continue; const d=Math.hypot(f.x-pp.x,f.z-pp.z); if(d<bd){ bd=d; best=f; } }
+    if(!best){ await fn(); return; } await GM.fade(true); GM.sitAt(P,best); await GM.fade(false);
+    try{ await fn(); } finally { if(GM.standUp) GM.standUp(P); } }
+  S._seated=seated;
+  async function buy(GM,items,h,after,sit){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
     const i=await GM.choose(opts); if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
-    GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; if(hh) GM.advance(hh); if(after) await after(it); return it; }
+    GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); if(after) await after(it); };
+    if(sit) await seated(GM,run); else await run(); return it; }
 
   S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind; GM.sceneBegin();
     try{
-      if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } }); }
+      if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
-      else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); }); }
+      else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }
       else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/

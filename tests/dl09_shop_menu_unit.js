@@ -60,6 +60,13 @@ const near=(a,b)=>Math.abs(a-b)<1e-6;
   { const G=mk(dayOf('2025-10-15'),14); const a=mkGM(G), b=mkGM(G); await WZS.interact(a,{wzShop:'teahouse',kind:'garden'}); await WZS.interact(b,{wzShop:'teahouse',kind:'garden'}); G.hour=19; const c=mkGM(G); await WZS.interact(c,{wzShop:'teahouse',kind:'garden'});
     const t1=mkGM(G), t2=mkGM(G); await WZS.interact(t1,{wzShop:'teahouse',kind:'tokonoma'}); await WZS.interact(t2,{wzShop:'teahouse',kind:'tokonoma'});
     check('7b. 一盞：看院子白天兩句輪流、18:00 以後石燈籠那一句；看掛軸兩句輪流；都是 0 分鐘（AA_172 2-2）',a.L.says[0]!==b.L.says[0]&&WZS.GARDEN.slice(0,2).includes(a.L.says[0])&&WZS.GARDEN.slice(0,2).includes(b.L.says[0])&&c.L.says[0]===WZS.GARDEN[2]&&t1.L.says[0]!==t2.L.says[0]&&WZS.TOKONOMA.includes(t1.L.says[0])&&a.L.adv+c.L.adv+t1.L.adv===0); }
+  /* 9. 點完坐下來吃（2026-10-18 使用者：「溫州街店面點餐是站著吃完？」）：吃的旁白時坐在最近的空位、吃完站起來；有人坐的位子不坐 */
+  { const G=mk(termDay('Y1S1',4,3),10); const g=mkGM(G,[0]); const P={obj:{position:{x:0,z:0}},seat:null}; let seatAtSay=null, stood=0;
+    const seats=[{x:0.5,z:0,yaw:0,taken:1},{x:1,z:0,yaw:0},{x:5,z:0,yaw:0}];
+    g.E={player:P,zone:{seats}}; g.freeSeat=st=>st.taken?null:st; g.fade=async()=>{}; g.sitAt=(e,st)=>{ e.seat=st; e.pose='sit'; }; g.standUp=e=>{ e.seat=null; e.pose='idle'; stood++; };
+    const say0=g.say; g.say=async(w,t)=>{ if(seatAtSay==null) seatAtSay=P.seat; return say0(w,t); };
+    await WZS.interact(g,{wzShop:'brunch',kind:'cashier'});
+    check('9. 半熟點完：吃的時候坐在最近的空位（有人坐的不坐）、吃完站起來',!!seatAtSay&&seatAtSay.x===1&&stood===1&&!P.seat,JSON.stringify({seat:seatAtSay,stood})); }
   { const src=fs.readFileSync(path.join(ROOT,'src/wzshops3d.js'),'utf8'); check('8. 不扣時段次數（WZS 不呼叫 slotUse／slotPlan）',!/slotUse|slotPlan/.test(src)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

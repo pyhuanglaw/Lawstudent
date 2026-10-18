@@ -17879,6 +17879,27 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-WZ-STANDEAT-1018",
+   "title": "溫州街半熟點餐、一盞喝茶是站在櫃台前吃完（使用者 10-18 06:2x「點餐是站著吃完？」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在溫州街店裡點餐",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:2x",
+   "authorized": "使用者直接要求",
+   "next": "wzshops3d.js：點完黑幕裡坐到最近的空位（GM.freeSeat）、吃完站起來；已經坐著不換位子、沒有空位照舊。tests/dl09_shop_menu_unit.js 第 9 項（修改前失敗）。待 BB-C 瀏覽器"
   }
  ]
 }
