@@ -876,7 +876,7 @@ const STORY_EVENTS=[
       {label:'repay'},{if:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{unless:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）上週那題的。還債。'},   /* 延後一週：AA-B 改一個詞（第①級）*/{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
       {set:{XUN_REPAID:true}},{goto:'end'},   /* AA_209 附錄A §2：芯慈分支最後一句（「……經濟系的人也會還債。」）刪 */
       {label:'xinci'},{speaker:null,text:'芯慈端著餐盤走進來，看見阿勳，停住了。'},
-      {speaker:'classmate_xinci',text:'欸，你是統計課那個……'},/* AA_209 附錄A §2 */{speaker:'阿勳',text:'我。統計課唯一會笑的那個人。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},
+      {speaker:'classmate_xinci',text:'欸，你是統計課那個……'},/* AA_209 附錄A §2 */{speaker:'阿勳',text:'我。統計課坐第一排那個。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},
       {choice:[{text:'「他是我以前的室友。」',if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x1'},{text:'「我們一起住過一年。」',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x2'},{text:'（笑一笑帶過）',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x3'}]},
       {label:'x1'},{speaker:'classmate_xinci',text:'原來你們以前住同一間。'},{speaker:'classmate_xinci',text:'難怪你們講話有點像。'},{goto:'xend'},   /* AA_209 附錄A §2 */
       {label:'x2'},{speaker:'player',text:'他保齡球打得比我好太多了。'},   /* AA_305 第 9 節 */{speaker:'classmate_xinci',text:'那一年的事你之後要講給我聽。'},/* AA_209 附錄A §2 */{set:{ECON_PAST_SHARED:'full'}},{goto:'xend'},
@@ -885,7 +885,7 @@ const STORY_EVENTS=[
       {label:'usual'},{speaker:null,text:'週五的活大。品妤點的永遠是同一個便當，阿勳永遠在講統計。'},
       {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE},goto:'pre'},{goto:'post'},
       {label:'pre'},
-      {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'阿勳',text:'統計這週講變異數。我的人生也是。'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'阿勳',text:'統計這週講變異數。下週小考。'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'你們法律系的期中考，也要背那麼多嗎？'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'保齡球，這學期還欠我一場。'},{goto:'end'},   /* AA_305 第 9 節 */
       {label:'post'},
@@ -2547,7 +2547,7 @@ const STORY_EVENTS=[
       {scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說上次來看宿舍的時候就想吃了。）'},{speaker:'kexin',text:'以後你開車來找我。我負責選宵夜。'},
       {speaker:'kexin',text:'去年這個時候，我以為我九月會在臺大念大二。'},
       {choice:[{text:'「我也以為我會在經濟系。」',goto:'g1'},{text:'（等她說下去）',goto:'g2'},{text:'「現在呢？」',goto:'g3'}]},
-      {label:'g1'},{speaker:'kexin',text:'結果兩個人都繞了一圈。'},{speaker:null,text:'（她說完，先往公車站走。）'},{goto:'h'},
+      {label:'g1'},{speaker:'kexin',text:'結果兩個人都繞了一圈。'},{speaker:null,text:'（她說完，往山上的宿舍走。你陪她走上去。）'},{goto:'h'},
       {label:'g2'},{speaker:'kexin',text:'沒有後悔喔。只是有時候會想一下。'},{goto:'h'},
       {label:'g3'},{speaker:'kexin',text:'現在在想，湯餃要不要再買一份帶回去。'},
       {label:'h'},{speaker:null,text:'（公車來了。她先上車，找了兩個並排的位子。）'} ] },
@@ -2909,7 +2909,7 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'人好多。'},
       {speaker:'唐睿',text:'我查過了，平常走過去十五分鐘。今天要四十。'},{speaker:'韋綸',text:'那現在走剛好！'},
       {scene:'信義區',bg:'newyear_crowd'},
-      {speaker:null,text:'（信義區的人潮。唐睿一直站在品妤後面，幫她擋人。品妤沒有發現。）'},   /* AA_305 第 8 節（接 9/21 系烤唐睿那頂柚子帽）*/
+      {speaker:null,text:'（唐睿一直站在品妤後面，幫她擋人。品妤沒有發現。）'},   /* AA_305 第 8 節（接 9/21 系烤唐睿那頂柚子帽）*/
       {speaker:null,text:'（信義區的人潮。可昕把手塞進你的外套口袋。）'},   /* AA_303 第 2 節 13：倒數完說新年快樂就好（「我怕走散」和兩選一拿掉）*/
       {speaker:null,text:'（倒數。煙火。大家一起喊：「新年快樂！」）'},
       {speaker:'kexin',expression:'smile',text:'新年快樂。'},
