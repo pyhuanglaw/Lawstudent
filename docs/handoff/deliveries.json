@@ -8225,6 +8225,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "D99 第 5 點：不在三個優先項目，先登記；v9.10.1 發布後整合"
+  },
+  {
+   "id": "DL-AA-d781b840",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d781b840",
+   "what": "AA_298 第 10 節：放榜電話——祐廷問要不要回台大、她想自己從大一開始；「政大的山比較多……比你強壯」與 E36_REPLY 拿掉（使用者：她沒有在跟我比）",
+   "task": "Q-E36-CALL-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": ""
   }
  ],
  "ignored": [
