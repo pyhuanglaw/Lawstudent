@@ -40,7 +40,7 @@ const COURSES={
     {id:'english_y0',name:'大一英文',kind:'general',term:'Y0S1',y0leave:true,prof:null,profName:'英文老師',room:'GONGTONG',slots:[{wd:4,block:'am'}],topics:['閱讀','寫作','口說']},
     {id:'ge_y0s1',name:'通識：思考實驗',kind:'general',term:'Y0S1',y0leave:true,prof:null,profName:'通識老師',room:'BOYA',slots:[{wd:2,block:'pm1'}],topics:['思考實驗']},
     {id:'pe_y0s1',name:'體育',kind:'general',term:'Y0S1',y0leave:true,prof:null,room:'GYM',slots:[{wd:3,block:'pm2'}],topics:['體適能','球類']},
-    {id:'econ_principles_y0_2',name:'經濟學原理（下）',kind:'required',term:'Y0S2',prof:'prof_wei',profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],y0leave:true,topics:['國民所得','物價與失業','貨幣與央行'],specials:[{w:16,title:'選了要付什麼',story:true}]},
+    {id:'econ_principles_y0_2',name:'經濟學原理（下）',kind:'required',term:'Y0S2',prof:'prof_wei',profName:'魏宏仁',room:'BOYA',slots:[{wd:1,block:'am'}],y0leave:true,topics:['國民所得','物價與失業','貨幣與央行'],specials:[{w:15,title:'選了要付什麼',story:true}]},   /* 16 週制：第 16 週併進第 15 週（AA 7abe189a syllabus）*/
     {id:'acct_y0_2',name:'初等會計學（下）',kind:'required',term:'Y0S2',prof:null,profName:'會計老師',room:'PUTONG',slots:[{wd:4,block:'pm1'}],y0leave:true,topics:['存貨','固定資產','負債']},
     {id:'calc_y0s2',name:'微積分（下）',kind:'required',term:'Y0S2',prof:null,profName:'數學系老師',room:'GONGTONG',slots:[{wd:3,block:'am'}],y0leave:true,topics:['多變數','最適化','經濟上的應用']},
     {id:'chinese_y0_2',name:'大一國文（下）',kind:'general',term:'Y0S2',prof:null,profName:'國文老師',room:'BOYA',slots:[{wd:2,block:'am'}],y0leave:true,topics:['小說選讀','論說文']},
@@ -113,7 +113,7 @@ const COURSES={
     {id:'crim_judgment_sem',name:'刑事判決研討',kind:'elective',term:'Y4S1',prof:'prof_lin',room:'WSEM',slots:[{wd:5,block:'am'}],topics:['判決怎麼讀','不同意見書'],specials:[{w:3,title:'為了保護朋友而動手的回聲'}],choice:{group:'Y4S1_sem',default:'crim_judgment_sem'}},
     {id:'public_judgment_sem',name:'公法判決研討',kind:'elective',term:'Y4S1',prof:'prof_xu',room:'WSEM',slots:[{wd:5,block:'am'}],topics:['判決怎麼讀','憲法判決','行政法院判決'],choice:{group:'Y4S1_sem',default:'crim_judgment_sem'}},
     // ---- 大四下（2029 春）----
-    {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:10,title:'回顧大一的案例'}]},   /* AA_110 第 1 節第 3 點：syllabus 沒標，週次先用程式原本的 */
+    {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:6,title:'法院旁聽（地方法院）'},{w:7,title:'旁聽之後'},{w:10,title:'回顧大一的案例'}]},   /* AA_263（syllabus 7abe189a）：第 6 週法院旁聽、第 7 週旁聽之後、第 10 週回顧大一 */
     {id:'legal_practice',name:'法律實習或法律扶助實務',kind:'required',term:'Y4S2',prof:null,profName:'實習指導',room:'OFF',slots:[{wd:2,block:'am'},{wd:2,block:'pm1'}],topics:['事務所或法扶的實務']},
     {id:'maritime',name:'海商法與海洋法',kind:'elective',term:'Y4S2',prof:null,profName:'兼任老師',room:'LINZE',slots:[{wd:3,block:'am'}],topics:['海上運送','海洋法']},
   ]

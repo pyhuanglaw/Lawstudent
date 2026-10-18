@@ -15,7 +15,7 @@ const GM={get G(){ return G; },E:{zone:null,interactables:[],player:{busy:false,
 const fresh=()=>{ G={day:1,hour:8,weekday:3,zone:'campus',flags:{},energy:80,goal:'',goalDest:null,msgs:[],courses:{}}; return G; };
 const itemOf=(term,week,cid)=>{ for(let d=1;d<1700;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!==term||t.week!==week) continue; const it=CLS.dayItems(G,d).find(q=>q.c.id===cid); if(it) return it; } return null; };
 const W=SYLLABUS.courses.const_2&&SYLLABUS.courses.const_2.find(q=>q.w===12);
-const REC='那場演講最後，講者問：『被限制的那個人，最後可以去哪裡？』今天的黑板寫著答案的一部分。';   // 交接包_v2 L199 原文（AA_172：後半句原本漏了）
+const REC='演講最後，講者問：『被限制的人，最後可以去哪裡？』今天的黑板寫著一部分答案。';   // 口語審改字（AA 7abe189a，_generated/README）；原本交接包_v2 L199「那場演講最後，講者問：『被限制的那個人……』今天的黑板寫著答案的一部分。」
 check('1. 憲法二第 12 週有回想（activity B4、在教授那一句之後）；那一週法律審查通過',!!W&&Array.isArray(W.recall)&&W.recall[0].activity==='B4'&&W.recall[0].full===true&&W.recall[0].say===REC&&SYLLABUS.reviewed.includes('const_2|12'),JSON.stringify(W&&W.recall));
 (async()=>{
   fresh(); const it=itemOf('Y1S2',12,'const_2');
