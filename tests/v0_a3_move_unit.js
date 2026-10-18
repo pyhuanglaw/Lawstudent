@@ -76,5 +76,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 法律系：不受影響
   fresh(termDay('Y1S1',4,3),19,'dorm'); check('8. 法律系的存檔：週三晚上不能回家（baseMode 不成立）',!HOME.baseMode(G)&&!HOME.canGo(G));
   GM.choose=choose0;
+    { const g3=require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8'); check('8. 手機「地點」最上面有「回臺北的家」（HOME.canGo 而且不在家；BB-C DORM-AFTER-MOVEOUT）',/HOME\.canGo\(G\)&&!\(HOME\.at&&HOME\.at\(G\)\)\) h\+='<div class="item phrow"><div>回臺北的家/.test(g3)&&/data-gohome/.test(g3)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

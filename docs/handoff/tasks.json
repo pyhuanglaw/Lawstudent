@@ -19034,7 +19034,7 @@
    "title": "退宿以後人在校園時，手機「地點」最上面沒有「回臺北的家」（BB-C PARTIAL）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -19048,7 +19048,7 @@
    },
    "source": "BB-C 2026-10-18 回報",
    "authorized": "使用者回報（我休學退宿了還能去宿舍）",
-   "next": "game3d.js 約 370 行 HOME.canGo(G)&&!(HOME.at&&HOME.at(G))；[捷徑] 讀檔 2024-10-21 15:00 在校園（home.at=false、base=true、Y0_MOVED_OUT）重現。AA_300 以後休學期間不太會在校園，P2"
+   "next": "game3d placesHTML：HOME.canGo 而且不在家時，「地點」最上面有「回臺北的家」（data-gohome → HOME.go）；v0_a3_move_unit 8。BB 重測"
   },
   {
    "id": "Q-AA300-INVITES-1018",

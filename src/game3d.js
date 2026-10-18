@@ -410,6 +410,7 @@ const GAME = (function(){
     body.querySelectorAll('[data-person]').forEach(b=>b.onclick=()=>{ phonePerson=b.dataset.person; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; });
     body.querySelectorAll('[data-personback]').forEach(b=>b.onclick=()=>{ phonePerson=null; renderPhone(); });
     body.querySelectorAll('[data-bigmap]').forEach(b=>b.onclick=()=>{ closePhone(); if(typeof GUIDE!=='undefined') GUIDE.openMap(); });
+    body.querySelectorAll('[data-gohome]').forEach(b=>b.onclick=async()=>{ if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); await HOME.go(GM); });   /* 手機「地點」的「回臺北的家」（BB-C 10-18 DORM-AFTER-MOVEOUT：退宿以後人在外面，地點最上面要有回家）*/
     body.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>{ phoneTab='msg'; phoneThread='p:'+b.dataset.msg; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
     body.querySelectorAll('[data-go]').forEach(b=>b.onclick=async()=>{ const it=CLS.dayItems(G).find(q=>q.key===b.dataset.go); if(!it) return; if(E.player.busy){ closePhone(); if(menuOpen) closeMenu(); toast(document.getElementById('choices')&&!document.getElementById('choices').classList.contains('hide')?'先選完畫面上的選項':'現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); await CLS.goClass(GM,it); });   /* 正在選選項（例：下課選單）時按「直接去上課」：收起手機，讓選項露出來（2026-10-17 瀏覽器實測：手機蓋住選項，看起來像卡住）*/ }   /* DL-01（AA_160 1-1）：「直接去上課」走 CLS.goClass（照路程、出門時間、選位子；2026-10-13 起建築裡的教室也可以）*/
@@ -437,6 +438,7 @@ const GAME = (function(){
     if(cg.length) h+='<div class="item"><div class="muted">CG</div><div class="albGrid">'+cg.map(id=>'<div class="alb" style="background-image:url('+esc(CG_REGISTRY[id].file)+')"><div class="cap">'+esc(CG_REGISTRY[id].title||'')+'</div></div>').join('')+'</div></div>';
     return h; }
   function placesHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); let h='<div class="item"><button class="btn pri" data-bigmap="1">打開整張地圖（也可以點右上角的小地圖）</button></div><div class="item muted">知道的地方可以直接過去，依距離花時間；想看看路上的人和風景，也可以自己走。</div>';   /* 選單「地圖」併進來（2026-10-16）*/
+    if(typeof HOME!=='undefined'&&HOME.canGo&&HOME.canGo(G)&&!(HOME.at&&HOME.at(G))) h+='<div class="item phrow"><div>回臺北的家<div class="muted">'+(HOME.baseMode&&HOME.baseMode(G)?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘')+'</div></div><button class="btn pri" data-gohome="1">回家</button></div>';
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
