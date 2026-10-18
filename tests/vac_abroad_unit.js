@@ -190,7 +190,7 @@ GM.money=function(n){ G.money+=n; };
     G.day=d; G.hour=8.9; said=[]; await VAC.outing(GM,q); check('17. 第二次的日誌三行',JSON.stringify(lines())===JSON.stringify(['第二次去海邊。阿哲說他記得帶防曬，結果帶的是乳液。','浪比去年大。柏翰坐在離海最遠的地方看書。','回程的車上，一半的人睡著了。']),JSON.stringify(lines()));
     const d3=VAC.c01Day('Y3'); G.day=d3-3; G.hour=21; run(21,21.2); check('17. 大三：「海邊」「照舊」',txt('g:noodle_team').includes('zhe:海邊')&&txt('g:noodle_team').includes('zhe:照舊'));
     // 17b. 大二以後才第一次去（AA_264 第 4 節 e01ee2a8）：照 AA_204 第 3 節演整段，換三句
-    fresh(d-3,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:25}); run(21,21.8); const Z1=txt('g:noodle_team');
+    fresh(d-3,21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:25}); run(21,21.8); const Z1=txt('g:noodle_team').filter(t=>!/人擠人|人超多|我明天回高雄/.test(t));   /* 大二 1/1 也有跨年的群組訊息（AA_210）*/
     check('17b. 大一沒去過：大二寒假前的週五 21:05 照 AA_204 3-1 揪，阿哲那句換「禮拜一去海邊？過幾天我就回高雄了」；以安 FAMILIAR 在臺北＝「我可以。幾點集合？」',Z1[0]==='zhe:禮拜一去海邊？過幾天我就回高雄了'&&Z1.includes('classmate_bohan:火車九點十分有一班。')&&Z1.includes('heroine_01:我可以。幾點集合？')&&!Z1.includes('zhe:今年還去海邊嗎')&&G.flags.VA03_AN===true,JSON.stringify(Z1));
     PHONE.answer(G,'vac_c01first_Y2',0); STORY.phoneRules(GM); const q1=OUT.get(G,'vac_c01_Y2');
     check('17b. 我去＝那個禮拜一 08:50 臺北車站，演第一次的整段（ev_va03_beach）',!!q1&&q1.day===d&&q1.ev==='ev_va03_beach'&&Math.abs(q1.h-(8+50/60))<0.01,JSON.stringify(q1));
