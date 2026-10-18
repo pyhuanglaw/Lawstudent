@@ -3008,24 +3008,22 @@ const STORY_EVENTS=[
        三選一結果一樣；學姊（和她「有點熟」以上）在攤位後面那一句；記 GRANDMA_TREE_Y2（大四校慶的回聲，交接包 v5 第 3b 節）。
      哲 2：手機與出發選單在 story3d.js phoneRules（v3 D8）；2D 背景 ntu_court_night（ART-BG-COURT，沒有圖時是深色底＋字幕）。三個選項都不是錯的，不扣分 */
   { id:'ev_fair_booth_y2', title:'法律問答攤（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[10], weekday:[6], time:[10,16], once:true, near:{x:-17.8,z:13.0,r:4.5},
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G)}, spawn:{npc:'heroine_05',at:{x:-17.0,z:12.2},pose:'idle'}, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&STORY.fafuMember(G)}, background:'blur',   /* 學姊大二以後不回法服（BB_194 §14；AA-C 01:2x）：不出現、她那句拿掉 */
     dialogue:[ {if:{events:['ev_sis_festival_booth']},speaker:'阿嬤',text:'少年欸，去年那棵樹，你記得嗎？'},
       {unless:{events:['ev_sis_festival_booth']},speaker:'阿嬤',text:'少年欸，去年你們這攤有個學姊，幫我看過樹的事。'},
       {speaker:'阿嬤',text:'我照你們學姊講的，先去跟隔壁講。他拖了兩個月才剪。'},{speaker:'阿嬤',text:'剪了以後，長得更好。現在又伸過來了。'},{speaker:'阿嬤',text:'還掉了一堆芭樂在我家。我可以吃嗎？'},
       {choice:[{text:'「芭樂是自己掉下來的，還是還長在樹上？」',set:{GRANDMA_Y2_ASK:'fruit'}},{text:'「樹枝伸過來，有擋到妳什麼嗎？」',set:{GRANDMA_Y2_ASK:'block'}},{text:'「這次妳跟隔壁講了嗎？」',set:{GRANDMA_Y2_ASK:'talk'}}]},
       {speaker:'阿嬤',text:'掉下來的有，樹上的也有。'},{speaker:'阿嬤',text:'樹枝擋到我曬衣服。'},{speaker:'阿嬤',text:'這次……還沒跟隔壁講。'},   /* AA-B 682d911f：原本的旁白改成阿嬤自己的三句 */
       {speaker:'player',text:'這幾件，答案不一樣。我寫下來。'},{speaker:'player',text:'隔週週六早上，值班的學長姊會在萬才館一樓。'},
-      {if:{stage:{npc:'heroine_05',min:'FAMILIAR'}},speaker:'heroine_05',expression:'neutral',text:'問得很好。先問事實，再找條文。'},
       {speaker:'阿嬤',text:'好啦。這顆給你們。'},{speaker:null,text:'（一顆掉下來的芭樂）'},{set:{GRANDMA_TREE_Y2:'asked'}} ] },
-  /* 沒加入法服：路過的版本（AA-B 682d911f，AA_71 2-5）：11/14 10:00～16:00 走到攤位附近，沒有選項；顧攤問阿嬤的是語彤（她大二加入法服）。記 GRANDMA_TREE_Y2:'heard'（大四阿嬤那句兩種都成立）*/
+  /* 沒加入法服：路過的版本（AA-B 682d911f，AA_71 2-5）：11/14 10:00～16:00 走到攤位附近，沒有選項。記 GRANDMA_TREE_Y2:'heard'（大四阿嬤那句兩種都成立）。
+     顧攤的改柏翰（AA-C 2026-10-18 01:2x：語彤不加入法服、學姊大二以後不回法服；柏翰大二是法服社長，AA_71 原稿也是他）：語彤的兩句改由柏翰說、字不變；學姊不出現 */
   { id:'ev_fair_booth_y2_pass', title:'法律問答攤（路過）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[10], weekday:[6], time:[10,16], once:true, near:{x:-17.8,z:13.0,r:4.5},
-    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&!STORY.fafuMember(G)&&!(G.events&&G.events.done&&G.events.done.ev_fair_booth_y2)}, spawn:{npc:'heroine_05',at:{x:-17.0,z:12.2},pose:'idle'}, background:'blur',
-    dialogue:[ {speaker:null,text:'（法服的攤位前，一個阿嬤在說話。顧攤的是語彤。）'},
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fafuMember&&!STORY.fafuMember(G)&&!(G.events&&G.events.done&&G.events.done.ev_fair_booth_y2)}, background:'blur',
+    dialogue:[ {speaker:null,text:'（法服的攤位前，一個阿嬤在說話。顧攤的是柏翰。）'},
       {speaker:'阿嬤',text:'掉下來的有，樹上的也有。'},{speaker:'阿嬤',text:'樹枝擋到我曬衣服。'},{speaker:'阿嬤',text:'這次……還沒跟隔壁講。'},
-      {speaker:'heroine_03',expression:'neutral',text:'……三件。答案不一樣。我寫下來。'},{speaker:'heroine_03',expression:'neutral',text:'隔週週六早上，萬才館一樓，有學長姊值班。'},
-      {if:{stage:{npc:'heroine_05',min:'FAMILIAR'}},speaker:'heroine_05',expression:'neutral',text:'問得很好。先問事實，再找條文。'},
+      {speaker:'classmate_bohan',expression:'neutral',text:'……三件。答案不一樣。我寫下來。'},{speaker:'classmate_bohan',expression:'neutral',text:'隔週週六早上，萬才館一樓，有學長姊值班。'},
       {speaker:'阿嬤',text:'好啦。這顆給你們。'},
-      {if:{stage:{npc:'heroine_03',min:'FAMILIAR'}},speaker:'heroine_03',expression:'neutral',text:'……你要芭樂嗎？'},
       {set:{GRANDMA_TREE_Y2:'heard'}} ] },
   { id:'ev_zhe_court_y2', title:'籃球場', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'ntu_court_night', hours:1,
     dialogue:[ {speaker:'zhe',expression:'neutral',text:'（籃球場，一個人投籃）教授說，期末再沒過，我就要重修。'},{speaker:'zhe',expression:'neutral',text:'重修的時間跟練球撞。'},{speaker:'zhe',expression:'smile',text:'（投進）……沒事啦。'},
