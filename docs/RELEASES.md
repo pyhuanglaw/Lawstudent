@@ -42,7 +42,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 |---|---|---|---|---|
 | 1 | 經濟系前半：新遊戲 → 宿營 → 在學 → 10/17 休學、和可昕交往 | LAWWW 接、BB-C 測 | 待測 | BB-C 第一段（新遊戲 → 9/8）流程 ALL PASS；看截圖找到兩個問題都修好：課堂老師一句 undefined（BB-C 02:1x 從新遊戲重跑 9/1→9/4 確認 0 句）、412 和阿勳的對話鏡頭卡進上舖床（LAWWW-C 自測確認）；第二段（9/9 → 10/17）在跑 |
 | 2 | 經濟系後半：休學在家 → 重考準備 → 考試、放榜 → 進法律系 | LAWWW 接、BB-C 測 | 待測 | 同上（15 點的後半段） |
-| 3 | 舊存檔照讀、經濟系存檔帶到法律系 | LAWWW | 待測 | 發布前我跑 save_compat（v9.9.1 的舊存檔從標題「繼續」） |
+| 3 | 經濟系存檔帶到法律系（同一份新遊戲往下玩） | LAWWW | 待測 | **舊版存檔相容不測**：使用者 10-18 03:4x「不用舊存檔測試了 我會直接從新完」（從新遊戲開始玩）；只看經濟系 → 法律系同一份存檔接得上（BB-C 第 3 層從新遊戲走一年會走到） |
 | 4 | 16 週日曆（第 16 週期末、期末後停課、成績放假後第 3 個週一） | LAWWW | 待測 | BB-C 走一個學期到期末、放假 |
 | 5 | 寒暑假每天能玩：住宿舍或回家、快轉選單、除夕回家、成績和選課在家也收得到 | LAWWW | 待測 | BB-C 測一個寒假、一個暑假 |
 | 6 | 寒暑假活動卡 C01～C15（海邊、營隊、日語、補習、日本團、出國、加州暑期課、自己排出國…） | LAWWW | 待測 | C01 海邊 01:2x 照 AA_264 第 5 節改完（109f8214）；BB-C 測 |
@@ -61,7 +61,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 | 17c | 已通過沒接的三張 CG（USER_WANTS X02）：CG-11 以安理由欄、CG-12 語彤分一點時間、BCG-29 可昕春假回程 | LAWWW 接（BB 10-14 通過） | 待 BB-C 測 | 放檔＋CG_REGISTRY 登錄＋K8 放 BCG-29；tests/cg_x02_unit.js ALL PASS |
 | 18 | 發布前：BB-C 從新遊戲走一年（第 3 層）＋LAWWW 發布前清單（TESTING.md 第五節） | BB-C、LAWWW | 還沒開始 | 等 1～17 測完、阻塞的問題修完；不用等使用者 iPhone（D100f） |
 
-**發布前檢查進度（LAWWW-C，乾淨 checkout）**：deploy_check ALL PASS（26 區域、5285 個網址都載得到；02:4x）；reachability_all 26 區域只有 us_shared「臥室 A」門口走不到（電視櫃＋行李箱擋住；美國交換、不在 v9.10 範圍、不會卡住玩家，BUG-US-KITCHEN-1018 發布後一起修）；nav_levels／nav_buildings／stairs_feet 單元通過。題目漏收檢查：用 AA 最新企劃線 c70dc425 重新匯入，399 題（加刑訴 QBANK）一題不多不少、內容一字不差（只有來源字樣不同，不改檔）；check_lines：一模一樣 13399 句、相似度 ≥0.8 的 79 句抽查前 30 句都是不同場合的相近句或記憶／階梯的摘要標題，沒有抄錯同一句的。還沒跑完（背景依序跑）：minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_class_real、touch_flow_wenzhou、flow_linze_floors；之後 flow_main_day12。
+**發布前檢查進度（LAWWW-C，乾淨 checkout）**：deploy_check ALL PASS（26 區域、5285 個網址都載得到；02:4x）；reachability_all 26 區域只有 us_shared「臥室 A」門口走不到（電視櫃＋行李箱擋住；美國交換、不在 v9.10 範圍、不會卡住玩家，BUG-US-KITCHEN-1018 發布後一起修）；nav_levels／nav_buildings／stairs_feet 單元通過。題目漏收檢查：用 AA 最新企劃線 c70dc425 重新匯入，399 題（加刑訴 QBANK）一題不多不少、內容一字不差（只有來源字樣不同，不改檔）；check_lines：一模一樣 13399 句、相似度 ≥0.8 的 79 句抽查前 30 句都是不同場合的相近句或記憶／階梯的摘要標題，沒有抄錯同一句的。瀏覽器（乾淨 checkout feb2bc37）：minimap_direction、zone_transitions、p0_movement ALL PASS；joystick_direction 跑到 40 分鐘上限沒有結果（要查）；save_compat_v7 不跑（使用者 03:4x：不用舊存檔測試）；flow_class_real、touch_flow_wenzhou、flow_linze_floors 背景跑中，之後 flow_main_day12。
 
 **不在 v9.10 的**（照使用者 01:0x 的收件範圍，各自在自己的分支繼續）：美國交換的大學、圖書館、廚房冰箱（LAWWW2）；沛珊放榜那一天（PS-RESULTS-1018）；AA_278 第 3 節 15 個事件；大四下以後的告白收尾。
 - **收件範圍（使用者 2026-10-18 01:0x 經 AA-C：「好 但是如果有人手上沒有事情就請他繼續做後面的東西……」）**：從現在到 v9.10 發布，開發分支只收：三個發布條件（經濟系、寒暑假、16 週）、偶遇、傳訊息、全部題目，加修錯。已經在開發分支的照樣一起發布（使用者問「已經放進去的不能一起發布嗎」→ 可以）；測出問題擋發布的先關掉或藏起來，不拖住整版。沒有 v9.10 工作的人繼續做後面的（例：LAWWW2 的美國大學、AA 的 v9.10 以外台詞），成果先留在自己的分支，v9.10 發布以後再整合。
