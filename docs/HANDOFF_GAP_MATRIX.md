@@ -31,7 +31,7 @@
 使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
 
 **A｜本班成果（10-18 05:1x 發布 v9.10 以後，全部在開發分支、都還沒發布）**
-- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE-1018）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP-1018：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU-1018）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT-1018、UX-Y0-NO-NTU-1018）、捷運直達花蓮（UX-MRT-FAR-1018）、換場景前一段的立繪留著（BUG-ADV-LINGER-1018）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG-1018）、在家不能存檔（UX-HOME-SAVE-1018）、約可昕出門一直跳「會錯過十點」（UX-RT-DATE-1018）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN-1018，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE-1018，X24）。
+- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE-1018）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP-1018：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU-1018）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT-1018、UX-Y0-NO-NTU-1018）、捷運直達花蓮（UX-MRT-FAR-1018）、換場景前一段的立繪留著（BUG-ADV-LINGER-1018）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG-1018）、在家不能存檔（UX-HOME-SAVE-1018）、約可昕出門一直跳「會錯過十點」（重考期在家選單）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN-1018，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE-1018，X24）。
 - 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2-1018：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER-1018：AA_297 retake_home 30 短＋12 長）。
 - AA 交付整合：AA_293（可昕交往前 T1～T6、劇社拿掉、系烤伏筆、聚會後她留下來、E10 23:45、保齡球搬 9/13、醉月湖說破）、E27 當面講休學原因、跨年改市府站、除夕選項、比誰早起；階梯白名單換 9fecc202（Y0S1 等 AA 補 KX0_EGG／KX0_SHOP 記憶名稱表）。
 - 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。

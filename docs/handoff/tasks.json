@@ -18684,6 +18684,34 @@
    "source": "使用者 2026-10-18 07:4x",
    "authorized": "使用者回報",
    "next": "原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）"
+  },
+  {
+   "id": "BG-CAMP-1018",
+   "title": "宿營每個活動用不同的背景（使用者 10-18：「宿營每個活動都可以用不同的圖，我可以生成」「連烤肉都是建築是怎樣」）",
+   "area": "v1",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營 8/23",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:4x",
+   "authorized": "使用者直接要求（D97）",
+   "next": "BB-C：清單＋提示詞給使用者（camp_bbq、camp_field、camp_bonfire、camp_party_hall、camp_quiz、camp_dining、camp_trail、camp_classroom、camp_yard_day/night）；LAWWW：收到後 camp_y1.js、events.js 經濟系宿營照場景換 bg（現在 11 個場景都是 econ_camp）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話；D97",
+    "acceptance": "每個活動一張背景，風格一致",
+    "ack": "SENT"
+   }
   }
  ]
 }
