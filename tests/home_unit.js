@@ -39,7 +39,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   GM.npc={}; E.interactables=[]; GM.spawnNPC=()=>({}); GM.spawnCharacter=()=>null; try{ STORY.populate('dorm',GM); }catch(e){ console.log('  populate 其他部分在 node 裡跑不起來（不影響這一項）：'+e.message); } const it=E.interactables.find(i=>i.home);
   check('3. 宿舍房間有「收拾背包回臺北的家」（週五晚上看得到）',!!it&&!it.hidden,it&&it.label); G.hour=10; check('3. 週五白天藏起來',!!it&&it.hidden); G.hour=19;
   { const keep=E.interactables; E.interactables=[]; G.zone='campus'; try{ STORY.populate('campus',GM); }catch(e){ console.log('  populate campus 其他部分在 node 裡跑不起來（不影響這一項）：'+e.message); } const ig=E.interactables.find(i=>i.home); E.interactables=keep; G.zone='dorm';
-    check('3b. 校門口也有「回臺北的家」（AA_134 第 3 節；週五晚上看得到、白天藏起來；不和走出校門重疊）',!!ig&&!ig.hidden&&(G.hour=10,ig.hidden)&&Math.hypot(ig.x+126,ig.z)>3+ig.radius,ig&&JSON.stringify([ig.x,ig.z,ig.label])); G.hour=19; }
+    check('3b. 校門口也有「回臺北的家」（AA_134 第 3 節；週五晚上看得到、白天藏起來；不和走出校門重疊；校門 2026-10-18 改成兩側通道各一個出口）',!!ig&&!ig.hidden&&(G.hour=10,ig.hidden)&&[[-125.5,5.27],[-125.5,-5.27]].every(([ex,ez])=>Math.hypot(ig.x-ex,ig.z-ez)>2.5+ig.radius),ig&&JSON.stringify([ig.x,ig.z,ig.label])); G.hour=19; }
   picks=['吃晚餐',0,'睡覺','玄關','回宿舍'];
   await STORY.interact(it,GM); const t=lines().join('｜');
   check('4. 到家：媽媽一句（到家池）',said.some(s=>s.who==='媽媽'&&HOME_LINES.arrive.some(a=>a.t===s.t)),t.slice(0,80));

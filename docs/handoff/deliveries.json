@@ -7874,6 +7874,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-C 05:2x（v9.10 發布後）：matte_gray.py --noscale 去背 → assets/portraits/prof_xu/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和設定圖 art_reference/prof_xu.webp 一致（灰白頭髮、細銀框眼鏡、粗花呢外套、深藍領帶、深藍精裝書），四張同一個人"
+  },
+  {
+   "id": "DL-LAWWW2-a852d6f2",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a852d6f2",
+   "what": "ART-EXT-GATE 臺大校門（照真的配置 A）campus_gate.glb（2.9 千三角形、0.3 MB）＋campus_gate.diff（CK.gate、placeGate、兩個區域的出口、tests）",
+   "task": "ART-EXT-GATE",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 05:2x：patch 套上（apply 乾淨）、GLB／腳本／截圖拿 a852d6f2；node 測試 ALL PASS；home_unit 3b 改量新的出口；瀏覽器背景跑"
   }
  ],
  "ignored": [

@@ -187,40 +187,43 @@ const CK=(function(){ 'use strict';
     bin.build(g);
     g.traverse(m=>{ if(m.isMesh){ m.castShadow=m.castShadow!==false; } });
     g.userData.ck={w,d,H,gfh,ad:0,blocks,doorZ:d/2}; return g; }
-  // ---------- 校門（v9.3 第十四批）：面磚門柱（石材柱基、柱頭、門燈）、往內打開的鑄鐵門、兩側矮牆（石材壓頂）、門房；校名刻在石牌上（校外、校內各一面）----------
-  /* 取代 W3.gate（磚盒子＋飄在兩根柱子中間的校名板，門房還放在校外）。本地座標：門口中心在原點，+z 是校外、-z 是校內；開口 x ∈ [-4.2, 4.2]（和舊版一樣寬）。
-     g.userData.gate.blocks：[x,z,w,d,pad]（本地座標），區域放好之後轉成導航阻擋。不是照真實台大校門建模。 */
+  // ---------- 校門（2026-10-18 LAWWW2-C ART-EXT-GATE：照真的配置改；使用者 10-18 03:3x「四座全部改」、LAWWW-C 04:2x 選 A）----------
+  /* 查到的真實資料（臺大訪客中心、台北旅遊網的文字；沒有照片）：1931 年落成、市定古蹟；磚＋石材；**門房在正中間**，人、車從兩側進出；四座燈柱是北投唭哩岸的石材。
+     第十四批的版本（中間 8.4 m 開口、兩根門柱、門房在校內旁邊）不是照真的做的，這一版改成：門房在中間、兩側各一條約 4.5 m 的通道、四座燈柱、兩端短的矮牆接區域的圍牆。
+     正式外觀是 Blender 模型（ASSETS 'bldg.campus_gate'，tools/blender/env_second/campus_gate.py，同一套尺寸）；這裡是導航阻擋、鏡頭碰撞的位置，以及正式模型載入失敗時的備用。
+     本地座標：門的中線 z=0，+z 是校外、−z 是校內。g.userData.gate.blocks：[x,z,w,d,pad]（本地座標），區域放好之後轉成導航阻擋（zones3d.js placeBlocks）；
+     .house：門房（鏡頭碰撞）；.lanes：兩條通道中心的 x（出口互動點放在通道上）。 */
+  const GATE={house:{x0:-1.7,x1:1.7,z0:-2.7,z1:2.1,h:3.5}, pillars:[-8.1,-2.45,2.45,8.1], leaves:[-7.55,-3.0,3.0,7.55], walls:[[-10,-8.6],[8.6,10]], lanes:[-5.27,5.27], PS:0.86, PH:3.9, leafL:2.15};
   function gate(o){ o=o||{}; const g=new THREE.Group(); const bin=new TK.Bin(); const blocks=[];
-    const wall=wallMat(o.wall||'#a8604a'), trim=trimMat(o.trim||'#d8cfbd'), roof=roofMat(o.roof||'#43342e'), iron=TK.col('#1f2124',{roughness:0.5,metalness:0.6});
-    const PW=1.4, PH=4.0, PX=4.9;
-    for(const sx of [-1,1]){ const x=sx*PX;
-      bin.add(trim,TK.boxG(PW+0.24,0.6,PW+0.24,1.2),x,0.3,0); bin.add(wall,TK.boxG(PW,PH-0.6,PW,1.2),x,0.6+(PH-0.6)/2,0);
-      bin.add(trim,TK.boxG(PW+0.3,0.22,PW+0.3,1.2),x,PH+0.11,0); bin.add(trim,TK.boxG(PW+0.1,0.16,PW+0.1,1.2),x,PH+0.3,0);
-      bin.add(trim,TK.boxG(0.5,0.22,0.5,1.2),x,PH+0.49,0);   // 門燈的座
-      bin.add(TK.glowMat('ckGateLamp',TK.tex('ckGateLampT',32,32,(c,w,h)=>{ c.fillStyle='#f3e6c8'; c.fillRect(0,0,w,h); c.fillStyle='#2a2c2f'; c.fillRect(0,0,w,3); c.fillRect(0,h-3,w,3); c.fillRect(0,0,3,h); c.fillRect(w-3,0,3,h); c.fillRect(w/2-1,0,2,h); },false),{nightI:1.1,dayI:0.05}),TK.boxG(0.38,0.5,0.38),x,PH+0.85,0,0,{noShadow:true});
-      bin.add(iron,TK.boxG(0.46,0.06,0.46),x,PH+1.13,0,0,{noShadow:true});
-      blocks.push([x,0,PW+0.24,PW+0.24,0.15]);
-      // 兩側矮牆（門柱到 |x|=10，接上區域原本的圍牆；比圍牆高 10 cm，壓頂不和圍牆頂面重疊）
-      const wx0=PX+PW/2, wx1=10.0, wl=wx1-wx0, wc=sx*(wx0+wl/2); bin.add(trim,TK.boxG(wl,0.4,0.7,1.2),wc,0.2,0); bin.add(wall,TK.boxG(wl,1.5,0.6,1.2),wc,0.4+0.75,0); bin.add(trim,TK.boxG(wl+0.06,0.12,0.74,1.2),wc,1.96,0);
-      blocks.push([wc,0,wl,0.74,0.15]);
-      // 鑄鐵門：一邊一扇（2 m），往校內打開、靠在門柱內側
-      const lx=sx*(PX-PW/2-0.08), L=2.0, Hh=2.3;
-      for(const y of [0.12,Hh*0.55,Hh]) bin.add(iron,TK.boxG(0.06,0.06,L),lx,y,-L/2,0,{noShadow:true});
-      for(let k=0;k<=10;k++){ const z=-0.05-(L-0.1)*k/10; bin.add(iron,TK.boxG(0.035,Hh+(k%2?0.12:0.22),0.035),lx,(Hh+(k%2?0.12:0.22))/2,z,0,{noShadow:true}); }
+    const wall=wallMat(o.wall||'#8a5642'), trim=trimMat(o.trim||'#bfb29a'), iron=TK.col('#1f2124',{roughness:0.5,metalness:0.6}), base=TK.col('#8f8a82',{roughness:0.7});
+    const PS=GATE.PS, PH=GATE.PH;
+    // 四座燈柱（唭哩岸石）：柱礎、柱身、三層柱帽、鑄鐵燈籠
+    const lampMat=TK.glowMat('ckGateLamp',TK.tex('ckGateLampT',32,32,(c,w,h)=>{ c.fillStyle='#f3e6c8'; c.fillRect(0,0,w,h); c.fillStyle='#2a2c2f'; c.fillRect(0,0,w,3); c.fillRect(0,h-3,w,3); c.fillRect(0,0,3,h); c.fillRect(w-3,0,3,h); c.fillRect(w/2-1,0,2,h); },false),{nightI:1.1,dayI:0.05});
+    for(const x of GATE.pillars){
+      bin.add(base,TK.boxG(1.12,0.55,1.12),x,0.275,0); bin.add(trim,TK.boxG(1.06,0.15,1.06,1.2),x,0.625,0); bin.add(trim,TK.boxG(PS,PH-0.7,PS,1.2),x,0.7+(PH-0.7)/2,0);
+      bin.add(trim,TK.boxG(1.0,0.14,1.0,1.2),x,PH+0.07,0); bin.add(trim,TK.boxG(1.2,0.18,1.2,1.2),x,PH+0.23,0); bin.add(trim,TK.boxG(1.0,0.1,1.0,1.2),x,PH+0.37,0);
+      bin.add(iron,TK.boxG(0.24,0.22,0.24),x,PH+0.53,0,0,{noShadow:true}); bin.add(lampMat,TK.boxG(0.38,0.58,0.38),x,PH+0.93,0,0,{noShadow:true}); bin.add(iron,TK.boxG(0.6,0.06,0.6),x,PH+1.25,0,0,{noShadow:true});
+      blocks.push([x,0,1.12,1.12,0.15]); }
+    // 兩端的矮牆（面磚、花崗石勒腳、石材壓頂）：|x| 8.6～10，接上區域原本的圍牆
+    for(const [a,b] of GATE.walls){ const wl=b-a, wc=(a+b)/2; bin.add(base,TK.boxG(wl,0.4,0.7),wc,0.2,0); bin.add(wall,TK.boxG(wl,1.45,0.6,1.2),wc,0.4+0.725,0); bin.add(trim,TK.boxG(wl,0.15,0.74,1.2),wc,1.925,0); blocks.push([wc,0,wl,0.74,0.15]); }
+    // 鐵門：每條通道兩扇，白天往校內打開、靠在燈柱旁
+    for(const lx of GATE.leaves){ const L=GATE.leafL, Hh=2.25;
+      for(const y of [0.12,Hh*0.5,Hh-0.05]) bin.add(iron,TK.boxG(0.06,0.06,L),lx,y,-L/2-0.05,0,{noShadow:true});
+      for(let k=0;k<=13;k++){ const z=-0.05-(L-0.05)*k/13, hh=Hh+(k%2?0.1:0.18); bin.add(iron,TK.boxG(0.035,hh,0.035),lx,hh/2,z,0,{noShadow:true}); }
       blocks.push([lx,-L/2,0.2,L,0.05]); }
-    // 校名石牌（校外一面在 +x 的矮牆、校內一面在 -x 的矮牆）
-    const nameT=TK.signTex(o.name||'國立臺灣大學',{bg:'#e6e0d2',color:'#3a2f28',serif:true,size:84});
-    for(const [sx,zs] of [[1,1],[-1,-1]]){ const x=sx*7.8; bin.add(trim,TK.boxG(3.1,0.95,0.12,1.2),x,1.25,zs*0.36); const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.9,0.75),new THREE.MeshStandardMaterial({map:nameT,roughness:0.8})); pl.position.set(x,1.25,zs*0.425); if(zs<0) pl.rotation.y=Math.PI; g.add(pl); }
-    // 門房：校內、開口旁邊（面磚、石材腰帶、四坡瓦屋頂、面向通道的窗、校內一側的門）
-    { const hx=7.6, hz=-3.4, W=3.6, D=3.0, H=2.8;
-      bin.add(trim,TK.boxG(W+0.1,0.45,D+0.1,1.2),hx,0.225,hz); bin.add(wall,TK.boxG(W,H-0.45,D,1.2),hx,0.45+(H-0.45)/2,hz); bin.add(trim,TK.boxG(W+0.16,0.14,D+0.16,1.2),hx,H+0.07,hz);
-      const rf=new THREE.ConeGeometry(Math.hypot(W,D)/2+0.55,1.35,4,1); rf.rotateY(Math.PI/4); rf.scale(1,1,(D+0.8)/(W+0.8)); bin.add(roof,rf,hx,H+0.14+0.675,hz);
-      const glass=GLASS(); bin.add(glass,TK.planeG(1.5,1.0),hx-W/2-0.01,1.65,hz+0.2,-Math.PI/2,{noShadow:true}); bin.add(trim,TK.boxG(0.12,1.16,1.66,1.2),hx-W/2-0.02,1.65,hz+0.2,0,{noShadow:true});
-      bin.add(glass,TK.planeG(1.2,0.9),hx+0.5,1.7,hz+D/2+0.01,0,{noShadow:true});
-      bin.add(TK.col('#4a3426',{roughness:0.7}),TK.planeG(0.9,2.0),hx-0.6,1.0+0.45,hz-D/2-0.01,Math.PI,{noShadow:true});
+    // 門房（正中間）：花崗石勒腳、面磚牆、石材腰帶、兩層簷口、平屋頂女兒牆；窗朝兩側的通道，門在校內那面，校名石牌在校外那面
+    { const H=GATE.house, W=H.x1-H.x0, D=H.z1-H.z0, hx=(H.x0+H.x1)/2, hz=(H.z0+H.z1)/2, hh=H.h;
+      bin.add(base,TK.boxG(W+0.1,0.55,D+0.1),hx,0.275,hz); bin.add(wall,TK.boxG(W,hh-0.55,D,1.2),hx,0.55+(hh-0.55)/2,hz);
+      bin.add(trim,TK.boxG(W+0.14,0.2,D+0.14,1.2),hx,2.85,hz); bin.add(trim,TK.boxG(W+0.24,0.12,D+0.24,1.2),hx,hh+0.06,hz); bin.add(trim,TK.boxG(W+0.4,0.12,D+0.4,1.2),hx,hh+0.18,hz);
+      bin.add(wall,TK.boxG(W,0.55,D,1.2),hx,hh+0.24+0.275,hz); bin.add(trim,TK.boxG(W+0.08,0.12,D+0.08,1.2),hx,hh+0.85,hz);
+      const glass=GLASS(); for(const sx of [-1,1]) for(const dz of [-D/4,D/4]){ bin.add(glass,TK.planeG(0.8,1.3),hx+sx*(W/2+0.01),1.65,hz+dz,sx*Math.PI/2,{noShadow:true}); bin.add(trim,TK.boxG(0.08,1.5,1.0,1.2),hx+sx*(W/2+0.02),1.65,hz+dz,0,{noShadow:true}); }
+      bin.add(TK.col('#3c2d23',{roughness:0.6}),TK.planeG(0.9,2.15),hx-0.55,0.12+1.075,H.z0-0.01,Math.PI,{noShadow:true});
+      const nameT=TK.signTex(o.name||'國立臺灣大學',{bg:'#e6e0d2',color:'#3a2f28',serif:true,size:84});
+      bin.add(trim,TK.boxG(2.7,0.58,0.08,1.2),hx,2.37,H.z1+0.04,0,{noShadow:true});
+      const pl=new THREE.Mesh(new THREE.PlaneGeometry(2.5,0.48),new THREE.MeshStandardMaterial({map:nameT,roughness:0.8})); pl.position.set(hx,2.37,H.z1+0.085); g.add(pl);
       blocks.push([hx,hz,W+0.2,D+0.2,0.15]); }
     bin.build(g); g.traverse(m=>{ if(m.isMesh) m.castShadow=m.castShadow!==false; });
-    g.userData.gate={blocks}; return g; }
+    const H=GATE.house; g.userData.gate={blocks,house:{x:(H.x0+H.x1)/2,z:(H.z0+H.z1)/2,w:H.x1-H.x0+0.2,d:H.z1-H.z0+0.2,h:H.h+0.9},lanes:GATE.lanes.slice()}; return g; }
   // 法律學院兩棟系館（v9.3 第十九批，照使用者提供的照片重做；後兩張照片沒有標名字，依「法律系兩個系館」推定是萬才館）
   // 共同的語彙：灰色花崗石的下三層（成對的窄窗＋石材窗台）、上層紅磚方格（磚柱＋上下橫帶、玻璃退在裡面）、寬的花崗石轉角、
   // 頂上的灰色石材帶＋往外伸出的薄屋頂板、屋頂機房與冷卻設備。

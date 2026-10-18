@@ -16860,7 +16860,7 @@
    "title": "臺大校門外觀（校園與公館共用，CK.gate 套件）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16874,7 +16874,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【04:2x LAWWW-C 選 A（LAWWW2-C 問）】照真的配置：門房在正中間、兩側通道各約 4.5 m、四座燈柱（台大訪客中心資料：1931、磚＋唭哩岸石）——會動導航和兩個出口（校園走出校門、公館回到校園），patch 要附齊 blocks、備用幾何、門房鏡頭碰撞、出口、寫死座標、測試；不擋 v9.10，v9.10 發布後才套｜【03:3x 使用者：四座全部改，不限外型】整座換 Blender（CK.gate／placeGate 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【05:2x LAWWW-C（v9.10 發布後）】a852d6f2 已整合：campus_gate.diff（CK.gate 新配置＋備用幾何、placeGate 門房碰撞、校園出口 (-125.5,±5.27) r2.5、公館回到校園 (±5.27,-47.5) r2.5、舊開口強制可走改成只開兩條通道）＋GLB；nav_buildings、nav_levels、kit_nav_check、home_unit（3b 改量新的出口）ALL PASS；LICENSES 加一列。待：瀏覽器 campus_layout_nav、gongguan_layout_nav、zone_transitions、flow_bike（LAWWW 背景跑）；建築美術等使用者看（READY_FOR_ART_REVIEW）｜【04:2x LAWWW-C 選 A（LAWWW2-C 問）】照真的配置：門房在正中間、兩側通道各約 4.5 m、四座燈柱（台大訪客中心資料：1931、磚＋唭哩岸石）——會動導航和兩個出口（校園走出校門、公館回到校園），patch 要附齊 blocks、備用幾何、門房鏡頭碰撞、出口、寫死座標、測試；不擋 v9.10，v9.10 發布後才套｜【03:3x 使用者：四座全部改，不限外型】整座換 Blender（CK.gate／placeGate 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
