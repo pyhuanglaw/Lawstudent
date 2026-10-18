@@ -47,7 +47,10 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* ---------- 車上＋摩天輪 ---------- */
   const car=ev('ev_y0_e26');
   for(const [pick,val] of [['宿營','camp'],['只有我','only_me'],['是現在','take_back']]){ econ(d30,17+40/60,'campus',{}); picks=[pick]; await EVENTS.run(car); const L=lines();
-    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪最高點不說話「（到最高的時候，她把頭靠在你肩上。誰都沒有說話。）」（AA_295）、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&L.includes('（到最高的時候，她把頭靠在你肩上。誰都沒有說話。）')&&!L.some(t=>/假設|從這裡開始/.test(t))&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-1]==='（你送她回去。回到宿舍，已經快十一點了。）',L.slice(-8).join('｜')); }
+    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪最高點祐廷「……在一起吧。」→ 可昕「好。」（AA_303 第 2 節 9，取代 AA_295 的不說話）、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&(()=>{ const i=L.indexOf('（摩天輪。到最高的時候，台北看起來好小。）'); return i>0&&L[i+1]==='祐廷：……在一起吧。'&&L[i+2]==='杜可昕：好。'; })()&&!L.some(t=>/誰都沒有說話/.test(t))&&!L.some(t=>/假設|從這裡開始/.test(t))&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-1]==='（你送她回去。回到宿舍，已經快十一點了。）',L.slice(-8).join('｜')); }
+  { econ(d30,17+40/60,'campus',{}); G.events.done.ev_y0_e14=1; picks=['是現在']; await EVENTS.run(car); const L=lines(), i=L.indexOf('杜可昕：我喜歡的是你。');
+    econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L0=lines();
+    check('1-3（AA_303 第 2 節 9）：保齡球演過＝「我喜歡的是你。」後面接「保齡球那天，我挑你的制服。……你都沒發現。」再接「你今天說你休學……」；保齡球沒演過（舊存檔）不說',i>0&&L[i+1]==='杜可昕：保齡球那天，我挑你的制服。……你都沒發現。'&&L[i+2]==='杜可昕：你今天說你休學，我第一個想到的是：完了，他要跑了。'&&!L0.some(t=>t.includes('保齡球那天')),JSON.stringify(L.slice(i,i+3))); }
   { econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L=lines().join('｜');
     check('1-3（e6c064a3）：沒有「我要記一輩子」「我想在最高的地方說」；摩天輪的約是「你晚上有事嗎？」「那去坐摩天輪。」',!L.includes('記一輩子')&&!L.includes('最高的地方說')&&L.includes('你晚上有事嗎？')&&L.includes('那去坐摩天輪。')); }
   /* ---------- 舊的不再發生 ---------- */

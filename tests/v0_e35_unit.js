@@ -33,7 +33,7 @@ const atHome=()=>{ G.stage='econ'; G.flags.Y0_MOVED_OUT=true; G.flags.LEAVE_WEEK
 (async()=>{
   const D=STORY.dayOfKey('2025-07-10'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e35'), evh=STORY_EVENTS.find(e=>e.id==='ev_y0_e35h');
   check('0. E35 兩個事件都在、7/10 是週四',!!ev&&!!evh&&CALENDAR.dateOf(D).wd===4); if(!ev||!evh){ console.log('FAILED '+fails); process.exit(1); }
-  { const T=evh.dialogue.filter(l=>l.text).map(l=>l.text); check('0. 見面版收尾（AA_272 第 10 節）：「五分鐘到了。上去吧。明天要早起。」＋「（她先轉身上樓。走到二樓，回頭等你。）」；沒有「明天考場見」、沒有電話版',T.includes('五分鐘到了。上去吧。明天要早起。')&&T.includes('（她先轉身上樓。走到二樓，回頭等你。）')&&!evh.dialogue.some(l=>/明天考場見/.test(l.text||''))&&!JSON.stringify(evh.dialogue).includes('E35_PHONE'),JSON.stringify(T.slice(-2))); }
+  { const T=evh.dialogue.filter(l=>l.text).map(l=>l.text); check('0. 見面版收尾（AA_303 第 2 節 24：在家裡、不下樓）：最後「好。去睡。明天要早起。」、背景 home_living；沒有「五分鐘到了」「上樓」、沒有「明天考場見」、沒有電話版',T[T.length-1]==='好。去睡。明天要早起。'&&evh.dialogue[0].bg==='home_living'&&!T.some(t=>/五分鐘到了|上樓|家樓下/.test(t))&&!evh.dialogue.some(l=>/明天考場見/.test(l.text||''))&&!JSON.stringify(evh.dialogue).includes('E35_PHONE'),JSON.stringify(T.slice(-2))); }
   let menus=[], script=[]; GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
   const loop=async()=>{ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } };
   /* 第 1～7 項（18:00「今晚九點，我宿舍樓下」、女舍門口、21:30 電話版、coreCallAt 21:30）拿掉：AA_224 6-5 改成他家樓下 21:00，新的測試在 tests/lifeline_g6_unit.js */

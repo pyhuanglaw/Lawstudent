@@ -35,7 +35,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const DK=k=>STORY.dayOfKey(k);
   const econ=(day,hour,zone,flags)=>{ fresh(day,hour,zone,Object.assign({dating_kexin:true,Y0_DATING:true,KX_CAR:'only_me',LEAVE_WEEK:6,Y0_MOVED_OUT:true},flags||{})); G.stage='econ'; G.flags.LIFELINE_V=1; };
   const J=x=>JSON.stringify(x), dl=id=>J(ev(id).dialogue);
-  check('3-1 E12 chair（湖邊與手機版）：「你經濟系的，算一下。……喔，你休學了。那我自己算。」',dl('ev_y0_e12').includes('你經濟系的，算一下。……喔，你休學了。那我自己算。')&&require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8').includes("K('對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。')"));
+  check('3-1 E12 chair（手機版照舊）：「你經濟系的，算一下。……喔，你休學了。那我自己算。」；湖邊版 AA_303 第 2 節 12 整段換（沒有這題）',!dl('ev_y0_e12').includes('你經濟系的，算一下。……喔，你休學了。那我自己算。')&&dl('ev_y0_e12').includes('休學的人，今天做了什麼？')&&require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8').includes("K('對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。')"));
   check('3-2 E14（AA_293 4-1：搬到 9/13 還不熟的時候）：「這件比較好看。」後面品妤「不能自己挑。要抽。」可昕「我沒有抽。所以沒有違規。」',(()=>{ const D=ev('ev_y0_e14').dialogue.map(x=>x.text); const i=D.indexOf('這件比較好看。'); return D[i+1]==='不能自己挑。要抽。'&&D[i+2]==='我沒有抽。所以沒有違規。'; })());
   check('3-3 E18 唐睿 b：「她什麼都接得住。……你上次那顆直球也是。」',dl('ev_y0_e18').includes('她什麼都接得住。……你上次那顆直球也是。')&&!dl('ev_y0_e18').includes('除了直球'));
   /* E18a */
@@ -53,8 +53,8 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* E21a */
   { const d=DK('2024-12-31'); econ(d,18.9,'home',{}); run(18.9,19.2); const gid=PHONE.inGroup(G,'econ_friends')?'g:econ_friends':'g:econ_class', m=txt(gid), q=OUT.get(G,'y0_e21a');
     check('3-6 12/31 19:00 群組三則（AA_293 第 7 節：放假一個多禮拜、市府站二號出口，不提總圖、不提念書）＋出發選單「市府站 23:00：跨年」',m.length===3&&m[2].endsWith('十一點，市府站二號出口。')&&!m.join('').includes('總圖')&&q&&q.h===23&&q.title==='市府站 23:00：跨年',J([m,q]));
-    picks=['把她的手握緊一點']; await EVENTS.run(ev('ev_y0_e21a')); const L=lines();
-    check('3-6 E21a（AA_293 第 7 節）：「（十一點，市府站。人已經多到要排隊出站。）」…可昕「……我怕走散。這是藉口。」…「（把她的手握緊一點）」→「……這次不是藉口了。」、E21A_WENT；沒有「書會等我」「今年最好的一件事」',L[0]==='（十一點，市府站。人已經多到要排隊出站。）'&&L.includes('杜可昕：……我怕走散。這是藉口。')&&L.includes('杜可昕：……這次不是藉口了。')&&!L.join('').includes('書會')&&G.flags.E21A_WENT===true&&!L.join('').includes('最好的一件事'),L.join('｜'));
+    opts=[]; await EVENTS.run(ev('ev_y0_e21a')); const L=lines();
+    check('3-6 E21a（AA_293 第 7 節；AA_303 第 2 節 13）：「（十一點，市府站。人已經多到要排隊出站。）」…手放進你的外套口袋 → 倒數、大家喊新年快樂 → 可昕「新年快樂。」祐廷「新年快樂。」（沒有選項、沒有「我怕走散」）、E21A_WENT；沒有「書會等我」「今年最好的一件事」',L[0]==='（十一點，市府站。人已經多到要排隊出站。）'&&L.includes('（信義區的人潮。可昕把手塞進你的外套口袋。）')&&L.includes('（倒數。煙火。大家一起喊：「新年快樂！」）')&&L.slice(-2).join('｜')==='杜可昕：新年快樂。｜祐廷：新年快樂。'&&!opts.length&&!L.join('').includes('我怕走散')&&!L.join('').includes('書會')&&G.flags.E21A_WENT===true&&!L.join('').includes('最好的一件事'),L.join('｜'));
     econ(d,18.9,'home',{}); run(18.9,19.2); G.day=d+1; G.hour=0.2; run(0.2,0.3); check('3-6 沒去：可昕「新年快樂。你錯過了一場人潮。……下次你要來。」',txt('p:kexin').includes('kexin:新年快樂。你錯過了一場人潮。……下次你要來。'),J(txt('p:kexin'))); }
   /* E22b */
   { const d=DK('2024-12-20'); econ(d,9,'home',{CRAM_FREE_KNOWN:true}); run(9,9.1); const q=OUT.get(G,'y0_e22b');
@@ -68,10 +68,10 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     m.ans=0; G.hour=23.2; run(23.2,23.6); const t=txt('p:kexin'); check('3-8 選「法律。」：15 分鐘後「好。」「……我是在問我自己。晚安。」',t.slice(-2).join('｜')==='kexin:好。｜kexin:……我是在問我自己。晚安。',J(t)); }
   check('3-9 腳踏車：「（查完再回）」（他在家查）',(()=>{ const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'); return src.includes("{t:'（查完再回）',")&&!src.includes("{t:'（去總圖查完再回）',"); })());
   /* E21 除夕 */
-  { const d=DK('2025-01-28'); econ(d,22,'home',{}); picks=['阿嬤說新年快樂']; await EVENTS.run(ev('ev_y0_e21')); const L=lines(), O=opts[0];
-    check('3-10 除夕：她在外婆家「我阿嬤剛剛問我有沒有男朋友。」…兩個選項（沒有 KX_THINK_LEAVE）→「她說你明年要來吃飯。」→ 最後「新年快樂。……今年第一個打給你的。」；沒有「不是假設」、沒有「不然要在一起嗎」',L.includes('杜可昕：好了。……我阿嬤剛剛問我有沒有男朋友。')&&O.length===2&&L[L.length-1]==='杜可昕：新年快樂。……今年第一個打給你的。'&&!L.join('').includes('不是假設')&&!L.join('').includes('不然要在一起'),J([O,L]));
-    econ(d,22,'home',{KX_THINK_LEAVE:'wait'}); picks=['跟家裡說了嗎']; await EVENTS.run(ev('ev_y0_e21')); const L2=lines();
-    check('3-10 她說過在想休學（KX_THINK_LEAVE）：第三個選項「妳想休學的事，跟家裡說了嗎？」→「還沒。」「……今天過年。休學的事，過完年再說。」（AA_293 第 8 節）',opts[0].length===3&&opts[0][2]==='「妳想休學的事，跟家裡說了嗎？」'&&L2.includes('杜可昕：還沒。')&&L2.includes('杜可昕：……今天過年。休學的事，過完年再說。')); }
+  { const d=DK('2025-01-28'); econ(d,22,'home',{}); picks=['我媽會問']; await EVENTS.run(ev('ev_y0_e21')); const L=lines(), O=opts[0];
+    check('3-10 除夕（AA_303 第 2 節 14）：「（電話。很吵。）」…「好了。……新年快樂。」「初三你要不要來高雄？開車來。我帶你去玩。」→ 兩個選項「好。」「我媽會問我去哪。」→「說去找女朋友。……初三，不准遲到。」、KH_TRIP；沒有阿嬤、沒有「不是假設」、沒有「不然要在一起嗎」',L[0]==='（電話。很吵。）'&&L.includes('杜可昕：好了。……新年快樂。')&&L.includes('杜可昕：初三你要不要來高雄？開車來。我帶你去玩。')&&J(O)===J(['「好。」','「我媽會問我去哪。」'])&&L[L.length-1]==='杜可昕：說去找女朋友。……初三，不准遲到。'&&G.flags.KH_TRIP===true&&G.flags.E21_CALLED===true&&!L.join('').includes('阿嬤')&&!L.join('').includes('不是假設')&&!L.join('').includes('不然要在一起'),J([O,L]));
+    econ(d,22,'home',{KX_THINK_LEAVE:'wait'}); picks=['好。']; await EVENTS.run(ev('ev_y0_e21')); const L2=lines();
+    check('3-10 「好。」→「那初三早上出發。到了打給我。」、KH_TRIP；她說過在想休學（KX_THINK_LEAVE）也只有兩個選項（AA_303：第三個選項拿掉）',opts[0].length===2&&L2[L2.length-1]==='杜可昕：那初三早上出發。到了打給我。'&&G.flags.KH_TRIP===true&&!L2.join('').includes('跟家裡說了嗎'),J([opts[0],L2.slice(-2)])); }
   /* 社科院門口 */
   { const e=ev('ev_y0_soc_door'); econ(DK('2024-10-24'),12,'campus',{}); const a=e.prereq.custom(G); G.day=DK('2024-11-02'); const b=e.prereq.custom(G); G.day=DK('2024-10-24'); delete G.flags.LEAVE_WEEK; const c=e.prereq.custom(G);
     check('共同前提 A2-1b：10 月下旬（10/20～10/31）休學以後在社科院門口＝阿勳「休學的來了。」「……然後還交了女朋友。你休學是去修這個學分喔。」；11 月不再演',a&&!b&&!c&&dl('ev_y0_soc_door').includes('休學的來了。')&&dl('ev_y0_soc_door').includes('你休學是去修這個學分喔。'),J([a,b,c])); }
