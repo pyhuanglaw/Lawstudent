@@ -18390,6 +18390,34 @@
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者直接要求",
    "next": "自由行動時有新的「要回覆」訊息（ask）→ 空下來就自動打開那個對話；經濟系事件模式下劇情訊息自動打開。和 ECON-FF-PHASE2 一起做"
+  },
+  {
+   "id": "RT-TOGETHER-1018",
+   "title": "重考期完全沒有可昕住在家裡一起念書的感覺、她沒出現（使用者 10-18：「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S2",
+    "week": 1,
+    "earliest": "2/15 她搬來",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x",
+   "authorized": "使用者回報",
+   "next": "AA-C：寫約 30 段在家一起念書的短場景＋每週一段長的（比誰早起、互相督促）。LAWWW：事件模式每跳到新的一天先演一段；重考期在家的畫面可昕立繪一直在；E27／E27b 結尾台詞轉 AA",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；D103",
+    "acceptance": "約 30 段日常短場景（rs 格式）＋長場景；可以接進事件模式",
+    "ack": "SENT"
+   }
   }
  ]
 }
