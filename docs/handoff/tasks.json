@@ -52,7 +52,19 @@
    "BG-18": "LAWWW2 的 BG 追蹤表編號＝任務 ART-BG18（可昕視訊背景；BB-B 02:1x：自強十舍單人房照片排進 BG-18）",
    "BG-04": "LAWWW2 的 BG 追蹤表編號＝自強十舍樓下長椅；被使用者生成的 nccu_dorm 取代（任務 ART-10，已整合待測試），BB-B 02:1x 記 LAWWW2-B 已 ACK『BG-04 不做』",
    "DL-*": "交付 ID（deliveries.json），不是任務 ID",
-   "BCG-*": "CG 編號（BB 的 CG 清單）：大一～大四由 ART-15 總項、美國篇由 SCN-US-CG 追，不另開任務"
+   "BCG-*": "CG 編號（BB 的 CG 清單）：大一～大四由 ART-15 總項、美國篇由 SCN-US-CG 追，不另開任務",
+   "CG-11": "CG 編號（ART-CG 系列的子項，AA 交接檔引用）",
+   "CG-12": "CG 編號（ART-CG 系列的子項）",
+   "CG-20": "CG 編號（ART-CG 系列的子項）",
+   "CG-22": "CG 編號（ART-CG 系列的子項）",
+   "LIFE-LINE": "任務 LIFE-LINE-1017 的簡寫",
+   "MSG-1": "AA 交接檔裡訊息的編號（MSG-KX-Y0-1018 等的子項），不是任務",
+   "P0-1": "BB_199 的項目編號（已裁定）",
+   "P0-2": "BB_199 的項目編號（等使用者）",
+   "SIS-176": "學姊家聚事件編號（SIS 系列子項，LAWWW 1a52e81c 已做）",
+   "Y2-L7": "閒聊階梯層編號（語彤 Y2，SYS-15 子項）",
+   "Y8-L0": "閒聊階梯層編號（語彤大四下，SYS-15 子項）",
+   "BUG-E37-TOLAW": "＝BUG-E37-TOLAW-1018（BB 交接檔的簡寫）"
   },
   "offList": [
    {
@@ -17818,7 +17830,7 @@
    "title": "經濟系 8/29 轉法律系時把 8/30 E37（政大校門）的約清掉：8/30 不演、電話也不打（BB-C 10-18 e37_probe 重現）",
    "area": "V0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -17832,7 +17844,8 @@
    },
    "source": "BB-C 10-18 05:55",
    "authorized": "D85",
-   "next": "story3d.js toLaw 清還沒去的約時留下 y0_e37；私訊已發、約不見了（舊存檔）就補排。tests/v0_tolaw_unit.js 3b（修改前失敗）。待 BB-C 重跑 e37_probe（flow_v0_home 的 E37 檢查要改成看 8/29 轉完以後 y0_e37 還在，或跑到 8/30 晚上）"
+   "next": "story3d.js toLaw 清還沒去的約時留下 y0_e37；私訊已發、約不見了（舊存檔）就補排。tests/v0_tolaw_unit.js 3b（修改前失敗）。待 BB-C 重跑 e37_probe（flow_v0_home 的 E37 檢查要改成看 8/29 轉完以後 y0_e37 還在，或跑到 8/30 晚上）",
+   "evidence": "BB-C 交接檔（b38b2b81）：BUG-E37-TOLAW FIXED（遊戲裡確認，BB_218）"
   },
   {
    "id": "BUG-DORM-PLATES-1018",
