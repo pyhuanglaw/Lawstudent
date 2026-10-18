@@ -23,8 +23,9 @@ async def talk_through(pg, cdp, until, max_s=120, log=None):
             c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; if(!bs.length) return null; const e=bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })()")
             if c: log.append('▶' + c[2][:30]); await L.touch_tap(cdp, c[0], c[1])
         elif s['dlg']:
-            t = s['dtext'] or ''
-            if not log or log[-1] != t[:60]: log.append(t[:60])
+            t = (s['dtext'] or '')[:60]
+            if log and t.startswith(log[-1]) and not log[-1].startswith('▶'): log[-1] = t   # 對話一個字一個字跑出來：記完整的那句
+            elif not log or log[-1] != t: log.append(t)
             await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(600)
     return False, log
@@ -60,7 +61,10 @@ async def main():
             await pg.wait_for_timeout(1000)
         await run.shot(pg, 'lane_entry')
         run.check('118 巷的正式街景模型載入了（lane118_street.glb）', glb > 0, str(glb))
-        zhe = await pg.evaluate("(()=>{ const n=EVENTS.npcOf('zhe'); return n?{x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}:null; })()")
+        for _ in range(40):   # 12:10 起才站到店門口（進巷子的時候可能還沒到）：待在巷子裡，時段到了就來
+            zhe = await pg.evaluate("(()=>{ const n=EVENTS.npcOf('zhe'); return n?{x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}:null; })()")
+            if zhe: break
+            await pg.wait_for_timeout(1000)
         door = await pg.evaluate("L118.door('noodle2')")
         run.check('阿哲站在六張犁麵舖門口（週一中午的常客）', bool(zhe) and abs(zhe['z'] - door['z']) < 2 and abs(zhe['x'] - door['x']) < 1.5, json.dumps([zhe, door]))
         # 沒開的店：巷口家常菜週一休
