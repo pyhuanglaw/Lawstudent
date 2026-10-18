@@ -79,8 +79,11 @@ async def main():
         await pg.wait_for_timeout(800); s = await L.state(pg)
         run.check('走到六張犁麵舖門口、互動鍵是店名', ok and '六張犁麵舖' in s['interact'], s['interact'])
         m0 = await pg.evaluate("GAME.G.money")
+        # 記下遊戲送出的完整台詞（對話一個字一個字跑，點一下可能直接跳下一句，從畫面讀只拿得到半句）
+        await pg.evaluate("(()=>{ if(window.__saidHook) return; window.__said=[]; const s0=GAME.say; GAME.say=function(who,t,o){ window.__said.push((who&&who.name?who.name+'：':'')+t); return s0.apply(this,arguments); }; window.__saidHook=true; })()")
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await run.shot(pg, 'order_greet')
-        okc, log = await talk_through(pg, cdp, "!GAME.D.active&&!GAME.E.player.busy&&GAME.G.money<" + str(m0), 120)
+        okc, _ = await talk_through(pg, cdp, "!GAME.D.active&&!GAME.E.player.busy&&GAME.G.money<" + str(m0), 120)
+        log = await pg.evaluate("window.__said||[]")
         m1 = await pg.evaluate("GAME.G.money"); await run.shot(pg, 'order_done')
         run.check('點餐和阿哲一起：「幾位？裡面有位子。」→「（你點了牛肉麵。）」→ 阿哲「這間我給八十分。上次那間七十。」、扣 150', okc and m0 - m1 == 150 and any('幾位？裡面有位子。' in t for t in log) and any('你點了牛肉麵' in t for t in log) and any('這間我給八十分' in t for t in log), json.dumps(log, ensure_ascii=False) + ' ' + str(m0 - m1))
         gate = await L.find_it(pg, '回到台大')
