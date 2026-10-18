@@ -53,7 +53,8 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
   G=mkG('2024-11-06',21,{Y0_MOVED_OUT:true}); G.home.at=false; OUTS=[]; calls.length=0; const GM6=Object.assign(Object.create(GM),{E:{paused:false,player:{busy:false,path:null}},D:{active:false}}); global.Date_now=Date.now; let t0=1e12; const DN=Date.now; Date.now=()=>t0;
   ECONFF.tick2(GM6); t0+=1000; ECONFF.tick2(GM6); check('⑥ 空下來不到 3 秒：還不回',!calls.some(c=>c[0]==='go'));
   t0+=2500; ECONFF.tick2(GM6); await new Promise(r=>setTimeout(r,0)); check('⑥ 空下來 3 秒：自動回家',calls.some(c=>c[0]==='go'),JSON.stringify(calls));
-  G.home.at=false; OUTS=[{id:'x',state:'planned',day:G.day}]; calls.length=0; ECONFF.busy=false; ECONFF.tick2(GM6); t0+=4000; ECONFF.tick2(GM6); check('⑥ 今天還有出遊沒演：不自動回家',!calls.some(c=>c[0]==='go'));
+  G.home.at=false; OUTS=[{id:'x',state:'planned',day:G.day,h:G.hour+1}]; calls.length=0; ECONFF.busy=false; ECONFF.tick2(GM6); t0+=4000; ECONFF.tick2(GM6); check('⑥ 今天還有還沒到時間的出遊：不自動回家',!calls.some(c=>c[0]==='go'));
+  G.home.at=false; OUTS=[{id:'y',state:'planned',day:G.day,h:G.hour-3}]; calls.length=0; ECONFF.busy=false; ECONFF.tick2(GM6); t0+=4000; ECONFF.tick2(GM6); await new Promise(r=>setTimeout(r,0)); check('⑥ 今天的出遊時間早就過了（沒演到）：照樣回家（瀏覽器 8/7 留在博雅）',calls.some(c=>c[0]==='go'));
   Date.now=DN;
   // ⑦ 重考期在家的日常（AA_297）：每天一段 short、不重複、長場景照日期；跳的終點是隔天那一段的時間
   { G=mkG('2025-02-16',9,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; calls.length=0; await ECONFF.homeStep(GM);

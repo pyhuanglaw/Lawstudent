@@ -177,9 +177,9 @@ const ECONFF=(()=>{
   let idle2=0;
   S.tick2=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(!S.on2(G)||S.busy||typeof HOME==='undefined'||HOME.at(G)){ idle2=0; return; }
     const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
-    const today=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G).some(q=>q.day===G.day&&q.state!=='done'&&q.state!=='missed'&&q.state!=='declined'):false;
+    const today=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G).some(q=>q.day===G.day&&q.state==='planned'&&G.hour<q.h+(q.late!=null?q.late:0.75)):false;   /* 只等今天還沒到時間的出遊（舊寫法：只要今天有一筆沒做完的就不回家——瀏覽器探測 8/7 一直留在博雅）*/
     if(!free||today){ idle2=0; return; } const now=Date.now(); if(!idle2){ idle2=now; return; } if(now-idle2<3000) return;
-    idle2=0; S.busy=true; HOME.go(GM).catch(e=>console.warn('ECONFF home',e)).finally(()=>{ S.busy=false; }); };   /* 出遊演完人在外面、空下來 3 秒：自動回家（休學在家，D102 ③）*/
+    idle2=0; S.busy=true; HOME.go(GM).then(ok=>{ if(!ok) console.warn('ECONFF home: HOME.go 沒有回家',{canGo:HOME.canGo&&HOME.canGo(G),at:HOME.at(G)}); }).catch(e=>console.warn('ECONFF home',e)).finally(()=>{ S.busy=false; }); };   /* 出遊演完人在外面、空下來 3 秒：自動回家（休學在家，D102 ③）*/
   S.tick=function(GM){ const G=GM.G; S.tick2(GM); if(!S.on(G)||S.busy){ idleSince=0; return; } const E=GM.E, P=E&&E.player;
     const free=!!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
     if(!free){ idleSince=0; return; } const now=Date.now(); if(!idleSince){ idleSince=now; return; } if(now-idleSince<1500) return;
