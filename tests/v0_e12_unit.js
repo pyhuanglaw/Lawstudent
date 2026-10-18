@@ -35,12 +35,12 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   run(); check('2. 19:45～20:15 在校園：可昕站在南岸步道',spawned.some(s=>s[0]==='kexin'&&Math.abs(s[2]+98.5)<0.1));
   check('2. 走到她旁邊就演（事件條件成立）',EVENTS.check(e12));
   picks=['第三隻手']; said=[]; await EVENTS.run(e12); const L=said.map(x=>x.t);
-  check('2. 原文四句、「我要第三隻手，幫妳拿尾巴。」→「……這是我聽過最好的回答。」、E12_ANSWER＝hand',L[0]==='假設，你可以多一個身體部位。你要什麼？'&&L[3]==='而且我想知道，有尾巴的人怎麼坐椅子。'&&L[4]==='（愣了一下，笑出來）第三隻手喔。……好，那尾巴給你拿。'&&G.flags.E12_ANSWER==='hand',JSON.stringify(L));
+  check('2. 原文三句（AA_295：拿掉「假設，你可以多一個身體部位。」）、「我要第三隻手，幫妳拿尾巴。」→「……這是我聽過最好的回答。」、E12_ANSWER＝hand',L[0]==='我想要一條長頸鹿的尾巴。'&&L[2]==='而且我想知道，有尾巴的人怎麼坐椅子。'&&!L.some(t=>/假設/.test(t))&&L[3]==='（愣了一下，笑出來）第三隻手喔。……好，那尾巴給你拿。'&&G.flags.E12_ANSWER==='hand',JSON.stringify(L));
   at(D6,20.6); check('2. 演過了：20:30 沒有手機版',!PHONE.sent(G,'y0_e12_phone'));
   // 沒到
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; G.zone='dorm'; at(D6,20.2); check('3. 20:15 以前不發手機版',!PHONE.sent(G,'y0_e12_phone'));
   at(D6,20.6); const T=PHONE.thread(G,'p:kexin').map(m=>m.text);
-  check('3. 20:30 手機版：「你沒來。那我用打的。」＋四則',T.includes('你沒來喔。')&&T.includes('沒關係，那我用打的。')&&T.includes('我要長頸鹿的尾巴。')&&T[T.length-1]==='而且我想知道，有尾巴的人怎麼坐椅子。',JSON.stringify(T.slice(-5)));
+  check('3. 20:30 手機版：「你沒來。那我用打的。」＋三則（AA_295）',T.includes('你沒來喔。')&&T.includes('沒關係，那我用打的。')&&T.includes('我想要一條長頸鹿的尾巴。')&&!T.some(t=>/假設/.test(t))&&T[T.length-1]==='而且我想知道，有尾巴的人怎麼坐椅子。',JSON.stringify(T.slice(-5)));
   const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='而且我想知道，有尾巴的人怎麼坐椅子。');
   check('3. 三個接法、一定要回（must）；沒回之前 PHONE.mustOpen',m.ask.must===true&&m.ask.opts.length===3&&PHONE.mustOpen(G,'p:kexin'));
   run(); check('3. 自動打開和可昕的對話',opened.some(o=>o[0]==='msg'&&o[1]==='p:kexin'));

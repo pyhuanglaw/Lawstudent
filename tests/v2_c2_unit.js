@@ -1,7 +1,7 @@
 // 交接包 v2 C2：主線 2 親戚的土地資料（一）（AA_12 主線 2）——不需要瀏覽器。修改前沒有這個事件（第 1 項失敗）。
 // 檢查：除夕（2026-02-16）12:00 以後有空就演（在哪裡都可以）、別天沒有；台詞照原文（{name} 換成玩家的名字）；三個選項的後續；FAMILY_LAND_Y1；
 //   2D 背景（臺北家裡的客廳、陽台；2026-10-14 祐廷改成臺北人，原本是嘉義老家）；除夕還沒演就上床＝睡覺時演；不寫真實地號（台詞裡沒有數字地號）
-//   ＋可昕 KN 除夕的假設題（BB_96 9-2）：主線 2 演完以後 22:00；三個回覆（「家裡在講一件事」只在有 FAMILY_LAND_Y1）、之後兩個選項、KX_FAMILY_LAND；不回＝隔天 9:00 一句
+//   ＋可昕 KN 除夕的訊息（BB_96 9-2；AA_295 不是假設題了）：主線 2 演完以後 22:00；三個回覆（「家裡在講一件事」只在有 FAMILY_LAND_Y1）、之後兩個選項、KX_FAMILY_LAND；不回＝隔天 9:00 一句
 // 用法：node tests/v2_c2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -58,12 +58,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 可昕 KN（BB_96 9-2）*/
   { const NY=STORY.lunarNewYear(), askMsg=()=>(G.msgs||[]).find(m=>m.tag==='kx_kn_y1'&&m.ask);
     const kn=(land,flags)=>{ fresh(EVE,18,'dorm',Object.assign({dating_kexin:true},flags||{})); if(land) G.flags.FAMILY_LAND_Y1=land; run(18,22.2); return askMsg(); };
-    let m=kn('ask'); const K=txt('p:kexin').filter(t=>/假設題|延長一小時/.test(t));
-    check('主線 2 演完（FAMILY_LAND_Y1）：22:00 可昕「新年快樂。今天的假設題。」「假設除夕可以延長一小時，你要拿來做什麼？」；三個回覆',JSON.stringify(K)==='["kexin:新年快樂。今天的假設題。","kexin:假設除夕可以延長一小時，你要拿來做什麼？"]'&&m&&Math.abs(m.h-22)<0.01&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["再吃一輪。","打給妳。","今天家裡在講一件事。"]',JSON.stringify(K)+' '+JSON.stringify(m&&m.ask.opts.map(o=>o.t)));
+    let m=kn('ask'); const K=(G.msgs||[]).filter(q=>q.th==='p:kexin'&&q.tag==='kx_kn_y1').map(q=>(q.from||'')+':'+q.text);
+    check('主線 2 演完（FAMILY_LAND_Y1）：22:00 可昕「新年快樂。」「你們家年夜飯吃完了嗎？」（AA_295）；三個回覆',JSON.stringify(K)==='["kexin:新年快樂。","kexin:你們家年夜飯吃完了嗎？"]'&&m&&Math.abs(m.h-22)<0.01&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["再吃一輪。","打給妳。","今天家裡在講一件事。"]',JSON.stringify(K)+' '+JSON.stringify(m&&m.ask.opts.map(o=>o.t)));
     m=kn(null); check('22:00 主線 2 還沒演：照樣傳，沒有「今天家裡在講一件事。」',m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["再吃一輪。","打給妳。"]',JSON.stringify(m&&m.ask.opts.map(o=>o.t)));
     fresh(EVE,18,'dorm',{FAMILY_LAND_Y1:'ask'}); run(18,23); check('單身：沒有',!askMsg());
-    m=kn('ask'); PHONE.answer(G,m.ask.id,0); check('「再吃一輪。」→「好。那我的一小時拿來消化。」',txt('p:kexin').slice(-1)[0]==='kexin:好。那我的一小時拿來消化。');
-    m=kn('ask'); PHONE.answer(G,m.ask.id,1); check('「打給妳。」→「……那這一小時現在開始。」＋電話（鞭炮聲、新年快樂、早點睡）',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>q.text))==='["……那這一小時現在開始。","（電話響了。她那邊的鞭炮聲。）","新年快樂。","早點睡。"]',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>q.text)));
+    m=kn('ask'); PHONE.answer(G,m.ask.id,0); check('「再吃一輪。」→「……我們家也還在吃。我阿嬤一直夾。」',txt('p:kexin').slice(-1)[0]==='kexin:……我們家也還在吃。我阿嬤一直夾。');
+    m=kn('ask'); PHONE.answer(G,m.ask.id,1); check('「打給妳。」→「……好。我去陽台。」＋電話（鞭炮聲、新年快樂、早點睡）',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>q.text))==='["……好。我去陽台。","（電話響了。她那邊的鞭炮聲。）","新年快樂。","早點睡。"]',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>q.text)));
     m=kn('ask'); PHONE.answer(G,m.ask.id,2); const m2=(G.msgs||[]).filter(q=>q.th==='p:kexin'&&q.ask).slice(-1)[0];
     check('「今天家裡在講一件事。」→「我可以只聽，也可以一起看。你選。」→ 兩個選項',m2&&m2.text==='我可以只聽，也可以一起看。你選。'&&JSON.stringify(m2.ask.opts.map(o=>o.t))==='["妳聽就好。","一起看。"]');
     PHONE.answer(G,m2.ask.id,0); check('「妳聽就好。」→（她聽你講完大伯、十四個名字、姊姊在旁邊憋笑。）「……你還好嗎？」「還好。有點好笑。」「那就好。」；KX_FAMILY_LAND＝listen',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>(q.from||'')+':'+q.text))==='[":（她聽你講完大伯、十四個名字、姊姊在旁邊憋笑。）","kexin:……你還好嗎？","player:還好。有點好笑。","kexin:那就好。"]'&&G.flags.KX_FAMILY_LAND==='listen',JSON.stringify((G.msgs||[]).filter(q=>q.th==='p:kexin').slice(-4).map(q=>(q.from||'')+':'+q.text)));
@@ -71,7 +71,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
       const L=(G.msgs||[]).filter(q=>q.th==='p:kexin').map(q=>q.text); const has=L.includes('……可是你先問了大家想要什麼。這很好。');
       check('「一起看。」（主線 2 選 '+land+'）：傳謄本照片（地號遮住）→「我們還沒教到物權。所以先查清楚，不要猜。」'+(more?'＋「……可是你先問了大家想要什麼。這很好。」':'（沒有多的那一句）')+'；KX_FAMILY_LAND＝look',L.includes('📷（土地謄本，地號遮住）')&&L.includes('我們還沒教到物權。所以先查清楚，不要猜。')&&has===more&&G.flags.KX_FAMILY_LAND==='look'); }
     m=kn('lawyer'); G.day=NY; run(8.5,9.2); const L=txt('p:kexin');
-    check('不回：初一 9:00「新年快樂。昨天的題目，你可以想一年。」；之後不能再回',L.slice(-1)[0]==='kexin:新年快樂。昨天的題目，你可以想一年。'&&!PHONE.askOpen(G,askMsg()),JSON.stringify(L.slice(-2)));
-    m=kn('lawyer'); PHONE.answer(G,m.ask.id,0); G.day=NY; run(8.5,9.5); check('回過了：初一沒有那一句',!txt('p:kexin').some(t=>/可以想一年/.test(t))); }
+    check('不回：初一 9:00「新年快樂。……昨天講到一半，我先睡著了。」；之後不能再回',L.slice(-1)[0]==='kexin:新年快樂。……昨天講到一半，我先睡著了。'&&!PHONE.askOpen(G,askMsg()),JSON.stringify(L.slice(-2)));
+    m=kn('lawyer'); PHONE.answer(G,m.ask.id,0); G.day=NY; run(8.5,9.5); check('回過了：初一沒有那一句',!txt('p:kexin').some(t=>/昨天講到一半/.test(t))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

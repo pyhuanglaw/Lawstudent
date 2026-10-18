@@ -33,9 +33,9 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
   const D=STORY.DAILY_PHONE.filter(d=>/^y0_/.test(d.id)); check('0. 經濟系的手機小事 24 則',D.length===24,String(D.length));
   // 大一上：E06 以後
   fresh(termDay('Y0S1',5,1),8,'dorm',{E06_DONE:'e06'}); G.stage='econ'; let M=days(G.day,40).map(m=>m.text);
-  check('1. Y0S1：可昕三則（不是雨天那則）、阿勳、品妤、唐睿、韋綸的都會出現；一天最多一則',['品妤說小福的滷肉飯是全校效用最高的。她算的時候沒有算排隊。','微積分老師今天說了九次『顯然』。我一次都沒有顯然。','上課老師講了一個冷笑話。全班只有我笑。……笑了很久。','你的鬧鐘第二次響的時候，我已經在刷牙了。我們的作息差八分鐘。這很好。'].every(t=>M.includes(t))&&!M.includes('假設今天下雨，你會走去總圖還是騎車？……沒事，我在決定要不要帶傘。'),JSON.stringify(M.slice(0,12)));
+  check('1. Y0S1：可昕三則（不是雨天那則）、阿勳、品妤、唐睿、韋綸的都會出現；一天最多一則',['品妤說小福的滷肉飯是全校效用最高的。她算的時候沒有算排隊。','微積分老師今天說了九次『顯然』。我一次都沒有顯然。','上課老師講了一個冷笑話。全班只有我笑。……笑了很久。','你的鬧鐘第二次響的時候，我已經在刷牙了。我們的作息差八分鐘。這很好。'].every(t=>M.includes(t))&&!M.includes('下雨了。你今天走去總圖還是騎車？……沒事，我在決定要不要帶傘。'),JSON.stringify(M.slice(0,12)));
   check('1. 沒有法律系的手機小事混進來（Kevin、溫學姊、芷若）',!(G.msgs||[]).some(m=>['kevin','heroine_05','heroine_02'].includes(m.from)));
-  fresh(termDay('Y0S1',5,1),8,'dorm',{E06_DONE:'e06'}); G.stage='econ'; M=days(G.day,40,'rain').map(m=>m.text); check('1. 下雨的日子：雨天那則會出現',M.includes('假設今天下雨，你會走去總圖還是騎車？……沒事，我在決定要不要帶傘。'));
+  fresh(termDay('Y0S1',5,1),8,'dorm',{E06_DONE:'e06'}); G.stage='econ'; M=days(G.day,40,'rain').map(m=>m.text); check('1. 下雨的日子：雨天那則會出現',M.includes('下雨了。你今天走去總圖還是騎車？……沒事，我在決定要不要帶傘。'));
   fresh(termDay('Y0S1',5,1),8,'dorm',{}); G.stage='econ'; M=days(G.day,30).map(m=>m.text); check('1. E06 以前：可昕的不出現',!M.some(t=>/顯然|滷肉飯|冷笑話/.test(t)));
   // 大一下：交往中、3/26 以後
   const d26=STORY.dayOfKey('2025-03-26');

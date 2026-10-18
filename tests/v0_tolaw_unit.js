@@ -52,8 +52,8 @@ let cards=[], backups=[], entered=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'�
   check('3. 經濟系的事件不再觸發（stage law）',!EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_y0_e36'))&&!STORY.toLawDue(G));
   // 4. 可昕的第一則（法律系第一天）：玩過經濟系的多一句
   said=[]; script=[0]; GM.choose=async o=>0; await STORY._v1.kexinFirstMsg(GM,'night'); const K=said.map(x=>x.t);
-  check('4. 法律系第一天可昕的第一則：先「第二次的大一。我們都是重考上來的。」再「今天的假設題。」',K[0]==='第二次的大一。我們都是重考上來的。'&&K[1]==='今天的假設題。',JSON.stringify(K.slice(0,3)));
-  fresh(5,21,'dorm',{KX_FIRST_MSG:false}); G.stage='law'; said=[]; await STORY._v1.kexinFirstMsg(GM,'night'); check('4. 從法律系開始的玩家：沒有那一句',said[0]&&said[0].t==='今天的假設題。');
+  check('4. 法律系第一天可昕的第一則：先「第二次的大一。我們都是重考上來的。」再「今天讀到哪了？」（AA_295）',K[0]==='第二次的大一。我們都是重考上來的。'&&K[1]==='今天讀到哪了？',JSON.stringify(K.slice(0,3)));
+  fresh(5,21,'dorm',{KX_FIRST_MSG:false}); G.stage='law'; said=[]; await STORY._v1.kexinFirstMsg(GM,'night'); check('4. 從法律系開始的玩家：沒有那一句',said[0]&&said[0].t==='今天讀到哪了？');
   // 5. 不在家（例：8/31 早上人在校園）：toLawDue 也成立（S.tick 那一條）；法律系存檔永遠不成立
   fresh(D31,7,'campus',{LEAVE_WEEK:6}); G.stage='econ'; check('5. 8/31 06:00 以後人在校園：toLawDue 成立；05:00 不成立',STORY.toLawDue(G)&&(()=>{ G.hour=5; return !STORY.toLawDue(G); })());
   fresh(D31,7,'campus'); G.stage='law'; check('5. 法律系的存檔：不成立',!STORY.toLawDue(G));

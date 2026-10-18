@@ -63,9 +63,9 @@ GM.money=function(n){ G.money+=n; };
     const ask=(G.msgs||[]).find(m=>m.tag==='mx_tutor_ask2'); check('⑩ 3/28 說「我先想想」→ 3/31 21:00「家教的事，想好了嗎？」',!!ask&&ask.day===d0+3&&ask.text==='家教的事，想好了嗎？');
     G.day=D('2026-04-01'); G.hour=13; STORY.phoneRules(GM); PHONE.tick(G); check('⑩ 4/1（月底過了、答覆後 4 天）名額還在',!PHONE.sent(G,'mx_tutor_gone'));
     G.day=d0+8; G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G); check('⑩ 答覆後第 8 天：名額給別人了',PHONE.sent(G,'mx_tutor_gone')&&!!G.flags.TUTOR_GONE); }
-  // ⑫ KN：交往中三個 KX_CAR 都先接電話「新年快樂。」再收假設題（AA_224 1-6 e6c064a3；原本只給 E25 選③、說「今年不開玩笑了」）
+  // ⑫ KN：交往中三個 KX_CAR 都先接電話「新年快樂。」再收 KN（AA_224 1-6 e6c064a3；AA_295 不是假設題了；原本只給 E25 選③、說「今年不開玩笑了」）
   { const ny=STORY.lunarNewYear(); fresh(ny-1,14,'campus',{dating_kexin:true,KX_CAR:'camp',FAMILY_LAND_Y1:'teacher'}); G.stage='law'; STORY.phoneRules(GM); G.hour=22.1; PHONE.tick(G);
-    const M=(G.msgs||[]).filter(m=>m.th==='p:kexin'), K=M.map(m=>m.text); const ic=M.findIndex(m=>m.tag==='kx_kn_call'), ik=K.indexOf('新年快樂。今天的假設題。');
+    const M=(G.msgs||[]).filter(m=>m.th==='p:kexin'), K=M.map(m=>m.text); const ic=M.findIndex(m=>m.tag==='kx_kn_call'), ik=M.findIndex(m=>m.tag==='kx_kn_y1');
     check('⑫ 交往中（KX_CAR camp 也一樣）：22:00 以前先接電話「新年快樂。」，再收 KN；沒有「今年不開玩笑了」',ic>=0&&ik>ic&&K[ic+1]==='新年快樂。'&&!K.includes('今年不開玩笑了。新年快樂。'),JSON.stringify(K)); }
   // ⑬ K6 之後第一次換一天＝照 K6_RESPONSE；再下一次＝「好，這週換一天。」
   { const wk=EV('ev_kexin_our_day_wk'); fresh(termDay('Y1S2',10,5),19.5,'campus',{dating_kexin:true,K6_RESPONSE:'understand'}); G.stage='law';

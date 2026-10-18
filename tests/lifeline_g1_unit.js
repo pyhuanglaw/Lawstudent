@@ -1,5 +1,5 @@
 // LIFE-LINE 第 1 組（AA_224 1-1～1-6 @e6c064a3；機制 BB_188 A9 @d171faef）——不需要瀏覽器。
-// 2024-10-17：E30 多兩行旁白 → 15:30 祐廷私訊可昕（十則、不在群組）＋固定出遊 17:40 → 車上（KX_CAR 三選一，都是接受）→ 摩天輪（「不用假設。」）→ 交往、回宿舍。
+// 2024-10-17：E30 多兩行旁白 → 15:30 祐廷私訊可昕（十則、不在群組）＋固定出遊 17:40 → 車上（KX_CAR 三選一，都是接受）→ 摩天輪（最高點不說話，AA_295）→ 交往、回宿舍。
 // 舊的 3/19 E25、3/20～22 E26、期末 E19（含 1/4「很有禮貌」、19:15 電話）不再發生；E36 讀 KX_CAR；法律系除夕交往中三個值都打電話；kx1 到車上為止；
 // 舊存檔：E25／E21／E19 → KX_CAR，過了 10/17 的當作演過；過了 12/13、2/13 的固定事件當作演過。改版前會失敗。用法：node tests/lifeline_g1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -47,7 +47,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* ---------- 車上＋摩天輪 ---------- */
   const car=ev('ev_y0_e26');
   for(const [pick,val] of [['宿營','camp'],['只有我','only_me'],['是現在','take_back']]){ econ(d30,17+40/60,'campus',{}); picks=[pick]; await EVENTS.run(car); const L=lines();
-    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪「不用假設。」「……好。那就從這裡開始。」、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&L.includes('祐廷：不用假設。')&&L.includes('杜可昕：……好。那就從這裡開始。')&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-1]==='（你送她回去。回到宿舍，已經快十一點了。）',L.slice(-8).join('｜')); }
+    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪最高點不說話「（到最高的時候，她把頭靠在你肩上。誰都沒有說話。）」（AA_295）、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&L.includes('（到最高的時候，她把頭靠在你肩上。誰都沒有說話。）')&&!L.some(t=>/假設|從這裡開始/.test(t))&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-1]==='（你送她回去。回到宿舍，已經快十一點了。）',L.slice(-8).join('｜')); }
   { econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L=lines().join('｜');
     check('1-3（e6c064a3）：沒有「我要記一輩子」「我想在最高的地方說」；摩天輪的約是「你晚上有事嗎？」「那去坐摩天輪。」',!L.includes('記一輩子')&&!L.includes('最高的地方說')&&L.includes('你晚上有事嗎？')&&L.includes('那去坐摩天輪。')); }
   /* ---------- 舊的不再發生 ---------- */

@@ -91,7 +91,7 @@ const findDay=(spot,h,m,o)=>{ for(let k=0;k<4;k++) for(let wk=1;wk<=16;wk++){ co
     const G2=mk(SUN,10.5); G2.flags.EX_heroine_01=true; G2.flags.ROMANCE_HISTORY=[{id:'heroine_01',to:'Y1S1W4',how:'apart_talk'}]; const gm2=mkGM(G2,['打招呼']); await ENC.meet(gm2,row,ENC.tier(G2,'heroine_01'));
     check('8. 沒有寫到的分開方式：點頭的旁白（BB_144 第 2 節），不另外編台詞',gm2.L.says.join()===row.why+','+ENCOUNTERS.NOD,JSON.stringify(gm2.L.says));
     const G3=mk(SUN,17); G3.flags.dating_kexin=false; G3.flags.EX_kexin=true; G3.flags.ROMANCE_HISTORY=[{id:'kexin',to:'Y1S1W4',how:'kx_b'}]; const krow=ENCOUNTERS.rows.find(r=>r.who==='kexin'&&r.spot==='D13'); const gm3=mkGM(G3,['打招呼']); await ENC.meet(gm3,krow,ENC.tier(G3,'kexin'));
-    check('8. 可昕走向 B：「假設今天沒遇到。……」＋旁白她跟予樂走了',gm3.L.says.includes('杜可昕：假設今天沒遇到。……好，那就當沒遇到。')&&gm3.L.says.includes('（她笑了一下，跟予樂走了。）'),JSON.stringify(gm3.L.says));
+    check('8. 可昕走向 B：「……今天就當沒遇到，好不好。」（AA_295）＋旁白她跟予樂走了',gm3.L.says.includes('杜可昕：……今天就當沒遇到，好不好。')&&gm3.L.says.includes('（她笑了一下，跟予樂走了。）'),JSON.stringify(gm3.L.says));
     const G4=mk(SUN,17); const gm4=mkGM(G4,['打招呼']); await ENC.meet(gm4,krow,ENC.tier(G4,'kexin'));
     check('8. 可昕交往中（淡水）：兩句＋予樂那句；留 ENC_D13_KX',gm4.L.says.includes('予樂：我們什麼都沒看到。邵鈞，走。')&&SOCIAL.has('kexin','ENC_D13_KX'),JSON.stringify(gm4.L.says)); }
   // 9. 之後在學校、手機

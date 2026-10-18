@@ -86,7 +86,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   let FB=Object.assign({},G.flags); FB.P2B_COUNT=1; STORY.P2B_P=1; fresh(T11,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
   picks=['跟去','先找路出去']; await EVENTS.run(ev); check('12. 腳踏車之後第一次 river：L5b（還沒演過）',said.some(x=>x.t==='這條巷子很適合拍電影。')&&G.flags.L5B_DONE===true);
   FB=Object.assign({},G.flags); FB.P2B_COUNT=1; fresh(T13,15.2,'putong',Object.assign(FB,{P2B_SEEN:false}));
-  opts=[]; picks=['跟去']; await EVENTS.run(ev); check('12. 再下一次 river：E13③ 已刪（沒有「假設河會記得……」、不記 E13_RIVER）',!said.some(x=>x.t==='假設河會記得每一個從這裡騎過去的人。')&&!G.flags.E13_RIVER&&!opts.some(o=>o.some(x=>/陪大家走到最後/.test(x))));
+  opts=[]; picks=['跟去']; await EVENTS.run(ev); check('12. 再下一次 river：E13③ 已刪（沒有「你第一次在這裡騎車，是什麼時候？」（AA_295 前是「假設河會記得……」）、不記 E13_RIVER）',!said.some(x=>x.t==='你第一次在這裡騎車，是什麼時候？')&&!G.flags.E13_RIVER&&!opts.some(o=>o.some(x=>/陪大家走到最後/.test(x))));
   // 沒去版
   const bikeAsk=()=>PHONE.thread(G,'g:econ_friends').find(m=>m.text==='我的車被認走了。有沒有人懂法律？');
   fresh(BD,17.4,'dorm',{P2_PICK:'river'}); PHONE.join(G,'econ_friends','走啦'); run(); check('13. 沒去：17:30 以前沒有',!bikeAsk());

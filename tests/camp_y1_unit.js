@@ -100,7 +100,7 @@ const day=k=>STORY.dayOfKey(k);
   { const kx=G.msgs.filter(m=>m.th==='p:kexin'), last=kx[kx.length-1]; PHONE.answer(G,last.ask.id,2);
     check('H7. 玩過經濟系：多「第二次的大一欸。」；回「有點緊張。」→「我也是。明明是第二次了。」',kx.map(m=>m.text).includes('第二次的大一欸。')&&G.msgs.some(m=>m.text==='我也是。明明是第二次了。'));
     G.day=day('2025-09-03'); G.hour=21.2; said=[]; await STORY._v1.kexinFirstMsg(GM,'night');
-    check('H8. 9/3 讀案例那晚的可昕訊息（新局）拿掉「第二次的大一。我們都是重考上來的。」，假設題照舊',!said.some(t=>/第二次的大一/.test(t))&&said.some(t=>/今天的假設題/.test(t)),said.slice(0,3).join(' | ')); }
+    check('H8. 9/3 讀案例那晚的可昕訊息（新局）拿掉「第二次的大一。我們都是重考上來的。」，「今天讀到哪了？」照舊（AA_295）',!said.some(t=>/第二次的大一/.test(t))&&said.some(t=>/今天讀到哪了/.test(t)),said.slice(0,3).join(' | ')); }
   fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-09-03'); STORY.familyW0(G,{now:true});
   { const kv=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin');
     check('G5. 沒去宿營的版本（BB_168 6-3）：Kevin 的置頂排第一（AA_218 L512）、「有進來的舉個手，考古題茶會那天給你們。」、回「（舉手）／我在。」',kv.length===3&&kv[0].pin&&/^學弟妹好～我是 Kevin，大二。/.test(kv[0].text)&&kv[2].text==='有進來的舉個手，考古題茶會那天給你們。'&&kv[2].ask.opts.map(o=>o.t).join('/')==='（舉手）/我在。',kv.map(m=>m.text).join(' | ')); }
