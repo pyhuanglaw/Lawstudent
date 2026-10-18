@@ -63,6 +63,24 @@
    "status": "還沒做",
    "wants": "X41",
    "task": "US-MARKET-STREET"
+  },
+  {
+   "id": "UA-LAWWW-1018-08",
+   "at": "2026-10-18T14:1x",
+   "quote": "烤肉沒接到cg（附截圖：品妤「（拿起手機）不要動。……好，再一張。」）",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X43",
+   "task": "CG-ECON-BBQ-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-09",
+   "at": "2026-10-18T14:1x",
+   "quote": "系烤 CG：生一張新的（建議）",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "wants": "X43",
+   "task": "CG-ECON-BBQ-1018"
   }
  ]
 }

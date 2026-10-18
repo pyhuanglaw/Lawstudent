@@ -19604,6 +19604,48 @@
    "source": "使用者 2026-10-18 13:5x：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務啊？交接規則到底要怎麼寫？他們才不會還有東西沒寫」→ 選「三個都做（建議）」",
    "authorized": "使用者直接選",
    "next": "LAWWW2、AA、BB 回來接班合併 RULE_SOURCE 以後才拿得到 hook 和種子檔；接班第 9 步跑 asks；hook 在已經開著的工作階段要重開或 /hooks 才生效"
+  },
+  {
+   "id": "CG-ECON-BBQ-1018",
+   "title": "經濟系中秋系烤（E08，9/21 河濱）沒有 CG：生一張新的（阿勳戴柚子帽生火、品妤拿手機拍），放在品妤「（拿起手機）不要動。……好，再一張。」那一句",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 4,
+    "earliest": "9/21 中秋系烤",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:1x：「烤肉沒接到cg」（附截圖）→ 選擇題選「生一張新的（建議）」",
+   "authorized": "使用者直接選",
+   "next": "LAWWW-C 14:1x 已給使用者提示詞（D97：有人物單獨一輪、附參考圖：阿勳、品妤立繪＋法律系河濱 CG 當畫風參考）；收到圖：存 assets/cg/econ/cg_econ_bbq_pomelo.webp、adv3d.js CG_REGISTRY 加 cg_econ_bbq_pomelo、events.js ev_y0_e08 在那一句前加 {cg:'cg_econ_bbq_pomelo'}；法律系那張 CG-14 照舊只給法律系"
+  },
+  {
+   "id": "BUG-ADV-OVERLAP-1018",
+   "title": "手機直向 2D 對話：品妤說話時，站在前面的是戴安全帽的男生立繪，兩張立繪疊在一起（使用者 10-18 14:1x 截圖，E08 中秋系烤）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 4,
+    "earliest": "9/21 中秋系烤",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:1x 截圖（同一則「烤肉沒接到cg」）；LAWWW-C 看截圖發現，使用者沒有直接說",
+   "authorized": "一般 bug",
+   "next": "查 adv3d.js 直向畫面兩人時的排法：說話的人要在前面；D99 不影響遊玩的外觀問題先記錄"
   }
  ]
 }
