@@ -13,16 +13,16 @@ const BG=(typeof OUT!=='undefined'&&OUT.BG)||{}; const exists=f=>!!f&&fs.existsS
 const args=process.argv.slice(2); const md=args.includes('--md')?args[args.indexOf('--md')+1]:null; const stage=args.includes('--stage')?args[args.indexOf('--stage')+1]:null;
 const rows=[], wrong=[]; const bgNote=k=>{ const b=BG[k]; if(!b) return '背景代號不存在'; if(!b.image) return '沒有圖（image:null）'; if(!exists(b.image)) return '檔案不在：'+b.image; return null; };
 const text=l=>(l&&l.text?String(l.text):'').replace(/\s+/g,' ').slice(0,36);
-function scan(id,title,stg,when,bg0,dlg){ let cur=bg0==='dark'?{why:'事件底色 dark、還沒換背景',label:'（事件開頭）',key:'dark'}:null, n=0, first=null; const flush=()=>{ if(cur&&n) rows.push({id,title,stage:stg,when,scene:cur.label,key:cur.key,why:cur.why,lines:n,first}); n=0; first=null; };
+function scan(id,title,stg,when,bg0,dlg,trig){ let cur=bg0==='dark'?{why:'事件底色 dark、還沒換背景',label:'（事件開頭）',key:'dark'}:null, n=0, first=null; const flush=()=>{ if(cur&&n) rows.push({id,title,stage:stg,when,scene:cur.label,key:cur.key,why:cur.why,lines:n,first}); n=0; first=null; };
   for(const l of dlg||[]){ if(!l||typeof l!=='object') continue;
-    if(l.scene!==undefined){ flush(); const k=l.bg; if(k===false||k==null){ cur=bg0==='dark'?{why:'換場景但沒有給背景（'+(k===false?'bg:false':'沒有 bg')+'）',label:l.scene,key:String(k)}:null; } else { const w=bgNote(k); cur=w?{why:w,label:l.scene||BG[k]&&BG[k].label||k,key:k}:null; } continue; }
+    if(l.scene!==undefined){ flush(); const k=l.bg==null&&l.bg!==false&&l.scene==='電話'&&trig!=='home'?'phone_street_night':l.bg; if(k==null&&trig==='home'){ cur=null; continue; }   /* events3d.js：沒給背景、人在家＝家裡的背景；不在家的電話＝phone_street_night */ if(k===false||k==null){ cur=bg0==='dark'?{why:'換場景但沒有給背景（'+(k===false?'bg:false':'沒有 bg')+'）',label:l.scene,key:String(k)}:null; } else { const w=bgNote(k); cur=w?{why:w,label:l.scene||BG[k]&&BG[k].label||k,key:k}:null; } continue; }
     if(l.cg){ const f=CG[l.cg]; if(!f||!exists(f)) rows.push({id,title,stage:stg,when,scene:'CG',key:l.cg,why:f?'CG 檔案不在：'+f:'CG 沒登記',lines:1,first:''}); continue; }
     if(l.text&&cur){ n++; if(!first) first=text(l); } }
   flush(); }
 for(const e of (typeof STORY_EVENTS!=='undefined'?STORY_EVENTS:[])){ if(e.retired) continue; if(stage&&(e.stage||'law')!==stage) continue;
   const when=[e.term&&e.term.join('/'),e.weeks&&('第'+e.weeks.join(',')+'週'),e.trigger].filter(Boolean).join(' ');
   let d=e.dialogue; if(typeof d==='function'){ try{ d=d({flags:{},events:{done:{}},rel:{},day:0,hour:12}); }catch(_){ d=null; } }
-  if(Array.isArray(d)){ scan(e.id,e.title||'',e.stage||'law',when,e.background||'blur',d);
+  if(Array.isArray(d)){ scan(e.id,e.title||'',e.stage||'law',when,e.background||'blur',d,e.trigger);
     const f=d.find(l=>l&&typeof l==='object'&&(l.text||l.scene!==undefined)); if(e.trigger==='outing'&&(e.background||'blur')!=='dark'&&!(f&&f.scene!==undefined)) wrong.push({id:e.id,title:e.title||'',stage:e.stage||'law',bg:e.background||'blur',first:text(f)}); } }
 if(typeof RETAKE_HOME!=='undefined'&&(!stage||stage==='econ')){ for(const e of [].concat(RETAKE_HOME.long||[],RETAKE_HOME.short||[])){ if(!e) continue; const d=[{scene:e.place||'',bg:e.bg===false?false:(e.bg||'home_living')}].concat((e.lines||[]).map(x=>Array.isArray(x)?{speaker:x[0],text:x[1]}:x)); scan('RH:'+e.id,e.title||e.id,'econ',e.date||e.kind||'',e.bg===false?'dark':'blur',d); } }
 const byKey={}; for(const r of rows){ const k=r.key+'｜'+r.why; (byKey[k]=byKey[k]||[]).push(r); }

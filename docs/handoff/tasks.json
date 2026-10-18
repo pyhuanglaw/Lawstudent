@@ -19687,7 +19687,7 @@
    },
    "source": "使用者 2026-10-18 14:2x：「桌遊也沒畫面 類似的事情幫我檢查哪些都黑畫面等下一個帳號BB教我補充」",
    "authorized": "使用者直接指示",
-   "next": "清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
+   "next": "經濟系第一批四張 15:3x 已向使用者要（BG-ECON-B1-1018）；在家的電話改用家裡背景（不用圖）。清單：docs/handoff/BLACK_BG_AUDIT_1018.md（node tools/story/black_bg_audit.js --md 重產）；第 1 節依背景代號分組（補一張就補好一組），第 3 節地點不對，第 4 節使用者回報（桌遊店、系烤 CG）。下一班 BB：先排經濟系（D99 第一優先），純場景一次四份不附圖、有人物單獨一輪附參考圖；電話場景要不要圖先用選擇題問使用者。和 ART-17 對過、不重複",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -19968,6 +19968,27 @@
     "acceptance": "企劃檔沒有臺北的家上下樓的字",
     "ack": "未派"
    }
+  },
+  {
+   "id": "BG-ECON-B1-1018",
+   "title": "經濟系黑畫面第一批四張純場景（使用者生）：以前的補習班櫃台、公館桌遊店、晚上的捷運車廂、晚上的路邊（講電話）",
+   "area": "ART",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "10/15 經濟系的聚會（桌遊）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
+   "authorized": "使用者直接指示",
+   "next": "15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md"
   }
  ]
 }
