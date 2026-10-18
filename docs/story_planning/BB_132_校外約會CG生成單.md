@@ -2826,3 +2826,8 @@
 - 清單（檔名照 LAWWW：`home_<房間>_<day|night>`）：①`home_entry_night` 玄關 ②`home_sofa_day` ③`home_sofa_night` 客廳沙發電視側（現有 `home_living_day` 是餐桌，名字不覆蓋）④`home_dining_day` ⑤`home_dining_night` ⑥`home_dining_late` 餐桌（兩個人念書；深夜檯燈）⑦`home_kitchen_day` 廚房 ⑧`home_room_day` ⑨`home_room_night` 祐廷的房間（新版，取代 `home_room`）⑩`home_guest_night` 客房（2/15 起可昕住，她的書、行李、牛仔外套）⑪`home_dining_cny` 除夕年夜飯。
 - 不用新圖：陽台夜景用現有 `home_balcony`；家樓下巷口用現有 `y0_home_street_night`（第 79 組）。
 - 提示詞全文在使用者對話（2026-10-18 07:0x）。
+
+### 第 84 組：AA_298 兩張（2026-10-18 BB-C；LAWWW-C 07:33 轉）
+- `daan_park`：大安森林公園，白天、杜鵑花季（R3 杜鵑花散步改在這裡）。
+- `exam_hs_classroom`：臺灣高中普通教室當考場（7/10 看考場、7/11 分科測驗）：單人課桌椅一張一張分開排、綠黑板、桌角座位貼紙、門口座位表、吊扇。黑板、貼紙、座位表都不要讀得出的字（D77／不要文字）。
+- 提示詞全文在使用者對話（2026-10-18 07:3x）。
