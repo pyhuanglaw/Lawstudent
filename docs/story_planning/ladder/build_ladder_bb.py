@@ -53,11 +53,14 @@ D['characters'][ZR] = {'steps': [
  {'id':'Z-L8','if':{'any':[st(ZR,'FRIEND'),{**st(ZR,'FAMILIAR'),'flagNum':{'CAFE_VISITS':{'min':4}}}]},'unlessWorking':True,
   'lines':['我發現你點東西都會先看我一眼，才看菜單。','是在等我推薦喔？'],
   'choices':[ch('「因為妳會給建議。」','我只是跟你說今天哪支豆子比較好喝而已啦。'),ch('「我沒發現。」','有喔，你每次都這樣。')],'rel':{'fam':2,'comf':3}},
-],'greet':{'base':['嗨。（她推一下眼鏡）','哈囉，法律系的。','欸，又遇到你。','嗨！你今天看起來很忙喔。','（她遠遠揮了一下手）'],
- 'when':[{'working':True,'t':'（她在吧檯後面點了一下頭，手沒停）'},
+],'greet':{'base':['嗨。（她推一下眼鏡）','哈囉！你要去哪？','欸，又遇到你。','嗨！你今天看起來很忙喔。','（她遠遠揮了一下手）'],
+ 'when':[{'working':True,'if':{**st(ZR,'FAMILIAR'),'flagNum':{'CAFE_VISITS':{'min':2}}},'t':'今天也跟上次一樣？……我猜對了吧。','note':'2026-10-18 AA-C（口氣表 1-2 使用者定案）：上班也活潑一點，對熟客（去過 Café 兩次以上）；不熟的客人照下一句點頭'},
+         {'working':True,'t':'（她在吧檯後面點了一下頭，手沒停）'},
          {'location':['cafe'],'time':[22,24],'t':'快打烊了欸。我等一下也要走了。'},
          {'location':['campus','putong','boya'],'t':'在學校遇到你好不習慣。'},
-         {'weekday':[0,6],'t':'週末欸，你也出來晃？'}]}}
+         {'weekday':[0,6],'t':'週末欸，你也出來晃？'},
+         {'unless':st(ZR,'FRIEND'),'t':'哈囉，法律系的。','note':'2026-10-18 AA-C（口氣表 1-2 使用者定案）：原 base 第 2 句；叫「法律系的」只到朋友以前'},
+         {'if':st(ZR,'FRIEND'),'t':'{name}！哈囉。','note':'2026-10-18 AA-C（口氣表 1-2 使用者定案）：朋友以上叫名字'}]}}
 
 D['characters'][ZQ] = {'steps': [
  {'id':'Q-L1','if':st(ZQ,'ACQUAINTANCE'),'time':[14,24],
