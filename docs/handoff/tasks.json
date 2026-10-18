@@ -8490,7 +8490,7 @@
    "area": "V2",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）旁白已是 BB_95 第 672 行定稿「……今天是一隻小長頸鹿。」（BB-B 10:13 確認）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 已接（4/24）",
+   "next": "【2026-10-18 02:5x LAWWW-C USER_WANTS X02】再接三張：CG-11 以安理由欄、CG-12 語彤分一點時間（termend_lines.js 早就呼叫）、BCG-29 可昕春假回程（events.js K8「我不睡」和「過了收費站」中間）；檔案從企劃線 cg_approved/ 複製到 assets/cg/、CG_REGISTRY 登錄；tests/cg_x02_unit.js ALL PASS。BB-C 測畫面。｜BCG-04、BCG-11 已接（BB_117 的那一拍）；第 2 級：Z3、Q5 演到 CG 截圖；BCG-27（K1）旁白已是 BB_95 第 672 行定稿「……今天是一隻小長頸鹿。」（BB-B 10:13 確認）；BCG-28 已接（12/3）、BCG-29 跟 V2-K8D、BCG-21 跟 V2-Z5M、BCG-45 已接（4/24）",
    "priority": "P1",
    "first": {
     "term": "Y1S2",
@@ -14635,7 +14635,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【LAWWW-C 86f4c8fa＋4d933583：告白的共同流程（SYS-02）＋以安、語彤的告白台詞（AA_187 第 9 節 @6a0d2030；以安選項 AA_189 #40、不放十七次、CG-11 沒圖先不放；語彤只在淡水收尾）。學姊、芷若、子晴等 AA 定稿 commit；沛珊 Q1 等 AA；「答應或還沒」的個性規則問 BB-C（現在一律答應）；BB_191 §1 知情模型的盤點與遷移方案已回 BB-C（KEXIN_KNOWN 要拿掉，等 BB 確認）】【LAWWW-C 299cd05a：e2bdcece 的以安、語彤大一下交往中版本（語彤事件 4、5；以安杜鵑第一張、春假改行程；語彤春假私訊）。發現：七位女主角沒有告白路徑（DATE.canConfess 沒人呼叫、沒有事件設 dating_heroine_*），交往中版本都走不到——子代理盤點各人告白規格中，盤點完排實作；以安送她回去（AA_187 1-6 總圖版／讀書會版）是新機制，還沒做】【50a0c3c3：A4-L5、A4-L7 交往中回覆（LADDER_REPLY_IF）】【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
+   "next": "【02:5x】看板舊寫「CG-11 沒圖」已更正：10-14 通過，02:5x 已放檔＋登錄（V2-CGX）。｜【LAWWW-C 86f4c8fa＋4d933583：告白的共同流程（SYS-02）＋以安、語彤的告白台詞（AA_187 第 9 節 @6a0d2030；以安選項 AA_189 #40、不放十七次、CG-11 沒圖先不放；語彤只在淡水收尾）。學姊、芷若、子晴等 AA 定稿 commit；沛珊 Q1 等 AA；「答應或還沒」的個性規則問 BB-C（現在一律答應）；BB_191 §1 知情模型的盤點與遷移方案已回 BB-C（KEXIN_KNOWN 要拿掉，等 BB 確認）】【LAWWW-C 299cd05a：e2bdcece 的以安、語彤大一下交往中版本（語彤事件 4、5；以安杜鵑第一張、春假改行程；語彤春假私訊）。發現：七位女主角沒有告白路徑（DATE.canConfess 沒人呼叫、沒有事件設 dating_heroine_*），交往中版本都走不到——子代理盤點各人告白規格中，盤點完排實作；以安送她回去（AA_187 1-6 總圖版／讀書會版）是新機制，還沒做】【50a0c3c3：A4-L5、A4-L7 交往中回覆（LADDER_REPLY_IF）】【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
    "first": {
     "term": "Y1S1",
     "week": 1,

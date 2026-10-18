@@ -1433,6 +1433,7 @@ const STORY_EVENTS=[
       {label:'m3'},{speaker:'kexin',expression:'smile',text:'好。那每天晚上都要一起看。'},
       {label:'back'},{scene:'車上',bg:'car'},
       {speaker:'kexin',expression:'smile',text:'我不睡。我要陪你開車。'},
+      {cg:'cg_dont_sleep_kexin'},   /* BCG-29（BB 10-14 通過；cg_approved/README：放在「過了收費站」這句、三個目的地共用）*/
       {speaker:null,text:'過了收費站，她睡著了。音樂還是她選的。'} ],
     after:G=>{ const k=G.flags.KX_TRIP_Y1S2; if(k){ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; T.Y1S2=k; G.flags.KX_TRIP=T; } } },
   /* 春假麵店團那一趟（交接包 v2 C9；AA 71186c7）：4/3～4/4，住一晚民宿。地點「海邊的小鎮」（不寫真實地名；字幕「春假・海邊的小鎮」，背景 seaside_town 在 MISSING_EXTERNAL_ART）。
