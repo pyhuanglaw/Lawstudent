@@ -176,7 +176,7 @@ D['characters'][XN] = {'friendOnly': True, 'steps': [
  {'id':'XN0b-L3','if':st(XN,'FAMILIAR'),'week':[7,16],
   'lines':['你那張床，從你搬走到現在都空著。','宿舍說暑假以後才會排人。晚上講話都沒人回。'],
   'choices':[ch('「放你的東西啊。」','放了。現在床上都是我的講義。'),
-             ch('「那你傳訊息給我。」','好。冷笑話也算喔。',rel={'trust':2})],'rel':{'fam':2,'trust':1},'mem':'XN0B_EQUILIBRIUM',
+             ch('「那你傳訊息給我。」','好。沒事也可以傳。',rel={'trust':2})],'rel':{'fam':2,'trust':1},'mem':'XN0B_EQUILIBRIUM',
   'note':'10/19 搬走（A3）以後；不讀 A2（已刪）。不用 A3 的「冷笑話會少一半」「自言自語」'},
  {'id':'XN0b-L4','if':st(XN,'FAMILIAR'),'week':[7,16],
   'lines':['你搬走以後，我讀書還是把冷氣調到二十五度。','二十六度太舒服，會想睡。……對了，室友守則第二條我想好了：讀書的時候二十五。'],
