@@ -206,17 +206,13 @@ D['characters'][XN] = {'friendOnly': True, 'steps': [
 D['characters'][WL] = {'friendOnly': True, 'steps': [
  {'id':'WL0-L1','if':st(WL,'ACQUAINTANCE'),
   'lines':['走啦！','……去哪裡我還沒想。先走再說。'],
-  'choices':[ch('「走。」','好！先去公館再說。'),
+  'choices':[ch('「走。」','好！先去買吃的再說。'),
              ch('「先想好再走。」','那就來不及了。想好的時候，宵夜就收了。')],'rel':{'fam':2},'mem':'WL0_JUST_GO'},
  {'id':'WL0-L2','if':st(WL,'ACQUAINTANCE'),
-  'lines':['我的腳踏車鏈子又掉了。','這禮拜第二次了。'],
-  'choices':[ch('「要我幫你裝？」','真的嗎？好啊！我自己裝了三次都裝不回去。'),
-             ch('「去車行修一下。」','車行要錢啦。我再自己試一次。')],'rel':{'fam':2},'mem':'WL0_CHAIN',
-  'note':'不寫腳踏車是哪裡買的：期中後有「韋綸的二手腳踏車」事件（BB_112 第 3 節）'},
- {'id':'WL0-L3','if':st(WL,'FAMILIAR'),'week':[3,16],
-  'lines':['我台中人。台中的路比較寬。','台北騎車要一直說「借過」。我一天說一百次。'],
-  'choices':[ch('「台北人會習慣的。」','我不是台北人啊！……好，我會習慣的。'),
-             ch('「台中有什麼好吃的？」','太多了，一時講不完。我回去問我媽，她比較會挑。')],'rel':{'fam':2},'mem':'WL0_TAICHUNG'},
+  'lines':['我的腳踏車被拖吊了。','停在社科院門口。……五分鐘而已。'],
+  'choices':[ch('「要我陪你去領？」','真的嗎？好啊！'),
+             ch('「你以後停好一點。」','我每次都這樣跟自己說。')],'rel':{'fam':2},'mem':'WL0_TOWED',
+  'note':'2026-10-18 AA-C（AA_306，使用者選擇題：鏈子掉了跟 9/20 可昕那場重複，改成被拖吊）。舊註：不寫腳踏車是哪裡買的：期中後有「韋綸的二手腳踏車」事件（BB_112 第 3 節）'},
  {'id':'WL0-L4','if':st(WL,'FAMILIAR'),'week':[5,16],
   'lines':['我計畫這學期每天早上跑步。','第一天跑了。第二天在想。第三天在想第二天為什麼沒跑。'],
   'choices':[ch('「第四天呢？」','第四天下雨。老天幫我做了決定。'),
@@ -264,7 +260,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 6 if cid==XN else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 6 if cid==XN else 7 if cid==WL else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
