@@ -65,7 +65,7 @@ WALK = [
 
 LEAVE = [
     {'who': 'heroine_02', 'spot': 'D04', 'friend': '我搭車回去了。今天的片，下次在 Café 說。', 'dating': '到家傳訊息給我。……我也會傳。'},
-    {'who': 'heroine_04', 'spot': 'D04', 'friend': '我回去了。今天的分數，我截圖了。', 'dating': '下次你來打一首。我讓你。……騙你的。'},
+    {'who': 'heroine_04', 'spot': 'D04', 'friend': '我回去了。今天的分數，我截圖了。', 'dating': '下次你來打一首。我不會讓你。'},
     {'who': 'heroine_04', 'spot': 'D12', 'friend': '我回去改關卡了。今天的光，我帶走了。', 'dating': '你先走。我看你走到那個轉角。'},
     {'who': 'heroine_05', 'spot': 'D06', 'friend': '我四點要回去讀書。……今天，謝謝。', 'dating': '下次你排行程。我照你的走。'},
     {'who': 'classmate_peishan', 'spot': 'D12', 'friend': '我要去搭車了。今天買的繪本，下次借你。', 'dating': '今天買的書，第一本我先讀給你聽。……下次。'},
