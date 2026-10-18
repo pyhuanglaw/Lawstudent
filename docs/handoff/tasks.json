@@ -17601,7 +17601,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "使用者 10-18 存檔（day -370）：經濟系就 met_yu、lawclub。修：story3d.js 小語兩處、阿哲週四霖澤館前的舊 spawn 加 !S.isEcon；萬才館法服公告經濟系只看得到、不入社（不記 lawclub、不加筆記）。待 BB-C 瀏覽器（經濟系平日 8:30 校園、晚上溫州街沒有小語）"
+   "next": "使用者 10-18 存檔（day -370）：經濟系就 met_yu、lawclub。修：story3d.js 小語兩處、阿哲週四霖澤館前的舊 spawn 加 !S.isEcon；萬才館法服公告經濟系只看得到、不入社（不記 lawclub、不加筆記）。待 BB-C 瀏覽器（經濟系平日 8:30 校園、晚上溫州街沒有小語）｜【06:1x 追加，AA-C 讀程式】經濟系那年：法律系第二天民總 classScene、201 的以安／阿哲／小語不生；芷若、子晴、方奕廷只當背景不能搭話（game3d.js spawnCharacter ECON_BG；芷若當 Café 店員照舊點餐）"
   },
   {
    "id": "ART-YU-3D-1018",
