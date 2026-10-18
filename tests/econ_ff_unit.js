@@ -18,7 +18,7 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   const g=mkG('2024-10-17',23); g.events.done.ev_y0_e30_note=1; check('① 10/17 便利貼演完：還開（下一步 10/19 退宿）',ECONFF.on(g)); const g2=mkG('2024-10-19',18,{Y0_MOVED_OUT:true}); check('① 10/19 退宿以後：第一階段關（換第二階段，tests/econ_ff2_unit.js）',!ECONFF.on(g2));
   global.location={search:'?nofastecon'}; check('① ?nofastecon：關',!ECONFF.on(mkG('2024-09-02',8))); global.location={search:''}; }
 { const G=mkG('2024-09-02',8); const ids=[]; for(let i=0;i<6;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev||s.cls); ECONFF.rec(G).done[s.n]=1; }
-  check('② 順序：E02 → 會計第一堂 → 第一次經原 → 社團博覽會 → P2 → E05',JSON.stringify(ids)===JSON.stringify(['ev_y0_e02','acct_y0','econ_principles_y0','ev_y0_e07','ev_y0_p2','ev_y0_e05']),JSON.stringify(ids));
+  check('② 順序：E02 → 會計第一堂 → 第一次經原 → 保齡球（9/13，AA_293 4-1）→ 社團博覽會 → P2',JSON.stringify(ids)===JSON.stringify(['ev_y0_e02','acct_y0','econ_principles_y0','ev_y0_e14','ev_y0_e07','ev_y0_p2']),JSON.stringify(ids));
   const G2=mkG('2024-09-19',16,{}); for(const s of ECONFF.STEPS) if(s.n<9) ECONFF.rec(G2).done[s.n]=1; G2.events.done.ev_y0_e05=1; const s9=ECONFF.next(G2);
   check('② E05 在 9/19 接 P2 演過：9/20 那一個跳過，下一個是 9/21 系烤',s9&&s9.ev==='ev_y0_e08',s9&&s9.ev);
   const s5=ECONFF.STEPS.find(s=>s.n===5), t5=ECONFF.tOf(G,s5), it=ECONFF.clsItem(G,dayOf('2024-09-05'),'acct_y0');

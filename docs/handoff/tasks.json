@@ -17948,7 +17948,7 @@
    "title": "AA_293：可昕交往前六段過場 T1～T6、可昕不加社團、劇社拿掉（刪 ev_y0_c1、ev_y0_e18）、E08 兩句旁白、10/15 她留下來 KX_STAYED、E10 邀約 23:45",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -17962,7 +17962,7 @@
    },
    "source": "AA-C 81d42881（AA_293、AA_292、ladder_bb_y0s1.json；DL-AA-81d42881）",
    "authorized": "使用者選擇題（AA_293 第 1 節）＋D102",
-   "next": "白名單加 DL-AA-81d42881 三檔、重新匯入階梯；events.js E07 三句、E07 沒去的私訊、刪 c1／e18（econff3d.js 第 20 項、17:30 邀約、22:00 企鵝、11/28 私訊、Y0_EXTRA）、手機池 y0_kx_laugh；econff3d.js 加 T1～T6；E08 旁白；KX_STAYED；E10 去了聚會改 23:45"
+   "next": "events.js：E07 三句（不加社團）、T1～T6（ev_y0_kt1～kt6，trigger econff，演完 STORY.ladMark 記 K0 層）、E08 兩句旁白、gather 結尾她留下來（KX_STAYED）、E14 搬 9/13＋兩句、E12 結尾保齡球說破（KX_BOWLING_TOLD）、c1／e18 retired；story3d.js：E07 沒去私訊、y0_kx_laugh、E10 去了聚會 23:45、C1／E18 邀約關掉、保齡球邀約 9/12 全班群組；econff3d.js 步驟加 t1～t6、b1、拿掉 n20、照時間排。階梯白名單 6 檔改 9fecc202（Y0S1 因 KX0_EGG、KX0_SHOP 沒有記憶中文名稱先保留舊版，已請 AA 補表）。測試換：econ_ff、v0_e07、v0_e14、v0_gather、v0_c1、v0_e18、lifeline_g3。待 BB-C 瀏覽器"
   },
   {
    "id": "AA294-SKIPCLASS-1018",

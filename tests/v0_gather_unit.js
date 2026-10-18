@@ -32,10 +32,10 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const snap=JSON.stringify(G);
   // 去了
   GM.money=d=>{ G.money+=d; }; picks=['假裝沒看到']; said=[]; const m0=G.money, f0=SOCIAL.rel('kexin').fam||0; G.hour=18.75; await OUT.go(GM,q); const L=said.map(x=>x.t);
-  check('2. 去了（BB_179 段 B 改稿、AA_203 #2 #3 六個人）：公館、桌遊錢、「三個小時的話，剛好。」、看你的牌…十點二十散了；不再有「一百五」',L[0]==='（公館。期中考前的最後一個晚上。）'&&L.includes('今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。')&&L.includes('（六個人擠進一家桌遊店。一個人一小時五十元。）')&&L.includes('（看了一下錢包）三個小時的話，剛好。')&&!L.some(t=>/一百五/.test(t))&&L.includes('（他講的那件事，講到最後還是微積分。）')&&L[L.length-1]==='（六個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）',JSON.stringify(L.slice(0,3)));
+  check('2. 去了（BB_179 段 B 改稿、AA_203 #2 #3 六個人）：公館、桌遊錢、「三個小時的話，剛好。」、看你的牌…十點二十散了→ 她留下來（AA_293 第 4 節，KX_STAYED）；不再有「一百五」',L[0]==='（公館。期中考前的最後一個晚上。）'&&L.includes('今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。')&&L.includes('（六個人擠進一家桌遊店。一個人一小時五十元。）')&&L.includes('（看了一下錢包）三個小時的話，剛好。')&&!L.some(t=>/一百五/.test(t))&&L.includes('（他講的那件事，講到最後還是微積分。）')&&L.includes('（六個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）')&&L.includes('我還不想回去。')&&L[L.length-1]==='（她走進女舍以前，回頭揮了一下手。）'&&G.flags.KX_STAYED===true,JSON.stringify(L.slice(0,3)));
   check('2. 假裝沒看到：「（那一局她贏了。）」「你讓我？……下次不用讓。」',L.includes('（那一局她贏了。）')&&L.includes('你讓我？……下次不用讓。'));
   check('2. 22:20 左右、錢 −100、E10_EVE:went、可昕熟悉度 +1',Math.abs(G.hour-(22+1/3))<0.02&&G.money===m0-100&&G.flags.E10_EVE==='went'&&(SOCIAL.rel('kexin').fam||0)-f0===1,JSON.stringify([G.hour,m0-G.money,G.flags.E10_EVE,(SOCIAL.rel('kexin').fam||0)-f0]));
-  at(D15,22.5); check('2. 去了：21:40 那則沒有；22:30 可昕的邀約照常',!PHONE.sent(G,'y0_gather_miss')&&TH('p:kexin').includes('玩了一整晚。明天去總圖念書吧。期中考快到了。')&&!TH('p:kexin').includes('你今天沒來。我們玩了一整晚。'));
+  at(D15,23.8); check('2. 去了：21:40 那則沒有；可昕的邀約改 23:45（AA_293 第 4 節：她回到宿舍才傳）',!PHONE.sent(G,'y0_gather_miss')&&TH('p:kexin').includes('玩了一整晚。明天去總圖念書吧。期中考快到了。')&&!TH('p:kexin').includes('你今天沒來。我們玩了一整晚。'));
   // 沒去
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); const m1=G.money; at(D15,19.5); check('3. 沒去：19:15 以後出發選單沒有、記成 missed',!OUT.due(G)&&(OUT.expire(G),OUT.get(G,'y0_gather').state==='missed'));
   at(D15,21.8); check('3. 沒去：21:40 群組「唐睿聊到期中了。今天他請。」、錢不變、E10_EVE 不記',TH('g:econ_class').includes('唐睿聊到期中了。今天他請。')&&G.money===m1&&!G.flags.E10_EVE);

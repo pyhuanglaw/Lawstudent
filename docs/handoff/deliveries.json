@@ -7911,7 +7911,7 @@
    "what": "AA_293 可昕交往前過場＋劇社拿掉＋河濱烤肉；ladder_bb_y0s1.json（KX0_SHOP、K0-Lx1、PY0-L3）、AA_292 同版本",
    "task": "AA293-KX-BRIDGE-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-C 06:2x ACK，經濟系第一優先"
   },
   {

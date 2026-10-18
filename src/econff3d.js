@@ -21,18 +21,24 @@ const ECONFF=(()=>{
     {n:4, key:'2024-09-02',h:12.25,ev:'ev_y0_e02'},
     {n:5, key:'2024-09-05',cls:'acct_y0',with:['econ_zhengxun','econ_weilun','econ_pinyu','kexin']},
     {n:6, key:'2024-09-09',cls:'econ_principles_y0',with:['econ_zhengxun','kexin']},
+    {n:'b1',key:'2024-09-13',h:19,ev:'ev_y0_e14'},   /* 保齡球搬到 9/13 第一次班聚（AA_293 4-1）*/
     {n:7, key:'2024-09-18',h:10,zone:'campus',at:{x:-3,z:12,yaw:0},ev:'ev_y0_e07'},
     {n:8, key:'2024-09-19',h:15.17,zone:'putong',ev:'ev_y0_p2'},
     {n:9, key:'2024-09-20',h:17,ev:'ev_y0_e05'},
     {n:12,key:'2024-09-21',h:17,ev:'ev_y0_e08'},
+    {n:'t1',key:'2024-09-22',h:22+40/60,ev:'ev_y0_kt1'},
     {n:13,key:'2024-09-23',h:12.17,zone:'campus',ev:'ev_y0_e09'},
     {n:14,key:'2024-09-26',h:15.17,zone:'putong',ev:'ev_y0_p1b1',then:'ev_y0_p2'},
+    {n:'t2',key:'2024-09-25',h:11+50/60,ev:'ev_y0_kt2'},
+    {n:'t3',key:'2024-09-28',h:20.5,ev:'ev_y0_kt3'},
     {n:16,key:'2024-09-30',h:19,zone:'dorm',ev:'ev_y0_t0a'},
     {n:17,key:'2024-10-01',h:12.17,zone:'campus',ev:'ev_y0_t1'},
     {n:18,key:'2024-10-03',h:15.17,zone:'putong',ev:'ev_y0_p2'},
+    {n:'t4',key:'2024-10-02',h:11+50/60,ev:'ev_y0_kt4'},
     {n:19,key:'2024-10-07',h:12,zone:'boya',ev:'ev_y0_p2b',then:'ev_y0_b2'},
-    {n:20,key:'2024-10-07',h:19,ev:'ev_y0_c1'},
+    {n:'t5',key:'2024-10-09',h:23.5,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_kt5'},
     {n:21,key:'2024-10-12',h:14,zone:'cafe',ev:'ev_y0_l5a'},
+    {n:'t6',key:'2024-10-13',h:22.5,ev:'ev_y0_kt6'},
     {n:22,key:'2024-10-14',h:12,zone:'boya',ev:'ev_y0_p2b'},
     {n:23,key:'2024-10-15',h:19,ev:'ev_y0_gather'},
     {n:25,key:'2024-10-15',h:24.5,zone:'dorm',ev:'ev_y0_a1'},
@@ -73,7 +79,7 @@ const ECONFF=(()=>{
   S.stepDone=function(G,s){ const r=S.rec(G); if(r.done[s.n]) return true; if(s.cls){ const d=DK(s.key), it=S.clsItem(G,d,s.cls); return !!(it&&typeof CLS!=='undefined'&&CLS.rec(G).done[it.key]); }
     return !!s.ev&&done(G,s.ev)&&(!s.then||done(G,s.then)); };
   /* 下一個要做的：時間還沒過太久（過了 6 小時就算錯過、跳過）、還沒做完 */
-  S.next=function(G){ const now=G.day*24+G.hour; for(const s of S.STEPS){ if(S.stepDone(G,s)) continue; const t=S.tOf(G,s); if(t==null) continue; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };
+  S.next=function(G){ const now=G.day*24+G.hour; const L=S.STEPS.map(s=>({s,t:S.tOf(G,s)})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t); for(const {s,t} of L){ if(S.stepDone(G,s)) continue; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };   /* 照時間排（陣列順序不用照日期）*/
   S.lineFor=function(G,d0,d1){ if(d1-d0<2) return null; const r=S.rec(G); const k0=d0+1, k1=d1-1;
     for(const [a,b,t] of S.LINES){ if(r.lines.includes(t)) continue; if(a==null){ return t; } const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0) return t; } return null; };
   S.dateLabel=(day,h)=>{ const D=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day):{m:0,d:0}; const hh=Math.floor(h%24), mm=Math.round((h%1)*60)%60; return D.m+'/'+D.d+'（'+WD[wdOf(day)]+'）'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0'); };

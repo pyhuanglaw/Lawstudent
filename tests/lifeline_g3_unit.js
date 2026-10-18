@@ -36,7 +36,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const econ=(day,hour,zone,flags)=>{ fresh(day,hour,zone,Object.assign({dating_kexin:true,Y0_DATING:true,KX_CAR:'only_me',LEAVE_WEEK:6,Y0_MOVED_OUT:true},flags||{})); G.stage='econ'; G.flags.LIFELINE_V=1; };
   const J=x=>JSON.stringify(x), dl=id=>J(ev(id).dialogue);
   check('3-1 E12 chair（湖邊與手機版）：「你經濟系的，算一下。……喔，你休學了。那我自己算。」',dl('ev_y0_e12').includes('你經濟系的，算一下。……喔，你休學了。那我自己算。')&&require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8').includes("K('對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。')"));
-  check('3-2 E14：學號那句後面品妤「交往中的人不能互換。違規。」可昕「我沒有抽。所以沒有違規。」',(()=>{ const D=ev('ev_y0_e14').dialogue.map(x=>x.text); const i=D.indexOf('你的學號繡在上面。我想知道當你是什麼感覺。'); return D[i+1]==='交往中的人不能互換。違規。'&&D[i+2]==='我沒有抽。所以沒有違規。'; })());
+  check('3-2 E14（AA_293 4-1：搬到 9/13 還不熟的時候）：「這件比較好看。」後面品妤「不能自己挑。要抽。」可昕「我沒有抽。所以沒有違規。」',(()=>{ const D=ev('ev_y0_e14').dialogue.map(x=>x.text); const i=D.indexOf('這件比較好看。'); return D[i+1]==='不能自己挑。要抽。'&&D[i+2]==='我沒有抽。所以沒有違規。'; })());
   check('3-3 E18 唐睿 b：「她什麼都接得住。……你上次那顆直球也是。」',dl('ev_y0_e18').includes('她什麼都接得住。……你上次那顆直球也是。')&&!dl('ev_y0_e18').includes('除了直球'));
   /* E18a */
   { const d3=DK('2024-12-03'); econ(d3,21.4,'home',{}); run(21.4,21.6); const q=OUT.get(G,'y0_e18a');
