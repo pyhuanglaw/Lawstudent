@@ -15493,7 +15493,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【15:2x LAWWW-C】一次匯入：AA 8 檔 25e89f6e、BB 9 檔 408398d7＋y4s1 f6269502；labelsRef 讀 AA／BB 兩個分支；換新版：Y0S1、Y0S2、Y2S1～Y4S2；大一上、大一下等 BB 補 SIS_MOCK_EXAM、ZR_ZQ／ZQ_ZR_SETUP 名稱（先維持舊版）。程式：skipAfterWeek、linesIf／extraIf 的 mem 會記、A4-L5／A4-L7 交往版回覆換新 key、A3-L6／Y3-L5 的 12/19 日期條件；匯入器缺名稱的學期保留舊版｜【12:0x AA-C f3f3564e】要重新匯入的 AA 階梯：ladder_aa_y1s2（語彤 Y2-L7）、y2s1～y4s1（語彤不加入法服）、y3s1／y4s2（交往版、3/25）；逐檔加白名單再 import_ladder｜照 import_guard 白名單；和 16 週引擎同一批測",
+   "next": "【03:1x AA-C：「等 BB 補 SIS_MOCK_EXAM、ZR_ZQ／ZQ_ZR_SETUP 名稱」過時——ladder.js labels 都有中文名稱，刪】｜【15:2x LAWWW-C】一次匯入：AA 8 檔 25e89f6e、BB 9 檔 408398d7＋y4s1 f6269502；labelsRef 讀 AA／BB 兩個分支；換新版：Y0S1、Y0S2、Y2S1～Y4S2；大一上、大一下等 BB 補 SIS_MOCK_EXAM、ZR_ZQ／ZQ_ZR_SETUP 名稱（先維持舊版）。程式：skipAfterWeek、linesIf／extraIf 的 mem 會記、A4-L5／A4-L7 交往版回覆換新 key、A3-L6／Y3-L5 的 12/19 日期條件；匯入器缺名稱的學期保留舊版｜【12:0x AA-C f3f3564e】要重新匯入的 AA 階梯：ladder_aa_y1s2（語彤 Y2-L7）、y2s1～y4s1（語彤不加入法服）、y3s1／y4s2（交往版、3/25）；逐檔加白名單再 import_ladder｜照 import_guard 白名單；和 16 週引擎同一批測",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -15575,9 +15575,9 @@
    "title": "閒聊階梯裡提到模擬法庭的層要改（學姊 S4「被找去指導模擬法庭」、招呼「模擬法庭的書狀」、可昕 K4 註記）",
    "area": "V3",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "BB-C c562a25d：學姊大二下 S4-L1 改成研究所同學的報告、短招呼也改（AA 審過）；ladder_bb_y2s2.json 可以重匯。BB-C c562a25d 已改學姊招呼和 S4-L1；「被找去指導模擬法庭」等 BB 確認；可昕 K4 只改 note；AA 自己的已清（e8010267）。等 BB 通知重匯。",
+   "next": "【03:1x AA-C：學姊大二下 S4-L1 AA 審過照用；白名單 408398d7 已是新句，不用重匯 → 關】｜BB-C c562a25d：學姊大二下 S4-L1 改成研究所同學的報告、短招呼也改（AA 審過）；ladder_bb_y2s2.json 可以重匯。BB-C c562a25d 已改學姊招呼和 S4-L1；「被找去指導模擬法庭」等 BB 確認；可昕 K4 只改 note；AA 自己的已清（e8010267）。等 BB 通知重匯。",
    "first": {
     "term": "Y2S2",
     "week": 1,
@@ -15596,7 +15596,8 @@
     "acceptance": "ladder 沒有模擬法庭",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "AA-C 10-18 03:1x 審過照用；白名單 story_import_allow.json 的 ladder 檔已是 408398d7（新句），import_ladder.py 重跑 ladder.js 沒有差異（LAWWW-C 02:3x）"
   },
   {
    "id": "AN-RICH-1017",
@@ -16540,7 +16541,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "回覆池已有：BB_178 1-E（BB-C 3dc8b2a3；D100 以後台詞歸 AA，接的時候請 AA-C 確認是定稿）；排在三個優先項目之後（BB-C 23:41）",
+   "next": "【03:1x AA-C：BB_178 1-E 芷若英國回覆池 AA 核對通過、定稿（企劃 266210fe），v9.10 後施工】｜回覆池已有：BB_178 1-E（BB-C 3dc8b2a3；D100 以後台詞歸 AA，接的時候請 AA-C 確認是定稿）；排在三個優先項目之後（BB-C 23:41）",
    "first": {
     "term": "Y3S2",
     "week": 0,
@@ -16554,7 +16555,9 @@
    "source": "AA_276（a5d17b91）",
    "authorized": "使用者 23:4x＋AA 定稿",
    "pausedReason": null,
-   "resumeWhen": null
+   "resumeWhen": null,
+   "pausedBy": "LAWWW-C（D99）",
+   "recheckOn": "v9.10 發布當天"
   },
   {
    "id": "VAC-AA275-1017",
