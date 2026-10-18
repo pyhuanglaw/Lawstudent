@@ -18859,7 +18859,7 @@
    "title": "經濟系那年手機「朋友」第一、二個是阿哲、阿凱（還不認識）（BB-C 07:45 kxmap_probe）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -18873,14 +18873,14 @@
    },
    "source": "BB-C 2026-10-18 07:45",
    "authorized": "bug 修正",
-   "next": "GM.knownIds／朋友列表：經濟系 stage 不列法律系的人（zhe、kai 是 legacy 開場就熟——要用 STORY.knows 或 stage 過濾）"
+   "next": "game3d knownIds：zhe、kai、prof_zhou 開場就熟只在法律系；bike_unit 一起檢查。BB 測"
   },
   {
    "id": "BUG-HOME-BIKE-HINT-1018",
    "title": "退宿後在臺北的家打開手機跳出「宿舍門口東邊停著你的腳踏車」提示（BB-C 07:45）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -18894,7 +18894,7 @@
    },
    "source": "BB-C 2026-10-18 07:45",
    "authorized": "bug 修正",
-   "next": "bike3d.js 的提示：HOME.at／HOME.baseMode 時不提示（或腳踏車跟著搬回家）"
+   "next": "bike3d placeParked：G.home.at 或經濟系退宿以後不提示；bike_unit。BB 測"
   },
   {
    "id": "AA300-ECON30-1018",
