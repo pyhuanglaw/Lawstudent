@@ -49,16 +49,6 @@ D['characters'][KX] = {'steps': [
 
 # ───────── 曾品妤 ─────────
 D['characters'][PY] = {'friendOnly': True, 'steps': [
- {'id':'PY0b-L1','if':st(PY,'ACQUAINTANCE'),
-  'lines':['寒假我接了全天的班，下學期的住宿費賺回來了。','可昕寒假跟我借了三次錢，我都有記。'],
-  'choices':[ch('「她還了嗎？」','還了兩次。第三次她說搬走以前會還。……她已經搬走了。'),
-             ch('「妳很會存錢。」','沒有啦，賺的跟花的差不多。')],'rel':{'fam':2},'mem':'PY0B_WINTER_RENT',
-  'note':'2026-10-17 BB-C（照 AA_235 71d62646）：她住宿舍，是住宿費；可昕 2/13 休學、搬出宿舍。mem 名稱照留'},
- {'id':'PY0b-L2','if':st(PY,'ACQUAINTANCE'),
-  'lines':['這學期我修統計。老師說，統計是用數字說謊的藝術。','……我很喜歡這門課。'],
-  'choices':[ch('「妳要學說謊？」','我要學怎麼抓別人說謊。比較賺。'),
-             ch('「很適合妳。」','我知道。……說謊的部分，我只學不用。')],'rel':{'fam':2},'mem':'PY0B_STATS'},
- # 曾品妤 PY0b-L3、L4 整層替代（AA_235）
  {'id':'PY0b-L3','if':st(PY,'FAMILIAR'),'week':[7,16],
   'lines':['可昕搬走以後，我的房間變得好安靜。','她的床現在堆我的東西。宿舍說暑假以後才會排人。'],
   'choices':[ch('「妳一個人住很爽吧。」','很爽。冷氣我自己決定。'),
@@ -254,7 +244,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 6 if cid==PY else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
