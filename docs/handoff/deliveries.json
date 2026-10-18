@@ -7666,6 +7666,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:4x：角色美術驗收（D100a）——同一個人、同一套衣服（長黑髮、長頸鹿耳環、牛仔外套、帆布袋、寬褲、帆布鞋），調皮的笑和 smile 分得開，通過；去背（tools/portraits/matte_gray.py）、縮放到和 smile 同一個外框（頭頂 y40、底 980，差 1 px）→ assets/portraits/kexin/campus/teasing.webp；portrait manifest 重掃。事件裡 kexin teasing 54 次不再退回 neutral"
+  },
+  {
+   "id": "DL-BB-788fe552",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "788fe552",
+   "what": "出國第二批五張 2D 背景（intl_tokyo_winter、intl_kyoto_school、intl_kyoto_festival、trip_jp_onsen、trip_th_nightmarket）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "部分整合",
+   "note": "LAWWW-C 03:4x：C11 第一堂＝tokyo_winter；C12 第一堂、最後一天＝kyoto_school；trip_jp_onsen、trip_th_nightmarket 登錄 OUT.BG（場景早就寫了 bg）；intl_kyoto_festival 沒接——C12 沒有祭典的場景（第一堂、茶道、最後一天），已問 BB"
   }
  ],
  "ignored": [
