@@ -16632,7 +16632,7 @@
   },
   {
    "id": "BUG-US-KITCHEN-1018",
-   "title": "美國公寓、合租戶窄廚房：冰箱和爐子的互動點疊在一起、鏡頭跑到牆外看不到人（BB-C 10-18 測出；USER_WANTS X05）",
+   "title": "美國公寓、合租戶窄廚房：冰箱和爐子的互動點疊在一起、鏡頭跑到牆外看不到人（BB-C 10-18 測出；USER_WANTS X05）；合租戶客廳電視櫃（0.8,-2.4）＋行李箱（0.75,-1.05）擋住臥室 A 門口",
    "area": "US",
    "owner": "LAWWW",
    "status": "已實作待整合",
@@ -16648,7 +16648,7 @@
     "confirmed": true
    },
    "src": "BB-C 10-18 測試；USER_WANTS X05",
-   "next": "LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
+   "next": "【02:5x LAWWW-C 發布前 reachability_all（f24c1e9f，乾淨 checkout）】us_shared「臥室 A」(0.95,-2.2) 走不到：卡在 (0.57,-1.74)，電視櫃斜放在門口、行李箱（BB_217 生活痕跡）在北邊，中間比人窄。其他 25 個區域全過。已請 LAWWW2 併進 us2_fix 那包（移電視櫃或行李箱，GLB 和 layout 一起），v9.10 發布後套。｜LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
    "pausedReason": "美國交換是第三優先，v9.10 收件範圍外",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99＋使用者 10-18 01:0x v9.10 收件範圍）",

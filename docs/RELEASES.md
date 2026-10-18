@@ -61,6 +61,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 | 17c | 已通過沒接的三張 CG（USER_WANTS X02）：CG-11 以安理由欄、CG-12 語彤分一點時間、BCG-29 可昕春假回程 | LAWWW 接（BB 10-14 通過） | 待 BB-C 測 | 放檔＋CG_REGISTRY 登錄＋K8 放 BCG-29；tests/cg_x02_unit.js ALL PASS |
 | 18 | 發布前：BB-C 從新遊戲走一年（第 3 層）＋LAWWW 發布前清單（TESTING.md 第五節） | BB-C、LAWWW | 還沒開始 | 等 1～17 測完、阻塞的問題修完；不用等使用者 iPhone（D100f） |
 
+**發布前檢查進度（LAWWW-C，乾淨 checkout）**：deploy_check ALL PASS（26 區域、5285 個網址都載得到；02:4x）；reachability_all 26 區域只有 us_shared「臥室 A」門口走不到（電視櫃＋行李箱擋住；美國交換、不在 v9.10 範圍、不會卡住玩家，BUG-US-KITCHEN-1018 發布後一起修）；nav_levels／nav_buildings／stairs_feet 單元通過。還沒跑：flow_class_real、minimap_direction、joystick_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors、check_lines、題目漏收。
+
 **不在 v9.10 的**（照使用者 01:0x 的收件範圍，各自在自己的分支繼續）：美國交換的大學、圖書館、廚房冰箱（LAWWW2）；沛珊放榜那一天（PS-RESULTS-1018）；AA_278 第 3 節 15 個事件；大四下以後的告白收尾。
 - **收件範圍（使用者 2026-10-18 01:0x 經 AA-C：「好 但是如果有人手上沒有事情就請他繼續做後面的東西……」）**：從現在到 v9.10 發布，開發分支只收：三個發布條件（經濟系、寒暑假、16 週）、偶遇、傳訊息、全部題目，加修錯。已經在開發分支的照樣一起發布（使用者問「已經放進去的不能一起發布嗎」→ 可以）；測出問題擋發布的先關掉或藏起來，不拖住整版。沒有 v9.10 工作的人繼續做後面的（例：LAWWW2 的美國大學、AA 的 v9.10 以外台詞），成果先留在自己的分支，v9.10 發布以後再整合。
 - **最優先（使用者 2026-10-18 00:0x～00:1x 經 AA-C：「所有題目都要放進遊戲，這是下一個發布版本最優先的項目」）**：遊戲裡的題目＝483 題，全部在：使用者的題目 294（刑訴 QBANK 84、民法 40、民法補充 40、刑法 45、行政法 20、證交法 40、法學英文 25）＋討論課題 10＋大四 88＋大一～大三 AI 補題 91（`src/data/exam_bank.js` 399＋`legal_qbank.js` 84；來源 AA 分支 7abe189a，AA 產生 0f4932ad、LAWWW 用同一個工具重產比對一致）。30 門考五題的課都 5 題以上、沒有題目在第 16 週。課堂內容 syllabus 換成 16 週版（第 16 週併進第 15 週、民訴甲下重排、刑訴 w15、法律專題研究第 6／7／10 週、經濟系 Y0S2 提前、口語審改字）。發布前測試：期末考真的開考、抽題順序、考卷沒有來源、課堂第 15 週的內容。
