@@ -18089,6 +18089,27 @@
    "source": "使用者 2026-10-18 06:3x 截圖（11/6 20:00 醉月湖）",
    "authorized": "使用者回報",
    "next": "原因：characters.js 的 kexin 沒有 char3d，spawnCharacter 掉到 STORY.extraSpec(7)＝路人男生底模。補 char3d（spec.id kexin、女生、model char.kexin＝LAWWW2 照參考圖做的 VRM、1.64 m）＋portrait kexin。tests/kexin_model_unit.js（修改前 ①② 失敗；③ 檢查每個有名字的人物都有 char3d）。LAWWW 依 D100a 驗收角色美術：待 BB-C 遊戲內截圖（宿營、E05、醉月湖）"
+  },
+  {
+   "id": "BUG-DORM-AFTER-MOVEOUT-1018",
+   "title": "經濟系退宿以後手機「地點」還能快速前往宿舍、不知道怎麼回家（使用者 10-18 存檔 day-314：11/6 E12 以後 20:31 在 412 房間）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x（存檔 9df1402c-fatiao3d_save_day-314.json）",
+   "authorized": "使用者回報",
+   "next": "game3d.js PLACE_LIST：HOME.baseMode（退宿以後）不列宿舍、宿舍走廊；回家＝手機「地點」最上面「回臺北的家」（v9.10.1）、或校門口的「回臺北的家」（v9.10 就有）。事件接事件第二階段（ECON-FF-PHASE2-1018）做好以後，休學在家期間演完自動回家。待 BB-C 瀏覽器"
   }
  ]
 }
