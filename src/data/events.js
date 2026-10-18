@@ -2397,7 +2397,8 @@ const STORY_EVENTS=[
     const lines1=[ {scene:'考場',bg:'classroom_small'},
       {speaker:null,text:'（考場在一間高中。教室門口貼著座位表。）'},
       {speaker:null,text:'（你的准考證號碼，和她的只差一號。五月報名那天，兩個人坐在餐桌兩邊，一人一台電腦，同時按下送出。）'},
-      {speaker:null,text:'（她坐在你前面。）'},
+      {speaker:null,text:'（單人的桌椅，一張一張隔開排好。）'},{speaker:null,text:'（她坐在你前面。）'},   /* 使用者 10-18：「重考的考場是高中教室，真正的高中教室，位置不會連在一起」「他在我前面」（AA_298 第 7 節）*/
+      
       {speaker:'kexin',text:'（回頭，小聲）……我手好冰。'},{speaker:'player',text:'我也是。'},
       {speaker:'kexin',text:'加油。'},{speaker:'player',text:'加油。'},
       {speaker:null,text:'（鐘響。她轉回去，把筆放在准考證旁邊，排得很整齊。）'},
