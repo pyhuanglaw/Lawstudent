@@ -26,49 +26,31 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 B → 下一個帳號（A 或 C，看使用者對哪一邊說話）｜LAWWW-B｜2026-10-17 02:4x UTC 交班
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 07:4x UTC 預先寫好（使用者 07:1x：「中間應該會換帳號做……我這個帳號每週使用量到 85%，大概兩小時」）
 
-使用者 02:3x 正式換班（D45、D49、D92／HV-10、D93）。分支 `claude/modest-rubin-2lyp7g`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和快照 `snapshots/2026-10-17T*_B_LAWWW.json` 為準；交班前最後一個程式 commit `b9eaacf3`（WIP）。**沒有為交班合併 main、沒有發布**；線上仍是 v9.9.1（main `6d5c3279`）。
+使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
 
-**A｜本班成果**（帳號 B 2026-10-15 23:02 接班到現在；細目看 `tasks.json` 各任務的 `next`、`deliveries.json`、`docs/RELEASES.md`）
-- 已發布：v9.8、v9.9（`19b97eff`）、v9.9.1（`6d5c3279`）；v9.9.2 開遊戲加速「測試中」沒發。
-- 10-17 00:00 以後（這一段的 commit 都在開發分支，**都沒發布**）：
-  - **8/22～24 法律系迎新宿營＋兩條入學路線**（CAMP-L1、CAMP-FIX-614）：宿營 12 段、AA_205 6-14 台詞 8 項＋程式 1～7（dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f）；瀏覽器 `flow_camp_y1` ALL PASS（02:27，截圖 fbda2ce9）。**經濟系路線的宿營（程式 8）沒做**；`?start1` 還不是預設。
-  - **8/29～9/2 開學第一週**（START-WEEK、AA208-L）：W1_AUDIT 21 項的 1～17、19、21 完成（18 不做、20＝16 週制另做）；8/29 四人房 203（祐廷、阿凱、阿哲、柏翰：f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜兩句（9d92f88e）、9/2 茶會／國文沛珊／通識明軒／Kevin 群組（14747a8d、d46f1e47）、8/30 新手三目標（3500326e）、8/31 開學典禮背景（0c5a9acc）、經濟系 412（277c67dc）。**人物旗標**：ZHE_CALLS_GE（宿營年次）、MX_CAMP_PAIR、CAMP_Y1、FIRST_MET.kevin＝camp、阿哲 fam+1。
-  - **宿舍四人房**（DORM-LOFT-L＋ART-DORM-LOFT，使用者 01:3x「宿舍ok」）：dorm_room4.glb＋配置資料檔 → zones3d.js 改讀 DORM_ROOM（69e74460～5d66f7bb）；瀏覽器 interior_glb_integration 宿舍 ALL PASS 42、flow_dorm_hall ALL PASS。**b9eaacf3（WIP）8/29 當晚 203 補生三位室友：瀏覽器沒測**。場景美術**沒有** ART_APPROVED（要使用者看）。
-  - **3D 場景疊面修正**（BUG-COPLANAR-DEV）：整合 LAWWW2-B 201、萬才館室內（3d4d1969）、總圖大廳、法圖（b6f471f7）、霖澤館室內（d6ce40cf）；**萬才館／總圖／法圖／霖澤館／201 的瀏覽器流程交班時沒跑完**（QA-HANDOFF-B1）。
-  - **大一下口語改稿 AB65-3-Y1S2-L**（AA_209）：重訪日 1 改 6/12 麵店群戲、日期條件（02dc4fda～372c6512）；剩項見 B。
-  - **經濟系前傳改稿**（V0-REWRITE-L）：BB JSON、段 A 全部、E15 CG（bdfdb9d3、3f050385、a41bfca0、793e78aa、f93ba38a）；剩段 B～E 等。
-  - 背景圖接上（BB-B 生成、已通過）：nccu_dorm（晚／白天）、yongkang_curry、gongguan_cinema、ntu_lib_b1、trip_hotel_twin；備用註冊 cram_class、jp_street_night、camp_school、train_day；CG：cg_econ_camp、cg_class_photo_y1。
-  - 規則：D90／HV-9（使用者訊息優先、短回合）、D93／HV-11（逐職位待辦核對、`check_handoff.py roles`）寫進五份規則檔。
+**A｜本班成果（10-18 05:1x 發布 v9.10 以後，全部在開發分支、都還沒發布）**
+- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT、UX-Y0-NO-NTU）、捷運直達花蓮（UX-MRT-FAR）、換場景前一段的立繪留著（BUG-ADV-LINGER）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG）、在家不能存檔（UX-HOME-SAVE）、約可昕出門一直跳「會錯過 10 點」（UX-RT-DATE）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE，X24）。
+- 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER：AA_297 retake_home 30 短＋12 長）。
+- AA 交付整合：AA_293（可昕交往前 T1～T6、劇社拿掉、系烤伏筆、聚會後她留下來、E10 23:45、保齡球搬 9/13、醉月湖說破）、E27 當面講休學原因、跨年改市府站、除夕選項、比誰早起；階梯白名單換 9fecc202（Y0S1 等 AA 補 KX0_EGG／KX0_SHOP 記憶名稱表）。
+- 其他：路人旁邊不再一模一樣（BUG-NPC-DUP）、室內出口地上光圈（UX-EXIT-MARK）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP）、坐著的替身禿頭／臉白（ART-SEATFIG，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME 第 1 張）。
+- 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
-**B｜全部未完成**（`tasks.json` 未結 555 項；`python3 tools/handoff/check_handoff.py queue` 照 D81 排）。本班相關、要先看的：
-- P0：QA-HANDOFF-B1（交班沒跑完的測試，下面 F）、DORM-LOFT-L（已整合待測試：室友 WIP 瀏覽器測、給使用者看）、CAMP-FIX-614（程式 8 經濟系路線宿營）、BUG-IOS-RELOAD（iPhone Safari 記憶體不足重新載入，止血已做、③④沒做）、BUG-MAPBLACK（地圖黑畫面，canvas 釋放已改、待瀏覽器＋iPhone）、BUG-02（偶發全黑）、BUG-OUTING-STUCK（出遊卡住，已整合待測試）、BUG-20（萬才館房門按鈕）。
-- P1：AB65-3-Y1S2-L（AA_209 第 4 節第 4、6、7、8、10、11 點；附錄逐句沒核對完；階梯 y1s2 從 AA 分支重新匯入、等 AA-B 寫回 SHA；大二 312 室友）、V0-REWRITE-L（段 B～E、BB_179 第 4 節 1～9、AA_203 第 3 節 30 處、AA_206 E26／E37、AA_200 7-2／7-3／7-4、BB_179 第 8 節）、CAMP-L1、START-WEEK（瀏覽器走 9/2 茶會、8/30 目標）、AA208-L（返鄉旁白跟 HOLIDAY-SYS 等）、HOLIDAY-SYS（16 週制，**CALENDAR 大一下仍是 18 週**，日期改動是照 AA_198 先搬到第 15、16 週）、REL-NEXT（v9.10 沒發布）。
-- 工作階段待辦清單（TaskList #1～#53）已在 00:2x 補進總表（使用者「待辦全部都要交接」）；#53＝DORM-LOFT-L。
+**B｜全部未完成（要先看的）**
+- P0：QA-PLAYTHROUGH-1018（BB-C）、QA-TRANSCRIPT-1018（LAWWW：劇本→AA；瀏覽器探測腳本在本班 scratchpad，下一班照 tests/playlib.py 重寫一支，掛 `ADV.log` 收台詞）、Q-Y0-NTU-1018（AA 搬休學期校園事件地點，搬完改 econff3d.js STEPS2）、BUG-NO-CLERK-1018（每間店要有店員）、AA295-KX-NOHYPO-1018（可昕不出假設題，約 50 處逐句替換，測試要換）、AA294-SKIPCLASS-1018（翹課錯過劇情的通用規則）。
+- 等 AA：Q-CRAM-SPRINT-1018（衝刺班鋪陳；AA 638ec884 已加 E27b 伏筆）、AA_296 只靠手機的劇情盤點、Y0S1 階梯記憶名稱表。
+- 等 BB：BG-HOME-1018 其他 10 張家裡背景（BB_132 第 83 組）。
+- 等 LAWWW2：ART-GG-SHOPS、ART-YU-3D 小語（615a3cbf 已交、還沒整合：char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6 已交、還沒整合：campus_teach_int.diff）。
+- v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者選時段方案）、BUG-ECON-HOME-SHOTS-1018（BB 縮圖總表）、BUG-KXFIRST-0830。
 
-**C｜正在做的（交班時停下）**
-- AB65-3-Y1S2-L：做完第 3 節、第 4 節第 1～3、5 點；下一步第 4 節第 4 點（期中宵夜旁白、K-D5、KAI_TAPE）。
-- DORM-LOFT-L：b9eaacf3 WIP 寫完、單元測試過，**下一步跑 `tests/flow_camp_y1.py` 看 8/29 22:00 室友在位子上**。
-- 背景 flow_wancai_floors（02:32 開始）交班中斷，結果不算。
+**C｜正在做的**：休學在家瀏覽器探測（10/17→8/13）跑到 3/15、沒有卡住；跑完把台詞整理成 docs/qa/econ_transcript_*.md 給 AA-C。
 
-**D｜本班新增或修訂的永久規則與使用者決策**（全文 CLAUDE.md；紀錄 USER_INSTRUCTION_LOG.md、AI_SESSION_HANDOFF.md 第 13 節）
-- D90／HV-9 使用者訊息優先協定（短回合 10 分鐘／30 次工具、長工作背景、`tools/handoff/turn_check.py`）；D92／HV-10 A／B／C 任意輪值（duty.json）；D93／HV-11 所有職位持續登記待辦、交接逐職位核對（`roles`）。
-- 使用者決策：宿舍改台大四人房（01:0x，經 LAWWW2-B；01:3x「宿舍ok」）；室友用現有人物（00:5x，AA_208）；法律系開局照真實校曆、新局 8/22 宿營（START-WEEK 選 1）；「不用小更新」等正式版（22:5x）。
+**D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS）使用者說先不要決定、要方案。
 
-**E｜跨 AI 協作**（帳號 B 四職位都在值班、都收到使用者換班）
-- 交付：DL-LW2-COPLANAR-LINZE／201／WANCAI／LIB → 交班時在交付紀錄回 ACK（已整合待測試）；DL-LW2-DORM-LOFT ACK、已整合；BB-B 背景圖與 CG 交付已登記（DL-BB-*）。
-- 等別人：AA-B 寫回 ladder_aa_y1s2／ladder_bb_y1s2 的 SHA（BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；AA 照 AA_197 1-7 驗收大一下、宿營；使用者看四人房、cg 已定稿。
-- **同班其他職位交班（02:39～02:4x 收到通知）**：AA-B 已交班（`claude/cool-heisenberg-o8kuqx` 遠端 `ec63dd53`，登記 `c54ee4df`，快照 `2026-10-17T0238Z_B_AA.json`，roles AA OK）——**大一下閒聊階梯 ladder_*_y1s2.json 還是 WIP（2fd0399d），不要匯入**，等下一班 AA 給 SHA；AA_211 大二上等 BB-B 口氣審。BB-B 已交班（`claude/elegant-brown-fcos7n` `55717c12`，duty_BB handed-off）；BB 快照由 LAWWW-B 代做 `2026-10-17T0244Z_B_BB.json`；BB 的交付 12 筆補登（DL-BB-BG-*、DL-BB-GG-SIGNS-S17、DL-BB-POSTCARD-ZR 明信片③～⑥、DL-BB-BB179、DL-BB-AB67、DL-BB-BB180），其餘 125 個 BB commit 照 BB-B 分類放進 ignored（沒逐筆打開）；BB 下一班第一件：BB_181 大二上口氣審回 AA-B。LAWWW2-B 在交接檔寫了交班，之後自己跑了 duty handoff（03:1x duty sync 後四職位都是 handed-off）；LAWWW-B 另代做一份 LAWWW2 快照 0303Z。
-- 沒有傳訊息給休班的帳號 A、C（D75）。
+**E｜跨 AI**：AA-C 待交 AA_296、Y0S1 名稱表；BB-C 在做 P0 測試→四種玩法；LAWWW2-C 在做 GG-SHOPS。訊息細節看 deliveries.json。
 
-**F｜測試與問題**
-- 單元測試：最後一次整套是 01:57 前後（253 項、5 項失敗，之後逐一修好、個別重跑通過）；**之後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑**。相關的 camp_y1_unit、v0_e01、v0_e02 在 b9eaacf3 重跑通過。
-- 瀏覽器通過：flow_camp_y1、interior_glb_integration（宿舍）、flow_dorm_hall。**沒跑或沒跑完**：flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖、大一下重訪日 1。
-- iPhone 實機：本班沒有任何實機確認；BUG-IOS-RELOAD、BUG-MAPBLACK、BUG-02 需要使用者實機。
-- 交接工具：02:4x 交班時 `check` 有 249 項第 6 類異常沒處理。**使用者 02:5x 要求做最後一次交接補強（只補文件與登記）**：四個唯讀子代理逐筆打開 AA 126、BB 113、LAWWW2 16 筆 commit 分成「正式交付／一般工作／半成品」，LAWWW-B 登記並抽查——補登交付 AA 40＋1（DL-AA-*、DL-AA-AA201）、BB 14（DL-BB-*）、LAWWW2 4；已被既有交付涵蓋的放 ignored 並寫是哪一筆；一般工作寫具體原因；**半成品全部列在 `docs/handoff/WIP_INVENTORY_2026-10-17.md`**（任務 ID、路徑、分支、最後 commit、完成程度、剩餘、能不能整合）。修正錯的登記：DLV-1016-397、DL-BB-BB179／AB67／BB180（改未整合）、DLV-1016-368、DL-AA-CAMPL1（改已整合待測試）。補建任務 ART-GG-SIGNS-2、VAC-A1、ART-SOP、ART-YUTING-FACETEST、LIC-GAPS-1017、V1-AA194-L、DORM-Y34（別名 ROOM4）、HOL-NYE-Y3、HOL-NYE-Y4、ART-BB-READY-1017。**結果（03:1x）：`roles` OK、`check` OK（十一項）、`duty verify` OK（四職位都已交班）**；scannedThrough 移到三條分支現在的 HEAD。**通過不等於全部確定**：子代理拿不準的約 26 筆、關鍵字沒抓到的清單外 commit（BB 905d7a27、3ea1eac7、019bd293、8f781b12 等）沒核對，寫在 WIP_INVENTORY 各節，交給下一班複核。
-
-**下一班第一步**：先讀 `docs/handoff/WIP_INVENTORY_2026-10-17.md`（四職位半成品與未整合交付），再照 `AI_SESSION_HANDOFF.md` 第 4 節接班十四步（`duty find` → `duty plan` → `check` → `roles` → `duty verify`），然後先做 **QA-HANDOFF-B1**（整套單元測試＋沒跑完的瀏覽器流程），再接 DORM-LOFT-L 室友瀏覽器測、AB65-3-Y1S2-L 第 4 節剩項、CAMP-FIX-614 程式 8。
+**F｜測試**：本班改的都有 node 單元測試（econ_ff、econ_ff2、exit_ring、anon_dedup、kexin_model、phone_auto、各 v0／lifeline 換字）；瀏覽器只跑過經濟系第一階段全程和第二階段探測。**沒有跑發布前清單**（docs/TESTING.md 第五節），v9.10.1 發布前要跑；auto-open 手機可能讓舊的瀏覽器流程測試遇到要回訊息時多一個手機畫面，要確認。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -344,6 +326,51 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+- **（2026-10-18 C 帳號預寫快照前的第 1 節原文：B→C 2026-10-17 02:4x）**
+  ### 帳號 B → 下一個帳號（A 或 C，看使用者對哪一邊說話）｜LAWWW-B｜2026-10-17 02:4x UTC 交班
+
+  使用者 02:3x 正式換班（D45、D49、D92／HV-10、D93）。分支 `claude/modest-rubin-2lyp7g`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和快照 `snapshots/2026-10-17T*_B_LAWWW.json` 為準；交班前最後一個程式 commit `b9eaacf3`（WIP）。**沒有為交班合併 main、沒有發布**；線上仍是 v9.9.1（main `6d5c3279`）。
+
+  **A｜本班成果**（帳號 B 2026-10-15 23:02 接班到現在；細目看 `tasks.json` 各任務的 `next`、`deliveries.json`、`docs/RELEASES.md`）
+  - 已發布：v9.8、v9.9（`19b97eff`）、v9.9.1（`6d5c3279`）；v9.9.2 開遊戲加速「測試中」沒發。
+  - 10-17 00:00 以後（這一段的 commit 都在開發分支，**都沒發布**）：
+    - **8/22～24 法律系迎新宿營＋兩條入學路線**（CAMP-L1、CAMP-FIX-614）：宿營 12 段、AA_205 6-14 台詞 8 項＋程式 1～7（dbb4d86e、038c0d0e、884d47d6、e39749d9、259a4c4f）；瀏覽器 `flow_camp_y1` ALL PASS（02:27，截圖 fbda2ce9）。**經濟系路線的宿營（程式 8）沒做**；`?start1` 還不是預設。
+    - **8/29～9/2 開學第一週**（START-WEEK、AA208-L）：W1_AUDIT 21 項的 1～17、19、21 完成（18 不做、20＝16 週制另做）；8/29 四人房 203（祐廷、阿凱、阿哲、柏翰：f642fddc、a943ea1d）、9/1 阿哲宿舍早上版（05fb5af2）、颱風夜兩句（9d92f88e）、9/2 茶會／國文沛珊／通識明軒／Kevin 群組（14747a8d、d46f1e47）、8/30 新手三目標（3500326e）、8/31 開學典禮背景（0c5a9acc）、經濟系 412（277c67dc）。**人物旗標**：ZHE_CALLS_GE（宿營年次）、MX_CAMP_PAIR、CAMP_Y1、FIRST_MET.kevin＝camp、阿哲 fam+1。
+    - **宿舍四人房**（DORM-LOFT-L＋ART-DORM-LOFT，使用者 01:3x「宿舍ok」）：dorm_room4.glb＋配置資料檔 → zones3d.js 改讀 DORM_ROOM（69e74460～5d66f7bb）；瀏覽器 interior_glb_integration 宿舍 ALL PASS 42、flow_dorm_hall ALL PASS。**b9eaacf3（WIP）8/29 當晚 203 補生三位室友：瀏覽器沒測**。場景美術**沒有** ART_APPROVED（要使用者看）。
+    - **3D 場景疊面修正**（BUG-COPLANAR-DEV）：整合 LAWWW2-B 201、萬才館室內（3d4d1969）、總圖大廳、法圖（b6f471f7）、霖澤館室內（d6ce40cf）；**萬才館／總圖／法圖／霖澤館／201 的瀏覽器流程交班時沒跑完**（QA-HANDOFF-B1）。
+    - **大一下口語改稿 AB65-3-Y1S2-L**（AA_209）：重訪日 1 改 6/12 麵店群戲、日期條件（02dc4fda～372c6512）；剩項見 B。
+    - **經濟系前傳改稿**（V0-REWRITE-L）：BB JSON、段 A 全部、E15 CG（bdfdb9d3、3f050385、a41bfca0、793e78aa、f93ba38a）；剩段 B～E 等。
+    - 背景圖接上（BB-B 生成、已通過）：nccu_dorm（晚／白天）、yongkang_curry、gongguan_cinema、ntu_lib_b1、trip_hotel_twin；備用註冊 cram_class、jp_street_night、camp_school、train_day；CG：cg_econ_camp、cg_class_photo_y1。
+    - 規則：D90／HV-9（使用者訊息優先、短回合）、D93／HV-11（逐職位待辦核對、`check_handoff.py roles`）寫進五份規則檔。
+
+  **B｜全部未完成**（`tasks.json` 未結 555 項；`python3 tools/handoff/check_handoff.py queue` 照 D81 排）。本班相關、要先看的：
+  - P0：QA-HANDOFF-B1（交班沒跑完的測試，下面 F）、DORM-LOFT-L（已整合待測試：室友 WIP 瀏覽器測、給使用者看）、CAMP-FIX-614（程式 8 經濟系路線宿營）、BUG-IOS-RELOAD（iPhone Safari 記憶體不足重新載入，止血已做、③④沒做）、BUG-MAPBLACK（地圖黑畫面，canvas 釋放已改、待瀏覽器＋iPhone）、BUG-02（偶發全黑）、BUG-OUTING-STUCK（出遊卡住，已整合待測試）、BUG-20（萬才館房門按鈕）。
+  - P1：AB65-3-Y1S2-L（AA_209 第 4 節第 4、6、7、8、10、11 點；附錄逐句沒核對完；階梯 y1s2 從 AA 分支重新匯入、等 AA-B 寫回 SHA；大二 312 室友）、V0-REWRITE-L（段 B～E、BB_179 第 4 節 1～9、AA_203 第 3 節 30 處、AA_206 E26／E37、AA_200 7-2／7-3／7-4、BB_179 第 8 節）、CAMP-L1、START-WEEK（瀏覽器走 9/2 茶會、8/30 目標）、AA208-L（返鄉旁白跟 HOLIDAY-SYS 等）、HOLIDAY-SYS（16 週制，**CALENDAR 大一下仍是 18 週**，日期改動是照 AA_198 先搬到第 15、16 週）、REL-NEXT（v9.10 沒發布）。
+  - 工作階段待辦清單（TaskList #1～#53）已在 00:2x 補進總表（使用者「待辦全部都要交接」）；#53＝DORM-LOFT-L。
+
+  **C｜正在做的（交班時停下）**
+  - AB65-3-Y1S2-L：做完第 3 節、第 4 節第 1～3、5 點；下一步第 4 節第 4 點（期中宵夜旁白、K-D5、KAI_TAPE）。
+  - DORM-LOFT-L：b9eaacf3 WIP 寫完、單元測試過，**下一步跑 `tests/flow_camp_y1.py` 看 8/29 22:00 室友在位子上**。
+  - 背景 flow_wancai_floors（02:32 開始）交班中斷，結果不算。
+
+  **D｜本班新增或修訂的永久規則與使用者決策**（全文 CLAUDE.md；紀錄 USER_INSTRUCTION_LOG.md、AI_SESSION_HANDOFF.md 第 13 節）
+  - D90／HV-9 使用者訊息優先協定（短回合 10 分鐘／30 次工具、長工作背景、`tools/handoff/turn_check.py`）；D92／HV-10 A／B／C 任意輪值（duty.json）；D93／HV-11 所有職位持續登記待辦、交接逐職位核對（`roles`）。
+  - 使用者決策：宿舍改台大四人房（01:0x，經 LAWWW2-B；01:3x「宿舍ok」）；室友用現有人物（00:5x，AA_208）；法律系開局照真實校曆、新局 8/22 宿營（START-WEEK 選 1）；「不用小更新」等正式版（22:5x）。
+
+  **E｜跨 AI 協作**（帳號 B 四職位都在值班、都收到使用者換班）
+  - 交付：DL-LW2-COPLANAR-LINZE／201／WANCAI／LIB → 交班時在交付紀錄回 ACK（已整合待測試）；DL-LW2-DORM-LOFT ACK、已整合；BB-B 背景圖與 CG 交付已登記（DL-BB-*）。
+  - 等別人：AA-B 寫回 ladder_aa_y1s2／ladder_bb_y1s2 的 SHA（BB-B 02:1x：y1s2～y4s2 改由 AA 分支維護）；AA 照 AA_197 1-7 驗收大一下、宿營；使用者看四人房、cg 已定稿。
+  - **同班其他職位交班（02:39～02:4x 收到通知）**：AA-B 已交班（`claude/cool-heisenberg-o8kuqx` 遠端 `ec63dd53`，登記 `c54ee4df`，快照 `2026-10-17T0238Z_B_AA.json`，roles AA OK）——**大一下閒聊階梯 ladder_*_y1s2.json 還是 WIP（2fd0399d），不要匯入**，等下一班 AA 給 SHA；AA_211 大二上等 BB-B 口氣審。BB-B 已交班（`claude/elegant-brown-fcos7n` `55717c12`，duty_BB handed-off）；BB 快照由 LAWWW-B 代做 `2026-10-17T0244Z_B_BB.json`；BB 的交付 12 筆補登（DL-BB-BG-*、DL-BB-GG-SIGNS-S17、DL-BB-POSTCARD-ZR 明信片③～⑥、DL-BB-BB179、DL-BB-AB67、DL-BB-BB180），其餘 125 個 BB commit 照 BB-B 分類放進 ignored（沒逐筆打開）；BB 下一班第一件：BB_181 大二上口氣審回 AA-B。LAWWW2-B 在交接檔寫了交班，之後自己跑了 duty handoff（03:1x duty sync 後四職位都是 handed-off）；LAWWW-B 另代做一份 LAWWW2 快照 0303Z。
+  - 沒有傳訊息給休班的帳號 A、C（D75）。
+
+  **F｜測試與問題**
+  - 單元測試：最後一次整套是 01:57 前後（253 項、5 項失敗，之後逐一修好、個別重跑通過）；**之後改過 story3d／events／camp_y1／zones3d，整套沒有再全跑**。相關的 camp_y1_unit、v0_e01、v0_e02 在 b9eaacf3 重跑通過。
+  - 瀏覽器通過：flow_camp_y1、interior_glb_integration（宿舍）、flow_dorm_hall。**沒跑或沒跑完**：flow_wancai_floors、zone_transitions、flow_library_floors、flow_library_scene、flow_linze_floors、法圖、大一下重訪日 1。
+  - iPhone 實機：本班沒有任何實機確認；BUG-IOS-RELOAD、BUG-MAPBLACK、BUG-02 需要使用者實機。
+  - 交接工具：02:4x 交班時 `check` 有 249 項第 6 類異常沒處理。**使用者 02:5x 要求做最後一次交接補強（只補文件與登記）**：四個唯讀子代理逐筆打開 AA 126、BB 113、LAWWW2 16 筆 commit 分成「正式交付／一般工作／半成品」，LAWWW-B 登記並抽查——補登交付 AA 40＋1（DL-AA-*、DL-AA-AA201）、BB 14（DL-BB-*）、LAWWW2 4；已被既有交付涵蓋的放 ignored 並寫是哪一筆；一般工作寫具體原因；**半成品全部列在 `docs/handoff/WIP_INVENTORY_2026-10-17.md`**（任務 ID、路徑、分支、最後 commit、完成程度、剩餘、能不能整合）。修正錯的登記：DLV-1016-397、DL-BB-BB179／AB67／BB180（改未整合）、DLV-1016-368、DL-AA-CAMPL1（改已整合待測試）。補建任務 ART-GG-SIGNS-2、VAC-A1、ART-SOP、ART-YUTING-FACETEST、LIC-GAPS-1017、V1-AA194-L、DORM-Y34（別名 ROOM4）、HOL-NYE-Y3、HOL-NYE-Y4、ART-BB-READY-1017。**結果（03:1x）：`roles` OK、`check` OK（十一項）、`duty verify` OK（四職位都已交班）**；scannedThrough 移到三條分支現在的 HEAD。**通過不等於全部確定**：子代理拿不準的約 26 筆、關鍵字沒抓到的清單外 commit（BB 905d7a27、3ea1eac7、019bd293、8f781b12 等）沒核對，寫在 WIP_INVENTORY 各節，交給下一班複核。
+
+  **下一班第一步**：先讀 `docs/handoff/WIP_INVENTORY_2026-10-17.md`（四職位半成品與未整合交付），再照 `AI_SESSION_HANDOFF.md` 第 4 節接班十四步（`duty find` → `duty plan` → `check` → `roles` → `duty verify`），然後先做 **QA-HANDOFF-B1**（整套單元測試＋沒跑完的瀏覽器流程），再接 DORM-LOFT-L 室友瀏覽器測、AB65-3-Y1S2-L 第 4 節剩項、CAMP-FIX-614 程式 8。
 
 - **（2026-10-17 B 交班前的第 1 節原文）**：**目前沒有交班**（帳號 B 值班中；帳號 A 休班；帳號 C 未啟用——以 `docs/handoff/duty.json` 為準，D92）。帳號 B 的對帳基準快照：`docs/handoff/snapshots/` 最新一份；帳號 A 2026-10-14 的交班快照重建在 `snapshots/2026-10-14T1740Z_A_LAWWW.json`。下一次交班（交給 A 或 C 都一樣）的人照 `AI_SESSION_HANDOFF.md` 第 5 節，在這裡寫六類 A～F：A 本班完成的 ID（SHA、測試、整合與發布狀態）、B 未完成的全部 ID（含狀態：做到一半、待整合、待測試、等其他 AI、等素材或使用者、暫停）、C 交班當下正在做的、D 本班新增或修訂的決策與規則（編號＋SHA）、E 跨 AI 協作狀態（SENT／DELIVERED／ACK／ACTIONED）、F 未完成的測試與已知問題；再跑 `check_handoff.py snapshot --role LAWWW --account <A|B|C>` 和 `duty handoff`。**逐職位核對（D93／HV-11）**：存快照前、接班第 9 步都跑 `check_handoff.py roles`——LAWWW2、AA、BB 各自交接檔「全部待辦」的每一項都要在 `tasks.json`；不能只對上一任 LAWWW 的清單，結果 OK（或每項異常都處理過）才能寫「交接完整」。 **三帳號交接模擬（HANDOFF-ABC，D92／HV-10）**：19／19 PASS，結果表 `docs/handoff/HANDOFF_SIM_HV10.md`（六個方向、A→B→C→A、A→C→B→A、帳號休很久、沒交班、職位資料缺漏、WIP 未整合、交付沒 ACK、規則來源不一致、登記和 commit 時間衝突、同職位兩帳號寫入、快照不見或壞掉）。
 
