@@ -16920,7 +16920,7 @@
    "title": "捷運公館站出口外觀（TK.mrtExit）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16934,7 +16934,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:3x 使用者：四座全部改，不限外型】整座換 Blender（TK.mrtExit 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "ca3e14d5 整合（assets3d bldg.gongguan_mrt、zones3d 公館捷運出口）；位置導航不動；gongguan_layout_nav 瀏覽器測試排在發布前清單；BB 截圖",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -19027,7 +19027,7 @@
    },
    "source": "AA-C 轉述使用者（存檔 企劃線 6fbe1f15 qa_saves day-15、day-18）",
    "authorized": "使用者回報",
-   "next": "查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現"
+   "next": "查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現。08:5x LAWWW 瀏覽器實測：day-18 存檔 21:00 以後直接睡到 9/1，HUD 和換日字卡一致（不是一般睡覺那條路）；BB 照使用者的操作（床的快轉、開學典禮後、直接去上課）重現"
   },
   {
    "id": "DORM-AFTER-MOVEOUT-1018",

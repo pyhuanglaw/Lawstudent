@@ -550,6 +550,12 @@ const Z3 = (function(){
     const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
     // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
     { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
+      /* 正式模型（LAWWW2-C tools/blender/env_second/gg_mrt_exit.py → bldg.gongguan_mrt，ART-EXT-MRT 2026-10-18）：同一個位置、方向；載入後藏起套件。
+         裡面的電扶梯、樓梯往地面以下走（PIT_*）：先畫 PIT_*（renderOrder −2），再畫洞口的深度遮罩 PITMASK（只寫深度，−1），之後畫的地面在洞口那一塊畫不上去——區域的地面不用挖洞 */
+      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_mrt']){ mrt.userData.ggMrt=true; mrt.userData.dyn=true;
+        ASSETS.loadOne('bldg.gongguan_mrt').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.position.copy(mrt.position); root.rotation.copy(mrt.rotation);
+          attachWenzhouModel(E,g,root,'ggMrt','gongguan_mrt_glb');
+          root.traverse(o=>{ if(!o.isMesh) return; if(/^PIT_/.test(o.name)){ o.renderOrder=-2; o.castShadow=false; } if(o.name==='PITMASK'){ o.material=new THREE.MeshBasicMaterial({colorWrite:false,side:THREE.DoubleSide}); o.renderOrder=-1; o.castShadow=false; o.receiveShadow=false; } }); }).catch(e=>console.warn('捷運出口正式模型載入失敗，用套件',e)); }
       const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);
       E.interactables.push({x:-35.6,z:11,radius:2.4,label:'捷運公館站入口',mrt:true}); }
     // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）
