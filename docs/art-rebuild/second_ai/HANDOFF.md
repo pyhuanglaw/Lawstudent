@@ -50,6 +50,7 @@
 - **使用者 10:4x 直接對 LAWWW2-C**：「交換學生大學地板的橘色好醜」＝美國校園的紅磚（校門廣場、門後步道、樹林小路）。
   - 處理：改成偏褐、低彩度的舊紅磚（`#6b5047`），`beb5fa54`；遊戲內前後截圖 test_shots/us_oldcampus_1018/brick_before_after.webp；已通知 LAWWW-C（DELIVERED，沒要回）。
   - 以後美國篇的紅磚都照這個顏色，不要回到橘紅。
+  - **使用者 10:5x 看了前後截圖：「現在這個顏色是對的」「改變之後的可以」**＝紅磚顏色 `#6b5047` 使用者確認（只有顏色；老校區其他美術照舊 READY_FOR_ART_REVIEW）。
 - **ART-US-SEASON（進行中）**：`beb5fa54` 已有 us_campus／us_community 四季 GLB＋`patches/us_season.diff`；還差社區、校園四季的遊戲內截圖和 README。新的社區 GLB 要配 patch（沒套的話夏天也看得到細枝、落葉）。
 - **工作樹**（`$S`＝本工作階段的 scratchpad）：
   - `$S/yuwt`（LAWWW-C `ba6e9aa4`＋小語 patch＋新 GLB，伺服器 8810）；
