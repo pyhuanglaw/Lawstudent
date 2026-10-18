@@ -6680,7 +6680,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "進行中",
-   "next": "【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "next": "【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -16508,6 +16508,32 @@
    "src": "AA_256（AA-C 71b184ba，白名單已列）",
    "sha": "29cd401f",
    "next": "BB-C 瀏覽器：[前置] 讀檔 2027-07-14 21:00（和芯慈 FAMILIAR、在麵店團群組）→ 回「要不要一起吃午餐？」→ 隔天 12:00 午餐；7/20 21:00 回「我也去。」→ 8/25 出發三場 → 8/28 群組"
+  },
+  {
+   "id": "SCN-US-LIB",
+   "title": "美國交換：法學院圖書館 3D 區域（挑高中庭、玻璃欄杆、彩色玻璃窗；最小可玩：大門、中庭一層、可以坐的長桌，樓上看得懂地關起來）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "prio": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 2,
+    "earliest": "美國交換抵達後第一次去學校（2028-08）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "使用者 2026-10-18 01:0x 直接給 LAWWW2-C 照片（LAWWW2 分支 HANDOFF.md，bdc24c3c）；LAWWW-C 排在 SCN-US-02 之後、ART-US-SEASON 之前",
+   "next": "SCN-US-02 交件後開工",
+   "xai": {
+    "spec": "使用者照片（不進 repo）＋LAWWW2 HANDOFF 的文字描述",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "區域接進遊戲、走得進去、能坐；READY_FOR_ART_REVIEW（場景美術由使用者驗收）",
+    "receiver": "LAWWW-C",
+    "ack": "SENT"
+   }
   }
  ]
 }
