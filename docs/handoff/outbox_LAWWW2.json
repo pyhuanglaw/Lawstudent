@@ -614,6 +614,20 @@
    "state": "已交付（READY_FOR_ART_REVIEW）",
    "remaining": "景還是遊戲畫面照片（不會動）；3F 閱覽區的窗景沒改",
    "next": "LAWWW-C 套 library_views.diff（對 ba6e9aa4）＋從我的分支拿 4 張 library_view_*.webp、library_views.py"
+  },
+  {
+   "task": "ART-EXT-MRT 捷運公館站出口",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "ca3e14d5",
+   "files": [
+    "assets/models/env/second_ai/gongguan_mrt_exit.glb",
+    "tools/blender/env_second/gg_mrt_exit.py",
+    "docs/art-rebuild/second_ai/patches/gongguan_mrt.diff",
+    "docs/art-rebuild/second_ai/test_shots/gg_mrt_1018/"
+   ],
+   "state": "已交付（MODEL_READY、READY_FOR_ART_REVIEW）",
+   "remaining": "校園背景那一座沒換；沒照片；遮罩只看了 4 個鏡頭",
+   "next": "LAWWW-C 套 gongguan_mrt.diff（對 ba6e9aa4）＋從我的分支拿 GLB"
   }
  ]
 }
