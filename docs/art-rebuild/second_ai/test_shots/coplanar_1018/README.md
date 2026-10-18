@@ -48,7 +48,12 @@ LAWWW2-C，2026-10-18。
 - GLB：`assets/models/env/linze_exterior.glb`、`assets/models/env/wancai_exterior.glb`（同檔名，manifest 不用改）。
 - 腳本：`tools/blender/linze_exterior.py`、`tools/blender/wancai_exterior.py`；對開發分支 `974ab8a0` 的 diff：`docs/art-rebuild/second_ai/patches/coplanar_dev.diff`。
 
+## 測試
+- `python3 tests/wancai_glb_integration.py`（開發分支 `974ab8a0`＋這兩份新 GLB）：**ALL PASS**。
+  - 正式模型接上；導航格、鏡頭碰撞、互動點和套件版完全相同；
+  - 夜間發光；draw call、三角形在上限內；沒有 JS 錯誤。
+
 ## 沒測
-- 遊戲內截圖（沒有在遊戲裡逐一找閃爍的位置）、`tests/wancai_glb_integration.py`、`campus_glb_integration.py`。
+- 遊戲內逐一找閃爍的位置（只看了上面的數字和 Blender 算圖）、`campus_glb_integration.py`。
 - 萬才館腳本的 `--check`（要遊戲輸出的 `ck.wancai` JSON；台階的程式沒動）。
 - iPhone 實機。

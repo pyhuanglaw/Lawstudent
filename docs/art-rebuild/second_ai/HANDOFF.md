@@ -26,7 +26,7 @@
   - 以上都在 v9.10 發布後整合（LAWWW-C 01:01）。
 - **ART-SOP、VAC-A1**：`ART_SOP.md`、`SCENE_RULES.md`、`sop_demo/README.md`、`VAC_A1_既有資產盤點.md` 已經在我現在的交付分支 `claude/focused-cray-c9uwvw`，和 funny 分支的一模一樣（`69e4b181`、`5c6a0391`、`4e4f4f36`、`644a322f`），LAWWW-C 直接合併。
 
-## ★★★ 最新（2026-10-18 05:3x～11:3x UTC，LAWWW2-C）
+## ★★★ 最新（2026-10-18 05:3x～12:xx UTC，LAWWW2-C）
 - **新永久規則 D104**（使用者 10-18，經 LAWWW-C 07:43 轉達，P0）：
   - 不需要互動的靜態圖（2D 對話背景、場景圖、CG）一律由使用者生成，BB 寫提示詞；**不再用 Blender／3D 截圖做正式 2D 背景**。
   - 3D 只做玩家走得進去、會互動的場景和人物。
@@ -42,10 +42,15 @@
 | ART-LIB-VIEW-1018 總圖窗景 | `ed0196e4` | `library_views.diff`（parallaxViews）＋4 張照片重拍；LAWWW-C 08:28：照 D99 排在 v9.10.1 發布以後整合 |
 | ART-EXT-MRT 捷運公館站出口 | `ca3e14d5` | `gongguan_mrt_exit.glb`＋`gongguan_mrt.diff`（PIT_*／PITMASK 深度遮罩：地面下的電扶梯看得到） |
 | 美國校園紅磚不要橘色（使用者直接說；10:5x 確認新顏色） | `beb5fa54` | `us_campus.glb` 紅磚 `#6b5047`；test_shots/us_oldcampus_1018/brick_before_after.webp |
+| BUG-COPLANAR-DEV 霖澤館外觀、萬才館外觀疊面 | `3d7f898d` | 572→30、642→12 m²（扣掉窗原型假警報：544→1.9、634→3.8）；霖澤館室內不用換；wancai_glb_integration ALL PASS；test_shots/coplanar_1018/ |
 | ART-US-SEASON 美國篇四季 | `407ec3f5` | `us_community.glb`、`us_campus.glb` 帶四季＋`patches/us_season.diff`（us3d.js＋tests/us_season_unit.js）；test_shots/us_season_1018/ |
 | SCN-US-02 v3 美國校園老校區（空拍圖） | `90c2896e` | `us_campus.glb`＋`us_campus.layout.json` 第 3 版；新組件 `us_oldcampus_kit.py`；導航、出生點、互動點和第 2 版逐項相同；test_shots/us_oldcampus_1018/ |
 
-- **佇列**（LAWWW-C 排序）：全部交了（四座台大建築、MRT、SCN-US-02 v3、ART-US-SEASON）。**等 LAWWW-C 派下一項**。
+- **LAWWW-C 11:32 派的第二批**：
+  1. SCN-US-IU：回覆「已照空拍圖做完」（90c2896e）；
+  2. BUG-COPLANAR-DEV：交了 `3d7f898d`；
+  3. ART-NPC-40：已經全部交完（40 個 VRM 和開發分支逐檔相同；第四批 1b924dd4、第五批 45fa5907 已整合）；
+  4. ART-CH-PINYU：**沒做**——和使用者決定衝突（BB_201／`8510260c`：「使用者決定不再修人物，品妤用第六版」；第六版 VRM 已經接在開發分支）。已回報 LAWWW-C，等它跟使用者確認。
 - SCN-US-02 v3 的測試工作樹 `$S/ucwt`（LAWWW-C `a53cc871`＋臨時接 `us_campus` 區域，伺服器 8812；`$S/usv3/setvar.sh before|after` 換 GLB＋配置）。不 commit。
 - 使用者 07:5x（經 LAWWW-C）：「還有一小時你繼續做」，會親口說換班。使用者 10:0x 直接：「繼續阿」。
 - **使用者 10:4x 直接對 LAWWW2-C**：「交換學生大學地板的橘色好醜」＝美國校園的紅磚（校門廣場、門後步道、樹林小路）。
