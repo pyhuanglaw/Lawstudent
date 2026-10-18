@@ -1,0 +1,29 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index ef112a0d..fdbd6557 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -81,6 +81,7 @@ const ASSETS = (function(){
+     'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_scooter':{url:'assets/models/env/second_ai/scooter.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/scooters_v2.py（台北街上常見的 12 款：國民通勤兩款、運動型、電動、復古圓弧、50cc 舊款、大型速克達、方塊越野、彎樑、外送箱、掛安全帽、機車罩；只參考車型類別、不仿特定品牌、沒有商標；每款一個遠處用的簡化版 _lod1；遊戲照比例挑款式、從那一型的配色挑顏色，每段合成一個網格＋THREE.LOD）', license:'本作'},
+     'bldg.gongguan_shops':{url:'assets/models/env/second_ai/gongguan_shops.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_street.py --set gongguan（公館羅斯福路南側 15 棟騎樓店面＋往溫州街的巷口轉角；公館世界座標；配置照 zones3d.js gongguan 區塊；和溫州街同一套公寓、材質與窗戶原型；樓上住戶的直立招牌、二樓大招牌、屋頂看板；貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
++    'bldg.gongguan_mrt':{url:'assets/models/env/second_ai/gongguan_mrt_exit.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/gg_mrt_exit.py（LAWWW2-C 2026-10-18 ART-EXT-MRT：捷運公館站出口玻璃亭、弧形鋁板屋頂、站名燈箱（遊戲畫字、沒有標誌）、往下的電扶梯與樓梯）',license:'本作'},
+     'bldg.campus_library':{url:'assets/models/env/second_ai/campus_library.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_library.py（總圖書館外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊、塔樓照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_bell':{url:'assets/models/env/second_ai/campus_bell.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_bell.py（傅鐘：台基、四根柱子、梁、四坡瓦屋頂、銅鐘、石碑、夜間地燈；校園世界座標；尺寸照 zones3d.js campus 區塊的 CK.bell；切石、屋瓦、木頭貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+     'bldg.campus_admin':{url:'assets/models/env/second_ai/campus_admin.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/campus_hall.py --set admin（行政大樓外觀；校園世界座標；位置、尺寸、樓層、開間、拱廊、門廊照 zones3d.js campus 區塊的 CK.hall；拱窗是真的窗洞；面磚、石材、屋瓦、花崗石貼圖 Poly Haven CC0）', license:'本作；貼圖 CC0'},
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 5cf70cdd..addcf2ac 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -550,6 +550,12 @@ const Z3 = (function(){
+     const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
+     // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
+     { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
++      /* 正式模型（LAWWW2-C tools/blender/env_second/gg_mrt_exit.py → bldg.gongguan_mrt，ART-EXT-MRT 2026-10-18）：同一個位置、方向；載入後藏起套件。
++         裡面的電扶梯、樓梯往地面以下走（PIT_*）：先畫 PIT_*（renderOrder −2），再畫洞口的深度遮罩 PITMASK（只寫深度，−1），之後畫的地面在洞口那一塊畫不上去——區域的地面不用挖洞 */
++      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_mrt']){ mrt.userData.ggMrt=true; mrt.userData.dyn=true;
++        ASSETS.loadOne('bldg.gongguan_mrt').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.position.copy(mrt.position); root.rotation.copy(mrt.rotation);
++          attachWenzhouModel(E,g,root,'ggMrt','gongguan_mrt_glb');
++          root.traverse(o=>{ if(!o.isMesh) return; if(/^PIT_/.test(o.name)){ o.renderOrder=-2; o.castShadow=false; } if(o.name==='PITMASK'){ o.material=new THREE.MeshBasicMaterial({colorWrite:false,side:THREE.DoubleSide}); o.renderOrder=-1; o.castShadow=false; o.receiveShadow=false; } }); }).catch(e=>console.warn('捷運出口正式模型載入失敗，用套件',e)); }
+       const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);
+       E.interactables.push({x:-35.6,z:11,radius:2.4,label:'捷運公館站入口',mrt:true}); }
+     // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）

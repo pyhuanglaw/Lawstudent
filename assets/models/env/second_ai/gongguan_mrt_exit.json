@@ -1,0 +1,23 @@
+{
+ "glb": "assets/models/env/second_ai/gongguan_mrt_exit.glb",
+ "bytes": 269820,
+ "tris": 2842,
+ "size": [
+  3.4,
+  6.4,
+  2.7
+ ],
+ "origin": "入口在 z=0、朝 +z；和 TK.mrtExit 同一個座標",
+ "pit": {
+  "opening": {
+   "x0": -1.36,
+   "x1": 1.36,
+   "z0": -0.95,
+   "z1": -6.050000000000001
+  },
+  "depth": 2.9444863728670914,
+  "mask_y": 0.07,
+  "note": "遊戲端：PIT_* renderOrder −2；PITMASK colorWrite=false、renderOrder −1"
+ },
+ "note": "站名燈箱 SIGN_FACE_mrt（遊戲畫字）；沒有標誌（D77）"
+}
