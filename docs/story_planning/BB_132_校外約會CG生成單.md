@@ -2836,3 +2836,10 @@
 - 起因：使用者「宿營每個活動都可以用不同的圖，我可以生成」「連烤肉都是建築是怎樣」。法律系宿營 `camp_y1.js` 11 個場景、經濟系宿營都用同一張 `econ_camp`（建築外觀）。
 - 10 張（八月底、夏天，同一個山上的青年活動中心：白牆、木欄杆陽台的兩三層樓、背後青山）：`camp_bbq`（傍晚烤肉）、`camp_field`（白天大地遊戲草地）、`camp_bonfire`（夜營火）、`camp_party_hall`（迎新晚會大廳舞台）、`camp_quiz`（金頭腦搶答）、`camp_dining`（大餐廳長桌）、`camp_trail`（營地後面山徑）、`camp_classroom`（活動中心教室）、`camp_yard_day`、`camp_yard_night`（空地）。外觀沿用 `econ_camp`，八人寢室照舊 `econ_camp_room`。
 - 提示詞全文在使用者對話（2026-10-18 07:4x）。
+
+### 第 86 組：重考衝刺班（2026-10-18 BB-C；LAWWW-C BG-CRAM-1018，D104：靜態圖一律請使用者生成）
+- 使用者原話：「衝刺班大家隔一個位置坐，抽屜都是書，桌上也是書的圖，大家都在念書」；使用者給了真的重考班照片（LAWWW 文字描述：大長方形教室、輕鋼架天花板日光燈、綠黑板＋講台、左上角電視、淺木色雙人連座長桌、灰色有椅墊椅子、白牆、灰地毯）。衝刺班不是 2/14 那家補習班，是給高三生的另一間。
+- `cram_class`：背景（有人群，只有背影側面、沒有正臉、沒有字）。
+- `cram_class_cg`（檔名暫定）：CG，可昕（附她的 neutral 立繪當參考）和祐廷隔一個空位坐、一起寫考卷；祐廷只有側後方。
+- 提示詞全文在使用者對話（2026-10-18 07:5x）。
+- 同一天 D104（LAWWW 轉）：`daan_park`、`exam_hs_classroom` 改由 AA_299 那批（另外還有 bus_tour、car_night／car_morning／car_rain）；BB 只負責圖回來檢查、放 bg_approved。BB 已收到並交的 daan_park、exam_hs_classroom（0182b085）LAWWW 已接（1e1ed51a）。
