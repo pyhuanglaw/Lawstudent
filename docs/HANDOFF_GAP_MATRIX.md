@@ -38,7 +38,8 @@
 - 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
 - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
-**B｜全部未完成（要先看的）**（2026-10-18 12:1x 更新；開發分支最新 `d63885be`）
+**B｜全部未完成（要先看的）**（2026-10-18 12:3x 更新；開發分支最新 `ec2d80a1`，node 單元測試 299 支全過）
+- **12:3x 發布以後（v9.10.2 候選，還沒發布）**：AA_307 句子 a60f111e、階梯最終版＋retake_home（RH-M0）5ac83dbc 已接；LAWWW2 US-CAMPUS-WIRE（4cee25c8，先套 us_season.diff）等接。v9.10.1 發布後檢查：deploy_check、reachability_all ALL PASS，其餘六支跑中（scratchpad post/summary.txt；交班時沒跑完就下一班重跑 TESTING 第五節）。BB-C 已收尾（b38b2b81）。
 - **12:1x v9.10.1 已發布**（使用者 11:5x「先發布再檢查了」）：main `4c0cbefc`（PR #7，Pages 部署 run 39126382240）；發布後檢查（TESTING 第五節）在 scratchpad post/ 跑，結果補 docs/RELEASES.md v9.10.1 一節；BB 三種玩法改在 4c0cbefc 跑＝發布後檢查。有問題修完出 v9.10.2。
 - **11:4x**：階梯 y0s1 換 6b01c841（經濟系大一上五個人問完：可昕 13、品妤 6、唐睿 4、阿勳 6、韋綸 7）；BUG-E12-ARRIVE-LATE-1018 已修（f483c2a9，BB 重看中）；BB QA-AA300 第一輪 5e634610 全程 14.5 分鐘、卡住 0、例外 0，接著跑 KH_GO=home；LAWWW2 交 ART-US-SEASON（407ec3f5）、SCN-US-IU-1018 完成，現在做 BUG-COPLANAR-DEV → ART-CH-PINYU。
 - **11:3x**：AA306-KX-LADDER-1018 已整合待測試（ded5da04：可昕經濟系階梯 13／4 層；重考期讀書在你房間的書桌——R1、R5、R2、同一張桌子、在家背景）；retake_home 讀書那 8 處等 AA 下一班改。
