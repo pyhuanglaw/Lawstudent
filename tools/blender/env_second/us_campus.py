@@ -15,12 +15,13 @@ import lib2 as L   # noqa: E402
 from lib2 import B, Mesh, CMesh, g2b, bpy, Vector, Matrix   # noqa: E402
 import us_campus_kit as UK   # noqa: E402
 import us_law_kit as LK   # noqa: E402
+import us_oldcampus_kit as OK   # noqa: E402
 
 A = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 def opt(n, d=None): return A[A.index(n) + 1] if n in A else d
 OUT = os.path.join(L.ROOT, opt('--out', 'assets/models/env/second_ai/us_campus.glb')); PREVIEW = opt('--preview')
 J = json.load(open(os.path.join(L.ROOT, 'assets/models/env/second_ai/us_campus.layout.json'), encoding='utf-8'))
-assert J.get('version') == 2, '先跑 us_campus_layout_gen.py（第二版配置）'
+assert J.get('version') == 3, '先跑 us_campus_layout_gen.py（第三版配置）'
 rng = random.Random(20261018)
 B.reset(texres=512)
 root = B.group('us_campus', props={'kind': 'us_campus', 'layout': 'us_campus.layout.json'})
@@ -58,6 +59,8 @@ LAWNS = [(FX, XE - 0.8, -14.0, RZ), (WX, FX, FO['z1'] + 0.4, RZ), (CX, FO['x1'],
          (XW + 0.8, PZ['x0'] - 0.4, -14.0, RZ)]
 for (x0, x1, z0, z1) in LAWNS: gr.box(x0, x1, -0.05, LH, z0, z1)                                                              # 高起來的草坪
 gr.box(PZ['x0'] - 0.4, PZ['x1'] + 0.4, -0.06, -0.02, BD['z0'], J['gate']['cz'] - 1.4)                                          # 校門後面（老校區，平的）
+gr.box(XW + 0.2, -10.0, -0.07, -0.03, BD['z0'] - 40.0, -14.0)                                                                     # 第三版：老校區（樹林、石材老建築、迴車道）
+gr.box(-200.0, CR[1]['x0'] - 4.2, -0.07, -0.03, -120.0, RZ + 0.4)                                                              # 第三版：西邊路口對面（紅瓦大建築、方塔大廳）
 gr.box(XW + 0.4, XE - 0.4, -0.06, -0.02, BD['z0'], -14.0)
 gr.finish(root)
 rb = Mesh('usu_rubble_walls', LM['rubble'], tile=2.2)                                                                          # 亂石矮擋土牆（比草坪高一點點）
@@ -123,6 +126,36 @@ gate = LK.campus_gate(root, 'campus_gate', J['gate']['cx'], J['gate']['cz'], yaw
 if abs(J['law']['cz'] + law['steps_foot_v'] - J['steps_foot_z']) > 0.02: print('WARNING 台階前緣和配置不一致', law['steps_foot_v'], J['steps_foot_z'])
 for h in J['halls']:
     UK.gothic_hall(root, 'hall_' + h['id'], h['cx'], h['cz'], length=h['len'], depth=h['dep'], floors=h['floors'], yaw=h['yaw'], M=UM, rng=rng, tower=h['tower'], detail=0)   # 背景：不做花窗、鉛條
+# 第三版：校門西邊、後面的老校區（照空拍圖；背景、走不到）
+OM = OK.materials('uso_', base=UM)
+for h in J['oldcampus']:
+    kw = dict(W=h['W'], D=h['D'], floors=h['floors'], yaw=h['yaw'], M=OM)
+    if h['kind'] == 'castle_hall': kw['turret'] = h.get('turret', 'NE')
+    getattr(OK, h['kind'])(root, h['id'], h['cx'], h['cz'], **kw)
+# 樹林裡的紅磚小路（校門後面原本的紅磚步道之外）
+bp = Mesh('usu_brick_paths', M['brick'], tile=3.2)
+G0, G1 = J['gate']['cx'] - 3.6, J['gate']['cx'] + 3.6
+for pth in J['paths']:
+    hw_ = pth['w'] / 2; pts = pth['pts']
+    for (a, b) in zip(pts, pts[1:]):
+        if G0 <= min(a[0], b[0]) and max(a[0], b[0]) <= G1: continue                       # 已經在門後的紅磚步道上
+        dx, dz = b[0] - a[0], b[1] - a[1]; ln_ = math.hypot(dx, dz); nx, nz = -dz / ln_ * hw_, dx / ln_ * hw_
+        ex, ez = dx / ln_ * hw_, dz / ln_ * hw_                                               # 兩端多鋪半個路寬，轉角不留缺口
+        q = [(a[0] - ex + nx, 0.008, a[1] - ez + nz), (b[0] + ex + nx, 0.008, b[1] + ez + nz), (b[0] + ex - nx, 0.008, b[1] + ez - nz), (a[0] - ex - nx, 0.008, a[1] - ez - nz)]
+        if (q[1][0] - q[0][0]) * (q[2][2] - q[0][2]) - (q[1][2] - q[0][2]) * (q[2][0] - q[0][0]) > 0: q = q[::-1]   # 朝上
+        bp.quad(q)
+bp.finish(root)
+# 石材老建築東邊的圓形迴車道：柏油圈＋中間的草地、一棵樹
+dv = J['drive']; ra = Mesh('usu_drive', M['asph'], tile=3.0); ri = Mesh('usu_drive_island', M['grass'], tile=3.0); rc = Mesh('usu_drive_curb', M['conc'], tile=2.0)
+r0_, r1_ = dv['r'] * 0.45, dv['r']
+for k in range(32):
+    a0_, a1_ = 2 * math.pi * k / 32, 2 * math.pi * (k + 1) / 32
+    P = lambda a, r, y: (dv['x'] + r * math.cos(a), y, dv['z'] + r * math.sin(a))
+    ra.quad([P(a0_, r0_, 0.006), P(a0_, r1_, 0.006), P(a1_, r1_, 0.006), P(a1_, r0_, 0.006)][::-1])
+    ri.quad([(dv['x'], 0.15, dv['z']), P(a1_, r0_ - 0.15, 0.15), P(a0_, r0_ - 0.15, 0.15)])
+    rc.quad([P(a1_, r0_, 0.006), P(a0_, r0_, 0.006), P(a0_, r0_, 0.15), P(a1_, r0_, 0.15)][::-1]); rc.quad([P(a0_, r0_, 0.15), P(a1_, r0_, 0.15), P(a1_, r0_ - 0.15, 0.15), P(a0_, r0_ - 0.15, 0.15)][::-1])
+ra.box(dv['x'] - 2.6, dv['x'] + 2.6, 0.0, 0.006, BD['z0'] - 30.0, dv['z'] - r1_ + 0.5)                                      # 往北接出去的車道
+ra.finish(root); ri.finish(root); rc.finish(root)
 
 # ================= 樹（芯＋葉片卡，和社區同一個做法）=================
 trunk = Mesh('usu_trunks', BARK); cards = Mesh('usu_tree_cards', LEAF); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
@@ -238,7 +271,7 @@ for p in J['props']:
                 flower(cx_, 0.56 + r * 1.45 + (0.08 if j == 0 else 0.0), cz_, 0.03, c)
 st.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
 
-def tree(x, z, h, y0=0.0):
+def tree(x, z, h, y0=0.0, far=False):
     lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)); rb = rng.uniform(0.28, 0.42)
     bt = L.lathe([(rb * 1.4, 0.0), (rb, 0.4), (rb * 0.82, h * 0.38), (rb * 0.55, h * 0.6)], seg=9)
     trunk.add_bm(bt, Matrix.Translation(g2b(x, y0, z)) @ Matrix(((1, 0, lean[0]), (0, 1, -lean[1]), (0, 0, 1))).to_4x4()); bt.free()
@@ -248,12 +281,15 @@ def tree(x, z, h, y0=0.0):
         trunk.cyl((x + lean[0] * yb, yb, z + lean[1] * yb), (x + math.cos(a_) * cr * 0.7, cy + rng.uniform(-0.5, 1.0), z + math.sin(a_) * cr * 0.7), rb * 0.4, seg=6, r2=rb * 0.18)
     for k in range(rng.randint(4, 6)):
         a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.2, 0.6); r_ = cr * rng.uniform(0.48, 0.68)
-        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int(8 * r_ * r_), 1.7)
+        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int((3.2 if far else 8) * r_ * r_), 2.4 if far else 1.7)
 for t in J['trees']:
     on_lawn = any(x0 <= t['x'] <= x1 and z0 <= t['z'] <= z1 for (x0, x1, z0, z1) in LAWNS)
-    tree(t['x'], t['z'], t['h'], LH if on_lawn else 0.0)
+    tree(t['x'], t['z'], t['h'], LH if on_lawn else 0.0, far=t.get('far'))
+tree(J['drive']['x'], J['drive']['z'], 9.0, 0.15)
+OCF = [(h['cx'] - h['W'] / 2, h['cx'] + h['W'] / 2, h['cz'] - h['D'] / 2, h['cz'] + h['D'] / 2) for h in J['oldcampus']]
 def belt(pts, face, hr=(13, 19)):
     for (x, z) in pts:
+        if any(x0 - 5.5 < x < x1 + 5.5 and z0 - 5.5 < z < z1 + 5.5 for (x0, x1, z0, z1) in OCF): continue   # 第三版：老校區的建築旁邊不種（樹冠會插進牆）
         h = rng.uniform(*hr); r_ = rng.uniform(4.0, 5.6)
         trunk.cyl((x, 0, z), (x, h * 0.55, z), rng.uniform(0.22, 0.32), seg=6, r2=0.16)
         crown(x, h * 0.68, z, r_, r_ * 0.85, r_, int(3 * r_ * r_), 2.6, face=face)
@@ -307,7 +343,9 @@ else:
             'gate': ((-61.0, 1.65, 20.5), (-66.0, 5.5, 8.0), 24),         # 照片五：廣場上看校門
             'walk': ((-30.0, 1.65, 20.0), (-55.0, 4.0, 10.0), 26),        # 公車站往西看校門
             'bus': ((-12.0, 1.65, 21.4), (-24.0, 2.0, 18.0), 26),
-            'aerial': ((40.0, 45.0, 62.0), (-20.0, 0.0, 2.0), 22)}
+            'aerial': ((40.0, 45.0, 62.0), (-20.0, 0.0, 2.0), 22),
+            'oc': ((-30.0, 55.0, 45.0), (-85.0, 0.0, -18.0), 20),        # 第三版：老校區鳥瞰（校門在右下角，對照空拍圖）
+            'gatein': ((-66.0, 1.65, 13.5), (-66.0, 7.0, -30.0), 24)}     # 校門廣場往北看
     eye, look, lens = CAMS[opt('--cam', 'law')]
     cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam; cam.data.lens = lens; cam.data.clip_end = 2000
     e, l_ = Vector(g2b(*eye)), Vector(g2b(*look)); cam.location = e; cam.rotation_euler = (l_ - e).to_track_quat('-Z', 'Y').to_euler()

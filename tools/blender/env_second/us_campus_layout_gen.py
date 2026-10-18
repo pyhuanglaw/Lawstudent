@@ -25,16 +25,29 @@ WALK = {'x0': -2.0, 'x1': 2.0, 'z0': 9.8, 'z1': 17.0, 'note': '人行道 → 法
 GATE = {'cx': -66.0, 'cz': 8.6, 'yaw': 0.0, 'open': 7.2, 'width': 20.4, 'note': '校門（us_law_kit.campus_gate）：兩座門樓、中間開口 7.2 m；門後＝往活動中心（區域出口）'}
 PLAZA = {'x0': -80.0, 'x1': -52.0, 'z0': 9.8, 'z1': 17.0, 'note': '校門前的紅磚廣場（石灰岩矮花台）'}
 BUS = {'x': -24.0, 'z': 19.4, 'w': 4.2, 'd': 1.6, 'note': '公車站：玻璃候車亭、長椅、站牌（只有 BUS 圖示，沒有公司名）；開口朝馬路'}
-HALLS = [   # 校門後面的老系館（背景，走不到）：us_campus_kit.gothic_hall（陡屋頂、尖拱窗的學院哥德式）
-    {'id': 'old_n', 'cx': -66.0, 'cz': -31.0, 'len': 30.0, 'dep': 13.0, 'yaw': 0.0, 'floors': 3, 'tower': True, 'note': '從校門的開口看得到的塔'},
-    {'id': 'old_w', 'cx': -84.0, 'cz': -12.0, 'len': 24.0, 'dep': 12.0, 'yaw': math.pi / 2, 'floors': 3, 'tower': False, 'note': '校門西北邊'},
+HALLS = []   # 第二版的兩棟學院哥德式系館（us_campus_kit.gothic_hall）第三版停用：改成照空拍圖的老校區（OLDCAMPUS）
+# 第三版（使用者 10-18 03:1x～03:3x：空拍圖「校門口左邊」、校門在圖的右下角；「其他地區照樣子設計、先不要開放進出」）：
+# 校門西邊、後面的老校區——全部是背景（在高起來的草坪、校門後面的阻擋範圍裡，走不到），導航、出生點、互動點都不變。
+# 空拍圖（文字描述在 HANDOFF.md ★★）：沿街一棟紅瓦大建築（屋頂圍著中庭、中間白色平屋頂＋天窗）；它西北邊一棟有方塔的紅瓦大廳（西側弧形平台）；
+# 上方幾棟灰色石材、石板瓦的老建築（其中一棟有圓塔），東邊一個圓形迴車道；右半邊一大片樹林、紅磚小路斜斜穿過。區域範圍小，距離照比例壓縮。
+OLDCAMPUS = [
+    {'kind': 'tile_hall', 'id': 'oc_tile', 'cx': -117.0, 'cz': 1.0, 'W': 24.0, 'D': 22.0, 'floors': 3, 'yaw': 0.0, 'note': '西邊路口對面、沿街的紅瓦大建築（中庭平屋頂＋天窗、沿街和東側老虎窗）'},
+    {'kind': 'tower_hall', 'id': 'oc_tower', 'cx': -119.0, 'cz': -30.0, 'W': 22.0, 'D': 11.0, 'floors': 2, 'yaw': 0.0, 'note': '它北邊：紅瓦山牆大廳＋東北角方塔、西側弧形平台'},
+    {'kind': 'castle_hall', 'id': 'oc_castle1', 'cx': -72.5, 'cz': -40.0, 'W': 21.0, 'D': 10.0, 'floors': 3, 'yaw': 0.0, 'turret': 'SE', 'note': '灰色石材、石板瓦；圓塔在東南角（校門往北的紅磚路走到底，右手邊）'},
+    {'kind': 'castle_hall', 'id': 'oc_castle2', 'cx': -44.0, 'cz': -41.0, 'W': 18.0, 'D': 9.0, 'floors': 3, 'yaw': 0.0, 'note': '灰色石材、石板瓦'},
 ]
+DRIVE = {'x': -25.0, 'z': -38.0, 'r': 6.0, 'note': '石材老建築東邊的圓形迴車道（背景）'}
+WOODS = {'x0': -82.0, 'x1': -34.0, 'z0': -31.0, 'z1': 3.0, 'n': 46, 'clear': [{'x0': -69.5, 'x1': -62.5, 'z0': -46.0, 'z1': 8.0, 'note': '從校門往北看得到老建築和圓塔：中間留一條沒有樹的路'}],
+         'note': '校門後面的樹林（紅磚小路穿過）'}
+PATHS = [{'w': 2.4, 'pts': [(-66.0, 6.0), (-66.0, -34.0)], 'note': '校門往北'},
+         {'w': 1.8, 'pts': [(-66.0, -6.0), (-79.0, -15.0), (-88.0, -24.0)], 'note': '往西北（方塔大廳）'},
+         {'w': 1.8, 'pts': [(-66.0, -12.0), (-55.0, -24.0), (-46.0, -35.0)], 'note': '往東北（石材老建築）'}]
 PLANTERS = [{'x': -66.0, 'z': 14.0, 'w': 5.2, 'd': 1.8, 'round': True, 'note': '開口正前方的長圓花台'},
             {'x': -78.4, 'z': 13.4, 'w': 1.6, 'd': 6.0, 'round': False}, {'x': -53.6, 'z': 13.4, 'w': 1.6, 'd': 6.0, 'round': False}]
 
-L = {'version': 2, 'zone': 'us_campus', 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1}, 'road': ROAD, 'walk_s': WALK_S, 'cross_streets': CROSS,
+L = {'version': 3, 'zone': 'us_campus', 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1}, 'road': ROAD, 'walk_s': WALK_S, 'cross_streets': CROSS,
      'retaining_wall_z': RET_Z, 'lawn_h': LAWN_H, 'law': LAW, 'steps_foot_z': round(FOOT_Z, 3), 'forecourt': FORE, 'walk': WALK,
-     'gate': GATE, 'plaza': PLAZA, 'planters': PLANTERS, 'bus': BUS, 'halls': HALLS,
+     'gate': GATE, 'plaza': PLAZA, 'planters': PLANTERS, 'bus': BUS, 'halls': HALLS, 'oldcampus': OLDCAMPUS, 'drive': DRIVE, 'woods': WOODS, 'paths': PATHS,
      'spawn_bus': {'x': BUS['x'] + 3.4, 'z': 20.6, 'yaw': math.pi, 'note': '公車到站（字卡）以後站在站牌旁邊、面向法學院（北）'},
      'spawn_class_out': {'x': 0.0, 'z': round(FOOT_Z + 1.3, 3), 'yaw': 0.0, 'note': '下課從法學院出來：台階下、面向馬路（南）'},
      'spawn_gate': {'x': GATE['cx'], 'z': 11.4, 'yaw': 0.0, 'note': '從活動中心回來（之後做活動中心時用）：校門口、面向馬路'},
@@ -50,10 +63,22 @@ TREES = []
 def put_tree(x, z, h):
     TREES.append({'x': round(x, 2), 'z': round(z, 2), 'h': round(h, 1)})
 for (x, z) in ((-15.5, 13.4), (-21.0, 9.5), (-30.0, 13.4), (-39.5, 6.0), (-46.0, 13.0), (12.0, 12.6), (21.5, 8.8), (31.0, 13.2), (40.5, 7.5), (46.5, 13.6),
-               (-84.0, 12.0), (-84.5, 2.0)):
+               (-84.5, 2.0), (-84.0, 12.0), (-110.5, 15.2), (-123.0, 15.2)):   # 第三版：西邊路口對面、紅瓦大建築前的草坪加兩棵
     put_tree(x + rng.uniform(-0.8, 0.8), z + rng.uniform(-0.6, 0.6), rng.uniform(13, 17))
-for (x, z) in ((-75.0, 1.0), (-57.0, 0.5), (-76.0, -10.0), (-55.0, -12.0), (-48.0, -2.0), (-60.0, -20.0), (-73.0, -20.5)):
-    put_tree(x + rng.uniform(-1, 1), z + rng.uniform(-1, 1), rng.uniform(14, 19))
+# 校門後面的樹林（第三版：照空拍圖的「右半邊一大片樹林」；第二版是 7 棵）：避開中間那條路、紅磚小路
+def _onpath(x, z, pad=1.6):
+    for p in PATHS:
+        for (ax, az), (bx, bz) in zip(p['pts'], p['pts'][1:]):
+            dx, dz = bx - ax, bz - az; t = max(0.0, min(1.0, ((x - ax) * dx + (z - az) * dz) / (dx * dx + dz * dz))); px, pz = ax + t * dx, az + t * dz
+            if math.hypot(x - px, z - pz) < p['w'] / 2 + pad: return True
+    return False
+_n = 0; _tries = 0
+while _n < WOODS['n'] and _tries < 4000:
+    _tries += 1; x = rng.uniform(WOODS['x0'], WOODS['x1']); z = rng.uniform(WOODS['z0'], WOODS['z1'])
+    if any(c['x0'] < x < c['x1'] and c['z0'] < z < c['z1'] for c in WOODS['clear']) or _onpath(x, z): continue
+    if any(math.hypot(x - t['x'], z - t['z']) < 4.2 for t in TREES): continue
+    if PLAZA['x0'] - 2 < x < PLAZA['x1'] + 2 and z > GATE['cz'] - 4.0: continue        # 校門廣場、門樓後面留空
+    put_tree(x, z, rng.uniform(13, 20)); TREES[-1]['far'] = 1; _n += 1              # far：離人行道 15 m 以上，用比較省的樹（葉片卡大、少）
 PROPS = []
 for x in (-88.0 + 2.0 + k * 17.0 for k in range(9)):                          # 人行道靠草坪那一側的深綠色路燈（照片）
     if abs(x) > 3.0 and not (BUS['x'] - 3 < x < BUS['x'] + 3) and not (PLAZA['x0'] - 1 < x < PLAZA['x1'] + 1): PROPS.append({'type': 'lamp_green', 'x': round(x, 2), 'z': 17.55, 'yaw': 0.0})
