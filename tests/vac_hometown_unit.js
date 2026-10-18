@@ -75,8 +75,12 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     picks=['我去高雄找妳？',0]; const d=await INV.flow(GM,'kexin',null,false); const q=OUT.rec(G).find(x=>x.hv&&x.hv.id==='kexin');
     check('7. 約：玩家「我去高雄找妳？」、她「真的？……那我去車站接你。」、排明天高鐵當天來回',d===G.day+1&&said0().includes('我去高雄找妳？')&&said0().includes('真的？……那我去車站接你。來之前先跟我說幾點的車。')&&!!q&&q.ev==='ev_hv_kx'&&q.travelH===1.5&&q.h===10.5,J([d,said0().slice(-3),q&&q.ev]));
     check('7. 約好以後清單那一項變成不能選（已經約好了）',HV.offer(G,'kexin').ok===false);
-    said=[]; G.day=q.day; G.hour=10.5; await HV.play(GM,q);
+    said=[]; G.day=q.day; G.hour=10.5; const mo=GM.money, paid=[]; GM.money=(d,w)=>{ paid.push([d,w]); G.money+=d; }; await HV.play(GM,q); GM.money=mo; q.state='done';
     check('7. 第一次：車站接人 → 高雄・港邊 → 傍晚送上車（沒交往：「路上小心。到了傳一下。」）',said0().includes('你真的來了。')&&said0().includes('現在也是。高鐵一個半小時，還是很遠。')&&said0().includes('路上小心。到了傳一下。')&&!said0().some(t=>/開學我就上去了/.test(t))&&G.hour>=17,J(said0()));
+    check('7. 高鐵來回 2980 元：出發那天扣（AA_276 第 7 節第 2 點）',paid.length===1&&paid[0][0]===-2980,J(paid));
+    { const m0=G.money; G.money=2000; const o=HV.offer(G,'kexin'); check('7. 錢不夠：那一項不能選，提示「高鐵票錢不夠」',o&&o.ok===false&&/高鐵票錢不夠/.test(o.why),J(o)); G.money=m0; }
+    { const q9={hv:{id:'kexin'}}; said=[]; G.flags.HV_N.kexin=1; await HV.play(GM,q9);
+      check('7. 第二次以後的接人換句「這次換這頂安全帽了。……上車。」、不說「你真的來了。」（第 7 節第 1 點）',said0().includes('這次換這頂安全帽了。……上車。')&&!said0().includes('你真的來了。'),J(said0().slice(0,3))); }
     check('7. 再去輪流：第二次夜市、第三次下雨、第四次河邊、第五次回到夜市',['night','rain','river','night'].every((v,i)=>{ G.flags.HV_N.kexin=1+i; return HV.pickVariant(G,'kexin',false)===v; })); G.flags.HV_N.kexin=1;
     law('2026-07-10',20,{dating_kexin:true}); R('kexin',40,30,30); G.contacts.kexin=G.day-200; picks=['我去高雄找妳？',0]; await INV.flow(GM,'kexin',null,false);
     check('7. 交往中答應：「你要來？……好。幾點的車，我去接你。」',said0().includes('你要來？……好。幾點的車，我去接你。'),J(said0().slice(-2)));

@@ -1,19 +1,21 @@
 /* 寒暑假去她的縣市（AA_276 第 1-1、4、5 節，AA-C 13c583c9 定稿；使用者 23:4x「寒暑假只能去高雄找他才會見到面」、23:5x「除非玩家有跟他交往」）。
    台詞一字不改（{name}＝玩家的名字）；邏輯在 src/hometown3d.js。bg＝2D 背景的 id（BB 向使用者要圖，還沒有＝深色底，OUT.bg）。
-   pick＝車站接人（再去也照第一次的，5-2、5-4「接人、送車照 5-1／5-3」）；first＝第一次；again＝再去，三選一輪流；send＝傍晚送上車（交往中 dating、不是 other）；keep＝沛珊重考消失期、交往中（5-5，不用 first／again）。 */
+   pick＝第一次的車站接人；pickAgain＝第二次以後的接人（AA_276 第 7 節第 1 點，9e875a10：不重複第一次那兩句）；fare＝高鐵來回票價（第 7 節第 2 點）；first＝第一次；again＝再去，三選一輪流；send＝傍晚送上車（交往中 dating、不是 other）；keep＝沛珊重考消失期、交往中（5-5，不用 first／again）。 */
 const HOMETOWN_LINES={
-  kexin:{ city:'高雄', travel:'高鐵約一個半小時', travelH:1.5, ask:'我去高雄找妳？',
+  kexin:{ city:'高雄', travel:'高鐵約一個半小時', travelH:1.5, fare:2980, ask:'我去高雄找妳？',
     yes:'真的？……那我去車站接你。來之前先跟我說幾點的車。', yesDating:'你要來？……好。幾點的車，我去接你。',
     pick:{bg:'kh_station',lines:[{narr:'（高雄車站。出口外面的太陽比臺北大。她站在柱子旁邊，戴著帽子。）'},'你真的來了。','我騎車載你。安全帽是我媽的，有點小。']},
+    pickAgain:{bg:'kh_station',lines:[{narr:'（高雄車站。出口外面的太陽比臺北大。她站在柱子旁邊，戴著帽子。）'},'這次換這頂安全帽了。……上車。']},
     first:{scene:'高雄・港邊',bg:'kh_harbor',lines:[{narr:'（你們坐在港邊的長椅上，看船慢慢進來。她買了兩支冰。）'},'這裡我國中常來。那時候覺得臺北好遠。','現在也是。高鐵一個半小時，還是很遠。']},
     again:[
       {key:'night',scene:'高雄・她家附近的夜市',bg:'kh_night_market',lines:['這攤我從小吃到大。……你吃得完再說。']},
       {key:'rain',scene:'高雄・便利商店',bg:'kh_store',lines:[{narr:'（雨下了整個下午，你們在便利商店坐到傍晚。）'},'高雄很少下雨。你一來就下。']},
       {key:'river',scene:'高雄・愛河邊',bg:'kh_river',lines:['晚上來比較好看。可是你要趕車。'],dating:['……下次住一晚啦。']} ],
     send:{narr:'（傍晚，她騎車送你回車站。）',dating:['開學我就上去了。……到時候換你來接我。',{narr:'（她站在閘門外面，等你走到看不見。）'}],other:['路上小心。到了傳一下。']} },
-  classmate_peishan:{ city:'台中', travel:'高鐵約一小時', travelH:1, ask:'我去台中找妳？',
+  classmate_peishan:{ city:'台中', travel:'高鐵約一小時', travelH:1, fare:1400, ask:'我去台中找妳？',
     yes:'好啊！！我帶你去吃我家附近那間。……你不能嫌遠喔。', yesDating:'真的嗎！！那我去車站等你。我會提早到。', yesKeep:'好。……一個下午就好，我晚上還要念。',
     pick:{bg:'tc_station',lines:[{narr:'（台中車站。她在出口揮手，揮得很大。）'},'{name}！這裡這裡！','先說好，我家附近那間要排隊。排隊的時候我可以問你問題嗎？']},
+    pickAgain:{bg:'tc_station',lines:[{narr:'（台中車站。她在出口揮手，揮得很大。）'},'{name}！這邊！……你這次沒有迷路耶。']},
     first:{scene:'台中・她家附近的小吃店',bg:'tc_eatery',lines:['我小時候每個禮拜六都來。老闆還認得我。','你覺得台中跟臺北哪裡不一樣？'],
       opts:[{t:'比較熱。',say:['對！而且路比較寬！']},{t:'人比較少。',say:['那是你沒在假日來。']},{t:'妳在這裡比較常笑。',dating:true,say:['……你不要突然講這種話啦。']}]},
     again:[
