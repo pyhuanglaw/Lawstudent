@@ -2202,21 +2202,30 @@ const STORY_EVENTS=[
      祐廷提出（三個說法都是他說的）；舊 E27「我不是因為你」併進來（她自己的理由）。CRAM_FREE_KNOWN 才有「那間補習班說我可以免費」那一段（新開局一定有）。
      記 RETAKE_TOGETHER、E27_DAY。不寫人生演講、哭著感謝、拯救、她為了他重考 */
   { id:'ev_y0_e27', stage:'econ', title:'一起重考吧', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'公館・水餃店',bg:'y0_dumpling'},
-      {speaker:'kexin',expression:'neutral',text:'我今天辦完了。'},{speaker:'kexin',expression:'neutral',text:'休學。國文那份報告，最後還是不能補交。'},{speaker:'kexin',expression:'neutral',text:'整科就那一份。沒交就是零分，一定會被當。'},{speaker:'kexin',expression:'neutral',text:'……我不想要成績單上有一個不及格。'},
-      {speaker:'kexin',expression:'neutral',text:'表格上有一格「原因」。我寫「個人生涯規劃」。櫃台說大家都寫這個。'},
-      {speaker:'player',text:'……我十月也寫這個。'},{speaker:'kexin',expression:'smile',text:'那我們很普通。'},
-      {speaker:'kexin',expression:'thinking',text:'（吃了一顆水餃）然後呢？我們兩個都休學了。接下來要幹嘛。'},
-      {choice:[{text:'「那我們都已經休學了，就一起重考吧。」',goto:'p1'},{text:'「我要再考一次。法律。……妳要不要一起？」',if:{flags:['CRAM_FREE_KNOWN']},goto:'p2'},{text:'「一起考吧。兩個人在家讀，比一個人不會偷懶。」',goto:'p3'}]},
-      {label:'p1'},{speaker:null,text:'（她停了一下。）'},{speaker:'kexin',expression:'surprised',text:'……你是說真的？'},{speaker:'player',text:'真的。'},{speaker:'kexin',expression:'smile',text:'好。'},{goto:'q'},
-      {label:'p2'},{speaker:'kexin',expression:'neutral',text:'你十二月去補習班那天就想考了吧。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',expression:'smile',text:'好。一起。'},{goto:'q'},
-      {label:'p3'},{speaker:'kexin',expression:'teasing',text:'你是說我會盯你。'},{speaker:'player',text:'對。'},{speaker:'kexin',expression:'smile',text:'……好。我盯你。'},
-      {label:'q'},{speaker:'kexin',expression:'serious',text:'先說好。我考法律，不是因為你。'},{speaker:'kexin',expression:'neutral',text:'我寒假就在查了。你只是剛好先說。'},
-      {if:{flagIs:{E22B_TOLD:false}},speaker:'kexin',expression:'teasing',text:'你說『先看看而已』那本，我那時候就知道是什麼了。'},
-      {unless:{flags:['CRAM_FREE_KNOWN']},goto:'r_end'},
-      {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',expression:'neutral',text:'我呢？'},{speaker:'player',text:'……不知道。妳是自然組。'},{speaker:'kexin',expression:'neutral',text:'那明天一起去問。'},{set:{E27B_PLAN:true}},{goto:'r_set'},   /* AA_272 8-1（使用者 22:0x）：三選一、「所以說好了」搬到 2/14 ev_y0_e27b */
-      {label:'r_end'},{speaker:'kexin',expression:'smile',text:'所以說好了。每天早上，比誰先坐到桌子前面。'},{speaker:'kexin',expression:'smile',text:'輸的人請早餐。……我不會輸。'},   /* 沒有 CRAM_FREE_KNOWN 的舊存檔照原本 */
-      {label:'r_set'},      {set:{RETAKE_TOGETHER:true}},{stamp:['E27_DAY']} ] },
+    dialogue:[ {scene:'行政大樓',bg:'admin_office'},   /* AA_303 第 17 場（使用者 10-18：高雄的時候就討論了，我陪她辦完休學，就去吃飯）：休學原因、一起重考搬到 1/31～2/2 高雄（ev_y0_kh3）*/
+      {speaker:null,text:'（二月十三日，行政大樓。你陪她來的。）'},{speaker:null,text:'（承辦人蓋了章，把收據推過去。）'},{speaker:'承辦人',text:'好了。'},
+      {speaker:'kexin',text:'……十五分鐘。跟你那時候一樣。'},
+      {scene:'公館・水餃店',bg:'y0_dumpling'},{speaker:null,text:'（公館的水餃店。她點了二十顆。）'},
+      {speaker:'kexin',text:'從今天開始，我們兩個都是休學的人了。'},
+      {choice:[{text:'「歡迎。」',goto:'a'},{text:'「明天去問補習班。」',goto:'b'}]},
+      {label:'a'},{speaker:'kexin',text:'……一點都不想被歡迎。'},{speaker:null,text:'（她笑了。）'},{goto:'e'},
+      {label:'b'},{speaker:'kexin',text:'嗯。……先吃。'},
+      {label:'e'},{set:{RETAKE_TOGETHER:true,E27B_PLAN:true}},{stamp:['E27_DAY']} ] },   /* 沒去高雄的舊存檔：一起重考、明天去問補習班照記 */
+  /* ★高雄三天兩夜（AA_303 第 15 場，使用者 10-18 選擇題：「去高雄 3 天 2 夜……是在高雄才討論重考的」）：1/28 除夕電話約好（KH_TRIP）→ 1/31（初三）早上開車出發，2/2 晚上回臺北的家。
+     原本 2/13 水餃店的休學原因和三選一搬來這裡；記 RETAKE_TOGETHER、E27B_PLAN（2/14 一起去問補習班）。背景先用 kh_river；CG 兩張等使用者生成（BB 提示詞）。只在經濟系 30 分鐘版的停點演（econff3d.js STEPS2 h21）*/
+  { id:'ev_y0_kh3', stage:'econ', title:'高雄三天兩夜', participants:['kexin'], location:'any', trigger:'econff', once:true, background:'kh_river',
+    dialogue:[ {scene:'高雄',bg:'kh_river'},
+      {speaker:null,text:'（大年初三。你開了四個多小時的車到高雄。她在家樓下等你，一上車就說：「先去吃早午餐。」）'},
+      {speaker:null,text:'（三天兩夜。新崛江、美麗島站那片彩色的玻璃天花板、瑞豐夜市。她每到一個地方就說：「這個你一定要吃。」）'},
+      {speaker:null,text:'（第三天下午，蓮池潭。風很大。你們坐在湖邊的椅子上。）'},
+      {speaker:'kexin',text:'成績下禮拜出來。'},{speaker:'kexin',text:'國文那份報告，我記錯時間了。老師說不能補交。'},{speaker:'kexin',text:'整科就那一份。……一定會被當。'},{speaker:'kexin',text:'我在想要不要休學。'},
+      {choice:[{text:'「那我們都休學了，就一起重考吧。」',goto:'p1'},{text:'「我要再考一次。法律。……妳要不要一起？」',goto:'p2'},{text:'「一起考吧。兩個人一起讀，比一個人不會偷懶。」',goto:'p3'}]},
+      {label:'p1'},{speaker:null,text:'（她停了一下。）'},{speaker:'kexin',text:'……你是說真的？'},{speaker:'player',text:'真的。'},{speaker:'kexin',text:'好。'},{goto:'q'},
+      {label:'p2'},{speaker:'kexin',text:'你十二月去補習班那天就想考了吧。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',text:'好。一起。'},{goto:'q'},
+      {label:'p3'},{speaker:'kexin',text:'你是說我會盯你。'},{speaker:'player',text:'對。'},{speaker:'kexin',text:'……好。我盯你。'},
+      {label:'q'},{speaker:'kexin',text:'先說好。我考法律，不是因為你。'},{speaker:'kexin',text:'我寒假就在查了。你只是剛好先說。'},
+      {speaker:'player',text:'那間補習班說我可以免費。'},{speaker:'kexin',text:'我呢？'},{speaker:'player',text:'……不知道。妳是自然組。'},{speaker:'kexin',text:'那回台北，一起去問。'},
+      {set:{RETAKE_TOGETHER:true,E27B_PLAN:true,KX_THINK_LEAVE:true,KH_TRIP_DONE:true}},{rel:{kexin:{trust:2,comf:2}}} ] },
   /* ★E27b 一起去問補習班（AA_272 8-2，52c73c73：櫃台進去幫她問、管理說沒有社會科分數不行、全年二十萬剩下十三萬；使用者 22:0x「2 月決定重考以後，兩個人一起再去問可昕能不能免費……去問重考班也要有劇情」）：2025-02-14（五）15:00 以前的補習班（同 12/13 那一間，主任不出場）；
      固定出遊、不能快轉；15:15 還沒出發＝可昕電話（story3d.js CORE_CALLS）。原本 E27 的三選一和結尾搬來這裡；記 CRAM_ASKED_TOGETHER。R1 照舊 2/15 */
   { id:'ev_y0_e27b', stage:'econ', title:'一起去問補習班', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,

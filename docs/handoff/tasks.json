@@ -19100,6 +19100,27 @@
    "source": "BB-C 2026-10-18 09:30",
    "authorized": "BB 測試回報",
    "next": "game3d updateHUD、renderSlots：HOME.at 時寫臺北的家；home_unit 12。BB 重測"
+  },
+  {
+   "id": "AA303-KX-RECONFIRM-1018",
+   "title": "AA_303：使用者逐場確認可昕的劇情（經濟系那一年）：停點改 27 場、新增高雄三天兩夜與 2/15 她住進來、多場台詞換",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-C 8aa33db0（AA_303、DL-AA-8aa33db0）",
+   "authorized": "使用者七批選擇題",
+   "next": "LAWWW 已做（本 commit）：第 1 節停點（拿掉 R3、R7、RH-L1、RH-L5、T1/T3/T6；加 1/31 高雄 ev_y0_kh3 h21、要 KH_TRIP）、第 17 場 2/13 E27（行政大樓→水餃店，14:00）、1/11 那則拿掉、第 3 節日期卡 18 句。第 2 節其他場：子代理（worktree）在換。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句。等 BB：高雄兩張 CG 提示詞"
   }
  ]
 }
