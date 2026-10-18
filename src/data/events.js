@@ -2357,16 +2357,16 @@ const STORY_EVENTS=[
       .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',text:narr?t:t.replace(/^「|」$/g,'')}); } });
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     return [
-      study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
+      study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:'kexin',text:'如果憲法是一間餐廳，第七條是什麼菜？'},
         {choice:[{text:'「白飯。每一桌都有，每個人拿到的一樣多。」',goto:'a'},{text:'「套餐。男女、宗教、種族、階級、黨派，都是同一份菜單。」',goto:'b'},{text:'「主廚推薦。主廚說了算。」',goto:'c'}]},
         {label:'a'},{speaker:'kexin',text:'不行。平等不是每個人拿到一模一樣。'},{speaker:'kexin',text:'牙齒不好的客人，那碗可以煮軟一點。只要有理由。'},{goto:'e'},
         {label:'b'},{speaker:'kexin',text:'條文背得很好。'},{speaker:'kexin',text:'可是門口寫的那五種客人只是舉例。沒寫到的客人，也不能隨便被請出去。'},{goto:'e'},
         {label:'c'},{speaker:'kexin',text:'錯。這家店最重要的規定：主廚不能因為客人是誰，就隨便決定上什麼菜。要有理由。'},
         {label:'e'},{speaker:null,text:'（她在筆記本上寫了一行，停了一下。）'},{speaker:'kexin',text:'第七條這題我還沒吵完喔。'},{speaker:'kexin',text:'等一下吃飯繼續，你先不要去翻課本。'},{set:{R1_LINE:true}} ]),
-      study('ev_y0_r5','一百天','r5',[ {scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:null,text:'牆上的倒數撕到一百。'},{speaker:'kexin',text:'一百天。'},{speaker:'player',text:'妳在想什麼？'},
+      study('ev_y0_r5','一百天','r5',[ {scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:null,text:'牆上的倒數撕到一百。'},{speaker:'kexin',text:'一百天。'},{speaker:'player',text:'妳在想什麼？'},
         {speaker:'kexin',text:'我們都考上的話——'},{speaker:null,text:'她停住。'},{speaker:'kexin',text:'不行，這個太早講。'}, ...R1B ]),
-      study('ev_y0_r2','豆花賭注','r2',[ {scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:null,text:'錯一題請一碗。'},{speaker:'kexin',text:'你欠我四碗。'},{speaker:'player',text:'妳欠我三碗。'},{speaker:'kexin',text:'所以你欠我一碗。'},{speaker:'player',text:'……好啦。'}, ...R1B ]),
-      Object.assign(study('ev_y0_rs','同一張桌子','s',[ {scene:'祐廷家・餐桌',bg:'home_living_day'}, ...rsLines, ...R1B ],false),{ after:G=>{ const S=ST(); if(S){ const i=S.rsPick(G); if(i>=0) S.rUse(G,'RS_USED',i); } G.flags.RT_KX=G.day; } }),
+      study('ev_y0_r2','豆花賭注','r2',[ {scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:null,text:'錯一題請一碗。'},{speaker:'kexin',text:'你欠我四碗。'},{speaker:'player',text:'妳欠我三碗。'},{speaker:'kexin',text:'所以你欠我一碗。'},{speaker:'player',text:'……好啦。'}, ...R1B ]),
+      Object.assign(study('ev_y0_rs','同一張桌子','s',[ {scene:'祐廷家・你的房間',bg:'home_room_day'}, ...rsLines, ...R1B ],false),{ after:G=>{ const S=ST(); if(S){ const i=S.rsPick(G); if(i>=0) S.rUse(G,'RS_USED',i); } G.flags.RT_KX=G.day; } }),
       play('ev_y0_r3','杜鵑花的散步','daan_park',3,[ {scene:'大安森林公園',bg:'daan_park'},   /* AA_298 第 3 節：休學後不回台大，改大安森林公園；假設題拿掉（AA_295）*/
         {speaker:null,text:'（大安森林公園。杜鵑花季快過了，靠捷運站那一排還開著。）'},
         {speaker:'kexin',text:'今天不讀書。走到水池那邊，再走回來。'},
