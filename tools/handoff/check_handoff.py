@@ -686,7 +686,7 @@ def main(argv=None):
     c.add_argument('--no-git', action='store_true')
     s = sub.add_parser('snapshot')
     s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
-    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C（D92；職位永遠四個）
+    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C／D（D92；職位永遠四個）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
     s.add_argument('--ref', help='從這個 git ref 讀總表；不給而且這條分支沒有 tasks.json＝自動找 RULE_SOURCE')
     q = sub.add_parser('queue')

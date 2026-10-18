@@ -29,8 +29,8 @@ ROLE_FILE = 'docs/handoff/duty_{role}.json'
 SNAPDIR = 'docs/handoff/snapshots'
 ROSTER_DOC = 'docs/AI_SESSION_HANDOFF.md'
 ROLES = ('LAWWW', 'LAWWW2', 'AA', 'BB')
-ACCOUNTS = ('A', 'B', 'C')
-SUFFIX = {'A': '', 'B': '-B', 'C': '-C'}   # 工作階段名稱：LAWWW、LAWWW-B、LAWWW-C
+ACCOUNTS = ('A', 'B', 'C', 'D')   # 使用者 2026-10-18：可能開第四個帳號（D），四個帳號任意方向輪值
+SUFFIX = {'A': '', 'B': '-B', 'C': '-C', 'D': '-D'}   # 工作階段名稱：LAWWW、LAWWW-B、LAWWW-C、LAWWW-D
 ROLE_STATES = ('on', 'handed-off', 'unknown')
 ACCOUNT_STATES = ('on', 'off', 'unused')
 

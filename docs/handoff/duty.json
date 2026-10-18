@@ -17,7 +17,8 @@
  "accountState": {
   "A": "off",
   "B": "off",
-  "C": "on"
+  "C": "on",
+  "D": "unused"
  },
  "roles": {
   "LAWWW": {
