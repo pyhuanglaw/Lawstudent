@@ -23,12 +23,10 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
-  const D=STORY.dayOfKey('2025-05-26'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e34'); check('0. E34 在、6/2 是週一',!!ev&&CALENDAR.dateOf(D).wd===1); if(!ev){ console.log('FAILED '+fails); process.exit(1); }
-  fresh(D-1,20.9,'home'); run(); check('1. 6/1 21:00 以前沒有',!PHONE.sent(G,'y0_e34_ask')); at(D-1,21.1); check('1. 6/1 21:00 阿勳「明天經原最後一堂。十二點十分下課。」',TH('p:econ_zhengxun').includes('明天經原最後一堂。十二點十分下課。'));
-  const ck=(h,z)=>{ fresh(D,h,z); return EVENTS.check(ev); }; check('2. 11:50～12:15 在博雅演；11:40、12:20、在校園不演',ck(11.9,'boya')&&ck(12.2,'boya')&&!ck(11.6,'boya')&&!ck(12.3,'boya')&&!ck(12,'campus'));
-  fresh(D,11.9,'boya'); SOCIAL.meet('econ_zhengxun','x'); const t0=SOCIAL.rel('econ_zhengxun').trust|0; picks=['點頭']; await EVENTS.run(ev); const L=said.map(x=>x.t);
-  check('3. 「星期一中午，你站在博雅一〇一的後門外。……」→ 魏老師「經濟學不會告訴你該選什麼。它告訴你，選了要付什麼。」→ 阿勳「你聽到了？……」→（點頭）「嗯。點頭也算回答。」→「一路上，他沒有問你下學期要做什麼。」',L[0]==='星期一中午，你站在博雅一〇一的後門外。門沒有關緊。'&&L.includes('經濟學不會告訴你該選什麼。它告訴你，選了要付什麼。')&&L.includes('嗯。')&&L[L.length-1]==='一路上，他沒有問你下學期要做什麼。'&&(SOCIAL.rel('econ_zhengxun').trust|0)===t0+1&&Math.abs(G.hour-12.5)<1e-6,JSON.stringify(L));
-  fresh(D,12.1,'home'); run(); at(D,12.3); check('4. 12:15 還沒到：阿勳「老師最後說：選了要付什麼。我覺得你付得起。」',TH('p:econ_zhengxun').includes('經原上完了。老師最後一句說：選了要付什麼。'));
-  fresh(D,12.3,'home'); G.events.done.ev_y0_e34=1; run(); check('4. 去了：沒有沒去那句',!PHONE.sent(G,'y0_e34_miss'));
+  /* AA_298 第 3 節（使用者 10-18「一個休學的人根本不會想再踏入台大」）：E34 拿掉——事件留給舊存檔（retired）、阿勳兩則私訊不傳 */
+  const D=STORY.dayOfKey('2025-05-26'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e34'); check('0. E34 定義還在（舊存檔）、標 retired',!!ev&&!!ev.retired); if(!ev){ console.log('FAILED '+fails); process.exit(1); }
+  fresh(D-1,20.9,'home'); run(); at(D-1,21.1); check('1. 5/25 21:00 沒有阿勳「明天經原最後一堂」',!PHONE.sent(G,'y0_e34_ask'));
+  const ck=(h,z)=>{ fresh(D,h,z); return EVENTS.check(ev); }; check('2. 5/26 11:50～12:15 在博雅也不演',!ck(11.9,'boya')&&!ck(12.2,'boya'));
+  fresh(D,12.1,'home'); run(); at(D,12.3); check('4. 12:15 以後沒有「經原上完了」那句',!PHONE.sent(G,'y0_e34_miss'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

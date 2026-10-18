@@ -2306,7 +2306,7 @@ const STORY_EVENTS=[
       {label:'end'} ] },
   /* E34＝R8 經濟學原理最後一堂的最後一句（BB_153 E34 完整稿；AA_154 第 244 行；BB_179 段 D、AA_203 #15）：5/26（一，16 週制第 15 週，AA_198 第 3 節；原本 6/2）11:50～12:15 在博雅（3D，101 外面的走廊）就演；12:15 以後＝沒去版（story3d.js）。
      不記旗標；阿勳信任 +1。魏老師只有聲音 */
-  { id:'ev_y0_e34', stage:'econ', title:'最後一堂的最後一句', participants:['econ_zhengxun'], location:'boya', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+  { id:'ev_y0_e34', retired:'AA_298 第 3 節（休學的人不會回台大：E34 拿掉），定義留給已經演過的舊存檔', stage:'econ', title:'最後一堂的最後一句', participants:['econ_zhengxun'], location:'boya', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_E34_DAY||'2025-05-26'):null; return d!=null&&G.day===d&&G.hour>=11+50/60&&G.hour<12.25; }},
     dialogue:[ {speaker:null,text:'星期一中午，你站在博雅一〇一的後門外。門沒有關緊。'},{speaker:null,text:'這是你沒修完的那門課。最後一堂。'},
       {speaker:'魏老師（聲音）',text:'……好，最後一句。'},{speaker:'魏老師（聲音）',text:'經濟學不會告訴你該選什麼。它告訴你，選了要付什麼。'},
@@ -2341,13 +2341,18 @@ const STORY_EVENTS=[
         {speaker:'kexin',text:'假設我們都考上了——'},{speaker:null,text:'她停住。'},{speaker:'kexin',text:'不行，這題太早出。'}, ...R1B ]),
       study('ev_y0_r2','豆花賭注','r2',[ {scene:'祐廷家・餐桌',bg:'home_living_day'},{speaker:null,text:'錯一題請一碗。'},{speaker:'kexin',text:'你欠我四碗。'},{speaker:'player',text:'妳欠我三碗。'},{speaker:'kexin',text:'所以你欠我一碗。'},{speaker:'player',text:'……好啦。'}, ...R1B ]),
       Object.assign(study('ev_y0_rs','同一張桌子','s',[ {scene:'祐廷家・餐桌',bg:'home_living_day'}, ...rsLines, ...R1B ],false),{ after:G=>{ const S=ST(); if(S){ const i=S.rsPick(G); if(i>=0) S.rUse(G,'RS_USED',i); } G.flags.RT_KX=G.day; } }),
-      play('ev_y0_r3','杜鵑花的散步','ntu_avenue',3,[ {scene:'台大・椰林大道',bg:'ntu_avenue'},{speaker:null,text:'杜鵑花節已經過了兩個禮拜，椰林大道旁的杜鵑還沒謝完。'},{speaker:'kexin',text:'欸，杜鵑花如果可以投票，會投誰當校長？'},
-        {choice:[{text:'「傅鐘。它每天都很準時。」'},{text:'「椰子樹。比較高，看得比較遠。」'},{text:'「它們自己。它們票最多。」'}]},{speaker:'kexin',text:'不管它們了，去吃東西。'} ]),
+      play('ev_y0_r3','杜鵑花的散步','daan_park',3,[ {scene:'大安森林公園',bg:'daan_park'},   /* AA_298 第 3 節：休學後不回台大，改大安森林公園；假設題拿掉（AA_295）*/
+        {speaker:null,text:'（大安森林公園。杜鵑花季快過了，靠捷運站那一排還開著。）'},
+        {speaker:'kexin',text:'今天不讀書。走到水池那邊，再走回來。'},
+        {choice:[{text:'「好，慢慢走。」',goto:'a'},{text:'「拍一張照片？」',goto:'b'}]},
+        {label:'a'},{speaker:null,text:'（你們走得很慢。到了水池，她站在欄杆邊看水裡的烏龜，看了很久。）'},{goto:'e'},
+        {label:'b'},{speaker:'kexin',text:'拍花就好。……不要拍我。'},{speaker:null,text:'（照片裡，她還是走進來一半。）'},{goto:'e'},
+        {label:'e'},{speaker:'kexin',text:'好了。去吃東西。'} ]),
       play('ev_y0_r6','河濱的休息日','riverside',4,[ {scene:'河濱',bg:'riverside'},{speaker:null,text:'（騎到河濱，風從河面吹過來，有一點草的味道。）'},{speaker:'kexin',text:'今天不讀書。這是規定。'},{speaker:'player',text:'誰規定的？'},{speaker:'kexin',text:'我。剛剛。'},
         {speaker:null,text:'（她把手機收進包包，在草地上躺下來。）'},{speaker:'kexin',text:'你手機也收起來。'},{speaker:null,text:'（你也把手機收起來。你們躺到太陽快下山，才騎回去。）'} ]),
       Object.assign(play('ev_y0_rp','和可昕出門','dark',3,[ ...rpLines ]),{ beforeOuting:(G)=>{ const S=ST(); if(!S) return; const i=S.rpPick(G); G.flags.RP_LAST=i; G.flags.RP_TXT=i>=0?S.RP[i][2]:''; },
         after:(G)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:play'); const S=ST(), i=G.flags.RP_LAST; if(S&&i!=null&&i>=0) S.rUse(G,'RP_USED',i); } }),
-      { id:'ev_y0_r4', stage:'econ', title:'模擬考很爛的那一天', participants:['kexin'], location:'campus', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
+      { id:'ev_y0_r4', retired:'AA_298 第 2 節（使用者「根本沒有模擬考」），定義留給已經演過的舊存檔', stage:'econ', title:'模擬考很爛的那一天', participants:['kexin'], location:'campus', trigger:'auto', term:['Y0S2'], once:true, background:'blur',
         prereq:{custom:G=>{ const S=ST(); if(!S) return false; const d=S.dayOfKey('2025-04-19'); if(G.day!==d||G.zone!=='campus'||G.hour<16||G.hour>=18) return false;
           const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj, A=S.R4_AT; if(!P) return true; const dx=P.position.x-A.x, dz=P.position.z-A.z; return dx*dx+dz*dz<=25; }},
         dialogue:[ {speaker:null,text:'（模擬考考完，她對完答案，坐在總圖外的台階上，把試題本捲成一根。）'},{speaker:'kexin',text:'我決定把分數當作抽象藝術。'},
@@ -2362,7 +2367,7 @@ const STORY_EVENTS=[
           {speaker:'kexin',text:'那是戰術。'},{speaker:'econ_zhengxun',text:'（站在球道前面，回頭）這次看好。'},{speaker:null,text:'（十支瓶子一起倒下。可昕站起來拍手。）'} ] } ]; })(),
   /* 衝刺班（AA_224 6-4 @31708531；機制 BB_188 A9-3）：2025-06-09～07-09 每週一、三、五 19:00～22:00，祐廷和可昕一起去（AA_272 第 7 節：兩個人從家裡一起出門），另一間補習班，不是 12 月那間。
      第一次去＝三句旁白（沒有選項）；之後的晚上不演，時間跳過（像上課）。某一晚不去（「這次不去」）不扣任何東西。排程在 story3d.js（OUT y0_crm_<day>）*/
-  { id:'ev_y0_cram_class', stage:'econ', title:'衝刺班', participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:3,
+  { id:'ev_y0_cram_class', retired:'AA_298 第 1 節（衝刺班改每天 09:00～21:00、只停 retake_home 的長場景），定義留給舊存檔', stage:'econ', title:'衝刺班', participants:[], location:'any', trigger:'outing', once:false, background:'dark', hours:3,
     dialogue:[ {scene:'衝刺班',bg:'cram_class'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（另一間補習班。一間坐滿的教室，沒有人認識你們。）'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（你們挑了最後一排，兩個位子。）'},   /* AA_272 第 7 節（7050a1a0；使用者「我們……考前一個月去衝刺班」）：兩個人一起去，「半價」那句刪 */

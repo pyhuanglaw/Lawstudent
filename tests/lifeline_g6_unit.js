@@ -44,14 +44,12 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   check('6-2 S1、S2 改字：「你又比我早起。……今天早餐我請。」「你讀到哪了？……三章？我才讀到第二章。」；不再有「我是去上課」「剛上完會計」',J(STORY.RS[0].t)===J(['「你又比我早起。……今天早餐我請。」'])&&STORY.RS[1].t[1]==='「你讀到哪了？……三章？我才讀到第二章。」'&&!J(ev('ev_y0_rs').dialogue).includes('去上課')&&!J(ev('ev_y0_rs').dialogue).includes('會計'));
   check('6-3 RP 最早 2/15',STORY.RP[0][0]==='2025-02-15');
   { econ(d15,7.5,'campus',{},false); G.home={at:false}; check('6-2 不在家的時候，讀書日的 R 不會在外面演',!EVENTS.check(ev('ev_y0_rs'))); }
-  /* 衝刺班 */
+  /* 衝刺班（AA_298 第 1 節取代 AA_224 6-4：另一間補習班、6/8 當面報名（RH-C0）、6/9～7/9 每天 09:00～21:00）*/
   { const d8=DK('2025-06-08'); econ(d8,20.9,'home',{}); run(20.9,21.1);
-    check('6-4 6/8 21:00（AA_272 第 7 節：兩個人一起去）：「衝刺班你報了沒。」「報了。兩個。明天七點。」「好。這次我付我自己的。」「不准幫我付。」',J(txt('p:kexin'))===J(['kexin:衝刺班你報了沒。','player:報了。兩個。明天七點。','kexin:好。這次我付我自己的。','kexin:不准幫我付。']),J(txt('p:kexin')));
-    G.day=d8+1; G.weekday=wdOf(G.day); G.hour=9; run(9,9.1); const q=OUT.get(G,'y0_crm_'+G.day); G.day=d8+2; G.hour=9; run(9,9.1); const q2=OUT.get(G,'y0_crm_'+G.day);
-    check('6-4 6/9（一）衝刺班 19:00～22:00 的出發選單、可以「這次不去」；6/10（二）沒有',q&&q.h===19&&q.no==='這次不去'&&q.ev==='ev_y0_cram_class'&&!q2,J([q,q2]));
-    G.day=d8+1; await EVENTS.run(ev('ev_y0_cram_class')); const L=lines(); said=[]; await EVENTS.run(ev('ev_y0_cram_class')); const L2=lines();
-    check('6-4 第一次：兩句旁白（你們、最後一排兩個位子；「半價」刪，AA_272 第 7 節）；之後不演',L.join('｜')==='（另一間補習班。一間坐滿的教室，沒有人認識你們。）｜（你們挑了最後一排，兩個位子。）'&&L2.length===0,J([L,L2]));
-    check('6-4 衝刺班的晚上（一三五）＝cramNight；7/10 不是',STORY.cramNight(G,d8+1)&&STORY.cramNight(G,d8+3)&&!STORY.cramNight(G,d8+2)&&!STORY.cramNight(G,DK('2025-07-10'))); }
+    check('6-4 6/8 21:00 不再傳「衝刺班你報了沒」（AA_298：住在一起不會傳，改 RH-C0 當面）',!txt('p:kexin').some(t=>/衝刺班你報了沒/.test(t)),J(txt('p:kexin')));
+    G.day=d8+1; G.weekday=wdOf(G.day); G.hour=9; run(9,9.1); const q=OUT.get(G,'y0_crm_'+G.day);
+    check('6-4 6/9 不排一三五晚上的出發選單；ev_y0_cram_class 不再觸發（retired）',!q&&!!ev('ev_y0_cram_class').retired,J(q));
+    check('6-4 衝刺班的日子＝6/9～7/9 每天（cramNight）；6/8、7/10 不是',STORY.cramNight(G,d8+1)&&STORY.cramNight(G,d8+2)&&STORY.cramNight(G,DK('2025-07-09'))&&!STORY.cramNight(G,d8)&&!STORY.cramNight(G,DK('2025-07-10'))); }
   /* E35 */
   { const d=DK('2025-07-10'); econ(d,17.9,'home',{}); run(17.9,18.2);
     check('6-5 7/10 18:00：沒有「今晚九點，我宿舍樓下。」、沒有女舍門口的出發選單',!txt('p:kexin').some(t=>t.includes('宿舍樓下'))&&!OUT.get(G,'y0_e35')&&G.flags.E35_ASKED===true);

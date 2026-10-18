@@ -12,7 +12,7 @@ for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/course
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 const dayOf=k=>{ for(let d=-600; d<400; d++){ const t=CALENDAR.dateOf(d); if(t&&t.key===k) return d; } return null; };
 const T=(k,h)=>dayOf(k)*24+h;
-const ran=[]; global.STORY={dayOfKey:dayOf,R4_AT:{x:78.6,z:0},rtPlanPlay(G){ PLAN.push(G.day); OUTS.push({id:'rt_play_'+G.day,state:'planned',day:G.day,h:10}); }};
+const ran=[]; global.STORY={dayOfKey:dayOf,rtPlanPlay(G){ PLAN.push(G.day); OUTS.push({id:'rt_play_'+G.day,state:'planned',day:G.day,h:10}); }};
 global.STORY_EVENTS=['ev_y0_a3','ev_y0_soc_door','ev_y0_e12','ev_y0_r4','ev_y0_e34'].map(id=>({id,trigger:'auto'}));
 global.EVENTS={running:null,check:()=>true,cond:()=>true,run:async e=>{ ran.push(e.id); G.events.done[e.id]=1; }};
 let PLAN=[], OUTS=[]; global.OUT={get:(G,id)=>OUTS.find(q=>q.id===id)||null,rec:()=>OUTS,go:async()=>true};
@@ -44,7 +44,8 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
   OUTS.push({id:'y0_e12',state:'planned',day:dayOf('2024-11-06')}); G.day=dayOf('2024-11-06'); G.hour=20; G.home.at=true; ran.length=0; await ECONFF.homeStep(GM);
   check('③ E12 醉月湖：帶到湖邊演、原本的出遊（goto）標成做過',ran[0]==='ev_y0_e12'&&OUT.get(G,'y0_e12').state==='done');
   // 過了 6 小時＝錯過
-  const G2=mkG('2025-04-19',23,{Y0_MOVED_OUT:true}); G2.flags.ECONFF={done:{h2:1,h3:1,h29:1}}; const nx=ECONFF.next2(G2); check('③ 過了 6 小時的算錯過、跳到下一個',nx&&nx.ev!=='ev_y0_r4'&&G2.flags.ECONFF.done.h32==='missed',nx&&(nx.ev||nx.play));
+  const G2=mkG('2025-05-05',23,{Y0_MOVED_OUT:true}); G2.flags.ECONFF={done:{h2:1,h3:1,h29:1}}; const nx=ECONFF.next2(G2); check('③ 過了 6 小時的算錯過、跳到下一個（5/5 R6 14:00，23:00 還沒去）',nx&&nx.play!=='ev_y0_r6'&&G2.flags.ECONFF.done.h34==='missed',nx&&(nx.ev||nx.play||nx.rh));
+  check('③ AA_298：R4 模擬考、E34 經原最後一堂拿掉（第二階段沒有這兩步）',!ECONFF.STEPS2.some(s=>s.ev==='ev_y0_r4'||s.ev==='ev_y0_e34'||s.atR4));
   // ⑤ 玩樂日
   G=mkG('2025-04-01',15,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; calls.length=0; PLAN=[]; await ECONFF.homeStep(GM);
   check('⑤ 玩樂日 4/1（R3）：排可昕的出遊、自動出發',PLAN.length===1&&calls.some(c=>c[0]==='goOut'&&c[1]==='rt_play_'+G.day),JSON.stringify(calls));
@@ -62,7 +63,15 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
     calls.length=0; await ECONFF.homeStep(GM); const j=calls.find(c=>c[0]==='jump'); check('⑦ 今天演過了：跳到三天後那一段的時間（使用者「重考不用每天停」；不會一口氣跳過好幾段）',!!j&&j[1]>(G.day+2)*24+22&&j[1]<=(G.day+3)*24+22,JSON.stringify(calls));
     const seen=new Set(); for(let i=0;i<30;i++){ G.day=dayOf('2025-03-01')+i*3; G.hour=10; ran.length=0; await ECONFF.homeStep(GM); if(ran[0]) seen.add(ran[0]); }
     check('⑦ 每三天一段、連續 30 段：沒有重複到用完以前',seen.size>=20,seen.size+' 段');
-    check('⑦ 資料：short 30、long 12、她睡姊姊的房間（AA_297）',RETAKE_HOME.short.length===30&&RETAKE_HOME.long.length===12&&/姊姊/.test(RETAKE_HOME.room));
+    check('⑦ 資料：short 30、long 18（AA_298：RH-C0～C5）、她睡姊姊的房間（AA_297）、日常到 6/8',RETAKE_HOME.short.length===30&&RETAKE_HOME.long.length===18&&/姊姊/.test(RETAKE_HOME.room)&&RETAKE_HOME.range[1]==='2025-06-08');
+    { const gc=mkG('2025-06-10',9,{Y0_MOVED_OUT:true}); gc.flags.ECONFF={done:{}}; const c1=ECONFF.cramCard(gc), c2=ECONFF.cramCard(gc); gc.day=dayOf('2025-06-12');
+      check('⑧ 衝刺班（AA_298 第 1 節）：6/9～7/9 每天；跳過的日子卡下面那一行照 cram_cards、每張一次；6/12（RH-C2 那天）沒有卡',ECONFF.cramDay(Object.assign({},gc,{day:dayOf('2025-06-09')}))&&ECONFF.cramDay(Object.assign({},gc,{day:dayOf('2025-07-09')}))&&!ECONFF.cramDay(Object.assign({},gc,{day:dayOf('2025-07-10')}))&&c1&&c1.t==='衝刺班。早上九點到晚上九點。'&&c2===null&&ECONFF.cramCard(gc)===null); }
+    { const gs=mkG('2025-06-09',8,{Y0_MOVED_OUT:true}); gs.flags.ECONFF={done:{}}; const L=ECONFF.rhLong(gs).filter(s=>{ const d=dayOf(s.key); return d>=dayOf('2025-06-09')&&d<=dayOf('2025-07-10'); }).sort((a,b)=>dayOf(a.key)*24+a.h-dayOf(b.key)*24-b.h).map(s=>s.rh);
+      check('⑧ 6/9～7/10 只停有戲的日子：C1、C2、O5、C3、C4、L6、C5、O6（7/10 14:00）',JSON.stringify(L)===JSON.stringify(['RH-C1','RH-C2','RH-O5','RH-C3','RH-C4','RH-L6','RH-C5','RH-O6']),JSON.stringify(L)); }
+    { let dl=null; const E0=global.EVENTS.run; global.EVENTS.run=async e=>{ dl=e.dialogue; }; const L4=RETAKE_HOME.long.find(e=>e.id==='RH-L4'), C2=RETAKE_HOME.long.find(e=>e.id==='RH-C2');
+      G=mkG('2025-05-10',17,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{}}; await ECONFF.rhPlay(GM,L4); const endI=dl.findIndex(l=>l.label==='end'), aft=dl.findIndex(l=>l.text&&/花插在餐桌中間的玻璃杯裡/.test(l.text));
+      const okL4=endI>0&&aft>endI; await ECONFF.rhPlay(GM,C2); const sc=dl[0], mg=dl.find(l=>l.speaker==='管理人員');
+      check('⑧ after（選項之後每個分支都演）：RH-L4「花插在玻璃杯裡」在選項匯合以後；補習班那幾段換 cram_class 背景、管理人員說話',okL4&&sc&&sc.bg==='cram_class'&&!!mg&&mg.text==='好。這裡簽名。',JSON.stringify(sc)); global.EVENTS.run=E0; }
     G=mkG('2025-02-22',20,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; await ECONFF.homeStep(GM); check('⑦ 長場景 2/22 20:00 媽媽和她（RH-L1）照日期演',ran.includes('rh_RH-L1'),ran.join(','));
     G=mkG('2024-12-01',10,{Y0_MOVED_OUT:true}); ran.length=0; calls.length=0; await ECONFF.homeStep(GM); check('⑦ 重考期以外（12/1）：不演日常',!ran.some(x=>/^rh_/.test(x))); }
   const hs=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8'); check('home3d.js baseRound：事件模式交給 ECONFF.homeStep、y0Jump 玩樂日不記讀書日',/ECONFF\.on2\(G\)\)\{ H\.wakeAsk=null; return ECONFF\.homeStep\(GM\)/.test(hs)&&/ECONFF\.PLAY_DAYS/.test(hs));

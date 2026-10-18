@@ -67,9 +67,7 @@ const ECONFF=(()=>{
     {n:'h2',key:'2024-10-23',h:12,zone:'campus',at:{x:97.9,z:-61.4,yaw:Math.PI},ev:'ev_y0_soc_door'},
     {n:'h3',key:'2024-11-06',h:20,zone:'campus',at:{x:-34.6,z:-97.0,yaw:Math.PI},ev:'ev_y0_e12',out:'y0_e12'},
     {n:'h29',key:'2025-04-01',h:15,play:'ev_y0_r3'},
-    {n:'h32',key:'2025-04-19',h:16,zone:'campus',atR4:true,ev:'ev_y0_r4'},
-    {n:'h34',key:'2025-05-05',h:14,play:'ev_y0_r6'},
-    {n:'h36',key:'2025-05-26',h:11+50/60,zone:'boya',ev:'ev_y0_e34'}];   /* 地點在台大的幾個（soc_door、E12、R4、E34）等 AA 搬地點（Q-Y0-NTU-1018，使用者「休學的人不會回台大」）；搬了就改這裡 */
+    {n:'h34',key:'2025-05-05',h:14,play:'ev_y0_r6'}];   /* R4 模擬考、E34 經原最後一堂拿掉；R3 改大安森林公園（AA_298 第 2、3 節）。soc_door、E12 照舊（AA_298 第 3 節）*/
   S.on2=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.Y0_MOVED_OUT) return false; const e=DK('2025-08-29'); return e!=null&&G.day*24+G.hour<e*24+5; };
   S.PLAY_DAYS=['2025-04-01','2025-05-05','2025-05-24'];   /* AA_292 第 6 節：玩樂日不記 retake:study（R3、R6、R7）*/
   S.step2Done=(G,s)=>!!S.rec(G).done[s.n]||(!!s.ev&&done(G,s.ev))||(!!s.play&&done(G,s.play));
@@ -136,11 +134,16 @@ const ECONFF=(()=>{
     if(!pool.length) return null; let fresh=pool.filter(e=>!r.rhUsed.includes(e.id)); if(!fresh.length){ r.rhUsed=r.rhUsed.filter(id=>!pool.some(e=>e.id===id)); fresh=pool; }   /* 用完再輪 */
     const want=S.RH_KIND[((G.day%4)+4)%4]; return fresh.find(e=>e.kind===want)||fresh[0]; };
   S.rhLong=G=>{ const R=RH(); if(!R) return []; return R.long.map(e=>{ const [hh,mm]=String(e.time||'20:00').split(':').map(Number); return {n:e.id,key:e.date,h:hh+(mm||0)/60,rh:e.id}; }); };
-  const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:false}); const sp=s=>s==null?null:s;
+  /* 衝刺班（AA_298 第 1 節）：6/9～7/9 每天 09:00～21:00；中間跳過的日子只出日期卡，卡下面那一行是 cram_cards（每張一次）*/
+  S.cramDay=G=>{ const R=RH(); const c=R&&R.cram; if(!c||!S.on2(G)) return false; const a=DK(c.from), b=DK(c.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.cramCard=function(G){ const R=RH(); if(!R||!R.cram_cards||!S.on2(G)) return null; const r=S.rec(G); r.cramShown=r.cramShown||[];
+    const c=R.cram_cards.find(x=>{ const a=DK(x.from), b=DK(x.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; }); if(!c||r.cramShown.includes(c.from)) return null; r.cramShown.push(c.from); return c; };
+  const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:e.bg||false}); const sp=s=>s==null?null:s;   /* bg：補習班那幾段（cram_class）*/
     for(const l of e.lines) out.push({speaker:sp(l.s),text:l.t});
     if(e.choice&&e.choice.length){ out.push({choice:e.choice.map((c,i)=>({text:c.t,goto:'c'+i}))}); e.choice.forEach((c,i)=>{ out.push({label:'c'+i}); for(const t of (c.reply||[])) out.push(/^（/.test(t)?{speaker:null,text:t}:{speaker:'kexin',text:t});   /* 回覆：括號開頭＝旁白（含「媽媽把你推出廚房。」這種帶引號的整句照旁白），其他＝可昕 */ if(c.rel) out.push({rel:{kexin:c.rel}}); out.push({goto:'end'}); }); out.push({label:'end'}); }
+    for(const l of (e.after||[])) out.push({speaker:sp(l.s),text:l.t});   /* 選項之後、每個分支都演的（RH-L4 花插在玻璃杯裡；AA_298 1-2 第 3 點）*/
     return out; };
-  S.rhPlay=async function(GM,e){ const G=GM.G; const ev={id:'rh_'+e.id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'econff',once:false,background:(typeof HOME!=='undefined'&&HOME.bgNow&&!(e.place&&!/祐廷家/.test(e.place)))?HOME.bgNow():'dark',dialogue:rhDialogue(e)};
+  S.rhPlay=async function(GM,e){ const G=GM.G; const ev={id:'rh_'+e.id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'econff',once:false,background:(typeof HOME!=='undefined'&&HOME.bgNow&&!e.bg&&!(e.place&&!/祐廷家/.test(e.place)))?HOME.bgNow():'dark',dialogue:rhDialogue(e)};
     try{ if(typeof EVENTS!=='undefined') await EVENTS.run(ev,{noTitle:true}); } catch(err){ console.warn('ECONFF rh '+e.id,err); }
     const r=S.rec(G); r.rhUsed=r.rhUsed||[]; if(!r.rhUsed.includes(e.id)) r.rhUsed.push(e.id); r.rhDay=G.day; if(typeof ADV!=='undefined'&&HOME.at(G)) ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); };
   /* 第二階段：家裡選單那一輪（home3d.js baseRound）。回傳值照 baseRound：true＝還在家、false＝出門了 */
@@ -163,7 +166,7 @@ const ECONFF=(()=>{
       if(s.play){ if(typeof STORY!=='undefined'&&STORY.rtPlanPlay) STORY.rtPlanPlay(G); const q=typeof OUT!=='undefined'?OUT.get(G,'rt_play_'+G.day):null; r.done[s.n]=1; if(q&&q.state==='planned') return HOME.goOut(GM,q); return H.at; }
       if(s.out&&typeof OUT!=='undefined'){ const q=OUT.get(G,s.out); if(q&&q.state==='planned') q.state='done'; }   /* E12：出遊（goto）由這裡帶過去，不要再停一次 */
       H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'捷運＋公車 約 30 分鐘',1800);
-      const at=s.atR4&&typeof STORY!=='undefined'&&STORY.R4_AT?{x:STORY.R4_AT.x,z:STORY.R4_AT.z+1.4,yaw:Math.PI}:s.at; if(GM.enter) await GM.enter(s.zone,at?Object.assign({lv:0},at):undefined,{noFade:true}); await GM.fade(false);
+      const at=s.at; if(GM.enter) await GM.enter(s.zone,at?Object.assign({lv:0},at):undefined,{noFade:true}); await GM.fade(false);
       S.busy=true; try{ await runEv(GM,s.ev); } finally { S.busy=false; }
     } catch(e){ console.warn('ECONFF step2 '+s.n,e); }
     r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave();
