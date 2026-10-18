@@ -19810,7 +19810,7 @@
   },
   {
    "id": "BUG-NYE-ORIGIN-1018",
-   "title": "經濟系跨年（從家裡出發）演完跳回醉月湖（最後一個 3D 區域）",
+   "title": "住在家裡時，出家門的轉場露出舊的 3D 區域（醉月湖）：跨年演完、高雄回來接陪可昕辦休學",
    "area": "v0",
    "owner": "LAWWW",
    "status": "已整合待測試",
@@ -19825,9 +19825,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-18 15:0x：「跨年的劇情結束之後居然是跳回醉月湖」",
+   "source": "使用者 2026-10-18 15:0x：「跨年的劇情結束之後居然是跳回醉月湖」；15:2x：「從高雄之後進去陪可欣去休學的劇情中間又跳醉月湖」",
    "authorized": "一般 bug",
-   "next": "修好：outings3d.js 從家裡出發的 2D 出遊途中 OUT.fromHome=true，home3d.js backdrop 照它把 3D 藏著；瀏覽器還沒驗"
+   "next": "修好（根本）：home3d.js backdrop——住在家裡、出了家門但還沒真的換區域（GAME.enterN 沒變）＝3D 一律藏著，畫面是家裡的背景；真的進新區域（goto、3D 步驟、回學校）才露出。另外 OUT.fromHome 保留。單元測試過；瀏覽器還沒驗"
   },
   {
    "id": "KH-TRIP-MORE-1018",
@@ -19938,6 +19938,34 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；econff3d.js CARDS；AA_300 第 4 節",
     "acceptance": "12 月補習班有演出來，或高雄那句和前面接得上",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "HOME-ONEFLOOR-1018",
+   "title": "臺北的家是一層樓的公寓（使用者生的圖），台詞不能有「下樓」：媽媽叫你吃飯、重考期可昕下樓",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "休學在家（11 月起）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:2x：「我台北的家叫我生成的圖片看起來是一層樓為什麼媽媽叫我下樓吃飯」",
+   "authorized": "使用者回報（前後一致的字面修正）",
+   "next": "LAWWW-C 暫改：events.js ev_y0_e23「（樓下，媽媽叫你吃飯。）」→「（房門外，媽媽叫你吃飯。）」；retake_home「七點，她拖著拖鞋下樓。」→「從房間出來。」（import_retake_home.py FIX，每次匯入套用）。下一班 AA：確認用字、改企劃檔（retake_home_v1.json）後拿掉 FIX；以後寫臺北的家不要寫上下樓",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "企劃檔沒有臺北的家上下樓的字",
     "ack": "未派"
    }
   }

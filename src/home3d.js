@@ -122,8 +122,12 @@ const HOME=(function(){
   S.bgNow=()=>bg();
   /* 在家的時候 3D 畫面藏起來、底下鋪家裡的背景（2026-10-18 使用者：「為什麼重考的轉換場景會一直有椰林大道」；BB-C n123 在家選單後面是校園）：
      家是 2D（ADV），兩段對話之間、黑幕前後、選單後面原本露出最後一個 3D 區域（大多是校園）。每 0.25 秒照「在不在家」同步一次 */
-  let bdOn=null, bdImg=null;
-  S.backdrop=function(G){ if(typeof document==='undefined') return; const c=document.getElementById('c'); if(!c) return; const on=!!(G&&(S.at(G)||(typeof OUT!=='undefined'&&OUT.fromHome))); const b=on?bg():null, img=b&&b.image?b.image:null;
+  let bdOn=null, bdImg=null, prevAt=null, leftAt=-1;
+  /* 住在家裡、剛出家門還沒進到新的 3D 地點（2D 出遊、搬家、高雄回來接下一段……）：3D 是上一次留下來的舊區域（常常是醉月湖），一樣藏著（使用者 10-18：「從高雄之後進去陪可昕去休學的劇情中間又跳醉月湖」；出家門的路有十幾條，每一條都是先收 2D 再黑幕）。
+     GAME.enterN：真的換了區域（goto 醉月湖、3D 的步驟、回學校）才露出 3D */
+  S.backdrop=function(G){ if(typeof document==='undefined') return; const c=document.getElementById('c'); if(!c) return; const at=!!(G&&S.at(G)), n=(typeof GAME!=='undefined'&&GAME.enterN)|0;
+    if(prevAt&&!at) leftAt=n; prevAt=at; const lives=!!G&&(S.livesHome?S.livesHome(G):(S.baseMode&&S.baseMode(G)));
+    const on=at||(typeof OUT!=='undefined'&&OUT.fromHome)||(lives&&leftAt===n); const b=on?bg():null, img=b&&b.image?b.image:null;
     if(on===bdOn&&img===bdImg) return; bdOn=on; bdImg=img; c.style.visibility=on?'hidden':''; document.body.style.background=on?('#14161a'+(img?' url('+img+') center/cover no-repeat':'')):''; };
   { const iv=typeof setInterval!=='undefined'?setInterval(()=>{ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G) S.backdrop(G); }catch(e){} },250):null; if(iv&&iv.unref) iv.unref(); }
   /* 從家裡出發去一個出遊、演完回家（休學在家）：baseRound 的「出發」和事件接事件（econff3d.js S.homeStep）共用。回傳 true＝回到家、false＝人留在外面 */
