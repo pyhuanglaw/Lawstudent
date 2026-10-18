@@ -140,21 +140,9 @@ D['characters'][PY] = {'friendOnly': True, 'steps': [
 D['characters'][TR] = {'friendOnly': True, 'steps': [
  {'id':'TR0-L1','if':st(TR,'ACQUAINTANCE'),
   'lines':['{name}！我記得你。迎新第三個自我介紹的。'],
-  'choices':[ch('「你記得全部的人？」','全部啊。迎新那天回去，我還自己默寫了一次。'),
+  'choices':[ch('「你記得全部的人？」','全部啊。見過一次就記得。'),
              ch('「謝謝。」','不會啦。我就是很會記名字。')],'rel':{'fam':2},'mem':'TR0_NAMES',
   'note':'「第三個」只是他的說法，不讀 E02 的順序'},
- {'id':'TR0-L2','if':st(TR,'ACQUAINTANCE'),
-  'lines':['即興劇的第一條規則：不能說「不」。','要說「好，而且——」。……我現在生活也這樣，很危險。'],
-  'choices':[ch('「好，而且——」','而且你學得很快。……好，而且你要來劇社。'),
-             ch('「那你怎麼拒絕別人？」','我說「好，而且明天再說」。目前沒有人發現。')],'rel':{'fam':2},'mem':'TR0_YES_AND'},
- {'id':'TR0-L3','if':st(TR,'FAMILIAR'),'week':[4,16],
-  'lines':['我所有的衣服都有領子。','沒有領子，我會不知道手要放哪裡。'],
-  'choices':[ch('「放口袋。」','口袋要放便利貼啊。'),
-             ch('「我也沒想過手要放哪裡。」','……你現在開始想了。對不起。')],'rel':{'fam':2,'comf':1},'mem':'TR0_COLLAR'},
- {'id':'TR0-L4','if':st(TR,'FAMILIAR'),'week':[6,16],
-  'lines':['系上辦活動，名單是我在念。','每個名字我都先念一次給自己聽。念錯一個字，那個人會記一輩子。'],
-  'choices':[ch('「你念錯過嗎？」','一次。高一。他現在還叫我「唐瑞」。……是睿。'),
-             ch('「你很在意別人。」','……還好吧。念錯人家名字真的很尷尬。',rel={'trust':1})],'rel':{'fam':2,'trust':1},'mem':'TR0_ROLL_CALL'},
  {'id':'TR0-L5','if':st(TR,'FAMILIAR'),'week':[9,16],
   'lines':['期中考我提早交卷，走出去才發現名字沒寫。','全系的名字我都記得，結果自己的忘了寫。'],
   'choices':[ch('「後來呢？」','衝回去寫了。監考的助教說：「唐睿，我知道是你。」'),
@@ -289,7 +277,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 5 if cid==TR else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
