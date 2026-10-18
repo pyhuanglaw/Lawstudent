@@ -130,5 +130,17 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('9. 沒去：8/25 阿哲傳小語在月台上的照片＋「第一天就丟一個」、小語「是門自己關的！！」（AA_256@247198e8）；8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/隔著地鐵的車門玻璃/.test(t))&&B2.includes('zhe:第一天就丟一個')&&B2.includes('yu:是門自己關的！！')&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); step('2027-08-01',20.5); const N=txt('p:zhe');
     step('2027-08-04',10); check('9. 不回：8/1 阿哲私訊「香港 你到底要不要」；8/3 以後還沒回＝不去',N.includes('zhe:香港 你到底要不要')&&G.flags.VA10==='no'&&!OUT.get(G,'vac_va10'),J([N,G.flags.VA10])); }
+  // 10. AA_275 第 1 節：快轉跳過的日子裡，第二次以後、只有一行的活動不停（C03 日語課第二年），跳過的旁白換成 AA_264 那一句；第一次參加的照常停
+  { law('2027-07-05',10); const V=VAC.rec(G); V.reg['C03@Y1']='done'; VAC.signup(G,'C03@Y2','yes'); const qs=OUT.rec(G).filter(q=>q.vac&&q.vac.key==='C03@Y2');
+    const nx=HOME.breakNext(G), k0=T0=>qs.find(q=>q.vac.k===0);
+    check('10. 第二年日語課：三場都排了；快轉的「下一個有事的日子」不停在 7/7 第一堂',qs.length===3&&(nx==null||nx>STORY.dayOfKey('2027-07-07')*24+19),JSON.stringify([qs.length,nx]));
+    said=[]; await HOME.breakJump(GM,STORY.dayOfKey('2027-07-10')*24+8.5,{dorm:true}); const q0=qs.find(q=>q.vac.k===0);
+    check('10. 跳過 7/7：第一堂記成去過，旁白換成「第一堂。老師記得你，說你去年的作業字很工整。」',q0.state==='done'&&G.flags._repSkipLine==='第一堂。老師記得你，說你去年的作業字很工整。'&&(V.att||{})['C03@Y2']===1,JSON.stringify([q0.state,G.flags._repSkipLine]));
+    law('2027-07-05',10); VAC.signup(G,'C03@Y2','yes'); const nx2=HOME.breakNext(G), d7=STORY.dayOfKey('2027-07-07');
+    check('10. 第一次參加（沒上過大一那期）：快轉停在第一堂前',nx2!=null&&nx2<=d7*24+19,JSON.stringify(nx2)); }
+  // 11. AA_275 第 6 節：摘要日那天有已報名的活動（或人在國外）＝跳過，不播、快轉不停
+  { law('2027-07-10',10); const d20=STORY.dayOfKey('2027-07-20'); const has=()=>HOME.breakPts(G).some(p=>p.k==='sum'&&p.day===d20);
+    const before=has(); OUT.plan(G,{id:'t_vac_0720',ev:'ev_vac_key',day:d20,h:14,place:'x',title:'x',vac:{key:'C99@Y2',k:0}});
+    check('11. 7/20 摘要日：平常在；那天有已報名的活動就跳過',before&&!has(),JSON.stringify([before,has()])); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
