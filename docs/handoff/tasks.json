@@ -16573,7 +16573,7 @@
    "resumeWhen": "v9.10 發布以後；使用者裝好 Claude 桌面 App、Git、Node.js LTS、Python（Playwright 由本機工作階段裝）；第三方雲端真機要付費，先不用",
    "next": "發布後寫本機測試員的啟動說明（要跑哪些 tests/*.py、怎麼回報給 BB／LAWWW）",
    "first": {
-    "term": "—",
+    "term": "META",
     "week": null,
     "earliest": "v9.10 發布後",
     "mainline": false,
