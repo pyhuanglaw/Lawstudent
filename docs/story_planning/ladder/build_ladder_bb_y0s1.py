@@ -115,10 +115,6 @@ D['characters'][PY] = {'friendOnly': True, 'steps': [
   'lines':['我想當精算師。不要問我那是什麼。','就是算保險的，算人什麼時候會出事。'],
   'choices':[ch('「那我什麼時候會出事？」','資料不足。你再多出幾次事，我再告訴你。'),
              ch('「聽起來很適合妳。」','我知道。我高中就決定了。',rel={'trust':1})],'rel':{'fam':2,'trust':1},'mem':'PY0_ACTUARY'},
- {'id':'PY0-L5','if':st(PY,'FAMILIAR'),'week':[9,16],
-  'lines':['期中考前我算過，最低要考幾分才不會被當。','……結果考太高。白讀了。'],
-  'choices':[ch('「考高不好嗎？」','多讀的那幾個小時，我可以多排一天班。'),  # 2026-10-16 BB-B（AB-63 審出）：原本「這叫沉沒成本。」，用詞錯——本來可以拿去打工的時間是機會成本；品妤想當精算師，不會用錯
-             ch('「妳下次算準一點。」','我會。……很少人叫我算準一點。通常是叫我不要算。')],'rel':{'fam':2,'comf':1},'mem':'PY0_TOO_HIGH'},
  {'id':'PY0-L6','if':st(PY,'FAMILIAR'),'week':[11,16],
   'lines':['可昕把飲料錢記在「研究經費」。','我問她研究什麼，她說研究人生。我沒收。'],
   'choices':[ch('「人生要研究很久。」','所以她經費永遠不夠。……我借她五十。記帳了。'),
@@ -293,7 +289,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 7 if cid==PY else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
