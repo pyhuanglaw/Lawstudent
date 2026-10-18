@@ -17472,6 +17472,202 @@
    "source": "BB-C 10-18 05:15（設計問題，LAWWW 決定）",
    "authorized": "D85（UI，不是劇情台詞）",
    "next": "5ffde5b3：①手機「地點」最上面多一行「回臺北的家」（HOME.canGo 而且不在家時；按了走 HOME.go，交通字卡、時間照原本）②三個在家選單（休學在家、週末、放假）的到現場出遊演完跳一行提示「要回家：手機「地點」→ 回臺北的家（或走到校門口）。」home／dl05_home／v0_home_ff／vac_hometown 單元通過；瀏覽器派 BB-C（flow_v0_home 可以改用手機回家）"
+  },
+  {
+   "id": "BUG-WALKDIR-1018",
+   "title": "人走路方向和動作不一致：往後、左後方、左前方走，動作卻是往前走（使用者 10-18 05:3x 玩 v9.10，USER_WANTS X07）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲一開始",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "BUG-CAMSNAP-1018",
+   "title": "劇情結束後鏡頭轉回來太快、會暈：宿舍認識阿勳後、隔天起床（X08）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一晚宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "BUG-CAMP-CUT-1018",
+   "title": "去宿營前一秒還在椰林大道（轉場太突然，X09）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "2024-08-23 宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "Q-ECON-CEREMONY-1018",
+   "title": "經濟系先上經濟學原理才開學典禮？對日期（X10）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "SYS-ECON-FF-1018",
+   "title": "經濟系在學期間「快轉到下一個事件」（使用者：只想玩事件、不想一天一天過，X11）；能互動的人不多（問 AA）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "BUG-ECON-YU-1018",
+   "title": "經濟系遇得到小語（她那年還沒進台大，X12）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系在學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "ART-YU-3D-1018",
+   "title": "小語 3D 還是舊人物（紅褲子），路人都變好看了她很突兀（X12）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1",
+   "xai": {
+    "spec": "使用者 10-18 05:3x：小語還是舊人物、紅褲子很醜；照 characters.js 的小語設定和立繪（assets/portraits/yu/campus）做新的 3D",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內截圖和立繪一致；LAWWW 驗收（D100a）",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-WIND-1018",
+   "title": "不管坐哪個椅子風都從椰林大道吹過來（X13）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "PERF-ZONE-ENTER-1018",
+   "title": "電腦換畫面卡一兩秒（溫州街、咖啡廳，X14）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
   }
  ]
 }
