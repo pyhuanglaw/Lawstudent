@@ -10689,7 +10689,7 @@
    "area": "SYS",
    "owner": "AA",
    "status": "等待其他AI／素材",
-   "next": "檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
+   "next": "【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -11998,12 +11998,12 @@
    "id": "PLAN-1016-ROM",
    "title": "七位的戀愛故事補完（使用者 18:2x「七位都要有完整的戀愛故事」）：AA_187 以安／語彤、BB_165 芷若／子晴／沛珊／學姊／可昕（AB-61）",
    "area": "V6",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "暫停",
    "priority": "P2",
-   "next": "企劃組互審中；新寫的台詞照使用者 19:1x 暫停，等口語指引確認後交付再實作",
-   "pausedReason": "七位戀愛故事補完等口語指引",
-   "resumeWhen": "AA 核對口語指引（AA-C 01:46：指引早就定了），交可施工的稿",
+   "next": "【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜企劃組互審中；新寫的台詞照使用者 19:1x 暫停，等口語指引確認後交付再實作",
+   "pausedReason": "AA 稿已完成（23663329），施工排在 v9.10 發布後（D99；v9.10 收件範圍外）",
+   "resumeWhen": "v9.10 發布後",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -12016,8 +12016,8 @@
    },
    "source": "企劃線 b20e614b、22b60a7d、21e748d6、bdc441d6、62bc90b1",
    "authorized": "D79",
-   "pausedBy": "使用者 19:1x",
-   "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
+   "pausedBy": "LAWWW-C（D99）",
+   "recheckOn": "v9.10 發布當天",
    "xai": {
     "receiver": "LAWWW-C",
     "branch": "claude/magical-albattani-bk7b4n（AA 分支）→ 白名單",
@@ -16683,7 +16683,7 @@
     "confirmed": true
    },
    "src": "AA_276 第 6-2 節（AA-C 4fbabbee／9e875a10）；BB_119 1b-3；BB_97 4-4",
-   "next": "【02:4x LAWWW-C】放榜後重新聯絡上（AA_282 第 2 節，她回「我現在在台南」）的時候要設 G.flags.PS_RECONNECT=true：資料頁大三、大四的「教育系」讀這個旗標（SOCIAL.yearTag）。｜讀 BB_119 1b-3、BB_97 4-4 全文，照日子（10:00 私訊、12:00 總圖外面的台階）實作；STORY.PS_KEEP_BACK 已在資料裡"
+   "next": "【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜【02:4x LAWWW-C】放榜後重新聯絡上（AA_282 第 2 節，她回「我現在在台南」）的時候要設 G.flags.PS_RECONNECT=true：資料頁大三、大四的「教育系」讀這個旗標（SOCIAL.yearTag）。｜讀 BB_119 1b-3、BB_97 4-4 全文，照日子（10:00 私訊、12:00 總圖外面的台階）實作；STORY.PS_KEEP_BACK 已在資料裡"
   },
   {
    "id": "DOCS-CLEANUP-AA277",
