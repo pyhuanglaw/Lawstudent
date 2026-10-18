@@ -6721,8 +6721,8 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "暫停",
-   "next": "【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "已整合待測試",
+   "next": "【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -13716,9 +13716,9 @@
    "title": "疊面閃爍尾巴：溫州街三處（x 10.35 二樓招牌×亮燈窗、x 41.4 店面玻璃×窗框、x −4.3 金屬條）；公館、118 巷鐵捲門×護牆、重疊冷氣（要重建、先查結構差異）；美國公寓 7 對、小公園 11 對",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P2",
-   "next": "LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
+   "next": "【12:3x LAWWW2-C 交班：e5532105 腳本改好、GLB 沒重建沒交付；A5 冰箱、公館冷氣還沒查】LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13737,7 +13737,11 @@
     "spec": "BUG-WZFLICKER r2／glb_coplanar.py",
     "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "溫州街部分：使用者 2026-10-17 05:0x 對 LAWWW2-C「溫州街修改也暫停」（LAWWW-C 11:4x 誤派，LAWWW2-C 交班時指出）；公館、118 巷部分腳本改好（LAWWW2 e5532105）、GLB 沒重建",
+   "resumeWhen": "使用者說溫州街可以改；公館、118 巷那一半下一班 LAWWW2 可以先做（不碰溫州街）",
+   "pausedBy": "使用者",
+   "nextCheck": "2026-10-25"
   },
   {
    "id": "ART-BG-AA185",
@@ -14594,9 +14598,9 @@
    "title": "美國篇場景改季節：8 月出發、12 月回來（us_bus_station 等改成夏末；冬天場景保留給 12 月），隨 AA_213 新時間線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "next": "【12:4x d3fdab82 已整合（和 US-CAMPUS-WIRE 一起）】【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -16987,7 +16991,7 @@
    "title": "美國校園照 Indiana 校區真的樣子和路線改；其他地區照樣子設計、先不開放進出（使用者 10-18 03:1x 直接對 LAWWW2-C，附空拍圖；照片不進 repo）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -17000,7 +17004,7 @@
     "confirmed": true
    },
    "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
-   "next": "【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "next": "【12:4x d3fdab82：us_campus 已接成區域（v9.10.2 候選）】【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
    "xai": {
     "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
     "branch": "claude/focused-cray-c9uwvw",
@@ -19249,7 +19253,7 @@
    "title": "美國校園 us_campus 接成區域的接線 patch（outdoorZone、入口互動點、關城市遠景剪影、us_season 四季），對最新 RULE_SOURCE",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -19263,7 +19267,7 @@
    },
    "source": "LAWWW-C 11:4x 派工（D99 第三優先：美國交換）",
    "authorized": "已批准的美國篇場景（SCN-US-02 v3、ART-US-SEASON）",
-   "next": "【12:1x LAWWW2-C 交 4cee25c8：patches/us_campus_wire.diff（先套 us_season.diff），us3d us_campus／us_lawlib、engine3d skyline 一行、exchange3d US_ZONES、assets3d、us_layouts；nav_us_unit 74 項、flow_us_campus.py ALL PASS。v9.10.1 已發布，下一版接】LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
+   "next": "【12:4x LAWWW-C d3fdab82 已整合（us_season.diff＋us_campus_wire.diff 對開發分支 apply 乾淨；nav_us_unit 74 項、us_season_unit、exch_min_unit ALL PASS）；LAWWW2 說的「對 main 4c0cbefc 重做」不用了。瀏覽器 flow_us_campus.py 派下一班 BB】【12:1x LAWWW2-C 交 4cee25c8：patches/us_campus_wire.diff（先套 us_season.diff），us3d us_campus／us_lawlib、engine3d skyline 一行、exchange3d US_ZONES、assets3d、us_layouts；nav_us_unit 74 項、flow_us_campus.py ALL PASS。v9.10.1 已發布，下一版接】LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
    "xai": {
     "spec": "SCN-US-02 v3 layout、ART-US-SEASON、LAWWW2 臨時接線經驗",
     "branch": "claude/focused-cray-c9uwvw",

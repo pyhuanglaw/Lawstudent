@@ -8340,8 +8340,8 @@
    "what": "SCN-US-02 v3 美國校園老校區（us_campus.glb＋layout v3、us_oldcampus_kit.py、截圖）",
    "task": "SCN-US-02",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "us_campus 區域還沒接（美國交換第三優先、排在 v9.10.1 發布後）；接的時候關城市遠景剪影"
+   "integration": "已整合待測試",
+   "note": "us_campus 區域還沒接（美國交換第三優先、排在 v9.10.1 發布後）；接的時候關城市遠景剪影；d3fdab82 整合"
   },
   {
    "id": "DL-AA-1ab0a39f",
@@ -8379,8 +8379,8 @@
    "what": "美國校園紅磚改舊紅磚（使用者「地板的橘色好醜」）＋ART-US-SEASON WIP（四季、us_season.diff）",
    "task": "SCN-US-02",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "us_campus 區域排在 v9.10.1 發布後接；社區 GLB 等 LAWWW2 正式交付四季再換（要配 us_season.diff）"
+   "integration": "已整合待測試",
+   "note": "us_campus 區域排在 v9.10.1 發布後接；社區 GLB 等 LAWWW2 正式交付四季再換（要配 us_season.diff）；d3fdab82 整合"
   },
   {
    "id": "DL-AA-1be8842d",
@@ -8418,8 +8418,8 @@
    "what": "ART-US-SEASON 美國篇四季（us_community.glb、us_campus.glb、us_season.diff、截圖）",
    "task": "ART-US-SEASON",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "GLB 要配 patch；美國篇整合排在 v9.10.1 發布後"
+   "integration": "已整合待測試",
+   "note": "GLB 要配 patch；美國篇整合排在 v9.10.1 發布後；d3fdab82 整合"
   },
   {
    "id": "DL-AA-6b01c841",
@@ -8496,8 +8496,8 @@
    "what": "US-CAMPUS-WIRE：us_campus／us_lawlib 接線 patch",
    "task": "US-CAMPUS-WIRE-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "下一版接（先套 us_season.diff）"
+   "integration": "已整合待測試",
+   "note": "下一版接（先套 us_season.diff）；d3fdab82 整合"
   }
  ],
  "ignored": [
