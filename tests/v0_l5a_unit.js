@@ -31,7 +31,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const ck=(d,h,z)=>{ fresh(d,h,z); return EVENTS.check(ev); };
   check('2. 13:45～14:48 在 Café 才演（BB_214 第 4 節：14:15 從家出發也趕得上）；13:30、14:50、別的地方、10/19 都不演',ck(LD,13.8,'cafe')&&ck(LD,14.2,'cafe')&&ck(LD,14.7,'cafe')&&!ck(LD,13.5,'cafe')&&!ck(LD,14.85,'cafe')&&!ck(LD,14,'wenzhou')&&!ck(LD+7,14,'cafe'));
   fresh(LD,13.9,'cafe'); picks=['冰美式']; await EVENTS.run(ev); const L=said.map(x=>x.t), W=said.map(x=>x.who);
-  check('3. 店員（芷若，名字只顯示「店員」）→ 點冰美式 → 可昕「可以畫長頸鹿嗎？」→ 店員「……我試試看。」… 唐睿「這是馬。」店員「這是很努力的長頸鹿。」→ 可昕笑到把湯匙掉在地上',L[0]==='店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'&&L.includes('可以畫長頸鹿嗎？')&&L.includes('這是馬。')&&L.includes('這是很努力的長頸鹿。')&&L[L.length-1]==='可昕笑到把湯匙掉在地上。'&&W.filter(w=>w==='店員').length===2&&!W.some(w=>/芷若/.test(w||'')),JSON.stringify(said));
+  check('3. 店員（芷若，名字只顯示「店員」）→ 點冰美式 → 可昕「可以畫長頸鹿嗎？」→ 店員「……我試試看。」… 唐睿「這是馬。」店員「這是很努力的長頸鹿。」→ 可昕笑到把湯匙掉在地上',L[0]==='（溫州街的 Café。可昕說這間的拉花會畫長頸鹿，拉了大家來驗證。）'&&L[1]==='店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'&&L.includes('可以畫長頸鹿嗎？')&&L.includes('這是馬。')&&L.includes('這是很努力的長頸鹿。')&&L[L.length-1]==='可昕笑到把湯匙掉在地上。'&&W.filter(w=>w==='店員').length===2&&!W.some(w=>/芷若/.test(w||'')),JSON.stringify(said));
   check('3. Y0_CAFE_ORDER＝冰美式；芷若沒有 FIRST_MET、沒有聯絡方式',G.flags.Y0_CAFE_ORDER==='冰美式'&&!SOCIAL.has('heroine_02','FIRST_MET')&&!(typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'heroine_02')));
   // 演了以後 16:00 沒有沒去版
   PHONE.join(G,'econ_friends','走啦'); G.hour=13.9; run(); at(LD,16.1); check('4. 去了：16:00 沒有照片',!PHONE.sent(G,'y0_l5a_miss'));

@@ -29,7 +29,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const q=OUT.get(G,'y0_e14'); check('1. 出發選單 9/13 19:00',!!q&&q.day===D15&&q.h===19&&q.title==='保齡球館 19:00');
   const snap=JSON.stringify(G);
   picks=['拍照']; said=[]; G.day=D15; G.weekday=wdOf(D15); G.hour=18.6; await OUT.go(GM,q); let L=said.map(x=>x.t);
-  check('2. 出發：原文（品妤抽籤、可昕「我要這件。」、學號、阿勳全倒）',L[0]==='大家都帶了吧？高中制服。抽籤交換。'&&L.includes('（拿起祐廷的那一件）我要這件。')&&L.includes('這件比較好看。')&&L.includes('（阿勳打出全倒。那時沒有人在看。）'),JSON.stringify(L.slice(0,6)));
+  check('2. 出發：開頭旁白（AA_302 第 1 列：第一次班聚、帶高中制服）→ 品妤抽籤、可昕「我要這件。」、學號、阿勳全倒',L[0]==='（第一次班聚。品妤在群組說，每個人帶一件高中制服，抽籤交換穿。）'&&L[1]==='大家都帶了吧？高中制服。抽籤交換。'&&L.includes('（拿起祐廷的那一件）我要這件。')&&L.includes('這件比較好看。')&&L.includes('（阿勳打出全倒。那時沒有人在看。）'),JSON.stringify(L.slice(0,6)));
   check('2. 拍照 →「拍好看一點。這是證據。」→ 最後的旁白',L.includes('（比了一個勝利手勢）拍好看一點喔。')&&L[L.length-1]==='手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。');
   at(G.day,G.hour+0.1); await new Promise(r=>setTimeout(r,20)); check('2. 去了：不會再打電話',!said.some(x=>x.t==='你在哪？球道開好了，就差你！')||said.filter(x=>x.t==='你在哪？球道開好了，就差你！').length===0);
   // 沒出發 → 電話

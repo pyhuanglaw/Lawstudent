@@ -1965,11 +1965,11 @@ const STORY_EVENTS=[
       {label:'meat'},{speaker:null,text:'肉烤好了，玉米烤焦了一面。'},{speaker:'econ_pinyu',text:'焦的那一面朝下放。拍照不會拍到。'},{speaker:null,text:'唐睿把每個人的盤子都放對了。沒有人拿到不吃的東西。'},
       {speaker:null,text:'（天還亮的時候，可昕一直坐在唐睿旁邊。兩個人低著頭，看同一本筆記。）'},{speaker:null,text:'（你把玉米翻了一面。）'},   /* AA_293 第 3 節：E26「我以為妳喜歡唐睿」的伏筆 */
       {speaker:null,text:'八點多，月亮才從對岸的大樓後面出來。比中秋那天瘦一點。'},{speaker:null,text:'可昕拿著一串烤玉米，坐到你旁邊。'},
-      {speaker:'kexin',text:'如果月亮收租，我們要付多少？'},
-      {choice:[{text:'「照坪數算？」',goto:'m1'},{text:'「照了一整晚，應該很貴。」',goto:'m2'},{text:'「中秋過了，應該打折。」',goto:'m3'}]},
-      {label:'m1'},{speaker:'kexin',text:'那我們只坐這一小塊，應該付不了多少。'},{goto:'end'},
-      {label:'m2'},{speaker:'kexin',text:'那今天只付一半。她遲到了。'},{goto:'end'},
-      {label:'m3'},{speaker:'kexin',text:'那我們來得剛好。'},
+      {speaker:'kexin',text:'（把那串玉米遞過來）焦的那一面我吃掉了。剩下的給你。'},   /* AA_302 第 5 列：假設題（月亮收租）拿掉 */
+      {choice:[{text:'「這樣算分我嗎？」',goto:'m1'},{text:'「謝謝。」',goto:'m2'},{text:'（接過來，吃了一口）',goto:'m3'}]},
+      {label:'m1'},{speaker:'kexin',text:'算。不要問。'},{goto:'end'},
+      {label:'m2'},{speaker:'kexin',text:'……不客氣。'},{speaker:null,text:'（她轉過去看月亮。）'},{goto:'end'},
+      {label:'m3'},{speaker:null,text:'（她看你吃，笑了一下。）'},
       {label:'end'},{speaker:null,text:'九點，大家把烤肉架抬回系學會的車上。'},{speaker:null,text:'回宿舍的路上，你的衣服都是炭的味道。'},
       {rel:{kexin:{fam:2},econ_pinyu:{fam:1},econ_zhengxun:{fam:1}}} ] },
   /* E07 社團博覽會（BB_104 8b-2；AA_154 第 100 行）：9/18（三）～9/20（五）10:00～17:00，窗口內第一次走到椰林大道的攤位那一排（帳篷照法律系那一次的位置，zones3d.js isFairDay）。
@@ -1996,8 +1996,8 @@ const STORY_EVENTS=[
      只在經濟系事件接事件演（trigger 'econff'，econff3d.js 的 STEPS）；手機那幾段在當時所在的地方用對話框演（D103：不用玩家自己開手機）。演完把閒聊階梯 K0 的同一層記成推進過（STORY.ladMark）*/
   ...(()=>{ const T=(id,title,dialogue,lad,bg)=>({ id, stage:'econ', title, participants:['kexin'], location:'any', trigger:'econff', once:true, background:bg||'blur', dialogue, after:G=>{ const L=typeof lad==='function'?lad(G):lad; if(L&&L.length&&typeof STORY!=='undefined'&&STORY.ladMark) STORY.ladMark(G,L); } });
     return [
-    T('ev_y0_kt1','手機・可昕',[ {scene:'手機・可昕',bg:false},{speaker:'kexin',text:'月亮收租那個，我回去算了。'},{speaker:'kexin',text:'照坪數，我們坐的那一小塊，一年大概三塊錢。'},{speaker:'kexin',text:'……你不要問我怎麼算的。'},
-      {choice:[{text:'「怎麼算的？」',goto:'a'},{text:'「三塊錢我出。」',goto:'b'}]},{label:'a'},{speaker:'kexin',text:'就說不要問。'},{goto:'w'},{label:'b'},{speaker:'kexin',text:'好。那下次月亮出來，你付。'},
+    T('ev_y0_kt1','手機・可昕',[ {scene:'手機・可昕',bg:false},{speaker:'kexin',text:'（照片：昨天那串玉米，焦的那一面朝上）'},{speaker:'kexin',text:'品妤說焦的朝下拍。我偏要朝上。'},   /* AA_302 第 6 列（接系烤的玉米）*/
+      {choice:[{text:'「拍得很好。」',goto:'a'},{text:'「那串是我翻的。」',goto:'b'}]},{label:'a'},{speaker:'kexin',text:'謝謝。下次換你烤。'},{goto:'w'},{label:'b'},{speaker:'kexin',text:'我知道。所以我拍了。'},
       {label:'w'},{if:{flags:['E02_WORD']},speaker:'kexin',text:'迎新那天你挑的那個經濟學名詞，我也查了。'},{if:{flags:['E02_WORD']},speaker:'kexin',text:'查完覺得你應該是在開玩笑。'},{if:{flags:['E02_WORD']},set:{KX0_LOOKED_UP:true}},
       {rel:{kexin:{fam:2}}} ],G=>G.flags.E02_WORD?['K0-L1']:[]),
     T('ev_y0_kt2','共同教學館・走廊',[ {scene:'共同教學館・走廊',bg:false},{speaker:null,text:'（微積分下課。可昕抱著小考考卷，在走廊上等你。）'},{speaker:'kexin',text:'助教說，我的答案方向對了，只是走錯路。'},{speaker:'kexin',text:'……整頁都算了，最後一步寫錯。氣死。'},
@@ -2179,7 +2179,7 @@ const STORY_EVENTS=[
      取代舊 E19 誤會、E21 除夕「不然要在一起嗎」、E25 醉月湖告白、3/22 的摩天輪。三個回答都是接受，記 KX_CAR（camp／only_me／take_back）。
      這天開始交往：dating_kexin、Y0_DATING、KX_DATING_SINCE、E26_DAY（法律系房間的票根「兩個人開始交往的那一天」）。排程在 story3d.js（15:30 私訊之後的固定出遊 y0_e26）。
      「睡醒的時候。」AA_224 表格寫在她那一欄，照語意是祐廷的回答（她問「你那天一直在睡覺」）*/
-  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:5.2,
+  { id:'ev_y0_e26', stage:'econ', title:'車上', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3.65,   /* 19:10 到社科院門口 → 回到宿舍「快十一點」（22:50；AA_302 第 11 列：原本 5.2 會到 00:26）*/
     dialogue:[ {speaker:null,text:'（你到家，拿了家裡的車鑰匙。）'},
       {scene:'台大・社科院門口',bg:'car_night'},{speaker:null,text:'（社科院門口。她拉開車門坐進來。）'},
       {speaker:'kexin',expression:'smile',text:'所以你現在是自由人了。'},{speaker:'player',text:'……我跟妳說一件事。說完妳可以下車。'},
@@ -2690,7 +2690,7 @@ const STORY_EVENTS=[
   /* ★E14 保齡球館：交換穿高中制服（BB_104 8-5；AA_154 第 130 行、A33；固定核心）：11/14 21:00 群組約（story3d.js；品妤那句是 AA 暫定）、出發選單 11/15 19:00；
      開始後 15 分鐘還沒出發＝韋綸打電話（AA 暫定句）→ 直接進出遊。只用文字，不做制服 CG。沒有旗標 */
   { id:'ev_y0_e14', stage:'econ', title:'保齡球館', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
-    dialogue:[ {scene:'保齡球館',bg:'bowling'},
+    dialogue:[ {scene:'保齡球館',bg:'bowling'},{speaker:null,text:'（第一次班聚。品妤在群組說，每個人帶一件高中制服，抽籤交換穿。）'},   /* AA_302 第 1 列：群組邀約可以跳過，先交代 */
       {speaker:'econ_pinyu',text:'大家都帶了吧？高中制服。抽籤交換。'},
       {speaker:'kexin',expression:'neutral',text:'我不抽。'},
       {speaker:'kexin',expression:'smile',text:'（拿起{name}的那一件）我要這件。'},
@@ -2932,7 +2932,7 @@ const STORY_EVENTS=[
      玩家點什麼記 Y0_CAFE_ORDER（熱拿鐵／冰美式／熱可可；Z1 的回聲之後做）。沒去＝10/12 16:00 群組品妤的照片＋可昕一句（story3d.js）*/
   { id:'ev_y0_l5a', stage:'econ', title:'長頸鹿拉花', participants:['kexin'], location:'cafe', trigger:'auto', term:['Y0S1'], weeks:[6], weekday:[6], time:[13.75,14.8], once:true, background:'blur',   /* 出發選單開到 14:15、從家裡要 30 分鐘：到店最晚約 14:45（BB_214 第 4 節）*/
     spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3,
-    dialogue:[ {speaker:null,text:'店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'},
+    dialogue:[ {speaker:null,text:'（溫州街的 Café。可昕說這間的拉花會畫長頸鹿，拉了大家來驗證。）'},{speaker:null,text:'店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'},
       {choice:[{text:'熱拿鐵',set:{Y0_CAFE_ORDER:'熱拿鐵'}},{text:'冰美式',set:{Y0_CAFE_ORDER:'冰美式'}},{text:'熱可可',set:{Y0_CAFE_ORDER:'熱可可'}}]},
       {speaker:'kexin',expression:'smile',text:'可以畫長頸鹿嗎？'},{speaker:null,text:'她想了一下。'},{speaker:'店員',text:'……我試試看。'},
       {speaker:null,text:'畫出來的長頸鹿脖子很短。'},{speaker:'唐睿',text:'這是馬。'},{speaker:'店員',text:'這是很努力的長頸鹿。'},
