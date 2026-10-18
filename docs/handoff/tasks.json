@@ -18418,6 +18418,27 @@
     "acceptance": "約 30 段日常短場景（rs 格式）＋長場景；可以接進事件模式",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "UX-RT-DATE-1018",
+   "title": "重考期在家選單「約可昕出門」不知道去哪，選了以後按什麼都跳「會錯過 10 點」（使用者 10-18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 1,
+    "earliest": "2/15 重考期在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報",
+   "next": "home3d.js：選項寫地點（STORY.rPlayEv 的地方）＋「現在就出發」（她 10:00 才有空就跳到 10:00）；選了直接出發、演完回家，不再留一個 10:00 的出遊讓其他選項一直跳「會錯過」。待 BB-C 重考期在家點一次"
   }
  ]
 }
