@@ -26,9 +26,9 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 16:0x UTC 正式交班
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 14:5x UTC 正式交班
 
-使用者 16:0x：「還沒沒有做完的事情就登記好之後 交班 測試的結果都要留下來讓接班的人可以直接開始修」。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**AA-C、BB-C、LAWWW2-C 已先交班**。細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+使用者 14:4x：「還沒沒有做完的事情就登記好之後 交班 測試的結果都要留下來讓接班的人可以直接開始修」。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**AA-C、BB-C、LAWWW2-C 已先交班**。細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
 
 **★ 下一班 LAWWW 第一件事：`docs/handoff/TEST_RESULTS_1018.md`**（測試結果原文、重現腳本 `tests/repro_1018/`、建議第一步）：
 1. **REL-9101-POSTCHECK-1018（P0）**：v9.10.1 發布後檢查，minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL（搖桿、拖曳、點地面在測試裡完全不動；v9.10 發布前 feb2bc37 ALL PASS）。先二分（8c63ea53 ↔ f4b47480），查是測試狀態（自動打開的手機？）還是遊戲真的擋輸入。
@@ -329,7 +329,7 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 
 ## 11. 交班快照歷史
 
-- **（2026-10-18 16:0x C 帳號正式交班前的第 1 節原文：C 帳號 07:4x 預寫）**
+- **（2026-10-18 14:5x C 帳號正式交班前的第 1 節原文：C 帳號 07:4x 預寫）**
   ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 07:4x UTC 預先寫好（使用者 07:1x：「中間應該會換帳號做……我這個帳號每週使用量到 85%，大概兩小時」）
 
   使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。

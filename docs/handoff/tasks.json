@@ -19316,7 +19316,7 @@
    },
    "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）；使用者 10-18 13:xx 補充：卡住時在遊戲裡讀檔，跳「劇情還在進行」讀不了（＝a0926112 保底要解的那一段；線上 v9.10.1 還沒有，暫時解法 F5 重新整理→標題「繼續」）",
    "authorized": "P0 bug",
-   "next": "【交班 16:0x：重現腳本＋使用者存檔 tests/repro_1018/、結果 docs/handoff/TEST_RESULTS_1018.md 第 2b 節】下一版（v9.10.2）一定要帶 a0926112 的保底（game3d.js 和 main 只差這一段）。根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向已先堵（econff3d.js S.advance：黑幕、日期卡期間 sceneBegin、finally sceneEnd；tests/econ_ff_unit.js ⑧ 新版 PASS、舊版 FAIL）；第二階段（在家）advance2 的黑幕＋日期卡同樣沒鎖，還沒改；瀏覽器還沒驗（經濟系 ff 走一段）；③問使用者卡住前一刻按了什麼"
+   "next": "【交班 14:5x：重現腳本＋使用者存檔 tests/repro_1018/、結果 docs/handoff/TEST_RESULTS_1018.md 第 2b 節】下一版（v9.10.2）一定要帶 a0926112 的保底（game3d.js 和 main 只差這一段）。根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向已先堵（econff3d.js S.advance：黑幕、日期卡期間 sceneBegin、finally sceneEnd；tests/econ_ff_unit.js ⑧ 新版 PASS、舊版 FAIL）；第二階段（在家）advance2 的黑幕＋日期卡同樣沒鎖，還沒改；瀏覽器還沒驗（經濟系 ff 走一段）；③問使用者卡住前一刻按了什麼"
   },
   {
    "id": "AA290-INTAKE",
@@ -19785,7 +19785,7 @@
    },
    "source": "使用者 2026-10-18 14:3x：「他問完我剛剛那個問題之後我回到宿舍又卡住了……可以轉我的鏡頭，但沒有任何播放也沒有按鍵可以按」「我重新開遊戲讀進去自動存檔，就直接跳劇情要陪可昕上課」",
    "authorized": "P0 bug",
-   "next": "【交班 16:0x：docs/handoff/TEST_RESULTS_1018.md 第 2a 節】搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
+   "next": "【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2a 節】搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
   },
   {
    "id": "PHONE-LINE-UI-1018",
@@ -20086,7 +20086,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我在高雄走了一整天，然後可昕問我客運幾點來找我 轉場中間又跑出台北的家」",
    "authorized": "一般 bug",
-   "next": "【交班 16:0x：docs/handoff/TEST_RESULTS_1018.md 第 2c 節】查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
+   "next": "【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2c 節】查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
   },
   {
    "id": "KX-EXPR-1018",
@@ -20161,7 +20161,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "source": "使用者 2026-10-18 11:5x「先發布再檢查了」→ LAWWW-C 對 4c0cbefc 跑 docs/TESTING.md 第五節；使用者 16:0x 交班「測試的結果都要留下來讓接班的人可以直接開始修」",
+   "source": "使用者 2026-10-18 11:5x「先發布再檢查了」→ LAWWW-C 對 4c0cbefc 跑 docs/TESTING.md 第五節；使用者 14:4x 交班「測試的結果都要留下來讓接班的人可以直接開始修」",
    "authorized": "一般 bug（發布後檢查）",
    "next": "結果原文、推測、第一步：docs/handoff/TEST_RESULTS_1018.md 第 1 節（紀錄檔 tests/repro_1018/logs/）。v9.10 發布前 feb2bc37 這三支 ALL PASS，壞在 feb2bc37～f4b47480。先對 8c63ea53 和 f4b47480 跑 minimap_direction 二分；失敗當下 elementFromPoint(#joy) 看是誰蓋住（懷疑要回覆的訊息自動打開手機 UX-PHONE-AUTOOPEN-1018）。測試狀態造成的就改 tests/playlib.py；遊戲真的擋輸入就是 P0、修好出 v9.10.2"
   }
