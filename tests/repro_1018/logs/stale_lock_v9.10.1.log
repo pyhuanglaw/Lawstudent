@@ -1,0 +1,6 @@
+③ 對話中 12.5 秒 {'stale': None, 'dlg': True}
+① 6 秒 {'stale': None, 'busy': True, 'depth': 1, 'cam': 'cinematic'}
+② 12.5 秒 {'stale': None, 'busy': True, 'hudR': '0'} []
+② 讀檔以後 {'busy': True, 'depth': 1, 'stale': None, 'cam': 'cinematic', 'zone': 'dorm'}
+errs []
+FAIL ② 超過 10 秒沒有標成卡住；② 除錯面板沒有寫出是誰開的那一段；② 讀檔以後還鎖著

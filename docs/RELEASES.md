@@ -61,7 +61,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - BB 另外三種玩法（不開手機／全部拒絕／天天睡覺）還在跑；美國校園、四季（LAWWW2 已交）排在下一版。
 - 沒有 iPhone 實機測試。
 
-**發布後檢查（docs/TESTING.md 第五節）**：（跑完補在這裡）
+**發布後檢查（docs/TESTING.md 第五節，LAWWW-C 對乾淨 checkout `4c0cbefc`，10-18 12:3x～14:xx）**：deploy_check、reachability_all **ALL PASS**；**minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL**——搖桿、拖曳、點地面在測試裡完全不動（玩家沒有 busy；v9.10 發布前 `feb2bc37` 這三支 ALL PASS）；save_compat_v7 沒跑完（使用者 03:4x 說不用舊存檔測試）。還沒查出是測試狀態造成的（懷疑要回覆的訊息自動打開手機蓋住搖桿）還是遊戲真的擋輸入；使用者實玩可以走路。原文、推測、第一步：`docs/handoff/TEST_RESULTS_1018.md` 第 1 節（任務 REL-9101-POSTCHECK-1018，P0）。**修好、重跑通過以前不發 v9.10.2。** v9.10.2 候選（開發分支）一定要帶 `a0926112`（劇情鎖住 10 秒放開讀檔的保底），清單在同一份文件第 5 節。
 
 ## v9.10（2026-10-18 05:11 UTC 發布 `8c63ea53`，PR #6；GitHub Pages 部署 run 39099701891 05:13 成功）——經濟系＋寒暑假＋16 週＋全部題目
 

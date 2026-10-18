@@ -1,0 +1,6 @@
+③ 對話中 12.5 秒 {'stale': False, 'dlg': True}
+① 6 秒 {'stale': False, 'busy': True, 'depth': 1, 'cam': 'cinematic'}
+② 12.5 秒 {'stale': True, 'busy': True, 'hudR': '1'} ['SCENE  depth=1 STALE by=stuckHere (eval at evaluate (:370:30), <anonymous>:1:77)']
+② 讀檔以後 {'busy': False, 'depth': 0, 'stale': False, 'cam': 'follow', 'zone': 'dorm'}
+errs []
+PASS

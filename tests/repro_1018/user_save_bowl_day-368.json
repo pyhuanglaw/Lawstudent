@@ -1,0 +1,1131 @@
+{
+ "v": 2,
+ "stage": "econ",
+ "name": "祐廷",
+ "day": -368,
+ "weekday": 5,
+ "hour": 21.835,
+ "energy": 100,
+ "money": 22000,
+ "zone": "dorm",
+ "pos": {
+  "x": 0,
+  "z": 2.4,
+  "yaw": 3.142,
+  "lv": 0,
+  "y": 0
+ },
+ "weather": "clear",
+ "flags": {
+  "dating_kexin": false,
+  "KX_DEC3_MIGRATED": true,
+  "LIFELINE_V": 1,
+  "fundsV2": 1,
+  "allowanceMonth": 9,
+  "KX_FIRST_MSG": true,
+  "ECON_CAMP_OPEN": true,
+  "clsGoal": "今天沒有課。自由活動：去圖書館、公館，或找人聊天",
+  "knowsRel": {},
+  "spreadScan": {},
+  "Y0_CRM_RETIRED": true,
+  "ROMANCE_HISTORY": [],
+  "CLEANUP_DONE": true,
+  "romance": {
+   "kexin": {
+    "status": "none",
+    "since": null,
+    "knows": [],
+    "suspicion": 0,
+    "history": []
+   }
+  },
+  "knowsRel_V": 1,
+  "ytKnows": {},
+  "dpDay": -368,
+  "_autoAsk": [],
+  "kaiDorm": {},
+  "amb": {},
+  "E15_BUS": "nosleep",
+  "met_kexin": true,
+  "met_econ_zhengxun": true,
+  "E15_WENT": true,
+  "ECON_CAMP_DONE": true,
+  "E01_NIGHT": "sleep",
+  "E01_DONE": true,
+  "companion": null,
+  "nightKai": false,
+  "morningLine": false,
+  "E01_MORNING": true,
+  "ECONFF": {
+   "done": {
+    "4": "cut",
+    "5": "cut",
+    "6": "cut",
+    "b1": 1
+   },
+   "lines": [
+    "（開學第一週。新生座談、第一堂經原、第一堂會計。阿勳每一堂都坐你旁邊，品妤每一堂都坐可昕旁邊。）"
+   ]
+  },
+  "E01_BOXES": true,
+  "E412_MOVEIN": true,
+  "met_econ_pinyu": true
+ },
+ "rel": {
+  "an": 6,
+  "zhe": 12,
+  "sis": 2,
+  "kai": 8,
+  "yu": 3
+ },
+ "notes": [],
+ "memo": [
+  {
+   "day": -368,
+   "t": "保齡球館"
+  }
+ ],
+ "visited": {
+  "dorm": true
+ },
+ "stats": {
+  "steps": 0,
+  "classes": 0,
+  "study": 0
+ },
+ "choices": {},
+ "social": {
+  "rel": {
+   "heroine_01": {
+    "fam": 6,
+    "trust": 4,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "zhe": {
+    "fam": 12,
+    "trust": 7,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "heroine_05": {
+    "fam": 2,
+    "trust": 1,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "kai": {
+    "fam": 8,
+    "trust": 5,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "yu": {
+    "fam": 3,
+    "trust": 2,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "kexin": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 1
+   },
+   "econ_zhengxun": {
+    "fam": 7,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 2
+   },
+   "econ_pinyu": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 1
+   }
+  },
+  "mem": {
+   "kexin": [
+    {
+     "tag": "FIRST_MET",
+     "day": -389,
+     "note": "camp"
+    }
+   ],
+   "econ_zhengxun": [
+    {
+     "tag": "FIRST_MET",
+     "day": -389,
+     "note": "camp"
+    }
+   ],
+   "econ_pinyu": [
+    {
+     "tag": "FIRST_MET",
+     "day": -368,
+     "note": "dorm"
+    }
+   ]
+  },
+  "reveal": {
+   "kexin": "ACQUAINTANCE",
+   "econ_zhengxun": "ACQUAINTANCE",
+   "econ_pinyu": "ACQUAINTANCE"
+  },
+  "prof": {},
+  "grad": {
+   "interest": "NONE",
+   "field": null,
+   "prep": 0
+  },
+  "_relSync": 1
+ },
+ "events": {
+  "done": {
+   "ev_y0_e14": 1
+  },
+  "last": {
+   "ev_y0_e14": -368
+  },
+  "count": 1
+ },
+ "legal": {
+  "q": {
+   "Q001": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q002": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q003": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q004": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q005": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q006": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q007": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q008": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q009": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q010": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q011": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q012": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q013": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q014": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q015": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q016": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q017": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q018": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q019": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q020": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q021": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q022": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q023": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q024": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q025": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q026": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q027": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q028": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q029": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q030": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q031": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q032": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q033": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q034": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q035": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q036": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q037": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q038": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q039": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q040": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q041": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q042": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q043": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q044": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q045": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q046": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q047": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q048": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q049": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q050": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q051": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q052": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q053": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q054": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q055": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q056": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q057": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q058": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q059": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q060": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q061": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q062": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q063": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q064": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q065": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q066": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q067": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q068": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q069": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q070": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q071": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q072": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q073": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q074": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q075": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q076": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q077": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q078": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q079": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q080": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q081": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q082": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q083": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q084": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   }
+  },
+  "misc": {},
+  "log": []
+ },
+ "cg": {
+  "unlocked": []
+ },
+ "savedAt": 1792327122096,
+ "bike": {
+  "riding": false,
+  "zone": "campus",
+  "x": 25,
+  "z": 57.9,
+  "yaw": 1.5707963267948966
+ },
+ "courses": {
+  "done": {},
+  "attend": {},
+  "prep": {},
+  "electives": {},
+  "grades": {},
+  "note": {
+   "sel_Y0S1": 1,
+   "termStart": "Y0S1",
+   "skip_-369:english_y0:am": 1,
+   "skipn_english_y0_Y0S1": 1,
+   "skip_-369:acct_y0:pm1": 1,
+   "skipn_acct_y0_Y0S1": 1
+  },
+  "disc": {},
+  "ask": {},
+  "late": {},
+  "abs": {},
+  "idv": 3
+ },
+ "goal": "今天沒有課。自由活動：去圖書館、公館，或找人聊天",
+ "goalDest": null,
+ "invites": [],
+ "msgs": [
+  {
+   "day": -387,
+   "h": 21,
+   "who": null,
+   "text": "📷（活動中心門口，七個人的合照）",
+   "iv": null,
+   "th": "g:econ_squad3",
+   "from": "econ_zhengxun",
+   "name": "阿勳"
+  },
+  {
+   "day": -387,
+   "h": 21,
+   "who": null,
+   "text": "我還在累",
+   "iv": null,
+   "th": "g:econ_squad3",
+   "from": "econ_weilun",
+   "name": "韋綸"
+  },
+  {
+   "day": -387,
+   "h": 21,
+   "who": null,
+   "text": "睡飽了嗎第三小隊",
+   "iv": null,
+   "th": "g:econ_squad3",
+   "from": "kexin",
+   "name": "可昕"
+  },
+  {
+   "day": -380,
+   "h": 21.03,
+   "who": "mom",
+   "text": "到了要記得吃晚餐。",
+   "iv": null,
+   "th": "p:mom",
+   "from": "mom",
+   "name": "媽媽"
+  },
+  {
+   "day": -369,
+   "h": 15.32,
+   "who": null,
+   "text": "（群組：經濟系那群）品妤：會計今天講借貸。你借的筆記，我記在左邊了。",
+   "iv": null
+  },
+  {
+   "day": -369,
+   "h": 21,
+   "who": null,
+   "text": "明天晚上七點，保齡球。第一次班聚。高中制服記得帶，要抽籤交換。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_e14_ask"
+  }
+ ],
+ "contacts": {},
+ "phone": {
+  "groups": {
+   "econ_squad3": {
+    "name": "經濟系第三小隊",
+    "day": -387
+   },
+   "econ_class": {
+    "name": "經濟系 大一（全班）",
+    "day": -378
+   }
+  },
+  "seen": {},
+  "q": [
+   {
+    "day": 15,
+    "h": 21,
+    "items": [
+     {
+      "th": "p:zhe",
+      "from": "zhe",
+      "text": "週六中秋烤肉。河濱，下午三點。",
+      "ask": {
+       "opts": [
+        {
+         "t": "去。",
+         "set": {
+          "BBQ_YES": true
+         }
+        },
+        {
+         "t": "這次不行。",
+         "set": {
+          "BBQ_NO": true
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "tag": "bbq_ask"
+   },
+   {
+    "day": -365,
+    "h": 21,
+    "items": [
+     {
+      "th": "g:econ_class",
+      "text": "中秋系烤：9/21（六）17:00，河濱。自備餐具。"
+     },
+     {
+      "th": "g:econ_class",
+      "from": "econ_weilun",
+      "name": "韋綸",
+      "text": "我要去！有人要一起走過去嗎？"
+     }
+    ],
+    "tag": "y0_e08_grp"
+   }
+  ],
+  "n": 0
+ },
+ "outings": [
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.3333333333333333,
+   "id": "y0_e14",
+   "ev": "ev_y0_e14",
+   "day": -368,
+   "h": 19,
+   "late": 0.25,
+   "place": "保齡球館",
+   "title": "保齡球館 19:00",
+   "travel": "搭公車約 20 分鐘"
+  }
+ ],
+ "dateLog": {
+  "_daily": -379
+ },
+ "trips": [],
+ "groupTrips": [],
+ "dateMemory": {},
+ "habits": {
+  "place:dorm:night": {
+   "n": 1,
+   "first": -380,
+   "last": -380,
+   "days": [
+    -380
+   ]
+  },
+  "place:dorm:morning": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  }
+ },
+ "termend": {
+  "think": {},
+  "contact": {
+   "Y0S1": {
+    "econ_pinyu": {
+     "pts": 2,
+     "k": {
+      "together": -368
+     },
+     "last": -368
+    },
+    "econ_zhengxun": {
+     "pts": 2,
+     "k": {
+      "together": -368
+     },
+     "last": -368
+    }
+   }
+  }
+ }
+}

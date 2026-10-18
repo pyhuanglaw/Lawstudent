@@ -1,0 +1,40 @@
+=== minimap_direction
+  [前置／捷徑] 鏡頭角度設成 3.14（鏡頭朝南）
+PASS 鏡頭朝南：出入口在地圖上的方向（應 180°，實際 158°）  camYaw=3.14 玩家=(34,-91.8) 方塊偏移=(27.9,67.6)
+  [前置／捷徑] 鏡頭角度設成 -1.57（鏡頭朝東）
+PASS 鏡頭朝東：出入口在地圖上的方向（應 270°，實際 248°）  camYaw=-1.57 玩家=(34,-91.8) 方塊偏移=(-68.6,27.9)
+FAIL 手指拖曳會轉動鏡頭  -1.57 → -1.57
+PASS 拖曳轉鏡頭之後：出入口在地圖上的方向（應 270°，實際 248°）  camYaw=-1.57 玩家=(34,-91.8) 方塊偏移=(-68.6,27.9)
+  [前置／捷徑] 鏡頭角度設成 0（朝北）
+FAIL 搖桿往前：玩家往鏡頭前方（北）走  移動 (0.00,0.00)
+FAIL 往前走：地圖上前方的出入口在上方、離中心變近  距離 74.1 → 74.1 px，y=27.9
+PASS 玩家箭頭朝地圖上方（往前走時）  arrow=0.0912523289214846
+PASS 沒有 JS 例外  []
+FAILED: 手指拖曳會轉動鏡頭, 搖桿往前：玩家往鏡頭前方（北）走, 往前走：地圖上前方的出入口在上方、離中心變近
+=== touch_flow_wenzhou
+FAIL 靠近座位出現「坐」的按鈕
+FAIL 坐下（姿勢 sit）  idle
+PASS 起身後可以操作  {'zone': 'wenzhou', 'x': 38.24, 'z': -1, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '', 'name': '', 'fade': False, 'menu': False}
+  walk timeout exit {'zone': 'wenzhou', 'x': 38.24, 'z': -1, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '', 'name': '', 'fade': False, 'menu': False}
+FAIL 門口出現「離開咖啡廳」
+FAIL 回到溫州街（Café 門口）  {'zone': 'wenzhou', 'x': 38.24, 'z': -1, 'yaw': -1.57, 'camYaw': 1.57, 'busy': False, 'pose': 'idle', 'dlg': False, 'choices': 0, 'interact': '', 'text': '', 'name': '', 'fade': False, 'menu': False}
+FAIL 出來後可以繼續走
+FAIL 觸控存到欄位 1
+FAIL 重新整理後讀回欄位 1（溫州街、位置相同）  (-40, -5, None)
+FAIL 讀檔後可以走
+PASS 沒有 JS 例外
+FAILED: 走到 Café 門口出現「進入兩點半 Café」, 進入 Café, Café 裡有沈以安（正式模型）, 靠近座位出現「坐」的按鈕, 坐下（姿勢 sit）, 門口出現「離開咖啡廳」, 回到溫州街（Café 門口）, 出來後可以繼續走, 觸控存到欄位 1, 重新整理後讀回欄位 1（溫州街、位置相同）, 讀檔後可以走
+=== p0_movement
+FAIL 公館麵店門口：搖桿左 → 移動／轉向  {'x': -63, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 公館便利商店門口：搖桿上 → 位置改變  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 公館便利商店門口：搖桿右 → 移動／轉向  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 公館便利商店門口：搖桿左 → 移動／轉向  {'x': -29.4, 'z': 18, 'yaw': 3.14, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 校門外：搖桿上 → 位置改變  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 校門外：搖桿右 → 移動／轉向  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 校門外：搖桿左 → 移動／轉向  {'x': -2.5, 'z': -29, 'yaw': 0, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 溫州街：搖桿上 → 位置改變  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'} → {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 溫州街：搖桿右 → 移動／轉向  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+FAIL 溫州街：搖桿左 → 移動／轉向  {'x': 40, 'z': -1, 'yaw': -1.57, 'pose': 'idle', 'busy': False, 'cam': 'follow'}
+console: ['warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently', 'warning: Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently']
+RESULT: 26 FAIL → 霖澤館前（教室出口）：搖桿右 → 移動／轉向; 霖澤館前（教室出口）：搖桿左 → 移動／轉向; 霖澤館前：推到底 → 跑; 霖澤館前：點地面 → 走過去; 霖澤館門口（台階下）：搖桿左 → 移動／轉向; 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿上 → 位置改變; 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿右 → 移動／轉向; 舊存檔：站在霖澤館舊門口（現在是台階）：搖桿左 → 移動／轉向; 校園預設出生點：搖桿上 → 位置改變; 校園預設出生點：搖桿右 → 移動／轉向; 校園預設出生點：搖桿左 → 移動／轉向; 宿舍門口：搖桿上 → 位置改變; 宿舍門口：搖桿右 → 移動／轉向; 宿舍門口：搖桿左 → 移動／轉向; 公館麵店門口：搖桿上 → 位置改變; 公館麵店門口：搖桿右 → 移動／轉向; 公館麵店門口：搖桿左 → 移動／轉向; 公館便利商店門口：搖桿上 → 位置改變; 公館便利商店門口：搖桿右 → 移動／轉向; 公館便利商店門口：搖桿左 → 移動／轉向; 校門外：搖桿上 → 位置改變; 校門外：搖桿右 → 移動／轉向; 校門外：搖桿左 → 移動／轉向; 溫州街：搖桿上 → 位置改變; 溫州街：搖桿右 → 移動／轉向; 溫州街：搖桿左 → 移動／轉向
+=== save_compat_v7
