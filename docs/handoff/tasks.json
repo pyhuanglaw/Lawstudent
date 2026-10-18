@@ -13191,9 +13191,9 @@
    "title": "大二～大四跨年台詞（HOL-NYE-Y2～Y4）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13214,7 +13214,8 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    },
-   "note": ""
+   "note": "",
+   "sha": "5cb76551"
   },
   {
    "id": "HOL-VA",
@@ -14225,9 +14226,9 @@
    "title": "大三～大四跨年台詞（HOL-NYE-Y3～Y4）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14248,16 +14249,17 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    },
-   "note": ""
+   "note": "",
+   "sha": "1553837c"
   },
   {
    "id": "HOL-NYE-Y4",
    "title": "大四～大四跨年台詞（HOL-NYE-Y4～Y4）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14278,7 +14280,8 @@
     "receiver": "LAWWW-B",
     "ack": "ACK"
    },
-   "note": ""
+   "note": "",
+   "sha": "f6515c69"
   },
   {
    "id": "DORM-Y34",
