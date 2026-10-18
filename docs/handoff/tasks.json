@@ -18011,7 +18011,7 @@
    "title": "經濟系每天睡覺可以一路睡到休學、還能跟可昕告白，中間根本沒遇到（使用者 10-18 存檔 day-334：只演了 E02、E05、T0a、E30、E26）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -18025,7 +18025,7 @@
    },
    "source": "使用者 2026-10-18 06:3x（存檔 918b2572-fatiao3d_save_day-334.json，v9.10 線上版）",
    "authorized": "使用者回報",
-   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到"
+   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到｜BB-C 07:41 遊戲裡 FIXED：9/2 起天天睡到 10/19，#4～#29 全演、沒有 missed、0 卡住、0 例外"
   },
   {
    "id": "BUG-KX-NCCU-1018",
@@ -18733,6 +18733,76 @@
    "source": "使用者 2026-10-18 07:5x",
    "authorized": "使用者回報",
    "next": "adv3d.js speaker：說話的人沒有立繪（祐廷、沒有立繪的配角）＝台上的立繪全部變暗；旁白照舊。game3d.js say 傳 'player'。待 BB-C 看宿營夜談"
+  },
+  {
+   "id": "AA299-IMAGES-1018",
+   "title": "使用者生成的六張圖到了以後換上：bus_tour（宿營遊覽車，camp_y1.js 兩處 bg:'car'）、car_night／car_morning／car_rain（換掉 Blender bg_car 三張）、exam_hs_classroom（ev_y0_exam1／exam1h）、daan_park（R3）；LICENSES BG-08 改使用者生成（D104）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營（車）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 1c341e21（AA_299）；使用者 10-18",
+   "authorized": "使用者直接要求（D104）",
+   "next": "BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "AA_299 最後一節",
+    "acceptance": "六張圖放進遊戲對應場景",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "Q-E36-CALL-1018",
+   "title": "8/13 放榜電話：拿掉 only_me 兩句、「只高 0.1」改可昕說（使用者 10-18：「放榜，你那天說以為只有妳，我現在知道了，在說什麼啦」「可昕說的」「只高 0.1」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 17,
+    "earliest": "8/13 放榜",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 017ee079（AA_298 第 9 節）",
+   "authorized": "使用者回報（台詞 AA 定稿）",
+   "next": "events.js ev_y0_e36／e36h：拿掉「你那天說，你以為只有你。……我現在懂那個感覺了。」「不是只有妳。」（KX_CAR 照記）；可昕「台大法律。恭喜你。真的。」→可昕「……只高 0.1。」→祐廷「上了就是上了。」→可昕「政大的山比較多。……」；events.js 2475 註解；測試 v0_e36_unit 51～52、lifeline_g6_unit 84、lifeline_g1_unit 60～62"
+  },
+  {
+   "id": "UX-ECON-BED-1018",
+   "title": "事件模式下床的選項還寫「睡到傍晚 18:00」「會錯過…」，實際在下一個事件醒來（BB-C 10-18 建議只留「睡覺（到下一件事）」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "9/2 宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:41",
+   "authorized": "UI 系統字（LAWWW）",
+   "next": "story3d.js bedOptions：ECONFF.on(G)＆有下一個事件＝只給「睡覺（到下一件事）」＋「不睡」"
   }
  ]
 }
