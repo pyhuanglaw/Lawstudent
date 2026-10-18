@@ -40,9 +40,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y2s1.json",
-   "sha": "25e89f6e",
+   "sha": "b5acbaad",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "AB65-3-Y2S1-L",
    "history": [
     {
@@ -62,9 +62,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
-   "sha": "25e89f6e",
+   "sha": "b5acbaad",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "SYS-15",
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
   },
@@ -262,9 +262,9 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D04.json",
-   "sha": "741e94f1",
+   "sha": "b5acbaad",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "DATE-S6"
   },
   {
@@ -654,9 +654,9 @@
   },
   {
    "path": "docs/story_planning/free_trip/aa_walk_v1.json",
-   "sha": "aca122d2",
+   "sha": "b5acbaad",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）",
+   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "ENC-B3-1017",
    "kind": "text"
   },
@@ -670,9 +670,9 @@
   },
   {
    "path": "docs/story_planning/free_trip/bb_walk_v1.json",
-   "sha": "aca122d2",
+   "sha": "b5acbaad",
    "status": "approved",
-   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
    "task": "ENC-B3-1017",
    "kind": "text"
   },

@@ -42,7 +42,7 @@ const NEEDED_MSGS=(function(){
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能幫她判斷。叫她去問法服，或打勞工局的專線。',resp:['……你好像學姊喔。好啦，我叫她去。'],miss:['欸，加班費那則你沒回。我叫我同學去法服問了。']},
     {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,16],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。'],miss:['欸，你沒回我。所以你一定在笑。']},
     {id:'yu_clubs',who:'yu',term:'Y2S2',w:[1,3],msg:['這學期我只剩兩個社團了。你猜我退了哪一個？'],reply:'猜不到。',resp:['辯論社。比賽都在週末，我要念書了。'],miss:['欸，你都沒猜。是辯論社啦。']},
-    {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……不要跟阿哲說，他會說我瘋了。'],miss:['欸，考古題那則你沒回。……我已經開始了。不要跟阿哲說。']},
+    {id:'yu_exam',who:'yu',term:'Y2S2',w:[12,14],msg:['司法官的考古題，你覺得大二開始看會太早嗎？'],reply:'不會。',resp:['好。那我開始了。……阿哲知道的話，會說我瘋了。'],miss:['欸，考古題那則你沒回。……我已經開始了。阿哲還不知道。']},
     // 柏翰（AA_179）
     {id:'bh_handover',who:'classmate_bohan',term:'Y2S1',w:[1,3],tie:true,cond:lawclub,msg:['社長交接的資料有一百頁。你幫我看第一章就好。'],reply:'好。',resp:['……謝謝。我以為社長只要會排值班表。'],miss:['交接資料第一章，我自己看完了。……一百頁都看完了。']},
     {id:'bh_q3',who:'classmate_bohan',term:'Y2S1',w:[6,8],tie:true,msg:['刑分考古題第三題，你寫哪一說？'],reply:'兩說都寫。',resp:['……考試時間不夠。'],miss:['上週問你刑分第三題……算了，我自己查到了。']},
