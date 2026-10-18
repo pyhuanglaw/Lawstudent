@@ -12,6 +12,10 @@
 4. 換分工當天，舊負責人的未完成事項逐條重新指派。
 5. 交出去不等於進遊戲：發布前跑 check_orphans、check_lines、題目漏收檢查，告訴使用者這版沒有的是哪些。
 6. **使用者直接對任何職位說的修改，不能只留在那個工作階段**（使用者 2026-10-18 12:5x：「說過要改的東西下一個帳號常常完全不知道……等於下個帳號又要重新說一次，要盡量避免」）：LAWWW2、AA、BB 收到使用者交代、還沒做完的事，**當下**寫進自己交接檔「全部待辦」並標【使用者】（附原話、時間），再通知同帳號值班中的 LAWWW；值班 LAWWW **當天**同步進 `docs/handoff/USER_WANTS.md` 和 tasks.json。交班時每個職位逐條列出「使用者說過、還沒做完的」，接班的 LAWWW 和 USER_WANTS 對過才算交接完整（任務 USER-WANTS-AUDIT-1018）。
+7. **機器會擋，不靠記得（HV-18，使用者 2026-10-18 13:5x 選「三個都做」；起因：稽核發現 12 項使用者說過的事沒進總表——AA 有寫但寫成段落引述、工具讀不到；只有 LAWWW 能寫總表、LAWWW 在忙就沒搬；LAWWW-C 回 LAWWW2「不排」卻沒登記暫停）**：
+   - **提醒 hook**：`.claude/settings.json` 的 UserPromptSubmit hook（`tools/handoff/user_ask_reminder.py`），使用者每傳一則訊息都會提醒。各職位合併 RULE_SOURCE 以後就有；已經開著的工作階段要重開或開 `/hooks` 才生效。
+   - **每職位一個使用者要求檔** `docs/handoff/user_asks_<LAWWW|LAWWW2|AA|BB>.json`（寫在自己的分支）：使用者的要求、修改、決定、選擇題答案、取消，**回覆時**一則一筆——id、at、quote（原話）、kind（原話／選擇題答案／轉述／AI解讀）、status（和 USER_WANTS 那一列一樣）、wants（USER_WANTS 的列）或 task（任務 ID）。**AI 自己擴大或推論的**寫 `kind:AI解讀`、`confirmed:false`，問過使用者才改 true。總表還沒有那一列／任務的，先通知值班 LAWWW 開，開好再填。不再用段落引述當紀錄。
+   - **每批檢查**：值班 LAWWW 每批工作結束、接班第 9 步、交班存快照前跑 `python3 tools/handoff/check_handoff.py asks`（職位分支上的檔優先，還沒建的用 RULE_SOURCE 上的種子）。沒對到總表、狀態不一樣、AI 解讀沒問過使用者＝異常；**有異常不得宣稱交接完整**。
 
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 

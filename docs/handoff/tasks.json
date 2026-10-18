@@ -19586,6 +19586,27 @@
     "acceptance": "走得到兩家超市，位置照使用者說的「對面」",
     "ack": "未派"
    }
+  },
+  {
+   "id": "USER-ASKS-HV18-1018",
+   "title": "HV-18 使用者要求「機器會擋」：①UserPromptSubmit 提醒 hook（.claude/settings.json）②每職位一個使用者要求檔 docs/handoff/user_asks_<職位>.json ③值班 LAWWW 每批工作結束跑 check_handoff.py asks",
+   "area": "handoff",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "所有帳號、所有職位",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 13:5x：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務啊？交接規則到底要怎麼寫？他們才不會還有東西沒寫」→ 選「三個都做（建議）」",
+   "authorized": "使用者直接選",
+   "next": "LAWWW2、AA、BB 回來接班合併 RULE_SOURCE 以後才拿得到 hook 和種子檔；接班第 9 步跑 asks；hook 在已經開著的工作階段要重開或 /hooks 才生效"
   }
  ]
 }

@@ -1,0 +1,37 @@
+{
+ "role": "LAWWW2",
+ "format": "HV-18：一則使用者要求一筆；kind＝原話／選擇題答案／轉述／AI解讀（AI解讀要 confirmed:true 才算數）；status 和 USER_WANTS 那一列一樣；wants＝USER_WANTS 的列、task＝tasks.json 的任務，至少一個",
+ "note": "LAWWW-C 2026-10-18 13:5x 依 USER-WANTS-AUDIT-1018 建的種子（原文已對過）；這個職位回來合併 RULE_SOURCE 以後由自己維護，職位分支上的版本優先",
+ "asks": [
+  {
+   "id": "UA-LAWWW2-1017-01",
+   "at": "2026-10-17T20:5x",
+   "quote": "你生成這麼多人物，為什麼每個都要重新從零開始？也沒有一個模板嗎？",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X39",
+   "task": "CHAR-TEMPLATE",
+   "src": "LAWWW2 HANDOFF 185～189 行"
+  },
+  {
+   "id": "UA-LAWWW2-1017-02",
+   "at": "2026-10-17T05:0x",
+   "quote": "最後接著做美國的東西 日本的東西",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X40",
+   "task": "JP-3D-ASK",
+   "src": "LAWWW2 HANDOFF 365 行"
+  },
+  {
+   "id": "UA-LAWWW2-1017-03",
+   "at": "2026-10-17T23:0x",
+   "quote": "超市一個大的超市對面有一個小的亞洲超市",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X41",
+   "task": "US-MARKET-STREET",
+   "src": "LAWWW2 HANDOFF 160～178 行"
+  }
+ ]
+}
