@@ -7601,6 +7601,45 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "v9.10 發布後套（美國交換）"
+  },
+  {
+   "id": "DL-BB-2fe51fcf",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "2fe51fcf",
+   "what": "2D 背景 y0_sea_blue、y0_lane_shop（7/19 sea／shop）、kh_station、kh_harbor、kh_night_market（bg_approved/）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:1x：assets/bg/、OUT.BG 登錄（hometown 十張原本 OUT.BG 沒有登錄＝深色底）；7/19 三個分支都有背景"
+  },
+  {
+   "id": "DL-BB-d8381cb5",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "d8381cb5",
+   "what": "2D 背景 kh_store（可昕「再去」下雨那一版）（bg_approved/）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:1x：assets/bg/、OUT.BG 登錄（hometown 十張原本 OUT.BG 沒有登錄＝深色底）；7/19 三個分支都有背景"
+  },
+  {
+   "id": "DL-BB-28c99e03",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "28c99e03",
+   "what": "2D 背景 kh_river、tc_station、tc_eatery、tc_park、tc_bookstore、tc_cafe（浮水印已補）（bg_approved/）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:1x：assets/bg/、OUT.BG 登錄（hometown 十張原本 OUT.BG 沒有登錄＝深色底）；7/19 三個分支都有背景"
   }
  ],
  "ignored": [
