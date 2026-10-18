@@ -49,8 +49,8 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
       check('5-1 E27b（AA_272 8-2）：E27 演完排 2/14 15:00 以前的補習班（固定、must）',!!qb&&qb.day===d13+1&&qb.h===15&&qb.must===true&&qb.ev==='ev_y0_e27b',J(qb));
       G.day=d13+1; G.hour=15.3; const c=STORY.homeCall(G); check('5-1 E27b 15:15 還沒出發：可昕電話「我在補習班樓下了。你呢？」',!!c&&c.q===qb&&c.line==='我在補習班樓下了。你呢？',J(c&&c.line));
       said=[]; opts=[]; picks=['那我也在家讀']; await EVENTS.run(ev('ev_y0_e27b')); const Lb=lines();
-      check('5-1 E27b：櫃台（AA_272 8-2 52c73c73：進去幫她問、管理說沒有社會科分數不行、全年二十萬剩下十三萬；沒有免費標準、沒有十二萬八）→ 飲料店「你去上啊。你免費耶。」→ 三選一「那我也在家讀。」→「……好。在家讀。」→「所以說好了。同一張桌子。」「你不可以偷偷比我早起。」、CRAM_ASKED_TOGETHER',
-        Lb[0]==='（同一個櫃台。上次那個工作人員認得你。）'&&Lb.includes('工作人員：不好意思。管理那邊說，沒有社會科的分數，就沒辦法。')&&Lb.includes('工作人員：要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。')&&Lb.includes('杜可昕：十三萬。')&&!Lb.join('').includes('十二萬八')&&!Lb.join('').includes('差四分以內')&&Lb.includes('杜可昕：你去上啊。你免費耶。')&&Lb.includes('杜可昕：……好。在家讀。')&&Lb[Lb.length-1]==='杜可昕：還有，你不可以偷偷比我早起。'&&G.flags.CRAM_ASKED_TOGETHER===true&&opts[0].length===3,J(Lb));
+      check('5-1 E27b：櫃台（AA_272 8-2 52c73c73：進去幫她問、管理說沒有社會科分數不行、全年二十萬剩下十三萬；沒有免費標準、沒有十二萬八）→ 飲料店「你去上啊。你免費耶。」→ 三選一「那我也在家讀。」→「……好。在家讀。」→「所以說好了。每天早上，比誰先坐到桌子前面。」「輸的人請早餐。……我不會輸。」（AA_293 第 9 節）、CRAM_ASKED_TOGETHER',
+        Lb[0]==='（同一個櫃台。上次那個工作人員認得你。）'&&Lb.includes('工作人員：不好意思。管理那邊說，沒有社會科的分數，就沒辦法。')&&Lb.includes('工作人員：要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。')&&Lb.includes('杜可昕：十三萬。')&&!Lb.join('').includes('十二萬八')&&!Lb.join('').includes('差四分以內')&&Lb.includes('杜可昕：你去上啊。你免費耶。')&&Lb.includes('杜可昕：……好。在家讀。')&&Lb.includes('杜可昕：所以說好了。每天早上，比誰先坐到桌子前面。')&&Lb[Lb.length-1]==='杜可昕：輸的人請早餐。……我不會輸。'&&G.flags.CRAM_ASKED_TOGETHER===true&&opts[0].length===3,J(Lb));
       opts=s0; }
     check('5-1 E27 三個說法都是祐廷提的（選項三個）',opts[0].length===3&&opts[0].every(t=>t.startsWith('「')));
     econ(d13,19,'home',{CRAM_FREE_KNOWN:false}); picks=['一起考吧']; await EVENTS.run(ev('ev_y0_e27')); const L2=lines();

@@ -49,7 +49,7 @@ const keep=()=>JSON.stringify(G), back=s=>{ G=JSON.parse(s); SOCIAL.bind(G); EVE
   // 3. R1 沒演到：那句移到下一次；讀書日輪流句（平日 S1）
   study('2025-03-31',12.4); check('3. 3/31 週一 12:24：輪流句',EVENTS.check(ev('ev_y0_rs'))&&!EVENTS.check(ev('ev_y0_r1')));
   L=await runEv('ev_y0_rs');
-  check('3. 第一次＝S1「你又比我早起。……說好不可以的。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早起。……說好不可以的。')&&L.includes('我昨天想一題想到睡不著。等一下要跟你吵。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
+  check('3. 第一次＝S1「你又比我早起。……今天早餐我請。」；R1 沒演過＝接「我發現我喜歡吵贏……」（只一次）',L.includes('你又比我早起。……今天早餐我請。')&&L.includes('我昨天想一題想到睡不著。等一下要跟你吵。')&&G.flags.R1_LINE===true&&JSON.stringify(G.flags.RS_USED)==='[0]',JSON.stringify(L));
   const s3=keep(); G.day=K('2025-04-01'); G.weekday=wdOf(G.day); G.hour=12.4; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');
   check('3. 下一個讀書日：S2「（她放下包包）」「你讀到哪了？……三章？我才讀到第二章。」（不再限週四）；R1 那句不再說',L.includes('你讀到哪了？……三章？我才讀到第二章。')&&!L.some(t=>/喜歡吵贏/.test(t)),JSON.stringify(L));
   back(s3); G.day=K('2025-03-28')+7; G.weekday=wdOf(G.day); G.hour=10.2; G.flags.RT_DAY={day:G.day,type:'study'}; L=await runEv('ev_y0_rs');

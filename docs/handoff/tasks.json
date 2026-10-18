@@ -18249,7 +18249,7 @@
    "title": "經濟系跨年 E21a：放假中大家在總圖念書、選項「書會等我」（使用者 10-18：「跨年不是考完了嗎，為什麼品妤在總圖念書」「跨年說書會等我是什麼弱智對話」）",
    "area": "v0",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -18269,7 +18269,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話",
     "acceptance": "跨年不在總圖念書、沒有「書會等我」；events.js ev_y0_e21a 改好",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -18298,7 +18298,7 @@
    "title": "除夕電話選項「那妳呢？跟家裡說了嗎？」看不懂（使用者 10-18：「可昕還沒休學，說什麼啊？我問她講了嗎，她要講什麼？」）",
    "area": "v0",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -18318,7 +18318,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話",
     "acceptance": "選項和回覆看得出是在問她想休學的事有沒有跟家裡說",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -18544,6 +18544,27 @@
     "acceptance": "home_<房間>_<day|night>.webp 一套、風格一致",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-HOME-CAMPUS-BG-1018",
+   "title": "在家（重考期）的轉換場景、選單後面一直露出椰林大道（使用者 10-18：「為什麼重考的轉換場景會一直有椰林大道」；BB-C n123）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "退宿以後在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報",
+   "next": "home3d.js S.backdrop：在家的時候 3D 畫面藏起來、底下鋪家裡的背景（白天／晚上），每 0.25 秒照在不在家同步；兩段對話之間、黑幕、選單後面不再露出最後一個 3D 區域。待 BB-C 重拍 n123"
   }
  ]
 }

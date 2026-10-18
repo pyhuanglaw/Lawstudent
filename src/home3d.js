@@ -115,6 +115,12 @@ const HOME=(function(){
   function backQuiet(GM){ const G=GM.G, H=S.rec(G); H.at=true; H.day=G.day; if(S.baseMode(G)) H.base=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); if(GM.autosave) GM.autosave(); return true; }
   S.arriveQuiet=async function(GM){ if(S.at(GM.G)) return false; backQuiet(GM); await S.loop(GM); return true; };   /* 不在家的時候出發去宿營的（3D 裡的出發選單）：演完直接在家 */
   S.bgNow=()=>bg();
+  /* 在家的時候 3D 畫面藏起來、底下鋪家裡的背景（2026-10-18 使用者：「為什麼重考的轉換場景會一直有椰林大道」；BB-C n123 在家選單後面是校園）：
+     家是 2D（ADV），兩段對話之間、黑幕前後、選單後面原本露出最後一個 3D 區域（大多是校園）。每 0.25 秒照「在不在家」同步一次 */
+  let bdOn=null, bdImg=null;
+  S.backdrop=function(G){ if(typeof document==='undefined') return; const c=document.getElementById('c'); if(!c) return; const on=!!(G&&S.at(G)); const b=on?bg():null, img=b&&b.image?b.image:null;
+    if(on===bdOn&&img===bdImg) return; bdOn=on; bdImg=img; c.style.visibility=on?'hidden':''; document.body.style.background=on?('#14161a'+(img?' url('+img+') center/cover no-repeat':'')):''; };
+  { const iv=typeof setInterval!=='undefined'?setInterval(()=>{ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G) S.backdrop(G); }catch(e){} },250):null; if(iv&&iv.unref) iv.unref(); }
   /* 從家裡出發去一個出遊、演完回家（休學在家）：baseRound 的「出發」和事件接事件（econff3d.js S.homeStep）共用。回傳 true＝回到家、false＝人留在外面 */
   S.goOut=async function(GM,q){ const G=GM.G, H=S.rec(G); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const ok=await OUT.go(GM,q,{fromHome:true});
     if(ok&&q.camp) return backQuiet(GM);

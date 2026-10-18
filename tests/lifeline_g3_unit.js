@@ -1,6 +1,6 @@
 // LIFE-LINE 第 3 組（AA_224 3-1～3-10 @31708531；休學在家、交往中的經濟系那幾個月）——不需要瀏覽器。
 // E12「你經濟系的……喔，你休學了」、E14 品妤「交往中的人不能互換」、E18 唐睿「你上次那顆直球也是」、E18a 改成 12/3 21:30 私訊＋總圖門口 22:00（豆花）、
-// E20「家裡的鑰匙」＋E20b 改在公館（12/28 20:00 放家裡信箱）、E21a 總圖門口 23:00、E22b 12/20 公館的咖啡店、E24 2/8「法律。」、腳踏車「（查完再回）」、
+// E20「家裡的鑰匙」＋E20b 改在公館（12/28 20:00 放家裡信箱）、E21a 市府站 23:00（AA_293 第 7 節）、E22b 12/20 公館的咖啡店、E24 2/8「法律。」、腳踏車「（查完再回）」、
 // E21 除夕交往中的電話（第三個選項要 KX_THINK_LEAVE）、10 月下旬社科院門口阿勳「休學的來了」。改版前會失敗。用法：node tests/lifeline_g3_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -52,9 +52,9 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     G.day=w+4; G.hour=7; run(7,7.2); check('3-5 隔天早上拿到長頸鹿鑰匙圈',G.flags.GIRAFFE_KEYCHAIN===true); }
   /* E21a */
   { const d=DK('2024-12-31'); econ(d,18.9,'home',{}); run(18.9,19.2); const gid=PHONE.inGroup(G,'econ_friends')?'g:econ_friends':'g:econ_class', m=txt(gid), q=OUT.get(G,'y0_e21a');
-    check('3-6 12/31 19:00 群組四則（多一則韋綸「祐廷你在家讀你的。十一點來總圖門口接我們。」）＋出發選單「總圖門口 23:00：跨年」',m.length===4&&m[3].endsWith('祐廷你在家讀你的。十一點來總圖門口接我們。')&&q&&q.h===23&&q.title==='總圖門口 23:00：跨年',J([m,q]));
-    picks=['書會等我']; await EVENTS.run(ev('ev_y0_e21a')); const L=lines();
-    check('3-6 E21a：「（十一點，總圖門口。他們讀到一半跑出來。）」…可昕「……我怕走散。這是藉口。」…「書會等我。」→「（笑出聲）你學韋綸。」、E21A_WENT；沒有「今年最好的一件事」',L[0]==='（十一點，總圖門口。他們讀到一半跑出來。）'&&L.includes('杜可昕：……我怕走散。這是藉口。')&&L.includes('杜可昕：（笑出聲）你學韋綸。')&&G.flags.E21A_WENT===true&&!L.join('').includes('最好的一件事'),L.join('｜'));
+    check('3-6 12/31 19:00 群組三則（AA_293 第 7 節：放假一個多禮拜、市府站二號出口，不提總圖、不提念書）＋出發選單「市府站 23:00：跨年」',m.length===3&&m[2].endsWith('十一點，市府站二號出口。')&&!m.join('').includes('總圖')&&q&&q.h===23&&q.title==='市府站 23:00：跨年',J([m,q]));
+    picks=['把她的手握緊一點']; await EVENTS.run(ev('ev_y0_e21a')); const L=lines();
+    check('3-6 E21a（AA_293 第 7 節）：「（十一點，市府站。人已經多到要排隊出站。）」…可昕「……我怕走散。這是藉口。」…「（把她的手握緊一點）」→「……這次不是藉口了。」、E21A_WENT；沒有「書會等我」「今年最好的一件事」',L[0]==='（十一點，市府站。人已經多到要排隊出站。）'&&L.includes('杜可昕：……我怕走散。這是藉口。')&&L.includes('杜可昕：……這次不是藉口了。')&&!L.join('').includes('書會')&&G.flags.E21A_WENT===true&&!L.join('').includes('最好的一件事'),L.join('｜'));
     econ(d,18.9,'home',{}); run(18.9,19.2); G.day=d+1; G.hour=0.2; run(0.2,0.3); check('3-6 沒去：可昕「新年快樂。你錯過了一場人潮。……下次你要來。」',txt('p:kexin').includes('kexin:新年快樂。你錯過了一場人潮。……下次你要來。'),J(txt('p:kexin'))); }
   /* E22b */
   { const d=DK('2024-12-20'); econ(d,9,'home',{CRAM_FREE_KNOWN:true}); run(9,9.1); const q=OUT.get(G,'y0_e22b');
@@ -71,7 +71,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { const d=DK('2025-01-28'); econ(d,22,'home',{}); picks=['阿嬤說新年快樂']; await EVENTS.run(ev('ev_y0_e21')); const L=lines(), O=opts[0];
     check('3-10 除夕：她在外婆家「我阿嬤剛剛問我有沒有男朋友。」…兩個選項（沒有 KX_THINK_LEAVE）→「她說你明年要來吃飯。」→ 最後「新年快樂。……今年第一個打給你的。」；沒有「不是假設」、沒有「不然要在一起嗎」',L.includes('杜可昕：好了。……我阿嬤剛剛問我有沒有男朋友。')&&O.length===2&&L[L.length-1]==='杜可昕：新年快樂。……今年第一個打給你的。'&&!L.join('').includes('不是假設')&&!L.join('').includes('不然要在一起'),J([O,L]));
     econ(d,22,'home',{KX_THINK_LEAVE:'wait'}); picks=['跟家裡說了嗎']; await EVENTS.run(ev('ev_y0_e21')); const L2=lines();
-    check('3-10 她說過在想休學（KX_THINK_LEAVE）：第三個選項「那妳呢？跟家裡說了嗎？」→「還沒。」「……今天先不說。過年。」',opts[0].length===3&&L2.includes('杜可昕：還沒。')&&L2.includes('杜可昕：……今天先不說。過年。')); }
+    check('3-10 她說過在想休學（KX_THINK_LEAVE）：第三個選項「妳想休學的事，跟家裡說了嗎？」→「還沒。」「……今天過年。休學的事，過完年再說。」（AA_293 第 8 節）',opts[0].length===3&&opts[0][2]==='「妳想休學的事，跟家裡說了嗎？」'&&L2.includes('杜可昕：還沒。')&&L2.includes('杜可昕：……今天過年。休學的事，過完年再說。')); }
   /* 社科院門口 */
   { const e=ev('ev_y0_soc_door'); econ(DK('2024-10-24'),12,'campus',{}); const a=e.prereq.custom(G); G.day=DK('2024-11-02'); const b=e.prereq.custom(G); G.day=DK('2024-10-24'); delete G.flags.LEAVE_WEEK; const c=e.prereq.custom(G);
     check('共同前提 A2-1b：10 月下旬（10/20～10/31）休學以後在社科院門口＝阿勳「休學的來了。」「……然後還交了女朋友。你休學是去修這個學分喔。」；11 月不再演',a&&!b&&!c&&dl('ev_y0_soc_door').includes('休學的來了。')&&dl('ev_y0_soc_door').includes('你休學是去修這個學分喔。'),J([a,b,c])); }

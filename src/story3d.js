@@ -1469,8 +1469,8 @@ const STORY = (function(){
        E21a 跨年（A36、A38；AA_224 3-6）：12/31（二）19:00 群組四則＋出發選單「總圖門口 23:00：跨年」；沒去＝00:05 群組人潮照片＋可昕私訊 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const tue31=S.dayOfKey('2024-12-31'), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class', T='g:'+gid, D=id=>!!(G.events&&G.events.done&&G.events.done[id]);
       if(tue31!=null&&G.day===tue31&&G.hour>=19&&!PHONE.sent(G,'y0_e21a_ask')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'放假才一個禮拜就跨年了！今晚走啦！'},{th:T,from:'econ_pinyu',text:'讀到幾點？'},{th:T,from:'econ_weilun',name:'韋綸',text:'我們先去總圖讀一下，讀到……我說停為止。'},{th:T,from:'econ_weilun',name:'韋綸',text:'祐廷你在家讀你的。十一點來總圖門口接我們。'}],'y0_e21a_ask');   /* AA_224 3-6：他不能進總圖；16 週制已經放假，不講期末（AA-C 2026-10-17 定稿，AA_269 第 9 節）*/
-        if(!OUT.get(G,'y0_e21a')&&G.hour<23.25) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:23,late:0.25,place:'總圖門口',title:'總圖門口 23:00：跨年',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); }
+        PHONE.at(G,tue31,19,[{th:T,from:'econ_weilun',name:'韋綸',text:'放假一個多禮拜了！今晚跨年，走啦！'},{th:T,from:'econ_pinyu',text:'幾點、哪裡？'},{th:T,from:'econ_weilun',name:'韋綸',text:'十一點，市府站二號出口。'}],'y0_e21a_ask');   /* AA_224 3-6：他不能進總圖；16 週制已經放假，不講期末（AA-C 2026-10-17 定稿，AA_269 第 9 節）*/
+        if(!OUT.get(G,'y0_e21a')&&G.hour<23.25) OUT.plan(G,{id:'y0_e21a',ev:'ev_y0_e21a',day:tue31,h:23,late:0.25,place:'市府站',title:'市府站 23:00：跨年',travel:'捷運 約 30 分鐘',travelH:0.5}); }
       if(tue31!=null&&!D('ev_y0_e21a')&&!F.E21A_WENT&&(G.day>tue31||G.hour>=24+5/60)&&G.day<=tue31+2&&!PHONE.sent(G,'y0_e21a_missed')) PHONE.at(G,tue31,24+5/60,[{th:T,from:'econ_weilun',name:'韋綸',text:'📷（信義區的人潮）'},{th:'p:kexin',from:'kexin',text:'新年快樂。你錯過了一場人潮。……下次你要來。'}],'y0_e21a_missed'); }
     /* E19 誤會（期末考完的公館聚餐、19:15 韋綸的電話、1/4「你最近很有禮貌」）拿掉：併進 10/17 車上（AA_224 1-3；AA_219 A-21）*/
     /* L5a 長頸鹿拉花（BB_110 L5a；AA_154 A42）：10/11（五）21:00 經濟系群組可昕＋出發選單 10/12「兩點半 Café 14:00」（只帶到 Café，走進去就演 ev_y0_l5a；14:15 還沒到＝沒去）；
@@ -2612,7 +2612,7 @@ const STORY = (function(){
   const DD=k=>S.dayOfKey(k), inR=(G,a,b)=>{ const x=DD(a), y=DD(b); return x!=null&&y!=null&&G.day>=x&&G.day<=y; }, rdone=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
   S.rStudyKind=function(G){ if(G.day===DD('2025-02-15')) return 'r1'; if(G.day===DD('2025-04-02')) return 'r5'; if(inR(G,'2025-04-07','2025-04-13')&&!rdone(G,'ev_y0_r2')) return 'r2'; return 's'; };
   S.rArrived=G=>S.retakeOn(G)&&S.retakeType(G)==='study'&&typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G)&&G.hour>=S.KX_ARRIVE&&!(G.flags.RT_KX===G.day);   /* 讀書日：她到他家的餐桌（在家的選單那一輪演）*/
-  S.RS=[{t:['「你又比我早起。……說好不可以的。」']},{t:['（她放下包包）','「你讀到哪了？……三章？我才讀到第二章。」']},   /* AA_224 6-2：S1、S2 改（她不去上課了）*/
+  S.RS=[{t:['「你又比我早起。……今天早餐我請。」']},{t:['（她放下包包）','「你讀到哪了？……三章？我才讀到第二章。」']},   /* AA_224 6-2：S1、S2 改（她不去上課了）*/
         {t:['「你的螢光筆快沒水了。你今天到底畫了多少？」']},{t:['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」']},{t:['「你一直坐在這裡，會不會忘記外面有太陽？……好啦，我坐下了。」']}];
   S.RP=[['2025-02-15','2025-07-10','（你們在公館的二輪戲院看了一部老電影。片尾字幕跑完以前，她不准你站起來。）'],['2025-03-28','2025-05-15','（你們在溫州街的巷子裡亂走。她每經過一隻貓，就停下來打一次招呼。）'],
         ['2025-04-01','2025-05-31','（你們坐在醉月湖邊吃雞蛋糕。她說湖裡的魚看起來也在準備考試。）'],['2025-04-01','2025-06-30','（你們搭捷運到淡水看海。回程的車上她睡著了，頭一直往你這邊倒。）'],

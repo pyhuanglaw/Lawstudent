@@ -8002,7 +8002,7 @@
    "what": "AA_293 第 9 節：E27／E27b 結尾改「比誰先坐到桌子前面」「輸的人請早餐」、S1 改",
    "task": "AA293-KX-BRIDGE-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "和 AA_293／295 一起改，lifeline_g5、v0_retake_r、lifeline_g6 要換"
   },
   {
@@ -8017,6 +8017,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "AA-C 直接推開發分支"
+  },
+  {
+   "id": "DL-AA-15dde514",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "15dde514",
+   "what": "AA_293 第 7 節：跨年改市府站、選項換「把她的手握緊一點」",
+   "task": "Q-NYE-E21A-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "群組第四則（在家讀、總圖門口接我們）照「總圖的一起換」拿掉"
+  },
+  {
+   "id": "DL-AA-ae68d325",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ae68d325",
+   "what": "AA_293 第 8 節：除夕第三選項改「妳想休學的事，跟家裡說了嗎？」",
+   "task": "Q-E21-TOLD-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "v0_winter、lifeline_g3 已換"
   }
  ],
  "ignored": [

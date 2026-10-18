@@ -54,7 +54,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const L2=said.map(x=>x.t);
   /* 第 5 項（2/16 E23 → 回宿舍）拿掉：AA_224 5-1 E23 改到 2/12、不回宿舍；新流程 10/19 就退宿，寒假模式不會再進（tests/lifeline_g5_unit.js）*/
   // E21 三個回答
-  for(const [pk,fl,line] of [['「『休學中』聽起來好糟。」',{},'阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'],['「那妳呢？跟家裡說了嗎？」',{KX_THINK_LEAVE:'wait'},'……今天先不說。過年。']]){ fresh(J28,22,'home',fl); G.stage='econ'; said=[]; GM.choose=async o=>{ const k=o.findIndex(q=>(q.t||q.text)===pk); return k<0?0:k; }; await EVENTS.run(ev('ev_y0_e21'));
+  for(const [pk,fl,line] of [['「『休學中』聽起來好糟。」',{},'阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'],['「妳想休學的事，跟家裡說了嗎？」',{KX_THINK_LEAVE:'wait'},'……今天過年。休學的事，過完年再說。']]){ fresh(J28,22,'home',fl); G.stage='econ'; said=[]; GM.choose=async o=>{ const k=o.findIndex(q=>(q.t||q.text)===pk); return k<0?0:k; }; await EVENTS.run(ev('ev_y0_e21'));
     check('6. E21 '+pk+'→「'+line+'」、最後「新年快樂。……今年第一個打給你的。」',said.some(x=>x.t===line)&&said[said.length-1].t==='新年快樂。……今年第一個打給你的。'); }
   fresh(J28,21.9,'home'); G.stage='econ'; check('6. E21：22:00 以前不演',!EVENTS.check(ev('ev_y0_e21'))); G.hour=22; check('6. E21：22:00 演',EVENTS.check(ev('ev_y0_e21')));
   // 睡覺會經過 E21 的 22:00：停在 22:00 演 E21
