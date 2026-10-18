@@ -360,6 +360,15 @@
    "status": "已完成",
    "task": "REL-9101-POSTCHECK-1018",
    "note": "交班：docs/handoff/TEST_RESULTS_1018.md、tests/repro_1018/、HANDOFF_GAP_MATRIX 第 1 節"
+  },
+  {
+   "id": "UA-LAWWW-1018-41",
+   "at": "2026-10-18T21:4x",
+   "quote": "其他帳號先不用回來，你先自己修",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "REL-9101-POSTCHECK-1018",
+   "note": "AA-C、BB-C、LAWWW2-C 維持交班（duty verify 異常 2 那三項是這個原因）；LAWWW-C 自己修 REL-9101-POSTCHECK-1018、BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018、BUG-KH-HOMEFLASH-1018。BB 不在，修好的由 LAWWW-C 自己做瀏覽器驗證（回覆時已告訴使用者）；台詞照舊不自己寫（D79／D100），要改台詞的記給 AA"
   }
  ]
 }
