@@ -16826,7 +16826,7 @@
    "title": "男一舍外觀（玩家自己的宿舍；校園上目前是 CK 套件方盒）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16840,7 +16840,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "【03:1x 暫停；LAWWW2 已通知停手、WIP 存檔、先做 ART-US-SEASON】查證：所有分支 134 個 GLB 裡沒有這四處的 Blender 外觀；普通／博雅有室內區域（程序化模板＋LAWWW2 家具、聽眾模型）與二樓空橋 skybridge.glb；男一舍有走廊 dorm_hall.glb、四人房 dorm_room4.glb；校門 CK.gate、捷運出口 TK.mrtExit 是 v9.3 用程式重做的（ASSET_INVENTORY 標 BLOCKOUT）。｜照玩家看到的頻率排第 1（男一舍 → 校門 → 普通、博雅 → 捷運出口）；ART-L118-GROUND 做完接。Blender → GLB（D38），位置照 zones3d.js 現在套件的座標與導航阻擋；交件後 LAWWW 接、場景美術 READY_FOR_ART_REVIEW 等使用者",
+   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16848,17 +16848,16 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    },
-   "pausedReason": "使用者 10-18 03:1x 直接問「普通跟博雅館不是早就做好了嗎、公館捷運、男一舍、校門不是都早就做好了嗎，為什麼又交辦 LAWWW2」：LAWWW-C 在確認要不要重做",
-   "resumeWhen": "使用者確認要不要做 Blender 外觀",
-   "pausedBy": "LAWWW-C（使用者 03:1x 提問）",
-   "recheckOn": "使用者回覆當天（最晚 2026-10-19）"
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
+   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
   },
   {
    "id": "ART-EXT-GATE",
    "title": "臺大校門外觀（校園與公館共用，CK.gate 套件）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16872,7 +16871,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "【03:1x 暫停；LAWWW2 已通知停手、WIP 存檔、先做 ART-US-SEASON】查證：所有分支 134 個 GLB 裡沒有這四處的 Blender 外觀；普通／博雅有室內區域（程序化模板＋LAWWW2 家具、聽眾模型）與二樓空橋 skybridge.glb；男一舍有走廊 dorm_hall.glb、四人房 dorm_room4.glb；校門 CK.gate、捷運出口 TK.mrtExit 是 v9.3 用程式重做的（ASSET_INVENTORY 標 BLOCKOUT）。｜照玩家看到的頻率排第 2（男一舍 → 校門 → 普通、博雅 → 捷運出口）；ART-L118-GROUND 做完接。Blender → GLB（D38），位置照 zones3d.js 現在套件的座標與導航阻擋；交件後 LAWWW 接、場景美術 READY_FOR_ART_REVIEW 等使用者",
+   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16880,17 +16879,16 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    },
-   "pausedReason": "使用者 10-18 03:1x 直接問「普通跟博雅館不是早就做好了嗎、公館捷運、男一舍、校門不是都早就做好了嗎，為什麼又交辦 LAWWW2」：LAWWW-C 在確認要不要重做",
-   "resumeWhen": "使用者確認要不要做 Blender 外觀",
-   "pausedBy": "LAWWW-C（使用者 03:1x 提問）",
-   "recheckOn": "使用者回覆當天（最晚 2026-10-19）"
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
+   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
   },
   {
    "id": "ART-EXT-TEACH",
    "title": "普通教學館、博雅教學館外觀（teach3d.js 的方案 A／B 門）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16904,7 +16902,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "【03:1x 暫停；LAWWW2 已通知停手、WIP 存檔、先做 ART-US-SEASON】查證：所有分支 134 個 GLB 裡沒有這四處的 Blender 外觀；普通／博雅有室內區域（程序化模板＋LAWWW2 家具、聽眾模型）與二樓空橋 skybridge.glb；男一舍有走廊 dorm_hall.glb、四人房 dorm_room4.glb；校門 CK.gate、捷運出口 TK.mrtExit 是 v9.3 用程式重做的（ASSET_INVENTORY 標 BLOCKOUT）。｜照玩家看到的頻率排第 3（男一舍 → 校門 → 普通、博雅 → 捷運出口）；ART-L118-GROUND 做完接。Blender → GLB（D38），位置照 zones3d.js 現在套件的座標與導航阻擋；交件後 LAWWW 接、場景美術 READY_FOR_ART_REVIEW 等使用者",
+   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16912,17 +16910,16 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    },
-   "pausedReason": "使用者 10-18 03:1x 直接問「普通跟博雅館不是早就做好了嗎、公館捷運、男一舍、校門不是都早就做好了嗎，為什麼又交辦 LAWWW2」：LAWWW-C 在確認要不要重做",
-   "resumeWhen": "使用者確認要不要做 Blender 外觀",
-   "pausedBy": "LAWWW-C（使用者 03:1x 提問）",
-   "recheckOn": "使用者回覆當天（最晚 2026-10-19）"
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
+   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
   },
   {
    "id": "ART-EXT-MRT",
    "title": "捷運公館站出口外觀（TK.mrtExit）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16936,7 +16933,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "【03:1x 暫停；LAWWW2 已通知停手、WIP 存檔、先做 ART-US-SEASON】查證：所有分支 134 個 GLB 裡沒有這四處的 Blender 外觀；普通／博雅有室內區域（程序化模板＋LAWWW2 家具、聽眾模型）與二樓空橋 skybridge.glb；男一舍有走廊 dorm_hall.glb、四人房 dorm_room4.glb；校門 CK.gate、捷運出口 TK.mrtExit 是 v9.3 用程式重做的（ASSET_INVENTORY 標 BLOCKOUT）。｜照玩家看到的頻率排第 4（男一舍 → 校門 → 普通、博雅 → 捷運出口）；ART-L118-GROUND 做完接。Blender → GLB（D38），位置照 zones3d.js 現在套件的座標與導航阻擋；交件後 LAWWW 接、場景美術 READY_FOR_ART_REVIEW 等使用者",
+   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16944,10 +16941,9 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    },
-   "pausedReason": "使用者 10-18 03:1x 直接問「普通跟博雅館不是早就做好了嗎、公館捷運、男一舍、校門不是都早就做好了嗎，為什麼又交辦 LAWWW2」：LAWWW-C 在確認要不要重做",
-   "resumeWhen": "使用者確認要不要做 Blender 外觀",
-   "pausedBy": "LAWWW-C（使用者 03:1x 提問）",
-   "recheckOn": "使用者回覆當天（最晚 2026-10-19）"
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
+   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
   },
   {
    "id": "ART-GYM2-INT",
