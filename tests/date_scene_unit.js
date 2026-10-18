@@ -31,7 +31,7 @@ const ADV2=global.ADV; ADV2.active=false;
   const day=termDay('Y1S2',5,6);
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const go=async(who,picks0,o)=>{ o=o||{}; const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),L:lines()}; };
-  check('0. date_lines.js 有 D04、D06、D12、D13 的地點台詞（白名單＠abad2fa0）',['D04','D06','D12','D13'].every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@abad2fa0/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
+  check('0. date_lines.js 有 D04、D06、D12、D13 的地點台詞（白名單＠8cac8eaa）',['D04','D06','D12','D13'].every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@8cac8eaa/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
   check('0. 她喜不喜歡讀地點檔（子晴：飲料攤喜歡、長椅不太喜歡）',DATE.likeOf('heroine_04','D13.drink')==='like'&&DATE.likeOf('heroine_04','D13.bench')==='dislike');
   // 芷若第一次去淡水
   fresh(day,9,'dorm',{}); G.money=5000;
