@@ -504,7 +504,7 @@ const GAME = (function(){
     let h='<div class="item phrow thHead"><button class="btn" data-thback="1">‹ 訊息</button><b>'+escH(PHONE.title(G,th))+'</b>'+msgBtn+(canInv?'<button class="btn pri" data-inv="'+escH(pid)+'">約</button>':'')+'</div>';
     if(mo&&mo.ok&&phoneMsgPick===pid&&!MSG.sentToday(G,pid)){ const tp=MSG.topics(G,pid); h+='<div class="item"><div class="muted">傳什麼？</div><div class="row2" style="gap:6px;flex-wrap:wrap;margin-top:6px">'+(phoneMsgShare?MSG.PHOTOS.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|share|'+q.k)+'">'+escH(q.t)+'</button>').join(''):tp.map(q=>'<button class="btn" data-msgt="'+escH(pid+'|'+q.k)+'">'+escH(q.t)+'</button>').join(''))+'<button class="btn" data-msgt="'+escH(pid+'|cancel')+'">取消</button></div></div>'; }
     for(const m of L.filter(q=>q.pin)) h+='<div class="item pin"><div class="muted">（置頂）'+msgWhen(m)+'</div>'+(PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+escH(m.text)+'</div>';
-    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?(needHint(m)+askBtns(m)):'')+(m.iv?ivBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）；ivBtns：別人約你、改約的按鈕（LINE 式列表以後也在這裡回）*/
+    for(const m of L.filter(q=>!q.pin)) h+='<div class="item'+(m.from==='player'?' me':' them')+'"><div class="muted">'+msgWhen(m)+'</div>'+(g&&m.from!=='player'&&PHONE.who(m)?'<b>'+escH(PHONE.who(m))+'</b>：':'')+(m.fold&&m.fold.length?'<details class="fold"><summary>'+escH(m.text)+'……（點開看全文）</summary>'+m.fold.map(escH).join('<br>')+'</details>':escH(m.text))+((PHONE.askOpen?PHONE.askOpen(G,m):(m.ask&&m.ans==null))?(needHint(m)+askBtns(m)):'')+(m.iv?ivBtns(m):'')+'</div>';   /* fold：長的訊息折起來（W3b 學姊的長回覆）；ivBtns：別人約你、改約的按鈕（LINE 式列表以後也在這裡回）*/
     return h; }
   /* 別人約你、改約的回覆按鈕（D54 ⑥，src/invites3d.js）：只放在那一個邀約最新的那一則 */
   const ivLatest=m=>{ if(!m.iv) return false; for(let i=G.msgs.length-1;i>=0;i--) if(G.msgs[i].iv===m.iv) return G.msgs[i]===m; return false; };
@@ -513,6 +513,8 @@ const GAME = (function(){
      一個人／一個群組／通知一列（頭像字、名字、那個人最新的一句、時間、未讀、待回覆），最新的對話在最上面；點進去從最新的一句開始（捲到最下面），往上拉才看到之前的；回覆、約你、改約都在那個人的對話裡回。
      使用者 22:4x 選 B：自動跳出來先停在這個列表。原本列表上面的「待回覆」區塊、下面混在一起的「最近的訊息」都拿掉 */
   const needHint=m=>{ const g=m.ask&&m.ask.grp; if(!g||!/^need_/.test(g)||typeof PHONE==='undefined') return ''; const left=2-PHONE.grpUsed(G,g); return '<div class="muted" style="margin-top:4px">這週的訊息。這週你回得了兩個人。'+(left<2?'（還可以回 '+left+' 個）':'')+'</div>'; };   /* 主線 4「這週的訊息」：四則裡回得了兩則（AA_179 第 1 節）*/
+  /* 列表的頭像：一對一的對話用那個人的立繪（ADV.resolve 的第一張，裁上面的臉放進圓形）；沒有立繪的人、群組、通知照舊用字 */
+  const chatPic=th=>{ if(!th||!th.startsWith('p:')||typeof ADV==='undefined'||!ADV.resolve) return null; try{ const r=ADV.resolve(th.slice(2),undefined,'neutral'); return r&&r.chain&&r.chain[0]||null; }catch(e){ return null; } };
   const chatHue=s=>{ let x=0; for(const c of s) x=(x*31+c.charCodeAt(0))>>>0; return x%360; };
   const chatWhen=m=>m.day===G.day?INV.hhmm(m.h):(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d));
   const chatLast=t=>{ const m=t.last, w=m.from==='player'?'你':((t.th.startsWith('g:')||t.th==='sys')?PHONE.who(m):''); return (w?w+'：':'')+String(m.text||''); };
@@ -520,8 +522,8 @@ const GAME = (function(){
     let h='';
     if(typeof PHONE!=='undefined'){ const ivTh=new Set(G.msgs.filter(m=>m.iv&&ivBtns(m)).map(m=>PHONE.th(m)));   /* 別人約你、改約還沒回：那一列也標「待回覆」*/
       const ths=PHONE.threads(G,{sys:true}); if(!ths.length) return h+'<div class="item muted">還沒有訊息。</div>';
-      h+='<div class="chatList">'+ths.map(t=>{ const a=t.th==='sys'?'通':(t.th.startsWith('g:')?'群':String(t.title||'？').slice(0,1)), ask=t.pending||ivTh.has(t.th);
-        return '<button class="chatRow" data-th="'+escH(t.th)+'"><span class="chatAv" style="background:hsl('+chatHue(t.th)+',36%,40%)">'+escH(a)+'</span><span class="chatMid"><b>'+escH(t.title)+'</b><span class="chatLast">'+escH(chatLast(t))+'</span></span><span class="chatRt"><span class="muted">'+chatWhen(t.last)+'</span>'+(t.unread?'<span class="chatBadge">'+t.unread+'</span>':'')+(ask?'<span class="chatAsk">待回覆</span>':'')+'</span></button>'; }).join('')+'</div>'; }
+      h+='<div class="chatList">'+ths.map(t=>{ const a=t.th==='sys'?'通':(t.th.startsWith('g:')?'群':String(t.title||'？').slice(0,1)), ask=t.pending||ivTh.has(t.th), pf=chatPic(t.th);
+        return '<button class="chatRow" data-th="'+escH(t.th)+'">'+(pf?'<span class="chatAv pic" style="background-color:hsl('+chatHue(t.th)+',30%,34%);background-image:url(\''+escH(pf)+'\')"></span>':'<span class="chatAv" style="background:hsl('+chatHue(t.th)+',36%,40%)">'+escH(a)+'</span>')+'<span class="chatMid"><b>'+escH(t.title)+'</b><span class="chatLast">'+escH(chatLast(t))+'</span></span><span class="chatRt"><span class="muted">'+chatWhen(t.last)+'</span>'+(t.unread?'<span class="chatBadge">'+t.unread+'</span>':'')+(ask?'<span class="chatAsk">待回覆</span>':'')+'</span></button>'; }).join('')+'</div>'; }
     h+='<div class="item muted" style="margin-top:8px">有聯絡方式的朋友，在「朋友」按「約」就可以約；當面遇到也可以約。</div>';
     return h; }
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
