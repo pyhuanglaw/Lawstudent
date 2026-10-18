@@ -113,7 +113,7 @@ const HOME=(function(){
     if(GM.enter) await GM.enter('campus',{x:-117,z:0.5,yaw:Math.PI/2}); await GM.fade(false); };
   S.moveOut=async function(GM){ const G=GM.G, H=S.rec(G); G.flags.Y0_MOVED_OUT=true; G.flags.Y0_STICKY_HOME=!!G.flags.Y0_STICKY; GM.sceneBegin();
     try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回臺北的家','捷運＋公車 約 30 分鐘',2400); GM.advance(Math.max(0.5,18-G.hour)); H.at=true; H.base=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false);
-      if(G.flags.Y0_STICKY) await GM.say(null,'回到臺北的家拆箱時，檯燈上那張便利貼還在：「保齡球欠我一場。」'); if(GM.autosave) GM.autosave(); }
+      if(G.flags.Y0_STICKY){ await GM.say(null,'（傍晚，回到臺北的家。拆箱的時候，最後一箱上面貼著一張便利貼。阿勳的字。）'); await GM.say({name:'便利貼'},'保齡球欠我一場。'); await GM.say(null,'（下面還有一行小字：「下次有事，先跟室友說。」）'); }   /* AA_305 第 7 節 */ if(GM.autosave) GM.autosave(); }
     finally{ GM.sceneEnd(); }
     await S.loop(GM); };
   /* 回到家、不再轉場（法律系迎新宿營演完，S.campY1 已經有「（回到家……）」那一句；AA_205 2-3）*/
@@ -372,8 +372,8 @@ const HOME=(function(){
       if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,10+5/60,Z.map(t=>({th:'g:noodle_team',from:'zhe',text:t})).concat([{th:'g:noodle_team',from:'classmate_bohan',text:B}]),tag);
       else if(famZhe) PHONE.at(G,d,10+5/60,Z.map(t=>({th:'p:zhe',from:'zhe',text:t})),tag); } };
   /* A3 搬家不能錯過（AA_154 A46 ①）：3/29 以後、還沒搬、人在家（週末回家那一套）＝下一輪選單（含起床選單）之前先回宿舍演 A3，演完搬回家（HOME.moveOut）。旁白 AA 寫 */
-  S.a3Due=G=>{ const F=G.flags||{}; if((G.stage||'law')!=='econ'||F.LEAVE_WEEK!==6||F.Y0_MOVED_OUT||(G.events&&G.events.done&&G.events.done.ev_y0_a3)) return false; const d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-19'); return d!=null&&G.day>=d; };   /* 退宿 10/19（AA_218 第 11 節）*/
-  S.a3FromHome=async function(GM){ const G=GM.G, H=S.rec(G), d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-19'), ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_a3'):null; if(!ev) return false; GM.sceneBegin();
+  S.a3Due=G=>{ const F=G.flags||{}; if((G.stage||'law')!=='econ'||F.LEAVE_WEEK!==6||F.Y0_MOVED_OUT||(G.events&&G.events.done&&G.events.done.ev_y0_a3)) return false; const d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-31'); return d!=null&&G.day>=d; };   /* 退宿 10/19（AA_218 第 11 節）*/
+  S.a3FromHome=async function(GM){ const G=GM.G, H=S.rec(G), d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-31'), ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_a3'):null; if(!ev) return false; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,G.day===d?'今天要搬出宿舍。阿勳說他十點會在房間。':'宿舍還沒退完。阿勳說，箱子還在房間等你。');
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('回宿舍','捷運＋公車 約 40 分鐘',2400); GM.advance(G.day===d?Math.max(0.7,10-G.hour):0.7); H.at=false; H.wakeAsk=null;   /* 退宿那天（10/19）：阿勳十點才在房間（AA-B 抽查）*/ if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }

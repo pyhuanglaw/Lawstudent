@@ -36,7 +36,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const econ=(day,hour,zone,flags)=>{ fresh(day,hour,zone,flags); G.stage='econ'; G.flags.LIFELINE_V=1; };
   /* ---------- E30 ---------- */
   { econ(d30,14.7,'campus',{}); picks=['等他們下課']; await EVENTS.run(ev('ev_y0_e30')); const L=lines();
-    check('1-1 E30：「阿勳…舉了一下筆」之後「（可昕坐在前排，背對窗戶。她沒有看到你。）」；等下課＝鐘響後「（可昕抱著書從前門出去…）」',L.indexOf('（可昕坐在前排，背對窗戶。她沒有看到你。）')===L.indexOf('阿勳在裡面，對你舉了一下筆。')+1&&L.indexOf('（可昕抱著書從前門出去，往下一間教室跑。）')===L.indexOf('你在走廊的長椅上坐到三點十分。下課鐘響了。')+1,L.slice(4,10).join('｜')); }
+    check('1-1 E30（AA_305 第 5 節：休學只告訴可昕）：「手續比你想的快。十五分鐘。」之後「（你沒有跟任何人說。）」接電話；窗外、可昕背對窗戶、等下課那段拿掉',L.indexOf('（你沒有跟任何人說。）')===L.indexOf('手續比你想的快。十五分鐘。')+1&&L.indexOf('（捷運上。你撥給她。響了兩聲。）')===L.indexOf('（你沒有跟任何人說。）')+1&&!L.some(t=>/窗外|背對窗戶|舉了一下筆|下課鐘/.test(t)),L.slice(3,7).join('｜')); }
   /* ---------- 15:30 電話（AA_296：原本的十則私訊改成演出來的電話，接在 E30 最後）＋固定出遊 ---------- */
   { econ(d30,14.7,'campus',{}); picks=['先走']; await EVENTS.run(ev('ev_y0_e30')); const LC=lines().map(t=>t.replace(/^[^（：]{1,6}：/,'')), i0=LC.indexOf('（捷運上。你撥給她。響了兩聲。）');
     check('1-2 15:30 電話：E30 演完直接接；「我今天去辦休學了。」→「……蛤？」→…→「休學又不是不能進校門。」→「（她掛掉了。）」；沒有「我在窗外」；時間到 15:30',i0>0&&LC[i0+1]==='我今天去辦休學了。'&&LC[i0+2]==='……蛤？'&&LC[i0+10]==='休學又不是不能進校門。'&&LC[i0+11]==='（她掛掉了。）'&&!LC.some(t=>/窗外/.test(t)&&/我在/.test(t))&&G.hour>=15.5-1e-6,JSON.stringify(LC.slice(i0)));
@@ -54,7 +54,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* ---------- 車上＋摩天輪 ---------- */
   const car=ev('ev_y0_e26');
   for(const [pick,val] of [['宿營','camp'],['只有我','only_me'],['是現在','take_back']]){ econ(d30,17+40/60,'campus',{}); picks=[pick]; await EVENTS.run(car); const L=lines();
-    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪最高點祐廷「……在一起吧。」→ 可昕「好。」（AA_303 第 2 節 9，取代 AA_295 的不說話）、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&(()=>{ const i=L.indexOf('（摩天輪。到最高的時候，台北看起來好小。）'); return i>0&&L[i+1]==='祐廷：……在一起吧。'&&L[i+2]==='杜可昕：好。'; })()&&!L.some(t=>/誰都沒有說話/.test(t))&&!L.some(t=>/假設|從這裡開始/.test(t))&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-1]==='（你送她回去。回到宿舍，已經快十一點了。）',L.slice(-8).join('｜')); }
+    check('1-3／1-4 車上選「'+pick+'」＝KX_CAR '+val+'、摩天輪最高點祐廷「……在一起吧。」→ 可昕「好。」（AA_303 第 2 節 9，取代 AA_295 的不說話）、交往（dating_kexin、Y0_DATING、KX_DATING_SINCE 2024-10-17、E26_DAY）、送她回去',G.flags.KX_CAR===val&&L.includes('祐廷：我喜歡過妳。')&&(()=>{ const i=L.indexOf('（摩天輪。到最高的時候，台北看起來好小。）'); return i>0&&L[i+1]==='祐廷：……在一起吧。'&&L[i+2]==='杜可昕：好。'; })()&&!L.some(t=>/誰都沒有說話/.test(t))&&!L.some(t=>/假設|從這裡開始/.test(t))&&G.flags.dating_kexin===true&&G.flags.Y0_DATING===true&&G.flags.KX_DATING_SINCE==='2024-10-17'&&G.flags.E26_DAY!=null&&L[L.length-2]==='（你送她回女舍。回到 412，已經快十一點了。）'&&L[L.length-1]==='（阿勳已經睡了。韋綸在上舖滑手機，唐睿還沒回來。沒有人問你去了哪裡。）',L.slice(-8).join('｜')); }
   { econ(d30,17+40/60,'campus',{}); G.events.done.ev_y0_e14=1; picks=['是現在']; await EVENTS.run(car); const L=lines(), i=L.indexOf('杜可昕：我喜歡的是你。');
     econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L0=lines();
     check('1-3（AA_303 第 2 節 9）：保齡球演過＝「我喜歡的是你。」後面接「保齡球那天，我挑你的制服。……你都沒發現。」再接「你今天說你休學……」；保齡球沒演過（舊存檔）不說',i>0&&L[i+1]==='杜可昕：保齡球那天，我挑你的制服。……你都沒發現。'&&L[i+2]==='杜可昕：你今天說你休學，我第一個想到的是：完了，他要跑了。'&&!L0.some(t=>t.includes('保齡球那天')),JSON.stringify(L.slice(i,i+3))); }

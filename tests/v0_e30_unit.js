@@ -29,19 +29,14 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   { fresh(D-1,8,'dorm'); run(); const before=CLS.dayItems(G,D-1).map(i=>i.c.id); fresh(D+5,8,'dorm'); run(); let later=0; for(let d=D;d<D+120;d++) later+=CLS.dayItems(G,d).length;
     check('1. 休學前一天（10/16 週三）還有經濟系的課；10/17 以後四個月（含期中、期末考週）一堂都不排',before.includes('calc_y0s1')&&later===0,JSON.stringify(before)+' / '+later); }
   const ck=h=>{ fresh(D,h,'campus'); return EVENTS.check(ev); }; check('2. 14:40 起自動；14:30 不演',ck(14.7)&&!ck(14.5));
-  fresh(D,14.7,'campus'); SOCIAL.meet('econ_zhengxun','x'); SOCIAL.meet('econ_pinyu','x'); const f0=SOCIAL.rel('econ_pinyu').fam; picks=['等他們下課']; await EVENTS.run(ev); let L=said.map(x=>x.t);
-  check('3. 行政大樓「星期四下午，行政大樓。你把申請書交出去。」→ 承辦人 →…「阿勳在裡面，對你舉了一下筆。」→「等他們下課。」→ 阿勳「你在窗外站很久。我以為你要來上課。」… 唐睿「那就不算走。」',L[0]==='星期四下午，行政大樓。你把申請書交出去。'&&L.includes('阿勳在裡面，對你舉了一下筆。')&&L.includes('你在窗外站很久。我以為你要來上課。')&&L.includes('那就不算走。')&&L[L.length-1]==='（她掛掉了。）',JSON.stringify(L));   /* AA_296：最後接 15:30 的電話 */
-  check('3. LEAVE_WEEK＝6、E30_WAITED、品妤熟悉 +1、時間到 15:30（下課 15:10 以後打給可昕，AA_296）',G.flags.LEAVE_WEEK===6&&G.flags.E30_WAITED===true&&SOCIAL.rel('econ_pinyu').fam===f0+1&&Math.abs(G.hour-15.5)<1e-6);
-  G.zone='dorm'; G.hour=21.9; check('4. 22:00 以前沒有便利貼',!EVENTS.check(note)); G.hour=22.2; said=[]; await EVENTS.run(note); L=said.map(x=>x.t);
-  check('4. 22:00 以後回房間：「檯燈上多了一張便利貼。阿勳的字。」「保齡球欠我一場。」＋等過的人多一行小字；Y0_STICKY',L.join('|')==='檯燈上多了一張便利貼。阿勳的字。|保齡球欠我一場。|下面還有一行小字：「今天的下課，算你有來。」'&&G.flags.Y0_STICKY===true,JSON.stringify(L));
-  // 先走
-  fresh(D,14.7,'campus'); PHONE.join(G,'econ_friends','走啦'); picks=['先走']; await EVENTS.run(ev); L=said.map(x=>x.t);
-  check('5. 「先走。」→「你沒有等下課，先走了。」、E30_WAITED＝false；接著電話',L.includes('你沒有等下課，先走了。')&&L[L.length-1]==='（她掛掉了。）'&&G.flags.E30_WAITED===false);
-  G.hour=15.1; run(); G.hour=15.25; run(); const m=PHONE.thread(G,'g:econ_friends').find(x=>x.text==='我在裡面舉筆了。你有看到嗎？');
-  check('5. 15:12 群組阿勳「我在裡面舉筆了。你有看到嗎？」→「有。」→「好。那就算數。」',!!m&&(PHONE.answer(G,'y0_e30',0),TH('g:econ_friends').includes('好。那就算數。')));
-  G.zone='dorm'; G.hour=22.5; said=[]; await EVENTS.run(note); check('5. 先走的人：便利貼沒有小字',said.length===2);
-  // 15:10 以後才開始：只剩先走
-  fresh(D,15.5,'campus'); let seen=[]; const ch0=GM.choose; GM.choose=async o=>{ seen=o.map(q=>q.t); return 0; }; await EVENTS.run(ev); GM.choose=ch0;
-  check('6. 15:10 以後才開始（在別的事件裡）：選項只有「先走。」',seen.length===1&&seen[0]==='「先走。」',JSON.stringify(seen));
+  /* AA_305 第 5 節（使用者：休學只告訴可昕）：窗外、等下課那段整段拿掉；10/17 22:30 便利貼拿掉（搬到 10/31 搬家那天） */
+  fresh(D,14.7,'campus'); PHONE.join(G,'econ_friends','走啦'); let seen=null; const ch0=GM.choose; GM.choose=async o=>{ seen=o.map(q=>q.t); return 0; }; await EVENTS.run(ev); GM.choose=ch0; let L=said.map(x=>x.t);
+  check('3. 行政大樓「星期四下午，行政大樓。你把申請書交出去。」→ 承辦人 →「手續比你想的快。十五分鐘。」→「（你沒有跟任何人說。）」→ 捷運上的電話（「捷運上。要回家跟我媽說。」）→「（她掛掉了。）」；沒有窗外、等下課、選項',L[0]==='星期四下午，行政大樓。你把申請書交出去。'&&L.indexOf('（你沒有跟任何人說。）')===L.indexOf('手續比你想的快。十五分鐘。')+1&&L.includes('捷運上。要回家跟我媽說。')&&L[L.length-1]==='（她掛掉了。）'&&!L.some(t=>/窗外|舉了一下筆|等他們下課|下課鐘|那就不算走/.test(t))&&seen===null,JSON.stringify(L));
+  check('3. LEAVE_WEEK＝6、E30_WAITED 不記、時間到 15:30（AA_296 電話）',G.flags.LEAVE_WEEK===6&&G.flags.E30_WAITED===undefined&&Math.abs(G.hour-15.5)<1e-6);
+  G.hour=15.1; run(); G.hour=15.25; run(); check('5. 15:12 群組沒有阿勳「我在裡面舉筆了。你有看到嗎？」（他不知道）',!PHONE.thread(G,'g:econ_friends').some(x=>x.text==='我在裡面舉筆了。你有看到嗎？'));
+  G.zone='dorm'; G.hour=22.2; check('4. 10/17 22:00 以後回房間：便利貼不演（AA_305：搬到 10/31 搬家那天）',!EVENTS.check(note)); G.day=D+1; G.hour=12; check('4. 隔天也不演',!EVENTS.check(note));
+  /* AA_305 第 6 節：10/29（二）12:10 小福，唐睿問「你什麼時候才要跟我們說？」 */
+  { const xf=STORY_EVENTS.find(e=>e.id==='ev_y0_xiaofu'); fresh(STORY.dayOfKey('2024-10-29'),12+10/60,'campus',{LEAVE_WEEK:6}); picks=['沒有說話']; await EVENTS.run(xf); const LX=said.map(x=>x.t);
+    check('7. 10/29 小福：唐睿「我高中參加過聯校的社團……」「昨天他傳訊息問我：「你們系的祐廷，是不是休學了？」」→「……你什麼時候才要跟我們說？」→（沒有說話）→ 品妤「妳也知道？」可昕「……他叫我不要說。」→ 阿勳「（低頭吃飯）……月底。」；Y0_FRIENDS_KNOW、XF_ANSWER silent',!!xf&&xf.trigger==='econff'&&LX.includes('昨天他傳訊息問我：「你們系的祐廷，是不是休學了？」')&&LX.includes('……你什麼時候才要跟我們說？')&&LX.includes('（唐睿等了一下，才把筷子拆開。）')&&LX.indexOf('……他叫我不要說。')===LX.indexOf('（轉頭）妳也知道？')+1&&LX.includes('（低頭吃飯）……月底。')&&G.flags.Y0_FRIENDS_KNOW===true&&G.flags.XF_ANSWER==='silent',JSON.stringify(LX)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -2200,7 +2200,7 @@ const STORY_EVENTS=[
       {scene:'摩天輪',bg:'ferris_wheel'},
       {speaker:null,text:'（摩天輪。到最高的時候，台北看起來好小。）'},{cg:'cg_ferris_wheel_kexin'},{speaker:'player',text:'……在一起吧。'},{speaker:'kexin',expression:'smile',text:'好。'},   /* BCG-06（BB 通過；ART-BB-READY-1017）；AA_303 第 2 節 9：最高點你說「在一起吧」（使用者 10-18，取代 AA_295 的不說話）*/
       {set:{Y0_DATING:true,dating_kexin:true,KX_DATING_SINCE:'2024-10-17'}},{stamp:['E26_DAY']},
-      {speaker:null,text:'（你送她回去。回到宿舍，已經快十一點了。）'} ],
+      {speaker:null,text:'（你送她回女舍。回到 412，已經快十一點了。）'},{speaker:null,text:'（阿勳已經睡了。韋綸在上舖滑手機，唐睿還沒回來。沒有人問你去了哪裡。）'} ],   /* AA_305 第 5 節 */
     afterOuting:async(G,GM)=>{ if(GM.enter&&!G.flags.Y0_MOVED_OUT) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },   /* 回到宿舍（412）：接著是檯燈上的便利貼 */
   /* ★E27＝「一起重考吧」（AA_224 5-1 @31708531＝BB_188 A2-5＋A2-6；機制 BB_188 A9-1）：2025-02-13（四）可昕辦完休學，19:00 公館的水餃店（2D；固定出遊、沒有「不去」，story3d.js）。
      祐廷提出（三個說法都是他說的）；舊 E27「我不是因為你」併進來（她自己的理由）。CRAM_FREE_KNOWN 才有「那間補習班說我可以免費」那一段（新開局一定有）。
@@ -2266,48 +2266,53 @@ const STORY_EVENTS=[
   { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
     dialogue:[ {scene:'行政大樓',bg:'admin_office'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:null,text:'（承辦人蓋了章，把收據推過來。）'},{speaker:'承辦人',text:'好了。'},
-      {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
-      {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},{speaker:null,text:'（可昕坐在前排，背對窗戶。她沒有看到你。）'},   /* AA_224 1-1：她要在 15:30 的訊息裡才知道 */
+      {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'（你沒有跟任何人說。）'},   /* AA_305 第 5 節（使用者：休學只告訴可昕）：走到普通教學館、窗外、等下課那段整段拿掉（韋綸、唐睿那幾句搬到 10/29 小福、10/31 搬家）；E30_WAITED 不再記 */
       {set:{LEAVE_WEEK:6}},
-      {choice:[{text:'「等他們下課。」',if:{custom:G=>G.hour<15+10/60},set:{E30_WAITED:true},goto:'w'},{text:'「先走。」',set:{E30_WAITED:false},goto:'l'}]},
-      {label:'w'},{speaker:null,text:'你在走廊的長椅上坐到三點十分。下課鐘響了。'},{speaker:null,text:'（可昕抱著書從前門出去，往下一間教室跑。）'},
-      {speaker:'econ_zhengxun',text:'你在窗外站很久。我以為你要來上課。'},{speaker:'econ_pinyu',text:'辦完了？'},{speaker:'player',text:'辦完了。'},
-      {speaker:'econ_pinyu',text:'……好。那今天的筆記，我不借你了。你用不到。'},{speaker:'韋綸',text:'欸，那你以後還會來社科院嗎？'},
-      {speaker:'player',text:'會啊。宿舍這週末要搬。……可是我會回來。'},{speaker:'唐睿',text:'那就不算走。'},
-      {rel:{econ_zhengxun:{fam:1},econ_pinyu:{fam:1}}},{goto:'end'},
-      {label:'l'},{speaker:null,text:'你沒有等下課，先走了。'},
-      {label:'end'},
       /* 15:30 的電話（AA_296，D103：重要的事不能只用手機說——原本 story3d.js 的 y0_kx_leave 十則私訊）*/
       {scene:'電話',bg:false},{speaker:null,text:'（捷運上。你撥給她。響了兩聲。）'},{speaker:'player',text:'我今天去辦休學了。'},{speaker:'kexin',text:'……蛤？'},{speaker:'kexin',text:'今天？快期中考了耶。'},
-      {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',text:'你現在在哪。'},{speaker:'player',text:'捷運上。要回家。'},
+      {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',text:'你現在在哪。'},{speaker:'player',text:'捷運上。要回家跟我媽說。'},
       {speaker:'kexin',text:'你現在回來學校找我。我還有一堂，五點下課。社科院門口。'},{speaker:'player',text:'……我才剛休學。'},{speaker:'kexin',text:'休學又不是不能進校門。'},{speaker:null,text:'（她掛掉了。）'},
       {set:{Y0_KX_CALL:true}} ],
-    after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour); } },   /* 電話在 15:30（等下課＝15:10 以後）*/
+    after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour); } },   /* 電話在 15:30 */
   /* 休學以後第一次在社科院門口遇到經濟系的朋友（AA_224 第 3 組共同前提＝BB_188 A2-1b 阿勳那一句照用）：10 月下旬（10/20～10/31）走到社科院門口就演；之後不再提（大家不必每次驚訝） */
   { id:'ev_y0_soc_door', stage:'econ', title:'休學的來了', participants:['econ_zhengxun'], location:'campus', near:{x:97.9,z:-63.5,r:8}, trigger:'auto', term:['Y0S1'], time:[9,20], once:true, background:'blur',
     spawn:{npc:'econ_zhengxun',dist:1.6,pose:'idle'},
-    prereq:{custom:G=>{ if(typeof STORY==='undefined'||!G.flags.LEAVE_WEEK) return false; const a=STORY.dayOfKey('2024-10-20'), b=STORY.dayOfKey('2024-10-31'); return a!=null&&G.day>=a&&G.day<=b; }},
+    prereq:{custom:G=>{ if(typeof STORY==='undefined'||!G.flags.LEAVE_WEEK) return false; const a=STORY.dayOfKey('2024-11-01'), b=STORY.dayOfKey('2024-11-15'); return a!=null&&G.day>=a&&G.day<=b; }},   /* AA_305：10/29 以前大家都不知道（10/29 小福唐睿問）、10/31 才搬走 → 11/1～11/15（原本 10/20～10/31）*/
     dialogue:[ {speaker:'econ_zhengxun',text:'休學的來了。'},{speaker:'econ_zhengxun',text:'……然後還交了女朋友。你休學是去修這個學分喔。'} ] },
   /* E30 當晚：檯燈上的便利貼（AA_169；BB_112 A3 原文）：休學那天（10/17）22:00 以後第一次在宿舍房間。E30_WAITED 的玩家多一行小字。記 Y0_STICKY（A3 跟著裝箱、R7 讀它）*/
   { id:'ev_y0_e30_note', stage:'econ', title:'便利貼', participants:[], location:'dorm', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
-    prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&(G.day>d||G.hour>=22); }},   /* AA_154 A48 ①：休學那天 22:00 以後、搬走以前第一次在宿舍房間（原本只到隔天 06:00）*/
+    prereq:{custom:()=>false},   /* AA_305 第 5 節：拿掉（便利貼搬到 10/31 搬家那天，最後一箱上面，home3d.js moveOut）；id 留給舊存檔 */
     dialogue:[ {speaker:null,text:'檯燈上多了一張便利貼。阿勳的字。'},{speaker:'便利貼',text:'保齡球欠我一場。'},
       {if:{flags:['E30_WAITED']},speaker:null,text:'下面還有一行小字：「今天的下課，算你有來。」'},{set:{Y0_STICKY:true}} ] },
+  /* ★10/29（二）12:10 小福：唐睿問「你什麼時候才要跟我們說？」（AA_305 第 6 節，使用者：休學只告訴可昕、照樣陪她上課，直到同學從高中同學那裡知道）。
+     只在經濟系事件接事件的停點演（econff3d.js STEPS n:'x29'）；記 Y0_FRIENDS_KNOW、XF_ANSWER（week／nodiff／silent，只是紀錄）*/
+  { id:'ev_y0_xiaofu', stage:'econ', title:'你什麼時候才要跟我們說？', participants:['econ_zhengxun','econ_pinyu','kexin'], location:'any', trigger:'econff', once:true, background:'xiaofu',
+    dialogue:[ {scene:'小福',bg:'xiaofu'},
+      {speaker:null,text:'（十月二十九日，中午。你又坐在可昕旁邊上完經原，六個人一起走到小福。）'},{speaker:null,text:'（品妤排便當，韋綸排麵，阿勳已經占好了位子。）'},
+      {speaker:'唐睿',text:'（坐下來，筷子還沒拆）……欸，問你一件事。'},{speaker:'唐睿',text:'我高中參加過聯校的社團。裡面有一個人，跟你同一個高中。'},
+      {speaker:'唐睿',text:'昨天他傳訊息問我：「你們系的{name}，是不是休學了？」'},{speaker:null,text:'（韋綸的麵停在半空中。阿勳抬起頭。）'},
+      {speaker:'唐睿',text:'……你什麼時候才要跟我們說？'},
+      {choice:[{text:'「……這個禮拜。」',set:{XF_ANSWER:'week'},goto:'a'},{text:'「我想說，你們不知道也沒差。」',set:{XF_ANSWER:'nodiff'},goto:'b'},{text:'（沒有說話）',set:{XF_ANSWER:'silent'},goto:'c'}]},
+      {label:'a'},{speaker:'唐睿',text:'今天星期二。……好，算你有要說。'},{goto:'d'},
+      {label:'b'},{speaker:'唐睿',text:'有差。'},{goto:'d'},
+      {label:'c'},{speaker:null,text:'（唐睿等了一下，才把筷子拆開。）'},
+      {label:'d'},{speaker:'econ_pinyu',text:'（轉頭）妳也知道？'},{speaker:'kexin',text:'……他叫我不要說。'},
+      {speaker:'econ_pinyu',text:'……好。那今天的筆記，我不借你了。你用不到。'},{speaker:'韋綸',text:'那你以後還會來社科院嗎？'},
+      {speaker:'player',text:'會啊。宿舍住到月底。……之後我也會回來。'},{speaker:'econ_zhengxun',text:'（低頭吃飯）……月底。'},
+      {speaker:null,text:'（他沒有再說話。那頓飯，他吃得很慢。）'},
+      {set:{Y0_FRIENDS_KNOW:true}} ] },
   /* A3 搬出宿舍那天（BB_112 A3；AA_154 第 234 行、A23；日期 AA_218 第 11 節、AA_154 0b-1：2024-10-19（六））：10/19（六）在宿舍房間（09:00 以後；一整天都沒回宿舍＝20:00 以後在哪裡都演，劇情事實、一定會有）。
      阿勳幫你封箱；選要不要請他吃飯（請了＝小福的雞腿便當；沒請＝他自己去買、傳一張照片）。演完搬回臺北的家（HOME.moveOut：之後每天從家裡出發，AA_154 1-3b）；
      便利貼跟著搬（Y0_STICKY_HOME）。按鈕字是動作（企劃沒寫按鈕字）*/
   { id:'ev_y0_a3', stage:'econ', title:'搬出宿舍那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_MOVE_DAY):null; return d!=null&&G.day>=d&&G.flags.LEAVE_WEEK===6&&!G.flags.Y0_MOVED_OUT&&((G.zone==='dorm'&&G.hour>=9)||G.hour>=20); }},   /* A46 ①：10/19 以後、還沒搬（當天沒演到，之後第一次符合就演；人在家＝home3d 的 S.a3FromHome 先帶回宿舍）*/
-    dialogue:[ /* AA_154 A48 ②：A3 開始時還沒看過便利貼（例：從家裡帶回宿舍）＝先演那一則（和 ev_y0_e30_note 同一段）*/
-      {if:{custom:G=>!G.flags.Y0_STICKY},speaker:null,text:'檯燈上多了一張便利貼。阿勳的字。'},{if:{custom:G=>!G.flags.Y0_STICKY},speaker:'便利貼',text:'保齡球欠我一場。'},
-      {if:{custom:G=>!G.flags.Y0_STICKY&&!!G.flags.E30_WAITED},speaker:null,text:'下面還有一行小字：「今天的下課，算你有來。」'},{if:{custom:G=>!G.flags.Y0_STICKY},set:{Y0_STICKY:true}},
-      {speaker:'econ_zhengxun',text:'箱子我幫你封。你的膠帶貼得很醜。'},{speaker:'econ_zhengxun',text:'你搬走以後，冷笑話沒人聽了。'},
-      {speaker:'player',text:'你一個人也可以講。'},{speaker:'econ_zhengxun',text:'一個人講很怪啦。'},
-      {speaker:'韋綸',text:'（還在上舖，翻身）……有空回來玩喔。'},{speaker:null,text:'（唐睿幫你把箱子搬到樓下。）'},   /* BB_179 第 8 節（AA_269 第 2 節：3/29 改掛 10/19）*/
+    dialogue:[ {speaker:null,text:'（十月三十一日，早上九點。宿舍可以住到今天。）'},   /* AA_305 第 7 節（使用者：宿舍住到月底，室友不知道；取代 10/19）。冷笑話三句拿掉（阿勳不講冷笑話）；便利貼搬到最後一箱（home3d.js moveOut）*/
+      {speaker:'econ_zhengxun',text:'箱子我幫你封。你的膠帶貼得很醜。'},{speaker:null,text:'（他封好最後一箱，推給你。）'},{speaker:'econ_zhengxun',text:'保齡球那場，記得。'},
+      {speaker:'韋綸',text:'（還在上舖，翻身）……有空回來玩喔。'},{speaker:null,text:'（唐睿幫你把箱子搬到樓下。）'},{speaker:'唐睿',text:'你說你會回來。那就不算走。'},
       {choice:[{text:'（請阿勳吃小福的雞腿便當）',set:{A3_TREAT:true},goto:'t'},{text:'（不請）',set:{A3_TREAT:false},goto:'n'}]},
       {label:'t'},{speaker:'econ_zhengxun',text:'雞腿便當？……那我不客氣了。'},{goto:'end'},
       {label:'n'},{phone:'econ_zhengxun',text:'📷（他自己買的便當）'},
-      {label:'end'} ],
+      {label:'end'},{set:{Y0_STICKY:true}} ],
     after:(G,GM)=>{ if(typeof HOME!=='undefined'&&HOME.moveOut) HOME.moveOut(GM).catch(e=>console.warn('HOME.moveOut',e)); } },
   /* E18b 可昕的生日（BB_104 8b-11）：4/24（四）19:00 公館豆花店（2D 出遊），一群人一起。祐廷的禮物記 E18B_GIFT（notebook／douhua／group；沒去＝none，story3d.js）；
      送筆記本的玩家，法律系大一她生日那天多一句（已接，ev_kexin_birthday_y1s2）*/

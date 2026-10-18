@@ -1,6 +1,6 @@
-// 經濟系事件接事件第二階段：10/19 退宿、休學在家到 8/29（D102 ③；AA_292 第 5～8 節；src/econff3d.js S.on2／homeStep／run2）——不需要瀏覽器。
+// 經濟系事件接事件第二階段：10/31 退宿（AA_305；原本 10/19）、休學在家到 8/29（D102 ③；AA_292 第 5～8 節；src/econff3d.js S.on2／homeStep／run2）——不需要瀏覽器。
 // 使用者 2026-10-18：「休學之後我還住在宿舍？之後沒有劇情」「我根本不會看手機」「休學的人不會回台大」。
-// 檢查：① 第一階段多一步 10/19 09:00 ev_y0_a3（退宿）、退宿以後第一階段關、第二階段開，8/29 05:00 關
+// 檢查：① 第一階段多一步 10/31 09:00 ev_y0_a3（退宿）、退宿以後第一階段關、第二階段開，8/29 05:00 關
 //       ② 在家那一輪：該出發的出遊自動出發（goOut）；沒事就跳到下一個「要到外面演」的時間（y0Jump 的終點＝下一步 or 8/29 05:00）
 //       ③ 時間到了：帶到現場（enter 區域＋位置）、演事件、回家（HOME.go）；做過的記 done；過了 6 小時的算錯過
 //       ④ 跳的途中收到要回的訊息（'msg'）＝打開手機 ⑤ 玩樂日（R3）＝排可昕的出遊、自動出發 ⑥ 在外面空下來 3 秒＝自動回家（今天還有出遊就不回）
@@ -24,25 +24,23 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
 const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:async(z,sp)=>{ calls.push(['enter',z,sp]); G.zone=z; G.home.at=false; },autosave(){},phoneThread:async()=>{ calls.push(['phone']); },E:{player:{}}};
 (async()=>{
   // ①
-  const a3=ECONFF.STEPS.find(s=>s.ev==='ev_y0_a3'); check('① 第一階段多一步：10/19 09:00 宿舍 ev_y0_a3（退宿）',!!a3&&a3.key==='2024-10-19'&&a3.h===9&&a3.zone==='dorm');
+  const a3=ECONFF.STEPS.find(s=>s.ev==='ev_y0_a3'); check('① 第一階段多一步：10/31 09:00 宿舍 ev_y0_a3（退宿；AA_305 第 7 節，原本 10/19）',!!a3&&a3.key==='2024-10-31'&&a3.h===9&&a3.zone==='dorm');
   G=mkG('2024-10-18',1,{Y0_STICKY:true}); G.flags.ECONFF={done:{}}; for(const s of ECONFF.STEPS) if(s.n<30) G.flags.ECONFF.done[s.n]=1;
-  check('① 10/18 凌晨（便利貼演過、還沒退宿）：第一階段還開、下一步是退宿',ECONFF.on(G)&&ECONFF.next(G)&&ECONFF.next(G).ev==='ev_y0_a3');
-  G.flags.Y0_MOVED_OUT=true; G.day=dayOf('2024-10-19'); G.hour=18; check('① 退宿以後：第一階段關、第二階段開',!ECONFF.on(G)&&ECONFF.on2(G));
+  check('① 10/18 凌晨（車上演過、還沒退宿）：第一階段還開、下一步是 10/29 小福（AA_305 第 6 節）',ECONFF.on(G)&&ECONFF.next(G)&&ECONFF.next(G).ev==='ev_y0_xiaofu');
+  G.flags.ECONFF.done.x29=1; check('① 小福演過：下一步是 10/31 退宿',ECONFF.on(G)&&ECONFF.next(G)&&ECONFF.next(G).ev==='ev_y0_a3');
+  G.flags.Y0_MOVED_OUT=true; G.day=dayOf('2024-10-31'); G.hour=18; check('① 退宿以後：第一階段關、第二階段開',!ECONFF.on(G)&&ECONFF.on2(G));
   const L=mkG('2025-08-29',5.1,{Y0_MOVED_OUT:true}); check('① 8/29 05:00 以後（轉法律系那天）：第二階段關',!ECONFF.on2(L));
   check('① 法律系：第二階段不開',!ECONFF.on2(Object.assign(mkG('2025-01-01',10,{Y0_MOVED_OUT:true}),{stage:'law'})));
-  // ② 沒事：跳到 10/23 12:00（社科院門口）
-  G=mkG('2024-10-20',9,{Y0_MOVED_OUT:true}); calls.length=0; let r=await ECONFF.homeStep(GM);
-  check('② 在家、沒事：跳到下一個要到外面演的時間（10/23 12:00）',calls[0]&&calls[0][0]==='jump'&&Math.abs(calls[0][1]-T('2024-10-23',12))<1e-6&&r===true,JSON.stringify(calls));
+  // ② 沒事：跳到 11/6 17:45（醉月湖；AA_305：10/23 社科院門口那一步拿掉——10/29 以前大家都不知道）
+  G=mkG('2024-11-01',9,{Y0_MOVED_OUT:true}); calls.length=0; let r=await ECONFF.homeStep(GM);
+  check('② 在家、沒事：跳到下一個要到外面演的時間（11/6 17:45 醉月湖）',calls[0]&&calls[0][0]==='jump'&&Math.abs(calls[0][1]-T('2024-11-06',17.75))<1e-6&&r===true,JSON.stringify(calls));
   dueQ={id:'y0_e14',state:'planned'}; calls.length=0; r=await ECONFF.homeStep(GM); check('② 該出發的出遊：自動出發（不出選單）',calls[0]&&calls[0][0]==='goOut'&&calls[0][1]==='y0_e14',JSON.stringify(calls)); dueQ=null;
   // ④
   jumpRes='msg'; calls.length=0; await ECONFF.homeStep(GM); check('④ 跳的途中收到要回的訊息：打開手機',calls.some(c=>c[0]==='phone'),JSON.stringify(calls)); jumpRes='end';
-  // ③ 到了 10/23 12:00
-  G.day=dayOf('2024-10-23'); G.hour=12; calls.length=0; ran.length=0; r=await ECONFF.homeStep(GM);
-  const en=calls.find(c=>c[0]==='enter'); check('③ 時間到了：帶到校園社科院門口、演 ev_y0_soc_door、演完回家',!!en&&en[1]==='campus'&&Math.abs(en[2].x-97.9)<1&&ran[0]==='ev_y0_soc_door'&&calls.some(c=>c[0]==='go')&&r===false,JSON.stringify(calls)+' '+ran);
-  check('③ 做過的記 done（下一步換成 11/6 E12）',ECONFF.next2(G)&&ECONFF.next2(G).ev==='ev_y0_e12');
-  // E12：出遊由這裡帶，不再停一次
-  OUTS.push({id:'y0_e12',state:'planned',day:dayOf('2024-11-06')}); G.day=dayOf('2024-11-06'); G.hour=20; G.home.at=true; ran.length=0; await ECONFF.homeStep(GM);
-  check('③ E12 醉月湖：帶到湖邊演、原本的出遊（goto）標成做過',ran[0]==='ev_y0_e12'&&OUT.get(G,'y0_e12').state==='done');
+  // ③ 到了 11/6 17:45（醉月湖）：出遊由這裡帶，不再停一次
+  OUTS.push({id:'y0_e12',state:'planned',day:dayOf('2024-11-06')}); G.day=dayOf('2024-11-06'); G.hour=17.75; G.home.at=true; calls.length=0; ran.length=0; r=await ECONFF.homeStep(GM);
+  const en=calls.find(c=>c[0]==='enter'); check('③ 時間到了：帶到校園醉月湖、演 ev_y0_e12、演完回家；原本的出遊（goto）標成做過',!!en&&en[1]==='campus'&&Math.abs(en[2].x+34.6)<1&&ran[0]==='ev_y0_e12'&&calls.some(c=>c[0]==='go')&&r===false&&OUT.get(G,'y0_e12').state==='done',JSON.stringify(calls)+' '+ran);
+  check('③ 做過的記 done（下一步不是 E12）',!ECONFF.next2(G)||ECONFF.next2(G).ev!=='ev_y0_e12');
   // 過了 6 小時＝錯過
   const G2=mkG('2025-05-05',23,{Y0_MOVED_OUT:true}); G2.flags.ECONFF={done:{h2:1,h3:1,h29:1}}; const nx=ECONFF.next2(G2); check('③ 過了 6 小時的算錯過、跳到下一個（5/5 R6 14:00，23:00 還沒去）',nx&&nx.play!=='ev_y0_r6'&&G2.flags.ECONFF.done.h34==='missed',nx&&(nx.ev||nx.play||nx.rh));
   check('③ AA_298：R4 模擬考、E34 經原最後一堂拿掉（第二階段沒有這兩步）',!ECONFF.STEPS2.some(s=>s.ev==='ev_y0_r4'||s.ev==='ev_y0_e34'||s.atR4));
@@ -75,7 +73,7 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
     G=mkG('2025-02-22',20,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; await ECONFF.homeStep(GM); check('⑦ 長場景 2/22 20:00 媽媽和她（RH-L1）照日期演',ran.includes('rh_RH-L1'),ran.join(','));
     G=mkG('2024-12-01',10,{Y0_MOVED_OUT:true}); ran.length=0; calls.length=0; await ECONFF.homeStep(GM); check('⑦ 重考期以外（12/1）：不演日常',!ran.some(x=>/^rh_/.test(x))); }
   const hs=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8'); check('home3d.js baseRound：事件模式交給 ECONFF.homeStep、y0Jump 玩樂日不記讀書日',/ECONFF\.on2\(G\)\)\{ H\.wakeAsk=null; return ECONFF\.homeStep\(GM\)/.test(hs)&&/ECONFF\.PLAY_DAYS/.test(hs));
-  { const gs=mkG('2024-10-19',18,{Y0_MOVED_OUT:true,ECON_FULL:false}); gs.flags.ECONFF={done:{},lines:[]}; const ids=[]; for(let k=0;k<20;k++){ const s=ECONFF.next2(gs); if(!s) break; ids.push(s.ev||s.play||s.rh); ECONFF.rec(gs).done[s.n]=1; }
+  { const gs=mkG('2024-10-31',18,{Y0_MOVED_OUT:true,ECON_FULL:false}); gs.flags.ECONFF={done:{},lines:[]}; const ids=[]; for(let k=0;k<20;k++){ const s=ECONFF.next2(gs); if(!s) break; ids.push(s.ev||s.play||s.rh); ECONFF.rec(gs).done[s.n]=1; }
     check('AA_303：休學在家只停逐場確認過的（E12、RH-C0 報名、RH-C4 笑出來、RH-L6 熱牛奶；RH-M0 等 AA；高雄要除夕約了才停）；R3、R7、洗碗、粽子、soc_door、R6、其他長場景都不停',JSON.stringify(ids)===JSON.stringify(['ev_y0_e12','RH-C0','RH-C4','RH-L6']),JSON.stringify(ids));
     { const gk=mkG('2025-01-28',23,{Y0_MOVED_OUT:true,ECON_FULL:false,KH_TRIP:true}); gk.flags.ECONFF={done:{h2:1,h3:1},lines:[]}; const n=ECONFF.next2(gk); check('AA_303 第 15 場：除夕約了（KH_TRIP）＝1/31 08:00 高雄三天兩夜一步、回來是 2/2',!!n&&n.trip==='ev_y0_kh3'&&n.back==='2025-02-02'&&Math.abs(n.t-(dayOf('2025-01-31')*24+8))<1e-6,JSON.stringify(n)); gk.flags.KH_TRIP=false; gk.flags.ECONFF={done:{h2:1,h3:1},lines:[]}; const n2=ECONFF.next2(gk); check('AA_303：沒約＝不排高雄、也不記錯過（1/28 還沒過）',!n2||n2.trip!=='ev_y0_kh3'); }
     gs.day=dayOf('2025-03-03'); gs.hour=10; check('AA_300：重考期每天的短場景關掉（rhOn false）',!ECONFF.rhOn(gs));

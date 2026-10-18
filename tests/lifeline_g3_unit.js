@@ -73,7 +73,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     econ(d,22,'home',{KX_THINK_LEAVE:'wait'}); picks=['好。']; await EVENTS.run(ev('ev_y0_e21')); const L2=lines();
     check('3-10 「好。」→「那初三早上出發。到了打給我。」、KH_TRIP；她說過在想休學（KX_THINK_LEAVE）也只有兩個選項（AA_303：第三個選項拿掉）',opts[0].length===2&&L2[L2.length-1]==='杜可昕：那初三早上出發。到了打給我。'&&G.flags.KH_TRIP===true&&!L2.join('').includes('跟家裡說了嗎'),J([opts[0],L2.slice(-2)])); }
   /* 社科院門口 */
-  { const e=ev('ev_y0_soc_door'); econ(DK('2024-10-24'),12,'campus',{}); const a=e.prereq.custom(G); G.day=DK('2024-11-02'); const b=e.prereq.custom(G); G.day=DK('2024-10-24'); delete G.flags.LEAVE_WEEK; const c=e.prereq.custom(G);
-    check('共同前提 A2-1b：10 月下旬（10/20～10/31）休學以後在社科院門口＝阿勳「休學的來了。」「……然後還交了女朋友。你休學是去修這個學分喔。」；11 月不再演',a&&!b&&!c&&dl('ev_y0_soc_door').includes('休學的來了。')&&dl('ev_y0_soc_door').includes('你休學是去修這個學分喔。'),J([a,b,c])); }
+  { const e=ev('ev_y0_soc_door'); econ(DK('2024-11-04'),12,'campus',{}); const a=e.prereq.custom(G); G.day=DK('2024-11-16'); const b=e.prereq.custom(G); G.day=DK('2024-11-04'); delete G.flags.LEAVE_WEEK; const c=e.prereq.custom(G); G.flags.LEAVE_WEEK=6; G.day=DK('2024-10-24'); const d0=e.prereq.custom(G);
+    check('共同前提 A2-1b：搬家以後（11/1～11/15；AA_305：10/29 以前大家都不知道、10/31 才搬）在社科院門口＝阿勳「休學的來了。」「……然後還交了女朋友。你休學是去修這個學分喔。」；10 月、11/16 以後不演',a&&!b&&!c&&!d0&&dl('ev_y0_soc_door').includes('休學的來了。')&&dl('ev_y0_soc_door').includes('你休學是去修這個學分喔。'),J([a,b,c,d0])); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
