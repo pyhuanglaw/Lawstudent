@@ -64,7 +64,7 @@ def poly(m, F, pts2d, d=0.0, flip=False):
     m.quad(q[::-1] if flip else q)
 
 
-def lancet_window(mk, F, a0, a1, y0, ys, inset=0.22):
+def lancet_window(mk, F, a0, a1, y0, ys, inset=0.22, detail=1):
     """一扇尖拱窗（a0～a1、窗台 y0、起拱 ys）：牆洞的兩個拱肩補石頭、石頭窗框（往牆裡 inset）、玻璃＋鉛條、中間一根石條分成兩扇窄尖窗、拱頂下一個圓的花窗"""
     w = a1 - a0; ap, top = arch_pts(a0, a1, ys)
     # 拱肩（洞的長方形上角 → 拱）：扇形三角
@@ -83,6 +83,7 @@ def lancet_window(mk, F, a0, a1, y0, ys, inset=0.22):
     # 中間的石條（mullion）、上面兩個小尖拱（石條和窗框之間）、圓花窗、橫的鉛條
     am = (a0 + a1) / 2; mw = 0.07
     _stone_bar(mk['trim'], F, am - mw, am + mw, y0, ys + w * 0.18, -inset + 0.02, -inset + 0.09)
+    if not detail: return                                                                     # 遠景（背景的系館）：不做花窗、鉛條
     for (b0, b1) in ((a0, am - mw), (am + mw, a1)):   # 兩扇窄尖窗的拱（細石條描出來）
         sub, st = arch_pts(b0, b1, ys + w * 0.02, n=6)
         for p, q in zip(sub, sub[1:]): _stone_seg(mk['trim'], F, p, q, 0.035, -inset + 0.02, -inset + 0.09)
@@ -107,18 +108,18 @@ def _stone_bar(m, F, a0, a1, y0, y1, d0, d1):
     _stone_seg(m, F, ((a0 + a1) / 2, y0), ((a0 + a1) / 2, y1), (a1 - a0) / 2, d0, d1)
 
 
-def rect_window(mk, F, a0, a1, y0, y1, inset=0.22, lights=3):
+def rect_window(mk, F, a0, a1, y0, y1, inset=0.22, lights=3, detail=1):
     """方窗（學院哥德式的下面幾層）：石頭窗框（牆厚）、窗台、上面的滴水線（hood mould，兩端往下折）、石頭直櫺分成 lights 格＋一條橫檔、玻璃＋鉛條"""
     edge = [(a0, y0), (a0, y1), (a1, y1), (a1, y0)]
     for p, q in zip(edge, edge[1:]): mk['trim'].quad([F.P(p[0], p[1], 0.0), F.P(q[0], q[1], 0.0), F.P(q[0], q[1], -inset), F.P(p[0], p[1], -inset)])
     mk['trim'].quad([F.P(a0 - 0.06, y0 - 0.12, 0.06), F.P(a1 + 0.06, y0 - 0.12, 0.06), F.P(a1 + 0.06, y0, 0.06), F.P(a0 - 0.06, y0, 0.06)])
     mk['trim'].quad([F.P(a0 - 0.06, y0, 0.06), F.P(a1 + 0.06, y0, 0.06), F.P(a1, y0, -inset), F.P(a0, y0, -inset)])
-    for (p, q) in (((a0 - 0.14, y1 + 0.12), (a1 + 0.14, y1 + 0.12)), ((a0 - 0.14, y1 + 0.12), (a0 - 0.14, y1 - 0.3)), ((a1 + 0.14, y1 + 0.12), (a1 + 0.14, y1 - 0.3))):
+    for (p, q) in (((a0 - 0.14, y1 + 0.12), (a1 + 0.14, y1 + 0.12)), ((a0 - 0.14, y1 + 0.12), (a0 - 0.14, y1 - 0.3)), ((a1 + 0.14, y1 + 0.12), (a1 + 0.14, y1 - 0.3)))[:3 if detail else 1]:
         _stone_seg(mk['trim'], F, p, q, 0.06, 0.0, 0.09)
     poly(mk['glass'], F, [(a0, y0), (a1, y0), (a1, y1), (a0, y1)], -inset + 0.03)
     for k in range(1, lights): _stone_bar(mk['trim'], F, a0 + k * (a1 - a0) / lights - 0.06, a0 + k * (a1 - a0) / lights + 0.06, y0, y1, -inset + 0.02, -inset + 0.09)
     yt = y0 + (y1 - y0) * 0.68; _stone_seg(mk['trim'], F, (a0, yt), (a1, yt), 0.05, -inset + 0.02, -inset + 0.09)
-    for k in range(1, 7):
+    for k in (range(1, 7) if detail else ()):
         yy = y0 + k * (yt - y0) / 7; _stone_seg(mk['lead'], F, (a0, yy), (a1, yy), 0.008, -inset + 0.035, -inset + 0.045)
 
 
@@ -133,7 +134,7 @@ def door_arch(mk, F, a0, a1, y0, ys, depth=0.6):
     for p, q in zip(edge, edge[1:]): mk['lime_dark'].quad([F.P(p[0], p[1], 0.0), F.P(q[0], q[1], 0.0), F.P(q[0], q[1], -depth), F.P(p[0], p[1], -depth)])
 
 
-def wall_with_windows(mk, F, length, height, wins, thick=0.45):
+def wall_with_windows(mk, F, length, height, wins, thick=0.45, detail=1):
     """一面牆：wins＝[(a0, a1, y0, ys[, 種類])]——'arch' 尖拱窗（ys＝起拱）、'rect' 方窗（ys＝窗頂）、'door' 尖拱門洞；牆面（有洞）＋每扇窗"""
     holes = []
     for w in wins:
@@ -143,12 +144,12 @@ def wall_with_windows(mk, F, length, height, wins, thick=0.45):
         poly(mk['lime'], F, [(xa, ya), (xb, ya), (xb, yb), (xa, yb)])
     for w in wins:
         a0, a1, y0, ys = w[:4]; kind = w[4] if len(w) > 4 else 'arch'
-        if kind == 'rect': rect_window(mk, F, a0, a1, y0, ys)
+        if kind == 'rect': rect_window(mk, F, a0, a1, y0, ys, detail=detail)
         elif kind == 'door': door_arch(mk, F, a0, a1, y0, ys)
-        else: lancet_window(mk, F, a0, a1, y0, ys)
+        else: lancet_window(mk, F, a0, a1, y0, ys, detail=detail)
 
 
-def gothic_hall(root, name, cx, cz, length=36.0, depth=14.0, floors=3, yaw=0.0, M=None, rng=None, tower=True, sign=None):
+def gothic_hall(root, name, cx, cz, length=36.0, depth=14.0, floors=3, yaw=0.0, M=None, rng=None, tower=True, sign=None, detail=1):
     """一棟學院哥德式石灰岩系館：長方形量體（floors 層、每層 4.2 m）、正面每 3.6 m 一跨（扶壁＋兩層尖拱窗）、樓層腰線、石頭基座、
     陡的石板瓦雙坡屋頂（兩端山牆＋山牆上一扇大尖窗）、正面中央方塔（高一層、城垛、尖拱木門＋台階、門兩邊的鐵燈）"""
     M = M or materials(); rng = rng or random.Random(7)
@@ -169,11 +170,11 @@ def gothic_hall(root, name, cx, cz, length=36.0, depth=14.0, floors=3, yaw=0.0, 
         return out
     Ff = Face((u0, vF), (1, 0), (0, 1)); Fb = Face((u1, vB), (-1, 0), (0, -1))
     Fl = Face((u0, vB), (0, 1), (-1, 0)); Fr = Face((u1, vF), (0, -1), (1, 0))
-    wall_with_windows(mk, Ff, length, H, wins_for(bays, u0, tower))
-    wall_with_windows(mk, Fb, length, H, wins_for(bays, u0, False))                       # 背面（沿 −u 走，跨的位置對稱）
+    wall_with_windows(mk, Ff, length, H, wins_for(bays, u0, tower), detail=detail)
+    wall_with_windows(mk, Fb, length, H, wins_for(bays, u0, False), detail=detail)                       # 背面（沿 −u 走，跨的位置對稱）
     sb = [vB + (k + 0.5) * depth / 3 for k in range(3)]
-    wall_with_windows(mk, Fl, depth, H, [(c - vB - 0.75, c - vB + 0.75, 0.9 + f * FLOOR_H + 0.7, 0.9 + f * FLOOR_H + 2.6) for c in sb for f in range(floors)])
-    wall_with_windows(mk, Fr, depth, H, [(vF - c - 0.75, vF - c + 0.75, 0.9 + f * FLOOR_H + 0.7, 0.9 + f * FLOOR_H + 2.6) for c in sb for f in range(floors)])
+    wall_with_windows(mk, Fl, depth, H, [(c - vB - 0.75, c - vB + 0.75, 0.9 + f * FLOOR_H + 0.7, 0.9 + f * FLOOR_H + 2.6) for c in sb for f in range(floors)], detail=detail)
+    wall_with_windows(mk, Fr, depth, H, [(vF - c - 0.75, vF - c + 0.75, 0.9 + f * FLOOR_H + 0.7, 0.9 + f * FLOOR_H + 2.6) for c in sb for f in range(floors)], detail=detail)
     # 基座（深色石塊、往外 8 cm、高 0.9）、樓層腰線、簷口（往外的石頭線腳）、扶壁（每跨之間，往上兩段收進去）
     mk['lime_dark'].box(u0 - 0.08, u1 + 0.08, 0.0, 0.9, vB - 0.08, vF + 0.08)
     for f in range(1, floors + 1):
@@ -207,7 +208,7 @@ def gothic_hall(root, name, cx, cz, length=36.0, depth=14.0, floors=3, yaw=0.0, 
     if tower:
         tu0, tu1, tv0, tv1 = -TW / 2, TW / 2, vF - 1.0, vF + 1.6; TH = ridge + 3.2   # 塔頂比屋脊高（第一版比屋脊矮）
         Ft = Face((tu0, tv1), (1, 0), (0, 1))
-        wall_with_windows(mk, Ft, TW, TH, [(TW / 2 - 1.0, TW / 2 + 1.0, 0.3, 2.5, 'door')] + [(TW / 2 - 1.0, TW / 2 + 1.0, 0.9 + f * FLOOR_H + 0.9, 0.9 + f * FLOOR_H + 2.9) for f in range(1, floors)] + [(TW / 2 - 1.2, TW / 2 + 1.2, H + 1.2, H + 3.6)])   # 門洞（第一版沒開洞，只看得到門框的線）、上面幾層尖窗、塔頂一扇大的
+        wall_with_windows(mk, Ft, TW, TH, [(TW / 2 - 1.0, TW / 2 + 1.0, 0.3, 2.5, 'door')] + [(TW / 2 - 1.0, TW / 2 + 1.0, 0.9 + f * FLOOR_H + 0.9, 0.9 + f * FLOOR_H + 2.9) for f in range(1, floors)] + [(TW / 2 - 1.2, TW / 2 + 1.2, H + 1.2, H + 3.6)], detail=detail)   # 門洞（第一版沒開洞，只看得到門框的線）、上面幾層尖窗、塔頂一扇大的
         for (F_, ln) in ((Face((tu0, tv0), (0, 1), (-1, 0)), tv1 - tv0), (Face((tu1, tv1), (0, -1), (1, 0)), tv1 - tv0)):
             poly(mk['lime'], F_, [(0, 0), (ln, 0), (ln, TH), (0, TH)])
         mk['lime'].quad([(tu0, TH, tv0), (tu1, TH, tv0), (tu1, TH, tv1), (tu0, TH, tv1)][::-1])
