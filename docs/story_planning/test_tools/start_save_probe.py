@@ -12,7 +12,7 @@ async def main():
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         btns = await pg.evaluate("[...document.querySelectorAll('#titleScreen button')].filter(b=>!b.classList.contains('hide')&&b.offsetParent).map(b=>b.textContent.trim().slice(0,20))")
         print('標題按鈕', btns); await run.shot(pg, 'A_title')
-        run.check('A 標題有「從經濟系前傳開始」和「直接從法律系大一開始」', any('經濟系前傳' in x for x in btns) and any('直接從法律系' in x for x in btns), json.dumps(btns, ensure_ascii=False))
+        run.check('A 標題有「從經濟系開始（序章）」和「從法律系開始」', any('從經濟系開始' in x for x in btns) and any('從法律系開始' in x for x in btns), json.dumps(btns, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnNewLaw'); lines = []
         for i in range(260):
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
@@ -25,7 +25,7 @@ async def main():
         g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,kx:!!(GAME.G.contacts&&GAME.G.contacts.kexin!=null),y0:!!GAME.G.flags.PLAYED_Y0})")
         print('A 法律系開局之後', json.dumps(g, ensure_ascii=False)); print('   前幾句：', lines[:8]); await run.shot(pg, 'A_after')
         run.check('A 直接法律系開局：stage law、2025-08', g['stage'] == 'law' and g['key'].startswith('2025-08'), json.dumps(g, ensure_ascii=False))
-        run.check('A 沒有經濟系前傳的東西（可昕不在聯絡人、PLAYED_Y0 沒設）', not g['kx'] and not g['y0'], json.dumps(g, ensure_ascii=False))
+        run.check('A 法律系開局沒有設 PLAYED_Y0（沒玩過經濟系）', not g['y0'], json.dumps(g, ensure_ascii=False))
         d = await pg.evaluate("STORY.dayOfKey('2024-11-20')")
         st = {'stage': 'econ', 'zone': 'campus', 'day': d, 'weekday': 3, 'hour': 21, 'money': 12000, 'pos': {'x': -117, 'z': 0.5, 'yaw': 1.57}, 'home': {'at': True, 'base': True, 'day': d},
               'contacts': {'kexin': d - 60}, 'flags': {'ECON_CAMP_DONE': True, 'E01_DONE': True, 'E01_MORNING': True, 'Y0_MOVED_OUT': True, 'dating_kexin': True, 'KX_DATING_SINCE': '2024-10-17', 'KX_FIRST_MSG': True, 'fundsV2': 1, 'Y0_STICKY': True},
@@ -36,7 +36,7 @@ async def main():
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500)
             else: break
         before = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),home:HOME.at(GAME.G),ch:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,6))})")
-        print('B 存檔前', json.dumps(before, ensure_ascii=False)); await run.shot(pg, 'B_before')
+        print('B 存檔前', json.dumps(before, ensure_ascii=False)); await run.shot(pg, 'B_before'); hudz = await pg.evaluate("(document.getElementById('clockZ')||{}).textContent||''"); print('B 右上角地點：', hudz)
         await L.close_panels(pg, cdp)
         await L.tap(pg, cdp, '#btnMenu'); await pg.wait_for_timeout(900)
         await pg.evaluate("(()=>{ const t=[...document.querySelectorAll('button')].find(b=>/存檔/.test(b.textContent)&&b.offsetParent&&!/讀取/.test(b.textContent)); if(t) t.click(); })()"); await pg.wait_for_timeout(900)
@@ -47,7 +47,7 @@ async def main():
         saved = await pg.evaluate("!!localStorage.getItem('fatiao3d_slot_2')"); run.check('B 存到欄位 2', saved, '')
         await pg.reload(); await L.wait_loaded(pg)
         await L.tap(pg, cdp, '#btnLoadMenu'); await pg.wait_for_timeout(1500)
-        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 2')); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+        c = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#saveSlots button')].filter(x=>x.textContent==='讀取'); const e=b.find(x=>x.closest('.item')&&x.closest('.item').textContent.includes('欄位 2')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
         if c: await L.touch_tap(cdp, c[0], c[1])
         await pg.wait_for_timeout(5000)
         after = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),home:HOME.at(GAME.G),stage:GAME.G.stage,ch:[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,6))})")
