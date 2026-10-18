@@ -18712,6 +18712,27 @@
     "acceptance": "每個活動一張背景，風格一致",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BUG-ADV-SPEAKER-DIM-1018",
+   "title": "祐廷說話時畫面上是柏翰的立繪亮著，看起來像柏翰在講（使用者 10-18 宿營夜談截圖：「柏翰的圖，但說話的是我欸」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/23 宿營夜談",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者回報",
+   "next": "adv3d.js speaker：說話的人沒有立繪（祐廷、沒有立繪的配角）＝台上的立繪全部變暗；旁白照舊。game3d.js say 傳 'player'。待 BB-C 看宿營夜談"
   }
  ]
 }
