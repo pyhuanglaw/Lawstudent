@@ -18025,7 +18025,8 @@
    },
    "source": "使用者 2026-10-18 06:3x（存檔 918b2572-fatiao3d_save_day-334.json，v9.10 線上版）",
    "authorized": "使用者回報",
-   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到｜BB-C 07:41 遊戲裡 FIXED：9/2 起天天睡到 10/19，#4～#29 全演、沒有 missed、0 卡住、0 例外"
+   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到｜BB-C 07:41 遊戲裡 FIXED：9/2 起天天睡到 10/19，#4～#29 全演、沒有 missed、0 卡住、0 例外",
+   "evidence": "BB-C 2026-10-18 07:41 遊戲內 sleep_probe（c16f5879）：9/2→10/19 天天睡，AA_292 #4～#29 全演、0 missed、0 卡住、0 JS 例外；sleepjump_probe 9/2 15:00 按床 → 9/5 13:15 會計第一堂；tests/econ_ff_unit.js ⑦"
   },
   {
    "id": "BUG-KX-NCCU-1018",
