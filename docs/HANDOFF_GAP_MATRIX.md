@@ -38,15 +38,16 @@
 - 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
 - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
-**B｜全部未完成（要先看的）**
-- P0：QA-PLAYTHROUGH-1018（BB-C）、QA-TRANSCRIPT-1018（LAWWW：劇本→AA；瀏覽器探測腳本 `tests/econ_ff_probe1.py`（第一階段 9/2 起）、`tests/econ_ff_probe2.py`（第二階段 10/17 起），`OUT=<資料夾>` 收 transcript1／2.json）、Q-Y0-NTU-1018（AA 搬休學期校園事件地點，搬完改 econff3d.js STEPS2）、BUG-NO-CLERK-1018（每間店要有店員）、AA295-KX-NOHYPO-1018（可昕不出假設題，約 50 處逐句替換，測試要換）、AA294-SKIPCLASS-1018（翹課錯過劇情的通用規則）。
-- **AA298-RETAKE-FIX-1018（P0，AA 已交 8ec9ae99／e79002de／294cea95，還沒整合）**：衝刺班每天去只停有戲的日子、模擬考 R4 拿掉、R3 改大安森林公園、E34 拿掉、住家裡過濾媽媽問宿舍、為什麼重考改短、考場高中教室、**爸爸長期在上海家裡只有媽媽**；十項做法寫在該任務 next。BG-CAMP-1018（宿營每個活動一張背景，BB 跟使用者要）。
-- 等 AA：Q-CRAM-SPRINT-1018（衝刺班鋪陳；AA 638ec884 已加 E27b 伏筆）、AA_296 只靠手機的劇情盤點、Y0S1 階梯記憶名稱表。
-- 等 BB：BG-HOME-1018 其他 10 張家裡背景（BB_132 第 83 組）。
-- 等 LAWWW2：ART-GG-SHOPS-1018、ART-YU-3D-1018 小語（615a3cbf 已交、還沒整合：char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6 已交、還沒整合：campus_teach_int.diff）。
-- v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者選時段方案）、BUG-ECON-HOME-SHOTS-1018（BB 縮圖總表）、BUG-KXFIRST-0830。
+**B｜全部未完成（要先看的）**（2026-10-18 08:2x 更新）
+- **第一項（使用者最在意）AA300-ECON30-1018**：經濟系縮到約 30 分鐘——52bf3f16 已推（只停 29 場、日期卡 22 句、重考期短場景關掉、新遊戲按鈕字）。**還沒做**：AA_300 第 6 節手機畫面的「跳過」按鈕、要回的訊息多「跳過」選項；不在 29 場的邀約私訊還會問（答應了也不排出遊）→ 問 AA 要不要拿掉。**BB 瀏覽器實測 QA-AA300-1018 已派（SENT）**。
+- P0：QA-PLAYTHROUGH-1018（BB-C 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 的探測在背景跑：scratchpad ff6/transcript1.json、transcript2.json → docs/qa/econ_transcript_*.md → AA）。
+- AA298-RETAKE-FIX-1018、Q-E36-CALL-1018：已整合待測試（a9446ebb、74e3889b）。KX-INVITE-LAW-1018（法律系可以約可昕）已整合待測試。
+- 待開工：MSG-KX-Y0-1018（AA_301 06cc756e：經濟系那一年主動傳訊息給可昕）、BUG-DATE-0831-1018（9/1 早上畫面寫 8/31；econff setT 週日已改 0）、AA296-KXCALL-1018（y0_kx_leave 改電話）、BG-CAMP-1018（BB 548989d6 交 10 張，宿營各場景換 bg）、DORM-AFTER-MOVEOUT-1018（P2）、AA295-KX-NOHYPO-1018、AA294、BUG-NO-CLERK、BUG-ECON-FRIENDS、BUG-HOME-BIKE-HINT。
+- 等 AA：Y0S1 階梯記憶名稱表（KX0_EGG／KX0_SHOP）、AA299 遊覽車／家裡的車圖。
+- 等 LAWWW2 整合：ART-YU-3D-1018 小語（615a3cbf，char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6，campus_teach_int.diff）。
+- v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。
 
-**C｜正在做的**：休學在家瀏覽器探測（10/17→8/13）跑到 3/15、沒有卡住；跑完把台詞整理成 docs/qa/econ_transcript_*.md 給 AA-C。
+**C｜正在做的**：AA_300 第 6 節（手機「跳過」）；背景探測 by3mou72w（新 HEAD，probe1→probe2）。
 
 **D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS-1018）使用者說先不要決定、要方案。
 
