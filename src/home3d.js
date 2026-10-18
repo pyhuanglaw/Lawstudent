@@ -30,7 +30,7 @@ const HOME=(function(){
   S.dinnerPick=function(G){ const D=(L()||{}).dinner||[], H=S.rec(G), T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null;
     const sisHome=firstWeekend(G), okSis=d=>!(sisHome&&/你姊說/.test(d.mom||''));   /* AA_140 G49：「你姊說她下個月回來。」姊姊在家的週末不問 */
     const ok=D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)&&!(H.ate[d.n]!=null&&G.day-H.ate[d.n]<28));
-    const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(G.day+Object.keys(H.ate).length)%pool.length]; };
+    const pool=ok.length?ok:D.filter(d=>(!d.weeks||(T&&T.week>=d.weeks[0]&&T.week<=d.weeks[1]))&&okSis(d)); if(!pool.length) return null; return pool[(((G.day+Object.keys(H.ate).length)%pool.length)+pool.length)%pool.length]; };   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.dinner=async function(GM){ const G=GM.G, H=S.rec(G), d=S.dinnerPick(G); if(!d) return; H.eat={day:G.day}; H.ate[d.n]=G.day;
     await GM.say(null,'（晚餐。'+(firstWeekend(G)?'爸爸、媽媽，姊姊也回來了。':'爸爸、媽媽都在。')+'）'); await GM.say(MOM,d.mom);
     const opts=d.opts.filter(o=>!o.ifMem||(typeof SOCIAL!=='undefined'&&SOCIAL.has(o.ifMem[0],o.ifMem[1]))); await GM.choose(opts.map(o=>({t:'「'+o.t+'」'})));

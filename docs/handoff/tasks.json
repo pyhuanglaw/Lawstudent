@@ -16540,6 +16540,25 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    }
+  },
+  {
+   "area": "BUG",
+   "owner": "LAWWW",
+   "priority": "P0",
+   "id": "BUG-BB218-1018",
+   "title": "BB_218 經濟系第一段的兩個遊戲問題：經濟系課堂老師一句顯示 undefined（日子是負數，輪流序號變負）；9/1 晚上 412 和阿勳的對話鏡頭卡進上舖床板",
+   "status": "已整合待測試",
+   "next": "2026-10-18 01:3x LAWWW-C：classes3d.js S.rot（取正的餘數；同樣的負數問題 home3d 家裡吃飯、story3d 閒聊招呼、點頭招呼一起改）；宿舍 z.camBox 鏡頭只在中間走道、412 第一晚兩人鏡頭從房間裡往門口拍。tests/syllabus_unit.js 經濟系 173 堂（舊版失敗、新版通過）。等 BB-C 重拍 2024-09-04 課堂、9/1 412 那幾格",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲 2024-09-01 412 第一晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   }
   }
  ]
 }

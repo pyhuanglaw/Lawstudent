@@ -53,4 +53,8 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
 // 特殊課堂的週次：courses.js 的 specials 和 BB 的課堂內容（syllabus 的 special）一致（BB 2026-10-13：「週次以課堂內容所在的週為準」）
 { const bad=[]; for(const c of COURSES.list){ const a=(c.specials||[]).map(s=>s.w).sort((x,y)=>x-y), ws=(SYLLABUS.courses[c.id]||[]).filter(w=>w.special).map(w=>w.w).sort((x,y)=>x-y); if(JSON.stringify(a)!==JSON.stringify(ws)) bad.push(c.id+' '+JSON.stringify(a)+'≠'+JSON.stringify(ws)); }
   check('每一門課的特殊課堂週次＝BB 課堂內容標 special 的週次（經原第 3 週第一次走進這門課、第 4 週分組、法理學第 6 週、國際公法第 15 週、智財第 5 週、專題研究第 10 週）',!bad.length,bad.join(' | ')); }
+// 經濟系那一年（G.day 是負的）：每一堂的老師一句、同學反應都要是字串（BB_218：2024-09-04 微積分、體育顯示「老師：undefined」——輪流序號 (day+week)%n 變負的）
+{ const d0=dayOf('2024-09-01'), d1=dayOf('2025-06-30'), bad=[]; let n=0;
+  for(let d=d0; d<=d1; d++) for(const it of CLS.dayItems({day:d,hour:8,flags:{},stage:'econ'})){ if(it.exam) continue; const ct=CLS.content(it); n++; if(typeof ct.line!=='string'||!ct.line||ct.react==null||String(ct.react).includes('undefined')) bad.push(d+' '+it.c.id+' W'+it.week+' '+String(ct.line)); }
+  check('經濟系那一年 '+n+' 堂：老師一句都是字串、沒有 undefined',n>0&&!bad.length,bad.slice(0,4).join(' | ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -187,7 +187,7 @@ const STORY = (function(){
       await GM.say(null,'你已經吃過了。媽媽也知道。');
       const camp=!!F.ECON_CAMP_OPEN;   /* 第 7 組 7-3：宿營就認識阿勳了 */
       await GM.say(null,camp?'門開了。宿營第三小隊的阿勳拿著臉盆走進來，看了你的紙箱一眼。':'門開了。一個很高的男生拿著臉盆走進來，看了你的紙箱一眼。');
-      const n=GM.npc[XUN]||GM.spawnCharacter(XUN,0.2,2.6,{yaw:Math.PI,pose:'idle'}); if(n){ GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine) GM.cine('two',E.player.obj,n.obj); }
+      const n=GM.npc[XUN]||GM.spawnCharacter(XUN,0.2,2.6,{yaw:Math.PI,pose:'idle'}); if(n){ GM.face(n,E.player.obj.position.x,E.player.obj.position.z); if(GM.cine){ const P=E.player.obj.position, Q=n.obj.position, mx=(P.x+Q.x)/2, mz=(P.z+Q.z)/2; GM.cine('two',E.player.obj,n.obj,{pos:V(mx-1.0,1.55,mz-1.9),look:V(mx,1.4,mz)}); } }   /* 兩個人都在門口：鏡頭從房間裡面（左邊走道）往門口拍，不從側面推進上舖床或洗手間的隔間（BB_218）*/
       if(!camp&&typeof SOCIAL!=='undefined'&&SOCIAL.meet) SOCIAL.meet(XUN,'dorm');
       const who=xunWho(GM);
       if(camp){ await GM.say(who,'欸，第三小隊的。我們同一間？'); await GM.say(ME(G),'好像是。'); await GM.say(who,'門口的名單，我們兩個排在一起。學號也只差一號。'); }   /* 7-3 */
@@ -494,7 +494,7 @@ const STORY = (function(){
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
     const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }
-    const B=(g.base||[]).filter(t=>ladGreetOk(G,t)); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
+    const B=(g.base||[]).filter(t=>ladGreetOk(G,t)); if(!B.length) return null;   /* base 也看 LADDER_GREET_IF（條件不到的那一句跳過）*/ const n=(((G.day*7+(so.ladder[D.key]|0)+u.list.length)%B.length)+B.length)%B.length; let t=B[n]; if(t===u.last&&B.length>1) t=B[(n+1)%B.length]; u.list.push(t); u.last=t; return t; };
   /* 播一層：她說的話 → 玩家的回答（最多 2）→ 她的收尾；rel、mem 照資料；推進一層（今天不再推進）*/
   /* linesIf／extraIf 的一套：情境 key（week、term、weekday、time、location、weather、weekParity、dayMin、locTime）照 ladCtxOk 檢查，其他（if、unless、或直接寫的條件）交給 EVENTS.cond。
      2026-10-16 AA-B 驗收：原本整套丟給 EVENTS.cond，它不認得 week 就忽略＝永遠成立（以安大一下第 3 週就說「杜鵑花謝了」）*/
@@ -676,7 +676,7 @@ const STORY = (function(){
   const B_NOD=['（{n}對你點點頭。）','（{n}揮了一下手。）','（{n}抬頭看了你一眼，笑了一下。）'];
   function greetB(G,id,r,nm,T,tid){ r.day=G.day; const per=T&&B_GREET.find(p=>T.week>=p.w[0]&&T.week<=p.w[1]); let hsh=0; for(const ch of id) hsh=(hsh*31+ch.charCodeAt(0))>>>0;
     if(per&&(G.day+hsh)%3===0){ const g=r.greet||(r.greet={}); if(g.term!==tid){ g.term=tid; g.used=[]; } const line=per.L.find(t=>!g.used.includes(t)); if(line){ g.used.push(line); return {say:line,fresh:false}; } }
-    return {narr:B_NOD[(G.day+hsh)%B_NOD.length].replace('{n}',nm),fresh:false}; }
+    return {narr:B_NOD[(((G.day+hsh)%B_NOD.length)+B_NOD.length)%B_NOD.length].replace('{n}',nm),fresh:false}; }   /* 經濟系那一年 G.day 是負的：取正的餘數 */
   S.greetB=greetB;
   /* 柏翰的期中倒數：今天到這學期第一個期中考時段（照玩家的課表與日曆；放假的日子沒有課，自然跳過）的天數；這學期沒有期中考＝null */
   S.daysToMidterm=function(G){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return null; const t=CALENDAR.termOf(G.day); if(!t) return null;
