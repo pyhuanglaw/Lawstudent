@@ -18152,6 +18152,48 @@
    "source": "使用者 2026-10-18 06:5x",
    "authorized": "使用者回報（系統字）",
    "next": "freetrip3d.js：台北的排前面、外縣市的排後面，名字後面寫「（外縣市・要轉車）」，開頭說明「外縣市的要先搭捷運，再轉火車、高鐵或客運」；交通照資料（例：捷運到台北車站＋火車到花蓮站＋公車到七星潭）。tests/dl06_trip_unit.js。待 BB-C 看選單"
+  },
+  {
+   "id": "AA295-KX-NOHYPO-1018",
+   "title": "AA_295：可昕不要有出假設題的習慣（使用者 10-18 選擇題）；E26 摩天輪最高點不說話；尾聲物件換摩天輪票根",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 9fecc202（AA_295、DL-AA-9fecc202）",
+   "authorized": "使用者選擇題",
+   "next": "照 AA_295 逐句替換表改 events.js 約 25 處、story3d、adv3d、encounters、enc_walk、date_lines、characters、social3d；白名單 6 個階梯檔重新匯入；測試寫死的原句跟著換"
+  },
+  {
+   "id": "BUG-E30-CLERK-1018",
+   "title": "E30 休學承辦人多講話（使用者 10-18）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 14:40 辦休學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18（AA-C 62561d73）",
+   "authorized": "使用者回報",
+   "next": "AA-C 已改；待 BB-C 瀏覽器"
   }
  ]
 }
