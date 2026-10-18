@@ -1083,3 +1083,4 @@
 
 - **2026-10-18 02:3x（經 AA-C 轉述使用者原話，AA 清查五題）**：①校門、男一舍、普通／博雅教學館、捷運公館站出口「做好就開」（10-13「先不開新外觀」解除）→ LAWWW-C 派 LAWWW2：ART-EXT-M1 → GATE → TEACH → MRT（排在 ART-L118-GROUND 之後、ART-US-SEASON 之前）；②新體育館 3F「開」→ ART-GYM2-INT（LAWWW，v9.10 後，五欄）；③使用者正在生 BB_132 第 75、79、80 組圖，BB 檢查後交 LAWWW；④美國主街「不需要」→ us_street.glb 不接（SCN-US-02 註記）；⑤學生活動中心取消、畢業後職涯「以後再說」（暫停）。USER_WANTS c7c6bca0（AA-C）。通知：LAWWW2-C、AA-C（SENT／DELIVERED）。
 - **2026-10-18 03:1x（使用者直接對 LAWWW-C，兩次）**：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」→ 取代 02:3x 經 AA 轉述的「做好就開」被 LAWWW-C 解讀成重做 Blender 外觀；ART-EXT-M1／GATE／TEACH／MRT 取消、USER_WANTS X04 改取消；LAWWW2-C 停手、WIP 存檔、改做 ART-US-SEASON（SENT／DELIVERED）；通知 AA-C。錯在 LAWWW-C 沒先跟使用者確認就派工。
+- **2026-10-18 03:2x（使用者直接對 LAWWW-C）**：「那就一起做如果只要改外型 叫他繼續 他原本做了25分鐘，現在東西還在嗎？」→ 取代 03:1x 的取消：ART-EXT-M1／GATE／TEACH／MRT 恢復（只換外型），USER_WANTS X04、ASSET_INVENTORY 改回；LAWWW2-C 通知繼續並先 push 男一舍 WIP（03:2x 遠端最後 59a2cd40，WIP 還沒推上來）。

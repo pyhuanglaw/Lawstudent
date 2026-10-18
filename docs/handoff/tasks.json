@@ -16826,7 +16826,7 @@
    "title": "男一舍外觀（玩家自己的宿舍；校園上目前是 CK 套件方盒）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "取消／被取代",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16839,25 +16839,22 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
+   "authorized": "使用者 2026-10-18 03:2x 直接對 LAWWW-C：「那就一起做，如果只要改外型，叫他繼續」",
+   "next": "【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內同角度前後截圖；導航阻擋不變或附新的",
     "receiver": "LAWWW-C",
     "ack": "SENT"
-   },
-   "replacedBy": "NONE",
-   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
-   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
+   }
   },
   {
    "id": "ART-EXT-GATE",
    "title": "臺大校門外觀（校園與公館共用，CK.gate 套件）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "取消／被取代",
+   "status": "待開工",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16870,25 +16867,22 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
+   "authorized": "使用者 2026-10-18 03:2x 直接對 LAWWW-C：「那就一起做，如果只要改外型，叫他繼續」",
+   "next": "【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內同角度前後截圖；導航阻擋不變或附新的",
     "receiver": "LAWWW-C",
     "ack": "SENT"
-   },
-   "replacedBy": "NONE",
-   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
-   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
+   }
   },
   {
    "id": "ART-EXT-TEACH",
    "title": "普通教學館、博雅教學館外觀（teach3d.js 的方案 A／B 門）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "取消／被取代",
+   "status": "待開工",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16901,25 +16895,22 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
+   "authorized": "使用者 2026-10-18 03:2x 直接對 LAWWW-C：「那就一起做，如果只要改外型，叫他繼續」",
+   "next": "【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內同角度前後截圖；導航阻擋不變或附新的",
     "receiver": "LAWWW-C",
     "ack": "SENT"
-   },
-   "replacedBy": "NONE",
-   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
-   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
+   }
   },
   {
    "id": "ART-EXT-MRT",
    "title": "捷運公館站出口外觀（TK.mrtExit）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "取消／被取代",
+   "status": "待開工",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16932,18 +16923,15 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "authorized": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
-   "next": "取消（03:1x）。LAWWW2 男一舍已做的部分存 WIP，不整合。",
+   "authorized": "使用者 2026-10-18 03:2x 直接對 LAWWW-C：「那就一起做，如果只要改外型，叫他繼續」",
+   "next": "【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內同角度前後截圖；導航阻擋不變或附新的",
     "receiver": "LAWWW-C",
     "ack": "SENT"
-   },
-   "replacedBy": "NONE",
-   "authorizedBy": "使用者 2026-10-18 03:1x 直接對 LAWWW-C（兩次）",
-   "reason": "使用者：「普通跟博雅館不是早就做好了嗎 公館捷運 男一舍 校門 不是都早就做好了嗎!?為什麼要重新做」——照遊戲裡現在的版本（v9.3 套件重做：男一舍第九批、捷運出口第十二批、校門第十四批；普通／博雅室內＋空橋），不重做 Blender 外觀。派工是 LAWWW-C 照 AA 清查「還是方盒」直接派、沒先跟使用者確認的錯"
+   }
   },
   {
    "id": "ART-GYM2-INT",
