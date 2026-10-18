@@ -1,0 +1,336 @@
+"""普通教學館、博雅教學館的室內（兩層）正式模型 → assets/models/env/second_ai/{putong,boya}_interior.glb。LAWWW2-C 2026-10-18（ART-EXT-TEACH 第二批）：
+  /opt/blenv/bin/python tools/blender/env_second/teach_interior.py -- --set putong|boya [--out 輸出.glb]
+
+配置讀 src/data/{putong,boya}_layout.js（遊戲 src/teach3d.js 的導航、座位、互動點讀同一份，兩邊的牆、樓梯、階梯教室的平台一定一致）。
+座標＝配置的座標：x 往東、z 往南（+z＝南牆：入口）、y 往上；一樓地板 y=0、二樓 floors[1].y、屋頂 roofY。
+節點命名（src/building3d.js 的 B3.attachFormal）：L0_root（一樓＋整座樓梯）、L1_root（二樓：玩家在一樓、鏡頭高過二樓樓板時藏起來）；
+  名字含 WALL_ 的是外牆和貼在外牆上的東西（窗框、窗台、入口的門、往空橋的玻璃門；擋住鏡頭時一起淡出），自訂屬性 dir＝往室內的法線。
+  隔間牆的材質 tb_partition（遊戲接上時標 seeThrough：擋住鏡頭時網點透空，和備用模型一樣）。
+這個模型取代 teach3d.js 備用模型 fb0／fb1 裡的東西：地板、樓板、樓梯、外牆、隔間、窗框、天花板與燈、黑板、講桌、階梯教室的平台與走道台階、講台、黑板、投影幕、
+  沙發、關著的房間的門、講座資訊螢幕的框、入口的門。**桌椅不在這裡**（遊戲的 Z3.desk／Z3.chair、LAWWW2 的 furniture_study.glb 照舊放；patch 把它們搬出 fb0／fb1）。
+不做：字（牌子、指標：遊戲用 canvas 畫）、公告欄（W3.bulletin）、長椅（W3.formalBench）、窗外的景（B3.outView）、點地面用的透明地板。
+真實性：房間配置是遊戲的模板（docs/campus/TEACHING_BUILDINGS_PLAN.md），材料是台灣大學教學館常見的做法（磨石子地板、輕鋼架礦纖天花板、白牆、綠黑板），不宣稱還原真實室內。"""
+import json, math, os, sys
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import lib2 as L   # noqa: E402
+from lib2 import B, Mesh, g2b, bpy   # noqa: E402
+
+ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
+def arg(n, d=None): return ARGS[ARGS.index(n) + 1] if n in ARGS else d
+SET = arg('--set', 'boya'); KEY = {'boya': 'BOYA_LAYOUT', 'putong': 'PUTONG_LAYOUT'}[SET]
+OUT = os.path.join(L.ROOT, arg('--out', f'assets/models/env/second_ai/{SET}_interior.glb'))
+src = open(os.path.join(L.ROOT, f'src/data/{SET}_layout.js'), encoding='utf8').read()
+J = json.loads(src[src.index('{', src.index(KEY)):src.rindex('}') + 1])
+
+W, D, T = J['W'], J['D'], J['wallT']; Y1 = J['floors'][1]['y']; RY = J['roofY']; ST = J['slabT']; C0 = J['ceil0']
+X0, X1, Z0, Z1 = -W / 2, W / 2, -D / 2, D / 2
+XI0, XI1, ZI0, ZI1 = X0 + T / 2, X1 - T / 2, Z0 + T / 2, Z1 - T / 2
+S = J['stair']; SA, SB, LD, MW, WL = S['A'], S['B'], S['landing'], S['midWall'], S['well']; RS, TR = S['rise'], S['tread']
+EN = J['entrance']; BR = J.get('bridge')
+B.reset(texres=512)
+root = B.group(f'{SET}_interior', props={'kind': f'{SET}_interior', 'w': W, 'd': D})
+G = [B.group('L0_root', root), B.group('L1_root', root)]
+DIRS = {'N': [0, 0, 1], 'S': [0, 0, -1], 'W': [1, 0, 0], 'E': [-1, 0, 0]}
+WARM = SET == 'putong'
+
+M = {
+    'floor': L.pbr('tb_floor', 'terrazzo_tiles', tile=1.6, target='#cfc7b8' if WARM else '#d6d2ca', sat=0.45, maps=('diff',), res=512, rough_value=0.4),   # 磨石子
+    'slab': L.flat('tb_slab', '#e6e3dc', rough=0.9),
+    'wall': L.flat('tb_wall', '#ece7dd' if WARM else '#eeece7', rough=0.9),
+    'part': L.flat('tb_partition', '#e9e4d9' if WARM else '#ebe9e3', rough=0.9),
+    'base': L.flat('tb_baseboard', '#5a5650', rough=0.6),
+    'ceil': L.pbr('tb_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
+    'tbar': L.flat('tb_ceiling_grid', '#dcdcd8', rough=0.5),
+    'light': L.flat('tb_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
+    'granite': L.pbr('tb_stair_granite', 'granite_tile_03', tile=1.2, target='#8f8b85', sat=0.4, normal=0.4, maps=('diff', 'nor'), rough_value=0.4),
+    'nosing': L.flat('tb_nosing', '#34363a', rough=0.7),
+    'steel': L.flat('tb_steel', '#c9ccd0', rough=0.28, metal=0.45),
+    'frame': L.flat('tb_frame', '#7d8287', rough=0.4, metal=0.3),
+    'wood': L.pbr('tb_wood', 'fine_grained_wood', tile=1.2, target='#8a6a4a', maps=('diff',), res=256, rough_value=0.5),
+    'door': L.pbr('tb_door', 'fine_grained_wood', tile=1.6, target='#7a5a3e', maps=('diff',), res=256, rough_value=0.55),
+    'board': L.flat('tb_chalkboard', '#2f4a3a', rough=0.75),
+    'tray': L.flat('tb_chalk_tray', '#a7a9a6', rough=0.4, metal=0.3),
+    'screen': L.flat('tb_screen', '#f2f0ea', rough=0.85),
+    'carpet': L.pbr('tb_carpet', 'dirty_carpet', tile=1.0, target='#5f6b78', sat=0.15, normal=0.4, maps=('diff', 'nor'), rough_value=0.95),   # 階梯教室的平台
+    'riser': L.flat('tb_riser', '#8f8b84', rough=0.85),
+    'stepvinyl': L.flat('tb_step_strip', '#d8d2c4', rough=0.7),
+    'sofa': L.flat('tb_sofa_fabric', '#5e6a72' if not WARM else '#6a5a4c', rough=0.92),
+    'sofaleg': L.flat('tb_sofa_leg', '#2c2c2e', rough=0.5, metal=0.3),
+    'glass': L.flat('tb_glass', '#c4d6dc', rough=0.05, alpha=0.22),
+    'mat': L.flat('tb_doormat', '#4a4d50', rough=0.95),
+    'dark': L.flat('tb_dark', '#26282b', rough=0.5),
+}
+MESH, WMESH = {}, {}
+def mk(lv, key):
+    k = (lv, key)
+    if k not in MESH: MESH[k] = Mesh(f'L{lv}_{key}', M[key])
+    return MESH[k]
+def wm(lv, side, key):
+    k = (lv, side, key)
+    if k not in WMESH: WMESH[k] = Mesh(f'L{lv}_WALL_{side}_{key}', M[key])
+    return WMESH[k]
+def hquad(m, x0, x1, z0, z1, y, down=True):
+    p = [(x0, y, z0), (x1, y, z0), (x1, y, z1), (x0, y, z1)]
+    m.quad(p if down else p[::-1])
+def vquad_z(m, z, x0, x1, y0, y1, facing):
+    p = [(x0, y0, z), (x1, y0, z), (x1, y1, z), (x0, y1, z)]
+    m.quad(p if facing > 0 else p[::-1])
+def vquad_x(m, x, z0, z1, y0, y1, facing):
+    p = [(x, y0, z1), (x, y0, z0), (x, y1, z0), (x, y1, z1)]
+    m.quad(p if facing > 0 else p[::-1])
+def seg_gaps(a0, a1, gaps):
+    out, a = [], a0
+    for (g0, g1) in sorted(gaps):
+        if g0 > a: out.append((a, g0))
+        a = max(a, g1)
+    if a < a1: out.append((a, a1))
+    return out
+
+# ================= 地板、樓板、天花板 =================
+mk(0, 'floor').box(X0, X1, -0.05, 0.0, Z0, Z1)
+mk(0, 'mat').box(EN['a0'] + 0.1, EN['a1'] - 0.1, 0.0, 0.012, ZI1 - 1.4, ZI1 - 0.02)
+QS = [(X0, X1, WL['z1'], Z1), (X0, WL['x0'], Z0, WL['z1']), (WL['x1'], X1, Z0, WL['z1']), (WL['x0'], WL['x1'], Z0, WL['z0']), (SB['x0'], SB['x1'], SB['z1'], WL['z1'])]
+for (a, b, c, d) in QS:
+    if b - a < 0.05 or d - c < 0.05: continue
+    mk(1, 'slab').box(a, b, Y1 - ST, Y1 - 0.012, c, d)
+    mk(1, 'floor').box(max(a, XI0), min(b, XI1), Y1 - 0.012, Y1, max(c, ZI0), min(d, ZI1))
+# 一樓天花板（ceil0）：樓梯井那一塊不做（往上看得到樓梯）；井的四周從天花板到二樓樓板之間封板
+LP = J.get('lightPanels') or {'xs': [], 'zs': []}
+def ceiling(lv, y, rects):
+    for (x0, x1, z0, z1) in rects:
+        if x1 - x0 < 0.05 or z1 - z0 < 0.05: continue
+        hquad(mk(lv, 'ceil'), x0, x1, z0, z1, y)
+        k = math.ceil((x0 - XI0) / 0.6 + 1e-6)
+        while XI0 + k * 0.6 < x1 - 0.05:
+            x = XI0 + k * 0.6; mk(lv, 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
+        k = math.ceil((z0 - ZI0) / 0.6 + 1e-6)
+        while ZI0 + k * 0.6 < z1 - 0.05:
+            z = ZI0 + k * 0.6; mk(lv, 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
+    for x in LP['xs']:
+        for z in LP['zs']:
+            if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
+            mk(lv, 'tbar').box(x - 0.62, x + 0.62, y - 0.02, y - 0.004, z - 0.17, z + 0.17)
+            hquad(mk(lv, 'light'), x - 0.6, x + 0.6, z - 0.15, z + 0.15, y - 0.021)
+ceiling(0, C0, [(XI0, XI1, WL['z1'], ZI1), (XI0, WL['x0'], ZI0, WL['z1']), (WL['x1'], XI1, ZI0, WL['z1']), (WL['x0'], WL['x1'], ZI0, WL['z0'])])
+for (a, b, c, d) in ((WL['x0'], WL['x1'], WL['z0'] - 0.02, WL['z0']), (WL['x0'], WL['x1'], WL['z1'], WL['z1'] + 0.02)):
+    mk(0, 'wall').box(a, b, C0, Y1 - ST, c, d)
+for (x, s) in ((WL['x0'], -1), (WL['x1'], 1)):
+    mk(0, 'wall').box(x - 0.01, x + 0.01, C0, Y1 - ST, WL['z0'], WL['z1'])
+ceiling(1, RY, [(XI0, XI1, ZI0, ZI1)])
+
+# ================= 外牆（兩層，一層一塊）：窗洞、入口、往空橋的門 =================
+def holes_for(lv, side):
+    y0, y1 = (0.0, Y1) if lv == 0 else (Y1, RY); out = []
+    for w in J['windows']:
+        if w['wall'] != side or (w['lv'] | 0) != lv: continue
+        out.append((w['a0'], w['a1'], max(w['y0'], y0), min(w['y1'], y1), w))
+    if lv == 0 and side == EN['wall']: out.append((EN['a0'], EN['a1'], 0.0, 2.6, 'entrance'))
+    if lv == 1 and BR and side == 'N': out.append((BR['x'] - BR['doorW'] / 2, BR['x'] + BR['doorW'] / 2, Y1, Y1 + BR['clear'], 'bridge'))
+    for r in J['rooms']:
+        ld = r.get('linkDoor')
+        if ld and (r['lv'] | 0) == lv and side == ('S' if ld['z'] > 0 else 'N'): out.append((ld['x'] - ld['w'] / 2, ld['x'] + ld['w'] / 2, Y1, Y1 + 2.4, 'link'))
+    return sorted(out, key=lambda h: h[0])
+def wall_piece(lv, side, a0, a1, y0, y1):
+    if a1 - a0 < 0.01 or y1 - y0 < 0.01: return
+    m = wm(lv, side, 'wall')
+    if side == 'N': m.box(a0, a1, y0, y1, Z0 - T / 2, Z0 + T / 2)
+    elif side == 'S': m.box(a0, a1, y0, y1, Z1 - T / 2, Z1 + T / 2)
+    elif side == 'W': m.box(X0 - T / 2, X0 + T / 2, y0, y1, a0, a1)
+    else: m.box(X1 - T / 2, X1 + T / 2, y0, y1, a0, a1)
+def on_wall(m, side, a0, a1, y0, y1, d0, d1):
+    """貼在外牆內面的盒子：a＝沿牆、d＝從牆的內面往室內"""
+    if side == 'N': m.box(a0, a1, y0, y1, ZI0 + d0, ZI0 + d1)
+    elif side == 'S': m.box(a0, a1, y0, y1, ZI1 - d1, ZI1 - d0)
+    elif side == 'W': m.box(XI0 + d0, XI0 + d1, y0, y1, a0, a1)
+    else: m.box(XI1 - d1, XI1 - d0, y0, y1, a0, a1)
+SPAN = {'N': (X0, X1), 'S': (X0, X1), 'W': (ZI0, ZI1), 'E': (ZI0, ZI1)}
+for lv in (0, 1):
+    y0, y1 = (0.0, Y1) if lv == 0 else (Y1, RY)
+    for side in 'NSWE':
+        a0, a1 = SPAN[side]; cur = a0
+        for (ha, hb, hy0, hy1, w) in holes_for(lv, side):
+            wall_piece(lv, side, cur, ha, y0, y1); wall_piece(lv, side, ha, hb, y0, hy0); wall_piece(lv, side, ha, hb, hy1, y1); cur = hb
+            fr = wm(lv, side, 'frame')
+            if isinstance(w, dict):                                                      # 窗：直櫺、上下框（在牆的內面，窗外的景在它們後面）、窗台
+                n = w['n']; ln = hb - ha
+                for i in range(n + 1):
+                    a = ha + ln * i / n; e = 0.03 if 0 < i < n else 0.045
+                    on_wall(fr, side, max(ha - 0.02, a - e), min(hb + 0.02, a + e), hy0, hy1, -0.02, 0.07)
+                for yy, top in ((hy0, False), (hy1, True)):
+                    on_wall(fr, side, ha - 0.04, hb + 0.04, yy - (0.05 if top else 0.0), yy + (0.0 if top else 0.05), -0.02, 0.07)
+                on_wall(fr, side, ha, hb, hy0 + (hy1 - hy0) * 0.7 - 0.02, hy0 + (hy1 - hy0) * 0.7 + 0.02, -0.02, 0.06)   # 橫櫺（上面一格固定窗）
+                on_wall(wm(lv, side, 'wood'), side, ha - 0.06, hb + 0.06, hy0 - 0.04, hy0, -0.02, 0.18)               # 窗台
+            elif w == 'entrance':                                                        # 入口：鋁框玻璃雙開門＋上面的固定窗
+                for (ua, ub) in ((ha, ha + 0.06), (hb - 0.06, hb), ((ha + hb) / 2 - 0.03, (ha + hb) / 2 + 0.03)): on_wall(fr, side, ua, ub, 0.0, 2.6, -0.08, 0.04)
+                for (va, vb) in ((2.12, 2.18), (2.54, 2.6)): on_wall(fr, side, ha, hb, va, vb, -0.08, 0.04)
+                for (ua, ub) in ((ha + 0.06, (ha + hb) / 2 - 0.03), ((ha + hb) / 2 + 0.03, hb - 0.06)):
+                    on_wall(fr, side, ua, ub, 0.0, 0.12, -0.06, 0.02)
+                    for d_ in (-0.03,):
+                        g_ = mk(lv, 'glass')
+                        if side == 'S': vquad_z(g_, ZI1 - d_, ua, ub, 0.12, 2.12, -1)
+                    on_wall(mk(lv, 'steel'), side, (ua + ub) / 2 + (0.25 if ua < (ha + hb) / 2 else -0.27), (ua + ub) / 2 + (0.27 if ua < (ha + hb) / 2 else -0.25), 0.85, 1.3, 0.04, 0.09)
+                if side == 'S': vquad_z(mk(lv, 'glass'), ZI1 + 0.03, ha + 0.06, hb - 0.06, 2.18, 2.54, -1)
+            elif w in ('bridge', 'link'):                                                # 往空橋：門框（門洞本身打開；空橋那一頭是另一個模型）
+                hh = hy1 - hy0
+                for (ua, ub) in ((ha - 0.06, ha + 0.02), (hb - 0.02, hb + 0.06)): on_wall(fr, side, ua, ub, hy0, hy0 + hh + 0.06, -0.04, 0.05)
+                on_wall(fr, side, ha - 0.06, hb + 0.06, hy0 + hh, hy0 + hh + 0.08, -0.04, 0.05)
+        wall_piece(lv, side, cur, a1, y0, y1)
+        # 踢腳板（外牆內面；門洞的地方斷開）
+        cur = a0
+        for (ha, hb, hy0, hy1, w) in holes_for(lv, side) + [(a1, a1, 0, 0, None)]:
+            if hy0 <= y0 + 0.01 and ha - cur > 0.02: on_wall(wm(lv, side, 'base'), side, cur, ha, y0, y0 + 0.1, 0.0, 0.015)
+            elif ha - cur > 0.02: on_wall(wm(lv, side, 'base'), side, cur, ha, y0, y0 + 0.1, 0.0, 0.015)
+            cur = max(cur, hb) if hy0 <= y0 + 0.01 else cur
+
+# ================= 隔間牆（門洞上方門楣、門框、兩面踢腳板）=================
+for w in J['walls']:
+    lv = w['lv'] | 0; y0 = Y1 if lv else 0.0; h = (RY - Y1) if lv else C0
+    horiz = abs(w['z0'] - w['z1']) < 1e-6
+    a0, a1 = (min(w['x0'], w['x1']), max(w['x0'], w['x1'])) if horiz else (min(w['z0'], w['z1']), max(w['z0'], w['z1']))
+    c = w['z0'] if horiz else w['x0']; gaps = w.get('gaps') or []
+    pm, bm_, fm = mk(lv, 'part'), mk(lv, 'base'), mk(lv, 'frame')
+    def box_a(m, a, b, ya, yb, t0, t1):
+        if horiz: m.box(a, b, ya, yb, c + t0, c + t1)
+        else: m.box(c + t0, c + t1, ya, yb, a, b)
+    for (a, b) in seg_gaps(a0, a1, gaps):
+        if b - a < 0.02: continue
+        box_a(pm, a, b, y0, y0 + h, -0.1, 0.1)
+        box_a(bm_, a, b, y0, y0 + 0.1, -0.115, -0.1); box_a(bm_, a, b, y0, y0 + 0.1, 0.1, 0.115)
+    for (g0, g1) in gaps:
+        if h > 2.4: box_a(pm, g0, g1, y0 + 2.4, y0 + h, -0.1, 0.1)
+        for (a, b) in ((g0 - 0.06, g0 + 0.01), (g1 - 0.01, g1 + 0.06)): box_a(fm, a, b, y0, y0 + 2.46, -0.12, 0.12)   # 門框（不鏽鋼）
+        box_a(fm, g0 - 0.06, g1 + 0.06, y0 + 2.4, y0 + 2.46, -0.12, 0.12)
+# 隔間的材質名換成 tb_partition（已經是）；外牆的材質 tb_wall
+# 樓梯井北邊、平台以北的空間：兩層都封起來（導航兩層都不能走）
+for lv in (0, 1):
+    y0, y1 = (0.0, C0) if lv == 0 else (Y1, RY)
+    mk(lv, 'part').box(WL['x0'], WL['x1'], y0, y1, WL['z0'] - 0.2, WL['z0'])
+
+# ================= 樓梯（A 跑往北爬到平台、B 跑往南爬回二樓；磨石子踏面＋深色止滑條、實心到地面）=================
+g = mk(0, 'granite'); nos = mk(0, 'nosing')
+for k in range(SA['risers']):
+    top = (k + 1) * RS; za, zb = SA['z1'] - (k + 1) * TR, SA['z1'] - k * TR
+    if k == SA['risers'] - 1: za = SA['z0']
+    g.box(SA['x0'], SA['x1'], 0.0, top, za, zb); nos.box(SA['x0'] + 0.04, SA['x1'] - 0.04, top, top + 0.004, zb - 0.06, zb - 0.01)
+g.box(LD['x0'], LD['x1'], 0.0, LD['y'], LD['z0'], LD['z1'])
+for j in range(SB['risers']):
+    top = LD['y'] + (j + 1) * RS; za, zb = SB['z0'] + j * TR, SB['z0'] + (j + 1) * TR
+    if j == SB['risers'] - 1: zb = SB['z1']
+    g.box(SB['x0'], SB['x1'], 0.0, top, za, zb); nos.box(SB['x0'] + 0.04, SB['x1'] - 0.04, top, top + 0.004, za + 0.01, za + 0.06)
+mk(0, 'part').box(MW['x0'], MW['x1'], 0.0, Y1 + 0.9, SA['z0'], SA['z1'])                          # 兩跑中間的牆（到二樓樓板上 0.9 m）
+mk(0, 'base').box(MW['x0'] - 0.01, MW['x1'] + 0.01, Y1 + 0.9, Y1 + 0.95, SA['z0'], SA['z1'])
+st = mk(0, 'steel')
+def handrail(pts, r=0.022):
+    for a, b in zip(pts, pts[1:]): st.cyl(a, b, r, seg=8)
+H = 0.9
+# 外側扶手（貼牆）：A 跑西側、B 跑東側；平台三面
+handrail([(SA['x0'] + 0.06, RS + H, SA['z1'] - 0.1), (SA['x0'] + 0.06, SA['risers'] * RS + H, SA['z0'] + 0.1)])
+handrail([(SB['x1'] - 0.06, LD['y'] + RS + H, SB['z0'] + 0.1), (SB['x1'] - 0.06, LD['y'] + SB['risers'] * RS + H, SB['z1'] - 0.1)])
+handrail([(LD['x0'] + 0.06, LD['y'] + H, LD['z1']), (LD['x0'] + 0.06, LD['y'] + H, LD['z0'] + 0.06), (LD['x1'] - 0.06, LD['y'] + H, LD['z0'] + 0.06), (LD['x1'] - 0.06, LD['y'] + H, LD['z1'])])
+for (x, z0_, z1_, y0_, y1_) in ((SA['x0'] + 0.06, SA['z1'] - 0.1, SA['z0'] + 0.1, RS + H, SA['risers'] * RS + H), (SB['x1'] - 0.06, SB['z0'] + 0.1, SB['z1'] - 0.1, LD['y'] + RS + H, LD['y'] + SB['risers'] * RS + H)):
+    for t in (0.15, 0.5, 0.85):                                                                     # 扶手的托架
+        z = z0_ + (z1_ - z0_) * t; y = y0_ + (y1_ - y0_) * t
+        st.cyl((x, y - 0.06, z), (x - (0.05 if x < 0 or x == SA['x0'] + 0.06 else -0.05), y - 0.06, z), 0.008, seg=6)
+# 二樓樓板邊（樓梯井）的欄杆：鋼扶手＋玻璃（井的西側、南側 A 跑上面）
+gl = mk(1, 'glass')
+for (pa, pb) in (((WL['x0'], Y1, WL['z0']), (WL['x0'], Y1, WL['z1'])), ((WL['x0'], Y1, WL['z1']), (SB['x0'] - 0.02, Y1, WL['z1']))):
+    handrail([(pa[0], Y1 + 1.0, pa[2]), (pb[0], Y1 + 1.0, pb[2])], r=0.025)
+    if abs(pa[0] - pb[0]) < 1e-6: vquad_x(gl, pa[0] + 0.02, min(pa[2], pb[2]), max(pa[2], pb[2]), Y1 + 0.1, Y1 + 0.95, 1)
+    else: vquad_z(gl, pa[2] - 0.02, min(pa[0], pb[0]), max(pa[0], pb[0]), Y1 + 0.1, Y1 + 0.95, -1)
+    n = max(2, int(math.hypot(pb[0] - pa[0], pb[2] - pa[2]) / 1.2) + 1)
+    for i in range(n + 1):
+        t = i / n; x = pa[0] + (pb[0] - pa[0]) * t; z = pa[2] + (pb[2] - pa[2]) * t
+        st.cyl((x, Y1, z), (x, Y1 + 1.0, z), 0.02, seg=8)
+
+# ================= 房間：階梯教室、教室、關著的房間 =================
+for r in J['rooms']:
+    lv = r['lv'] | 0; Y = J['floors'][lv]['y']
+    if r['kind'] == 'lecture':
+        up = -1 if r.get('stage') == 'S' else 1; sx0, sx1 = r['seatX0'], r['seatX1']
+        wx0, wx1 = min(a[0] for a in r['aisles']), max(a[1] for a in r['aisles'])
+        cp, rs, ns, sv = mk(lv, 'carpet'), mk(lv, 'riser'), mk(lv, 'nosing'), mk(lv, 'stepvinyl')
+        for q in r['rowsData']:
+            za, zb = min(q['front'], q['back']), max(q['front'], q['back']); half = (q['y'] - q['yPrev']) / 2
+            cp.box(sx0, sx1, Y, Y + q['y'], za, zb)                                                   # 座位區的平台（和遊戲備用模型同尺寸）
+            rs.box(sx0, sx1, Y + q['yPrev'], Y + q['y'], q['front'] - up * 0.022, q['front'] - up * 0.0005) if up < 0 else rs.box(sx0, sx1, Y + q['yPrev'], Y + q['y'], q['front'] - 0.0005, q['front'] + 0.022)
+            ns.box(wx0, wx1, Y + q['y'] - 0.035, Y + q['y'], *(sorted([q['front'], q['front'] + up * 0.05])))
+            for (a0, a1) in r['aisles']:
+                fa, fb = min(q['stepEnd'], q['back']), max(q['stepEnd'], q['back'])
+                z_1 = q['front'] + up * r['stepD']
+                cp.box(a0, a1, Y, Y + q['yPrev'] + half, *(sorted([q['front'], q['front'] + up * r['stepD']])))
+                cp.box(a0, a1, Y, Y + q['y'], *(sorted([q['front'] + up * r['stepD'], q['front'] + up * r['stepD'] * 2])))
+                cp.box(a0, a1, Y, Y + q['y'], fa, fb)
+                for (zz, yy) in ((q['front'], q['yPrev'] + half), (z_1, q['y'])):
+                    sv.box(a0, a1, Y + yy, Y + yy + 0.006, *(sorted([zz, zz + up * 0.06])))
+        if r.get('lectern'):
+            lc = r['lectern']; wd = mk(lv, 'wood')
+            wd.box(lc['x'] - lc['w'] / 2, lc['x'] + lc['w'] / 2, Y, Y + 1.05, lc['z'] - lc['d'] / 2, lc['z'] + lc['d'] / 2)
+            mk(lv, 'dark').box(lc['x'] - lc['w'] / 2 - 0.05, lc['x'] + lc['w'] / 2 + 0.05, Y + 1.05, Y + 1.1, lc['z'] - lc['d'] / 2 - 0.05, lc['z'] + lc['d'] / 2 + 0.05)
+        wz = r['z1'] if up < 0 else r['z0']                                                          # 講台那一面牆（外牆的內面）
+        wz_in = wz                                                                                   # 房間的邊界就是牆的內面（z1＝D/2−T/2）
+        if r.get('board'):
+            b = r['board']; zf = wz_in + up * 0.02
+            mk(lv, 'board').box(b['x'] - b['w'] / 2, b['x'] + b['w'] / 2, Y + b['y0'], Y + b['y1'], *(sorted([wz_in, zf + up * 0.02])))
+            mk(lv, 'frame').box(b['x'] - b['w'] / 2 - 0.05, b['x'] + b['w'] / 2 + 0.05, Y + b['y0'] - 0.05, Y + b['y0'], *(sorted([wz_in, wz_in + up * 0.1])))
+            mk(lv, 'tray').box(b['x'] - b['w'] / 2, b['x'] + b['w'] / 2, Y + b['y0'] - 0.07, Y + b['y0'] - 0.04, *(sorted([wz_in, wz_in + up * 0.08])))
+        if r.get('screen'):
+            sc = r['screen']; zf = wz_in + up * 0.12                                                # 投影幕本身是遊戲畫的白色平面（不在備用模型的群組裡、不會被藏），這裡只做上面的捲軸盒
+            mk(lv, 'dark').box(sc['x'] - sc['w'] / 2 - 0.1, sc['x'] + sc['w'] / 2 + 0.1, Y + sc['y1'], Y + sc['y1'] + 0.12, *(sorted([wz_in, zf])))   # 捲軸盒
+    elif r['kind'] == 'classroom':
+        bb = r['blackboard']; s = 1 if r.get('board') == 'W' else -1; x = bb['x']
+        mk(lv, 'board').box(min(x, x + s * 0.04), max(x, x + s * 0.04), Y + 1.0, Y + 2.2, bb['z'] - bb['len'] / 2, bb['z'] + bb['len'] / 2)
+        mk(lv, 'frame').box(min(x, x + s * 0.05), max(x, x + s * 0.05), Y + 0.96, Y + 1.0, bb['z'] - bb['len'] / 2 - 0.05, bb['z'] + bb['len'] / 2 + 0.05)
+        mk(lv, 'tray').box(min(x, x + s * 0.08), max(x, x + s * 0.08), Y + 0.97, Y + 0.99, bb['z'] - bb['len'] / 2, bb['z'] + bb['len'] / 2)
+        for zz in (bb['z'] - bb['len'] / 2 - 0.05, bb['z'] + bb['len'] / 2 + 0.05): mk(lv, 'frame').box(min(x, x + s * 0.05), max(x, x + s * 0.05), Y + 0.96, Y + 2.24, zz - 0.02, zz + 0.02)
+        mk(lv, 'frame').box(min(x, x + s * 0.05), max(x, x + s * 0.05), Y + 2.2, Y + 2.24, bb['z'] - bb['len'] / 2 - 0.05, bb['z'] + bb['len'] / 2 + 0.05)
+        tc = r['teacher']                                                                               # 講桌（木頭、前面一塊深色面板）
+        mk(lv, 'wood').box(tc['x'] - tc['w'] / 2, tc['x'] + tc['w'] / 2, Y, Y + 0.95, tc['z'] - tc['d'] / 2, tc['z'] + tc['d'] / 2)
+        mk(lv, 'dark').box(tc['x'] - tc['w'] / 2 - 0.03, tc['x'] + tc['w'] / 2 + 0.03, Y + 0.95, Y + 0.98, tc['z'] - tc['d'] / 2 - 0.03, tc['z'] + tc['d'] / 2 + 0.03)
+    elif r['kind'] == 'closed':
+        dz = r['doorZ'] if r.get('doorZ') is not None else r['z0']; out = 1 if abs(dz - r['z1']) < 1e-6 else -1
+        a, b_ = r['door']                                                                               # 門板＋門框（在走廊那一側的牆面上）
+        mk(lv, 'door').box(a + 0.05, b_ - 0.05, Y, Y + 2.3, *(sorted([dz + out * 0.1, dz + out * 0.16])))
+        for (ua, ub) in ((a - 0.02, a + 0.05), (b_ - 0.05, b_ + 0.02)): mk(lv, 'frame').box(ua, ub, Y, Y + 2.36, *(sorted([dz + out * 0.1, dz + out * 0.17])))
+        mk(lv, 'frame').box(a - 0.02, b_ + 0.02, Y + 2.3, Y + 2.36, *(sorted([dz + out * 0.1, dz + out * 0.17])))
+        mk(lv, 'steel').box(b_ - 0.2, b_ - 0.12, Y + 1.0, Y + 1.04, *(sorted([dz + out * 0.16, dz + out * 0.22])))   # 門把
+
+# ================= 沙發（公共空間）、講座資訊螢幕的框 =================
+for grp in (J.get('groups') or []):
+    lv = grp['lv'] | 0; Y = J['floors'][lv]['y']
+    for so in (grp.get('sofas') or []):
+        c, s = math.cos(so['ry']), math.sin(so['ry'])
+        def at(ox, oz): return (so['x'] + ox * c + oz * s, so['z'] - ox * s + oz * c)
+        def rb(m, ox0, ox1, y0_, y1_, oz0, oz1):
+            pts = [at(ox, oz) for ox in (ox0, ox1) for oz in (oz0, oz1)]; xs = [p[0] for p in pts]; zs = [p[1] for p in pts]
+            m.rbox(min(xs), max(xs), Y + y0_, Y + y1_, min(zs), max(zs), r=0.04, seg=2)
+        fm_ = mk(lv, 'sofa'); ln = so['len']
+        rb(fm_, -ln / 2, ln / 2, 0.14, 0.3, -0.38, 0.38)                                                # 底座
+        n = so.get('seats', 2)
+        for i in range(n): rb(fm_, -ln / 2 + ln * i / n + 0.02, -ln / 2 + ln * (i + 1) / n - 0.02, 0.3, 0.44, -0.2, 0.38)   # 坐墊
+        rb(fm_, -ln / 2, ln / 2, 0.3, 0.82, -0.38, -0.2)                                                # 靠背
+        for sx in (-1, 1): rb(fm_, sx * ln / 2 - (0.16 if sx > 0 else 0.0), sx * ln / 2 + (0.0 if sx > 0 else 0.16), 0.14, 0.62, -0.38, 0.38)   # 扶手
+        for (ox, oz) in ((-ln / 2 + 0.08, -0.3), (ln / 2 - 0.08, -0.3), (-ln / 2 + 0.08, 0.3), (ln / 2 - 0.08, 0.3)):
+            x, z = at(ox, oz); mk(lv, 'sofaleg').cyl((x, Y, z), (x, Y + 0.14, z), 0.022, seg=6)
+for bd in (J.get('boards') or []):
+    if bd.get('style') != 'screen': continue
+    lv = bd['lv'] | 0; Y = J['floors'][lv]['y']; sw = bd['w']; sh = sw * 0.6; y0 = Y + 1.25
+    c, s = math.cos(bd['ry']), math.sin(bd['ry'])
+    if abs(s) < 0.5: mk(lv, 'dark').box(bd['x'] - sw / 2 - 0.04, bd['x'] + sw / 2 + 0.04, y0 - 0.04, y0 + sh + 0.04, bd['z'] - 0.03 * c, bd['z'] + 0.03 * c) if c > 0 else None
+    else: mk(lv, 'dark').box(bd['x'] - 0.03, bd['x'] + 0.03, y0 - 0.04, y0 + sh + 0.04, bd['z'] - sw / 2 - 0.04, bd['z'] + sw / 2 + 0.04)
+
+# ================= 輸出 =================
+for (lv, key), m in MESH.items():
+    if m.empty(): continue
+    m.finish(G[lv], smooth=key in ('sofa', 'steel', 'sofaleg'))
+for (lv, side, key), m in WMESH.items():
+    if m.empty(): continue
+    m.finish(G[lv], props={'dir': DIRS[side]})
+L.merge_by_material(G[0], keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L0')
+L.merge_by_material(G[1], keep=lambda ob: 'WALL_' in ob.name, key=lambda ob: 'L1')
+tris = 0
+for ob in root.children_recursive:
+    if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
+st_ = L.export(OUT, gpu_instances=False)
+L.write_json(OUT[:-4] + '.json', dict(st_, tris_total=tris, layout=f'src/data/{SET}_layout.js', note='兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）；桌椅由遊戲放'))
+print(SET, 'tris', tris)
