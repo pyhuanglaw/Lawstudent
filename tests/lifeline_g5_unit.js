@@ -59,7 +59,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('5-1 沒有 CRAM_FREE_KNOWN（防呆）：沒有「你十二月去補習班那天」的選項、沒有「那間補習班說我可以免費」，照樣說好',opts[0].length===2&&!L2.join('').includes('補習班')&&G.flags.RETAKE_TOGETHER===true); }
   /* E28、E24c */
   { econ(d13,22.4,'home',{RETAKE_TOGETHER:true,BIKE_LOOKED_UP:true}); run(22.4,22.6); const gid=PHONE.inGroup(G,'econ_friends')?'g:econ_friends':'g:econ_class', m=txt(gid);
-    check('5-3 E28 22:30 經濟系群組：祐廷「我跟可昕要重考。」…可昕「妳可以跟唐睿。」…韋綸（腳踏車查過）「考完要說。我請你們吃飯。腳踏車那次欠的。」；ev_y0_e28 標演過',m[0]==='player:我跟可昕要重考。'&&m.includes('kexin:妳可以跟唐睿。')&&m[m.length-1]==='econ_weilun:考完要說。我請你們吃飯。腳踏車那次欠的。'&&!!G.events.done.ev_y0_e28&&!!ev('ev_y0_e28').retired,J(m));
+    check('5-3 E28 22:30 經濟系群組：祐廷「我跟可昕要重考。」…品妤「可昕跟我說了。……」可昕「妳可以跟唐睿。」…韋綸（腳踏車查過也一樣，AA_305 第 8 節拿掉「腳踏車那次欠的」）「考完要說。我請你們吃飯。」；ev_y0_e28 標演過',m[0]==='player:我跟可昕要重考。'&&m.includes('econ_pinyu:可昕跟我說了。……那下學期分組誰要跟我。')&&m.includes('kexin:妳可以跟唐睿。')&&m[m.length-1]==='econ_weilun:考完要說。我請你們吃飯。'&&!!G.events.done.ev_y0_e28&&!!ev('ev_y0_e28').retired,J(m));
     run(22.9,23.1); const q=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='y0_e24c_why');
     check('5-2 E24c 23:00 阿勳私訊「欸。群組不好問。」「你為什麼要重考？我是認真問。」＋三個說法',!!q&&q.text==='你為什麼要重考？我是認真問。'&&q.ask.opts.length===3&&txt('p:econ_zhengxun')[0]==='econ_zhengxun:欸。群組不好問。');
     PHONE.answer(G,'y0_e24c_why',0); const t=txt('p:econ_zhengxun');

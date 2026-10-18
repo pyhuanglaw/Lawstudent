@@ -724,7 +724,7 @@ const STORY_EVENTS=[
       {label:'joke'},{speaker:null,text:'之後阿哲和她比冷笑話。'},
       {choice:[{text:'（阿哲贏）',set:{KX_JOKE:'zhe'},goto:'zw'},{text:'（可昕贏）',set:{KX_JOKE:'kexin'},goto:'kw'}]},
       {label:'zw'},{speaker:'kexin',expression:'smile',text:'好，我回去練。'},{goto:'end'},
-      {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。經濟系有一個人，冷笑話講到全營地睡著。'},
+      {label:'kw'},{speaker:'kexin',expression:'laugh',text:'我練過。不要問跟誰。'},   /* AA_305 第 9 節 */
       {label:'end'} ],
     consequences:{flags:{MIDAUTUMN_Y1:true},stamp:['bbqDay'],memo:'中秋烤肉（河濱）'},
     after:(G)=>{ if(G.flags.KX_BBQ_COME) G.flags.KX_MET_NOODLE_TEAM=true; if(typeof ROM!=='undefined'&&ROM.k3Tell) ROM.k3Tell(G); } },   /* KX_MET_NOODLE_TEAM 只給可昕那邊用；選①「這是可昕，我女朋友。」＝在場的人 knowsGF（BB_191 9-4 #2）*/
@@ -871,7 +871,7 @@ const STORY_EVENTS=[
       {goto:'usual'},
       {label:'first'},{speaker:null,text:'週五的活大。阿勳占了靠窗的四人桌，品妤已經在吃了。'},
       {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},   /* 品妤還沒見過（只在 10-3 見過阿勳的玩家）：照 v1 K2 的規則先介紹自己（AA-B）*/
-      {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……經濟系的冷笑話，還是你最多。'},
+      {speaker:'品妤',text:'重修生？你看起來很有覺悟。'},{speaker:'阿勳',text:'他去年也很有覺悟。只是方向不一樣。'},{speaker:'品妤',text:'……你講話還是一樣，不留情。'},   /* AA_305 第 9 節 */
       {set:{SK03_FIRST:true}},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},{goto:'end'},
       {label:'repay'},{if:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）昨天那題的。還債。'},{unless:{custom:G=>G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'（把一個便當推過來）上週那題的。還債。'},   /* 延後一週：AA-B 改一個詞（第①級）*/{speaker:'品妤',text:'他從來沒請過我。'},{speaker:'阿勳',text:'妳又沒教過我統計。'},
       {set:{XUN_REPAID:true}},{goto:'end'},   /* AA_209 附錄A §2：芯慈分支最後一句（「……經濟系的人也會還債。」）刪 */
@@ -879,7 +879,7 @@ const STORY_EVENTS=[
       {speaker:'classmate_xinci',text:'欸，你是統計課那個……'},/* AA_209 附錄A §2 */{speaker:'阿勳',text:'我。統計課唯一會笑的那個人。'},{speaker:'classmate_xinci',text:'（看向你）你們認識？'},
       {choice:[{text:'「他是我以前的室友。」',if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x1'},{text:'「我們一起住過一年。」',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x2'},{text:'（笑一笑帶過）',unless:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'x3'}]},
       {label:'x1'},{speaker:'classmate_xinci',text:'原來你們以前住同一間。'},{speaker:'classmate_xinci',text:'難怪你們講話有點像。'},{goto:'xend'},   /* AA_209 附錄A §2 */
-      {label:'x2'},{speaker:'player',text:'他每天講一個冷笑話。'},{speaker:'classmate_xinci',text:'那一年的事你之後要講給我聽。'},/* AA_209 附錄A §2 */{set:{ECON_PAST_SHARED:'full'}},{goto:'xend'},
+      {label:'x2'},{speaker:'player',text:'他每天幫我把鬧鐘調快七分鐘。'},   /* AA_305 第 9 節 */{speaker:'classmate_xinci',text:'那一年的事你之後要講給我聽。'},/* AA_209 附錄A §2 */{set:{ECON_PAST_SHARED:'full'}},{goto:'xend'},
       {label:'x3'},{speaker:'阿勳',text:'我們住過同一間。他沒說？'},{speaker:'classmate_xinci',text:'……他什麼都沒說。'},
       {label:'xend'},{speaker:'品妤',text:'好，多一個人。這桌要換大一點的。'},{speaker:'阿勳',text:'每週五，同一桌。'},{set:{ECON_LAW_BRIDGE:true}},{goto:'end'},
       {label:'usual'},{speaker:null,text:'週五的活大。品妤點的永遠是同一個便當，阿勳永遠在講統計。'},
@@ -887,11 +887,11 @@ const STORY_EVENTS=[
       {label:'pre'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'阿勳',text:'統計這週講變異數。我的人生也是。'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'你們法律系的期中考，也要背那麼多嗎？'},
-      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'今天的冷笑話我想好了。……算了，下週。'},{goto:'end'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'保齡球，這學期還欠我一場。'},{goto:'end'},   /* AA_305 第 9 節 */
       {label:'post'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===0},speaker:'classmate_xinci',text:'統計的筆記我帶來了。誰要先吵？'},
       {if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'品妤',text:'芯慈，妳的雙主修還活著嗎？'},{if:{custom:G=>(G.flags.SK03_N|0)%3===1},speaker:'classmate_xinci',text:'活著。只是很累。'},
-      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'法律系的，今天輪你講冷笑話。'},
+      {if:{custom:G=>(G.flags.SK03_N|0)%3===2},speaker:'阿勳',text:'法律系的，今天輪你請飲料。'},   /* AA_305 第 9 節 */
       {label:'end'} ],
     after:(G,GM)=>{ G.flags.SK03_ASKED=G.day; if(G.flags.SK03_LAST!==G.day) return; if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('meal:xiaofu:fri'); G.flags.SK03_N=(G.flags.SK03_N|0)+1;
       const h=G.hour%24; if(h<13&&GM.advance) GM.advance(13-h); if(GM.caption) GM.caption('','午休結束。',2400); } },
@@ -997,7 +997,7 @@ const STORY_EVENTS=[
   { id:'ev_sk03_xinci_class', title:'統計課那個人', participants:['classmate_xinci'], location:'any', trigger:'class', beforeClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
     prereq:{custom:G=>{ if(!G.flags.P4D_ANSWER||G.flags.ECON_LAW_BRIDGE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.week>=8; }},
     dialogue:[ {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===8},speaker:null,text:'考卷還沒發。'},
-      {speaker:'classmate_xinci',text:'我們統計課那個人說他認識你。'},{speaker:'classmate_xinci',text:'盧正勳。他說你以前每天講一個冷笑話。'},
+      {speaker:'classmate_xinci',text:'我們統計課那個人說他認識你。'},{speaker:'classmate_xinci',text:'盧正勳。他說你還欠他一場保齡球。'},   /* AA_305 第 9 節 */
       {if:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'原來你們以前住同一間。'},/* AA_209 附錄A §2 */{unless:{flagIs:{ECON_PAST_SHARED:'full'}},speaker:'classmate_xinci',text:'你沒說過。……沒關係，不用說。'},
       {speaker:'classmate_xinci',text:'你們週五都在活大吃？那我下次可以一起嗎？'},{set:{ECON_LAW_BRIDGE:true}} ] },   /* AA_209 附錄A §2 */
   /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節、BB_96 10-5、BB_106 SK05）：期末考週玩家閃三下（story3d.js phoneRules 的 23:00 訊息）→ 阿勳在法學院廣場的販賣機前（作息 SK05_GO），
@@ -1953,20 +1953,24 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'kexin',expression:'smile',text:'走。我請你喝飲料。公館。'} ],
     after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
   /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
-     誰生火、月亮收租的回答都不記（BB_104）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
+     AA_305 第 4 節（使用者選「柚子帽」）：誰生火的三選一拿掉，換成柚子帽（戴上／拿著，不記旗標）；唐睿那頂留給品妤、品妤不要＝12/31 跨年接。月亮收租已經拿掉（AA_302 第 5 列）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
      participants 不放可昕：演完不接她的閒聊階梯（結尾是回宿舍的路上）*/
   { id:'ev_y0_e08', stage:'econ', title:'中秋系烤', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
     dialogue:[ {scene:'河濱',bg:'riverside'},
       {speaker:null,text:'星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。'},
       {speaker:null,text:'烤肉架是系學會借來的。炭還是黑的。'},
-      {speaker:'韋綸',text:'誰要生火？'},
-      {speaker:'econ_pinyu',text:'生火的人先吃。'},
-      {speaker:null,text:'（唐睿已經在分肉了。）'},
-      {choice:[{text:'「阿勳來。」',goto:'f1'},{text:'「韋綸來。」',goto:'f2'},{text:'「我來。」',goto:'f3'}]},
-      {label:'f1'},{speaker:null,text:'阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。'},{speaker:'econ_zhengxun',text:'熱力學。'},{speaker:'韋綸',text:'我帶了一整包報紙耶。'},{goto:'meat'},
-      {label:'f2'},{speaker:null,text:'火起來的那一秒，韋綸的瀏海也捲起來了。'},{speaker:'韋綸',text:'沒事沒事！……有沒有人聞到頭髮的味道？'},{speaker:'econ_pinyu',text:'有。你先離火遠一點。'},{goto:'meat'},
-      {label:'f3'},{speaker:'kexin',text:'報紙捲成一根一根的，應該比較好燒。'},{speaker:'kexin',text:'還是我們再搧大力一點？'},{speaker:null,text:'她每出一個主意，火就小一點。'},{speaker:null,text:'最後是阿勳接手的。他只說了一句。'},{speaker:'econ_zhengxun',text:'你們搧太大力了。'},
-      {label:'meat'},{speaker:null,text:'肉烤好了，玉米烤焦了一面。'},{speaker:'econ_pinyu',text:'焦的那一面朝下放。拍照不會拍到。'},{speaker:null,text:'唐睿把每個人的盤子都放對了。沒有人拿到不吃的東西。'},
+      {speaker:null,text:'（韋綸抱著一顆柚子走過來。）'},   /* AA_305 第 4 節：柚子帽（誰生火的三選一、阿勳「熱力學。」、韋綸的報紙、唐睿分肉和盤子拿掉）*/
+      {speaker:'韋綸',text:'中秋過了，柚子還沒吃完。我媽塞給我三顆。'},
+      {speaker:null,text:'（他把柚子剝開，柚子皮整個拿下來，戴在阿勳頭上。）'},
+      {speaker:null,text:'（阿勳沒有拿下來。他擺了三塊炭，劃了一根火柴。火一次就起來了。）'},
+      {speaker:'econ_pinyu',text:'（拿起手機）不要動。……好，再一張。'},
+      {speaker:null,text:'（唐睿把剩下的柚子皮一個一個修好，幫每個人都做了一頂。）'},
+      {speaker:'唐睿',text:'（遞給你）你的。'},
+      {choice:[{text:'（戴上）',goto:'y1'},{text:'「我拿著就好。」',goto:'y2'}]},
+      {label:'y1'},{speaker:'econ_pinyu',text:'好，拍照。'},{goto:'hat'},
+      {label:'y2'},{speaker:'唐睿',text:'拿著也算。'},
+      {label:'hat'},{speaker:'唐睿',text:'最後一頂。（遞給品妤）'},{speaker:'econ_pinyu',text:'我不要。頭髮會黏。'},{speaker:null,text:'（唐睿就自己戴上了。他戴了一整晚。）'},   /* 唐睿喜歡品妤，只有品妤不知道（12/31 跨年接）*/
+      {speaker:null,text:'肉烤好了，玉米烤焦了一面。'},{speaker:'econ_pinyu',text:'焦的那一面朝下放。拍照不會拍到。'},
       {speaker:null,text:'（天還亮的時候，可昕一直坐在唐睿旁邊。兩個人低著頭，看同一本筆記。）'},{speaker:null,text:'（你把玉米翻了一面。）'},   /* AA_293 第 3 節：E26「我以為妳喜歡唐睿」的伏筆 */
       {speaker:null,text:'八點多，月亮才從對岸的大樓後面出來。比中秋那天瘦一點。'},{speaker:null,text:'可昕拿著一串烤玉米，坐到你旁邊。'},
       {speaker:'kexin',text:'（把那串玉米遞過來）焦的那一面我吃掉了。剩下的給你。'},   /* AA_302 第 5 列：假設題（月亮收租）拿掉 */
@@ -1974,7 +1978,7 @@ const STORY_EVENTS=[
       {label:'m1'},{speaker:'kexin',text:'算。不要問。'},{goto:'end'},
       {label:'m2'},{speaker:'kexin',text:'……不客氣。'},{speaker:null,text:'（她轉過去看月亮。）'},{goto:'end'},
       {label:'m3'},{speaker:null,text:'（她看你吃，笑了一下。）'},
-      {label:'end'},{speaker:null,text:'九點，大家把烤肉架抬回系學會的車上。'},{speaker:null,text:'回宿舍的路上，你的衣服都是炭的味道。'},
+      {label:'end'},{speaker:null,text:'九點，大家把烤肉架抬回系學會的車上。'},{speaker:null,text:'（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）'},   /* AA_305 第 4 節 */
       {rel:{kexin:{fam:2},econ_pinyu:{fam:1},econ_zhengxun:{fam:1}}} ] },
   /* E07 社團博覽會（BB_104 8b-2；AA_154 第 100 行）：9/18（三）～9/20（五）10:00～17:00，窗口內第一次走到椰林大道的攤位那一排（帳篷照法律系那一次的位置，zones3d.js isFairDay）。
      劇社的即興（三個地點）→ 祐廷選社團（Y0_CLUB：guitar／hiking／badminton／none；BB_110 C2 讀它）→ 可昕的一句。沒去：可昕私訊（story3d.js）*/
@@ -2730,6 +2734,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'econ_pinyu',text:'她的你穿不下。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'laugh',text:'（比了一個勝利手勢）拍好看一點喔。'},
       {label:'end'},{speaker:null,text:'（打完第三局，她還穿著。）'},{speaker:'kexin',expression:'smile',text:'洗好再還你。'},   /* AA_303 第 2 節 3：整晚穿著不還（三個選項都接）*/
+      {speaker:'econ_zhengxun',text:'（收球的時候）全倒沒人看到。下次跟你單挑，你要看。'},   /* AA_305 第 3 節 */
       {speaker:null,text:'手機裡多了一張照片。她穿著你的高中制服，袖子太長，正在比一個勝利手勢。'} ] },
   /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行、A36）：分兩段。
      前半＝11/8（五）19:00 社科院系學會辦公室備料（2D 出遊到 21:00；12:30 群組約＋出發選單，story3d.js）；
@@ -2756,7 +2761,7 @@ const STORY_EVENTS=[
   { id:'ev_y0_e15', stage:'econ', title:'經濟系宿營', participants:['econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:1/60,   /* hours：OUT.go 演完還會往後推（0 會被當成 2 小時）；afterOuting 已經把時間放到週日 16:00 */
     dialogue:[ {titleCard:'11 月 22 日～24 日',sub:'經濟系宿營'},{scene:'青年活動中心',bg:'econ_camp'},{cg:'cg_econ_camp'},   /* AA_154 A54（使用者 10-16 23:4x：經濟系的宿營用 CG 帶過）：字卡 → CG（七個人自己拍的合照，BB-B BCG-47，使用者通過）→ 三句旁白；夜遊三選一、寢室冷笑話拿掉 */
       {speaker:null,text:'（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）'},
-      {speaker:null,text:'（三天裡，夜遊只有一支手電筒，大地遊戲你們拿了倒數第二，晚會上唐睿演了一條需求曲線。）'},
+      {speaker:null,text:'（三天裡，夜遊只有一支手電筒，大地遊戲你們拿了倒數第二。）'},   /* AA_305 第 1 節：「晚會上唐睿演了一條需求曲線」拿掉 */
       {speaker:null,text:'（週日早上，你們七個在活動中心門口自己拍了一張合照。）'} ],
     afterOuting:(G,GM,q)=>{ if(typeof STORY!=='undefined'&&STORY.travelOvernight) STORY.travelOvernight(GM,q.day+2,16); G.flags.E15_WENT=true; } },
   /* E18 即興劇社的小公演（BB_104 8b-10；AA_154 第 131 行、A36；可以錯過）：11/28 21:00 可昕私訊（有 Y0_EXTRA＝唐睿私訊臨時演員六點半到）＋出發選單「博雅 19:00：即興劇小公演」（story3d.js）。
@@ -2904,6 +2909,7 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'人好多。'},
       {speaker:'唐睿',text:'我查過了，平常走過去十五分鐘。今天要四十。'},{speaker:'韋綸',text:'那現在走剛好！'},
       {scene:'信義區',bg:'newyear_crowd'},
+      {speaker:null,text:'（信義區的人潮。唐睿一直站在品妤後面，幫她擋人。品妤沒有發現。）'},   /* AA_305 第 8 節（接 9/21 系烤唐睿那頂柚子帽）*/
       {speaker:null,text:'（信義區的人潮。可昕把手塞進你的外套口袋。）'},   /* AA_303 第 2 節 13：倒數完說新年快樂就好（「我怕走散」和兩選一拿掉）*/
       {speaker:null,text:'（倒數。煙火。大家一起喊：「新年快樂！」）'},
       {speaker:'kexin',expression:'smile',text:'新年快樂。'},

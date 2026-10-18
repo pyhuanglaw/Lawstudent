@@ -162,7 +162,10 @@ const STORY = (function(){
       if(typeof SOCIAL!=='undefined'&&SOCIAL.meet){ SOCIAL.meet('kexin','camp'); SOCIAL.meet(XUN,'camp'); }
       if(GM.titleCard) await GM.titleCard('8 月 23 日～25 日','經濟系宿營',1600);
       if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg('cg_econ_camp');
-      for(const t of ['（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）','（三天裡，夜遊只有一支手電筒，大地遊戲你們拿了倒數第二，晚會上唐睿演了一條需求曲線。）','（週日早上，你們七個在活動中心門口自己拍了一張合照。）']) await GM.say(null,t);
+      { const WL={name:'韋綸',charId:'econ_weilun'}, XN={name:'阿勳',charId:XUN};   /* AA_305 第 1 節：三句旁白換成夜遊那段（「晚會上唐睿演了一條需求曲線」拿掉）*/
+        for(const [w,t] of [[null,'（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）'],[null,'（第二天晚上，夜遊。第三小隊只有一支手電筒，在阿勳手上。）'],
+          [WL,'我不怕黑喔。我只是……走中間比較安全。'],[null,'（他一路拉著阿勳的衣服。）'],[XN,'你拉到我的領子了。'],[null,'（樹林裡有東西動了一下。韋綸叫得比扮鬼的學長還大聲。）'],
+          [null,'（可昕一直走在你後面。下坡的時候，她說：「你走慢一點。」）'],[null,'（三天裡，大地遊戲你們拿了倒數第二。週日早上，你們七個在活動中心門口自己拍了一張合照。）']]) await GM.say(w,t); }
       if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(null);
       G.day=d0+2; G.weekday=CALENDAR.dateOf(G.day).wd%7; G.hour=16; if(E) E.hour=G.hour;
       await GM.say(null,'（回到家，你倒在床上，一覺睡到晚上。）');
@@ -174,7 +177,7 @@ const STORY = (function(){
     } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
     return true; };
   /* ---------- v0 E01「宿舍第一晚」（AA_168，含 cdaf8a9f BB-B 改的兩處；ev_y0_dorm_first_night）----------
-     9/1（日）21:00 男生宿舍四樓 412：媽媽的訊息 → 阿勳進門、冷笑話（兩個選項，熟悉 +2）→ 22:00 先睡／拆完（E01_NIGHT；拆完自在 +1、02:00 睡＝01:00 以後才睡）
+     9/1（日）21:00 男生宿舍四樓 412：媽媽的訊息 → 阿勳進門、「被子在最下面那一箱」（兩個選項，熟悉 +2；AA_305 第 2 節拿掉冷笑話）→ 22:00 先睡／拆完（E01_NIGHT；拆完自在 +1、02:00 睡＝01:00 以後才睡）
      → 隔天起床（先睡 07:00、拆完 07:40）阿勳說一句（E01_MORNING）；先睡的玩家 9/2 晚上回房間「箱子拆完」那一句（E01_BOXES）。
      演到一半關掉遊戲：E01_DONE 還沒記，下次在房間裡從頭演（y0Tick）。房間的紙箱、阿勳的筆電、保齡球袋等 LAWWW2-B 的模型（V0-ART-DORM）。測試：node tests/v0_e01_unit.js */
   const XUN='econ_zhengxun';
@@ -196,12 +199,11 @@ const STORY = (function(){
         await GM.say(ME(G),'我叫{name}。也是經濟系。');
         await GM.say(who,'我知道。門口的名單，我們兩個排在一起。'); await GM.say(who,'學號也只差一號。'); }
       await GM.say(null,'他把臉盆放好，看了你的紙箱第二眼。');
-      await GM.say(who,'你知道為什麼經濟系的人搬家，都只帶三個箱子嗎？');
-      const i=await GM.choose([{t:'為什麼？'},{t:'因為預算限制？'}]);
-      if(i===0){ await GM.say(who,'因為第四個箱子的效用，比搬它的成本低。'); await GM.say(null,'他停了一下，等你笑。'); }
-      else { await GM.say(who,'……差不多。'); await GM.say(null,'（他好像本來想自己講完。）'); }   /* BB_179 段A #3 #5（AA_203 §4）；建議旁白採用 */
+      await GM.say(who,'被子在最下面那一箱，對不對。');   /* AA_305 第 2 節：三個箱子的冷笑話拿掉（阿勳整個不講冷笑話），換成「被子」兩選一 */
+      const i=await GM.choose([{t:'「你怎麼知道？」'},{t:'「……對。」'}]);
+      if(i===0) await GM.say(who,'每個人都這樣裝。'); else await GM.say(who,'（點頭）每個人都這樣。');
       if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust(XUN,{fam:2});   /* 兩個選項一樣（不記旗標）*/
-      await GM.say(who,'被子在最下面那一箱，對不對。'); await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
+      await GM.say(null,'他幫你把上面兩箱搬到地上，然後回去自己的桌子，戴上耳機。');
       await GM.fade(true); GM.advance(Math.max(0,22-G.hour)); { const m=GM.npc[XUN]; if(m){ const st=dormSeat('R2'); GM.sitAt(m,st); m.seat=st; m.pose=m.idlePose='sit'; m.frozen=true; } } await GM.fade(false);   /* 時間跳到 22:00（不用旁白說）*/
       v0Box(GM,'bed'); await GM.say(null,'十點了。被子鋪好了，地上還有兩個箱子沒拆。');
       const j=await GM.choose([{t:'先睡。明天再拆。'},{t:'今天拆完。'}]);
@@ -1311,7 +1313,7 @@ const STORY = (function(){
       if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
     /* E25 我想重考法律（3/19 醉月湖）拿掉：告白併進 10/17 車上（AA_224 1-3，ev_y0_e26）*/
     /* ★LIFE-LINE 第 5 組（AA_224 5-0～5-4 @31708531；機制 BB_188 A9-1）：2/13（四）可昕辦休學 → 19:00 公館的水餃店（E27，固定出遊、只有「出發」；過了時間＝那件結束後直接出發；睡著 coreCallAt）
-       → 22:30 經濟系群組 E28（朋友早就知道他們在交往，只宣布重考；韋綸那句看 BIKE_LOOKED_UP；品妤、阿勳自在 +1）→ 23:00 阿勳私訊 E24c（同一個過去、三種說法，記 E24C_REASON；阿勳信任 +2）
+       → 22:30 經濟系群組 E28（朋友早就知道他們在交往，只宣布重考；AA_305 第 8 節：品妤「可昕跟我說了。」、韋綸不再提腳踏車（不讀 BIKE_LOOKED_UP）；品妤、阿勳自在 +1）→ 23:00 阿勳私訊 E24c（同一個過去、三種說法，記 E24C_REASON；阿勳信任 +2）
        → 2/21（五）21:00 群組 T3＋22:00 唐睿私訊（下面）。舊 E27（3/26 總圖門口）、E28（3/26 宵夜攤）、E24c（3/13 頂樓）作廢。E28、E24c 在這裡標演過（之後的手機小事、閒聊階梯讀它們）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d=S.dayOfKey('2025-02-13'), ED=id=>!!(G.events&&G.events.done&&G.events.done[id]);
       if(d!=null&&G.day>=d-1&&G.day<=d&&F.dating_kexin&&!OUT.get(G,'y0_e27')&&!ED('ev_y0_e27')) OUT.plan(G,{id:'y0_e27',ev:'ev_y0_e27',day:d,h:14,must:true,late:0.25,place:'行政大樓',title:'14:00 行政大樓：陪可昕辦休學',travel:'捷運＋公車 約 30 分鐘',travelH:0.5});   /* AA_303 第 17 場：陪她辦完休學，再去水餃店 */
@@ -1325,7 +1327,7 @@ const STORY = (function(){
       if(d!=null&&F.RETAKE_TOGETHER&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+2&&!PHONE.sent(G,'y0_e28_grp')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
         const dd=G.day===d?d:G.day, h=G.day===d?22.5:Math.max(9,G.hour);
         PHONE.at(G,dd,h,[{th:T,from:'player',who:null,text:'我跟可昕要重考。'},M('econ_zhengxun','阿勳','喔。'),M('econ_zhengxun','阿勳','……那保齡球還打嗎。你欠我一場。'),M('econ_tangrui','唐睿','（貼圖：加油）'),
-          M('econ_pinyu','品妤','可昕也休學了？那下學期分組誰要跟我。'),{th:T,from:'kexin',text:'妳可以跟唐睿。'},M('econ_tangrui','唐睿','（貼圖：沉默）'),M('econ_weilun','韋綸',F.BIKE_LOOKED_UP?'考完要說。我請你們吃飯。腳踏車那次欠的。':'考完要說。我請你們吃飯。')],'y0_e28_grp');
+          M('econ_pinyu','品妤','可昕跟我說了。……那下學期分組誰要跟我。'),{th:T,from:'kexin',text:'妳可以跟唐睿。'},M('econ_tangrui','唐睿','（貼圖：沉默）'),M('econ_weilun','韋綸','考完要說。我請你們吃飯。')],'y0_e28_grp');   /* AA_305 第 8 節：品妤是可昕的室友；「腳踏車那次欠的」拿掉 */
         if(typeof SOCIAL!=='undefined'){ SOCIAL.adjust('econ_pinyu',{comf:1}); SOCIAL.adjust('econ_zhengxun',{comf:1}); } if(G.events&&G.events.done&&!G.events.done.ev_y0_e28) G.events.done.ev_y0_e28=dd; }
       if(d!=null&&PHONE.sent(G,'y0_e28_grp')&&(G.day>d||(G.day===d&&G.hour>=23))&&G.day<=d+2&&!PHONE.sent(G,'y0_e24c_why')){ const XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), dd=G.day===d?d:G.day, h=G.day===d?23:Math.max(9,G.hour);
         PHONE.at(G,dd,h,[XU('欸。群組不好問。'),Object.assign(XU('你為什麼要重考？我是認真問。'),{ask:{id:'y0_e24c_why',until:(dd+1)*24+18,opts:[
@@ -1422,7 +1424,7 @@ const STORY = (function(){
         (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'韋綸（電話）'},'你在哪？球道開好了，就差你！'); } finally { GM.sceneEnd(); } q14.state='planned'; await OUT.go(GM,q14); } catch(e){ console.warn('E14 call',e); } finally { y0CallBusy=false; } })(); } }
     /* E17 經濟系的拍賣攤（備料 E17a、校慶攤位、沒去的群組照片）：刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17：祐廷 10/17 休學）。事件定義留著（retired） */
     /* E15 經濟系宿營（BB_104 8b-7）：11/22（五）出發選單「社科院門口 12:00：經濟系宿營（三天兩夜）」（15 分鐘沒出發＝沒去）；去了＝11/24 09:00 群組大合照；
-       沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「冷笑話我留了一個給你。」*/
+       沒去＝11/24 18:00 群組大合照（第二排空一個位子，韋綸在旁邊比手勢）＋阿勳私訊「合照有你的位子。我叫他們留的。」（AA_305 第 9 節）*/
     if(S.isEcon(G)&&typeof OUT!=='undefined'&&!F.ECON_CAMP_OPEN){ const fri12=termDay('Y0S1',12,5), gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':'econ_class';   /* 第 7 組 7-3：宿營已經在 8 月的局不排 11 月這場（定義留給舊存檔）*/
       /* 邀約（BB_104 8b-7，BB-B e0e7a359；AA_154 A37）：11/20（三）21:00 全班群組家豪學長兩則；11/21（四）22:00「走啦」韋綸、品妤（有這個群組的玩家）*/
       if(fri12!=null&&(G.day>fri12-2||(G.day===fri12-2&&G.hour>=21))&&G.day<=fri12&&!PHONE.sent(G,'y0_e15_ask')){ if(!PHONE.inGroup(G,'econ_class')) PHONE.join(G,'econ_class','經濟系 大一（全班）');
@@ -1432,7 +1434,7 @@ const STORY = (function(){
       if(fri12!=null&&F.E15_WENT&&!PHONE.sent(G,'y0_e15_photo')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）'); PHONE.at(G,fri12+2,9,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（活動中心門口，七個人的合照）'}],'y0_e15_photo');   /* AA_154 A54 */ }
       const q15=OUT.get(G,'y0_e15');
       if(fri12!=null&&!F.E15_WENT&&(G.day>fri12+2||(G.day===fri12+2&&G.hour>=18))&&G.day<=fri12+4&&!PHONE.sent(G,'y0_e15_missed')&&!(q15&&q15.state==='done')){ if(!PHONE.inGroup(G,gid)) PHONE.join(G,'econ_class','經濟系 大一（全班）');
-        PHONE.at(G,fri12+2,18,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（大合照。第二排有一個空位，韋綸在旁邊比了一個手勢。）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'冷笑話我留了一個給你。'}],'y0_e15_missed'); } }
+        PHONE.at(G,fri12+2,18,[{th:'g:'+gid,from:'econ_weilun',name:'韋綸',text:'📷（大合照。第二排有一個空位，韋綸在旁邊比了一個手勢。）'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'合照有你的位子。我叫他們留的。'}],'y0_e15_missed'); } }   /* AA_305 第 9 節：阿勳不講冷笑話 */
     /* E18 即興劇小公演（BB_104 8b-10；AA_154 A36）：11/28（四）21:00 可昕私訊兩則（有 Y0_EXTRA＝唐睿私訊一則）＋出發選單 11/29 19:00（有 Y0_EXTRA＝18:30）；15 分鐘沒出發＝沒去；
        沒去＝11/30 12:00 唐睿傳一段影片「可昕昨天公演，接了一句很像你會說的話。」（BB_179 段 C #3）*/
     if(false&&S.isEcon(G)&&typeof OUT!=='undefined'){ const thu13=termDay('Y0S1',13,4), fri13=thu13!=null?thu13+1:null, X=!!F.Y0_EXTRA;   /* AA_293 第 1 節：小公演拿掉（邀約、出遊、沒去的影片都不再發）*/

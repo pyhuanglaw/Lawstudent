@@ -1,5 +1,5 @@
 // v0 E01「宿舍第一晚」（AA_168，含 cdaf8a9f 兩處修改）——不需要瀏覽器。
-// 檢查：經濟系開局的標題卡「2024 年 9 月 1 日（日）／開學前一天」；21:00 三句旁白 → 媽媽的訊息（寫進手機）→ 阿勳進門、自我介紹 → 冷笑話兩個選項（熟悉 +2）
+// 檢查：經濟系開局的標題卡「2024 年 9 月 1 日（日）／開學前一天」；21:00 三句旁白 → 媽媽的訊息（寫進手機）→ 阿勳進門、自我介紹 → 「被子在最下面那一箱」兩個選項（熟悉 +2；AA_305 第 2 節拿掉冷笑話）
 //       → 22:00 先睡（07:00 起床）／拆完（自在 +1、02:00 睡＝01:00 以後才睡、07:40 起床）→ 起床阿勳那一句（兩版）；先睡的玩家 9/2 晚上「箱子拆完」那一句；
 //       演到一半關掉遊戲（E01_DONE 還沒記）下次在房間裡從頭演；換日標題寫日期；經濟系那一年房間裡是阿勳不是阿凱；門牌 412。
 // 修改前：沒有 STORY.y0FirstNight（第 1 項就失敗）。用法：node tests/v0_e01_unit.js
@@ -40,13 +40,13 @@ const XUN='econ_zhengxun';
   const Y0=STORY.y0Day1();
   const start=async(pk)=>{ fresh(Y0,21,'dorm',{}); G.flags={}; G.stage='law'; cards.length=0; picks=pk.slice(); await STORY.newGameEcon(GM,{camp:false}); return lines(); };   /* 舊的 9/1 起點（第 7 組以前的開發局；宿營版另測 v0_g7_unit）*/
   // 先睡
-  { const L=await start(['為什麼','先睡']);
+  { const L=await start(['怎麼知道','先睡']);
     check('2. 標題卡「2024 年 9 月 1 日（日）｜開學前一天」',cards[0]==='2024 年 9 月 1 日（日）｜開學前一天',cards.join(' / '));
     check('2. 21:00 旁白（四樓 412、三個紙箱疊在書桌上、先拆被子、另外兩組床桌空著貼名字；AA_208 第 3、6 節四人房）',L[0]==='開學前一天，晚上九點。男生宿舍四樓，四一二。'&&L[1]==='媽媽傍晚才走。她把三個紙箱疊在你的書桌上。'&&L[2]==='她說：「先拆被子。」被子在最下面那一箱。'&&L[3]==='（另外兩組床桌還是空的，上舖的床架上貼著名字：韋綸、唐睿。）',JSON.stringify(L.slice(0,4)));
     check('2. 媽媽的訊息「到了要記得吃晚餐。」（演完也寫進手機的對話串）＋「你已經吃過了。媽媽也知道。」',L[4]==='媽媽（手機）：到了要記得吃晚餐。'&&L[5]==='你已經吃過了。媽媽也知道。'&&(G.msgs||[]).some(m=>m.th==='p:mom'&&m.text==='到了要記得吃晚餐。'),JSON.stringify(L.slice(4,6)));
     check('2. 阿勳進門、自我介紹（盧正勳，經濟系；叫起來像在點名）；祐廷：我叫{name}',L.includes('阿勳：你好。盧正勳，經濟系。')&&L.includes('阿勳：叫我阿勳就好。')&&L.some(t=>t==='祐廷：我叫{name}。也是經濟系。'),JSON.stringify(L.slice(5,9)));
-    check('2. 冷笑話選項「為什麼？」「因為預算限制？」',opts[0].join()==='為什麼？,因為預算限制？');
-    check('2. 「為什麼？」：效用比成本低 → 等你笑 → 直接接「被子在最下面那一箱」（BB_179 段A #3 刪「成功率大概三成」）',L.includes('阿勳：因為第四個箱子的效用，比搬它的成本低。')&&L[L.indexOf('他停了一下，等你笑。')+1]==='阿勳：被子在最下面那一箱，對不對。'&&!L.some(t=>t.includes('成功率')));
+    check('2. 被子選項「「你怎麼知道？」」「「……對。」」（AA_305 第 2 節）',opts[0].join()==='「你怎麼知道？」,「……對。」');
+    check('2. 「你怎麼知道？」：「每個人都這樣裝。」；臉盆放好以後直接接「被子在最下面那一箱」（AA_305 第 2 節：三個箱子的冷笑話拿掉）',L.includes('阿勳：每個人都這樣裝。')&&L[L.indexOf('他把臉盆放好，看了你的紙箱第二眼。')+1]==='阿勳：被子在最下面那一箱，對不對。'&&!L.some(t=>t.includes('成功率')||t.includes('三個箱子嗎')));
     check('2. 阿勳熟悉 +2（第一次見面以外，事件數值）、認識了',SOCIAL.rel(XUN).fam>=2&&SOCIAL.stage(XUN)!=='STRANGER',JSON.stringify(SOCIAL.rel(XUN)));
     check('2. 22:00：「十點了。被子鋪好了，地上還有兩個箱子沒拆。」選項「先睡。明天再拆。」「今天拆完。」',L.includes('十點了。被子鋪好了，地上還有兩個箱子沒拆。')&&opts[1].join()==='先睡。明天再拆。,今天拆完。');
     check('2. 先睡：E01_NIGHT sleep、E01_DONE；旁白「燈還沒關，你就睡著了」',G.flags.E01_NIGHT==='sleep'&&G.flags.E01_DONE===true&&L.includes('你把兩個箱子推到書桌旁邊的地上。燈還沒關，你就睡著了。'));
@@ -57,15 +57,15 @@ const XUN='econ_zhengxun';
     check('4. 先睡的玩家 9/2 晚上回房間：「你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。」一次，接著「（韋綸和唐睿搬進來了。…）」（AA_208 第 3 節）',lines().includes('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')&&lines().indexOf('（韋綸和唐睿搬進來了。韋綸的東西比三個人加起來還多。）')===lines().indexOf('你終於把箱子拆完了。阿勳幫你把空箱子壓扁，拿去樓下回收。')+1&&G.flags.E01_BOXES===true);
     said=[]; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10)); check('4. 不再說第二次',!lines().length); }
   // 拆完
-  { const L=await start(['預算限制','拆完']);
-    check('5. 「因為預算限制？」：……差不多 → 旁白「他好像本來想自己講完」（段A #5 刪「危險的室友」）',L.includes('阿勳：……差不多。')&&L.includes('（他好像本來想自己講完。）')&&!L.some(t=>t.includes('危險的室友')));
+  { const L=await start(['……對','拆完']);
+    check('5. 「……對。」：阿勳「（點頭）每個人都這樣。」（AA_305 第 2 節）',L.includes('阿勳：（點頭）每個人都這樣。')&&!L.includes('阿勳：每個人都這樣裝。')&&!L.some(t=>t.includes('危險的室友')));
     check('5. 拆完：三句旁白（阿勳已經躺下了——BB-B 改的那句；桌燈照著你；兩點）',L.includes('你拆到第三箱的時候，阿勳已經躺下了。')&&L.includes('他的桌燈沒有關。他把燈轉過來，照著你那一邊。')&&L.includes('最後一本書放上書架，是兩點。'));
     check('5. 拆完：E01_NIGHT unpack、阿勳自在 +1',G.flags.E01_NIGHT==='unpack'&&SOCIAL.rel(XUN).comf>=1,JSON.stringify(SOCIAL.rel(XUN)));
     check('5. 隔天 07:40 起床；那晚算「01:00 以後才睡」',G.day===Y0+1&&Math.abs(G.hour-(7+40/60))<1e-6&&G.daily&&G.daily.lateNight===G.day,G.hour+' '+JSON.stringify(G.daily));
     check('5. 起床：「你拆到兩點。」「你的鬧鐘響了兩次。它快七分鐘，我剛剛對過。」',L.includes('阿勳：你拆到兩點。')&&L.includes('阿勳：你的鬧鐘響了兩次。它快七分鐘，我剛剛對過。'));
     said=[]; G.hour=18; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10)); check('5. 拆完的玩家沒有「箱子拆完」那一句',!lines().some(t=>t.indexOf('箱子拆完')>=0)); }
   // 演到一半關掉
-  { fresh(Y0,21.5,'dorm',{}); G.stage='econ'; G.flags={}; picks=['為什麼','先睡']; said=[]; STORY.y0Tick(GM); for(let i=0;i<50&&!G.flags.E01_MORNING;i++) await new Promise(r=>setTimeout(r,10));
+  { fresh(Y0,21.5,'dorm',{}); G.stage='econ'; G.flags={}; picks=['怎麼知道','先睡']; said=[]; STORY.y0Tick(GM); for(let i=0;i<50&&!G.flags.E01_MORNING;i++) await new Promise(r=>setTimeout(r,10));
     check('6. 讀檔時 9/1 晚上、E01 還沒演完：在房間裡從頭演（21:00 起）',lines()[0]==='開學前一天，晚上九點。男生宿舍四樓，四一二。'&&G.flags.E01_DONE===true,JSON.stringify(lines().slice(0,2)));
     fresh(Y0+1,7.2,'dorm',{}); G.stage='econ'; G.flags={E01_DONE:true,E01_NIGHT:'unpack'}; said=[]; STORY.y0Tick(GM); await new Promise(r=>setTimeout(r,10));
     check('6. 讀檔時 9/2 早上、還沒聽到阿勳那一句：補一次',lines().includes('阿勳：你拆到兩點。')&&G.flags.E01_MORNING===true);
