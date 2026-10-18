@@ -1080,3 +1080,5 @@
 - 處理：記成 D100f；RELEASES.md v9.10 的發布條件改成「第 1～3 層測完＋發布前清單」。三小時間隔照 D85（2026-10-16 已取消）——AA-C 訊息寫「三小時規則照舊」，和 D85 不一致，已告訴 AA-C。
 - 另：以安的媽媽是高等法院庭長（AA-C 寫進總表、口氣表 f0ca820f；characters.js 的字 AA 之後一批改）。
 - 01:3x 另一則（AA-C 01:32 轉達）：「好，v9.10 發布後再試 用我電腦」——發布後在使用者電腦開本機 Claude Code 當測試員（使用者會先裝桌面 App、Git、Node.js LTS、Python）；付費雲端真機先不用。登記 QA-LOCAL-1018（暫停，v9.10 發布後）。
+
+- **2026-10-18 02:3x（經 AA-C 轉述使用者原話，AA 清查五題）**：①校門、男一舍、普通／博雅教學館、捷運公館站出口「做好就開」（10-13「先不開新外觀」解除）→ LAWWW-C 派 LAWWW2：ART-EXT-M1 → GATE → TEACH → MRT（排在 ART-L118-GROUND 之後、ART-US-SEASON 之前）；②新體育館 3F「開」→ ART-GYM2-INT（LAWWW，v9.10 後，五欄）；③使用者正在生 BB_132 第 75、79、80 組圖，BB 檢查後交 LAWWW；④美國主街「不需要」→ us_street.glb 不接（SCN-US-02 註記）；⑤學生活動中心取消、畢業後職涯「以後再說」（暫停）。USER_WANTS c7c6bca0（AA-C）。通知：LAWWW2-C、AA-C（SENT／DELIVERED）。
