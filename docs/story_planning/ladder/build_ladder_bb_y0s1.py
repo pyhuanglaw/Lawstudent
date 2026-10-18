@@ -143,10 +143,6 @@ D['characters'][TR] = {'friendOnly': True, 'steps': [
   'choices':[ch('「你記得全部的人？」','全部啊。見過一次就記得。'),
              ch('「謝謝。」','不會啦。我就是很會記名字。')],'rel':{'fam':2},'mem':'TR0_NAMES',
   'note':'「第三個」只是他的說法，不讀 E02 的順序'},
- {'id':'TR0-L5','if':st(TR,'FAMILIAR'),'week':[9,16],
-  'lines':['期中考我提早交卷，走出去才發現名字沒寫。','全系的名字我都記得，結果自己的忘了寫。'],
-  'choices':[ch('「後來呢？」','衝回去寫了。監考的助教說：「唐睿，我知道是你。」'),
-             ch('「這很像即興。」','對吧！我也這樣跟自己說。……沒有用。')],'rel':{'fam':2,'comf':1},'mem':'TR0_NO_NAME'},
  {'id':'TR0-L6','if':st(TR,'FAMILIAR'),'week':[11,16],
   'lines':['你覺得……有人會因為算錢很快，就變得很可愛嗎？','沒事，隨便問的。'],
   'linesIf':[{'if':fl('KNOWS_TANG'),'lines':['你覺得……有人會因為算錢很快，就變得很可愛嗎？','……不要那樣看我。你知道得太多了。']}],
@@ -277,7 +273,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 5 if cid==TR else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
