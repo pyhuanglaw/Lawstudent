@@ -7989,7 +7989,7 @@
    "what": "AA_297 重考期在家的日常：retake_home_v1.json（short 30、long 12）、AA_292 第 5 節改演這個池",
    "task": "RT-TOGETHER-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-C 07:0x ACK；接進事件接事件第二階段"
   },
   {

@@ -18396,7 +18396,7 @@
    "title": "重考期完全沒有可昕住在家裡一起念書的感覺、她沒出現（使用者 10-18：「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S2",
@@ -18410,13 +18410,13 @@
    },
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者回報",
-   "next": "AA-C 4b3391db（AA_297、retake_home_v1.json）已交；LAWWW：白名單、匯入、事件接事件重考期每天一段 short、長場景照日期、她的立繪在家裡畫面",
+   "next": "白名單 retake_home_v1.json@4b3391db → tools/story/import_retake_home.py → src/data/retake_home.js；econff3d.js：重考期（2/15～7/10）在家每天演一段 short（她的立繪在右邊、不重複、用完再輪）、長場景照日期時間；跳的終點最多到隔天那一段。tests/econ_ff2_unit.js ⑦。待 BB-C 瀏覽器",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；D103",
     "acceptance": "約 30 段日常短場景（rs 格式）＋長場景；可以接進事件模式",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {

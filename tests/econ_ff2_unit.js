@@ -7,8 +7,8 @@
 // 用法：node tests/econ_ff2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.document={getElementById:()=>null,addEventListener(){}}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|COURSES|CLS|CHARACTERS|ECONFF)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/courses.js','src/classes3d.js','src/econff3d.js']) load(f);
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CALENDAR|COURSES|CLS|CHARACTERS|ECONFF|RETAKE_HOME)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/courses.js','src/classes3d.js','src/data/retake_home.js','src/econff3d.js']) load(f);
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 const dayOf=k=>{ for(let d=-600; d<400; d++){ const t=CALENDAR.dateOf(d); if(t&&t.key===k) return d; } return null; };
 const T=(k,h)=>dayOf(k)*24+h;
@@ -55,6 +55,15 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
   t0+=2500; ECONFF.tick2(GM6); await new Promise(r=>setTimeout(r,0)); check('⑥ 空下來 3 秒：自動回家',calls.some(c=>c[0]==='go'),JSON.stringify(calls));
   G.home.at=false; OUTS=[{id:'x',state:'planned',day:G.day}]; calls.length=0; ECONFF.busy=false; ECONFF.tick2(GM6); t0+=4000; ECONFF.tick2(GM6); check('⑥ 今天還有出遊沒演：不自動回家',!calls.some(c=>c[0]==='go'));
   Date.now=DN;
+  // ⑦ 重考期在家的日常（AA_297）：每天一段 short、不重複、長場景照日期；跳的終點是隔天那一段的時間
+  { G=mkG('2025-02-16',9,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; calls.length=0; await ECONFF.homeStep(GM);
+    check('⑦ 重考期在家、今天還沒演：先演一段可昕的日常（rh_…）',ran.length===1&&/^rh_RH-/.test(ran[0])&&ECONFF.rec(G).rhDay===G.day,ran.join(','));
+    calls.length=0; await ECONFF.homeStep(GM); const j=calls.find(c=>c[0]==='jump'); check('⑦ 今天演過了：跳到隔天那一段的時間（不會一口氣跳好幾天）',!!j&&j[1]>G.day*24+G.hour&&j[1]<=(G.day+1)*24+22,JSON.stringify(calls));
+    const seen=new Set(); for(let i=0;i<30;i++){ G.day=dayOf('2025-03-01')+i; G.hour=10; ran.length=0; ECONFF.rec(G).rhDay=null; await ECONFF.homeStep(GM); if(ran[0]) seen.add(ran[0]); }
+    check('⑦ 連續 30 天：每天一段、沒有重複到用完以前',seen.size>=20,seen.size+' 段');
+    check('⑦ 資料：short 30、long 12、她睡姊姊的房間（AA_297）',RETAKE_HOME.short.length===30&&RETAKE_HOME.long.length===12&&/姊姊/.test(RETAKE_HOME.room));
+    G=mkG('2025-02-22',20,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; await ECONFF.homeStep(GM); check('⑦ 長場景 2/22 20:00 媽媽和她（RH-L1）照日期演',ran.includes('rh_RH-L1'),ran.join(','));
+    G=mkG('2024-12-01',10,{Y0_MOVED_OUT:true}); ran.length=0; calls.length=0; await ECONFF.homeStep(GM); check('⑦ 重考期以外（12/1）：不演日常',!ran.some(x=>/^rh_/.test(x))); }
   const hs=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8'); check('home3d.js baseRound：事件模式交給 ECONFF.homeStep、y0Jump 玩樂日不記讀書日',/ECONFF\.on2\(G\)\)\{ H\.wakeAsk=null; return ECONFF\.homeStep\(GM\)/.test(hs)&&/ECONFF\.PLAY_DAYS/.test(hs));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

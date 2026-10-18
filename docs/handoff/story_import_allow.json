@@ -779,6 +779,14 @@
    "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）",
    "task": "ART-03",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/retake_home/retake_home_v1.json",
+   "sha": "4b3391db",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18 07:1x「完全沒有可昕跟我一起在家讀書的感覺」＋選擇題：睡姊姊的房間、只寫讀書和默契）",
+   "task": "RT-TOGETHER-1018",
+   "kind": "data"
   }
  ]
 }

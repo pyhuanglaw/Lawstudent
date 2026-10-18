@@ -67,7 +67,7 @@ const ECONFF=(()=>{
   S.on2=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.Y0_MOVED_OUT) return false; const e=DK('2025-08-29'); return e!=null&&G.day*24+G.hour<e*24+5; };
   S.PLAY_DAYS=['2025-04-01','2025-05-05','2025-05-24'];   /* AA_292 第 6 節：玩樂日不記 retake:study（R3、R6、R7）*/
   S.step2Done=(G,s)=>!!S.rec(G).done[s.n]||(!!s.ev&&done(G,s.ev))||(!!s.play&&done(G,s.play));
-  S.next2=function(G){ const now=G.day*24+G.hour; for(const s of S.STEPS2){ if(S.step2Done(G,s)) continue; const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
+  S.next2=function(G){ const now=G.day*24+G.hour; const L=S.STEPS2.concat(S.rhLong(G)).map(s=>Object.assign({t:(DK(s.key)!=null?DK(s.key)*24+s.h:Infinity)},s)).sort((a,b)=>a.t-b.t); for(const s of L){ if(S.step2Done(G,s)) continue; const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
   S.clsItem=(G,day,cid)=>typeof CLS==='undefined'?null:((CLS.dayItems(G,day)||[]).find(it=>it.c&&it.c.id===cid)||null);
   S.tOf=(G,s)=>{ const d=DK(s.key); if(d==null) return null; if(s.cls){ const it=S.clsItem(G,d,s.cls); return it?d*24+it.t0-1/12:d*24+9; } return d*24+s.h; };
   S.stepDone=function(G,s){ const r=S.rec(G); if(r.done[s.n]) return true; if(s.cls){ const d=DK(s.key), it=S.clsItem(G,d,s.cls); return !!(it&&typeof CLS!=='undefined'&&CLS.rec(G).done[it.key]); }
@@ -118,18 +118,40 @@ const ECONFF=(()=>{
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
     catch(e){ console.warn('ECONFF step '+s.n,e); }
     r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave(); return true; };
+  /* ===== 重考期在家的日常（AA_297，src/data/retake_home.js；使用者 10-18「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）=====
+     2/15～7/10 在家：每天演一段 short（不重複、用完再輪；早上／白天／吃飯／晚上輪流），長場景（long，週六）照日期時間演。演完才接著跳。*/
+  const RH=()=>typeof RETAKE_HOME!=='undefined'?RETAKE_HOME:null;
+  S.rhOn=G=>{ const R=RH(); if(!R||!S.on2(G)) return false; const a=DK(R.range[0]), b=DK(R.range[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.RH_H={morning:7.25,day:14,meal:18.5,evening:21.5};
+  S.RH_KIND=['morning','day','meal','evening'];
+  const inWhen=(G,w)=>{ if(!w) return true; const a=DK(w[0]), b=DK(w[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.rhPick=function(G){ const R=RH(); if(!R) return null; const r=S.rec(G); r.rhUsed=r.rhUsed||[]; let pool=R.short.filter(e=>inWhen(G,e.when));
+    if(!pool.length) return null; let fresh=pool.filter(e=>!r.rhUsed.includes(e.id)); if(!fresh.length){ r.rhUsed=r.rhUsed.filter(id=>!pool.some(e=>e.id===id)); fresh=pool; }   /* 用完再輪 */
+    const want=S.RH_KIND[((G.day%4)+4)%4]; return fresh.find(e=>e.kind===want)||fresh[0]; };
+  S.rhLong=G=>{ const R=RH(); if(!R) return []; return R.long.map(e=>{ const [hh,mm]=String(e.time||'20:00').split(':').map(Number); return {n:e.id,key:e.date,h:hh+(mm||0)/60,rh:e.id}; }); };
+  const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:false}); const sp=s=>s==null?null:s;
+    for(const l of e.lines) out.push({speaker:sp(l.s),text:l.t});
+    if(e.choice&&e.choice.length){ out.push({choice:e.choice.map((c,i)=>({text:c.t,goto:'c'+i}))}); e.choice.forEach((c,i)=>{ out.push({label:'c'+i}); for(const t of (c.reply||[])) out.push(/^（/.test(t)?{speaker:null,text:t}:{speaker:'kexin',text:t});   /* 回覆：括號開頭＝旁白（含「媽媽把你推出廚房。」這種帶引號的整句照旁白），其他＝可昕 */ if(c.rel) out.push({rel:{kexin:c.rel}}); out.push({goto:'end'}); }); out.push({label:'end'}); }
+    return out; };
+  S.rhPlay=async function(GM,e){ const G=GM.G; const ev={id:'rh_'+e.id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'econff',once:false,background:(typeof HOME!=='undefined'&&HOME.bgNow&&!(e.place&&!/祐廷家/.test(e.place)))?HOME.bgNow():'dark',dialogue:rhDialogue(e)};
+    try{ if(typeof EVENTS!=='undefined') await EVENTS.run(ev,{noTitle:true}); } catch(err){ console.warn('ECONFF rh '+e.id,err); }
+    const r=S.rec(G); r.rhUsed=r.rhUsed||[]; if(!r.rhUsed.includes(e.id)) r.rhUsed.push(e.id); r.rhDay=G.day; if(typeof ADV!=='undefined'&&HOME.at(G)) ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); };
   /* 第二階段：家裡選單那一輪（home3d.js baseRound）。回傳值照 baseRound：true＝還在家、false＝出門了 */
   S.homeStep=async function(GM){ const G=GM.G, H=HOME.rec(G);
     const q=HOME.dueOuting(G); if(q) return HOME.goOut(GM,q);   /* 該出發的出遊：自動「去」（AA_292 第 8 節）*/
     const iv=HOME.dueInvites(G)[0]; if(iv&&typeof INV!=='undefined'){ await HOME.leaveTo(GM,INV.place(iv.place)||{}); return false; }
     const s=S.next2(G), now=G.day*24+G.hour;
     if(s&&s.t<=now+0.05) return S.run2(GM,s);
-    const end=HOME.y0FfEnd(); let to=end!=null?end:now+24; if(s&&s.t<to) to=s.t; if(to<=now+0.05) return H.at;
+    if(S.rhOn(G)&&S.rec(G).rhDay!==G.day&&G.hour>=7&&G.hour<23.5){ const e=S.rhPick(G); if(e){ await S.rhPlay(GM,e); return H.at; } }   /* 重考期在家：今天這一段（AA_297）*/
+    const end=HOME.y0FfEnd(); let to=end!=null?end:now+24; if(s&&s.t<to) to=s.t;
+    if(S.rhOn(G)||(RH()&&DK(RH().range[0])===G.day+1)){ const nd=G.day+1, e=S.rhPick(Object.assign({},G,{day:nd})), hh=e?S.RH_H[e.kind]||14:14, t=nd*24+hh; if(t<to&&t>now+0.05) to=t; }   /* 重考期：每天停一次（隔天那一段的時間）*/
+    if(to<=now+0.05) return H.at;
     const why=await HOME.y0Jump(GM,to);
     if(why==='msg'&&GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(null); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); }   /* 要回的訊息：打開手機回（D103）*/
     return H.at; };
   /* 要到外面演的一步：玩樂日＝排可昕的出遊、出發；3D＝帶到現場、站好、演、回家 */
   S.run2=async function(GM,s){ const G=GM.G, E=GM.E, H=HOME.rec(G); const r=S.rec(G);
+    if(s.rh){ const e=RH()&&RH().long.find(x=>x.id===s.rh); if(e) await S.rhPlay(GM,e); r.done[s.n]=1; if(GM.autosave) GM.autosave(); return H.at; }   /* 長場景（AA_297）：在家裡演（出門那幾段是 2D 的地點字卡）*/
     try{
       if(s.play){ if(typeof STORY!=='undefined'&&STORY.rtPlanPlay) STORY.rtPlanPlay(G); const q=typeof OUT!=='undefined'?OUT.get(G,'rt_play_'+G.day):null; r.done[s.n]=1; if(q&&q.state==='planned') return HOME.goOut(GM,q); return H.at; }
       if(s.out&&typeof OUT!=='undefined'){ const q=OUT.get(G,s.out); if(q&&q.state==='planned') q.state='done'; }   /* E12：出遊（goto）由這裡帶過去，不要再停一次 */
