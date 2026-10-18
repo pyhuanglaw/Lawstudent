@@ -9506,8 +9506,8 @@
    "title": "品妤（曾品妤 econ_pinyu）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【02:3x LAWWW-C】v9.10 不需要：品妤在經濟系那一年已經有 char3d（底模換色），夠用就凍結（D99 第 4 點）；照 LAWWW2 表上的「人物暫停」。｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "取消／被取代",
+   "next": "【11:4x LAWWW-C 誤派、LAWWW2-C 指出衝突：品妤第六版 bl_econ_pinyu.vrm 已接（assets3d char.econ_pinyu），不是底模換色；照使用者決定不重做】【02:3x LAWWW-C】v9.10 不需要：品妤在經濟系那一年已經有 char3d（底模換色），夠用就凍結（D99 第 4 點）；照 LAWWW2 表上的「人物暫停」。｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9528,7 +9528,10 @@
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
     "ack": "ACK"
    },
-   "pausedFrom": "待開工"
+   "pausedFrom": "待開工",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者（BB_201 8510260c：「使用者決定不再修人物（品妤用第六版）……所有人物的改版要求都停」；892f78ca 經濟系角色美術凍結）",
+   "reason": "使用者決定不再修人物、經濟系角色美術凍結；品妤第六版已接"
   },
   {
    "id": "V0-ARTPLAN",
@@ -12839,9 +12842,9 @@
    "title": "開發組自己的 GLB 有同向疊面（會閃）：萬才館外觀、霖澤館外觀、宿舍大廳等",
    "area": "BUG",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
+   "next": "【11:4x 7e287c19 整合 LAWWW2 3d7f898d：linze_exterior 544→1.9、wancai_exterior 634→3.8 m²（扣掉 GPU instancing 窗原型的假警報）；霖澤館室內不用換。瀏覽器 campus_glb_integration 派 BB】LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12860,7 +12863,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
     "receiver": "LAWWW-B",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -13721,7 +13724,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BUG-WZFLICKER r2／glb_coplanar.py",
     "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -14018,7 +14021,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "gg_signs README",
     "acceptance": "街上鏡頭看得到盆栽；wz_street／gongguan 整合測試 ALL PASS",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -19226,6 +19229,34 @@
    "source": "BB-C 11:14 QA-AA300 第一輪（5e634610）",
    "authorized": "bug 修正（D85）",
    "next": "f483c2a9：ECONFF 第二階段不排 y0_e12 出遊，改由 STEPS2 h3 17:45 直接帶到湖邊（v0_e12_unit 第 7 項）；BB 在 f483c2a9 重看 11/6"
+  },
+  {
+   "id": "US-CAMPUS-WIRE-1018",
+   "title": "美國校園 us_campus 接成區域的接線 patch（outdoorZone、入口互動點、關城市遠景剪影、us_season 四季），對最新 RULE_SOURCE",
+   "area": "v4",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國交換抵達第一天去學校",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 11:4x 派工（D99 第三優先：美國交換）",
+   "authorized": "已批准的美國篇場景（SCN-US-02 v3、ART-US-SEASON）",
+   "next": "LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
+   "xai": {
+    "spec": "SCN-US-02 v3 layout、ART-US-SEASON、LAWWW2 臨時接線經驗",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "patch 對最新 RULE_SOURCE apply 乾淨、node 測試過、遊戲內截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
