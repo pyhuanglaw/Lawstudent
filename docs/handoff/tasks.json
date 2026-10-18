@@ -18936,7 +18936,7 @@
    },
    "source": "LAWWW-C 2026-10-18 派工",
    "authorized": "D100（測試歸 BB）",
-   "next": "BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
+   "next": "【11:1x BB-C 第一輪 5e634610（BB_218 最後一節、test_shots/aa303_1018）：新遊戲→8/22 14.5 分鐘、卡住 0、JS 例外 0、日期不一致 0、undefined 0、台詞 336 句；抓到 BUG-E12-ARRIVE-LATE（f483c2a9 已修）。接著跑 KH_GO=home】BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/adoring-meitner-mqzst8",
@@ -19205,6 +19205,27 @@
    "source": "AA-C 1be8842d（AA_306、交接紀錄 94480926）",
    "authorized": "使用者選擇題（「階梯也用選擇題給我」「在房間書桌念書」）",
    "next": "ded5da04：階梯 y0s1／y0s2 白名單換 1be8842d、labelsRef 加；R1／R5／R2／同一張桌子場景改「祐廷家・你的房間」home_room_day；在家背景重考期白天、深夜用房間。AA 推了日期卡（adf50c8b）。還沒改（AA_306「⚠」一節，下一班 AA 接）：retake_home_v1.json 讀書那 8 處、考場「五月報名那天，餐桌兩邊」（報名可以留餐桌）。品妤、唐睿、阿勳、韋綸的階梯 AA 還沒問"
+  },
+  {
+   "id": "BUG-E12-ARRIVE-LATE-1018",
+   "title": "11/6 醉月湖當面那場演不到：休學在家從家出發 30 分鐘，到湖邊 18:15 已過 17:30～18:00（BB-C QA-AA300 第一輪）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 10,
+    "earliest": "11/6 醉月湖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "BB-C 11:14 QA-AA300 第一輪（5e634610）",
+   "authorized": "bug 修正（D85）",
+   "next": "f483c2a9：ECONFF 第二階段不排 y0_e12 出遊，改由 STEPS2 h3 17:45 直接帶到湖邊（v0_e12_unit 第 7 項）；BB 在 f483c2a9 重看 11/6"
   }
  ]
 }
