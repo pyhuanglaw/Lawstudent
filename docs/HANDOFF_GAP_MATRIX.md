@@ -31,22 +31,22 @@
 使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
 
 **A｜本班成果（10-18 05:1x 發布 v9.10 以後，全部在開發分支、都還沒發布）**
-- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT、UX-Y0-NO-NTU）、捷運直達花蓮（UX-MRT-FAR）、換場景前一段的立繪留著（BUG-ADV-LINGER）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG）、在家不能存檔（UX-HOME-SAVE）、約可昕出門一直跳「會錯過 10 點」（UX-RT-DATE）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE，X24）。
-- 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER：AA_297 retake_home 30 短＋12 長）。
+- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE-1018）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP-1018：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU-1018）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT-1018、UX-Y0-NO-NTU-1018）、捷運直達花蓮（UX-MRT-FAR-1018）、換場景前一段的立繪留著（BUG-ADV-LINGER-1018）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG-1018）、在家不能存檔（UX-HOME-SAVE-1018）、約可昕出門一直跳「會錯過十點」（UX-RT-DATE-1018）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN-1018，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE-1018，X24）。
+- 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2-1018：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER-1018：AA_297 retake_home 30 短＋12 長）。
 - AA 交付整合：AA_293（可昕交往前 T1～T6、劇社拿掉、系烤伏筆、聚會後她留下來、E10 23:45、保齡球搬 9/13、醉月湖說破）、E27 當面講休學原因、跨年改市府站、除夕選項、比誰早起；階梯白名單換 9fecc202（Y0S1 等 AA 補 KX0_EGG／KX0_SHOP 記憶名稱表）。
-- 其他：路人旁邊不再一模一樣（BUG-NPC-DUP）、室內出口地上光圈（UX-EXIT-MARK）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP）、坐著的替身禿頭／臉白（ART-SEATFIG，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME 第 1 張）。
+- 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
 - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
 **B｜全部未完成（要先看的）**
 - P0：QA-PLAYTHROUGH-1018（BB-C）、QA-TRANSCRIPT-1018（LAWWW：劇本→AA；瀏覽器探測腳本 `tests/econ_ff_probe1.py`（第一階段 9/2 起）、`tests/econ_ff_probe2.py`（第二階段 10/17 起），`OUT=<資料夾>` 收 transcript1／2.json）、Q-Y0-NTU-1018（AA 搬休學期校園事件地點，搬完改 econff3d.js STEPS2）、BUG-NO-CLERK-1018（每間店要有店員）、AA295-KX-NOHYPO-1018（可昕不出假設題，約 50 處逐句替換，測試要換）、AA294-SKIPCLASS-1018（翹課錯過劇情的通用規則）。
 - 等 AA：Q-CRAM-SPRINT-1018（衝刺班鋪陳；AA 638ec884 已加 E27b 伏筆）、AA_296 只靠手機的劇情盤點、Y0S1 階梯記憶名稱表。
 - 等 BB：BG-HOME-1018 其他 10 張家裡背景（BB_132 第 83 組）。
-- 等 LAWWW2：ART-GG-SHOPS、ART-YU-3D 小語（615a3cbf 已交、還沒整合：char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6 已交、還沒整合：campus_teach_int.diff）。
+- 等 LAWWW2：ART-GG-SHOPS-1018、ART-YU-3D-1018 小語（615a3cbf 已交、還沒整合：char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6 已交、還沒整合：campus_teach_int.diff）。
 - v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者選時段方案）、BUG-ECON-HOME-SHOTS-1018（BB 縮圖總表）、BUG-KXFIRST-0830。
 
 **C｜正在做的**：休學在家瀏覽器探測（10/17→8/13）跑到 3/15、沒有卡住；跑完把台詞整理成 docs/qa/econ_transcript_*.md 給 AA-C。
 
-**D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS）使用者說先不要決定、要方案。
+**D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS-1018）使用者說先不要決定、要方案。
 
 **E｜跨 AI**：AA-C 待交 AA_296、Y0S1 名稱表；BB-C 在做 P0 測試→四種玩法；LAWWW2-C 在做 GG-SHOPS。訊息細節看 deliveries.json。
 
