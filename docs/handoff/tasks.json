@@ -18110,6 +18110,27 @@
    "source": "使用者 2026-10-18 06:4x（存檔 9df1402c-fatiao3d_save_day-314.json）",
    "authorized": "使用者回報",
    "next": "game3d.js PLACE_LIST：HOME.baseMode（退宿以後）不列宿舍、宿舍走廊；回家＝手機「地點」最上面「回臺北的家」（v9.10.1）、或校門口的「回臺北的家」（v9.10 就有）。事件接事件第二階段（ECON-FF-PHASE2-1018）做好以後，休學在家期間演完自動回家。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "BUG-KXFIRST-0830",
+   "title": "經濟系玩上來的人 8/30 早上又收到可昕「第一則訊息」（假設題、去上課吧）：toLaw 重設 KX_FIRST_MSG；週六暑假台詞時機不對",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "8/30 經濟系轉法律系隔天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 06:25",
+   "authorized": "bug 修正（台詞要留的話 AA 寫）",
+   "next": "PLAYED_Y0 不重設 KX_FIRST_MSG；要不要留一則等 AA-C（BB-C 已同步）"
   }
  ]
 }
