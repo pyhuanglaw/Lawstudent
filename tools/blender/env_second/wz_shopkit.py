@@ -281,26 +281,8 @@ def aboard(xf, x, z, cell='chalk'):
 
 
 # ---------------- 店面 ----------------
-def shopfront_v2(spec, xf, W, gt, wall):
-    s = spec['shop']; sf = spec['sf']; R = sf.get('recess', 0.9); gz = -R
-    iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e')); top = ih + 0.4
-    # 店內景深卡（退到玻璃後 1.2 m）＋店內地板、兩側的牆
-    if sf.get('inner'): shallow_interior(spec, xf, iw, gz, ih)                                  # 立體的淺店內（深 2.6 m）
-    else:
-        face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
-        xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
-        for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz)
-    # 門廊：地坪（這家的磁磚）＋門檻、兩側壁柱（外牆材質）、天花板、門楣（招牌底下那一段牆）
-    xf.box(acc(SK[sf['floor']]), -W / 2 + 0.28, W / 2 - 0.28, 0.0, 0.03, gz, 0.0)
-    st = sf.get('step', 0.0)
-    if st > 0: xf.box(acc(SK[sf['floor']]), -iw / 2, iw / 2, 0.0, st, gz, gz + 0.3)
-    for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.14) - 0.14, sx * (W / 2 - 0.14) + 0.14, 0, GH, gz, 0.0)
-    xf.box(acc(M['ceilA']), -W / 2 + 0.28, W / 2 - 0.28, top - 0.04, top, gz, 0.0)
-    xf.box(wall, -W / 2, W / 2, top, GH, -0.25, 0.0)
-    lm = SK['lamp_cool'] if sf.get('light') == 'cool' else SK['lamp']
-    for lx in ([0.0] if W < 7 else [-W / 4, W / 4]):
-        q = xf.p(lx, top - 0.06, gz / 2); acc(lm).sphere(q, 0.07, seg=8, rings=4)
-        CL.glow(root, 'shoplamp', q[0], q[1] - 0.05, q[2], color='rgba(240,248,255,1)' if sf.get('light') == 'cool' else 'rgba(255,214,150,1)', size=1.3, day=0.0, night=0.9)
+def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
+    """店門、玻璃、暖簾、鐵捲門箱＋導軌（溫州街門廊店面、公館騎樓店面共用；原本寫在 shopfront_v2 裡）"""
     # 門面
     door = sf.get('door', 'alu'); f_ = acc(fr)
     if door != 'open':
@@ -350,6 +332,29 @@ def shopfront_v2(spec, xf, W, gt, wall):
     if sf.get('rollbox', True):
         a = acc(M['alu']); xf.box(a, -iw / 2 - 0.05, iw / 2 + 0.05, ih + 0.2, top - 0.05, gz + 0.06, gz + 0.36)
         for sx in (-1, 1): xf.box(a, sx * (iw / 2 + 0.02) - 0.035, sx * (iw / 2 + 0.02) + 0.035, 0.0, ih + 0.2, gz + 0.06, gz + 0.14)
+
+
+def shopfront_v2(spec, xf, W, gt, wall):
+    s = spec['shop']; sf = spec['sf']; R = sf.get('recess', 0.9); gz = -R
+    iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e')); top = ih + 0.4
+    # 店內景深卡（退到玻璃後 1.2 m）＋店內地板、兩側的牆
+    if sf.get('inner'): shallow_interior(spec, xf, iw, gz, ih)                                  # 立體的淺店內（深 2.6 m）
+    else:
+        face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
+        xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
+        for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz)
+    # 門廊：地坪（這家的磁磚）＋門檻、兩側壁柱（外牆材質）、天花板、門楣（招牌底下那一段牆）
+    xf.box(acc(SK[sf['floor']]), -W / 2 + 0.28, W / 2 - 0.28, 0.0, 0.03, gz, 0.0)
+    st = sf.get('step', 0.0)
+    if st > 0: xf.box(acc(SK[sf['floor']]), -iw / 2, iw / 2, 0.0, st, gz, gz + 0.3)
+    for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.14) - 0.14, sx * (W / 2 - 0.14) + 0.14, 0, GH, gz, 0.0)
+    xf.box(acc(M['ceilA']), -W / 2 + 0.28, W / 2 - 0.28, top - 0.04, top, gz, 0.0)
+    xf.box(wall, -W / 2, W / 2, top, GH, -0.25, 0.0)
+    lm = SK['lamp_cool'] if sf.get('light') == 'cool' else SK['lamp']
+    for lx in ([0.0] if W < 7 else [-W / 4, W / 4]):
+        q = xf.p(lx, top - 0.06, gz / 2); acc(lm).sphere(q, 0.07, seg=8, rings=4)
+        CL.glow(root, 'shoplamp', q[0], q[1] - 0.05, q[2], color='rgba(240,248,255,1)' if sf.get('light') == 'cool' else 'rgba(255,214,150,1)', size=1.3, day=0.0, night=0.9)
+    _door_glass(spec, xf, sf, iw, ih, gz, fr, top)
     # 招牌：有使用者核可設計稿的店用貼圖（sign_atlas.py），沒有的照舊由遊戲畫字（SIGN_FACE）
     sw = min(W - 0.4, sf.get('sign_w', 6.5)); key = SIGNMAP.get(spec['id']); sy1t = None
     if key and key + '_h' in SIGN_ATLAS:
@@ -842,6 +847,86 @@ def rear_facade(spec, xf, W, D, F, totalH):
 
 # ---------------- 每一間的樣式（7b-2：相鄰的店至少三樣不同）----------------
 # 門廊雜物的 z：從玻璃（−recess）往外量，0.1～0.8；x：建築自己的座標（−W/2..W/2）
+def arcade_front_v2(spec, xf, W, wall):
+    """公館的騎樓店面（ART-GG-SHOPS-1018；使用者 10-18 05:5x「公館的店面從外面看都好醜」）。
+    原本（wz_street.shopfront）：十五間都是一整片玻璃＋四根直框＋玻璃後 1.2 m 一張店內貼圖；騎樓地板整條同一種、柱子同一種磁磚；晚上騎樓沒有燈光。
+    現在照溫州街的店面組件（7b 店面設計準則）：
+      ①茶飲是臨騎樓的立體點餐櫃台（溫州街巷口茶飲同一套）；其他店的玻璃後面照舊是店內景深卡（遊戲畫的，亮）——
+        試做立體的淺店內（inner=True）：在 3 m 深的騎樓後面白天太暗，書店一片黑、腳踏車行只剩灰牆，比景深卡差，沒用；
+      ②每家不同的門：鋁門、木框玻璃門、自動門、整面拉開、木格拉門＋暖簾；鐵捲門箱＋導軌；
+      ③每棟騎樓的地磚不同（台北的騎樓一棟一種）；柱子、店與店之間的壁柱包這一棟的外牆；
+      ④玻璃上的紙條（營業時間、徵人、支付貼紙、價目表…，全部虛構、沒有品牌）；⑤騎樓日光燈、店內燈晚上亮。
+    招牌照舊（設計稿貼圖集）。騎樓裡不放雜物：騎樓走得到，導航、店門互動點都不動（zones3d.js 的 gongguan 不用改）"""
+    s = spec['shop']; sf = spec['sf']; dep = 3.0; gz = -dep; iw = W - 0.6; ih = GH - 0.9; fr = frame_mat(s.get('frame', '#3b2a1e'))
+    ceil_y = GH - 0.35; top = ceil_y - 0.02; kind = sf.get('kind', s['type'])
+    # 店內
+    if kind == 'tea':                                                                               # 手搖飲：臨騎樓的點餐櫃台（溫州街巷口茶飲同一套）
+        xf.box(acc(SK[sf['floor_in']]), -iw / 2, iw / 2, 0.0, 0.06, gz - DI, gz)
+        for sx in (-1, 1): xf.box(acc(M['plaster']), sx * iw / 2 - 0.04, sx * iw / 2 + 0.04, 0.0, ceil_y, gz - DI, gz)
+        xf.box(acc(M['ceilA']), -iw / 2, iw / 2, 2.95, 3.0, gz - DI, gz)
+        cm = _cm(f'sk_{spec["id"]}_vc'); _tea(OffXf(xf, 0.0), iw, gz, gz - DI, cm, spec['id']); cm.finish(root, uv=False)
+        for lx in (-iw / 4, iw / 4):
+            xf.box(acc(M['tube']), lx - 0.55, lx + 0.55, 2.92, 2.95, gz - DI / 2 - 0.06, gz - DI / 2 + 0.06)
+            CL.glow(root, 'shoplamp', *xf.p(lx, 2.6, gz - DI / 2), color='rgba(250,252,255,1)', size=1.6, day=0.0, night=0.8)
+        xf.box(wall, -W / 2, W / 2, 3.0, ceil_y, gz - 0.15, gz)                                      # 開口上方的牆
+        a = acc(M['alu']); xf.box(a, -iw / 2 + 0.05, iw / 2 - 0.05, 2.72, 3.0, gz, gz + 0.26)
+        for sx in (-1, 1): xf.box(a, sx * (iw / 2 - 0.05) - 0.035, sx * (iw / 2 - 0.05) + 0.035, 0.0, 2.72, gz, gz + 0.08)
+    else:
+        if sf.get('inner'): shallow_interior(dict(spec, shop=dict(s, type=kind)), xf, iw, gz, ih)
+        else:                                                                                         # 店內景深卡（遊戲畫 TK.interiorTex(店種)，亮的）：立體的淺店內在 3 m 深的騎樓後面白天太暗（試做：書店一片黑）
+            face(f'INTERIOR_FACE_{spec["id"]}', M['board'], xf, [(-iw / 2, 0.15, gz - 1.2), (iw / 2, 0.15, gz - 1.2), (iw / 2, ih + 0.15, gz - 1.2), (-iw / 2, ih + 0.15, gz - 1.2)], {'interior': s['type']})
+            xf.box(acc(M['gwall']), -iw / 2, iw / 2, 0, 0.15, gz - 1.3, gz)
+            for sx in (-1, 1): xf.box(acc(M['ceilA']), sx * iw / 2 - 0.03, sx * iw / 2 + 0.03, 0.15, ih + 0.15, gz - 1.2, gz)
+        _door_glass(spec, xf, sf, iw, ih, gz, fr, top)
+        xf.box(wall, -W / 2, W / 2, ih + 0.18, ceil_y, gz - 0.15, gz)                                # 店門上方到騎樓天花板的牆
+    for sx in (-1, 1): xf.box(wall, sx * (W / 2 - 0.15) - 0.15, sx * (W / 2 - 0.15) + 0.15, 0.0, ceil_y, gz - (DI if (sf.get('inner') or kind == 'tea') else 1.3) - 0.1, gz)   # 店與店之間的壁柱（這一棟的外牆）
+    # 騎樓：天花板、這一棟的地磚、柱子（包外牆）、日光燈（晚上亮）
+    xf.box(acc(M['ceilA']), -W / 2, W / 2, ceil_y, GH - 0.12, -dep, 0.0)
+    xf.box(acc(SK[sf['floor']]), -W / 2, W / 2, 0.0, 0.05, -dep, 0.0)
+    for sx in spec.get('pillars', (-W / 2 + 0.3, W / 2 - 0.3)):
+        xf.box(wall, sx - 0.275, sx + 0.275, 0.05, ceil_y, -0.575, -0.025)
+        xf.box(acc(SK['f_granite']), sx - 0.29, sx + 0.29, 0.05, 0.45, -0.59, -0.01)                  # 柱腳的石材護角
+    nl = max(1, round(W / 2.5))
+    for k in range(nl):
+        tx = -W / 2 + (k + 0.5) * W / nl; xf.box(acc(M['tube']), tx - 0.6, tx + 0.6, ceil_y - 0.03, ceil_y, -dep * 0.55 - 0.05, -dep * 0.55 + 0.05)
+        CL.glow(root, 'arcadelamp', *xf.p(tx, ceil_y - 0.2, -dep * 0.55), color='rgba(244,248,255,1)', size=1.5, day=0.0, night=0.7)
+    # 招牌（設計稿；和原本的 shopfront 同一套）
+    sw = min(W - 0.4, 6.5); sy0, sy1 = GH - 0.67, GH - 0.03
+    if s.get('atlas') and s['atlas'] in SIGN_ATLAS:
+        h_ = sy1 - sy0 + 0.08; w_ = min(sw, h_ * SIGN_ATLAS[s['atlas']]['aspect'])
+        xf.box(acc(SK['alu2']), -w_ / 2 - 0.03, w_ / 2 + 0.03, sy0 - 0.07, sy0 - 0.04 + h_ + 0.03, 0.0, 0.2)
+        sign_tex(xf, s['atlas'], 0.0, sy0 - 0.04, w_, 0.204, f'sk_sign_{spec["id"]}')
+        if SIGN_ATLAS[s['atlas']]['lit']: CL.glow(root, 'signbox', *xf.p(0.0, (sy0 + sy1) / 2, 0.6), color='rgba(255,250,235,1)', size=2.2, day=0.0, night=0.55)
+    else:
+        xf.box(acc(fr), -sw / 2 - 0.05, sw / 2 + 0.05, sy0 - 0.04, sy1 + 0.04, 0.0, 0.1)
+        face(f'SIGN_FACE_{spec["id"]}', M['board'], xf, [(-sw / 2, sy0, 0.105), (sw / 2, sy0, 0.105), (sw / 2, sy1, 0.105), (-sw / 2, sy1, 0.105)],
+             {'sign': s['name'], 'sub': s.get('sub', ''), 'bg': s.get('signBg', '#3b2a1e'), 'color': s.get('signColor', '#f4ead8'), 'serif': 1 if s.get('serif') else 0, 'band': s.get('band', '')})
+    if s.get('vatlas') and s['vatlas'] in SIGN_ATLAS: vsign_tex(xf, spec['id'], s['vatlas'], W / 2 - 0.5, GH + 0.3, vw=0.74)
+    elif s.get('vertical'):
+        vsign(xf, spec['id'], W / 2 - 0.5, GH + 0.3, GH + 2.9, {'vertical': s['vertical'], 'vBg': s.get('vBg', '#ffffff'), 'vColor': s.get('vColor', '#b0332a'), 'vBand': s.get('vBand', '#b0332a'), 'serif': 1 if s.get('serif') else 0})
+    for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, gz + (0.32 if kind == 'tea' else 0.03))
+
+
+# 公館騎樓店面（G00–G14，wz_street.py --set gongguan 的棟號；和 zones3d.js 的 shops 同一個順序）：相鄰的店門、地磚、燈色至少兩樣不同
+SF_GG = {
+    'G00': dict(door='open', floor='f_mosaic', light='warm', notes=[('menu', 2.6, 1.2, 0.6, 0.66)]),                                        # 阿鳳麵店
+    'G01': dict(kind='tea', floor='f_white', floor_in='f_white', notes=[('pay', -2.6, 0.62, 0.26, 0.26), ('hiring', 2.2, 1.1, 0.4, 0.44)]),               # 清葉茶行
+    'G02': dict(door='wood', floor='f_quarry', light='warm', door_x=2.6, notes=[('hours', 1.4, 1.2, 0.36, 0.36), ('poster', -3.8, 1.0, 0.5, 0.6)]),   # 舊路書房
+    'G03': dict(door='auto', floor='f_white', light='cool', door_x=-1.6, rollbox=False, notes=[('hours2', 0.6, 1.25, 0.42, 0.42), ('pay', 1.2, 1.3, 0.34, 0.34), ('hiring', 2.6, 1.1, 0.42, 0.46)]),   # 日日便利
+    'G04': dict(kind='cvs', door='alu', floor='f_granite', light='cool', door_x=1.4, door_w=1.2, notes=[('hours2', -1.2, 1.2, 0.4, 0.4)]),   # 公館藥局
+    'G05': dict(kind='noodle', door='open', floor='f_concrete', light='warm', notes=[('menu', -2.4, 1.2, 0.6, 0.66)]),                       # 滷味・鹹酥雞
+    'G06': dict(kind='bike', door='open', floor='f_terrazzo', light='cool', notes=[('hours', 3.0, 1.3, 0.34, 0.34)]),                         # 輪轉單車（騎樓、櫥窗的車是遊戲擺的）
+    'G07': dict(kind='brunch', door='wood', floor='f_floral', light='warm', door_x=-2.4, door_w=1.0, notes=[('hours', -1.4, 1.25, 0.34, 0.34), ('pay', -0.95, 1.3, 0.26, 0.26)]),   # 咖啡・輕食
+    'G08': dict(kind='fruit', door='open', floor='f_concrete', light='warm', notes=[]),                                                      # 水果行
+    'G09': dict(kind='laundry', door='alu', floor='f_white', light='cool', door_x=-2.4, door_w=1.0, notes=[('hours2', -1.4, 1.2, 0.4, 0.4), ('lostcat', 1.4, 1.1, 0.4, 0.42)]),   # 自助洗衣
+    'G10': dict(kind='print', door='alu', floor='f_granite', light='cool', door_x=2.2, notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('pay', 0.9, 1.45, 0.34, 0.34)]),   # 影印・輸出
+    'G11': dict(kind='teishoku', door='lattice', noren=True, floor='f_quarry', light='warm', door_x=-2.4, door_w=1.8, notes=[('menu', 1.6, 1.0, 0.58, 0.62), ('hours', 2.4, 1.2, 0.34, 0.34)]),   # 日日定食
+    'G12': dict(kind='books', door='wood', floor='f_mosaic', light='warm', door_x=2.0, door_w=1.0, notes=[('poster', -2.2, 1.0, 0.5, 0.6)]),   # 二手唱片
+    'G13': dict(kind='books', door='alu', floor='f_terrazzo', light='cool', door_x=-2.2, door_w=1.2, notes=[('hours2', -0.9, 1.2, 0.4, 0.4), ('pay', 0.4, 1.3, 0.3, 0.3)]),   # 文具・畫材
+    'G14': dict(kind='brunch', door='wood', floor='f_granite', light='warm', door_x=1.8, door_w=1.0, notes=[('chalk', -2.4, 0.9, 0.5, 0.62), ('hours', 0.8, 1.25, 0.34, 0.34)]),   # 早午餐
+}
+
+
 SF = {
     'A1': dict(inner=True, door='alu', sign='lightbox', awning='metal', floor='f_granite', step=0.06, light='cool', ac=2.6, meter=-3.5,
                notes=[('copyprice', -2.6, 0.9, 0.62, 0.62), ('copyprice2', -1.9, 0.9, 0.62, 0.62), ('nobook', 1.6, 1.3, 0.5, 0.5), ('pay', 2.3, 1.45, 0.34, 0.34)],
