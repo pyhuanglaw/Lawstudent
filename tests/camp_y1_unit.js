@@ -176,9 +176,9 @@ const day=k=>STORY.dayOfKey(k);
     setup(); G.hour=18.7; await STORY.teaSignIn(GM); G.hour=19.3; said=[]; STORY.teaTick(GM); await flush();
     check('K6. 19:10 以後還沒走到那一桌：不會被叫過去（招手是學姊到了那一拍，拿掉）',said.length===0&&G.flags.TEA_STEP===1,said.join(' / '));
     setup(); G.hour=19.5; const n0={obj:{position:{x:0,z:0}},seat:true}; said=[]; await STORY._v1.talkSis(GM,n0);
-    check('K8. 9/4 分直屬以前跟學姊說話：只有「（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）」，不記認識',said.join('|')==='（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'&&!G.flags.met_sis&&!sisFirst(),said.join(' / '));
+    check('K8. 9/4 分直屬以前跟學姊說話：只有「（她在看手機，沒有抬頭。）」（AA-C 2026-10-18 SIS-W1 第 ① 點），不記認識',said.join('|')==='（她在看手機，沒有抬頭。）'&&!G.flags.met_sis&&!sisFirst(),said.join(' / '));
     G.day=day('2025-09-03'); G.weekday=3; G.hour=15; said=[]; await STORY._v1.talkSis(GM,n0);
-    check('K9. 9/3（還沒分直屬）：一樣只有那一行旁白，沒有舊的備用初遇',said.join('|')==='（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'&&!G.flags.met_sis&&!has(/學號尾數|三件事|讀書會/),said.join(' / '));
+    check('K9. 9/3（還沒分直屬）：一樣只有那一行旁白，沒有舊的備用初遇',said.join('|')==='（她在看手機，沒有抬頭。）'&&!G.flags.met_sis&&!has(/學號尾數|三件事|讀書會/),said.join(' / '));
     fresh(); G.flags.MAIN_D1=STORY.MAIN_D1_NEW; G.flags.LAW_START_DAY=day('2025-08-29'); G.day=day('2025-08-29'); STORY.familyW0(G); G.day=day('2025-09-05'); G.hour=20.1; PHONE.tick(G);
     const kb=G.msgs.filter(m=>m.th==='g:family_law'&&m.from==='kevin'&&m.day===day('2025-09-05')), last=kb[kb.length-1];
     check('K10. 9/5 20:00 Kevin 的舊書（所有在群組的人）：三則、可以回「我要。」→ KEVIN_OLD_BOOK、「下禮拜一放系學會辦公室」',kb.length===3&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='我要。'&&(PHONE.answer(G,last.ask.id,0),G.flags.KEVIN_OLD_BOOK===true)&&G.msgs.some(m=>m.text==='好，下禮拜一放系學會辦公室，寫你名字。'),kb.map(m=>m.text).join(' | ')); }
