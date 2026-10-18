@@ -32,7 +32,9 @@ const INV=(function(){
   S.addContact=function(G,id){ S.rec(G); if(S.hasContact(G,id)) return false; G.contacts[id]=G.day; S.msg(G,id,'加了'+nameOf(id)+'的聯絡方式。'); return true; };
   /* 可以約的人：認識、對的分類、這學期在學校 */
   const hvOk=(G,id)=>typeof HV!=='undefined'&&typeof HOMETOWN_LINES!=='undefined'&&!!HV.offer(G,id);   /* 寒暑假在高雄／台中：可以約「我去高雄找妳？」（AA_276 第 1-1 節）*/
-  S.canInvite=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c||(!D().layers.includes(c.social_layer)&&!hvOk(G,id))) return false;   /* 可昕（G 層，平常不用這個清單約）寒暑假在高雄時也可以約去找她 */
+  const kxGF=(G,id)=>id==='kexin'&&(G.stage||'law')==='law'&&!!(G.flags&&G.flags.dating_kexin===true)&&typeof DATE!=='undefined'&&!!DATE.canAsk;   /* 遠距女友可昕：法律系那幾年交往中，手機也能約她（只有「去校外…」約會；2026-10-18 使用者：「我還是不能聯絡女朋友啊，可昕？」）*/
+  S.kxGF=kxGF;
+  S.canInvite=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(kxGF(G,id)) return true; if(!c||(!D().layers.includes(c.social_layer)&&!hvOk(G,id))) return false;   /* 可昕（G 層，平常不用這個清單約）寒暑假在高雄時也可以約去找她 */
     if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,G):STORY.present(id,G))&&!hvOk(G,id)) return false; return typeof SOCIAL==='undefined'||!SOCIAL.stage||SOCIAL.stage(id)!=='STRANGER'; };
   /* 手機「朋友」裡約不了的人寫原因（2026-10-14 使用者：「為什麼手機只能約阿哲小凱」——原本約不了的人沒有「約」按鈕，也沒有說為什麼）。
      文字照 AA_125 第 1 節的表（INVITE_DATA.why）。順序：不在學校（交換＝國外、until 過了＝畢業）→ 已經約好了（約好的那一筆）→ 只打過招呼（STRANGER）
@@ -257,7 +259,7 @@ const INV=(function(){
   S.teMark=function(GM,iv,id,P,W){ const G=GM.G, te=iv&&typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null; if(!te||!te.kind) return false;
     iv.te={term:te.w.id,kind:te.kind}; TERMEND.playerPicked(G,iv); if(GM.toast) GM.toast(te.kind==='gf'?TERMEND_LINES.SYS_GF:TERMEND_LINES.SYS_TE,4200); return true; };
   S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
-    const PL=D().places; let k, P=null;
+    const PL=kxGF(G,id)?[]:D().places; let k, P=null;   /* 可昕在政大：不約台大校園裡的地點，只有「去校外…」*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/

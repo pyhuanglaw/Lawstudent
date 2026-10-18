@@ -698,7 +698,7 @@ const STORY = (function(){
     if(!L.length) return SOCIAL.rel(id).talked>=3; return !!(r&&r.once)&&L.every(e=>r.once[e.t]); };
   /* 當面約、交換聯絡方式（talkCharacter 和舊的 talkAn／talkZhe／talkSis／talkKai／talkYu 共用；使用者 2026-10-15：「有手機可以約人，見到本人反而不能約？」——以安、阿哲等走舊的對話，原本沒有這個選單）*/
   S.offerInvite=async function(GM,id,n,who){ const G=GM.G, c=CHARACTERS[id]; if(!c||typeof INV==='undefined') return; who=who||{name:SOCIAL.displayName(id),obj:n&&n.obj,charId:id}; { const her=c.gender==='f'?'她':'他', O=[];   /* 當面約（使用者第 3 點；src/invites3d.js）：「認識」就可以，不用聯絡方式（AA_124 1-7）*/
-      if(INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')) O.push({t:'約'+her+'去…',hint:'Café、總圖、吃飯、散步',k:'inv'});
+      if(INV.canInvite(G,id)&&!(G.invites||[]).some(v=>v.who===id&&v.state==='going')) O.push({t:'約'+her+'去…',hint:INV.kxGF&&INV.kxGF(G,id)?'約會：選地點、日期、時間':'Café、總圖、吃飯、散步',k:'inv'});
       /* 保底的「交換聯絡方式」（AA_124 1-7 第 2 點）：到「有點熟」以後還沒有聯絡方式的人；對方的一句照 INVITE_DATA.exchange（還沒寫的人用旁白）*/
       if(INV.canInvite(G,id)&&!INV.hasContact(G,id)&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf('FAMILIAR')) O.push({t:'交換聯絡方式',k:'ex'});
       if(O.length){ O.push({t:'就這樣'}); const k=await GM.choose(O); const o=O[k]||{};
