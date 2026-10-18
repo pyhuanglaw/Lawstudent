@@ -19077,6 +19077,27 @@
     "acceptance": "每一則經濟系那一年的邀約私訊：傳／不傳／改成補充句",
     "ack": "ACTIONED"
    }
+  },
+  {
+   "id": "BUG-HOME-HUDZONE-1018",
+   "title": "人在臺北的家，右上角地點和存檔列表寫「台大校園」（BB-C 10-18）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 09:30",
+   "authorized": "BB 測試回報",
+   "next": "game3d updateHUD、renderSlots：HOME.at 時寫臺北的家；home_unit 12。BB 重測"
   }
  ]
 }

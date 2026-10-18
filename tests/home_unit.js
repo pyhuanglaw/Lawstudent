@@ -84,5 +84,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('11. 住在家裡不出提宿舍的句子（AA_298 第 4 節）：群組「這週回來吃飯嗎」「回來的話先講」、到家「宿舍的床」、晚餐「宿舍的飯」「室友」都在台詞池裡（比對得到）',sk.group.every(t=>L.group.some(x=>x.t===t))&&sk.arrive.every(t=>L.arrive.some(x=>x.t===t))&&ds.every(t=>L.dinner.some(x=>x.mom===t)));
   const g0=GM.G, lh=HOME.livesHome; HOME.livesHome=()=>true; const picks=new Set(); for(let k=0;k<12;k++){ const x=HOME.pick({day:k,home:{used:{}},flags:{}},'arrive'); if(x) picks.add(x.t); } const dn=new Set(); for(let k=0;k<20;k++){ const x=HOME.dinnerPick({day:k,flags:{},home:{ate:{},used:{}}}); if(x) dn.add(x.n); } HOME.livesHome=lh;
   check('11. livesHome 時：到家不會抽到「宿舍的床」、晚餐不會抽到 n3、n4',!picks.has('宿舍的床睡得習慣嗎？')&&picks.size>0&&!dn.has(3)&&!dn.has(4)&&dn.size>0,JSON.stringify([...dn])); }
+{ const g3=require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8'); check('12. 在臺北的家：右上角地點、存檔列表都寫「臺北的家」（BB-C BUG-HOME-HUDZONE）',/HOME\.at\(G\)\)\?'臺北的家'/.test(g3)&&/s\.home&&s\.home\.at\?'臺北的家'/.test(g3)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();
