@@ -121,6 +121,8 @@
 7. Node（幾秒，不需要瀏覽器；可以先跑）：`node tests/nav_levels_unit.js`、`node tests/nav_buildings_unit.js`、`node tests/stairs_feet_unit.js`
 8. v9.4 起（多樓層）：`tests/flow_linze_floors.py`
 
+9. **HV-15（2026-10-18）**：`python3 tools/story/check_orphans.py`、`python3 tools/story/check_lines.py`、`python3 tools/exam/import_exam_bank.py` 的漏收檢查；看 `docs/handoff/USER_WANTS.md` 的「不在遊戲裡」，發布前跟使用者說這一版有什麼、她要過但這版沒有的是哪些、為什麼。
+
 發布後：GitHub「pages build and deployment」紀錄確認發布的 commit；請使用者在手機看標題的版本字樣（沙盒連不到 github.io）。
 
 ## 六、待建立（依「會不會讓玩家卡死」排優先）

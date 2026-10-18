@@ -115,6 +115,48 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 - **規則版本**：第 13 節（HV 編號＋SHA）。值班登記寫「規則 SHA／HV 版本」，接班時核對自己上次讀的版本之後新增了哪些規則。
 - **跨帳號只用 GitHub**（D75，HV-10 擴大到所有休班帳號）：值班帳號不傳訊息、不 `interrupt_session`、不替它排 `send_later`／排程、不傳「測試訊息」給**任何**休班帳號。規則修改不需要、也不准為此合併遊戲內容到 `main` 或發布。
 
+## 0b. 使用者要過的東西，不能停在半路（HV-15／D101，2026-10-18；四職位、所有帳號、永久）
+
+使用者 2026-10-18 原話：「我快被氣死了我自己發現你們才會找到啊交接規則一定有什麼問題為什麼你們會沒有交接到？」「你幫我認真思考你去改交接規則讓之後交接到每個帳號都不會再發生一樣的問題，你們自己也不要忘記暫停的東西」
+
+**為什麼要這一節**
+- 第 4 節的對帳只檢查「任務有沒有從看板上消失」。
+- 118 巷（D46，使用者 10-11 要的）一直留在看板上「暫停，等排區域」，每一班都算「沒遺失」，結果一週沒人推。
+- 大一～大三的 91 題 AI 題目做完、交了，沒人核對遊戲裡到底有沒有。
+- 兩次都是使用者自己發現。原因：
+  - 交接只寫「各自在做什麼」，沒寫「使用者要的東西在哪裡」；
+  - 暫停沒有負責人、沒有恢復日期；
+  - 換分工時沒有重新指派；
+  - 「交出去」和「進遊戲」之間沒有核對。
+
+**五條規則**
+1. **使用者需求總表 `docs/handoff/USER_WANTS.md`**
+   - 使用者要過、玩家看得到或玩得到的每樣東西，各一列。
+   - 每列寫：要什麼（盡量用原話）、哪天說的、狀態、證據（程式檔、事件 id、任務 id）、負責人、下次檢查日；不在遊戲裡的，再寫卡在哪。
+   - 狀態只有六種：在線上版／在開發分支／做好沒進遊戲／還沒做／暫停／已取消（取消要有使用者的原話）。
+   - 誰改：LAWWW（系統、場景、美術、發布）和 AA（劇情、台詞、法律內容）直接改；BB、LAWWW2 把變更用訊息交給 LAWWW。
+   - 使用者說要一樣新東西，**當天**加一列。
+2. **暫停一定要有五欄**：誰決定暫停、為什麼、負責人、恢復條件、下次檢查日。
+   - 下次檢查日最晚 7 天，或下一次發布，取早的那個。
+   - 看板寫在 `tasks.json` 的 `owner`、`pausedReason`、`resumeWhen`、`recheckOn`。
+   - AA、BB、LAWWW2 另外寫在自己進度檔最上面的「暫停中」一節，同樣五欄；沒有就寫「無」。
+   - **USER_WANTS 上有的東西要暫停，當下就告訴使用者**，不能默默停。
+   - 沒有五欄的暫停算違規；`tools/story/check_orphans.py` 會列出來。
+3. **三個時間點，一定把暫停的、停住的全部看一遍**：
+   - 每次接班（第 4 節第 9b 步）；
+   - 每次發布前（`docs/TESTING.md` 第五節第 9 項）；
+   - 每次使用者改優先順序或發布範圍。
+   看完要有結果：恢復、改下次檢查日，或請使用者決定取消。不能只寫「照舊暫停」。
+4. **換分工的當天**，舊負責人沒做完的事（包括寫「等某某」的）逐條改負責人，寫進 `tasks.json` 和 USER_WANTS。當天做不到就是 P0。
+5. **交出去不等於進遊戲**
+   - 接收的人整合以後，要在 USER_WANTS 和 `tasks.json` 寫「已整合」和證據。
+   - 發布前跑三支檢查：`tools/story/check_orphans.py`（做好沒用到）、`tools/story/check_lines.py`（台詞抄錯）、`tools/exam/import_exam_bank.py`（題目漏收）。
+   - 發布前跟使用者說：這一版有什麼；她要過、這版沒有的是哪些、為什麼。
+
+**每個職位自己也要做**
+- 進度檔最上面固定放一節「暫停中」（五欄），交班時一起交（第 5 節 B 類）。
+- 每次回報階段成果時，看一眼自己的「暫停中」，有沒有過了下次檢查日。
+
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
 **現在：帳號 C 值班中**（LAWWW-C 2026-10-17 04:1x UTC 接班；上一任帳號 B，2026-10-17 02:40 UTC 交班；帳號 A 休班。LAWWW2-C、AA-C、BB-C 由使用者各自啟用，登記後 `duty sync` 收進來）。
@@ -178,6 +220,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 | 7 | **用最新交班快照比對** | `python3 tools/handoff/check_handoff.py check --ref origin/<RULE_SOURCE>`：九項；結束碼 0 正常、1 有異常或查不了（不算正常）、**2 快照不存在或壞掉 → 寫 `REMEDIAL_FULL_AUDIT`，補做一次全面盤點** |
 | 8 | **找出未整合分支、未測試成果、WIP、待 ACK 的交付**＋**增量核對（D94）** | `python3 tools/handoff/check_handoff.py incr --ref origin/<RULE_SOURCE>`：四職位水位線以後的新 commit 逐一要有分類（outbox／deliveries／ignored kind）、`wip.json` 每項找得到、上一班的 WIP 沒有消失；異常才深入舊歷史（不重掃全部）；合併、登記後 LAWWW 在自己分支 `incr --advance all --by <工作階段>`（通過且 push 才前進）；`python3 tools/handoff/check_handoff.py duty verify --ref origin/<RULE_SOURCE>`（第 11 項 WIP、第 4 項分支在記錄後多了幾個 commit）；check 第 6、7、11 項（未登記的交付、未 ACK、待整合待測試）；`docs/handoff/BRANCH_INVENTORY.md` |
 | 9 | **確認任務沒有遺失**＋**逐職位核對（D93／HV-11）** | 上一班快照的每個未完成 ID 都還在、狀態合理；自己職位已授權未完成的都在；不見的查證（已驗收要有證據、取消要有授權和替代 ID），**證明不了恢復成「待開工」註明「待查」**；沒核完寫 `AUDIT_PENDING：<範圍>`，不宣稱已全部核實。**不能只對上一任 LAWWW 的清單**：`python3 tools/handoff/check_handoff.py roles --ref origin/<RULE_SOURCE>` 逐一讀 LAWWW2、AA、BB 交接檔的「全部待辦」和總表比對；LAWWW 把異常全部補進總表（【表外】記 `meta.offList`）或寫進 `meta.reconcileIgnore` 附原因，**結果 OK 才能說交接完整**；其他職位確認自己的「全部待辦」每項都有任務 ID |
+| 9b | **使用者要過的東西、暫停的東西（HV-15，第 0b 節）** | 讀 `docs/handoff/USER_WANTS.md` 的「不在遊戲裡」一節；跑 `python3 tools/story/check_orphans.py --out <scratchpad>/orphans.md`。過了下次檢查日、沒有負責人、沒有恢復條件的：當班處理，或報給使用者。結果寫進接班確認（第 6 節） |
 | 10 | **確認自己的職位已取得寫入權**：上一任這個職位已正式交班 | `duty plan` 會列「還沒交班的職位」。上一任沒交班 → `duty register` **會拒絕**；只有使用者在對話裡明確要你接（例：「現在由帳號 C 接班」「我回來了」）才加 `--user-ok`，工具會記 `no-handoff` 異常，接班確認要寫明。`duty verify` 第 6 項報「交班後還在寫」→ **停下來回報使用者**，不合併、不覆寫 |
 | 11 | **合併上一任的有效成果**（不 rebase、不 force push、不 reset、不用空白分支取代原成果） | LAWWW：`git merge --no-edit origin/<RULE_SOURCE>`；LAWWW2：合併上一任 LAWWW2 的分支和要接著做的 WIP；AA、BB：企劃線照舊（AA 合併兩人的分支、BB 再拉）。衝突兩邊都保留，看不懂先問使用者 |
 | 12 | **登記新的值班狀態** | LAWWW：`duty register --account <X> --role LAWWW --session <自己> --branch <自己的分支>` → 改值班表（第 1 節）、第 12 節、`duty sync`（收其他職位的登記）→ commit＋push、核對遠端 SHA。其他職位：`duty register ... --ref origin/<RULE_SOURCE>`（只寫自己分支上的 `duty_<職位>.json`，有 WIP 加 `--wip <分支>`）→ commit＋push → 同帳號值班中的 LAWWW 用 `send_message` 通知，LAWWW `duty sync` 收進來 |
@@ -228,6 +271,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 規則來源：origin/<RULE_SOURCE> @ <規則 SHA>（HV-n）；自己上次值班之後新增的規則：…（例：D92、HV-10）
 對帳：check 結束碼 <0|1|2>；上一班快照 N 項未完成，全部在總表／恢復 M 項（ID…）／AUDIT_PENDING：…／REMEDIAL_FULL_AUDIT：…（沒有就寫「無」）
 逐職位核對（D93）：roles 結束碼 <0|1>；LAWWW2／AA／BB 的全部待辦都在總表／異常 N 項：…（處理方式）
+使用者要的、不在遊戲裡（HV-15）：N 項（做好沒進遊戲 a／還沒做 b／暫停 c）；過了下次檢查日的 d 項：…；check_orphans：沒用到的素材 x、停住的看板項目 y（沒寫恢復條件 z）
 未整合／未測試／WIP／待 ACK：…
 目前的任務：…　下一步：…（接著就做，不等使用者說開工）
 值班登記：duty register 已 push <sha>；值班表：已更新（LAWWW）／等 LAWWW duty sync（其他職位）
@@ -239,6 +283,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 3. GitHub 上 RULE_SOURCE 的 `docs/handoff/duty.json`：`onDuty` 是新的帳號、四個職位的工作階段和分支對得上；值班表（第 1 節）寫「<新帳號> 值班中」。
 4. 接班確認寫了規則 SHA 和對帳結果；總表沒有不明原因消失的任務。
 5. 接班確認寫了逐職位核對（`roles`）的結果：LAWWW2、AA、BB 自己的全部待辦都在總表裡（D93）；有異常就列出來，不能寫「交接完整」。
+6. 接班確認寫了 HV-15 那一行：「不在遊戲裡」的每一項都有負責人和下次檢查日；過了日期的有處理。
 
 ## 6b. LAWWW ⇄ LAWWW2 平行開發的派工（D84，2026-10-16；A／B 兩個帳號都適用）
 
@@ -549,6 +594,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 版本 | 日期（UTC） | 內容 | 使用者決策來源 | 寫在哪 | SHA |
 |---|---|---|---|---|---|
+| **HV-15** | 2026-10-18 | **D101 使用者要過的東西不能停在半路**：①使用者需求總表 `docs/handoff/USER_WANTS.md`；②暫停要有五欄（誰決定、為什麼、負責人、恢復條件、下次檢查日），USER_WANTS 上的要暫停先告訴使用者；③接班、發布前、改優先順序時把暫停的全部看一遍；④換分工當天重新指派；⑤交出去不等於進遊戲，發布前跑 check_orphans／check_lines／題目漏收，跟使用者說這版沒有的 | 使用者 2026-10-18（118 巷、91 題都是使用者自己發現；原話見第 0b 節） | 本檔第 0b 節、第 4 節第 9b 步、第 6 節；`CLAUDE.md` 最上面；`docs/TESTING.md` 第五節第 9 項 | （本 commit） |
 | **HV-14** | 2026-10-17 | **D98 台詞全部由 AA 寫、BB 管機制**：人物台詞（含 BB 原本的五位）由 AA 寫、定稿；BB 負責條件、階段、觸發與前後因果；D59 人物外觀驗收照舊（取代 D86／D79 的台詞分工） | 使用者 07:3x 對 AA-C（AA_218 17-3 a32f2ca2） | CLAUDE.md 表格、PROJECT_DECISIONS D98、USER_INSTRUCTION_LOG | 本 commit |
 | **HV-13** | 2026-10-17 | **D96 工作佇列與自動接續效率**（補充 D90／D95）：一次規劃多項已授權工作、回合內連續做不衝突的步驟、安全節點才保存結束；send_later 只在真的結束回合且還有工作時排、同時最多一個、有背景工作會通知就不排、不排會在工作中途觸發的接續；批次回報；背景測試＋前景不衝突工作；以開發效率為準（成本紀錄見 CLAUDE.md D96 第 6 點）；D87、D90、D45 照舊 | 使用者 2026-10-17 05:0x【P0｜改善四職位工作佇列與自動接續效率】 | CLAUDE.md D96 一節、本檔開頭表、PROJECT_DECISIONS D96、USER_INSTRUCTION_LOG | （本 commit） |
 | **HV-12a** | 2026-10-17 | **休班帳號回歸自動找最新規則**（使用者授權 ChatGPT 直接寫入）：A／B／C 任一帳號的既有工作階段收到「我回來了，請同步 GitHub 最新進度，接續工作。」就自行 fetch 全部分支、`duty find` 照登記鏈找 RULE_SOURCE、讀最新規則、交班紀錄、WIP 與待辦、照十四步接班；不依賴舊對話或舊版 CLAUDE.md、不假設只有 A／B 或上一任一定是 B、不要求使用者提醒規則版本或分支名。和 D92（duty find、十四步）、D94（WIP 索引）相容；LAWWW-C 核對 diff（只新增、無刪除），並把第 0a、8 節與 CLAUDE.md 開頭寫死的「現在是 modest-rubin」改成以 `duty find` 為準 | 使用者 2026-10-17 04:4x（ChatGPT 代寫，28aac0e2、936a158e；使用者 04:5x 對 LAWWW-C 確認授權） | CLAUDE.md、本檔開頭兩段＋第 0a、8 節 | 28aac0e2、936a158e、（本 commit） |
