@@ -19271,6 +19271,27 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "USER-WANTS-AUDIT-1018",
+   "title": "盤點 AA、BB、LAWWW2 紀錄裡「使用者說過要改、還沒做完」的事，沒進 USER_WANTS.md／tasks.json 的全部補進去（使用者 10-18 12:5x：「說過要改的東西下一個帳號常常完全不知道……等於下個帳號又要重新說一次」）",
+   "area": "meta",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "META",
+    "week": 0,
+    "earliest": "每次交班",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 10-18 12:5x 對 LAWWW-C",
+   "authorized": "使用者直接要求",
+   "next": "LAWWW-C 12:5x 開子代理（唯讀）比對三個職位的交接檔、今天的企劃文件和 RULE_SOURCE 的 USER_WANTS.md、tasks.json；結果回來後把沒寫進去的逐項補進 USER_WANTS.md（新列）和 tasks.json。交班時如果還沒回來：下一班 LAWWW 第一件事照同樣範圍重做（AA_交接紀錄.md、BB_00 交接檔、LAWWW2 HANDOFF.md 的「使用者」要求 × USER_WANTS／tasks）"
   }
  ]
 }
