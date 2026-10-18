@@ -39,7 +39,7 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "edd6fa8a",
+   "sha": "ae3e0882",
    "since": "2026-10-17T04:10Z",
    "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
@@ -51,34 +51,41 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "1b8160a1",
-   "since": "2026-10-17T04:09Z",
-   "state": "on",
+   "sha": "6a97674b",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": "ec63dd53",
-   "handedOffAt": "2026-10-17T02:39Z",
-   "handoffSnapshot": "2026-10-17T0238Z_B_AA.json"
+   "sinceSha": null,
+   "handedOffAt": "2026-10-18T12:24Z",
+   "handoffSnapshot": "2026-10-18T1224Z_C_AA.json"
   },
   "BB": {
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "ad1ee0aa",
-   "since": "2026-10-17T04:09Z",
-   "state": "on",
+   "sha": "291432b1",
+   "since": null,
+   "state": "handed-off",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": "62dc7497",
-   "handedOffAt": "2026-10-17T02:39Z"
+   "sinceSha": null,
+   "handedOffAt": "2026-10-18T12:24Z",
+   "handoffSnapshot": "2026-10-18T1224Z_C_BB.json"
   }
  },
  "lastHandoff": {
-  "from": "B",
-  "at": "2026-10-17T02:41Z",
+  "from": "C",
+  "at": "2026-10-18T12:24Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "2026-10-17T0240Z_B_LAWWW.json"
-  },
-  "closed": true
+   "AA": {
+    "file": "2026-10-18T1224Z_C_AA.json",
+    "ref": "origin/claude/magical-albattani-bk7b4n"
+   },
+   "BB": {
+    "file": "2026-10-18T1224Z_C_BB.json",
+    "ref": "origin/claude/wonderful-mayer-7fm9g6"
+   }
+  }
  },
  "history": [
   {
@@ -176,7 +183,13 @@
    "until": "2026-10-17T04:11Z"
   }
  ],
- "pending": null,
+ "pending": {
+  "from": "C",
+  "rolesHandedOff": [
+   "AA",
+   "BB"
+  ]
+ },
  "anomalies": [
   {
    "kind": "post-handoff-writes",
@@ -208,7 +221,7 @@
    ]
   }
  ],
- "seq": 7,
+ "seq": 8,
  "chain": [
   {
    "seq": 1,
@@ -255,6 +268,13 @@
   {
    "seq": 7,
    "at": "2026-10-17T04:11Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
+  },
+  {
+   "seq": 8,
+   "at": "2026-10-18T12:24Z",
    "account": "C",
    "role": "LAWWW2,AA,BB",
    "event": "sync"
