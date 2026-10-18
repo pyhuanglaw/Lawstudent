@@ -186,11 +186,6 @@ D['characters'][XN] = {'friendOnly': True, 'steps': [
   'lines':['考試前一晚，我會整理桌子。','桌子收乾淨，比較讀得下去。'],
   'choices':[ch('「我的桌子呢？」','你的桌子喔……我幫你收一半好了。'),
              ch('「我也來試試。」','好。先把不用的講義收起來，那個最占位子。')],'rel':{'fam':2},'mem':'XN0_TIDY_DESK'},
- {'id':'XN0-L6','if':st(XN,'FAMILIAR'),'week':[6,7],'skipAfterWeek':7,
-  'lines':['經原今天，老師用一個數字講了一整節課。','我抄下來了。……不是因為會考。'],
-  'choices':[ch('「那是因為什麼？」','那個數字講完，我突然懂上禮拜那章在幹嘛。'),
-             ch('「借我抄。」','抄可以，可是你最好自己去聽，他講的比投影片多。')],'rel':{'fam':2,'trust':1},'mem':'XN0_ONE_NUMBER',
-  'note':'阿勳真心喜歡經濟（BB_104 第 2 節）；不重複 A1「數字有溫度」那句'},
  {'id':'XN0-L7','if':st(XN,'FAMILIAR'),'week':[6,7],'skipAfterWeek':7,
   'lines':['我媽寄了一箱橘子。','一半是你的。她說，室友要分。……她沒見過你，就先分給你了。'],
   'choices':[ch('「幫我謝謝阿姨。」','好。……我會說你吃了很多。她會很高興。'),
@@ -269,7 +264,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 7 if cid==XN else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 6 if cid==XN else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
