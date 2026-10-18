@@ -16648,7 +16648,7 @@
     "confirmed": true
    },
    "src": "BB-C 10-18 測試；USER_WANTS X05",
-   "next": "【02:5x LAWWW-C 發布前 reachability_all（f24c1e9f，乾淨 checkout）】us_shared「臥室 A」(0.95,-2.2) 走不到：卡在 (0.57,-1.74)，電視櫃斜放在門口、行李箱（BB_217 生活痕跡）在北邊，中間比人窄。其他 25 個區域全過。已請 LAWWW2 併進 us2_fix 那包（移電視櫃或行李箱，GLB 和 layout 一起），v9.10 發布後套。｜LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
+   "next": "【03:2x LAWWW2 efaca16f：臥室 A 門口已併進同一包（電視櫃、行李箱移位，us_shared.glb 重匯，reachability us_shared ALL PASS）】｜【02:5x LAWWW-C 發布前 reachability_all（f24c1e9f，乾淨 checkout）】us_shared「臥室 A」(0.95,-2.2) 走不到：卡在 (0.57,-1.74)，電視櫃斜放在門口、行李箱（BB_217 生活痕跡）在北邊，中間比人窄。其他 25 個區域全過。已請 LAWWW2 併進 us2_fix 那包（移電視櫃或行李箱，GLB 和 layout 一起），v9.10 發布後套。｜LAWWW2-C 356d77c6（outbox 96352d2f，交件時誤用 ART-US2-FIX-1018 編號）：GLB 隔間牆淡出＋patch docs/art-rebuild/second_ai/patches/us2_fix_1018.diff（冰箱、爐子點分開、nav_us_unit 新檢查）。v9.10 發布後套 patch、拿 GLB，BB-C 重跑 flow_us_exchange",
    "pausedReason": "美國交換是第三優先，v9.10 收件範圍外",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99＋使用者 10-18 01:0x v9.10 收件範圍）",
@@ -16840,7 +16840,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:2x 直接對 LAWWW-C：「那就一起做，如果只要改外型，叫他繼續」",
-   "next": "【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【03:2x LAWWW2 03:06 回報：男一舍當時只讀了 zones3d.js 座標、沒有建模型或檔案，沒有 WIP；03:2x 恢復的訊息它下一則會讀到】｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",

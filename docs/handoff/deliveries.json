@@ -7588,6 +7588,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 03:0x 套 patch、拿 GLB 與腳本；後門 PROPOSAL（沒有照片）"
+  },
+  {
+   "id": "DL-LAWWW2-efaca16f",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "efaca16f",
+   "what": "BUG-US-KITCHEN-1018 追加：合租戶臥室 A 門口——電視櫃移到東牆 (1.12,-1.2)、行李箱移到客廳東北角 (0.9,0.55)，us_shared.glb 重匯；patch us2_fix_1018.diff 重產（對 5ecab8b8 apply --check 乾淨）；reachability_all --zones us_shared、nav_us_unit ALL PASS；outbox 9bd934e9",
+   "task": "BUG-US-KITCHEN-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.10 發布後套（美國交換）"
   }
  ],
  "ignored": [
