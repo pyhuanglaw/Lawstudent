@@ -1,12 +1,12 @@
 {
- "objects": 38,
- "unique_meshes": 38,
- "tris": 24488,
- "tris_drawn": 24488,
+ "objects": 34,
+ "unique_meshes": 34,
+ "tris": 24368,
+ "tris_drawn": 24368,
  "materials": 23,
  "out": "assets/models/env/second_ai/us_lawlib.glb",
- "bytes": 1672544,
+ "bytes": 1668512,
  "texres": 512,
- "tris_total": 24488,
+ "tris_total": 24368,
  "layout": "us_lawlib.layout.json"
 }

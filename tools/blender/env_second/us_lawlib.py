@@ -47,7 +47,7 @@ M = {'carpet': L.pbr('usll_carpet', 'dirty_carpet', tile=1.6, target='#36617a', 
      'screen': L.flat('GLOW_usll_screen', '#9fc3e0', rough=0.2, emit=B.srgb('#6f9fc8')),
      'wire': L.flat('usll_wire_sculpture', '#3b3e42', rough=0.4, metal=0.6),
      'shelf': img_mat('usll_shelf_face', 'usll_shelf_face.png', rough=0.75),
-     'stained': img_mat('usll_stained_glass', 'usll_stained.png', rough=0.2, emit=0.9),   # 白天的光透進來（遊戲可以照時段調 emissive）
+     'stained': img_mat('usll_stained_glass', 'usll_stained_tall.png', rough=0.2, emit=0.9),   # 白天的光透進來（遊戲可以照時段調 emissive）
      'sign': img_mat('usll_sign', 'usll_sign.png', rough=0.6),
      'exit': img_mat('GLOW_usll_exit', 'lawlib_exit.png', rough=0.4, emit=1.2)}
 BD = J['bounds']; X0, X1, Z0, Z1 = BD['x0'], BD['x1'], BD['z0'], BD['z1']; LV = J['levels']; TOP = J['top']; SL = J['slab']; V = J['void']
@@ -74,7 +74,7 @@ def P(side, a, y, d=0.0):
     (ox, oz), (tx, tz), (nx, nz), _ = WALLS[side]; return (ox + tx * a + nx * d, y, oz + tz * a + nz * d)
 DOOR = J['door']; WIN = J['windows']
 HOLES = {'S': [(X1 - (DOOR['x'] + DOOR['w'] / 2), X1 - (DOOR['x'] - DOOR['w'] / 2), 0.0, DOOR['h'])],
-         'N': [(g['x0'] - X0, g['x1'] - X0, WIN['y0'], WIN['y1']) for g in WIN['groups']], 'W': [], 'E': []}
+         'N': [(WIN['x0'] - X0, WIN['x1'] - X0, WIN['y0'], WIN['y1'])], 'W': [], 'E': []}
 for side in 'NSWE':
     wm = Mesh('WALL_%s_wall' % side, M['plaster'], tile=2.5); wd = Mesh('WALL_%s_wainscot' % side, M['oak'], tile=1.2); wt = Mesh('WALL_%s_trim' % side, M['cream'])
     ln = WALLS[side][3]
@@ -92,15 +92,17 @@ for side in 'NSWE':
         for (p, q) in (((a, y0), (a, y1)), ((b, y0), (b, y1)), ((a, y1), (b, y1)), ((a, y0), (b, y0))):
             pts = [P(side, p[0], p[1], 0.0), P(side, q[0], q[1], 0.0), P(side, q[0], q[1], -0.35), P(side, p[0], p[1], -0.35)]
             wt.quad(pts)
-        if side == 'N':
-            gm = Mesh('WALL_N_stained_%d' % int(a), M['stained']); f = gm.bm.faces.new([gm.bm.verts.new(g2b(*P(side, x, y, -0.25))) for (x, y) in ((a, y0), (b, y0), (b, y1), (a, y1))][::-1])
-            uvl = gm.bm.loops.layers.uv.verify()
-            for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))[::-1]): lp[uvl].uv = uv
+        if side == 'N':   # 一整排細長的彩色玻璃（每扇一種花色，三種輪流）、木頭直櫺、上下木框、窗台＋窗下的木頭裙板
+            gm = Mesh('WALL_N_stained', M['stained']); uvl = gm.bm.loops.layers.uv.verify(); n = WIN['panels']; pw = (b - a) / n; mw = 0.07
+            for k in range(n):
+                xa_, xb_ = a + k * pw + mw, a + (k + 1) * pw - mw; v = rng.randrange(3)
+                f = gm.bm.faces.new([gm.bm.verts.new(g2b(*P(side, x, y, -0.25))) for (x, y) in ((xa_, y0), (xb_, y0), (xb_, y1), (xa_, y1))][::-1])
+                for lp, uv in zip(f.loops, ((v / 3, 0), ((v + 1) / 3, 0), ((v + 1) / 3, 1), (v / 3, 1))[::-1]): lp[uvl].uv = uv
             gm.finish(root, props={'dir': WD[side]}, uv=False)
-            for k in range(1, 4):                                                                          # 三根直櫺＋一根橫檔（木頭）
-                x = a + k * (b - a) / 4; wd.box(*sorted((P(side, x - 0.05, 0, -0.3)[0], P(side, x + 0.05, 0, -0.2)[0])), y0, y1, *sorted((P(side, x - 0.05, 0, -0.3)[2], P(side, x + 0.05, 0, -0.2)[2])))
-            ym = y0 + (y1 - y0) * 0.72; wd.box(*sorted((P(side, a, 0, -0.3)[0], P(side, b, 0, -0.2)[0])), ym - 0.05, ym + 0.05, *sorted((P(side, a, 0, -0.3)[2], P(side, b, 0, -0.2)[2])))
-            wd.box(*sorted((P(side, a - 0.12, 0, 0.0)[0], P(side, b + 0.12, 0, 0.12)[0])), y0 - 0.1, y0, *sorted((P(side, a - 0.12, 0, 0.0)[2], P(side, b + 0.12, 0, 0.12)[2])))   # 窗台
+            for k in range(n + 1):
+                x = a + k * pw; wd.box(*sorted((P(side, x - mw, 0, -0.3)[0], P(side, x + mw, 0, 0.04)[0])), y0, y1, *sorted((P(side, x - mw, 0, -0.3)[2], P(side, x + mw, 0, 0.04)[2])))
+            for (ya, yb) in ((y1 - 0.02, y1 + 0.14), (y0 - 0.12, y0 + 0.02)): wd.box(*sorted((P(side, a - 0.1, 0, -0.3)[0], P(side, b + 0.1, 0, 0.06)[0])), ya, yb, *sorted((P(side, a - 0.1, 0, -0.3)[2], P(side, b + 0.1, 0, 0.06)[2])))
+            wd.quad([P(side, a - 0.1, 0.0, 0.02), P(side, b + 0.1, 0.0, 0.02), P(side, b + 0.1, y0 - 0.12, 0.02), P(side, a - 0.1, y0 - 0.12, 0.02)][::-1])
         else:   # 南牆的門：木框玻璃雙開門＋上面一條氣窗（門在牆厚裡、往外 0.2 m）；室內那一側的不鏽鋼拉把；門上的出口標示燈（綠底白人，沒有字）
             dm = Mesh('WALL_S_door', M['oak'], tile=1.2); dg = Mesh('WALL_S_door_glass', M['glass']); dp = Mesh('WALL_S_door_pulls', M['steel'])
             xa, xb = DOOR['x'] - DOOR['w'] / 2, DOOR['x'] + DOOR['w'] / 2; xm = DOOR['x']; zd = Z1 + 0.2; th = y1 - 0.4

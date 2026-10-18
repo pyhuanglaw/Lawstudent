@@ -78,5 +78,24 @@ def sign():
     im.save(os.path.join(GEN, 'usll_sign.png'))
 
 
+def stained_tall():
+    """第二版（使用者照片二：一整排細長的彩色玻璃窗、每扇之間是木頭直櫺）：一張圖三種花色（768×640，每種 256×640＝一扇 1.35 m × 3.4 m），
+    每扇三欄、九列細長的格子，藍綠為主、淺色、少數琥珀色；有些格子再斜切一刀"""
+    W, H = 768, 640; im = Image.new('RGB', (W, H), (40, 44, 46)); d = ImageDraw.Draw(im)
+    BLUES = ['#2f6f9a', '#3f86b0', '#1f5a86', '#4a9ab8', '#2a7a8a', '#3d8f7a', '#5aa58a', '#2f7d6a', '#6fb3c2', '#8cc6cf', '#245e78']
+    PALE = ['#c9e0e2', '#d8e8e4', '#b9d6d8', '#e4ece6']; AMBER = ['#d9a441', '#c98a32']
+    for v in range(3):
+        ox = v * 256; cols, rows = 3, 9; cw, rh = 256 / cols, H / rows
+        for j in range(rows):
+            for i in range(cols):
+                r = rng.random(); c = hexrgb(rng.choice(AMBER if r < 0.05 else PALE if r < 0.25 else BLUES))
+                x0, y0 = ox + int(i * cw) + 2, int(j * rh) + 2; x1, y1 = ox + int((i + 1) * cw) - 2, int((j + 1) * rh) - 2
+                if rng.random() < 0.3: d.polygon([(x0, y0), (x1, y0), (x0, y1)], fill=jit(c, 16)); d.polygon([(x1, y0 + 3), (x1, y1), (x0 + 3, y1)], fill=jit(hexrgb(rng.choice(BLUES + PALE)), 16))
+                else: d.rectangle([x0, y0, x1, y1], fill=jit(c, 16))
+        for i in range(4): d.line([ox + i * cw, 0, ox + i * cw, H], fill=(38, 40, 42), width=4)
+        for j in range(rows + 1): d.line([ox, j * rh, ox + 256, j * rh], fill=(38, 40, 42), width=4)
+    im = im.filter(ImageFilter.GaussianBlur(0.6)); im.save(os.path.join(GEN, 'usll_stained_tall.png'))
+
+
 if __name__ == '__main__':
-    shelf_face(); stained(); sign(); print('ok')
+    shelf_face(); stained(); stained_tall(); sign(); print('ok')
