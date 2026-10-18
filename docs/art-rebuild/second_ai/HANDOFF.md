@@ -46,7 +46,11 @@
 - **佇列**（LAWWW-C 排序；四座台大建築、MRT、SCN-US-02 v3 都交了）：
   1. ART-US-SEASON 美國四季（WIP `53d9ef55`；日期照 AA_213：summer 8/2～10/8、autumn 10/9～10/31、bare 11/1～12/1、snow 12/2～）——**下一個**。
 - SCN-US-02 v3 的測試工作樹 `$S/ucwt`（LAWWW-C `a53cc871`＋臨時接 `us_campus` 區域，伺服器 8812；`$S/usv3/setvar.sh before|after` 換 GLB＋配置）。不 commit。
-- 使用者 07:5x（經 LAWWW-C）：「還有一小時你繼續做」，會親口說換班。
+- 使用者 07:5x（經 LAWWW-C）：「還有一小時你繼續做」，會親口說換班。使用者 10:0x 直接：「繼續阿」。
+- **使用者 10:4x 直接對 LAWWW2-C**：「交換學生大學地板的橘色好醜」＝美國校園的紅磚（校門廣場、門後步道、樹林小路）。
+  - 處理：改成偏褐、低彩度的舊紅磚（`#6b5047`），`beb5fa54`；遊戲內前後截圖 test_shots/us_oldcampus_1018/brick_before_after.webp；已通知 LAWWW-C（DELIVERED，沒要回）。
+  - 以後美國篇的紅磚都照這個顏色，不要回到橘紅。
+- **ART-US-SEASON（進行中）**：`beb5fa54` 已有 us_campus／us_community 四季 GLB＋`patches/us_season.diff`；還差社區、校園四季的遊戲內截圖和 README。新的社區 GLB 要配 patch（沒套的話夏天也看得到細枝、落葉）。
 - **工作樹**（`$S`＝本工作階段的 scratchpad）：
   - `$S/yuwt`（LAWWW-C `ba6e9aa4`＋小語 patch＋新 GLB，伺服器 8810）；
   - `$S/yubefore`（`ba6e9aa4` 原樣，8811）；
