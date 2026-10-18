@@ -17809,6 +17809,27 @@
    "pausedBy": "使用者 10-18 06:1x",
    "recheckOn": "2026-10-21",
    "next": "使用者選了以後改 classes3d.js 時段次數制（DL-03）、吃飯／約會／點餐的扣次數、晚上上限"
+  },
+  {
+   "id": "BUG-E37-TOLAW-1018",
+   "title": "經濟系 8/29 轉法律系時把 8/30 E37（政大校門）的約清掉：8/30 不演、電話也不打（BB-C 10-18 e37_probe 重現）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-08-29 轉法律系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10-18 05:55",
+   "authorized": "D85",
+   "next": "story3d.js toLaw 清還沒去的約時留下 y0_e37；私訊已發、約不見了（舊存檔）就補排。tests/v0_tolaw_unit.js 3b（修改前失敗）。待 BB-C 重跑 e37_probe（flow_v0_home 的 E37 檢查要改成看 8/29 轉完以後 y0_e37 還在，或跑到 8/30 晚上）"
   }
  ]
 }

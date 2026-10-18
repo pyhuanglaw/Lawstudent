@@ -69,7 +69,7 @@ const STORY = (function(){
       if(!S.START1()) await S.recap(GM,S.LAW_WEEK12,{keep:true});   /* 選 1：第一、二週要真的玩，不用摘要 */
       await GM.fade(true); if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
       Object.assign(F,{dating_kexin:true,KX_FIRST_MSG:false,MET_XUN:true,MET_PINYU:true,KNOWS_TANG:true,PLAYED_Y0:true,LAW_RECAP_SEEN:true});
-      if(Array.isArray(G.outings)) G.outings=G.outings.filter(q=>q.state!=='planned');
+      if(Array.isArray(G.outings)) G.outings=G.outings.filter(q=>q.state!=='planned'||q.id==='y0_e37');   /* E37（8/30 政大校門）在法律系階段照常（BB-C 10-18 BUG-E37-TOLAW：8/29 轉法律系時被清掉，8/30 不演、電話也不打）*/
       if(S.START1()){ await S.startLawWeek1(GM,null,{day:G.day,hour:Math.max(h(G),15),econ:true}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* 經濟系 8/29 早上轉過來＝8/29 15:00 搬宿舍（不倒退）*/
       G.stage='law'; G.day=1; G.weekday=3; G.hour=21.2; if(E) E.hour=G.hour; G.zone='dorm'; G.weather='clear'; if(E&&E.setWeather) E.setWeather('clear');
       if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }
@@ -1366,6 +1366,7 @@ const STORY = (function(){
     if((S.isEcon(G)||(G.flags.PLAYED_Y0&&G.day<=S.dayOfKey('2025-08-31')))&&typeof OUT!=='undefined'){ const d37=S.dayOfKey('2025-08-30'), K=t=>({th:'p:kexin',from:'kexin',text:t});   /* 選 1：8/29 就轉進法律系，E37（8/30 政大校門）在法律系階段也照常（AA-B 21:09）*/
       if(d37!=null&&(G.day>d37-2||(G.day===d37-2&&G.hour>=21))&&G.day<=d37&&!PHONE.sent(G,'y0_e37_ask')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)){ PHONE.at(G,d37-2,21,[K('週六下午兩點，政大校門。'),K('我九月要去的地方，想先給你看。')],'y0_e37_ask');
         if(!OUT.get(G,'y0_e37')) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'政大校門',title:'政大校門 14:00',travel:'捷運＋公車 約 40 分鐘',travelH:2/3}); }
+      else if(d37!=null&&PHONE.sent(G,'y0_e37_ask')&&G.day<=d37&&!OUT.get(G,'y0_e37')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'政大校門',title:'政大校門 14:00',travel:'捷運＋公車 約 40 分鐘',travelH:2/3});   /* 私訊已經發了、約卻不見了（舊存檔在 8/29 轉法律系時被清掉）：補排 */
       const q37=OUT.get(G,'y0_e37'), home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
       if(!home&&S.e37CallDue(G)&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
         (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'可昕（電話）'},S.E37_CALL); } finally { GM.sceneEnd(); } q37.state='planned'; await OUT.go(GM,q37); } catch(e){ console.warn('E37 call',e); } finally { y0CallBusy=false; } })(); } }

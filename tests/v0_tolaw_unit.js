@@ -36,6 +36,7 @@ let cards=[], backups=[], entered=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'�
   const D31=STORY.dayOfKey('2025-08-31');
   fresh(D31-1,22,'campus',{Y0_MOVED_OUT:true,LEAVE_WEEK:6,Y0_LEFT:true,E36_PACT:'weekly',E25_ANSWER:'only_me',E35_PLAN:'sea',Y0_STICKY:true,dating_kexin:false,KX_FIRST_MSG:true}); G.stage='econ'; G.money=31234;
   G.events.done.ev_y0_e37=1; { const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day; }
+  G.outings=[{id:'y0_e37',ev:'ev_y0_e37',day:D31-1,h:14,state:'planned'},{id:'z_other',day:D31+3,h:14,state:'planned'}];   /* BUG-E37-TOLAW（BB-C 10-18）：轉法律系時 E37 的約不能被清掉 */
   check('1. 8/30 晚上還不換',!STORY.toLawDue(G));
   let fadeOn=false; const fade0=GM.fade, say0=GM.say, sayFade=[]; GM.fade=async on=>{ fadeOn=!!on; }; GM.say=async(w,t)=>{ sayFade.push([t,fadeOn]); return say0(w,t); };
   said=[]; cards=[]; backups=[]; entered=[]; script=['睡覺']; await loop(); const L=said.map(x=>x.t); GM.fade=fade0; GM.say=say0;
@@ -47,6 +48,7 @@ let cards=[], backups=[], entered=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'�
   check('3. 換成法律系：stage law、第 1 天（9/17 週三）21:12、宿舍、不在家',G.stage==='law'&&G.day===1&&G.weekday===3&&Math.abs(G.hour-21.2)<1e-6&&G.zone==='dorm'&&entered[entered.length-1]==='dorm'&&!HOME.at(G),JSON.stringify({st:G.stage,d:G.day,h:G.hour,z:G.zone}));
   check('3. 可昕：dating_kexin＝true、KX_FIRST_MSG＝false；認識的人：MET_XUN、MET_PINYU、KNOWS_TANG；PLAYED_Y0',G.flags.dating_kexin===true&&G.flags.KX_FIRST_MSG===false&&G.flags.MET_XUN&&G.flags.MET_PINYU&&G.flags.KNOWS_TANG&&G.flags.PLAYED_Y0);
   check('3. 帶過去：E36_PACT、E25_ANSWER、E35_PLAN、Y0_STICKY、錢都還在',G.flags.E36_PACT==='weekly'&&G.flags.E25_ANSWER==='only_me'&&G.flags.E35_PLAN==='sea'&&G.flags.Y0_STICKY&&G.money===31234);
+  check('3b. 轉法律系時其他還沒去的約清掉，E37（8/30 政大校門）的約留著（BB-C 10-18：8/29 轉過去以後 8/30 不演、電話也不打）',Array.isArray(G.outings)&&G.outings.some(q=>q.id==='y0_e37')&&!G.outings.some(q=>q.id==='z_other'),JSON.stringify((G.outings||[]).map(q=>q.id)));
   check('3. 經濟系的事件不再觸發（stage law）',!EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_y0_e36'))&&!STORY.toLawDue(G));
   // 4. 可昕的第一則（法律系第一天）：玩過經濟系的多一句
   said=[]; script=[0]; GM.choose=async o=>0; await STORY._v1.kexinFirstMsg(GM,'night'); const K=said.map(x=>x.t);
