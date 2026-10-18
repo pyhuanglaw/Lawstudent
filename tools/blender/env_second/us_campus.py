@@ -28,7 +28,7 @@ root = B.group('us_campus', props={'kind': 'us_campus', 'layout': 'us_campus.lay
 UM = UK.materials('usu_'); LM = LK.materials('usl_')
 M = {'grass': L.pbr('usu_grass', 'grass_ground', tile=3.0, target='#5f7444', normal=0.4, maps=('diff', 'nor'), rough_value=0.95),
      'grass_far': L.flat('usu_grass_far', '#5a6b42', rough=0.95),
-     'brick': L.pbr('usu_brick_paving', 'brick_pavement_04', tile=3.2, target='#9c4b35', contrast=1.2, normal=0.5, maps=('diff', 'nor'), rough_value=0.85),   # 紅磚（磚 20×10 cm：貼圖一張約 16 塊寬）
+     'brick': L.pbr('usu_brick_paving', 'brick_pavement_04', tile=3.2, target='#6b5047', sat=0.7, contrast=1.0, normal=0.6, maps=('diff', 'nor'), rough_value=0.88),   # 舊紅磚（磚 20×10 cm：貼圖一張約 16 塊寬）；第一版 #9c4b35、對比 1.2 在遊戲裡是一片橘色（使用者 10-18：「地板的橘色好醜」）→ 偏褐、低彩度、看得到灰色磚縫
      'conc': L.pbr('usu_sidewalk', 'granular_concrete', tile=2.0, target='#b3aea3', contrast=0.8, normal=0.3, maps=('diff', 'nor'), rough_value=0.85),   # 人行道（第一版 concrete_wall_006 是牆的貼圖：地上一條條流痕，遊戲裡很髒）
      'pavers': L.pbr('usu_pavers', 'granular_concrete', tile=1.6, target='#bfb8a8', contrast=0.8, normal=0.3, maps=('diff', 'nor'), rough_value=0.85),
      'joint': L.flat('usu_paving_joints', '#858076', rough=0.9),
@@ -46,6 +46,24 @@ try:
     PM = PL.materials('usu_'); LEAF = PM['leaf_small']; BARK = PM['bark']
 except Exception as ex:
     print('plants', ex); LEAF = L.flat('usu_leaf', '#4a6a3a', rough=0.8); BARK = L.flat('usu_bark', '#54473b', rough=0.9)
+# ================= 季節（ART-US-SEASON，us_season.py；日期照 AA_213）=================
+# 8/2 到、12/23 回來：夏末 → 10/9 秋天紅葉 → 11/1 落光 → 12/2 下雪。同一個 GLB：遊戲照日期換材質（SEASON_MATS）、開關季節網格（SEASON_GEO_*）；做法和公寓社區（us_community.py）一樣
+import us_season as SEA   # noqa: E402
+CAR = SEA.carrier(root)
+LEAF_T = []                                                                                    # 樹的葉片卡分三組：秋天各自轉紅、橙、黃
+for k_, png in zip('abc', ('us_leaves_red.png', 'us_leaves_orange.png', 'us_leaves_yellow.png')):
+    m_ = SEA.leaf_mat(f'usu_leaf_tree_{k_}', 'us_leaves_summer.png'); LEAF_T.append(m_)
+    SEA.swap(CAR, m_, 'autumn', SEA.leaf_mat('t', png)); SEA.swap(CAR, m_, 'bare', SEA.leaf_mat('t', 'us_twigs.png')); SEA.swap(CAR, m_, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))
+TWIG_IN = SEA.leaf_mat('usu_twig_inner', 'us_twigs.png'); SEA.swap(CAR, TWIG_IN, 'snow', SEA.leaf_mat('t', 'us_twigs_snow.png'))   # 落光以後樹冠裡面的細枝
+LITTER = SEA.leaf_mat('usu_leaf_litter', 'us_leaf_litter.png', rough=0.85)                                                         # 樹下的落葉（秋天、初冬）
+SEA.swap(CAR, LEAF, 'snow', SEA.leaf_mat('t', 'us_shrub_snow.png'))                                                                # 花台的灌木是常綠的：只有雪天積雪
+SEA.swap(CAR, M['grass'], 'autumn', L.pbr('t', 'grass_ground', tile=3.0, target='#666c44', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))
+SEA.swap(CAR, M['grass'], 'bare', L.pbr('t', 'withered_grass', tile=3.0, target='#857a58', normal=0.4, maps=('diff', 'nor'), rough_value=0.95))
+SEA.swap(CAR, M['grass'], 'snow', L.pbr('t', 'snow_02', tile=3.0, target='#e6eaee', normal=0.5, maps=('diff', 'nor'), rough_value=0.75))
+SEA.swap(CAR, M['grass_far'], 'autumn', L.flat('t', '#626640', rough=0.95)); SEA.swap(CAR, M['grass_far'], 'bare', L.flat('t', '#7c7253', rough=0.95)); SEA.swap(CAR, M['grass_far'], 'snow', L.flat('t', '#dfe3e7', rough=0.8))
+for mm_, tl_ in ((UM['slate'], 1.0), (LM['slate'], 1.0)): SEA.swap(CAR, mm_, 'snow', L.pbr('t', 'snow_02', tile=tl_ * 1.4, target='#e2e6ea', normal=0.4, maps=('diff', 'nor'), rough_value=0.8))   # 石板瓦屋頂積雪
+SEA.swap(CAR, M['roof_far'], 'snow', L.flat('t', '#d9dde1', rough=0.8))
+SEA.swap(CAR, M['asph'], 'snow', L.pbr('t', 'asphalt_02', tile=3.0, target='#56565a', normal=0.4, maps=('diff', 'nor'), rough_value=0.55))       # 剷過雪、濕的柏油
 BD = J['bounds']; RZ = J['retaining_wall_z']; LH = J['lawn_h']; WS = J['walk_s']; FO = J['forecourt']; WK = J['walk']; PZ = J['plaza']; CR = J['cross_streets']
 XW, XE = CR[1]['x1'], CR[0]['x0']                      # 主人行道的兩端（路口的路緣）
 
@@ -128,6 +146,7 @@ for h in J['halls']:
     UK.gothic_hall(root, 'hall_' + h['id'], h['cx'], h['cz'], length=h['len'], depth=h['dep'], floors=h['floors'], yaw=h['yaw'], M=UM, rng=rng, tower=h['tower'], detail=0)   # 背景：不做花窗、鉛條
 # 第三版：校門西邊、後面的老校區（照空拍圖；背景、走不到）
 OM = OK.materials('uso_', base=UM)
+SEA.swap(CAR, OM['tile'], 'snow', L.pbr('t', 'snow_02', tile=1.4, target='#e4e7ea', normal=0.4, maps=('diff', 'nor'), rough_value=0.8))     # 紅瓦屋頂積雪
 for h in J['oldcampus']:
     kw = dict(W=h['W'], D=h['D'], floors=h['floors'], yaw=h['yaw'], M=OM)
     if h['kind'] == 'castle_hall': kw['turret'] = h.get('turret', 'NE')
@@ -158,22 +177,39 @@ ra.box(dv['x'] - 2.6, dv['x'] + 2.6, 0.0, 0.006, BD['z0'] - 30.0, dv['z'] - r1_ 
 ra.finish(root); ri.finish(root); rc.finish(root)
 
 # ================= 樹（芯＋葉片卡，和社區同一個做法）=================
-trunk = Mesh('usu_trunks', BARK); cards = Mesh('usu_tree_cards', LEAF); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
+trunk = Mesh('usu_trunks', BARK); core = Mesh('usu_tree_core', L.flat('usu_tree_core', '#33472a', rough=0.98))   # 芯淺一點（近看第一版像黑色的碗）
+CARDS = [Mesh(f'usu_tree_cards_{k_}', m_) for k_, m_ in zip('abc', LEAF_T)]; cards = CARDS[0]                       # 季節：每棵樹隨機一組（秋天不會整片同一個顏色）
+SEA.swap(CAR, core.mat if hasattr(core, 'mat') else bpy.data.materials['usu_tree_core'], 'autumn', L.flat('t', '#3a2a1c', rough=0.98))   # 秋天：芯偏紅褐
+bcards = Mesh('usu_shrub_cards', LEAF); bcore = Mesh('usu_shrub_core', L.flat('usu_shrub_core', '#33472a', rough=0.98))   # 花台的灌木（常綠，和樹分開）
+SEA.swap(CAR, bcore.mat if hasattr(bcore, 'mat') else bpy.data.materials['usu_shrub_core'], 'snow', L.flat('t', '#b9c0c4', rough=0.9))
+twin = Mesh('usu_twig_inner', TWIG_IN); litm = Mesh('usu_leaf_litter', LITTER)
+def litter(x, z, r, n, y0=0.0):
+    uvl = litm.bm.loops.layers.uv.verify()
+    for k in range(n):
+        a_ = rng.uniform(0, 2 * math.pi); d_ = r * math.sqrt(rng.uniform(0, 1)); sz = rng.uniform(1.0, 1.7); yaw = rng.uniform(0, math.pi)
+        cx, cz = x + math.cos(a_) * d_, z + math.sin(a_) * d_; ca, sa = math.cos(yaw) * sz / 2, math.sin(yaw) * sz / 2
+        f = litm.bm.faces.new([litm.bm.verts.new(g2b(cx + du * ca - dv * sa, y0 + 0.012, cz + du * sa + dv * ca)) for (du, dv) in ((-1, -1), (1, -1), (1, 1), (-1, 1))])
+        for lp, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp[uvl].uv = uv
 def leaf_card(m, px, py, pz, sz, yaw, tilt):
     ca, sa = math.cos(yaw), math.sin(yaw)
     def P(du, dv): return (px + ca * du, py + dv + tilt * du, pz + sa * du)
     f = m.bm.faces.new([m.bm.verts.new(g2b(*P(du, dv))) for (du, dv) in ((-sz / 2, -sz / 2), (sz / 2, -sz / 2), (sz / 2, sz / 2), (-sz / 2, sz / 2))])
     uvl = m.bm.loops.layers.uv.verify()
     for lp_, uv in zip(f.loops, ((0, 0), (1, 0), (1, 1), (0, 1))): lp_[uvl].uv = uv
-def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None, cf=0.62):
-    v0 = set(core.bm.verts); core.ell((cx, cy, cz), rx * cf, ry * cf, rz * cf, seg=7, rings=4)
-    for vv in core.bm.verts:
+def crown(cx, cy, cz, rx, ry, rz, ncard, csz, face=None, cf=0.62, shrub=False, twig=0.3):
+    km, cm = (bcore, bcards) if shrub else (core, cards)
+    v0 = set(km.bm.verts); km.ell((cx, cy, cz), rx * cf, ry * cf, rz * cf, seg=7, rings=4)
+    for vv in km.bm.verts:
         if vv not in v0: k = rng.uniform(0.88, 1.08); c0 = Vector(g2b(cx, cy, cz)); vv.co = c0 + (vv.co - c0) * k
     for j in range(ncard):
         a_ = rng.uniform(0, 2 * math.pi)
         if face is not None and math.cos(a_) * face[0] + math.sin(a_) * face[1] < -0.2: continue
         e_ = math.asin(rng.uniform(-0.85, 1.0)); rr = rng.uniform(0.72, 1.02)
-        leaf_card(cards, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
+        leaf_card(cm, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(0.8, 1.25), rng.uniform(0, math.pi), rng.uniform(-0.5, 0.5))
+    if not shrub:
+        for j in range(int(ncard * twig)):                                                    # 裡面的細枝（只有落葉以後看得到；遠的樹少一點）
+            a_ = rng.uniform(0, 2 * math.pi); e_ = math.asin(rng.uniform(-0.6, 1.0)); rr = rng.uniform(0.2, 0.7)
+            leaf_card(twin, cx + rx * rr * math.cos(a_) * math.cos(e_), cy + ry * rr * math.sin(e_), cz + rz * rr * math.sin(a_) * math.cos(e_), csz * rng.uniform(1.0, 1.5), rng.uniform(0, math.pi), rng.uniform(-0.6, 0.6))
 # ================= 花台（石灰岩矮花台＋土＋灌木和花）=================
 pt = Mesh('usu_planter_stone', LM['lime'], tile=1.9); ptc = Mesh('usu_planter_cap', LM['trim']); so = Mesh('usu_planter_soil', M['soil'])
 shrub = CMesh('usu_shrubs', M['vc'])
@@ -193,7 +229,7 @@ FLOWERS = ['#c8384a', '#e8e2d8', '#d8a02a', '#8a4fb0', '#e07a3a']
 def flower(x, y, z, h, col):   # 一朵花＝朝上的一片小方塊（2 個三角形）
     shrub.poly([(x - h, y, z - h), (x + h, y, z - h), (x + h, y, z + h), (x - h, y, z + h)][::-1], col)
 def bush(x, y, z, r, col):   # 小灌木＝和樹同一個做法（芯＋葉片卡）；第一版是有稜角的綠色球，近看像玩具
-    crown(x, y, z, r, r * 0.8, r, max(6, int(70 * r * r)), 0.22)
+    crown(x, y, z, r, r * 0.8, r, max(6, int(70 * r * r)), 0.22, shrub=True)
 for p in J['planters']:
     o, i = outline(p), outline(p, 0.22)
     ring(pt, o, i, 0.0, 0.44); ring(ptc, outline(p, -0.04), outline(p, 0.24), 0.44, 0.52)
@@ -272,6 +308,8 @@ for p in J['props']:
 st.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
 
 def tree(x, z, h, y0=0.0, far=False, woods=False):
+    global cards
+    cards = CARDS[rng.randrange(3)]
     lean = (rng.uniform(-0.04, 0.04), rng.uniform(-0.04, 0.04)); rb = rng.uniform(0.28, 0.42)
     bt = L.lathe([(rb * 1.4, 0.0), (rb, 0.4), (rb * 0.82, h * 0.38), (rb * 0.55, h * 0.6)], seg=9)
     trunk.add_bm(bt, Matrix.Translation(g2b(x, y0, z)) @ Matrix(((1, 0, lean[0]), (0, 1, -lean[1]), (0, 0, 1))).to_4x4()); bt.free()
@@ -281,23 +319,30 @@ def tree(x, z, h, y0=0.0, far=False, woods=False):
         trunk.cyl((x + lean[0] * yb, yb, z + lean[1] * yb), (x + math.cos(a_) * cr * 0.7, cy + rng.uniform(-0.5, 1.0), z + math.sin(a_) * cr * 0.7), rb * 0.4, seg=6, r2=rb * 0.18)
     for k in range(rng.randint(4, 6)):
         a_ = rng.uniform(0, 2 * math.pi); d_ = cr * rng.uniform(0.2, 0.6); r_ = cr * rng.uniform(0.48, 0.68)
-        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int((4.0 if far else 6.0 if woods else 8) * r_ * r_), 2.3 if far else 1.9 if woods else 1.7, cf=0.5 if far else 0.56 if woods else 0.62)   # 樹林：近的 6r²、遠的 4r²（GLB 不要太大）
+        crown(x + lean[0] * cy + math.cos(a_) * d_, cy + rng.uniform(-0.2, 0.4) * cr, z + lean[1] * cy + math.sin(a_) * d_, r_, r_ * 0.78, r_, int((4.0 if far else 6.0 if woods else 8) * r_ * r_), 2.3 if far else 1.9 if woods else 1.7, cf=0.5 if far else 0.56 if woods else 0.62, twig=0.12 if far else 0.2 if woods else 0.3)   # 樹林：近的 6r²、遠的 4r²（GLB 不要太大）
 for t in J['trees']:
     on_lawn = any(x0 <= t['x'] <= x1 and z0 <= t['z'] <= z1 for (x0, x1, z0, z1) in LAWNS)
     tree(t['x'], t['z'], t['h'], LH if on_lawn else 0.0, far=t.get('far'), woods=t.get('woods'))
+    litter(t['x'], t['z'], t['h'] * 0.28 + 0.6, 4 if t.get('far') else 7, LH if on_lawn else 0.0)
 tree(J['drive']['x'], J['drive']['z'], 9.0, 0.15)
 OCF = [(h['cx'] - h['W'] / 2, h['cx'] + h['W'] / 2, h['cz'] - h['D'] / 2, h['cz'] + h['D'] / 2) for h in J['oldcampus']]
 def belt(pts, face, hr=(13, 19)):
+    global cards
     for (x, z) in pts:
         if any(x0 - 5.5 < x < x1 + 5.5 and z0 - 5.5 < z < z1 + 5.5 for (x0, x1, z0, z1) in OCF): continue   # 第三版：老校區的建築旁邊不種（樹冠會插進牆）
-        h = rng.uniform(*hr); r_ = rng.uniform(4.0, 5.6)
+        cards = CARDS[rng.randrange(3)]; h = rng.uniform(*hr); r_ = rng.uniform(4.0, 5.6)
         trunk.cyl((x, 0, z), (x, h * 0.55, z), rng.uniform(0.22, 0.32), seg=6, r2=0.16)
-        crown(x, h * 0.68, z, r_, r_ * 0.85, r_, int(3 * r_ * r_), 2.6, face=face)
+        crown(x, h * 0.68, z, r_, r_ * 0.85, r_, int(3 * r_ * r_), 2.6, face=face, twig=0.1)
 belt([(x + rng.uniform(-1.5, 1.5), -26.0 + rng.uniform(-3, 3)) for x in range(-48, 50, 9)], (0, 1))                      # 法學院後面
 belt([(x + rng.uniform(-1, 1), -44.0 + rng.uniform(-2, 2)) for x in range(-96, -40, 9)], (0, 1))                         # 老校區後面
 belt([(x + rng.uniform(-1, 1), J['road']['z1'] + 3.6 + rng.uniform(-0.3, 0.3)) for x in range(-150, 120, 11)], (0, -1), (11, 15))   # 對街的行道樹
 for c in CR: belt([(c['x0'] - 2.2 if k % 2 else c['x1'] + 2.2, z + rng.uniform(-1, 1)) for k, z in enumerate(range(-40, 12, 8))], None, (12, 16))
-trunk.finish(root, uv=False); cards.finish(root, uv=False, merge=False); core.finish(root, uv=False, smooth=True)
+trunk.finish(root, uv=False)
+for cm_ in CARDS: cm_.finish(root, uv=False, merge=False)
+bcards.finish(root, uv=False, merge=False); bcore.finish(root, uv=False, smooth=True)
+SEA.geo(root, 'tree_core', 'summer,autumn', core, uv=False, smooth=True)   # 芯：落葉以後藏起來
+SEA.geo(root, 'twig_inner', 'bare,snow', twin, uv=False, merge=False)
+SEA.geo(root, 'leaf_litter', 'autumn,bare', litm, uv=False, merge=False)
 # 對街：兩層的磚造房子（遠景、走不到）
 hb = Mesh('usu_far_houses', M['brick_house'], tile=1.2); hr = Mesh('usu_far_roofs', M['roof_far']); hw = Mesh('usu_far_windows', M['win_far']); ht = Mesh('usu_far_trim', LM['trim'])
 def house_row(x, x_end, z0):
@@ -318,7 +363,7 @@ if '--stats' in A:   # 每個物件的三角形數（找最重的）
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); rows.append((len(ob.data.loop_triangles), ob.name))
     for n, nm in sorted(rows, reverse=True)[:30]: print('STATS', n, nm)
 if not PREVIEW:
-    L.merge_by_material(root, keep=lambda ob: False)
+    L.merge_by_material(root, keep=SEA.keep)
     st_ = L.export(OUT, gpu_instances=False)
     tris = 0
     for ob in bpy.data.objects:

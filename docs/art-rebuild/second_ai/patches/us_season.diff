@@ -1,0 +1,95 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index 661b26f2..dd09f891 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -91,6 +91,18 @@ const US3=(function(){
+       else if(t==='nightstand'||t==='endTable') box(f.x,f.z,0.45,0.45,0.55,0,fm); else if(t==='barStool') box(f.x,f.z,0.38,0.38,0.76,0,fm); else if(t==='deskChair') box(f.x,f.z,0.46,0.46,0.46,0,fm); } }
+   function aptSeason(root){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const snow=(d.m===12&&d.d>=2)||(d.m>=1&&d.m<=3);   /* 窗外、陽台的雪：交換在大四上（2028/8/2～12/23，BB_215），初雪 12/2；1～3 月照舊（配置 season 原本是大三下的企劃）*/
+     root.traverse(o=>{ if(o.name==='SEASON_SNOW_on') o.visible=snow; else if(o.name==='SEASON_SNOW_off') o.visible=!snow; }); }   /* 北邊的原版＋南邊轉過來的那一份 */
++  /* 美國篇的季節（ART-US-SEASON；日期照 AA_213）：同一個 GLB 帶四季（tools/blender/env_second/us_season.py 的約定）。
++     summer 夏末 8/2～10/8（4/16～8/1 也是）、autumn 秋天 10/9～10/31、bare 初冬 11/1～12/1（3/16～4/15 也是）、snow 雪 12/2～3/15。
++     SEASON_MATS 底下每個小三角形帶一個替換材質「<原材質名>__S_<季節>」：用原材質的網格在那一季換成它；SEASON_GEO_*（userData.seasons＝'bare,snow'…）只有那幾季看得到 */
++  function usSeasonKey(){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;
++    return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':(md>=316&&md<=415)?'bare':'summer'; }
++  const SEA_MAT0=new WeakMap();   /* 網格原本的材質（不放 userData：clone 的時候 userData 會被 JSON 複製）*/
++  function usSeason(root){ const key=usSeasonKey(); if(root.userData.usSeason===key) return; root.userData.usSeason=key;
++    const car=root.getObjectByName('SEASON_MATS'), inCar=new Set(), sw={};
++    if(car){ car.visible=false; car.traverse(o=>{ inCar.add(o); if(!o.isMesh) return; for(const m of [].concat(o.material)){ const n=(m&&m.name)||'', i=n.lastIndexOf('__S_'); if(i<0) continue; (sw[n.slice(0,i)]||(sw[n.slice(0,i)]={}))[n.slice(i+4).split('.')[0]]=m; } }); }
++    root.traverse(o=>{ if(inCar.has(o)) return; const sv=o.userData&&o.userData.seasons; if(typeof sv==='string') o.visible=sv.split(',').includes(key);
++      if(!o.isMesh) return; if(!SEA_MAT0.has(o)) SEA_MAT0.set(o,[].concat(o.material));
++      const out=SEA_MAT0.get(o).map(m=>{ const alt=m&&sw[m.name]&&sw[m.name][key]; return alt||m; }); o.material=Array.isArray(o.material)?out:out[0]; }); }
+   /* 窗外的景（停車場、對面的公寓、樹林）只做在北邊（陽台、客廳的窗）；門外的樓梯平台朝南，欄杆外面是空的（第一次遊戲內截圖：一整片橘色的背景）。
+      整組轉 180° 複製到南邊（景在 z +12、地面在 y −3）*/
+   /* 第二次截圖（合租戶、鏡頭在平台東端往西看）：景外面還是空白——南、西、東三面都各放三份並排（社區本來就是一排一排同樣的公寓）。
+@@ -188,10 +200,10 @@ const US3=(function(){
+     const carFb=new THREE.Group(); fb.add(carFb); for(const c of (L.cars||[])){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; const m=new THREE.Mesh(new THREE.BoxGeometry(d[1],1.4,d[0]),M(c.color,{rough:0.4})); m.position.set(c.x,0.7,c.z); m.rotation.y=c.yaw; carFb.add(m); }
+     o.interact(E,L,E.interactables);
+     // 時間：路燈、樓梯間壁燈晚上亮；店裡的燈白天也亮一點；停著的車燈一直關著
+-    let lampGlow=[], shopGlow=[]; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); setGlow(shopGlow,night(h)?1:0.55); };
++    let lampGlow=[], shopGlow=[], formalRoot=null; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); setGlow(shopGlow,night(h)?1:0.55); if(formalRoot) usSeason(formalRoot); };
+     const zone={group:g,nav,spawn:Object.assign({},o.spawn(L)),lamps:[],buildings:[],applyTimeOutdoor:zoneTime,onLamps(on){}};
+     if(has(o.glb)) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.traverse(q=>{ if(q.isMesh){ q.castShadow=true; q.receiveShadow=true; if(q.material&&/asphalt/.test(q.material.name||'')&&q.material.map) q.material.map.userData.asphalt=true; } }); g.add(root);
+-      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
++      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); usSeason(root); formalRoot=root; const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
+     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
+       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
+       for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
+@@ -327,6 +339,6 @@ const US3=(function(){
+   for(const k in SPAWN) delete SPAWN[k].note;
+   /* 交換系統（LAWWW-C 的 src/exchange3d.js，比這個檔先載入）：出發、登機抵達、睡醒、凌晨走回公寓、手機「地點」都讀 EXCH.SPAWN（LAWWW-C 21:13 的介面）*/
+   if(typeof EXCH!=='undefined'&&EXCH.SPAWN) Object.assign(EXCH.SPAWN,{airport_dep:Object.assign({},SPAWN.airport_dep),us_outside:Object.assign({},SPAWN.us_outside),us_apartment:Object.assign({},SPAWN.us_apartment_bed)});
+-  return {us_apartment,us_shared,us_outside,us_market,us_asian_market,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
++  return {usSeasonKey,usSeason,us_apartment,us_shared,us_outside,us_market,us_asian_market,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
+ })();
+ Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;
+diff --git a/tests/us_season_unit.js b/tests/us_season_unit.js
+new file mode 100644
+index 00000000..a15e0630
+--- /dev/null
++++ b/tests/us_season_unit.js
+@@ -0,0 +1,45 @@
++// 美國篇的季節（ART-US-SEASON，src/us3d.js 的 usSeasonKey／usSeason；LAWWW2-C 2026-10-18）：不需要瀏覽器。
++//   日期 → 季節 key（AA_213：summer 8/2～10/8、autumn 10/9～10/31、bare 11/1～12/1、snow 12/2～3/15、bare 3/16～4/15）
++//   換材質（SEASON_MATS 底下的「<原材質名>__S_<季節>」）、季節網格（userData.seasons）開關，換回夏天時材質還原
++//   正式 GLB（us_community.glb）裡的節點、材質名稱照約定（直接讀 GLB 的 JSON，不載貼圖）
++// 用法：node tests/us_season_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/calendar.js','src/data/us_layouts.js','src/us3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
++global.GAME={G:{day:1}};
++// 交換那一年（大四上：2028/8～12；1～4 月是下一年）：找日曆上的那一天
++function dayOf(y,m,d){ for(let k=-400;k<1800;k++){ const x=CALENDAR.dateOf(k); if(x.y===y&&x.m===m&&x.d===d) return k; } for(let k=-400;k<1800;k++){ const x=CALENDAR.dateOf(k); if(x.m===m&&x.d===d&&x.y==null) return k; } return null; }
++const y0=CALENDAR.dateOf(1).y;
++const CASES=[[8,2,'summer'],[9,15,'summer'],[10,8,'summer'],[10,9,'autumn'],[10,31,'autumn'],[11,1,'bare'],[12,1,'bare'],[12,2,'snow'],[12,23,'snow'],[1,20,'snow'],[3,15,'snow'],[3,16,'bare'],[4,15,'bare'],[4,16,'summer'],[7,1,'summer']];
++for(const [m,d,want] of CASES){ const day=dayOf(m>=8?y0+2:y0+3,m,d)!=null?dayOf(m>=8?y0+2:y0+3,m,d):dayOf(y0,m,d); GAME.G.day=day; const got=US3.usSeasonKey(); check(`${m}/${d} → ${want}`,day!=null&&got===want,`day ${day}：${got}`); }
++// 換材質、季節網格
++const mat=n=>Object.assign(new THREE.MeshStandardMaterial(),{name:n});
++const root=new THREE.Group(), car=new THREE.Group(); car.name='SEASON_MATS'; root.add(car);
++const alt={autumn:mat('leaf__S_autumn'),snow:mat('leaf__S_snow'),gsnow:mat('grass__S_snow')};
++for(const m of Object.values(alt)) car.add(new THREE.Mesh(new THREE.BufferGeometry(),m));
++const leaf=mat('leaf'), grass=mat('grass'), roof=mat('roof');
++const mLeaf=new THREE.Mesh(new THREE.BufferGeometry(),leaf), mGrass=new THREE.Mesh(new THREE.BufferGeometry(),grass), mRoof=new THREE.Mesh(new THREE.BufferGeometry(),roof);
++const twigs=new THREE.Group(); twigs.name='SEASON_GEO_twig_inner'; twigs.userData.seasons='bare,snow'; twigs.add(new THREE.Mesh(new THREE.BufferGeometry(),mat('twig')));
++root.add(mLeaf,mGrass,mRoof,twigs);
++const at=(m,d)=>{ GAME.G.day=dayOf(m>=8?y0+2:y0+3,m,d)!=null?dayOf(m>=8?y0+2:y0+3,m,d):dayOf(y0,m,d); US3.usSeason(root); };
++at(9,1); check('夏天：原材質、細枝藏起來、載體藏起來',mLeaf.material===leaf&&mGrass.material===grass&&!twigs.visible&&car.visible===false);
++at(10,15); check('秋天：葉子換秋天的、草沒有秋天的替換＝原材質',mLeaf.material===alt.autumn&&mGrass.material===grass&&!twigs.visible);
++at(12,10); check('雪天：葉子、草換雪的，屋頂沒有替換＝原材質，細枝看得到',mLeaf.material===alt.snow&&mGrass.material===alt.gsnow&&mRoof.material===roof&&twigs.visible);
++at(8,20); check('換回夏天：材質還原',mLeaf.material===leaf&&mGrass.material===grass&&!twigs.visible);
++check('載體底下的網格不被換材質',car.children.every((c,i)=>c.material===Object.values(alt)[i]));
++// 正式 GLB：節點、材質照約定
++const glb=path.join(ROOT,'assets/models/env/second_ai/us_community.glb');
++if(fs.existsSync(glb)){ const b=fs.readFileSync(glb), n=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n).toString('utf8'));
++  const names=new Set((J.materials||[]).map(m=>m.name)), alts=[...names].filter(n=>n.includes('__S_'));
++  check('us_community.glb 有 SEASON_MATS 和替換材質',J.nodes.some(nd=>nd.name==='SEASON_MATS')&&alts.length>0,`${alts.length} 個`);
++  check('每個替換材質的原材質都在 GLB 裡、季節名稱正確',alts.every(a=>{ const [b0,s]=a.split('__S_'); return names.has(b0)&&['summer','autumn','bare','snow'].includes(s); }),alts.filter(a=>!names.has(a.split('__S_')[0])).join(','));
++  const geos=J.nodes.filter(nd=>/^SEASON_GEO_/.test(nd.name||''));
++  check('季節網格都有 seasons',geos.length>0&&geos.every(nd=>nd.extras&&typeof nd.extras.seasons==='string'),geos.map(g=>g.name+':'+(g.extras&&g.extras.seasons)).join(' ')); }
++else check('us_community.glb 存在',false);
++console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);

@@ -1,12 +1,12 @@
 {
- "objects": 27,
- "unique_meshes": 27,
- "tris": 89134,
- "tris_drawn": 89134,
- "materials": 32,
+ "objects": 50,
+ "unique_meshes": 50,
+ "tris": 100626,
+ "tris_drawn": 100626,
+ "materials": 55,
  "out": "assets/models/env/second_ai/us_community.glb",
- "bytes": 5515312,
+ "bytes": 7648692,
  "texres": 512,
- "tris_total": 89134,
+ "tris_total": 100626,
  "layout": "us_community.layout.json"
 }
