@@ -16,6 +16,7 @@ const MSG=(function(){
   const SAY={chat:['在幹嘛','你在哪'],course:['今天那堂你有抄到嗎','下禮拜要交什麼','這題你怎麼寫'],night:['晚安']};
   const PHOTOS=[{k:'cat',t:'路上的貓',post:'（照片：路上的貓）'},{k:'food',t:'今天吃的東西',post:'（照片：今天吃的東西）'},{k:'notes',t:'一張講義',post:'（照片：一張講義）'}];
   S.TOPICS=TOPICS; S.PHOTOS=PHOTOS;
+  const keepReplies=()=>typeof HOMETOWN_LINES!=='undefined'&&HOMETOWN_LINES.classmate_peishan&&HOMETOWN_LINES.classmate_peishan.keep?HOMETOWN_LINES.classmate_peishan.keep.replies:null;
   const ROMANTIC=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'];
   const FEMALE=new Set(['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin','yu','classmate_xinci']);
   /* 同一門課的同學（AA_202 第 1 節「問課」）：一直同班的／只有某幾個學期的／學長姐 */
@@ -61,7 +62,7 @@ const MSG=(function(){
     if(id==='heroine_02'&&pr&&pr.here===false) return {ok:false,why:'她在英國，只寄明信片'};   /* 大三上交換、大四英國念研究所（presence absent Y3S1／Y4S1／Y4S2）*/
     if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
     if(id==='heroine_05'){ if(stageNum(id)<2) return {ok:false,why:'還不熟'}; const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }
-    if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')&&!(typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G))) return {ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4 節）：她會回 */
+    if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js */
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };
@@ -71,6 +72,7 @@ const MSG=(function(){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
         if(id==='heroine_03') continue; }   /* 語彤社會系：問課不出現（AA_202 6-3） */
       if(q.k==='night'){ if(h<21.5&&h>=5) continue; if(S.takenFor(G,id)&&FEMALE.has(id)) continue; if(!(tier==='L'||stageNum(id)>=4)) continue; if(o.mode==='business') continue; }
+      if(o.mode==='keep'){ if(q.k==='course') continue; out.push(q); continue; }   /* 沛珊消失期交往中：問課不開（她不在學校）*/
       if(!S.hasPool(id,q.k==='share'?'share':q.k,o.mode)) continue;
       out.push(q); }
     return out.concat(S.topics2(G,id,o)); };
@@ -251,7 +253,10 @@ const MSG=(function(){
     R.sent[id]=G.day; const wk=weekKey(G); const W=R.wk[id]&&R.wk[id].k===wk?R.wk[id]:(R.wk[id]={k:wk,n:0}); W.n++;
     if(topic==='bday') R.bday[id+':'+calY(G)]=G.day;   /* 沛珊放榜那天（2027-08-06）看 3/15 有沒有傳過（AA_257 §4 表下註）*/
     if(o.mode==='silent') return {ok:true,silent:true,text};   /* 沛珊重考消失期：已送達、不回（BB_178 0-1）*/
-    const at=S.replyAt(G,id); const ctx={immediate:!!at.immediate,win:!!at.win,late:!!at.late};
+    if(o.mode==='keep'&&!S.isT2(topic)){ const KR=keepReplies(), L=KR&&(KR[topic==='share'?'share_'+(sub||'cat'):topic]||KR[topic])||[]; const k='keep:'+topic+(topic==='share'?'_'+(sub||'cat'):''), i=(R.rot[k]|0)%Math.max(1,L.length); R.rot[k]=i+1;
+      const h0=G.hour%24, at={day:G.day+Math.floor(G.hour/24),h:h0>=23?h0+0.1:23+seedMin(G,id,0,20)/60}; if(L.length&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,text:L[i]}],null); return {ok:true,text,at,keep:true}; }   /* 23:00 以後才看手機：白天傳的當晚一起回（AA_276 6-1）*/
+    const at=S.replyAt(G,id); if(o.mode==='keep'){ const h0=G.hour%24; if(at.day===G.day&&h0<23&&at.h<23) Object.assign(at,{h:23+seedMin(G,id,0,20)/60,immediate:false,late:false}); }   /* 謝謝、生日、新年（AA_257 的 L）也延到 23:00 */
+    const ctx={immediate:!!at.immediate,win:!!at.win,late:!!at.late};
     const t2=S.isT2(topic), pk=t2?S.pick2(G,id,topic):null; const e=t2?(pk&&pk.e):S.pick(G,id,topic,sub,ctx);
     if(pk&&pk.act&&topic==='thanks') R.thx[id+':'+pk.act.key]=pk.act.day;   /* 謝謝：同一件事一次 */
     if(t2&&e&&(e.tags||[]).some(g=>/初三 15:00 以後才回/.test(g))){ const c3=chuSan(G); if(c3!=null&&(at.day<c3||(at.day===c3&&at.h<15))) Object.assign(at,{day:c3,h:15+seedMin(G,id,0,30)/60,late:false,after:true,immediate:false}); }   /* 方奕廷過年在山上（AA_257 §8）*/

@@ -65,6 +65,9 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m1=txt('p:'+ps);
     G.day++; G.hour=8; STORY.phoneRules(GM); G.hour=23.9; PHONE.tick(G); const m2=txt('p:'+ps);
     check('6. 每晚 23:00 以後一則，輪流（第一晚「兩回考古題」、第二晚「一大鍋湯」）',m1.length===1&&/兩回考古題/.test(m1[0])&&m2.length===2&&/一大鍋湯/.test(m2[1])&&G.flags.PS_KEPT===true,J(m2));
+    { const g4=law('2027-03-02',15,{dating_classmate_peishan:true}); g4.flags.romance={[ps]:{status:'dating',sinceDay:D0-30}}; R(ps,30,20,20); G.contacts[ps]=D0-100;
+      const tp=MSG.topics(G,ps).map(q=>q.k); const r=MSG.send(G,ps,'chat'); G.hour=22.9; PHONE.tick(G); const before=txt('p:'+ps); G.hour=23.6; PHONE.tick(G); const after=txt('p:'+ps);
+      check('6-1. 消失期交往中：傳「在幹嘛」她 23:00 以後才回「在念地理。」；問課不開（AA_276 6-1）',!tp.includes('course')&&tp.includes('chat')&&r.ok&&!before.some(t=>/在念地理/.test(t))&&after.some(t=>t==='classmate_peishan:在念地理。'),J([tp,before,after])); }
     const g3=law('2027-03-01',15,{dating_classmate_peishan:true}); g3.flags.romance={[ps]:{status:'dating',sinceDay:D0+5}};
     check('6. 消失期開始以後才交往：照原規則聯絡不到',STORY.presence(ps,g3).kind==='unreachable');
     check('6. 放榜那天（8/6）起照舊在臺北的規則（不是 keep）',!STORY.presence(ps,law('2027-08-06',15,{dating_classmate_peishan:true})).keep); }
