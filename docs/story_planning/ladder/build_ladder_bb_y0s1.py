@@ -102,10 +102,6 @@ D['characters'][KX] = {'steps': [
 
 # ───────── 曾品妤（可昕的室友；全系最毒舌；補習班櫃台打工；想當精算師）─────────
 D['characters'][PY] = {'friendOnly': True, 'steps': [
- {'id':'PY0-L1','if':st(PY,'ACQUAINTANCE'),
-  'lines':['我們宿舍的洗衣機，一次要投十元。','我在算一學期要洗幾次。'],
-  'choices':[ch('「算出來了？」','四十二次。不包括可昕把襪子丟錯籃子。'),
-             ch('「我還沒想過。」','喔。我是習慣先算，不然月底會不夠。')],'rel':{'fam':2},'mem':'PY0_LAUNDRY'},
  {'id':'PY0-L2','if':st(PY,'ACQUAINTANCE'),
   'lines':['我在補習班櫃台打工。一個晚上要接快一百通電話。','九十通是在問「老師在嗎」。'],
   'choices':[ch('「老師在嗎？」','不在。……你看，第九十一通。'),
@@ -297,7 +293,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 7 if cid==PY else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):

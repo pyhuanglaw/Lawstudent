@@ -527,33 +527,6 @@
    "friendOnly": true,
    "steps": [
     {
-     "id": "PY0-L1",
-     "if": {
-      "stage": {
-       "npc": "econ_pinyu",
-       "min": "ACQUAINTANCE"
-      }
-     },
-     "lines": [
-      "我們宿舍的洗衣機，一次要投十元。",
-      "我在算一學期要洗幾次。"
-     ],
-     "choices": [
-      {
-       "t": "「算出來了？」",
-       "reply": "四十二次。不包括可昕把襪子丟錯籃子。"
-      },
-      {
-       "t": "「我還沒想過。」",
-       "reply": "喔。我是習慣先算，不然月底會不夠。"
-      }
-     ],
-     "rel": {
-      "fam": 2
-     },
-     "mem": "PY0_LAUNDRY"
-    },
-    {
      "id": "PY0-L2",
      "if": {
       "stage": {
