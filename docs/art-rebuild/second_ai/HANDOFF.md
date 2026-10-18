@@ -415,6 +415,24 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
   3. ART-EXT-TEACH 普通、博雅：外觀＋室內；室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、小物、skybridge.glb 沿用。
   4. ART-EXT-MRT 捷運公館站出口：整座（TK.mrtExit 的位置）。
   5. SCN-US-02 v3 美國校園：照真的校區配置和路線改（空拍圖＋網路查文字資料）；其他地區照樣子做外觀、先不開放進出。
+     - 查證（04:3x，網路搜尋摘要；沒有地圖、照片）：
+       - Old Crescent 在 3rd Street 和 Indiana Avenue 之間；
+       - 校門 Sample Gates 在 Kirkwood Avenue 入口，夾在 Franklin Hall 和 Bryan Hall 之間；
+       - Franklin Hall（1907）是石灰岩＋紅瓦屋頂，在校門內側；
+       - Student Building 也是石灰岩＋紅瓦；
+       - Maxwell、Kirkwood Hall 是羅馬式石灰岩（光面和粗面石材交錯）；
+       - Owen、Wylie Hall（1884）是紅磚；
+       - Dunn's Woods 在校區西南側；
+       - 法學院（Baier Hall，211 S Indiana Ave）在校區西南角。
+     - 對照空拍圖（推測，等使用者確認）：
+       - 圖的上方約朝東、下面那條路是 Indiana Avenue，右邊約朝南；
+       - 最下面那棟有天窗中庭、紅瓦的大建築＝Franklin Hall；
+       - 中間有塔樓的紅瓦建築＝Student Building；
+       - 上方灰色石板屋頂、有圓塔的＝Maxwell／Kirkwood 一帶；
+       - 右邊的樹林＝Dunn's Woods；
+       - 校門在右下角（Franklin 的南邊）；
+       - 法學院再往南，在圖外。
+     - 遊戲裡不放真實校名、建築名（D77）。
   6. ART-US-SEASON：接回 WIP `53d9ef55`。
      - AA-C 03:43（P2，不用回）：AA_213 2-1 季節表已補（企劃分支 `23663329`）。
        - 日期：夏末 8/2～9/17；初秋 9/18～10/8；秋天 10/9～10/31（10 月中下旬最紅）；晚秋 11/1～11/22（大多落光、草黃褐）；初冬 11/23～12/1（禿樹、晨霜，感恩節飄初雪不積）；有雪 12/2～12/23（12/3～12/10 草地屋頂白、路面鏟乾淨，12/11 起殘雪）。
