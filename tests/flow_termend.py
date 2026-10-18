@@ -68,9 +68,15 @@ async def main():
         run.check('20:30 以安的心意邀約「考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。」＋芯慈的朋友邀約', ok and ['heroine_01', '考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。'] in msgs and any(m[0] == 'classmate_xinci' for m in msgs), json.dumps(msgs, ensure_ascii=False))
         await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(900)
+        # 訊息頁像 LINE（PHONE-LINE-UI-1018，使用者 22:4x 選 B）：列表上以安那一列標「待回覆」，點進去才回
+        row = await pg.evaluate("(()=>{ const e=document.querySelector('#phoneBody .chatRow[data-th=\"p:heroine_01\"]'); return e?e.innerText:null; })()")
+        run.check('手機「訊息」列表有以安那一列（看得到她最新的一句、標「待回覆」）', bool(row) and '待回覆' in row, str(row))
+        if row:
+            await pg.evaluate("document.querySelector('#phoneBody .chatRow[data-th=\"p:heroine_01\"]').scrollIntoView({block:'center'})"); await pg.wait_for_timeout(300)
+            await L.tap(pg, cdp, '#phoneBody .chatRow[data-th="p:heroine_01"]'); await pg.wait_for_timeout(1200)
         sel = '#phoneBody [data-ask="te_Y1S1_heroine_01|0"]'
         has = await pg.evaluate("!!document.querySelector(%s)" % json.dumps(sel))
-        run.check('手機「訊息」的待回覆有以安那則和「好。」', has)
+        run.check('點進以安的對話：有那則和「好。」', has)
         await run.shot(pg, 'phone_invites')
         if has:
             await pg.evaluate("document.querySelector(%s).scrollIntoView({block:'center'})" % json.dumps(sel)); await pg.wait_for_timeout(300)

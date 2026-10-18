@@ -369,6 +369,27 @@
    "status": "進行中",
    "task": "REL-9101-POSTCHECK-1018",
    "note": "AA-C、BB-C、LAWWW2-C 維持交班（duty verify 異常 2 那三項是這個原因）；LAWWW-C 自己修 REL-9101-POSTCHECK-1018、BUG-MOVEOUT-STUCK-1018、BUG-BOWL-STUCK-1018、BUG-KH-HOMEFLASH-1018。BB 不在，修好的由 LAWWW-C 自己做瀏覽器驗證（回覆時已告訴使用者）；台詞照舊不自己寫（D79／D100），要改台詞的記給 AA"
+  },
+  {
+   "id": "UA-LAWWW-1018-42",
+   "at": "2026-10-18T22:4x",
+   "quote": "B 但line預覽 會看到那個人的最新的一句 / 而且打開來就是從最新的一句開始 / 往上拉，才會看到之前的",
+   "kind": "選擇題答案",
+   "status": "進行中",
+   "wants": "X50",
+   "task": "PHONE-LINE-UI-1018",
+   "note": "問題：要回覆的訊息讓手機自動跳出來時停在哪裡（A 直接進那段對話／B 先停在對話列表）。答 B：自動跳出來停在列表；列表每一列看得到那個人的最新一句；點進去從最新一句開始（捲到最下面），往上拉才看到之前的"
+  },
+  {
+   "id": "UA-LAWWW-1018-43",
+   "at": "2026-10-18T22:4x",
+   "quote": "（LAWWW-C 解讀）照 LINE：列表上方的「待回覆」區塊拿掉，改成那一列標「待回覆」，點進去才回；經濟系跳日期收到訊息停下來時也先停在列表（按「跳過」繼續）",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "status": "進行中",
+   "wants": "X50",
+   "task": "PHONE-LINE-UI-1018",
+   "note": "回覆使用者時已說明，使用者要保留就恢復"
   }
  ]
 }

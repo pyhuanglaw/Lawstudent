@@ -473,7 +473,7 @@ const STORY = (function(){
   S.phoneAuto=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(typeof PHONE==='undefined'||!PHONE.pending||!GM.openPhone||GM.titleIdle) return; if(GM.phoneIsOpen&&GM.phoneIsOpen()) return;
     const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof HOME!=='undefined'&&HOME.at(G)); if(!free) return;
     const F=G.flags, seen=F._autoAsk||(F._autoAsk=[]); const m=PHONE.pending(G).find(x=>!seen.includes(x.id||x.key||x.text)); if(!m) return; seen.push(m.id||m.key||m.text); if(seen.length>200) seen.splice(0,seen.length-200);
-    GM.openPhone('msg',m.th); };
+    GM.openPhone('msg'); };   /* 使用者 22:4x 選 B：先停在對話列表（那一列看得到她最新的一句、標「待回覆」），點進去從最新的一句開始 */
   S.ladMark=function(G,ids){ const so=ladRec(G); so.ladSeen=so.ladSeen||{}; for(const id of [].concat(ids)) so.ladSeen[id]=G.day; };   /* AA_293 第 2 節：過場演完把那一層記成推進過 */
   S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
   /* 使用者拿掉的階梯層（直接算過、不播；企劃檔下一班 AA 刪，刪了以後這裡也可以拿掉）：K0-Lx2「搬回家以後，來學校要多久？」（2026-10-18 14:3x 使用者：「沒有必要」→ 選「整段拿掉」）*/
