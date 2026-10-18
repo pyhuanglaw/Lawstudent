@@ -9526,7 +9526,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "企劃線 docs/story_planning/art_reference/pinyu.webp（BB_131 人物標準圖；設定 BB_116 第 11 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
-    "ack": "DELIVERED"
+    "ack": "SENT"
    },
    "pausedFrom": "待開工"
   },
@@ -12860,7 +12860,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
     "receiver": "LAWWW-B",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -14579,9 +14579,9 @@
    "title": "美國篇場景改季節：8 月出發、12 月回來（us_bus_station 等改成夏末；冬天場景保留給 12 月），隨 AA_213 新時間線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已實作待整合",
    "priority": "P3",
-   "next": "【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "next": "【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -14599,7 +14599,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "AA_213（AA-C 交付後）",
     "acceptance": "季節改好的場景清單＋遊戲內截圖",
-    "ack": "未派"
+    "ack": "ACK"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
@@ -14986,7 +14986,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 2026-10-17（經 LAWWW2-C 轉達）：「長得很像的路人真的太多了」「路人數量要再加倍」「男生女生各 20 種」「臺大不要再有這麼鮮豔紅色上衣的女生」",
     "acceptance": "VRM 在遊戲裡載得起來（npc_ambient／anon_pool 單元）、低彩度沒有紅色上衣、遊戲內截圖",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -16985,13 +16985,13 @@
     "confirmed": true
    },
    "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
-   "next": "LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "next": "【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
    "xai": {
     "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內截圖；不開放的區域看得懂地關起來",
     "receiver": "LAWWW-C",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
