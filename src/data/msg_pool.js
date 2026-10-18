@@ -1,10 +1,10 @@
-/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@b61e4f55）。
+/* 玩家主動傳訊息的回覆池（SYS-PHONE-CHAT／MSG-L1）：AA 六位＝AA_202 第 6 節，BB 九位＝BB_178 第 0～8b 節（企劃線 AA_202@b61e4f55、BB_178@741e94f1）。
    產生器 tools/msg/build_pool.py → tools/msg/to_js.py（每一句照抄原文；tests/msg_chat_unit.js 第 F 項逐字比對 git 上的原文）。不要手改句子：改企劃、改產生器、重跑。
    每一則：topic（chat 在幹嘛／course 問課／share_cat、share_food、share_notes 分享／night 晚安）、tier（A／R／L）、variant（情況版）、msgs（同一次回覆的幾個泡泡）、tags（原文的條件）、ask（回問）。
    rules 是各人的回覆時間、開放條件原文（給程式對照；程式的判斷在 src/msg3d.js）。 */
 'use strict';
 const MSG_POOL={
- "source":{"AA_202": "b61e4f55", "BB_178": "b61e4f55"},
+ "source":{"AA_202": "b61e4f55", "BB_178": "741e94f1"},
  "people":{
   "heroine_01":{"name":"沈以安","rules":{"replyFree": [1, 10], "noReplyText": "22:30 以後不回，隔天 7 點多回「昨天睡了。早。」（玩家傳的是晚安，就只回這一句）", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "短、快；貼圖只有一張兔子「收到」", "wakeLine": ["昨天睡了。早。"], "lTierText": "L＝曖昧、交往（只有以安、語彤；~~她們的戀愛窗口在大三、大四以後~~ 2026-10-17 AA-C，AA_215／AA_216 R8：交往中（任何學期），或第 5 階以上而且兩人都單身；大一就可能用到）", "otherText": ["22:30 以後傳：隔天早上「昨天睡了。早。」再接一般版（晚安不接，見 3-1 第 4 點）。", "以安：快、短、只有一張兔子「收到」貼圖；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在總圖。"], "tags": [], "ask": null, "src": "AA_202 6-2 在幹嘛"},
@@ -245,7 +245,7 @@ const MSG_POOL={
    {"topic": "course", "tier": "A", "variant": "考試週", "msgs": ["考試週不教新的。範圍有問題可以問。"], "tags": [], "ask": null, "src": "BB_178 3 問課 考試週", "tierMin": true, "version": "事務版、閒聊版都一樣"},
    {"topic": "night", "tier": "R", "variant": "在美國", "msgs": ["中午了，我在吃三明治。", "你睡吧。"], "tags": ["在美國，不是美國路線（台灣的晚上是她那邊的早上，她 12:10 才回）"], "ask": null, "src": "BB_178 3 晚安", "version": "閒聊版", "tierMin": true, "tierCell": "—"}
   ]},
-  "classmate_peishan":{"name":"郭沛珊","rules":{"replyFree": null, "noReplyText": "重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "openText": "什麼時候開：交換聯絡方式以後（迎新宿營 `BB_177` 3-2，或第 6 週 P2）\n什麼時候不開，或只回事務：一直開；問課只到大二上。重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "habitText": "手機習慣：不熟的時候小心、客氣，句子短，很少驚嘆號；熟了以後訊息變長、段落分明，常傳一張書頁的照片，劃了一行線；23:00 以後最常傳。大三起（課輔班以後）訊息變快樂，常有小孩說的好笑的話。", "wakeLine": [], "otherText": ["開放：0-1。", "她在哪裡：大一上週五傍晚搭客運回桃園；大二下在桃園家裡重考；大三起在別的學校（教育相關科系）、課輔班、書店打工，進不去總圖（`BB_163`）。讀書會只到大二上。", "沛珊（同班，大一上～大二上）（0-7 問課）"], "sectionText": {"course": "問課（同班；大一上～大二上，大二下她不常去上課，大三起在別的學校）", "night": "晚安（`CLOSE_FRIEND` 以上；曖昧、交往。祐廷和別人交往中不開）"}},"replies":[
+  "classmate_peishan":{"name":"郭沛珊","rules":{"replyFree": null, "noReplyText": "重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "openText": "什麼時候開：交換聯絡方式以後（迎新宿營 `BB_177` 3-2，或第 6 週 P2）\n什麼時候不開，或只回事務：一直開；問課只到大二上。重考消失期（P4 交接讀書會 2026-12-17〔大二上第 15 週〕之後，到 2027-08-06 放榜那天，`BB_194` §19；2026-10-17 BB-C：P4 從大二下第 1 週搬過來）：按鈕照開，訊息只顯示「已送達」、不顯示已讀，她不回；放榜那天她自己先傳（`BB_119` 1b-3）", "habitText": "手機習慣：不熟的時候小心、客氣，句子短，很少驚嘆號；熟了以後訊息變長、段落分明，常傳一張書頁的照片，劃了一行線；23:00 以後最常傳。大三起（課輔班以後）訊息變快樂，常有小孩說的好笑的話。", "wakeLine": [], "otherText": ["開放：0-1。", "她在哪裡：大一上週五傍晚搭客運回台中；大二下在台中家裡重考；大三起在別的學校（教育相關科系）、課輔班、書店打工，進不去總圖（`BB_163`）。讀書會只到大二上。", "沛珊（同班，大一上～大二上）（0-7 問課）"], "sectionText": {"course": "問課（同班；大一上～大二上，大二下她不常去上課，大三起在別的學校）", "night": "晚安（`CLOSE_FRIEND` 以上；曖昧、交往。祐廷和別人交往中不開）"}},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在畫行事曆，把下禮拜的事寫進去。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["坐到總圖靠窗的位子了。"], "tags": ["大一～大二上"], "ask": null, "src": "BB_178 4 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["剛洗完澡，準備念書。"], "tags": ["晚上"], "ask": null, "src": "BB_178 4 在幹嘛"},
@@ -278,9 +278,9 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["在總圖。整層都是人，連樓梯都有人坐。"], "tags": ["大一～大二上"], "ask": null, "src": "BB_178 4 在幹嘛 考試週", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["在宿舍念。總圖沒位子了。"], "tags": ["大一～大二上"], "ask": null, "src": "BB_178 4 在幹嘛 考試週", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["在改作業。我們學校考試的時間跟你們不一樣。"], "tags": ["大三起"], "ask": null, "src": "BB_178 4 在幹嘛 考試週", "tierMin": true},
-   {"topic": "chat", "tier": "A", "variant": "放假、在桃園", "msgs": ["在早餐店。五點就起來了。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在桃園", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
-   {"topic": "chat", "tier": "A", "variant": "放假、在桃園", "msgs": ["（照片：一整盤煎好的蛋）", "這一盤是我煎的。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在桃園", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
-   {"topic": "chat", "tier": "A", "variant": "放假、在桃園", "msgs": ["店裡收了。下午在補眠。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在桃園", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
+   {"topic": "chat", "tier": "A", "variant": "放假、在台中", "msgs": ["在早餐店。五點就起來了。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在台中", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
+   {"topic": "chat", "tier": "A", "variant": "放假、在台中", "msgs": ["（照片：一整盤煎好的蛋）", "這一盤是我煎的。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在台中", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
+   {"topic": "chat", "tier": "A", "variant": "放假、在台中", "msgs": ["店裡收了。下午在補眠。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 放假、在台中", "tierMin": true, "variantNote": "寒假 12/20～2/19，`BB_171`；三則輪流"},
    {"topic": "chat", "tier": "A", "variant": "大二下在家重考", "msgs": ["在念書。", "（照片：桌上一疊書，旁邊一杯豆漿）"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 大二下在家重考", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "A", "variant": "大二下在家重考", "msgs": ["在店裡幫忙一下，等一下回去念。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 大二下在家重考", "tierMin": true, "variantNote": "兩則輪流"},
    {"topic": "chat", "tier": "A", "variant": "大三起、課輔班那天", "msgs": ["剛從課輔班出來。有個小朋友問我，法官是不是都很兇。"], "tags": [], "ask": null, "src": "BB_178 4 在幹嘛 大三起、課輔班那天", "tierMin": true, "variantNote": "週二～四 19:00 以後；兩則輪流"},

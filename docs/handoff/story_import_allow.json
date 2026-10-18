@@ -100,7 +100,7 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "408398d7",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "AB65-3-Y1S1／K-D5",
@@ -130,7 +130,7 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "408398d7",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "ROM-1017",
@@ -170,7 +170,7 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "408398d7",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "SYS-15",
@@ -262,7 +262,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D04.json",
-   "sha": "abad2fa0",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
    "task": "DATE-S6"
@@ -276,7 +276,7 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D12.json",
-   "sha": "abad2fa0",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
    "task": "DATE-S6"
@@ -809,7 +809,7 @@
   },
   {
    "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
-   "sha": "b61e4f55",
+   "sha": "741e94f1",
    "status": "approved",
    "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）",
    "task": "SYS-PHONE-CHAT, MSG-2",
