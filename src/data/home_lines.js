@@ -1,7 +1,7 @@
-/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/cool-heisenberg-o8kuqx c6f1416b */
+/* 週末回臺北的家：家人台詞池（AA_138；產生器 tools/home/import_home_lines.py，不要手改）。來源：claude/magical-albattani-bk7b4n 3abd5e5e */
 'use strict';
 const HOME_LINES={
-"source": "claude/cool-heisenberg-o8kuqx c6f1416b",
+"source": "claude/magical-albattani-bk7b4n 3abd5e5e",
 "group": [
 {
 "who": null,
@@ -70,7 +70,7 @@ const HOME_LINES={
 }
 ],
 "dad": "契約喔。店裡每天都在簽。",
-"dadAct": "夾一塊肉給他"
+"dadAct": "夾一塊肉給你"
 },
 {
 "n": 2,
@@ -201,7 +201,7 @@ const HOME_LINES={
 },
 {
 "who": "媽媽",
-"t": "睡到這麼晚。……宿舍是不是很吵？"
+"t": "睡到這麼晚。……昨天幾點睡的？"
 },
 {
 "who": "爸爸",
