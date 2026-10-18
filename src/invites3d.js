@@ -45,6 +45,8 @@ const INV=(function(){
     if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
     const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
     if(!pres.here&&pres.kind==='unreachable') return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):pr)+'沒有回覆。';   /* 沛珊消失期（BB_205 第 3 節）*/
+    if(!pres.here&&pres.kind==='trip') return pres.away+'，不在臺北。';   /* 方奕廷暑假上山（BB_171）*/
+    if(!pres.here&&pres.kind==='home'&&!pres.keep&&!hvOk(G,id)&&pres.home) return '回'+pres.home+'了，不在臺北。';   /* 明軒回彰化、方奕廷回台中（BB_171）；可昕、沛珊照下面（可以去找她）*/
     if(!pres.here&&pres.kind!=='taipei'&&!(pres.kind==='home'&&hvOk(G,id))) return fmtWhy(pres.kind==='after'?W.graduated:(pres.kind==='absent'?W.abroad:W.away),{pr})||'這學期不在學校';
     const b=S.booked(G,id); if(b) return fmtWhy(W.booked,{when:'週'+WK[wdOf(G,b.day)]+' '+hh(b.h),place:(S.place(b.place)||{}).name||''});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return W.stranger||'還不太熟';
@@ -131,7 +133,7 @@ const INV=(function(){
     if(r.why==='closed') return P.name+'那個時間沒開。'+(alt?nm+'問 '+alt+' 可不可以。':'');
     if(r.why==='busy') return nm+'那時候'+(ACTN[r.act]||'有事')+'。'+(alt?'問你 '+alt+' 可不可以。':'');
     if(r.why==='rel'||r.why==='partner') return S.placeWhy(G,id,P)||(nm+'客氣地說下次吧。');
-    if(r.why==='away'){ const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{}; return pr.kind==='unreachable'?nm+'沒有回覆。':pr.kind==='home'?nm+(pr.keep?'在'+pr.home+'老家念書':'寒暑假回'+pr.home+'了')+'，不在臺北。':nm+'這學期不在學校。'; }   /* AA_276：回老家的期間約不到臺北的地點 */   /* 沛珊消失期：聯絡不到（BB_205 第 3 節）*/
+    if(r.why==='away'){ const pr=typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{}; return pr.kind==='unreachable'?nm+'沒有回覆。':pr.kind==='home'?nm+(pr.keep?'在'+pr.home+'老家念書':'寒暑假回'+pr.home+'了')+'，不在臺北。':pr.kind==='trip'?nm+pr.away+'，不在臺北。':nm+'這學期不在學校。'; }   /* AA_276：回老家的期間約不到臺北的地點 */   /* 沛珊消失期：聯絡不到（BB_205 第 3 節）*/
     return nm+'說改天。'; };
   /* 約好 */
   S.accept=function(G,id,pid,day,h,o){ o=o||{}; S.rec(G); const P=S.place(pid); G.invSeq=(G.invSeq|0)+1;
