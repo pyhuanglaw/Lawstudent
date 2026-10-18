@@ -82,20 +82,15 @@ D['characters'][KX] = {'steps': [
   'choices':[ch('「兩家都要排呢？」','那就買便利商店，走去河堤吃。'),
              ch('「我先去排。」','好。我五點下課，五點十分到，你那時候要排到前面。',rel={'comf':1})],'rel':{'comf':2},'mem':'KX0D_DINNER_PLAN',
   'note':'先算時間和路線（AA_188 第 4 節）；店名不寫'},
- {'id':'K0-Lx6','if':DK,'week':[12,16],
-  'lines':['品妤的記帳本多了一欄，寫你的名字。','她說你來找我的次數，要跟我買飲料的次數一起算。'],
-  'choices':[ch('「算出來多少？」','她不給我看。說月底公布。'),
-             ch('「那我少來一點。」','不要。我少買飲料就好。',rel={'comf':1})],'rel':{'comf':2},'mem':'KX0D_PINYU_COLUMN',
-  'note':'接品妤 PY0-L6（她幫可昕記帳）；品妤這學期還是她的室友'},
  {'id':'K0-Lx7','if':DK,'week':[14,16],
-  'lines':['我這兩個禮拜有三份報告。','你來的時候，不要問我寫完了沒。我會想丟東西。'],
+  'lines':['我這兩個禮拜有三份報告。','你來的時候，不要問我寫完了沒。我會想丟東西。','國文那份最晚交，我還沒開始。……應該來得及。'],
   'choices':[ch('「那我問什麼？」','問我晚餐要吃什麼。這個我答得出來。'),
              ch('「我幫妳排版。」','好。你排得很醜，可是我沒時間了。',rel={'comf':1})],'rel':{'comf':2,'trust':1},'mem':'KX0D_REPORTS',
   'note':'期末前（第 14～16 週）。不提國文作業（4-3 才揭曉記錯期限）'},
  {'id':'K0-Lx8','if':DK,'week':[15,16],
   'lines':['寒假我在家的時間比較多。要見面，要先約。','我們家過年事情很多。我先把能出來的日子傳給你。'],
   'choices':[ch('「那晚上傳訊息。」','好。你不要比我早睡。'),
-             ch('「我去妳家附近找妳。」','先不要。我家人還不知道你。',rel={'trust':1})],'rel':{'comf':2,'trust':1},'mem':'KX0D_BREAK_PLAN',
+             ch('「我去妳家附近找妳。」','過年前先不要。……過年以後，我再約你。',rel={'trust':1})],'rel':{'comf':2,'trust':1},'mem':'KX0D_BREAK_PLAN',
   'note':'寒假前；接 E24 每晚的訊息、除夕電話（阿嬤問有沒有男朋友）。寒假裡她仍在臺北（E20b、E21a、4-3），所以不寫「回老家」'},
 ],'greet':{'base':['（她在耳朵上換了一個新的耳環）今天是迴紋針。','（她拿下一邊耳機）嗨。','品妤又說我飲料喝太多。','（她把牛仔外套的袖子捲起來）你也在這裡喔。','經原的作業我還沒寫完。今天要寫到很晚。'],
  'when':[{'weather':'rain','t':'下雨了。我今天沒騎車，用走的。'},
@@ -302,7 +297,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(14 if cid==KX else 8): err.append(cid+(' 不是 14 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5～Lx8；Lx1、Lx4 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(13 if cid==KX else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
