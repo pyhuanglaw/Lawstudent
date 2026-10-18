@@ -127,7 +127,12 @@ def verify(args, d=None, out=None):
     if not d.get('onDuty') and on:
         A(1, f'onDuty 空著，但 accountState 有 on：{on}')
     if d.get('onDuty') and d.get('previous') == d.get('onDuty'):
-        A(1, 'previous 和 onDuty 是同一個帳號（上一任應該是前一個值班的帳號）')
+        lh0 = d.get('lastHandoff') or {}
+        if lh0.get('from') == d['onDuty'] and lh0.get('kind') == 'handoff':
+            # 同一個帳號正式交班以後，中間沒有別的帳號值班，又回來接班（例：2026-10-13 A→A、2026-10-18 C→C）
+            info.append(f'帳號 {d["onDuty"]} 正式交班（{lh0.get("at")}）以後又回來值班，中間沒有別的帳號：上一任就是自己')
+        else:
+            A(1, 'previous 和 onDuty 是同一個帳號（上一任應該是前一個值班的帳號）')
     # 2 四個職位
     roles = d.get('roles') or {}
     for r in ROLES:

@@ -361,6 +361,7 @@ def main():
     chain(['A', 'B', 'C', 'A'], 'A → B → C → A')
     chain(['A', 'C', 'B', 'A'], 'A → C → B → A')
     chain(['A', 'B', 'C', 'B', 'C', 'A'], '帳號 A 連續休班多次（A→B→C→B→C）才回來')
+    chain(['B', 'C', 'C'], '同一個帳號正式交班以後又回來（B → C，C 交班，中間沒人值班，C 回來）')
     anomalies()
     bad = [n for n, ok, _ in results if not ok]
     print(f'結果：{len(results) - len(bad)}／{len(results)} PASS' + (f'；FAIL：{bad}' if bad else ''))
