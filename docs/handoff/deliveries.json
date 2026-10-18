@@ -8043,6 +8043,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "v0_winter、lifeline_g3 已換"
+  },
+  {
+   "id": "DL-BB-10b7c36f",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "10b7c36f",
+   "what": "BG-HOME-1018 第 1 張：home_dining_cny（除夕年夜飯，手繪動畫風）",
+   "task": "BG-HOME-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "outings3d.js home_living_cny 改用這張；其他 10 張使用者還在生"
   }
  ],
  "ignored": [
