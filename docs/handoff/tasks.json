@@ -19184,6 +19184,27 @@
    "source": "BB-C 10:58 訊息（QA-AA300-1018 中途結果）",
    "authorized": "bug 修正（D85）",
    "next": "BB 的腳本是 MODE=ff（只按對話、睡覺／快轉）＋?turbo；先在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 深夜算前一天）停在 26:30、哪個迴圈跑很久。等 BB 新版結果確認還在不在"
+  },
+  {
+   "id": "AA306-KX-LADDER-1018",
+   "title": "AA_306：可昕經濟系兩學期階梯逐層確認（Y0S1 13 層、Y0S2 4 層）＋重考期讀書在祐廷房間的書桌（不是餐桌）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 1be8842d（AA_306、交接紀錄 94480926）",
+   "authorized": "使用者選擇題（「階梯也用選擇題給我」「在房間書桌念書」）",
+   "next": "ded5da04：階梯 y0s1／y0s2 白名單換 1be8842d、labelsRef 加；R1／R5／R2／同一張桌子場景改「祐廷家・你的房間」home_room_day；在家背景重考期白天、深夜用房間。AA 推了日期卡（adf50c8b）。還沒改（AA_306「⚠」一節，下一班 AA 接）：retake_home_v1.json 讀書那 8 處、考場「五月報名那天，餐桌兩邊」（報名可以留餐桌）。品妤、唐睿、阿勳、韋綸的階梯 AA 還沒問"
   }
  ]
 }
