@@ -18159,7 +18159,7 @@
    "title": "AA_295：可昕不要有出假設題的習慣（使用者 10-18 選擇題）；E26 摩天輪最高點不說話；尾聲物件換摩天輪票根",
    "area": "v1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -18173,7 +18173,7 @@
    },
    "source": "AA-C 9fecc202（AA_295、DL-AA-9fecc202）",
    "authorized": "使用者選擇題",
-   "next": "照 AA_295 逐句替換表改 events.js 約 25 處、story3d、adv3d、encounters、enc_walk、date_lines、characters、social3d；白名單 6 個階梯檔重新匯入；測試寫死的原句跟著換"
+   "next": "4bc3fab5（子代理）併入開發分支：第 1、2 節 92 處替換＋18 個測試；全部 node 單元測試過。表外問題給 AA：events.js K7 票根禮物的反應「她念背面那題，笑出來。」「你學我。」（背面改寫日期以後對不上）；停用的 E16 還有一句假設。階梯檔（ladder）等 KX0_EGG／KX0_SHOP 名稱"
   },
   {
    "id": "BUG-E30-CLERK-1018",
