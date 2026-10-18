@@ -50,5 +50,8 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   // 睡著
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 18:15 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來喔。'); return x&&x.day===D6&&Math.abs(x.h-18.25)<0.05; })()&&!opened.length);
   GM.D.active=false; run(); check('4. 事件結束後才打開',opened.length===1);
+  /* BUG-E12-ARRIVE-LATE（BB-C 11:1x）：休學在家（ECONFF 第二階段）不排出遊（從家出發 30 分鐘、到的時候已經過了 17:30～18:00）；邀約照發，由 econff3d.js STEPS2 h3 17:45 直接帶到湖邊 */
+  { const had=global.ECONFF; global.ECONFF={on2:()=>true}; fresh(D6,17,'home',{Y0_MOVED_OUT:true}); at(D6,17.4); global.ECONFF=had;
+    check('7. 休學在家那一年：17:20 邀約照發、不排「醉月湖 17:45」出遊（BB-C BUG-E12-ARRIVE-LATE）',TH('p:kexin').includes('今天下課以後，去湖邊坐一下？')&&!OUT.get(G,'y0_e12'),JSON.stringify(OUT.get(G,'y0_e12'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
