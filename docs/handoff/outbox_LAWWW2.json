@@ -503,6 +503,24 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-EXT-GATE 臺大校門整座（照真的配置：門房在正中間）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a852d6f2",
+   "files": [
+    "assets/models/env/second_ai/campus_gate.glb",
+    "assets/models/env/second_ai/campus_gate.json",
+    "tools/blender/env_second/campus_gate.py",
+    "docs/art-rebuild/second_ai/patches/campus_gate.diff",
+    "docs/art-rebuild/second_ai/test_shots/campus_gate/"
+   ],
+   "state": "已交付（MODEL_READY、READY_FOR_ART_REVIEW；依文字資料，沒有照片；動到導航和出口）",
+   "remaining": "沒有照片（屋頂、窗、燈籠是推測）；flow_bike、home_unit 沒跑；iPhone 實機沒測",
+   "next": "v9.10 發布後：LAWWW-C 套 campus_gate.diff（對 1fe92919，在 6ca69c33 上 apply 乾淨；CK.gate、placeGate、gateExits、gateGLB、兩個區域的通道開法、manifest、campus_layout_nav／gongguan_layout_nav 座標）＋從我的分支拿 GLB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
