@@ -2212,12 +2212,12 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',text:'嗯。……先吃。'},
       {label:'e'},{set:{RETAKE_TOGETHER:true,E27B_PLAN:true}},{stamp:['E27_DAY']} ] },   /* 沒去高雄的舊存檔：一起重考、明天去問補習班照記 */
   /* ★高雄三天兩夜（AA_303 第 15 場，使用者 10-18 選擇題：「去高雄 3 天 2 夜……是在高雄才討論重考的」）：1/28 除夕電話約好（KH_TRIP）→ 1/31（初三）早上開車出發，2/2 晚上回臺北的家。
-     原本 2/13 水餃店的休學原因和三選一搬來這裡；記 RETAKE_TOGETHER、E27B_PLAN（2/14 一起去問補習班）。背景先用 kh_river；CG 兩張等使用者生成（BB 提示詞）。只在經濟系 30 分鐘版的停點演（econff3d.js STEPS2 h21）*/
-  { id:'ev_y0_kh3', stage:'econ', title:'高雄三天兩夜', participants:['kexin'], location:'any', trigger:'econff', once:true, background:'kh_river',
-    dialogue:[ {scene:'高雄',bg:'kh_river'},
+     原本 2/13 水餃店的休學原因和三選一搬來這裡；記 RETAKE_TOGETHER、E27B_PLAN（2/14 一起去問補習班）。背景：前兩天 kh_dome（美麗島站）、蓮池潭 kh_lotus_bench（BB-C b043f9bd；使用者 10-18「不要人物」＝純場景，不等人物 CG）。只在經濟系 30 分鐘版的停點演（econff3d.js STEPS2 h21）*/
+  { id:'ev_y0_kh3', stage:'econ', title:'高雄三天兩夜', participants:['kexin'], location:'any', trigger:'econff', once:true, background:'kh_dome',
+    dialogue:[ {scene:'高雄・美麗島站',bg:'kh_dome'},
       {speaker:null,text:'（大年初三。你開了四個多小時的車到高雄。她在家樓下等你，一上車就說：「先去吃早午餐。」）'},
       {speaker:null,text:'（三天兩夜。新崛江、美麗島站那片彩色的玻璃天花板、瑞豐夜市。她每到一個地方就說：「這個你一定要吃。」）'},
-      {speaker:null,text:'（第三天下午，蓮池潭。風很大。你們坐在湖邊的椅子上。）'},
+      {scene:'高雄・蓮池潭',bg:'kh_lotus_bench'},{speaker:null,text:'（第三天下午，蓮池潭。風很大。你們坐在湖邊的椅子上。）'},
       {speaker:'kexin',text:'成績下禮拜出來。'},{speaker:'kexin',text:'國文那份報告，我記錯時間了。老師說不能補交。'},{speaker:'kexin',text:'整科就那一份。……一定會被當。'},{speaker:'kexin',text:'我在想要不要休學。'},
       {choice:[{text:'「那我們都休學了，就一起重考吧。」',goto:'p1'},{text:'「我要再考一次。法律。……妳要不要一起？」',goto:'p2'},{text:'「一起考吧。兩個人一起讀，比一個人不會偷懶。」',goto:'p3'}]},
       {label:'p1'},{speaker:null,text:'（她停了一下。）'},{speaker:'kexin',text:'……你是說真的？'},{speaker:'player',text:'真的。'},{speaker:'kexin',text:'好。'},{goto:'q'},
