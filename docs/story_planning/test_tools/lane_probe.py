@@ -142,6 +142,11 @@ async def main():
                 txt = await pg.evaluate("document.getElementById('phoneBody').textContent")
                 if want == 'yes':
                     await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(2500)
+                    for _w in range(40):
+                        st = await pg.evaluate("({pick:GAME.G.flags.L118_PICK||null,lunch:GAME.G.flags.L118_LUNCH||null,h:+GAME.G.hour.toFixed(2),plans:(typeof OUT!=='undefined'&&OUT.get)?!!OUT.get(GAME.G,'l118_lunch_'+GAME.G.day):null})")
+                        if _w % 5 == 0: print('   等排程', st, flush=True)
+                        if st['lunch']: break
+                        await pg.wait_for_timeout(1000)
                     lunch = await pg.evaluate("GAME.G.flags.L118_LUNCH||null")
                     plan = await pg.evaluate("(()=>{ try{ return JSON.stringify((GAME.G.outings||GAME.G.plans||[])).slice(0,400); }catch(e){ return String(e); } })()")
                     run.check('C1. 回「%s」：排了 12:15 那間店門口（L118_LUNCH）' % bb[2], bool(lunch) and lunch.get('shop') == 'noodle2', json.dumps(lunch, ensure_ascii=False) + ' ' + str(plan))
