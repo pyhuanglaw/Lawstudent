@@ -10151,6 +10151,13 @@
    "kind": "covered",
    "reason": "宿舍大二～大四窗景 312／507／409 的 WIP，後續 4fa4a1e2 一起交付",
    "coveredBy": "DL-LAWWW2-4fa4a1e2"
+  },
+  {
+   "sha": "d1ca8165",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "SCN-US-02",
+   "reason": "美國校園第二階段 WIP（us_campus_layout_gen.py）；v9.10 收件範圍外，LAWWW2 繼續在自己分支做，交付時再登記"
   }
  ]
 }

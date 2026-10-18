@@ -2981,7 +2981,7 @@ const STORY = (function(){
     if(!F.dating_heroine_01&&fam('heroine_01')&&!fam('heroine_01','FRIEND')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_01',from:'heroine_01',text:'新年快樂。'}],'nye_y2_an');
     if(fam('kai')) PHONE.at(G,nye,24+9/60,[{th:'p:kai',from:'kai',text:'新年快樂。我們這棟頂樓也有人，但沒有你們那邊吵。'}],'nye_y2_kai');   /* 阿凱大二起住別棟、不上這棟頂樓（AA_210 1-5，9c641efa）*/
     if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+8/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'},{th:'p:heroine_03',from:'heroine_03',text:'（照片：店門口拉下一半的鐵門）'}],'nye_y2_yt');
-    if(inG&&(G.day>nye+1||(G.day===nye+1&&hh>=20))) PHONE.at(G,nye+1,20,[M('zhe','我明天回高雄')],'nye_y2_zhe'); };
+    /* 阿哲的「我明天回高雄」改在海邊那天 21:00（AA_264 第 5 節第 1 點），在 vac3d.js 的 c01Phone */ };
   S.psGone=(G,day)=>{ const p=S.presence('classmate_peishan',day==null?G:Object.assign({},G,{day})); return p.kind==='unreachable'||!!p.keep; };   /* 交往中的例外（keep）也算：群組、其他人照樣聯絡不到她 */
   /* AA_276 第 4 節（使用者 23:5x「除非玩家有跟他交往」）：消失期開始那天（d0）玩家和她交往中、到現在還在交往＝例外。交往是 d0 以前開始的（ROM 的 sinceDay；舊存檔、測試沒有紀錄的算以前）*/
   S.keepDating=function(id,G,d0){ const F=G&&G.flags; if(!F||F['dating_'+id]!==true) return false; const R=F.romance&&F.romance[id]; return !(R&&R.sinceDay!=null&&R.sinceDay>=d0); };
