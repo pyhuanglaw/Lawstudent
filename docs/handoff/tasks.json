@@ -12998,9 +12998,9 @@
    "title": "假期系統規格 S1（AA）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "被 AA_275、AA_276 取代（AA-C 2026-10-18 00:31）｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13020,16 +13020,17 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "replacedBy": "VAC-HOMETOWN-1017, VAC-AA275-1017"
   },
   {
    "id": "VAC-T1",
    "title": "假期系統規格 T1（AA）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "被 AA_275、AA_276 取代（AA-C 2026-10-18 00:31）｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13049,16 +13050,17 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "replacedBy": "VAC-HOMETOWN-1017, VAC-AA275-1017"
   },
   {
    "id": "VAC-X1",
    "title": "假期／交換規格 X1（AA）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "被 AA_275、AA_276 取代（AA-C 2026-10-18 00:31）｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13078,7 +13080,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "replacedBy": "VAC-HOMETOWN-1017, VAC-AA275-1017"
   },
   {
    "id": "VAC-L1",
@@ -13187,7 +13190,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14221,7 +14224,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14251,7 +14254,7 @@
    "owner": "AA",
    "status": "待開工",
    "priority": "P2",
-   "next": "AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -16460,7 +16463,7 @@
    "id": "DOCS-CLEANUP-AA277",
    "title": "開發文件過時段落（AA_277，32e84828）：AA 改、交 patch，LAWWW 套用（D100c）",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "prio": "P3",
    "first": {
     "term": "Y1S1",
@@ -16473,14 +16476,15 @@
     "confirmed": true
    },
    "src": "使用者 2026-10-18 00:1x「授權給AA自己改」",
-   "next": "等 AA-C 的 patch（docs/story_planning/_generated/docs_cleanup_<SHA>.patch）",
+   "next": "ed8edb60（AA-C 85585f94 patch）＋955537d5（AA 直接推）",
    "xai": {
     "spec": "AA_277",
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "git apply 乾淨套上、check_handoff.py check OK",
     "receiver": "LAWWW-C",
     "ack": "SENT"
-   }
+   },
+   "evidence": "git apply 乾淨套上、check_handoff.py check OK（ed8edb60）；AA 直接推 955537d5（只改 CLAUDE.md 一行）"
   },
   {
    "id": "AA256-VA09-VA10",
