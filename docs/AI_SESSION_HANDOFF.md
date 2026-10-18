@@ -160,7 +160,7 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：帳號 C 值班中**（LAWWW-C 2026-10-17 04:1x UTC 接班；上一任帳號 B，2026-10-17 02:40 UTC 交班；帳號 A 休班。LAWWW2-C、AA-C、BB-C 由使用者各自啟用，登記後 `duty sync` 收進來）。
+**現在：帳號 C 值班中**（LAWWW-C 2026-10-18 21:3x UTC 回來接班：使用者「我回來了，請同步 GitHub 最新進度，接續工作。」；上一任＝LAWWW-C 自己，14:51 正式交班，中間 6.5 小時沒有任何帳號值班、所有遠端分支沒有新 commit。LAWWW2-C、AA-C、BB-C 12:24 已交班，使用者叫回來後各自登記，`duty sync` 收進來；帳號 A、B 休班，D 未啟用）。
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
@@ -680,6 +680,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-18 21:3x | LAWWW-C（帳號 C）14:51 交班 → **LAWWW-C（帳號 C）回來接班** | LAWWW | `3468c35c`（`claude/adoring-meitner-mqzst8`，不用合併） | 使用者說「我回來了…」。duty find：RULE_SOURCE 不變、seq 10、上一任 C；離開期間所有遠端分支沒有新 commit（main 仍是 v9.10.1 `4c0cbefc`）。check 0、duty verify 0、roles OK、asks OK（56 筆）；incr 223 項＝交班時就有的 outbox 格式問題（LAWWW2 79、AA 60、BB 39＋LAWWW2 分支 45 個未分類 commit），水位線不前進。第一件事：REL-9101-POSTCHECK-1018（docs/handoff/TEST_RESULTS_1018.md） |
 | 2026-10-17 04:1x | LAWWW-B（帳號 B）→ **LAWWW-C（帳號 C）** | LAWWW | `bd1ea4dd`（`claude/modest-rubin-2lyp7g`），合併進 `claude/adoring-meitner-mqzst8` 為 `bfd5f40d` | 第一次啟用帳號 C（使用者貼 7.5 提示詞）。duty find seq 5、check／duty verify／roles 結束碼都 0；B 交班後的 11 個 commit 是交接補強與使用者授權的交班後文件補記（`0b84319f`、`bd1ea4dd`）。接班後先做使用者 10-17 下一班指示（USER_DIRECTIVE_NEXT_DUTY_2026-10-17）的接班優先事項，再做 QA-HANDOFF-B1 與增量交接改善 |
 | 2026-10-16 22:0x | （制度修訂，不是換班） | 四個 | `b1d95de2` 之後 | HV-10（D92）：A／B／C 三帳號任意方向輪值；唯一值班狀態 `docs/handoff/duty.json`（初始化 seq 1：帳號 B 值班、上一任 A、C 未啟用）；`check_handoff.py duty find／plan／register／handoff／sync／verify`；模擬 19／19 PASS（`docs/handoff/HANDOFF_SIM_HV10.md`）。**沒有換班**：帳號 B 繼續值班、A 休班不喚醒、C 等使用者啟用 |
 | 2026-10-16 02:22 | （制度修訂，不是換班） | 四個 | `4e13d63f` 之後 | HV-4（D82、D81）：增量交接＋自動對帳工具；用這次 A→B 交接實際驗證：重建 A 的交班快照（`snapshots/2026-10-14T1740Z_A_LAWWW.json`，94 個 ID）→ 沒有任務消失；第一次跑抓到 6 個真的異常（取消的替代 ID 寫成 SHA、兩個取消沒寫替代、交付分支 1 個沒登記、閱讀版兩個 ID 對不上），處理後 OK；交付登記 31 筆；從上次同步以後三條交付分支 32 個 commit 掃完。帳號 B 的第一份快照（checkpoint）也存了 |
@@ -734,6 +735,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-10-18 21:3x | LAWWW-C | C | HV-18／RULE_SOURCE 3468c35c（已讀 D92 十四步、HV-15～HV-18；duty register 見本 commit） | 是 | 沒有（交班前的都在 USER_WANTS／tasks.json；user_asks_LAWWW 40 筆） | 沒有 | 回合 385 個，超過上限 62 個（多半是 10-17～10-18 長回合；之後照 D90 拆短） | LAWWW-C 自己登記 |
 | 2026-10-17 04:1x | LAWWW2-C | C | HV-11／RULE_SOURCE 當時 modest-rubin 9266693c（現讀 adoring-meitner）；duty register edd6fa8a | 是（D90、D92、D93） | 沒有 | 沒有 | 無超時 | LAWWW2-C 訊息 04:14，LAWWW-C 代登記（HANDOFF.md edd6fa8a） |
 | 2026-10-17 04:1x | AA-C | C | HV-11；duty register 1b8160a1 | 是（AA 交接紀錄接班一節） | 沒有 | 背景逐句審（已交 3b7e2268） | — | AA-C 1b8160a1 commit、04:14 訊息，LAWWW-C 代登記 |
 | 2026-10-17 04:1x | BB-C | C | HV-11；duty register ad1ee0aa | 是（BB_00 接班紀錄） | 沒有 | — | — | BB-C ad1ee0aa、04:14 訊息，LAWWW-C 代登記 |
