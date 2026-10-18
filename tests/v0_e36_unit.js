@@ -48,8 +48,8 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   // 2. 20:00 電話：在家
   G.hour=19.9; check('2. 20:00 以前沒有電話',!EVENTS.check(e)&&!EVENTS.check(eh)); G.hour=20; check('2. 20:00 在家：家裡那一個（外面那一個不演）',EVENTS.check(eh)&&!EVENTS.check(e));
   G.flags.KX_CAR='only_me'; said=[]; script=['聽她那邊','每週一天']; await EVENTS.run(eh); await new Promise(r=>setTimeout(r,20)); let L=said.map(x=>x.t);
-  check('3. 電話：「台大法律。恭喜你。真的。」→「只高 0.1。」→「上了就是上了。」→（only_me）「你那天說，你以為只有你。……」「不是只有妳。」→「政大的山比較多。四年後，我會比你強壯。」；沒有椰林大道、路燈、「一點點不甘心」「差一點點」「消化」',
-    J(L.slice(0,3))===J(['台大法律。恭喜你。真的。','只高 0.1。','上了就是上了。'])&&L[3]==='你那天說，你以為只有你。……我現在懂那個感覺了。'&&L[4]==='不是只有妳。'&&L[5]==='政大的山比較多。四年後，我會比你強壯。'&&!L.some(t=>/椰林大道|路燈|不甘心|差一點點|消化/.test(t)),J(L));
+  check('3. 電話（AA_298 第 9 節）：「台大法律。恭喜你。真的。」→ 可昕「……只高 0.1。」→ 祐廷「上了就是上了。」→「政大的山比較多。四年後，我會比你強壯。」；only_me 那兩句拿掉；沒有椰林大道、路燈、「一點點不甘心」「差一點點」「消化」',
+    J(L.slice(0,3))===J(['台大法律。恭喜你。真的。','……只高 0.1。','上了就是上了。'])&&said[1].who===said[0].who&&said[2].who!==said[0].who&&L[3]==='政大的山比較多。四年後，我會比你強壯。'&&!L.some(t=>/你以為只有你|不是只有妳/.test(t))&&!L.some(t=>/椰林大道|路燈|不甘心|差一點點|消化/.test(t)),J(L));
   check('3. 沒有重考期的讀書日／玩樂日紀錄（一樣多）：E29 的旁白不說',!L.includes('這半年，你幾乎每天都在念書。')&&!L.includes('這半年，你們很常騎去河堤。'));
   { const s3=JSON.stringify(G); for(const [k,n,want] of [['study',3,'這半年，你幾乎每天都在念書。'],['play',2,'這半年，你們很常騎去河堤。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=D-40; for(let i=0;i<n;i++){ G.day=D-40+i; EVENTS.habit('retake:'+k); } G.day=D; G.hour=20;
       said=[]; script=['四年後','到時候']; await EVENTS.run(eh); await new Promise(r=>setTimeout(r,20)); const LL=said.map(x=>x.t);

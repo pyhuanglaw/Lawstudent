@@ -36,7 +36,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
 (async()=>{
   const J=x=>JSON.stringify(x);
-  const LONG='祐廷：我從小就想念這裡。第一次社會考壞了，總分差了四分。先去念經濟，念了一個多月。', SHORT='祐廷：本來就想念法律。第一次沒考上。';
+  const LONG='祐廷：第一次社會考壞了，差四分。先去念了一個多月的經濟。', SHORT='祐廷：本來就想念法律。第一次沒考上。';
   /* ---------- Q3 ---------- */
   const talk=async(flags,pick)=>{ fresh(D('2025-08-23'),22.5,'dorm',Object.assign({introDone:true},flags)); picks=[pick]; await EVENTS.run(ev('ev_camp_d2_talk')); return lines(); };
   { const L=await talk({E24C_REASON:'honest'},'念過經濟系'); const i=L.indexOf('江明軒：為什麼重考？');

@@ -38,7 +38,7 @@ for line in section('晚餐').splitlines():
     if act: d['dadAct'] = act.group(1)
     dinner.append(d)
 reply = section('群組')
-rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(1)), 'no': q(re.search(r'「這週不回」→ 媽媽：(.*?)；', reply).group(1)), 'none': q(re.search(r'不回 → 爸爸兩小時後：(.*)$', reply, re.M).group(1))}
+rep = {'yes': q(re.search(r'「會回去」→ 媽媽：(.*?)；', reply).group(1)), 'no': q(re.search(r'「這週不回」→ 媽媽：(.*?)；', reply).group(1)), 'none': q(re.search(r'不回 → 爸爸(?:（[^）]*）)?兩小時後：(.*)$', reply, re.M).group(1))}
 out = {'source': REF.replace('origin/', '') + ' ' + sha, 'group': group, 'groupReply': rep, 'arrive': arrive, 'dinner': dinner, 'sisDinner': sis, 'morning': morning, 'car': car, 'back': back}
 dst = os.path.join(ROOT, 'src', 'data', 'home_lines.js')
 with open(dst, 'w', encoding='utf8') as fo:

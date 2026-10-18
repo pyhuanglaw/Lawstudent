@@ -59,7 +59,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   const e36=ev('ev_y0_e36');
   { econ(DK('2025-08-13'),20,'campus',{KX_CAR:'only_me',E36_RESULT:true}); picks=[0,0,0,0]; await EVENTS.run(e36); const a=lines().join('｜');
     econ(DK('2025-08-13'),20,'campus',{KX_CAR:'camp',E36_RESULT:true}); picks=[0,0,0,0]; await EVENTS.run(e36); const b=lines().join('｜');
-    check('1-6 E36：KX_CAR only_me＝「你那天說，你以為只有你。」「不是只有妳。」；camp 不加句子',a.includes('你那天說，你以為只有你。')&&a.includes('不是只有妳。')&&!b.includes('你那天說，你以為只有你。')); }
+    check('1-6 E36：KX_CAR 不管是什麼，放榜電話都沒有「你那天說，你以為只有你。」「不是只有妳。」（AA_298 第 9 節拿掉）',!a.includes('你以為只有你')&&!a.includes('不是只有妳')&&!b.includes('你以為只有你')); }
   { const ny=STORY.lunarNewYear?null:null; fresh(DK('2026-02-16'),21.5,'dorm',{dating_kexin:true,KX_CAR:'camp'}); const N=STORY.lunarNewYear(); G.day=N-1; G.weekday=wdOf(G.day); run(21.5,22.5); const M=txt('p:kexin').join('｜');
     check('1-6 法律系除夕：交往中、KX_CAR camp 也先接到電話「（電話響了。她那邊的鞭炮聲。）」「新年快樂。」（不是「今年不開玩笑了」）',PHONE.sent(G,'kx_kn_call')&&M.includes('新年快樂。')&&!M.includes('今年不開玩笑了'),M); }
   /* ---------- 舊存檔 ---------- */

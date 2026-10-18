@@ -263,7 +263,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:'classmate_mingxuan',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
       {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},
       {speaker:'player',text:'本來就想念法律。第一次沒考上。'},{speaker:'classmate_mingxuan',text:'好，懂了。'},{goto:'after'},
-      {label:'why_h'},{speaker:'player',text:'我從小就想念這裡。第一次社會考壞了，總分差了四分。先去念經濟，念了一個多月。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'after'},
+      {label:'why_h'},{speaker:'player',text:'第一次社會考壞了，差四分。先去念了一個多月的經濟。'},{speaker:'zhe',text:'差四分喔……那真的很煩。'},{goto:'after'},
       {label:'said'},{speaker:'zhe',text:'對齁。哥。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
       {label:'same'},{speaker:'zhe',text:'好喔。'},
       {label:'after'},

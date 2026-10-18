@@ -37,16 +37,17 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(D,10,'dorm',{LEAVE_WEEK:6,Y0_STICKY:true}); G.stage='econ'; said=[]; script=['請阿勳']; await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20));
   const L=said.map(x=>x.t);
   check('2. 阿勳「箱子我幫你封。你的膠帶貼得很醜。」…「一個人講，就是自言自語了。」→ 請吃飯 →「這是我吃過最有效率的告別。」',L[0]==='箱子我幫你封。你的膠帶貼得很醜。'&&L.includes('一個人講很怪啦。')&&L.includes('雞腿便當？……那我不客氣了。')&&G.flags.A3_TREAT===true,JSON.stringify(L));
-  check('3. 搬回臺北的家：在家、H.base、便利貼還在那句、選單（去學校／讀書／休息／睡覺，沒有回宿舍；使用者 21:5x 時段制）',HOME.at(G)&&G.home.base===true&&G.flags.Y0_MOVED_OUT===true&&L.includes('回到臺北的家拆箱時，檯燈上那張便利貼還在：「保齡球欠我一場。」')&&menus.length>=2&&menus[menus.length-1].includes('去學校')&&menus[menus.length-1].includes('讀書')&&menus[menus.length-1].includes('休息')&&!menus[menus.length-1].some(t=>/回宿舍/.test(t)),JSON.stringify(menus));
+  check('3. 搬回臺北的家：在家、H.base、便利貼還在那句、選單（讀書／休息／存檔／睡覺；沒有回宿舍、沒有去學校：使用者 10-18「重考中不要讓我去台大」）',HOME.at(G)&&G.home.base===true&&G.flags.Y0_MOVED_OUT===true&&L.includes('回到臺北的家拆箱時，檯燈上那張便利貼還在：「保齡球欠我一場。」')&&menus.length>=2&&!menus[menus.length-1].includes('去學校')&&menus[menus.length-1].includes('存檔')&&menus[menus.length-1].includes('讀書')&&menus[menus.length-1].includes('休息')&&!menus[menus.length-1].some(t=>/回宿舍/.test(t)),JSON.stringify(menus));
   check('3. 搬出以後 HOME.canGo 一直是 true（校門口「回臺北的家」每天都在）',HOME.baseMode(G)&&HOME.canGo(G));
   // 在家讀書
   const h0=G.hour, sl=HOME.y0Slot(G); script=['讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('4. 在家讀書：讀到這個時段結束（使用者 21:5x 時段制）；10/19 還沒決定重考（AA_218：2025-02 才決定），habit retake:study 不算（重考期 2/15～7/10 才算）',!!sl&&Math.abs(G.hour-Math.max(h0+0.5,sl.end))<1e-6&&EVENTS.habitCount({key:'retake:study'})===0,G.hour+' '+h0);
-  // 去學校（讀書做到晚上 22:30 以後就不能出門了：這一項從下午測）
-  G.hour=15; script=['去學校']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('5. 去學校：30 分鐘、到校門（校園）、不在家',!HOME.at(G)&&G.zone==='campus');
+  // 家裡的選單沒有「去學校」（使用者 10-18：「一個休學的人根本不會想再踏入台大」）
+  G.hour=15; menus=[]; script=['__none__']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('5. 下午在家的選單也沒有「去學校」',menus.length>0&&!menus.some(m=>m.some(t=>/去學校/.test(t))),JSON.stringify(menus[0]));
+  G.home.at=false; G.zone='gongguan';   /* 從外面（出遊演完、公館）回家 */
   // 回家：HOME.go 走 30 分鐘、還是 base
-  script=[]; G.hour=17; const t0=G.hour; try{ await HOME.go(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('6. 校門口回家：約 30 分鐘、在家、base',HOME.at(G)&&G.home.base===true&&Math.abs(G.hour-(t0+0.5))<1e-6,G.hour);
+  script=[]; G.hour=17; const t0=G.hour; try{ await HOME.go(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('6. 從外面回家：約 30 分鐘、在家、base',HOME.at(G)&&G.home.base===true&&Math.abs(G.hour-(t0+0.5))<1e-6,G.hour);
   // 不請
   fresh(D,10,'dorm',{LEAVE_WEEK:6}); G.stage='econ'; said=[]; script=['不請']; try{ await EVENTS.run(ev); await new Promise(r=>setTimeout(r,20)); }catch(e){}
   { const L7=said.map(x=>x.t); check('7. 不請：阿勳傳一張照片；還沒看過便利貼＝A3 開頭先演那一則（AA_154 A48 ②：便利貼人人都有），搬回家拆箱那句也有',PHONE.thread(G,'p:econ_zhengxun').some(m=>m.text==='📷（他自己買的便當）')&&G.flags.A3_TREAT===false&&L7[0]==='檯燈上多了一張便利貼。阿勳的字。'&&L7[1]==='保齡球欠我一場。'&&L7[2]==='箱子我幫你封。你的膠帶貼得很醜。'&&G.flags.Y0_STICKY===true,JSON.stringify(L7.slice(0,4))); }
