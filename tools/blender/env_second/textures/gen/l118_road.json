@@ -1,0 +1,44 @@
+{
+ "lane": {
+  "rect": [
+   -3.4,
+   3.4,
+   -42,
+   36.2
+  ],
+  "along": "z",
+  "file": "l118_road_lane.jpg",
+  "size": [
+   4064,
+   368
+  ]
+ },
+ "xinhai": {
+  "rect": [
+   -46.0,
+   46.0,
+   36.2,
+   46
+  ],
+  "along": "x",
+  "file": "l118_road_xinhai.jpg",
+  "size": [
+   4064,
+   432
+  ]
+ },
+ "heping": {
+  "rect": [
+   -46.0,
+   46.0,
+   -56,
+   -44.2
+  ],
+  "along": "x",
+  "file": "l118_road_heping.jpg",
+  "size": [
+   4064,
+   520
+  ]
+ }
+}
