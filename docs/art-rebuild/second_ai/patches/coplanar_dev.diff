@@ -1,0 +1,113 @@
+diff --git a/tools/blender/linze_exterior.py b/tools/blender/linze_exterior.py
+index 9f26e6ea..08cf432a 100644
+--- a/tools/blender/linze_exterior.py
++++ b/tools/blender/linze_exterior.py
+@@ -121,10 +121,11 @@ def wall_row(f, mat, ta, tb, y0, y1, ys, ye, wins, ww, **kw):
+ 
+ # ---------------- 建築本體（看不到的內部，只在窗後面與穿堂側面露出）----------------
+ gr = 'granite'
+-B.box('core_W', MAT[gr], -w / 2 + CORE, -PW / 2, 0, PH, -d / 2 + CORE, d / 2 - CORE, root)
+-B.box('core_EA', MAT[gr], PW / 2, w / 2 - CORE, 0, PH, -d / 2 + CORE, d / 2 - RD, root)
+-B.box('core_EB', MAT[gr], PW / 2 + RW, w / 2 - CORE, 0, PH, d / 2 - RD, d / 2 - CORE, root)
+-B.box('core_EC', MAT[gr], PW / 2, PW / 2 + RW, RH, PH, d / 2 - RD, d / 2 - CORE, root)          # 右邊退縮玻璃牆的上面（底面＝退縮處的天花板）
++PHc = PH - 0.01                             # 本體的頂面比大梁低 1 cm（BUG-COPLANAR-DEV：同高會疊在一起）
++B.box('core_W', MAT[gr], -w / 2 + CORE, -PW / 2, 0, PHc, -d / 2 + CORE, d / 2 - CORE, root)
++B.box('core_EA', MAT[gr], PW / 2, w / 2 - CORE, 0, PHc, -d / 2 + CORE, d / 2 - RD, root)
++B.box('core_EB', MAT[gr], PW / 2 + RW, w / 2 - CORE, 0, PHc, d / 2 - RD, d / 2 - CORE, root)
++B.box('core_EC', MAT[gr], PW / 2, PW / 2 + RW, RH, PHc, d / 2 - RD, d / 2 - CORE, root)          # 右邊退縮玻璃牆的上面（底面＝退縮處的天花板）
+ B.box('core_up', MAT[gr], -w / 2 + CORE, w / 2 - CORE, PH + 0.01, yF(TOP), -d / 2 + CORE, d / 2 - CORE, root)
+ B.box('core_roofroom', MAT['precast'], -w / 2 + 3.6, w / 2 - 3.6, yF(TOP), H - 0.6, -d / 2 + 3.6, d / 2 - 3.6, root)   # 頂樓開放層裡面的機房（退縮 3.6 m：柱子之間看得到天空）
+ 
+@@ -138,9 +139,10 @@ for f in 'SNEW':
+         else: segs = [trng(f)]
+         for (ta, tb) in segs:
+             wins = [c for (b0, b1) in bl if b0 >= ta - 1e-6 and b1 <= tb + 1e-6 for c in ((b0 + b1) / 2 - 0.62, (b0 + b1) / 2 + 0.62)]
+-            wall_row(f, gr, ta, tb, y0, y0 + h, ys, ye, wins, 0.82, hood=False, sill='graniteD', glass_n=-0.3)
++            wall_row(f, gr, ta, tb, y0, y0 + h - (0.3 if i == BASE[-1] else 0.0), ys, ye, wins, 0.82, hood=False, sill='graniteD', glass_n=-0.3)   # 三樓的牆到石材帶下面為止（BUG-COPLANAR-DEV：原本和石材帶重疊 30 cm，頂面、背面同一個平面）
+     # 基座和上面之間：往外伸的灰色石材帶（照片：基座頂上一道水平線）
+-    ta, tb = trng(f, 0.25); BOX('graniteD', f, ta, tb, PH - 0.3, PH, -CORE, 0.25)
++    ta, tb = trng(f, 0.25)
++    for (a_, b_) in ([(ta, -PW / 2 - 1.2), (PW / 2 + 1.2, tb)] if f in 'SN' else [(ta, tb)]): BOX('graniteD', f, a_, b_, PH - 0.3, PH, -CORE, 0.25)   # 穿堂上面是大梁（BUG-COPLANAR-DEV：原本石材帶穿過大梁，頂面、背面同一個平面）
+ 
+ # ---------------- 四～九樓：灰色帶窗層與紅磚窗格 ----------------
+ for f in 'SNEW':
+@@ -168,14 +170,14 @@ for f in 'SNEW':
+             nmul = max(1, round((b - a) / 1.25))
+             for m in range(1, nmul): xm = a + (b - a) * m / nmul; BOX('frame', f, xm - 0.03, xm + 0.03, y0 + 0.95, y0 + 2.85, -0.52, -0.44, 'mul')
+             BOX('frame', f, a, b, y0 + 2.2, y0 + 2.25, -0.52, -0.44, 'mul')
+-        if name: BOX('granite', f, -8.22, 8.22, y0 + 0.24, y0 + fh - 0.24, -CORE, 0.4)   # 館名石材帶（字由遊戲畫）；兩端比灰色牆柱多 2 cm（原本同一個平面，會閃）
++        if name: BOX('granite', f, -8.22, 8.22, y0 + 0.24, y0 + fh - 0.24, 0.05, 0.4)   # BUG-COPLANAR-DEV：從灰色牆柱的前面（0.05）開始，不再和牆柱、窗下牆重疊   # 館名石材帶（字由遊戲畫）；兩端比灰色牆柱多 2 cm（原本同一個平面，會閃）
+     for i in BRICK:
+         y0 = yF(i); ys, ye = y0 + 0.95, y0 + 2.65
+         wins = []
+         for (b0, b1) in bl:
+             pier = bw - 3 * WW - 2 * MW; c0 = b0 + pier / 2 + WW / 2
+             wins += [c0 + k * (WW + MW) for k in range(3)]
+-        wall_row(f, 'brick', ta, tb, y0, y0 + fh, ys, ye, wins, WW)
++        wall_row(f, 'brick', ta, tb, y0 + 0.12, y0 + fh, ys, ye, wins, WW)   # 磚牆從樓板線上面開始（BUG-COPLANAR-DEV：原本和樓板線重疊 12 cm）
+         BOX('precast', f, tA if f in 'SN' else ta, tB if f in 'SN' else tb, y0 - 0.0, y0 + 0.12, -CORE, 0.12)   # 樓板線（細的灰色帶）
+ 
+ # ---------------- 十樓：開放層（女兒牆、方柱）＋往外伸的大屋頂板 ----------------
+@@ -193,7 +195,7 @@ B.box('roof_slab', MAT['precast'], -w / 2 - 1.8, w / 2 + 1.8, H - 0.6, H, -d / 2
+ x0, x1 = -PW / 2 - LW, -PW / 2 - 0.2; gh = RH - 0.4 - PF
+ PANE('glass_lobby', 'S', x0, x1, PF, PF + gh, 0.03)
+ for k in range(7): xx = x0 + (x1 - x0) * k / 6; BOX('frame', 'S', xx - 0.05, xx + 0.05, PF, PF + gh, 0.0, 0.12, 'lf')
+-for yy in (PF + 2.9, PF + gh - 0.06): BOX('frame', 'S', x0, x1, yy, yy + 0.12, 0.0, 0.12, 'lf')
++for yy in (PF + 2.9, PF + gh - 0.06): BOX('frame', 'S', x0, x1, yy, yy + 0.12, 0.0, 0.125, 'lf')   # 橫框比直框凸 5 mm（BUG-COPLANAR-DEV：交叉處前面同一個平面）
+ BOX('granite', 'S', x0 - 0.2, x1 + 0.2, PF + gh, RH, -CORE, 0.25)                # 玻璃上面的石材楣
+ BOX('granite', 'S', x1, -PW / 2, PF, RH, -CORE, 0.0)                              # 玻璃和穿堂之間的窄牆
+ xr0 = PW / 2; B.box('recess_floor', MAT['paver'], xr0, xr0 + RW, 0, PF, d / 2 - RD, d / 2, root)
+@@ -226,7 +228,7 @@ B.quad('pass_ceiling', MAT['ceiling'], [(-PW / 2, PH, -d / 2 + 1.2), (PW / 2, PH
+ for x in (-3.5, 0.0, 3.5): B.box(nm('cb'), MAT['ceiling'], x - 0.22, x + 0.22, PH - 0.55, PH, -d / 2 + 1.2, d / 2 - 1.2, root)
+ zz = -d / 2 + 3
+ while zz < d / 2 - 1.2:
+-    B.box(nm('cb'), MAT['ceiling'], -PW / 2, PW / 2, PH - 0.5, PH, zz - 0.22, zz + 0.22, root); zz += 3   # 橫梁比縱梁淺 5 cm（交叉處底面不重疊）
++    B.box(nm('cb'), MAT['ceiling'], -PW / 2, PW / 2, PH - 0.5, PH - 0.01, zz - 0.22, zz + 0.22, root); zz += 3   # 橫梁比縱梁淺 5 cm（交叉處底面不重疊）；頂面低 1 cm（頂面也不重疊）
+ for x in (-5.2, -1.75, 1.75, 5.2):
+     zz = -d / 2 + 1.5
+     while zz < d / 2 - 1.2:
+@@ -239,7 +241,7 @@ for sx, za, zb in ((-1, -d / 2 + 0.7, d / 2 - 0.7), (1, -d / 2 + 0.7, d / 2 - RD
+     zz = za
+     while zz <= zb + 1e-6:
+         B.box(nm('pm'), MAT['frame'], xg - 0.06 * sx - 0.05, xg - 0.06 * sx + 0.05, PF, PF + gh2, zz - 0.05, zz + 0.05, root); zz += 1.6
+-    B.box(nm('pm'), MAT['frame'], xg - 0.06 * sx - 0.05, xg - 0.06 * sx + 0.05, PF + 2.8, PF + 2.92, za, zb, root)
++    B.box(nm('pm'), MAT['frame'], xg - 0.06 * sx - 0.055, xg - 0.06 * sx + 0.055, PF + 2.8, PF + 2.92, za, zb, root)   # 橫框比直框厚 5 mm（交叉處側面不同平面）
+ # 大廳自動門（遊戲：「進入霖澤館」）：門框（兩側＋上框＋中縫）、深色玻璃門片
+ xd0, xd1 = -PW / 2 + 0.02, -PW / 2 + 0.17
+ for (za, zb) in ((4.5 - 1.7, 4.5 - 1.5), (4.5 + 1.5, 4.5 + 1.7), (4.5 - 0.03, 4.5 + 0.03)): B.box(nm('df'), MAT['frame'], xd0, xd1, PF, PF + 2.5, za, zb, root)
+diff --git a/tools/blender/wancai_exterior.py b/tools/blender/wancai_exterior.py
+index 4574032f..c7fc173f 100644
+--- a/tools/blender/wancai_exterior.py
++++ b/tools/blender/wancai_exterior.py
+@@ -243,7 +243,7 @@ def build_windows():
+             x, y, z = fpt(f, c, ys, 0); ob = B.instance(me, f'w{k}_{j}', x, y, z, par, ROT[f]); ob.scale = (ww / pw, 1.0, wh / ph)   # Blender 的 z＝遊戲的高
+ 
+ # ---------------- 建築本體（花崗石；窗、紅磚、窗框都貼在外面，和套件一樣：鏡頭碰撞就是這個方塊）----------------
+-B.box('core', MAT['granite'], -w / 2, w / 2, 0, H, -d / 2, d / 2, root)
++B.box('core', MAT['granite'], -w / 2, w / 2, 0, H - 0.01, -d / 2, d / 2, root)   # 頂面比石材帶低 1 cm（BUG-COPLANAR-DEV：同高的頂面疊在一起，屋頂板下面）
+ 
+ def front_skip(fl, t):   # 正面被弧形量體、平台／陽台／一樓入口、凸出量體擋住的開間（和套件一樣）
+     return (fl < 2 and ((LX0 - 0.4 < t < BX1 + 0.4) or (DCX - DR - 0.4 < t < DCX + DR + 0.4))) or (fl < 3 and t > BX1 - 0.4)
+@@ -251,7 +251,7 @@ def front_skip(fl, t):   # 正面被弧形量體、平台／陽台／一樓入
+ for f in 'SNEW':
+     Lf = FACES[f]; inner = Lf - 2 * CW; nb = max(2, round(inner / 2.9)); bw = inner / nb; upY = yF(lowF)
+     for k in (-1, 1):   # 角上的寬花崗石（三樓以上）
+-        BOX('granite', f, k * (Lf / 2 - CW / 2) - CW / 2, k * (Lf / 2 - CW / 2) + CW / 2, upY - 0.4, H, 0, 0.44, 'corner')
++        BOX('granite', f, k * (Lf / 2 - CW / 2) - CW / 2, k * (Lf / 2 - CW / 2) + CW / 2, upY - 0.4, H - 0.005, 0, 0.44, 'corner')   # 頂面低 5 mm（和石材帶的頂面錯開）
+     for fl in range(nf):
+         y0, fhh = yF(fl), hF(fl)
+         upper = fl >= lowF and fl != nf - 1; ribbon = fl == lowF - 1
+@@ -276,11 +276,11 @@ for f in 'SNEW':
+                 wh = fhh - 1.47; ww = (bw - 0.62) / 2 - 0.14
+                 for dx in (-1, 1): window(f, t + dx * (ww / 2 + 0.14), ww, wh, y0 + 1.05, 'box')
+                 BOX('brick', f, t - 0.14, t + 0.14, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
+-                BOX('brick', f, t - bw / 2 - 0.31, t - bw / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
++                BOX('brick', f, max(t - bw / 2 - 0.31, -inner / 2), t - bw / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')   # 第一根只到角上的花崗石為止（BUG-COPLANAR-DEV：原本伸進去 31 cm）
+             elif fl < lowF - 1:
+                 ww, wh = bw * 0.2, fhh - 1.5
+                 for dx in (-0.17, 0.17): window(f, t + dx * bw, ww, wh, y0 + 0.9, 'base')
+-        if upper: BOX('brick', f, inner / 2 - 0.31, inner / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
++        if upper: BOX('brick', f, inner / 2 - 0.31, inner / 2, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')   # 最後一根也是
+ 
+ # ---------------- 頂上：灰色石材帶＋往外伸出的薄屋頂板＋屋頂設備、鏤空的混凝土大框架 ----------------
+ B.box('topband', MAT['granite'], -w / 2 - 0.25, w / 2 + 0.25, H - 1.4, H, -d / 2 - 0.25, d / 2 + 0.25, root)

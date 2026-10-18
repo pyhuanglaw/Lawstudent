@@ -243,7 +243,7 @@ def build_windows():
             x, y, z = fpt(f, c, ys, 0); ob = B.instance(me, f'w{k}_{j}', x, y, z, par, ROT[f]); ob.scale = (ww / pw, 1.0, wh / ph)   # Blender 的 z＝遊戲的高
 
 # ---------------- 建築本體（花崗石；窗、紅磚、窗框都貼在外面，和套件一樣：鏡頭碰撞就是這個方塊）----------------
-B.box('core', MAT['granite'], -w / 2, w / 2, 0, H, -d / 2, d / 2, root)
+B.box('core', MAT['granite'], -w / 2, w / 2, 0, H - 0.01, -d / 2, d / 2, root)   # 頂面比石材帶低 1 cm（BUG-COPLANAR-DEV：同高的頂面疊在一起，屋頂板下面）
 
 def front_skip(fl, t):   # 正面被弧形量體、平台／陽台／一樓入口、凸出量體擋住的開間（和套件一樣）
     return (fl < 2 and ((LX0 - 0.4 < t < BX1 + 0.4) or (DCX - DR - 0.4 < t < DCX + DR + 0.4))) or (fl < 3 and t > BX1 - 0.4)
@@ -251,7 +251,7 @@ def front_skip(fl, t):   # 正面被弧形量體、平台／陽台／一樓入�
 for f in 'SNEW':
     Lf = FACES[f]; inner = Lf - 2 * CW; nb = max(2, round(inner / 2.9)); bw = inner / nb; upY = yF(lowF)
     for k in (-1, 1):   # 角上的寬花崗石（三樓以上）
-        BOX('granite', f, k * (Lf / 2 - CW / 2) - CW / 2, k * (Lf / 2 - CW / 2) + CW / 2, upY - 0.4, H, 0, 0.44, 'corner')
+        BOX('granite', f, k * (Lf / 2 - CW / 2) - CW / 2, k * (Lf / 2 - CW / 2) + CW / 2, upY - 0.4, H - 0.005, 0, 0.44, 'corner')   # 頂面低 5 mm（和石材帶的頂面錯開）
     for fl in range(nf):
         y0, fhh = yF(fl), hF(fl)
         upper = fl >= lowF and fl != nf - 1; ribbon = fl == lowF - 1
@@ -276,11 +276,11 @@ for f in 'SNEW':
                 wh = fhh - 1.47; ww = (bw - 0.62) / 2 - 0.14
                 for dx in (-1, 1): window(f, t + dx * (ww / 2 + 0.14), ww, wh, y0 + 1.05, 'box')
                 BOX('brick', f, t - 0.14, t + 0.14, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
-                BOX('brick', f, t - bw / 2 - 0.31, t - bw / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
+                BOX('brick', f, max(t - bw / 2 - 0.31, -inner / 2), t - bw / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')   # 第一根只到角上的花崗石為止（BUG-COPLANAR-DEV：原本伸進去 31 cm）
             elif fl < lowF - 1:
                 ww, wh = bw * 0.2, fhh - 1.5
                 for dx in (-0.17, 0.17): window(f, t + dx * bw, ww, wh, y0 + 0.9, 'base')
-        if upper: BOX('brick', f, inner / 2 - 0.31, inner / 2 + 0.31, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')
+        if upper: BOX('brick', f, inner / 2 - 0.31, inner / 2, y0 + 1.05, y0 + fhh - 0.42, 0, 0.32, 'pier')   # 最後一根也是
 
 # ---------------- 頂上：灰色石材帶＋往外伸出的薄屋頂板＋屋頂設備、鏤空的混凝土大框架 ----------------
 B.box('topband', MAT['granite'], -w / 2 - 0.25, w / 2 + 0.25, H - 1.4, H, -d / 2 - 0.25, d / 2 + 0.25, root)
