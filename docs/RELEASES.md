@@ -21,7 +21,7 @@
 | v9.9.1 | `6d5c3279`（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 的合併 commit；遊戲檔案＝測試過的候選 `09630e60`） | 2026-10-16 19:56:07 UTC（GitHub Actions pages build and deployment #22 成功） | `19b97eff`（v9.9） |
 | v9.9.2 | （測試中；開遊戲加速：標題畫面先出來、人物背景下載） | — | `6d5c3279`（v9.9.1） |
 | v9.10 | `8c63ea53`（PR #6） | 2026-10-18 05:13 UTC | `6d5c3279`（v9.9.1） |
-| v9.10.1 | `4c0cbefc`（PR [pyhuanglaw/Lawstudent#7](https://github.com/pyhuanglaw/Lawstudent/pull/7) 的合併 commit；遊戲檔案＝開發分支 `f4b47480`） | （部署 run 39126382240，確認後補時間） | `8c63ea53`（v9.10） |
+| v9.10.1 | `4c0cbefc`（PR [pyhuanglaw/Lawstudent#7](https://github.com/pyhuanglaw/Lawstudent/pull/7) 的合併 commit；遊戲檔案＝開發分支 `f4b47480`） | 2026-10-18 12:14:59 UTC（run 39126382240 success） | `8c63ea53`（v9.10） |
 
 ---
 
@@ -35,7 +35,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.1（2026-10-18 12:13 UTC 發布 `4c0cbefc`，PR #7；GitHub Pages 部署 run 39126382240）——經濟系 30 分鐘版＋可昕與其他人物逐場確認
+## v9.10.1（2026-10-18 12:13 UTC 發布 `4c0cbefc`，PR #7；GitHub Pages 部署 run 39126382240 12:14:59 成功）——經濟系 30 分鐘版＋可昕與其他人物逐場確認
 
 **使用者 2026-10-18 11:5x 對 LAWWW-C：「先發布再檢查了」**——照使用者指示先發布，docs/TESTING.md 第五節發布前清單改成發布後立刻跑（結果補在這一節）。上一個穩定版 v9.10 `8c63ea53`（出事時回復用）。
 

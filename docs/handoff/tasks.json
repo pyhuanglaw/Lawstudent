@@ -19109,7 +19109,7 @@
    "title": "AA_303：使用者逐場確認可昕的劇情（經濟系那一年）：停點改 27 場、新增高雄三天兩夜與 2/15 她住進來、多場台詞換",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -19123,14 +19123,14 @@
    },
    "source": "AA-C 8aa33db0（AA_303、DL-AA-8aa33db0）",
    "authorized": "使用者七批選擇題",
-   "next": "第 1 節停點、第 3 節日期卡、第 17 場 2/13（96cf3d97）；第 15 場高雄背景 kh_dome／kh_lotus_bench（f2f358aa）；第 2 節其他十場（子代理 85eea326，合併 0a8ccfdd，單元測試 299 支全過）。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句；換完還對不上的 6 處（見 AA304-QA2-1018）"
+   "next": "【12:2x：retake_home（RH-M0 2/15、C0／C4／L6）5ac83dbc、E27 遲到電話 a60f111e 都接了；AA_303 全部整合】第 1 節停點、第 3 節日期卡、第 17 場 2/13（96cf3d97）；第 15 場高雄背景 kh_dome／kh_lotus_bench（f2f358aa）；第 2 節其他十場（子代理 85eea326，合併 0a8ccfdd，單元測試 299 支全過）。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句；換完還對不上的 6 處（見 AA304-QA2-1018）"
   },
   {
    "id": "AA304-QA2-1018",
    "title": "AA_304：QA 劇本第二份（10/17→8/13）審閱 18 列，給 LAWWW 12 列",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -19144,7 +19144,7 @@
    },
    "source": "AA-C 8fcc2c7e（AA_304、DL-AA-8fcc2c7e）",
    "authorized": "使用者「照這份」、AA 定稿（D100）",
-   "next": "5bf15ccb：第 1、2、10、12、16 列。4e5d4bec：第 3 列（11/6 17:20 約、17:45 醉月湖、她剛上完體育課）、第 13～15 列（7/25 在家版 07:30 開頭、客運版半小時＋一個人走了一整天、22:30 和好改電話 ev_y0_kh_madeup）、第 17、18 列（8/13）。第 11 列（6/24「她」）在 retake_home RH-C4，等 AA 交 retake_home 一起。第 8、9 列等使用者（AA 問）。另外 AA_303 換完還對不上的 6 處已問 AA（8/30 政大校門／公車／催促電話、7/25 客運版「下午那樣」、E06 修車訊息、E12 18:15 手機版舊台詞、E35「我在樓下等你」、E21o 字幕）"
+   "next": "【12:2x a60f111e：AA_307 給 LAWWW 的句子都接了（2/13 遲到電話、8/30 開車與催促電話與結尾、7/25「早上那樣」、E06、E12 18:30 手機版、E35、E21o、K7）；5ac83dbc：retake_home 93f356cc（RH-M0、C0／C4／L6、6/24「她」、讀書在書桌）】5bf15ccb：第 1、2、10、12、16 列。4e5d4bec：第 3 列（11/6 17:20 約、17:45 醉月湖、她剛上完體育課）、第 13～15 列（7/25 在家版 07:30 開頭、客運版半小時＋一個人走了一整天、22:30 和好改電話 ev_y0_kh_madeup）、第 17、18 列（8/13）。第 11 列（6/24「她」）在 retake_home RH-C4，等 AA 交 retake_home 一起。第 8、9 列等使用者（AA 問）。另外 AA_303 換完還對不上的 6 處已問 AA（8/30 政大校門／公車／催促電話、7/25 客運版「下午那樣」、E06 修車訊息、E12 18:15 手機版舊台詞、E35「我在樓下等你」、E21o 字幕）"
   },
   {
    "id": "AA305-OTHERS-1018",
@@ -19207,7 +19207,7 @@
    },
    "source": "AA-C 1be8842d（AA_306、交接紀錄 94480926）",
    "authorized": "使用者選擇題（「階梯也用選擇題給我」「在房間書桌念書」）",
-   "next": "cb4a2ffa：y0s1 換 6b01c841（五個人問完）、y0s2 照 1be8842d；AA_305 更正法律系「他保齡球打得比我好太多了。」。ded5da04：階梯 y0s1／y0s2 白名單換 1be8842d、labelsRef 加；R1／R5／R2／同一張桌子場景改「祐廷家・你的房間」home_room_day；在家背景重考期白天、深夜用房間。AA 推了日期卡（adf50c8b）。還沒改（AA_306「⚠」一節，下一班 AA 接）：retake_home_v1.json 讀書那 8 處、考場「五月報名那天，餐桌兩邊」（報名可以留餐桌）。品妤、唐睿、阿勳、韋綸的階梯 AA 還沒問"
+   "next": "【12:2x 5ac83dbc：階梯最終版 93f356cc（大一下品妤 4、唐睿 2、阿勳 1、韋綸 5；韋綸大一下 L5～L8 AA 下一班問）】cb4a2ffa：y0s1 換 6b01c841（五個人問完）、y0s2 照 1be8842d；AA_305 更正法律系「他保齡球打得比我好太多了。」。ded5da04：階梯 y0s1／y0s2 白名單換 1be8842d、labelsRef 加；R1／R5／R2／同一張桌子場景改「祐廷家・你的房間」home_room_day；在家背景重考期白天、深夜用房間。AA 推了日期卡（adf50c8b）。還沒改（AA_306「⚠」一節，下一班 AA 接）：retake_home_v1.json 讀書那 8 處、考場「五月報名那天，餐桌兩邊」（報名可以留餐桌）。品妤、唐睿、阿勳、韋綸的階梯 AA 還沒問"
   },
   {
    "id": "BUG-E12-ARRIVE-LATE-1018",
@@ -19236,7 +19236,7 @@
    "title": "美國校園 us_campus 接成區域的接線 patch（outdoorZone、入口互動點、關城市遠景剪影、us_season 四季），對最新 RULE_SOURCE",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -19250,13 +19250,13 @@
    },
    "source": "LAWWW-C 11:4x 派工（D99 第三優先：美國交換）",
    "authorized": "已批准的美國篇場景（SCN-US-02 v3、ART-US-SEASON）",
-   "next": "LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
+   "next": "【12:1x LAWWW2-C 交 4cee25c8：patches/us_campus_wire.diff（先套 us_season.diff），us3d us_campus／us_lawlib、engine3d skyline 一行、exchange3d US_ZONES、assets3d、us_layouts；nav_us_unit 74 項、flow_us_campus.py ALL PASS。v9.10.1 已發布，下一版接】LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
    "xai": {
     "spec": "SCN-US-02 v3 layout、ART-US-SEASON、LAWWW2 臨時接線經驗",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "patch 對最新 RULE_SOURCE apply 乾淨、node 測試過、遊戲內截圖",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   }
  ]
