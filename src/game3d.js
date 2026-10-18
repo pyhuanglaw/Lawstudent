@@ -511,7 +511,7 @@ const GAME = (function(){
       h+='<div class="item'+(m.from==='player'?' me':'')+'"><div class="muted">'+msgWhen(m)+'</div>'+msgLine(m)+btn+'</div>'; }
     return h; }
   function invTodayHTML(){ if(typeof INV==='undefined') return ''; const L=INV.todayLines(G); if(!L.length) return ''; return '<div class="item"><b>今天約好的</b>'+L.map(t=>'<div>'+t.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'})[c])+'</div>').join('')+'</div>'; }
-  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); }
+  function openPhone(tab,th){ if(!G||GM.titleIdle) return; if(menuOpen) closeMenu(); phoneOpen=true; if(tab) phoneTab=tab; phoneThread=th||null; phonePerson=null; E.paused=true; $('phone').classList.remove('hide'); renderPhone(); phoneBadge(); if(th){ const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; } }   /* 直接打開某一段對話（自動跳出來的訊息）：捲到最新那一則（使用者 10-18：「還要往下滑，新的在最下面」）*/
   let phoneWaiters=[];
   /* 對話、選項出來的時候，手機、筆記本開著就先收起來（BB-C BB_218：起床約 4 秒後才出「早安。今天的課：」，玩家先打開手機，對話就壓在手機下面；
      2026-10-17 經濟系 9/11 下課選單同樣被手機蓋住）。一定要回的訊息（ask.must）還沒回時不收。不跑 afterPhoneClose（那是玩家自己看完手機的旁白）*/

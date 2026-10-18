@@ -19643,7 +19643,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "source": "使用者 2026-10-18 14:1x 截圖（同一則「烤肉沒接到cg」）；LAWWW-C 看截圖發現，使用者沒有直接說；14:5x 使用者：「有時候顯示藍色衣服的是唐睿 有時候又變成橘色衣服的」（截圖：旁白「唐睿幫你把箱子搬到樓下」，台上疊著阿勳和韋綸；橘色＝韋綸）",
+   "source": "使用者 2026-10-18 14:1x 截圖（同一則「烤肉沒接到cg」）；LAWWW-C 看截圖發現，使用者沒有直接說；14:5x 使用者：「有時候顯示藍色衣服的是唐睿 有時候又變成橘色衣服的」（截圖：旁白「唐睿幫你把箱子搬到樓下」，台上疊著阿勳和韋綸；橘色＝韋綸）；15:0x：「而且他們輪流講話，後面的人還會被擋住」",
    "authorized": "一般 bug",
    "next": "修好（adv3d.js solo）：手機直向只顯示最後說話的那個人（另一框 .off）；沒有立繪的人說話＝台上沒人；旁白時加 #adv.narr 變暗（截圖看起來還沒暗，可能是截圖太早，待 BB 看）。瀏覽器直向實演 E08：品妤說話只有品妤、唐睿說話只有唐睿。橫向不變"
   },
@@ -19786,6 +19786,160 @@
    "source": "使用者 2026-10-18 14:3x：「他問完我剛剛那個問題之後我回到宿舍又卡住了……可以轉我的鏡頭，但沒有任何播放也沒有按鍵可以按」「我重新開遊戲讀進去自動存檔，就直接跳劇情要陪可昕上課」",
    "authorized": "P0 bug",
    "next": "搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
+  },
+  {
+   "id": "PHONE-LINE-UI-1018",
+   "title": "手機訊息改成 LINE 的樣子：對話列表（每個人／群組一格、最新的對話排最上面、未讀數）、點進去才看那個人的對話",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系開學（第一則訊息）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「手機訊息跳出出來，結果還要往下滑新的在最下面，我希望你可以參考line每個人物的對話框點進去才看得到人物由上往下排列最新的訊息在上面如果你這一批做不完你就記錄成任務」",
+   "authorized": "使用者直接指示",
+   "next": "這一批先做：自動跳出來的對話打開時捲到最新一則（game3d.js openPhone）。還沒做：對話列表照最後一則訊息時間排序、最新在上、每格頭像＋最後一句＋未讀數；點進去才看；跳出來的時候先停在列表還是直接進那一段，問使用者"
+  },
+  {
+   "id": "BUG-NYE-ORIGIN-1018",
+   "title": "經濟系跨年（從家裡出發）演完跳回醉月湖（最後一個 3D 區域）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "12/31 跨年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「跨年的劇情結束之後居然是跳回醉月湖」",
+   "authorized": "一般 bug",
+   "next": "修好：outings3d.js 從家裡出發的 2D 出遊途中 OUT.fromHome=true，home3d.js backdrop 照它把 3D 藏著；瀏覽器還沒驗"
+  },
+  {
+   "id": "KH-TRIP-MORE-1018",
+   "title": "高雄三天兩夜景點太少：要再加地點（劇情、台詞），每個地點跟使用者要圖",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-01-31 高雄三天兩夜",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「跨年之後就變成約我去高雄玩高雄景點太少了三天兩夜怎麼只能去這些地方這個都要再加，然後跟我要圖」",
+   "authorized": "使用者直接指示",
+   "next": "下一班 AA：用選擇題問使用者要加哪些高雄景點、各演什麼（ev_y0_kh3，AA_303 第 15 場）；BB 照 D97 跟使用者要每個地點的圖（純場景一次四份）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；AA_303 第 15 場；events.js ev_y0_kh3",
+    "acceptance": "三天的行程每天有幾個地點、每個地點有台詞和圖",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "ECON-TERM-END-CUE-1018",
+   "title": "跨年之前學期已經結束（16 週制），遊戲裡完全看不出來：要讓玩家知道（例：日期卡一句、可昕的訊息）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "12 月第 16 週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「而且跨年之前應該學期就結束了 可是完全在遊戲中不知道」",
+   "authorized": "使用者直接指示",
+   "next": "下一班 AA 用選擇題問使用者怎麼交代（祐廷已休學；是可昕／經濟系同學那邊的期末、放寒假），寫好交 LAWWW",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；calendar.js 16 週制",
+    "acceptance": "學期結束那幾天玩家看得到一句交代",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "KH-RETAKE-PACING-1018",
+   "title": "跨年以後去高雄就討論休學／重考，太突然",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-01-31 高雄",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「然後跨年玩去高雄就討論休息了，好突然」「討論休學」",
+   "authorized": "使用者直接指示",
+   "next": "下一班 AA 用選擇題和使用者討論：高雄之前要不要先有鋪陳（和 CRAM-DEC-SCENE-1018 一起看）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；ev_y0_kh3；AA_303",
+    "acceptance": "高雄那段之前有讓重考話題自然出現的場景",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "CRAM-DEC-SCENE-1018",
+   "title": "12 月一個人回以前的補習班問重考班：現在只是日期卡一句，沒有演；高雄時可昕卻說「你 12 月就想重考了吧」",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "2024-12 補習班",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:0x：「12月去補習班的劇情也沒有演出了 可是在高雄討論重考的時候 可昕說你12月就想重考了吧」",
+   "authorized": "使用者直接指示",
+   "next": "AA_300 第 4 節把 12/13 補習班那場改成日期卡一句（econff3d.js CARDS 11/07～12/30）。下一班 AA 用選擇題問使用者：恢復成演出來的一場，還是改高雄那句；跟 KH-RETAKE-PACING-1018 一起",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；econff3d.js CARDS；AA_300 第 4 節",
+    "acceptance": "12 月補習班有演出來，或高雄那句和前面接得上",
+    "ack": "未派"
+   }
   }
  ]
 }
