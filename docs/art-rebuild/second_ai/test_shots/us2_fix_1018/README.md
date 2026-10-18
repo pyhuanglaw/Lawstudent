@@ -25,11 +25,28 @@ LAWWW2-C，2026-10-18。LAWWW-C 00:50 派：BB-C 跑 `flow_us_exchange` 抓到�
   - **改之前的點跑這條會 FAIL**：冰箱前 (−3.27, 2.12)、(−3.23, 1.96)… → 看爐子。
   - 改之後 PASS，整支 ALL PASS。
 
+## 追加：合租戶臥室 A 門口走不到（LAWWW-C 02:50 派，併進同一包）
+- **問題**：LAWWW-C 跑 `tests/reachability_all.py --zones us_shared`，臥室 A 的門口（門關著的那個互動點）走不到。
+  - 原因：電視櫃第一版斜放在客廳東南角 (0.8, −2.4)，正好在臥室 A 門口；和行李箱 (0.75, −1.05) 中間的縫比人窄。
+- **改法**（`src/data/us_shared_layout.js`，重新匯出 `us_shared.glb`）：
+  - 電視櫃 → 東牆、兩扇臥室門中間 (1.12, −1.2)，靠牆擺正（ry −90°），面向沙發；
+  - 行李箱 → 客廳東北角、臥室 B 門的北邊 (0.9, 0.55)，不擋門。
+  - patch 裡 `src/data/us_layouts.js` 的 `US_SHARED_LAYOUT` 那一行一起換新。
+- **測試**：
+  - `python3 tests/reachability_all.py <url> --zones us_shared`：**ALL PASS**（12 個互動點都站得到、走得到；坐下的點都走得到；沒有 JS 例外）。
+  - `node tests/nav_us_unit.js`：ALL PASS。
+  - 改之前的失敗是 LAWWW-C 02:50 跑出來的，我沒有在舊版重跑。
+- 前後截圖（11:00；左邊改之前，右邊改之後）：
+
+| 站在客廳往東看 | 從上面看 |
+|---|---|
+| ![](bedA_before_east.webp) ![](bedA_after_east.webp) | ![](bedA_before_top.webp) ![](bedA_after_top.webp) |
+
 ## 交付
 - 我的分支（`claude/focused-cray-c9uwvw`）：`src/data/us_apartment_layout.js`、`src/data/us_shared_layout.js`、`assets/models/env/second_ai/us_apartment.glb`、`us_shared.glb`（＋`.json`）。
-- patch：`docs/art-rebuild/second_ai/patches/us2_fix_1018.diff`，對 LAWWW-C 分支 `5fd81da5` 做的，`git apply` 乾淨。
+- patch：`docs/art-rebuild/second_ai/patches/us2_fix_1018.diff`，對 LAWWW-C 分支 `5fd81da5` 做的；在最新的 `5ecab8b8` 上 `git apply --check` 也乾淨。
   - `src/us3d.js`：冰箱、爐子的點；
-  - `src/data/us_layouts.js`：只有 `US_APARTMENT_LAYOUT`、`US_SHARED_LAYOUT` 兩行，差別只在 `kit_n`、`kit_e` 的 fade、dir、note；
+  - `src/data/us_layouts.js`：只有 `US_APARTMENT_LAYOUT`、`US_SHARED_LAYOUT` 兩行：`kit_n`、`kit_e` 的 fade、dir、note；合租戶另外是電視櫃、行李箱的位置；
   - `tests/nav_us_unit.js`：新的檢查。
 - GLB 從我的分支拿（同檔名換新）。
 

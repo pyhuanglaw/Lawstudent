@@ -711,11 +711,11 @@ const US_SHARED_LAYOUT={
   {
    "type": "tvStand",
    "room": "living",
-   "x": 0.8,
-   "z": -2.4,
+   "x": 1.12,
+   "z": -1.2,
    "w": 1.1,
-   "ry": -1.33,
-   "note": "角落、斜放，面向沙發；黑色"
+   "ry": -1.5708,
+   "note": "東牆兩扇臥室門中間，面向沙發；黑色。第一版斜放在角落、正好在臥室 A 門口，和行李箱中間的縫比人窄，臥室 A 門口走不到（LAWWW-C 10-18 reachability_all）"
   },
   {
    "type": "ceilingFan",
@@ -892,8 +892,8 @@ const US_SHARED_LAYOUT={
   {
    "type": "lifeSuitcase",
    "room": "living",
-   "x": 0.75,
-   "z": -1.05,
+   "x": 0.9,
+   "z": 0.55,
    "ry": -0.3,
    "note": "沒收完的行李箱（BB_217；室友剛搬進來）"
   },
