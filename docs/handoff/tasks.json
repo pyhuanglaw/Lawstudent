@@ -18565,6 +18565,55 @@
    "source": "使用者 2026-10-18 07:1x",
    "authorized": "使用者回報",
    "next": "home3d.js S.backdrop：在家的時候 3D 畫面藏起來、底下鋪家裡的背景（白天／晚上），每 0.25 秒照在不在家同步；兩段對話之間、黑幕、選單後面不再露出最後一個 3D 區域。待 BB-C 重拍 n123"
+  },
+  {
+   "id": "QA-PLAYTHROUGH-1018",
+   "title": "發布前照真實玩家玩法從頭玩經濟系路線到法律系開學（四種：天天睡覺、完全不開手機、邀約全拒絕、一直快轉）；任何一種卡住或看不懂就不發（使用者 10-18 同意：「你有覺得你這個遊戲漏洞兩百出嗎」之後）",
+   "area": "P0",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x（同意 LAWWW-C 提的做法）",
+   "authorized": "使用者同意",
+   "next": "v9.10.1 發布條件之一。BB-C 做完 P0 那批測試後開始；換帳號時照交接接著做",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "LAWWW-C 07:1x 回覆使用者的第 1 點",
+    "acceptance": "四種玩法各走到 8/30 E37 以後，問題清單（重現步驟、截圖）",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "QA-TRANSCRIPT-1018",
+   "title": "把一輪經濟系路線畫面上出現的每一句話照順序整理成劇本，交 AA 像讀者一樣讀，抓前後對不起來、沒交代原因、人不該在這裡的地方",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x（同意）",
+   "authorized": "使用者同意",
+   "next": "瀏覽器探測（scratchpad ff/probe2.py）掛 ADV.log 收台詞 → transcript.json → docs/qa/econ_transcript_*.md → AA-C 讀。第二階段退宿後卡住，正在查"
   }
  ]
 }
