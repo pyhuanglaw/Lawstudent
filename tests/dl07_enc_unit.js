@@ -14,8 +14,8 @@ global.SOCIAL={STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIE
   stage:id=>GG.flags['dating_'+id]?'RELATIONSHIP':(STAGE[id]||'ACQUAINTANCE'),displayName:id=>(CHARACTERS[id]&&CHARACTERS[id].name)||id,
   has:(id,tag)=>!!(GG.social.mem[id]&&GG.social.mem[id].some(m=>m.tag===tag)),remember:(id,tag)=>{ (GG.social.mem[id]||(GG.social.mem[id]=[])).push({tag,day:GG.day}); },activity:(id,k)=>{ ACTS.push(id+':'+k); return {}; }};
 global.EVENTS={cond:c=>(c.flags||[]).every(f=>GG.flags[f]),npcOf:()=>null,onEnter(){},tick(){}};
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/places.js','src/story3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js'])
-  vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|OUT|FREE_TRIPS|TRIP|ENCOUNTERS|ENC)\s*=/mg,'global.$1='),{filename:f});
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/places.js','src/story3d.js','src/outings3d.js','src/home3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js'])
+  vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|OUT|HOME|FREE_TRIPS|TRIP|ENCOUNTERS|ENC)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 check('1. 有 ENC（eligible、decide、check、meet、schoolLine、phoneReady），人物表 37 列（第三批 AA_271 加 6、BB_213 加 5；第二批 AA_162 第 8 節加 6、BB_150 加 5）',typeof ENC!=='undefined'&&['eligible','decide','check','meet','schoolLine','phoneReady','afterWalk','atArrive'].every(k=>typeof ENC[k]==='function')&&ENCOUNTERS.rows.length===37,String(ENCOUNTERS.rows.length));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
@@ -105,5 +105,6 @@ const findDay=(spot,h,m,o)=>{ for(let k=0;k<4;k++) for(let wk=1;wk<=16;wk++){ co
     check('9. 語彤不是聊天時說（是手機）',ENC.schoolLine(G,'heroine_03')===null);
     const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('9. story3d：聊天在閒聊階梯之前先問 ENC.schoolTalk；手機小事有 enc_yt_photo、enc_kx_d13',/ENC\.schoolTalk\(GM,who,id\)\)\{\}[^\n]*\n\s*else if\(await S\.ladderTalk/.test(st)&&/enc_yt_photo/.test(st)&&/enc_kx_d13/.test(st));
     const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('9. index.html：encounters.js、encounter3d.js 在 social3d 之後、story3d 之前',ih.indexOf('src/social3d.js')<ih.indexOf('src/encounter3d.js')&&ih.indexOf('src/data/encounters.js')<ih.indexOf('src/encounter3d.js')&&ih.indexOf('src/encounter3d.js')<ih.indexOf('src/story3d.js')); }
+  { const sat=STORY.dayOfKey('2026-07-11'); let G=mk(sat,19.5); check('AA_278 2-2. 暑假（可昕在高雄）週六 19:30 西門町：沒有可昕',!/kexin/.test(whoAt(G,'D04')),whoAt(G,'D04')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

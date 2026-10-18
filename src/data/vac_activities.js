@@ -268,6 +268,8 @@ const VAC_DATA=(function(){
     /* 朋友：回來後第一次在 3D 遇到（AA_242 8-7；BB_200 第 4 節：FAMILIAR 以上、沒有交往，閒聊前多一句，每趟一次）*/
     backGreet:{heroine_01:'回來了？……曬黑了。',heroine_03:'……回來了喔。',yu:'你回來了！伴手禮咧！',zhe:'欸 回來了喔',classmate_bohan:'回來了。時差調好了嗎。',classmate_xinci:'回來了？我把你不在的那幾天的筆記整理好了。',heroine_02:'回來了？……那邊的咖啡，好喝嗎。',heroine_04:'回來了喔。東西咧。',heroine_05:'回來了？',classmate_peishan:'回來了！好玩嗎？',kai:'回來了。宿舍又變吵了。',classmate_mingxuan:'回來啦。',npc_fangyt:'回來了。……那邊的樹，有拍嗎？'},
     /* 回來重逢（AA_242 8-6 79adc9f2；BB_200 第 4 節）：回國當天 21:00 她約、隔天她平常的地方；不算正式約會；記 REUNION_<卡>。沒到＝隔天她傳一則 */
+    /* 寒暑假她在老家（presence home；沛珊消失期交往中也一樣）：回國當天 21:00 只傳私訊，不排臺北的見面（AA_278 第 2 節第 1 點，6bcb154b）*/
+    reunionHome:{kexin:['回來了？……我在高雄。要來的話，先跟我說幾點的車。'],classmate_peishan:['歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。']},
     reunion:{
       heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'campus',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
       heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},
