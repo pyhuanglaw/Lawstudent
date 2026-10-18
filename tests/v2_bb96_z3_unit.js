@@ -79,11 +79,11 @@ let spent=0; GM.money=d=>{ spent-=d; };   /* 付錢（consequences.money）走 G
     for(const n of cs){ n.arrived=true; } G.hour=SHUT+0.05; STORY.refreshSchedule(GM);
     check('4. 走到門口：離開（店裡只剩祐廷，吧檯的芷若、店員還在）',customers().length===0&&!!GM.npc.heroine_02,JSON.stringify(customers())); }
   at(W3+5,21.75); cafeStubs(); STORY.populate('cafe',GM);
-  check('4. 週六（沒有 Z3）21:45：客人照常（學姊在、座位的路人在）',!!GM.npc.sis&&E.npcs.some(n=>n.isExtra&&!n.clerk),JSON.stringify(customers()));
+  check('4. 週六（沒有 Z3）21:45：客人照常（座位的路人在）；學姊照作息週六晚上不在 Café（AA_284 1-2）',!GM.npc.sis&&E.npcs.some(n=>n.isExtra&&!n.clerk),JSON.stringify(customers()));
   at(W3,20.5); G.events.done.ev_zhiruo_own_drink=1; cafeStubs(); STORY.populate('cafe',GM);
-  check('4. Z3 已經發生：之後的平日照常（學姊待到 23:00、路人沒有 until）',GM.npc.sis&&GM.npc.sis.until===23&&E.npcs.filter(n=>n.isExtra&&!n.clerk).every(n=>n.until==null),JSON.stringify(untilOf()));
+  check('4. Z3 已經發生：之後的平日照常（學姊照作息待到 22:00、路人沒有 until）',GM.npc.sis&&GM.npc.sis.until===22&&E.npcs.filter(n=>n.isExtra&&!n.clerk).every(n=>n.until==null),JSON.stringify(untilOf()));
   at(W3,22.2); cafeStubs(); STORY.populate('cafe',GM);
-  check('4. Z3 還沒發生、22:10 以後：客人照常（只有 21:40～22:00 不生成）',!!GM.npc.sis,JSON.stringify(customers()));
+  check('4. Z3 還沒發生、22:10 以後：客人照常（只有 21:40～22:00 不生成）；學姊作息到 22:00，不在',!GM.npc.sis&&E.npcs.some(n=>n.isExtra&&!n.clerk),JSON.stringify(customers()));
   /* 台詞 */
   at(W3,21.75); await EVENTS.run(z3); const L=lines();
   const WANT=['（她在擦吧檯。機器已經關了。）','林芷若：最後一杯了喔。老樣子？','祐廷：……妳自己都喝什麼？','（她擦吧檯的手停住了。）','林芷若：……（很久）我在這裡兩年。','林芷若：你是——','（她停住，搖頭，笑了一下。）','林芷若：熱可可。加一份濃縮。','林芷若：很幼稚吧。小孩子的飲料加大人的東西。','林芷若：……不要笑。'];
