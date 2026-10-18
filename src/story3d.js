@@ -2920,13 +2920,16 @@ const STORY = (function(){
   S.nyeY2=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2026-12-31'); if(nye==null||G.day<nye||G.day>nye+2||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
     const T='g:noodle_team', inG=PHONE.inGroup(G,'noodle_team'), hh=G.hour, after=G.day>nye||hh>=24, M=(w,t)=>({th:T,from:w,text:t}), kxR=F.KX_NYE&&F.KX_NYE[2]==='river';
     const fam=(id,st)=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st||'FAMILIAR');
+    const zf=!inG&&G.day===nye&&hh>=21&&fam('zhe');   /* 不在群組、和阿哲 FAMILIAR 以上：阿哲私訊兩則（AA_210 5-5 第 3 點）*/
+    if(zf&&hh<23.5&&!PHONE.sent(G,'nye_y2_ask')){ const Z=t=>({th:'p:zhe',from:'zhe',text:t}), L=[Z('跨年頂樓十一點半 柏翰他們會去'),Z('我跟小語去信義區 你去頂樓就好')];
+      L[1].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
     if(inG&&G.day===nye&&hh>=21&&hh<23.5&&!PHONE.sent(G,'nye_y2_ask')){ const L=(S.knows('heroine_01',G)?[M('heroine_01','今年頂樓幾點？')]:[M('classmate_bohan','今年頂樓有人要去嗎？十一點半。')]).concat([M('classmate_bohan','十一點半。我在房間，到了敲門。'),M('zhe','我們今年不上去'),M('yu','我們去信義區！！'),M('zhe','去年沒看到，今年要看到')]);
       L[L.length-1].ask={id:'nye_y2_ask',until:nye*24+23.5,opts:[{t:'我去。',set:{NYE_Y2_ASK:'go'}},{t:'再看看。',set:{NYE_Y2_ASK:'maybe'}}]}; PHONE.at(G,nye,Math.max(21,hh),L,'nye_y2_ask'); }
     if(PHONE.sent(G,'nye_y2_ask')&&!kxR&&!OUT.get(G,'nye_y2')&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'nye_y2',ev:'ev_y2_newyear',day:nye,h:23.5,late:0.25,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'走上去約 2 分鐘',travelH:1/30,back:'回到房間。'});
     if(F.dating_heroine_03&&!OUT.get(G,'yt_nye_call_y2')&&G.day===nye&&hh>=23) OUT.plan(G,{id:'yt_nye_call_y2',ev:'ev_yt_nye_call_y2',day:nye+1,h:1/60,place:'電話',title:'語彤打電話來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'電話掛了。'});
     if(!after) return;
     if(F.NYE_Y2!=='roof'&&!F.NYE_Y2) F.NYE_Y2='none';
-    if(inG){ const P=[M('zhe','（照片：人擠人，前面一個人的手機舉得很高，煙火被一棟大樓擋掉一半）'),M('yu','人超多')]; /* 〔NYE_Y2_PHOTO〕玩家的照片＋阿哲「你們那邊比較清楚耶」：照片說明 AA 還沒給（D79：台詞先問 AA，不放暫用句），句子到了再接 */
+    if(inG){ const P=[M('zhe','（照片：人擠人，前面一個人的手機舉得很高，煙火被一棟大樓擋掉一半）'),M('yu','人超多')]; if(F.NYE_Y2==='roof'&&F.NYE_Y2_PHOTO) P.push({th:T,from:'player',who:null,text:'（照片：頂樓的欄杆後面，煙火的上半截，很清楚）'},M('zhe','你們那邊比較清楚耶'));   /* AA_210 5-5（28ac4ea3）*/
       PHONE.at(G,nye,24+5/60,P,'nye_y2_photo'); if(S.knows('classmate_xinci',G)) PHONE.at(G,nye,24+6/60,[M('classmate_xinci','新年快樂。')],'nye_y2_xc'); }
     if(!F.dating_heroine_01&&fam('heroine_01')&&!fam('heroine_01','FRIEND')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_01',from:'heroine_01',text:'新年快樂。'}],'nye_y2_an');
     if(fam('kai')) PHONE.at(G,nye,24+9/60,[{th:'p:kai',from:'kai',text:'新年快樂。我們這棟頂樓也有人，但沒有你們那邊吵。'}],'nye_y2_kai');   /* 阿凱大二起住別棟、不上這棟頂樓（AA_210 1-5，9c641efa）*/
