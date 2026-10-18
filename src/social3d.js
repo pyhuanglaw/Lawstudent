@@ -53,9 +53,14 @@ const SOCIAL = (function(){
   /* 不熟同學（pool_*）顯示的年級跟著遊戲走（AA_120 7-3）：資料上的 year 是玩家大一時的年級，玩家每升一年他們也升一年（大四封頂）；放假期間照上一個學期算 */
   S.playerYear=function(){ const t=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):(typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)?CALENDAR.termOf(G.day).id:null); const m=/^Y([1-4])/.exec(t||''); return m?+m[1]:1; };
   S.yearOf=function(id){ const c=CHARACTERS[id]; if(!c||!c.year) return 0; if(!/^pool_/.test(id)) return c.year; return Math.min(4,c.year+S.playerYear()-1); };
-  /* 資料頁、朋友列表的「科系・年級」：有 yearByPY／deptByPY（照祐廷的學年 1～4 排）的照那一格；其他照 characters.js 的 year */
-  S.yearTag=function(id){ const c=CHARACTERS[id]; if(!c) return ''; let y=c.year, dep=c.department||''; if((G.stage||'law')==='law'){ const py=S.playerYear(); if(Array.isArray(c.yearByPY)&&c.yearByPY[py]!=null) y=c.yearByPY[py]; if(Array.isArray(c.deptByPY)&&c.deptByPY[py]) dep=c.deptByPY[py]; }
-    const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+(c.course?'・'+c.course:''); };
+  /* 資料頁、朋友列表的「科系・年級」照祐廷的學年（00_現行設定總表第 2-1 節，AA-C c70dc425）：characters.js 的 tagByPY＝[經濟系那一年, 法律大一～大四]；
+     沒寫的那一格：經濟系那一年照原值，法律系的年份同一屆跟著升（year＋學年−1），超過四年級只寫科系。{t,alt,ifFlag}：有其中一個旗標才寫 alt（沛珊大三、大四：交往中或放榜後重新聯絡上） */
+  S.yearTag=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const crs=c.course?'・'+c.course:'', dep=c.department||'';
+    const idx=G&&G.stage==='econ'?0:S.playerYear(); let v=Array.isArray(c.tagByPY)?c.tagByPY[idx]:null;
+    if(v&&typeof v==='object'){ const F=(G&&G.flags)||{}; v=(v.ifFlag||[]).some(k=>F[k])?v.alt:v.t; }
+    if(typeof v==='string') return v+crs;
+    let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }
+    const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+crs; };
   S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return id; const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&rv==='UNKNOWN'&&!S.has(id,'FIRST_MET')) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };
   S.meet=function(id,where){ if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
   // ---- 教授 ----
