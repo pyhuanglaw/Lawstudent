@@ -103,20 +103,6 @@ D['characters'][XN] = {'friendOnly': True, 'steps': [
   'choices':[ch('「她說什麼？」','她說，休學在家的人，有人管比較好。'),
              ch('「幫我謝謝阿姨。」','好。她說下次寄橘子，還是有你的一份。')],'rel':{'fam':2},'mem':'XN0B_MOM_ASKED',
   'note':'寒假（1 月）還沒決定重考，只說休學在家。接 XN0-L7（橘子）'},
- {'id':'XN0b-L2','if':st(XN,'ACQUAINTANCE'),
-  'lines':['經原老師說，這學期會比上學期痛苦很多。','我還滿期待的。'],
-  'choices':[ch('「你很怪。」','我知道。我媽也這樣說。'),
-             ch('「痛苦的時候叫我。」','好。那你也是。')],'rel':{'fam':2,'comf':1},'mem':'XN0B_MICRO'},
- {'id':'XN0b-L3','if':st(XN,'FAMILIAR'),'week':[7,16],
-  'lines':['你那張床，從你搬走到現在都空著。','宿舍說暑假以後才會排人。晚上講話都沒人回。'],
-  'choices':[ch('「放你的東西啊。」','放了。現在床上都是我的講義。'),
-             ch('「那你傳訊息給我。」','好。沒事也可以傳。',rel={'trust':2})],'rel':{'fam':2,'trust':1},'mem':'XN0B_EQUILIBRIUM',
-  'note':'10/19 搬走（A3）以後；不讀 A2（已刪）。不用 A3 的「冷笑話會少一半」「自言自語」'},
- {'id':'XN0b-L4','if':st(XN,'FAMILIAR'),'week':[7,16],
-  'lines':['你搬走以後，我讀書還是把冷氣調到二十五度。','二十六度太舒服，會想睡。……對了，室友守則第二條我想好了：讀書的時候二十五。'],
-  'choices':[ch('「想了很久吧。」','一學期。之前你在都沒差。'),
-             ch('「那你會冷。」','我穿外套。……你考上，我就調回去。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'XN0B_RULE_TWO',
-  'note':'接大一上 XN0-L1（第一條：二十六度）；A3（10/19 搬走；2026-10-17 BB-C（照 AA_235 71d62646）：原本寫 3/29）之後（2026-10-16 上下文修正：換學期不能假設聽過 XN0-L1「第二條還沒想好」，台詞自己說「我想好了」，選項「終於想好了」改「想了很久吧」）'},
  {'id':'XN0b-L5','if':st(XN,'FAMILIAR'),'week':[9,16],
   'lines':['你上次傳的照片，桌上有一本民法。','你們考試又不考那個。我只是好奇，第一條寫什麼。'],
   'choices':[ch('「法律沒寫的，看習慣。」','喔，那跟我們經原老師講的有點像。'),
@@ -207,7 +193,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 5 if cid==XN else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
