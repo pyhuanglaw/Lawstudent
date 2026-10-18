@@ -555,6 +555,21 @@
    "state": "已交付（MODEL_READY；角色美術等 LAWWW-C 驗收）",
    "remaining": "背後的帽子沒做；走路時右手會穿過包；坐姿沒截圖",
    "next": "LAWWW-C 套 char_yu.diff（對 ba6e9aa4）＋從我的分支拿 bl_yu.vrm、bag_yu.glb"
+  },
+  {
+   "task": "ART-EXT-TEACH 第二批：普通、博雅室內",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "511f6cd6",
+   "files": [
+    "assets/models/env/second_ai/boya_interior.glb",
+    "assets/models/env/second_ai/putong_interior.glb",
+    "tools/blender/env_second/teach_interior.py",
+    "docs/art-rebuild/second_ai/patches/campus_teach_int.diff",
+    "docs/art-rebuild/second_ai/test_shots/campus_teach/"
+   ],
+   "state": "已交付（MODEL_READY、READY_FOR_ART_REVIEW；沒有室內照片）",
+   "remaining": "沒測 reachability_all（導航沒動）、實機；博雅地下一層沒做",
+   "next": "LAWWW-C 套 campus_teach_int.diff（對 ba6e9aa4，含 tests/desk_furniture_unit.js 一行）＋從我的分支拿兩個 GLB"
   }
  ]
 }
