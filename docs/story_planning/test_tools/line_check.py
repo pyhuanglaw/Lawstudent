@@ -72,6 +72,8 @@ def main(paths):
             if nm in who and re.search(rx, t):
                 cnt[(who, name, tm)] += 1
                 if cnt[(who, name, tm)] > cap: out.append(('2-6 %s 超過上限 %d（這學期第 %d 次）' % (name, cap, cnt[(who, name, tm)]), tag))
+        if '沛珊' in who and re.search(r'休學|重考|睡不好', t) and d < '2026-12-17':   # D100e（AA_281）：消失前什麼都不說；交往中的例外要另外確認
+            out.append(('D100e 沛珊在 2026-12-17 以前提休學／重考（只有交往中的玩家可以聽到，要確認這次是不是交往中）', tag))
         if ('學姊' in who or '書瑀' in who) and '重點是' in t:
             ly = law_year(d); cnt[(who, '重點是', tm)] += 1
             if ly >= 3: out.append(('2-6 學姊大三起不說「重點是」', tag))
