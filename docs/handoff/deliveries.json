@@ -8080,8 +8080,8 @@
    "what": "AA_298：衝刺班 6/9～7/9 每天、只停有戲的日子（retake_home 加 RH-C0～C5、cram_cards、bg、after）；模擬考 R4 拿掉；R3 改大安森林公園；E34 拿掉；媽媽問宿舍（住家裡過濾）；為什麼重考的回答改短",
    "task": "AA298-RETAKE-FIX-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（阿勳私訊老實選項）"
+   "integration": "已整合待測試",
+   "note": "AA 已推 523dd2f4（home_lines 早上第 3 句）、1bf69043（阿勳私訊老實選項）；a9446ebb、74e3889b 整合"
   },
   {
    "id": "DL-AA-e79002de",
@@ -8093,8 +8093,8 @@
    "what": "AA_298 更正：衝刺班是另一間補習班（管理人員、不知道分數）、6/8 15:00 當面報名、O6 改 7/10 看考場",
    "task": "Q-CRAM-SPRINT-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": ""
+   "integration": "已整合待測試",
+   "note": "a9446ebb、74e3889b 整合"
   },
   {
    "id": "DL-AA-294cea95",
@@ -8106,8 +8106,8 @@
    "what": "AA_298 第 7、8 節：考場高中教室（exam_hs_classroom）、爸爸長期在上海家裡只有媽媽（home_lines 重匯、home3d dinner/takeCar 改媽媽、home_unit 4、6）、retake_home 換 294cea95",
    "task": "AA298-RETAKE-FIX-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "AA 已推 6652f497（考場單人桌椅旁白）"
+   "integration": "已整合待測試",
+   "note": "AA 已推 6652f497（考場單人桌椅旁白）；a9446ebb、74e3889b 整合"
   },
   {
    "id": "DL-BB-33489d28",
@@ -8147,6 +8147,71 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "程式不用改"
+  },
+  {
+   "id": "DL-AA-b289fe65",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b289fe65",
+   "what": "AA_300 經濟系縮到約 30 分鐘：保留 29 場、日期卡 22 句、新遊戲可以選、手機跳過",
+   "task": "AA300-ECON30-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "52bf3f16（第 6 節手機「跳過」按鈕還沒做）"
+  },
+  {
+   "id": "DL-AA-017ee079",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "017ee079",
+   "what": "放榜電話：只高 0.1 可昕說、only_me 兩句拿掉（AA_298 第 9 節）",
+   "task": "Q-E36-CALL-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "74e3889b"
+  },
+  {
+   "id": "DL-AA-06cc756e",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "06cc756e",
+   "what": "AA_301 經濟系那一年主動傳訊息給可昕的回覆 25 則（MSG_KX_Y0）",
+   "task": "MSG-KX-Y0-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "排在 AA_300 後面"
+  },
+  {
+   "id": "DL-AA-1636a700",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "1636a700",
+   "what": "AA_296 只用手機演的重要劇情盤點：y0_kx_leave 改電話",
+   "task": "AA296-KXCALL-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-BB-548989d6",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "548989d6",
+   "what": "BG-CAMP-1018 宿營背景 10 張（camp_bbq、camp_field、camp_bonfire、camp_party_hall、camp_quiz、camp_dining、camp_trail、camp_classroom、camp_yard_day／night）",
+   "task": "BG-CAMP-1018",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "LAWWW 要把宿營各場景的 bg 換掉"
   }
  ],
  "ignored": [
