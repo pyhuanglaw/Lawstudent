@@ -7458,6 +7458,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 套進 RULE_SOURCE；exchange3d 的 US_ZONES 加 us_shared、us_market、us_asian_market；nav_us_unit、exch_min_unit ALL PASS（Node）；瀏覽器流程 flow_exch_min、flow_us_exchange 派 BB-C；usShared／usClub／usMarket／airportBoard 的演出還沒接（照區域預設）"
+  },
+  {
+   "id": "DL-LAWWW2-4580d0c5",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "4580d0c5",
+   "what": "阿勳（盧正勳 econ_zhengxun）3D 人物第八版 bl_econ_zhengxun.vrm（outbox 598e0744）",
+   "task": "ART-CH-XUN",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 看 v6／v8 對照圖（test_charlook 渲染）後整合：manifest char.econ_zhengxun＋CHARACTERS.econ_zhengxun.char3d.model；D99 夠用凍結，不再走「身體拉到布底下」的生產線；遊戲內截圖等 BB-C，看過就標 ART_APPROVED（D100）"
   }
  ],
  "ignored": [
