@@ -361,7 +361,15 @@ def check(args):
 
 
 def snapshot(args):
-    src = Src(args.root)
+    ref = getattr(args, 'ref', None)
+    if not ref and not os.path.exists(os.path.join(args.root, TASKS)):   # LAWWW2／AA／BB 的分支沒有總表：自動從 RULE_SOURCE 讀（BB-C 10-18：原本要從 LAWWW 分支借檔案、用完刪掉）
+        code, b = duty_state.find(args, quiet=True)
+        if code or not b:
+            print('找不到 RULE_SOURCE（先 git fetch --all；或加 --ref origin/<規則來源分支>）')
+            return 2
+        ref = 'origin/' + b
+        print(f'總表從 {ref} 讀（這條分支沒有 {TASKS}）')
+    src = Src(args.root, ref)
     data = json.loads(src.read(TASKS))
     raw = src.read(TASKS).encode('utf-8')
     tasks = data['tasks']
@@ -680,6 +688,7 @@ def main(argv=None):
     s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
     s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C（D92；職位永遠四個）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
+    s.add_argument('--ref', help='從這個 git ref 讀總表；不給而且這條分支沒有 tasks.json＝自動找 RULE_SOURCE')
     q = sub.add_parser('queue')
     q.add_argument('--owner')
     q.add_argument('--ref')

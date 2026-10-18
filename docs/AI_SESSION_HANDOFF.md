@@ -253,6 +253,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 2. **寫六類紀錄**（上表）。
 3. **存快照、登記交班**：
    - LAWWW 以外的職位：`python3 tools/handoff/check_handoff.py snapshot --role <職位> --account <A|B|C>` → `python3 tools/handoff/check_handoff.py duty handoff --account <X> --role <職位> --snapshot <檔名> --ref origin/<RULE_SOURCE>` → commit＋push；同帳號值班中的 LAWWW 用 `send_message` 通知（LAWWW 已經交班就只寫 GitHub）。
+     （2026-10-18 起：自己的分支沒有 tasks.json 也直接跑——工具自動從 GitHub 上的 RULE_SOURCE 讀總表，不用從 LAWWW 分支借檔案；先 `git fetch --all`。BB-C 回報、LAWWW-C 修）
    - **各職位平時就在自己分支的 `outbox_<職位>.json` 登記交付與 WIP（D94，`docs/handoff/OUTBOX_TEMPLATE.md`）**，交班時只補最後的差異。
    - LAWWW 最後做：`check_handoff.py check`（異常處理掉或寫進交班紀錄）→ `check_handoff.py incr`（D94：水位線以後的新 commit 都分類、WIP 沒消失；通過後 commit＋push 再 `incr --advance all`）→ `check_handoff.py roles`（逐職位核對，D93：LAWWW2、AA、BB 的全部待辦都要在總表；異常沒處理完，交班紀錄寫「逐職位核對：異常 N 項未處理」並列出，不宣稱交接完整）→ `duty sync`（收其他職位的交班登記）→ `snapshot --role LAWWW --account <A|B|C>` → `duty handoff --account <X> --role LAWWW --snapshot <檔名>` → 值班表改成「換班中」、第 12 節加一行 → commit＋push、核對遠端 SHA。**沒 push 的快照＝沒有快照。**
    - 第 0a 節的 RULE_SOURCE 不改（下一班的 LAWWW 用 `duty register` 改成它的分支）。
