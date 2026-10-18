@@ -26,6 +26,30 @@
   - 以上都在 v9.10 發布後整合（LAWWW-C 01:01）。
 - **ART-SOP、VAC-A1**：`ART_SOP.md`、`SCENE_RULES.md`、`sop_demo/README.md`、`VAC_A1_既有資產盤點.md` 已經在我現在的交付分支 `claude/focused-cray-c9uwvw`，和 funny 分支的一模一樣（`69e4b181`、`5c6a0391`、`4e4f4f36`、`644a322f`），LAWWW-C 直接合併。
 
+## ★★★ 最新（2026-10-18 05:3x～07:4x UTC，LAWWW2-C）
+- **新永久規則 D104**（使用者 10-18，經 LAWWW-C 07:43 轉達，P0）：
+  - 不需要互動的靜態圖（2D 對話背景、場景圖、CG）一律由使用者生成，BB 寫提示詞；**不再用 Blender／3D 截圖做正式 2D 背景**。
+  - 3D 只做玩家走得進去、會互動的場景和人物。
+  - 已回 ACK：佇列裡沒有 2D 背景的工作。總圖窗景打算做 3D 遠景，等 LAWWW-C 判斷算不算 D104。
+- **這一段交付的**（都在 `claude/focused-cray-c9uwvw`；等 LAWWW-C 整合）：
+
+| 工作 | commit | 內容 |
+|---|---|---|
+| ART-YU-3D-1018 小語 3D | `615a3cbf` | `bl_yu.vrm`＋側背包 `bag_yu.glb`＋`char_yu.diff`；char_review/yu/。LAWWW-C 06:39 ACK，整合後驗收 |
+| ART-EXT-TEACH 第二批室內 | `511f6cd6` | 普通、博雅室內 GLB＋`campus_teach_int.diff`（對 `ba6e9aa4`）；四個 unit＋nav ALL PASS |
+| ART-SEATFIG-1018 博雅 101 禿頭、白臉 | `e315997b` | `seated_figures.glb` 重烤（`hair_cleanup`）、`vroid_npc_f1.vrm` 臉暗部 0.94→0.838；程式不用改 |
+| ART-GG-SHOPS-1018 公館店面第一輪 | `307787c1` | `gongguan_shops.glb`（`wz_shopkit.arcade_front_v2`、`SF_GG`）；程式不用改 |
+
+- **佇列**（LAWWW-C 排序）：
+  1. ART-LIB-VIEW-1018 總圖窗景（使用者「很假」；做法我決定，導航不動，附窗邊同角度前後截圖）；
+  2. ART-EXT-MRT 捷運公館站出口；
+  3. SCN-US-02 v3 美國校園照 IU Bloomington 真實配置（空拍圖，見下面 ★★）；
+  4. ART-US-SEASON 美國四季（WIP `53d9ef55`）。
+- **工作樹**（`$S`＝本工作階段的 scratchpad）：
+  - `$S/yuwt`（LAWWW-C `ba6e9aa4`＋小語 patch＋新 GLB，伺服器 8810）；
+  - `$S/yubefore`（`ba6e9aa4` 原樣，8811）；
+  - `$S/teachin`（`5ffde5b3`＋TEACH 室內 patch，8809）。
+
 > ## ⛔ 強制閱讀（開始任何美術工作前；LAWWW2、LAWWW2-B、帳號 A／B 的接班者、AA-B／BB-B 等支援 AI、子代理）
 > 使用者 2026-10-16 約 20:2x UTC：標準是**得遊戲大獎、不要像廉價拼接遊戲、不要有方塊感**；做法要照 SOP，新方法加進規則、舊的不刪。
 > 1. `docs/art-rebuild/second_ai/ART_SOP.md`（製作 SOP：工具鏈與指令、製作順序、八項驗收、審查方式、新方法登記表）
