@@ -7586,8 +7586,8 @@
    "what": "ART-L118-GROUND 118 巷地面＋台大後門（lane118_ground.glb 2.3 萬三角形；patch lane118_ground.diff；Blender lane118_ground.py＋_tex.py；README test_shots/lane118_ground/；outbox 59a2cd40）",
    "task": "ART-L118-GROUND",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 03:0x 套 patch、拿 GLB 與腳本；後門 PROPOSAL（沒有照片）"
+   "integration": "已驗收",
+   "note": "LAWWW-C 03:0x 套 patch、拿 GLB 與腳本；後門 PROPOSAL（沒有照片）｜03:3x BB-C 瀏覽器 ALL PASS（5ecab8b8，BB_218 83d825c7）"
   },
   {
    "id": "DL-LAWWW2-efaca16f",
