@@ -2819,3 +2819,10 @@
 - 出國活動 7 張：C08 歡迎晚會 `intl_seoul_dinner`、C08 最後一晚 `intl_seoul_night`、C10 第一堂課／第一次報告／期末考 `intl_ca_classroom`、C10 週末（海邊）`intl_ca_beach`、C11 第一堂（暖氣、窗戶起霧）`intl_tokyo_classroom`、C11 參訪 `intl_tokyo_shotengai`、C12 茶道 `intl_kyoto_tearoom`。
 - C08、C10 的「出發」不用新圖：用現有的 `airport_departure`。
 - 提示詞全文在使用者對話（2026-10-18 03:4x），格式同第 79 組。
+
+### 第 83 組：臺北的家（三房兩廳）11 張（2026-10-18 BB-C；LAWWW-C BG-HOME-1018）
+- 起因：使用者「台北的家為什麼只有餐桌？這麼醜的家不如我生 CG，三房兩廳都能生 CG。」現有 `home_living`／`home_living_day`／`home_living_cny` 是 3D 渲染風、只有圓餐桌；`home_room`、`home_balcony` 是手繪動畫風，新圖照後者的風格。
+- 同一個家的設定（每張提示詞都寫進去）：台北三十年左右的老公寓、三房兩廳；客廳餐廳米白磨石子地板、米白牆、胡桃木色家具、米色亞麻窗簾、鐵窗外是對面公寓；房間是木地板。
+- 清單（檔名照 LAWWW：`home_<房間>_<day|night>`）：①`home_entry_night` 玄關 ②`home_sofa_day` ③`home_sofa_night` 客廳沙發電視側（現有 `home_living_day` 是餐桌，名字不覆蓋）④`home_dining_day` ⑤`home_dining_night` ⑥`home_dining_late` 餐桌（兩個人念書；深夜檯燈）⑦`home_kitchen_day` 廚房 ⑧`home_room_day` ⑨`home_room_night` 祐廷的房間（新版，取代 `home_room`）⑩`home_guest_night` 客房（2/15 起可昕住，她的書、行李、牛仔外套）⑪`home_dining_cny` 除夕年夜飯。
+- 不用新圖：陽台夜景用現有 `home_balcony`；家樓下巷口用現有 `y0_home_street_night`（第 79 組）。
+- 提示詞全文在使用者對話（2026-10-18 07:0x）。
