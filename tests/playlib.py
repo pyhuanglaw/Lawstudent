@@ -69,11 +69,13 @@ async def wait_loaded(pg, timeout_s=180):
 
 
 async def load_state(pg, st, quiet_events=False):
-    """[前置] 用遊戲自己的讀檔（GAME.applySave）把玩家放到某個時間地點。quiet_events=True 會關掉條件事件（只給不測劇情的測試用）"""
+    """[前置] 用遊戲自己的讀檔（GAME.applySave）把玩家放到某個時間地點。quiet_events=True 會關掉條件事件，也關掉「要回覆的訊息自動打開手機」（只給不測劇情、手機的測試用）。
+    手機自動打開（D103，v9.10.1 起）會暫停遊戲；讀檔的狀態有要回的訊息時（例：預設交往中的可昕傳「週末來政大？我當導遊。」），測試跑到一半手機跳出來，
+    之後的搖桿、拖曳、小地圖全部不動（2026-10-18 v9.10.1 發布後 minimap_direction、p0_movement 就是這樣失敗，REL-9101-POSTCHECK-1018）"""
     # 直向畫面一開始有「請把手機轉成橫向（或直接點這裡繼續直向遊玩）」（#rotate.want，點一下才關）：玩家在標題畫面就會點掉它；
     # 讀檔跳過標題畫面時一起關掉，不然第一次點（手機按鈕、地面）會被它吃掉（2026-10-14 flow_typhoon、cg_rain_shots 直向）
     js = "(async(st)=>{ const s=GAME.defaults(st.name||'祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); const rot=document.getElementById('rotate'); if(rot) rot.classList.remove('want'); " + \
-         ("EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; " if quiet_events else "") + "await GAME.applySave(s); })(" + json.dumps(st) + ")"
+         ("EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; " if quiet_events else "") + "await GAME.applySave(s); })(" + json.dumps(st) + ")"
     await pg.evaluate(js)
 
 

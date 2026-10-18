@@ -20072,7 +20072,7 @@
    "title": "7/25 客運版：在高雄走了一整天、可昕問客運幾點，轉場中間跑出臺北的家",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -20086,7 +20086,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我在高雄走了一整天，然後可昕問我客運幾點來找我 轉場中間又跑出台北的家」",
    "authorized": "一般 bug",
-   "next": "【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2c 節】查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
+   "next": "【21:5x LAWWW-C 修好（開發分支，v9.10.2 候選）】原因：7/25 客運版 ev_y0_kh_bus_h 從家裡出發（trigger:home），整天演完才回家，演的時候 HOME.at 還是 true；home3d.js backdrop 在 3D 底下鋪家裡的圖，換場景（新圖載入、2D 淡出淡入）那一下露出來。修法：底下鋪的圖跟著 2D 現在的背景（2D 顯示別的圖就鋪同一張、深色底就深色），只有 2D 透明／沒開而且人真的在家才鋪家裡；從家裡出發的 2D 出遊、剛出家門也不再鋪家裡（深色）。tests/home_backdrop_unit.js 9 項（舊程式 5 項 FAIL）。還沒在瀏覽器看：7/25 客運版從家裡出發走完一次（下一班 BB 或發布前） ｜ 舊：【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2c 節】查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
   },
   {
    "id": "KX-EXPR-1018",
@@ -20149,7 +20149,7 @@
    "title": "v9.10.1 發布後檢查：minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL（搖桿、拖曳、點地面在測試裡完全不動）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -20163,7 +20163,7 @@
    },
    "source": "使用者 2026-10-18 11:5x「先發布再檢查了」→ LAWWW-C 對 4c0cbefc 跑 docs/TESTING.md 第五節；使用者 14:4x 交班「測試的結果都要留下來讓接班的人可以直接開始修」",
    "authorized": "一般 bug（發布後檢查）",
-   "next": "結果原文、推測、第一步：docs/handoff/TEST_RESULTS_1018.md 第 1 節（紀錄檔 tests/repro_1018/logs/）。v9.10 發布前 feb2bc37 這三支 ALL PASS，壞在 feb2bc37～f4b47480。先對 8c63ea53 和 f4b47480 跑 minimap_direction 二分；失敗當下 elementFromPoint(#joy) 看是誰蓋住（懷疑要回覆的訊息自動打開手機 UX-PHONE-AUTOOPEN-1018）。測試狀態造成的就改 tests/playlib.py；遊戲真的擋輸入就是 P0、修好出 v9.10.2"
+   "next": "【21:5x LAWWW-C 查到原因】不是遊戲擋輸入：讀檔的狀態有要回覆的訊息（預設交往中的可昕傳「週末來政大？我當導遊。」），v9.10.1 起手機會自動打開、遊戲暫停（D103），測試跑到一半手機跳出來，之後搖桿、拖曳、小地圖全部不動（截圖證實：/tmp/minimap_direction/03_after_forward.png 是手機畫面）。v9.10 沒有自動打開所以過。單獨重跑：minimap_direction v9.10.1 FAIL、開發分支 ALL PASS（訊息到的時間看幀率，時過時不過）。改測試：playlib.load_state(quiet_events) 一起關掉 STORY.phoneAuto；p0_movement 讀檔前關掉（標 [前置]）；touch_flow_wenzhou（從標題開始的真實流程）手機跳出來就像玩家一樣點「收起來」。下一步：改好的三支對 v9.10.1、開發分支重跑；再跑 TESTING 第五節其他幾支（zone_transitions、flow_class_real 發布後沒跑） ｜ 舊：結果原文、推測、第一步：docs/handoff/TEST_RESULTS_1018.md 第 1 節（紀錄檔 tests/repro_1018/logs/）。v9.10 發布前 feb2bc37 這三支 ALL PASS，壞在 feb2bc37～f4b47480。先對 8c63ea53 和 f4b47480 跑 minimap_direction 二分；失敗當下 elementFromPoint(#joy) 看是誰蓋住（懷疑要回覆的訊息自動打開手機 UX-PHONE-AUTOOPEN-1018）。測試狀態造成的就改 tests/playlib.py；遊戲真的擋輸入就是 P0、修好出 v9.10.2"
   }
  ]
 }
