@@ -7679,6 +7679,19 @@
    "msg": "ACK",
    "integration": "部分整合",
    "note": "LAWWW-C 03:4x：C11 第一堂＝tokyo_winter；C12 第一堂、最後一天＝kyoto_school；trip_jp_onsen、trip_th_nightmarket 登錄 OUT.BG（場景早就寫了 bg）；intl_kyoto_festival 沒接——C12 沒有祭典的場景（第一堂、茶道、最後一天），已問 BB"
+  },
+  {
+   "id": "DL-BB-f46f81a6",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f46f81a6",
+   "what": "BB_132 第 82 組九張 2D 背景（library_b1、wancai_seminar、intl_seoul_dinner／night、intl_ca_classroom／beach、intl_tokyo_classroom／shotengai、intl_kyoto_tearoom）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 03:4x：C08～C12 每個場景都有背景；library_b1（ev_bohan_group_session）、wancai_seminar（ev_plg_rules_after）原本事件就寫了 bg、沒登錄；被取代、遊戲沒用到的 intl_ca_campus、intl_ca_dorm、intl_tokyo_winter 從 assets/bg 拿掉（原檔照舊在 bg_approved）"
   }
  ],
  "ignored": [
