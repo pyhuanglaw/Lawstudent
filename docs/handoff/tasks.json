@@ -19314,9 +19314,9 @@
     "parallel": false,
     "confirmed": true
    },
-   "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）",
+   "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）；使用者 10-18 13:xx 補充：卡住時在遊戲裡讀檔，跳「劇情還在進行」讀不了（＝a0926112 保底要解的那一段；線上 v9.10.1 還沒有，暫時解法 F5 重新整理→標題「繼續」）",
    "authorized": "P0 bug",
-   "next": "根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向：ECONFF.advance 的 fade／jumpTo 期間玩家沒有標 busy，這時點互動或 NPC 會和跳日期同時跑（兩段劇情搶同一個對話框）；③問使用者卡住前一刻按了什麼"
+   "next": "下一版（v9.10.2）一定要帶 a0926112 的保底（game3d.js 和 main 只差這一段）。根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向：ECONFF.advance 的 fade／jumpTo 期間玩家沒有標 busy，這時點互動或 NPC 會和跳日期同時跑（兩段劇情搶同一個對話框）；③問使用者卡住前一刻按了什麼"
   }
  ]
 }
