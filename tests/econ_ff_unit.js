@@ -10,7 +10,7 @@ for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/course
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 const dayOf=k=>{ for(let d=-600; d<400; d++){ const t=CALENDAR.dateOf(d); if(t&&t.key===k) return d; } return null; };
 global.STORY={dayOfKey:dayOf}; global.STORY_EVENTS=[]; global.EVENTS={running:null};
-let pend=0; global.PHONE={pending:()=>Array(pend).fill(0),tick(){}};
+let pend=0; const PAT=[]; global.PHONE={pending:()=>Array(pend).fill(0),tick(){},at:(G,d,h,items,tag)=>{ if(PAT.some(x=>x.tag===tag)) return false; PAT.push({d,h,items,tag}); return true; }};
 const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(dayOf(k)).wd,flags:Object.assign({E01_MORNING:true,ECON_FULL:true},f||{}),events:{done:{}}});
 { check('① 9/2 08:00（E01 早上以後）開',ECONFF.on(mkG('2024-09-02',8)));
   check('① E01 早上還沒演：不開',!ECONFF.on(mkG('2024-09-02',8,{E01_MORNING:false})));
@@ -19,6 +19,8 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   global.location={search:'?nofastecon'}; check('① ?nofastecon：關',!ECONFF.on(mkG('2024-09-02',8))); global.location={search:''}; }
 { const G=mkG('2024-09-02',8,{ECON_FULL:false}); const ids=[]; for(let i=0;i<20;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev); ECONFF.rec(G).done[s.n]=1; }
   check('AA_300 第 1 節：經濟系開學到退宿只停 3～11（保齡球、要我載妳嗎、系烤、長頸鹿拉花、聚會、辦休學、車上、便利貼、搬出宿舍）',JSON.stringify(ids)===JSON.stringify(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_e30_note','ev_y0_a3']),JSON.stringify(ids));
+  { const kt=['y0_kt1','y0_kt3','y0_kt6'].map(t=>PAT.find(x=>x.tag===t)); check('AA_300 第 8 節：T1、T3、T6 改成照時間收到的手機訊息（最後一則有兩個選項；T2、T4、T5 不演）',kt.every(x=>x&&x.items[x.items.length-1].ask&&x.items[x.items.length-1].ask.opts.length===2)&&kt[0].items[0].text==='月亮收租那個，我回去算了。'&&Math.abs(kt[0].h-(22+40/60))<1e-6&&!PAT.some(x=>/kt[245]/.test(x.tag)),JSON.stringify(PAT.map(x=>x.tag))); }
+  check('AA_300 第 7 節：不在 29 場的邀約私訊不傳（聖誕、豆花、劇社、R2／R5／R6 沒去那則）；ECON_FULL 照傳',ECONFF.cutMsg(G,'y0_e20_ask')&&ECONFF.cutMsg(G,'y0_c1_ask')&&ECONFF.cutMsg(G,'y0_e18a_ask')&&ECONFF.cutMsg(G,'y0_r6_miss')&&!ECONFF.cutMsg(G,'y0_e12_ask')&&!ECONFF.cutMsg(mkG('2024-09-02',8),'y0_e20_ask'));
   check('AA_300：其他經濟系事件不演（EVENTS.check 擋：社團博覽會、泡麵之夜、去總圖念書）；29 場的照演；ECON_FULL（舊流程測試）不擋',ECONFF.cut(G,{id:'ev_y0_e07',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_t0a',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_e10',stage:'econ'})&&!ECONFF.cut(G,{id:'ev_y0_e05',stage:'econ'})&&!ECONFF.cut(mkG('2024-09-02',8),{id:'ev_y0_e07',stage:'econ'})&&!ECONFF.cut(Object.assign(mkG('2024-09-02',8,{ECON_FULL:false}),{stage:'law'}),{id:'ev_y0_e07',stage:'econ'}));
   const g=mkG('2024-09-14',8,{ECON_FULL:false}); g.flags.ECONFF={done:{},lines:[]};
   check('AA_300 第 4 節：日期卡一句照跳過的日子（9/2 → 9/13：開學第一週那句；同一句不重複；隔一天不出）',ECONFF.cardLine(g,dayOf('2024-09-02')-1,dayOf('2024-09-13'))==='（開學第一週。新生座談、第一堂經原、第一堂會計。阿勳每一堂都坐你旁邊。）'&&ECONFF.cardLine(g,dayOf('2024-09-02')-1,dayOf('2024-09-13'))===null&&ECONFF.cardLine(g,dayOf('2024-09-20'),dayOf('2024-09-21'))===null);

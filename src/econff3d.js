@@ -66,6 +66,24 @@ const ECONFF=(()=>{
     'ev_y0_e36r','ev_y0_e36rh','ev_y0_e36','ev_y0_e36h','ev_y0_e36n']);   /* 衝刺班到放榜 26～29（23～25 是 RH-C0、RH-C4、RH-L6）*/
   S.RH_PLAY=['RH-L1','RH-L5','RH-C0','RH-C4','RH-L6'];
   S.short=G=>!!G&&G.stage==='econ'&&!S.off()&&!!(G.flags&&G.flags.E01_MORNING)&&!G.flags.ECON_FULL;   /* ECON_FULL：測試用，照 AA_292 的完整版（舊流程的測試）*/
+  /* AA_300 第 7 節（Q-AA300-INVITES）：不在 29 場裡的出遊，排它們的私訊、群組邀約整個不傳 */
+  S.CUT_MSG=['y0_e18_missed','y0_e18a_ask','y0_e20_ask','y0_e20_day','y0_e20_mail','y0_r5_miss','y0_r2_miss','y0_r6_miss'];
+  S.cutMsg=(G,tag)=>S.short(G)&&(/^y0_c1_/.test(tag)||S.CUT_MSG.includes(tag));
+  /* AA_300 第 8 節：T1、T3、T6（AA_293 交往前的手機過場）在 30 分鐘版改成跳的途中照時間收到的手機訊息（自動打開那段對話、可以「跳過」，不另外停）；T2、T4、T5 不演。
+     句子照 events.js ev_y0_kt1／kt3／kt6 原句；選項掛在最後一則、回覆在 say；熟悉度、記憶、閒聊階梯在收到時記 */
+  const KT=t=>({th:'p:kexin',from:'kexin',text:t});
+  S.KT_PHONE={
+    ev_y0_kt1:G=>({msgs:[KT('月亮收租那個，我回去算了。'),KT('照坪數，我們坐的那一小塊，一年大概三塊錢。'),KT('……你不要問我怎麼算的。')],
+      opts:[{t:'怎麼算的？',say:[KT('就說不要問。')]},{t:'三塊錢我出。',say:[KT('好。那下次月亮出來，你付。')]}].map(o=>G.flags.E02_WORD?Object.assign(o,{say:o.say.concat([KT('迎新那天你挑的那個經濟學名詞，我也查了。'),KT('查完覺得你應該是在開玩笑。')]),set:{KX0_LOOKED_UP:true}}):o),
+      rel:{fam:2},lad:G.flags.E02_WORD?['K0-L1']:[]}),
+    ev_y0_kt3:()=>({msgs:[KT('（照片：一隻耳環，是一片吐司。）'),KT('今天是吐司。昨天是骰子。'),KT('品妤說我的耳環是隨機變數。……我竟然沒辦法反駁。')],
+      opts:[{t:'明天是什麼？',say:[KT('不知道耶，看明天早上的心情。')]},{t:'吐司比較好看。',say:[KT('真的假的？那我明天再戴吐司。')]}],mem:'KX0_EARRINGS',rel:{fam:2},lad:['K0-L2']}),
+    ev_y0_kt6:()=>({msgs:[KT('下下禮拜就期中考了。你經原讀到哪了？'),KT('……你不用回答。我猜還沒開始。')],
+      opts:[{t:'我還沒開始。',say:[KT('我也還沒。好，那我們都先不要講。')]},{t:'晚上傳訊息問妳。',say:[KT('現在就是晚上啊。……好啦，明天問。')]}],mem:'KX0_CLASSROOM',rel:{fam:2,comf:1},lad:['K0-L8']})};
+  S.ktPhone=function(G,s){ const f=S.KT_PHONE[s.ev]; if(!f||typeof PHONE==='undefined') return false; const d=DK(s.key); if(d==null) return false; const x=f(G), tag=s.ev.slice(3);
+    const L=x.msgs.slice(); L[L.length-1]=Object.assign({},L[L.length-1],{ask:{id:tag,opts:x.opts}});
+    if(!PHONE.at(G,d,s.h,L,tag)) return false;
+    if(x.rel&&typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust('kexin',x.rel); if(x.mem&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('kexin',x.mem); if(x.lad&&x.lad.length&&typeof STORY!=='undefined'&&STORY.ladMark) STORY.ladMark(G,x.lad); return true; };
   S.cutId=(G,id)=>!!id&&/^ev_y0_/.test(id)&&S.short(G)&&!S.KEEP.has(id);
   S.cut=(G,ev)=>!!ev&&ev.stage==='econ'&&S.cutId(G,ev.id);
   S.stepCut=(G,s)=>S.short(G)&&(!!s.cls||(!!s.ev&&!S.KEEP.has(s.ev))||(!!s.play&&!S.KEEP.has(s.play))||(!!s.rh&&!S.RH_PLAY.includes(s.rh)));
@@ -117,7 +135,7 @@ const ECONFF=(()=>{
   S.stepDone=function(G,s){ const r=S.rec(G); if(r.done[s.n]) return true; if(s.cls){ const d=DK(s.key), it=S.clsItem(G,d,s.cls); return !!(it&&typeof CLS!=='undefined'&&CLS.rec(G).done[it.key]); }
     return !!s.ev&&done(G,s.ev)&&(!s.then||done(G,s.then)); };
   /* 下一個要做的：時間還沒過太久（過了 6 小時就算錯過、跳過）、還沒做完 */
-  S.next=function(G){ const now=G.day*24+G.hour; const L=S.STEPS.map(s=>({s,t:S.tOf(G,s)})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t); for(const {s,t} of L){ if(S.stepDone(G,s)) continue; if(S.stepCut(G,s)){ S.rec(G).done[s.n]='cut'; continue; } if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };   /* 照時間排（陣列順序不用照日期）*/
+  S.next=function(G){ const now=G.day*24+G.hour; const L=S.STEPS.map(s=>({s,t:S.tOf(G,s)})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t); for(const {s,t} of L){ if(S.stepDone(G,s)) continue; if(S.stepCut(G,s)){ S.rec(G).done[s.n]='cut'; if(S.KT_PHONE[s.ev]) S.ktPhone(G,s); continue; } if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };   /* 照時間排（陣列順序不用照日期）*/
   S.lineFor=function(G,d0,d1){ if(d1-d0<2) return null; const r=S.rec(G); const k0=d0+1, k1=d1-1;
     for(const [a,b,t] of S.LINES){ if(r.lines.includes(t)) continue; if(a==null){ return t; } const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0) return t; } return null; };
   S.dateLabel=(day,h)=>{ const D=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day):{m:0,d:0}; const hh=Math.floor(h%24), mm=Math.round((h%1)*60)%60; return D.m+'/'+D.d+'（'+WD[wdOf(day)]+'）'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0'); };

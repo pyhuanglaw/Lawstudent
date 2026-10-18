@@ -18782,7 +18782,7 @@
    },
    "source": "AA-C 017ee079（AA_298 第 9 節）",
    "authorized": "使用者回報（台詞 AA 定稿）",
-   "next": "74e3889b（只高 0.1 可昕說、only_me 拿掉）＋AA_298 第 10 節 d781b840（要不要回台大、她想自己從大一開始；政大的山／E36_REPLY 拿掉）。BB 測"
+   "next": "74e3889b＋d781b840＋d744bf3d 更正：「只高 0.1」照原本祐廷說、可昕回「上了就是上了」；第三個理由「回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。」。BB 測"
   },
   {
    "id": "UX-ECON-BED-1018",
@@ -19054,8 +19054,8 @@
    "id": "Q-AA300-INVITES-1018",
    "title": "AA_300 以後，不在 29 場裡的出遊不排，可是排它們的私訊／群組邀約還會問「去不去」（答應了也不出門）：AA 列要整個不傳或改成不問的補充句",
    "area": "v0",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -19069,13 +19069,13 @@
    },
    "source": "LAWWW-C 2026-10-18 整合 AA_300 時發現",
    "authorized": "AA_300（使用者選擇題）",
-   "next": "AA-C 回表 → LAWWW 改 story3d 的邀約",
+   "next": "AA_300 第 7、8 節（d744bf3d）：phone3d S.at 擋 ECONFF.cutMsg（y0_c1_*、e18_missed、e18a_ask、e20_ask／day／mail、r5／r2／r6_miss）；y0_e10_ask 不出選項、記 E10_GO yes、不提示；T1、T3、T6 改照時間收到的手機訊息（ECONFF.KT_PHONE）、T2、T4、T5 不演。econ_ff_unit。BB 測",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "AA_300 第 1、2 節",
     "acceptance": "每一則經濟系那一年的邀約私訊：傳／不傳／改成補充句",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   }
  ]
