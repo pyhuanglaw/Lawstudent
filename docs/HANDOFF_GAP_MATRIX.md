@@ -38,7 +38,8 @@
 - 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
 - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
-**B｜全部未完成（要先看的）**（2026-10-18 08:5x 更新）
+**B｜全部未完成（要先看的）**（2026-10-18 10:4x 更新；開發分支最新 `2fb3e5a5`）
+- **10:4x 最新**：AA303-KX-RECONFIRM-1018 進行中（停點 27 場、日期卡 18 句、高雄三天兩夜＋BB 兩張背景、第 2 節十場台詞 85eea326 都已接；等 AA 的 retake_home C0／C4／L6＋RH-M0、E27 遲到電話新句、換完還對不上的 6 處）；AA304-QA2-1018 進行中（12 列裡 10 列已做：5bf15ccb、4e5d4bec；第 11 列等 retake_home、第 8、9 列等使用者）；階梯 Y0S1 已重匯（白名單 8fcc2c7e）；LAWWW2 SCN-US-02 v3（90c2896e）已登記、v9.10.1 發布後接。node 單元測試 299 支全過（4e5d4bec）。
 - **第一項（使用者最在意）AA300-ECON30-1018 已整合待測試**（52bf3f16、c5e312fe）：經濟系只停 29 場、日期卡 22 句、重考期短場景關、手機「跳過」、新遊戲按鈕。**BB 瀏覽器實測 QA-AA300-1018 進行中**；Q-AA300-INVITES-1018（不在 29 場的邀約私訊還會問）等 AA 回表。
 - 本班已整合待測試（等 BB）：AA298-RETAKE-FIX-1018、Q-E36-CALL-1018（含 AA_298 第 10 節 d781b840）、KX-INVITE-LAW-1018、MSG-KX-Y0-1018（AA_301）、AA296-KXCALL-1018、BG-CAMP-1018、BUG-HOME-BIKE-HINT-1018、BUG-ECON-FRIENDS-1018、DORM-AFTER-MOVEOUT-1018。
 - **AA295-KX-NOHYPO-1018 已整合待測試**（faf3a8ea，子代理 4bc3fab5 併入；全部 node 單元測試過）；表外兩句（K7 票根禮物的反應）等 AA 寫。AA_302 劇本審閱 11 列已做（cb968a74），第 10 列等 AA 的 KX0_EGG／KX0_SHOP 名稱。
@@ -47,11 +48,11 @@
 - **使用者 09:0x：v9.10.1 也要包含** AA295-KX-NOHYPO-1018、BUG-DATE-0831-1018、BUG-NO-CLERK-1018（已整合 0f492509）、LAWWW2 三樣 ART-YU-3D-1018／ART-EXT-TEACH／ART-LIB-VIEW-1018（已整合 72287f55）。
 - v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。**發布條件**：BB 四種玩法＋AA 讀劇本兩關都過、跑 docs/TESTING.md 第五節。
 
-**C｜正在做的**：AA295 子代理（worktree）；背景探測 by3mou72w；等 BB 的 QA-AA300 結果。
+**C｜正在做的**：背景瀏覽器探測（scratchpad qa3/，2fb3e5a5 的劇本一、二，跑完轉 docs/qa/ 給 AA）；等 BB 的 QA-AA300-1018 重跑（10:4x 已派、2fb3e5a5）；等 AA 句子。
 
 **D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS-1018）使用者說先不要決定、要方案。
 
-**E｜跨 AI**：AA-C 待交 AA_296、Y0S1 名稱表；BB-C 在做 P0 測試→四種玩法；LAWWW2-C 在做 GG-SHOPS。訊息細節看 deliveries.json。
+**E｜跨 AI**：AA-C：AA_304 已交（8fcc2c7e）、正在問使用者其他人物（AA_305）、待交 retake_home、6 處矛盾句子、K7 兩句；BB-C：高雄兩張背景已交（b043f9bd）、QA-AA300 重跑中；LAWWW2-C：SCN-US-02 v3 已交（90c2896e）、下一項 ART-US-SEASON。訊息細節看 deliveries.json。
 
 **F｜測試**：本班改的都有 node 單元測試（econ_ff、econ_ff2、exit_ring、anon_dedup、kexin_model、phone_auto、各 v0／lifeline 換字）；瀏覽器只跑過經濟系第一階段全程和第二階段探測。**沒有跑發布前清單**（docs/TESTING.md 第五節），v9.10.1 發布前要跑；auto-open 手機可能讓舊的瀏覽器流程測試遇到要回訊息時多一個手機畫面，要確認。
 
