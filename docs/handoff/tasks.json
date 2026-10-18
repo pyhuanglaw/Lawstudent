@@ -9526,7 +9526,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "企劃線 docs/story_planning/art_reference/pinyu.webp（BB_131 人物標準圖；設定 BB_116 第 11 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "pausedFrom": "待開工"
   },
@@ -12860,7 +12860,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
     "receiver": "LAWWW-B",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -14968,9 +14968,9 @@
    "title": "路人底模男女各 20 種（nf1–20、nm1–20；9–20 號照日劇穿搭、低彩度；nf4、nm3 低彩度重建，不要紅色上衣）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【05:3x LAWWW-C 對帳】第五批 45fa5907 早就整合了（166a462b，在 v9.10 裡；看板原本還寫「等整合」）：33 個路人 VRM 換日劇髮型（同檔名、manifest 不用改）；角色美術 LAWWW 驗收：髮型分得開、比之前多樣，中分的幾個（nf5、nf9、nf10、nf15）額頭偏大，路人距離看不出來、不影響遊玩｜【02:3x LAWWW2 02:23：第五批 45fa5907 已交、等整合】｜第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
+   "next": "【11:3x LAWWW2-C 回報：40 個 bl_npc_nf1–20／nm1–20 和開發分支逐檔 blob 相同、manifest 都在；第三批剩下的 nm10／12／14／15／20 在第四批 1b924dd4、第五批 45fa5907 都已整合。沒有未交的】【05:3x LAWWW-C 對帳】第五批 45fa5907 早就整合了（166a462b，在 v9.10 裡；看板原本還寫「等整合」）：33 個路人 VRM 換日劇髮型（同檔名、manifest 不用改）；角色美術 LAWWW 驗收：髮型分得開、比之前多樣，中分的幾個（nf5、nf9、nf10、nf15）額頭偏大，路人距離看不出來、不影響遊玩｜【02:3x LAWWW2 02:23：第五批 45fa5907 已交、等整合】｜第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14986,7 +14986,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 2026-10-17（經 LAWWW2-C 轉達）：「長得很像的路人真的太多了」「路人數量要再加倍」「男生女生各 20 種」「臺大不要再有這麼鮮豔紅色上衣的女生」",
     "acceptance": "VRM 在遊戲裡載得起來（npc_ambient／anon_pool 單元）、低彩度沒有紅色上衣、遊戲內截圖",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -16972,7 +16972,7 @@
    "title": "美國校園照 Indiana 校區真的樣子和路線改；其他地區照樣子設計、先不開放進出（使用者 10-18 03:1x 直接對 LAWWW2-C，附空拍圖；照片不進 repo）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -16985,13 +16985,13 @@
     "confirmed": true
    },
    "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
-   "next": "【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "next": "【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
    "xai": {
     "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內截圖；不開放的區域看得懂地關起來",
     "receiver": "LAWWW-C",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
