@@ -82,22 +82,11 @@ D['characters'][TR] = {'friendOnly': True, 'steps': [
   'lines':['寒假我去演了一場兒童劇。我演一棵樹。','演到一半，一個小朋友衝上台抱住我的腳。……全場都在笑，我只能繼續當樹。'],
   'choices':[ch('「樹有說台詞嗎？」','說了，「風來了」。說完就被抱住了。'),
              ch('「你是一棵好樹。」','謝謝。……我會把這句寫在便利貼上。',rel={'comf':1})],'rel':{'fam':2},'mem':'TR0B_HUGGED_TREE'},
- {'id':'TR0b-L2','if':st(TR,'ACQUAINTANCE'),
-  'lines':['這學期劇社要排一齣長的。','我爭取到一個有名字的角色。……名字叫阿土。'],
-  'choices':[ch('「阿土是誰？」','一個很會種菜的人。我連盆栽都養死過。'),
-             ch('「恭喜。」','謝謝！有名字的角色，比樹多三句台詞。')],'rel':{'fam':2},'mem':'TR0B_ATU'},
- # 唐睿 TR0b-L3 整層替代（AA_235）
  {'id':'TR0b-L3','if':st(TR,'FAMILIAR'),'week':[7,16],
   'lines':['這學期經原要分組。品妤問了一圈，最後跟我一組。','她說是因為我都會準時交。'],
   'choices':[ch('「真的是這個原因？」','她說的。我沒有再問。'),
              ch('「那你要準時交。」','我已經寫好三頁大綱了。她還沒看。',rel={'trust':1})],'rel':{'fam':2,'comf':1},'mem':'TR0B_WAVED',
   'note':'E28（2/13 群組）「妳可以跟唐睿」之後；不說破他喜歡品妤。mem 名稱（WAVED）對不上，照留'},
- {'id':'TR0b-L4','if':st(TR,'FAMILIAR'),'week':[8,16],
-  'lines':['我在想，要不要跟一個人說一件事。','……我是說，在劇裡。劇裡的角色。阿土。'],
-  'linesIf':[{'if':fl('KNOWS_TANG'),'lines':['我在想，要不要跟一個人說一件事。','你知道是誰。不要說出來。']}],
-  'choices':[ch('「阿土應該說。」','……好。我回去跟阿土說。他會很緊張。'),
-             ch('「阿土可以再等等。」','對吧。阿土也這樣想。……阿土等很久了。')],'rel':{'fam':2,'comf':1},'mem':'TR0B_ATU_SAYS',
-  'note':'唐睿喜歡品妤（喜劇背景）；有 KNOWS_TANG 的玩家換一套'},
  {'id':'TR0b-L5','if':st(TR,'FAMILIAR'),'week':[10,16],
   'lines':['劇社有人問我：「你那個休學的朋友去哪了？」','我說他去重考法律。對方說好勇敢。我說他應該只覺得很累吧。'],
   'choices':[ch('「法律比經濟難嗎？」','我哪知道。看你每天讀到那麼晚，應該是吧。'),
@@ -235,7 +224,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 6 if cid==TR else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
