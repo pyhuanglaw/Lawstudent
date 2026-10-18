@@ -16763,6 +16763,32 @@
    },
    "pausedBy": "使用者 01:3x",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
+  },
+  {
+   "id": "ART-L118-GROUND",
+   "title": "118 巷的地面與台大後門（lane118_street.glb 沒有地面；LAWWW-C 接區域時用套件補的柏油、人行道、辛亥路、斑馬線、方塊門柱與圍牆是暫代）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次從法學院後門走去 118 巷",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "receiver": "LAWWW-C",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "src/data/lane118_layout.js v1；zones3d.js buildLane118 的暫代位置",
+    "acceptance": "GLB 地面與後門和配置座標一致；遊戲內截圖；LAWWW 接上後藏起暫代",
+    "ack": "SENT"
+   }
   }
  ]
 }
