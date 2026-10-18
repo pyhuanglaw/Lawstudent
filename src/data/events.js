@@ -3275,7 +3275,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（十一點五十，芯慈從樓梯間上來，還有點喘。）'},{speaker:'classmate_xinci',text:'捷運好多人。'},
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:'kexin',text:'我數到零就掛。你們繼續。'},
       {if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:null,text:'（她那邊的倒數，晚了一秒。）'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},speaker:'kexin',text:'新年快樂。'},{if:{custom:G=>!!G.flags.dating_kexin&&(G.flags.KX_NYE||{})[3]==='video'},set:{KX_NYE_VIDEO_Y3:true}},
-      {speaker:null,text:'（倒數是小語起的頭，數到三，大家才跟上。）'},
+      {speaker:null,text:'（倒數是小語起的頭，數到三，大家才跟上。）'},{speaker:null,text:'（零點。煙火照樣只看得到上半截。鹹酥雞的袋子被風吹得沙沙響。）'},   /* 5-6（d5cf5589）*/
       {speaker:'classmate_xinci',text:'我要趕捷運。'},{unless:{flags:['dating_heroine_01']},speaker:'heroine_01',text:'我也回去了。'},{speaker:'zhe',text:'下禮拜吃飯喔。'},
       {unless:{flags:['dating_heroine_01']},goto:'y3_end'},
       {speaker:null,text:'（大家下樓以後，她還站在欄杆邊。）'},{speaker:'heroine_01',text:'三月以前，我週末都空著。'},{speaker:'heroine_01',text:'你排一下。'},

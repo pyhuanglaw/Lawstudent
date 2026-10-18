@@ -2926,7 +2926,7 @@ const STORY = (function(){
     if(PHONE.sent(G,'nye_y3_ask')&&!kxR&&!OUT.get(G,'nye_y3')&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'nye_y3',ev:'ev_y3_newyear',day:nye,h:23.5,late:0.25,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'走上去約 2 分鐘',travelH:1/30,back:'回到房間。'});
     if(!after) return;
     if(!F.NYE_Y3) F.NYE_Y3='none';
-    if(inG&&F.NYE_Y3!=='roof'&&PHONE.sent(G,'nye_y3_ask')) PHONE.at(G,nye,24+5/60,[M('yu','📷（頂樓的合照）'),M('yu','今年人到得最齊')],'nye_y3_photo');   /* 2-6；照片的寫法照大一（AA_204）*/
+    if(inG&&F.NYE_Y3!=='roof'&&PHONE.sent(G,'nye_y3_ask')) PHONE.at(G,nye,24+5/60,[M('yu','📷（頂樓的合照，五個人，芯慈站在最旁邊）'),M('yu','今年人到得最齊')],'nye_y3_photo');   /* 2-6＋5-6（d5cf5589）*/
     if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'}],'nye_y3_yt'); };
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2）：12/24 21:00 她私訊問 → 高雄（高鐵來回 2980，錢不夠變灰）／頂樓・視訊；12/31 21:00 前沒回＝視訊；
      高雄＝23:30 出遊（ev_kx_nye_river_y?）；視訊＝23:59「接起來」（大二在頂樓的接在 ev_y2_newyear 裡）；答應高雄沒去＝00:00 兩句。KX_NYE[年]＝river／video／missed */
