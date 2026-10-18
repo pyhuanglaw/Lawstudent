@@ -15,7 +15,7 @@ d = json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[P
 for k in ('short', 'long'):
     for e in d[k]:
         for l in e['lines'] + e.get('after', []):
-            if l['s'] not in (None, 'kexin', '媽媽', '爸爸', '管理人員'): sys.exit(f"{e['id']}：說話的人不認得（{l['s']}）")
+            if l['s'] not in (None, 'kexin', 'player', '媽媽', '爸爸', '管理人員'): sys.exit(f"{e['id']}：說話的人不認得（{l['s']}）")   # player＝祐廷（AA_307 第 1 列：C4 祐廷兩句）
 out = {'source': f'白名單 {P}@{APPROVED[P]}', 'range': d.get('range'), 'cram': d.get('cram'), 'cram_cards': d.get('cram_cards'), 'room': d.get('room'), 'short': d['short'], 'long': d['long']}   # cram、cram_cards：衝刺班（AA_298 第 1 節）
 js = '/* 自動產生：tools/story/import_retake_home.py（AA_297 重考期在家的日常；台詞一字不改）*/\n\'use strict\';\nconst RETAKE_HOME=' + json.dumps(out, ensure_ascii=False) + ';\n'
 open(os.path.join(ROOT, 'src/data/retake_home.js'), 'w', encoding='utf-8').write(js)
