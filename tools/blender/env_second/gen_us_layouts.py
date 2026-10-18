@@ -11,7 +11,9 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, 'src', 'data', 'u
 SRC = [('US_COMMUNITY_LAYOUT', 'assets/models/env/second_ai/us_community.layout.json'),
        ('US_MARKET_LAYOUT', 'assets/models/env/second_ai/us_market.layout.json'),
        ('US_ASIAN_MARKET_LAYOUT', 'assets/models/env/second_ai/us_asian_market.layout.json'),   # 大超市對面的小亞洲超市（使用者 2026-10-17 23:0x；us_asian_market_layout_gen.py）
-       ('AIRPORT_T2_LAYOUT', 'assets/models/env/second_ai/airport_t2.layout.json')]
+       ('AIRPORT_T2_LAYOUT', 'assets/models/env/second_ai/airport_t2.layout.json'),
+       ('US_CAMPUS_LAYOUT', 'assets/models/env/second_ai/us_campus.layout.json'),       # 美國校園（法學院前、公車站、校門；SCN-US-02 v3；US-CAMPUS-WIRE-1018）
+       ('US_LAWLIB_LAYOUT', 'assets/models/env/second_ai/us_lawlib.layout.json')]       # 法學院圖書館（SCN-US-LIB）
 parts = ['/* ===== 美國交換（公寓社區戶外）、桃園機場第二航廈的配置：tools/blender/env_second/gen_us_layouts.py 產生，不要手改 =====\n'
          '   來源：' + '、'.join(p for _, p in SRC) + '、src/data/us_apartment_layout.js（Blender 正式模型讀同一份）。\n'
          '   座標：區域座標 x 往東、z 往南、y 往上；單位公尺。遊戲端：src/us3d.js。 */']

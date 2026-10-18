@@ -33,8 +33,8 @@ CATALOG = [{'x': 2.6, 'z': 7.0, 'note': '查詢電腦（站著用的小桌、螢
 L = {'version': 1, 'zone': 'us_lawlib', 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1}, 'levels': LEVELS, 'top': TOP, 'slab': SLAB, 'void': VOID,
      'door': DOOR, 'windows': WINDOWS, 'stair': STAIR, 'stairs_up': STAIRS_UP, 'tables': TABLES, 'round_tables': ROUND, 'lounge': LOUNGE, 'lounge_table': LOUNGE_TABLE,
      'stacks': STACKS, 'desk': DESK, 'catalog': CATALOG,
-     'spawn': {'x': 0.0, 'z': 8.4, 'yaw': math.pi, 'note': '從南邊的門進來、面向中庭（北）'},
-     'exits': [{'x': 0.0, 'z': 9.2, 'r': 1.2, 'label': '離開圖書館', 'to': 'us_campus', 'spawn': 'spawn_library_out', 'note': '回到法學院台階下（us_campus 的 spawn_library_out）'}],
+     'spawn': {'x': 0.0, 'z': 7.8, 'yaw': math.pi, 'note': '從南邊的門進來、面向中庭（北）；離「離開圖書館」1.4 m（US-CAMPUS-WIRE：原本 0.8 m，一進門就站在出口上）'},
+     'exits': [{'x': 0.0, 'z': 9.2, 'r': 0.9, 'label': '離開圖書館', 'to': 'us_campus', 'spawn': 'spawn_library_out', 'note': '回到法學院台階下（us_campus 的 spawn_library_out）'}],
      'cam_dist': 5.0, 'note_cam': '一樓走廊的天花板（樓板底）4.2 m：鏡頭高度要在這下面（camDist 5、俯角照一般室內）；四面牆 WALL_<面>_* 各自淡出'}
 # 座位（坐下讀書）：長桌每張椅子；圓桌、沙發
 SEATS = []
@@ -72,6 +72,12 @@ B_(STAIR['x0'] - 0.1, STAIR['x1'] + 0.1, STAIR['z0'], STAIR['rope_z'] + 0.1, 'st
 for (x, z) in ((VOID['x0'], VOID['z0']), (VOID['x1'], VOID['z0']), (VOID['x0'], VOID['z1']), (VOID['x1'], VOID['z1']), (VOID['x0'], 0.0)):   # 南北兩邊中間不放柱子（第一版正對大門擋住整個中庭）
     B_(x - 0.35, x + 0.35, z - 0.35, z + 0.35, 'column')
 L['columns'] = [{'x': (b['x0'] + b['x1']) / 2, 'z': (b['z0'] + b['z1']) / 2} for b in BLOCKS if b['why'] == 'column']
+for s_ in SEATS:   # 椅子後面 1.1 m 內有方柱：遊戲的走近點（前、後、兩側）都站不住，另外給一個走近點 ap（側後方、遠離柱子；US-CAMPUS-WIRE-1018）
+    for c_ in L['columns']:
+        if math.hypot(s_['x'] - c_['x'], s_['z'] - c_['z']) < 1.1:
+            fx, fz = math.sin(s_['yaw']), math.cos(s_['yaw']); sx, sz = fz, -fx
+            sg = 1 if (s_['x'] - c_['x']) * sx + (s_['z'] - c_['z']) * sz >= 0 else -1
+            s_['ap'] = [round(s_['x'] - fx * 0.35 + sg * sx * 0.75, 2), round(s_['z'] - fz * 0.35 + sg * sz * 0.75, 2)]
 L['blocks'] = BLOCKS
 
 
