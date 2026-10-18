@@ -86,7 +86,7 @@ def tile_hall(root, name, cx, cz, W=34.0, D=26.0, floors=3, yaw=0.0, M=None, cou
     mk['trim'].box(-3.6, 3.6, 3.4, 4.6, v1, v1 + 2.2); mk['trim'].box(-3.75, 3.75, 4.6, 4.8, v1 - 0.1, v1 + 2.35)                 # 楣、簷
     mk['door'].box(-1.0, 1.0, 0.18, 3.0, v1, v1 + 0.06)                                         # 門（門廊裡面）
     # 屋頂：外圈四坡往上到中庭邊（yR），中庭是平屋頂＋天窗
-    cw, cd = court; yE = H; yR = H + 3.2; over = 0.5
+    cw, cd = court; yE = H; yR = H + 4.6; over = 0.5                                   # 坡陡一點：街上看得到紅瓦（第一版 +3.2 從人行道幾乎看不到屋頂）
     a0, a1, b0, b1 = -cw / 2, cw / 2, -cd / 2, cd / 2
     U0, U1, V0, V1 = u0 - over, u1 + over, v0 - over, v1 + over; yE2 = yE - over * 0.45
     t = mk['tile']
@@ -100,12 +100,12 @@ def tile_hall(root, name, cx, cz, W=34.0, D=26.0, floors=3, yaw=0.0, M=None, cou
     for k in range(int(W / 4.2)):
         x = u0 + (k + 0.5) * W / int(W / 4.2)
         if abs(x) < 4.5: continue
-        dormer(mk, x, yE + 0.4, v1 - 1.2, 1)
+        dormer(mk, x, yE + 0.9, v1 - 1.2, 1)
     for k in range(int(D / 4.6)):
         z = v0 + (k + 0.5) * D / int(D / 4.6); xd = u1 - 1.2
-        mk['lime'].box(xd - 1.4, xd + 0.05, yE + 0.4, yE + 1.9, z - 0.7, z + 0.7)
-        mk['glass'].quad([(xd + 0.06, yE + 0.65, z + 0.45), (xd + 0.06, yE + 0.65, z - 0.45), (xd + 0.06, yE + 1.7, z - 0.45), (xd + 0.06, yE + 1.7, z + 0.45)])
-        t.quad([(xd + 0.2, yE + 1.9, z + 0.85), (xd + 0.2, yE + 1.9, z - 0.85), (xd - 1.4, yE + 2.5, z - 0.85), (xd - 1.4, yE + 2.5, z + 0.85)])
+        mk['lime'].box(xd - 1.4, xd + 0.05, yE + 0.9, yE + 2.4, z - 0.7, z + 0.7)
+        mk['glass'].quad([(xd + 0.06, yE + 1.15, z + 0.45), (xd + 0.06, yE + 1.15, z - 0.45), (xd + 0.06, yE + 2.2, z - 0.45), (xd + 0.06, yE + 2.2, z + 0.45)])
+        t.quad([(xd + 0.2, yE + 2.4, z + 0.85), (xd + 0.2, yE + 2.4, z - 0.85), (xd - 1.4, yE + 2.6, z - 0.85), (xd - 1.4, yE + 2.6, z + 0.85)])
     for m in mk.values(): m.finish(g, uv=True)
     return g
 

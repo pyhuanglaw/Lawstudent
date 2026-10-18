@@ -345,7 +345,8 @@ else:
             'bus': ((-12.0, 1.65, 21.4), (-24.0, 2.0, 18.0), 26),
             'aerial': ((40.0, 45.0, 62.0), (-20.0, 0.0, 2.0), 22),
             'oc': ((-30.0, 55.0, 45.0), (-85.0, 0.0, -18.0), 20),        # 第三版：老校區鳥瞰（校門在右下角，對照空拍圖）
-            'gatein': ((-66.0, 1.65, 13.5), (-66.0, 7.0, -30.0), 24)}     # 校門廣場往北看
+            'gatein': ((-66.0, 1.65, 13.5), (-66.0, 7.0, -30.0), 24),     # 校門廣場往北看
+            'west': ((-84.0, 1.65, 20.0), (-116.0, 8.0, 0.0), 22)}         # 西邊路口看對面的紅瓦大建築
     eye, look, lens = CAMS[opt('--cam', 'law')]
     cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam; cam.data.lens = lens; cam.data.clip_end = 2000
     e, l_ = Vector(g2b(*eye)), Vector(g2b(*look)); cam.location = e; cam.rotation_euler = (l_ - e).to_track_quat('-Z', 'Y').to_euler()
