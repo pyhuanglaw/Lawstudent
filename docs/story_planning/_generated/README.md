@@ -26,3 +26,15 @@
   1. `syllabus_unit`：特殊課週次 `econ_principles_y0_2` [16]→[15]（16 週制）、`legal_research` [10]→[6,7,10]（AA_263）。
   2. `v2_c15_unit` 第 1、3b 點：憲法二第 12 週 B4 回想改字（口語審）。新句：「演講最後，講者問：『被限制的人，最後可以去哪裡？』今天的黑板寫著一部分答案。」
   3. `class_ask_unit` 第 1 點：**換之前就已經失敗**（n=76 不一致）。換上以後 ask 週＝74：civil40 拿掉 2 個第 16 週的 askedIn（16 週制）。預期值改 74。
+
+## 第二批：沛珊老家桃園→台中（2026-10-18，回 LAWWW-C 00:09 第三點）
+- 檔案：`taichung_1018.patch`（對開發分支 `a895bc62` 的 `git diff`）。套用：`git apply docs/story_planning/_generated/taichung_1018.patch`（取自 AA 分支這個 commit）。
+- 內容：
+  - `docs/handoff/story_import_allow.json`：六筆的 sha 改成 `741e94f1`（ladder_bb、ladder_bb_y1s2、ladder_bb_y3s1、date_system/lines D04、D12、BB_178），格式不動、只改那六行。
+  - `tools/msg/build_pool.py`、`tools/msg/build_msg2.py`：沛珊「放假、在桃園」三則、「她在哪裡」、build_msg2 兩處改台中；source 的 BB_178 改 `741e94f1`。
+  - 重新產生：`src/data/ladder.js`、`src/data/msg_pool.js`、`src/data/msg2_pool.js`。
+- `741e94f1` 比你白名單的舊版多改了兩句（AA 順過，使用者「整個暑假在老家」）：
+  - D04 沛珊「我家那邊的電影院比較小，這間好大。」（原「台中的電影院比較小」不合理）。
+  - 大一下閒聊：「暑假我要回台中幫家裡。課輔班的營隊，我只帶第一週。」（原「課輔班帶夏令營兩個禮拜，還有回台中幫忙」和整個暑假在老家衝突）。
+- 測試（`a895bc62`＋這個 patch）：`msg_chat_unit`、`vac_hometown_unit`、所有讀 ladder.js 的單元測試 ALL PASS。
+- **date_lines.js 沒有產生**：`tools/date/import_date_lines.py` 在你乾淨的 `a895bc62` 上就會停，因為白名單有重複的 approved（BB_188：`d171faef`、`05571a45`；AA_224：`ff3f2a4b`、`4e3a7c2b`，可能還有別的）。請你整理白名單的重複項以後再跑這支，D04、D12 就會換成台中版。
