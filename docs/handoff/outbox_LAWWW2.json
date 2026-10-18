@@ -384,6 +384,27 @@
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "SCN-US-02",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1e6987cb",
+   "files": [
+    "assets/models/env/second_ai/us_campus.glb",
+    "assets/models/env/second_ai/us_campus.json",
+    "assets/models/env/second_ai/us_campus.layout.json",
+    "tools/blender/env_second/us_campus.py",
+    "tools/blender/env_second/us_campus_layout_gen.py",
+    "tools/blender/env_second/us_law_kit.py",
+    "tools/blender/env_second/us_campus_kit.py",
+    "docs/art-rebuild/second_ai/test_shots/us_campus/"
+   ],
+   "state": "已交付（PROPOSAL／READY_FOR_ART_REVIEW：使用者 10-18 01:0x 給法學院、校門照片，照片改；場景美術要使用者看過）",
+   "remaining": "活動中心（校門後）沒做；季節版本（ART-US-SEASON）；照片是秋天、這版是夏天",
+   "next": "LAWWW-C 用 us3d.js 的 outdoorZone 接 us_campus（配置欄位、出生點、互動點寫在 README）：公車到站 spawn_bus、「進教室」→ 2D 課堂 → spawn_class_out、「往活動中心」關著的出口；ASSETS 加 bldg.us_campus；US_CAMPUS_LAYOUT 加進 src/data/us_layouts.js。BB-C 測流程",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
