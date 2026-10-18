@@ -2318,10 +2318,7 @@ const STORY = (function(){
       items:()=>seq('classmate_peishan',['睡前突然想到','如果有人把東西忘在教室，隔天被別人拿走，這樣算偷嗎？','大家明天再回就好'],'g:public_law')}   /* BB_175 D17（AA_200 第 1 節：沒有人回，停在問題）*/,
     {id:'ps_f',h:()=>23+20/60,ok:G=>fl('classmate_peishan')==='FAMILIAR'&&gotBefore(G,'classmate_peishan'),
       items:()=>seq('classmate_peishan',['📷（一頁書，劃了一行線）','這行讓我想到讀書會那題','你不用回喔'])}   /* BB_175 D18 */,
-    {id:'ps_r',h:()=>23,ok:(G,day)=>fl('classmate_peishan')==='FRIEND'&&gotBefore(G,'classmate_peishan')&&CALENDAR.dateOf(day).wd<=5&&!CALENDAR.holiday(day),
-      items:()=>seq('classmate_peishan',['今天老師說，法律是最低限度的道德。','我抄下來了。可是回家的路上一直在想：','那最高限度的，是誰在管？','……你覺得呢？'])},
-    {id:'ps_c',h:()=>23+5/60,ok:G=>fl('classmate_peishan')==='CLOSE_FRIEND'&&gotBefore(G,'classmate_peishan'),
-      items:()=>seq('classmate_peishan',['今天我沒有要問的','你有想講的就傳 我還沒睡'])}   /* BB_175 D20 */,
+    /* ps_r（大一上朋友 23:00「法律是最低限度的道德……你覺得呢？」）、ps_c（好朋友 23:05「今天我沒有要問的／你有想講的就傳 我還沒睡」）刪掉（AA_281 第 8 節 M5、M6：她主動傳的太多；使用者 10-18「不一定會很頻繁的聯繫你，但是你約他其實他又都可以」）*/
     /* 方奕廷「有點熟」以前（「學弟好」開頭、學名、一段說明、最後一句很短的真話）：九、十月台灣欒樹；十月以後黃金葛的葉子（欒樹那則先）；寒流前那則是定時的（phoneRules：第一波寒流前一晚）*/
     {id:'fy_tree',h:()=>20.5,ok:(G,day)=>fyEarly(G)&&[9,10].includes(CALENDAR.dateOf(day).m),
       items:()=>seq('npc_fangyt',['學弟好。舟山路的台灣欒樹開花了。','📷 Koelreuteria elegans。秋天先開黃花，再結粉紅色的果。','很漂亮。'])},

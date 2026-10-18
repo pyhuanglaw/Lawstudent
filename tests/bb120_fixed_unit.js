@@ -38,7 +38,7 @@ const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
 const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',16,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
 (async()=>{
   check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 16 週是期末考（16 週制；變數名照舊）',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
-  check('每天的手機小事有 BB_120 1-7c 的 14 則（方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','ps_r','ps_c','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&STORY.DAILY_PHONE.length>=23);
+  check('每天的手機小事有 BB_120 1-7c 的 12 則（ps_r、ps_c 照 AA_281 第 8 節刪掉；方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&!D('ps_r')&&!D('ps_c')&&STORY.DAILY_PHONE.length>=21);
   if(!D('zq_a1')){ console.log('FAILED '+fails); process.exit(1); }
   /* ---------- A 子晴 ---------- */
   { fresh(W5TUE,8,'dorm'); PHONE.join(G,'guitar','吉他社'); R('heroine_04',...LV.ACQ);
@@ -69,9 +69,8 @@ const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1'
     G.contacts.classmate_peishan=W5TUE-3; R('classmate_peishan',...LV.FAM);
     check('B 有點熟：23:20 私訊書頁照片、「這行讓我想到讀書會那題」「你不用回喔」（BB_175 D18）',!D('ps_a').ok(G,W5TUE)&&D('ps_f').ok(G,W5TUE)&&hm(D('ps_f').h(G))==='23:20'&&JSON.stringify(txt('ps_f'))===JSON.stringify(['p:classmate_peishan｜📷（一頁書，劃了一行線）','p:classmate_peishan｜這行讓我想到讀書會那題｜+1分','p:classmate_peishan｜你不用回喔｜+2分']),JSON.stringify(txt('ps_f')));
     R('classmate_peishan',...LV.FRI); const sat=termDay('Y1S1',5,6);
-    check('B 朋友：上課日的長訊息，最後問你（週六不傳：「今天老師說」）',D('ps_r').ok(G,W5TUE)&&!D('ps_r').ok(G,sat)&&txt('ps_r').map(s=>s.split('｜')[1]).join('/')==='今天老師說，法律是最低限度的道德。/我抄下來了。可是回家的路上一直在想：/那最高限度的，是誰在管？/……你覺得呢？');
-    R('classmate_peishan',...LV.CLO);
-    check('B 好朋友：23:05「今天我沒有要問的」23:06「你有想講的就傳 我還沒睡」（BB_175 D20）',D('ps_c').ok(G,W5TUE)&&hm(D('ps_c').h(G))==='23:05'&&JSON.stringify(txt('ps_c'))===JSON.stringify(['p:classmate_peishan｜今天我沒有要問的','p:classmate_peishan｜你有想講的就傳 我還沒睡｜+1分']),JSON.stringify(txt('ps_c'))); }
+    check('B 朋友、好朋友：她不再主動傳深夜長訊息（ps_r、ps_c 刪掉，AA_281 第 8 節 M5、M6）',!D('ps_r')&&!D('ps_c'));
+    R('classmate_peishan',...LV.CLO); }
   /* ---------- C 方奕廷「學弟好」---------- */
   { const oct=(()=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&CALENDAR.dateOf(d).m===10&&CALENDAR.dateOf(d).wd===2) return d; } return null; })(), sep=(()=>{ for(let d=1;d<60;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week>=4&&CALENDAR.dateOf(d).m===9) return d; } return null; })(), nov=termDay('Y1S1',10,2);
     fresh(oct,8,'dorm',{POTHOS:true}); G.contacts.npc_fangyt=oct-5; R('npc_fangyt',...LV.ACQ);

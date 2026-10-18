@@ -16989,6 +16989,26 @@
     "receiver": "LAWWW-C",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "PS-MSG-LESS-1018",
+   "title": "沛珊主動訊息減量（AA_281 第 8 節，09615f28）：M5 ps_r、M6 ps_c 刪；M20 出國每天一則改隔天；M14 needed_msgs ps_q 改發公法讀書會群組",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 5,
+    "earliest": "大一上和沛珊變熟",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "AA-C 10-18 03:03（AA_281 第 8 節）",
+   "next": "【03:4x】M5、M6 刪、M20 every:2 已做（tests/bb120_fixed_unit 改）。剩 M14：needed_msgs（主線 4 的私訊＋沒回見面帶過）現在只有私訊，改群組要讓 needed 系統支援群組發問（回覆、miss 那句怎麼算要 AA 定），v9.10 後做"
   }
  ]
 }
