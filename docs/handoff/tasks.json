@@ -6710,7 +6710,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "暫停",
-   "next": "【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "next": "【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -14581,7 +14581,7 @@
    "owner": "LAWWW2",
    "status": "等待其他AI／素材",
    "priority": "P3",
-   "next": "等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "next": "【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
    "first": {
     "term": "Y4S1",
     "week": 1,
