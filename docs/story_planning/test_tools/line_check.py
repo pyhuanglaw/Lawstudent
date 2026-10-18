@@ -3,7 +3,7 @@
 輸出：違反的句子（日期、事件 id、說話的人、原句、規則），以及每人每學期的口頭禪計數。"""
 import json, re, sys, collections
 
-BAN = ['大家都只問', '謝謝你沒有', '不要跟別人講', '不要跟別人說', '你不要講出去', '你先不要跟別人說', '你不用那個表情', '你是第一個']
+BAN = ['大家都只問', '謝謝你沒有', '不要跟別人講', '不要跟別人說', '你不要講出去', '你先不要跟別人說', '不要跟阿哲說', '你不用那個表情', '你是第一個']
 # 00_人物口氣表 0-3：全體共用的招、中國用語、作廢的設定
 TRICK = [('「……騙你的」', r'騙你的'), ('「我是說」', r'我是說'), ('「我記住了」收尾', r'我記住了。?$'), ('「我們家很 X」', r'我們家很'),
          ('「這是我的規則」', r'這是我的規則'), ('「○○也是一種回答」', r'也是一種回答')]
@@ -62,7 +62,7 @@ def main(paths):
         if who and who != '旁白' and len(t) > 48 and d >= '2026-02': out.append(('一句超過 48 字（%d 字；大一下起）' % len(t), tag))
         if who:
             for name, rx in TRICK:
-                if re.search(rx, t): out.append(('全體共用的招 %s（口氣表 0-3）' % name, tag))
+                if re.search(rx, t) and not (name == '「……騙你的」' and ('小語' in who or '語晴' in who)): out.append(('全體共用的招 %s（口氣表 0-3；「……騙你的」只留給小語）' % name, tag))
         if not who: continue
         for name, rx in AI:
             if re.search(rx, t):

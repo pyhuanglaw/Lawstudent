@@ -8,7 +8,7 @@ E. 學姊資料頁：大一「法律系・四年級」，大二～大四「法�
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
-URL = sys.argv[1]; OUT = sys.argv[2]; PARTS = (sys.argv[3] if len(sys.argv) > 3 else 'A,B,C,D,E').split(',')
+URL = sys.argv[1]; OUT = sys.argv[2]; PARTS = (sys.argv[3] if len(sys.argv) > 3 else 'A,B,C,D,E,F').split(',')
 BASE = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True,
         'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True, 'fundsV2': 1}
 MET = ['zhe', 'yu', 'classmate_bohan', 'classmate_mingxuan', 'classmate_xinci', 'heroine_01', 'classmate_peishan', 'heroine_03', 'heroine_05']
@@ -177,6 +177,16 @@ async def main():
                     await run.shot(pg, 'E_profile_%s' % key)
                 run.check('E. %s 學姊資料頁顯示「%s」（朋友列表：%s）' % (key, w, lst), bool(prof) and w in prof, json.dumps({'list': lst, 'profile': prof}, ensure_ascii=False))
                 await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700)
+        if 'F' in PARTS:   # 正式地面（ART-L118-GROUND，5ecab8b8）：白天、晚上各拍後門、斑馬線、巷子
+            for hh, nm in ((15.0, 'day'), (21.0, 'night')):
+                run.setup('F. 讀檔 2025-09-17 %02d:00 霖澤館後面的小廣場 → 走後門進 118 巷（看地面）' % hh)
+                await load(pg, '2025-09-17', hh, 'campus', {'x': 34, 'z': -124.6, 'yaw': 3.14}, flags=dict(BASE, L118_FIRST_SENT=True))
+                await run.shot(pg, 'F_%s_campus_gate' % nm)
+                ok = await to_lane(pg, cdp, run); await pg.wait_for_timeout(3000)
+                await run.shot(pg, 'F_%s_lane_entry' % nm)
+                for sid in ('noodle2', 'home'):
+                    await door_go(pg, cdp, run, sid); await run.shot(pg, 'F_%s_%s' % (nm, sid))
+                run.check('F. %s 進得了 118 巷（地面截圖給人看）' % nm, ok)
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     sys.exit(run.finish())
