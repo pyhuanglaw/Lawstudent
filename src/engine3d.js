@@ -234,7 +234,7 @@ const E3 = (function(){
     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
     for(const x of E.extras){ if(x.update) x.update(dt); }
     // 鏡頭
-    updateCamera(dt); if(E.sky){ E.sky.position.copy(camera.position); E.sky.material.uniforms.time.value=E.time; }   /* 室內也畫天空：從玻璃帷幕、窗戶看出去是天空（2026-10-11 試過室內不畫天空、改深灰背景：萬才館東窗、霖澤館玻璃底下的縫會變成深灰色，反而更假）。上下樓梯看到大片天空的問題由 updateLevelVis 解決 */ if(E.skyline){ E.skyline.position.set(camera.position.x,0,camera.position.z); E.skyline.visible=!E.indoor; }
+    updateCamera(dt); if(E.sky){ E.sky.position.copy(camera.position); E.sky.material.uniforms.time.value=E.time; }   /* 室內也畫天空：從玻璃帷幕、窗戶看出去是天空（2026-10-11 試過室內不畫天空、改深灰背景：萬才館東窗、霖澤館玻璃底下的縫會變成深灰色，反而更假）。上下樓梯看到大片天空的問題由 updateLevelVis 解決 */ if(E.skyline){ E.skyline.position.set(camera.position.x,0,camera.position.z); E.skyline.visible=!E.indoor&&!(E.zone&&E.zone.def&&E.zone.def.noSkyline); }   /* noSkyline：區域不要遠景剪影（美國篇：台北的山和城市大樓不該出現在印第安納；US-CAMPUS-WIRE-1018）*/
     // 雨
     if(E.rain&&E.rain.visible){ const pos=E.rain.geometry.attributes.position; const cx=P.obj.position.x, cz=P.obj.position.z; for(let i=0;i<pos.count;i++){ let y=pos.getY(i)-dt*14; if(y<0){ y=16+Math.random()*4; pos.setX(i,cx+(Math.random()-0.5)*40); pos.setZ(i,cz+(Math.random()-0.5)*40); } pos.setY(i,y); } pos.needsUpdate=true; }
     if(E.zone&&E.zone.update) E.zone.update(dt,E); if(typeof W3!=='undefined'&&W3.updateWind) W3.updateWind(E.time);

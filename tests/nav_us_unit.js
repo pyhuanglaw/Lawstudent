@@ -117,6 +117,30 @@ for(const k of ['dep','arr']){ const id='airport_'+k, z=loadZone(id), L=AIRPORT_
   globalThis.GAME={G:{flags:{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_ARRIVED:true}}}; loadZone('airport_dep'); b=board();
   check('airport_dep（交換已經抵達以後再來機場）：回到通用的「登機」',!!b&&b.airportBoard&&!b.exchFly,b&&b.label);
   if(!had) delete globalThis.EXCH; if(!had2) delete globalThis.GAME; }
+// ---------- 美國校園（US-CAMPUS-WIRE-1018，LAWWW2-C）----------
+{ const z=loadZone('us_campus'), L=US_CAMPUS_LAYOUT, S=z.spawn;
+  check('美國校園：公車到站的出生點站得住、不在任何出口的範圍裡',stand(S.x,S.z)&&!E.interactables.some(i=>i.exit&&Math.hypot(i.x-S.x,i.z-S.z)<i.radius),`(${S.x},${S.z})`);
+  for(const k of ['spawn_class_out','spawn_library_out','spawn_gate']){ const p=L[k]; check(`美國校園：${k} 站得住`,stand(p.x,p.z),`(${p.x},${p.z})`); }
+  const cls=E.interactables.find(i=>i.usClass==='law'), co=L.spawn_class_out;
+  check('美國校園：下課出來（spawn_class_out）不在「進教室」的範圍裡',!!cls&&Math.hypot(cls.x-co.x,cls.z-co.z)>=cls.radius,cls?`${Math.hypot(cls.x-co.x,cls.z-co.z).toFixed(2)} m`:'沒有進教室');
+  check('美國校園：有「搭公車（回社區）」→ us_outside、「進圖書館」→ us_lawlib、「進教室」（usClass，沒有出口）、「往活動中心」（usGate，關著）',
+    !!E.interactables.find(i=>i.exit&&i.exit.to==='us_outside')&&!!E.interactables.find(i=>i.exit&&i.exit.to==='us_lawlib')&&!!cls&&!cls.exit&&!!E.interactables.find(i=>i.usGate&&!i.exit));
+  check('美國校園：高起來的草坪、校門後面（老校區）、馬路、西邊路口走不上去',!stand(20,0)&&!stand(-66,-20)&&!stand(0,27)&&!stand(-93,0));
+  const r=both([S.x,S.z],[cls.x,cls.z+0.6]); check('美國校園：公車站 → 人行道 → 走道 → 台階下',r.ok,fmt(r));
+  const r2=both([S.x,S.z],[-66,12.6]); check('美國校園：公車站 → 人行道 → 校門廣場',r2.ok,fmt(r2));
+  check('美國校園、社區：區域不畫遠景剪影（noSkyline）',!!Z3.ZONES.us_campus.noSkyline&&!!Z3.ZONES.us_outside.noSkyline&&!Z3.ZONES.us_market.noSkyline);
+  { const ex=fs.readFileSync(path.join(ROOT,'src/exchange3d.js'),'utf8').match(/const US_ZONES=\[([^\]]*)\]/); check('美國校園、圖書館算在美國（src/exchange3d.js 的 US_ZONES）',!!ex&&/'us_campus'/.test(ex[1])&&/'us_lawlib'/.test(ex[1]),ex&&ex[1]); }
+  allReach('美國校園',[S.x,S.z]); noteExits('us_campus'); }
+// ---------- 法學院圖書館（SCN-US-LIB）----------
+{ const z=loadZone('us_lawlib'), L=US_LAWLIB_LAYOUT, S=z.spawn;
+  check('法學院圖書館：門口的出生點站得住、不在「離開圖書館」的範圍裡',stand(S.x,S.z)&&!E.interactables.some(i=>i.exit&&Math.hypot(i.x-S.x,i.z-S.z)<i.radius),`(${S.x},${S.z})`);
+  const st=L.stacks[0], tb=L.tables[0], sr=L.stairs_up[0];
+  check('法學院圖書館：書架、長桌、樓梯（紅絨繩）擋住，中庭走道站得住',!stand((st.x0+st.x1)/2,st.z)&&!stand(tb.x,tb.z)&&!stand((sr.x0+sr.x1)/2,(sr.z0+sr.z1)/2)&&stand(0,3));
+  check(`法學院圖書館：${L.seats.length} 個座位都可以坐，讀書桌（study）有「讀書」`,z.seats.length===L.seats.length&&E.interactables.filter(i=>i.seat&&i.study).length===L.seats.filter(q=>q.kind==='study').length);
+  check('法學院圖書館：「離開圖書館」→ us_campus 的 spawn_library_out',!!E.interactables.find(i=>i.exit&&i.exit.to==='us_campus'&&i.exit.spawn.x===US_CAMPUS_LAYOUT.spawn_library_out.x&&i.exit.spawn.z===US_CAMPUS_LAYOUT.spawn_library_out.z));
+  allReach('法學院圖書館',[S.x,S.z]); noteExits('us_lawlib'); }
+{ loadZone('us_outside'); const b=E.interactables.find(i=>i.usBus==='campus'), g=E.interactables.find(i=>i.usGoOut);
+  check('社區：有「搭公車（去學校）」（usBus）→ us_campus，和「出門（去超市）」的範圍不重疊、站得住',!!b&&b.exit&&b.exit.to==='us_campus'&&!!g&&Math.hypot(b.x-g.x,b.z-g.z)>=b.radius+g.radius&&stand(b.x,b.z),b?`(${b.x},${b.z})`:'沒有'); }
 // ---------- 出入口的到達點 ----------
 { const bad=[]; for(const a of arrivals){ if(!Z3.ZONES[a.to]){ bad.push(`${a.label} → ${a.to}：沒有這個區域`); continue; } if(a.to==='gongguan') continue;   /* 公館的落點＝校園「走出校門」的落點（tests/zone_transitions.py 測過）*/
     loadZone(a.to); if(!stand(a.sp.x,a.sp.z)) bad.push(`${a.from}「${a.label}」→ ${a.to} (${a.sp.x},${a.sp.z}) 站不住`);
