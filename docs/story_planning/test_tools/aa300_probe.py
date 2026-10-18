@@ -32,7 +32,7 @@ async def answer_phone(pg, cdp, th):
     await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"msg\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
     c = await pg.evaluate("(t=>{ const e=[...document.querySelectorAll('#phoneBody [data-th]')].find(b=>b.dataset.th===t); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(th))
     if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900)
-    b = await pg.evaluate("(last=>{ const es=[...document.querySelectorAll('#phoneBody [data-ask], #phoneBody [data-ans]')]; if(!es.length) return null; const e=last?es[es.length-1]:es[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })(%s)" % ('true' if DECLINE_LAST else 'false'))
+    b = await pg.evaluate("((last,ex)=>{ const es=[...document.querySelectorAll('#phoneBody [data-ask], #phoneBody [data-ans]')]; if(!es.length) return null; const e=es.find(x=>ex.some(t=>x.textContent.includes(t)))||(last?es[es.length-1]:es[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })(%s,%s)" % ('true' if DECLINE_LAST else 'false', json.dumps(EXTRA)))
     if b: await L.touch_tap(cdp, b[0], b[1]); await pg.wait_for_timeout(900)
     if await phone_open(pg): await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700)
     return b and b[2]
