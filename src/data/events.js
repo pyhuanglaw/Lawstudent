@@ -1826,7 +1826,7 @@ const STORY_EVENTS=[
       {label:'g2'},{speaker:'kexin',expression:'smile',text:'……這本我要用完。'},{goto:'card'},
       {label:'g3'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'……這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{speaker:null,text:'（她把卡片推過來）'},   /* AA_209 附錄B §2 */
-      {label:'card'},{speaker:'kexin',expression:'teasing',text:'（把卡片翻到第一頁）那天在最高的地方，我們誰都沒說話。'},{speaker:'kexin',expression:'teasing',text:'那今天，是第幾圈？'},
+      {label:'card'},{speaker:'kexin',expression:'teasing',text:'（把卡片翻到第一頁）那天在最高的地方，你說在一起吧。我說好。'},{speaker:'kexin',expression:'teasing',text:'那今天，是第幾圈？'},
       {choice:[{text:'「第一圈。」',goto:'c1'},{text:'「第三百六十五圈。」',goto:'c2'},{text:'「不用算。」',goto:'c3'}]},
       {label:'c1'},{speaker:'kexin',expression:'smile',text:'那我們還在最高點。'},{goto:'end'},
       {label:'c2'},{speaker:'kexin',expression:'surprised',text:'……你算過？'},{speaker:'player',text:'猜的。'},{speaker:'kexin',expression:'laugh',text:'猜得很準。'},{goto:'end'},
@@ -1840,7 +1840,7 @@ const STORY_EVENTS=[
       {choice:[{text:'摩天輪票根的影本，背面寫那天的日期',set:{_K7G:'ticket'}},{text:'一本空白的行事曆，第一頁寫「我們的日子」',set:{_K7G:'planner'}},{text:'山下那家的酸辣湯餃（外帶）',set:{_K7G:'dumpling'}},{text:'什麼都沒準備',set:{_K7G:'none'}}]} ],
     after:G=>{ const n=STORY.kxAnnivGiftYear(G); if(n) G.flags['K7_GIFT_'+n]=G.flags._K7G||'none'; delete G.flags._K7G; } },
   /* K7 第二～四年的週年：地點（q.ap）、第幾年（q.year）由排程帶進來；她收到的反應照第一年；卡片換句：第二年「第二年。」、第三年「第三年。我們好像真的會一直轉下去。」、第四年「第四年。」（選項同第三年）。
-     卡片第一頁「那天在最高的地方，我們誰都沒說話。」只在第一年。記 KX_ANNIV {n:地點}；沒去＝卡片的照片（同第一年），KX_ANNIV {n:'missed'} */
+     卡片第一頁「那天在最高的地方，你說在一起吧。我說好。」（AA_303 第 2 節 9）只在第一年。記 KX_ANNIV {n:地點}；沒去＝卡片的照片（同第一年），KX_ANNIV {n:'missed'} */
   { id:'ev_kexin_anniversary_yn', title:'週年', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2.5,
     beforeOuting:(G,GM,q)=>{ const F=G.flags, n=(q&&q.year)||2; F._kxAY=n; F._kxAP=(q&&q.ap)||F['KX_ANNIV_PLACE_'+n]||'shop'; if(F['K7_GIFT_'+n]==null) F['K7_GIFT_'+n]='none'; F._kxAG=F['K7_GIFT_'+n]; },
     outingMissed:(G,GM,q)=>{ const n=(q&&q.year)||2; G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[n]:'missed'}); if(typeof PHONE==='undefined'||PHONE.sent(G,'kx_anniv_photo'+n)) return; PHONE.at(G,G.day,Math.max(G.hour,19),[{th:'p:kexin',from:'kexin',text:'📷（一張卡片）'},{th:'p:kexin',from:'kexin',text:'週年快樂。下次你準備。'}],'kx_anniv_photo'+n); },
@@ -1938,15 +1938,19 @@ const STORY_EVENTS=[
       {label:'end'} ],
     consequences:{meet:['econ_pinyu']},
     after:(G,GM)=>{ const p=G.flags.P2_PICK; if(p==='gongguan'){ const e=STORY_EVENTS.find(x=>x.id==='ev_y0_e05'); if(e&&typeof EVENTS!=='undefined'&&!(G.events&&G.events.done&&G.events.done.ev_y0_e05)) setTimeout(()=>{ void EVENTS.run(e); },0); } else if(p==='river'||p==='library') GM.advance(1.5); } },
-  /* ★E05「要我載妳嗎？」（BB_104 第 8-2 節；AA_154 第 102 行）：P2 選公館接著演；三種開口記 E05_OPEN（'carry'／'fix'／'steady'），E06 讀它。
-     演完記 E05_DAY、E05_END（E06／D2 用）。公館那一頓（P2 原文）在後面 */
-  { id:'ev_y0_e05', stage:'econ', title:'要我載妳嗎？', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[5], time:[17,19.5], once:true, background:'blur',   /* P2 選公館＝P2 演完直接接（9/19）；其他＝9/20（五）17:00～19:30 自動（固定核心）*/
-    dialogue:[ {speaker:null,text:'（可昕的腳踏車鏈子掉了，她蹲在路邊研究。）'},
-      {choice:[{text:'「要我載妳嗎？」',set:{E05_OPEN:'carry'},goto:'carry'},{text:'「要不要我幫妳修？」',set:{E05_OPEN:'fix'},goto:'fix'},{text:'「我車很穩。」',set:{E05_OPEN:'steady'},goto:'steady'}]},
-      {label:'carry'},{speaker:'kexin',expression:'teasing',text:'你確定？載我的成本很高喔。'},{speaker:'kexin',expression:'teasing',text:'我會一路指揮你怎麼騎。'},{speaker:'kexin',expression:'smile',text:'……而且雙載違規。我自己牽。你陪我走。'},{goto:'end'},
-      {label:'fix'},{speaker:'kexin',expression:'surprised',text:'你會修？'},{speaker:'player',text:'不會。'},{speaker:'kexin',expression:'smile',text:'那幫我牽一下，我查一下公館的車行。'},{goto:'end'},
-      {label:'steady'},{speaker:'kexin',expression:'teasing',text:'不用啦，我用牽的。公館很近。'},
-      {label:'end'},{if:{flagIs:{P2_PICK:'gongguan'}},speaker:null,text:'品妤挑了一家一百二十元吃到飽的。阿勳吃了四碗白飯。'} ],
+  /* ★E05 鏈子掉了（BB_104 第 8-2 節；AA_154 第 102 行；AA_303 第 2 節 4 整段換：你幫她裝回鏈子、她還洗好的制服、請你喝飲料）：P2 選公館接著演。
+     E05_OPEN 固定記 'fix'（E06／D2 讀它才會發；E06 第一句「你今天說要幫我修車，」待 AA 對新場景確認）。演完記 E05_DAY、E05_END（E06／D2 用）。
+     原本 P2 選公館才有的「品妤挑了一家一百二十元吃到飽的……」隨整段替換拿掉 */
+  { id:'ev_y0_e05', stage:'econ', title:'鏈子掉了', participants:['kexin'], location:'any', trigger:'auto', term:['Y0S1'], weeks:[3], weekday:[5], time:[17,19.5], once:true, background:'blur',   /* P2 選公館＝P2 演完直接接（9/19）；其他＝9/20（五）17:00～19:30 自動（固定核心）*/
+    dialogue:[ {speaker:null,text:'（可昕的腳踏車鏈子掉了，她蹲在路邊研究。車籃裡放著一件折好的制服。你的。）'},
+      {speaker:'kexin',expression:'neutral',text:'（抬頭）……你會修嗎？'},
+      {speaker:null,text:'（你蹲下來，把鏈子一節一節掛回齒輪上。手都是油。）'},{set:{E05_OPEN:'fix'}},
+      {speaker:'kexin',expression:'smile',text:'（遞面紙）……謝謝。'},
+      {speaker:'kexin',expression:'neutral',text:'（從車籃拿出制服）洗好了。'},
+      {choice:[{text:'「妳真的洗了。」',goto:'w'},{text:'「下次再借妳穿。」',goto:'n'}]},
+      {label:'w'},{speaker:'kexin',expression:'teasing',text:'當然。我又不是那種人。'},{goto:'end'},
+      {label:'n'},{speaker:'kexin',expression:'embarrassed',text:'……誰要穿你的。'},{speaker:null,text:'（她把制服塞給你。）'},
+      {label:'end'},{speaker:'kexin',expression:'smile',text:'走。我請你喝飲料。公館。'} ],
     after:(G,GM)=>{ GM.advance(1.5); G.flags.E05_DAY=G.day; G.flags.E05_END=G.hour%24; } },
   /* ★E08 中秋系烤（BB_153，AA-B 核對通過、數值照 BB 建議定案；AA_154 第 88 行、A3：中秋後的週六 9/21 17:00 河濱）：9/16 全班群組揪、9/21 16:00 韋綸私訊，回「好」＝出遊（story3d.js）。
      誰生火、月亮收租的回答都不記（BB_104）。數值：可昕熟悉 +2；品妤、阿勳 +1（韋綸、唐睿還沒有人物資料——AA_159 建好時補 +1）。
@@ -2082,19 +2086,18 @@ const STORY_EVENTS=[
       { id:'ev_y0_cram', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'auto', once:true, background:'dark', hours:2, prereq:{custom:G=>cramDue(G)&&!atHome(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } },
       { id:'ev_y0_cram_h', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>cramDue(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } } ]; })(),
   /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在臺北的家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
-     她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）；第三個選項「那妳呢？跟家裡說了嗎？」只在她說在想休學（KX_THINK_LEAVE，AA_224 4-3）以後出現。原本的 E21_ANSWER 不再寫 */
+     她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
+     AA_303 第 2 節 14 整段換：她約你大年初三開車去高雄（兩個選項都記 KH_TRIP，高雄三天兩夜讀它）；阿嬤那段和 KX_THINK_LEAVE 的第三個選項拿掉 */
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22&&!G.flags.E21_CALLED; }, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
   const lines=[ {scene:'臺北的家',bg:'home_living'},
-      {speaker:'kexin',expression:'neutral',text:'（很吵）你等一下，我走到陽台。'},
-      {speaker:'kexin',expression:'smile',text:'好了。……我阿嬤剛剛問我有沒有男朋友。'},
-      {speaker:'kexin',expression:'neutral',text:'我說有。她問他在做什麼。'},
-      {speaker:'kexin',expression:'thinking',text:'我說……休學中。'},
-      {speaker:'kexin',expression:'laugh',text:'她說那很好，有時間陪妳。'},
-      {choice:[{text:'「幫我跟阿嬤說新年快樂。」',goto:'a'},{text:'「『休學中』聽起來好糟。」',goto:'b'},{text:'「妳想休學的事，跟家裡說了嗎？」',if:{flags:['KX_THINK_LEAVE']},goto:'c'}]},
-      {label:'a'},{speaker:'kexin',expression:'smile',text:'她說你明年要來吃飯。……她已經在算要煮幾道了。'},{goto:'end'},
-      {label:'b'},{speaker:'kexin',expression:'smile',text:'阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'},{goto:'end'},
-      {label:'c'},{speaker:'kexin',expression:'neutral',text:'還沒。'},{speaker:'kexin',expression:'neutral',text:'……今天過年。休學的事，過完年再說。'},{speaker:'player',text:'嗯。'},
-      {label:'end'},{speaker:'kexin',expression:'embarrassed',text:'新年快樂。……今年第一個打給你的。'},{set:{E21_CALLED:true}} ];
+      {speaker:null,text:'（電話。很吵。）'},
+      {speaker:'kexin',expression:'neutral',text:'你等一下，我走到陽台。'},
+      {speaker:'kexin',expression:'smile',text:'好了。……新年快樂。'},
+      {speaker:'kexin',expression:'smile',text:'初三你要不要來高雄？開車來。我帶你去玩。'},
+      {choice:[{text:'「好。」',set:{KH_TRIP:true},goto:'a'},{text:'「我媽會問我去哪。」',set:{KH_TRIP:true},goto:'b'}]},
+      {label:'a'},{speaker:'kexin',expression:'smile',text:'那初三早上出發。到了打給我。'},{goto:'end'},
+      {label:'b'},{speaker:'kexin',expression:'teasing',text:'說去找女朋友。……初三，不准遲到。'},
+      {label:'end'},{set:{E21_CALLED:true}} ];
   return [ { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:lines },
     { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines } ]; })(),   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
   /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15；AA_224 5-1 @31708531）：2/12（三）20:00，臺北的家，沒有選項（隔天 2/13 18:00 以前回到家也會演）；他住家裡了，沒有行李箱、不回宿舍。
@@ -2187,14 +2190,15 @@ const STORY_EVENTS=[
       {speaker:'player',text:'九月的時候。後來我以為妳喜歡唐睿，就算了。'},{speaker:'kexin',expression:'thinking',text:'唐睿？'},
       {speaker:'player',text:'中秋系烤那天，妳一直跟他講話。'},{speaker:'kexin',expression:'neutral',text:'他在問我會計作業。他問了一個晚上。'},
       {speaker:'kexin',expression:'annoyed',text:'……你是不是很笨。'},{speaker:'player',text:'可能是。'},
-      {speaker:'kexin',expression:'embarrassed',text:'我喜歡的是你。'},{speaker:'kexin',expression:'neutral',text:'你今天說你休學，我第一個想到的是：完了，他要跑了。'},
+      {speaker:'kexin',expression:'embarrassed',text:'我喜歡的是你。'},{if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e14)},speaker:'kexin',expression:'embarrassed',text:'保齡球那天，我挑你的制服。……你都沒發現。'},   /* AA_303 第 2 節 9（從醉月湖搬來；保齡球演過才說）*/
+      {speaker:'kexin',expression:'neutral',text:'你今天說你休學，我第一個想到的是：完了，他要跑了。'},
       {choice:[{text:'「其實從宿營那天就是了。」',set:{KX_CAR:'camp'},goto:'a'},{text:'「……我一直以為只有我。」',set:{KX_CAR:'only_me'},goto:'b'},{text:'「……不是『過』。是現在。」',set:{KX_CAR:'take_back'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',expression:'surprised',text:'宿營？你那天一直在睡覺。'},{speaker:'player',text:'睡醒的時候。'},{speaker:'kexin',expression:'smile',text:'……好。'},{goto:'t'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'笨。兩個都是。'},{goto:'t'},
       {label:'c'},{speaker:'kexin',expression:'embarrassed',text:'……嗯。'},{speaker:null,text:'（她轉過去看窗外，很久沒說話。）'},
       {label:'t'},{speaker:'kexin',expression:'neutral',text:'你晚上有事嗎？'},{speaker:'player',text:'……沒有。'},{speaker:'kexin',expression:'smile',text:'那去坐摩天輪。'},
       {scene:'摩天輪',bg:'ferris_wheel'},
-      {speaker:'kexin',expression:'smile',text:'坐到最高的時候，台北看起來好小。'},{cg:'cg_ferris_wheel_kexin'},{speaker:null,text:'（到最高的時候，她把頭靠在你肩上。誰都沒有說話。）'},   /* BCG-06（BB 通過；ART-BB-READY-1017）；AA_295：最高點不說話（使用者 10-18 選擇題）*/
+      {speaker:null,text:'（摩天輪。到最高的時候，台北看起來好小。）'},{cg:'cg_ferris_wheel_kexin'},{speaker:'player',text:'……在一起吧。'},{speaker:'kexin',expression:'smile',text:'好。'},   /* BCG-06（BB 通過；ART-BB-READY-1017）；AA_303 第 2 節 9：最高點你說「在一起吧」（使用者 10-18，取代 AA_295 的不說話）*/
       {set:{Y0_DATING:true,dating_kexin:true,KX_DATING_SINCE:'2024-10-17'}},{stamp:['E26_DAY']},
       {speaker:null,text:'（你送她回去。回到宿舍，已經快十一點了。）'} ],
     afterOuting:async(G,GM)=>{ if(GM.enter&&!G.flags.Y0_MOVED_OUT) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); } },   /* 回到宿舍（412）：接著是檯燈上的便利貼 */
@@ -2385,18 +2389,20 @@ const STORY_EVENTS=[
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（另一間補習班。一間坐滿的教室，沒有人認識你們。）'},
       {unless:{flags:['CRAM_CLASS_SEEN']},speaker:null,text:'（你們挑了最後一排，兩個位子。）'},   /* AA_272 第 7 節（7050a1a0；使用者「我們……考前一個月去衝刺班」）：兩個人一起去，「半價」那句刪 */
       {set:{CRAM_CLASS_SEEN:true}} ] },
-  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41；AA_224 6-5；AA_272 第 10 節 7975ffdf：住在一起以後）：7/10（四）21:00 在他家樓下演（2D，在家的選單那一輪）；演完兩個人一起上樓。
+  /* ★E35 考試的前一晚（BB_104 8b-18；AA_154 A41；AA_224 6-5；AA_272 第 10 節 7975ffdf：住在一起以後）：7/10（四）21:00 在家裡演（2D，在家的選單那一輪；AA_303 第 2 節 24：在家裡、不下樓，背景 home_living）。
      不用邀約私訊（18:00 只記 E35_ASKED）；電話版拿掉。21:00 他不在家＝她傳「你在哪。我在樓下等你。」（story3d.js），24:00 以前回到家就演同一段；都沒回家＝不演、E35_PLAN 不記。
      記 E35_PLAN（sea／sleep／shop）、E35_MET。ev_y0_e35 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {scene:'家樓下',bg:'y0_home_street_night'},   /* BB_132 第 79 組（a46637d3）；地點字幕照 BB 說明「祐廷家樓下」*/
-      {speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
-      {speaker:'kexin',text:'准考證我看了第四次了。'},{speaker:'kexin',text:'考完要去哪？先講好，我才睡得著。'},
+    const lines=[ {scene:'臺北的家',bg:'home_living'},   /* AA_303 第 2 節 24（原本 y0_home_street_night 家樓下）*/
+      {speaker:null,text:'（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）'},
+      {speaker:'kexin',text:'准考證我看了第四次了。'},
+      {speaker:null,text:'（她從筆袋拿出兩枝 2B 鉛筆，分一枝給你。）'},
+      {speaker:'kexin',text:'考完要去哪？先講好，我才睡得著。'},
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「妳選一家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',text:'我也要睡。那天誰都不要叫我。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',text:'我選？……那公館巷子裡那家。我經過好幾次，每次都在排隊。'},
-      {label:'end'},{speaker:'kexin',text:'五分鐘到了。上去吧。明天要早起。'},{speaker:null,text:'（她先轉身上樓。走到二樓，回頭等你。）'},
+      {label:'end'},{speaker:'kexin',text:'好。去睡。明天要早起。'},
       {set:{E35_MET:true}},{set:{E35_DONE:true}} ];
     return [
       { id:'ev_y0_e35', stage:'econ', title:'考試的前一晚', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur',   /* 舊的電話版（AA_272 第 10 節拿掉）：不再觸發 */
@@ -2435,20 +2441,21 @@ const STORY_EVENTS=[
       { id:'ev_y0_exam1', stage:'econ', title:'考場', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due1(G)&&!atHome(G)}, dialogue:lines1, after:after1 },
       { id:'ev_y0_exam2', stage:'econ', title:'對答案', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due2}, dialogue:lines2 } ]; })(),
   /* ★成績公布那天（AA_272 第 4 節 4-2、4-3，c8baae2b；使用者 21:4x：她家在高雄、那天是公布分數、他在客運上心情不好、後來和好）：7/25（五），不能快轉。
-     KH_GO＝'bus'（7/24 選「好。我搭早上的客運。」）：早上在家（或在外面）就出發，一整天一段演完——10:00 客運上查到成績（SCORE_REPLY）→ 12:10 高雄客運站小吵架（KH_FIGHT）
+     AA_303 第 2 節 26：成績八點公布、簡訊提早到（07:30），兩個人都收到；晚上和好拿掉「政大也是法律……」「……捷運不用一個小時……」兩句（在家版的 22:30 私訊同樣拿掉，story3d.js）。
+     KH_GO＝'bus'（7/24 選「好。我搭早上的客運。」）：早上在家（或在外面）就出發，一整天一段演完——07:30 客運上收到成績簡訊（SCORE_REPLY）→ 08:00 高雄客運站小吵架（KH_FIGHT）
        → 18:30 她的私訊 → 20:00 客運站外面的便利商店和好（KH_MADEUP）→ 21:00 的客運回臺北，00:10 到家。
-     KH_GO 不是 'bus'（在家查、沒回）：10:00 手機版（4-2 的訊息照用，客運的三句旁白拿掉；第三個選項「先不要講分數。晚上打給妳。」AA-C 0cc64ec7）；
+     KH_GO 不是 'bus'（在家查、沒回）：07:30 手機版（4-2 的訊息照用，客運的旁白拿掉；第三個選項「先不要講分數。晚上打給妳。」AA-C 0cc64ec7）；
        21:00 電話（AA_272 第 12 節 c0ee2822，KH_FIGHT；睡著＝21:00 叫醒）→ 22:30 她的私訊（story3d.js，KH_MADEUP）。肉粽、問車、九點客運只在客運版。
      底圖：客運車廂、高雄客運站（白天、晚上）還沒有，先用深色底＋地點字幕（LAWWW2 的任務）*/
   ...(()=>{ const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
     const atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const to=h=>({advance:G=>Math.max(0,h-G.hour)});
     const score=bus=>[
-      bus?{speaker:null,text:'（國道上。你已經坐了一個多小時。）'}:null,
-      {speaker:null,text:'（十點。成績公布了。）'},
+      bus?{speaker:null,text:'（早上七點半，國道上。成績八點公布，你算好八點到高雄。）'}:null,
+      {speaker:null,text:'（手機震了一下。成績的簡訊提早到了。）'},
       {speaker:null,text:'（你查了自己的。比你想的高。）'},
-      {speaker:null,text:'（手機震了一下。補習班傳來今年的落點預估表。你那個分數，在臺大法律那一格。）'},
-      {speaker:null,text:'（又震了一下。是她。）'},
+      {speaker:null,text:'（手機震了一下。補習班傳來今年的落點預估表。你那個分數，在臺大法律那一格。）'},   /* 落點表照舊（AA_303「後面照舊（落點表……）」）*/
+      {speaker:null,text:'（又震了一下。是她。她也收到了。）'},
       {phone:'kexin',text:'查到了。'},{phone:'kexin',text:'（截圖：她的成績）'},{phone:'kexin',text:'……你呢。'},
       {choice:[{text:'「（傳截圖給她。）」',set:{SCORE_REPLY:'shot'},goto:'s1'},{text:'「我的還好。」',set:{SCORE_REPLY:'fine'},goto:'s2'},{text:'「先不要講分數。我快到了。」',set:{SCORE_REPLY:'later'},goto:'s3',if:{custom:()=>bus}},{text:'「先不要講分數。晚上打給妳。」',set:{SCORE_REPLY:'later'},goto:'s3',unless:{custom:()=>bus}}]},
       {label:'s1'},{phone:'kexin',text:'好。'},{speaker:null,text:'（很久沒有下一則。）'},{goto:'s9'},
@@ -2457,10 +2464,9 @@ const STORY_EVENTS=[
       {label:'s9'},{speaker:null,text:'（你把落點表往下滑。她那個分數，在政大法律那一格。）'},
       {speaker:null,text:'（差了一大截。）'},
       bus?{speaker:null,text:'（你把手機蓋在腿上。窗外是一片一片的田。）'}:null,
-      {speaker:null,text:'（考上的話，你在臺大，她在政大。兩間學校，兩邊的課。以後不會每天坐在同一張桌子了。）'},
-      bus?{speaker:null,text:'（還有兩個小時。）'}:null ].filter(Boolean);
-    const busLines=[ to(10),{scene:'客運上',bg:'kh_bus_day'},...score(true),
-      to(12+10/60),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
+      {speaker:null,text:'（考上的話，你在臺大，她在政大。兩間學校，兩邊的課。以後不會每天坐在同一張桌子了。）'} ].filter(Boolean);   /* 「（還有兩個小時。）」拿掉：七點半上車、八點到（AA_303 第 2 節 26）*/
+    const busLines=[ to(7.5),{scene:'客運上',bg:'kh_bus_day'},...score(true),
+      to(8),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
       {speaker:'kexin',text:'恭喜你。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',text:'你從下車到現在，都沒有看我。'},
       {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
       {speaker:'kexin',text:'……我知道我考不好。我不用你幫我難過。'},{speaker:'kexin',text:'我先回家。你自己逛一下。'},{leave:'kexin'},
@@ -2468,20 +2474,19 @@ const STORY_EVENTS=[
       to(18.5),{phone:'kexin',text:'你回臺北的車幾點。'},{phoneMe:'kexin',text:'九點。'},{phone:'kexin',text:'我八點去車站。'},
       to(20),{scene:'高雄・客運站外面的便利商店',bg:'kh_store_night'},
       {speaker:'kexin',text:'下午那樣，對不起。'},{speaker:'player',text:'我也是。我不知道要講什麼。'},
-      {speaker:'kexin',text:'政大也是法律。四年以後，我們考同一個考試。'},{speaker:'kexin',text:'……而且政大到臺大，捷運不用一個小時。比高雄近多了。'},{speaker:'player',text:'嗯。'},
       {speaker:null,text:'（她把一袋東西塞給你。是她家巷口的肉粽，還是熱的。）'},
       {speaker:'kexin',text:'車上吃。不要在車上難過。'},
       to(21),{speaker:null,text:'（九點的客運開了。你在車上把肉粽吃完。）'},
       {set:{KH_MADEUP:true,KH_DAY:'bus'}} ];
     const busAfter=(G,GM)=>{ if(G.hour<24+10/60) GM.advance(24+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* 三小時的客運，00:10 到臺北的家 */
-    const homeLines=[ to(10),{scene:'臺北的家'},...score(false),{set:{KH_DAY:'home'}} ];
+    const homeLines=[ to(7.5),{scene:'臺北的家'},...score(false),{set:{KH_DAY:'home'}} ];
     const callLines=[ {scene:'電話'},{speaker:null,text:'（電話接通。她那邊很安靜。）'},
       {speaker:'kexin',text:'……恭喜你。'},{speaker:'player',text:'嗯。'},{speaker:'kexin',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',text:'你從接起來到現在，都只說「嗯」。'},
       {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
       {speaker:'kexin',text:'……我知道我考不好。我不用你幫我難過。'},{speaker:'kexin',text:'我先掛了。'},{speaker:null,text:'（電話斷了。你看著手機很久。）'},{set:{KH_CALL_DONE:true}} ];
     const callDue=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&G.hour>=21&&G.flags.KH_DAY==='home'&&!G.flags.KH_CALL_DONE; };
     const d25=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&!!G.flags.dating_kexin&&!G.flags.KH_DAY; };
-    const busDue=G=>d25(G)&&G.hour>=6&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=10&&G.flags.KH_GO!=='bus';
+    const busDue=G=>d25(G)&&G.hour>=6&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';
     return [
       { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
@@ -2516,16 +2521,14 @@ const STORY_EVENTS=[
       { id:'ev_y0_e36', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'blur', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines },
       { id:'ev_y0_e36h', stage:'econ', title:'放榜的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due}, dialogue:lines },
       { id:'ev_y0_e36n', stage:'econ', title:'放榜的宵夜', participants:[], location:'any', trigger:'chain', once:true, background:'dark', prereq:{custom:()=>false}, dialogue:[] } ]; })(),
-  /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/30（六）14:00 政大校門（2D 出遊）。整場照 AA_206 2-3（AA_269 C2，AA-C 裁定；BB 審過）：
+  /* ★E37 第一次一起去政大（BB_104 8b-20；AA_154 A40）：8/30（六）14:00（2D 出遊）。AA_303 第 2 節「法律系 8/30」：改成你開家裡的車載她搬宿舍（導遊那句和三選一拿掉）；
+     邀約私訊改「我明天坐高鐵上去。後天你載我搬宿舍。」（8/29 她坐高鐵到臺北、住你家一晚）。以下是原本 AA_206 2-3 的說明（後半「去年這個時候……」到最後照舊）：
      「繞了一圈」放在她回頭看宿舍、想到一年前的那一刻才說，三個分支都不加數值、沒有旗標；已經在山下的小吃街，不再寫「走到山下」，往公車站（AA_203 #18）。
      邀約、出發選單、14:15 的電話在 story3d.js；從家裡出發的演完回臺北的家（home3d.js）*/
   { id:'ev_y0_e37', stage:'any',   /* 選 1：8/29 轉進法律系以後的 8/30 也演（只由出遊觸發，once）*/ title:'第一次一起去政大', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
-    dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{speaker:null,text:'（政大校門。她站在門口，手背在後面。）'},{speaker:'kexin',text:'歡迎來到政大。我是今天的導遊。'},{speaker:'kexin',text:'我也只來過一次，來看宿舍。所以我們懂得一樣多。'},
-      {speaker:null,text:'（她指了左邊、右邊、後面。）'},{speaker:'kexin',text:'這是一棟樓。那是另一棟樓。後面是山。'},
-      {choice:[{text:'「導遊，那棟是什麼？」',goto:'a'},{text:'「妳也是第一次來？」',goto:'b'},{text:'「我跟著妳走。」',goto:'c'}]},
-      {label:'a'},{speaker:'kexin',text:'那是……我們之後會知道的樓。'},{goto:'f'},{label:'b'},{speaker:'kexin',text:'第二次。上次是來看宿舍，只看到樓梯。'},{goto:'f'},{label:'c'},{speaker:'kexin',text:'好。迷路的話，算導遊的。'},
-      {label:'f'},{scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說上次來看宿舍的時候就想吃了。）'},{speaker:'kexin',text:'以後你開車來找我。我負責選宵夜。'},
-      {speaker:null,text:'（吃完，你們往公車站走。走到一半，她回頭看了一眼山上的宿舍。）'},{speaker:'kexin',text:'去年這個時候，我以為我九月會在臺大念大二。'},
+    dialogue:[ {scene:'政大・宿舍',bg:'nccu_dorm_day'},{speaker:null,text:'（八月三十日。你開家裡的車，載她和兩個行李箱上山。）'},{speaker:null,text:'（政大的宿舍在山上。電梯很小，你們搬了三趟。）'},{speaker:'kexin',text:'（擦汗）……好。這是我的床。'},
+      {scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說上次來看宿舍的時候就想吃了。）'},{speaker:'kexin',text:'以後你開車來找我。我負責選宵夜。'},
+      {speaker:'kexin',text:'去年這個時候，我以為我九月會在臺大念大二。'},
       {choice:[{text:'「我也以為我會在經濟系。」',goto:'g1'},{text:'（等她說下去）',goto:'g2'},{text:'「現在呢？」',goto:'g3'}]},
       {label:'g1'},{speaker:'kexin',text:'結果兩個人都繞了一圈。'},{speaker:null,text:'（她說完，先往公車站走。）'},{goto:'h'},
       {label:'g2'},{speaker:'kexin',text:'沒有後悔喔。只是有時候會想一下。'},{goto:'h'},
@@ -2636,9 +2639,11 @@ const STORY_EVENTS=[
       {speaker:null,text:'（他講的那件事，講到最後還是微積分。）'},
       {speaker:'韋綸',text:'唐睿請客！'},
       {speaker:null,text:'（六個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）'},
-      {speaker:null,text:'（阿勳說他要回去讀微積分。韋綸載品妤回宿舍。唐睿說他明天早八。）'},{speaker:null,text:'（路口只剩你們兩個。）'},{speaker:'kexin',text:'我還不想回去。'},   /* AA_293 第 4 節：散了以後她留下來 */
-      {choice:[{text:'「那走一下。」',goto:'kw'},{text:'「再坐一下？」',goto:'ks'}]},{label:'kw'},{speaker:null,text:'（你們沿著河堤走到水門，又走回來。沒有人提期中。）'},{goto:'ke'},{label:'ks'},{speaker:null,text:'（你們坐在便利商店門口的椅子上，一人一瓶豆漿。）'},
-      {label:'ke'},{speaker:null,text:'（十一點半，她說：「好，這次真的要回去了。」）'},{speaker:null,text:'（她走進女舍以前，回頭揮了一下手。）'},{set:{KX_STAYED:true}},{rel:{kexin:{comf:2}}},
+      {speaker:null,text:'（阿勳說他要回去讀微積分。韋綸載品妤回宿舍。唐睿說他明天早八。）'},{speaker:null,text:'（路口只剩你們兩個。）'},{speaker:'kexin',text:'我還不想回去。'},   /* AA_293 第 4 節：散了以後她留下來；AA_303 第 2 節 7：便利商店門口吃宵夜（原本的兩選一拿掉）*/
+      {speaker:'kexin',text:'……我餓了。剛剛在夜市都在講話。'},
+      {speaker:null,text:'（巷口的便利商店，門口有一張小鐵桌。她買了關東煮，你買了兩瓶熱的。）'},
+      {speaker:null,text:'（沒有人提期中。她把蘿蔔分你一半。）'},
+      {speaker:null,text:'（十一點半，她說：「好，這次真的要回去了。」）'},{speaker:null,text:'（她走進女舍以前，回頭揮了一下手。）'},{set:{KX_STAYED:true}},{rel:{kexin:{comf:2}}},
       {set:{E10_EVE:'went'}} ],
     afterOuting:(G,GM)=>{ if(GM.money) GM.money(-100); } },
   /* ★E10「我們去總圖念書吧」——其實沒念多少（BB_104 8b-4；AA_154 第 117 行；固定核心）：10/15 22:30 可昕私訊邀（story3d.js），回「好。」＝10/16 晚上走進總圖三樓（library）就開始。
@@ -2682,18 +2687,20 @@ const STORY_EVENTS=[
      19:45～20:15 走到湖邊她的位置（南岸步道）就演。記 E12_ANSWER（chair／hand／cat；E18 讀它）。20:15 還沒到＝20:30 手機版（同樣三句、三個接法，一定要回；AA_295 拿掉第一句「假設……」）*/
   { id:'ev_y0_e12', stage:'econ', title:'長頸鹿的尾巴', participants:['kexin'], location:'campus', near:{x:-36,z:-98.5,r:5}, trigger:'auto', term:['Y0S1'], weeks:[10], weekday:[3], time:[19.75,20.25], once:true, background:'blur',
     prereq:{custom:G=>!!G.flags.E12_ASKED&&!G.flags.E12_ANSWER},
-    dialogue:[ {speaker:'kexin',expression:'smile',text:'我想要一條長頸鹿的尾巴。'},
-      {speaker:'kexin',expression:'neutral',text:'不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'},
-      {speaker:'kexin',expression:'teasing',text:'而且我想知道，有尾巴的人怎麼坐椅子。'},
-      {choice:[{text:'「那上課要訂特別的椅子。」',set:{E12_ANSWER:'chair'},goto:'c'},{text:'「我要第三隻手，幫妳拿尾巴。」',set:{E12_ANSWER:'hand'},goto:'h'},{text:'「為什麼不是貓的？」',set:{E12_ANSWER:'cat'},goto:'t'}]},
-      {label:'c'},{speaker:'kexin',expression:'laugh',text:'對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。'},   /* AA_224 3-1 */{goto:'end'},
-      {label:'h'},{speaker:'kexin',expression:'laugh',text:'（愣了一下，笑出來）第三隻手喔。……好，那尾巴給你拿。'},{goto:'end'},
-      {label:'t'},{speaker:'kexin',expression:'neutral',text:'貓的太常見了。我想要一個大家都沒想過的東西。'},
-      {label:'end'},   /* AA_293 4-1：保齡球那天說破（當面，不放手機版；使用者「我根本不會看手機」）*/
-      {if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e14)},speaker:null,text:'（她拿出手機，滑到一張照片：保齡球館那天，她穿著你的高中外套，袖子太長，比著勝利手勢。）'},{if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e14)},speaker:'kexin',text:'我今天翻到這張。'},{if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e14)},speaker:'kexin',text:'保齡球那天我很開心。……你那天都沒發現。'},
-      {unless:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_e14)},goto:'bend'},
-      {choice:[{text:'「我現在發現了。」',goto:'bw'},{text:'「妳那天說是因為比較好看。」',goto:'bh'}]},{label:'bw'},{speaker:'kexin',text:'太晚了。……不過可以。'},{goto:'bset'},{label:'bh'},{speaker:'kexin',text:'那是一半的原因。'},
-      {label:'bset'},{set:{KX_BOWLING_TOLD:true}},{rel:{kexin:{comf:2}}},{label:'bend'} ] },
+    dialogue:[ {speaker:null,text:'（傍晚。她剛下課，你們坐在醉月湖邊的椅子上。湖對面的燈一盞一盞亮起來。）'},   /* AA_303 第 2 節 12 整段換：只是坐在湖邊聊天、剛好聊到長頸鹿；保齡球照片那段搬到 E26 */
+      {speaker:'kexin',expression:'neutral',text:'休學的人，今天做了什麼？'},
+      {choice:[{text:'「睡到中午。」',goto:'d1'},{text:'「去書店站了一下午。」',goto:'d2'}]},
+      {label:'d1'},{speaker:'kexin',expression:'smile',text:'……好羨慕。'},{goto:'d9'},
+      {label:'d2'},{speaker:'kexin',expression:'neutral',text:'看什麼？'},{speaker:'player',text:'……法律的。'},{speaker:'kexin',expression:'neutral',text:'喔。'},
+      {label:'d9'},{speaker:null,text:'（湖邊有一隻鷺鷥，腳很長，站著不動。）'},
+      {speaker:'kexin',expression:'neutral',text:'牠的腳好長。'},
+      {speaker:'kexin',expression:'smile',text:'……我小時候在動物園，看長頸鹿看了一整個下午。'},
+      {speaker:'kexin',expression:'smile',text:'我最喜歡牠的尾巴。尾端有一撮毛，可以趕蒼蠅。'},
+      {choice:[{text:'「妳怎麼知道？」',set:{E12_ANSWER:'how'},goto:'t1'},{text:'「拉花那隻，尾巴也沒畫。」',if:{custom:G=>!!(G.events&&G.events.done&&G.events.done.ev_y0_l5a)},set:{E12_ANSWER:'latte'},goto:'t2'},{text:'「我要第三隻手，幫妳拿尾巴。」',set:{E12_ANSWER:'hand'},goto:'t3'}]},   /* 拉花那句：10/12 長頸鹿拉花（ev_y0_l5a）去過才有；E12_ANSWER＝hand 照舊給法律系「我還在等你的第三隻手。」*/
+      {label:'t1'},{speaker:'kexin',expression:'teasing',text:'看了一整個下午啊。'},{goto:'end'},
+      {label:'t2'},{speaker:'kexin',expression:'teasing',text:'對。所以它是馬。'},{goto:'end'},
+      {label:'t3'},{speaker:'kexin',expression:'laugh',text:'（愣了一下，笑出來）……你在講什麼。'},
+      {label:'end'},{speaker:'kexin',expression:'neutral',text:'好冷。走吧。'} ] },
   /* ★E14 保齡球館：交換穿高中制服（BB_104 8-5；AA_154 第 130 行、A33；固定核心）：11/14 21:00 群組約（story3d.js；品妤那句是 AA 暫定）、出發選單 11/15 19:00；
      開始後 15 分鐘還沒出發＝韋綸打電話（AA 暫定句）→ 直接進出遊。只用文字，不做制服 CG。沒有旗標 */
   { id:'ev_y0_e14', stage:'econ', title:'保齡球館', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -2709,7 +2716,8 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',expression:'smile',text:'（甩了一下太長的袖子）剛好。'},{goto:'end'},
       {label:'b'},{speaker:'econ_pinyu',text:'她的你穿不下。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'laugh',text:'（比了一個勝利手勢）拍好看一點喔。'},
-      {label:'end'},{speaker:null,text:'手機裡多了一張照片。她穿著你高中的外套，袖子太長，正在比一個勝利手勢。'} ] },
+      {label:'end'},{speaker:null,text:'（打完第三局，她還穿著。）'},{speaker:'kexin',expression:'smile',text:'洗好再還你。'},   /* AA_303 第 2 節 3：整晚穿著不還（三個選項都接）*/
+      {speaker:null,text:'手機裡多了一張照片。她穿著你的高中制服，袖子太長，正在比一個勝利手勢。'} ] },
   /* E17 校慶園遊會：經濟系的拍賣攤（BB_104 8b-9；AA_154 第 127 行、A36）：分兩段。
      前半＝11/8（五）19:00 社科院系學會辦公室備料（2D 出遊到 21:00；12:30 群組約＋出發選單，story3d.js）；
      後半＝11/9（六）10:00～16:00 走到椰林的經濟系攤位（帳篷，zones3d.js isFairDay）。前一晚沒去也演後半（開頭換成白板那句＋「你昨天沒來，所以今天你喊。」，BB-B 定稿 AA_154 76eed22b）。兩天都沒去＝18:00 群組照片 */
@@ -2883,14 +2891,11 @@ const STORY_EVENTS=[
       {speaker:'econ_pinyu',text:'人好多。'},
       {speaker:'唐睿',text:'我查過了，平常走過去十五分鐘。今天要四十。'},{speaker:'韋綸',text:'那現在走剛好！'},
       {scene:'信義區',bg:'newyear_crowd'},
-      {speaker:null,text:'（信義區的人潮。人多到走不動。可昕把手塞進你的外套口袋。）'},
-      {speaker:'kexin',expression:'embarrassed',text:'……我怕走散。這是藉口。'},
-      {speaker:null,text:'（倒數。煙火。）'},
+      {speaker:null,text:'（信義區的人潮。可昕把手塞進你的外套口袋。）'},   /* AA_303 第 2 節 13：倒數完說新年快樂就好（「我怕走散」和兩選一拿掉）*/
+      {speaker:null,text:'（倒數。煙火。大家一起喊：「新年快樂！」）'},
       {speaker:'kexin',expression:'smile',text:'新年快樂。'},
-      {choice:[{text:'「新年快樂。」',goto:'a'},{text:'（把她的手握緊一點）',goto:'b'}]},
-      {label:'a'},{speaker:'kexin',expression:'smile',text:'……新年快樂。今年換你考。'},{goto:'end'},
-      {label:'b'},{speaker:'kexin',expression:'smile',text:'……這次不是藉口了。'},
-      {label:'end'},{set:{E21A_WENT:true}} ] },
+      {speaker:'player',text:'新年快樂。'},
+      {set:{E21A_WENT:true}} ] },
   /* E22b 法律入門書（AA_224 3-7 @31708531）：不綁期末、不在總圖——2024-12-20（五）17:00，12/13 補習班以後；出發選單「公館 17:00：等可昕下課」（公館的咖啡店，2D；story3d.js）。
      書是家附近的市立圖書館借的；畫面不出現書名。E22B_TOLD：true（「我想考。」）／false（「先看看而已。」）；沒去不記（E27 讀它）*/
   { id:'ev_y0_e22b', stage:'econ', title:'法律入門書', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
