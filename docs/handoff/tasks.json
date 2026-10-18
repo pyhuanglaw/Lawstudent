@@ -16800,9 +16800,9 @@
    "title": "118 巷的地面與台大後門（lane118_street.glb 沒有地面；LAWWW-C 接區域時用套件補的柏油、人行道、辛亥路、斑馬線、方塊門柱與圍牆是暫代）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【02:4x】做完接 ART-EXT-M1 → ART-EXT-GATE → ART-EXT-TEACH → ART-EXT-MRT（使用者 02:3x「做好就開」），再 ART-US-SEASON。｜【02:2x LAWWW2-C 領了（先補 D101 暫停中一節，再做 118 巷）；辛亥復興門沒有使用者照片，照一般台大校門石材門柱＋鐵欄杆做、標 PROPOSAL】｜使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
+   "next": "【03:0x LAWWW-C 整合 aef6da80（outbox 59a2cd40）】lane118_ground.glb＋patch（assets3d bldg.lane118_ground；buildLane118 暫代標 dyn／l118g、正式模型載入後藏、柏油入夜調暗、燈籠晚上亮）＋Blender 腳本；LICENSES 補。lane118_unit、nav_buildings 通過；導航、互動點沒動。後門 PROPOSAL 等使用者看。BB-C 測 118 巷時一起看地面。｜【02:4x】做完接 ART-EXT-M1 → ART-EXT-GATE → ART-EXT-TEACH → ART-EXT-MRT（使用者 02:3x「做好就開」），再 ART-US-SEASON。｜【02:2x LAWWW2-C 領了（先補 D101 暫停中一節，再做 118 巷）；辛亥復興門沒有使用者照片，照一般台大校門石材門柱＋鐵欄杆做、標 PROPOSAL】｜使用者 2026-10-18 02:3x 問「你為什麼自己負責美術？」：照 D100 3D 美術歸 LAWWW2。LAWWW2 做地面（柏油、人行道路緣水溝蓋、辛亥路、斑馬線）、辛亥復興門門柱與圍牆（照實景），交 GLB；LAWWW 把 zones3d.js buildLane118 的暫代藏起來。不影響遊玩，BB 測流程不等它",
    "first": {
     "term": "Y1S1",
     "week": 2,
@@ -16818,7 +16818,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "src/data/lane118_layout.js v1；zones3d.js buildLane118 的暫代位置",
     "acceptance": "GLB 地面與後門和配置座標一致；遊戲內截圖；LAWWW 接上後藏起暫代",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {

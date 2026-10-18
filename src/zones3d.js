@@ -1496,6 +1496,7 @@ const Z3 = (function(){
     open(fw+0.25,z0+0.5,fe-0.25,z1-0.2); open(-2,z1-0.2,2,gz+0.5); nav._cm=null;
     const addCollider=(x,z,w,d,h)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||14,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||14)/2,z); g.add(m); E.colliders.push(m); };
     // 地面：巷子柏油、兩側人行道、辛亥路、和平東路、遠景地面
+    const n0=g.children.length;
     { const r=TK.road(z1-z0,(L?L.lane.x1-L.lane.x0:6.8)); r.position.set(0,0,(z0+z1)/2); r.rotation.y=Math.PI/2; g.add(r); }
     for(const [x0,x1] of [[fw,L?L.lane.x0:-3.4],[L?L.lane.x1:3.4,fe]]) ground(g,x1-x0,z1-z0,W3.stoneTex('#bdb6aa'),[(x1-x0)/2,(z1-z0)/2],(x0+x1)/2,(z0+z1)/2,0.012);
     if(L){ const rs=L.roadSouth, rn=L.roadNorth; { const r=TK.road(80,rs.z1-rs.z0); r.position.set(0,0.004,(rs.z0+rs.z1)/2); g.add(r); } { const r=TK.road(80,rn.z1-rn.z0); r.position.set(0,0.004,(rn.z0+rn.z1)/2); g.add(r); }
@@ -1504,6 +1505,9 @@ const Z3 = (function(){
     { const m=new THREE.Mesh(new THREE.PlaneGeometry(160,220),TK.col('#6d6a64')); m.rotation.x=-Math.PI/2; m.position.y=-0.02; m.receiveShadow=true; g.add(m); }
     // 後門那一側：台大的圍牆和門柱（背景）
     { const wallM=M('#9a9086'), postM=M('#7d756c'); for(const [x,w] of [[-22,36],[22,36]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,1.6,0.5),wallM); m.position.set(x,0.8,gz+1.2); g.add(m); } for(const x of [-4,4]){ const p=new THREE.Mesh(new THREE.BoxGeometry(0.8,2.6,0.8),postM); p.position.set(x,1.3,gz+1.2); g.add(p); } }
+    /* 上面這些（套件的路、人行道平面、斑馬線長條、遠景地面、圍牆和門柱方塊）是暫代：正式模型 lane118_ground.glb（ART-L118-GROUND，LAWWW2-C）載入後藏起來。
+       dyn：引擎載入區域時會把靜態網格合併（P3.mergeStatic），合併後就藏不掉 */
+    const tmpGround=g.children.slice(n0); for(const o of tmpGround){ o.userData.dyn=true; o.userData.l118g=true; }
     // 兩側立面：備用方塊（tag l118，正式模型載入後藏起來）＋鏡頭碰撞
     const fb=[]; const gaps=side=>((L&&L.alleys)||[]).filter(a=>a.side===side);
     for(const side of ['W','E']){ const fx=side==='W'?fw:fe, sx=side==='W'?-1:1; const cuts=gaps(side).map(a=>[a.z0,a.z1]).sort((a,b)=>a[0]-b[0]); let cur=z0; const segs=[]; for(const [a,b] of cuts){ if(a>cur) segs.push([cur,a]); cur=b; } if(z1>cur) segs.push([cur,z1]);
@@ -1516,6 +1520,12 @@ const Z3 = (function(){
     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.25); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
     const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi) E.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=(p.userData.poolMax||0.55)*k; };
     const zone={group:g,nav,spawn:L?{x:L.backGate.spawn.x,z:L.backGate.spawn.z,yaw:L.backGate.spawn.yaw}:{x:0,z:31,yaw:Math.PI},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_ground']) ASSETS.loadOne('bldg.lane118_ground').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true);
+      r.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=(mt&&mt.name)||''; o.receiveShadow=true; o.castShadow=/gate|booth|bark|trunk|leaf|tree|far_hall/.test(nm);
+        if(/^l118_road_/.test(nm)&&mt.map){ mt.map.userData.asphalt=true; mt.map.anisotropy=Math.min(8,E.renderer.capabilities.getMaxAnisotropy()); mt.map.needsUpdate=true; if(E.roadMats&&E.roadMats.indexOf(mt)<0) E.roadMats.push(mt); }   /* 柏油：入夜調暗（和溫州街的正式路面一樣）*/
+        if(/^GLOW_l118/.test(nm)&&!mt.userData.l118n){ mt.userData.l118n=true; mt.emissive=new THREE.Color(0xffe2a8); TK.addNight(mt,1.8,0.05); }   /* 門柱上的燈籠：晚上亮 */
+        if(/leaf/.test(nm)){ mt.alphaTest=Math.max(mt.alphaTest||0,0.5); mt.side=THREE.DoubleSide; } });
+      g.add(r); for(const o of tmpGround) o.visible=false; }).catch(e=>console.warn('118 巷地面正式模型載入失敗，用套件暫代',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
