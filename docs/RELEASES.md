@@ -61,7 +61,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 | 17c | 已通過沒接的三張 CG（USER_WANTS X02）：CG-11 以安理由欄、CG-12 語彤分一點時間、BCG-29 可昕春假回程 | LAWWW 接（BB 10-14 通過） | 待 BB-C 測 | 放檔＋CG_REGISTRY 登錄＋K8 放 BCG-29；tests/cg_x02_unit.js ALL PASS |
 | 18 | 發布前：BB-C 從新遊戲走一年（第 3 層）＋LAWWW 發布前清單（TESTING.md 第五節） | BB-C、LAWWW | 還沒開始 | 等 1～17 測完、阻塞的問題修完；不用等使用者 iPhone（D100f） |
 
-**發布前檢查進度（LAWWW-C，乾淨 checkout）**：deploy_check ALL PASS（26 區域、5285 個網址都載得到；02:4x）；reachability_all 26 區域只有 us_shared「臥室 A」門口走不到（電視櫃＋行李箱擋住；美國交換、不在 v9.10 範圍、不會卡住玩家，BUG-US-KITCHEN-1018 發布後一起修）；nav_levels／nav_buildings／stairs_feet 單元通過。還沒跑：flow_class_real、minimap_direction、joystick_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7、flow_main_day12、flow_linze_floors、check_lines、題目漏收。
+**發布前檢查進度（LAWWW-C，乾淨 checkout）**：deploy_check ALL PASS（26 區域、5285 個網址都載得到；02:4x）；reachability_all 26 區域只有 us_shared「臥室 A」門口走不到（電視櫃＋行李箱擋住；美國交換、不在 v9.10 範圍、不會卡住玩家，BUG-US-KITCHEN-1018 發布後一起修）；nav_levels／nav_buildings／stairs_feet 單元通過。題目漏收檢查：用 AA 最新企劃線 c70dc425 重新匯入，399 題（加刑訴 QBANK）一題不多不少、內容一字不差（只有來源字樣不同，不改檔）；check_lines：一模一樣 13399 句、相似度 ≥0.8 的 79 句抽查前 30 句都是不同場合的相近句或記憶／階梯的摘要標題，沒有抄錯同一句的。還沒跑完（背景依序跑）：minimap_direction、joystick_direction、zone_transitions、p0_movement、save_compat_v7、flow_class_real、touch_flow_wenzhou、flow_linze_floors；之後 flow_main_day12。
 
 **不在 v9.10 的**（照使用者 01:0x 的收件範圍，各自在自己的分支繼續）：美國交換的大學、圖書館、廚房冰箱（LAWWW2）；沛珊放榜那一天（PS-RESULTS-1018）；AA_278 第 3 節 15 個事件；大四下以後的告白收尾。
 - **收件範圍（使用者 2026-10-18 01:0x 經 AA-C：「好 但是如果有人手上沒有事情就請他繼續做後面的東西……」）**：從現在到 v9.10 發布，開發分支只收：三個發布條件（經濟系、寒暑假、16 週）、偶遇、傳訊息、全部題目，加修錯。已經在開發分支的照樣一起發布（使用者問「已經放進去的不能一起發布嗎」→ 可以）；測出問題擋發布的先關掉或藏起來，不拖住整版。沒有 v9.10 工作的人繼續做後面的（例：LAWWW2 的美國大學、AA 的 v9.10 以外台詞），成果先留在自己的分支，v9.10 發布以後再整合。
