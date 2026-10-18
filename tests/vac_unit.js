@@ -45,7 +45,7 @@ GM.money=function(n){ G.money+=n; };
   said=[]; picks=[1]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y1_prep')); let L=lines();
   check('2. 籌備會：流程表、「因為是高中生。」→「紅色那幾格我可以幫忙。」→「寫上去了，不能改。」',L.some(t=>t.includes('因為是高中生。'))&&L.some(t=>t.includes('寫上去了，不能改。')),JSON.stringify(L));
   G.day=D('2026-07-01'); G.hour=8.5; said=[]; cards=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C02@Y1')); L=lines();
-  check('2. 營隊整段：報到（沛珊蹲在行李箱旁邊）→ 7/3 晚會（學員「學長，法律系很難嗎？」）→ 7/5 最後一天（卡片、沛珊的問題）→ 7/5 17:00；參加過',L.some(t=>t.includes('她走過去，蹲在那個女生的行李箱旁邊。'))&&L.some(t=>t.includes('學長，法律系很難嗎？'))&&L.some(t=>t.includes('謝謝學長第二天下午沒有放棄我們這組。'))&&L.some(t=>t.includes('我可以問一個奇怪的問題嗎？'))&&G.day===D('2026-07-05')&&G.hour>=17-1e-6&&VAC.state(G,'C02@Y1')==='done'&&G.flags.PS_CAMP_REMEMBER===true,JSON.stringify([G.day-D('2026-07-05'),G.hour,cards]));
+  check('2. 營隊整段：報到（沛珊蹲在行李箱旁邊）→ 7/3 晚會（學員「學長，法律系很難嗎？」）→ 7/5 最後一天（卡片、沛珊的問題）→ 7/5 17:00；參加過',L.some(t=>t.includes('她走過去，蹲在那個女生的行李箱旁邊。'))&&L.some(t=>t.includes('學長，法律系很難嗎？'))&&L.some(t=>t.includes('謝謝學長第二天下午沒有放棄我們這組。'))&&L.some(t=>t.includes('問你一件事。'))&&G.day===D('2026-07-05')&&G.hour>=17-1e-6&&VAC.state(G,'C02@Y1')==='done'&&G.flags.PS_CAMP_REMEMBER===true,JSON.stringify([G.day-D('2026-07-05'),G.hour,cards]));
   check('2. 字卡寫日期和「營隊（校內）」',cards.some(c=>c[0].startsWith('7/3')&&c[1]==='營隊（校內）'),JSON.stringify(cards));
   // 3. 沒報名：7/5 21:00 芯慈私訊（ACQUAINTANCE 以上）
   fresh(D('2026-07-05'),20.9,'dorm',{}); G.stage='law'; meet('classmate_xinci'); R('classmate_xinci',10,0,0); run(20.9,21.2);

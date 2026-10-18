@@ -1911,11 +1911,11 @@ const STORY_EVENTS=[
     dialogue:[ {scene:'社科院・大講堂｜開學典禮',bg:'soc_hall'},{speaker:null,text:'開學典禮在社科院的大講堂。你坐在後面，旁邊的人在滑手機。'},{speaker:null,text:'典禮結束。門口有個學長舉著牌子：『經濟系新生，這邊。』'},{scene:'社科院・系上的教室｜迎新',bg:'soc_classroom'},   /* BB_179 段 A E02 重寫（AA_203 2-1：只講名字和從哪裡來，只有可昕用名詞）；旁白：AA_203 #1、AA_200 7-3 散場、BB 建議旁白全部採用（AA-B 01:34）；祐廷「{name}，臺北。」（AA_200 7-2）*/
       {unless:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'我是宋家豪，大二，今天帶你們這一組。'},{unless:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'先輪一圈，講名字、從哪裡來就好。'},
       {if:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'宿營來過的，大部分都見過了。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'家豪學長',text:'沒來的，講名字、從哪裡來就好。'},   /* 第 7 組 7-3（AA_224 @4e3a7c2b）*/
-      {unless:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'（他朝你揮手）欸，第三小隊的。'},{speaker:'家豪學長',text:'等一下帶你們走一圈。'},
+      {unless:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'邱韋綸，台中來的。我到現在還搞不清楚哪一棟是哪一棟。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'韋綸',text:'（他朝你揮手）欸，第三小隊的。'},{speaker:'家豪學長',text:'等一下帶你們走一圈。……社科圖三樓靠窗那張桌子，學長姊說坐過的都考上研究所。'},
       {speaker:'econ_pinyu',expression:'neutral',text:'曾品妤。'},{speaker:null,text:'（她講完就坐下了。下一個是你。）'},{speaker:'player',text:'{name}，臺北。'},
       {speaker:null,text:'（一個一個輪下去。大部分的人講完名字和縣市就坐下。）'},
       {unless:{flags:['ECON_CAMP_OPEN']},speaker:'kexin',expression:'neutral',text:'杜可昕。我是「邊際效用遞減」，早上經原老師講到的。'},{if:{flags:['ECON_CAMP_OPEN']},speaker:'kexin',expression:'neutral',text:'杜可昕。宿營第三小隊的。……我是「邊際效用遞減」，早上經原老師講到的。'},{speaker:'kexin',expression:'smile',text:'第一次見面最好玩，之後越來越普通。……不過我會越來越好玩啦。'},{speaker:null,text:'（有幾個人笑了。）'},
-      {speaker:'家豪學長',text:'好，差不多了。零食在前面，自己拿。'},{speaker:null,text:'（學長在前面發零食。可昕拿了一包，坐到你旁邊。）'},
+      {speaker:'家豪學長',text:'好，差不多了。零食在前面，自己拿。公館要吃什麼，之後問我，我有一本筆記。'},{speaker:null,text:'（學長在前面發零食。可昕拿了一包，坐到你旁邊。）'},
       {speaker:'kexin',expression:'neutral',text:'你剛剛只講名字喔？'},{speaker:'kexin',expression:'smile',text:'不然你也挑一個。'},
       {choice:[{text:'「我是『外部性』。我會影響到你們，但不用付錢。」',set:{E02_WORD:'externality'},goto:'ext'},{text:'「我是『均衡』。……我不知道為什麼。」',set:{E02_WORD:'equilibrium'},goto:'eq'},{text:'「我是『看不見的手』。」',set:{E02_WORD:'invisible_hand'},goto:'hand'}]},
       {label:'ext'},{speaker:'kexin',expression:'teasing',text:'外部性還沒教欸。'},{speaker:null,text:'（她翻開課本，在目錄找了一下。）'},{goto:'end'},
@@ -3634,7 +3634,7 @@ const SMALLTALK={
   heroine_03:['「……嗯。」',{t:'「三樓靠窗的燈壞了，你知道嗎。」',location:'library'},{t:'「我阿姨說你上次的麵沒吃完。」',if:{events:['ev_noodle_yutong']}}],
   heroine_04:[{t:'「欸不是，你手指好了沒？」',term:['Y1S2'],if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}]}},{t:'「阿凱說他昨天又寫到四點。你們那間到底幾點關燈？」',term:['Y1S1','Y1S2'],if:{events:['ev_ziqing_club']}},{t:'「阿凱說他昨天又寫到四點。你看到他，叫他去睡。」',term:['Y2S1','Y2S2','Y3S1','Y3S2'],if:{events:['ev_ziqing_club']}},   /* BB_166 1-3：阿凱就是祐廷的室友、大二起不同房 */
               {t:'「期末成發你要來。這不是問句。」',if:{memory:[{npc:'heroine_04',tag:'INVITED_CLUB'}],stage:{npc:'heroine_04',min:'FAMILIAR'}},term:['Y1S2'],week:[10,13]}],   /* 手指痛＝學過和弦；成發在大一下、大二下第 14 週（AA_120 第 1 節、BB_96 4-4）。大二下的成發（Q9）還沒做，先只在大一下說（BB_134 1-8，AA-B 2026-10-16：先關，和 Q9 一起做時把 'Y2S2' 加回來）*/
-  heroine_05:[{t:'「判決要看事實，不要只背結論。」',term:['Y1S1','Y1S2']},{t:'「法服週三晚上。來不來都可以，先來看一次。」',term:['Y1S1'],if:{notFlags:['lawclub']}},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
+  heroine_05:[{t:'「判決要看事實，不要只背結論。」',term:['Y1S1','Y1S2']},{t:'「總圖三樓靠窗那排，九點前就滿了。」',term:['Y1S1']},{t:'「……我沒事。只是沒睡。」',if:{stage:{npc:'heroine_05',min:'FAMILIAR'}}}],
   classmate_bohan:['「我在寫考古題，第二題卡住了。」',{t:'「期中還有{n}天，我排了一份進度表，要的話傳你。」',midterm:[7,14],once:'term'}],   /* AA_209 附錄A §2 */   /* AA_120 7-1 第 1 項：{n}＝到這學期第一個期中考時段的天數（照課表和日曆，story3d.js 的 smallTalk），7～14 天才說、每學期一次 */
   classmate_xinci:[{t:'「筆記我還你了，你有收到嗎？」',if:{memory:[{npc:'classmate_xinci',tag:'LENT_NOTES'}]},once:true},/* AA_120 7-1 第 2 項：雙主修三個版本照她知道多少（ECON_PAST_SHARED）；到了雙主修事件就不再說 */
     {t:'「雙主修要多修好多學分，我排了好幾種課表，每一種都好滿。」',/* AA_209 附錄A §2 */term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double']},unless:{flagIs:{ECON_PAST_SHARED:['full','half']}}},

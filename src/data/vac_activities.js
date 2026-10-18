@@ -55,7 +55,7 @@ const VAC_DATA=(function(){
           choice:[{t:'「很難，可是很好玩。」',say:[{who:'npc_camper',name:'學員',text:'好玩在哪？'},{narr:'（你想了一下。）'},{who:'npc_camper',name:'學員',text:'學長你想太久了。'},{narr:'（他笑著跑回去。）'}]},
                   {t:'「我也還在想。」',say:[{who:'npc_camper',name:'學員',text:'……學長你大一喔？'},{who:'player',text:'對。'},{who:'npc_camper',name:'學員',text:'那我比較不怕了。'}]}]},
         {day:'07-05',h:15,title:'最後一天',bg:'camp_school',lines:[{narr:'（學員寫卡片給隊輔。你那一疊最上面那張寫著：「謝謝學長第二天下午沒有放棄我們這組。」）'},{who:'classmate_xinci',text:'（把流程表從白板上撕下來，摺好）紅色的那幾格，最後都沒出事。'},{who:'classmate_xinci',text:'下次可以少塗一點。'},
-          {who:'classmate_peishan',text:G=>Y(G).PS_ODD_Q_Y1S2?'欸，問你一件事。':'我可以問一個奇怪的問題嗎？'},{who:'classmate_peishan',text:'你覺得他們五天以後，會記得什麼？'}],   /* 沛珊「我可以問一個奇怪的問題嗎」大一下的額度用過＝「欸，問你一件事。」（AA_188 2-6）*/
+          {who:'classmate_peishan',text:G=>Y(G).PS_ODD_Q_Y1S2?'欸，問你一件事。':'問你一件事。'},{who:'classmate_peishan',text:'你覺得他們五天以後，會記得什麼？'}],   /* 沛珊「我可以問一個奇怪的問題嗎」大一下的額度用過＝「欸，問你一件事。」（AA_188 2-6）*/
           choice:[{t:'「記得認識了誰。」',say:[{who:'classmate_peishan',text:'……嗯。我也是這樣覺得。'}],set:{PS_CAMP_REMEMBER:true}},
                   {t:'「記得案例討論那組吵贏了。」',say:[{who:'classmate_peishan',text:'（笑）那一組真的很想贏。'}]}]} ],
       miss:{day:'07-05',h:21,who:'classmate_xinci',min:'ACQUAINTANCE',msgs:['營隊結束了','📷（操場上一排高中生和隊輔，比著不同的手勢）','少一個人排班。下次來喔']} },

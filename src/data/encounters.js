@@ -126,7 +126,7 @@ const ENCOUNTERS={
     ENC_D12_YT:{who:'heroine_03',phone:['📷（迪化街的騎樓下，一雙正在包貨的手）','上次那張。']},
     ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次麵店團一起去。']},
     ENC_D04_YU:{who:'yu',lines:['欸，上次那件外套，學姊最後買了另一件。……對，第三件。']},
-    ENC_D06_BH:{who:'classmate_bohan',lines:['上次在美術館的事，不要跟阿哲說。']},
+    ENC_D06_BH:{who:'classmate_bohan',lines:['上次在美術館的事，阿哲問的話，就說我在總圖。']},
     ENC_D04_XC:{who:'classmate_xinci',lines:['上次那張小卡我有排到。']},   /* AA_209 附錄A §2 */
     /* 第三批（AA_271 1-3 的 followUp；aa_walk_v1.json 0b478a53）*/
     ENC_D26_AN:{who:'heroine_01',lines:['上次在臺中，我媽那張清單最後還是漏買一樣。我又跑了一趟。']},
@@ -144,7 +144,7 @@ const ENCOUNTERS={
     /* 第二批（aa_walk_v1／bb_walk_v1 followUp @aca122d2）*/
     ENC_D18_YT:{who:'heroine_03',lines:['九份那天，你在旁邊站好久。阿嬤後來問我你是誰。']},
     ENC_D25_ZHE:{who:'zhe',lines:['哥，上次外澳那個浪，我回去背痛三天。下次還要去。']},
-    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天的事……這次可以跟阿哲說。推甄完了，我不怕他笑。'],linesIfNot:{memory:'ENC_D06_BH',lines:['貓空那天的事，不要跟阿哲說。……你知道我是什麼意思。']}},   /* 美術館那句（ENC_D06_BH）說過才用第一句 */
+    ENC_D09_BH:{who:'classmate_bohan',lines:['貓空那天的事……阿哲問的話，你照實說。推甄完了，我不怕他笑。'],linesIfNot:{memory:'ENC_D06_BH',lines:['貓空那天的事，阿哲問的話，就說我在總圖。……你知道我是什麼意思。']}},   /* 美術館那句（ENC_D06_BH）說過才用第一句 */
     ENC_D18_XC:{who:'classmate_xinci',lines:['我們後來找到那個角度了。光差一點，不過還是拍了。']},
     ENC_D09_KX:{who:'kexin',phone:['貓空那天，兩分四十秒是對的。邵鈞到現在還在講。']},
     ENC_D18_ZQ:{who:'heroine_04',lines:['九份那些燈籠，我做成一關了。下次給你玩。']},
