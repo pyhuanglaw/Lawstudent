@@ -59,7 +59,7 @@ const CROWD=(function(){
   function spawnGroup(GM,spot,slot,fromDoor){ const E=GM.E; const grp=S.group(GM.G,spot,slot); const npcs=[]; const lv=spot.lv|0;
     for(const p of grp){ if(!E.canStand(p.x,p.z,0.3,lv)) continue; const o=CHAR.build(STORY.extraSpec(p.spec)); const byDoor=slot.enter==='door'; const start=fromDoor?(byDoor?(spot.door2&&p.x>spot.c[0]?spot.door2:spot.door):spot.road):[p.x,p.z];
       const slv=fromDoor?(byDoor?(spot.doorLv|0):(spot.roadLv!=null?spot.roadLv:lv)):lv;   /* 室內：從教室門口（教室那一層）或建築出口（一樓）出來 */
-      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
+      o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
       if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
     live[spot.id]={slotKey:slot.key,npcs}; }
@@ -73,11 +73,15 @@ const CROWD=(function(){
   function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id]; const used=new Set();
     for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(instant){ E.removeNPC(n); continue; }
       if(L.leave==='seat'){ const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(st&&ap){ used.add(st); n.frozen=false; n.pose='walk'; n.crowd=null; n.clsStudent=true; n.clsKey=L.cls; n.seat=st;
-          if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }   /* 沒有空位或走不到：照舊走進教室門口 */
-      const tgt=(L.leave==='road'?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)), tlv=L.leave==='road'?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false;
+          if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }
+      /* 沒有空位或走不到：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿（classes3d.js syncRoom full），等在門口的人全部走到教室門口那一點停下來疊成一團）*/
+      const noSeat=L.leave==='seat';
+      const tgt=(L.leave==='road'||noSeat?spot.road:(spot.door2&&n.obj.position.x>spot.c[0]?spot.door2:spot.door)), tlv=(L.leave==='road'||noSeat)?(spot.roadLv!=null?spot.roadLv:(spot.lv|0)):(spot.doorLv!=null?spot.doorLv:(spot.lv|0)); n.frozen=false; n.leaving=true; n.pose='walk'; n.clsStudent=false;
       if(!E.moveTo(n,tgt[0],tgt[1],()=>{ n.arrived=true; },tlv)) n.arrived=true; } }
   /* 走到門口或馬路的人：不在玩家眼前就移除（走進建築、走遠了）*/
-  function sweep(GM){ const E=GM.E; for(const n of E.npcs.slice()){ if(!n.leaving||!n.arrived) continue; if(!inView(E,n.obj.position)||Math.hypot(n.obj.position.x-E.player.obj.position.x,n.obj.position.z-E.player.obj.position.z)>40) E.removeNPC(n); } }
+  function sweep(GM){ const E=GM.E, now=Date.now(); for(const n of E.npcs.slice()){ if(!n.leaving||!n.arrived) continue; if(!inView(E,n.obj.position)||Math.hypot(n.obj.position.x-E.player.obj.position.x,n.obj.position.z-E.player.obj.position.z)>40){ E.removeNPC(n); continue; }
+      /* 走到門口、玩家看得到：不要一直站在那一點（好幾個人走到同一點會疊在一起）——3 秒後繼續走出建築，還是走不了就移除 */
+      if(!n.arrT) n.arrT=now; else if(now-n.arrT>3000){ const sp=S.SPOTS.find(q=>q.id===n.crowdSpot); if(sp&&!n.toRoad){ n.toRoad=true; n.arrived=false; n.arrT=0; if(!E.moveTo(n,sp.road[0],sp.road[1],()=>{ n.arrived=true; },sp.roadLv!=null?sp.roadLv:(sp.lv|0))) E.removeNPC(n); } else E.removeNPC(n); } } }
   function sync(GM,instant){ const G=GM.G, E=GM.E; for(const spot of S.SPOTS){ if(spot.zone!==G.zone) continue; const slot=S.slotAt(G,spot); const L=live[spot.id];
       if(L&&(!slot||slot.key!==L.slotKey)){ const old=spot.slots(G).find(s=>s.key===L.slotKey)||{}; L.leave=old.leave||'road'; L.cls=old.cls; leaveGroup(GM,spot,instant); }
       if(slot&&!live[spot.id]){ const vis=!instant&&inView(E,{x:spot.c[0],z:spot.c[1]})&&Math.hypot(spot.c[0]-E.player.obj.position.x,spot.c[1]-E.player.obj.position.z)<45; spawnGroup(GM,spot,slot,vis); } } }

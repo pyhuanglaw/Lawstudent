@@ -17900,6 +17900,27 @@
    "source": "使用者 2026-10-18 06:2x",
    "authorized": "使用者直接要求",
    "next": "wzshops3d.js：點完黑幕裡坐到最近的空位（GM.freeSeat）、吃完站起來；已經坐著不換位子、沒有空位照舊。tests/dl09_shop_menu_unit.js 第 9 項（修改前失敗）。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "BUG-CLASS-CLUMP-1018",
+   "title": "博雅101 等著進教室的同學在門口站成一團、身體互相穿過去（BB-C 10-18 博雅101 報告 c_／d_ 截圖，wonderful-mayer 3ae0a956）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次上課，早到教室",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 測試報告",
+   "authorized": "bug 修正（D85）",
+   "next": "原因：上課開始時 syncRoom(full) 把座位坐滿，排隊進教室的人群（crowd3d 'seat' 群組）找不到空位就全部走到門口那一點疊在一起。crowd3d.js：沒有空位改走回 spot.road 離開；走到了還在畫面裡 3 秒以上的改走 road，走不到就移除。tests/indoor_crowd_unit、crowd_unit、teach_class_unit、boya_lecture_unit 通過。待 BB-C 重拍博雅101"
   }
  ]
 }
