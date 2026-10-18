@@ -8277,6 +8277,45 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "分批整合中"
+  },
+  {
+   "id": "DL-AA-225ac957",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "225ac957",
+   "what": "BB_146 階梯記憶名稱補 KX0_SHOP／KX0_EGG（ladder_bb_y0s1 重匯，10/17 那句改「星期三不行，體育課到很晚」）",
+   "task": "SYS-15",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C aceb73fb：白名單換 225ac957、labelsRef 加 225ac957、import_ladder.py 重匯，Y0S1 不再被擋"
+  },
+  {
+   "id": "DL-BB-b043f9bd",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "b043f9bd",
+   "what": "高雄純場景背景 kh_dome（美麗島站穹頂）、kh_lotus_bench（蓮池潭長椅）",
+   "task": "AA303-KX-RECONFIRM-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C f2f358aa：OUT.BG 登記、ev_y0_kh3 前段 kh_dome、蓮池潭 kh_lotus_bench；LICENSES 補"
+  },
+  {
+   "id": "DL-AA-184645c3",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "184645c3",
+   "what": "AA_304：2/12 看不懂的民法「樓下，媽媽叫你吃飯」（AA 直接推到 RULE_SOURCE）",
+   "task": "QA-TRANSCRIPT-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "AA-C 直接 push 到 claude/adoring-meitner-mqzst8（d9981762 合併）；LAWWW-C 確認只改 events.js 一句台詞"
   }
  ],
  "ignored": [
