@@ -1,7 +1,7 @@
 // v0 ★E08 中秋系烤（BB_153；AA_154 第 88 行）＋經濟系那一年的兩個群組（AA_157）——不需要瀏覽器。
 //   1. 經濟系開局：開頭沒有「走啦」（8/13 那張照片是一年後的事）；E02 迎新那天加入「經濟系 大一（全班）」；P2 去成的那晚韋綸建立「走啦」（今天先回去不建）；
 //   2. 9/16（一）21:00 全班群組揪；9/21（六）16:00 韋綸私訊「烤肉你要去嗎？我在舟山路門口，可以一起走過去。」兩個選項；
-//   3. 回「好」→ 出遊 17:00 河濱（ev_y0_e08）：原文、三個生火選項各自的台詞、月亮收租三個回答；可昕 +2、品妤、阿勳 +1；不記旗標；沒有「沒去」的照片；
+//   3. 回「好」→ 出遊 17:00 河濱（ev_y0_e08）：原文（AA_305 第 4 節柚子帽，誰生火的三選一拿掉）、柚子帽兩個選項各自的台詞、玉米三個回答；可昕 +2、品妤、阿勳 +1；不記旗標；沒有「沒去」的照片；
 //   4. 「今天不行」或沒回：21:30 群組照片＋可昕私訊；
 //   5. 法律系開局照舊（第一天就有「走啦」和 8/13 的照片）。
 // 修改前：經濟系開局第一天就有「走啦」（第 1 項失敗）、沒有 ev_y0_e08。用法：node tests/v0_e08_unit.js
@@ -48,20 +48,20 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const snap=JSON.stringify(G);
   G.flags.E08_GO='yes'; at(D21,16.2); const q=OUT.get(G,'y0_e08');
   check('3. 回「好」：排出遊「中秋系烤」9/21 17:00 河濱',!!q&&q.day===D21&&q.h===17&&q.place==='河濱'&&q.ev==='ev_y0_e08');
-  picks=['阿勳來','照坪數']; for(const id of ['kexin','econ_pinyu','econ_zhengxun']) SOCIAL.meet(id,'campus');   /* 正式遊玩時 E08 以前都認識了：阿勳 E01、可昕 E02、品妤 E02／P2 */ const famBefore=k=>SOCIAL.rel(k).fam||0; const f0={kexin:famBefore('kexin'),econ_pinyu:famBefore('econ_pinyu'),econ_zhengxun:famBefore('econ_zhengxun')};
+  picks=['戴上','算分']; for(const id of ['kexin','econ_pinyu','econ_zhengxun']) SOCIAL.meet(id,'campus');   /* 正式遊玩時 E08 以前都認識了：阿勳 E01、可昕 E02、品妤 E02／P2 */ const famBefore=k=>SOCIAL.rel(k).fam||0; const f0={kexin:famBefore('kexin'),econ_pinyu:famBefore('econ_pinyu'),econ_zhengxun:famBefore('econ_zhengxun')};
   G.hour=16.6; await OUT.go(GM,q); const L=said.map(s=>s.t);
-  check('3. 原文：「星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。」…韋綸「誰要生火？」',L[0]==='星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。'&&L[2]==='誰要生火？'&&L[3]==='生火的人先吃。',JSON.stringify(L.slice(0,5)));
-  check('3. 選「阿勳來。」：三塊炭、「熱力學。」、韋綸的報紙；沒有另外兩個選項的台詞',L.includes('阿勳擺了三塊炭，劃了一根火柴。火一次就起來了。')&&L.includes('我帶了一整包報紙耶。')&&!L.includes('有。你先離火遠一點。')&&!L.includes('報紙捲成一根一根的，應該比較好燒。'));
-  check('3. 月亮收租「照坪數算？」→「那我們只坐這一小塊，應該付不了多少。」；最後是回宿舍的路上',L.includes('如果月亮收租，我們要付多少？')&&L.includes('那我們只坐這一小塊，應該付不了多少。')&&!L.includes('那我們來得剛好。')&&L[L.length-1]==='回宿舍的路上，你的衣服都是炭的味道。',JSON.stringify(L.slice(-3)));
+  check('3. 原文：「星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。」…（AA_305 第 4 節）「（韋綸抱著一顆柚子走過來。）」韋綸「中秋過了，柚子還沒吃完。我媽塞給我三顆。」',L[0]==='星期六傍晚。河濱的草地上，經濟系的人圍成好幾圈。'&&L[2]==='（韋綸抱著一顆柚子走過來。）'&&L[3]==='中秋過了，柚子還沒吃完。我媽塞給我三顆。',JSON.stringify(L.slice(0,5)));
+  check('3. 選「（戴上）」：阿勳戴著柚子皮生火（三塊炭）、品妤「好，拍照。」、唐睿最後一頂自己戴；沒有另一個選項的台詞、沒有「熱力學。」（AA_305 第 4 節）',L.includes('（阿勳沒有拿下來。他擺了三塊炭，劃了一根火柴。火一次就起來了。）')&&L.includes('好，拍照。')&&L.includes('（唐睿就自己戴上了。他戴了一整晚。）')&&!L.includes('拿著也算。')&&!L.includes('熱力學。'));
+  check('3. 玉米（AA_302 第 5 列，月亮收租的假設題拿掉）：「（把那串玉米遞過來）……」→「這樣算分我嗎？」→「算。不要問。」；最後是回宿舍的路上',L.includes('（把那串玉米遞過來）焦的那一面我吃掉了。剩下的給你。')&&L.includes('算。不要問。')&&!L.includes('（她看你吃，笑了一下。）')&&!L.some(t=>/月亮收租/.test(t))&&L[L.length-1]==='（回宿舍的路上，你的衣服都是炭的味道。阿勳的頭髮是柚子的味道。）',JSON.stringify(L.slice(-3)));
   check('3. 每句 40 字以內',L.every(t=>t.length<=40),L.filter(t=>t.length>40).join('|'));
   const fam=k=>famBefore(k)-f0[k];
   check('3. 數值：可昕熟悉 +2、品妤 +1、阿勳 +1',fam('kexin')===2&&fam('econ_pinyu')===1&&fam('econ_zhengxun')===1,JSON.stringify({kexin:fam('kexin'),py:fam('econ_pinyu'),zx:fam('econ_zhengxun')}));
   check('3. 演完是 21:00、出遊記成做過',Math.abs(G.hour-21)<0.01&&q.state==='done',G.hour);
-  check('3. 不記旗標（生火、月亮的回答）',!Object.keys(G.flags).some(k=>/E08_(FIRE|MOON)/.test(k)));
+  check('3. 不記旗標（柚子帽、生火、月亮的回答）',!Object.keys(G.flags).some(k=>/E08_(FIRE|MOON|HAT|YUZU)/.test(k)));
   at(D21,21.6); check('3. 去了：沒有「沒去」的照片和可昕的私訊',!PHONE.sent(G,'y0_e08_missed')&&!TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'));
-  // 另外兩個生火選項
-  for(const [pk,must] of [['韋綸來','有。你先離火遠一點。'],['我來','她每出一個主意，火就小一點。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=[pk,'打折']; G.flags.E08_GO='yes'; at(D21,16.2); G.hour=16.6; await OUT.go(GM,OUT.get(G,'y0_e08')); const L2=said.map(s=>s.t);
-    check('3. 選「'+pk+'。」有自己的台詞、月亮「中秋過了，應該打折。」→「那我們來得剛好。」',L2.includes(must)&&L2.includes('那我們來得剛好。')&&L2.every(t=>t.length<=40)); }
+  // 另一個柚子帽選項（AA_305 第 4 節）
+  for(const [pk,must] of [['我拿著就好','拿著也算。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=[pk,'吃了一口']; G.flags.E08_GO='yes'; at(D21,16.2); G.hour=16.6; await OUT.go(GM,OUT.get(G,'y0_e08')); const L2=said.map(s=>s.t);
+    check('3. 選「'+pk+'。」有自己的台詞、玉米選（接過來，吃了一口）→「（她看你吃，笑了一下。）」',L2.includes(must)&&!L2.includes('好，拍照。')&&L2.includes('（她看你吃，笑了一下。）')&&L2.every(t=>t.length<=40)); }
   // 4. 沒去
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.flags.E08_GO='no'; at(D21,17.5); check('4. 今天不行：沒有排出遊；18:00 以前還沒有照片',!OUT.get(G,'y0_e08')&&!PHONE.sent(G,'y0_e08_missed'));
   at(D21,21.6); check('4. 21:30 全班群組一張照片＋可昕私訊「你沒來。火很小，月亮很晚才出來。」',TH('g:econ_class').includes('📷（河濱的烤肉架、一圈人、一盤烤焦的玉米）')&&TH('p:kexin').includes('你沒來。火很小，月亮很晚才出來。'));

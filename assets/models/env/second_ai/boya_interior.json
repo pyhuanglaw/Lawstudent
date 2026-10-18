@@ -1,0 +1,13 @@
+{
+ "objects": 60,
+ "unique_meshes": 60,
+ "tris": 11372,
+ "tris_drawn": 11372,
+ "materials": 25,
+ "out": "assets/models/env/second_ai/boya_interior.glb",
+ "bytes": 1318940,
+ "texres": 512,
+ "tris_total": 11372,
+ "layout": "src/data/boya_layout.js",
+ "note": "兩層室內的殼＋固定設備（黑板、講桌、階梯教室平台、沙發、關著的門）；桌椅由遊戲放"
+}

@@ -1,0 +1,11 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 7228,
+ "tris_drawn": 7228,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/campus_putong.glb",
+ "bytes": 712068,
+ "texres": 512,
+ "note": "普通：五層紅褐面磚＋洗石子；依文字資料（沒有照片）"
+}

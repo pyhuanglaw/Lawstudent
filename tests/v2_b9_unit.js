@@ -37,13 +37,13 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
   const q=OUT.get(G,'kx_vday1'); check('2. 交往中：排好 2/14 20:00 的視訊（接起來）',!!q&&q.day===VD&&q.h===20&&q.verb==='接起來',JSON.stringify(q));
   fresh(VD-3,10,'dorm',{introDone:true,dating_kexin:false}); run(10,10.2); check('2. 沒有交往：不排',!OUT.get(G,'kx_vday1'));
   const play=async(pk)=>{ fresh(VD,19.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(19.9,19.95); picks=pk.slice(); said=[]; opts=[]; await OUT.go(GM,OUT.get(G,'kx_vday1')); return lines(); };
-  let L=await play(['晴天','有效']);
-  check('3. 她先問天氣、天氣三個選項、假設題三個選項（BB_96 9-1 原文）',L[0]==='杜可昕：你那邊的天氣？'&&JSON.stringify(opts[0])==='["「晴天。很冷。」","「下雨。」","（把鏡頭轉向窗外）"]'&&JSON.stringify(opts[1])==='["「有效。我們用行動同意了。」","「無效。我們沒簽。」","「我不知道。我想見妳。」"]',JSON.stringify({L0:L[0],o:opts}));
-  check('3. 晴天＋有效：「臺北的冷是濕的……」「……寒假還在讀民總的人，回答都這樣。」「她笑。」，最後「情人節快樂。臺北冷，穿厚一點。」',L.includes('杜可昕：臺北的冷是濕的，我這邊是乾的。……加起來剛好。')&&L.includes('杜可昕：……寒假還在讀民總的人，回答都這樣。')&&L.includes('她笑。')&&L[L.length-1]==='杜可昕：情人節快樂。臺北冷，穿厚一點。',JSON.stringify(L));
+  let L=await play(['晴天','讀民總']);
+  check('3. 她先問天氣、天氣三個選項、「情人節我們不在同一個地方。……你今天做了什麼？」三個選項（AA_295）',L[0]==='杜可昕：你那邊的天氣？'&&JSON.stringify(opts[0])==='["「晴天。很冷。」","「下雨。」","（把鏡頭轉向窗外）"]'&&L.includes('杜可昕：情人節我們不在同一個地方。……你今天做了什麼？')&&JSON.stringify(opts[1])==='["「讀民總。」","「傳訊息給妳。」","「我不知道。我想見妳。」"]',JSON.stringify({L0:L[0],o:opts}));
+  check('3. 晴天＋讀民總：「臺北的冷是濕的……」「……寒假還在讀民總的人，都這樣回答。」「她笑。」，最後「情人節快樂。臺北冷，穿厚一點。」',L.includes('杜可昕：臺北的冷是濕的，我這邊是乾的。……加起來剛好。')&&L.includes('杜可昕：……寒假還在讀民總的人，都這樣回答。')&&L.includes('她笑。')&&L[L.length-1]==='杜可昕：情人節快樂。臺北冷，穿厚一點。',JSON.stringify(L));
   check('3. 記 KX_VDAY {1:video}、KX_VDAY_WX {1:sunny}；沒有 KX_VDAY_SEE',G.flags.KX_VDAY[1]==='video'&&G.flags.KX_VDAY_WX[1]==='sunny'&&!G.flags.KX_VDAY_SEE&&G.flags._kxVwx===undefined,JSON.stringify([G.flags.KX_VDAY,G.flags.KX_VDAY_WX]));
   L=await play(['鏡頭','我想見妳']);
   check('4. 鏡頭轉向窗外：「她也把手機轉向她的窗戶。」「交換。」；我想見妳：「嘴角先動了。」「開學第一個週末。我寫進行事曆了。」、KX_VDAY_SEE、WX window',L.includes('她也把手機轉向她的窗戶。')&&L.includes('杜可昕：交換。')&&L.includes('嘴角先動了。')&&L.includes('杜可昕：開學第一個週末。我寫進行事曆了。')&&G.flags.KX_VDAY_SEE===true&&G.flags.KX_VDAY_WX[1]==='window',JSON.stringify(L));
-  L=await play(['下雨','無效']); check('4. 下雨＋無效（原文）',L.includes('杜可昕：我這邊也是。那是同一片雨。……氣象不是這樣講的。算了。')&&L.includes('杜可昕：好。那開學以後，我們簽一份。')&&G.flags.KX_VDAY_WX[1]==='rain');
+  L=await play(['下雨','傳訊息給妳']); check('4. 下雨＋傳訊息給妳（AA_295）',L.includes('杜可昕：我這邊也是。那是同一片雨。……氣象不是這樣講的。算了。')&&L.includes('杜可昕：那開學以後，我們補過一次。')&&G.flags.KX_VDAY_WX[1]==='rain');
   fresh(VD,19.9,'dorm',{introDone:true,dating_kexin:true}); run(19.9,19.95); G.hour=20.9; const ex=OUT.expire(G); for(const x of ex) OUT.onMissed(GM,x); run(21,21.1);
   const P=TH('p:kexin').map(m=>m.text);
   check('5. 沒接：窗戶的照片＋「你那邊的天氣，我自己查了。情人節快樂。」、KX_VDAY {1:missed}',P.includes('📷（她的窗戶）')&&P.includes('你那邊的天氣，我自己查了。情人節快樂。')&&G.flags.KX_VDAY[1]==='missed',JSON.stringify(P));
@@ -89,7 +89,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
       said=[]; picks=['行事曆']; G.hour=8; await EVENTS.run(gp); const g8=lines()[0];
       delete G.flags.K7_GIFT; said=[]; G.day=A1; G.hour=17.5; const qq=OUT.get(G,'kx_anniv1'); qq.state='planned'; G.events.done.ev_kexin_anniversary_y1=0; picks=['第一圈']; await OUT.go(GM,qq); const Ln=lines();
       check('7. 準備的東西：10/16 21:00 才問、10/17 起床再問（「今天是週年。…」）、18:30 以後不問；都沒選＝什麼都沒準備（不再出門前問）',!c0&&c1&&c2&&!c3&&g8==='今天是週年。你準備的東西：'&&G.flags.K7_GIFT==='none'&&Ln.includes('杜可昕：你人來了就好。')&&!Ln.includes('出門前，你準備的東西：'),JSON.stringify([c0,c1,c2,c3,g8,Ln.slice(0,2)]));
-      const RI=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); check('7. 去了週年：房間物件「她的週年卡片」＝「假設我們從最高點開始交往。」',!!RI&&RI[1]==='假設我們從最高點開始交往。'); }
+      const RI=STORY.roomItemList(G).find(r=>r[0]==='她的週年卡片'); check('7. 去了週年：房間物件「她的週年卡片」＝「那天在最高的地方，你說在一起吧。我說好。」（AA_303 第 2 節 9）',!!RI&&RI[1]==='那天在最高的地方，你說在一起吧。我說好。'); }
     fresh(A0,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); G.day=A1; run(19.4,19.7);
     check('7. 沒選地點：10/17 晚上卡片的照片「週年快樂。下次你準備。」、KX_ANNIV {1:missed}',TH('p:kexin').some(m=>m.text==='週年快樂。下次你準備。')&&G.flags.KX_ANNIV&&G.flags.KX_ANNIV[1]==='missed'); }
   // ---- 9-6 K6 改期＋兩校互考 ----
@@ -104,7 +104,7 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     L=await play(['冷門']); check('8. 冷門的：「犯規。冷門學說是犯規。」「她判你輸。」「你請。」、lose 1（累計，win 還是 1）',L.includes('杜可昕：犯規。冷門學說是犯規。')&&L.includes('她判你輸。')&&G.flags.KX_QUIZ.lose===1&&G.flags.KX_QUIZ.win===1);
     L=await play(['簡單']); check('8. 簡單的：「平手。各付各的。」、draw 1',L.includes('杜可昕：平手。各付各的。')&&G.flags.KX_QUIZ.draw===1);
     { const rv=STORY_EVENTS.find(e=>e.id==='ev_revisit_y1_kexin'), last=rv.dialogue.filter(l=>l.text&&/^結果都在吵/.test(l.text)), pickK=()=>(last.find(l=>(l.if?EVENTS.cond(l.if):true)&&!(l.unless&&EVENTS.cond(l.unless)))||{}).text, k6=pickK(); const F0=G.flags.KX_K6_EXAM, Q0=G.flags.KX_QUIZ; delete G.flags.KX_K6_EXAM; delete G.flags.KX_QUIZ; const no=pickK(); G.flags.KX_QUIZ={win:1,lose:0,draw:0}; const old=pickK(); G.flags.KX_K6_EXAM=F0; G.flags.KX_QUIZ=Q0;
-      check('8. V2-K6：做過 K6 互考（KX_K6_EXAM）＝重訪日 1「結果都在吵考古題。」；沒做＝「結果都在吵我出的假設題。」；舊存檔只有 KX_QUIZ 也算做過（BB_167 4-3 句子＋BB_96 9-10 分支，AA-C 10-17 確認）',F0===true&&k6==='結果都在吵考古題。'&&no==='結果都在吵我出的假設題。'&&old==='結果都在吵考古題。'&&rv.dialogue.some(l=>l.text==='我喔？我本來以為我們會一直吵架。'),JSON.stringify([F0,k6,no,old])); }
+      check('8. V2-K6：做過 K6 互考（KX_K6_EXAM）＝重訪日 1「結果都在吵考古題。」；沒做＝「結果都在吵我出的考題。」（AA_295）；舊存檔只有 KX_QUIZ 也算做過（BB_167 4-3 句子＋BB_96 9-10 分支，AA-C 10-17 確認）',F0===true&&k6==='結果都在吵考古題。'&&no==='結果都在吵我出的考題。'&&old==='結果都在吵考古題。'&&rv.dialogue.some(l=>l.text==='我喔？我本來以為我們會一直吵架。'),JSON.stringify([F0,k6,no,old])); }
     q.state='planned'; G.day=SUN; G.hour=15; const ex=OUT.expire(G); for(const x of ex) OUT.onMissed(GM,x); run(15,15.1);
     check('8. 沒去週日的互考：考古題的照片「下次你逃不掉。」',TH('p:kexin').some(m=>m.text==='下次你逃不掉。')); }
   // ---- 9-7 K6b ----

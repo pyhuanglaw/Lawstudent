@@ -1,0 +1,11 @@
+{
+ "objects": 7,
+ "unique_meshes": 7,
+ "tris": 2890,
+ "tris_drawn": 2890,
+ "materials": 10,
+ "out": "assets/models/env/second_ai/campus_gate.glb",
+ "bytes": 295512,
+ "texres": 512,
+ "note": "layout=real；依文字資料的遊戲化設計（沒有照片；1931、門房在中間、四座唭哩岸石燈柱、磚＋石材）"
+}

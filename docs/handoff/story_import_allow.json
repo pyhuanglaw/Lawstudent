@@ -2,6 +2,9 @@
  "version": 1,
  "note": "劇情匯入白名單（使用者 2026-10-17 P0）：逐檔列路徑＋來源 commit；status 只有 approved 才匯入（WIP／pending 拒絕）；新版本要 AA（人物台詞先經 BB）明確交付「已審版本＋commit」才改這裡，由值班 LAWWW 更新。大一下閒聊階梯可昕 17 處（AA 分支 WIP）還沒審，不在名單。labelsRef＝讀記憶中文名稱表的企劃線 commit。",
  "labelsRef": [
+  "6b01c841",
+  "1be8842d",
+  "8fcc2c7e",
   "54ae1a94",
   "4c3c17f1",
   "84bbef37",
@@ -100,9 +103,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "741e94f1",
+   "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "approvedBy": "AA-C 定稿（DL-AA-8fcc2c7e：AA_304「星期三體育課，五點二十才下課」；225ac957 記憶名稱補 KX0_SHOP／KX0_EGG；之前 9fecc202 AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
     {
@@ -114,15 +117,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
-   "sha": "408398d7",
+   "sha": "6b01c841",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
-   "sha": "408398d7",
+   "sha": "1be8842d",
    "status": "approved",
    "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
    "task": "SYS-15",
@@ -130,9 +133,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "95c49d6a",
+   "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 13:27 已審表）；ad4969d3 可昕寒暑假在高雄的句子（AA_278 第 1 節）；dbf1cae0 K2-L8 選項「兩個多月很快」；2026-10-18 AA-C：AA_284 1-7 學姊 S2-L2 放榜後跳過（修錯）＋使用者 10-18 個性：學姊 S2-L8 回覆、可昕 K2-L7 回覆",
+   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "ROM-1017",
    "history": [
     {
@@ -170,17 +173,17 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
-   "sha": "741e94f1",
+   "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7"
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "ad4969d3",
+   "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 13:27 已審表）；ad4969d3 可昕寒暑假在高雄的句子（AA_278 第 1 節）",
+   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7"
   },
@@ -194,9 +197,9 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "a816234a",
+   "sha": "9fecc202",
    "status": "approved",
-   "approvedBy": "BB-C（2026-10-17 14:42 BB_211 小修：學姊第 15 週那句加 unless GRAD_DONE；--check 通過，之後沒有再改）",
+   "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
@@ -778,6 +781,22 @@
    "status": "approved",
    "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）",
    "task": "ART-03",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/retake_home/retake_home_v1.json",
+   "sha": "294cea95",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18 07:1x「完全沒有可昕跟我一起在家讀書的感覺」＋選擇題：睡姊姊的房間、只寫讀書和默契；10-18 AA_298：衝刺班每天去、另一間補習班、看考場 7/10、爸爸在上海）",
+   "task": "RT-TOGETHER-1018",
+   "kind": "data"
+  },
+  {
+   "path": "docs/story_planning/AA_301_經濟系那一年_主動傳訊息給可昕的回覆.md",
+   "sha": "06cc756e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」；D103 2/14～7/11 住在一起不開）",
+   "task": "MSG-KX-Y0-1018",
    "kind": "text"
   }
  ]

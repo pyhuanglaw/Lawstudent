@@ -75,24 +75,23 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   econHome('2025-03-04',9); G.flags.RT_DAY={day:G.day,type:'free'}; picks=['讀書']; opts=[]; const Hh=HOME.rec(G); await HOME.loop(GM).catch(()=>{}); 
   check('7. 選「讀書」：讀到 12:00（一個時段一件）',opts[0]&&opts[0].includes('讀書')&&opts[0].includes('休息')&&opts[0].includes('看手機'),JSON.stringify(opts[0]));
   { econHome('2025-03-04',9); G.flags.RT_DAY={day:G.day,type:'free'}; const before=G.hour; const o=opts; check('7. 重考期、交往中、今天沒約：有「約可昕出門」',HOME.y0DateOpen(G)); G.flags.RT_DAY={day:G.day,type:'study'}; check('7. 讀書日：沒有「約可昕出門」',!HOME.y0DateOpen(G)); }
-  // 8：衝刺班
+  // 8：衝刺班（AA_298 第 1 節：6/9～7/9 每天 09:00～21:00，只停長場景；一三五晚上的出遊、6/8 私訊拿掉）
   econHome('2025-06-08',21.5); G.flags.dating_kexin=true; STORY.phoneRules(GM); PHONE.tick(G); STORY.phoneRules(GM);
   const crm=OUT.rec(G).filter(q=>/^y0_crm_/.test(q.id)).map(q=>CALENDAR.dateOf(q.day).key);
-  check('8. 6/8 報名以後：衝刺班每一晚都排進行事曆（6/9～7/9 一三五）',crm.length>=13&&crm.includes('2025-06-09')&&crm.includes('2025-07-09')&&crm.every(k=>[1,3,5].includes(CALENDAR.dateOf(STORY.dayOfKey(k)).wd)),JSON.stringify(crm));
-  { const html=CLS.weekHTML(G); check('8. 手機「這週」：休學在家顯示行事曆（有衝刺班）',/行事曆/.test(html)&&/衝刺班/.test(html),html.slice(0,120)); }
-  econHome('2025-06-10',9); G.flags.dating_kexin=true; G.flags.Y0_CRAM_PLANNED=false; PHONE.at(G,D('2025-06-08'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y0_crm_ask'); PHONE.tick(G); STORY.phoneRules(GM);
-  const w8=await HOME.y0Jump(GM,T(G.day+7,8.5));
-  check('8. 快轉停在衝刺班出發前（6/11 週三 19:00 以前）',G.day===D('2025-06-11')&&G.hour<19&&G.hour>=18,JSON.stringify({w8,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
+  check('8. 6/8 以後：不再排一三五晚上的衝刺班出遊、沒有「衝刺班你報了沒」私訊（RH-C0 當面報名）',crm.length===0&&!PHONE.sent(G,'y0_crm_ask'),JSON.stringify(crm));
+  { econHome('2025-06-07',10); const html=CLS.weekHTML(G); check('8. 手機「這週」：休學在家顯示行事曆（有「衝刺班（每天 09:00～21:00，6/9～7/9）」，沒有模擬考）',/行事曆/.test(html)&&/衝刺班（每天 09:00～21:00/.test(html)&&!/模擬考/.test(html),html.slice(0,200)); }
+  econHome('2025-06-10',9); G.outings=[{id:'y0_crm_'+D('2025-06-11'),state:'planned',day:D('2025-06-11'),h:19}]; STORY.phoneRules(GM);
+  check('8. 舊存檔已經排好的一三五出遊：標成 done、不出發',G.outings[0].state==='done');
   econHome('2025-04-15',9); const w9=await HOME.y0Jump(GM,T(G.day+7,8.5));
-  check('8. 快轉停在 4/19 模擬考那天以前',T(G.day,G.hour)<=T(D('2025-04-19'),15.75),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
+  check('8. 4/19 模擬考拿掉：快轉不停在 4/19',T(G.day,G.hour)>T(D('2025-04-19'),18),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
   // 9：放榜固定考上
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上台大法律（榜單那一句不看讀書次數）',/（臺大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
 
   // 10：BB_214
-  { econHome('2025-02-13',18); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');
-    G.hour=19; const c0=STORY.homeCall(G); G.hour=19.3; const c1=STORY.homeCall(G);
-    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（19:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在水餃店了，點了兩盤。……快來，我有事要跟你說。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
-    G.hour=18.7; const m=HOME.wouldMiss(G,19.7); check('10. 18:40 吃晚餐一小時會錯過 E27（照它的 15 分鐘容許，原本用 45 分鐘看不到）',m.some(t=>/水餃店/.test(t)),JSON.stringify(m)); }
+  { econHome('2025-02-13',12); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');
+    G.hour=14; const c0=STORY.homeCall(G); G.hour=14.3; const c1=STORY.homeCall(G);   /* AA_303：E27 改 14:00 行政大樓 */
+    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（14:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在水餃店了，點了兩盤。……快來，我有事要跟你說。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
+    G.hour=13.7; const m=HOME.wouldMiss(G,14.7); check('10. 13:40 做事一小時會錯過 E27（照它的 15 分鐘容許）',m.some(t=>/行政大樓/.test(t)),JSON.stringify(m)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('10. E14 的保底電話（韋綸兩句）也在',/'人咧！！保齡球館！！','第一局要開了啦，走啦！'/.test(src)); }
   { econHome('2024-11-20',26.6); const H=HOME.rec(G); H.at=false; G.zone='campus'; const ent=[]; const en=GM.enter; GM.enter=async(z)=>{ ent.push(z); G.zone=z; }; const gg=HOME.go; let went=false; HOME.go=async()=>{ went=true; H.at=true; }; await STORY.forceHome(GM); HOME.go=gg; GM.enter=en;
     check('10. 休學住家裡、凌晨 2:30 還在外面：回家（不是 412 宿舍）',went&&!ent.includes('dorm'),JSON.stringify({went,ent})); }

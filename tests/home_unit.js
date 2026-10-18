@@ -1,6 +1,6 @@
 // 週末回臺北的家（AA_134 第 3 節、AA_137 第 6 節；家人台詞池 AA_138 → src/data/home_lines.js）——不需要瀏覽器。
 // 照 AA_137 第 6 節的驗收：週五晚上在宿舍選「回家」→ 到家 → 晚餐一句 → 睡覺 → 週六早上在家醒來 → 可以取車 → 週日回宿舍；週一早上的課照常。
-// 另外：只有週五 17:00～週日 21:30 回得了家；週日 21:30 以後自動提醒回宿舍；晚餐四週內同一句不重複；家人群組週四 20:00、兩小時沒回爸爸傳「？」；舊存檔沒有 G.home。
+// 另外：只有週五 17:00～週日 21:30 回得了家；週日 21:30 以後自動提醒回宿舍；晚餐四週內同一句不重複（媽媽收尾；爸爸在上海）；家人群組週四 20:00、兩小時沒回爸爸傳「？」；舊存檔沒有 G.home。
 // 修改前 HOME 不存在（第 1 項失敗）。用法：node tests/home_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -39,13 +39,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   GM.npc={}; E.interactables=[]; GM.spawnNPC=()=>({}); GM.spawnCharacter=()=>null; try{ STORY.populate('dorm',GM); }catch(e){ console.log('  populate 其他部分在 node 裡跑不起來（不影響這一項）：'+e.message); } const it=E.interactables.find(i=>i.home);
   check('3. 宿舍房間有「收拾背包回臺北的家」（週五晚上看得到）',!!it&&!it.hidden,it&&it.label); G.hour=10; check('3. 週五白天藏起來',!!it&&it.hidden); G.hour=19;
   { const keep=E.interactables; E.interactables=[]; G.zone='campus'; try{ STORY.populate('campus',GM); }catch(e){ console.log('  populate campus 其他部分在 node 裡跑不起來（不影響這一項）：'+e.message); } const ig=E.interactables.find(i=>i.home); E.interactables=keep; G.zone='dorm';
-    check('3b. 校門口也有「回臺北的家」（AA_134 第 3 節；週五晚上看得到、白天藏起來；不和走出校門重疊）',!!ig&&!ig.hidden&&(G.hour=10,ig.hidden)&&Math.hypot(ig.x+126,ig.z)>3+ig.radius,ig&&JSON.stringify([ig.x,ig.z,ig.label])); G.hour=19; }
+    check('3b. 校門口也有「回臺北的家」（AA_134 第 3 節；週五晚上看得到、白天藏起來；不和走出校門重疊；校門 2026-10-18 改成兩側通道各一個出口）',!!ig&&!ig.hidden&&(G.hour=10,ig.hidden)&&[[-125.5,5.27],[-125.5,-5.27]].every(([ex,ez])=>Math.hypot(ig.x-ex,ig.z-ez)>2.5+ig.radius),ig&&JSON.stringify([ig.x,ig.z,ig.label])); G.hour=19; }
   picks=['吃晚餐',0,'睡覺','玄關','回宿舍'];
   await STORY.interact(it,GM); const t=lines().join('｜');
   check('4. 到家：媽媽一句（到家池）',said.some(s=>s.who==='媽媽'&&HOME_LINES.arrive.some(a=>a.t===s.t)),t.slice(0,80));
-  check('4. 晚餐：媽媽問、玩家二選一、爸爸收尾',said.some(s=>s.who==='媽媽'&&HOME_LINES.dinner.some(d=>d.mom===s.t))&&said.some(s=>s.who==='爸爸'&&HOME_LINES.dinner.some(d=>d.dad===s.t))||/（爸爸/.test(t));
+  check('4. 晚餐：媽媽問、玩家二選一、媽媽收尾（爸爸在上海，AA_298 第 8 節）；旁白「媽媽煮了一桌」、沒有「（爸爸」',said.some(s=>s.who==='媽媽'&&HOME_LINES.dinner.some(d=>d.mom===s.t))&&(said.some(s=>s.who==='媽媽'&&HOME_LINES.dinner.some(d=>d.dad===s.t))||/（媽媽/.test(t))&&/媽媽煮了一桌/.test(t)&&!/（爸爸|爸爸、媽媽都在/.test(t)&&!said.some(s=>s.who==='爸爸'));
   check('5. 睡覺：週六早上在家醒來（08:30、精力回滿、早上一句）',said.some(s=>HOME_LINES.morning.some(m=>s.t===m.t)));
-  check('6. 取車：爸爸一句、車在身邊（carWithMe）',G.flags.carWithMe===true&&said.some(s=>s.who==='爸爸'&&HOME_LINES.car.some(c=>c.t===s.t)));
+  check('6. 取車：媽媽一句、車在身邊（carWithMe）',G.flags.carWithMe===true&&said.some(s=>s.who==='媽媽'&&HOME_LINES.car.some(c=>c.t===s.t)));
   check('7. 回宿舍：媽媽一句、回到宿舍房間、不在家了',said.some(s=>s.who==='媽媽'&&HOME_LINES.back.some(b=>b.t===s.t))&&G.zone==='dorm'&&!HOME.at(G)&&G.weekday===6,JSON.stringify({zone:G.zone,wd:G.weekday,at:HOME.at(G)}));
   // 週日 21:30 以後：自動提醒回宿舍
   const SUN=FRI+2; fresh(SUN,21.6,'dorm',{introDone:true,classDone:true,afternoonDone:true}); G.home={at:true,day:SUN}; picks=[];
@@ -80,5 +80,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('15. 週日晚上在家選「睡覺」：先回宿舍（不在家睡到週一）',!HOME.at(G)&&G.zone==='dorm'&&(opts[0]||[]).some(t=>t==='睡覺'),JSON.stringify({at:HOME.at(G),zone:G.zone,err,day:G.day-d0})); }
   // 舊存檔
   fresh(FRI,19,'dorm',{}); delete G.home; let ok=true; try{ ok=!HOME.at(G); HOME.tick(GM); }catch(e){ ok=false; } check('11. 舊存檔沒有 G.home：不在家、不出錯',ok);
-  console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
+  { const L=HOME_LINES, sk=HOME.HOME_SKIP, ds=HOME.DINNER_SKIP; const d=n=>L.dinner.find(x=>x.n===n);
+  check('11. 住在家裡不出提宿舍的句子（AA_298 第 4 節）：群組「這週回來吃飯嗎」「回來的話先講」、到家「宿舍的床」、晚餐「宿舍的飯」「室友」都在台詞池裡（比對得到）',sk.group.every(t=>L.group.some(x=>x.t===t))&&sk.arrive.every(t=>L.arrive.some(x=>x.t===t))&&ds.every(t=>L.dinner.some(x=>x.mom===t)));
+  const g0=GM.G, lh=HOME.livesHome; HOME.livesHome=()=>true; const picks=new Set(); for(let k=0;k<12;k++){ const x=HOME.pick({day:k,home:{used:{}},flags:{}},'arrive'); if(x) picks.add(x.t); } const dn=new Set(); for(let k=0;k<20;k++){ const x=HOME.dinnerPick({day:k,flags:{},home:{ate:{},used:{}}}); if(x) dn.add(x.n); } HOME.livesHome=lh;
+  check('11. livesHome 時：到家不會抽到「宿舍的床」、晚餐不會抽到 n3、n4',!picks.has('宿舍的床睡得習慣嗎？')&&picks.size>0&&!dn.has(3)&&!dn.has(4)&&dn.size>0,JSON.stringify([...dn])); }
+{ const g3=require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8'); check('12. 在臺北的家：右上角地點、存檔列表都寫「臺北的家」（BB-C BUG-HOME-HUDZONE）',/HOME\.at\(G\)\)\?'臺北的家'/.test(g3)&&/s\.home&&s\.home\.at\?'臺北的家'/.test(g3)); }
+console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

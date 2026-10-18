@@ -98,6 +98,15 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const q={id:'t_k1',ev:'ev_kexin_tour_nccu',day:D0,h:14,place:'政大',title:'導遊',travel:'',travelH:0.5,state:'planned'};
   await OUT.go(GM,q); const tk=lines().join('｜');
   check('12. 和可昕出遊（見面）演完：接著聊 K-L1',tk.includes(LK.steps[0].lines[0])&&G.social.ladder[KX]===1,tk.slice(-120));
+  // AA_304 第 10 列：休學在家那一年（經濟系、退宿以後），出遊演完不直接接階梯（講的是家裡的事）：白天不接；傍晚以後先「（晚上，回到家。）」
+  { const LB=LADDER.byTerm.Y0S2&&LADDER.byTerm.Y0S2[KX]; if(LB){ const w0=(LB.steps[0].week||[6])[0], dd=termDay('Y0S2',w0,4), f0={introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,Y0_MOVED_OUT:true};
+    fresh(dd,13,'home',f0); G.stage='econ'; picks=[0,0,0,0,0,0]; const k0=((G.social.ladder||{})[KX+'@Y0S2']|0);
+    await OUT.go(GM,{id:'t_b1',ev:'ev_y0_e18b',day:dd,h:13,place:'豆花店',title:'生日',travel:'',travelH:0,state:'planned'}); const t1=lines().join('｜');
+    check('12b. 休學在家那一年：白天的出遊演完，不接她的階梯（不推進）',!t1.includes('（晚上，回到家。）')&&((G.social.ladder||{})[KX+'@Y0S2']|0)===k0,t1.slice(-80));
+    fresh(dd,18,'home',f0); G.stage='econ'; picks=[0,0,0,0,0,0]; said=[];
+    await OUT.go(GM,{id:'t_b2',ev:'ev_y0_e18b',day:dd,h:18,place:'豆花店',title:'生日',travel:'',travelH:0,state:'planned'}); const L2=lines(), i=L2.indexOf('（晚上，回到家。）');
+    check('12b. 傍晚以後的出遊演完：先「（晚上，回到家。）」再接階梯一層',i>0&&i<L2.length-1&&((G.social.ladder||{})[KX+'@Y0S2']|0)===k0+1,L2.slice(-4).join('｜')); }
+    else check('12b. 有 Y0S2 可昕的階梯',false); }
   // 學期外：不走階梯（交給舊的閒聊）
   fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
   { const L2=LADDER.byTerm.Y1S2[PS], y1=((G.social.ladder||{})[PS])|0; said=[];

@@ -6709,8 +6709,8 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "暫停",
+   "next": "【11:0x LAWWW2-C beb5fa54（DL-LW2-beb5fa54）：使用者直接說「交換學生大學地板的橘色好醜」→ 校園紅磚改偏褐低彩度的舊紅磚；接 us_campus 時用 beb5fa54 的 us_campus.glb】【10:2x LAWWW2-C 交 v3 90c2896e（交接 d5cfed8d，DL-LW2-90c2896e）：照使用者空拍圖加老校區背景（紅瓦中庭大樓、方塔大廳、石材大樓、樹林、圓塔、迴車道，不開放進出）；導航／阻擋／出生點／互動點和第 2 版相同；8.7 MB。LAWWW-C ACK。接 us_campus 區域時：用這份；這個區域關掉城市遠景剪影（LAWWW2 問①：美國小鎮不該有）；手機自動打開是測試存檔有要回的訊息（STORY.phoneAuto），不是問題②的 bug】【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -6730,7 +6730,11 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "LAWWW2-C 05:46：IU 版（SCN-US-IU-1018，使用者 03:1x）會換配置（出生點、路線、互動點），1e6987cb 第二版先不接，等 IU 版一起接（layout key 沿用 spawn_bus／spawn_class_out／spawn_library_out／bus／class／library／gate，接線照 layout 讀）",
+   "resumeWhen": "LAWWW2 交 SCN-US-IU 版",
+   "pausedBy": "LAWWW-C 10-18 05:5x（LAWWW2 回覆）",
+   "recheckOn": "2026-10-25"
   },
   {
    "id": "SCN-US-2D",
@@ -9502,8 +9506,8 @@
    "title": "品妤（曾品妤 econ_pinyu）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【02:3x LAWWW-C】v9.10 不需要：品妤在經濟系那一年已經有 char3d（底模換色），夠用就凍結（D99 第 4 點）；照 LAWWW2 表上的「人物暫停」。｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "取消／被取代",
+   "next": "【11:4x LAWWW-C 誤派、LAWWW2-C 指出衝突：品妤第六版 bl_econ_pinyu.vrm 已接（assets3d char.econ_pinyu），不是底模換色；照使用者決定不重做】【02:3x LAWWW-C】v9.10 不需要：品妤在經濟系那一年已經有 char3d（底模換色），夠用就凍結（D99 第 4 點）；照 LAWWW2 表上的「人物暫停」。｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -9522,9 +9526,12 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "企劃線 docs/story_planning/art_reference/pinyu.webp（BB_131 人物標準圖；設定 BB_116 第 11 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "assets/models/char/<id>.vrm（7～8 頭身、走跑坐不穿模；路人底模改臉、髮型、衣服輪廓，不是只換顏色）；BB-B D59 通過",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    },
-   "pausedFrom": "待開工"
+   "pausedFrom": "待開工",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者（BB_201 8510260c：「使用者決定不再修人物（品妤用第六版）……所有人物的改版要求都停」；892f78ca 經濟系角色美術凍結）",
+   "reason": "使用者決定不再修人物、經濟系角色美術凍結；品妤第六版已接"
   },
   {
    "id": "V0-ARTPLAN",
@@ -12835,9 +12842,9 @@
    "title": "開發組自己的 GLB 有同向疊面（會閃）：萬才館外觀、霖澤館外觀、宿舍大廳等",
    "area": "BUG",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
+   "next": "【11:4x 7e287c19 整合 LAWWW2 3d7f898d：linze_exterior 544→1.9、wancai_exterior 634→3.8 m²（扣掉 GPU instancing 窗原型的假警報）；霖澤館室內不用換。瀏覽器 campus_glb_integration 派 BB】LAWWW-B 已整合 LAWWW2-B 四個疊面修正：201（209e7eca，11→0）、萬才館室內（9dc6727f，54→4）→ 3d4d1969；總圖大廳（f1734e3f，129→27）、法圖（6f10b1fe，120→93）→ b6f471f7。interior_glb_integration 宿舍部分 ALL PASS；萬才館、總圖、法圖、201、霖澤館的瀏覽器流程交班時沒跑完（見 QA-HANDOFF-B1）。剩：霖澤館外觀／室內、萬才館外觀 GLB 重新匯出。｜萬才館外觀腳本已改（LAWWW2-B 2c6194a8），GLB 還沒換；典禮背景 v3 之後接著做。｜【使用者 2026-10-17 00:1x：美術相關一律給 LAWWW2，照遊戲出現順序】轉給 LAWWW2-B：tools/glb_coplanar.py（不用 Blender）掃開發組 GLB；宿舍大廳 LAWWW-B 已修（e4b6b55e，271 → 10 m²）；剩霖澤館外觀／室內、萬才館外觀／室內、總圖、法圖、201 教室——先用遊戲截圖確認看得到的再改腳本重新匯出（/opt/blenv bpy 4.2 已裝）；第一週會看到的先做。｜宿舍大廳已修（e4b6b55e，271 → 10 m²）。總圖套同一個 wall_cut 修正但沒觸發（重新匯出一模一樣，只改腳本）。霖澤館外觀 294 m²（y 14.9 整層樓板面）、萬才館外觀那些大面積多半是建築量體裡面互相包住的面（從外面看不到）——掃描工具不知道遮擋，要用遊戲截圖確認真的看得到再修；先排到 QA-W1 瀏覽器巡檢 B3～B5 一起看。｜宿舍大廳修了：一樓天花板低 1 cm（原本和二樓樓板底面同高）、wall_cut 開口在這一段上下時不再長出段外的牆（樓梯井北牆腰牆疊白牆）→「一定會閃」271 → 10 m²（剩牆角小疊面）。Blender：/opt/blenv（bpy 4.2，2026-10-16 23:2x 用 uv 裝；重新匯出未改的 dorm_hall 和原檔差 4 bytes）。下一個：總圖同一個 wall_cut、霖澤館外觀、萬才館外觀。｜tools/glb_coplanar.py（純 Python，不用 Blender）掃了 8 個開發組 GLB，「一定會閃」面積：萬才館外觀 1,892 m²（台階 riser 自己疊、屋頂花崗石）、霖澤館外觀 575（屋頂 precast×brick、花崗石兩色）、宿舍大廳 271（一樓天花板頂面和二樓地板同高＝二樓走廊地板會閃）、法圖 106、總圖 39、霖澤室內 27、萬才室內 21、201 教室 6。先修第一週會看到的：宿舍大廳二樓地板、霖澤館外觀、萬才館外觀；改 tools/blender/ 腳本、重新匯出（/opt/blenv 背景安裝 bpy 4.2 中）；萬才館 1,192 m² 那對要先確認是不是重複的幾何。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -12856,7 +12863,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "acceptance": "重掃「一定會閃」大幅下降；遊戲內同角度修改前後截圖；導航、碰撞不變",
     "receiver": "LAWWW-B",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -13717,7 +13724,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BUG-WZFLICKER r2／glb_coplanar.py",
     "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -14014,7 +14021,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "gg_signs README",
     "acceptance": "街上鏡頭看得到盆栽；wz_street／gongguan 整合測試 ALL PASS",
-    "ack": "ACK"
+    "ack": "SENT"
    }
   },
   {
@@ -14575,9 +14582,9 @@
    "title": "美國篇場景改季節：8 月出發、12 月回來（us_bus_station 等改成夏末；冬天場景保留給 12 月），隨 AA_213 新時間線",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "等待其他AI／素材",
+   "status": "已實作待整合",
    "priority": "P3",
-   "next": "等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
+   "next": "【11:3x LAWWW2-C 交 407ec3f5（交接 7fc8a3be，DL-LW2-407ec3f5）：us_community.glb、us_campus.glb（含新紅磚）＋patches/us_season.diff（us3d.js usSeasonKey／usSeason、tests/us_season_unit.js）＋四季截圖。兩份 GLB 一定要配 patch 一起接。美國篇區域整合排在 v9.10.1 發布後】【11:0x beb5fa54 WIP：us_campus／us_community 四季＋patches/us_season.diff（us3d.js usSeasonKey／usSeason；tests/us_season_unit.js）。新的 us_community.glb 一定要配 us_season.diff；LAWWW2 正式交付以前不要換社區 GLB】等 US-RESCHED-1017（AA_213）交付後列出要改季節的場景；美國篇暫停期間不做",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -14595,7 +14602,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "AA_213（AA-C 交付後）",
     "acceptance": "季節改好的場景清單＋遊戲內截圖",
-    "ack": "未派"
+    "ack": "ACK"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）"
@@ -14964,9 +14971,9 @@
    "title": "路人底模男女各 20 種（nf1–20、nm1–20；9–20 號照日劇穿搭、低彩度；nf4、nm3 低彩度重建，不要紅色上衣）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
-   "next": "【02:3x LAWWW2 02:23：第五批 45fa5907 已交、等整合】｜第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
+   "next": "【11:3x LAWWW2-C 回報：40 個 bl_npc_nf1–20／nm1–20 和開發分支逐檔 blob 相同、manifest 都在；第三批剩下的 nm10／12／14／15／20 在第四批 1b924dd4、第五批 45fa5907 都已整合。沒有未交的】【05:3x LAWWW-C 對帳】第五批 45fa5907 早就整合了（166a462b，在 v9.10 裡；看板原本還寫「等整合」）：33 個路人 VRM 換日劇髮型（同檔名、manifest 不用改）；角色美術 LAWWW 驗收：髮型分得開、比之前多樣，中分的幾個（nf5、nf9、nf10、nf15）額頭偏大，路人距離看不出來、不影響遊玩｜【02:3x LAWWW2 02:23：第五批 45fa5907 已交、等整合】｜第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14982,7 +14989,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 2026-10-17（經 LAWWW2-C 轉達）：「長得很像的路人真的太多了」「路人數量要再加倍」「男生女生各 20 種」「臺大不要再有這麼鮮豔紅色上衣的女生」",
     "acceptance": "VRM 在遊戲裡載得起來（npc_ambient／anon_pool 單元）、低彩度沒有紅色上衣、遊戲內截圖",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -16749,7 +16756,7 @@
     "confirmed": true
    },
    "src": "使用者 2026-10-18 01:0x 直接給 LAWWW2-C 照片（LAWWW2 分支 HANDOFF.md，bdc24c3c）；LAWWW-C 排在 SCN-US-02 之後、ART-US-SEASON 之前",
-   "next": "【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
+   "next": "【05:5x】入口＝us_campus 的 interact「library」（法學院同一排台階下、「進教室」東邊；IU 版也叫 library），出來 spawn_library_out；和 SCN-US-IU 一起接｜【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
    "xai": {
     "spec": "使用者照片（不進 repo）＋LAWWW2 HANDOFF 的文字描述",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16860,7 +16867,7 @@
    "title": "臺大校門外觀（校園與公館共用，CK.gate 套件）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16874,7 +16881,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【04:2x LAWWW-C 選 A（LAWWW2-C 問）】照真的配置：門房在正中間、兩側通道各約 4.5 m、四座燈柱（台大訪客中心資料：1931、磚＋唭哩岸石）——會動導航和兩個出口（校園走出校門、公館回到校園），patch 要附齊 blocks、備用幾何、門房鏡頭碰撞、出口、寫死座標、測試；不擋 v9.10，v9.10 發布後才套｜【03:3x 使用者：四座全部改，不限外型】整座換 Blender（CK.gate／placeGate 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【05:2x LAWWW-C（v9.10 發布後）】a852d6f2 已整合：campus_gate.diff（CK.gate 新配置＋備用幾何、placeGate 門房碰撞、校園出口 (-125.5,±5.27) r2.5、公館回到校園 (±5.27,-47.5) r2.5、舊開口強制可走改成只開兩條通道）＋GLB；nav_buildings、nav_levels、kit_nav_check、home_unit（3b 改量新的出口）ALL PASS；LICENSES 加一列。待：瀏覽器 campus_layout_nav、gongguan_layout_nav、zone_transitions、flow_bike（LAWWW 背景跑）；建築美術等使用者看（READY_FOR_ART_REVIEW）｜【04:2x LAWWW-C 選 A（LAWWW2-C 問）】照真的配置：門房在正中間、兩側通道各約 4.5 m、四座燈柱（台大訪客中心資料：1931、磚＋唭哩岸石）——會動導航和兩個出口（校園走出校門、公館回到校園），patch 要附齊 blocks、備用幾何、門房鏡頭碰撞、出口、寫死座標、測試；不擋 v9.10，v9.10 發布後才套｜【03:3x 使用者：四座全部改，不限外型】整座換 Blender（CK.gate／placeGate 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16888,7 +16895,7 @@
    "title": "普通教學館、博雅教學館：外觀＋室內換 Blender（teach3d.js、boya／putong_layout.js）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16902,7 +16909,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:3x 使用者：四座全部改，不限外型】外觀＋室內都換 Blender：室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、桌上小物沿用 LAWWW2 的 GLB，空橋沿用 skybridge.glb；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "已整合（v9.10.1）：博雅、普通室內 GLB＋campus_teach_int.diff（511f6cd6）；nav_teach、teach_*、desk_furniture 單元測試過。BB 測畫面",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16916,7 +16923,7 @@
    "title": "捷運公館站出口外觀（TK.mrtExit）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16930,7 +16937,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:3x 使用者：四座全部改，不限外型】整座換 Blender（TK.mrtExit 的位置）；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "ca3e14d5 整合（assets3d bldg.gongguan_mrt、zones3d 公館捷運出口）；位置導航不動；gongguan_layout_nav 瀏覽器測試排在發布前清單；BB 截圖",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -16968,7 +16975,7 @@
    "title": "美國校園照 Indiana 校區真的樣子和路線改；其他地區照樣子設計、先不開放進出（使用者 10-18 03:1x 直接對 LAWWW2-C，附空拍圖；照片不進 repo）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -16981,13 +16988,13 @@
     "confirmed": true
    },
    "src": "使用者 10-18 03:1x 直接對 LAWWW2-C（LAWWW2 03:18 轉述）",
-   "next": "LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
+   "next": "【11:3x LAWWW2-C 回報：90c2896e 已照 IU 空拍圖改完（README test_shots/us_oldcampus_1018/ 逐項對照）；路線、校門、法學院照 v2；紅磚 beb5fa54 使用者已確認。和 SCN-US-02 一起接（v9.10.1 發布後）】【11:3x LAWWW-C 派：先確認 SCN-US-02 v3（90c2896e／407ec3f5）是不是已經照 IU 空拍圖改完；是的話回報、我標完成；不是的話把差的部分做完】LAWWW2 排在 ART-EXT 四座之後、ART-US-SEASON 之前；空拍圖用文字描述寫進 HANDOFF；交件後 LAWWW 接（v9.10 後）",
    "xai": {
     "spec": "使用者空拍圖（LAWWW2 文字描述）；SCN-US-02 已交的校園街道",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內截圖；不開放的區域看得懂地關起來",
     "receiver": "LAWWW-C",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -17451,6 +17458,1806 @@
    "source": "LAWWW2-C 10-18 04:21（night_rereg.diff＋night_rereg_check.py，e0e39091）",
    "authorized": "D85",
    "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】night_rereg_check PASS（白天 0、天黑 1、進宿舍回來白天 0、再天黑 1）；剩 BB-C 看溫州街、Café 天黑以後的窗｜原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
+  },
+  {
+   "id": "UX-HOME-RETURN-1018",
+   "title": "住家裡（休學後、放假）到現場的出遊演完人留在外面、不知道怎麼回家（BB-C 10-18 flow_v0_home：11/6 E12 醉月湖演完）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系休學後第一次到現場的出遊（11/6 E12 醉月湖）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10-18 05:15（設計問題，LAWWW 決定）",
+   "authorized": "D85（UI，不是劇情台詞）",
+   "next": "5ffde5b3：①手機「地點」最上面多一行「回臺北的家」（HOME.canGo 而且不在家時；按了走 HOME.go，交通字卡、時間照原本）②三個在家選單（休學在家、週末、放假）的到現場出遊演完跳一行提示「要回家：手機「地點」→ 回臺北的家（或走到校門口）。」home／dl05_home／v0_home_ff／vac_hometown 單元通過；瀏覽器派 BB-C（flow_v0_home 可以改用手機回家）"
+  },
+  {
+   "id": "BUG-WALKDIR-1018",
+   "title": "人走路方向和動作不一致：往後、左後方、左前方走，動作卻是往前走（使用者 10-18 05:3x 玩 v9.10，USER_WANTS X07）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲一開始",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "原因：路人先用備用模型、正式 VRM 載好後換（CHAR.upgrade），用 quaternion.copy 帶朝向；朝向超過 ±90° 時 Euler 變成 (π, π−y, π)，引擎之後只改 rotation.y，看起來的方向＝π−y（往後、斜後方）。瀏覽器探針：校園 32 個人裡 11 個是這樣。修：upgrade 改用 rotation.copy；engine3d.js 加 flatYaw（轉向前把 (π,·,π) 改回 (0,y,0)，已經壞的也會恢復）。tests/walkdir_unit.js（修改前 ① 失敗）。0f897887 瀏覽器探針重跑：17 個在走的路人身體方向和走的方向差 1～6°（轉彎中的一個身體照人物的方向，差 47° 是正在轉）；修改前 11 個差 53～175°。待：BB-C 看校園路人"
+  },
+  {
+   "id": "BUG-CAMSNAP-1018",
+   "title": "劇情結束後鏡頭轉回來太快、會暈：宿舍認識阿勳後、隔天起床（X08）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一晚宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "engine3d.js endCinematic：跟隨鏡頭接在劇情鏡頭現在的方位（不繞半圈）、1.1 秒內慢慢拉回距離、看的點慢慢移過去；推搖桿或轉鏡頭就加快；換區域照舊直接到位。待 BB-C 瀏覽器看（經濟系第一晚認識阿勳、隔天起床）"
+  },
+  {
+   "id": "BUG-CAMP-CUT-1018",
+   "title": "去宿營前一秒還在椰林大道（轉場太突然，X09）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "2024-08-23 宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "Q-ECON-CEREMONY-1018",
+   "title": "經濟系先上經濟學原理才開學典禮？對日期（X10）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "AA_292 第 3 節／AA_154 79932ed9：企劃原本就是先上 9:10 經原、下課後 12:15 才演 E02（不讓第一堂經原缺席）；使用者在 AA-C 那邊選擇題選「改叫系上的新生座談」，經濟系那年不演全校開學典禮。events.js 字串四處＋tests/v0_e02_unit.js 改了"
+  },
+  {
+   "id": "SYS-ECON-FF-1018",
+   "title": "經濟系在學期間事件接事件（D102，使用者 10-18 06:0x 選擇題）：事件演完自動跳到下一個事件的那天、時間、地點，日期字卡帶過；經濟系的課只演有劇情的那幾堂、其他自動出席；不做經濟系同學邀約",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "【06:4x】src/econff3d.js 第一版：AA_292 第 1 節 22 步（#1～#3 照原本流程，手機那幾列跳的途中照時間收）、跳過的課自動出席、要回的訊息停下開手機、第 2 節旁白、兩堂劇情課帶到教室＋同學坐旁邊；CLS 的起床／去上課選單在這段期間不跳；?nofastecon 關掉。tests/econ_ff_unit.js 17 項。待：瀏覽器從 9/2 跑到 10/17（LAWWW 先跑前幾步，BB-C 全程）；休學期的表等 AA；過場（可昕原型故事改編）等 AA｜規格：AA_292（企劃 98c0bfa1）在學 29 列＋第 2 節跳過日子的旁白；休學在家也事件接事件（使用者 06:3x，表等 AA 補）；兩堂劇情課（9/5 會計 P1、9/9 經原 E03）講話的同學要在場。LAWWW 施工中｜10-18 06:2x 瀏覽器（?turbo、SwiftShader）從 9/2 宿舍一路事件接事件到 9/18 社團博覽會 ev_y0_e07：約 5 分鐘、步驟 4→5→6→7、沒有 JS 錯誤；接著測到 10/17｜06:4x 瀏覽器（?turbo、SwiftShader、85439ced）9/2 宿舍 → 10/17 便利貼一路事件接事件走完：約 19 分鐘、18 個事件（E02、E07、P2、E05、E08、E09、P1b1、T0a、T1、P2b、B2、C1、L5a、gather、A1、E10b、E30、E26）、沒有 JS 錯誤；測試腳本沒回手機（E10 走 E10b）。第二階段（10/19 以後）見 ECON-FF-PHASE2-1018"
+  },
+  {
+   "id": "BUG-ECON-YU-1018",
+   "title": "經濟系遇得到小語（她那年還沒進台大，X12）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系在學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "使用者 10-18 存檔（day -370）：經濟系就 met_yu、lawclub。修：story3d.js 小語兩處、阿哲週四霖澤館前的舊 spawn 加 !S.isEcon；萬才館法服公告經濟系只看得到、不入社（不記 lawclub、不加筆記）。待 BB-C 瀏覽器（經濟系平日 8:30 校園、晚上溫州街沒有小語）｜【06:1x 追加，AA-C 讀程式】經濟系那年：法律系第二天民總 classScene、201 的以安／阿哲／小語不生；芷若、子晴、方奕廷只當背景不能搭話（game3d.js spawnCharacter ECON_BG；芷若當 Café 店員照舊點餐）"
+  },
+  {
+   "id": "ART-YU-3D-1018",
+   "title": "小語 3D 還是舊人物（紅褲子），路人都變好看了她很突兀（X12）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一上第一天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "已整合（v9.10.1，使用者 10-18「這些也要包含」）：bl_yu.vrm＋bag_yu.glb、char_yu.diff。角色美術驗收（D100a，LAWWW）：遊戲內截圖看過（長捲髮、開襟外套、紅裙、斜背包）；BB 測遊戲內",
+   "xai": {
+    "spec": "使用者 10-18 05:3x：小語還是舊人物、紅褲子很醜；照 characters.js 的小語設定和立繪（assets/portraits/yu/campus）做新的 3D",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內截圖和立繪一致；LAWWW 驗收（D100a）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-WIND-1018",
+   "title": "坐一下的旁白「風從椰林大道那頭吹過來」不管坐哪裡都會出現（使用者 10-18 更正：不是風向，是這句文字，X13）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "game3d.js：這一句只在校園戶外；室內、其他區域只用另外兩句。各區域自己的「坐一下」旁白要 AA 寫（之後問）"
+  },
+  {
+   "id": "PERF-ZONE-ENTER-1018",
+   "title": "電腦換畫面卡一兩秒（溫州街、咖啡廳，X14）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "SYS-BOOKS-1018",
+   "title": "書店書單：法律系每一門法律課的教科書都能買、經濟系那年賣經濟系的書；買了讀那一科準備度多加、期末那一科多一次想起答案（使用者 10-18 05:5x 選擇題，X15）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一次進書店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "ART-GG-SHOPS-1018",
+   "title": "公館店面外觀重做（使用者 10-18 05:5x「從外面看都好醜」，X16）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一次去公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "LAWWW2 05:50 排序：小語 → TEACH 室內 → GG-SHOPS → MRT → SCN-US v3 → US-SEASON｜LAWWW2 307787c1 第一輪（每家不同的門、騎樓地磚、紙條、夜間光暈；樓上公寓、馬路、公車亭沒改）已換 gongguan_shops.glb／.json；待 BB-C 看公館、使用者看",
+   "xai": {
+    "spec": "使用者 10-18 05:5x：公館的店面從外面看都好醜，希望修改；照 D77 店名用諧音／替代名",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內同角度前後截圖；導航、店門互動點不動",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "UX-EXIT-MARK-1018",
+   "title": "室內（店面）出口要有看得到的標示、按了就出去（X17）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次進店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "guide3d.js：室內每個出口（不含電梯）地上有青色光圈（會呼吸），走到裡面也看得到、別層不顯示、劇情運鏡不顯示，光圈不擋點地移動；站上去就跳出「離開…」按鈕。tests/exit_ring_unit.js。待 BB-C 瀏覽器（便利商店、麵店、書店、咖啡廳、溫州街店內走到最裡面回頭找出口）"
+  },
+  {
+   "id": "BUG-NPC-DUP-1018",
+   "title": "路人常有兩個一模一樣穿搭的人在附近或旁邊（X18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "game3d.js GM.dedupAnon＋character3d.js anonKeyOf／anonPool.alt／reAnon：4 m 內同一層有兩個無名路人用同一個底模，換成附近沒人用、已下載的那個（記在自己的 buildSpec.anonKey）；平常只換畫面外的人（每 1.5 秒），換區域黑幕裡全部換。tests/anon_dedup_unit.js（修改前沒有 dedupAnon）。池子照舊 4 女 4 男（記憶體）。待 BB-C 瀏覽器：校園椰林大道、博雅 101、公館走一圈看旁邊有沒有一樣的人"
+  },
+  {
+   "id": "BUG-BENCH-OCC-1018",
+   "title": "椰林大道的長椅還是會坐到有人的位子、直接壓在上面（使用者 10-18 06:0x）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次在椰林大道坐長椅",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:0x",
+   "authorized": "使用者直接要求",
+   "next": "原因：校園長椅上讀書的路人（story3d.js）沒有帶 seat，freeSeat 不知道那個位子有人。修：加 seat:st。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "DEC-SLOTS-1018",
+   "title": "時段次數規則重新設計（使用者 10-18 06:1x：走來走去不算、做一件事才算；給方案、先不決定，USER_WANTS X19）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:1x",
+   "authorized": "等使用者選方案",
+   "pausedReason": "使用者「先不要決定，給我幾個方案」；06:1x 給了三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）",
+   "resumeWhen": "使用者選方案",
+   "pausedBy": "使用者 10-18 06:1x",
+   "recheckOn": "2026-10-21",
+   "next": "使用者選了以後改 classes3d.js 時段次數制（DL-03）、吃飯／約會／點餐的扣次數、晚上上限"
+  },
+  {
+   "id": "BUG-E37-TOLAW-1018",
+   "title": "經濟系 8/29 轉法律系時把 8/30 E37（政大校門）的約清掉：8/30 不演、電話也不打（BB-C 10-18 e37_probe 重現）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-08-29 轉法律系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10-18 05:55",
+   "authorized": "D85",
+   "next": "story3d.js toLaw 清還沒去的約時留下 y0_e37；私訊已發、約不見了（舊存檔）就補排。tests/v0_tolaw_unit.js 3b（修改前失敗）。待 BB-C 重跑 e37_probe（flow_v0_home 的 E37 檢查要改成看 8/29 轉完以後 y0_e37 還在，或跑到 8/30 晚上）"
+  },
+  {
+   "id": "BUG-DORM-PLATES-1018",
+   "title": "宿舍同一層門牌開頭不一樣：經濟系自己 412、對面 2 開頭（使用者 10-18 06:1x）；大二 312 也一樣",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一晚宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:1x",
+   "authorized": "使用者直接要求",
+   "next": "dorm3d.js：自己的房號開頭和那一層原本的不一樣時，那一層的門牌整排平移（經濟系 410～417、大二 309～316；大一、大三、大四照舊）。tests/nav_buildings_unit.js 加兩項。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "ART-LIB-VIEW-1018",
+   "title": "總圖窗景很假（使用者 10-18 06:2x）：窗外是遊戲畫面拍的平面圖 library_view_*.webp",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次進總圖",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:2x",
+   "authorized": "使用者直接要求",
+   "next": "已整合（v9.10.1）：library_views.diff＋窗景照片 4 張（ed0196e4）。BB 測畫面",
+   "xai": {
+    "spec": "使用者 10-18：「總圖窗景很假」。現在窗外是 tools/shots/library_views.py 拍的遊戲畫面平面貼圖（library_view_*.webp）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內窗邊同角度前後截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-WZ-STANDEAT-1018",
+   "title": "溫州街半熟點餐、一盞喝茶是站在櫃台前吃完（使用者 10-18 06:2x「點餐是站著吃完？」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在溫州街店裡點餐",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:2x",
+   "authorized": "使用者直接要求",
+   "next": "wzshops3d.js：點完黑幕裡坐到最近的空位（GM.freeSeat）、吃完站起來；已經坐著不換位子、沒有空位照舊。tests/dl09_shop_menu_unit.js 第 9 項（修改前失敗）。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "BUG-CLASS-CLUMP-1018",
+   "title": "博雅101 等著進教室的同學在門口站成一團、身體互相穿過去（BB-C 10-18 博雅101 報告 c_／d_ 截圖，wonderful-mayer 3ae0a956）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次上課，早到教室",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 測試報告",
+   "authorized": "bug 修正（D85）",
+   "next": "原因：上課開始時 syncRoom(full) 把座位坐滿，排隊進教室的人群（crowd3d 'seat' 群組）找不到空位就全部走到門口那一點疊在一起。crowd3d.js：沒有空位改走回 spot.road 離開；走到了還在畫面裡 3 秒以上的改走 road，走不到就移除。tests/indoor_crowd_unit、crowd_unit、teach_class_unit、boya_lecture_unit 通過。待 BB-C 重拍博雅101"
+  },
+  {
+   "id": "BUG-NO-CLERK-1018",
+   "title": "每間店都要有店員（使用者 10-18「一盞也沒有店員？任何一個店都要有店員」，BB-C 轉）：溫州街一盞／半熟／影印、美國兩間超市、118 巷九間店門口或窗口",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進溫州街的店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18（BB-C 06:23 轉）",
+   "authorized": "使用者直接要求",
+   "next": "story3d.js 店員那一段：溫州街三家（半熟櫃台北端、阿德影印櫃台後面、一盞水屋）、118 巷九間（營業時間內站在店門口旁邊、面向巷子）、美國草原超市兩個收銀台、竹葉亞洲超市櫃台後面。位置照各 layout 推算，BB 要每間截圖確認不穿模、面向客人、不擋門"
+  },
+  {
+   "id": "AA293-KX-BRIDGE-1018",
+   "title": "AA_293：可昕交往前六段過場 T1～T6、可昕不加社團、劇社拿掉（刪 ev_y0_c1、ev_y0_e18）、E08 兩句旁白、10/15 她留下來 KX_STAYED、E10 邀約 23:45",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/18～10/17",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 81d42881（AA_293、AA_292、ladder_bb_y0s1.json；DL-AA-81d42881）",
+   "authorized": "使用者選擇題（AA_293 第 1 節）＋D102",
+   "next": "events.js：E07 三句（不加社團）、T1～T6（ev_y0_kt1～kt6，trigger econff，演完 STORY.ladMark 記 K0 層）、E08 兩句旁白、gather 結尾她留下來（KX_STAYED）、E14 搬 9/13＋兩句、E12 結尾保齡球說破（KX_BOWLING_TOLD）、c1／e18 retired；story3d.js：E07 沒去私訊、y0_kx_laugh、E10 去了聚會 23:45、C1／E18 邀約關掉、保齡球邀約 9/12 全班群組；econff3d.js 步驟加 t1～t6、b1、拿掉 n20、照時間排。階梯白名單 6 檔改 9fecc202（Y0S1 因 KX0_EGG、KX0_SHOP 沒有記憶中文名稱先保留舊版，已請 AA 補表）。測試換：econ_ff、v0_e07、v0_e14、v0_gather、v0_c1、v0_e18、lifeline_g3。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "AA294-SKIPCLASS-1018",
+   "title": "AA_294：翹課會錯過的劇情處理表（①不能翹：民總劇情課、所有考試日；②改到下一堂（通用規則）；③沒去就沒有＋你不在版本）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開學第二天民總",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C b3ec8820（AA_294）；使用者 10-18「我有時候翹課根本跳過劇情」（X23）",
+   "authorized": "使用者回報＋AA 定稿",
+   "next": "①時間到直接帶去；②weeks 到了沒演＝延到下一次出席同一門課（到表上期限），ev_bohan_score 第 15 週、note1 英文第 12 週、ev_econ_hallway 第一次出席、ev_sk03_lunch 改週五 12～13 活大、沛珊桌子第 14 週再錯過走信箱版；③兩處「你不在」版本"
+  },
+  {
+   "id": "UX-GROUP-NOTICE-1018",
+   "title": "群組活動公告只寫時間地點、玩家不知道怎麼去（AA-C 轉使用者回報：河濱烤肉有看到通知但不知道怎麼去）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 3,
+    "earliest": "9/16 經濟系群組公告",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 06:23（AA_293 第 4 點）",
+   "authorized": "系統提示字（LAWWW 可寫，D79 第 3 點）",
+   "next": "經濟系：事件接事件自動帶去；法律系那幾年同類群組活動公告後加系統提示「當天會有人私訊你」"
+  },
+  {
+   "id": "BUG-ECON-SLEEPSKIP-1018",
+   "title": "經濟系每天睡覺可以一路睡到休學、還能跟可昕告白，中間根本沒遇到（使用者 10-18 存檔 day-334：只演了 E02、E05、T0a、E30、E26）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2～10/17",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:3x（存檔 918b2572-fatiao3d_save_day-334.json，v9.10 線上版）",
+   "authorized": "使用者回報",
+   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到｜BB-C 07:41 遊戲裡 FIXED：9/2 起天天睡到 10/19，#4～#29 全演、沒有 missed、0 卡住、0 例外",
+   "evidence": "BB-C 2026-10-18 07:41 遊戲內 sleep_probe（c16f5879）：9/2→10/19 天天睡，AA_292 #4～#29 全演、0 missed、0 卡住、0 JS 例外；sleepjump_probe 9/2 15:00 按床 → 9/5 13:15 會計第一堂；tests/econ_ff_unit.js ⑦"
+  },
+  {
+   "id": "BUG-KX-NCCU-1018",
+   "title": "經濟系那一年可昕的位置顯示「在政大」（使用者 10-18：「杜可昕顯示在政大 三小啦」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2～10/17",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x",
+   "authorized": "使用者回報",
+   "next": "story3d.js whereIs：經濟系那一年可昕沒有行程時顯示「在台大」（2025-02 起休學＝「在家裡」），不用 characters.js 的 school:'政大'。待 BB-C 看大地圖「認識的人」"
+  },
+  {
+   "id": "ECON-FF-PHASE2-1018",
+   "title": "休學以後還住宿舍、之後沒有劇情（使用者 10-18）：事件接事件延伸到 10/18～10/19 退宿與休學在家（AA_292 第 5 節第二張表，48 列）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 休學那晚",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x；AA_292 第 5～8 節（14b5631c／81d42881）",
+   "authorized": "使用者選擇題（休學在家也事件接事件，D102 ③）",
+   "next": "econff3d.js：第一階段加 10/19 09:00 ev_y0_a3（退宿）、S.on 到退宿為止；第二階段 S.on2（退宿～8/29 05:00）：home3d baseRound 交給 S.homeStep（出遊自動出發 HOME.goOut、校園事件 STEPS2 帶過去演完回家、其他 HOME.y0Jump 跳、要回的訊息打開手機）；玩樂日 R3／R6 排出遊自動出發、y0Jump 玩樂日不記讀書日；S.tick2 在外面空下來 3 秒自動回家。tests/econ_ff2_unit.js、econ_ff_unit.js 更新。校園事件地點等 AA（Q-Y0-NTU-1018）。待瀏覽器實測 10/17→11/6"
+  },
+  {
+   "id": "BUG-KX-MALE-1018",
+   "title": "醉月湖看到的可昕是男生（使用者 10-18 截圖：「原來她是男的？」「照她本人畫啊」「不是有 2D 圖」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營第一次見到可昕",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:3x 截圖（11/6 20:00 醉月湖）",
+   "authorized": "使用者回報",
+   "next": "原因：characters.js 的 kexin 沒有 char3d，spawnCharacter 掉到 STORY.extraSpec(7)＝路人男生底模。補 char3d（spec.id kexin、女生、model char.kexin＝LAWWW2 照參考圖做的 VRM、1.64 m）＋portrait kexin。tests/kexin_model_unit.js（修改前 ①② 失敗；③ 檢查每個有名字的人物都有 char3d）。LAWWW 依 D100a 驗收角色美術：待 BB-C 遊戲內截圖（宿營、E05、醉月湖）"
+  },
+  {
+   "id": "BUG-DORM-AFTER-MOVEOUT-1018",
+   "title": "經濟系退宿以後手機「地點」還能快速前往宿舍、不知道怎麼回家（使用者 10-18 存檔 day-314：11/6 E12 以後 20:31 在 412 房間）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x（存檔 9df1402c-fatiao3d_save_day-314.json）",
+   "authorized": "使用者回報",
+   "next": "game3d.js PLACE_LIST：HOME.baseMode（退宿以後）不列宿舍、宿舍走廊；回家＝手機「地點」最上面「回臺北的家」（v9.10.1）、或校門口的「回臺北的家」（v9.10 就有）。事件接事件第二階段（ECON-FF-PHASE2-1018）做好以後，休學在家期間演完自動回家。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "BUG-KXFIRST-0830",
+   "title": "經濟系玩上來的人 8/30 早上又收到可昕「第一則訊息」（假設題、去上課吧）：toLaw 重設 KX_FIRST_MSG；週六暑假台詞時機不對",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "8/30 經濟系轉法律系隔天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 06:25",
+   "authorized": "bug 修正（台詞要留的話 AA 寫）",
+   "next": "PLAYED_Y0 不重設 KX_FIRST_MSG；要不要留一則等 AA-C（BB-C 已同步）"
+  },
+  {
+   "id": "UX-MRT-FAR-1018",
+   "title": "捷運公館站的選單看起來像搭捷運就能到花蓮、高雄、臺南、嘉義、臺中（使用者 10-18：「捷運可以去嗎」「我快氣死」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在捷運公館站自由出行",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x",
+   "authorized": "使用者回報（系統字）",
+   "next": "freetrip3d.js：台北的排前面、外縣市的排後面，名字後面寫「（外縣市・要轉車）」，開頭說明「外縣市的要先搭捷運，再轉火車、高鐵或客運」；交通照資料（例：捷運到台北車站＋火車到花蓮站＋公車到七星潭）。tests/dl06_trip_unit.js。待 BB-C 看選單"
+  },
+  {
+   "id": "AA295-KX-NOHYPO-1018",
+   "title": "AA_295：可昕不要有出假設題的習慣（使用者 10-18 選擇題）；E26 摩天輪最高點不說話；尾聲物件換摩天輪票根",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 9fecc202（AA_295、DL-AA-9fecc202）",
+   "authorized": "使用者選擇題",
+   "next": "4bc3fab5（子代理）併入開發分支：第 1、2 節 92 處替換＋18 個測試；全部 node 單元測試過。表外問題給 AA：events.js K7 票根禮物的反應「她念背面那題，笑出來。」「你學我。」（背面改寫日期以後對不上）；停用的 E16 還有一句假設。階梯檔（ladder）等 KX0_EGG／KX0_SHOP 名稱"
+  },
+  {
+   "id": "BUG-E30-CLERK-1018",
+   "title": "E30 休學承辦人多講話（使用者 10-18）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 14:40 辦休學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18（AA-C 62561d73）",
+   "authorized": "使用者回報",
+   "next": "AA-C 已改；待 BB-C 瀏覽器",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "使用者 10-18；AA-C 62561d73",
+    "acceptance": "E30 承辦人只說「好了。」前面一句旁白；v0_e30_unit 過",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "BUG-ECON-HOME-SHOTS-1018",
+   "title": "經濟系 10/19→8/29 縮圖總表的畫面問題（BB-C 1b706548 econ_home_1018，261 格）：在家選單後面是校園、宿營白天星空、豆花店後半空白、7/25 家裡空白、Kevin 用女生立繪、校門口空白等",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 06:41（claude/wonderful-mayer-7fm9g6 @ 1b706548，docs/story_planning/test_shots/econ_home_1018/README.md）",
+   "authorized": "bug 修正",
+   "next": "n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）"
+  },
+  {
+   "id": "BUG-ADV-LINGER-1018",
+   "title": "換場景以後前一段說話的人的立繪還留在舞台上，看起來像祐廷（使用者 10-18 截圖：E20 火鍋店門口可昕塞鑰匙圈，左邊是阿勳——「這是我嗎？」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一個有換場景的 2D 事件",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x",
+   "authorized": "使用者回報",
+   "next": "events3d.js：{scene,bg} 換背景時把左右立繪都收掉，下一個說話的人才出現（bg:false 只出字幕的 3D 事件不收）。祐廷本來就沒有立繪。待 BB-C 看 E20 火鍋店門口"
+  },
+  {
+   "id": "Q-NYE-E21A-1018",
+   "title": "經濟系跨年 E21a：放假中大家在總圖念書、選項「書會等我」（使用者 10-18：「跨年不是考完了嗎，為什麼品妤在總圖念書」「跨年說書會等我是什麼弱智對話」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 17,
+    "earliest": "12/31 跨年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x",
+   "authorized": "使用者回報（台詞歸 AA，D100）",
+   "next": "已轉 AA-C：16 週制 12/20 期末就結束，12/31 寒假；請 AA 改集合地點與台詞、拿掉「書會等我」選項，交白名單或直接改",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "跨年不在總圖念書、沒有「書會等我」；events.js ev_y0_e21a 改好",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "UX-START-CHOICE-1018",
+   "title": "標題畫面開局二選一：經濟系前傳／直接法律系大一（使用者 10-18：「下一個版本開始就可以選擇要不要玩經濟系前傳，也可以選直接玩法律系」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "標題畫面",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x（USER_WANTS X24）",
+   "authorized": "使用者直接要求",
+   "next": "index.html btnNew＝從經濟系前傳開始（原本預設）、btnNewLaw＝直接從法律系大一開始（STORY.newGame(GM,{law:true})：回顧 → 8/22 宿營 → 8/29 搬宿舍）。待 BB-C 兩條都從標題點進去；v9.10.1 一起發"
+  },
+  {
+   "id": "Q-E21-TOLD-1018",
+   "title": "除夕電話選項「那妳呢？跟家裡說了嗎？」看不懂（使用者 10-18：「可昕還沒休學，說什麼啊？我問她講了嗎，她要講什麼？」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 17,
+    "earliest": "1/28 除夕的電話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x",
+   "authorized": "使用者回報（台詞歸 AA）",
+   "next": "已轉 AA-C：指的是 1/11 她說「我在想要不要休學」；選項太含糊，請 AA 改得看得懂",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "選項和回覆看得出是在問她想休學的事有沒有跟家裡說",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "Q-E27-WHY-1018",
+   "title": "水餃店 E27 沒說可昕為什麼休學（使用者 10-18：「水餃店事件根本沒說明可昕為什麼休學！！！！！」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 23,
+    "earliest": "2/13 水餃店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x",
+   "authorized": "使用者回報（台詞歸 AA）",
+   "next": "理由只在 1/3、1/6、1/11 三則手機訊息；已轉 AA-C 在 E27 讓她當面講。LAWWW：事件接事件模式下那三則自動打開手機（ECON-FF-PHASE2）",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；AA_272 第 9 節",
+    "acceptance": "E27 裡可昕當面說出休學原因",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "UX-HOME-SAVE-1018",
+   "title": "在家不能存檔（使用者 10-18：「而且在家也不能存檔很麻煩」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "第一次回臺北的家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x（X26）",
+   "authorized": "使用者直接要求",
+   "next": "home3d.js 四個家裡選單（休學在家、寒假、放假、週末回家）加「存檔」→ GM.saveMenu 打開存檔分頁、關掉回到家裡選單。待 BB-C 在家存一次、讀回來"
+  },
+  {
+   "id": "UX-PHONE-AUTOOPEN-1018",
+   "title": "要回覆的手機訊息到了自動打開（D103：使用者「我根本不會看手機」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一則要回覆的訊息",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x",
+   "authorized": "使用者直接要求",
+   "next": "story3d.js S.phoneAuto（每 0.5 秒，PHONE.tick 後）：有新的要回覆的訊息、玩家空下來（沒有對話、劇情、不在家裡 2D 畫面、手機沒開）→ GM.openPhone('msg', 那個對話)；同一則只開一次（G.flags._autoAsk）。家裡那一輪、事件接事件跳的途中由 ECONFF.homeStep／advance 打開。tests/phone_auto_unit.js。風險：瀏覽器流程測試遇到要回的訊息會自己跳出手機——待 BB-C 跑 flow_main_day12、smoke_release 確認"
+  },
+  {
+   "id": "RT-TOGETHER-1018",
+   "title": "重考期完全沒有可昕住在家裡一起念書的感覺、她沒出現（使用者 10-18：「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S2",
+    "week": 1,
+    "earliest": "2/15 她搬來",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:0x",
+   "authorized": "使用者回報",
+   "next": "白名單 retake_home_v1.json@4b3391db → tools/story/import_retake_home.py → src/data/retake_home.js；econff3d.js：重考期（2/15～7/10）在家每天演一段 short（她的立繪在右邊、不重複、用完再輪）、長場景照日期時間；跳的終點最多到隔天那一段。tests/econ_ff2_unit.js ⑦。待 BB-C 瀏覽器｜使用者 10-18 07:5x「重考不用每天停，可以放一點在念書」：改每 3 天一段（ECONFF.RH_EVERY=3）",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；D103",
+    "acceptance": "約 30 段日常短場景（rs 格式）＋長場景；可以接進事件模式",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "UX-RT-DATE-1018",
+   "title": "重考期在家選單「約可昕出門」不知道去哪，選了以後按什麼都跳「會錯過 10 點」（使用者 10-18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 1,
+    "earliest": "2/15 重考期在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報",
+   "next": "home3d.js：選項寫地點（STORY.rPlayEv 的地方）＋「現在就出發」（她 10:00 才有空就跳到 10:00）；選了直接出發、演完回家，不再留一個 10:00 的出遊讓其他選項一直跳「會錯過」。待 BB-C 重考期在家點一次"
+  },
+  {
+   "id": "UX-Y0-NO-NTU-1018",
+   "title": "休學在家不能自己去台大（使用者 10-18：「一個休學的人根本不會想再踏入台大，為什麼要保留這個選項」「重考中不要讓我去台大」「尤其可昕也休學，之後更不應該」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者直接要求",
+   "next": "home3d.js 在家選單拿掉「去學校」；game3d.js PLACE_LIST 在 HOME.baseMode 時不列台大校園裡的地方（NTU_ZONES）。劇情地點在台大的事件轉 AA（Q-Y0-NTU-1018）。待 BB-C"
+  },
+  {
+   "id": "Q-Y0-NTU-1018",
+   "title": "休學期間發生在台大校園的劇情事件要搬地點（R3 4/1 椰林、R4 4/19 總圖台階、E34 5/26 博雅；soc_door、E12）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/23 soc_door",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報（劇情歸 AA）",
+   "next": "AA 定新地點、改台詞；LAWWW 照新地點改觸發、事件接事件的位置",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "休學期間（尤其 2/13 以後）不再要求玩家進台大；新地點與台詞",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "Q-CRAM-SPRINT-1018",
+   "title": "衝刺班沒有報名的過程、不是當初那家補習班（使用者 10-18：「衝刺班什麼時候報名的？完全沒有，就直接出現衝刺班這個選項，不是當初重考那家辦的」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 15,
+    "earliest": "6/8 衝刺班私訊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:2x",
+   "authorized": "使用者回報（劇情歸 AA）",
+   "next": "已轉 AA-C：報名當面演、要是 E27b 那家補習班",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；D103",
+    "acceptance": "衝刺班有當面報名的場景、是同一家補習班",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BG-HOME-1018",
+   "title": "臺北的家只有餐桌、很醜（使用者 10-18：「台北的家為什麼只有餐桌？這麼醜的家不如我生 CG，三房兩廳都能生 CG」）：BB 跟使用者要三房兩廳的 2D 背景，LAWWW 照時段／活動換背景",
+   "area": "v0",
+   "owner": "BB",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "第一次回臺北的家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:2x",
+   "authorized": "使用者直接要求（D97、D100）",
+   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖｜LAWWW-C 07:5x：11 張接好（outings3d.js 新 key；舊 home_living／home_living_day／home_room 改指新圖；home3d bg() 照時段：05～07 房間、07～17 餐桌、17～21 晚餐、21～23 客廳、深夜重考期餐桌小燈／其他房間）。可昕的客房 home_guest_night、玄關、廚房還沒有場景用到（等 AA 劇情或 RH 場景的 bg）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話；D97",
+    "acceptance": "home_<房間>_<day|night>.webp 一套、風格一致",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-HOME-CAMPUS-BG-1018",
+   "title": "在家（重考期）的轉換場景、選單後面一直露出椰林大道（使用者 10-18：「為什麼重考的轉換場景會一直有椰林大道」；BB-C n123）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "退宿以後在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報",
+   "next": "home3d.js S.backdrop：在家的時候 3D 畫面藏起來、底下鋪家裡的背景（白天／晚上），每 0.25 秒照在不在家同步；兩段對話之間、黑幕、選單後面不再露出最後一個 3D 區域。待 BB-C 重拍 n123"
+  },
+  {
+   "id": "QA-PLAYTHROUGH-1018",
+   "title": "發布前照真實玩家玩法從頭玩經濟系路線到法律系開學（四種：天天睡覺、完全不開手機、邀約全拒絕、一直快轉）；任何一種卡住或看不懂就不發（使用者 10-18 同意：「你有覺得你這個遊戲漏洞兩百出嗎」之後）",
+   "area": "P0",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x（同意 LAWWW-C 提的做法）",
+   "authorized": "使用者同意",
+   "next": "v9.10.1 發布條件之一。BB-C 做完 P0 那批測試後開始；換帳號時照交接接著做",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "LAWWW-C 07:1x 回覆使用者的第 1 點",
+    "acceptance": "四種玩法各走到 8/30 E37 以後，問題清單（重現步驟、截圖）",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "QA-TRANSCRIPT-1018",
+   "title": "把一輪經濟系路線畫面上出現的每一句話照順序整理成劇本，交 AA 像讀者一樣讀，抓前後對不起來、沒交代原因、人不該在這裡的地方",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x（同意）",
+   "authorized": "使用者同意",
+   "next": "【11:4x b1b4ddda：v2 兩份（92b8eb5c，AA_303／304／305 改完）docs/qa/econ_transcript_1_開學到退宿_1018b.md、econ_transcript_2_休學到放榜_1018b.md，已交 AA 讀（回 AA_307）；11/6 醉月湖瀏覽器當面演到】兩份都交 AA：一（10e54513，AA_302 審完已改 cb968a74）、二（docs/qa/econ_transcript_2_休學到放榜_1018.md，10/17 晚上→8/13，20 天、探測 279 秒跑完、沒有卡住）。等 AA 審第二份"
+  },
+  {
+   "id": "ART-SEATFIG-1018",
+   "title": "博雅 101 坐著的替身禿頭（頭頂白塊）、臉發白、看起來小（BB-C 10-18 報告 b_／e_）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次在博雅 101 上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18",
+   "authorized": "bug 修正",
+   "next": "LAWWW2 e315997b 已整合（LOD1 頭頂重烤、vroid_npc_f1 臉暗部 0.838）；替身大小量過不是比例沒改。tools/vroid_build.py 重新產生 npc_f1 時臉的暗部要 0.838。待 BB-C 重拍",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "BB-C 10-18 博雅 101 報告",
+    "acceptance": "遊戲內前後截圖；seated_figures_unit 過",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "AA298-RETAKE-FIX-1018",
+   "title": "AA_298：使用者 10-18 晚回報（衝刺班每天去最好可以跳過、衝刺班後快轉沒用、模擬考根本沒有、媽媽問宿舍我住家裡、為什麼重考太囉嗦、考場是高中教室、爸爸長期在上海家裡只有媽媽）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S2",
+    "week": 1,
+    "earliest": "重考期",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 8ec9ae99、e79002de、294cea95（AA_298 第 1～8 節）",
+   "authorized": "使用者回報＋使用者直接決定（爸爸在上海，第③級已確認）",
+   "next": "已推 a9446ebb（第 1～3 節、after、bg、管理人員）、74e3889b（第 4、6、8、9 節）。第 1 節的 cram_cards 與「只停 long」被 AA_300 取代（AA300-ECON30-1018）。等 BB 瀏覽器測"
+  },
+  {
+   "id": "BUG-ADV-SKIP-1018",
+   "title": "「略過對話」沒辦法按（使用者 10-18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一段 2D 對話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:4x",
+   "authorized": "使用者回報",
+   "next": "原因：按鈕在 #adv（z-index 5）裡，壓在對話框／選項（6）底下；而且 ADV.skip 沒有人讀，按到也只翻一句。adv3d.js：#advTop 搬到 body、z-index 7、只在 adv-on 時顯示；game3d.js say()：ADV.skip 時 40ms 自動翻、choose() 停止略過讓玩家選。待 BB-C 瀏覽器（手機直向／橫向按得到、一路翻到選項）"
+  },
+  {
+   "id": "BG-CAMP-1018",
+   "title": "宿營每個活動用不同的背景（使用者 10-18：「宿營每個活動都可以用不同的圖，我可以生成」「連烤肉都是建築是怎樣」）",
+   "area": "v1",
+   "owner": "BB",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營 8/23",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:4x",
+   "authorized": "使用者直接要求（D97）",
+   "next": "922789ba：法律系宿營（camp_y1.js）13 個場景換 10 張（入口的青年活動中心照舊 econ_camp）。經濟系宿營（events.js ev_y0_e15）只有一個場景，照舊。BB 測畫面",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話；D97",
+    "acceptance": "每個活動一張背景，風格一致",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-ADV-SPEAKER-DIM-1018",
+   "title": "祐廷說話時畫面上是柏翰的立繪亮著，看起來像柏翰在講（使用者 10-18 宿營夜談截圖：「柏翰的圖，但說話的是我欸」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/23 宿營夜談",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者回報",
+   "next": "adv3d.js speaker：說話的人沒有立繪（祐廷、沒有立繪的配角）＝台上的立繪全部變暗；旁白照舊。game3d.js say 傳 'player'。待 BB-C 看宿營夜談"
+  },
+  {
+   "id": "AA299-IMAGES-1018",
+   "title": "使用者生成的六張圖到了以後換上：bus_tour（宿營遊覽車，camp_y1.js 兩處 bg:'car'）、car_night／car_morning／car_rain（換掉 Blender bg_car 三張）、exam_hs_classroom（ev_y0_exam1／exam1h）、daan_park（R3）；LICENSES BG-08 改使用者生成（D104）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營（車）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 1c341e21（AA_299）；使用者 10-18",
+   "authorized": "使用者直接要求（D104）",
+   "next": "BB 圖回來檢查（沒有人、沒有字）→ bg_approved/ → LAWWW 換｜BB-C 0182b085 已交 exam_hs_classroom、daan_park：outings3d.js 已註冊；ev_y0_exam1／exam1h 考場已改 exam_hs_classroom（LAWWW-C 07:5x）；daan_park 等 R3 搬到大安森林公園（AA298）時用",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "AA_299 最後一節",
+    "acceptance": "六張圖放進遊戲對應場景",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "Q-E36-CALL-1018",
+   "title": "8/13 放榜電話：拿掉 only_me 兩句、「只高 0.1」改可昕說（使用者 10-18：「放榜，你那天說以為只有妳，我現在知道了，在說什麼啦」「可昕說的」「只高 0.1」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": 17,
+    "earliest": "8/13 放榜",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 017ee079（AA_298 第 9 節）",
+   "authorized": "使用者回報（台詞 AA 定稿）",
+   "next": "74e3889b＋d781b840＋d744bf3d 更正：「只高 0.1」照原本祐廷說、可昕回「上了就是上了」；第三個理由「回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。」。BB 測"
+  },
+  {
+   "id": "UX-ECON-BED-1018",
+   "title": "事件模式下床的選項還寫「睡到傍晚 18:00」「會錯過…」，實際在下一個事件醒來（BB-C 10-18 建議只留「睡覺（到下一件事）」）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "9/2 宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:41",
+   "authorized": "UI 系統字（LAWWW）",
+   "next": "story3d.js bedOptions：經濟系事件模式而且有下一個事件＝只有「睡覺（到下一件事）」「先不睡」。bed_nap_unit、econ_ff_unit 過；待 BB-C"
+  },
+  {
+   "id": "BG-CRAM-1018",
+   "title": "衝刺班教室背景請使用者生成（使用者 10-18：「衝刺班大家隔一個位置坐，抽屜都是書，桌上也是書的圖，大家都在念書」）",
+   "area": "v0",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S2",
+    "week": 16,
+    "earliest": "6/9 衝刺班第一天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者直接要求（D104、D97）",
+   "next": "BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "cram_class 一張",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-ECON-AWAY-LAW-1018",
+   "title": "法律系那幾年手機朋友列表上經濟系同學顯示「這學期不在學校」（使用者 10-18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "法律系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者回報",
+   "next": "invites3d.js：econ_* 在法律系（不在、不是回家／旅行）＝「在台大經濟系」。friends_list_unit、invite_people_unit 過；待 BB-C"
+  },
+  {
+   "id": "BUG-ECON-FRIENDS-1018",
+   "title": "經濟系那年手機「朋友」第一、二個是阿哲、阿凱（還不認識）（BB-C 07:45 kxmap_probe）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "9/2 經濟系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:45",
+   "authorized": "bug 修正",
+   "next": "game3d knownIds：zhe、kai、prof_zhou 開場就熟只在法律系；bike_unit 一起檢查。BB 測"
+  },
+  {
+   "id": "BUG-HOME-BIKE-HINT-1018",
+   "title": "退宿後在臺北的家打開手機跳出「宿舍門口東邊停著你的腳踏車」提示（BB-C 07:45）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 07:45",
+   "authorized": "bug 修正",
+   "next": "bike3d placeParked：G.home.at 或經濟系退宿以後不提示；bike_unit。BB 測"
+  },
+  {
+   "id": "AA300-ECON30-1018",
+   "title": "經濟系那一年縮到約 30 分鐘：只停 29 場、跳過只出日期卡一句、重考期短場景關掉、新遊戲可以選（使用者 10-18「終於到法律系了，花了兩個半小時……每天一直按快轉」＋選擇題）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲（經濟系開始）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C b289fe65（AA_300、DL-AA-b289fe65）",
+   "authorized": "使用者選擇題（只留長場景、四段全選、約 30 分鐘、可以選、照這份）",
+   "next": "52bf3f16 已推（econff3d S.KEEP／cut／CARDS／cardLine、EVENTS.check 擋、OUT.plan 不排、rhOn 關、新遊戲按鈕字）。第 6 節：c5e312fe 直接打開那一段對話、按鈕寫「跳過」。不在 29 場的邀約私訊還會問（答應了不會排出遊）→ 請 AA 看要不要拿掉那些私訊。BB 瀏覽器實測 QA-AA300-1018；BB QA-AA300 ALL PASS（52bf3f16）後又修四件（見 QA-AA300-1018）"
+  },
+  {
+   "id": "QA-AA300-1018",
+   "title": "BB 瀏覽器實測 AA_300：新遊戲（經濟系）一路睡覺／快轉到法律系，數停點、日期卡句子、總時間、多出來的停點",
+   "area": "v0",
+   "owner": "BB",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 2026-10-18 派工",
+   "authorized": "D100（測試歸 BB）",
+   "next": "【11:47 BB-C 第二輪 KH_GO=home PASS（92b8eb5c）：卡住 0、例外 0、台詞 348 句、日期 0 不一致；7/25 在家版 07:30／21:00 電話／22:30 和好電話 ✔。兩條（bus／home）都過。接著 QA-PLAYTHROUGH 另外三種玩法（不開手機／全部拒絕／天天睡覺）到 8/30】【11:1x BB-C 第一輪 5e634610（BB_218 最後一節、test_shots/aa303_1018）：新遊戲→8/22 14.5 分鐘、卡住 0、JS 例外 0、日期不一致 0、undefined 0、台詞 336 句；抓到 BUG-E12-ARRIVE-LATE（f483c2a9 已修）。接著跑 KH_GO=home】BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "spec": "AA_300 第 1、4 節",
+    "acceptance": "停點只有 29 場＋手機畫面；日期卡一句照第 4 節；總時間；法律系開局照舊",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "KX-INVITE-LAW-1018",
+   "title": "法律系交往中的可昕：手機「朋友」、對話串、當面都可以約她（只有「去校外…」約會）（使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 08:0x",
+   "authorized": "使用者回報",
+   "next": "13dadc5f 之前的 commit（invites3d kxGF、story3d 當面的提示）；invite_whynot_unit 10。BB 測：手機朋友→可昕→約→去校外…"
+  },
+  {
+   "id": "MSG-KX-Y0-1018",
+   "title": "經濟系那一年交往以後，祐廷主動傳訊息給可昕的回覆（AA_301 MSG_KX_Y0，25 則；10/17～1/13 開、寒假在高雄開、2/14～7/11 不開＝「她就在家裡。直接去講。」、7/12～8/29 開）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 交往以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 06cc756e（AA_301、DL-AA-06cc756e）",
+   "authorized": "使用者回報＋D100 台詞歸 AA",
+   "next": "白名單 AA_301@06cc756e、tools/msg/import_msg_kx_y0.py → src/data/msg_kx_y0.js；msg3d S.open／topics／pick 的 y0 分支；2/14～7/11 對話串顯示「她就在家裡。直接去講。」；msg_chat_unit Y0。BB 測手機傳訊息"
+  },
+  {
+   "id": "AA296-KXCALL-1018",
+   "title": "10/17 15:30 辦完休學：y0_kx_leave 十則私訊改成演出來的電話（AA_296；ev_y0_e30 演完直接接）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 辦休學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 1636a700（AA_296、DL-AA-1636a700）",
+   "authorized": "D103（重要的事不能只用手機說）",
+   "next": "events.js ev_y0_e30 最後接 15:30 演出來的電話（AA 原句、「……蛤？」、掛掉旁白）；story3d y0_kx_leave 私訊拿掉（舊存檔收到的照留）；lifeline_g1、v0_e30 改。BB 測"
+  },
+  {
+   "id": "BUG-DATE-0831-1018",
+   "title": "經濟系路線進法律系：9/1 早上畫面還寫 8/31，上完課才變 9/1（使用者「8/31 開學？？法律系」「上完課又變成 9 月 1 號」）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系開學 9/1",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 轉述使用者（存檔 企劃線 6fbe1f15 qa_saves day-15、day-18）",
+   "authorized": "使用者回報",
+   "next": "查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現。08:5x LAWWW 瀏覽器實測：day-18 存檔 21:00 以後直接睡到 9/1，HUD 和換日字卡一致（不是一般睡覺那條路）；BB 照使用者的操作（床的快轉、開學典禮後、直接去上課）重現。09:5x BB-C（BB_218 最後一節）用使用者 day-18 存檔走床的選單、手機「今天」前往兩條路到 9/1 上完第一堂：日期都一致，沒有重現；開學典禮（8/31 14:00）兩輪都沒出現（ceremonyY1 要 KAI_MOVEIN）。已問使用者那天早上做了什麼",
+   "pausedReason": "兩條路都重現不出來，要使用者說當時的操作",
+   "resumeWhen": "使用者回答 8/31～9/1 早上做了什麼"
+  },
+  {
+   "id": "DORM-AFTER-MOVEOUT-1018",
+   "title": "退宿以後人在校園時，手機「地點」最上面沒有「回臺北的家」（BB-C PARTIAL）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 回報",
+   "authorized": "使用者回報（我休學退宿了還能去宿舍）",
+   "next": "game3d placesHTML：HOME.canGo 而且不在家時，「地點」最上面有「回臺北的家」（data-gohome → HOME.go）；v0_a3_move_unit 8。BB 重測"
+  },
+  {
+   "id": "Q-AA300-INVITES-1018",
+   "title": "AA_300 以後，不在 29 場裡的出遊不排，可是排它們的私訊／群組邀約還會問「去不去」（答應了也不出門）：AA 列要整個不傳或改成不問的補充句",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "經濟系開學以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 2026-10-18 整合 AA_300 時發現",
+   "authorized": "AA_300（使用者選擇題）",
+   "next": "AA_300 第 7、8 節（d744bf3d）：phone3d S.at 擋 ECONFF.cutMsg（y0_c1_*、e18_missed、e18a_ask、e20_ask／day／mail、r5／r2／r6_miss）；y0_e10_ask 不出選項、記 E10_GO yes、不提示；T1、T3、T6 改照時間收到的手機訊息（ECONFF.KT_PHONE）、T2、T4、T5 不演。econ_ff_unit。BB 測",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "AA_300 第 1、2 節",
+    "acceptance": "每一則經濟系那一年的邀約私訊：傳／不傳／改成補充句",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "BUG-HOME-HUDZONE-1018",
+   "title": "人在臺北的家，右上角地點和存檔列表寫「台大校園」（BB-C 10-18）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後在家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-18 09:30",
+   "authorized": "BB 測試回報",
+   "next": "game3d updateHUD、renderSlots：HOME.at 時寫臺北的家；home_unit 12。BB 重測"
+  },
+  {
+   "id": "AA303-KX-RECONFIRM-1018",
+   "title": "AA_303：使用者逐場確認可昕的劇情（經濟系那一年）：停點改 27 場、新增高雄三天兩夜與 2/15 她住進來、多場台詞換",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-C 8aa33db0（AA_303、DL-AA-8aa33db0）",
+   "authorized": "使用者七批選擇題",
+   "next": "第 1 節停點、第 3 節日期卡、第 17 場 2/13（96cf3d97）；第 15 場高雄背景 kh_dome／kh_lotus_bench（f2f358aa）；第 2 節其他十場（子代理 85eea326，合併 0a8ccfdd，單元測試 299 支全過）。等 AA：retake_home 改 C0／C4／L6、加 RH-M0（2/15）；E27 遲到電話「我在水餃店了」要改句；換完還對不上的 6 處（見 AA304-QA2-1018）"
+  },
+  {
+   "id": "AA304-QA2-1018",
+   "title": "AA_304：QA 劇本第二份（10/17→8/13）審閱 18 列，給 LAWWW 12 列",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/17 休學那晚",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-C 8fcc2c7e（AA_304、DL-AA-8fcc2c7e）",
+   "authorized": "使用者「照這份」、AA 定稿（D100）",
+   "next": "5bf15ccb：第 1、2、10、12、16 列。4e5d4bec：第 3 列（11/6 17:20 約、17:45 醉月湖、她剛上完體育課）、第 13～15 列（7/25 在家版 07:30 開頭、客運版半小時＋一個人走了一整天、22:30 和好改電話 ev_y0_kh_madeup）、第 17、18 列（8/13）。第 11 列（6/24「她」）在 retake_home RH-C4，等 AA 交 retake_home 一起。第 8、9 列等使用者（AA 問）。另外 AA_303 換完還對不上的 6 處已問 AA（8/30 政大校門／公車／催促電話、7/25 客運版「下午那樣」、E06 修車訊息、E12 18:15 手機版舊台詞、E35「我在樓下等你」、E21o 字幕）"
+  },
+  {
+   "id": "AA305-OTHERS-1018",
+   "title": "AA_305：其他人物逐場確認（經濟系那一年）：休學只告訴可昕、10/29 小福唐睿問、宿舍住到 10/31、阿勳不講冷笑話、系烤柚子帽、宿營夜遊、保齡球約戰、跨年唐睿擋人、2/13 群組",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "8/23 經濟系宿營",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "AA-C 1ab0a39f（AA_305、DL-AA-1ab0a39f）",
+   "authorized": "使用者四批選擇題",
+   "next": "bd64f560（df01b3a2）：第 5～7、10 節＋階梯（休學只告訴可昕、10/29 小福 ev_y0_xiaofu、退宿 10/31、便利貼在最後一箱、日期卡）；另外 10/23 soc_door 那步拿掉（窗口改 11/1～11/15）、E30_WAITED 不記。419b1298（c5e8695a 合併）：第 1～4、8、9 節台詞（宿營夜遊、9/1 被子、保齡球約戰、系烤柚子帽、跨年唐睿擋人、2/13 群組、阿勳不講冷笑話）。等 AA：12/31 兩句同開頭、旁白括號統一、法律系兩句像冷笑話、Y0S2 阿勳冷笑話招呼"
+  },
+  {
+   "id": "BUG-0830-EMPTYSTOP-1018",
+   "title": "8/29 26:30（8/30 凌晨 2:30）快轉多一個空的停點，之後真實時間 20 分鐘才到 8/30 07:30（BB-C QA-AA300 舊版 adb309db 回報）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29 搬進法律系宿舍那晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:58 訊息（QA-AA300-1018 中途結果）",
+   "authorized": "bug 修正（D85）",
+   "next": "BB 的腳本是 MODE=ff（只按對話、睡覺／快轉）＋?turbo；先在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 深夜算前一天）停在 26:30、哪個迴圈跑很久。等 BB 新版結果確認還在不在"
+  },
+  {
+   "id": "AA306-KX-LADDER-1018",
+   "title": "AA_306：經濟系階梯逐層確認（Y0S1 可昕 13、品妤 6、唐睿 4、阿勳 6、韋綸 7；Y0S2 可昕 4）＋重考期讀書在祐廷房間的書桌",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 1be8842d（AA_306、交接紀錄 94480926）",
+   "authorized": "使用者選擇題（「階梯也用選擇題給我」「在房間書桌念書」）",
+   "next": "cb4a2ffa：y0s1 換 6b01c841（五個人問完）、y0s2 照 1be8842d；AA_305 更正法律系「他保齡球打得比我好太多了。」。ded5da04：階梯 y0s1／y0s2 白名單換 1be8842d、labelsRef 加；R1／R5／R2／同一張桌子場景改「祐廷家・你的房間」home_room_day；在家背景重考期白天、深夜用房間。AA 推了日期卡（adf50c8b）。還沒改（AA_306「⚠」一節，下一班 AA 接）：retake_home_v1.json 讀書那 8 處、考場「五月報名那天，餐桌兩邊」（報名可以留餐桌）。品妤、唐睿、阿勳、韋綸的階梯 AA 還沒問"
+  },
+  {
+   "id": "BUG-E12-ARRIVE-LATE-1018",
+   "title": "11/6 醉月湖當面那場演不到：休學在家從家出發 30 分鐘，到湖邊 18:15 已過 17:30～18:00（BB-C QA-AA300 第一輪）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 10,
+    "earliest": "11/6 醉月湖",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "BB-C 11:14 QA-AA300 第一輪（5e634610）",
+   "authorized": "bug 修正（D85）",
+   "next": "【11:46 BB-C 遊戲內 FIXED（92b8eb5c）：11/6 17:45 當面版演完、只有一次「回臺北的家」、18:49 多的字卡沒了；探測劇本 v2 也確認】f483c2a9：ECONFF 第二階段不排 y0_e12 出遊，改由 STEPS2 h3 17:45 直接帶到湖邊（v0_e12_unit 第 7 項）；BB 在 f483c2a9 重看 11/6",
+   "evidence": "f483c2a9 修正；tests/v0_e12_unit.js 第 7 項（修正前會失敗）；BB-C 11:46 遊戲內新遊戲快轉到 11/6（92b8eb5c）當面版演完；docs/qa/econ_transcript_2_休學到放榜_1018b.md 11/6 17:45"
+  },
+  {
+   "id": "US-CAMPUS-WIRE-1018",
+   "title": "美國校園 us_campus 接成區域的接線 patch（outdoorZone、入口互動點、關城市遠景剪影、us_season 四季），對最新 RULE_SOURCE",
+   "area": "v4",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國交換抵達第一天去學校",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW-C 11:4x 派工（D99 第三優先：美國交換）",
+   "authorized": "已批准的美國篇場景（SCN-US-02 v3、ART-US-SEASON）",
+   "next": "LAWWW2 交 patch（patches/us_campus_wire.diff）＋tests；LAWWW 審、套（v9.10.1 發布後）",
+   "xai": {
+    "spec": "SCN-US-02 v3 layout、ART-US-SEASON、LAWWW2 臨時接線經驗",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "patch 對最新 RULE_SOURCE apply 乾淨、node 測試過、遊戲內截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }

@@ -26,7 +26,13 @@ const Z3 = (function(){
   function placeBlocks(nav,obj,x,z,ry){ const c=Math.cos(ry||0), sn=Math.sin(ry||0), q=Math.abs(sn)>0.5;
     for(const [bx,bz,bw,bd,pad] of obj.userData.gate.blocks){ const wx=x+bx*c+bz*sn, wz=z-bx*sn+bz*c; nav.blockRect(wx,wz,q?bd:bw,q?bw:bd,0,pad); } }
   function placeGate(E,g,nav,gate,x,z,ry){ place(g,gate,x,z,ry); placeBlocks(nav,gate,x,z,ry); const c=Math.cos(ry||0), sn=Math.sin(ry||0), q=Math.abs(sn)>0.5;
-    const hx=7.6, hz=-3.4; const m=new THREE.Mesh(new THREE.BoxGeometry(q?3.2:3.8,4.4,q?3.8:3.2),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x+hx*c+hz*sn,2.2,z-hx*sn+hz*c); g.add(m); E.colliders.push(m); }
+    const H=gate.userData.gate.house; const m=new THREE.Mesh(new THREE.BoxGeometry(q?H.d:H.w,H.h,q?H.w:H.d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x+H.x*c+H.z*sn,H.h/2,z-H.x*sn+H.z*c); g.add(m); E.colliders.push(m);   /* 門房（2026-10-18 起在門的正中間，CK.gate 的 .house）*/
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_gate']){ gate.userData.ckTag='gate'; gate.userData.dyn=true; } }   /* 有正式模型：套件不參加靜態合併（載入後才藏得掉）*/
+  // 校門的出口互動點：兩側通道上各一個（門房在正中間，2026-10-18）。out＝往校外（+z）或校內（−z）離門的中線多遠
+  function gateExits(gate,x,z,ry,out,r,base){ const c=Math.cos(ry||0), sn=Math.sin(ry||0); return gate.userData.gate.lanes.map(lx=>Object.assign({},base,{x:x+lx*c+out*sn,z:z-lx*sn+out*c,r})); }
+  // 校門的 Blender 正式模型（ART-EXT-GATE，LAWWW2-C：campus_gate.py，校門自己的座標）：放到和套件一樣的位置、方向，再照校園地標的接法藏起套件
+  function gateGLB(E,g,gate,x,z,ry,zone){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.campus_gate']) return;
+    ASSETS.loadOne('bldg.campus_gate').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.position.set(x,0,z); root.rotation.y=ry||0; attachWenzhouModel(E,g,root,'ckTag','campus_gate_glb','gate'); }).catch(e=>console.warn('校門正式模型載入失敗，用套件的外觀',e)); }
   function collider(E,x,z,w,d,h,rot){ const m=new THREE.Mesh(new THREE.BoxGeometry(w,h||6,d),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(x,(h||6)/2,z); m.rotation.y=rot||0; E.colliders.push(m); E.scene.add(m); E.zone&&E.zone.group; return m; }
   // 椰林大道的路面（照使用者的照片；第十八批是深色柏油＋白邊線，第二十一批再比對後改成）：淺灰、有補過的深色色塊、沒有白色邊線、中線是細的黃色虛線，路邊一條稍深的排水溝。
   // 貼圖 12 m 寬 × 9 m 一段；校園、公館（從校門看進去的背景）共用
@@ -188,8 +194,8 @@ const Z3 = (function(){
     /* ---- 普通教學館、博雅教學館（方案 A，D55；查證：docs/campus/TEACHING_BUILDINGS_PLAN.md 第 1 節）：椰林大道 → 文學院 → 普通 →（二樓空橋）→ 博雅 → 醉月湖。
        外觀是校園套件（BLOCKOUT），等 LAWWW2 的 Blender 正式模型；正門都在南面中間（和室內 src/data/putong_layout.js、boya_layout.js 的入口同一側），
        門口的互動點在 classes3d.js 的 DOORS.putong、DOORS.boya；二樓空橋之後再開（普通二樓的空橋門現在是關著的）---- */
-    const putongB=CK.hall({w:34,d:16,floors:4,gfh:4.0,fh:3.5,wall:'#c9b596',trim:'#e8e0cf',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'普通教學館'}); ckPlace(putongB,-38,-58.5,0); buildings.push(putongB);
-    const boyaB=CK.modern({w:34,d:18,floors:4,gfh:4.4,fh:3.85,wall:'#d9d5cb',slab:'#bfc2bb',sign:'博雅教學館'}); ckPlace(boyaB,-38,-83,0); buildings.push(boyaB);
+    const putongB=CK.hall({w:34,d:16,floors:5,gfh:4.0,fh:3.6,wall:'#c9b596',trim:'#e8e0cf',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'普通教學館'}); ckPlace(putongB,-38,-58.5,0); buildings.push(putongB); const ptGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_putong']; putongB.userData.ckTag='putong'; if(ptGLB) putongB.userData.dyn=true;
+    const boyaB=CK.modern({w:34,d:18,floors:5,gfh:4.6,fh:3.85,wall:'#d9d5cb',slab:'#bfc2bb',sign:'博雅教學館'}); ckPlace(boyaB,-38,-83,0); buildings.push(boyaB); const byGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_boya']; boyaB.userData.ckTag='boya'; if(byGLB) boyaB.userData.dyn=true;   /* 普通、博雅的 Blender 正式外觀（LAWWW2-C campus_teach.py，ART-EXT-TEACH）：五層照真的樓層數（套件原本四層，一起改）；普通一樓 4.0 m＝空橋外觀的 Y0、博雅一樓 4.6 m＝空橋往北升 0.6 m 的那一端；導航、門口照舊 */
     { const bf=new THREE.Group(); bf.name='skybridge_fallback'; g.add(bf); const Y0=4.0;   /* 二樓空橋的外觀：正式模型 LAWWW2-B skybridge.glb（和普通教學館室內的空橋同一個；原點＝普通北牆門口的地板），Y0＝普通外觀的二樓 4.0（室內是 4.2→4.8；外觀的 0.2 m 差看不出來）；室內走得過去（src/teach3d.js 的 buildBridge）*/
       const br=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.45,7.5),M('#b9b5ab')); br.position.set(-41.2,Y0-0.23,-70.25); bf.add(br); for(const s of [-1,1]){ const gl=new THREE.Mesh(new THREE.BoxGeometry(0.08,2.6,7.5),M('#8fa9b5')); gl.position.set(-41.2+s*1.56,Y0+2.2,-70.25); bf.add(gl); } const rf=new THREE.Mesh(new THREE.BoxGeometry(3.4,0.2,7.7),M('#9c9a93')); rf.position.set(-41.2,Y0+3.55,-70.25); bf.add(rf);
       if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.skybridge']) ASSETS.loadOne('bldg.skybridge').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const sc=c.scene.clone(true); sc.position.set(-41.2,Y0,-66.5); sc.userData.dyn=true; g.add(sc); bf.visible=false; }).catch(e=>console.warn('空橋外觀正式模型載入失敗，用備用模型',e)); }
@@ -364,8 +370,9 @@ const Z3 = (function(){
       const hb=new TK.Bin(); for(const x0 of [22.0,46.0]) for(let z=-127.6;z<=-123.6;z+=0.8) TK.plantClump(hb,x0,0,z,1.0,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg);
       for(let i=0;i<9;i++){ const b=W3.bikeAny(['#3a6fb0','#8c3b47','#2f5d50','#e0b95b','#d9d3c6'][i%5],500+i); b.position.set(24.2+i*0.75,0,-127.0); b.rotation.y=Math.PI/2; g.add(b); } nav.blockRect(27.2,-127.0,7.0,1.1,0,0.05);   /* 腳踏車停在後面那棟的牆邊 */ }
     { const hb=new TK.Bin(); for(const [x0,x1] of [[5,14],[54,73]]) for(let x=x0+0.5;x<=x1-0.4;x+=0.85) TK.plantClump(hb,x,0,-118.3+((Math.round(x*7))%3-1)*0.08,1.0+((Math.round(x*3))%3)*0.08,6,[0.62,0.82,0.6]); const hg=new THREE.Group(); hb.build(hg); g.add(hg); }   /* 矮灌木（和椰林大道的杜鵑叢同一套）*/
-    // 校門通道格：確保 -124..-118 之間可走（往公館）
-    for(let z=-4;z<=4;z+=0.5) for(let x=-127;x<=-118;x+=0.5){ const [cx,cz]=nav.toCell(x,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
+    // 校門通道格：兩側通道往公館那一段可走（門房在校門正中間，2026-10-18 起；原本開的是開口正中間 z -4～4）；開完再把門房、燈柱、鐵門擋回去
+    for(const lx of gate.userData.gate.lanes) for(let z=lx-2.1;z<=lx+2.1;z+=0.5) for(let x=-127;x<=-118;x+=0.5){ const [cx,cz]=nav.toCell(x,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
+    placeBlocks(nav,gate,-124,0,-Math.PI/2);
     // 碰撞盒（鏡頭用）
     /* 校園建築的鏡頭碰撞都在 ckPlace 裡（套件建築：行政大樓、文學院、校史館、總圖、霖澤館、萬才館、男一舍、社科院、農業陳列館）*/
     // （以下放在校園建構的最後面：TK.tree、小灌木用共用亂數，放在這裡才不會讓前面其他樹的形狀跟著變）
@@ -391,7 +398,8 @@ const Z3 = (function(){
     if(!/[?&]noporch\b/.test(location.search||'')) for(const [px,pz] of [[-108,61],[-78,59]].concat(m1GLB?[[20,60]]:[]))   /* 男一舍（ART-EXT-M1）門廊的吸頂燈：campus_male1.py 門廊天花板中心 */{ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe2a8,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.8,1.8,1); glow.position.set(px,3.15,pz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
       for(const [y,dz,r,op] of [[0.112,0,1.7,0.85],[0.035,-2.4,2.8,0.6]]){ const pool=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffe0a8,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(px,y,pz+dz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); } }   /* 門廊地坪（高 10 cm）上一圈、門口地上一圈 */
     // 出口
-    const exits=[{x:-126,z:0,r:3,to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'},{x:34,z:-126.6,r:1.8,to:'lane118',spawn:{x:0,z:47.6,yaw:Math.PI},label:'從後門出去（118 巷）'},   /* 霖澤館穿堂後面的小廣場＝法學院的後門（辛亥路那一側；D46、使用者 10-18 02:2x）*/{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入霖澤館',door:true},{x:93.8,z:-100.6,r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入萬才館',door:true,lv:0,y:0},(typeof LIBRARY_LAYOUT!=='undefined'?{x:86.4,z:0,r:3.8,to:'library_hall',spawn:Object.assign({},LIBRARY_LAYOUT.entrance.spawn),label:'進入總圖書館',door:true}:{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true}),(typeof DORM_LAYOUT!=='undefined'?{x:20,z:59.6,r:2.6,to:'dorm_hall',spawn:Object.assign({},DORM_LAYOUT.entrance.spawn),label:'回宿舍',door:true}:{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true})];
+    const exits=[...gateExits(gate,-124,0,-Math.PI/2,1.5,2.5,{to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'}),   /* 門房在校門正中間：兩側通道各一個（世界座標 (-125.5,±5.27)，2026-10-18；原本是開口正中間 (-126,0) r3）*/
+      {x:34,z:-126.6,r:1.8,to:'lane118',spawn:{x:0,z:47.6,yaw:Math.PI},label:'從後門出去（118 巷）'},   /* 霖澤館穿堂後面的小廣場＝法學院的後門（辛亥路那一側；D46、使用者 10-18 02:2x）*/{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入霖澤館',door:true},{x:93.8,z:-100.6,r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入萬才館',door:true,lv:0,y:0},(typeof LIBRARY_LAYOUT!=='undefined'?{x:86.4,z:0,r:3.8,to:'library_hall',spawn:Object.assign({},LIBRARY_LAYOUT.entrance.spawn),label:'進入總圖書館',door:true}:{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true}),(typeof DORM_LAYOUT!=='undefined'?{x:20,z:59.6,r:2.6,to:'dorm_hall',spawn:Object.assign({},DORM_LAYOUT.entrance.spawn),label:'回宿舍',door:true}:{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true})];
     /* 社科院圖書館（D56 社科院第①步）：門在現在的社科院正面中間（src/soclib3d.js 的 SL3.DOOR）；一樓才有（萬才館陽台那一層不算）*/
     if(typeof SL3!=='undefined'&&typeof SOCLIB_LAYOUT!=='undefined') exits.push({x:SL3.DOOR.x,z:SL3.DOOR.z,r:SL3.DOOR.r,to:'soclib',spawn:Object.assign({},SOCLIB_LAYOUT.entrance.spawn),label:'進入社科院圖書館',door:true,lv:0,y:0});
     // 總圖：門在一樓拱廊裡面，互動範圍從門廊前緣涵蓋到門口；霖澤館（第十九批）：入口比地面高、前面是大台階（不能走），互動點在台階下面；萬才館（第二十四批）：互動點在陽台下面的一樓入口（半徑 1.6；出來的出生點離互動點 2.2 m，不會一出來就跳出按鈕）
@@ -409,11 +417,14 @@ const Z3 = (function(){
     // 總圖的 Blender 正式模型（第二個 AI）：和溫州街、公館同一套接法（只藏 ckTag==='library' 的套件；窗晚上亮、招牌是石材底色的 canvas 字）
     if(libGLB) ASSETS.loadOne('bldg.campus_library').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_library_glb','library'); }).catch(e=>console.warn('總圖正式模型載入失敗，用套件的外觀',e));
     courtGLB(zone);   /* 系籃球場的正式模型（bballCourt）*/
+    gateGLB(E,g,gate,-124,0,-Math.PI/2,zone);   /* 校門（ART-EXT-GATE）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_lake']) ASSETS.loadOne('bldg.campus_lake').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachLakeGLB(E,g,lakeU,c.scene.clone(true)); }).catch(e=>console.warn('醉月湖正式模型載入失敗，用程序化的湖岸、湖心亭',e));   /* 醉月湖（LAWWW2 ⑩）*/
     if(fairGLB) fairGLB(zone);   /* 社團博覽會的帳篷（clubFair）*/
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
     if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); for(const [px,pz] of GT_PALMS) nav.blockCircle(px,pz,0.45); nav._cm=null; }   /* 半徑 0.45（原本 0.35：(6.5,19.0) 剛好在四格的交角，格子中心都在 0.354 m 外，一格都沒擋到、走得進樹幹；LAWWW2 2026-10-14 campus_glb_integration）*/).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));
     if(m1GLB) ASSETS.loadOne('bldg.campus_male1').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_male1_glb','male1'); }).catch(e=>console.warn('男一舍正式模型載入失敗，用套件的外觀',e));   /* 男一舍（ART-EXT-M1）*/
+    if(ptGLB) ASSETS.loadOne('bldg.campus_putong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_putong_glb','putong'); }).catch(e=>console.warn('普通教學館正式模型載入失敗，用套件的外觀',e));
+    if(byGLB) ASSETS.loadOne('bldg.campus_boya').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_boya_glb','boya'); }).catch(e=>console.warn('博雅教學館正式模型載入失敗，用套件的外觀',e));   /* ART-EXT-TEACH */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗，用套件的外觀',e));
     if(admGLB) ASSETS.loadOne('bldg.campus_admin').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_admin_glb','admin'); }).catch(e=>console.warn('行政大樓正式模型載入失敗，用套件的外觀',e));
     if(artsGLB) ASSETS.loadOne('bldg.campus_arts').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_arts_glb','arts'); }).catch(e=>console.warn('文學院正式模型載入失敗，用套件的外觀',e));
@@ -539,6 +550,12 @@ const Z3 = (function(){
     const gate=CK.gate(); placeGate(E,g,nav,gate,0,-46,0); { const wb=new TK.Bin(); const wt=campusWallMat(); for(const s of [-1,1]){ wb.add(wt,TK.boxG(70,1.8,1,1.0),s*44,0.9,-46); wb.add(TK.paint('#d9d3c6'),TK.boxG(70.2,0.14,1.2),s*44,1.87,-46); nav.blockRect(s*44,-46,70,1.2,0,0.3); } wb.build(g); }   /* 第二十批：和校園那邊同一個面磚材質（原本的磚紋貼圖被拉長成條紋）*/
     // 捷運公館站出口：人行道上順著街的玻璃亭（TK.mrtExit；原本是 W3 的四柱雨棚），入口朝東，入口外面是互動點
     { const mrt=TK.mrtExit({name:'捷運 公館站',sub:'出口 2'}); mrt.position.set(-36.6,0,11); mrt.rotation.y=Math.PI/2; g.add(mrt); nav.blockRect(-39.8,11,6.6,3.6,0,0);
+      /* 正式模型（LAWWW2-C tools/blender/env_second/gg_mrt_exit.py → bldg.gongguan_mrt，ART-EXT-MRT 2026-10-18）：同一個位置、方向；載入後藏起套件。
+         裡面的電扶梯、樓梯往地面以下走（PIT_*）：先畫 PIT_*（renderOrder −2），再畫洞口的深度遮罩 PITMASK（只寫深度，−1），之後畫的地面在洞口那一塊畫不上去——區域的地面不用挖洞 */
+      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_mrt']){ mrt.userData.ggMrt=true; mrt.userData.dyn=true;
+        ASSETS.loadOne('bldg.gongguan_mrt').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.position.copy(mrt.position); root.rotation.copy(mrt.rotation);
+          attachWenzhouModel(E,g,root,'ggMrt','gongguan_mrt_glb');
+          root.traverse(o=>{ if(!o.isMesh) return; if(/^PIT_/.test(o.name)){ o.renderOrder=-2; o.castShadow=false; } if(o.name==='PITMASK'){ o.material=new THREE.MeshBasicMaterial({colorWrite:false,side:THREE.DoubleSide}); o.renderOrder=-1; o.castShadow=false; o.receiveShadow=false; } }); }).catch(e=>console.warn('捷運出口正式模型載入失敗，用套件',e)); }
       const m=new THREE.Mesh(new THREE.BoxGeometry(6.4,3.4,3.4),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set(-39.8,1.7,11); g.add(m); E.colliders.push(m);
       E.interactables.push({x:-35.6,z:11,radius:2.4,label:'捷運公館站入口',mrt:true}); }
     // 店面街（南側）：連續騎樓的台北街屋（TK.apartment；v9.3 第十一批取代 LEVEL_BLOCKOUT 方盒＋另外搭的柱子與招牌）
@@ -635,14 +652,16 @@ const Z3 = (function(){
     // 通往溫州街（西側）
     E.interactables.push({x:-71,z:FZ+1.2,radius:2.6,label:'往溫州街',exit:{to:'wenzhou',spawn:{x:51.3,z:-9.8,yaw:0}}});
     nav.blockOutside(-78,-45,78,FZ+2.6); /* 南側騎樓（z 19–22，店面玻璃在 z=22）要可走，互動點在 z=21 */ for(let z=-2;z<=2;z+=0.5) for(let x=-78;x<=-74;x+=0.5){} for(let xq=-79;xq<=-74;xq+=0.5) for(let zq=9;zq<=15;zq+=0.5){ const [cx,cz]=nav.toCell(xq,zq); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
-    for(let z=-50;z<=-44;z+=0.5) for(let xq=-4;xq<=4;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }
-    E.interactables.push({x:0,z:-48,radius:3,label:'回到校園',exit:{to:'campus',spawn:{x:-119,z:0,yaw:Math.PI/2}}});
+    for(const lx of gate.userData.gate.lanes) for(let z=-50;z<=-44;z+=0.5) for(let xq=lx-2.1;xq<=lx+2.1;xq+=0.5){ const [cx,cz]=nav.toCell(xq,z); if(cx>=0&&cz>=0&&cx<nav.cols&&cz<nav.rows) nav.b[nav.idx(cx,cz)]=0; }   /* 校門兩側通道（門房在正中間，2026-10-18 起；原本開的是開口正中間 x -4～4）*/
+    placeBlocks(nav,gate,0,-46,0);   /* 開完通道再把門房、燈柱、鐵門擋回去 */
+    for(const ex of gateExits(gate,0,-46,0,-1.5,2.5,{})) E.interactables.push({x:ex.x,z:ex.z,radius:ex.r,label:'回到校園',exit:{to:'campus',spawn:{x:-119,z:0,yaw:Math.PI/2}}});   /* 門房在校門正中間：兩側通道（校內那一側）各一個，(±5.27,-47.5)（2026-10-18；原本 (0,-48) r3，現在是門房）*/
     /* 店面街的鏡頭碰撞在上面逐間加（TK 建築的原點在立面上，不能用舊的 footprint 置中方盒）*/
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.5,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     // 招牌、店內、窗戶的夜間亮度跟著時間漸變（和溫州街同一套：17:24 開始、19:12 全亮）
     const zoneTime=(h)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); TK.setNight(Math.max(0,Math.min(1,k))); };
     const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
+    gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
     if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
     if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     return zone; } };

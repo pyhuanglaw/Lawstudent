@@ -580,7 +580,7 @@
   }
  },
  "note": "原點＝座位的地面中心（和 furniture_study.glb 的講堂椅同一個原點）、+z 朝前（講台）。每個底模一種顏色（路人自己的穿搭）；共用一個材質 seated_fig（貼圖集 512×512 一格）。第二版：外殼（加厚＋體素重建）再減面、烤顏色。",
- "bytes": 3262644,
+ "bytes": 3289552,
  "atlas": "tools/blender/env_second/textures/gen/seated/seated_atlas.png",
  "seat": {
   "origin": "座位地面中心",

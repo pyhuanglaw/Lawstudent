@@ -212,7 +212,12 @@ check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(
   loadZone('dorm_hall'); let bad2=[]; for(const k of Object.keys(HS)){ const h=HS[k], sp={x:h.x,z:0.4,lv:h.lv}; if(!E.canStand(sp.x,sp.z,0.32,sp.lv)){ bad2.push(k+' 站不住'); continue; } let rr=both([EN.x,EN.z,0],[sp.x,sp.z,sp.lv]); if(!rr.ok||(rr.lv|0)!==sp.lv) bad2.push(k+' 去 '+fmt(rr)); rr=both([sp.x,sp.z,sp.lv],[EN.x,EN.z,0]); if(!rr.ok) bad2.push(k+' 回 '+fmt(rr)); }
   check('宿舍：四個房間的門口站得住、從大門走得到、走得回大門',!bad2.length,bad2.join(' | '));
   const G0=global.GAME; global.GAME={G:{stage:'law',flags:{ROOM_Y2:5}}}; loadZone('dorm_hall'); const I2=E.interactables, hd2=I2.find(i=>i.exit&&i.exit.to==='dorm');
-  check('宿舍：大二：「回房間（312）」在二樓 204 那扇門口；204 的門換成自己的；203 變成關著的寢室',!!hd2&&hd2.label==='回房間（312）'&&(hd2.lv|0)===1&&Math.abs(hd2.x-HS.y2.x)<1e-6&&!I2.some(i=>i.label==='204 寢室')&&I2.some(i=>i.label==='203 寢室'&&i.look),hd2&&JSON.stringify([hd2.label,hd2.lv,hd2.x]));
+  check('宿舍：大二：「回房間（312）」在二樓 204 那扇門口；204 的門換成自己的；原本 203 那扇變成關著的寢室（門牌整層照 312 排：311）',!!hd2&&hd2.label==='回房間（312）'&&(hd2.lv|0)===1&&Math.abs(hd2.x-HS.y2.x)<1e-6&&!I2.some(i=>/^20\d 寢室/.test(i.label||''))&&I2.some(i=>i.label==='311 寢室'&&i.look),hd2&&JSON.stringify([hd2.label,hd2.lv,hd2.x]));
+  { const lv1=I2.filter(i=>(i.lv|0)===1&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort(), lv0=I2.filter(i=>(i.lv|0)===0&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort();
+    check('宿舍：大二：同一層的門牌都是 3 開頭（309～316，2026-10-18 使用者：同一層不是同一個號碼開頭）；一樓照舊 1 開頭',lv1.length>=6&&lv1.every(n=>n[0]==='3')&&lv0.length&&lv0.every(n=>n[0]==='1'),JSON.stringify({lv1,lv0})); }
+  global.GAME={G:{stage:'econ',flags:{}}}; loadZone('dorm_hall'); { const I4=E.interactables, h4=I4.find(i=>i.exit&&i.exit.to==='dorm'), lv1=I4.filter(i=>(i.lv|0)===1&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort();
+    check('宿舍：經濟系：「回房間（412）」、同一層的門牌 410～417、沒有 2 開頭（使用者：「我經濟系宿舍 4 開頭，對面 2 開頭」）',!!h4&&h4.label==='回房間（412）'&&JSON.stringify(lv1)===JSON.stringify(['410','411','413','414','415','416','417']),JSON.stringify({h:h4&&h4.label,lv1})); }
+  global.GAME={G:{stage:'law',flags:{ROOM_Y2:5}}};
   check('宿舍：大二：門口離「回房間」≥ 半徑＋0.3',!!hd2&&Math.hypot(HS.y2.x-hd2.x,0.4-hd2.z)>=hd2.radius+0.3);
   loadZone('dorm'); const out2=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：大二：房間的「走出房間」→ 二樓 312 門口',!!out2&&out2.exit.spawn.lv===1&&Math.abs(out2.exit.spawn.x-HS.y2.x)<1e-6,out2&&JSON.stringify(out2.exit.spawn));
   global.GAME={G:{stage:'law',flags:{}}}; loadZone('dorm'); const G1=global.GAME.G; G1.flags.ROOM_Y2=5; DM3.fixRoomExit(E,G1); const out3=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：人在房間裡搬（主線 3）：出口就地改成 312',!!out3&&out3.exit.spawn.lv===1&&Math.abs(out3.exit.spawn.x-HS.y2.x)<1e-6);

@@ -55,7 +55,13 @@ const MSG=(function(){
   const evDone=(G,e)=>!!(G.events&&G.events.done&&G.events.done[e]);
   const inDates=(G,a,b)=>typeof STORY!=='undefined'&&STORY.inDates?STORY.inDates(G,[[a,b]]):false;
   /* 什麼時候有「傳訊息」：回傳 {ok, why, mode}（mode：'business'＝學姊的事務版；'silent'＝沛珊重考消失期，只顯示已送達）。BB_178 0-1、AA_202 第 4 節 */
-  S.open=function(G,id){ if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有'};
+  /* 經濟系那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
+  const Y0=()=>typeof MSG_KX_Y0!=='undefined'?MSG_KX_Y0:null, DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):0;
+  const y0In=(G,a,b)=>inDates(G,a,b);
+  S.y0Pool=function(G){ const Y=Y0(); if(!Y) return []; const V=Y.variants.filter(v=>y0In(G,v.from,v.to)).sort((a,b)=>(DK(a.to)-DK(a.from))-(DK(b.to)-DK(b.from))).map(v=>v.variant);   /* 範圍短的（期末）先 */
+    const out=[]; for(const t of ['chat','share_cat','share_food','share_notes','night']){ for(const v of V){ const L=Y.replies.filter(e=>e.topic===t&&e.variant===v); if(L.length){ out.push(...L); break; } } } return out; };   /* 同一個話題：這個時期最具體的那一版；都沒有就不出（AA_301 第 1 節）*/
+  S.open=function(G,id){ if((G.stage||'law')==='econ'&&id==='kexin'&&G.flags&&G.flags.dating_kexin===true&&Y0()){ const c=Y0().closed; if(c&&y0In(G,c.from,c.to)) return {ok:false,why:c.why,show:true}; return S.y0Pool(G).length?{ok:true,mode:'y0'}:{ok:false,why:'經濟系那一年還沒有'}; }
+    if((G.stage||'law')!=='law') return {ok:false,why:'經濟系那一年還沒有'};
     if(!met(G,id)||!hasContact(G,id)) return {ok:false,why:'還沒有聯絡方式'};
     const pr=presence(G,id); if(pr&&pr.here===false&&(pr.kind==='before'||pr.kind==='after')) return {ok:false,why:'聯絡不上'};
     if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
@@ -68,6 +74,7 @@ const MSG=(function(){
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
+    if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
     for(const q of TOPICS){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
         if(id==='heroine_03') continue; }   /* 語彤社會系：問課不出現（AA_202 6-3） */
@@ -123,6 +130,7 @@ const MSG=(function(){
   const versionOk=(e,mode)=>{ const v=e.version||(e.variant==='事務版'||e.variant==='閒聊版'?e.variant:null); if(!v) return true; if(/都/.test(v)) return true; return mode==='business'?v==='事務版':v==='閒聊版'; };
   const usable=(G,id,e,ctx)=>!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
   S.pick=function(G,id,topic,sub,ctx){ ctx=Object.assign({},ctx||{}); const R=S.rec(G), o=S.open(G,id); ctx.mode=o.mode; const tier=S.tier(G,id);
+    if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;

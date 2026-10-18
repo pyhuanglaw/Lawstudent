@@ -33,8 +33,8 @@ const PHONE=(function(){
   S.post=function(G,it){ S.rec(G); return put(G,mk(G,it,G.day,G.hour)); };
   S.postAt=function(G,it,day,h){ S.rec(G); return put(G,mk(G,it,day,h)); };
   /* 排定時間：day 第幾天、h 幾點（24 以上＝隔天凌晨）；items 依序；tag：同一個 tag 已經排過或送過就不再排（讀檔、重進區域不會重複）*/
-  S.sent=(G,tag)=>!!tag&&(S.rec(G).q.some(q=>q.tag===tag)||G.msgs.some(m=>m.tag===tag));
-  S.at=function(G,day,h,items,tag){ const P=S.rec(G); if(S.sent(G,tag)) return false; P.q.push({day,h,items:[].concat(items),tag:tag||null}); return true; };
+  S.sent=(G,tag)=>!!tag&&(S.rec(G).q.some(q=>q.tag===tag)||G.msgs.some(m=>m.tag===tag)||(S.rec(G).cut||[]).includes(tag));
+  S.at=function(G,day,h,items,tag){ const P=S.rec(G); if(S.sent(G,tag)) return false; if(tag&&typeof ECONFF!=='undefined'&&ECONFF.cutMsg&&ECONFF.cutMsg(G,tag)){ (P.cut=P.cut||[]).push(tag); return false; }   /* AA_300 第 7 節：經濟系那一年不傳的邀約（記成傳過，條件不會再來）*/ P.q.push({day,h,items:[].concat(items),tag:tag||null}); return true; };
   /* 送出時間到了的（notify：每一批送完呼叫一次，給畫面提示）。15 分鐘以上前就該送的（睡覺、跳過時間）照原本的時間補進去 */
   S.tick=function(G,notify){ const P=S.rec(G); if(!P.q.length) return 0; const now=abs(G.day,G.hour); let n=0;
     for(const q of P.q.slice().sort((a,b)=>abs(a.day,a.h)-abs(b.day,b.h))){ const t=abs(q.day,q.h); if(t>now) continue; P.q.splice(P.q.indexOf(q),1); const late=now-t>0.25; const out=[];

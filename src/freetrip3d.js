@@ -50,7 +50,11 @@ const TRIP=(function(){
     return out.slice(0,3); };
   /* 入口：捷運公館站（4-1）*/
   S.menu=async function(GM){ const G=GM.G; const L=S.list(); if(!L.length){ GM.sceneBegin(); try{ await GM.say(null,'捷運公館站。'); } finally { GM.sceneEnd(); } return false; }
-    let i=-1, opts=null; GM.sceneBegin(); try{ await GM.say(null,'捷運公館站。要去哪裡？'); opts=L.map(s=>{ const k=S.check(G,s); return {t:s.name,hint:k.ok?how(s):k.why+'　（'+how(s)+'）',dim:!k.ok,s}; }).concat([{t:'不去了'}]); i=await GM.choose(opts); } finally { GM.sceneEnd(); }
+    /* 外縣市（要轉火車、高鐵、客運）分開列（2026-10-18 使用者：「為什麼公館捷運可以去花蓮七星潭、高雄、台南、嘉義、台中？捷運可以去嗎」）：
+       原本全部混在「捷運公館站。要去哪裡？」下面，看起來像搭捷運就到。台北的排前面；外縣市的排後面、名字後面寫「（外縣市・要轉車）」，交通照資料（先搭捷運，再轉火車／高鐵／客運）*/
+    const far=s=>!!(s.transit.legs&&s.transit.legs.some(l=>l.mode==='rail'||l.mode==='hsr'||l.mode==='coach'));
+    const pick=L.filter(s=>!far(s)).concat(L.filter(far)), ask=pick.some(far)?'捷運公館站。台北的地方搭捷運就到；外縣市的要先搭捷運，再轉火車、高鐵或客運。要去哪裡？':'捷運公館站。要去哪裡？';
+    let i=-1, opts=null; GM.sceneBegin(); try{ await GM.say(null,ask); opts=pick.map(s=>{ const k=S.check(G,s); return {t:s.name+(far(s)?'（外縣市・要轉車）':''),hint:k.ok?how(s):k.why+'　（'+how(s)+'）',dim:!k.ok,s}; }).concat([{t:'不去了'}]); i=await GM.choose(opts); } finally { GM.sceneEnd(); }
     const o=opts[i]; if(!o||!o.s) return false; if(o.dim){ GM.toast(o.hint.replace(/　（.*$/,''),3200); return false; } return S.go(GM,o.s); };
   /* 去程（4-3）*/
   S.go=async function(GM,s){ const G=GM.G, k=S.check(G,s); if(!k.ok){ GM.toast(k.why,3000); return false; } const m=s.transit.minutes/60, stay=Math.max(G.hour+m,s.open[0])+1;

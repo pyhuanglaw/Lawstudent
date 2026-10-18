@@ -124,5 +124,7 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     BIKE.manualDismount(GM); check('14 中途按「下車」：她說「……我還是走一下好了。」',!P.riding&&caps[caps.length-1]==='沈以安：……我還是走一下好了。',JSON.stringify(caps));
     E.npcs.length=0; P.obj.position.set(G.bike.x,0,G.bike.z); BIKE.mount(GM); caps.length=0; BIKE.manualDismount(GM); check('14 一個人騎時按「下車」：沒有那一句',caps.length===0);
     global.STORY=oldS; global.SOCIAL=oldSo; }
+  { const src=require('fs').readFileSync(require('path').join(__dirname,'..','src/bike3d.js'),'utf8'), g3=require('fs').readFileSync(require('path').join(__dirname,'..','src/game3d.js'),'utf8');
+    check('BB-C 10-18：人在臺北的家、經濟系退宿以後不提示宿舍門口的車；經濟系那一年朋友清單不列阿哲、阿凱',/!\(G\.home&&G\.home\.at\)&&!\(F\.Y0_MOVED_OUT&&\(G\.stage\|\|'law'\)==='econ'\)/.test(src)&&/\['zhe','kai','prof_zhou'\]\.includes\(id\)&&\(G\.stage\|\|'law'\)==='law'/.test(g3)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

@@ -80,4 +80,7 @@ check('9. 聊天：有點熟以後、沒有聯絡方式才有「交換聯絡方�
 const EX=INVITE_DATA.exchange||{};
 check('9. AA 的五位都有保底的一句（AA_124 1-7 的表）：以安、語彤、小語、柏翰、芯慈',['heroine_01','heroine_03','yu','classmate_bohan','classmate_xinci'].every(id=>Array.isArray(EX[id])&&EX[id].length&&EX[id].every(l=>l.say||l.narr)),Object.keys(EX).join(','));
 check('9. 交換以後就有聯絡方式、手機上可以約',(()=>{ const g={contacts:{},msgs:[],invites:[],day:20,hour:10}; const ok=I.addContact(g,'yu'); return ok&&I.hasContact(g,'yu'); })());
+{ const D0=globalThis.DATE; globalThis.DATE={canAsk:()=>({ok:true}),HEROINES:['kexin']}; const gk={stage:'law',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, ge={stage:'econ',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, gn={stage:'law',flags:{},contacts:{},day:20,hour:10};
+  const src=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');
+  check('10. 女朋友可昕（法律系、交往中）手機可以約；只有「去校外…」；經濟系那一年、沒交往不開（使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）',I.canInvite(gk,'kexin')===true&&I.canInvite(ge,'kexin')===false&&I.canInvite(gn,'kexin')===false&&I.whyNot(gk,'kexin')===''&&/const PL=kxGF\(G,id\)\?\[\]:D\(\)\.places/.test(src)); globalThis.DATE=D0; }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
