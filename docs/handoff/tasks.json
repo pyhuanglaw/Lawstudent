@@ -17784,6 +17784,31 @@
    "source": "使用者 2026-10-18 06:0x",
    "authorized": "使用者直接要求",
    "next": "原因：校園長椅上讀書的路人（story3d.js）沒有帶 seat，freeSeat 不知道那個位子有人。修：加 seat:st。待 BB-C 瀏覽器"
+  },
+  {
+   "id": "DEC-SLOTS-1018",
+   "title": "時段次數規則重新設計（使用者 10-18 06:1x：走來走去不算、做一件事才算；給方案、先不決定，USER_WANTS X19）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "暫停",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:1x",
+   "authorized": "等使用者選方案",
+   "pausedReason": "使用者「先不要決定，給我幾個方案」；06:1x 給了三個方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）",
+   "resumeWhen": "使用者選方案",
+   "pausedBy": "使用者 10-18 06:1x",
+   "recheckOn": "2026-10-21",
+   "next": "使用者選了以後改 classes3d.js 時段次數制（DL-03）、吃飯／約會／點餐的扣次數、晚上上限"
   }
  ]
 }
