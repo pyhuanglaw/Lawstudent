@@ -113,25 +113,11 @@ D['characters'][XN] = {'friendOnly': True, 'steps': [
 
 # ───────── 邱韋綸 ─────────
 D['characters'][WL] = {'friendOnly': True, 'steps': [
- {'id':'WL0b-L1','if':st(WL,'ACQUAINTANCE'),
-  'lines':['寒假我在台中騎了兩百公里。','……加起來啦，分十二天騎。'],
-  'choices':[ch('「很厲害。」','對吧！……第十三天我就躺著了。'),
-             ch('「平均一天多少？」','你不要算啦！品妤說很普通。')],'rel':{'fam':2},'mem':'WL0B_200KM'},
- {'id':'WL0b-L2','if':st(WL,'ACQUAINTANCE'),
-  'lines':['我報了系籃！','上場三分鐘，投了一球，沒進。……可是我上場了。'],
-  'choices':[ch('「下次會進。」','會！下次我投兩球。機率加倍。'),
-             ch('「其他社團呢？」','攝影社下學期。……我的計畫有在走，只是很慢。')],'rel':{'fam':2},'mem':'WL0B_ONE_SHOT',
-  'note':'接大一上 WL0-L7（三個社團選一個）（2026-10-16 上下文修正：換學期不能假設聽過 WL0-L7 的攝影社，選項改「其他社團呢？」，由他說出攝影社）'},
  {'id':'WL0b-L3','if':st(WL,'FAMILIAR'),'week':[7,16],
   'lines':['你休學那天跟可昕在一起，二月又說要重考。','我一年的計畫，你半年就做完了。'],
   'choices':[ch('「你也可以。」','我可以！……我先做完第一個。是什麼來著。'),
              ch('「走啦，宵夜。」','你學我！好啦，走。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'WL0B_ONE_MONTH',
   'note':'E28 告訴朋友之後（2026-10-17 BB-C（照 AA_235 71d62646）：休學和交往同一天〔10/17〕，重考是二月）'},
- {'id':'WL0b-L4','if':st(WL,'FAMILIAR'),'week':[8,16],
-  'lines':['我在想，要不要也換一個方向。','……想了三天。結論是，先吃飯。'],
-  'choices':[ch('「吃完再想。」','好！吃完我就……想睡覺。明天再想。'),
-             ch('「你想換去哪裡？」','運動。……我想研究人為什麼跑步。我跑不久，所以想知道。',rel={'trust':1})],'rel':{'fam':2,'trust':1},'mem':'WL0B_DIRECTION',
-  'note':'大二起加修運動相關雙主修（AA_159 note）的前情'},
  {'id':'WL0b-L5','if':st(WL,'FAMILIAR'),'week':[10,16],
   'lines':['你們讀書讀太久了。我規定：每兩個小時，要出來騎一圈。','我會來揪，你們要跟喔。'],
   'choices':[ch('「好，我跟。」','好！我設鬧鐘。……我設了，然後忘記看。'),
@@ -172,7 +158,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 1 if cid==XN else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 1 if cid==XN else 5 if cid==WL else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
