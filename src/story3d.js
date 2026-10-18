@@ -2030,7 +2030,7 @@ const STORY = (function(){
         if((G.day>di||(G.day===di&&G.hour>=q.inv[1]))&&G.day<=d&&!PHONE.sent(G,q.id+'_ask')){ PHONE.at(G,di,G.day===di?Math.max(q.inv[1],h(G)):q.inv[1],[Z(q.inv[2])],q.id+'_ask');
           if(!OUT.get(G,q.id)&&(G.day<d||h(G)<q.h+0.25)) OUT.plan(G,{id:q.id,ev:q.ev,day:d,h:q.h,late:0.25,place:q.place,title:q.title,travel:q.travel,travelH:0.25}); }
         const pH=q.photoH||21.5, o=OUT.get(G,q.id); if(o&&o.state==='missed'&&!(G.events.done[q.ev])&&(G.day>d||G.hour>=pH)&&G.day<=d+2&&!PHONE.sent(G,q.id+'_photo')) PHONE.at(G,d,pH,[].concat(q.photo).map(Z),q.id+'_photo'); }   /* photo 可以是好幾則（跨年：照片＋阿哲一句）；photoH：照片的時間（跨年 00:05）*/
-      S.nyeY2(GM); S.kxNye(GM);
+      S.nyeY2(GM); S.nyeY3(GM); S.kxNye(GM);
       /* 期末最後一頓（大二上；AA_177 第 6 節）：最後一科考完那天 17:00 阿哲「考完了。七點，麵店。」；那晚 21:30 還沒吃到＝群組照片。事件是走進麵店（ev_term_last_meal_y2s1）*/
       { const e=typeof CLS!=='undefined'&&CLS.lastExamEnd?CLS.lastExamEnd(G,'Y2S1','final'):null; if(e&&G.day===e.day&&G.flags.noodleTableDay!=null){ if(G.hour>=17&&!PHONE.sent(G,'y2_final_ask')) PHONE.at(G,e.day,Math.max(17,h(G)),[Z('考完了。七點，麵店。')],'y2_final_ask');
           if(G.hour>=21.5&&!G.events.done.ev_term_last_meal_y2s1&&!PHONE.sent(G,'y2_final_photo')) PHONE.at(G,e.day,21.5,[Z('📷（空碗疊成一座塔。）')],'y2_final_photo'); } } }
@@ -2915,6 +2915,19 @@ const STORY = (function(){
     return L.some(k=>{ const d=S.dayOfKey(k); return d!=null&&d>=B.from&&d<=B.to&&G.day<=d; }); };
   S.present=(id,G)=>S.presence(id,G).here;
   /* 沛珊的重考消失期（BB_205 第 3 節、BB_194 §19）：2026-12-18（P4 交接隔天）～2027-08-06 放榜，聯絡不到（presence absentDates 的 unreachable）*/
+  /* 跨年大三（AA_210 第 2 節＋5-1、5-5）：12/31 21:00 群組三句（不在群組、和阿哲 FAMILIAR 以上＝阿哲私訊一句）→ 23:30 頂樓；沒去＝00:05 小語的合照「今年人到得最齊」；
+     語彤 FAMILIAR 以上 00:0x「新年快樂。」。可昕交往中選了高雄（KX_NYE[3]＝'river'）就不排頂樓 */
+  S.nyeY3=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2027-12-31'); if(nye==null||G.day<nye||G.day>nye+1||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
+    const T='g:noodle_team', inG=PHONE.inGroup(G,'noodle_team'), hh=G.hour, after=G.day>nye||hh>=24, M=(w,t)=>({th:T,from:w,text:t}), kxR=F.KX_NYE&&F.KX_NYE[3]==='river';
+    const fam=(id,st)=>typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has(id,'FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st||'FAMILIAR');
+    if(G.day===nye&&hh>=21&&hh<23.5&&!PHONE.sent(G,'nye_y3_ask')){
+      if(inG) PHONE.at(G,nye,Math.max(21,hh),[M('zhe','十一點半，頂樓。以安說她要來。'),M('heroine_01','我會到。'),M('classmate_xinci','我家吃完飯就過去，可能晚一點。')],'nye_y3_ask');
+      else if(fam('zhe')) PHONE.at(G,nye,Math.max(21,hh),[{th:'p:zhe',from:'zhe',text:S.knows('heroine_01',G)?'十一點半，頂樓。以安說她要來。':'十一點半，頂樓。'}],'nye_y3_ask'); }
+    if(PHONE.sent(G,'nye_y3_ask')&&!kxR&&!OUT.get(G,'nye_y3')&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'nye_y3',ev:'ev_y3_newyear',day:nye,h:23.5,late:0.25,place:'宿舍頂樓',title:'跨年：宿舍頂樓',travel:'走上去約 2 分鐘',travelH:1/30,back:'回到房間。'});
+    if(!after) return;
+    if(!F.NYE_Y3) F.NYE_Y3='none';
+    if(inG&&F.NYE_Y3!=='roof'&&PHONE.sent(G,'nye_y3_ask')) PHONE.at(G,nye,24+5/60,[M('yu','📷（頂樓的合照）'),M('yu','今年人到得最齊')],'nye_y3_photo');   /* 2-6；照片的寫法照大一（AA_204）*/
+    if(!F.dating_heroine_03&&fam('heroine_03')) PHONE.at(G,nye,24+7/60,[{th:'p:heroine_03',from:'heroine_03',text:'新年快樂。'}],'nye_y3_yt'); };
   /* 可昕（交往中）大二～大四的跨年（AA_210 5-2）：12/24 21:00 她私訊問 → 高雄（高鐵來回 2980，錢不夠變灰）／頂樓・視訊；12/31 21:00 前沒回＝視訊；
      高雄＝23:30 出遊（ev_kx_nye_river_y?）；視訊＝23:59「接起來」（大二在頂樓的接在 ev_y2_newyear 裡）；答應高雄沒去＝00:00 兩句。KX_NYE[年]＝river／video／missed */
   S.KX_NYE_Y={2:{nye:'2026-12-31',ask:G=>['今年跨年，高雄還是頂樓？'],opts:[{t:'高雄。',k:'river',r:'好。我去車站接你。幾點的車先跟我說。'},{t:'頂樓。',k:'video',r:'好。零點我打視訊。'}]},
@@ -2928,8 +2941,8 @@ const STORY = (function(){
       if(G.day!==nye&&!(G.day===nye+1&&hh<1)) continue;
       if(K[y]==='river'&&!OUT.get(G,'kx_nye_y'+y)&&G.day===nye&&hh<23.75) OUT.plan(G,{id:'kx_nye_y'+y,ev:'ev_kx_nye_river_y'+y,day:nye,h:23.5,late:0.25,place:'高雄・愛河邊',title:'去高雄跨年（高鐵約一個半小時）',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。'});
       const kq=OUT.get(G,'kx_nye_y'+y); if(K[y]==='river'&&kq&&kq.state==='missed'){ K[y]='missed'; PHONE.at(G,nye,24,[{th,from:'kexin',text:'愛河的煙火，我一個人看了。'},{th,from:'kexin',text:'……新年快樂。'}],'kx_nye_miss_y'+y); }
-      const roofV=y===2&&(OUT.get(G,'nye_y2')||{}).state==='planned'&&hh<23.75;   /* 大二要上頂樓的：視訊接在頂樓那一場裡 */
-      if(K[y]==='video'&&!roofV&&!(y===2&&F.NYE_Y2==='roof')&&!OUT.get(G,'kx_nye_video_y'+y)&&G.day===nye&&hh>=23) OUT.plan(G,{id:'kx_nye_video_y'+y,ev:'ev_kx_nye_video_y'+y,day:nye,h:23+59/60,late:0.2,place:'視訊',title:'可昕打視訊來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊掛了。'}); } };
+      const roofV=(y===2||y===3)&&(OUT.get(G,'nye_y'+y)||{}).state==='planned'&&hh<23.75;   /* 大二、大三要上頂樓的：視訊接在頂樓那一場裡 */
+      if(K[y]==='video'&&!roofV&&!((y===2||y===3)&&F['NYE_Y'+y]==='roof')&&!OUT.get(G,'kx_nye_video_y'+y)&&G.day===nye&&hh>=23) OUT.plan(G,{id:'kx_nye_video_y'+y,ev:'ev_kx_nye_video_y'+y,day:nye,h:23+59/60,late:0.2,place:'視訊',title:'可昕打視訊來',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊掛了。'}); } };
   /* 跨年大二（AA_210 第 1 節＋第 5 節，881ed505）：12/31 21:00 麵店團群組五句（以安不認識＝柏翰那句開頭）→ 23:30 頂樓（出遊選單）；00:05 群組（阿哲的照片、小語；拍了照的多一張）；
      芯慈群組、以安沒上頂樓的私訊、語彤的私訊（交往中改 00:01 電話）；1/2 阿哲回高雄。可昕交往中選了去高雄（KX_NYE[2]＝'river'）就不排頂樓 */
   S.nyeY2=function(GM){ const G=GM.G, F=G.flags, nye=S.dayOfKey('2026-12-31'); if(nye==null||G.day<nye||G.day>nye+2||typeof PHONE==='undefined'||typeof OUT==='undefined') return;
