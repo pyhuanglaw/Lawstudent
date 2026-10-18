@@ -7861,6 +7861,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 04:3x：兩個 patch 套上（apply 乾淨）、GLB／腳本／貼圖／截圖拿 e0e39091 的；nav_buildings、nav_levels、kit_nav_check ALL PASS；LICENSES 加男一舍"
+  },
+  {
+   "id": "DL-BB-8b330389",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "8b330389",
+   "what": "許教授整套立繪（neutral、serious、smile、thinking；新人物）——BB_219 立繪需求全部交完",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 05:2x（v9.10 發布後）：matte_gray.py --noscale 去背 → assets/portraits/prof_xu/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和設定圖 art_reference/prof_xu.webp 一致（灰白頭髮、細銀框眼鏡、粗花呢外套、深藍領帶、深藍精裝書），四張同一個人"
   }
  ],
  "ignored": [

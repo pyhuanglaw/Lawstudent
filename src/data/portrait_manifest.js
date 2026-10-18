@@ -206,6 +206,14 @@ const PORTRAIT_FILES={
    "smile"
   ]
  },
+ "prof_xu": {
+  "campus": [
+   "neutral",
+   "serious",
+   "smile",
+   "thinking"
+  ]
+ },
  "prof_zhou": {
   "campus": [
    "neutral",
