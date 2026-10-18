@@ -16327,7 +16327,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-18 00:2x】AA_276 第 1 節例外（86f50db8）、第 4 節沛珊消失期交往中例外（83117eec）、第 5 節去高雄／台中那一天（08dbc3a7）已接；瀏覽器派 BB-C；缺：例外期間的短回覆、放榜回來那段（問 AA-C）｜已做：presence home、作息、當面約婉拒、手機標籤、出國照約（tests/vac_hometown_unit.js）；待做：「我去高雄找妳？」「我去台中找妳？」邀約入口＋出遊卡（那一天的台詞問 AA-C 中）；AA 逐件改寫死在臺北的寒暑假事件（大一跨年河堤、期末聚餐落在放假第 3 天以後、沛珊「寒假我回桃園」、2028-01-12 國小教室）",
+   "next": "【LAWWW-C 00:2x】AA_276 第 6-1 節回覆池（7f252728）、第 7 節（aed7fbd8）已接；6-2 放榜另開 PS-RESULTS-1018｜【LAWWW-C 2026-10-18 00:2x】AA_276 第 1 節例外（86f50db8）、第 4 節沛珊消失期交往中例外（83117eec）、第 5 節去高雄／台中那一天（08dbc3a7）已接；瀏覽器派 BB-C；缺：例外期間的短回覆、放榜回來那段（問 AA-C）｜已做：presence home、作息、當面約婉拒、手機標籤、出國照約（tests/vac_hometown_unit.js）；待做：「我去高雄找妳？」「我去台中找妳？」邀約入口＋出遊卡（那一天的台詞問 AA-C 中）；AA 逐件改寫死在臺北的寒暑假事件（大一跨年河堤、期末聚餐落在放假第 3 天以後、沛珊「寒假我回桃園」、2028-01-12 國小教室）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -16436,6 +16436,51 @@
     "ack": "未派"
    },
    "next": "等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）"
+  },
+  {
+   "id": "PS-RESULTS-1018",
+   "title": "沛珊放榜回來（2027-08-06）：ev_peishan_results 戀愛版（BB_119 1b-3＋BB_97 4-4），PS_KEPT 版第一句後接兩句（AA_276 6-2）——遊戲裡還沒有這個事件",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "prio": "P2",
+   "first": {
+    "term": "Y2S2",
+    "week": 0,
+    "earliest": "大二升大三暑假 2027-08-06（沛珊放榜）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "AA_276 第 6-2 節（AA-C 4fbabbee／9e875a10）；BB_119 1b-3；BB_97 4-4",
+   "next": "讀 BB_119 1b-3、BB_97 4-4 全文，照日子（10:00 私訊、12:00 總圖外面的台階）實作；STORY.PS_KEEP_BACK 已在資料裡"
+  },
+  {
+   "id": "DOCS-CLEANUP-AA277",
+   "title": "開發文件過時段落（AA_277，32e84828）：AA 改、交 patch，LAWWW 套用（D100c）",
+   "owner": "AA",
+   "status": "待開工",
+   "prio": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "接班的人讀 CLAUDE.md",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "使用者 2026-10-18 00:1x「授權給AA自己改」",
+   "next": "等 AA-C 的 patch（docs/story_planning/_generated/docs_cleanup_<SHA>.patch）",
+   "xai": {
+    "spec": "AA_277",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "git apply 乾淨套上、check_handoff.py check OK",
+    "receiver": "LAWWW-C",
+    "ack": "SENT"
+   }
   }
  ]
 }
