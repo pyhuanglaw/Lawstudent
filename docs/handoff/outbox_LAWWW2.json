@@ -585,6 +585,21 @@
    "state": "已交付（禿頭、白臉 FIXED；替身大小量過不是比例，沒改）",
    "remaining": "七個人疊在一起是程式（走位），不是美術，沒做；vroid_npc_f1 是 LAWWW 的檔，重新產生時 vroid_build.py 要一起改",
    "next": "LAWWW-C 從我的分支拿 seated_figures.glb/.json、vroid_npc_f1.vrm（程式不用改）"
+  },
+  {
+   "task": "ART-GG-SHOPS-1018 公館騎樓店面第一輪",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "307787c1",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "assets/models/env/second_ai/gongguan_shops.json",
+    "tools/blender/env_second/wz_shopkit.py",
+    "tools/blender/env_second/wz_street.py",
+    "docs/art-rebuild/second_ai/test_shots/gg_shops_1018/"
+   ],
+   "state": "已交付（MODEL_READY、READY_FOR_ART_REVIEW）",
+   "remaining": "店內多半還是景深卡；樓上公寓、馬路、公車亭沒改",
+   "next": "LAWWW-C 從我的分支拿 gongguan_shops.glb/.json（程式不用改）"
   }
  ]
 }
