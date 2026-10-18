@@ -43,7 +43,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // E06：22:30 以前睡著
   econ(d20,21,'dorm',{E05_OPEN:'fix',E05_DAY:d20,E05_END:19}); run(21,21.2); check('2. 21:00 還沒有 E06',!PHONE.sent(G,'y0_e06'));
   G.day=d20+1; G.hour=8.5; run(8.5,8.6); const m=(G.msgs||[]).filter(x=>x.tag==='y0_e06');
-  check('2. 22:30 以前睡著：隔天醒來收到 E06（時間戳記是 9/20 22:30、第一句照 E05 的開口）',m.length>=2&&m[0].text==='問你一件事。'&&m[1].text.startsWith('你今天說要幫我修車，')&&G.flags.E06_DONE==='e06',J(m.map(x=>[x.text,x.day,x.h])));
+  check('2. 22:30 以前睡著：隔天醒來收到 E06（時間戳記是 9/20 22:30；AA_307 第 9 列「今天謝謝你。」「我洗了三次手……」）',m.length>=2&&m[0].text==='今天謝謝你。'&&m[1].text==='我洗了三次手，還是有鏈條油的味道。……你的呢？'&&G.flags.E06_DONE==='e06',J(m.map(x=>[x.text,x.day,x.h])));
   econ(d20+2,8.5,'dorm',{E05_OPEN:'fix',E05_DAY:d20,E05_END:19}); run(8.5,8.6); check('2. 過兩天就不補',!PHONE.sent(G,'y0_e06'));
   // L5a
   const e=STORY_EVENTS.find(x=>x.id==='ev_y0_l5a'); check('3. L5a 的時間窗涵蓋從家裡出發的最晚到店時間（14:15 出發＋30 分鐘）',e.time[0]<=13.75&&e.time[1]>=14.25+0.5,J(e.time));

@@ -40,15 +40,15 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   for(const [l5a,ans,line] of [[true,'latte','對。所以它是馬。'],[false,'how','看了一整個下午啊。']]){ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); if(l5a) G.events.done.ev_y0_l5a=1; picks=['睡到中午','拉花']; said=[]; await EVENTS.run(e12); const L3=said.map(x=>x.t);
     check('2. 「拉花那隻，尾巴也沒畫。」只在 10/12 長頸鹿拉花去過才有（'+(l5a?'去過＝選得到':'沒去＝沒有這個選項，落到第一個')+'）→ E12_ANSWER＝'+ans,G.flags.E12_ANSWER===ans&&L3.includes('……好羨慕。')&&L3.includes(line),JSON.stringify(L3.slice(-3))); }
   // 沒到
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; G.zone='dorm'; at(D6,17.95); check('3. 18:00 以前不發手機版',!PHONE.sent(G,'y0_e12_phone'));
-  at(D6,18.4); const T=PHONE.thread(G,'p:kexin').map(m=>m.text);
-  check('3. 18:15 手機版：「你沒來。那我用打的。」＋三則（AA_295）',T.includes('你沒來喔。')&&T.includes('沒關係，那我用打的。')&&T.includes('我想要一條長頸鹿的尾巴。')&&!T.some(t=>/假設/.test(t))&&T[T.length-1]==='而且我想知道，有尾巴的人怎麼坐椅子。',JSON.stringify(T.slice(-5)));
-  const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='而且我想知道，有尾巴的人怎麼坐椅子。');
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; G.zone='dorm'; at(D6,18.4); check('3. 18:30 以前不發手機版（AA_307 第 10 列）',!PHONE.sent(G,'y0_e12_phone'));
+  at(D6,18.6); const T=PHONE.thread(G,'p:kexin').map(m=>m.text);
+  check('3. 18:30 手機版（AA_307 第 10 列）：「你沒來喔。」「湖邊有一隻鷺鷥，腳好長，站著不動。」「……我想到長頸鹿。」「好冷。我先回去了。」；沒有長頸鹿尾巴、椅子',T.includes('你沒來喔。')&&T.includes('湖邊有一隻鷺鷥，腳好長，站著不動。')&&T.includes('……我想到長頸鹿。')&&!T.some(t=>/假設|椅子|那我用打的/.test(t))&&T[T.length-1]==='好冷。我先回去了。',JSON.stringify(T.slice(-5)));
+  const m=PHONE.thread(G,'p:kexin').find(x=>x.text==='好冷。我先回去了。');
   check('3. 三個接法、一定要回（must）；沒回之前 PHONE.mustOpen',m.ask.must===true&&m.ask.opts.length===3&&PHONE.mustOpen(G,'p:kexin'));
   run(); check('3. 自動打開和可昕的對話',opened.some(o=>o[0]==='msg'&&o[1]==='p:kexin'));
-  PHONE.answer(G,m.ask.id,2); check('3. 回「為什麼不是貓的？」：E12_ANSWER＝cat、可以關了；她的回應＋收尾「……下次要在湖邊回答。這次先算你的。」',G.flags.E12_ANSWER==='cat'&&!PHONE.mustOpen(G,'p:kexin')&&(()=>{ const T2=PHONE.thread(G,'p:kexin').map(x=>x.text); return T2.includes('貓的太常見了。我想要一個大家都沒想過的東西。')&&T2[T2.length-1]==='……下次要在湖邊回答。這次先算你的。'; })());
+  PHONE.answer(G,m.ask.id,2); check('3. 回「明天補妳一次。」：E12_ANSWER＝tomorrow、可以關了；她回「好。明天。不准再睡著。」',G.flags.E12_ANSWER==='tomorrow'&&!PHONE.mustOpen(G,'p:kexin')&&(()=>{ const T2=PHONE.thread(G,'p:kexin').map(x=>x.text); return T2[T2.length-1]==='好。明天。不准再睡著。'; })());
   // 睡著
-  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 18:15 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來喔。'); return x&&x.day===D6&&Math.abs(x.h-18.25)<0.05; })()&&!opened.length);
+  G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); opened=[]; GM.D.active=true; at(D6+1,8); check('4. 隔天醒來（別的事件進行中時先不開）：訊息照 18:30 的時間',(()=>{ const x=PHONE.thread(G,'p:kexin').find(y=>y.text==='你沒來喔。'); return x&&x.day===D6&&Math.abs(x.h-18.5)<0.05; })()&&!opened.length);
   GM.D.active=false; run(); check('4. 事件結束後才打開',opened.length===1);
   /* BUG-E12-ARRIVE-LATE（BB-C 11:1x）：休學在家（ECONFF 第二階段）不排出遊（從家出發 30 分鐘、到的時候已經過了 17:30～18:00）；邀約照發，由 econff3d.js STEPS2 h3 17:45 直接帶到湖邊 */
   { const had=global.ECONFF; global.ECONFF={on2:()=>true}; fresh(D6,17,'home',{Y0_MOVED_OUT:true}); at(D6,17.4); global.ECONFF=had;

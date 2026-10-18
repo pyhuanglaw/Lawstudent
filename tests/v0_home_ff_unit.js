@@ -90,7 +90,7 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   // 10：BB_214
   { econHome('2025-02-13',12); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');
     G.hour=14; const c0=STORY.homeCall(G); G.hour=14.3; const c1=STORY.homeCall(G);   /* AA_303：E27 改 14:00 行政大樓 */
-    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（14:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在水餃店了，點了兩盤。……快來，我有事要跟你說。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
+    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（14:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在行政大樓門口了。……你說要陪我的。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
     G.hour=13.7; const m=HOME.wouldMiss(G,14.7); check('10. 13:40 做事一小時會錯過 E27（照它的 15 分鐘容許）',m.some(t=>/行政大樓/.test(t)),JSON.stringify(m)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('10. E14 的保底電話（韋綸兩句）也在',/'人咧！！保齡球館！！','第一局要開了啦，走啦！'/.test(src)); }
   { econHome('2024-11-20',26.6); const H=HOME.rec(G); H.at=false; G.zone='campus'; const ent=[]; const en=GM.enter; GM.enter=async(z)=>{ ent.push(z); G.zone=z; }; const gg=HOME.go; let went=false; HOME.go=async()=>{ went=true; H.at=true; }; await STORY.forceHome(GM); HOME.go=gg; GM.enter=en;

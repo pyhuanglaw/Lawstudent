@@ -42,11 +42,11 @@ const settle=async()=>{ for(let i=0;i<50;i++){ await new Promise(r=>setTimeout(r
     check('4. 總圖念書：「唐睿講了四十分鐘的話。」品妤「今天一頁都沒讀。」；今天先回去：韋綸「那下次！」',a.includes('唐睿講了四十分鐘的話。')&&a.includes('今天一頁都沒讀。')&&b[b.length-1]==='那下次！'); }
   for(const [open,first] of [['carry','你今天說要載我，'],['fix','你今天說要幫我修車，'],['steady','你今天說你車很穩，']]){
     fresh(D19,22.6,'dorm',{E05_OPEN:open,E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); const L=T();
-    check('5. E06（'+open+'）22:30：「問你一件事。」「'+first+'是真心的，還是經濟學上的「廉價訊號」？」＋括號那句（三個回覆）',L.includes('問你一件事。')&&L.includes(first+'是真心的，還是經濟學上的「廉價訊號」？')&&L.includes('廉價訊號，就是說了也不用付出代價的話。／我最近看到的詞，想用用看。')&&G.flags.E06_DONE==='e06',JSON.stringify(L)); }
+    check('5. E06（'+open+'）22:30（AA_307 第 9 列，不分 E05_OPEN）：「今天謝謝你。」「我洗了三次手，還是有鏈條油的味道。……你的呢？」（三個回覆）；沒有「廉價訊號」',L.includes('今天謝謝你。')&&L.includes('我洗了三次手，還是有鏈條油的味道。……你的呢？')&&!L.some(t=>/廉價訊號|是真心的/.test(t))&&G.flags.E06_DONE==='e06',JSON.stringify(L)); }
   { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-95,y:0,z:50}; STORY.phoneRules(GM); PHONE.tick(G); const L=T(); G.hour=22.6; STORY.phoneRules(GM); PHONE.tick(G); const L2=T();
-    check('6. D2：E05 那晚 20:30 經過女舍門口 30 m 內：「我剛剛在三樓，看到一個很像你的人經過我們宿舍。」…「是你嗎？」（三個回覆）；22:30 不再有 E06',L.includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&L.includes('是你嗎？')&&G.flags.E06_DONE==='d2'&&!L2.includes('問你一件事。'),JSON.stringify(L2)); }
+    check('6. D2：E05 那晚 20:30 經過女舍門口 30 m 內：「我剛剛在三樓，看到一個很像你的人經過我們宿舍。」…「是你嗎？」（三個回覆）；22:30 不再有 E06',L.includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&L.includes('是你嗎？')&&G.flags.E06_DONE==='d2'&&!L2.includes('今天謝謝你。'),JSON.stringify(L2)); }
   { fresh(D19,20.5,'campus',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; E.player.obj.position={x:-40,y:0,z:0}; STORY.phoneRules(GM); PHONE.tick(G); check('6. 離女舍遠（> 30 m）：沒有 D2',!T().includes('我剛剛在三樓，看到一個很像你的人經過我們宿舍。')&&!G.flags.E06_DONE); E.player.obj.position={x:0,y:0,z:0}; }
-  { fresh(D19+1,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 22:30 以前睡著：隔天收到 E05 那晚 22:30 的 E06（BB_214 第 2 節；只一次）',T().filter(t=>t==='問你一件事。').length===1&&G.flags.E06_DONE==='e06'); }
-  { fresh(D19+2,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 過兩天就不補',!T().includes('問你一件事。')); }
+  { fresh(D19+1,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 22:30 以前睡著：隔天收到 E05 那晚 22:30 的 E06（BB_214 第 2 節；只一次）',T().filter(t=>t==='今天謝謝你。').length===1&&G.flags.E06_DONE==='e06'); }
+  { fresh(D19+2,22.6,'dorm',{E05_OPEN:'carry',E05_DAY:D19,E05_END:19}); G.stage='econ'; STORY.phoneRules(GM); PHONE.tick(G); check('6. 過兩天就不補',!T().includes('今天謝謝你。')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
