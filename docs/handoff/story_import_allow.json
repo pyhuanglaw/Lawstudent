@@ -771,6 +771,14 @@
    "approvedBy": "AA-C 定稿（依 AA_276 第 1 節使用者 10-17 23:4x 原話；D100 台詞歸 AA；第 1 節 AA 已直接改進開發分支，使用者 10-18 00:5x 授權）",
    "task": "VAC-HOMETOWN-1017",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",
+   "sha": "02ed9b0a",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）",
+   "task": "ART-03",
+   "kind": "text"
   }
  ]
 }
