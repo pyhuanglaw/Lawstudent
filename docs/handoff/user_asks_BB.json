@@ -18,11 +18,11 @@
    "at": "2026-10-18T10:1x",
    "quote": "（BB 的解讀）以後有人物的 CG 需求都先改純場景、先問使用者",
    "kind": "AI解讀",
-   "confirmed": false,
-   "status": "還沒做",
-   "wants": "X37",
+   "confirmed": true,
+   "status": "已取消",
    "task": "CG-NOPERSON-1018",
-   "src": "BB_00 311 行"
+   "src": "BB_00 311 行",
+   "note": "使用者 14:0x 問過：選「只有這三張（建議）」，這個擴大解讀不成立"
   }
  ]
 }

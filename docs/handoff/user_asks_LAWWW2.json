@@ -18,20 +18,22 @@
    "at": "2026-10-17T05:0x",
    "quote": "最後接著做美國的東西 日本的東西",
    "kind": "原話",
-   "status": "還沒做",
+   "status": "已取消",
    "wants": "X40",
    "task": "JP-3D-ASK",
-   "src": "LAWWW2 HANDOFF 365 行"
+   "src": "LAWWW2 HANDOFF 365 行",
+   "note": "使用者 14:0x 選「全 2D（建議）」"
   },
   {
    "id": "UA-LAWWW2-1017-03",
    "at": "2026-10-17T23:0x",
    "quote": "超市一個大的超市對面有一個小的亞洲超市",
    "kind": "原話",
-   "status": "暫停",
+   "status": "還沒做",
    "wants": "X41",
    "task": "US-MARKET-STREET",
-   "src": "LAWWW2 HANDOFF 160～178 行"
+   "src": "LAWWW2 HANDOFF 160～178 行",
+   "note": "使用者 14:0x 選「做停車場和馬路」"
   }
  ]
 }

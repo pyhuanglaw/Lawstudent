@@ -36,6 +36,33 @@
    "status": "在開發分支",
    "wants": "X42",
    "task": "USER-ASKS-HV18-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-05",
+   "at": "2026-10-18T14:0x",
+   "quote": "CG 人物：只有這三張（建議）",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "wants": "X37",
+   "task": "CG-NOPERSON-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-06",
+   "at": "2026-10-18T14:0x",
+   "quote": "日本場景：全 2D（建議）",
+   "kind": "選擇題答案",
+   "status": "已取消",
+   "wants": "X40",
+   "task": "JP-3D-ASK"
+  },
+  {
+   "id": "UA-LAWWW-1018-07",
+   "at": "2026-10-18T14:0x",
+   "quote": "美國超市：做停車場和馬路",
+   "kind": "選擇題答案",
+   "status": "還沒做",
+   "wants": "X41",
+   "task": "US-MARKET-STREET"
   }
  ]
 }

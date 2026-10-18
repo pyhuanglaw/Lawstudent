@@ -19474,7 +19474,7 @@
   },
   {
    "id": "CG-NOPERSON-1018",
-   "title": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景；BB 擴大成「以後有人物的 CG 先改純場景」要先問使用者（不是原話）",
+   "title": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景（只有這三張；其他有人物的 CG 照原本要人物）",
    "area": "ART",
    "owner": "BB",
    "status": "待開工",
@@ -19491,7 +19491,7 @@
    },
    "source": "使用者 10-18 10:1x 對 BB（BB_00 287、311 行；BB_132 第 87 組）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示（前半）；後半待使用者確認",
-   "next": "下一班 BB：照純場景寫提示詞向使用者要；問使用者 I09 節日 CG、I10 抓包 CG 要不要也改純場景",
+   "next": "使用者 14:0x 選「只有這三張」：BB 擴大成「以後都先改純場景」作廢；下一班 BB 照純場景寫這三張的提示詞向使用者要；I09 節日 CG、I10 抓包 CG 照原本要人物",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -19538,7 +19538,7 @@
    "title": "日本交換場景要不要 3D：使用者 10-17 05:0x 說「最後接著做美國的東西 日本的東西」，但 F09 寫「日本全 2D」，兩邊沒對過",
    "area": "v4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
    "first": {
     "term": "Y3S2",
@@ -19552,14 +19552,16 @@
    },
    "source": "LAWWW2 HANDOFF 365 行；USER_WANTS F09（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "要問使用者",
-   "next": "三個優先③（美國）做到一段落時，用選擇題問使用者"
+   "next": "使用者 14:0x 選「全 2D（建議）」：日本篇照 F09 用 2D 背景加對話，LAWWW2 不做日本 3D；背景由 BB 寫提示詞向使用者要（使用者 2026-10-18 14:0x 選擇題）；日本篇的其他任務：V4-R-JP、SCN-JP-2D",
+   "replacedBy": "VAC-X2",
+   "reason": "使用者 2026-10-18 14:0x 選擇題選「全 2D（建議）」：日本篇不做 3D"
   },
   {
    "id": "US-MARKET-STREET",
    "title": "美國大超市對面有一間小的亞洲超市：要不要做停車場＋馬路的戶外（現在是「過馬路」直接換區域）",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "待開工",
    "priority": "P3",
    "first": {
     "term": "Y4S1",
@@ -19573,12 +19575,7 @@
    },
    "source": "使用者 10-17 23:0x：「超市一個大的超市對面有一個小的亞洲超市」（LAWWW2 HANDOFF 160～178 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示；戶外做法等使用者回答",
-   "next": "使用者回答以後 LAWWW2 做",
-   "pausedFrom": "待開工",
-   "pausedReason": "LAWWW2 問了使用者要不要做戶外，還沒回答",
-   "resumeWhen": "使用者回答",
-   "pausedBy": "使用者（未回答）",
-   "recheckOn": "2026-10-25",
+   "next": "使用者 14:0x 選「做停車場和馬路」：LAWWW2 做兩家超市之間的停車場和馬路（走得過去），排在美國篇必需場景之後（使用者 2026-10-18 14:0x 選擇題）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
