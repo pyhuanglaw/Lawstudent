@@ -2179,7 +2179,7 @@ const STORY_EVENTS=[
      記 RETAKE_TOGETHER、E27_DAY。不寫人生演講、哭著感謝、拯救、她為了他重考 */
   { id:'ev_y0_e27', stage:'econ', title:'一起重考吧', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'公館・水餃店',bg:'y0_dumpling'},
-      {speaker:'kexin',expression:'neutral',text:'我今天辦完了。'},
+      {speaker:'kexin',expression:'neutral',text:'我今天辦完了。'},{speaker:'kexin',expression:'neutral',text:'休學。國文那份報告，最後還是不能補交。'},{speaker:'kexin',expression:'neutral',text:'整科就那一份。沒交就是零分，一定會被當。'},{speaker:'kexin',expression:'neutral',text:'……我不想要成績單上有一個不及格。'},
       {speaker:'kexin',expression:'neutral',text:'表格上有一格「原因」。我寫「個人生涯規劃」。櫃台說大家都寫這個。'},
       {speaker:'player',text:'……我十月也寫這個。'},{speaker:'kexin',expression:'smile',text:'那我們很普通。'},
       {speaker:'kexin',expression:'thinking',text:'（吃了一顆水餃）然後呢？我們兩個都休學了。接下來要幹嘛。'},
