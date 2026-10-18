@@ -20,7 +20,7 @@ global.PHONE={pending:()=>[],tick(){}}; global.ADV={end(){},begin(){}};
 let G; const calls=[]; let jumpRes='end', dueQ=null;
 global.HOME={rec:G=>G.home, at:G=>!!G.home.at, dueOuting:()=>dueQ, dueInvites:()=>[], y0FfEnd:()=>T('2025-08-29',5), leaveTo:async()=>{},
   y0Jump:async(GM,t)=>{ calls.push(['jump',t]); return jumpRes; }, goOut:async(GM,q)=>{ calls.push(['goOut',q.id]); q.state='done'; return true; }, go:async GM=>{ calls.push(['go']); G.home.at=true; return true; }, bgNow:()=>'blur'};
-const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(dayOf(k)).wd,flags:Object.assign({E01_MORNING:true,LEAVE_WEEK:6},f||{}),events:{done:{}},home:{at:true,base:true}});
+const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(dayOf(k)).wd,flags:Object.assign({E01_MORNING:true,LEAVE_WEEK:6,ECON_FULL:true},f||{}),events:{done:{}},home:{at:true,base:true}});
 const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:async(z,sp)=>{ calls.push(['enter',z,sp]); G.zone=z; G.home.at=false; },autosave(){},phoneThread:async()=>{ calls.push(['phone']); },E:{player:{}}};
 (async()=>{
   // ①
@@ -75,5 +75,9 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
     G=mkG('2025-02-22',20,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; await ECONFF.homeStep(GM); check('⑦ 長場景 2/22 20:00 媽媽和她（RH-L1）照日期演',ran.includes('rh_RH-L1'),ran.join(','));
     G=mkG('2024-12-01',10,{Y0_MOVED_OUT:true}); ran.length=0; calls.length=0; await ECONFF.homeStep(GM); check('⑦ 重考期以外（12/1）：不演日常',!ran.some(x=>/^rh_/.test(x))); }
   const hs=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8'); check('home3d.js baseRound：事件模式交給 ECONFF.homeStep、y0Jump 玩樂日不記讀書日',/ECONFF\.on2\(G\)\)\{ H\.wakeAsk=null; return ECONFF\.homeStep\(GM\)/.test(hs)&&/ECONFF\.PLAY_DAYS/.test(hs));
+  { const gs=mkG('2024-10-19',18,{Y0_MOVED_OUT:true,ECON_FULL:false}); gs.flags.ECONFF={done:{},lines:[]}; const ids=[]; for(let k=0;k<20;k++){ const s=ECONFF.next2(gs); if(!s) break; ids.push(s.ev||s.play||s.rh); ECONFF.rec(gs).done[s.n]=1; }
+    check('AA_300：休學在家只停 29 場裡的（E12、RH-L1 洗碗、R3 大安森林公園、RH-L5 粽子、RH-C0 報名、RH-C4 笑出來、RH-L6 熱牛奶）；soc_door、R6、其他長場景、每天的短場景都不停',JSON.stringify(ids)===JSON.stringify(['ev_y0_e12','RH-L1','ev_y0_r3','RH-L5','RH-C0','RH-C4','RH-L6']),JSON.stringify(ids));
+    gs.day=dayOf('2025-03-03'); gs.hour=10; check('AA_300：重考期每天的短場景關掉（rhOn false）',!ECONFF.rhOn(gs));
+    gs.day=dayOf('2025-07-13'); check('AA_300：沒演到的對答案＝MATH_100 預設 true',(ECONFF.defaults(gs),gs.flags.MATH_100===true)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

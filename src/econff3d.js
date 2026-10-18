@@ -56,6 +56,46 @@ const ECONFF=(()=>{
            ['2024-10-08','2024-10-11','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],
            [null,null,'（這幾天都在上課。）']];
   S.rec=G=>{ const F=G.flags=G.flags||{}; const r=F.ECONFF=F.ECONFF||{}; r.done=r.done||{}; r.lines=r.lines||[]; return r; };
+  /* ===== AA_300（使用者 10-18：「終於到法律系了，花了兩個半小時……每天一直按快轉」→ 選「縮到約 30 分鐘」「只留長場景」）=====
+     經濟系那一年（9/2 早上以後）只停第 1 節的 29 場；其他事件不演、不停（EVENTS.check 擋、出遊不排）；跳過的日子只出一張日期卡＋第 4 節那一句。
+     8/23 宿營、9/1 宿舍第一晚在 9/2 以前，照原本的流程。網址 ?nofastecon 關掉（舊流程）*/
+  S.KEEP=new Set(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_e30_note','ev_y0_a3',   /* 開學到休學 3～11 */
+    'ev_y0_e12','ev_y0_e21a','ev_y0_e21','ev_y0_e21o','ev_y0_e23','ev_y0_e27','ev_y0_e27b',   /* 休學到寒假 12～17 */
+    'ev_y0_r3','ev_y0_e18b','ev_y0_r7',   /* 重考期 19～21（18、22 是長場景 RH-L1、RH-L5）*/
+    'ev_y0_e35','ev_y0_e35h','ev_y0_exam1','ev_y0_exam1h','ev_y0_kh_bus','ev_y0_kh_bus_h','ev_y0_kh_home','ev_y0_kh_home_h','ev_y0_kh_call','ev_y0_kh_call_h',
+    'ev_y0_e36r','ev_y0_e36rh','ev_y0_e36','ev_y0_e36h','ev_y0_e36n']);   /* 衝刺班到放榜 26～29（23～25 是 RH-C0、RH-C4、RH-L6）*/
+  S.RH_PLAY=['RH-L1','RH-L5','RH-C0','RH-C4','RH-L6'];
+  S.short=G=>!!G&&G.stage==='econ'&&!S.off()&&!!(G.flags&&G.flags.E01_MORNING)&&!G.flags.ECON_FULL;   /* ECON_FULL：測試用，照 AA_292 的完整版（舊流程的測試）*/
+  S.cutId=(G,id)=>!!id&&/^ev_y0_/.test(id)&&S.short(G)&&!S.KEEP.has(id);
+  S.cut=(G,ev)=>!!ev&&ev.stage==='econ'&&S.cutId(G,ev.id);
+  S.stepCut=(G,s)=>S.short(G)&&(!!s.cls||(!!s.ev&&!S.KEEP.has(s.ev))||(!!s.play&&!S.KEEP.has(s.play))||(!!s.rh&&!S.RH_PLAY.includes(s.rh)));
+  /* 第 4 節：日期卡下面那一句（照「跳過的日子」；每句一次；同一天、隔一天的不出）*/
+  S.CARDS=[['2024-08-26','2024-08-31','（宿營回來，暑假只剩一個禮拜。）'],
+    ['2024-09-02','2024-09-12','（開學第一週。新生座談、第一堂經原、第一堂會計。阿勳每一堂都坐你旁邊。）'],
+    ['2024-09-14','2024-09-18','（下課以後，常常是同一群人一起走出教室：韋綸、品妤、阿勳，還有她。）'],
+    ['2024-09-22','2024-10-11','（颱風假那天，你和阿勳在宿舍泡了一整晚的泡麵。之後，小福的午餐常常是同一桌。）'],
+    ['2024-10-13','2024-10-14','（期中考的範圍公布了。阿勳把考試日期寫在一張紙上，貼在桌前。）'],
+    ['2024-10-16','2024-10-16','（隔天晚上，你們在總圖三樓念微積分。她看了五分鐘，還在第一行。）'],
+    ['2024-10-20','2024-11-05','（休學以後，你還是常回學校。去社科院找可昕，跟阿勳、品妤吃飯。）'],
+    ['2024-11-07','2024-12-30','（十二月，你一個人回去以前的補習班問重考班。櫃台說，主任交代過你會來。你可以免費。）'],
+    ['2025-01-01','2025-01-27','（一月，你大部分的時間都在家裡。手機裡經濟系的群組，你看了，不太回。）'],
+    ['2025-01-29','2025-02-11','（過完年，爸爸回上海了。家裡又只剩你和媽媽。）'],
+    ['2025-02-15','2025-02-21','（二月十五日，她搬進姊姊的房間。早上你下樓的時候，她已經坐在餐桌前了。）'],
+    ['2025-02-23','2025-03-31','（她住進你家以後，餐桌的一半是她的書。）'],
+    ['2025-04-02','2025-04-23','（牆上的倒數撕到一百天。錯一題請一碗豆花，你已經欠她四碗。）'],
+    ['2025-04-25','2025-05-23','（她的生日蛋糕，剩下的一半在冰箱放了三天。五月，餐桌旁邊多了一台電風扇。）'],
+    ['2025-05-25','2025-05-30','（考前一個多月。你們開始對著鬧鐘寫考卷。）'],
+    ['2025-06-01','2025-06-07','（六月。兩個人說好，去報一個衝刺班。）'],
+    ['2025-06-09','2025-06-23','（衝刺班，早上九點到晚上九點，每天。傍晚你們常常想回家，請了好幾次假，也遲到過。）'],
+    ['2025-06-25','2025-06-27','（衝刺班。後來去請假，她已經不笑了。）'],
+    ['2025-06-29','2025-07-10','（衝刺班最後一天，你們待到九點。管理人員說：「後天考試對吧。加油。」）'],
+    ['2025-07-12','2025-07-24','（對答案。數學，你從第一題重新對了一次，全對。考完，她回高雄過暑假。）'],
+    ['2025-07-26','2025-08-12','（高雄回來以後，你們每天晚上講電話。分數的事，沒有人再提。）'],
+    ['2025-08-14','2025-08-21','（你把經濟系的課本裝進紙箱。民法那本，留在書桌上。）']];
+  S.cardLine=function(G,d0,d1){ if(!S.short(G)||d1-d0<2) return null; const r=S.rec(G), k0=d0+1, k1=d1-1;
+    for(const [a,b,t] of S.CARDS){ if(r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };
+  /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
+  S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true; };
   S.off=()=>typeof location!=='undefined'&&/[?&]nofastecon\b/.test(location.search||'');
   S.on=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.E01_MORNING||F.Y0_MOVED_OUT) return false;
     const a=DK('2024-09-02'), b=DK('2024-10-20'); return a!=null&&b!=null&&G.day>=a&&G.day<b; };   /* 9/2 E01 早上以後～10/19 退宿 */
@@ -71,13 +111,13 @@ const ECONFF=(()=>{
   S.on2=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.Y0_MOVED_OUT) return false; const e=DK('2025-08-29'); return e!=null&&G.day*24+G.hour<e*24+5; };
   S.PLAY_DAYS=['2025-04-01','2025-05-05','2025-05-24'];   /* AA_292 第 6 節：玩樂日不記 retake:study（R3、R6、R7）*/
   S.step2Done=(G,s)=>!!S.rec(G).done[s.n]||(!!s.ev&&done(G,s.ev))||(!!s.play&&done(G,s.play));
-  S.next2=function(G){ const now=G.day*24+G.hour; const L=S.STEPS2.concat(S.rhLong(G)).map(s=>Object.assign({t:(DK(s.key)!=null?DK(s.key)*24+s.h:Infinity)},s)).sort((a,b)=>a.t-b.t); for(const s of L){ if(S.step2Done(G,s)) continue; const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
+  S.next2=function(G){ const now=G.day*24+G.hour; const L=S.STEPS2.concat(S.rhLong(G)).map(s=>Object.assign({t:(DK(s.key)!=null?DK(s.key)*24+s.h:Infinity)},s)).sort((a,b)=>a.t-b.t); for(const s of L){ if(S.step2Done(G,s)) continue; if(S.stepCut(G,s)){ S.rec(G).done[s.n]='cut'; continue; } const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
   S.clsItem=(G,day,cid)=>typeof CLS==='undefined'?null:((CLS.dayItems(G,day)||[]).find(it=>it.c&&it.c.id===cid)||null);
   S.tOf=(G,s)=>{ const d=DK(s.key); if(d==null) return null; if(s.cls){ const it=S.clsItem(G,d,s.cls); return it?d*24+it.t0-1/12:d*24+9; } return d*24+s.h; };
   S.stepDone=function(G,s){ const r=S.rec(G); if(r.done[s.n]) return true; if(s.cls){ const d=DK(s.key), it=S.clsItem(G,d,s.cls); return !!(it&&typeof CLS!=='undefined'&&CLS.rec(G).done[it.key]); }
     return !!s.ev&&done(G,s.ev)&&(!s.then||done(G,s.then)); };
   /* 下一個要做的：時間還沒過太久（過了 6 小時就算錯過、跳過）、還沒做完 */
-  S.next=function(G){ const now=G.day*24+G.hour; const L=S.STEPS.map(s=>({s,t:S.tOf(G,s)})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t); for(const {s,t} of L){ if(S.stepDone(G,s)) continue; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };   /* 照時間排（陣列順序不用照日期）*/
+  S.next=function(G){ const now=G.day*24+G.hour; const L=S.STEPS.map(s=>({s,t:S.tOf(G,s)})).filter(x=>x.t!=null).sort((a,b)=>a.t-b.t); for(const {s,t} of L){ if(S.stepDone(G,s)) continue; if(S.stepCut(G,s)){ S.rec(G).done[s.n]='cut'; continue; } if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return s; } return null; };   /* 照時間排（陣列順序不用照日期）*/
   S.lineFor=function(G,d0,d1){ if(d1-d0<2) return null; const r=S.rec(G); const k0=d0+1, k1=d1-1;
     for(const [a,b,t] of S.LINES){ if(r.lines.includes(t)) continue; if(a==null){ return t; } const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0) return t; } return null; };
   S.dateLabel=(day,h)=>{ const D=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(day):{m:0,d:0}; const hh=Math.floor(h%24), mm=Math.round((h%1)*60)%60; return D.m+'/'+D.d+'（'+WD[wdOf(day)]+'）'+String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0'); };
@@ -85,7 +125,7 @@ const ECONFF=(()=>{
   S.attendBetween=function(G,t1){ if(typeof CLS==='undefined') return 0; const R=CLS.rec(G); let n=0; const d1=Math.floor(t1/24);
     for(let d=G.day;d<=d1;d++) for(const it of (CLS.dayItems(G,d)||[])){ if(R.done[it.key]||d*24+it.t1>t1+1e-6) continue; if(it.exam) continue; R.done[it.key]=1; R.attend[it.c.id]=(R.attend[it.c.id]||0)+1; R.prep[it.c.id]=(R.prep[it.c.id]||0)+1; R.note['skip_'+it.key]=1; n++; }
     return n; };
-  const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day)||7; G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
+  const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
   S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour;
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
@@ -114,7 +154,7 @@ const ECONFF=(()=>{
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD(); await GM.fade(false); if(GM.openPhone) GM.openPhone(); return true; }   /* 收到要回的訊息：先回，回完下一次再接 */
       if(s.zone&&G.zone!==s.zone&&GM.enter) await GM.enter(s.zone,s.at?Object.assign({lv:0},s.at):undefined,{noFade:true});
       else if(s.at&&E&&E.placeAt){ E.placeAt(E.player,s.at.x,s.at.z,0); E.player.obj.rotation.y=s.at.yaw||0; }
-      const line=S.lineFor(G,d0,G.day); if(line) r.lines.push(line);
+      const line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
       if(GM.titleCard&&G.day!==d0) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);
       await GM.fade(false); }
@@ -125,7 +165,7 @@ const ECONFF=(()=>{
   /* ===== 重考期在家的日常（AA_297，src/data/retake_home.js；使用者 10-18「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）=====
      2/15～7/10 在家：每天演一段 short（不重複、用完再輪；早上／白天／吃飯／晚上輪流），長場景（long，週六）照日期時間演。演完才接著跳。*/
   const RH=()=>typeof RETAKE_HOME!=='undefined'?RETAKE_HOME:null;
-  S.rhOn=G=>{ const R=RH(); if(!R||!S.on2(G)) return false; const a=DK(R.range[0]), b=DK(R.range[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.rhOn=G=>{ const R=RH(); if(!R||!S.on2(G)||S.short(G)||R.daily===false) return false;   /* AA_300：每天的短場景整個關掉（使用者「只留長場景」）*/ const a=DK(R.range[0]), b=DK(R.range[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
   S.RH_H={morning:7.25,day:14,meal:18.5,evening:21.5};
   S.RH_EVERY=3;   /* 幾天演一段（2026-10-18 使用者：「重考不用每天停，可以放一點在念書」）；長場景照日期 */
   S.RH_KIND=['morning','day','meal','evening'];
@@ -136,7 +176,7 @@ const ECONFF=(()=>{
   S.rhLong=G=>{ const R=RH(); if(!R) return []; return R.long.map(e=>{ const [hh,mm]=String(e.time||'20:00').split(':').map(Number); return {n:e.id,key:e.date,h:hh+(mm||0)/60,rh:e.id}; }); };
   /* 衝刺班（AA_298 第 1 節）：6/9～7/9 每天 09:00～21:00；中間跳過的日子只出日期卡，卡下面那一行是 cram_cards（每張一次）*/
   S.cramDay=G=>{ const R=RH(); const c=R&&R.cram; if(!c||!S.on2(G)) return false; const a=DK(c.from), b=DK(c.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
-  S.cramCard=function(G){ const R=RH(); if(!R||!R.cram_cards||!S.on2(G)) return null; const r=S.rec(G); r.cramShown=r.cramShown||[];
+  S.cramCard=function(G){ const R=RH(); if(!R||!R.cram_cards||!S.on2(G)||S.short(G)) return null;   /* AA_300 第 4 節的句子取代 cram_cards */ const r=S.rec(G); r.cramShown=r.cramShown||[];
     const c=R.cram_cards.find(x=>{ const a=DK(x.from), b=DK(x.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; }); if(!c||r.cramShown.includes(c.from)) return null; r.cramShown.push(c.from); return c; };
   const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:e.bg||false}); const sp=s=>s==null?null:s;   /* bg：補習班那幾段（cram_class）*/
     for(const l of e.lines) out.push({speaker:sp(l.s),text:l.t});
@@ -147,7 +187,8 @@ const ECONFF=(()=>{
     try{ if(typeof EVENTS!=='undefined') await EVENTS.run(ev,{noTitle:true}); } catch(err){ console.warn('ECONFF rh '+e.id,err); }
     const r=S.rec(G); r.rhUsed=r.rhUsed||[]; if(!r.rhUsed.includes(e.id)) r.rhUsed.push(e.id); r.rhDay=G.day; if(typeof ADV!=='undefined'&&HOME.at(G)) ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); };
   /* 第二階段：家裡選單那一輪（home3d.js baseRound）。回傳值照 baseRound：true＝還在家、false＝出門了 */
-  S.homeStep=async function(GM){ const G=GM.G, H=HOME.rec(G);
+  S.homeStep=async function(GM){ const G=GM.G, H=HOME.rec(G); S.defaults(G);
+    if(S.short(G)&&typeof OUT!=='undefined'&&OUT.rec) for(const o of OUT.rec(G)) if(o.state==='planned'&&S.cutId(G,o.ev)) o.state='done';   /* AA_300：不在 29 場裡的出遊（舊存檔排好的）不出發 */
     const q=HOME.dueOuting(G); if(q) return HOME.goOut(GM,q);   /* 該出發的出遊：自動「去」（AA_292 第 8 節）*/
     const iv=HOME.dueInvites(G)[0]; if(iv&&typeof INV!=='undefined'){ await HOME.leaveTo(GM,INV.place(iv.place)||{}); return false; }
     const s=S.next2(G), now=G.day*24+G.hour;

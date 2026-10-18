@@ -11,12 +11,18 @@ let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'
 const dayOf=k=>{ for(let d=-600; d<400; d++){ const t=CALENDAR.dateOf(d); if(t&&t.key===k) return d; } return null; };
 global.STORY={dayOfKey:dayOf}; global.STORY_EVENTS=[]; global.EVENTS={running:null};
 let pend=0; global.PHONE={pending:()=>Array(pend).fill(0),tick(){}};
-const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(dayOf(k)).wd,flags:Object.assign({E01_MORNING:true},f||{}),events:{done:{}}});
+const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(dayOf(k)).wd,flags:Object.assign({E01_MORNING:true,ECON_FULL:true},f||{}),events:{done:{}}});
 { check('① 9/2 08:00（E01 早上以後）開',ECONFF.on(mkG('2024-09-02',8)));
   check('① E01 早上還沒演：不開',!ECONFF.on(mkG('2024-09-02',8,{E01_MORNING:false})));
   check('① 法律系：不開',!ECONFF.on(Object.assign(mkG('2024-09-02',8),{stage:'law'})));
   const g=mkG('2024-10-17',23); g.events.done.ev_y0_e30_note=1; check('① 10/17 便利貼演完：還開（下一步 10/19 退宿）',ECONFF.on(g)); const g2=mkG('2024-10-19',18,{Y0_MOVED_OUT:true}); check('① 10/19 退宿以後：第一階段關（換第二階段，tests/econ_ff2_unit.js）',!ECONFF.on(g2));
   global.location={search:'?nofastecon'}; check('① ?nofastecon：關',!ECONFF.on(mkG('2024-09-02',8))); global.location={search:''}; }
+{ const G=mkG('2024-09-02',8,{ECON_FULL:false}); const ids=[]; for(let i=0;i<20;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev); ECONFF.rec(G).done[s.n]=1; }
+  check('AA_300 第 1 節：經濟系開學到退宿只停 3～11（保齡球、要我載妳嗎、系烤、長頸鹿拉花、聚會、辦休學、車上、便利貼、搬出宿舍）',JSON.stringify(ids)===JSON.stringify(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_e30_note','ev_y0_a3']),JSON.stringify(ids));
+  check('AA_300：其他經濟系事件不演（EVENTS.check 擋：社團博覽會、泡麵之夜、去總圖念書）；29 場的照演；ECON_FULL（舊流程測試）不擋',ECONFF.cut(G,{id:'ev_y0_e07',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_t0a',stage:'econ'})&&ECONFF.cut(G,{id:'ev_y0_e10',stage:'econ'})&&!ECONFF.cut(G,{id:'ev_y0_e05',stage:'econ'})&&!ECONFF.cut(mkG('2024-09-02',8),{id:'ev_y0_e07',stage:'econ'})&&!ECONFF.cut(Object.assign(mkG('2024-09-02',8,{ECON_FULL:false}),{stage:'law'}),{id:'ev_y0_e07',stage:'econ'}));
+  const g=mkG('2024-09-14',8,{ECON_FULL:false}); g.flags.ECONFF={done:{},lines:[]};
+  check('AA_300 第 4 節：日期卡一句照跳過的日子（9/2 → 9/13：開學第一週那句；同一句不重複；隔一天不出）',ECONFF.cardLine(g,dayOf('2024-09-02')-1,dayOf('2024-09-13'))==='（開學第一週。新生座談、第一堂經原、第一堂會計。阿勳每一堂都坐你旁邊。）'&&ECONFF.cardLine(g,dayOf('2024-09-02')-1,dayOf('2024-09-13'))===null&&ECONFF.cardLine(g,dayOf('2024-09-20'),dayOf('2024-09-21'))===null);
+  check('AA_300 第 4 節：22 句、12→13 那句（以前的補習班說你可以免費）在 11/7～12/30',ECONFF.CARDS.length===22&&ECONFF.CARDS.some(([a,b,t])=>a==='2024-11-07'&&b==='2024-12-30'&&/你可以免費/.test(t))); }
 { const G=mkG('2024-09-02',8); const ids=[]; for(let i=0;i<6;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev||s.cls); ECONFF.rec(G).done[s.n]=1; }
   check('② 順序：E02 → 會計第一堂 → 第一次經原 → 保齡球（9/13，AA_293 4-1）→ 社團博覽會 → P2',JSON.stringify(ids)===JSON.stringify(['ev_y0_e02','acct_y0','econ_principles_y0','ev_y0_e14','ev_y0_e07','ev_y0_p2']),JSON.stringify(ids));
   const G2=mkG('2024-09-19',16,{}); for(const s of ECONFF.STEPS) if(s.n<9) ECONFF.rec(G2).done[s.n]=1; G2.events.done.ev_y0_e05=1; const s9=ECONFF.next(G2);

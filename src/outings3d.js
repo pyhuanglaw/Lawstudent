@@ -36,7 +36,7 @@ const OUT=(function(){
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
   /* 排一個出遊；同一個 id 只排一次（讀檔、重進區域不會重複）*/
-  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); return true; };
+  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); return true; };
   const t=(day,h)=>day*24+h;
   /* 該問了：該出發的時間（約好的時間減車程）前 15 分鐘起、約好的時間後 45 分鐘內；「晚一點」之後等到 ask 那個時間 */
   const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
