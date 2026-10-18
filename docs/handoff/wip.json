@@ -252,7 +252,7 @@
    ],
    "state": "已交付",
    "remaining": "",
-   "next": "程式加學姊和男友在溫州街路口出現的場面（只到大二上第 5 週）",
+   "next": "不做（2026-10-18 LAWWW-C，USER_WANTS 第 4 節第 7 點）：使用者 10-17 定學姊沒有男朋友（AA_218 第 16 節；程式 8b0768e5 已拿掉 partner），溫州街男友場面作廢；BB_122 只留作紀錄。舊 next：程式加學姊和男友在溫州街路口出現的場面（只到大二上第 5 週）",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17"
   },
