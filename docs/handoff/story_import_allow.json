@@ -750,17 +750,17 @@
   },
   {
    "path": "docs/story_planning/AA_276_寒暑假的人在哪_芷若英國聯絡.md",
-   "sha": "9e875a10",
+   "sha": "b4e48e0d",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（使用者 23:4x～23:5x、10-18 00:1x 原話；D100：台詞歸 AA，AA 的稿就是定稿）；第 6 節 4fbabbee／e67b3786、第 7 節 9e875a10",
+   "approvedBy": "AA-C 定稿（使用者 23:4x～23:5x、10-18 00:1x 原話；D100：台詞歸 AA，AA 的稿就是定稿）；第 6 節 4fbabbee／e67b3786、第 7 節 9e875a10；b4e48e0d 第 2 節「認識、有點熟」社群發文那格改不做",
    "task": "VAC-HOMETOWN-1017, VAC-ZR-UK-1017",
    "kind": "text"
   },
   {
    "path": "docs/story_planning/AA_210_大二到大四跨年_16週制.md",
-   "sha": "d5cf5589",
+   "sha": "b4e48e0d",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（第②級一般日常事件，照 AA_197 1-5 已批准的方向；D100：台詞歸 AA，含可昕）；第 5 節 2026-10-18 對照現行設定更正，以第 5 節為準；9c641efa 補阿凱一句（1-5）；28ac4ea3 補 5-5（回 LAWWW 三個缺口）；d5cf5589 補 5-6（大三合照、零點旁白）",
+   "approvedBy": "AA-C 定稿（第②級一般日常事件，照 AA_197 1-5 已批准的方向；D100：台詞歸 AA，含可昕）；第 5 節 2026-10-18 對照現行設定更正，以第 5 節為準；9c641efa 補阿凱一句（1-5）；28ac4ea3 補 5-5（回 LAWWW 三個缺口）；d5cf5589 補 5-6（大三合照、零點旁白）；b4e48e0d 補 5-7（大四沒去的照片、芷若跨年全文、子晴那行刪）",
    "task": "HOL-NYE-Y2, HOL-NYE-Y3, HOL-NYE-Y4",
    "kind": "text"
   }
