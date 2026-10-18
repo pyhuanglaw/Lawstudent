@@ -17748,7 +17748,7 @@
    "title": "路人常有兩個一模一樣穿搭的人在附近或旁邊（X18）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -17762,7 +17762,7 @@
    },
    "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
    "authorized": "使用者直接要求",
-   "next": "v9.10.1"
+   "next": "game3d.js GM.dedupAnon＋character3d.js anonKeyOf／anonPool.alt／reAnon：4 m 內同一層有兩個無名路人用同一個底模，換成附近沒人用、已下載的那個（記在自己的 buildSpec.anonKey）；平常只換畫面外的人（每 1.5 秒），換區域黑幕裡全部換。tests/anon_dedup_unit.js（修改前沒有 dedupAnon）。池子照舊 4 女 4 男（記憶體）。待 BB-C 瀏覽器：校園椰林大道、博雅 101、公館走一圈看旁邊有沒有一樣的人"
   },
   {
    "id": "BUG-BENCH-OCC-1018",
@@ -17921,6 +17921,90 @@
    "source": "BB-C 2026-10-18 測試報告",
    "authorized": "bug 修正（D85）",
    "next": "原因：上課開始時 syncRoom(full) 把座位坐滿，排隊進教室的人群（crowd3d 'seat' 群組）找不到空位就全部走到門口那一點疊在一起。crowd3d.js：沒有空位改走回 spot.road 離開；走到了還在畫面裡 3 秒以上的改走 road，走不到就移除。tests/indoor_crowd_unit、crowd_unit、teach_class_unit、boya_lecture_unit 通過。待 BB-C 重拍博雅101"
+  },
+  {
+   "id": "BUG-NO-CLERK-1018",
+   "title": "每間店都要有店員（使用者 10-18「一盞也沒有店員？任何一個店都要有店員」，BB-C 轉）：溫州街一盞／半熟／影印、美國兩間超市、118 巷九間店門口或窗口",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次進溫州街的店",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18（BB-C 06:23 轉）",
+   "authorized": "使用者直接要求",
+   "next": "照 story3d.js 的 clerk()（櫃台後面、面向客人）；wzshops3d.js 三家、us3d.js／exchange3d.js 兩間超市、lane118 店門口。做好給 BB-C SHA 每間拍"
+  },
+  {
+   "id": "AA293-KX-BRIDGE-1018",
+   "title": "AA_293：可昕交往前六段過場 T1～T6、可昕不加社團、劇社拿掉（刪 ev_y0_c1、ev_y0_e18）、E08 兩句旁白、10/15 她留下來 KX_STAYED、E10 邀約 23:45",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0",
+    "week": 1,
+    "earliest": "經濟系 9/18～10/17",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 81d42881（AA_293、AA_292、ladder_bb_y0s1.json；DL-AA-81d42881）",
+   "authorized": "使用者選擇題（AA_293 第 1 節）＋D102",
+   "next": "白名單加 DL-AA-81d42881 三檔、重新匯入階梯；events.js E07 三句、E07 沒去的私訊、刪 c1／e18（econff3d.js 第 20 項、17:30 邀約、22:00 企鵝、11/28 私訊、Y0_EXTRA）、手機池 y0_kx_laugh；econff3d.js 加 T1～T6；E08 旁白；KX_STAYED；E10 去了聚會改 23:45"
+  },
+  {
+   "id": "AA294-SKIPCLASS-1018",
+   "title": "AA_294：翹課會錯過的劇情處理表（①不能翹：民總劇情課、所有考試日；②改到下一堂（通用規則）；③沒去就沒有＋你不在版本）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "開學第二天民總",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C b3ec8820（AA_294）；使用者 10-18「我有時候翹課根本跳過劇情」（X23）",
+   "authorized": "使用者回報＋AA 定稿",
+   "next": "①時間到直接帶去；②weeks 到了沒演＝延到下一次出席同一門課（到表上期限），ev_bohan_score 第 15 週、note1 英文第 12 週、ev_econ_hallway 第一次出席、ev_sk03_lunch 改週五 12～13 活大、沛珊桌子第 14 週再錯過走信箱版；③兩處「你不在」版本"
+  },
+  {
+   "id": "UX-GROUP-NOTICE-1018",
+   "title": "群組活動公告只寫時間地點、玩家不知道怎麼去（AA-C 轉使用者回報：河濱烤肉有看到通知但不知道怎麼去）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0",
+    "week": 3,
+    "earliest": "9/16 經濟系群組公告",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 06:23（AA_293 第 4 點）",
+   "authorized": "系統提示字（LAWWW 可寫，D79 第 3 點）",
+   "next": "經濟系：事件接事件自動帶去；法律系那幾年同類群組活動公告後加系統提示「當天會有人私訊你」"
   }
  ]
 }
