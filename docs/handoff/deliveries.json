@@ -7796,6 +7796,32 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-C 04:1x：tools/portraits/matte_gray.py --noscale 去背 → assets/portraits/npc_fangyt/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；頭髮 neutral 比較捲、smile 比較順，臉、膚色、衣服一樣，看得出是同一個人，不重做（D99）"
+  },
+  {
+   "id": "DL-BB-8f9b73b9",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "8f9b73b9",
+   "what": "方奕廷 laugh（和 smile ab53b972 同一組）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:3x：tools/portraits/matte_gray.py --noscale 去背、重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-6ea1588f",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "6ea1588f",
+   "what": "林教授 smile、周教授 smile、宥辰 smile／laugh（BB_219 第 1 節現有人物缺的 33 張到齊）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:3x：tools/portraits/matte_gray.py --noscale 去背、重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；順手修了林教授原本 neutral 兩腿中間的淺色底和腳下的影子（舊檔去背沒去乾淨）"
   }
  ],
  "ignored": [

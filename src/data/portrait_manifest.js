@@ -43,7 +43,9 @@ const PORTRAIT_FILES={
  },
  "classmate_youchen": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile"
   ]
  },
  "econ_jiahao": {
@@ -176,6 +178,7 @@ const PORTRAIT_FILES={
  },
  "npc_fangyt": {
   "campus": [
+   "laugh",
    "neutral",
    "smile"
   ]
@@ -192,12 +195,14 @@ const PORTRAIT_FILES={
  },
  "prof_lin": {
   "campus": [
-   "neutral"
+   "neutral",
+   "smile"
   ]
  },
  "prof_zhou": {
   "campus": [
-   "neutral"
+   "neutral",
+   "smile"
   ]
  },
  "yu": {
