@@ -46,9 +46,9 @@ async def main():
             if g['key'] != last_key:
                 last_key = g['key']; print('  [%6.1f 分] %s' % ((time.time()-t0)/60, json.dumps(g, ensure_ascii=False)), flush=True)
                 if g['key'][:7] not in months: months.add(g['key'][:7]); await run.shot(pg, 'month_' + g['key'])
-            card = await pg.evaluate("(()=>{ const e=document.getElementById('title3'); return e&&getComputedStyle(e).opacity>0.5?e.innerText.replace(/\\n/g,' ｜ '):''; })()")
-            if card and card != last_card: last_card = card; cards.append(card); print('   【日期卡】', card, flush=True)
-            if not card: last_card = ''
+            await pg.evaluate("(()=>{ if(GAME.titleCard&&!GAME.titleCard.__bb){ const o=GAME.titleCard; const f=function(t,s,ms){ (window.__cards=window.__cards||[]).push((CALENDAR.dateOf(GAME.G.day).key)+'｜'+t+(s?'｜'+s:'')); return o.apply(this,arguments); }; f.__bb=1; GAME.titleCard=f; } })()")
+            newc = await pg.evaluate("(()=>{ const a=window.__cards||[]; window.__cards=[]; return a; })()")
+            for card in newc: cards.append(card); print('   【日期卡】', card, flush=True)
             s = await L.state(pg)
             if s['dlg'] and not in_scene:
                 in_scene = True; stops.append((g['key'], g['h'], g['zone'], s['dtext'][:36])); print('   ＊停點 %d：%s %.2f %s「%s」' % (len(stops), g['key'], g['h'], g['zone'], s['dtext'][:36]), flush=True)
@@ -74,12 +74,14 @@ async def main():
                 if await phone_open(pg) and not s['dlg']:
                     pend0 = await pg.evaluate(PENDING)
                     phone_auto += 1; print('   手機自己打開了（待回 %d 則）' % len(pend0), flush=True)
+                    if pend0:   # 手機自己打開又有要回的：玩家會直接回（遊戲在等這則回覆，所以 busy）
+                        a = await answer_phone(pg, cdp, pend0[0]); answered += 1; print('   （自動打開的手機）回覆', pend0[0], a, flush=True); continue
                     if not pend0:
                         await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700)
                         if await phone_open(pg): problems.append('手機打開以後關不掉：%s %.2f' % (g['key'], g['h'])); await run.shot(pg, 'phone_stuck_%d' % phone_auto)
                         continue
                 pend = await pg.evaluate(PENDING)
-                if pend and (s['choices'] or not s['busy']):
+                if pend and (s['choices'] or not s['busy'] or await phone_open(pg)):
                     a = await answer_phone(pg, cdp, pend[0]); answered += 1; print('   手機回覆', pend[0], a, flush=True); continue
             if s['choices']:
                 opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")

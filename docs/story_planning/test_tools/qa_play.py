@@ -66,7 +66,7 @@ async def main():
                 if await phone_open(pg): phone_closed += 1; await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); continue
             else:
                 pend = await pg.evaluate(PENDING)
-                if pend and (s['choices'] or not s['busy']):
+                if pend and (s['choices'] or not s['busy'] or await phone_open(pg)):
                     a = await answer_phone(pg, cdp, pend[0]); answered += 1; print('   手機回覆', pend[0], a, flush=True); continue
             if s['choices']:
                 opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
