@@ -16481,6 +16481,26 @@
     "receiver": "LAWWW-C",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA256-VA09-VA10",
+   "title": "寒暑假 VA-09 芯慈大二暑假在事務所（四則訊息＋一次午餐）、VA-10 麵店團出國香港（群組揪、三天兩夜三場、回來的群組訊息）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "prio": "P1",
+   "first": {
+    "term": "Y2S2",
+    "week": 0,
+    "earliest": "大二暑假 2027-07-05（芯慈第一則）、2027-07-20（麵店團揪香港）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "src": "AA_256（AA-C 71b184ba，白名單已列）",
+   "sha": "29cd401f",
+   "next": "BB-C 瀏覽器：[前置] 讀檔 2027-07-14 21:00（和芯慈 FAMILIAR、在麵店團群組）→ 回「要不要一起吃午餐？」→ 隔天 12:00 午餐；7/20 21:00 回「我也去。」→ 8/25 出發三場 → 8/28 群組"
   }
  ]
 }
