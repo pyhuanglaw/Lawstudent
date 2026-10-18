@@ -18516,6 +18516,34 @@
     "acceptance": "衝刺班有當面報名的場景、是同一家補習班",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BG-HOME-1018",
+   "title": "臺北的家只有餐桌、很醜（使用者 10-18：「台北的家為什麼只有餐桌？這麼醜的家不如我生 CG，三房兩廳都能生 CG」）：BB 跟使用者要三房兩廳的 2D 背景，LAWWW 照時段／活動換背景",
+   "area": "v0",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "第一次回臺北的家",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:2x",
+   "authorized": "使用者直接要求（D97、D100）",
+   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話；D97",
+    "acceptance": "home_<房間>_<day|night>.webp 一套、風格一致",
+    "ack": "SENT"
+   }
   }
  ]
 }
