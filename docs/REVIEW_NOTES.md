@@ -1,5 +1,7 @@
 # REVIEW_NOTES — 目前最不滿意／最擔心的 10 個技術問題
 
+> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7 時期的十個技術疑慮，有些已經解決（例：人物已改 VRoid VRM）。現況以 `CLAUDE.md`「目前狀態」和 `docs/HANDOFF_GAP_MATRIX.md` 為準。
+
 1. **人物資產大多仍是 placeholder**。兩條 pipeline 都已驗證：rigged GLB（RPM 範例＋Mixamo 重定向 v2）給主角、VRM（three-vrm 自 TS 原始碼打包＋官方 Mixamo→humanoid 作法）給小安；但只有這兩個模型可用（環境無法下載其他人物），其他四位女主角與所有 NPC 仍是程序化人物。VRM 實例用 pool（預先 parse 2 個），同時出現超過 2 個同模型人物會退回 placeholder。要正式解決需要外部提供依 Character Bible 製作的 VRM。
 2. **三種人物來源並存**（legacy `spawnNPC`、`spawnCharacter`、extras）與 id 別名（an↔heroine_01 等）。第一、二天劇情是程式碼，之後的人物是資料驅動；同一人（小安）在兩個系統裡的日程與狀態可能不一致。應把 legacy 劇情改寫成事件資料並移除別名。
 3. **draw call 與三角形數**：人物每個約 40 mesh（無 skinning，層級合併只能合併髮型），教室同畫面 12 人≈ 500 draw call；low-poly-tree 9.4k 三角形一棵（已限 14 棵）。真機（尤其中階 Android）表現未知，只在 SwiftShader 測過。

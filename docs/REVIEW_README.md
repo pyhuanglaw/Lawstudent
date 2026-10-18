@@ -1,5 +1,7 @@
 # 《法條之外：台灣法律人生》SOURCE REVIEW README
 
+> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7／原型 v2（2026-09-27）時期的系統總覽，很多段落已經改變（人物改 VRoid VRM、多樓層、16 週日曆、經濟系開局、寒暑假等）。技術架構可以參考，現況以 `CLAUDE.md` 和 `docs/RELEASES.md` 為準。
+
 版本：3D×ADV 原型 v2（2026-09-27）。本文件給另一位工程師／AI 做 code / architecture / game-design review 用。
 
 ## A. 專案目前如何啟動
