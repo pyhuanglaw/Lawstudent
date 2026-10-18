@@ -131,7 +131,7 @@ const Z3 = (function(){
       if(ck.surfs&&ck.surfs.length){ if(Math.abs(sn)>1e-6) console.warn('ck.surfs：旋轉過的建築還不支援高度'); else for(const s0 of ck.surfs){ const s1=Object.assign({},s0,{x0:x+s0.x0,x1:x+s0.x1,z0:z+s0.z0,z1:z+s0.z1}); nav.addSurf(s1);
           const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dz=s1.z1-s1.z0; const m=new THREE.Mesh(new THREE.PlaneGeometry(s1.x1-s1.x0,Math.hypot(dz,ya-yb)),new THREE.MeshBasicMaterial({visible:false})); m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.rotation.x=-Math.PI/2+Math.atan2(ya-yb,dz); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); } } };
     // 男一舍：宿舍沒有拱廊——淺灰米色面磚、方窗、平屋頂、一樓正面中間是大門＋小平頂門廊（佔地、門口位置和舊版相同）
-    const dormB=CK.hall({w:36,d:14,floors:5,gfh:3.6,fh:3.1,wall:'#cfc6b4',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'男一舍'}); ckPlace(dormB,20,68,Math.PI); buildings.push(dormB); for(const x of [-4,44]){ const b=TREE(1.2); place(g,b,x,60,0); nav.blockCircle(x,60,0.9); }
+    const dormB=CK.hall({w:36,d:14,floors:4,gfh:3.6,fh:3.1,wall:'#cfc6b4',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'男一舍'}); ckPlace(dormB,20,68,Math.PI); buildings.push(dormB); const m1GLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_male1']; dormB.userData.ckTag='male1'; if(m1GLB) dormB.userData.dyn=true;   /* 男一舍的 Blender 正式模型（LAWWW2-C campus_male1.py，ART-EXT-M1）：只換外觀；地上 4 層照住宿組資料（套件原本 5 層，一起改成 4 層，鏡頭碰撞跟著變矮）；導航、門口照舊 */ for(const x of [-4,44]){ const b=TREE(1.2); place(g,b,x,60,0); nav.blockCircle(x,60,0.9); }
     // ---- 校門（西端）----
     // v9.3 第十四批：CK.gate（面磚門柱＋石材、打開的鑄鐵門、矮牆、校名石牌、門房在校內）；校外（本地 +z）朝西。開口寬度和舊版相同
     const gate=CK.gate(); placeGate(E,g,nav,gate,-124,0,-Math.PI/2);
@@ -388,7 +388,7 @@ const Z3 = (function(){
     // 燈光光暈
     for(const l of lamps){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffd88a,transparent:true,opacity:0.55,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(3,3,1); glow.position.set(0,3.9,0.75); l.add(glow); glow.visible=false; E.lampGlows.push(glow); const pool=new THREE.Mesh(new THREE.CircleGeometry(4.2,16),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffd08a,transparent:true,opacity:0.34,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(0,0.03,0.75); l.add(pool); pool.visible=false; E.lampGlows.push(pool); }
     /* 大一女舍 A、B 門廊的吸頂燈（LAWWW2 6f98244 加大燈罩）：晚上燈罩下一團光暈、門口地上一圈光（和路燈同一套開關 E.lampGlows；位置＝campus_freshman.py 門廊天花板中心） */
-    if(!/[?&]noporch\b/.test(location.search||'')) for(const [px,pz] of [[-108,61],[-78,59]]){ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe2a8,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.8,1.8,1); glow.position.set(px,3.15,pz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
+    if(!/[?&]noporch\b/.test(location.search||'')) for(const [px,pz] of [[-108,61],[-78,59]].concat(m1GLB?[[20,60]]:[]))   /* 男一舍（ART-EXT-M1）門廊的吸頂燈：campus_male1.py 門廊天花板中心 */{ const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex(),color:0xffe2a8,transparent:true,opacity:0.6,depthWrite:false,blending:THREE.AdditiveBlending})); glow.scale.set(1.8,1.8,1); glow.position.set(px,3.15,pz); g.add(glow); glow.visible=false; E.lampGlows.push(glow);
       for(const [y,dz,r,op] of [[0.112,0,1.7,0.85],[0.035,-2.4,2.8,0.6]]){ const pool=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffe0a8,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(px,y,pz+dz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); } }   /* 門廊地坪（高 10 cm）上一圈、門口地上一圈 */
     // 出口
     const exits=[{x:-126,z:0,r:3,to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0},label:'走出校門'},{x:34,z:-126.6,r:1.8,to:'lane118',spawn:{x:0,z:47.6,yaw:Math.PI},label:'從後門出去（118 巷）'},   /* 霖澤館穿堂後面的小廣場＝法學院的後門（辛亥路那一側；D46、使用者 10-18 02:2x）*/{x:34+linze.userData.ck.lobby.x,z:-112+linze.userData.ck.lobby.z,r:1.5,to:'linze',spawn:Object.assign({},LINZE_LAYOUT.entrance.spawn),label:'進入霖澤館',door:true},{x:93.8,z:-100.6,r:1.6,to:'wancai',spawn:{x:0,z:5,yaw:Math.PI},label:'進入萬才館',door:true,lv:0,y:0},(typeof LIBRARY_LAYOUT!=='undefined'?{x:86.4,z:0,r:3.8,to:'library_hall',spawn:Object.assign({},LIBRARY_LAYOUT.entrance.spawn),label:'進入總圖書館',door:true}:{x:86.4,z:0,r:3.8,to:'library',spawn:{x:0,z:7,yaw:Math.PI},label:'進入總圖書館',door:true}),(typeof DORM_LAYOUT!=='undefined'?{x:20,z:59.6,r:2.6,to:'dorm_hall',spawn:Object.assign({},DORM_LAYOUT.entrance.spawn),label:'回宿舍',door:true}:{x:20,z:59.6,r:2.6,to:'dorm',spawn:{x:0,z:2.4,yaw:Math.PI},label:'回宿舍',door:true})];
@@ -413,6 +413,7 @@ const Z3 = (function(){
     if(fairGLB) fairGLB(zone);   /* 社團博覽會的帳篷（clubFair）*/
     if(bellGLB) ASSETS.loadOne('bldg.campus_bell').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_bell_glb','bell'); }).catch(e=>console.warn('傅鐘正式模型載入失敗，用套件的外觀',e));
     if(gtGLB) ASSETS.loadOne('bldg.campus_gongtong').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_gongtong_glb','gongtong'); for(const [px,pz] of GT_PALMS) nav.blockCircle(px,pz,0.45); nav._cm=null; }   /* 半徑 0.45（原本 0.35：(6.5,19.0) 剛好在四格的交角，格子中心都在 0.354 m 外，一格都沒擋到、走得進樹幹；LAWWW2 2026-10-14 campus_glb_integration）*/).catch(e=>console.warn('共同教學館正式模型載入失敗，用套件的外觀',e));
+    if(m1GLB) ASSETS.loadOne('bldg.campus_male1').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_male1_glb','male1'); }).catch(e=>console.warn('男一舍正式模型載入失敗，用套件的外觀',e));   /* 男一舍（ART-EXT-M1）*/
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.campus_freshman']) ASSETS.loadOne('bldg.campus_freshman').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_freshman_glb','freshman'); }).catch(e=>console.warn('大一女舍正式模型載入失敗，用套件的外觀',e));
     if(admGLB) ASSETS.loadOne('bldg.campus_admin').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_admin_glb','admin'); }).catch(e=>console.warn('行政大樓正式模型載入失敗，用套件的外觀',e));
     if(artsGLB) ASSETS.loadOne('bldg.campus_arts').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ckTag','campus_arts_glb','arts'); }).catch(e=>console.warn('文學院正式模型載入失敗，用套件的外觀',e));
@@ -424,7 +425,7 @@ const Z3 = (function(){
   // 窗玻璃、大廳玻璃、穿堂嵌燈登記成夜間會亮（材質名稱約定見 tools/blender/linze_exterior.py）
   function attachExterior(b,root){ for(const m of b.children) if(m.isMesh&&!m.userData.keepWithFormal) m.visible=false;
     const NIGHT={ext_glass_lit:[0xffd9a0,0.75,0],ext_glass_lobby:[0xffdcae,0.8,0],ext_downlight:[0xfff3dc,1.4,0.25]};
-    root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn&&!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); } if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
+    root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn){ if(!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); } TK.addNight(mt,nn[1],nn[2]); }   /* 夜間每次接上都要重新登記（見 attachWenzhouModel 的說明）*/ if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
     b.add(root); b.userData.formal=true; }
   /* ---- 社團博覽會的帳篷（LAWWW2 479b7fc：club_fair.glb，九頂；配置照 docs/art-rebuild/second_ai/VISUAL_REVIEW.md 28.1，LAWWW 2026-10-14 採用，美術待使用者驗收）----
      只在博覽會那兩天（activities.js 的 club_expo_y1s1.dates）擺：大道南側一排、帳篷中心 z=15.1、面向北（轉 π）；服務台在原本公告欄的位置（博覽會的互動點 (-13.5,13.6) 不動），法服在原本招生攤位的位置。
@@ -858,6 +859,7 @@ const Z3 = (function(){
       if(o.name==='SIGN_FACE'){ cafeFacePaint(o,cafeSignTex(o.userData),1.1,0.15); return; }
       if(o.name.indexOf('ABOARD_FACE')===0){ cafeFacePaint(o,cafeChalkTex(o.userData.aboard||[],256,336,{cup:true,top:0.15}),null); return; }
       if(o.name==='MENU_FACE'){ cafeFacePaint(o,cafeMenuTex(o.userData.menu||[]),0.35,0.12); return; }
+      if(mt&&mt.userData.cafeReg){ const n=CAFE_NIGHT[nm]; if(n) TK.addNight(mt,n[1],n[2]); }   /* 夜間每次接上都要重新登記（見 attachWenzhouModel 的說明）*/
       if(!mt||mt.userData.cafeReg) return; mt.userData.cafeReg=true;
       const n=CAFE_NIGHT[nm]; if(n){ mt.emissive=new THREE.Color(n[0]); TK.addNight(mt,n[1],n[2]); }
       const b=CAFE_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
@@ -1030,6 +1032,10 @@ const Z3 = (function(){
         if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
         const t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.repeat.set(Math.max(1,Math.round(wM/hM/2)),1); t.needsUpdate=true; cafeFacePaint(o,t,1.15,0.6); return; }
       if(mt&&(nm==='wz_road'||/^wz_road_(main|ns|side)$/.test(nm))){ if(mt.map){ mt.map.userData.asphalt=true; mt.map.anisotropy=Math.min(8,E.renderer.capabilities.getMaxAnisotropy()); mt.map.needsUpdate=true; } if(E.roadMats&&E.roadMats.indexOf(mt)<0) E.roadMats.push(mt); }   /* 溫州街的正式路面（LAWWW2-B 精修第 3 批 f0c2bfec，wz_props.glb：主巷、Café 前南北向路、三條側巷）：和套件的柏油一樣入夜變暗；斜看不糊（anisotropy）。放在 wzReg 前面：第二次進溫州街時 E.roadMats 是新的 */
+      /* 夜間的登記每次接上都要重做（LAWWW2-C 2026-10-18，男一舍遊戲內截圖）：正式模型的材質和 ASSETS 的快取共用（c.scene.clone(true) 不複製材質），
+         離開區域時 disposeGroup → TK.forget 會把它們從夜間清單拿掉；wzReg 擋住的話第二次進來就不會再登記——窗、燈的亮度停在第一次接上時的樣子
+         （白天第一次進來：之後天黑窗也不亮；晚上第一次進來：白天窗也亮著）。TK.addNight 自己會去重複 */
+      if(mt&&mt.userData.wzReg){ const nn=WZ_NIGHT[nm]; if(nn) TK.addNight(mt,nn[1],nn[2]); if(nm==='ck_bell_wash') TK.addNight(mt,0.75,0); }
       if(!mt||mt.userData.wzReg) return; mt.userData.wzReg=true;
       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */

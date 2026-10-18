@@ -1,0 +1,11 @@
+{
+ "objects": 8,
+ "unique_meshes": 8,
+ "tris": 10902,
+ "tris_drawn": 10902,
+ "materials": 13,
+ "out": "assets/models/env/second_ai/campus_male1.glb",
+ "bytes": 1030172,
+ "texres": 512,
+ "note": "依文字資料的遊戲化設計（沒有照片）；地上 4 層（住宿組資料；套件是 5 層）；本體、門廊位置照 CK.hall，導航不用改"
+}

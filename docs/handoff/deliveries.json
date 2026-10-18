@@ -7835,6 +7835,32 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-C 04:4x：matte_gray.py --noscale 去背 → assets/portraits/npc_ta_chen/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：三張同一個人、同一套衣服，和 characters.js 的外觀（偏瘦、黑色軟髮、細金屬圓框眼鏡、深灰藍開襟毛衣、白襯衫、深色西裝褲、深棕樂福鞋、深褐側背包、一疊紙）一致；之前沒有立繪的句子改顯示立繪"
+  },
+  {
+   "id": "DL-LAWWW2-a9a77bde",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a9a77bde",
+   "what": "ART-EXT-M1 男一舍外觀 campus_male1.glb（1.1 萬三角形、1.0 MB；地上 4 層）＋campus_male1.diff；另附 night_rereg.diff（正式模型第二次進區域窗燈不跟著天黑）＋檢查腳本",
+   "task": "ART-EXT-M1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 04:3x：兩個 patch 套上（apply 乾淨）、GLB／腳本／貼圖／截圖拿 e0e39091 的；nav_buildings、nav_levels、kit_nav_check ALL PASS；LICENSES 加男一舍"
+  },
+  {
+   "id": "DL-LAWWW2-e0e39091",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e0e39091",
+   "what": "ART-EXT-M1 README 測試補記",
+   "task": "ART-EXT-M1",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 04:3x：兩個 patch 套上（apply 乾淨）、GLB／腳本／貼圖／截圖拿 e0e39091 的；nav_buildings、nav_levels、kit_nav_check ALL PASS；LICENSES 加男一舍"
   }
  ],
  "ignored": [

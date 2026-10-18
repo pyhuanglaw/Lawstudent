@@ -16832,7 +16832,7 @@
    "title": "男一舍外觀（玩家自己的宿舍；校園上目前是 CK 套件方盒）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -16846,7 +16846,7 @@
    },
    "src": "使用者 10-18 02:3x 回答 AA 清查「做好就開」（USER_WANTS X04；10-13「先不開新外觀」解除）",
    "authorized": "使用者 2026-10-18 03:3x 直接對 LAWWW-C：「我看錯，我原本以為只需要改外觀，如果要整個改，那就沒關係就叫他直接改全部改，那四座」",
-   "next": "【03:18 LAWWW2 ACK，開始男一舍；分支最新 53d9ef55（ART-US-SEASON 半成品 WIP）】｜【03:3x 使用者：四座全部改，不限外型】外觀換 Blender；室內本來就是正式模型（dorm_hall.glb、dorm_room4.glb）沿用；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x LAWWW2 03:06 回報：男一舍當時只讀了 zones3d.js 座標、沒有建模型或檔案，沒有 WIP；03:2x 恢復的訊息它下一則會讀到】｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
+   "next": "【04:3x LAWWW-C】a9a77bde＋e0e39091 已整合：campus_male1.diff（manifest、ckTag male1、載入、套件 5→4 層、門廊燈光暈）＋GLB；nav_buildings、nav_levels、kit_nav_check ALL PASS；LICENSES 加一列。待：LAWWW 看遊戲內截圖（建築美術只有使用者能標 ART_APPROVED，READY_FOR_ART_REVIEW）、BB-C 瀏覽器（宿舍門口進出、晚上門廊燈）｜【03:18 LAWWW2 ACK，開始男一舍；分支最新 53d9ef55（ART-US-SEASON 半成品 WIP）】｜【03:3x 使用者：四座全部改，不限外型】外觀換 Blender；室內本來就是正式模型（dorm_hall.glb、dorm_room4.glb）沿用；位置、門口、導航、互動點不動（有改要附），程式版留作備用；順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面；不擋 v9.10。｜【03:2x LAWWW2 03:06 回報：男一舍當時只讀了 zones3d.js 座標、沒有建模型或檔案，沒有 WIP；03:2x 恢復的訊息它下一則會讀到】｜【03:2x 恢復】只換外型（Blender 外觀）；位置、大小、門口、導航阻擋、室內照現在遊戲裡的，套件版留作備用。LAWWW2 先把男一舍 WIP push（03:2x 時遠端還沒有，最後 59a2cd40）。順序 M1 → GATE → TEACH → MRT，在 ART-US-SEASON 前面。",
    "xai": {
     "spec": "USER_WANTS X04；zones3d.js 現在的套件位置（D38 第 3、7 點）",
     "branch": "claude/focused-cray-c9uwvw",
@@ -17430,6 +17430,27 @@
    "source": "BB-C 10-18 03:2x（v9.10 第 2 層瀏覽器測試）",
    "authorized": "D85",
    "next": "原因：開始前 30 分鐘就能坐下、課馬上開始，同學 10 分鐘前才陸續進來（arriveFrac）。修：CLS.attend 開始上課先 syncRoom(full、instant)，所有教室（霖澤館 201、教學館、階梯教室）都一樣；tests/teach_class_unit.js 加一項（修改前 0 人、修改後 16 人）。瀏覽器派 BB-C：經濟系第一週提早 20 分鐘坐下上微積分，對話時教室有同學"
+  },
+  {
+   "id": "BUG-NIGHT-REREG-1018",
+   "title": "正式模型第二次進區域以後，窗和燈不跟著天黑（LAWWW2-C 做男一舍時發現：白天進校園、晚上窗不亮；晚上先進來、白天窗還亮著）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次在校園待到天黑",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2-C 10-18 04:21（night_rereg.diff＋night_rereg_check.py，e0e39091）",
+   "authorized": "D85",
+   "next": "原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
   }
  ]
 }

@@ -1,0 +1,32 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 4cf0294f..5cba8091 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -424,7 +424,7 @@ const Z3 = (function(){
+   // 窗玻璃、大廳玻璃、穿堂嵌燈登記成夜間會亮（材質名稱約定見 tools/blender/linze_exterior.py）
+   function attachExterior(b,root){ for(const m of b.children) if(m.isMesh&&!m.userData.keepWithFormal) m.visible=false;
+     const NIGHT={ext_glass_lit:[0xffd9a0,0.75,0],ext_glass_lobby:[0xffdcae,0.8,0],ext_downlight:[0xfff3dc,1.4,0.25]};
+-    root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn&&!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); } if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
++    root.traverse(o=>{ if(!o.isMesh) return; o.castShadow=true; o.receiveShadow=true; const mt=o.material, nn=mt&&NIGHT[mt.name]; if(nn){ if(!mt.userData.nightReg){ mt.userData.nightReg=true; mt.emissive=new THREE.Color(nn[0]); } TK.addNight(mt,nn[1],nn[2]); }   /* 夜間每次接上都要重新登記（見 attachWenzhouModel 的說明）*/ if(mt&&mt.name==='ext_ceiling') TK.bounce(mt,0.32,0.5); });   /* 穿堂天花板：地面反射上來的光（套件的穿堂天花板也是這樣做）*/
+     b.add(root); b.userData.formal=true; }
+   /* ---- 社團博覽會的帳篷（LAWWW2 479b7fc：club_fair.glb，九頂；配置照 docs/art-rebuild/second_ai/VISUAL_REVIEW.md 28.1，LAWWW 2026-10-14 採用，美術待使用者驗收）----
+      只在博覽會那兩天（activities.js 的 club_expo_y1s1.dates）擺：大道南側一排、帳篷中心 z=15.1、面向北（轉 π）；服務台在原本公告欄的位置（博覽會的互動點 (-13.5,13.6) 不動），法服在原本招生攤位的位置。
+@@ -858,6 +858,7 @@ const Z3 = (function(){
+       if(o.name==='SIGN_FACE'){ cafeFacePaint(o,cafeSignTex(o.userData),1.1,0.15); return; }
+       if(o.name.indexOf('ABOARD_FACE')===0){ cafeFacePaint(o,cafeChalkTex(o.userData.aboard||[],256,336,{cup:true,top:0.15}),null); return; }
+       if(o.name==='MENU_FACE'){ cafeFacePaint(o,cafeMenuTex(o.userData.menu||[]),0.35,0.12); return; }
++      if(mt&&mt.userData.cafeReg){ const n=CAFE_NIGHT[nm]; if(n) TK.addNight(mt,n[1],n[2]); }   /* 夜間每次接上都要重新登記（見 attachWenzhouModel 的說明）*/
+       if(!mt||mt.userData.cafeReg) return; mt.userData.cafeReg=true;
+       const n=CAFE_NIGHT[nm]; if(n){ mt.emissive=new THREE.Color(n[0]); TK.addNight(mt,n[1],n[2]); }
+       const b=CAFE_BOUNCE[nm]; if(b) TK.bounce(mt,b[0],b[1]);
+@@ -1030,6 +1031,10 @@ const Z3 = (function(){
+         if(o.name.indexOf('VSIGN_FACE_')===0){ cafeFacePaint(o,wzSignTex(ud,wM,hM,true),1.0,0); signFaces.push(o); return; }
+         const t=TK.interiorTex(ud.interior||'cafe').clone(); t.flipY=false; t.wrapS=THREE.RepeatWrapping; t.repeat.set(Math.max(1,Math.round(wM/hM/2)),1); t.needsUpdate=true; cafeFacePaint(o,t,1.15,0.6); return; }
+       if(mt&&(nm==='wz_road'||/^wz_road_(main|ns|side)$/.test(nm))){ if(mt.map){ mt.map.userData.asphalt=true; mt.map.anisotropy=Math.min(8,E.renderer.capabilities.getMaxAnisotropy()); mt.map.needsUpdate=true; } if(E.roadMats&&E.roadMats.indexOf(mt)<0) E.roadMats.push(mt); }   /* 溫州街的正式路面（LAWWW2-B 精修第 3 批 f0c2bfec，wz_props.glb：主巷、Café 前南北向路、三條側巷）：和套件的柏油一樣入夜變暗；斜看不糊（anisotropy）。放在 wzReg 前面：第二次進溫州街時 E.roadMats 是新的 */
++      /* 夜間的登記每次接上都要重做（LAWWW2-C 2026-10-18，男一舍遊戲內截圖）：正式模型的材質和 ASSETS 的快取共用（c.scene.clone(true) 不複製材質），
++         離開區域時 disposeGroup → TK.forget 會把它們從夜間清單拿掉；wzReg 擋住的話第二次進來就不會再登記——窗、燈的亮度停在第一次接上時的樣子
++         （白天第一次進來：之後天黑窗也不亮；晚上第一次進來：白天窗也亮著）。TK.addNight 自己會去重複 */
++      if(mt&&mt.userData.wzReg){ const nn=WZ_NIGHT[nm]; if(nn) TK.addNight(mt,nn[1],nn[2]); if(nm==='ck_bell_wash') TK.addNight(mt,0.75,0); }
+       if(!mt||mt.userData.wzReg) return; mt.userData.wzReg=true;
+       const nn=WZ_NIGHT[nm]; if(nn){ mt.emissive=new THREE.Color(nn[0]); TK.addNight(mt,nn[1],nn[2]); }
+       if((nm==='ck_glass'||nm==='ck_pav_dark')&&mt.emissiveMap){ const t=mt.emissiveMap; t.generateMipmaps=false; t.minFilter=THREE.LinearFilter; t.needsUpdate=true; }   /* 校園地標的玻璃：亮燈、沒亮燈的窗同一個材質，自發光貼圖左半黑、右半燈光（campus_hall.py）；不用 mipmap，遠處左右兩半才不會混在一起（沒亮燈的窗發光） */
