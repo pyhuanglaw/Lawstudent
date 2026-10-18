@@ -108,7 +108,12 @@ const DM3=(function(){
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.16),new THREE.MeshBasicMaterial({map:TK.signTex(d.plate,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,1.85,0.08); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
       return p; };
     const H=homeOf(typeof GAME!=='undefined'&&GAME.G);
-    for(const d of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d.id===H.rep) continue; const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
+    /* 同一層的門牌照自己房間的號碼排（2026-10-18 使用者：「同一層樓為什麼不是同一個號碼開頭？我經濟系宿舍 4 開頭、對面 2 開頭」）：
+       自己的房號開頭和那一層原本的開頭（一樓 1、二樓 2）不一樣時（經濟系 412、大二 312），那一層的門牌整排平移——
+       經濟系 410～417（412 在原本 203 的位置）、大二 309～316；大一 203、大三 218、大四 105 照舊 */
+    const base=+(H.rep?((L.doors.find(q=>q.id===H.rep)||{}).plate||'203'):'203'), hn=+H.plate, shift=String(hn)[0]!==String(base)[0]?hn-base:0;
+    const ren=d=>{ if(!shift||(d.lv|0)!==(H.lv|0)||!/^\d{3}$/.test(d.plate||'')) return d; const np=String(+d.plate+shift), rp=t=>typeof t==='string'?t.split(d.plate).join(np):t; return Object.assign({},d,{plate:np,label:rp(d.label),closed:rp(d.closed)}); };
+    for(const d0 of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d0.id===H.rep) continue; const d=ren(d0); const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
     one({x:H.x,lv:H.lv,side:'N',plate:H.plate},true);
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
     { const y=H.lv?Y1:0, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(H.lv?fb1:fb0); } }

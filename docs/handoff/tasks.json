@@ -17830,6 +17830,27 @@
    "source": "BB-C 10-18 05:55",
    "authorized": "D85",
    "next": "story3d.js toLaw 清還沒去的約時留下 y0_e37；私訊已發、約不見了（舊存檔）就補排。tests/v0_tolaw_unit.js 3b（修改前失敗）。待 BB-C 重跑 e37_probe（flow_v0_home 的 E37 檢查要改成看 8/29 轉完以後 y0_e37 還在，或跑到 8/30 晚上）"
+  },
+  {
+   "id": "BUG-DORM-PLATES-1018",
+   "title": "宿舍同一層門牌開頭不一樣：經濟系自己 412、對面 2 開頭（使用者 10-18 06:1x）；大二 312 也一樣",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一晚宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:1x",
+   "authorized": "使用者直接要求",
+   "next": "dorm3d.js：自己的房號開頭和那一層原本的不一樣時，那一層的門牌整排平移（經濟系 410～417、大二 309～316；大一、大三、大四照舊）。tests/nav_buildings_unit.js 加兩項。待 BB-C 瀏覽器"
   }
  ]
 }
