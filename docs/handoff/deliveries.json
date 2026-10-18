@@ -8342,6 +8342,32 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "us_campus 區域還沒接（美國交換第三優先、排在 v9.10.1 發布後）；接的時候關城市遠景剪影"
+  },
+  {
+   "id": "DL-AA-1ab0a39f",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "1ab0a39f",
+   "what": "AA_305 其他人物逐場確認（經濟系那一年）＋階梯 y0s1／y0s2（阿勳不講冷笑話）",
+   "task": "AA305-OTHERS-1018",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "分批整合中：bd64f560 第 5～7、10 節＋階梯；第 1～4、8、9 節子代理在換"
+  },
+  {
+   "id": "DL-AA-acb50d1d",
+   "date": "2026-10-18",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "acb50d1d",
+   "what": "日期卡 2/16～4/23「兩個人會走去巷口吃一碗豆花」（AA_304 第 9 列，使用者選擇題：不比較）",
+   "task": "AA304-QA2-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "AA 直接推 RULE_SOURCE；df01b3a2 合併"
   }
  ],
  "ignored": [
