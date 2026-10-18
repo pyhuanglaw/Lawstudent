@@ -6709,7 +6709,7 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "暫停",
    "next": "【02:4x 使用者 10-18 02:3x「美國校門前的主街：不需要」：第一階段 Kirkwood 主街（us_street.glb、1f488eb9）不接；這一項只剩法學院前的校園街道（1e6987cb）】｜【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
@@ -6730,7 +6730,11 @@
     "spec": "場景施工表（總表第 14 節）",
     "acceptance": "同 SCN-US-01",
     "ack": "SENT"
-   }
+   },
+   "pausedReason": "LAWWW2-C 05:46：IU 版（SCN-US-IU-1018，使用者 03:1x）會換配置（出生點、路線、互動點），1e6987cb 第二版先不接，等 IU 版一起接（layout key 沿用 spawn_bus／spawn_class_out／spawn_library_out／bus／class／library／gate，接線照 layout 讀）",
+   "resumeWhen": "LAWWW2 交 SCN-US-IU 版",
+   "pausedBy": "LAWWW-C 10-18 05:5x（LAWWW2 回覆）",
+   "recheckOn": "2026-10-25"
   },
   {
    "id": "SCN-US-2D",
@@ -16749,7 +16753,7 @@
     "confirmed": true
    },
    "src": "使用者 2026-10-18 01:0x 直接給 LAWWW2-C 照片（LAWWW2 分支 HANDOFF.md，bdc24c3c）；LAWWW-C 排在 SCN-US-02 之後、ART-US-SEASON 之前",
-   "next": "【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
+   "next": "【05:5x】入口＝us_campus 的 interact「library」（法學院同一排台階下、「進教室」東邊；IU 版也叫 library），出來 spawn_library_out；和 SCN-US-IU 一起接｜【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
    "xai": {
     "spec": "使用者照片（不進 repo）＋LAWWW2 HANDOFF 的文字描述",
     "branch": "claude/focused-cray-c9uwvw",
@@ -17618,13 +17622,13 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "v9.10.1",
+   "next": "LAWWW2 05:46 ACK，排在 TEACH 室內前面、現在做",
    "xai": {
     "spec": "使用者 10-18 05:3x：小語還是舊人物、紅褲子很醜；照 characters.js 的小語設定和立繪（assets/portraits/yu/campus）做新的 3D",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "遊戲內截圖和立繪一致；LAWWW 驗收（D100a）",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -17709,13 +17713,13 @@
    },
    "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
    "authorized": "使用者直接要求",
-   "next": "LAWWW2 排在 ART-YU-3D 之後",
+   "next": "LAWWW2 05:50 排序：小語 → TEACH 室內 → GG-SHOPS → MRT → SCN-US v3 → US-SEASON",
    "xai": {
     "spec": "使用者 10-18 05:5x：公館的店面從外面看都好醜，希望修改；照 D77 店名用諧音／替代名",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "遊戲內同角度前後截圖；導航、店門互動點不動",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
