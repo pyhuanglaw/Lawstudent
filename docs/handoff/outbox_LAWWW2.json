@@ -690,6 +690,22 @@
    "state": "已交付",
    "remaining": "沒在遊戲裡逐一找閃爍；campus_glb_integration 沒跑；萬才館 --check 沒跑（台階沒動）",
    "next": "LAWWW-C 換兩份 GLB（同檔名）＋腳本（或套 coplanar_dev.diff，對 974ab8a0）"
+  },
+  {
+   "task": "US-CAMPUS-WIRE-1018 美國校園、法學院圖書館接成區域",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "4cee25c8",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_campus_wire.diff",
+    "assets/models/env/second_ai/us_campus.glb",
+    "assets/models/env/second_ai/us_campus.layout.json",
+    "assets/models/env/second_ai/us_lawlib.glb",
+    "assets/models/env/second_ai/us_lawlib.layout.json",
+    "docs/art-rebuild/second_ai/test_shots/us_campus_wire_1018/"
+   ],
+   "state": "已交付（patch 等 LAWWW-C 審）",
+   "remaining": "美國的課 2D、公車字卡時間（交換系統接）、活動中心、圖書館樓上、實機、直向流程",
+   "next": "LAWWW-C 先套 us_season.diff 再套 us_campus_wire.diff（對 40c3ed4f），換資產"
   }
  ]
 }

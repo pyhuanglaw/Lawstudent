@@ -42,10 +42,12 @@
 | ART-LIB-VIEW-1018 總圖窗景 | `ed0196e4` | `library_views.diff`（parallaxViews）＋4 張照片重拍；LAWWW-C 08:28：照 D99 排在 v9.10.1 發布以後整合 |
 | ART-EXT-MRT 捷運公館站出口 | `ca3e14d5` | `gongguan_mrt_exit.glb`＋`gongguan_mrt.diff`（PIT_*／PITMASK 深度遮罩：地面下的電扶梯看得到） |
 | 美國校園紅磚不要橘色（使用者直接說；10:5x 確認新顏色） | `beb5fa54` | `us_campus.glb` 紅磚 `#6b5047`；test_shots/us_oldcampus_1018/brick_before_after.webp |
+| US-CAMPUS-WIRE-1018 美國校園、法學院圖書館接成區域 | `4cee25c8` | `patches/us_campus_wire.diff`（對 40c3ed4f，先套 us_season.diff）；nav_us_unit 74 項、flow_us_campus.py（新）ALL PASS；test_shots/us_campus_wire_1018/ |
 | BUG-COPLANAR-DEV 霖澤館外觀、萬才館外觀疊面 | `3d7f898d` | 572→30、642→12 m²（扣掉窗原型假警報：544→1.9、634→3.8）；霖澤館室內不用換；wancai_glb_integration ALL PASS；test_shots/coplanar_1018/ |
 | ART-US-SEASON 美國篇四季 | `407ec3f5` | `us_community.glb`、`us_campus.glb` 帶四季＋`patches/us_season.diff`（us3d.js＋tests/us_season_unit.js）；test_shots/us_season_1018/ |
 | SCN-US-02 v3 美國校園老校區（空拍圖） | `90c2896e` | `us_campus.glb`＋`us_campus.layout.json` 第 3 版；新組件 `us_oldcampus_kit.py`；導航、出生點、互動點和第 2 版逐項相同；test_shots/us_oldcampus_1018/ |
 
+- **LAWWW-C 11:47 派的第三批**：1. US-CAMPUS-WIRE-1018 交了 `4cee25c8`；2. BUG-WZFLICKER-2（溫州街三處＋公館、118 巷鐵捲門疊面）**進行中**；3. ART-BALCONY-POTS（P3）。BUG-COPLANAR-DEV 已整合 7e287c19；ART-CH-PINYU LAWWW-C 確認取消。
 - **LAWWW-C 11:32 派的第二批**：
   1. SCN-US-IU：回覆「已照空拍圖做完」（90c2896e）；
   2. BUG-COPLANAR-DEV：交了 `3d7f898d`；
