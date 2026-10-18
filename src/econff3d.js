@@ -146,8 +146,8 @@ const ECONFF=(()=>{
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
   S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour;
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
-      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,()=>{}); }catch(e){ console.warn('ECONFF phone',e); }
-        if(PHONE.pending&&PHONE.pending(G).length>p0) return 'msg'; } }
+      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('ECONFF phone',e); }
+        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0) return 'msg'; } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
     setT(G,E,day,h); return 'ok'; };
   async function sitIn(GM,it){ const E=GM.E, P=E.player; const room=it.room&&it.room.room; const seats=((E.zone&&E.zone.seats)||[]).filter(q=>!room||q.room===room);
     const free=seats.filter(q=>!GM.freeSeat||GM.freeSeat(q)===q); const st=free[Math.floor(free.length/2)]||seats[0]; if(st&&GM.sitAt) GM.sitAt(P,st); return {st,free}; }
@@ -200,9 +200,9 @@ const ECONFF=(()=>{
   S.cramCard=function(G){ const R=RH(); if(!R||!R.cram_cards||!S.on2(G)||S.short(G)) return null;   /* AA_300 第 4 節的句子取代 cram_cards */ const r=S.rec(G); r.cramShown=r.cramShown||[];
     const c=R.cram_cards.find(x=>{ const a=DK(x.from), b=DK(x.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; }); if(!c||r.cramShown.includes(c.from)) return null; r.cramShown.push(c.from); return c; };
   const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:e.bg||false}); const sp=s=>s==null?null:s;   /* bg：補習班那幾段（cram_class）*/
-    for(const l of e.lines) out.push({speaker:sp(l.s),text:l.t});
+    for(const l of e.lines) out.push(Object.assign({speaker:sp(l.s),text:l.t},l.e?{expression:l.e}:{}));   /* e：表情（smile／laugh／teasing…，assets/portraits/kexin/campus/ 有的那幾個）；AA 標了才有（使用者 10-18：「可昕不管什麼對話的表情都一樣」，KX-EXPR-1018）*/
     if(e.choice&&e.choice.length){ out.push({choice:e.choice.map((c,i)=>({text:c.t,goto:'c'+i}))}); e.choice.forEach((c,i)=>{ out.push({label:'c'+i}); for(const t of (c.reply||[])) out.push(/^（/.test(t)?{speaker:null,text:t}:{speaker:'kexin',text:t});   /* 回覆：括號開頭＝旁白（含「媽媽把你推出廚房。」這種帶引號的整句照旁白），其他＝可昕 */ if(c.rel) out.push({rel:{kexin:c.rel}}); out.push({goto:'end'}); }); out.push({label:'end'}); }
-    for(const l of (e.after||[])) out.push({speaker:sp(l.s),text:l.t});   /* 選項之後、每個分支都演的（RH-L4 花插在玻璃杯裡；AA_298 1-2 第 3 點）*/
+    for(const l of (e.after||[])) out.push(Object.assign({speaker:sp(l.s),text:l.t},l.e?{expression:l.e}:{}));   /* 選項之後、每個分支都演的（RH-L4 花插在玻璃杯裡；AA_298 1-2 第 3 點）*/
     return out; };
   S.rhPlay=async function(GM,e){ const G=GM.G; const ev={id:'rh_'+e.id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'econff',once:false,background:(typeof HOME!=='undefined'&&HOME.bgNow&&!e.bg&&!(e.place&&!/祐廷家/.test(e.place)))?HOME.bgNow():'dark',dialogue:rhDialogue(e)};
     try{ if(typeof EVENTS!=='undefined') await EVENTS.run(ev,{noTitle:true}); } catch(err){ console.warn('ECONFF rh '+e.id,err); }

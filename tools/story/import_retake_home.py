@@ -24,6 +24,9 @@ for k in ('short', 'long'):
         for l in e['lines'] + e.get('after', []):
             for a, b in FIX.items():
                 if a in (l.get('t') or ''): l['t'] = l['t'].replace(a, b); nfix += 1
+# 使用者拿掉的衝刺班日期卡（2026-10-18 15:4x：「也不需要說後來去請假他就不笑了 這樣好像很兇，但其實沒有」）
+CUT_CARDS = {'衝刺班。後來去請假，她已經不笑了。'}
+d['cram_cards'] = [c for c in (d.get('cram_cards') or []) if c.get('t') not in CUT_CARDS]
 out = {'source': f'白名單 {P}@{APPROVED[P]}', 'range': d.get('range'), 'cram': d.get('cram'), 'cram_cards': d.get('cram_cards'), 'room': d.get('room'), 'short': d['short'], 'long': d['long']}   # cram、cram_cards：衝刺班（AA_298 第 1 節）
 js = '/* 自動產生：tools/story/import_retake_home.py（AA_297 重考期在家的日常；台詞一字不改）*/\n\'use strict\';\nconst RETAKE_HOME=' + json.dumps(out, ensure_ascii=False) + ';\n'
 open(os.path.join(ROOT, 'src/data/retake_home.js'), 'w', encoding='utf-8').write(js)

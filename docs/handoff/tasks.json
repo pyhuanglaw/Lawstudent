@@ -19989,6 +19989,160 @@
    "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
    "authorized": "使用者直接指示",
    "next": "15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md"
+  },
+  {
+   "id": "SKIP-MSG-POP-1018",
+   "title": "跳過（快轉）途中收到任何訊息都停下來、打開那一段，按「跳過」繼續跳；跳完不再只說「收到 N 則」",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系快轉",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「跳過之後會顯示跳過的日期顯示多少簡訊，可是很沒有那種感覺……如果中間顯示簡訊跳出來按它可以繼續跳」",
+   "authorized": "使用者直接指示",
+   "next": "修好：home3d.js y0Jump、econff3d.js jumpTo 有新訊息就停（why=msg → 打開那一段、跳過鈕）；y0Jump 的「收到 N 則」拿掉。v0_home_ff_unit 改成模擬一路按跳過（要回的照樣停）＋新增 3b。瀏覽器還沒驗；法律系放假的快轉照舊（沒改）"
+  },
+  {
+   "id": "CRAM-LEAVE-LAUGH-1018",
+   "title": "衝刺班請假：管理人員要在請過很多次假以後才笑（現在第一次看到請假的場面就笑，莫名其妙）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "6/24 衝刺班請假（RH-C4）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「管理人員衝刺班的我們請假要很多次他才會笑出來，覺得這兩個人一直請假是現在還感覺是第一次請假，他就笑了莫名其妙」",
+   "authorized": "使用者直接指示",
+   "next": "已做：日期卡「衝刺班。後來去請假，她已經不笑了。」拿掉（使用者「也不需要說……這樣好像很兇」，import_retake_home.py CUT_CARDS）。下一班 AA：用選擇題問使用者——前面加幾次請假的場面，還是 RH-C4 改成看得出是第 N 次",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；retake_home RH-C4",
+    "acceptance": "笑出來之前玩家看得到已經請過好幾次",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "KH-SCORE-TIMING-1018",
+   "title": "7/25 成績：收到成績簡訊的當下補習班落點還沒出來（見面一兩個小時後才出來）；客運版可昕不知道成績卻說「騙人，我看得到表」",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-07-25 成績",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「收到成績簡訊的當下補習班落點還沒出出來啦 等我們見面大概一兩個小時才出來」「而且畫面是我還在客運上 他不知道我的成績怎麼會說騙人我看得到表」",
+   "authorized": "使用者直接指示",
+   "next": "下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話；events.js 7/25 成績（ev_y0_kh_*）",
+    "acceptance": "落點出現在見面之後；客運版沒有「看得到表」的矛盾",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "BUG-KH-HOMEFLASH-1018",
+   "title": "7/25 客運版：在高雄走了一整天、可昕問客運幾點，轉場中間跑出臺北的家",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-07-25 客運版",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「我在高雄走了一整天，然後可昕問我客運幾點來找我 轉場中間又跑出台北的家」",
+   "authorized": "一般 bug",
+   "next": "查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
+  },
+  {
+   "id": "KX-EXPR-1018",
+   "title": "可昕不管什麼對話表情都一樣：重考期在家 71 句、閒聊階梯、事件 164 句沒有標表情（立繪其實有 11 種）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系全程",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「我發現可昕不管什麼對話的表情都一樣」",
+   "authorized": "使用者回報",
+   "next": "LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "assets/portraits/kexin/campus/ 的 11 種；retake_home_v1.json 的 e 欄位",
+    "acceptance": "經濟系常見的可昕台詞都有表情",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "CAMP-PORTRAITS-1018",
+   "title": "法律系宿營台上常常沒人：凱文（24 句）、小隊輔（12 句）沒有立繪；旁白時同小隊的人也不在台上",
+   "area": "v1",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "8/22～8/24 法律系迎新宿營",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 15:4x：「法律系宿營至少可以出現人物立繪吧 都只有場景很空耶」",
+   "authorized": "使用者直接指示",
+   "next": "下一班 BB：凱文、小隊輔的立繪照 D97 跟使用者要（有人物：單獨一輪、附參考圖）；LAWWW：宿營各段開頭讓同小隊的人（阿哲、明軒、沛珊…）站在台上（camp_y1.js participants）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話；camp_y1.js",
+    "acceptance": "凱文、小隊輔有立繪；宿營每段台上有人",
+    "ack": "未派"
+   }
   }
  ]
 }
