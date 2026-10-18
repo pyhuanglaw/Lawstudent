@@ -1295,18 +1295,19 @@ const STORY = (function(){
         PHONE.at(G,tue7,F.E10_EVE==='went'?23.75:22.5,F.E10_EVE==='went'?[Object.assign(KX('玩了一整晚。明天去總圖念書吧。期中考快到了。'),{ask:askO})]:[KX('你今天沒來。我們玩了一整晚。'),Object.assign(KX('明天去總圖念書吧。期中考快到了。'),{ask:askO})],'y0_e10_ask'); } }   /* 沒去聚會的玩家換兩則（BB-B 573f8d2c，AA_154 2-1b 第 3 點）*/
       if(tue7!=null&&F.E10_GO==='yes'&&!F.E10_STUDY&&G.day===tue7+1&&G.hour>=18&&G.hour<20.5&&!F.E10_TOAST){ F.E10_TOAST=1; if(GM.toast) GM.toast('19:00 總圖三樓：和可昕念書',4200); } }
     /* ★E12 長頸鹿的尾巴（AA_154 A32）：①11/6（三）17:30 可昕私訊兩則（BB-B 定稿 a38a22c5）＋出發選單「醉月湖 20:00」（OUT goto：帶到湖的南岸步道，19:55 到）；
+       AA_304 第 3 列：她週三體育課 17:20 下課，邀約 17:20、醉月湖 17:45（她 17:30～18:00 在南岸步道）、18:00 還沒到＝18:15 手機版（下面的 20:00／20:30 都照這個往前）；
        ②19:45～20:15 她站在南岸步道（campus），走到她旁邊就演（events.js ev_y0_e12）；③20:15 還沒到＝20:30 手機版：自動打開和她的對話，四句變四則訊息、三個接法一定要選才關得掉（ask.must）；
        ④20:30 在別的事件裡＝事件結束後；睡著＝醒來第一次能操作時（訊息時間照 20:30）*/
     if(S.isEcon(G)){ const wed10=termDay('Y0S1',10,3), K=t=>({th:'p:kexin',from:'kexin',text:t});
-      if(wed10!=null&&G.day===wed10&&G.hour>=17.5&&!PHONE.sent(G,'y0_e12_ask')){ F.E12_ASKED=true;
-        PHONE.at(G,wed10,17.5,[K('今天下課以後，去湖邊坐一下？')],'y0_e12_ask');   /* AA_303 第 2 節 12（取代 BB_104 8-4 的兩則）*/
-        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e12')&&G.hour<20.25) OUT.plan(G,{id:'y0_e12',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:wed10,h:20,late:0.25,place:'醉月湖',title:'醉月湖 20:00',travel:'走過去',travelH:1/6}); }
-      if(wed10!=null&&G.day===wed10&&F.E12_ASKED&&!F.E12_ANSWER&&G.zone==='campus'&&G.hour>=19.75&&G.hour<20.25&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E12 kexin',e); } }
-      if(wed10!=null&&F.E12_ASKED&&!F.E12_ANSWER&&(G.day>wed10||G.hour>=20.25)&&!PHONE.sent(G,'y0_e12_phone')){ F.E12_PHONE=1;
+      if(wed10!=null&&G.day===wed10&&G.hour>=17+20/60&&!PHONE.sent(G,'y0_e12_ask')){ F.E12_ASKED=true;
+        PHONE.at(G,wed10,17+20/60,[K('今天下課以後，去湖邊坐一下？')],'y0_e12_ask');   /* AA_303 第 2 節 12（取代 BB_104 8-4 的兩則）*/
+        if(typeof OUT!=='undefined'&&!OUT.get(G,'y0_e12')&&G.hour<18) OUT.plan(G,{id:'y0_e12',goto:{zone:'campus',x:-34.5,z:-97.2,yaw:Math.PI},early:1/12,day:wed10,h:17.75,late:0.25,place:'醉月湖',title:'醉月湖 17:45',travel:'走過去',travelH:1/6}); }
+      if(wed10!=null&&G.day===wed10&&F.E12_ASKED&&!F.E12_ANSWER&&G.zone==='campus'&&G.hour>=17.5&&G.hour<18&&GM.spawnCharacter&&!(GM.npc&&GM.npc.kexin)){ try{ GM.spawnCharacter('kexin',-36,-98.5,{yaw:Math.PI}); }catch(e){ console.warn('E12 kexin',e); } }
+      if(wed10!=null&&F.E12_ASKED&&!F.E12_ANSWER&&(G.day>wed10||G.hour>=18)&&!PHONE.sent(G,'y0_e12_phone')){ F.E12_PHONE=1;
         const opts=[{t:'「那上課要訂特別的椅子。」',post:'那上課要訂特別的椅子。',set:{E12_ANSWER:'chair'},say:[K('對！所以學校要多一筆預算。你經濟系的，算一下。……喔，你休學了。那我自己算。'),K('……下次要在湖邊回答。這次先算你的。')]},
           {t:'「我要第三隻手，幫妳拿尾巴。」',post:'我要第三隻手，幫妳拿尾巴。',set:{E12_ANSWER:'hand'},say:[K('第三隻手喔。……好，那尾巴給你拿。'),K('……下次要在湖邊回答。這次先算你的。')]},
           {t:'「為什麼不是貓的？」',post:'為什麼不是貓的？',set:{E12_ANSWER:'cat'},say:[K('貓的太常見了。我想要一個大家都沒想過的東西。'),K('……下次要在湖邊回答。這次先算你的。')]}];
-        PHONE.at(G,wed10,20.5,[K('你沒來喔。'),K('沒關係，那我用打的。'),K('我想要一條長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
+        PHONE.at(G,wed10,18.25,[K('你沒來喔。'),K('沒關係，那我用打的。'),K('我想要一條長頸鹿的尾巴。'),K('不是脖子。是尾巴。牠的尾巴尾端有一撮毛，可以趕蒼蠅。'),Object.assign(K('而且我想知道，有尾巴的人怎麼坐椅子。'),{ask:{must:true,opts}})],'y0_e12_phone'); }
       if(F.E12_PHONE===1&&!F.E12_ANSWER&&GM.openPhone&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&(G.msgs||[]).some(m=>m.text==='而且我想知道，有尾巴的人怎麼坐椅子。')){ F.E12_PHONE=2; GM.openPhone('msg','p:kexin'); } }
     /* E25 我想重考法律（3/19 醉月湖）拿掉：告白併進 10/17 車上（AA_224 1-3，ev_y0_e26）*/
     /* ★LIFE-LINE 第 5 組（AA_224 5-0～5-4 @31708531；機制 BB_188 A9-1）：2/13（四）可昕辦休學 → 19:00 公館的水餃店（E27，固定出遊、只有「出發」；過了時間＝那件結束後直接出發；睡著 coreCallAt）
@@ -1358,9 +1359,8 @@ const STORY = (function(){
     if(S.isEcon(G)&&F.dating_kexin){ const d=S.dayOfKey('2025-07-24'), K=t=>({th:'p:kexin',from:'kexin',text:t});
       if(d!=null&&(G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+1&&!PHONE.sent(G,'y0_kh_ask')) PHONE.at(G,d,21,[K('明天公布成績。'),Object.assign(K('你要不要來高雄？我不想一個人查。'),{ask:{id:'y0_kh_ask',until:(d+1)*24+7,opts:[
         {t:'好。我搭早上的客運。',set:{KH_GO:'bus'}},{t:'我在家查就好。',set:{KH_GO:'home'},say:[K('好。')]}]}})],'y0_kh_ask'); }
-    /* 在家版的晚上（AA_272 第 12 節 c0ee2822）：21:00 電話（events.js ev_y0_kh_call*）以後，22:30 她的私訊（沒有選項），記 KH_MADEUP */
-    if(S.isEcon(G)&&F.KH_CALL_DONE&&!F.KH_MADEUP){ const d=S.dayOfKey('2025-07-25'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
-      if(d!=null&&(G.day>d||(G.day===d&&G.hour>=22.5))&&!PHONE.sent(G,'y0_kh_madeup')){ F.KH_MADEUP=true; PHONE.at(G,d,22.5,[K('剛剛那樣，對不起。'),Y('我也是。我不知道要講什麼。'),K('早點睡。不要躺在床上難過。')],'y0_kh_madeup');   /* AA_303 第 2 節 26：「政大也是法律……」「而且政大到臺大……」兩句拿掉 */ } }
+    /* 在家版的晚上（AA_272 第 12 節 c0ee2822）：21:00 電話（events.js ev_y0_kh_call*）以後，22:30 她的私訊（沒有選項），記 KH_MADEUP。
+       AA_304 第 15 列：改成她打回來的電話（events.js ev_y0_kh_madeup*），這段私訊不再發 */
     /* ★E36 放榜（分發結果）8/13（三）：手機＋電話（AA_272 4-4，c8baae2b）。10:00 兩句系統旁白（events.js ev_y0_e36r）以後，10:05 可昕私訊「政大法律。跟表上一樣。」「你的也是吧。」→「嗯。」；
        20:00 電話（events.js ev_y0_e36／ev_y0_e36h；睡著＝20:00 叫醒 coreCallAt）；22:00 經濟系群組四則（E36n 宵夜改群組）。椰林大道的出發選單、可昕站位、帶到場、23:30 宵夜照片拿掉 */
     if(S.isEcon(G)){ const d36=S.dayOfKey('2025-08-13'), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t}), done36=!!(G.events&&G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h));

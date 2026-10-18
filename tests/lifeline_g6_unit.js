@@ -79,7 +79,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { const d=DK('2025-08-13'); econ(d,10,'home',{}); await EVENTS.run(ev('ev_y0_e36rh')); const L=lines();
     check('6-6 E36 早上三句：「（臺大法律學系，財經法學組。你的名字在上面。）」「（分數只比那一組的錄取分數高 0.1。）」',J(L)===J(['（八月十三日，早上十點。榜單公布了。）','（臺大法律學系，財經法學組。你的名字在上面。）','（分數只比那一組的錄取分數高 0.1。）']),J(L));
     const D=ev('ev_y0_e36').dialogue.map(x=>x.text); const i=D.indexOf('台大法律。恭喜你。真的。');
-    check('6-6 E36 晚上的電話（AA_298 第 9 節、d744bf3d）：「台大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→ 可昕「上了就是上了。」→ only_me 兩句拿掉；最後「月底我就上去了。……」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&!D.includes('你那天說，你以為只有你。……我現在懂那個感覺了。')&&D.filter(Boolean).pop()==='月底我就上去了。到時候你帶我去政大，我還不知道怎麼走。'); }
+    check('6-6 E36 晚上的電話（AA_298 第 9 節、d744bf3d）：「台大法律。恭喜你。真的。」→ 祐廷「只高 0.1。」→ 可昕「上了就是上了。」→ only_me 兩句拿掉；最後「月底我就上去了。……」',D[i+1]==='只高 0.1。'&&D[i+2]==='上了就是上了。'&&!D.includes('你那天說，你以為只有你。……我現在懂那個感覺了。')&&D.filter(Boolean).pop()==='月底我就上去了。行李很多，你要載我。'); }
   /* AA_272 4-1～4-3：7/24 21:00 邀約 → 7/25 客運版（一整天）／在家版（10:00 手機） */
   { const d24=DK('2025-07-24'), d25=DK('2025-07-25'); econ(d24,20.9,'home',{E35_DONE:true,EXAM2_DONE:true}); run(20.9,21.1);
     const q=(G.msgs||[]).find(x=>x.tag==='y0_kh_ask'&&x.ask); const K=txt('p:kexin');
@@ -100,13 +100,14 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('4-1 選在家：她回「好。」、KH_GO home',K2[K2.length-1]==='kexin:好。'&&G.flags.KH_GO==='home');
     G.day=d25; G.hour=7.4; const h0=EVENTS.check(ev('ev_y0_kh_home_h')); G.hour=7.5; const h1=EVENTS.check(ev('ev_y0_kh_home_h'));
     said=[]; picks=['我的還好']; await EVENTS.run(ev('ev_y0_kh_home_h')); const L2=lines();
-    check('4-2 在家版：07:30 才演（AA_303：八點公布、簡訊提早到）；「（手機震了一下。成績的簡訊提早到了。）」開頭、手機三則＋三選一＋「（差了一大截。）」；沒有「十點」、客運的旁白；沒有客運站、和好',!h0&&h1&&L2[0]==='（手機震了一下。成績的簡訊提早到了。）'&&L2.includes('（又震了一下。是她。她也收到了。）')&&!L2.some(t=>/十點/.test(t))&&L2.includes('（差了一大截。）')&&G.flags.SCORE_REPLY==='fine'&&!L2.some(t=>/國道|窗外是一片一片的田|還有兩個小時|客運站|肉粽/.test(t))&&!G.flags.KH_MADEUP,J(L2));
+    check('4-2 在家版：07:30 才演（AA_303：八點公布、簡訊提早到）；「（早上七點半。成績的簡訊提早到了。）」開頭（AA_304 第 13 列）、手機三則＋三選一＋「（差了一大截。）」；沒有「十點」、客運的旁白；沒有客運站、和好',!h0&&h1&&L2[0]==='（早上七點半。成績的簡訊提早到了。）'&&!L2.includes('（手機震了一下。成績的簡訊提早到了。）')&&L2.includes('（又震了一下。是她。她也收到了。）')&&!L2.some(t=>/十點/.test(t))&&L2.includes('（差了一大截。）')&&G.flags.SCORE_REPLY==='fine'&&!L2.some(t=>/國道|窗外是一片一片的田|還有兩個小時|客運站|肉粽/.test(t))&&!G.flags.KH_MADEUP,J(L2));
     check('4-2 在家版第三個選項「先不要講分數。晚上打給妳。」（AA-C 0cc64ec7）',J(opts[opts.length-1])===J(['「（傳截圖給她。）」','「我的還好。」','「先不要講分數。晚上打給妳。」']),J(opts[opts.length-1]));
     G.hour=20.9; const c0=EVENTS.check(ev('ev_y0_kh_call_h')); check('12 睡著：coreCallAt 停在 21:00',STORY.coreCallAt(G)===21); G.hour=21; const c1=EVENTS.check(ev('ev_y0_kh_call_h'));
     said=[]; picks=['沒有說話']; await EVENTS.run(ev('ev_y0_kh_call_h')); const L3=lines();
     check('12 在家版 21:00 電話：「（電話接通。她那邊很安靜。）」「……恭喜你。」…「你從接起來到現在，都只說「嗯」。」→ 三選一 →「我先掛了。」「（電話斷了。你看著手機很久。）」；沒有肉粽、客運',!c0&&c1&&L3[0]==='（電話接通。她那邊很安靜。）'&&L3.includes('杜可昕：你從接起來到現在，都只說「嗯」。')&&G.flags.KH_FIGHT==='silent'&&L3[L3.length-1]==='（電話斷了。你看著手機很久。）'&&!L3.some(t=>/肉粽|客運/.test(t)),J(L3));
-    run(22.3,22.45); check('12 22:30 以前沒有私訊',!G.flags.KH_MADEUP); run(22.5,22.6); const K3=txt('p:kexin');
-    check('12 22:30 私訊（沒有選項）：「剛剛那樣，對不起。」→「我也是。我不知道要講什麼。」→「早點睡。不要躺在床上難過。」（AA_303：「政大也是法律……」兩句和「嗯。」拿掉）、KH_MADEUP',J(K3.slice(-3))===J(['kexin:剛剛那樣，對不起。','player:我也是。我不知道要講什麼。','kexin:早點睡。不要躺在床上難過。'])&&!K3.some(t=>/政大也是法律|捷運不用一個小時/.test(t))&&G.flags.KH_MADEUP===true,J(K3.slice(-4)));
+    G.hour=22.4; const m0=EVENTS.check(ev('ev_y0_kh_madeup_h')); G.hour=22.5; const m1=EVENTS.check(ev('ev_y0_kh_madeup_h')); run(22.5,22.6); const K3=txt('p:kexin');
+    said=[]; await EVENTS.run(ev('ev_y0_kh_madeup_h')); const L4=lines();
+    check('12 22:30 和好改成她打回來的電話（AA_304 第 15 列）：「（十點半。手機響了。是她。）」「剛剛那樣，對不起。」「我也是。我不知道要講什麼。」「（電話兩邊都安靜了一下。）」「……早點睡。不要躺在床上難過。」「妳也是。」、KH_MADEUP；22:30 以前不演；私訊不再發',!m0&&m1&&J(L4)===J(['（十點半。手機響了。是她。）','杜可昕：剛剛那樣，對不起。','祐廷：我也是。我不知道要講什麼。','（電話兩邊都安靜了一下。）','杜可昕：……早點睡。不要躺在床上難過。','祐廷：妳也是。'])&&G.flags.KH_MADEUP===true&&!K3.some(t=>/剛剛那樣/.test(t))&&!EVENTS.check(ev('ev_y0_kh_madeup_h')),J({m0,m1,L4,K3:K3.slice(-2)}));
     check('12 電話演過不再演',!EVENTS.check(ev('ev_y0_kh_call_h'))&&!EVENTS.check(ev('ev_y0_kh_call')));
     G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); G.day=d25; G.hour=10; check('4-1 7/24 沒回：在家版',EVENTS.check(ev('ev_y0_kh_home_h'))&&!EVENTS.check(ev('ev_y0_kh_bus_h'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -62,7 +62,7 @@ const ECONFF=(()=>{
   S.KEEP=new Set(['ev_y0_e14','ev_y0_e05','ev_y0_e08','ev_y0_l5a','ev_y0_gather','ev_y0_e30','ev_y0_e26','ev_y0_e30_note','ev_y0_a3',   /* 開學到休學 3～11 */
     'ev_y0_e12','ev_y0_e21a','ev_y0_e21','ev_y0_e21o','ev_y0_e23','ev_y0_e27','ev_y0_e27b',   /* 休學到寒假 12～17 */
     'ev_y0_kh3','ev_y0_e18b',   /* AA_303（使用者 10-18 逐場確認，取代 AA_300 的 29 場）：1/31～2/2 高雄三天兩夜、4/24 生日；R3 大安森林公園、R7 保齡球再戰拿掉 */
-    'ev_y0_e35','ev_y0_e35h','ev_y0_exam1','ev_y0_exam1h','ev_y0_kh_bus','ev_y0_kh_bus_h','ev_y0_kh_home','ev_y0_kh_home_h','ev_y0_kh_call','ev_y0_kh_call_h',
+    'ev_y0_e35','ev_y0_e35h','ev_y0_exam1','ev_y0_exam1h','ev_y0_kh_bus','ev_y0_kh_bus_h','ev_y0_kh_home','ev_y0_kh_home_h','ev_y0_kh_call','ev_y0_kh_call_h','ev_y0_kh_madeup','ev_y0_kh_madeup_h',
     'ev_y0_e36r','ev_y0_e36rh','ev_y0_e36','ev_y0_e36h','ev_y0_e36n']);   /* 衝刺班到放榜 26～29（23～25 是 RH-C0、RH-C4、RH-L6）*/
   S.RH_PLAY=['RH-M0','RH-C0','RH-C4','RH-L6'];   /* AA_303：2/15 她住進來（RH-M0，等 AA 交 retake_home）、6/8 報名、6/24 笑出來、6/28 熱牛奶；RH-L1 洗碗、RH-L5 端午拿掉 */
   S.short=G=>!!G&&G.stage==='econ'&&!S.off()&&!!(G.flags&&G.flags.E01_MORNING)&&!G.flags.ECON_FULL;   /* ECON_FULL：測試用，照 AA_292 的完整版（舊流程的測試）*/
@@ -121,7 +121,7 @@ const ECONFF=(()=>{
      要回的訊息停下來就打開手機（D103：使用者「我根本不會看手機」）。玩家在外面（出遊演完人留在現場）空下來就自動回家（S.tick）。*/
   S.STEPS2=[
     {n:'h2',key:'2024-10-23',h:12,zone:'campus',at:{x:97.9,z:-61.4,yaw:Math.PI},ev:'ev_y0_soc_door'},
-    {n:'h3',key:'2024-11-06',h:20,zone:'campus',at:{x:-34.6,z:-97.0,yaw:Math.PI},ev:'ev_y0_e12',out:'y0_e12'},
+    {n:'h3',key:'2024-11-06',h:17.75,zone:'campus',at:{x:-34.6,z:-97.0,yaw:Math.PI},ev:'ev_y0_e12',out:'y0_e12'},
     {n:'h29',key:'2025-04-01',h:15,play:'ev_y0_r3'},
     {n:'h21',key:'2025-01-31',h:8,trip:'ev_y0_kh3',back:'2025-02-02'},   /* AA_303 第 15 場：1/28 除夕電話約好（KH_TRIP）才去 */
     {n:'h34',key:'2025-05-05',h:14,play:'ev_y0_r6'}];   /* R4 模擬考、E34 經原最後一堂拿掉；R3 改大安森林公園（AA_298 第 2、3 節）。soc_door、E12 照舊（AA_298 第 3 節）*/
