@@ -34,9 +34,10 @@ async def main():
             if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
             await pg.wait_for_timeout(500)
 
+        # [前置] 讀檔時關掉條件事件和「要回覆的訊息自動打開手機」（D103：手機打開＝遊戲暫停；REL-9101-POSTCHECK-1018）；這支只測換區域
         async def load(zone, x, z):
             st = {'zone': zone, 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': x, 'z': z, 'yaw': 0}, 'flags': FLAGS}
-            await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })(%s)" % json.dumps(st))
+            await pg.evaluate("(async(st)=>{ const s=GAME.defaults('祐廷'); Object.assign(s,st); document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); await GAME.applySave(s); })(%s)" % json.dumps(st))
             await pg.wait_for_timeout(1500)
 
         async def use(label):
