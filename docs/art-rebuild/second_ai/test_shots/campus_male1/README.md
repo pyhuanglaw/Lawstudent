@@ -102,9 +102,9 @@ Blender 算圖（Cycles）：
 ## 測試
 - 通過：
   - `node tests/nav_buildings_unit.js` ALL PASS（套兩個 patch 的樹）；
+  - `python3 tests/campus_layout_nav.py` ALL PASS（78 項，同一棵樹）；
   - 遊戲內截圖沒有 JS 錯誤；
   - 夜間檢查（上面）。
-- `tests/campus_layout_nav.py`：結果寫在下面的「測試結果補記」。
 - 沒測：
   - iPhone 實機；
   - 真實玩家流程（`flow_dorm_hall.py`：導航、門口沒改，照理不受影響）；
