@@ -2178,7 +2178,7 @@ const STORY_EVENTS=[
      祐廷提出（三個說法都是他說的）；舊 E27「我不是因為你」併進來（她自己的理由）。CRAM_FREE_KNOWN 才有「那間補習班說我可以免費」那一段（新開局一定有）。
      記 RETAKE_TOGETHER、E27_DAY。不寫人生演講、哭著感謝、拯救、她為了他重考 */
   { id:'ev_y0_e27', stage:'econ', title:'一起重考吧', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'公館・水餃店'},
+    dialogue:[ {scene:'公館・水餃店',bg:'y0_dumpling'},
       {speaker:'kexin',expression:'neutral',text:'我今天辦完了。'},
       {speaker:'kexin',expression:'neutral',text:'表格上有一格「原因」。我寫「個人生涯規劃」。櫃台說大家都寫這個。'},
       {speaker:'player',text:'……我十月也寫這個。'},{speaker:'kexin',expression:'smile',text:'那我們很普通。'},
@@ -2345,7 +2345,8 @@ const STORY_EVENTS=[
      不用邀約私訊（18:00 只記 E35_ASKED）；電話版拿掉。21:00 他不在家＝她傳「你在哪。我在樓下等你。」（story3d.js），24:00 以前回到家就演同一段；都沒回家＝不演、E35_PLAN 不記。
      記 E35_PLAN（sea／sleep／shop）、E35_MET。ev_y0_e35 留著 id 給舊存檔（不會再觸發）*/
   ...(()=>{ const D=G=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-10'):null;
-    const lines=[ {speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
+    const lines=[ {scene:'家樓下',bg:'y0_home_street_night'},   /* BB_132 第 79 組（a46637d3）；地點字幕照 BB 說明「祐廷家樓下」*/
+      {speaker:null,text:'（你家樓下。她說想下來走一下。路燈。她手上拿著准考證，翻過來又翻回去。）'},
       {speaker:'kexin',text:'准考證我看了第四次了。'},{speaker:'kexin',text:'考完要去哪？先講好，我才睡得著。'},
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「妳選一家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
@@ -2578,7 +2579,7 @@ const STORY_EVENTS=[
   /* 10/15（二）的群組聚會（AA_154 2-1b，AA-B 3828a4dd；第②級、送 BB-B 審）：17:30 群組兩則（story3d.js），17:30～19:15 出發選單「公館 19:00：經濟系的聚會」；去了＝出遊 19:00→22:20。
      不重演 P2（地點固定公館）；先桌遊（19:00～22:00）後夜市（到 22:20），BB-B 審稿後的順序（AA_154 92e541a9）。寫 E10_EVE:'went'（E10 第一句讀它）；兩個選項都只有可昕熟悉度 +1；夜市 −100（桌遊錢唐睿出）*/
   { id:'ev_y0_gather', stage:'econ', title:'經濟系的聚會', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:3+1/3,
-    dialogue:[ {scene:'公館'},
+    dialogue:[ {scene:'公館',bg:'gongguan'},
       {speaker:null,text:'（公館。期中考前的最後一個晚上。）'},
       {speaker:'韋綸',text:'今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。'},
       {speaker:null,text:'（六個人擠進一家桌遊店。一個人一小時五十元。）'},
@@ -2714,7 +2715,7 @@ const STORY_EVENTS=[
   /* E18a 豆花（AA_224 3-4 @31708531；原本 BB_104 8b-11a）：12/3（二）21:30 可昕私訊兩則＋出發選單「總圖門口 22:00」（story3d.js）；他不能進總圖，在門口演，接著公館的豆花店。
      已經在交往（不是第一次兩個人吃宵夜）。記 E18A_DOUHUA（法律系 4/24 她的生日那一句讀它）。沒去不記 */
   { id:'ev_y0_e18a', stage:'econ', title:'豆花', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'總圖門口'},{speaker:null,text:'（總圖門口。十點，她是最後幾個出來的。）'},
+    dialogue:[ {scene:'總圖門口',bg:'library_gate_night'},{speaker:null,text:'（總圖門口。十點，她是最後幾個出來的。）'},
       {speaker:'kexin',expression:'smile',text:'你真的來了。休學的人很閒耶。'},
       {scene:'公館・豆花店',bg:'gongguan_douhua'},{speaker:null,text:'（公館的豆花店，兩碗。）'},
       {speaker:'kexin',expression:'neutral',text:'你沒休學的話，現在會在裡面陪我讀嗎？'},
@@ -2828,7 +2829,7 @@ const STORY_EVENTS=[
   /* E21a 跨年（AA_224 3-6 @31708531，交往中的版本；16 週制 12/31 已經放假九天，不提會計考試、改講他的書：AA-C 2026-10-17 定稿，AA_235 5-6）：12/31（二）19:00 經濟系群組四則（多一則韋綸「祐廷你在家讀你的。十一點來總圖門口接我們。」，story3d.js）＋出發選單「總圖門口 23:00：跨年」。
      他不能進總圖：在門口接他們。記 E21A_WENT。演完回家。沒去：00:05 群組人潮照片＋可昕私訊 */
   { id:'ev_y0_e21a', stage:'econ', title:'跨年', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'總圖門口'},{speaker:null,text:'（十一點，總圖門口。他們讀到一半跑出來。）'},
+    dialogue:[ {scene:'總圖門口',bg:'library_gate_night'},{speaker:null,text:'（十一點，總圖門口。他們讀到一半跑出來。）'},
       {speaker:'韋綸',text:'跨年還有一個小時。走啦！'},
       {speaker:'econ_pinyu',text:'……放假我反而想念書。我是不是有病。'},
       {speaker:'韋綸',text:'書會等你。煙火不會。'},
