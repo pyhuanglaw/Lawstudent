@@ -1,4 +1,4 @@
-/* ===== 人物隨身配件（PROPS）：後背包、帆布托特包、細框眼鏡、銀色小耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾 =====
+/* ===== 人物隨身配件（PROPS）：後背包、帆布托特包、細框眼鏡、銀色小耳環、咖啡廳圍裙、吉他袋、判決節錄資料夾、腳踏車安全帽 =====
    掛在 VRM 的骨頭上（VRoid 骨頭在 rest pose 沒有旋轉，模型檔空間：+x＝角色右側、-x＝左側、-z＝前方、+z＝後方）。
    形狀用圓角、斜面、布料貼圖做成「看得出是什麼」的物件，不是方塊；顏色與 Character Bible 一致。
    角色資料：CHARACTERS[id].char3d.props = ['backpack'...]；遊戲中可用 CHAR.setProp(人物, 'apron', true/false) 切換（例：芷若在咖啡廳工作時才穿圍裙）。 */
@@ -92,6 +92,28 @@ const PROPS = (function(){
 
   function shadeHex(hex,f){ const c=new THREE.Color(hex); c.multiplyScalar(f); return '#'+c.getHexString(); }
   // 掛到哪根骨頭、位置（模型檔空間、相對骨頭）
+  // ---- 腳踏車安全帽（邱韋綸，掛在後背包右側；BB_201 第 1 節）：正式模型 LAWWW2-C tools/blender/char_second/helmet_bike.py → ASSETS 'prop.helmet_bike'（原點在下緣中心、前方 −z、上方 +y）----
+  // o.hang：'side'＝後背包右側（預設，手往後擺可能碰到手肘）、'back'＝背包外面（不會碰到手）；位置是相對 upperChest 的公尺數（helmet_bike.json 的 hang）
+  const HELMET_HANG={side:{pos:[0.178,-0.09,0.15],rot:[0,0,-Math.PI/2]}, back:{pos:[0,-0.10,0.29],rot:[Math.PI/2,0,0]}};
+  function helmet(o){ o=o||{}; const out=new THREE.Group(), g=new THREE.Group(); out.add(g); const h=HELMET_HANG[o.hang||'side']||HELMET_HANG.side; g.position.set(h.pos[0],h.pos[1],h.pos[2]); g.rotation.set(h.rot[0],h.rot[1],h.rot[2]);
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['prop.helmet_bike']) ASSETS.loadOne('prop.helmet_bike').then(c=>{ if(!c||!c.scene) return; const m=c.scene.clone(true);
+      m.traverse(x=>{ if(!x.isMesh) return; x.material=mat('helmet','#'+x.material.color.getHexString(),null); x.castShadow=true; x.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖，PBR 會變暗）
+      g.add(m); }).catch(e=>console.warn('helmet glb',e));
+    return out; }
+  // ---- 手上拿的東西（GLB）：掛在前臂、不是手——掛在手上時走路動畫手腕一轉，東西就跟著變成水平（家豪筆記本 BB-C 18819b79 退件）。
+  //      位置在 GLB 載入時算：前臂骨頭底下找手的骨頭，從手腕往指尖 palm 公尺、往掌心那一側（T 字姿勢掌心朝下＝−y）side 公尺；rot 轉模型、tilt 轉整個（LAWWW2-C patches，2026-10-17）----
+  function heldGlb(key,name,palm,side,rot,tilt){ return function(o){ const g=new THREE.Group(); g.name=name;
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const n=c.scene.clone(true);
+      const arm=g.parent, hand=arm&&arm.children.find(b=>/Hand$/i.test(b.name));   // attach 已經把 g 掛到前臂
+      if(hand){ const d=hand.position.clone().normalize(); g.position.copy(hand.position).addScaledVector(d,palm); g.position.y+=side; if(rot) n.rotation.set(rot[0],rot[1],rot[2]*Math.sign(d.x||1)); if(tilt) g.rotation.set(tilt[0],tilt[1]*Math.sign(d.x||1),tilt[2]); }
+      n.traverse(m=>{ if(!m.isMesh) return; const s=m.material; m.material=new THREE.MeshToonMaterial({color:s.color.clone(), map:s.map||null, vertexColors:!!s.vertexColors, side:s.side}); m.castShadow=true; m.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖）
+      g.add(n); }).catch(e=>console.warn(name+' glb',e));
+    return g; }; }
+  // 宋家豪的「公館美食地圖」筆記本（BB_109 識別物、BB_201；LAWWW2-C 0e191286，BB-C 配件通過 5d3983e3）：左前臂，手掌中間
+  const foodmap=heldGlb('prop.notebook_foodmap','notebook_foodmap',0.055,-0.027);
+  // 曾品妤（BB_131「手上常拿工程計算機、黑色保溫瓶」；LAWWW2-C 2ef1ca4b，BB-C f331e153）：計算機長邊沿著前臂、螢幕朝外（事件用）；保溫瓶提環勾在手指上、瓶蓋朝上（平常拿）
+  const calc=heldGlb('prop.calc_engineering','calc_engineering',0.055,-0.024,[0,Math.PI/2,0]);
+  const thermos=heldGlb('prop.thermos_black','thermos_black',0.21,-0.022,[0,0,Math.PI/2]);
   const DEF={
     backpack:{bone:'upperChest',make:backpack,pos:[0,0,0]},
     tote:{bone:'upperChest',make:tote,pos:[0,0,0]},
@@ -101,6 +123,10 @@ const PROPS = (function(){
     guitar:{bone:'upperChest',make:guitarBag,pos:[0,0,0]},
     folder:{bone:'leftHand',make:folder,pos:[-0.09,-0.02,0.0],rot:[0,0,0]},
     hairtie:{bone:'head',make:hairtie,pos:[0,-0.025,0.116]},
+    helmet:{bone:'upperChest',make:helmet,pos:[0,0,0]},
+    foodmap:{bone:'leftLowerArm',make:foodmap},
+    calc:{bone:'leftLowerArm',make:calc},
+    thermos:{bone:'rightLowerArm',make:thermos},
   };
   // 依骨頭與眼睛位置把配件掛上去；回傳 {name: object}
   function attach(vrm,list,opts){ opts=opts||{}; const out={}; const H=vrm.humanoid; for(const item of list){ const name=typeof item==='string'?item:item.name; const d=DEF[name]; if(!d) continue; const bone=H.getRawBoneNode(d.bone)||H.getRawBoneNode('chest')||H.getRawBoneNode('head'); if(!bone) continue; const o=d.make(typeof item==='object'?item:{}); o.name='prop:'+name; o.traverse(m=>{ if(m.isMesh){ m.castShadow=!!opts.shadow; m.frustumCulled=false; } });

@@ -14,25 +14,26 @@ const ACTIVITIES={
      人物事件（6-8 (a)）：同一場社課只播一個——吉他社：還沒認識子晴的第一次社課自動播 ev_ziqing_club 的初遇；法服：第一次播 ev_studygroup_wed 整段，之後旁白＋題庫（classes3d.js 的 clubEvent）。
      clubs：博覽會的五個社團（選了就加入：CLUB_<id>）；clubName：攤位上的社團名稱。 */
   list:[
-    {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],t0:15.5,t1:16+20/60,once:true,
+    {id:'lib_tour_y1s1',title:'總圖新生導覽',kind:'tour',zone:'library_hall',roomName:'總圖大廳',spot:{x:-3.0,z:2.8,lv:0,label:'新生導覽集合點'},dates:['2025-09-19','2025-09-23','2025-09-25','2025-09-26'],datesW1:['2025-09-08','2025-09-10','2025-09-12','2025-09-16'],t0:15.5,t1:16+20/60,once:true,
      desc:'館員帶看閱覽室、借還書、自習座位。去一次就好。',story:false},
     {id:'lawlib_intro_y1s1',title:'法律資料怎麼查',kind:'lecture',zone:'lawlib',room:'discA',roomName:'法律學院圖書館 討論室 A',dates:['2025-09-24','2025-10-01'],t0:15.5,t1:16.5,once:true,
      desc:'法規要查最新版、判決怎麼找、指定參考書放哪裡（只講方法）。',story:false},
-    {id:'club_debate',title:'辯論社社課',clubName:'辯論社',kind:'club',zone:'boya',room:'201',roomName:'博雅 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:2,t0:19,t1:21,crowd:{n:8},
+    {id:'club_debate',title:'辯論社社課',clubName:'辯論社',kind:'club',zone:'boya',room:'201',roomName:'博雅 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:2,t0:19,t1:21,crowd:{n:8},
      desc:'正反方練習、計時；題目用生活題（例：「大學該不該點名」）。',story:false,
      narr:['（正反方練習、計時。今天的題目：大學該不該點名。）','（今天的題目：外送該不該進校園。三分鐘申論，一分鐘質詢。）','（今天的題目：考試該不該開書。學長示範怎麼在一分鐘內反駁。）',
            '（今天練即席：抽紙條上台。你抽到「早八應該取消」。）','（今天的題目：社課該不該點名。台下笑了半分鐘才開始計時。）','（今天的題目：圖書館該不該二十四小時開放。正方贏了，大家都說反方比較好笑。）']},
-    {id:'club_hiking',title:'登山社行前會',clubName:'登山社',kind:'club',zone:'putong',room:'201',roomName:'普通 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:4,t0:19.5,t1:21,crowd:{n:8},
+    {id:'club_hiking',title:'登山社行前會',clubName:'登山社',kind:'club',zone:'putong',room:'201',roomName:'普通 201',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:4,t0:19.5,t1:21,crowd:{n:8},
      desc:'裝備、天氣、路線。出隊是週末的另一個活動，之後再排。',story:false,
      narr:['（今天講裝備：三層穿法、頭燈、雨衣。學長把一個背包裡的東西全倒在桌上。）','（今天看天氣圖：鋒面、午後雷陣雨、什麼時候該撤退。）','（今天講路線：等高線怎麼看，哪裡是陡上。）',
            '（今天練打結。看起來很簡單，你綁錯了兩次。）','（下一次出隊的名單貼出來了。社長說：報名前，先問問自己的腳。）']},
     /* 6-8：吉他社（萬才館一樓多功能教室；企劃寫萬才館旁的社辦，遊戲還沒有社辦）、法服讀書會（萬才館二樓研討室 A）——門口參加。週三晚上兩個只能選一個：走到哪一間的門口就是哪一個 */
-    {id:'club_guitar',title:'吉他社社課',clubName:'吉他社',kind:'club',zone:'wancai',room:'multi',door:true,roomName:'萬才館 多功能教室',term:['Y1S1','Y1S2'],weeks:[5,6,7,10,11,12,13,14,15,16],weekdays:[1,3],t0:19,t1:21,
+    {id:'club_guitar',title:'吉他社社課',clubName:'吉他社',kind:'club',zone:'wancai',room:'multi',door:true,roomName:'萬才館 多功能教室',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15],termWeeks:{Y2S1:[3,4,5,6,7,10,11,12,13,14,15]},weekdays:[1,3],t0:19,t1:21,
      desc:'練和弦、輪流彈一首。',story:false,
      narr:['（今天練 C、G、Am 三個和弦。換和弦的時候，整間教室都慢了半拍。）','（今天輪流彈一首。你彈錯了第二小節，大家笑得比你大聲。）','（有人帶了洋芋片。練習的時間，比吃東西的時間短一點。）',
            '（今天練刷法：下、下、上、上、下、上。你的右手比左手聽話。）','（學長示範一首老歌。大家安靜聽完，然後各自練回自己的和弦。）','（手指上的紅痕沒那麼痛了。你多撐了兩首歌。）']},
     /* 大一下也有（交接包 v2：第 4 週讀書會結束後的沛珊和柏翰、第 14 週和成發同一晚、第 15 週「最後幾次」）；大一下的週次原文沒寫，先排第 2～7、10～16 週（期中、期末沒有；已問 AA）*/
-    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2'],weeks:[5,6,7,10,11,12,13,14,15,16],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15,16]},weekday:3,t0:19,t1:21,
+    /* 2026-10-17 停用（使用者 AA_218 17-4：法服沒有讀書會也沒有社課；AA_236 A1、BB_191 §7）：skip＝不再開；id 留著——博覽會選單的「法服」＝報名（ev_sis_club_expo）、舊存檔的出席紀錄 lawclub_study@<天> 照讀 */
+    {id:'lawclub_study',title:'法服讀書會',clubName:'法服（法律服務社）',kind:'club',skip:()=>true,zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[5,6,7,10,11,12,13,14,15],termWeeks:{Y1S2:[2,3,4,5,6,7,10,11,12,13,14,15],Y2S1:[1,2,3,4,5,6,7,10,11,12,13,14,15],Y2S2:[1,2,3,4,5,6,7,10,11,12,13,14,15]},weekday:3,t0:19,t1:21,
      desc:'刑訴題庫每次兩三題（讀書會的方式：先聽爭點怎麼吵）。',story:false,narrAt:'start',
      narr:['（白板上寫著今天的兩個爭點。大家先安靜讀五分鐘。）','（今天的題目是學長姊從題庫裡挑的。一年級坐後面，先聽。）','（研討室的冷氣很強。有人把外套借給隔壁，然後開始吵第一題。）',
            '（今天來的人比上週少兩個。題目反而讀得比較深。）','（結束前，每個人把今天的爭點用一句話寫在白板上。）']},
@@ -42,15 +43,17 @@ const ACTIVITIES={
      desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
     /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——大一上第 4 週週六（遊戲從第 3 週開始；實際日期【待考證】）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
-    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',
+    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）9/27 回到一般週末；只留給開發起點（直接跳 8/29）防呆 */
      desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
-    /* 公法讀書會（交接包 v2 C14 以安新 7 後半；草稿第 2 節「固定節奏」）：大一下第 12 週起每週四 20:00，萬才館研討室 A（和法服週三讀書會同一類：加入就每週有一格）；第一次＝ev_public_law_group。結束時間原文沒寫，先 21:30 */
-    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[12,13,14,15,16],weekday:4,t0:20,t1:21.5,
+    /* 公法讀書會（交接包 v2 C14 以安新 7 後半）：每週四 20:00～21:30，萬才館研討室 A；第一次＝ev_public_law_group。
+       2026-10-17 改到大一上第 10 週開始（AA_218 17-4 使用者批准；BB_191 §8-1、8-6）：大一上 10～16 週；大一下 2～7、10、12～16 週（第 11 週週四以安在博雅 B4 講座，停一次）；大二下加第 1 週（沛珊交接 P4，§8-7）*/
+    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[10,11,12,13,14,15],termWeeks:{Y1S2:[2,3,4,5,6,7,10,12,13,14,15],Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15],Y2S2:[2,3,4,5,6,7,10,11,12,13,14,15],Y3S1:[1,2,3,4,5,6,7,10,11,12,13,14,15],Y3S2:[1,2,3,4,5]},weekday:4,   /* 大三上也開（AA_259 第 4 節第 2 點：A5-L4、A5-L6、週四招呼講的事要看得到）；大三下第 1～5 週（AA_260 第 4 節第 4 點：以安 A6-L3、週四招呼）*/t0:20,t1:21.5,
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     /* 法服學期檢討會（BB_96 2-6 學姊 W5；交接包 v2）：大一下第 17 週週三 19:00–21:00，萬才館研討室 A（門口參加）；群戲用旁白，會後接 W5（afterActivity）*/
-    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[17],weekday:3,t0:19,t1:21,once:true,
+    /* 2026-10-17 停用（W5 已刪，BB_122 ★-6；BB_191 §7-1 #2）*/
+    {id:'lawclub_review_y1s2',title:'法服學期檢討會',clubName:'法服',kind:'club',skip:()=>true,zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S2'],weeks:[15],weekday:3,t0:19,t1:21,once:true,
       desc:'法服這學期的檢討會。',story:true},
     /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
     {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',
@@ -59,9 +62,18 @@ const ACTIVITIES={
        id 用 'B4'：AA_115 的 attended:B4／missed:B4、BB 課表的回想（syllabus recall activity:'B4'）都用這個名字。選「聽演講」＝ev_b4_lecture；散場＝ev_b4_after；小桌子＝ev_b5_table（src/data/events.js）*/
     {id:'B4',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y1S2'],weeks:[11],weekday:4,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b4_lecture',
       desc:'博雅午後講座（每月一到兩場）。這一場的主題是法律。',story:true},
+    /* 交換學生甄選說明會（主線 8 的固定節點、可以錯過；AA_177 4-2、AA_143 2-3、BB_105 B9）：大二下第 4 週週四 3/18 12:20～13:10，國際事務處辦、在博雅大教室（101）。
+       坐下選「聽說明會」＝ev_exchange_expo_y2（選坐哪一區，記 EXPO_COUNTRY）；3/15 09:00 學校信箱、以安的群組那一句、沒去的 20:00 簡報照片在 story3d.js */
+    {id:'EXPO_Y2',title:'交換學生甄選說明會',verb:'聽說明會',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y2S2'],weeks:[4],weekday:4,t0:12+20/60,t1:13+10/60,once:true,crowd:{n:30},event:'ev_exchange_expo_y2',
+      desc:'國際事務處辦的交換學生甄選說明會。',story:true},
+    /* 2026-10-17 使用者刪除模擬法庭（AA_252）：下面三場 skip 停用。原說明：模擬法庭的小組討論（V3-D16；AA_177 4-7、AA_143 3-3）：模 2 3/11、模 3 4/1、模 4 4/15，都是週四 19:00，萬才館研討室（B：研討室 A 週四 20:00 是公法讀書會）。
+       門口參加＝ev_moot_2／3／4（2D）。邀約是前一晚 21:00 以安在小組群組（story3d.js）；沒去＝那一場的準備分 +0（AA_143 3-2，不另外懲罰）*/
+    {id:'moot_2',skip:()=>true,title:'模擬法庭・找資料',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[3],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_2',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_3',skip:()=>true,title:'模擬法庭・寫書狀',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[6],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_3',desc:'模擬法庭・賣家組的討論。',story:true},
+    {id:'moot_4',skip:()=>true,title:'模擬法庭・演練',verb:'參加',kind:'event',zone:'wancai',room:'seminarB',door:true,roomName:'萬才館 研討室 B',term:['Y2S2'],weeks:[8],weekday:4,t0:19,t1:21,once:true,event:'ev_moot_4',desc:'學姊當法官的演練。',story:true},
     {id:'dept_ball_game_y1s2',title:'系籃比賽',kind:'event',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃比賽'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:6,t0:14,t1:16,once:true,event:'ev_zhe_game_y1',
      desc:'系上的系籃比賽，阿哲上場。觀眾可以拍手、記分或送水。',story:true},
-    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15,16],weekday:5,t0:17.5,t1:19,
+    {id:'dept_basketball',title:'系籃練球',clubName:'系籃（系學會）',kind:'club',zone:'campus',roomName:'籃球場（醉月湖東側）',spot:{x:3.3,z:-112.7,lv:0,label:'系籃練球'},verb:'去練球',term:['Y1S1'],weeks:[5,6,7,10,11,12,13,14,15],weekday:5,t0:17.5,t1:19,
      desc:'投籃、分隊打半場；也可以在場邊記分、送水。',story:false,
      narr:['（投籃練習，每人二十球。進幾球沒有人在算——除了學長。）','（分隊打半場。你在場邊記分，記錯一次，被兩隊同時糾正。）','（今天練防守腳步。十分鐘後，大家的腿都在發抖。）',
            '（今天在體育館走廊練運球。球聲在走廊裡很大聲。）','（練完，大家坐在場邊喝水。有人說民總的作業還沒寫，全場安靜了一下。）']}
@@ -69,21 +81,22 @@ const ACTIVITIES={
   /* once 的活動：任何一場聽過（或中途離開）就算去過了 */
   onceDone(G,a){ return !!(a&&a.once&&ACTIVITIES.stateOf(G,a.id)); },
   /* 這個區域今天有集合點的活動 */
-  spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day)); },
+  spotsIn(G,zone){ return ACTIVITIES.list.filter(a=>a.spot&&a.zone===zone&&ACTIVITIES.on(a,G.day,G)); },
   /* 現在可以參加（開始前 15 分鐘起、過了一半以前；今天這一場聽過的、once 已經去過的不列）*/
-  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
+  canJoin(G,a){ const h=G.hour%24; return !!a&&ACTIVITIES.on(a,G.day,G)&&h>=a.t0-0.25&&h<(a.t0+a.t1)/2&&!ACTIVITIES.attended(G,a.id,G.day)&&!ACTIVITIES.onceDone(G,a); },
   /* 第 day 天有沒有這個活動（學期、週次或日期、星期都對得上）*/
-  on(a,day){ if(typeof CALENDAR==='undefined') return false; const d=CALENDAR.dateOf(day);
-    if(a.dates) return a.dates.includes(d.key);
+  on(a,day,G){ if(typeof CALENDAR==='undefined') return false; if(a.skip&&a.skip(G||{flags:{}})) return false; const d=CALENDAR.dateOf(day);   /* skip：這一局不辦（例：有宿營的局不排舊的 9/27 迎新，CAMP-L1）；沒給 G 的呼叫也照 skip 判斷（法服讀書會停用＝()=>true）*/
+    const ds=a.datesW1&&G&&typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)?a.datesW1:a.dates;   /* datesW1：開學改 9/1 的局（START-WEEK 選 1）用另一組日期；舊局照 dates（AA_195 4-7 A12）*/
+    if(ds) return ds.includes(d.key);
     if(CALENDAR.holiday(day)&&!a.holidays) return false;   /* 照學期、週次、星期排的活動：放假那天不辦（2026-10-13 審查；真的要在假日辦的寫 holidays:true 或用 dates）*/
     if(a.weekday&&d.wd!==a.weekday) return false; if(a.weekdays&&!a.weekdays.includes(d.wd)) return false; const t=CALENDAR.termOf(day); if(a.term&&(!t||!a.term.includes(t.id))) return false; const wks=(a.termWeeks&&t&&a.termWeeks[t.id])||a.weeks; if(wks&&(!t||!wks.includes(t.week))) return false; return !!(a.term||a.weeks||a.weekday||a.weekdays); },   /* termWeeks：不同學期的週次不一樣（法服讀書會大一下第 2 週起）*/
   /* 活動的時段（AA_110 第 5 節）：'before'（今天還沒開始）／'during'（進行中）／'justEnded'（結束後 20 分鐘內：「散場後的走廊」）／'after'（更晚）；今天沒有這個活動＝null */
-  phaseOf(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a||!ACTIVITIES.on(a,G.day)) return null; const h=G.hour%24; return h<a.t0?'before':(h<a.t1?'during':(h<a.t1+1/3?'justEnded':'after')); },
+  phaseOf(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a||!ACTIVITIES.on(a,G.day,G)) return null; const h=G.hour%24; return h<a.t0?'before':(h<a.t1?'during':(h<a.t1+1/3?'justEnded':'after')); },
   /* 現在進行中（before：開始前幾小時也算，給人流用）；justEnded：**只算結束後 20 分鐘內**（2026-10-13 ChatGPT 審查：原本從開始一直算到結束後 20 分鐘，演講進行中也會觸發「散場後」的事件）*/
-  active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day)&&(opt.justEnded?(h>=a.t1&&h<a.t1+1/3):(h>=a.t0-(opt.before||0)&&h<a.t1))); },
+  active(G,opt){ opt=opt||{}; const h=G.hour%24; return ACTIVITIES.list.filter(a=>ACTIVITIES.on(a,G.day,G)&&(opt.justEnded?(h>=a.t1&&h<a.t1+1/3):(h>=a.t0-(opt.before||0)&&h<a.t1))); },
   isActive(G,id,opt){ return ACTIVITIES.active(G,opt).some(a=>a.id===id); },
   /* 公告欄、手機：今天起 n 天內的活動（照海報貼出的天數）*/
-  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k)||ACTIVITIES.onceDone(G,a)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
+  upcoming(G,n){ const out=[]; for(let k=0;k<(n||7);k++){ for(const a of ACTIVITIES.list){ if(!ACTIVITIES.on(a,G.day+k,G)||ACTIVITIES.onceDone(G,a)) continue; const pd=(a.poster&&a.poster.daysBefore!=null)?a.poster.daysBefore:3; if(k>pd) continue; if(k===0&&G.hour%24>=a.t1) continue; out.push({a,k}); } } return out; },
   hhmm(h){ const m=Math.round(h*60); return String(Math.floor(m/60)%24).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); },
   /* 到場紀錄（AA_107 第 10-1 節第 5 項：沒去演講，就不能觸發聽完才合理的後續）：G.acts.att['活動id@第幾天']={h:坐下來聽的時間}。
      玩家坐在活動的那一間、選「聽演講」才算到場（src/classes3d.js 的 attendActivity）；只是路過、站在門口不算。
@@ -107,7 +120,7 @@ const ACTIVITIES={
      時間用 G.hour（過了午夜是 24 以上：不會和隔天早上的活動搞混）*/
   track(G,zone,room,seated,hPrev){ if(!ACTIVITIES.list.length) return; const h=G.hour; let A=null;
     for(const a of ACTIVITIES.list){ if(!a.zone||!a.room) continue; const k=a.id+'@'+G.day, r=G.acts&&G.acts.att&&G.acts.att[k];
-      if(r?r.end!=='in':!(seated&&h>=a.t0&&zone===a.zone&&room===a.room)) continue; if(!ACTIVITIES.on(a,G.day)) continue; const inRoom=zone===a.zone&&room===a.room;
+      if(r?r.end!=='in':!(seated&&h>=a.t0&&zone===a.zone&&room===a.room)) continue; if(!ACTIVITIES.on(a,G.day,G)) continue; const inRoom=zone===a.zone&&room===a.room;
       if(!r){ const s=Math.max(hPrev!=null?Math.min(hPrev,h):h,a.t0); if(s<(a.t0+a.t1)/2){ A=A||ACTIVITIES.rec(G).att; A[k]={h:+s.toFixed(2),end:h>=a.t1?'full':'in'}; } continue; }
       if(!inRoom){ r.end='left'; r.lh=+Math.min(h,a.t1).toFixed(2); } else if(h>=a.t1) r.end='full'; } },
   /* 快速前往（被帶到別的地方）：今天還在聽的那一場＝中途離開。在時間跳動以前呼叫（src/game3d.js 的 quickGo）*/
@@ -116,7 +129,7 @@ const ACTIVITIES={
   lastAttendedDay(G,id,any){ const A=(G.acts&&G.acts.att)||{}, p=id+'@'; let best=null; for(const k in A){ if(!k.startsWith(p)) continue; const r=A[k]; if(!r) continue; const full=(r.end||'full')==='full'; if(!full&&!any) continue; const d=+k.slice(p.length); if(best===null||d>best) best=d; } return best; },
   /* 最近一場已經結束的是第幾天（今天的已經結束也算）；還沒辦過就 null。往回找到第 1 天（四年約 1500 天；每個活動記住上一次的答案）*/
   lastEnded(G,id){ const a=ACTIVITIES.list.find(q=>q.id===id); if(!a) return null; const h=G.hour%24, k=G.day+'|'+(h>=a.t1?1:0); if(a._last&&a._last.k===k) return a._last.v;
-    let v=null; for(let d=G.day; d>=1; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d)){ v=d; break; } } a._last={k,v}; return v; },
+    let v=null; for(let d=G.day; d>=-420; d--){ if(d===G.day&&h<a.t1) continue; if(ACTIVITIES.on(a,d,G)){ v=d; break; } }   /* 第 1 天以前也找（開學改 9/1、經濟系那一年）*/ a._last={k,v}; return v; },
   missed(G,id){ const d=ACTIVITIES.lastEnded(G,id); return d!=null&&!ACTIVITIES.attendedAny(G,id,d); },   /* 中途離開不算沒去 */
   /* 坐在這一間的位子上，現在可以聽的活動：開始前 15 分鐘起、過了一半以前（之後進去不算聽過）；今天這一場已經聽過的不再列 */
   atSeat(G,zone,room){ if(!room) return null; return ACTIVITIES.list.find(a=>a.zone===zone&&a.room===room&&ACTIVITIES.canJoin(G,a))||null; },

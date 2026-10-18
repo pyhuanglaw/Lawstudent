@@ -1,4 +1,4 @@
-// v0 重考期的起床選單（AA_154 A39）：期間、宿舍／在家醒來的選項、固定日期只有兩項、去博雅、在博雅讀滿兩小時——不需要瀏覽器。
+// v0 重考期的起床選單（AA_154 A39；AA_224 第 6 組改：2/15 起、在祐廷家的餐桌）：期間、在家醒來的選項、固定日期只有兩項、在家讀書兩小時——不需要瀏覽器。
 // 修改前沒有 STORY.retakeWake（全部失敗）。用法：node tests/v0_retake_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -29,25 +29,26 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
-  const K=k=>STORY.dayOfKey(k), D28=K('2025-03-28'), D31=K('2025-03-31'), D2=K('2025-04-02'), J10=K('2025-07-10');
+  const K=k=>STORY.dayOfKey(k), D15=K('2025-02-15'), D31=K('2025-03-31'), D2=K('2025-04-02'), J10=K('2025-07-10');   /* AA_224 第 6 組：2/15 起，在祐廷家的餐桌 */
   const eco=(d,h,z,f)=>{ fresh(d,h,z,f); G.stage='econ'; };
-  eco(D28-1,9,'dorm'); check('1. 3/27：還不是重考期',!STORY.retakeOn(G)); G.day=D28; check('1. 3/28～7/10 是重考期',STORY.retakeOn(G)&&(G.day=J10,STORY.retakeOn(G))&&(G.day=J10+1,!STORY.retakeOn(G)));
+  eco(D15-1,9,'home'); check('1. 2/14：還不是重考期',!STORY.retakeOn(G)); G.day=D15; check('1. 2/15～7/10 是重考期',STORY.retakeOn(G)&&(G.day=J10,STORY.retakeOn(G))&&(G.day=J10+1,!STORY.retakeOn(G)));
   G.stage='law'; G.day=D31; check('1. 法律系：不是',!STORY.retakeOn(G));
   let menus=[], script=[]; const choose0=GM.choose; GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
-  // 宿舍醒來（3/28＝R1 那天）：只有兩項
-  eco(D28,7.5,'dorm',{Y0_LEFT:true}); menus=[]; script=['去博雅']; const r=await CLS.wakeMenu(GM);
-  check('2. 3/28 宿舍醒來：起床選單只有「去博雅，和可昕讀書」「先起床再說」（R1 是讀書日的事件）→ 去博雅＝讀書日、到博雅',JSON.stringify(menus[0])==='["去博雅，和可昕讀書","先起床再說"]'&&G.flags.RT_DAY.type==='study'&&G.zone==='boya'&&r===true,JSON.stringify(menus));
-  // 在家醒來（3/31）：三項，從家出發有通勤
-  eco(D31,8.5,'home',{Y0_LEFT:true,Y0_MOVED_OUT:true}); G.home={at:true,base:true,wakeAsk:D31}; menus=[]; script=['出去走走']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('3. 3/31 在家醒來：三項（讀書／出去走走／先起床再說）→ 玩樂日；回到在家的選單',JSON.stringify(menus[0])==='["去博雅，和可昕讀書","今天出去走走","先起床再說"]'&&G.flags.RT_DAY.type==='play'&&menus[1]&&menus[1].includes('去學校'),JSON.stringify(menus));
-  eco(D31,8.5,'home',{Y0_LEFT:true,Y0_MOVED_OUT:true}); G.home={at:true,base:true,wakeAsk:D31}; menus=[]; script=['去博雅']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('3. 從家裡去博雅：先到學校（30 分鐘）再到博雅、不在家',!HOME.at(G)&&G.zone==='boya'&&G.flags.RT_DAY.type==='study');
-  eco(D2,8.5,'home',{Y0_LEFT:true,Y0_MOVED_OUT:true}); G.home={at:true,base:true,wakeAsk:D2}; menus=[]; script=['先起床']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('3. 4/2（R5）在家：只有兩項',JSON.stringify(menus[0])==='["去博雅，和可昕讀書","先起床再說"]'&&G.flags.RT_DAY.type==='free');
+  const home=(d,h)=>{ eco(d,h,'home',{Y0_LEFT:true,Y0_MOVED_OUT:true}); G.home={at:true,base:true,wakeAsk:d}; menus=[]; };
+  // 2/15＝R1 那天：只有兩項（讀書日的事件）
+  home(D15,7.5); script=['在家讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('2. 2/15 在家醒來：起床選單只有「在家讀書（可昕會來）」「先起床再說」→ 讀書日、還在家（不去博雅）',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","先起床再說"]'&&G.flags.RT_DAY.type==='study'&&HOME.at(G),JSON.stringify(menus));
+  // 3/31：三項
+  home(D31,8.5); script=['出去走走']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('3. 3/31 在家醒來：三項（讀書／出去走走／先起床再說）→ 玩樂日；回到在家的選單',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","今天出去走走","先起床再說"]'&&G.flags.RT_DAY.type==='play'&&menus[1]&&menus[1].includes('去學校'),JSON.stringify(menus));
+  home(D2,8.5); script=['先起床']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('3. 4/2（R5）在家：只有兩項',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","先起床再說"]'&&G.flags.RT_DAY.type==='free');
   check('3. 同一天不再問',!(await STORY.retakeWake(GM)));
-  // 在博雅讀滿兩小時＝retake:study
-  eco(D31,10,'boya'); STORY.onStudy(GM,1); check('4. 在博雅讀一小時：不算',EVENTS.habitCount({key:'retake:study'})===0); STORY.onStudy(GM,2); check('4. 讀兩小時：retake:study +1',EVENTS.habitCount({key:'retake:study'})===1);
-  eco(D31,10,'library'); STORY.onStudy(GM,3); check('4. 在別的地方讀：不算（博雅小桌才算；在家讀書另外算）',EVENTS.habitCount({key:'retake:study'})===0);
+  // 在家讀書兩小時＝retake:study（2/15 起）
+  home(D15,10); G.home.wakeAsk=null; script=['讀書'];   /* 時段制：讀到 12:00 */ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('4. 2/15 在家讀書（讀到這個時段結束）：retake:study +1',EVENTS.habitCount({key:'retake:study'})===1);
+  home(D15-1,10); G.home.wakeAsk=null; script=['讀書']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  check('4. 2/14 在家讀書：不算（重考期還沒開始）',EVENTS.habitCount({key:'retake:study'})===0);
   GM.choose=choose0;
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

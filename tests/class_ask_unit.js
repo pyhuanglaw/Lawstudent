@@ -17,7 +17,7 @@ function itemFor(cid,week){ for(let d=1;d<1500;d++){ const t=CALENDAR.termOf(d);
   const Q={}; for(const q of EXAM_BANK.questions) Q[q.id]=q;
   let n=0, bad=[]; const asks=[];
   for(const cid in SYLLABUS.courses) for(const w of SYLLABUS.courses[cid]) if(w.ask){ n++; asks.push([cid,w.w,w.ask.qid]); const q=Q[w.ask.qid]; if(!q||!q.askedIn||q.askedIn.course!==cid||q.askedIn.week!==w.w||q.status!=='USER_CONFIRMED') bad.push(w.ask.qid); }
-  check('1. syllabus 有 ask 的週 76 個（69＋法學英文 6＋行政救濟法 1，2026-10-15 重新匯入），每一題都在 EXAM_BANK（USER_CONFIRMED），askedIn 和那一週一致',n===76&&!bad.length,'n='+n+' 不一致 '+JSON.stringify(bad));
+  check('1. syllabus 有 ask 的週 74 個（2026-10-15 的 76 個，16 週制 civil40 拿掉 2 個第 16 週的 askedIn，AA 7abe189a），每一題都在 EXAM_BANK（USER_CONFIRMED），askedIn 和那一週一致',n===74&&!bad.length,'n='+n+' 不一致 '+JSON.stringify(bad));
   check('2. CLS.classAsk、CLS.askOf 存在',typeof CLS.classAsk==='function'&&typeof CLS.askOf==='function');
   if(typeof CLS.classAsk!=='function'){ console.log('FAILED '+fails); process.exit(1); }
   // 大一上民法總則：第一題（第 5 週）、第二題

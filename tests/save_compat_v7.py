@@ -14,7 +14,7 @@ V7, NEW = sys.argv[1], sys.argv[2]
 ARGS = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist']
 SAMPLE_ZONES = ['campus', 'gongguan', 'wenzhou', 'dorm', 'classroom', 'cafe', 'wancai', 'library']
 
-LOADED = "!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"
+LOADED = "!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"
 # 對話就點下一句、有選項就選第一個（和玩家一樣按畫面）
 ADVANCE = """(()=>{ const D=GAME.D; if(D&&D.active){ GAME.dlgAdvance(); return 'dlg'; } const ch=document.getElementById('choices'); if(ch&&!ch.classList.contains('hide')){ const b=ch.querySelector('button'); if(b){ b.click(); return 'choice'; } } return GAME.E&&GAME.E.player&&GAME.E.player.busy?'busy':'free'; })()"""
 STATE = """(()=>{ const E=GAME.E, o=E.player.obj.position; const stand=E.canStand?E.canStand(o.x,o.z,0.3):E.nav.free(o.x,o.z);

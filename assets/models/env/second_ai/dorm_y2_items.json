@@ -1,0 +1,45 @@
+{
+ "glb": "assets/models/env/second_ai/dorm_y2_items.glb",
+ "zone": "dorm（大二 312 起：同一個四人房模型 dorm_room4，祐廷 L2）",
+ "layout": "loft4-v2",
+ "tris": {
+  "ITEM_civ": 24,
+  "ITEM_duty": 66,
+  "ITEM_film": 66,
+  "ITEM_green": 196,
+  "ITEM_noodle": 14,
+  "ITEM_pick": 16,
+  "ITEM_report": 130,
+  "ITEM_sticky": 66,
+  "ITEM_y1_album": 12,
+  "ITEM_y1_ferris": 66,
+  "WALL_left_Y2_BOARD": 188,
+  "Y2_BOXES_CLOSED": 48,
+  "Y2_BOXES_OPEN": 58
+ },
+ "tris_total": 950,
+ "bytes": 240484,
+ "nodes": {
+  "WALL_left_Y2_BOARD": "軟木板（左牆、祐廷書桌前＝layout 的 wall_spot_by_desk；ROOM_Y2 以後一直有；牆淡出時一起淡出，dir＝[1,0,0]）；下面的 ITEM_duty／report／film／y1_ferris／sticky 是釘在板上的；社團傳單之後也釘在板上（x 往房間 +0.02）",
+  "ITEM_film": "S.ROOM_Y2_TEXT.film",
+  "ITEM_pick": "pick",
+  "ITEM_civ": "civ（一定有）",
+  "ITEM_report": "report",
+  "ITEM_noodle": "noodle（一定有）",
+  "ITEM_duty": "duty",
+  "ITEM_green": "green（螢光筆＋攤開的筆記本）",
+  "ITEM_sticky": "sticky",
+  "ITEM_y1_ferris": "大一房間的摩天輪票根",
+  "ITEM_y1_album": "大一房間的河堤相簿（疊在民總課本上）",
+  "Y2_BOXES_CLOSED": "拆箱前：四個封好的紙箱（導航擋 nav_block＝[x0,x1,z0,z1]）",
+  "Y2_BOXES_OPEN": "拆完：兩個壓平的紙箱疊在地上＋上面一個開著的空箱（導航擋 nav_block）"
+ },
+ "pothos": "prop_pothos.glb（POTHOS_S1～S4，書桌左前角）",
+ "texture": "tools/blender/env_second/textures/gen/dorm_y2_print.png（本作，PIL 畫的，沒有字）",
+ "materials": [
+  "y2_print",
+  "y2_cork（Poly Haven granular_concrete）",
+  "y2_frame（Poly Haven walnut_veneer）",
+  "y2_vc"
+ ]
+}

@@ -1,0 +1,784 @@
+{
+ "version": 1,
+ "note": "劇情匯入白名單（使用者 2026-10-17 P0）：逐檔列路徑＋來源 commit；status 只有 approved 才匯入（WIP／pending 拒絕）；新版本要 AA（人物台詞先經 BB）明確交付「已審版本＋commit」才改這裡，由值班 LAWWW 更新。大一下閒聊階梯可昕 17 處（AA 分支 WIP）還沒審，不在名單。labelsRef＝讀記憶中文名稱表的企劃線 commit。",
+ "labelsRef": [
+  "54ae1a94",
+  "4c3c17f1",
+  "84bbef37",
+  "25e89f6e",
+  "9eef2167",
+  "f6269502",
+  "72ea87f5",
+  "a816234a"
+ ],
+ "files": [
+  {
+   "path": "docs/story_planning/ladder/ladder_aa.json",
+   "sha": "25e89f6e",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y1s2.json",
+   "sha": "25e89f6e",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "ROM-1017",
+   "history": [
+    {
+     "sha": "3b7e2268",
+     "approvedBy": "AA-C 2026-10-17 04:18Z 交付 DL-AA-3b7e2268（AA_209 第 7 節：可昕 17 處逐項核對；只限這個檔）"
+    },
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ],
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y2s1.json",
+   "sha": "b5acbaad",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "task": "AB65-3-Y2S1-L",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ],
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y2s2.json",
+   "sha": "25e89f6e",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y3s1.json",
+   "sha": "b5acbaad",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y3s2.json",
+   "sha": "25e89f6e",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y4s1.json",
+   "sha": "25e89f6e",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "task": "SYS-15",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_aa_y4s2.json",
+   "sha": "84bbef37",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 13:43 AA_263 大四下口語審，已審）",
+   "task": "AA263-Y4S2",
+   "note": "AA-C：週次上限 15（典禮 6/2）、GRAD_DONE 暫名、語彤延畢一年",
+   "history": [
+    {
+     "sha": "25e89f6e",
+     "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb.json",
+   "sha": "741e94f1",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "AB65-3-Y1S1／K-D5",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y0s1.json",
+   "sha": "408398d7",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y0s2.json",
+   "sha": "408398d7",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
+   "sha": "95c49d6a",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）；ad4969d3 可昕寒暑假在高雄的句子（AA_278 第 1 節）；dbf1cae0 K2-L8 選項「兩個多月很快」；2026-10-18 AA-C：AA_284 1-7 學姊 S2-L2 放榜後跳過（修錯）＋使用者 10-18 個性：學姊 S2-L8 回覆、可昕 K2-L7 回覆",
+   "task": "ROM-1017",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    },
+    {
+     "sha": "3b7e2268",
+     "approvedBy": "AA-C 2026-10-17 04:18Z 交付 DL-AA-3b7e2268（AA_209 第 7 節：可昕 17 處逐項核對；只限這個檔）"
+    }
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
+   "sha": "8cac8eaa",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）；2026-10-18 AA-C：AA_281 沛珊消失前什麼都不說（使用者 10-18 回答三題）",
+   "task": "AB65-3-Y2S1-L",
+   "history": [
+    {
+     "sha": "72ea87f5",
+     "approvedBy": "使用者 2026-10-15 閒聊階梯全案通過；遊戲現行版本（src/data/ladder.js 來源 72ea87f5＋9ebf6663，a0de035b、bdfdb9d3）"
+    }
+   ],
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y2s2.json",
+   "sha": "408398d7",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y3s1.json",
+   "sha": "741e94f1",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
+   "sha": "ad4969d3",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:27 已審表）；ad4969d3 可昕寒暑假在高雄的句子（AA_278 第 1 節）",
+   "task": "SYS-15",
+   "note": "BB-C 13:27：九個檔用 408398d7"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
+   "sha": "f6269502",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 13:34）",
+   "task": "SYS-15",
+   "note": "BB-C：大四上口語審完，可以匯入"
+  },
+  {
+   "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
+   "sha": "a816234a",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 14:42 BB_211 小修：學姊第 15 週那句加 unless GRAD_DONE；--check 通過，之後沒有再改）",
+   "task": "BB210-Y4S2",
+   "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
+   "history": [
+    {
+     "sha": "54ae1a94",
+     "approvedBy": "BB-C（2026-10-17 14:00 大四下口語審完，十個 --check 全過）"
+    },
+    {
+     "sha": "408398d7",
+     "approvedBy": "BB-C（2026-10-17 13:27 已審表）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/date_system/date_locations.json",
+   "sha": "d85c1309",
+   "status": "approved",
+   "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
+   "task": "DATE-S2"
+  },
+  {
+   "path": "docs/story_planning/date_system/point_specs.json",
+   "sha": "dae42964",
+   "status": "approved",
+   "approvedBy": "AA-B 交付（AA_128 第 2 節地點表、AA_148 互動點時間花費）；32 處校外約會已授權（CLAUDE.md D79 第 7 點、AA_128 使用者原話三條）",
+   "task": "DATE-S2"
+  },
+  {
+   "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
+   "sha": "741e94f1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017（BB_128 3-7 照 AA_188 口語版重寫，以 abad2fa0 為準，取代 5e910dd2；outbox_AA b8952924）；741e94f1 沛珊「我跟我媽說那天不回台中。」「……台中很遠。」（AA_276 沛珊的家在台中）",
+   "task": "DATE-S6",
+   "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子",
+   "history": [
+    {
+     "sha": "5e910dd2",
+     "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6",
+   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子"
+  },
+  {
+   "path": "docs/story_planning/date_system/date_prefs_bb.json",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/date_prefs_aa.json",
+   "sha": "5e910dd2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D04.json",
+   "sha": "b5acbaad",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D06.json",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D12.json",
+   "sha": "741e94f1",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D13.json",
+   "sha": "8cac8eaa",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017：七位照 AA_188 口語版審完（以安語彤 AA、BB 五位 BB-C：D04 74373b86／D06 0542a02b／D12 84efdcc5／D13 e4f84942，合併後 abad2fa0）；8cac8eaa：AA-C 2026-10-18（AA_281 第 4 節：沛珊欄杆那句改「最近在想一些事。今天先不想。」，使用者 10-18：她什麼都不說）",
+   "task": "DATE-S6"
+  },
+  {
+   "path": "docs/story_planning/free_trip/spots_v2.json",
+   "sha": "32d11245",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 06:41Z：旁白照 AA_188 口語修訂 20 處（結構、地點、時間、車資、條件沒動），build_spots_v2.py 產生器 ok",
+   "task": "DL-06B"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d09_base_dusk.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06B",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d18_base_dusk.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06B",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d20_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06B",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d24_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06B",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d25_base_sunset.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06B",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/AA_236_外部審稿回覆_全人物台詞.md",
+   "sha": "78cec297",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 09:41Z 交付（外部審稿逐條回覆，AA 定稿，照使用者已裁定的設定改字）：施工清單 A1～A5、A7～A10、B1～B3",
+   "task": "AA236-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
+   "sha": "05571a45",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 10:3x UTC 直接對 LAWWW-C「通過」（看的是 LAWWW-C 抄給他的 A5-1 新版全文，和 05571a45 的 A5-1 新版一節逐字相同）：只限「A5-1 新版」A、B、C1、C2；「已發布的兩處」已被 AA_218 17-1（W1 ★-6）與家族群組 (A) 取代，不照這裡；（合併 d171faef）只限 AA_224 寫「照用 BB_188 A2-x」的那幾段（A2-1e 除夕電話、A2-1b、A2-2、A2-3、A2-4、A2-5／A2-6 的底稿）與 A9 機制（BB 管機制，D98）；AA_224 衝突時以 AA_224 為準",
+   "task": "LIFE-LINE-1017, LIFE-HS-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_238_法服讀書會停用_缺的台詞.md",
+   "sha": "01f3ce42",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 10:24Z 交付（AA 定稿，第①②級：照已裁定的 17-4、17-7 換場合、換人；D98 台詞歸 AA）",
+   "task": "AA238-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_224_重考主線台詞定稿_LIFE-LINE.md",
+   "sha": "4e3a7c2b",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 10:45Z 交付（AA 定稿）：只限「第 7 組　開局」一節（使用者 10:4x 定案「直接進經濟系」）；（合併 ff3f2a4b）AA-C 2026-10-17 09:16Z 交付 2-c（回 LAWWW-C Q1～Q4：7/10 不傳訊息、旁白改「你」、法律系時期「為什麼重考」放宿營、K7 第二～四年；send_message 同時說明）；其餘同 31708531（第 1～6 組定稿）。第 7 組（開局日期）不在內",
+   "task": "LIFE-LINE-1017, LIFE-G7-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_218_祐廷人生主線修訂提案.md",
+   "sha": "60fc8720",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 10:3x 對 LAWWW-C 批准 17-6；AA-C 加 16 週日期（17-6）與 A5-1 實作對齊（17-13）：只限 17-6、17-13；（合併 edfcdd68）只限使用者已批准、AA-C 交付的段落：17-3 W1 第一次見面（使用者 07:5x 批准；開頭「台階」與 Café 版開頭句 2dc7f23d）、17-4 社團博覽會主版本與合併版（使用者 07:5x「可以」）、17-12／17-12a 學姊群組發言逐則改法（edfcdd68）、AA 補定（9/2 茶會學姊那段刪、家族群組 9/4 晚上加入、Kevin 置頂句）。17-5／17-6（W1 到社博之間的接觸）等使用者確認，不在內；13 節 A5-1 相識台詞暫停（使用者自己改），不在內；（合併 5063fbaf）AA-C 定稿台詞（17-11 子晴問阿凱三句；使用者 09:0x「阿凱一定知道、不主動說」的設計）＋BB-C 定觸發（BB_191 9-7 @0b075eac）；D50 第②級一般日常事件（AA、BB 共識）。只限 17-11 子晴問阿凱三句；到最新 62b16f5a 一字未改",
+   "task": "SIS-W1-1017, SIS-176-1017, KNOWS-SPREAD-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_204_大一寒假_AA場景台詞_16週制.md",
+   "sha": "27711a39",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 12:11Z（取代 4048e3ec；含 2-5 交往中的跨年、1-4，AA 審過可以實作；明軒管制線定稿）：第 1 節已做（xmas_y1）；第 2～4 節進 events.js／story3d.js；1-4 另做",
+   "task": "Y1-WINTER-AA204",
+   "history": [
+    {
+     "sha": "4048e3ec",
+     "approvedBy": "AA-C 交付（AA_204 第 1 節已整合）"
+    }
+   ],
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_255_大二下口語改稿_AA與BB人物.md",
+   "sha": "f218a3e0",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單（以安兩句、語彤不在法服…）"
+  },
+  {
+   "path": "docs/story_planning/AA_259_大三上口語改稿_AA與BB人物.md",
+   "sha": "cf864bff",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 交付：第 4 節給 LAWWW 的程式清單"
+  },
+  {
+   "path": "docs/story_planning/AA_256_假期_芯慈事務所_麵店團出國.md",
+   "sha": "247198e8",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；247198e8 補 VA-10 沒去的玩家看到的第一天照片（阿哲傳三則，取代暫用句）",
+   "note": "AA-C 12:45：VA-09 芯慈事務所、VA-10 麵店團香港；只在 AA 分支 claude/magical-albattani-bk7b4n"
+  },
+  {
+   "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
+   "sha": "b667820f",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改"
+  },
+  {
+   "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
+   "sha": "67f0f9e9",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:45：C04 考試日"
+  },
+  {
+   "path": "docs/story_planning/BB_207_學姊大二上舊事件整理_熱水移到備考期.md",
+   "sha": "7025eccb",
+   "status": "approved",
+   "approvedBy": "BB-C（2026-10-17 交付給 LAWWW-C）；（合併 7b39f636）BB-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "BB-C 12:43：學姊熱水鏈落地（AA_261 同意）；台詞在 AA_261（等 AA 給已審 SHA）"
+  },
+  {
+   "path": "docs/story_planning/AA_261_回BB207_學姊熱水與空的保溫瓶.md",
+   "sha": "16919f86",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+   "note": "AA-C 12:51：AA_261 已審（AA 分支），機制 BB_207 7b39f636"
+  },
+  {
+   "path": "docs/story_planning/AA_242_出國活動台詞_交流志工暑期課.md",
+   "sha": "6bcb154b",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；（合併 18fe1b6a）AA-C（2026-10-17 交付給 LAWWW-C）；6bcb154b 出國時可昕的訊息照 AA_278 改",
+   "note": "AA-C 13:03：補 8-6 重逢的約、C10 成績、Priya 改字、七夕那則拿掉"
+  },
+  {
+   "path": "docs/story_planning/AA_264_假期活動每年重開_第二次以後的台詞.md",
+   "sha": "7fa3660d",
+   "status": "approved",
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）；7fa3660d 第 5 節 C01 海邊改日期後的三個衝突",
+   "note": "AA-C 13:29：每年重開、第二次以後日誌、C02 小隊長、換人版、招募多一句"
+  },
+  {
+   "path": "docs/story_planning/AA_254_學期末心意邀約_告白台詞_BB203.md",
+   "sha": "8c76052b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（16:44 告白文件交叉檢查 18c5505b／04184f3a＋16:46 BB-C 口氣審 8c76052b；BB_203 機制使用者 2026-10-17 確認）：以安飯桌一句、她說的旁白與 CG-11 位置、大四上兩句、第二次後半；第 0 節第 7 點第二次答應六句；美國路線大四上邀約（以安、學姊）；第 9 節 C5 三句、學姊筆試前那句刪、時段最後一天；（合併 7fa1aad4）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js；（合併 89835b3a）AA-C 2026-10-17 11:58Z 更正（以安三選一與答應照 AA_187 9-1、語彤三選一照 9-2、答應照 AA_254 第 2 節）；第②級 AA 定稿；第 0～7、9 節進 src/data/termend_lines.js",
+   "task": "BB203-CONFESS-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_241_大一暑假_AA場景台詞.md",
+   "sha": "ecfae62d",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（第 9 節 Kevin 當助教＋8c76052b BB-C 口氣審的寒暑假版、第 10 節 C04 第一次的關鍵事件，16:51 交付 LAWWW-C）：只限第 9、10 節；（合併 e8010267）AA-C 2026-10-17（第②級 AA 定稿，可以實作）：第 1～4、6、7 節進 src/data/vac_activities.js（C02 營隊隊輔、C03 日語課、C05 日本五天、VA-02／05／11）；第 5 節柏翰週四總圖另做",
+   "task": "VAC-C08-12, HOLIDAY-SYS",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d01_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d02_base_overcast.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d02_base_rain.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d03_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d05_base_dusk.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d07_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d08_base_morning.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d10_base_dusk.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d11_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d14_base_sunset.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d17_base_morning.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d19_base_morning.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d21_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d26_base_golden.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d27_base_morning.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d28a_base_day.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d28b_base_sunset.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d29_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d30_base_dusk.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/date_system/art/d31_base_morning.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DL-06C",
+   "kind": "art"
+  },
+  {
+   "path": "docs/story_planning/free_trip/spots_v3.json",
+   "sha": "3b599624",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 17:34（已審：照 AA_188 口語修訂 36 句旁白，build_spots_v3.py --check 通過 18 處、61 個互動點；時間、價錢、門票、休館、legs、rules 沒動）",
+   "task": "DL-06C",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_250_期末聚餐話題池_大一.md",
+   "sha": "6bcb154b",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 17:36（全檔照 AA_188 口語審 01029de1；BB 人物照 BB_212 換 6f6e9c7e）：話題池 1-1～7-1、邀約鉤子、9-2 可昕、10-1～10-4 用新句（劃線後的那一句）；（合併 ae841bba）AA-C 2026-10-17 12:29Z（9-2 可昕學期末約會重寫：地點照 BB_202、每學期的邀約、開場收尾、沒去的訊息）＋c524b61e 10-1、acf92ff0 第 10 節、375b91dd；第 1～7 節話題池、9-2、第 10 節進 src/data/termend_lines.js；6bcb154b 沛珊兩句、可昕大四上飯桌照 AA_278 改",
+   "task": "BB203-CONFESS-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_271_自由出行第三批_AA偶遇與來過一次.md",
+   "sha": "01e9d706",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 17:59 交付訊息（第②級日常內容）：第 1 節偶遇表、1-1 第一二句、1-2 前任反應",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/free_trip/aa_walk_v1.json",
+   "sha": "b5acbaad",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 18:12：第一、二批同步成 AA_209 附錄 A 改稿版（和遊戲逐字一致）；第三批景點和 0b478a53 相同（已比對）；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_213_自由出行第三批_BB五位偶遇.md",
+   "sha": "0544a147",
+   "status": "approved",
+   "approvedBy": "AA-C 核對通過（BB_213 狀態欄，2026-10-17 17:59）；BB-C 18:00 交付訊息：第 1 節偶遇表、第 2 節打招呼與前任；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/free_trip/bb_walk_v1.json",
+   "sha": "b5acbaad",
+   "status": "approved",
+   "approvedBy": "BB_213（AA-C 核對 b0c20f70）：只用 batch:3 的 walk／leave／intro／revisit／followUp；D02.pond 先不放；BB-C 0544a147 更正：子晴 D01 改雙週 4、10，芷若生態池那句 act 改 walk；AA-C 18:31：改用 aca122d2（第二批口語審；第三批與舊版相同）；2026-10-18 AA-C：口氣表第 5 節第 8、9 項（模板句、「騙你的」殘留），只改一句",
+   "task": "ENC-B3-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_162_偶遇人物表_AA六位.md",
+   "sha": "aca122d2",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 18:29／18:31 交付訊息：第 8 節（8-1、8-2、8-5 口語審）",
+   "task": "ENC-B2-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_150_AB23_第二批景點偶遇_BB五位.md",
+   "sha": "aca122d2",
+   "status": "approved",
+   "approvedBy": "AA-B 06:54 核對、AA-C 口語審＋BB-C 口氣審 b13052e5（AA-C 18:31 合併）：第 1～5 節",
+   "task": "ENC-B2-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
+   "sha": "b61e4f55",
+   "status": "approved",
+   "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）",
+   "task": "SYS-PHONE-CHAT, MSG-2",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md",
+   "sha": "bb6baddf",
+   "status": "approved",
+   "approvedBy": "BB_178 第二版 AA-B 核過（AA_200 5-7、34ea4e1d）；AA-C 12:01／12:04 定稿 MSG-2 條件與學姊美國日期：第 0～8b 節；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）；bb6baddf 第 5 節可昕學期中／在老家（AA_278）",
+   "task": "SYS-PHONE-CHAT, MSG-2",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_175_AB65_大一上第3批_手機小事_BB人物.md",
+   "sha": "edebddd5",
+   "status": "approved",
+   "approvedBy": "AA-B 互審通過（AA_200 第 1 節，2026-10-16 21:32）；D8 照建議改：改稿欄",
+   "task": "V1-BB175",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
+   "sha": "659af025",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）",
+   "task": "MSG-2",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_208_宿舍四人房_室友.md",
+   "sha": "7f2cd8d8",
+   "status": "approved",
+   "approvedBy": "AA-C 19:44 回 LAWWW-C（台詞由 AA 寫，D98）：只限 7-1「搬房間的字卡」兩行；第 7、8 節的房號與擺設照 LAWWW2-C 4fa4a1e2 已整合；7f2cd8d8 第 9 節每年抽籤群組訊息",
+   "task": "DORM-Y2-312",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_95_交接包v1_大一上.md",
+   "sha": "e627d747",
+   "status": "approved",
+   "approvedBy": "交接包 v1 使用者批准進入實作（D50）；e627d747 是照使用者 23:3x「直屬只有一個＝溫學姊」改的（Kevin「直屬學弟妹」→「家族的學弟妹」）。只限這一句",
+   "task": "START-WEEK",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_272_休學到放榜_不能快轉的事件.md",
+   "sha": "2beb591f",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（使用者 21:2x～22:0x 直接給的大綱與更正：高雄客運、7/25 公布分數、8/13 手機＋電話、2/13 起住祐廷家、2/14 一起問補習班、衝刺班兩人、休學理由第 9 節（ae4806a9：一百分、零分、一定被當）、2/14 櫃台十三萬與 12/13 一句（52c73c73）、E35 住在一起（第 10 節 7975ffdf）、考試兩天（第 11 節 885c1c2b、117b6081、c8baae2b）；「台詞都是 AA_224 的或本檔新寫的，AA 定稿，可以實作」）；第 6 節保底電話 BB-C 審過；第 12 節在家版 7/25 電話與 22:30 私訊、8/13 電話拿掉的句子（c0ee2822）、在家版第三個選項（0cc64ec7）；12-4 8/13 電話三處改句（1fc61e52）；第 13 節 P1b1 第 4～5 週、P2b 經濟學原理下課 10/7、10/14（d9aa4d9f）；P2b 韋綸那句改「經原終於下課了。」（2beb591f）",
+   "task": "V0-HOME-FF, AA272-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_276_寒暑假的人在哪_芷若英國聯絡.md",
+   "sha": "b4e48e0d",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（使用者 23:4x～23:5x、10-18 00:1x 原話；D100：台詞歸 AA，AA 的稿就是定稿）；第 6 節 4fbabbee／e67b3786、第 7 節 9e875a10；b4e48e0d 第 2 節「認識、有點熟」社群發文那格改不做",
+   "task": "VAC-HOMETOWN-1017, VAC-ZR-UK-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_210_大二到大四跨年_16週制.md",
+   "sha": "7fa3660d",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（第②級一般日常事件，照 AA_197 1-5 已批准的方向；D100：台詞歸 AA，含可昕）；第 5 節 2026-10-18 對照現行設定更正，以第 5 節為準；9c641efa 補阿凱一句（1-5）；28ac4ea3 補 5-5（回 LAWWW 三個缺口）；d5cf5589 補 5-6（大三合照、零點旁白）；b4e48e0d 補 5-7（大四沒去的照片、芷若跨年全文、子晴那行刪）；7fa3660d 1-4 阿哲回高雄改海邊隔天",
+   "task": "HOL-NYE-Y2, HOL-NYE-Y3, HOL-NYE-Y4",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_278_寒暑假可昕沛珊不在臺北_逐件改.md",
+   "sha": "6bcb154b",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（依 AA_276 第 1 節使用者 10-17 23:4x 原話；D100 台詞歸 AA；第 1 節 AA 已直接改進開發分支，使用者 10-18 00:5x 授權）",
+   "task": "VAC-HOMETOWN-1017",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md",
+   "sha": "02ed9b0a",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（D46 使用者 10-11；使用者 10-18 02:2x「118巷…現在就放進這個發佈版本」；D100 台詞歸 AA）",
+   "task": "ART-03",
+   "kind": "text"
+  }
+ ]
+}

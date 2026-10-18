@@ -52,14 +52,14 @@ check('8. 芷若「有點熟」、單身：吃飯可以、散步「散步要等�
 SOCIAL.rel('heroine_03').fam=8;
 check('8. 語彤「認識」：吃飯「再熟一點，才約得出去吃飯。」',I.placeWhy(G,'heroine_03',P('noodle'))==='再熟一點，才約得出去吃飯。',I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_kexin=true;
-/* 2026-10-16 改（AA_128 4-5、AA_140 0-2 X2）：祐廷有伴侶，只有「她知道」才擋；可昕交往中：以安、語彤、沛珊知道（麵店團 K3 起），芷若、子晴、學姊不知道 */
+/* 2026-10-16 改（AA_128 4-5、AA_140 0-2 X2）：祐廷有伴侶，只有「她知道」才擋；2026-10-17（BB_191 第 9 節）：誰知道照各人的 knowsRel（K3 選①在場、聽朋友說、祐廷自己說），沒有固定名單 */
 check('8. 祐廷和可昕交往中、芷若不知道：吃飯照常（X2：她不知道就照常約）',I.placeWhy(G,'heroine_02',P('noodle'))==='',I.placeWhy(G,'heroine_02',P('noodle')));
 ROM.learn(G,'heroine_02','kexin');
 check('8. 芷若知道以後：吃飯「兩個人單獨去吃飯不太好。約在 Café 或總圖吧。」、散步「……散步不太好……」（AA 2026-10-14 換句話）；Café、總圖照常',W.partnerMeal==='兩個人單獨去吃飯不太好。約在 Café 或總圖吧。'&&W.partnerWalk==='兩個人單獨去散步不太好。約在 Café 或總圖吧。'&&I.placeWhy(G,'heroine_02',P('noodle'))===W.partnerMeal&&I.placeWhy(G,'heroine_02',P('cafe'))===''&&I.placeWhy(G,'heroine_02',P('library'))==='',
   [I.placeWhy(G,'heroine_02',P('noodle')),I.placeWhy(G,'heroine_02',P('library'))].join('｜'));
 const r=I.decide(G,'heroine_02','noodle',21,12+10/60);
 check('8. decide 回 partner、旁白是同一句',r.res==='decline'&&r.why==='partner'&&I.reply(G,'heroine_02','noodle',r)===W.partnerMeal,JSON.stringify(r)+' '+I.reply(G,'heroine_02','noodle',r));
-check('8. 語彤：K3 以前不知道（不擋）；中秋烤肉可昕來過（KX_MET_NOODLE_TEAM）以後知道＝擋',I.placeWhy(G,'heroine_03',P('noodle'))!==W.partnerMeal&&(G.flags.KX_MET_NOODLE_TEAM=true,I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal),I.placeWhy(G,'heroine_03',P('noodle')));
+check('8. 語彤：可昕來過烤肉（KX_MET_NOODLE_TEAM）但她沒有知道的管道＝不擋（BB_191 9-4 #1：拿掉固定名單）；K3 選①時她在場（ROM.learn）＝擋',I.placeWhy(G,'heroine_03',P('noodle'))!==W.partnerMeal&&(G.flags.KX_MET_NOODLE_TEAM=true,I.placeWhy(G,'heroine_03',P('noodle'))!==W.partnerMeal)&&(ROM.learn(G,'heroine_03','kexin','ev_mid_autumn_bbq'),I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal),I.placeWhy(G,'heroine_03',P('noodle')));
 check('8. 阿哲（男生）照常吃飯',I.placeWhy(G,'zhe',P('noodle'))==='',I.placeWhy(G,'zhe',P('noodle')));
 G.flags.dating_kexin=false; delete G.flags.KX_MET_NOODLE_TEAM; G.flags.dating_heroine_02=true;
 check('8. 約交往的對象本人照常（和芷若交往中：約芷若吃飯可以）',I.placeWhy(G,'heroine_02',P('noodle'))==='',I.placeWhy(G,'heroine_02',P('noodle')));
@@ -68,7 +68,7 @@ ROM.learn(G,'heroine_03','heroine_02');
 check('8. 語彤知道以後：「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_03',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_03',P('noodle')));
 G.flags.dating_heroine_02=false; SOCIAL.rel('heroine_05').fam=25;
 global.STORY={inTerms:(GG,rr)=>rr.from==='Y1S1',presence:()=>({here:true}),present:()=>true};
-check('8. 祐廷單身、學姊這學期有伴侶（characters.js partner）：學姊吃飯「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))===W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
+check('8. 祐廷單身、學姊沒有伴侶（使用者 2026-10-17 P0：學姊一開始就沒有男朋友，AA_218 第 16 節、BB_122 ★ 節）：學姊吃飯不會出現「兩個人單獨去吃飯不太好」',I.placeWhy(G,'heroine_05',P('noodle'))!==W.partnerMeal,I.placeWhy(G,'heroine_05',P('noodle')));
 check('8. 沛珊（大一下才有伴侶）：大一上照常（吃飯只看熟不熟）',I.partnerBlock(G,'classmate_peishan',P('noodle'))===false);
 delete global.STORY;
 check('8. 選地點時寫原因、選了約不到的地方先說原因再選一次（invites3d.js flow）',/hint:S\.placeWhy\(G,id,Q\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));

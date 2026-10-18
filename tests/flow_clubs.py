@@ -120,8 +120,8 @@ async def main():
         run.check('C 選單列五個社團＋「逛完了」', bool(menus) and len(menus[0]) == 6 and menus[0][-1].startswith('逛完了'), json.dumps(menus[:1], ensure_ascii=False))
         run.check('C 選吉他社＝加入；再看一次寫「已加入」；逛完了離開', G['guitar'] and len(menus) >= 2 and '已加入' in menus[1][0] and G['att'], json.dumps(G))
         # ---------- D：系籃 ----------
-        run.setup('讀檔：10/3 週五 17:35，霖澤館前（系籃 2026-10-14 搬到醉月湖東側的球場）')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 17.58, 'day': D_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98, 'yaw': 0, 'lv': 0}, 'flags': BASE_FLAGS})
+        run.setup('讀檔：10/3 週五 17:35，霖澤館前（系籃 2026-10-14 搬到醉月湖東側的球場）；SK01 當作已經演過')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 17.58, 'day': D_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98, 'yaw': 0, 'lv': 0}, 'flags': dict(BASE_FLAGS, SK01_DAY=D_FRI - 10), 'events': {'done': {'ev_sk01_soc': 1}, 'last': {}, 'count': 1}})   # SK01（阿勳的社科圖，第一次站在霖澤館前就演；once 看 events.done）當作已經演過：這一段只測系籃
         await pg.wait_for_timeout(4000)
         spot = await L.find_it(pg, '系籃練球')
         ok = await L.go_to(pg, cdp, run, spot['x'], spot['z'], 0.9, '系籃練球', lv=0)

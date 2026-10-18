@@ -416,7 +416,7 @@ def range_shelf(s, rnd):
     sh.box(x - hd + 0.03, x + hd - 0.03, y, y + 0.08, z0, z1)                                # 底座（踢腳退縮 3 cm）
     sh.box(x - 0.006, x + 0.006, y + 0.08, y + h - 0.03, z0, z1)                             # 中間的鐵板
     ys, sp = shelf_levels(h, s['levels'])
-    for yy in ys[1:]: sh.box(x - hd, x + hd, y + yy - 0.02, y + yy, z0, z1)
+    for yy in ys[1:]: sh.box(x - hd + 0.004, x + hd - 0.004, y + yy - 0.02, y + yy, z0, z1)   # 層板比直隔板退 4 mm（原本正面同一個平面，交叉的地方會閃，BUG-COPLANAR-DEV）
     bz = bays(z0, z1)
     for zz in bz[1:-1]: sh.box(x - hd, x + hd, y + 0.08, y + h - 0.03, zz - 0.0125, zz + 0.0125)
     ep.box(x - hd - 0.015, x + hd + 0.015, y + h - 0.035, y + h + 0.01, z0 - 0.025, z1 + 0.025)  # 頂板
@@ -443,11 +443,11 @@ def wall_shelf(s, rnd, z0_clip=None):
         if along_x: m.box(a_lo, a_hi, y_lo, y_hi, p_lo, p_hi)
         else: m.box(p_lo, p_hi, y_lo, y_hi, a_lo, a_hi)
     dep = abs(front - back)
-    B_(a0, a1, y, y + 0.08, 0.0, dep - 0.03, sh); B_(a0, a1, y + 0.08, y + h - 0.03, 0.0, 0.012, sh)
+    B_(a0, a1, y, y + 0.08, 0.0, dep - 0.03, sh); B_(a0, a1, y + 0.08, y + h - 0.03, 0.013, 0.025, sh)   # 背板放在踢腳板前面（原本和踢腳板同厚、正面同一個平面）
     ys, sp = shelf_levels(h, s['levels'])
-    for yy in ys[1:]: B_(a0, a1, y + yy - 0.02, y + yy, 0.0, dep, sh)
+    for yy in ys[1:]: B_(a0, a1, y + yy - 0.02, y + yy, 0.025, dep - 0.004, sh)
     bz = bays(a0, a1)
-    for aa in bz[1:-1]: B_(aa - 0.0125, aa + 0.0125, y + 0.08, y + h - 0.03, 0.0, dep, sh)
+    for aa in bz[1:-1]: B_(aa - 0.0125, aa + 0.0125, y + 0.08, y + h - 0.03, 0.025, dep, sh)
     B_(a0 - 0.02, a1 + 0.02, y + h - 0.035, y + h + 0.01, 0.0, dep + 0.015, ep)
     for aa, sg2 in ((a0, -1), (a1, 1)): B_(min(aa, aa + sg2 * 0.025), max(aa, aa + sg2 * 0.025), y, y + h - 0.035, 0.0, dep + 0.015, ep)
     for a, b in zip(bz, bz[1:]):
@@ -468,12 +468,12 @@ def display_rack(s, rnd):
     x0, x1, z0, z1 = s['x0'], s['x1'], s['z0'], s['z1']; along_x = face in 'NS'
     a0, a1 = (x0, x1) if along_x else (z0, z1); front = {'E': x1, 'W': x0, 'S': z1, 'N': z0}[face]; back = {'E': x0, 'W': x1, 'S': z0, 'N': z1}[face]
     dep = abs(front - back); sh, ep, cv = mk(lv, 'shelf'), mk(lv, 'endpanel'), um(lv, 'cover')
-    for a, b in zip(bays(a0, a1, 0.9), bays(a0, a1, 0.9)[1:]):
+    for bi, (a, b) in enumerate(zip(bays(a0, a1, 0.9), bays(a0, a1, 0.9)[1:])):
         c = (a + b) / 2; bw = b - a
         bc = (c, back) if along_x else (back, c)                                            # 背面中點
         F0 = xf(bc[0] if along_x else back, y, bc[1] if along_x else c, yaw)                 # 本地：x 沿牆、z 從背面往前
         tbox(sh, F0, -bw / 2, bw / 2, 0.0, h - 0.03, 0.0, 0.012); tbox(sh, F0, -bw / 2, bw / 2, 0.0, 0.08, 0.0, dep - 0.04)
-        for sx in (-1, 1): tbox(sh, F0, sx * bw / 2 - 0.0125, sx * bw / 2 + 0.0125, 0.0, h - 0.03, 0.0, dep)
+        for sx in ((-1, 1) if bi == 0 else (1,)): tbox(sh, F0, sx * bw / 2 - 0.0125, sx * bw / 2 + 0.0125, 0.0, h - 0.03, 0.0, dep)   # 相鄰兩格共用一片側板（原本各放一片、完全重疊）
         for k in range(4):
             yb = 0.12 + k * (h - 0.2) / 4; tilt = -0.32                                       # 板子上緣往後傾
             Fk = xf(*F0(0, yb, dep - 0.12), yaw=yaw, pitch=tilt)

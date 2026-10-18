@@ -108,7 +108,7 @@ const B3=(function(){
     for(const [x,z,ry,len] of [[EL.x0-0.08,cz,Math.PI/2,d],[EL.x1+0.08,cz,Math.PI/2,d],[cx,EL.z1+0.08,0,w]]){ const gp=new THREE.Mesh(new THREE.PlaneGeometry(len,RY-0.5),MAT.glass()); gp.position.set(x,(RY-0.5)/2,z); gp.rotation.y=ry; grp.add(gp); }
     // 車廂
     const car=new THREE.Group(); car.name='ELEV_CAR'; grp.add(car); const cb=new TK.Bin();
-    cb.add(MAT.graniteD(),TK.boxG(w-0.1,0.12,d-0.1),cx,-0.06,cz); for(const [bw,bd,bx,bz] of [[w-0.1,0.08,cx,EL.z0+0.09],[w-0.1,0.08,cx,EL.z1-0.09],[0.08,d-0.1,EL.x0+0.09,cz],[0.08,d-0.1,EL.x1-0.09,cz]]) cb.add(MAT.frame(),TK.boxG(bw,0.1,bd),bx,2.55,bz);   /* 車廂頂只有四邊的框（玻璃電梯；原本一整塊深色頂板：鏡頭在車廂上方時整塊擋住玩家，總圖大廳從電梯走出來的那一刻）*/ cb.add(MAT.steel(),TK.boxG(w-0.2,0.04,0.04),cx,0.95,EL.z1-0.12); for(const sx of [-1,1]) cb.add(MAT.steel(),TK.boxG(0.04,0.04,d-0.3),cx+sx*(w/2-0.12),0.95,cz);
+    cb.add(MAT.graniteD(),TK.boxG(w-0.1,0.12,d-0.1),cx,-0.045,cz);   /* 車廂地板頂面高出樓板 1.5 cm：原本頂面剛好在 y=0，和樓板（Blender 模型的地板）同一個平面，手機上一直閃（使用者 2026-10-16 總圖電梯）*/ for(const [bw,bd,bx,bz] of [[w-0.1,0.08,cx,EL.z0+0.09],[w-0.1,0.08,cx,EL.z1-0.09],[0.08,d-0.1,EL.x0+0.09,cz],[0.08,d-0.1,EL.x1-0.09,cz]]) cb.add(MAT.frame(),TK.boxG(bw,0.1,bd),bx,2.55,bz);   /* 車廂頂只有四邊的框（玻璃電梯；原本一整塊深色頂板：鏡頭在車廂上方時整塊擋住玩家，總圖大廳從電梯走出來的那一刻）*/ cb.add(MAT.steel(),TK.boxG(w-0.2,0.04,0.04),cx,0.95,EL.z1-0.12); for(const sx of [-1,1]) cb.add(MAT.steel(),TK.boxG(0.04,0.04,d-0.3),cx+sx*(w/2-0.12),0.95,cz);
     for(const [x,z] of [[EL.x0+0.03,EL.z0+0.03],[EL.x1-0.03,EL.z0+0.03],[EL.x0+0.03,EL.z1-0.03],[EL.x1-0.03,EL.z1-0.03]]) cb.add(MAT.frame(),TK.boxG(0.06,2.5,0.06),x,1.25,z); cb.build(car);
     const lp=new THREE.Mesh(new THREE.PlaneGeometry(w-0.5,d-0.6),MAT.lightPanel()); lp.rotation.x=Math.PI/2; lp.position.set(cx,2.49,cz); car.add(lp);
     // 車門（兩扇，往兩側滑開）＋每一層的層門
@@ -133,6 +133,10 @@ const B3=(function(){
     /* 換區域之後：車廂停在玩家那一層、人在車廂裡；hold＝先讓車廂的格子可以走（出生點在車廂裡，門之後才打開）*/
     el.placeAt=(lv,hold)=>{ el.lv=lv; el.y=Y[lv]; car.position.y=Y[lv]-Y[0]; drawInd(lv+base); if(hold){ el.isOpen=true; } el.setCells(); };
     el.update=(dt)=>{ for(const tw of el.tweens.slice()){ tw.t+=dt; const k=Math.min(1,tw.t/tw.dur); tw.fn(k); if(k>=1){ el.tweens.splice(el.tweens.indexOf(tw),1); tw.res(); } } };
+    /* 鏡頭碰撞（BUG-CAM-ELEV，使用者 2026-10-16 閱覽室電梯：車廂裡鏡頭退到井道玻璃外、穿出房間，畫面一片橘紅）：井道沒有門的三面（東、西、北玻璃）
+       放看不見的碰撞盒，交給 engine3d.js 的 followCam 當隔間牆（zone.elevCams；和 zone.camCols 一起查）——車廂裡鏡頭拉近、抬高，從上面看車廂 */
+    if(zone){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}); zone.elevCams=zone.elevCams||[];
+      for(const [x,z,bw,bd] of [[EL.x0-0.08,cz,0.24,d+0.4],[EL.x1+0.08,cz,0.24,d+0.4],[cx,EL.z1+0.08,w+0.4,0.24]]){ const m=new THREE.Mesh(new THREE.BoxGeometry(bw,RY,bd),inv); m.position.set(x,RY/2,z); m.name='ELEV_CAMCOL'; m.userData.dyn=true; grp.add(m); zone.elevCams.push(m); } }
     setDoor(0); drawInd(base); el.setCells(); return el; }
 
   // ---- 區域 ----

@@ -9,7 +9,7 @@
   路名牌：路口 (47.7, 7.6)。紅磚人行道：Café 門前 1.9×13.4 m（54.3, 0）＋路緣。
 電線桿是同一個網格（instancing），路燈臂、變壓器、路牌是另外的零件；字（桿號牌、路牌）用 canvas 畫（PLATE_FACE_*）。
 """
-import math, os, sys, random
+import json, math, os, sys, random
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import lib2 as L   # noqa: E402
@@ -165,8 +165,34 @@ for sd in (1, -1):
     p0, p1 = xf.p(0.03, 0, sd * 0.012), xf.p(0.97, 0, sd * 0.012); pts = [(p0[0], 2.6, p0[2]), (p1[0], 2.6, p1[2]), (p1[0], 2.9, p1[2]), (p0[0], 2.9, p0[2])]
     face(f'PLATE_FACE_roadname_{"a" if sd > 0 else "b"}', M['board'], pts if sd > 0 else [pts[1], pts[0], pts[3], pts[2]], {'plate': 'roadname', 'text': '溫州街', 'sub': 'Wenzhou St.', 'bg': '#1f6448', 'color': '#f4f6f2'})
 
+# ---- 路面（精修第 3 批，LAWWW2-B 2026-10-16）：wz_road_tex.py 畫好的整條路貼圖（補丁、灌縫、輪跡、油漬、水溝蓋、白線紅線、人孔、慢字、牆腳暗角）
+#      蓋在套件的路面（TK.road，y 0～0.013 的柏油、白線、鐵柵、人孔、慢字）上面：y 0.016。套件的斑馬線（y 0.012，polygonOffset −2）照舊疊在上面。
+GEN = os.path.join(HERE, 'textures', 'gen')
+def road_mat(name, fn):
+    m = L.flat(name, '#ffffff', rough=0.93); nt = m.node_tree; bs = nt.nodes['Principled BSDF']
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(GEN, fn)); tx.interpolation = 'Linear'
+    nt.links.new(tx.outputs['Color'], bs.inputs['Base Color']); return m
+RY = 0.016
+rd = Mesh('wz_road_main', road_mat('wz_road_main', 'wz_road_main.jpg'))
+rd.quad([(-37.0, RY, 5.0), (47.3, RY, 5.0), (47.3, RY, -5.0), (-37.0, RY, -5.0)])
+uv01(rd.finish(root, uv=True))
+rn = Mesh('wz_road_ns', road_mat('wz_road_ns', 'wz_road_ns.jpg'))
+rn.quad([(47.3, RY, -46.0), (47.3, RY, 49.5), (55.3, RY, 49.5), (55.3, RY, -46.0)])
+uv01(rn.finish(root, uv=True))
+# 三條側巷（北巷、南巷、西端巷子的兩段）：一張貼圖集 wz_road_side.jpg，每塊的世界範圍和 UV 在 wz_road_side.json（wz_road_tex.py 寫的）
+SR = json.load(open(os.path.join(GEN, 'wz_road_side.json')))
+rs = Mesh('wz_road_side', road_mat('wz_road_side', 'wz_road_side.jpg'))
+for r in SR.values(): rs.quad([(r['x0'], RY, r['z1']), (r['x1'], RY, r['z1']), (r['x1'], RY, r['z0']), (r['x0'], RY, r['z0'])])
+ob = rs.finish(root, uv=True, merge=False); uvl = ob.data.uv_layers.active
+for poly in ob.data.polygons:
+    cx, cz = poly.center.x, -poly.center.y
+    r = next(r for r in SR.values() if r['x0'] < cx < r['x1'] and r['z0'] < cz < r['z1'])
+    for li in poly.loop_indices:
+        co = ob.data.vertices[ob.data.loops[li].vertex_index].co; x, z = co.x, -co.y
+        uvl.data[li].uv = (r['u0'] + (x - r['x0']) / (r['x1'] - r['x0']) * (r['u1'] - r['u0']), r['v0'] + (z - r['z0']) / (r['z1'] - r['z0']) * (r['v1'] - r['v0']))
+
 # ---- Café 門前的紅磚人行道（平的，不改導航）＋低路緣
-bw = Mesh('cafe_brick_walk', M['brick']); bw.box(53.35, 55.25, 0.0, 0.016, -6.7, 6.7); bw.finish(root)
+bw = Mesh('cafe_brick_walk', M['brick']); bw.box(53.35, 55.25, 0.0, 0.03, -6.7, 6.7); bw.finish(root)   # 頂面 0.016 → 0.03：比新路面（0.016）高一點，不會 z-fighting
 cb = Mesh('cafe_brick_curb', M['curb']); cb.box(53.26, 53.4, 0.0, 0.045, -6.7, 6.7); cb.finish(root)
 
 for m, props in faces: uv01(m.finish(root, uv=True, props=props))

@@ -3,12 +3,18 @@
 const PORTRAIT_FILES={
  "classmate_bohan": {
   "campus": [
-   "neutral"
+   "neutral",
+   "serious",
+   "surprised",
+   "thinking"
   ]
  },
  "classmate_mingxuan": {
   "campus": [
-   "neutral"
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "smile"
   ]
  },
  "classmate_peishan": {
@@ -27,15 +33,37 @@ const PORTRAIT_FILES={
  },
  "classmate_xinci": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile",
+   "surprised",
+   "thinking",
+   "tired"
   ]
  },
  "classmate_youchen": {
+  "campus": [
+   "laugh",
+   "neutral",
+   "smile"
+  ]
+ },
+ "econ_jiahao": {
   "campus": [
    "neutral"
   ]
  },
  "econ_pinyu": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "econ_tangrui": {
+  "campus": [
+   "neutral"
+  ]
+ },
+ "econ_weilun": {
   "campus": [
    "neutral"
   ]
@@ -114,12 +142,23 @@ const PORTRAIT_FILES={
    "serious",
    "smile",
    "surprised",
+   "thinking",
    "tired"
+  ],
+  "formal": [
+   "neutral",
+   "serious",
+   "smile"
   ]
  },
  "kai": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "sad",
+   "smile",
+   "surprised",
+   "tired"
   ]
  },
  "kexin": {
@@ -132,18 +171,28 @@ const PORTRAIT_FILES={
    "serious",
    "smile",
    "surprised",
+   "teasing",
    "thinking",
    "tired"
   ]
  },
  "npc_fangyt": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile"
   ]
  },
  "npc_huangxh": {
   "campus": [
    "neutral"
+  ]
+ },
+ "npc_ta_chen": {
+  "campus": [
+   "neutral",
+   "smile",
+   "thinking"
   ]
  },
  "prof_huang": {
@@ -153,17 +202,25 @@ const PORTRAIT_FILES={
  },
  "prof_lin": {
   "campus": [
-   "neutral"
+   "neutral",
+   "smile"
   ]
  },
  "prof_zhou": {
   "campus": [
-   "neutral"
+   "neutral",
+   "smile"
   ]
  },
  "yu": {
   "campus": [
-   "neutral"
+   "annoyed",
+   "embarrassed",
+   "laugh",
+   "neutral",
+   "serious",
+   "smile",
+   "surprised"
   ]
  },
  "yule": {
@@ -175,7 +232,10 @@ const PORTRAIT_FILES={
  },
  "zhe": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "smile",
+   "surprised"
   ]
  }
 };

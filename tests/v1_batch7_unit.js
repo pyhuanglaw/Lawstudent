@@ -66,7 +66,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
   { const play=async(pk)=>{ fresh(SAT3,13.5,'dorm'); OUT.plan(G,{id:'kx_tour',ev:'ev_kexin_tour_nccu',day:SAT3,h:14,place:'政大',title:'去政大找可昕',travel:'開車約 30 分鐘',travelH:0.5}); picks=['出發'].concat(pk); const r=await tickOut(); return r; };
     const r=await play(['影子不會講話','她推薦']); const L=lines();
     check('出發：轉場（標題卡「去政大找可昕｜開車約 30 分鐘」）、深色底開始',r==='go'&&titles[0]==='去政大找可昕｜開車約 30 分鐘'&&bgs[0]==='begin:dark',JSON.stringify({titles,bgs:bgs.slice(0,3)}));
-    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・校門口（字幕；AA_137 7-1：停車場改成校門；校門、小吃街有 2D 背景（LAWWW2-B 825c038））',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校門口"]'&&JSON.stringify(bgs.slice(2))==='["img","img","img"]',JSON.stringify({caps,bgs}));
+    check('三個場景：政大・校門口 → 政大・山下的小吃街 → 政大・校門口（字幕；AA_137 7-1：停車場改成校門；校門、小吃街有 2D 背景（LAWWW2-B 825c038））',JSON.stringify(caps.filter(c=>c.startsWith('政大')))==='["政大・校門口","政大・山下的小吃街","政大・校門口"]'&&JSON.stringify(bgs.slice(2,5))==='["img","img","img"]',JSON.stringify({caps,bgs}));   /* 最後多一個 begin:dark＝演完和可昕的那幾句留在 2D 畫面（BUG-OUTING-STUCK，使用者 2026-10-16：她人不在、對話還在），是刻意的 */
     const K1=['校門口。她在揮手，只戴一邊的耳環，今天是一隻小長頸鹿。',   /* 2026-10-16 BB_95 9-1：所有玩家都是長頸鹿（BCG-27）*/
       '暑假那次學校沒人，不算。今天才是真的政大。我是今天的導遊。',   /* 第二句 2026-10-16 照 AA_140 3-5 F 改（BB-B 的句子）*/
       '我在這裡念了三個禮拜，所以比你懂這裡三個禮拜。','她指了左邊、右邊、後面。','法學院。山。也是山。政大的地圖重點就是：山。','假設你的影子先到政大，它可以幫你點餐嗎？'];
@@ -127,7 +127,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('K3：前一天（週五）20:00 可昕問「我們系也有烤肉。……你們的比較好玩嗎？」、兩個回覆（原文）',!!k&&k.day===SAT-1&&Math.abs(k.h-20)<0.06&&k.text==='我們系也有烤肉。……你們的比較好玩嗎？'&&JSON.stringify(k.ask.opts.map(q=>q.t))==='["來我們這邊。","妳去妳們系的。"]');
     { const F2=Object.assign({},G.flags), ms=G.msgs.slice(), p2=JSON.parse(JSON.stringify(G.phone)); PHONE.answer(G,k.ask.id,1); fresh(SAT,8,'campus',Object.assign({},G.flags)); G.msgs=ms; G.phone=p2; G.flags.KX_BBQ_NO=true; run(8,21); const c=G.msgs.filter(x=>x.tag==='kx_bbq_corn').map(x=>x.text);
       check('K3：「妳去妳們系的。」＝週六晚上她傳烤玉米的照片＋「我們的玉米比較好。」',JSON.stringify(c)==='["📷（烤玉米）","我們的玉米比較好。"]',JSON.stringify(c)); }
-    const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',flags||{}); if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
+    const playBBQ=async(flags,setup,pk)=>{ fresh(SAT,14.5,'campus',Object.assign({ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（v1_batch12 測）*/ if(setup) setup(); OUT.plan(G,{id:'bbq',ev:'ev_mid_autumn_bbq',day:SAT,h:15,place:'河濱',title:'中秋烤肉',travel:'走過去約 15 分鐘',travelH:0.25}); picks=['出發'].concat(pk||[]); await tickOut(); return lines(); };
     let L=await playBBQ({},null,[]);
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));
     L=await playBBQ({met_yu:true},()=>{ for(const id of ['heroine_01','heroine_03','classmate_bohan','npc_fangyt']) SOCIAL.remember(id,'FIRST_MET',''); },[]);
@@ -137,7 +137,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     L=await playBBQ({KX_BBQ_COME:true},null,['出題','可昕贏']);
     check('K3 介紹「她會出題考你們。」：「是假設題。假設你是一塊烤肉——」「我拒絕回答。」；可昕贏沒有「我回去練」；不透露經濟系',L.includes('是假設題。假設你是一塊烤肉——')&&L.includes('我拒絕回答。')&&!L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined);
     L=await playBBQ({KX_BBQ_COME:true},()=>SOCIAL.remember('heroine_01','FIRST_MET',''),['怎麼認識','阿哲贏']);
-    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。一年。」→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。政大法律。我們以前是經濟系的同學。……他重考的時候，坐我對面。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。一年。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
+    check('K3「讓她說我們怎麼認識的。」（原本不是 full）：可昕的介紹＋阿哲「等一下。經濟系？重考？」＋你「……嗯。念了一個多月。」（AA_236 A5）→ full、以安（認識）記 KNOWS_ECON_YEAR',L.includes('杜可昕。政大法律。我們以前是經濟系的同學。……後來一起重考。')&&L.includes('等一下。經濟系？重考？')&&L.includes('……嗯。念了一個多月。')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'full'},null,['怎麼認識','阿哲贏']);
     check('K3「讓她說」（原本就是 full）：阿哲「喔——就是那一年。」，不再問',L.includes('喔——就是那一年。')&&!L.includes('等一下。經濟系？重考？'));
     L=await playBBQ({KX_BBQ_COME:true,ECON_PAST_SHARED:'half'},null,['怎麼認識','阿哲贏']);

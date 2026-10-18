@@ -139,9 +139,11 @@ fr_.box(xs[3], xs[4], 2.3, 2.38, Z1 - 0.15, Z1 - 0.02)
 wm('front', 'glass').quad([(xs[4], 0.02, Z1 - 0.09), (xs[3], 0.02, Z1 - 0.09), (xs[3], 2.3, Z1 - 0.09), (xs[4], 2.3, Z1 - 0.09)])
 
 # ---- 書架（套件 shelfWall 的位置）：後牆（11 m，朝 +z）、左牆（8 m，朝 +x）、右牆（8 m，朝 −x）、中間兩排（5 m，雙面）
-shelf_unit(0.0, -4.7, 0.0, 11.0)
-shelf_unit(-5.7, 0.0, math.pi / 2, 8.0)
-shelf_unit(5.7, 0.0, -math.pi / 2, 8.0)
+# 靠牆的三座往房間裡挪 3.5 cm：背板正面原本和牆的內面（Z0＋0.12、X0＋0.12）在同一個平面，從書和書的空隙看進去會閃（使用者回報「書背後面的層板在閃」，BUG-WZFLICKER；
+# check_coplanar.py 找到的）。挪 3.5 cm 也讓開踢腳板（離牆 0.13）。導航阻擋照套件、不用改
+shelf_unit(0.0, -4.7 + 0.035, 0.0, 11.0)
+shelf_unit(-5.7 + 0.035, 0.0, math.pi / 2, 8.0)
+shelf_unit(5.7 - 0.035, 0.0, -math.pi / 2, 8.0)
 shelf_unit(-2.0, 0.0, math.pi / 2, 5.0, back=False, double=True)
 shelf_unit(2.0, 0.0, math.pi / 2, 5.0, back=False, double=True)
 

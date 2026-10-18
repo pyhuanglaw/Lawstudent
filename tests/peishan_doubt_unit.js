@@ -27,11 +27,11 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
   const want=[
     {opt:'「我想知道事情『應該』怎麼處理。」',react:['應該。','她重複一次。','我喜歡這個詞。……可是我常常想，是誰說的應該。'],d:{fam:3,comf:3},mem:false},
     {opt:'「想幫人。」',react:['我以前也這樣說。後來發現想幫人的方法很多，不一定要背條文。'],d:{fam:3,resp:2},mem:false},
-    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館兩個月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。我第一次講出來，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
+    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。我第一次講出來，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
   for(let k=0;k<3;k++){ at('library',2,15); SOCIAL.meet(PS,'library'); const r0=rel(); pick=k; await EVENTS.run(ev); const L=lines(), r1=rel(), w=want[k];
     check('選項 '+(k+1)+'：三個選項的文字（第一個換成 BB 寫好的）',JSON.stringify(opts[0])===JSON.stringify(want.map(x=>x.opt)),JSON.stringify(opts[0]));
-    const q=L.indexOf('你為什麼念法律？……這個問題很普通。我想聽普通以外的答案。');
-    check('選項 '+(k+1)+'：問句照 BB_95；已經認識她，不再自我介紹',q===0&&!L.includes('郭沛珊。'),L[0]);
+    const q=L.indexOf('欸，你為什麼會來念法律？我是說，除了考上以外。');   /* AA_236 B3 口語改稿 */
+    check('選項 '+(k+1)+'：問句照 AA_236 B3；已經認識她，不再自我介紹',q===0&&!L.includes('郭沛珊。'),L[0]);
     check('選項 '+(k+1)+'：她的反應照 BB_95',JSON.stringify(L.slice(1,1+w.react.length))===JSON.stringify(w.react),JSON.stringify(L.slice(1,1+w.react.length)));
     const dims=['fam','trust','aff','resp','comf','rom']; const got={}; for(const dm of dims){ const dd=(r1[dm]||0)-(r0[dm]||0); if(dd) got[dm]=dd; }
     check('選項 '+(k+1)+'：數值和原本一樣 '+JSON.stringify(w.d),JSON.stringify(got)===JSON.stringify(w.d),JSON.stringify(got));
@@ -43,8 +43,8 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
     check('選項 '+(k+1)+'：演完以後不會再發生（once）',EVENTS.check(ev)===false); }
   /* 週三晚上在萬才館、第一次見面 */
   { at('wancai',3,18.5); pick=0; await EVENTS.run(ev); const L=lines();
-    check('週三晚上在萬才館、還不認識：「郭沛珊。」接「你也在等讀書會？……不是。好。」',L[0]==='郭沛珊。'&&L[1]==='你也在等讀書會？……不是。好。',JSON.stringify(L.slice(0,2)));
-    check('週三晚上在萬才館：結尾是「讀書會要開始了。」（不說「我要去上課了」）',L.includes('讀書會要開始了。')&&!L.includes('我要去上課了。'),JSON.stringify(L.slice(-3)));
+    check('週三晚上在萬才館、還不認識：只說「郭沛珊。」，不提讀書會（AA_236 A1、A3：法服沒有讀書會，條件句整句拿掉）',L[0]==='郭沛珊。'&&!L.some(t=>/讀書會/.test(t)),JSON.stringify(L.slice(0,2)));
+    check('週三晚上在萬才館：結尾和其他晚上一樣「我先回去了。」',L.includes('我先回去了。')&&!L.includes('我要去上課了。'),JSON.stringify(L.slice(-3)));
     check('第一次見面以後記下 FIRST_MET',SOCIAL.has(PS,'FIRST_MET')); }
   /* 其他時間地點、第一次見面：只說名字，不提讀書會 */
   for(const [zone,wd,h,why] of [['library',3,18.5,'週三晚上在總圖'],['wancai',2,18.5,'週二晚上在萬才館'],['wancai',3,14,'週三下午在萬才館'],['campus',5,12,'週五中午在校園']]){ at(zone,wd,h); pick=1; await EVENTS.run(ev); const L=lines();

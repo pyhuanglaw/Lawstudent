@@ -39,29 +39,27 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   script=['過幾天']; said=[]; try{ await HOME.winterStart(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('2. 轉場：在家、寒假模式、選單沒有「回宿舍」',HOME.at(G)&&G.home.winter===true&&G.flags.Y0_WINTER_START&&!menus[0].some(t=>/回宿舍/.test(t))&&menus[0].includes('過幾天')&&menus[0].includes('睡覺'),JSON.stringify(menus[0]));
   check('2. 「過幾天」跳到 1/27（一）21:00（F1），手機收到小年夜的群組',G.day===J27&&Math.abs(G.hour-21)<1e-6&&PHONE.sent(G,'y0_f1'),G.day+' '+G.hour);
-  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「跳過哪一天」、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='假設寒假有一天可以跳過，你要跳哪一天？'&&m.ask.until===(K('2025-01-10')+1)*24+18)&&TH('p:kexin').some(m=>m.text==='今天的假設題：如果你是一碗湯，你是什麼湯？'&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='玉米濃湯。/貢丸湯。/……白開水算湯嗎？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。'));
+  check('2. 跳過的日子：E24 照時間戳記收在可昕的私訊裡（1/10「不知道今天星期幾」不用回、1/18「什麼湯」；2/2 那則還沒到）',TH('p:kexin').some(m=>m.text==='放假第三週，我已經不知道今天星期幾了'&&!m.ask)&&TH('p:kexin').some(m=>m.text==='如果你是一碗湯，你會是什麼湯？'&&m.ask&&m.ask.opts.map(o=>o.t).join('/')==='玉米濃湯。/貢丸湯。/……白開水算湯嗎？')&&!TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。'));
   check('2. 第一次「過幾天」：字卡後面「寒假。你睡到中午，下午幫媽媽跑腿。」「年前的家裡，一直有人在打掃。」（AA_154 A44）',said.map(x=>x.t).join('|')==='寒假。你睡到中午，下午幫媽媽跑腿。|年前的家裡，一直有人在打掃。',JSON.stringify(said));
   // 睡覺會停在 E21 22:00 → E21 自動演
-  menus=[]; said=[]; script=['睡覺','過幾天','好。','過幾天']; G.home.eat={day:J27}; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
+  menus=[]; said=[]; script=['睡覺','過幾天','幫我跟阿嬤','過幾天']; G.home.eat={day:J27}; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   const L=said.map(x=>x.t);
-  check('3. 1/27 晚上睡覺（1/28 早上醒）→「過幾天」到 1/28 22:00 → E21「我們每天晚上這樣講電話，很像在一起耶。」…「好。」→「你看，我就說你會被騙。」、E21_ANSWER＝yes',L.includes('我們每天晚上這樣講電話，很像在一起耶。')&&L.includes('你看，我就說你會被騙。')&&G.flags.E21_ANSWER==='yes',JSON.stringify(L));
-  check('3. E21 之後「過幾天」跳到 2/8 23:00（E24 那一晚），旁白「過年的幾天，親戚來來去去。……」；2/2「胖了是存糧」收到了',G.day===F8&&Math.abs(G.hour-23)<1e-6&&L.includes('過年的幾天，親戚來來去去。每個人都問你經濟系好不好玩。')&&(run(23,23.05),TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。我說這是存糧。')),G.day+' '+G.hour);
-  run(23,23.1); const q=TH('p:kexin').find(m=>m.text==='如果可以重來一次選科系，你會選什麼？'); check('4. E24 那一晚：「如果可以重來一次選科系，你會選什麼？」三選一',!!q&&q.ask.opts.map(o=>o.t).join('/')==='還是經濟。/我不知道。/妳呢？');
-  PHONE.answer(G,'y0_e24n',0); run(23.1,23.2); check('4. 「還是經濟。」：她沒有馬上回',!TH('p:kexin').some(m=>m.text==='好。'));
-  run(23.2,23.45); check('4. 15 分鐘後「好。」；回答不記錄',TH('p:kexin').some(m=>m.text==='好。')&&!Object.keys(G.flags).some(k=>/E24/.test(k)));
+  check('3. 1/27 晚上睡覺（1/28 早上醒）→「過幾天」到 1/28 22:00 → E21（AA_224 3-10 交往中版）「我阿嬤剛剛問我有沒有男朋友。」…「幫我跟阿嬤說新年快樂。」→「她說你明年要來吃飯。……」；不記 E21_ANSWER',L.includes('好了。……我阿嬤剛剛問我有沒有男朋友。')&&L.includes('她說你明年要來吃飯。……她已經在算要煮幾道了。')&&G.flags.E21_ANSWER==null,JSON.stringify(L));
+  check('3. E21 之後「過幾天」跳到 2/8 23:00（E24 那一晚），旁白「過年的幾天，親戚來來去去。……」；2/2「胖了是存糧」收到了',G.day===F8&&Math.abs(G.hour-23)<1e-6&&L.includes('過年的幾天，親戚來來去去。每個人都問你經濟系好不好玩。')&&(run(23,23.05),TH('p:kexin').some(m=>m.text==='我媽說我寒假胖了。')),G.day+' '+G.hour);
+  run(23,23.1); const q=TH('p:kexin').find(m=>m.text==='如果可以重來一次選科系，你會選什麼？'); check('4. E24 那一晚：「如果可以重來一次選科系，你會選什麼？」三選一（AA_224 3-8：「法律。」）',!!q&&q.ask.opts.map(o=>o.t).join('/')==='法律。/我不知道。/妳呢？');
+  PHONE.answer(G,'y0_e24n',0); run(23.1,23.2); check('4. 「法律。」：她沒有馬上回',!TH('p:kexin').some(m=>m.text==='好。'));
+  run(23.2,23.45); check('4. 15 分鐘後「好。」「……我是在問我自己。晚安。」；回答不記錄',TH('p:kexin').some(m=>m.text==='好。')&&TH('p:kexin').some(m=>m.text==='……我是在問我自己。晚安。')&&!Object.keys(G.flags).some(k=>/E24/.test(k)));
   // 最後：E23 → 回宿舍
   menus=[]; said=[]; script=['過幾天']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   const L2=said.map(x=>x.t);
-  check('5. 「過幾天」跳到 2/16 18:00 → 旁白「寒假的最後一週，你把房間的書架整理了一遍。」→ E23「（臺北的家，你的房間。書架最上面有一本舊《民法》。）」…「（你把書放回去，又拿下來，放進行李箱。）」',L2[0]==='寒假的最後一週，你把房間的書架整理了一遍。'&&L2[1]==='（臺北的家，你的房間。書架最上面有一本舊《民法》。）'&&L2.includes('（你把書放回去，又拿下來，放進行李箱。）'),JSON.stringify(L2));
-  check('5. E23 之後回宿舍：不在家、寒假結束、人在宿舍房間、2/16 晚上',!HOME.at(G)&&G.flags.Y0_WINTER_DONE===true&&G.zone==='dorm'&&G.day===F16&&G.hour>20,G.zone+' '+G.day+' '+G.hour);
-  check('5. 寒假結束後不會再轉場',!HOME.winterStartDue(G));
+  /* 第 5 項（2/16 E23 → 回宿舍）拿掉：AA_224 5-1 E23 改到 2/12、不回宿舍；新流程 10/19 就退宿，寒假模式不會再進（tests/lifeline_g5_unit.js）*/
   // E21 三個回答
-  for(const [pk,val,line] of [['「妳是認真的嗎？」','serious','你猜。新年快樂。'],['（一起開玩笑）','joke','好啊，在一起一分鐘。……時間到。']]){ fresh(J28,22,'home'); G.stage='econ'; said=[]; GM.choose=async o=>{ const k=o.findIndex(q=>(q.t||q.text)===pk); return k<0?0:k; }; await EVENTS.run(ev('ev_y0_e21'));
-    check('6. E21 '+pk+'→「'+line+'」、E21_ANSWER＝'+val,said.some(x=>x.t===line)&&G.flags.E21_ANSWER===val); }
+  for(const [pk,fl,line] of [['「『休學中』聽起來好糟。」',{},'阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'],['「那妳呢？跟家裡說了嗎？」',{KX_THINK_LEAVE:'wait'},'……今天先不說。過年。']]){ fresh(J28,22,'home',fl); G.stage='econ'; said=[]; GM.choose=async o=>{ const k=o.findIndex(q=>(q.t||q.text)===pk); return k<0?0:k; }; await EVENTS.run(ev('ev_y0_e21'));
+    check('6. E21 '+pk+'→「'+line+'」、最後「新年快樂。……今年第一個打給你的。」',said.some(x=>x.t===line)&&said[said.length-1].t==='新年快樂。……今年第一個打給你的。'); }
   fresh(J28,21.9,'home'); G.stage='econ'; check('6. E21：22:00 以前不演',!EVENTS.check(ev('ev_y0_e21'))); G.hour=22; check('6. E21：22:00 演',EVENTS.check(ev('ev_y0_e21')));
   // 睡覺會經過 E21 的 22:00：停在 22:00 演 E21
-  fresh(J28,21.5,'home'); G.stage='econ'; G.flags.Y0_WINTER_START=true; G.home={at:true,winter:true,eat:{day:J28}}; said=[]; script=['睡覺','妳是認真的嗎']; GM.choose=async o=>{ const t=o.map(q=>q.t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
-  try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('7. 1/28 21:30 睡覺：停在 22:00、E21 照演（核心不會睡過）',G.day===J28&&said.some(x=>x.t==='你猜。新年快樂。')&&G.flags.E21_ANSWER==='serious',G.day+' '+G.hour);
+  fresh(J28,21.5,'home'); G.stage='econ'; G.flags.Y0_WINTER_START=true; G.home={at:true,winter:true,eat:{day:J28}}; said=[]; script=['睡覺','休學中']; GM.choose=async o=>{ const t=o.map(q=>q.t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
+  try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } check('7. 1/28 21:30 睡覺：停在 22:00、E21 照演（核心不會睡過）',G.day===J28&&said.some(x=>x.t==='阿嬤覺得很好。她說年輕人要休息。……她比我們都想得開。'),G.day+' '+G.hour);
   GM.choose=choose0;
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

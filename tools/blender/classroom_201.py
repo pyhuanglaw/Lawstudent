@@ -49,7 +49,7 @@ B.box('floor', MAT['floor'], -W / 2, W / 2, -0.2, 0.0, -D / 2, D / 2, root)
 for r in range(C['rows']):
     z0 = rowZ(r); z1 = D / 2 if r == C['rows'] - 1 else z0 + C['rowDepth']; h = rowH(r); hp = rowH(r - 1)
     B.box(f'plat_{r}', MAT['plat'], -A0, A0, 0.0, h, z0, z1, root)
-    B.box(f'riser_edge_{r}', MAT['metal'], -A0, A0, h - 0.03, h + 0.002, z0, z0 + 0.04, root)          # 平台前緣的金屬收邊
+    B.box(f'riser_edge_{r}', MAT['metal'], -A0, A0, h - 0.03, h + 0.004, z0 - 0.004, z0 + 0.04, root)  # 平台前緣的金屬收邊（凸出 4 mm：原本和平台正面同一個平面，BUG-COPLANAR-DEV）
     st = C['aisleStepDepth']
     for sx in (-1, 1):
         xa, xb = (-A1, -A0) if sx < 0 else (A0, A1)
@@ -57,7 +57,7 @@ for r in range(C['rows']):
         B.box(f'aisle_{r}_{sx}_b', MAT['plat'], xa, xb, 0.0, h, z0 + st / 2, z0 + st, root)
         B.box(f'aisle_{r}_{sx}_c', MAT['plat'], xa, xb, 0.0, h, z0 + st, z1, root)
         for k, zz in enumerate((z0, z0 + st / 2)):   # 階梯止滑條
-            B.box(f'nosing_{r}_{sx}_{k}', MAT['metal'], xa, xb, (hp + 0.15 * (k + 1)) - 0.012, hp + 0.15 * (k + 1) + 0.002, zz, zz + 0.04, root)
+            B.box(f'nosing_{r}_{sx}_{k}', MAT['metal'], xa, xb, (hp + 0.15 * (k + 1)) - 0.012, hp + 0.15 * (k + 1) + 0.004, zz - 0.004, zz + 0.04, root)
 
 # ---------------- 長桌（每排一張 12 m，深色木頭桌面＋金屬腳＋前擋板）----------------
 dk = C['desk']
@@ -96,11 +96,12 @@ B.box('screen_roll', MAT['metal'], sc['x'] - sc['w'] / 2 - 0.1, sc['x'] + sc['w'
 
 # ---------------- 牆（四面，會淡出）；西牆三扇窗（窗洞＋鋁框＋玻璃）----------------
 wy0, wy1 = C['windows']['y'] - 0.8, C['windows']['y'] + 0.8; xs = sorted(C['windows']['xs'])   # 窗在西牆：牆面座標 t＝z（西牆 room() 的 winXs 是沿牆的位置）
-B.box('WALL_N', MAT['wall'], -W / 2, W / 2, 0, H, -D / 2 - T / 2, -D / 2 + T / 2, root, props={'dir': [0, 0, 1]})
-B.box('WALL_S', MAT['wall'], -W / 2, W / 2, 0, H, D / 2 - T / 2, D / 2 + T / 2, root, props={'dir': [0, 0, -1]})
-B.box('WALL_E', MAT['wall'], W / 2 - T / 2, W / 2 + T / 2, 0, H, -D / 2, D / 2, root, props={'dir': [-1, 0, 0]})
+# 前後牆夾在東西牆中間、東西牆往外多半個牆厚包住牆角（原本牆角重疊，BUG-COPLANAR-DEV）
+B.box('WALL_N', MAT['wall'], -W / 2 + T / 2, W / 2 - T / 2, 0, H, -D / 2 - T / 2, -D / 2 + T / 2, root, props={'dir': [0, 0, 1]})
+B.box('WALL_S', MAT['wall'], -W / 2 + T / 2, W / 2 - T / 2, 0, H, D / 2 - T / 2, D / 2 + T / 2, root, props={'dir': [0, 0, -1]})
+B.box('WALL_E', MAT['wall'], W / 2 - T / 2, W / 2 + T / 2, 0, H, -D / 2 - T / 2, D / 2 + T / 2, root, props={'dir': [-1, 0, 0]})
 # 西牆：窗洞之間的牆段＋窗下、窗上
-zs = [-D / 2] + [v for t in xs for v in (t - 1.15, t + 1.15)] + [D / 2]
+zs = [-D / 2 - T / 2] + [v for t in xs for v in (t - 1.15, t + 1.15)] + [D / 2 + T / 2]
 for k in range(0, len(zs), 2):
     a, b2 = zs[k], zs[k + 1]
     if b2 - a > 0.02: B.box(f'WALL_W_{k}', MAT['wall'], -W / 2 - T / 2, -W / 2 + T / 2, 0, H, a, b2, root, props={'dir': [1, 0, 0]})

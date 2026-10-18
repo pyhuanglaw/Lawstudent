@@ -24,6 +24,7 @@ async def main():
     os.makedirs(OUT, exist_ok=True); shots = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=False)
+        pg.set_default_timeout(180000)   # SwiftShader＋同時跑別的瀏覽器時截圖要幾十秒
         await pg.set_viewport_size({'width': 720, 'height': 960})
         for pair in filter(None, os.environ.get('CHAR_SWAP', '').split(';')):
             u, f = pair.split('=', 1); body = open(os.path.join(ROOT, f), 'rb').read()
@@ -34,14 +35,15 @@ async def main():
         # ---- 坐下：溫州街小公園的長椅 ----
         await L.load_state(pg, {'zone': 'wenzhou', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 17, 'z': -2.5, 'yaw': 0}, 'flags': flags}, quiet_events=True)
         await pg.wait_for_timeout(2500); await pg.add_style_tag(content=HIDE)
-        seat = {'x': 23.6, 'z': 7.94, 'yaw': 3.14159}   # 溫州街小公園長椅的座位點（zones3d：長椅 (23.6, 8.0)、座位在中心前 0.06 m）
+        seat = await pg.evaluate("(()=>{ const c=GAME.E.interactables.filter(i=>i.seat&&/長椅|椅/.test(i.label||'')).sort((a,b)=>Math.hypot(a.x-25,a.z-8)-Math.hypot(b.x-25,b.z-8)); return c[0]?{x:c[0].seat.x,z:c[0].seat.z,yaw:c[0].seat.yaw}:{x:23.6,z:7.94,yaw:3.14159}; })()")   # 小公園裡真的長椅座位（2026-10-17：擴大版小公園以後 (23.6, 7.94) 沒有椅子，人坐在空中）
         if CID == 'player':
             info = await pg.evaluate("""(c=>{ const E=GAME.E; E.npcs.slice().forEach(n=>E.removeNPC(n)); const P=E.player; GAME.sitAt(P,c.s); let k=null,d=null; P.obj.traverse(x=>{ if(x.userData&&x.userData.driver&&!d){ k=x.userData.key; d=x.userData.driver; } }); return {key:k,driver:d}; })(%s)""" % json.dumps({'id': CID, 's': seat}))
         else:
             info = await pg.evaluate("""(c=>{ const E=GAME.E; E.npcs.slice().forEach(n=>{ if(n.charId!==c.id) E.removeNPC(n); }); let n=E.npcs.find(k=>k.charId===c.id); if(!n) n=GAME.spawnCharacter(c.id,c.s.x,c.s.z-1,{yaw:c.s.yaw});
             GAME.sitAt(n,c.s); n.greet=false; const u=n.obj.userData; if(u.anim){ u.anim.blink=1e9; } E.player.obj.position.set(c.s.x-6,0,c.s.z-6); return {key:u.key,driver:u.driver}; })(%s)""" % json.dumps({'id': CID, 's': seat}))
         print('sit', info, flush=True)
-        for tag, pp, ll in [('sit_front', [seat['x'], 1.0, seat['z'] - 2.4], [seat['x'], 0.65, seat['z']]), ('sit_side', [seat['x'] + 2.3, 0.9, seat['z'] - 0.4], [seat['x'], 0.6, seat['z']])]:
+        import math; fx, fz = math.sin(seat['yaw']), math.cos(seat['yaw'])   # 座位面向（yaw π＝面向 −z，和舊的寫法一樣）
+        for tag, pp, ll in [('sit_front', [seat['x'] + fx * 2.4, 1.0, seat['z'] + fz * 2.4], [seat['x'], 0.65, seat['z']]), ('sit_side', [seat['x'] - fz * 2.3 + fx * 0.4, 0.9, seat['z'] + fx * 2.3 + fz * 0.4], [seat['x'], 0.6, seat['z']])]:
             await cam(pg, pp, ll); await pg.wait_for_timeout(2500); f = f'{OUT}/{CID}_{tag}.png'; await pg.screenshot(path=f); shots.append((tag, f))
         # ---- 上樓梯：霖澤館大廳（第一段 z 5.0→1.36、平台 1.36→-0.04 高 2.18、第二段 -0.04→-3.4 到 4.2）----
         await L.load_state(pg, {'zone': 'linze', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 4.0, 'z': 4.0, 'yaw': 0, 'lv': 0}, 'flags': flags}, quiet_events=True)

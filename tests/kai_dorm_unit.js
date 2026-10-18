@@ -35,12 +35,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const KAI={name:'阿凱',charId:'kai'}; const tickWait=async()=>{ STORY.kaiDormTick(GM); for(let i=0;i<20;i++) await new Promise(r=>setImmediate(r)); };
   const MON=termDay('Y1S1',3,1), MON2=termDay('Y1S1',4,1);
   fresh(MON,21.5,'dorm',{introDone:true,classDone:true,afternoonDone:true}); GM.npc.kai=KAI; const f0=SOCIAL.rel('kai').fam|0;
-  picks=[0]; check('2. K-D1 週一 21:30 找阿凱說話：一起打一場',await STORY.kaiDormTalk(GM,KAI)&&lines().join('').includes('一場就好 你上路 我中路'),lines().join('｜'));
+  picks=[0]; check('2. K-D1 週一 21:30 找阿凱說話：一起打一場（baa5c577 口語版）',await STORY.kaiDormTalk(GM,KAI)&&lines().join('').includes('一場就好啦，你上路，我中路。'),lines().join('｜'));
   check('2. 打完：KAI_GAMES 1、時間 +1 小時、阿凱熟悉 +3',G.flags.KAI_GAMES===1&&Math.abs(G.hour-22.5)<1e-6&&(SOCIAL.rel('kai').fam|0)>=f0+3,JSON.stringify({g:G.flags.KAI_GAMES,h:G.hour,fam:SOCIAL.rel('kai').fam}));
   said=[]; check('3. 同一週再找他：不再打（回 false，照舊閒聊）',!(await STORY.kaiDormTalk(GM,KAI))&&!said.length);
   G.day=MON2; G.weekday=1; G.hour=22.5; said=[]; picks=[0,0];
   await STORY.kaiDormTalk(GM,KAI); const t2=lines().join('｜');
-  check('4. K-D2 第二次、打完 23:30：一場變三場（時間到 02:00）',t2.includes('一場變三場')&&t2.includes('你明天第一堂幾點')&&t2.includes('九點以前都叫早八')&&Math.abs(G.hour-26)<1e-6,t2.slice(-80)+' h='+G.hour);
+  { const C1=CLS.dayItems(G,G.day+1).sort((a,b)=>a.t0-b.t0)[0]; const want=C1?(C1.t0>=12?'那還早啦。再一場就好。':STORY.cnClock(C1.t0)+'？那還可以睡好幾個小時啦。'):null;
+  check('4. K-D2 第二次、打完 23:30：一場變三場（時間到 02:00）；選項①照隔天第一堂換字（「九點十分」這種說法；下午的課用 ifAfternoon；不會出現 {明天第一堂}）',t2.includes('一場變三場')&&t2.includes('你明天第一堂幾點')&&!t2.includes('{明天第一堂}')&&(!want||t2.includes(want))&&Math.abs(G.hour-26)<1e-6,t2.slice(-90)+' h='+G.hour+' want='+want); }
+  check('4. 中文時間：9:10＝九點十分、13:20＝一點二十分、10:00＝十點',STORY.cnClock(9+10/60)==='九點十分'&&STORY.cnClock(13+20/60)==='一點二十分'&&STORY.cnClock(10)==='十點');
   check('4. 選「九點十分。」（BB-B b1884460 改版）：DL-02 拿掉體力以後，不再記隔天早上精力 −10（morningEnergyAdj 不用）',!G.flags.morningEnergyAdj);
   // K-D3：有早八的早上、昨晚沒一起打（30%：Math.random 固定 0）
   let D3=null; for(let d=termDay('Y1S1',5,1);d<termDay('Y1S1',6,1);d++){ G.day=d; if(CLS.dayItems(G,d).some(it=>it.t0<=9.25)){ D3=d; break; } }
@@ -57,7 +59,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 沒回宿舍：第 4 天自己和好，下次見面他先說
   const fd=G.day; G.zone='campus'; G.day=fd+4; await tickWait();
   check('9. 吵架後沒回宿舍：第 4 天自己和好（不鎖線）',!G.flags.KAI_FIGHT&&SOCIAL.has('kai','KAI_ROOM_RULES'));
-  G.zone='dorm'; G.hour=19; said=[]; await STORY.kaiDormTalk(GM,KAI); check('9. 下次見面他先說「所以 上次的事 是我不對」',said.length===1&&said[0].t.includes('上次的事 是我不對'),JSON.stringify(said));
+  G.zone='dorm'; G.hour=19; said=[]; await STORY.kaiDormTalk(GM,KAI); check('9. 下次見面他先說「上次的事，是我不對啦。」（baa5c577）',said.length===1&&said[0].t.includes('上次的事，是我不對'),JSON.stringify(said));
   Math.random=rnd;
   // K-D6：和好以後的週日晚上
   let SUN=G.day; while(wdOf(SUN)!==0) SUN++; G.day=SUN; G.weekday=0; G.hour=20.5; said=[]; picks=[0];

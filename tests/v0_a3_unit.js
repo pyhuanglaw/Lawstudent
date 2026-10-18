@@ -5,7 +5,7 @@
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
-global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:'?start0'};   /* 舊開局（9/17）；新遊戲預設是宿營（CAMP-L1），新開局的轉場在 start_b_unit 第 14、15 項 */
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
@@ -30,7 +30,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
-  check('有 STORY.opening、newGameEcon、LAW_START_RECAP',typeof STORY.opening==='function'&&typeof STORY.newGameEcon==='function'&&STORY.LAW_START_RECAP.length===8);
+  check('有 STORY.opening、newGameEcon、LAW_START_RECAP',typeof STORY.opening==='function'&&typeof STORY.newGameEcon==='function'&&STORY.LAW_START_RECAP.length===10);
   const gsrc=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); check('新遊戲的預設存檔 stage:\'law\'（migrate 用 defaults 補，舊存檔＝法律系）',/function defaults\(name\)\{ return \{v:SAVE_VER,stage:'law'/.test(gsrc)&&/for\(const k in d\)\{ if\(s\[k\]===undefined\|\|s\[k\]===null\) s\[k\]=d\[k\]; \}/.test(gsrc));
   const html=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('標題畫面：經濟系開局的按鈕預設藏著（v0 做完以前，網址 ?y0 才出現）',/id="btnNewEcon"/.test(html)&&/class="btn hide" id="btnNewEcon"/.test(html)&&/\[\?&\]y0/.test(gsrc));
   const Y0=STORY.y0Day1(); check('前提：2024-09-01 是負的天數、週日',Y0<0&&CALENDAR.dateOf(Y0).key==='2024-09-01'&&CALENDAR.dateOf(Y0).wd%7===0,String(Y0));
@@ -42,7 +42,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 法律系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true}; said=[]; const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.titleIdle=true; GM.hideHUD=()=>{}; let entered=null; const en=GM.enter; GM.enter=async(z)=>{ entered=z; G.zone=z; };
     await STORY.newGame(GM); GM.enter=en; GM.E=E0; const L=said.map(s=>s.t);
-    check('法律系開局：先放④（8 句）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你在台大經濟系念過一年。'&&L[7]==='九月，你回到同一個校園，換了一個系。'&&L[8]==='開學第一週，你走進霖澤館。沒有人知道你來過這個校園。'&&L.length===12&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
+    check('法律系開局：先放④（10 句，AA_224 第 2 組）再放③（4 句），然後進宿舍（現有的第一天）',L[0]==='你從小就想念台大法律。'&&L[9]==='九月，你回到同一個校園，換了一個系。'&&L[10]==='開學第一週，你走進霖澤館。沒有人知道你來過這個校園。'&&L.length===14&&entered==='dorm'&&G.day===1&&G.stage==='law',JSON.stringify({n:L.length,first:L[0],entered,day:G.day}));
     check('法律系開局：記下看過摘要（舊存檔另外處理）',G.flags.LAW_RECAP_SEEN===true); }
   /* 經濟系開局 */
   { fresh(1,21.2,'dorm',{}); G.flags={dating_kexin:true,KX_DEC3_MIGRATED:true,E01_DONE:true}; /* E01（宿舍第一晚）另外在 tests/v0_e01_unit.js 測；這裡只看開局的狀態 */ const E0=GM.E; GM.E=Object.assign({},E,{player:{busy:false},endCinematic(){},setWeather(){}}); GM.hideHUD=()=>{}; let card=null; GM.titleCard=async(a,b)=>{ card=a+'｜'+b; };

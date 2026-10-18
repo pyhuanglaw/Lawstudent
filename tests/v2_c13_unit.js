@@ -90,7 +90,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { partial('left',2); await EVENTS.run(ev4); check('7. 台詞',JSON.stringify(lines())==='["沈以安：你後半場不在。最精彩的你錯過了。"]',JSON.stringify(lines())); }
   /* 沒去 */
   const missedRun=(st)=>{ fresh(thu,18,'campus'); PHONE.join(G,'noodle_team','麵店團'); mark(st); run(18,22); return G.msgs.filter(m=>m.tag==='b4_missed'); };
-  let M=missedRun(null); check('8. 沒去：21:30 小語在麵店團「講者最後問：被限制的人可以去哪裡。我想了一路。」',M.length===1&&M[0].from==='yu'&&M[0].text==='講者最後問：被限制的人可以去哪裡。我想了一路。'&&M[0].h===21.5,JSON.stringify(M.map(m=>[m.h,m.from,m.text])));
+  let M=missedRun(null); check('8. 沒去：21:30 小語在麵店團連發三則（AA_209 附錄A §2）',M.length===3&&M.every(m=>m.from==='yu'&&m.h===21.5)&&JSON.stringify(M.map(m=>m.text))===JSON.stringify(['講者最後問了一題超難的','被限制的人可以去哪裡','我們回來的路上一直在吵這個']),JSON.stringify(M.map(m=>[m.h,m.from,m.text])));
   check('8. 聽完、中途離開：沒有這一則',missedRun('full').length===0&&missedRun('left').length===0);
   /* 散場先走：第 12 週週一憲法（下）下課，以安好奇地問 */
   { const e5=ev('ev_b4_left_an'); const mon=termDay('Y1S2',12,1);
@@ -120,12 +120,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await playB(1);
     check('10. 「那我等妳十分鐘。」：十分鐘後她下來（旁白＋三句）、拿到表；PS_CANCEL＝waited',JSON.stringify(L.slice(2))===JSON.stringify(['十分鐘後她真的下來了，外套沒拉好，手上拿著紅筆。','郭沛珊：你真的在等。','郭沛珊：表給你。第二頁我還沒畫完。','郭沛珊：……我上去了。還有十二本。'])&&G.flags.PS_CANCEL==='waited'&&G.flags.PS_TABLE_GOT===true&&Math.abs(G.hour-(20.75+1/6))<1e-6,JSON.stringify({L,h:G.hour}));
     run(G.hour,23.9); G.day=thu+1; G.weekday=wdOf(G.day); run(0,13);
-    check('10. 等了十分鐘：隔天 12:00「你真的等了十分鐘？……下次我會先說。」',TH(thP).some(m=>m.text==='你真的等了十分鐘？……下次我會先說。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
+    check('10. 等了十分鐘：隔天 12:00「上次謝謝你等。下次我會早點講。」（AA_209 第 8 節）',TH(thP).some(m=>m.text==='上次謝謝你等。下次我會早點講。'&&m.day===thu+1&&m.h===12),JSON.stringify(TH(thP).slice(-2).map(m=>[m.day,m.h,m.text])));
     L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
     const wed12=termDay('Y1S2',12,3), thu12=termDay('Y1S2',12,4), mon12=termDay('Y1S2',12,1);
     const later=(day,h,zone,got)=>{ withC(day,h,zone); G.flags.PS_CANCEL='later'; if(got) G.flags.PS_TABLE_GOT=true; return [EVENTS.check(ec,{chain:true}),EVENTS.check(ek)]; };
-    check('10. 改天：第 12 週週三法服讀書會散場給（afterActivity）；週四進 201 上課前也可以（還沒拿到才給）',later(wed12,21,'wancai')[0]&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&!later(thu12,14,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom')]));
-    { withC(wed12,21,'wancai'); G.flags.PS_CANCEL='later'; await EVENTS.run(ec); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["郭沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
+    check('10. 改天：週三法服讀書會散場那個版本停用（法服沒有讀書會，BB_191 §8-7）；週四進 201 上課前給（還沒拿到才給）',!later(wed12,21,'wancai')[0]&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&!later(thu12,14,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom')]));
+    { withC(thu12,13,'classroom'); G.flags.PS_CANCEL='later'; await EVENTS.run(ek); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["郭沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
     const mail=(k,day,sent)=>{ withC(day,10,'dorm_hall'); if(k) G.flags.PS_CANCEL=k; if(sent!==false) PHONE.post(G,{th:thP,from:PS,text:'今天下不去了。',tag:'ps_table_cancel'}); return EVENTS.check(em); };
     check('10. 信箱：「沒關係。」、沒去（沒回）＝第 12 週週一起回宿舍；等了、改天＝沒有；第 12 週以前沒有；沒收到改約（沒有聯絡方式）沒有',mail('ok',mon12)&&mail(null,mon12)&&!mail('waited',mon12)&&!mail('later',mon12)&&!mail('ok',mon12-1)&&!mail(null,mon12,false),JSON.stringify([mail('ok',mon12),mail(null,mon12),mail('waited',mon12),mail('later',mon12),mail('ok',mon12-1),mail(null,mon12,false)]));
     { mail('ok',mon12); await EVENTS.run(em); check('10. 信箱：「信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」」',JSON.stringify(lines())==='["信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); } }

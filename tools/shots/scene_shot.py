@@ -21,7 +21,7 @@ async def main():
             pg.on('pageerror',lambda e: errs.append(str(e)))
             await pg.goto(url)
             for i in range(240):
-                if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
+                if await pg.evaluate("!!(window.GAME&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
                 await pg.wait_for_timeout(500)
             st=dict(s['state']); fl=dict(FLAGS); fl.update(st.get('flags',{})); st['flags']=fl
             js="(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,%s); s.day=s.day||8; s.weekday=s.weekday||6; s.weather=s.weather||'sunny'; document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })()" % json.dumps(st,ensure_ascii=False)

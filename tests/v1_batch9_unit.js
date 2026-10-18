@@ -73,7 +73,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('考試週（第 8、9 週）不是麵店日、不揪；第 10 週週二照樣揪（上一個麵店日是第 7 週週四，沒來）',exam.length===4&&exam.every(d=>!STORY.noodleDay(d)&&!pd.includes(d))&&pd.includes(termDay(10,2)),JSON.stringify({exam,pd}));
     check('四句輪流',pings().every((x,i)=>x[1]===PINGS[i%4]),JSON.stringify(pings().map(x=>x[1])));
     const xmas=(()=>{ for(let d=80;d<120;d++) if(CALENDAR.dateOf(d).key.endsWith('12-25')) return d; return null; })();
-    check('國定假日（12/25 週四，第 '+xmas+' 天）不是麵店日；前一週的週四是',xmas!=null&&CALENDAR.dateOf(xmas).wd===4&&CALENDAR.holiday(xmas)&&!STORY.noodleDay(xmas)&&STORY.noodleDay(xmas-7),JSON.stringify({xmas,key:xmas&&CALENDAR.dateOf(xmas).key}));
+    { let hd=null; for(let d=-10;d<760&&hd==null;d++){ const t=CALENDAR.termOf(d), w=CALENDAR.dateOf(d).wd; if(t&&!t.exam&&(w===2||w===4)&&CALENDAR.holiday(d)&&CALENDAR.termOf(d-7)&&!CALENDAR.termOf(d-7).exam&&!CALENDAR.holiday(d-7)) hd=d; }
+    check('學期中、週二或週四的國定假日（16 週制以後 12/25 在寒假；找第一個：'+(hd!=null?CALENDAR.dateOf(hd).key:'無')+'）不是麵店日；前一週的同一天是；12/25（寒假）也不是',hd!=null&&!STORY.noodleDay(hd)&&STORY.noodleDay(hd-7)&&!STORY.noodleDay(xmas),JSON.stringify({hd,xmas})); }
     fresh(termDay(6,1),8,'campus',{noodleTableDay:W4THU}); PHONE.join(G,'noodle_team','麵店團'); sim(termDay(6,1),termDay(6,2),()=>false);
     check('舊存檔（加入群組以後沒有出席紀錄）：第一個麵店日當作上次有來、不揪',pings().length===0&&G.flags.ndlTrack0===termDay(6,1),JSON.stringify(pings())); }
   /* ---------- A13 中秋烤肉 ---------- */

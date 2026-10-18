@@ -55,7 +55,8 @@ def tex_material(name, path, rough=0.4, metal=0.4):
 M = {
     'frame': L.flat('bike_frame', '#ffffff', rough=0.35, metal=0.15),       # 遊戲端乘上每台的顏色（頂點色）
     'dark': L.flat('bike_dark', '#1e1f21', rough=0.8),
-    'metal': L.flat('bike_metal', '#b9bdc3', rough=0.3, metal=0.55),
+    'metal': L.flat('bike_metal', '#a9adb3', rough=0.32, metal=0.45),     # 金屬度上限 0.45（ART_SOP 2-3；原本 0.55）
+    'oldm': L.vc_material('bike_oldmetal', rough=0.75),                      # 老鐵馬的擋泥板、後貨架：烤漆＋鏽（頂點色，下緣、接地那一端鏽得多）
     'red': L.flat('bike_reflector', '#b3261e', rough=0.25),
     'alpha': tex_material('bike_alpha', alpha_atlas()),
     'lamp': L.flat('lamp_paint', '#2e3532', rough=0.55, metal=0.3),
@@ -140,8 +141,13 @@ def fin(m, parts, smooth=None, uv=False):
     parts.append(ob); return ob
 
 
+RENDER_I = [0]
+
+
 def place(ob, x, y=0.0):
     ob.location = (x, y, 0.0)   # 匯出時分開放（遊戲照名稱取，不看位置）
+    if '--render' in ARGS and ob.name.startswith('bike'):   # 渲染用：腳踏車沿車身方向一台接一台排（從側面看得到每一台的輪廓）
+        ob.location = (0.0, -2.3 * RENDER_I[0], 0.0); RENDER_I[0] += 1
 
 
 # ---------- 淑女車 ----------
@@ -151,7 +157,10 @@ def quad_uv(m, pts, uvs):
     return f
 
 
-def bike():
+def bike(name='bike_city', child=False, x=0.0, basket='wire', load=False):
+    """淑女車；child＝後貨架上加兒童座椅（接小孩的媽媽車）。
+    basket：wire＝鐵絲籃（原本）、none＝沒有籃子（拆掉了，只剩前燈）、plastic＝塑膠籃（深灰、開口朝上、側面有長孔）；
+    load＝籃子裡有東西（塑膠袋、摺疊傘、飲料杯；頂點色 prop_vc）——ART-BIKES2-F（使用者 2026-10-16「不要只改顏色」的後續：淑女車再分款＋生活痕跡）"""
     parts = []; RZ, FZ, WY = -0.47, 0.47, 0.30
     # 輪胎（略胖的城市車胎）、輪圈、花鼓；鋼絲和前籃鐵絲網是透明貼圖（同一個材質）
     tire = Mesh('tire', M['dark']); rim = Mesh('rim', M['metal']); hub = Mesh('hub', M['metal']); al = Mesh('alpha', M['alpha'])
@@ -170,7 +179,12 @@ def bike():
     quad_uv(al, [(bx0, by0, bz0), (bx0, by0, bz1), (bx0, by1, bz1), (bx0, by1, bz0)], U)
     quad_uv(al, [(bx1, by0, bz1), (bx1, by0, bz0), (bx1, by1, bz0), (bx1, by1, bz1)], U)
     quad_uv(al, [(bx0, by0, bz0), (bx1, by0, bz0), (bx1, by0, bz1), (bx0, by0, bz1)], U)
-    al.bm.normal_update(); parts.append(al.finish(None, uv=False, merge=False))
+    if basket == 'wire':
+        al.bm.normal_update(); parts.append(al.finish(None, uv=False, merge=False))
+    else:   # 只留鋼絲（把籃子的五片鐵絲網拿掉：重做一個只有鋼絲的 alpha 網格）
+        al = Mesh('alpha', M['alpha'])
+        for wz in (RZ, FZ): disc_x(al, (0, WY, wz), 0.258, seg=12)
+        al.bm.normal_update(); parts.append(al.finish(None, uv=False, merge=False))
     # 車架（車架顏色）：低跨彎下管、座管、頭管、第二根細下管、後下叉、後上叉、前叉
     fr = Mesh('frame', M['frame'])
     Bb, S, Hb, H = (0, 0.27, -0.06), (0, 0.71, -0.17), (0, 0.6, 0.335), (0, 0.8, 0.295)
@@ -207,6 +221,10 @@ def bike():
     for sx in (-1, 1): sweep(dk, [(sx * 0.215, 0.905, 0.17), (sx * 0.3, 0.9, 0.115)], 0.018, seg=5)
     dk.box(-0.17, -0.095, 0.138, 0.162, 0.0, 0.08); dk.box(0.095, 0.17, 0.378, 0.402, -0.2, -0.12)   # 踏板（右前下、左後上）
     sweep(dk, [(-0.066, 0.356, -0.06), (-0.066, 0.345, RZ)], 0.006, seg=3); sweep(dk, [(-0.066, 0.184, -0.06), (-0.066, 0.255, RZ)], 0.006, seg=3)
+    if child:   # 兒童座椅（深灰塑膠殼：座、椅背、兩側扶手、腳踏）＋安全帶扣
+        for (y0, y1, z0, z1, x0, x1) in ((0.69, 0.75, -0.72, -0.40, -0.15, 0.15), (0.74, 1.02, -0.74, -0.68, -0.15, 0.15), (0.74, 0.86, -0.70, -0.42, -0.165, -0.14), (0.74, 0.86, -0.70, -0.42, 0.14, 0.165)):
+            dk.rbox(x0, x1, y0, y1, z0, z1, r=0.02, seg=1)
+        for sx in (-1, 1): dk.rbox(sx * 0.13 - 0.03, sx * 0.13 + 0.03, 0.42, 0.45, -0.46, -0.36, r=0.008, seg=1); sweep(dk, [(sx * 0.13, 0.69, -0.42), (sx * 0.13, 0.45, -0.41)], 0.008, seg=4)
     fin(dk, parts, smooth=1.0)
     # 銀色零件：座管、把手（後掠）、龍頭、煞車把、車鈴、後貨架、前籃的鐵條、齒盤、曲柄、環形鎖、中柱、前燈
     mt = Mesh('metal_parts', M['metal'])
@@ -218,12 +236,14 @@ def bike():
         sweep(mt, [(sx, 0.665, -0.27), (sx, 0.665, -0.69)], 0.007, seg=4); sweep(mt, [(sx, 0.665, -0.66), (sx * 0.8, WY, RZ)], 0.006, seg=4)
         sweep(mt, [(sx, 0.665, -0.3), (sx * 0.4, 0.68, -0.2)], 0.005, seg=3)
     for z in (-0.4, -0.6): sweep(mt, [(-0.06, 0.665, z), (0.06, 0.665, z)], 0.005, seg=3)
-    for y, r in ((by1, 0.007), (by0, 0.005)):
-        sweep(mt, [(bx0, y, bz0), (bx1, y, bz0), (bx1, y, bz1), (bx0, y, bz1), (bx0, y, bz0)], r, seg=3, caps=False)
-    for x in (bx0, bx1):
-        for z in (bz0, bz1): sweep(mt, [(x, by0, z), (x, by1, z)], 0.004, seg=3, caps=False)
-    sweep(mt, [(0, 0.71, 0.4), (0, 0.6, 0.37)], 0.008, seg=4)
-    for sx in (-1, 1): sweep(mt, [(sx * 0.05, 0.71, 0.6), (sx * 0.035, 0.42, 0.455)], 0.005, seg=3)
+    if basket == 'wire':
+        for y, r in ((by1, 0.007), (by0, 0.005)):
+            sweep(mt, [(bx0, y, bz0), (bx1, y, bz0), (bx1, y, bz1), (bx0, y, bz1), (bx0, y, bz0)], r, seg=3, caps=False)
+        for x in (bx0, bx1):
+            for z in (bz0, bz1): sweep(mt, [(x, by0, z), (x, by1, z)], 0.004, seg=3, caps=False)
+    if basket != 'none':   # 籃子的支架（龍頭一根、前叉兩根）
+        sweep(mt, [(0, 0.71, 0.4), (0, 0.6, 0.37)], 0.008, seg=4)
+        for sx in (-1, 1): sweep(mt, [(sx * 0.05, 0.71, 0.6), (sx * 0.035, 0.42, 0.455)], 0.005, seg=3)
     mt.cyl((-0.058, 0.27, -0.06), (-0.052, 0.27, -0.06), 0.088, seg=10)
     sweep(mt, [(-0.085, 0.27, -0.06), (-0.09, 0.15, 0.04)], 0.009, seg=4); sweep(mt, [(0.085, 0.27, -0.06), (0.09, 0.39, -0.16)], 0.009, seg=4)
     sweep(mt, [(-0.085, 0.27, -0.06), (0.085, 0.27, -0.06)], 0.012, seg=5)
@@ -233,7 +253,44 @@ def bike():
     mt.cyl((0, 0.66, 0.455), (0, 0.66, 0.52), 0.032, seg=7, r2=0.036)
     fin(mt, parts, smooth=1.0)
     rd = Mesh('reflector', M['red']); rd.box(-0.04, 0.04, 0.625, 0.66, -0.705, -0.69); fin(rd, parts)
-    me = combine(parts, 'bike_city'); ob = bpy.data.objects.new('bike_city', me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, 0.0)
+    if basket == 'plastic':   # 塑膠籃：四面＋底各一片倒角板（開口朝上，不是一個實心盒子）；側面三道長孔＝深色凹槽
+        pk = L.CMesh('plastic_basket', M['vc']); t = 0.012; pc = '#3b3e42'
+        for (x0, x1, y0, y1, z0, z1) in ((bx0, bx1, by0, by0 + t, bz0, bz1), (bx0, bx0 + t, by0, by1, bz0, bz1), (bx1 - t, bx1, by0, by1, bz0, bz1),
+                                          (bx0, bx1, by0, by1, bz0, bz0 + t), (bx0, bx1, by0, by1, bz1 - t, bz1)):
+            pk.crbox(x0, x1, y0, y1, z0, z1, pc, r=0.005, seg=1)
+        L_ = '#2e3134'; e = 0.006; lw = 0.016   # 上緣加厚的唇：四條框（第一版是一整片＝蓋子）
+        pk.crbox(bx0 - e, bx1 + e, by1 - 0.018, by1, bz1 - lw, bz1 + e, L_, r=0.005, seg=1); pk.crbox(bx0 - e, bx1 + e, by1 - 0.018, by1, bz0 - e, bz0 + lw, L_, r=0.005, seg=1)
+        pk.crbox(bx0 - e, bx0 + lw, by1 - 0.018, by1, bz0 + lw, bz1 - lw, L_, r=0.005, seg=1); pk.crbox(bx1 - lw, bx1 + e, by1 - 0.018, by1, bz0 + lw, bz1 - lw, L_, r=0.005, seg=1)
+        # 四面的格孔（台灣菜籃車式塑膠籃：一排一排的長方孔；第一版只有前面三道長孔，側面看是一個灰色實心盒子＝方塊感，退件）：
+        # 深色的孔是比板面凸 1 mm 的薄片（不和板面同一平面，不閃）；孔和孔之間留 1.2 cm 的肋
+        hole = '#17181a'; rows = [by0 + 0.035 + k * 0.042 for k in range(4)]; hh = 0.026
+        def grid_x(xa, xb, z0f, z1f, n):       # 前後面（沿 x 排 n 個孔）
+            step = (xb - xa) / n
+            for yy in rows:
+                for i in range(n):
+                    x0 = xa + i * step + 0.006; pk.cbox(x0, x0 + step - 0.012, yy, yy + hh, z0f, z1f, hole)
+        def grid_z(za, zb, x0f, x1f, n):       # 左右面（沿 z 排 n 個孔）
+            step = (zb - za) / n
+            for yy in rows:
+                for i in range(n):
+                    z0 = za + i * step + 0.006; pk.cbox(x0f, x1f, yy, yy + hh, z0, z0 + step - 0.012, hole)
+        grid_x(bx0 + 0.03, bx1 - 0.03, bz1, bz1 + 0.001, 6); grid_x(bx0 + 0.03, bx1 - 0.03, bz0 - 0.001, bz0, 6)
+        grid_z(bz0 + 0.03, bz1 - 0.03, bx0 - 0.001, bx0, 4); grid_z(bz0 + 0.03, bz1 - 0.03, bx1, bx1 + 0.001, 4)
+        fin(pk, parts, smooth=0.6)
+    if load and basket != 'none':   # 籃子裡的東西（生活痕跡）：鼓起來的白色塑膠袋、斜放的摺疊傘、手搖飲杯
+        ld = L.CMesh('basket_load', M['vc'])
+        f0 = set(ld.bm.faces); ld.ell((-0.03, by0 + 0.1, (bz0 + bz1) / 2 - 0.02), 0.12, 0.1, 0.09, seg=10, rings=6)
+        ld.paint([f for f in ld.bm.faces if f not in f0], '#efeee8')
+        for v in ld.bm.verts:   # 塑膠袋不是正橢球：上半往一邊塌、提把那一側高一點
+            if v.co.z > by0 + 0.12: v.co.x += 0.025 * math.sin(v.co.y * 31.0); v.co.z += 0.012 * math.cos(v.co.x * 27.0)
+        f0 = set(ld.bm.faces); ld.cyl((-0.13, by0 + 0.06, bz0 + 0.03), (0.12, by1 + 0.05, bz1 - 0.05), 0.022, seg=7)   # 摺疊傘（深藍）
+        ld.paint([f for f in ld.bm.faces if f not in f0], '#2b3a5c')
+        f0 = set(ld.bm.faces); ld.cyl((0.1, by0 + 0.02, bz1 - 0.07), (0.1, by0 + 0.17, bz1 - 0.07), 0.035, seg=10, r2=0.042)   # 手搖飲杯（半透明感用淺奶茶色）
+        ld.paint([f for f in ld.bm.faces if f not in f0], '#d9c3a0')
+        f0 = set(ld.bm.faces); ld.cyl((0.1, by0 + 0.17, bz1 - 0.07), (0.1, by0 + 0.185, bz1 - 0.07), 0.044, seg=10)
+        ld.paint([f for f in ld.bm.faces if f not in f0], '#f2f1ec')
+        fin(ld, parts, smooth=1.0)
+    me = combine(parts, name); ob = bpy.data.objects.new(name, me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, x)
     return ob
 
 
@@ -424,7 +481,213 @@ def vending_machine():
     return ob
 
 
+# ---------- 腳踏車多款式（使用者 2026-10-16 20:2x：「腳踏車機車都只是同個模板換顏色……路上不會全部都一樣」） ----------
+# 參考 docs/art-rebuild/second_ai/research/vehicles_research.md（台灣校園常見：淑女車、公共單車、公路車、登山車、小折、老鐵馬、接小孩的媽媽車）。
+# 約定和淑女車一樣：沿 z 建模（車頭 +z）、地面 y＝0、車架是 bike_frame（白色、遊戲乘上每台的顏色）、其他四個材質共用（停車架整排合併不加 draw call）。
+# 不放品牌、商標、字。
+def bk_begin():
+    return {'frame': Mesh('frame', M['frame']), 'dark': Mesh('dark_parts', M['dark']), 'metal': Mesh('metal_parts', M['metal']),
+            'red': Mesh('reflector', M['red']), 'alpha': Mesh('alpha', M['alpha']), 'tire': Mesh('tire', M['dark']), 'rim': Mesh('rim', M['metal'])}
+
+
+def bk_end(P, name, x):
+    parts = []
+    fin(P['tire'], parts, smooth=1.2); fin(P['rim'], parts, smooth=1.2)
+    if not P['alpha'].empty(): P['alpha'].bm.normal_update(); parts.append(P['alpha'].finish(None, uv=False, merge=False))
+    fin(P['frame'], parts, smooth=0.9); fin(P['dark'], parts, smooth=1.0); fin(P['metal'], parts, smooth=1.0); fin(P['red'], parts)
+    for ex in P.get('extra', []): fin(ex, parts, smooth=1.0)
+    me = combine(parts, name); ob = bpy.data.objects.new(name, me); bpy.context.scene.collection.objects.link(ob); ob.parent = root; place(ob, x)
+    print('bike', name, 'tris', sum(len(q.vertices) - 2 for q in me.polygons))
+    return ob
+
+
+def bk_wheel(P, z, R, tw, hubr=0.02, spokes=True, sq=False, seg=18):
+    """輪子：外徑 R、胎寬 tw（車胎截面：一般是圓的，sq＝登山車那種寬而方的胎）；輪圈、花鼓；鋼絲是透明貼圖"""
+    y = R
+    prof = ([(-0.4 * tw, -0.42 * tw), (0.3 * tw, -0.5 * tw), (0.5 * tw, -0.25 * tw), (0.5 * tw, 0.25 * tw), (0.3 * tw, 0.5 * tw), (-0.4 * tw, 0.42 * tw)] if sq
+            else [(-0.45 * tw, -0.4 * tw), (0.25 * tw, -0.5 * tw), (0.5 * tw, 0.0), (0.25 * tw, 0.5 * tw), (-0.45 * tw, 0.4 * tw)])
+    Rc = R - 0.5 * tw; ring_x(P['tire'], (0, y, z), Rc, 0, seg=seg, prof=prof)
+    Rr = Rc - 0.42 * tw - 0.004; ring_x(P['rim'], (0, y, z), Rr, 0, seg=seg, prof=[(-0.009, -0.011), (0.006, 0.0), (-0.009, 0.011)])
+    P['metal'].cyl((-0.045, y, z), (0.045, y, z), hubr, seg=6)
+    if spokes: disc_x(P['alpha'], (0, y, z), Rr - 0.004, seg=12)
+    return Rr
+
+
+def bk_drive(P, bb, zr, yr, ring=0.09, guard=False):
+    """傳動（右邊 −x）：齒盤、曲柄、踏板、鍊條；guard＝全包鍊條蓋（車架顏色）"""
+    x0, y0, z0 = bb
+    P['metal'].cyl((-0.058, y0, z0), (-0.052, y0, z0), ring, seg=12)
+    sweep(P['metal'], [(-0.085, y0, z0), (-0.09, y0 - 0.12, z0 + 0.1)], 0.009, seg=4); sweep(P['metal'], [(0.085, y0, z0), (0.09, y0 + 0.12, z0 - 0.1)], 0.009, seg=4)
+    sweep(P['metal'], [(-0.085, y0, z0), (0.085, y0, z0)], 0.012, seg=5)
+    P['dark'].box(-0.17, -0.095, y0 - 0.132, y0 - 0.108, z0 + 0.06, z0 + 0.14); P['dark'].box(0.095, 0.17, y0 + 0.108, y0 + 0.132, z0 - 0.14, z0 - 0.06)
+    sweep(P['dark'], [(-0.066, y0 + ring - 0.004, z0), (-0.066, yr + 0.045, zr)], 0.005, seg=3); sweep(P['dark'], [(-0.066, y0 - ring + 0.004, z0), (-0.066, yr - 0.045, zr)], 0.005, seg=3)
+    P['metal'].cyl((-0.062, yr, zr), (-0.056, yr, zr), 0.05, seg=8)
+    if guard:   # 全包鍊條蓋：齒盤到後輪的長圓殼（右邊）
+        cg = [(math.cos(math.pi * i / 6), math.sin(math.pi * i / 6)) for i in range(7)]
+        pts = [(z0 + (ring + 0.03) * s_, y0 + (ring + 0.03) * c) for (c, s_) in cg] + [(zr - 0.075 * s_, yr - 0.075 * c) for (c, s_) in cg]
+        fr = P['frame']; vs = [fr.bm.verts.new(g2b(-0.085, y, z)) for (z, y) in pts]; vs2 = [fr.bm.verts.new(g2b(-0.05, y, z)) for (z, y) in pts]
+        fr.bm.faces.new(vs); fr.bm.faces.new(list(reversed(vs2)))
+        for i in range(len(vs)):
+            j = (i + 1) % len(vs); fr.bm.faces.new((vs[i], vs[j], vs2[j], vs2[i]))
+
+
+def bk_saddle(P, c, L=0.27, W=0.075, H=0.03, wide=1.0):
+    """座墊（窄長；wide＞1 是寬的淑女車、公共單車座墊）：斷面放樣，車頭 +z"""
+    x, y, z = c; dk = P['dark']; rings = []
+    for (dz, hw, hh) in [(-0.5, 0.75, 0.8), (-0.32, 1.0, 1.0), (-0.05, 0.75, 0.95), (0.22, 0.36, 0.8), (0.5, 0.18, 0.55)]:
+        ring = []
+        for k in range(6):
+            t = 2 * math.pi * k / 6; cc, ss = math.cos(t), math.sin(t); e = 2 / 2.8
+            ring.append(dk.bm.verts.new(g2b(x + W * wide * hw * math.copysign(abs(cc) ** e, cc), y + H * hh * math.copysign(abs(ss) ** e, ss), z + dz * L)))
+        rings.append(ring)
+    for a, b_ in zip(rings, rings[1:]):
+        for k in range(6):
+            j = (k + 1) % 6; dk.bm.faces.new((a[k], a[j], b_[j], b_[k]))
+    dk.bm.faces.new(rings[0]); dk.bm.faces.new(list(reversed(rings[-1])))
+
+
+def bike_road(x):
+    """公路車：700C 細胎、菱形車架（細管、上管幾乎水平）、彎把（纏把帶）、窄座墊；沒有擋泥板、籃子、腳架"""
+    P = bk_begin(); R, zr, zf = 0.335, -0.49, 0.49; BB = (0, 0.27, -0.085); S = (0, 0.80, -0.245); Hb, Ht = (0, 0.66, 0.355), (0, 0.80, 0.315)
+    for z in (zr, zf): bk_wheel(P, z, R, 0.026, hubr=0.016, seg=20)
+    fr = P['frame']
+    sweep(fr, [BB, S], 0.016, seg=8); sweep(fr, [BB, Hb], 0.021, seg=8); sweep(fr, [(0, 0.785, -0.235), (0, 0.79, 0.322)], 0.015, seg=8); sweep(fr, [Hb, (0, 0.82, 0.31)], 0.019, seg=8)
+    for sx in (-1, 1):
+        sweep(fr, [(sx * 0.03, 0.27, -0.1), (sx * 0.06, R, zr + 0.01)], 0.009, seg=5); sweep(fr, [(sx * 0.02, 0.775, -0.24), (sx * 0.06, R + 0.01, zr + 0.01)], 0.008, seg=5)
+        sweep(fr, bez((sx * 0.028, 0.66, 0.355), (sx * 0.045, 0.47, 0.42), (sx * 0.05, R, zf), n=4), 0.011, seg=5)
+    dk = P['dark']; sweep(dk, [(0, 0.83, 0.31), (0, 0.855, 0.42)], 0.016, seg=6)   # 龍頭
+    for s in (-1, 1):   # 彎把：上把 → 往前 → 往下彎 → 下把（纏把帶）；變把手（煞車拉桿）
+        sweep(dk, [(0, 0.855, 0.42), (s * 0.2, 0.855, 0.42), (s * 0.21, 0.853, 0.49)] + bez((s * 0.21, 0.853, 0.49), (s * 0.215, 0.85, 0.585), (s * 0.21, 0.765, 0.565), n=4)[1:] + [(s * 0.21, 0.74, 0.49)], 0.013, seg=5)
+        dk.rbox(s * 0.21 - 0.016, s * 0.21 + 0.016, 0.85, 0.89, 0.49, 0.53, r=0.01, seg=1)
+    sweep(P['metal'], [S, (0, 0.92, -0.295)], 0.0135, seg=6); bk_saddle(P, (0, 0.945, -0.30), L=0.27, W=0.07, H=0.026)
+    for z, y in ((zf - 0.07, 0.66), (zr + 0.11, 0.66)): P['metal'].rbox(-0.03, 0.03, y - 0.02, y + 0.02, z - 0.02, z + 0.02, r=0.008, seg=1)   # 夾器
+    bk_drive(P, BB, zr, R, ring=0.1)
+    P['red'].box(-0.025, 0.025, 0.86, 0.885, -0.33, -0.32)
+    return bk_end(P, 'bike_road', x)
+
+
+def bike_mtb(x):
+    """登山車：27.5 吋寬胎（方的胎面）、粗下管、斜上管、前避震（上管銀、下管黑）、碟煞、寬平把"""
+    P = bk_begin(); R, zr, zf = 0.36, -0.555, 0.555; BB = (0, 0.33, -0.12); S = (0, 0.76, -0.30); Hb, Ht = (0, 0.72, 0.40), (0, 0.84, 0.36)
+    for z in (zr, zf): bk_wheel(P, z, R, 0.058, hubr=0.024, sq=True, seg=20)
+    fr = P['frame']
+    sweep(fr, [BB, S], 0.018, seg=8); sweep(fr, [BB, Hb], 0.027, seg=8); sweep(fr, [(0, 0.735, -0.285), (0, 0.825, 0.365)], 0.02, seg=8); sweep(fr, [Hb, Ht], 0.024, seg=8)
+    for sx in (-1, 1):
+        sweep(fr, [(sx * 0.035, 0.33, -0.14), (sx * 0.07, R, zr + 0.01)], 0.012, seg=5); sweep(fr, [(sx * 0.022, 0.72, -0.29), (sx * 0.07, R + 0.01, zr + 0.01)], 0.01, seg=5)
+    mt, dk = P['metal'], P['dark']
+    dk.rbox(-0.07, 0.07, 0.69, 0.73, 0.38, 0.44, r=0.012, seg=1)   # 避震前叉的肩
+    for sx in (-1, 1):
+        mt.cyl((sx * 0.055, 0.70, 0.415), (sx * 0.055, 0.57, 0.47), 0.016, seg=8)   # 內管（銀）
+        sweep(dk, [(sx * 0.057, 0.60, 0.46), (sx * 0.058, R, zf)], 0.021, seg=8)    # 外管（黑）
+    sweep(dk, [(-0.057, 0.56, 0.475), (0, 0.585, 0.49), (0.057, 0.56, 0.475)], 0.012, seg=4)   # 前叉拱
+    for z in (zr, zf): mt.cyl((0.062, R, z), (0.066, R, z), 0.08, seg=12)          # 碟盤（左邊）
+    sweep(dk, [(0, 0.86, 0.36), (0, 0.9, 0.43)], 0.018, seg=6)
+    sweep(dk, [(-0.36, 0.915, 0.43), (-0.1, 0.905, 0.435), (0.1, 0.905, 0.435), (0.36, 0.915, 0.43)], 0.0125, seg=6)
+    for s in (-1, 1): sweep(dk, [(s * 0.26, 0.915, 0.43), (s * 0.36, 0.917, 0.43)], 0.018, seg=6)   # 握把
+    sweep(mt, [S, (0, 0.88, -0.335)], 0.016, seg=6); bk_saddle(P, (0, 0.905, -0.34), L=0.27, W=0.075, H=0.03)
+    bk_drive(P, BB, zr, R, ring=0.08)
+    sweep(dk, [(0.07, R, zr + 0.06), (0.12, 0.01, zr + 0.26)], 0.008, seg=3)   # 側腳架（左）
+    return bk_end(P, 'bike_mtb', x)
+
+
+def bike_fold(x):
+    """小折：20 吋小輪、一根粗主管（中間折疊鉸鏈）、很長的座管和龍頭立管、窄平把、小後架"""
+    P = bk_begin(); R, zr, zf = 0.25, -0.47, 0.50; BB = (0, 0.26, -0.10); Hb, Ht = (0, 0.50, 0.37), (0, 0.62, 0.345)
+    for z in (zr, zf): bk_wheel(P, z, R, 0.042, hubr=0.018, seg=16)
+    fr, mt, dk = P['frame'], P['metal'], P['dark']
+    sweep(fr, bez(Hb, (0, 0.40, 0.12), (0, 0.33, -0.06), n=5), 0.027, seg=8)   # 主管
+    sweep(fr, [BB, (0, 0.62, -0.17)], 0.021, seg=8); sweep(fr, [(0, 0.33, -0.06), BB], 0.024, seg=8); sweep(fr, [Hb, Ht], 0.022, seg=8)
+    mt.rbox(-0.035, 0.035, 0.38, 0.45, 0.13, 0.2, r=0.012, seg=1)   # 折疊鉸鏈
+    for sx in (-1, 1):
+        sweep(fr, [(sx * 0.03, 0.26, -0.12), (sx * 0.05, R, zr + 0.01)], 0.011, seg=5); sweep(fr, [(sx * 0.02, 0.58, -0.165), (sx * 0.05, R + 0.01, zr + 0.01)], 0.009, seg=5)
+        sweep(fr, [(sx * 0.026, 0.50, 0.37), (sx * 0.04, R, zf)], 0.012, seg=5)
+    sweep(mt, [Ht, (0, 1.0, 0.28)], 0.017, seg=6); mt.rbox(-0.03, 0.03, 0.70, 0.76, 0.30, 0.34, r=0.01, seg=1)   # 龍頭立管＋折疊扣
+    sweep(dk, [(-0.27, 1.0, 0.28), (0.27, 1.0, 0.28)], 0.012, seg=5)
+    for s in (-1, 1): sweep(dk, [(s * 0.18, 1.0, 0.28), (s * 0.27, 1.0, 0.28)], 0.017, seg=6)
+    sweep(mt, [(0, 0.62, -0.17), (0, 0.92, -0.245)], 0.017, seg=6); bk_saddle(P, (0, 0.945, -0.255), L=0.26, W=0.08, H=0.032, wide=1.15)
+    for sx in (-0.06, 0.06): sweep(mt, [(sx, 0.56, -0.22), (sx, 0.56, -0.62)], 0.006, seg=4); sweep(mt, [(sx, 0.56, -0.6), (sx * 0.8, R, zr)], 0.006, seg=4)
+    for z in (-0.32, -0.52): sweep(mt, [(-0.06, 0.56, z), (0.06, 0.56, z)], 0.005, seg=3)
+    fprof = [(0.0, -0.03), (0.012, 0.0), (0.0, 0.03)]
+    ring_x(fr, (0, R, zf), R + 0.018, 0, seg=7, a0=math.radians(-30), a1=math.radians(105), prof=fprof, prof_closed=False)
+    ring_x(fr, (0, R, zr), R + 0.018, 0, seg=7, a0=math.radians(-140), a1=math.radians(20), prof=fprof, prof_closed=False)
+    bk_drive(P, BB, zr, R, ring=0.1)
+    sweep(mt, [(0.05, R, zr + 0.05), (0.11, 0.01, zr + 0.2)], 0.008, seg=3)
+    P['red'].box(-0.03, 0.03, 0.52, 0.55, -0.635, -0.62)
+    return bk_end(P, 'bike_fold', x)
+
+
+def bike_old(x):
+    """老鐵馬：28 吋大輪、黑色菱形車架（上管水平）、全包擋泥板、大後貨架、全包鍊條蓋、彈簧座墊、往後彎的把手、桿式煞車、車頭燈"""
+    P = bk_begin(); R, zr, zf = 0.35, -0.58, 0.58; BB = (0, 0.28, -0.08); S = (0, 0.80, -0.27); Hb, Ht = (0, 0.64, 0.41), (0, 0.83, 0.36)
+    for z in (zr, zf): bk_wheel(P, z, R, 0.04, hubr=0.024, seg=20)
+    fr, mt, dk = P['frame'], P['metal'], P['dark']
+    sweep(fr, [BB, S], 0.017, seg=8); sweep(fr, [BB, Hb], 0.019, seg=8); sweep(fr, [(0, 0.79, -0.26), (0, 0.80, 0.37)], 0.017, seg=8); sweep(fr, [Hb, Ht], 0.02, seg=8)
+    for sx in (-1, 1):
+        sweep(fr, [(sx * 0.03, 0.28, -0.1), (sx * 0.055, R, zr + 0.01)], 0.01, seg=5); sweep(fr, [(sx * 0.02, 0.775, -0.27), (sx * 0.055, R + 0.01, zr + 0.01)], 0.009, seg=5)
+        sweep(fr, bez((sx * 0.028, 0.64, 0.41), (sx * 0.05, 0.47, 0.5), (sx * 0.055, R, zf), n=4), 0.012, seg=5)
+    fprof = [(0.0, -0.04), (0.016, 0.0), (0.0, 0.04)]
+    # 擋泥板、大後貨架：黑烤漆＋鏽（ART-BIKES2-F：老鐵馬要鏽和褪色）。頂點色：越低、越靠末端鏽得越多；不是均勻撒
+    ru = L.CMesh('old_rust', M['oldm'])
+    ring_x(ru, (0, R, zf), R + 0.025, 0, seg=9, a0=math.radians(-45), a1=math.radians(120), prof=fprof, prof_closed=False)
+    ring_x(ru, (0, R, zr), R + 0.025, 0, seg=10, a0=math.radians(-160), a1=math.radians(30), prof=fprof, prof_closed=False)
+    for sx in (-0.075, 0.075):
+        sweep(ru, [(sx, 0.74, -0.28), (sx, 0.74, -0.86)], 0.009, seg=4); sweep(ru, [(sx, 0.74, -0.82), (sx * 0.75, R, zr)], 0.009, seg=4)
+    for z in (-0.42, -0.58, -0.74): sweep(ru, [(-0.075, 0.74, z), (0.075, 0.74, z)], 0.007, seg=3)
+    paint_c = (0.032, 0.033, 0.034); rust_c = (0.20, 0.075, 0.03); rust_d = (0.09, 0.035, 0.016)
+    for f in ru.bm.faces:
+        for lp in f.loops:
+            co = lp.vert.co; y = co.z; zg = -co.y                      # Blender → 遊戲座標（y 高度、z 車身方向）
+            t = max(0.0, min(1.0, (0.62 - y) / 0.5)) ** 1.3             # 低的地方（擋泥板下緣）鏽多
+            t = max(t, max(0.0, min(1.0, (abs(zg) - 0.78) / 0.12)))     # 貨架、擋泥板的末端
+            n = 0.5 + 0.5 * math.sin(co.x * 91.0 + co.y * 53.0 + co.z * 37.0)   # 斑駁（同一處有深有淺）
+            sp = max(0.0, min(1.0, (n - 0.55) / 0.25))                   # 鏽是一塊一塊的（第一版整個下緣都是鏽＝廢棄車；目標「用了三到五年」）
+            k = t * (0.10 + 0.80 * sp); rc = rust_c if n > 0.7 else rust_d
+            lp[ru.col] = tuple(paint_c[i] * (1 - k) + rc[i] * k for i in range(3)) + (1.0,)
+    sweep(mt, [S, (0, 0.88, -0.30)], 0.014, seg=6); bk_saddle(P, (0, 0.93, -0.31), L=0.26, W=0.095, H=0.035, wide=1.1)
+    for sx in (-0.05, 0.05): mt.cyl((sx, 0.86, -0.39), (sx, 0.905, -0.39), 0.014, seg=6)   # 座墊彈簧
+    sweep(mt, [Ht, (0, 0.95, 0.35)], 0.014, seg=6)
+    for s in (-1, 1):
+        sweep(mt, [(0, 0.95, 0.35), (s * 0.18, 0.955, 0.36), (s * 0.27, 0.95, 0.30), (s * 0.30, 0.935, 0.17)], 0.011, seg=5)
+        sweep(dk, [(s * 0.30, 0.936, 0.21), (s * 0.30, 0.932, 0.11)], 0.017, seg=6)
+        sweep(mt, [(s * 0.25, 0.94, 0.28), (s * 0.04, 0.80, 0.39), (s * 0.06, R + 0.32, zf - 0.02)], 0.004, seg=3)   # 桿式煞車
+    mt.cyl((0, 0.74, 0.45), (0, 0.74, 0.52), 0.045, seg=10, r2=0.05); P['metal'].cyl((0, 0.74, 0.52), (0, 0.74, 0.525), 0.042, seg=10)   # 車頭燈
+    bk_drive(P, BB, zr, R, ring=0.1, guard=True)
+    for sx in (-1, 1): sweep(mt, [(sx * 0.055, R, zr), (sx * 0.1, 0.012, zr - 0.13)], 0.008, seg=3)
+    sweep(mt, [(-0.1, 0.012, zr - 0.13), (0.1, 0.012, zr - 0.13)], 0.008, seg=3)
+    P['red'].box(-0.04, 0.04, 0.70, 0.73, -0.885, -0.87)
+    P['extra'] = [ru]
+    return bk_end(P, 'bike_old', x)
+
+
+def bike_share(x):
+    """公共單車形式（不做任何系統的標誌、字、配色細節）：粗的單一彎下管、24 吋輪、車架上的方形塑膠籃、全包鍊條蓋、擋泥板、寬座墊、中柱、輪轂發電燈"""
+    P = bk_begin(); R, zr, zf = 0.31, -0.50, 0.50; BB = (0, 0.27, -0.07); Hb, Ht = (0, 0.60, 0.37), (0, 0.76, 0.34)
+    for z in (zr, zf): bk_wheel(P, z, R, 0.042, hubr=0.03, seg=18)
+    fr, mt, dk = P['frame'], P['metal'], P['dark']
+    sweep(fr, bez(Hb, (0, 0.20, 0.24), BB, n=7), 0.032, seg=8); sweep(fr, [BB, (0, 0.72, -0.20)], 0.027, seg=8); sweep(fr, [Hb, Ht], 0.027, seg=8)
+    for sx in (-1, 1):
+        sweep(fr, [(sx * 0.035, 0.27, -0.09), (sx * 0.055, R, zr + 0.01)], 0.013, seg=5); sweep(fr, [(sx * 0.025, 0.68, -0.20), (sx * 0.055, R + 0.01, zr + 0.01)], 0.012, seg=5)
+        sweep(fr, bez((sx * 0.03, 0.60, 0.37), (sx * 0.05, 0.45, 0.44), (sx * 0.055, R, zf), n=4), 0.014, seg=5)
+    fprof = [(0.0, -0.04), (0.016, 0.0), (0.0, 0.04)]
+    ring_x(fr, (0, R, zf), R + 0.022, 0, seg=8, a0=math.radians(-40), a1=math.radians(112), prof=fprof, prof_closed=False)
+    ring_x(fr, (0, R, zr), R + 0.022, 0, seg=9, a0=math.radians(-150), a1=math.radians(25), prof=fprof, prof_closed=False)
+    dk.rbox(-0.19, 0.19, 0.68, 0.92, 0.36, 0.66, r=0.025, seg=1)   # 方形塑膠籃（深灰）
+    for sx in (-1, 1): sweep(mt, [(sx * 0.12, 0.68, 0.40), (sx * 0.04, 0.62, 0.38)], 0.009, seg=4); sweep(mt, [(sx * 0.12, 0.68, 0.60), (sx * 0.045, R + 0.03, zf)], 0.007, seg=4)
+    mt.cyl((0, 0.80, 0.665), (0, 0.80, 0.69), 0.04, seg=10)   # 籃子前面的燈
+    sweep(dk, [(0, 0.79, 0.34), (0, 0.86, 0.30)], 0.02, seg=6)
+    for s in (-1, 1): sweep(mt, bez((0, 0.86, 0.30), (s * 0.2, 0.88, 0.33), (s * 0.29, 0.87, 0.14), n=3), 0.012, seg=5); sweep(dk, [(s * 0.29, 0.872, 0.19), (s * 0.29, 0.866, 0.09)], 0.019, seg=6)
+    sweep(mt, [(0, 0.72, -0.20), (0, 0.87, -0.245)], 0.019, seg=6); bk_saddle(P, (0, 0.895, -0.255), L=0.27, W=0.09, H=0.04, wide=1.25)
+    bk_drive(P, BB, zr, R, ring=0.09, guard=True)
+    for sx in (-1, 1): sweep(mt, [(sx * 0.06, 0.25, -0.12), (sx * 0.12, 0.012, -0.2)], 0.01, seg=4)   # 中柱
+    sweep(mt, [(-0.12, 0.012, -0.2), (0.12, 0.012, -0.2)], 0.009, seg=3)
+    P['red'].box(-0.04, 0.04, 0.50, 0.535, -0.845, -0.83)
+    return bk_end(P, 'bike_share', x)
+
+
 bike(); lamp_post(); bench_park(); planter_box(); bulletin_board(); vending_machine()
+bike('bike_city_child', child=True, x=14.0)
+bike('bike_city_open', x=26.0, basket='none'); bike('bike_city_pbask', x=28.0, basket='plastic'); bike('bike_city_load', x=30.0, load=True)   # ART-BIKES2-F 淑女車再分款
+bike_road(16.0); bike_mtb(18.0); bike_fold(20.0); bike_old(22.0); bike_share(24.0)
 tris = {}
 for ob in root.children:
     if ob.type != 'MESH': continue

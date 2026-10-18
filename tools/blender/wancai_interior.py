@@ -157,13 +157,14 @@ SE, RZ, RXU = U['slabEdge'], U['railZ'], U['railX']
 
 # ---------------- 地板、二樓樓板、天花板 ----------------
 box('L0_floor', MAT['floor'], -W / 2, W / 2, -0.25, 0.0, -D / 2, D / 2, L0)
-SLABS = (('corr', -W / 2, W / 2, -D / 2, SE), ('gall', S['railX'], RXU, SE, F2['z1']), ('foyer', -W / 2, RXU, F2['z1'], D / 2))
+WI0, WI1, ZI0, ZI1 = -W / 2 + T / 2, W / 2 - T / 2, -D / 2 + T / 2, D / 2 - T / 2   # 樓板、地板停在牆的內面（原本伸進牆裡）
+SLABS = (('corr', WI0, WI1, ZI0, SE), ('gall', S['railX'], RXU, SE, F2['z1']), ('foyer', WI0, RXU, F2['z1'], ZI1))
 for nm, x0, x1, z0, z1 in SLABS:
     box(f'L1_slab_{nm}', MAT['slab'], x0, x1, Y1 - U['slabT'], Y1 - 0.02, z0, z1, L1)
     box(f'L1_floor_{nm}', MAT['floor'], x0, x1, Y1 - 0.02, Y1, z0, z1, L1)
 # 樓板邊的石材收邊（面向中庭、樓梯井的邊）
-box('L1_edge_corr', MAT['granite'], -W / 2, W / 2, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE - 0.02, SE + 0.06, L1, bevel=0.01)
-box('L1_edge_gall_E', MAT['granite'], RXU - 0.06, RXU + 0.02, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, D / 2, L1, bevel=0.01)
+box('L1_edge_corr', MAT['granite'], WI0, WI1, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE - 0.02, SE + 0.06, L1, bevel=0.01)
+box('L1_edge_gall_E', MAT['granite'], RXU - 0.06, RXU + 0.02, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, D / 2 - 0.145, L1, bevel=0.01)   # 停在帷幕直櫺前面（原本和最西邊的直櫺側面同一個平面）
 box('L1_edge_gall_W', MAT['granite'], S['railX'] - 0.02, S['railX'] + 0.06, Y1 - U['slabT'] - 0.06, Y1 + 0.02, SE, F2['z1'], L1, bevel=0.01)
 # 天花板（中庭頂、二樓天花板）：單面朝下＋燈板；一樓樓板底下的嵌燈
 quad('L1_ceiling', MAT['ceiling'], [(-W / 2, RY, -D / 2), (W / 2, RY, -D / 2), (W / 2, RY, D / 2), (-W / 2, RY, D / 2)], L1)
@@ -187,36 +188,42 @@ for k, (x, z, r) in enumerate(L['columns']):
     box(f'L0_column_base_{k}', MAT['step'], x - r - 0.03, x + r + 0.03, 0, 0.12, z - r - 0.03, z + r + 0.03, L0, bevel=0.01)
 
 # ---------------- 外牆：北（門洞）、西、東、南（西段實牆＋二樓的門，東段兩層樓高的玻璃帷幕）----------------
-def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl):
-    """北牆一段（y0..y1），門洞寬 1.5 高 2.6；牆下段 1.2 m 花崗石、上面粉光"""
+def wall_with_doors(prefix, parent, z, y0, y1, doors, lvl, ylo=None, yhi=None):
+    """北牆一段（y0..y1），門洞寬 1.5 高 2.6；牆下段 1.2 m 花崗石、上面粉光。
+    ylo／yhi：牆體的實際上下緣（一樓的牆停在二樓地板下 3 cm、二樓的牆往下接：牆頂和二樓地板不同平面，BUG-COPLANAR-DEV）"""
+    wy0 = y0 if ylo is None else ylo; wy1 = y1 if yhi is None else yhi
     xs = sorted(d['x'] for d in doors if d['lv'] == lvl)
-    segs = []; x = -W / 2
+    segs = []; x = -W / 2 + T / 2                 # 北牆夾在東西牆中間（牆角不重疊）
     for dx in xs: segs.append((x, dx - 0.75)); x = dx + 0.75
-    segs.append((x, W / 2))
+    segs.append((x, W / 2 - T / 2))
     for k, (a, b) in enumerate(segs):
         if b - a < 0.05: continue
-        box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, y0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
-        box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_N_{k}', MAT['granite'], a, b, wy0, y0 + 1.2, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_Nu_{k}', MAT['plaster'], a, b, y0 + 1.2, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
     for dx in xs:   # 門楣、門框、門板、門把（跟著北牆淡出）
-        box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, y1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
+        box(f'{prefix}_WALL_Nd_{dx}', MAT['plaster'], dx - 0.75, dx + 0.75, y0 + 2.6, wy1, z - T / 2, z + T / 2, parent, props={'dir': [0, 0, 1]})
         FN = {'fadegrp': 'Ndoor', 'fadedir': [0, 0, 1]}
         box(f'{prefix}_doorframe_{dx}', MAT['frame'], dx - 0.8, dx + 0.8, y0, y0 + 2.7, z + T / 2 - 0.02, z + T / 2 + 0.05, parent, props=FN)
         box(f'{prefix}_door_{dx}', MAT['woodD'], dx - 0.68, dx + 0.68, y0, y0 + 2.5, z + T / 2 + 0.05, z + T / 2 + 0.09, parent, props=FN)
         h_ = cyl(f'{prefix}_doorhandle_{dx}', MAT['steel'], (dx + 0.45, y0 + 0.9, z + T / 2 + 0.14), (dx + 0.45, y0 + 1.3, z + T / 2 + 0.14), 0.018, parent)
         for k_, v_ in FN.items(): h_[k_] = v_
 
-wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0)
-wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1)
+YJ = Y1 - 0.03                    # 一樓、二樓的牆在這裡接（藏在二樓樓板裡）
+wall_with_doors('L0', L0, -D / 2, 0, Y1, L['doors'], 0, yhi=YJ)
+wall_with_doors('L1', L1, -D / 2, Y1, RY, L['doors'], 1, ylo=YJ)
 LLD = L['lawlibDoor']; LZ0, LZ1 = LLD['z'] - LLD['w'] / 2, LLD['z'] + LLD['w'] / 2   # 法律學院圖書館的門洞（一樓西牆南段）
-for pre, P, y0, y1 in (('L0', L0, 0, Y1), ('L1', L1, Y1, RY)):
+ZO0, ZO1 = -D / 2 - T / 2, D / 2 + T / 2   # 東西牆往南北多半個牆厚，包住牆角
+for pre, P, y0, y1 in (('L0', L0, 0, YJ), ('L1', L1, YJ, RY)):
     if pre == 'L0':   # 門洞兩側、門楣上面三塊（第二 AI 2026-10-13，LAWWW 授權只改門洞、門、名牌）
-        for k, (za, zb, ya, yb) in enumerate(((-D / 2, LZ0, y0, y1), (LZ1, D / 2, y0, y1), (LZ0, LZ1, LLD['h'], y1))):
+        for k, (za, zb, ya, yb) in enumerate(((ZO0, LZ0, y0, y1), (LZ1, ZO1, y0, y1), (LZ0, LZ1, LLD['h'], y1))):
             box(f'{pre}_WALL_W_{k}', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, ya, yb, za, zb, P, props={'dir': [1, 0, 0]})
-    else: box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, -D / 2, D / 2, P, props={'dir': [1, 0, 0]})
-    box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, y0 + 1.2, y1, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
-    box(f'{pre}_WALL_Eb', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, y0, y0 + 1.2, -D / 2, D / 2, P, props={'dir': [-1, 0, 0]})
-    for k, (za, zb) in enumerate(((-D / 2, LZ0), (LZ1, D / 2)) if pre == 'L0' else ((-D / 2, D / 2),)):
-        box(f'{pre}_wallbase_W_{k}', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, y0, y0 + 0.12, za, zb, P)
+    else: box(f'{pre}_WALL_W', MAT['plaster'], -W / 2 - T / 2, -W / 2 + T / 2, y0, y1, ZO0, ZO1, P, props={'dir': [1, 0, 0]})
+    yb_ = 1.2 if pre == 'L0' else Y1 + 1.2
+    box(f'{pre}_WALL_E', MAT['plaster'], W / 2 - T / 2, W / 2 + T / 2, yb_, y1, ZO0, ZO1, P, props={'dir': [-1, 0, 0]})
+    box(f'{pre}_WALL_Eb', MAT['granite'], W / 2 - T / 2, W / 2 + T / 2, y0, yb_, ZO0, ZO1, P, props={'dir': [-1, 0, 0]})
+    for k, (za, zb) in enumerate(((ZI0, LZ0), (LZ1, ZI1)) if pre == 'L0' else ((ZI0, ZI1),)):   # 踢腳板停在南北牆的內面
+        fy = 0.0 if pre == 'L0' else Y1   # 踢腳板從那一層的地板算（y0 是牆接縫的高度）
+        box(f'{pre}_wallbase_W_{k}', MAT['woodD'], -W / 2 + T / 2, -W / 2 + T / 2 + 0.02, fy, fy + 0.12, za, zb, P)
 # ---------------- 法律學院圖書館的門（一樓西牆南段；第二 AI 2026-10-13 做，LAWWW 授權只改門洞、門、名牌、盆栽位置）----------------
 # 鋁框、兩扇玻璃門（關著：進去是遊戲的互動點，lawlib 區域）、直把手；門上的木作名牌（淺色木板＋胡桃木框；字是遊戲畫的 W3.signPlane，深咖啡色）。
 # 門後補一小段圖書館（地磚、白牆、天花板、防盜感應門柱、亮的牆）：從大廳看進玻璃門不是空的。門框、名牌跟著西牆淡出（fadegrp）；玻璃不放進淡出群組（會被設成不透明）。
@@ -252,29 +259,30 @@ for k, zz in enumerate((LZ0 - 0.25, LZ1 + 0.25)):   # 防盜感應門柱（圖�
 
 # 南面西段（x -9 ~ 玻璃帷幕的西端）：一樓實牆；二樓實牆＋通到外面平台的玻璃門（門洞寬 1.7 高 2.6）
 UD = L['upperDoor']; ux0, ux1 = UD['x'] - 0.85, UD['x'] + 0.85
-box('L0_WALL_S', MAT['plaster'], -W / 2, FG['x0'], 1.2, Y1, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
-box('L0_WALL_Sb', MAT['granite'], -W / 2, FG['x0'], 0, 1.2, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
-for k, (a, b) in enumerate(((-W / 2, ux0), (ux1, FG['x0']))):
-    box(f'L1_WALL_S_{k}', MAT['plaster'], a, b, Y1, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
+box('L0_WALL_S', MAT['plaster'], WI0, FG['x0'], 1.2, YJ, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+box('L0_WALL_Sb', MAT['granite'], WI0, FG['x0'], 0, 1.2, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+for k, (a, b) in enumerate(((WI0, ux0), (ux1, FG['x0']))):
+    box(f'L1_WALL_S_{k}', MAT['plaster'], a, b, YJ, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
 box('L1_WALL_Sd', MAT['plaster'], ux0, ux1, Y1 + 2.6, RY, D / 2 - T / 2, D / 2 + T / 2, L1, props={'dir': [0, 0, -1]})
 FD = {'fadegrp': 'Sdoor', 'fadedir': [0, 0, -1]}
-box('L1_updoor_frame_t', MAT['frame'], ux0, ux1, Y1 + 2.52, Y1 + 2.62, D / 2 - T / 2 - 0.04, D / 2 + T / 2, L1, props=FD)
+box('L1_updoor_frame_t', MAT['frame'], ux0, ux1, Y1 + 2.52, Y1 + 2.62, D / 2 - T / 2 - 0.04, D / 2 + T / 2 + 0.005, L1, props=FD)   # 門框比牆外面凸出 5 mm
 for k, x in enumerate((ux0, UD['x'] - 0.02, ux1 - 0.08)):
-    box(f'L1_updoor_frame_{k}', MAT['frame'], x, x + 0.1 if k != 1 else x + 0.04, Y1, Y1 + 2.6, D / 2 - T / 2 - 0.04, D / 2 + T / 2, L1, props=FD)
+    box(f'L1_updoor_frame_{k}', MAT['frame'], x, x + 0.1 if k != 1 else x + 0.04, Y1, Y1 + 2.52, D / 2 - T / 2 - 0.04, D / 2 + T / 2 + 0.005, L1, props=FD)   # 直框停在上框下面（原本在轉角重疊）
 quad('L1_updoor_glass', MAT['glass'], [(ux1, Y1, D / 2), (ux0, Y1, D / 2), (ux0, Y1 + 2.52, D / 2), (ux1, Y1 + 2.52, D / 2)], L1, tile=1.0)
 cyl('L1_updoor_handle_a', MAT['steel'], (UD['x'] - 0.12, Y1 + 0.8, D / 2 - T / 2 - 0.1), (UD['x'] - 0.12, Y1 + 1.5, D / 2 - T / 2 - 0.1), 0.02, L1, props=FD)
 cyl('L1_updoor_handle_b', MAT['steel'], (UD['x'] + 0.12, Y1 + 0.8, D / 2 - T / 2 - 0.1), (UD['x'] + 0.12, Y1 + 1.5, D / 2 - T / 2 - 0.1), 0.02, L1, props=FD)
 # 南面東段：兩層樓高的玻璃帷幕＋直櫺＋三道橫櫺；一樓入口兩扇玻璃自動門的框（x 0 ± 1.2）
 gh2 = RY - 0.4; gx0, gx1 = FG['x0'], FG['x1']
 FS = {'fadegrp': 'Sfacade', 'fadedir': [0, 0, -1]}
-quad('L0_glass_S', MAT['glass'], [(gx0, 0, D / 2), (gx1, 0, D / 2), (gx1, gh2, D / 2), (gx0, gh2, D / 2)], L0)
+GZS = D / 2 - 0.07                # 玻璃放在直櫺深度的中間（原本和框外面同一個平面）
+quad('L0_glass_S', MAT['glass'], [(gx0, 0, GZS), (gx1, 0, GZS), (gx1, gh2, GZS), (gx0, gh2, GZS)], L0)
 n = 7
 for i in range(n + 1):
     x = gx0 + i * (gx1 - gx0) / n
-    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2, L0, props=FS)
+    box(f'L0_mullion_S_{i}', MAT['frame'], x - 0.06, x + 0.06, 0, gh2, D / 2 - 0.14, D / 2 + 0.01, L0, props=FS)   # 框凸出 1 cm
 for k, yy in enumerate((2.9, Y1, Y1 + 2.9)):
-    box(f'L0_transom_S_{k}', MAT['frame'], gx0, gx1, yy - 0.06, yy + 0.06, D / 2 - 0.14, D / 2, L0, props=FS)
-box('L0_glass_top_S', MAT['granite'], gx0, gx1, gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
+    box(f'L0_transom_S_{k}', MAT['frame'], gx0, min(gx1, WI1), yy - 0.06, yy + 0.06, D / 2 - 0.13, D / 2 + 0.005, L0, props=FS)   # 橫櫺比直櫺薄一點
+box('L0_glass_top_S', MAT['granite'], gx0, min(gx1, WI1), gh2, RY, D / 2 - T / 2, D / 2 + T / 2, L0, props={'dir': [0, 0, -1]})
 EX = L['entrance']['x']
 for k, (a, b) in enumerate(((EX - 1.2, EX - 0.02), (EX + 0.02, EX + 1.2))):
     box(f'L0_autodoor_{k}', MAT['frame'], a, b, 2.55, 2.62, D / 2 - 0.2, D / 2 - 0.14, L0, props=FS)

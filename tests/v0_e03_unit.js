@@ -37,7 +37,9 @@ function itemFor(week){ for(let d=-400;d<0;d++){ const t=CALENDAR.termOf(d); if(
     check('2. 之後 e03Due 是 false',CLS.e03Due(G,w3)===false); }
   // 4. 第 1 週不算
   { const G=mkG(w1.day,w1.t0+0.05), GM=mkGM(G,0); check('4. 第 1 週不是 E03',CLS.e03Due(G,w1)===false); await CLS.attend(GM,w1,{inScene:true});
-    check('4. 第 1 週上完沒有記回答',!G.flags.Y0_B1_ANSWER); }
+    check('4. 第 1 週上完沒有記回答',!G.flags.Y0_B1_ANSWER);
+    check('4. 第 1 週：魏老師順口講「第一口珍奶……這叫邊際效用遞減。期中會考。」一次（AA_200 7-2，可昕下午迎新用）',GM.log.filter(t=>t.endsWith('第一口珍奶最好喝，第五口就普通了。這叫邊際效用遞減。期中會考。')).length===1,JSON.stringify(GM.log.slice(0,4))); }
+  { const G=mkG(w3.day,w3.t0+0.05), GM=mkGM(G,0); await CLS.attend(GM,w3,{inScene:true}); check('4. 其他週（第 2 週沒去、第 3 週補上的機會成本那堂）沒有珍奶那句',!GM.log.some(t=>t.includes('第一口珍奶'))); }
   // 法律系那幾年的課不受影響
   { const G={day:20,hour:8,stage:'law',flags:{},weekday:1}; const it=CLS.dayItems(G,20).find(x=>!x.exam); check('5. 法律系的課 e03Due 一律 false',!it||CLS.e03Due(G,it)===false); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

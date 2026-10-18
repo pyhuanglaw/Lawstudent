@@ -1,6 +1,6 @@
-// 交接包 v2（BB_96 2-3、2-6）：學姊 W3 調到大一下第 5 週以後＋W3_STANCE；W5「她改的便條」（法服學期檢討會之後）——不需要瀏覽器。修改前沒有 W5（第 1 項失敗）。
+// 交接包 v2（BB_96 2-3、2-6）：學姊 W3 調到大一下第 5 週以後＋W3_STANCE；W5「她改的便條」已刪除（使用者 2026-10-17，AA_218 17-1）——不需要瀏覽器。
 // 檢查：W3 的觸發時間；三個選項記 W3_STANCE；檢討會活動（第 17 週週三研討室 A）；去了檢討會＝會後接著演；沒去＝那晚 21:00 以後走進萬才館、第一句旁白不同；
-//   讀書會 3 次以上、lawclub 才有；三個選項（第二個再選寫什麼）、NOTICED_HER／GAVE_HER_NOTE；只演一次
+//   W5：retired、檢討會後與晚上走進萬才館都不演、舊存檔的記憶說明照留
 // 用法：node tests/v2_bb96_w5_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -38,27 +38,18 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('W3（學姊給的文章）：落在大一下第 5 週以後（大一上、大一下第 4 週都還沒有）',at('Y1S2',5)&&at('Y1S2',10)&&!at('Y1S2',4)&&!at('Y1S1',12));
     const opts3=db.dialogue.find(l=>l.choice).choice.map(o=>o.set&&o.set.W3_STANCE);
     check('W3 和學姊吵一次：三個選項記 W3_STANCE（no／diff／unsure），台詞和數字照舊',JSON.stringify(opts3)==='["no","diff","unsure"]'&&db.dialogue.find(l=>l.choice).choice[0].rel.heroine_05.resp===6,JSON.stringify(opts3)); }
-  const W17=termDay('Y1S2',17,3);
-  check('檢討會：大一下第 17 週週三 19:00–21:00、萬才館研討室 A（門口參加）',ACTIVITIES.on(RV,W17)&&!ACTIVITIES.on(RV,W17-7)&&RV.room==='seminarA'&&RV.door===true&&RV.t0===19);
+  const W17=termDay('Y1S2',15,3);   /* 檢討會改第 15 週週三 6/3（AA_198 第 5 節；變數名照舊）*/
+  check('檢討會停用（法服沒有社課，AA_218 17-4、BB_191 §7）：大一下第 15 週週三不辦；定義留著（舊存檔出席紀錄照讀）',!!RV&&!ACTIVITIES.on(RV,W17)&&RV.room==='seminarA'&&RV.t0===19);
   const setup=(o)=>{ o=o||{}; fresh(W17,19.05,'wancai',Object.assign({lawclub:o.lawclub!==false},o.flags||{})); const A=(G.acts=G.acts||{}).att=(G.acts.att||{}); for(let k=0;k<(o.n==null?3:o.n);k++) A['lawclub_study@'+(W17-70+k*7)]={h:19}; };
   const nm=CHARACTERS.heroine_05.name;
-  { setup(); check('去了檢討會：會後接著演（CLS.afterActEvent）',CLS.afterActEvent(G,RV)===w5);
-    setup({n:2}); check('讀書會只去過 2 次：沒有',CLS.afterActEvent(G,RV)===null);
-    setup({lawclub:false}); check('不是法服的：沒有',CLS.afterActEvent(G,RV)===null);
-    setup(); picks=['有沒有人給妳便條']; await CLS.attendActivity(GM,RV,{door:true}); const L=lines(), i=L.indexOf('檢討會上，學姊對一年級的書狀列了十二條缺點，大家臉都很僵。');
-    const rest=['會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。','（你的書狀上：「第三段的事實整理很好。我剛剛沒說。」）',nm+'：（沒有抬頭）檢討會上講缺點，便條上講優點。',nm+'：缺點要在大家面前講，大家才會改。',nm+'：優點要私下講，才不會被當成客套。',nm+'：……我以前的學姊也是這樣對我。'];
-    check('照玩家流程參加檢討會（attendActivity）：社課結束以後接著演；旁白、台詞照原文',i>=0&&JSON.stringify(L.slice(i+1,i+7))===JSON.stringify(rest),JSON.stringify(L.slice(i,i+7)));
-    check('三個選項',JSON.stringify(opts[opts.length-1])==='["「學姊，有沒有人給妳便條？」","（撕一張她的便條紙，寫了貼在她的筆記本上）","「謝謝學姊。」（拿了書狀就走）"]',JSON.stringify(opts[opts.length-1]));
-    check('「有沒有人給妳便條？」：（她停下筆。）「……社長沒有人改。」（她笑了一下。）「重點是，這樣比較快。」；NOTICED_HER',JSON.stringify(L.slice(i+7))===JSON.stringify(['她停下筆。',nm+'：……社長沒有人改。','她笑了一下。',nm+'：重點是，這樣比較快。'])&&SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(i+7)));
-    check('只演一次',CLS.afterActEvent(G,RV)===null&&!EVENTS.check(w5b)); }
-  { setup(); picks=['撕一張','笑臉']; await EVENTS.run(w5); const L=lines();
-    check('寫便條：再選寫什麼（三個）→ 選畫笑臉：（她看了很久。）「……你學得很快。」；GAVE_HER_NOTE（備註寫了什麼）',JSON.stringify(opts[1])==='["「今天的檢討很清楚。我剛剛沒說。」","「學姊辛苦了。」","（畫一個笑臉）"]'&&JSON.stringify(L.slice(-2))===JSON.stringify(['她看了很久。',nm+'：……你學得很快。'])&&SOCIAL.has('heroine_05','GAVE_HER_NOTE')&&G.flags.W5_NOTE==='smile',JSON.stringify(L.slice(-2)));
-    setup(); picks=['謝謝學姊']; await EVENTS.run(w5); check('「謝謝學姊。」：「嗯。下學期見。」',lines().slice(-1)[0]===nm+'：嗯。下學期見。'); }
-  /* 沒去檢討會 */
-  { const at=(h,o)=>{ setup(o); G.hour=h; G.zone='wancai'; return EVENTS.check(w5b); };
-    check('沒去檢討會的社員：那天 21:00 以後走進萬才館＝演（20:30、去了檢討會的、讀書會不到 3 次都沒有）',at(21.2)&&!at(20.5)&&!at(21.2,{n:2})&&(()=>{ setup(); G.hour=21.2; G.acts.att['lawclub_review_y1s2@'+W17]={h:19}; return !EVENTS.check(w5b); })());
-    setup(); G.hour=21.2; picks=['謝謝學姊']; await EVENTS.run(w5b); const L=lines();
-    check('沒去的版本：第一句旁白「聽說今天的檢討會很安靜。」，其他照舊',L[0]==='聽說今天的檢討會很安靜。'&&L[1]==='會後你回萬才館拿忘記的東西，看到她一個人坐著，在每份書狀上貼便條。',JSON.stringify(L.slice(0,2)));
-    check('記憶的中文說明：GAVE_HER_NOTE、NOTICED_HER',!!SOCIAL.MEMORY_LABEL.GAVE_HER_NOTE&&!!SOCIAL.MEMORY_LABEL.NOTICED_HER); }
+  /* W5「她改的便條」刪除（使用者 2026-10-17，AA_218 17-1）：標 retired、檢討會後不演、晚上走進萬才館也不演；舊存檔看過的旗標、記憶的說明照留 */
+  check('W5 刪除：兩個版本都標 retired（理由寫使用者的裁定）',/AA_218 17-1/.test(String(w5.retired))&&/AA_218 17-1/.test(String(w5b.retired)));
+  { setup(); check('去了檢討會（讀書會 3 次以上、法服）：會後不演',CLS.afterActEvent(G,RV)===null);
+    setup(); picks=['有沒有人給妳便條']; await CLS.attendActivity(GM,RV,{door:true}); const L=lines();
+    check('照玩家流程參加檢討會：社課照常，沒有便條那段、沒有三個選項、不記 NOTICED_HER',!L.some(t=>/貼便條/.test(t))&&!opts.some(o=>o.some(x=>/便條/.test(x)))&&!SOCIAL.has('heroine_05','NOTICED_HER'),JSON.stringify(L.slice(-3)));
+    setup(); G.hour=21.2; G.zone='wancai'; check('沒去檢討會的社員：那晚走進萬才館也不演',!EVENTS.check(w5b));
+    const atD=(day,h)=>{ setup(); G.day=day; G.weekday=CALENDAR.dateOf(day).wd%7; G.hour=h; G.zone='wancai'; return EVENTS.check(w5b); };
+    check('第 15～16 週晚上走進萬才館：都不演',!atD(termDay('Y1S2',15,5),20)&&!atD(termDay('Y1S2',16,1),19)); }
+  check('舊存檔看過的：記憶的中文說明照留（GAVE_HER_NOTE、NOTICED_HER）',!!SOCIAL.MEMORY_LABEL.GAVE_HER_NOTE&&!!SOCIAL.MEMORY_LABEL.NOTICED_HER);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

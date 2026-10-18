@@ -1,0 +1,49 @@
+{
+ "glb": "assets/models/char/second_ai/helmet_bike.glb",
+ "tris": {
+  "helmet_shell": 5468,
+  "helmet_stripe": 312,
+  "helmet_liner": 6196,
+  "helmet_strap": 112,
+  "helmet_buckle": 132
+ },
+ "bytes": 255576,
+ "size_m": {
+  "w": 0.21,
+  "l": 0.293,
+  "h": 0.125
+ },
+ "shell_t": 0.022,
+ "origin": "下緣的中心；前方 −z、上方 +y（three.js 模型座標）",
+ "hang": {
+  "side": {
+   "bone": "upperChest",
+   "pos": [
+    0.178,
+    -0.09,
+    0.15
+   ],
+   "rot": [
+    0,
+    0,
+    -1.5708
+   ],
+   "note": "後背包右側（props3d 的 +x＝人物右邊）：開口朝背包、前額朝前（下緣兩側比原點低 2.2 cm，所以離背包側面 2.8 cm）；手往後擺時可能碰到手肘，要在遊戲裡看"
+  },
+  "back": {
+   "bone": "upperChest",
+   "pos": [
+    0.0,
+    -0.1,
+    0.29
+   ],
+   "rot": [
+    1.5708,
+    0,
+    0
+   ],
+   "note": "後背包外面：開口貼著前袋、前額朝上（不會碰到手）"
+  }
+ },
+ "for": "econ_weilun（BB_201 第 1 節：掛在後背包側邊）"
+}

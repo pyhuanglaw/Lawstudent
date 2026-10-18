@@ -29,7 +29,7 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL)
         for _ in range(360):   # 等開機載入完成（人物模型分批下載，2026-10-10 起可能超過 6 秒；太早讀檔，開機結束時會把 HUD 藏起來）
-            if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')"): break
+            if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         await pg.wait_for_timeout(1500)
         for h in HOURS:

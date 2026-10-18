@@ -2222,6 +2222,8 @@ GLB **219 KB**、三角形（9 種合計）**4,672**、網格 9（每種一個�
 
 ## 24. 坐著的聽眾替身（博雅 101、自習區的人群；Blender 正式模型；**還沒接進遊戲**）
 
+> **2026-10-17 第二版（LAWWW2-C，ART-NPC-HAIR-STREAK）**：第一版的 UV 島碎成幾千個小點，遊戲裡頭髮、衣服都是黑白碎片；改用現在的路人 `bl_npc_*`（12 位）、先做外殼再烤顏色。修改前後與做法：[`test_shots/seated_figures_v2/README.md`](test_shots/seated_figures_v2/README.md)。下面是第一版的紀錄。
+
 使用者 2026-10-13：「101 要有遠處座位的低成本坐姿人物、近處少量 NPC；不要先做 400 個完整 3D NPC」「LAWWW2 製作…低成本坐姿人物」。LAWWW 20:02Z：配色用「預先烤好幾種、每種一個網格」。腳本 `tools/blender/env_second/seated_figures.py` → `assets/models/env/second_ai/seated_figures.glb`（＋`.json`）；後處理 `glb_share_geometry.py`；預覽場景 `tools/blender/env_second/shots/seated_preview.py`。
 
 > **2026-10-13 22:5xZ 更正（LAWWW2 做桌上小物時自己發現）**：`npc_f2`、`npc_m1`、`npc_m2` 三個底模的**腿沒有彎**。`seated_figures.py` 在「腳碰不到地，就把大腿抬高」那一步把旋轉方向寫反了（大腿反而往下轉），連轉 16 次後腿直直往下、穿過地板（最低點 −0.39～−0.51 m）。第一版的截圖裡，腿剛好被講堂的平台、桌板、地板擋住；我寫了「腳踩地」，但沒有逐一檢查四個底模。

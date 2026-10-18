@@ -1,4 +1,4 @@
-// v0 颱風假：T0b 照常上課的喜劇（手機）、T0a 泡麵之夜、XL-1 阿勳一句（BB_110 第 2 節；AA_154 第 92、93、107 行）——不需要瀏覽器。
+// v0 颱風假：T0b 照常上課的喜劇（手機）、T0a 泡麵之夜、XL-1 阿勳一句已刪除（AA_218 第 11 節）（BB_110 第 2 節；AA_154 第 92、93、107 行）——不需要瀏覽器。
 // 修改前：沒有 ev_y0_t0a（第 0 項失敗）。用法：node tests/v0_t0_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -30,20 +30,20 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const ck=(e,day,h,zone,fl)=>{ fresh(day,h,zone||'dorm',fl); return EVENTS.check(e); };
   check('1. T0a：9/30 白天到晚上在宿舍房間；9/29、9/30 在校園、法律系不行',ck(t0a,D30,11)&&ck(t0a,D30,22)&&!ck(t0a,D29,11)&&!ck(t0a,D30,11,'campus')&&!(()=>{ fresh(D30,11,'dorm',{},'law'); return EVENTS.check(t0a); })());
   { fresh(D30,14,'dorm'); picks=['肉燥']; await EVENTS.run(t0a); const L=said.map(x=>x.t);
-    check('1. T0a 原文：六包泡麵、邊際效用遞減、韋綸「走啦！去看風！」、「現在是六包、四個人。我要重算。」',L[0]==='我們有六包泡麵、三個人、一個颱風。'&&L[2]==='（推門進來，全身濕）走啦！去看風！'&&L[5]==='現在是六包、四個人。我要重算。',JSON.stringify(L.slice(0,6)));
-    check('1. 肉燥：「……這改變了整個模型。」、Y0_SAUCE',L[L.length-1]==='……這改變了整個模型。'&&G.flags.Y0_SAUCE===true);
+    check('1. T0a（BB_179 段 B 改稿、四人房）：泡麵六包、韋綸「外面風超大！要不要去看？」、唐睿從上舖爬下來、「唐睿，坐下。」、「六包，四個人。……一人一包半。」',L[0]==='泡麵六包，我們三個。一人兩包，撐到明天應該夠。'&&L[1]==='（推門進來，全身濕）外面風超大！要不要去看？'&&L[2]==='你和阿勳同時說：「不要。」唐睿已經從上舖爬下來在找外套了。'&&L[3]==='唐睿，坐下。'&&L[5]==='（看了一下桌上）六包，四個人。……一人一包半。',JSON.stringify(L.slice(0,6)));
+    check('1. 肉燥：「肉燥？你怎麼不早講。」、Y0_SAUCE',L[L.length-1]==='肉燥？你怎麼不早講。'&&G.flags.Y0_SAUCE===true);
     const W8=(()=>{ for(let d=D30;d<D30+40;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y0S1'&&t.week===8) return d; } })();
-    G.day=W8; G.hour=20; G.weekday=wdOf(W8); check('2. XL-1：第 8 週晚上在宿舍，有 Y0_SAUCE 就有阿勳那一句',EVENTS.check(xl1));
+    G.day=W8; G.hour=20; G.weekday=wdOf(W8); check('2. XL-1 刪除（AA_218 第 11 節：10/17 休學）：事件標 retired，第 8 週晚上在宿舍、有 Y0_SAUCE 也不觸發',!!xl1.retired&&!EVENTS.check(xl1));
     G.flags.Y0_SAUCE=false; check('2. 沒有 Y0_SAUCE 就沒有',!EVENTS.check(xl1)); }
   { fresh(D30,14,'dorm'); picks=['猜拳']; await EVENTS.run(t0a); const L=said.map(x=>x.t);
-    check('1. 猜拳：「阿勳輸了三次，第四次說：『這不是機率，是颱風。』」、不記 Y0_SAUCE',L[L.length-1]==='阿勳輸了三次，第四次說：「這不是機率，是颱風。」'&&!G.flags.Y0_SAUCE); }
+    check('1. 猜拳：「阿勳連輸三把，說要改成五戰三勝。」、不記 Y0_SAUCE',L[L.length-1]==='阿勳連輸三把，說要改成五戰三勝。'&&!G.flags.Y0_SAUCE); }
   // T0b
   { fresh(D29,21.9,'dorm'); G.flags.P2_PICK='river'; run(); check('3. T0b：21:58 以前還沒收到信（排著）',!(G.msgs||[]).some(m=>m.text==='若明日停課，作業照常繳交。'));
     at(D29,22.2); const sys=(G.msgs||[]).filter(m=>(m.th||'sys')==='sys').map(m=>m.text);
     check('3. 21:58 經原老師的信、22:00 新聞、22:01 第二封信（照順序）',JSON.stringify(sys.slice(-3))===JSON.stringify(['若明日停課，作業照常繳交。','明天停止上班上課。','若明日未停課，作業也照常繳交。']),JSON.stringify(sys));
-    const g=TH('g:econ_friends'); check('3. 「走啦」群組：品妤、唐睿、可昕的假設題',g.includes('這兩封信加起來，資訊量是零。')&&g.includes('老師其實只寫了一封。第二封是回聲。')&&g.includes('假設颱風是一個人，他今天最想做什麼？'),JSON.stringify(g));
-    const k=PHONE.thread(G,'g:econ_friends').find(m=>m.text==='假設颱風是一個人，他今天最想做什麼？');
-    check('3. 可昕那則三個回答、各自的回覆',k&&k.ask&&k.ask.opts.map(o=>o.t).join('/')==='「放假。」/「交作業。」/「看我們會不會真的交。」'&&k.ask.opts[2].say[0].text==='……你比颱風還壞。'); }
-  { fresh(D29,22.2,'dorm'); G.events.done.ev_y0_e02=1; run(); check('3. 還沒有「走啦」：在全班群組',TH('g:econ_class').includes('假設颱風是一個人，他今天最想做什麼？')); }
+    const g=TH('g:econ_friends'); check('3. 「走啦」群組（BB_179 段 E 3-2）：品妤「所以作業還是要交。」、唐睿貼圖、可昕「明天放假，你們要幹嘛？」',g.includes('所以作業還是要交。')&&g.includes('（貼圖：一個人在風雨裡撐傘）')&&g.includes('明天放假，你們要幹嘛？'),JSON.stringify(g));
+    const k=PHONE.thread(G,'g:econ_friends').find(m=>m.text==='明天放假，你們要幹嘛？');
+    check('3. 可昕那則三個回答（AA_200 7-2）、各自的回覆',k&&k.ask&&k.ask.opts.map(o=>o.t).join('/')==='「睡到中午。」/「寫經原作業。」/「出去看颱風。」'&&k.ask.opts[2].say[0].text==='不要啦，很危險。'); }
+  { fresh(D29,22.2,'dorm'); G.events.done.ev_y0_e02=1; run(); check('3. 還沒有「走啦」：在全班群組',TH('g:econ_class').includes('明天放假，你們要幹嘛？')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

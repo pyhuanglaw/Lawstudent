@@ -34,8 +34,9 @@ button{font-family:var(--font);cursor:pointer}
 #dlgNext{position:absolute;right:14px;bottom:10px;font-size:12px;color:#c9c2b6;animation:blink 1.2s infinite}
 @keyframes blink{50%{opacity:.25}}
 #choices{position:absolute;right:max(14px,env(safe-area-inset-right));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 14px);width:min(400px,calc(100% - 28px));max-height:calc(100% - 40px);overflow:auto;display:flex;flex-direction:column;gap:8px}
-#choices button{min-height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(28,30,38,.95);color:#f7f2ea;font-size:15px;text-align:left;padding:10px 14px;line-height:1.4}
+#choices button{flex-shrink:0;min-height:46px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(28,30,38,.95);color:#f7f2ea;font-size:15px;text-align:left;padding:10px 14px;line-height:1.4}
 #choices button.dim{opacity:.55}
+#choices.more{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 34px),rgba(0,0,0,.25));mask-image:linear-gradient(to bottom,#000 calc(100% - 34px),rgba(0,0,0,.25))}
 #dlg.static{opacity:.92;pointer-events:none}
 #choices button:active{background:rgba(233,185,106,.9);color:#1c1a17}
 #choices .hint{font-size:12px;color:#b7b0a4;margin-top:3px}
@@ -63,6 +64,7 @@ button{font-family:var(--font);cursor:pointer}
 .btn.pri{background:var(--accent);color:#1c1a17;border-color:transparent;font-weight:500}
 .btn.warn{border-color:rgba(224,122,106,.6);color:#f2b5aa}
 .list{display:flex;flex-direction:column;gap:8px}
+.albGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px}.alb{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#2a2622 center/cover no-repeat;border:1px solid var(--line)}.alb img{position:absolute;bottom:0;right:6%;height:92%;pointer-events:none}.alb .cap{position:absolute;left:0;right:0;bottom:0;padding:4px 6px;font-size:12px;line-height:1.35;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#f1ece2}
 .item{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.55}
 .item b{color:var(--accent);font-weight:500}
 #nextClass{font-size:12px;color:#cfe6ff;max-width:60vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:auto;cursor:pointer;min-height:28px}
@@ -131,7 +133,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
   <div id="fps"></div><div id="mdbg"></div>
   <div id="phone" class="panel hide"><div class="card phone">
     <div class="row2" style="justify-content:space-between"><h2>手機</h2><button class="btn" id="btnPhoneClose">收起來</button></div>
-    <div class="tabs" id="phoneTabs"><button data-ptab="today" class="on">今天</button><button data-ptab="week">課表</button><button data-ptab="places">地點</button><button data-ptab="events">活動</button><button data-ptab="msg">訊息</button><button data-ptab="friends">朋友</button></div>
+    <div class="tabs" id="phoneTabs"><button data-ptab="today" class="on">今天</button><button data-ptab="week">課表</button><button data-ptab="places">地點</button><button data-ptab="events">活動</button><button data-ptab="msg">訊息</button><button data-ptab="friends">朋友</button><button data-ptab="album">相簿</button></div>
     <div class="list" id="phoneBody"></div>
   </div></div>
   <div id="menu" class="panel hide"><div class="card">
@@ -171,80 +173,103 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <div id="resumeNote" class="hide" style="margin:6px 0 8px;font-size:13px;line-height:1.5;color:#ffe9a8"></div><button class="btn" id="btnContinue">繼續（自動存檔）</button>
     <button class="btn" id="btnLoadMenu">讀取／匯入存檔</button>
     <div class="muted" style="margin-top:16px;font-size:12px">建議橫向遊玩。點地面移動、拖曳旋轉鏡頭。<br>所有人物與故事皆為虛構。</div>
-    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.9.1（2026-10-16）</div>
+    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.10（2026-10-18）</div>
   </div></div>
-  <div id="rotate" class="want"><div>請把手機轉成橫向<br><span class="muted">（或直接點這裡繼續直向遊玩）</span></div></div>
+  <div id="rotate"><div>請把手機轉成橫向<br><span class="muted">（或直接點這裡繼續直向遊玩）</span></div></div>
   <div id="loading"><div style="font-family:var(--serif);letter-spacing:.2em;font-size:18px">法條之外</div><div id="bar"><i></i></div><div id="loadMsg">載入中…</div><button class="btn hide" id="btnRetry">重試</button></div>
 </div>
-<script src="lib/three.bundle.js?v=9.9.1"></script>
-<script src="lib/three.jsm.bundle.js?v=9.9.1"></script>
-<script src="lib/three-vrm.bundle.js?v=9.9.1"></script>
-<script src="src/people3d.js?v=9.9.1"></script>
-<script src="src/assets3d.js?v=9.9.1"></script>
-<script src="src/character3d.js?v=9.9.1"></script>
-<script src="src/props3d.js?v=9.9.1"></script>
-<script src="src/world3d.js?v=9.9.1"></script>
-<script src="src/engine3d.js?v=9.9.1"></script>
-<script src="src/townkit3d.js?v=9.9.1"></script>
-<script src="src/campuskit3d.js?v=9.9.1"></script>
-<script src="src/data/wz_park_layout.js?v=9.9.1"></script>
-<script src="src/data/wz_shops_layout.js?v=9.9.1"></script>
-<script src="src/zones3d.js?v=9.9.1"></script>
-<script src="src/data/linze_layout.js?v=9.9.1"></script>
-<script src="src/data/classroom_layout.js?v=9.9.1"></script>
-<script src="src/building3d.js?v=9.9.1"></script>
-<script src="src/data/wancai_layout.js?v=9.9.1"></script>
-<script src="src/wancai3d.js?v=9.9.1"></script>
-<script src="src/data/library_layout.js?v=9.9.1"></script>
-<script src="src/library3d.js?v=9.9.1"></script>
-<script src="src/data/dorm_layout.js?v=9.9.1"></script>
-<script src="src/dorm3d.js?v=9.9.1"></script>
-<script src="src/data/lawlib_layout.js?v=9.9.1"></script>
-<script src="src/lawlib3d.js?v=9.9.1"></script>
-<script src="src/data/soclib_layout.js?v=9.9.1"></script>
-<script src="src/soclib3d.js?v=9.9.1"></script>
-<script src="src/data/gym_layout.js?v=9.9.1"></script>
-<script src="src/gym3d.js?v=9.9.1"></script>
-<script src="src/data/gongtong_layout.js?v=9.9.1"></script>
-<script src="src/data/boya_layout.js?v=9.9.1"></script>
-<script src="src/data/putong_layout.js?v=9.9.1"></script>
-<script src="src/teach3d.js?v=9.9.1"></script>
-<script src="src/audio3d.js?v=9.9.1"></script>
-<script src="src/data/characters.js?v=9.9.1"></script>
-<script src="src/data/portrait_manifest.js?v=9.9.1"></script>
-<script src="src/data/legal_qbank.js?v=9.9.1"></script>
-<script src="src/data/events.js?v=9.9.1"></script>
-<script src="src/data/ladder.js?v=9.9.1"></script>
-<script src="src/social3d.js?v=9.9.1"></script>
-<script src="src/adv3d.js?v=9.9.1"></script>
-<script src="src/legal3d.js?v=9.9.1"></script>
-<script src="src/events3d.js?v=9.9.1"></script>
-<script src="src/data/calendar.js?v=9.9.1"></script>
-<script src="src/data/places.js?v=9.9.1"></script>
-<script src="src/data/activities.js?v=9.9.1"></script>
-<script src="src/data/invites.js?v=9.9.1"></script>
-<script src="src/data/rel_lines.js?v=9.9.1"></script>
-<script src="src/invites3d.js?v=9.9.1"></script>
-<script src="src/phone3d.js?v=9.9.1"></script>
-<script src="src/outings3d.js?v=9.9.1"></script>
-<script src="src/data/free_trips.js?v=9.9.1"></script>
-<script src="src/freetrip3d.js?v=9.9.1"></script>
-<script src="src/data/encounters.js?v=9.9.1"></script>
-<script src="src/data/enc_walk.js?v=9.9.1"></script>
-<script src="src/encounter3d.js?v=9.9.1"></script>
-<script src="src/wzpark3d.js?v=9.9.1"></script>
-<script src="src/wzshops3d.js?v=9.9.1"></script>
-<script src="src/data/home_lines.js?v=9.9.1"></script>
-<script src="src/home3d.js?v=9.9.1"></script>
-<script src="src/romance3d.js?v=9.9.1"></script>
-<script src="src/game3d.js?v=9.9.1"></script>
-<script src="src/guide3d.js?v=9.9.1"></script>
-<script src="src/story3d.js?v=9.9.1"></script>
-<script src="src/data/courses.js?v=9.9.1"></script>
-<script src="src/data/syllabus.js?v=9.9.1"></script>
-<script src="src/data/exam_bank.js?v=9.9.1"></script>
-<script src="src/classes3d.js?v=9.9.1"></script>
-<script src="src/crowd3d.js?v=9.9.1"></script>
-<script src="src/bike3d.js?v=9.9.1"></script>
+<script src="lib/three.bundle.js?v=9.10"></script>
+<script src="lib/three.jsm.bundle.js?v=9.10"></script>
+<script src="lib/three-vrm.bundle.js?v=9.10"></script>
+<script src="src/people3d.js?v=9.10"></script>
+<script src="src/assets3d.js?v=9.10"></script>
+<script src="src/character3d.js?v=9.10"></script>
+<script src="src/props3d.js?v=9.10"></script>
+<script src="src/world3d.js?v=9.10"></script>
+<script src="src/engine3d.js?v=9.10"></script>
+<script src="src/townkit3d.js?v=9.10"></script>
+<script src="src/campuskit3d.js?v=9.10"></script>
+<script src="src/data/wz_park_layout.js?v=9.10"></script>
+<script src="src/data/wz_shops_layout.js?v=9.10"></script>
+<script src="src/data/lane118_layout.js?v=9.10"></script>
+<script src="src/data/lane118_shops.js?v=9.10"></script>
+<script src="src/zones3d.js?v=9.10"></script>
+<script src="src/data/linze_layout.js?v=9.10"></script>
+<script src="src/data/classroom_layout.js?v=9.10"></script>
+<script src="src/building3d.js?v=9.10"></script>
+<script src="src/data/wancai_layout.js?v=9.10"></script>
+<script src="src/wancai3d.js?v=9.10"></script>
+<script src="src/data/library_layout.js?v=9.10"></script>
+<script src="src/library3d.js?v=9.10"></script>
+<script src="src/data/dorm_layout.js?v=9.10"></script>
+<script src="src/data/dorm_room_layout.js?v=9.10"></script>
+<script src="src/dorm3d.js?v=9.10"></script>
+<script src="src/data/lawlib_layout.js?v=9.10"></script>
+<script src="src/lawlib3d.js?v=9.10"></script>
+<script src="src/data/socsci_layout.js?v=9.10"></script>
+<script src="src/data/soclib_layout.js?v=9.10"></script>
+<script src="src/soclib3d.js?v=9.10"></script>
+<script src="src/data/gym_layout.js?v=9.10"></script>
+<script src="src/gym3d.js?v=9.10"></script>
+<script src="src/data/gongtong_layout.js?v=9.10"></script>
+<script src="src/data/boya_layout.js?v=9.10"></script>
+<script src="src/data/putong_layout.js?v=9.10"></script>
+<script src="src/teach3d.js?v=9.10"></script>
+<script src="src/audio3d.js?v=9.10"></script>
+<script src="src/data/characters.js?v=9.10"></script>
+<script src="src/data/portrait_manifest.js?v=9.10"></script>
+<script src="src/data/legal_qbank.js?v=9.10"></script>
+<script src="src/data/events.js?v=9.10"></script>
+<script src="src/data/camp_y1.js?v=9.10"></script>
+<script src="src/data/ladder.js?v=9.10"></script>
+<script src="src/social3d.js?v=9.10"></script>
+<script src="src/adv3d.js?v=9.10"></script>
+<script src="src/legal3d.js?v=9.10"></script>
+<script src="src/events3d.js?v=9.10"></script>
+<script src="src/data/calendar.js?v=9.10"></script>
+<script src="src/data/places.js?v=9.10"></script>
+<script src="src/data/activities.js?v=9.10"></script>
+<script src="src/data/invites.js?v=9.10"></script>
+<script src="src/data/rel_lines.js?v=9.10"></script>
+<script src="src/invites3d.js?v=9.10"></script>
+<script src="src/phone3d.js?v=9.10"></script>
+<script src="src/data/msg_pool.js?v=9.10"></script>
+<script src="src/data/msg2_pool.js?v=9.10"></script>
+<script src="src/msg3d.js?v=9.10"></script>
+<script src="src/outings3d.js?v=9.10"></script>
+<script src="src/data/hometown_lines.js?v=9.10"></script>
+<script src="src/hometown3d.js?v=9.10"></script>
+<script src="src/lane118.js?v=9.10"></script>
+<script src="src/exchange3d.js?v=9.10"></script>
+<script src="src/data/us_layouts.js?v=9.10"></script>
+<script src="src/us3d.js?v=9.10"></script>
+<script src="src/data/free_trips.js?v=9.10"></script>
+<script src="src/freetrip3d.js?v=9.10"></script>
+<script src="src/data/encounters.js?v=9.10"></script>
+<script src="src/data/enc_walk.js?v=9.10"></script>
+<script src="src/encounter3d.js?v=9.10"></script>
+<script src="src/wzpark3d.js?v=9.10"></script>
+<script src="src/wzshops3d.js?v=9.10"></script>
+<script src="src/data/home_lines.js?v=9.10"></script>
+<script src="src/data/needed_msgs.js?v=9.10"></script>
+<script src="src/home3d.js?v=9.10"></script>
+<script src="src/romance3d.js?v=9.10"></script>
+<script src="src/data/date_locations.js?v=9.10"></script>
+<script src="src/data/date_lines.js?v=9.10"></script>
+<script src="src/data/confess_lines.js?v=9.10"></script>
+<script src="src/date3d.js?v=9.10"></script>
+<script src="src/data/termend_lines.js?v=9.10"></script>
+<script src="src/termend3d.js?v=9.10"></script>
+<script src="src/data/vac_activities.js?v=9.10"></script>
+<script src="src/vac3d.js?v=9.10"></script>
+<script src="src/game3d.js?v=9.10"></script>
+<script src="src/guide3d.js?v=9.10"></script>
+<script src="src/story3d.js?v=9.10"></script>
+<script src="src/data/courses.js?v=9.10"></script>
+<script src="src/data/syllabus.js?v=9.10"></script>
+<script src="src/data/exam_bank.js?v=9.10"></script>
+<script src="src/classes3d.js?v=9.10"></script>
+<script src="src/crowd3d.js?v=9.10"></script>
+<script src="src/bike3d.js?v=9.10"></script>
 <script>GAME.boot();</script>
 </body></html>

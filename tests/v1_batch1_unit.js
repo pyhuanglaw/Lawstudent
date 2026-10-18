@@ -53,7 +53,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('A5 不出題（沒有 legal 那一行、演一次沒有問法律題）',legalAsked===0&&!e.dialogue.some(l=>l.legal),String(legalAsked)); }
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
-    const setup=day=>{ fresh(day,18,id==='ev_yutong_absent'?'noodle':'library'); while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
+    const setup=day=>{ fresh(day,id==='ev_yutong_absent'?18:21.2,id==='ev_yutong_absent'?'noodle':'library');   /* ev_yutong_thanks：20:30～22:00（AA_178 ②）*/ while(![2,4].includes(G.weekday)){ G.day++; G.weekday=wdOf(G.day); } SOCIAL.meet('heroine_03','campus'); SOCIAL.remember('heroine_03','TALKED_FAMILY','x'); G.flags.yutong_hospital=true; };
     /* 語彤 4 從交接包 v2 起放在期中這兩週（第 8～9 週，AA_11 事件 4）：大一上、下都用第 8 週比 */
     const wk=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
     const dA=id==='ev_yutong_absent'?wk('Y1S1',8):Y1S1+14, dB=id==='ev_yutong_absent'?wk('Y1S2',8):Y1S2+14;
@@ -62,7 +62,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
   /* ---------- A8 ---------- */
   { const e=ev('ev_course_selection'); fresh(Y1S1+3,8,'dorm'); picks=[1]; await EVENTS.run(e); const L=lines(), o=opts[0]||[];
     check('A8 「選課結果出來了。通識「城市與散步」——沒選上。備取十七。」',L[0]==='選課結果出來了。通識「城市與散步」——沒選上。備取十七。',L[0]);
-    check('A8 選項：加簽、「算了，下學期再選。」（沒有「經濟學原理」）',o.length===2&&o[0].startsWith('加簽')&&o[1]==='算了，下學期再選。'&&!o.some(t=>/經濟學原理/.test(t)),JSON.stringify(o));
+    check('A8 選項：第二階段再上網加（AA_195 4-7 B8：114 學年起取消人工加簽）、「算了，下學期再選。」（沒有「經濟學原理」）',o.length===2&&o[0]==='沒選到的那堂，等第二階段有人退選，再上網加加看。'&&o[1]==='算了，下學期再選。'&&!o.some(t=>/經濟學原理/.test(t)),JSON.stringify(o));
     check('A8 選「下學期再選」不設 ge_econ',!G.flags.ge_econ);
     fresh(Y1S1+3,8,'dorm'); picks=[0]; await EVENTS.run(e); check('A8 選「加簽」：記下備取（ge_walk_waitlist）',G.flags.ge_walk_waitlist===true&&!G.flags.ge_econ); }
   /* ---------- 關掉的兩件 ---------- */

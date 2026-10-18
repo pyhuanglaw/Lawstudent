@@ -1,4 +1,4 @@
-// v0 T1 全系的秘密（KNOWS_TANG）、A1 凌晨兩點的微積分（XUN_WARM）與沒去的紙條（BB_112；AA_154 第 111、119 行）——不需要瀏覽器。用法：node tests/v0_t1_a1_unit.js
+// v0 T1 全系的秘密（KNOWS_TANG）、A1 凌晨兩點的微積分（XUN_WARM）與沒去的紙條（已刪，AA-C Q2）（BB_112；AA_154 第 111、119 行）——不需要瀏覽器。用法：node tests/v0_t1_a1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -28,11 +28,11 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const ck=(e,key,h,zone,fl)=>{ fresh(K(key),h,zone,fl); return EVENTS.check(e); };
   check('1. T1：10/1（二）、10/7（一）中午在校園可以；9/30 颱風假、10/10 國慶、第 4 週、第 7 週不行',ck(t1,'2024-10-01',12.3,'campus')&&ck(t1,'2024-10-07',12.3,'campus')&&!ck(t1,'2024-09-30',12.3,'campus')&&!ck(t1,'2024-10-10',12.3,'campus')&&!ck(t1,'2024-09-24',12.3,'campus')&&!ck(t1,'2024-10-15',12.3,'campus'));
   { fresh(K('2024-10-01'),12.3,'campus'); await EVENTS.run(t1); const L=said.map(x=>x.t);
-    check('1. T1 原文（韋綸、祐廷、品妤）、記 KNOWS_TANG',L[0]==='（壓低聲音）你知道唐睿喜歡品妤嗎？'&&L[1]==='……不知道。'&&L[L.length-1]==='你們兩個的對話，經濟效益是零。'&&G.flags.KNOWS_TANG===true,JSON.stringify(L)); }
-  check('2. A1：10/14（一）、10/17（四）深夜（00:30）在宿舍可以；10/15、10/16、晚上 22:00、在校園不行',ck(a1,'2024-10-14',24.5,'dorm')&&ck(a1,'2024-10-17',25,'dorm')&&!ck(a1,'2024-10-15',24.5,'dorm')&&!ck(a1,'2024-10-16',24.5,'dorm')&&!ck(a1,'2024-10-14',22,'dorm')&&!ck(a1,'2024-10-14',24.5,'campus'));
-  { fresh(K('2024-10-14'),24.5,'dorm'); picks=['數字有溫度']; await EVENTS.run(a1); const L=said.map(x=>x.t);
-    check('2. A1 原文、「我覺得很好。數字有溫度。」→「……你也是怪人。」、XUN_WARM',L[0]==='你那題，答案是零。'&&L.includes('（四十分鐘後。）')&&L[L.length-1]==='……你也是怪人。'&&G.flags.XUN_WARM===true,JSON.stringify(L.slice(-3)));
+    check('1. T1（BB_179 段 B #14、#15）：韋綸「欸，她來了。」、品妤坐下「經濟學喔。那你們繼續，我吃我的。」、記 KNOWS_TANG',L[0]==='（壓低聲音）你知道唐睿喜歡品妤嗎？'&&L[1]==='……不知道。'&&L.includes('欸，她來了。')&&L[L.length-1]==='（坐下）經濟學喔。那你們繼續，我吃我的。'&&G.flags.KNOWS_TANG===true,JSON.stringify(L)); }
+  check('2. A1（AA_218 第 11 節：休學前兩天的深夜）：10/15（二）深夜 00:30～02:00 在宿舍可以；10/14、10/16、10/17 深夜、10/15 的 02:30、晚上 22:00、在校園不行',ck(a1,'2024-10-15',24.5,'dorm')&&ck(a1,'2024-10-15',25.9,'dorm')&&!ck(a1,'2024-10-14',24.5,'dorm')&&!ck(a1,'2024-10-16',24.5,'dorm')&&!ck(a1,'2024-10-17',25,'dorm')&&!ck(a1,'2024-10-15',26.5,'dorm')&&!ck(a1,'2024-10-15',22,'dorm')&&!ck(a1,'2024-10-15',24.5,'campus'));
+  { fresh(K('2024-10-15'),24.5,'dorm'); picks=['數字有溫度']; await EVENTS.run(a1); const L=said.map(x=>x.t);
+    check('2. A1（BB_179 段 B）：「我覺得不怪。」→「你也是怪人。」、XUN_WARM',L[0]==='你那題，答案是零。'&&L.includes('（四十分鐘後。）')&&L.includes('……很怪吧。')&&L[L.length-1]==='你也是怪人。'&&G.flags.XUN_WARM===true,JSON.stringify(L.slice(-3)));
     G.day=K('2024-11-02'); G.hour=20; G.weekday=wdOf(G.day); check('3. 玩過 A1：期中後沒有門上的紙條',!EVENTS.check(note)); }
-  check('3. 沒玩過 A1：11/1 中午以後回宿舍有紙條；10/31 沒有',ck(note,'2024-11-01',13,'dorm')&&ck(note,'2024-11-04',20,'dorm')&&!ck(note,'2024-10-31',20,'dorm'));
+  check('3. A1 門上紙條刪除（AA-C 2026-10-17 Q2：10/19 退宿以後不會回 412）：標 retired，沒玩過 A1 的人 11/1 回宿舍也沒有',!!note.retired&&!ck(note,'2024-11-01',13,'dorm')&&!ck(note,'2024-11-04',20,'dorm'));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

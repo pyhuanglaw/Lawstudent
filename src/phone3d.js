@@ -2,7 +2,7 @@
    訊息照舊存在 G.msgs（invites3d.js：最新的在最後、最多 200 則），舊訊息不用改；新訊息多幾個欄位：
      th：對話串（'p:人物 id'＝和那個人的一對一；'g:群組 id'＝群組）。舊訊息沒有：有 who＝和 who 的一對一，沒有＝通知（'sys'）
      from：誰說的（人物 id；'player'＝祐廷）；name：手機上顯示的名字（只在手機上出現的人，例如 Kevin 學長；或群組裡的帳號名稱「溫學姊」）
-     pin：群組的置頂；ask：可以回的訊息 {id, opts:[{t, post, say:[{from,name,text}], set:{旗標:值}, mem:[{npc,tag,note}]}]}（post：貼到對話裡的字，沒寫＝t；例：選項「（貼一張「OK」的貼圖）」貼出去是「（貼圖：OK）」）；ans：回了第幾個（回過就不能再回）
+     pin：群組的置頂；ask：可以回的訊息 {id, grp, max, until, opts:[{t, post, say:[{from,name,text}], set:{旗標:值}, mem:[{npc,tag,note}]}]}（post：貼到對話裡的字，沒寫＝t；例：選項「（貼一張「OK」的貼圖）」貼出去是「（貼圖：OK）」）；ans：回了第幾個（回過就不能再回）
      tag：同一則內容只送一次（PHONE.at 的 tag）
    G.phone＝{groups:{群組 id:{name, day}}, seen:{對話串:看過的最後一則的時間}, q:[{day,h,items,tag}], n}（舊存檔沒有就從空的開始）
    排定時間（PHONE.at）：時間到了才出現（PHONE.tick，story3d.js 每 0.5 秒；劇情、對話進行中先不送）；睡覺、跳過時間跨過去的，照原本的時間補進去（不會跑到未來）。
@@ -43,15 +43,19 @@ const PHONE=(function(){
     return n; };
   /* 可以回的訊息 */
   /* 回覆的期限（ask.until＝絕對時間 day*24+h；例：12/3 可昕「祐廷的草稿」當天 23:59 前可以傳，BB_95 9-6）：過了就不能回、按鈕不顯示 */
-  S.askOpen=(G,m)=>!!(m&&m.ask&&m.ans==null&&!(m.ask.until!=null&&abs(G.day,G.hour)>m.ask.until));
+  /* ask.grp＋ask.max：同一組最多回幾則（主線 4「這週的訊息」：四則裡回得了兩則，AA_179 第 1 節）；回滿了，同組其他的就不能回 */
+  S.grpUsed=(G,grp)=>G.msgs.reduce((n,x)=>n+(x.ask&&x.ask.grp===grp&&x.ans!=null?1:0),0);
+  S.askOpen=(G,m)=>!!(m&&m.ask&&m.ans==null&&!(m.ask.until!=null&&abs(G.day,G.hour)>m.ask.until)&&!(m.ask.grp&&m.ask.max!=null&&S.grpUsed(G,m.ask.grp)>=m.ask.max));
   S.pending=G=>{ S.rec(G); return G.msgs.filter(m=>S.askOpen(G,m)); };
   S.mustOpen=(G,th)=>S.pending(G).some(m=>m.ask.must&&(!th||S.th(m)===th));   /* ask.must：一定要回才關得掉手機（v0 E12 的手機版，AA_154 A32）*/
   S.byAsk=(G,id)=>{ S.rec(G); return G.msgs.find(m=>m.ask&&m.ask.id===id)||null; };
   /* 選項的 post:false＝不替玩家傳出那一句（選項是動作，例：「（去總圖查完再回）」「（不回）」，之後的訊息由劇情規則補；v0 韋綸的腳踏車，AA_154 2-5b）*/
-  S.answer=function(G,id,k){ const m=S.byAsk(G,id); if(!m||!S.askOpen(G,m)) return null; const o=m.ask.opts[k]; if(!o) return null; m.ans=k; const th=S.th(m);
+  S.optBlocked=(G,o)=>!!(o&&o.need&&o.need.money!=null&&(G.money|0)<o.need.money);   /* need：{money, why}＝錢不夠就不能選（例：去高雄跨年的高鐵票，AA_210 5-2）*/
+  S.answer=function(G,id,k){ const m=S.byAsk(G,id); if(!m||!S.askOpen(G,m)) return null; const o=m.ask.opts[k]; if(!o||S.optBlocked(G,o)) return null; m.ans=k; const th=S.th(m);
     const out=o.post===false?[]:[S.post(G,{th,from:'player',who:null,text:o.post||o.t})]; for(const r of (o.say||[])) out.push(S.post(G,Object.assign({th},r)));
     if(o.set) for(const f in o.set) G.flags[f]=o.set[f]; if(o.mem&&typeof SOCIAL!=='undefined') for(const q of o.mem) SOCIAL.remember(q.npc,q.tag,q.note);
     if(o.contact&&typeof INV!=='undefined') for(const c of [].concat(o.contact)) INV.addContact(G,c);
+    if(o.need&&typeof STORY!=='undefined'&&STORY.neededAnswered) STORY.neededAnswered(G,m,o);   /* 主線 4：回了的那個人信任 +1、記次數 */
     return {m,o,out}; };
   /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後 */
   S.threads=function(G){ const P=S.rec(G); const by=new Map();

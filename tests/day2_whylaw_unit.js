@@ -35,8 +35,8 @@ const lines=()=>said.map(s=>s.t);
 const has=(id,tag)=>SOCIAL.has(id,tag);
 const D2=STORY._day2;
 // AA_12 0-4（Café）、AA_120 7-5 第 5 項（總圖短版）的原文
-const CAFE_OPTS=['我小時候遇到事情就會去翻民法。翻得到，看不懂。我想知道怎麼看懂。','我念過一年經濟。後來發現，我比較想知道事情「應該」怎麼處理。','我想幫身邊的人把事情弄清楚。','還在找怎麼說。但這是我自己選的。'];
-const LIB_OPTS=['小時候遇到事情就去翻民法。翻得到，看不懂。','我念過一年經濟。後來比較想知道事情「應該」怎麼處理。','想幫身邊的人把事情弄清楚。','還在找怎麼說。但是我自己選的。'];
+const CAFE_OPTS=['我小時候遇到事情就會去翻民法。翻得到，看不懂。我想知道怎麼看懂。','我念過一個多月經濟。還是想念這個。','我想幫身邊的人把事情弄清楚。','還在找怎麼說。但這是我自己選的。'];
+const LIB_OPTS=['小時候遇到事情就去翻民法。翻得到，看不懂。','我念過一個多月經濟。還是想念這個。','想幫身邊的人把事情弄清楚。','還在找怎麼說。但是我自己選的。'];
 const KEYS=['curious','econ','help','own'];
 const CAFE_REACT=[['……小時候？','她停了一下。','那你很誠實。大部分人會說自己從小就懂。'],['所以你比我大？','一歲。','……學長。','不要。'],['這個理由我喜歡。很多人不是輸在法律，是輸在沒人幫他把事情弄清楚。'],['「自己選的」。','她重複一次，好像要記住。']];
 const LIB_REACT=[['（小聲）……小時候？那你很誠實。'],['（小聲）所以你比我大？','一歲。','（小聲）……學長。','不要。'],['（小聲）這個理由我喜歡。'],['（小聲）「自己選的」。……好。']];
@@ -83,17 +83,17 @@ const after=(arr,q)=>{ const i=arr.indexOf(q); return i<0?[]:arr.slice(i+1); };
     check('3b 總圖的結尾（小聲版）：以安「（小聲）你的聯絡方式給我。筆記我拍給你。」、記 AN_CONTACT_DAY2',j>=0&&L2[j+1]==='（小聲）你的聯絡方式給我。筆記我拍給你。'&&G.flags.AN_CONTACT_DAY2===G.day,JSON.stringify(L2.slice(-3))); }
   // ---------- 4 以安的記憶：人物面板讀得出來（只在 econ）----------
   { fresh(); pick={law88:0,why:1}; await D2.cafeScene(GM); const d=SOCIAL.describe('heroine_01');
-    check('4 econ 之後：以安的人物面板寫「知道你念過一年經濟系」',/知道你念過一年經濟系/.test(d),d);
+    check('4 econ 之後：以安的人物面板寫「知道你念過經濟系」',/知道你念過經濟系/.test(d),d);
     fresh(); pick={law88:0,why:3}; await D2.cafeScene(GM); const d2=SOCIAL.describe('heroine_01');
     check('4 own 之後：以安的人物面板沒有經濟系',!/經濟/.test(d2),d2); }
   // ---------- 5 程式碼與資料：舊句子、以安的家庭欄 ----------
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
-    /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。我說這是存糧。」，BB_104 8b-16）：先拿掉這幾句再搜尋 */
-    const LEGIT=['我媽說我寒假胖了。我說這是存糧。']; const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
+    /* 別的事件合法用到同樣的字（經濟系寒假 E24 可昕「我媽說我寒假胖了。」，BB_104 8b-16；BB_179 段 E 改短）：先拿掉這幾句再搜尋 */
+    const LEGIT=['我媽說我寒假胖了。','我媽說她不好意思拒絕。','我媽說今年要包一百個。'];   /* 法服值班民眾第 6 件（AA_184）；阿哲的大二過年（AA_143 2-1，AA-B 9035ede0）*/ const src2=LEGIT.reduce((a,w)=>a.split(w).join(''),src);
     check('5 story3d.js 整個檔案搜尋不到：'+OLD.join('、')+'（不算 '+LEGIT.join('、')+'）',oldIn([src2]).length===0,oldIn([src2]).join('、'));
     const h=CHARACTERS.heroine_01;
-    check('5 以安的 family_context＝「母親是法官，單親；家在台中」',h.family_context==='母親是法官，單親；家在台中',h.family_context);
-    check('5 以安的 contradictions 只換那半句：「媽媽是法官，她不想被當成「法官的女兒」」，沒有書記官',/媽媽是法官，她不想被當成「法官的女兒」/.test(h.contradictions)&&!/書記官/.test(JSON.stringify(h)),h.contradictions); }
+    check('5 以安的 family_context＝「母親是高等法院庭長，單親；家在台中，家境寬裕」（2026-10-18 01:3x 使用者經 AA-C）',h.family_context==='母親是高等法院庭長，單親；家在台中，家境寬裕',h.family_context);
+    check('5 以安的 contradictions：還沒決定司法官或大事務所律師、媽媽是高等法院庭長、不想被當成『庭長的女兒』；沒有書記官',h.contradictions==='看起來對人生極有規劃，其實還沒決定要當司法官還是大事務所律師；媽媽是高等法院庭長，她給自己的標準很高，也不想被當成『庭長的女兒』'&&!/書記官/.test(JSON.stringify(h)),h.contradictions); }
   // ---------- 6 ev_an_mother 停用 ----------
   { fresh(); G.zone='campus'; G.hour=18.0; G.day=12; SOCIAL.adjust('heroine_01',{fam:25,trust:10}); const ev=STORY_EVENTS.find(e=>e.id==='ev_an_mother'); const ctl=Object.assign({},ev); delete ctl.retired;
     check('6 對照組：同樣條件（校園、18:00、以安有點熟）拿掉 retired 的複本會觸發——證明這項測試抓得到',SOCIAL.stage('heroine_01')==='FAMILIAR'&&EVENTS.check(ctl)===true,SOCIAL.stage('heroine_01'));

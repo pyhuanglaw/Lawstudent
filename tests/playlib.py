@@ -37,6 +37,18 @@ class Run:
         return 1 if self.fails else 0
 
 
+def law_url(url):
+    """法律系開局（8/22 法律系宿營 → 8/29 搬宿舍）：2026-10-17 第 7 組以後新遊戲預設是經濟系開局（2024-08-23 經濟系宿營），測法律系開局加 ?start1"""
+    if 'start1' in url or 'start0' in url: return url
+    return url + ('&' if '?' in url else '?') + 'start1'
+
+
+def legacy_url(url):
+    """舊的法律系開局（9/17 宿舍第一晚、第一二天主線）：新遊戲預設是 8/22 宿營（CAMP-L1），測舊開局的流程加 ?start0（舊存檔還在這條路上）"""
+    if 'start0' in url: return url
+    return url + ('&' if '?' in url else '?') + 'start0'
+
+
 async def launch(p, landscape=True):
     """手機模擬（is_mobile、has_touch、iPhone UA）。landscape=True 是 844×390 橫向，False 是 390×844 直向"""
     b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=ARGS)
@@ -48,8 +60,10 @@ async def launch(p, landscape=True):
 
 
 async def wait_loaded(pg, timeout_s=180):
+    # 2026-10-16 開遊戲加速：主要角色、路人改在標題畫面出來以後背景下載（game3d.js boot）。測試多半用 load_state 直接讀檔（不經過「開始」的 waitChars），
+    # 所以這裡也等人物全部到齊（GAME.charsAll），測試開始時的狀態和以前一樣；量載入時間、標題先出來的測試用 tests/boot_fast.py
     for i in range(int(timeout_s * 2)):
-        if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')"): return True
+        if await pg.evaluate("typeof GAME!=='undefined'&&!!document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(!GAME.charsAllP||!!GAME.charsAll)"): return True
         await pg.wait_for_timeout(500)
     return False
 
@@ -136,6 +150,17 @@ async def state(pg):
     return await pg.evaluate(STATE_JS)
 
 
+async def close_panels(pg, cdp):
+    """手機、筆記本、大地圖開著（遊戲暫停）：像玩家一樣按「收起來／返回遊戲」關掉。回傳關了哪些（2026-10-17：手機蓋住下課選單，測試一直點被蓋住的選項）"""
+    shut = []
+    for pid, btn in (('phone', '#btnPhoneClose'), ('menu', '#btnClose'), ('bigmap', '#bmClose')):
+        if await pg.evaluate("(id=>{ const e=document.getElementById(id); return !!e&&!e.classList.contains('hide'); })('%s')" % pid):
+            if await pg.evaluate("(s=>!!document.querySelector(s))('%s')" % btn): await tap(pg, cdp, btn)
+            else: await pg.keyboard.press('Escape')
+            await pg.wait_for_timeout(600); shut.append(pid)
+    return shut
+
+
 async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=700):
     """像玩家一樣點對話、選選項（選第 pick 個），直到 until(state) 為真；回傳最後的 state。對話一直停在同一句、或沒有對話也沒有進展超過 60 秒都會停下來"""
     last_change = time.time(); last = None
@@ -146,6 +171,7 @@ async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=
         if key != last: last = key; last_change = time.time()
         if time.time() - last_change > 60:
             run.note('超過 60 秒沒有任何進展：' + json.dumps(s, ensure_ascii=False)); return s
+        if s['choices'] and s.get('paused') and await close_panels(pg, cdp): continue
         if s['choices']:
             await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button'); (b[i]||b[0]).scrollIntoView({block:'center'}); })(%d)" % pick)
             c = await pg.evaluate("(i=>{ const b=document.querySelectorAll('#choices button'); const e=b[i]||b[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%d)" % pick)

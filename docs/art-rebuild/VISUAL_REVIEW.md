@@ -1728,3 +1728,32 @@ Meshopt／KTX2 壓縮還沒做。
   - 截圖是 LAWWW2 套 patch 拍的，那時候所有路人都會分到新模型。改成「只給沒名字的路人」以後還沒重拍。
 - **測試**：`tests/npc_ambient_unit.js` 共 7 項。預設時不載入；`?npcnew` 時只有沒名字的路人用新模型，有名字的人保留自己的顏色，新模型建得出來。瀏覽器還沒用 `?npcnew` 跑完整流程。
 - **驗收狀態**：`INTEGRATED`（只在 `?npcnew`）、`READY_FOR_ART_REVIEW`。請使用者看截圖決定要不要預設打開。
+
+## 25. 新社科院外觀（ART-01；LAWWW2-B 的 `campus_socsci.glb`，接線 `15068347`；2026-10-16）
+
+- **做法**：LAWWW2-B 用 Blender（bpy）做的社科院：玻璃圖書館（綠屋頂、裡面的蓮花柱）＋清水混凝土大樓＋中庭。取代舊的白色系館和七根柱子（`CK.modern` 的程序化版本留著當導航與 GLB 載入失敗的備用，D38 分類 ③）。
+- **接線**：配置 `src/data/socsci_layout.js`；導航阻擋、鏡頭碰撞、圖書館的門（社科圖）照新外觀；大樓的門這一版不開（告示）。
+- **測試**（瀏覽器，候選工作樹 8769）：`tests/flow_soclib.py` 全過（走到社科圖的門、進去、出來）；`tests/campus_layout_nav.py` 全過。手機實機沒測。
+- **狀態**：`READY_FOR_ART_REVIEW`（建築美術只有使用者能標 ART_APPROVED）。
+
+同一個鏡頭、同一個時間，左邊舊、右邊新：
+
+| 舊 | 新 |
+|---|---|
+| ![舊 廣場 白天](shots_art01/old_plaza_day.webp) | ![新 廣場 白天](shots_art01/new_plaza_day.webp) |
+| ![舊 廣場 晚上](shots_art01/old_plaza_night.webp) | ![新 廣場 晚上](shots_art01/new_plaza_night.webp) |
+| ![舊 中庭](shots_art01/old_courtyard_day.webp) | ![新 中庭](shots_art01/new_courtyard_day.webp) |
+| ![舊 西側入口](shots_art01/old_west_entrance_day.webp) | ![新 西側入口](shots_art01/new_west_entrance_day.webp) |
+| ![舊 空拍](shots_art01/old_aerial_day.webp) | ![新 空拍](shots_art01/new_aerial_day.webp) |
+| ![舊 手機直向](shots_art01/old_mobile_courtyard.webp) | ![新 手機直向](shots_art01/new_mobile_courtyard.webp) |
+
+**玩家看到的差別**：社科院從一棟白色長方盒，變成看得到裡面的玻璃圖書館（綠屋頂、蓮花柱、閱覽桌）和後面的清水混凝土大樓；中庭有樹和草地。
+
+**還沒達到參考品質的地方**：
+- ~~**晚上**：圖書館裡的蓮花柱在夜景是一條一條很亮的白色，像貼圖的自發光整片打開（`new_plaza_night`）。已告訴 LAWWW2-B。~~ **已修**（LAWWW2-B `7e84496c`，接進開發分支；同一個鏡頭重拍）：柱子改成暖色的室內光，不再整片發白。
+
+  ![新 廣場 晚上（修正後）](shots_art01/new_plaza_night_v2.webp)
+
+  圖書館裡面在晚上還是偏暗（玻璃看起來灰），閱覽桌看不太出來。
+- 後面的大樓窗戶排列很規則，近看偏單調。
+- 手機直向在中庭時鏡頭貼著大樓的牆，看到的大多是牆面（`new_mobile_courtyard`）。

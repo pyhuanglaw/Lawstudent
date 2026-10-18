@@ -18,7 +18,8 @@ check('9/17 和遊戲的星期一致（週三）',new Date(2025,8,17).getDay()==
 for(const [day,want] of [[14,'9/30'],[15,'10/1'],[45,'10/31'],[46,'11/1'],[76,'12/1'],[107,'1/1'],[138,'2/1'],[166,'3/1']]) check('第 '+day+' 天是 '+want,ds(day)===want,ds(day));
 // 新遊戲：開局 22,000（game3d.js defaults），S.newGame 設 fundsV2＝1、allowanceMonth＝9
 { const src=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const m=src.match(/energy:\d+,money:(\d+)/); check('新遊戲開局的錢＝22,000（帳戶約 20,000＋錢包約 2,000）',m&&+m[1]===22000,m?m[1]:'找不到');
-  const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('S.newGame 設 fundsV2 與 allowanceMonth（新遊戲不會再補 20,000）',/S\.newGame=.*G\.flags\.fundsV2=1; G\.flags\.allowanceMonth=S\.dateOf\(1\)\.m;/.test(st)); }
+  const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('S.newGame（?start0 舊開局）、S.newGameEcon（預設的經濟系開局）都設 fundsV2 與 allowanceMonth（新遊戲不會再補 20,000）',/S\.newGame=[^\n]*\n(?:[^\n]*\n){1,3}[^\n]*G\.day=1;[^\n]*G\.flags\.fundsV2=1; G\.flags\.allowanceMonth=S\.dateOf\(1\)\.m;/.test(st)&&/S\.newGameEcon=[^\n]*\n[^\n]*G\.flags\.fundsV2=1; G\.flags\.allowanceMonth=S\.dateOf\(d\)\.m;/.test(st));
+  check('START-WEEK 選 1 的新局（S.startLawWeek1）也設 fundsV2 與 allowanceMonth（8 月）',/S\.startLawWeek1=[\s\S]{0,600}?F\.fundsV2=1; F\.allowanceMonth=S\.dateOf\(d\)\.m;/.test(st)); }
 function run(G,toDay){ const pays=[]; while(G.day<toDay){ G.day++; const f=STORY.monthlyFunds(G); if(f){ G.money+=f.amount; pays.push([G.day,f.amount,f.text]); } } return pays; }
 { const G={day:1,money:22000,flags:{fundsV2:1,allowanceMonth:STORY.dateOf(1).m}}; const pays=run(G,170);
   const days=pays.map(p=>p[0]).join(','); check('新遊戲：每月 1 日匯一次（第 15、46、76、107、138、166 天）',days==='15,46,76,107,138,166',days);

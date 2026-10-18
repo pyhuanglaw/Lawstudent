@@ -33,14 +33,21 @@ const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Ma
 /* 遊戲資料（AA_110 5-7 寫「可以」的那一列）：2025 年入學的這一屆 from:'Y1S1'——經濟系那一年（Y0S1、Y0S2）還不在。其他人（交換、休學）等 AA 確認、使用者批准 */
 const COHORT=['heroine_01','heroine_03','zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','classmate_youchen','classmate_peishan','kai','npc_huangxh'];
 { const has=Object.keys(CHARACTERS).filter(id=>CHARACTERS[id].presence); const POOLP={1:'{"from":"Y1S1"}',2:'{"from":"Y1S1","until":"Y3S2"}',3:'{"from":"Y1S1","until":"Y2S2"}'};   /* 不熟同學（AA_120 7-3）：三年級的到玩家大二結束、二年級的到大三結束 */
-  const bad=has.filter(id=>/^pool_/.test(id)?JSON.stringify(CHARACTERS[id].presence)!==POOLP[CHARACTERS[id].year]:(!COHORT.includes(id)||JSON.stringify(CHARACTERS[id].presence)!=='{"from":"Y1S1"}'));
-  check('遊戲資料的 presence：2025 年入學的這一屆（11 人，from Y1S1）＋不熟同學 20 人（照年級畢業），沒有別人、沒有別的設定',has.length===COHORT.length+20&&!bad.length,bad.join(',')||has.length+' 人');
+  /* SYS-21（BB_134 第 9 點，AA-B 確認）：芷若大三上、大四在英國；學姊 2028-08-02～12-23 在美國（BB_206、AA_260：原本大三下）；沛珊大二下休學、大三起別的學校；子晴大三下畢業以後在工作室 */
+  const SYS21={heroine_02:'{"absent":["Y3S1","Y4S1","Y4S2"],"away":{"Y3S1":"英國","Y4S1":"英國","Y4S2":"英國"}}',heroine_05:'{"absentDates":[["2028-08-02","2028-12-23","美國","abroad"]]}',heroine_04:'{"until":"Y3S2","away":{"after":"在工作室上班"},"kinds":{"after":"taipei"}}',
+    kexin:'{"home":"高雄"}',   /* AA_276 第 1 節：寒暑假回高雄 */
+    classmate_mingxuan:'{"from":"Y1S1","absentDates":[["2026-02-13","2026-02-20","回彰化過年","home",{"home":"彰化"}],["2026-08-10","2026-08-17","回彰化","home",{"home":"彰化"}],["2027-08-10","2027-08-17","回彰化","home",{"home":"彰化"}],["2028-08-10","2028-08-17","回彰化","home",{"home":"彰化"}]]}',   /* BB_171 第 1 節 */
+    npc_fangyt:'{"absentDates":[["2026-01-24","2026-02-19","回台中過年","home",{"home":"台中"}],["2026-07-06","2026-07-20","上山做調查（沒有訊號）","trip"],["2027-07-06","2027-07-20","上山做調查（沒有訊號）","trip"],["2028-07-06","2028-07-20","上山做調查（沒有訊號）","trip"]]}',   /* BB_171 第 1 節 */
+    classmate_peishan:'{"home":"台中","homeAfter":["2026-07-05"],"from":"Y1S1","until":"Y2S1","away":{"Y2S2":"在台中","after":"在自己的學校"},"kinds":{"Y2S2":"taipei","after":"taipei"},"absentDates":[["2026-12-18","2027-08-06","聯絡不到","unreachable","keepDating"]]}'};   /* BB_205 第 3 節：12/18～2027-08-06 聯絡不到 */   /* BB_163：沛珊、子晴沒出國，人在臺北（kind taipei）*/
+  const bad=has.filter(id=>SYS21[id]?JSON.stringify(CHARACTERS[id].presence)!==SYS21[id]:(/^pool_/.test(id)?JSON.stringify(CHARACTERS[id].presence)!==POOLP[CHARACTERS[id].year]:(!COHORT.includes(id)||JSON.stringify(CHARACTERS[id].presence)!==(id==='heroine_01'?'{"from":"Y1S1","absentDates":[["2028-01-24","2028-01-29","回台中過年","home",{"home":"台中"}],["2028-03-25","2028-08-05","日本","abroad"]]}':'{"from":"Y1S1"}'))));
+  check('遊戲資料的 presence：2025 年入學的這一屆（11 人，from Y1S1；沛珊另照 SYS-21）＋不熟同學 20 人（照年級畢業）＋芷若、學姊、子晴（SYS-21）＋可昕（AA_276 寒暑假回高雄）＋方奕廷（BB_171 寒暑假），沒有別人',has.length===COHORT.length+20+5&&!bad.length,bad.join(',')||has.length+' 人');
   const dOf=(term,w)=>{ for(let d=1;d<2000;d++){ const t=CALENDAR.termOf(d); if(t&&t.id===term&&t.week===w) return d; } return null; };
   const p3=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===3), p2=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===2), p1=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id)&&CHARACTERS[id].year===1);
   check('不熟同學：三年級的大二下還在、大三上不在；二年級的大三下還在、大四上不在；一年級的大四下還在',p3.every(id=>STORY.present(id,{day:dOf('Y2S2',5)})&&!STORY.present(id,{day:dOf('Y3S1',5)}))&&p2.every(id=>STORY.present(id,{day:dOf('Y3S2',5)})&&!STORY.present(id,{day:dOf('Y4S1',5)}))&&p1.every(id=>STORY.present(id,{day:dOf('Y4S2',5)})),[p3.length,p2.length,p1.length].join('/'));
   const y0=dayOf('2024-10-18'), y0b=dayOf('2025-04-11'), d1={day:1};
   check('經濟系大一上、下（2024-10、2025-04）：這一屆的人都還不在；法律系第 1 天（2025-09-17）都在',COHORT.every(id=>!STORY.present(id,{day:y0})&&!STORY.present(id,{day:y0b})&&STORY.present(id,d1)));
   check('沒有 presence 的人（芷若、子晴、溫書瑀）在經濟系那一年照舊算在',['heroine_02','heroine_04','heroine_05'].every(id=>STORY.present(id,{day:y0}))); }
+const REAL_PRES={heroine_02:CHARACTERS.heroine_02.presence,classmate_peishan:CHARACTERS.classmate_peishan.presence};   /* SYS-21 的正式資料（下面換成測試資料以前先存起來）*/
 // 測試資料（只在這個測試裡）：林芷若某一學期不在（交換）；沛珊大二上之後不在（休學、轉學）
 CHARACTERS.heroine_02.presence={absent:['Y3S2'],away:{Y3S2:'在國外交換（測試資料）'}};
 CHARACTERS.classmate_peishan.presence={until:'Y2S1',away:{Y2S2:'休學中（測試資料）',after:'在別的學校（測試資料）'}};
@@ -57,7 +64,11 @@ const seats=Array.from({length:12},(_,i)=>({x:i,z:0,yaw:0,row:0,col:i}));
 { const g=d=>({day:d}); const a=STORY.presence('classmate_peishan',g(fri('Y2S1',5))), b=STORY.presence('classmate_peishan',g(fri('Y2S2',5))), c=STORY.presence('classmate_peishan',g(fri('Y3S1',5)));
   check('until Y2S1：大二上在、大二下寫「休學中」、大三以後寫「在別的學校」',a.here&&!b.here&&b.away==='休學中（測試資料）'&&!c.here&&c.away==='在別的學校（測試資料）',JSON.stringify([a,b,c])); }
 // 沒有 presence 的人照舊
-{ GM=newGM('cafe',fri('Y3S2',5),19.5,F0,seats); check('沒有 presence 的人物照舊（子晴、溫書瑀在任何學期都算在）；from Y1S1 的阿哲、小安大三下也在',STORY.present('heroine_04',GM.G)&&STORY.present('heroine_05',GM.G)&&STORY.present('zhe',GM.G)&&STORY.present('heroine_01',GM.G)); }
+{ GM=newGM('cafe',fri('Y3S2',8),19.5,F0,seats); check('大三下（第 8 週）：子晴還在（畢業以後才走）、學姊在臺灣（美國改到大四上，AA_260）；from Y1S1 的阿哲在；小安在日本交換（AA_260：2028-03-25～08-05 所有玩家都不在）',STORY.present('heroine_04',GM.G)&&STORY.present('heroine_05',GM.G)&&STORY.present('zhe',GM.G)&&!STORY.present('heroine_01',GM.G)); }
+{ const g=d=>({day:d,flags:{}}); check('小安：大三上第 5 週在、2028-03-24 還在、3/25 出發、8/5 回來了（AA_260 的日期，不是整學期）',STORY.present('heroine_01',g(fri('Y3S1',5)))&&STORY.present('heroine_01',g(dayOf('2028-03-24')))&&!STORY.present('heroine_01',g(dayOf('2028-03-25')))&&STORY.present('heroine_01',g(dayOf('2028-08-05')))); }
+{ const TEST_PRES={heroine_02:CHARACTERS.heroine_02.presence,classmate_peishan:CHARACTERS.classmate_peishan.presence}; CHARACTERS.heroine_02.presence=REAL_PRES.heroine_02; CHARACTERS.classmate_peishan.presence=REAL_PRES.classmate_peishan; const at=(term,w)=>({day:fri(term,w)||fri(term,w+2),flags:{}}); const P=(id,term)=>STORY.presence(id,at(term,5));
+  check('SYS-21：芷若大三上、大四不在（國外）、大三下在；學姊大三上在、大三下不在；沛珊大二上在、12/18～2027-08-06 聯絡不到（BB_205）、之後「在臺北、不在台大」（BB_163）；子晴大四起同樣（工作室）',
+    !P('heroine_02','Y3S1').here&&P('heroine_02','Y3S1').kind==='absent'&&P('heroine_02','Y3S2').here&&!P('heroine_02','Y4S2').here&&P('heroine_05','Y3S1').here&&P('classmate_peishan','Y2S1').here&&P('classmate_peishan','Y2S2').kind==='unreachable'&&STORY.presence('classmate_peishan',{day:dayOf('2027-08-07'),flags:{}}).kind==='taipei'&&P('classmate_peishan','Y3S1').kind==='taipei'&&P('heroine_04','Y4S1').kind==='taipei'&&P('heroine_04','Y4S1').away==='在工作室上班'); CHARACTERS.heroine_02.presence=TEST_PRES.heroine_02; CHARACTERS.classmate_peishan.presence=TEST_PRES.classmate_peishan; }
 // 課堂的同學反應句：那學期不在的人沒有反應句
 { const c={id:'t_course',name:'測試課',prof:null,profName:'老師',topics:['測試'],syllabus:[{w:5,tpl:'A',board:['測試','',''],line:'老師說的話',react:[{who:'heroine_02',text:'林芷若的反應'}]}]};
   const sy0=global.SYLLABUS; global.SYLLABUS={courses:{},pools:{},skip:{},reviewed:['t_course|5']};   /* 審查過的週才用課堂內容（法律審查，AA_122 第 0a 節）：測試課當作審查過 */
@@ -92,4 +103,12 @@ const seats=Array.from({length:12},(_,i)=>({x:i,z:0,yaw:0,row:0,col:i}));
   check('大一下的週五：恢復原本的作息（10:00 不在普通；14:30 照舊）',!h2.n&&(!h2.w||h2.w.zone!=='putong')&&!!h3.w,JSON.stringify([h2.w,h3.w]));
   const i1=at(y2,14.5,'cafe'), i2=at(y2,14.5,'campus');
   check('一個人同一時間只在一個地方（大二上第 6 週週五 14:30：作息兩筆重疊——Café 11–15、校園 14–16——只算第一筆 Café；修改前兩邊都生出來）',!!i1.n&&!i2.n&&i1.w.zone==='cafe',JSON.stringify(i1.w)); }
+// 明軒、方奕廷的寒暑假（BB_171 第 1 節，AA 分支 0e235ab8；AA-C 2026-10-17 定暑假每年同一段）
+{ const P=(id,k)=>STORY.presence(id,{day:STORY.dayOfKey(k),flags:{},stage:'law'});
+  const mx=['2026-02-12','2026-02-13','2026-02-19','2026-02-20','2026-08-09','2026-08-10','2026-08-16','2026-08-17','2027-08-12','2028-08-16'].map(k=>P('classmate_mingxuan',k).here);
+  check('明軒：寒假 2/13～2/19 回彰化過年、暑假 8/10～8/16 回彰化（每年同一週）；其他日子在臺北',JSON.stringify(mx)==='[true,false,false,true,true,false,false,true,false,false]'&&P('classmate_mingxuan','2026-08-12').home==='彰化'&&P('classmate_mingxuan','2026-08-12').kind==='home',JSON.stringify(mx));
+  const fy=['2026-01-23','2026-01-24','2026-02-18','2026-02-19','2026-07-05','2026-07-06','2026-07-19','2026-07-20','2027-07-10','2028-07-10'].map(k=>P('npc_fangyt',k).here);
+  const an=['2028-01-23','2028-01-24','2028-01-28','2028-01-29'].map(k=>P('heroine_01',k).here);
+  check('以安：大三寒假 1/24～1/28 回台中過年、1/29 回臺北（AA_275 第 12 節）',JSON.stringify(an)==='[true,false,false,true]',JSON.stringify(an));
+  check('方奕廷：1/24 回台中、2/19 回宿舍；暑假 7/6～7/19 上山（每年同兩週）',JSON.stringify(fy)==='[true,false,false,true,true,false,false,true,false,false]'&&P('npc_fangyt','2026-07-10').kind==='trip'&&P('npc_fangyt','2026-02-01').home==='台中',JSON.stringify(fy)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

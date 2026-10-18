@@ -1,0 +1,516 @@
+{
+ "version": 1,
+ "note": "永久 WIP 索引（使用者 2026-10-17 P0）：每一項＝任務 ID、職位、分支、commit、具體檔案、狀態（WIP／已交付／已整合／已測試／已驗收）、剩下的、下一步、能否直接整合。值班 LAWWW 維護，各職位在自己分支的 outbox 登記、LAWWW 同步進來。結案（已整合以上）要寫 closedBy；不能刪項目（check_handoff.py incr 會和上一份快照比對）。遷移自 WIP_INVENTORY_2026-10-17.md 和 LAWWW2-C df71ec95。",
+ "items": [
+  {
+   "id": "WIP-DORM-ROOM4-0829",
+   "role": "LAWWW",
+   "task": "DORM-LOFT-L",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "b9eaacf3",
+   "files": [
+    "src/story3d.js"
+   ],
+   "state": "WIP",
+   "remaining": "瀏覽器沒測",
+   "next": "QA-HANDOFF-B1：瀏覽器 tests/flow_camp_y1.py 確認 8/29 22:00 阿凱、柏翰、阿哲在 203 的位子上；通過後改成已測試",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AB65-3-Y1S2-L",
+   "role": "LAWWW",
+   "task": "AB65-3-Y1S2-L",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "372c6512",
+   "files": [
+    "src/story3d.js",
+    "src/data/events.js",
+    "src/data/invites.js",
+    "src/data/activities.js",
+    "src/data/characters.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_209 第 4 節第 4、6、7、8、10、11 點、附錄逐句",
+   "next": "階梯已匯入（3800eb7d）；接著做第 4 節剩下 6 點",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-V0-REWRITE-L",
+   "role": "LAWWW",
+   "task": "V0-REWRITE-L",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "793e78aa",
+   "files": [
+    "src/data/ladder.js",
+    "src/data/events.js",
+    "src/classes3d.js"
+   ],
+   "state": "WIP",
+   "remaining": "段 B～E 等",
+   "next": "段 B～E、BB_179 第 4 節 1～9、AA_203 第 3 節 30 處、AA_206 E26／E37、AA_200 7-2～7-4、BB_179 第 8 節",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-CAMP-FIX-614",
+   "role": "LAWWW",
+   "task": "CAMP-FIX-614",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "259a4c4f",
+   "files": [
+    "src/data/camp_y1.js",
+    "src/story3d.js",
+    "src/data/events.js"
+   ],
+   "state": "已整合",
+   "remaining": "經濟系路線宿營",
+   "next": "程式 8：經濟系路線宿營；整套瀏覽器回歸（QA-HANDOFF-B1）",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17",
+   "closedBy": "259a4c4f"
+  },
+  {
+   "id": "WIP-AA-Y1S2-LADDER",
+   "role": "AA",
+   "task": "NS-Y1S2",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3b7e2268",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa_y1s2.json",
+    "docs/story_planning/ladder/ladder_bb_y1s2.json"
+   ],
+   "state": "已整合",
+   "remaining": "等 LAWWW 匯入",
+   "next": "瀏覽器驗證（對話框裡的新句子）；AA 核對",
+   "noDirectIntegrate": false,
+   "source": "DL-AA-3b7e2268（AA-C 04:18Z）",
+   "closedBy": "3800eb7d"
+  },
+  {
+   "id": "WIP-AA-211",
+   "role": "AA",
+   "task": "AB65-3",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0731836b",
+   "files": [
+    "docs/story_planning/AA_211_大二上口語改稿_AA與BB人物.md",
+    "docs/story_planning/AA_211_附錄_審稿原文.md"
+   ],
+   "state": "WIP",
+   "remaining": "大二上閒聊階梯寫回 ladder_aa_y2s1／ladder_bb_y2s1（912e122a 起 WIP）、AA 逐句審、A-6 子晴 Q3-L1",
+   "next": "AA-C 已採用 BB_181 九項（0731836b）；寫回大二上階梯與事件，定稿後結構化交付 LAWWW",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-194-L12",
+   "role": "AA",
+   "task": "V1-AA194-L",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "125f4d1a",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa.json",
+    "docs/story_planning/AA_194_大一上口語改寫對照_AA人物.md"
+   ],
+   "state": "WIP",
+   "remaining": "BB 互審、AA 交 SHA",
+   "next": "AA 交 SHA＋BB 互審紀錄；之前不匯入（白名單沒有，import_ladder --check 會列「版本不同」）",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-199-VAC",
+   "role": "AA",
+   "task": "VAC-S1",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "599deb38",
+   "files": [
+    "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md"
+   ],
+   "state": "WIP",
+   "remaining": "VAC-S1 定稿",
+   "next": "VAC-S1 定稿（等 LAWWW 的 VAC-L1 技術短評）；VAC-T1、VAC-X1 補完",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-210-NYE",
+   "role": "AA",
+   "task": "HOL-NYE-Y2",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b550eb29",
+   "files": [
+    "docs/story_planning/AA_210_大二到大四跨年_16週制.md"
+   ],
+   "state": "WIP",
+   "remaining": "AA 還沒交",
+   "next": "規格完成，跟大二上、大三上、大四上的施工包交 LAWWW",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-212-AB655",
+   "role": "AA",
+   "task": "AB65-5",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b731f426",
+   "files": [
+    "docs/story_planning/AA_212_AB65-5_BB173矛盾裁定.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "隨各學期施工包實作",
+   "noDirectIntegrate": true,
+   "source": "DL-AA-AB655／outbox_AA"
+  },
+  {
+   "id": "WIP-AA-208-ROOM4",
+   "role": "AA",
+   "task": "DORM-Y34",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "4a6841eb",
+   "files": [
+    "docs/story_planning/AA_208_宿舍四人房_室友.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "ART-DORM-Y34（LAWWW2）；大三大四施工時程式",
+   "noDirectIntegrate": false,
+   "source": "DL-AA-DORMY34／outbox_AA"
+  },
+  {
+   "id": "WIP-BB-181",
+   "role": "BB",
+   "task": "AB-65",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "9204411f",
+   "files": [
+    "docs/story_planning/BB_181_AA211口氣審_大二上BB人物.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "AA 已裁定（0731836b），由 WIP-AA-211 接著做",
+   "noDirectIntegrate": true,
+   "source": "DL-BB-9204411f"
+  },
+  {
+   "id": "WIP-BB-LADDER-Y2Y4",
+   "role": "BB",
+   "task": "AB65-3",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "8421efdb",
+   "files": [
+    "docs/story_planning/ladder/ladder_bb_y2s1.json",
+    "docs/story_planning/ladder/ladder_bb_y4s2.json"
+   ],
+   "state": "WIP",
+   "remaining": "逐學期審",
+   "next": "16 週版；大二上照 AA_211 由 AA 寫回，大二下起逐學期；AA 分支舊週次不要蓋掉這版",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-BB-HOLIDAY-SYS",
+   "role": "BB",
+   "task": "HOLIDAY-SYS",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "4d719c6f",
+   "files": [
+    "docs/story_planning/BB_95_交接包v1_大一上.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "開發分支要改：可昕成績約定 1/2、E20 期末考週、W2b 21:30、大二重訪日 2（6/13）、exam scopeWeek 16→15",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY 第 3 節"
+  },
+  {
+   "id": "WIP-BB-START-WEEK",
+   "role": "BB",
+   "task": "START-WEEK",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "e627d747",
+   "files": [
+    "docs/story_planning/BB_95_交接包v1_大一上.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "story3d.js Kevin 第三週訊息「直屬」→「家族的」（一個字串）",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-BB-SIS-BF",
+   "role": "BB",
+   "task": "V2-SIS-BF",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5c8e7539",
+   "files": [
+    "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "不做（2026-10-18 LAWWW-C，USER_WANTS 第 4 節第 7 點）：使用者 10-17 定學姊沒有男朋友（AA_218 第 16 節；程式 8b0768e5 已拿掉 partner），溫州街男友場面作廢；BB_122 只留作紀錄。舊 next：程式加學姊和男友在溫州街路口出現的場面（只到大二上第 5 週）",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-BB-POSTCARDS",
+   "role": "BB",
+   "task": "V4-B01",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "5c8e7539",
+   "files": [
+    "docs/story_planning/props_approved/pc_zr_3.webp",
+    "docs/story_planning/props_approved/pc_zr_6.webp"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "大三 Z10／大四 postcard2 實作時接；⑦在 f80f574c",
+   "noDirectIntegrate": false,
+   "source": "DL-BB-POSTCARD-ZR"
+  },
+  {
+   "id": "WIP-BB-S3",
+   "role": "BB",
+   "task": "SCN-V4-02",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "f80f574c",
+   "files": [
+    "docs/story_planning/bg_approved/airport_departure.webp",
+    "docs/story_planning/bg_approved/airport_arrival.webp",
+    "docs/story_planning/bg_approved/trip_oldrail.webp",
+    "docs/story_planning/props_approved/pc_zr_7.webp"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "大三實作時接",
+   "noDirectIntegrate": false,
+   "source": "DL-BB-f80f574c"
+  },
+  {
+   "id": "WIP-L2-GG-SIGNS-2",
+   "role": "LAWWW2",
+   "task": "ART-GG-SIGNS-2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "6b8e2385",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "docs/art-rebuild/second_ai/patches/gg_signs2_test.patch"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "瀏覽器整合測試",
+   "noDirectIntegrate": false,
+   "source": "DL-LW2-GGSIGNS2",
+   "closedBy": "LAWWW-C 2026-10-17（de14b32b 招牌／本 commit 機車腳踏車）"
+  },
+  {
+   "id": "WIP-L2-SCOOTER2",
+   "role": "LAWWW2",
+   "task": "ART-SCOOTER2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "872226f7",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/scooters_v2_a39a6812.patch"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "瀏覽器整合測試",
+   "noDirectIntegrate": false,
+   "source": "DL-LW2-SCOOTER2",
+   "closedBy": "LAWWW-C 2026-10-17（de14b32b 招牌／本 commit 機車腳踏車）"
+  },
+  {
+   "id": "WIP-L2-BIKES2",
+   "role": "LAWWW2",
+   "task": "ART-BIKES2-INT",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "09f2660a",
+   "files": [
+    "assets/models/env/second_ai/street_props.glb",
+    "docs/art-rebuild/second_ai/patches/bikes_v2f.patch"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "瀏覽器整合測試",
+   "noDirectIntegrate": false,
+   "source": "DL-LW2-BIKES2F",
+   "closedBy": "LAWWW-C 2026-10-17（de14b32b 招牌／本 commit 機車腳踏車）"
+  },
+  {
+   "id": "WIP-L2-YUTING-FACE",
+   "role": "LAWWW2",
+   "task": "ART-YUTING-FACETEST",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8496bf9d",
+   "files": [
+    "assets/models/char/vroid_yuting_facetest.vrm",
+    "docs/art-rebuild/second_ai/patches/assets3d_facetest.patch"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "BB-B 驗收通過；等使用者決定用不用",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-POTHOS-Y2ROOM",
+   "role": "LAWWW2",
+   "task": "ART-04",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "639f0188",
+   "files": [
+    "assets/models/env/second_ai/prop_pothos.glb",
+    "assets/models/env/second_ai/dorm_y2_items.glb"
+   ],
+   "state": "已交付",
+   "remaining": "黃金葛已整合（待瀏覽器）；SCN-V3-01 大二 312 物件照 AA_208 7-1 重擺（還沒做）",
+   "next": "黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
+   "noDirectIntegrate": true,
+   "source": "DL-LW2-POTHOS-412"
+  },
+  {
+   "id": "WIP-L2-SHOP-BG",
+   "role": "LAWWW2",
+   "task": "ART-BG-AA185",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "5d5bb8aa",
+   "files": [
+    "assets/models/env/second_ai/bb_support/scooter_shop_props.glb"
+   ],
+   "state": "WIP",
+   "remaining": "4 張背景",
+   "next": "道具驗收過；4 張 2D 背景還沒開工",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-US-APT",
+   "role": "LAWWW2",
+   "task": "SCN-US-01",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "5e688f34",
+   "files": [
+    "assets/models/env/second_ai/us_apartment.glb",
+    "src/data/us_apartment_layout.js"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "MODEL_READY；大三下美國篇才整合（D81 第二條線）",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-DATE-CUTOUTS",
+   "role": "LAWWW2",
+   "task": "ART-14",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "f3531c61",
+   "files": [
+    "assets/date/anchors.json"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "BB ART_APPROVED；等 DATE-S6 半互動約會系統",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-PORTRAITS3",
+   "role": "LAWWW2",
+   "task": "ART-09",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8fbe1e1a",
+   "files": [
+    "assets/portraits/jiahao/campus/neutral.webp",
+    "assets/portraits/tangrui/campus/neutral.webp",
+    "assets/portraits/weilun/campus/neutral.webp"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "等 v0 人物 id（AA-REQ-06）和表情",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-CHAR-SCRIPTS",
+   "role": "LAWWW2",
+   "task": "ART-13",
+   "branch": "claude/funny-albattani-iawshm",
+   "sha": "ae6e4dfa",
+   "files": [
+    "tools/blender/char_second/"
+   ],
+   "state": "WIP",
+   "remaining": "腳本 WIP",
+   "next": "帳號 A 的 WIP 腳本：跑 Blender、BB D59 驗收",
+   "noDirectIntegrate": true,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-L2-SOP",
+   "role": "LAWWW2",
+   "task": "ART-SOP",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "69e4b181",
+   "files": [
+    "docs/art-rebuild/second_ai/ART_SOP.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "交付登記；建議複製一份進開發分支",
+   "noDirectIntegrate": false,
+   "source": "WIP_INVENTORY_2026-10-17"
+  },
+  {
+   "id": "WIP-AA-103-SP",
+   "role": "AA",
+   "task": "AA-103-SP",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2235d87a",
+   "files": [
+    "docs/story_planning/BB_182_AA103SP_法律審查_強制辯護.md"
+   ],
+   "state": "WIP",
+   "remaining": "寫回 syllabus/_src/y3s1.py w15，併 AB65-3 大三上那批；發布前核對 §31",
+   "next": "AA 大三上批次寫回後交 LAWWW",
+   "noDirectIntegrate": true,
+   "source": "outbox_AA d4457d32"
+  },
+  {
+   "id": "WIP-AA-Y2S1-LADDER",
+   "role": "AA",
+   "task": "AB65-3-Y2S1-L",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "0ba8d336",
+   "files": [
+    "docs/story_planning/ladder/ladder_aa_y2s1.json",
+    "docs/story_planning/ladder/ladder_bb_y2s1.json"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "AA_211 第 2、2-1、3、4 節的事件與群戲（AB65-3-Y2S1-L 剩下的）；AA 核對",
+   "noDirectIntegrate": false,
+   "source": "DL-AA-0ba8d336",
+   "closedBy": "3800eb7d"
+  },
+  {
+   "id": "WIP-AA-213-US",
+   "role": "AA",
+   "task": "US-RESCHED-1017",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b3a21b20",
+   "files": [
+    "docs/story_planning/"
+   ],
+   "state": "WIP",
+   "remaining": "AA_158、144、12、180、181、v4、v5 逐檔改；BB_98／99、CG（BB-C）",
+   "next": "AA 定稿後結構化交付",
+   "noDirectIntegrate": true,
+   "source": "AA-C 04:37Z"
+  }
+ ]
+}

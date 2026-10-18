@@ -185,7 +185,7 @@ def wall_cut(prefix, parent, axis, at, a0, a1, y0, y1, holes, mat, dirv=None, th
         else: box(nm, mat, pa, pb, ya, yb, at - th / 2, at + th / 2, parent, props=pr)
     for (ha, hb, hy0, hy1) in holes:
         if hb <= a0 or ha >= a1: continue
-        piece(cur, ha, y0, y1); piece(ha, hb, y0, max(y0, hy0)); piece(ha, hb, min(y1, hy1), y1); cur = hb
+        piece(cur, ha, y0, y1); piece(ha, hb, y0, min(y1, max(y0, hy0))); piece(ha, hb, max(y0, min(y1, hy1)), y1); cur = hb   # 開口在這一段的上面或下面：整段照畫，不超出 y0～y1（原本會長出這一段以外的牆，和另一段疊在一起閃：樓梯井北牆的腰牆疊到白牆，BUG-COPLANAR-DEV）
     piece(cur, a1, y0, y1)
 
 def dado_wall(prefix, parent, axis, at, a0, a1, y0, h, holes, dirv=None):
@@ -233,7 +233,8 @@ def window(prefix, parent, axis, at, a, b, ya, yb, inward):
 box('L0_floor', MAT['floor'], CO['x0'], CO['x1'], -0.1, 0.0, CO['z0'], LB['z1'], L0)
 box('L1_floor', MAT['floor'], CO['x0'], CO['x1'], Y1 - ST, Y1, CO['z0'], CO['z1'], L1)
 box('L1_slab_south', MAT['plaster'], CO['x0'], CO['x1'], Y1 - ST, Y1 - 0.02, CO['z1'], LB['z1'], L1)   # 一樓門廳、交誼廳上方的樓板（二樓的寢室，看不到上面）
-quad('L0_ceiling', MAT['ceiling'], [(CO['x0'], H0, CO['z0']), (CO['x1'], H0, CO['z0']), (CO['x1'], H0, LB['z1']), (CO['x0'], H0, LB['z1'])], L0)
+HC = H0 - 0.01   # 一樓天花板比樓板底面低 1 cm：原本和二樓樓板（L1_floor、L1_slab_south）的底面同高，從一樓往上看會閃（BUG-COPLANAR-DEV，tools/glb_coplanar.py）
+quad('L0_ceiling', MAT['ceiling'], [(CO['x0'], HC, CO['z0']), (CO['x1'], HC, CO['z0']), (CO['x1'], HC, LB['z1']), (CO['x0'], HC, LB['z1'])], L0)
 quad('L1_ceiling', MAT['ceiling'], [(CO['x0'], RY, CO['z0']), (CO['x1'], RY, CO['z0']), (CO['x1'], RY, CO['z1']), (CO['x0'], RY, CO['z1'])], L1)
 quad('L1_ceiling_well', MAT['ceiling'], [(WL['x0'], RY, WL['z0']), (WL['x1'], RY, WL['z0']), (WL['x1'], RY, WL['z1']), (WL['x0'], RY, WL['z1'])], L1)
 def tube(prefix, parent, x, y, z, along='x'):
@@ -255,8 +256,10 @@ dado_wall('L0_front', L0, 'x', LB['z1'] + T / 2, LB['x0'], LG['x1'], 0, H0, [(-1
 dado_wall('L0_endW', L0, 'z', CO['x0'] - T / 2, CO['z0'], CO['z1'], 0, H0, [(-0.8, 0.8, 1.0, 2.5)], dirv=[1, 0, 0])
 dado_wall('L0_endE', L0, 'z', CO['x1'] + T / 2, CO['z0'], LB['z1'], 0, H0, [(-0.5, 0.5, 0, DOOR_H + 0.05)], dirv=[-1, 0, 0])
 # 樓梯間：東西兩側的牆（到屋頂）、北牆（平台的窗；外牆）
+# 二樓那段停在二樓走廊北牆的背面（原本一路到 z −1.4，和二樓走廊北牆的牆頭疊在一起：上樓梯時看得到一條白牆、灰綠腰牆交替閃，BUG-COPLANAR-DEV）
 for nm, x in (('wellW', WL['x0'] - T / 2), ('wellE', WL['x1'] + T / 2)):
-    dado_wall('L0_' + nm, L0, 'z', x, WL['z0'], WL['z1'], 0, RY, [])
+    dado_wall('L0_' + nm, L0, 'z', x, WL['z0'], WL['z1'], 0, Y1, [])
+    wall_cut('L0_' + nm + '_up', L0, 'z', x, WL['z0'], CO['z0'] - T, Y1, RY, [], MAT['plaster'])
 dado_wall('L0_wellN', L0, 'x', WL['z0'] - T / 2, WL['x0'] - T, WL['x1'] + T, 0, RY, [(-0.9, 0.9, LD['y'] + 0.9, LD['y'] + 2.4)], dirv=[0, 0, 1])
 # 二樓
 dado_wall('L1_N_w', L1, 'x', CO['z0'] - T / 2, CO['x0'], WL['x0'], Y1, RY - Y1, door_holes(1, 'N', Y1))
@@ -370,7 +373,7 @@ for i, f in enumerate(L['furniture']):
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
         box(pre + '_frame', MAT['wood'], -1.2, 1.2, 1.0, 2.2, -0.03, 0.03, g); box(pre + '_cork', MAT['cork'], -1.13, 1.13, 1.07, 2.13, 0.03, 0.04, g)
         for k, (px, py, m) in enumerate(((-0.8, 1.75, 'paper'), (-0.25, 1.8, 'paper2'), (0.3, 1.7, 'paper'), (0.85, 1.78, 'paper3'), (-0.5, 1.3, 'paper3'), (0.5, 1.3, 'paper2'))):
-            box(f'{pre}_p{k}', MAT[m], px - 0.2, px + 0.2, py - 0.26, py + 0.26, 0.04, 0.045, g)
+            box(f'{pre}_p{k}', MAT[m], px - 0.2, px + 0.2, py - 0.26, py + 0.26, 0.04, 0.045 + (0.003 if k < 4 else 0.0), g)   # 上排比下排前面 3 mm（原本同一個平面，上下排疊到的角會閃，BUG-COPLANAR-DEV）
     elif t == 'sofa':
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
         box(pre + '_base', MAT['fabric'], -1.1, 1.1, 0.08, 0.3, -0.43, 0.43, g, bevel=0.02)

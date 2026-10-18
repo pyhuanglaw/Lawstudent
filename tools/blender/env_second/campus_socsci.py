@@ -313,11 +313,39 @@ def build():
     K.finish(accs, root, VC)
     for (m, props) in plates: uv01(m.finish(root, uv=True, props=props))
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
+    lit_ramp()
     info = L.export(out, gpu_instances=False)
     info['nav'] = info_blocks
     info['note'] = '新社科院外觀（遊戲化：南北對調；圖書館照 ⑬ 的室內；大樓立面是推測）'
     L.write_json(out[:-4] + '.json', info)
     return info
+
+
+def lit_ramp():
+    """ck_glass_lit（圖書館、大廳的天花板＋樹狀柱）的自發光漸層（LAWWW-B 2026-10-16 17:29：晚上蓮花柱一條一條整片白亮，像柱子本身在發光）。
+    遊戲晚上把 ck_glass_lit 的自發光整片打亮（顏色、強度由遊戲設；GLB 有自發光貼圖時會乘上它）。
+    貼圖 64×64：左半全白＝天花板（整片亮，像燈）；右半由上往下變暗＝柱子（靠天花板亮 0.8、地面 0.3：像被天花板的燈照亮，不是自己發光）。
+    天花板＝所有頂點同高、朝下的面；其他都是柱子，v＝高度／室內高。白天遊戲不打開自發光，看不出差別。"""
+    import numpy as np
+    from PIL import Image
+    path = os.path.join(HERE, 'textures', 'gen', 'socsci_lit_ramp.png'); a = np.ones((64, 64), np.float32)
+    a[:, 32:] = (0.30 + 0.50 * (1 - np.arange(64, dtype=np.float32) / 63) ** 1.4)[:, None]
+    Image.fromarray((a * 255).astype(np.uint8), 'L').convert('RGB').save(path)
+    mat = bpy.data.materials.get('ck_glass_lit')
+    if mat is None: return
+    nt = mat.node_tree; bs = nt.nodes['Principled BSDF']
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(path); tx.interpolation = 'Linear'
+    nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = 1.0
+    hmax = max(HIN, 4.3)
+    for ob in [o for o in bpy.data.objects if o.type == 'MESH' and any(m and m.name == 'ck_glass_lit' for m in o.data.materials)]:
+        me = ob.data; uvl = me.uv_layers.active or me.uv_layers.new(name='UVMap'); W = ob.matrix_world
+        for poly in me.polygons:
+            if me.materials[poly.material_index].name != 'ck_glass_lit': continue
+            zs = [(W @ me.vertices[i].co).z for i in poly.vertices]; nz = (W.to_3x3() @ poly.normal).normalized().z
+            ceil = nz < -0.99 and max(zs) - min(zs) < 0.002
+            for li in poly.loop_indices:
+                y = (W @ me.vertices[me.loops[li].vertex_index].co).z
+                uvl.data[li].uv = (0.25, 0.5) if ceil else (0.75, min(0.98, max(0.02, y / hmax)))
 
 
 if __name__ == '__main__':

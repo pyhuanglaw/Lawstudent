@@ -11,7 +11,7 @@ import playlib as L
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/letterbox_dialog'
-LINE = '你要不要一起？……還是你比較想去總圖？那邊安靜。我等一下要去溫州街那間咖啡廳寫民總的報告，就是開到凌晨兩點半那間。'
+LINE = '你要不要一起？……還是你比較想去總圖？那邊安靜。我等一下要去溫州街那間咖啡廳整理今天的筆記，就是開到凌晨兩點半那間。'
 
 TOP_AT = """(([sel,fy])=>{ const e=document.querySelector(sel); if(!e||e.offsetParent===null) return {ok:false,why:'不在畫面'}; const r=e.getBoundingClientRect();
   const x=r.left+r.width/2, y=r.top+r.height*fy; if(y>innerHeight-1) return {ok:false,why:'超出畫面 y='+y.toFixed(0)+' / '+innerHeight};

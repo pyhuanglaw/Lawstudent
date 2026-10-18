@@ -1,4 +1,4 @@
-// v0 E16 經濟學原理的分組報告（BB_104 8b-8）：第 15 週分工、第 16 週報告、前一晚私訊、翹課版——不需要瀏覽器。用法：node tests/v0_e16_unit.js
+// v0 E16 經濟學原理的分組報告：刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17 祐廷 10/17 休學）——事件標 retired、第 15／16 週下課不再演、報告前一晚的私訊與翹課的群組訊息不再排、E16_ROLE 不再寫。不需要瀏覽器。用法：node tests/v0_e16_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -22,16 +22,16 @@ const run=()=>{ STORY.phoneRules(GM); PHONE.tick(G); };
 const at=(day,hour)=>{ G.day=day; G.hour=hour; G.weekday=wdOf(day); run(); };
 const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
+  const RET=id=>{ const e=STORY_EVENTS.find(x=>x.id===id); return !!e&&typeof e.retired==='string'&&e.retired.includes('AA_218'); };
+  check('0. ev_y0_e16a（分組）、ev_y0_e16b（報告）定義還在（給舊存檔）、標 retired（AA_218 第 11 節）',RET('ev_y0_e16a')&&RET('ev_y0_e16b'));
   const items=w=>{ for(let d=-400;d<0;d++){ const t=CALENDAR.termOf(d); if(!t||t.id!=='Y0S1'||t.week!==w) continue; const it=CLS.dayItems({day:d,hour:8,stage:'econ',flags:{}},d).find(x=>x.c.id==='econ_principles_y0'&&!x.exam); if(it) return it; } };
-  const w15=items(15), w16=items(16); check('0. 經原第 15 週 12/9、第 16 週 12/16',CALENDAR.dateOf(w15.day).key==='2024-12-09'&&CALENDAR.dateOf(w16.day).key==='2024-12-16');
-  const after=async(it,pick)=>{ G.day=it.day; G.hour=it.t1+0.05; G.weekday=wdOf(it.day); said=[]; picks=pick?[pick]:[]; await CLS.afterClassEvent(GM,it); return said.map(x=>x.t); };
-  fresh(w15.day,w15.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; let L=await after(w15,'寫報告');
-  check('1. 第 15 週下課：小桌子、品妤分工、韋綸消失、可昕的機制、「你要做哪一塊？」→ E16_ROLE',L[0]==='（第 15 週，經原教到囚犯困境。下課後，四個人在博雅的小桌子。）'&&L.includes('（韋綸消失了。）')&&L[L.length-1]==='（看你）你要做哪一塊？'&&G.flags.E16_ROLE==='report',JSON.stringify(G.flags.E16_ROLE));
-  at(w16.day-1,23.2); check('2. 寫報告：12/15 23:00 可昕「你在寫嗎」「……我也是。」',TH('p:kexin').includes('你在寫嗎')&&TH('p:kexin').includes('……我也是。'));
-  L=await after(w16); check('2. 第 16 週：「韋綸那段由你補。」→ 報告結束 → 魏教授',JSON.stringify(L)===JSON.stringify(['韋綸那段由你補。','（報告結束。韋綸最晚交，請了大家宵夜。）','（看完簡報）這一組四個人，只有一個背叛。比例不錯。']),JSON.stringify(L));
-  at(w16.day,13); check('2. 上台報告了：沒有品妤那句、E16_ROLE 不變',!PHONE.sent(G,'y0_e16_absent')&&G.flags.E16_ROLE==='report');
-  fresh(w15.day,w15.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; await after(w15,'上台'); L=await after(w16); check('3. 上台：魏教授問了最難的一題',L[0]==='魏教授問了最難的一題。台下的可昕比了一個「慢慢來」。');
-  fresh(w15.day,w15.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; await after(w15,'做簡報'); at(w16.day-1,23.5); check('3. 做簡報：沒有前一晚的私訊',!TH('p:kexin').includes('你在寫嗎'));
-  at(w16.day,12.6); check('4. 第 16 週翹課：品妤群組「報告順利。你的那段，可昕替你講了。」、E16_ROLE＝absent',TH('g:econ_class').includes('報告順利。你的那段，可昕替你講了。')&&G.flags.E16_ROLE==='absent');
+  const w15=items(15), w16=items(14); check('0. 經原第 15 週 12/9；第 16 週 16 週制是期末考週，改用第 14 週 12/2 檢查（E16 已停用，日子不影響）',CALENDAR.dateOf(w15.day).key==='2024-12-09'&&CALENDAR.dateOf(w16.day).key==='2024-12-02');
+  const after=async(it,pick)=>{ G.day=it.day; G.hour=it.t1+0.05; G.weekday=wdOf(it.day); said=[]; picks=pick?[pick]:[]; const r=await CLS.afterClassEvent(GM,it); return {r,L:said.map(x=>x.t)}; };
+  fresh(w15.day,w15.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; let x=await after(w15,'寫報告');
+  check('1. 第 15 週經原下課：不演分組（沒有小桌子、沒有「你要做哪一塊？」）、E16_ROLE 沒寫',!x.r&&!x.L.length&&!G.events.done.ev_y0_e16a&&G.flags.E16_ROLE===undefined,JSON.stringify([x.r,x.L.slice(0,2),G.flags.E16_ROLE]));
+  G.flags.E16_ROLE='report'; at(w16.day-1,23.2); check('2. 舊存檔 E16_ROLE＝report：12/15 23:00 也沒有可昕「你在寫嗎」「……我也是。」',!PHONE.sent(G,'y0_e16_night')&&!TH('p:kexin').includes('你在寫嗎')&&!TH('p:kexin').includes('……我也是。'));
+  x=await after(w16); check('3. 第 16 週經原下課：不演報告（沒有「韋綸那段由你補。」、魏教授）',!x.r&&!x.L.length&&!G.events.done.ev_y0_e16b,JSON.stringify(x.L));
+  fresh(w16.day,w16.t1+0.05,'boya'); G.events.done.ev_y0_e02=1; run(); at(w16.day,12.6); at(w16.day,13); at(w16.day+1,10);
+  check('4. 第 16 週沒去上課：12:30 以後沒有品妤群組「報告順利。……」、E16_ROLE 沒寫成 absent',!PHONE.sent(G,'y0_e16_absent')&&!TH('g:econ_class').includes('報告順利。你的那段，可昕替你講了。')&&G.flags.E16_ROLE===undefined,JSON.stringify(G.flags.E16_ROLE));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -9,10 +9,10 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
-  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/soclib_layout.js','src/soclib3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
+  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
   'src/data/wz_park_layout.js','src/data/wz_shops_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
-for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
+for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|WZ_SHOPS_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; return z; }
@@ -53,8 +53,8 @@ for(const k of ['brunch','print','teahouse']){ const L=WZ_SHOPS_LAYOUT[k]; const
   const MON=dayOf('2025-10-06'), TUE=dayOf('2025-10-07'), WED=dayOf('2025-10-08'), SAT=dayOf('2025-10-11'), SUN=dayOf('2025-10-12');
   check('5. 半熟：週一公休；週二 08:00 開；週六 07:30 開、15:00 關',!PLACES.isOpen('wz_brunch',10,MON)&&PLACES.isOpen('wz_brunch',8,TUE)&&!PLACES.isOpen('wz_brunch',7.6,TUE)&&PLACES.isOpen('wz_brunch',7.6,SAT)&&!PLACES.isOpen('wz_brunch',15,SAT));
   check('5. 影印：週日公休；平日 09:00～22:00',!PLACES.isOpen('wz_print',12,SUN)&&PLACES.isOpen('wz_print',9,MON)&&!PLACES.isOpen('wz_print',22.5,MON));
-  let ex=null; for(let d=MON;d<MON+120&&!ex;d++){ const t=CALENDAR.termOf(d); if(t&&t.week===17&&CALENDAR.dateOf(d).wd===3) ex=d; }
-  check('5. 影印：考試週（第 17 週）開到 24:00',!!ex&&PLACES.isOpen('wz_print',23.5,ex),String(ex));
+  let ex=null; for(let d=MON;d<MON+120&&!ex;d++){ const t=CALENDAR.termOf(d); if(t&&t.week===16&&CALENDAR.dateOf(d).wd===3) ex=d; }
+  check('5. 影印：考試週（第 16 週，16 週制）開到 24:00',!!ex&&PLACES.isOpen('wz_print',23.5,ex),String(ex));
   check('5. 一盞：週一、週二公休；週三 12:00～20:00',!PLACES.isOpen('wz_teahouse',14,MON)&&!PLACES.isOpen('wz_teahouse',14,TUE)&&PLACES.isOpen('wz_teahouse',14,WED)&&!PLACES.isOpen('wz_teahouse',11,WED)&&!PLACES.isOpen('wz_teahouse',20,WED));
   const t1=PLACES.closedText('wz_teahouse',14,MON), t2=PLACES.closedText('wz_brunch',16,TUE);
   check('5. 關門的說明：「一盞 今天公休。下次開門：這週三 12:00。」不推薦去總圖',t1==='一盞 今天公休。下次開門：這週三 12:00。',t1);

@@ -13,7 +13,8 @@ check('2. riverside、xiaofu、soc_hall、soc_classroom、girls_dorm_gate、bowl
   check('2e. LAWWW2-B ART-BG05 宿舍頂樓、ART-12 白天版客廳（2a0a7ff4）',B.dorm_roof.image==='assets/bg/dorm_roof.webp'&&B.home_living_day.image==='assets/bg/home_living_day.webp');
   check('2d. BB-B 第 31、32 組：soc_library、soc_office、classroom_small 接上',['soc_library','soc_office','classroom_small'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
 check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d04_base_night、d06_base_day、d12_base_sunset、d13_base_sunset',['d04_base_night','d06_base_day','d12_base_sunset','d13_base_sunset'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'));
-check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg('nccu_dorm')==='dark',JSON.stringify([OUT.bg('riverside'),OUT.bg('nccu_dorm')]));
+{ const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
+  check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
   check('3. 車上（BG-08）：照天氣、時間挑——早上 car_morning、晚上 car_night、下雨 car_rain',v.join()==='assets/bg/car_morning.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp',v.join()); }
 // CG（adv3d.js 的 CG_REGISTRY）：每一張的檔案都在；BCG-04、BCG-11 接在 BB_117 寫的那一拍
@@ -21,5 +22,8 @@ check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底',OUT.bg('
   check('4. CG_REGISTRY 每一張的檔案都在',Object.keys(reg).length>0&&Object.values(reg).every(r=>fs.existsSync(path.join(ROOT,r.file))),Object.entries(reg).filter(([k,r])=>!fs.existsSync(path.join(ROOT,r.file))).map(([k])=>k).join(' '));
   const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8');
   const z3=ev.indexOf("text:'熱可可。加一份濃縮。'"), c4=ev.indexOf("{cg:'cg_own_drink_heroine02'}"), q5=ev.indexOf("text:'（對著麥克風）這個 bug 我下次修。'"), c11=ev.indexOf("{cg:'cg_bug_fix_heroine04'}");
+  { const e26=ev.slice(ev.indexOf("id:'ev_y0_e26'"),ev.indexOf("id:'ev_y0_e27'")); const a=e26.indexOf("text:'坐到最高的時候，台北看起來好小。'"), c=e26.indexOf("{cg:'cg_ferris_wheel_kexin'}"), b=e26.indexOf("text:'假設，我們從最高點開始交往。'");
+    check('6. ART-BB-READY-1017：BCG-06 摩天輪在 E26「假設，我們從最高點開始交往」之前；BCG-16、CG-2 的位置（cg_peishan_decision、cg_plg_rules）有正式檔',!!reg.cg_ferris_wheel_kexin&&a>0&&c>a&&b>c&&!!reg.cg_peishan_decision&&!!reg.cg_plg_rules);
+    check('6. 學姊 W7 研究室門口（prof_door）不再是黑底；BB 第 46～49 組六張背景都登記',B.prof_door&&B.prof_door.image==='assets/bg/linze_prof_hall.webp'&&['linze_prof_hall','graduation_avenue','linze_auditorium','cypress_trail','bus_night','country_road'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
   check('5. BCG-04 在「熱可可。加一份濃縮。」之後、BCG-11 在「這個 bug 我下次修」之前（BB_117）',!!reg.cg_own_drink_heroine02&&!!reg.cg_bug_fix_heroine04&&z3>0&&c4>z3&&c4-z3<160&&c11>0&&q5>c11&&q5-c11<200); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

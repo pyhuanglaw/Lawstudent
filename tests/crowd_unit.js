@@ -12,7 +12,7 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js',
   'src/data/calendar.js','src/data/places.js','src/crowd3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|CALENDAR|PLACES|CROWD|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
@@ -58,4 +58,9 @@ check('大一女舍：週六白天零星（wkday）、晚上（wkeve）',slotKey
   G.hour=12.25; CROWD.tick(GM,2); check('再跳到 12:15（下課後）：門口有剛下課的人',E.npcs.filter(n=>n.crowd==='gongtong').length>=2);
   G.hour=24+3; CROWD.tick(GM,2); check('跳到深夜 03:00：兩個門口都沒有人',!E.npcs.some(n=>n.crowd));
   G.day=T+1; G.hour=24+18; CROWD.tick(GM,2); const f=E.npcs.filter(n=>n.crowd==='fdorm'); check('隔天 18:00：大一女舍門口有傍晚回來的人',f.length>=2,f.length+' 人'); }
+// ---------- 路人加倍（使用者 2026-10-17 P0「路人數量要再加倍」：STORY.CROWD_X）----------
+{ const one=[], two=[], bad=[]; for(let d=T;d<T+7;d++) for(const spot of CROWD.SPOTS) for(const sl of spot.slots(mkG(d,0))){ STORY.CROWD_X=undefined; one.push(CROWD.group(mkG(d,sl.t0),spot,sl).length); STORY.CROWD_X=2; const g=CROWD.group(mkG(d,sl.t0),spot,sl); two.push(g.length); for(const p of g) if(!E.canStand(p.x,p.z,0.3,0)) bad.push(spot.id+'/'+sl.key+'@'+d+' ('+p.x+','+p.z+')'); }
+  STORY.CROWD_X=undefined;
+  check('STORY.CROWD_X＝2：每一群人數是原本的兩倍',one.length>0&&one.every((n,i)=>two[i]===n*2),JSON.stringify(one.slice(0,6))+' → '+JSON.stringify(two.slice(0,6)));
+  check('STORY.CROWD_X＝2：一週裡多出來的人也都站得住',!bad.length,bad.slice(0,4).join(' | ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

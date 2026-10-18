@@ -1,5 +1,5 @@
 // V2-B10 經濟系的朋友（大一下）：SK03 週五的小福午餐（BB_135 第 1 節、BB_96 10-2，BB-B 2026-10-16 定稿）——不需要瀏覽器。
-// 檢查：P4d 之前沒有、P4d 當天不問、下一個週五起問「小福。走不走？」；「今天不行」不扣分、下週照問；第一次＝1-1（品妤「重修生？你看起來很有覺悟。」…）、之後快轉到 13:00「午休結束。」；
+// 檢查：P4d 之前沒有、P4d 當天不問、下一個週五起問「活大。走不走？」；「今天不行」不扣分、下週照問；第一次＝1-1（品妤「重修生？你看起來很有覺悟。」…）、之後快轉到 13:00「午休結束。」；
 //   平常週五＝旁白＋輪替句（芯慈加入前三句輪流、不連續重複）；去過兩次以上的下一次＝1-3 芯慈走進小福（ECON_PAST_SHARED full 只有第一個選項、其他只有二、三；記 ECON_LAW_BRIDGE）；之後用加入後的輪替句；habit meal:xiaofu:fri。修改前沒有 ev_sk03_lunch（第 1 項失敗）。
 // 用法：node tests/v2_b10_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -32,25 +32,25 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   if(!e){ console.log('FAILED '+fails); process.exit(1); }
   const F2=termDay('Y1S2',2,5), F3=termDay('Y1S2',3,5), F4=termDay('Y1S2',4,5), F5=termDay('Y1S2',5,5), F7=termDay('Y1S2',7,5), F9=termDay('Y1S2',9,5);
   fresh(F2,12.17,'putong',{introDone:true,classDone:true,afternoonDone:true});
-  let r=await after(F2); check('2. P4d 之前（沒有 P4D_ANSWER）：週五下課沒有 SK03',!lines().includes('阿勳：小福。走不走？'),lines().join('｜'));
+  let r=await after(F2); check('2. P4d 之前（沒有 P4D_ANSWER）：週五下課沒有 SK03',!lines().includes('阿勳：活大。走不走？'),lines().join('｜'));
   G.flags.P4D_ANSWER='retake'; G.flags.ECON_HALLWAY_DAY=F2; G.flags.MET_XUN=true; G.flags.MET_PINYU=true;
-  r=await after(F2); check('2. P4d 當天：不問（從下一個週五開始）',!lines().includes('阿勳：小福。走不走？'));
-  picks=['今天不行']; r=await after(F3); check('3. 下一個週五：「小福。走不走？」兩個選項（BB_135 原文）',lines()[0]==='阿勳：小福。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]',JSON.stringify(opts[0]));
+  r=await after(F2); check('2. P4d 當天：不問（從下一個週五開始）',!lines().includes('阿勳：活大。走不走？'));
+  picks=['今天不行']; r=await after(F3); check('3. 下一個週五：「活大。走不走？」兩個選項（BB_135 原文）',lines()[0]==='阿勳：活大。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]',JSON.stringify(opts[0]));
   check('3. 「今天不行」：不去、不快轉、不記習慣',!G.flags.SK03_FIRST&&!caps.includes('午休結束。')&&!(G.habits&&G.habits['meal:xiaofu:fri']));
   picks=['一起去']; r=await after(F4); const L1=lines();
-  check('4. 第一次去＝1-1：旁白＋品妤「重修生？你看起來很有覺悟。」＋阿勳＋品妤（BB_135 1-1 原文）',JSON.stringify(L1.slice(1))===JSON.stringify(['週五的小福。阿勳占了靠窗的四人桌，品妤已經在吃了。','品妤：重修生？你看起來很有覺悟。','阿勳：他去年也很有覺悟。只是方向不一樣。','品妤：……經濟系的冷笑話，還是你最多。']),JSON.stringify(L1));
+  check('4. 第一次去＝1-1：旁白＋品妤「重修生？你看起來很有覺悟。」＋阿勳＋品妤（BB_135 1-1 原文）',JSON.stringify(L1.slice(1))===JSON.stringify(['週五的活大。阿勳占了靠窗的四人桌，品妤已經在吃了。','品妤：重修生？你看起來很有覺悟。','阿勳：他去年也很有覺悟。只是方向不一樣。','品妤：……經濟系的冷笑話，還是你最多。']),JSON.stringify(L1));
   check('4. 之後快轉到 13:00、字幕「午休結束。」、習慣 +1',Math.abs((G.hour%24)-13)<0.01&&caps.includes('午休結束。')&&G.habits['meal:xiaofu:fri'].n===1,JSON.stringify({h:G.hour,caps}));
   picks=['一起去']; r=await after(F5); const L2=lines();
-  check('5. 第二次＝1-2：旁白＋芯慈加入前的輪替句（第一句）',L2[1]==='週五的小福。品妤點的永遠是同一個便當，阿勳永遠在講統計。'&&L2[2]==='品妤：你們法律系的期中考，也要背那麼多嗎？',JSON.stringify(L2));
+  check('5. 第二次＝1-2：旁白＋芯慈加入前的輪替句（第一句）',L2[1]==='週五的活大。品妤點的永遠是同一個便當，阿勳永遠在講統計。'&&L2[2]==='品妤：你們法律系的期中考，也要背那麼多嗎？',JSON.stringify(L2));
   picks=['一起去']; G.flags.ECON_PAST_SHARED='half'; r=await after(F7); const L3=lines();
-  check('6. 去過兩次以後的下一次＝1-3 芯慈走進小福：開場三句＋不是 full 只有第二、三個選項',L3[1]==='芯慈端著餐盤走進來，看見阿勳，停住了。'&&L3.includes('吳芯慈：……你。統計課冷笑話很多的那個人。')&&JSON.stringify(opts[1])==='["「我們一起住過一年。」","（笑一笑帶過）"]',JSON.stringify({L3,o:opts[1]}));
-  check('6. 選「我們一起住過一年。」：祐廷「他每天講一個冷笑話。」、芯慈「我要聽那一年的全部。」、ECON_PAST_SHARED 變 full；收尾兩句；記 ECON_LAW_BRIDGE',L3.includes('祐廷：他每天講一個冷笑話。')&&L3.includes('吳芯慈：我要聽那一年的全部。')&&G.flags.ECON_PAST_SHARED==='full'&&L3.slice(-2).join('｜')==='品妤：好，多一個人。這桌要換大一點的。｜阿勳：每週五，同一桌。'&&G.flags.ECON_LAW_BRIDGE===true,JSON.stringify(L3.slice(-4)));
+  check('6. 去過兩次以後的下一次＝1-3 芯慈走進小福：開場三句＋不是 full 只有第二、三個選項',L3[1]==='芯慈端著餐盤走進來，看見阿勳，停住了。'&&L3.includes('吳芯慈：欸，你是統計課那個……')&&JSON.stringify(opts[1])==='["「我們一起住過一年。」","（笑一笑帶過）"]',JSON.stringify({L3,o:opts[1]}));
+  check('6. 選「我們一起住過一年。」：祐廷「他每天講一個冷笑話。」、芯慈「那一年的事你之後要講給我聽。」（AA_209）、ECON_PAST_SHARED 變 full；收尾兩句；記 ECON_LAW_BRIDGE',L3.includes('祐廷：他每天講一個冷笑話。')&&L3.includes('吳芯慈：那一年的事你之後要講給我聽。')&&G.flags.ECON_PAST_SHARED==='full'&&L3.slice(-2).join('｜')==='品妤：好，多一個人。這桌要換大一點的。｜阿勳：每週五，同一桌。'&&G.flags.ECON_LAW_BRIDGE===true,JSON.stringify(L3.slice(-4)));
   picks=['一起去']; r=await after(F9); const L4=lines();
   check('7. 芯慈加入以後：用加入後的輪替句',['吳芯慈：統計的筆記我帶來了。誰要先吵？','品妤：芯慈，妳的雙主修還活著嗎？','阿勳：法律系的，今天輪你講冷笑話。'].includes(L4[2]),JSON.stringify(L4));
   // full 的玩家：只有第一個選項
   fresh(F7,12.17,'putong',{introDone:true,P4D_ANSWER:'good',ECON_HALLWAY_DAY:F2,SK03_FIRST:true,ECON_PAST_SHARED:'full'}); G.events.done.ev_econ_hallway=1; EVENTS.habit('meal:xiaofu:fri'); G.day=F4; EVENTS.habit('meal:xiaofu:fri'); G.day=F7;
   picks=['一起去']; r=await after(F7); const L5=lines();
-  check('8. ECON_PAST_SHARED full：1-3 只有「他是我以前的室友。」→ 芯慈「……原來是你室友。」「難怪他的冷笑話跟你的一樣冷。」',JSON.stringify(opts[1])==='["「他是我以前的室友。」"]'&&L5.includes('吳芯慈：……原來是你室友。')&&L5.includes('吳芯慈：難怪他的冷笑話跟你的一樣冷。'),JSON.stringify({o:opts[1],L5}));
+  check('8. ECON_PAST_SHARED full：1-3 只有「他是我以前的室友。」→ 芯慈「原來你們以前住同一間。」「難怪你們講話有點像。」（AA_209）',JSON.stringify(opts[1])==='["「他是我以前的室友。」"]'&&L5.includes('吳芯慈：原來你們以前住同一間。')&&L5.includes('吳芯慈：難怪你們講話有點像。'),JSON.stringify({o:opts[1],L5}));
   // 輪替不連續重複
   fresh(F5,12.17,'putong',{introDone:true,P4D_ANSWER:'good',ECON_HALLWAY_DAY:F2,SK03_FIRST:true}); G.events.done.ev_econ_hallway=1; let prev=null, rep=0; const seen=new Set();
   for(let w=5;w<=15;w++){ const d=termDay('Y1S2',w,5); if(!d) continue; picks=['一起去']; G.flags.ECON_LAW_BRIDGE=undefined; if(G.habits) G.habits['meal:xiaofu:fri']={n:0,first:d,last:null,days:[]}; await after(d); const t=lines()[2]; if(t===prev) rep++; prev=t; seen.add(t); }

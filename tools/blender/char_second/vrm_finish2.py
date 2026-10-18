@@ -10,6 +10,8 @@ VB = os.environ.get('VROID_BUILD') or next((p for p in (os.path.join(HERE, '..',
 spec = importlib.util.spec_from_file_location('vb', VB)
 vb = importlib.util.module_from_spec(spec); spec.loader.exec_module(vb)
 SIZES = dict(vb.DEFAULT_SIZES, **{'Face_00': 1024, 'HairCard': 1024, 'Knit': 1024, 'Trouser': 512, 'Loafer': 256, 'Jacket': 1024, 'Tee': 512, 'Panel': 256})
+if os.environ.get('NPC_SMALL'):     # 路人（npc.py）：檔案 2～3 MB（現在的 vroid_npc_* 2.2～3.2 MB），遠看用不到 1024 的貼圖
+    SIZES.update({'Face_00': 512, 'HairCard': 512, 'Knit': 512, 'Trouser': 256, 'Body': 512, 'Jacket': 512})
 if __name__ == '__main__':
     src, dst, title = sys.argv[1:4]; iris = sys.argv[4] if len(sys.argv) > 4 else None
     base = os.environ.get('VRM_BASE', 'HairSample_Female')
@@ -17,6 +19,8 @@ if __name__ == '__main__':
     vb.outline_tone(v)
     male = os.environ.get('VRM_MALE') == '1' or base == 'HairSample_Male'
     eyes = vb.MALE_EYES if male else vb.FEMALE_EYES
+    if os.environ.get('VRM_REST'):     # 待機臉：把表情的一部分烘進基本形（JSON，例如 {"Fcl_MTH_Fun": 0.3}；BB-C BB_201：經濟系四人的待機臉太悶）
+        import json; eyes = dict(eyes, **json.loads(os.environ['VRM_REST']))
     vb.bake_face(v, eyes, blink_scale=1.0 - eyes.get('Fcl_EYE_Close', 0.0))
     vb.prune_morphs(v); vb.merge_prims(v)
     if iris: vb.recolor_iris(v, iris)

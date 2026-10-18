@@ -1,4 +1,4 @@
-// v0 C2 自己的社團（BB_110 第 3 節；AA_154 A37）＋E15 宿營邀約（BB_104 8b-7）——不需要瀏覽器。用法：node tests/v0_c2_unit.js
+// v0 C2 自己的社團：社課邀約、出發選單、三個社團的事件、唐睿的劇社私訊刪除（AA_218 第 11 節、AA_154 0b-2，2026-10-17 祐廷 10/17 休學），E07 選的社團群組照舊；E15 宿營邀約（BB_104 8b-7）照舊——不需要瀏覽器。用法：node tests/v0_c2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -24,25 +24,25 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
 (async()=>{
   const K=k=>STORY.dayOfKey(k), M4=K('2024-11-04'), T5=K('2024-11-05'), H7=K('2024-11-07');
   const eg=STORY_EVENTS.find(e=>e.id==='ev_y0_c2_guitar'), eh=STORY_EVENTS.find(e=>e.id==='ev_y0_c2_hiking'), eb=STORY_EVENTS.find(e=>e.id==='ev_y0_c2_badminton');
-  check('0. C2 三個社團的事件在',!!eg&&!!eh&&!!eb); if(!eg){ console.log('FAILED '+fails); process.exit(1); }
+  const RET=e=>!!e&&typeof e.retired==='string'&&e.retired.includes('AA_218');
+  check('0. C2 三個社團的事件定義還在（給舊存檔）、標 retired（AA_218 第 11 節）',RET(eg)&&RET(eh)&&RET(eb)); if(!eg||!eh||!eb){ console.log('FAILED '+fails); process.exit(1); }
+  const noC2=()=>!PHONE.sent(G,'y0_c2_ask')&&!OUT.get(G,'y0_c2')&&(OUT.due(G)||{}).id!=='y0_c2';
   // 吉他社
-  fresh(M4,12,'campus',{Y0_CLUB:'guitar'}); run(); check('1. 吉他社：在「吉他社」群組；12:30 以前沒有訊息',PHONE.inGroup(G,'y0_guitar')&&!TH('g:y0_guitar').length);
-  at(M4,12.6); check('1. 11/4 12:30 吉他社群組「期中考完了。今晚七點，萬才館一樓，第一堂社課。沒有吉他也沒關係，社辦有借。」、出發選單帶到萬才館',TH('g:y0_guitar').includes('期中考完了。今晚七點，萬才館一樓，第一堂社課。沒有吉他也沒關係，社辦有借。')&&(()=>{ const q=OUT.get(G,'y0_c2'); return q&&q.goto&&q.goto.zone==='wancai'&&q.h===19; })());
-  G.zone='wancai'; G.hour=18.9; check('1. 18:45～19:15 在萬才館就演；19:20 不會；在別的地方不會',EVENTS.check(eg)&&(()=>{ G.hour=19.3; const a=!EVENTS.check(eg); G.hour=18.9; G.zone='campus'; const b=!EVENTS.check(eg); G.zone='wancai'; return a&&b; })());
-  picks=['練到按出來']; said=[]; await EVENTS.run(eg); let L=said.map(x=>x.t);
-  check('1. 原文：只教 C、遠房親戚、韋綸探頭、「……我們系的。」；練到按出來＝Y0_GUITAR_C、「好。你是今天最晚走的人。」',L[0]==='今天只教一個和弦。C。三根手指，按到聲音乾淨為止。'&&L.includes('（從門口探頭）吉他社！走啦，騎腳踏車！')&&L[L.length-1]==='好。你是今天最晚走的人。'&&G.flags.Y0_GUITAR_C===true);
+  fresh(M4,12,'campus',{Y0_CLUB:'guitar'}); run(); at(M4,12.6); at(M4,18.8);
+  check('1. 吉他社：照舊在「吉他社」群組；11/4 12:30 以後沒有社課訊息、沒有出發選單',PHONE.inGroup(G,'y0_guitar')&&!TH('g:y0_guitar').length&&noC2());
+  G.zone='wancai'; G.hour=18.9; picks=['練到按出來']; said=[];
+  check('1. 18:45～19:15 在萬才館：吉他社的第一堂不再觸發',!EVENTS.check(eg)); EVENTS.tick(0); await new Promise(r=>setTimeout(r,5));
+  check('1. 在萬才館跑自動事件：沒有「今天只教一個和弦。C。……」、Y0_GUITAR_C 沒寫',!G.events.done.ev_y0_c2_guitar&&!said.some(x=>x.t.startsWith('今天只教一個和弦'))&&G.flags.Y0_GUITAR_C===undefined,JSON.stringify(said.slice(0,2)));
   // 登山社
-  fresh(T5,12.6,'campus',{Y0_CLUB:'hiking'}); run(); const qh=OUT.get(G,'y0_c2');
-  check('2. 登山社：11/5 12:30 群組「今晚七點行前會。帶筆記本，不用帶裝備。」、出發選單（2D 出遊）',TH('g:y0_hiking').includes('今晚七點行前會。帶筆記本，不用帶裝備。')&&qh&&qh.ev==='ev_y0_c2_hiking'&&!qh.goto);
-  said=[]; G.hour=18.8; await OUT.go(GM,qh); L=said.map(x=>x.t); check('2. 行前會：「背包裡最重要的是什麼？」→ 水、外套、手電筒 →「垃圾袋。」',JSON.stringify(L)===JSON.stringify(['背包裡最重要的是什麼？','大家說水、外套、手電筒。','垃圾袋。']));
+  fresh(T5,12.6,'campus',{Y0_CLUB:'hiking'}); run(); at(T5,18.8);
+  check('2. 登山社：照舊在「登山社」群組；11/5 12:30 以後沒有「今晚七點行前會。……」、沒有出發選單',PHONE.inGroup(G,'y0_hiking')&&!TH('g:y0_hiking').includes('今晚七點行前會。帶筆記本，不用帶裝備。')&&noC2());
   // 羽球社
-  fresh(H7,12.6,'campus',{Y0_CLUB:'badminton'}); run(); check('3. 羽球社：11/7 12:30 群組「今晚七點新體一樓。球拍社團有借，記得穿運動鞋。」、出發選單帶到新體',TH('g:y0_badminton').includes('今晚七點新體一樓。球拍社團有借，記得穿運動鞋。')&&OUT.get(G,'y0_c2').goto.zone==='gym');
-  G.zone='gym'; G.hour=19; said=[]; check('3. 19:00 在新體就演',EVENTS.check(eb)); await EVENTS.run(eb); check('3. 學姊「羽球最重要的是，不要打到自己的頭。」三分鐘後',said[0].t==='羽球最重要的是，不要打到自己的頭。'&&said[1].t==='三分鐘後，你打到自己的頭。');
+  fresh(H7,12.6,'campus',{Y0_CLUB:'badminton'}); run(); at(H7,18.8);
+  check('3. 羽球社：照舊在「羽球社」群組；11/7 12:30 以後沒有「今晚七點新體一樓。……」、沒有出發選單',PHONE.inGroup(G,'y0_badminton')&&!TH('g:y0_badminton').includes('今晚七點新體一樓。球拍社團有借，記得穿運動鞋。')&&noC2());
+  G.zone='gym'; G.hour=19; check('3. 19:00 在新體：羽球社的第一次不再觸發',!EVENTS.check(eb));
   // 不參加
-  fresh(T5,20.5,'dorm',{Y0_CLUB:'none'}); run(); check('4. 不參加：21:00 以前沒有',!TH('p:econ_tangrui').length); at(T5,21.1); const m=PHONE.thread(G,'p:econ_tangrui').find(x=>x.text==='劇社缺一個會站著不動的人。你很適合。');
-  check('4. 11/5 21:00 唐睿私訊、答應／不要；答應＝Y0_EXTRA',!!m&&m.ask.opts.map(o=>o.t).join('/')==='答應/不要'&&m.ask.opts[0].set.Y0_EXTRA===true);
-  { const id=m.ask.id; const S0=JSON.stringify(G.msgs); PHONE.answer(G,id,0); const T=TH('p:econ_tangrui'); check('4. 答應：「好。站著不動我很行。」→ 唐睿「成交。月底小公演，角色之後告訴你。」、Y0_EXTRA',T.includes('好。站著不動我很行。')&&T.includes('成交。月底小公演，角色之後告訴你。')&&G.flags.Y0_EXTRA===true);
-    G.msgs=JSON.parse(S0); delete G.flags.Y0_EXTRA; PHONE.answer(G,id,1); const T2=TH('p:econ_tangrui'); check('4. 不要：「不要。我會笑場。」→ 唐睿「可惜。笑場的樹，我們劇社還沒有過。」、沒有 Y0_EXTRA',T2.includes('不要。我會笑場。')&&T2.includes('可惜。笑場的樹，我們劇社還沒有過。')&&!G.flags.Y0_EXTRA); }
+  fresh(T5,20.5,'dorm',{Y0_CLUB:'none'}); run(); at(T5,21.1); at(T5+1,12);
+  check('4. 不參加：11/5 21:00 以後沒有唐睿「劇社缺一個會站著不動的人。……」、沒有 Y0_EXTRA',!PHONE.sent(G,'y0_c2_extra')&&!TH('p:econ_tangrui').includes('劇社缺一個會站著不動的人。你很適合。')&&G.flags.Y0_EXTRA===undefined);
   check('4. 不參加的玩家沒有社團群組',!PHONE.inGroup(G,'y0_guitar')&&!PHONE.inGroup(G,'y0_hiking')&&!PHONE.inGroup(G,'y0_badminton'));
   // E15 邀約
   const F22=K('2024-11-22'); fresh(F22-2,21.1,'dorm'); G.flags.P2_PICK='river'; G.name='小明'; run();

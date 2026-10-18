@@ -1,5 +1,5 @@
 // v2 B37＋SYS-14：法律系班級群組 law_class（AA-B 2026-10-16，AA_140 第 4 節 B10）與沛珊「欠的，還了。」（BB_96 3-7；BB-B 2026-10-16 02:00）——不需要瀏覽器。
-// 檢查：所有玩家（新遊戲、舊存檔）都在 law_class、名稱照年級；大一下第 16 週週日 21:00 沛珊在 law_class 發一則（PS_CANCEL:'ok'＝「欠的，還了。」、其他＝「期末加油。」）；
+// 檢查：所有玩家（新遊戲第 1 天 21:00、舊存檔）都在 law_class、名稱「法律系（全班）」（AA_177 第 9 節，原本照年級）；大一下第 16 週週日 21:00 沛珊在 law_class 發一則（PS_CANCEL:'ok'＝「欠的，還了。」、其他＝「期末加油。」）；
 //   只有沛珊說話；沒有沛珊聯絡方式的玩家沒有；21:00 以前沒有；回覆兩個選項（貼圖、謝謝）＋不回；只發一次。修改前沒有 law_class（第 1 項失敗）。
 // 用法：node tests/v2_b37_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -30,11 +30,12 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
 const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 (async()=>{
-  const sun=termDay('Y1S2',16,7);
-  fresh(termDay('Y1S1',1,3)||1,9,'dorm',{}); run(9,9.2);
-  check('1. 新遊戲大一上：在 law_class，名稱「法律系 大一（全班）」',PHONE.inGroup(G,'law_class')&&PHONE.title(G,'g:law_class')==='法律系 大一（全班）',PHONE.title(G,'g:law_class'));
+  const sun=STORY.dayOfKey('2026-06-07');   // AA_198 第 5 節：第 16 週週日（6/14）已經考完，改 6/7（日）；和 story3d.js 同一天
+  fresh(1,21,'dorm',{}); run(21,21.2);
+  check('1. 新遊戲第 1 天 21:00：在 law_class，名稱「法律系（全班）」（AA_177 第 9 節：四年同一個名字）',PHONE.inGroup(G,'law_class')&&PHONE.title(G,'g:law_class')==='法律系（全班）',PHONE.title(G,'g:law_class'));
   fresh(termDay('Y2S1',3,2),9,'dorm',{}); run(9,9.2);
-  check('2. 舊存檔（大二才讀檔、沒有群組）：補上，名稱「法律系 大二（全班）」',PHONE.inGroup(G,'law_class')&&PHONE.title(G,'g:law_class')==='法律系 大二（全班）',PHONE.title(G,'g:law_class'));
+  check('2. 舊存檔（大二才讀檔、沒有群組）：補上，名稱「法律系（全班）」',PHONE.inGroup(G,'law_class')&&PHONE.title(G,'g:law_class')==='法律系（全班）',PHONE.title(G,'g:law_class'));
+  fresh(termDay('Y2S1',3,2),9,'dorm',{}); PHONE.join(G,'law_class','法律系 大二（全班）'); run(9,9.2); check('2. 舊存檔照年級的名字改成「法律系（全班）」',PHONE.title(G,'g:law_class')==='法律系（全班）');
   const owed=(flags,contact)=>{ fresh(sun,20,'dorm',flags); if(contact) INV.addContact(G,'classmate_peishan'); run(20,20.9); const before=TH('g:law_class').length; run(21,21.3); return {before,msgs:TH('g:law_class')}; };
   let r=owed({PS_CANCEL:'ok'},true);
   check('3. 第 11 週選「沒關係」：21:00 以前沒有；21:00 沛珊「📄 刑總二重點。欠的，還了。」',r.before===0&&r.msgs.length===1&&r.msgs[0].from==='classmate_peishan'&&r.msgs[0].text==='📄 刑總二重點。欠的，還了。',JSON.stringify(r.msgs.map(m=>m.from+':'+m.text)));

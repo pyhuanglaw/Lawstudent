@@ -11,7 +11,7 @@ const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLin
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js',
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js','src/data/socsci_layout.js',
   'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js',
   'src/data/characters.js','src/data/calendar.js','src/data/places.js','src/data/courses.js','src/classes3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LL3|TB3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|CALENDAR|PLACES|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
@@ -46,4 +46,9 @@ const s101=z.seats.find(q=>q.room==='101'), s102=z.seats.find(q=>q.room==='102')
     await CLS.attend(GM2,it,{inScene:true}); CLS.syncRooms(GM2); const out=E.npcs.filter(n=>n.leaving), left=E.npcs.filter(n=>n.clsStudent);
     check('坐著上完大一國文（09:12 → 12:10）：同學站起來往出口走（不是一起消失）',n0>=5&&out.length>=n0-1&&!left.length&&out.every(n=>n.path&&n.path.length),`上課 ${n0} 人、走出去 ${out.length} 人、還坐著 ${left.length} 人`);
     E.npcs=[]; G2.hour=9.2; CLS.syncRooms(GM2); G2.hour=12.4; CLS.syncRooms(GM2); check('跳過時間（不是坐著上完課）：照舊直接移除，不從遠處走回來',!E.npcs.length,E.npcs.length+' 人'); }
+  /* 提早坐下上課（2026-10-18 BB-C：經濟系共同教學館的課整堂只有祐廷一個人）：開始前 30 分鐘就能坐下、課馬上開始，同學 10 分鐘前才陸續進來。
+     修改前：08:42 坐下，上課的對話裡 0 個同學 */
+  { E.npcs=[]; const G3=mkG(8.7); let seen=null; const GM3={G:G3,E,say:async()=>{ if(seen==null) seen=E.npcs.filter(n=>n.clsStudent).length; },choose:async()=>0,fade:async()=>{},advance:h=>{ G3.hour+=h; },energy(){},caption(){},sceneBegin(){},sceneEnd(){},autosave(){},setGoal(){},toast(){}};
+    CLS.syncRooms(GM3); const n0=E.npcs.filter(n=>n.clsStudent).length; const it=CLS.dayItems(G3).find(q=>q.c.id==='chinese_y1');
+    await CLS.attend(GM3,it,{inScene:true}); check('08:42（開始前 28 分鐘）坐下上大一國文：上課的時候同學都坐好了（不是只有祐廷一個人）',n0===0&&seen>=5,`坐下時 ${n0} 人、上課時 ${seen} 人`); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); })();

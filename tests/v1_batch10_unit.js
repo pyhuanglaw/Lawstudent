@@ -43,26 +43,24 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
   /* ---------- 群組的揪 ---------- */
   { const grp=()=>G.msgs.filter(m=>m.tag==='xmas_ask').map(m=>({day:m.day,h:m.h,th:m.th,from:m.from,text:m.text}));
     fresh(MON,20.5,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(20.5,20.95); const before=grp().length; run(20.95,21.2);
-    const g=grp(); check('A20：麵店團群組 12/22（週一）21:00 阿哲「聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。」（AA 原文）',CALENDAR.dateOf(MON).key.endsWith('12-22')&&before===0&&g.length===1&&g[0].day===MON&&Math.abs(g[0].h-21)<0.06&&g[0].th==='g:noodle_team'&&g[0].from==='zhe'&&g[0].text==='聖誕交換禮物，週三中午，霖澤館一樓。一百五以內。',JSON.stringify(g));
+    const g=grp(); check('A20：麵店團群組 12/22（週一，16 週制的寒假第一天）21:00 阿哲「聖誕交換禮物，週三晚上六點半，麵店。一百五以內。」（AA_204 1-2）',CALENDAR.dateOf(MON).key.endsWith('12-22')&&before===0&&g.length===1&&g[0].day===MON&&Math.abs(g[0].h-21)<0.06&&g[0].th==='g:noodle_team'&&g[0].from==='zhe'&&g[0].text==='聖誕交換禮物，週三晚上六點半，麵店。一百五以內。',JSON.stringify(g));
+    check('A20：收到揪團＝排出遊 12/24 18:30 阿鳳麵店（15 分鐘沒到＝沒去）',(()=>{ const q=OUT.get(G,'xmas_y1'); return !!q&&q.day===WED&&q.h===18.5&&q.ev==='ev_xmas_exchange'; })());
     keepOn(TUE,10); run(10,23); check('A20：只傳一次（隔天不會再傳）',grp().length===1);
     fresh(MON,20.5,'campus',{}); run(20.5,23.5); check('A20：沒有麵店團群組＝沒有（不扣分，也不會私訊）',grp().length===0&&!G.msgs.some(m=>/交換禮物/.test(m.text||'')));
     fresh(TUE,15,'campus',{}); run(15,15.2); PHONE.join(G,'noodle_team','麵店團'); run(15.2,15.4); const t=grp();
     check('A20：週二才加入群組＝加入的時候收到（不會補在加入以前）',t.length===1&&t[0].day===TUE&&t[0].h>=15.2,JSON.stringify(t));
-    fresh(WED,12.4,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(12.4,12.6); check('A20：週三 12:20 以後才加入＝不傳（活動已經開始）',grp().length===0); }
-  /* ---------- 什麼時候開始 ---------- */
-  { const e=ev('ev_xmas_exchange'); const ok=(day,hour,lv,grp)=>{ fresh(day,hour,'linze',{}); if(grp) PHONE.join(G,'noodle_team','麵店團'); E.player.lv=lv; return EVENTS.check(e); };
-    check('A20：12/24（週三）12:10～13:40 在霖澤館一樓、有群組＝開始（AA_160 3-4 B 放寬窗口，原本 12:20～13:10）',CALENDAR.dateOf(WED).key.endsWith('12-24')&&ok(WED,12.17,0,true)&&ok(WED,13.6,0,true));
-    check('A20：12:09、13:40 以後、二樓、沒有群組、前一週的週三都不會',!ok(WED,12.15,0,true)&&!ok(WED,13.67,0,true)&&!ok(WED,12.5,1,true)&&!ok(WED,12.5,0,false)&&!ok(WED-7,12.5,0,true));
-    fresh(WED,12.5,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); E.player.lv=0; check('A20：不在霖澤館（校園）不會',!EVENTS.check(e));
-    E.player.lv=0; }
+    fresh(WED,12.4,'campus',{}); PHONE.join(G,'noodle_team','麵店團'); run(12.4,12.6); check('A20：週三中午才加入＝不傳揪團（原本的規則照舊：週三以後不補）',grp().length===0); }
+  /* ---------- 什麼時候開始（16 週制：照出遊，AA_204 1-1） ---------- */
+  { const e=ev('ev_xmas_exchange'); const ok=(grp)=>{ fresh(WED,18.5,'noodle',{}); if(grp) PHONE.join(G,'noodle_team','麵店團'); return EVENTS.check(e); };
+    check('A20：事件是出遊（trigger outing），12/24 那天有群組＝可以開始；沒有群組不會',e.trigger==='outing'&&ok(true)&&!ok(false)&&CALENDAR.dateOf(WED).key.endsWith('12-24')); }
   /* ---------- 七個人、三種禮物的反應（AA 原文） ---------- */
-  { const WANT={heroine_01:['剛好。手帳的理由欄不夠寫了。','我不喝咖啡。……期末會喝。好。','字很工整。我收著。'],heroine_03:['嗯。……我還不知道要寫什麼。先收著。','我帶去店裡。阿姨會好奇。','嗯。我會看兩次。'],
-      zhe:['好，我拿來寫菜單。','可以配滷味嗎？','你寫這麼多字，我會哭耶。……沒事啦。'],classmate_bohan:['我拿來整理考古題。……這次不會被沒收吧。','期末很需要。謝謝。','……沒有人寫卡片給我過。謝謝。'],
-      classmate_xinci:['格線的嗎？……空白的也好。謝謝。','追劇的時候剛好。謝謝。','你寫得比我整齊。……騙你的，我比較整齊。'],yu:['我要拿來寫三個社團的行事曆！','我拿去社辦泡給大家喝！','卡片！我要貼在牆上！'],
+  { const WANT={heroine_01:['剛好。我的快用完了。','我不太喝咖啡。……開學以後會用到。謝謝。','字很工整。我收著。'],heroine_03:['嗯。……我還不知道要寫什麼。先收著。','放店裡好了。阿姨會想喝喝看。','嗯。回去再看。'],   /* AA_204 1-3 改的句子 */
+      zhe:['好，我拿來寫菜單。','可以配滷味嗎？','你寫這麼多字，我會哭耶。……沒事啦。'],classmate_bohan:['我拿來整理考古題。','下學期很需要。謝謝。','……謝謝。我回去看。'],
+      classmate_xinci:['格線的嗎？……空白的也好。謝謝。','追劇的時候剛好。謝謝。','謝謝。你寫好多。'],yu:['我要拿來寫三個社團的行事曆！','我拿去社辦泡給大家喝！','卡片！我要貼在牆上！'],
       classmate_mingxuan:['……我不念書的。','家教的時候喝。謝啦。','卡片喔。……我帶回家。']};
     const GIFTS=[['一本小筆記本','notebook'],['一包咖啡豆','coffee'],['一張手寫卡片','card']]; const bad=[]; let firstOpts=null;
     for(let i=0;i<WHO.length;i++) for(let k=0;k<3;k++){ const r=await runX(WHO.filter(x=>x!=='zhe'),GIFTS[k][0],i,0); if(!firstOpts) firstOpts=opts[0];
-      const who=r.here[i]; if(r.F.XMAS_TO!==who||r.F.XMAS_GIFT!==GIFTS[k][1]||!r.L.includes(WANT[who][k])) bad.push(who+'/'+GIFTS[k][1]+'：'+JSON.stringify(r.L.slice(3,6))); }
+      const who=r.here[i]; if(r.F.XMAS_TO!==who||r.F.XMAS_GIFT!==GIFTS[k][1]||!r.L.includes(WANT[who][k])) bad.push(who+'/'+GIFTS[k][1]+'：'+JSON.stringify(r.L.slice(3,8))); }
     check('A20：祐廷可以選三種禮物（一本小筆記本、一包咖啡豆、一張手寫卡片）',JSON.stringify(firstOpts)===JSON.stringify(['一本小筆記本','一包咖啡豆','一張手寫卡片']),JSON.stringify(firstOpts));
     check('A20：七個人 × 三種禮物，抽到的人的反應照 AA 原文（21 句）',!bad.length,bad.slice(0,3).join(' | '));
     let r=await runX(WHO.filter(x=>x!=='zhe'),'一本小筆記本',1,0); check('A20：語彤抽到筆記本＝記 GIFT_NOTEBOOK_YT（AA_11 事件 16）',r.F.XMAS_TO==='heroine_03'&&SOCIAL.has('heroine_03','GIFT_NOTEBOOK_YT'));

@@ -28,12 +28,12 @@ const GM={get G(){ return G; },E:{zone:null,interactables:[],player:{busy:false,
 const fresh=(day,hour)=>{ G={day,hour,weekday:CALENDAR.dateOf(day).wd%7,zone:'wancai',flags:{},events:{done:{},last:{}},energy:80,goal:'',goalDest:null}; EVENTS.bind(GM); log=[]; chose=[]; caps=[]; answers=[]; return G; };
 const A=id=>ACTIVITIES.list.find(a=>a.id===id);
 const dOf=(w,wd)=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week===w&&CALENDAR.dateOf(d).wd===wd) return d; } return null; };
-const W=[5,6,7,10,11,12,13,14,15,16];
+const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停（AA_197 1-1）*/
 (async()=>{
   /* A：資料 */
   const g=A('club_guitar'), l=A('lawclub_study'), x=A('club_expo_y1s1'), b=A('dept_basketball');
   check('四筆都在、story:false：吉他社（萬才館多功能教室，門口）、法服讀書會（研討室 A，門口）、博覽會（椰林大道）、系籃（體育館門口）',!!(g&&l&&x&&b)&&[g,l,x,b].every(a=>a.story===false)&&g.zone==='wancai'&&g.room==='multi'&&g.door&&l.room==='seminarA'&&l.door&&x.zone==='campus'&&x.spot&&b.zone==='campus'&&b.spot);
-  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會 9/30、10/1 11–17；社團都在第 5～7、10～16 週',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-30","2025-10-01"]'&&x.t0===11&&x.t1===17&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
+  check('時間：吉他社週一、三 19–21；法服週三 19–21；系籃週五 17:30–19:00；博覽會 9/30、10/1 11–17；社團都在第 5～7、10～15 週（16 週制：第 16 週期末考，社課停，AA_197 1-1）',JSON.stringify(g.weekdays)==='[1,3]'&&g.t0===19&&g.t1===21&&l.weekday===3&&l.t0===19&&b.weekday===5&&b.t0===17.5&&b.t1===19&&JSON.stringify(x.dates)==='["2025-09-30","2025-10-01"]'&&x.t0===11&&x.t1===17&&[g,l,b].every(a=>JSON.stringify(a.weeks)===JSON.stringify(W)));
   check('旁白：吉他社 6、法服 5、辯論社 6、登山社 5、系籃 5 句（AA 6-8 (d) 的表），都沒有人物的名字',[[g,6],[l,5],[A('club_debate'),6],[A('club_hiking'),5],[b,5]].every(([a,n])=>(a.narr||[]).length===n)&&[g,l,b,A('club_debate'),A('club_hiking')].every(a=>a.narr.every(t=>!Object.values(CHARACTERS).some(c=>c.name&&t.includes(c.name)))));
   const mon5=dOf(5,1), wed5=dOf(5,3), tue5=dOf(5,2), mon4=dOf(4,1), mon8=dOf(8,1), fri5=dOf(5,5);
   const monOK=W.map(w=>dOf(w,1)).find(d=>d&&!CALENDAR.holiday(d)), wedOK=W.map(w=>dOf(w,3)).find(d=>d&&!CALENDAR.holiday(d)), friOK=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d));
@@ -69,12 +69,9 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   check('已經認識子晴：不再自動播事件；旁白照順序 6 句、每句一次，第 7、8 次只有「社課結束了。」',!ran.length&&narrSeen.slice(0,6).every((t,i)=>t.startsWith(g.narr[i]))&&narrSeen.slice(6).every(t=>t==='｜社課結束了。'),JSON.stringify(narrSeen.map(t=>t.slice(0,10))));
   { G={day:clubDays[1],hour:19.1,weekday:3,zone:'wancai',flags:{},events:{done:{},last:{}}}; log=[]; await CLS.attendActivity(GM,g,{door:true}); const i=log.indexOf('〔轉暗〕'), j=log.indexOf(g.narr[0]); check('吉他社：轉暗 → 旁白 → 社課結束了',i>=0&&j>i,JSON.stringify(log)); }
   check('換學期旁白從頭開始（同一學期才不重複）',(()=>{ G={day:clubDays[0],hour:19.1,weekday:1,flags:{},acts:{narr:{'club_guitar@Y1S1':6}}}; const a1=CLS.clubNarr(G,g); let d2=null; for(let d=150;d<400&&!d2;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S2') d2=d; } G.day=d2; const a2=CLS.clubNarr(G,g); return a1===''&&a2===g.narr[0]; })());
-  /* E：法服讀書會——第一次整段事件，之後旁白＋題庫兩三題（學姊問）*/
+  /* E：法服讀書會停用（AA_236 A1；使用者 AA_218 17-4：法服沒有讀書會也沒有社課）：週三研討室 A 的門沒有「參加：法服讀書會」，也不演、不出題 */
   fresh(wedOK,19.05); ran.length=0; asked.length=0; G.flags={}; await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
-  check('研討室 A 的門：「參加：法服讀書會」→ 第一次播 ev_studygroup_wed（整段），沒有另外的旁白、題目；記下 lawclub、CLUB_lawclub_study',(chose[0]||[])[0]==='參加：法服讀書會'&&ran.join()==='ev_studygroup_wed'&&!asked.length&&!log.some(t=>l.narr.includes(t))&&G.flags.lawclub===true&&G.flags.CLUB_lawclub_study===true,JSON.stringify(log));
-  { const d2=clubDays.find(d=>d>wedOK&&CALENDAR.dateOf(d).wd===3); G.day=d2; G.weekday=3; G.hour=19.05; log=[]; ran.length=0; asked.length=0; await CLS.attendActivity(GM,l,{door:true});
-    const iN=log.indexOf(l.narr[0]), iQ=log.findIndex(t=>/〔題目/.test(t)), iF=log.indexOf('〔轉暗〕');
-    check('第二次：不再播事件；一句旁白（法服那一組的第一句）→ 題庫兩三題（學姊問，讀書會的包裝）→ 轉暗',!ran.length&&iN>=0&&iQ>iN&&iF>iQ&&asked.length>=2&&asked.length<=3&&asked.every(q=>q==='heroine_05:study'),JSON.stringify(log)); }
+  check('研討室 A 的門（週三晚上）：沒有「參加：法服讀書會」、不演事件、不出題、不記 lawclub',!ACTIVITIES.on(l,wedOK,G)&&!(chose[0]||[]).some(t=>/法服讀書會/.test(t))&&!ran.length&&!asked.length&&!G.flags.lawclub,JSON.stringify([chose[0],log.slice(0,3)]));
   /* F：週三晚上只能選一個 */
   fresh(wedOK,19.1); MEM.heroine_04=['FIRST_MET']; G.events.done.ev_studygroup_wed=1; await CLS.roomDoor(GM,'wancai','multi',{});
   check('週三：去了吉他社（到 21:00），法服讀書會就不能再參加（走進哪一間就是哪一個）',ACTIVITIES.attended(G,'club_guitar',G.day)&&!ACTIVITIES.canJoin(G,l));
@@ -85,7 +82,7 @@ const W=[5,6,7,10,11,12,13,14,15,16];
   fresh(e930,17.2); await CLS.spotInteract(GM,x); check('17:12：「今天的攤位收了」',/攤位收了/.test(caps[0]||''),caps[0]);
   fresh(e930,12); answers=[0,0,1,5]; await CLS.spotInteract(GM,x);
   check('12:00：選單列五個社團（吉他社、法服、辯論社、登山社、系籃）＋逛完了',chose[0]&&chose[0].length===6&&/吉他社/.test(chose[0][0])&&/法服/.test(chose[0][1])&&/辯論社/.test(chose[0][2])&&/登山社/.test(chose[0][3])&&/系籃/.test(chose[0][4])&&chose[0][5]==='逛完了',JSON.stringify(chose[0]));
-  check('選了就加入（CLUB_club_guitar；法服也記 lawclub）；再看一次寫「已加入」、再選一次說填過了；逛完了離開',G.flags.CLUB_club_guitar===true&&G.flags.CLUB_lawclub_study===true&&G.flags.lawclub===true&&/已加入/.test(chose[1][0])&&log.some(t=>/表你已經填過了/.test(t))&&chose.length===4&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose.map(c=>c[0]+'/'+c[1])));
+  check('選了就加入（CLUB_club_guitar）；再看一次寫「已加入」、再選一次說填過了；選法服＝離開選單、演法服攤位那一段（AA_218 17-3：學姊、寫報名表）（ev_sis_club_expo；加入法服由那一段記，這裡的 EVENTS.run 是替身）',G.flags.CLUB_club_guitar===true&&log.includes('〔事件 ev_sis_club_expo〕')&&/已加入/.test(chose[1][0])&&log.some(t=>/表你已經填過了/.test(t))&&chose.length===3&&ACTIVITIES.attendedAny(G,'club_expo_y1s1',G.day),JSON.stringify(chose.map(c=>c[0]+'/'+c[1])));
   /* H：系籃 */
   const friDay=W.map(w=>dOf(w,5)).find(d=>d&&!CALENDAR.holiday(d)); fresh(friDay,17.6); G.zone='campus'; answers=[0]; await CLS.spotInteract(GM,b);
   { const iF=log.indexOf('〔轉暗〕'), iN=log.indexOf(b.narr[0]);

@@ -1,5 +1,7 @@
 # 雙 AI 工作看板
 
+> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**兩個 AI 時期（2026-10-10～10-14）的工作看板，已停用。現行：四職位分工照 `CLAUDE.md` D100／D100a；任務總表 `docs/HANDOFF_GAP_MATRIX.md`；值班 `docs/AI_SESSION_HANDOFF.md`。
+
 - 分工與規則：[`docs/SECOND_AI_HANDOFF.md`](SECOND_AI_HANDOFF.md)。
 - 每個 AI 只改自己那一節。狀態用 D38 的驗收狀態，加上「進行中」「排隊」「被擋」。
 - 「已整合」＝已經 merge 進開發分支 `claude/confident-ritchie-8rwh7t`。

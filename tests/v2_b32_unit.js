@@ -48,8 +48,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     check('6. 「我先想想。」：「好。名額幫你留到月底。」、沒有 JOB_TUTOR',/好。名額幫你留到月底。$/.test(L2[L2.length-1])&&!G.flags.JOB_TUTOR&&G.flags.tutorThinkDay===W3,JSON.stringify(L2));
     G.day=mEnd-7; G.hour=20.9; STORY.phoneRules(GM); G.hour=21.05; PHONE.tick(G); const M=G.msgs.filter(m=>m.th==='p:classmate_mingxuan'); const ask=M.find(m=>m.ask);
     check('7. 月底前一週 21:00 明軒私訊「家教的事，想好了嗎？」（可以回「好。」）',!!ask&&ask.text==='家教的事，想好了嗎？'&&ask.ask.opts[0].t==='好。',JSON.stringify(M.map(m=>m.text)));
-    PHONE.answer(G,ask.ask.id,0); STORY.phoneRules(GM);
-    check('8. 回「好。」＝JOB_TUTOR、「很好。第一堂我陪你去認門。」、排家教',G.flags.JOB_TUTOR&&G.msgs.some(m=>m.text==='很好。第一堂我陪你去認門。')&&OUT.rec(G).some(q=>/^tutor_/.test(q.id)));
+    PHONE.answer(G,ask.ask.id,0); const wdAsk=G.msgs.find(m=>m.text==='你哪天方便？'&&m.ask); if(wdAsk) PHONE.answer(G,wdAsk.ask.id,1); STORY.phoneRules(GM);
+    check('8. 回「好。」＝JOB_TUTOR →「你哪天方便？」（週二／週四，BB_161 ⑪）→ 選週四＝「很好。第一堂我陪你去認門。」、排週四的家教',G.flags.JOB_TUTOR&&!!wdAsk&&wdAsk.ask.opts.map(o=>o.t).join('／')==='週二。／週四。'&&G.flags.TUTOR_WD===4&&G.msgs.some(m=>m.text==='很好。第一堂我陪你去認門。')&&OUT.rec(G).some(q=>/^tutor_/.test(q.id)&&CALENDAR.dateOf(q.day).wd===4));
     at(W3,16,true); picks=['想想']; await EVENTS.run(e); G.day=mEnd+1; G.hour=12.5; STORY.phoneRules(GM); PHONE.tick(G);
     check('9. 沒回、過了月底：「名額給別人了。下次有，我再跟你說。」、TUTOR_GONE、沒有家教',G.msgs.some(m=>m.text==='名額給別人了。下次有，我再跟你說。')&&G.flags.TUTOR_GONE&&!G.flags.JOB_TUTOR&&!OUT.rec(G).some(q=>/^tutor_/.test(q.id))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

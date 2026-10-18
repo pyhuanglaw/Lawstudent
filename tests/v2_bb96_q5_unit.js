@@ -35,7 +35,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   if(!e||!A){ console.log('FAILED '+fails); process.exit(1); }
   const dShow=termDay('Y1S2',14,3), dInv=termDay('Y1S2',13,3);
   check('成發：大一下第 14 週週三 19:00–21:00、萬才館大廳（第 13 週、週四、大一上沒有）；去看＝演 Q5',ACTIVITIES.on(A,dShow)&&!ACTIVITIES.on(A,dInv)&&!ACTIVITIES.on(A,dShow+1)&&A.t0===19&&A.t1===21&&A.zone==='wancai'&&A.event==='ev_ziqing_show');
-  const lawL=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('和法服讀書會同一晚（玩家選一個）',ACTIVITIES.on(lawL,dShow));
+  const lawL=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('法服讀書會停用（AA_218 17-4）：成發那晚不再撞期',!ACTIVITIES.on(lawL,dShow));
   { fresh(dInv,20,'dorm'); PHONE.join(G,'guitar','吉他社'); run(20,22); check('第 13 週週三 21:30 吉他社群組：子晴「期末成發你要來。這不是問句。」',txt('g:guitar').slice(-1)[0]==='heroine_04:期末成發你要來。這不是問句。',JSON.stringify(txt('g:guitar'))); }
   const nm=CHARACTERS.heroine_04.name;
   const show=async(pick,o)=>{ o=o||{}; fresh(dShow,19.05,'wancai',o.flags||{}); SOCIAL.meet('heroine_04','wancai'); if(o.fam) R('heroine_04',...o.fam); picks=[pick]; await CLS.attendActivity(GM,A,{}); return lines(); };

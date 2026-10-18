@@ -1,5 +1,7 @@
 # 第二個 AI 交接文件（環境美術工作階段）
 
+> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**第二個 AI（帳號 A 的 LAWWW2）在 10-10 的交接文件。現行 LAWWW2 的交接檔是 `docs/art-rebuild/second_ai/HANDOFF.md`，分工照 `CLAUDE.md` D100／D100a（LAWWW2 做 3D 美術、人物小錯誤可修）。
+
 - 建立：2026-10-10 晚上（台灣時間），由第一個 AI 寫（工作階段「LAWWW」）。依據是使用者的〈雙 Claude Code 工作階段分工與即時協作指令〉。
 - 這份文件給第二個 Claude Code 工作階段（環境美術）。新的工作階段讀完這份＋`CLAUDE.md` 就可以開工，不必再問使用者專案背景。
 - 分工有變動時由第一個 AI 改這份文件，並用訊息通知第二個 AI。工作看板在 [`docs/DUAL_AI_BOARD.md`](DUAL_AI_BOARD.md)。

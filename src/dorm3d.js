@@ -107,10 +107,20 @@ const DM3=(function(){
       db.add(MAT.frame(),TK.boxG(1.05,2.2,0.08),0,1.1,0); db.add(home?M('#8a6a4a',{rough:0.55}):doorM,TK.boxG(0.9,2.1,0.05),0,1.05,0.04); db.add(MAT.steel(),TK.boxG(0.12,0.03,0.05),0.32,1.0,0.08); db.build(dg); fb.add(dg);
       const sg=new THREE.Mesh(new THREE.PlaneGeometry(0.42,0.16),new THREE.MeshBasicMaterial({map:TK.signTex(d.plate,{bg:'#f4f2ec',fg:'#2b2b2b'})})); sg.position.set(0,1.85,0.08); dg.add(sg); (d.lv?lv1:lv0).attach(sg);
       return p; };
-    for(const d of L.doors){ const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
-    const H=L.home; one({x:H.x,lv:H.lv,side:'N',plate:(typeof GAME!=='undefined'&&GAME.G&&GAME.G.stage==='econ')?'412':'203'},true);   /* 經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓）*/
+    const H=homeOf(typeof GAME!=='undefined'&&GAME.G);
+    for(const d of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d.id===H.rep) continue; const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
+    one({x:H.x,lv:H.lv,side:'N',plate:H.plate},true);
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
-    { const y=Y1, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(fb1); } }
+    { const y=H.lv?Y1:0, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(H.lv?fb1:fb0); } }
+  /* 每一年的房間（AA_183 第 5 節）：同一個宿舍模型，換一扇門。大一 203（二樓）→ 大二 112（一樓，主線 3）→ 大三 218（二樓的另一頭，主線 5）→ 大四 105（一樓，靠門口，主線 10）。
+     經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓），門的位置用大一的。房號只是門牌：換到的那一扇原本的寢室門（rep）不放，203 搬走以後變成一般關著的門。
+     房間裡面（dorm 區域）沿用同一個；窗外（AA_183：腳踏車棚和一棵樹、球場的燈、門口的路燈）等美術。 */
+  const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'312',x:11.15,lv:1,rep:'r204'},y3:{plate:'218',x:-10.9,lv:1,rep:'r201'},y4:{plate:'105',x:-5.25,lv:0,rep:'r102'}};
+  const OLD_HOME={id:'r203',lv:1,x:5.5,side:'N',label:'203 寢室',plate:'203',closed:'203 寢室。門關著。'};
+  function homeOf(G){ const F=(G&&G.flags)||{}, econ=!!G&&G.stage==='econ'; const key=econ?'y1':F.ROOM_Y4?'y4':F.ROOM_Y3?'y3':F.ROOM_Y2?'y2':'y1'; const h=Object.assign({key},HOMES[key]); if(econ) h.plate='412';
+    h.label='回房間（'+h.plate+'）'; h.spawn={x:h.x,z:0.4,lv:h.lv,yaw:0}; return h; }
+  /* 房間（dorm 區域）的「走出房間」：出去站在自己那一扇門前。搬了房間（主線 3）以後，人還在房間裡，就地改出口 */
+  function fixRoomExit(E,G){ if(!E||!E.interactables) return; for(const it of E.interactables) if(it.exit&&it.exit.to==='dorm_hall') it.exit.spawn=Object.assign({},homeOf(G).spawn); }
 
   // ---- 家具（程序化）----
   function buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const seats=zone.seats=[];
@@ -159,13 +169,13 @@ const DM3=(function(){
         if(s===ss.b) m.userData.stairEnds=[{x:(S.B.x0+S.B.x1)/2,z:ldz,lv:0},{x:(S.B.x0+S.B.x1)/2,z:CO.z0+0.6,lv:1}]; } }
     const lights=[]; for(const [x,y,z,on,off] of [[-8,2.9,0,5,3],[0,2.9,0,5,3],[8,2.9,2.5,6,4],[0,2.9,5,5,3],[-8,6.5,0,5,3],[0,6.5,0,5,3],[8,6.5,0,5,3],[0,5.2,-4,4,2]]){ const l=new THREE.PointLight(0xf6f4ee,off,14,2); l.position.set(x,y,z); l.userData.on=on; l.userData.off=off; g.add(l); lights.push(l); }
     // 互動點（每一個都標樓層）
-    const IT=E.interactables, EN=L.entrance, H=L.home;
+    const IT=E.interactables, EN=L.entrance, H=homeOf(typeof GAME!=='undefined'&&GAME.G);
     IT.push({x:EN.x,z:EN.exitZ,radius:1.3,lv:0,label:'離開宿舍',exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});
     IT.push({x:H.x,z:L.corridor.z0+0.45,radius:0.75,lv:H.lv,label:H.label,exit:{to:'dorm',spawn:Object.assign({},ROOM)}});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點、鏡頭碰撞不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
     return zone; } };
 
-  return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf};
+  return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf,homeOf,fixRoomExit,HOMES};
 })();
 Z3.ZONES.dorm_hall=DM3.dorm_hall;

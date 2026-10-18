@@ -295,11 +295,11 @@ for zs in (1, -1):
 for x in (xs[0], xs[3]): B.box(nm('rf'), MAT['concrete'], x - 0.35, x + 0.35, FY + FHt - 0.85, FY + FHt, -bzr + 0.35, bzr - 0.35, root)
 
 # ---------------- 正面：樓梯頂端的平台＋大台階（每一階的外緣和遊戲的導航同一組）----------------
-prism('platform', MAT['graniteS'], [(LX0, d / 2), (LX1, d / 2), (LX1, d / 2 + LD), (LX0, d / 2 + LD)], 0.0, PF, side_mat=MAT['riser'])
+prism('platform', MAT['graniteS'], [(LX0 + 0.02, d / 2), (LX1, d / 2), (LX1, d / 2 + LD), (LX0 + 0.02, d / 2 + LD)], 0.0, PF, side_mat=MAT['riser'])   # 西緣縮進 2 cm、藏在石牆裡（原本和西側石牆的外面同一個平面，會閃）
 for k in range(NS):
     R = OUTL[k]
     poly = [(SX + x, z0 + z) for (x, z) in R] + [(SX - x, z0 + z) for (x, z) in reversed(R)]
-    prism('step', MAT['graniteS'], poly, 0.0, (k + 1) * RS, side_mat=MAT['riser'])
+    prism('step', MAT['graniteS'], poly, k * RS, (k + 1) * RS, side_mat=MAT['riser'])   # 每一階只做自己那一層（原本每一階都從地面做起，相鄰兩階的側面同一個平面、疊在一起會閃；外緣和導航照舊）
 # 兩側石牆＋圓牆頂＋端塊＋三道扶手：西側從建築正面沿著平台一路往下；東側只沿著樓梯（平台東側接陽台）
 for sx in (-1, 1):
     pts = [(SX + sx * (EW / 2 + 0.26), d / 2 + 0.02)] if sx < 0 else []; tops = [PF + CH - CR] if sx < 0 else []

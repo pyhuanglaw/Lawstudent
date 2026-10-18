@@ -26,4 +26,8 @@ check('別層的人（高 4.2 m）不算',pick([door],[npc(0.3,0,'郭沛珊',4.2
 { const lv=npc(0.4,0.1,'郭沛珊'); lv.leaving=true;   /* 第二次失敗（93877e9）：下課時同學和玩家一起走到後門，她走在玩家前面（比門近），按鈕被她蓋掉 */
   check('要離開的同學（時段結束、走向出口）在門口、比門近：按鈕還是「離開教室」（要離開的人不擋出口）',pick([door],[lv])==='離開教室',pick([door],[lv]));
   check('要離開的同學旁邊只有椅子：照舊可以和她說話（只讓出口）',pick([chair],[lv])==='和郭沛珊說話',pick([chair],[lv])); }
+{ const bed={x:-1.55,z:1.165,radius:0.9,label:'睡覺'}, bag={x:-1.55,z:1.965,radius:0.6,prio:0.3,label:'收拾背包回臺北的家'}, at=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; return pick([bed,bag],[]); };
+  check('宿舍：站在回家背包 0.41 m 內、靠床那一側（離床 0.39 m）：按鈕是「收拾背包回臺北的家」（prio；flow_law_break 21 批）',at(-1.55,1.555)==='收拾背包回臺北的家',at(-1.55,1.555));
+  check('宿舍：站在床邊（離床 0.2 m）：照舊是「睡覺」',at(-1.55,1.365)==='睡覺');
+  E.player.obj.position.x=0; E.player.obj.position.z=0; }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -27,12 +27,12 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   fresh(D15-1,18,'campus'); G.events.done.ev_y0_e02=1; run(); check('1. 10/14 沒有揪人',!PHONE.sent(G,'y0_gather_grp'));
   fresh(D15,17,'campus'); G.events.done.ev_y0_e02=1; run(); check('1. 10/15 17:00 還沒有',!PHONE.sent(G,'y0_gather_grp'));
   at(D15,17.6); const g=TH('g:econ_class');
-  check('1. 17:30 經濟系群組兩則（韋綸、品妤）',g.includes('今晚七點，公館。期中考前最後一次。走啦！')&&g.includes('先說好，我還是只有一百五。'),JSON.stringify(g));
+  check('1. 17:30 經濟系群組兩則（韋綸、品妤；BB_179 段 B #26、#27）',g.includes('今晚七點，公館！期中考前最後一次放風。')&&g.includes('我跟同事換了班，可以去。'),JSON.stringify(g));
   const q=OUT.get(G,'y0_gather'); check('1. 出發選單：「公館 19:00：經濟系的聚會」，19:15 以後收起來',!!q&&q.title==='公館 19:00：經濟系的聚會'&&(()=>{ G.hour=19.2; const a=!!OUT.due(G); G.hour=19.3; const b=!OUT.due(G); G.hour=17.6; return a&&b; })());
   const snap=JSON.stringify(G);
   // 去了
   GM.money=d=>{ G.money+=d; }; picks=['假裝沒看到']; said=[]; const m0=G.money, f0=SOCIAL.rel('kexin').fam||0; G.hour=18.75; await OUT.go(GM,q); const L=said.map(x=>x.t);
-  check('2. 去了：原文（公館、桌遊錢、一百五、看你的牌…十點二十散了）',L[0]==='（公館。期中考前的最後一個晚上。）'&&L.includes('今天不准聊期中。誰聊到，今晚的桌遊錢他出。')&&L.includes('（他講的那件事，講到最後還是微積分。）')&&L[L.length-1]==='（五個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）',JSON.stringify(L.slice(0,3)));
+  check('2. 去了（BB_179 段 B 改稿、AA_203 #2 #3 六個人）：公館、桌遊錢、「三個小時的話，剛好。」、看你的牌…十點二十散了；不再有「一百五」',L[0]==='（公館。期中考前的最後一個晚上。）'&&L.includes('今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。')&&L.includes('（六個人擠進一家桌遊店。一個人一小時五十元。）')&&L.includes('（看了一下錢包）三個小時的話，剛好。')&&!L.some(t=>/一百五/.test(t))&&L.includes('（他講的那件事，講到最後還是微積分。）')&&L[L.length-1]==='（六個人在夜市吃了一圈。十點二十，大家在公館的路口散了。）',JSON.stringify(L.slice(0,3)));
   check('2. 假裝沒看到：「（那一局她贏了。）」「你讓我？……下次不用讓。」',L.includes('（那一局她贏了。）')&&L.includes('你讓我？……下次不用讓。'));
   check('2. 22:20 左右、錢 −100、E10_EVE:went、可昕熟悉度 +1',Math.abs(G.hour-(22+1/3))<0.02&&G.money===m0-100&&G.flags.E10_EVE==='went'&&(SOCIAL.rel('kexin').fam||0)-f0===1,JSON.stringify([G.hour,m0-G.money,G.flags.E10_EVE,(SOCIAL.rel('kexin').fam||0)-f0]));
   at(D15,22.5); check('2. 去了：21:40 那則沒有；22:30 可昕的邀約照常',!PHONE.sent(G,'y0_gather_miss')&&TH('p:kexin').includes('玩了一整晚。明天去總圖念書吧。期中考快到了。')&&!TH('p:kexin').includes('你今天沒來。我們玩了一整晚。'));

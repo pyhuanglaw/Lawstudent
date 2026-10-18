@@ -1,0 +1,12 @@
+{
+ "objects": 21,
+ "unique_meshes": 21,
+ "tris": 23332,
+ "tris_drawn": 23332,
+ "materials": 25,
+ "out": "assets/models/env/second_ai/lane118_ground.glb",
+ "bytes": 2444432,
+ "texres": 512,
+ "tris_total": 23332,
+ "layout": "src/data/lane118_layout.js"
+}

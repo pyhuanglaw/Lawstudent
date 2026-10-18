@@ -1,5 +1,5 @@
 // 交接包 v2 C18：小語 語 2「剛好路過」（草稿第 3 節、AA_40 語 2）——不需要瀏覽器。修改前沒有這幾個事件（第 1 項失敗）。
-// 檢查：大一下第 14～16 週的三個徵兆——① 傅鐘的早餐（走到小語附近就演）② 麵店日的麵店一句旁白 ③ 小語問祐廷（吉他社的玩家在社課後、其他玩家在麵店散場後的騎樓），
+// 檢查：大一下第 13～15 週的三個徵兆（16 週制，AA-C 11:23 往前補一週）——① 傅鐘的早餐（走到小語附近就演）② 麵店日的麵店一句旁白 ③ 小語問祐廷（吉他社的玩家在社課後、其他玩家在麵店散場後的騎樓），
 //   ③ 要先看過 ① 或 ② 其中一個（看到 ③ 的人一定看過兩個以上）；三個選項的反應照 AA_40 的表、都不改變結果（YU2_PICK）；整個存檔只問一次；吉他社大一下也有
 // 用法：node tests/v2_c18_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -36,27 +36,27 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   const met=()=>{ G.flags.met_yu=true; };
   /* ① 傅鐘的早餐 */
   { const at=(term,w,wd,h,zone,known)=>{ fresh(termDay(term,w,wd),h,zone||'campus'); if(known!==false) met(); return EVENTS.check(eA); };
-    const r={w14:at('Y1S2',14,1,8.6),w16:at('Y1S2',16,5,9),w13:at('Y1S2',13,1,8.6),w17:at('Y1S2',17,1,8.6),sat:at('Y1S2',14,6,8.6),noon:at('Y1S2',14,1,9.2),y1s1:at('Y1S1',14,1,8.6),notMet:at('Y1S2',14,1,8.6,'campus',false),lib:at('Y1S2',14,1,8.6,'library')};   /* AA_156 第 4 節：小語在傅鐘是平日 08:20～09:05 */
-    check('① 豆漿：大一下第 14～16 週平日 08:20～09:05、校園、認識小語（第 13／17 週、週六、09:12、大一上、不認識、總圖都沒有）',r.w14&&r.w16&&!r.w13&&!r.w17&&!r.sat&&!r.noon&&!r.y1s1&&!r.notMet&&!r.lib,JSON.stringify(r));
+    const r={w14:at('Y1S2',13,1,8.6),w16:at('Y1S2',15,5,9),w13:at('Y1S2',12,1,8.6),w17:at('Y1S2',16,1,8.6),sat:at('Y1S2',14,6,8.6),noon:at('Y1S2',14,1,9.2),y1s1:at('Y1S1',14,1,8.6),notMet:at('Y1S2',14,1,8.6,'campus',false),lib:at('Y1S2',14,1,8.6,'library')};   /* AA_156 第 4 節：小語在傅鐘是平日 08:20～09:05 */
+    check('① 豆漿：大一下第 13～15 週平日 08:20～09:05、校園、認識小語（AA-C 11:23：16 週制往前補一週；第 12／16 週、週六、09:12、大一上、不認識、總圖都沒有）',r.w14&&r.w16&&!r.w13&&!r.w17&&!r.sat&&!r.noon&&!r.y1s1&&!r.notMet&&!r.lib,JSON.stringify(r));
     check('① 走到小語附近就演（auto、4 m 內，不用特地找她說話）',eA.trigger==='auto'&&eA.near&&eA.near.npc==='yu'&&eA.near.r===4);
     /* 引擎的 auto：小語在傅鐘的長椅（-46, 20.94），玩家 10 m 外不演、3 m 內演 */
     fresh(termDay('Y1S2',14,2),8.6,'campus'); met(); GM.npc={yu:{id:'yu',charId:'yu',obj:{position:{x:-46,y:0,z:20.94}},lv:0}}; E.player.obj.position.x=-46; E.player.obj.position.z=31;
     const far=EVENTS.tick(0.1); E.player.obj.position.z=23.5; const near=EVENTS.tick(0.1); await new Promise(r=>setTimeout(r,30));
     check('① 引擎：10 m 外不演、2.6 m 內演',!far&&near&&!!G.events.done.ev_yu_sign_soymilk,JSON.stringify({far,near}));
-    check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」小語「你住公館。」阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','小語：你住公館。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
+    check('① 台詞：（阿哲出現，帶著兩杯豆漿。）阿哲「剛好路過。」小語「你宿舍又不在這邊。」（AA_209）阿哲「……剛好路過。」',JSON.stringify(lines())===JSON.stringify(['阿哲出現，帶著兩杯豆漿。','阿哲：剛好路過。','小語：你宿舍又不在這邊。','阿哲：……剛好路過。'])&&G.flags.yu2SoymilkDay===G.day,JSON.stringify(lines()));
     E.player.obj.position.x=0; E.player.obj.position.z=0; GM.npc={}; }
   /* ② 麵店 */
   { const at=(w,wd,h,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,wd),h,o.zone||'noodle'); if(!o.notMet) met(); if(!o.noTeam) G.flags.noodleTableDay=termDay('Y1S1',6,2); return EVENTS.check(eB); };
-    const r={tue:at(14,2,18),thu:at(16,4,20.5),wed:at(14,3,18),w13:at(13,2,18),late:at(14,2,21.2),noTeam:at(14,2,18,{noTeam:true}),notMet:at(14,2,18,{notMet:true}),gg:at(14,2,18,{zone:'gongguan'})};
-    check('② 麵店：大一下第 14～16 週的麵店日（週二、週四）17:30–21:00 走進麵店；麵店團、認識小語才有（週三、第 13 週、21:12、沒有麵店團、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
+    const r={tue:at(14,2,18),thu:at(15,4,20.5),wk16:at(16,4,20.5),wed:at(14,3,18),w13:at(12,2,18),late:at(14,2,21.2),noTeam:at(14,2,18,{noTeam:true}),notMet:at(14,2,18,{notMet:true}),gg:at(14,2,18,{zone:'gongguan'})};
+    check('② 麵店：大一下第 13～15 週的麵店日（週二、週四；AA-C 11:23 往前補一週，第 16 週期末不放）17:30–21:00 走進麵店；麵店團、認識小語才有（週三、第 13 週、21:12、沒有麵店團、不認識、在公館都沒有）',r.tue&&r.thu&&!r.wk16&&!r.wed&&!r.w13&&!r.late&&!r.noTeam&&!r.notMet&&!r.gg,JSON.stringify(r));
     at(14,2,18); await EVENTS.run(eB); check('② 台詞：（小語每次都坐阿哲旁邊。）只有一句、沒有選項',JSON.stringify(lines())==='["小語每次都坐阿哲旁邊。"]'&&!opts.length&&G.flags.yu2SeatDay===G.day,JSON.stringify(lines())); }
   /* 吉他社大一下 */
   { const M=w=>termDay('Y1S2',w,1);
     check('吉他社：大一下也有（第 5～7、10～16 週的週一、三；期中第 8～9 週沒有）；大一上照舊',ACTIVITIES.on(GT,M(14))&&ACTIVITIES.on(GT,termDay('Y1S2',15,3))&&ACTIVITIES.on(GT,M(5))&&!ACTIVITIES.on(GT,M(8))&&!ACTIVITIES.on(GT,M(4))&&ACTIVITIES.on(GT,termDay('Y1S1',5,3)));   /* 大一上第 5 週週一是教師節補假，用週三 */ }
   /* ③ 吉他社的玩家：社課結束後 */
   { const at=(w,o)=>{ o=o||{}; fresh(termDay('Y1S2',w,1),21,'wancai'); met(); if(!o.noClub) G.flags.CLUB_club_guitar=true; if(o.sign!==false) G.flags.yu2SeatDay=termDay('Y1S2',14,2); if(o.picked) G.flags.YU2_PICK='ask'; return CLS.afterActEvent(G,GT); };
-    const r={ok:at(14)===eC1,w16:at(16)===eC1,w13:at(13),noSign:at(14,{sign:false}),noClub:at(14,{noClub:true}),picked:at(14,{picked:true})};
-    check('③ 社課後：吉他社的玩家、看過 ① 或 ② 其中一個、第 14～16 週＝演；第 13 週、還沒看過其他徵兆、不是吉他社、已經問過都沒有',r.ok&&r.w16&&!r.w13&&!r.noSign&&!r.noClub&&!r.picked,JSON.stringify(r));
+    const r={ok:at(14)===eC1,w16:at(15)===eC1,w13:at(12),noSign:at(14,{sign:false}),noClub:at(14,{noClub:true}),picked:at(14,{picked:true})};
+    check('③ 社課後：吉他社的玩家、看過 ① 或 ② 其中一個、第 13～15 週＝演（16 週制，AA-C 11:23）；第 12 週、還沒看過其他徵兆、不是吉他社、已經問過都沒有',r.ok&&r.w16&&!r.w13&&!r.noSign&&!r.noClub&&!r.picked,JSON.stringify(r));
     /* 玩家流程：週一 19:05 參加吉他社（認識子晴，不演初遇）→ 社課結束了 → 小語問 */
     fresh(termDay('Y1S2',14,1),19.08,'wancai'); met(); G.flags.CLUB_club_guitar=true; G.flags.yu2SoymilkDay=termDay('Y1S2',14,1); SOCIAL.meet('heroine_04','wancai'); picks=['對每個人都好'];
     await CLS.attendActivity(GM,GT,{door:true}); const L=lines();

@@ -17,7 +17,7 @@ const GUIDE=(function(){
     gongguan:['campus','wenzhou','cvs','noodle','bookstore'], wenzhou:['gongguan','cafe'], cafe:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'],
     linze:['campus','classroom'], classroom:['linze'], wancai:['campus','lawlib'], lawlib:['wancai'], library_hall:['campus','library'], library:['library_hall'], soclib:['campus'] };
   const ELEV={ library:['library_hall'], library_hall:['library'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳）
-  const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0 };
+  const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0, bmImgs:[] };
 
   /* ---------- 目的地推算（舊存檔、沒有明確給目的地的目標）----------
      順序有意義：先看「或」的選擇（自由行動）、再看閉館（「總圖要閉館了」：離開總圖，不是指進去）、睡覺／回宿舍（「睡覺（明天 13:20 民法總則）」要指床，不是教室）。
@@ -105,11 +105,14 @@ const GUIDE=(function(){
     x.fillStyle=gold?'rgba(255,200,90,0.96)':'rgba(22,26,32,0.80)'; const r=16; x.beginPath(); x.moveTo(r,0); x.lineTo(W-r,0); x.quadraticCurveTo(W,0,W,r); x.lineTo(W,H-r); x.quadraticCurveTo(W,H,W-r,H); x.lineTo(W/2+12,H); x.lineTo(W/2,H+14); x.lineTo(W/2-12,H); x.lineTo(r,H); x.quadraticCurveTo(0,H,0,H-r); x.lineTo(0,r); x.quadraticCurveTo(0,0,r,0); x.fill();
     x.textAlign='center'; x.textBaseline='middle'; x.fillStyle=gold?'#1c1a17':'#fbf6ec'; x.font=F1; x.fillText(text,W/2,sub?34:H/2+1); if(sub){ x.font=F2; x.fillStyle=gold?'#3a2d14':(/閉館/.test(sub)?'#ffb4a0':'#d9d2c4'); x.fillText(sub,W/2,76); }
     const tex=new THREE.CanvasTexture(c); tex.colorSpace=THREE.SRGBColorSpace; tex.anisotropy=2; return {tex,w:c.width,h:c.height}; }
-  function clearMarkers(){ for(const m of st.markers){ if(m.spr.parent) m.spr.parent.remove(m.spr); m.spr.material.map.dispose(); m.spr.material.dispose(); } st.markers=[]; }
+  /* iOS 的 2D canvas 有總記憶體上限（超過整個畫面變黑，BUG-MAPBLACK 的懷疑原因），而且 canvas 的記憶體要等 GC：不用的 canvas 立刻把寬高設 0 釋放 */
+  function freeCanvas(c){ if(c&&c.width!==undefined){ try{ c.width=0; c.height=0; }catch(e){} } }
+  function dropTex(t){ if(!t) return; const im=t.image; t.dispose(); freeCanvas(im); }
+  function clearMarkers(){ for(const m of st.markers){ if(m.spr.parent) m.spr.parent.remove(m.spr); dropTex(m.spr.material.map); m.spr.material.dispose(); } st.markers=[]; }
   function buildMarkers(){ clearMarkers(); st.markerZone=E.zone; if(!E.zone||!E.zone.group) return; const indoor=!!E.indoor;
     for(const it of E.interactables){ if(!it.exit&&!it.elevator&&!it.mark) continue;   /* mark：沒有室內、但要讓玩家認得的入口（共同教學館，2026-10-13）*/ if(it.elevator&&!(ELEV[GM.G.zone])) continue; const m={it,gold:null,txt:exitName(it),sub:(it.exit&&!indoor)?hoursLine(it.exit.to):'',spr:null,indoor}; setLabel(m,m.it===goldIt); st.markers.push(m); } }
   function setLabel(m,gold){ if(m.gold===gold&&m.spr) return; const L=label(m.txt,m.sub,gold);     if(!m.spr){ const mat=new THREE.SpriteMaterial({map:L.tex,transparent:true,depthWrite:false,toneMapped:false,fog:false,sizeAttenuation:false}); const s=new THREE.Sprite(mat); s.center.set(0.5,0); s.renderOrder=20; s.raycast=()=>{};   /* 純介面：不參加射線檢測（Sprite 的 raycast 需要 raycaster.camera，對整個場景做射線時會丟例外——tests/indoor_camera_occlusion.py 抓到）*/ const it=m.it; const nv=E.navOf?E.navOf(it.lv|0):E.nav; const y0=it.y!=null?it.y:(nv?nv.heightAt(it.x,it.z):0); s.position.set(it.x,y0+(m.indoor?2.05:2.6),it.z); s.userData.dyn=true; E.zone.group.add(s); m.spr=s; m.y0=y0; }
-    else { m.spr.material.map.dispose(); m.spr.material.map=L.tex; m.spr.material.needsUpdate=true; }
+    else { dropTex(m.spr.material.map); m.spr.material.map=L.tex; m.spr.material.needsUpdate=true; }
     m.w=L.w; m.h=L.h; m.gold=gold; fitMarker(m); }
   // 名牌在畫面上的高度固定（字約 15 px）：sizeAttenuation=false 時 scale 是「距離 1 處的世界尺寸」，換算成畫面像素要看視角與畫面高度
   function fitMarker(m){ const cam=E.camera, vh=(E.h||window.innerHeight||400); const tanH=Math.tan((cam&&cam.fov?cam.fov:50)*Math.PI/360); const px=(m.indoor?0.33:0.38)*(m.gold?1.12:1); const sy=m.h*px/vh*2*tanH; m.spr.scale.set(sy*m.w/m.h,sy,1); m.vh=vh; }
@@ -121,6 +124,7 @@ const GUIDE=(function(){
   /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */
   function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w||!w.zone) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
   /* ---------- 大地圖 ---------- */
+  function bmImage(nav){ if(nav._bmImg) return nav._bmImg; const img=navImage(nav); nav._bmImg=img; st.bmImgs.push({nav,img}); return img; }   /* 每個導航格只畫一張（原本每打開一次地圖就新開一張 canvas、不釋放）；換區域時釋放舊區域的 */
   function navImage(nav){ const c=document.createElement('canvas'); c.width=nav.cols; c.height=nav.rows; const x=c.getContext('2d'); const img=x.createImageData(nav.cols,nav.rows);
     for(let i=0;i<nav.cols*nav.rows;i++){ const b=nav.b[i]; img.data[i*4]=b?58:196; img.data[i*4+1]=b?64:204; img.data[i*4+2]=b?74:184; img.data[i*4+3]=b?255:255; } x.putImageData(img,0,0); return c; }
   function zoneYaw(){ const def=E.zone&&E.zone.def; return E.indoor?0:((def&&def.sunYaw)||0); }   // 北朝上：公館的區域座標轉過方向（sunYaw）
@@ -128,12 +132,12 @@ const GUIDE=(function(){
     const perLv=!!(E.indoor&&E.levels); const lv=perLv?PLV():0; const nav=E.navOf?E.navOf(lv):E.nav; if(!nav) return;   /* 分層只用在室內；戶外（校園的萬才館平台是第 1 層）用地面那一層畫，入口、人、路線都畫 */
     const cv=$('bmCanvas'); $('bigmap').classList.remove('hide'); st.open=true; st.wasPaused=E.paused; E.paused=true;
     const W=cv.clientWidth||360, H=cv.clientHeight||600; const th=zoneYaw(); const wW=nav.cols*nav.cell, wH=nav.rows*nav.cell; const ex=Math.abs(Math.cos(th))*wW+Math.abs(Math.sin(th))*wH, ez=Math.abs(Math.sin(th))*wW+Math.abs(Math.cos(th))*wH;
-    const fit=Math.min(W/ex,H/ez)*0.94; const p=P(); st.view={cx:nav.ox+wW/2,cz:nav.oz+wH/2,k:fit,fit,th,lv,perLv,img:navImage(nav),nav};
+    const fit=Math.min(W/ex,H/ez)*0.94; const p=P(); st.view={cx:nav.ox+wW/2,cz:nav.oz+wH/2,k:fit,fit,th,lv,perLv,img:bmImage(nav),nav};
     if(!E.indoor&&fit<2.2){ st.view.k=Math.min(3.2,fit*2.2); st.view.cx=p.x; st.view.cz=p.z; }   // 校園很大：先放大到玩家附近，用「－」看全圖
     const zn=PLACES.names[GM.G.zone]||(E.zone.def&&E.zone.def.name)||''; $('bmTitle').textContent=zn+(perLv?'　'+(lv+1)+'F':''); if($('bmNorth')) $('bmNorth').classList.toggle('hide',!!E.indoor); const d=GM.G.goalDest; $('bmSub').textContent=GM.G.goal?('目標：'+GM.G.goal):'';
     if($('bmPeople')){ renderPeoplePanel(); $('bmPeople').classList.toggle('hide',!(/自由/.test(GM.G.goal||'')||!GM.G.goalDest)); } drawMap(); }
   function renderPeoplePanel(){ const el=$('bmPeople'); if(!el) return; const ppl=people(); el.innerHTML='<b>認識的人現在大概在</b>'+(ppl.length?ppl.map(q=>'<div class="row2" style="justify-content:space-between;gap:6px"><span>'+q.name+'：'+q.text+'</span><button class="btn" data-find="'+q.id+'">帶我去</button></div>').join(''):'<div class="muted">'+((typeof STORY!=='undefined'&&STORY.opening?STORY.opening(GM.G):GM.G.day<=2)&&!GM.G.flags.afternoonDone?'第一、二天的劇情還在進行，大家的行程還沒開始':'現在沒有人有固定的行程。去總圖、公館、溫州街走走，說不定會遇到')+'</div>'); el.querySelectorAll('[data-find]').forEach(b=>b.onclick=()=>{ if(GM.findPerson&&GM.findPerson(b.dataset.find)){ st.routeKey='~'; drawMap(); } }); }
-  function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; }
+  function closeMap(){ $('bigmap').classList.add('hide'); st.open=false; E.paused=!!st.wasPaused; freeCanvas($('bmCanvas')); }   /* 關掉就釋放大地圖畫布（手機 2 倍解析度約 5 MB；下次打開 drawMap 重設大小）*/
   function toScreen(v,W,H,wx,wz){ const dx=wx-v.cx, dz=wz-v.cz, c=Math.cos(v.th), s=Math.sin(v.th); return [W/2+(dx*c-dz*s)*v.k, H/2+(dx*s+dz*c)*v.k]; }
   function drawMap(){ const v=st.view; if(!v) return; const cv=$('bmCanvas'); const dpr=Math.min(2,window.devicePixelRatio||1); const W=cv.clientWidth, H=cv.clientHeight; if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){ cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); }
     const x=cv.getContext('2d'); x.setTransform(dpr,0,0,dpr,0,0); x.fillStyle='#1d2127'; x.fillRect(0,0,W,H); const nav=v.nav;
@@ -175,6 +179,6 @@ const GUIDE=(function(){
     $('bmClose').onclick=closeMap; if($('bmWho')) $('bmWho').onclick=()=>{ const el=$('bmPeople'); renderPeoplePanel(); el.classList.toggle('hide'); }; if($('bmTravel')) $('bmTravel').onclick=()=>{ closeMap(); if(GM.openMenu) GM.openMenu('map'); }; $('minimap').addEventListener('click',()=>openMap()); window.addEventListener('resize',()=>{ if(st.open) drawMap(); }); }
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
-  function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; }
+  function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; for(const c of st.bmImgs.splice(0)) if(c.nav!==E.nav&&!(E.levels&&E.levels.includes(c.nav))){ freeCanvas(c.img); c.nav._bmImg=null; } else st.bmImgs.push(c); }
   return { init, tick, infer, drawMini, openMap, closeMap, zoneChanged, nextZone:(a,b)=>nextZone(a,b), _st:st, target:d=>target(d) };
 })();

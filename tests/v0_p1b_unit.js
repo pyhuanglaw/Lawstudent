@@ -1,4 +1,4 @@
-// v0 P2 補上第一次聚會（「今天先回去」→ 下一次會計下課）、P1b 會計作業兩種（BB_105 P1b、P2；AA_154 第 96、101、105 行）——不需要瀏覽器。
+// v0 P2 補上第一次聚會（「今天先回去」→ 下一次會計下課）、P1b 會計作業（第 2 次已刪除，AA_218 第 11 節）（BB_105 P1b、P2；AA_154 第 96、101、105 行）——不需要瀏覽器。
 // 修改前：P2 一次（選了今天先回去就沒有了）、沒有 ev_y0_p1b1（第 1、2 項失敗）。用法：node tests/v0_p1b_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -27,18 +27,23 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const w3=itemFor(3), w4=itemFor(4), w5=itemFor(5), w7=itemFor(7);
   check('0. 會計第 3、4、5、7 週都有課（9/19、9/26、10/3、10/17）',!!w3&&!!w4&&!!w5&&!!w7&&CALENDAR.dateOf(w5.day).key==='2024-10-03'&&CALENDAR.dateOf(w7.day).key==='2024-10-17');
   const after=async(it,pick)=>{ G.day=it.day; G.hour=it.t1+0.05; G.weekday=wdOf(it.day); said=[]; picks=pick?[pick]:[]; const r=await CLS.afterClassEvent(GM,it); await new Promise(r=>setTimeout(r,20)); return {ran:r,L:said.map(x=>x.t)}; };
-  // 今天先回去 → 下一次會計課再演 P2
+  const after2=async(it,picks2)=>{ G.day=it.day; G.hour=it.t1+0.05; G.weekday=wdOf(it.day); said=[]; picks=picks2.slice(); const r=await CLS.afterClassEvent(GM,it); await new Promise(r=>setTimeout(r,60)); return {ran:r,L:said.map(x=>x.t)}; };
+  // AA_272 第 13 節（d9aa4d9f）：P1b1 改第 4、5 週；同一天 P2 也要演＝先 P1b1、再接 P2
   { fresh(w3.day,w3.t1+0.05,'campus'); let r=await after(w3,'今天先回去');
     check('1. 第 3 週 P2 選「今天先回去」：韋綸「那下次！」',r.ran&&r.L.includes('那下次！'));
-    r=await after(w4,'總圖'); check('1. 第 4 週會計下課：P2 再演一次（補上第一次聚會），這次選總圖',r.ran&&r.L[0]==='走啦！'&&G.flags.P2_PICK==='library',JSON.stringify(r.L.slice(0,2)));
-    r=await after(w5,'和品妤對'); check('2. 去成以後第 5 週：不再演 P2，改 P1b 第 1 次（品妤、阿勳、和品妤對）',r.ran&&r.L[0]==='（翻作業）借貸不平衡。差一百元。'&&r.L.includes('差一百元，就是差三杯紅茶。去找。')&&!r.L.includes('走啦！'),JSON.stringify(r.L));
-    r=await after(w7); check('2. 第 7 週 P1b 第 2 次：韋綸「我的平衡了！」阿勳「……你兩邊都寫零。」',r.ran&&JSON.stringify(r.L)===JSON.stringify(['我的平衡了！','（看了一眼）……你兩邊都寫零。']),JSON.stringify(r.L)); }
+    r=await after2(w4,['和品妤對','總圖']); const i1=r.L.indexOf('（翻作業）借貸不平衡。差一百元。'), i2=r.L.indexOf('走啦！');
+    check('1. 第 4 週會計下課：先 P1b1（教室裡對作業：和品妤對），再接 P2（門口被揪，這次選總圖）——不互相擠掉',r.ran&&i1===0&&r.L.includes('差一百。你從最後一行往回對，比較快。')&&i2>i1&&G.flags.P2_PICK==='library'&&!!G.events.done.ev_y0_p1b1,JSON.stringify(r.L));
+    r=await after(w5); check('2. 第 5 週：P1b1、P2 都演過，會計下課沒有事件',!r.ran,JSON.stringify(r.L));
+    r=await after(w7); check('2. 第 7 週（10/17 休學那天）P1b 第 2 次刪除（AA_218 第 11 節）：會計下課沒有韋綸「我的平衡了！」',!r.L.includes('我的平衡了！')&&!G.events.done.ev_y0_p1b2,JSON.stringify(r.L)); }
   // 第 3 週就去成
-  { fresh(w3.day,w3.t1+0.05,'campus'); let r=await after(w3,'河濱'); r=await after(w4); check('3. 第 3 週去成：第 4 週會計下課沒有 P2（也沒有 P1b）',!r.ran,JSON.stringify(r.L));
-    r=await after(w5,'自己再算一次'); check('3. 第 5 週 P1b：自己再算一次 →（算到第三次，平了。）品妤「恭喜，你花了二十分鐘。」',JSON.stringify(r.L.slice(-2))===JSON.stringify(['（算到第三次，平了。）','恭喜，你花了二十分鐘。'])); }
-  // 第 5 週沒去 → 第 7 週第 1 次，沒有第 2 次
-  { fresh(w3.day,w3.t1+0.05,'campus'); await after(w3,'河濱'); let r=await after(w7,'和阿勳對');
-    check('4. 第 5 週沒去：第 7 週是 P1b 第 1 次（阿勳只指了第五行）',r.L.includes('阿勳只指了第五行。你就懂了。'));
+  { fresh(w3.day,w3.t1+0.05,'campus'); let r=await after(w3,'河濱'); r=await after(w4,'自己再算一次');
+    check('3. 第 3 週去成：第 4 週只有 P1b1（沒有 P2）；自己再算一次 →（算到第三次，平了。）品妤「恭喜，你花了二十分鐘。」',r.ran&&!r.L.includes('走啦！')&&JSON.stringify(r.L.slice(-2))===JSON.stringify(['（算到第三次，平了。）','恭喜，你花了二十分鐘。']),JSON.stringify(r.L));
+    r=await after(w5); check('3. 第 5 週：P1b1 演過了，不再演',!r.ran); }
+  // 第 4、5 週都沒去 → 第 7 週不補
+  { fresh(w3.day,w3.t1+0.05,'campus'); await after(w3,'河濱'); let r=await after(w5,'和阿勳對');
+    check('4. 第 4 週沒去：第 5 週（10/3）補 P1b1',r.L.includes('阿勳只指了第五行。你就懂了。')&&!!G.events.done.ev_y0_p1b1,JSON.stringify(r.L));
+    fresh(w3.day,w3.t1+0.05,'campus'); await after(w3,'河濱'); r=await after(w7,'和阿勳對');
+    check('4. 第 4、5 週都沒去：第 7 週（10/17）不補 P1b1',!r.L.includes('阿勳只指了第五行。你就懂了。')&&!G.events.done.ev_y0_p1b1,JSON.stringify(r.L));
     check('4. 同一天不會再接第 2 次',!r.L.includes('我的平衡了！')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

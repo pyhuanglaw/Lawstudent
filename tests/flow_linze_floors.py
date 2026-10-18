@@ -43,8 +43,8 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
-        run.setup('讀檔：星期六 10:00（第 8 天）、法學院廣場（霖澤館前 (34,-94)）、晴天')
-        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 34, 'z': -94, 'yaw': 3.14},
+        run.setup('讀檔：星期六 10:00（第 11 天＝2025-09-27；原本第 8 天，行事曆對到 9/24 星期三，第 4 週起下午有服務學習（法圖櫃台），上課流程會把玩家帶走——2026-10-17 改）、法學院廣場（霖澤館前 (34,-94)）、晴天')
+        await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': 11, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 34, 'z': -94, 'yaw': 3.14},
                                 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True}})
         await pg.wait_for_timeout(3000)
         await run.shot(pg, 'plaza')

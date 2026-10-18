@@ -168,7 +168,7 @@ for f in 'SNEW':
             nmul = max(1, round((b - a) / 1.25))
             for m in range(1, nmul): xm = a + (b - a) * m / nmul; BOX('frame', f, xm - 0.03, xm + 0.03, y0 + 0.95, y0 + 2.85, -0.52, -0.44, 'mul')
             BOX('frame', f, a, b, y0 + 2.2, y0 + 2.25, -0.52, -0.44, 'mul')
-        if name: BOX('granite', f, -8.2, 8.2, y0 + 0.24, y0 + fh - 0.24, -CORE, 0.4)   # 館名石材帶（字由遊戲畫）
+        if name: BOX('granite', f, -8.22, 8.22, y0 + 0.24, y0 + fh - 0.24, -CORE, 0.4)   # 館名石材帶（字由遊戲畫）；兩端比灰色牆柱多 2 cm（原本同一個平面，會閃）
     for i in BRICK:
         y0 = yF(i); ys, ye = y0 + 0.95, y0 + 2.65
         wins = []

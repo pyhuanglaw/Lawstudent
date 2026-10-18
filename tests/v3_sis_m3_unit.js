@@ -1,0 +1,84 @@
+// 學姊 M3 放榜＋上榜的家族聚餐（BB_97 2-7、2-7b；任務 V3-B08）——不需要瀏覽器。
+// 檢查：3/19（五）20:00 家族群組六則；ASKED_TELL_ME 多一則 @祐廷；三個回覆（咖哩要 FAMILY_DINNER 記憶）＋最後一句；22:00 沒回也有最後一句；21:00 Kevin 揪 3/26 19:00（永康街／公館）；「去。」排出遊；聚餐的三件事兩版；沒去 21:30 合照。用法：node tests/v3_sis_m3_unit.js
+const fs=require('fs'), vm=require('vm'), path=require('path');
+const ROOT=path.resolve(__dirname,'..');
+global.window=global; global.self=global; global.P3={CAST:{}};
+global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
+global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
+global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
+let said=[], opts=[], picks=[], G=null;
+const E={q:{level:'medium'},player:{busy:false,obj:{position:{x:0,y:0,z:0},rotation:{y:0}},lv:0},zone:{roomAt:()=>null,seats:[]},npcs:[],interactables:[],levels:null,setWeather(){},hour:0};
+const GM={get G(){ return G; },E,D:{active:false},npc:{},
+  sceneBegin(){},sceneEnd(){},face(){},cine(){},caption(){},sleep:()=>Promise.resolve(),memo(){},autosave(){},addNote(){},energy(){},money(){},setGoal(){},toast(){},updateHUD(){},letterbox(){},phoneBadge(){},
+  titleCard:async()=>{},enter:async(z)=>{ G.zone=z; },advance(h){ G.hour+=h; },fade:()=>Promise.resolve(),rel(){},walkTo:()=>Promise.resolve(true),sitAt(){},standUp(){},
+  say:async(who,t)=>{ said.push({who:who?(who.name||String(who)):null,t}); },choose:async o=>{ opts.push(o.map(q=>q.t||q.text)); const want=picks.shift(); if(typeof want==='string'){ const k=o.findIndex(q=>(q.t||q.text).includes(want)); return k<0?0:k; } return want||0; }};
+const wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
+const fresh=(day,hour,zone,flags)=>{ G={v:3,day,hour,zone,weekday:wdOf(day),weather:'clear',energy:70,money:5000,flags:Object.assign({KX_FIRST_MSG:true,fundsV2:1,allowanceMonth:CALENDAR.dateOf(day).m},flags||{}),choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0}};
+  SOCIAL.bind(G); EVENTS.bind(GM); INV.rec(G); said=[]; opts=[]; picks=[]; GM.npc={}; E.interactables=[]; E.npcs=[]; if(STORY._fy) STORY._fy.reset(); };
+const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust||0; r.comf=comf||0; };
+const LV={ACQ:[10],FAM:[25],FRI:[45,30],CLO:[65,50,45]};
+const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
+const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
+const ev=id=>STORY_EVENTS.find(e=>e.id===id);
+const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
+const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
+const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
+const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
+const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
+let cards=[], entered=[];
+GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.push(z); G.zone=z; };
+GM.money=function(n){ G.money+=n; };
+
+(async()=>{
+  check('0. 預設大二不播（BB_205 第 4 節：M2／M3／上榜聚餐是祐廷大一下的事，STORY.SIS_Y2_EXAM=false）；下面打開開關測程式本身，留給搬到大一下的版本',STORY.SIS_Y2_EXAM===false); STORY.SIS_Y2_EXAM=true;
+  const FAM='g:family_law', LAST='heroine_05:這次的第三件，我想好了。聚餐那天說。';
+  const d=D('2027-03-19'), dn=D('2027-03-26');
+  check('0. 3/19 週五在大二下第 4 週、3/26 週五在第 5 週',termDay('Y2S2',4,5)===d&&termDay('Y2S2',5,5)===dn);
+  const setup=(day,h,o)=>{ o=o||{}; fresh(day,h,'dorm',o.flags); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); if(o.tell) SOCIAL.remember('heroine_05','ASKED_TELL_ME',''); if(o.curry) SOCIAL.remember('heroine_05','FAMILY_DINNER',''); };
+  setup(d,19.5); run(19.5,19.95);
+  check('1. 19:57 還沒有',!PHONE.sent(G,'sis_m3'));
+  run(20,20.2); let t=txt(FAM);
+  check('1. 20:00 六則：上了／換了題目的那個／Kevin 上榜了／收到／多講兩個字／謝謝',t.slice(0,6).join('｜')==='heroine_05:上了。｜heroine_05:換了題目的那個。｜kevin:學姊上榜了！！！｜heroine_05:收到。｜kevin:學姊妳可以多講兩個字｜heroine_05:謝謝。',JSON.stringify(t));
+  let m=TH(FAM).find(x=>x.ask&&x.ask.id==='sis_m3');
+  check('1. 沒有 ASKED_TELL_ME：沒有 @；可以回兩個（沒有咖哩）',!t.some(x=>/@/.test(x))&&!!m&&m.ask.opts.length===2&&m.text==='謝謝。');
+  PHONE.answer(G,'sis_m3',0);
+  check('2. 「恭喜學姊！」→「謝謝。」＋最後一句',txt(FAM).slice(-2).join('｜')==='heroine_05:謝謝。｜'+LAST&&G.flags.SIS_M3_REPLY==='congrats',JSON.stringify(txt(FAM).slice(-3)));
+  run(20.2,22.5);
+  check('2. 回過的：22:00 不再補最後一句',txt(FAM).filter(x=>x===LAST).length===1);
+  setup(d,19.9,{tell:true,curry:true}); run(19.9,20.2); t=txt(FAM); m=TH(FAM).find(x=>x.ask&&x.ask.id==='sis_m3');
+  check('3. ASKED_TELL_ME：@祐廷「你說不管考得怎樣都要說。我說了。」（公開）',t.includes('heroine_05:@祐廷 你說不管考得怎樣都要說。我說了。')&&m.text==='@祐廷 你說不管考得怎樣都要說。我說了。');
+  check('3. FAMILY_DINNER：三個選項，第三個貼咖哩',m.ask.opts.length===3&&m.ask.opts[2].t==='（貼一張咖哩的照片）');
+  PHONE.answer(G,'sis_m3',2);
+  check('3. 咖哩 →「……好。考完說好的那家。」＋最後一句',txt(FAM).slice(-3).join('｜')==='player:📷（咖哩）｜heroine_05:……好。考完說好的那家。｜'+LAST,JSON.stringify(txt(FAM).slice(-3)));
+  setup(d,19.9); run(19.9,20.2); PHONE.answer(G,'sis_m3',1);
+  check('4. 「我就知道。」→「你不知道。你只是希望。……謝謝。」',txt(FAM).slice(-2)[0]==='heroine_05:你不知道。你只是希望。……謝謝。');
+  setup(d,19.9); run(19.9,21.9);
+  check('5. 沒回：21:54 還沒有最後一句',!txt(FAM).includes(LAST));
+  run(22,22.2); m=TH(FAM).find(x=>x.ask&&x.ask.id==='sis_m3');
+  check('5. 22:00 最後一句、之後不能回',txt(FAM).includes(LAST)&&!PHONE.askOpen(G,m)&&G.flags.SIS_M3_REPLY==='none');
+  fresh(d,19.9,'dorm'); meet('heroine_05'); run(19.9,22.5);
+  check('6. 不在家族群組：沒有',!PHONE.sent(G,'sis_m3')&&!PHONE.sent(G,'sis_m3_dinner_inv'));
+  setup(d,20.5); run(20.5,21.2); t=txt(FAM);
+  check('7. 21:00 Kevin 一則「學姊上榜聚餐！下週五七點，公館的日日定食。全家族。」（沒有 FAMILY_DINNER；BB-B 這一批改一則、寫店名）',t.slice(-1)[0]==='kevin:學姊上榜聚餐！下週五七點，公館的日日定食。全家族。',JSON.stringify(t.slice(-3)));
+  PHONE.answer(G,'sis_m3_dinner',0); run(21.2,21.4); const o=OUT.get(G,'sis_m3_dinner');
+  check('7. 「去。」＝排 3/26 19:00 出遊（公館的日日定食）',!!o&&o.day===dn&&o.h===19&&o.place==='公館的日日定食'&&o.ev==='ev_sis_results_dinner');
+  setup(d,20.5,{curry:true}); run(20.5,21.2);
+  check('7. 有 FAMILY_DINNER：永康街那家咖哩',txt(FAM).slice(-1)[0]==='kevin:學姊上榜聚餐！下週五七點，永康街那家咖哩。全家族。');
+  PHONE.answer(G,'sis_m3_dinner',0); run(21.2,21.4);
+  check('7. 出遊地點永康街的咖哩店',OUT.get(G,'sis_m3_dinner').place==='永康街的咖哩店');
+  const EV=ev('ev_sis_results_dinner'); const NM={'溫書瑀':'學姊','溫學姊':'學姊'}; const L0=()=>lines().map(x=>x.replace(/^([^：]+)：/,(mm,nn)=>(NM[nn]||nn)+'：'));
+  const play=async o=>{ setup(dn,19,o); said=[]; await EVENTS.run(EV); return L0(); };
+  let L=await play({});
+  check('8. 聚餐：「一，謝謝大家。二，這次的題目，是我自己選的。三……」＋沒有 ASKED_TELL_ME＝「三，今天我請。不要跟我搶。」',L.join('｜')==='學姊：一，謝謝大家。二，這次的題目，是我自己選的。三……｜學姊：三，今天我請。不要跟我搶。',JSON.stringify(L));
+  L=await play({tell:true});
+  check('8. 有 ASKED_TELL_ME：「有人叫我考得怎樣都要說。我說了。下次換他。」',L[1]==='學姊：有人叫我考得怎樣都要說。我說了。下次換他。');
+  setup(dn,21,{}); run(21,21.6);
+  check('9. 沒去：3/26 21:30 Kevin 合照＋「沒來的人錯過學姊請客。千載難逢。」',txt(FAM).slice(-2).join('｜')==='kevin:📷（合照。學姊坐中間，難得笑得很開。）｜kevin:沒來的人錯過學姊請客。千載難逢。');
+  setup(dn,21,{}); G.events.done.ev_sis_results_dinner=1; run(21,21.6);
+  check('9. 有去：沒有合照',!PHONE.sent(G,'sis_m3_dinner_photo'));
+  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+})().catch(e=>{ console.error(e); process.exit(1); });

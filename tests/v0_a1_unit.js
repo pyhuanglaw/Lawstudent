@@ -38,7 +38,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   check('1. 國定假日（AA_154 6-1 第 1 項）都是假日',!miss.length,miss.join(' '));
   check('2. 2024-09-30 颱風假（Y0S1 第 5 週週一）',CALENDAR.typhoon(K('2024-09-30'))&&!CALENDAR.typhoon(K('2024-10-01')));
   const T=k=>{ const t=CALENDAR.termOf(K(k)); return t?t.id+'W'+t.week+(t.exam?':'+t.exam:''):'—'; };
-  const exp={'2024-09-02':'Y0S1W1','2024-10-21':'Y0S1W8:mid','2025-01-05':'Y0S1W18:final','2025-01-06':'—','2025-02-17':'Y0S2W1','2025-06-22':'Y0S2W18:final','2025-06-23':'—','2025-09-01':'Y1S1W1'};
+  const exp={'2024-09-02':'Y0S1W1','2024-10-21':'Y0S1W8:mid','2024-12-22':'Y0S1W16:final','2024-12-23':'—','2025-02-17':'Y0S2W1','2025-06-08':'Y0S2W16:final','2025-06-09':'—','2025-09-01':'Y1S1W1'};   /* 16 週制（AA_197 1-6：113 上寒假 12/23 起、113 下 6/9 起）*/
   const bad=Object.entries(exp).filter(([k,v])=>T(k)!==v);
   check('3. termOf（6-1 第 2 項）；termDay 找得到 Y0 的日子（Y0S1 第 1 週週一＝2024-09-02）',!bad.length&&CALENDAR.dateOf(termDay('Y0S1',1,1)).key==='2024-09-02'&&CALENDAR.dateOf(termDay('Y0S2',6,4)).key==='2025-03-27',JSON.stringify(bad));
   const items=(k,flags)=>{ fresh(K(k),8,'dorm',flags||{}); return CLS.dayItems(G).map(it=>it.c.id); };

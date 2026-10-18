@@ -13,7 +13,7 @@ global.window=global; global.self=global;
 const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
 global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
 global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
-const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/dorm3d.js'];
+const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/socsci_layout.js','src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/dorm_layout.js','src/data/dorm_room_layout.js','src/dorm3d.js'];
 for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'  '+info:'')); if(!ok) fails++; };
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
@@ -122,6 +122,8 @@ const fmt=(r)=>JSON.stringify(r).slice(0,220);
   check('點地面：一樓地板、二樓地板、樓梯都打得到',['0','1'].every(lv=>z.walkMeshes.some(m=>String(m.userData.walkLv|0)===lv))&&z.walkMeshes.length>=8,`${z.walkMeshes.length} 片`); }
 // ---------- 總圖大廳（總圖第一階段：大廳＋大樓梯＋二樓自習區，D43）----------
 { const z=loadZone('library_hall'); const L=LIBRARY_LAYOUT, Y1=L.floors[1].y, IT=E.interactables, H0=(x,zz)=>z.levels[0].heightAt(x,zz), H1=(x,zz)=>z.levels[1].heightAt(x,zz);
+  { const CO=L.core, U=L.upper, GT=L.gates; let worst=9, at=null; for(const [cx,cz] of [[-CO.x1,U.band.z1],[CO.x1,U.band.z1],[-CO.x1,GT.z],[CO.x1,GT.z]]) for(let a=0;a<32;a++){ const ang=a/32*Math.PI*2; for(let d=0.2;d<=1.2;d+=0.02){ const x=cx+Math.cos(ang)*d, zz=cz+Math.sin(ang)*d; if(z.levels[0].clear(x,zz,0.33)){ if(d<worst){ worst=d; at=[cx,cz,a]; } break; } } }
+    check('總圖：中庭四角的柱子（半徑 0.3、柱座 0.36）：玩家（0.33）站得到的位置離柱子中心至少 0.5 m，不會穿進柱子（使用者 2026-10-16 截圖）',worst>=0.5,'最近 '+worst.toFixed(2)+' '+JSON.stringify(at)); }
 check('總圖：兩層、二樓 5.0',z.levels.length===2&&z.levels[1].y0===Y1);
 const EN=L.entrance.spawn; check('總圖：入口出生點站得住',E.canStand(EN.x,EN.z,0.32,0)&&H0(EN.x,EN.z)===0);
 { const ex=IT.find(i=>i.label==='離開總圖'); check('總圖：入口出生點離「離開總圖」≥ 半徑＋0.3（一進來不會就跳出離開的按鈕）',!!ex&&Math.hypot(EN.x-ex.x,EN.z-ex.z)>=ex.radius+0.3,ex&&`距離 ${Math.hypot(EN.x-ex.x,EN.z-ex.z).toFixed(2)}、半徑 ${ex.radius}`); }
@@ -193,7 +195,28 @@ check(`宿舍：交誼廳長桌 ${z.seats.length} 個座位：椅子後面站得
 check('宿舍：走廊兩側的牆是鏡頭碰撞',E.colliders.length>=6,`${E.colliders.length} 個`);
 // 房間（dorm）的出口 → 二樓走廊
 const zr=loadZone('dorm'); const out=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：房間的「走出房間」→ 二樓走廊（第 1 層、房門外）',!!out&&out.exit.spawn.lv===1&&Math.abs(out.exit.spawn.x-HM.x)<1e-6,out&&JSON.stringify(out.exit));
-check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(i=>i.sleep)&&!!E.interactables.find(i=>i.deskStudy)); }
+check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(i=>i.sleep)&&!!E.interactables.find(i=>i.deskStudy));
+// 四人房（DORM-LOFT-L，DORM_ROOM）：每個互動點範圍內站得住、從門口走得到；書桌座位的走近點（ap）走得到；四組床桌、洗手間擋住；房間中間的走道走得通
+{ const R=DORM_ROOM, me=R.units.find(u=>u.id===R.player_unit); const sp=[R.room.spawn[0],R.room.spawn[1],0]; let bad=[];
+  for(const it of E.interactables){ let pt=null; if(E.canStand(it.x,it.z,0.3,0)) pt=[it.x,it.z]; for(let a=0;a<16&&!pt;a++) for(const d of [0.3,0.5,0.7,0.9]){ const x=it.x+Math.sin(a*Math.PI/8)*d, zz=it.z+Math.cos(a*Math.PI/8)*d; if(d<it.radius&&E.canStand(x,zz,0.3,0)){ pt=[x,zz]; break; } }
+    const rr=pt?both(sp,[pt[0],pt[1],0]):{ok:false,reason:'範圍內站不住'}; if(!rr.ok) bad.push(it.label+' '+fmt(rr)); }
+  check('四人房：互動點（'+E.interactables.length+' 個：書桌、睡覺、出口、房間物件）範圍內站得住、從門口走得到',E.interactables.length>=4&&!bad.length,bad.join(' | '));
+  const desk=E.interactables.find(i=>i.deskStudy); check('四人房：玩家的書桌是 '+R.player_unit+'、走近點 ap 站得住也走得到',!!desk&&Math.abs(desk.seat.x-me.seat.x)<1e-6&&E.canStand(desk.seat.ap[0],desk.seat.ap[1],0.3,0)&&both(sp,[desk.seat.ap[0],desk.seat.ap[1],0]).ok);
+  const sl=E.interactables.find(i=>i.sleep); check('四人房：睡覺在梯子前（'+me.sleep+'）',!!sl&&Math.abs(sl.x-me.sleep[0])<1e-6&&Math.abs(sl.z-me.sleep[1])<1e-6);
+  check('四人房：四組床桌、洗手間擋住；房間中間、窗前、兩邊書桌前站得住',R.units.every(u=>!E.nav.free((u.block.x[0]+u.block.x[1])/2,(u.block.z[0]+u.block.z[1])/2))&&!E.nav.free(1.75,2.4)&&[[0,0],[0,-2.6],[-1.5,-0.1],[1.5,-0.1],[1.5,-2.5],[-1.5,-2.5]].every(p=>E.canStand(p[0],p[1],0.3,0)));
+  check('四人房：z.spots（黃金葛、盒子、三盆植物、房間物件、背包）都在走得到的地方附近（0.7 m 內站得住）',Object.entries(zr.spots||{}).every(([k,p])=>{ for(let a=0;a<16;a++) for(const d of [0,0.3,0.5,0.7]){ const x=p[0]+Math.sin(a*Math.PI/8)*d, zz=p[1]+Math.cos(a*Math.PI/8)*d; if(E.canStand(x,zz,0.3,0)&&both(sp,[x,zz,0]).ok) return true; } return false; }),JSON.stringify(zr.spots));
+  check('四人房：年份 sets（法律系 203、經濟系 412）照旗標',typeof zr.dormSet==='function'&&zr.dormSetKey==='203'); }
+// 每一年的房間（AA_183 第 5 節；大二 AA_177、AA_208 7-1 改 312：三樓，房號只是門牌，用二樓 204 那扇門）：203 → 312 → 218（二樓另一頭）→ 105（一樓靠門口）；經濟系 412（門用大一的）
+{ const HS=DM3.HOMES, hm=f=>DM3.homeOf({stage:'law',flags:f}); check('宿舍：房號照年份：大一 203、ROOM_Y2 312、ROOM_Y3 218、ROOM_Y4 105、經濟系 412',hm({}).plate==='203'&&hm({ROOM_Y2:5}).plate==='312'&&hm({ROOM_Y2:5,ROOM_Y3:9}).plate==='218'&&hm({ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12}).plate==='105'&&DM3.homeOf({stage:'econ',flags:{}}).plate==='412'&&hm({}).lv===1&&hm({ROOM_Y2:5}).lv===1);
+  check('宿舍：大一的房門照舊（DORM_LAYOUT.home 的位置）',hm({}).x===L.home.x&&hm({}).lv===L.home.lv&&JSON.stringify(hm({}).spawn)===JSON.stringify(L.home.spawn));
+  loadZone('dorm_hall'); let bad2=[]; for(const k of Object.keys(HS)){ const h=HS[k], sp={x:h.x,z:0.4,lv:h.lv}; if(!E.canStand(sp.x,sp.z,0.32,sp.lv)){ bad2.push(k+' 站不住'); continue; } let rr=both([EN.x,EN.z,0],[sp.x,sp.z,sp.lv]); if(!rr.ok||(rr.lv|0)!==sp.lv) bad2.push(k+' 去 '+fmt(rr)); rr=both([sp.x,sp.z,sp.lv],[EN.x,EN.z,0]); if(!rr.ok) bad2.push(k+' 回 '+fmt(rr)); }
+  check('宿舍：四個房間的門口站得住、從大門走得到、走得回大門',!bad2.length,bad2.join(' | '));
+  const G0=global.GAME; global.GAME={G:{stage:'law',flags:{ROOM_Y2:5}}}; loadZone('dorm_hall'); const I2=E.interactables, hd2=I2.find(i=>i.exit&&i.exit.to==='dorm');
+  check('宿舍：大二：「回房間（312）」在二樓 204 那扇門口；204 的門換成自己的；203 變成關著的寢室',!!hd2&&hd2.label==='回房間（312）'&&(hd2.lv|0)===1&&Math.abs(hd2.x-HS.y2.x)<1e-6&&!I2.some(i=>i.label==='204 寢室')&&I2.some(i=>i.label==='203 寢室'&&i.look),hd2&&JSON.stringify([hd2.label,hd2.lv,hd2.x]));
+  check('宿舍：大二：門口離「回房間」≥ 半徑＋0.3',!!hd2&&Math.hypot(HS.y2.x-hd2.x,0.4-hd2.z)>=hd2.radius+0.3);
+  loadZone('dorm'); const out2=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：大二：房間的「走出房間」→ 二樓 312 門口',!!out2&&out2.exit.spawn.lv===1&&Math.abs(out2.exit.spawn.x-HS.y2.x)<1e-6,out2&&JSON.stringify(out2.exit.spawn));
+  global.GAME={G:{stage:'law',flags:{}}}; loadZone('dorm'); const G1=global.GAME.G; G1.flags.ROOM_Y2=5; DM3.fixRoomExit(E,G1); const out3=E.interactables.find(i=>i.exit&&i.exit.to==='dorm_hall'); check('宿舍：人在房間裡搬（主線 3）：出口就地改成 312',!!out3&&out3.exit.spawn.lv===1&&Math.abs(out3.exit.spawn.x-HS.y2.x)<1e-6);
+  global.GAME=G0; } }
 // ---------- 點樓梯走完一跑（任務 #42）：每一跑樓梯（點地面的透明斜面）兩端站得住、上下走得通 ----------
 for(const id of ['linze','wancai','library_hall','dorm_hall']){ const z=loadZone(id); const ms=z.walkMeshes.filter(m=>m.userData.stairEnds); const bad=[];
   for(const m of ms){ const [a,b]=m.userData.stairEnds; for(const e of [a,b]) if(!E.canStand(e.x,e.z,0.32,e.lv)) bad.push('站不住 '+JSON.stringify(e)); const r=both([a.x,a.z,a.lv],[b.x,b.z,b.lv]); if(!r.ok||(r.lv|0)!==b.lv) bad.push('往上 '+fmt(r)); const r2=both([b.x,b.z,b.lv],[a.x,a.z,a.lv]); if(!r2.ok||(r2.lv|0)!==a.lv) bad.push('往下 '+fmt(r2)); }
@@ -209,4 +232,8 @@ for(const id of ['linze','wancai','library_hall','dorm_hall']){ const z=loadZone
   r=both([s13.x,s13.z+0.6,0],[0,7.7,0]); check('坐完回到門口「離開教室」',r.ok,fmt(r));
   const ts=z.teacherSpot; check('老師站的位置（講台）站得住、地面高度',E.canStand(ts.x,ts.z,0.32,0)&&E.nav.heightAt(ts.x,ts.z)===0);
   r=both([sp.x,sp.z,0],[ts.x+1.5,ts.z+0.6,0]); check('從門口走樓梯（兩側走道）下到講台',r.ok&&Math.abs(r.y)<0.05,fmt(r)); }
+// ---------- 校園擺帳篷的日子（AA_177 第 10 節：大一 2025-11-15；大二起照各年的校慶，「每年 11/15」只留給大一）----------
+{ const F=Z3.fairDayKey; check('帳篷：大一校慶 2025-11-15、大二博覽會 9/16～17、校慶 2026-11-14、大三 2027-11-13、大四 2028-11-11 擺',['2025-11-15','2026-09-16','2026-09-17','2026-11-14','2027-11-13','2028-11-11'].every(k=>F(k,false,[])));
+  check('帳篷：2026-11-15、2027-11-15、2028-11-15 不擺（11/15 只留給大一）',!F('2026-11-15',false,[])&&!F('2027-11-15',false,[])&&!F('2028-11-15',false,[]));
+  check('帳篷：經濟系那一年的博覽會、校慶只在經濟系擺；大一博覽會照 activities 的日子',F('2024-11-09',true,[])&&!F('2024-11-09',false,[])&&F('2025-09-30',false,['2025-09-30'])&&!F('2025-09-30',false,[])); }
 console.log(fails?`FAILED: ${fails}`:'ALL PASS'); process.exit(fails?1:0);

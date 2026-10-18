@@ -66,7 +66,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const holTT=[]; for(let d=W4THU+1;d<=W4THU+14;d++){ const w=CALENDAR.dateOf(d).wd; if((w===2||w===4)&&CALENDAR.holiday(d)) holTT.push(d); }
     check('A9 放假的週二、週四不揪'+(holTT.length?'（'+holTT.map(d=>CALENDAR.dateOf(d).key).join('、')+'）':'（這兩週沒有放假的週二四：只檢查上課日）'),holTT.every(d=>!days.includes(d))&&ps.every(m=>CALENDAR.kind(m.day)==='term'));
     /* 每天的手機小事不被例行訊息擋住 */
-    { const D=termDay(10,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）；第 7 週週二有以安新 3 的群組訊息（劇情訊息，那天本來就不加小事）：用第 10 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'lawclub_study','法服讀書會');
+    { const D=termDay(10,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）；第 7 週週二有以安新 3 的群組訊息（劇情訊息，那天本來就不加小事）：用第 10 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'public_law','公法讀書會');   /* 讓沛珊的講義照片（公法讀書會群組）條件成立；法服讀書會已停用（AA_218 17-4）*/
       run(7.5,8); const pick=G.flags.dpPick; check('A9 週二早上已經排了阿哲的例行訊息，每天的手機小事照樣挑（rt_ 不算劇情訊息）',!!pick&&PHONE.rec(G).q.some(q=>q.tag==='rt_zhe_ndl_'+D),JSON.stringify(pick)); } }
   /* ---------- A10 語 1 ---------- */
   { const e=ev('ev_yu_breakfast'); check('A10 事件存在（ev_yu_breakfast，找小語說話）',!!e&&e.trigger==='interact'&&e.participants[0]==='yu');
@@ -104,14 +104,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const attend=async(flags,setup,pk)=>{ fresh(W4SAT,14,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
     const ok=await attend({},()=>{ meet('heroine_01'); },['大一歲','還在找']); const L=lines();
     check('A11 參加：演迎新（開場→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 17:00',ok&&L[0]==='傅鐘前面，法律系的迎新。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-17)<0.01,JSON.stringify({L,h:G.hour}));
-    check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過一年經濟。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
+    check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過經濟系，一個多月。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
     check('A11 沒見過小語、柏翰：兩句都跳過（只有認識的人在場）',!L.some(t=>/小語自我介紹|她剛剛講了四個/.test(t)));
-    await attend({},()=>{ meet('heroine_01'); },['念過一年經濟','替她答']); const L2=lines();
+    await attend({},()=>{ meet('heroine_01'); },['念過經濟系','替她答']); const L2=lines();
     check('A11 「念過一年經濟」：全場「喔——」、阿哲「哥！」、ECON_PAST_SHARED=full、以安（見過）記 KNOWS_ECON_YEAR',L2.includes('全場「喔——」。')&&L2.includes('哥！')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'),JSON.stringify(L2));
     check('A11 替她答：「她看了你一眼。」「……你怎麼知道。」「關主讓你們過了。」',L2.includes('她看了你一眼。')&&L2.includes('……你怎麼知道。')&&L2.includes('關主讓你們過了。'));
-    await attend({},null,['念過一年經濟']); check('A11 以安沒見過（不在場）：不記 KNOWS_ECON_YEAR，但同學知道（full）',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
+    await attend({},null,['念過經濟系']); check('A11 以安沒見過（不在場）：不記 KNOWS_ECON_YEAR，但同學知道（full）',G.flags.ECON_PAST_SHARED==='full'&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     await attend({ECON_PAST_SHARED:'half'},null,['臺北人']); const h1=G.flags.ECON_PAST_SHARED; await attend({ECON_PAST_SHARED:'full'},null,['大一歲']); const f1=G.flags.ECON_PAST_SHARED;
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
     await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();

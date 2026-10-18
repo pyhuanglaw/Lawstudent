@@ -15,9 +15,11 @@
 const SL3=(function(){
   const LAYOUT=()=>SOCLIB_LAYOUT;
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
-  /* 校園上的門：社科院（CK.modern，(110,−70) 轉 −90°，正面朝西 x=99）一樓玻璃大廳中間的門前；互動點離建築的導航阻擋（x≥98.7）還有半個人 */
-  const DOOR={x:97.9,z:-70,r:1.6};
-  const CAMPUS={x:95.6,z:-70,yaw:-Math.PI/2};   // 從圖書館出來：站在社科院門前、面向西（法學院廣場）；離門的互動點 2.3 m（一出來不會又跳出「進入社科院圖書館」）；兩邊的白色圓柱在 z=−72、−66（2 m 外）
+  /* 校園上的門（舊外觀）：社科院（CK.modern，(110,−70) 轉 −90°，正面朝西 x=99）一樓玻璃大廳中間的門前；互動點離建築的導航阻擋（x≥98.7）還有半個人 */
+  /* 新社科院外觀（ART-01，src/data/socsci_layout.js）：圖書館的門在南牆（中庭那一面）(101,−69.3)；出來站在門前 1.7 m、面向南（中庭）。manifest 沒有新模型時照舊外觀 */
+  const NEW=typeof SOCSCI_LAYOUT!=='undefined'&&typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_socsci'];
+  const DOOR=NEW?Object.assign({},SOCSCI_LAYOUT.libDoor):{x:97.9,z:-70,r:1.6};
+  const CAMPUS=NEW?Object.assign({},SOCSCI_LAYOUT.libOut):{x:95.6,z:-70,yaw:-Math.PI/2};   // 從圖書館出來：站在社科院門前、面向西（法學院廣場）；離門的互動點 2.3 m（一出來不會又跳出「進入社科院圖書館」）；兩邊的白色圓柱在 z=−72、−66（2 m 外）
 
   // ---- 導航（room() 已經擋了牆外）：家具、書架、閘門、服務台、館員區（rects），柱子（circles）----
   /* 格子 0.4 m：比一格薄的東西（閘門兩邊的玻璃欄杆 0.1 m）照原本的大小擋不到任何格子的中心，人會直接穿過去——加寬到蓋住一排格子；

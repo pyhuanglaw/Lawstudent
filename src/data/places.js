@@ -14,7 +14,7 @@ const PLACES={
        遊戲裡只有一樓開架閱覽室，用閱覽室的時間；樓層、借還書服務各自的時間等遊戲做了那些功能再分開。特殊公告（臨時閉館、考試期間延長）沒有做 */
     soclib:{ rules:{ term:{wd:[8+20/60,22],sat:[9,22],sun:[9,17]}, break:{wd:[8+20/60,21],sat:[9,17],sun:null}, holiday:null },
       text:'學期間 週一至五 08:20–22:00、週六 09:00–22:00、週日 09:00–17:00；寒暑假 週一至五 08:20–21:00、週六 09:00–17:00（週日不開）；國定、校定假日不開' }, cvs:{text:'24 小時'},
-    /* 溫州街三家新店（AA_164 1-2，AA-B 定）：照星期（week[0]＝週日）；影印店考試週（第 8～9、17～18 週）開到 24:00。shop：關門的說明寫「開門」「公休」，不推薦去總圖 */
+    /* 溫州街三家新店（AA_164 1-2，AA-B 定）：照星期（week[0]＝週日）；影印店考試週（第 8～9、16 週）開到 24:00。shop：關門的說明寫「開門」「公休」，不推薦去總圖 */
     wz_brunch:{shop:true,rules:{week:[[7.5,15],null,[8,15],[8,15],[8,15],[8,15],[7.5,15]]},text:'週二～週日 08:00–15:00（週末 07:30 開）；週一公休'},
     wz_print:{shop:true,rules:{week:[null,[9,22],[9,22],[9,22],[9,22],[9,22],[9,22]],examClose:24},text:'週一～週六 09:00–22:00（考試週開到 24:00）；週日公休'},
     wz_teahouse:{shop:true,rules:{week:[[12,20],null,null,[12,20],[12,20],[12,20],[12,20]]},text:'週三～週日 12:00–20:00；週一、週二公休'} },
@@ -22,7 +22,7 @@ const PLACES={
      rules 的時間：[開, 關]（小時）；null＝不開。其他地點照舊是每天同一個時間（open／close） */
   /* 有 rules 的地點：這一天的開放時間 [開, 關]、或 null（不開）。day 沒給就用現在的遊戲日（GAME.G.day） */
   windowOf(zone,day){ const o=PLACES.hours[zone]; if(!o||!o.rules) return undefined; if(day==null) day=(typeof GAME!=='undefined'&&GAME.G&&GAME.G.day)||1;
-    if(o.rules.week){ if(typeof CALENDAR==='undefined') return o.rules.week[1]||o.rules.week[3]; const w=o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null; if(o.rules.examClose){ const t=CALENDAR.termOf(day); if(t&&[8,9,17,18].includes(t.week)) return [w[0],o.rules.examClose]; } return w; }   /* 店家：照星期 */
+    if(o.rules.week){ if(typeof CALENDAR==='undefined') return o.rules.week[1]||o.rules.week[3]; const w=o.rules.week[CALENDAR.dateOf(day).wd%7]; if(!w) return null; if(o.rules.examClose){ const t=CALENDAR.termOf(day); if(t&&t.exam) return [w[0],o.rules.examClose]; } return w; }   /* 店家：照星期 */
     if(typeof CALENDAR==='undefined') return o.rules.term.wd;
     const k=CALENDAR.kind(day); if(k==='holiday') return o.rules.holiday||null; const r=o.rules[k]; if(!r) return null; if(!CALENDAR.weekend(day)) return r.wd;
     const wd=CALENDAR.dateOf(day).wd; if(wd===6&&'sat' in r) return r.sat; if(wd===7&&'sun' in r) return r.sun; return r.we; },   /* 週六、週日不一樣的地點寫 sat／sun（社科院圖書館）；一樣的寫 we */
@@ -57,7 +57,7 @@ const PLACES={
   // 大地圖上的地名（沒有入口、或想讓玩家認得的地標）
   landmarks:{
     campus:[ ['校門',-120,0], ['椰林大道',-60,0], ['傅鐘',-38,16.5], ['行政大樓',-38,33], ['共同教學館',2,33], ['大一女舍',-93,67], ['文學院',-38,-34], ['農業陳列館',-104,-30], ['校史館',-77,-29],
-      ['普通教學館',-38,-58.5], ['博雅教學館',-38,-83], ['醉月湖',-36,-112], ['總圖書館',100,0], ['霖澤館',34,-112], ['萬才館',88,-112], ['社會科學院',110,-70], ['小椰林道',30,-40], ['男生宿舍',20,68] ],
+      ['普通教學館',-38,-58.5], ['博雅教學館',-38,-83], ['醉月湖',-36,-112], ['總圖書館',100,0], ['霖澤館',34,-112], ['萬才館',88,-112], ['社會科學院',110,-50], ['社科院圖書館',110,-81], ['小椰林道',30,-40], ['男生宿舍',20,68] ],
     gongguan:[ ['捷運公館站',-36.6,11], ['羅斯福路',20,-6], ['往溫州街',-71,20], ['台大校門',0,-46] ],
     wenzhou:[ ['兩點半 Café',54.2,0], ['小公園',26,6], ['往公館',51.3,-13.4] ]
   }

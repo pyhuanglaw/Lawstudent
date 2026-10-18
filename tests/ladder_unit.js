@@ -82,7 +82,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const wl=LADDER.characters[ZR].greet.when.filter(w=>w.working).map(w=>w.t);
     check('10. 芷若上班中：說上班的短招呼',said.length===1&&(wl.length===0||wl.includes(said[0].t)),said[0]&&said[0].t);
     let off=null; for(let h=8;h<23;h+=0.5){ G.hour=h; if(!STORY.ladWorking(G,ZR)){ off=h; break; } }
-    if(off!=null){ G.hour=off; G.social.ladderDay={}; check('10. 芷若下班：可以推進',STORY.ladNext(G,ZR)===LADDER.characters[ZR].steps[0]); } }
+    if(off!=null){ G.hour=off; G.social.ladderDay={}; G.zone='campus'; check('10. 芷若下班、在校園（Z-L1 不在 Café 推進：baa5c577 的 location，BB-B AA_200 第 2 節第 1 項）：可以推進',STORY.ladNext(G,ZR)===LADDER.characters[ZR].steps[0]); G.zone='cafe'; } }
   // 可昕只在見面／視訊推進
   const KX='kexin', LK=LADDER.characters[KX];
   fresh(D0,20,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true});
@@ -105,8 +105,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('13. 大一下（一學期一個檔）：用大一下的檔、從第 1 層開始；大一上的進度不動、大一下另外記（id@Y1S2）',
       ok===true&&(st.if||st.week||st.location||st.time?true:lines().join('').includes((STORY.ladLines(st)[0]||'').t||STORY.ladLines(st)[0]))&&(G.social.ladder[PS]|0)===y1&&(G.social.ladder[PS+'@Y1S2']|0)<=1,
       JSON.stringify({ok,y1:G.social.ladder[PS],y2:G.social.ladder[PS+'@Y1S2'],said:lines().slice(0,2)})); }
-  fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(PS); R(PS,12); said=[];
-  check('13b. 大二上（沛珊還沒有階梯檔）：ladderTalk 回 false（照舊閒聊）',(await STORY.ladderTalk(GM,who,PS))===false&&said.length===0);
+  { const ZR='heroine_02'; fresh(termDay('Y3S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet(ZR); R(ZR,12); said=[];   /* 大三上芷若在英國（BB_113 第 0 節）：那一學期沒有她的階梯檔 */
+    check('13b. 那一學期沒有這個人的階梯檔（大三上的芷若）：ladderTalk 回 false（照舊閒聊）',!(LADDER.byTerm.Y3S1||{})[ZR]&&(await STORY.ladderTalk(GM,who,ZR))===false&&said.length===0); }
   fresh(termDay('Y2S1',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); said=[];
   check('13c. 大二上以安有檔（AA_141）：資料讀得到、key 是 heroine_01@Y2S1',!!(STORY.ladData(G,'heroine_01')&&STORY.ladData(G,'heroine_01').key==='heroine_01@Y2S1'));
   // any：語彤 Y-L1＝雨天總圖門口或麵店那一次
@@ -115,8 +115,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.events.done.ev_noodle_yutong=D0; check('14. 語彤 Y-L1：麵店那一次發生過（any 其中一個）＝推進',STORY.ladNext(G,YT)===LADDER.characters[YT].steps[0]);
   // linesIf／extraIf（AA 2026-10-16）
   const Y1=LADDER.characters[YT].steps[0];
-  check('15. 語彤 Y-L1 只在麵店認識（沒有雨天總圖門口）：linesIf 換成麵店版的台詞',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(Y1.linesIf[0].lines),JSON.stringify(STORY.ladLines(Y1)));
+  // 2026-10-17 AA_193（125f4d1a）：麵店要先 FIRST_MET（總圖門口認識過），「只在麵店認識」不會發生；linesIf 改成「不下雨那一次（ev_library_door_phone）認識的」
+  G.events.done.ev_library_door_phone=D0;
+  check('15. 語彤 Y-L1 在不下雨的總圖門口認識（ev_library_door_phone）：linesIf 換成「我問你幾點的那個」',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(Y1.linesIf[0].lines)&&/問你幾點/.test(Y1.linesIf[0].lines[0]),JSON.stringify(STORY.ladLines(Y1)));
   G.events.done.ev_rain_library_door=D0; check('15. 雨天總圖門口遇過：照原本的 lines',JSON.stringify(STORY.ladLines(Y1))===JSON.stringify(Y1.lines));
+  check('15. 麵店的初見要先 FIRST_MET（只在麵店認識不會發生）',JSON.stringify(EVENTS.byId?EVENTS.byId('ev_noodle_yutong').prereq:STORY_EVENTS.find(e=>e.id==='ev_noodle_yutong').prereq).includes('FIRST_MET'));
   const Y5=LADDER.characters[YT].steps[4]; const n5=STORY.ladLines(Y5).length;
   SOCIAL.remember(YT,'HELPED',''); const L5=STORY.ladLines(Y5);
   check('16. 語彤 Y-L5 傘給她（HELPED）：extraIf 多說一句',Y5.extraIf&&L5.length===n5+Y5.extraIf[0].lines.length&&L5[L5.length-1]===Y5.extraIf[0].lines[0],JSON.stringify(L5));
@@ -141,16 +144,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 2026-10-16 AA-B 驗收（企劃線 AA_140 G45）：linesIf／extraIf 裡的 week 原本沒有作用（整套丟給 EVENTS.cond，不認得 week＝永遠成立）；greet.when 的 weekParity 原本沒有處理。修改前 21、22 失敗。
   { const A3=LADDER.byTerm.Y1S2.heroine_01.steps.find(s=>s.id==='A2-L3');
     fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
-    check('21. 以安 A2-L3 大一下第 3 週（linesIf 只寫 week 7～18）：用原本的 lines（不說「杜鵑花謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.lines),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
+    check('21. 以安 A2-L3 大一下第 3 週（linesIf 只寫 week 7～18）：用原本的 lines（不說「杜鵑都謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.lines),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
     fresh(termDay('Y1S2',8,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true});
-    check('21. 以安 A2-L3 大一下第 8 週：linesIf 換成「杜鵑花謝了」那一套',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.linesIf[0].lines));
+    check('21. 以安 A2-L3 大一下第 8 週（沒拍過杜鵑）：linesIf 換成 week 7～18 那一套（AA_209 改稿：「杜鵑都謝了」）',JSON.stringify(STORY.ladLines(A3,G,'heroine_01'))===JSON.stringify(A3.linesIf.find(x=>x.week).lines)&&/杜鵑都謝了/.test(A3.linesIf.find(x=>x.week).lines[0]),JSON.stringify(STORY.ladLines(A3,G,'heroine_01')));
     said=[]; fresh(termDay('Y1S2',3,3),12,'campus',{introDone:true,classDone:true,afternoonDone:true}); meet('heroine_01'); R('heroine_01',30,10,10);
     picks=[0]; await STORY.ladPlay(GM,{name:'沈以安',charId:'heroine_01'},'heroine_01',A3);
-    check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑花謝了'),lines().slice(0,2).join('｜')); }
-  { const SIS='heroine_05', DUTY=LADDER.byTerm.Y1S2[SIS].greet.when.find(w=>w.weekParity==='odd').t; let even=0, odd=0;
-    for(let w=1;w<=15;w++){ fresh(termDay('Y1S2',w,6),9,'campus',{introDone:true,classDone:true,afternoonDone:true}); const got=[]; for(let k=0;k<4;k++) got.push(STORY.ladGreet(G,SIS));
-      if(got.includes(DUTY)){ if(w%2) odd++; else even++; } }
-    check('22. 學姊大一下的「今天法服值班」（weekParity odd）：雙週六不出現',even===0,'雙週出現 '+even+' 次');
-    check('22. 單週六上午會出現',odd>=7,'單週出現 '+odd+' 次'); }
+    check('21. ladPlay 實際播出來的也是原本的 lines',lines().join('｜').includes(A3.lines[0])&&!lines().join('｜').includes('杜鵑都謝了'),lines().slice(0,2).join('｜')); }
+  { const W=LADDER.byTerm.Y1S2.heroine_05.greet.when;   // 2026-10-17 BB-C 408398d7：學姊不在法服值班（YT_FAFU／法服方案改），「今天值班」那句拿掉；第 15 週換成畢業典禮那句
+    check('22. 學姊大一下的招呼沒有「今天值班」（weekParity 那一句）',!W.some(w=>w.weekParity)&&!W.some(w=>/值班/.test(w.t)),JSON.stringify(W.map(w=>w.t)));
+    const J=JSON.stringify; check('22. 第 15 週「這週六畢業典禮。不要下雨就好。」、第 16 週「期末了，記得睡覺。」',W.some(w=>J(w.week)==='[15,15]'&&/畢業典禮/.test(w.t))&&W.some(w=>J(w.week)==='[16,16]'&&/記得睡覺/.test(w.t))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

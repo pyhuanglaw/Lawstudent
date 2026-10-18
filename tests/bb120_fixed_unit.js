@@ -35,48 +35,48 @@ const D=id=>STORY.DAILY_PHONE.find(d=>d.id===id);
 const txt=(id,day)=>D(id).items(G,0).map(x=>x.th+'｜'+x.text+(x.dt?'｜+'+Math.round(x.dt*60)+'分':''));
 const hm=x=>{ const m=Math.round((x%24)*60); return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); };
 const termDay=(term,w,wd)=>STORY.termDay(term,w,wd);
-const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',17,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
+const W5TUE=termDay('Y1S1',5,2), W5WED=termDay('Y1S1',5,3), W6THU=termDay('Y1S1',6,4), W17MON=termDay('Y1S1',16,1), W13MON=termDay('Y1S1',13,1), W12MON=termDay('Y1S1',12,1);
 (async()=>{
-  check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 17 週是期末考',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
-  check('每天的手機小事有 BB_120 1-7c 的 14 則（方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','ps_r','ps_c','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&STORY.DAILY_PHONE.length>=23);
+  check('日曆：大一上第 5 週週二是社課（週一、三）的前一天、第 16 週是期末考（16 週制；變數名照舊）',ACTIVITIES.on(ACTIVITIES.list.find(a=>a.id==='club_guitar'),W5WED)&&CALENDAR.termOf(W17MON).exam==='final',JSON.stringify({W5TUE,W5WED,W17MON}));
+  check('每天的手機小事有 BB_120 1-7c 的 12 則（ps_r、ps_c 照 AA_281 第 8 節刪掉；方奕廷寒流前那則是定時的，不在池子裡）',['zq_a1','zq_a2','zq_f1','zq_f2','zq_r1','zq_c1','zq_c2','ps_a','ps_f','fy_tree','fy_pothos','kai_sheet'].every(D)&&!D('fy_cold')&&!D('ps_r')&&!D('ps_c')&&STORY.DAILY_PHONE.length>=21);
   if(!D('zq_a1')){ console.log('FAILED '+fails); process.exit(1); }
   /* ---------- A 子晴 ---------- */
   { fresh(W5TUE,8,'dorm'); PHONE.join(G,'guitar','吉他社'); R('heroine_04',...LV.ACQ);
     check('A 認識：社課前一天 21:00 吉他社群組「明天社課 19:00。萬才館一樓。帶琴。」（多功能教室在萬才館一樓）',D('zq_a1').ok(G,W5TUE)&&D('zq_a1').h(G)===21&&JSON.stringify(txt('zq_a1'))===JSON.stringify(['g:guitar｜明天社課 19:00。萬才館一樓。帶琴。']),JSON.stringify(txt('zq_a1')));
     check('A 認識：不是社課前一天不傳',!D('zq_a1').ok(G,W5WED));
-    check('A 認識：22:10 群組（檔案 cat_v0.3）「測試版。」',D('zq_a2').ok(G,W5TUE)&&hm(D('zq_a2').h(G))==='22:10'&&JSON.stringify(txt('zq_a2'))===JSON.stringify(['g:guitar｜📎 cat_v0.3','g:guitar｜測試版。｜+1分']),JSON.stringify(txt('zq_a2')));
+    check('A 認識：22:10 群組「📎 練習曲_v2.pdf」「新的譜。」（BB_175 D11：貓的遊戲檔名 Q6 以前不出現）',D('zq_a2').ok(G,W5TUE)&&hm(D('zq_a2').h(G))==='22:10'&&JSON.stringify(txt('zq_a2'))===JSON.stringify(['g:guitar｜📎 練習曲_v2.pdf','g:guitar｜新的譜。｜+1分']),JSON.stringify(txt('zq_a2')));
     run(8,24); const L=dp().map(m=>m.th+'｜'+m.text);
     check('A 認識：實際走過一天，21:00 收到群組的社課提醒（一天一則）',JSON.stringify(L)===JSON.stringify(['g:guitar｜明天社課 19:00。萬才館一樓。帶琴。']),JSON.stringify(L));
     G.contacts.heroine_04=W5TUE-3; check('A 有點熟以前，私訊的幾則都不傳',['zq_f1','zq_f2','zq_r1','zq_c1','zq_c2'].every(id=>!D(id).ok(G,W5TUE)));
     R('heroine_04',...LV.FAM); check('A 有點熟：認識的兩則不再傳（只在那個階段）',!D('zq_a1').ok(G,W5TUE)&&!D('zq_a2').ok(G,W5TUE));
-    check('A 有點熟：私訊一句拆五則（滷味 21:30、貓卡在牆裡 23:00）',D('zq_f1').ok(G,W5TUE)&&D('zq_f2').ok(G,W5TUE)&&D('zq_f1').h(G)===21.5&&D('zq_f2').h(G)===23&&txt('zq_f1').join('/')==='p:heroine_04｜欸不是/p:heroine_04｜滷味/p:heroine_04｜十點後/p:heroine_04｜半價/p:heroine_04｜你要來'&&txt('zq_f2').join('/')==='p:heroine_04｜欸不是/p:heroine_04｜我的貓/p:heroine_04｜卡在牆裡/p:heroine_04｜出不來/p:heroine_04｜不用回',txt('zq_f1').join('/')+' ＃ '+txt('zq_f2').join('/'));
+    check('A 有點熟：私訊一句拆好幾則（滷味 21:30、貓卡在牆裡 23:00；BB_175 D12、D13 拿掉「欸不是」）',D('zq_f1').ok(G,W5TUE)&&D('zq_f2').ok(G,W5TUE)&&D('zq_f1').h(G)===21.5&&D('zq_f2').h(G)===23&&txt('zq_f1').join('/')==='p:heroine_04｜滷味/p:heroine_04｜十點後半價/p:heroine_04｜你要來嗎'&&txt('zq_f2').join('/')==='p:heroine_04｜我的貓/p:heroine_04｜卡在牆裡/p:heroine_04｜出不來/p:heroine_04｜……不用回',txt('zq_f1').join('/')+' ＃ '+txt('zq_f2').join('/'));
     delete G.contacts.heroine_04; check('A 有點熟：沒有她的私人聯絡方式就不傳私訊',!D('zq_f1').ok(G,W5TUE)); G.contacts.heroine_04=W5TUE-3;
     G.contacts.heroine_04=W5TUE; check('A 今天才拿到聯絡方式：不和第一則訊息同一天',!D('zq_f1').ok(G,W5TUE)); G.contacts.heroine_04=W5TUE-3;
     R('heroine_04',...LV.FRI);
-    check('A 朋友：22:10 私訊 cat_v0.9「這版貓會爬樓梯。」、22:40 吉他社群組「新版本。測試的人報名。」（你先拿到）',D('zq_r1').ok(G,W5TUE)&&hm(D('zq_r1').h(G))==='22:10'&&JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜📎 cat_v0.9','p:heroine_04｜這版貓會爬樓梯。｜+1分','g:guitar｜新版本。測試的人報名。｜+30分']),JSON.stringify(txt('zq_r1')));
+    check('A 朋友、還沒看過 Q6：22:10 私訊吉他錄音三則、群組不發（BB_175 D14）',D('zq_r1').ok(G,W5TUE)&&hm(D('zq_r1').h(G))==='22:10'&&JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜你聽過這首嗎','p:heroine_04｜📎（一段吉他錄音）｜+1分','p:heroine_04｜我自己錄的 很爛不要笑｜+2分']),JSON.stringify(txt('zq_r1')));
+    G.events.done.ev_ziqing_secret_game=1; check('A 朋友、看過 Q6：22:10 私訊 cat_v0.9「這版貓會爬樓梯。」、22:40 吉他社群組「新版本 要測的人報名」（你先拿到）',JSON.stringify(txt('zq_r1'))===JSON.stringify(['p:heroine_04｜📎 cat_v0.9','p:heroine_04｜這版貓會爬樓梯。｜+1分','g:guitar｜新版本 要測的人報名｜+30分']),JSON.stringify(txt('zq_r1')));
     const g0=G.msgs.length; G.flags.dpPick={id:'zq_r1',day:G.day}; run(22.1,23); const M=G.msgs.slice(g0).map(m=>hm(m.h!=null?m.h:G.hour)+'｜'+m.th+'｜'+m.text);
     check('A 朋友：實際收到的時間（私訊 22:10、群組 22:40）',G.msgs.slice(g0).length===3&&G.msgs.slice(g0)[2].th==='g:guitar',JSON.stringify(G.msgs.slice(g0).map(m=>m.th+'｜'+m.text)));
     R('heroine_04',...LV.CLO);
-    check('A 好朋友：「你今天吃飯了嗎。」「這是問句。」',D('zq_c1').ok(G,W5TUE)&&txt('zq_c1').join('/')==='p:heroine_04｜你今天吃飯了嗎。/p:heroine_04｜這是問句。｜+1分',txt('zq_c1').join('/'));
-    check('A 好朋友：期末考那兩週才問「期末考還好嗎。」「這是問句。」「……不用回很長。」',!D('zq_c2').ok(G,W5TUE)&&D('zq_c2').ok(G,W17MON)&&txt('zq_c2').map(s=>s.split('｜')[1]).join('/')==='期末考還好嗎。/這是問句。/……不用回很長。');
-    PHONE.rec(G).groups={}; check('A 朋友：不在吉他社群組，只有私訊那兩則',(R('heroine_04',...LV.FRI),D('zq_r1').items(G,0).length===2)); }
+    check('A 好朋友：「你今天有吃飯嗎」（BB_175 D15：「這是問句」留給 Q11）',D('zq_c1').ok(G,W5TUE)&&txt('zq_c1').join('/')==='p:heroine_04｜你今天有吃飯嗎',txt('zq_c1').join('/'));
+    check('A 好朋友：期末考那一週才問（16 週制）「期末考還好嗎」「不用回很長」（BB_175 D16）',!D('zq_c2').ok(G,W5TUE)&&D('zq_c2').ok(G,W17MON)&&txt('zq_c2').map(s=>s.split('｜')[1]).join('/')==='期末考還好嗎/不用回很長');
+    PHONE.rec(G).groups={}; check('A 朋友（看過 Q6）：不在吉他社群組，只有私訊那兩則',(R('heroine_04',...LV.FRI),D('zq_r1').items(G,0).length===2)); }
   /* ---------- B 沛珊 ---------- */
-  { fresh(W5TUE,8,'dorm'); PHONE.join(G,'lawclub_study','法服讀書會'); R('classmate_peishan',...LV.ACQ);
-    check('B 認識：讀書會群組 23:10「睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？」「大家明天可以回答。」',D('ps_a').ok(G,W5TUE)&&hm(D('ps_a').h(G))==='23:10'&&JSON.stringify(txt('ps_a'))===JSON.stringify(['g:lawclub_study｜睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？','g:lawclub_study｜大家明天可以回答。｜+1分']),JSON.stringify(txt('ps_a')));
-    const thu=termDay('Y1S1',5,4); fresh(thu,8,'dorm',{dpN:{peishan_handout:1}}); PHONE.join(G,'lawclub_study','法服讀書會'); R('classmate_peishan',...LV.ACQ);   /* 週二是讀書會前一天（先輪到學姊的提醒）；講義照片那則已經傳過 */
-    run(8,24); check('B 認識：實際走過一天，23:10 收到（她的問題，問所有人）',dp().map(m=>m.text).join('/')==='睡前想到一個問題：一條規定沒有人知道，它還算規定嗎？/大家明天可以回答。',dp().map(m=>m.text).join('/'));
+  { fresh(W5TUE,8,'dorm'); PHONE.join(G,'public_law','公法讀書會'); R('classmate_peishan',...LV.ACQ);   /* BB_191 §8-7：沛珊的問題改在公法讀書會群組 */
+    check('B 認識：公法讀書會群組 23:10「睡前突然想到」…「大家明天再回就好」（BB_175 D17）',D('ps_a').ok(G,W5TUE)&&hm(D('ps_a').h(G))==='23:10'&&JSON.stringify(txt('ps_a'))===JSON.stringify(['g:public_law｜睡前突然想到','g:public_law｜如果有人把東西忘在教室，隔天被別人拿走，這樣算偷嗎？｜+1分','g:public_law｜大家明天再回就好｜+2分']),JSON.stringify(txt('ps_a')));
+    const thu=termDay('Y1S1',5,4); fresh(thu,8,'dorm',{dpN:{peishan_handout:1}}); PHONE.join(G,'public_law','公法讀書會'); R('classmate_peishan',...LV.ACQ);   /* 週二是讀書會前一天（先輪到學姊的提醒）；講義照片那則已經傳過 */
+    run(8,24); check('B 認識：實際走過一天，23:10 收到（她的問題，問所有人）',dp().map(m=>m.text).join('/')==='睡前突然想到/如果有人把東西忘在教室，隔天被別人拿走，這樣算偷嗎？/大家明天再回就好',dp().map(m=>m.text).join('/'));
     G.contacts.classmate_peishan=W5TUE-3; R('classmate_peishan',...LV.FAM);
-    check('B 有點熟：23:20 私訊書頁照片、23:21「這行讓我想到讀書會那題。你不用回。」',!D('ps_a').ok(G,W5TUE)&&D('ps_f').ok(G,W5TUE)&&hm(D('ps_f').h(G))==='23:20'&&JSON.stringify(txt('ps_f'))===JSON.stringify(['p:classmate_peishan｜📷（一頁書，劃了一行線）','p:classmate_peishan｜這行讓我想到讀書會那題。你不用回。｜+1分']),JSON.stringify(txt('ps_f')));
+    check('B 有點熟：23:20 私訊書頁照片、「這行讓我想到讀書會那題」「你不用回喔」（BB_175 D18）',!D('ps_a').ok(G,W5TUE)&&D('ps_f').ok(G,W5TUE)&&hm(D('ps_f').h(G))==='23:20'&&JSON.stringify(txt('ps_f'))===JSON.stringify(['p:classmate_peishan｜📷（一頁書，劃了一行線）','p:classmate_peishan｜這行讓我想到讀書會那題｜+1分','p:classmate_peishan｜你不用回喔｜+2分']),JSON.stringify(txt('ps_f')));
     R('classmate_peishan',...LV.FRI); const sat=termDay('Y1S1',5,6);
-    check('B 朋友：上課日的長訊息，最後問你（週六不傳：「今天老師說」）',D('ps_r').ok(G,W5TUE)&&!D('ps_r').ok(G,sat)&&txt('ps_r').map(s=>s.split('｜')[1]).join('/')==='今天老師說，法律是最低限度的道德。/我抄下來了。可是回家的路上一直在想：/那最高限度的，是誰在管？/……你覺得呢？');
-    R('classmate_peishan',...LV.CLO);
-    check('B 好朋友：23:05「今天我沒有問題。」23:06「你有的話，我在。」',D('ps_c').ok(G,W5TUE)&&hm(D('ps_c').h(G))==='23:05'&&JSON.stringify(txt('ps_c'))===JSON.stringify(['p:classmate_peishan｜今天我沒有問題。','p:classmate_peishan｜你有的話，我在。｜+1分']),JSON.stringify(txt('ps_c'))); }
+    check('B 朋友、好朋友：她不再主動傳深夜長訊息（ps_r、ps_c 刪掉，AA_281 第 8 節 M5、M6）',!D('ps_r')&&!D('ps_c'));
+    R('classmate_peishan',...LV.CLO); }
   /* ---------- C 方奕廷「學弟好」---------- */
   { const oct=(()=>{ for(let d=1;d<200;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&CALENDAR.dateOf(d).m===10&&CALENDAR.dateOf(d).wd===2) return d; } return null; })(), sep=(()=>{ for(let d=1;d<60;d++){ const t=CALENDAR.termOf(d); if(t&&t.id==='Y1S1'&&t.week>=4&&CALENDAR.dateOf(d).m===9) return d; } return null; })(), nov=termDay('Y1S1',10,2);
     fresh(oct,8,'dorm',{POTHOS:true}); G.contacts.npc_fangyt=oct-5; R('npc_fangyt',...LV.ACQ);
     check('C 九、十月：「學弟好。舟山路的台灣欒樹開花了。」＋學名照片＋「很漂亮。」（20:30）',D('fy_tree').ok(G,oct)&&D('fy_tree').h(G)===20.5&&txt('fy_tree').map(s=>s.split('｜')[1]).join('/')==='學弟好。舟山路的台灣欒樹開花了。/📷 Koelreuteria elegans。秋天先開黃花，再結粉紅色的果。/很漂亮。',txt('fy_tree').join('/'));
     check('C 十月：欒樹那則還沒傳，黃金葛那則先不傳；傳過以後才傳',CALENDAR.dateOf(oct).m===10&&!D('fy_pothos').ok(G,oct)&&(G.flags.dpN={fy_tree:1},D('fy_pothos').ok(G,oct)),'第 '+oct+' 天＝'+CALENDAR.dateOf(oct).m+' 月');
-    G.flags.dpN={}; check('C 十一月：黃金葛「學弟好。你的黃金葛葉子，最近有沒有變黃？」…「拍給我看。」；欒樹不傳了',CALENDAR.dateOf(nov).m===11&&D('fy_pothos').ok(G,nov)&&!D('fy_tree').ok(G,nov)&&txt('fy_pothos').map(s=>s.split('｜')[1]).join('/')==='學弟好。你的黃金葛葉子，最近有沒有變黃？/變黃通常是水太多。不是你的錯，是它比較挑。/拍給我看。','第 '+nov+' 天＝'+CALENDAR.dateOf(nov).m+' 月');
+    G.flags.dpN={}; check('C 十一月：黃金葛「學弟好。你的黃金葛葉子，最近有沒有變黃？」…「拍給我看。」；欒樹不傳了',CALENDAR.dateOf(nov).m===11&&D('fy_pothos').ok(G,nov)&&!D('fy_tree').ok(G,nov)&&txt('fy_pothos').map(s=>s.split('｜')[1]).join('/')==='學弟好。你的黃金葛葉子，最近有沒有變黃？/變黃通常是水澆太多，它比較挑，不一定是你的問題。/拍給我看。','第 '+nov+' 天＝'+CALENDAR.dateOf(nov).m+' 月');
     { const cold=STORY.firstColdDay(), F0=Object.assign({},G.flags,{POTHOS:true}), C0=Object.assign({},G.contacts); fresh(cold-1,8,'dorm',F0); G.contacts=C0; R('npc_fangyt',...LV.ACQ); run(8,21); const M=G.msgs.filter(m=>m.tag==='fy_cold'||(m.th==='p:npc_fangyt'&&/寒流|怕冷/.test(m.text)));
       check('C 寒流前（BB 2fdef19）：第一波寒流（大一上第 15 週週一）的前一晚 20:30「學弟好。明天寒流。黃金葛不要放窗邊。」「它怕冷。我也是。」',cold===termDay('Y1S1',15,1)&&M.map(m=>m.text).join('/')==='學弟好。明天寒流。黃金葛不要放窗邊。/它怕冷。我也是。'&&CALENDAR.dateOf(cold-1).wd===7,JSON.stringify(M.map(m=>m.text)));
       fresh(cold-1,8,'dorm',F0); G.contacts=C0; R('npc_fangyt',...LV.FAM); run(8,21); check('C 寒流前：有點熟以後不說「學弟好」，不傳',!G.msgs.some(m=>/寒流/.test(m.text||'')));

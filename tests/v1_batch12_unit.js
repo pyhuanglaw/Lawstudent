@@ -78,7 +78,12 @@ const KX={dating_kexin:true};
   { fresh(FRI3,8,'campus',KX); run(8,20); keepOn(FRI4,8,'campus'); run(8,21); check('K1：第一次沒回＝不會有第二次邀約',!ask('kx_tour_ask2')); }
   /* ---------- K3、CG-14：中秋烤肉 ---------- */
   const BBQ=ev('ev_mid_autumn_bbq'), SATB=termDay(5,6);
-  const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,flags||{})); if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
+  const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
+  { const g=async(f,pk)=>{ const r=await bbq(Object.assign({ZHE_CALLS_GE:false},f||{}),null,pk); return r.L; };
+    let L=await g({},['我大一歲']); check('CAMP-FIX-614 程式 7（AA_195 4-9）：中秋烤肉還沒有「哥」→ 阿哲「欸，你幾年次的？…」→「我大一歲。」→「那我們叫你哥？」…、記 ZHE_CALLS_GE',L.includes('欸，你幾年次的？感覺你比我們大一點。')&&L.includes('那我們叫你哥？')&&G.flags.ZHE_CALLS_GE===true);
+    L=await g({},['跟你們一樣啦']); check('　選「跟你們一樣啦。」→「好喔。」、沒有 ZHE_CALLS_GE',L.includes('好喔。')&&!G.flags.ZHE_CALLS_GE);
+    L=await g({ECON_PAST_SHARED:'full'},['我不是說過了嗎']); check('　已經說過念過經濟：「我不是說過了嗎？」→「對齁。哥。」',L.includes('對齁。哥。')&&G.flags.ZHE_CALLS_GE===true);
+    L=await g({ZHE_CALLS_GE:true},[]); check('　已經有「哥」的不問',!L.includes('欸，你幾年次的？感覺你比我們大一點。')); }
   { let r=await bbq({KX_BBQ_COME:true},null,['我女朋友','可昕贏']);
     check('K3：比冷笑話「可昕贏」→「我練過。經濟系有一個人，冷笑話講到全營地睡著。」（BB 2026-10-14）、沒有「好，我回去練。」',r.L.includes('我練過。經濟系有一個人，冷笑話講到全營地睡著。')&&!r.L.includes('好，我回去練。')&&G.flags.KX_JOKE==='kexin',JSON.stringify(r.L.slice(-3)));
     r=await bbq({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);
@@ -93,7 +98,7 @@ const KX={dating_kexin:true};
   /* ---------- CG-15：跨年 ---------- */
   { const ROOF=ev('ev_nye_roof'), RIVER=ev('ev_nye_river'); const D=termDay(16,3);
     fresh(D,23,'campus',KX); cgs=[]; picks=[]; await EVENTS.run(ROOF); let L=lines();
-    check('CG-15：頂樓版「頂樓的跨年」在第一句旁白出現、只一張',cgs.length===1&&cgs[0].id==='cg_nye_rooftop'&&cgs[0].at===0&&/^大家本來想去看煙火/.test(L[0]||''),JSON.stringify({cg:cgs,L0:L[0]}));
+    check('CG-15：頂樓版「頂樓的跨年」在第一句旁白出現、只一張',cgs.length===1&&cgs[0].id==='cg_nye_rooftop'&&cgs[0].at===0&&/^（十一點四十，男生宿舍頂樓。/.test(L[0]||'')   /* AA_204 2-3（27711a39）的頂樓第一句 */,JSON.stringify({cg:cgs,L0:L[0]}));
     fresh(D,23,'campus',Object.assign({},KX,{KX_NYE:{1:'roof'}})); cgs=[]; picks=[]; await EVENTS.run(ROOF); L=lines();
     check('CG-15：和可昕視訊的頂樓版：一樣只一張、在第一句；視訊在這張之後',cgs.length===1&&cgs[0].at===0&&L.length>3,JSON.stringify({cg:cgs,n:L.length}));
     fresh(D,23,'campus',Object.assign({},KX,{KX_NYE:{1:'river'}})); cgs=[]; picks=[]; await EVENTS.run(RIVER);

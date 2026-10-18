@@ -22,20 +22,20 @@ const fresh=(day)=>{ G={day,hour:15,weekday:CALENDAR.dateOf(day).wd%7,zone:'camp
 const ST=id=>SMALLTALK[id]||[];
 const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
 /* ---------- 7-1 五處改字 ---------- */
-{ const e=line('classmate_bohan',/第一科期中考/);
-  check('柏翰：「我算過了，離第一科期中考還有{n}天。……我不是在倒數，是在排進度。」（midterm 7～14、每學期一次）；舊的「二十一天」拿掉了',!!e&&JSON.stringify(e.midterm)==='[7,14]'&&e.once==='term'&&!ST('classmate_bohan').some(q=>/二十一天/.test(typeof q==='string'?q:q.t)));
+{ const e=line('classmate_bohan',/期中還有/);   /* AA_209 附錄A §2 改字 */
+  check('柏翰：「期中還有{n}天，我排了一份進度表，要的話傳你。」（AA_209；midterm 7～14、每學期一次）；舊的「二十一天」拿掉了',!!e&&JSON.stringify(e.midterm)==='[7,14]'&&e.once==='term'&&!ST('classmate_bohan').some(q=>/二十一天/.test(typeof q==='string'?q:q.t)));
   const mid=dOf('Y1S1',8,1);   /* 第 8 週週一（期中考週的第一天）*/ fresh(mid-10); const n=STORY.daysToMidterm(G); const first=(()=>{ for(let d=mid-10;d<mid+14;d++){ if(CLS.dayItems(G,d).some(it=>it.exam==='mid')) return d; } return null; })();
   check('天數＝今天到這學期第一個期中考時段（照課表與日曆）',n===first-(mid-10),'n='+n+'，第一科在 '+(first&&CALENDAR.dateOf(first).key));
-  const said=[]; for(let k=0;k<30;k++){ fresh(mid-20+k); G.social.small={classmate_bohan:{day:0,used:['「你有看今天的判決嗎？」'],last:null}}; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中考/.test(L.say)) said.push(STORY.daysToMidterm(G)+':'+L.say); }
+  const said=[]; for(let k=0;k<30;k++){ fresh(mid-20+k); G.social.small={classmate_bohan:{day:0,used:['「我在寫考古題，第二題卡住了。」'],last:null}}; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) said.push(STORY.daysToMidterm(G)+':'+L.say); }
   check('只在 7～14 天前說，句子裡的天數是那一天算出來的（中文數字）',said.length>0&&said.every(t=>{ const n=+t.split(':')[0]; return n>=7&&n<=14&&t.includes('還有'+STORY.zhNum(n)+'天'); }),said.slice(0,3).join(' / '));
-  fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中考/.test(L.say)) again=true; }
+  fresh(mid-10); G.social.small={classmate_bohan:{day:0,used:[],last:null,once:{[e.t]:'Y1S1'}}}; let again=false; for(let k=0;k<3;k++){ G.day=mid-10+k; G.social.small.classmate_bohan.day=0; const L=STORY.smallTalk(G,'classmate_bohan'); if(L.say&&/期中還有/.test(L.say)) again=true; }
   check('同一學期說過就不再說（once:term）',!again); }
-{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過一年經濟系/.test(e.t));
+{ const L=ST('classmate_xinci').filter(e=>typeof e==='object'&&/雙主修|自學過一點經濟|念過經濟系，我只問/.test(e.t));
   check('芯慈：「經濟系那邊的課比較輕鬆」拿掉，換成三個版本（大一上、下；雙主修事件以後不說）',L.length===3&&L.every(e=>JSON.stringify(e.term)==='["Y1S1","Y1S2"]'&&e.if&&JSON.stringify(e.if.notEvents)==='["ev_xinci_double"]')&&!ST('classmate_xinci').some(q=>/比較輕鬆/.test(typeof q==='string'?q:q.t)));
   const pick=v=>{ fresh(dOf('Y1S1',6,3)); if(v) G.flags.ECON_PAST_SHARED=v; const out=[]; for(const e of L){ const ok=(!e.if||EVENTS.cond(e.if))&&(!e.unless||!EVENTS.cond(e.unless)); if(ok) out.push(e.t.slice(1,10)); } return out.join('|'); };
-  check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過一年那句',pick(null)==='雙主修經濟要多修好'&&pick('none')==='雙主修經濟要多修好'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過一年經濟系，',[pick(null),pick('half'),pick('full')].join(' / ')); }
+  check('不知道／none：只有排三個版本那句；half：自學過那句；full：念過經濟系那句（AA_224 第 2 組）',pick(null)==='雙主修要多修好多學'&&pick('none')==='雙主修要多修好多學'&&pick('half')==='你說你自學過一點經'&&pick('full')==='你念過經濟系，我只',[pick(null),pick('half'),pick('full')].join(' / ')); }
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_xinci_double');
-  check('ev_xinci_double：「經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。」、大一下、第 195～208 天（2026-03-30～04-12）',ev.dialogue[0].text==='（小聲）經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'&&JSON.stringify(ev.term)==='["Y1S2"]'&&ev.day_min===195&&ev.day_max===208&&dayOf('2026-03-30')===195&&dayOf('2026-04-12')===208);
+  check('ev_xinci_double：（AA_209：開頭一句旁白、（小聲）拿掉）「經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。」、大一下第 6～7 週＝2026-03-30～04-12（START-WEEK 選 1 起寫成週次，日期和原本的第 195～208 天一樣）',ev.dialogue[0].text==='（總圖裡，她壓低聲音。）'&&ev.dialogue[1].text==='經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'&&JSON.stringify(ev.term)==='["Y1S2"]'&&JSON.stringify(ev.weeks)==='[6,7]'&&!ev.day_min&&!ev.day_max&&(()=>{ for(let d=180;d<=220;d++){ const t=CALENDAR.termOf(d), inW=!!t&&t.id==='Y1S2'&&(t.week===6||t.week===7); if(inW!==(d>=dayOf('2026-03-30')&&d<=dayOf('2026-04-12'))) return false; } return true; })());
   check('第 195、208 天是大一下第 6、7 週',CALENDAR.termOf(195).id==='Y1S2'&&CALENDAR.termOf(195).week===6&&CALENDAR.termOf(208).week===7,CALENDAR.termOf(195).week+'、'+CALENDAR.termOf(208).week); }
 { const e=ST('prof_huang')[0]; check('黃教授：「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」，沒有課程條件（2026-10-14 課程調整：法律與社會刪了，AA_130 第 2 節第 3 列）',e==='「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'&&ST('prof_huang').length===1,JSON.stringify(ST('prof_huang'))); }
 { const e=line('yu',/辯論社下週/); check('小語：「辯論社下週辯『網拍標錯價要不要出貨』。」、第 4～6 週、大一上、一次',!!e&&e.t==='「辯論社下週辯『網拍標錯價要不要出貨』。」'&&JSON.stringify(e.week)==='[4,6]'&&e.once===true); }
@@ -72,7 +72,7 @@ check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
 /* ---------- 7-5 ---------- */
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_rain_library_door'); fresh(10); check('雨天的總圖門口：還沒見過語彤才演（notMemory FIRST_MET），對話沒動',JSON.stringify(ev.prereq)==='{"notMemory":[{"npc":"heroine_03","tag":"FIRST_MET"}]}'&&EVENTS.cond(ev.prereq)&&(SOCIAL.meet('heroine_03','campus'),!EVENTS.cond(ev.prereq))&&ev.dialogue[1].text==='……'); }
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_zhiruo_ge_group');
-  check('經原分組：標題「經原分組」、大一上、週五、12:06–13:00、普通教學館、第 10 天起（2025-09-26 第 4 週週五），沒有 FIRST_MET 前置',ev.title==='經原分組'&&JSON.stringify(ev.term)==='["Y1S1"]'&&JSON.stringify(ev.weekday)==='[5]'&&JSON.stringify(ev.time)==='[12.1,13]'&&ev.location==='putong'&&ev.day_min===10&&dayOf('2025-09-26')===10&&CALENDAR.termOf(10).week===4&&!(ev.prereq&&ev.prereq.memory)&&ev.dialogue[0].text==='欸！法律系！你也修「經濟學原理」？'); }
+  check('經原分組：標題「經原分組」、大一上、週五、12:06–13:00、普通教學館、第 4 週週五起（2025-09-26；AA_195 4-7 A4 起改看週次 minWeek，不再用 day_min 10），沒有 FIRST_MET 前置',ev.title==='經原分組'&&JSON.stringify(ev.term)==='["Y1S1"]'&&JSON.stringify(ev.weekday)==='[5]'&&JSON.stringify(ev.time)==='[12.1,13]'&&ev.location==='putong'&&!ev.day_min&&ev.minWeek&&ev.minWeek.term==='Y1S1'&&ev.minWeek.week===4&&dayOf('2025-09-26')===10&&CALENDAR.termOf(10).week===4&&!(ev.prereq&&ev.prereq.memory)&&ev.dialogue[0].text==='欸！法律系！你也修「經濟學原理」？'); }
 { const ev=STORY_EVENTS.find(e=>e.id==='ev_zhiruo_bell'); const ch=ev.dialogue.find(d=>d.choice).choice;
   check('傅鐘：「剛下外文系的課。今天一句詩翻了一整堂。」、經原那個選項要 Z2 之後、「發呆是下課最重要的部分。」',ev.dialogue[0].text==='剛下外文系的課。今天一句詩翻了一整堂。'&&ch[0].text==='「週五的經原，妳聽得懂供給曲線嗎？」'&&JSON.stringify(ch[0].if)==='{"events":["ev_zhiruo_ge_group"]}'&&ev.dialogue.some(d=>d.text==='發呆是下課最重要的部分。'));
   fresh(10); const vis=()=>ch.filter(c=>(!c.if||EVENTS.cond(c.if))&&(!c.unless||!EVENTS.cond(c.unless))).map(c=>c.text.slice(1,6)).join('|');

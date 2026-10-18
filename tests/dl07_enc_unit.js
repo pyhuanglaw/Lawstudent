@@ -1,5 +1,5 @@
 // DL-07 自由出行的偶遇第一批（AA_160 第 5 節、BB_144、AA_162）——不需要瀏覽器。
-// 檢查：人物表 15 列和作息（characters.js 的 away 有 enc 那一筆）一致；劇情事件不讀 ENC_（R7）；
+// 檢查：人物表 37 列和作息（characters.js 的 away 有 enc 那一筆）一致；劇情事件不讀 ENC_（R7）；
 //       誰會出現（星期、時段、學期、單雙週、多熟、旗標、下雨的戶外、期末考週、今天有約、今天遇過、作息不在、經濟系那一年、前任、可昕的走向）；
 //       擲一次就固定（同一天同一時段一樣、60%、前任權重一半）；到達／散步後才遇到；打招呼（聊天 +、記憶、紀錄）／不打擾（什麼都沒有）／前任（不加數值）；
 //       之後在學校說一句、手機那兩則（隔天以後、一次）。
@@ -14,16 +14,16 @@ global.SOCIAL={STAGES:['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIE
   stage:id=>GG.flags['dating_'+id]?'RELATIONSHIP':(STAGE[id]||'ACQUAINTANCE'),displayName:id=>(CHARACTERS[id]&&CHARACTERS[id].name)||id,
   has:(id,tag)=>!!(GG.social.mem[id]&&GG.social.mem[id].some(m=>m.tag===tag)),remember:(id,tag)=>{ (GG.social.mem[id]||(GG.social.mem[id]=[])).push({tag,day:GG.day}); },activity:(id,k)=>{ ACTS.push(id+':'+k); return {}; }};
 global.EVENTS={cond:c=>(c.flags||[]).every(f=>GG.flags[f]),npcOf:()=>null,onEnter(){},tick(){}};
-for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/places.js','src/story3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js'])
-  vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|OUT|FREE_TRIPS|TRIP|ENCOUNTERS|ENC)\s*=/mg,'global.$1='),{filename:f});
+for(const f of ['src/data/calendar.js','src/data/characters.js','src/data/places.js','src/story3d.js','src/outings3d.js','src/home3d.js','src/data/free_trips.js','src/freetrip3d.js','src/data/encounters.js','src/encounter3d.js'])
+  vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CALENDAR|CHARACTERS|STORY|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|OUT|HOME|FREE_TRIPS|TRIP|ENCOUNTERS|ENC)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-check('1. 有 ENC（eligible、decide、check、meet、schoolLine、phoneReady），人物表 15 列',typeof ENC!=='undefined'&&['eligible','decide','check','meet','schoolLine','phoneReady','afterWalk','atArrive'].every(k=>typeof ENC[k]==='function')&&ENCOUNTERS.rows.length===15,String(ENCOUNTERS.rows.length));
+check('1. 有 ENC（eligible、decide、check、meet、schoolLine、phoneReady），人物表 37 列（第三批 AA_271 加 6、BB_213 加 5；第二批 AA_162 第 8 節加 6、BB_150 加 5）',typeof ENC!=='undefined'&&['eligible','decide','check','meet','schoolLine','phoneReady','afterWalk','atArrive'].every(k=>typeof ENC[k]==='function')&&ENCOUNTERS.rows.length===37,String(ENCOUNTERS.rows.length));
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 // 1. 資料一致
 { const bad=[]; for(const r of ENCOUNTERS.rows){ if(r.kexin) continue; const e=(CHARACTERS[r.who].daily_schedule||[]).find(q=>q.enc===r.spot&&q.from===r.from&&q.to===r.to); if(!e||e.zone!==null||e.act!=='out'||e.away!==r.away||e.days.join()!==r.days.join()||(r.terms||null)&&JSON.stringify(e.terms)!==JSON.stringify(r.terms)&&!(e.terms&&r.terms==null)) bad.push(r.who+'@'+r.spot); }
   check('1. 每一列（可昕以外）在 characters.js 有同一個時段的 away（enc、星期、學期一樣）',!bad.length,bad.join(' '));
   const n={D04:0,D06:0,D12:0,D13:0}; for(const r of ENCOUNTERS.rows) n[r.spot]++; check('1. 四個景點：西門町 6、北美館 4、大稻埕 3、淡水 2（AA_160 5-6）',n.D04===6&&n.D06===4&&n.D12===3&&n.D13===2,JSON.stringify(n));
-  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句',memos.length===11&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
+  const memos=ENCOUNTERS.rows.map(r=>r.memo).filter(Boolean); check('1. 每個 memo 都有人物頁的字和之後的一句',memos.length===31&&memos.every(m=>ENCOUNTERS.labels[m]&&ENCOUNTERS.school[m]&&ENCOUNTERS.school[m].who===ENCOUNTERS.rows.find(r=>r.memo===m).who),memos.join(' '));
   check('1. 記憶的字接進 SOCIAL.MEMORY_LABEL',SOCIAL.MEMORY_LABEL.ENC_D06_AN==='在美術館遇到她');
   const ev=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); const se=ev.slice(0,ev.indexOf('const SMALLTALK'));
   check('2. R7：劇情事件（STORY_EVENTS）不讀 ENC_',se.indexOf('ENC_')<0); }
@@ -36,8 +36,8 @@ const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?
   G=mk(SAT,20.5); check('3. 20:30：小語走了（17～20）、芯慈來了（20～23）',whoAt(G,'D04')==='classmate_xinci,heroine_02,heroine_04,kexin:dating,zhe',whoAt(G,'D04'));
   STAGE.zhe='STRANGER'; G=mk(SAT,19.5); check('3. 還不認識的（阿哲 STRANGER）不出現：第一次見面只在原本的劇情事件',!/zhe/.test(whoAt(G,'D04'))); delete STAGE.zhe;
   G=mk(STORY.termDay('Y3S1',5,6),19.5); check('3. 芷若大三上（英國交換）不在西門町',!/heroine_02/.test(whoAt(G,'D04')),whoAt(G,'D04'));
-  G=mk(STORY.termDay('Y1S1',17,6),19.5); check('3. 期末考週（第 17 週）沒有人',whoAt(G,'D04')==='',whoAt(G,'D04'));
-  G=mk(SUN,16.5); check('3. 單週週日 16:30 大稻埕：子晴、語彤',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
+  G=mk(STORY.termDay('Y1S1',16,6),19.5); check('3. 期末考週（第 16 週，16 週制）沒有人',whoAt(G,'D04')==='',whoAt(G,'D04'));
+  G=mk(SUN,16.5); check('3. 單週週日 16:30 大稻埕：子晴、語彤（子晴的華山是雙週 4、10，BB_213 0544a147，不撞）',whoAt(G,'D12')==='heroine_03,heroine_04',whoAt(G,'D12'));
   G=mk(SUN6,16.5); check('3. 雙週週日：大稻埕沒有人（子晴回公館、語彤心願以前不在淡水）',whoAt(G,'D12')===''&&whoAt(G,'D13')==='kexin:dating',whoAt(G,'D12')+'|'+whoAt(G,'D13'));
   G=mk(SUN,16.5,{weather:'rain'}); check('3. 下雨：大稻埕、淡水（戶外）都沒有人',whoAt(G,'D12')===''&&whoAt(G,'D13')==='');
   G=mk(SUN6,16.5); G.flags.WISH_DONE_heroine_03=true; check('3. 語彤心願以後、還不是朋友：淡水不出現（要朋友以上）',!/heroine_03/.test(whoAt(G,'D13')));
@@ -105,5 +105,6 @@ const findDay=(spot,h,m,o)=>{ for(let k=0;k<4;k++) for(let wk=1;wk<=16;wk++){ co
     check('9. 語彤不是聊天時說（是手機）',ENC.schoolLine(G,'heroine_03')===null);
     const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('9. story3d：聊天在閒聊階梯之前先問 ENC.schoolTalk；手機小事有 enc_yt_photo、enc_kx_d13',/ENC\.schoolTalk\(GM,who,id\)\)\{\}[^\n]*\n\s*else if\(await S\.ladderTalk/.test(st)&&/enc_yt_photo/.test(st)&&/enc_kx_d13/.test(st));
     const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('9. index.html：encounters.js、encounter3d.js 在 social3d 之後、story3d 之前',ih.indexOf('src/social3d.js')<ih.indexOf('src/encounter3d.js')&&ih.indexOf('src/data/encounters.js')<ih.indexOf('src/encounter3d.js')&&ih.indexOf('src/encounter3d.js')<ih.indexOf('src/story3d.js')); }
+  { const sat=STORY.dayOfKey('2026-07-11'); let G=mk(sat,19.5); check('AA_278 2-2. 暑假（可昕在高雄）週六 19:30 西門町：沒有可昕',!/kexin/.test(whoAt(G,'D04')),whoAt(G,'D04')); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

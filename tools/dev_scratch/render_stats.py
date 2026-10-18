@@ -21,7 +21,7 @@ async def main():
         pg.on('pageerror', lambda e: errs.append(str(e)))
         await pg.goto(URL)
         for i in range(240):
-            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide'))"): break
+            if await pg.evaluate("!!(typeof GAME!=='undefined'&&document.getElementById('loading')&&document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll))"): break
             await pg.wait_for_timeout(500)
         for name, zone, x, z, yaw, cy in VIEWS:
             st = {'zone': zone, 'hour': 10.5, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'flags': FLAGS}

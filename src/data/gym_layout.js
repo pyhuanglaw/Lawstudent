@@ -54,11 +54,13 @@ const GYM_LAYOUT = {
   ],
   blocksNote: '最後 12 個是羽球網柱。網本身要不要整條擋住，由 LAWWW-B 決定；建議不擋（上課時同學會穿過場地，擋住了找路會繞很遠）',
   seats: [
-    {x: -6.0, z: 15.1, yaw: Math.PI, label: '坐在大廳的長椅'}, {x: -5.4, z: 15.1, yaw: Math.PI, label: '坐在大廳的長椅'},
-    {x: 6.0, z: 15.1, yaw: Math.PI, label: '坐在大廳的長椅'}, {x: 6.6, z: 15.1, yaw: Math.PI, label: '坐在大廳的長椅'},
-    {x: -6.0, z: -16.1, yaw: 0, label: '坐在看台', y: 0.45}, {x: -2.0, z: -16.1, yaw: 0, label: '坐在看台', y: 0.45}, {x: 2.0, z: -16.1, yaw: 0, label: '坐在看台', y: 0.45}, {x: 6.0, z: -16.1, yaw: 0, label: '坐在看台', y: 0.45},
-    {x: 18.8, z: -10.6, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}, {x: 18.8, z: -9.4, yaw: -Math.PI / 2, label: '坐在場邊的長椅'},
-    {x: 18.8, z: 1.4, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}, {x: 18.8, z: 2.6, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}
+    // 座位點＝人坐下時屁股的位置（GAME.sitAt 直接放在這裡）：長椅＝座面中心往前 0.06 m；看台＝第一排木板座面（z −16.28～−16.57、高 0.47）中心往前 0.06 m，從地面坐、腳踩地板。
+    // 原本大廳、場邊長椅在前緣外 0.05～0.2 m、看台在第一排前面 0.3 m 的空中、又加了 y 0.45（屁股在 0.9 m 高）——QA-W1 座位檢查（tests/seats_on_furniture.py）照 gym_interior.glb 的座面改
+    {x: -6.0, z: 15.34, yaw: Math.PI, label: '坐在大廳的長椅'}, {x: -5.4, z: 15.34, yaw: Math.PI, label: '坐在大廳的長椅'},
+    {x: 6.0, z: 15.34, yaw: Math.PI, label: '坐在大廳的長椅'}, {x: 6.6, z: 15.34, yaw: Math.PI, label: '坐在大廳的長椅'},
+    {x: -6.0, z: -16.37, yaw: 0, label: '坐在看台'}, {x: -2.0, z: -16.37, yaw: 0, label: '坐在看台'}, {x: 2.0, z: -16.37, yaw: 0, label: '坐在看台'}, {x: 6.0, z: -16.37, yaw: 0, label: '坐在看台'},
+    {x: 19.14, z: -10.6, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}, {x: 19.14, z: -9.4, yaw: -Math.PI / 2, label: '坐在場邊的長椅'},
+    {x: 19.14, z: 1.4, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}, {x: 19.14, z: 2.6, yaw: -Math.PI / 2, label: '坐在場邊的長椅'}
   ],
   interact: [
     {x: 11.0, z: 14.7, kind: 'gym_desk', label: '服務台'},

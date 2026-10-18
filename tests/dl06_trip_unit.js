@@ -9,7 +9,7 @@ global.window=global; global.location={search:''}; global.document={getElementBy
 for(const f of ['src/data/characters.js','src/data/places.js','src/data/calendar.js','src/data/courses.js','src/classes3d.js','src/outings3d.js','src/data/free_trips.js','src/freetrip3d.js'])
   vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (CHARACTERS|PLACES|SOCIAL_GRAPH|UNFAMILIAR_POOL|PORTRAITS|CALENDAR|COURSES|CLS|OUT|FREE_TRIPS|TRIP)\s*=/mg,'global.$1='),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-check('1. 有 TRIP.menu、go、loop、back、check、tick，第一批四個景點 D04、D06、D12、D13',typeof TRIP!=='undefined'&&['menu','go','loop','back','check','tick','at'].every(k=>typeof TRIP[k]==='function')&&TRIP.list().map(s=>s.id).join()==='D04,D06,D12,D13');
+check('1. 有 TRIP.menu、go、loop、back、check、tick，第一批四個景點＋第二批五個（DL-06B）＋第三批十八個（DL-06C spots_v3 3b599624；開車的 D15、D16、D22、D23、D32 不收）',typeof TRIP!=='undefined'&&['menu','go','loop','back','check','tick','at'].every(k=>typeof TRIP[k]==='function')&&TRIP.list().map(s=>s.id).join()==='D04,D06,D12,D13,D09,D18,D20,D24,D25,D01,D02,D03,D05,D07,D08,D10,D11,D14,D17,D19,D21,D26,D27,D28,D29,D30,D31',TRIP.list().map(s=>s.id).join());
 if(fails){ console.log('FAILED '+fails); process.exit(1); }
 check('1. 每個景點的底圖都接上（OUT.BG 有圖、檔案在 repo 裡）',TRIP.list().every(s=>OUT.BG[s.bg]&&OUT.BG[s.bg].image&&fs.existsSync(path.join(ROOT,OUT.BG[s.bg].image))));
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
@@ -35,12 +35,22 @@ const sp=id=>TRIP.spot(id);
   let ex=null; for(let d=SAT;d<SAT+140&&!ex;d++){ const G2=mkG(d,8); const it=CLS.dayItems(G2).find(i=>i.exam==='final'&&i.t0>=10&&i.t0<=16); if(it&&CALENDAR.dateOf(d).wd%7!==1) ex={d,it}; }   /* 北美館週一休：找不是週一的 */
   if(ex){ const G3=mkG(ex.d,ex.it.t0-1); const ks=TRIP.list().map(q=>TRIP.check(G3,q).why); check('2. 期末考那一段時間：灰掉寫「期末考（時間 科目）」',ks.some(w=>/^期末考（/.test(w)),JSON.stringify(ks)); }
   else check('2. 找得到期末考的日子',false); }
+// 2b. 第二批（DL-06B，spots_v2＠32d11245）的規則
+{ check('2b. free_trips.js 第二批來自匯入白名單 spots_v2.json＠32d11245',/spots_v2\.json@32d11245/.test(FREE_TRIPS.source||''),FREE_TRIPS.source);
+  check('2b. 貓空週一：「纜車今天停駛」（不是「今天休館」）',TRIP.check(mkG(MON,14),sp('D09')).why==='纜車今天停駛',TRIP.check(mkG(MON,14),sp('D09')).why);
+  check('2b. 貓空下雨、颱風天氣：「下雨，纜車停了」',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D09')).why==='下雨，纜車停了'&&TRIP.check(mkG(SAT,14,{weather:'typhoon'}),sp('D09')).why==='下雨，纜車停了');
+  check('2b. 九份下雨照樣能去',TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).ok,TRIP.check(mkG(SAT,14,{weather:'rain'}),sp('D18')).why);
+  let xw=null; for(let d=SAT;d<SAT+80&&xw==null;d++){ if(CLS.examWeek(mkG(d,9))&&CALENDAR.dateOf(d).wd%7===6) xw=d; }
+  check('2b. 礁溪、外澳考試週不能去：「考試週，太遠了」；烏來照常',xw!=null&&TRIP.check(mkG(xw,10),sp('D24')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,14),sp('D25')).why==='考試週，太遠了'&&TRIP.check(mkG(xw,10),sp('D20')).why!=='考試週，太遠了',String(xw));
+}
 // 3. 出發：扣次數、車資、到達時間；選單、回程
 (async()=>{
+  { const G=mkG(SAT,14), gm=mkGM(G,['回去','回公館']); await TRIP.go(gm,sp('D09')); if(TRIP.at(G)) await TRIP.loop(gm);
+    check('2b. 兩段交通（legs）：出發的標題卡「捷運到動物園站→貓空纜車｜公館 → 貓空纜車與茶館　60 分鐘」、回程反過來',gm.L.cards[0]==='捷運到動物園站→貓空纜車｜公館 → 貓空纜車與茶館　60 分鐘'&&/貓空纜車與茶館 → 公館/.test(gm.L.cards[gm.L.cards.length-1]||''),JSON.stringify(gm.L.cards)); }
   { const G=mkG(SAT,13); const gm=mkGM(G,[1, '到館外的草地走走', '看展', '看展', '回去', '回公館']);
     // 選單第 2 項（index 1）是北美館
     const r=await TRIP.menu(gm);
-    check('3. 「捷運公館站。要去哪裡？」四個景點＋不去了',gm.L.says[0]==='捷運公館站。要去哪裡？'&&gm.L.menus[0].length===5&&gm.L.menus[0][4]==='不去了',JSON.stringify(gm.L.menus[0]));
+    check('3. 「捷運公館站。要去哪裡？」二十七個景點（第一批四、第二批五、第三批十八）＋不去了',gm.L.says[0]==='捷運公館站。要去哪裡？'&&gm.L.menus[0].length===28&&gm.L.menus[0][27]==='不去了',JSON.stringify(gm.L.menus[0].length));
     check('3. 出發扣下午 1 次',CLS.slotRec(G).used.pm===1,JSON.stringify(CLS.slotRec(G).used));
     check('3. 標題卡「捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘」',gm.L.cards[0]==='捷運（中正紀念堂轉淡水信義線）｜公館 → 圓山　30 分鐘',gm.L.cards[0]);
     check('3. 第一次來：arrive[0]',gm.L.says[1]===sp('D06').arrive[0],gm.L.says[1]);
@@ -95,5 +105,37 @@ const sp=id=>TRIP.spot(id);
   { const G=mkG(2,15); const gm=mkGM(G,[2,'回去','回公館']); await TRIP.menu(gm); check('9. 開場劇情的日子不扣次數',!G.slots||!(G.slots.used.pm),JSON.stringify(G.slots));
     const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('9. 公館「捷運公館站入口」→ TRIP.menu；S.tick 有 TRIP.tick',/if\(it\.mrt\)\{ if\(typeof TRIP!=='undefined'\)\{ await TRIP\.menu\(GM\)/.test(st)&&/TRIP\.at\(G\)\)\{ TRIP\.tick\(GM\)/.test(st));
     const ih=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); check('9. index.html 載入 free_trips.js、freetrip3d.js（在 outings3d 之後）',ih.indexOf('src/outings3d.js')<ih.indexOf('src/data/free_trips.js')&&ih.indexOf('src/data/free_trips.js')<ih.indexOf('src/freetrip3d.js')); }
+  // 2c. 第三批（DL-06C，spots_v3 rulesV3）
+  { const run=async(day,h,id,ans,o)=>{ const G=mkG(day,h,o), gm=mkGM(G,ans); const ch=gm.choose; gm.choose=async O=>{ const k=O.findIndex(x=>x.t==='照樣出發'); return k>=0?k:ch(O); };   /* 平日有課：先回答「這一趟會錯過…」*/ await TRIP.go(gm,sp(id)); if(TRIP.at(G)) await TRIP.loop(gm); return {G,gm}; };
+    const m0=(r)=>r.gm.L.menus[0]||[];
+    const MON2=dayOf('2025-10-20');   /* 10/13 是遊戲裡的颱風假 */
+    // 門票
+    { const s=sp('D08'); check('2c. D08 動物園：錢只夠車資、不夠門票＝「錢不夠」',TRIP.check(mkG(SAT,8.5,{money:s.transit.fareRound+s.admission-1}),s).why==='錢不夠');
+      const r=await run(SAT,8.5,'D08',['回去','回公館']); check('2c. D08：抵達時扣門票 60（加上來回車資，總共 120）',5000-r.G.money===s.transit.fareRound+60,String(5000-r.G.money)); }
+    // 週末市集
+    { const r1=await run(TUE,11,'D01',['回去','回公館']); const r2=await run(SAT,11,'D01',['回去','回公館']);
+      check('2c. D01 華山：週二「逛週末市集」灰掉寫「只有週末」；週六可以',m0(r1).includes('逛週末市集〔灰：只有週末〕')&&m0(r2).includes('逛週末市集'),JSON.stringify(m0(r1))); }
+    // 每月第一個週一
+    { const r1=await run(MON,7.5,'D19',['回去','回公館']); const r2=await run(MON2,7.5,'D19',['回去','回公館']);
+      check('2c. D19 金瓜石：每月第一個週一（10/6）黃金博物館休館；10/20 照常；抵達扣門票 80',m0(r1).includes('黃金博物館〔灰：今天休館〕')&&m0(r2).includes('黃金博物館')&&5000-r2.G.money===sp('D19').transit.fareRound+80,JSON.stringify([m0(r2),5000-r2.G.money,r2.gm.L.toasts])); }
+    // 這一項自己的關門時間、休館日；考試週
+    { const r1=await run(TUE,15,'D26',['回去','回公館']); const r2=await run(MON,12.5,'D26',['回去','回公館']); const r3=await run(TUE,12.5,'D26',['回去','回公館']);
+      check('2c. D26 臺中：16:30 抵達，美術館 40 分鐘會超過 17:00＝「關門了」；週一「今天休館」；14:00 抵達照常',m0(r1).includes('國立臺灣美術館〔灰：關門了〕')&&m0(r2).includes('國立臺灣美術館〔灰：今天休館〕')&&m0(r3).includes('國立臺灣美術館'),JSON.stringify([m0(r1),m0(r2)]));
+      let xw=null; for(let d=SAT;d<SAT+120;d++){ const G=mkG(d,10); if(typeof CLS!=='undefined'&&CLS.examWeek&&CLS.examWeek(G)){ xw=d; break; } }
+      check('2c. 外縣市（D26～D31）考試週不能去：「考試週」',xw!=null&&['D26','D27','D28','D29','D30','D31'].every(id=>TRIP.check(mkG(xw,8),sp(id)).why==='考試週'),String(xw)); }
+    // 看第一顆星
+    { const r=await run(SAT,13.3,'D30',['回去','回公館']); check('2c. D30 七星潭：15:30 抵達，「看第一顆星」灰掉寫「天還沒黑」',m0(r).includes('看第一顆星〔灰：天還沒黑〕'),JSON.stringify(m0(r))); }
+    // 固定段落（看電影）
+    { const r=await run(SAT,15,'D05',['看一場電影','回去','回公館']);
+      check('2c. D05 光典臺北：選單有「看一場電影」（120 分鐘・260 元），看了扣 260、旁白照第一次那句、之後不再出現',m0(r).includes('看一場電影')&&r.gm.L.says.includes(sp('D05').fixed.lines[0])&&!(r.gm.L.menus[1]||[]).includes('看一場電影')&&5000-r.G.money===sp('D05').transit.fareRound+260,JSON.stringify(r.gm.L.menus[1])); }
+    // 下雨的底圖
+    check('2c. D02 松山：下雨換雨後的底圖 d02_base_rain',TRIP.bgOf({weather:'rain'},sp('D02'))==='d02_base_rain'&&TRIP.bgOf({weather:'clear'},sp('D02'))==='d02_base_overcast'&&!!OUT.BG.d02_base_rain);
+    // 兩張底圖＋坐公車去安平
+    { const r=await run(SAT,8,'D28',['坐公車去安平','回去','回公館']); const a=m0(r), b=r.gm.L.menus[1]||[];
+      check('2c. D28 臺南：10:15 抵達在文學館（a）：有「坐公車去安平」、沒有安平那邊的點',a.includes('坐公車去安平')&&a.includes('文學館的大廳')&&!a.includes('安平老巷的小吃'),JSON.stringify(a));
+      check('2c. D28：坐公車以後換到安平（b）：老巷、海堤出現，文學館和公車不再出現；旁白照第一次那句',b.includes('安平老巷的小吃')&&!b.includes('文學館的大廳')&&!b.includes('坐公車去安平')&&r.gm.L.says.includes(sp('D28').move.lines[0]),JSON.stringify(b)); }
+    { const r=await run(SAT,14,'D28',['回去','回公館']); check('2c. D28：16:00 以後才到＝直接在安平（交通卡多一段「坐公車去安平」）',!m0(r).includes('坐公車去安平')&&m0(r).includes('安平老巷的小吃')&&r.gm.L.cards.some(c=>c.startsWith('坐公車去安平')),JSON.stringify(r.gm.L.cards)); }
+    check('2c. 第三批的底圖都登錄了（OUT.BG）',TRIP.list().every(s=>!!OUT.BG[s.bg]&&(!s.bases||Object.values(s.bases).every(b=>!!OUT.BG[b]))),TRIP.list().filter(s=>!OUT.BG[s.bg]).map(s=>s.id).join());
+  }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })();

@@ -117,8 +117,8 @@ const WC3=(function(){
     if(typeof LAWLIB_LAYOUT!=='undefined'){ const LD=L.lawlibDoor; IT.push({x:LD.it.x,z:LD.it.z,radius:LD.it.r,lv:0,label:LD.label,exit:{to:'lawlib',spawn:Object.assign({},LAWLIB_LAYOUT.entrance.spawn)}});   /* 法律學院圖書館（D46）：開放時間在 places.js，關門時 story3d.js 擋 */
       const sp=W3.signPlane('法律學院圖書館',1.9,0.36,{color:'#3b2a1e'}); sp.position.set(-W/2+0.17,LD.h+0.42,LD.z); sp.rotation.y=Math.PI/2; lv0.add(sp); }
     for(const d of L.doors){ const sem=d.id==='seminarA'&&typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.wancai_seminar;   /* 研討室 A：大四的研討課在這裡上（門口上課：classes3d.js 的 doorInteract；沒有課時照舊是說明）*/
-      const act=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.some(a=>a.zone==='wancai'&&a.room===d.id);   /* 社課在這一間（多功能教室：吉他社；研討室 A：法服讀書會——AA_110 6-8）：門口參加（classes3d.js 的 roomDoor）*/
-      IT.push(Object.assign({x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.label,look:d.closed},sem?{door:'wancai_seminar'}:{},(sem||act)?{onInteract:()=>CLS.roomDoor(GAME,'wancai',d.id,{look:d.closed,door:sem?'wancai_seminar':null})}:{})); }
+      const act=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.some(a=>a.zone==='wancai'&&a.room===d.id);   /* 社課在這一間（多功能教室：吉他社；研討室 A：法服讀書會——AA_110 6-8）：門口參加（classes3d.js 的 roomDoor）。互動範圍 1.5 m（BUG-20：1.15 m 時走到門口有時沒出現按鈕；同一層相鄰的門相距 3.5～4.5 m，不重疊）*/
+      IT.push(Object.assign({x:d.x,z:-D/2+0.75,radius:1.5,lv:d.lv,label:d.label,look:d.closed},sem?{door:'wancai_seminar'}:{},(sem||act)?{onInteract:()=>CLS.roomDoor(GAME,'wancai',d.id,{look:d.closed,door:sem?'wancai_seminar':null})}:{})); }
     for(const f of EL.floors) if(f.lv!==undefined) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.wancai_interior']){ ASSETS.loadOne('bldg.wancai_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('萬才館室內正式模型載入失敗，用程序化備用模型',e)); }

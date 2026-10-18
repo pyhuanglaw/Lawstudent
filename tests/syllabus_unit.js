@@ -30,7 +30,8 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
   check('審查過的週：用 BB 的黑板、教授一句（大一到大四 '+m+' 堂）',m>0&&!hidden.length,hidden.slice(0,4).join(' | '));
   SYLLABUS.reviewed=allKeys; }   /* 下面檢查「審查過的週」怎麼顯示：先當作全部審查過 */
 { const it=itOf(dayOf('2025-09-18'),'civ_general');   /* 第 3 週週四 */ const ct=CLS.content(it);
-  check('民法總則第 3 週：BB 的黑板三行、周教授一句',it.week===3&&ct.board[1]==='案例：網拍相機 1,000 元'&&/直覺/.test(ct.line),JSON.stringify(ct).slice(0,200));
+  check('民法總則第 3 週：BB 的黑板三行、周教授一句（開學改 9/1 以後是「權利主體」，BB_170 第 31 列 d3c04223）',it.week===3&&ct.board[0]==='民法總則：權利主體'&&/不完全一樣/.test(ct.line),JSON.stringify(ct).slice(0,200));
+  { const w1=(SYLLABUS.courses.civ_general||[]).find(q=>q.w===1)||{}; check('民法總則第 1 週＝課程說明＋相機暖身（special），周教授「今天不教，先問你們的直覺」',w1.special===true&&(w1.board||[]).some(b=>/網拍相機/.test(b))&&/直覺/.test(w1.line||''),JSON.stringify(w1).slice(0,200)); }
   check('民法總則第 3 週沒有同學發言（BB 2026-10-13：A 類課堂最多四成有同學發言）',ct.react==='',ct.react); }
 { const it=itOf(dayOf('2025-10-02'),'civ_general'); const ct=CLS.content(it);   /* 第 5 週：C，小語、阿哲各一句（顯示其中一句）*/
   check('同學反應照人物顯示名字（阿哲／小語／不認識的同學照揭露規則）、用引號',/^.+：「.+」$/.test(ct.react)||/^.+（.+）$/.test(ct.react),ct.react); }
@@ -52,4 +53,8 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
 // 特殊課堂的週次：courses.js 的 specials 和 BB 的課堂內容（syllabus 的 special）一致（BB 2026-10-13：「週次以課堂內容所在的週為準」）
 { const bad=[]; for(const c of COURSES.list){ const a=(c.specials||[]).map(s=>s.w).sort((x,y)=>x-y), ws=(SYLLABUS.courses[c.id]||[]).filter(w=>w.special).map(w=>w.w).sort((x,y)=>x-y); if(JSON.stringify(a)!==JSON.stringify(ws)) bad.push(c.id+' '+JSON.stringify(a)+'≠'+JSON.stringify(ws)); }
   check('每一門課的特殊課堂週次＝BB 課堂內容標 special 的週次（經原第 3 週第一次走進這門課、第 4 週分組、法理學第 6 週、國際公法第 15 週、智財第 5 週、專題研究第 10 週）',!bad.length,bad.join(' | ')); }
+// 經濟系那一年（G.day 是負的）：每一堂的老師一句、同學反應都要是字串（BB_218：2024-09-04 微積分、體育顯示「老師：undefined」——輪流序號 (day+week)%n 變負的）
+{ const d0=dayOf('2024-09-01'), d1=dayOf('2025-06-30'), bad=[]; let n=0;
+  for(let d=d0; d<=d1; d++) for(const it of CLS.dayItems({day:d,hour:8,flags:{},stage:'econ'})){ if(it.exam) continue; const ct=CLS.content(it); n++; if(typeof ct.line!=='string'||!ct.line||ct.react==null||String(ct.react).includes('undefined')) bad.push(d+' '+it.c.id+' W'+it.week+' '+String(ct.line)); }
+  check('經濟系那一年 '+n+' 堂：老師一句都是字串、沒有 undefined',n>0&&!bad.length,bad.slice(0,4).join(' | ')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

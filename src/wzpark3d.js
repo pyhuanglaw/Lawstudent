@@ -34,7 +34,7 @@ const PARK=(function(){
   S.period=function(G){ let T=T_(G); if(!T&&typeof CALENDAR!=='undefined'){ for(let d=G.day-1;d>G.day-120&&!T;d--) T=CALENDAR.termOf(d); } const id=T?T.id:'Y1S1';
     if(/^Y1/.test(id)||/^Y0/.test(id)) return 'y1'; if(id==='Y2S1') return 'y2a'; if(id==='Y2S2') return 'y2b'; if(/^Y3/.test(id)) return 'y3'; return 'y4'; };
   S.year=G=>{ const p=S.period(G); return p==='y1'?1:(p==='y2a'||p==='y2b'?2:(p==='y3'?3:4)); };
-  S.examWeek=G=>{ const T=T_(G); return !!(T&&[8,9,17,18].includes(T.week)); };
+  S.examWeek=G=>{ const T=T_(G); return !!(T&&T.exam); };   /* 期中第 8～9 週、期末第 16 週（16 週制）*/
   /* 大三上第 9 週（AA_166 線四）：貓不見了 */
   S.catLost=G=>{ const T=T_(G); return !!(T&&T.id==='Y3S1'&&T.week===9); };
   S.catFound=G=>{ const T=T_(G); return !!(T&&T.id==='Y3S1'&&T.week===10); };

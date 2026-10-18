@@ -1,4 +1,4 @@
-/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。 */
+/* 自由出行的偶遇第三批（DL-08）：一起走一段、重訪、小支線的台詞。企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。第三批景點（spots_v3）的 AA 六位：AA_271，aa_walk_v1.json@fef59a02（AA-C 2026-10-17；第一、二批已同步成 AA_209 附錄 A 改稿版，和這裡一致）加 D26、D14、D11、D01、D02、D29 的條目。BB 五位第三批：bb_walk_v1.json@0544a147 的 batch:3（BB_213，AA-C 核對通過）；芷若 D02 生態池那句掛在散步（act walk；BB-C 0544a147 更正）。第二批景點（D09、D18、D20、D24、D25）的條目換成 aa_walk_v1／bb_walk_v1@aca122d2（AA-C 照 AA_188 口語審、BB-C 口氣審 b13052e5）。第二批景點（D09、D18、D20、D24、D25）的條目換成 aa_walk_v1／bb_walk_v1@aca122d2（AA-C 照 AA_188 口語審、BB-C 口氣審 b13052e5）。 */
 const ENC_WALK={
  "source": "企劃線 claude/cool-heisenberg-o8kuqx free_trip/aa_walk_v1.json（AA_162 第 7 節）＋bb_walk_v1.json（BB_147，BB-B 8e0399ff）；AA_160 第 6 節定案。照抄，不在這裡改內容。",
  "rules": {
@@ -49,7 +49,7 @@ const ENC_WALK={
    "spot": "D06",
    "act": "walk",
    "friend": [
-    "十二點半以前，我們還有四十分鐘。……我是說，還有很多時間。"
+    "十二點半以前還有四十分鐘，樓上那區也可以看。"   /* AA_209 附錄A §2 */
    ],
    "dating": [
     "坐一下。表上沒有寫，可是可以。"
@@ -60,7 +60,7 @@ const ENC_WALK={
    "spot": "D06",
    "act": "D06.cafe",
    "friend": [
-    "這裡的拿鐵比 Café 貴四十元。理由：窗戶比較大。"
+    "這裡的拿鐵比 Café 貴四十塊。"   /* AA_209 附錄A §2 */
    ],
    "dating": [
     "你的那杯，我喝一口。……好，我的比較好喝。"
@@ -137,7 +137,7 @@ const ENC_WALK={
    "spot": "D04",
    "act": "walk",
    "friend": [
-    "哥你看，那個人在噴火。噴火要不要申請？……要吧？你們法律系會知道。"
+    "欸你看，那個人在噴火。這個要申請嗎？我們好像有教過……算了我忘了。"   /* AA_209 附錄A §2 */
    ],
    "dating": []
   },
@@ -251,7 +251,7 @@ const ENC_WALK={
    "spot": "D25",
    "act": "D25.cafe",
    "friend": [
-    "我第一次在海邊喝咖啡。很貴。很值得。好啦是很貴。"
+    "我要冰的。剛剛喝了太多海水。"
    ],
    "dating": []
   },
@@ -260,7 +260,7 @@ const ENC_WALK={
    "spot": "D09",
    "act": "D09.tea",
    "friend": [
-    "這壺茶兩百五。我沒有算它等於幾份影印。……我在進步。"
+    "這壺茶兩百五。……算了，今天不算錢。"
    ],
    "dating": [],
    "cond": {
@@ -274,7 +274,7 @@ const ENC_WALK={
    "spot": "D09",
    "act": "D09.gondola",
    "friend": [
-    "我以前覺得，坐纜車是浪費時間。……現在覺得，時間本來就是拿來浪費一點的。"
+    "坐纜車要二十幾分鐘。以前我一定會帶單字卡。"
    ],
    "dating": [],
    "cond": {
@@ -662,7 +662,7 @@ const ENC_WALK={
    "act": "D09.gondola",
    "friend": [],
    "dating": [
-    "纜車一格一格往下，像在數時間。……我在數，你不要吵。"
+    "纜車往下比較晃。你坐那邊，我坐這邊。"
    ],
    "batch": 2
   },
@@ -672,7 +672,7 @@ const ENC_WALK={
    "act": "D09.tea",
    "friend": [],
    "dating": [
-    "茶館老闆認得政大的人。……他問我今天怎麼沒帶書。"
+    "茶館老闆認得政大的人。他問我今天怎麼沒帶書。"
    ],
    "batch": 2
   },
@@ -691,7 +691,7 @@ const ENC_WALK={
    "spot": "D18",
    "act": "D18.snack",
    "friend": [
-    "芋圓的顏色，我要拿去做道具。……可以吃嗎？可以。"
+    "這個顏色我要拿去做道具。……好，先吃。"
    ],
    "dating": [
     "你那碗紫色的比較多。換。"
@@ -706,7 +706,7 @@ const ENC_WALK={
     "從窗戶看出去，燈籠一層一層。這叫視差。"
    ],
    "dating": [
-    "坐這裡。燈籠在你後面，剛好。……我在構圖。"
+    "坐這裡。燈籠在你後面，我想畫下來。"
    ],
    "batch": 2
   },
@@ -715,10 +715,10 @@ const ENC_WALK={
    "spot": "D18",
    "act": "D18.shop",
    "friend": [
-    "欸不是，這個木頭陀螺……我小時候有一個。"
+    "這個木頭陀螺……我小時候有一個。"
    ],
    "dating": [
-    "你買那個給我。……我會放在螢幕旁邊。"
+    "你買那個給我。我要放在螢幕旁邊。"
    ],
    "batch": 2
   },
@@ -731,7 +731,7 @@ const ENC_WALK={
      "who": "wen_mother",
      "t": "學弟，坐。水很燙，慢慢放。"
     },
-    "……他們很少叫人坐。重點是，你坐吧。"
+    "……他們很少叫人坐。你坐吧。"
    ],
    "dating": [],
    "cond": {
@@ -745,10 +745,10 @@ const ENC_WALK={
    "spot": "D20",
    "act": "D20.bridge",
    "friend": [
-    "小孩子都想從橋上丟石頭。我說法律不准。……其實是我不准。"
+    "小孩子都想從橋上丟石頭。我一直在看誰手上拿著石頭。"
    ],
    "dating": [
-    "你牽那一排，我牽這一排。……我們看起來好像家長。"
+    "你牽那一排，我牽這一排。過橋不要放手。"
    ],
    "batch": 2
   },
@@ -757,7 +757,7 @@ const ENC_WALK={
    "spot": "D20",
    "act": "D20.trolley",
    "friend": [
-    "台車很慢。小孩說像在坐時光機。……我也覺得。"
+    "台車很慢。小孩說像在坐時光機。"
    ],
    "dating": [
     "你跟我坐同一台。小孩坐前面那台，我看得到。"
@@ -772,7 +772,7 @@ const ENC_WALK={
     "瀑布前面，每個小孩都安靜了。我第一次看到他們安靜。"
    ],
    "dating": [
-    "水聲好大。……你剛剛說什麼？我沒聽到。再說一次。"
+    "水聲好大。你剛剛說什麼？我沒聽到。"
    ],
    "batch": 2
   },
@@ -781,10 +781,10 @@ const ENC_WALK={
    "spot": "D25",
    "act": "D25.shore",
    "friend": [
-    "浪到腳邊的時候，不要跑。……它會自己回去。"
+    "浪到腳邊的時候不要跑。它會自己退回去。"
    ],
    "dating": [
-    "你的鞋子濕了。……我不會笑。我已經笑了。"
+    "你的鞋子濕了。等一下在堤防上晒一下。"
    ],
    "batch": 2
   },
@@ -796,7 +796,7 @@ const ENC_WALK={
     "衝浪的人一直在等浪。等很久，站起來一下。跟拍照一樣。"
    ],
    "dating": [
-    "那個人摔了七次。……我數了。我也想試試看。"
+    "那個人摔了好幾次。夏天我想來學。"
    ],
    "batch": 2
   },
@@ -805,19 +805,340 @@ const ENC_WALK={
    "spot": "D25",
    "act": "D25.cafe",
    "friend": [
-    "海邊的咖啡，比我們店裡貴。……可是有海。"
+    "海邊的咖啡比我們店裡貴。豆子是一樣的。"
    ],
    "dating": [
-    "這杯的拉花歪了。……坐在這裡，就算了。"
+    "這杯的拉花歪了。我們店裡不會出這種杯。"
    ],
    "batch": 2
-  }
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "D26.village",
+  "friend": [
+   "這間的檸檬飲料，我高中下課常常來買。"
+  ],
+  "dating": [
+   "你喝喝看。我高中都點這一杯。"
+  ]
+ },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "walk",
+  "friend": [
+   "從這裡走到美術館大概十五分鐘。走慢一點也來得及。"
+  ],
+  "dating": [
+   "走這邊，樹比較多，比較不會曬。"
+  ]
+ },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "act": "D26.museum",
+  "friend": [
+   "國美館不用門票。我國中來這裡寫生，畫得很爛。"
+  ],
+  "dating": [
+   "這個展我還沒看過。剛好一起看。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "D14.ferry",
+  "friend": [
+   "坐後面。前面浪會打上來，相機會濕。"
+  ],
+  "dating": [
+   "你坐裡面。我想坐靠水那邊。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "D14.sunset",
+  "friend": [
+   "要拍的話就是現在。再幾分鐘就沒了。"
+  ],
+  "dating": [
+   "你站過去一點。好，不要動。"
+  ]
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "act": "walk",
+  "friend": [
+   "這邊的人都在釣魚。我站了十分鐘，沒看到誰釣到。"
+  ],
+  "dating": [
+   "走慢一點。前面有一塊木板是鬆的。"
+  ]
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "walk",
+  "friend": [
+   "這條溪的水是熱的。我上次來，還以為哪裡失火。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "D11.valley",
+  "friend": [
+   "告示說不能碰。我本來想試試看有多燙，還好沒有。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "act": "D11.museum",
+  "friend": [
+   "這裡以前是公共浴場。說明我看完了，你要自己看還是我講？"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "D01.market",
+  "friend": [
+   "欸這攤可以試吃！對了你吃辣嗎？這片好像有辣。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "D01.wall",
+  "friend": [
+   "你幫我拍一張。不要拍到腳，我今天鞋子很醜。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "act": "walk",
+  "friend": [
+   "那根煙囪以前是在燒什麼？酒廠嗎？等一下我查。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "walk",
+  "friend": [
+   "那艘船我高中騎車上學每天都看到。應該不是同一艘啦。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "D29.sculpture",
+  "friend": [
+   "這個我小時候以為是外星人的船。現在看還是很像。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "act": "D29.rail",
+  "friend": [
+   "這條鐵道以前有火車喔，我阿公說的。他說的我都沒查過。"
+  ],
+  "dating": []
+ },
+ {
+  "who": "heroine_04",
+  "spot": "D01",
+  "act": "walk",
+  "friend": [
+   "市集的人都很會講自己的東西。我不行。"
+  ],
+  "dating": [
+   "你走裡面。外面一直有人推。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_04",
+  "spot": "D01",
+  "act": "D01.market",
+  "friend": [
+   "這攤的老闆也是做遊戲的。他說周邊比遊戲好賣。"
+  ],
+  "dating": [
+   "那隻貓的你買。我買狗的。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_04",
+  "spot": "D01",
+  "act": "D01.lawn",
+  "friend": [
+   "坐一下。我平常都坐在電腦前面，站太久腳會痠。"
+  ],
+  "dating": [
+   "草有點濕。坐我的外套上面。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_02",
+  "spot": "D02",
+  "act": "D02.books",
+  "friend": [
+   "這一區是電影書。我每次來都翻同一本，都沒買。"
+  ],
+  "dating": [
+   "這本你幫我拿著。結帳的時候我再決定。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_02",
+  "spot": "D02",
+  "act": "D02.corridor",
+  "friend": [
+   "這條長廊的光，拍起來會像老電影。"
+  ],
+  "dating": [
+   "你站那格窗下面。不要動，我記一下光。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_02",
+  "spot": "D02",
+  "act": "walk",
+  "friend": [
+   "那個阿伯每個禮拜都在。上次他也拍同一隻。"
+  ],
+  "dating": [
+   "慢慢走。下一場四點才開始。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_05",
+  "spot": "D11",
+  "act": "D11.library",
+  "friend": [
+   "這棟是木頭蓋的。屋頂有草，下雨的水會存起來用。"
+  ],
+  "dating": [
+   "這一頁讀完我就闔起來。你等我。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_05",
+  "spot": "D11",
+  "act": "D11.footbath",
+  "friend": [
+   "讀完書泡腳，是我給自己的規定。"
+  ],
+  "dating": [
+   "水很燙。你慢慢放，不要逞強。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "heroine_05",
+  "spot": "D11",
+  "act": "D11.valley",
+  "friend": [
+   "地熱谷的水是酸的，不能碰。告示寫得很清楚。"
+  ],
+  "dating": [
+   "霧好大。你站近一點。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "classmate_peishan",
+  "spot": "D08",
+  "act": "D08.penguin",
+  "friend": [
+   "小孩貼在玻璃上不走。我也想貼，可是我是大人。"
+  ],
+  "dating": [
+   "你抱那個小的。他看不到。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "classmate_peishan",
+  "spot": "D08",
+  "act": "D08.train",
+  "friend": [
+   "列車上我坐最後面，才看得到全部的人。"
+  ],
+  "dating": [
+   "你坐前面那節，我坐後面。這樣就不會有人掉。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "classmate_peishan",
+  "spot": "D08",
+  "act": "walk",
+  "friend": [
+   "走到下一個休息區就好。他們的腳比較短。"
+  ],
+  "dating": [
+   "你走慢一點。最小的那個一直跟著你。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "kexin",
+  "spot": "D10",
+  "act": "D10.bridge",
+  "friend": [],
+  "dating": [
+   "吊橋會晃。你不要故意晃。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "kexin",
+  "spot": "D10",
+  "act": "D10.boat",
+  "friend": [],
+  "dating": [
+   "天鵝船要兩個人踩。予樂踩到一半就不踩了。"
+  ],
+  "batch": 3
+ },
+ {
+  "who": "kexin",
+  "spot": "D10",
+  "act": "D10.snack",
+  "friend": [],
+  "dating": [
+   "這攤的玉米比剛剛那攤好吃。我今天吃過兩攤了。"
+  ],
+  "batch": 3
+ }
  ],
  "leave": [
   {
    "who": "heroine_01",
    "spot": "D06",
-   "friend": "我要去 Café 了。下午有排。……今天的表，多了一格。",
+   "friend": "我要去 Café 了，下午有排東西。",   /* AA_209 附錄A §2 */
    "dating": "下午我在 Café。你要來的話，坐我對面。"
   },
   {
@@ -859,7 +1180,7 @@ const ENC_WALK={
   {
    "who": "classmate_bohan",
    "spot": "D09",
-   "friend": "我搭下一班下山。明天開始，我又要念書了。……今天謝謝。",
+   "friend": "我搭下一班下山。明天又要開始念了。今天謝謝你。",
    "dating": ""
   },
   {
@@ -872,7 +1193,7 @@ const ENC_WALK={
    "who": "heroine_04",
    "spot": "D04",
    "friend": "我回去了。今天的分數，我截圖了。",
-   "dating": "下次你來打一首。我讓你。……騙你的。"
+   "dating": "下次你來打一首。我不會讓你。"
   },
   {
    "who": "heroine_04",
@@ -915,36 +1236,101 @@ const ENC_WALK={
    "who": "kexin",
    "spot": "D09",
    "friend": "",
-   "dating": "我走下山就到宿舍了。……你要搭纜車？那我陪你到站。"
+   "dating": "我走下山就到宿舍了。你要搭纜車的話，我陪你到站。"
   },
   {
    "batch": 2,
    "who": "heroine_04",
    "spot": "D18",
    "friend": "我要搭客運了。燈籠畫了三十個，夠做一關。",
-   "dating": "下山的客運很晃。你坐靠窗。……我暈車的話，你負責講話。"
+   "dating": "下山的客運很晃。你坐靠窗，我暈車的話跟我講話。"
   },
   {
    "batch": 2,
    "who": "heroine_05",
    "spot": "D24",
    "friend": "我們要去吃飯了。下週學校見。",
-   "dating": "我們要去吃飯了。……晚上傳訊息給你。"
+   "dating": "我們要去吃飯了。晚上傳訊息給你。"
   },
   {
    "batch": 2,
    "who": "classmate_peishan",
    "spot": "D20",
-   "friend": "我們要回去了。謝謝你。……下次課輔班，來說一個故事？",
-   "dating": "回程的車上，我要把今天的事寫下來。……你可以看，但不要唸出來。"
+   "friend": "我們要回去了。謝謝你。下次課輔班要不要來說一個故事？",
+   "dating": "回程的車上，我要把今天的事寫下來。寫好給你看。"
   },
   {
    "batch": 2,
    "who": "heroine_02",
    "spot": "D25",
    "friend": "火車快來了。這卷底片洗出來，給你一張。",
-   "dating": "火車上我想睡一下。……到了叫我，不要叫太早。"
-  }
+   "dating": "火車上我想睡一下。到了叫我。"
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "friend": "我媽傳訊息了，我要回去。你回臺北的車幾點？",
+  "dating": "五點了，我要回家吃飯。到臺北傳訊息給我。"
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "friend": "我搭這班回去。我媽在等我吃飯。",
+  "dating": "我媽在等吃飯。你陪我到捷運站就好。"
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "friend": "我要回去了，還有一份考古題。下禮拜考完再說。",
+  "dating": ""
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "friend": "我要回板橋了，晚上家裡有親戚來。第六個章你看到要跟我說喔！",
+  "dating": ""
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "friend": "我同學要去打球了。你回台北的高鐵幾點？不要錯過喔。",
+  "dating": ""
+ },
+ {
+  "batch": 3,
+  "who": "heroine_04",
+  "spot": "D01",
+  "friend": "我要回去了。今天晚上要把那隻貓畫出來。",
+  "dating": "捷運站那邊人很多。你走前面，我跟著。"
+ },
+ {
+  "batch": 3,
+  "who": "heroine_02",
+  "spot": "D02",
+  "friend": "我要進去了。下一場要開始了。",
+  "dating": "你先走。我看完傳訊息給你，跟你說好不好看。"
+ },
+ {
+  "batch": 3,
+  "who": "heroine_05",
+  "spot": "D11",
+  "friend": "我要回去了。計畫本上還有兩件事。",
+  "dating": "支線只有一站。坐我旁邊。"
+ },
+ {
+  "batch": 3,
+  "who": "classmate_peishan",
+  "spot": "D08",
+  "friend": "我們要回去吃午餐了。謝謝你幫忙數。",
+  "dating": "回去的捷運上他們一定會睡著。你可以一起搭嗎？"
+ },
+ {
+  "batch": 3,
+  "who": "kexin",
+  "spot": "D10",
+  "friend": "",
+  "dating": "我回政大了。到宿舍傳訊息給你。"
+ }
  ],
  "intro": [
   {
@@ -958,8 +1344,15 @@ const ENC_WALK={
    "who": "kexin",
    "spot": "D09",
    "speaker": "yule",
-   "line": "邵鈞，我們去看另一邊的夕陽。……另一邊。"
-  }
+   "line": "邵鈞，我們去另一邊看夕陽。"
+  },
+ {
+  "batch": 3,
+  "who": "kexin",
+  "spot": "D10",
+  "speaker": "yule",
+  "line": "我先回去了。可昕，玉米你自己吃完。"
+ }
  ],
  "revisit": [
   {
@@ -1025,7 +1418,7 @@ const ENC_WALK={
   {
    "who": "classmate_bohan",
    "spot": "D09",
-   "normal": "纜車站外面的長椅空著。你想起柏翰說，世界沒有毀滅。",
+   "normal": "纜車站外面的長椅空著。你想起柏翰那天沒帶書，一個人坐在這裡。",
    "afterBreakup": ""
   },
   {
@@ -1114,9 +1507,80 @@ const ENC_WALK={
    "batch": 2,
    "who": "heroine_02",
    "spot": "D25",
-   "normal": "堤防上。上次芷若在這裡，等浪碎掉的那一秒。",
+   "normal": "堤防上。上次芷若坐在這裡拍浪。",
    "afterBreakup": "堤防上。"
-  }
+  },
+ {
+  "who": "heroine_01",
+  "spot": "D26",
+  "normal": "審計新村那間小店門口的階梯，今天坐著別人。",
+  "afterBreakup": "你沒有往審計新村那排小店走。"
+ },
+ {
+  "who": "heroine_03",
+  "spot": "D14",
+  "normal": "渡輪站的長椅上沒有人。下一班船還要二十分鐘。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "classmate_bohan",
+  "spot": "D11",
+  "normal": "圖書館靠窗的位子坐著一個高中生，桌上也攤著考古題。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "yu",
+  "spot": "D01",
+  "normal": "展場出口的蓋章台前面排著幾個小孩。你想起小語在找第六個章。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "classmate_xinci",
+  "spot": "D02",
+  "normal": "展覽的出口換了一檔新的。門口沒有人在對收據。",
+  "afterBreakup": ""
+ },
+ {
+  "who": "zhe",
+  "spot": "D29",
+  "normal": "港邊的台階空著。你想起阿哲他們三個在分一包鹹酥雞。",
+  "afterBreakup": ""
+ },
+ {
+  "batch": 3,
+  "who": "heroine_04",
+  "spot": "D01",
+  "normal": "市集那一攤。上次子晴在這裡拿著一個像素鑰匙圈。",
+  "afterBreakup": "市集那一攤，今天賣的是別的東西。"
+ },
+ {
+  "batch": 3,
+  "who": "heroine_02",
+  "spot": "D02",
+  "normal": "書店門口的長椅。上次芷若坐在這裡，手上一本電影書。",
+  "afterBreakup": "書店門口的長椅，現在沒有人。"
+ },
+ {
+  "batch": 3,
+  "who": "heroine_05",
+  "spot": "D11",
+  "normal": "圖書館的木頭陽台。上次學姊坐在這裡讀書。",
+  "afterBreakup": "圖書館的陽台，那個位子坐著別人。"
+ },
+ {
+  "batch": 3,
+  "who": "classmate_peishan",
+  "spot": "D08",
+  "normal": "企鵝館門口。上次沛珊在這裡數小孩。",
+  "afterBreakup": "企鵝館門口，一群小孩貼在玻璃上。"
+ },
+ {
+  "batch": 3,
+  "who": "kexin",
+  "spot": "D10",
+  "normal": "河邊的台階。上次可昕和予樂坐在這裡吃玉米。",
+  "afterBreakup": "河邊的台階，烤玉米的味道還在。"
+ }
  ],
  "side": [
   {
@@ -1159,7 +1623,7 @@ const ENC_WALK={
      "mem": "ENC_D06_BH3",
      "after": {
       "where": "總圖的閒聊",
-      "line": "我現在一週去一次。不要跟阿哲說。"
+      "line": "我現在一週去一次。阿哲還以為我在總圖。"
      }
     }
    ],

@@ -42,7 +42,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const runG1=async(group,pk)=>{ fresh(midDay,midIt.t0+0.2,'classroom',{}); for(const id of ['zhe','yu','classmate_peishan','classmate_bohan']) meet(id); if(group) PHONE.join(G,'noodle_team','麵店團'); picks=pk||[]; await CLS.attend(GM,midIt); return lines(); };
   let L=await runG1(true);
   const i0=L.indexOf('走廊上一群人。有人在翻課本，有人已經在滑手機。');
-  check('3. G1 大一下版：旁白沿用大一上＋阿哲「刑總二比刑總一難。我說的是我的分數。」',i0>=0&&L[i0+1]==='阿哲：刑總二比刑總一難。我說的是我的分數。',JSON.stringify(L.slice(Math.max(0,i0),i0+3)));
+  check('3. G1 大一下版：旁白沿用大一上＋阿哲「刑總二比上學期難好多，第三題我整題亂寫。」（AA_209）',i0>=0&&L[i0+1]==='阿哲：刑總二比上學期難好多，第三題我整題亂寫。',JSON.stringify(L.slice(Math.max(0,i0),i0+3)));
   check('3. 有群組的玩家：G1 沒有選項、沒有當面問',!L.some(l=>l.includes('晚上麵店，七點'))&&!opts.some(o=>o.some(t=>t.includes('去。'))),JSON.stringify(opts));
   L=await runG1(false,['「去。」']);
   check('3. 沒有群組的玩家：G1 最後阿哲當面問「晚上麵店，七點，來不來？」（「去。」／「這次不行。」）',L[L.length-1]==='阿哲：晚上麵店，七點，來不來？'&&JSON.stringify(opts[opts.length-1])==='["「去。」","「這次不行。」"]',JSON.stringify({L:L.slice(-2),o:opts}));
@@ -57,14 +57,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 晚餐 */
   const dinner=async(setup,pk)=>{ fresh(midDay,18.9,'campus',{}); meet('zhe'); if(setup) setup(); picks=pk||[]; await EVENTS.run(sup); return lines(); };
   L=await dinner(()=>{ meet('yu'); });
-  check('5. 開頭（認識小語）：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,4))===JSON.stringify(['小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
+  check('5. 開頭：旁白「（阿姨的手腕綁著護腕。今天端麵的是語彤。）」（AA_185 3-8）；認識小語：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（阿姨的手腕綁著護腕。今天端麵的是語彤。）','小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
   L=await dinner(null); check('5. 不認識小語：沒有那四句',!L.some(l=>l.includes('誰講誰請')),JSON.stringify(L));
   L=await dinner(()=>{ meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); },['他有念']);
-  check('6. 明軒的回聲（SAW_HIM_STUDY）：阿哲「明軒說他這次也沒念。」→「……他有念。我看到了。」→ 明軒「……哈哈。這次換我請。」',L.includes('阿哲：明軒說他這次也沒念。')&&JSON.stringify(opts[0])==='["「……他有念。我看到了。」","（繼續吃麵）"]'&&L.some(l=>l.endsWith('……哈哈。這次換我請。'))&&G.flags.SUPPER2_MX===true,JSON.stringify({L,opts}));
+  check('6. 明軒的回聲（SAW_HIM_STUDY）：阿哲「明軒說他這次也沒念。」→「……他有念。我看到了。」→（他低頭吃了一口麵）明軒「……好啦，這次我請。」（AA_209）',L.includes('阿哲：明軒說他這次也沒念。')&&JSON.stringify(opts[0])==='["「……他有念。我看到了。」","（繼續吃麵）"]'&&L.includes('（他低頭吃了一口麵）')&&L.some(l=>l.endsWith('……好啦，這次我請。'))&&G.flags.SUPPER2_MX===true,JSON.stringify({L,opts}));
   L=await dinner(()=>{ meet('classmate_mingxuan'); }); check('6. 沒有 SAW_HIM_STUDY：沒有明軒那段',!L.some(l=>l.includes('明軒說他這次也沒念')),JSON.stringify(L));
   L=await dinner(()=>{ meet('classmate_peishan'); meet('classmate_bohan'); });
   const P=['柏翰幫沛珊把滷蛋切成兩半。','阿哲：……喔。','全桌安靜三秒。'], k=L.indexOf(P[0]);
-  check('7. 沛珊和柏翰（認識沛珊）：滷蛋、「……喔。」、安靜三秒、沛珊「對，我們在一起了。你們吃你們的。」、柏翰「（推了一下眼鏡）……這題沒有考古題。」',k>=0&&L[k+1]===P[1]&&L[k+2]===P[2]&&L[k+3].endsWith('對，我們在一起了。你們吃你們的。')&&L[k+4].endsWith('（推了一下眼鏡）……這題沒有考古題。'),JSON.stringify(L));
+  check('7. 沛珊和柏翰（認識沛珊）：滷蛋、「……喔。」、安靜三秒、沛珊「對，我們在一起了。你們吃你們的。」、柏翰「上禮拜的事。」（他把另一半滷蛋推回她碗裡。）（AA_209）',k>=0&&L[k+1]===P[1]&&L[k+2]===P[2]&&L[k+3].endsWith('對，我們在一起了。你們吃你們的。')&&L[k+4].endsWith('上禮拜的事。')&&L[k+5]==='（他把另一半滷蛋推回她碗裡。）',JSON.stringify(L));
   L=await dinner(null); check('7. 不認識沛珊：沒有那一段',!L.some(l=>l.includes('滷蛋')),JSON.stringify(L));
   /* 沒去 */
   const miss=async(group,knowPs)=>{ fresh(midDay,18,'campus',{}); if(group) PHONE.join(G,'noodle_team','麵店團'); if(knowPs) meet('classmate_peishan'); const r0=JSON.stringify(G.social.rel), e0=G.energy, m0=G.money;

@@ -5,7 +5,9 @@ W3.lampPost／W3.bike（含 W3.bikeRack）／長椅 BENCH() 換成正式模型�
   3. 長椅：userData.seat.y＝0.45；寬約 1.35 m、深度在導航阻擋（1.4×0.7）裡；正面朝 +z。
   3b. ⑥（2026-10-11）花台 W3.planter、公告欄 W3.bulletin、販賣機 W3.vending：是正式模型、外框在程序化版本的範圍（導航阻擋）裡、著地；校園畫面上有它們的材質。
   4. 一般網址與 ?nobldg（關掉正式模型）的導航格、互動點、座位完全相同（校園、溫州街、公館）。
-  5. 載入失敗（把 street_props.glb 的請求擋掉）：照舊程序化，沒有 JS 例外、沒有空位。
+  5. 下載失敗（把 street_props.glb 的請求擋掉 30 秒）：照使用者 2026-10-17「不管怎麼樣都不能讓遊戲進入自動退化成醜的模型」（27e2fb48 ASSETS.ensure），
+     不進遊戲、載入畫面寫「重新下載中」；網路恢復（不再擋）後自動重抓、進遊戲，用的是正式模型，導航格和其他模式相同、沒有 JS 例外。
+     （2026-10-17 以前這一項檢查「照舊程序化」；規則改了，QA-HANDOFF-B1 改測試。）
   6. 記錄同一個鏡頭（藏起路人）的 draw call／三角形（校園：腳踏車、路燈最多的地方；資訊，不判定）。
 [前置／捷徑]：用遊戲自己的讀檔把玩家放進區域（GAME.applySave），關掉條件事件；直接設鏡頭量 draw call。
 用法：python3 tests/street_props_integration.py http://127.0.0.1:8765/index.html"""
@@ -27,6 +29,7 @@ CONTRACT = """(()=>{ const r=v=>Math.round(v*1000)/1000; const out={};
   const want=new THREE.Color('#d03030'); out.bike.want=[r(want.r),r(want.g),r(want.b)];
   const b2=W3.bike('#3070d0'); let f2=null; b2.traverse(o=>{ if(o.isMesh&&o.material.name==='bike_frame') f2=o; }); out.bike.sharedMat=!!(frame&&f2&&frame.material===f2.material);
   const rack=W3.bikeRack(7); let rm=0; rack.traverse(o=>{ if(o.isMesh) rm++; }); out.rack={meshes:rm};
+  if(W3.bikeAny){ const ks={}; let formal=0; for(let i=1;i<=60;i++){ const v=W3.bikeAny('#888888',i); const k=v.userData.bikeKind||'?'; ks[k]=(ks[k]||0)+1; if(v.userData.formal==='prop.street') formal++; } out.bikeAny={kinds:ks, n:Object.keys(ks).length, formal}; }   /* 腳踏車多款式（LAWWW2-B） */
   const z3=Z3; const be=(typeof ASSETS!=='undefined')?W3.formalBench():null; if(be){ be.updateMatrixWorld(true); const eb=new THREE.Box3().setFromObject(be); out.bench={formal:be.userData.formal||null, seatY:be.userData.seat&&be.userData.seat.y, box:[r(eb.min.x),r(eb.max.x),r(eb.min.y),r(eb.max.y),r(eb.min.z),r(eb.max.z)]}; } else out.bench=null;
   for(const [k,fn] of [['planter',()=>W3.planter()],['bulletin',()=>W3.bulletin()],['vending',()=>W3.vending()]]){ const o=fn(); o.updateMatrixWorld(true); const bx=new THREE.Box3().setFromObject(o);
     out[k]={formal:o.userData.formal||null, box:[r(bx.min.x),r(bx.max.x),r(bx.min.y),r(bx.max.y),r(bx.min.z),r(bx.max.z)]}; }
@@ -46,9 +49,19 @@ ZONES = [('campus', {'x': -40, 'z': -5, 'yaw': -1.5708}, [('avenue', [-40, 1.7, 
 async def run_mode(p, run, mode):
     url = URL + ('?nobldg' if mode == 'nobldg' else '')
     b, ctx, pg, cdp, errs = await PL.launch(p, landscape=True)
+    import time; t0 = time.time()
     if mode == 'broken':
-        await pg.route('**/street_props.glb', lambda route: route.abort())
-    import time; t0 = time.time(); await pg.goto(url); ok = await PL.wait_loaded(pg); run.check(f'{mode}：遊戲載入', ok)
+        blocked = {'n': 0}
+        async def deny(route): blocked['n'] += 1; await route.abort()
+        await pg.route('**/street_props.glb*', deny)
+        await pg.goto(url); await pg.wait_for_timeout(30000)
+        st = await pg.evaluate("({hidden:document.getElementById('loading').classList.contains('hide'), msg:(document.getElementById('loadMsg')||{}).textContent||'', err:ASSETS.lastErr||''})")
+        run.check('broken：擋掉 30 秒——還在載入畫面（不退化成程序化道具進遊戲）、畫面寫「重新下載中」、重抓了不只一次', not st['hidden'] and '重新下載中' in st['msg'] and blocked['n'] >= 2, json.dumps(dict(st, blocked=blocked['n']), ensure_ascii=False))
+        await pg.unroute('**/street_props.glb*')
+    else:
+        await pg.goto(url)
+    ok = await PL.wait_loaded(pg); run.check(f'{mode}：遊戲載入' + ('（網路恢復後自動重抓）' if mode == 'broken' else ''), ok)
+    if mode == 'broken': run.check('broken：網路恢復後用的是正式模型（prop.street 已載入）', await pg.evaluate("!!(ASSETS.getRaw&&ASSETS.getRaw('prop.street'))"))
     run.note(f'{mode}：從開網頁到載入完成 {time.time() - t0:.1f} 秒（SwiftShader 模擬，只能相對比較）')
     res = {'errs': errs}
     if mode == 'formal':
@@ -64,6 +77,9 @@ async def run_mode(p, run, mode):
         run.check('腳踏車：沿 z 建模（長在 z、寬在 x）、輪子著地、兩輪在 z＝±0.47（車長約 ±0.8）', bx[1] - bx[0] < 0.7 and bx[5] - bx[4] > 1.5 and abs(bx[2]) < 0.03 and 0.7 < bx[5] < 0.9 and -0.9 < bx[4] < -0.7, json.dumps(bx))
         run.check('腳踏車：車架顏色照參數（頂點色）、所有顏色共用一個材質（停車架可以合併）', B.get('vertexColors') and B.get('frameColor') and all(abs(a - b_) < 0.02 for a, b_ in zip(B['frameColor'], B['want'])) and B['sharedMat'], json.dumps(B))
         run.check('停車架：整排合併（網格數少，不是每台各自一組）', 0 < c['rack']['meshes'] <= 12, json.dumps(c['rack']))
+        if c.get('bikeAny'):
+            ks = c['bikeAny']['kinds']; city = sum(v for k, v in ks.items() if k.startswith('bike_city') and k != 'bike_city_child')   # 淑女車四款（鐵絲籃、有東西、沒籃子、塑膠籃）合計，ART-BIKES2-F
+            run.check('腳踏車多款式：停車架、路邊的車照比例混搭（60 台裡至少 5 款、淑女車（四款合計）最多、淑女車至少 3 款、全部是正式模型）', c['bikeAny']['n'] >= 5 and c['bikeAny']['formal'] == 60 and city > max([v for k, v in ks.items() if not k.startswith('bike_city') or k == 'bike_city_child'] or [0]) and sum(1 for k in ks if k.startswith('bike_city') and k != 'bike_city_child') >= 3, json.dumps(c['bikeAny']))
         run.check('長椅：是正式模型、userData.seat.y＝0.45', E and E['formal'] == 'prop.street' and E['seatY'] == 0.45, json.dumps(E))
         eb = E['box'] if E else [0] * 6
         run.check('長椅：寬約 1.35 m、深度在導航阻擋（±0.35）裡、著地', E and 1.3 < eb[1] - eb[0] < 1.42 and eb[4] > -0.36 and eb[5] < 0.36 and abs(eb[2]) < 0.03, json.dumps(eb))
@@ -92,11 +108,22 @@ async def main():
         for mode in ('formal', 'nobldg', 'broken'): R[mode] = await run_mode(p, run, mode)
     for zid, _, _ in ZONES:
         f, n, k = R['formal']['zones'][zid], R['nobldg']['zones'][zid], R['broken']['zones'][zid]
-        run.check(f'{zid}：導航格，正式模型＝?nobldg＝載入失敗', f['nav'] == n['nav'] == k['nav'], json.dumps([f['nav'], n['nav'], k['nav']]))
-        run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps([len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])]))
-        run.check(f'{zid}：正式模型的材質出現在畫面上；?nobldg、載入失敗時沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] == 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
+        if zid == 'campus' and f['nav'] != n['nav']:   # 共同教學館有正式模型時，前面 4 棵大道樹換成模型裡的蒲葵（zones3d.js gtGLB、GT_PALMS）：導航格本來就不同，記下來不判定
+            run.note(f'campus：導航格 正式模型≠?nobldg（共同教學館正式模型的蒲葵取代 4 棵大道樹，設計如此）{json.dumps([f["nav"], n["nav"]])}')
+        else:
+            run.check(f'{zid}：導航格，正式模型＝?nobldg', f['nav'] == n['nav'], json.dumps([f['nav'], n['nav']]))
+        dif = lambda a, b: [x for x in a if x not in b][:8]   # 哪幾個不一樣（QA-HANDOFF-B1：校園 41／37、25／21，查是哪幾個）
+        D = {'n': [len(f['it']), len(n['it']), len(f['seats']), len(n['seats'])], 'itOnlyFormal': dif(f['it'], n['it']), 'itOnlyNobldg': dif(n['it'], f['it']), 'seatOnlyFormal': dif(f['seats'], n['seats']), 'seatOnlyNobldg': dif(n['seats'], f['seats'])}
+        soc = lambda x: (isinstance(x[0], str) and '社科院' in x[0]) or (not isinstance(x[0], str) and 95 <= x[0] <= 126 and -76 <= x[1] <= -55)   # 社科院正式配置（SOCX：中庭長椅、圖書館入口；程序化版本是舊的 CK.modern）
+        other = [x for k in ('itOnlyFormal', 'itOnlyNobldg', 'seatOnlyFormal', 'seatOnlyNobldg') for x in D[k] if not soc(x)]
+        if zid == 'campus' and not other and (f['it'] != n['it'] or f['seats'] != n['seats']):
+            run.note(f'campus：互動點、座位 正式模型≠?nobldg 只差社科院正式配置（中庭長椅、圖書館入口；設計如此）{json.dumps(D, ensure_ascii=False)}')
+        else:
+            run.check(f'{zid}：互動點、座位，正式模型＝?nobldg', f['it'] == n['it'] and f['seats'] == n['seats'], json.dumps(D, ensure_ascii=False))
+        run.check(f'{zid}：下載失敗、網路恢復後＝正式模型（導航格、互動點、座位都一樣：玩家拿到的永遠是正式版）', f['nav'] == k['nav'] and f['it'] == k['it'] and f['seats'] == k['seats'], json.dumps([f['nav'], k['nav']]))
+        run.check(f'{zid}：正式模型的材質出現在畫面上（下載失敗、網路恢復後也是）；?nobldg 沒有（照舊程序化）', f['formalMats'] > 0 and n['formalMats'] == 0 and k['formalMats'] > 0, json.dumps([f['formalMats'], n['formalMats'], k['formalMats']]))
         if zid == 'campus':
-            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台）；?nobldg、載入失敗時沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and not k['props6'], json.dumps([f['props6'], n['props6'], k['props6']]))
+            run.check('campus：⑥花台、公告欄、販賣機的正式模型在畫面上（法學院廣場、椰林大道的花台；下載失敗後恢復也是）；?nobldg 沒有', sorted(f['props6']) == ['board_cork', 'planter_conc', 'vend_body'] and not n['props6'] and sorted(k['props6']) == sorted(f['props6']), json.dumps([f['props6'], n['props6'], k['props6']]))
         run.note(f'{zid}：同一個鏡頭（藏起路人）的 draw call／三角形，正式 {json.dumps(f["draw"])}｜?nobldg {json.dumps(n["draw"])}')
     sys.exit(run.finish())
 

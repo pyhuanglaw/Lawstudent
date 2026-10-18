@@ -4,7 +4,7 @@ A. 從霖澤館前點地面走到社科院正面：不瞬移；到門口出現�
 B. 自己走過閘門、走到閱覽長桌的座位旁：出現「坐下讀書」→ 坐下（姿勢 sit）→「坐一下」→ 起身後站得住。
 C. 走進一個林間書房（弧形書架圍著樹狀柱）：「看書架（林間書房）」有說明。
 D. 走到北面玻璃帷幕前的窗邊座位坐下、起身。
-E. 自己走到出口：「離開圖書館（回社科院前）」→ 回到校園社科院正門前、面向西、不會一出來又跳出「進入社科院圖書館」；再自己走回霖澤館前（不會卡在門口）。
+E. 自己走到出口：「離開圖書館（回社科院前）」→ 回到校園社科院圖書館門前（中庭）、面向南、不會一出來又跳出「進入社科院圖書館」；再自己走回霖澤館前（不會卡在門口）。
 F. 手機「地點」→ 社科院圖書館：到圖書館入口、站得住、時間有過。
 G. [前置] 晚上 20:30 在館裡：天窗變暗（自發光比白天低）、窗外換夜景。
 用法：python3 tests/flow_soclib.py URL [輸出資料夾]"""
@@ -65,7 +65,7 @@ async def main():
         await L.load_state(pg, {'zone': 'campus', 'hour': 10.0, 'day': DAY_FRI, 'weekday': 5, 'weather': 'sunny', 'pos': {'x': 34, 'z': -98, 'yaw': 1.57}, 'flags': BASE_FLAGS})
         await pg.wait_for_timeout(3500)
         d = await L.find_it(pg, '進入社科院圖書館')
-        run.check('校園有「進入社科院圖書館」（社科院正面中間、一樓）', bool(d) and abs(d['x'] - 97.9) < 0.6 and abs(d['z'] + 70) < 0.6, json.dumps(d, ensure_ascii=False))
+        run.check('校園有「進入社科院圖書館」（新社科院圖書館的南牆、中庭那一面、一樓；ART-01）', bool(d) and abs(d['x'] - 101) < 0.6 and abs(d['z'] + 69.3) < 0.6, json.dumps(d, ensure_ascii=False))
         ok = await L.go_to(pg, cdp, run, d['x'], d['z'], 1.2, '社科院正門')
         s = await L.state(pg)
         run.check('自己走到社科院正門（點地面，沒有瞬移）、出現「進入社科院圖書館」', ok and s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
@@ -125,7 +125,7 @@ async def main():
         run.check('自己走回閘門外、走到出口、出現「離開圖書館（回社科院前）」', ok and s['interact'].startswith('離開圖書館'), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(5000)
         s = await L.state(pg)
-        run.check('回到校園社科院正門前、站得住、不會一出來又跳出「進入社科院圖書館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 95.6, s['z'] + 70) < 1.0 and not s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
+        run.check('回到校園社科院圖書館門前（中庭）、站得住、不會一出來又跳出「進入社科院圖書館」', s['zone'] == 'campus' and s['stand'] and math.hypot(s['x'] - 101, s['z'] + 67.6) < 1.0 and not s['interact'].startswith('進入社科院圖書館'), json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'E_back_campus')
         ok = await L.go_to(pg, cdp, run, 60, -92, 1.2, '法學院廣場（往霖澤館走）')
         s = await L.state(pg)
