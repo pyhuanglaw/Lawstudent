@@ -18614,7 +18614,7 @@
    },
    "source": "使用者 2026-10-18 07:1x（同意）",
    "authorized": "使用者同意",
-   "next": "第二階段卡住已修（65a91567）；舊流程的探測跑完（scratchpad ff/transcript.json，AA_300 以前的流程，不能用）。AA_300 以後在新 HEAD 重跑 probe1＋probe2（背景，scratchpad ff6/transcript1.json、transcript2.json）→ 轉 docs/qa/econ_transcript_*.md → AA-C 讀"
+   "next": "第一份已交 AA（10e54513 docs/qa/econ_transcript_1_開學到退宿_1018.md；工具 tests/econ_transcript_md.py）。第二份：probe2 已跑到法律系（10/19→8/29 約 7 分鐘、沒有卡住），transcript2.json 寫在探測結束時；交班的話下一班重跑 `OUT=<資料夾> python3 -u tests/econ_ff_probe2.py <url> ev_y0_e36 600` 再轉 md 給 AA"
   },
   {
    "id": "ART-SEATFIG-1018",
