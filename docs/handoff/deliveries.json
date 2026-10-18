@@ -8056,6 +8056,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "outings3d.js home_living_cny 改用這張；其他 10 張使用者還在生"
+  },
+  {
+   "id": "DL-LAWWW2-e315997b",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "e315997b",
+   "what": "ART-SEATFIG-1018：坐著的替身 LOD1 頭頂白塊（禿頭）重烤 seated_figures.glb；vroid_npc_f1 臉的 MToon 暗部 0.94→0.838（臉很白）",
+   "task": "ART-SEATFIG-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 07:2x：檔案照 e315997b 帶進來；seated_figures_unit、desk_furniture_unit 過；前後截圖看過（後排頭頂白塊變少）。vroid_build.py 重新產生 npc_f1 時臉的暗部要一起改（記在任務）"
   }
  ],
  "ignored": [
