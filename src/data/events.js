@@ -2031,7 +2031,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'annoyed',text:'……你休學在家，每天到底在幹嘛？'},{speaker:null,text:'（你沒有馬上回。）'},
       {speaker:'player',text:'睡覺。看影片。等妳下課。'},{speaker:'kexin',expression:'neutral',text:'我不是那個意思。'},{speaker:'player',text:'我知道。……妳去讀書。'},
       {set:{KX_FIGHT_1212:true}} ];
-    const cram=[ {scene:'以前的補習班'},
+    const cram=[ {scene:'以前的補習班',bg:'cram_street'},
       {speaker:null,text:'隔天下午，你在外面晃，晃到以前的補習班那條街。'},
       {speaker:null,text:'高三那年，指考前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。'},
       {speaker:null,text:'你本來就有想過，要不要再考一次。……問問看而已。'},
@@ -2227,7 +2227,7 @@ const STORY_EVENTS=[
      寫 LEAVE_WEEK＝6、E30_WAITED；等他們下課＝阿勳、品妤熟悉 +1（韋綸、唐睿沒有人物資料）。先走的群組訊息在 story3d.js（15:12）*/
   { id:'ev_y0_e30', stage:'econ', title:'辦休學的那天', participants:['econ_zhengxun'], location:'any', trigger:'auto', term:['Y0S1'], once:true, background:'blur',
     prereq:{custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(STORY.Y0_LEAVE_DAY):null; return d!=null&&G.day===d&&G.hour>=14+40/60; }},
-    dialogue:[ {scene:'行政大樓'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
+    dialogue:[ {scene:'行政大樓',bg:'admin_office'},{speaker:null,text:'星期四下午，行政大樓。你把申請書交出去。'},{speaker:'承辦人',text:'好了。這學期的課，就都不用去了。'},
       {speaker:null,text:'手續比你想的快。十五分鐘。'},{speaker:null,text:'你走到普通教學館外面。初等會計學還在上課。'},
       {speaker:null,text:'從窗外看進去：韋綸在睡，品妤在抄，唐睿在看窗外。'},{speaker:null,text:'阿勳在裡面，對你舉了一下筆。'},{speaker:null,text:'（可昕坐在前排，背對窗戶。她沒有看到你。）'},   /* AA_224 1-1：她要在 15:30 的訊息裡才知道 */
       {set:{LEAVE_WEEK:6}},
@@ -2765,7 +2765,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'neutral',text:'買的時候就這樣。不是我弄斷的。'},
       {speaker:'econ_zhengxun',text:'我掛在檯燈上。'},
       {speaker:null,text:'湯續到第三次，大家都說吃不下了。韋綸又點了一盤肉。'},
-      {scene:'火鍋店門口'},
+      {scene:'火鍋店門口',bg:'hotpot_door'},
       {speaker:'kexin',expression:'neutral',text:'欸。這個。'},
       {speaker:null,text:'她把一隻一模一樣的長頸鹿，塞進你手裡。'},
       {speaker:'kexin',expression:'smile',text:'本來就兩隻一組。'},
