@@ -427,6 +427,25 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-US2-FIX-1018",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "356d77c6",
+   "files": [
+    "src/data/us_apartment_layout.js",
+    "src/data/us_shared_layout.js",
+    "assets/models/env/second_ai/us_apartment.glb",
+    "assets/models/env/second_ai/us_shared.glb",
+    "docs/art-rebuild/second_ai/patches/us2_fix_1018.diff",
+    "docs/art-rebuild/second_ai/test_shots/us2_fix_1018/"
+   ],
+   "state": "已交付（patch 對 LAWWW-C 5fd81da5 git apply 乾淨；nav_us_unit ALL PASS，新檢查在舊的點 FAIL）",
+   "remaining": "BB-C 重跑 flow_us_exchange；iPhone 實機",
+   "next": "v9.10 發布以後 LAWWW-C 套 patch（us3d.js 冰箱、爐子的點；us_layouts.js 兩行；nav_us_unit 新檢查）＋從我的分支拿 us_apartment.glb、us_shared.glb",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
