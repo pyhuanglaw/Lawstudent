@@ -3,7 +3,10 @@
 const PORTRAIT_FILES={
  "classmate_bohan": {
   "campus": [
-   "neutral"
+   "neutral",
+   "serious",
+   "surprised",
+   "thinking"
   ]
  },
  "classmate_mingxuan": {
@@ -137,6 +140,7 @@ const PORTRAIT_FILES={
    "serious",
    "smile",
    "surprised",
+   "thinking",
    "tired"
   ],
   "formal": [
@@ -147,7 +151,12 @@ const PORTRAIT_FILES={
  },
  "kai": {
   "campus": [
-   "neutral"
+   "laugh",
+   "neutral",
+   "sad",
+   "smile",
+   "surprised",
+   "tired"
   ]
  },
  "kexin": {
@@ -167,7 +176,8 @@ const PORTRAIT_FILES={
  },
  "npc_fangyt": {
   "campus": [
-   "neutral"
+   "neutral",
+   "smile"
   ]
  },
  "npc_huangxh": {

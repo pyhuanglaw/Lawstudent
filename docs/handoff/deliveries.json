@@ -7744,6 +7744,58 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW-C 04:0x：tools/portraits/matte_gray.py --noscale 去背（修了兩腿中間被圍住的灰底沒去掉：fromarray 唯讀、floodfill 寫不進去；白鞋不誤刪）→ assets/portraits/classmate_xinci/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；四張從五格圖放大的比 smile 軟一點，遊戲裡的大小看不出來，不用重生"
+  },
+  {
+   "id": "DL-BB-fa51ac5b",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fa51ac5b",
+   "what": "阿凱五張表情（smile、laugh、tired、surprised、sad）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:1x：tools/portraits/matte_gray.py --noscale 去背 → assets/portraits/kai/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-a27b8422",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "a27b8422",
+   "what": "學姊 thinking",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:1x：tools/portraits/matte_gray.py --noscale 去背 → assets/portraits/heroine_05/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-fdbbc0b7",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fdbbc0b7",
+   "what": "柏翰三張表情（serious、thinking、surprised）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:1x：tools/portraits/matte_gray.py --noscale 去背 → assets/portraits/classmate_bohan/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來"
+  },
+  {
+   "id": "DL-BB-ab53b972",
+   "date": "2026-10-18",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "ab53b972",
+   "what": "方奕廷 smile（laugh 使用者重生中）",
+   "task": "ART-16",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 04:1x：tools/portraits/matte_gray.py --noscale 去背 → assets/portraits/npc_fangyt/campus/，重掃 manifest；角色美術 LAWWW 驗收（D100a）：和 neutral 同一個人、同一套衣服，表情分得出來；頭髮 neutral 比較捲、smile 比較順，臉、膚色、衣服一樣，看得出是同一個人，不重做（D99）"
   }
  ],
  "ignored": [
