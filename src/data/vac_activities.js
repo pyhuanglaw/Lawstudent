@@ -145,7 +145,7 @@ const VAC_DATA=(function(){
       depart:{zhe:'記得吃炸雞',yu:'幫我看有沒有好看的筆'}, back:{},
       trip:{ start:{day:'07-13',h:8}, end:{day:'07-24',h:18}, placeName:'首爾', home:'auto' },
       keys:[
-        {day:'07-13',h:8,title:'出發',bg:null,lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},
+        {day:'07-13',h:8,title:'出發',bg:'airport_departure',lines:[{narr:'（報到櫃台前，九個不認識的臺大學生，每個人的行李都比你小。）'},{who:'npc_leader',name:'帶隊老師',text:'法律系的？好，十個到齊了。'}]},
         {day:'07-13',h:19,title:'歡迎晚會',bg:null,lines:[{narr:'（長桌上擺了一整排小菜。對面的女生拿起一個小碟子，放到你前面。）'},{who:'npc_jieun',name:'智恩',text:'這個，不辣。我試過。'},{who:'npc_jieun',name:'智恩',text:'你是……法律？'}],
           choice:[{t:'「對，法律系。」',say:[{who:'npc_jieun',name:'智恩',text:'我的朋友說，法律系的人，很會吵架。'},{narr:'（她說完自己笑了。）'}]},{t:'「妳中文好好。」',say:[{who:'npc_jieun',name:'智恩',text:'我學三年了。……可是你們說話太快。'}]}]},
         {day:'07-18',h:14,title:'傳統市場',bg:'intl_seoul_market',lines:[{narr:'（市場很窄，兩邊的攤位往中間擠。智恩走在前面，每到一個攤位就回頭講一句。）'},{who:'npc_jieun',name:'智恩',text:'這個是做年糕的。那個是賣魚的。那個……我也不知道。'},{who:'npc_jieun',name:'智恩',text:'（問了老闆）她說是她媽媽做的醬。賣了四十年。'}],
@@ -199,7 +199,7 @@ const VAC_DATA=(function(){
       depart:{zhe:'你要去六個禮拜喔？？',yu:'時差多少'}, back:{},
       trip:{ start:{day:'06-21',h:7}, end:{day:'07-31',h:20}, placeName:'加州', home:'auto', missWeek:3, videoWd:0, videoH:10 },
       keys:[
-        {day:'06-21',h:7,title:'出發',bg:null,lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},
+        {day:'06-21',h:7,title:'出發',bg:'airport_departure',lines:[{narr:'（飛機飛了十二個小時。下飛機的時候，手機的時間往回跳了一天。）'}]},
         {day:'06-23',h:9,title:'第一堂課',bg:'intl_ca_campus',lines:[{narr:'（教室比霖澤館的小。教授穿短褲，第一句話是「叫我名字就好」。）'},{narr:'（旁邊的女生轉過來，自我介紹她叫 Priya，從印度來，念經濟。）'},{who:'npc_priya',name:'Priya',text:'Law? In Taiwan? ……You have a lot of reading, right?'}],
           choice:[{t:'「Yes. Too much.」',say:[{who:'npc_priya',name:'Priya',text:'Same.'},{narr:'（她把讀本攤開給你看，滿滿的螢光筆。）'}]},{t:'「I used to study economics.」',say:[{who:'npc_priya',name:'Priya',text:'Really? Why did you switch?'},{narr:'（你想了一下，只說「Long story.」她點頭，沒有再問。）'}]}]},
         {day:'07-02',h:10,title:'第一次報告',bg:null,lines:[{narr:'（輪到你報告。講到第二張投影片，你忘了一個字。教授等了三秒，幫你接下去。）'},{who:'npc_prof_ca',name:'教授',text:'Take your time.'}]},
