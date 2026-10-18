@@ -9406,8 +9406,8 @@
    "title": "阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
-   "next": "【LAWWW-C 00:2x】第八版已接（凍結，D99）；BB-C 拍遊戲內截圖（E01 412 房間、博雅），LAWWW-C 看過標 ART_APPROVED｜【LAWWW-C 23:5x】D99 第一優先（經濟系 412 室友）：派 LAWWW2-C 當下一項｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "已驗收",
+   "next": "【LAWWW-C 2026-10-18 01:3x ART_APPROVED（D100 第 6 點）】遊戲內截圖（手機模擬橫向、b0d5730a、412 第一晚 E01：docs/art-rebuild/review_shots/xun_412_e01_b0d5730a.png）和參考圖 xun.webp 一致：黑色短亂髮、寬鬆白色長袖、卡其直筒褲、冷淡的表情。已知小缺點（不影響遊玩、不再做版本，D99）：上衣有幾個深色小點。｜【LAWWW-C 00:2x】第八版已接（凍結，D99）；BB-C 拍遊戲內截圖（E01 412 房間、博雅），LAWWW-C 看過標 ART_APPROVED｜【LAWWW-C 23:5x】D99 第一優先（經濟系 412 室友）：派 LAWWW2-C 當下一項｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -9428,7 +9428,9 @@
     "acceptance": "VRM 接進遊戲；角色美術由 LAWWW-C 驗收（D100）",
     "ack": "ACTIONED"
    },
-   "pausedFrom": "待開工"
+   "pausedFrom": "待開工",
+   "artStatus": "ART_APPROVED",
+   "evidence": "LAWWW-C 2026-10-18 01:3x 遊戲內截圖 docs/art-rebuild/review_shots/xun_412_e01_b0d5730a.png（手機模擬橫向、b0d5730a、412 第一晚）對照 art_reference/xun.webp；角色美術由 LAWWW 驗收（D100 第 6 點）"
   },
   {
    "id": "ART-CH-PINYU",
@@ -16548,7 +16550,7 @@
    "id": "BUG-BB218-1018",
    "title": "BB_218 經濟系第一段的兩個遊戲問題：經濟系課堂老師一句顯示 undefined（日子是負數，輪流序號變負）；9/1 晚上 412 和阿勳的對話鏡頭卡進上舖床板",
    "status": "已整合待測試",
-   "next": "2026-10-18 01:3x LAWWW-C：classes3d.js S.rot（取正的餘數；同樣的負數問題 home3d 家裡吃飯、story3d 閒聊招呼、點頭招呼一起改）；宿舍 z.camBox 鏡頭只在中間走道、412 第一晚兩人鏡頭從房間裡往門口拍。tests/syllabus_unit.js 經濟系 173 堂（舊版失敗、新版通過）。等 BB-C 重拍 2024-09-04 課堂、9/1 412 那幾格",
+   "next": "2026-10-18 01:3x LAWWW-C：classes3d.js S.rot（取正的餘數；同樣的負數問題 home3d 家裡吃飯、story3d 閒聊招呼、點頭招呼一起改）；宿舍 z.camBox 鏡頭只在中間走道、412 第一晚兩人鏡頭從房間裡往門口拍。tests/syllabus_unit.js 經濟系 173 堂（舊版失敗、新版通過）。等 BB-C 重拍 2024-09-04 課堂、9/1 412 那幾格｜01:3x LAWWW-C 第 2 層自測（D100f；[前置／捷徑] ?y0 經濟系開局按鈕直接到 9/1 21:00）：412 那幾句鏡頭在 (-1.15,1.55,-0.35)，看得到房間、玩家、門口的阿勳，不再只有床底（截圖 docs/art-rebuild/review_shots/xun_412_e01_b0d5730a.png）；課堂 undefined 還要 BB 看 9/4",
    "first": {
     "term": "Y0S1",
     "week": 1,

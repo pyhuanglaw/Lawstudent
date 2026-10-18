@@ -7469,8 +7469,8 @@
    "what": "阿勳（盧正勳 econ_zhengxun）3D 人物第八版 bl_econ_zhengxun.vrm（outbox 598e0744）",
    "task": "ART-CH-XUN",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 看 v6／v8 對照圖（test_charlook 渲染）後整合：manifest char.econ_zhengxun＋CHARACTERS.econ_zhengxun.char3d.model；D99 夠用凍結，不再走「身體拉到布底下」的生產線；遊戲內截圖等 BB-C，看過就標 ART_APPROVED（D100）"
+   "integration": "已驗收",
+   "note": "LAWWW-C 看 v6／v8 對照圖（test_charlook 渲染）後整合：manifest char.econ_zhengxun＋CHARACTERS.econ_zhengxun.char3d.model；D99 夠用凍結，不再走「身體拉到布底下」的生產線；遊戲內截圖等 BB-C，看過就標 ART_APPROVED（D100）；2026-10-18 01:3x LAWWW-C 看遊戲內截圖標 ART_APPROVED"
   },
   {
    "id": "DL-LAWWW2-cd8a54c3",
@@ -7484,6 +7484,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "v9.10 收件範圍外（使用者 2026-10-18 01:0x：美國交換的大學、圖書館在 LAWWW2 自己的分支繼續）；v9.10 發布後整合"
+  },
+  {
+   "id": "DL-LAWWW2-1e6987cb",
+   "date": "2026-10-18",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "1e6987cb",
+   "what": "SCN-US-02 美國校園第二版交件（us_campus.glb 8.4 萬三角形、layout v2、us_law_kit.py／us_campus.py／us_campus_layout_gen.py；outbox 03d6b625；README docs/art-rebuild/second_ai/test_shots/us_campus/）",
+   "task": "SCN-US-02",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "取代 DL-LAWWW2-cd8a54c3（同一件的中間版）。v9.10 收件範圍外（使用者 2026-10-18 01:0x），v9.10 發布後照 LAWWW2 給的接法接（us3d.js outdoorZone、ASSETS bldg.us_campus、US_CAMPUS_LAYOUT）；場景美術 READY_FOR_ART_REVIEW 等使用者"
   }
  ],
  "ignored": [
