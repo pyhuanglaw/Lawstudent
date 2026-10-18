@@ -18992,7 +18992,7 @@
    "title": "10/17 15:30 辦完休學：y0_kx_leave 十則私訊改成演出來的電話（AA_296；ev_y0_e30 演完直接接）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -19006,7 +19006,7 @@
    },
    "source": "AA-C 1636a700（AA_296、DL-AA-1636a700）",
    "authorized": "D103（重要的事不能只用手機說）",
-   "next": "story3d.js 1406 y0_kx_leave → 電話事件（開頭旁白「（捷運上。你撥給她。響了兩聲。）」、「？？？」→「……蛤？」、結尾「（她掛掉了。）」）；lifeline_g1_unit 42"
+   "next": "events.js ev_y0_e30 最後接 15:30 演出來的電話（AA 原句、「……蛤？」、掛掉旁白）；story3d y0_kx_leave 私訊拿掉（舊存檔收到的照留）；lifeline_g1、v0_e30 改。BB 測"
   },
   {
    "id": "BUG-DATE-0831-1018",
@@ -19027,7 +19027,7 @@
    },
    "source": "AA-C 轉述使用者（存檔 企劃線 6fbe1f15 qa_saves day-15、day-18）",
    "authorized": "使用者回報",
-   "next": "重現：讀 day-18 存檔（8/29 22:42）一路到 9/1；查跨午夜只加 G.hour 沒換 G.day 的路（宿舍床快轉、8/31 22:10 可昕訊息之後）；econff setT 週日 7 已改 0（52bf3f16）；加測試"
+   "next": "查到一部分：①8/31 14:00 開學典禮是 AA_195 4-4 的設計（ceremonyY1）；②存檔裡 8/30 18:02 收到可昕「早安。今天的假設題。」是舊存檔補訊息的路（sleepNow 醒來的 KX_FIRST_MSG 補一次）——經濟系轉過來的已不補（6c36a07b）。③「9/1 早上畫面寫 8/31、上完課變 9/1」還沒重現：要讀 day-18 存檔睡到 9/1 早上，看 HUD（G.day+floor(hour/24)）和 dayTitle／手機「今天」（只看 G.day）哪個不一樣；懷疑有路讓 G.hour 過 24 沒換 G.day。派 BB 重現"
   },
   {
    "id": "DORM-AFTER-MOVEOUT-1018",

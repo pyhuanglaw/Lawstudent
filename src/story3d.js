@@ -1392,9 +1392,7 @@ const STORY = (function(){
        → 17:40 社科院門口車上＋20:30 摩天輪（ev_y0_e26，同一趟固定出遊：出發選單只有「出發」）→ 回到宿舍快十一點、接檯燈上的便利貼。
        過了時間還沒出發（例：在別的事件裡）＝那件結束後直接出發（沒有電話台詞）；睡著＝coreCallAt 叫醒（CORE_OUT）。舊的 3/20 邀約、3/22 捷運站、17:45 電話拿掉 */
     if(S.isEcon(G)&&typeof OUT!=='undefined'){ const d30=S.dayOfKey(S.Y0_LEAVE_DAY), K=t=>({th:'p:kexin',from:'kexin',text:t}), Y=t=>({th:'p:kexin',from:'player',who:null,text:t});
-      if(d30!=null&&G.day===d30&&G.events&&G.events.done&&G.events.done.ev_y0_e30&&!PHONE.sent(G,'y0_kx_leave')){
-        PHONE.at(G,d30,Math.max(15.5,G.hour),[Y('我今天去辦休學了。'),K('？？？'),K('今天？快期中考了耶。'),Y('就是因為快期中考了。我還是不想念書。'),Y('我覺得很完蛋。所以就去辦了。'),
-          K('你現在在哪。'),Y('捷運上。要回家。'),K('你現在回來學校找我。我還有一堂，五點下課。社科院門口。'),Y('……我才剛休學。'),K('休學又不是不能進校門。')],'y0_kx_leave');
+      if(d30!=null&&G.day===d30&&G.events&&G.events.done&&G.events.done.ev_y0_e30){   /* 15:30 告訴可昕：ev_y0_e30 最後演出來的電話（AA_296；原本的 y0_kx_leave 十則私訊拿掉，舊存檔已經收到的照留）*/
         if(!OUT.get(G,'y0_e26')) OUT.plan(G,{id:'y0_e26',ev:'ev_y0_e26',day:d30,h:17+40/60,must:true,late:0.25,place:'社科院門口',title:'社科院門口 17:40',travel:'回家拿車鑰匙，再開回學校',travelH:1.5,back:'回到宿舍。'}); }
       const q26=OUT.get(G,'y0_e26');
       if(q26&&q26.state!=='done'&&q26.day===d30&&(G.day>d30||(G.day===d30&&G.hour>=q26.h+0.25))&&G.day<=d30+1&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;

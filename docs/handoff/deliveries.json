@@ -8197,7 +8197,7 @@
    "what": "AA_296 只用手機演的重要劇情盤點：y0_kx_leave 改電話",
    "task": "AA296-KXCALL-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": ""
   },
   {

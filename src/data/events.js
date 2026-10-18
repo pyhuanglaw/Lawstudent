@@ -2264,8 +2264,13 @@ const STORY_EVENTS=[
       {speaker:'player',text:'會啊。宿舍這週末要搬。……可是我會回來。'},{speaker:'唐睿',text:'那就不算走。'},
       {rel:{econ_zhengxun:{fam:1},econ_pinyu:{fam:1}}},{goto:'end'},
       {label:'l'},{speaker:null,text:'你沒有等下課，先走了。'},
-      {label:'end'} ],
-    after:(G,GM)=>{ if(G.flags.E30_WAITED&&G.hour<15+10/60) GM.advance(15+10/60-G.hour); } },
+      {label:'end'},
+      /* 15:30 的電話（AA_296，D103：重要的事不能只用手機說——原本 story3d.js 的 y0_kx_leave 十則私訊）*/
+      {scene:'電話',bg:false},{speaker:null,text:'（捷運上。你撥給她。響了兩聲。）'},{speaker:'player',text:'我今天去辦休學了。'},{speaker:'kexin',text:'……蛤？'},{speaker:'kexin',text:'今天？快期中考了耶。'},
+      {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',text:'你現在在哪。'},{speaker:'player',text:'捷運上。要回家。'},
+      {speaker:'kexin',text:'你現在回來學校找我。我還有一堂，五點下課。社科院門口。'},{speaker:'player',text:'……我才剛休學。'},{speaker:'kexin',text:'休學又不是不能進校門。'},{speaker:null,text:'（她掛掉了。）'},
+      {set:{Y0_KX_CALL:true}} ],
+    after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour); } },   /* 電話在 15:30（等下課＝15:10 以後）*/
   /* 休學以後第一次在社科院門口遇到經濟系的朋友（AA_224 第 3 組共同前提＝BB_188 A2-1b 阿勳那一句照用）：10 月下旬（10/20～10/31）走到社科院門口就演；之後不再提（大家不必每次驚訝） */
   { id:'ev_y0_soc_door', stage:'econ', title:'休學的來了', participants:['econ_zhengxun'], location:'campus', near:{x:97.9,z:-63.5,r:8}, trigger:'auto', term:['Y0S1'], time:[9,20], once:true, background:'blur',
     spawn:{npc:'econ_zhengxun',dist:1.6,pose:'idle'},

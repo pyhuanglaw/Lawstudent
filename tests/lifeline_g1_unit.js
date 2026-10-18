@@ -37,9 +37,11 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* ---------- E30 ---------- */
   { econ(d30,14.7,'campus',{}); picks=['等他們下課']; await EVENTS.run(ev('ev_y0_e30')); const L=lines();
     check('1-1 E30：「阿勳…舉了一下筆」之後「（可昕坐在前排，背對窗戶。她沒有看到你。）」；等下課＝鐘響後「（可昕抱著書從前門出去…）」',L.indexOf('（可昕坐在前排，背對窗戶。她沒有看到你。）')===L.indexOf('阿勳在裡面，對你舉了一下筆。')+1&&L.indexOf('（可昕抱著書從前門出去，往下一間教室跑。）')===L.indexOf('你在走廊的長椅上坐到三點十分。下課鐘響了。')+1,L.slice(4,10).join('｜')); }
-  /* ---------- 15:30 私訊＋固定出遊 ---------- */
-  { econ(d30,15.2,'campus',{LEAVE_WEEK:6,E30_WAITED:true}); G.events.done.ev_y0_e30=d30; run(15.2,15.6); const M=TH('p:kexin');
-    check('1-2 15:30 私訊：十則、祐廷先說「我今天去辦休學了。」、最後「休學又不是不能進校門。」；沒有「我在窗外」',M.length===10&&M[0].from==='player'&&M[0].text==='我今天去辦休學了。'&&M[9].text==='休學又不是不能進校門。'&&!M.some(m=>/窗外/.test(m.text))&&Math.abs(M[0].h-15.5)<0.01,JSON.stringify(M.map(m=>m.from+':'+m.text)));
+  /* ---------- 15:30 電話（AA_296：原本的十則私訊改成演出來的電話，接在 E30 最後）＋固定出遊 ---------- */
+  { econ(d30,14.7,'campus',{}); picks=['先走']; await EVENTS.run(ev('ev_y0_e30')); const LC=lines().map(t=>t.replace(/^[^（：]{1,6}：/,'')), i0=LC.indexOf('（捷運上。你撥給她。響了兩聲。）');
+    check('1-2 15:30 電話：E30 演完直接接；「我今天去辦休學了。」→「……蛤？」→…→「休學又不是不能進校門。」→「（她掛掉了。）」；沒有「我在窗外」；時間到 15:30',i0>0&&LC[i0+1]==='我今天去辦休學了。'&&LC[i0+2]==='……蛤？'&&LC[i0+10]==='休學又不是不能進校門。'&&LC[i0+11]==='（她掛掉了。）'&&!LC.some(t=>/窗外/.test(t)&&/我在/.test(t))&&G.hour>=15.5-1e-6,JSON.stringify(LC.slice(i0)));
+    econ(d30,15.2,'campus',{LEAVE_WEEK:6,E30_WAITED:true}); G.events.done.ev_y0_e30=d30; run(15.2,15.6); const M=TH('p:kexin');
+    check('1-2 私訊那十則不再傳（AA_296）',!M.some(m=>m.text==='我今天去辦休學了。'||m.text==='？？？'),JSON.stringify(M.map(m=>m.text)));
     const q=OUT.get(G,'y0_e26');
     check('1-2 固定出遊 y0_e26：當天 17:40 社科院門口、must（只有「出發」）、回程「回到宿舍。」',q&&q.day===d30&&Math.abs(q.h-(17+40/60))<1e-6&&q.must===true&&q.ev==='ev_y0_e26'&&q.back==='回到宿舍。',JSON.stringify(q)); }
   /* ---------- 車上＋摩天輪 ---------- */
