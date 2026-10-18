@@ -38,7 +38,7 @@ const HOME=(function(){
     if(firstWeekend(G)){ const s=S.pick(G,'sisDinner'); if(s) await GM.say(SIS,s.t); }
     GM.advance(1); };
   /* 在家睡覺：隔天早上在家醒來（08:30）；早上一句 */
-  S.sleep=async function(GM,wakeH){ const G=GM.G, E=GM.E;
+  S.sleep=async function(GM,wakeH){ const G=GM.G, E=GM.E; if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return;   /* 經濟系事件接事件：在家睡覺也＝到下一個事件 */
     { const cw=typeof STORY!=='undefined'&&STORY.coreCallAt?STORY.coreCallAt(G):null; if(cw!=null&&cw>G.hour){ await GM.fade(true); GM.advance(cw-G.hour); await GM.fade(false); if(GM.toast) GM.toast('手機響了。',2400); return; } }   /* 經濟系的固定核心（例：E35 21:30 的電話）：睡著也會被叫醒，下一輪選單接著演 */
     await GM.fade(true); if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡（明軒那句，AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7; G.energy=100; G.hour=wakeH!=null?wakeH:8.5;   /* wakeH：隔天有學校的固定行程時提早醒（DL-05，AA_160 1-6）*/ if(E) E.hour=G.hour; G.flags.companion=null;
     if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) G.weather='rain'; else G.weather=Math.random()<0.7?'clear':'cloudy'; if(E&&E.setWeather) E.setWeather(G.weather);
@@ -286,7 +286,7 @@ const HOME=(function(){
   S.ffOpts=function(G){ const B=S.lawBreak(G); if(!B||(G.stage||'law')!=='law') return null; const now=T(G.day,G.hour), end=S.ffEnd(G,B); if(end==null||end<=now+0.5) return null;
     const nx=S.breakNext(G,now), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
-  S.ffMenu=async function(GM,where){ const G=GM.G, O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
+  S.ffMenu=async function(GM,where){ const G=GM.G; if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return true; const O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null||o.to<=T(G.day,G.hour)) return false;
       const d0=G.day, t0=T(G.day,G.hour), t1=await S.breakJump(GM,o.to,{dorm}); { const rl=G.flags._repSkipLine; G.flags._repSkipLine=null; const l=rl||S.breakSkipLine(G,t0,t1,{dorm}); if(l) await GM.say(null,l); }   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */

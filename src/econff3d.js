@@ -102,6 +102,10 @@ const ECONFF=(()=>{
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
     catch(e){ console.warn('ECONFF step '+s.n,e); }
     r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave(); return true; };
+  /* 睡覺、快轉＝直接到下一個事件（2026-10-18 使用者：「我每天睡覺到休學，還可以跟可昕告白，中間我們根本沒遇到」——一定要演的事件不能被睡過去）。
+     story3d.js 的 sleepNow、home3d.js 的 sleep／ffMenu 先問這裡：事件模式而且還有下一個事件＝跳過去、回傳 true */
+  S.sleepJump=async function(GM){ const G=GM.G; if(!S.on(G)||!S.next(G)) return false; if(S.busy) return true; S.busy=true;
+    try{ if(GM.E&&GM.E.player&&GM.E.player.seat&&GM.standUp) GM.standUp(GM.E.player); await S.advance(GM); } catch(e){ console.warn('ECONFF sleepJump',e); } finally { S.busy=false; } return true; };
   /* 每 0.5 秒（story3d.js S.tick）：空下來 1.5 秒就接下一個 */
   let idleSince=0;
   S.tick=function(GM){ const G=GM.G; if(!S.on(G)||S.busy){ idleSince=0; return; } const E=GM.E, P=E&&E.player;

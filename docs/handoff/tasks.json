@@ -17951,7 +17951,7 @@
    "status": "待開工",
    "priority": "P0",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 1,
     "earliest": "經濟系 9/18～10/17",
     "mainline": true,
@@ -17993,7 +17993,7 @@
    "status": "待開工",
    "priority": "P2",
    "first": {
-    "term": "Y0",
+    "term": "Y0S1",
     "week": 3,
     "earliest": "9/16 經濟系群組公告",
     "mainline": false,
@@ -18005,6 +18005,69 @@
    "source": "AA-C 06:23（AA_293 第 4 點）",
    "authorized": "系統提示字（LAWWW 可寫，D79 第 3 點）",
    "next": "經濟系：事件接事件自動帶去；法律系那幾年同類群組活動公告後加系統提示「當天會有人私訊你」"
+  },
+  {
+   "id": "BUG-ECON-SLEEPSKIP-1018",
+   "title": "經濟系每天睡覺可以一路睡到休學、還能跟可昕告白，中間根本沒遇到（使用者 10-18 存檔 day-334：只演了 E02、E05、T0a、E30、E26）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2～10/17",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:3x（存檔 918b2572-fatiao3d_save_day-334.json，v9.10 線上版）",
+   "authorized": "使用者回報",
+   "next": "事件接事件模式下：宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都改成跳到下一個事件（ECONFF.sleepJump），一定要演的不能睡過去。tests/econ_ff_unit.js ⑦。v9.10 線上版沒有事件接事件；下一版（v9.10.1）才有。待 BB-C 瀏覽器：9/2 起每天去睡覺，確認每個事件都演到"
+  },
+  {
+   "id": "BUG-KX-NCCU-1018",
+   "title": "經濟系那一年可昕的位置顯示「在政大」（使用者 10-18：「杜可昕顯示在政大 三小啦」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2～10/17",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x",
+   "authorized": "使用者回報",
+   "next": "story3d.js whereIs：經濟系那一年可昕沒有行程時顯示「在台大」（2025-02 起休學＝「在家裡」），不用 characters.js 的 school:'政大'。待 BB-C 看大地圖「認識的人」"
+  },
+  {
+   "id": "ECON-FF-PHASE2-1018",
+   "title": "休學以後還住宿舍、之後沒有劇情（使用者 10-18）：事件接事件延伸到 10/18～10/19 退宿與休學在家（AA_292 第 5 節第二張表，48 列）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 7,
+    "earliest": "10/17 休學那晚",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:4x；AA_292 第 5～8 節（14b5631c／81d42881）",
+   "authorized": "使用者選擇題（休學在家也事件接事件，D102 ③）",
+   "next": "10/19 09:00 ev_y0_a3 退宿（劇情照舊：10/17 休學、10/19 週六阿勳幫忙封箱搬回家）；之後照第二張表跳；_h 在家版本、自動出發的出遊、重考讀書日"
   }
  ]
 }

@@ -2694,6 +2694,7 @@ const STORY = (function(){
   S.E35_AT={x:-91,z:55.6};
   S.E36_AT={x:-23.6,z:-12};   /* E36 可昕在椰林大道的長椅（-25,-13）旁邊（BB_104 8-11「她坐在路邊的椅子上」）*/   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
   async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
+    if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return;   /* 經濟系事件接事件：睡覺＝到下一個事件（不能睡過去）*/
     /* E24c 的睡前邊界（3/13 頂樓）拿掉：E24c 改成 2/13 23:00 阿勳的私訊（AA_224 5-2）*/
     { const cw=S.coreCallAt(G); if(cw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance(cw-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(GM.toast) GM.toast('手機響了。',2400); return; } }
     GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); if(!S.opening(G)){ try{ await nightEvent(GM); }catch(e){ console.warn('nightEvent',e); } }   /* 睡著之後、天亮之前（trigger 'sleep'）*/ if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡：隔天是「累」的一天（明軒那句；AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7;   /* DL-02：睡覺不再補體力（前一晚打電動的「隔天精力 −10」也不用了）*/ G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))?'rain':(Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'));   /* 颱風假整天下雨（calendar.js 的 TYPHOON）*/ E.setWeather(G.weather); F.companion=null; F.nightKai=false;
@@ -3006,7 +3007,8 @@ const STORY = (function(){
   S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;
     const pr0=S.presence(id,G); if(!pr0.here&&pr0.kind!=='taipei') return pr0.away?{zone:null,act:'',away:pr0.away}:null;
     if(LEGACY_IDS.includes(id)&&((!F.afternoonDone&&!zheClassOk(id,c,G))||F.classNow)) return null;
-    const ent=schedEnt(c,G); if(!ent) return pr0.kind==='taipei'?(pr0.away?{zone:null,act:'',away:pr0.away}:null):(c.school?{zone:null,act:'',away:'在'+c.school}:null); const end=ent.to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60), until=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
+    const ent=schedEnt(c,G); const school=(id==='kexin'&&S.isEcon(G))?(G.day<S.dayOfKey('2025-02-01')?'台大':'家裡'):c.school;   /* 經濟系那一年可昕是台大經濟系（2025-02 起休學在家），不是政大（2026-10-18 使用者：「杜可昕顯示在政大」）*/
+    if(!ent) return pr0.kind==='taipei'?(pr0.away?{zone:null,act:'',away:pr0.away}:null):(school?{zone:null,act:'',away:'在'+school}:null); const end=ent.to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60), until=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
     if(ent.zone==null) return ent.away?{zone:null,act:ACT[ent.act]||'',away:ent.away,until}:null;   /* 不在遊戲的場景裡（例：在小福吃午餐）*/
     return {zone:ent.zone, room:ent.room||null, act:ent.label||ACT[ent.act]||'', until}; };   /* label：這一筆自己的說法（芷若：「剛下課，在 101 門口」）*/
   return S;

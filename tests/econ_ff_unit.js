@@ -34,4 +34,13 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   ECONFF.rec(G).lines.push(a); const b=ECONFF.lineFor(G,dayOf('2024-09-09'),dayOf('2024-09-18')); check('⑤ 用過的不重複（同一段改用備用句）',b!==a&&!!b,b); }
 { const G=mkG('2024-10-15',22.6); const r=ECONFF.jumpTo({G,E:null},dayOf('2024-10-15'),24.5); check('⑥ 10/15 24:30：日子還是 10/15、時間 24.5（凌晨兩點的微積分的條件）',r==='ok'&&G.day===dayOf('2024-10-15')&&Math.abs(G.hour-24.5)<1e-6,G.day+' '+G.hour);
   const r2=ECONFF.jumpTo({G,E:null},dayOf('2024-10-16'),19); check('⑥ 接著跳到 10/16 19:00',r2==='ok'&&G.day===dayOf('2024-10-16')&&Math.abs(G.hour-19)<1e-6,G.day+' '+G.hour); }
-console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
+// ⑦ 睡覺、快轉＝到下一個事件（2026-10-18 使用者：「我每天睡覺到休學，還可以跟可昕告白，中間我們根本沒遇到」）
+(async()=>{ const G=mkG('2024-09-02',22); G.flags.ECONFF={done:{4:1,5:1},lines:[]}; let adv=0; const save=ECONFF.advance; ECONFF.advance=async()=>{ adv++; };
+  const r=await ECONFF.sleepJump({G,E:null}); check('⑦ 事件模式：睡覺改成跳到下一個事件（advance 一次）',r===true&&adv===1,adv);
+  ECONFF.busy=true; const r2=await ECONFF.sleepJump({G,E:null}); check('⑦ 正在跳：不重複跳、也不照原本睡到隔天',r2===true&&adv===1); ECONFF.busy=false;
+  const L=Object.assign(mkG('2024-09-02',22),{stage:'law'}); check('⑦ 法律系：照原本睡覺',(await ECONFF.sleepJump({G:L,E:null}))===false);
+  const D=mkG('2024-10-18',1); D.events.done.ev_y0_e30_note=1; check('⑦ 10/17 便利貼以後（事件模式結束）：照原本睡覺',(await ECONFF.sleepJump({G:D,E:null}))===false);
+  ECONFF.advance=save;
+  const src=['src/story3d.js','src/home3d.js'].map(f=>fs.readFileSync(path.join(ROOT,f),'utf8')).join('\n');
+  check('⑦ 宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都先問 ECONFF.sleepJump',(src.match(/ECONFF\.sleepJump\(GM\)/g)||[]).length>=3);
+  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0); })();
