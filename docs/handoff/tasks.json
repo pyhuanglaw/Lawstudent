@@ -17668,6 +17668,97 @@
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
    "next": "v9.10.1"
+  },
+  {
+   "id": "SYS-BOOKS-1018",
+   "title": "書店書單：法律系每一門法律課的教科書都能買、經濟系那年賣經濟系的書；買了讀那一科準備度多加、期末那一科多一次想起答案（使用者 10-18 05:5x 選擇題，X15）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一次進書店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "ART-GG-SHOPS-1018",
+   "title": "公館店面外觀重做（使用者 10-18 05:5x「從外面看都好醜」，X16）",
+   "area": "P0",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一次去公館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "LAWWW2 排在 ART-YU-3D 之後",
+   "xai": {
+    "spec": "使用者 10-18 05:5x：公館的店面從外面看都好醜，希望修改；照 D77 店名用諧音／替代名",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "遊戲內同角度前後截圖；導航、店門互動點不動",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "UX-EXIT-MARK-1018",
+   "title": "室內（店面）出口要有看得到的標示、按了就出去（X17）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "第一次進店",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
+  },
+  {
+   "id": "BUG-NPC-DUP-1018",
+   "title": "路人常有兩個一模一樣穿搭的人在附近或旁邊（X18）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "任何時候",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 05:5x 玩 v9.10（USER_WANTS X15～X18）",
+   "authorized": "使用者直接要求",
+   "next": "v9.10.1"
   }
  ]
 }
