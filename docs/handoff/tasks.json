@@ -18522,7 +18522,7 @@
    "title": "臺北的家只有餐桌、很醜（使用者 10-18：「台北的家為什麼只有餐桌？這麼醜的家不如我生 CG，三房兩廳都能生 CG」）：BB 跟使用者要三房兩廳的 2D 背景，LAWWW 照時段／活動換背景",
    "area": "v0",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -18536,7 +18536,7 @@
    },
    "source": "使用者 2026-10-18 07:2x",
    "authorized": "使用者直接要求（D97、D100）",
-   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖",
+   "next": "BB-C：清單＋提示詞（純場景一次四份）→ 使用者生圖 → 交 LAWWW；LAWWW：home3d bg() 照時段、活動、房間換背景（念書＝餐桌、睡前＝房間、晚上＝客廳、可昕住的客房）｜BB-C 07:02：清單 11 張（BB_132 第 83 組 c3b01a2b）已給使用者：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night、home_dining_cny；陽台、樓下用現有圖｜LAWWW-C 07:5x：11 張接好（outings3d.js 新 key；舊 home_living／home_living_day／home_room 改指新圖；home3d bg() 照時段：05～07 房間、07～17 餐桌、17～21 晚餐、21～23 客廳、深夜重考期餐桌小燈／其他房間）。可昕的客房 home_guest_night、玄關、廚房還沒有場景用到（等 AA 劇情或 RH 場景的 bg）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",

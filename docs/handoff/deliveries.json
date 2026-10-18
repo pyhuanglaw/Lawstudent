@@ -8119,7 +8119,7 @@
    "what": "BG-HOME-1018 全部 11 張：home_entry_night、home_sofa_day/night、home_dining_day/night/late、home_kitchen_day、home_room_day/night、home_guest_night（＋home_dining_cny）",
    "task": "BG-HOME-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW-C 07:3x 接"
   }
  ],
