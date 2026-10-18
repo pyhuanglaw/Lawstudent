@@ -510,6 +510,7 @@ const GAME = (function(){
   /* 手機按鈕上的未讀數字（別人傳來、還沒打開那一段對話看過的）*/
   function phoneBadge(){ const el=$('phoneBadge'); if(!el||typeof PHONE==='undefined'||!G) return; const n=PHONE.unread(G); el.textContent=n>9?'9+':String(n); el.classList.toggle('hide',!n); }
   GM.phoneBadge=phoneBadge;
+  GM.phoneIsOpen=()=>!!phoneOpen;
   function bindUI(){ $('btnMenu').onclick=()=>{ if(menuOpen) closeMenu(); else openMenu('notes'); }; $('btnClose').onclick=closeMenu; document.querySelectorAll('#menu .tabs button').forEach(b=>b.onclick=()=>switchTab(b.dataset.tab));
     const userClosePhone=()=>{ if(G&&PHONE.mustOpen&&PHONE.mustOpen(G,phoneThread||undefined)){ toast('先回覆。'); return; } closePhone(); };   /* 一定要回的訊息（ask.must）沒回之前，玩家按關閉不會關 */
     if($('btnPhone')){ $('btnPhone').onclick=()=>{ if(phoneOpen) userClosePhone(); else openPhone(); }; $('btnPhoneClose').onclick=userClosePhone; document.querySelectorAll('#phoneTabs button').forEach(b=>b.onclick=()=>{ if(b.disabled) return; phoneTab=b.dataset.ptab; phoneThread=null; phonePerson=null; renderPhone(); const pb=$('phoneBody'); if(pb) pb.scrollTop=0; }); if($('nextClass')) $('nextClass').onclick=()=>openPhone('today'); } $('interact').onclick=()=>doInteract(); $('btnRun').onclick=()=>{ E.player.runHold=!E.player.runHold; E.input.runToggle=E.player.runHold; $('btnRun').classList.toggle('on',E.player.runHold); }; $('btnCenter').onclick=()=>E.recenter(); if(typeof BIKE!=='undefined') BIKE.bindUI(GM);

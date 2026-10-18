@@ -18375,7 +18375,7 @@
    "title": "要回覆的手機訊息到了自動打開（D103：使用者「我根本不會看手機」）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -18389,7 +18389,7 @@
    },
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者直接要求",
-   "next": "自由行動時有新的「要回覆」訊息（ask）→ 空下來就自動打開那個對話；經濟系事件模式下劇情訊息自動打開。和 ECON-FF-PHASE2 一起做"
+   "next": "story3d.js S.phoneAuto（每 0.5 秒，PHONE.tick 後）：有新的要回覆的訊息、玩家空下來（沒有對話、劇情、不在家裡 2D 畫面、手機沒開）→ GM.openPhone('msg', 那個對話)；同一則只開一次（G.flags._autoAsk）。家裡那一輪、事件接事件跳的途中由 ECONFF.homeStep／advance 打開。tests/phone_auto_unit.js。風險：瀏覽器流程測試遇到要回的訊息會自己跳出手機——待 BB-C 跑 flow_main_day12、smoke_release 確認"
   },
   {
    "id": "RT-TOGETHER-1018",

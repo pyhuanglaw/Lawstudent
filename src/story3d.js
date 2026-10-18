@@ -457,6 +457,12 @@ const STORY = (function(){
     if(e.unlessWeekdayTime){ const u=e.unlessWeekdayTime; if((!u.weekday||u.weekday.includes(G.weekday))&&(!u.time||(hh>=u.time[0]&&hh<u.time[1]))) return false; }
     if(e.unlessWorking&&S.ladWorking(G,id)) return false; return true; };
   const ladIf=c=>{ const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; if(!c) return true; if(c.if||c.unless) return (!c.if||(ec&&EVENTS.cond(c.if)))&&!(c.unless&&ec&&EVENTS.cond(c.unless)); return !!(ec&&EVENTS.cond(c)); };   /* {if?,unless?} 或直接一個條件 */
+  /* 要回覆的訊息到了自動打開手機（D103，2026-10-18 使用者：「我根本不會看手機，不能都用手機說」）：有新的「要回覆」（有選項）的訊息、玩家空下來（沒有對話、選單、劇情、
+     不在家裡的 2D 畫面）就打開那個對話；同一則只自動開一次（G.flags._autoAsk 記 id），玩家關掉就不再跳 */
+  S.phoneAuto=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(typeof PHONE==='undefined'||!PHONE.pending||!GM.openPhone||GM.titleIdle) return; if(GM.phoneIsOpen&&GM.phoneIsOpen()) return;
+    const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!(typeof HOME!=='undefined'&&HOME.at(G)); if(!free) return;
+    const F=G.flags, seen=F._autoAsk||(F._autoAsk=[]); const m=PHONE.pending(G).find(x=>!seen.includes(x.id||x.key||x.text)); if(!m) return; seen.push(m.id||m.key||m.text); if(seen.length>200) seen.splice(0,seen.length-200);
+    GM.openPhone('msg',m.th); };
   S.ladMark=function(G,ids){ const so=ladRec(G); so.ladSeen=so.ladSeen||{}; for(const id of [].concat(ids)) so.ladSeen[id]=G.day; };   /* AA_293 第 2 節：過場演完把那一層記成推進過 */
   S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
   S.ladNext=function(G,id,mode){ const D=S.ladData(G,id); if(!D) return null; const L=D.L, K=D.key;
@@ -822,7 +828,8 @@ const STORY = (function(){
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof ECONFF!=='undefined'){ try{ ECONFF.tick(GM); }catch(e){ console.warn('ECONFF.tick',e); } }   /* 經濟系在學期間事件接事件（D102，src/econff3d.js）*/
-    if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }   /* 手機：排定時間的訊息（交接包 v1）*/
+    if(typeof PHONE!=='undefined'){ try{ S.phoneRules(GM); PHONE.tick(G,out=>{ if(out.length) GM.toast('手機｜'+PHONE.notice(G,out[0]),3800); if(GM.phoneBadge) GM.phoneBadge(); }); }catch(e){ console.warn('PHONE',e); } }
+    S.phoneAuto(GM);   /* 要回覆的訊息自動打開手機（D103）*/   /* 手機：排定時間的訊息（交接包 v1）*/
     if(G.zone==='noodle') noodleRegulars(GM);   /* 麵店的固定客人：時間到了進來、離開 */
     if(typeof TRIP!=='undefined'&&TRIP.at(G)){ TRIP.tick(GM); return; }
     if(typeof EXCH!=='undefined'&&EXCH.tick&&EXCH.tick(GM)) return;   /* 交換的最小流程（src/exchange3d.js）：出發日、宿舍的志願表 */   /* 自由出行途中（DL-06）：在外面的時候校園的事件不發生 */
