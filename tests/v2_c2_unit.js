@@ -51,7 +51,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   r=await play('找律師');
   check('選「找律師」：大伯「找律師要錢啊，你不就是嗎？」；lawyer',JSON.stringify(r.L.slice(base.length))==='["大伯：找律師要錢啊，你不就是嗎？"]'&&G.flags.FAMILY_LAND_Y1==='lawyer',JSON.stringify(r.L.slice(base.length)));
   { fresh(EVE,18,'dorm'); G.name='小明'; picks=[2]; await EVENTS.run(e); check('玩家改了名字：大伯叫的是玩家的名字',lines()[2]==='大伯：小明念台大法律喔？你不是從小就在看法律？來來來，你幫大伯看一下這個。',lines()[2]); }
-  check('2D 背景：除夕的客廳 home_living_cny（BB-B 第 25 組：年夜飯）、陽台 home_balcony（第 26 組）都有圖；平常的客廳 home_living 不用除夕那張（ART-12 平常版）',!!OUT.BG.home_living_cny&&OUT.BG.home_living_cny.image==='assets/bg/home_living_cny.webp'&&OUT.BG.home_balcony.image==='assets/bg/home_balcony.webp'&&e.dialogue[0].bg==='home_living_cny'&&OUT.BG.home_living.image!==OUT.BG.home_living_cny.image);
+  check('2D 背景：除夕的客廳 home_living_cny（BB-B 第 25 組：年夜飯；10-18 換使用者生成的 home_dining_cny，只看檔案在）、陽台 home_balcony（第 26 組）都有圖；平常的客廳 home_living 不用除夕那張（ART-12 平常版）',!!OUT.BG.home_living_cny&&require('fs').existsSync(require('path').join(__dirname,'..',OUT.BG.home_living_cny.image))&&OUT.BG.home_balcony.image==='assets/bg/home_balcony.webp'&&e.dialogue[0].bg==='home_living_cny'&&OUT.BG.home_living.image!==OUT.BG.home_living_cny.image);
   check('不寫真實地號：台詞裡沒有數字地號（地號只說「看不懂的地號」）',!e.dialogue.some(l=>/\d{2,}/.test(String(l.text||'').replace('{name}',''))));
   { fresh(EVE,22.5,'dorm'); G.events.done={}; check('除夕還沒演就上床：睡覺時演（sleep）；演過了就沒有',EVENTS.sleepEvent()===eb&&(G.events.done.ev_chiayi_land_y1=1,EVENTS.sleepEvent()!==eb));
     fresh(EVE+1,0.5,'dorm'); check('過了午夜（已經是初一）上床：不演',EVENTS.sleepEvent()!==eb); }
