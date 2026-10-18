@@ -99,10 +99,12 @@ const INV=(function(){
   const bandOf=id=>{ const lv=typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(id):'ACQUAINTANCE'; return lv==='FRIEND'||lv==='CLOSE_FRIEND'?'R':'A'; };
   /* 下一個週六（不含今天）從 h0 起可以的時間（芷若、語彤第一次約散步：「週六。我本來就在。」）*/
   S.nextSat=function(G,id,P,day,h0){ let d=day+1; while(wdOf(G,d)!==6&&d<day+8) d++; return S.nextFree(G,id,P,d,h0); };
+  /* 學姊的研究所筆試（2026-02-02）考完以後（17:00 起）：散步婉拒、溫州街散步那句讀這個（AA_284 1-3；原本綁作廢的 W8）*/
+  S.sisPostExam=(day,h)=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2026-02-02'):null; return d==null||day*24+(h||0)>=d*24+17; };
   S.personal=function(G,id,P,day,h,r){ const p=(D().people||{})[id]; if(!p||!P||!r) return r;
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(day):null, F=G.flags||{};
     const c={pid:P.id,P,day,h,wd:wdOf(G,day),band:bandOf(id),year:t?(+String(t.id).charAt(1)||1):1,term:t,
-      first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')),
+      first:!(G.invites||[]).some(iv=>iv.who===id&&iv.place===P.id&&(iv.state==='done'||iv.state==='accepted'||iv.state==='going'||iv.state==='missed')), postExam:S.sisPostExam(day,h),
       w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']})),
       dating:typeof ROM!=='undefined'&&ROM.knows?ROM.knows(G,id).length>0:Object.keys(F).some(k=>/^dating_/.test(k)&&!!F[k]),r};   /* 她知道祐廷有伴侶（BB_191 9-4 #6：芷若宵夜「你可以多帶幾個人」；不是祐廷有沒有伴侶）*/
     const out=Object.assign({},r), q=p.rule?p.rule(G,c,S):null;
@@ -188,7 +190,7 @@ const INV=(function(){
   S._later=(f,ms)=>setTimeout(f,ms);
   S.walkPick=function(G,id,pid){ const p=(D().people||{})[id], w=p&&p.walk; if(!w) return null; const F=G.flags||(G.flags={});
     const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
-    const c={year:t?(+String(t.id).charAt(1)||1):1,w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']}))};
+    const c={year:t?(+String(t.id).charAt(1)||1):1,postExam:S.sisPostExam(G.day,G.hour),w8:typeof STORY!=='undefined'&&STORY.sisW8?STORY.sisW8(G):(typeof EVENTS!=='undefined'&&!!EVENTS.cond&&!!EVENTS.cond({events:['ev_sis_collapse']}))};
     if(G.weather==='rain'&&w.rain) return {lines:w.rain,next(){}};
     const norm=e=>typeof e==='string'?{l:[e]}:(Array.isArray(e)?{l:e}:e);
     const L=oneW(w[pid]).concat(oneW(w.any)).map(norm).filter(e=>e&&e.l&&(!e.if||e.if(G,c))&&!(e.once&&F[e.once])); if(!L.length) return null;

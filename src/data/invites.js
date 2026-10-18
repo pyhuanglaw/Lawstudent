@@ -128,10 +128,10 @@ const INVITE_DATA={
         if(r.res==='accept'&&c.pid==='library'&&c.band==='A') return {res:'decline',why:'quiet',lines:['「總圖不能講話。我會死。」']};
         return null; } },
     heroine_05:{ partnerSay:{teahouse:['「一盞……那裡太安靜了。Café 可以，帶你的筆記。」']},   /* 有伴侶時約一盞（AA_172 3b）：系統說明之後她自己的一句 */
-      walk:{library:['「三件事。一，萬才館的電梯很慢，走樓梯比較快。」','「二，總圖三樓靠窗的位子九點前要搶。三……我忘了。」','「好奇怪，我第一次忘記第三件。」'],wenzhou:[{if:(G,c)=>c.w8,l:['「這家早午餐的鬆餅很好吃。我一直知道。只是從來沒有時間進去。」']}],noodle:['「法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。」','「……我們不能收，他就放在桌上走掉。」'],any:['「我大一的時候以為四年很長。……重點是，它真的很長。只是過得很快。」']},   /* 學姊（3-4）：平日 9–17 在總圖（作息 read，個人規則）；散步在 W8（ev_sis_collapse）以前婉拒、不給改天 */
+      walk:{library:['「三件事。一，萬才館的電梯很慢，走樓梯比較快。」','「二，總圖三樓靠窗的位子九點前要搶。三……我忘了。」','「好奇怪，我第一次忘記第三件。」'],wenzhou:[{if:(G,c)=>c.postExam,l:['「這家早午餐的鬆餅很好吃。我一直知道。只是從來沒有時間進去。」']}],noodle:['「法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。」','「……我們不能收，他就放在桌上走掉。」'],any:['「我大一的時候以為四年很長。……重點是，它真的很長。只是過得很快。」']},   /* 學姊（3-4）：平日 9–17 在總圖（作息 read，個人規則）；散步在 W8（ev_sis_collapse）以前婉拒、不給改天 */
       firstAt:{brunch:['「三分四十秒。老闆娘說的。……我也想要一件這麼準的事。」'],teahouse:['「一件事：這裡不能讀書。我第一次去一個不能讀書的地方。」']}, acc:{brunch:{A:['「半熟。好。重點是，我九點就到，你不要遲到。」'],R:['「好。……這次我不排吃完要做什麼。」']},teahouse:{R:['「一盞。……好。那裡的茶要等，我現在會等。」']},cafe:{A:['「好。帶你的筆記，我順便看。」'],R:['「今天不看筆記。」']},noodle:{A:['「好。阿鳳的菜我排過名次。一……」'],R:['「這次你點。我想知道你喜歡吃什麼。」']},wenzhou:['「散步。好。我第一次為了散步而散步。」']},
       rule:(G,c,I)=>{ const r=c.r, lib=c.wd>=1&&c.wd<=5&&c.h>=9&&c.h<17;
-        if(c.pid==='wenzhou'&&!c.w8&&(r.res==='accept'||r.res==='resched')) return {res:'decline',why:'w8',lines:['「散步沒有目的。……我還不會。」','「週三晚上我在法圖。要讀書的話，可以一起。」'],alt:null};
+        if(c.pid==='wenzhou'&&!c.postExam&&(r.res==='accept'||r.res==='resched')) return {res:'decline',why:'exam',lines:['「散步的話，等我考完。」','「週三晚上我在法圖。要讀書的話，可以一起。」'],alt:null};   /* 筆試（2026-02-02 17:00）以前婉拒散步（AA_284 1-3；原本綁作廢的 W8、到 11/30 連交往都拒）*/
         if(r.res!=='accept'||!lib) return null;
         if(c.pid==='library') return {res:'here',lines:['「我就在總圖。三樓。不要講話，傳訊息。」'],alt:null};
         if(c.pid==='cafe'||c.pid==='wenzhou') return {res:'resched',why:'busy',lines:[c.pid==='cafe'?'「五點以後。重點是我要先把這段寫完。」':'「五點以後。……散步，我試試看。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};
