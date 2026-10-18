@@ -18439,6 +18439,55 @@
    "source": "使用者 2026-10-18 07:1x",
    "authorized": "使用者回報",
    "next": "home3d.js：選項寫地點（STORY.rPlayEv 的地方）＋「現在就出發」（她 10:00 才有空就跳到 10:00）；選了直接出發、演完回家，不再留一個 10:00 的出遊讓其他選項一直跳「會錯過」。待 BB-C 重考期在家點一次"
+  },
+  {
+   "id": "UX-Y0-NO-NTU-1018",
+   "title": "休學在家不能自己去台大（使用者 10-18：「一個休學的人根本不會想再踏入台大，為什麼要保留這個選項」「重考中不要讓我去台大」「尤其可昕也休學，之後更不應該」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者直接要求",
+   "next": "home3d.js 在家選單拿掉「去學校」；game3d.js PLACE_LIST 在 HOME.baseMode 時不列台大校園裡的地方（NTU_ZONES）。劇情地點在台大的事件轉 AA（Q-Y0-NTU-1018）。待 BB-C"
+  },
+  {
+   "id": "Q-Y0-NTU-1018",
+   "title": "休學期間發生在台大校園的劇情事件要搬地點（R3 4/1 椰林、R4 4/19 總圖台階、E34 5/26 博雅；soc_door、E12）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/23 soc_door",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:1x",
+   "authorized": "使用者回報（劇情歸 AA）",
+   "next": "AA 定新地點、改台詞；LAWWW 照新地點改觸發、事件接事件的位置",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "休學期間（尤其 2/13 以後）不再要求玩家進台大；新地點與台詞",
+    "ack": "SENT"
+   }
   }
  ]
 }
