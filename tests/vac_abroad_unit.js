@@ -99,7 +99,7 @@ GM.money=function(n){ G.money+=n; };
     check('10. 加州＋可昕：第一個週日 10:00 視訊三句（「你那邊亮亮的。」…「下禮拜同一個時間。」）',L.includes('杜可昕：你那邊亮亮的。')&&L.includes('杜可昕：好，我要去睡了。下禮拜同一個時間。'),JSON.stringify(L.filter(t=>t.startsWith('杜可昕'))));
     const K=(G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text); check('10. 加州第 3 週可昕「我算了一下 還有二十一天」「不是在算 是剛好看到」（一次）',K.filter(t=>t==='我算了一下 還有二十一天').length===1&&K.includes('不是在算 是剛好看到'));
     check('10. 加州六週：池子用完第二圈只用前半（第 9 天起只會出現前四則）',K.filter(t=>t==='晚安 我先睡').length===1&&K.filter(t=>t==='我算了一下 你那邊現在晚上九點').length>=3,JSON.stringify([K.filter(t=>t==='晚安 我先睡').length,K.filter(t=>t==='我算了一下 你那邊現在晚上九點').length]));
-    check('10. 沛珊重考消失期（2027-06）：交往中也不傳',!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan')); }
+    check('10. 沛珊重考消失期（2027-06）：出國的訊息池不傳；交往中只有她每晚那一則（AA_276 第 4 節，使用者 23:5x 取代原本的「交往中也不傳」）',(G.msgs||[]).filter(m=>m.th==='p:classmate_peishan').every(m=>STORY.PS_KEEP_NIGHT.includes(m.text)),JSON.stringify((G.msgs||[]).filter(m=>m.th==='p:classmate_peishan').map(m=>m.text).slice(0,4))); }
   { fresh(D('2026-07-13'),8,'dorm',{dating_heroine_05:true}); G.stage='law'; VAC.signup(G,'C08@Y1','yes'); said=[]; picks=[0,0,0,0]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); PHONE.tick(G);
     const S5=(G.msgs||[]).filter(m=>m.th==='p:heroine_05'&&m.ask); check('10. 學姊兩天一則（首爾 12 天：池子 4～5 則）',S5.length>=4&&S5.length<=5,String(S5.length));
     check('10. 回來記 BACK_FROM_C08（3D 第一次遇到的招呼用）',G.flags.BACK_FROM_C08===D('2026-07-24')); }

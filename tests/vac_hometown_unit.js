@@ -6,9 +6,9 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/vac_activities.js','src/vac3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/vac_activities.js','src/vac3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -68,5 +68,33 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const g3=law('2027-03-01',15,{dating_classmate_peishan:true}); g3.flags.romance={[ps]:{status:'dating',sinceDay:D0+5}};
     check('6. 消失期開始以後才交往：照原規則聯絡不到',STORY.presence(ps,g3).kind==='unreachable');
     check('6. 放榜那天（8/6）起照舊在臺北的規則（不是 keep）',!STORY.presence(ps,law('2027-08-06',15,{dating_classmate_peishan:true})).keep); }
+  // 7. 去她的縣市（AA_276 第 1-1、5 節）：手機約她多一個「我去高雄找妳？」→ 選日子 → 她答應 → 排一趟高鐵當天來回 → 那一天演 first，之後輪流 again
+  { const said0=()=>said.map(x=>x.t);
+    law('2026-07-10',20); R('kexin',40,30,30); G.contacts.kexin=G.day-200;
+    check('7. 暑假可昕在高雄：手機可以約（whyNot 空白、canInvite），清單有「我去高雄找妳？」',INV.whyNot(G,'kexin')===''&&INV.canInvite(G,'kexin')&&HV.offer(G,'kexin').ok===true,J([INV.whyNot(G,'kexin'),HV.offer(G,'kexin')]));
+    picks=['我去高雄找妳？',0]; const d=await INV.flow(GM,'kexin',null,false); const q=OUT.rec(G).find(x=>x.hv&&x.hv.id==='kexin');
+    check('7. 約：玩家「我去高雄找妳？」、她「真的？……那我去車站接你。」、排明天高鐵當天來回',d===G.day+1&&said0().includes('我去高雄找妳？')&&said0().includes('真的？……那我去車站接你。來之前先跟我說幾點的車。')&&!!q&&q.ev==='ev_hv_kx'&&q.travelH===1.5&&q.h===10.5,J([d,said0().slice(-3),q&&q.ev]));
+    check('7. 約好以後清單那一項變成不能選（已經約好了）',HV.offer(G,'kexin').ok===false);
+    said=[]; G.day=q.day; G.hour=10.5; await HV.play(GM,q);
+    check('7. 第一次：車站接人 → 高雄・港邊 → 傍晚送上車（沒交往：「路上小心。到了傳一下。」）',said0().includes('你真的來了。')&&said0().includes('現在也是。高鐵一個半小時，還是很遠。')&&said0().includes('路上小心。到了傳一下。')&&!said0().some(t=>/開學我就上去了/.test(t))&&G.hour>=17,J(said0()));
+    check('7. 再去輪流：第二次夜市、第三次下雨、第四次河邊、第五次回到夜市',['night','rain','river','night'].every((v,i)=>{ G.flags.HV_N.kexin=1+i; return HV.pickVariant(G,'kexin',false)===v; })); G.flags.HV_N.kexin=1;
+    law('2026-07-10',20,{dating_kexin:true}); R('kexin',40,30,30); G.contacts.kexin=G.day-200; picks=['我去高雄找妳？',0]; await INV.flow(GM,'kexin',null,false);
+    check('7. 交往中答應：「你要來？……好。幾點的車，我去接你。」',said0().includes('你要來？……好。幾點的車，我去接你。'),J(said0().slice(-2)));
+    const q2=OUT.rec(G).find(x=>x.hv&&x.hv.id==='kexin'); said=[]; G.flags.HV_N={kexin:3}; G.day=q2.day; G.hour=10.5; await HV.play(GM,q2);
+    check('7. 交往中第四次（河邊）：多一句「……下次住一晚啦。」；送上車是「開學我就上去了。」',said0().includes('……下次住一晚啦。')&&said0().includes('開學我就上去了。……到時候換你來接我。'),J(said0()));
+    law('2026-07-10',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=G.day-200; G.flags.dating_classmate_peishan=true;
+    picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q3=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
+    said=[]; opts=[]; picks=['常笑']; G.day=q3.day; G.hour=10.5; await HV.play(GM,q3); const o3=opts[opts.length-1]||[];
+    check('7. 沛珊第一次（交往中）：「{name}！這裡這裡！」換成名字、三個選項（多「妳在這裡比較常笑。」）、送上車「下次換我上去找你。」',said0().includes((G.name||'祐廷')+'！這裡這裡！')&&o3.length===3&&said0().includes('……你不要突然講這種話啦。')&&said0().includes('下次換我上去找你。……這樣比較公平。'),J([o3,said0()]));
+    // 7 例外：沛珊重考消失期、交往中（第 4、5-5 節）：下午三個小時、一個月一次
+    const D0=DK('2026-12-18'); law('2027-03-03',20,{dating_classmate_peishan:true}); G.flags.romance={classmate_peishan:{status:'dating',sinceDay:D0-30}}; R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
+    check('7 例外. 消失期交往中：可以約「我去台中找妳？」',INV.whyNot(G,'classmate_peishan')===''&&HV.offer(G,'classmate_peishan').ok===true,J([INV.whyNot(G,'classmate_peishan'),HV.offer(G,'classmate_peishan')]));
+    picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q4=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
+    check('7 例外. 她答應「好。……一個下午就好，我晚上還要念。」、14:00 到',said0().includes('好。……一個下午就好，我晚上還要念。')&&q4&&q4.h===14&&q4.hv.keep===true,J(q4));
+    said=[]; G.day=q4.day; G.hour=14; await HV.play(GM,q4); q4.state='done';
+    check('7 例外. 那一天演 5-5（螢光筆、公園兩圈、「回去的路上不要傳訊息給我，我會想回。」），不演 5-3',said0().includes('我只能出來三個小時。')&&said0().includes('回去的路上不要傳訊息給我，我會想回。')&&!said0().some(t=>/這裡這裡/.test(t)),J(said0()));
+    const o5=HV.offer(G,'classmate_peishan'); check('7 例外. 同一個月不能再約（她說一個月一次）',o5&&o5.ok===false&&/一個月一次/.test(o5.why),J(o5));
+    law('2027-03-03',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
+    check('7 例外. 沒交往：清單沒有這一項、手機照樣約不到（沒有回覆）',HV.offer(G,'classmate_peishan')===null&&/沒有回覆/.test(INV.whyNot(G,'classmate_peishan'))); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

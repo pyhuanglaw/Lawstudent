@@ -1108,6 +1108,11 @@ const STORY_EVENTS=[
     beforeOuting:async(G,GM,q)=>{ if(typeof VAC!=='undefined') await VAC.outing(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
   /* 學期末的飯帶出的單日小活動（AA_251：C14 事務所參觀、C15 朋友約的單日小事；termend3d.js 的 dayOuting）*/
+  /* 寒暑假去她的縣市（AA_276 第 5 節；src/hometown3d.js 演，台詞 src/data/hometown_lines.js）：hours＝回程的高鐵（高雄一個半小時、台中一小時）*/
+  { id:'ev_hv_kx', title:'去高雄', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },
+  { id:'ev_hv_ps', title:'去台中', participants:[], location:'any', trigger:'outing', background:'dark', hours:1, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },
   { id:'ev_te_day', title:'假期的一天', participants:[], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof TERMEND!=='undefined') await TERMEND.dayOuting(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof TERMEND!=='undefined'&&TERMEND.dayMissed) TERMEND.dayMissed(GM,q); } },
