@@ -1311,7 +1311,7 @@ const STORY = (function(){
         if(typeof SOCIAL!=='undefined'){ SOCIAL.adjust('econ_pinyu',{comf:1}); SOCIAL.adjust('econ_zhengxun',{comf:1}); } if(G.events&&G.events.done&&!G.events.done.ev_y0_e28) G.events.done.ev_y0_e28=dd; }
       if(d!=null&&PHONE.sent(G,'y0_e28_grp')&&(G.day>d||(G.day===d&&G.hour>=23))&&G.day<=d+2&&!PHONE.sent(G,'y0_e24c_why')){ const XU=t=>({th:'p:econ_zhengxun',from:'econ_zhengxun',name:'阿勳',text:t}), dd=G.day===d?d:G.day, h=G.day===d?23:Math.max(9,G.hour);
         PHONE.at(G,dd,h,[XU('欸。群組不好問。'),Object.assign(XU('你為什麼要重考？我是認真問。'),{ask:{id:'y0_e24c_why',until:(dd+1)*24+18,opts:[
-          {t:'我從小就想念台大法律。第一次社會考壞了，總分差四分。經濟系很好，我只是放不下。',set:{E24C_REASON:'honest'},say:[XU('……差四分喔。那很煩。'),XU('考上要請保齡球。')]},
+          {t:'社會考壞了，差四分。……還是想念法律。',set:{E24C_REASON:'honest'},say:[XU('……差四分喔。那很煩。'),XU('考上要請保齡球。')]},
           {t:'本來就想念法律。第一次沒考上。',set:{E24C_REASON:'short'},say:[XU('好。懂了。')]},
           {t:'說來話長。考完跟你說。',set:{E24C_REASON:'later'},say:[XU('好。考完。我記著。')]}]}})],'y0_e24c_why');
         if(typeof SOCIAL!=='undefined') SOCIAL.adjust('econ_zhengxun',{trust:2}); if(G.events&&G.events.done&&!G.events.done.ev_y0_e24c) G.events.done.ev_y0_e24c=dd; } }
