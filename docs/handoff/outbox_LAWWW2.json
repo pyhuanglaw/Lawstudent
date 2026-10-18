@@ -521,6 +521,24 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-EXT-TEACH 第一批：普通、博雅外觀",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a72be0cc",
+   "files": [
+    "assets/models/env/second_ai/campus_putong.glb",
+    "assets/models/env/second_ai/campus_boya.glb",
+    "tools/blender/env_second/campus_teach.py",
+    "docs/art-rebuild/second_ai/patches/campus_teach_ext.diff",
+    "docs/art-rebuild/second_ai/test_shots/campus_teach/"
+   ],
+   "state": "已交付（外觀；MODEL_READY、READY_FOR_ART_REVIEW；沒有照片，博雅外觀是推測）",
+   "remaining": "第二批室內（牆、地板、天花、樓梯、教室）還在做；博雅另外兩個入口沒做",
+   "next": "LAWWW-C 套 campus_teach_ext.diff（對 5ffde5b3：manifest、ckTag、attachWenzhouModel、套件五層；導航不動）＋從我的分支拿兩個 GLB",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }

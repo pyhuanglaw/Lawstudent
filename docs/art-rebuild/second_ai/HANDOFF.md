@@ -412,7 +412,7 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 - **新順序**：
   1. ART-EXT-M1 男一舍：外觀換 Blender；室內沿用 dorm_hall.glb、dorm_room4.glb。**已交 `a9a77bde`**（README `test_shots/campus_male1/README.md`、patch `patches/campus_male1.diff`；另外發現的夜間窗燈錯誤 `patches/night_rereg.diff`）。
   2. ART-EXT-GATE 校門：整座（CK.gate／placeGate 的位置，校園、公館共用）。**已交 `a852d6f2`**（LAWWW-C 04:2x 選 A：照真的配置，門房在正中間、兩側通道；README `test_shots/campus_gate/README.md`、patch `patches/campus_gate.diff`；動到導航和出口，v9.10 發布後套）。
-  3. ART-EXT-TEACH 普通、博雅：外觀＋室內；室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、小物、skybridge.glb 沿用。
+  3. ART-EXT-TEACH 普通、博雅：外觀＋室內（**第一批外觀已交 `a72be0cc`**，README `test_shots/campus_teach/README.md`、patch `patches/campus_teach_ext.diff`；第二批室內進行中：teach3d.js 的備用模型和家具都在 fb0／fb1 裡，B3.attachFormal 會一起藏，patch 要把家具搬到另一組）；室內照 boya_layout.js、putong_layout.js 做牆、地板、天花、樓梯、教室；家具、聽眾、小物、skybridge.glb 沿用。
   4. ART-EXT-MRT 捷運公館站出口：整座（TK.mrtExit 的位置）。
   5. SCN-US-02 v3 美國校園：照真的校區配置和路線改（空拍圖＋網路查文字資料）；其他地區照樣子做外觀、先不開放進出。
      - 查證（04:3x，網路搜尋摘要；沒有地圖、照片）：
