@@ -409,7 +409,7 @@
   {
    "task": "SCN-US-LIB",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "f39f3aef",
+   "sha": "8d21b0f2",
    "files": [
     "assets/models/env/second_ai/us_lawlib.glb",
     "assets/models/env/second_ai/us_lawlib.json",
@@ -421,7 +421,7 @@
     "tools/blender/env_second/textures/gen/usll_*.png",
     "docs/art-rebuild/second_ai/test_shots/us_lawlib/"
    ],
-   "state": "已交付（PROPOSAL／READY_FOR_ART_REVIEW：照使用者 10-18 01:0x 的圖書館照片；最小可玩：一樓可走、53 個座位、樓上紅絨繩關著）",
+   "state": "已交付（PROPOSAL／READY_FOR_ART_REVIEW：照使用者 10-18 01:0x 的圖書館照片；最小可玩：一樓可走、53 個座位、樓上紅絨繩關著）；8d21b0f2：北牆彩色玻璃改成照片的一整排細長窗（GLB 同檔名）",
    "remaining": "樓上（二～四樓）不能去；照片的斜穿樓梯簡化成直跑；晚上燈光沒看",
    "next": "v9.10 發布以後 LAWWW-C 接 us_lawlib（照 us_asian_market：Z3.room h 4.2＋attachRoomGLB＋配置的導航、座位、互動點、出口；camDist 5）；校園配置第 2 版多了 interact 'library'（進圖書館）＋spawn_library_out。BB-C 測",
    "noDirectIntegrate": false,
