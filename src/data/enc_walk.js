@@ -1193,7 +1193,7 @@ const ENC_WALK={
    "who": "heroine_04",
    "spot": "D04",
    "friend": "我回去了。今天的分數，我截圖了。",
-   "dating": "下次你來打一首。我讓你。……騙你的。"
+   "dating": "下次你來打一首。我不會讓你。"
   },
   {
    "who": "heroine_04",
@@ -1623,7 +1623,7 @@ const ENC_WALK={
      "mem": "ENC_D06_BH3",
      "after": {
       "where": "總圖的閒聊",
-      "line": "我現在一週去一次。不要跟阿哲說。"
+      "line": "我現在一週去一次。阿哲還以為我在總圖。"
      }
     }
    ],
