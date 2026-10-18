@@ -39,12 +39,13 @@
 | ART-EXT-TEACH 第二批室內 | `511f6cd6` | 普通、博雅室內 GLB＋`campus_teach_int.diff`（對 `ba6e9aa4`）；四個 unit＋nav ALL PASS |
 | ART-SEATFIG-1018 博雅 101 禿頭、白臉 | `e315997b` | `seated_figures.glb` 重烤（`hair_cleanup`）、`vroid_npc_f1.vrm` 臉暗部 0.94→0.838；程式不用改 |
 | ART-GG-SHOPS-1018 公館店面第一輪 | `307787c1` | `gongguan_shops.glb`（`wz_shopkit.arcade_front_v2`、`SF_GG`）；程式不用改 |
+| ART-LIB-VIEW-1018 總圖窗景 | `ed0196e4` | `library_views.diff`（parallaxViews）＋4 張照片重拍；LAWWW-C 08:28：照 D99 排在 v9.10.1 發布以後整合 |
+| ART-EXT-MRT 捷運公館站出口 | `ca3e14d5` | `gongguan_mrt_exit.glb`＋`gongguan_mrt.diff`（PIT_*／PITMASK 深度遮罩：地面下的電扶梯看得到） |
 
-- **佇列**（LAWWW-C 排序）：
-  1. ART-LIB-VIEW-1018 總圖窗景（使用者「很假」；做法我決定，導航不動，附窗邊同角度前後截圖）；
-  2. ART-EXT-MRT 捷運公館站出口；
-  3. SCN-US-02 v3 美國校園照 IU Bloomington 真實配置（空拍圖，見下面 ★★）；
-  4. ART-US-SEASON 美國四季（WIP `53d9ef55`）。
+- **佇列**（LAWWW-C 排序；四座台大建築到 MRT 都交了）：
+  1. SCN-US-02 v3 美國校園照 IU Bloomington 真實配置（空拍圖，見下面 ★★）——**下一個**；
+  2. ART-US-SEASON 美國四季（WIP `53d9ef55`）。
+- 使用者 07:5x（經 LAWWW-C）：「還有一小時你繼續做」，會親口說換班。
 - **工作樹**（`$S`＝本工作階段的 scratchpad）：
   - `$S/yuwt`（LAWWW-C `ba6e9aa4`＋小語 patch＋新 GLB，伺服器 8810）；
   - `$S/yubefore`（`ba6e9aa4` 原樣，8811）；
