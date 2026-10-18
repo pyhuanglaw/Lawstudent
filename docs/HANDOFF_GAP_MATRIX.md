@@ -37,7 +37,7 @@
 - **卡住紀錄**（`d3643e46`）：卡住 10 秒時存「哪一段沒結束」到瀏覽器 `fatiao3d_stuck`，匯出存檔帶 `_stuck`；stale_lock_escape PASS。搬家卡住在 v9.10.1 重現兩次沒卡住（加速＋一般速度照使用者選擇），腳本在 tests/repro_1018/。
 - duty verify 同帳號回來誤報修好（`7c7363b3`，handoff_duty_sim 20/20）；USER_WANTS J10 補負責人。
 
-**B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①問使用者要不要保留訊息列表上方的待回覆區塊（UA-LAWWW-1018-43，AI 解讀、asks 報 1 項異常就是這個）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
+**B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①~~問使用者要不要保留訊息列表上方的待回覆區塊~~（使用者 22:5x 選 A：不要、照現在，UA-LAWWW-1018-45）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
 
 **C｜正在做的**：沒有（背景工作都跑完了）。
 
