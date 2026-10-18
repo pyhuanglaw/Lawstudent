@@ -171,6 +171,15 @@
    "status": "在開發分支",
    "wants": "X44",
    "task": "BUG-LATTE-CLERK-1018"
+  },
+  {
+   "id": "UA-LAWWW-1018-20",
+   "at": "2026-10-18T14:5x",
+   "quote": "有時候顯示藍色衣服的是唐睿 有時候又變成橘色衣服的（附截圖）",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X49",
+   "task": "BUG-ADV-OVERLAP-1018"
   }
  ]
 }
