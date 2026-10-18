@@ -61,11 +61,11 @@ async def main():
             await pg.wait_for_timeout(1000)
         await run.shot(pg, 'lane_entry')
         run.check('118 巷的正式街景模型載入了（lane118_street.glb）', glb > 0, str(glb))
-        for _ in range(40):   # 12:10 起才站到店門口（進巷子的時候可能還沒到）：待在巷子裡，時段到了就來
-            zhe = await pg.evaluate("(()=>{ const n=EVENTS.npcOf('zhe'); return n?{x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}:null; })()")
+        for _ in range(90):   # 12:10 起才站到店門口（進巷子的時候可能還沒到）：待在巷子裡，時段到了就來（遊戲時間一秒約 24 秒，SwiftShader 掉幀會更慢）
+            zhe = await pg.evaluate("(()=>{ const n=GAME.npc&&GAME.npc.zhe; return n?{x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)}:null; })()")
             if zhe: break
             await pg.wait_for_timeout(1000)
-        door = await pg.evaluate("L118.door('noodle2')")
+        door = await pg.evaluate("Object.assign(L118.door('noodle2'),{hour:+GAME.G.hour.toFixed(3)})")
         run.check('阿哲站在六張犁麵舖門口（週一中午的常客）', bool(zhe) and abs(zhe['z'] - door['z']) < 2 and abs(zhe['x'] - door['x']) < 1.5, json.dumps([zhe, door]))
         # 沒開的店：巷口家常菜週一休
         hd = await pg.evaluate("L118.door('home')")

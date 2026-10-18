@@ -232,8 +232,10 @@ const DATE=(function(){
   S.arriveLine=async function(GM,t,visits){ const G=GM.G, id=t.who, A=(LL(id,t.locs[0])||{}).arrive; if(!A) return false; const dating=!!(G.flags&&G.flags['dating_'+id]);
     let set=null; if(!visits&&A.first&&!A.first.wishEvent) set=A.first; if(!set&&dating&&id!=='kexin'&&(A.dating||[]).length) set=S.pickSet(G,id,A.dating,t,'arrive.dating'); if(!set&&brokeUp(G,id)&&(A.afterBreakup||[]).length) set=S.pickSet(G,id,A.afterBreakup,t,'arrive.after'); if(!set) set=S.pickSet(G,id,A.normal,t,'arrive.normal');
     return S.playSet(GM,id,set,t); };
+  /* 照時間分兩段的台詞（陣列）：沛珊 D13 欄杆 firstHigh＝[重考以前, 重考以後]（AA_281 第 4 節 B-6；原本當物件讀、播出空的）。重考結束＝她的消失期最後一天的隔天 */
+  S.timedSet=function(G,id,v){ if(!Array.isArray(v)) return v; if(!v.length) return null; if(v.length===1) return v[0]; const back=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2027-08-06'):null; return id==='classmate_peishan'&&back!=null&&G.day>=back?v[v.length-1]:v[0]; };
   S.spotLine=async function(GM,t,pid,visits){ const G=GM.G, id=t.who, H=((LL(id,t.locs[0])||{}).hotspots||{})[pid]; if(!H) return false; const m=S.mem(G,id,t.locs[0]), dating=!!(G.flags&&G.flags['dating_'+id]), hi=dating||S.stageNum(id)>=6, before=m.picks.includes(pid);
-    let set=null; if(!before&&H.first&&!H.first.wishEvent) set=hi&&H.firstHigh?H.firstHigh:H.first;
+    let set=null; if(!before&&H.first&&!H.first.wishEvent) set=hi&&H.firstHigh?S.timedSet(G,id,H.firstHigh):H.first;
     if(!set&&(visits===1||m.last.includes(pid))&&H.remember&&setUsable(G,id,H.remember,t)) set=H.remember;   /* 記得上次：第二次，或上一次點過同一個互動點（BB_128 2-6）*/
     if(!set&&dating&&id!=='kexin'&&(H.dating||[]).length) set=S.pickSet(G,id,H.dating,t,pid+'.dating');
     if(!set&&brokeUp(G,id)&&(H.afterBreakup||[]).length) set=S.pickSet(G,id,H.afterBreakup,t,pid+'.after');
