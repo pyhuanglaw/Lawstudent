@@ -114,9 +114,17 @@ const HOME=(function(){
   /* 回到家、不再轉場（法律系迎新宿營演完，S.campY1 已經有「（回到家……）」那一句；AA_205 2-3）*/
   function backQuiet(GM){ const G=GM.G, H=S.rec(G); H.at=true; H.day=G.day; if(S.baseMode(G)) H.base=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); if(GM.autosave) GM.autosave(); return true; }
   S.arriveQuiet=async function(GM){ if(S.at(GM.G)) return false; backQuiet(GM); await S.loop(GM); return true; };   /* 不在家的時候出發去宿營的（3D 裡的出發選單）：演完直接在家 */
+  S.bgNow=()=>bg();
+  /* 從家裡出發去一個出遊、演完回家（休學在家）：baseRound 的「出發」和事件接事件（econff3d.js S.homeStep）共用。回傳 true＝回到家、false＝人留在外面 */
+  S.goOut=async function(GM,q){ const G=GM.G, H=S.rec(G); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const ok=await OUT.go(GM,q,{fromHome:true});
+    if(ok&&q.camp) return backQuiet(GM);
+    if(ok&&!q.goto&&S.baseMode(G)){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false); return true; }
+    if(!ok&&!S.at(G)){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }
+    return false; };
   async function baseRound(GM){ const G=GM.G, H=S.rec(G); const ev=S.homeEvent(G); if(ev){ await EVENTS.run(ev); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); return H.at; }
     { const c=typeof STORY!=='undefined'&&STORY.homeCall?STORY.homeCall(G):null; if(c&&c.q){ if(c.line) await GM.say({name:c.who},c.line); if(c.line2) await GM.say({name:c.who},c.line2); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); c.q.state='planned';   /* 固定核心的電話（例：E37 14:15 可昕）→ 直接出發；宿營（line 空）不打電話 */
       const ok=await OUT.go(GM,c.q,{fromHome:true}); if(ok&&c.q.camp) return backQuiet(GM); if(ok&&!c.q.goto&&S.baseMode(G)){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false); return true; } if(ok&&c.q.goto&&GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; } }
+    if(typeof ECONFF!=='undefined'&&ECONFF.on2&&ECONFF.on2(G)){ H.wakeAsk=null; return ECONFF.homeStep(GM); }   /* 事件接事件（D102 ③）：在家選單收起來，跳到下一個事件 */
     if(H.wakeAsk===G.day){ H.wakeAsk=null; if(typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)){ const r=await STORY.retakeWake(GM); if(r==='left') return false; } }   /* 重考期的起床選單（AA_154 A39）*/
     const h=G.hour, ateToday=H.eat&&H.eat.day===G.day, O=[], q=S.dueOuting(G);
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:'從家裡出發　'+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }   /* A46 ②：從家裡出發一律 30 分鐘（OUT.trip）*/
@@ -276,7 +284,7 @@ const HOME=(function(){
     { const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; const fx=S.y0FixedNext(G,tt); if(fx!=null&&fx<t) t=fx; }
     const ra=DK('2025-02-15'), rb=DK('2025-07-10'); let dPrev=G.day;   /* AA_272 第 2 節：重考期快轉跨過的日子照「讀書日」算（retake:study；E36 的旁白讀它）*/
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
-      if(G.day!==dPrev){ dPrev=G.day; if(ra!=null&&rb!=null&&G.day>ra&&G.day<=rb&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); }
+      if(G.day!==dPrev){ dPrev=G.day; const play=typeof ECONFF!=='undefined'&&ECONFF.on2&&ECONFF.on2(G)&&ECONFF.PLAY_DAYS.some(k=>DK(k)===G.day); if(!play&&ra!=null&&rb!=null&&G.day>ra&&G.day<=rb&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); }   /* 事件模式：玩樂日（R3、R6、R7）不記讀書日（AA_292 第 6 節）*/
       if(Math.abs(tt-Math.round(tt))<1e-6){
         if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
         if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME y0Jump phone',e); } } }

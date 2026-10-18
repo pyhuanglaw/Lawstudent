@@ -39,7 +39,8 @@ const ECONFF=(()=>{
     {n:26,key:'2024-10-16',h:19,zone:'library',ev:'ev_y0_e10',then:'ev_y0_e10b'},
     {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30'},
     {n:28,key:'2024-10-17',h:17.67,ev:'ev_y0_e26'},
-    {n:29,key:'2024-10-17',h:22.5,zone:'dorm',ev:'ev_y0_e30_note'}];
+    {n:29,key:'2024-10-17',h:22.5,zone:'dorm',ev:'ev_y0_e30_note'},
+    {n:30,key:'2024-10-19',h:9,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_a3'}];   /* 10/19 退宿（AA_292 第二張表 #1）：阿勳封箱、搬回臺北的家（HOME.moveOut）——2026-10-18 使用者「休學之後我還住在宿舍？之後沒有劇情」*/
   /* AA_292 第 2 節：兩個事件隔兩天以上，日期字卡下面一句（跳過的期間落在哪一段就用那一句；同一句不重複；只隔一天沒有）*/
   S.LINES=[['2024-09-03','2024-09-08','（課表貼在書桌前面。你還在記哪一間教室在哪一棟。）'],
            ['2024-09-10','2024-09-17','（博雅、普通、共同，三棟樓之間的路，你已經不用看地圖了。）'],
@@ -50,8 +51,23 @@ const ECONFF=(()=>{
            [null,null,'（這幾天都在上課。）']];
   S.rec=G=>{ const F=G.flags=G.flags||{}; const r=F.ECONFF=F.ECONFF||{}; r.done=r.done||{}; r.lines=r.lines||[]; return r; };
   S.off=()=>typeof location!=='undefined'&&/[?&]nofastecon\b/.test(location.search||'');
-  S.on=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.E01_MORNING||F.Y0_STICKY||done(G,'ev_y0_e30_note')) return false;
-    const a=DK('2024-09-02'), b=DK('2024-10-18'); return a!=null&&b!=null&&G.day>=a&&G.day<b; };
+  S.on=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.E01_MORNING||F.Y0_MOVED_OUT) return false;
+    const a=DK('2024-09-02'), b=DK('2024-10-20'); return a!=null&&b!=null&&G.day>=a&&G.day<b; };   /* 9/2 E01 早上以後～10/19 退宿 */
+  /* ===== 第二階段：休學在家（10/19 退宿以後～8/29 05:00 轉法律系；AA_292 第 5～8 節，使用者 06:3x 選擇題 D102 ③）=====
+     在家選單收起來（home3d.js baseRound 問 S.on2 → S.homeStep）：家裡的事件（trigger home）、固定核心的電話照舊；該出發的出遊自動出發；
+     下面 STEPS2 的「要到外面演」的（3D 校園、玩樂日的出遊）時間到了帶過去演完回家；其他照 HOME.y0Jump 跳到下一個有事的時間（家裡的事件、電話、出遊、要回的訊息、Y0_FIXED）。
+     要回的訊息停下來就打開手機（D103：使用者「我根本不會看手機」）。玩家在外面（出遊演完人留在現場）空下來就自動回家（S.tick）。*/
+  S.STEPS2=[
+    {n:'h2',key:'2024-10-23',h:12,zone:'campus',at:{x:97.9,z:-61.4,yaw:Math.PI},ev:'ev_y0_soc_door'},
+    {n:'h3',key:'2024-11-06',h:20,zone:'campus',at:{x:-34.6,z:-97.0,yaw:Math.PI},ev:'ev_y0_e12',out:'y0_e12'},
+    {n:'h29',key:'2025-04-01',h:15,play:'ev_y0_r3'},
+    {n:'h32',key:'2025-04-19',h:16,zone:'campus',atR4:true,ev:'ev_y0_r4'},
+    {n:'h34',key:'2025-05-05',h:14,play:'ev_y0_r6'},
+    {n:'h36',key:'2025-05-26',h:11+50/60,zone:'boya',ev:'ev_y0_e34'}];   /* 地點在台大的幾個（soc_door、E12、R4、E34）等 AA 搬地點（Q-Y0-NTU-1018，使用者「休學的人不會回台大」）；搬了就改這裡 */
+  S.on2=function(G){ if(!G||G.stage!=='econ'||S.off()) return false; const F=G.flags||{}; if(!F.Y0_MOVED_OUT) return false; const e=DK('2025-08-29'); return e!=null&&G.day*24+G.hour<e*24+5; };
+  S.PLAY_DAYS=['2025-04-01','2025-05-05','2025-05-24'];   /* AA_292 第 6 節：玩樂日不記 retake:study（R3、R6、R7）*/
+  S.step2Done=(G,s)=>!!S.rec(G).done[s.n]||(!!s.ev&&done(G,s.ev))||(!!s.play&&done(G,s.play));
+  S.next2=function(G){ const now=G.day*24+G.hour; for(const s of S.STEPS2){ if(S.step2Done(G,s)) continue; const d=DK(s.key); if(d==null) continue; const t=d*24+s.h; if(t<now-6){ S.rec(G).done[s.n]='missed'; continue; } return Object.assign({t},s); } return null; };
   S.clsItem=(G,day,cid)=>typeof CLS==='undefined'?null:((CLS.dayItems(G,day)||[]).find(it=>it.c&&it.c.id===cid)||null);
   S.tOf=(G,s)=>{ const d=DK(s.key); if(d==null) return null; if(s.cls){ const it=S.clsItem(G,d,s.cls); return it?d*24+it.t0-1/12:d*24+9; } return d*24+s.h; };
   S.stepDone=function(G,s){ const r=S.rec(G); if(r.done[s.n]) return true; if(s.cls){ const d=DK(s.key), it=S.clsItem(G,d,s.cls); return !!(it&&typeof CLS!=='undefined'&&CLS.rec(G).done[it.key]); }
@@ -102,13 +118,41 @@ const ECONFF=(()=>{
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
     catch(e){ console.warn('ECONFF step '+s.n,e); }
     r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave(); return true; };
+  /* 第二階段：家裡選單那一輪（home3d.js baseRound）。回傳值照 baseRound：true＝還在家、false＝出門了 */
+  S.homeStep=async function(GM){ const G=GM.G, H=HOME.rec(G);
+    const q=HOME.dueOuting(G); if(q) return HOME.goOut(GM,q);   /* 該出發的出遊：自動「去」（AA_292 第 8 節）*/
+    const iv=HOME.dueInvites(G)[0]; if(iv&&typeof INV!=='undefined'){ await HOME.leaveTo(GM,INV.place(iv.place)||{}); return false; }
+    const s=S.next2(G), now=G.day*24+G.hour;
+    if(s&&s.t<=now+0.05) return S.run2(GM,s);
+    const end=HOME.y0FfEnd(); let to=end!=null?end:now+24; if(s&&s.t<to) to=s.t; if(to<=now+0.05) return H.at;
+    const why=await HOME.y0Jump(GM,to);
+    if(why==='msg'&&GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(null); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); }   /* 要回的訊息：打開手機回（D103）*/
+    return H.at; };
+  /* 要到外面演的一步：玩樂日＝排可昕的出遊、出發；3D＝帶到現場、站好、演、回家 */
+  S.run2=async function(GM,s){ const G=GM.G, E=GM.E, H=HOME.rec(G); const r=S.rec(G);
+    try{
+      if(s.play){ if(typeof STORY!=='undefined'&&STORY.rtPlanPlay) STORY.rtPlanPlay(G); const q=typeof OUT!=='undefined'?OUT.get(G,'rt_play_'+G.day):null; r.done[s.n]=1; if(q&&q.state==='planned') return HOME.goOut(GM,q); return H.at; }
+      if(s.out&&typeof OUT!=='undefined'){ const q=OUT.get(G,s.out); if(q&&q.state==='planned') q.state='done'; }   /* E12：出遊（goto）由這裡帶過去，不要再停一次 */
+      H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'捷運＋公車 約 30 分鐘',1800);
+      const at=s.atR4&&typeof STORY!=='undefined'&&STORY.R4_AT?{x:STORY.R4_AT.x,z:STORY.R4_AT.z+1.4,yaw:Math.PI}:s.at; if(GM.enter) await GM.enter(s.zone,at?Object.assign({lv:0},at):undefined,{noFade:true}); await GM.fade(false);
+      S.busy=true; try{ await runEv(GM,s.ev); } finally { S.busy=false; }
+    } catch(e){ console.warn('ECONFF step2 '+s.n,e); }
+    r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave();
+    if(!HOME.at(G)&&HOME.go) await HOME.go(GM);   /* 演完回家（HOME.go 會接著跑家裡那一輪）*/
+    return false; };
   /* 睡覺、快轉＝直接到下一個事件（2026-10-18 使用者：「我每天睡覺到休學，還可以跟可昕告白，中間我們根本沒遇到」——一定要演的事件不能被睡過去）。
      story3d.js 的 sleepNow、home3d.js 的 sleep／ffMenu 先問這裡：事件模式而且還有下一個事件＝跳過去、回傳 true */
   S.sleepJump=async function(GM){ const G=GM.G; if(!S.on(G)||!S.next(G)) return false; if(S.busy) return true; S.busy=true;
     try{ if(GM.E&&GM.E.player&&GM.E.player.seat&&GM.standUp) GM.standUp(GM.E.player); await S.advance(GM); } catch(e){ console.warn('ECONFF sleepJump',e); } finally { S.busy=false; } return true; };
   /* 每 0.5 秒（story3d.js S.tick）：空下來 1.5 秒就接下一個 */
   let idleSince=0;
-  S.tick=function(GM){ const G=GM.G; if(!S.on(G)||S.busy){ idleSince=0; return; } const E=GM.E, P=E&&E.player;
+  let idle2=0;
+  S.tick2=function(GM){ const G=GM.G, E=GM.E, P=E&&E.player; if(!S.on2(G)||S.busy||typeof HOME==='undefined'||HOME.at(G)){ idle2=0; return; }
+    const free=!!P&&!E.paused&&!P.busy&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
+    const today=typeof OUT!=='undefined'&&OUT.rec?OUT.rec(G).some(q=>q.day===G.day&&q.state!=='done'&&q.state!=='missed'&&q.state!=='declined'):false;
+    if(!free||today){ idle2=0; return; } const now=Date.now(); if(!idle2){ idle2=now; return; } if(now-idle2<3000) return;
+    idle2=0; S.busy=true; HOME.go(GM).catch(e=>console.warn('ECONFF home',e)).finally(()=>{ S.busy=false; }); };   /* 出遊演完人在外面、空下來 3 秒：自動回家（休學在家，D102 ③）*/
+  S.tick=function(GM){ const G=GM.G; S.tick2(GM); if(!S.on(G)||S.busy){ idleSince=0; return; } const E=GM.E, P=E&&E.player;
     const free=!!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length)&&!(typeof EVENTS!=='undefined'&&EVENTS.running);
     if(!free){ idleSince=0; return; } const now=Date.now(); if(!idleSince){ idleSince=now; return; } if(now-idleSince<1500) return;
     idleSince=0; S.busy=true; S.advance(GM).catch(e=>console.warn('ECONFF',e)).finally(()=>{ S.busy=false; }); };

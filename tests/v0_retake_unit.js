@@ -40,7 +40,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 2/15 在家醒來：起床選單只有「在家讀書（可昕會來）」「先起床再說」→ 讀書日、還在家（不去博雅）',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","先起床再說"]'&&G.flags.RT_DAY.type==='study'&&HOME.at(G),JSON.stringify(menus));
   // 3/31：三項
   home(D31,8.5); script=['出去走走']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
-  check('3. 3/31 在家醒來：三項（讀書／出去走走／先起床再說）→ 玩樂日；回到在家的選單',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","今天出去走走","先起床再說"]'&&G.flags.RT_DAY.type==='play'&&menus[1]&&menus[1].includes('去學校'),JSON.stringify(menus));
+  check('3. 3/31 在家醒來：三項（讀書／出去走走／先起床再說）→ 玩樂日；回到在家的選單（沒有「去學校」：使用者 10-18；有「存檔」）',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","今天出去走走","先起床再說"]'&&G.flags.RT_DAY.type==='play'&&menus[1]&&!menus[1].includes('去學校')&&menus[1].includes('存檔'),JSON.stringify(menus));
   home(D2,8.5); script=['先起床']; try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; }
   check('3. 4/2（R5）在家：只有兩項',JSON.stringify(menus[0])==='["在家讀書（可昕會來）","先起床再說"]'&&G.flags.RT_DAY.type==='free');
   check('3. 同一天不再問',!(await STORY.retakeWake(GM)));

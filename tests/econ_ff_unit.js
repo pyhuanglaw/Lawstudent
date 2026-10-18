@@ -1,5 +1,5 @@
 // 經濟系在學期間事件接事件（D102；AA_292 企劃 98c0bfa1；src/econff3d.js）——不需要瀏覽器。
-// 檢查：① 9/2 E01 早上以後才開、10/17 便利貼演完就關；?nofastecon 關掉 ② 下一個事件照 AA_292 的順序（E02 → 會計第一堂 → 第一次經原 → 社團博覽會…），
+// 檢查：① 9/2 E01 早上以後才開、10/19 退宿以後關；?nofastecon 關掉 ② 下一個事件照 AA_292 的順序（E02 → 會計第一堂 → 第一次經原 → 社團博覽會…），
 //   做完的跳過、E05 在 9/19 接 P2 演過就不再排 9/20 ③ 跳過的課自動算出席（R.done、attend、不發翹課訊息），考試不算 ④ 跳的途中收到要回的訊息就停（'msg'）
 //   ⑤ 跳過兩天以上才有一句旁白、同一句不重複、落在對的期間 ⑥ 深夜的步驟（10/15 24:30 凌晨兩點的微積分）時間還算 10/15
 // 用法：node tests/econ_ff_unit.js
@@ -15,7 +15,7 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
 { check('① 9/2 08:00（E01 早上以後）開',ECONFF.on(mkG('2024-09-02',8)));
   check('① E01 早上還沒演：不開',!ECONFF.on(mkG('2024-09-02',8,{E01_MORNING:false})));
   check('① 法律系：不開',!ECONFF.on(Object.assign(mkG('2024-09-02',8),{stage:'law'})));
-  const g=mkG('2024-10-17',23); g.events.done.ev_y0_e30_note=1; check('① 10/17 便利貼演完：關',!ECONFF.on(g));
+  const g=mkG('2024-10-17',23); g.events.done.ev_y0_e30_note=1; check('① 10/17 便利貼演完：還開（下一步 10/19 退宿）',ECONFF.on(g)); const g2=mkG('2024-10-19',18,{Y0_MOVED_OUT:true}); check('① 10/19 退宿以後：第一階段關（換第二階段，tests/econ_ff2_unit.js）',!ECONFF.on(g2));
   global.location={search:'?nofastecon'}; check('① ?nofastecon：關',!ECONFF.on(mkG('2024-09-02',8))); global.location={search:''}; }
 { const G=mkG('2024-09-02',8); const ids=[]; for(let i=0;i<6;i++){ const s=ECONFF.next(G); if(!s) break; ids.push(s.ev||s.cls); ECONFF.rec(G).done[s.n]=1; }
   check('② 順序：E02 → 會計第一堂 → 第一次經原 → 社團博覽會 → P2 → E05',JSON.stringify(ids)===JSON.stringify(['ev_y0_e02','acct_y0','econ_principles_y0','ev_y0_e07','ev_y0_p2','ev_y0_e05']),JSON.stringify(ids));
@@ -39,7 +39,7 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
   const r=await ECONFF.sleepJump({G,E:null}); check('⑦ 事件模式：睡覺改成跳到下一個事件（advance 一次）',r===true&&adv===1,adv);
   ECONFF.busy=true; const r2=await ECONFF.sleepJump({G,E:null}); check('⑦ 正在跳：不重複跳、也不照原本睡到隔天',r2===true&&adv===1); ECONFF.busy=false;
   const L=Object.assign(mkG('2024-09-02',22),{stage:'law'}); check('⑦ 法律系：照原本睡覺',(await ECONFF.sleepJump({G:L,E:null}))===false);
-  const D=mkG('2024-10-18',1); D.events.done.ev_y0_e30_note=1; check('⑦ 10/17 便利貼以後（事件模式結束）：照原本睡覺',(await ECONFF.sleepJump({G:D,E:null}))===false);
+  const D=mkG('2024-10-19',20,{Y0_MOVED_OUT:true}); check('⑦ 退宿以後（第一階段結束）：照原本睡覺（在家那一輪由 homeStep 接）',(await ECONFF.sleepJump({G:D,E:null}))===false);
   ECONFF.advance=save;
   const src=['src/story3d.js','src/home3d.js'].map(f=>fs.readFileSync(path.join(ROOT,f),'utf8')).join('\n');
   check('⑦ 宿舍的床（sleepNow）、家裡睡覺（HOME.sleep）、快轉（ffMenu）都先問 ECONFF.sleepJump',(src.match(/ECONFF\.sleepJump\(GM\)/g)||[]).length>=3);
