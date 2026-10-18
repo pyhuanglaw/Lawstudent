@@ -5,7 +5,7 @@
  "tris_drawn": 11372,
  "materials": 25,
  "out": "assets/models/env/second_ai/boya_interior.glb",
- "bytes": 1318956,
+ "bytes": 1318940,
  "texres": 512,
  "tris_total": 11372,
  "layout": "src/data/boya_layout.js",

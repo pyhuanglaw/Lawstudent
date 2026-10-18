@@ -58,7 +58,7 @@ M = {
     'sofa': L.flat('tb_sofa_fabric', '#5e6a72' if not WARM else '#6a5a4c', rough=0.92),
     'sofaleg': L.flat('tb_sofa_leg', '#2c2c2e', rough=0.5, metal=0.3),
     'glass': L.flat('tb_glass', '#c4d6dc', rough=0.05, alpha=0.22),
-    'mat': L.flat('tb_doormat', '#4a4d50', rough=0.95),
+    'mat': L.flat('tb_doormat', '#6e6c67', rough=0.95),   # 入口的地墊：第一版 #4a4d50、深 1.4 m，大廳的鏡頭往下看是一整條黑帶
     'dark': L.flat('tb_dark', '#26282b', rough=0.5),
 }
 MESH, WMESH = {}, {}
@@ -89,7 +89,7 @@ def seg_gaps(a0, a1, gaps):
 
 # ================= 地板、樓板、天花板 =================
 mk(0, 'floor').box(X0, X1, -0.05, 0.0, Z0, Z1)
-mk(0, 'mat').box(EN['a0'] + 0.1, EN['a1'] - 0.1, 0.0, 0.012, ZI1 - 1.4, ZI1 - 0.02)
+mk(0, 'mat').box(EN['a0'] + 0.3, EN['a1'] - 0.3, 0.0, 0.012, ZI1 - 0.95, ZI1 - 0.02)
 QS = [(X0, X1, WL['z1'], Z1), (X0, WL['x0'], Z0, WL['z1']), (WL['x1'], X1, Z0, WL['z1']), (WL['x0'], WL['x1'], Z0, WL['z0']), (SB['x0'], SB['x1'], SB['z1'], WL['z1'])]
 for (a, b, c, d) in QS:
     if b - a < 0.05 or d - c < 0.05: continue
