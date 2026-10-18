@@ -19163,6 +19163,27 @@
    "source": "AA-C 1ab0a39f（AA_305、DL-AA-1ab0a39f）",
    "authorized": "使用者四批選擇題",
    "next": "bd64f560（df01b3a2）已做：第 5 節（10/17 窗外、22:30 便利貼拿掉；電話「要回家跟我媽說」；車上後兩句）、第 6 節（10/29 小福 ev_y0_xiaofu、停點 x29）、第 7 節（退宿 10/31、第一階段到 10/31、便利貼三行在搬回家拆箱時）、第 10 節日期卡、階梯 y0s1／y0s2 換 1ab0a39f；另外 10/23 soc_door 那步拿掉（窗口改 11/1～11/15）、E30_WAITED 不記。第 1～4、8、9 節台詞：子代理（worktree）在換，回來合併、跑全部單元測試。等 AA：Y0S2 阿勳招呼「今天的冷笑話，我存在手機裡了。」要不要換"
+  },
+  {
+   "id": "BUG-0830-EMPTYSTOP-1018",
+   "title": "8/29 26:30（8/30 凌晨 2:30）快轉多一個空的停點，之後真實時間 20 分鐘才到 8/30 07:30（BB-C QA-AA300 舊版 adb309db 回報）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "8/29 搬進法律系宿舍那晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10:58 訊息（QA-AA300-1018 中途結果）",
+   "authorized": "bug 修正（D85）",
+   "next": "BB 的腳本是 MODE=ff（只按對話、睡覺／快轉）＋?turbo；先在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 深夜算前一天）停在 26:30、哪個迴圈跑很久。等 BB 新版結果確認還在不在"
   }
  ]
 }
