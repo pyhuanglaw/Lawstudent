@@ -526,6 +526,8 @@ const GAME = (function(){
     $('importFile').onchange=e=>{ const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ $('importText').value=r.result; }; r.readAsText(f); };
     $('btnImportGo').onclick=async()=>{ try{ const obj=parseImport($('importText').value); const cur=read(KEY_AUTO); if(cur) write(KEY_BACKUP,cur); write(KEY_AUTO,obj); $('importMsg').textContent='匯入成功，已備份原本進度。'; await loadFrom(obj); }catch(err){ $('importMsg').textContent='匯入失敗：'+err.message; } };
     $('btnNew').onclick=async()=>{ A3.start(); await waitChars(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM); };
+    /* 開局二選一（2026-10-18 使用者：「下一個版本開始就可以選擇要不要玩經濟系前傳，也可以選直接玩法律系」）：btnNew＝經濟系前傳（原本的預設）、btnNewLaw＝直接法律系大一（回顧 → 8/22 宿營 → 搬宿舍）*/
+    if($('btnNewLaw')) $('btnNewLaw').onclick=async()=>{ A3.start(); await waitChars(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGame(GM,{law:true}); };
     if($('btnNewEcon')){ if(/[?&]y0\b/.test(location.search)) $('btnNewEcon').classList.remove('hide');   /* 經濟系開局（交接包 v0）：v0 做完以前只在網址 ?y0 出現（D81：開局照舊）*/
       $('btnNewEcon').onclick=async()=>{ A3.start(); await waitChars(); const name=($('nameInput').value||'祐廷').trim().slice(0,6); G=defaults(name); GM.G=G; bindSystems(); $('titleScreen').classList.add('hide'); GM.running=true; await STORY.newGameEcon(GM); }; }
     $('btnContinue').onclick=async()=>{ A3.start(); const s=read(KEY_AUTO); if(!s){ toast('沒有自動存檔'); return; } await waitChars(); GM.running=true; await loadFrom(s); };

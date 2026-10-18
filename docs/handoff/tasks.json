@@ -18271,6 +18271,55 @@
     "acceptance": "跨年不在總圖念書、沒有「書會等我」；events.js ev_y0_e21a 改好",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "UX-START-CHOICE-1018",
+   "title": "標題畫面開局二選一：經濟系前傳／直接法律系大一（使用者 10-18：「下一個版本開始就可以選擇要不要玩經濟系前傳，也可以選直接玩法律系」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "標題畫面",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x（USER_WANTS X24）",
+   "authorized": "使用者直接要求",
+   "next": "index.html btnNew＝從經濟系前傳開始（原本預設）、btnNewLaw＝直接從法律系大一開始（STORY.newGame(GM,{law:true})：回顧 → 8/22 宿營 → 8/29 搬宿舍）。待 BB-C 兩條都從標題點進去；v9.10.1 一起發"
+  },
+  {
+   "id": "Q-E21-TOLD-1018",
+   "title": "除夕電話選項「那妳呢？跟家裡說了嗎？」看不懂（使用者 10-18：「可昕還沒休學，說什麼啊？我問她講了嗎，她要講什麼？」）",
+   "area": "v0",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 17,
+    "earliest": "1/28 除夕的電話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:5x",
+   "authorized": "使用者回報（台詞歸 AA）",
+   "next": "已轉 AA-C：指的是 1/11 她說「我在想要不要休學」；選項太含糊，請 AA 改得看得懂",
+   "xai": {
+    "receiver": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "選項和回覆看得出是在問她想休學的事有沒有跟家裡說",
+    "ack": "SENT"
+   }
   }
  ]
 }
