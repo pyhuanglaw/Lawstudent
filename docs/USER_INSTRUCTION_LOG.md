@@ -1061,3 +1061,8 @@
 - 做法：AA 交 patch（以 RULE_SOURCE 最新 HEAD 為底），LAWWW-C 套用、檢查、push。docs/handoff/*.json、tools/、src/、tests/ 不在範圍。
 - 通知：AA-C（同一回合 send_message）。
 
+## 2026-10-18 00:2x UTC（對 AA-C，AA-C 轉達 LAWWW-C）：AA 直接推開發分支（D100d）
+- 收到：2026-10-18 00:18 UTC AA-C 通知。使用者原話（AA-C 轉述）：「好，授權你直接推開發分支」。
+- 範圍、規矩見 PROJECT_DECISIONS D100d。LAWWW-C 補一點：雲端工作階段只能 push 自己的指定分支（2026-10-16 實測），推不上就照舊交 patch。
+- 通知：AA-C（同一回合 send_message）。
+
