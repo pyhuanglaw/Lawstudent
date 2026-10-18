@@ -38,7 +38,7 @@
 - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
 
 **B｜全部未完成（要先看的）**
-- P0：QA-PLAYTHROUGH-1018（BB-C）、QA-TRANSCRIPT-1018（LAWWW：劇本→AA；瀏覽器探測腳本在本班 scratchpad，下一班照 tests/playlib.py 重寫一支，掛 `ADV.log` 收台詞）、Q-Y0-NTU-1018（AA 搬休學期校園事件地點，搬完改 econff3d.js STEPS2）、BUG-NO-CLERK-1018（每間店要有店員）、AA295-KX-NOHYPO-1018（可昕不出假設題，約 50 處逐句替換，測試要換）、AA294-SKIPCLASS-1018（翹課錯過劇情的通用規則）。
+- P0：QA-PLAYTHROUGH-1018（BB-C）、QA-TRANSCRIPT-1018（LAWWW：劇本→AA；瀏覽器探測腳本 `tests/econ_ff_probe1.py`（第一階段 9/2 起）、`tests/econ_ff_probe2.py`（第二階段 10/17 起），`OUT=<資料夾>` 收 transcript1／2.json）、Q-Y0-NTU-1018（AA 搬休學期校園事件地點，搬完改 econff3d.js STEPS2）、BUG-NO-CLERK-1018（每間店要有店員）、AA295-KX-NOHYPO-1018（可昕不出假設題，約 50 處逐句替換，測試要換）、AA294-SKIPCLASS-1018（翹課錯過劇情的通用規則）。
 - 等 AA：Q-CRAM-SPRINT-1018（衝刺班鋪陳；AA 638ec884 已加 E27b 伏筆）、AA_296 只靠手機的劇情盤點、Y0S1 階梯記憶名稱表。
 - 等 BB：BG-HOME-1018 其他 10 張家裡背景（BB_132 第 83 組）。
 - 等 LAWWW2：ART-GG-SHOPS、ART-YU-3D 小語（615a3cbf 已交、還沒整合：char_yu.diff）、ART-EXT-TEACH 博雅普通室內（511f6cd6 已交、還沒整合：campus_teach_int.diff）。
