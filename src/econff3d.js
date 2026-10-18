@@ -129,6 +129,7 @@ const ECONFF=(()=>{
   const RH=()=>typeof RETAKE_HOME!=='undefined'?RETAKE_HOME:null;
   S.rhOn=G=>{ const R=RH(); if(!R||!S.on2(G)) return false; const a=DK(R.range[0]), b=DK(R.range[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
   S.RH_H={morning:7.25,day:14,meal:18.5,evening:21.5};
+  S.RH_EVERY=3;   /* 幾天演一段（2026-10-18 使用者：「重考不用每天停，可以放一點在念書」）；長場景照日期 */
   S.RH_KIND=['morning','day','meal','evening'];
   const inWhen=(G,w)=>{ if(!w) return true; const a=DK(w[0]), b=DK(w[1]); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
   S.rhPick=function(G){ const R=RH(); if(!R) return null; const r=S.rec(G); r.rhUsed=r.rhUsed||[]; let pool=R.short.filter(e=>inWhen(G,e.when));
@@ -148,9 +149,9 @@ const ECONFF=(()=>{
     const iv=HOME.dueInvites(G)[0]; if(iv&&typeof INV!=='undefined'){ await HOME.leaveTo(GM,INV.place(iv.place)||{}); return false; }
     const s=S.next2(G), now=G.day*24+G.hour;
     if(s&&s.t<=now+0.05) return S.run2(GM,s);
-    if(S.rhOn(G)&&S.rec(G).rhDay!==G.day&&G.hour>=7&&G.hour<23.5){ const e=S.rhPick(G); if(e){ await S.rhPlay(GM,e); return H.at; } }   /* 重考期在家：今天這一段（AA_297）*/
+    const rd=S.rec(G).rhDay; if(S.rhOn(G)&&(rd==null||G.day-rd>=S.RH_EVERY)&&G.hour>=7&&G.hour<23.5){ const e=S.rhPick(G); if(e){ await S.rhPlay(GM,e); return H.at; } }   /* 重考期在家：每 RH_EVERY 天一段（AA_297）*/
     const end=HOME.y0FfEnd(); let to=end!=null?end:now+24; if(s&&s.t<to) to=s.t;
-    if(S.rhOn(G)||(RH()&&DK(RH().range[0])===G.day+1)){ const nd=G.day+1, e=S.rhPick(Object.assign({},G,{day:nd})), hh=e?S.RH_H[e.kind]||14:14, t=nd*24+hh; if(t<to&&t>now+0.05) to=t; }   /* 重考期：每天停一次（隔天那一段的時間）*/
+    if(S.rhOn(G)||(RH()&&DK(RH().range[0])===G.day+1)){ const nd=(rd!=null&&S.rhOn(G))?Math.max(G.day+1,rd+S.RH_EVERY):G.day+1, e=S.rhPick(Object.assign({},G,{day:nd})), hh=e?S.RH_H[e.kind]||14:14, t=nd*24+hh; if(t<to&&t>now+0.05) to=t; }   /* 重考期：每 RH_EVERY 天停一次（使用者 10-18：「重考不用每天停」）*/
     if(to<=now+0.05) return H.at;
     const why=await HOME.y0Jump(GM,to);
     if(why==='msg'&&GM.phoneThread){ if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.phoneThread(null); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:HOME.bgNow?HOME.bgNow():'blur'}); }   /* 要回的訊息：打開手機回（D103）*/

@@ -18411,7 +18411,7 @@
    },
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者回報",
-   "next": "白名單 retake_home_v1.json@4b3391db → tools/story/import_retake_home.py → src/data/retake_home.js；econff3d.js：重考期（2/15～7/10）在家每天演一段 short（她的立繪在右邊、不重複、用完再輪）、長場景照日期時間；跳的終點最多到隔天那一段。tests/econ_ff2_unit.js ⑦。待 BB-C 瀏覽器",
+   "next": "白名單 retake_home_v1.json@4b3391db → tools/story/import_retake_home.py → src/data/retake_home.js；econff3d.js：重考期（2/15～7/10）在家每天演一段 short（她的立繪在右邊、不重複、用完再輪）、長場景照日期時間；跳的終點最多到隔天那一段。tests/econ_ff2_unit.js ⑦。待 BB-C 瀏覽器｜使用者 10-18 07:5x「重考不用每天停，可以放一點在念書」：改每 3 天一段（ECONFF.RH_EVERY=3）",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -18789,7 +18789,7 @@
    "title": "事件模式下床的選項還寫「睡到傍晚 18:00」「會錯過…」，實際在下一個事件醒來（BB-C 10-18 建議只留「睡覺（到下一件事）」）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -18803,7 +18803,35 @@
    },
    "source": "BB-C 2026-10-18 07:41",
    "authorized": "UI 系統字（LAWWW）",
-   "next": "story3d.js bedOptions：ECONFF.on(G)＆有下一個事件＝只給「睡覺（到下一件事）」＋「不睡」"
+   "next": "story3d.js bedOptions：經濟系事件模式而且有下一個事件＝只有「睡覺（到下一件事）」「先不睡」。bed_nap_unit、econ_ff_unit 過；待 BB-C"
+  },
+  {
+   "id": "BG-CRAM-1018",
+   "title": "衝刺班教室背景請使用者生成（使用者 10-18：「衝刺班大家隔一個位置坐，抽屜都是書，桌上也是書的圖，大家都在念書」）",
+   "area": "v0",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S2",
+    "week": 16,
+    "earliest": "6/9 衝刺班第一天",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 07:5x",
+   "authorized": "使用者直接要求（D104、D97）",
+   "next": "BB 寫提示詞給使用者 → bg_approved/cram_class → LAWWW 換（RH-C 系列、ev_y0_cram_class 的 bg）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-18 原話",
+    "acceptance": "cram_class 一張",
+    "ack": "SENT"
+   }
   }
  ]
 }

@@ -59,9 +59,9 @@ const GM={get G(){ return G; },fade:async()=>{},titleCard:async()=>{},enter:asyn
   // ⑦ 重考期在家的日常（AA_297）：每天一段 short、不重複、長場景照日期；跳的終點是隔天那一段的時間
   { G=mkG('2025-02-16',9,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; calls.length=0; await ECONFF.homeStep(GM);
     check('⑦ 重考期在家、今天還沒演：先演一段可昕的日常（rh_…）',ran.length===1&&/^rh_RH-/.test(ran[0])&&ECONFF.rec(G).rhDay===G.day,ran.join(','));
-    calls.length=0; await ECONFF.homeStep(GM); const j=calls.find(c=>c[0]==='jump'); check('⑦ 今天演過了：跳到隔天那一段的時間（不會一口氣跳好幾天）',!!j&&j[1]>G.day*24+G.hour&&j[1]<=(G.day+1)*24+22,JSON.stringify(calls));
-    const seen=new Set(); for(let i=0;i<30;i++){ G.day=dayOf('2025-03-01')+i; G.hour=10; ran.length=0; ECONFF.rec(G).rhDay=null; await ECONFF.homeStep(GM); if(ran[0]) seen.add(ran[0]); }
-    check('⑦ 連續 30 天：每天一段、沒有重複到用完以前',seen.size>=20,seen.size+' 段');
+    calls.length=0; await ECONFF.homeStep(GM); const j=calls.find(c=>c[0]==='jump'); check('⑦ 今天演過了：跳到三天後那一段的時間（使用者「重考不用每天停」；不會一口氣跳過好幾段）',!!j&&j[1]>(G.day+2)*24+22&&j[1]<=(G.day+3)*24+22,JSON.stringify(calls));
+    const seen=new Set(); for(let i=0;i<30;i++){ G.day=dayOf('2025-03-01')+i*3; G.hour=10; ran.length=0; await ECONFF.homeStep(GM); if(ran[0]) seen.add(ran[0]); }
+    check('⑦ 每三天一段、連續 30 段：沒有重複到用完以前',seen.size>=20,seen.size+' 段');
     check('⑦ 資料：short 30、long 12、她睡姊姊的房間（AA_297）',RETAKE_HOME.short.length===30&&RETAKE_HOME.long.length===12&&/姊姊/.test(RETAKE_HOME.room));
     G=mkG('2025-02-22',20,{Y0_MOVED_OUT:true}); G.flags.ECONFF={done:{h2:1,h3:1}}; ran.length=0; await ECONFF.homeStep(GM); check('⑦ 長場景 2/22 20:00 媽媽和她（RH-L1）照日期演',ran.includes('rh_RH-L1'),ran.join(','));
     G=mkG('2024-12-01',10,{Y0_MOVED_OUT:true}); ran.length=0; calls.length=0; await ECONFF.homeStep(GM); check('⑦ 重考期以外（12/1）：不演日常',!ran.some(x=>/^rh_/.test(x))); }
