@@ -2,6 +2,7 @@
 
 > - AA-C 2026-10-18。使用者同意整理舊文件（00:2x）：企劃文件由 AA 標記，開發分支的 `CLAUDE.md`、`docs/` 是 LAWWW 的檔，AA 列清單、LAWWW 改。
 > - 依據：開發分支 `origin/claude/adoring-meitner-mqzst8` 的 `CLAUDE.md`（731 行，行號照 10-18 00:3x 版）；現行設定以企劃 `00_現行設定總表.md` 為準。
+> - **（2026-10-18 使用者授權 AA 自己改；已做成 `_generated/docs_outdated_1018.patch`，LAWWW 只要套用）**
 > - 建議做法和企劃一樣：**不刪，舊段落最上面加一行「已過時，以 ○○ 為準」**，或直接把現行版本寫進去；行號以你那邊實際版本為準。
 
 ## 1. CLAUDE.md

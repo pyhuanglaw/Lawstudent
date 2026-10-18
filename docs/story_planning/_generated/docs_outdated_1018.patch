@@ -1,0 +1,157 @@
+diff --git a/CLAUDE.md b/CLAUDE.md
+index 993a19c5..9d4a4f06 100644
+--- a/CLAUDE.md
++++ b/CLAUDE.md
+@@ -199,6 +199,7 @@
+ **一句話：四個 AI 一邊完成工作、一邊保持真正的協作與溝通；不能埋頭工作，最後才發現別人半小時前就提出重要訊息。**（起因：2026-10-15 LAWWW-B 有 19 則 AA-B／BB-B／LAWWW2-B 的通知排了約 40 分鐘沒讀。）
+ 
+ ## 永久規則：新增劇情一律先問 AA-B；前後帳號交接缺漏要全部進排程（2026-10-16 使用者正式指示，D79；LAWWW-B 與往後所有繼任者）
++> **【過時（2026-10-18 AA-C 依使用者授權標記）】**「AA-B」是帳號 B 的後綴；現在問值班的 AA（目前 AA-C）。分工照 D100、D100a。
+ 
+ **凡新增、修改、延伸任何會影響劇情的內容，LAWWW（-B）必須先向 AA-B 確認。** 包括：新場景的劇情用途、人物出現時間、事件觸發、人物同行、關係變化、告白條件、跨學年事件、原有企劃沒有明確規定的新互動。**不得因為負責程式就自行編寫或修改人物故事**（包括「補一句旁白」「補一個選項」「自己挑台詞」）。
+ 1. **流程**：發現需要新增劇情 → 查既有企劃（企劃線、交接包、交接板）→ 向 AA-B 提出具體問題 → AA-B 確認或提供完整規格（必要時 AA-B 與 BB-B 互審）→ LAWWW 實作、測試。
+@@ -258,6 +259,7 @@
+ 8. **工具限制（2026-10-16 實測）**：雲端工作階段的 git 只能 push 系統指定的分支，刪別的分支、直接 push main 都會被連線中斷。合併 main 改用 GitHub 的 pull request（GitHub 工具 create／merge）；刪不了的分支記在盤點表、繼續其他工作，**不反覆重試同一個失敗的操作**，也不用請使用者去網頁刪（使用者 2026-10-16）。
+ 
+ ## 永久規則：四角色主動派工與協作（2026-10-16 使用者正式指示「最新版」，D86；A、B 兩個帳號的四個職位與往後所有繼任者）
++> **【已被取代（2026-10-18 AA-C 依使用者授權標記）】由 D100（10-17 23:5x）、D100a（10-18 00:0x）取代**：台詞劇情全歸 AA（含原 BB 人物）；BB 只管 CG、2D 背景、立繪、測試；LAWWW2 3D 美術（人物小錯誤可以修）；LAWWW 整合、v0～v5、派工、發布、角色美術驗收。本節「AA 可以分派 BB」「BB 人物故事」「人物外觀照 BB 的 ART_APPROVED」「BB 的人物與 D59」都不再適用。
+ 
+ **四個角色在有合理可以做的工作時，都不能被動等下一道人工指令。** 流程：LAWWW 主動提劇情需求給 AA；AA 統籌劇情，有權分派 BB；BB 負責人物故事；LAWWW2 和 LAWWW、AA 主動對美術需求。這一節**取代**先前互相衝突的派工規則：
+ - 「AA、BB 只和使用者討論劇情、不參與開發、不分派工作」：AA 現在可以分派劇情工作給 BB，但仍然不分派開發工作；
+@@ -365,6 +367,7 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ 6. **不阻塞開發**：分支整理由 LAWWW2 主力做美術確認，LAWWW 照常推進 P0、bug、各學期內容、發布（D86、D87）。正常的整合、清理、main 合併、發布不用再問使用者。
+ 
+ ## P0 使用者新訊息優先與期末考素材來源（2026-10-14 新增，永久強制）
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】第 4、5 點「AA、BB 暫停自己編期末考題、AI 題不當成批准」已被取代**：使用者 2026-10-16 授權大一～大三缺題的課由 AI 參考律師一試、高考出題（交叉審後可用，`docs/story_planning/exam_ai/`）；10-18「全部題目下一版就要放進去」。現行：共 483 題，抽題順序＝課堂題→使用者題目→AI 題補到 5 題（企劃 `00_現行設定總表.md` 第 4 節、RELEASES v9.10 第一項）。第 1～3、6 點照舊有效。
+ 
+ > **使用者直接糾正**：現有 AA、BB 工作階段未先處理新訊息，仍自行出期末考題；使用者要求以過去交付的各科內容為來源，**不要擅自另編題庫**。本節優先於較舊的待辦、企劃、工作進度與「先完成手上任務」的習慣；其他安全、Git 權限及發布限制照舊。
+ 
+@@ -382,8 +385,8 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ 手機優先的 3D life RPG：玩家「祐廷」是台大法律系一年級學生，在參考台大、公館、溫州街生活圈的 3D 世界裡自由走動、上課、讀書、認識人；重要對話切到 2D ADV（日系 visual novel 式立繪＋對話框）。three.js（純靜態檔，無 npm 相依）。
+ 
+ - 線上（GitHub Pages）：https://pyhuanglaw.github.io/Lawstudent/ ——推到 `main` 就自動重新部署。
+-- 目前版本：**v9.7 已部署在 `main`（2026-10-14 12:32:31 UTC，`313d620`＝測試過的候選 19 本身；CG 劇情版：大一上 v1 劇情（手機群組、迎新、中秋、颱風假、聖誕、跨年、期末、可昕的遠距線）、事件 CG、每週課堂內容（法律審查通過的週）、睡覺第二版、社團、騎腳踏車；共同教學館、大一女舍的 Blender 外觀與可昕的 3D 人物還沒放；上一個穩定版 v9.6 `e88bda5`）**，發布紀錄與回復方法在 `docs/RELEASES.md`；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完才合併到 `main`（D32；使用者 2026-10-10 授權：測試通過的成熟成果可以自行發布，見 RELEASES.md；2026-10-16 起 main 的合併與發布由 LAWWW 自主決定（D85），三小時間隔已取消）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。
+-- **雙 AI 分工（2026-10-10 晚上起，D39、D40）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派工作。第二個 AI「LAWWW2」（工作階段標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。
++- 目前版本：**v9.7 已部署在 `main`（2026-10-14 12:32:31 UTC，`313d620`＝測試過的候選 19 本身；CG 劇情版：大一上 v1 劇情（手機群組、迎新、中秋、颱風假、聖誕、跨年、期末、可昕的遠距線）、事件 CG、每週課堂內容（法律審查通過的週）、睡覺第二版、社團、騎腳踏車；共同教學館、大一女舍的 Blender 外觀與可昕的 3D 人物還沒放；上一個穩定版 v9.6 `e88bda5`）**，發布紀錄與回復方法在 `docs/RELEASES.md`；之後的開發在開發分支（2026-10-10 起是 `claude/confident-ritchie-8rwh7t`，由舊分支 `claude/friendly-brahmagupta-6bbkzc` 快轉接續，歷史相同；**每個工作階段以系統指定的分支為準**），驗證完才合併到 `main`（D32；使用者 2026-10-10 授權：測試通過的成熟成果可以自行發布，見 RELEASES.md；2026-10-16 起 main 的合併與發布由 LAWWW 自主決定（D85），三小時間隔已取消）。標題畫面最下面有版本字樣。詳見下方「目前狀態」。 **【過時（2026-10-18 AA-C 依使用者授權標記）：線上是 v9.9.1（`6d5c3279`），見 `docs/RELEASES.md`】**
++- **雙 AI 分工（2026-10-10 晚上起，D39、D40）**：第一個 AI「LAWWW」（`session_01Eds6msqpsuzNEw98sdw8JX`，分支 `claude/confident-ritchie-8rwh7t`）負責人物、核心系統、霖澤館、萬才館、整合、發布，也負責分派工作。第二個 AI「LAWWW2」（工作階段標題「遊戲協作專案」，`session_01AC1WVgJSmoJK1uRsPK2Zn1`，分支 `claude/second-ai-env-art`）負責環境美術：Café、溫州街、街道道具、公館、獨立室內。**交接文件、檔案所有權、通訊與交付流程：`docs/SECOND_AI_HANDOFF.md`；工作看板：`docs/DUAL_AI_BOARD.md`**。兩邊用 claude-code-remote 的 `send_message` 事件驅動聯絡。第二個 AI 不碰 `main`、不發布；成果由第一個 AI merge 進開發分支、跑回歸測試後才能發布。 **【歷史（2026-10-18 AA-C 依使用者授權標記）：現行分工照 D100、D100a】**
+ - **（2026-10-10 09:55 起只剩一個工作階段：使用者結束建築組，之後人物與建築都由 `claude/confident-ritchie-8rwh7t` 負責；建築組未完成的事見 `docs/ART_REBUILD_PROGRESS.md` 的「建築組交接」。下面是原本的分工，留作紀錄。）** 兩個平行工作階段（2026-10-10 使用者訂的分工）：人物組（分支 `claude/confident-ritchie-8rwh7t`：主角與五女主模型、臉／髮型／服裝、走跑坐上下樓梯的動畫品質與 footIK、人物模型載入）；建築組（分支 `claude/friendly-brahmagupta-6bbkzc`：霖澤館／萬才館 Blender 模型、穿堂、樓梯、電梯、教室、多樓層導航、校園／公館／溫州街、場景材質光影碰撞、場景整合與回歸測試）。兩邊用 claude-code-remote 的 `send_message` 直接聯絡；改共用檔案（`src/character3d.js`、`src/assets3d.js`、`tests/playlib.py`）前先通知對方；整合前互相 merge 並跑測試；各自向使用者回報（【人物組／建築組｜進度回報】）。只有工作階段實際在跑時才能聯絡。
+ - **測試制度（2026-10-10 永久規範，D34）**：`docs/TESTING.md`。真實玩家流程測試不用 `?turbo`、不瞬移、不改劇情狀態；捷徑只能當前置條件並標示；重要測試要在有 bug 的版本失敗、修好的版本通過；不用「N 項全部通過」代替驗收；分清楚手機模擬與真機。
+ 
+@@ -398,10 +401,10 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ 5. **人物**：7–8 頭身；每個主角與重要 NPC 有自己的五官、髮型、服裝；衣服輪廓自然、外觀符合個性與背景；走、跑、轉身、坐下、上下樓梯可靠，不穿模、不滑步、不漂浮。VRoid 樣本只是基礎，載入得了不等於最終模型；優先改臉型、髮型、衣服輪廓與動作，不是只改顏色。
+ 6. **材質**：近景用 PBR（Base Color、Normal、Roughness，需要時 Metallic、AO），優先用 Poly Haven（CC0）。紅磚要有自然排列、接縫與表面；混凝土、花崗石不是單色平面；木材有紋理與粗糙度；玻璃有合理透明度與反射；金屬欄杆有光澤；柏油維持使用者指定的淺灰（D30）。不為了寫實破壞整體風格或手機效能。
+ 7. **既有程序化資產**（`campuskit3d.js`、`townkit3d.js`、`world3d.js`…）不必全刪，逐項分類：①已達品質可保留 ②適合遠景／背景 ③碰撞、導航或 GLB 失敗時的備用 ④主要近景、必須升級 ⑤已被正式 GLB 取代、停止當預設畫面。清單與狀態：`docs/art-rebuild/ASSET_INVENTORY.md`。不重寫引擎，不破壞劇情、人物資料、存檔。
+-8. **視覺驗收（每次重大美術修改都要附）**：真實照片或美術參考、修改前遊戲截圖、修改後遊戲截圖（同角度、相近時間與光線）、Blender 渲染圖、GLB 與貼圖規格、手機模擬測試結果、實機還沒驗證的事、commit SHA、還沒達到參考品質的缺點。不准只用文字說「比較精緻」。驗收狀態：`BLOCKOUT` → `MODEL_READY` → `INTEGRATED` → `FUNCTIONAL_VERIFIED` → `READY_FOR_ART_REVIEW` → `ART_APPROVED`。**誰能標 `ART_APPROVED`（D59，2026-10-14 使用者批准）**：**角色美術**（角色參考圖／設定圖，以及 3D 人物和通過的參考圖是否一致）由 **BB** 驗收、可以標；**建築、場景等其他美術照舊只有使用者實際確認才能標**。角色的分工：BB 驗收參考圖；LAWWW2 依通過的參考圖調整 Blender／VRM 角色模型；LAWWW 把模型接進遊戲、負責效能、動畫與回歸測試。重大人物外觀變更、整體畫風、主要劇情、大量 CG 製作仍由使用者決定。
++8. **視覺驗收（每次重大美術修改都要附）**：真實照片或美術參考、修改前遊戲截圖、修改後遊戲截圖（同角度、相近時間與光線）、Blender 渲染圖、GLB 與貼圖規格、手機模擬測試結果、實機還沒驗證的事、commit SHA、還沒達到參考品質的缺點。不准只用文字說「比較精緻」。驗收狀態：`BLOCKOUT` → `MODEL_READY` → `INTEGRATED` → `FUNCTIONAL_VERIFIED` → `READY_FOR_ART_REVIEW` → `ART_APPROVED`。**誰能標 `ART_APPROVED`（D59，2026-10-14 使用者批准）**：**角色美術**（角色參考圖／設定圖，以及 3D 人物和通過的參考圖是否一致）由 **BB** 驗收、可以標；**建築、場景等其他美術照舊只有使用者實際確認才能標**。角色的分工：BB 驗收參考圖；LAWWW2 依通過的參考圖調整 Blender／VRM 角色模型；LAWWW 把模型接進遊戲、負責效能、動畫與回歸測試。重大人物外觀變更、整體畫風、主要劇情、大量 CG 製作仍由使用者決定。 **【部分過時（2026-10-18 AA-C 依使用者授權標記）：角色美術改由 LAWWW 驗收（D100a），不是 BB（D59 作廢）】**
+ 9. **效能不是粗糙美術的預設理由**：目標是精緻而有效率——重用模型與材質、Instancing、LOD、貼圖壓縮、幾何最佳化、分區載入、遠景簡化、光影分級。主要人物、關鍵建築、玩家常停留的近景是品質優先區；**還沒量測實際效能前，不得以手機效能為由把主要人物或建築退回方塊**。
+ 10. **開工前先判斷製作工具**：新增建築、室內、人物、街景前先決定用什麼工具做，不得自行退回舊的低品質程序化方法。每次回報寫明：實際使用的建模工具、材質來源、整合情況、驗收狀態。
+-11. **目前劇情、角色設定、法律內容暫停修改**，優先完成美術與多樓層探索系統（2026-10-10）。**例外（2026-10-11，D50）：劇情企劃組的「大一上 v1」交接包經使用者批准進入實作**（`交接包_v1_大一上.md`＋`BB_95_交接包v1_大一上.md`，企劃分支），劇情保留隨時修改的權利；其餘劇情照舊暫停。實作只照交接包，LAWWW 不自己改寫劇情。**劇情修改分三級（D50）**：①潤飾、錯字、事件條件小修正——AA、BB 自行審稿，LAWWW 直接同步；②新增／調整一般日常事件——AA、BB 共識後照已批准的方向整合；③人物性格、重大關係、主線結局、已確定的關鍵事件——使用者確認後才能改（LAWWW 直接問使用者，不只憑轉述）。分不清就當第③級。
++11. **目前劇情、角色設定、法律內容暫停修改**，優先完成美術與多樓層探索系統（2026-10-10）。**例外（2026-10-11，D50）：劇情企劃組的「大一上 v1」交接包經使用者批准進入實作**（`交接包_v1_大一上.md`＋`BB_95_交接包v1_大一上.md`，企劃分支），劇情保留隨時修改的權利；其餘劇情照舊暫停。實作只照交接包，LAWWW 不自己改寫劇情。**劇情修改分三級（D50）**：①潤飾、錯字、事件條件小修正——AA、BB 自行審稿，LAWWW 直接同步；②新增／調整一般日常事件——AA、BB 共識後照已批准的方向整合；③人物性格、重大關係、主線結局、已確定的關鍵事件——使用者確認後才能改（LAWWW 直接問使用者，不只憑轉述）。分不清就當第③級。 **【過時（2026-10-18 AA-C 依使用者授權標記）：已不是暫停狀態，現行照 D99（三個優先項目）、D100（分工）】**
+ 
+ ## 和使用者合作的規則（使用者在各輪明確要求過，持續有效）
+ 
+@@ -435,6 +438,7 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ 8. **發布仍須確認**：commit、push、GitHub Pages 實際發布是三件事。使用者要求發布時，驗證線上版本確實包含新改動；不要只報「已 push」就說已發布。
+ 
+ ## USER MESSAGE PRIORITY — 使用者即時訊息優先＋雙 AI 即時協作（2026-10-10 使用者訂定，永久，D40）
++> **【雙 AI 部分過時（2026-10-18 AA-C 依使用者授權標記）】**下面「雙 AI 協作」的分工、帳號 A 的 session id 與分支（`confident-ritchie`、`second-ai-env-art`、`story-planning`）都是 10-10～10-14 的歷史；四職位與值班照 D100 和 `docs/AI_SESSION_HANDOFF.md`。「使用者訊息優先」的規則照舊有效。
+ 
+ **使用者的時間優先於 AI 的工作流程便利性。**
+ 1. 使用者在工作階段傳來新訊息時，先判斷是否需要立即回答。
+@@ -504,7 +508,7 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+    GitHub 紀錄狀態：待寫入／已寫入（附 SHA）
+    接下來處理：……
+    ```
+-8. **法律系期末考題庫（同一則指示的糾正，D73）**：
++8. **法律系期末考題庫（同一則指示的糾正，D73）**： **【已被取代（2026-10-18 AA-C 依使用者授權標記）：使用者 2026-10-16 授權 AI 補題、10-18 全部題目放進 v9.10；見本檔「P0 使用者新訊息優先與期末考素材來源」一節開頭的標記】**
+    - 期末考只能從使用者提供的素材出題，不准自己另編考題；法律正確不等於符合使用者指定的來源。
+    - 使用者提供的素材：`src/data/legal_qbank.js`（刑訴 Q001–Q084）、`docs/story_planning/法律課堂素材庫_使用者提供.md`、`AA_101`、`AA_102`、`BB_102_課堂內容_*` 等。
+    - 已經有標準答案的題目照用、保留答案與來源。
+@@ -580,6 +584,7 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
+ **14. 最高原則。** 這不是技術展示或測試框架，而是讓玩家投入生活的遊戲：玩家在乎角色像不像真正的人、溫州街值不值得散步、和同學的關係是否自然、故事是否連貫、遊戲是否穩定、累積的進度會不會消失。程式碼是工具，玩家體驗才是目的。
+ 
+ ## 目錄
++> **【補充（2026-10-18 AA-C 依使用者授權標記）】下面的清單是舊的，後來新增的主要檔案**：`src/data/exam_bank.js`（期末考題庫，`tools/exam/import_exam_bank.py` 產生）、`src/data/syllabus.js`（課堂內容，`tools/syllabus/import_syllabus.py`）、`src/data/courses.js`、`src/data/calendar.js`（16 週）、`src/data/ladder.js`（閒聊階梯）、`src/data/date_lines.js`（約會台詞）、`src/data/msg_pool.js`、`src/data/msg2_pool.js`（玩家主動傳訊息）、`src/data/termend_lines.js`（期末飯、心意邀約）、`src/data/encounters.js`、`src/data/enc_walk.js`（自由出行偶遇）、`src/data/hometown_lines.js`（去她的縣市）、`src/data/vac_activities.js`、`src/vac3d.js`、`src/home3d.js`（寒暑假、家）、`src/us3d.js`（美國交換）。實際以 `ls src src/data` 為準。
+ 
+ ```
+ index.html              開發版入口：UI DOM、CSS、script 載入順序、GAME.boot()（GitHub Pages 直接用這個）
+@@ -669,6 +674,7 @@ python3 build.py
+ - **加題目**：只能放使用者提供的題目與答案（`src/data/legal_qbank.js`）。
+ 
+ ## 目前狀態（v9 WIP：3D 美術重建進行中）
++> **【現況（2026-10-18 AA-C 依使用者授權標記）】**線上 v9.9.1（`6d5c3279`）；下一版 v9.10 的條件與範圍照 D99 與 `docs/RELEASES.md`（三個優先項目：經濟系完整流程 → 寒暑假 → 美國交換；全部法律題目是 v9.10 第一項）。下面是 10-10～10-11 多樓層、美術重建時期的技術紀錄，仍可查技術細節，但不是現在的重點。劇情現行設定以企劃 `docs/story_planning/00_現行設定總表.md` 為準。
+ 
+ - **3D 美術重建 v1 正在進行**（需求：`docs/history/specs/20_*`；即時進度：`docs/ART_REBUILD_PROGRESS.md`；畫面驗收：`docs/art-rebuild/VISUAL_REVIEW.md`）。
+ - **v9.4（2026-10-10 14:47 UTC 已發布，`6b9c0dc`）：多樓層＋Blender 正式模型**（需求：`docs/history/specs/21_*`、`22_*`；D36 分層導航方案 A、D37 霖澤館室內、D38 永久美術規範）。
+diff --git a/docs/DUAL_AI_BOARD.md b/docs/DUAL_AI_BOARD.md
+index 411e1805..5d0804f7 100644
+--- a/docs/DUAL_AI_BOARD.md
++++ b/docs/DUAL_AI_BOARD.md
+@@ -1,5 +1,7 @@
+ # 雙 AI 工作看板
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**兩個 AI 時期（2026-10-10～10-14）的工作看板，已停用。現行：四職位分工照 `CLAUDE.md` D100／D100a；任務總表 `docs/HANDOFF_GAP_MATRIX.md`；值班 `docs/AI_SESSION_HANDOFF.md`。
++
+ - 分工與規則：[`docs/SECOND_AI_HANDOFF.md`](SECOND_AI_HANDOFF.md)。
+ - 每個 AI 只改自己那一節。狀態用 D38 的驗收狀態，加上「進行中」「排隊」「被擋」。
+ - 「已整合」＝已經 merge 進開發分支 `claude/confident-ritchie-8rwh7t`。
+diff --git a/docs/REVIEW_NOTES.md b/docs/REVIEW_NOTES.md
+index 91437905..92dd8493 100644
+--- a/docs/REVIEW_NOTES.md
++++ b/docs/REVIEW_NOTES.md
+@@ -1,5 +1,7 @@
+ # REVIEW_NOTES — 目前最不滿意／最擔心的 10 個技術問題
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7 時期的十個技術疑慮，有些已經解決（例：人物已改 VRoid VRM）。現況以 `CLAUDE.md`「目前狀態」和 `docs/HANDOFF_GAP_MATRIX.md` 為準。
++
+ 1. **人物資產大多仍是 placeholder**。兩條 pipeline 都已驗證：rigged GLB（RPM 範例＋Mixamo 重定向 v2）給主角、VRM（three-vrm 自 TS 原始碼打包＋官方 Mixamo→humanoid 作法）給小安；但只有這兩個模型可用（環境無法下載其他人物），其他四位女主角與所有 NPC 仍是程序化人物。VRM 實例用 pool（預先 parse 2 個），同時出現超過 2 個同模型人物會退回 placeholder。要正式解決需要外部提供依 Character Bible 製作的 VRM。
+ 2. **三種人物來源並存**（legacy `spawnNPC`、`spawnCharacter`、extras）與 id 別名（an↔heroine_01 等）。第一、二天劇情是程式碼，之後的人物是資料驅動；同一人（小安）在兩個系統裡的日程與狀態可能不一致。應把 legacy 劇情改寫成事件資料並移除別名。
+ 3. **draw call 與三角形數**：人物每個約 40 mesh（無 skinning，層級合併只能合併髮型），教室同畫面 12 人≈ 500 draw call；low-poly-tree 9.4k 三角形一棵（已限 14 棵）。真機（尤其中階 Android）表現未知，只在 SwiftShader 測過。
+diff --git a/docs/REVIEW_README.md b/docs/REVIEW_README.md
+index 3dd94db9..12fa516b 100644
+--- a/docs/REVIEW_README.md
++++ b/docs/REVIEW_README.md
+@@ -1,5 +1,7 @@
+ # 《法條之外：台灣法律人生》SOURCE REVIEW README
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**v7／原型 v2（2026-09-27）時期的系統總覽，很多段落已經改變（人物改 VRoid VRM、多樓層、16 週日曆、經濟系開局、寒暑假等）。技術架構可以參考，現況以 `CLAUDE.md` 和 `docs/RELEASES.md` 為準。
++
+ 版本：3D×ADV 原型 v2（2026-09-27）。本文件給另一位工程師／AI 做 code / architecture / game-design review 用。
+ 
+ ## A. 專案目前如何啟動
+diff --git a/docs/SECOND_AI_HANDOFF.md b/docs/SECOND_AI_HANDOFF.md
+index 1fa1c647..f9e023c4 100644
+--- a/docs/SECOND_AI_HANDOFF.md
++++ b/docs/SECOND_AI_HANDOFF.md
+@@ -1,5 +1,7 @@
+ # 第二個 AI 交接文件（環境美術工作階段）
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**第二個 AI（帳號 A 的 LAWWW2）在 10-10 的交接文件。現行 LAWWW2 的交接檔是 `docs/art-rebuild/second_ai/HANDOFF.md`，分工照 `CLAUDE.md` D100／D100a（LAWWW2 做 3D 美術、人物小錯誤可修）。
++
+ - 建立：2026-10-10 晚上（台灣時間），由第一個 AI 寫（工作階段「LAWWW」）。依據是使用者的〈雙 Claude Code 工作階段分工與即時協作指令〉。
+ - 這份文件給第二個 Claude Code 工作階段（環境美術）。新的工作階段讀完這份＋`CLAUDE.md` 就可以開工，不必再問使用者專案背景。
+ - 分工有變動時由第一個 AI 改這份文件，並用訊息通知第二個 AI。工作看板在 [`docs/DUAL_AI_BOARD.md`](DUAL_AI_BOARD.md)。
+diff --git a/docs/TIMELINE_COMPAT_AUDIT.md b/docs/TIMELINE_COMPAT_AUDIT.md
+index 1f9405df..34cffff5 100644
+--- a/docs/TIMELINE_COMPAT_AUDIT.md
++++ b/docs/TIMELINE_COMPAT_AUDIT.md
+@@ -1,5 +1,7 @@
+ # 五年日曆相容性評估：經濟系大一（Y0）→ 重考 → 法律系四年
+ 
++> **【部分過時（2026-10-18 AA-C 依使用者授權標記）】**10-13 的五年日曆評估（18 週、經濟系舊時間線）。現行：16 週制；經濟系照 LIFE-LINE（2024-10-17 休學，`docs/story_planning/AA_224`、`AA_272`）；時間線以企劃 `docs/story_planning/00_現行設定總表.md` 第 1 節為準。相容性的技術做法（事件 ID、存檔）仍可參考。
++
+ - 第二版：2026-10-13 晚（回應 ChatGPT 審查第五點：怎麼保留法律系第一、二天的劇情、事件 ID、舊存檔、時間順序；技術風險；遷移方案）。盤點的程式版本：開發分支 `3ed2286`。
+ - 第一版：2026-10-13 下午，放在最後的附錄。
+ - **這份文件沒有改任何程式。** 經濟系主線還沒批准，照使用者的規定，現在只評估、不提前改核心程式。
+diff --git a/docs/WAKEUP_REPORT_2026-10-10.md b/docs/WAKEUP_REPORT_2026-10-10.md
+index 8a884f9a..bdfb1cdd 100644
+--- a/docs/WAKEUP_REPORT_2026-10-10.md
++++ b/docs/WAKEUP_REPORT_2026-10-10.md
+@@ -1,5 +1,7 @@
+ # 起床報告：九小時雙 AI 自主開發（2026-10-10 12:05–21:05 UTC＝台灣 10/10 20:05 – 10/11 05:05）
+ 
++> **【歷史（2026-10-18 AA-C 依使用者授權標記）】**2026-10-10 九小時自主開發的一次性報告，只作紀錄。
++
+ > 寫的人：LAWWW（第一個 AI，主開發與發布）。LAWWW2（第二個 AI）的成果也整理在這裡，原始紀錄在 `docs/DUAL_AI_BOARD.md`。
+ > 所有測試都是 **Playwright 手機模擬（SwiftShader）**，**不是 iPhone 實機**。沒有任何美術標成 `ART_APPROVED`，要你看過才算。
+ 

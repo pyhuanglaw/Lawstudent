@@ -38,3 +38,19 @@
   - 大一下閒聊：「暑假我要回台中幫家裡。課輔班的營隊，我只帶第一週。」（原「課輔班帶夏令營兩個禮拜，還有回台中幫忙」和整個暑假在老家衝突）。
 - 測試（`a895bc62`＋這個 patch）：`msg_chat_unit`、`vac_hometown_unit`、所有讀 ladder.js 的單元測試 ALL PASS。
 - **date_lines.js 沒有產生**：`tools/date/import_date_lines.py` 在你乾淨的 `a895bc62` 上就會停，因為白名單有重複的 approved（BB_188：`d171faef`、`05571a45`；AA_224：`ff3f2a4b`、`4e3a7c2b`，可能還有別的）。請你整理白名單的重複項以後再跑這支，D04、D12 就會換成台中版。
+
+## 第三批：開發文件過時標記（2026-10-18，使用者授權 AA 自己改 CLAUDE.md、docs/）
+- 檔案：`docs_outdated_1018.patch`（對開發分支 `aed7fbd8` 的 `git diff`）。只加標記、補現況，不刪任何內容。
+- `CLAUDE.md`：
+  - 期末考 D73 那兩處標「已被取代」，換成 483 題的現行規則。
+  - 目前版本改 v9.9.1。
+  - 「劇情暫停修改」標過時。
+  - 視覺驗收 D59 改 D100a。
+  - D86 整節標「已被 D100／D100a 取代」。
+  - 「先問 AA-B」改成問值班 AA。
+  - 雙 AI 舊段落標歷史。
+  - 「目前狀態」開頭加現況。
+  - 「目錄」補新檔。
+- `docs/`：
+  - DUAL_AI_BOARD、SECOND_AI_HANDOFF、WAKEUP_REPORT_2026-10-10 標歷史。
+  - REVIEW_README、REVIEW_NOTES、TIMELINE_COMPAT_AUDIT 標部分過時，寫以哪份為準。
