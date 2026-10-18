@@ -14660,9 +14660,9 @@
    "title": "大二房間門牌 112→312（AA_177 改字、AA_208 7-1：三樓、看得到另一邊的樹）：dorm3d.js HOMES.y2 plate 112（一樓）要改；宿舍走廊模型只有兩層，照「房號只是門牌」的做法選一扇門＋312 窗景",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】還沒：HOMES.y2 的 plate、門的位置（dorm3d.js），搬房間事件設 ROOM_Y2 的時機。【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
+   "next": "【2026-10-18 02:4x LAWWW-C】HOMES.y2 改 {plate:312, 二樓 x 11.15, 換掉 204 那扇門}（房號只是門牌，宿舍走廊模型兩層）；窗景早就是 312（dormSetKey）。nav_buildings_unit 宿舍房號四項改 312 ALL PASS。搬房間事件設 ROOM_Y2 的時機照舊。BB-C 測大二回房間。｜【LAWWW-C 19:3x 整合 LAWWW2-C 4fa4a1e2（＋c53a6276）：312／507／409 窗景（朝宿舍背面的樟樹、依樓層俯角）、dorm_room4.glb 十二組 Y312_／Y507_／Y409_ 擺設、zones3d.js DORM_SETS／dormSetKey（ROOM_Y2→312、ROOM_Y3→507、ROOM_Y4→409）／dormSet 字頭／dormView，dorm_room_layout.js 重新產生；393eda85 的 218／105 照片刪掉；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）】還沒：HOMES.y2 的 plate、門的位置（dorm3d.js），搬房間事件設 ROOM_Y2 的時機。【17:5x LAWWW-C】LAWWW2-C 393eda85 交了 112（一樓）、218、105 的窗景：218、105 接上（zones3d.js dormView，ROOM_Y3／ROOM_Y4）；112 不接（大二已改 312），已請 LAWWW2 拍 dorm_room312（三樓高度、看得到另一邊的樹）。｜改 HOMES.y2 的 plate、門的位置（二樓的一扇寢室門）；窗景 dorm_room312（請 LAWWW2 拍，三樓高度）；和 SCN-V3-01 物件一起驗",
    "first": {
     "term": "Y2S1",
     "week": 1,

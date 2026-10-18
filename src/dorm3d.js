@@ -115,7 +115,7 @@ const DM3=(function(){
   /* 每一年的房間（AA_183 第 5 節）：同一個宿舍模型，換一扇門。大一 203（二樓）→ 大二 112（一樓，主線 3）→ 大三 218（二樓的另一頭，主線 5）→ 大四 105（一樓，靠門口，主線 10）。
      經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓），門的位置用大一的。房號只是門牌：換到的那一扇原本的寢室門（rep）不放，203 搬走以後變成一般關著的門。
      房間裡面（dorm 區域）沿用同一個；窗外（AA_183：腳踏車棚和一棵樹、球場的燈、門口的路燈）等美術。 */
-  const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'112',x:11.15,lv:0,rep:'r104'},y3:{plate:'218',x:-10.9,lv:1,rep:'r201'},y4:{plate:'105',x:-5.25,lv:0,rep:'r102'}};
+  const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'312',x:11.15,lv:1,rep:'r204'},y3:{plate:'218',x:-10.9,lv:1,rep:'r201'},y4:{plate:'105',x:-5.25,lv:0,rep:'r102'}};
   const OLD_HOME={id:'r203',lv:1,x:5.5,side:'N',label:'203 寢室',plate:'203',closed:'203 寢室。門關著。'};
   function homeOf(G){ const F=(G&&G.flags)||{}, econ=!!G&&G.stage==='econ'; const key=econ?'y1':F.ROOM_Y4?'y4':F.ROOM_Y3?'y3':F.ROOM_Y2?'y2':'y1'; const h=Object.assign({key},HOMES[key]); if(econ) h.plate='412';
     h.label='回房間（'+h.plate+'）'; h.spawn={x:h.x,z:0.4,lv:h.lv,yaw:0}; return h; }

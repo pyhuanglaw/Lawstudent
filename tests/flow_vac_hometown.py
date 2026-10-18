@@ -66,8 +66,8 @@ async def one(pg, cdp, run, who, city, fare, dating):
     run.check(nm + '：選日子、她答應、行事曆排一筆（還沒扣錢）', ok and q and money0 == 8000, json.dumps(q, ensure_ascii=False)[:200] + ' ' + json.dumps(log[-6:], ensure_ascii=False))
     if not q: return
     await L.close_panels(pg, cdp); await pg.wait_for_timeout(800)   # 約好以後手機停在「訊息」頁（開著的時候遊戲時間暫停）：玩家會收起來
-    run.setup('同一份狀態讀檔到約好那天 08:40（跳過中間的日子）')
-    await pg.evaluate("(async(q)=>{ const s=JSON.parse(JSON.stringify(GAME.G)); s.day=q.day; s.hour=8.67; s.weekday=CALENDAR.dateOf(q.day).wd%7; s.zone='dorm'; await GAME.applySave(s); })(" + json.dumps(q) + ")")
+    run.setup('同一份狀態讀檔到約好那天、出發提示前 3 分鐘（OUT.due：約好的時間－車程－0.25；跳過中間的日子）')
+    await pg.evaluate("(async(q)=>{ const s=JSON.parse(JSON.stringify(GAME.G)); s.day=q.day; s.hour=Math.max(6,q.h-Math.max(0.5,q.travelH||0)-0.3); s.weekday=CALENDAR.dateOf(q.day).wd%7; s.zone='dorm'; await GAME.applySave(s); })(" + json.dumps(q) + ")")
     await pg.wait_for_timeout(2500)
     log = []
     ok, log = await drive(pg, cdp, "(()=>{ const bs=[...document.querySelectorAll('#choices button')]; return bs.some(b=>/出發：/.test(b.textContent)); })()", 240, log, prefer=('不用了', '睡'))
