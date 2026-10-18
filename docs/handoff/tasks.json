@@ -18326,7 +18326,7 @@
    "title": "水餃店 E27 沒說可昕為什麼休學（使用者 10-18：「水餃店事件根本沒說明可昕為什麼休學！！！！！」）",
    "area": "v0",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -18346,7 +18346,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；AA_272 第 9 節",
     "acceptance": "E27 裡可昕當面說出休學原因",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -18396,7 +18396,7 @@
    "title": "重考期完全沒有可昕住在家裡一起念書的感覺、她沒出現（使用者 10-18：「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已實作待整合",
    "priority": "P0",
    "first": {
     "term": "Y0S2",
@@ -18410,13 +18410,13 @@
    },
    "source": "使用者 2026-10-18 07:0x",
    "authorized": "使用者回報",
-   "next": "AA-C：寫約 30 段在家一起念書的短場景＋每週一段長的（比誰早起、互相督促）。LAWWW：事件模式每跳到新的一天先演一段；重考期在家的畫面可昕立繪一直在；E27／E27b 結尾台詞轉 AA",
+   "next": "AA-C 4b3391db（AA_297、retake_home_v1.json）已交；LAWWW：白名單、匯入、事件接事件重考期每天一段 short、長場景照日期、她的立繪在家裡畫面",
    "xai": {
     "receiver": "AA",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-18 原話；D103",
     "acceptance": "約 30 段日常短場景（rs 格式）＋長場景；可以接進事件模式",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
