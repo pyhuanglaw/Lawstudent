@@ -65,6 +65,10 @@
     3. `glb_coplanar.py` 前後數字（開發分支：溫州街 619.35、公館 397.75、118 巷 423.41 m²）；
     4. 118 巷前後截圖。
   - 下一項：ART-BALCONY-POTS（P3）。
+  - **LAWWW-C 12:13（收尾之後收到）**：
+    - v9.10.1 已發布，main `4c0cbefc`（PR #7），含霖澤館／萬才館外觀疊面、小語 3D、教學館室內、總圖窗景。
+    - 美國校園＋四季排 v9.10.2 以後。
+    - **US-CAMPUS-WIRE 的 patch 要對 main `4c0cbefc` 以後重做**：`us_season.diff`、`us_campus_wire.diff` 現在是對 40c3ed4f，下一班先 `git apply --check` 看還乾不乾淨，不乾淨就重做。
 - **LAWWW-C 11:47 派的第三批**：1. US-CAMPUS-WIRE-1018 交了 `4cee25c8`；2. BUG-WZFLICKER-2（溫州街三處＋公館、118 巷鐵捲門疊面）**進行中**；3. ART-BALCONY-POTS（P3）。BUG-COPLANAR-DEV 已整合 7e287c19；ART-CH-PINYU LAWWW-C 確認取消。
 - **LAWWW-C 11:32 派的第二批**：
   1. SCN-US-IU：回覆「已照空拍圖做完」（90c2896e）；
