@@ -87,23 +87,6 @@ D['characters'][TR] = {'friendOnly': True, 'steps': [
   'choices':[ch('「真的是這個原因？」','她說的。我沒有再問。'),
              ch('「那你要準時交。」','我已經寫好三頁大綱了。她還沒看。',rel={'trust':1})],'rel':{'fam':2,'comf':1},'mem':'TR0B_WAVED',
   'note':'E28（2/13 群組）「妳可以跟唐睿」之後；不說破他喜歡品妤。mem 名稱（WAVED）對不上，照留'},
- {'id':'TR0b-L5','if':st(TR,'FAMILIAR'),'week':[10,16],
-  'lines':['劇社有人問我：「你那個休學的朋友去哪了？」','我說他去重考法律。對方說好勇敢。我說他應該只覺得很累吧。'],
-  'choices':[ch('「法律比經濟難嗎？」','我哪知道。看你每天讀到那麼晚，應該是吧。'),
-             ch('「你說得很好。」','有嗎？我是當下想到就講了。',rel={'comf':1})],'rel':{'fam':2,'trust':1},'mem':'TR0B_HARDER'},
- {'id':'TR0b-L6','if':st(TR,'FAMILIAR'),'week':[12,16],
-  'lines':['長劇演完了。阿土種了一整季的菜。','謝幕的時候，有人在台下喊「阿土」。我差點哭出來。'],
-  'choices':[ch('「是誰喊的？」','……不知道。聲音很冷靜。像在算數字。'),
-             ch('「下次我也去喊。」','好。你喊大聲一點。阿土耳朵不好。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'TR0B_CURTAIN',
-  'note':'「聲音很冷靜，像在算數字」是品妤的暗示，不說破'},
- {'id':'TR0b-L7','if':st(TR,'FAMILIAR'),'week':[14,16],
-  'lines':['品妤今天跟我說了四個字。','……「借過一下」。我記到現在。'],
-  'choices':[ch('「她還說了什麼？」','沒有了。……可是她說「一下」。很溫柔。'),
-             ch('「你記性真好。」','我記得全系的名字。她說的每個字，也記得。……不要笑。')],'rel':{'fam':2,'comf':1},'mem':'TR0B_FOUR_WORDS'},
- {'id':'TR0b-L8','if':st(TR,'FRIEND'),'week':[15,16],
-  'lines':['你考試那天，我會在劇社演一場「考上了」。','預演啦。即興的，我演你。'],
-  'choices':[ch('「你演得像嗎？」','我會咬筆蓋。……可昕告訴我的。不要生氣。'),
-             ch('「演一場考不上的。」','不演。我只演考上的。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'TR0B_REHEARSAL'},
 ],'greet':{'base':['（他舉起手）{name}！','（他從口袋拿出一張便利貼，貼在你的袖子上）送你一張。','嗨！我今天又被學姊抓去系辦幫忙。','今天我又記住兩個新名字。','（他拉了一下 polo 衫的領子）'],
  'when':[{'week':[8, 9],'t':'期中！我等一下還有一科，先走了，你也加油。'},
          {'weather':'rain','time':[18, 22],'t':'下雨天，劇社的人都會遲到。我先去等。'},
@@ -224,7 +207,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 6 if cid==TR else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
