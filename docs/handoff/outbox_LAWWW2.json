@@ -484,6 +484,25 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT"
+  },
+  {
+   "task": "ART-EXT-M1 男一舍外觀",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a9a77bde",
+   "files": [
+    "assets/models/env/second_ai/campus_male1.glb",
+    "assets/models/env/second_ai/campus_male1.json",
+    "tools/blender/env_second/campus_male1.py",
+    "tools/blender/env_second/textures/gen/m1_breeze.png",
+    "docs/art-rebuild/second_ai/patches/campus_male1.diff",
+    "docs/art-rebuild/second_ai/test_shots/campus_male1/"
+   ],
+   "state": "已交付（MODEL_READY、READY_FOR_ART_REVIEW；依文字資料的遊戲化設計，沒有照片；地上 4 層照住宿組資料）",
+   "remaining": "沒有照片；背面陽台沒有鏡頭碰撞；門口沒有腳踏車",
+   "next": "LAWWW-C 套 campus_male1.diff（對 e2c78c34，git apply 乾淨：manifest、ckTag male1、attachWenzhouModel、套件 floors 5→4、門廊燈光暈 (20,60)；導航不動）＋從我的分支拿 GLB。另外 night_rereg.diff（正式模型第二次進區域以後窗燈不跟著天黑；改之前 FAIL、改之後 PASS；night_rereg_check.py）請 LAWWW-C 決定要不要收",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT"
   }
  ]
 }
