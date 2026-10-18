@@ -12,10 +12,10 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|ROM|MSG|MSG_POOL|MSG2_POOL|HOME)$/.test(n)?'global.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|ROM|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|HOME)$/.test(n)?'global.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 const REAL=fs.existsSync(path.join(ROOT,'src/data/msg_pool.js'));
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(fs.existsSync(path.join(ROOT,'src/data/msg2_pool.js'))?['src/data/msg2_pool.js']:[]).concat(['src/msg3d.js'])) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/events.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/story3d.js','src/home3d.js','src/romance3d.js'].concat(REAL?['src/data/msg_pool.js']:[]).concat(fs.existsSync(path.join(ROOT,'src/data/msg2_pool.js'))?['src/data/msg2_pool.js']:[]).concat(['src/data/msg_kx_y0.js']).concat(['src/msg3d.js'])) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 let G=null; const STAGE={};
@@ -182,4 +182,13 @@ else console.log('（略過 H：src/data/msg2_pool.js 還沒有）');
 { fresh(STORY.dayOfKey('2026-07-10'),20); const at=MSG.replyAt(G,'npc_fangyt'), back=STORY.dayOfKey('2026-07-20');
   check('I1. 方奕廷 7/10 上山：7/20（下山那天）15:00 才回',at.day===back&&at.h===15&&at.late===true,JSON.stringify(at));
   fresh(STORY.dayOfKey('2026-07-25'),20); const a2=MSG.replyAt(G,'npc_fangyt'); check('I1. 下山以後照平常',!(a2.day===back&&a2.h===15)&&a2.day<=G.day+1,JSON.stringify(a2)); }
+{ const K=k=>STORY.dayOfKey(k); const eg=(key,h,f)=>{ fresh(K(key),h,Object.assign({dating_kexin:true},f||{})); G.stage='econ'; G.contacts={kexin:0}; return G; };
+  eg('2024-11-20',20); const o1=MSG.open(G,'kexin'), t1=MSG.topics(G,'kexin').map(q=>q.k), p1=MSG.pick(G,'kexin','chat');
+  check('Y0. 經濟系那一年交往以後（11/20）：可以傳給可昕（AA_301）；話題在幹嘛、分享；回覆是「經濟系學期中」那一版',o1.ok&&o1.mode==='y0'&&t1.includes('chat')&&t1.includes('share')&&!t1.includes('course')&&p1&&p1.variant==='經濟系學期中',JSON.stringify([o1,t1,p1&&p1.msgs]));
+  eg('2025-01-08',20); const p2=MSG.pick(G,'kexin','chat'), p2n=MSG.pick(G,'kexin','share','notes'); check('Y0. 期末（1/8）：在幹嘛用期末那一版；期末沒有的話題（講義）照學期中',p2&&p2.variant==='經濟系期末'&&p2n&&p2n.variant==='經濟系學期中');
+  eg('2025-01-20',20); check('Y0. 寒假在高雄（1/20）：沒有講義那一則就不出',MSG.pick(G,'kexin','share','notes')===null&&MSG.pick(G,'kexin','chat').variant==='寒假在高雄');
+  eg('2025-03-10',20); const o4=MSG.open(G,'kexin'); check('Y0. 2/14～7/11 住在一起：不開，顯示「她就在家裡。直接去講。」',!o4.ok&&o4.show&&o4.why==='她就在家裡。直接去講。');
+  eg('2024-11-20',20,{dating_kexin:false}); check('Y0. 沒交往：不開；其他人經濟系那一年照舊不開',!MSG.open(G,'kexin').ok&&(G.flags.dating_kexin=true,!MSG.open(G,'econ_pinyu').ok));
+  eg('2024-11-20',20); { let r=null, err=null; try{ r=MSG.send(G,'kexin','chat'); }catch(e){ err=e.message; } check('Y0. 經濟系那一年真的傳得出去（MSG.send 不出錯、已送達）',!err&&r&&r.ok,err||JSON.stringify(r)); }
+  eg('2025-08-20',23); check('Y0. 放榜以後（8/20 23:00）：晚安有',MSG.topics(G,'kexin').some(q=>q.k==='night')&&MSG.pick(G,'kexin','night').variant==='放榜以後'); }
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

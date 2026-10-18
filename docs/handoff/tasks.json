@@ -18971,7 +18971,7 @@
    "title": "經濟系那一年交往以後，祐廷主動傳訊息給可昕的回覆（AA_301 MSG_KX_Y0，25 則；10/17～1/13 開、寒假在高雄開、2/14～7/11 不開＝「她就在家裡。直接去講。」、7/12～8/29 開）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -18985,7 +18985,7 @@
    },
    "source": "AA-C 06cc756e（AA_301、DL-AA-06cc756e）",
    "authorized": "使用者回報＋D100 台詞歸 AA",
-   "next": "msg3d.js S.open：econ 且 dating_kexin 才開；分期照 AA_301；回覆池用 MSG_KX_Y0（白名單＋匯入）；回覆時間照法律系的可昕"
+   "next": "白名單 AA_301@06cc756e、tools/msg/import_msg_kx_y0.py → src/data/msg_kx_y0.js；msg3d S.open／topics／pick 的 y0 分支；2/14～7/11 對話串顯示「她就在家裡。直接去講。」；msg_chat_unit Y0。BB 測手機傳訊息"
   },
   {
    "id": "AA296-KXCALL-1018",

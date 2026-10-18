@@ -8184,7 +8184,7 @@
    "what": "AA_301 經濟系那一年主動傳訊息給可昕的回覆 25 則（MSG_KX_Y0）",
    "task": "MSG-KX-Y0-1018",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "排在 AA_300 後面"
   },
   {
