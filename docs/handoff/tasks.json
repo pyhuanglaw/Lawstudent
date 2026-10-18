@@ -9406,8 +9406,8 @@
    "title": "阿勳（盧正勳 econ_zhengxun）的 3D 人物（VRM）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW-C 23:5x】D99 第一優先（經濟系 412 室友）：派 LAWWW2-C 當下一項｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 00:2x】第八版已接（凍結，D99）；BB-C 拍遊戲內截圖（E01 412 房間、博雅），LAWWW-C 看過標 ART_APPROVED｜【LAWWW-C 23:5x】D99 第一優先（經濟系 412 室友）：派 LAWWW2-C 當下一項｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】（LAWWW2-C 04:42 指出、LAWWW-C 照 AA_208／zones3d.js 1326 行核對）first 改 Y0S1 第 1 週，和韋綸、唐睿同一批。照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -9426,7 +9426,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "企劃線 docs/story_planning/art_reference/xun.webp（BB_131 人物標準圖；設定 BB_116 第 12 節；BB-B 03:44 確認）；做法照 AA_145 §5：路人底模改臉、髮型、衣服",
     "acceptance": "VRM 接進遊戲；角色美術由 LAWWW-C 驗收（D100）",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
    "pausedFrom": "待開工"
   },
