@@ -2200,7 +2200,8 @@ const STORY_EVENTS=[
       {speaker:null,text:'（同一個櫃台。上次那個工作人員認得你。）'},{speaker:'工作人員',text:'你決定來了？'},{speaker:'player',text:'我是來問她的。'},
       {speaker:'工作人員',text:'同學之前是哪一組？'},{speaker:'kexin',expression:'neutral',text:'自然組。……現在在臺大經濟。'},
       {speaker:'工作人員',text:'臺大經濟喔。（看了她的成績）國英數都很高耶。你們等一下，我去幫妳問。'},{speaker:null,text:'（她走進後面的辦公室。你們在櫃台前站了快十分鐘。）'},
-      {speaker:'工作人員',text:'不好意思。管理那邊說，沒有社會科的分數，就沒辦法。'},{speaker:'工作人員',text:'要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。'},
+      {speaker:'工作人員',text:'不好意思。管理那邊說，沒有社會科的分數，就沒辦法。'},{speaker:'工作人員',text:'要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。'},{speaker:'工作人員',text:'六月有一個月的衝刺班，不看社會的分數。到時候可以再來問。'},   /* 衝刺班的伏筆（AA_298 第 1 節；LAWWW-C Q-CRAM-SPRINT-1018：衝刺班是同一間辦的）*/
+      
       {speaker:'kexin',expression:'neutral',text:'……好。謝謝。'},{speaker:null,text:'（你們走出來。樓下的飲料店，跟十二月那天同一家。）'},
       {speaker:'kexin',expression:'neutral',text:'十三萬。'},{speaker:'kexin',expression:'neutral',text:'你去上啊。你免費耶。'},
       {choice:[{text:'「那我也在家讀。」',goto:'h1'},{text:'「我們都在家讀，比較好約。」',goto:'h2'},{text:'「那我們都在家讀。社會我陪妳從頭讀。」',goto:'h3'}]},
