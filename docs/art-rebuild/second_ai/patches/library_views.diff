@@ -1,0 +1,44 @@
+diff --git a/src/library3d.js b/src/library3d.js
+index a7b30950..a0954112 100644
+--- a/src/library3d.js
++++ b/src/library3d.js
+@@ -61,6 +61,19 @@ const LB3=(function(){
+   /* 窗的長寬比和景（2:1）不一樣：在平面的 UV 上裁一塊（不拉長）；fx＝橫向裁哪裡（0 左、1 右），一排側窗依序往右，合起來像一張全景 */
+   function cropUV(geo,a,fx){ const uv=geo.attributes.uv; let uw=1, vh=1; if(a<2) uw=a/2; else vh=2/a; const u0=(1-uw)*fx, v0=(1-vh)*0.5; for(let i=0;i<uv.count;i++) uv.setXY(i,u0+uv.getX(i)*uw,v0+uv.getY(i)*vh); uv.needsUpdate=true; }
+ 
++  /* 有景深的窗景（ART-LIB-VIEW-1018，使用者 10-18「總圖窗景很假」；LAWWW2-C）：
++     原本：每一扇窗一張平面貼圖，景貼在窗上，走動時景跟著窗一起動；照片是很早以前拍的，裡面還是方盒建築、7 m 高往下看。
++     現在：一面牆一張大平面（窗洞以外被正式模型的牆擋住），用 W3.windowMat 的視差——景在窗外 depth 公尺遠的地方，走動、上下樓時前後關係對；
++     照片重拍（tools/shots/library_views.py：視線高度、水平和垂直都是 90°，1024×1024；sxy＝(1, 0.5)）：
++       正面玻璃＝從總圖門口往西的椰林大道（depth 35）；側窗、平台的大窗＝總圖紅磚側翼和中庭草地（depth 14）。
++     只在正式模型載入後用（備用模型的牆沒有窗洞） */
++  function parallaxViews(zone,L,lv0,lv1){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, LD=L.stair.landing, V=L.vestibule; const PO=zone.pOuts=[];
++    const mk=(w,h,x,y,z,ry,grp,kind,depth)=>{ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),W3.windowMat(depth)); m.material.uniforms.sxy.value.set(1,0.5); m.position.set(x,y,z);   /* 照片水平、垂直都是 90°（1:1）*/ m.rotation.y=ry; m.userData.view=kind; m.userData.libOut=true; grp.add(m); PO.push(m); };
++    mk(D+2,3.6,-W/2-0.35,2.3,0,Math.PI/2,lv0,'lawn',14); mk(D+2,3.6,-W/2-0.35,Y1+2.2,0,Math.PI/2,lv1,'lawn',14);   // 西側一排窗（一樓、二樓）
++    { const gw=LD.x1-LD.x0+2, gh=RY-LD.y+1; mk(gw,gh,0,LD.y+1.0+gh/2-1,-D/2-0.6,0,lv0,'lawn',14); }                   // 大樓梯平台後面的大窗
++    mk(V.x1-V.x0+12,RY*2+4,0,2.0,D/2+1.2,Math.PI,lv0,'avenue',35);                                                     // 正面的玻璃帷幕
++    if(zone.applyTime&&typeof GAME!=='undefined'&&GAME.G) zone.applyTime(GAME.G.hour,GAME.G.weather); }
++
+   // ---- 程序化備用模型 ----
+   function buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs){ const W=L.W, D=L.D, Y1=L.floors[1].y, RY=L.roofY, T=L.wallT, ST=L.slabT, S=L.stair, C=S.center, SD=S.side, LD=S.landing, CO=L.core, U=L.upper, V=L.vestibule, MAT=B3.MAT, r=riseOf(L), t=S.tread;
+     const b0=new TK.Bin(), b1=new TK.Bin();
+@@ -180,7 +193,8 @@ const LB3=(function(){
+     const walls=[], walkMeshes=[], outs=[], slabs=[]; const fb0=new THREE.Group(), fb1=new THREE.Group(); fb0.name='fallback0'; fb1.name='fallback1'; fb0.userData.dyn=true; fb1.userData.dyn=true; lv0.add(fb0); lv1.add(fb1);
+     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,slabs,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.6,
+       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
+-      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
++      applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } }
++        for(const o of (zone.pOuts||[])){ const v=viewOf(o.userData.view,night), u=o.material.uniforms; u.map.value=v||outsideTex(night); u.photo.value=v?1:0; u.tint.value.set(v?W3.photoTint(h,weather==='rain'):0xffffff); } },   /* 有景深的窗景（parallaxViews）*/
+       onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,slabs); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
+     // 劇情：小安「總圖的下午」坐的那一桌（二樓西側、靠窗的那一張長桌，面對面的兩個座位）
+@@ -200,7 +214,8 @@ const LB3=(function(){
+     IT.push({x:SDR.x-0.7,z:SDR.z,radius:1.0,lv:1,label:SDR.label,exit:{to:'library',spawn:Object.assign({},L.reading.spawnFromStairs)}});
+     for(const lv of [0,1]) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv,label:'搭電梯',elevator:true});
+     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
+-    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('總圖大廳正式模型載入失敗，用程序化備用模型',e)); }
++    zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_interior']){ ASSETS.loadOne('bldg.library_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs) o.visible=false;   /* 正式模型的牆有窗洞：改用有景深的窗景（下面），原本一扇窗一張平面貼圖的藏起來（載入失敗時照舊用它們）*/
++      parallaxViews(zone,L,lv0,lv1); }).catch(e=>console.warn('總圖大廳正式模型載入失敗，用程序化備用模型',e)); }
+     return zone; } };
+ 
+   // ---- 閱覽室（zones3d.js 的 library）加的東西：電梯（東側）、樓梯間的出口 ----
