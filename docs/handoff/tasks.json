@@ -19296,6 +19296,27 @@
    "source": "使用者 10-18 12:5x 對 LAWWW-C",
    "authorized": "使用者直接要求",
    "next": "LAWWW-C 12:5x 開子代理（唯讀）比對三個職位的交接檔、今天的企劃文件和 RULE_SOURCE 的 USER_WANTS.md、tasks.json；結果回來後把沒寫進去的逐項補進 USER_WANTS.md（新列）和 tasks.json。交班時如果還沒回來：下一班 LAWWW 第一件事照同樣範圍重做（AA_交接紀錄.md、BB_00 交接檔、LAWWW2 HANDOFF.md 的「使用者」要求 × USER_WANTS／tasks）"
+  },
+  {
+   "id": "BUG-BOWL-STUCK-1018",
+   "title": "9/13 保齡球班聚演完回到宿舍就卡住：角色鎖住（busy=true）、鏡頭停在過場模式、沒有對話／事件／2D（使用者 10-18 12:5x 實玩 v9.10.1，附存檔 day-368＋除錯資訊截圖）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 2,
+    "earliest": "9/13 保齡球班聚",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）",
+   "authorized": "P0 bug",
+   "next": "讀程式還沒找到：OUT.go（sceneBegin／finally sceneEnd 對稱）、ECONFF.advance／runEv、story3d 19:15 韋綸保底電話（要 !busy）都看過。下一步：用使用者存檔在瀏覽器從 9/13 18:30 重跑保齡球，每秒記 D.busyDepth、player.busy、ECONFF.busy、EVENTS.running，找沒放開的 sceneBegin；暫時解法：重新讀檔（讀檔會清掉鎖）"
   }
  ]
 }
