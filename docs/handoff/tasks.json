@@ -18939,7 +18939,7 @@
    },
    "source": "LAWWW-C 2026-10-18 派工",
    "authorized": "D100（測試歸 BB）",
-   "next": "【11:47 BB-C 第二輪 KH_GO=home PASS（92b8eb5c）：卡住 0、例外 0、台詞 348 句、日期 0 不一致；7/25 在家版 07:30／21:00 電話／22:30 和好電話 ✔。兩條（bus／home）都過。接著 QA-PLAYTHROUGH 另外三種玩法（不開手機／全部拒絕／天天睡覺）到 8/30】【11:1x BB-C 第一輪 5e634610（BB_218 最後一節、test_shots/aa303_1018）：新遊戲→8/22 14.5 分鐘、卡住 0、JS 例外 0、日期不一致 0、undefined 0、台詞 336 句；抓到 BUG-E12-ARRIVE-LATE（f483c2a9 已修）。接著跑 KH_GO=home】BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
+   "next": "【12:2x BB-C 收尾（b38b2b81，BB_00 最上面寫下一班順序）：「完全不開手機」92b8eb5c 新遊戲→8/29 搬進宿舍 卡住 0、例外 0（腳本不會在法律系自己睡，沒跑到 8/30＝PARTIAL、腳本問題）。還沒做：decline／sleep 兩種、BUG-COPLANAR-DEV 瀏覽器、可昕 3D 三處、DORM-AFTER-MOVEOUT 重測、店員和博雅 101 重拍】【11:47 BB-C 第二輪 KH_GO=home PASS（92b8eb5c）：卡住 0、例外 0、台詞 348 句、日期 0 不一致；7/25 在家版 07:30／21:00 電話／22:30 和好電話 ✔。兩條（bus／home）都過。接著 QA-PLAYTHROUGH 另外三種玩法（不開手機／全部拒絕／天天睡覺）到 8/30】【11:1x BB-C 第一輪 5e634610（BB_218 最後一節、test_shots/aa303_1018）：新遊戲→8/22 14.5 分鐘、卡住 0、JS 例外 0、日期不一致 0、undefined 0、台詞 336 句；抓到 BUG-E12-ARRIVE-LATE（f483c2a9 已修）。接著跑 KH_GO=home】BB-C b0584173：52bf3f16 ALL PASS（20.4 分鐘 turbo、卡住 0、例外 0）。修了：①2/14 問補習班沒出現＝CRAM_FREE_KNOWN 沒記（ECONFF.defaults 12/13 以後記）②同一天兩張「臺北的家」（y0Jump 同一天不到一小時不出字卡）③8/29 睡過搬宿舍（toLawDue 05:00 起）④手機停在列表＝c5e312fe 已改直接打開那一段。BB 用新 HEAD 重跑一次",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/adoring-meitner-mqzst8",
