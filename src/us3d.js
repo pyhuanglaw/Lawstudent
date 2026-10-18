@@ -126,9 +126,11 @@ const US3=(function(){
       else if(t==='armchair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[-2.2,-2.2]}; z.seats.push(s); IT.push({x:s.ap[0],z:s.ap[1],radius:0.9,lv:0,label:'坐在單人沙發上',seat:s}); }
       else if(t==='deskChair'){ const s={x:f.x,z:f.z,yaw:f.ry,lv:0,ap:[2.55,-2.0]}; z.seats.push(s); IT.push({x:f.x,z:f.z,radius:0.8,lv:0,label:'坐在書桌前',seat:s,deskStudy:true}); }
       else if(t==='bed') IT.push({x:f.x-f.d/2-0.45,z:f.z,radius:0.9,lv:0,label:'睡覺',sleep:true});   /* 床尾朝西（x 2.93）：站在床尾 */
-      else if(t==='fridge') IT.push(Object.assign({x:f.x+0.75,z:f.z,radius:0.8,lv:0},o.fridge||{label:'打開冰箱',look:lookText('冰箱。')}));
+      /* 冰箱、爐子（ART-US2-FIX-1018，BB-C 10-18：站在冰箱前出「看爐子」）：窄廚房站得住的只有 z 1.8～2.2 一條（0.4 m），爐子就在冰箱旁邊——
+         冰箱的點放在廚房西端（冰箱門前 x+0.7）、爐子的點放在爐子東緣、水槽旁（x+0.75, z−0.65）：分界在 x≈−3.05，冰箱門前站得住的位置都出冰箱（tests/nav_us_unit.js）*/
+      else if(t==='fridge') IT.push(Object.assign({x:f.x+0.7,z:f.z,radius:0.7,lv:0},o.fridge||{label:'打開冰箱',look:lookText('冰箱。')}));
       /* 爐子的互動點往東 0.45 m（爐子東半邊、水槽旁）：冰箱的點在 (x+0.75)、爐子原本在 (x, z−0.75)，兩個只差 0.16 m，站哪裡都只出得了一個（瀏覽器流程：合租戶的輪值表點不到）*/
-      else if(t==='range') IT.push(Object.assign({x:f.x+0.45,z:f.z-0.75,radius:0.8,lv:0},o.range||{label:'看爐子',look:lookText('電爐和烤箱，上面是微波爐。')})); }
+      else if(t==='range') IT.push(Object.assign({x:f.x+0.75,z:f.z-0.65,radius:0.75,lv:0},o.range||{label:'看爐子',look:lookText('電爐和烤箱，上面是微波爐。')})); }
     for(const d of L.doors) if(d.closed){ const ax=d.axis==='z'; const side=d.breezeway?1:-1;   /* 門口站哪一邊：衛浴、衣物間從臥室（北邊）；衣帽櫃、洗衣機、臥室 A／B 從走道、客廳（西邊）；隔壁從平台（東邊）*/
       if(d.id==='bath'||d.id==='closet'){ const ab=L.rooms.find(q=>q.id==='bedroom'||q.id==='bedB'); if(ab&&!openRoom(ab.id)) continue; }   /* 衛浴、衣物間從臥室進：臥室關著（合租戶的 B）就不做 */
       IT.push({x:ax?d.x+side*0.45:d.x,z:ax?d.z:d.z+side*0.45,radius:0.75,lv:0,label:d.label,look:d.closed}); }

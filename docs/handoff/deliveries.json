@@ -7521,8 +7521,8 @@
    "what": "（LAWWW2 標 ART-US2-FIX-1018，撞名，改登記 BUG-US-KITCHEN-1018）公寓、合租戶窄廚房：冰箱、爐子互動點分開；kit_n、kit_e 隔間牆會淡出（us_apartment.glb、us_shared.glb 重匯）；patch us2_fix_1018.diff（us3d.js、us_layouts.js、nav_us_unit.js）；README docs/art-rebuild/second_ai/test_shots/us2_fix_1018/；outbox 96352d2f",
    "task": "BUG-US-KITCHEN-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "v9.10 收件範圍外（美國交換），發布後套；BB-C 重跑 flow_us_exchange"
+   "integration": "已整合待測試",
+   "note": "v9.10 收件範圍外（美國交換），發布後套；BB-C 重跑 flow_us_exchange｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完"
   },
   {
    "id": "DL-LAWWW2-8d21b0f2",
@@ -7599,8 +7599,8 @@
    "what": "BUG-US-KITCHEN-1018 追加：合租戶臥室 A 門口——電視櫃移到東牆 (1.12,-1.2)、行李箱移到客廳東北角 (0.9,0.55)，us_shared.glb 重匯；patch us2_fix_1018.diff 重產（對 5ecab8b8 apply --check 乾淨）；reachability_all --zones us_shared、nav_us_unit ALL PASS；outbox 9bd934e9",
    "task": "BUG-US-KITCHEN-1018",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "v9.10 發布後套（美國交換）"
+   "integration": "已整合待測試",
+   "note": "v9.10 發布後套（美國交換）｜LAWWW-C 04:2x：patch 套上（apply 乾淨）、us_apartment／us_shared GLB＋json 拿 efaca16f 的；nav_us_unit ALL PASS；瀏覽器 reachability us_shared 等 joystick 跑完"
   },
   {
    "id": "DL-BB-2fe51fcf",

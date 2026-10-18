@@ -31,6 +31,15 @@ function allReach(id,from){ const bad=[]; for(const it of E.interactables){ cons
 const arrivals=[];   // 出入口的到達點：之後到那一區檢查
 function noteExits(id){ for(const it of E.interactables) if(it.exit&&it.exit.spawn) arrivals.push({from:id,to:it.exit.to,label:it.label,sp:it.exit.spawn}); }
 
+/* ART-US2-FIX-1018（BB-C 10-18：站在冰箱前出「看爐子」）：冰箱門前（冰箱正面往東 0.36～0.62 m、冰箱寬度內）站得住的位置，最近的互動都要是冰箱；
+   爐子東緣、水槽前站得住的位置最近的是爐子。合租戶同一套（下面） */
+const kitchenSplit=(name,L,frIt,stIt)=>{ const near=(x,z)=>{ let b=null,bd=1e9; for(const i of E.interactables){ const d=Math.hypot(i.x-x,i.z-z); if(d<(i.radius||1.8)&&d<bd){ bd=d; b=i; } } return b; };
+  const F=L.furniture.find(f=>f.type==='fridge'), Rg=L.furniture.find(f=>f.type==='range'); const front=[], east=[];
+  for(let dx=0.36;dx<=0.62+1e-6;dx+=0.04) for(let dz=-0.32;dz<=0.32+1e-6;dz+=0.04){ const x=F.x+F.d/2+dx, z=F.z+dz; if(stand(x,z)) front.push([x,z]); }
+  for(let x=Rg.x+0.45;x<=Rg.x+0.95+1e-6;x+=0.05) for(let z=1.7;z<=2.3+1e-6;z+=0.05) if(stand(x,z)) east.push([x,z]);
+  const badF=front.filter(([x,z])=>near(x,z)!==frIt), badS=east.filter(([x,z])=>near(x,z)!==stIt);
+  check(`${name}：站在冰箱門前（${front.length} 個站得住的位置）出冰箱；爐子東緣、水槽前（${east.length} 個）出爐子`,!!frIt&&!!stIt&&front.length>0&&east.length>0&&!badF.length&&!badS.length,
+    badF.slice(0,3).map(p=>'冰箱前 '+p.map(v=>v.toFixed(2))+' → '+(near(...p)||{}).label).concat(badS.slice(0,3).map(p=>'爐子東 '+p.map(v=>v.toFixed(2))+' → '+(near(...p)||{}).label)).join('；')); };
 // ---------- 公寓室內 ----------
 { const z=loadZone('us_apartment'), L=US_APARTMENT_LAYOUT, S=z.spawn;
   check('公寓：門外平台的出生點站得住',stand(S.x,S.z),`(${S.x},${S.z})`);
@@ -47,6 +56,7 @@ function noteExits(id){ for(const it of E.interactables) if(it.exit&&it.exit.spa
   check('公寓：平台東邊的樓梯走不下去（下樓是出口）',!stand(3.4,4.0));
   check('公寓：有「睡覺」（sleep:true）、「坐在書桌前」（deskStudy）、「出門」→ us_outside',!!E.interactables.find(i=>i.sleep&&i.label==='睡覺')&&!!E.interactables.find(i=>i.deskStudy)&&!!E.interactables.find(i=>i.label==='出門'&&i.exit&&i.exit.to==='us_outside'));
   check('公寓：US3.SPAWN 的出生點都站得住（交換系統用）',['us_apartment','us_apartment_bed'].every(k=>stand(US3.SPAWN[k].x,US3.SPAWN[k].z)));
+  kitchenSplit('公寓',L,E.interactables.find(i=>i.label==='打開冰箱'),E.interactables.find(i=>i.label==='看爐子'));
   allReach('公寓',P); noteExits('us_apartment'); }
 // ---------- 學姊她們的 C 棟 208（合租戶，US2 的共用廚房）----------
 { const z=loadZone('us_shared'), L=US_SHARED_LAYOUT, S=z.spawn;
@@ -59,6 +69,7 @@ function noteExits(id){ for(const it of E.interactables) if(it.exit&&it.exit.spa
   check('合租戶：「出門」→ us_outside（C 棟樓梯口）',!!E.interactables.find(i=>i.label==='出門'&&i.exit&&i.exit.to==='us_outside'&&Math.abs(i.exit.spawn.x-US3.C208.out.x)<1e-6));
   { const fr=E.interactables.find(i=>i.usShared==='chores'), st=E.interactables.find(i=>i.usShared==='stove'); const near=(x,z)=>{ let b=null,bd=1e9; for(const i of E.interactables){ const d=Math.hypot(i.x-x,i.z-z); if(d<i.radius&&d<bd){ bd=d; b=i; } } return b; };
     check('合租戶：冰箱（輪值表）和爐子的互動點分得開（站在哪一個的點上就出那一個）',!!fr&&!!st&&near(fr.x,fr.z)===fr&&near(st.x,st.z)===st&&Math.hypot(fr.x-st.x,fr.z-st.z)>0.4,fr&&st?`${Math.hypot(fr.x-st.x,fr.z-st.z).toFixed(2)} m`:''); }
+  kitchenSplit('合租戶',L,E.interactables.find(i=>i.usShared==='chores'),E.interactables.find(i=>i.usShared==='stove'));
   allReach('合租戶',[S.x,S.z]); noteExits('us_shared'); }
 // ---------- 公寓社區 ----------
 { const z=loadZone('us_outside'), L=US_COMMUNITY_LAYOUT, S=z.spawn;
