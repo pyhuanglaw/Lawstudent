@@ -17451,6 +17451,27 @@
    "source": "LAWWW2-C 10-18 04:21（night_rereg.diff＋night_rereg_check.py，e0e39091）",
    "authorized": "D85",
    "next": "【04:4x LAWWW-C c707d224 乾淨 checkout】night_rereg_check PASS（白天 0、天黑 1、進宿舍回來白天 0、再天黑 1）；剩 BB-C 看溫州街、Café 天黑以後的窗｜原因：正式模型的材質和 ASSETS 快取共用，離開區域時 TK.forget 把它們從夜間清單拿掉；再進來時 wzReg／nightReg／cafeReg 已經 true 直接 return。修：旗標已設也照表重新 addNight（zones3d.js 三處）。已整合；待 LAWWW 跑 night_rereg_check.py（改之前 FAIL、改之後 PASS），BB-C 看校園、溫州街、Café 天黑以後的窗"
+  },
+  {
+   "id": "UX-HOME-RETURN-1018",
+   "title": "住家裡（休學後、放假）到現場的出遊演完人留在外面、不知道怎麼回家（BB-C 10-18 flow_v0_home：11/6 E12 醉月湖演完）",
+   "area": "V0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系休學後第一次到現場的出遊（11/6 E12 醉月湖）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10-18 05:15（設計問題，LAWWW 決定）",
+   "authorized": "D85（UI，不是劇情台詞）",
+   "next": "5ffde5b3：①手機「地點」最上面多一行「回臺北的家」（HOME.canGo 而且不在家時；按了走 HOME.go，交通字卡、時間照原本）②三個在家選單（休學在家、週末、放假）的到現場出遊演完跳一行提示「要回家：手機「地點」→ 回臺北的家（或走到校門口）。」home／dl05_home／v0_home_ff／vac_hometown 單元通過；瀏覽器派 BB-C（flow_v0_home 可以改用手機回家）"
   }
  ]
 }
