@@ -847,7 +847,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "【使用者 2026-10-17 06:3x（AA_218 第 15 節 29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查＝通過）；和新劇情相不相符 AA、BB 確認。接進遊戲時逐張列進匯入白名單（不能整批）】【AA-C 06:18 盤點更正：32 處（33 張）底圖都有，流程是使用者生成、BB 檢查通過；BB 檢查算不算核准 AA-C 在問使用者；遊戲裡已有的 d04／d06／d12／d13 維持現狀】去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
+   "next": "【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜【使用者 2026-10-17 06:3x（AA_218 第 15 節 29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查＝通過）；和新劇情相不相符 AA、BB 確認。接進遊戲時逐張列進匯入白名單（不能整批）】【AA-C 06:18 盤點更正：32 處（33 張）底圖都有，流程是使用者生成、BB 檢查通過；BB 檢查算不算核准 AA-C 在問使用者；遊戲裡已有的 d04／d06／d12／d13 維持現狀】去背 v1.1（d93b47e2，含 anchors.json）、v1.2（50152b12）BB-B 都 ART_APPROVED；整組等 DATE-S6 一起接（遊戲還沒有半互動約會）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -879,7 +879,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "跟著各學期事件接；圖通過才接；BCG-27 K1 導遊已接（本批）",
+   "next": "【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜跟著各學期事件接；圖通過才接；BCG-27 K1 導遊已接（本批）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -911,7 +911,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "BB-B 要圖",
+   "next": "【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜BB-B 要圖",
    "priority": "P2",
    "first": {
     "term": "Y2S1",
@@ -1346,7 +1346,7 @@
    "area": "V0",
    "owner": "LAWWW",
    "status": "進行中",
-   "next": "【經濟系那年 10 月以後的事件施工暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））；10 月以前、不衝突的照做】SK01、SK02 已接（BB_106 定稿 d5224961、AA_154 A52）：SK01＝第二天劇情結束後第一次站在霖澤館前（大一上第 3～6 週、社科圖開著、75 分鐘內沒課），阿勳私訊→「（去社科圖）」2D soc_library 一小時／「（先回宿舍）」貼圖＋第 4 天以後經過法學院廣場揮手；一律記 MET_XUN。SK02＝第 4 週週一 15:00 私訊（SK01 晚＝隔天以後第一個平日，到第 7 週）→ 社科院門口 13:00～17:00 → 2D soc_office，三選一（wear／xun／closet），SOC_WRONG_BUILDING；①隔天起 7 天內霖澤館的課阿哲一句；②阿勳不在＝轉交旁白＋21:00 私訊；第 8 週回男生宿舍門廳＝阿勳的紙條。SK04 之前已接。tests/v1_sk01_unit.js（49 項）。等 BB-B：房間「經濟系的系外套」的說明（SK02-ITEM）、第 8 週紙條前要不要旁白（SK02-W8）。瀏覽器還沒跑。SK03、SK05 在 V2-B10；SK06～SK14 照各學期",
+   "next": "【02:3x AA-C】「等 BB-B：SK02-ITEM、SK02-W8」兩句已經在程式裡（story3d.js 房間外套說明、櫃台旁白＋紙條），那段作廢。系外套私訊與 memo「去年冬天訂」→「去年開學訂」（AA 10-18，BB_106 90563040）已改；休學以後課表日期寫「休學中」（tests/econ_daylabel_unit.js）。｜【經濟系那年 10 月以後的事件施工暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））；10 月以前、不衝突的照做】SK01、SK02 已接（BB_106 定稿 d5224961、AA_154 A52）：SK01＝第二天劇情結束後第一次站在霖澤館前（大一上第 3～6 週、社科圖開著、75 分鐘內沒課），阿勳私訊→「（去社科圖）」2D soc_library 一小時／「（先回宿舍）」貼圖＋第 4 天以後經過法學院廣場揮手；一律記 MET_XUN。SK02＝第 4 週週一 15:00 私訊（SK01 晚＝隔天以後第一個平日，到第 7 週）→ 社科院門口 13:00～17:00 → 2D soc_office，三選一（wear／xun／closet），SOC_WRONG_BUILDING；①隔天起 7 天內霖澤館的課阿哲一句；②阿勳不在＝轉交旁白＋21:00 私訊；第 8 週回男生宿舍門廳＝阿勳的紙條。SK04 之前已接。tests/v1_sk01_unit.js（49 項）。等 BB-B：房間「經濟系的系外套」的說明（SK02-ITEM）、第 8 週紙條前要不要旁白（SK02-W8）。瀏覽器還沒跑。SK03、SK05 在 V2-B10；SK06～SK14 照各學期",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6708,8 +6708,8 @@
    "title": "美國校園街道",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "進行中",
-   "next": "【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
+   "status": "已實作待整合",
+   "next": "【02:3x LAWWW2 02:23：1e6987cb 已交、等整合；v9.10 發布後接（美國交換）】｜【LAWWW-C 00:4x】使用者 01:0x 給 LAWWW2-C 法學院照片：系館照照片改、路線改公車→法學院前人行道→台階下進教室、校門在西邊（往活動中心，關著）；教室 2D｜【LAWWW2-C 06:54Z 交付第一階段 1f488eb9（DL-LW2-USSTREET1：Kirkwood 主街 14 棟店面、us_street.layout.json）；第二階段校門 Sample Gates、石灰岩建築等使用者照片】【使用者 2026-10-17 05:0x 直接對 LAWWW2-C：「還沒做好的東西趕快做，尤其是經濟系的東西，最後接著做美國的東西、日本的東西」——美國篇美術接在經濟系之後做（季節細節照 ART-US-SEASON 等 AA_213）】【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜配置＋建模（批次 3）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -8267,9 +8267,9 @@
    "id": "ART-17",
    "title": "20 張事件在用、還沒有圖的 2D 背景（玩家看到黑底）",
    "area": "ART",
-   "owner": "LAWWW2",
+   "owner": "BB",
    "status": "進行中",
-   "next": "總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
+   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -8285,11 +8285,11 @@
    "authorized": "D79",
    "evidence": "BG-01 riverside：第 2 級 run13（中秋烤肉背景直向、橫向，不是黑底）",
    "xai": {
-    "receiver": "LAWWW",
+    "receiver": "LAWWW-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "LAWWW2-B 清查 e3d6779 三；BG 追蹤表 d9a6f497",
     "acceptance": "MODEL_READY＋遊戲內截圖",
-    "ack": "ACK"
+    "ack": "未派"
    }
   },
   {
@@ -9384,9 +9384,9 @@
    "id": "ART-BG09",
    "title": "2D 背景 trip_sea「海邊」：春假開車旅行（用約會底圖 D25（夕陽））",
    "area": "ART",
-   "owner": "LAWWW2",
+   "owner": "BB",
    "status": "待開工",
-   "next": "AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9401,20 +9401,20 @@
    "source": "BG_TRACKER；AA_147",
    "authorized": "D79、D84",
    "xai": {
-    "receiver": "LAWWW",
+    "receiver": "LAWWW-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色；白天版＝調色，不重新生成",
-    "ack": "DELIVERED"
+    "ack": "未派"
    }
   },
   {
    "id": "ART-BG10",
    "title": "2D 背景 trip_oldtown「別的城市的老街」：春假開車旅行（用約會底圖 D18（黃昏））",
    "area": "ART",
-   "owner": "LAWWW2",
+   "owner": "BB",
    "status": "待開工",
-   "next": "AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9429,20 +9429,20 @@
    "source": "BG_TRACKER；AA_147",
    "authorized": "D79、D84",
    "xai": {
-    "receiver": "LAWWW",
+    "receiver": "LAWWW-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_147＋BG_TRACKER",
     "acceptance": "assets/bg/<id>.webp（webp、直向和橫向都能用的構圖，人物站位留空）＋遊戲內截圖；READY_FOR_ART_REVIEW 交 LAWWW；店名照 D77、不放校徽校名；白天版另外生成或調色；白天版＝調色，不重新生成",
-    "ack": "DELIVERED"
+    "ack": "未派"
    }
   },
   {
    "id": "ART-BG12",
    "title": "2D 背景 seaside_town「春假・海邊的小鎮」：ev_noodle_trip_spring_y1（用約會底圖 D13，字幕寫通稱）",
    "area": "ART",
-   "owner": "LAWWW2",
+   "owner": "BB",
    "status": "待開工",
-   "next": "D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
+   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -9458,11 +9458,11 @@
    "authorized": "D79",
    "note": "2026-10-16 D89（使用者：美術主要給 LAWWW2）：美術製作改給 LAWWW2；LAWWW 只負責接進遊戲、導航、互動與測試。",
    "xai": {
-    "receiver": "LAWWW",
+    "receiver": "LAWWW-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "2D 背景 seaside_town（春假海邊小鎮；可以用約會底圖 D13，字幕寫通稱）",
     "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
-    "ack": "SENT"
+    "ack": "未派"
    }
   },
   {
@@ -9502,7 +9502,7 @@
    "area": "ART",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
+   "next": "【02:3x LAWWW-C】v9.10 不需要：品妤在經濟系那一年已經有 char3d（底模換色），夠用就凍結（D99 第 4 點）；照 LAWWW2 表上的「人物暫停」。｜【使用者 06:5x 對 LAWWW2-C「恢復，照 AA 的順序先做」；AA-C 06:46 順序：阿勳 → 品妤 → 韋綸 → 唐睿 → 家豪 → 魏教授；角色美術 BB-C 驗收（D59）】照通過的立繪做 VRM（臉、髮型、衣服輪廓，不是只換顏色；D38 第 5 點）；BB-B D59 驗收參考圖一致性；交 MODEL_READY＋遊戲內截圖",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -13726,10 +13726,10 @@
    ],
    "title": "AA_185 第 8 節的 2D 背景四張：公館機車行（BB-B ART-SHOP1 v2 道具＋升降台上的新機車）、老國小操場、視訊的國外住處、日本教室",
    "area": "ART",
-   "owner": "LAWWW2",
+   "owner": "BB",
    "status": "待開工",
    "priority": "P2",
-   "next": "機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 5d5bb8aa 驗收通過，bb_support/scooter_shop_props.*）好了；4 張 2D 背景還沒開工｜LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
+   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 5d5bb8aa 驗收通過，bb_support/scooter_shop_props.*）好了；4 張 2D 背景還沒開工｜LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13743,11 +13743,11 @@
    "source": "LAWWW2-B 全部待辦（funny-albattani 440410e1，HANDOFF.md「📋 LAWWW2 全部待辦」【表外】）；使用者 2026-10-17 00:2x「代辦事項全部都要交接」；D93 逐職位核對（check_handoff.py roles）",
    "authorized": "AA_185（企劃線）",
    "xai": {
-    "receiver": "LAWWW-B",
+    "receiver": "LAWWW-C",
     "branch": "claude/funny-albattani-iawshm",
     "spec": "AA_185 第 8 節、BB_132 ART-SHOP1",
     "acceptance": "1920×1080 webp、遊戲內截圖",
-    "ack": "ACK"
+    "ack": "未派"
    }
   },
   {
@@ -14242,7 +14242,7 @@
    "owner": "LAWWW2",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "4e4f4f36 完成並交 AA-B（企劃線 eaa92b52 已收）；文件 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 funny 分支，參考用；建議複製進開發分支（D88）",
+   "next": "【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜4e4f4f36 完成並交 AA-B（企劃線 eaa92b52 已收）；文件 docs/art-rebuild/second_ai/VAC_A1_既有資產盤點.md 只在 funny 分支，參考用；建議複製進開發分支（D88）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -14275,7 +14275,7 @@
    "owner": "LAWWW2",
    "status": "已實作待整合",
    "priority": "P2",
-   "next": "69e4b181、644a322f、5c6a0391 完成；開發分支只有 AI_SESSION_HANDOFF HV-9a 的入口，文件本身只在 funny 分支 docs/art-rebuild/second_ai/——下一班把三份複製進開發分支保存（D88：不要只存在一條分支）",
+   "next": "【02:3x LAWWW2：四份文件就在 claude/focused-cray-c9uwvw（和 funny 分支一模一樣），從那條分支拿，不用再複製】｜69e4b181、644a322f、5c6a0391 完成；開發分支只有 AI_SESSION_HANDOFF HV-9a 的入口，文件本身只在 funny 分支 docs/art-rebuild/second_ai/——下一班把三份複製進開發分支保存（D88：不要只存在一條分支）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -14635,7 +14635,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
-   "next": "【02:5x】看板舊寫「CG-11 沒圖」已更正：10-14 通過，02:5x 已放檔＋登錄（V2-CGX）。｜【LAWWW-C 86f4c8fa＋4d933583：告白的共同流程（SYS-02）＋以安、語彤的告白台詞（AA_187 第 9 節 @6a0d2030；以安選項 AA_189 #40、不放十七次、CG-11 沒圖先不放；語彤只在淡水收尾）。學姊、芷若、子晴等 AA 定稿 commit；沛珊 Q1 等 AA；「答應或還沒」的個性規則問 BB-C（現在一律答應）；BB_191 §1 知情模型的盤點與遷移方案已回 BB-C（KEXIN_KNOWN 要拿掉，等 BB 確認）】【LAWWW-C 299cd05a：e2bdcece 的以安、語彤大一下交往中版本（語彤事件 4、5；以安杜鵑第一張、春假改行程；語彤春假私訊）。發現：七位女主角沒有告白路徑（DATE.canConfess 沒人呼叫、沒有事件設 dating_heroine_*），交往中版本都走不到——子代理盤點各人告白規格中，盤點完排實作；以安送她回去（AA_187 1-6 總圖版／讀書會版）是新機制，還沒做】【50a0c3c3：A4-L5、A4-L7 交往中回覆（LADDER_REPLY_IF）】【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
+   "next": "【02:3x AA-C 定案（D100 後歸 AA）：①答應或還沒＝一律答應（BB_203 心意邀約一定成功；「讓我想想」是玩家的選項），程式現在就是對的，「問 BB-C」刪；②KEXIN_KNOWN 照 BB_191 §1 四種知情拿掉，不寫遷移（使用者 10-16 21:25 舊存檔不用相容），v9.10 後拆；③「不動學姊分手週次」作廢（她沒有男朋友，AA_218 第 16 節）；④BB_191／194／202／98 條件同步已完成（DL-BB-900f5e38），「等 BB」整段刪】｜【02:5x】看板舊寫「CG-11 沒圖」已更正：10-14 通過，02:5x 已放檔＋登錄（V2-CGX）。｜【LAWWW-C 86f4c8fa＋4d933583：告白的共同流程（SYS-02）＋以安、語彤的告白台詞（AA_187 第 9 節 @6a0d2030；以安選項 AA_189 #40、不放十七次、CG-11 沒圖先不放；語彤只在淡水收尾）。學姊、芷若、子晴等 AA 定稿 commit；沛珊 Q1 等 AA；「答應或還沒」的個性規則問 BB-C（現在一律答應）；BB_191 §1 知情模型的盤點與遷移方案已回 BB-C（KEXIN_KNOWN 要拿掉，等 BB 確認）】【LAWWW-C 299cd05a：e2bdcece 的以安、語彤大一下交往中版本（語彤事件 4、5；以安杜鵑第一張、春假改行程；語彤春假私訊）。發現：七位女主角沒有告白路徑（DATE.canConfess 沒人呼叫、沒有事件設 dating_heroine_*），交往中版本都走不到——子代理盤點各人告白規格中，盤點完排實作；以安送她回去（AA_187 1-6 總圖版／讀書會版）是新機制，還沒做】【50a0c3c3：A4-L5、A4-L7 交往中回覆（LADDER_REPLY_IF）】【AA-C 06:02～06:13：大一上下交往版（e2bdcece：階梯已匯入；企劃 9 檔待排 v1／v2）、大二上下交往版＋R1～R7（b39f0bb9：AN_TC_VISIT、語彤中秋 CG、閘門全拿掉；A4-L5、A4-L7 replyIf 要程式）、BB_189 芷若子晴大二交往中（e6db8302）】通用告白判斷 DATE.canConfess 已寫（stage≥6 && count≥4 && wish && willing；學姊 AA_218 前一律不出現；src/date3d.js）。還沒接：各告白事件拿掉學期／故事前置改用 DATE.canConfess（要等 DATE-S3～S6 讓玩家真的能約會，不然沒人到得了 4 次）。【學姊相關的部分暫停（使用者 2026-10-17 05:2x「祐廷人生主線全面修訂」（經 AA-C；AA_218 批准前））】**依賴約會系統**：新條件要「正式校外約會次數＋心願地點」（dateLog），程式還沒有（DATE-S1 計數、DATE-S2 地點 D01～D32、DATE-S6 半互動約會都待開工；romance3d.js 第 47 行：現在告白條件由各告白事件自己判斷）。順序：DATE-S1／S2／S6 → 通用告白判斷 S.canConfess（stage≥6 && dateLog.count≥4 && dateLog.wish && willing）→ 各告白事件拿掉學期／故事前置、改用 S.canConfess；不動學姊分手週次（等 BB-C）。LAWWW-C 2026-10-17 05:1x 查證",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -14964,7 +14964,7 @@
    "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P0",
-   "next": "第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
+   "next": "【02:3x LAWWW2 02:23：第五批 45fa5907 已交、等整合】｜第一批 nf1–4／nm1–4、第二批 nf5–8／nm5–8（9442e59b；nf4、nm3 低彩度重建）已在遊戲（池子每次換區域挑 4＋4）；第三批起 nf9–20／nm9–20 日劇穿搭建模中，照 b1680957 的格式交。",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -15746,7 +15746,7 @@
    "owner": "LAWWW",
    "status": "進行中",
    "priority": "P0",
-   "next": "【17:4x LAWWW-C 告白文件對齊第二批】HEART 加 over（每學期的版本，TERMEND.heart）：沛珊大三起舊路書房旁的簡餐、溫州街到小公園；沛珊大四上 BB_119 3-1 兩句＋「從今天開始認識。」／「……讓我想一下。」；子晴大四上邀約與飯桌一句（美國路線「你回來了齁」）；語彤大四上事件 16 三句＋理由一句（NOTICED_EMPTY_SEAT）＋CG-12（她說的最後一句／玩家先說＝她答應那一句，只有大四上）；AA_268 第 1 節：玩家自己約、選的店不是她那家（半熟）＝開場照那家、不說飯桌一句。termend_unit 第 13 節。還沒：④畢業那天、⑥七月（AA_263、AA_266，大四下以後，照 D81）。｜【17:2x LAWWW-C 告白文件對齊（AA-C 16:44 十一點、8c76052b）第一批】①CG-11：以安她說「坐回來、手帳舉到下巴前面」那一刻、玩家先說＝她答應那一句（第二次不放；圖還沒有＝不顯示）；②不發心意邀約的手機一句改時段最後一天 20:00、只給 C5／C6／C10（C5 芷若、子晴、沛珊三句）、學姊筆試前那句刪、這學期玩家約過她就不傳；⑤第二次玩家先說＝yes2 六句；⑨語彤 notYet 拿掉（舊的約會收尾告白：沒有還沒台詞＝答應）；以安飯桌一句換、研討室在萬才館、第二次後半換、大四上兩句；以安、學姊美國路線大四上邀約。termend_unit／confess_unit 改新規則。③第二次邀約：plan 本來就每學期時段第一天重新判斷，照舊。⑩第 6 階：程式的告白條件早已是戀愛 ≥30；剩下的第 6 階是約會台詞分級、合照，不是告白條件、不動。還沒（第二批）：沛珊大三起地點（舊路書房旁的簡餐、溫州街到小公園）、子晴大四上、語彤大四上事件 16 三句＋CG-12、沛珊大四上 BB_119 3-1、AA_268 第 1 節（玩家選的店不是她那家＝不說飯桌一句）；④畢業那天、⑥七月（AA_263、AA_266）照 D81 往後。｜【16:1x LAWWW-C】玩家自己約做好（BB_203 第 1 節第 13 點、AA_268 b5963d13／377bef12）：期末時段裡 invites 的「吃飯」＝期末的飯（心意條件到齊＝心意、女朋友＝期末約會不佔名額），系統字、其他還沒回的期末邀約自動婉拒（祐廷「這次我有約了，開學見。」＋表、心意照 AA_254 婉拒）、分手還不能重新開始＝她婉拒；見面整場照 TERMEND.dinner（tests/termend_unit.js 12）。邀約鉤子＋C14／C15 也做了（TE-HOOKS-1017）。還沒：Z13／Q15 特別版、學姊美國雪地（AA_254 第 8 節）、S7-L2 linesIf、大四下畢業傍晚（AA263／BB210）、瀏覽器流程 tests/flow_termend.py（batch 20 排隊中）。｜【12:4x 使用者改門檻（BB 303fe766、AA 12:39）】每個學期都一樣：她的戀愛 ≥30＋4 次正式約會含心願地點＋她當時願意；termend3d 改成 TERMEND.cond，Y1S1_LINE 和大一上特例拿掉，tests/termend_unit.js 9b 改新規則全過｜【12:4x】可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba：大一下河堤 BB_167 4-3、之後政大河堤輪流、20:45 邀約、沒去的訊息）；大二上～大四上的話題池；學姊大四上 12/24 起約｜【12:2x】大一上門檻照 BB bb863739（第 5 階、子晴 42／沛珊 45／芷若 48／語彤 48／以安 50、祐廷 rom≥30、2 次約會）；AA_254 a9daffbb 學姊、芷若改字｜【12:2x 使用者選 B（BB 93d4e0f4）】大一上只要 2 次正式約會、不看心願地點，已做（termend3d heartWhy）｜【LAWWW-C 12:2x 第一版】src/termend3d.js＋src/data/termend_lines.js：時段（第 16 週週四～放假第 1 週週日）；這學期常接觸的分數（SOCIAL.activity、正式約會、劇情事件一起在場）；心意的邀約（canConfess＋答應線；學姊筆試前那句；沛珊重考期不發）、朋友的前兩名、保底阿凱宿舍當面；只能接一個（其他自動婉拒）；飯（AA_250 0-1、大一上下話題池、飯桌一句）；回家路上四選項／她說／讓我想想→下學期第二次；女朋友學期末約會；約會收尾不再告白（DATE.confessOffer）。tests/termend_unit.js 全過。還沒：大二以後的話題池（AA_250 3～7 節）、邀約鉤子（等 VAC）、Z13／Q15 特別版、學姊美國雪地（AA_254 第 8 節）、S7-L2 linesIf、C7 國外、5-3 C10 的 YT_HONEST 門檻（現在照 ROM.knows）、可昕學期末約會（BB_202 第 6 節）、玩家自己約、瀏覽器流程。｜【11:5x 規格到齊】BB_203 第 5 節不發心意邀約的條件表（BB-C 900f5e38：C1～C10、答應線、5-3 每人）；AA_254（8fdcc961：每人心意邀約、婉拒、飯桌一句、回家第一句、她說、讓我想想、第二次；學姊美國雪地；不發時的手機一句）；AA_250 第 10 節（acf92ff0：朋友一對一邀約、婉拒、女朋友學期末約會、保底阿凱／阿哲）；子晴的遊戲句要看過 Q6（375b91dd）。LAWWW 開工：期末飯時段＝第 16 週週四～放假第 1 週週日。｜使用者 11:40 直接對 LAWWW-C 說「告白只在學期末」（BB_203 已標使用者確認，32a658ba）。LAWWW：①拿掉學期中的告白入口（BB_191 §10 的還沒次數）②期末飯邀約系統（和 AA249-TERMEND／AA250 同一套；VAC 行事曆）③Z13、Q15、其他人的告白改成飯後回家路上；學姊 US4 改交往後新劇情。等 AA：她先說的版本、期末飯台詞（AA_250）、學姊雪地新劇情、不發邀約時的手機一句；等 BB：BB_191／194／202／98 條件同步。",
+   "next": "【02:3x AA-C 定案（D100 後歸 AA）：①答應或還沒＝一律答應（BB_203 心意邀約一定成功；「讓我想想」是玩家的選項），程式現在就是對的，「問 BB-C」刪；②KEXIN_KNOWN 照 BB_191 §1 四種知情拿掉，不寫遷移（使用者 10-16 21:25 舊存檔不用相容），v9.10 後拆；③「不動學姊分手週次」作廢（她沒有男朋友，AA_218 第 16 節）；④BB_191／194／202／98 條件同步已完成（DL-BB-900f5e38），「等 BB」整段刪】｜【17:4x LAWWW-C 告白文件對齊第二批】HEART 加 over（每學期的版本，TERMEND.heart）：沛珊大三起舊路書房旁的簡餐、溫州街到小公園；沛珊大四上 BB_119 3-1 兩句＋「從今天開始認識。」／「……讓我想一下。」；子晴大四上邀約與飯桌一句（美國路線「你回來了齁」）；語彤大四上事件 16 三句＋理由一句（NOTICED_EMPTY_SEAT）＋CG-12（她說的最後一句／玩家先說＝她答應那一句，只有大四上）；AA_268 第 1 節：玩家自己約、選的店不是她那家（半熟）＝開場照那家、不說飯桌一句。termend_unit 第 13 節。還沒：④畢業那天、⑥七月（AA_263、AA_266，大四下以後，照 D81）。｜【17:2x LAWWW-C 告白文件對齊（AA-C 16:44 十一點、8c76052b）第一批】①CG-11：以安她說「坐回來、手帳舉到下巴前面」那一刻、玩家先說＝她答應那一句（第二次不放；圖還沒有＝不顯示）；②不發心意邀約的手機一句改時段最後一天 20:00、只給 C5／C6／C10（C5 芷若、子晴、沛珊三句）、學姊筆試前那句刪、這學期玩家約過她就不傳；⑤第二次玩家先說＝yes2 六句；⑨語彤 notYet 拿掉（舊的約會收尾告白：沒有還沒台詞＝答應）；以安飯桌一句換、研討室在萬才館、第二次後半換、大四上兩句；以安、學姊美國路線大四上邀約。termend_unit／confess_unit 改新規則。③第二次邀約：plan 本來就每學期時段第一天重新判斷，照舊。⑩第 6 階：程式的告白條件早已是戀愛 ≥30；剩下的第 6 階是約會台詞分級、合照，不是告白條件、不動。還沒（第二批）：沛珊大三起地點（舊路書房旁的簡餐、溫州街到小公園）、子晴大四上、語彤大四上事件 16 三句＋CG-12、沛珊大四上 BB_119 3-1、AA_268 第 1 節（玩家選的店不是她那家＝不說飯桌一句）；④畢業那天、⑥七月（AA_263、AA_266）照 D81 往後。｜【16:1x LAWWW-C】玩家自己約做好（BB_203 第 1 節第 13 點、AA_268 b5963d13／377bef12）：期末時段裡 invites 的「吃飯」＝期末的飯（心意條件到齊＝心意、女朋友＝期末約會不佔名額），系統字、其他還沒回的期末邀約自動婉拒（祐廷「這次我有約了，開學見。」＋表、心意照 AA_254 婉拒）、分手還不能重新開始＝她婉拒；見面整場照 TERMEND.dinner（tests/termend_unit.js 12）。邀約鉤子＋C14／C15 也做了（TE-HOOKS-1017）。還沒：Z13／Q15 特別版、學姊美國雪地（AA_254 第 8 節）、S7-L2 linesIf、大四下畢業傍晚（AA263／BB210）、瀏覽器流程 tests/flow_termend.py（batch 20 排隊中）。｜【12:4x 使用者改門檻（BB 303fe766、AA 12:39）】每個學期都一樣：她的戀愛 ≥30＋4 次正式約會含心願地點＋她當時願意；termend3d 改成 TERMEND.cond，Y1S1_LINE 和大一上特例拿掉，tests/termend_unit.js 9b 改新規則全過｜【12:4x】可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba：大一下河堤 BB_167 4-3、之後政大河堤輪流、20:45 邀約、沒去的訊息）；大二上～大四上的話題池；學姊大四上 12/24 起約｜【12:2x】大一上門檻照 BB bb863739（第 5 階、子晴 42／沛珊 45／芷若 48／語彤 48／以安 50、祐廷 rom≥30、2 次約會）；AA_254 a9daffbb 學姊、芷若改字｜【12:2x 使用者選 B（BB 93d4e0f4）】大一上只要 2 次正式約會、不看心願地點，已做（termend3d heartWhy）｜【LAWWW-C 12:2x 第一版】src/termend3d.js＋src/data/termend_lines.js：時段（第 16 週週四～放假第 1 週週日）；這學期常接觸的分數（SOCIAL.activity、正式約會、劇情事件一起在場）；心意的邀約（canConfess＋答應線；學姊筆試前那句；沛珊重考期不發）、朋友的前兩名、保底阿凱宿舍當面；只能接一個（其他自動婉拒）；飯（AA_250 0-1、大一上下話題池、飯桌一句）；回家路上四選項／她說／讓我想想→下學期第二次；女朋友學期末約會；約會收尾不再告白（DATE.confessOffer）。tests/termend_unit.js 全過。還沒：大二以後的話題池（AA_250 3～7 節）、邀約鉤子（等 VAC）、Z13／Q15 特別版、學姊美國雪地（AA_254 第 8 節）、S7-L2 linesIf、C7 國外、5-3 C10 的 YT_HONEST 門檻（現在照 ROM.knows）、可昕學期末約會（BB_202 第 6 節）、玩家自己約、瀏覽器流程。｜【11:5x 規格到齊】BB_203 第 5 節不發心意邀約的條件表（BB-C 900f5e38：C1～C10、答應線、5-3 每人）；AA_254（8fdcc961：每人心意邀約、婉拒、飯桌一句、回家第一句、她說、讓我想想、第二次；學姊美國雪地；不發時的手機一句）；AA_250 第 10 節（acf92ff0：朋友一對一邀約、婉拒、女朋友學期末約會、保底阿凱／阿哲）；子晴的遊戲句要看過 Q6（375b91dd）。LAWWW 開工：期末飯時段＝第 16 週週四～放假第 1 週週日。｜使用者 11:40 直接對 LAWWW-C 說「告白只在學期末」（BB_203 已標使用者確認，32a658ba）。LAWWW：①拿掉學期中的告白入口（BB_191 §10 的還沒次數）②期末飯邀約系統（和 AA249-TERMEND／AA250 同一套；VAC 行事曆）③Z13、Q15、其他人的告白改成飯後回家路上；學姊 US4 改交往後新劇情。等 AA：她先說的版本、期末飯台詞（AA_250）、學姊雪地新劇情、不發邀約時的手機一句；等 BB：BB_191／194／202／98 條件同步。",
    "first": {
     "term": "Y1S1",
     "week": 16,
@@ -16731,7 +16731,7 @@
    "id": "SCN-US-LIB",
    "title": "美國交換：法學院圖書館 3D 區域（挑高中庭、玻璃欄杆、彩色玻璃窗；最小可玩：大門、中庭一層、可以坐的長桌，樓上看得懂地關起來）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "prio": "P2",
    "first": {
     "term": "Y4S1",
@@ -16744,7 +16744,7 @@
     "confirmed": true
    },
    "src": "使用者 2026-10-18 01:0x 直接給 LAWWW2-C 照片（LAWWW2 分支 HANDOFF.md，bdc24c3c）；LAWWW-C 排在 SCN-US-02 之後、ART-US-SEASON 之前",
-   "next": "SCN-US-02 交件後開工",
+   "next": "【02:3x：f39f3aef＋8d21b0f2（北牆細長窗）已交、等整合；v9.10 發布後接，拿最新的】｜SCN-US-02 交件後開工",
    "xai": {
     "spec": "使用者照片（不進 repo）＋LAWWW2 HANDOFF 的文字描述",
     "branch": "claude/focused-cray-c9uwvw",

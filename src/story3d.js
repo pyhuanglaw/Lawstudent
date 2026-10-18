@@ -2045,7 +2045,7 @@ const STORY = (function(){
     /* SK02 你的系外套還在這裡（BB_106 SK02；AA_154 A52 ②）：SK01 之後，阿勳第 4 週週一 15:00 的私訊（SK01 比那天晚：SK01 隔天以後第一個平日；第 7 週以後就不發）；
        ②送給阿勳、他不在旁邊＝當晚 21:00 兩則私訊（BB-B d5224961）。SK01 傳過訊息就把阿勳加進聯絡人（不跳通知）*/
     if(F.SK01_DAY!=null){ silentContact('econ_zhengxun');
-      if(F.SK02_DM_DAY==null&&!F.ECON_JACKET){ const d=S.sk02DmDay(G); if(d!=null){ F.SK02_DM_DAY=d; PHONE.at(G,d,15,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'系辦說你去年冬天訂的系外套到了。你休學以後才到的。'}],'sk02_dm'); } }
+      if(F.SK02_DM_DAY==null&&!F.ECON_JACKET){ const d=S.sk02DmDay(G); if(d!=null){ F.SK02_DM_DAY=d; PHONE.at(G,d,15,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'系辦說你去年開學訂的系外套到了。你休學以後才到的。'}],'sk02_dm'); } }
       if(F.SK02_GIFT_DM&&F.SK02_DAY!=null&&!PHONE.sent(G,'sk02_gift')) PHONE.at(G,F.SK02_DAY,21,[{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'系辦說你把外套給我了。'},{th:'p:econ_zhengxun',from:'econ_zhengxun',text:'我現在有兩件，輪流穿。'}],'sk02_gift'); }
     /* SK05 三閃，販賣機見（大一版；BB_135 第 2 節；AA-B 2026-10-16：期末考週（16 週制＝第 16 週）第一個晚上玩家在霖澤館（22:55～23:30；23:00 以後才走進去＝一進去就亮））：
        23:00 阿勳傳訊息說暗號（一年一次）。法律系時期一直沒見過他的玩家（MET_XUN 沒有）先多一則「盧正勳。你經濟系那年的室友。……你該不會連我都忘了。」。pact 多兩句、night 多一句（都有＝先 pact 再 night）。

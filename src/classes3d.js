@@ -101,7 +101,8 @@ const CLS=(function(){
   // ---------- 文字 ----------
   S.itemText=it=>hhmm(it.t0)+' '+it.c.name+'（'+(it.room.name||'')+'）';
   S.dayLabel=function(G,day){ if(day==null) day=G.day; const d=CALENDAR.dateOf(day), t=CALENDAR.termOf(day), hol=CALENDAR.holiday(day); let s=d.m+'/'+d.d+' '+WD[d.wd];
-    if(hol) s+='・'+hol; if(t) s+='・'+S.termName(t.id)+' 第 '+t.week+' 週'+(t.exam==='mid'?'（期中考週）':t.exam==='final'?'（期末考週）':''); else s+='・'+(d.m>=6&&d.m<=9?'暑假':'寒假'); return s; };   /* 9 月開學前還是暑假（2026-10-13 審查：原本寫成寒假）*/
+    if(hol) s+='・'+hol; if(G&&G.flags&&G.flags.Y0_LEFT&&(G.stage||'law')==='econ') return s+'・休學中';   /* 經濟系那一年休學以後（E30）不寫經濟系的學期週次（AA-C 10-18）*/
+    if(t) s+='・'+S.termName(t.id)+' 第 '+t.week+' 週'+(t.exam==='mid'?'（期中考週）':t.exam==='final'?'（期末考週）':''); else s+='・'+(d.m>=6&&d.m<=9?'暑假':'寒假'); return s; };   /* 9 月開學前還是暑假（2026-10-13 審查：原本寫成寒假）*/
   S.todayLine=function(G){ const its=S.dayItems(G).filter(it=>!S.storyClass(G,it)); if(!its.length){ const hol=CALENDAR.holiday(G.day), t=CALENDAR.termOf(G.day); return hol?'今天放假（'+hol+'），沒有課':(t?'今天沒有課':'放假中，沒有課'); }
     const ex=its[0].exam; return '今天'+(ex?'考試':'的課')+'：'+its.map(it=>hhmm(it.t0)+' '+it.c.name).join('、'); };
   // ---------- 目標（起床時、下課後）：今天的課＋往下一堂的教室導航；不蓋掉劇情的目標 ----------

@@ -70,7 +70,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('5. SK01 之後：私訊排在第 4 週週一（'+mon4+'）15:00',G.flags.SK02_DM_DAY===mon4,G.flags.SK02_DM_DAY);
   const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); run(0,1); check('5. 存讀檔後不重排',G.flags.SK02_DM_DAY===mon4&&(G.msgs||[]).filter(m=>/系外套到了/.test(m.text)).length<=1);
   G.day=mon4; G.weekday=wdOf(mon4); run(0,14.9); check('5. 週一 15:00 以前：還沒收到、系辦還不開',!txt('p:econ_zhengxun').some(t=>/系外套/.test(t))&&!STORY.sk02Open(G));
-  run(15,15.1); check('5. 15:00 收到「系辦說你去年冬天訂的系外套到了。你休學以後才到的。」',txt('p:econ_zhengxun').some(t=>t.endsWith('系辦說你去年冬天訂的系外套到了。你休學以後才到的。')));
+  run(15,15.1); check('5. 15:00 收到「系辦說你去年開學訂的系外套到了。你休學以後才到的。」',txt('p:econ_zhengxun').some(t=>t.endsWith('系辦說你去年開學訂的系外套到了。你休學以後才到的。')));
   check('5. 阿勳在聯絡人裡',G.contacts&&G.contacts.econ_zhengxun!=null);
   G.zone='campus'; G.hour=15.5; at(33,-97); check('5. 不在社科院門口＝不觸發',!tick());
   const s1=JSON.stringify(G);

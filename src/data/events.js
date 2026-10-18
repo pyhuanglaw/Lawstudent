@@ -989,7 +989,7 @@ const STORY_EVENTS=[
       {label:'xun'},{if:{custom:()=>STORY.xunNear()},speaker:'阿勳',text:'我現在有兩件，輪流穿。'},
       {unless:{custom:()=>STORY.xunNear()},speaker:null,text:'你請系辦助理轉交給阿勳。'},{unless:{custom:()=>STORY.xunNear()},set:{SK02_GIFT_DM:true}},
       {label:'end'},{advance:0.25} ],
-    consequences:{flags:{SOC_WRONG_BUILDING:true},stamp:['SK02_DAY'],memo:'去經濟系系辦領了去年冬天訂的系外套'} },
+    consequences:{flags:{SOC_WRONG_BUILDING:true},stamp:['SK02_DAY'],memo:'去經濟系系辦領了去年開學訂的系外套'} },
   /* SK02 ①穿去霖澤館上課：領外套的隔天起七天內，下一次霖澤館（201）的課上課前，阿哲一句（AA_154 A52 ②）*/
   { id:'ev_sk02_spy', title:'', participants:['zhe'], location:'any', trigger:'class', beforeClass:it=>!!(it&&it.room&&it.room.zone==='classroom'), term:['Y1S1'], once:true, background:'blur',
     prereq:{custom:G=>G.flags.ECON_JACKET==='wear'&&G.flags.SK02_DAY!=null&&G.day>G.flags.SK02_DAY&&G.day<=G.flags.SK02_DAY+7},
