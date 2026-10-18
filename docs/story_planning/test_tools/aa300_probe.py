@@ -10,12 +10,16 @@ import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 import screencheck as SC
 from playwright.async_api import async_playwright
-URL = sys.argv[1]; OUT = sys.argv[2]; MODE = os.environ.get('MODE', 'sleep'); MAXH = float(os.environ.get('MAXH', '1.9'))
+URL = sys.argv[1]; OUT = sys.argv[2]; MODE = os.environ.get('MODE', 'sleep'); MAXH = float(os.environ.get('MAXH', '1.9')); END = os.environ.get('END', '')
+import re
+BADTXT = re.compile(r'undefined|NaN|null|\$\{|\b(ev|rh|kh|y0|cg|bg)_[a-z0-9_]+|[A-Z]{2,}_[A-Z0-9_]+')
+EXTRA = [x for x in os.environ.get('PREF_EXTRA', '').split(',') if x]
 PENDING = "(()=>{ const G=GAME.G; const a=(typeof PHONE!=='undefined'&&PHONE.pending)?PHONE.pending(G).map(m=>PHONE.th(m)):[]; const b=(G.invites||[]).filter(v=>v.state==='offered'||v.state==='changed').map(v=>{ const m=(G.msgs||[]).find(q=>q.iv===v.id); return m?PHONE.th(m):null; }).filter(Boolean); return a.concat(b); })()"
-PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
+PREF0 = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'nophone': ['出發', '直接去'],
         'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],
         'ff': ['快轉', '到下一個有事的日子', '跳過', '睡到明天早上', '睡覺', '出發', '直接去']}[MODE]
+PREF = EXTRA + PREF0
 DECLINE_LAST = MODE == 'decline'
 async def pick(pg, cdp):
     c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
@@ -38,11 +42,11 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
-        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; stops = []; cards = []; last_card = ''; in_scene = False; phone_auto = 0
+        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; stops = []; seen_bad = set(); cards = []; last_card = ''; in_scene = False; phone_auto = 0
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:typeof HOME!=='undefined'&&HOME.at(GAME.G),e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
-            if g['e37'] or g['key'] >= '2025-09-01': break
+            if (END and g['key'] >= END) or (not END and (g['e37'] or g['key'] >= '2025-09-01')): break
             if g['key'] != last_key:
                 last_key = g['key']; print('  [%6.1f 分] %s' % ((time.time()-t0)/60, json.dumps(g, ensure_ascii=False)), flush=True)
                 if g['key'][:7] not in months: months.add(g['key'][:7]); await run.shot(pg, 'month_' + g['key'])
@@ -67,6 +71,14 @@ async def main():
                 if pend1: a = await answer_phone(pg, cdp, pend1[0]); answered += 1; print('   （手機蓋在對話上）回覆', pend1[0], a, flush=True)
                 else: await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700)
                 continue
+            if s['dlg']:
+                hz = await pg.evaluate("(()=>{ const G=GAME.G, dd=CALENDAR.dateOf(G.day+Math.floor(G.hour/24)), t=(document.getElementById('clockT')||{}).textContent||''; const h=Math.floor(G.hour%24), m=Math.floor((G.hour%1)*60); return {t, exp:dd.m+'/'+dd.d, hm:String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')}; })()")
+                if hz['t'] and not hz['t'].startswith(hz['exp'] + ' '):
+                    k2 = ('hud', g['key'], int(g['h']))
+                    if k2 not in seen_bad: seen_bad.add(k2); problems.append('右上角日期「%s」≠ 真正 %s（%s %.2f，對話「%s」）' % (hz['t'], hz['exp'], g['key'], g['h'], s['dtext'][:16]))
+                if BADTXT.search(s['dtext'] or ''):
+                    k3 = ('txt', s['dtext'][:20])
+                    if k3 not in seen_bad: seen_bad.add(k3); problems.append('台詞有奇怪的字：%s %.2f「%s」' % (g['key'], g['h'], s['dtext'][:50])); await run.shot(pg, 'badtxt_%d' % len(seen_bad))
             if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(550); idle = 0; continue
             if MODE == 'nophone':
                 if await phone_open(pg): phone_closed += 1; await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); continue
