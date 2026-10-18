@@ -43,7 +43,7 @@ const ECONFF=(()=>{
     {n:23,key:'2024-10-15',h:19,ev:'ev_y0_gather'},
     {n:25,key:'2024-10-15',h:24.5,zone:'dorm',ev:'ev_y0_a1'},
     {n:26,key:'2024-10-16',h:19,zone:'library',ev:'ev_y0_e10',then:'ev_y0_e10b'},
-    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30'},
+    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30',chain:true},   /* 電話講完（「捷運上。要回家跟我媽說。」）不回到原本站的地方：黑幕直接接下一步（使用者 10-18 14:3x 選「回臺北的家跟媽媽說」；那段台詞下一班 AA 寫，寫好前先直接接，E30-MOM-1018）*/
     {n:28,key:'2024-10-17',h:17.67,ev:'ev_y0_e26'},
     {n:'x29',key:'2024-10-29',h:12+10/60,ev:'ev_y0_xiaofu'},   /* AA_305 第 6 節：10/29 小福（10/17 22:30 便利貼 n:29 拿掉，搬到搬家那天）*/
     {n:30,key:'2024-10-31',h:9,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_a3'}];   /* 10/31 退宿（AA_305 第 7 節；原本 10/19）（AA_292 第二張表 #1）：阿勳封箱、搬回臺北的家（HOME.moveOut）——2026-10-18 使用者「休學之後我還住在宿舍？之後沒有劇情」*/
@@ -180,7 +180,9 @@ const ECONFF=(()=>{
     try{ if(s.cls) await storyClass(GM,s);
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
     catch(e){ console.warn('ECONFF step '+s.n,e); }
-    r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave(); return true; };
+    r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave();
+    if(s.chain&&done(G,s.ev)&&S.next(G)&&GM.fade){ await GM.fade(true); return S.advance(GM); }   /* chain：演完不放回 3D，黑幕直接跳下一個（下一步自己會淡入）*/
+    return true; };
   /* ===== 重考期在家的日常（AA_297，src/data/retake_home.js；使用者 10-18「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）=====
      2/15～7/10 在家：每天演一段 short（不重複、用完再輪；早上／白天／吃飯／晚上輪流），長場景（long，週六）照日期時間演。演完才接著跳。*/
   const RH=()=>typeof RETAKE_HOME!=='undefined'?RETAKE_HOME:null;

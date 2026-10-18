@@ -2277,7 +2277,8 @@ const STORY_EVENTS=[
       {speaker:'player',text:'就是因為快期中考了。我還是不想念書。'},{speaker:'player',text:'我覺得很完蛋。所以就去辦了。'},{speaker:'kexin',text:'你現在在哪。'},{speaker:'player',text:'捷運上。要回家跟我媽說。'},
       {speaker:'kexin',text:'你現在回來學校找我。我還有一堂，五點下課。社科院門口。'},{speaker:'player',text:'……我才剛休學。'},{speaker:'kexin',text:'休學又不是不能進校門。'},{speaker:null,text:'（她掛掉了。）'},
       {set:{Y0_KX_CALL:true}} ],
-    after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour); } },   /* 電話在 15:30 */
+    after:(G,GM)=>{ if(G.hour<15.5) GM.advance(15.5-G.hour);
+      if(typeof ECONFF!=='undefined'&&ECONFF.on(G)&&!ECONFF.busy&&ECONFF.next(G)&&GM.fade){ ECONFF.busy=true; GM.fade(true); setTimeout(()=>{ ECONFF.advance(GM).catch(e=>console.warn('E30 chain',e)).finally(()=>{ ECONFF.busy=false; }); },520); } } },   /* 電話在 15:30。電話講完（「捷運上。要回家跟我媽說。」）不放回原本站的地方（使用者 10-18 14:3x：打完電話跳回遊戲、人在咖啡店）：黑幕直接接下一步；走 ECONFF 的那條路在 econff3d.js 的 chain。跟媽媽說那段等 AA（E30-MOM-1018）*/
   /* 休學以後第一次在社科院門口遇到經濟系的朋友（AA_224 第 3 組共同前提＝BB_188 A2-1b 阿勳那一句照用）：10 月下旬（10/20～10/31）走到社科院門口就演；之後不再提（大家不必每次驚訝） */
   { id:'ev_y0_soc_door', stage:'econ', title:'休學的來了', participants:['econ_zhengxun'], location:'campus', near:{x:97.9,z:-63.5,r:8}, trigger:'auto', term:['Y0S1'], time:[9,20], once:true, background:'blur',
     spawn:{npc:'econ_zhengxun',dist:1.6,pose:'idle'},
@@ -2962,7 +2963,7 @@ const STORY_EVENTS=[
      13:45～14:15 走進 Café 就演。店員是芷若（外文一、剛開始打工）：事件把她放到櫃台，名字只顯示「店員」，不自我介紹、不記 FIRST_MET、不給聯絡方式（法律系 Z1 才算第一次說話）。
      玩家點什麼記 Y0_CAFE_ORDER（熱拿鐵／冰美式／熱可可；Z1 的回聲之後做）。沒去＝10/12 16:00 群組品妤的照片＋可昕一句（story3d.js）*/
   { id:'ev_y0_l5a', stage:'econ', title:'長頸鹿拉花', participants:['kexin'], location:'cafe', trigger:'auto', term:['Y0S1'], weeks:[6], weekday:[6], time:[13.75,14.8], once:true, background:'blur',   /* 出發選單開到 14:15、從家裡要 30 分鐘：到店最晚約 14:45（BB_214 第 4 節）*/
-    spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3,
+    spawn:{npc:'heroine_02',at:{x:-2.5,z:-5.15},pose:'idle'}, despawn:3, hideClerks:true,   /* 吧檯只留芷若（BUG-LATTE-CLERK-1018）*/
     dialogue:[ {speaker:null,text:'（溫州街的 Café。可昕說這間的拉花會畫長頸鹿，拉了大家來驗證。）'},{speaker:null,text:'店員是一個戴眼鏡的女生。她把每個人點的寫在一張小紙上。'},
       {choice:[{text:'熱拿鐵',set:{Y0_CAFE_ORDER:'熱拿鐵'}},{text:'冰美式',set:{Y0_CAFE_ORDER:'冰美式'}},{text:'熱可可',set:{Y0_CAFE_ORDER:'熱可可'}}]},
       {speaker:'kexin',expression:'smile',text:'可以畫長頸鹿嗎？'},{speaker:null,text:'她想了一下。'},{speaker:'店員',text:'……我試試看。'},

@@ -19624,7 +19624,7 @@
    },
    "source": "使用者 2026-10-18 14:1x：「烤肉沒接到cg」（附截圖）→ 選擇題選「生一張新的（建議）」",
    "authorized": "使用者直接選",
-   "next": "LAWWW-C 14:1x 已給使用者提示詞（D97：有人物單獨一輪、附參考圖：阿勳、品妤立繪＋法律系河濱 CG 當畫風參考）；收到圖：存 assets/cg/econ/cg_econ_bbq_pomelo.webp、adv3d.js CG_REGISTRY 加 cg_econ_bbq_pomelo、events.js ev_y0_e08 在那一句前加 {cg:'cg_econ_bbq_pomelo'}；法律系那張 CG-14 照舊只給法律系"
+   "next": "使用者 2026-10-18 14:3x：「Cg先記錄需要哪些 之後的帳號再補」——先記在清單（BLACK_BG_AUDIT 第 4 節），不催使用者；之後帳號補。LAWWW-C 14:1x 已給使用者提示詞（D97：有人物單獨一輪、附參考圖：阿勳、品妤立繪＋法律系河濱 CG 當畫風參考）；收到圖：存 assets/cg/econ/cg_econ_bbq_pomelo.webp、adv3d.js CG_REGISTRY 加 cg_econ_bbq_pomelo、events.js ev_y0_e08 在那一句前加 {cg:'cg_econ_bbq_pomelo'}；法律系那張 CG-14 照舊只給法律系"
   },
   {
    "id": "BUG-ADV-OVERLAP-1018",
@@ -19652,7 +19652,7 @@
    "title": "經濟系 10/12 長頸鹿拉花：店員看起來像穿藍色衣服的經濟系同學（照劇情應該是芷若站櫃台，名字只顯示「店員」）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -19666,7 +19666,7 @@
    },
    "source": "使用者 2026-10-18 14:2x：「咖啡店拉花 店員 好像是藍色衣服經濟系同學」",
    "authorized": "一般 bug",
-   "next": "程式：ev_y0_l5a spawn heroine_02 在吧檯中間 (-2.5,-5.15)；v9.10.1 起 Café 另有一個一般店員（story3d.js clerk，路人底模，(-0.6,-5.25)）。瀏覽器實演截圖中（scratchpad/latte）；可能的修法：拉花那段把一般店員藏起來，櫃台只留芷若"
+   "next": "修好（LAWWW-C 14:3x）：ev_y0_l5a hideClerks:true → events3d.js 把一般店員標 hidden、engine3d.js 每格顯示照 n.hidden；瀏覽器實演：改前兩人站吧檯（heroine_02＋路人底模 npc_nf6），改後一般店員 visible=false。等 v9.10.2 發布"
   },
   {
    "id": "BLACK-BG-AUDIT-1018",
@@ -19695,6 +19695,97 @@
     "acceptance": "清單上經濟系的每一組都有使用者生的圖交 LAWWW，或使用者說不用",
     "ack": "未派"
    }
+  },
+  {
+   "id": "BUG-E30-PLACE-1018",
+   "title": "10/17 辦休學：捷運上打給可昕，講完跳回原本站的地方（咖啡店）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "10/17 辦休學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:3x：「我休學的時候打給以昕說在捷運上，結果打完電話跳回遊戲，我人在咖啡店」",
+   "authorized": "一般 bug",
+   "next": "修好（暫時）：econff3d.js 第 27 步 chain、events.js E30 after：電話講完黑幕直接接下一步（10/29 小福），不回 3D；使用者選「回臺北的家跟媽媽說」，那段台詞等 AA（E30-MOM-1018）"
+  },
+  {
+   "id": "E30-MOM-1018",
+   "title": "10/17 辦休學那天晚上回臺北的家跟媽媽說（使用者選）：一段在家的 2D 劇情",
+   "area": "v0",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "10/17 辦休學那天晚上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:3x 選擇題「回臺北的家跟媽媽說」",
+   "authorized": "使用者直接選",
+   "next": "下一班 AA 用選擇題和使用者討論內容、寫台詞；LAWWW 接在 E30 電話後面（現在是直接跳下一步）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-18 選擇題；E30（events.js ev_y0_e30）",
+    "acceptance": "有定稿台詞、地點臺北的家（home_living）、接在 E30 電話之後",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "LAD-K0LX2-CUT-1018",
+   "title": "可昕閒聊階梯 K0-Lx2「搬回家以後，來學校要多久？」整段拿掉",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "10/31 搬回家以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:3x：「他問我來這裡要多久我說開車就好，他說樓下有停車場停停車費你出那邊好沒有必要」→ 選「整段拿掉（建議）」",
+   "authorized": "使用者直接選",
+   "next": "story3d.js S.LAD_CUT（直接算過、不播）；下一班 AA 從企劃檔刪掉這一層，重匯以後 LAD_CUT 可以拿掉"
+  },
+  {
+   "id": "BUG-MOVEOUT-STUCK-1018",
+   "title": "搬回家以後，可昕問完那一題，回到宿舍（3D）又卡住：鏡頭轉得動，沒有按鈕、沒有劇情接著播；讀自動存檔直接跳去陪可昕上課",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "10/31 搬回家以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 14:3x：「他問完我剛剛那個問題之後我回到宿舍又卡住了……可以轉我的鏡頭，但沒有任何播放也沒有按鍵可以按」「我重新開遊戲讀進去自動存檔，就直接跳劇情要陪可昕上課」",
+   "authorized": "P0 bug",
+   "next": "搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
   }
  ]
 }
