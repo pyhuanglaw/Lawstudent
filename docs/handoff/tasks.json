@@ -18068,6 +18068,27 @@
    "source": "使用者 2026-10-18 06:4x；AA_292 第 5～8 節（14b5631c／81d42881）",
    "authorized": "使用者選擇題（休學在家也事件接事件，D102 ③）",
    "next": "10/19 09:00 ev_y0_a3 退宿（劇情照舊：10/17 休學、10/19 週六阿勳幫忙封箱搬回家）；之後照第二張表跳；_h 在家版本、自動出發的出遊、重考讀書日"
+  },
+  {
+   "id": "BUG-KX-MALE-1018",
+   "title": "醉月湖看到的可昕是男生（使用者 10-18 截圖：「原來她是男的？」「照她本人畫啊」「不是有 2D 圖」）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系宿營第一次見到可昕",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-18 06:3x 截圖（11/6 20:00 醉月湖）",
+   "authorized": "使用者回報",
+   "next": "原因：characters.js 的 kexin 沒有 char3d，spawnCharacter 掉到 STORY.extraSpec(7)＝路人男生底模。補 char3d（spec.id kexin、女生、model char.kexin＝LAWWW2 照參考圖做的 VRM、1.64 m）＋portrait kexin。tests/kexin_model_unit.js（修改前 ①② 失敗；③ 檢查每個有名字的人物都有 char3d）。LAWWW 依 D100a 驗收角色美術：待 BB-C 遊戲內截圖（宿營、E05、醉月湖）"
   }
  ]
 }

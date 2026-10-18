@@ -106,7 +106,7 @@ const CHARACTERS = {
   /* 杜可昕：政大法律系大一，和祐廷同屆。經濟系同班（2024-08 宿營認識）；2024-10-17 他休學那天交往（摩天輪）；2025 一起重考（AA_224 第 2 組；原本 AA_99 3-3、AA_112、BB_104 第 1 節、BB_107）。
      大一上一開始所有玩家都和她交往中（BB_95 第 0b 節）：G.flags.dating_kexin（game3d.js 的 defaults／migrate）。平常不在台大：沒有作息、不出現在 3D 校園（她來台大的事件之後做）；
      手機上的名字是「可昕」（phoneName）。年齡、家庭細節文件沒有寫，不補。 */
-  kexin:{ id:'kexin', tagByPY:['經濟系・一年級（2025-02 起休學）','政大法律系・一年級','政大法律系・二年級','政大法律系・三年級','政大法律系・四年級'], name:'杜可昕', nickname:'可昕', phoneName:'可昕', gender:'f', presence:{home:'高雄'},   /* 寒暑假在高雄老家（AA_276 第 1 節，使用者 23:4x）：STORY.presence */ school:'政大', department:'法律系', year:1, social_layer:'G', visual_tier:2,
+  kexin:{ id:'kexin', tagByPY:['經濟系・一年級（2025-02 起休學）','政大法律系・一年級','政大法律系・二年級','政大法律系・三年級','政大法律系・四年級'], name:'杜可昕', nickname:'可昕', phoneName:'可昕', gender:'f', char3d:{spec:{id:'kexin',height:1.64,build:'slim',sex:'f',skin:'#f6dcc9',hair:{color:'#2a1d16',style:'softMid'},face:{iris:'#3a2a22',brow:'soft',lash:true,glasses:false},outfit:{top:{type:'knit',color:'#e9e2d3',inner:'#ffffff'},bottom:{type:'skirtMid',color:'#3b3f4a'},shoes:{type:'canvas',color:'#f4f1ea',sole:'#ffffff'},bag:'tote',bagColor:'#d9d3c6'},posture:{sway:0.015}},model:'char.kexin',height:1.64}, portrait:'kexin',   /* 3D＝LAWWW2 照參考圖做的 char.kexin（2026-10-18 使用者：醉月湖看到的可昕是男的——原本沒有 char3d，掉到路人 extraSpec(7)＝男生）*/ presence:{home:'高雄'},   /* 寒暑假在高雄老家（AA_276 第 1 節，使用者 23:4x）：STORY.presence */ school:'政大', department:'法律系', year:1, social_layer:'G', visual_tier:2,
     personality:'聰明、幽默、有趣；常提出出人意料的假設題；有自己的自尊與主見，在感情裡也會主動', career_goal:'律師（從來沒有想過司法官）', social_style:'輕快、反應快；認真的時候句子會突然變短',
     daily_schedule:[] },
   // ---------- F. 助教／研究生 ----------
