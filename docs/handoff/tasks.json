@@ -17409,6 +17409,27 @@
     "confirmed": true
    },
    "next": "等 AA 白名單；到了那一學期照 D81 排"
+  },
+  {
+   "id": "BUG-CLS-EARLY-1018",
+   "title": "提早坐下上課，整堂課教室只有祐廷一個人（BB-C 10-18 回報：經濟系共同教學館的微積分、英文、國文）",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系第一週坐下上課",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 10-18 03:2x（v9.10 第 2 層瀏覽器測試）",
+   "authorized": "D85",
+   "next": "原因：開始前 30 分鐘就能坐下、課馬上開始，同學 10 分鐘前才陸續進來（arriveFrac）。修：CLS.attend 開始上課先 syncRoom(full、instant)，所有教室（霖澤館 201、教學館、階梯教室）都一樣；tests/teach_class_unit.js 加一項（修改前 0 人、修改後 16 人）。瀏覽器派 BB-C：經濟系第一週提早 20 分鐘坐下上微積分，對話時教室有同學"
   }
  ]
 }
