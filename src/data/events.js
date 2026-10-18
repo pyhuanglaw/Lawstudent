@@ -1108,6 +1108,15 @@ const STORY_EVENTS=[
     beforeOuting:async(G,GM,q)=>{ if(typeof VAC!=='undefined') await VAC.outing(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof VAC!=='undefined'&&VAC.missed) VAC.missed(GM,q); } },
   /* 學期末的飯帶出的單日小活動（AA_251：C14 事務所參觀、C15 朋友約的單日小事；termend3d.js 的 dayOuting）*/
+  /* VA-09 芯慈事務所樓下的午餐（AA_256 第 1 節；src/vac3d.js 的 va09Phone 排；她只有五十分鐘）*/
+  { id:'ev_va09_lunch', title:'事務所樓下的午餐', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+    dialogue:[ {scene:'事務所大樓・一樓的自助餐',bg:false},
+      {speaker:null,text:'（事務所那棟大樓的一樓，自助餐。芯慈的識別證反過來別在衣服上。）'},
+      {speaker:'classmate_xinci',text:'我只有五十分鐘。……先拿菜。'},
+      {speaker:null,text:'（她夾了三樣，每一樣都很少。）'},
+      {speaker:'classmate_xinci',text:'我以為事務所都在吵架。其實大部分的時間，大家都在打字。'},
+      {speaker:'classmate_xinci',text:'（看了一下錶）還有十二分鐘。你吃慢一點沒關係，我先上去。'},
+      {set:{VA09_LUNCH:'done'}} ] },
   /* 寒暑假去她的縣市（AA_276 第 5 節；src/hometown3d.js 演，台詞 src/data/hometown_lines.js）：hours＝回程的高鐵（高雄一個半小時、台中一小時）*/
   { id:'ev_hv_kx', title:'去高雄', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.5, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },

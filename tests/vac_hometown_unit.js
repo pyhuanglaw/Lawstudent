@@ -103,5 +103,17 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     const o5=HV.offer(G,'classmate_peishan'); check('7 例外. 同一個月不能再約（她說一個月一次）',o5&&o5.ok===false&&/一個月一次/.test(o5.why),J(o5));
     law('2027-03-03',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
     check('7 例外. 沒交往：清單沒有這一項、手機照樣約不到（沒有回覆）',HV.offer(G,'classmate_peishan')===null&&/沒有回覆/.test(INV.whyNot(G,'classmate_peishan'))); }
+  // 8. VA-09 芯慈大二暑假在事務所（AA_256 第 1 節，71b184ba）：FAMILIAR 以上收到四則（一次一則、照順序）；回覆兩個；第 2、3 則多「要不要一起吃午餐？」→ 最近的平日 12:00
+  { const xc='classmate_xinci', step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); };
+    law('2027-07-05',17); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5);
+    const m1=txt('p:'+xc); check('8. 7/5 18:10「第一天。我負責影印。」＋卡紙那句；回覆兩個（沒有午餐）',m1.includes(xc+':第一天。我負責影印。')&&(TH('p:'+xc).slice(-1)[0].ask||{opts:[]}).opts.length===2,J(m1));
+    step('2027-07-14',22); const last=TH('p:'+xc).slice(-1)[0]; const op=(last.ask||{opts:[]}).opts.map(o=>o.t);
+    check('8. 7/14 21:30 開庭時間表（沒去過 C14：「我爸說排得很好」）、多「要不要一起吃午餐？」',/我爸說排得很好/.test(last.text)&&op.includes('要不要一起吃午餐？'),J([last.text,op]));
+    const r=PHONE.answer(G,last.ask.id,op.indexOf('要不要一起吃午餐？')); G.hour=22.2; STORY.phoneRules(GM); const q=OUT.get(G,'va09_lunch');
+    check('8. 回「要不要一起吃午餐？」→ 她「平日十二點到一點。事務所樓下有一間。」、行事曆排隔天（週四）12:00',txt('p:'+xc).includes(xc+':平日十二點到一點。事務所樓下有一間。')&&!!q&&q.day===DK('2027-07-15')&&q.h===12,J(q));
+    step('2027-07-28',13); const l3=TH('p:'+xc).slice(-1)[0]; check('8. 7/28 便當照片那則：午餐問過了就不再出現',/午餐。/.test(l3.text)&&!(l3.ask.opts.map(o=>o.t).includes('要不要一起吃午餐？')),J(l3.ask.opts.map(o=>o.t)));
+    law('2027-07-14',20,{C14_VISITED:DK('2026-12-30')}); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5); step('2027-07-14',22);
+    check('8. 去過 C14 的玩家：第二句換「就是你上次來，白板上那種。現在是我排的。」',txt('p:'+xc).includes(xc+':就是你上次來，白板上那種。現在是我排的。'));
+    law('2027-07-05',17); step('2027-07-05',18.5); check('8. 不熟（沒有 FAMILIAR）：收不到',!txt('p:'+xc).length); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

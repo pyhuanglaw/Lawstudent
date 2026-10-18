@@ -321,6 +321,16 @@ const VAC_DATA=(function(){
   function Q6(G){ return !!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game); }   /* 子晴的遊戲秘密：看過 Q6 才傳遊戲截圖（AA_242 375b91dd）*/
   /* 以安也在京都的語言課：FAMILIAR 以上（AA_242 5-1；她的假期計畫 AA_244 第 1 節大二暑假）*/
   function AN_IN(G){ if(typeof SOCIAL==='undefined'||!SOCIAL.STAGES||!SOCIAL.has||!SOCIAL.has('heroine_01','FIRST_MET')) return false; const A=SOCIAL.STAGES; return A.indexOf(SOCIAL.stage('heroine_01'))>=A.indexOf('FAMILIAR'); }
+  /* ===== VA-09 芯慈大二暑假在爸爸的事務所（AA_256 第 1 節，AA-C 71b184ba；2027-07-05～08-27 平日 9:00～17:00）=====
+     她傳（和她 FAMILIAR 以上）；回覆兩個照順序，第 2、3 則多一個「要不要一起吃午餐？」（一次）→ 最近的平日 12:00；她不講案子的細節 */
+  const VA09={who:'classmate_xinci',min:'FAMILIAR',
+    msgs:[{tag:'va09_1',day:'2027-07-05',h:18+10/60,ms:['第一天。我負責影印。','影印機會卡紙，卡在第三格。我已經會修了。']},
+          {tag:'va09_2',day:'2027-07-14',h:21.5,ms:['今天幫忙排一個開庭的時間表。很長。','我爸說排得很好。……他說的時候沒有看我。'],c14:['今天幫忙排一個開庭的時間表。很長。','就是你上次來，白板上那種。現在是我排的。'],lunch:true},
+          {tag:'va09_3',day:'2027-07-28',h:12+40/60,ms:['（照片：便當，旁邊是一疊卷宗的側面，看不到字）','午餐。'],lunch:true},
+          {tag:'va09_4',day:'2027-08-27',h:18,ms:['最後一天。','我把我的位子擦乾淨了。……明年還要不要來，我還沒想。']}],
+    replies:[{t:'辛苦了。',r:['還好。']},{t:'好厲害。',r:['沒有，只是照著做。']}],
+    lunchAsk:{t:'要不要一起吃午餐？',r:['平日十二點到一點。事務所樓下有一間。']},
+    lunchFrom:'2027-07-05',lunchTo:'2027-08-27'};
   /* 大一暑假的訊息（AA_241 第 4、6、7 節）：VA-05 小語的營隊、VA-02 返鄉回臺北、VA-11 交往中的反應 */
   const MSGS=[
     {tag:'va05_1',day:'2026-07-06',h:21.5,th:'g:noodle_team',ms:[{from:'yu',text:'📷（山上的營地，一排帳篷）'},{from:'yu',text:'隊輔第一天 我已經沒聲音了'}]},
@@ -342,5 +352,5 @@ const VAC_DATA=(function(){
     {tag:'va11_exam_yt',day:'2026-06-19',h:12,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
-  return {A,MSGS,TRIP_MSG,TRAVEL,C01,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12）'};
+  return {A,MSGS,TRIP_MSG,TRAVEL,C01,VA09,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12）'};
 })();
