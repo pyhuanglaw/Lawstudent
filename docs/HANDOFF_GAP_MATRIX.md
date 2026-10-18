@@ -41,7 +41,7 @@
 **B｜全部未完成（要先看的）**（2026-10-18 08:5x 更新）
 - **第一項（使用者最在意）AA300-ECON30-1018 已整合待測試**（52bf3f16、c5e312fe）：經濟系只停 29 場、日期卡 22 句、重考期短場景關、手機「跳過」、新遊戲按鈕。**BB 瀏覽器實測 QA-AA300-1018 進行中**；Q-AA300-INVITES-1018（不在 29 場的邀約私訊還會問）等 AA 回表。
 - 本班已整合待測試（等 BB）：AA298-RETAKE-FIX-1018、Q-E36-CALL-1018（含 AA_298 第 10 節 d781b840）、KX-INVITE-LAW-1018、MSG-KX-Y0-1018（AA_301）、AA296-KXCALL-1018、BG-CAMP-1018、BUG-HOME-BIKE-HINT-1018、BUG-ECON-FRIENDS-1018、DORM-AFTER-MOVEOUT-1018。
-- **AA295-KX-NOHYPO-1018**：08:4x 交給背景子代理在 worktree 做（逐句替換＋測試）；**還沒合併進開發分支——交班時如果還沒合併，就當作沒做，下一班照 AA_295 重做**。
+- **AA295-KX-NOHYPO-1018 已整合待測試**（faf3a8ea，子代理 4bc3fab5 併入；全部 node 單元測試過）；表外兩句（K7 票根禮物的反應）等 AA 寫。AA_302 劇本審閱 11 列已做（cb968a74），第 10 列等 AA 的 KX0_EGG／KX0_SHOP 名稱。
 - P0：QA-PLAYTHROUGH-1018（BB 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 探測在背景：scratchpad ff6/，跑完轉 docs/qa/econ_transcript_*.md 給 AA；scratchpad 交班不會留，下一班重跑 `tests/econ_ff_probe1.py`、`econ_ff_probe2.py`）。
 - 待開工：BUG-DATE-0831-1018（BB 重現中；已知部分見 tasks.json）、BUG-NO-CLERK-1018、AA294-SKIPCLASS-1018、Y0S1 階梯（等 AA 名稱表）、AA299 圖。
 - **使用者 09:0x：v9.10.1 也要包含** AA295-KX-NOHYPO-1018、BUG-DATE-0831-1018、BUG-NO-CLERK-1018（已整合 0f492509）、LAWWW2 三樣 ART-YU-3D-1018／ART-EXT-TEACH／ART-LIB-VIEW-1018（已整合 72287f55）。
