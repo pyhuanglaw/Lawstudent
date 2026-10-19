@@ -55,7 +55,10 @@ async def main():
         await pg.evaluate("""(()=>{ const G=GAME.G; for(const id of ['heroine_01','classmate_xinci']){ SOCIAL.remember(id,'FIRST_MET',''); INV.rec(G); G.contacts[id]=G.day-60; }
           Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20,npcRom:30,rom:10}); const Lg=DATE.log(G,'heroine_01'); Lg.count=4; Lg.wish=true;
           Object.assign(SOCIAL.rel('classmate_xinci'),{fam:30,trust:20,comf:15});
-          const R=TERMEND.rec(G), C=R.contact||(R.contact={}); (C.Y1S1||(C.Y1S1={})).classmate_xinci={pts:7,k:{},last:G.day-2}; })()""")
+          const R=TERMEND.rec(G), C=R.contact||(R.contact={}); (C.Y1S1||(C.Y1S1={})).classmate_xinci={pts:7,k:{},last:G.day-2};
+          const RR=TERMEND.rec(G,'Y1S1'); delete RR.plan; delete RR.kaiAsked; })()""")
+        # [前置] 期末要約誰（TERMEND.plan）讀檔後第一次 tick 就算好、記在存檔裡：上面調關係是在讀檔「之後」，先算的那份是「沒人約＝阿凱宿舍當面」，
+        #        以安的邀約不會來、20:00 以後阿凱問「宵夜？」等選項（2026-10-19 LAWWW-C：flow_termend 一直停在 20:09 就是這個）。調完關係把算好的清掉，下一次 tick 照新的關係重算
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         ok = False
         for _ in range(900):   # 遊戲時間 20:10 → 20:39（turbo 下約 2～3 分鐘）；先答應一個就不會再收到別的邀約，所以要等兩則都到

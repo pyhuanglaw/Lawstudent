@@ -163,6 +163,16 @@ async def close_panels(pg, cdp):
     return shut
 
 
+async def phone_away(pg, cdp, tries=3):
+    """手機自己跳出來（要回覆的訊息 D103、經濟系跳日期途中收到訊息）、遊戲暫停：像玩家一樣按「收起來／跳過」。一則只自動開一次，下一則還會再開，所以多按幾次。
+    回傳按了幾次（2026-10-19：flow_typhoon、flow_v0_home 停在手機上就是沒按這個）"""
+    n = 0
+    for i in range(tries):
+        if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
+        await tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); n += 1
+    return n
+
+
 async def advance_dialogs(pg, cdp, run, until, max_steps=200, pick=0, step_wait=700):
     """像玩家一樣點對話、選選項（選第 pick 個），直到 until(state) 為真；回傳最後的 state。對話一直停在同一句、或沒有對話也沒有進展超過 60 秒都會停下來"""
     last_change = time.time(); last = None

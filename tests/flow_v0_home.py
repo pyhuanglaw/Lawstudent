@@ -102,6 +102,9 @@ async def main():
             if s['choices'] and s.get('paused'):
                 shut = await L.close_panels(pg, cdp)
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
+            if not s['choices'] and not s['dlg'] and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+                n = await L.phone_away(pg, cdp, tries=1)   # 跳日期途中收到訊息停下來（先停在列表、右上角「跳過」）、沒有要回的：像玩家一樣按「跳過」繼續（2026-10-19）
+                if n: print('   手機：按「跳過／收起來」', flush=True); continue
             if s['choices']:
                 opts_now = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
                 if opts_now != last_opts: last_opts = opts_now; await sc.check(pg, '%s 選項 %s' % (last_key, opts_now[:16]))
