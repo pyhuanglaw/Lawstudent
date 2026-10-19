@@ -43,7 +43,7 @@ const ECONFF=(()=>{
     {n:23,key:'2024-10-15',h:19,ev:'ev_y0_gather'},
     {n:25,key:'2024-10-15',h:24.5,zone:'dorm',ev:'ev_y0_a1'},
     {n:26,key:'2024-10-16',h:19,zone:'library',ev:'ev_y0_e10',then:'ev_y0_e10b'},
-    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30'},
+    {n:27,key:'2024-10-17',h:14.67,ev:'ev_y0_e30',chain:true},   /* 電話講完（「捷運上。要回家跟我媽說。」）不回到原本站的地方：黑幕直接接下一步（使用者 10-18 14:3x 選「回臺北的家跟媽媽說」；那段台詞下一班 AA 寫，寫好前先直接接，E30-MOM-1018）*/
     {n:28,key:'2024-10-17',h:17.67,ev:'ev_y0_e26'},
     {n:'x29',key:'2024-10-29',h:12+10/60,ev:'ev_y0_xiaofu'},   /* AA_305 第 6 節：10/29 小福（10/17 22:30 便利貼 n:29 拿掉，搬到搬家那天）*/
     {n:30,key:'2024-10-31',h:9,zone:'dorm',at:{x:0,z:2.4,yaw:Math.PI},ev:'ev_y0_a3'}];   /* 10/31 退宿（AA_305 第 7 節；原本 10/19）（AA_292 第二張表 #1）：阿勳封箱、搬回臺北的家（HOME.moveOut）——2026-10-18 使用者「休學之後我還住在宿舍？之後沒有劇情」*/
@@ -146,8 +146,8 @@ const ECONFF=(()=>{
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
   S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour;
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
-      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,()=>{}); }catch(e){ console.warn('ECONFF phone',e); }
-        if(PHONE.pending&&PHONE.pending(G).length>p0) return 'msg'; } }
+      if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('ECONFF phone',e); }
+        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0) return 'msg'; } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
     setT(G,E,day,h); return 'ok'; };
   async function sitIn(GM,it){ const E=GM.E, P=E.player; const room=it.room&&it.room.room; const seats=((E.zone&&E.zone.seats)||[]).filter(q=>!room||q.room===room);
     const free=seats.filter(q=>!GM.freeSeat||GM.freeSeat(q)===q); const st=free[Math.floor(free.length/2)]||seats[0]; if(st&&GM.sitAt) GM.sitAt(P,st); return {st,free}; }
@@ -167,7 +167,7 @@ const ECONFF=(()=>{
   S.busy=false;
   S.advance=async function(GM){ const G=GM.G, E=GM.E; const s=S.next(G); if(!s) return false; const r=S.rec(G); const t=S.tOf(G,s), now=G.day*24+G.hour;
     const day=DK(s.key); let h=s.cls?(t-day*24):s.h;
-    if(t>now+0.05){ const d0=G.day; await GM.fade(true);
+    if(t>now+0.05){ const d0=G.day; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/
       const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour);
       if(res==='msg'){ if(GM.updateHUD) GM.updateHUD(); await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
@@ -176,11 +176,13 @@ const ECONFF=(()=>{
       const line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
       if(GM.titleCard&&G.day!==d0) await GM.titleCard(S.dateLabel(G.day,G.hour),line||'',line?3200:1800);
-      await GM.fade(false); }
+      await GM.fade(false); } finally { if(sb) GM.sceneEnd(); } }
     try{ if(s.cls) await storyClass(GM,s);
       else { await runEv(GM,s.ev); if(s.then) await runEv(GM,s.then); } }
     catch(e){ console.warn('ECONFF step '+s.n,e); }
-    r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave(); return true; };
+    r.done[s.n]=r.done[s.n]||1; if(GM.autosave) GM.autosave();
+    if(s.chain&&done(G,s.ev)&&S.next(G)&&GM.fade){ await GM.fade(true); return S.advance(GM); }   /* chain：演完不放回 3D，黑幕直接跳下一個（下一步自己會淡入）*/
+    return true; };
   /* ===== 重考期在家的日常（AA_297，src/data/retake_home.js；使用者 10-18「完全沒有可昕跟我一起在家讀書的感覺」「她住我家一起重考」「她完全沒出現」）=====
      2/15～7/10 在家：每天演一段 short（不重複、用完再輪；早上／白天／吃飯／晚上輪流），長場景（long，週六）照日期時間演。演完才接著跳。*/
   const RH=()=>typeof RETAKE_HOME!=='undefined'?RETAKE_HOME:null;
@@ -198,9 +200,9 @@ const ECONFF=(()=>{
   S.cramCard=function(G){ const R=RH(); if(!R||!R.cram_cards||!S.on2(G)||S.short(G)) return null;   /* AA_300 第 4 節的句子取代 cram_cards */ const r=S.rec(G); r.cramShown=r.cramShown||[];
     const c=R.cram_cards.find(x=>{ const a=DK(x.from), b=DK(x.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; }); if(!c||r.cramShown.includes(c.from)) return null; r.cramShown.push(c.from); return c; };
   const rhDialogue=e=>{ const out=[]; if(e.place) out.push({scene:e.place,bg:e.bg||false}); const sp=s=>s==null?null:s;   /* bg：補習班那幾段（cram_class）*/
-    for(const l of e.lines) out.push({speaker:sp(l.s),text:l.t});
+    for(const l of e.lines) out.push(Object.assign({speaker:sp(l.s),text:l.t},l.e?{expression:l.e}:{}));   /* e：表情（smile／laugh／teasing…，assets/portraits/kexin/campus/ 有的那幾個）；AA 標了才有（使用者 10-18：「可昕不管什麼對話的表情都一樣」，KX-EXPR-1018）*/
     if(e.choice&&e.choice.length){ out.push({choice:e.choice.map((c,i)=>({text:c.t,goto:'c'+i}))}); e.choice.forEach((c,i)=>{ out.push({label:'c'+i}); for(const t of (c.reply||[])) out.push(/^（/.test(t)?{speaker:null,text:t}:{speaker:'kexin',text:t});   /* 回覆：括號開頭＝旁白（含「媽媽把你推出廚房。」這種帶引號的整句照旁白），其他＝可昕 */ if(c.rel) out.push({rel:{kexin:c.rel}}); out.push({goto:'end'}); }); out.push({label:'end'}); }
-    for(const l of (e.after||[])) out.push({speaker:sp(l.s),text:l.t});   /* 選項之後、每個分支都演的（RH-L4 花插在玻璃杯裡；AA_298 1-2 第 3 點）*/
+    for(const l of (e.after||[])) out.push(Object.assign({speaker:sp(l.s),text:l.t},l.e?{expression:l.e}:{}));   /* 選項之後、每個分支都演的（RH-L4 花插在玻璃杯裡；AA_298 1-2 第 3 點）*/
     return out; };
   S.rhPlay=async function(GM,e){ const G=GM.G; const ev={id:'rh_'+e.id,stage:'econ',title:'',participants:['kexin'],location:'any',trigger:'econff',once:false,background:(typeof HOME!=='undefined'&&HOME.bgNow&&!e.bg&&!(e.place&&!/祐廷家/.test(e.place)))?HOME.bgNow():'dark',dialogue:rhDialogue(e)};
     try{ if(typeof EVENTS!=='undefined') await EVENTS.run(ev,{noTitle:true}); } catch(err){ console.warn('ECONFF rh '+e.id,err); }

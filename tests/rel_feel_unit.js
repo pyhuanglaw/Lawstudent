@@ -49,6 +49,6 @@ check('5. 約好的見面照地點；對方約的又赴約加 acceptInvite',/SOC
 // 6
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('6. sceneBegin 第一層開始記',/function sceneBegin\(opts\)\{ if\(D\.busyDepth===0&&typeof SOCIAL!=='undefined'&&SOCIAL\.feel\)\{ SOCIAL\.feel=\{\}; SOCIAL\.feelOn=true; \}/.test(g3));
-check('6. sceneEnd 最後一層顯示',/function sceneEnd\(\)\{ D\.busyDepth=Math\.max\(0,D\.busyDepth-1\); if\(D\.busyDepth===0\)\{ if\(typeof SOCIAL!=='undefined'&&SOCIAL\.takeFeel\)\{ SOCIAL\.feelOn=false; const L=SOCIAL\.takeFeel\(2\);/.test(g3));
+check('6. sceneEnd 最後一層顯示',/function sceneEnd\(\)\{ D\.busyDepth=Math\.max\(0,D\.busyDepth-1\);[^}]*?if\(D\.busyDepth===0\)\{ if\(typeof SOCIAL!=='undefined'&&SOCIAL\.takeFeel\)\{ SOCIAL\.feelOn=false; const L=SOCIAL\.takeFeel\(2\);/.test(g3));   // 中間可以有別的（a0926112 卡住保底記 D.busyWho）
 check('6. GM.rel 自己有「❤」提示：同一個人不重複',/if\(SOCIAL\.feel\) delete SOCIAL\.feel\[CID\[id\]\|\|id\];/.test(g3));
 console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

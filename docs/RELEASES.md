@@ -21,7 +21,7 @@
 | v9.9.1 | `6d5c3279`（PR [pyhuanglaw/Lawstudent#5](https://github.com/pyhuanglaw/Lawstudent/pull/5) 的合併 commit；遊戲檔案＝測試過的候選 `09630e60`） | 2026-10-16 19:56:07 UTC（GitHub Actions pages build and deployment #22 成功） | `19b97eff`（v9.9） |
 | v9.9.2 | （測試中；開遊戲加速：標題畫面先出來、人物背景下載） | — | `6d5c3279`（v9.9.1） |
 | v9.10 | `8c63ea53`（PR #6） | 2026-10-18 05:13 UTC | `6d5c3279`（v9.9.1） |
-| v9.10.1 | （PR 合併後補 SHA） | （部署後補） | `8c63ea53`（v9.10） |
+| v9.10.1 | `4c0cbefc`（PR [pyhuanglaw/Lawstudent#7](https://github.com/pyhuanglaw/Lawstudent/pull/7) 的合併 commit；遊戲檔案＝開發分支 `f4b47480`） | 2026-10-18 12:14:59 UTC（run 39126382240 success） | `8c63ea53`（v9.10） |
 
 ---
 
@@ -35,9 +35,11 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.1（2026-10-18 發布，PR 合併 commit 部署後補）——經濟系 30 分鐘版＋可昕與其他人物逐場確認
+## v9.10.1（2026-10-18 12:13 UTC 發布 `4c0cbefc`，PR #7；GitHub Pages 部署 run 39126382240 12:14:59 成功）——經濟系 30 分鐘版＋可昕與其他人物逐場確認
 
 **使用者 2026-10-18 11:5x 對 LAWWW-C：「先發布再檢查了」**——照使用者指示先發布，docs/TESTING.md 第五節發布前清單改成發布後立刻跑（結果補在這一節）。上一個穩定版 v9.10 `8c63ea53`（出事時回復用）。
+
+**發布前最後一刻**：AA-C 推了台詞小修 e362b41a（12/31 唐睿那句不再和可昕那句同開頭、8/30 搬宿舍後「往山上的宿舍走」、法律系阿勳兩句、10/16 日期卡「十月十六日晚上」），一起放進來；相關單元測試 8 支重跑通過。
 
 **發布時已經有的測試**：
 - node 單元測試 299 支全部通過（f940b01a 以前最後一次全跑 0 失敗；之後只多 AA 的一句台詞 eb449ed5）。
@@ -59,7 +61,8 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - BB 另外三種玩法（不開手機／全部拒絕／天天睡覺）還在跑；美國校園、四季（LAWWW2 已交）排在下一版。
 - 沒有 iPhone 實機測試。
 
-**發布後檢查（docs/TESTING.md 第五節）**：（跑完補在這裡）
+**發布後檢查（docs/TESTING.md 第五節，LAWWW-C 對乾淨 checkout `4c0cbefc`，10-18 12:3x～14:xx）**：deploy_check、reachability_all **ALL PASS**；**minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL**——搖桿、拖曳、點地面在測試裡完全不動（玩家沒有 busy；v9.10 發布前 `feb2bc37` 這三支 ALL PASS）；save_compat_v7 沒跑完（使用者 03:4x 說不用舊存檔測試）。還沒查出是測試狀態造成的（懷疑要回覆的訊息自動打開手機蓋住搖桿）還是遊戲真的擋輸入；使用者實玩可以走路。原文、推測、第一步：`docs/handoff/TEST_RESULTS_1018.md` 第 1 節（任務 REL-9101-POSTCHECK-1018，P0）。**修好、重跑通過以前不發 v9.10.2。** v9.10.2 候選（開發分支）一定要帶 `a0926112`（劇情鎖住 10 秒放開讀檔的保底），清單在同一份文件第 5 節。
+**【10-18 22:2x 更正：v9.10.1 沒有問題，第五節全部補齊、全部通過】**上面三支失敗的原因查清楚了：讀檔的狀態有一則沒回的邀約（預設交往中的可昕，第 3 天 19:30「週末來政大？我當導遊。」），v9.10.1 起要回覆的訊息會自動打開手機、遊戲暫停（D103），測試跑到一半手機跳出來，之後全部不動；v9.10.1 和開發分支一模一樣（`tests/repro_1018/phone_pending_probe.py`），遊戲沒有擋輸入。改了測試（只測移動、換區域的讀檔前關掉自動打開，標 [前置]；溫州街真實流程像玩家一樣點「收起來」；開發分支 `2ad61c5f`、`e3ec5d5e`），對 `4c0cbefc` 單獨重跑（沒有同時跑別的瀏覽器）：minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real **ALL PASS**（另外開發分支也跑了 p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real、minimap_direction，ALL PASS）；deploy_check、reachability_all 原本就 ALL PASS；save_compat_v7 照使用者 03:4x 不跑。紀錄：`docs/handoff/TEST_RESULTS_1018.md` 第 1 節。
 
 ## v9.10（2026-10-18 05:11 UTC 發布 `8c63ea53`，PR #6；GitHub Pages 部署 run 39099701891 05:13 成功）——經濟系＋寒暑假＋16 週＋全部題目
 

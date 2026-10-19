@@ -229,5 +229,6 @@
 | 臺北的家・除夕年夜飯 `assets/bg/home_dining_cny.webp`（BB-C `10b7c36f` BG-HOME-1018，取代 home_living_cny 的 3D 算圖） | 使用者以 AI 生成（BB-C 寫提示詞，D97）；本作使用 |
 | 臺北的家三房兩廳 `assets/bg/home_entry_night／home_sofa_day／home_sofa_night／home_dining_day／home_dining_night／home_dining_late／home_kitchen_day／home_room_day／home_room_night／home_guest_night.webp`（BB-C `33489d28` BG-HOME-1018） | 使用者以 AI 生成（BB-C 寫提示詞，D97）；本作使用 |
 | 考場（高中教室）`assets/bg/exam_hs_classroom.webp`、大安森林公園 `assets/bg/daan_park.webp`（BB-C `0182b085`，AA_298／AA_299） | 使用者以 AI 生成（D104）；本作使用 |
+| 美國校園 `assets/models/env/second_ai/us_campus.glb`（SCN-US-02 v3＋紅磚＋四季）、法學院圖書館 `us_lawlib.glb`、社區四季 `us_community.glb`（LAWWW2-C `90c2896e`／`beb5fa54`／`407ec3f5`／`4cee25c8`） | 本作 Blender 腳本自製（tools/blender/env_second/），材質照既有 Poly Haven CC0 貼圖；本作使用 |
 | 高雄・美麗島站穹頂 `assets/bg/kh_dome.webp`、蓮池潭邊長椅 `assets/bg/kh_lotus_bench.webp`（BB-C `b043f9bd`，AA_303 第 15 場；純場景） | 使用者以 AI 生成（D104）；本作使用 |
 | 宿營活動背景 10 張 `assets/bg/camp_bbq.webp`、`camp_field`、`camp_bonfire`、`camp_party_hall`、`camp_quiz`、`camp_dining`、`camp_trail`、`camp_classroom`、`camp_yard_day`、`camp_yard_night`（BB-C `548989d6`，BG-CAMP-1018） | 使用者以 AI 生成（D104）；本作使用 |

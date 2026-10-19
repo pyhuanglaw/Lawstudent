@@ -77,6 +77,11 @@ const attendAt=async(it,ans)=>{ G.day=it.day; G.hour=it.t0; said.length=0; chose
   G.hour=itS.t1+0.5; CLS.skipNotes(GM); const m1=G.msgs.find(m=>m.text===wantS);
   check('討論週：下課以後手機多一行那一堂的轉述（skip_line，和 BB 的 skip 句子同一個格式）、時間是下課後',!!m1&&m1.day===itS.day&&Math.abs(m1.h-(itS.t1+0.15))<0.02,m1&&m1.text);
   CLS.skipNotes(GM); check('只發一次',G.msgs.filter(m=>m.text===wantS).length===1);
+  /* 3D 場景裡、說轉述的同學不在玩家身邊（例：中午在校園）：照樣發——群組訊息；「同學要真的在教室」（inScene，f977d81b）只管課堂上的反應句。
+     2026-10-19 flow_discuss_class B 抓到：修改前不發 */
+  fresh(); { const it=itemOf('Y1S1',14,'civ_general'); G.day=it.day; G.hour=it.t1+0.5; global.GAME={E:{npcs:[]}}; global.EVENTS={npcOf:()=>null};
+    try{ CLS.skipNotes(GM); } finally { delete global.GAME; delete global.EVENTS; }
+    check('3D 場景裡、說轉述的同學不在身邊：照樣發',G.msgs.some(m=>m.text===wantS)); }
   fresh(); { const it=itemOf('Y1S1',14,'civ_general'); CLS.rec(G).done[it.key]=1; G.day=it.day; G.hour=it.t1+1; CLS.skipNotes(GM); check('去上課了：不發',!G.msgs.some(m=>m.text===wantS)); }
   /* 一般的週：偶爾（第 1、4、7…次沒去）*/
   fresh(); { const c=CLS.byId('civ_general'), Ls=c.skipLines||SYLLABUS.skip.civ_general; const weeks=[4,5,6,7]; const got=[];   /* 第 3 週那一堂是第二天的劇情課（不算翹課）*/

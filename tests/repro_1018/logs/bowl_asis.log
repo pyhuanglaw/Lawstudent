@@ -1,0 +1,80 @@
+[   0s] {"d": -368, "h": 21.84, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  11s] {"d": -368, "h": 21.85, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  16s] {"d": -368, "h": 21.86, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  20s] {"d": -368, "h": 21.87, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  25s] {"d": -368, "h": 21.88, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  26s] {"d": -361, "h": 17, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  28s] {"d": -361, "h": 17.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 0, "nE": 0}
+[  30s] {"d": -361, "h": 17.01, "z": "dorm", "e14": true, "busy": true, "Dact": true, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 0}
+[  54s] {"d": -361, "h": 18.51, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  56s] {"d": -361, "h": 18.52, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  61s] {"d": -361, "h": 18.53, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  64s] {"d": -361, "h": 18.53, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  65s] {"d": -361, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  65s] {"d": -361, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  67s] {"d": -361, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  69s] {"d": -361, "h": 23.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  73s] {"d": -361, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  74s] {"d": -361, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  75s] {"d": -361, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  78s] {"d": -361, "h": 23.03, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  83s] {"d": -360, "h": 13, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  84s] {"d": -360, "h": 13, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  85s] {"d": -360, "h": 13, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  87s] {"d": -360, "h": 13.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  92s] {"d": -360, "h": 13.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  93s] {"d": -360, "h": 13.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  94s] {"d": -360, "h": 13.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[  97s] {"d": -360, "h": 13.03, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 102s] {"d": -360, "h": 16, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 103s] {"d": -360, "h": 16, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 104s] {"d": -360, "h": 16, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 106s] {"d": -360, "h": 16.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 111s] {"d": -360, "h": 16.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 112s] {"d": -360, "h": 16.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 114s] {"d": -360, "h": 16.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 116s] {"d": -360, "h": 16.03, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 120s] {"d": -360, "h": 16.04, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 121s] {"d": -360, "h": 16.04, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 1, "nE": 1}
+[ 122s] {"d": -360, "h": 17, "z": "dorm", "e14": true, "busy": true, "Dact": false, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 1}
+[ 124s] {"d": -360, "h": 17, "z": "dorm", "e14": true, "busy": true, "Dact": true, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 1}
+[ 143s] {"d": -360, "h": 17, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 145s] {"d": -360, "h": 17.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 150s] {"d": -360, "h": 17.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 153s] {"d": -352, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 154s] {"d": -352, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 155s] {"d": -352, "h": 23, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 156s] {"d": -352, "h": 23.01, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 160s] {"d": -352, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 161s] {"d": -352, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": true, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 162s] {"d": -352, "h": 23.02, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 165s] {"d": -352, "h": 23.03, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 171s] {"d": -352, "h": 23.04, "z": "dorm", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 173s] {"d": -339, "h": 14, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 177s] {"d": -339, "h": 14.01, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 2, "nE": 2}
+[ 182s] {"d": -339, "h": 14.01, "z": "cafe", "e14": true, "busy": true, "Dact": true, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 3, "nE": 2}
+[ 213s] {"d": -339, "h": 14.01, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 3, "nE": 3}
+[ 217s] {"d": -339, "h": 14.01, "z": "cafe", "e14": true, "busy": true, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 3}
+[ 218s] {"d": -339, "h": 14.01, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 219s] {"d": -339, "h": 14.02, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 223s] {"d": -339, "h": 14.27, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": false, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 231s] {"d": -339, "h": 14.27, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 231s] {"d": -336, "h": 19, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 233s] {"d": -336, "h": 19.01, "z": "cafe", "e14": true, "busy": false, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 4, "nE": 4}
+[ 235s] {"d": -336, "h": 19.01, "z": "cafe", "e14": true, "busy": true, "Dact": false, "evr": false, "adv": false, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 5, "nE": 4}
+[ 238s] {"d": -336, "h": 19.26, "z": "cafe", "e14": true, "busy": true, "Dact": false, "evr": false, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 5, "nE": 4}
+[ 239s] {"d": -336, "h": 19.26, "z": "cafe", "e14": true, "busy": true, "Dact": false, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 6, "nE": 4}
+[ 240s] {"d": -336, "h": 19.26, "z": "cafe", "e14": true, "busy": true, "Dact": true, "evr": true, "adv": true, "ff": true, "phone": false, "out": "done", "b1": 1, "nB": 6, "nE": 4}
+no stuck within time
+   B 17.01     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:91:96) |     at runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:40) |     at S.advance (http://127.0.0.1:8792/src/econff3d.js?v=9.10:
+   E 17.01     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:99:82) |     at async runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:27)
+   B 17     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:91:96) |     at runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:40) |     at S.advance (http://127.0.0.1:8792/src/econff3d.js?v=9.10:
+   E 17     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:99:82) |     at async runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:27)
+   B 14.01     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:91:96) |     at runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:40) |     at S.advance (http://127.0.0.1:8792/src/econff3d.js?v=9.10:
+   E 14.01     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:99:82) |     at async runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:164:27)
+   B 14.01     at S.prompt (http://127.0.0.1:8792/src/outings3d.js?v=9.10:59:178) |     at S.tick (http://127.0.0.1:8792/src/outings3d.js?v=9.10:57:63) |     at S.tick (http://127.0.0.1:8792/src/story3d.js?v=9.1
+   E 14.01     at S.prompt (http://127.0.0.1:8792/src/outings3d.js?v=9.10:60:199)
+   B 19.01     at S.go (http://127.0.0.1:8792/src/outings3d.js?v=9.10:73:8) |     at runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10:162:139) |     at S.advance (http://127.0.0.1:8792/src/econff3d.js?v=9.10:
+   B 19.26     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:91:96) |     at S.go (http://127.0.0.1:8792/src/outings3d.js?v=9.10:84:23) |     at async runEv (http://127.0.0.1:8792/src/econff3d.js?v=9.10
+   E 19.26     at X.run (http://127.0.0.1:8792/src/events3d.js?v=9.10:99:82) |     at async S.go (http://127.0.0.1:8792/src/outings3d.js?v=9.10:84:10)
+errs []

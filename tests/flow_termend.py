@@ -55,22 +55,36 @@ async def main():
         await pg.evaluate("""(()=>{ const G=GAME.G; for(const id of ['heroine_01','classmate_xinci']){ SOCIAL.remember(id,'FIRST_MET',''); INV.rec(G); G.contacts[id]=G.day-60; }
           Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20,npcRom:30,rom:10}); const Lg=DATE.log(G,'heroine_01'); Lg.count=4; Lg.wish=true;
           Object.assign(SOCIAL.rel('classmate_xinci'),{fam:30,trust:20,comf:15});
-          const R=TERMEND.rec(G), C=R.contact||(R.contact={}); (C.Y1S1||(C.Y1S1={})).classmate_xinci={pts:7,k:{},last:G.day-2}; })()""")
+          const R=TERMEND.rec(G), C=R.contact||(R.contact={}); (C.Y1S1||(C.Y1S1={})).classmate_xinci={pts:7,k:{},last:G.day-2};
+          const RR=TERMEND.rec(G,'Y1S1'); delete RR.plan; delete RR.kaiAsked; })()""")
+        # [前置] 期末要約誰（TERMEND.plan）讀檔後第一次 tick 就算好、記在存檔裡：上面調關係是在讀檔「之後」，先算的那份是「沒人約＝阿凱宿舍當面」，
+        #        以安的邀約不會來、20:00 以後阿凱問「宵夜？」等選項（2026-10-19 LAWWW-C：flow_termend 一直停在 20:09 就是這個）。調完關係把算好的清掉，下一次 tick 照新的關係重算
         await pg.evaluate("(()=>{ if(window.__said) return; window.__said=[]; const o=GAME.say; GAME.say=function(w,t){ window.__said.push(String(t||'')); return o.apply(this,arguments); }; })()")
         ok = False
         for _ in range(900):   # 遊戲時間 20:10 → 20:39（turbo 下約 2～3 分鐘）；先答應一個就不會再收到別的邀約，所以要等兩則都到
             ok = await pg.evaluate("['te_Y1S1_heroine_01','te_Y1S1_classmate_xinci'].every(t=>(GAME.G.msgs||[]).some(m=>m.tag===t&&(m.day<GAME.G.day||m.h<=GAME.G.hour)))")   # 以安 20:30、芯慈 20:39（一則一則隔 9 分鐘）
             if ok: break
+            # 要回的訊息到了，手機會自己跳出來、遊戲暫停（D103）：讀檔的可昕那幾則、20:30 以安那則都會。這裡要等兩則都到，所以像玩家一樣先收起來，時間才會走
+            if await L.phone_away(pg, cdp): print('   [玩家操作] 手機自己跳出來（要回的訊息）→ 先收起來', flush=True)
             s = await L.state(pg)
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(500)
         msgs = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>/^te_Y1S1_/.test(m.tag||'')).map(m=>[m.from,m.text])")
         run.check('20:30 以安的心意邀約「考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。」＋芯慈的朋友邀約', ok and ['heroine_01', '考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。'] in msgs and any(m[0] == 'classmate_xinci' for m in msgs), json.dumps(msgs, ensure_ascii=False))
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+        if await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            print('   [玩家操作] 芯慈那則到了、手機自己跳出來（停在對話列表）→ 直接用', flush=True)
+        else:
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(900)
+        # 訊息頁像 LINE（PHONE-LINE-UI-1018，使用者 22:4x 選 B）：列表上以安那一列標「待回覆」，點進去才回
+        row = await pg.evaluate("(()=>{ const e=document.querySelector('#phoneBody .chatRow[data-th=\"p:heroine_01\"]'); return e?e.innerText:null; })()")
+        run.check('手機「訊息」列表有以安那一列（看得到她最新的一句、標「待回覆」）', bool(row) and '待回覆' in row, str(row))
+        if row:
+            await pg.evaluate("document.querySelector('#phoneBody .chatRow[data-th=\"p:heroine_01\"]').scrollIntoView({block:'center'})"); await pg.wait_for_timeout(300)
+            await L.tap(pg, cdp, '#phoneBody .chatRow[data-th="p:heroine_01"]'); await pg.wait_for_timeout(1200)
         sel = '#phoneBody [data-ask="te_Y1S1_heroine_01|0"]'
         has = await pg.evaluate("!!document.querySelector(%s)" % json.dumps(sel))
-        run.check('手機「訊息」的待回覆有以安那則和「好。」', has)
+        run.check('點進以安的對話：有那則和「好。」', has)
         await run.shot(pg, 'phone_invites')
         if has:
             await pg.evaluate("document.querySelector(%s).scrollIntoView({block:'center'})" % json.dumps(sel)); await pg.wait_for_timeout(300)

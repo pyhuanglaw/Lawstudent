@@ -12,7 +12,7 @@ const EXCH=(function(){
   const S={};
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
   const T=(d,h)=>d*24+h;
-  const US_ZONES=['us_apartment','us_outside','us_shared','us_market','us_asian_market'];   /* LAWWW2-C 的正式區域（src/us3d.js 3bff5ef4）：C 棟 208、大超市、對面的亞洲超市也算在美國 */
+  const US_ZONES=['us_apartment','us_outside','us_shared','us_market','us_asian_market','us_campus','us_lawlib'];   /* 美國校園、法學院圖書館（LAWWW2-C US-CAMPUS-WIRE-1018）也算在美國 */   /* LAWWW2-C 的正式區域（src/us3d.js 3bff5ef4）：C 棟 208、大超市、對面的亞洲超市也算在美國 */
   S.US_ZONES=US_ZONES;
   S.inUS=G=>!!G&&US_ZONES.includes(G.zone);
   /* ---------- 申請 ---------- */

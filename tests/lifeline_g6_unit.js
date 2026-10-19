@@ -57,9 +57,9 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     G.hour=20.9; const a=EVENTS.check(ev('ev_y0_e35h')); G.hour=21; const b=EVENTS.check(ev('ev_y0_e35h')); picks=['海邊']; await EVENTS.run(ev('ev_y0_e35h')); const L=lines();
     check('6-5 21:00 在家（AA_303 第 2 節 24：在家裡、不下樓，背景 home_living）：「（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）」→「准考證我看了第四次了。」→ 兩枝 2B 鉛筆 →「考完要去哪？……」、E35_MET、沒有回家的移動（他已經在家）',!a&&b&&L[0]==='（她房間的門開著。她坐在床邊整理筆袋，准考證放在膝蓋上，翻過來又翻回去。）'&&L[1]==='杜可昕：准考證我看了第四次了。'&&L[2]==='（她從筆袋拿出兩枝 2B 鉛筆，分一枝給你。）'&&L[3]==='杜可昕：考完要去哪？先講好，我才睡得著。'&&ev('ev_y0_e35h').dialogue[0].bg==='home_living'&&G.flags.E35_MET===true&&G.flags.E35_PLAN==='sea'&&!ev('ev_y0_e35h').after,J([a,b,L.slice(0,4)]));
     check('6-5 收尾（AA_303 第 2 節 24）：最後「好。去睡。明天要早起。」；沒有「五分鐘到了」、上樓、樓下、「我回去了」「巷口」',L[L.length-1]==='杜可昕：好。去睡。明天要早起。'&&!L.join('').includes('五分鐘到了')&&!L.join('').includes('上樓')&&!L.join('').includes('樓下')&&!L.join('').includes('我回去了')&&!L.join('').includes('巷口'),J(L.slice(-2))); }
-  /* AA_272 第 10 節（7975ffdf）：住在一起——收尾一起上樓；電話版拿掉；21:00 不在家＝「你在哪。我在樓下等你。」，24:00 以前回家就演，都沒回家＝不演 */
+  /* AA_272 第 10 節（7975ffdf）：住在一起——收尾一起上樓；電話版拿掉；21:00 不在家＝「你在哪。明天要早起，早點回來。」，24:00 以前回家就演，都沒回家＝不演 */
   { const d=DK('2025-07-10'); econ(d,20.9,'campus',{E35_ASKED:true},false); G.home={at:false}; run(20.9,21.1);
-    const m=txt('p:kexin'); check('6-5 21:00 人在外面：她傳「你在哪。我在樓下等你。」；沒有電話版（E35_PHONE）、外面不演',m.includes('kexin:你在哪。我在樓下等你。')&&!G.flags.E35_PHONE&&!EVENTS.check(ev('ev_y0_e35')),J(m.slice(-2)));
+    const m=txt('p:kexin'); check('6-5 21:00 人在外面：她傳「你在哪。明天要早起，早點回來。」；沒有電話版（E35_PHONE）、外面不演',m.includes('kexin:你在哪。明天要早起，早點回來。')&&!G.flags.E35_PHONE&&!EVENTS.check(ev('ev_y0_e35')),J(m.slice(-2)));
     econ(d,23.5,'home',{E35_ASKED:true}); check('6-5 23:30 回到家：在家演（ev_y0_e35h）',EVENTS.check(ev('ev_y0_e35h')));
     econ(d+1,0.2,'home',{E35_ASKED:true}); check('6-5 24:00 以前都沒回家：隔天不演、E35_PLAN 不記',!EVENTS.check(ev('ev_y0_e35h'))&&!G.flags.E35_PLAN); }
   /* AA_272 第 11 節：考試的兩天（7/11 考場、7/12 晚上對答案），都不能快轉 */
@@ -94,7 +94,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('4-3 客運站：「恭喜你。」…「你從下車到現在，都沒有看我。」→ 三選一（KH_FIGHT）→「……我知道我考不好。我不用你幫我難過。」「我先回家。你自己逛一下。」',iS>iB&&G.flags.KH_FIGHT==='school'&&L.includes('杜可昕：我先回家。你自己逛一下。')&&L.includes('（她走了。你在客運站外面站了很久。）'));
     const P=TH('p:kexin').map(m=>m.from+':'+m.text);
     check('4-3 18:30 的私訊收進手機：「你回臺北的車幾點。」→「九點。」→「我八點去車站。」；手機也有 10:00 那三則',P.includes('kexin:你回臺北的車幾點。')&&P.includes('player:九點。')&&P.includes('kexin:我八點去車站。')&&P.includes('kexin:查到了。'),J(P.slice(-4)));
-    check('4-3 20:00 和好：「下午那樣，對不起。」「我也是。我不知道要講什麼。」→ 肉粽（AA_303：「政大也是法律……」「……捷運不用一個小時……」拿掉）→「車上吃。不要在車上難過。」→「（九點的客運開了。你在車上把肉粽吃完。）」、KH_MADEUP；演完 00:10 到家',iM>iS&&L[iM-2]==='杜可昕：下午那樣，對不起。'&&L[iM-1]==='祐廷：我也是。我不知道要講什麼。'&&!L.some(t=>/政大也是法律|捷運不用一個小時/.test(t))&&L.includes('杜可昕：車上吃。不要在車上難過。')&&L[L.length-1]==='（九點的客運開了。你在車上把肉粽吃完。）'&&G.flags.KH_MADEUP===true&&Math.abs(G.hour-(24+10/60))<1e-6,J([L.slice(-1),G.hour]));
+    check('4-3 20:00 和好：「早上那樣，對不起。」「我也是。我不知道要講什麼。」→ 肉粽（AA_303：「政大也是法律……」「……捷運不用一個小時……」拿掉）→「車上吃。不要在車上難過。」→「（九點的客運開了。你在車上把肉粽吃完。）」、KH_MADEUP；演完 00:10 到家',iM>iS&&L[iM-2]==='杜可昕：早上那樣，對不起。'&&L[iM-1]==='祐廷：我也是。我不知道要講什麼。'&&!L.some(t=>/政大也是法律|捷運不用一個小時/.test(t))&&L.includes('杜可昕：車上吃。不要在車上難過。')&&L[L.length-1]==='（九點的客運開了。你在車上把肉粽吃完。）'&&G.flags.KH_MADEUP===true&&Math.abs(G.hour-(24+10/60))<1e-6,J([L.slice(-1),G.hour]));
     check('4 演過以後不再演（兩個版本都不演）',!EVENTS.check(ev('ev_y0_kh_bus_h'))&&!EVENTS.check(ev('ev_y0_kh_home_h')));
     G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); PHONE.answer(G,'y0_kh_ask',1); const K2=txt('p:kexin');
     check('4-1 選在家：她回「好。」、KH_GO home',K2[K2.length-1]==='kexin:好。'&&G.flags.KH_GO==='home');

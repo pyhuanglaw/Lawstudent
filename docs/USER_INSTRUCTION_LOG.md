@@ -13,6 +13,11 @@
 
 ---
 
+## 2026-10-18 12:4x UTC｜第四個帳號 D（HV-17）
+- 使用者對 LAWWW-C：「對了 我可能會開第四個帳號 你幫我把交班規則新增第四個帳號的四個角色怎麼交班」「要讓四個帳號都知道怎麼回來喔 不一定是誰交給誰 可能很隨機」。
+- 做法：A、B、C、D 四個帳號任意方向輪值；帳號 D 的工作階段 LAWWW-D、LAWWW2-D、AA-D、BB-D（AI_SESSION_HANDOFF.md 第 7.9～7.12 節）；回來一律說「我回來了，請同步 GitHub 最新進度，接續工作。」，上一任看 duty.json 登記鏈；tools/handoff/duty_state.py ACCOUNTS 加 D、duty.json accountState D＝unused。
+- 同一時段：使用者問「要不要讓每個 AI 都要交快照」——照舊四職位都要交；快照工具改成其他職位的分支沒有 tasks.json 也能直接跑（38463e8e）。
+
 ## 2026-10-17 約 12:5x UTC（使用者直接對 LAWWW-C）「我真的要去睡了，接下來就交給你囉10小時喔」
 
 - **意思**：接下來約 10 小時使用者不在；照 10:2x 那一則（一路做、協調四職位、圖片先空著、AI 之間自己決定）繼續。
@@ -1099,3 +1104,9 @@
 - 使用者原話：（貼上 LAWWW-C 列的「不會包含」四項）「這些也要包含　你就繼續做」。
 - 取代：D99 第 5 點「不屬於三個優先項目的交付只登記、不整合」——這一版的小語 3D、博雅／普通室內、總圖窗景照使用者要求整合。
 - 處理：店員 0f492509；LAWWW2 三樣整合（小語 615a3cbf、教學館室內 511f6cd6、總圖窗景 ed0196e4）；AA295 背景子代理進行中；BUG-DATE-0831 BB 重現中。
+
+## 2026-10-18 13:5x UTC｜交接規則要「機器會擋」（HV-18／D106；LAWWW-C 收到）
+- 使用者原話：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務啊？交接規則到底要怎麼寫？他們才不會還有東西沒寫」→ 選擇題選「三個都做（建議）」。
+- 原因（LAWWW-C 回報）：AA 有寫但寫成段落引述，roles 工具讀不到；只有值班 LAWWW 能寫總表，LAWWW 在忙就沒搬；LAWWW-C 回 LAWWW2「不排」沒登記暫停；HV-15 第 6 點 12:5x 才加。
+- 處理：`.claude/settings.json` UserPromptSubmit 提醒 hook（`tools/handoff/user_ask_reminder.py`）；四職位 `docs/handoff/user_asks_<職位>.json`（種子 20 筆，依 USER-WANTS-AUDIT-1018）；`check_handoff.py asks`；CLAUDE.md P0 HV-15 第 7 點、AI_SESSION_HANDOFF 第 13 節 HV-18、第 4 節第 9 步；PROJECT_DECISIONS D106；任務 USER-ASKS-HV18-1018、USER_WANTS X42。
+- 通知：其他三個職位都已交班（D75 不叫醒）；回來接班合併 RULE_SOURCE 就拿得到。

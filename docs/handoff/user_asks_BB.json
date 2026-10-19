@@ -1,0 +1,28 @@
+{
+ "role": "BB",
+ "format": "HV-18：一則使用者要求一筆；kind＝原話／選擇題答案／轉述／AI解讀（AI解讀要 confirmed:true 才算數）；status 和 USER_WANTS 那一列一樣；wants＝USER_WANTS 的列、task＝tasks.json 的任務，至少一個",
+ "note": "LAWWW-C 2026-10-18 13:5x 依 USER-WANTS-AUDIT-1018 建的種子（原文已對過）；這個職位回來合併 RULE_SOURCE 以後由自己維護，職位分支上的版本優先",
+ "asks": [
+  {
+   "id": "UA-BB-1018-01",
+   "at": "2026-10-18T10:1x",
+   "quote": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景",
+   "kind": "轉述",
+   "status": "還沒做",
+   "wants": "X37",
+   "task": "CG-NOPERSON-1018",
+   "src": "BB_00 287、311 行；BB_132 第 87 組"
+  },
+  {
+   "id": "UA-BB-1018-02",
+   "at": "2026-10-18T10:1x",
+   "quote": "（BB 的解讀）以後有人物的 CG 需求都先改純場景、先問使用者",
+   "kind": "AI解讀",
+   "confirmed": true,
+   "status": "已取消",
+   "task": "CG-NOPERSON-1018",
+   "src": "BB_00 311 行",
+   "note": "使用者 14:0x 問過：選「只有這三張（建議）」，這個擴大解讀不成立"
+  }
+ ]
+}

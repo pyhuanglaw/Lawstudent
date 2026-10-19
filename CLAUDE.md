@@ -1,6 +1,6 @@
 # CLAUDE.md — 《法條之外：台灣法律人生》接手說明
 
-> **永久啟動與回班規則（A／B／C 全職位）**：既有帳號收到使用者「我回來了，請同步 GitHub 最新進度，接續工作。」即應**自行** fetch 全部分支、`python3 tools/handoff/check_handoff.py duty find`，透過 `duty.json` 登記鏈定位最新 RULE_SOURCE，改讀該分支的 `CLAUDE.md` 與 `docs/AI_SESSION_HANDOFF.md` 第 0a／4／13 節及交班／WIP 紀錄，照十四步完成登記後再接工作。不得依照舊對話／舊版 CLAUDE.md 假定只有 A、B、假定上一任帳號、或要求使用者再次提醒規則版本。A、B、C 任何方向輪值皆一體適用；不叫醒休班帳號。
+> **永久啟動與回班規則（A／B／C／D 全職位；四個帳號任意方向輪值，誰交給誰都可以，HV-17）**：既有帳號收到使用者「我回來了，請同步 GitHub 最新進度，接續工作。」即應**自行** fetch 全部分支、`python3 tools/handoff/check_handoff.py duty find`，透過 `duty.json` 登記鏈定位最新 RULE_SOURCE，改讀該分支的 `CLAUDE.md` 與 `docs/AI_SESSION_HANDOFF.md` 第 0a／4／13 節及交班／WIP 紀錄，照十四步完成登記後再接工作。不得依照舊對話／舊版 CLAUDE.md 假定只有 A、B 或 A、B、C、假定上一任帳號、或要求使用者再次提醒規則版本。A、B、C、D 任何方向輪值皆一體適用；不叫醒休班帳號。
 
 
 ## P0 使用者要過的東西不能停在半路（HV-15／D101，2026-10-18；四職位、所有帳號、永久）
@@ -11,6 +11,11 @@
 3. 接班、發布前、使用者改優先順序時，把暫停的、停住的全部看一遍（`tools/story/check_orphans.py`），接班確認寫結果。
 4. 換分工當天，舊負責人的未完成事項逐條重新指派。
 5. 交出去不等於進遊戲：發布前跑 check_orphans、check_lines、題目漏收檢查，告訴使用者這版沒有的是哪些。
+6. **使用者直接對任何職位說的修改，不能只留在那個工作階段**（使用者 2026-10-18 12:5x：「說過要改的東西下一個帳號常常完全不知道……等於下個帳號又要重新說一次，要盡量避免」）：LAWWW2、AA、BB 收到使用者交代、還沒做完的事，**當下**寫進自己交接檔「全部待辦」並標【使用者】（附原話、時間），再通知同帳號值班中的 LAWWW；值班 LAWWW **當天**同步進 `docs/handoff/USER_WANTS.md` 和 tasks.json。交班時每個職位逐條列出「使用者說過、還沒做完的」，接班的 LAWWW 和 USER_WANTS 對過才算交接完整（任務 USER-WANTS-AUDIT-1018）。
+7. **機器會擋，不靠記得（HV-18，使用者 2026-10-18 13:5x 選「三個都做」；起因：稽核發現 12 項使用者說過的事沒進總表——AA 有寫但寫成段落引述、工具讀不到；只有 LAWWW 能寫總表、LAWWW 在忙就沒搬；LAWWW-C 回 LAWWW2「不排」卻沒登記暫停）**：
+   - **提醒 hook**：`.claude/settings.json` 的 UserPromptSubmit hook（`tools/handoff/user_ask_reminder.py`），使用者每傳一則訊息都會提醒。各職位合併 RULE_SOURCE 以後就有；已經開著的工作階段要重開或開 `/hooks` 才生效。
+   - **每職位一個使用者要求檔** `docs/handoff/user_asks_<LAWWW|LAWWW2|AA|BB>.json`（寫在自己的分支）：使用者的要求、修改、決定、選擇題答案、取消，**回覆時**一則一筆——id、at、quote（原話）、kind（原話／選擇題答案／轉述／AI解讀）、status（和 USER_WANTS 那一列一樣）、wants（USER_WANTS 的列）或 task（任務 ID）。**AI 自己擴大或推論的**寫 `kind:AI解讀`、`confirmed:false`，問過使用者才改 true。總表還沒有那一列／任務的，先通知值班 LAWWW 開，開好再填。不再用段落引述當紀錄。
+   - **每批檢查**：值班 LAWWW 每批工作結束、接班第 9 步、交班存快照前跑 `python3 tools/handoff/check_handoff.py asks`（職位分支上的檔優先，還沒建的用 RULE_SOURCE 上的種子）。沒對到總表、狀態不一樣、AI 解讀沒問過使用者＝異常；**有異常不得宣稱交接完整**。
 
 ## ⚠ 帳號 A 回來接班先讀：帳號 A 交班（2026-10-14 17:40 UTC）以後新增、修訂的永久規則（使用者 2026-10-16 要求「帳號 A 之後交班回來也要看得出這些改變」）
 
@@ -538,11 +543,11 @@ D84（LAWWW ⇄ LAWWW2 的美術派工細則）、D79（劇情先問 AA）照舊
 6. **交接紀錄**：`docs/ART_REBUILD_PROGRESS.md` 最上面的「交接（最新）」一節隨時更新：最新 SHA、分支、已完成／未完成／沒測過、下一步、需要誰協助、哪些不能合併或發布。
 7. **不要為了保存停下實際工作**：保存完立刻繼續；不要整個工作階段只剩寫日誌和 commit。只有影響對方工作或要交接時才通知其他 AI（寫明工作名稱、分支、SHA、檔案範圍、完成狀態、能不能整合、測試結果；分清楚「已保存」「已交付」「已整合」）。
 
-## 跨帳號接班（帳號 A、B、C 任意方向輪值；2026-10-11 使用者訂定 D49，2026-10-16 修訂 HV-3，2026-10-16 升級 D92／HV-10）
+## 跨帳號接班（帳號 A、B、C、D 任意方向輪值；2026-10-18 加帳號 D（HV-17）；2026-10-11 使用者訂定 D49，2026-10-16 修訂 HV-3，2026-10-16 升級 D92／HV-10）
 
 總入口：**`docs/AI_SESSION_HANDOFF.md`**（唯一值班狀態與 RULE_SOURCE、值班表、十四步接班、六類交班、三帳號啟動提示詞與帳號 C 四份、使用者換班時說的話、接班確認格式、規則變更紀錄）。**唯一的值班狀態：`docs/handoff/duty.json`**（RULE_SOURCE 分支上，只有值班的 LAWWW 寫；各職位在自己分支有 `docs/handoff/duty_<職位>.json`）。**唯一的跨帳號永久任務總表：機器讀的 `docs/handoff/tasks.json`（以它為準；跨 AI 任務有 `xai` 欄位，D84）＋閱讀版 `docs/HANDOFF_GAP_MATRIX.md`**；交付登記 `docs/handoff/deliveries.json`（記帳號、分支、commit）；交班快照 `docs/handoff/snapshots/`；工具 `tools/handoff/check_handoff.py`（`check`、`roles`（逐職位核對，D93）、`incr`（四職位水位線以後的增量核對、outbox、WIP 索引，D94；`--advance` 前進水位線）、`snapshot --account <A|B|C>`、`queue`、`duty find／plan／register／handoff／sync／verify`；D82、D92）。
-- 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 A 的工作階段不加後綴，帳號 B 叫 LAWWW-B、LAWWW2-B、AA-B、BB-B，帳號 C 叫 LAWWW-C、LAWWW2-C、AA-C、BB-C。A、B、C 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A→B、A→C、B→A、B→C、C→A、C→B 都一樣、不限次數**；換帳號不會讓任何職位的職責或未完成工作歸零（任務的 `owner` 永遠寫職位）。
-- **上一任是誰只看 GitHub 上最近一次正式有效的值班與交班紀錄（`duty.json` 的登記鏈）**：不照 A→B→C 的固定順序、不靠自己上次值班的記憶、**不看哪條分支的 commit 時間最新**。兩份紀錄互不包含（分岔）、RULE_SOURCE 對不起來、同一職位兩個帳號都在寫：**不能自己猜、不能覆寫，查不清楚就回報使用者**（`duty find`／`duty verify` 會列出來）。
+- 永遠只有四個職位：LAWWW、LAWWW2、AA、BB。帳號 A 的工作階段不加後綴，帳號 B 叫 LAWWW-B、LAWWW2-B、AA-B、BB-B，帳號 C 叫 LAWWW-C、LAWWW2-C、AA-C、BB-C，帳號 D 叫 LAWWW-D、LAWWW2-D、AA-D、BB-D。A、B、C、D 只是帳號識別：**同一職位同一時間只有一個工作階段寫入**，使用者對哪一邊說話，哪一邊就值班。**A、B、C、D 之間任何方向（A→D、D→B、C→A……）都一樣、不限次數、不照順序**；換帳號不會讓任何職位的職責或未完成工作歸零（任務的 `owner` 永遠寫職位）。
+- **上一任是誰只看 GitHub 上最近一次正式有效的值班與交班紀錄（`duty.json` 的登記鏈）**：不照 A→B→C→D 的固定順序、不靠自己上次值班的記憶、**不看哪條分支的 commit 時間最新**。兩份紀錄互不包含（分岔）、RULE_SOURCE 對不起來、同一職位兩個帳號都在寫：**不能自己猜、不能覆寫，查不清楚就回報使用者**（`duty find`／`duty verify` 會列出來）。
 - **有效規則來源（RULE_SOURCE）＝值班 LAWWW 的開發分支＝`duty.json` 的 `ruleSource.branch`**（用 `python3 tools/handoff/check_handoff.py duty find` 找；`main` 和休班帳號停住的分支上的 `CLAUDE.md` 可能是舊的）。**舊對話記憶、啟動時載入的 CLAUDE.md 都以 RULE_SOURCE 的版本為準。** 只有值班的 LAWWW 改五份永久規則檔（CLAUDE.md、AI_SESSION_HANDOFF.md、HANDOFF_GAP_MATRIX.md、PROJECT_DECISIONS.md、USER_INSTRUCTION_LOG.md）和 `docs/handoff/` 的總表、交付、`duty.json`；其他職位在自己的交接檔用任務 ID 寫狀態。
 - **使用者換班時說的話（總入口第 8 節）**：交班＝對值班帳號四個工作階段各說「**現在換班**」；接班＝第一次用的帳號貼第 7 節提示詞，用過的帳號說「**我回來了，請同步 GitHub 最新進度，接續工作。**」；上一班來不及交班時加一句「**上一班來不及交班，現在由帳號 <X> 接班。**」（這句才是 `duty register --user-ok` 的授權）。
 - **接班照總入口第 4 節十四步——先對帳，再開工**：fetch → `duty find`（RULE_SOURCE）→ 讀規則與第 13 節 → `duty plan`（上一任、要合併的分支、快照、WIP、還沒交班的職位）→ 讀上一任四職位的交接紀錄 → 讀總表與交付 → `check`（結束碼 2＝快照不見或壞掉 → `REMEDIAL_FULL_AUDIT`）→ `duty verify`（未整合、WIP、待 ACK、雙寫）→ 確認任務沒遺失（證明不了恢復待開工、沒核完寫 `AUDIT_PENDING`）→ 確認自己的職位已取得寫入權（上一任沒交班就停下來問使用者）→ 合併（不 rebase、不 force push、不 reset、不用空白分支取代原成果）→ `duty register`＋commit＋push → 回報「接班確認」→ 立刻接續。增量（D80、D82）：工具只列異常和新 commit，完整但不拖慢開發。

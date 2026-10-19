@@ -91,6 +91,18 @@ const US3=(function(){
       else if(t==='nightstand'||t==='endTable') box(f.x,f.z,0.45,0.45,0.55,0,fm); else if(t==='barStool') box(f.x,f.z,0.38,0.38,0.76,0,fm); else if(t==='deskChair') box(f.x,f.z,0.46,0.46,0.46,0,fm); } }
   function aptSeason(root){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const snow=(d.m===12&&d.d>=2)||(d.m>=1&&d.m<=3);   /* 窗外、陽台的雪：交換在大四上（2028/8/2～12/23，BB_215），初雪 12/2；1～3 月照舊（配置 season 原本是大三下的企劃）*/
     root.traverse(o=>{ if(o.name==='SEASON_SNOW_on') o.visible=snow; else if(o.name==='SEASON_SNOW_off') o.visible=!snow; }); }   /* 北邊的原版＋南邊轉過來的那一份 */
+  /* 美國篇的季節（ART-US-SEASON；日期照 AA_213）：同一個 GLB 帶四季（tools/blender/env_second/us_season.py 的約定）。
+     summer 夏末 8/2～10/8（4/16～8/1 也是）、autumn 秋天 10/9～10/31、bare 初冬 11/1～12/1（3/16～4/15 也是）、snow 雪 12/2～3/15。
+     SEASON_MATS 底下每個小三角形帶一個替換材質「<原材質名>__S_<季節>」：用原材質的網格在那一季換成它；SEASON_GEO_*（userData.seasons＝'bare,snow'…）只有那幾季看得到 */
+  function usSeasonKey(){ const G=G_(); const d=G&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day):{m:9,d:1}; const md=d.m*100+d.d;
+    return (md>=1202||md<=315)?'snow':md>=1101?'bare':md>=1009?'autumn':(md>=316&&md<=415)?'bare':'summer'; }
+  const SEA_MAT0=new WeakMap();   /* 網格原本的材質（不放 userData：clone 的時候 userData 會被 JSON 複製）*/
+  function usSeason(root){ const key=usSeasonKey(); if(root.userData.usSeason===key) return; root.userData.usSeason=key;
+    const car=root.getObjectByName('SEASON_MATS'), inCar=new Set(), sw={};
+    if(car){ car.visible=false; car.traverse(o=>{ inCar.add(o); if(!o.isMesh) return; for(const m of [].concat(o.material)){ const n=(m&&m.name)||'', i=n.lastIndexOf('__S_'); if(i<0) continue; (sw[n.slice(0,i)]||(sw[n.slice(0,i)]={}))[n.slice(i+4).split('.')[0]]=m; } }); }
+    root.traverse(o=>{ if(inCar.has(o)) return; const sv=o.userData&&o.userData.seasons; if(typeof sv==='string') o.visible=sv.split(',').includes(key);
+      if(!o.isMesh) return; if(!SEA_MAT0.has(o)) SEA_MAT0.set(o,[].concat(o.material));
+      const out=SEA_MAT0.get(o).map(m=>{ const alt=m&&sw[m.name]&&sw[m.name][key]; return alt||m; }); o.material=Array.isArray(o.material)?out:out[0]; }); }
   /* 窗外的景（停車場、對面的公寓、樹林）只做在北邊（陽台、客廳的窗）；門外的樓梯平台朝南，欄杆外面是空的（第一次遊戲內截圖：一整片橘色的背景）。
      整組轉 180° 複製到南邊（景在 z +12、地面在 y −3）*/
   /* 第二次截圖（合租戶、鏡頭在平台東端往西看）：景外面還是空白——南、西、東三面都各放三份並排（社區本來就是一排一排同樣的公寓）。
@@ -171,7 +183,7 @@ const US3=(function(){
   const US_LINK={x:-35.0,z:0,yaw:Math.PI/2};   /* 從社區入口（西邊的車道）走進來、面向東：登機抵達、從超市回來都到這裡；離「出門」3.8 m（−37.5 的時候一到就在「出門」的範圍裡）*/
   /* 戶外區域：配置的 bounds、blocks（長方形，why）、cars；正式模型 glb＋bldg.us_cars（車照配置停）。
      o.interact(E,L,IT)：這一區自己的互動點。建築本體（why 開頭是 building）＝鏡頭碰撞（加高到屋簷 6 m）＋備用模型的方塊 */
-  function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, build(E){ const L=o.layout(), B=L.bounds;
+  function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, noSkyline:o.noSkyline!==false, build(E){   /* noSkyline：不畫引擎的遠景剪影（台北的山和城市大樓；US-CAMPUS-WIRE-1018）*/ const L=o.layout(), B=L.bounds;
     const g=new THREE.Group(); const nav=new E3.NavGrid(B.x1-B.x0,B.z1-B.z0,0.5,B.x0,B.z0);
     nav.blockOutside(B.x0+0.5,B.z0+0.5,B.x1-0.5,B.z1-0.5);
     for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.5),Math.max(b.z1-b.z0,0.5),0,0);
@@ -188,10 +200,10 @@ const US3=(function(){
     const carFb=new THREE.Group(); fb.add(carFb); for(const c of (L.cars||[])){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; const m=new THREE.Mesh(new THREE.BoxGeometry(d[1],1.4,d[0]),M(c.color,{rough:0.4})); m.position.set(c.x,0.7,c.z); m.rotation.y=c.yaw; carFb.add(m); }
     o.interact(E,L,E.interactables);
     // 時間：路燈、樓梯間壁燈晚上亮；店裡的燈白天也亮一點；停著的車燈一直關著
-    let lampGlow=[], shopGlow=[]; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); setGlow(shopGlow,night(h)?1:0.55); };
+    let lampGlow=[], shopGlow=[], formalRoot=null; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); setGlow(shopGlow,night(h)?1:0.55); if(formalRoot) usSeason(formalRoot); };
     const zone={group:g,nav,spawn:Object.assign({},o.spawn(L)),lamps:[],buildings:[],applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(has(o.glb)) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.traverse(q=>{ if(q.isMesh){ q.castShadow=true; q.receiveShadow=true; if(q.material&&/asphalt/.test(q.material.name||'')&&q.material.map) q.material.map.userData.asphalt=true; } }); g.add(root);
-      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
+      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); usSeason(root); formalRoot=root; const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
       for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
@@ -205,11 +217,51 @@ const US3=(function(){
       /* 「出門」（LAWWW-C 的最小可玩流程：外出 → 回公寓睡覺）：usGoOut＝交換系統可以攔下來換成自己的外出；現在去超市（BB_215：超市一定要、主街不需要；
          真的要搭公車，公車站先不做 3D）*/
       IT.push({x:X.x+1.2,z:X.z,radius:X.r,lv:0,label:'出門（去超市）',usGoOut:true,exit:{to:'us_market',spawn:Object.assign({},US_MARKET_LAYOUT.spawn)}});
+      /* 搭公車去學校（US-CAMPUS-WIRE-1018）：社區出口旁邊（和「出門（去超市）」相距 3.6 m、範圍不重疊）→ 美國校園的公車站；usBus＝交換系統可以攔下來換成自己的字卡、時間 */
+      if(typeof US_CAMPUS_LAYOUT!=='undefined') IT.push({x:X.x+1.2,z:X.z-3.6,radius:1.2,lv:0,label:'搭公車（去學校）',usBus:'campus',exit:{to:'us_campus',spawn:Object.assign({},US_CAMPUS_LAYOUT.spawn_bus)}});
       for(const p of L.props){ if(p.type==='mailboxes') IT.push({x:p.x,z:p.z+1.1,radius:1.0,lv:0,label:'看信箱',look:lookText('社區的集中信箱。')}); }
       /* C 棟 208（學姊她們那一戶）：樓梯口上樓。什麼時候可以去（US2 9/13 被叫去吃泡麵……）由交換系統決定（usShared＝攔下來換成自己的演出）*/
       IT.push({x:C208.foot.x,z:C208.foot.z,radius:C208.foot.r,lv:0,label:'上樓（C 棟 208）',usShared:'door',exit:{to:'us_shared',spawn:Object.assign({},US_SHARED_LAYOUT.spawns.fromOutside)}});
       /* 會所（社區辦公室＋交誼廳；BB_215「社區走到會所門口」）：停車場南邊、門廊下。裡面不做 3D（會所的晚餐是 2D）；usClub＝交換系統可以攔下來換成自己的演出 */
       if(L.clubhouse){ const D=L.clubhouse.door; IT.push({x:D.x,z:D.z,radius:D.r,lv:0,label:D.label,usClub:'door',look:lookText('社區的會所：辦公室和交誼廳。')}); } } });
+  // =================== 美國校園 us_campus（法學院前的人行道、公車站、校門；SCN-US-02 v3；US-CAMPUS-WIRE-1018）===================
+  /* 公車站（從社區搭公車來）→ 法學院前的人行道 → 台階下「進教室」「進圖書館」；校門「往活動中心」這一版關著。
+     老校區、樹林、對面的房子都是背景（走不到，配置的 blocks 擋住）。正式模型 bldg.us_campus（tools/blender/env_second/us_campus.py，配置同一份；四季照 usSeason）。
+     進教室：usClass＝交換系統接（美國的課是 2D 課堂，下課回到 spawn_class_out）；沒有接的時候只說一句 */
+  const LOOK_CAMPUS={class:'教室在台階上去的走廊裡。',gate:'往活動中心的路。這一版還沒開放。'};
+  const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
+    interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
+        if(q.id==='bus') it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)};                                         /* 回社區的入口（和登機抵達、從超市回來同一個點）*/
+        else if(q.id==='library') it.exit={to:'us_lawlib',spawn:Object.assign({},US_LAWLIB_LAYOUT.spawn)};
+        else if(q.id==='class'){ it.usClass='law'; it.look=lookText(LOOK_CAMPUS.class); }
+        else if(q.id==='gate'){ it.usGate='union'; it.look=lookText(LOOK_CAMPUS.gate); }
+        else it.look=lookText(q.label+'。');
+        IT.push(it); } } });
+  // =================== 法學院圖書館 us_lawlib（SCN-US-LIB；US-CAMPUS-WIRE-1018）===================
+  /* 一樓：大門、服務台、中庭長桌（坐下可以讀書）、窗前短桌、圓桌、軟椅；樓上書庫這一版關著（樓梯口紅絨繩）。
+     正式模型 bldg.us_lawlib（tools/blender/env_second/us_lawlib.py，配置同一份）。一樓走廊的天花板（樓板底）4.2 m：鏡頭在這下面（camDist 5）；四面牆各自淡出（WALL_<面>_*）*/
+  const LOOK_LIB={desk:'服務台。',stair_rope:'樓梯口拉著紅絨繩，上不去。',window:'彩色玻璃窗。',stacks:'書架。',catalog:'查詢電腦。'};
+  const us_lawlib={ id:'us_lawlib', name:'法學院圖書館（美國）', indoor:true, camDist:US_LAWLIB_LAYOUT.cam_dist||5.0, build(E){ const L=US_LAWLIB_LAYOUT, Bd=L.bounds, H=4.2;
+    const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;   /* 鏡頭可以退到牆外 1.5 m（牆淡出），不會卡在牆面上 */
+    const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#e9e3d4',floorTex:W3.stoneTex('#5f7f93'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
+    const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
+    for(const w of z.walls) w.visible=false; z.walls.length=0;
+    const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
+    for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
+    nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
+    // 備用模型：地板、桌子、書架、服務台的方塊
+    plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#5f7f93'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/stacks|column|stair/.test(b.why)?2.2:(/desk|catalog/.test(b.why)?1.0:0.75); const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
+    const lamps=[]; for(const [x,zz] of [[-8,-5],[8,-5],[-8,5],[8,5],[0,0]]){ const l=new THREE.PointLight(0xffefd6,3,14,2); l.position.set(x,H-0.5,zz); l.userData.on=6; l.userData.off=3.5; g0.add(l); lamps.push(l); }
+    let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+    const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };   /* 檯燈、嵌燈整天都亮 */
+    const IT=E.interactables; z.seats=[];
+    for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st);   /* ap：椅子後面是方柱的那一張，走近點另外給（配置算好的）*/ IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st},s.kind==='lounge'?{label:'坐在軟椅上'}:{label:'坐下來讀書',study:true})); }   /* study：坐下的選單有「讀書」（和總圖一樣）*/
+    for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usLib:q.id,look:lookText(LOOK_LIB[q.id]||q.label+'。')});
+    for(const X of L.exits){ const sp=Object.assign({},(X.to==='us_campus'&&US_CAMPUS_LAYOUT[X.spawn])||US_CAMPUS_LAYOUT.spawn_library_out); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
+    z.formal=false; if(has('bldg.us_lawlib')) ASSETS.loadOne('bldg.us_lawlib').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+      root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
+      glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('法學院圖書館正式模型載入失敗，用程序化備用模型',e));
+    return z; } };
   // =================== 超市 us_market（草原超市 Prairie Basket；US1 抵達那天、之後的日常採買）===================
   const AISLE_ZH={cereal:'早餐穀片',snacks:'零食',drinks:'飲料',canned:'罐頭',pasta:'義大利麵、米',baking:'烘焙材料',household:'日用品',personal:'清潔、個人用品'};
   const us_market={ id:'us_market', name:'草原超市（美國）', indoor:true, camDist:5.0, build(E){ const L=US_MARKET_LAYOUT, Bd=L.bounds, H=L.h||6.4;
@@ -322,11 +374,11 @@ const US3=(function(){
   demoButton();
   /* 各區域的出生點（給交換系統：src/exchange3d.js 的 S.SPAWN 用這幾個，臨時場景的 (0,5)、(0,4)、(0,2) 在正式區域裡是服務台旁、停車格、洗衣機櫃）*/
   const SPAWN={ airport_dep:Object.assign({},AP().dep.spawn_curb), airport_arr:Object.assign({},AP().arr.spawn_customs), us_outside:Object.assign({},US_LINK),
-    us_apartment:Object.assign({},APT().spawns.fromOutside), us_apartment_bed:Object.assign({},APT().spawns.bedroom), us_market:Object.assign({},US_MARKET_LAYOUT.spawn), us_shared:Object.assign({},US_SHARED_LAYOUT.spawns.fromOutside), us_shared_kitchen:Object.assign({},US_SHARED_LAYOUT.spawns.kitchen), us_asian_market:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn) };
+    us_apartment:Object.assign({},APT().spawns.fromOutside), us_apartment_bed:Object.assign({},APT().spawns.bedroom), us_market:Object.assign({},US_MARKET_LAYOUT.spawn), us_shared:Object.assign({},US_SHARED_LAYOUT.spawns.fromOutside), us_shared_kitchen:Object.assign({},US_SHARED_LAYOUT.spawns.kitchen), us_asian_market:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn), us_campus:Object.assign({},US_CAMPUS_LAYOUT.spawn_bus), us_campus_class_out:Object.assign({},US_CAMPUS_LAYOUT.spawn_class_out), us_lawlib:Object.assign({},US_LAWLIB_LAYOUT.spawn) };   /* 美國校園：公車到站、下課從法學院出來；法學院圖書館：從門進來 */
   if(US_COMMUNITY_LAYOUT.clubhouse){ const D=US_COMMUNITY_LAYOUT.clubhouse.door; SPAWN.us_clubhouse={x:D.x,z:+(D.z-1.5).toFixed(2),yaw:Math.PI}; }   /* 會所門口的走道上、面向停車場（會所裡的 2D 演完回到社區站這裡）*/
   for(const k in SPAWN) delete SPAWN[k].note;
   /* 交換系統（LAWWW-C 的 src/exchange3d.js，比這個檔先載入）：出發、登機抵達、睡醒、凌晨走回公寓、手機「地點」都讀 EXCH.SPAWN（LAWWW-C 21:13 的介面）*/
   if(typeof EXCH!=='undefined'&&EXCH.SPAWN) Object.assign(EXCH.SPAWN,{airport_dep:Object.assign({},SPAWN.airport_dep),us_outside:Object.assign({},SPAWN.us_outside),us_apartment:Object.assign({},SPAWN.us_apartment_bed)});
-  return {us_apartment,us_shared,us_outside,us_market,us_asian_market,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
+  return {usSeasonKey,usSeason,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
 })();
-Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;
+Z3.ZONES.us_campus=US3.us_campus; Z3.ZONES.us_lawlib=US3.us_lawlib; Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;

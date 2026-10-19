@@ -23,11 +23,19 @@ class Touch:
         await s.cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': x, 'y': y}]})
         await s.pg.wait_for_timeout(70)
         await s.cdp.send('Input.dispatchTouchEvent', {'type': 'touchEnd', 'touchPoints': []})
-    async def tap_el(s, sel, nth=0):
+    async def phone_away(s):
+        """要回覆的訊息到了，手機會自己打開、遊戲暫停（D103，v9.10.1 起）：像玩家一樣點「收起來」再繼續（REL-9101-POSTCHECK-1018：原本手機跳出來以後整支測試都不動）"""
+        for i in range(3):
+            if not await s.pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): return
+            print('  [玩家操作] 手機自己打開了（要回的訊息）→ 點「收起來」')
+            await s.tap_el('#btnPhoneClose', away=False); await s.pg.wait_for_timeout(500)
+    async def tap_el(s, sel, nth=0, away=True):
+        if away: await s.phone_away()
         r = await s.pg.evaluate("([sel,n])=>{ const els=[...document.querySelectorAll(sel)].filter(e=>{ const r=e.getBoundingClientRect(); return r.width>0&&r.height>0&&getComputedStyle(e).visibility!=='hidden'; }); const e=els[n]; if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; }", [sel, nth])
         if not r: return False
         await s.tap(r[0], r[1]); return True
     async def joy(s, dx, dy, ms):
+        await s.phone_away()
         jx, jy = await s.pg.evaluate("(()=>{ const r=document.getElementById('joy').getBoundingClientRect(); return [r.left+r.width/2, r.top+r.height/2]; })()")
         await s.cdp.send('Input.dispatchTouchEvent', {'type': 'touchStart', 'touchPoints': [{'x': jx, 'y': jy}]})
         for i in range(max(3, ms // 80)):
@@ -53,7 +61,7 @@ async def walk_to(pg, t, x, z, label, tol=1.3, max_s=150):
         sx, sy, sz = await screen_of(pg, x, z)
         W, H = await pg.evaluate("[innerWidth,innerHeight]")
         if 0 < sx < W and 140 < sy < H - 200 and sz < 1:
-            await t.tap(sx, sy); await pg.wait_for_timeout(2200)
+            await t.phone_away(); await t.tap(sx, sy); await pg.wait_for_timeout(2200)
         else:
             # 搖桿：像玩家一樣看畫面推——目標在鏡頭的右邊就往右推、在前面就往上推。鏡頭在玩家的 (sin yaw, cos yaw) 那一側，
             # 畫面的「前」＝(-sin yaw,-cos yaw)、「右」＝(cos yaw,-sin yaw)；搖桿 x＝目標方向·右、y＝−目標方向·前

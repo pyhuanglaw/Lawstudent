@@ -26,38 +26,26 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 07:4x UTC 預先寫好（使用者 07:1x：「中間應該會換帳號做……我這個帳號每週使用量到 85%，大概兩小時」）
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:3x UTC 第三次正式交班
 
-使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+使用者 22:4x：「訊息這邊做好 就可以交班」→ 22:5x 交班；使用者 23:0x：「但我的意思是你把它做完才交班」→ **23:0x 重新值班**（duty seq 13），把訊息做完、用到手機的流程測試全部跑過才交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x「其他帳號先不用回來，你先自己修」）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0、0a 節。**
 
-**A｜本班成果（10-18 05:1x 發布 v9.10 以後，全部在開發分支、都還沒發布）**
-- 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE-1018）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP-1018：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU-1018）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT-1018、UX-Y0-NO-NTU-1018）、捷運直達花蓮（UX-MRT-FAR-1018）、換場景前一段的立繪留著（BUG-ADV-LINGER-1018）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG-1018）、在家不能存檔（UX-HOME-SAVE-1018）、約可昕出門一直跳「會錯過十點」（重考期在家選單）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN-1018，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE-1018，X24）。
-- 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2-1018：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER-1018：AA_297 retake_home 30 短＋12 長）。
-- AA 交付整合：AA_293（可昕交往前 T1～T6、劇社拿掉、系烤伏筆、聚會後她留下來、E10 23:45、保齡球搬 9/13、醉月湖說破）、E27 當面講休學原因、跨年改市府站、除夕選項、比誰早起；階梯白名單換 9fecc202（Y0S1 等 AA 補 KX0_EGG／KX0_SHOP 記憶名稱表）。
-- 07:3x 以後：「略過對話」按得到而且真的略過（BUG-ADV-SKIP-1018）、祐廷說話時台上立繪全暗（BUG-ADV-SPEAKER-DIM-1018）、臺北的家換成使用者生的三房兩廳 11 張並照時段換（BG-HOME-1018）、在家藏起 3D 畫面（BUG-HOME-CAMPUS-BG-1018）。
-- 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
-- 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
+**A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
+- **手機訊息照 LINE 做完**（PHONE-LINE-UI-1018，USER_WANTS X50）：自動跳出來先停在列表（使用者選 B）；每列頭像（那個人的立繪裁臉，群組、通知、沒有立繪的用字）、名字、最新一句、時間、未讀、「待回覆」；點進去從最新一句開始、往上滑看舊的、表頭固定；別人說的靠左、自己說的靠右；列表上方沒有待回覆區塊（使用者選 A）。`e88246af`（第二班 `3b2f2618`、`f4a5755f`）；直向橫向截圖 `shots/phone_line_*.png`。
+- **用到手機的流程測試全部跟上、跑過**（遊戲沒改，測試照手機自動跳出來 D103 和 LINE 列表改）：flow_termend 12/12、flow_v0_home 8/8（新遊戲到 8/29 進法律系，跳日期途中手機跳出來 50 次都按「跳過」繼續）、flow_typhoon、flow_invite_phone ALL PASS；flow_discuss_class 9/9 ALL PASS（第一次跑抓到翹課轉述的 bug、修好；第二次是測試抓到打字中的半句、改成記整句）；flow_vac_hometown ALL PASS。
+- **翹課的群組轉述又收得到**（BUG-SKIPNOTE-SCENE-1019，`7fa05797`）：flow_discuss_class 抓到——10/16 加的「同學要真的在教室才有反應句」也擋到下課後的群組轉述（說的人不在玩家身邊就不發）；轉述改成不看，課堂上的反應句照舊；discuss_unit 加一項（修改前 FAIL）。
+- node 單元測試 302 支：300 過；rel_feel、reload_resume 比對原始碼的寫法跟上前兩班的程式後過（`c6fd22fe`）；bg_images 第 1 項＝經濟系四張背景等使用者生圖（BG-ECON-B1-1018，預期）。
+- 第二班的成果照舊（v9.10.1 發布後檢查結案、高雄閃家裡、卡住紀錄、duty verify 修好），見第 11 節第一則。
 
-**B｜全部未完成（要先看的）**（2026-10-18 11:4x 更新；開發分支最新 `cd2453bb`，node 單元測試 299 支全過）
-- **11:4x**：階梯 y0s1 換 6b01c841（經濟系大一上五個人問完：可昕 13、品妤 6、唐睿 4、阿勳 6、韋綸 7）；BUG-E12-ARRIVE-LATE-1018 已修（f483c2a9，BB 重看中）；BB QA-AA300 第一輪 5e634610 全程 14.5 分鐘、卡住 0、例外 0，接著跑 KH_GO=home；LAWWW2 交 ART-US-SEASON（407ec3f5）、SCN-US-IU-1018 完成，現在做 BUG-COPLANAR-DEV → ART-CH-PINYU。
-- **11:3x**：AA306-KX-LADDER-1018 已整合待測試（ded5da04：可昕經濟系階梯 13／4 層；重考期讀書在你房間的書桌——R1、R5、R2、同一張桌子、在家背景）；retake_home 讀書那 8 處等 AA 下一班改。
-- **11:1x 最新**：AA305-OTHERS-1018 進行中（第 5～7、10 節＋階梯 bd64f560 已做：休學只告訴可昕、10/29 小福 ev_y0_xiaofu、退宿 10/31、便利貼在最後一箱；第 1～4、8、9 節台詞 419b1298 已合併（c5e8695a）；4 處小地方問 AA：12/31 兩句同開頭、旁白括號、法律系兩句像冷笑話、Y0S2 阿勳冷笑話招呼）。
-- **10:4x 最新**：AA303-KX-RECONFIRM-1018 進行中（停點 27 場、日期卡 18 句、高雄三天兩夜＋BB 兩張背景、第 2 節十場台詞 85eea326 都已接；等 AA 的 retake_home C0／C4／L6＋RH-M0、E27 遲到電話新句、換完還對不上的 6 處）；AA304-QA2-1018 進行中（12 列裡 10 列已做：5bf15ccb、4e5d4bec；第 11 列等 retake_home、第 8、9 列等使用者）；階梯 Y0S1 已重匯（白名單 8fcc2c7e）；LAWWW2 SCN-US-02 v3（90c2896e）已登記、v9.10.1 發布後接。node 單元測試 299 支全過（4e5d4bec）。
-- **第一項（使用者最在意）AA300-ECON30-1018 已整合待測試**（52bf3f16、c5e312fe）：經濟系只停 29 場、日期卡 22 句、重考期短場景關、手機「跳過」、新遊戲按鈕。**BB 瀏覽器實測 QA-AA300-1018 進行中**；Q-AA300-INVITES-1018（不在 29 場的邀約私訊還會問）等 AA 回表。
-- 本班已整合待測試（等 BB）：AA298-RETAKE-FIX-1018、Q-E36-CALL-1018（含 AA_298 第 10 節 d781b840）、KX-INVITE-LAW-1018、MSG-KX-Y0-1018（AA_301）、AA296-KXCALL-1018、BG-CAMP-1018、BUG-HOME-BIKE-HINT-1018、BUG-ECON-FRIENDS-1018、DORM-AFTER-MOVEOUT-1018。
-- **AA295-KX-NOHYPO-1018 已整合待測試**（faf3a8ea，子代理 4bc3fab5 併入；全部 node 單元測試過）；表外兩句（K7 票根禮物的反應）等 AA 寫。AA_302 劇本審閱 11 列已做（cb968a74），第 10 列等 AA 的 KX0_EGG／KX0_SHOP 名稱。
-- P0：QA-PLAYTHROUGH-1018（BB 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 探測在背景：scratchpad ff6/，跑完轉 docs/qa/econ_transcript_*.md 給 AA；scratchpad 交班不會留，下一班重跑 `tests/econ_ff_probe1.py`、`econ_ff_probe2.py`）。
-- 待開工：BUG-DATE-0831-1018（BB 重現中；已知部分見 tasks.json）、BUG-NO-CLERK-1018、AA294-SKIPCLASS-1018、Y0S1 階梯（等 AA 名稱表）、AA299 圖。
-- **使用者 09:0x：v9.10.1 也要包含** AA295-KX-NOHYPO-1018、BUG-DATE-0831-1018、BUG-NO-CLERK-1018（已整合 0f492509）、LAWWW2 三樣 ART-YU-3D-1018／ART-EXT-TEACH／ART-LIB-VIEW-1018（已整合 72287f55）。
-- v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。**發布條件**：BB 四種玩法＋AA 讀劇本兩關都過、跑 docs/TESTING.md 第五節。
+**B｜全部未完成**：TEST_RESULTS_1018.md 第 0 節「下一班第一件事」、第 2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①v9.10.2 候選在瀏覽器走 TEST_RESULTS 第 3 節剩下的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完直接接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪），再照 TESTING 第五節發 v9.10.2 ②保齡球、搬家卡住：等使用者在 v9.10.2 上傳有 `_stuck` 的存檔 ③給 AA、BB 的照舊（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）④等使用者的圖（經濟系四張背景、系烤 CG）。
 
-**C｜正在做的**：背景瀏覽器探測（scratchpad qa3/，2fb3e5a5，AA_305 以前的版本）；等 BB 的 QA-AA300-1018（5e634610 開跑）；等 AA 句子（retake_home、6 處矛盾、K7 兩句、AA_305 的 4 處）。
+**C｜正在做的**：沒有（背景測試都跑完）。
 
-**D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS-1018）使用者說先不要決定、要方案。
+**D｜本班新的使用者決策**：22:5x 選 A：訊息列表上方不要「待回覆」區塊（UA-LAWWW-1018-45）；23:0x「但我的意思是你把它做完才交班」（UA-LAWWW-1018-46）。
 
-**E｜跨 AI**：AA-C：AA_305、AA_306 已交並整合；待交 retake_home（C0／C4／L6、RH-M0、6/24「她」、讀書在書桌 8 處）、E27 遲到電話、6 處矛盾句、K7 兩句、AA_305 4 處、10/16 日期卡「隔天晚上」；BB-C：QA-AA300 第一輪過、重看 11/6＋KH_GO=home；LAWWW2-C：BUG-COPLANAR-DEV → ART-CH-PINYU（美國篇四季、IU 校園都交了，v9.10.1 後接）。
+**E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
 
-**F｜測試**：本班改的都有 node 單元測試（econ_ff、econ_ff2、exit_ring、anon_dedup、kexin_model、phone_auto、各 v0／lifeline 換字）；瀏覽器只跑過經濟系第一階段全程和第二階段探測。**沒有跑發布前清單**（docs/TESTING.md 第五節），v9.10.1 發布前要跑；auto-open 手機可能讓舊的瀏覽器流程測試遇到要回訊息時多一個手機畫面，要確認。
+**F｜測試**：TEST_RESULTS 第 0a 節表格；紀錄 `tests/repro_1018/logs/phone_line_*.log`。turn_check：回合 406 個、超過上限 66 個；本班超過的一個是 10-19 00:4x 接續摘要後那一回合（7 分鐘、68 次工具：改測試、查其他碰到手機的測試、跑單元測試一起做）——改法：背景測試一開跑就結束回合，查別的放下一回合。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -333,6 +321,95 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+- **（2026-10-19 C 帳號第三次交班前的第 1 節原文：22:5x 第二次交班）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 22:5x UTC 第二次正式交班
+
+  使用者 22:4x：「訊息這邊做好 就可以交班」。這一班是 21:3x 回來接班（上一任＝LAWWW-C 自己 14:51 交班，中間沒有人值班）；使用者 21:4x：「其他帳號先不用回來，你先自己修」——**AA-C、BB-C、LAWWW2-C 一直是交班狀態**（`duty verify` 異常 2 的三項就是這個）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0 節。**
+
+  **A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
+  - **v9.10.1 發布後檢查結案**（REL-9101-POSTCHECK-1018）：失敗是測試沒處理要回覆的訊息自動打開手機（遊戲暫停），兩版一模一樣；改測試後 minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real 對 v9.10.1 `4c0cbefc` 和開發分支 ALL PASS（docs/RELEASES.md v9.10.1）。
+  - **從高雄回來閃出臺北的家修好**（BUG-KH-HOMEFLASH-1018，`2ad61c5f`）：住家裡時 3D 底下鋪的圖跟著 2D 的背景（tests/home_backdrop_unit.js，舊程式 5 FAIL）。
+  - **手機訊息照 LINE＋使用者選 B**（PHONE-LINE-UI-1018，`3b2f2618`、`f4a5755f`）：自動跳出來先停在列表；每列頭像字、名字、最新一句、時間、未讀、待回覆；點進去從最新一句開始、往上滑看舊的、表頭固定；直向橫向截圖 `shots/phone_line_*.png`。
+  - **卡住紀錄**（`d3643e46`）：卡住 10 秒時存「哪一段沒結束」到瀏覽器 `fatiao3d_stuck`，匯出存檔帶 `_stuck`；stale_lock_escape PASS。搬家卡住在 v9.10.1 重現兩次沒卡住（加速＋一般速度照使用者選擇），腳本在 tests/repro_1018/。
+  - duty verify 同帳號回來誤報修好（`7c7363b3`，handoff_duty_sim 20/20）；USER_WANTS J10 補負責人。
+
+  **B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①~~問使用者要不要保留訊息列表上方的待回覆區塊~~（使用者 22:5x 選 A：不要、照現在，UA-LAWWW-1018-45）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
+
+  **C｜正在做的**：沒有（背景工作都跑完了）。
+
+  **D｜本班新的使用者決策**：21:4x 其他帳號先不用回來、LAWWW 自己修（UA-LAWWW-1018-41）；22:4x 手機自動跳出來選 B＋LINE 的預覽與捲動（UA-LAWWW-1018-42）；22:4x 訊息做好就交班（UA-LAWWW-1018-44）。
+
+  **E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
+
+  **F｜測試**：見 TEST_RESULTS 第 0 節表格；node 單元測試：home_backdrop、phone_line_list、phone_auto（改成開列表）、v0_kxphone、v3_phone_small、econ_ff、econ_ff2、v0_home_ff、home_unit 全過。
+
+- **（2026-10-18 22:5x C 帳號第二次交班前的第 1 節原文：14:5x 第一次交班）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 14:5x UTC 正式交班
+
+  使用者 14:4x：「還沒沒有做完的事情就登記好之後 交班 測試的結果都要留下來讓接班的人可以直接開始修」。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**AA-C、BB-C、LAWWW2-C 已先交班**。細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+
+  **★ 下一班 LAWWW 第一件事：`docs/handoff/TEST_RESULTS_1018.md`**（測試結果原文、重現腳本 `tests/repro_1018/`、建議第一步）：
+  1. **REL-9101-POSTCHECK-1018（P0）**：v9.10.1 發布後檢查，minimap_direction 3 FAIL、touch_flow_wenzhou 11 FAIL、p0_movement 26 FAIL（搖桿、拖曳、點地面在測試裡完全不動；v9.10 發布前 feb2bc37 ALL PASS）。先二分（8c63ea53 ↔ f4b47480），查是測試狀態（自動打開的手機？）還是遊戲真的擋輸入。
+  2. **BUG-MOVEOUT-STUCK-1018（P0）**：搬回家那段問完以後回到宿舍 3D 卡住、沒有劇情也沒有按鈕。
+  3. **BUG-BOWL-STUCK-1018（P0）**：保底 a0926112 已做；四次重現都沒卡住；使用者存檔在 tests/repro_1018/。
+  4. 修好以後出 v9.10.2（候選清單見 TEST_RESULTS 第 5 節，一定要帶 a0926112）；發布前跑 docs/TESTING.md 第五節＋HV-15 第 5 點。
+
+  **A｜本班成果（v9.10.1 發布 12:1x 以後，全部在開發分支、都還沒發布）**
+  - 劇情鎖住的保底（a0926112）：除錯面板寫出是誰開的那一段；鎖住 10 秒、畫面上什麼都沒在演，選單的讀取／回標題不再被擋（使用者「卡住要讀檔說現在有劇情不能讀」）。經濟系跳日期期間鎖住、跳完放開（5a351d1b）。
+  - 經濟系：拉花那段吧檯只留芷若、店員用芷若立繪（2e28928c、09ff80aa）；休學電話講完不回咖啡店（2e28928c，E30 接下一段）；可昕階梯 K0-Lx2 拿掉；跨年／高雄回來／出家門不再露出醉月湖（fa03d80d、2af6c40d）；一層樓的家「下樓」改字；在家講電話用家裡背景、四張新背景代號先接好（df06fdc8）；快轉收到訊息就停、按跳過繼續（b0b5d954）；可昕表情照台詞標記；衝刺班「她已經不笑了」拿掉。
+  - 手機直向 ADV 只顯示說話的人、旁白變暗（4a03aadf）；自動跳出的手機對話捲到最新（fa03d80d）。
+  - 宿營 Kevin 立繪位置接好（f09cf0e7，圖還沒有）。美國校園、法學院圖書館、四季（d3fdab82）。AA_307 句子、階梯最終版＋retake_home（a60f111e、5ac83dbc）。
+  - 交接制度 HV-18（使用者「交接規則到底要怎麼寫他們才不會還有東西沒寫」，選「三個都做」）：每個職位的使用者要求當下寫進 `docs/handoff/user_asks_<職位>.json`、`.claude/settings.json` 的 UserPromptSubmit 提醒、`check_handoff.py asks`；D105（使用者的決定用選擇題問）、D106。
+  - 黑畫面盤點 `docs/handoff/BLACK_BG_AUDIT_1018.md`（31 段，`node tools/story/black_bg_audit.js --md` 重產）。
+
+  **B｜全部未完成**：見 TEST_RESULTS_1018.md 第 1、2、4 節；USER_WANTS.md X31～X63；`check_handoff.py queue --owner LAWWW`。給 AA 的（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE、ECON-TERM-END-CUE、KH-RETAKE-PACING、CRAM-LEAVE-LAUGH、KH-SCORE-TIMING、KX-EXPR、HOME-ONEFLOOR 確認、AA-LAW-RECONFIRM）、給 BB 的（BLACK-BG-AUDIT、CAMP-PORTRAITS：Kevin「潮流大哥型」提示詞、CG-NOPERSON、TEST_RESULTS 第 3 節的瀏覽器驗證）都在總表。等使用者的圖：BG-ECON-B1-1018（四張背景）、CG-ECON-BBQ-1018（使用者說先記錄、之後帳號補）。
+
+  **C｜正在做的**：沒有在跑的背景工作。保齡球根本原因、搬家卡住、高雄閃家裡、發布後測試失敗都停在「待開工／查到一半」，狀態在 TEST_RESULTS。
+
+  **D｜本班新的使用者決策**：HV-18、D105、D106；K0-Lx2 整段拿掉；E30 講完回臺北的家跟媽媽說；Kevin 外型潮流大哥型；CG 只有那三張、日本全 2D、美國市場做停車場和馬路；烤肉 CG 生一張新的（先記錄、之後補）。
+
+  **E｜跨 AI**：AA-C、BB-C、LAWWW2-C 都已交班；本班沒有傳訊息給休班帳號（D75）。給 AA、BB 的工作都寫在總表與 USER_WANTS。
+
+  **F｜測試**：TEST_RESULTS_1018.md 第 1、3 節（v9.10.1 發布後檢查、stale_lock_escape 新 PASS 舊 FAIL、econ_ff ⑧、node 單元測試全過、還沒瀏覽器驗證的清單）。
+
+- **（2026-10-18 14:5x C 帳號正式交班前的第 1 節原文：C 帳號 07:4x 預寫）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 07:4x UTC 預先寫好（使用者 07:1x：「中間應該會換帳號做……我這個帳號每週使用量到 85%，大概兩小時」）
+
+  使用者說「現在換班」時照 AI_SESSION_HANDOFF.md 第 5 節：更新本節最後 SHA、跑 `check_handoff.py snapshot --role LAWWW --account C`、`duty handoff`。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；細目一律看 `docs/handoff/tasks.json` 各任務的 `next`。
+
+  **A｜本班成果（10-18 05:1x 發布 v9.10 以後，全部在開發分支、都還沒發布）**
+  - 使用者 10-18 實玩 v9.10 抓到的：可昕 3D 是路人男生（BUG-KX-MALE-1018）、經濟系睡覺一路睡到休學（BUG-ECON-SLEEPSKIP-1018：事件模式睡覺／快轉＝跳到下一個事件）、可昕顯示在政大（BUG-KX-NCCU-1018）、退宿後還能去宿舍／去台大（BUG-DORM-AFTER-MOVEOUT-1018、UX-Y0-NO-NTU-1018）、捷運直達花蓮（UX-MRT-FAR-1018）、換場景前一段的立繪留著（BUG-ADV-LINGER-1018）、在家轉場露出椰林大道（BUG-HOME-CAMPUS-BG-1018）、在家不能存檔（UX-HOME-SAVE-1018）、約可昕出門一直跳「會錯過十點」（重考期在家選單）、要回覆的訊息自動打開手機（UX-PHONE-AUTOOPEN-1018，D103）、開局二選一經濟系前傳／直接法律系（UX-START-CHOICE-1018，X24）。
+  - 經濟系事件接事件：第一階段延到 10/19 退宿（瀏覽器 9/2→10/17 走完、18 個事件、沒有錯誤）；**第二階段休學在家 10/19→8/29**（ECON-FF-PHASE2-1018：在家選單收起來、出遊自動出發、校園事件帶過去演完回家）；**重考期可昕住在家裡的日常**（RT-TOGETHER-1018：AA_297 retake_home 30 短＋12 長）。
+  - AA 交付整合：AA_293（可昕交往前 T1～T6、劇社拿掉、系烤伏筆、聚會後她留下來、E10 23:45、保齡球搬 9/13、醉月湖說破）、E27 當面講休學原因、跨年改市府站、除夕選項、比誰早起；階梯白名單換 9fecc202（Y0S1 等 AA 補 KX0_EGG／KX0_SHOP 記憶名稱表）。
+  - 07:3x 以後：「略過對話」按得到而且真的略過（BUG-ADV-SKIP-1018）、祐廷說話時台上立繪全暗（BUG-ADV-SPEAKER-DIM-1018）、臺北的家換成使用者生的三房兩廳 11 張並照時段換（BG-HOME-1018）、在家藏起 3D 畫面（BUG-HOME-CAMPUS-BG-1018）。
+  - 其他：路人旁邊不再一模一樣（BUG-NPC-DUP-1018）、室內出口地上光圈（UX-EXIT-MARK-1018）、博雅 101 門口不再疊成一團（BUG-CLASS-CLUMP-1018）、坐著的替身禿頭／臉白（ART-SEATFIG-1018，LAWWW2 e315997b）、除夕背景換使用者生的手繪版（BG-HOME-1018 第 1 張）。
+  - 永久規則：D103 重要劇情不能只用手機交代（使用者「我根本不會看手機」）；QA 發布條件（X29：BB 四種玩家玩法從頭玩＋劇本給 AA 讀，兩關都過才發 v9.10.1）。
+
+  **B｜全部未完成（要先看的）**
+  - **★ 下一班第一件事（使用者 10-18 12:5x P0）USER-WANTS-AUDIT-1018**：把 AA、BB、LAWWW2 紀錄裡「使用者說過要改、還沒做完」的事全部補進 USER_WANTS.md／tasks.json（LAWWW-C 子代理在查；結果沒寫進來就重做）。另外：HV-17 帳號 D 已加（4ad87fc0）。
+  （2026-10-18 12:3x 更新；開發分支最新 `ec2d80a1`，node 單元測試 299 支全過）
+  - **12:3x 發布以後（v9.10.2 候選，還沒發布）**：AA_307 句子 a60f111e、階梯最終版＋retake_home（RH-M0）5ac83dbc 已接；LAWWW2 US-CAMPUS-WIRE（4cee25c8，先套 us_season.diff）等接。v9.10.1 發布後檢查：deploy_check、reachability_all ALL PASS，其餘六支跑中（scratchpad post/summary.txt；交班時沒跑完就下一班重跑 TESTING 第五節）。BB-C 已收尾（b38b2b81）、AA-C 已交班（8c816da4，duty sync ad6b9a73）。**交接核對**：`check` OK、`roles` OK（18d52389 處理完 12 項子項編號）；`incr` 異常 223 項、水位線不前進——幾乎都是 LAWWW2、BB 自己分支 outbox 的欄位格式（state 寫成自由文字「已交付（等 BB-C 驗收）」、缺 sha／ack／receiver、任務 ID 寫成說明文字），LAWWW 不能改別人的分支；下一班 LAWWW2、BB 照 OUTBOX_TEMPLATE 修自己的 outbox，LAWWW 再跑 incr --advance。
+  - **12:1x v9.10.1 已發布**（使用者 11:5x「先發布再檢查了」）：main `4c0cbefc`（PR #7，Pages 部署 run 39126382240）；發布後檢查（TESTING 第五節）在 scratchpad post/ 跑，結果補 docs/RELEASES.md v9.10.1 一節；BB 三種玩法改在 4c0cbefc 跑＝發布後檢查。有問題修完出 v9.10.2。
+  - **11:4x**：階梯 y0s1 換 6b01c841（經濟系大一上五個人問完：可昕 13、品妤 6、唐睿 4、阿勳 6、韋綸 7）；BUG-E12-ARRIVE-LATE-1018 已修（f483c2a9，BB 重看中）；BB QA-AA300 第一輪 5e634610 全程 14.5 分鐘、卡住 0、例外 0，接著跑 KH_GO=home；LAWWW2 交 ART-US-SEASON（407ec3f5）、SCN-US-IU-1018 完成，現在做 BUG-COPLANAR-DEV → ART-CH-PINYU。
+  - **11:3x**：AA306-KX-LADDER-1018 已整合待測試（ded5da04：可昕經濟系階梯 13／4 層；重考期讀書在你房間的書桌——R1、R5、R2、同一張桌子、在家背景）；retake_home 讀書那 8 處等 AA 下一班改。
+  - **11:1x 最新**：AA305-OTHERS-1018 進行中（第 5～7、10 節＋階梯 bd64f560 已做：休學只告訴可昕、10/29 小福 ev_y0_xiaofu、退宿 10/31、便利貼在最後一箱；第 1～4、8、9 節台詞 419b1298 已合併（c5e8695a）；4 處小地方問 AA：12/31 兩句同開頭、旁白括號、法律系兩句像冷笑話、Y0S2 阿勳冷笑話招呼）。
+  - **10:4x 最新**：AA303-KX-RECONFIRM-1018 進行中（停點 27 場、日期卡 18 句、高雄三天兩夜＋BB 兩張背景、第 2 節十場台詞 85eea326 都已接；等 AA 的 retake_home C0／C4／L6＋RH-M0、E27 遲到電話新句、換完還對不上的 6 處）；AA304-QA2-1018 進行中（12 列裡 10 列已做：5bf15ccb、4e5d4bec；第 11 列等 retake_home、第 8、9 列等使用者）；階梯 Y0S1 已重匯（白名單 8fcc2c7e）；LAWWW2 SCN-US-02 v3（90c2896e）已登記、v9.10.1 發布後接。node 單元測試 299 支全過（4e5d4bec）。
+  - **第一項（使用者最在意）AA300-ECON30-1018 已整合待測試**（52bf3f16、c5e312fe）：經濟系只停 29 場、日期卡 22 句、重考期短場景關、手機「跳過」、新遊戲按鈕。**BB 瀏覽器實測 QA-AA300-1018 進行中**；Q-AA300-INVITES-1018（不在 29 場的邀約私訊還會問）等 AA 回表。
+  - 本班已整合待測試（等 BB）：AA298-RETAKE-FIX-1018、Q-E36-CALL-1018（含 AA_298 第 10 節 d781b840）、KX-INVITE-LAW-1018、MSG-KX-Y0-1018（AA_301）、AA296-KXCALL-1018、BG-CAMP-1018、BUG-HOME-BIKE-HINT-1018、BUG-ECON-FRIENDS-1018、DORM-AFTER-MOVEOUT-1018。
+  - **AA295-KX-NOHYPO-1018 已整合待測試**（faf3a8ea，子代理 4bc3fab5 併入；全部 node 單元測試過）；表外兩句（K7 票根禮物的反應）等 AA 寫。AA_302 劇本審閱 11 列已做（cb968a74），第 10 列等 AA 的 KX0_EGG／KX0_SHOP 名稱。
+  - P0：QA-PLAYTHROUGH-1018（BB 四種玩法）、QA-TRANSCRIPT-1018（新 HEAD 探測在背景：scratchpad ff6/，跑完轉 docs/qa/econ_transcript_*.md 給 AA；scratchpad 交班不會留，下一班重跑 `tests/econ_ff_probe1.py`、`econ_ff_probe2.py`）。
+  - 待開工：BUG-DATE-0831-1018（BB 重現中；已知部分見 tasks.json）、BUG-NO-CLERK-1018、AA294-SKIPCLASS-1018、Y0S1 階梯（等 AA 名稱表）、AA299 圖。
+  - **使用者 09:0x：v9.10.1 也要包含** AA295-KX-NOHYPO-1018、BUG-DATE-0831-1018、BUG-NO-CLERK-1018（已整合 0f492509）、LAWWW2 三樣 ART-YU-3D-1018／ART-EXT-TEACH／ART-LIB-VIEW-1018（已整合 72287f55）。
+  - v9.10.1 其他：SYS-BOOKS-1018、PERF-ZONE-ENTER-1018、BUG-CAMP-CUT-1018、DEC-SLOTS-1018（等使用者）、BUG-ECON-HOME-SHOTS-1018、BUG-KXFIRST-0830。**發布條件**：BB 四種玩法＋AA 讀劇本兩關都過、跑 docs/TESTING.md 第五節。
+
+  **C｜正在做的**：背景瀏覽器探測（scratchpad qa3/，2fb3e5a5，AA_305 以前的版本）；等 BB 的 QA-AA300-1018（5e634610 開跑）；等 AA 句子（retake_home、6 處矛盾、K7 兩句、AA_305 的 4 處）。
+
+  **D｜本班新的使用者決策**：D102（經濟系事件接事件、書店）、D103（不能只用手機交代）、X24 開局二選一、X25～X29（USER_WANTS）。時段制（DEC-SLOTS-1018）使用者說先不要決定、要方案。
+
+  **E｜跨 AI**：AA-C：AA_305、AA_306 已交並整合；待交 retake_home（C0／C4／L6、RH-M0、6/24「她」、讀書在書桌 8 處）、E27 遲到電話、6 處矛盾句、K7 兩句、AA_305 4 處、10/16 日期卡「隔天晚上」；BB-C：QA-AA300 第一輪過、重看 11/6＋KH_GO=home；LAWWW2-C：BUG-COPLANAR-DEV → ART-CH-PINYU（美國篇四季、IU 校園都交了，v9.10.1 後接）。
+
+  **F｜測試**：本班改的都有 node 單元測試（econ_ff、econ_ff2、exit_ring、anon_dedup、kexin_model、phone_auto、各 v0／lifeline 換字）；瀏覽器只跑過經濟系第一階段全程和第二階段探測。**沒有跑發布前清單**（docs/TESTING.md 第五節），v9.10.1 發布前要跑；auto-open 手機可能讓舊的瀏覽器流程測試遇到要回訊息時多一個手機畫面，要確認。
 
 - **（2026-10-18 C 帳號預寫快照前的第 1 節原文：B→C 2026-10-17 02:4x）**
   ### 帳號 B → 下一個帳號（A 或 C，看使用者對哪一邊說話）｜LAWWW-B｜2026-10-17 02:4x UTC 交班

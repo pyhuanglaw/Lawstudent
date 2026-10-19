@@ -58,8 +58,8 @@ const PHONE=(function(){
     if(o.need&&typeof STORY!=='undefined'&&STORY.neededAnswered) STORY.neededAnswered(G,m,o);   /* 主線 4：回了的那個人信任 +1、記次數 */
     return {m,o,out}; };
   /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後 */
-  S.threads=function(G){ const P=S.rec(G); const by=new Map();
-    for(const m of G.msgs){ const th=S.th(m); if(th==='sys') continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
+  S.threads=function(G,o){ const P=S.rec(G); const by=new Map();   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/
+    for(const m of G.msgs){ const th=S.th(m); if(th==='sys'&&!(o&&o.sys)) continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
       if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&!m.pin) r.unread++; if(m.ask&&m.ans==null) r.pending++; }
     return [...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); };
   S.thread=(G,th)=>{ S.rec(G); return G.msgs.filter(m=>S.th(m)===th); };

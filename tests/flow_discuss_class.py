@@ -2,7 +2,7 @@
 [前置／捷徑] 讀檔到那一天、那個時間（位置與時間是設定的）；之後都走真的介面（點地面走到座位、互動按鈕「坐下」、選「上課：…」、點對話、點選項、手機）。
 A. 12/4 週四 13:05 霖澤館 201（民法總則第 14 週：網拍標錯價）：自己走到座位坐下 →「上課：民法總則」→ 教授問 → 選第一個看法 → 那個看法的結果
    → 同學依序回應（芯慈、柏翰、小語）→ 教授收尾 → 下課（15:10）；記下看法（disc.B_Y1S1_civ_general_w14＝0）、有理解 U_SALE、U_CONTRACT。
-B. 11/10 週一 12:30 在校園（早上的憲法第 11 週沒去）：手機「訊息」多一行那一堂的轉述（那一週的 skip_line）。
+B. 11/10 週一 12:30 在校園（早上的憲法第 11 週沒去）：手機「訊息」多一行那一堂的轉述（那一週的 skip_line）；訊息頁是 LINE 式列表，點進那一串（轉述在「通知」）才看得到。
 全程沒有 JS 例外。
 用法：python3 tests/flow_discuss_class.py URL [輸出資料夾]"""
 import asyncio, json, math, sys, time
@@ -78,7 +78,10 @@ async def main():
         seen = []; menus = []; t0 = time.time()
         while time.time() - t0 < 300:
             s = await L.state(pg)
-            if s['dtext'] and (not seen or seen[-1] != s['dtext']): seen.append(s['dtext'])
+            # 記整句（GAME.D.full），不記打字中的半句：畫面上是一個字一個字打出來，抓的那一下還沒打完、點下去剛好打完就直接翻到下一句，
+            # 那一句只記到半句（2026-10-19 第二次跑：「周教授：「寫錯和想」，順序檢查找不到那句，第一次跑剛好抓到整句）
+            line = await pg.evaluate("(GAME.D&&GAME.D.active&&GAME.D.full)||''") or s['dtext']
+            if line and (not seen or seen[-1] != line): seen.append(line)
             if not s['busy'] and not s['dlg'] and not s['choices']: break
             if s['choices']:
                 menus.append(await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)"))
@@ -101,12 +104,24 @@ async def main():
         t0 = time.time()
         while time.time() - t0 < 180:
             if (await L.state(pg))['hour'] >= 12.5 + 2 / 60: break
+            # 要回的訊息到了，手機會自己跳出來、遊戲暫停（D103）：像玩家一樣先收起來，時間才會走
+            if await L.phone_away(pg, cdp): run.note('手機自己跳出來（要回的訊息）→ 先收起來')
             await pg.wait_for_timeout(1000)
         run.note(f"讀檔後在校園待到遊戲時間走過 2 分鐘：{time.time() - t0 + 8:.0f} 秒（遊戲時間 {(await L.state(pg))['hour']:.2f}）")
         sl = await pg.evaluate("(()=>{ const w=SYLLABUS.courses.const_1.find(q=>q.w===11); return w&&w.obs&&w.obs.skip_line; })()")
         who = await pg.evaluate("(id=>SOCIAL.displayName?SOCIAL.displayName(id):((CHARACTERS[id]||{}).name||''))(%s)" % json.dumps(sl['who'])) if sl else ''
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+        if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(1200)
+        # 訊息頁像 LINE（PHONE-LINE-UI-1018）：先是對話列表，點進那一串才看得到訊息。轉述沒有說話的對象，在「通知」那一串（phone3d.js S.th）：
+        # 點最新一句是那句轉述的那一列；沒有就點「通知」
+        rows = await pg.evaluate("[...document.querySelectorAll('#phoneBody .chatRow')].map(e=>[e.dataset.th,e.innerText.replace(/\\s+/g,' ')])")
+        run.note('手機「訊息」列表：' + ' ｜ '.join(r[1] for r in rows[:6])[:400])
+        th = next((r[0] for r in rows if sl and sl['text'][:10] in r[1]), None) or next((r[0] for r in rows if r[0] == 'sys'), None)
+        if th:
+            sel = '#phoneBody .chatRow[data-th=%s]' % json.dumps(th)
+            await pg.evaluate("document.querySelector(%s).scrollIntoView({block:'center'})" % json.dumps(sel)); await pg.wait_for_timeout(300)
+            await L.tap(pg, cdp, sel); await pg.wait_for_timeout(1200)
         items = await pg.evaluate("[...document.querySelectorAll('#phoneBody .item')].map(e=>e.textContent)")
         run.note('手機「訊息」：' + ' ｜ '.join(items[:6])[:500])
         await run.shot(pg, 'B_phone_msgs')

@@ -32,6 +32,11 @@ async def main():
         await L.load_state(pg, {'zone': 'campus', 'hour': 11.0, 'day': 8, 'weekday': 6, 'weather': 'sunny', 'pos': {'x': 34, 'z': -91.8, 'yaw': 3.14},
                                 'flags': {'introDone': True, 'campusIntro': True, 'classDone': True}}, quiet_events=True)
         await pg.wait_for_timeout(2500)
+        # [前置] 讀檔後如果有要回的訊息，手機會自動打開、遊戲暫停（STORY.phoneAuto，D103；每則只自動開一次）——收起來再測（同 gongguan_layout_nav；判斷標準不變）
+        await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); })()")
+        await pg.wait_for_timeout(500)
+        await pg.evaluate("(()=>{ if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); })()")
+        print('  [前置／捷徑] 手機自動打開的話先收起來')
 
         async def frames(n=4):
             # 小地圖每 2 個畫面才重畫一次；SwiftShader 每秒只有 1–4 格，用畫面數等，不用固定毫秒

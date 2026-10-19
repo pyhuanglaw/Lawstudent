@@ -18,7 +18,7 @@ check('1. 一開始沒有標記',GM.reloadedMidGame()===false);
 GM.liveMark(true); check('1. 玩的時候記標記（fatiao3d_live＝1），重新整理後讀得到',S.m.fatiao3d_live==='1'&&GM.reloadedMidGame()===true,JSON.stringify(S.m));
 GM.liveMark(false); check('1. 回標題拿掉標記',!('fatiao3d_live' in S.m)&&GM.reloadedMidGame()===false);
 GM=mk(null); let ok=true; try{ GM.liveMark(true); ok=GM.reloadedMidGame()===false; }catch(e){ ok=false; } check('3. sessionStorage 不能用（丟例外）：不會壞、當作沒有標記',ok);
-const enterSrc=src.slice(src.indexOf('async function enter(zoneId,spawn,opts)'),src.indexOf('async function enter(zoneId,spawn,opts)')+200);
+const enterSrc=src.slice(src.indexOf('async function enter(zoneId,spawn,opts)'),src.indexOf('async function enter(zoneId,spawn,opts)')+400);   // 400：開頭多了 GM.enterN 和註解（2ad61c5f 高雄閃家裡），標記還是在 enter 一開始
 check('1. 進區域（enter）一開始就記標記',/GM\.liveMark\(true\)/.test(enterSrc));
 const titleSrc=src.slice(src.indexOf("$('btnTitle').onclick"),src.indexOf("$('btnTitle').onclick")+600);
 check('1. 回標題（選單「回到標題」）拿掉標記',/GM\.liveMark\(false\)/.test(titleSrc));

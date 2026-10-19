@@ -361,7 +361,15 @@ def check(args):
 
 
 def snapshot(args):
-    src = Src(args.root)
+    ref = getattr(args, 'ref', None)
+    if not ref and not os.path.exists(os.path.join(args.root, TASKS)):   # LAWWW2／AA／BB 的分支沒有總表：自動從 RULE_SOURCE 讀（BB-C 10-18：原本要從 LAWWW 分支借檔案、用完刪掉）
+        code, b = duty_state.find(args, quiet=True)
+        if code or not b:
+            print('找不到 RULE_SOURCE（先 git fetch --all；或加 --ref origin/<規則來源分支>）')
+            return 2
+        ref = 'origin/' + b
+        print(f'總表從 {ref} 讀（這條分支沒有 {TASKS}）')
+    src = Src(args.root, ref)
     data = json.loads(src.read(TASKS))
     raw = src.read(TASKS).encode('utf-8')
     tasks = data['tasks']
@@ -469,6 +477,105 @@ def section_ids(line):
             if head and head.group(1).endswith(m.group(2) or '') and 0 < int(m.group(3)) - int(head.group(2)) < 30:
                 ids += [(f'{head.group(1)}{n}', i) for n in range(int(head.group(2)) + 1, int(m.group(3)) + 1)]
     return ids
+
+
+# HV-18（使用者 2026-10-18 13:5x：「規則交接規則都寫這麼清楚了，為什麼他們還會有需要你補的任務？」→ 選「三個都做」）：
+# 每個職位一個固定格式的使用者要求檔（docs/handoff/user_asks_<職位>.json），一則要求一筆；這裡逐筆對到 USER_WANTS 的列或 tasks.json 的任務。
+ASK_ROLES = ['LAWWW', 'LAWWW2', 'AA', 'BB']
+ASK_FILE = 'docs/handoff/user_asks_{}.json'
+ASK_KINDS = ['原話', '選擇題答案', '轉述', 'AI解讀']   # AI解讀＝AI 自己擴大或推論的，不是使用者的話：要 confirmed:true（問過使用者）才算數
+ASK_STATUS = ['還沒做', '進行中', '做好了沒進遊戲', '在開發分支', '在遊戲裡', '暫停', '已取消', '規則（永久）', '已完成']
+WANT_ROW = re.compile(r'^\| ([A-Z]\d+)(?: ★)? \| ')
+
+
+def wants_rows(text):
+    """USER_WANTS.md 的列 ID → 狀態（第 1 節的狀態在第 3 格；第 3 節多一格「什麼時候說」，狀態在第 4 格；同一個 ID 以第 1 節為準）"""
+    rows, sec = {}, 0
+    for l in text.splitlines():
+        m = re.match(r'^## (\d+)\.', l)
+        if m:
+            sec = int(m.group(1))
+        m = WANT_ROW.match(l)
+        if not m or m.group(1) in rows:
+            continue
+        cells = l.strip().strip('|').split(' | ')
+        i = 3 if sec == 3 else 2
+        rows[m.group(1)] = cells[i].strip() if len(cells) > i else ''
+    return rows
+
+
+def ask_check(role, data, rows, have):
+    """一個職位的使用者要求檔 → 異常清單（每一項都是可以照做的一句話）"""
+    bad = []
+    items = data.get('asks') if isinstance(data, dict) else None
+    if not isinstance(items, list):
+        return [f'{role}：使用者要求檔沒有 asks 陣列']
+    seen = set()
+    for a in items:
+        aid = a.get('id') or '（沒有 id）'
+        if aid in seen:
+            bad.append(f'{role} {aid}：id 重複')
+        seen.add(aid)
+        for k in ('id', 'at', 'quote', 'kind', 'status'):
+            if not a.get(k):
+                bad.append(f'{role} {aid}：缺 {k}')
+        if a.get('kind') and a['kind'] not in ASK_KINDS:
+            bad.append(f'{role} {aid}：kind「{a["kind"]}」不是 {ASK_KINDS}')
+        if a.get('kind') == 'AI解讀' and not a.get('confirmed'):
+            bad.append(f'{role} {aid}：AI 自己的解讀還沒問使用者（confirmed 不是 true）：{a.get("quote", "")[:40]}')
+        st = a.get('status') or ''
+        if st and st not in ASK_STATUS:
+            bad.append(f'{role} {aid}：status「{st}」不是 {ASK_STATUS}')
+        w, t = a.get('wants'), a.get('task')
+        if not w and not t:
+            bad.append(f'{role} {aid}：沒有對到 USER_WANTS 的列（wants）也沒有對到任務（task）：{a.get("quote", "")[:40]}')
+        if w and w not in rows:
+            bad.append(f'{role} {aid}：wants「{w}」在 USER_WANTS.md 找不到')
+        if t and canon(t) not in have:
+            bad.append(f'{role} {aid}：task「{t}」在 tasks.json 找不到')
+        if w in rows and st and st not in ('已完成',):
+            rs = re.sub(r'（.*?）|\(.*?\)', '', rows[w]).strip()
+            core = re.sub(r'（.*?）|\(.*?\)', '', st).strip()
+            if rs and core and not (rs.startswith(core) or core.startswith(rs)):
+                bad.append(f'{role} {aid}：狀態和 USER_WANTS {w} 不一樣（要求檔「{st}」／總表「{rows[w][:20]}」）——兩邊改成一樣')
+    return bad
+
+
+def asks(args):
+    """HV-18：讀四個職位的使用者要求檔（職位分支上的優先；職位還沒建、就用 RULE_SOURCE 上的種子），逐筆對到 USER_WANTS／tasks.json。只讀不寫。"""
+    src = Src(args.root, args.ref)
+    data = json.loads(src.read(TASKS))
+    have = {canon(i) for t in data['tasks'] for i in [t['id']] + (t.get('aliases') or [])}
+    rows = wants_rows(src.read('docs/handoff/USER_WANTS.md'))
+    duty = json.loads(src.read(duty_state.DUTY))
+    bad, n = [], 0
+    for role in args.role or ASK_ROLES:
+        path = ASK_FILE.format(role)
+        text = where = None
+        br = ((duty.get('roles') or {}).get(role) or {}).get('branch')
+        if role != 'LAWWW' and br:
+            r = subprocess.run(['git', '-C', args.root, 'show', f'origin/{br}:{path}'], capture_output=True)
+            if not r.returncode:
+                text, where = r.stdout.decode('utf-8'), f'origin/{br}'
+        if text is None:
+            try:
+                text, where = src.read(path), (args.ref or '工作目錄') + '（RULE_SOURCE 上的種子）' if role != 'LAWWW' else (args.ref or '工作目錄')
+            except FileNotFoundError:
+                bad.append(f'{role}：沒有 {path}（職位分支 {br or "?"} 和 RULE_SOURCE 都沒有）')
+                continue
+        try:
+            d = json.loads(text)
+        except ValueError as e:
+            bad.append(f'{role}：{path} 不是合法的 JSON（{e}）')
+            continue
+        k = len(d.get('asks') or [])
+        n += k
+        print(f'[資訊] {role}：{where} {k} 筆')
+        bad += ask_check(role, d, rows, have)
+    for b in bad:
+        print(f'[異常] {b}')
+    print(f'結果：{"OK" if not bad else f"異常 {len(bad)} 項"}（{n} 筆使用者要求、USER_WANTS {len(rows)} 列）')
+    return 1 if bad else 0
 
 
 def roles(args):
@@ -678,8 +785,9 @@ def main(argv=None):
     c.add_argument('--no-git', action='store_true')
     s = sub.add_parser('snapshot')
     s.add_argument('--role', required=True, choices=['LAWWW', 'LAWWW2', 'AA', 'BB'])
-    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C（D92；職位永遠四個）
+    s.add_argument('--account', required=True, choices=list(duty_state.ACCOUNTS))   # 帳號 A／B／C／D（D92；職位永遠四個）
     s.add_argument('--kind', default='handoff', choices=['handoff', 'checkpoint'])
+    s.add_argument('--ref', help='從這個 git ref 讀總表；不給而且這條分支沒有 tasks.json＝自動找 RULE_SOURCE')
     q = sub.add_parser('queue')
     q.add_argument('--owner')
     q.add_argument('--ref')
@@ -687,13 +795,16 @@ def main(argv=None):
     r = sub.add_parser('roles')
     r.add_argument('--role', action='append', choices=['LAWWW2', 'AA', 'BB'])
     r.add_argument('--ref')
+    k = sub.add_parser('asks', help='HV-18：四個職位的使用者要求檔逐筆對到 USER_WANTS／tasks.json')
+    k.add_argument('--role', action='append', choices=ASK_ROLES)
+    k.add_argument('--ref')
     i = sub.add_parser('incr', help='增量核對：四職位水位線以後的新 commit、outbox、WIP 索引')
     i.add_argument('--ref')
     i.add_argument('--advance', action='append', choices=INC.ROLES + ['all'], help='全部分類、沒有異常、已 push 才前進水位線')
     i.add_argument('--by', help='誰核對的（例：LAWWW-C）')
     duty_state.add_parser(sub)
     a = ap.parse_args(argv)
-    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
+    return {'check': check, 'snapshot': snapshot, 'queue': queue, 'roles': roles, 'asks': asks, 'incr': incr, 'duty': duty_state.run}[a.cmd](a)
 
 
 if __name__ == '__main__':

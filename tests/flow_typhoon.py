@@ -54,10 +54,11 @@ async def close_phone(pg, cdp):
         await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(800)
 
 
-async def wait_hour(pg, h, max_s=600):
+async def wait_hour(pg, h, max_s=600, cdp=None):
     t0 = time.time()
     while time.time() - t0 < max_s:
         if await pg.evaluate("GAME.G.hour") >= h: return True
+        if cdp is not None and await L.phone_away(pg, cdp): print('  [玩家操作] 手機自己跳出來（沒回的訊息）→ 收起來')   # D103：手機開著＝遊戲暫停，時間不會走
         await pg.wait_for_timeout(2000)
     return False
 
@@ -71,7 +72,7 @@ async def main():
         run.setup('讀檔：第 26 天（10/12 週日）21:27 宿舍房間；麵店團第 20 天加入、見過方奕廷')
         await L.load_state(pg, {'zone': 'dorm', 'hour': 21.45, 'day': 26, 'weekday': 0, 'weather': 'cloudy', 'flags': FLAGS})
         await pg.evaluate(SETUP); await pg.wait_for_timeout(4000)
-        ok = await wait_hour(pg, 21.55)
+        ok = await wait_hour(pg, 21.55, cdp=cdp)
         run.check('等到 21:33（遊戲時間走得動）', ok, str(await pg.evaluate("GAME.G.hour")))
         await phone(pg, cdp, 'msg', run)
         await tap_sel(pg, cdp, '#phoneBody [data-th="sys"]'); await pg.wait_for_timeout(900)
@@ -121,6 +122,7 @@ async def main():
         await pg.evaluate(SETUP)
         t0 = time.time(); s = await L.state(pg)
         while time.time() - t0 < 420 and not (s['dlg'] or s['choices']):
+            if await L.phone_away(pg, cdp): print('  [玩家操作] 手機自己跳出來（沒回的訊息）→ 收起來')   # D103：手機開著＝遊戲暫停，等不到 18:00
             await pg.wait_for_timeout(2000); s = await L.state(pg)
         run.check('18:00 泡麵之夜自己開始（阿凱「我囤了二十包。這是我人生最正確的決定。」）', '二十包' in (s.get('dtext') or ''), json.dumps(s, ensure_ascii=False))
         await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(2500)

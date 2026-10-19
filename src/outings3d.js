@@ -12,6 +12,7 @@ const OUT=(function(){
      home_living＝平常週末回家的客廳（還沒有圖）；home_living_cny＝除夕的年夜飯（BB-B 第 25 組，桌上是年夜飯、牆上中國結，只用在除夕）。
      政大只做主要校園＋宿舍（自強十舍）（使用者 2026-10-16 對 LAWWW2-B）：河堤、圖書館、停車場不做，那幾幕照 AA_137 7-1 改到校門、校園裡的路、宿舍樓下 */
   S.BG={ car:{label:'車上',image:null}, nccu_gate:{label:'政大・校門口',image:'assets/bg/nccu_gate.webp'}, nccu_food:{label:'政大・山下的小吃街',image:'assets/bg/nccu_food.webp'}, nccu_dorm:{label:'政大・宿舍樓下',image:'assets/bg/nccu_dorm.webp'}, nccu_dorm_day:{label:'政大・宿舍樓下（白天）',image:'assets/bg/nccu_dorm_day.webp'}, ntu_lib_b1:{label:'總圖 B1・24 小時自習室',image:'assets/bg/ntu_lib_b1.webp'}, trip_hotel_twin:{label:'旅館',image:'assets/bg/trip_hotel_twin.webp'}, cram_class:{label:'補習班',image:'assets/bg/cram_class.webp'}, jp_street_night:{label:'日本・商店街',image:'assets/bg/jp_street_night.webp'}, camp_school:{label:'營隊・國小操場',image:'assets/bg/camp_school.webp'}, train_day:{label:'火車上',image:'assets/bg/train_day.webp'}, nccu_campus:{label:'政大・校園裡的路',image:'assets/bg/nccu_campus.webp'},
+    cram_counter:{label:'以前的補習班・櫃台',image:'assets/bg/cram_counter.webp'}, boardgame_gg:{label:'公館・桌遊店',image:'assets/bg/boardgame_gg.webp'}, mrt_night:{label:'捷運車廂（晚上）',image:'assets/bg/mrt_night.webp'}, phone_street_night:{label:'晚上的路邊（講電話）',image:'assets/bg/phone_street_night.webp'},   /* 使用者 10-18 15:3x「又是黑畫面，可以叫我給cg」：四張純場景提示詞已給（BG-ECON-B1-1018）；圖還沒放＝照舊深色底 */
     riverside:{label:'河濱',image:'assets/bg/riverside.webp'}, dorm_roof:{label:'宿舍頂樓',image:'assets/bg/dorm_roof.webp'}, video:{label:'視訊',image:'assets/bg/video.webp'}, gongguan_luwei:{label:'公館・滷味攤',image:'assets/bg/gongguan_luwei.webp'},
     ntu_soc:{label:'台大・社科院門口',image:'assets/bg/ntu_soc.webp'}, ferris_wheel:{label:'摩天輪',image:'assets/bg/ferris_wheel.webp'},
     /* BB 檢查通過的六張（ART-BB-READY-1017；企劃線 bg_approved/ 第 46～49 組）：prof_door＝學姊 W7 研究室門口（原本黑底）；其他五張的事件還沒做，先登記 */
@@ -45,6 +46,7 @@ const OUT=(function(){
   /* 休學以後住在家裡（經濟系 Y0_MOVED_OUT，AA_154 1-3b、A46 ②）：所有出遊、約好的見面（含只帶到校園某處的 goto）從家裡出發＝捷運＋公車 約 30 分鐘、0.5 小時；問要不要出發的時間跟著提早。視訊不用出門 */
   const baseHome=G=>typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)&&HOME.at&&HOME.at(G);
   S.trip=(G,q,fromHome)=>(fromHome||baseHome(G))&&q.verb!=='接起來'&&q.place!=='視訊'?((q.travelH||0)>0.5?{travelH:q.travelH,travel:q.travel||''}:{travelH:0.5,travel:'捷運＋公車 約 30 分鐘'}):{travelH:q.travelH||0,travel:q.travel||''};   /* 比 30 分鐘遠的（例：政大 40 分鐘，A40）照原本的 */
+  S.fromHome=false;
   const running=new Set();   /* 正在演的那一個（不存檔）：演完才標 done，演的途中不能再被叫出來 */
   S.due=function(G){ const now=t(G.day,G.hour); return S.rec(G).find(q=>q.state==='planned'&&!running.has(q.id)&&now>=t(q.day,q.h)-S.trip(G,q).travelH-0.25&&now<=lateEnd(q)&&(q.ask==null||now>=q.ask))||null; };
   /* 過了時間（後 45 分鐘以上）還沒出發＝missed */
@@ -70,6 +72,7 @@ const OUT=(function(){
     if(q.goto){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400); const arrive=Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)-(q.early||0)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
       if(GM.enter) await GM.enter(q.goto.zone,{x:q.goto.x,z:q.goto.z,yaw:q.goto.yaw||0,lv:q.goto.lv|0}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; }   /* goto：只帶到那個地點（3D 的事件在那裡等，例：v0 E12 醉月湖；AA_154 A32）；early＝比 h 早幾小時到 */
     if(!dt&&(!ev||typeof EVENTS==='undefined')) return false;
+    if(o&&o.fromHome) S.fromHome=true;   /* 從家裡出發的 2D 出遊：途中 3D 一直藏著（home3d.js backdrop），演完不會露出最後一個 3D 區域（使用者 10-18：「跨年的劇情結束之後居然是跳回醉月湖」）*/
     GM.sceneBegin(); try{   /* 整趟出遊是一段劇情：路上、演完、回程的轉場中間，校園的自動事件（偶遇、打招呼）不能插進來（使用者 2026-10-16：和可昕走完「回到台大」就卡住，畫面疊了偶遇的旁白）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard(q.title,tr.travel,2400);
     const arrive=q.arrived?t(G.day,G.hour):Math.max(t(G.day,G.hour)+tr.travelH, t(q.day,q.h)); G.day=Math.floor(arrive/24); G.hour=arrive-G.day*24; if(GM.updateHUD) GM.updateHUD();
@@ -90,7 +93,7 @@ const OUT=(function(){
       if(go) await STORY.ladPlay(GM,{name:SOCIAL.displayName('kexin'),charId:'kexin'},'kexin',st); }
     if(kxTail&&ADV.active) ADV.end();
     await GM.fade(true); GM.advance(ev.hours||2); await GM.fade(false); if(GM.caption&&!(o&&o.fromHome&&typeof HOME!=='undefined'&&(HOME.livesHome?HOME.livesHome(G):HOME.baseMode&&HOME.baseMode(G)))) GM.caption('',q.back||'回到台大。',2400);   /* 休學後從家裡出發的：回家（home3d.js 的選單接著）*/
-    } finally { GM.sceneEnd(); }
+    } finally { GM.sceneEnd(); S.fromHome=false; }
     if(GM.autosave) GM.autosave(); return true; };
   return S;
 })();

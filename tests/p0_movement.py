@@ -33,9 +33,11 @@ async def main():
         def check(name,ok,info=''):
             print(('PASS ' if ok else 'FAIL ')+name+('  '+info if info else ''))
             if not ok: fails.append(name)
+        print('  [前置／捷徑] 讀檔前關掉「要回覆的訊息自動打開手機」（D103；這支只測移動）')
         for label,zone,sp in SPAWNS:
             st={'day':8,'weekday':4,'hour':13.3,'zone':zone,'pos':sp,'weather':'sunny','flags':{'introDone':True,'campusIntro':True,'classDone':True,'metAn':True,'met_an':True,'afternoonDone':True,'lawclub':True},'visited':{'dorm':True,'campus':True,'gongguan':True,'wenzhou':True,'classroom':True},'social':{'rel':{},'mem':{},'reveal':{},'prof':{},'grad':{'interest':'NONE','field':None,'prep':0}}}
-            js="(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,"+json.dumps(st,ensure_ascii=False)+"); document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); })()"
+            # [前置] 關掉「要回覆的訊息自動打開手機」（D103）：預設交往中的可昕會傳要回的邀約，手機打開＝遊戲暫停，搖桿測不到（REL-9101-POSTCHECK-1018）；這支只測移動
+            js="(async()=>{ if(typeof STORY!=='undefined') STORY.phoneAuto=()=>{}; if(GAME.phoneIsOpen&&GAME.phoneIsOpen()&&GAME.closePhone) GAME.closePhone(); const s=GAME.defaults('祐廷'); Object.assign(s,"+json.dumps(st,ensure_ascii=False)+"); document.getElementById('titleScreen').classList.add('hide'); await GAME.applySave(s); })()"
             await pg.evaluate(js); await pg.wait_for_timeout(1500)
             p0=await pos(pg); await joystick(pg,cdp,0,-60,1200); p1=await pos(pg)
             check(f'{label}：搖桿上 → 位置改變', dist(p0,p1)>0.3, f'{p0} → {p1}')

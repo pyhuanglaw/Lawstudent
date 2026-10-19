@@ -102,6 +102,9 @@ async def main():
             if s['choices'] and s.get('paused'):
                 shut = await L.close_panels(pg, cdp)
                 if shut: print('   關掉蓋住選項的面板', shut, flush=True); continue
+            if not s['choices'] and not s['dlg'] and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+                n = await L.phone_away(pg, cdp, tries=1)   # 跳日期途中收到訊息停下來（先停在列表、右上角「跳過」）、沒有要回的：像玩家一樣按「跳過」繼續（2026-10-19）
+                if n: print('   手機：按「跳過／收起來」', flush=True); continue
             if s['choices']:
                 opts_now = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
                 if opts_now != last_opts: last_opts = opts_now; await sc.check(pg, '%s 選項 %s' % (last_key, opts_now[:16]))
@@ -117,7 +120,8 @@ async def main():
         print('   旗標', json.dumps(res['fl'], ensure_ascii=False), flush=True)
         run.check('玩到 8/29 進法律系（stage law）', res['stage'] == 'law' and res['key'] >= '2025-08-29', json.dumps({k: res[k] for k in ('key', 'h', 'stage', 'zone')}, ensure_ascii=False))
         run.check('二月那一場：E23、E27、E24c 都演過（AA_269 第 8 點）', all(k in res['ev'] for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')), json.dumps({k: res['ev'].get(k) for k in ('ev_y0_e23', 'ev_y0_e27', 'ev_y0_e24c')}))
-        run.check('考試、放榜（AA_272 第 4、10、11 節）：E35h、考場、對答案、7/25 成績公布（客運版或在家版）、8/13 早上旁白＋晚上電話、E37', 'ev_y0_e35h' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_exam1h', 'ev_y0_exam1')) and 'ev_y0_exam2' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_kh_bus_h', 'ev_y0_kh_bus', 'ev_y0_kh_home_h', 'ev_y0_kh_home')) and any(k in res['ev'] for k in ('ev_y0_e36r', 'ev_y0_e36rh')) and any(k in res['ev'] for k in ('ev_y0_e36', 'ev_y0_e36h')) and 'ev_y0_e37' in res['ev'], json.dumps({k: res['ev'].get(k) for k in WATCH[-15:]}, ensure_ascii=False))
+        # E37（第一次一起去政大）照 AA_303 第 2 節改到「法律系 8/30」：8/29 轉進法律系的隔天才演，這支停在 8/29，所以不在這裡查（8/28 的私訊、8/30 的出遊由 tests/v0_e37_unit.js 查）
+        run.check('考試、放榜（AA_272 第 4、10、11 節）：E35h、考場、對答案、7/25 成績公布（客運版或在家版）、8/13 早上旁白＋晚上電話', 'ev_y0_e35h' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_exam1h', 'ev_y0_exam1')) and 'ev_y0_exam2' in res['ev'] and any(k in res['ev'] for k in ('ev_y0_kh_bus_h', 'ev_y0_kh_bus', 'ev_y0_kh_home_h', 'ev_y0_kh_home')) and any(k in res['ev'] for k in ('ev_y0_e36r', 'ev_y0_e36rh')) and any(k in res['ev'] for k in ('ev_y0_e36', 'ev_y0_e36h')), json.dumps({k: res['ev'].get(k) for k in WATCH[-15:]}, ensure_ascii=False))
         run.check('沒有用到卡住保險', res['fb'] == 0, str(res['fb']))
         run.check('黑幕沒有擋住對話', fade_block == 0, str(fade_block))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:5], ensure_ascii=False))

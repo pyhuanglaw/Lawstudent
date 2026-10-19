@@ -43,18 +43,23 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   const O=HOME.y0ffOpts&&HOME.y0ffOpts(G);
   check('1. 休學在家：有快轉，四個選項',!!O&&JSON.stringify(O.map(o=>o.t))===JSON.stringify(['到下一個有事的日子','過三天','過一週','不用了']),JSON.stringify(O&&O.map(o=>o.t)));
   G.flags.Y0_MOVED_OUT=false; check('1. 還沒退宿：沒有',!HOME.y0ffOpts(G)); G.flags.Y0_MOVED_OUT=true; G.stage='law'; check('1. 法律系：沒有（法律系用放假的快轉）',!HOME.y0ffOpts(G)); G.stage='econ';
+  // 使用者 2026-10-18 15:4x：跳的途中收到任何一則訊息都停、打開那一段，按「跳過」繼續跳。jumpSkip＝玩家一路按「跳過」（要回的訊息不算，遇到就停）
+  const jumpSkip=async(t)=>{ const p0=PHONE.pending(G).length; let w=null; for(let k=0;k<80;k++){ w=await HOME.y0Jump(GM,t); if(w==='msg'&&PHONE.pending(G).length<=p0) continue; break; } return w; };
   // 2：2/12 20:00 E23
   econHome('2025-02-12',12); G.flags.RETAKE_ON=true;
   const before=HOME.homeEvent(G);
-  const why=await HOME.y0Jump(GM,T(G.day+3,8.5)); const ev=HOME.homeEvent(G);
+  const why=await jumpSkip(T(G.day+3,8.5)); const ev=HOME.homeEvent(G);
   const tAt=T(G.day,G.hour); G.hour-=0.25; const prev=HOME.homeEvent(G); G.hour+=0.25;
   check('2. 到下一個有事的日子：家裡要演的事件一出現就停（前 15 分鐘還沒有）',!before&&why==='event'&&!!ev&&!prev,JSON.stringify({why,ev:ev&&ev.id,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
   check('2. 停在 2/12 20:00 的 E23（看不懂的民法）',!!ev&&ev.id==='ev_y0_e23'&&G.day===D('2025-02-12')&&Math.abs(G.hour-20)<1e-6,JSON.stringify({ev:ev&&ev.id,h:G.hour}));
   // 3：要回的訊息
   econHome('2024-10-25',10); const d1=G.day+1;
   PHONE.at(G,d1,15,[{th:'p:kexin',from:'kexin',name:'可昕',text:'測試訊息',ask:{opts:[{t:'好',say:[]}]}}],'test_ask');
-  const w3=await HOME.y0Jump(GM,T(G.day+7,8.5));
+  const w3=await jumpSkip(T(G.day+7,8.5));
   check('3. 中間收到要回的訊息：停在那時候（隔天 15:00）',w3==='msg'&&G.day===d1&&Math.abs(G.hour-15)<1e-6,JSON.stringify({w3,day:G.day-d1,h:G.hour}));
+  // 3b：不用回的訊息也停（新規格）
+  econHome('2024-10-25',10); { const dX=G.day+1; PHONE.at(G,dX,11,[{th:'p:kexin',from:'kexin',name:'可昕',text:'測試：不用回的訊息'}],'test_plain'); const w=await HOME.y0Jump(GM,T(G.day+7,8.5));
+    check('3b. 跳的途中收到不用回的訊息也停在那時候（使用者 10-18 15:4x）',w==='msg'&&T(G.day,G.hour)<=T(dX,11)+1e-6,JSON.stringify({w,day:G.day-dX,h:G.hour})); }
   // 4：沒事的三天
   econHome('2024-10-28',9); const n0=(G.msgs||[]).length;
   let w4=null, ok4=true; { const t0=T(G.day,G.hour); w4=await HOME.y0Jump(GM,T(G.day+3,8.5)); ok4=w4==='end'?(T(G.day,G.hour)===T(D('2024-10-28')+3,8.5)):true; }
@@ -82,7 +87,7 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   { econHome('2025-06-07',10); const html=CLS.weekHTML(G); check('8. 手機「這週」：休學在家顯示行事曆（有「衝刺班（每天 09:00～21:00，6/9～7/9）」，沒有模擬考）',/行事曆/.test(html)&&/衝刺班（每天 09:00～21:00/.test(html)&&!/模擬考/.test(html),html.slice(0,200)); }
   econHome('2025-06-10',9); G.outings=[{id:'y0_crm_'+D('2025-06-11'),state:'planned',day:D('2025-06-11'),h:19}]; STORY.phoneRules(GM);
   check('8. 舊存檔已經排好的一三五出遊：標成 done、不出發',G.outings[0].state==='done');
-  econHome('2025-04-15',9); const w9=await HOME.y0Jump(GM,T(G.day+7,8.5));
+  econHome('2025-04-15',9); const w9=await jumpSkip(T(G.day+7,8.5));
   check('8. 4/19 模擬考拿掉：快轉不停在 4/19',T(G.day,G.hour)>T(D('2025-04-19'),18),JSON.stringify({w9,at:CALENDAR.dateOf(G.day).key+' '+G.hour}));
   // 9：放榜固定考上
   { const src=fs.readFileSync(path.join(ROOT,'src/data/events.js'),'utf8'); check('9. 放榜固定考上台大法律（榜單那一句不看讀書次數）',/（臺大法律學系，財經法學組。你的名字在上面。）/.test(src)&&!/retake:study[^\n]{0,80}E36_RESULT/.test(src)); }
@@ -90,7 +95,7 @@ const econHome=(k,h)=>{ fresh(D(k),h,'campus',{Y0_MOVED_OUT:true,ECON_CAMP_OPEN:
   // 10：BB_214
   { econHome('2025-02-13',12); G.flags.dating_kexin=true; STORY.phoneRules(GM); const q=OUT.get(G,'y0_e27');
     G.hour=14; const c0=STORY.homeCall(G); G.hour=14.3; const c1=STORY.homeCall(G);   /* AA_303：E27 改 14:00 行政大樓 */
-    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（14:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在水餃店了，點了兩盤。……快來，我有事要跟你說。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
+    check('10. E27 開始 15 分鐘還沒出發：可昕的保底電話兩句（14:00 還沒有）',!!q&&!c0&&!!c1&&c1.q===q&&c1.line==='人呢？'&&c1.line2==='我在行政大樓門口了。……你說要陪我的。',JSON.stringify({q:!!q,c0:!!c0,c1:c1&&c1.line}));
     G.hour=13.7; const m=HOME.wouldMiss(G,14.7); check('10. 13:40 做事一小時會錯過 E27（照它的 15 分鐘容許）',m.some(t=>/行政大樓/.test(t)),JSON.stringify(m)); }
   { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('10. E14 的保底電話（韋綸兩句）也在',/'人咧！！保齡球館！！','第一局要開了啦，走啦！'/.test(src)); }
   { econHome('2024-11-20',26.6); const H=HOME.rec(G); H.at=false; G.zone='campus'; const ent=[]; const en=GM.enter; GM.enter=async(z)=>{ ent.push(z); G.zone=z; }; const gg=HOME.go; let went=false; HOME.go=async()=>{ went=true; H.at=true; }; await STORY.forceHome(GM); HOME.go=gg; GM.enter=en;
