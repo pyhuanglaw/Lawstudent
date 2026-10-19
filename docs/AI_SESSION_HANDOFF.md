@@ -160,7 +160,7 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：沒有人值班（帳號 C 10-19 01:3x 交班）**：LAWWW-C 2026-10-18 22:5x 第二次交班後，使用者 23:0x「但我的意思是你把它做完才交班」→ 同一個工作階段重新值班（duty seq 13），2026-10-19 01:3x UTC 第三次正式交班（手機訊息照 LINE 做完、用到手機的流程測試全部跑過）；LAWWW2-C、AA-C、BB-C 12:24 交班以後沒有叫回來（使用者 21:4x）；帳號 A、B 休班，D 未啟用。下一個接班的帳號照第 4 節十四步。
+**現在：帳號 C 值班中（LAWWW-C 10-19 01:4x 重新值班）**：使用者 01:4x「你可以先發佈最新版嗎……你先發佈然後剩下的測試留在等一下的交班，你現在先值班」——同一個工作階段重新值班（duty register），先發布 v9.10.2；01:36 第三次交班到重新值班之間沒有人值班、沒有別的 commit。LAWWW2-C、AA-C、BB-C 照舊交班狀態（使用者 21:4x）；帳號 A、B 休班，D 未啟用。
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
@@ -680,6 +680,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-19 01:4x | LAWWW-C（帳號 C）01:36 交班 → **LAWWW-C 重新值班**（同一個工作階段） | LAWWW | `fd40b186`（`claude/adoring-meitner-mqzst8`，不用合併） | 使用者 01:4x「你先發佈然後剩下的測試留在等一下的交班，你現在先值班」：先發布 v9.10.2（REL-9102-1019）；交班後到重新值班之間沒有別的 commit |
 | 2026-10-19 01:3x | LAWWW-C（帳號 C）交班 | LAWWW | 本次交班 commit（`claude/adoring-meitner-mqzst8`） | 使用者 23:0x「但我的意思是你把它做完才交班」：訊息照 LINE 做完（頭像用立繪、對話左右）、用到手機的流程測試全部跑過才交班（flow_termend、flow_v0_home、flow_typhoon、flow_invite_phone、flow_discuss_class、flow_vac_hometown）。下一班先看 docs/handoff/TEST_RESULTS_1018.md 第 0、0a 節 |
 | 2026-10-18 23:0x | LAWWW-C（帳號 C）22:5x 交班 → **LAWWW-C 重新值班**（同一個工作階段） | LAWWW | `ee0338e7`（`claude/adoring-meitner-mqzst8`，不用合併） | 使用者 23:0x「但我的意思是你把它做完才交班」：22:5x 交班時用到手機的流程測試還沒跑。duty register seq 13（`fb2098fe`）；交班後十分鐘內沒有別人的 commit |
 | 2026-10-18 22:5x | LAWWW-C（帳號 C）交班 | LAWWW | 本次交班 commit（`claude/adoring-meitner-mqzst8`） | 使用者 22:4x「訊息這邊做好 就可以交班」；正常交班。這一班：v9.10.1 發布後檢查結案、高雄閃家裡、LINE 式訊息頁＋B、卡住紀錄；其他三職位沒有叫回來。下一班先看 docs/handoff/TEST_RESULTS_1018.md 第 0 節 |
