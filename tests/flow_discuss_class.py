@@ -78,7 +78,10 @@ async def main():
         seen = []; menus = []; t0 = time.time()
         while time.time() - t0 < 300:
             s = await L.state(pg)
-            if s['dtext'] and (not seen or seen[-1] != s['dtext']): seen.append(s['dtext'])
+            # 記整句（GAME.D.full），不記打字中的半句：畫面上是一個字一個字打出來，抓的那一下還沒打完、點下去剛好打完就直接翻到下一句，
+            # 那一句只記到半句（2026-10-19 第二次跑：「周教授：「寫錯和想」，順序檢查找不到那句，第一次跑剛好抓到整句）
+            line = await pg.evaluate("(GAME.D&&GAME.D.active&&GAME.D.full)||''") or s['dtext']
+            if line and (not seen or seen[-1] != line): seen.append(line)
             if not s['busy'] and not s['dlg'] and not s['choices']: break
             if s['choices']:
                 menus.append(await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent)"))
