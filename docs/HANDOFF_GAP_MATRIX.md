@@ -26,26 +26,26 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 22:5x UTC 第二次正式交班
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:3x UTC 第三次正式交班
 
-使用者 22:4x：「訊息這邊做好 就可以交班」。這一班是 21:3x 回來接班（上一任＝LAWWW-C 自己 14:51 交班，中間沒有人值班）；使用者 21:4x：「其他帳號先不用回來，你先自己修」——**AA-C、BB-C、LAWWW2-C 一直是交班狀態**（`duty verify` 異常 2 的三項就是這個）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0 節。**
+使用者 22:4x：「訊息這邊做好 就可以交班」→ 22:5x 交班；使用者 23:0x：「但我的意思是你把它做完才交班」→ **23:0x 重新值班**（duty seq 13），把訊息做完、用到手機的流程測試全部跑過才交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x「其他帳號先不用回來，你先自己修」）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0、0a 節。**
 
 **A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
-- **v9.10.1 發布後檢查結案**（REL-9101-POSTCHECK-1018）：失敗是測試沒處理要回覆的訊息自動打開手機（遊戲暫停），兩版一模一樣；改測試後 minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real 對 v9.10.1 `4c0cbefc` 和開發分支 ALL PASS（docs/RELEASES.md v9.10.1）。
-- **從高雄回來閃出臺北的家修好**（BUG-KH-HOMEFLASH-1018，`2ad61c5f`）：住家裡時 3D 底下鋪的圖跟著 2D 的背景（tests/home_backdrop_unit.js，舊程式 5 FAIL）。
-- **手機訊息照 LINE＋使用者選 B**（PHONE-LINE-UI-1018，`3b2f2618`、`f4a5755f`）：自動跳出來先停在列表；每列頭像字、名字、最新一句、時間、未讀、待回覆；點進去從最新一句開始、往上滑看舊的、表頭固定；直向橫向截圖 `shots/phone_line_*.png`。
-- **卡住紀錄**（`d3643e46`）：卡住 10 秒時存「哪一段沒結束」到瀏覽器 `fatiao3d_stuck`，匯出存檔帶 `_stuck`；stale_lock_escape PASS。搬家卡住在 v9.10.1 重現兩次沒卡住（加速＋一般速度照使用者選擇），腳本在 tests/repro_1018/。
-- duty verify 同帳號回來誤報修好（`7c7363b3`，handoff_duty_sim 20/20）；USER_WANTS J10 補負責人。
+- **手機訊息照 LINE 做完**（PHONE-LINE-UI-1018，USER_WANTS X50）：自動跳出來先停在列表（使用者選 B）；每列頭像（那個人的立繪裁臉，群組、通知、沒有立繪的用字）、名字、最新一句、時間、未讀、「待回覆」；點進去從最新一句開始、往上滑看舊的、表頭固定；別人說的靠左、自己說的靠右；列表上方沒有待回覆區塊（使用者選 A）。`e88246af`（第二班 `3b2f2618`、`f4a5755f`）；直向橫向截圖 `shots/phone_line_*.png`。
+- **用到手機的流程測試全部跟上、跑過**（遊戲沒改，測試照手機自動跳出來 D103 和 LINE 列表改）：flow_termend 12/12、flow_v0_home 8/8（新遊戲到 8/29 進法律系，跳日期途中手機跳出來 50 次都按「跳過」繼續）、flow_typhoon、flow_invite_phone ALL PASS；flow_discuss_class 9/9 ALL PASS（第一次跑抓到翹課轉述的 bug、修好；第二次是測試抓到打字中的半句、改成記整句）；flow_vac_hometown ALL PASS。
+- **翹課的群組轉述又收得到**（BUG-SKIPNOTE-SCENE-1019，`7fa05797`）：flow_discuss_class 抓到——10/16 加的「同學要真的在教室才有反應句」也擋到下課後的群組轉述（說的人不在玩家身邊就不發）；轉述改成不看，課堂上的反應句照舊；discuss_unit 加一項（修改前 FAIL）。
+- node 單元測試 302 支：300 過；rel_feel、reload_resume 比對原始碼的寫法跟上前兩班的程式後過（`c6fd22fe`）；bg_images 第 1 項＝經濟系四張背景等使用者生圖（BG-ECON-B1-1018，預期）。
+- 第二班的成果照舊（v9.10.1 發布後檢查結案、高雄閃家裡、卡住紀錄、duty verify 修好），見第 11 節第一則。
 
-**B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①~~問使用者要不要保留訊息列表上方的待回覆區塊~~（使用者 22:5x 選 A：不要、照現在，UA-LAWWW-1018-45）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
+**B｜全部未完成**：TEST_RESULTS_1018.md 第 0 節「下一班第一件事」、第 2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①v9.10.2 候選在瀏覽器走 TEST_RESULTS 第 3 節剩下的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完直接接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪），再照 TESTING 第五節發 v9.10.2 ②保齡球、搬家卡住：等使用者在 v9.10.2 上傳有 `_stuck` 的存檔 ③給 AA、BB 的照舊（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）④等使用者的圖（經濟系四張背景、系烤 CG）。
 
-**C｜正在做的**：沒有（背景工作都跑完了）。
+**C｜正在做的**：沒有（背景測試都跑完）。
 
-**D｜本班新的使用者決策**：21:4x 其他帳號先不用回來、LAWWW 自己修（UA-LAWWW-1018-41）；22:4x 手機自動跳出來選 B＋LINE 的預覽與捲動（UA-LAWWW-1018-42）；22:4x 訊息做好就交班（UA-LAWWW-1018-44）。
+**D｜本班新的使用者決策**：22:5x 選 A：訊息列表上方不要「待回覆」區塊（UA-LAWWW-1018-45）；23:0x「但我的意思是你把它做完才交班」（UA-LAWWW-1018-46）。
 
 **E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
 
-**F｜測試**：見 TEST_RESULTS 第 0 節表格；node 單元測試：home_backdrop、phone_line_list、phone_auto（改成開列表）、v0_kxphone、v3_phone_small、econ_ff、econ_ff2、v0_home_ff、home_unit 全過。
+**F｜測試**：TEST_RESULTS 第 0a 節表格；紀錄 `tests/repro_1018/logs/phone_line_*.log`。turn_check：回合 406 個、超過上限 66 個；本班超過的一個是 10-19 00:4x 接續摘要後那一回合（7 分鐘、68 次工具：改測試、查其他碰到手機的測試、跑單元測試一起做）——改法：背景測試一開跑就結束回合，查別的放下一回合。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -321,6 +321,28 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+- **（2026-10-19 C 帳號第三次交班前的第 1 節原文：22:5x 第二次交班）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 22:5x UTC 第二次正式交班
+
+  使用者 22:4x：「訊息這邊做好 就可以交班」。這一班是 21:3x 回來接班（上一任＝LAWWW-C 自己 14:51 交班，中間沒有人值班）；使用者 21:4x：「其他帳號先不用回來，你先自己修」——**AA-C、BB-C、LAWWW2-C 一直是交班狀態**（`duty verify` 異常 2 的三項就是這個）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0 節。**
+
+  **A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
+  - **v9.10.1 發布後檢查結案**（REL-9101-POSTCHECK-1018）：失敗是測試沒處理要回覆的訊息自動打開手機（遊戲暫停），兩版一模一樣；改測試後 minimap_direction、p0_movement、touch_flow_wenzhou、zone_transitions、flow_class_real 對 v9.10.1 `4c0cbefc` 和開發分支 ALL PASS（docs/RELEASES.md v9.10.1）。
+  - **從高雄回來閃出臺北的家修好**（BUG-KH-HOMEFLASH-1018，`2ad61c5f`）：住家裡時 3D 底下鋪的圖跟著 2D 的背景（tests/home_backdrop_unit.js，舊程式 5 FAIL）。
+  - **手機訊息照 LINE＋使用者選 B**（PHONE-LINE-UI-1018，`3b2f2618`、`f4a5755f`）：自動跳出來先停在列表；每列頭像字、名字、最新一句、時間、未讀、待回覆；點進去從最新一句開始、往上滑看舊的、表頭固定；直向橫向截圖 `shots/phone_line_*.png`。
+  - **卡住紀錄**（`d3643e46`）：卡住 10 秒時存「哪一段沒結束」到瀏覽器 `fatiao3d_stuck`，匯出存檔帶 `_stuck`；stale_lock_escape PASS。搬家卡住在 v9.10.1 重現兩次沒卡住（加速＋一般速度照使用者選擇），腳本在 tests/repro_1018/。
+  - duty verify 同帳號回來誤報修好（`7c7363b3`，handoff_duty_sim 20/20）；USER_WANTS J10 補負責人。
+
+  **B｜全部未完成**：TEST_RESULTS_1018.md 第 0、2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①~~問使用者要不要保留訊息列表上方的待回覆區塊~~（使用者 22:5x 選 A：不要、照現在，UA-LAWWW-1018-45）②v9.10.2 候選在瀏覽器走一次（含 7/25 客運版）再照 TESTING 第五節發布 ③保齡球、搬家卡住等使用者上傳有 `_stuck` 的存檔 ④給 AA、BB 的照舊（第一班列的 E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）⑤等使用者的圖（經濟系四張背景、系烤 CG）。
+
+  **C｜正在做的**：沒有（背景工作都跑完了）。
+
+  **D｜本班新的使用者決策**：21:4x 其他帳號先不用回來、LAWWW 自己修（UA-LAWWW-1018-41）；22:4x 手機自動跳出來選 B＋LINE 的預覽與捲動（UA-LAWWW-1018-42）；22:4x 訊息做好就交班（UA-LAWWW-1018-44）。
+
+  **E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
+
+  **F｜測試**：見 TEST_RESULTS 第 0 節表格；node 單元測試：home_backdrop、phone_line_list、phone_auto（改成開列表）、v0_kxphone、v3_phone_small、econ_ff、econ_ff2、v0_home_ff、home_unit 全過。
 
 - **（2026-10-18 22:5x C 帳號第二次交班前的第 1 節原文：14:5x 第一次交班）**
   ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 14:5x UTC 正式交班

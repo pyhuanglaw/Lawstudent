@@ -3,8 +3,8 @@
  "account": "C",
  "session": "session_01Me1thu8Zn934H58kWKNfuF",
  "branch": "claude/adoring-meitner-mqzst8",
- "since": "2026-10-18T23:00Z",
- "state": "on",
- "sinceSha": "ee0338e7",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-10-19T01:36Z",
+ "sha": "686b8735",
+ "snapshot": "2026-10-19T0135Z_C_LAWWW.json"
 }
