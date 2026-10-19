@@ -19792,7 +19792,7 @@
    "title": "手機訊息改成 LINE 的樣子：對話列表（每個人／群組一格、最新的對話排最上面、未讀數）、點進去才看那個人的對話",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -19806,7 +19806,8 @@
    },
    "source": "使用者 2026-10-18 15:0x：「手機訊息跳出出來，結果還要往下滑新的在最下面，我希望你可以參考line每個人物的對話框點進去才看得到人物由上往下排列最新的訊息在上面如果你這一批做不完你就記錄成任務」",
    "authorized": "使用者直接指示",
-   "next": "【22:5x 使用者選 A：列表上方不要「待回覆」區塊，照現在（UA-LAWWW-1018-45；43 已確認）】【22:5x 交班】直向、橫向截圖確認（shots/phone_line_*.png；tests/repro_1018/phone_line_shots.py）：自動跳出來停在列表、沒有待回覆區塊、點進去捲到最新一則（橫向 scroll 191/191）、往上滑表頭固定在上面、沒有 JS 例外。還沒做：問使用者要不要保留列表上方的待回覆區塊（UA-LAWWW-1018-43）；BB 回來後跑 flow_termend、flow_v0_home、flow_typhoon（都已跟著改：先點那一列） ｜ 舊：【22:5x 使用者選 B】手機自動跳出來（要回覆的訊息 STORY.phoneAuto、跳日期途中收到訊息 GM.phoneThread skip）先停在對話列表；列表上方的「待回覆」區塊拿掉，改成那一列標「待回覆」（AI 解讀，回覆時告訴使用者，UA-LAWWW-1018-43 confirmed:false）；點進去從最新一句開始，回覆、新訊息重畫時本來在最下面就留在最下面、往上看舊的不拉回；對話表頭（‹ 訊息）固定在上面；「這週的訊息」那一行跟著要回的那一則。tests：phone_auto_unit（改成開列表）、phone_line_list_unit、flow_termend（先點以安那一列）。瀏覽器截圖跑中 ｜ 舊：【22:4x LAWWW-C】訊息頁改成 LINE 式列表（game3d.js msgHTML、phone3d.js threads 的 {sys:true}、index.html .chat*）：最上面「待回覆」（可以回的訊息、別人約你、改約），下面一個人／群組／通知一列（頭像字、名字、最後一句、時間、未讀、待回覆），最新的在上面；原本下面混在一起的 40 則拿掉；約你、改約的按鈕也搬進那個人的對話（threadHTML ivBtns）。tests/phone_line_list_unit.js（舊程式 2 項 FAIL）。下一步：瀏覽器截圖看畫面（直向、橫向）；跳出來直接進那一段（現在）還是先停列表，問使用者 ｜ 舊：這一批先做：自動跳出來的對話打開時捲到最新一則（game3d.js openPhone）。還沒做：對話列表照最後一則訊息時間排序、最新在上、每格頭像＋最後一句＋未讀數；點進去才看；跳出來的時候先停在列表還是直接進那一段，問使用者"
+   "next": "【10-19 01:3x LAWWW-C 做完】使用者 23:0x「你把它做完才交班」：頭像用立繪（裁臉放進圓形；群組、通知、沒有立繪的用字）、對話別人靠左自己靠右；用到手機的流程測試全部跟上並 ALL PASS（遊戲沒改，測試照 D103 自動跳出來和 LINE 列表改）。下一步：跟 v9.10.2 一起發布（USER_WANTS X50 在開發分支），發布後請使用者看手機訊息頁 ｜ 舊：【22:5x 使用者選 A：列表上方不要「待回覆」區塊，照現在（UA-LAWWW-1018-45；43 已確認）】【22:5x 交班】直向、橫向截圖確認（shots/phone_line_*.png；tests/repro_1018/phone_line_shots.py）：自動跳出來停在列表、沒有待回覆區塊、點進去捲到最新一則（橫向 scroll 191/191）、往上滑表頭固定在上面、沒有 JS 例外。還沒做：問使用者要不要保留列表上方的待回覆區塊（UA-LAWWW-1018-43）；BB 回來後跑 flow_termend、flow_v0_home、flow_typhoon（都已跟著改：先點那一列） ｜ 舊：【22:5x 使用者選 B】手機自動跳出來（要回覆的訊息 STORY.phoneAuto、跳日期途中收到訊息 GM.phoneThread skip）先停在對話列表；列表上方的「待回覆」區塊拿掉，改成那一列標「待回覆」（AI 解讀，回覆時告訴使用者，UA-LAWWW-1018-43 confirmed:false）；點進去從最新一句開始，回覆、新訊息重畫時本來在最下面就留在最下面、往上看舊的不拉回；對話表頭（‹ 訊息）固定在上面；「這週的訊息」那一行跟著要回的那一則。tests：phone_auto_unit（改成開列表）、phone_line_list_unit、flow_termend（先點以安那一列）。瀏覽器截圖跑中 ｜ 舊：【22:4x LAWWW-C】訊息頁改成 LINE 式列表（game3d.js msgHTML、phone3d.js threads 的 {sys:true}、index.html .chat*）：最上面「待回覆」（可以回的訊息、別人約你、改約），下面一個人／群組／通知一列（頭像字、名字、最後一句、時間、未讀、待回覆），最新的在上面；原本下面混在一起的 40 則拿掉；約你、改約的按鈕也搬進那個人的對話（threadHTML ivBtns）。tests/phone_line_list_unit.js（舊程式 2 項 FAIL）。下一步：瀏覽器截圖看畫面（直向、橫向）；跳出來直接進那一段（現在）還是先停列表，問使用者 ｜ 舊：這一批先做：自動跳出來的對話打開時捲到最新一則（game3d.js openPhone）。還沒做：對話列表照最後一則訊息時間排序、最新在上、每格頭像＋最後一句＋未讀數；點進去才看；跳出來的時候先停在列表還是直接進那一段，問使用者",
+   "evidence": "2026-10-19 01:3x LAWWW-C：瀏覽器流程（手機模擬、觸控）flow_termend 12/12、flow_v0_home 8/8、flow_typhoon、flow_invite_phone、flow_discuss_class、flow_vac_hometown ALL PASS（手機自動跳出來停在列表、點那一列、點進去回覆、跳日期途中按「跳過」）；直向橫向截圖 shots/phone_line_{auto,thread}_{port,land}.png；node phone_line_list_unit、phone_auto_unit；commit 3b2f2618、f4a5755f、e88246af；紀錄 tests/repro_1018/logs/phone_line_*.log、docs/handoff/TEST_RESULTS_1018.md 第 0a 節"
   },
   {
    "id": "BUG-NYE-ORIGIN-1018",
@@ -20093,7 +20094,7 @@
    "title": "翹了討論課，手機群組收不到那一堂的轉述（說轉述的同學不在玩家身邊就不發）",
    "area": "v1",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -20107,7 +20108,8 @@
    },
    "source": "2026-10-19 01:1x LAWWW-C 跑 flow_discuss_class（PHONE-LINE-UI-1018 的流程測試）B 抓到；AA_104 4-2 翹課的群組轉述",
    "authorized": "一般 bug（回歸：f977d81b 10-16）",
-   "next": "【10-19 01:2x LAWWW-C 修好（開發分支，v9.10.2 候選）】原因：classes3d.js reactOK 在 10/16 加了 inScene（同學要真的在 3D 教室才有反應句，使用者 10-15「以安不在教室卻回答老師」），skipNotes 也用 reactOK，說轉述的人不在玩家身邊（例：中午在校園）就不發。修法：reactOK 多一個 away 參數，skipNotes 用 true（群組訊息不看 inScene），課堂上的反應句照舊。tests/discuss_unit.js 加一項（修改前 FAIL）；classes3d 相關單元測試 211 支全過。下一步：flow_discuss_class 重跑（跑中）"
+   "next": "【10-19 01:3x 驗過】跟 v9.10.2 一起發布 ｜ 舊：【10-19 01:2x LAWWW-C 修好（開發分支，v9.10.2 候選）】原因：classes3d.js reactOK 在 10/16 加了 inScene（同學要真的在 3D 教室才有反應句，使用者 10-15「以安不在教室卻回答老師」），skipNotes 也用 reactOK，說轉述的人不在玩家身邊（例：中午在校園）就不發。修法：reactOK 多一個 away 參數，skipNotes 用 true（群組訊息不看 inScene），課堂上的反應句照舊。tests/discuss_unit.js 加一項（修改前 FAIL）；classes3d 相關單元測試 211 支全過。下一步：flow_discuss_class 重跑（跑中）",
+   "evidence": "2026-10-19 01:3x LAWWW-C：flow_discuss_class（真實玩家流程、不用 turbo）第一次 B FAIL（轉述沒進手機：G.msgs 只有兩則、note 已記 skip_55:const_1:am），修好以後 B PASS、第三次 ALL PASS 9/9；tests/discuss_unit.js 新的一項修改前 FAIL、修改後 PASS；classes3d 相關單元測試 211 支全過；commit 7fa05797；紀錄 tests/repro_1018/logs/phone_line_flow_discuss_class*.log"
   },
   {
    "id": "KX-EXPR-1018",
