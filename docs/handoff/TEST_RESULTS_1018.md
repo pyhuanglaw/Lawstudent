@@ -33,8 +33,8 @@
 | flow_termend（期末的飯） | **ALL PASS 12/12**：列表看得到以安那一列（最新一句＋待回覆）→ 點進去回「好。」→ 排 12/20 19:00、芯慈自動婉拒 → 出發 → 飯 → 交往。紀錄 `tests/repro_1018/logs/phone_line_flow_termend.log` | `d2921c40`、`f73391b1` |
 | flow_v0_home（經濟系一整年） | **ALL PASS 8/8**：新遊戲到 8/29 進法律系；畫面檢查 200 次沒有黑畫面、被蓋住；二月那一場、考試、放榜都演到；跳日期途中手機跳出來 50 次都停在列表、按「跳過」繼續；卡住保險 0、JS 例外 0。紀錄 `tests/repro_1018/logs/phone_line_flow_v0_home.log` | `d2921c40`、`f73391b1` |
 | flow_typhoon、flow_invite_phone | ALL PASS（23:3x 那一輪） | `d2921c40` |
-| flow_discuss_class（翹課的轉述在手機） | 跑中 | `749f4699` |
-| flow_vac_hometown（寒暑假去她家；手機「朋友」） | 跑中 | — |
+| flow_discuss_class（翹課的轉述在手機） | 第一次：A（上課）全過、**B FAIL＝抓到遊戲的 bug**：翹了討論課，手機群組收不到轉述。原因：10/16 加的「同學要真的在教室才有反應句」（inScene，`f977d81b`）也擋到下課後的群組轉述，說的人不在玩家身邊（中午在校園）就不發。修好（`7fa05797`，BUG-SKIPNOTE-SCENE-1019）：轉述不看 inScene，課堂上的反應句照舊；`tests/discuss_unit.js` 加一項（修改前 FAIL）、classes3d 相關單元測試 211 支全過。重跑：跑中 | `749f4699`、`7fa05797` |
+| flow_vac_hometown（寒暑假去她家；手機「朋友」） | **ALL PASS**：可昕（高雄）、沛珊（台中）都約得到、扣高鐵錢、演完回臺北；錢不夠變灰。紀錄 `tests/repro_1018/logs/phone_line_flow_vac_hometown.log` | — |
 | node 單元測試 302 支 | 300 過；**rel_feel、reload_resume 是比對原始碼的寫法沒跟上前兩班的程式**（功能沒變），改測試比對範圍後過（`c6fd22fe`）；**bg_images_unit 第 1 項照舊 FAIL＝預期**：經濟系四張背景（補習班櫃台、桌遊店、捷運車廂、路邊講電話）程式接好、等使用者生圖（BG-ECON-B1-1018），沒有圖時遊戲用深色底；圖放進 assets/bg/ 就會過 | `c6fd22fe` |
 
 測試為什麼要改（遊戲沒有改）：
@@ -164,6 +164,6 @@ RESULT: 26 FAIL → 霖澤館前（教室出口）：搖桿右 …; 校園預設
 v9.10.1 遊戲檔 `f4b47480` 以後的遊戲程式 commit，**一定要帶 a0926112**（劇情鎖住的保底）：
 a60f111e（AA_307 句子）、5ac83dbc（階梯最終版＋retake_home）、d3fdab82（美國校園、法學院圖書館、四季）、a0926112、5a351d1b、2e28928c、09ff80aa、4a03aadf、fa03d80d、2af6c40d、df06fdc8、b0b5d954、f09cf0e7。
 第二班加的：2ad61c5f（高雄閃家裡＋測試處理手機自動打開）、3b2f2618＋f4a5755f（LINE 式訊息頁、B）、d3643e46（卡住紀錄）。
-第三班加的：e88246af（訊息列表頭像用立繪、對話左右）；其他都是測試（d2921c40、f73391b1、749f4699、c6fd22fe）。
+第三班加的：e88246af（訊息列表頭像用立繪、對話左右）、7fa05797（翹課的群組轉述又收得到）；其他都是測試（d2921c40、f73391b1、749f4699、c6fd22fe）。
 
 發布前：先解決第 1 節（搖桿在測試裡不動）、跑 docs/TESTING.md 第五節、check_orphans／check_lines／題目漏收檢查（HV-15 第 5 點），告訴使用者這一版沒有的是哪些。

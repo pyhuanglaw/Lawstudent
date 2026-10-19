@@ -20089,6 +20089,27 @@
    "next": "【21:5x LAWWW-C 修好（開發分支，v9.10.2 候選）】原因：7/25 客運版 ev_y0_kh_bus_h 從家裡出發（trigger:home），整天演完才回家，演的時候 HOME.at 還是 true；home3d.js backdrop 在 3D 底下鋪家裡的圖，換場景（新圖載入、2D 淡出淡入）那一下露出來。修法：底下鋪的圖跟著 2D 現在的背景（2D 顯示別的圖就鋪同一張、深色底就深色），只有 2D 透明／沒開而且人真的在家才鋪家裡；從家裡出發的 2D 出遊、剛出家門也不再鋪家裡（深色）。tests/home_backdrop_unit.js 9 項（舊程式 5 項 FAIL）。還沒在瀏覽器看：7/25 客運版從家裡出發走完一次（下一班 BB 或發布前） ｜ 舊：【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2c 節】查：人在高雄的 2D 演出時 HOME 還是「在家」（H.at），兩段之間 ADV 沒有背景就露出家裡的底圖（home3d.js backdrop）。修法：在外地的演出期間，backdrop 不要用家裡的圖（改黑或用那一段的背景）"
   },
   {
+   "id": "BUG-SKIPNOTE-SCENE-1019",
+   "title": "翹了討論課，手機群組收不到那一堂的轉述（說轉述的同學不在玩家身邊就不發）",
+   "area": "v1",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上第一次翹討論型 B 課（民總、憲法…）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "2026-10-19 01:1x LAWWW-C 跑 flow_discuss_class（PHONE-LINE-UI-1018 的流程測試）B 抓到；AA_104 4-2 翹課的群組轉述",
+   "authorized": "一般 bug（回歸：f977d81b 10-16）",
+   "next": "【10-19 01:2x LAWWW-C 修好（開發分支，v9.10.2 候選）】原因：classes3d.js reactOK 在 10/16 加了 inScene（同學要真的在 3D 教室才有反應句，使用者 10-15「以安不在教室卻回答老師」），skipNotes 也用 reactOK，說轉述的人不在玩家身邊（例：中午在校園）就不發。修法：reactOK 多一個 away 參數，skipNotes 用 true（群組訊息不看 inScene），課堂上的反應句照舊。tests/discuss_unit.js 加一項（修改前 FAIL）；classes3d 相關單元測試 211 支全過。下一步：flow_discuss_class 重跑（跑中）"
+  },
+  {
    "id": "KX-EXPR-1018",
    "title": "可昕不管什麼對話表情都一樣：重考期在家 71 句、閒聊階梯、事件 164 句沒有標表情（立繪其實有 11 種）",
    "area": "v0",
