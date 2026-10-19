@@ -64,12 +64,17 @@ async def main():
         for _ in range(900):   # 遊戲時間 20:10 → 20:39（turbo 下約 2～3 分鐘）；先答應一個就不會再收到別的邀約，所以要等兩則都到
             ok = await pg.evaluate("['te_Y1S1_heroine_01','te_Y1S1_classmate_xinci'].every(t=>(GAME.G.msgs||[]).some(m=>m.tag===t&&(m.day<GAME.G.day||m.h<=GAME.G.hour)))")   # 以安 20:30、芯慈 20:39（一則一則隔 9 分鐘）
             if ok: break
+            # 要回的訊息到了，手機會自己跳出來、遊戲暫停（D103）：讀檔的可昕那幾則、20:30 以安那則都會。這裡要等兩則都到，所以像玩家一樣先收起來，時間才會走
+            if await L.phone_away(pg, cdp): print('   [玩家操作] 手機自己跳出來（要回的訊息）→ 先收起來', flush=True)
             s = await L.state(pg)
             if s['dlg']: await L.tap(pg, cdp, '#dlg')
             await pg.wait_for_timeout(500)
         msgs = await pg.evaluate("(GAME.G.msgs||[]).filter(m=>/^te_Y1S1_/.test(m.tag||'')).map(m=>[m.from,m.text])")
         run.check('20:30 以安的心意邀約「考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。」＋芯慈的朋友邀約', ok and ['heroine_01', '考完了。……這次只有我們兩個，可以嗎？我訂了位子，七點。'] in msgs and any(m[0] == 'classmate_xinci' for m in msgs), json.dumps(msgs, ensure_ascii=False))
-        await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+        if await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            print('   [玩家操作] 芯慈那則到了、手機自己跳出來（停在對話列表）→ 直接用', flush=True)
+        else:
+            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
         await L.tap(pg, cdp, '#phoneTabs button[data-ptab="msg"]'); await pg.wait_for_timeout(900)
         # 訊息頁像 LINE（PHONE-LINE-UI-1018，使用者 22:4x 選 B）：列表上以安那一列標「待回覆」，點進去才回
         row = await pg.evaluate("(()=>{ const e=document.querySelector('#phoneBody .chatRow[data-th=\"p:heroine_01\"]'); return e?e.innerText:null; })()")
