@@ -20194,7 +20194,7 @@
    "title": "發布 v9.10.2（v9.10.1 以後開發分支的修正：手機訊息照 LINE、高雄閃家裡、劇情鎖住的保底與卡住紀錄、翹課轉述…）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -20208,7 +20208,29 @@
    },
    "source": "使用者 2026-10-19 01:4x：「你可以先發佈最新版嗎既然你的大部分測試都過了，中間沒有其他人值班，所以你可以直接從剛剛的地方開始，你先發佈然後剩下的測試留在等一下的交班，你現在先值班」",
    "authorized": "使用者直接指示（D85：LAWWW 發布）",
-   "next": "【01:4x LAWWW-C 重新值班】發布前：版本字樣 v9.10.2、HV-15 第 5 點（check_orphans、check_lines、題目漏收）、乾淨 checkout 跑 deploy_check；PR 到 main、合併、看 GitHub Pages 部署；RELEASES.md 寫這版有的／沒有的；USER_WANTS 在開發分支的列改在遊戲裡。剩下的測試（TESTING 第五節其他幾支、TEST_RESULTS 第 3 節沒在瀏覽器看過的）照使用者說的留到交班"
+   "next": "【01:52 發布完成】剩下的測試照使用者說的留到交班：REL-9102-POSTCHECK-1019 ｜ 舊：【01:4x LAWWW-C 重新值班】發布前：版本字樣 v9.10.2、HV-15 第 5 點（check_orphans、check_lines、題目漏收）、乾淨 checkout 跑 deploy_check；PR 到 main、合併、看 GitHub Pages 部署；RELEASES.md 寫這版有的／沒有的；USER_WANTS 在開發分支的列改在遊戲裡。剩下的測試（TESTING 第五節其他幾支、TEST_RESULTS 第 3 節沒在瀏覽器看過的）照使用者說的留到交班",
+   "evidence": "2026-10-19 LAWWW-C：乾淨 checkout f6351696 deploy_check ALL PASS（版本字樣 v9.10.2、96 支 script ?v=9.10.2、33 區域、5387 個網址、JS 例外 0）；PR #8 合併 main 9335763d（和 f6351696 git diff 為空）；GitHub Pages run 39187157610 01:52:21 success；紀錄 docs/RELEASES.md v9.10.2"
+  },
+  {
+   "id": "REL-9102-POSTCHECK-1019",
+   "title": "v9.10.2 發布後檢查：TESTING 第五節其他幾支＋還沒在瀏覽器看過的項目",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-19 01:4x：「你先發佈然後剩下的測試留在等一下的交班」",
+   "authorized": "使用者直接指示",
+   "next": "對 main 9335763d（乾淨 worktree）跑 docs/TESTING.md 第五節其他幾支：reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7（10-18 22:2x 對開發分支 ALL PASS，之後只改手機訊息畫面、翹課轉述、版本字樣）；deploy_check 沒走的 us_campus、us_lawlib；TEST_RESULTS_1018.md 第 3 節還沒在瀏覽器看過的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪）。有壞的修、重發 v9.10.3。測試可以派 BB（D100），BB 不在就 LAWWW 自己跑"
   }
  ]
 }

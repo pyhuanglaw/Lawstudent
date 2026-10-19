@@ -26,26 +26,24 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:3x UTC 第三次正式交班
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:5x UTC 第四次正式交班（發布 v9.10.2 以後）
 
-使用者 22:4x：「訊息這邊做好 就可以交班」→ 22:5x 交班；使用者 23:0x：「但我的意思是你把它做完才交班」→ **23:0x 重新值班**（duty seq 13），把訊息做完、用到手機的流程測試全部跑過才交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x「其他帳號先不用回來，你先自己修」）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0、0a 節。**
+使用者 01:4x：「你可以先發佈最新版嗎既然你的大部分測試都過了，中間沒有其他人值班，所以你可以直接從剛剛的地方開始，你先發佈然後剩下的測試留在等一下的交班，你現在先值班」→ 01:4x 同一個工作階段重新值班、發布 v9.10.2、交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細：docs/RELEASES.md v9.10.2、docs/handoff/TEST_RESULTS_1018.md 第 0、0a 節。**
 
-**A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
-- **手機訊息照 LINE 做完**（PHONE-LINE-UI-1018，USER_WANTS X50）：自動跳出來先停在列表（使用者選 B）；每列頭像（那個人的立繪裁臉，群組、通知、沒有立繪的用字）、名字、最新一句、時間、未讀、「待回覆」；點進去從最新一句開始、往上滑看舊的、表頭固定；別人說的靠左、自己說的靠右；列表上方沒有待回覆區塊（使用者選 A）。`e88246af`（第二班 `3b2f2618`、`f4a5755f`）；直向橫向截圖 `shots/phone_line_*.png`。
-- **用到手機的流程測試全部跟上、跑過**（遊戲沒改，測試照手機自動跳出來 D103 和 LINE 列表改）：flow_termend 12/12、flow_v0_home 8/8（新遊戲到 8/29 進法律系，跳日期途中手機跳出來 50 次都按「跳過」繼續）、flow_typhoon、flow_invite_phone ALL PASS；flow_discuss_class 9/9 ALL PASS（第一次跑抓到翹課轉述的 bug、修好；第二次是測試抓到打字中的半句、改成記整句）；flow_vac_hometown ALL PASS。
-- **翹課的群組轉述又收得到**（BUG-SKIPNOTE-SCENE-1019，`7fa05797`）：flow_discuss_class 抓到——10/16 加的「同學要真的在教室才有反應句」也擋到下課後的群組轉述（說的人不在玩家身邊就不發）；轉述改成不看，課堂上的反應句照舊；discuss_unit 加一項（修改前 FAIL）。
-- node 單元測試 302 支：300 過；rel_feel、reload_resume 比對原始碼的寫法跟上前兩班的程式後過（`c6fd22fe`）；bg_images 第 1 項＝經濟系四張背景等使用者生圖（BG-ECON-B1-1018，預期）。
-- 第二班的成果照舊（v9.10.1 發布後檢查結案、高雄閃家裡、卡住紀錄、duty verify 修好），見第 11 節第一則。
+**A｜本班成果**
+- **v9.10.2 上線**（REL-9102-1019 已驗收）：main `9335763d`（PR #8，檔案和測過的 `f6351696` 逐檔相同），GitHub Pages run 39187157610 01:52:21 成功。發布前：乾淨 checkout deploy_check ALL PASS（版本字樣 v9.10.2、96 支 script ?v=9.10.2、33 區域、5387 個網址、JS 例外 0）；題目漏收檢查（和 AA 分支最新版逐題相同，483 題）；check_lines（v9.10.1 以後改的 12 筆提醒都不是手抄錯字）；check_orphans。
+- USER_WANTS「在開發分支」74 列改成「在遊戲裡（v9.10.2 起）」，對應的 20 筆 asks 跟著改（asks OK）。
+- 上一班（01:3x 交班）的成果見第 11 節第一則：手機訊息照 LINE 做完、用到手機的流程測試六支 ALL PASS、翹課群組轉述修好。
 
-**B｜全部未完成**：TEST_RESULTS_1018.md 第 0 節「下一班第一件事」、第 2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①v9.10.2 候選在瀏覽器走 TEST_RESULTS 第 3 節剩下的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完直接接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪），再照 TESTING 第五節發 v9.10.2 ②保齡球、搬家卡住：等使用者在 v9.10.2 上傳有 `_stuck` 的存檔 ③給 AA、BB 的照舊（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）④等使用者的圖（經濟系四張背景、系烤 CG）。
+**B｜全部未完成**：第一件事＝**REL-9102-POSTCHECK-1019**（使用者說剩下的測試留到交班）：對 main 跑 TESTING 第五節其他幾支（reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7）、deploy_check 沒走的 us_campus／us_lawlib、TEST_RESULTS 第 3 節還沒在瀏覽器看過的；有壞的修、重發 v9.10.3。其他照第 11 節第一則的 B（卡住等使用者上傳 `_stuck` 存檔、給 AA／BB 的、等使用者的圖）；USER_WANTS 第 1 節改成在遊戲裡的列還沒搬到第 3 節。
 
-**C｜正在做的**：沒有（背景測試都跑完）。
+**C｜正在做的**：沒有。
 
-**D｜本班新的使用者決策**：22:5x 選 A：訊息列表上方不要「待回覆」區塊（UA-LAWWW-1018-45）；23:0x「但我的意思是你把它做完才交班」（UA-LAWWW-1018-46）。
+**D｜本班新的使用者決策**：01:4x 先發布、剩下的測試留到交班、先值班（UA-LAWWW-1019-47，已完成）。
 
-**E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
+**E｜跨 AI**：沒有（沒有傳訊息給任何工作階段）。
 
-**F｜測試**：TEST_RESULTS 第 0a 節表格；紀錄 `tests/repro_1018/logs/phone_line_*.log`。turn_check：回合 406 個、超過上限 66 個；本班超過的一個是 10-19 00:4x 接續摘要後那一回合（7 分鐘、68 次工具：改測試、查其他碰到手機的測試、跑單元測試一起做）——改法：背景測試一開跑就結束回合，查別的放下一回合。
+**F｜測試**：發布前的見 A；發布後檢查還沒跑（B 第一件事）。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -321,6 +319,28 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+- **（2026-10-19 01:5x C 帳號第四次交班前的第 1 節原文：01:3x 第三次交班）**
+  ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:3x UTC 第三次正式交班
+
+  使用者 22:4x：「訊息這邊做好 就可以交班」→ 22:5x 交班；使用者 23:0x：「但我的意思是你把它做完才交班」→ **23:0x 重新值班**（duty seq 13），把訊息做完、用到手機的流程測試全部跑過才交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x「其他帳號先不用回來，你先自己修」）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 的 `roles.LAWWW.lastCommit` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細結果與下一班第一件事：`docs/handoff/TEST_RESULTS_1018.md` 第 0、0a 節。**
+
+  **A｜本班成果（都在開發分支、都還沒發布；v9.10.2 候選）**
+  - **手機訊息照 LINE 做完**（PHONE-LINE-UI-1018，USER_WANTS X50）：自動跳出來先停在列表（使用者選 B）；每列頭像（那個人的立繪裁臉，群組、通知、沒有立繪的用字）、名字、最新一句、時間、未讀、「待回覆」；點進去從最新一句開始、往上滑看舊的、表頭固定；別人說的靠左、自己說的靠右；列表上方沒有待回覆區塊（使用者選 A）。`e88246af`（第二班 `3b2f2618`、`f4a5755f`）；直向橫向截圖 `shots/phone_line_*.png`。
+  - **用到手機的流程測試全部跟上、跑過**（遊戲沒改，測試照手機自動跳出來 D103 和 LINE 列表改）：flow_termend 12/12、flow_v0_home 8/8（新遊戲到 8/29 進法律系，跳日期途中手機跳出來 50 次都按「跳過」繼續）、flow_typhoon、flow_invite_phone ALL PASS；flow_discuss_class 9/9 ALL PASS（第一次跑抓到翹課轉述的 bug、修好；第二次是測試抓到打字中的半句、改成記整句）；flow_vac_hometown ALL PASS。
+  - **翹課的群組轉述又收得到**（BUG-SKIPNOTE-SCENE-1019，`7fa05797`）：flow_discuss_class 抓到——10/16 加的「同學要真的在教室才有反應句」也擋到下課後的群組轉述（說的人不在玩家身邊就不發）；轉述改成不看，課堂上的反應句照舊；discuss_unit 加一項（修改前 FAIL）。
+  - node 單元測試 302 支：300 過；rel_feel、reload_resume 比對原始碼的寫法跟上前兩班的程式後過（`c6fd22fe`）；bg_images 第 1 項＝經濟系四張背景等使用者生圖（BG-ECON-B1-1018，預期）。
+  - 第二班的成果照舊（v9.10.1 發布後檢查結案、高雄閃家裡、卡住紀錄、duty verify 修好），見第 11 節第一則。
+
+  **B｜全部未完成**：TEST_RESULTS_1018.md 第 0 節「下一班第一件事」、第 2、4 節；USER_WANTS 第 1 節；`check_handoff.py queue --owner LAWWW`。重點：①v9.10.2 候選在瀏覽器走 TEST_RESULTS 第 3 節剩下的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完直接接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪），再照 TESTING 第五節發 v9.10.2 ②保齡球、搬家卡住：等使用者在 v9.10.2 上傳有 `_stuck` 的存檔 ③給 AA、BB 的照舊（E30-MOM、CRAM-DEC-SCENE、KH-TRIP-MORE…；BLACK-BG-AUDIT、CAMP-PORTRAITS）④等使用者的圖（經濟系四張背景、系烤 CG）。
+
+  **C｜正在做的**：沒有（背景測試都跑完）。
+
+  **D｜本班新的使用者決策**：22:5x 選 A：訊息列表上方不要「待回覆」區塊（UA-LAWWW-1018-45）；23:0x「但我的意思是你把它做完才交班」（UA-LAWWW-1018-46）。
+
+  **E｜跨 AI**：沒有（其他三個職位都交班；本班沒有傳訊息給任何工作階段）。
+
+  **F｜測試**：TEST_RESULTS 第 0a 節表格；紀錄 `tests/repro_1018/logs/phone_line_*.log`。turn_check：回合 406 個、超過上限 66 個；本班超過的一個是 10-19 00:4x 接續摘要後那一回合（7 分鐘、68 次工具：改測試、查其他碰到手機的測試、跑單元測試一起做）——改法：背景測試一開跑就結束回合，查別的放下一回合。
 
 - **（2026-10-19 C 帳號第三次交班前的第 1 節原文：22:5x 第二次交班）**
   ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-18 22:5x UTC 第二次正式交班
