@@ -20231,6 +20231,27 @@
    "source": "使用者 2026-10-19 01:4x：「你先發佈然後剩下的測試留在等一下的交班」",
    "authorized": "使用者直接指示",
    "next": "對 main 9335763d（乾淨 worktree）跑 docs/TESTING.md 第五節其他幾支：reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7（10-18 22:2x 對開發分支 ALL PASS，之後只改手機訊息畫面、翹課轉述、版本字樣）；deploy_check 沒走的 us_campus、us_lawlib；TEST_RESULTS_1018.md 第 3 節還沒在瀏覽器看過的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪）。有壞的修、重發 v9.10.3。測試可以派 BB（D100），BB 不在就 LAWWW 自己跑"
+  },
+  {
+   "id": "FEATURE-LIST-9102-1019",
+   "title": "以 v9.10.2 為基準的玩家功能清單：逐項分「線上可玩／開發分支已完成／有企劃但未實作／等待美術／暫停」，把已經進遊戲卻還寫待辦的找出來",
+   "area": "META",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "—",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-19 02:0x：有一些已經坐著也進遊戲的東西還是寫了待辦。先整理一份以v9.10.2 為基準的玩家功能清單，逐項區分「線上可玩」「開發分支已完成」「有企劃但未實作」「等待美術」「暫停」。這件事不需要重新規劃整款遊戲，卻能有效減少之後的重工",
+   "authorized": "使用者直接指示",
+   "next": "【02:0x LAWWW-C】背景子代理分段核對（tasks.json 依學年學期分、USER_WANTS 依主題分），每項對 main 9335763d 的程式找證據；彙整成 docs/handoff/PLAYER_FEATURES_v9.10.2.md＋「看板寫待辦、其實已在遊戲裡」的清單。不重新規劃、不新增功能"
   }
  ]
 }
