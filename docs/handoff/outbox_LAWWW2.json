@@ -844,6 +844,27 @@
    "state": "MODEL_READY；測試工作樹 reachability_all（linze_3f、linze_4f）ALL PASS（舊版 FAIL）、flow_linze_upper ALL PASS（Playwright 手機模擬）；READY_FOR_ART_REVIEW",
    "remaining": "「看」的字等 AA；如果使用者要桌子整個貼牆，靠牆那一條長椅只能從兩端坐（等使用者）；實機",
    "next": "LAWWW-C 換 linze_3f／4f 的 .glb／.json／.layout.json，套 patches/linze_upper_reach_fix.diff（或重新產生 linze_upper_layouts.js）"
+  },
+  {
+   "task": "L118-SHOPS-AUDIT-1020 118 巷九間店美術驗收與效能（README）＋修正：滇香織布、家常電視的「看」被座位搶；韓食座位卡玻璃邊；九間的說明文字 note→dev",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/l118_korea.glb",
+    "assets/models/env/second_ai/l118_korea.json",
+    "assets/models/env/second_ai/l118_dian.layout.json",
+    "assets/models/env/second_ai/l118_self.layout.json",
+    "assets/models/env/second_ai/l118_home.layout.json",
+    "assets/models/env/second_ai/l118_cafe2.layout.json",
+    "assets/models/env/second_ai/l118_korea.layout.json",
+    "assets/models/env/second_ai/l118_noodle2.layout.json",
+    "tools/blender/env_second/lane118_shops.py",
+    "docs/art-rebuild/second_ai/patches/l118_audit_layouts.diff",
+    "docs/art-rebuild/second_ai/test_shots/l118_audit_1020/README.md"
+   ],
+   "state": "MODEL_READY；測試工作樹 reachability_all 九間 ALL PASS（修之前三間 FAIL）；READY_FOR_ART_REVIEW",
+   "remaining": "自助餐、家常菜從門口看不到店員；Pasta 吧檯層架、慢讀咖啡書櫃鏡頭轉到後面時擋一下；「看」的字等 AA；實機",
+   "next": "LAWWW-C 換 l118_korea.glb／.json＋六份 .layout.json，重新產生 l118_shop_layouts.js（或套 patches/l118_audit_layouts.diff）"
   }
  ]
 }

@@ -178,8 +178,9 @@ def chair(c, x, z, yaw, style='wood', col='#6b4a30'):
         ccyl(c.vm, (x, 0.0, z), (x, 0.025, z), 0.2, '#2b2b2b', seg=14); clathe(c.vm, [(0.15, 0.0), (0.16, 0.005), (0.16, 0.02), (0.15, 0.02)], x, 0.3, z, '#2b2b2b', seg=14)
 
 
-def table_seats(c, cx, cz, w, d, sides, style='wood', col='#6b4a30', kind='eat', gap=0.3, n_per=1):
-    """桌子旁邊的椅子：sides＝'-z' '+z' '-x' '+x'（椅子在桌子哪一邊）；坐的人面向桌子"""
+def table_seats(c, cx, cz, w, d, sides, style='wood', col='#6b4a30', kind='eat', gap=0.3, n_per=1, ap_side=False):
+    """桌子旁邊的椅子：sides＝'-z' '+z' '-x' '+x'（椅子在桌子哪一邊）；坐的人面向桌子
+    ap_side：'-z'／'+z' 的椅子從桌子的兩端走過來（走近點在椅子旁邊 0.5 m）——兩排桌子靠得近、椅子背對背的時候用（不然按鈕會被另一排的椅子搶走）"""
     for sd in sides:
         for k in range(n_per):
             t = (k + 0.5) / n_per - 0.5
@@ -187,7 +188,7 @@ def table_seats(c, cx, cz, w, d, sides, style='wood', col='#6b4a30', kind='eat',
                 x = cx + t * w; z = cz - d / 2 - gap if sd == '-z' else cz + d / 2 + gap; yaw = 0.0 if sd == '-z' else PI
             else:
                 z = cz + t * d; x = cx - w / 2 - gap if sd == '-x' else cx + w / 2 + gap; yaw = PI / 2 if sd == '-x' else -PI / 2
-            chair(c, x, z, yaw, style, col); c.seat(x, z, yaw, (cx, cz), kind)
+            chair(c, x, z, yaw, style, col); c.seat(x, z, yaw, (cx, cz), kind, ap=(x + (0.5 if x > cx else -0.5), z) if ap_side and sd in ('-z', '+z') else None)
 
 
 def table_set(c, x, z, kind='tw'):
@@ -786,7 +787,7 @@ def build_dian(c):
     tr.cbox(X0 + 0.02, X0 + 0.05, 2.47, 2.5, za - 0.08, zb + 0.08, '#6b4a30')
     for k, col in enumerate(['#8c2a2a', '#d9a441', '#2f5d50', '#8c2a2a', '#e8d9b5', '#3b3f6b', '#d9a441', '#8c2a2a']):
         y1 = 2.45 - k * 0.12; tr.cbox(X0 + 0.02, X0 + 0.028, y1 - 0.12, y1, za, zb, col)
-    c.look('tapestry', -0.8, 0.5, 0.6, '牆上的織布', '看（緬甸的條紋布；說明文字由 AA 寫）')
+    c.look('tapestry', -0.8, 0.5, 0.6, '牆上的織布', dev='緬甸的條紋布；遊戲裡顯示的字等 AA 寫')
     wall_fan(c, X0, 2.45, 2.0, '+x'); ac_unit(c, X1, 2.5, -0.6, '-x')
     plant(c, X1 - 0.4, Z1 - 0.45, 1.15)
     c.cam = 4.2
@@ -822,8 +823,8 @@ def build_self(c):
     dd = c.door; printed(c, 'S', dd['x'] + 0.55, dd['x'] + 1.0, 1.3, 1.5, 'HOURS', inset=0.03)
     printed(c, 'W', Z0 + 0.15, Z0 + 0.65, 1.45, 1.67, 'P2')
     wall_fan(c, X0, 2.5, 1.2, '+x'); ac_unit(c, 1.95, 2.6, Z0, '+z', w=0.9)   # 冷氣在店名牌東邊（不蓋住店名）
-    c.look('soup', 0.75, Z0 + 1.05, 0.7, '自取的湯', '看（今天是什麼湯；說明文字由 AA 寫）')
-    c.look('return', X0 + 0.55, Z0 + 1.1, 0.8, '餐盤回收台', '吃完把餐盤放這裡（AA_280：「你把餐盤放到回收台，順手拿了一張餐巾紙。」）')
+    c.look('soup', 0.75, Z0 + 1.05, 0.7, '自取的湯', dev='今天是什麼湯；遊戲裡顯示的字等 AA 寫')
+    c.look('return', X0 + 0.55, Z0 + 1.1, 0.8, '餐盤回收台', dev='吃完把餐盤放這裡；AA_280：「你把餐盤放到回收台，順手拿了一張餐巾紙。」（吃完才用）')
 
 
 def build_tea(c):
@@ -871,11 +872,11 @@ def build_home(c):
             if tx > 1 and sd == '+x': continue
             table_seats(c, tx, tz, 0.78, 0.78, (sd,), style='stool', col=cols[(k + int(tx)) % 2])
         table_set(c, tx + 0.2, tz + 0.2, 'tw')
-    tv(c, 'W', -1.2, 2.55, 0.95); c.look('tv', X0 + 0.5, 2.35, 0.6, '電視', '看（午間新聞；AA_280：「電視在播午間新聞，沒有人在看。」）')
+    tv(c, 'W', -1.2, 2.55, 0.95); c.look('tv', X0 + 0.5, 2.35, 0.6, '電視', '電視在播午間新聞，沒有人在看。', dev='AA_280 的原句')
     c.wg('W', 'trim', c.M['vc'], cm=True).cbox(X0, X0 + 0.3, 2.2, 2.24, -1.6, -0.8, '#3a3a3a')                 # 電視的架子
     counter(c, X0, X0 + 0.7, Z0, Z0 + 1.3, h=0.85, top='steel', front='#d9dadb', why='soup')                    # 自取的湯、白飯（西牆後段）
     rice_cooker(c, X0 + 0.35, 0.85, Z0 + 0.35); clathe(c.vm, [(0.0, 0.0), (0.17, 0.0), (0.17, 0.32), (0.18, 0.33), (0.0, 0.02)], X0 + 0.35, 0.85, Z0 + 0.95, '#c9ced2', seg=16)
-    c.look('soup', X0 + 1.4, Z0 + 0.7, 0.8, '自取的湯', '湯免費自取（說明文字由 AA 寫）')
+    c.look('soup', X0 + 1.4, Z0 + 0.7, 0.8, '自取的湯', dev='湯免費自取；遊戲裡顯示的字等 AA 寫')
     drink_fridge(c, 1.35, 2.15, Z0, face='+z')
     tubes(c, [(-2.6, -1.5, 'x'), (-0.45, -1.5, 'x'), (-0.45, 0.6, 'x'), (-2.6, 0.6, 'x'), (2.0, 0.6, 'z')])
     frame_board(c, 'E', -0.4, 1.6, 2.1, 2.85, '#5a2a1e'); printed(c, 'E', -0.4, 1.6, 2.1, 2.85, 'MENU', inset=0.014)
@@ -902,7 +903,7 @@ def build_cafe2(c):
     c.counter = dict(x0=X0 + 0.6, x1=1.2, z0=Z0 + 0.95, z1=Z0 + 1.5, h=1.0)
     c.clerk = dict(x=-0.2, z=round(Z0 + 0.5, 3), yaw=0.0, note='吧台後面（咖啡機旁），面向店裡（「內用的話，插座在窗邊。」）')
     c.order = dict(x=0.1, z=round(Z0 + 2.05, 3), r=0.8, label='點餐（' + c.T['name'] + '）', note='吧台前面；交給 LAWWW 接 AA_280（shop118:cafe2）')
-    bookshelf(c, X0, X0 + 0.32, -2.2, 2.4, h=2.3, along='z'); c.look('books', X0 + 0.9, 0.1, 1.0, '書架', '書可以自由取閱（說明文字由 AA 寫）')
+    bookshelf(c, X0, X0 + 0.32, -2.2, 2.4, h=2.3, along='z'); c.look('books', X0 + 0.9, 0.1, 1.0, '書架', dev='書可以自由取閱；遊戲裡顯示的字等 AA 寫')
     # 窗邊的吧檯（門的西邊）：高腳椅面向窗外，插座在檯面下
     c.wood.rbox(X0 + 0.35, 1.45, 1.0, 1.04, Z1 - 0.42, Z1 - 0.05, r=0.006, seg=1); c.vm.cbox(X0 + 0.4, 1.4, 0.0, 1.0, Z1 - 0.12, Z1 - 0.08, '#2b2b2b')
     outlets(c, X0 + 0.5, 1.3, 0.92, Z1 - 0.42, n=4)
@@ -960,12 +961,12 @@ def build_korea(c):
     c.counter = dict(x0=X0, x1=1.1, z0=Z0 + 0.95, z1=Z0 + 1.5, h=1.0)
     c.clerk = dict(x=-0.2, z=round(Z0 + 0.5, 3), yaw=0.0, note='櫃台後面（出菜口前），面向店裡（「小菜可以續喔。」）')
     c.order = dict(x=-0.2, z=round(Z0 + 2.05, 3), r=0.8, label='點餐（' + c.T['name'] + '）', note='櫃台前面；交給 LAWWW 接 AA_280（shop118:korea）')
-    glass_case(c, X1 - 0.6, X1, -1.2, 0.4, face='-x', rows=1, warm=False); c.look('banchan', X1 - 1.15, -0.4, 0.8, '小菜櫃', '小菜可以續（自己拿；說明文字由 AA 寫）')
+    glass_case(c, X1 - 0.6, X1, -1.2, 0.4, face='-x', rows=1, warm=False); c.look('banchan', X1 - 1.15, -0.4, 0.8, '小菜櫃', dev='小菜可以續（自己拿）；遊戲裡顯示的字等 AA 寫')
     drink_fridge(c, 1.5, 2.3, Z0, face='+z')
-    for (tx, tz) in ((-1.9, -1.3), (-1.9, 0.65), (0.4, -1.3), (0.4, 0.65), (0.4, 2.55)):   # 靠店面那一張離玻璃 1.3 m：外側的椅子後面走得過去（10-20 reachability_all：原本 3.0，走近點卡在玻璃邊）
-        table(c, tx, tz, 1.0, 0.72, top='wood'); table_seats(c, tx, tz, 1.0, 0.72, ('-z', '+z'), style='wood', col='#6a4a30', n_per=2); table_set(c, tx + 0.35, tz, 'korea')
+    for (tx, tz) in ((-1.75, -1.2), (-1.75, 0.75), (0.4, -1.2), (0.4, 0.75), (0.4, 2.7)):   # 靠店面那一張離玻璃 1.55 m：外側的椅子後面走得過去（10-20 reachability_all：原本 3.0，走近點卡在玻璃邊）；最裡面那一排照舊 −1.2（再往後，椅子後面到櫃台不到 0.6 m）；西邊那一列離西牆的層架 0.8 m（靠牆的椅子從旁邊走得過來）
+        table(c, tx, tz, 1.0, 0.72, top='wood'); table_seats(c, tx, tz, 1.0, 0.72, ('-z', '+z'), style='wood', col='#6a4a30', n_per=2, ap_side=True); table_set(c, tx + 0.35, tz, 'korea')
     banners(c, 'W', -3.0, 3.0, ['#c9463d', '#1f4e8c', '#f4f1ea']); banners(c, 'E', 0.8, 3.6, ['#1f4e8c', '#c9463d', '#f4f1ea'])
-    tubes(c, [(-1.9, -0.1, 'x'), (0.4, -0.1, 'x'), (0.4, 2.0, 'x'), (-1.9, 2.0, 'x'), (-0.5, Z0 + 1.2, 'x')])
+    tubes(c, [(-1.75, -0.1, 'x'), (0.4, -0.1, 'x'), (0.4, 2.0, 'x'), (-1.75, 2.0, 'x'), (-0.5, Z0 + 1.2, 'x')])
     frame_board(c, 'N', 1.2, 3.1, 2.0, 2.72, '#1f2e4c') if False else None
     printed(c, 'N', -3.0, -1.2, 1.85, 2.52, 'MENU', inset=0.016)
     printed(c, 'W', -0.9, 1.5, 2.5, 2.95, 'NAME') if False else printed(c, 'E', 1.0, 3.4, 2.15, 2.6, 'NAME')
@@ -1009,7 +1010,7 @@ def build_noodle2(c):
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1
     shell(c); kitchen(c, -1.2, 0.8, depth=1.6, win=(1.0, 1.55), door=(1.4, 2.15))
     noodle_station(c, X0, X0 + 0.75, 1.3, Z1 - 0.2)
-    glass_case(c, -1.75, -1.3, 1.3, Z1 - 0.4, face='+x', rows=2, warm=False); c.look('sides', -0.75, 2.8, 0.7, '小菜櫃', '小菜自己拿，一盤三十（說明文字由 AA 寫）')
+    glass_case(c, -1.75, -1.3, 1.3, Z1 - 0.4, face='+x', rows=2, warm=False); c.look('sides', -0.75, 2.8, 0.7, '小菜櫃', dev='小菜自己拿，一盤三十；遊戲裡顯示的字等 AA 寫')
     c.block(X0, -1.25, 1.25, Z1, 'noodle_back')
     c.counter = dict(x0=-1.75, x1=-1.3, z0=1.3, z1=Z1 - 0.4, h=1.05, note='小菜櫃（老闆隔著它面向客人）')
     c.clerk = dict(x=-2.1, z=2.6, yaw=PI / 2, note='煮麵台和小菜櫃中間，面向店裡（老闆：「大碗小碗？」）；從巷子隔著玻璃看得到')
