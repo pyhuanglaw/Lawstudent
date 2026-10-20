@@ -153,3 +153,10 @@ const SOCIAL_GRAPH=[
 // ---------- 2D 立繪登錄（PORTRAIT REGISTRY）：檔案尚未提供 → 全部 fallback 到 PLACEHOLDER_2D_PORTRAIT ----------
 const PORTRAITS={};
 for(const id in CHARACTERS){ const c=CHARACTERS[id]; if(!c.portrait) continue; const tier=c.visual_tier; const expressions=tier>=3?['neutral','smile','laugh','surprised','embarrassed','annoyed','sad','serious','tired','thinking']:(tier>=2?['neutral','smile','annoyed','surprised','sad','thinking']:['neutral','smile']); const outfits=tier>=3?['campus','casual','formal']:['campus']; const o={}; for(const of of outfits){ o[of]={}; for(const ex of expressions) o[of][ex]='assets/portraits/'+id+'/'+of+'/'+ex+'.webp'; } PORTRAITS[id]={characterId:id,displayName:c.name,tier,defaultOutfit:'campus',defaultPortrait:'assets/portraits/'+id+'/campus/neutral.webp',outfits:o,silhouette:c.gender==='f'?'f':'m'}; }
+// ---------- 只有立繪的人物（PORTRAIT_ONLY）----------
+/* 有正式立繪檔（assets/portraits/<id>/，PORTRAIT_FILES）、但不是 CHARACTERS 裡的人物（沒有 3D 模型、作息、關係）：不要加進 CHARACTERS——
+   關係面板、作息、3D 生成、存檔這些 for(const id in CHARACTERS) 的地方都看不到她。
+   台詞的 speaker 寫稱呼（alias）或 id 都對到這個 id（events3d.js 的 speakerId、encounter3d.js 的 sayer）；ADV 照檔案補登立繪（adv3d.js 的 regFromFiles）；
+   對話框的名字：寫稱呼的照原文、寫 id 的用 name（SOCIAL.displayName）。沒有立繪檔的配角不要放這裡（照舊 compact 對話）。
+   予樂：可昕的政大室友（立繪 campus 的 neutral／smile／surprised，BB-B 驗收過）；手機一對一 p:yule 的名字在 phone3d.js 的 FAM_NM。測試：node tests/yule_portrait_unit.js */
+const PORTRAIT_ONLY={ yule:{id:'yule',name:'予樂',alias:['予樂'],gender:'f'} };
