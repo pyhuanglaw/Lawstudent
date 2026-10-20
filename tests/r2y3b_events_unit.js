@@ -37,7 +37,7 @@ const run=async id=>{ said=[]; opts=[]; await EVENTS.run(ev(id)); };
 const answer=(id,k)=>PHONE.answer(G,id,k);
 const nested=id=>{ const m=PHONE.byAsk(G,id); return m; };
 const mine=(th,first)=>{ const L=txt(th), i=L.indexOf(first); return i<0?[]:L.slice(i); };   /* 只看這一批的訊息（同一天別的規則也會傳）*/
-const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call','ev_xun_path','ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3'];
+const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call','ev_xun_path','ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3','ev_xinci_first_place','ev_xinci_first_place_video','ev_an_town_notice','ev_an_town_notice_repair','ev_kexin_k20','ev_kexin_k20_call','ev_fangyt_tickets','ev_zhiruo_f3_cafe','ev_x1_moveout_us'];
 (async()=>{
   check('0. 事件都在、R2Y3B 掛上去了', IDS.every(id=>!!ev(id))&&typeof R2Y3B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0, IDS.filter(id=>!ev(id)).join());
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
@@ -249,6 +249,94 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('B. 日本路線：4/24 21:00 視訊（日本 22:00）；「這片是你的。我幫你吃。」、沒有走到門口那一句；KX_BDAY[3] video', !!bv&&bv.h===21&&bv.place==='視訊'&&(at('2028-04-24',21),true));
   await run('ev_kexin_birthday_y3');
   check('B. 日本路線視訊的台詞', has('這片是你的。我幫你吃。')&&has('三……三十分鐘到了。第三個明年說。')&&!has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='video');
+
+  // ---------- 2-Y3-42 慈 6 ----------
+  const here=id=>{ const n={id,charId:id,obj:{position:{x:0.6,y:0,z:0}},lv:0}; GM.npc[id]=n; E.npcs.push(n); };
+  fresh('2028-05-04',19.2,'noodle'); R('classmate_xinci','FAM'); R('zhe','FRI'); here('classmate_xinci');
+  check('X6-0. 5/4 19:00 芯慈在麵店（作息）：可以演', EVENTS.check(ev('ev_xinci_first_place'))&&(STORY.schedEnt(CHARACTERS.classmate_xinci,G)||{}).zone==='noodle');
+  picks=[1]; await run('ev_xinci_first_place');
+  check('X6-1. 當面「以安不在的這學期，我第一次考第一。」…；「哪一部劇？」→「你要聽嗎？」＋阿哲兩碗；XINCI_FIRST（記憶＋旗標）', has('以安不在的這學期，我第一次考第一。')&&has('我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。')&&has('（她講了十分鐘。阿哲吃完了兩碗。）')&&SOCIAL.has('classmate_xinci','XINCI_FIRST')&&G.flags.XINCI_FIRST===true);
+  check('X6-2. 任何一版：沒有「不是因為要逃避什麼」', !JSON.stringify(ev('ev_xinci_first_place').dialogue).includes('逃避'));
+  fresh('2028-05-04',21,'dorm',{EXCHANGE_ROUTE:'JP'}); grpJoin(); R('classmate_xinci','FAM'); date('heroine_01'); rules(); const xv=OUT.get(G,'y3_xc_video');
+  check('X6. 日本路線：5/4 21:40 視訊（日本 22:40）', !!xv&&Math.abs(xv.h-(21+40/60))<1e-6&&xv.place==='視訊');
+  fresh('2028-05-04',19.2,'noodle',{EXCHANGE_ROUTE:'JP'}); R('classmate_xinci','FAM'); here('classmate_xinci'); check('X6. 日本路線：麵店不演', !EVENTS.check(ev('ev_xinci_first_place')));
+
+  // ---------- 2-Y3-43 J2 町公所的一張通知 ----------
+  fresh('2028-05-05',20.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); const nq=OUT.get(G,'y3_an_notice');
+  check('N0. 日本路線、交往中：5/5 日本 21:00「明天下午，町公所門口。有一張通知，我想給你看。」；排 5/6 日本 15:00（時鐘 14:00）', txt('p:heroine_01').includes('heroine_01:明天下午，町公所門口。有一張通知，我想給你看。')&&!!nq&&nq.day===D('2028-05-06')&&nq.h===14);
+  CG_REGISTRY.cg_japan_notice_heroine01={file:'x'}; picks=[2]; cgs=[]; await run('ev_an_town_notice'); delete CG_REGISTRY.cg_japan_notice_heroine01;
+  check('N1. 交往中：CG-17；三選一；「兩個都有。」→抄進手帳；「這張不用傳給麵店團了。」；AN_TOWN_NOTICE there', cgs.join()==='cg_japan_notice_heroine01'&&has('可是整條街都照做。……這比命令可怕，還是比較好？')&&opts[0].length===3&&has('（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。')&&has('這張不用傳給麵店團了。')&&G.flags.AN_TOWN_NOTICE==='there');
+  check('N4. 旁白、台詞沒有說這是行政指導', !JSON.stringify(ev('ev_an_town_notice').dialogue.concat(ev('ev_an_town_notice_repair').dialogue)).includes('行政指導'));
+  fresh('2028-05-05',20.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); at('2028-05-06',14.6); OUT.tick(GM); at('2028-05-06',19.1); rules();
+  check('N. 交往中沒去：日本 20:00（時鐘 19:00）照片三則；AN_TOWN_NOTICE photo', txt('p:heroine_01').includes('heroine_01:町公所請大家『協力』，沒有罰則，大家都照做。')&&G.flags.AN_TOWN_NOTICE==='photo');
+  fresh('2028-05-06',20,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FRI'); rules(); const nr=OUT.get(G,'y3_an_notice_repair');
+  check('N2. 挽回中：5/6 日本 22:00（時鐘 21:00）宿舍大廳（只有「出發」）', !!nr&&nr.h===21&&nr.must===true);
+  picks=[0]; await run('ev_an_town_notice_repair');
+  check('N2. 「我不是在跟你和好。我只是看不懂。」；「……好。」→「晚安。」、REPAIR +1；沒有 CG', has('我不是在跟你和好。我只是看不懂。')&&has('晚安。')&&!!G.flags.REPAIR&&G.flags.REPAIR.heroine_01===1&&G.flags.AN_TOWN_NOTICE==='repair'&&cgs.length===0);
+  fresh('2028-05-06',21,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FRI'); picks=[1]; await run('ev_an_town_notice_repair');
+  check('N2. 「那我們可以談一下嗎？」→「我說了，我只是看不懂。」；REPAIR 不加', has('我說了，我只是看不懂。')&&!(G.flags.REPAIR&&G.flags.REPAIR.heroine_01));
+  fresh('2028-05-06',20.1,'dorm'); grpJoin(); R('heroine_01','FRI'); R('zhe','FRI'); rules();
+  check('N3. 台灣路線：20:00 群組照片＋阿哲「所以要不要協力？」', txt('g:noodle_team').join('|')==='heroine_01:（照片：町公所的通知）|heroine_01:這比命令可怕，還是比較好？|zhe:所以要不要協力？'&&G.flags.AN_TOWN_NOTICE==='group');
+  fresh('2028-05-06',20.2,'dorm',{AN_FAR_VIDEO:'guess'}); grpJoin(); date('heroine_01'); rules();
+  check('N3. 交往中、4/13 猜過：另外私訊「最後一行，你那天猜對一半。」', txt('p:heroine_01').includes('heroine_01:最後一行，你那天猜對一半。'));
+
+  // ---------- 2-Y3-44 可昕 K20 ----------
+  fresh('2028-05-11',21.1,'dorm'); date('kexin'); rules();
+  check('K20-0. 5/11 21:00「明天傍晚七點，河濱。我想跟你說一件實習遇到的事。」、兩個回覆', txt('p:kexin').includes('kexin:明天傍晚七點，河濱。我想跟你說一件實習遇到的事。')&&PHONE.byAsk(G,'y3_kx_k20').ask.opts.length===2);
+  answer('y3_kx_k20',0); rules(); const kq=OUT.get(G,'y3_kx_k20');
+  check('K20-0. 「好。」→ 排 5/12 19:00 公館河濱', !!kq&&kq.day===D('2028-05-12')&&kq.h===19);
+  picks=[1]; await run('ev_kexin_k20');
+  check('K20-1. 去了：「有個人聽懂了自己的處境，就不那麼怕了。」；「做這個要很累。」→「會。所以你要負責宵夜。」；KX_DIR.Y3 heard、KX_K20 river', has('有個人聽懂了自己的處境，就不那麼怕了。')&&has('會。所以你要負責宵夜。')&&!has('……這句我大二說過了。好，這次換你說一句。')&&G.flags.KX_DIR.Y3==='heard'&&G.flags.KX_K20==='river');
+  fresh('2028-05-12',19,'dorm',{KX_SUMMER:'tired'}); date('kexin'); picks=[1]; await run('ev_kexin_k20');
+  check('K20. KX_SUMMER tired：多「……這句我大二說過了。好，這次換你說一句。」', has('……這句我大二說過了。好，這次換你說一句。'));
+  fresh('2028-05-11',21.1,'dorm'); date('kexin'); rules(); answer('y3_kx_k20',1); at('2028-05-12',20.6); rules(); const kc=OUT.get(G,'y3_kx_k20_call');
+  check('K20-2. 沒去：21:00 電話（不是訊息；只有「接起來」）', txt('p:kexin').includes('kexin:……好。那我明天晚上打給你。')&&!!kc&&kc.h===21&&kc.must===true&&kc.place==='電話');
+  picks=[2]; await run('ev_kexin_k20_call');
+  check('K20-2. 電話「本來想在河濱講的。」；「（聽她說完）」→「……嗯。我講完了。早點睡。」；KX_K20 call', has('本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。')&&has('……嗯。我講完了。早點睡。')&&G.flags.KX_K20==='call'&&G.flags.KX_DIR.Y3==='heard');
+  check('K20-3. 任何一版：沒有案件內容、實習單位', !/案件|事務所|法扶|法院/.test(JSON.stringify(ev('ev_kexin_k20').dialogue.concat(ev('ev_kexin_k20_call').dialogue))));
+  fresh('2028-05-12',20.6,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); date('heroine_01'); rules();
+  check('K20. 日本路線：沒有河濱的邀約；21:00 電話', !PHONE.sent(G,'y3_kx_k20')&&!!OUT.get(G,'y3_kx_k20_call'));
+  await run('ev_kexin_k20_call'); check('K20. 日本路線電話第一句「這學期我在實習。……」（BB_98 原文）', has('這學期我在實習。今天有一個來問問題的人，聽懂了自己的處境。'));
+
+  // ---------- 2-Y3-45 方奕廷 F3 ----------
+  fresh('2028-05-29',21.1,'dorm'); R('npc_fangyt','FAM'); R('heroine_02','FAM'); rules(); const fq3=OUT.get(G,'y3_fang_f3');
+  check('F3-1. 一般玩家：5/29 21:00 電話（演出來的，只有「接起來」）', !!fq3&&fq3.day===D('2028-05-29')&&fq3.place==='電話'&&fq3.must===true&&G.flags.FANG_F3_DAY===D('2028-05-29'));
+  picks=[1]; await run('ev_fangyt_tickets');
+  check('F3-1. 「我六年沒約過任何人。要怎麼約。」；「說你剛好有兩張票。」→「我沒有剛好。」「我買了。」；FANG_F3 bought', has('我六年沒約過任何人。要怎麼約。')&&has('我沒有剛好。')&&has('我買了。')&&G.flags.FANG_F3==='bought');
+  G.zone='cafe'; at('2028-05-31',19.5); check('F3. 之後第一次在 Café 點餐：可以演芷若那兩句', EVENTS.check(ev('ev_zhiruo_f3_cafe')));
+  await run('ev_zhiruo_f3_cafe'); check('F3. 「奕廷約我去看電影。很老的那部，《秋天的晚飯》。」', has('奕廷約我去看電影。很老的那部，《秋天的晚飯》。')&&has('他連我高中看過哪幾部都記得。……我說好。'));
+  check('F3. 芷若這學期不再發心意邀約（TERMEND.heartWhy）', TERMEND.heartWhy(G,'heroine_02',TERMEND.windowOf('Y3S2'))===false);
+  fresh('2028-05-29',21.1,'dorm'); R('npc_fangyt','FAM'); R('heroine_02','FRI'); SOCIAL.rel('heroine_02').npcRom=40; { const L=DATE.log(G,'heroine_02'); L.count=4; L.wish=true; } rules();
+  check('F3-2. 5/29 芷若的心意邀約條件已到：延到 6/19（FANG_F3_DELAY、5/29 沒有電話）', G.flags.FANG_F3_DELAY===true&&!OUT.get(G,'y3_fang_f3'), JSON.stringify(TERMEND.cond(G,'heroine_02')));
+  at('2028-06-19',21.1); rules(); check('F3-2. 6/19 還沒交往：21:00 電話', (OUT.get(G,'y3_fang_f3')||{}).day===D('2028-06-19'));
+  fresh('2028-05-29',21.1,'dorm'); R('npc_fangyt','FAM'); date('heroine_02'); rules();
+  check('F3-3. 和芷若交往中：「芷若跟我說了。」三則、沒有電話；FANG_F3 congrats', txt('p:npc_fangyt').join('|')==='npc_fangyt:芷若跟我說了。|npc_fangyt:恭喜。……你要記得她喝什麼。我只會記電影。|npc_fangyt:下次爬山，你們兩個一起來。'&&!OUT.get(G,'y3_fang_f3')&&G.flags.FANG_F3==='congrats');
+  check('F3-4. 沒有真實的片名、導演', !/秋刀魚|小津/.test(fs.readFileSync(path.join(ROOT,'src/data/r2y3b_events.js'),'utf8')+fs.readFileSync(path.join(ROOT,'src/r2y3b3d.js'),'utf8')));
+  fresh('2028-05-29',21.1,'dorm'); SOCIAL.remember('npc_fangyt','FIRST_MET',''); R('heroine_02','FAM'); rules(); G.zone='cafe'; at('2028-05-30',19.5);
+  check('F3. 和方奕廷不到 FAMILIAR：沒有電話，只有芷若那兩句（nocall）', !OUT.get(G,'y3_fang_f3')&&G.flags.FANG_F3==='nocall'&&EVENTS.check(ev('ev_zhiruo_f3_cafe')));
+
+  // ---------- 2-Y3-49 宿舍抽籤 ----------
+  fresh('2028-07-15',10.1,'dorm'); rules();
+  check('L1. 台灣路線 7/15 10:00 宿舍系統「大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。」；DORM_Y4 self', txt('g:dorm').some(t=>t.endsWith('大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。'))&&!txt('g:dorm').some(t=>/床位保留/.test(t))&&G.flags.DORM_Y4==='self');
+  fresh('2028-07-15',10.1,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); rules();
+  check('L3. 美國路線：多「交換期間床位保留，12/23 起可以入住。」', txt('g:dorm').some(t=>t.endsWith('交換期間床位保留，12/23 起可以入住。')));
+  fresh('2028-07-15',10.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); answer('dorm_lottery_y4_sis',0);
+  check('L2. 日本路線：姊姊「宿舍的表我幫你填了。」「抽到了，四樓。」→「謝謝姊。」「回來請我吃飯。」；DORM_Y4 sister', txt('p:sister').slice(0,2).join('|')==='sister:宿舍的表我幫你填了。|sister:抽到了，四樓。'&&txt('p:sister').includes('sister:回來請我吃飯。')&&G.flags.DORM_Y4==='sister'&&!PHONE.inGroup(G,'dorm'), JSON.stringify(txt('p:sister')));
+  fresh('2027-07-15',10.1,'dorm'); rules(); check('L. 順便：2027 宿舍系統那一則', txt('g:dorm').some(t=>t.endsWith('大三宿舍抽籤結果：已分配。請於 9/5 前完成入住。')));
+
+  // ---------- 2-Y3-51 美國路線 X1 退宿 ----------
+  fresh('2028-07-25',14.1,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); HOME.rec(G).stay={Y3S:'stay'};
+  check('U1. 美國路線、暑假續住：7/25 14:00 到了', R2Y3B.x1Due(G));
+  said=[]; await R2Y3B.x1Go(GM);
+  check('U1. 507 只剩你這半邊；床墊下面的課表；「搬回臺北的家」計程車；之後住臺北的家；X1_US', has('（七月底。507 只剩你這半邊還有東西。柏翰暑假回新竹了，他的桌子空著。）')&&has('（宿舍的床墊翻起來的時候，下面有一張大一的課表。）')&&cards.some(c=>c[0]==='搬回臺北的家'&&c[1]==='計程車　約 30 分鐘')&&HOME.at(G)&&HOME.rec(G).lbreak==='Y3S'&&G.flags.X1_US===D('2028-07-25'));
+  fresh('2028-07-25',14.1,'campus',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); said=[]; cards=[]; await R2Y3B.x1Go(GM);
+  check('U1. 人在外面：先帶回宿舍再演', !!cards[0]&&cards[0][0]==='回宿舍'&&has('（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'));
+  fresh('2028-06-12',9,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); HOME.rec(G).stay={Y3S:'home'}; said=[];
+  check('U2. 暑假回家住：學期結束那天就搬（breakStartDue）', HOME.breakStartDue(G));
+  await HOME.breakStart(GM);
+  check('U2. 「暑假回家住。你把一年的東西裝進四個紙箱。」後面多床墊那一句；7/25 沒有', said.map(x=>x.t).join('|')==='暑假回家住。你把一年的東西裝進四個紙箱。|（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'&&(at('2028-07-25',14.1),!R2Y3B.x1Due(G)));
+  fresh('2028-06-12',9,'dorm',{EXCHANGE_ROUTE:'TW'}); HOME.rec(G).stay={Y3S:'home'}; said=[]; await HOME.breakStart(GM);
+  check('U. 台灣路線回家住：照原本（沒有床墊那一句）', said.map(x=>x.t).join('|')==='暑假回家住。你把一年的東西裝進四個紙箱。');
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

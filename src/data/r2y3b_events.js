@@ -285,6 +285,94 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
     outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
 
-  return [FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD];
+  /* ---------- 2-Y3-42 慈 6「第一名」：5/4（四）19:00～20:00 麵店長桌（芯慈在；一天的作息）；日本路線＝21:40 視訊（日本 22:40）---------- */
+  const XC_LINES=[ {speaker:'classmate_xinci',text:'以安不在的這學期，我第一次考第一。'},
+    {speaker:'classmate_xinci',text:'一點都不好玩。'},
+    {speaker:'classmate_xinci',text:'我把雙主修改成輔系了。經濟我還是喜歡。只是不用拿第一了。'},
+    {speaker:'classmate_xinci',text:'昨天晚上追劇追到兩點。……那部劇真的很好看。'},
+    {choice:[{text:'「恭喜。」',goto:'a'},{text:'「哪一部劇？」',goto:'b'}]},
+    {label:'a'},{speaker:'classmate_xinci',text:'嗯。……第二句你也聽到了吧。'},{goto:'end'},
+    {label:'b'},{speaker:'classmate_xinci',text:'你要聽嗎？'},
+    {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
+    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:'她第一次考第一'}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+  const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
+    prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},
+    dialogue:XC_LINES };
+  const XC_VIDEO={ id:'ev_xinci_first_place_video', title:'第一名', participants:['classmate_xinci'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'視訊',bg:'video'} ].concat(XC_LINES) };
+
+  /* ---------- 2-Y3-43 日本 J2「町公所的一張通知」（以安新 17；CG-17）：日本路線交往中＝5/6 日本 15:00 町公所門口；挽回中＝日本 22:00 宿舍大廳；台灣、美國路線＝20:00 群組（r2y3b3d.js）---------- */
+  const J2={ id:'ev_an_town_notice', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'町公所門口',bg:'jp_town_hall'},   /* 2D 沒有＝深色底＋字幕 */
+      {speaker:'heroine_01',text:'你看這張。寫的是『請協力』。沒有罰則。'},
+      cg('cg_japan_notice_heroine01'),   /* CG-17 在這一句出現 */
+      {speaker:'heroine_01',text:'可是整條街都照做。……這比命令可怕，還是比較好？'},
+      {choice:[{text:'「是信任。」',goto:'a'},{text:'「是壓力。」',goto:'b'},{text:'「兩個都有。」',goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',text:'信任誰？町公所，還是隔壁鄰居？'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'那沒照做的那一家，鄰居會怎麼看他？'},{goto:'end'},
+      {label:'c'},{speaker:'heroine_01',text:'（把這句抄進手帳）……好。那我想研究的，就是這兩個中間的線。'},
+      {label:'end'},
+      {speaker:null,text:'（她把那張通知拍下來。這次，沒有傳到麵店團。）'},   /* AA_187 1-5 交往中的結尾 */
+      {speaker:'heroine_01',text:'這張不用傳給麵店團了。'},
+      {set:{AN_TOWN_NOTICE:'there'}} ],   /* 法律：旁白不說這張通知是行政指導（AA_30 J2）*/
+    outingMissed:G=>{ const x=X(); if(x) x.noticePhoto(G); } };
+  const J2_REPAIR={ id:'ev_an_town_notice_repair', title:'町公所的一張通知', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[ {scene:'宿舍大廳',bg:'jp_dorm_lobby'},   /* 2D 沒有＝深色底＋字幕；沒有 CG-17 */
+      {speaker:'heroine_01',text:'……你看得懂這個字嗎？'},
+      {speaker:'player',text:'（看了一下）這是「截止日」。後面那個是「本人到場」。'},
+      {speaker:'heroine_01',text:'……謝謝。'},
+      {speaker:'heroine_01',text:'我不是在跟你和好。我只是看不懂。'},
+      {choice:[{text:'「……好。」',goto:'a'},{text:'「那我們可以談一下嗎？」',goto:'b'}]},
+      {label:'a'},{speaker:null,text:'（她把通知折好，收進手帳。）'},{speaker:'heroine_01',text:'晚安。'},{set:{AN_NOTICE_REPAIR_OK:true}},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'我說了，我只是看不懂。'},{speaker:null,text:'（她拿起字典走了。）'},
+      {label:'end'},{set:{AN_TOWN_NOTICE:'repair'}} ],
+    after:G=>{ const x=X(); if(x&&G.flags.AN_NOTICE_REPAIR_OK) x.repairAdd(G,'heroine_01'); } };   /* 「……好。」＝REPAIR +1（AA_254 第 10 節）*/
+
+  /* ---------- 2-Y3-44 可昕 K20「一個人聽懂了自己的處境」：5/12（五）19:00 公館河濱（5/11 她約）；沒去河濱、日本路線＝21:00 演出來的電話 ---------- */
+  const K20_AB=[ {label:'a'},{speaker:'kexin',text:'你怎麼知道？'},{speaker:'player',text:'妳每次都先等我講完。'},{goto:'end'},
+    {label:'b'},{speaker:'kexin',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',text:'……這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
+  const K20={ id:'ev_kexin_k20', title:'一個人聽懂了自己的處境', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'河濱',bg:'riverside'},
+      {speaker:null,text:'（公館的河濱。她靠著欄杆，看了很久的河才開口。）'},
+      {speaker:'kexin',text:'有個人聽懂了自己的處境，就不那麼怕了。'},
+      {speaker:'kexin',text:'我想做這個。'},
+      {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（不說話，陪她看河）',goto:'c'}]} ].concat(K20_AB,[
+      {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',text:'你不問，很好。那個人的事是他的。'},
+      {label:'end'},{set:{KX_K20:'river'}} ]),
+    after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
+  const K20_CALL={ id:'ev_kexin_k20_call', title:'可昕', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
+    dialogue:[ {scene:'電話'},
+      {speaker:null,text:'（電話。她那邊很安靜。）'},
+      {if:JP,speaker:'kexin',text:'這學期我在實習。今天有一個來問問題的人，聽懂了自己的處境。'},
+      {unless:JP,speaker:'kexin',text:'本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。'},   /* 沒去河濱（BB_98 10-1 原文）*/
+      {speaker:'kexin',text:'我想做這個。'},
+      {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（聽她說完）',goto:'l'}]} ].concat(K20_AB,[
+      {label:'l'},{speaker:'kexin',text:'……嗯。我講完了。早點睡。'},
+      {label:'end'},{set:{KX_K20:'call'}} ]),
+    after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
+
+  /* ---------- 2-Y3-45 方奕廷 F3「我買了」：5/29（一）21:00 演出來的電話（芷若的心意邀約條件那天已到＝延到 6/19）；之後第一次在 Café 點餐，芷若的兩句 ---------- */
+  const F3={ id:'ev_fangyt_tickets', title:'方奕廷', participants:['npc_fangyt'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'電話'},
+      {speaker:null,text:'（電話。他那邊有風的聲音，像是在陽台。）'},
+      {speaker:'npc_fangyt',text:'有一部很老的片，《秋天的晚飯》，在二輪重映。'},   /* 片名、導演虛構（檔尾裁定 #24）*/
+      {speaker:'npc_fangyt',text:'我要約芷若。'},
+      {speaker:'npc_fangyt',text:'我六年沒約過任何人。要怎麼約。'},
+      {choice:[{text:'「直接說。」',set:{FANG_F3:'direct'},goto:'a'},{text:'「說你剛好有兩張票。」',set:{FANG_F3:'bought'},goto:'b'},{text:'「要我幫你問嗎？」',set:{FANG_F3:'self'},goto:'c'}]},
+      {label:'a'},{speaker:'npc_fangyt',text:'直接說。'},{speaker:null,text:'（他重複一次。）'},{speaker:'npc_fangyt',text:'……好。我試試看。'},{goto:'end'},
+      {label:'b'},{speaker:'npc_fangyt',text:'我沒有剛好。'},{speaker:'npc_fangyt',text:'我買了。'},{goto:'end'},
+      {label:'c'},{speaker:'npc_fangyt',text:'不要。這個我要自己來。'},
+      {label:'end'} ] };
+  const F3_CAFE={ id:'ev_zhiruo_f3_cafe', title:'很老的那部', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:9, once:true, background:'blur',
+    prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.f3CafeDue(G); }},
+    dialogue:[ {speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+      {speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……我說好。'} ] };
+
+  /* ---------- 2-Y3-51 美國路線 X1 退宿：2028-07-25（二）14:00 宿舍 507（暑假續住的；回家住的接在學期結束搬家那一段，r2y3b3d.js）---------- */
+  const X1US={ id:'ev_x1_moveout_us', title:'退宿', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
+    dialogue:[ {speaker:null,text:'（七月底。507 只剩你這半邊還有東西。柏翰暑假回新竹了，他的桌子空著。）'},   /* 新寫的開頭 */
+      {speaker:null,text:'（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'} ] };   /* AA_144 X1 原文 */
+
+  return [FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3B_EVENTS);
