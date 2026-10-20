@@ -205,6 +205,86 @@ const R2Y3B_EVENTS=(function(){
     consequences:{flags:{Y3S2_ROOF_TOAST:true},memo:'清明，宿舍頂樓烤吐司'},
     outingMissed:G=>{ const x=X(); if(x) x.toastPhoto(G); } };
 
-  return [FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST];
+  /* ---------- 2-Y3-37 日本 CG-23「春天的河堤」：4/8（六）日本 16:30 大學城的河堤（日本路線、和以安交往中；4/7 她約）---------- */
+  const SAKURA={ id:'ev_an_sakura_riverbank', title:'春天的河堤', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'大學城的河堤',bg:'jp_riverbank'},
+      {speaker:null,text:'（河堤的石階上，櫻花一直在掉。以安坐著讀書，旁邊放著字典和一個保溫杯。）'},
+      cg('cg_sakura_riverbank_heroine01'),   /* CG-23 在這一句出現 */
+      {speaker:'heroine_01',text:'（在手帳寫一行，轉過來給你看）'},
+      {speaker:'手帳',text:'理由：櫻花只開一個禮拜。'},   /* 手帳上的字（AA_121：遊戲疊在 CG 上；疊字還沒做，先用一行顯示）*/
+      {speaker:'heroine_01',text:'……所以這週的讀書會，改在這裡。'},
+      {choice:[{text:'「那下週呢？」',goto:'a'},{text:'（坐下來，翻開書）',goto:'b'}]},
+      {label:'a'},{speaker:'heroine_01',text:'下週就謝了。下週回圖書館。'},{goto:'end'},
+      {label:'b'},{speaker:null,text:'（她看了你一眼，繼續讀。過了一頁，她把保溫杯推過來一點。）'},
+      {label:'end'},{set:{AN_SAKURA:'went'}} ],
+    outingMissed:G=>{ const x=X(); if(x) x.sakuraPhoto(G); } };
+
+  /* ---------- 2-Y3-38 主線 8「遠方」視訊（日本路線）：4/13（四）19:30（日本 20:30），麵店長桌打給在日本的祐廷（4/12 21:00 阿哲私訊）---------- */
+  const inG={custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')};
+  const gk=(...ids)=>({custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&ids.every(id=>knows(id,G))});
+  const FAR={ id:'ev_far_call_jp', title:'遠方', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:'zhe',text:'你那邊幾點？……你吃什麼？給我看。'},
+      {speaker:null,text:'（祐廷舉起一個便利商店的飯糰。）'},
+      {speaker:'zhe',text:'就這樣？'},
+      {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
+      {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'這週的筆記我留了。回來再給你。'},
+      {if:gk('classmate_xinci'),speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從廚房探出頭，舉起田野筆記，沒說話。）'},
+      {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
+      {speaker:'zhe',text:'好了，麵要糊了。……你自己也要吃飯。'},
+      {speaker:null,text:'（畫面關掉。房間比剛才安靜。）'},
+      {set:{FAR_CALL:'jp'}} ],   /* 不在麵店團、和阿哲 FAMILIAR 以上：阿哲一個人在宿舍頂樓打來，只留阿哲的台詞（上面群組那幾行都不出）*/
+    outingMissed:G=>{ const x=X(); if(x) x.farPhoto(G); } };
+
+  /* ---------- 2-Y3-39 語 5「一個人的電影」：4/24（一）9:30～12:00 傅鐘長椅當面；日本路線 4/24 10:00 視訊；台灣路線沒遇到＝4/27（四）19:00 麵店（她坐你旁邊說）---------- */
+  const YU5_TAIL=[ {speaker:'yu',text:'旁邊坐一個也是一個人來的女生。她說一個人看電影的人，都坐倒數第三排。'},
+    {speaker:'yu',text:'她說她高中每天都這樣。……好酷。'},
+    {speaker:'yu',text:'看完我打給阿哲講劇情。講了一個小時。他沒睡著。'},
+    {choice:[{text:'「看了哪一部？」',goto:'a'},{text:'「妳也坐倒數第三排？」',goto:'b'}]},
+    {label:'a'},{speaker:'yu',text:'一部很安靜的。……我差點睡著，可是沒有。'},{goto:'end'},
+    {label:'b'},{speaker:'yu',expression:'laugh',text:'對！下次我還要坐那裡。'},
+    {label:'end'},{mem:[{npc:'yu',tag:'YU_ALONE',note:'她一個人去看了一場電影'}]} ];
+  const yu5Pre=G=>{ const x=X(); return !!x&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has('yu','YU_ALONE')); };
+  const YU5={ id:'ev_yu_alone_movie', title:'一個人的電影', participants:['yu'], location:'campus', trigger:'auto', once:true, npcNear:'yu', time:[9.5,12], background:'blur',
+    prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return yu5Pre(G)&&!!x&&x.isDay(G,'2028-04-24')&&!x.inJP(G); }},
+    dialogue:[ {speaker:'yu',text:'週六我一個人去看電影。'} ].concat(YU5_TAIL) };
+  const YU5_NOODLE={ id:'ev_yu_alone_movie_noodle', title:'一個人的電影', participants:['yu'], location:'noodle', trigger:'auto', once:true, time:[19,21], background:'blur',
+    prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return yu5Pre(G)&&!!x&&x.isDay(G,'2028-04-27')&&!x.inJP(G)&&!(G.events&&G.events.done&&G.events.done.ev_yu_alone_movie); }},
+    dialogue:[ {speaker:'yu',text:'欸，跟你說。週六我一個人去看電影。'} ].concat(YU5_TAIL) };   /* 麵店版第一句（新寫）*/
+  const YU5_VIDEO={ id:'ev_yu_alone_movie_video', title:'一個人的電影', participants:['yu'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'視訊',bg:'video'},{speaker:'yu',text:'週六我一個人去看電影。'} ].concat(YU5_TAIL) };
+
+  /* ---------- 2-Y3-40 芷若 Z11b「倒數第三排」：4/24 起第一次在 Café 點餐（她在班；台灣、美國路線；FAMILIAR 以上）。日本路線＝4/22 22:00 票根照片（r2y3b3d.js）---------- */
+  const early={custom:G=>{ const x=X(); return !!x&&x.before(G,'2028-05-01'); }};
+  const Z11B={ id:'ev_zhiruo_third_row', title:'倒數第三排', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:9, once:true, term:['Y3S2'], background:'blur',
+    prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&!x.before(G,'2028-04-24')&&x.route(G)!=='JP'; }},
+    dialogue:[ {if:early,speaker:'heroine_02',text:'上週在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。'},
+      {unless:early,speaker:'heroine_02',text:'前陣子在戲院，倒數第三排，旁邊坐著一個也是一個人來的女生。'},   /* 5/1 以後才第一次去（新寫）*/
+      {speaker:'heroine_02',text:'散場的時候，她說她在練習一個人。'},
+      {speaker:'heroine_02',text:'我說，我練了六年了。'},
+      {speaker:'heroine_02',text:'……她問我練好了沒。我說，練好了。所以最近想換一種：兩個人看。'},
+      {speaker:null,text:'（她把杯子推過來，轉身去洗杯子。）'},
+      {choice:[{text:'「那個女生是小語。」',if:{memory:[{npc:'yu',tag:'YU_ALONE'}]},set:{ZR_Z11B:'yu'},consequences:{stamp:['ZR_Z11B_DAY']},goto:'y'},{text:'「那妳想跟誰看？」',set:{ZR_Z11B:'who'},goto:'w'},{text:'「下次我陪妳。」',set:{ZR_Z11B:'with'},goto:'c'}]},
+      {label:'y'},{speaker:null,text:'（她愣住。）'},{speaker:'heroine_02',text:'……阿哲的那個小語？'},{speaker:'player',text:'嗯。'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_02',text:'那下次遇到她，我請她一杯。'},
+        {mem:[{npc:'heroine_02',tag:'ZHIRUO_MET_YU',note:'告訴她戲院旁邊的女生是小語'}]},{goto:'end'},
+      {label:'w'},{speaker:'heroine_02',text:'……還在想。'},{speaker:null,text:'（她看著門口，笑了一下。）'},{speaker:'heroine_02',text:'想好了再跟你說。'},{goto:'end'},
+      {label:'c'},{speaker:'heroine_02',text:'好啊。'},{speaker:null,text:'（她說得很快，然後自己愣了一下。）'},{speaker:'heroine_02',text:'……那你要坐倒數第三排喔。我習慣那裡。'},
+      {label:'end'} ] };
+
+  /* ---------- 2-Y3-41 可昕 生日（大三）：4/24（一）18:00～18:30 公館，三十分鐘＋一片蛋糕；日本路線＝21:00 視訊（日本 22:00）。邀約、沒做的在 r2y3b3d.js ---------- */
+  const KXV={custom:G=>{ const x=X(); return !!x&&x.inJP(G); }};
+  const KX_BD={ id:'ev_kexin_birthday_y3', title:'她的生日（大三）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[ {if:KXV,scene:'視訊',bg:'video'},{unless:KXV,scene:'公館',bg:'gongguan_cake'},   /* 公館的甜點店 2D 沒有＝深色底＋字幕 */
+      {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',text:'這片是你的。我幫你吃。'},
+      {speaker:'kexin',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
+      {speaker:'kexin',text:'三……三十分鐘到了。第三個明年說。'},
+      {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
+      {unless:KXV,speaker:'kexin',text:'報告寫完了跟我說。'} ],
+    after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
+    outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
+
+  return [FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3B_EVENTS);
