@@ -398,12 +398,14 @@ def window_proto(wh, part):
     rm = Mesh('win_room', M['room_lit'] if lit else M['room_dark'])
     # 窗內房間的四面（地板、天花板、左右）往內縮 6 mm：原本剛好在窗洞的四個側面上（牆在 z −0.25～0），
     # 從玻璃斜著看進去，窗洞側面的牆磚和房間一直閃（BUG-WZFLICKER，check_coplanar：一扇窗 4 條，整條巷子上千條）
-    e = 0.006; rx0, rx1, ry0, ry1 = x0 + e, x1 - e, y0 + e, y1 - e
+    # x 方向內縮 2 cm：實例會在 x 方向縮放（窄的側窗縮到 0.27 倍），6 mm 縮完只剩 1.6 mm，遠處還是會閃（BUG-WZFLICKER-2，118 巷東側小巷旁的側窗）
+    e = 0.006; ex = 0.02; rx0, rx1, ry0, ry1 = x0 + ex, x1 - ex, y0 + e, y1 - e
     rm.quad([(rx0, ry0, bk), (rx1, ry0, bk), (rx1, ry1, bk), (rx0, ry1, bk)])            # 後牆（朝外）
     rm.quad([(rx0, ry0, fz), (rx1, ry0, fz), (rx1, ry0, bk), (rx0, ry0, bk)])            # 地板（朝上）
     rm.quad([(rx0, ry1, bk), (rx1, ry1, bk), (rx1, ry1, fz), (rx0, ry1, fz)])            # 天花板（朝下）
-    rm.quad([(rx0, ry0, fz), (rx0, ry0, bk), (rx0, ry1, bk), (rx0, ry1, fz)])            # 左牆（朝 +x）
-    rm.quad([(rx1, ry0, bk), (rx1, ry0, fz), (rx1, ry1, fz), (rx1, ry1, bk)])            # 右牆（朝 −x）
+    zs = -0.26                                                                             # 左右兩面從牆厚後面才開始：牆洞的兩側（−0.25～0）是牆面，不和房間的側牆重疊（窄窗縮放後也不會）
+    rm.quad([(rx0, ry0, zs), (rx0, ry0, bk), (rx0, ry1, bk), (rx0, ry1, zs)])            # 左牆（朝 +x）
+    rm.quad([(rx1, ry0, bk), (rx1, ry0, zs), (rx1, ry1, zs), (rx1, ry1, bk)])            # 右牆（朝 −x）
     gl = Mesh('win_glass', M['glass_lit'] if lit else M['win_glass']); gl.quad([(x0 + t, y0 + t, fz - 0.01), (x1 - t, y0 + t, fz - 0.01), (x1 - t, y1 - t, fz - 0.01), (x0 + t, y1 - t, fz - 0.01)])
     _WIN[key] = combine([rm.finish(None, uv=False), gl.finish(None)], f'window_{part}')
     return _WIN[key]
