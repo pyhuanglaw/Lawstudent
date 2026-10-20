@@ -2065,7 +2065,7 @@ const STORY_EVENTS=[
       {speaker:'player',text:'睡覺。看影片。等妳下課。'},{speaker:'kexin',expression:'neutral',text:'我不是那個意思。'},{speaker:'player',text:'我知道。……妳去讀書。'},
       {set:{KX_FIGHT_1212:true}} ];
     const cram=[ {scene:'以前的補習班',bg:'cram_street'},
-      {speaker:null,text:'隔天下午，你在外面晃，晃到以前的補習班那條街。'},
+      {speaker:null,text:'十二月十三日下午，你在外面晃，晃到以前的補習班那條街。'},   /* AA_308 第 1 節：30 分鐘版也演（前一天的電話小吵架不演，所以不說「隔天」）*/
       {speaker:null,text:'高三那年，指考前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。'},
       {speaker:null,text:'你本來就有想過，要不要再考一次。……問問看而已。'},
       {speaker:null,text:'（騎樓下。玻璃門裡，主任站在櫃台旁邊講電話。）'},
@@ -2089,6 +2089,28 @@ const STORY_EVENTS=[
       { id:'ev_y0_fight_h', stage:'econ', title:'電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>fightDue(G)}, dialogue:fight },
       { id:'ev_y0_cram', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'auto', once:true, background:'dark', hours:2, prereq:{custom:G=>cramDue(G)&&!atHome(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } },
       { id:'ev_y0_cram_h', stage:'econ', title:'以前的補習班', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>cramDue(G)}, dialogue:cram, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(2); } } ]; })(),
+  /* AA_308 第 2 節 KH-RETAKE-PACING-1018（X54；使用者 10-20 選「12 月演出來＋1 月先透露」）：2025-01-08（三）18:30 公館吃麵，她先說國文報告（2D，麵店 noodle_table）。
+     停點、不能快轉：在家的快轉（home3d.js y0Stop）每 15 分鐘看一次在家的事件，到 18:30 就停。在外面（3D）＝ev_y0_jan8，在家＝ev_y0_jan8_h；Y0_JAN8 記演過（兩個版本只演一次）。
+     她 1/3、1/6 國文作業的兩則訊息照留（在這場之前）。表情照 AA_308 第 9 節 */
+  ...(()=>{ const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+    const due=G=>{ const d=D('2025-01-08'); return d!=null&&G.day===d&&G.hour>=18.5&&!G.flags.Y0_JAN8; };
+    const jan8=[ {scene:'公館・麵店',bg:'noodle_table'},
+      {speaker:null,text:'（一月八日。期末考考完兩個禮拜了。她還沒回高雄，約你在公館吃麵。）'},
+      {speaker:'kexin',expression:'sad',text:'……國文那份報告，我記錯時間了。'},
+      {speaker:'kexin',expression:'sad',text:'老師回信說，不能補交。'},
+      {speaker:null,text:'（她用筷子把麵捲起來，又放下。）'},
+      {choice:[{text:'「整科就那一份？」',goto:'j8a'},{text:'（等她說下去）',goto:'j8b'}]},
+      {label:'j8a'},{speaker:'kexin',expression:'sad',text:'……嗯。'},{goto:'j8c'},
+      {label:'j8b'},{speaker:'kexin',expression:'sad',text:'整科就那一份。'},
+      {label:'j8c'},{speaker:'player',text:'我十二月去問的那個重考班，簡章還在我桌上。'},
+      {speaker:'kexin',expression:'surprised',text:'……你那天傳訊息，我以為你在開玩笑。'},
+      {speaker:'player',text:'我也不知道是不是。'},
+      {speaker:'kexin',expression:'smile',text:'先吃麵。麵要糊了。'},
+      {speaker:null,text:'（那天晚上，誰都沒有說要怎樣。）'},
+      {set:{Y0_JAN8:true}} ];
+    return [
+      { id:'ev_y0_jan8', stage:'econ', title:'公館吃麵', participants:[], location:'any', trigger:'auto', once:true, background:'dark', hours:1.5, prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:jan8, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(1.5); } },
+      { id:'ev_y0_jan8_h', stage:'econ', title:'公館吃麵', participants:[], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:jan8, after:(G,GM)=>{ if(GM&&GM.advance) GM.advance(1.5); } } ]; })(),
   /* ★E21 除夕的電話（AA_224 3-10 @31708531＝BB_188 A2-1e，最後一句改；交往中的版本）：1/28（二）22:00 在臺北的家（寒假／在家模式的選單到這個時間就演，home3d.js；trigger:'home'）。
      她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
      AA_303 第 2 節 14 整段換：她約你大年初三開車去高雄（兩個選項都記 KH_TRIP，高雄三天兩夜讀它）；阿嬤那段和 KX_THINK_LEAVE 的第三個選項拿掉 */
@@ -2442,8 +2464,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（晚上，補習班的解答出來了。兩個人坐在餐桌兩邊，一題一題對。）'},
       {speaker:null,text:'（數學對完，你又從第一題重新對了一次。）'},
       {speaker:null,text:'（全對。）'},
-      {speaker:'kexin',expression:'surprised',text:'……你數學一百？'},{speaker:'player',text:'好像是。'},
-      {speaker:'kexin',expression:'annoyed',text:'我錯一題。'},{speaker:'kexin',expression:'sad',text:'……就一題。'},
+      {speaker:'kexin',expression:'annoyed',text:'數學我錯一題。'},   /* AA_308 第 10 節（使用者 10-20 選「只講她自己的」）：拿掉「……你數學一百？」「好像是。」，你全對只留在旁白 */{speaker:'kexin',expression:'sad',text:'……就一題。'},
       {speaker:'kexin',expression:'tired',text:'其他科明天再對。今天先這樣。'},
       {set:{MATH_100:true,EXAM2_DONE:true}} ];
     return [
@@ -2723,7 +2744,7 @@ const STORY_EVENTS=[
      開始後 15 分鐘還沒出發＝韋綸打電話（AA 暫定句）→ 直接進出遊。只用文字，不做制服 CG。沒有旗標 */
   { id:'ev_y0_e14', stage:'econ', title:'保齡球館', participants:['econ_pinyu','econ_zhengxun'], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
     dialogue:[ {scene:'保齡球館',bg:'bowling'},{speaker:null,text:'（第一次班聚。品妤在群組說，每個人帶一件高中制服，抽籤交換穿。）'},   /* AA_302 第 1 列：群組邀約可以跳過，先交代 */
-      {speaker:'econ_pinyu',text:'大家都帶了吧？高中制服。抽籤交換。'},
+      {speaker:'econ_pinyu',text:'都帶了吧？來，抽籤。'},   /* AA_309 第 4 列：旁白講過帶高中制服，不重複 */
       {speaker:'kexin',expression:'neutral',text:'我不抽。'},
       {speaker:'kexin',expression:'smile',text:'（拿起{name}的那一件）我要這件。'},
       {speaker:'player',text:'……為什麼？'},

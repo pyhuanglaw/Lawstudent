@@ -19721,7 +19721,7 @@
    "id": "E30-MOM-1018",
    "title": "10/17 辦休學那天晚上回臺北的家跟媽媽說（使用者選）：一段在家的 2D 劇情",
    "area": "v0",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
    "first": {
@@ -19736,7 +19736,7 @@
    },
    "source": "使用者 2026-10-18 14:3x 選擇題「回臺北的家跟媽媽說」",
    "authorized": "使用者直接選",
-   "next": "下一班 AA 用選擇題和使用者討論內容、寫台詞；LAWWW 接在 E30 電話後面（現在是直接跳下一步）",
+   "next": "LAWWW：AA_308 第 4 節 10/17 電話之後、拿車鑰匙之前加媽媽那段（home_living）；拿車鑰匙那句改；表情照第 9 節。連 AA_309 第 2 列（車上那場從 17:40 開始） ｜ 舊：下一班 AA 用選擇題和使用者討論內容、寫台詞；LAWWW 接在 E30 電話後面（現在是直接跳下一步）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -19834,7 +19834,7 @@
    "id": "KH-TRIP-MORE-1018",
    "title": "高雄三天兩夜景點太少：要再加地點（劇情、台詞），每個地點跟使用者要圖",
    "area": "v0",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
    "first": {
@@ -19849,7 +19849,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「跨年之後就變成約我去高雄玩高雄景點太少了三天兩夜怎麼只能去這些地方這個都要再加，然後跟我要圖」",
    "authorized": "使用者直接指示",
-   "next": "下一班 AA：用選擇題問使用者要加哪些高雄景點、各演什麼（ev_y0_kh3，AA_303 第 15 場）；BB 照 D97 跟使用者要每個地點的圖（純場景一次四份）",
+   "next": "LAWWW：AA_308 第 3 節 ev_y0_kh3 換成三天分場（新背景 id，沒圖先深色底＋字幕；BB 寫提示詞） ｜ 舊：下一班 AA：用選擇題問使用者要加哪些高雄景點、各演什麼（ev_y0_kh3，AA_303 第 15 場）；BB 照 D97 跟使用者要每個地點的圖（純場景一次四份）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -19862,8 +19862,8 @@
    "id": "ECON-TERM-END-CUE-1018",
    "title": "跨年之前學期已經結束（16 週制），遊戲裡完全看不出來：要讓玩家知道（例：日期卡一句、可昕的訊息）",
    "area": "v0",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -19877,7 +19877,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「而且跨年之前應該學期就結束了 可是完全在遊戲中不知道」",
    "authorized": "使用者直接指示",
-   "next": "下一班 AA 用選擇題問使用者怎麼交代（祐廷已休學；是可昕／經濟系同學那邊的期末、放寒假），寫好交 LAWWW",
+   "next": "【10-20 13:5x 開發分支】AA_308 第 6 節：日期卡 12/14～12/30「（十二月二十日，期末考考完了。寒假開始……）」；econ_ff_unit 改成 21 張卡 ｜ 舊：下一班 AA 用選擇題問使用者怎麼交代（祐廷已休學；是可昕／經濟系同學那邊的期末、放寒假），寫好交 LAWWW",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -19890,8 +19890,8 @@
    "id": "KH-RETAKE-PACING-1018",
    "title": "跨年以後去高雄就討論休學／重考，太突然",
    "area": "v0",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -19905,7 +19905,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「然後跨年玩去高雄就討論休息了，好突然」「討論休學」",
    "authorized": "使用者直接指示",
-   "next": "下一班 AA 用選擇題和使用者討論：高雄之前要不要先有鋪陳（和 CRAM-DEC-SCENE-1018 一起看）",
+   "next": "【10-20 13:5x 開發分支】AA_308 第 2 節：新事件 1/8 18:30 公館吃麵（ev_y0_jan8／_h，在家的快轉會停；表情照第 9 節）、日期卡 1/1～1/7、1/9～1/27。還沒做：高雄蓮池潭拿掉國文報告兩句（KH-TRIP-MORE 一起改） ｜ 舊：下一班 AA 用選擇題和使用者討論：高雄之前要不要先有鋪陳（和 CRAM-DEC-SCENE-1018 一起看）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -19918,8 +19918,8 @@
    "id": "CRAM-DEC-SCENE-1018",
    "title": "12 月一個人回以前的補習班問重考班：現在只是日期卡一句，沒有演；高雄時可昕卻說「你 12 月就想重考了吧」",
    "area": "v0",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -19933,7 +19933,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「12月去補習班的劇情也沒有演出了 可是在高雄討論重考的時候 可昕說你12月就想重考了吧」；15:1x 使用者截圖：高雄蓮池潭，可昕「你十二月去補習班那天就想考了吧。」（src/data/events.js 第 2232 行，ev_y0_kh3「高雄三天兩夜」的 p2 分支）",
    "authorized": "使用者直接指示",
-   "next": "AA_300 第 4 節把 12/13 補習班那場改成日期卡一句（econff3d.js CARDS 11/07～12/30）。下一班 AA 用選擇題問使用者：恢復成演出來的一場，還是改高雄那句；跟 KH-RETAKE-PACING-1018 一起",
+   "next": "【10-20 13:5x LAWWW-C 開發分支】AA_308 第 1 節：ev_y0_cram／_h 放回 30 分鐘版停點（KEEP），第一句「十二月十三日下午……」；ECONFF.defaults 的 CRAM_FREE_KNOWN 改成 12/13～12/14 都錯過才補記（原本那場永遠演不到）；日期卡 11/7～12/12。tests/aa308_batch1_unit.js（修改前 8 FAIL） ｜ 舊：AA_300 第 4 節把 12/13 補習班那場改成日期卡一句（econff3d.js CARDS 11/07～12/30）。下一班 AA 用選擇題問使用者：恢復成演出來的一場，還是改高雄那句；跟 KH-RETAKE-PACING-1018 一起",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20016,7 +20016,7 @@
    "id": "CRAM-LEAVE-LAUGH-1018",
    "title": "衝刺班請假：管理人員要在請過很多次假以後才笑（現在第一次看到請假的場面就笑，莫名其妙）",
    "area": "v0",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -20031,7 +20031,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「管理人員衝刺班的我們請假要很多次他才會笑出來，覺得這兩個人一直請假是現在還感覺是第一次請假，他就笑了莫名其妙」",
    "authorized": "使用者直接指示",
-   "next": "已做：日期卡「衝刺班。後來去請假，她已經不笑了。」拿掉（使用者「也不需要說……這樣好像很兇」，import_retake_home.py CUT_CARDS）。下一班 AA：用選擇題問使用者——前面加幾次請假的場面，還是 RH-C4 改成看得出是第 N 次",
+   "next": "LAWWW：重匯 retake_home（RH-C2 6/12、RH-C3 6/17、C4 開頭）＋RH_PLAY 加兩場＋日期卡 6/9～6/23 拆三句；6/25～6/27「後來去請假，她已經不笑了」照使用者 X59 拿掉 ｜ 舊：已做：日期卡「衝刺班。後來去請假，她已經不笑了。」拿掉（使用者「也不需要說……這樣好像很兇」，import_retake_home.py CUT_CARDS）。下一班 AA：用選擇題問使用者——前面加幾次請假的場面，還是 RH-C4 改成看得出是第 N 次",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20044,7 +20044,7 @@
    "id": "KH-SCORE-TIMING-1018",
    "title": "7/25 成績：收到成績簡訊的當下補習班落點還沒出來（見面一兩個小時後才出來）；客運版可昕不知道成績卻說「騙人，我看得到表」",
    "area": "v0",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
    "priority": "P1",
    "first": {
@@ -20059,7 +20059,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「收到成績簡訊的當下補習班落點還沒出出來啦 等我們見面大概一兩個小時才出來」「而且畫面是我還在客運上 他不知道我的成績怎麼會說騙人我看得到表」",
    "authorized": "使用者直接指示",
-   "next": "下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
+   "next": "LAWWW：AA_308 第 7 節客運版、在家版落點時間（lifeline_g6 寫死的改） ｜ 舊：下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20115,8 +20115,8 @@
    "id": "KX-EXPR-1018",
    "title": "可昕不管什麼對話表情都一樣：重考期在家 71 句、閒聊階梯、事件 164 句沒有標表情（立繪其實有 11 種）",
    "area": "v0",
-   "owner": "AA",
-   "status": "待開工",
+   "owner": "LAWWW",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -20130,7 +20130,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我發現可昕不管什麼對話的表情都一樣」",
    "authorized": "使用者回報",
-   "next": "LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
+   "next": "AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20138,6 +20138,27 @@
     "acceptance": "經濟系常見的可昕台詞都有表情",
     "ack": "未派"
    }
+  },
+  {
+   "id": "AA309-FIXES-1020",
+   "title": "AA_309 QA 劇本（經濟系 v2）＋AA_308 第 10 節：10/29 國文、10/17 車上從 17:40、可昕不在場不接她的階梯、9/13 品妤、7/12 只講她自己",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C AA_309（企劃分支 50f2142c）、AA_308 第 10 節（使用者 10-20 選「只講她自己的」）",
+   "authorized": "AA 定稿（D100）",
+   "next": "【10-20 13:5x】第 1 列 AA 已推（a6d1e65b）；第 4 列 9/13 品妤、第 10 節 7/12 對答案已改（開發分支）。還沒做：第 2 列 y0_e26 travelH（車上那場 17:40 開始）、第 3 列可昕不在場的場景後面不接她的階梯"
   },
   {
    "id": "CAMP-PORTRAITS-1018",
