@@ -87,7 +87,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   { await epi({EXCHANGE_ROUTE:'JP',BAR_YEAR:2030},()=>{ H.FAMILIAR('npc_fangyt'); });
     check('J5. 交換路線 2030 考上（正常的那一年）＝不是「那一年你在考試」（交換路線多考的是 2031，AA_327 f252a7b5）',!H.has('那一年你在考試。……我知道。')&&H.has('山上沒有訊號。所以我每次下山，都會一次收到很多訊息。')); }
   { await epi({EXCHANGE_ROUTE:'JP',BAR_YEAR:2031},()=>{ H.FAMILIAR('npc_fangyt'); });
-    check('J5. 交換路線 BAR_YEAR 2031＝「那一年你在考試。……我知道。」',H.has('那一年你在考試。……我知道。')); }
+    check('J5. 交換路線 BAR_YEAR 2031：沒有「那一年你在考試」（AA_331 1b：交換路線 2031 拿掉、沒有 2031 國考；原本 f252a7b5 有）',!H.has('那一年你在考試。……我知道。')); }
   // P5：大家都在（每人一句、星期六沒有人講上班）
   const ALL=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_mingxuan','classmate_peishan','npc_fangyt'];
   { const G=await epi(Object.assign({PLAYED_Y0:true},leanA,LAWYER),()=>{ ALL.forEach(H.FRIEND); });

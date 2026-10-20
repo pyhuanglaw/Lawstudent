@@ -12,7 +12,7 @@ const NAMES=/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENT
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/hometown_lines.js','src/data/needed_msgs.js','src/data/termend_lines.js',
-  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/termend3d.js','src/y2r2_3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+  'src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/termend3d.js','src/data/y2b_events.js','src/y2b3d.js','src/y2r2_3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info&&!ok?'　'+info:'')); if(!ok) fails++; };
 if(typeof Y2R2==='undefined'){ check('0. src/y2r2_3d.js 載入（Y2R2）',false); console.log('FAILED '+fails); process.exit(1); }
 global.ADV={active:false,preload(){},begin(){ this.active=true; },end(){ this.active=false; },log(){},speaker(){},hide(){},cg(){ return true; },setBg(){}}; global.CHAR={setExpr(){}};
@@ -258,6 +258,12 @@ const K=t=>'kexin:'+t;
   bus(); ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12);
   check('14. U2 先走：「好。到家傳一隻長頸鹿貼圖給我。」；沒有公車；沒有小語（不認識）以外的人',has('好。到家傳一隻長頸鹿貼圖給我。')&&!any(/睡著/)&&G.flags.KX_BUS_HOME==='left'&&!has('邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'));
   run('2027-05-08',21.25,23.25); check('14. 先走：21:30 群組兩張照片；沒有 23:00',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&!PHONE.sent(G,'y2r2_u_kiss'));
+  { const k12=ev('ev_kexin_two_circles'); if(k12&&typeof k12.after==='function'){ fresh('2027-03-25',20.5,'noodle',{met_yu:true}); date('kexin'); meet('classmate_bohan'); G.flags.KX_CIRCLES_MET=true; k12.after(G); run('2027-04-28',20.75,21.25);
+    check('14. 接 1B-07 的 K12（ev_kexin_two_circles 結束建的「麵店分店」和成員）：4/28 邀約在那個群組、阿哲小語柏翰都在',PHONE.inGroup(G,'noodle_branch')&&JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','yu:我也要！！','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch'))); }
+    else check('14. 1B-07 的 ev_kexin_two_circles 還沒進來（這個檢查跳過）',true); }
+  bus({NOODLE_BRANCH_MEMBERS:['kexin','yule','zhe','classmate_bohan']});
+  check('14. 1B-07 記的成員（小語那天不在、柏翰在）：邀約是阿哲「+1」、柏翰「那天我在總圖。」，沒有小語',JSON.stringify(txt('g:noodle_branch'))===JSON.stringify(['yule:下週六下午一點，老街。搭公車去。司機這次放假。','zhe:+1','classmate_bohan:那天我在總圖。']),JSON.stringify(txt('g:noodle_branch')));
+  ans('y2r2_u_ask',0); said=[]; picks=['先回去']; await go('y2r2_u',12); check('14. 小語不在群組：老街沒有「書記」',!has('小語是『書記』。'));
   bus(); ans('y2r2_u_ask',1); run('2027-05-08',12,21.75); check('14. U3 沒參加：群組兩張照片、沒有提公車；KX_BUS_HOME no',JSON.stringify(txt('g:noodle_branch').slice(-2))===JSON.stringify(['yule:📷（老街的階梯，一排人的背影）','zhe:📷（一桌試吃的小碟子）'])&&G.flags.KX_BUS_HOME==='no'&&!txt('g:noodle_branch').some(t=>/公車上/.test(t)));
 
   // 15. 2-Y2-17 芷若

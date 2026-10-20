@@ -75,7 +75,7 @@ const PG=(function(){
   /* ---------- 研究所、職涯（1A-01 的傾向＋考試；尾聲、第一份工作同一套）：研究所的旗標開發分支還沒有（AA_327 2-Y4-06、2-Y4-34）---------- */
   S.gradApplied=G=>{ const F=G.flags||{}; return F.Y4_PATH==='grad'||F.GRAD_ADMIT!=null||F.Y4_PUSH!=null||F.GRAD_RETRY!=null; };
   S.gradAdmit=G=>{ const F=G.flags||{}; return (F.GRAD_ADMIT!=null&&F.GRAD_ADMIT!==false&&F.GRAD_ADMIT!=='fail')||F.Y4_PUSH==='pass'; };
-  S.zqLine=G=>S.lean(G).top==='C'&&S.at(G,'heroine_04','FRIEND')&&(G.flags.ZQ_CONTRACT==='lawyer'||G.flags.ZQ_CONTRACT===true);   /* 子晴線達成：落點 C、FRIEND 以上、Q14 陪她去找律師（Q14 還沒做）*/
+  S.zqLine=G=>S.lean(G).top==='C'&&S.at(G,'heroine_04','FRIEND')&&G.flags.ZQ_CONTRACT!=null&&G.flags.ZQ_CONTRACT!==false;   /* 子晴線達成：落點 C、FRIEND 以上、Q14 有回（AA_323 1B-23 第 4 節：lawyer／legal_aid／honest 三個都算陪她去找律師；src/y34b3d.js）*/
   S.path=function(G){ const F=G.flags||{}, c=S.lean(G); let top=c.top;
     if(top==='B'&&!S.gradApplied(G)) top=(c.C>c.A)?'C':'A';   /* B、四年沒報考研究所：改用 A、C 裡分數比較高的（再平手 A）*/
     if(top==='A') return F.BAR_YEAR!=null?'A_bar':'A_none';
@@ -142,6 +142,7 @@ const PG=(function(){
     {tag:'pg_kx_inv',at:['2029-06-03',21],cond:G=>graduated(G)&&S.dating(G,'kexin'),items:G=>[P_('kexin',L().KX.invite)],after:G=>S.planKx(G)},
     /* 1A-16～18 */
     {tag:'pg_b1_zhe',at:['2029-07-12',17],cond:G=>S.sits(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().B1.zhe)]},
+    {tag:'pg_b1_zhe_2030',at:['2030-07-11',17],cond:G=>S.sits(G,2030)&&!!L().B1_2030,items:G=>[P_('zhe',L().B1_2030.zhe)]},   /* AA_331：2030 阿哲私訊（不發群組）*/
     {tag:'pg_an_group',at:['2030-01-25',21],cond:G=>!S.at(G,'heroine_01','FRIEND')&&inNoodle(G),items:G=>[GR('heroine_01',L().AN.group)]},   /* 和以安不到 FRIEND：麵店團一則（到了的是她打來的電話）*/
     {tag:'pg_yt_2030_r1',at:['2030-09-06',15+10/60],cond:G=>inNoodle(G)&&S.at(G,'heroine_03','FAMILIAR'),items:G=>L().Y2030.yt1.map(t=>GR('heroine_03',t))},
     {tag:'pg_zhe_2030_r2',at:['2030-12-13',15+6/60],cond:G=>inNoodle(G),items:G=>S.zhe2030(G)},
@@ -252,6 +253,11 @@ const PG=(function(){
   async function b1Scene(GM){ const G=GM.G, A=adv(); GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T('2029-07-12',20)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'總圖 B1',2000);
       if(A) A.begin({background:BG('ntu_lib_b1')}); await GM.fade(false); await S.play(GM,L().B1.lines); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,T('2029-07-12',22)); await GM.fade(false); }
+  /* 2030 那一輪的總圖 B1（AA_331 2a）：阿哲第二句看玩家（2029 也報了名＝again、交換延畢第一次考＝first）；讀書小組有語彤＝保鮮盒 */
+  S.b1Lines2030=function(G){ const B=L().B1_2030, F=G.flags||{}, sg=S.studyGroup(G); return B.lines.concat(S.delayed(G)?B.first:(F.BAR_SIT_2029===true?B.again:[])).concat(sg==='three'||sg==='yutong'?B.yt:[]); };
+  async function b1Scene2030(GM){ const G=GM.G, A=adv(); GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,T('2030-07-11',20)); if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),'總圖 B1',2000);
+      if(A) A.begin({background:BG('ntu_lib_b1')}); await GM.fade(false); await S.play(GM,S.b1Lines2030(G)); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
+    await GM.fade(true); toAtLeast(GM,T('2030-07-11',22)); await GM.fade(false); }
   S.noteScene=async function(GM,y){ const G=GM.G, N=L().NOTE, sis=S.who(G,'heroine_05');
     if(y===2030&&S.retaker(G)) await GM.say(null,N.retake.note); else await S.play(GM,N.lines);
     if(S.dating(G,'heroine_05')) await GM.say(sis,N.lover); };   /* 戀人版當面給：最後多一句 */
@@ -282,8 +288,12 @@ const PG=(function(){
     if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_r2sys_'+y)) for(const t of R.sys.concat(judge?[R.judgeNo]:[])) PHONE.post(G,{th:'sys',text:t,tag:'pg_r2sys_'+y});
     GM.sceneBegin(); try{ for(const t of R.sys) await GM.say(null,t); if(judge){ await GM.say(null,R.judgeNo); await GM.say(null,R.judgeNarr); } } finally { GM.sceneEnd(); }
     F.BAR_YEAR=y;
-    if(y===2029){ if(S.studyGroup(G)==='yutong'){ if(typeof PHONE!=='undefined') PHONE.at(G,S.DK(Y[y].r2),18,L().R2.study.yutong.map(t=>P_('heroine_03',t)),'pg_noodle_yt_'+y); } else S.planNoodle(G,y); } }   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
+    if(y===2029){ if(S.studyGroup(G)==='yutong'){ if(typeof PHONE!=='undefined') PHONE.at(G,S.DK(Y[y].r2),18,L().R2.study.yutong.map(t=>P_('heroine_03',t)),'pg_noodle_yt_'+y); } else S.planNoodle(G,y); }
+    else if(y===2030&&L().R2_2030&&typeof OUT!=='undefined') OUT.plan(G,{id:'pg_bar_noodle_2030',ev:'ev_pg_noodle_2030',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25}); }   /* AA_331 2a：2030 的 12/13 18:00 麵店（可以錯過）*/   /* 2030 的麵店 AA 沒寫（阿哲那一句在群組）；只有語彤的讀書小組＝18:00 她傳照片 */
   S.studyGroup=G=>{ const g=G.flags&&G.flags.BAR_STUDY_GROUP; if(!Array.isArray(g)) return null; const k=g.includes('kexin'), y=g.includes('yutong')||g.includes('heroine_03'); return k&&y?'three':(k?'kexin':(y?'yutong':null)); };   /* AA_327 2-Y4-33（那一批還沒做＝沒有）*/
+  S.noodle2030Lines=function(G){ const R=L().R2_2030, sg=S.studyGroup(G); return (sg==='three'||sg==='yutong'?R.yt:R.base).concat(S.dating(G,'kexin')?R.kx:[]); };   /* AA_331 2a：有語彤＝三張紅紙；和可昕交往中＝她最後到 */
+  S.noodleScene2030=async function(GM){ const A=adv(); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,S.noodle2030Lines(GM.G)); };
+  S.noodleMissed2030=async function(GM){ if(!GM||!GM.say) return; GM.sceneBegin(); try{ await GM.say(null,L().R2_2030.missed); } finally { GM.sceneEnd(); } };
   S.noodleScene=async function(GM){ const A=adv(), R=L().R2, sg=S.studyGroup(GM.G); if(A) A.begin({background:BG('noodle_table')}); await S.play(GM,sg==='three'?R.study.three:(sg==='kexin'?R.study.kexin:R.noodle)); };   /* 12/14 18:00（AA_319 1A-18）：讀書小組三個人／只有可昕／麵店團 */
   async function anCall(GM,n){ const G=GM.G, A_=L().AN, me={name:nmD(G,'heroine_01')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
     GM.sceneBegin(); try{ if(n===1){ await GM.say(me,A_.call1[0]); await GM.say(me,S.dating(G,'heroine_01')?A_.call1Dating:A_.call1[1]); }
@@ -291,7 +301,7 @@ const PG=(function(){
   S.firstLate=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null;   /* 2030 年還在準備律師二試（AA_319 b6757852）*/
   async function firstDay(GM){ const G=GM.G, F=G.flags, Fi=L().FIRST, late=S.firstLate(G);
     toAtLeast(GM,T('2030-10-01',21));
-    const items=[{th:'g:noodle_team',from:'player',text:'📷'+(late?Fi.late:Fi.me[S.path(G)])}];
+    const FR=L().FIRST_RETAKE||{}, items=[{th:'g:noodle_team',from:'player',text:'📷'+(late?(FR[F.RETAKE_STYLE]||Fi.late):Fi.me[S.path(G)])}];   /* AA_331 1a：2029 一試沒過的照 RETAKE_STYLE（cram／home／zhe）；交換延畢沒有＝補習班 */
     for(const [id,ph,t] of Fi.friends) if(S.at(G,id,'FAMILIAR')){ items.push(GR(id,'📷'+ph)); items.push(GR(id,t)); }   /* 認識的人才傳 */
     if(typeof PHONE!=='undefined'){ if(!PHONE.inGroup(G,'noodle_team')) PHONE.join(G,'noodle_team','麵店團'); if(!PHONE.sent(G,'pg_first_day')) items.forEach((it,i)=>PHONE.postAt(G,Object.assign({tag:'pg_first_day'},it),G.day,G.hour+i*0.01)); }
     GM.sceneBegin(); try{ await GM.say(null,Fi.narr); } finally { GM.sceneEnd(); }
@@ -317,7 +327,7 @@ const PG=(function(){
       case 'kai': { const K=E.kai; let t=K.base; if(lw) t=K.lawyer; if(has('kai','SUNDAY_SUPPER')) t=K.supper; if(yes(F.KAI_STAYED_UP)||has('kai','KAI_STAYED_UP')) t=K.stayed; return me(t); }
       case 'classmate_mingxuan': { const M=E.mx; let t=M.base; if(S.gradAdmit(G)) t=M.grad; if(F.BAR_YEAR===2029) t=M.bar2029; if(F.BAR_YEAR===2030) t=M.bar2030; if(has('classmate_mingxuan','SAW_HIM_STUDY')) t=M.saw; return me(t); }
       case 'classmate_peishan': { const P=E.ps; let t=P.base; if(lw&&F.PS_GRAD_CARD) t=P.card; if(yes(F.KEPT_FRIEND)) t=P.kept; if(has('classmate_peishan','MIRROR_PEISHAN')) t=P.mirror; if(S.dating(G,'classmate_peishan')) t=P.lover; return me(t); }
-      case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if((!S.delayed(G)&&F.BAR_YEAR===2030)||(S.delayed(G)&&F.BAR_YEAR===2031)) t=Fy.y2030; if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
+      case 'npc_fangyt': { const Fy=E.fy; let t=Fy.base; if(yes(F.CHIAYI_TREE)) t=Fy.tree; if(!S.delayed(G)&&F.BAR_YEAR===2030) t=Fy.y2030;   /* AA_331 1b：交換路線 2031 拿掉（交換延畢的 2030 也不再擋，沒有 2031 國考；AI解讀、待使用者確認）*/ if(yes(F.MOUNTAIN_DAY)) t=Fy.day; if(yes(F.ZR_FY)) t=Fy.zr; return me(t); }   /* 多考的那一年：台灣路線 2030、交換路線 2031（AA_327 f252a7b5）*/
       case 'kexin': { if(!S.dating(G,'kexin')) return null; const R=typeof ROM!=='undefined'&&ROM.get?ROM.get(G,'kexin'):null, back=!!(R&&(R.history||[]).some(h=>h.ev==='end')); return me(E.kx.arrive.concat(back?E.kx.b:[])); }   /* A／B（B＝分開又回來）；她最晚到 */
     } return null; };
   S.EPI_ORDER=['zhe','yu','classmate_bohan','classmate_xinci','heroine_01','heroine_03','heroine_05','heroine_02','heroine_04','kai','classmate_mingxuan','classmate_peishan','npc_fangyt','kexin'];
@@ -345,8 +355,9 @@ const PG=(function(){
     const c={cafe:Math.max(+F.CAFE_VISITS||0,days(/^place:cafe:/)),fafu:+F.LAWCLUB_SAT_VISITS||0,noodle:days(/^place:noodle:/),library:days(/^place:(library|library_hall|lawlib):/),yexiao:days(/^place:gongguan:night$/),guitar:0,group:grp,abroad:S.delayed(G)?60:0};   /* G.footprint 還沒有：照現有的計次回推（AA_319 1A-20 第 6 節第 3 點）；交換固定 60 天 */
     let best=null; for(const [k] of L().EPI.foot) if(best==null||c[k]>c[best]) best=k; return best; };   /* 平手照表的順序（「比大四一年」沒有逐年的紀錄，不做）*/
   S.epiItems=function(G){ const E=L().EPI, foot=S.footprint(G), item=(E.foot.find(x=>x[0]===foot)||E.foot[0])[1], p=S.epiPartner(G), F=G.flags;
-    F.EPI_ITEMS=[item].concat(p&&E.items[p]?[E.items[p]]:[]);   /* 伴侶的東西（桌上的另一邊）：旁白 AA 還沒寫（BB_202 第 5 節），先記下來 */
-    return [E.itemNarr.replace('{item}',item)]; };
+    F.EPI_ITEMS=[item].concat(p&&E.items[p]?[E.items[p]]:[]);   /* 伴侶的東西（桌上的另一邊）*/
+    const PI=L().EPI_PARTNER||{}, pi=p?PI[p]:null, pn=pi&&typeof pi==='object'?(F.SIS_THERMOS?pi.thermos:pi.plain):pi;   /* AA_331 2b：接在祐廷那一樣後面；學姊看 SIS_THERMOS（6/2 她遞的保溫瓶）*/
+    return [E.itemNarr.replace('{item}',item)].concat(pn?[pn]:[]); };
   S.toTitle=function(GM){ try{ const b=typeof document!=='undefined'&&document.getElementById?document.getElementById('btnTitle'):null; if(b&&typeof b.onclick==='function'){ b.onclick(); return true; } }catch(e){ console.warn('PG toTitle',e); } if(GM) GM.running=false; return false; };
   async function epilogue(GM){ const G=GM.G, F=G.flags, E=L().EPI, A=adv(); let ok=false;
     GM.sceneBegin(); try{ await GM.fade(true); if(A&&A.active) A.end();
@@ -381,7 +392,8 @@ const PG=(function(){
     {id:'ps_video',at:G=>T(GRAD,18),until:G=>T(GRAD,27),cond:G=>graduated(G)&&S.dating(G,'classmate_peishan'),run:psVideo},
     {id:'bday_walk',at:G=>T(GRAD,17.5),until:G=>T(GRAD,28),cond:G=>S.teDone(G)==='heroine_05',run:GM=>S.bdayScene(GM,'walk')},   /* 和學姊吃畢業傍晚那頓飯：不用選，直接走回研究室 */
     {id:'kx_miss',at:G=>T('2029-06-09',18.5),until:G=>T('2029-06-10',12),cond:G=>G.flags.KX_GRAD==='mine',run:kxMissScene},
-    {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},   /* b6757852：20:00（和國考讀書會同一個時間）*/
+    {id:'b1',at:G=>T('2029-07-12',20),until:G=>T('2029-07-12',27),cond:G=>S.sits(G,2029),run:b1Scene},
+    {id:'b1_2030',at:G=>T('2030-07-11',20),until:G=>T('2030-07-11',27),cond:G=>S.sits(G,2030)&&!!L().B1_2030,run:b1Scene2030},   /* AA_331 2a */   /* b6757852：20:00（和國考讀書會同一個時間）*/
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
     {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）*/
     {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,2)},
@@ -467,7 +479,9 @@ const PG=(function(){
     {id:'ev_pg_kx_grad',title:'兩個畢業典禮',participants:[],location:'any',trigger:'outing',background:'dark',hours:4.5,dialogue:[],
       beforeOuting:async(G,GM,q)=>{ await S.kxGradScene(GM); }, outingMissed:(G,GM,q)=>{ S.kxGradMissed(GM); }},
     {id:'ev_pg_noodle',title:'阿鳳麵店・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
-      beforeOuting:async(G,GM,q)=>{ await S.noodleScene(GM); }} ];
+      beforeOuting:async(G,GM,q)=>{ await S.noodleScene(GM); }},
+    {id:'ev_pg_noodle_2030',title:'阿鳳麵店・長桌',participants:[],location:'any',trigger:'outing',background:'dark',hours:2,dialogue:[],
+      beforeOuting:async(G,GM,q)=>{ await S.noodleScene2030(GM); }, outingMissed:(G,GM,q)=>{ S.noodleMissed2030(GM).catch(e=>console.warn('PG noodle 2030 missed',e)); }} ];
   S.register=function(){ if(typeof STORY_EVENTS==='undefined') return false; for(const e of S.EVS) if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); return true; };
   S.patchTermend(); S.register();
   return S;

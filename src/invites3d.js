@@ -269,13 +269,14 @@ const INV=(function(){
       k=await GM.choose(opts); if(dOk&&k===PL.length) return DATE.menu(GM,id,n); if(k===hvIdx) return HV.ask(GM,id); if(k>=PL.length) return null; const why=S.placeWhy(G,id,PL[k]); if(!why){ P=PL[k]; break; } await GM.say(null,why);
       { const ps=S.partnerBlock(G,id,PL[k])&&(((D().people||{})[id]||{}).partnerSay||{})[PL[k].id]; if(ps) await S.playLines(GM,n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id},ps); } }   /* 有伴侶時她自己的一句（學姊的一盞，AA_172 3b）*/
     const T=S.timeOptions(G,together); if(!T.length){ await GM.say(null,'今天太晚了，改天再約吧。'); return null; } const to=T.map(q=>({t:q.t})); to.push({t:'算了'});
-    k=await GM.choose(to); if(k>=T.length) return null; const W=T[k];
+    k=await GM.choose(to); if(k>=T.length) return null; const W=Object.assign({},T[k]);
+    const NC=typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.inviteAdjust?NOODLE_CLOSED.inviteAdjust(G,id,W):null; if(NC) W.h=NC.h;   /* 麵店過年店休那一週約語彤（AA_333 C）：排到 18:00 以後、答應的那一句換掉 */
     const r=S.personal(G,id,P,W.day,W.h,S.decide(G,id,P.id,W.day,W.h)), who=n?{name:nm,obj:n.obj,charId:id}:{name:nm+'（手機）',charId:id};
     const te=typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null;   /* 期末時段裡約吃飯＝期末的飯（BB_203 第 1 節第 13 點、AA_268）*/
     if(te&&te.refuse){ act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700); await GM.say(who,'「'+te.refuse+'」'); return null; }   /* 關係結束、還不能重新開始（C8、C9）*/
     act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700);
     if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now,by:'player'}); const tail=W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。';
-      if(r.lines){ await S.playLines(GM,who,r.lines,r); await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
+      if(NC){ await GM.say(who,'「'+NC.line+'」'); await GM.say(null,tail); } else if(r.lines){ await S.playLines(GM,who,r.lines,r); await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       S.teMark(GM,iv,id,P,W);
       if(W.now&&n){ if(GM.standUp) GM.standUp(n); n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; }   /* 坐著被約「現在一起過去」：先起身再跟（使用者 2026-10-16 試玩：Café 約吃麵，以安坐姿懸空跟著走）*/
     if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r));

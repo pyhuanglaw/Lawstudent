@@ -200,8 +200,9 @@ const Y2R2=(function(){
     after:G=>{ merge(G,'KX_BDAY',{2:'message'}); } });
   /* ---------- 2-Y2-16 可昕 K12b「回程的公車」：5/8（六）13:00 老街 ---------- */
   const UGO=id=>({custom:G=>!!(G.flags.Y2R2_U_WHO||[]).includes(id)});
+  const inBranch=(G,id)=>Array.isArray(G.flags.NOODLE_BRANCH_MEMBERS)?G.flags.NOODLE_BRANCH_MEMBERS.includes(id):knows(id,G);   /* 「麵店分店」的成員（1B-07 記在 NOODLE_BRANCH_MEMBERS；沒有的舊存檔＝K12 那天認識才在，同 1B-07 的規則）*/
   EV.push({ id:'ev_kexin_bus_home', title:'回程的公車', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    beforeOuting:(G)=>{ const W=['kexin','yule','zhe']; if(inGroup(G,'noodle_branch')&&knows('yu',G)) W.push('yu'); if(G.flags.KX_NCCU_FRIENDS) W.push('nccu'); G.flags.Y2R2_U_WHO=W; },
+    beforeOuting:(G)=>{ const W=['kexin','yule','zhe']; if(inGroup(G,'noodle_branch')&&inBranch(G,'yu')) W.push('yu'); if(G.flags.KX_NCCU_FRIENDS) W.push('nccu'); G.flags.Y2R2_U_WHO=W; },
     outingMissed:(G)=>{ G.flags.KX_BUS_HOME='no'; },
     dialogue:[ {scene:'老街',bg:'trip_oldtown'},
       {speaker:null,text:'（山邊的老街。一條上坡的窄路，兩邊都是賣吃的。）'},
@@ -521,7 +522,7 @@ const Y2R2=(function(){
     /* --- 2-Y2-16 回程的公車 --- */
     { const a=d('u0'), m=d('u'); if(kx(G)&&a!=null&&!!F.KX_CIRCLES_MET&&inGroup(G,'noodle_branch')){ const N=(from,text,name)=>Object.assign({th:'g:noodle_branch',from,text},name?{name}:{});
         if(win(G,a,21,3)&&!sent(G,'y2r2_u_ask')){ const L=[]; const ask={id:'y2r2_u_ask',until:abs(m,12.5),opts:[{t:'去。',set:{KX_U:'yes'}},{t:'那天不行。',set:{KX_U:'no'}}]};
-          L.push(N('yule','下週六下午一點，老街。搭公車去。司機這次放假。','予樂')); if(knows('zhe',G)) L.push(N('zhe','+1')); if(knows('yu',G)) L.push(N('yu','我也要！！')); if(knows('classmate_bohan',G)) L.push(N('classmate_bohan','那天我在總圖。'));
+          L.push(N('yule','下週六下午一點，老街。搭公車去。司機這次放假。','予樂')); if(inBranch(G,'zhe')) L.push(N('zhe','+1')); if(inBranch(G,'yu')) L.push(N('yu','我也要！！')); if(inBranch(G,'classmate_bohan')) L.push(N('classmate_bohan','那天我在總圖。'));
           L[L.length-1]=Object.assign(L[L.length-1],{ask}); at(G,a,21,L,'y2r2_u_ask'); }
         if(F.KX_U==='yes'&&!outGet(G,'y2r2_u')&&now(G)<abs(m,13.25)) plan(G,{id:'y2r2_u',ev:'ev_kexin_bus_home',day:m,h:13,late:0.25,place:'老街',title:'老街（麵店分店）',travel:'搭公車約 50 分鐘',travelH:5/6});
         if(G.day===m&&G.hour>=13&&inGroup(G,'noodle_branch')&&!F.Y2R2_U_RENAMED){ F.Y2R2_U_RENAMED=1; const g=PHONE.rec(G).groups.noodle_branch; if(g){ F.Y2R2_U_OLDNAME=g.name; g.name='老街限定'; } }   /* 群組名稱當天改成「老街限定」，隔天改回「麵店分店」*/

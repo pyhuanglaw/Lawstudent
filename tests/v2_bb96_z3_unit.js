@@ -55,7 +55,7 @@ let spent=0; GM.money=d=>{ spent-=d; };   /* 付錢（consequences.money）走 G
   at(W3+5,21.75); check('2. 週六：不行（平日晚班）',!EVENTS.check(z3),'weekday '+G.weekday);
   at(W3+4,21.75); check('2. 週五：可以',EVENTS.check(z3),'weekday '+G.weekday);
   at(W3,21.75,12); check('2. 只是認識（不到有點熟）：不行',!EVENTS.check(z3),SOCIAL.stage('heroine_02'));
-  at(termDay('Y2S1',3,1)||W3+200,21.75); check('2. 大二（第 3 週起都可以，只要還沒發生）：可以',EVENTS.check(z3));
+  at(termDay('Y2S1',3,1)||W3+200,21.75); check('2. 大二：不可以（AA_207 #4、AA_313 6-5 第 6 點：「我在這裡兩年」只在大一，term Y1S1、Y1S2；原本「大二也可以」）',!EVENTS.check(z3));
   at(W3,21.75); GM.npc.sis={obj:{position:{x:0,y:0,z:0}}}; check('3. 還有客人沒走（學姊）：不開始',!EVENTS.check(z3));
   GM.npc.sis.leaving=true; check('3. 客人已經在走出去：可以開始',EVENTS.check(z3));
   E.npcs.push({isExtra:true,obj:{position:{x:0,y:0,z:0}}}); check('3. 路人客人還坐著：不開始',!EVENTS.check(z3));
