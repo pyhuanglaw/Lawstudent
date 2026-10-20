@@ -132,5 +132,56 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-16',7.05,'us_outside',US({MET_LONG:true})); date('heroine_05'); picks=[1]; said=[]; await tick();
   check('R. 有 MET_LONG：12/16 何俊朗「……香港見？」二選一（「還好。」→「……你又來了。」）', has('我的飛機比你早。……香港見？')&&has('……你又來了。'));
 
+  // ================= 大四上（臺灣這邊）=================
+  const TWF=f=>Object.assign({EXCHANGE_ROUTE:'TW'},f||{});
+  const join=(g,n)=>PHONE.join(G,g,n);
+  // ---------- 2-Y4-01 迎新 ----------
+  fresh('2028-08-31',21.1,'dorm',TWF()); join('law_class','法律系（全班）'); rules(); const qw=OUT.get(G,'y4_welcome');
+  check('W1. 8/31 21:00 系學會「禮拜六迎新，一點在社科院旁的草地集合。大四的學長姊有空也來。」；排 9/2 13:00', txt('g:law_class').includes('law_assoc:禮拜六迎新，一點在社科院旁的草地集合。大四的學長姊有空也來。')&&!!qw&&qw.h===13&&qw.day===D('2028-09-02'));
+  at('2028-09-02',12.6); picks=[1]; said=[]; await OUT.go(GM,qw);
+  check('W1. 去了：「學長，你帶他過去好了。」；三選一；「看你想做什麼。」→「那先念民總。」；萬才館門口', has('學長，你帶他過去好了。')&&opts[0].length===3&&has('那先念民總。')&&has('（萬才館門口。他說了謝謝，跑回草地。）')&&G.flags.WELCOME_Y4==='went');
+  fresh('2028-08-31',21.1,'dorm',US({US1:'together'})); join('law_class','法律系（全班）'); rules(); check('W2. 美國路線：沒有邀約', !PHONE.sent(G,'y4_welcome_ask'));
+  at('2028-09-02',9.6); rules(); check('W2. 美國路線：只有照片（臺灣 21:30＝當地 09:30）', txt('g:law_class').includes('law_assoc:📷（新生坐在第一排，手上拿著名牌。）')&&G.flags.WELCOME_Y4==='missed');
+  // ---------- 2-Y4-02 颱風 ----------
+  check('T0. calendar：2028-09-18 颱風假', CALENDAR.typhoon(D('2028-09-18'))===true);
+  fresh('2028-09-17',20.1,'dorm',TWF({JOB_CVS:true})); join('law_class','法律系（全班）'); R('yu','FAM'); R('classmate_xinci','FAM'); R('classmate_bohan','FRI'); rules();
+  check('T1. 9/17 20:00 停課公告', (G.msgs||[]).some(m=>m.text==='颱風假：明天（9/18）停班停課。'));
+  at('2028-09-17',21.2); const ty=ev('ev_y4_typhoon_noodle'); check('T1. 21:00 以後人在 409：可以演 T4a', EVENTS.check(ty));
+  picks=[0]; await run('ev_y4_typhoon_noodle');
+  check('T1. 「熱水只剩這些。」；做過便利商店夜班：選便利商店 →「今年要三碗吧？」', has('熱水只剩這些。一人一碗。')&&has('今年要三碗吧？')&&G.flags.TYPHOON_Y4==='noodle');
+  at('2028-09-18',8.1); rules();
+  check('T3. 9/18 08:00：老師的信（9/17 21:30 寄的）＋群組「這是本學期最強制的一封信。」「颱風可以聲明異議嗎？」＋回覆', (G.msgs||[]).some(m=>m.text==='報告的期限不會停。照舊。'&&m.day===D('2028-09-17'))&&txt('g:law_class').includes('yu:這是本學期最強制的一封信。')&&!!PHONE.byAsk(G,'y4_ty_reply'));
+  answer('y4_ty_reply',0); check('T3. 回「颱風不是當事人。」→ 芯慈「……這句可以寫進報告。」', txt('g:law_class').includes('classmate_xinci:……這句可以寫進報告。'));
+  fresh('2028-09-17',21.2,'dorm',US()); rules(); check('T2. 美國路線：9/17、9/18 都沒有', !EVENTS.check(ev('ev_y4_typhoon_noodle'))&&!PHONE.sent(G,'y4_ty_notice'));
+  // ---------- 2-Y4-03 中秋 ----------
+  fresh('2028-10-02',21.1,'dorm',TWF()); join('noodle_team','麵店團'); R('yu','FAM'); R('heroine_01','FAM'); G.events.done.ev_y2_midautumn=1; rules(); const qm=OUT.get(G,'y4_midautumn');
+  check('M0. 10/2 21:00 阿哲「明天中秋 河濱 六點」「烤肉架我借好了」；排 10/3 18:00', txt('g:noodle_team').join('|')==='zhe:明天中秋 河濱 六點|zhe:烤肉架我借好了'&&!!qm&&qm.h===18);
+  at('2028-10-03',17.8); picks=[0]; said=[]; await OUT.go(GM,qm);
+  check('M1. 大二中秋去過：「又來了。」；以安「……我贊成。」；「明年還是要回來烤。」二選一', has('又來了。')&&has('……我贊成。')&&!has('我贊成。理由：公平。')&&has('明年還是要回來烤。')&&opts[0].length===2&&has('說好了喔。')&&G.flags.MIDAUTUMN_Y4==='went');
+  fresh('2028-10-03',17.8,'dorm',TWF({KX_MET_NOODLE_TEAM:true})); date('kexin'); said=[]; await run('ev_y4_midautumn');
+  check('M2. 和可昕交往、見過麵店團：「……今年我認輸。我只想吃。」', has('……今年我認輸。我只想吃。')&&has('可昕認輸了！大家記下來！'));
+  fresh('2028-10-02',21.1,'us_apartment',US()); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
+  check('M3. 美國路線：19:30（當地 07:30）照片；可昕「阿哲今年贏了。」', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('g:noodle_team').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!PHONE.sent(G,'y4_ma_ask'));
+  // ---------- 2-Y4-07 校慶 ----------
+  fresh('2028-11-11',12,'campus',TWF({lawclub:true,GRANDMA_TREE_Y2:'asked'})); E.player.obj.position={x:-17.8,y:0,z:13.0};
+  check('F1. 法服成員、11/11 中午在攤位：攤位裡那一版', EVENTS.check(ev('ev_fair_booth_y4'))&&!EVENTS.check(ev('ev_fair_booth_y4_pass')));
+  picks=[0]; await run('ev_fair_booth_y4'); check('F1. 大二遇過阿嬤：「法律說是我的。給你們。」；二選一', has('法律說是我的。給你們。')&&has('有啦。掉過來的給我，樹枝他自己剪。')&&G.flags.GRANDMA_Y4==='booth');
+  fresh('2028-11-11',12,'campus',TWF()); const fp=EVENTS.check(ev('ev_fair_booth_y4_pass'))&&!EVENTS.check(ev('ev_fair_booth_y4')); await run('ev_fair_booth_y4_pass'); check('F2. 不是成員、沒遇過：路過那一版；「給你們。不用登記。」；沒有選項', fp&&has('給你們。不用登記。')&&opts.length===0&&G.flags.GRANDMA_Y4==='pass');
+  fresh('2028-11-11',12,'campus',US({lawclub:true})); check('F3. 美國路線：沒有', !EVENTS.check(ev('ev_fair_booth_y4'))&&!EVENTS.check(ev('ev_fair_booth_y4_pass')));
+  // ---------- 2-Y4-08 讀書會交棒 ----------
+  fresh('2028-11-30',20,'wancai',TWF()); R('yu','FAM'); R('heroine_01','FRI'); ACTIVITIES.rec(G); for(const k of [10,20,30]) G.acts.att['public_law_group@'+(G.day-k)]={h:20,end:'full'};
+  const plg=ACTIVITIES.list.find(a=>a.id==='public_law_group'); check('H0. 公法讀書會大四上開到第 13 週（11/30）', ACTIVITIES.on(plg,G.day,G)&&!ACTIVITIES.on(plg,D('2028-12-07'),G));
+  const ce=CLS.clubEvent(G,plg); check('H1. 去過 3 次、11/30 去讀書會：這一場就是交棒', !!ce&&ce.id==='ev_plg_handover', ce&&ce.id);
+  picks=[0]; await run('ev_plg_handover'); check('H1. 白板只剩「說理由。」；「例外，要說理由。」；拍照＝PLG_LAST_RULE', has('（對學弟妹）規則只有一條。例外，要說理由。')&&has('妳以前有十條。')&&SOCIAL.has('heroine_01','PLG_LAST_RULE')&&G.flags.PLG_HANDOVER==='there');
+  fresh('2028-11-30',22.1,'dorm',TWF()); join('noodle_team','麵店團'); R('yu','FAM'); R('heroine_01','FRI'); rules();
+  check('H2. 沒去：22:00 小語的白板照片「以安交棒了。白板只剩一條。」', txt('g:noodle_team').join('|')==='yu:📷（白板，只剩一行字）|yu:以安交棒了。白板只剩一條。'&&G.flags.PLG_HANDOVER==='heard');
+  // ---------- 2-Y4-10 聖誕 ----------
+  fresh('2028-12-21',21.1,'dorm',TWF({XMAS_GIFT:'notebook'})); join('noodle_team','麵店團'); R('yu','FAM'); rules(); const qx=OUT.get(G,'y4_xmas');
+  check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 麵店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 麵店 一百五以內'&&!!qx&&qx.h===19);
+  at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
+  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；小語「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
+  fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',8.6); rules();
+  check('X2. 美國路線：沒有邀約；21:30（當地 08:30）照片', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
+
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
