@@ -920,6 +920,14 @@
    "approvedBy": "AA-C 定稿（1A-13、1A-14、1A-16～20；c9b4f60e、b6757852、5ae6a133／f252a7b5 更正，D100）",
    "task": "EVPKG-1A13-20-1020",
    "note": "子代理 a2e6fc5d 手抄進 src/data/postgrad_lines.js、src/postgrad3d.js（合併 55bbd833）；CG-9、BCG-07、BCG-39、CG-10 還沒有圖（MISSING_EXTERNAL_ART）"
+  },
+  {
+   "path": "docs/story_planning/AA_331_回LAWWW_1900_三件確認_2030那一輪_尾聲桌上的東西.md",
+   "sha": "a642f518",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（AA_319 補：2030 那一輪 B1／麵店、RETAKE_STYLE 照片、尾聲伴侶桌上的東西；第 1 節 b 標 AI解讀、待使用者確認，D100）",
+   "task": "EVPKG-1A13-20-1020",
+   "note": "LAWWW-C 手抄進 src/data/postgrad_lines.js（B1_2030、R2_2030、FIRST_RETAKE、EPI_PARTNER）"
   }
  ]
 }
