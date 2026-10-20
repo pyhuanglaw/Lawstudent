@@ -10,6 +10,9 @@ import playlib as L
 from playwright.async_api import async_playwright
 
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
+import os
+HOUR = float(os.environ.get('PERF_HOUR', '15'))   # X79：晚上（19:30）量陰影 2 秒重畫一次的效果；修改前的數字加 ?nightshadow=full
+ONLY = [x for x in os.environ.get('PERF_SCENES', '').split(',') if x]
 OUT = sys.argv[2] if len(sys.argv) > 2 else None
 # 名稱: (區域, 玩家位置 (x, z, yaw))；白天 15:00（有太陽陰影）
 SCENES = {
@@ -29,7 +32,9 @@ MEASURE = """(async()=>{ const E=GAME.E, R=E.renderer, S=E.scene; const wait=ms=
   /* 人會走、騎車的人會騎：隔 0.7 秒取 6 次的平均（一次 render 的數字看當下有幾個人在畫面裡）*/ let sc_=0, st_=0; for(let i=0;i<6;i++){ await wait(700); once(); sc_+=R.info.render.calls; st_+=R.info.render.triangles; } const avg={calls:Math.round(sc_/6), tris:Math.round(st_/6)};
   const N=8; let ts=[]; for(let i=0;i<N;i++) ts.push(once()); ts.sort((a,b)=>a-b); const med=ts[N>>1];
   const sc=E.sun&&E.sun.castShadow; if(E.sun) E.sun.castShadow=false; once(); const calls0=R.info.render.calls, tris0=R.info.render.triangles; let ts0=[]; for(let i=0;i<N;i++) ts0.push(once()); ts0.sort((a,b)=>a-b); if(E.sun) E.sun.castShadow=sc;
-  return {calls, tris, avg, shadowCasters:cast, visibleMeshes:vis, materials:mats.size, renderMs:+med.toFixed(1), noShadow:{calls:calls0, tris:tris0, renderMs:+ts0[N>>1].toFixed(1)}, shadowMap:E.sun&&E.sun.shadow?E.sun.shadow.mapSize.x:null, fps:GAME.fps?+GAME.fps.toFixed(1):null}; })()"""
+  /* X79 晚上：陰影貼圖 2 秒才重畫一次——量「重畫的那一格」和「平常的一格」（?nightshadow=full＝每一格都重畫＝修改前）*/
+  let night=null; if(E.nightShadow&&!E.nightShadowFull){ E._shT=0; const tA=once(); const cA=R.info.render.calls, trA=R.info.render.triangles; let tb=[], cB=0, trB=0; for(let i=0;i<N;i++){ tb.push(once()); cB=R.info.render.calls; trB=R.info.render.triangles; } tb.sort((a,b)=>a-b); night={refresh:{calls:cA,tris:trA,renderMs:+tA.toFixed(1)},normal:{calls:cB,tris:trB,renderMs:+tb[N>>1].toFixed(1)},refreshEverySec:2,autoUpdate:R.shadowMap.autoUpdate}; }
+  return {night, calls, tris, avg, shadowCasters:cast, visibleMeshes:vis, materials:mats.size, renderMs:+med.toFixed(1), noShadow:{calls:calls0, tris:tris0, renderMs:+ts0[N>>1].toFixed(1)}, shadowMap:E.sun&&E.sun.shadow?E.sun.shadow.mapSize.x:null, fps:GAME.fps?+GAME.fps.toFixed(1):null}; })()"""
 
 async def main():
     res = {}
@@ -37,8 +42,9 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg)
         for nm, (zone, (x, z, yaw)) in SCENES.items():
+            if ONLY and nm not in ONLY: continue
             t0 = time.time()
-            await L.load_state(pg, {'zone': zone, 'hour': 15.0, 'day': 9, 'weekday': 4, 'pos': {'x': x, 'z': z, 'yaw': yaw}, 'flags': {'introDone': True, 'afternoonDone': True}}, quiet_events=True)
+            await L.load_state(pg, {'zone': zone, 'hour': HOUR, 'day': 9, 'weekday': 4, 'pos': {'x': x, 'z': z, 'yaw': yaw}, 'flags': {'introDone': True, 'afternoonDone': True}}, quiet_events=True)
             r = await pg.evaluate(MEASURE)
             r['secs'] = round(time.time() - t0, 1)
             res[nm] = r
