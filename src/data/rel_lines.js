@@ -20,7 +20,7 @@ const REL_LINES=(function(){
   /* ---------- AA 的六位（AA_124 1-6；2026-10-16 口語改稿照 AA_194 第 3 節，6e94d8d7） ---------- */
   heroine_01:{   /* AA_194 6e94d8d7 第 3 節：升 FAMILIAR／FRIEND／CLOSE_FRIEND（CLOSE 分有沒有 PUBLIC_LAW_GROUP 兩版）、道別 FRIEND／CLOSE */
     up:{ FAMILIAR:{l:['（她把手帳翻到最後一頁）','「你名字是哪個字？我上次好像寫錯了。」']},
-      FRIEND:{l:['「民總筆記你要嗎？我昨天整理好了。」','「不用急著還，我有檔案。」']},
+      FRIEND:{l:['「這週的筆記你要嗎？我昨天整理好了。」','「不用急著還，我有檔案。」']},
       CLOSE_FRIEND:[{if:G=>!!(G.flags&&G.flags.PUBLIC_LAW_GROUP),l:['「下次讀書會的題目可以麻煩你挑一下嗎？」','「我這禮拜有點忙。」']},{l:['「期末那週要不要一起讀？我這禮拜有點忙，想說先約。」']}] },
     bye:{base:['「今天謝謝。我回去整理筆記。」'],FRIEND:['「下次換我挑地方。」'],CLOSE_FRIEND:['「我先回去了。晚點再傳你。」']},
     contact:{FRIEND:'以安',CLOSE_FRIEND:'小安'} },

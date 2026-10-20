@@ -45,7 +45,7 @@ const TERMEND_LINES=(function(){
       yes2:['……嗯。','好。'],
       over:[{terms:['Y4S1'],   /* 大四上：事件 16 的告白版搬到這裡（AA_254 第 2 節、AA_262 第 4 節第 3 點）；CG-12 只有這一版：她說的最後一句、玩家先說＝她答應那一句 */
         she:['我以前覺得，喜歡一個人要有時間。','後來發現，時間是可以分的。我分給麵店、分給我媽、分給筆記。',
-          G=>typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_03','NOTICED_EMPTY_SEAT')?['大一期中那週，我的位子空著。……只有你注意到。']:['你每次吃完，都自己把碗拿到櫃台。','……我都有看到。'],   /* 她的理由一句（AA_187 2-1）：事件 10 選過「我那週有注意到妳的位子空著」的 */
+          G=>typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_03','NOTICED_EMPTY_SEAT')?['大一期中那週，我的位子空著。……你那時候就看到了。']:['你每次吃完，都自己把碗拿到櫃台。','……我都有看到。'],   /* 她的理由一句（AA_187 2-1）：事件 10 選過「我那週有注意到妳的位子空著」的 */
           {cg:'cg_share_time_heroine03'},'……你要不要試試看，被我分一點時間？'],
         yesCg:'cg_share_time_heroine03' }] },
     heroine_05:{ src:'AA_254 第 3 節', place:'eatery_lib', placeName:'法圖旁邊的簡餐店', h:18.5, walkBg:'ntu_avenue', walkPlace:'椰林大道・往公館捷運站', buddy:'直屬',
@@ -115,7 +115,7 @@ const TERMEND_LINES=(function(){
       open:['欸，你真的沒被約喔？我還以為你早就被約走了。','沒差啦，我請。滷蛋兩顆。'], close:[{narr:'（付完錢）'},'走啦。下學期我再約你。']} };
   /* 交往中的女朋友：學期末約會（AA_250 10-3；不佔「只能接一個」；可昕照 9-2 另外做）*/
   const GF={
-    heroine_01:{invite:'考完了。……今天不讀書，你也不准讀。',place:'eatery',placeName:'公館那家小店',h:19,table:'這學期的手帳，有四十頁寫到你。……我數過。'},
+    heroine_01:{invite:'考完了。……今天不讀書，你也不准讀。',place:'eatery',placeName:'公館那家小店',h:19,table:'這學期的手帳，很多頁都寫到你。……你不准翻。'},
     heroine_03:{invite:'打烊以後。我煮。',place:'noodle_closed',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; }},
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。'},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。'},
