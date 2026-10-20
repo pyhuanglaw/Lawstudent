@@ -21259,9 +21259,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1B12-17-1020",
    "title": "1B-12 以安出發（3/23～3/25，三條路線）、1B-13 語彤 T1、1B-14 芷若 Z11、1B-15 子晴 Q12、1B-16 可昕 K19、1B-17 學姊生日 6/2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "source": "AA_322（a10e64be）（AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-18～25 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-01～11 之後；日本的出發流程照美國那一套做一份",
+   "next": "【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-18～25 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-01～11 之後；日本的出發流程照美國那一套做一份",
    "first": {
     "term": "Y3S2",
     "week": null,
@@ -21271,7 +21271,8 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
-   }
+   },
+   "sha": "0d5d3130"
   },
   {
    "area": "v4",
@@ -21280,9 +21281,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1B18-25-1020",
    "title": "1B-18＋22 學姊出發（8/2）與 M6、1B-19 以安新 18、1B-20 二十三週年、1B-21 可昕 K23、1B-23 子晴 Q14、1B-24 以安新 20、1B-25 學姊 M9",
-   "status": "進行中",
+   "status": "已整合待測試",
    "source": "AA_323（c9b4f60e）（AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
+   "next": "【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
    "first": {
     "term": "Y4S1",
     "week": null,
@@ -21292,7 +21293,8 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
-   }
+   },
+   "sha": "0d5d3130"
   },
   {
    "area": "v4",
