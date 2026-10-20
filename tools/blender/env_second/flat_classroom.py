@@ -24,7 +24,7 @@ CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 REG = {'PLATE': (0, 0, 512, 128), 'RULES': (512, 0, 1024, 384), 'BOARD': (0, 128, 512, 640), 'NOTICE': (0, 640, 512, 1024), 'CLOCK': (512, 672, 768, 928), 'EXIT': (768, 672, 1024, 768)}
 ROOMS = {
     'linze_202': dict(name='霖澤館 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
-                      floor=('large_floor_tiles_02', '#c9c3b6'), wain='#7a6450', back='lockers', src='LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）', door_id='c202', host='linze', host_lv=1),
+                      floor=('large_floor_tiles_02', '#c9c3b6'), wain='#7a6450', back='lockers', src='LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）', door_id='c202', host='linze', host_lv=1, view='linze_201'),   # 窗景用 201 的（同一層樓；往北拍到的是很近的背景大樓牆）
     'wancai_multi': dict(name='萬才館 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.2, -0.3, 1.6, 3.5], tables=[(-3.4, -0.6), (0.6, 3.4)],
                          floor=('floor_tiles_06', '#c4c0b6'), wain='#8a6a4c', back='shelf', src='LAWWW-C 10-20 15:51 回覆 Q2（多功能教室走進去：吉他社）', door_id='multi', host='wancai', host_lv=0),
 }
@@ -204,7 +204,7 @@ def build(rid):
             long_table(c, cx, z0, z1)
             n = 4
             for k in range(n):
-                x, z = cx + 0.55, z0 + (k + 0.5) * (z1 - z0) / n; class_chair(c, x, z, -PI / 2); c.seat(x, z, -PI / 2, (cx, z), 'class', label='坐下'); c.seats[-1]['uses'] = ['上課'] + (['社課'] if rid == 'wancai_multi' else ['自習'])
+                x, z = cx + 0.55, z0 + (k + 0.5) * (z1 - z0) / n; class_chair(c, x, z, -PI / 2); c.seat(x, z, -PI / 2, (cx, z), 'class', ap=(x + 0.45, z), label='坐下');   # 走近點在椅子後面 0.45 m（預設 0.6 m 離「坐下」按鈕的 0.7 m 太近：10-20 流程測試） c.seats[-1]['uses'] = ['上課'] + (['社課'] if rid == 'wancai_multi' else ['自習'])
     # 燈
     for x in [X0 + 1.6 + k * 2.8 for k in range(int((R['W'] - 2.0) / 2.8) + 1)]:
         for z in (-R['D'] / 4 - 0.3, R['D'] / 4 + 0.3):
@@ -229,7 +229,7 @@ def build(rid):
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
     lay = dict(version=1, zone=rid, name=R['name'], type='教室', src=R['src'] + '；LINZE-WANCAI-FLOORS-1020',
                bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.4, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins,
-               counter=None, clerk=c.clerk, teacherSpot=dict(c.clerk), order=None, seats=c.seats, interact=c.inter, blocks=c.blocks,
+               counter=None, clerk=c.clerk, teacherSpot=dict(c.clerk), order=None, seats=c.seats, interact=c.inter, blocks=c.blocks, view=R.get('view', rid),
                host_door=dict(zone=R['host'], id=R['door_id'], lv=R['host_lv'], note='門的資料（linze_layout.js／wancai_layout.js 的 doors）：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課的流程由 LAWWW-C 改'))
     auto_ap(c, lay)
     prob = navcheck(c, lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s in lay['seats'] if s.get('ap')))

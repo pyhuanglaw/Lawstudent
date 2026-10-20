@@ -158,7 +158,7 @@ def law_books(c, x0, x1, z0, z1, h=2.1):
     """東牆書櫃：五層、法典（厚、紅色或深藍書背、燙金線）、判決彙編（一整排同色）、論文集；書背沒有字"""
     c.wood.box(x0, x1, 0.0, 0.08, z0, z1); c.wood.box(x0, x1, h - 0.03, h, z0, z1)
     c.wood.box(x0, x1, 0.0, h, z0, z0 + 0.02); c.wood.box(x0, x1, 0.0, h, z1 - 0.02, z1)
-    c.vc.cbox(x0, x0 + 0.015, 0.08, h - 0.03, z0, z1, '#4a3a2e')
+    c.vc.cbox(x1 - 0.015, x1, 0.08, h - 0.03, z0, z1, '#4a3a2e')   # 背板（靠牆那一面；10-20 算圖：原本放在朝房間那一面，把書遮住了）
     rr = c.rng; shelves = [0.08 + k * (h - 0.11) / 5 for k in range(6)]
     for s in range(5):
         y0 = shelves[s] + 0.02; y1 = shelves[s + 1]
@@ -272,7 +272,7 @@ def build():
     lay = dict(version=1, zone='wancai_sema', name='萬才館 研討室 A', type='研討室', src='使用者 10-20 第二項；LAWWW-C 15:51 回覆 Q2（WANCAI-SEMA）',
                bounds=dict(x0=X0, x1=X1, z0=Z0, z1=Z1), h=H, cam_dist=4.2, door=c.door, spawn=c.spawn, exits=c.exits, windows=c.wins,
                counter=None, clerk=c.clerk, teacherSpot=c.teacher, order=None, seats=c.seats, interact=c.inter, blocks=c.blocks,
-               wancai_door=dict(id='seminarA', lv=1, note='wancai_layout.js 的 doors.seminarA：上課、社課時用「門口上課」的地方改成走進來（LAWWW-C 決定）；出生點用這裡的 spawn'))
+               host_door=dict(zone='wancai', id='seminarA', lv=1, note='wancai_layout.js 的 doors.seminarA：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課從「門口上課」改成走進來由 LAWWW-C 改'))
     auto_ap(c, lay)
     prob = navcheck(c, lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s in lay['seats'] if s.get('ap')))
     L.write_json(os.path.join(OUTDIR, 'wancai_sema.layout.json'), lay)
