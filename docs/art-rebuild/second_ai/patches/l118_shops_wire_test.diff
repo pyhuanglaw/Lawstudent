@@ -1,0 +1,251 @@
+diff --git a/index.html b/index.html
+index 1b487511..7d5b32be 100644
+--- a/index.html
++++ b/index.html
+@@ -256,6 +256,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/data/hometown_lines.js?v=9.10.2"></script>
+ <script src="src/hometown3d.js?v=9.10.2"></script>
+ <script src="src/lane118.js?v=9.10.2"></script>
++<script src="src/data/l118_shop_layouts.js"></script>
++<script src="src/l118_shops3d.js"></script>
+ <script src="src/exchange3d.js?v=9.10.2"></script>
+ <script src="src/data/us_layouts.js?v=9.10.2"></script>
+ <script src="src/us3d.js?v=9.10.2"></script>
+diff --git a/src/data/l118_shop_layouts.js b/src/data/l118_shop_layouts.js
+new file mode 100644
+index 00000000..8f9b3bab
+--- /dev/null
++++ b/src/data/l118_shop_layouts.js
+@@ -0,0 +1,2 @@
++/* 測試用（LAWWW2-C 臨時接線）：118 巷九間店的室內配置（assets/models/env/second_ai/l118_<id>.layout.json）*/
++const L118_SHOP_LAYOUTS={"dian": {"version": 1, "zone": "l118_dian", "shop": "dian", "name": "滇香小館", "type": "滇緬料理", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -2.8, "x1": 2.8, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.5, "w": 1.0, "z": 4.0}, "spawn": {"x": 1.5, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.5, "z": 3.55, "r": 0.7, "label": "離開滇香小館", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 25.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 26.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.8, "x1": 0.55, "z0": -3.0, "z1": -2.45, "h": 1.05}, "clerk": {"x": -0.6, "z": -3.45, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向客人；從門口走進來看得到"}, "order": {"x": -0.6, "z": -1.9, "r": 0.8, "label": "點餐（滇香小館）", "note": "櫃台前面；交給 LAWWW 接 AA_280 的點餐（shop118:dian）"}, "seats": [{"x": -1.85, "z": -1.91, "yaw": 0.0, "kind": "eat", "table": [-1.85, -1.25]}, {"x": -1.85, "z": -0.59, "yaw": 3.1416, "kind": "eat", "table": [-1.85, -1.25]}, {"x": -1.85, "z": -0.06, "yaw": 0.0, "kind": "eat", "table": [-1.85, 0.6]}, {"x": -1.85, "z": 1.26, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 0.6]}, {"x": -1.85, "z": 1.79, "yaw": 0.0, "kind": "eat", "table": [-1.85, 2.45]}, {"x": -1.85, "z": 3.11, "yaw": 3.1416, "kind": "eat", "table": [-1.85, 2.45]}, {"x": 1.85, "z": -1.41, "yaw": 0.0, "kind": "eat", "table": [1.85, -0.75]}, {"x": 1.85, "z": -0.09, "yaw": 3.1416, "kind": "eat", "table": [1.85, -0.75]}, {"x": 1.85, "z": 0.54, "yaw": 0.0, "kind": "eat", "table": [1.85, 1.2]}, {"x": 1.85, "z": 1.86, "yaw": 3.1416, "kind": "eat", "table": [1.85, 1.2]}], "interact": [{"id": "tapestry", "x": -2.2, "z": 0.1, "r": 0.9, "label": "牆上的織布", "note": "看（緬甸的條紋布；說明文字由 AA 寫）"}], "blocks": [{"x0": -2.8, "x1": 0.92, "z0": -4.0, "z1": -2.43, "why": "counter"}, {"x0": 1.83, "x1": 2.67, "z0": -4.0, "z1": -3.34, "why": "fridge"}, {"x0": 1.05, "x1": 1.45, "z0": -3.9, "z1": -3.5, "why": "water"}, {"x0": -2.28, "x1": -1.42, "z0": -1.64, "z1": -0.86, "why": "table"}, {"x0": -2.28, "x1": -1.42, "z0": 0.21, "z1": 0.99, "why": "table"}, {"x0": -2.28, "x1": -1.42, "z0": 2.06, "z1": 2.84, "why": "table"}, {"x0": 1.42, "x1": 2.28, "z0": -1.14, "z1": -0.36, "why": "table"}, {"x0": 1.42, "x1": 2.28, "z0": 0.81, "z1": 1.59, "why": "table"}]}, "self": {"version": 1, "zone": "l118_self", "shop": "self", "name": "好家自助餐", "type": "自助餐", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": -2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 4.05, "r": 0.7, "label": "離開好家自助餐", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 17.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 19.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": 1.55, "x1": 3.3, "z0": 2.45, "z1": 2.95, "h": 0.95, "note": "結帳台（自助餐：夾好菜拿過來算）"}, "clerk": {"x": 2.4, "z": 3.55, "yaw": 3.141592653589793, "note": "結帳台後面，面向店裡（阿姨：「自己夾，夾好拿過來算。」）；從巷子隔著玻璃也看得到"}, "order": {"x": 1.55, "z": 1.95, "r": 0.8, "label": "點餐（好家自助餐）", "note": "餐台的尾巴、結帳台前面；交給 LAWWW 接 AA_280（shop118:self）"}, "seats": [{"x": -2.52, "z": -2.7, "yaw": -1.5708, "kind": "eat", "table": [-3.08, -2.7], "label": "坐靠牆的長桌"}, {"x": -2.52, "z": -1.95, "yaw": -1.5708, "kind": "eat", "table": [-3.08, -1.95], "label": "坐靠牆的長桌"}, {"x": -2.52, "z": -1.2, "yaw": -1.5708, "kind": "eat", "table": [-3.08, -1.2], "label": "坐靠牆的長桌"}, {"x": -2.52, "z": -0.45, "yaw": -1.5708, "kind": "eat", "table": [-3.08, -0.45], "label": "坐靠牆的長桌"}, {"x": -2.52, "z": 0.3, "yaw": -1.5708, "kind": "eat", "table": [-3.08, 0.3], "label": "坐靠牆的長桌"}, {"x": -2.52, "z": 1.05, "yaw": -1.5708, "kind": "eat", "table": [-3.08, 1.05], "label": "坐靠牆的長桌"}, {"x": -1.26, "z": -2.675, "yaw": 1.5708, "kind": "eat", "table": [-0.6, -2.3]}, {"x": -1.26, "z": -1.925, "yaw": 1.5708, "kind": "eat", "table": [-0.6, -2.3]}, {"x": 0.06, "z": -2.675, "yaw": -1.5708, "kind": "eat", "table": [-0.6, -2.3]}, {"x": 0.06, "z": -1.925, "yaw": -1.5708, "kind": "eat", "table": [-0.6, -2.3]}, {"x": -1.26, "z": -0.325, "yaw": 1.5708, "kind": "eat", "table": [-0.6, 0.05]}, {"x": -1.26, "z": 0.425, "yaw": 1.5708, "kind": "eat", "table": [-0.6, 0.05]}, {"x": 0.06, "z": -0.325, "yaw": -1.5708, "kind": "eat", "table": [-0.6, 0.05]}, {"x": 0.06, "z": 0.425, "yaw": -1.5708, "kind": "eat", "table": [-0.6, 0.05]}], "interact": [{"id": "soup", "x": 0.75, "z": -3.45, "r": 0.7, "label": "自取的湯", "note": "看（今天是什麼湯；說明文字由 AA 寫）"}, {"id": "return", "x": -2.75, "z": -3.4, "r": 0.8, "label": "餐盤回收台", "note": "吃完把餐盤放這裡（AA_280：「你把餐盤放到回收台，順手拿了一張餐巾紙。」）"}], "blocks": [{"x0": 2.43, "x1": 3.32, "z0": -4.52, "z1": -3.73, "why": "trays"}, {"x0": 2.25, "x1": 3.32, "z0": -3.67, "z1": 1.92, "why": "buffet"}, {"x0": 1.52, "x1": 3.33, "z0": 2.42, "z1": 2.98, "why": "cashier"}, {"x0": 1.5, "x1": 3.3, "z0": 2.4, "z1": 4.5, "why": "cashier_back"}, {"x0": 0.17, "x1": 1.33, "z0": -4.53, "z1": -3.87, "why": "soup"}, {"x0": -3.33, "x1": -2.17, "z0": -4.53, "z1": -3.82, "why": "return"}, {"x0": -3.3, "x1": -2.82, "z0": -3.13, "z1": 1.43, "why": "wall_table"}, {"x0": -0.99, "x1": -0.21, "z0": -3.08, "z1": -1.52, "why": "table"}, {"x0": -0.99, "x1": -0.21, "z0": -0.73, "z1": 0.83, "why": "table"}]}, "tea": {"version": 1, "zone": "l118_tea", "shop": "tea", "name": "一一八茶飲", "type": "手搖飲", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -1.3, "x1": 1.3, "z0": -2.3, "z1": 2.3}, "h": 3.2, "cam_dist": 3.6, "door": {"x": -0.5, "w": 1.0, "z": 2.3}, "spawn": {"x": -0.5, "z": 0.8, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -0.5, "z": 1.85, "r": 0.7, "label": "離開一一八茶飲", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": 11.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": 13.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.3, "x1": 0.55, "z0": -0.85, "z1": -0.35, "h": 1.0}, "clerk": {"x": -0.35, "z": -1.35, "yaw": 0.0, "note": "櫃台後面，面向門口（「甜度冰塊？」）"}, "order": {"x": -0.35, "z": 0.15, "r": 0.7, "label": "點餐（一一八茶飲）", "note": "櫃台前面；交給 LAWWW 接 AA_280（shop118:tea）"}, "seats": [{"x": 0.68, "z": 0.7, "yaw": 1.5708, "kind": "wait", "table": [1.14, 0.7]}, {"x": 0.68, "z": 1.3, "yaw": 1.5708, "kind": "wait", "table": [1.14, 1.3]}], "interact": [], "blocks": [{"x0": -1.27, "x1": 1.27, "z0": -2.3, "z1": -1.68, "why": "teabar"}, {"x0": -1.33, "x1": 0.58, "z0": -0.88, "z1": -0.32, "why": "counter"}, {"x0": 0.5, "x1": 1.3, "z0": -0.9, "z1": -0.3, "why": "counter_gate"}, {"x0": -1.3, "x1": 1.3, "z0": -2.3, "z1": -0.85, "why": "staff"}, {"x0": 0.96, "x1": 1.3, "z0": 0.38, "z1": 1.62, "why": "ledge"}]}, "home": {"version": 1, "zone": "l118_home", "shop": "home", "name": "巷口家常菜", "type": "家常菜", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開巷口家常菜", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -2.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -0.3, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": 2.25, "x1": 2.85, "z0": -1.6, "z1": 2.4, "h": 0.9, "note": "東牆：保溫展示櫃＋收銀"}, "clerk": {"x": 3.35, "z": 0.6, "yaw": -1.5707963267948966, "note": "展示櫃後面，面向店裡（老闆娘：「排骨剛炸好喔。」）"}, "order": {"x": 1.7, "z": 0.6, "r": 0.8, "label": "點餐（巷口家常菜）", "note": "展示櫃前面；交給 LAWWW 接 AA_280（shop118:home）"}, "seats": [{"x": -2.6, "z": -2.94, "yaw": 0.0, "kind": "eat", "table": [-2.6, -2.25]}, {"x": -2.6, "z": -1.56, "yaw": 3.1416, "kind": "eat", "table": [-2.6, -2.25]}, {"x": -1.91, "z": -2.25, "yaw": -1.5708, "kind": "eat", "table": [-2.6, -2.25]}, {"x": -2.6, "z": -0.84, "yaw": 0.0, "kind": "eat", "table": [-2.6, -0.15]}, {"x": -2.6, "z": 0.54, "yaw": 3.1416, "kind": "eat", "table": [-2.6, -0.15]}, {"x": -1.91, "z": -0.15, "yaw": -1.5708, "kind": "eat", "table": [-2.6, -0.15]}, {"x": -0.45, "z": -2.94, "yaw": 0.0, "kind": "eat", "table": [-0.45, -2.25]}, {"x": -0.45, "z": -1.56, "yaw": 3.1416, "kind": "eat", "table": [-0.45, -2.25]}, {"x": -1.14, "z": -2.25, "yaw": 1.5708, "kind": "eat", "table": [-0.45, -2.25]}, {"x": 0.24, "z": -2.25, "yaw": -1.5708, "kind": "eat", "table": [-0.45, -2.25]}, {"x": -0.45, "z": -0.84, "yaw": 0.0, "kind": "eat", "table": [-0.45, -0.15]}, {"x": -0.45, "z": 0.54, "yaw": 3.1416, "kind": "eat", "table": [-0.45, -0.15]}, {"x": -1.14, "z": -0.15, "yaw": 1.5708, "kind": "eat", "table": [-0.45, -0.15]}, {"x": 0.24, "z": -0.15, "yaw": -1.5708, "kind": "eat", "table": [-0.45, -0.15]}, {"x": -0.45, "z": 1.26, "yaw": 0.0, "kind": "eat", "table": [-0.45, 1.95]}, {"x": -0.45, "z": 2.64, "yaw": 3.1416, "kind": "eat", "table": [-0.45, 1.95]}, {"x": -1.14, "z": 1.95, "yaw": 1.5708, "kind": "eat", "table": [-0.45, 1.95]}, {"x": 0.24, "z": 1.95, "yaw": -1.5708, "kind": "eat", "table": [-0.45, 1.95]}], "interact": [{"id": "tv", "x": -2.9, "z": -1.2, "r": 0.9, "label": "電視", "note": "看（午間新聞；AA_280：「電視在播午間新聞，沒有人在看。」）"}, {"id": "soup", "x": -2.4, "z": -3.55, "r": 0.8, "label": "自取的湯", "note": "湯免費自取（說明文字由 AA 寫）"}], "blocks": [{"x0": 2.23, "x1": 2.87, "z0": -0.72, "z1": 2.42, "why": "case"}, {"x0": 2.22, "x1": 2.88, "z0": -1.63, "z1": -0.72, "why": "counter"}, {"x0": 2.2, "x1": 3.8, "z0": -1.65, "z1": 2.45, "why": "counter_back"}, {"x0": 2.2, "x1": 3.8, "z0": -4.25, "z1": -1.6, "why": "counter_back2"}, {"x0": -3.02, "x1": -2.18, "z0": -2.67, "z1": -1.83, "why": "table"}, {"x0": -3.02, "x1": -2.18, "z0": -0.57, "z1": 0.27, "why": "table"}, {"x0": -0.87, "x1": -0.03, "z0": -2.67, "z1": -1.83, "why": "table"}, {"x0": -0.87, "x1": -0.03, "z0": -0.57, "z1": 0.27, "why": "table"}, {"x0": -0.87, "x1": -0.03, "z0": 1.53, "z1": 2.37, "why": "table"}, {"x0": -3.83, "x1": -3.07, "z0": -4.28, "z1": -2.92, "why": "soup"}, {"x0": 1.33, "x1": 2.17, "z0": -4.25, "z1": -3.59, "why": "fridge"}]}, "cafe2": {"version": 1, "zone": "l118_cafe2", "shop": "cafe2", "name": "慢讀咖啡", "type": "咖啡", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.5, "z1": 4.5}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.5}, "spawn": {"x": 2.2, "z": 3.0, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 2.2, "z": 4.05, "r": 0.7, "label": "離開慢讀咖啡", "to": "lane118"}], "street": {"side": "W", "door": {"x": -4.3, "z": -12.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": -3.9, "z": -10.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -2.6999999999999997, "x1": 1.2, "z0": -3.55, "z1": -3.0, "h": 1.0}, "clerk": {"x": -0.2, "z": -4.0, "yaw": 0.0, "note": "吧台後面（咖啡機旁），面向店裡（「內用的話，插座在窗邊。」）"}, "order": {"x": 0.1, "z": -2.45, "r": 0.8, "label": "點餐（慢讀咖啡）", "note": "吧台前面；交給 LAWWW 接 AA_280（shop118:cafe2）"}, "seats": [{"x": -2.3, "z": 3.72, "yaw": 0.0, "kind": "eat", "table": [-2.3, 4.25], "label": "坐窗邊（有插座）"}, {"x": -1.4, "z": 3.72, "yaw": 0.0, "kind": "eat", "table": [-1.4, 4.25], "label": "坐窗邊（有插座）"}, {"x": -0.5, "z": 3.72, "yaw": 0.0, "kind": "eat", "table": [-0.5, 4.25], "label": "坐窗邊（有插座）"}, {"x": 0.4, "z": 3.72, "yaw": 0.0, "kind": "eat", "table": [0.4, 4.25], "label": "坐窗邊（有插座）"}, {"x": -1.55, "z": -2.0, "yaw": 0.0, "kind": "eat", "table": [-1.55, -1.35]}, {"x": -1.55, "z": -0.7, "yaw": 3.1416, "kind": "eat", "table": [-1.55, -1.35]}, {"x": -1.55, "z": 0.2, "yaw": 0.0, "kind": "eat", "table": [-1.55, 0.85]}, {"x": -1.55, "z": 1.5, "yaw": 3.1416, "kind": "eat", "table": [-1.55, 0.85]}, {"x": 0.75, "z": -2.0, "yaw": 0.0, "kind": "eat", "table": [0.75, -1.35]}, {"x": 0.75, "z": -0.7, "yaw": 3.1416, "kind": "eat", "table": [0.75, -1.35]}, {"x": 0.75, "z": 0.2, "yaw": 0.0, "kind": "eat", "table": [0.75, 0.85]}, {"x": 0.75, "z": 1.5, "yaw": 3.1416, "kind": "eat", "table": [0.75, 0.85]}, {"x": 2.55, "z": -2.25, "yaw": 0.0, "kind": "eat", "table": [2.55, -1.6]}, {"x": 2.55, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [2.55, -1.6]}], "interact": [{"id": "books", "x": -2.4, "z": 0.1, "r": 1.0, "label": "書架", "note": "書可以自由取閱（說明文字由 AA 寫）"}], "blocks": [{"x0": -2.73, "x1": 1.23, "z0": -3.58, "z1": -2.97, "why": "bar"}, {"x0": -3.3, "x1": 1.25, "z0": -4.5, "z1": -3.5, "why": "bar_back"}, {"x0": -3.32, "x1": -2.96, "z0": -2.22, "z1": 2.42, "why": "bookshelf"}, {"x0": -2.98, "x1": 1.48, "z0": 4.05, "z1": 4.5, "why": "window_bar"}, {"x0": -1.94, "x1": -1.16, "z0": -1.73, "z1": -0.97, "why": "table"}, {"x0": -1.94, "x1": -1.16, "z0": 0.47, "z1": 1.23, "why": "table"}, {"x0": 0.36, "x1": 1.14, "z0": -1.73, "z1": -0.97, "why": "table"}, {"x0": 0.36, "x1": 1.14, "z0": 0.47, "z1": 1.23, "why": "table"}, {"x0": 2.16, "x1": 2.94, "z0": -1.98, "z1": -1.22, "why": "table"}]}, "pasta": {"version": 1, "zone": "l118_pasta", "shop": "pasta", "name": "Pasta 118", "type": "義大利麵", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.6, "w": 1.0, "z": 4.25}, "spawn": {"x": -2.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.6, "z": 3.8, "r": 0.7, "label": "離開Pasta 118", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 24.0, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 25.7, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.1999999999999997, "x1": 3.1999999999999997, "z0": -2.35, "z1": -1.8, "h": 1.05, "note": "吧檯（後面是開放式廚房）"}, "clerk": {"x": 0.0, "z": -2.95, "yaw": 0.0, "note": "開放式廚房、吧檯後面，面向吧檯和店裡"}, "order": {"x": -2.7, "z": -1.1, "r": 0.8, "label": "點餐（Pasta 118）", "note": "吧檯西端；交給 LAWWW 接 AA_280（shop118:pasta）"}, "seats": [{"x": -1.8, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [-1.8, -2.07], "label": "坐吧檯"}, {"x": -1.0, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [-1.0, -2.07], "label": "坐吧檯"}, {"x": -0.2, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [-0.2, -2.07], "label": "坐吧檯"}, {"x": 0.6, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [0.6, -2.07], "label": "坐吧檯"}, {"x": 1.4, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [1.4, -2.07], "label": "坐吧檯"}, {"x": 2.2, "z": -1.4, "yaw": 3.1416, "kind": "eat", "table": [2.2, -2.07], "label": "坐吧檯"}, {"x": -1.0, "z": -0.1, "yaw": 0.0, "kind": "eat", "table": [-1.0, 0.55]}, {"x": -1.0, "z": 1.2, "yaw": 3.1416, "kind": "eat", "table": [-1.0, 0.55]}, {"x": 1.05, "z": -0.1, "yaw": 0.0, "kind": "eat", "table": [1.05, 0.55]}, {"x": 1.05, "z": 1.2, "yaw": 3.1416, "kind": "eat", "table": [1.05, 0.55]}, {"x": 3.0, "z": -0.35, "yaw": 0.0, "kind": "eat", "table": [3.0, 0.3]}, {"x": 3.0, "z": 0.95, "yaw": 3.1416, "kind": "eat", "table": [3.0, 0.3]}, {"x": -1.0, "z": 1.95, "yaw": 0.0, "kind": "eat", "table": [-1.0, 2.6]}, {"x": -1.0, "z": 3.25, "yaw": 3.1416, "kind": "eat", "table": [-1.0, 2.6]}, {"x": 1.05, "z": 1.95, "yaw": 0.0, "kind": "eat", "table": [1.05, 2.6]}, {"x": 1.05, "z": 3.25, "yaw": 3.1416, "kind": "eat", "table": [1.05, 2.6]}], "interact": [], "blocks": [{"x0": -3.23, "x1": 3.23, "z0": -2.38, "z1": -1.77, "why": "bar"}, {"x0": -3.8, "x1": 3.8, "z0": -4.25, "z1": -2.3, "why": "open_kitchen"}, {"x0": -3.8, "x1": -3.15, "z0": -2.35, "z1": -1.75, "why": "bar_end"}, {"x0": 3.15, "x1": 3.8, "z0": -2.35, "z1": -1.75, "why": "bar_end"}, {"x0": -1.39, "x1": -0.61, "z0": 0.17, "z1": 0.93, "why": "table"}, {"x0": 0.66, "x1": 1.44, "z0": 0.17, "z1": 0.93, "why": "table"}, {"x0": 2.61, "x1": 3.39, "z0": -0.08, "z1": 0.68, "why": "table"}, {"x0": -1.39, "x1": -0.61, "z0": 2.22, "z1": 2.98, "why": "table"}, {"x0": 0.66, "x1": 1.44, "z0": 2.22, "z1": 2.98, "why": "table"}]}, "korea": {"version": 1, "zone": "l118_korea", "shop": "korea", "name": "韓食小廚", "type": "韓式", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 2.2, "w": 1.0, "z": 4.25}, "spawn": {"x": 2.2, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 2.2, "z": 3.8, "r": 0.7, "label": "離開韓食小廚", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 15.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 17.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.3, "x1": 1.1, "z0": -3.3, "z1": -2.75, "h": 1.0}, "clerk": {"x": -0.2, "z": -3.75, "yaw": 0.0, "note": "櫃台後面（出菜口前），面向店裡（「小菜可以續喔。」）"}, "order": {"x": -0.2, "z": -2.2, "r": 0.8, "label": "點餐（韓食小廚）", "note": "櫃台前面；交給 LAWWW 接 AA_280（shop118:korea）"}, "seats": [{"x": -2.15, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.9, -1.2]}, {"x": -1.65, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [-1.9, -1.2]}, {"x": -2.15, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.9, -1.2]}, {"x": -1.65, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [-1.9, -1.2]}, {"x": -2.15, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-1.9, 1.0]}, {"x": -1.65, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [-1.9, 1.0]}, {"x": -2.15, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-1.9, 1.0]}, {"x": -1.65, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [-1.9, 1.0]}, {"x": 0.15, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2]}, {"x": 0.65, "z": -1.86, "yaw": 0.0, "kind": "eat", "table": [0.4, -1.2]}, {"x": 0.15, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2]}, {"x": 0.65, "z": -0.54, "yaw": 3.1416, "kind": "eat", "table": [0.4, -1.2]}, {"x": 0.15, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [0.4, 1.0]}, {"x": 0.65, "z": 0.34, "yaw": 0.0, "kind": "eat", "table": [0.4, 1.0]}, {"x": 0.15, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [0.4, 1.0]}, {"x": 0.65, "z": 1.66, "yaw": 3.1416, "kind": "eat", "table": [0.4, 1.0]}, {"x": 0.15, "z": 2.34, "yaw": 0.0, "kind": "eat", "table": [0.4, 3.0]}, {"x": 0.65, "z": 2.34, "yaw": 0.0, "kind": "eat", "table": [0.4, 3.0]}, {"x": 0.15, "z": 3.66, "yaw": 3.1416, "kind": "eat", "table": [0.4, 3.0]}, {"x": 0.65, "z": 3.66, "yaw": 3.1416, "kind": "eat", "table": [0.4, 3.0]}], "interact": [{"id": "banchan", "x": 2.15, "z": -0.4, "r": 0.8, "label": "小菜櫃", "note": "小菜可以續（自己拿；說明文字由 AA 寫）"}], "blocks": [{"x0": -3.33, "x1": 1.13, "z0": -3.33, "z1": -2.72, "why": "counter"}, {"x0": -3.3, "x1": 1.15, "z0": -4.25, "z1": -3.25, "why": "counter_back"}, {"x0": 2.68, "x1": 3.32, "z0": -1.22, "z1": 0.42, "why": "case"}, {"x0": 1.48, "x1": 2.32, "z0": -4.25, "z1": -3.59, "why": "fridge"}, {"x0": -2.43, "x1": -1.37, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -2.43, "x1": -1.37, "z0": 0.61, "z1": 1.39, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": -1.59, "z1": -0.81, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 0.61, "z1": 1.39, "why": "table"}, {"x0": -0.13, "x1": 0.93, "z0": 2.61, "z1": 3.39, "why": "table"}]}, "omu": {"version": 1, "zone": "l118_omu", "shop": "omu", "name": "蛋包飯研究所", "type": "蛋包飯", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.0, "z1": 4.0}, "h": 3.2, "cam_dist": 4.2, "door": {"x": -2.2, "w": 1.0, "z": 4.0}, "spawn": {"x": -2.2, "z": 2.5, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": -2.2, "z": 3.55, "r": 0.7, "label": "離開蛋包飯研究所", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": 1.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": 3.2, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -3.05, "x1": 2.8499999999999996, "z0": -1.9, "z1": -1.35, "h": 1.05, "note": "吧檯（後面是開放式廚房）"}, "clerk": {"x": 0.6, "z": -2.55, "yaw": 0.0, "note": "開放式廚房、吧檯後面（平底鍋前），面向客人（「蛋要全熟還是半熟？」）"}, "order": {"x": -2.3, "z": -0.7, "r": 0.8, "label": "點餐（蛋包飯研究所）", "note": "吧檯西端的收銀；交給 LAWWW 接 AA_280（shop118:omu）"}, "seats": [{"x": -1.0, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [-1.0, -1.62], "label": "坐吧檯"}, {"x": -0.2, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [-0.2, -1.62], "label": "坐吧檯"}, {"x": 0.6, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [0.6, -1.62], "label": "坐吧檯"}, {"x": 1.4, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [1.4, -1.62], "label": "坐吧檯"}, {"x": 2.2, "z": -0.95, "yaw": 3.1416, "kind": "eat", "table": [2.2, -1.62], "label": "坐吧檯"}, {"x": -1.95, "z": 0.01, "yaw": 0.0, "kind": "eat", "table": [-1.95, 0.65]}, {"x": -1.95, "z": 1.29, "yaw": 3.1416, "kind": "eat", "table": [-1.95, 0.65]}, {"x": 0.2, "z": 0.11, "yaw": 0.0, "kind": "eat", "table": [0.2, 0.75]}, {"x": 0.2, "z": 1.39, "yaw": 3.1416, "kind": "eat", "table": [0.2, 0.75]}, {"x": 2.25, "z": 0.11, "yaw": 0.0, "kind": "eat", "table": [2.25, 0.75]}, {"x": 2.25, "z": 1.39, "yaw": 3.1416, "kind": "eat", "table": [2.25, 0.75]}, {"x": 0.2, "z": 1.96, "yaw": 0.0, "kind": "eat", "table": [0.2, 2.6]}, {"x": 0.2, "z": 3.24, "yaw": 3.1416, "kind": "eat", "table": [0.2, 2.6]}, {"x": 2.25, "z": 1.96, "yaw": 0.0, "kind": "eat", "table": [2.25, 2.6]}, {"x": 2.25, "z": 3.24, "yaw": 3.1416, "kind": "eat", "table": [2.25, 2.6]}], "interact": [], "blocks": [{"x0": -1.63, "x1": 2.88, "z0": -1.93, "z1": -1.32, "why": "bar"}, {"x0": -3.3, "x1": 3.3, "z0": -4.0, "z1": -1.85, "why": "open_kitchen"}, {"x0": 2.8, "x1": 3.3, "z0": -1.9, "z1": -1.3, "why": "bar_end"}, {"x0": -3.08, "x1": -1.57, "z0": -1.93, "z1": -1.32, "why": "register_counter"}, {"x0": -2.33, "x1": -1.57, "z0": 0.28, "z1": 1.02, "why": "table"}, {"x0": -0.18, "x1": 0.58, "z0": 0.38, "z1": 1.12, "why": "table"}, {"x0": 1.87, "x1": 2.63, "z0": 0.38, "z1": 1.12, "why": "table"}, {"x0": -0.18, "x1": 0.58, "z0": 2.23, "z1": 2.97, "why": "table"}, {"x0": 1.87, "x1": 2.63, "z0": 2.23, "z1": 2.97, "why": "table"}]}, "noodle2": {"version": 1, "zone": "l118_noodle2", "shop": "noodle2", "name": "六張犁麵舖", "type": "麵店", "src": "AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）", "bounds": {"x0": -3.3, "x1": 3.3, "z0": -4.25, "z1": 4.25}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 1.6, "w": 1.0, "z": 4.25}, "spawn": {"x": 1.6, "z": 2.75, "yaw": 3.141592653589793, "note": "從門進來、面向店裡"}, "exits": [{"x": 1.6, "z": 3.8, "r": 0.7, "label": "離開六張犁麵舖", "to": "lane118"}], "street": {"side": "E", "door": {"x": 4.3, "z": -10.5, "note": "118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）"}, "spawn_out": {"x": 3.9, "z": -8.8, "yaw": 0.0, "note": "出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）"}}, "counter": {"x0": -1.75, "x1": -1.3, "z0": 1.3, "z1": 3.85, "h": 1.05, "note": "小菜櫃（老闆隔著它面向客人）"}, "clerk": {"x": -2.1, "z": 2.6, "yaw": 1.5707963267948966, "note": "煮麵台和小菜櫃中間，面向店裡（老闆：「大碗小碗？」）；從巷子隔著玻璃看得到"}, "order": {"x": -0.75, "z": 2.0, "r": 0.8, "label": "點餐（六張犁麵舖）", "note": "小菜櫃前面；交給 LAWWW 接 AA_280（shop118:noodle2）"}, "seats": [{"x": -2.2, "z": -3.075, "yaw": 0.0, "kind": "eat", "table": [-2.2, -2.4]}, {"x": -2.2, "z": -1.725, "yaw": 3.1416, "kind": "eat", "table": [-2.2, -2.4]}, {"x": -2.2, "z": -1.025, "yaw": 0.0, "kind": "eat", "table": [-2.2, -0.35]}, {"x": -2.2, "z": 0.325, "yaw": 3.1416, "kind": "eat", "table": [-2.2, -0.35]}, {"x": 0.05, "z": -3.075, "yaw": 0.0, "kind": "eat", "table": [0.05, -2.4]}, {"x": 0.05, "z": -1.725, "yaw": 3.1416, "kind": "eat", "table": [0.05, -2.4]}, {"x": 0.05, "z": -1.025, "yaw": 0.0, "kind": "eat", "table": [0.05, -0.35]}, {"x": 0.05, "z": 0.325, "yaw": 3.1416, "kind": "eat", "table": [0.05, -0.35]}, {"x": 2.3, "z": -3.075, "yaw": 0.0, "kind": "eat", "table": [2.3, -2.4]}, {"x": 2.3, "z": -1.725, "yaw": 3.1416, "kind": "eat", "table": [2.3, -2.4]}, {"x": 2.3, "z": -1.025, "yaw": 0.0, "kind": "eat", "table": [2.3, -0.35]}, {"x": 2.3, "z": 0.325, "yaw": 3.1416, "kind": "eat", "table": [2.3, -0.35]}, {"x": 0.05, "z": 1.025, "yaw": 0.0, "kind": "eat", "table": [0.05, 1.7]}, {"x": 0.05, "z": 2.375, "yaw": 3.1416, "kind": "eat", "table": [0.05, 1.7]}, {"x": 2.3, "z": 1.025, "yaw": 0.0, "kind": "eat", "table": [2.3, 1.7]}, {"x": 2.3, "z": 2.375, "yaw": 3.1416, "kind": "eat", "table": [2.3, 1.7]}], "interact": [{"id": "sides", "x": -0.75, "z": 2.8, "r": 0.7, "label": "小菜櫃", "note": "小菜自己拿，一盤三十（說明文字由 AA 寫）"}], "blocks": [{"x0": -3.32, "x1": -2.53, "z0": 1.28, "z1": 4.07, "why": "noodle_station"}, {"x0": -1.77, "x1": -1.28, "z0": 1.28, "z1": 3.87, "why": "case"}, {"x0": -3.3, "x1": -1.25, "z0": 1.25, "z1": 4.25, "why": "noodle_back"}, {"x0": -2.605, "x1": -1.795, "z0": -2.805, "z1": -1.995, "why": "table"}, {"x0": -2.605, "x1": -1.795, "z0": -0.755, "z1": 0.055, "why": "table"}, {"x0": -0.355, "x1": 0.455, "z0": -2.805, "z1": -1.995, "why": "table"}, {"x0": -0.355, "x1": 0.455, "z0": -0.755, "z1": 0.055, "why": "table"}, {"x0": 1.895, "x1": 2.705, "z0": -2.805, "z1": -1.995, "why": "table"}, {"x0": 1.895, "x1": 2.705, "z0": -0.755, "z1": 0.055, "why": "table"}, {"x0": -0.355, "x1": 0.455, "z0": 1.295, "z1": 2.105, "why": "table"}, {"x0": 1.895, "x1": 2.705, "z0": 1.295, "z1": 2.105, "why": "table"}, {"x0": 2.55, "x1": 2.95, "z0": -4.15, "z1": -3.75, "why": "water"}]}};
+diff --git a/src/l118_shops3d.js b/src/l118_shops3d.js
+new file mode 100644
+index 00000000..95c5f3f9
+--- /dev/null
++++ b/src/l118_shops3d.js
+@@ -0,0 +1,33 @@
++/* 測試用（LAWWW2-C 臨時接線，LANE118-SHOPS-1020；正式接線由 LAWWW-C 做）：118 巷九間店的室內區域 l118_<id>（照 us3d.js 的 us_lawlib） */
++(function(){
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
++  const has=k=>typeof ASSETS!=='undefined'&&!!ASSETS.manifest[k];
++  const G_=()=>typeof GAME!=='undefined'?GAME.G:null;
++  function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.l118Base==null) m.userData.l118Base=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
++  function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.l118Base*k; }
++  function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
++  function zoneFor(id){ const L=L118_SHOP_LAYOUTS[id];
++    return { id:'l118_'+id, name:L.name+'（118 巷）', indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;
++      const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;
++      const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#efe8dc',floorTex:W3.stoneTex('#c8bba6'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
++      const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++      for(const w of z.walls) w.visible=false; z.walls.length=0;
++      const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
++      for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
++      nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
++      plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#c8bba6'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/fridge|bookshelf|kitchen/.test(b.why)?1.9:0.9; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
++      const lamps=[]; const cx=(Bd.x0+Bd.x1)/2; for(const zz of [Bd.z0+2.2,(Bd.z0+Bd.z1)/2,Bd.z1-2.0]){ const l=new THREE.PointLight(0xfff1dc,3,12,2); l.position.set(cx,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
++      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
++      const IT=E.interactables; z.seats=[];
++      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,seat:st,label:s.label||'坐下'}); }
++      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:q.note||q.label});
++      if(L.order) IT.push({x:L.order.x,z:L.order.z,radius:L.order.r,lv:0,label:L.order.label,shop118:id});
++      for(const X of L.exits){ const so=L.street.spawn_out; IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:'lane118',spawn:{x:so.x,z:so.z,yaw:so.yaw}}}); }
++      z.formal=false; const key='bldg.l118_'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
++        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('118 巷店面正式模型載入失敗',id,e));
++      return z; } }; }
++  if(typeof L118_SHOP_LAYOUTS!=='undefined') for(const id of Object.keys(L118_SHOP_LAYOUTS)){ Z3.ZONES['l118_'+id]=zoneFor(id);
++    if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.l118_'+id]={url:'assets/models/env/second_ai/l118_'+id+'.glb',type:'building',lazy:true,source:'LAWWW2-C lane118_shops.py',license:'本作'}; }
++})();
+diff --git a/src/story3d.js b/src/story3d.js
+index e3a247e9..b26b83f7 100644
+--- a/src/story3d.js
++++ b/src/story3d.js
+@@ -321,7 +321,8 @@ const STORY = (function(){
+       if(zoneId==='wz_brunch') clerk(2.6,-2.05,-0.6,46);   // 結帳櫃台（(2.6,-1.1)，客人站西邊 (1.95,-1.1)）北端、廚房門口，面向結帳的客人
+       if(zoneId==='wz_print') clerk(-0.9,0.4,0,47);        // 櫃台後面（打工時坐的位置），面向印東西的客人
+       if(zoneId==='wz_teahouse') clerk(2.95,1.3,-Math.PI/2,48);   // 水屋（泡茶的地方），面向茶室
+-      if(zoneId==='lane118'&&typeof L118!=='undefined'&&typeof LANE118_LAYOUT!=='undefined'){ let k=0; for(const sh of LANE118_LAYOUT.shops){ k++; let open=false; try{ open=L118.isOpen(sh.id,G); }catch(e){} if(!open) continue; const W=sh.side==='W', fx=W?LANE118_LAYOUT.facade.west+0.35:LANE118_LAYOUT.facade.east-0.35;
++      if(/^l118_/.test(zoneId)&&typeof L118_SHOP_LAYOUTS!=='undefined'){ const LL=L118_SHOP_LAYOUTS[zoneId.slice(5)]; if(LL&&LL.clerk) clerk(LL.clerk.x,LL.clerk.z,LL.clerk.yaw,70); }   /* 測試用：118 巷的店員在店裡（LAWWW2-C 臨時接線）*/
++      if(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&typeof L118!=='undefined'&&typeof LANE118_LAYOUT!=='undefined'){ let k=0; for(const sh of LANE118_LAYOUT.shops){ k++; let open=false; try{ open=L118.isOpen(sh.id,G); }catch(e){} if(!open) continue; const W=sh.side==='W', fx=W?LANE118_LAYOUT.facade.west+0.35:LANE118_LAYOUT.facade.east-0.35;
+         clerk(fx,(sh.z0+sh.z1)/2+1.1,W?Math.PI/2:-Math.PI/2,50+k); } }
+       if(zoneId==='us_market'){ clerk(-7.45,10.8,-Math.PI/2,61); clerk(-1.45,10.8,-Math.PI/2,62); }   // 美國草原超市：1、3 號收銀台（收銀機旁邊），面向輸送帶
+       if(zoneId==='us_asian_market') clerk(-4.5,2.7,0,63); }   // 竹葉亞洲超市：櫃台後面，面向門口。118 巷九間：營業時間內，店員站在店門口旁邊（門的一側、靠牆），面向巷子
+diff --git a/src/zones3d.js b/src/zones3d.js
+index addcf2ac..052d8271 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1539,7 +1539,7 @@ const Z3 = (function(){
+       for(const [a,b] of segs){ const w=b-a, cx=fx+sx*6; const m=new THREE.Mesh(new THREE.BoxGeometry(12,13,w),M(side==='W'?'#cfc5b2':'#d6c3a5')); m.position.set(cx,6.5,(a+b)/2); m.userData.l118=true; m.userData.dyn=true; g.add(m); fb.push(m); addCollider(cx,(a+b)/2,12,w,14); } }
+     // 店門口（點餐）：店的中間、人行道上
+     for(const sh of ((L&&L.shops)||[])){ const x=sh.side==='W'?fw+0.9:fe-0.9, z=(sh.z0+sh.z1)/2; const nm=(typeof LANE118_SHOPS!=='undefined'&&(LANE118_SHOPS.shops.find(q=>q.id===sh.id)||{}).name)||sh.name;
+-      E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
++      if(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sh.id]){ const LL=L118_SHOP_LAYOUTS[sh.id]; E.interactables.push({x,z,radius:1.4,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}}}); } else E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
+     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到台大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
+     // 路燈與店家燈光（晚上）
+     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.25); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
+diff --git a/tests/flow_l118_shops.py b/tests/flow_l118_shops.py
+new file mode 100644
+index 00000000..f475328e
+--- /dev/null
++++ b/tests/flow_l118_shops.py
+@@ -0,0 +1,117 @@
++"""118 巷的店走得進去（LANE118-SHOPS-1020；LAWWW2-C 臨時接線 src/l118_shops3d.js）：真實玩家流程。
++[前置／捷徑] 讀檔到 2025-09-09（二）12:15 118 巷滇香小館門口外面的人行道（大一上第 2 週）。手機模擬橫向、不用 turbo；選項照第一個選。
++  1. 巷子裡店門口的按鈕是「進滇香小館」→ 進到店裡（區域 l118_dian、正式模型載入）；站得住、不會一進來就在「離開」上
++  2. 店員站在店裡（櫃台後面）
++  3. 走到櫃台前面「點餐（滇香小館）」→ 點餐（AA_280：「內用嗎？椒麻雞今天比較辣喔。」）
++  4. 走到桌子旁邊坐下（坐姿）、站起來
++  5. 「離開滇香小館」→ 回到 118 巷（店門口外面的人行道），不會一出來就在「進滇香小館」上
++  6. 沒有 JS 例外；劇情自動走路沒有用到卡住保險
++這是 Playwright 手機模擬，不是 iPhone 實機。用法：python3 tests/flow_l118_shops.py URL [輸出資料夾]"""
++import asyncio, json, sys, time, math
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++
++URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
++OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_l118_shops'
++BASE = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True,
++        'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True, 'fundsV2': 1, 'L118_FIRST_SENT': True}
++
++
++async def talk_through(pg, cdp, until, max_s=90):
++    log = []; t0 = time.time()
++    while time.time() - t0 < max_s:
++        if await pg.evaluate(until): return True, log
++        s = await L.state(pg)
++        if s['choices']:
++            c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; if(!bs.length) return null; const e=bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })()")
++            if c: log.append('▶' + c[2][:30]); await L.touch_tap(cdp, c[0], c[1])
++        elif s['dlg']:
++            t = (s['dtext'] or '')[:60]
++            if not log or log[-1] != t: log.append(t)
++            await L.tap(pg, cdp, '#dlg')
++        await pg.wait_for_timeout(600)
++    return False, log
++
++
++async def main():
++    run = L.Run('flow_l118_shops', OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL)
++        run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear()")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        LL = await pg.evaluate("L118_SHOP_LAYOUTS.dian")
++        so = LL['street']['spawn_out']
++        run.setup(f'讀檔：2025-09-09（二）12:15 118 巷滇香小館門口外面的人行道 ({so["x"]}, {so["z"]})')
++        await L.load_state(pg, {'zone': 'lane118', 'hour': 12.25, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': so['x'], 'z': so['z'], 'yaw': so['yaw']}})
++        await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp)
++        await run.shot(pg, '01_lane_outside')
++        s = await L.state(pg)
++        run.check('0. 出生在店門口外面的人行道：站得住、互動鍵不是「進滇香小館」', s['zone'] == 'lane118' and s['stand'] and not s['interact'].startswith('進滇香'), json.dumps(s, ensure_ascii=False))
++        # 1. 進店
++        it = await L.find_it(pg, '進滇香小館')
++        ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, '滇香小館門口')
++        s = await L.state(pg); await run.shot(pg, '02_lane_door')
++        run.check('1. 巷子裡店門口的按鈕是「進滇香小館」', ok and s['interact'].startswith('進滇香小館'), s['interact'])
++        await L.tap(pg, cdp, '#interact')
++        for _ in range(60):
++            if await pg.evaluate("GAME.G.zone==='l118_dian'&&!GAME.E.player.busy"): break
++            await pg.wait_for_timeout(1000)
++        for _ in range(40):
++            if await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.formal)"): break
++            await pg.wait_for_timeout(1000)
++        await pg.wait_for_timeout(2500); s = await L.state(pg); await run.shot(pg, '03_inside_door')
++        formal = await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.formal)")
++        run.check('1. 進到店裡（l118_dian、正式模型）、站得住、不會一進來就在「離開」上', s['zone'] == 'l118_dian' and formal and s['stand'] and not s['interact'].startswith('離開'), json.dumps(dict(s, formal=formal), ensure_ascii=False))
++        # 2. 店員
++        ck = await pg.evaluate("(()=>{ const n=GAME.E.npcs.filter(n=>n.clerk); return n.map(q=>({x:+q.obj.position.x.toFixed(2), z:+q.obj.position.z.toFixed(2)})); })()")
++        run.check('2. 店員站在店裡（櫃台後面）', len(ck) == 1 and abs(ck[0]['x'] - LL['clerk']['x']) < 0.1 and abs(ck[0]['z'] - LL['clerk']['z']) < 0.1, json.dumps(ck))
++        # 3. 點餐
++        it = await L.find_it(pg, '點餐（滇香小館）')
++        ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.5, '櫃台前面')
++        s = await L.state(pg); await run.shot(pg, '04_counter')
++        run.check('3. 走到櫃台前面，互動鍵「點餐（滇香小館）」', ok and s['interact'].startswith('點餐（滇香小館）'), s['interact'])
++        m0 = await pg.evaluate("GAME.G.money")
++        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(800)
++        done, log = await talk_through(pg, cdp, "!GAME.E.player.busy&&!document.querySelector('#dlg:not(.hide)')&&!document.querySelector('#choices button')", 90)
++        m1 = await pg.evaluate("GAME.G.money")
++        run.check('3. 點餐：店員招呼、點菜（AA_280）、扣錢', done and any('椒麻雞' in t or '內用' in t for t in log) and m1 < m0, ' / '.join(log[:8]) + f'；{m0}→{m1}')
++        # 4. 坐下
++        seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const it=GAME.E.interactables.filter(i=>i.seat).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z))[0]; return it?{x:it.x,z:it.z,label:it.label}:null; })()")
++        ok = bool(seat) and await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.45, '桌子')
++        s = await L.state(pg)
++        run.check('4. 走到桌子旁邊，互動鍵「坐下」', ok and s['interact'].startswith('坐'), s['interact'])
++        await L.tap(pg, cdp, '#interact'); t0 = time.time(); sat = None
++        while time.time() - t0 < 40:
++            s = await L.state(pg)
++            if s['pose'] == 'sit': sat = s; break
++            if s['choices']:
++                c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(b=>/坐|休息/.test(b.textContent))||bs[0]; const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2]; })()")
++                await L.touch_tap(cdp, c[0], c[1])
++            await pg.wait_for_timeout(500)
++        await pg.wait_for_timeout(1500); await run.shot(pg, '05_sit')
++        run.check('4. 坐下（坐姿）', bool(sat), json.dumps(sat, ensure_ascii=False))
++        s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=30)
++        if s['pose'] == 'sit': await L.joystick(pg, cdp, 0, 40, 900); await pg.wait_for_timeout(1500)
++        s = await L.state(pg)
++        run.check('4. 站起來、站得住', s['pose'] != 'sit' and s['stand'], json.dumps(s, ensure_ascii=False))
++        # 5. 離開
++        it = await L.find_it(pg, '離開滇香小館')
++        ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.4, '店門')
++        s = await L.state(pg); await run.shot(pg, '06_exit')
++        run.check('5. 走回店門，互動鍵「離開滇香小館」', ok and s['interact'].startswith('離開滇香小館'), s['interact'])
++        await L.tap(pg, cdp, '#interact')
++        for _ in range(60):
++            if await pg.evaluate("GAME.G.zone==='lane118'&&!GAME.E.player.busy"): break
++            await pg.wait_for_timeout(1000)
++        await pg.wait_for_timeout(3000); s = await L.state(pg); await run.shot(pg, '07_back_lane')
++        run.check('5. 回到 118 巷店門口外面的人行道、站得住、互動鍵不是「進滇香小館」', s['zone'] == 'lane118' and s['stand'] and math.hypot(s['x'] - so['x'], s['z'] - so['z']) < 0.8 and not s['interact'].startswith('進滇香'), json.dumps(s, ensure_ascii=False))
++        fb = await pg.evaluate("GAME.walkFallbacks||0")
++        run.check('6. 沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        run.check('6. 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）', fb == 0, str(fb))
++        await b.close()
++    run.finish()
++
++asyncio.run(main())
+diff --git a/tests/shots_l118_all.py b/tests/shots_l118_all.py
+new file mode 100644
+index 00000000..adc221e5
+--- /dev/null
++++ b/tests/shots_l118_all.py
+@@ -0,0 +1,35 @@
++"""118 巷九間店的遊戲內截圖（LANE118-SHOPS-1020）。[前置／捷徑] 每間店直接讀檔到店裡（只為了截圖；走進去的真實流程是 flow_l118_shops.py）。
++每間兩張：①進門站的位置（面向店裡）②[捷徑] 人物放到店中間、面向店門（看店員、門外的巷子）。手機模擬橫向。"""
++import asyncio, json, sys, math
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++URL = sys.argv[1]; OUT = sys.argv[2]
++IDS = (__import__('os').environ.get('L118_IDS') or 'dian,self,tea,home,cafe2,pasta,korea,omu,noodle2').split(',')
++BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True}
++async def main():
++    run = L.Run('shots_l118_all', OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        for sid in IDS:
++            LL = await pg.evaluate(f"L118_SHOP_LAYOUTS.{sid}")
++            sp = LL['spawn']
++            run.setup(f'{LL["name"]}：讀檔到店裡的進門位置（12:20）')
++            await L.load_state(pg, {'zone': 'l118_' + sid, 'hour': 12.33, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': sp['x'], 'z': sp['z'], 'yaw': sp['yaw']}})
++            for _ in range(40):
++                if await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.formal)"): break
++                await pg.wait_for_timeout(1000)
++            await pg.wait_for_timeout(2500); await L.close_panels(pg, cdp)
++            info = await pg.evaluate("({formal:!!GAME.E.zone.formal, clerk:GAME.E.npcs.filter(n=>n.clerk).length, zone:GAME.G.zone})")
++            run.check(f'{LL["name"]}：正式模型載入、店員 1 位', info['formal'] and info['clerk'] == 1, json.dumps(info))
++            await run.shot(pg, f'{sid}_1_door')
++            B = LL['bounds']; cx = LL['door']['x'] * 0.3; cz = (B['z0'] + B['z1']) / 2 + 0.6
++            await pg.evaluate(f"(()=>{{ const P=GAME.E.player.obj; const nf=GAME.E.nav.nearestFree({cx},{cz})||[{cx},{cz}]; P.position.x=nf[0]; P.position.z=nf[1]; P.rotation.y=0; GAME.E.cam.yaw=Math.PI; }})()")
++            await pg.wait_for_timeout(2500); await run.shot(pg, f'{sid}_2_mid')
++        run.check('沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        await b.close()
++    run.finish()
++asyncio.run(main())

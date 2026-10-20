@@ -20475,7 +20475,7 @@
    "title": "118 巷的店走得進去、店員站在店裡（現在店員站在店外）",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -20489,13 +20489,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【10-20 14:4x 開發分支接好】LAWWW2-C 43cf956a（九間室內 GLB＋layout）＋d269942b（遊戲內測試、接線 diff、flow_l118_shops.py ALL PASS）→ LAWWW-C 照 diff 接：src/l118_shops3d.js（九個區域 l118_<id>、晚上門外巷子調暗）、src/data/l118_shop_layouts.js（tools/lane118/gen_shop_layouts.py 產生）、巷子店門口營業時間「進○○」／沒開照舊鐵門拉下來一半、店員在店裡（每間換底模）。tests/l118_shops_unit.js（修改前 FAIL）。下一步：BB 驗九間（坐每張椅子、reachability_all）；AA_311 店員外觀、熟客招呼、H1～H9 接（LANE118-SHOP-STORY-1020）；X68 118 巷偶遇 ｜ 【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話；現有 src/data/lane118_layout.js v1、assets/models/env/lane118_street.glb（AA_280）",
     "acceptance": "118 巷每間店走得進去：室內 GLB（櫃台、座位、店員站位），店名照 D77 諧音；交付寫每間店的門口座標和室內尺寸給 LAWWW 接",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -20594,7 +20594,7 @@
    "title": "校園地圖卡；有些建築旁邊的影子一直閃",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -20608,7 +20608,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能"
+   "next": "【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能"
   },
   {
    "id": "BUG-GYM-STAIRS-1020",
