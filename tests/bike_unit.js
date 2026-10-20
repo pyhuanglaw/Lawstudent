@@ -114,7 +114,14 @@ const step=(dist,turn,n)=>{ for(let i=0;i<n;i++){ P.obj.rotation.y+=turn/n; P.ob
     check('13 路人騎士：車掛在同一個群組（尺寸照身高 '+k.toFixed(2)+' 倍）、人看得到；車架改成指定的顏色、原本的共用材質不變',!!bk&&Math.abs(bk.scale.x-k)<1e-9&&rd.visible&&col==='#8c3b47'&&('#'+frameMat.color.getHexString())==='#7a8f7e',col);
     const last=calls[calls.length-1]; check('13 人物用 pose ride、給曲柄角度、握點、車的尺寸（rideIK）',!!last&&last.pose==='ride'&&Math.abs(last.ride.crank-r.crank)<1e-9&&last.ride.grips.length===2&&last.ride.scale===k);
     check('13 照路線騎（離路線 < 1 cm）、轉角不瞬間轉向（每秒最多 2 rad）',maxOff<0.01&&maxTurn<=2.0001,`離路線 ${(maxOff*100).toFixed(2)} cm、最快 ${maxTurn.toFixed(2)} rad/s`);
-    check('13 輪子照騎的距離轉',Math.abs(r.wheel-r.speed*dt*150/(0.333*k))<1e-6&&Math.abs(r.crank-r.wheel*0.45)<1e-6); }
+    check('13 輪子照騎的距離轉',Math.abs(r.wheel-r.speed*dt*150/(0.333*k))<1e-6&&Math.abs(r.crank-r.wheel*0.45)<1e-6);
+    /* 13b X69：畫面外、遠處（E3.seeLOD＝false、離鏡頭 16 m 以上）不畫、不算動畫，照樣往前騎；回到畫面裡照常（tests/perf_breakdown.py：椰林大道騎士佔 162 個 draw call）*/
+    { const sv=E3.seeLOD, sc=E3.seeCd; let vis=false, cd=30; E3.seeLOD=()=>{ E3.seeCd=cd; return vis; }; const n0=calls.length, p0=r.obj.position.clone(), w0=r.wheel;
+      for(let i=0;i<10;i++) r.update(dt); const moved=r.obj.position.distanceTo(p0);
+      check('13b 畫面外、遠處的騎士：不畫（visible＝false）、不算人和車的動畫，照樣往前騎（輪子的角度照算，回到畫面裡接得上）', r.obj.visible===false&&calls.length===n0&&r.wheel>w0&&moved>1, `calls ${calls.length-n0}、移動 ${moved.toFixed(2)} m`);
+      cd=10; r.update(dt); check('13b 畫面外但在 16 m 內：照算動畫（鏡頭一轉過去不會露出沒更新的姿勢）', r.obj.visible===false&&calls.length===n0+1);
+      vis=true; r.update(dt); check('13b 回到畫面裡：看得到、照常算', r.obj.visible===true&&calls.length===n0+2);
+      E3.seeLOD=sv; E3.seeCd=sc; } }
   // ---- 14 載人騎車（AA_137 第 5 節第 3、5 步；AA_140 G49）：騎 6 秒以後她一句短話（一趟最多一句）；中途按「下車」她說「……我還是走一下好了。」 ----
   { await enter('campus',{x:20,z:54,yaw:Math.PI}); const caps=[]; GM.caption=(w,t)=>caps.push((w||'')+t);
     const oldS=global.STORY, oldSo=global.SOCIAL; let greetN=0; global.STORY=Object.assign({},oldS||{},{ladGreet:(g,id)=>{ greetN++; return '短招呼（'+id+'）'; }}); global.SOCIAL=Object.assign({},oldSo||{},{displayName:id=>id==='heroine_01'?'沈以安':id});

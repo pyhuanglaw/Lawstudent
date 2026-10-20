@@ -20680,7 +20680,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤館3-8樓為什麼永遠都在蓋 萬才也是阿」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
+   "next": "【10-20 17:0x】霖澤館 3F、4F 已接（LINZE-34F-TABLES-1020）、5F–8F 改研究室；還差：霖澤館 202 教室、萬才館研討室 A、多功能教室（LAWWW2 做模型，X78 的課要搬過去）｜ LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -20694,7 +20694,7 @@
    "title": "霖澤 3、4 樓放長條桌附椅（像野餐桌），可以討論功課、吃飯",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20708,7 +20708,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤3.4樓要有長條桌子附椅子像野餐椅子讓大家可以在那邊討論事情功課或者吃飯啊」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 16:3x】LAWWW2-C 交付 5566a0c5（3F 討論區、4F 自習討論區、接線 patch linze_upper_wire_test.diff）→ LAWWW 接進開發分支 ｜ LAWWW2 做桌椅；LAWWW 做座位（坐、讀書、吃東西、同學在那裡）",
+   "next": "【10-20 17:0x 開發分支】LAWWW2-C 5566a0c5 接進來：區域 linze_3f、linze_4f（模型、配置、窗景）；2F 樓梯間的門往 3F（linze_layout.js stairs3f）；霖澤館電梯到 3F、4F（換區域，同總圖）、3F／4F 的「搭電梯」選樓層；5F–8F 研究室按不亮（不再寫整修中）；樓層簡介改字；樓上的同學（一般路人：上課日 3F 午餐八位、其他四位，4F 自習四位，週末減半，待著時段變了會走進來、離開）；導航連結（guide3d）。tests/linze_upper_unit.js（17 項）。下一步：BB 實玩（tests/flow_linze_upper.py＝LAWWW2 的流程，加電梯）；有名字的人在 3F、4F 的作息問 AA ｜ 【10-20 16:3x】LAWWW2-C 交付 5566a0c5（3F 討論區、4F 自習討論區、接線 patch linze_upper_wire_test.diff）→ LAWWW 接進開發分支 ｜ LAWWW2 做桌椅；LAWWW 做座位（坐、讀書、吃東西、同學在那裡）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

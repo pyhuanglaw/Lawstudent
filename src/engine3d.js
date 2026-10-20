@@ -313,6 +313,10 @@ const E3 = (function(){
     let best=null; const [cx,cz]=n.toCell(o.x,o.z); for(let r=1;r<=(maxR||16)&&!best;r++){ for(let dz=-r;dz<=r&&!best;dz++) for(let dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dz))!==r) continue; const [wx,wz]=n.toWorld(cx+dx,cz+dz); if(standL(wx,wz,0.3,lv)){ best=[wx,wz]; break; } } } if(!best) best=nf; o.x=best[0]; o.z=best[1]; o.y=n.heightAt(o.x,o.z); console.warn('unstick →',best); return true; };
   E.moveTo=function(ent,x,z,onArrive,lv){ if(!navOf(ent.lv|0)){ ent.path=[[x,z]]; ent.onArrive=onArrive; return true; } const p=E.pathTo(ent.obj.position.x,ent.obj.position.z,ent.lv|0,x,z,lv===undefined||lv===null?(ent.lv|0):lv); if(p&&p.length){ ent.path=p; ent.onArrive=onArrive; return true; } ent.path=null; return false; };   // lv：目標在哪一層（多樓層區域；不給＝同一層）
   const _fr=new THREE.Frustum(), _frM=new THREE.Matrix4(), _frS=new THREE.Sphere();
+  /* 這一格看得到嗎（鏡頭視錐＋和 NPC 一樣的距離 LOD）：不是 NPC 的會動的人（路上騎腳踏車的人，bike3d.js B.rider）用。
+     X69（使用者 2026-10-20「溫州街、公館與校園卡頓」；tests/perf_breakdown.py：椰林大道一次 488 個 draw call 裡，騎士的人＋車佔 162 個、20 萬個三角形——
+     騎士原本不分遠近、畫面外也一直畫、一直算動畫）。E.seeCd＝離鏡頭的水平距離 */
+  E.seeLOD=function(x,y,z,r){ if(!camera){ E.seeCd=0; return true; } const cd=Math.hypot(camera.position.x-x,camera.position.z-z); E.seeCd=cd; const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); if(cd>=lim) return false; _frS.center.set(x,y,z); _frS.radius=r||1.3; return _fr.intersectsSphere(_frS); };
   /* 跟著人走（follow：跟玩家；buddy：路人跟同伴）。直線追；對方在別層，或同一層但中間有牆、建築（直線走會一直撞）時用找路
      （2026-10-13 使用者試玩：高子晴背吉他跟著同伴跑，一直被牆卡住——原本只有不同層才找路）。E.followStep 給測試用 */
   function followStep(n,dt){ const o=n.obj; let moving=false; const Pp=n.beh==='buddy'?n.buddy.obj:E.player.obj; const side=n.side||1; const yaw=Pp.rotation.y; const fx=Math.sin(yaw), fz=Math.cos(yaw); const rx=Math.cos(yaw), rz=-Math.sin(yaw); const off=n.followOff||0.95; const tx=Pp.position.x+rx*side*off-fx*0.3, tz=Pp.position.z+rz*side*off-fz*0.3; const d=Math.hypot(tx-o.position.x,tz-o.position.z); const ps=(n.beh==='buddy'?n.buddy.speed:E.player.speed)||0;

@@ -8885,9 +8885,9 @@
    "sha": "5566a0c5",
    "what": "LINZE-34F-TABLES-1020：霖澤館 3F 討論區、4F 自習討論區、接線 patch",
    "task": "LINZE-34F-TABLES-1020",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-C 16:3x 收到，接著整合"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 17:0x 接進開發分支（正式接線：樓梯、電梯、樓層簡介、樓上的同學）"
   },
   {
    "id": "DL-BB-9430027c",

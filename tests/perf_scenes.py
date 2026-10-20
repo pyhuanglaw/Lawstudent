@@ -26,9 +26,10 @@ MEASURE = """(async()=>{ const E=GAME.E, R=E.renderer, S=E.scene; const wait=ms=
   let vis=0, cast=0; const mats=new Set(); S.traverse(o=>{ if(!o.isMesh&&!o.isInstancedMesh&&!o.isSkinnedMesh) return; let v=true, p=o; while(p){ if(!p.visible){ v=false; break; } p=p.parent; } if(!v) return; vis++; if(o.castShadow) cast++; (Array.isArray(o.material)?o.material:[o.material]).forEach(m=>m&&mats.add(m.uuid)); });
   const gl=R.getContext(); const once=()=>{ const t=performance.now(); E.render(); gl.finish(); return performance.now()-t; };   /* gl.finish：等 GPU（SwiftShader）真的畫完，量到的才是一格的成本 */
   once(); const ri=R.info.render; const calls=ri.calls, tris=ri.triangles;
+  /* 人會走、騎車的人會騎：隔 0.7 秒取 6 次的平均（一次 render 的數字看當下有幾個人在畫面裡）*/ let sc_=0, st_=0; for(let i=0;i<6;i++){ await wait(700); once(); sc_+=R.info.render.calls; st_+=R.info.render.triangles; } const avg={calls:Math.round(sc_/6), tris:Math.round(st_/6)};
   const N=8; let ts=[]; for(let i=0;i<N;i++) ts.push(once()); ts.sort((a,b)=>a-b); const med=ts[N>>1];
   const sc=E.sun&&E.sun.castShadow; if(E.sun) E.sun.castShadow=false; once(); const calls0=R.info.render.calls, tris0=R.info.render.triangles; let ts0=[]; for(let i=0;i<N;i++) ts0.push(once()); ts0.sort((a,b)=>a-b); if(E.sun) E.sun.castShadow=sc;
-  return {calls, tris, shadowCasters:cast, visibleMeshes:vis, materials:mats.size, renderMs:+med.toFixed(1), noShadow:{calls:calls0, tris:tris0, renderMs:+ts0[N>>1].toFixed(1)}, shadowMap:E.sun&&E.sun.shadow?E.sun.shadow.mapSize.x:null, fps:GAME.fps?+GAME.fps.toFixed(1):null}; })()"""
+  return {calls, tris, avg, shadowCasters:cast, visibleMeshes:vis, materials:mats.size, renderMs:+med.toFixed(1), noShadow:{calls:calls0, tris:tris0, renderMs:+ts0[N>>1].toFixed(1)}, shadowMap:E.sun&&E.sun.shadow?E.sun.shadow.mapSize.x:null, fps:GAME.fps?+GAME.fps.toFixed(1):null}; })()"""
 
 async def main():
     res = {}
