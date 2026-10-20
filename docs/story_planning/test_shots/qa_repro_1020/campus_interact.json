@@ -1,0 +1,819 @@
+[
+ {
+  "label": "大一女舍 A 棟（傳達室）",
+  "exit": "",
+  "mark": true,
+  "x": -108,
+  "z": 59.2,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.21,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "大一女舍 B 棟",
+  "exit": "",
+  "mark": true,
+  "x": -78,
+  "z": 57.2,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.24,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "看法律服務社的招生攤位",
+  "exit": "",
+  "mark": false,
+  "x": -18,
+  "z": 13.5,
+  "lv": 0,
+  "r": 1.5,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.24,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "走出校門",
+  "exit": "gongguan",
+  "mark": false,
+  "x": -125.5,
+  "z": -5.3,
+  "lv": 0,
+  "r": 2.5,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.2,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "走出校門",
+  "exit": "gongguan",
+  "mark": false,
+  "x": -125.5,
+  "z": 5.3,
+  "lv": 0,
+  "r": 2.5,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.22,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "從後門出去（118 巷）",
+  "exit": "lane118",
+  "mark": false,
+  "x": 34,
+  "z": -126.6,
+  "lv": 0,
+  "r": 1.8,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.24,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "進入霖澤館",
+  "exit": "linze",
+  "mark": false,
+  "x": 27.9,
+  "z": -107.5,
+  "lv": 0,
+  "r": 1.5,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.25,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "進入萬才館",
+  "exit": "wancai",
+  "mark": false,
+  "x": 93.8,
+  "z": -100.6,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.25,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "進入總圖書館",
+  "exit": "library_hall",
+  "mark": false,
+  "x": 86.4,
+  "z": 0,
+  "lv": 0,
+  "r": 3.8,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.23,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "回宿舍",
+  "exit": "dorm_hall",
+  "mark": false,
+  "x": 20,
+  "z": 59.6,
+  "lv": 0,
+  "r": 2.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.21,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "進入社科院圖書館",
+  "exit": "soclib",
+  "mark": false,
+  "x": 101,
+  "z": -69.3,
+  "lv": 0,
+  "r": 1.2,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.25,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -100,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.84,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -100,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.77,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -75,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.84,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -75,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.76,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -50,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.83,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -50,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.76,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -25,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.86,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": -25,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.77,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 0,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.86,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 0,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.77,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 17,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.82,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 25,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.76,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 50,
+  "z": -12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.83,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在椰林大道的長椅上",
+  "exit": "",
+  "mark": false,
+  "x": 50,
+  "z": 12.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.77,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在傅鐘旁的長椅",
+  "exit": "",
+  "mark": false,
+  "x": -46,
+  "z": 20.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.76,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在傅鐘旁的長椅",
+  "exit": "",
+  "mark": false,
+  "x": -30,
+  "z": 20.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.77,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在大一女舍門口的長椅（等人）",
+  "exit": "",
+  "mark": false,
+  "x": -93,
+  "z": 54.3,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.59,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在醉月湖畔的長椅",
+  "exit": "",
+  "mark": false,
+  "x": -47,
+  "z": -100,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.85,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在醉月湖畔的長椅",
+  "exit": "",
+  "mark": false,
+  "x": -29,
+  "z": -100,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.85,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在社科院中庭的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 108,
+  "z": -67.8,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.67,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在社科院中庭的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 117,
+  "z": -67.8,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.67,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在社科院中庭的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 122.5,
+  "z": -64.6,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.79,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在社科院中庭的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 122.5,
+  "z": -60.6,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.79,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在霖澤館前的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 40,
+  "z": -87.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.83,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "坐在霖澤館前的長椅",
+  "exit": "",
+  "mark": false,
+  "x": 70,
+  "z": -87.9,
+  "lv": 0,
+  "r": 1.6,
+  "stand": false,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": false,
+    "reason": "stuck",
+    "end": 0.85,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "進入萬才館（二樓）",
+  "exit": "wancai",
+  "mark": false,
+  "x": 87,
+  "z": -101.2,
+  "lv": 1,
+  "r": 1.4,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.21,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "回臺北的家",
+  "exit": "",
+  "mark": false,
+  "x": -120.5,
+  "z": 2.4,
+  "lv": 0,
+  "r": 1,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.21,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "共同教學館",
+  "exit": "gongtong",
+  "mark": true,
+  "x": 2,
+  "z": 22.8,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.19,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "普通教學館",
+  "exit": "putong",
+  "mark": true,
+  "x": -38,
+  "z": -49.4,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.22,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "博雅教學館",
+  "exit": "boya",
+  "mark": true,
+  "x": -38,
+  "z": -72.8,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.2,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "體育館",
+  "exit": "gym",
+  "mark": false,
+  "x": 74,
+  "z": 59.4,
+  "lv": 0,
+  "r": 1.6,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.22,
+    "inRange": true
+   }
+  ]
+ },
+ {
+  "label": "騎腳踏車",
+  "exit": "",
+  "mark": false,
+  "x": -68.8,
+  "z": -7.8,
+  "lv": 0,
+  "r": 1.3,
+  "stand": true,
+  "res": [
+   {
+    "from": "出生點",
+    "ok": true,
+    "reason": "",
+    "end": 0.23,
+    "inRange": true
+   }
+  ]
+ }
+]

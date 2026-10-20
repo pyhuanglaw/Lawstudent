@@ -1,0 +1,11 @@
+  [前置／捷徑] 讀存檔
+  [前置／捷徑] [捷徑] 14:00 GAME.enter(gym)
+進門 {"zone": "gym", "x": 0, "z": 17.6, "y": 0, "lv": 0, "ry": 3.14, "camYaw": 6.28, "near": null}
+3F 樓梯口 {"zone": "gym", "x": -18, "z": 19.6, "y": 0, "lv": 0, "ry": 3.14, "camYaw": 0, "near": null}
+B1 樓梯口 {"zone": "gym", "x": 18, "z": 19.4, "y": 0, "lv": 0, "ry": 3.14, "camYaw": 0, "near": null}
+互動按鈕： 下樓到 B1（健身中心・游泳池）
+到 B1 {"zone": "gym_b1", "x": 18, "z": 7, "y": 0, "lv": 0, "ry": 3.14, "camYaw": 6.28, "near": null}
+互動按鈕： 上樓回大廳
+回 1F {"zone": "gym", "x": 16.8, "z": 18.4, "y": 0, "lv": 0, "ry": 3.14, "camYaw": 6.28, "near": null}
+PASS 沒有 JS 例外  []
+ALL PASS

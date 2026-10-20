@@ -76,10 +76,13 @@ async def main():
                 idle = 0; continue
             if s['busy']: await pg.wait_for_timeout(700); continue
             idle += 1
-            if MODE == 'sleep' and g['zone'] == 'dorm' and not g['home'] and idle >= 2:
+            if g['zone'] == 'dorm' and not g['home'] and ((MODE == 'sleep' and idle >= 2) or (g['stage'] == 'law' and idle >= 8)):   # 法律系不再自動跳：任何玩法空下來一陣子都會去睡（玩家會做的）
                 bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
                 if bed and await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床', max_s=90):
-                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); idle = 0; continue
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); idle = 0
+                    c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(x=>/^睡到明天早上|^睡覺|^睡/.test(x.textContent.trim())); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,20)]; })()")
+                    if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); print('   去睡：', c[2], flush=True)
+                    continue
             if idle >= 40 and not g['home'] and g['zone'] == 'campus':   # 出遊演完人留在校園：走到校門口「回臺北的家」（玩家會做的）
                 problems.append('演完留在校園、要自己走去校門口回家：%s %.2f' % (g['key'], g['h'])); print('   ' + problems[-1], flush=True)
                 if await L.go_to(pg, cdp, run, -120.5, 2.4, 0.9, '回臺北的家', max_s=240): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
