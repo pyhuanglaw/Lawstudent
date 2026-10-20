@@ -31,7 +31,7 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const ck=h=>{ fresh(D,h,'campus'); return EVENTS.check(ev); }; check('2. 14:40 起自動；14:30 不演',ck(14.7)&&!ck(14.5));
   /* AA_305 第 5 節（使用者：休學只告訴可昕）：窗外、等下課那段整段拿掉；10/17 22:30 便利貼拿掉（搬到 10/31 搬家那天） */
   fresh(D,14.7,'campus'); PHONE.join(G,'econ_friends','走啦'); let seen=null; const ch0=GM.choose; GM.choose=async o=>{ seen=o.map(q=>q.t); return 0; }; await EVENTS.run(ev); GM.choose=ch0; let L=said.map(x=>x.t);
-  check('3. 行政大樓「星期四下午，行政大樓。你把申請書交出去。」→ 承辦人 →「手續比你想的快。十五分鐘。」→「（你沒有跟任何人說。）」→ 捷運上的電話（「捷運上。要回家跟我媽說。」）→「（她掛掉了。）」；沒有窗外、等下課、選項',L[0]==='星期四下午，行政大樓。你把申請書交出去。'&&L.indexOf('（你沒有跟任何人說。）')===L.indexOf('手續比你想的快。十五分鐘。')+1&&L.includes('捷運上。要回家跟我媽說。')&&L[L.length-1]==='（她掛掉了。）'&&!L.some(t=>/窗外|舉了一下筆|等他們下課|下課鐘|那就不算走/.test(t))&&seen===null,JSON.stringify(L));
+  check('3. 行政大樓「星期四下午，行政大樓。你把申請書交出去。」→ 承辦人 →「手續比你想的快。十五分鐘。」→「（你沒有跟任何人說。）」→ 捷運上的電話（「捷運上。要回家跟我媽說。」）→「（她掛掉了。）」→ 回家跟媽媽說（AA_308 第 4 節：「……想好了？」…「鑰匙在老地方。開慢一點。」）；沒有窗外、等下課、選項',L[0]==='星期四下午，行政大樓。你把申請書交出去。'&&L.indexOf('（你沒有跟任何人說。）')===L.indexOf('手續比你想的快。十五分鐘。')+1&&L.includes('捷運上。要回家跟我媽說。')&&L[L.indexOf('（她掛掉了。）')+1]==='（臺北的家。媽媽坐在客廳的桌子前記帳。）'&&L.includes('……想好了？')&&L[L.length-1]==='鑰匙在老地方。開慢一點。'&&!L.some(t=>/窗外|舉了一下筆|等他們下課|下課鐘|那就不算走/.test(t))&&seen===null,JSON.stringify(L));
   check('3. LEAVE_WEEK＝6、E30_WAITED 不記、時間到 15:30（AA_296 電話）',G.flags.LEAVE_WEEK===6&&G.flags.E30_WAITED===undefined&&Math.abs(G.hour-15.5)<1e-6);
   G.hour=15.1; run(); G.hour=15.25; run(); check('5. 15:12 群組沒有阿勳「我在裡面舉筆了。你有看到嗎？」（他不知道）',!PHONE.thread(G,'g:econ_friends').some(x=>x.text==='我在裡面舉筆了。你有看到嗎？'));
   G.zone='dorm'; G.hour=22.2; check('4. 10/17 22:00 以後回房間：便利貼不演（AA_305：搬到 10/31 搬家那天）',!EVENTS.check(note)); G.day=D+1; G.hour=12; check('4. 隔天也不演',!EVENTS.check(note));
