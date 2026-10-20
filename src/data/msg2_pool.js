@@ -1,9 +1,9 @@
-/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@b61e4f55、AA_257@558ccff8、BB_178@741e94f1）。
+/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@65239add、AA_257@558ccff8、BB_178@741e94f1）。
    產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。
    people[id]：birthday（MM-DD）、conds（thanks／ok：什麼事以後能傳，key＋原文；bday：分年份的列；closed：不開的時候）、replies（topic thanks／bday／ok／newyear、cond、tier、msgs、tags、ask）。程式的判斷在 src/msg3d.js。 */
 'use strict';
 const MSG2_POOL={
- "source":{"AA_202": "b61e4f55", "AA_257": "558ccff8", "BB_178": "741e94f1"},
+ "source":{"AA_202": "65239add", "AA_257": "558ccff8", "BB_178": "741e94f1"},
  "topics":{"thanks": {"say": ["謝謝", "上次謝啦"], "when": "對方幫過忙以後 7 天內，一次（例：借筆記 `LENT_NOTES` 的另一方向、借考古題、幫忙排行程、她送了東西）。條件表 LAWWW 照各人事件的旗標列"}, "bday": {"say": ["生日快樂"], "when": "對方生日當天（00:00～23:59）。生日的節日事件（`AA_126` 第 7 節）演過了也可以傳"}, "ok": {"say": ["還好嗎"], "when": "對方遇到事以後 3 天內（下表 7-2 的「事」）"}, "newyear": {"say": ["新年快樂"], "when": "1/1，以及除夕到初三"}},
  "people":{
   "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和小語吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
@@ -59,7 +59,7 @@ const MSG2_POOL={
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不客氣。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不客氣。下次考古題我先給你。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_202 7-3 柏翰"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。今天收到三則生日快樂，你是第三個。"], "tags": [], "src": "AA_202 7-3 柏翰"},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。今天收到三則生日快樂。……我都有回。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "ok", "cond": null, "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "ok", "cond": "split_peishan", "tier": "R", "msgs": ["還好。……讀書比較快。"], "tags": ["分開以後"], "src": "AA_202 7-3 柏翰", "alt": "1/2"},
    {"topic": "ok", "cond": "bar_exam_week", "tier": "R", "msgs": ["還有七天。我在算。"], "tags": ["國考前"], "src": "AA_202 7-3 柏翰", "alt": "2/2"},

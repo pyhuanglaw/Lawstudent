@@ -4,7 +4,7 @@
 
 這支腳本只是資料：所有中文字串都是從來源文件逐字複製的字面值，不解析來源、不改寫。
 來源（唯讀 git show）：
-  AA_202 @b61e4f55  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
+  AA_202 @65239add  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
   AA_257 @558ccff8  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆；659af025 只改沛珊新年句「我在台中」，AA_276 第 3 節；558ccff8 Kevin 生日 R 拿掉「你是第一個」模板句，AA_335；同一段之前可昕生日 L 改「你晚上要上山來，還是我下山」）
   BB_178 @b61e4f55  docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md 第 10 節（BB 九位條件）
 抄錄時只拿掉 markdown 粗體記號 `**`，並把表格裡的 <br> 拆成清單項；其他字元（含全形標點、emoji、反引號）照抄。
@@ -70,7 +70,7 @@ AA202_NOTES = [
 
 PEOPLE = {}
 
-# ================================================================ AA 六位（AA_202 @b61e4f55 第 7 節）
+# ================================================================ AA 六位（AA_202 @65239add 第 7 節）
 S = "AA_202 7-3 以安"
 PEOPLE["heroine_01"] = person(
     "以安", "09-15",
@@ -181,7 +181,7 @@ PEOPLE["classmate_bohan"] = person(
         E("thanks", "A", ["不客氣。"], S),
         E("thanks", "R", ["不客氣。下次考古題我先給你。"], S),
         E("bday", "A", ["謝謝。"], S),
-        E("bday", "R", ["謝謝。今天收到三則生日快樂，你是第三個。"], S),
+        E("bday", "R", ["謝謝。今天收到三則生日快樂。……我都有回。"], S),
         E("ok", "A", ["還好。"], S),
         E("ok", "R", ["還好。……讀書比較快。"], S, cond="split_peishan", tags=["分開以後"], alt="1/2"),
         E("ok", "R", ["還有七天。我在算。"], S, cond="bar_exam_week", tags=["國考前"], alt="2/2"),
@@ -664,7 +664,7 @@ AA257_REVIEW = [
 ]
 
 DATA = {
-    "source": {"AA_202": "b61e4f55", "AA_257": "558ccff8", "BB_178": "741e94f1"},
+    "source": {"AA_202": "65239add", "AA_257": "558ccff8", "BB_178": "741e94f1"},
     "conventions": CONVENTIONS,
     "topics": TOPICS,
     "aa202Notes": AA202_NOTES,
