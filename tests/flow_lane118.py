@@ -1,6 +1,6 @@
 """118 巷（D46；AA_280；src/lane118.js、zones3d.js buildLane118）：從霖澤館後面的小廣場（法學院後門）走出去 → 118 巷 → 走到六張犁麵舖門口、走進店裡點餐（和阿哲一起）→ 走回後門回到台大。
 [前置／捷徑] 讀檔到 2025-09-08（一）12:05 霖澤館穿堂後面的小廣場（大一上第 2 週；見過阿哲、還沒進麵店團群組）。手機模擬橫向、不用 turbo；選項照第一個選。
-檢查：校園有「從後門出去（118 巷）」；進到 118 巷（區域 lane118、正式街景模型載入）；阿哲站在麵舖門口；點餐：老闆「幾位？裡面有位子。」→ 點菜 → 阿哲那句、扣 150；
+檢查：校園有「從後門出去（118 巷）」；進到 118 巷（區域 lane118、正式街景模型載入）；阿哲站在麵舖門口；點餐：老闆「幾位？……那邊那張可以坐。」→ 點菜 → 阿哲那句、扣 150；
       沒開的店（巷口家常菜週一休）「鐵門拉下來一半」；走回後門回到校園；沒有卡住保險、沒有 JS 例外。
 用法：python3 tests/flow_lane118.py URL [輸出資料夾]"""
 import asyncio, json, sys, time
@@ -95,7 +95,7 @@ async def main():
         okc, _ = await talk_through(pg, cdp, "!GAME.D.active&&!GAME.E.player.busy&&GAME.G.money<" + str(m0), 120)
         log = await pg.evaluate("window.__said||[]")
         m1 = await pg.evaluate("GAME.G.money"); await run.shot(pg, 'order_done')
-        run.check('點餐和阿哲一起：「幾位？裡面有位子。」→「（你點了牛肉麵。）」→ 阿哲「這間我給八十分。上次那間七十。」、扣 150', okc and m0 - m1 == 150 and any('幾位？裡面有位子。' in t for t in log) and any('你點了牛肉麵' in t for t in log) and any('這間我給八十分' in t for t in log), json.dumps(log, ensure_ascii=False) + ' ' + str(m0 - m1))
+        run.check('點餐和阿哲一起：「幾位？……那邊那張可以坐。」→「（你點了牛肉麵。）」→ 阿哲「這間我給八十分。上次那間七十。」、扣 150', okc and m0 - m1 == 150 and any('幾位？……那邊那張可以坐。' in t for t in log) and any('你點了牛肉麵' in t for t in log) and any('這間我給八十分' in t for t in log), json.dumps(log, ensure_ascii=False) + ' ' + str(m0 - m1))
         ex = await L.find_it(pg, '離開六張犁麵舖')
         ok = bool(ex) and await L.go_to(pg, cdp, run, ex['x'], ex['z'], ex['r'] * 0.7, '店門（離開）')
         await pg.wait_for_timeout(800); s = await L.state(pg)

@@ -27,5 +27,8 @@ if(D!=null){ const ok=typeof STORY.sisWalkIn==='function';
   at(D,ent.to-0.1); GM=mkGM(); check('2. 時段剩不到 15 分鐘：不來', ok&&!STORY.sisWalkIn(GM,'cafe')&&!GM.npc.sis);
   at(D,10); GM=mkGM(); check('2. 不是她在 Café 的時段：不來', ok&&!STORY.sisWalkIn(GM,'cafe')&&!GM.npc.sis); }
 { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const m=s.match(/function refreshSchedule\(GM\)\{[\s\S]*?lingerMove\(GM,zoneId\);/);
-  check('3. refreshSchedule（待在區域裡每 3 秒）呼叫 sisWalkIn', !!m&&/sisWalkIn\(GM,zoneId\)/.test(m[0])); }
+  check('3. refreshSchedule（待在區域裡每 3 秒）先叫 sisWalkIn 再 populateSchedule（劇情的 sis 先來，作息不會再生一個 heroine_05）', !!m&&/sisWalkIn\(GM,zoneId\)[\s\S]*populateSchedule\(zoneId,GM,true\)/.test(m[0])); }
+if(D!=null&&typeof STORY.refreshSchedule==='function'){ at(D,19.5); const GM=mkGM(); GM.D={active:false,busyDepth:0}; GM.removeNPC=id=>{ delete GM.npc[id]; }; GM.spawnCharacter=(id,x,z,o)=>GM.spawnNPC(id,null,x,z,o); GM.E.zone.indoor=true; GM.E.indoor=true;
+  try{ STORY.refreshSchedule(GM); }catch(e){}
+  check('4. 待在 Café、學姊的時段到了（refreshSchedule）：只來一個學姊（sis），沒有另外一個 heroine_05', !!GM.npc.sis&&!GM.npc.heroine_05, JSON.stringify(Object.keys(GM.npc))); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

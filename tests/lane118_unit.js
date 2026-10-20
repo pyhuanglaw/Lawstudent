@@ -56,7 +56,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-03-01',12.55); const t2=L118.regularsAt(G,'tea').map(r=>r.id); law('2026-09-14',12.55); const t3=L118.regularsAt(G,'tea').map(r=>r.id);
     check('3. 學姊在茶飲只到 Y1S2（2027-03-01 Y2S2 沒有；2026-09-14 Y2S1 也沒有）',!t2.includes('heroine_05')&&!t3.includes('heroine_05'),J([t2,t3]));
     law('2026-09-17',12.5); check('3. 學姊 Y2S1 起週四在咖啡',L118.regularsAt(G,'cafe2').some(r=>r.id==='heroine_05')); }
-  // 4. 進到 118 巷：常客站到店門口；一起吃（見過面的）＝招呼「幾位？裡面有位子。」、吃完換他那句
+  // 4. 進到 118 巷：常客站到店門口；一起吃（見過面的）＝招呼「幾位？……那邊那張可以坐。」、吃完換他那句
   { law('2025-09-08',12.5); G.zone='lane118'; SOCIAL.remember('zhe','FIRST_MET',''); const sp=[]; GM.spawnCharacter=(id,x,z,o)=>{ const n={id,charId:id,name:SOCIAL.displayName(id),obj:{position:{x,y:0,z}}}; GM.npc[id]=n; sp.push([id,+x.toFixed(2),+z.toFixed(2)]); return n; };
     const n=L118.populate(GM); const dz=L118.door('noodle2');
     check('4. 進巷子：三個常客站到店門口（阿哲在麵舖門口旁邊的人行道上）',n===3&&sp.some(([id,x,z])=>id==='zhe'&&Math.abs(z-dz.z)<1.5&&Math.abs(x-dz.x)<1.2),J(sp));
@@ -64,7 +64,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     { const g0=G.hour; G.hour=12.0; GM.npc={}; const n0=L118.populate(GM); G.hour=12.2; const n1=L118.populate(GM); const n2=L118.populate(GM); G.hour=g0;
       check('4. 12:00 進巷子還沒有人；12:12 再叫一次（refreshSchedule）就補上，不重複',n0===0&&n1>=2&&n2===0,J([n0,n1,n2])); }
     picks=[1]; said=[]; await L118.order(GM,'noodle2');
-    check('4. 和阿哲一起：老闆「幾位？裡面有位子。」→「（你點了乾麵＋滷蛋。）」→ 阿哲「這間我給八十分。上次那間七十。」（不說一個人的那句）',J(lines())===J(['老闆：幾位？裡面有位子。','（你點了乾麵＋滷蛋。）','阿哲：這間我給八十分。上次那間七十。']),J(lines()));
+    check('4. 和阿哲一起：老闆「幾位？……那邊那張可以坐。」→「（你點了乾麵＋滷蛋。）」→ 阿哲「這間我給八十分。上次那間七十。」（不說一個人的那句）',J(lines())===J(['老闆：幾位？……那邊那張可以坐。','（你點了乾麵＋滷蛋。）','阿哲：這間我給八十分。上次那間七十。']),J(lines()));
     picks=[0]; said=[]; await L118.order(GM,'self');
     check('4. 柏翰沒見過：一個人吃（阿姨「自己夾，夾好拿過來算。」）',lines()[0]==='阿姨：自己夾，夾好拿過來算。'&&lines().slice(-1)[0]==='（你把餐盤放到回收台，順手拿了一張餐巾紙。）',J(lines())); }
   // 5. 阿哲週一 12:00 揪人

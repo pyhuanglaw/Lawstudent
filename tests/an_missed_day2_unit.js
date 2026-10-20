@@ -6,6 +6,7 @@
 //   3. 拒絕過她的邀約（anSkipped）、已經認識（metAn）：不動；經濟系那一年：不動；
 //   4. 開放以後第一次跟以安說話：她自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」（AA_313 第 4 節第 10 點）、記 met_an 與 FIRST_MET；不說咖啡廳那段的回聲；
 //   5. 第二次說話不再自我介紹。
+//   6. 照作息出現的以安（heroine_01，S.talkCharacter）也一樣：第一次自我介紹、記 FIRST_MET（BB-C 10-20 重現：原本只有一句旁白）。
 // 用法：node tests/an_missed_day2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -42,5 +43,10 @@ const F=()=>G.flags;
   said=[]; await STORY._day2.talkAn(GM,n);
   check('5. 第二次說話：不再自我介紹', !said.includes('你好，我是沈以安。大家都叫我小安。')&&said.length>0, JSON.stringify(said));
   STORY.offerInvite=offer;
+  // 6. 照作息出現的以安（heroine_01，不是劇情的 an）：S.talkCharacter 那條路也要自我介紹（BB-C 10-20：使用者存檔 9/26 普通 101 門口只有「她低頭在忙自己的事」）
+  at(10); STORY.tick(GM,0.016); G.social.reveal=G.social.reveal||{}; const h1={id:'heroine_01',charId:'heroine_01',name:'沈以安',obj:{position:{x:1,z:0}},beh:'idle',pose:'idle'}; GM.npc.heroine_01=h1;
+  if(STORY._bindGM) STORY._bindGM(GM); said=[]; await STORY.talkCharacter('heroine_01',h1);
+  check('6. 照作息出現的以安第一次被搭話：自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」、記 FIRST_MET、met_an', said.includes('你好，我是沈以安。大家都叫我小安。')&&said.includes('……同班的，你不記得？')&&SOCIAL.has('heroine_01','FIRST_MET')&&F().met_an===true, JSON.stringify(said));
+  said=[]; await STORY.talkCharacter('heroine_01',h1); check('6. 第二次不再自我介紹', !said.includes('你好，我是沈以安。大家都叫我小安。'), JSON.stringify(said.slice(0,2)));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

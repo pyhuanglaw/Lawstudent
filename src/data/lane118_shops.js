@@ -1,10 +1,10 @@
 /* 118 巷的店家、點餐台詞、常客、阿哲週一揪人。自動產生，不要手改：python3 tools/lane118/import_lane118.py
-   來源：docs/story_planning/AA_280_118巷_店家菜單與午餐.md@02ed9b0a（劇情匯入白名單）。字串照抄 AA_280。*/
+   來源：docs/story_planning/AA_280_118巷_店家菜單與午餐.md@719ac68a（劇情匯入白名單）。字串照抄 AA_280。*/
 const LANE118_SHOPS={
- "src": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md@02ed9b0a",
+ "src": "docs/story_planning/AA_280_118巷_店家菜單與午餐.md@719ac68a",
  "closedLine": "（鐵門拉下來一半。門上貼著營業時間。）",
  "orderLine": "（你點了{品名}。）",
- "groupGreet": "幾位？裡面有位子。",
+ "groupGreet": "幾位？……那邊那張可以坐。",
  "shops": [
   {
    "id": "dian",
@@ -42,7 +42,7 @@ const LANE118_SHOPS={
    ],
    "greet": {
     "who": null,
-    "text": "內用嗎？椒麻雞今天比較辣喔。"
+    "text": "坐這邊。椒麻雞今天比較辣喔。"
    },
    "done": "（吃完，嘴巴還有一點麻。）"
   },
@@ -193,7 +193,7 @@ const LANE118_SHOPS={
    ],
    "greet": {
     "who": null,
-    "text": "內用的話，插座在窗邊。"
+    "text": "插座在窗邊。點好了我再送過去。"
    },
    "done": "（你多坐了一會兒，把上午的筆記看完。）"
   },
