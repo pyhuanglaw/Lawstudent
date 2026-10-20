@@ -65,6 +65,6 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   { const h=fs.readFileSync(path.join(ROOT,'src/home3d.js'),'utf8'); check('4. 在家：home3d.js 的 loop 接 roomY3Due → roomY3FromHome（同一句＋「回宿舍」字卡）→ unboxY3', /STORY\.roomY3Due\(G\)\)\{ roomY3=true; break; \}/.test(h)&&/if\(roomY3\) await S\.roomY3FromHome\(GM\);/.test(h)&&/S\.roomY3FromHome=async function\(GM\)\{[\s\S]{0,300}（明天開學。今天搬進第三個房間。）[\s\S]{0,1200}STORY\.unboxY3\(GM\)/.test(h)); }
   // 5
   { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-    check('5. 507：房號（搬的途中也是）、照舊擺大二的東西、丟掉的那一件不出現', /if\(F\.ROOM_Y3\|\|F\.ROOM_Y3_MOVING\) return '507';/.test(z)&&/const y2Room=!econ&&\['312','507'\]\.includes\(dormSetKey\(G0\)\);/.test(z)&&/\.filter\(id=>id!==F\.ROOM_Y3_DISCARD\)/.test(z)); }
+    check('5. 507：房號（搬的途中也是）、照舊擺大二的東西、丟掉的那一件不出現', /if\(F\.ROOM_Y3\|\|F\.ROOM_Y3_MOVING\) return '507';/.test(z)&&/const y2Room=!econ&&\['312','507'(?:,'409')?\]\.includes\(dormSetKey\(G0\)\);/.test(z)&&/\.filter\(id=>id!==F\.ROOM_Y3_DISCARD\)/.test(z)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
