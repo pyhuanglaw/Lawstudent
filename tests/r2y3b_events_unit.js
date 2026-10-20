@@ -37,7 +37,7 @@ const run=async id=>{ said=[]; opts=[]; await EVENTS.run(ev(id)); };
 const answer=(id,k)=>PHONE.answer(G,id,k);
 const nested=id=>{ const m=PHONE.byAsk(G,id); return m; };
 const mine=(th,first)=>{ const L=txt(th), i=L.indexOf(first); return i<0?[]:L.slice(i); };   /* 只看這一批的訊息（同一天別的規則也會傳）*/
-const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call','ev_xun_path','ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3','ev_xinci_first_place','ev_xinci_first_place_video','ev_an_town_notice','ev_an_town_notice_repair','ev_kexin_k20','ev_kexin_k20_call','ev_fangyt_tickets','ev_zhiruo_f3_cafe','ev_x1_moveout_us'];
+const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_money','ev_kexin_k18','ev_kexin_k18_call','ev_xun_path','ev_yu_alone_breakfast','ev_yu_alone_call','ev_an_konbini','ev_liheng_japan','ev_y3s2_roof_toast','ev_an_sakura_riverbank','ev_far_call_jp','ev_yu_alone_movie','ev_yu_alone_movie_noodle','ev_yu_alone_movie_video','ev_zhiruo_third_row','ev_kexin_birthday_y3','ev_xinci_first_place','ev_xinci_first_place_video','ev_an_town_notice','ev_an_town_notice_repair','ev_kexin_k20','ev_kexin_k20_call','ev_fangyt_tickets','ev_zhiruo_f3_cafe','ev_x1_moveout_us','ev_an_abroad_video','ev_an_tanabata','ev_an_airport_y3','ev_an_notebook','ev_an_white_day','ev_an_far_video','ev_zhiruo_twelve_slips'];
 (async()=>{
   check('0. 事件都在、R2Y3B 掛上去了', IDS.every(id=>!!ev(id))&&typeof R2Y3B!=='undefined'&&STORY.TICKS.length>0&&STORY.PHONE_RULES.length>0, IDS.filter(id=>!ev(id)).join());
   if(fails){ console.log('FAILED '+fails); process.exit(1); }
@@ -337,6 +337,74 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('U2. 「暑假回家住。你把一年的東西裝進四個紙箱。」後面多床墊那一句；7/25 沒有', said.map(x=>x.t).join('|')==='暑假回家住。你把一年的東西裝進四個紙箱。|（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'&&(at('2028-07-25',14.1),!R2Y3B.x1Due(G)));
   fresh('2028-06-12',9,'dorm',{EXCHANGE_ROUTE:'TW'}); HOME.rec(G).stay={Y3S:'home'}; said=[]; await HOME.breakStart(GM);
   check('U. 台灣路線回家住：照原本（沒有床墊那一句）', said.map(x=>x.t).join('|')==='暑假回家住。你把一年的東西裝進四個紙箱。');
+
+  // ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距 ----------
+  const goOut=async id=>{ said=[]; opts=[]; const q=OUT.get(G,id); if(!q) return false; return OUT.go(GM,q); };
+  fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true}); date('heroine_01'); ct('heroine_01'); rules(); const wq=OUT.get(G,'y3_an_white');
+  check('WD1. 交往中、2/14 送過：3/13 21:00「明天傍晚六點，公館。」；排 3/14 18:00 公館', txt('p:heroine_01').includes('heroine_01:明天傍晚六點，公館。')&&!!wq&&wq.day===D('2028-03-14')&&wq.h===18, JSON.stringify(txt('p:heroine_01')));
+  picks=[2]; await run('ev_an_white_day');
+  check('WD1. 3/14「日本的白色情人節……」「一個月前你送的。這是回禮。」；三個回覆；「十一天以後妳就走了。」→「十一天。……我算過了。」', has('日本的白色情人節，是收到巧克力的人要回禮。')&&has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&opts[0].length===3&&has('十一天。……我算過了。')&&G.flags.AN_WHITE_DAY==='eleven');
+  fresh('2028-03-13',21.1,'dorm'); date('heroine_01'); ct('heroine_01'); rules(); check('WD. 2/14 沒送：沒有 3/14', !PHONE.sent(G,'y3_an_white')&&!OUT.get(G,'y3_an_white'));
+  fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true,EXCHANGE_ROUTE:'JP'}); date('heroine_01'); ct('heroine_01'); rules(); check('WD. 日本路線：沒有 3/14', !OUT.get(G,'y3_an_white'));
+  fresh('2028-04-13',21,'dorm'); date('heroine_01'); rules(); const fv=OUT.get(G,'y3_an_far_video');
+  check('WD2. 交往中：4/13 22:30 視訊（日本 23:30；10 分鐘沒接＝沒接）', !!fv&&fv.h===22.5&&Math.abs(fv.late-1/6)<1e-9&&fv.verb==='接起來'&&fv.place==='視訊');
+  picks=[2]; await run('ev_an_far_video');
+  check('WD2. 「町公所門口的通知。」；「我也看不懂。」→「好。那我們兩個一起看不懂。」；AN_FAR_VIDEO same', has('（拿著一張照片對著鏡頭）町公所門口的通知。')&&has('好。那我們兩個一起看不懂。')&&G.flags.AN_FAR_VIDEO==='same');
+  at('2028-05-06',20.2); grpJoin(); rules(); check('WD2. 5/6 群組照片之外，她私訊「最後一行，你那天猜對一半。」', txt('p:heroine_01').includes('heroine_01:最後一行，你那天猜對一半。'));
+  fresh('2028-04-13',21,'dorm'); R('heroine_01','FRI'); rules(); check('WD. 不是交往中：沒有 4/13 視訊', !OUT.get(G,'y3_an_far_video'));
+  fresh('2028-04-13',22.6,'dorm'); date('heroine_01'); rules(); check('WD. 22:30 以後才跑手機：不排（沒接＝沒接）', !OUT.get(G,'y3_an_far_video'));
+
+  // ---------- 2-Y3-52 台灣、美國路線：以安在日本（還沒交往）----------
+  const ABL=(n,rep)=>Array.from({length:n},(x,i)=>({day:D('2028-03-26')+7*i,h:20,kind:'msg',wk:i+1,tier:1,replied:rep[i]}));
+  fresh('2028-03-26',19.9,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); rules();
+  check('AB0. 3/26（日）19:54：還沒有', txt('p:heroine_01').length===0);
+  at('2028-03-26',20.05); rules();
+  check('AB1. 3/26 她那邊 21:00（時鐘 20:00）：T1 第一則（照片＋一句）；AN_ABROAD_TIER 1', txt('p:heroine_01').join('|')==='heroine_01:（照片：大學的櫻花）|heroine_01:四月。這邊的櫻花開得比較晚。'&&G.flags.AN_ABROAD_TIER===1, JSON.stringify(txt('p:heroine_01')));
+  at('2028-03-26',21); PHONE.post(G,{th:'p:heroine_01',from:'player',text:'好漂亮。'}); at('2028-04-02',20.1); rules();
+  check('AB1. 第 2 週（偶數週）T1 不傳；用手機傳過話＝那一則算回了', txt('p:heroine_01').filter(t=>/^heroine_01:/.test(t)).length===2&&G.flags.AN_ABROAD.log[0].replied===true);
+  at('2028-04-09',20.1); rules(); check('AB1. 第 3 週：T1 第二則（便利商店的飯糰架）', txt('p:heroine_01').includes('heroine_01:飯糰的海苔要自己拉開。我研究了三天。'));
+  fresh('2028-04-09',20.05,'dorm'); R('heroine_01','CLO'); ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(2,[true,true]),tier:1,wk:2,n1:2,n2:0,n3:0}; rules();
+  { const m=PHONE.byAsk(G,'y3_ab_w3'); check('AB3. 第 4 階＋最近三則回了兩則：T2（長一點、會問你的事）；每則兩個回覆按鈕', G.flags.AN_ABROAD_TIER===2&&txt('p:heroine_01').join('|')==='heroine_01:上課聽懂七成了。剩下三成，我回宿舍查字典。|heroine_01:你那邊的行政法，期中考了嗎？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='考了。|下禮拜。', JSON.stringify(txt('p:heroine_01'))); }
+  answer('y3_ab_w3',1); check('AB3. 回了＝她不再回（一來一回就停）；算回了', txt('p:heroine_01').slice(-1)[0]==='player:下禮拜。'&&(S2=>{ R2Y3B.abSettle(G); return G.flags.AN_ABROAD.log.slice(-1)[0].replied===true; })());
+  fresh('2028-04-16',20.05,'dorm'); R('heroine_01','CLO'); SOCIAL.rel('heroine_01').npcRom=30; ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(3,[true,true,true]),tier:2,wk:3,n1:2,n2:1,n3:0}; rules(); const vq=OUT.get(G,'y3_ab_v4');
+  check('AB4. 第 5 階＋回了：T3 視訊（她那邊 21:00、接起來）', G.flags.AN_ABROAD_TIER===3&&!!vq&&vq.h===20&&vq.verb==='接起來'&&vq.place==='視訊');
+  await goOut('y3_ab_v4');
+  check('AB4. 視訊第一組「你那邊幾點？……我算了一下，你應該剛吃完晚餐。」…「好，我要去睡了。下禮拜同一個時間。」；她和祐廷的戀愛各 +1；算回了；沒到約的時候不約', has('（畫面裡是她宿舍的書桌，手帳攤在旁邊。）')&&has('你那邊幾點？……我算了一下，你應該剛吃完晚餐。')&&has('好，我要去睡了。下禮拜同一個時間。')&&SOCIAL.rel('heroine_01').npcRom===31&&G.flags.AN_ABROAD.log.find(e=>e.wk===4).replied===true&&!has('……你要不要來看？'));
+  fresh('2028-04-23',20.05,'dorm'); R('heroine_01','CLO'); SOCIAL.rel('heroine_01').npcRom=30; ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(3,[true,false,false]),tier:3,wk:4,n1:2,n2:1,n3:1}; rules();
+  check('AB5. 最近三則只回了一則：下一週退一段（T3→T2，不扣分）', G.flags.AN_ABROAD_TIER===2&&!!PHONE.byAsk(G,'y3_ab_w5')&&SOCIAL.rel('heroine_01').npcRom===30);
+  fresh('2028-04-30',20.05,'dorm'); R('heroine_01','CLO'); SOCIAL.rel('heroine_01').npcRom=30; ct('heroine_01'); G.flags.AN_ABROAD={log:ABL(3,[true,true,true]),tier:3,wk:5,n1:2,n2:1,n3:1}; rules(); at('2028-04-30',20.6); OUT.tick(GM);
+  check('AB5. 視訊沒接：算一次沒回', OUT.get(G,'y3_ab_v6').state==='missed'&&G.flags.AN_ABROAD.log.find(e=>e.wk===6).replied===false);
+  fresh('2028-04-09',20.05,'dorm'); ct('heroine_01'); rules(); check('AB. 和以安不到 ACQUAINTANCE：沒有訊息', txt('p:heroine_01').length===0&&!G.flags.AN_ABROAD);
+  fresh('2028-04-09',20.05,'dorm',{EXCHANGE_ROUTE:'JP'}); R('heroine_01','FAM'); ct('heroine_01'); rules(); check('AB. 日本路線：沒有（她和你在日本）', !PHONE.sent(G,'y3_ab_w3'));
+  fresh('2028-04-09',20.05,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); ROM.get(G,'heroine_01').status='ex'; rules(); check('AB. 和以安分手過：沒有訊息池', !PHONE.sent(G,'y3_ab_w3'));
+  /* 約：6/25 視訊（6/29 以前最後一次）→ 我去 → 7/6～7/10 → 8/5、8/6 */
+  { fresh('2028-06-25',20.05,'dorm'); R('heroine_01','CLO'); Object.assign(SOCIAL.rel('heroine_01'),{npcRom:55,rom:30}); ct('heroine_01');
+    G.trips=[{trip:'t1',who:'heroine_01',day:D('2028-02-01'),counted:true},{trip:'t2',who:'heroine_01',day:D('2028-03-01'),counted:true}];
+    G.flags.AN_ABROAD={log:[{day:D('2028-06-11'),h:20,kind:'video',wk:12,tier:3,replied:true},{day:D('2028-06-18'),h:20,kind:'video',wk:13,tier:3,replied:true}],tier:3,wk:13,n1:4,n2:4,n3:2};
+    rules(); picks=[0]; await goOut('y3_ab_v14');
+    check('AB6. 6/25 視訊（6/29 以前最後一次）＋第 6 階＋出國前 2 次約會＋回覆率 ≥0.5：她約；「我去。」→「好。機票你自己訂，行程我排。」；排 7/6', has('七月七號，這邊是七夕。商店街會掛很多竹子。')&&has('……你要不要來看？')&&has('好。機票你自己訂，行程我排。')&&G.flags.AN_JP_TRIP===true&&(OUT.get(G,'y3_an_tanabata')||{}).day===D('2028-07-06'), JSON.stringify(lines()));
+    at('2028-07-06',7.8); picks=[1]; cards=[]; await goOut('y3_an_tanabata');
+    check('AN1. 7/6 剪票口「這裡。行程表我印了兩份，這份給你。」；7/7 不說＝「你不說，那我說。」→ 交往；7/8、7/9 摘要日；7/10「八月五號，你來接我。」', has('這裡。行程表我印了兩份，這份給你。')&&has('（商店街掛滿了竹子，短冊在風裡一直響。）')&&has('你不說，那我說。')&&has('我喜歡你。理由我寫在手帳裡，回臺灣再給你看。')&&has('（她排的行程表上，每一格都有時間。你們只走完一半。）')&&has('（大學城的河堤。她讀書，你坐在旁邊看河。）')&&has('八月五號，你來接我。')&&G.flags.dating_heroine_01===true&&G.flags.AN_TANABATA==='confess', JSON.stringify(lines()));
+    check('AN1. 這一趟算 2 次正式約會、也算她的心願地點；回到臺灣是 7/10；沒有 7/7 竹子的照片', (DATE.log(G,'heroine_01').count|0)>=2&&DATE.log(G,'heroine_01').wish===true&&G.day===D('2028-07-10')&&!PHONE.sent(G,'y3_ab_tana_photo'));
+    at('2028-08-04',10); rules(); const aq=OUT.get(G,'y3_an_airport');
+    check('AN1. 8/5 出發選單「桃園機場（接以安）」', !!aq&&aq.title==='桃園機場（接以安）'&&aq.day===D('2028-08-05'));
+    at('2028-08-05',14.5); await goOut('y3_an_airport'); check('AN1. 機場「（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）」「……你真的來了。」', has('……你真的來了。'));
+    at('2028-08-06',10); rules(); at('2028-08-06',15.9); await goOut('y3_an_notebook');
+    check('AN1. 8/6 16:00 Café 窗邊：「（第一頁寫著：「理由欄。空著，給你。」）」；AN_NOTEBOOK_GIFT', has('（第一頁寫著：「理由欄。空著，給你。」）')&&G.flags.AN_NOTEBOOK_GIFT===true); }
+  { fresh('2028-06-25',20.05,'dorm'); R('heroine_01','CLO'); Object.assign(SOCIAL.rel('heroine_01'),{npcRom:55,rom:30}); ct('heroine_01');
+    G.trips=[{trip:'t1',who:'heroine_01',day:D('2028-02-01'),counted:true},{trip:'t2',who:'heroine_01',day:D('2028-03-01'),counted:true}];
+    G.flags.AN_ABROAD={log:[{day:D('2028-06-11'),h:20,kind:'video',wk:12,tier:3,replied:true},{day:D('2028-06-18'),h:20,kind:'video',wk:13,tier:3,replied:true}],tier:3,wk:13,n1:4,n2:4,n3:2};
+    rules(); picks=[0,0]; await goOut('y3_ab_v14'); at('2028-07-06',7.8); await goOut('y3_an_tanabata');
+    check('AN. 七夕選「以安，我喜歡妳。」→「……我知道。我等你說，等了三個月。」「好。」→ 交往', has('……我知道。我等你說，等了三個月。')&&G.flags.dating_heroine_01===true); }
+  fresh('2028-06-30',20.1,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); G.flags.AN_ABROAD={log:[],tier:3,wk:14,n1:0,n2:0,n3:0}; G.flags.AN_JP_TRIP_ASK='later'; rules();
+  { const m=PHONE.byAsk(G,'y3_ab_reask'); check('AB7. 「我再看看」：6/30 她那邊 21:00 再問一次（「我去。」／「這次不行。」）', txt('p:heroine_01').includes('heroine_01:……你要不要來看？')&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='我去。|這次不行。'); }
+  answer('y3_ab_reask',0); rules(); check('AB7. 「我去。」＝排 7/6 出發', (OUT.get(G,'y3_an_tanabata')||{}).day===D('2028-07-06'));
+  fresh('2028-06-30',20.1,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); G.flags.AN_ABROAD={log:[],tier:3,wk:14,n1:0,n2:0,n3:0}; G.flags.AN_JP_TRIP_ASK='later'; rules(); at('2028-07-01',18.2); rules();
+  check('AB7. 再問也沒回：算這次不行（沒有這一趟）', G.flags.AN_JP_TRIP_ASK==='none'&&!OUT.get(G,'y3_an_tanabata'));
+  fresh('2028-07-07',20.1,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); G.flags.AN_ABROAD={log:[],tier:1,wk:15,n1:0,n2:0,n3:0}; rules(); answer('y3_ab_tana_photo',0);
+  check('AN2. 條件沒到：7/7 她那邊 21:00「（照片：商店街的竹子，短冊在風裡）」「七夕。這邊的人很認真寫願望。」；「妳寫了什麼？」→「不告訴你。」；AN_TANABATA photo', txt('p:heroine_01').join('|')==='heroine_01:（照片：商店街的竹子，短冊在風裡）|heroine_01:七夕。這邊的人很認真寫願望。|player:妳寫了什麼？|heroine_01:不告訴你。'&&G.flags.AN_TANABATA==='photo', JSON.stringify(txt('p:heroine_01')));
+  fresh('2028-07-05',20,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); G.flags.AN_JP_TRIP_ASK='go'; G.flags.AN_ABROAD={log:[],tier:3,wk:15,n1:0,n2:0,n3:0}; rules(); at('2028-07-06',9.2); OUT.tick(GM); at('2028-07-07',20.1); rules();
+  check('AN. 答應了、7/6 沒出發：照條件沒到那一版（7/7 竹子的照片）', OUT.get(G,'y3_an_tanabata').state==='missed'&&PHONE.sent(G,'y3_ab_tana_photo'));
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');

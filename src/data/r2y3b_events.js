@@ -396,9 +396,11 @@ const R2Y3B_EVENTS=(function(){
     d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],
     d5:[ {scene:'關西・大學城',bg:'jp_station'},{speaker:null,text:'（剪票口。她把自己那份行程表折好，塞進你的口袋。）'},{speaker:'heroine_01',text:'八月五號，你來接我。'} ] };
   const AB_VIDEO={ id:'ev_an_abroad_video', title:'以安的視訊', participants:['heroine_01'], location:'any', trigger:'outing', background:'dark', hours:0.25, dialogue:[],   /* 每週一次（T3）：beforeOuting 照輪到的那一組演 */
-    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.anVideo(GM,q); } };
+    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.anVideo(GM,q); },
+    outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.anVideoMissed(G,q); } };   /* 沒接＝這一則沒回（BB_204 9-1）*/
   const TANABATA={ id:'ev_an_tanabata', title:'日本的七夕', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5, dialogue:[],   /* 7/6～7/10 五天：beforeOuting 一天一段（STORY.travelOvernight 換日）*/
-    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.tanabataTrip(GM,q); } };
+    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.tanabataTrip(GM,q); },
+    outingMissed:G=>{ const x=X(); if(x) x.tanabataMissed(G); } };   /* 答應了、7/6 沒出發：照條件沒到那一版（7/7 竹子的照片）*/
   const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };
   const AN_NOTEBOOK={ id:'ev_an_notebook', title:'理由欄', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
@@ -406,7 +408,7 @@ const R2Y3B_EVENTS=(function(){
 
   /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（2/14 送過東西的）；4/13（四）22:30 視訊（日本 23:30）---------- */
   const WHITE={ id:'ev_an_white_day', title:'白色情人節', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'公館',bg:'gongguan_street'},
+    dialogue:[ {scene:'公館',bg:'gongguan'},
       {speaker:'heroine_01',text:'日本的白色情人節，是收到巧克力的人要回禮。'},
       {speaker:'heroine_01',text:'（她拿出一個小紙袋）一個月前你送的。這是回禮。'},
       {choice:[{text:'「謝謝。」',set:{AN_WHITE_DAY:'thanks'},goto:'a'},{text:'「台灣是反過來的吧？」',set:{AN_WHITE_DAY:'reverse'},goto:'b'},{text:'「十一天以後妳就走了。」',set:{AN_WHITE_DAY:'eleven'},goto:'c'}]},
@@ -442,8 +444,43 @@ const R2Y3B_EVENTS=(function(){
       {label:'end'},{set:{ZR_TWELVE_SLIPS:true}} ],
     outingMissed:G=>{ const x=X(); if(x) x.slipsMail(G); } };
 
+  /* ---------- 2-Y3-46 芷若 Z13「杯子上的字」：6/15（四）22:00 兩點半 Café 打烊後吃完，她回吧檯收店（林芷若_角色企劃 Z13 原文；結果照 BB_98 3-4；台階那一段 AA 新寫）。
+     飯的開場、話題池照 termend3d.js（r2y3b3d.js 的 S.z13Dinner）；這裡是吃完以後的杯子。ZR_CUP：'drank'／'steps'／'declined'（交往在 S.z13Dinner 照心意邀約的交往）---------- */
+  const Z13=[ {speaker:null,text:'（她回到吧檯，收完機器，又做了一杯。是你的老樣子。可是杯子上用麥克筆寫的不是你的名字。）'},
+    {speaker:null,text:'（是她自己的點法：「熱可可＋濃縮」。）'},
+    cg('cg_cup_words_heroine02'),   /* BCG-08「杯子上的字」在這一句出現（CG_REGISTRY 登錄了才放；杯身的手寫字由遊戲疊，疊字還沒做）*/
+    {speaker:null,text:'（她把杯子推過來，轉身去擦機器，沒有看你。）'},
+    {speaker:'player',text:'……這不是我的。'},
+    {speaker:'heroine_02',text:'（背對著他）我知道。'},
+    {speaker:'heroine_02',text:'……'},
+    {speaker:'heroine_02',text:'（很久，沒有轉過來）我的點法，我只給過一個人。'},
+    {choice:[{text:'（喝下去）',set:{ZR_CUP:'drank'},goto:'d'},{text:'「芷若。」',set:{ZR_CUP:'steps'},goto:'s'},{text:'「這杯我不能喝。」',set:{ZR_CUP:'declined'},goto:'n'}]},
+    {label:'d'},{speaker:null,text:'（她轉過來，看到你在喝，沒有說話。）'},{speaker:'heroine_02',text:'（很久以後）……好喝嗎？'},{speaker:'player',text:'很幼稚。'},{speaker:'heroine_02',text:'對。'},{speaker:null,text:'（她笑出來，眼眶紅了一下。）'},{goto:'end'},   /* BB_98 3-4 改的結果；誰說哪一句照讀法排（請 AA 確認）*/
+    {label:'s'},{speaker:null,text:'（她停住。）'},{speaker:'heroine_02',text:'……你要說什麼，等一下再說。我現在沒辦法看你。'},
+      {speaker:null,text:'（她把店收完，關了燈。你們坐在店門口的台階上。）'},{speaker:'heroine_02',text:'……好。你說。'},   /* 台階（AA_326 新寫）*/
+      {choice:[{text:'「我喜歡妳。」',goto:'s1'},{text:'「那杯，我想喝。」',goto:'s2'}]},
+      {label:'s1'},{speaker:'heroine_02',text:'……我知道。杯子上寫了。'},{speaker:null,text:'（她把臉埋在膝蓋上，過了一下才抬頭。）'},{speaker:'heroine_02',text:'好。'},{goto:'end'},
+      {label:'s2'},{speaker:'heroine_02',text:'……已經冷了。'},{speaker:'player',text:'沒關係。'},{speaker:'heroine_02',text:'……好。'},{speaker:null,text:'（她回店裡把杯子拿出來。）'},{goto:'end'},
+    {label:'n'},{speaker:'heroine_02',text:'……嗯。'},{speaker:null,text:'（她把杯子收回去，捧在手裡。）'},{speaker:'heroine_02',text:'那這杯我自己喝。我們還是朋友。'},{speaker:null,text:'（她笑了，是真的笑。）'},   /* BB_98 3-4 原文 */
+    {label:'end'} ];
+  const Z13_TXT={invite:['畢業以後我還有幾個班。','下禮拜四打烊以後，你要不要來？……店裡只剩我。'],   /* 6/8 邀約（BB_98 3-4，AA 的句子）；婉拒照 AA_254 第 4 節（同一般版）*/
+    wait:'我多留半小時。……杯子已經寫好了。',   /* 22:15 還沒到：22:30 她傳（BB_98 10-1 第 9 項）*/
+    bring:'（店裡只剩吧檯一盞燈。她在等你。）' };   /* 23:00 再沒到＝帶到場（R4）的旁白 */
+
+  /* ---------- 2-Y3-47 子晴 Q15「存檔點」：邀約照 AA_254 第 5 節大四上那一版；飯桌一句（新寫，裁定 #26）；回家路上前三個選項換成 BB_165 4-1 的三句；隔天 12:00「回答.exe」（高子晴_角色企劃 原文）---------- */
+  const Q15={ invite:['欸 你考完了吧 宵夜','只有我們兩個 不要找阿凱'],
+    table:'發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。',
+    opts:[{k:'first_player',t:'「妳下一個遊戲，我也要當第一個玩的。」',r:'……第一個玩的要負責找 bug 喔。很多。',exe:'第一個玩家：{name}'},
+      {k:'like_long',t:'「我喜歡妳。喜歡很久了。」',r:'……你不要現在講啦。',exe:'我也是。'},
+      {k:'not_question',t:'「我喜歡妳。這不是問句。」',r:'……那是我的台詞。',exe:'這不是問句。'}],
+    sure:'欸不是……你認真的？',   /* 說出來的三支都是這一句（這一場「欸不是」一次）*/
+    run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
+    exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
+    noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。' };   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）*/
+
   const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS];
   ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
+  ALL.Z13=Z13; ALL.Z13_TXT=Z13_TXT; ALL.Q15=Q15;   /* 學期末專屬版（r2y3b3d.js 包住 TERMEND）*/
   return ALL;
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3B_EVENTS);
