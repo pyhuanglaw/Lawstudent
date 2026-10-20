@@ -3,7 +3,8 @@
 //   1. 沒看過（UNKNOWN）；2. 看過三次（noticed → RECOGNIZABLE；原本這時就露出全名）；
 //   3. 認識（SOCIAL.meet）以後才是全名；4. 照作息生出來的人，搭話按鈕用同一個名字（game3d.js spawnCharacter）；
 //   5. 其他層（B：不熟的同學）照舊（RECOGNIZABLE＝descriptor）。
-// 修改前 2 FAIL。用法：node tests/name_reveal_unit.js
+//   6. 說過話（ACQUAINTANCE）但還沒認識：照樣不露（BB-C 10-20 使用者 9/25 存檔）；7. 舊存檔的 met_an、met_sis 算認識。
+// 修改前：2 在 1201cfd6 之前 FAIL；6 在這一版之前 FAIL。用法：node tests/name_reveal_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global;
@@ -22,4 +23,8 @@ check('3. 認識以後＝「沈以安」', nm()==='沈以安', nm());
 { const id=Object.keys(CHARACTERS).find(k=>CHARACTERS[k].social_layer==='B'&&CHARACTERS[k].descriptor);
   if(id){ for(let i=0;i<3;i++) SOCIAL.noticed(id); check('5. 不熟的同學（B 層）照舊：RECOGNIZABLE＝descriptor', SOCIAL.displayName(id)===CHARACTERS[id].descriptor, id+' '+SOCIAL.displayName(id)); }
   else check('5. 找得到有 descriptor 的 B 層同學', false); }
+{ const G2={day:9,hour:10,flags:{},social:null}; SOCIAL.bind(G2); SOCIAL.talkedTo('heroine_01');
+  check('6. 說過話（ACQUAINTANCE）但還沒認識（BB-C 使用者 9/25 存檔）：照樣「不認識的女生」', SOCIAL.reveal('heroine_01')==='ACQUAINTANCE'&&SOCIAL.displayName('heroine_01')==='不認識的女生', SOCIAL.reveal('heroine_01')+' '+SOCIAL.displayName('heroine_01'));
+  G2.flags.met_an=true; check('7. 舊存檔的 met_an（FIRST_MET 以前的寫法）＝已經認識：「沈以安」', SOCIAL.displayName('heroine_01')==='沈以安', SOCIAL.displayName('heroine_01'));
+  G2.flags.met_sis=true; SOCIAL.talkedTo('heroine_05'); check('7. 舊存檔的 met_sis：學姊照全名', SOCIAL.displayName('heroine_05')==='溫書瑀', SOCIAL.displayName('heroine_05')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

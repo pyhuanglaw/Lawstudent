@@ -20,5 +20,5 @@ check('1. 照時段：12:00 三位、15:00 兩位、19:30 三位、23:00 一位'
   check('2. 只坐一般桌（不坐吧檯、沙發、學姊的 5 號）、不重複', !!cc(1,12)&&bad.length===0&&[1,5,9,20].every(d=>new Set(cc(d,12)).size===cc(d,12).length), bad.slice(0,5).join(' ')); }
 check('3. 同一天同一時段同一批；換一天換人', !!cc(8,12)&&JSON.stringify(cc(8,12))===JSON.stringify(cc(8,12.5))&&JSON.stringify(cc(8,12))!==JSON.stringify(cc(9,12)));
 { const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
-  check('4. 兩點半用 S.cafeCustomers，客人記 seat', /for\(const i of S\.cafeCustomers\(G,seats\)\)\{ if\(quiet\) continue;[^\n]*isExtra:true,seat:\{x:s\.x,z:s\.z,yaw:s\.yaw,lv:0\}\}\)/.test(src)&&!/for\(const i of \[6\]\)\{ if\(quiet\) continue;/.test(src)); }
+  check('4. 兩點半用 S.cafeCustomers，客人記 seat', /for\(const i of S\.cafeCustomers\(G,seats\)\)\{ if\(S\.cafeQuiet\(G\)\) continue;[^\n]*isExtra:true,cafeCust:i,seat:\{x:s\.x,z:s\.z,yaw:s\.yaw,lv:0\}\}\)/.test(src)&&!/for\(const i of \[6\]\)\{ if\(quiet\) continue;/.test(src)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

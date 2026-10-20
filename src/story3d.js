@@ -308,7 +308,7 @@ const STORY = (function(){
         if(hr>=12&&!brk){ const st=E.zone.seats[1]; if(st) mk(st.x,st.z,0,st.yaw,'read',{x:st.x,z:st.z,yaw:st.yaw,lv:0}); }
         if(hr>=19){ const sf=L.furniture.find(f=>f.type==='sofa'); if(sf) mk(sf.x,sf.z,0,sf.ry,'sit',{x:sf.x,z:sf.z,yaw:sf.ry,lv:0}); } } }
     if(zoneId==='cafe'){ const seats=E.zone.seats; const z3=S.z3Pending(G), shut=S.Z3_SHUT, quiet=z3&&hr>=shut&&hr<22;   /* 芷若 Z3（BB_96 3-1）還沒發生的平日：21:40 起店裡只剩祐廷——之前進來的客人 21:40 起身走出去（until）、21:40～22:00 不生成（S.z3Pending）*/
-      { const se=sisEnt('cafe'); if(se&&!quiet){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',z3&&hr<shut?Math.min(shut,se.to):se.to); } } for(const i of S.cafeCustomers(G,seats)){ if(quiet) continue; const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; const x=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,seat:{x:s.x,z:s.z,yaw:s.yaw,lv:0}}); if(x&&z3&&hr<shut) x.until=shut; }   /* 客人坐的位子算有人坐（seat），玩家不會坐到同一張椅子 */ if(F.companion==='an') spawnCompanion(GM); }
+      { const se=sisEnt('cafe'); if(se&&!quiet){ GM.spawnNPC('sis',C.sis,0,0,{seat:seats[5],pose:'read',talk:n=>talkSis(GM,n)}); GM.npc.sis.idlePose='read'; tm('sis',z3&&hr<shut?Math.min(shut,se.to):se.to); } } for(const i of S.cafeCustomers(G,seats)){ if(S.cafeQuiet(G)) continue; const o=CHAR.build(extraSpec(xi++)); const s=seats[i]; o.position.set(s.x,0,s.z); o.rotation.y=s.yaw; const x=E.addNPC({obj:o,name:'',beh:'idle',pose:'read',idlePose:'read',frozen:true,isExtra:true,cafeCust:i,seat:{x:s.x,z:s.z,yaw:s.yaw,lv:0}}); if(x&&z3&&hr<shut) x.until=shut; }   /* 客人坐的位子算有人坐（seat），玩家不會坐到同一張椅子；cafeCust＝坐哪一號（待在店裡時 S.cafeRefresh 照時段補人、讓人走）*/ if(F.companion==='an') spawnCompanion(GM); }
     /* 店員（2026-10-11 使用者回報：便利商店、麵店、書店都沒有人顧店）：站在櫃台後面、工作台前；只是讓店有人在顧，不加對話和劇情（結帳還是櫃台的互動點）。
        外觀用路人模型（extraSpec：偶數＝女性、奇數＝男性）；年紀比較大的老闆娘、老闆要等有中年人物模型（MISSING_EXTERNAL_ART）*/
     { const clerk=(x,z,yaw,i)=>{ const o=CHAR.build(extraSpec(i)); o.position.set(x,0,z); o.rotation.y=yaw; E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,clerk:true}); };
@@ -373,6 +373,8 @@ const STORY = (function(){
     const ok=seats.map((q,i)=>i).filter(i=>i!==5&&seats[i]&&!seats[i].bar&&!seats[i].sofa); if(!ok.length) return [];
     const n=hr>=11&&hr<14?3:(hr>=14&&hr<18?2:(hr>=18&&hr<22?3:1)); const off=(((G.day|0)*5)%ok.length+ok.length)%ok.length, out=[];
     for(let k=0;k<ok.length*3&&out.length<n;k++){ const i=ok[(off+k*3+Math.floor(k/ok.length))%ok.length]; if(!out.includes(i)) out.push(i); } return out; };
+  /* Café 不進客人的時候：芷若 Z3（BB_96 3-1）還沒發生的平日 21:40～22:00（店裡只剩祐廷）；兩段感情攤牌那晚（1A-02，ev_two_hearts_cafe「打烊後」）*/
+  S.cafeQuiet=function(G){ const hr=h(G); return (S.z3Pending(G)&&hr>=S.Z3_SHUT&&hr<22)||!!(S.twoHeartsCafeDue&&S.twoHeartsCafeDue(G)); };
   S.inDates=(G,R)=>{ if(!Array.isArray(R)||!S.dayOfKey) return false; for(const [a,b] of R){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<=d1) return true; } return false; };   /* [['2026-01-20','2026-02-20'],…]，含頭尾（AA_271 的 dates）*/
   S.sisC2Day=function(G){ const F=G.flags||{}; if(!F.dating_heroine_05||!F.SIS_FESTIVAL_MET) return null; const m=S.dayOfKey('2026-07-11'); if(m==null) return null; const since=F.SIS_DATING_D!=null?F.SIS_DATING_D:G.day; if(since<=m) return m; for(let d=since+3;d<since+12;d++) if(CALENDAR.dateOf(d).wd%7===6) return d; return null; };   /* C2：7/11 已交往＝當天；之後才交往＝隔 3 天以上的第一個週六（AA_218 17-13 第 4 點）；C1 沒演過（SIS_FESTIVAL_MET）不演 */
   S.albumMemory=function(G,id,title,bg){ const A=Array.isArray(G.album)?G.album:(G.album=[]); if(A.some(x=>x.kind==='memory'&&x.id===id)) return false; A.push({kind:'memory',id,title,bg:bg||'',day:G.day,h:+((G.hour||0)%24).toFixed(2)}); return true; };   /* 相簿的一頁（game3d.js albumHTML 的 memory）：同一個 id 只收一次 */
@@ -784,11 +786,29 @@ const STORY = (function(){
     const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };
     const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,st.lv|0))) sit(); return true; }
   S.sisWalkIn=sisWalkIn;
+  /* Café 的客人待在店裡也會進出（X71 後續；BB-C 10-20：「待在店裡路人一直 2 位，走出再進來是 3 位（晚上的路人數不會補）」——S.populate 只在進門那一刻照時段生）：
+     每 3 秒（refreshSchedule）照 S.cafeCustomers 對一次。該走的（時段人數變少、換了一天）起身走到門口才離開（until＝現在，下面路人離開的同一套）；
+     該來的（人數變多、那個位子空著）從門口走進來坐下，不在眼前憑空出現。同一天的位子是同一串的前 n 個：人數變了只會多一個或少一個。
+     Z3 那天 21:25 以後不進新客人（坐不到幾分鐘又要走）；S.cafeQuiet 的時候不進、在的也走 */
+  function cafeRefresh(GM){ const E=GM.E, G=GM.G; if(G.zone!=='cafe'||!E.zone||!E.zone.seats||!E.zone.spawn||!E.player) return 0;
+    const hr=h(G), seats=E.zone.seats, mine=(E.npcs||[]).filter(n=>n&&n.cafeCust!=null&&!n.leaving), quiet=S.cafeQuiet(G), want=quiet?[]:S.cafeCustomers(G,seats); let k=0;
+    for(const n of mine) if(!want.includes(n.cafeCust)&&(n.until==null||n.until>hr)){ n.until=hr; n.seatTarget=null; k++; }
+    const z3=S.z3Pending(G); if(quiet||(z3&&hr>=S.Z3_SHUT-0.25)) return k;
+    const near=(q,st)=>!!q&&Math.hypot(q.x-st.x,q.z-st.z)<0.35, busy=st=>!!st.taken||(E.player&&near(E.player.seat,st))||E.npcs.some(m=>m&&(near(m.seat,st)||near(m.seatTarget,st)));
+    const dr=E.zone.spawn;
+    for(const i of want){ if(mine.some(n=>n.cafeCust===i)) continue; const st=seats[i]; if(!st||busy(st)) continue;
+      const o=CHAR.build(extraSpec(500+(((G.day|0)*7+i)%60))); o.position.set(dr.x,0,dr.z); o.rotation.y=dr.yaw||0;
+      const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'idle',idlePose:'idle',isExtra:true,cafeCust:i,lv:dr.lv|0}); if(!n) continue; n.seatTarget=st; if(z3&&hr<S.Z3_SHUT) n.until=S.Z3_SHUT; k++;
+      const sit=()=>{ n.seatTarget=null; if(n.leaving) return; if(busy(st)){ n.pose=n.idlePose='idle'; n.until=h(G); return; } if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };   /* 走到了位子被坐走（玩家先坐了）：站一下就走 */
+      const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,st.lv|0))) sit(); }
+    return k; }
+  S.cafeRefresh=cafeRefresh;
   function refreshSchedule(GM){ const E=GM.E, G=GM.G; if(!G.social||!E.zone||!E.player) return; const zoneId=G.zone;
     try{ sisWalkIn(GM,zoneId); }catch(e){ console.warn('sisWalkIn',e); }   /* 學姊先（劇情的 sis，說話走 talkSis）：populateSchedule 看到她（EVENTS.npcOf 的別名）就不會再生一個 heroine_05 */
     try{ populateSchedule(zoneId,GM,true); }catch(e){ console.warn('schedule refresh failed',e); }
     if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：待在巷子裡時段到了的常客也會來（進來的時候還沒到 12:10 的話，原本整段都不會出現）*/
     if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 待在店裡時段到了的常客也會來 */
+    if(zoneId==='cafe'){ try{ cafeRefresh(GM); }catch(e){ console.warn('cafeRefresh',e); } }   /* 待在 Café：客人照時段進出 */
     lingerMove(GM,zoneId); roomMove(GM,zoneId);
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;
       if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);

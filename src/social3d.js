@@ -61,7 +61,12 @@ const SOCIAL = (function(){
     if(typeof v==='string') return v+crs;
     let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }
     const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+crs; };
-  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return id; const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&(rv==='UNKNOWN'||rv==='RECOGNIZABLE')&&!S.has(id,'FIRST_MET')) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
+  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return id; const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&!S.metD(id)) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
+  /* 女主角（D 層）算認識了沒：FIRST_MET，或舊存檔的 met_ 旗標（met_an、met_sis，FIRST_MET 以前的寫法）。
+     BB-C 10-20（6a931b8e，使用者 9/25 存檔）：還沒認識以安，按鈕卻寫「和沈以安說話」——那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），
+     原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
+  const LEGACY_MET={heroine_01:'met_an',heroine_05:'met_sis'};
+  S.metD=function(id){ if(S.has(id,'FIRST_MET')) return true; const F=G&&G.flags; return !!(F&&(F['met_'+id]||(LEGACY_MET[id]&&F[LEGACY_MET[id]]))); };
   S.meet=function(id,where){ if(!S.has(id,'FIRST_MET')){ S.remember(id,'FIRST_MET',where||''); G.social.reveal[id]=G.social.reveal[id]==='UNKNOWN'?'ACQUAINTANCE':G.social.reveal[id]; if(G.flags) G.flags['met_'+id]=true; } S.talkedTo(id); };
   // ---- 教授 ----
   S.prof=function(id){ const P=G.social.prof; if(!P[id]) P[id]={perf:0,part:0,office:0,research:0,rep:0,notes:[]}; return P[id]; };
