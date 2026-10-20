@@ -913,7 +913,7 @@
   {
    "task": "公館店面七樓以上不投影（LAWWW-C 20:08 決定）＋騎樓柱子樹幹透視修好（10-18 包外牆後材質名不見）＋gongguan_glb_integration 4 項舊 FAIL 判斷",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "74cfdfb7",
    "files": [
     "assets/models/env/second_ai/gongguan_shops.glb",
     "assets/models/env/second_ai/gongguan_shops.json",
