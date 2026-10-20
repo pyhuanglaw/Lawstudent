@@ -224,7 +224,9 @@ const HOME=(function(){
     if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned'&&!(typeof VAC!=='undefined'&&VAC.repSkip&&VAC.repSkip(G,q))) c(Math.max(T(q.day,q.h)-OUT.trip(G,q,true).travelH-0.25,q.ask!=null?q.ask:-1e9));   /* 第二次以後只有一行的活動不停（AA_275 第 1 節）*/
     if(typeof INV!=='undefined'&&Array.isArray(G.invites)) for(const iv of G.invites) if(iv.state==='accepted') c(T(iv.day,iv.h)-1);
     if(typeof EXCH!=='undefined'&&EXCH.departAt){ const x=EXCH.departAt(G); if(x!=null) c(x); }   /* 交換出發日早上：快轉停在那裡 */
+    for(const f of S.STOPS){ try{ const x=f(G,now); if(x!=null) for(const v of [].concat(x)) c(v); }catch(e){ console.warn('HOME.STOPS',e); } }   /* 事件包各自的停點（HOME.STOPS.push(fn)：fn(G,now) 回傳時間或時間的陣列；例：學姊的寒假 src/sis_grad3d.js）*/
     return best; };
+  S.STOPS=[];
   S.breakStartDue=function(G){ const B=S.lawBreak(G); if(!B) return false; const H=S.rec(G); if(H.brk===B.key||H.lbreak===B.key||H.winter||H.base) return false; if(!(H.stay&&H.stay[B.key]==='home')) return false; return T(G.day,G.hour)<S.breakEnd(G,B)&&G.hour>=5; };   /* 只有暑假選了「暑假回家住」（AA_197 1-3）；寒假不強制 */
   /* 回家（第 2 節）：起床、成績那一件演完以後（story3d.js 的 sleepNow 最後；在家醒來的在 S.loop）*/
   S.BREAK_HOME_LINE={winter:'宿舍的房間留著。你帶了一袋換洗衣服回家。',summer:'暑假回家住。你把一年的東西裝進四個紙箱。'};   /* summer：AA-C 2026-10-17 11:40（可以續住，不寫「到六月底」）*/
