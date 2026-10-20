@@ -865,6 +865,7 @@ const STORY = (function(){
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
     if(F.FAM_GROUP_SENT&&S.week1Start(G)&&typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')&&(G.day>S.dayOfKey('2025-08-30')||(G.day===S.dayOfKey('2025-08-30')&&h(G)>=21))) SOCIAL.meet('kevin','family_group');   /* 8/30 家族群組＝認識 Kevin（BB_168 第 7 節，AA_200 2-12a）*/   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
+    S.careerTick(G);   /* 1A-01：職涯傾向的兩個起點（STUDY_AT_LAW、CAREER_Y4_BASE）*/
     S.routeMigrate(G); if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeDecide(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉 */
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
@@ -2970,6 +2971,32 @@ const STORY = (function(){
   S.routeDecide=function(G){ const F=G&&G.flags; if(!F||F.EXCHANGE_ROUTE||(G.stage||'law')!=='law'||!S.routeDue(G)) return null; const late=S.dayOfKey('2028-02-20'); const r=late!=null&&G.day>=late?'TW':S.routeFor(G);
     F.EXCHANGE_ROUTE=r; F.EXCH_APPLIED_DAY=G.day; F.EXCH_RULE=1; return r; };
   S.routeBackfill=G=>!!S.routeDecide(G);   /* 舊名字（AA_158 的補 TW）：現在照 routeDecide 的規則補 */
+  /* 1A-01（AA_315；BB_202 4-1、4-2）：四年累積的職涯傾向——只讀遊戲已經記下來的東西；不上畫面、不鎖任何事件、不擋選項、不改關係
+     （使用者 10-20：「只定義劇情選項與結局如何讀取，不要擅自增加新的數值玩法」）。只有四處讀：主線 7 選項②（只有 C 的玩家才有）、尾聲祐廷的最後一句、
+     尾聲朋友那句、?dev。每次叫都重算，不存結果。
+     A 幫人：法服週六 LAWCLUB_SAT_VISITS ×1、寒暑假 C16 法扶實習 ×5、C09 海外志工 ×5、C02 隊輔 ×3、YT_LEASE_HELP（語彤家的租約）+3；
+     B 研究：讀書會出席（public_law_group@、舊存檔的 lawclub_study@；中途離開不算）×1、法律系起自習每滿 10 小時 ×1、
+       GRAD_SCHOOL_DISCUSSION（每人一件）、grad_read_done（學姊給的文章）各 +2、C10 海外暑期課 ×4；
+     C 跨領域：子晴的 PLAYTESTED、CONTEST_DAY 各 +2、C08／C11／C12 ×3、交換（JP／US）回到臺灣以後 +6、法律系那幾年及格的通識（kind general）×1。
+     決定：最高的；平手比大四那一年（總分 − CAREER_Y4_BASE，沒有就跳過）；再平手 B → A → C；三項都是 0＝B。
+     起點：STUDY_AT_LAW＝第一次在法律系那一刻的自習時數（經濟系那一年讀的不算；舊存檔從第一次讀檔起算）；CAREER_Y4_BASE＝大四上第 1 週第一次 tick 的三個總分（S.tick）*/
+  S.careerLean=function(G){ const F=(G&&G.flags)||{}, V=(G&&G.vac&&G.vac.reg)||{}, att=(G&&G.acts&&G.acts.att)||{};
+    const vac=id=>{ let n=0; for(const k in V) if(k.split('@')[0]===id&&V[k]==='done') n++; return n; };
+    let grp=0; for(const k in att){ if(!/^(public_law_group|lawclub_study)@-?\d+$/.test(k)) continue; const a=att[k]; if(a&&(a.end||'full')==='full') grp++; }
+    const study=Math.max(0,((G&&G.stats&&G.stats.study)||0)-(+F.STUDY_AT_LAW||0));
+    const has=(id,t)=>typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,t);
+    let gradTalk=0; for(const id in (typeof CHARACTERS!=='undefined'?CHARACTERS:{})) if(has(id,'GRAD_SCHOOL_DISCUSSION')) gradTalk++;
+    const zq=['PLAYTESTED','CONTEST_DAY'].filter(t=>has('heroine_04',t)).length;
+    const R=S.routeAbroadRoute(G), RD=R?ROUTE_DATES[R]:null, rd=RD?S.dayOfKey(RD.ret):null, back=rd!=null&&G.day>=rd;
+    let ge=0; const GR=(G&&G.courses&&G.courses.grades)||{}; if(typeof COURSES!=='undefined'&&COURSES.list) for(const t in GR){ if(/^Y0/.test(t)) continue; const g=GR[t]||{}; for(const cid in g){ const c=COURSES.list.find(x=>x.id===cid); if(c&&c.kind==='general'&&g[cid]) ge++; } }
+    const A=(+F.LAWCLUB_SAT_VISITS||0)+5*vac('C16')+5*vac('C09')+3*vac('C02')+(F.YT_LEASE_HELP?3:0);
+    const B=grp+Math.floor(study/10)+2*gradTalk+(F.grad_read_done?2:0)+4*vac('C10');
+    const C=2*zq+3*(vac('C08')+vac('C11')+vac('C12'))+(back?6:0)+ge;
+    const sc={A,B,C}, mx=Math.max(A,B,C); let cand=['B','A','C'].filter(k=>sc[k]===mx);
+    if(cand.length>1&&F.CAREER_Y4_BASE&&typeof F.CAREER_Y4_BASE==='object'){ const y4=k=>sc[k]-(+F.CAREER_Y4_BASE[k]||0); const m4=Math.max(...cand.map(y4)); cand=cand.filter(k=>y4(k)===m4); }
+    return {A,B,C,top:cand[0]}; };
+  S.careerTick=function(G){ const F=G.flags; if((G.stage||'law')!=='law') return; if(F.STUDY_AT_LAW==null) F.STUDY_AT_LAW=(G.stats&&G.stats.study)||0;
+    if(F.CAREER_Y4_BASE==null&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day); if(t&&t.id==='Y4S1'&&t.week===1){ const c=S.careerLean(G); F.CAREER_Y4_BASE={A:c.A,B:c.B,C:c.C}; } } };   /* 大四上第 1 週以後才讀檔、又沒有這個值的舊存檔：不補（平手跳過「比大四」）*/
   /* 1A-02 第 3 節（AA_315；台詞照 AA_253 第 3、4 節）：大三上第 10 週同時和以安、學姊交往，兩人都還不知道（ROM.knowsOf 兩邊都沒有）——
      11/10 那晚睡著以後演法圖相遇（events.js ev_an_sis_meet_lawlib，祐廷不在場）→ 11/11 22:00 兩則私訊、22:30 兩點半 Café 攤牌（ev_two_hearts_cafe，出遊 must）；
      只有「學姊。」／「以安。」，沒被選的那位分手（by her），被選的那位之後第一次說話時記得一次。已經被一般來源發現過的不演（照當時的結果）。*/
