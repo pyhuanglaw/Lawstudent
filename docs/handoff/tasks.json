@@ -20254,6 +20254,27 @@
    "next": "對 main 9335763d（乾淨 worktree）跑 docs/TESTING.md 第五節其他幾支：reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7（10-18 22:2x 對開發分支 ALL PASS，之後只改手機訊息畫面、翹課轉述、版本字樣）；deploy_check 沒走的 us_campus、us_lawlib；TEST_RESULTS_1018.md 第 3 節還沒在瀏覽器看過的（7/25 客運版從家裡出發、出家門不露醉月湖、E30 講完接下一段、在家電話背景、拉花店員、可昕表情、Kevin 立繪）。有壞的修、重發 v9.10.3。測試可以派 BB（D100），BB 不在就 LAWWW 自己跑"
   },
   {
+   "id": "REL-9103-1020",
+   "title": "v9.10.3 候選版：A 線（試玩問題六項）＋B 線 1A 第一批；BB 實際流程驗收以後才合 main 發布；v9.10.2（main）留作回退",
+   "area": "P0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "全遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 15:4x：「先做出一個玩家能穩定遊玩的候選版本，BB 完成實際流程驗收後再正式發布。保留目前穩定版本作為回退目標。」",
+   "authorized": "使用者直接指示（X84）",
+   "next": "A 線六項交 BB 驗（清單 15:4x 送出）；1A 第一批做完一起當候選；BB 驗完跑 docs/TESTING.md 第五節再合 main"
+  },
+  {
    "id": "FEATURE-LIST-9102-1019",
    "title": "以 v9.10.2 為基準的玩家功能清單：逐項分「線上可玩／開發分支已完成／有企劃但未實作／等待美術／暫停」，把已經進遊戲卻還寫待辦的找出來",
    "area": "META",
@@ -20573,7 +20594,7 @@
    "title": "溫州街很卡（電腦也卡）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -20587,7 +20608,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「到溫州街就算用電腦也很卡?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【13:19 LAWWW2 量測】wenzhou_street.glb 材質 131 種（至少 131 draw call）、三角形 81k 不多——LAWWW 先用 ?mdbg 量實際 draw call，確定再派材質合併 ｜ 量 draw call、三角形、陰影、NPC 數；找出最重的東西（LAWWW2 的模型要減面就派）"
+   "next": "【15:4x 使用者：卡頓、影子閃爍「必須有修正前後的效能數據」】【13:19 LAWWW2 量測】wenzhou_street.glb 材質 131 種（至少 131 draw call）、三角形 81k 不多——LAWWW 先用 ?mdbg 量實際 draw call，確定再派材質合併 ｜ 量 draw call、三角形、陰影、NPC 數；找出最重的東西（LAWWW2 的模型要減面就派）"
   },
   {
    "id": "PERF-CAMPUS-SHADOW-1020",
@@ -20813,7 +20834,7 @@
    "title": "大二～大四每學年最小可玩（主線＋每位女主角最關鍵的一兩場）",
    "area": "v3",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y2S1",
@@ -20827,7 +20848,7 @@
    },
    "source": "使用者 2026-10-20 14:0x 對 AA-C：「大二大三大四沒劇情阿」（AA-C 14:10 轉）",
    "authorized": "使用者直接指示（X82）；交接包 v3～v5 已批准可施工（AA_140）",
-   "next": "【14:30 AA_314 交了（企劃分支 c944b1aa）】第 1 輪 52 件：1A 20 件（先兩個系統：職涯傾向計分 BB_202 第 4 節、交換路線由交往對象決定；主線 5、6、7、9、10、11、12、志願表、「大四要怎麼過？」、R1、畢業典禮、畢業那天傍晚、國考四段 AA_286、第一份工作、尾聲 CG-10）→ 1B 26 件（每位女主角每學期一件）→ 1C 6 件（群戲）；第 0 節裁定、第 4 節 14 點衝突。X64～X81 這批之後從 1A 開始，每場先核對遊戲裡有沒有 ｜ 等 AA_314（AA 今天交）；X64～X81 這批做完接著從大二開始；接的時候逐場核對有沒有已經做好的"
+   "next": "【15:4x 使用者：A、B 兩線並行，B 線照 AA_314 1A → 1B → 1C 直接做；每批 BB 用實際存檔測能不能觸發，沒驗不標完成】【14:30 AA_314 交了（企劃分支 c944b1aa）】第 1 輪 52 件：1A 20 件（先兩個系統：職涯傾向計分 BB_202 第 4 節、交換路線由交往對象決定；主線 5、6、7、9、10、11、12、志願表、「大四要怎麼過？」、R1、畢業典禮、畢業那天傍晚、國考四段 AA_286、第一份工作、尾聲 CG-10）→ 1B 26 件（每位女主角每學期一件）→ 1C 6 件（群戲）；第 0 節裁定、第 4 節 14 點衝突。X64～X81 這批之後從 1A 開始，每場先核對遊戲裡有沒有 ｜ 等 AA_314（AA 今天交）；X64～X81 這批做完接著從大二開始；接的時候逐場核對有沒有已經做好的"
   },
   {
    "id": "BUG-ECON-MONEY-1020",
