@@ -37,7 +37,8 @@ OUTDIR = os.path.join(L.ROOT, arg('--out-dir', 'assets/models/env/second_ai'))
 GEN = K.GEN; PI = math.pi
 CJK = '/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc'
 REG = {'PLATE': (0, 0, 512, 128), 'RULES': (512, 0, 1024, 384), 'BOARD': (0, 128, 512, 640), 'NOTICE': (0, 640, 512, 1024), 'CLOCK': (512, 672, 768, 928), 'EXIT': (768, 672, 1024, 768),
-       'FLY1': (512, 384, 682, 672), 'FLY2': (682, 384, 852, 672), 'FLY3': (852, 384, 1022, 672), 'FIRE': (768, 768, 1024, 864)}
+       'FLY1': (512, 384, 682, 672), 'FLY2': (682, 384, 852, 672), 'FLY3': (852, 384, 1022, 672), 'FIRE': (768, 768, 1024, 864),
+       'SLIDE': (768, 864, 1024, 1024)}   # 講桌筆電的螢幕（投影片；原本借 118 巷收銀機的「小計 0」畫面）
 ROOMS = {
     'linze_202': dict(name='霖澤館 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
                       style='lecture', floor=('large_floor_tiles_02', '#c2c1bb', 1.8), wall='#ece6da', wain=('walnut_veneer', '#5f4a3a'), back='lockers',
@@ -127,6 +128,15 @@ def make_tex(rid, R):
          [('poster', '成果發表', '報名中', (252, 250, 244), (214, 120, 40)), ('tear', '社課', '一起來玩', (246, 250, 252), (40, 120, 130)), ('table', '借用\n時段', '', (250, 250, 250), (240, 200, 110))]
     for k, (kind, t, s, bg, ac) in enumerate(fl):
         x0, y0, x1, y1 = REG[f'FLY{k + 1}']; im.paste(flyer_img(x1 - x0, y1 - y0, kind, t, s, bg, ac, k + (0 if lec else 10)), (x0, y0))
+    # 講桌筆電的螢幕：投影片（202：上課的講義投影片；多功能教室：社團借用、桌布）。字是虛構的，小字是灰色的條
+    x0, y0, x1, y1 = REG['SLIDE']; rs = random.Random(21 if lec else 23)
+    if lec:
+        d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(250, 250, 247)); d.rectangle([x0, y0, x1 - 1, y0 + 40], fill=(47, 74, 64)); d.text((x0 + 12, y0 + 6), '第五週', font=F(26), fill=(255, 255, 255))
+        for j in range(5): y = y0 + 54 + j * 20; d.rectangle([x0 + 16, y + 4, x0 + 22, y + 10], fill=(47, 74, 64)); d.rectangle([x0 + 30, y + 4, x1 - 20 - rs.randint(0, 90), y + 10], fill=(150, 150, 146))
+    else:
+        d.rectangle([x0, y0, x1 - 1, y1 - 1], fill=(28, 46, 70)); d.text((x0 + 12, y0 + 10), '社課', font=F(30), fill=(240, 200, 110))
+        for j in range(3): y = y0 + 62 + j * 26; d.rectangle([x0 + 14, y, x1 - 30 - rs.randint(0, 80), y + 9], fill=(130, 150, 176))
+        for j in range(4): d.rectangle([x1 - 70 + (j % 2) * 30, y0 + 14 + (j // 2) * 22, x1 - 48 + (j % 2) * 30, y0 + 30 + (j // 2) * 22], outline=(200, 210, 225), width=2)
     im.save(os.path.join(GEN, f'{rid}_print.png'))
 
 
@@ -151,7 +161,8 @@ class Room(K.Shop):
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')), 'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'fridge': L.flat('GLOW_l118_fridge', '#f4f8ff', rough=0.3, emit=B.srgb('#cfe0f4')),
             'ceil': L.pbr(f'{rid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9),
-            'print': img_mat(f'{rid}_print', f'{rid}_print.png', rough=0.55), 'screen': img_mat('GLOW_l118_screens', 'l118_screens.png', rough=0.3, emit=0.9),
+            # 筆電螢幕：同一張印刷品貼圖的 SLIDE 那一塊，發光（GLOW_：遊戲整天亮；貼圖和印刷品共用一張，不多載一張圖）
+            'print': img_mat(f'{rid}_print', f'{rid}_print.png', rough=0.55), 'screen': img_mat(f'GLOW_{rid}_screen', f'{rid}_print.png', rough=0.3, emit=0.9),
             'board': L.flat(f'{rid}_chalkboard', '#2f4a40', rough=0.85) if self.lec else L.flat(f'{rid}_whiteboard', '#f6f8f8', rough=0.15),
             # 窗簾（202：藍灰色的布；多功能教室：米白的捲簾布）：Poly Haven rough_linen 去色後校正到指定的顏色
             'fabric': L.pbr(f'{rid}_fabric', 'rough_linen', tile=0.7, sat=0.0, target='#6e8293' if self.lec else '#ddd9cf', contrast=1.4, normal=0.0, maps=('diff',), res=256),
@@ -182,20 +193,28 @@ def Mloc(x, y, z, yaw, rx=0.0):
     return Matrix.Translation(g2b(x, y, z)) @ Matrix.Rotation(yaw, 4, 'Z') @ Matrix.Rotation(rx, 4, 'X')
 
 
-def newf(m, n0):
-    m.bm.faces.ensure_lookup_table(); return [m.bm.faces[i] for i in range(n0, len(m.bm.faces))]
+def mark(m):
+    """加零件之前先記下網格裡已經有的面（newf 用）"""
+    return set(m.bm.faces)
+
+
+def newf(m, f0):
+    """mark() 以後新加的面。不能用「面的編號 ≥ 加之前的面數」：CMesh.crbox 的倒角會刪掉方塊原本的面、在最後補新的面，
+    之後新加的面會填進刪掉留下的空位（排在中間），用編號會把顏色塗到前一個倒角方塊上
+    （10-20 截圖：202 的講桌變成講義的白色；多功能教室的喇叭、掛鐘、桌上的東西也一樣）。和 lane118_shops.ccyl／clathe 同一個做法。"""
+    return [f for f in m.bm.faces if f not in f0]
 
 
 def part(m, M, lx, ly, lz, w, h, d, col=None, r=0.0, seg=1, rx=0.0, ry=0.0, k=1.0):
     """M 底下的一個方塊：本地中心 (lx, ly, lz)、大小 w（本地 x）× h（高）× d（本地 z）；r＞0 倒角；rx、ry＝這個零件自己再轉（繞本地 x、繞垂直軸）"""
-    bm = L.rbox_bm(w, h, d, r, seg); n0 = len(m.bm.faces)
+    bm = L.rbox_bm(w, h, d, r, seg); f0 = mark(m) if col else None
     m.add_bm(bm, M @ Matrix.Translation(g2b(lx, ly, lz)) @ Matrix.Rotation(ry, 4, 'Z') @ Matrix.Rotation(rx, 4, 'X')); bm.free()
-    if col: m.paint(newf(m, n0), col, k)
+    if col: m.paint(newf(m, f0), col, k)
 
 
 def lcyl(m, T, a, b, r, col, seg=5, caps=False):
     """本地座標的兩點（T＝lw(...)）之間一支圓管"""
-    n0 = len(m.bm.faces); m.cyl(T(*a), T(*b), r, seg=seg, caps=caps); m.paint(newf(m, n0), col)
+    f0 = mark(m); m.cyl(T(*a), T(*b), r, seg=seg, caps=caps); m.paint(newf(m, f0), col)
 
 
 def uvpoly(mesh, pts, uvs):
@@ -295,22 +314,40 @@ def tote(m, M, col):
     part(m, M, 0, 0.465, 0.0, 0.16, 0.02, 0.008, col, k=0.8)
 
 
-def jacket(m, M, col, top=0.895, zb=-0.232):
-    """掛在椅背上的外套（M＝椅子的本地座標；top、zb＝椅背上緣的高度和本地 z：塑膠椅 0.895／−0.232、202 的木頭椅 0.85／−0.222）"""
-    part(m, M, 0, top - 0.19, zb - 0.03, 0.42, 0.36, 0.026, col, r=0.01, rx=-0.13)
-    part(m, M, 0, top - 0.065, zb + 0.04, 0.40, 0.12, 0.02, col, r=0.008, rx=-0.13, k=0.9)
-    n0 = len(m.bm.faces); bm = _tube(0.44, 0.024); m.add_bm(bm, M @ Matrix.Translation(g2b(0, top, zb)) @ Matrix.Rotation(PI / 2, 4, 'Y')); bm.free(); m.paint(newf(m, n0), col, 0.85)
-    for sx in (-1, 1): part(m, M, sx * 0.17, top - 0.395, zb - 0.048, 0.07, 0.34, 0.03, col, r=0.01, rx=-0.05, k=0.8)   # 兩隻袖子垂在後面
+def jacket(m, M, col, top=0.895, zb=-0.232, w=0.44, seed=0):
+    """掛在椅背上的外套（M＝椅子的本地座標；top、zb＝椅背上緣的高度和本地 z：塑膠椅 0.895／−0.232、202 的木頭椅 0.85／−0.222）：
+    一片布從椅背上面翻過去（前面短、後面長；往下垂的那一段下襬往外張一點、左右有一點波浪），領子、兩隻袖子是圓管垂在後面。
+    （10-20 截圖：原本是幾塊方板，看起來像木板。）布是一片的（材質是雙面的）"""
+    prof = [(0.046, -0.15), (0.04, -0.07), (0.031, -0.016), (0.014, 0.01), (-0.008, 0.016), (-0.03, -0.002), (-0.046, -0.07), (-0.056, -0.2), (-0.068, -0.32), (-0.08, -0.43)]   # (離椅背上緣的 z, y)
+    nx = 7; f0 = mark(m); bm = m.bm; grid = []
+    for i in range(nx + 1):
+        t = i / nx; row = []
+        for (dz, dy) in prof:
+            hang = min(1.0, max(0.0, (-dy - 0.07) / 0.36))                         # 後面往下垂的那一段：0（椅背上）→ 1（下襬）
+            lx = (t - 0.5) * w * (1 + 0.08 * hang); lz = zb + dz + (0.014 * math.sin(t * PI * 2.6 + seed) - 0.01) * hang
+            ly = top + dy + (0.012 * math.sin(t * PI * 3.4 + seed * 1.7) if dy < -0.4 else 0.0)
+            row.append(bm.verts.new(M @ g2b(lx, ly, lz)))
+        grid.append(row)
+    for i in range(nx):
+        for j in range(len(prof) - 1): bm.faces.new((grid[i][j], grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]))
+    m.paint(newf(m, f0), col)
+    f0 = mark(m); bm2 = _tube(w * 0.5, 0.018); m.add_bm(bm2, M @ Matrix.Translation(g2b(0, top + 0.022, zb - 0.004)) @ Matrix.Rotation(PI / 2, 4, 'Y')); bm2.free(); m.paint(newf(m, f0), col, 0.82)   # 領子
+    for sx in (-1, 1):   # 兩隻袖子：從肩膀垂到後面，往外、往後一點；空的袖子是扁的、袖口比較細（10-20 Blender 算圖：圓管看起來像兩根柱子）
+        f0 = mark(m); bm2 = _tube(0.36, 0.034, r1=0.026)
+        for v in bm2.verts: v.co.x *= 1.25; v.co.y *= 0.5
+        m.add_bm(bm2, M @ Matrix.Translation(g2b(sx * (w / 2 - 0.04), top - 0.225, zb - 0.074)) @ Matrix.Rotation(-sx * 0.1, 4, 'Y') @ Matrix.Rotation(0.06, 4, 'X')); bm2.free()   # 繞 Blender Y（遊戲 −z）：下端往外；繞 X：下端往後
+        m.paint(newf(m, f0), col, 0.88)
 
 
-def _tube(length, r, seg=8):
+def _tube(length, r, seg=8, r1=None):
+    """沿 Blender Z 的圓管（中心在原點）；r1＝下端的半徑（袖口比較細）"""
     import bmesh as _bm
-    bm = _bm.new(); _bm.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r, radius2=r, depth=length); return bm
+    bm = _bm.new(); _bm.ops.create_cone(bm, cap_ends=True, segments=seg, radius1=r if r1 is None else r1, radius2=r, depth=length); return bm
 
 
 def helmet(m, x, y, z, yaw, col):
     """腳踏車安全帽（放在置物櫃上）：殼、三條通風孔、帽簷"""
-    n0 = len(m.bm.faces); m.ell((x, y + 0.06, z), 0.13, 0.11, 0.16, seg=12, rings=6, matrix=Matrix.Rotation(yaw, 4, 'Z')); m.paint(newf(m, n0), col)
+    f0 = mark(m); m.ell((x, y + 0.06, z), 0.13, 0.11, 0.16, seg=12, rings=6, matrix=Matrix.Rotation(yaw, 4, 'Z')); m.paint(newf(m, f0), col)
     M = Mloc(x, y, z, yaw)
     for k in (-1, 0, 1): part(m, M, k * 0.045, 0.165, 0.0, 0.018, 0.012, 0.2, '#202020')
     part(m, M, 0, 0.07, 0.15, 0.16, 0.012, 0.05, '#202020', rx=0.2)
@@ -358,7 +395,7 @@ def wall_clock(c, side, a, yc, r=0.17):
     m = c.wg(side, 'trim', c.M['vc'], cm=True)
     bm = L.lathe([(0.0, 0.0), (r, 0.0), (r + 0.012, 0.018), (r + 0.004, 0.045), (r - 0.02, 0.05), (r - 0.026, 0.036), (0.0, 0.036)], seg=24)
     rotm = {'N': Matrix.Rotation(PI / 2, 4, 'X'), 'S': Matrix.Rotation(-PI / 2, 4, 'X'), 'W': Matrix.Rotation(PI / 2, 4, 'Y'), 'E': Matrix.Rotation(-PI / 2, 4, 'Y')}[side]
-    n0 = len(m.bm.faces); m.add_bm(bm, Matrix.Translation(g2b(*wall_pt(c, side, a, yc, 0.0))) @ rotm); bm.free(); m.paint(newf(m, n0), '#2b2b2b')
+    f0 = mark(m); m.add_bm(bm, Matrix.Translation(g2b(*wall_pt(c, side, a, yc, 0.0))) @ rotm); bm.free(); m.paint(newf(m, f0), '#2b2b2b')
     pm = c.wg(side, 'print', c.M['print']); x0, y0, x1, y1 = REG['CLOCK']; uc, vc = (x0 + x1) / 2 / 1024, 1 - (y0 + y1) / 2 / 1024; ruv = 126 / 1024; rf = r - 0.022; R_ = RIGHT[side]
     ts = [2 * PI * k / 24 for k in range(24)]
     uvpoly(pm, [wall_pt(c, side, a + R_ * rf * math.cos(t), yc + rf * math.sin(t), 0.038) for t in ts], [(uc + ruv * math.cos(t), vc + ruv * math.sin(t)) for t in ts])
@@ -370,7 +407,7 @@ def flyer3d(c, side, a, y, key, ang, w=0.2, h=0.34, d=0.024, pin='#c83228'):
     P = lambda u, v, dd: wall_pt(c, side, a + R_ * (u * ca - v * sa), y + u * sa + v * ca, dd)
     u0, v0, u1, v1 = uv(key)
     uvpoly(pm, [P(-w / 2, -h / 2, d), P(w / 2, -h / 2, d), P(w / 2, h / 2, d), P(-w / 2, h / 2, d)], [(u0, v0), (u1, v0), (u1, v1), (u0, v1)])
-    tm = c.wg(side, 'trim', c.M['vc'], cm=True); n0 = len(tm.bm.faces); tm.sphere(P(0, h / 2 - 0.03, d + 0.006), 0.009, seg=6, rings=4); tm.paint(newf(tm, n0), pin)
+    tm = c.wg(side, 'trim', c.M['vc'], cm=True); f0 = mark(tm); tm.sphere(P(0, h / 2 - 0.03, d + 0.006), 0.009, seg=6, rings=4); tm.paint(newf(tm, f0), pin)
 
 
 def extinguisher(c, x, z):
@@ -457,9 +494,9 @@ def build(rid):
     if lec:   # 窗台上的小盆栽（跟著窗台淡出）
         px_, pz_ = WX[2] - 0.6, Z1 - 0.17; clathe(tr, [(0.0, 0.0), (0.06, 0.0), (0.075, 0.11), (0.08, 0.12), (0.0, 0.12)], px_, wy0, pz_, '#b8694a', seg=10)
         for k in range(9):
-            a_ = k * 2 * PI / 9 + 0.3; n0 = len(tr.bm.faces)
+            a_ = k * 2 * PI / 9 + 0.3; f0 = mark(tr)
             tr.ell((px_ + 0.045 * math.cos(a_), wy0 + 0.17 + 0.02 * (k % 3), pz_ + 0.045 * math.sin(a_)), 0.035, 0.06, 0.02, seg=6, rings=3, matrix=Matrix.Rotation(-a_, 4, 'Z') @ Matrix.Rotation(0.5, 4, 'X'))
-            tr.paint(newf(tr, n0), '#4f8a3f', 0.85 + 0.05 * (k % 3))
+            tr.paint(newf(tr, f0), '#4f8a3f', 0.85 + 0.05 * (k % 3))
         book(tr, Mloc(WX[0] + 0.7, wy0, Z1 - 0.2, PI / 2 + 0.2), 0.19, 0.03, 0.26, '#2f5d8a'); book(tr, Mloc(WX[0] + 0.72, wy0 + 0.03, Z1 - 0.2, PI / 2 + 0.05), 0.18, 0.02, 0.25, '#c99a2e')
     c.block(X0, X1, Z1 - 0.32, Z1, 'window_sill')
     # −z（N，走廊那一側）：後門（靠東）、門牌、安全門標示、時鐘（多功能教室）、吸音板（多功能教室）、開關、滅火器
@@ -541,7 +578,7 @@ def build(rid):
         ccyl(c.vc, (lx + 0.18, ly + 0.02, -0.3), (lx + 0.18, ly + 0.02, -0.52), 0.018, '#1f1f1f', seg=8)
         c.block(lx - 0.36, lx + 0.36, -0.63, 0.63, 'lectern')
     c.vc.cbox(lx - 0.15, lx + 0.15, ly, ly + 0.03, -0.25, 0.25, '#2b2b2b'); c.vc.cbox(lx - 0.16, lx - 0.14, ly + 0.03, ly + 0.33, -0.24, 0.24, '#202225')
-    uvquad(c.scr, [(lx - 0.162, ly + 0.05, -0.22), (lx - 0.162, ly + 0.05, 0.22), (lx - 0.162, ly + 0.31, 0.22), (lx - 0.162, ly + 0.31, -0.22)], K.TX.uv(K.TX.SCR, 'pos'))   # 筆電螢幕朝老師（−x），在螢幕蓋的前面
+    uvquad(c.scr, [(lx - 0.162, ly + 0.05, -0.22), (lx - 0.162, ly + 0.05, 0.22), (lx - 0.162, ly + 0.31, 0.22), (lx - 0.162, ly + 0.31, -0.22)], uv('SLIDE'))   # 筆電螢幕朝老師（−x），在螢幕蓋的前面
     c.clerk = dict(x=round(X0 + 0.75, 3), z=0.0, yaw=round(PI / 2, 4), note='teacherSpot：老師站的位置（講桌後面、白板前，面向學生；clerk 欄位沿用店員的格式）')
     # 東牆（後面）：公告欄（傳單、圖釘）、使用須知、置物櫃（202：上面放書包、安全帽、書）或層架＋疊起來的椅子（多功能教室）
     wl = c.wg('E', 'wall', M['wall']); wn = c.wg('E', 'wain', M['wain']); tr = c.wg('E', 'trim', M['vc'], cm=True)
@@ -599,6 +636,7 @@ def build(rid):
     else:     # 多功能教室：單人課桌椅四排，每排兩組、一組 4 張；桌距 0.86 m，兩端往中間轉一點、往前一點；每張桌子、椅子的位置都差一點
         # 中間走道對齊導航格（格子中心 z −0.3、0.1、0.5 三格都要空著，排和排之間的走道才接得起來；原本的長桌碰撞框到 ±0.57 也是這樣）：
         # 北邊一組從 −0.78 往北、南邊一組從 +0.98 往南（桌子轉了角度、外接框、亂數都算進去，碰撞框離走道格子還有 ≥ 0.07 m）
+        rb = random.Random(31)   # 桌邊掛的袋子另外一組亂數（不動到桌椅位置用的 rr：座位、走近點照舊）
         for rx0 in R['rows']:
             for g in (-1, 1):
                 for k in range(4):
@@ -609,13 +647,16 @@ def build(rid):
                     sx, sz = x - fx * back, zz - fz * back; shell_chair(c, sx, sz, cyaw, rr.choice(SHELL))
                     c.seat(sx, sz, cyaw, (x, zz), 'class', ap=(sx - math.sin(cyaw) * 0.45, sz - math.cos(cyaw) * 0.45), label='坐下'); c.seats[-1]['uses'] = ['上課', '社課']
                     if rr.random() < 0.35: desk_stuff(c, x, 0.74, zz, yaw, rr, laptop=True)
+                    if k < 3 and rb.random() < 0.25:   # 掛在桌子側邊掛勾上的帆布袋：掛在朝同一組下一張桌子的那一邊（兩張桌子中間 0.24 m 的縫；不在中間走道、牆邊那一側：走路不會穿過去；坐的人的腳、走近點也碰不到）
+                        sd = g; hx, _, hz = lw(x, zz, yaw)(sd * 0.355, 0, 0.02)   # 桌子本地 +x ≈ 世界 +z（yaw ≈ −π/2）：北邊那一組（g −1）往北、南邊那一組往南
+                        tote(c.vc, Mloc(hx, 0.19, hz, yaw + PI / 2 + rb.uniform(-0.08, 0.08)), rb.choice(['#d8cbb0', '#2b2f36', '#8a9a7a', '#c9a96e', '#7d3b46']))
         # 前面角落：疊起來的椅子、兩張沒有人坐的椅子（放書包、外套；不是座位）
         for k in range(5): shell_chair(c, X0 + 0.5, Z0 + 0.3 - k * 0.006, 0.0, SHELL[k % len(SHELL)], y0=k * 0.075)
         c.block(X0 + 0.25, X0 + 0.75, Z0, Z0 + 0.56, 'chair_stack')
         for (x, z, yaw, col, bag) in ((X0 + 1.2, Z0 + 0.35, 0.3, SHELL[0], 'back'), (X0 + 0.9, Z1 - 0.75, PI - 0.3, SHELL[3], 'tote')):
             shell_chair(c, x, z, yaw, col); T = lw(x, z, yaw); bx, _, bz = T(0, 0, -0.07)
             (backpack if bag == 'back' else tote)(c.vc, Mloc(bx, 0.46, bz, yaw, rx=-0.14), BAGC[2] if bag == 'back' else '#d8cbb0')
-            if bag == 'tote': jacket(c.vc, Mloc(x, 0.0, z, yaw), '#7a5a3a')
+            if bag == 'tote': jacket(c.vc, Mloc(x, 0.0, z, yaw), '#55708f', seed=1)   # 牛仔外套（原本咖啡色的方板看起來像木板）
             obb_block(c, x, z, yaw, 0.24, 0.24, 'chair')
     # 燈
     for x in [X0 + 1.6 + k * 2.8 for k in range(int((R['W'] - 2.0) / 2.8) + 1)]:
