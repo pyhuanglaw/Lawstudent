@@ -477,7 +477,8 @@ const R2Y4B=(function(){
     if(n<y('2029-02-20')) return;
     groupStartPhone(G); groupVideoRules(G); groupThreeRules(G);
     azaleaPhone(G); mxPhone(G); gradPhone(G); springPhone(G,GM); psOpenPhone(G); ytAuntPhone(G); kxBdayPhone(G); ballPhone(G); k25Phone(G); ps61Phone(G);
-    julyRules(G); mxDepartRules(G); anRules(G); };
+    julyRules(G); mxDepartRules(G); anRules(G);
+    if(F.ZR_BACK==null&&n>=y('2029-08-25')&&knows('heroine_02',G)) F.ZR_BACK=G.day; };   /* 2-Y4-47 第 4 節：芷若回國（8/25）以後記一次 */
 
   /* ===================== 每 0.5 秒（STORY.TICKS）：要開演的場面 ===================== */
   let busy=false;
