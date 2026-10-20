@@ -199,7 +199,56 @@ const R2Y4A=(function(){
         if((us||gone(G,'y4_xmas',d,19))&&!done(G,'ev_y4_xmas')&&pastTW(G,d,21.5)&&!PHONE.sent(G,'y4_xmas_photo')){ atTW(G,d,21.5,[Z('📷（每個人手上的禮物，都很眼熟。）')],'y4_xmas_photo'); F.XMAS_Y4='missed'; } } }
   };
 
-  S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; if(isUS(G)) S.phoneUS(G); S.phoneY4(G); };
+  /* ===================== 推甄（2-Y4-06）：成績三級（AA_185 0b 第 2 件）＋推薦信 ===================== */
+  const BH='classmate_bohan', YT='heroine_03', KX='kexin';
+  S.pushOn=G=>law(G)&&!!G.flags&&STORY.route&&STORY.route(G)==='TW'&&G.flags.Y4_PATH==='grad';   /* 台灣路線、選②（10/16 才選的也算）；日本、美國路線延畢＝2030 筆試 */
+  /* 大一～大三每學期法律科（期末考五題）的平均答對：4 題以上＝高、3 題以上＝中、不到 3 題＝低；六個學期取平均（沒有考試紀錄的學期不算；一個都沒有＝中）*/
+  S.pushLevel=function(G){ const R=typeof CLS!=='undefined'&&CLS.rec?CLS.rec(G):(G.courses||{}), E=(R&&R.exam)||{}, byT={};
+    for(const k in E){ const m=/^(Y[1-3]S[12]):[^:]+:final$/.exec(k), e=E[k]; if(!m||!e||e.status!=='done'||typeof e.correct!=='number') continue; (byT[m[1]]||(byT[m[1]]=[])).push(e.correct); }
+    const lv=Object.values(byT).map(a=>{ const v=a.reduce((s,x)=>s+x,0)/a.length; return v>=4?3:v>=3?2:1; }); if(!lv.length) return 'mid';
+    const a=lv.reduce((s,x)=>s+x,0)/lv.length; return a>=2.5?'high':a>=1.5?'mid':'low'; };
+  S.letter=G=>{ const P=(G.social&&G.social.prof)||{}; return Object.keys(P).some(id=>{ const p=P[id]; return !!p&&((p.part|0)+(p.perf|0)+(p.office|0)*2+(p.research|0))>=20; }); };   /* 推薦信：有一位教授記得你（SOCIAL.profKnowsYou 的同一條線）*/
+  S.pushPass=G=>{ const l=S.pushLevel(G); return l==='high'||(l==='mid'&&S.letter(G)); };
+  /* 2-Y4-27 研究所筆試的結果：2028-09-04～2029-02-02 在總圖（含法律學院圖書館）的天數 ≥ 24（裁定第 2 點；G.habits 的 place:／seat: 紀錄）。考完那一刻記 GRAD_EXAM_2029_PASS（放榜在 2-Y4-34）*/
+  S.libDays=function(G,a,b){ const H=G.habits||{}, set=new Set(); for(const k in H){ if(!/^(place|seat):(library|library_hall|lawlib):/.test(k)) continue; for(const d of (H[k].days||[])) if(d>=a&&d<=b) set.add(d); } return set.size; };
+  S.gradExamPass=G=>{ const F=G.flags||{}; if(typeof F.GRAD_EXAM_2029_PASS==='boolean') return F.GRAD_EXAM_2029_PASS; const a=D('2028-09-04'), b=D('2029-02-02'); return a!=null&&b!=null&&S.libDays(G,a,b)>=24; };
+
+  /* ===================== 大四上（臺灣這邊）的手機之二：大四要怎麼過的姊姊、語彤、推甄、可昕的實習 ===================== */
+  S.phoneY4b=function(G){ const F=G.flags, us=isUS(G), SIS=t=>({th:'p:sister',from:'sister',name:'姊姊',text:t});
+    /* ---- 2-Y4-04 再問一次：隔天 09:00 姊姊一則（有 SISTER_TALK；選④兩次＝照 undecided 那一列）---- */
+    if(F.Y4_PATH_ASK2!=null&&F.SISTER_TALK&&G.day<=F.Y4_PATH_ASK2+2&&past(G,F.Y4_PATH_ASK2+1,9)&&!PHONE.sent(G,'y4_path_sis2')&&typeof STORY!=='undefined'&&STORY.y4PathSisLine){
+      const line=F.Y4_PATH_TWICE?STORY.y4PathSisLine({flags:Object.assign({},F,{Y4_PATH:'undecided'})}):STORY.y4PathSisLine(G);
+      PHONE.at(G,F.Y4_PATH_ASK2+1,9,[{th:'p:sister',who:null,text:'（昨晚你在家人群組打了一行字，又刪掉。最後只傳給姊姊。）'},SIS(line)],'y4_path_sis2'); }
+    /* ---- 2-Y4-05 回家再讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」---- */
+    if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
+    /* ---- 2-Y4-06 推甄 ---- */
+    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）*/
+        const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「一，你可以。二，你可以。三，你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
+        L[L.length-1].ask={id:'y4_push_note',opts:[{t:'三件都一樣。',say:[{from:S5,text:'對。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
+        PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }
+    { const d=D('2028-11-23'); if(d!=null&&G.day>=d&&G.day<=d+2){ const B=t=>({th:'p:'+BH,from:BH,text:t});
+        if(S.pushOn(G)&&past(G,d,15)&&!F.Y4_PUSH){ const ok=S.pushPass(G); F.Y4_PUSH=ok?'pass':'fail'; if(ok) F.GRAD_ADMIT='push';   /* 11/23 15:00 放榜（學校信箱）*/
+          PHONE.at(G,d,15,[{th:'sys',who:null,text:ok?'推甄放榜：法律學研究所，錄取。':'推甄放榜：法律學研究所，未錄取。'}],'y4_push_result');
+          const q=B('你上了嗎。'); q.ask={id:'y4_push_bh',opts:[ok?{t:'上了。',say:[{from:BH,text:'我也上了。'},{from:BH,text:'……所以研究所還要跟你同一班。好。我說好的時候是真的好。'}]}:{t:'沒有。',say:[{from:BH,text:'……二月還有考試。我陪你念。順便。'}]}]};
+          PHONE.at(G,d,15+10/60,[q],'y4_push_bh');
+          const C=[B('明天晚上六點半，麵店。我請。'),B('……阿哲知道的話，會叫我請全部人。')]; C[1].ask={id:'y4_bh_dinner',until:T(d+1,18.75),opts:[{t:'好。',set:{BH_DINNER_GO:true}},{t:'明天不行。',say:[{from:BH,text:'好。下次。'}],set:{BH_DINNER:'no'}}]};
+          PHONE.at(G,d,21.5,C,'y4_bh_dinner_ask'); }   /* 21:30 柏翰約晚餐（裁定第 1 點：「……阿哲知道的話，會叫我請全部人。」）*/
+        if(F.BH_DINNER_GO&&!F.BH_DINNER) plan(G,{id:'y4_bh_dinner',ev:'ev_bh_dinner',day:d+1,h:18.5,late:0.25,place:'阿鳳麵店',title:'阿鳳麵店（柏翰）',travel:'走過去約 15 分鐘',travelH:0.25});
+        if(PHONE.inGroup(G,'noodle_team')&&knows(BH,G)&&pastTW(G,d,21)&&!PHONE.sent(G,'y4_push_group')) atTW(G,d,21,[{th:'g:noodle_team',from:'yu',text:'柏翰推甄上了！'},{th:'g:noodle_team',from:BH,text:'……嗯。'}],'y4_push_group'); } }   /* 所有認識柏翰的玩家（美國路線照當地時間）*/
+    /* ---- 2-Y4-15 可昕的實習：推甄沒上＝隔天 21:00；沒申請＝11/22 21:00（美國路線＝當地 08:00）；交換延畢 2030-03-15 ---- */
+    if(dating(G,KX)){ const K=t=>({th:'p:'+KX,from:KX,text:t}), d22=D('2028-11-22');
+      if(F.KX_INTERN_CALL==='fail'&&typeof F.KX_INTERN_DAY==='number'&&past(G,F.KX_INTERN_DAY+1,21)&&!PHONE.sent(G,'y4_kx_intern_next')) PHONE.at(G,F.KX_INTERN_DAY+1,21,[K('我申請的那家事務所實習，上了。……不用恭喜，先吃飯。')],'y4_kx_intern_next');
+      if(d22!=null&&!F.KX_INTERN&&!S.pushOn(G)&&G.day>=d22-1&&G.day<=d22+3&&pastTW(G,d22,21)&&!PHONE.sent(G,'y4_kx_intern_msg')){ atTW(G,d22,21,[K(us?'事務所的實習，我上了。……你回來要負責宵夜。':'事務所的實習，我上了。……你要負責宵夜。')],'y4_kx_intern_msg'); F.KX_INTERN=true; }
+      const d30=D('2030-03-15'); if(d30!=null&&G.day>=d30&&G.day<=d30+3&&F.GRAD_EXAM_RESULT!=null&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)&&past(G,d30,15.5)&&!PHONE.sent(G,'y5_kx_grad')) PHONE.at(G,d30,15.5,[K('你研究所放榜了吧。這次換我負責宵夜。')],'y5_kx_grad'); }
+    /* ---- 2-Y4-09 語彤事件 16：12/21 12:10（FRIEND 以上、有聯絡方式）；沒到 20:00 兩則；12/28 12:10（美國路線只有這一天，照原本那兩則）---- */
+    { const a=D('2028-12-21'), b=D('2028-12-28'); if(a!=null&&G.day>=a&&G.day<=b+1&&!F.YT16){ const Y=t=>({th:'p:'+YT,from:YT,text:t}), fr=knows(YT,G)&&stageAt(YT,'FRIEND')&&typeof INV!=='undefined'&&INV.hasContact(G,YT);
+        if(!us&&fr&&G.day===a&&past(G,a,12+10/60)&&hh(G)<18.75&&!PHONE.sent(G,'y4_yt16_a')) PHONE.at(G,a,12+10/60,[Y('今天我在總圖三樓'),Y('有東西想給你看')],'y4_yt16_a');
+        if(!us&&PHONE.sent(G,'y4_yt16_a')&&past(G,a,20)&&!PHONE.sent(G,'y4_yt16_miss')) PHONE.at(G,a,20,[Y('今天沒看到你'),Y('下禮拜四 一樣的地方')],'y4_yt16_miss');
+        if(fr&&G.day===b&&past(G,b,12+10/60)&&hh(G)<18.75&&!PHONE.sent(G,'y4_yt16_b')) PHONE.at(G,b,12+10/60,PHONE.sent(G,'y4_yt16_a')?[Y('今天也在三樓')]:[Y('今天我在總圖三樓'),Y('有東西想給你看')],'y4_yt16_b');
+        if(past(G,b,18.75)) F.YT16='missed'; } }
+  };
+
+  S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return; if(isUS(G)) S.phoneUS(G); S.phoneY4(G); S.phoneY4b(G); };
 
   /* ===================== 每 0.5 秒（STORY.TICKS）：回傳 true＝開始演了 ===================== */
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)||busy) return false; const F=G.flags;

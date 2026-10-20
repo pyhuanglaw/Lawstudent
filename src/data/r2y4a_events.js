@@ -364,6 +364,109 @@ const R2Y4A_EVENTS=(function(){
       {speaker:'阿姨',text:'考完了，吃好一點。'},
       {set:{XMAS_Y4:'went'}} ] });
 
+  /* ---- 2-Y4-05 語彤 15b〈公館的時間〉（AA_11）：系刊 10/16 出刊；10/17、10/24（二）17:30～20:30 她在麵店的班（FAMILIAR 以上）；沒見到＝總圖三樓期刊架（r2y4a3d.js）---- */
+  const YT='heroine_03', yt=t=>({speaker:YT,text:t});
+  const YT_DAYS=['2028-10-17','2028-10-24'];
+  EV.push({ id:'ev_yt_essay', title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
+    prereq:{stage:{npc:YT,min:'FAMILIAR'},custom:G=>YT_DAYS.some(k=>D(k)===G.day)&&!G.flags.YT_ESSAY&&notUS(G)},
+    dialogue:[ yt('系刊登了。我沒有寫阿姨是我阿姨。'),
+      yt('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。'),
+      {choice:[{text:'（當著她的面讀）',goto:'a'},{text:'（回家再讀）',goto:'b'}]},
+      {label:'a'},nar('（她轉身去倒水。）'),
+      nar('（第一段是水源市場賣菜的阿嬤：「她五十年沒有放過假。」中間是續約那天，一個老客人說的話。）'),
+      nar('（最後一段是一家麵店。老闆娘每天四點起來熬湯，從來不坐下來吃。）'),
+      nar('（你抬頭的時候，她已經倒好水，站在別桌旁邊。）'),
+      {set:{YT_ESSAY:'front'}},{end:true},
+      {label:'b'},{set:{YT_ESSAY:'home'},stamp:['YT_ESSAY_DAY']} ] });   /* 隔天 21:00「讀了嗎」（r2y4a3d.js）*/
+
+  /* ---- 2-Y4-06 推甄（AA_181 2-4；AA_40 翰 5）：10/26 10:00 面試（萬才館二樓；09:50 還沒到＝帶到場）、11/24 18:30 柏翰的晚餐。便條、放榜、群組在 r2y4a3d.js ---- */
+  const BH4=G=>!!G.flags.BH4_DONE;   /* 翰 4 發生過（postgrad3d.js 也讀這個）*/
+  EV.push({ id:'ev_push_interview', title:'推甄面試', participants:[BH], location:'any', trigger:'manual', once:true, background:'blur',
+    dialogue:[ {if:{flags:['PUSH_RAN']},speaker:null,text:'（你一路跑上二樓。）'},
+      IF(BH4,{speaker:BH,text:'他們問我為什麼。……我說，我是真的想知道。'}),
+      UN(BH4,{speaker:BH,text:'答完了。最後我多說了一句：我喜歡這一科。'}),
+      {scene:'萬才館二樓',bg:'dark'},
+      nar('（十五分鐘。最後一題是：你為什麼想研究這個？）'),
+      {set:{PUSH_INTERVIEW:true}} ] });
+  const PASS=G=>G.flags.Y4_PUSH==='pass', bh=t=>({speaker:BH,text:t});
+  EV.push({ id:'ev_bh_dinner', title:'柏翰的晚餐', participants:[BH], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
+      nar('（週五的麵店，長桌空著。你們坐在角落那張兩人桌。）'),
+      bh('（看著菜單）我請。你點貴一點的。'),
+      bh('……最貴的是一百一。我查過了。'),
+      {unless:{custom:PASS},goto:'f'},
+      bh('面試的時候，我說完，有一個教授點頭。'),
+      bh('我出來以後一直在想，他點頭是什麼意思。'),
+      {choice:[{text:'「意思是你答得很好。」',goto:'p1'},{text:'「你可以去問他。」',goto:'p2'},{text:'（夾一顆滷蛋給他）',goto:'p3'}]},
+      {label:'p1'},bh('……嗯。我也這樣想。只是想聽別人說。'),{goto:'e'},
+      {label:'p2'},bh('開學再問。他會是我的老師。'),{goto:'e'},
+      {label:'p3'},bh('……我說我請。'),nar('（他還是吃了。）'),{goto:'e'},
+      {label:'f'},bh('二月的筆試，考古題我整理好了。十年份。'),
+      bh('我整理的時候，本來就印了兩份。'),
+      {choice:[{text:'「謝謝。」',goto:'f1'},{text:'「十年份太多了。」',goto:'f2'}]},
+      {label:'f1'},bh('嗯。'),{goto:'e'},
+      {label:'f2'},bh('那先讀五年。'),
+      {label:'e'},nar('（他付了錢。走出麵店的時候，他說：「下次換你請。」）'),
+      {set:{BH_DINNER:'went'}} ],
+    outingMissed:G=>{ G.flags.BH_DINNER='missed'; const d=D('2028-11-24'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,19.5,[{th:'p:'+BH,from:BH,text:'我先吃了。……下次還是我請。'}],'y4_bh_dinner_missed'); } });
+
+  /* ---- 2-Y4-15 可昕：放榜那一週，她的實習（BB_99 9-5）：她打來的電話（演出來）；KX_INTERN_CALL＝'pass'／'fail'（r2y4a3d.js 排）---- */
+  const KX='kexin', kx=t=>({speaker:KX,text:t});
+  EV.push({ id:'ev_kexin_intern_result', title:'放榜那一天', participants:[KX], location:'any', trigger:'manual', once:true, background:'dark',
+    dialogue:[ {scene:'電話'},
+      {if:{flagIs:{KX_INTERN_CALL:'fail'}},goto:'f'},
+      kx('結果出來了吧。你先說。'),
+      nar('（你說上了。）'),
+      kx('我事務所的實習也上了。那今天宵夜誰請？'),
+      {choice:[{text:'「我請。」',goto:'a'},{text:'「各付各的。」',goto:'b'}]},
+      {label:'a'},kx('好。山下那家。'),{goto:'e'},
+      {label:'b'},kx('……好啦。'),{goto:'e'},
+      {label:'f'},kx('你的，先說你的。'),
+      nar('（你說沒上。）'),
+      kx('……好。二月還有一次。'),   /* 她不提自己的：隔天 21:00 才傳 */
+      {label:'e'},{set:{KX_INTERN:true}} ] });
+
+  /* ---- 2-Y4-09 語彤事件 16「分一點時間」（AA_11）：12/21（四）17:15～18:45 總圖三樓；沒到延到 12/28（美國路線只有 12/28）---- */
+  const FN=G=>has(YT,'FIELD_NOTES_IDEA');
+  EV.push({ id:'ev_yt_share_time', title:'分一點時間', participants:[YT], location:'library', trigger:'auto', once:true, time:[17.25,18.75], background:'blur',
+    prereq:{custom:G=>{ const a=D('2028-12-21'), b=D('2028-12-28'); return knows(YT,G)&&!G.flags.YT16&&(G.day===a||G.day===b); }},
+    dialogue:[ IF(FN,nar('（她把一本寫滿的筆記本推過來。）')),UN(FN,nar('（她把一疊印出來的初稿推過來。）')),
+      yt('我可以給你看一個東西嗎。'),
+      yt('這本不是作業，也不是幫阿姨寫的。是我自己想寫的。'),
+      {if:{memory:[{npc:YT,tag:'GIFT_NOTEBOOK_YT'}]},speaker:YT,text:'這本是聖誕節抽到的。……寫滿了。'},
+      {choice:[{text:'（讀完）「我想看下一本。」',set:{YT_NOTES_NEXT:true},goto:'a'},{text:'（讀完）「這本以後要做什麼？」',goto:'b'}]},
+      {label:'a'},yt('……下一本還沒寫。'),yt('寫了再說。'),{goto:'e'},
+      {label:'b'},yt('畢業專題。老師說可以再寫長一點。'),
+      {label:'e'},IF(G=>dating(G,YT),nar('（她把筆記收回去，換到你旁邊的位子坐。不是斜對面。）')),
+      {set:{YT16:'seen'}} ] });
+
+  /* ---- 2-Y4-12 主線 8「回來」：新店員記得點法（AA_185 1-2、BB_99 3-2）：日本路線 9/4 起、美國路線 12/24 起第一次走進兩點半 Café ---- */
+  const REG=G=>(+G.flags.CAFE_VISITS||0)>=3, Z11=G=>done(G,'ev_zhiruo_no_sugar');
+  EV.push({ id:'ev_back_home_cafe', title:'回來', participants:[], location:'cafe', trigger:'enter', once:true, background:'blur',
+    prereq:{custom:G=>{ const r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null, d=r==='JP'?D('2028-09-04'):r==='US'?D('2028-12-24'):null; return d!=null&&G.day>=d&&!G.flags.BACK_HOME; }},
+    dialogue:[ IF(G=>REG(G)&&Z11(G),{speaker:'新店員',text:'熱拿鐵，不加糖？'}),IF(G=>REG(G)&&!Z11(G),{speaker:'新店員',text:'熱拿鐵，少糖？'}),   /* 看過 Z11 換「不加糖」（裁定第 17 點）*/
+      IF(REG,{speaker:'新店員',text:'……芷若姊交代的。她說你回來那天，第一杯一定要點對。'}),
+      UN(REG,{speaker:'新店員',text:'你是……法律系的那位？'}),UN(REG,{speaker:'新店員',text:'芷若姊說，你回來的話要跟你說一聲：歡迎回來。'}),
+      nar('（半年。大家都還在。）'),
+      {stamp:['BACK_HOME']} ] });
+
   return EV;
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y4A_EVENTS);
+/* ---- 2-Y4-04「大四要怎麼過？」再問一次（AA_327；AA_317 1A-08 只寫了「會再問」）：events.js 的 ev_y4_path_again 換成這一版的台詞（觸發照 story3d.js S.y4Path2Due：10/16 21:00 起宿舍 409／美國公寓 214，當地時間）。
+   第二次又選④＝Y4_PATH 'other'＋Y4_PATH_TWICE（照③走）；選完記 Y4_PATH_DAY（隔天 09:00 姊姊那一則在 r2y4a3d.js）---- */
+(function(){ const e=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(x=>x.id==='ev_y4_path_again'):null; if(!e) return;
+  const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null, home=G=>typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G);
+  const US=G=>route(G)==='US', ABR=G=>route(G)==='JP'||route(G)==='US', nar=t=>({speaker:null,text:t});
+  e.dialogue=[ {if:{custom:home},scene:'臺北・你的房間',bg:'home_room_night'},
+    {if:{custom:G=>US(G)&&!home(G)},speaker:null,text:'（檯燈旁邊的便利貼，從臺北帶到這裡。四個選項，一個都沒劃掉。）'},
+    {if:{custom:G=>!US(G)&&!home(G)},speaker:null,text:'（便利貼還貼在檯燈旁邊。四個選項，一個都沒劃掉。）'},
+    nar('（大四，要怎麼過？）'),
+    {choice:[{text:'「準備國考。律師，可以的話司法官也考。」',set:{Y4_PATH:'bar'},goto:'p_bar'},{text:'「準備研究所。」',set:{Y4_PATH:'grad'},goto:'p_grad'},
+      {text:'「先不考。去實習，或做別的事。」',set:{Y4_PATH:'other'},goto:'p_other'},{text:'「還沒決定。」',set:{Y4_PATH:'other',Y4_PATH_TWICE:true},goto:'p_und'}]},
+    {label:'p_bar'},nar('（你在桌曆上，把每個禮拜二、四的晚上圈起來。）'),{goto:'p_end'},
+    {label:'p_grad'},{unless:{custom:ABR},speaker:null,text:'（你打開系上的網頁。推甄的面試在十月底。）'},{if:{custom:ABR},speaker:null,text:'（你查了一下。交換回來要多念一學期，推甄趕不上。筆試在後年二月。）'},{goto:'p_end'},
+    {label:'p_other'},nar('（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）'),{goto:'p_end'},
+    {label:'p_und'},nar('（你決定先不決定。）'),
+    {label:'p_end'} ];
+  e.consequences={stamp:['Y4_PATH_DAY']}; e.r2y4a=true; })();
