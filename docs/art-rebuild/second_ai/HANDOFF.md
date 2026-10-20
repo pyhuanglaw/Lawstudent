@@ -32,9 +32,20 @@
      - 進行中；
      - GLB 數字、吊燈高度已量；
      - 遊戲內量測腳本 `tests/audit_l118_shops.py` 在測試工作樹 `$S/devwt`。
-- 研討室 A（`tools/blender/env_second/wancai_seminar.py`）、202／多功能教室（`flat_classroom.py`）：模型 MODEL_READY，只在暫存區 `$S/semout`、還沒放進 assets。
-  - 研討室 A 的臨時接線（`src/wancai_rooms3d.js`）在 `$S/devwt`，還沒跑流程。
-- 之後：ART-BALCONY-POTS（只做公館；溫州街暫停）。
+- 研討室 A、202、多功能教室：模型＋配置進 assets（`0a5cc70a`，MODEL_READY）；流程測試在測試工作樹三間都 ALL PASS。
+  - 還沒交：README 的截圖、效能；牆淡出的修正（冷氣、EXIT 燈條、書櫃放進牆的群組）腳本改了、還沒重建。
+- **使用者 10-20 17:1x 直接（P0）**：
+  - **X85 空橋的門**：交付 `c77e68a2`，LAWWW-C 已接進開發分支 `5a6990dd`。
+  - **X86 從校園看出去的公館很醜**：第一階段（校園背景的羅斯福路兩排）交付，說明 `test_shots/gg_backdrop_1020/README.md`、patch `patches/gg_backdrop_wire.diff`。
+    - MODEL_READY／INTEGRATED 只在測試工作樹／READY_FOR_ART_REVIEW；
+    - 同一次讀檔切換量：draw call −1、三角形 +1 萬、陰影那一輪不變；
+    - 第二階段（公館區域裡面的店面樓上、捷運出口的 GONGGUAN、水源市場）還沒做。
+- 接下來：
+  1. 研討室 A、202、多功能教室：重建（牆淡出）、README、交付；
+  2. 霖澤館 3F、4F：野餐桌離牆、長凳走近點、冷氣淡出，重建再交；
+  3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
+  4. X86 第二階段；
+  5. ART-BALCONY-POTS（只做公館；溫州街暫停）。
 
 ## 🔁 交班（LAWWW2-C，2026-10-18 12:3x UTC；使用者「使用量大概在半小時到上限 先做收尾」）
 - 工作階段 `session_015BuNi47yLUt5PviELapMNj`；分支 **`claude/focused-cray-c9uwvw`**；交班時最後 commit 見本節下面那一個 commit（這份檔是最後一個改動）。
