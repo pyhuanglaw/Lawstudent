@@ -13716,9 +13716,9 @@
    "title": "疊面閃爍尾巴：溫州街三處（x 10.35 二樓招牌×亮燈窗、x 41.4 店面玻璃×窗框、x −4.3 金屬條）；公館、118 巷鐵捲門×護牆、重疊冷氣（要重建、先查結構差異）；美國公寓 7 對、小公園 11 對",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【12:3x LAWWW2-C 交班：e5532105 腳本改好、GLB 沒重建沒交付；A5 冰箱、公館冷氣還沒查】LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
+   "next": "【10-20 15:2x 開發分支接好】LAWWW2-C 0acf75bc（三份街景 GLB 用現在的腳本重建：同方向重疊 溫州街 619→606、公館 398→389、118 巷 423→374 m²；修掉看得到的：割字貼紙、鋁框、冰箱貨架、門框、店內側牆、118 巷鐵捲門與窄窗）＋224156d0（說明）。flow_lane118 在開發分支跑；wz_street_integration 效能那一項、gongguan_glb_integration 四項 FAIL 是原本就有的（換 GLB 前後一樣）→ 交 BB／X69 ｜ 【12:3x LAWWW2-C 交班：e5532105 腳本改好、GLB 沒重建沒交付；A5 冰箱、公館冷氣還沒查】LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -13736,7 +13736,7 @@
     "branch": "claude/funny-albattani-iawshm",
     "spec": "BUG-WZFLICKER r2／glb_coplanar.py",
     "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
    "pausedReason": "溫州街部分：使用者 2026-10-17 05:0x 對 LAWWW2-C「溫州街修改也暫停」（LAWWW-C 11:4x 誤派，LAWWW2-C 交班時指出）；公館、118 巷部分腳本改好（LAWWW2 e5532105）、GLB 沒重建",
    "resumeWhen": "使用者說溫州街可以改；公館、118 巷那一半下一班 LAWWW2 可以先做（不碰溫州街）",
@@ -20335,7 +20335,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「咖啡店以前很常有NPC現在都沒有」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【14:3x BB-C】客人的椅子坐不上去 ✔；待在店裡跳到 20:01 芷若 0、學姊 0（要等 refresh 3 秒、看星期；BB 用「20:00 重新走進」對照）。學姊在 Café／總圖只有進區域時才生——下一批改成待在店裡也會走進來 ｜ 【10-20 14:1x 開發分支】原因：學姊改照作息（AA_284 1-2）又被第二天那段擋住，店裡常常只剩座位 6 一位客人。修法：S.cafeCustomers 照時段 1～3 位（11–14 三位、14–18 兩位、18–22 三位），坐一般桌、記 seat，同一天同一批（D55）。tests/cafe_customers_unit.js（修改前 4 FAIL）。等 BB 驗 ｜ 查：2e28928c 拉花那段把一般店員藏起來（n.hidden）有沒有放回來；芷若打工作息、客人 NPC 的作息"
+   "next": "【15:2x 開發分支】學姊待在店裡也會走進來（sisWalkIn：refreshSchedule 每 3 秒；時段到了從門口走進來坐 5 號／總圖 2 號；有人坐、剩不到 15 分鐘、Z3 那天 21:40～22:00 不來）；tests/sis_walkin_unit.js（修改前 6 FAIL）｜ 【14:3x BB-C】客人的椅子坐不上去 ✔；待在店裡跳到 20:01 芷若 0、學姊 0（要等 refresh 3 秒、看星期；BB 用「20:00 重新走進」對照）。學姊在 Café／總圖只有進區域時才生——下一批改成待在店裡也會走進來 ｜ 【10-20 14:1x 開發分支】原因：學姊改照作息（AA_284 1-2）又被第二天那段擋住，店裡常常只剩座位 6 一位客人。修法：S.cafeCustomers 照時段 1～3 位（11–14 三位、14–18 兩位、18–22 三位），坐一般桌、記 seat，同一天同一批（D55）。tests/cafe_customers_unit.js（修改前 4 FAIL）。等 BB 驗 ｜ 查：2e28928c 拉花那段把一般店員藏起來（n.hidden）有沒有放回來；芷若打工作息、客人 NPC 的作息"
   },
   {
    "id": "BUG-E37-MOVEIN-1020",
@@ -20489,7 +20489,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 14:4x 開發分支接好】LAWWW2-C 43cf956a（九間室內 GLB＋layout）＋d269942b（遊戲內測試、接線 diff、flow_l118_shops.py ALL PASS）→ LAWWW-C 照 diff 接：src/l118_shops3d.js（九個區域 l118_<id>、晚上門外巷子調暗）、src/data/l118_shop_layouts.js（tools/lane118/gen_shop_layouts.py 產生）、巷子店門口營業時間「進○○」／沒開照舊鐵門拉下來一半、店員在店裡（每間換底模）。tests/l118_shops_unit.js（修改前 FAIL）。下一步：BB 驗九間（坐每張椅子、reachability_all）；AA_311 店員外觀、熟客招呼、H1～H9 接（LANE118-SHOP-STORY-1020）；X68 118 巷偶遇 ｜ 【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【15:4x】在門口等的常客、約好的午餐跟著進店坐好（L118.populateShop，進店、待在店裡都會補）；在店裡點餐照樣一起吃——flow_lane118（阿哲週一午餐：進六張犁麵舖 → 阿哲在店裡 → 櫃台點餐一起吃 → 離開 → 回台大）開發分支 ALL PASS；lane118_unit 第 6 項。店門口寫的招呼（「幾位？裡面有位子。」）在店裡說，已請 AA 看 ｜ 【10-20 14:4x 開發分支接好】LAWWW2-C 43cf956a（九間室內 GLB＋layout）＋d269942b（遊戲內測試、接線 diff、flow_l118_shops.py ALL PASS）→ LAWWW-C 照 diff 接：src/l118_shops3d.js（九個區域 l118_<id>、晚上門外巷子調暗）、src/data/l118_shop_layouts.js（tools/lane118/gen_shop_layouts.py 產生）、巷子店門口營業時間「進○○」／沒開照舊鐵門拉下來一半、店員在店裡（每間換底模）。tests/l118_shops_unit.js（修改前 FAIL）。下一步：BB 驗九間（坐每張椅子、reachability_all）；AA_311 店員外觀、熟客招呼、H1～H9 接（LANE118-SHOP-STORY-1020）；X68 118 巷偶遇 ｜ 【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

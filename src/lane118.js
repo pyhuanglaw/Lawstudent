@@ -43,6 +43,15 @@ const L118=(function(){
     const L=S.lunchNow(G); if(L) for(const id of L.with) put(id,L.shop,14);
     for(const r of S.regularsAt(G)) put(r.id,r.shop,r.to);
     return n; };
+  /* 走進店裡（l118_<id>，LANE118-SHOPS-1020）：在店門口等的常客、約好的午餐一起進來，坐在店裡——不然點餐的時候他們還站在巷子裡，一起吃的那段（S.companions）演不到。
+     座位照店裡的配置（E.zone.seats）由前往後，有人坐的跳過；已經在的不重複。story3d.js 進區域（S.populate）、待在店裡（refreshSchedule）都叫它 */
+  S.populateShop=function(GM,shopId){ const G=GM&&GM.G, E=GM&&GM.E; if(!G||!E||!E.zone||!GM.spawnCharacter||!S.shop(shopId)) return 0; const seats=E.zone.seats||[]; let n=0, k=0;
+    const busy=st=>(E.npcs||[]).some(q=>q&&(q.seat===st||q.seatTarget===st))||(E.player&&E.player.seat===st);
+    const put=(id,until)=>{ if(GM.npc[id]) return; let st=null; while(k<seats.length&&!st){ const q=seats[k++]; if(!busy(q)) st=q; } if(!st) return;
+      const c=GM.spawnCharacter(id,st.x,st.z,{seat:st,pose:'sit'}); if(c){ c.idlePose='sit'; c.l118Shop=shopId; c.until=until; n++; } };
+    const L=S.lunchNow(G); if(L&&L.shop===shopId) for(const id of L.with) put(id,14);
+    for(const r of S.regularsAt(G,shopId)) put(r.id,r.to);
+    return n; };
   /* 店門口點餐 */
   S.order=async function(GM,shopId){ const G=GM.G, s=S.shop(shopId), Dd=D(); if(!s||!Dd) return false; GM.sceneBegin();
     try{ if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }

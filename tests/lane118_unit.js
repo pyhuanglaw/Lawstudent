@@ -74,6 +74,14 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('5. 「走。」→ 阿哲「後門見」；12:15 出遊到 118 巷麵舖門口（goto）；阿哲、小語一起',!!r&&r.out.some(m=>m.text==='後門見')&&!!q&&Math.abs(q.h-12.25)<1e-6&&q.goto&&q.goto.zone==='lane118'&&J(G.flags.L118_LUNCH.with)===J(['zhe','yu'])&&G.flags.L118_LUNCH.shop==='noodle2',J(q)+J(G.flags.L118_LUNCH));
     G.hour=12.3; G.zone='lane118'; GM.npc={}; L118.populate(GM); picks=[2]; said=[]; await L118.order(GM,'noodle2');
     check('5. 在麵舖點餐：阿哲、小語都在（各一句）',J(lines().slice(-2))===J(['阿哲：這間我給八十分。上次那間七十。','小語：欸，下次換你選！我都選韓式。']),J(lines()));
+    /* 6. 118 巷的店走得進去（LANE118-SHOPS-1020，X66）：在門口等的人跟著進店（L118.populateShop），在店裡點餐照樣一起吃（修改前 FAIL：店裡沒有他們） */
+    { G.zone='l118_noodle2'; GM.npc={}; E.npcs=[]; const seats0=E.zone.seats; E.zone.seats=[{x:-1,z:0,yaw:0},{x:0,z:0,yaw:0},{x:1,z:0,yaw:0}]; G.hour=12.3;
+      const k=L118.populateShop?L118.populateShop(GM,'noodle2'):0;
+      check('6. 走進六張犁麵舖（l118_noodle2）：約好午餐的阿哲、小語跟著進來坐在店裡', k>=2&&!!GM.npc.zhe&&!!GM.npc.yu&&GM.npc.zhe.l118Shop==='noodle2', J(Object.keys(GM.npc)));
+      check('6. 已經在的不重複', !!L118.populateShop&&L118.populateShop(GM,'noodle2')===0);
+      said=[]; picks=[2]; await L118.order(GM,'noodle2');
+      check('6. 在店裡點餐：一起吃的那段照演（阿哲、小語各一句）', lines().some(t=>t.startsWith('阿哲：這間我給八十分'))&&lines().some(t=>t.startsWith('小語：')), J(lines()));
+      E.zone.seats=seats0; G.zone='lane118'; GM.npc={}; E.npcs=[]; }
     law('2025-09-15',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w3=txt('g:noodle_team').slice(-1)[0];
     law('2025-09-22',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); const w4=txt('g:noodle_team').slice(-1)[0];
     check('5. 之後照 noodle2 → dian → korea → home 輪：第 3 週「今天換一間 我想吃滇緬」、第 4 週「中午走不走 小語說要韓式」',w3==='zhe:今天換一間 我想吃滇緬'&&w4==='zhe:中午走不走 小語說要韓式',J([w3,w4]));

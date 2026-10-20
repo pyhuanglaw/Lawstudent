@@ -347,6 +347,7 @@ const STORY = (function(){
     if(typeof CROWD!=='undefined'){ try{ CROWD.enter(GM,zoneId); }catch(e){ console.warn('CROWD.enter',e); } }   /* 公共場景的人流（D55）：照現在的時間直接排好；同一天同一時段進出看到同一批人 */
     GM_ref=GM; if(G.social){ try{ populateSchedule(zoneId,GM); }catch(e){ console.warn('schedule populate failed',e); } }
     if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：常客、約好的午餐站到店門口（AA_280 第 3、4 節）*/
+    if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 走進店裡：在門口等的常客、約好的午餐坐在店裡（LANE118-SHOPS-1020）*/
   };
   // ---------- 資料驅動的 NPC 日程（CHARACTERS[*].daily_schedule）與不熟同學 pool ----------
   const LEGACY_IDS=['heroine_01','heroine_05','zhe','yu','kai','prof_zhou'];
@@ -766,9 +767,23 @@ const STORY = (function(){
      該來的人照進入區域時同一套規則補上；時段結束的人（sched，劇情生出來的不算）離玩家 12 m 以上、或不在畫面裡才離開，不在玩家眼前消失 */
   let schedT=3;
   function inView(E,o){ const cam=E.camera; if(!cam||typeof THREE==='undefined'||!THREE.Vector3.prototype.project) return true; const v=new THREE.Vector3(o.x,o.y+1.0,o.z).project(cam); return v.z<1&&Math.abs(v.x)<1.05&&Math.abs(v.y)<1.05; }
+  /* 學姊在 Café／總圖（S.populate 照 sisEnt 生，原本只有走進來那一刻才看）：待在店裡、她的時段到了，也從門口走進來坐到她的位子（BB-C 10-20 X71：待在 Café 跳到 20:01 學姊沒來）。
+     位子：Café 5 號、總圖 2 號（和 S.populate 同一張）；有人坐了就不來；時段剩不到 15 分鐘不來；芷若 Z3 那天 21:40～22:00 不來 */
+  function sisWalkIn(GM,zoneId){ const E=GM.E, G=GM.G, F=G.flags; if((zoneId!=='cafe'&&zoneId!=='library')||GM.npc.sis||!E.zone||!E.zone.seats||!E.zone.spawn||!GM.spawnNPC) return false;
+    const se=schedFor('heroine_05',zoneId,G); if(!se) return false; const hr0=h(G); if(typeof se.to==='number'&&se.to-hr0<0.25) return false;
+    const z3=zoneId==='cafe'&&S.z3Pending(G); if(z3&&hr0>=S.Z3_SHUT&&hr0<22) return false;
+    const st=E.zone.seats[zoneId==='cafe'?5:2]; if(!st) return false; const near=q=>q&&Math.hypot(q.x-st.x,q.z-st.z)<0.35;
+    if((E.player&&near(E.player.seat))||(E.npcs||[]).some(q=>q&&(near(q.seat)||near(q.seatTarget)))) return false;
+    const dr=E.zone.spawn, n=GM.spawnNPC('sis',C.sis,dr.x,dr.z,{lv:dr.lv|0,talk:x=>talkSis(GM,x)}); if(!n) return false;
+    n.seatTarget=st; n.idlePose='read'; if(F.afternoonDone&&typeof se.to==='number') n.until=z3&&hr0<S.Z3_SHUT?Math.min(S.Z3_SHUT,se.to):se.to;
+    const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };
+    const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,st.lv|0))) sit(); return true; }
+  S.sisWalkIn=sisWalkIn;
   function refreshSchedule(GM){ const E=GM.E, G=GM.G; if(!G.social||!E.zone||!E.player) return; const zoneId=G.zone;
     try{ populateSchedule(zoneId,GM,true); }catch(e){ console.warn('schedule refresh failed',e); }
     if(zoneId==='lane118'&&typeof L118!=='undefined'){ try{ L118.populate(GM); }catch(e){ console.warn('L118.populate',e); } }   /* 118 巷：待在巷子裡時段到了的常客也會來（進來的時候還沒到 12:10 的話，原本整段都不會出現）*/
+    if(/^l118_/.test(zoneId)&&typeof L118!=='undefined'&&L118.populateShop){ try{ L118.populateShop(GM,zoneId.slice(5)); }catch(e){ console.warn('L118.populateShop',e); } }   /* 待在店裡時段到了的常客也會來 */
+    try{ sisWalkIn(GM,zoneId); }catch(e){ console.warn('sisWalkIn',e); }
     lingerMove(GM,zoneId); roomMove(GM,zoneId);
     const P=E.player.obj.position, hr=h(G); for(const id of Object.keys(GM.npc)){ const n=GM.npc[id]; if(!n) continue; const gone=(n.sched&&n.charId===id&&!schedFor(id,zoneId,G))||(n.until!=null&&hr>=n.until); if(!gone) continue;
       if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
