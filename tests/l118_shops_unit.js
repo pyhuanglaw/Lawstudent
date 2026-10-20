@@ -33,8 +33,14 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
   const K=global.L118S&&global.L118S.viewK; check('6. 門外的巷子晚上調暗（22:00 0.32、12:00 1、18:15 中間）', !!K&&K(22)===0.32&&K(12)===1&&K(18.25)>0.32&&K(18.25)<1&&K(26)===0.32, K?[K(22),K(12),K(18.25).toFixed(2)].join():'沒有'); }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
-  check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕', /label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
+  check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+sh\.type\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }
 // 5
 { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
   check('5. 店員在店裡（l118_<id> 照 layout 的 clerk）；有室內配置時巷子裡不站店員', /if\(\/\^l118_\/\.test\(zoneId\)&&typeof L118_SHOP_LAYOUTS!=='undefined'\)\{[^\n]*clerk\(LL\.clerk\.x,LL\.clerk\.z,LL\.clerk\.yaw/.test(s)&&/if\(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&/.test(s)); }
+// 7. 站在店門口的常客不擋「進○○」（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」）——用 engine3d.js 的 nearestInteractable 實際比
+{ const eng=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8'); const m=eng.match(/E\.nearestInteractable=function\(\)\{[\s\S]*?return best; \};/);
+  if(m){ const mk=prio=>{ const E={levels:null,player:{lv:0,obj:{position:{x:0.3,y:0,z:0.5}}},interactables:[{x:0,z:0,radius:1.4,prio,label:'進好家自助餐（自助餐）',exit:{to:'l118_self'}}],npcs:[{talk(){},name:'江明軒',obj:{position:{x:0.6,y:0,z:0.6}}}]}; vm.runInNewContext(m[0],{E,Math}); return E.nearestInteractable(); };
+    const withP=mk(1), noP=mk(undefined);
+    check('7. 常客站在店門口旁邊：按鈕是「進好家自助餐」（門口 prio:1）；沒有 prio 的話會被「和江明軒說話」蓋掉', withP&&withP.label==='進好家自助餐（自助餐）'&&noP&&!!noP.npc, JSON.stringify([withP&&withP.label,noP&&noP.label])); }
+  else check('7. engine3d.js 找得到 nearestInteractable', false); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

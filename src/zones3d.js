@@ -1543,8 +1543,8 @@ const Z3 = (function(){
          沒開的時候照舊是店門口那個按鈕（L118.order 說鐵門拉下來一半） */
       const open118=()=>{ try{ return typeof L118!=='undefined'&&typeof GAME!=='undefined'&&GAME.G?L118.isOpen(sh.id,GAME.G):true; }catch(e){ return true; } };
       if(typeof L118_SHOP_LAYOUTS!=='undefined'&&L118_SHOP_LAYOUTS[sh.id]){ const LL=L118_SHOP_LAYOUTS[sh.id];
-        E.interactables.push({x,z,radius:1.4,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
-        E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id,get hidden(){ return open118(); }}); }
+        E.interactables.push({x,z,radius:1.4,prio:1,label:'進'+nm+'（'+sh.type+'）',exit:{to:'l118_'+sh.id,spawn:{x:LL.spawn.x,z:LL.spawn.z,yaw:LL.spawn.yaw}},get hidden(){ return !open118(); }});
+        E.interactables.push({x,z,radius:1.4,prio:1,label:nm+'（'+sh.type+'）',shop118:sh.id,get hidden(){ return open118(); }}); }   /* prio：在門口等的常客不擋店門（BB-C 10-20：好家自助餐門口江明軒站著，按鈕變「和江明軒說話」進不去）；要跟他說話就進店（L118.populateShop 讓他跟進來）*/
       else E.interactables.push({x,z,radius:1.4,label:nm+'（'+sh.type+'）',shop118:sh.id}); }
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到台大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
