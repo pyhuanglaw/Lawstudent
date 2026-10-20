@@ -740,6 +740,20 @@
    "state": "已交付（同檔名換 GLB；flow_lane118 ALL PASS；兩支整合測試的 FAIL 是原本就有的）",
    "remaining": "溫州街 draw call／三角形超過效能目標（原本就有，X69、PERF-WENZHOU-1020）；gongguan_glb_integration 四項 FAIL 要不要改測試（LAWWW-C 決定）；實機",
    "next": "LAWWW-C 換三份 GLB（manifest 不用改）"
+  },
+  {
+   "task": "BUG-GYM-STAIRS-1020 體育館 1F 往 B1 的樓梯井台階畫反",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "9eba1567",
+   "files": [
+    "tools/blender/env_second/gym_interior.py",
+    "assets/models/env/second_ai/gym_interior.glb",
+    "assets/models/env/second_ai/gym_interior.json",
+    "docs/art-rebuild/second_ai/test_shots/gym_stairs_1020/README.md"
+   ],
+   "state": "已交付（同檔名；物件、三角形、材質數不變）",
+   "remaining": "遊戲內沒有走一遍（B1 還沒開放）；實機",
+   "next": "LAWWW-C 換 gym_interior.glb"
   }
  ]
 }
