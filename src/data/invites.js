@@ -120,16 +120,16 @@ const INVITE_DATA={
           if(c.pid==='teahouse'&&wk) return {res:'resched',why:'work',act:'work',lines:['「欸不是，平日下午我在工作室。……週六下午？這是問句。」'],alt:I.nextSat(G,'heroine_04',c.P,c.day,14)};   /* BB_163 第 2 節（BB-B 55509fe2）：平日（週三～週五下午）的一盞改到最近的週六下午 */
           const firstY4=c.pid==='noodle'&&!(G.invites||[]).some(iv=>iv.who==='heroine_04'&&iv.place==='noodle'&&['done','accepted','going'].includes(iv.state)&&STORY.presence('heroine_04',{day:iv.day}).kind==='taipei');
           if(wk&&c.h<20&&['cafe','noodle','wenzhou'].includes(c.pid)){ const alt=I.freeAt(G,'heroine_04',c.P,c.day,late)?{day:c.day,h:late}:I.nextFree(G,'heroine_04',c.P,c.day,late);
-            return {res:'resched',why:'work',act:'work',lines:c.pid==='cafe'?['「欸不是，我八點才下班。……八點十分，兩點半。」']:(firstY4?['「好。……欸不是，阿鳳阿姨還記得我嗎。」']:null),alt}; }
-          if(firstY4&&r.res==='accept') return {lines:['「好。……欸不是，阿鳳阿姨還記得我嗎。」']}; }
+            return {res:'resched',why:'work',act:'work',lines:c.pid==='cafe'?['「欸不是，我八點才下班。……八點十分，兩點半。」']:(firstY4?['「好。……阿鳳阿姨還記得我嗎？」']:null),alt}; }
+          if(firstY4&&r.res==='accept') return {lines:['「好。……阿鳳阿姨還記得我嗎？」']}; }
         if(c.pid==='brunch'&&(r.res==='accept'||r.res==='resched')){ const Q=I.place('cafe'); let a=null; for(let d=c.day;d<=c.day+3&&!a;d++) for(let hh=14;hh<=17;hh+=0.5) if(Q&&I.freeAt(G,'heroine_04',Q,d,hh)){ a={day:d,h:hh,place:'cafe'}; break; }   /* BB_158 第 2 節：週末 14:00 才起床（AA_137 8-5），半熟一律婉拒；改天指向 Café（下午）*/
           return {res:a?'resched':'decline',why:'sleep',lines:['「欸不是，週末早上我還在存檔。……下午的話，Café。」'],alt:a}; }
         if(r.res==='resched'&&r.why==='busy'&&r.act==='club'&&c.pid==='noodle'){ const a=I.nextFree(G,'heroine_04',c.P,c.day,21.5); if(!a||a.day!==c.day) return null; return {lines:['「社課完。{zh}。麵店。」'],alt:a}; }
         if(r.res==='accept'&&c.pid==='library'&&c.band==='A') return {res:'decline',why:'quiet',lines:['「總圖不能講話。我會死。」']};
         return null; } },
     heroine_05:{ partnerSay:{teahouse:['「一盞……那裡太安靜了。Café 可以，帶你的筆記。」']},   /* 有伴侶時約一盞（AA_172 3b）：系統說明之後她自己的一句 */
-      walk:{library:['「三件事。一，萬才館的電梯很慢，走樓梯比較快。」','「二，總圖三樓靠窗的位子九點前要搶。三……我忘了。」','「好奇怪，我第一次忘記第三件。」'],wenzhou:[{if:(G,c)=>c.postExam,l:['「這家早午餐的鬆餅很好吃。我一直知道。只是從來沒有時間進去。」']}],noodle:['「以前法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。」','「……我們不能收，他就放在桌上走掉。」'],any:['「我大一的時候以為四年很長。……重點是，它真的很長。只是過得很快。」']},   /* 學姊（3-4）：平日 9–17 在總圖（作息 read，個人規則）；散步在 W8（ev_sis_collapse）以前婉拒、不給改天 */
-      firstAt:{brunch:['「三分四十秒。老闆娘說的。……我也想要一件這麼準的事。」'],teahouse:['「一件事：這裡不能讀書。我第一次去一個不能讀書的地方。」']}, acc:{brunch:{A:['「半熟。好。我九點就到，你不要遲到。」'],R:['「好。……這次我不排吃完要做什麼。」']},teahouse:{R:['「一盞。……好。那裡的茶要等，我現在會等。」']},cafe:{A:['「好。帶你的筆記，我順便看。」'],R:['「今天不看筆記。」']},noodle:{A:['「好。阿鳳的菜我排過名次。一……」'],R:['「這次你點。我想知道你喜歡吃什麼。」']},wenzhou:['「散步。好。我第一次為了散步而散步。」']},
+      walk:{library:['「三件事。一，萬才館的電梯很慢，走樓梯比較快。」','「二，總圖三樓靠窗的位子九點前要搶。三……我忘了。」','「好奇怪，我第一次忘記第三件。」'],wenzhou:[{if:(G,c)=>c.postExam,l:['「這家早午餐的鬆餅很好吃。我一直知道。只是從來沒有時間進去。」']}],noodle:['「以前法服有個個案，就住在這附近。阿伯每次來都帶一袋橘子。」','「……我們不能收，他就放在桌上走掉。」'],any:['「我大一的時候以為四年很長。……我大一的時候也以為總圖的位子很好搶。」']},   /* 學姊（3-4）：平日 9–17 在總圖（作息 read，個人規則）；散步在 W8（ev_sis_collapse）以前婉拒、不給改天 */
+      firstAt:{brunch:['「三分四十秒。老闆娘說的。……她每一顆都這樣計時？」'],teahouse:['「這裡不能讀書。……我很少去不能讀書的地方。」']}, acc:{brunch:{A:['「半熟。好。我九點就到，你不要遲到。」'],R:['「好。……這次我點鬆餅。」']},teahouse:{R:['「一盞。……好。上次那壺，我想再喝一次。」']},cafe:{A:['「好。帶你的筆記，我順便看。」'],R:['「今天不看筆記。」']},noodle:{A:['「好。阿鳳的菜我排過名次。一……」'],R:['「這次你點。我想知道你喜歡吃什麼。」']},wenzhou:['「散步。好。我第一次為了散步而散步。」']},
       rule:(G,c,I)=>{ const r=c.r, lib=c.wd>=1&&c.wd<=5&&c.h>=9&&c.h<17;
         if(c.pid==='wenzhou'&&!c.postExam&&(r.res==='accept'||r.res==='resched')) return {res:'decline',why:'exam',lines:['「散步的話，等我考完。」','「週三晚上我在法圖。要讀書的話，可以一起。」'],alt:null};   /* 筆試（2026-02-02 17:00）以前婉拒散步（AA_284 1-3；原本綁作廢的 W8、到 11/30 連交往都拒）*/
         if(r.res!=='accept'||!lib) return null;
