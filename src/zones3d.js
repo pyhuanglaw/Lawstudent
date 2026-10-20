@@ -1572,8 +1572,27 @@ const Z3 = (function(){
     E.interactables.push({x:0,z:gz-0.6,radius:2.2,label:(L&&L.backGate.label)||'回到台大（後門）',exit:{to:'campus',spawn:{x:34,z:-125.6,yaw:0}}});   /* 回到霖澤館後面的小廣場（校園那一側的出口在同一個地方）*/
     // 路燈與店家燈光（晚上）
     const pools=[]; for(const z of [-30,-10,10,28]){ const lp=W3.lampPost(); place(g,lp,fe-0.35,z,-Math.PI/2); nav.blockCircle(fe-0.35,z,0.25); const pool=TK.lightPool(4.2,'rgba(255,214,150,1)'); pool.position.set(fe-1.1,0.03,z); g.add(pool); pools.push(pool); }
+    /* 街道道具（ART-L118-LANE-1020，使用者 10-20「118 巷很寬、很空，像大馬路」；LAWWW2-C tools/blender/env_second/lane118_props.py，配置 src/data/lane118_props.js）：
+       店門口的盆栽、保麗龍箱、回收桶、菜單板、靠牆的腳踏車、電線桿、頭上的電線（bldg.lane118_props；沒載入時是灰色方塊，不是看不見的牆）；
+       機車：巷口、巷底的機車格垂直停，中間那一段靠路邊順著停（店門口、紅線不停），和公館同一套（bldg.wz_scooter，套件機車是載入前、載入失敗的備用）；
+       晚上店門口的光灑到人行道（TK.lightPool，跟著 zoneTime 亮） */
+    const LP=typeof LANE118_PROPS!=='undefined'?LANE118_PROPS:null, propFB=new THREE.Group(); propFB.name='l118_props_fallback'; propFB.userData.dyn=true;
+    const scGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.wz_scooter'], scG=new THREE.Group(), scList=[]; scG.userData.dyn=true; scG.name='l118_kit_scooters';
+    if(LP){ const fbM=M('#9a958c');
+      for(const [x,z,w,d] of LP.blocks){ nav.blockRect(x,z,w,d,0); const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(0.2,w-0.1),0.7,Math.max(0.2,d-0.1)),fbM); m.position.set(x,0.35,z); propFB.add(m); }
+      for(const [x,z,r] of LP.circles){ nav.blockCircle(x,z,r); const m=new THREE.Mesh(new THREE.CylinderGeometry(Math.max(0.12,r-0.08),Math.max(0.12,r-0.08),0.7,10),fbM); m.position.set(x,0.35,z); propFB.add(m); }
+      g.add(propFB);
+      for(const [x,z,w,d] of LP.scooter_blocks) nav.blockRect(x,z,w,d,0);
+      const scC=['#e8e8e8','#2b2b2b','#8c3b47','#3a6fb0','#c9b48a','#f2f0ea','#5a5a7a'];
+      LP.scooters.forEach(([x,z,ry,grp],i)=>{ const c=scC[(i*5+3)%7], s=TK.scooter(c); s.position.set(x,0,z); s.rotation.y=ry; s.userData.l118Scooter=grp; if(scGLB){ scG.add(s); scList.push({o:s,color:c,grp}); } else g.add(s); });
+      if(scGLB) g.add(scG);
+      for(const [x,z,r] of LP.pools){ const pl=TK.lightPool(r,'rgba(255,206,140,1)'); pl.position.set(x,0.031,z); pl.userData.poolMax=0.62; g.add(pl); pools.push(pl); } }
     const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi) E.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=(p.userData.poolMax||0.55)*k; };
     const zone={group:g,nav,spawn:L?{x:L.backGate.spawn.x,z:L.backGate.spawn.z,yaw:L.backGate.spawn.yaw}:{x:0,z:31,yaw:Math.PI},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
+    if(scGLB&&scList.length){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene,'l118_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_*，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
+    if(LP&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_props']) ASSETS.loadOne('bldg.lane118_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='lane118_props_glb';
+      r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; o.castShadow=!/wire/.test((o.material&&o.material.name)||''); o.userData.dyn=true; });   /* 電線不投影（細線的影子在地上會閃）*/
+      g.add(r); propFB.visible=false; zone.l118Props=true; }).catch(e=>console.warn('118 巷街道道具正式模型載入失敗，用方塊',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_ground']) ASSETS.loadOne('bldg.lane118_ground').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true);
       r.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=(mt&&mt.name)||''; o.receiveShadow=true; o.castShadow=/gate|booth|bark|trunk|leaf|tree|far_hall/.test(nm);
         if(/^l118_road_/.test(nm)&&mt.map){ mt.map.userData.asphalt=true; mt.map.anisotropy=Math.min(8,E.renderer.capabilities.getMaxAnisotropy()); mt.map.needsUpdate=true; if(E.roadMats&&E.roadMats.indexOf(mt)<0) E.roadMats.push(mt); }   /* 柏油：入夜調暗（和溫州街的正式路面一樣）*/

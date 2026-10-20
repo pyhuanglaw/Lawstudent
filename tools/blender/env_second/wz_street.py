@@ -154,7 +154,10 @@ if SET in ('lane118', 'nccu_food'):
              ('水果行', 'fruit', '#e0a030', '#3b2a1e'), ('二手書', 'books', '#2f4a3a', '#f4ead8'), ('文具', 'books', '#8c3b47', '#ffffff')]
     _WALLC = ['#d9cbb0', '#cfc5b2', '#e3ddd0', '#c8bca8', '#d6c3a5', '#e6dfd0', '#bfb2a0', '#cdbfa8']; _WALLT = ['tile', 'mosaic', 'tile', 'plaster']
     _DOOR = ['#9c2f2a', '#2f4a3a', '#5c3a21', '#8a3a2a']
-    _P = dict(p_grille=0.6, p_pot=0.45, p_ac=0.6)
+    _P = dict(p_grille=0.6, p_pot=0.45, p_ac=0.75 if SET == 'lane118' else 0.6)   # 118 巷：冷氣多一點（ART-L118-LANE-1020：二樓以上太空）
+    # 118 巷樓上的住戶、小店（ART-L118-LANE-1020）：直立招牌（建築的另一端，字由遊戲畫；虛構、不寫電話）
+    _VT_L = [('套房出租', '#ffffff', '#3b5a8c', 3.2), ('補習班', '#fff2a8', '#c9463d', 4.2), ('美髮', '#ffffff', '#c9463d', 2.6), ('桌遊', '#2b2b2b', '#e0b24a', 2.6),
+             ('牙醫', '#ffffff', '#2f7d5b', 2.6), ('二樓咖啡', '#3b2a1e', '#f4ead8', 3.2), ('按摩', '#ffffff', '#8c3b47', 2.6), ('中醫', '#f4ead8', '#2f5d50', 2.6)]
     Z0, Z1 = LJ['lane']['z0'], LJ['lane']['z1']
     SPECS = []; _n = 0; _fi = 0
     for _side in LJ.get('sides', ('W', 'E')):
@@ -196,6 +199,8 @@ if SET in ('lane118', 'nccu_food'):
                     nm, ty, bg, fg = _FILL[_fi % len(_FILL)]; _fi += 1
                     base.update(ground='shop', shop=SHOP(type=ty, name=nm, sub='', signBg=bg, signColor=fg, band=''))
                 else: base.update(ground=g, door=_DOOR[_n % 4])
+            if SET == 'lane118' and w > 4.0 and base['floors'] >= 3 and _n % 2 == 0 and base.get('ground') != 'door':
+                _t = _VT_L[(_n // 2) % len(_VT_L)]; base['vtenant'] = dict(vertical=_t[0], vBg=_t[1], vColor=_t[2], vBand=_t[2], len=min(_t[3], GH + (base['floors'] - 1) * FH - GH - 0.8))
             SPECS.append(base); _n += 1
 
 random.seed(707)
@@ -515,7 +520,7 @@ def apartment(spec):
             # 公館 7 樓以上（X86 加高到 6～14 層）也用遠景的做法：從馬路看上去，鐵窗、冷氣、雨遮看不清楚，三角形不要跟著樓層一起長
             kind_ = 'balcony' if (spec.get('balcony') and i == n // 2 and f == 1) else ('grille' if rng.random() < (spec.get('p_grille', 0.15) * 0.4 if (far and not spec.get('far')) else spec.get('p_grille', 0.15 if far else 0.7)) else 'plain')   # p_*：每棟可調（公館商店街；預設和溫州街一樣）
             wins.append(dict(f=f, x=x, y0=yc - wh / 2, y1=yc + wh / 2, kind=kind_, hood=(not far and kind_ != 'grille' and rng.random() < 0.5), ac=(not far and rng.random() < spec.get('p_ac', 0.65)), lit=rng.random() < 0.35, acs=rng.choice((-1, 1))))
-    if SET == 'gongguan':
+    if SET in ('gongguan', 'lane118'):
         if spec.get('sign2f'): wins = [w for w in wins if w['f'] != 1]   # 二樓整面大招牌：二樓不開窗
         # 直立招牌（店的、樓上住戶的）旁邊的窗不加鐵窗、雨遮、冷氣（不然會穿過招牌）
         vs = []

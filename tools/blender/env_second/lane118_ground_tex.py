@@ -54,8 +54,8 @@ def lane():
     for (za, zb) in bays:                                                                 # 機車停車格（每格 0.85 m）
         for sd in (-1, 1):
             xo, xi = sd * (X1 - 0.4), sd * (X1 - 1.75)
-            R.line([(xi, za), (xi, zb)], 0.1, WHITE, 0.35)
-            for k in range(int((zb - za) / 0.85) + 1): z = za + k * 0.85; R.line([(xi, z), (xo, z)], 0.08, WHITE, 0.35)
+            R.line([(xi, za), (xi, zb)], 0.07, WHITE, 0.65)   # 10-20 LAWWW-C：白框太搶眼（像大馬路）→ 細一點、磨損多一點（第四個參數＝磨掉的比例）；格子裡會停機車（lane118_props.py）
+            for k in range(int((zb - za) / 0.85) + 1): z = za + k * 0.85; R.line([(xi, z), (xo, z)], 0.06, WHITE, 0.65)
             for k in range(int((zb - za) / 0.85)):
                 if R.rng.random() < 0.6: R.stain(sd * 2.6, za + (k + 0.5) * 0.85, R.rng.uniform(0.12, 0.2), dL=R.rng.uniform(-14, -8))
     R.manhole(0.4, -28.0); R.manhole(-0.6, 4.0, r=0.38); R.manhole(0.2, 24.5)
