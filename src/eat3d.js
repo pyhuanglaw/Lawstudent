@@ -3,9 +3,11 @@
    ① 一起吃：點完以後，店裡有認識的人照作息正在吃（作息 act:'eat'、人真的在這一區）＝問一次「坐過去一起吃」（一個人一天一次，選「不用了」也算問過）。
       照那一天的關係選一組：剛認識＝ACQ、熟＝FAM、朋友以上＝FRI；交往中＝dating（她知道祐廷也和別人交往＝朋友版，BB_191 第 9 節）；
       可昕：交往中／分開以後朋友以上 exFriend／分開以後不到朋友 exLow（不加關係、她先走）。開場 → 那一組 → 結尾（沒有回收台的店＝在店門口分開）；
-      時間 +30 分鐘、關係照日常的「一起吃飯」（SOCIAL.activity meal，一天一次、有上限）。118 巷照舊由常客、約好的午餐一起吃（lane118.js S.companions）的那幾個人不再問。
+      時間 +30 分鐘（在店裡原本吃飯的時間之外再加：118 巷 40＋30＝70 分鐘，AA_336 A3）、關係照日常的「一起吃飯」（SOCIAL.activity meal，一天一次、有上限）。118 巷照舊由常客、約好的午餐一起吃（lane118.js S.companions）的那幾個人不再問。
    ② 吃過的：每一間店第一次點＝一句旁白（點餐之後、吃完的旁白之前）；筆記本「吃過的」記店名、品項、日期（同一間店點新的東西也記一筆）。阿德影印不是吃的。
    ③ 店員認得你：同一間店點第 5 次起，點餐前店員多說一句（只說一次）；選單多「老樣子」＝上一次點的那一樣，店員回一句（括號裡的換句照上次點的東西）。
+      AA_336 A1：六張犁麵舖的大碗小碗、蛋包飯研究所的全熟半熟不加點餐步驟，老樣子一律用主句（「好。大碗。」「好，半熟。」），上次點什麼的換句不做。
+      AA_336 A4：便利商店「加熱」只有微波義大利麵算；第 5 次那一句「要加熱嗎？……你每次都要。」只給上次有加熱的，上次沒加熱的換成 line5Alt（「一樣不用加熱，對吧。」），祐廷回「好。」。
       Café 芷若在班＝照她自己的點法（ASKED_HER_DRINK、CAFE_VISITS），這一套不用；沒見過芷若＝老闆那句（「芷若交代過」）不說。阿鳳麵店語彤在顧店＝第 5 次那一句換她說。
       便利商店：祐廷在那一間打工的（JOBS.at(G,'cvs')，打工系統還沒有）不演。宵夜滷味攤沒有點餐選單：只有 ② 第一次去的旁白（考完的宵夜，outings3d.js）。
    存檔：G.eat＝{n:{店:次數}, last:{店:品項}, l5:{店:第幾天}, first:{店:第幾天}, ate:[{shop,item,day}], tog:{人:第幾天}}；舊存檔沒有就從空的開始。
@@ -18,7 +20,7 @@ const EAT=(function(){
   S.FIRST_KEY={'滇香小館':'118 巷・滇香小館','好家自助餐':'118 巷・好家自助餐','一一八茶飲':'118 巷・一一八茶飲','巷口家常菜':'118 巷・巷口家常菜','慢讀咖啡':'118 巷・慢讀咖啡',
     'Pasta 118':'118 巷・Pasta 118','韓食小廚':'118 巷・韓食小廚','蛋包飯研究所':'118 巷・蛋包飯研究所','六張犁麵舖':'118 巷・六張犁麵舖',
     '兩點半 Café':'兩點半 Café','阿鳳麵店':'阿鳳麵店','溫州街・半熟':'溫州街・半熟','溫州街・一盞':'溫州街・一盞','公館的便利商店':'公館的便利商店','宵夜（滷味攤）':'宵夜（公館滷味攤）','阿德影印輸出':null};
-  S.NOODLE_TYPE={'六張犁麵舖':true,'阿鳳麵店':true};   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算 */
+  S.NOODLE_TYPE={'六張犁麵舖':true,'阿鳳麵店':true};   /* 「麵店」（第 0 節沒有回收台的店）：兩間麵店都算（AA_336 A2 確認）*/
   S.isDoor=key=>{ const D=(L()&&L().doorShops)||[]; return !!S.NOODLE_TYPE[key]||D.some(k=>k!=='麵店'&&String(key).indexOf(k)>=0); };
   S.isFood=key=>!!S.FIRST_KEY[key];
   S.rec=function(G){ const R=G.eat&&typeof G.eat==='object'?G.eat:(G.eat={}); for(const k of ['n','last','l5','first','tog']) if(!R[k]||typeof R[k]!=='object'||Array.isArray(R[k])) R[k]={}; if(!Array.isArray(R.ate)) R.ate=[]; return R; };
@@ -36,12 +38,15 @@ const EAT=(function(){
   /* 阿鳳麵店：語彤在顧店（作息 act:'help'）＝第 5 次那一句換她說 */
   S.yutongMinding=function(GM){ const G=GM.G, n=GM.npc&&GM.npc.heroine_03; if(!n||n.leaving||G.zone!=='noodle'||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS.heroine_03,G); return !!(e&&e.zone==='noodle'&&e.act==='help'); };
   const HEAT=item=>/微波/.test(item);   /* 便利商店要加熱的（現在只有微波義大利麵）*/
-  S.ALT_TEST={'沒加熱':item=>!HEAT(item),'點全熟':item=>/全熟/.test(item),'點小碗':item=>/小碗/.test(item)};
+  S.ALT_TEST={'沒加熱':item=>!HEAT(item)};   /* 表上的「點全熟」「點小碗」不做（AA_336 A1：沒有大碗小碗、全熟半熟的點餐步驟，老樣子用主句）*/
   S.sameLine=function(T,last){ const a=T.alt, f=a&&S.ALT_TEST[a.when]; return f&&f(String(last||''))?a.t:T.same; };
+  /* 第 5 次那一句的換句（AA_336 A4，只有便利商店：上次沒加熱＝「一樣不用加熱，對吧。」＋祐廷回「好。」）；不符合＝null（照表上那一句）*/
+  S.line5Alt=function(T,last){ const a=T&&T.line5Alt, f=a&&S.ALT_TEST[a.when]; return f&&last!=null&&f(String(last))?a:null; };
   /* 點餐選單（取代各店原本的 GM.choose）：opts 是原本的選項（品項在前、後面是「不用了」之類），names／prices 是品項。
      第 5 次起先說那一句（只說一次）、多一個「老樣子」（放在品項後面）；回傳原本 opts 的序號（老樣子＝上一次那一樣的序號） */
   S.choose=async function(GM,key,opts,names,prices){ const G=GM.G, R=S.rec(G), T=S.staffOn(GM,key), n=S.count(G,key); S._at={key,day:G.day,hour:G.hour};   /* 點餐那一刻（吃完時間往前走了，她的時段可能剛好結束：一起吃照點餐那一刻判斷）*/
-    if(T&&n>=4&&R.l5[key]==null){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); } else await GM.say(who(T),T.line5); }
+    if(T&&n>=4&&R.l5[key]==null){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); }
+      else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else await GM.say(who(T),T.line5); } }
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;

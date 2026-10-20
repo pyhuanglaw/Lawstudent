@@ -68,6 +68,16 @@ const ENC=(function(){
   S.atArrive=(GM,s)=>S.check(GM,s.id,0);
   S.afterWalk=(GM,s)=>S.check(GM,s.id,Math.min(2,(GM.G.trip&&GM.G.trip.walk)|0));
   const nameOf=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):((typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&CHARACTERS[id].name)||id);
+  /* 旁邊的人說的一句（同行的 intro 寫 speaker:'yule'、淡水的 datingAfter 寫 who:'予樂'）：寫 id 或稱呼都對到人物 id，ADV 才有她的立繪。
+     原本只給名字 {name:'予樂'}：game3d.js 的 say 沒有 charId＝ADV.speaker('player')，台上的可昕變暗、予樂沒有立繪（不會變成祐廷的立繪：祐廷沒有立繪檔、'player' 不佔立繪框）。
+     只有立繪的人物見 characters.js 的 PORTRAIT_ONLY。對話框的名字：寫稱呼的照原文、寫 id 的用登錄的名字。對不到的（溫媽媽、綁馬尾的小女生）照舊只有名字 */
+  const PO=()=>typeof PORTRAIT_ONLY!=='undefined'?PORTRAIT_ONLY:{};
+  S.sayer=function(sp){ if(!sp) return null; const C=typeof CHARACTERS!=='undefined'?CHARACTERS:{}, po=PO(), own=k=>Object.prototype.hasOwnProperty.call(po,k);
+    let id=typeof EVENTS!=='undefined'&&typeof EVENTS.speakerId==='function'?EVENTS.speakerId(sp):sp;
+    if(!C[id]&&!own(id)) for(const k in po) if((po[k].alias||[]).includes(sp)){ id=k; break; }   /* 沒有 EVENTS 的時候（單元測試的替身）也對得到 */
+    if(C[id]) return {name:id!==sp?sp:nameOf(id),charId:id};
+    if(own(id)) return {name:id!==sp?sp:(po[id].name||sp),charId:id};
+    return {name:sp}; };
   S.linesFor=function(row,t){ const L=row.lines||{}; if(L.all) return L.all; if(t==='dating') return L.dating||L.friend||L.acq||[]; if(t==='friend') return L.friend||L.acq||[]; return L.acq||L.friend||[]; };
   S.meet=async function(GM,row,tr){ const G=GM.G, R=S.rec(G); R.encMet.who.push(row.who); if(G.trip) G.trip.enc=row.who;
     const who={name:nameOf(row.who),charId:row.who};
@@ -82,14 +92,14 @@ const ENC=(function(){
     const join=!exAcq&&S.canJoin(G,row,tr); const ops=[{t:'打招呼'},{t:'不打擾'}]; if(join) ops.push({t:'一起走一段'});   /* 第三批（DL-08）：朋友以上、不忙、這裡有她的同行台詞 */
     const i=await GM.choose(ops); if(i===1||i<0||i>=ops.length) return 'pass';   /* 不打擾：一定可以、沒有任何後果、不留記錄 */
     for(const t of S.linesFor(row,tr.t)) await ESAY(GM,who,t);
-    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,{name:a.who},a.text); }
+    if(tr.t==='dating'&&row.lines&&row.lines.datingAfter){ const a=row.lines.datingAfter; await ESAY(GM,S.sayer(a.who)||{name:a.who},a.text); }
     if(row.extra&&((G.flags&&G.flags[row.extra.if])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(row.who,row.extra.if)))) await ESAY(GM,{name:row.extra.name},row.extra.text);   /* extra：有那個旗標或記憶才多一句（BB_213：沛珊有 WZ_PS_KIDS 的話，綁馬尾的小女生也在）*/
     if(typeof SOCIAL!=='undefined'){ if(SOCIAL.activity) SOCIAL.activity(row.who,'chat');
       if(row.memo&&(!row.memoIf||row.memoIf===tr.t)&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo,S.memoNote(row)); }
     R.encLog.push({day:G.day,h:+(G.hour%24).toFixed(2),spot:row.spot,who:row.who,tier:tr.t}); if(R.encLog.length>30) R.encLog.splice(0,R.encLog.length-30);
     { const wk=weekKey(G), k=row.who+'@'+row.spot, W8=R.encWeeks||(R.encWeeks={}); const L=W8[k]||(W8[k]=[]); if(!L.includes(wk)) L.push(wk); (R.encLast||(R.encLast={}))[k]=G.day; }   /* 不同週遇到幾次（小支線）、最後一次在這裡打招呼（重訪）*/
     await S.side(GM,row,tr,who);
-    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,{name:q.speaker==='yule'?'予樂':q.speaker},q.line);
+    if(i===2&&join){ for(const q of (W().intro||[])) if(q.who===row.who&&q.spot===row.spot) await ESAY(GM,S.sayer(q.speaker)||{name:q.speaker},q.line);
       if(G.trip) G.trip.with={who:row.who,tier:tr.t}; return 'join'; }
     return 'greet'; };
   /* ---------- 第三批（DL-08，AA_160 第 6 節定案；台詞 src/data/enc_walk.js＝aa_walk_v1＋bb_walk_v1）----------
