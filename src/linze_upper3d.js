@@ -20,6 +20,9 @@
     if(i<0) return; const q=floors[i], up=FLOOR_NO(q)>+f.slice(0,1); const sp=q.zone==='linze'?{x:4.6,z:-4.9,lv:q.lv|0,yaw:Math.PI}:Object.assign({},LINZE_UPPER_LAYOUTS[q.zone.slice(6)].spawn);
     if(GM.caption) GM.caption('','電梯往'+(up?'上':'下')+'……',1800); await GM.enter(q.zone,sp); }
   S_.ride=ride;
+  /* 看微波爐、販賣機、公告欄、白板的字：配置檔的 note 是 LAWWW2 寫給開發組的（「說明文字由 AA 寫」），那幾個字不能出現在遊戲裡；正式的字 AA 寫好再換 */
+  const lookText=q=>String(q.note||q.label||'').replace(/；?說明文字由 AA 寫|（說明文字由 AA 寫）/g,'').replace(/（?LAWWW[^）]*）?/g,'').trim()||q.label;
+  S_.lookText=lookText;
   /* 樓上的人（使用者 10-20「讓大家可以在那邊討論事情功課或者吃飯」）：一般同學（路人，沒有名字、沒有台詞；有名字的人照各自的作息，AA 排）。
      人數照時段：上課日 3F 午餐 11:30–13:30 八位、傍晚 17:30–19:00 六位、其他 8:00–21:00 四位、21:00–22:30 兩位；4F 自習 8:00–22:30 四位、午餐三位；
      週末、放假減半；22:30～8:00 沒有人。坐哪幾號：同一天同一串的前 n 個（日期當種子：出去再進來是同一批人坐同樣的位子，人數變了只多幾個或少幾個）。
@@ -53,7 +56,7 @@
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
       const IT=E.interactables; z.seats=[];
       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.kind==='study') st.study=true; z.seats.push(st); IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st,label:s.label||'坐下'},s.kind==='study'?{study:true}:{})); }
-      for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:q.note||q.label}); }
+      for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(q)}); }
       for(const d of L.doors){ if(d.kind==='stair') continue; IT.push({x:d.x,z:d.z+0.75,radius:1.0,lv:0,label:d.label,look:d.label+'。這個時段有課，門關著。'}); }
       const st=L.stairs, sx=st.door.x, sz=st.door.z+0.55;
       { const dn=st.down; IT.push({x:sx-0.45,z:sz,radius:0.6,lv:0,label:dn.label,exit:{to:dn.to,spawn:dn.to==='linze'?Object.assign({},L2SPAWN):Object.assign({},LINZE_UPPER_LAYOUTS[dn.to.slice(6)].stairs.spawn)}}); }

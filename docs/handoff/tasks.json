@@ -20575,7 +20575,7 @@
    "title": "118 巷也要遇得到人（偶遇）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20589,7 +20589,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「可以遇到人的地方除了公館 溫州街 學校裡 建築裡 也要有118巷阿」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 16:0x 開發分支 2be7254e】118 巷有路人（walkRoutes.lane118、吃飯時間多一點；tests/lane118_walkers_unit.js）。熟人照作息出現在 118 巷（巷子 lane118／店裡 l118_<店>）等 AA-C 給表（15:5x 已問：who、days、from、to、zone、act、terms）。偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA"
+   "next": "【10-20 17:3x 開發分支】AA_320（03985a6c）18 筆作息寫進 characters.js（118 巷 11 列：阿哲週日家常菜、小語週五巷子裡走、以安週二點、芯慈週三小慕、明軒週一巷子裡看價錢、沛珊週一點、語彤週三家常菜、學姊週二自助餐／週六點、芷若週日小慕、子晴週二韓式；霖澤館 3F、4F 期中期末週 5 列，樓層寫成區域 linze_3f／linze_4f）；畢業以後用 if:{notFlags:[GRADUATED]}。tests/lane118_sched_unit.js：每一列每一天的開頭、中間、結尾都是那一列（不被一般作息蓋掉）、蓋掉的不是家教顧店社課讀書會。撞課：以安週二 12:15–13:00 在大二上、大四上、大四下有 38 天撞到同班同學的課（13:05 的課前要先去教室、大四下早上的長課）——遊戲裡上課優先，那幾天她不來 118 巷（回報 AA）。路人（一般偶遇）先前已做（lane118 的兩條路線、用餐時段五位）。下一步：BB 實玩 ｜ 【10-20 16:0x 開發分支 2be7254e】118 巷有路人（walkRoutes.lane118、吃飯時間多一點；tests/lane118_walkers_unit.js）。熟人照作息出現在 118 巷（巷子 lane118／店裡 l118_<店>）等 AA-C 給表（15:5x 已問：who、days、from、to、zone、act、terms）。偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA"
   },
   {
    "id": "PERF-WENZHOU-1020",

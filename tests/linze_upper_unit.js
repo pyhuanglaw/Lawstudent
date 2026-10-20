@@ -26,6 +26,8 @@ const L=LINZE_LAYOUT, src=n=>fs.readFileSync(path.join(ROOT,n),'utf8');
   check('3. 樓層簡介：3F 學生討論區、4F 自習討論區、5F–8F 研究室（互動的字、看板的字）', /樓層簡介：[^']*3F 學生討論區[^']*4F 自習討論區[^']*5F–8F 研究室/.test(b)&&/fillText\('3F 討論區｜4F 自習討論區｜5F–8F 研究室'/.test(b)&&!/3F–8F 研究室與教室（本學期整修中）/.test(b));
   check('3. linze_upper3d.js 不在執行時改 LINZE_LAYOUT（臨時接線拿掉）', !/LINZE_LAYOUT\.doors\.find|LINZE_LAYOUT\.elevator/.test(u)); }
 const Z=k=>Z3.ZONES[k];
+{ const qs=[].concat(LINZE_UPPER_LAYOUTS['3f'].interact,LINZE_UPPER_LAYOUTS['4f'].interact).filter(q=>q.id!=='elevator'&&q.id!=='stairs'); const ts=typeof LZUP==='object'&&LZUP.lookText?qs.map(LZUP.lookText):[];
+  check('3. 微波爐、販賣機、公告欄、白板的字：沒有給開發組的話（「說明文字由 AA 寫」「LAWWW」）', ts.length===qs.length&&ts.every(t=>t&&!/AA 寫|LAWWW|LAWWW2/.test(t)), ts.join('／')); }
 check('3. 區域 linze_3f、linze_4f 都有、LZUP 測試介面在', !!Z('linze_3f')&&!!Z('linze_4f')&&typeof LZUP==='object'&&typeof LZUP.ride==='function'&&typeof LZUP.populate==='function');
 // 4. 3F、4F 的電梯
 if(typeof LZUP==='object'&&LZUP.ride){ const run=async()=>{
