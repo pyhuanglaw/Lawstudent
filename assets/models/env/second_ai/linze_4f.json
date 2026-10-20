@@ -1,0 +1,13 @@
+{
+ "objects": 29,
+ "unique_meshes": 29,
+ "tris": 11428,
+ "tris_drawn": 11428,
+ "materials": 14,
+ "out": "assets/models/env/second_ai/linze_4f.glb",
+ "bytes": 1004276,
+ "texres": 512,
+ "tris_total": 11428,
+ "layout": "linze_4f.layout.json",
+ "seats": 34
+}
