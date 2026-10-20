@@ -771,7 +771,7 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "b61e4f55",
+   "sha": "65239add",
    "status": "approved",
    "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）",
    "task": "SYS-PHONE-CHAT, MSG-2",
