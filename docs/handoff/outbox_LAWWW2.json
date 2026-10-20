@@ -869,7 +869,7 @@
   {
    "task": "GG-STREETVIEW-1020（X86）第二階段：公館區域裡面——店面街加高到 6～14 層＋樓上大看板、羅斯福路兩端延伸、後排高樓、水源市場、天橋、捷運出口旁 GONGGUAN 字樣",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "c491405c",
    "files": [
     "assets/models/env/second_ai/gongguan_far.glb",
     "assets/models/env/second_ai/gongguan_far.json",
