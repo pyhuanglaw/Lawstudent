@@ -1,5 +1,6 @@
 // X81（使用者 10-20「幫可昕搬進宿舍的功能也沒有」＝那一局從法律系開始）：法律系開局的 8/30 載可昕上山（AA_303「法律系開局的 8/30」，AA-C bcb678e0）——不需要瀏覽器。
-//   1. 法律系開局（沒有 PLAYED_Y0、和可昕交往）：8/29 21:30 以前沒有；21:30 可昕兩則（字照 AA）＋回覆按鈕「好。兩點。」→「嗯。不要遲到。」；回不回都排 8/30「臺北的家（載可昕上山）14:00」（捷運約 30 分鐘）
+//   1. 法律系開局（沒有 PLAYED_Y0、和可昕交往）：8/29 21:30 以前沒有；21:30 先旁白「休學到重考的那幾個月，你不是一個人過的。」（AA-C 17:53 選 ①：從 sleepNow 搬過來）再可昕兩則（字照 AA）＋回覆按鈕「好。兩點。」→「嗯。不要遲到。」；
+//      記 KX_FIRST_MSG（8/30 早上不再演舊的「第一則訊息」）；回不回都排 8/30「臺北的家（載可昕上山）14:00」（捷運約 30 分鐘）
 //   2. 經濟系轉過來的（PLAYED_Y0）、沒交往、舊開局（9/17）都不會收到這一版
 //   3. 鬧鐘：8/29 晚上睡覺，「睡到明天下午、晚上」被 13:00 的鬧鐘叫醒；8/30 白天小睡、跳過時間在 13:20 停（出發前 10 分鐘）
 //   4. 出發 → 到家直接演 ev_y0_e37（字一字不改）→ 最後多一句「（你把車開回家，再搭捷運回宿舍。）」→ 回到宿舍 19:00 左右；經濟系那一版沒有這一句、時間不變
@@ -28,16 +29,19 @@ const R=(id,fam,trust,comf)=>{ const r=SOCIAL.rel(id); r.fam=fam; r.trust=trust|
 const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.toFixed(3); STORY.phoneRules(GM); PHONE.tick(G); } };
 const TH=th=>(G.msgs||[]).filter(m=>m.th===th);
 const D29=STORY.dayOfKey('2025-08-29'), D30=D29+1;
-const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST_MSG:true,dating_kexin:true,LAW_START_DAY:D29,MAIN_D1:STORY.MAIN_D1_NEW},flags||{})); G.stage='law'; };
+const tick=()=>new Promise(r=>setTimeout(r,10));
+const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST_MSG:false,dating_kexin:true,LAW_START_DAY:D29,MAIN_D1:STORY.MAIN_D1_NEW},flags||{})); G.stage='law'; };
 (async()=>{
   // 1
   lawStart(D29,21); check('0. 法律系開局：S.e37LawOn、新開局（week1Start）',STORY.e37LawOn&&STORY.e37LawOn(G)&&STORY.week1Start(G));
-  run(21,21.4); check('1a. 8/29 21:30 以前沒有',!PHONE.sent(G,'y0_e37_law_ask')&&!OUT.get(G,'y0_e37'));
-  run(21.5,21.6); const K=TH('p:kexin'), q=OUT.get(G,'y0_e37');
+  run(21,21.4); check('1a. 8/29 21:30 以前沒有；sleepNow 的舊「第一則訊息」先不演（e37LawPending）',!PHONE.sent(G,'y0_e37_law_ask')&&!OUT.get(G,'y0_e37')&&STORY.e37LawPending(G));
+  said=[]; run(21.5,21.6); await tick(); run(21.6,21.6); const K=TH('p:kexin'), q=OUT.get(G,'y0_e37');
+  check('1a2. 21:30 先旁白「休學到重考的那幾個月，你不是一個人過的。」（一次）、記 KX_FIRST_MSG、之後不再是 pending',said.filter(x=>x.t==='休學到重考的那幾個月，你不是一個人過的。').length===1&&G.flags.KX_FIRST_MSG===true&&!STORY.e37LawPending(G),JSON.stringify(said.map(x=>x.t)));
   check('1b. 21:30 可昕兩則（字照 AA_303「法律系開局的 8/30」）',K.map(m=>m.text).join('｜')==='我到你家了。阿姨留我住一晚，還煮了麵。｜明天下午兩點，你回家開車，載我上山。行李兩箱。',K.map(m=>m.text).join('｜'));
   const ask=(K[1]&&K[1].ask)||{}; check('1c. 回覆按鈕只有「好。兩點。」→「嗯。不要遲到。」（沒有拒絕）',(ask.opts||[]).length===1&&ask.opts[0].t==='好。兩點。'&&ask.opts[0].say.map(x=>x.text).join()==='嗯。不要遲到。',JSON.stringify(ask));
   check('1d. 不用回也排了出遊：8/30 14:00「臺北的家（載可昕上山）14:00」、捷運約 30 分鐘、從宿舍出發、鬧鐘；記 E37_LAW',!!G.flags.E37_LAW&&!!q&&q.day===D30&&q.h===14&&q.title==='臺北的家（載可昕上山）14:00'&&q.travel==='捷運 約 30 分鐘'&&q.travelH===0.5&&q.alarm===true&&q.ev==='ev_y0_e37',JSON.stringify(q));
   const snap=JSON.stringify(G); const back=()=>{ G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); };
+  { lawStart(D29,22.7,{KX_FIRST_MSG:true}); said=[]; run(22.7,22.75); await tick(); check('1e. 已經有 KX_FIRST_MSG 的（v9.10.2 的法律系開局存檔）：直接收到兩則、沒有旁白',PHONE.sent(G,'y0_e37_law_ask')&&TH('p:kexin').length===2&&!said.length,JSON.stringify(said)); }
   // 2
   { const no=[['經濟系轉過來的（PLAYED_Y0）',{PLAYED_Y0:true}],['沒交往',{dating_kexin:false}]]; for(const [n,f] of no){ lawStart(D29,21,f); run(21.5,21.6); check('2. '+n+'：沒有法律系開局這一版',!PHONE.sent(G,'y0_e37_law_ask')); }
     lawStart(D29,21,{MAIN_D1:undefined,LAW_START_DAY:undefined}); delete G.flags.MAIN_D1; delete G.flags.LAW_START_DAY; run(21.5,21.6); check('2. 舊開局（9/17，不是 week1Start）：沒有',!PHONE.sent(G,'y0_e37_law_ask')); }
