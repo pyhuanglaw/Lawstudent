@@ -20252,6 +20252,489 @@
    "source": "使用者 2026-10-19 02:0x：有一些已經坐著也進遊戲的東西還是寫了待辦。先整理一份以v9.10.2 為基準的玩家功能清單，逐項區分「線上可玩」「開發分支已完成」「有企劃但未實作」「等待美術」「暫停」。這件事不需要重新規劃整款遊戲，卻能有效減少之後的重工",
    "authorized": "使用者直接指示",
    "next": "【02:0x LAWWW-C】背景子代理分段核對（tasks.json 依學年學期分、USER_WANTS 依主題分），每項對 main 9335763d 的程式找證據；彙整成 docs/handoff/PLAYER_FEATURES_v9.10.2.md＋「看板寫待辦、其實已在遊戲裡」的清單。不重新規劃、不新增功能"
+  },
+  {
+   "id": "DISPATCH-1020",
+   "title": "10-20 試玩回報的派工（LAWWW 統籌）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "META",
+    "week": null,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x：「其他AI我通知他們上班了」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "LAWWW 把 X64～X81 分給 AA、BB、LAWWW2（send_message，寫任務 ID），自己做程式項目"
+  },
+  {
+   "id": "BUG-MEET-HEROINES-1020",
+   "title": "經濟系進法律系以後 9/17 還沒認識沈以安；校園很難遇到人、一個女主角都沒遇到",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "8/29 進法律系以後第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「沈以安到法律系9/17都還沒認識 以前版本校園裡很容易遇到人 現在很難 我一個女主角都沒遇到是發生什麼事」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查：經濟系 8/29 轉法律系以後，第一、二天主線（認識以安、芷若…）有沒有演、metAn 等旗標；偶遇頻率（encounters、enc_walk、學期作息）和舊版比；修好後瀏覽器從 8/29 走到 9/17 確認"
+  },
+  {
+   "id": "BUG-CAFE-NPC-1020",
+   "title": "兩點半 Café 以前常有 NPC，現在都沒有",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系平常去 Café",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「咖啡店以前很常有NPC現在都沒有」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查：2e28928c 拉花那段把一般店員藏起來（n.hidden）有沒有放回來；芷若打工作息、客人 NPC 的作息"
+  },
+  {
+   "id": "BUG-E37-MOVEIN-1020",
+   "title": "8/30 開車載可昕搬去政大宿舍（E37）沒有出現（使用者寫「語昕」，待確認是可昕）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-08-30",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「幫語昕搬進宿舍的功能也沒有」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查：8/28 21:00 私訊「我明天坐高鐵上去。後天你載我搬宿舍。」有沒有到、8/30 14:00 出發選單、14:15 電話（S.e37CallDue）——8/29 轉法律系以後還在不在；flow_v0_home 停在 8/29，接著走到 8/30"
+  },
+  {
+   "id": "WELCOME-DATE-1020",
+   "title": "法律系迎新改到開學前（現在 9/27）",
+   "area": "V1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "開學前",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「迎新在9/27不合理阿 應該在開學前」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "AA 定日期時間地點＋要改的台詞；LAWWW 改 src/data/activities.js welcome_y1s1（dates 2025-09-27）和相關條件",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-20 原話；src/data/activities.js welcome_y1s1、src/data/events.js ev_welcome_y1s1（沛珊第一次見面、迎新群組聯絡方式）",
+    "acceptance": "迎新的日期（開學前哪一天、幾點、在哪）＋所有要跟著改的句子（提到第幾週、9/27、迎新前後順序的）",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BUG-DATE-TIMETABLE-1020",
+   "title": "遊戲中的日期和課表的日期對不上",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「遊戲中日期跟課表日期對不上」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查：手機「週」「今天」課表的日期／星期和 HUD 日期；16 週行事曆（calendar.js）和 courses.js；BB 重現給截圖"
+  },
+  {
+   "id": "BUG-MAP-YELLOWDOT-1020",
+   "title": "地圖南方一直有一個黃點，永遠走不到",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「遊戲中地圖應該是南方一直有一個黃色的點永遠走不到」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查：小地圖／大地圖的黃點是什麼（目標、互動點、人）、為什麼在走不到的地方"
+  },
+  {
+   "id": "RUN-SPEED-1020",
+   "title": "跑步太慢",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "新遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「跑步好慢」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "engine3d.js 跑步倍率加快；跑 p0_movement、movement_regression（腳不能滑步）"
+  },
+  {
+   "id": "LANE118-PLACES-1020",
+   "title": "118 巷要能從手機「地點」直接去",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷也要可及時到達吧手機地圖那邊」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "手機「地點」分頁加 118 巷（和公館、溫州街一樣）"
+  },
+  {
+   "id": "LANE118-SHOPS-1020",
+   "title": "118 巷的店走得進去、店員站在店裡（現在店員站在店外）",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話；現有 src/data/lane118_layout.js v1、assets/models/env/lane118_street.glb（AA_280）",
+    "acceptance": "118 巷每間店走得進去：室內 GLB（櫃台、座位、店員站位），店名照 D77 諧音；交付寫每間店的門口座標和室內尺寸給 LAWWW 接",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "LANE118-SHOP-STORY-1020",
+   "title": "118 巷每間店配合故事（店員是誰、和哪條故事有關、去了有什麼）",
+   "area": "V1",
+   "owner": "AA",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「最好配合故事?劇情?」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "AA 給每間店的規格；LAWWW 實作",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "spec": "使用者 10-20 原話；118 巷 AA_280",
+    "acceptance": "每間店：店名（D77 諧音）、店員（固定 NPC 或哪位人物打工）、和哪條故事有關、去了會發生什麼（事件／台詞／常客關係）；先給清單，不擋三個優先",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "EAT-EFFECT-1020",
+   "title": "吃東西不要只是花錢（使用者問怎麼改比較好）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次在店裡吃東西",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「而且吃東西好像只是花錢沒有別的功用怎麼改比較好?」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做"
+  },
+  {
+   "id": "LANE118-ENC-1020",
+   "title": "118 巷也要遇得到人（偶遇）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "118 巷",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「可以遇到人的地方除了公館 溫州街 學校裡 建築裡 也要有118巷阿」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA"
+  },
+  {
+   "id": "PERF-WENZHOU-1020",
+   "title": "溫州街很卡（電腦也卡）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "溫州街",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「到溫州街就算用電腦也很卡?」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "量 draw call、三角形、陰影、NPC 數；找出最重的東西（LAWWW2 的模型要減面就派）"
+  },
+  {
+   "id": "PERF-CAMPUS-SHADOW-1020",
+   "title": "校園地圖卡；有些建築旁邊的影子一直閃",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能"
+  },
+  {
+   "id": "BUG-GYM-STAIRS-1020",
+   "title": "體育館樓梯的方向反了",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "8/31 開學典禮（體育館）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「體育館樓梯的方向反了吧」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查 gym／gym_b1 樓梯：模型和導航的上下方向"
+  },
+  {
+   "id": "LINZE-WANCAI-FLOORS-1020",
+   "title": "霖澤館 3～8 樓、萬才館樓上不要永遠「整修中」",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "霖澤館、萬才館",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤館3-8樓為什麼永遠都在蓋 萬才也是阿」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話；src/data/linze_layout.js、src/data/wancai_layout.js、tools/blender/linze_interior.py、wancai_interior.py",
+    "acceptance": "霖澤 3、4 樓走得到的走廊＋教室或討論區（Blender→GLB）；萬才至少一間能上課的教室；還沒做的樓層不要寫「整修中」，改成看得懂的理由；交付附樓層尺寸給 LAWWW 接導航",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "LINZE-34F-TABLES-1020",
+   "title": "霖澤 3、4 樓放長條桌附椅（像野餐桌），可以討論功課、吃飯",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "霖澤館 3、4 樓",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤3.4樓要有長條桌子附椅子像野餐椅子讓大家可以在那邊討論事情功課或者吃飯啊」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "LAWWW2 做桌椅；LAWWW 做座位（坐、讀書、吃東西、同學在那裡）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話",
+    "acceptance": "霖澤 3、4 樓的長條桌附長椅（野餐桌式）GLB，交付寫座位位置",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "CAMPUS-SOCSCI-POS-1020",
+   "title": "社科院位置改對：在法學院西南，不是出去左手邊（查實際位置）",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「然後社科院位置其實不是在法律系出去左手邊 應該是朝西南 你實際查社科院位置」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "查實際配置（臺大校總區平面圖）；改 zones3d.js 校園社科院位置、導航、劇情站位；跑 campus_layout_nav、reachability_all"
+  },
+  {
+   "id": "LAW-CLASS-WANCAI-1020",
+   "title": "法律系的課不要都在霖澤館，萬才館也要有",
+   "area": "V1",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "法律系第一週",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「為什麼法律系的課都在霖澤館 萬才呢?」",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "等萬才教室（LINZE-WANCAI-FLOORS-1020）；之後把部分課排到萬才（courses.js 的教室）"
+  },
+  {
+   "id": "QA-REPRO-1020",
+   "title": "BB 重現使用者 10-20 試玩回報（v9.10.2 線上版）",
+   "area": "V1",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "—",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 13:0x 試玩回報；D100 測試歸 BB",
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "next": "每項寫重現步驟、截圖、存檔",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "spec": "使用者 10-20 原話（USER_WANTS X64～X81）",
+    "acceptance": "v9.10.2 線上版重現：體育館樓梯方向（X64）、9/17 前遇不到女主角（X70）、Café 沒 NPC（X71）、日期和課表對不上（X76）、地圖南方黃點（X77）、溫州街與校園卡、影子閃（X69、X79）、8/30 搬宿舍沒出現（X81）；每項：重現步驟、截圖、存檔",
+    "ack": "SENT"
+   }
   }
  ]
 }
