@@ -9109,6 +9109,71 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 19:1x 改好"
+  },
+  {
+   "id": "DL-AA-49ed7e6a",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "49ed7e6a",
+   "what": "閒聊階梯 14 個檔已審版本（AA：ladder_aa_y2s1、y3s2、y4s1、y4s2；BB：ladder_bb、bb_y0s1、y0s2、y1s2、y2s1、y2s2、y3s1、y3s2、y4s1、y4s2）：AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8）、第 4、6 節芷若子晴學姊沛珊、AA_306 經濟系那一年；AA_151／152 記憶名稱表（AN7_COMMERCIAL、AN8_ELECTIVE、AN8_NEXT_SEPT）",
+   "task": "AA313-S6-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 17:3x UTC：story_import_allow.json 14 檔改 49ed7e6a（舊 SHA 進 history）、labelsRef 前面加 49ed7e6a、import_ladder.py 重匯 src/data/ladder.js；ladder_y1s2_y2s1_unit 第 0、6 項白名單 SHA 斷言照 AA 說的一起改。也涵蓋 AA313-S4-1020 的「以安大四階梯重匯」、AA306-KX-LADDER-1018 的經濟系層。AA 說這則不用回。"
+  },
+  {
+   "id": "DL-AA-bcb678e0",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bcb678e0",
+   "what": "AA_303「法律系開局的 8/30（X81）」：8/29 21:30 可昕兩則＋回覆、8/30 從宿舍出發「臺北的家（載可昕上山）14:00」、現場照 ev_y0_e37、演完一句旁白回宿舍 19:00",
+   "task": "BUG-E37-MOVEIN-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理"
+  },
+  {
+   "id": "DL-LAWWW2-c77e68a2",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c77e68a2",
+   "what": "BUG-BOYA-PUTONG-1020（X85）：博雅、普通室內 GLB 照現在的配置重建（通道沒有門板、南北牆開口＋門框）、skybridge.glb 天花板屋頂單面；teach3d.js patch（buildLinkView：博雅二樓開口外面看得到空橋；門廳天花板改朝下 plane）；flow_skybridge.py 加 C0、C2、D1、D2",
+   "task": "SKYBRIDGE-DOOR-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 18:3x UTC：GLB 換檔、patch 套上開發分支；buildLinkView 加 try（對面那棟的配置沒載入時不放；boya_lecture_unit 只載博雅會 ReferenceError）。單元測試 nav_teach、teach_cam_walls、teach_class、teach_perf、boya_lecture ALL PASS。瀏覽器 flow_skybridge 交 BB"
+  },
+  {
+   "id": "DL-AA-c11945d0",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c11945d0",
+   "what": "AA_329 吃東西三項的台詞：①一起吃（12 人×剛認識／熟／朋友以上＋七位女主交往版；可昕三組另寫；開場結尾共用旁白）②吃過的（15 間店第一次的旁白）③店員認得你（16 間店第 5 次一句＋「老樣子」的回答；Café 芷若、麵店語彤、便利商店祐廷打工另處理）",
+   "task": "EAT-EFFECT-1020",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 2026-10-20 18:5x UTC 登記；排在事件包後面做；AA：測試不要寫死全文；這則不用回"
+  },
+  {
+   "id": "DL-AA-bf349b96",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bf349b96",
+   "what": "回 LAWWW-C 18:09（1A-06～15 程式補的字）：美國回臺改舊金山 12/21 23:55 起飛、12/23 清晨 05:40 落地、上午回家、19:00 409（AA_318 美國那一句改「（傍晚，你從家裡出發，回宿舍。）」）；TESTER→PLAYTESTED；JOB_NOODLE 等麵店工讀；XINCI_FIRST＝慈 6；2～8 照程式",
+   "task": "EVPKG-1A09-15-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 19:2x UTC：exchange3d.js 字卡與時間、story3d.js ROOM_Y4_US 第一句、credits 改 PLAYTESTED；room_y4_unit 跟著改（ALL PASS）。入境大廳（學姊、媽媽）等 AA_327 2-Y4-22（第 2 輪事件包）"
   }
  ],
  "ignored": [

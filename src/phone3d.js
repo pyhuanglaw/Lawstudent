@@ -12,7 +12,8 @@
 'use strict';
 const PHONE=(function(){
   const S={};
-  const nm=id=>{ const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法）——
+  const FAM_NM={mom:'媽媽',dad:'爸爸',sister:'姊姊'};   /* 家人（不在 CHARACTERS 裡）：一對一對話串的名字（p:mom；1A-06 姊姊的私訊 p:sister，AA_317）*/
+  const nm=id=>{ if(FAM_NM[id]&&!(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])) return FAM_NM[id]; const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法）——
       名字已經知道了才用（還沒見過的女主角照舊「不認識的女生」，不能因為聯絡人名稱提前露出名字）*/
     if(cn&&SOCIAL.displayName&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&SOCIAL.displayName(id)===CHARACTERS[id].name) return cn;
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/

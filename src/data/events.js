@@ -2600,7 +2600,9 @@ const STORY_EVENTS=[
       {label:'g1'},{speaker:'kexin',text:'結果兩個人都繞了一圈。'},{speaker:null,text:'（她說完，往山上的宿舍走。你陪她走上去。）'},{goto:'h'},
       {label:'g2'},{speaker:'kexin',text:'沒有後悔喔。只是有時候會想一下。'},{goto:'h'},
       {label:'g3'},{speaker:'kexin',text:'現在在想，湯餃要不要再買一份帶回去。'},
-      {label:'h'},{speaker:null,text:'（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'} ] },   /* AA_307 第 6 列 */
+      {label:'h'},{speaker:null,text:'（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'},
+      {if:{flags:['E37_LAW']},speaker:null,text:'（你把車開回家，再搭捷運回宿舍。）'} ],   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）*/
+    afterOuting:(G,GM)=>{ if((G.flags||{}).E37_LAW&&GM.advance) GM.advance(1); } },   /* 從法律系開局：開車回家、再搭捷運回宿舍——比經濟系那一版多 1 小時（14:00 到、回到宿舍 19:00 左右）*/
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };
@@ -4185,3 +4187,135 @@ const STORY_EVENTS_V11=[
     consequences:{grad:{bump:'和學姊為一篇文章吵了一次',field:'公法'}} }
 ];
 Array.prototype.push.apply(STORY_EVENTS,STORY_EVENTS_V11);
+/* ===== 1A-06～1A-15（AA_317、AA_318；AA-C 2026-10-20 定稿，第②級，台詞不改字；e75ebc69 的兩處更正已照改）=====
+   大三寒假到大四畢業、搬走。日期、在哪裡演、旗標的流程在 src/story3d.js 的「1A-06～1A-15」那一段；這裡只放台詞。
+   ev_sister_hotpot（出遊，1A-06）、ev_family_land_y3／_bed（在家／睡著，1A-07）、ev_y4_path／_again（1A-08，story3d.js 叫）、
+   ev_r1_jetlag（1A-10，story3d.js 叫）、ev_grad_envelope／_bed（1A-12 晚上的信封）。家人（姊姊、大伯、媽媽）沒有立繪＝compact。
+   測試：tests/sister_hotpot_unit.js、land_data2_unit.js、jetlag_unit.js、grad_family_unit.js */
+const Y4_EVENTS=(function(){
+  const R=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null, JP=G=>R(G)==='JP', US=G=>R(G)==='US', TW=G=>!JP(G)&&!US(G);   /* 台灣路線＝不是 JP、也不是 US（未決定也算）*/
+  const fam=id=>typeof STORY!=='undefined'&&!!STORY.y4Fam&&STORY.y4Fam(id), all=(...ids)=>()=>ids.every(fam);   /* AA_30 3-4：只有 FAMILIAR 以上的人到場或被提到 */
+  const atHome=G=>typeof HOME!=='undefined'&&!!HOME.at&&HOME.at(G);
+  /* 1A-06 主線 7「姊姊」（AA_317 第 2 節）：1/12 19:00 公館火鍋店；交換的回答照 EXCHANGE_ROUTE；選項②只給 careerLean C；SISTER_TALK */
+  const HOTPOT=[ {scene:'公館・火鍋店',bg:'gongguan_hotpot'},
+    {speaker:null,text:'（一月的公館。火鍋店的玻璃起了一層霧。姊姊已經到了，鍋子點好了，兩個人一鍋。）'},
+    {speaker:null,text:'（你走進來的時候，她看了一下手機上的時間。）'},
+    {speaker:'姊姊',text:'你們法律系的都走這麼快喔？'},
+    {speaker:'姊姊',text:'交換的表，你選了哪裡？'},
+    {if:{custom:JP},speaker:'player',text:'日本。三月底出發。'},{if:{custom:JP},speaker:'姊姊',text:'三月。……那過年要多吃一點。'},
+    {if:{custom:US},speaker:'player',text:'美國。大四上。'},{if:{custom:US},speaker:'姊姊',text:'八月。那還有一個暑假。'},
+    {if:{custom:TW},speaker:'player',text:'沒填。留在臺灣。'},{if:{custom:TW},speaker:'姊姊',text:'留下來也是選了一個。'},
+    {speaker:'姊姊',text:'我念歷史的時候，親戚說「念那個以後要幹嘛」。我念到研究所又休學。去補習班教書。現在在出版社。'},
+    {speaker:'姊姊',text:'你也換過一次。經濟念一個多月就休學，說要重考。……媽那陣子都睡不好，只是沒跟你說。'},
+    {speaker:'姊姊',text:'結果你看。你自己選的，你就念得下去。'},
+    {speaker:'姊姊',text:'你從小遇到事情就去翻那本書。……你知道嗎，那時候我覺得你很怪。現在覺得還好。'},
+    {choice:[{text:'「妳後悔換方向嗎？」',set:{SISTER_TALK:'regret'},goto:'st_regret'},
+      {text:'「我在想畢業以後要不要做法律以外的事。」',if:{custom:G=>typeof STORY!=='undefined'&&!!STORY.careerLean&&STORY.careerLean(G).top==='C'},set:{SISTER_TALK:'other'},goto:'st_other'},
+      {text:'「我還在找我要幹嘛。」',set:{SISTER_TALK:'search'},goto:'st_search'}]},
+    {label:'st_regret'},{speaker:'姊姊',text:'沒有。後悔完還是要吃飯。'},{goto:'st_end'},
+    {label:'st_other'},{speaker:'姊姊',text:'那你喜歡什麼？……不用現在講。你換過一次，你知道換方向不會怎樣。爸媽那邊我來。'},{goto:'st_end'},
+    {label:'st_search'},{speaker:'姊姊',text:'我二十六歲也還在找。你急什麼。'},
+    {label:'st_end'},
+    {speaker:null,text:'（鍋底剩一點湯。她把最後一片肉夾到你碗裡。）'},
+    {speaker:'姊姊',text:'過年見。'} ];
+  /* 1A-07 主線 9「親戚的土地資料（二）」（AA_317 第 2 節；照主線 2 LAND_Y1 的寫法）：主線 2 沒演（沒有 FAMILY_LAND_Y1）＝「又」拿掉、大伯多一句；陽台兩版 */
+  const L1=G=>!!(G.flags&&G.flags.FAMILY_LAND_Y1);
+  const LAND_Y3=[ {scene:'臺北・家裡的客廳',bg:'home_living_cny'},
+    {if:{custom:L1},speaker:null,text:'（大年初一。客廳的桌上擺著年糕和瓜子。大伯又從公事包裡拿出一疊影印的謄本。）'},
+    {unless:{custom:L1},speaker:null,text:'（大年初一。客廳的桌上擺著年糕和瓜子。大伯從公事包裡拿出一疊影印的謄本。）'},
+    {speaker:'大伯',text:'{name}，那塊地，十四個人變十六個了。'},
+    {unless:{custom:L1},speaker:'大伯',text:'你阿公留下來的那塊地。'},
+    {speaker:null,text:'（你翻開謄本。這次看得懂了。）'},
+    {speaker:null,text:'（你看得懂了。共有、分割、找不到的繼承人。）'},
+    {speaker:null,text:'（可是你也看得懂，卡住的不是法律。）'},
+    {speaker:null,text:'（是十六個人，十年沒有坐在同一張桌子上。）'},
+    {choice:[{text:'「大伯，我幫你們找一個律師，先把大家約出來。」',set:{FAMILY_LAND_Y3:'lawyer'},goto:'l3_lawyer'},
+      {text:'「這個要先把繼承人找齊。我先列一張，再請代書確認。」',set:{FAMILY_LAND_Y3:'list'},goto:'l3_list'},
+      {text:'「大伯，你們要不要先吃一頓飯？」',set:{FAMILY_LAND_Y3:'meal'},goto:'l3_meal'}]},   /* 三個都一定出現，不加傾向分數（AA_315 1A-01 第 4 節）*/
+    {label:'l3_lawyer'},{speaker:'大伯',text:'……約得出來的話，十年前就約了。'},{speaker:null,text:'（他停了一下。）'},{speaker:'大伯',text:'好。你找。'},{goto:'l3_end'},
+    {label:'l3_list'},{speaker:'大伯',text:'列一張？'},{speaker:null,text:'（他把謄本推過來。）'},{speaker:'大伯',text:'好。你列。電話我給你。'},{goto:'l3_end'},
+    {label:'l3_meal'},{speaker:null,text:'（全桌笑。）'},{speaker:'大伯',text:'這孩子念法律念到變哲學家。'},{speaker:null,text:'（媽媽在旁邊說：「他說得對啊。」）'},
+    {label:'l3_end'},
+    {scene:'臺北・家裡的陽台',bg:'home_balcony'},
+    {speaker:null,text:'（下午，姊姊在陽台剝橘子。）'},
+    {if:{custom:L1},speaker:'姊姊',text:'大一那年，你翻得到、看不懂。'},{if:{custom:L1},speaker:'姊姊',text:'現在看得懂了。……看得懂，比較累吧。'},
+    {unless:{custom:L1},speaker:'姊姊',text:'你現在看得懂那種東西了喔。'},{unless:{custom:L1},speaker:'姊姊',text:'……看得懂，比較累吧。'} ];
+  const CNY=G=>typeof STORY!=='undefined'&&!!STORY.dayOfKey&&(G.stage||'law')==='law'&&G.day===STORY.dayOfKey('2028-01-26')&&!(G.flags&&G.flags.FAMILY_LAND_Y3);   /* 大三寒假大年初一；三條路線同一天（日本 3/25、美國 8/2 才出發）*/
+  /* 1A-08「大四要怎麼過？」（AA_317 第 2 節）：宿舍版（台灣、美國路線）、在家版（日本路線 8/5 返台那晚）；一定要選；Y4_PATH、Y4_PATH_DAY。
+     台灣、美國路線那晚人在家裡（週末回家）＝只有「（大四，要怎麼過？）」那一句（宿舍那兩句不合）；10/16 再問一次（ev_y4_path_again）也只有那一句 */
+  const PATH_Q=[ {choice:[{text:'「準備國考。律師，可以的話司法官也考。」',set:{Y4_PATH:'bar'},goto:'p_bar'},{text:'「準備研究所。」',set:{Y4_PATH:'grad'},goto:'p_grad'},
+      {text:'「先不考。去實習，或做別的事。」',set:{Y4_PATH:'other'},goto:'p_other'},{text:'「還沒決定。」',set:{Y4_PATH:'undecided'},goto:'p_und'}]},
+    {label:'p_bar'},{speaker:null,text:'（你在桌曆上，把每個禮拜二、四的晚上圈起來。）'},{goto:'p_end'},
+    {label:'p_grad'},{unless:{custom:JP},speaker:null,text:'（你打開系上的網頁，找推甄的簡章。十月報名。）'},{if:{custom:JP},speaker:null,text:'（你查了一下。交換回來要多念一學期，推甄趕不上。筆試在後年二月。）'},{goto:'p_end'},
+    {label:'p_other'},{speaker:null,text:'（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）'},{goto:'p_end'},
+    {label:'p_und'},{speaker:null,text:'（你把四個選項寫在便利貼上，貼在檯燈旁邊。）'},
+    {label:'p_end'} ];
+  const homeBg=G=>JP(G)||atHome(G);
+  const PATH=[ {if:{custom:homeBg},scene:'臺北・你的房間',bg:'home_room_night'},
+    {if:{custom:G=>!homeBg(G)},speaker:null,text:'（最後一科考完。宿舍很安靜，隔壁在收行李。）'},{if:{custom:G=>!homeBg(G)},speaker:null,text:'（你在書桌前坐了很久。）'},
+    {if:{custom:JP},speaker:null,text:'（日本的行李還沒拆完。客廳傳來電視的聲音。）'},{if:{custom:JP},speaker:null,text:'（一個月以後就大四了。）'},
+    {speaker:null,text:'（大四，要怎麼過？）'} ].concat(PATH_Q);
+  const PATH_AGAIN=[ {if:{custom:atHome},scene:'臺北・你的房間',bg:'home_room_night'},{speaker:null,text:'（大四，要怎麼過？）'} ].concat(PATH_Q);
+  /* 1A-10 R1「時差」（AA_318 第 2 節＋e75ebc69 芯慈兩句）：每一段要說話的人、被問到的人都 FAMILIAR 以上（不熟的人不到場、句子跳過）；語彤那三句：日本路線對祐廷、台灣路線對以安；
+     台灣路線多「這半年」四選一（只出經歷過的）；子晴晚到（以安、子晴都熟）；芷若那句（芷若、子晴都熟）；芯慈（XINCI_FIRST＝慈 6，AA_326，還沒做＝不出現）。到場的人熟悉度 +1；R1_SEEN 'table' */
+  const XC=G=>!!(G.flags&&G.flags.XINCI_FIRST)&&fam('classmate_xinci')&&fam('heroine_01');
+  const R1=[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
+    {speaker:'zhe',text:'欸，你們回來了。'},
+    {if:{custom:all('heroine_01','yu')},speaker:'heroine_01',text:'阿哲，小語呢？她不是每次都坐你旁邊？'},
+    {if:{custom:all('heroine_01','yu')},speaker:'zhe',text:'她在看電影。一個人。'},
+    {if:{custom:all('heroine_01','yu')},speaker:'heroine_01',text:'……一個人？'},
+    {if:{custom:all('heroine_01','yu')},speaker:'zhe',text:'（很得意）她現在會一個人去看電影了。看完會打給我講劇情。講兩個小時。'},
+    {if:{custom:all('heroine_01','yu')},speaker:'yu',text:'（剛好進門）我聽到我的名字了。（坐到阿哲旁邊）那部超好看，你們都要去看。'},
+    {if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'heroine_03',text:'你曬黑了。'},{if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'player',text:'日本的夏天。'},{if:{custom:G=>JP(G)&&fam('heroine_03')},speaker:'heroine_03',text:'那就是吃太多。'},
+    {if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'妳曬黑了。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_01',text:'日本的夏天。'},{if:{custom:G=>!JP(G)&&fam('heroine_03')&&fam('heroine_01')},speaker:'heroine_03',text:'那就是吃太多。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'語彤，妳上學期都在幹嘛？'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'（從背包拿出一本很厚的筆記）訪問了二十三個老闆。……阿姨是第二十三個。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_01',text:'給我看。'},
+    {if:{custom:all('heroine_01','heroine_03')},speaker:'heroine_03',text:'吃麵先。'},
+    {if:{custom:XC},speaker:null,text:'（芯慈坐到以安旁邊，先開口。）'},{if:{custom:XC},speaker:'classmate_xinci',text:'我跟妳說一部劇。'},{if:{custom:XC},speaker:'heroine_01',text:'……好。妳說。'},
+    {unless:{custom:G=>TW(G)&&fam('yu')},goto:'r1_late'},
+    {speaker:'yu',text:'欸，你一直在臺灣。這半年發生什麼事？'},
+    {choice:[{text:'「語彤每個禮拜四都去市場訪問。我跟過幾次。」',if:{custom:G=>!!G.flags.YT_T1},goto:'r1_yt'},   /* 1B-13 週四的田野（AA_322 YT_T1）*/
+      {text:'「子晴的發表會，最後一關有人打過了。」',if:{custom:G=>!!G.flags.ATTENDED_SHOW},goto:'r1_zq'},   /* 1B-15 Q12（AA_322 ATTENDED_SHOW）*/
+      {text:'「芷若回來半年，九月又去英國了。這次是念研究所。」',if:{custom:()=>fam('heroine_02')},goto:'r1_zr'},
+      {text:'「（先聽大家講）」',goto:'r1_listen'}]},
+    {label:'r1_yt'},{speaker:'heroine_03',text:'……你只會站在旁邊吃東西。'},{goto:'r1_late'},
+    {label:'r1_zq'},{if:{custom:()=>fam('heroine_01')},speaker:'heroine_01',text:'誰？'},{speaker:'player',text:'……她自己講比較好。'},{goto:'r1_late'},
+    {label:'r1_zr'},{speaker:'yu',text:'又？'},{speaker:'zhe',text:'她是去念書，不是去旅行。'},{goto:'r1_late'},
+    {label:'r1_listen'},{speaker:null,text:'（你把筷子拿起來，讓別人先說。）'},
+    {label:'r1_late'},
+    {unless:{custom:all('heroine_04','heroine_01')},goto:'r1_end'},
+    {speaker:null,text:'（長桌還有一個空位。過了半小時，門口有人喘著氣。）'},{advance:0.5},
+    {speaker:'heroine_04',text:'欸不是，我下班了。（坐下，第一句就問以安）日本的貓胖嗎？'},
+    {speaker:'heroine_01',text:'……胖。'},
+    {if:{custom:()=>fam('heroine_02')},speaker:'heroine_04',text:'（低頭看手機）喔對，芷若說英國在下雨。她每次都這樣說。'},
+    {label:'r1_end'},
+    {advance:G=>Math.max(0,21-(G.hour%24))},
+    {speaker:null,text:'（九點。阿姨把最後一盤小菜放在長桌中間，說是送的。）'},
+    {speaker:'zhe',text:'下禮拜四，一樣。'},
+    {set:{R1_SEEN:'table'}},{rel:{zhe:{fam:1}}},
+    {if:{custom:()=>fam('heroine_01')},rel:{heroine_01:{fam:1}}},{if:{custom:()=>fam('yu')},rel:{yu:{fam:1}}},{if:{custom:()=>fam('heroine_03')},rel:{heroine_03:{fam:1}}},
+    {if:{custom:all('heroine_04','heroine_01')},rel:{heroine_04:{fam:1}}},{if:{custom:XC},rel:{classmate_xinci:{fam:1}}} ];
+  /* 1A-12 主線 12 晚上的信封（AA_318 第 2 節）：讀 FAMILY_LAND_Y3（1A-07）；最後夾進舊《民法》 */
+  const ENVELOPE=[ {speaker:null,text:'（晚上，你打開大伯的信封。）'},
+    {if:{flagIs:{FAMILY_LAND_Y3:'lawyer'}},speaker:null,text:'（一張名片。背面是大伯的字：「律師找到了。他說你介紹的，所以算便宜一點。」）'},
+    {if:{flagIs:{FAMILY_LAND_Y3:'list'}},speaker:null,text:'（你大三寒假列的那張繼承人名單。大伯在上面打了十六個勾，最下面寫：「都找到了。」）'},
+    {if:{flagIs:{FAMILY_LAND_Y3:'meal'}},speaker:null,text:'（一張餐廳的訂位單。十六個人。日期是下個月。）'},
+    {unless:{flagIs:{FAMILY_LAND_Y3:['lawyer','list','meal']}},speaker:null,text:'（那塊地最新的謄本。大伯在上面寫了一句：「十六個。慢慢來。」）'},
+    {speaker:null,text:'（你把它放回信封裡，夾進舊《民法》。）'} ];
+  const envDue=G=>typeof STORY!=='undefined'&&!!STORY.gradEnvelopeDue&&STORY.gradEnvelopeDue(G);
+  return [
+    { id:'ev_sister_hotpot', title:'姊姊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:HOTPOT,
+      outingMissed:G=>{ if(typeof PHONE!=='undefined'&&typeof STORY!=='undefined') PHONE.at(G,STORY.dayOfKey('2028-01-12'),19.75,[{th:'p:sister',from:'sister',name:'姊姊',text:'好。那過年見。'}],'y3_sis_hotpot_miss'); } },   /* 答應了沒到：19:45（AA_180 2-7）*/
+    { id:'ev_family_land_y3', title:'親戚的土地資料（二）', participants:[], location:'any', trigger:'home', priority:9, time:[7,18], once:true, background:'dark',
+      prereq:{custom:CNY}, dialogue:LAND_Y3, consequences:{advance:2} },   /* 在家的第一個時段（home3d.js 的寒假選單：起床後第一輪就演）*/
+    { id:'ev_family_land_y3_bed', title:'親戚的土地資料（二）', participants:[], location:'any', trigger:'sleep', priority:9, once:true, background:'dark', sleepCard:['大年初一','臺北的家'],
+      prereq:{custom:G=>CNY(G)&&!(G.events&&G.events.done&&G.events.done.ev_family_land_y3)}, dialogue:LAND_Y3 },   /* 那天白天都不在家：睡著時演（同主線 2 的 _bed）*/
+    { id:'ev_y4_path', title:'大四要怎麼過？', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:PATH, consequences:{stamp:['Y4_PATH_DAY']} },
+    { id:'ev_y4_path_again', title:'大四要怎麼過？', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:PATH_AGAIN },
+    { id:'ev_r1_jetlag', title:'時差', participants:[], location:'any', trigger:'manual', once:true, background:'dark', dialogue:R1 },
+    { id:'ev_grad_envelope', title:'大伯的信封', participants:[], location:'any', trigger:'manual', once:true, background:'blur', dialogue:ENVELOPE },
+    { id:'ev_grad_envelope_bed', title:'大伯的信封', participants:[], location:'any', trigger:'sleep', priority:9, once:true, background:'blur',
+      prereq:{custom:G=>envDue(G)}, dialogue:ENVELOPE } ];   /* 22:00 以後沒回到房間就睡著（例：凌晨 2:30 走回宿舍）：睡著時演 */
+})();
+Array.prototype.push.apply(STORY_EVENTS,Y4_EVENTS);

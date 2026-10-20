@@ -464,7 +464,12 @@ const E3 = (function(){
   E.fitSeatRadius=fitSeatRadius;
   /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
      每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
-  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
+  /* 晚上的太陽陰影（X79，使用者 2026-10-20「校園地圖卡」；BB-C 量到校園 19:30 有 857 個投影子的網格、516 draw calls）：19:12～05:30 太陽在地平線下、亮度 0.25 以下，影子幾乎看不到，
+     陰影貼圖改成 2 秒重畫一次（換區域馬上重畫）——不關 castShadow（關掉會讓全部材質重新編譯，黃昏那一下會頓）；白天照舊每一格畫。網址加 ?nightshadow=full＝每一格都畫（量修改前的數字用）*/
+  E.nightShadowFull=typeof location!=='undefined'&&/[?&]nightshadow=full/.test(location.search||'');
+  E.nightShadow=function(now){ if(!renderer||!renderer.shadowMap.enabled) return; const hh=(((E.hour||0)%24)+24)%24, night=!E.nightShadowFull&&(hh>=19.2||hh<5.5);
+    if(!night){ renderer.shadowMap.autoUpdate=true; return; } renderer.shadowMap.autoUpdate=false; if(!(E._shT>0)||now-E._shT>2000||E._shZone!==E.zone){ renderer.shadowMap.needsUpdate=true; E._shT=now; E._shZone=E.zone; } };
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } E.nightShadow(performance.now()); renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;

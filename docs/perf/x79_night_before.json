@@ -1,0 +1,86 @@
+{
+ "wenzhou_mid": {
+  "night": null,
+  "calls": 398,
+  "tris": 649657,
+  "avg": {
+   "calls": 398,
+   "tris": 649657
+  },
+  "shadowCasters": 74,
+  "visibleMeshes": 291,
+  "materials": 280,
+  "renderMs": 9,
+  "noShadow": {
+   "calls": 313,
+   "tris": 486620,
+   "renderMs": 7.7
+  },
+  "shadowMap": 1024,
+  "fps": 1,
+  "secs": 43.0
+ },
+ "gongguan_mrt": {
+  "night": null,
+  "calls": 229,
+  "tris": 358415,
+  "avg": {
+   "calls": 229,
+   "tris": 358415
+  },
+  "shadowCasters": 47,
+  "visibleMeshes": 265,
+  "materials": 257,
+  "renderMs": 6.5,
+  "noShadow": {
+   "calls": 191,
+   "tris": 302043,
+   "renderMs": 4.9
+  },
+  "shadowMap": 1024,
+  "fps": 1,
+  "secs": 39.7
+ },
+ "campus_linze": {
+  "night": null,
+  "calls": 228,
+  "tris": 564683,
+  "avg": {
+   "calls": 228,
+   "tris": 564683
+  },
+  "shadowCasters": 170,
+  "visibleMeshes": 450,
+  "materials": 406,
+  "renderMs": 5.4,
+  "noShadow": {
+   "calls": 124,
+   "tris": 322953,
+   "renderMs": 3.7
+  },
+  "shadowMap": 1024,
+  "fps": 0.6,
+  "secs": 32.0
+ },
+ "campus_avenue": {
+  "night": null,
+  "calls": 377,
+  "tris": 873574,
+  "avg": {
+   "calls": 377,
+   "tris": 873574
+  },
+  "shadowCasters": 181,
+  "visibleMeshes": 498,
+  "materials": 466,
+  "renderMs": 11.2,
+  "noShadow": {
+   "calls": 300,
+   "tris": 622899,
+   "renderMs": 11.3
+  },
+  "shadowMap": 1024,
+  "fps": 1,
+  "secs": 40.2
+ }
+}

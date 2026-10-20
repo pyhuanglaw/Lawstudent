@@ -72,6 +72,20 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
   | `cg_this_time_heroine05` | BCG-39 | 6/2 20:30 學姊的生日（研究室，和學姊交往中）：「……許願要說出來嗎？」之後她閉眼許願那一拍 | 2D 研究室走廊（`ra_lab` 沒有＝`linze_prof_hall`） |
   | `cg_reunion_window_table_<kai／heroine01／heroine02／heroine03／heroine04／heroine05／kexin／peishan>` | CG-10（基底圖＋8 張人物圖層合成） | 1A-20 尾聲 2034-06-03 19:00 兩點半 Café：同一桌的人、前任說完以後；祐廷右手邊＝畢業時的伴侶，沒有＝阿凱 | 兩點半 Café 的 3D（模糊） |
 
+### 1A-06～1A-15（AA_317、AA_318；大三寒假到大四畢業、搬走，2026-10-20）
+沒有圖的照下面的退路，不擋遊玩。
+| 用在哪 | 缺的 | 現在的退路 |
+|---|---|---|
+| 1A-06、1A-07、1A-12 姊姊（宜蓁） | 立繪（AA_12：smile、laugh、thinking） | compact（說話人「姊姊」） |
+| 1A-07、1A-12 大伯、媽媽、爸爸 | 立繪 | compact；爸爸沒有台詞 |
+| 1A-15 麵店阿姨 | 立繪 | compact（麵店工讀才有） |
+| 1A-12 午餐 | 「公館的餐廳」2D 背景（`gongguan_hotpot` 是冬天的火鍋，不合適） | 3D 公館＋字卡「公館的餐廳」 |
+| 1A-12 校級典禮 | `ntu_gym_ceremony` 的畢業典禮版（現在的是開學典禮那張） | 先用開學典禮那張 |
+| 1A-12 家人、學士服 | 3D 家人（路人底模改色，AA_12 寫需開發組評估）、祐廷的 3D 學士服 | 2D 背景＋旁白，不顯示 3D |
+| 1A-15 公館的套房（SCN-V5-01，AA_175） | 3D 房間（或 2D 背景） | 2D `home_room_night`＋字卡「公館的套房」 |
+| 1A-09 美國路線返台 | 2D 桃園機場入境大廳 | 深色底 |
+| 1A-09、1A-11 大三的新東西（志願表、塑膠袋、謄本、鑰匙圈、明信片、製作名單、田野筆記） | 3D 小物件 | 只有旁白（同 1A-03） |
+
 ### 3D
 - **玩家正式模型**：目前用 Seed-san（VirtualCast, Inc.；VRM Public License 1.0，須標示出處）改色版：黑短髮、墨綠 T-shirt、炭灰長褲；**赤腳、褲長七分、胸口有原貼圖徽章**。要一個「有球鞋、後背包」的台灣大學生男性 VRM。RPM 範例（棕西裝光頭）已降級為 `TEMP_PLAYER_DEV_MODEL`，只在 VRM 載入失敗時出現。
 - 五位女主角的 3D VRM（依 Character Bible）：目前只有小安用 three-vrm 範例（白 T 黑短褲，與 2D 不一致）；其餘四位是程序化 placeholder。

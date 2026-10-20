@@ -20365,7 +20365,7 @@
    "title": "8/30 開車載可昕搬去政大宿舍（E37）沒有出現",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -20379,7 +20379,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「幫語昕搬進宿舍的功能也沒有」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【BB-C 第二批】經濟系→法律系的存檔 8/30 E37 有演（睡到傍晚，18:00 演）；使用者 _stuck 是 8/30 18:01 宿舍 bedScene 選單卡住——查睡覺選單和 18:00 那場撞在一起；法律系開局的新局沒有 E37（story3d.js 約 1385 行 S.isEcon(G)||PLAYED_Y0）：AA_303 第 2 節有「法律系 8/30」台詞的話接 ｜ 【13:4x 使用者確認是可昕】線索：使用者存檔的卡住紀錄 8/30（day −17）18:01 宿舍、bedScene 的選單沒結束（2026-10-19 13:44 v9.10.2）——睡覺選單和 8/30 14:00 出發提示／14:15 電話（e37CallDue）可能撞在一起；BB 經濟系 nophone 實玩走到 8/30 重現中 ｜ 查：8/28 21:00 私訊「我明天坐高鐵上去。後天你載我搬宿舍。」有沒有到、8/30 14:00 出發選單、14:15 電話（S.e37CallDue）——8/29 轉法律系以後還在不在；flow_v0_home 停在 8/29，接著走到 8/30"
+   "next": "【LAWWW-C 18:2x】②法律系開局的 8/30 做好（AA-C bcb678e0）：8/29 21:30 可昕兩則（回覆「好。兩點。」）、8/30「臺北的家（載可昕上山）14:00」從宿舍出發（捷運約 30 分鐘）、14:15 電話、ev_y0_e37 一字不改＋最後「（你把車開回家，再搭捷運回宿舍。）」、19:00 回宿舍（E37_LAW）；出遊加鬧鐘（alarm：8/29 晚上睡到明天下午、晚上會在 13:00 叫醒；8/30 小睡、跳過時間 13:20 停；經濟系那一版也加）。tests/x81_law_e37_unit.js（修改前 7 項 FAIL，修改後 ALL PASS）、v0_e37_unit 照舊 ALL PASS。待 AA：法律系開局 8/30 早上的 kexinFirstMsg（「去上課吧」）要不要拿掉或移到 9/1。｜BB 驗：從法律系開局新遊戲 → 8/29 晚上收到可昕兩則 → 8/30 13:20 前後出發 → 演完 19:00 在宿舍；另一局 8/29 晚上選睡到明天晚上，13:00 被叫醒 ｜ 【LAWWW-C 2026-10-20 18:1x UTC】查清楚兩件事：①卡住＝使用者 v9.10.2 的 _stuck（8/30 18:01 宿舍、劇情鎖 1 層、bedScene 開的、畫面上沒有選單）：只有 choose() 選完會收起選單——床邊選單還在等的時候被另一段的選單蓋掉、選完收起來，床邊那一段永遠等不到。修法（game3d.js）：被蓋掉的選單先收起來，蓋上去的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho、卡住紀錄多一欄 cover；讀檔、新遊戲清掉。tests/choose_cover_unit.js（v9.10.2 的 choose 第 1b、3a 項 FAIL＝床邊那一段等不到，修改後 ALL PASS）。是誰蓋的還沒找到（靜態查過：所有 tick 都有劇情鎖保護、手機的按鈕都檢查 busy），之後有 cover 欄就看得到。②沒有 8/30 載可昕：使用者那一局是「從法律系開始」（存檔 PLAYED_Y0 沒有、dating_kexin true），E37 只排經濟系路線（S.isEcon||PLAYED_Y0）；經濟系路線有演（BB 驗過）。法律系開局要不要有 8/30、邀約時間地點台詞＝新內容，已問 AA-C（18:1x send_message）。｜BB 驗：8/30 宿舍按床的選單＋同時跳出的另一段（例：手機、出發選單）選完床邊選單會回來，不卡"
   },
   {
    "id": "WELCOME-DATE-1020",
@@ -20568,7 +20568,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「而且吃東西好像只是花錢沒有別的功用怎麼改比較好?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 使用者經 AA 轉述（UA-AA-1020-26）：「不要再問我選擇題、你自己安排一直做下去」】LAWWW 自己定方案，AA 寫台詞 ｜ LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做"
+   "next": "【LAWWW-C 18:5x】AA_329 交了（企劃 c11945d0）：台詞齊了，LAWWW 做程式（排在 1A 事件包合併之後）——①一起吃 ②吃過的 ③店員認得你；測試不要寫死全文 ｜ 【LAWWW-C 18:4x】方案定了，台詞請 AA 寫（見 pausedReason）；台詞到了 LAWWW 做程式、BB 實玩 ｜ 【10-20 使用者經 AA 轉述（UA-AA-1020-26）：「不要再問我選擇題、你自己安排一直做下去」】LAWWW 自己定方案，AA 寫台詞 ｜ LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做"
   },
   {
    "id": "LANE118-ENC-1020",
@@ -20631,7 +20631,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能"
+   "next": "【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能"
   },
   {
    "id": "BUG-GYM-STAIRS-1020",
@@ -21093,9 +21093,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1A06-08-1020",
    "title": "1A-06～08 主線 7 姊姊（1/12 公館火鍋，選項②讀 careerLean）、主線 9 土地資料（二）（1/26）、1A-08",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "AA_317（361e1df8）（AA-C；使用者 10-20 15:4x B 線「直接依其 1A → 1B → 1C 波次實施」）",
-   "next": "照 AA_317 實作；1A-04、05 之後",
+   "next": "【LAWWW-C 19:1x UTC】併進開發分支（子代理 2d9baec4：story3d.js 1A-06～15 一段＋hooks、events.js Y4_EVENTS、home3d.js、exchange3d.js 美國回臺、zones3d.js 409、phone3d.js「姊姊」）；單元測試 sister_hotpot、land_data2、y4_path、room_y4、jetlag、grad_family、move_out_y4（在 632e21ad 上都 FAIL）＋全部單元測試只有 bg_images_unit；已問 AA 程式補的字與 TESTER／PLAYTESTED、JOB_NOODLE、XINCI_FIRST、第 16 週；BB 驗 AA_317／318 的驗收情境 ｜ 照 AA_317 實作；1A-04、05 之後",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -21114,9 +21114,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1A09-15-1020",
    "title": "1A-09～12、1A-15 第四個房間（美國路線 12/23）、R1 時差、收拾（BOX_KEPT_Y4）…",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "AA_318（9a9ebba2）（AA-C；使用者 10-20 15:4x B 線「直接依其 1A → 1B → 1C 波次實施」）",
-   "next": "照 AA_318 實作；1A-06～08 之後",
+   "next": "【LAWWW-C 19:1x UTC】併進開發分支（子代理 2d9baec4：story3d.js 1A-06～15 一段＋hooks、events.js Y4_EVENTS、home3d.js、exchange3d.js 美國回臺、zones3d.js 409、phone3d.js「姊姊」）；單元測試 sister_hotpot、land_data2、y4_path、room_y4、jetlag、grad_family、move_out_y4（在 632e21ad 上都 FAIL）＋全部單元測試只有 bg_images_unit；已問 AA 程式補的字與 TESTER／PLAYTESTED、JOB_NOODLE、XINCI_FIRST、第 16 週；BB 驗 AA_317／318 的驗收情境 ｜ 照 AA_318 實作；1A-06～08 之後",
    "first": {
     "term": "Y3S2",
     "week": null,
@@ -21386,6 +21386,62 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
+   }
+  },
+  {
+   "id": "SKYBRIDGE-DOOR-1020",
+   "title": "博雅→普通的空橋：通道上還有一扇很醜的門（跟現實不符）；走到普通後被擋住、到不了一樓或二樓其他地方",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "博雅、普通教學館（大一上通識）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 直接對 LAWWW2-C：「博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方」「連通道可以走 只是要經過一個門 跟現實不符」（LAWWW2-C 17:38 轉 LAWWW-C）",
+   "authorized": "使用者直接指示（10-20）",
+   "next": "【LAWWW-C 18:3x】LAWWW2-C c77e68a2 接進開發分支（GLB＋teach3d.js patch，buildLinkView 加 try）；下一步 BB 實玩 flow_skybridge（C0 通道沒有門板、C2 落在空橋鏡頭看得到人、D1 普通二樓東邊、D2 下到一樓大廳）＋看博雅二樓往南的空橋 ｜ 【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話（經 LAWWW2-C）",
+    "acceptance": "博雅、普通室內 GLB（通道沒有門板）＋skybridge.glb 單面天花板＋teach3d.js patch；flow_skybridge.py 在修改前 FAIL、修改後 PASS",
+    "ack": "ACTIONED"
+   }
+  },
+  {
+   "id": "GG-STREETVIEW-1020",
+   "title": "從學校看出去的公館、校外建築很醜，沒有 3D 遊戲的感覺；公館的店面（照片：羅斯福路直立招牌、捷運出口、水源市場藍色大樓、天橋）",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "校園西側（看得到羅斯福路、公館）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 直接對 LAWWW2-C：「從學校去看公館或者外面的建筑都超級丑的完全沒有那種三d游戲的感覺公館的店面」＋4 張照片（LAWWW2-C 17:38 轉 LAWWW-C）；和 X16（10-18 公館店面從外面看都很醜）同一件事的延伸",
+   "authorized": "使用者直接指示（10-20）",
+   "next": "【LAWWW2-C 17:38】B10 店面翻修原本暫停，使用者直接點名公館＝開工（溫州街不動；店名 D77 諧音，照片不進 repo）；做「羅斯福路街廓」GLB（校園背景用、走不到）換掉 zones3d.js campusBackdrop 的 TK.bgCity 公館那一段（x=-189 第一排 z -88～152、轉角；公館 (gx,gz)→校園 (x=-170-gz, z=gx)）。LAWWW 接：放進 campusBackdrop、拿掉那幾筆 city；不投影、合併材質（X79 校園 draw call）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話＋照片（經 LAWWW2-C）",
+    "acceptance": "羅斯福路街廓 GLB（校園座標或附換算）、draw call、三角形數、不投影；校園西側同角度修改前後截圖",
+    "ack": "ACK"
    }
   }
  ]

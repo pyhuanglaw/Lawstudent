@@ -1,0 +1,138 @@
+{
+ "wenzhou_mid": {
+  "night": {
+   "refresh": {
+    "calls": 452,
+    "tris": 801587,
+    "renderMs": 65.2
+   },
+   "normal": {
+    "calls": 367,
+    "tris": 638550,
+    "renderMs": 7
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": false
+  },
+  "calls": 452,
+  "tris": 801587,
+  "avg": {
+   "calls": 395,
+   "tris": 692896
+  },
+  "shadowCasters": 74,
+  "visibleMeshes": 333,
+  "materials": 316,
+  "renderMs": 12.3,
+  "noShadow": {
+   "calls": 367,
+   "tris": 638550,
+   "renderMs": 10.5
+  },
+  "shadowMap": 1024,
+  "fps": 0.9,
+  "secs": 36.7
+ },
+ "gongguan_mrt": {
+  "night": {
+   "refresh": {
+    "calls": 211,
+    "tris": 310965,
+    "renderMs": 40.2
+   },
+   "normal": {
+    "calls": 173,
+    "tris": 254593,
+    "renderMs": 7.2
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": false
+  },
+  "calls": 211,
+  "tris": 310965,
+  "avg": {
+   "calls": 179,
+   "tris": 263988
+  },
+  "shadowCasters": 47,
+  "visibleMeshes": 251,
+  "materials": 239,
+  "renderMs": 6.2,
+  "noShadow": {
+   "calls": 173,
+   "tris": 254593,
+   "renderMs": 4.4
+  },
+  "shadowMap": 1024,
+  "fps": 1.3,
+  "secs": 62.2
+ },
+ "campus_linze": {
+  "night": {
+   "refresh": {
+    "calls": 228,
+    "tris": 564683,
+    "renderMs": 18.5
+   },
+   "normal": {
+    "calls": 124,
+    "tris": 322953,
+    "renderMs": 4.8
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": false
+  },
+  "calls": 124,
+  "tris": 322953,
+  "avg": {
+   "calls": 141,
+   "tris": 363241
+  },
+  "shadowCasters": 170,
+  "visibleMeshes": 450,
+  "materials": 406,
+  "renderMs": 4,
+  "noShadow": {
+   "calls": 124,
+   "tris": 322953,
+   "renderMs": 4
+  },
+  "shadowMap": 1024,
+  "fps": 1.7,
+  "secs": 26.0
+ },
+ "campus_avenue": {
+  "night": {
+   "refresh": {
+    "calls": 379,
+    "tris": 875210,
+    "renderMs": 36.1
+   },
+   "normal": {
+    "calls": 302,
+    "tris": 624535,
+    "renderMs": 6.4
+   },
+   "refreshEverySec": 2,
+   "autoUpdate": false
+  },
+  "calls": 302,
+  "tris": 624535,
+  "avg": {
+   "calls": 328,
+   "tris": 708093
+  },
+  "shadowCasters": 181,
+  "visibleMeshes": 499,
+  "materials": 448,
+  "renderMs": 7.3,
+  "noShadow": {
+   "calls": 302,
+   "tris": 624535,
+   "renderMs": 7.2
+  },
+  "shadowMap": 1024,
+  "fps": 0.6,
+  "secs": 37.1
+ }
+}
