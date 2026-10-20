@@ -12,7 +12,7 @@ import json, math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE); sys.path.insert(0, os.path.join(HERE, '..'))
 import lane118_shops as K   # noqa: E402  共用零件（桌椅、日光燈、盆栽、飲水機…）
-from lane118_shops import L, B, Mesh, CMesh, g2b, bpy, uvquad, img_mat, rot, rbox, ccyl, csph, clathe, table_set, tubes, plant, water_station, cups_stack, counter, navcheck, chair   # noqa: E402
+from lane118_shops import L, B, Mesh, CMesh, g2b, bpy, uvquad, img_mat, rot, rbox, ccyl, csph, clathe, table_set, tubes, plant, water_station, cups_stack, counter, navcheck, chair, auto_ap   # noqa: E402
 from PIL import Image, ImageDraw, ImageFont, ImageFilter   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
@@ -112,20 +112,27 @@ def pq(c, side, a0, a1, y0, y1, key, inset=0.015):
     uvquad(m, pts, uv(key))
 
 
-def picnic(c, cx, cz, Lx=1.9, wood='#b08a5e', frame='#3f4a52'):
-    """野餐桌式的長桌：木頭桌面＋兩側連在一起的長椅（一體的鐵框：A 字腳＋兩根橫桿撐住長椅）；兩側各坐三個人"""
+def picnic(c, cx, cz, Lx=1.9, wood='#b08a5e', frame='#3f4a52', along='x'):
+    """野餐桌式的長桌：木頭桌面＋兩側連在一起的長椅（一體的鐵框：A 字腳＋兩根橫桿撐住長椅）；兩側各坐三個人。
+    along＝桌子長邊的方向（'x'：窗下那一排；'z'：沿著西牆）。使用者 10-20：「霖澤館長椅都是靠窗的靠牆的」"""
     tw, bd, bz = 0.8, 0.3, 0.6                     # 桌面深、長椅深、長椅中心離桌子中心
-    c.wood.rbox(cx - Lx / 2, cx + Lx / 2, 0.72, 0.76, cz - tw / 2, cz + tw / 2, r=0.01, seg=2)
-    for s in (-1, 1): c.wood.rbox(cx - Lx / 2 + 0.05, cx + Lx / 2 - 0.05, 0.42, 0.46, cz + s * bz - bd / 2, cz + s * bz + bd / 2, r=0.01, seg=2)
-    for x in (cx - Lx / 2 + 0.25, cx + Lx / 2 - 0.25):
-        for s in (-1, 1): ccyl(c.vm, (x, 0.0, cz + s * 0.78), (x, 0.72, cz + s * 0.12), 0.022, frame, seg=8)   # A 字腳
-        c.vm.cbox(x - 0.025, x + 0.025, 0.38, 0.42, cz - 0.82, cz + 0.82, frame)                                 # 撐長椅的橫桿
-        c.vm.cbox(x - 0.025, x + 0.025, 0.68, 0.72, cz - tw / 2 + 0.05, cz + tw / 2 - 0.05, frame)
-    c.vm.cbox(cx - Lx / 2 + 0.25, cx + Lx / 2 - 0.25, 0.25, 0.29, cz - 0.02, cz + 0.02, frame)                  # 中間的長桿
-    c.block(cx - Lx / 2 - 0.03, cx + Lx / 2 + 0.03, cz - bz - bd / 2 - 0.02, cz + bz + bd / 2 + 0.02, 'picnic_table')
-    for s in (-1, 1):
+    yaw = 0.0 if along == 'x' else PI / 2; T = rot(cx, cz, yaw)   # 本地座標：lx＝長邊、lz＝短邊
+    def B_(m, lx0, lx1, y0, y1, lz0, lz1, col=None, r=0.0):
+        (ax, az), (bx, bz_) = T(lx0, lz0), T(lx1, lz1); x0, x1, z0, z1 = min(ax, bx), max(ax, bx), min(az, bz_), max(az, bz_)
+        if col is None: m.rbox(x0, x1, y0, y1, z0, z1, r=r, seg=2) if r else m.box(x0, x1, y0, y1, z0, z1)
+        else: m.cbox(x0, x1, y0, y1, z0, z1, col)
+    B_(c.wood, -Lx / 2, Lx / 2, 0.72, 0.76, -tw / 2, tw / 2, r=0.01)
+    for s_ in (-1, 1): B_(c.wood, -Lx / 2 + 0.05, Lx / 2 - 0.05, 0.42, 0.46, s_ * bz - bd / 2, s_ * bz + bd / 2, r=0.01)
+    for lx in (-Lx / 2 + 0.25, Lx / 2 - 0.25):
+        for s_ in (-1, 1): a_, b_ = T(lx, s_ * 0.78), T(lx, s_ * 0.12); ccyl(c.vm, (a_[0], 0.0, a_[1]), (b_[0], 0.72, b_[1]), 0.022, frame, seg=8)   # A 字腳
+        B_(c.vm, lx - 0.025, lx + 0.025, 0.38, 0.42, -0.82, 0.82, frame)                                                                       # 撐長椅的橫桿
+        B_(c.vm, lx - 0.025, lx + 0.025, 0.68, 0.72, -tw / 2 + 0.05, tw / 2 - 0.05, frame)
+    B_(c.vm, -Lx / 2 + 0.25, Lx / 2 - 0.25, 0.25, 0.29, -0.02, 0.02, frame)                                                                    # 中間的長桿
+    (ax, az), (bx, bz_) = T(-Lx / 2 - 0.03, -bz - bd / 2 - 0.02), T(Lx / 2 + 0.03, bz + bd / 2 + 0.02)
+    c.block(min(ax, bx), max(ax, bx), min(az, bz_), max(az, bz_), 'picnic_table')
+    for s_ in (-1, 1):
         for k in (-1, 0, 1):
-            x = cx + k * 0.6; z = cz + s * bz; c.seat(x, z, PI if s > 0 else 0.0, (cx, cz), 'eat', label='坐長椅')
+            x, z = T(k * 0.6, s_ * bz); c.seat(x, z, yaw + (PI if s_ > 0 else 0.0), (cx, cz), 'eat', label='坐長椅')
 
 
 def whiteboard(c, x, z, key, yaw=0.0):
@@ -219,7 +226,7 @@ def shell(c):
             c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
     # 出入口：電梯、樓梯間
     c.spawn = dict(x=round((dx0 + dx1) / 2, 3), z=round(ez0 - 1.7, 3), yaw=PI, note='出電梯，面向走廊（北）；離電梯的按鈕 1 m（不會一出來就站在「電梯」上）')
-    c.spawn_stair = dict(x=7.0, z=round(Z0 + 0.9, 3), yaw=0.0, note='從樓梯間進來，面向南')
+    c.spawn_stair = dict(x=7.0, z=round(Z0 + 1.5, 3), yaw=0.0, note='從樓梯間進來，面向南；離樓梯間的門 1.5 m（不會一上來就站在「走樓梯」上）')
     c.exits = []
     c.block(X0, X1, Z1 - 0.32, Z1, 'window_sill')                                                          # 窗台（1.3 m 高、往內凸 30 cm）：走到窗邊不會穿過去
     c.look('elevator', round((dx0 + dx1) / 2, 3), round(ez0 - 0.7, 3), 0.8, '電梯', '電梯（LAWWW 接：樓層照 elevator.floors）')
@@ -245,14 +252,15 @@ def finish_floor(c):
     efl = [dict(label='1F 大廳', zone='linze', lv=0, open=True), dict(label='2F 201、202 教室', zone='linze', lv=1, open=True),
            dict(label='3F 討論區、301、302', zone='linze_3f', open=True), dict(label='4F 自習討論區、401、402', zone='linze_4f', open=True),
            dict(label='5F–8F 研究室（教職員）', open=False, closed='研究室樓層。電梯要刷教職員證才會停。')]
-    stairs = dict(door=dict(x=7.0, z=c.Z0, w=1.0), spawn=c.spawn_stair, down=dict(label='走樓梯下樓（' + FD['down'].upper() + '）', to='linze' if FD['down'] == '2f' else 'linze_' + FD['down'], note='2F：linze 第 1 層、樓梯間的門（stairs3f，x 7.0）' if FD['down'] == '2f' else '下一層的 spawn_stair'),
+    stairs = dict(door=dict(x=7.0, z=c.Z0, w=1.0), spawn=c.spawn_stair, down=dict(label='走樓梯下樓（' + FD['down'].upper() + '）', to='linze' if FD['down'] == '2f' else 'linze_' + FD['down'], spawn=dict(x=7.0, z=-4.7, lv=1, yaw=0.0) if FD['down'] == '2f' else None, note='2F：linze 第 1 層，迴廊上、樓梯間的門（stairs3f）前面 1.5 m' if FD['down'] == '2f' else '下一層的 spawn_stair'),
                   up=(dict(label='走樓梯上樓（' + FD['up'].upper() + '）', to='linze_' + FD['up'], note='上一層的 spawn_stair') if FD['up'] else dict(label='往 5F 以上', closed='5 樓以上是研究室，樓梯間的門要刷教職員證。')))
     lay = dict(version=1, zone=c.sid, name=FD['name'], label=FD['label'], src='使用者 10-20（X73、X74）；LINZE-34F-TABLES-1020、LINZE-WANCAI-FLOORS-1020',
                bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=4.4, coords='和 linze_layout.js 同一套（x、z），每層自己的地板 y＝0',
                spawn=c.spawn, elevator=dict(EL, floors=efl, note='位置和 linze_layout.js 的 elevator 相同；樓層清單取代原本的「整修中」'),
                stairs=stairs, doors=c.doors, windows=c.wins, exits=c.exits, seats=c.seats, interact=c.inter, blocks=c.blocks, order=None)
+    auto_ap(c, dict(lay, spawn=c.spawn_stair))
     prob = navcheck(c, dict(lay, spawn=c.spawn)); prob += [p + '（從樓梯間進來）' for p in navcheck(c, dict(lay, spawn=c.spawn_stair)) if p not in prob]
-    lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob)
+    lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s_ in lay['seats'] if s_.get('ap')))
     L.write_json(os.path.join(OUTDIR, f'{c.sid}.layout.json'), lay)
     L.write_json(out[:-4] + '.json', dict(st if isinstance(st, dict) else {}, tris_total=tris, layout=f'{c.sid}.layout.json', seats=len(c.seats)))
     print(json.dumps({'floor': c.sid, 'tris': tris, 'seats': len(c.seats), 'problems': prob}, ensure_ascii=False))
@@ -260,31 +268,36 @@ def finish_floor(c):
 
 
 def build_3f(c):
-    """3F 討論區：兩排野餐桌（六張、三十六個位子），西牆的微波爐台＋飲水機＋回收桶、東南角販賣機兩台、公告欄、使用須知"""
+    """3F 討論區（使用者 10-20：「霖澤館長椅都是靠窗的靠牆的」）：南窗下一排四張野餐桌（一張對一扇窗）、西牆兩張（沿著牆）；
+    中間空出來走路。東牆：販賣機兩台、微波爐台、飲水機、回收桶；西牆使用須知、北牆走廊公告欄"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1
     shell(c)
-    for cx in (-5.4, -1.8, 1.8):
-        for cz in (0.6, 3.8): picnic(c, cx, cz)
-    picnic(c, 5.6, 3.8)
-    # 西牆：微波爐台（兩台）、飲水機、回收桶
-    counter(c, X0, X0 + 0.6, -2.6, -1.0, h=0.9, top='wood', front='#d9d6cf', why='microwave_counter')
-    c.vc.crbox(X0 + 0.08, X0 + 0.5, 0.9, 1.2, -2.45, -1.95, '#ecebe6', r=0.015, seg=1); c.vc.crbox(X0 + 0.08, X0 + 0.5, 0.9, 1.2, -1.7, -1.2, '#ecebe6', r=0.015, seg=1)   # 微波爐（門朝東）
-    for (za, zb) in ((-2.42, -2.1), (-1.67, -1.35)): c.vc.cbox(X0 + 0.5, X0 + 0.504, 0.94, 1.16, za, zb, '#202428'); c.fridgel.box(X0 + 0.5, X0 + 0.504, 1.12, 1.16, zb + 0.04, zb + 0.12)
-    c.look('microwave', X0 + 1.1, -1.8, 0.9, '微波爐', '熱便當（排隊請自重）；說明文字由 AA 寫')
-    water_station(c, X0 + 0.3, 0.2, face='+z'); cups_stack(c, X0 + 0.3, 1.05, 0.2, 5)
-    c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 1.6, 2.0, '#5a5a5a', r=0.03, seg=1); c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 2.06, 2.46, '#2f6fb0', r=0.03, seg=1); c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 2.52, 2.92, '#3b8f4a', r=0.03, seg=1)
-    for (z0_, key) in ((1.6, 'BIN1'), (2.06, 'BIN2'), (2.52, 'BIN3')): uvquad(c.prt, [(X0 + 0.452, 0.5, z0_ + 0.03), (X0 + 0.452, 0.5, z0_ + 0.37), (X0 + 0.452, 0.64, z0_ + 0.37), (X0 + 0.452, 0.64, z0_ + 0.03)], uv(key))
-    c.block(X0, X0 + 0.48, 1.58, 2.94, 'bins')
-    c.look('bins', X0 + 1.0, 2.25, 0.8, '回收桶', '垃圾分類：一般垃圾、資源回收、廚餘')
-    # 東南角：販賣機兩台（背靠東牆）
-    for (z0_, col) in ((0.6, '#c8322a'), (1.45, '#2f6fb0')): vend_x(c, X1, z0_, z0_ + 0.8, col)
-    c.look('vending', X1 - 1.2, 1.25, 0.9, '販賣機', '飲料（說明文字由 AA 寫）')
-    # 牆：使用須知（西牆）、公告欄（北牆走廊）
-    K.frame_board(c, 'W', -0.5, 0.6, 1.3, 2.05, '#3a5c4a'); pq(c, 'W', -0.5, 0.6, 1.3, 2.05, 'RULES', inset=0.014)
+    for cx in c.wins['xs']: picnic(c, cx, Z1 - 1.2)                                                   # 靠窗：外側那條長椅背對窗台
+    for cz in (-0.75, 2.75): picnic(c, X0 + 1.1, cz, along='z')                                        # 靠牆：西牆那條長椅背對牆（兩張中間留 1.4 m，裡面那兩個位子走得進去）
+    # 東牆（北段）：微波爐台、飲水機；販賣機；回收桶
+    counter(c, X1 - 0.6, X1, -2.9, -1.3, h=0.9, top='wood', front='#d9d6cf', why='microwave_counter')
+    for (za, zb) in ((-2.75, -2.25), (-2.0, -1.5)):
+        c.vc.crbox(X1 - 0.5, X1 - 0.08, 0.9, 1.2, za, zb, '#ecebe6', r=0.015, seg=1)                     # 微波爐（門朝西）
+        c.vc.cbox(X1 - 0.504, X1 - 0.5, 0.94, 1.16, za + 0.03, za + 0.35, '#202428'); c.fridgel.box(X1 - 0.504, X1 - 0.5, 1.12, 1.16, za + 0.38, za + 0.46)
+    c.look('microwave', X1 - 1.1, -2.1, 0.9, '微波爐', '熱便當（排隊請自重）；說明文字由 AA 寫')
+    water_station(c, X1 - 0.3, -0.6, face='+z'); cups_stack(c, X1 - 0.3, 1.05, -0.6, 5)
+    for (z0_, col) in ((0.2, '#c8322a'), (1.05, '#2f6fb0')): vend_x(c, X1, z0_, z0_ + 0.8, col)
+    c.look('vending', X1 - 1.2, 1.05, 0.9, '販賣機', '飲料（說明文字由 AA 寫）')
+    bins_e(c, X1, 2.3)
+    c.look('bins', X1 - 1.0, 2.95, 0.8, '回收桶', '垃圾分類：一般垃圾、資源回收、廚餘')
+    K.frame_board(c, 'W', 3.9, 5.0, 1.3, 2.05, '#3a5c4a'); pq(c, 'W', 3.9, 5.0, 1.3, 2.05, 'RULES', inset=0.014)
     K.frame_board(c, 'N', 2.4, 3.6, 1.2, 2.0, '#6a4a30'); pq(c, 'N', 2.4, 3.6, 1.2, 2.0, 'NOTICE', inset=0.014)
     c.look('notice', 3.0, -6.2, 0.9, '公告欄', '讀書會、二手書、系學會（說明文字由 AA 寫）')
-    plant(c, X1 - 0.5, Z1 - 0.6, 1.3); plant(c, X0 + 0.5, Z1 - 0.6, 1.2)
-    K.ac_unit(c, X0, 2.75, 4.5, '+x', w=1.0)
+    plant(c, -0.2, 2.2, 1.3); plant(c, 3.4, 2.2, 1.2)
+    K.ac_unit(c, X0, 2.75, 1.0, '+x', w=1.0)
+
+
+def bins_e(c, xw, z0):
+    """三個回收桶背靠東牆（面向 −x），貼標籤"""
+    for k, (col, key) in enumerate((('#5a5a5a', 'BIN1'), ('#2f6fb0', 'BIN2'), ('#3b8f4a', 'BIN3'))):
+        za = z0 + k * 0.46; c.vc.crbox(xw - 0.45, xw - 0.05, 0.0, 0.78, za, za + 0.4, col, r=0.03, seg=1); c.vc.cbox(xw - 0.42, xw - 0.08, 0.78, 0.8, za + 0.03, za + 0.37, '#2b2b2b')
+        x_ = xw - 0.452; uvquad(c.prt, [(x_, 0.5, za + 0.37), (x_, 0.5, za + 0.03), (x_, 0.64, za + 0.03), (x_, 0.64, za + 0.37)], uv(key))
+    c.block(xw - 0.48, xw, z0 - 0.02, z0 + 1.38, 'bins')
 
 
 def vend_x(c, xw, z0, z1, col):
@@ -305,27 +318,26 @@ def vend_x(c, xw, z0, z1, col):
 
 
 def build_4f(c):
-    """4F 自習討論區：野餐桌四張、南窗下一排窗邊桌＋高腳椅（自習）、兩塊有輪子的白板（討論）、販賣機、飲水機、回收桶、公告欄"""
+    """4F 自習討論區（同上，靠窗、靠牆）：南窗下西半邊兩張野餐桌、東半邊窗邊自習桌＋六張高腳椅；西牆兩張野餐桌；
+    中間兩塊有輪子的白板（討論用）；東牆販賣機、飲水機、回收桶"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1
     shell(c)
-    for (cx, cz) in ((-5.4, 0.4), (-1.8, 0.4), (-5.4, 3.3), (-1.8, 3.3)): picnic(c, cx, cz)
-    # 南窗下的窗邊桌（東半邊）＋高腳椅
+    for cx in c.wins['xs'][:2]: picnic(c, cx, Z1 - 1.2)
+    for cz in (-0.75, 2.75): picnic(c, X0 + 1.1, cz, along='z')
     c.wood.rbox(0.6, X1 - 0.3, 0.98, 1.02, Z1 - 0.62, Z1 - 0.2, r=0.006, seg=1); c.vm.cbox(0.7, X1 - 0.4, 0.0, 0.98, Z1 - 0.26, Z1 - 0.22, '#5a5f63')
     c.block(0.58, X1 - 0.28, Z1 - 0.65, Z1, 'window_desk')
     for x_ in (1.2, 2.2, 3.2, 4.2, 5.2, 6.2): chair(c, x_, Z1 - 0.95, 0.0, 'bar', '#3f4a52'); c.seat(x_, Z1 - 0.95, 0.0, (x_, Z1 - 0.4), 'study', label='坐窗邊（自習）')
-    whiteboard(c, 1.6, 1.4, 'WB', yaw=-PI / 2); whiteboard(c, 1.6, -0.5, 'WB2', yaw=-PI / 2)
-    c.look('whiteboard', 0.8, 0.45, 0.9, '白板', '上面寫著期中考範圍和討論的題目（說明文字由 AA 寫）')
-    water_station(c, X0 + 0.3, -1.2, face='+z'); cups_stack(c, X0 + 0.3, 1.05, -1.2, 5)
-    c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 1.6, 2.0, '#5a5a5a', r=0.03, seg=1); c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 2.06, 2.46, '#2f6fb0', r=0.03, seg=1); c.vc.crbox(X0 + 0.05, X0 + 0.45, 0.0, 0.78, 2.52, 2.92, '#3b8f4a', r=0.03, seg=1)
-    for (z0_, key) in ((1.6, 'BIN1'), (2.06, 'BIN2'), (2.52, 'BIN3')): uvquad(c.prt, [(X0 + 0.452, 0.5, z0_ + 0.03), (X0 + 0.452, 0.5, z0_ + 0.37), (X0 + 0.452, 0.64, z0_ + 0.37), (X0 + 0.452, 0.64, z0_ + 0.03)], uv(key))
-    c.block(X0, X0 + 0.48, 1.58, 2.94, 'bins')
+    whiteboard(c, -2.6, 1.4, 'WB', yaw=-PI / 2); whiteboard(c, -2.6, -0.5, 'WB2', yaw=-PI / 2)
+    c.look('whiteboard', -3.4, 0.45, 0.9, '白板', '上面寫著期中考範圍和討論的題目（說明文字由 AA 寫）')
+    water_station(c, X1 - 0.3, -0.6, face='+z'); cups_stack(c, X1 - 0.3, 1.05, -0.6, 5)
     vend_x(c, X1, 0.2, 1.0, '#3b8f4a')
     c.look('vending', X1 - 1.2, 0.6, 0.9, '販賣機', '飲料（說明文字由 AA 寫）')
-    K.frame_board(c, 'W', -0.4, 0.7, 1.3, 2.05, '#3a5c4a'); pq(c, 'W', -0.4, 0.7, 1.3, 2.05, 'RULES', inset=0.014)
+    bins_e(c, X1, 1.6)
+    K.frame_board(c, 'W', 3.9, 5.0, 1.3, 2.05, '#3a5c4a'); pq(c, 'W', 3.9, 5.0, 1.3, 2.05, 'RULES', inset=0.014)
     K.frame_board(c, 'N', 2.4, 3.6, 1.2, 2.0, '#6a4a30'); pq(c, 'N', 2.4, 3.6, 1.2, 2.0, 'NOTICE', inset=0.014)
     c.look('notice', 3.0, -6.2, 0.9, '公告欄', '讀書會、二手書、系學會（說明文字由 AA 寫）')
-    plant(c, X0 + 0.5, Z1 - 0.6, 1.2); plant(c, 0.2, Z1 - 0.55, 1.1)
-    K.ac_unit(c, X0, 2.75, 4.5, '+x', w=1.0)
+    plant(c, 0.2, Z1 - 0.55, 1.1); plant(c, 1.0, 2.2, 1.2)
+    K.ac_unit(c, X0, 2.75, 1.0, '+x', w=1.0)
 
 
 BUILD = {'3f': build_3f, '4f': build_4f}

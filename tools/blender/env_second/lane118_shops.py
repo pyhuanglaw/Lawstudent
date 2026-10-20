@@ -732,6 +732,19 @@ def banners(c, side, a0, a1, cols):
         m.poly(tri, col); m.poly(tri[::-1], col)                                                    # 兩面（布）
 
 
+def auto_ap(c, lay):
+    """navcheck 走不到的座位：在旁邊找一個走得到的點當 ap（遊戲的 seatApproach 先試 ap；和法學院圖書館方柱後面那張椅子一樣）"""
+    for s in lay['seats']:
+        if s.get('ap'): continue
+        if not navcheck(c, dict(lay, seats=[s])): continue
+        best = None
+        for r in (0.7, 0.85, 1.0, 1.15, 1.3, 1.5):
+            for k in range(16):
+                a = k * PI / 8; x, z = s['x'] + r * math.cos(a), s['z'] + r * math.sin(a)
+                if not navcheck(c, dict(lay, seats=[dict(s, ap=[round(x, 3), round(z, 3)])])): best = (round(x, 3), round(z, 3)); break
+            if best: break
+        if best: s['ap'] = list(best)
+
 # ================= 每一間店 =================
 def build_dian(c):
     """滇香小館（滇緬料理）：深綠瓷磚腰牆＋米色牆、竹編吊燈、織布掛毯；後牆是出菜口＋廚房，櫃台在後面（店員站在櫃台後面）；兩排兩人桌（十個位子）"""
