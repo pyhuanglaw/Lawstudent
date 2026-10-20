@@ -178,6 +178,16 @@ const date=id=>H.date(id);
     check('AA_337 第 7 節 「明天不行。」→ 學姊「好。那蛋糕歸我。」；記 missed；不排 Café、沒有「蛋糕我吃了一半。……」', th('p:heroine_05').slice(-2).join('|')==='明天不行。|好。那蛋糕歸我。'&&H.G.flags.SIS_BDAY_Y3==='missed'&&!OUT.get(H.G,'y3_sis_bday_next')&&!S.bdayCafeDue(Object.assign({},H.G,{zone:'cafe'}))&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。'), JSON.stringify(th('p:heroine_05'))); }
   { late22(); at('2028-06-03',15.1); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y3_sis_bday_late');
     check('AA_337 第 7 節 22:30 那則一直沒回：6/3 15:00 以後不能回（until）、記 missed（暫定：不另外傳）', !!m&&!PHONE.askOpen(H.G,m)&&H.G.flags.SIS_BDAY_Y3==='missed'&&th('p:heroine_05').slice(-1)[0]==='蛋糕留了一半。……明天下午，Café？'); }
+  /* AA_337 第 7 節（AA-C 20:57 改字）：22:30 以後才傳＝隔天 12:10「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）＋「好。」／「今天不行。」 */
+  const late23=()=>{ fresh('2028-06-02',22.7,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-03',12.2); phone();
+    return (H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_sis_bday_late'); };
+  { const m=late23(), d3=D('2028-06-03');
+    check('AA_337 第 7 節 22:30 以後才傳：6/3 12:10「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」＋「好。」「今天不行。」；沒有「抱歉，昨天十點半就睡了。」',
+      th('p:heroine_05').join('|')==='生日快樂|謝謝。昨天十點半就睡了，剛看到。|蛋糕還在冰箱。……今天下午三點，Café？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='好。|今天不行。'&&H.G.flags.SIS_BDAY_Y3==='late_ask'&&H.G.flags.SIS_BDAY_Y3_NEXT===d3, JSON.stringify(th('p:heroine_05')));
+    answer('y3_sis_bday_late',0); phone(); const q=OUT.get(H.G,'y3_sis_bday_next');
+    check('AA_337 第 7 節 22:30 以後才傳「好。」→ 當天 6/3 15:00 兩點半 Café（她不再說「三點。」）', th('p:heroine_05').slice(-1)[0]==='好。'&&!!q&&q.day===d3&&q.h===15&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(th('p:heroine_05').slice(-2))); }
+  { late23(); answer('y3_sis_bday_late',1); phone();
+    check('AA_337 第 7 節 22:30 以後才傳「今天不行。」→「好。那蛋糕歸我。」記 missed、不排 Café', th('p:heroine_05').slice(-2).join('|')==='今天不行。|好。那蛋糕歸我。'&&H.G.flags.SIS_BDAY_Y3==='missed'&&!OUT.get(H.G,'y3_sis_bday_next')); }
   /* AA_337 第 7 節：日本路線、和學姊交往中（人在日本、手機是當地時間）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（當地 19:00）視訊 */
   { fresh('2028-06-02',12,'dorm',{},'JP'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone();
     const t=th('p:heroine_05').join('|'); at('2028-06-02',18.9); const d0=S.bdayVideoDue(H.G); at('2028-06-02',19); const d1=S.bdayVideoDue(H.G), hd=S.homeDue(H.G);

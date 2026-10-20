@@ -152,10 +152,12 @@ const Y34B=(function(){
        「好。」→「三點。」→ 隔天 6/3（六）15:00 Café（next_cafe，SIS_BDAY_Y3_NEXT＝那一天），照「去了」那一場演、記 cafe；「明天不行。」→「好。那蛋糕歸我。」記 missed；
      - 日本路線、人在日本（AA_337 第 7 節）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（日本當地 19:00）視訊（video_set → 演完 video；不排 Café）。
      AA 稿沒寫、暫定（問 AA）：日本路線 17:05 以後才傳（她回的時候視訊的時間已經過了）＝只回第一句、記 missed；22:30 那則一直沒回、答應了 15:00 卻沒到、視訊那天沒演到＝不另外傳，記 missed；
-     22:30 以後才傳（隔天 12:10 才回、前面照 MSG 有她的「抱歉，昨天十點半就睡了。」）＝照 22:30 那一版，Café 排在她回覆的隔天 */
+     22:30 以後才傳（隔天 12:10 才回；AA_337 第 7 節 AA-C 20:57 改字）＝「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）
+       ＋「好。」→ 當天（6/3）15:00 Café、照「去了」那一場、記 cafe；「今天不行。」→「好。那蛋糕歸我。」記 missed */
   S.bdayVer=function(G){ const d=D('bday'); if(d==null||G.day!==d||!law(G)||!met('heroine_05')) return null; if(dating(G,'heroine_05')) return 'dating'; if(exOf(G,'heroine_05')) return 'ex'; return fri('heroine_05')?'friend':false; };
   const BDAY_REPLY={dating:['蛋糕我買了。……一個人吃很奇怪。','六點，兩點半 Café。你點什麼都可以。'],ex:['謝謝。'],friend:['謝謝。研究室的人買了一個小蛋糕。'],
     late:['謝謝。今天研究室比較晚。','蛋糕留了一半。……明天下午，Café？'],   /* AA_337 第 7 節：17:05 以後才傳（22:30 回）*/
+    nextDay:['謝謝。昨天十點半就睡了，剛看到。','蛋糕還在冰箱。……今天下午三點，Café？'],   /* AA_337 第 7 節（AA-C 20:57）：22:30 以後才傳（隔天 12:10 回）*/
     jp:['蛋糕我買了。……一個人吃很奇怪。','你那邊七點吧。視訊，十分鐘。'],   /* AA_337 第 7 節：日本路線、人在日本 */
     jpLate:['蛋糕我買了。……一個人吃很奇怪。'],   /* 暫定（AA 稿沒寫）：日本路線、她回的時候視訊的時間已經過了 */
     missed:['蛋糕我吃了一半。另一半在冰箱，明天還算生日。'] };   /* 約了六點、沒去（21:00，S.bdayPhone）*/
@@ -164,21 +166,24 @@ const Y34B=(function(){
   const inJP=G=>JP(G)&&!!(STORY.abroad&&STORY.abroad(G));   /* 人在日本（3/25～8/5）：手機的時間是當地時間（台灣＋1）*/
   const bdayCut=G=>{ const d=D('bday'); return T(d,inJP(G)?tzH(G,d,18):18); };   /* 六點的 Café／台灣 18:00 的視訊（人在日本＝當地 19:00）*/
   const bdayLate=G=>{ const a=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,'heroine_05'):null; return !!a&&T(a.day,a.h)>=bdayCut(G); };
-  S.bdayKey=G=>inJP(G)?(bdayLate(G)?'jpLate':'jp'):(bdayLate(G)?'late':'dating');   /* 交往中的哪一版（BDAY_REPLY 的鍵）*/
+  const bdayNext=G=>{ const a=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,'heroine_05'):null, d=D('bday'); return !!a&&d!=null&&a.day>d; };   /* 她隔天才回（22:30 以後才傳）*/
+  S.bdayKey=G=>inJP(G)?(bdayLate(G)?'jpLate':'jp'):(bdayNext(G)?'nextDay':bdayLate(G)?'late':'dating');   /* 交往中的哪一版（BDAY_REPLY 的鍵）*/
   /* 22:30 那一版的選項：掛在 MSG 剛排進手機佇列的最後一則（MSG-2 的回問選項沒有 set、until，這裡自己掛）*/
-  const lateAsk=(G,nd)=>{ const P=P_(); if(!P||!P.rec) return false; const Q=P.rec(G).q||[];
-    for(let i=Q.length-1;i>=0;i--){ const it=(Q[i].items||[]).find(x=>x&&x.th==='p:heroine_05'&&x.text===LATE_ASK&&!x.ask); if(!it) continue;
-      it.ask={id:'y3_sis_bday_late',until:T(nd,15),opts:[{t:'好。',set:{SIS_BDAY_Y3:'next_cafe'},say:[{from:'heroine_05',text:'三點。'}]},{t:'明天不行。',set:{SIS_BDAY_Y3:'missed'},say:[{from:'heroine_05',text:'好。那蛋糕歸我。'}]}]}; return true; }
+  const lateAsk=(G,nd,ver)=>{ const P=P_(); if(!P||!P.rec) return false; const Q=P.rec(G).q||[], nx=ver==='next', txt=nx?BDAY_REPLY.nextDay[1]:LATE_ASK;
+    for(let i=Q.length-1;i>=0;i--){ const it=(Q[i].items||[]).find(x=>x&&x.th==='p:heroine_05'&&x.text===txt&&!x.ask); if(!it) continue;
+      it.ask={id:'y3_sis_bday_late',until:T(nd,15),opts:nx?[{t:'好。',set:{SIS_BDAY_Y3:'next_cafe'}},{t:'今天不行。',set:{SIS_BDAY_Y3:'missed'},say:[{from:'heroine_05',text:'好。那蛋糕歸我。'}]}]
+        :[{t:'好。',set:{SIS_BDAY_Y3:'next_cafe'},say:[{from:'heroine_05',text:'三點。'}]},{t:'明天不行。',set:{SIS_BDAY_Y3:'missed'},say:[{from:'heroine_05',text:'好。那蛋糕歸我。'}]}]}; return true; }
     return false; };
   if(typeof MSG!=='undefined'&&MSG.pick2&&MSG.send){ const pick0=MSG.pick2, send0=MSG.send;
     MSG.pick2=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null; if(v==null) return pick0.apply(this,arguments); if(!v) return null; const k=v==='dating'?S.bdayKey(G):v;
-      return {e:{topic:'bday',tier:v,msgs:BDAY_REPLY[k].slice(),tags:[],src:k==='late'||k==='jp'?'AA_337 第 7 節':'AA_322 1B-17'},act:null}; };
+      return {e:{topic:'bday',tier:v,msgs:BDAY_REPLY[k].slice(),tags:[],src:k==='late'||k==='jp'||k==='nextDay'?'AA_337 第 7 節':'AA_322 1B-17',noWake:k==='nextDay'},act:null}; };   /* noWake：她自己那一句已經說了睡了，MSG 不另外加 wakeLine */
     MSG.send=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null, k=v==='dating'?S.bdayKey(G):null; const r=send0.apply(this,arguments);
       if(v&&r&&r.ok&&G.flags.SIS_BDAY_Y3==null){ const F=G.flags;
         if(v!=='dating') F.SIS_BDAY_Y3='msg';
         else if(k==='dating'){ F.SIS_BDAY_Y3='invited'; F.SIS_BDAY_Y3_AT=T(r.at.day,r.at.h); }
         else if(k==='jp'){ F.SIS_BDAY_Y3='video_set'; F.SIS_BDAY_Y3_AT=T(r.at.day,r.at.h); }
         else if(k==='late'){ F.SIS_BDAY_Y3='late_ask'; F.SIS_BDAY_Y3_NEXT=r.at.day+1; lateAsk(G,F.SIS_BDAY_Y3_NEXT); }
+        else if(k==='nextDay'){ F.SIS_BDAY_Y3='late_ask'; F.SIS_BDAY_Y3_NEXT=r.at.day; lateAsk(G,F.SIS_BDAY_Y3_NEXT,'next'); }   /* 她 6/3 12:10 回：當天 15:00 */
         else F.SIS_BDAY_Y3='missed'; }   /* jpLate */
       return r; }; }
   S.bdayPhone=function(G){ const F=G.flags, d=D('bday'); if(d==null) return; const nd=F.SIS_BDAY_Y3_NEXT;
