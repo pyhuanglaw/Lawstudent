@@ -239,10 +239,10 @@ for it in LAY['items']:
             acc('steel').cyl((x1, 1.0, z1), (x1, 3.1, z0 + 1.6), 0.025, seg=6)
             for j in range(6): t = j / 5; acc('steel').cyl((x1, t * 2.1, z1 - t * (z1 - z0 - 1.6)), (x1, t * 2.1 + 1.0, z1 - t * (z1 - z0 - 1.6)), 0.015, seg=5)
             sx0, sz = x1 + 0.2, z1 + 0.15
-        else:                                                                                           # 往 B1：地上的樓梯井（往 +z 下去）＋欄杆
+        else:                                                                                           # 往 B1：地上的樓梯井（從 z1 的開口往 −z 下去；B1 那一跑是往 +z 上來）＋欄杆
             acc('steel_dk').box(x0, x1, -2.2, -2.1, z0, z1)
             n = 14; run = (z1 - z0) / n
-            for j in range(n): zz = z0 + j * run; X0_.rbox(acc('stone'), x0, x1, -2.2, -(j + 1) * 0.15, zz, zz + run, r=0.01, seg=1)
+            for j in range(n): zz = z1 - (j + 1) * run; X0_.rbox(acc('stone'), x0, x1, -2.2, -(j + 1) * 0.15, zz, zz + run, r=0.01, seg=1)   # BUG-GYM-STAIRS-1020：原本 zz＝z0＋j·run，第一階在北端、畫反了（開口、紅龍、「下樓到 B1」都在 z1）
             for (a, b) in (((x0, z0), (x1, z0)), ((x0, z0), (x0, z1)), ((x0, z1), (x1 - 1.2, z1))):
                 acc('steel').cyl((a[0], 1.0, a[1]), (b[0], 1.0, b[1]), 0.025, seg=6)
                 L_ = math.hypot(b[0] - a[0], b[1] - a[1]); m = max(1, int(L_ / 0.9))
