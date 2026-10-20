@@ -16,12 +16,22 @@ import lane118_shops as K   # noqa: E402
 from lane118_shops import L, B, Mesh, CMesh, g2b, bpy, uvquad   # noqa: E402
 
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
-OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/second_ai/campus_gongguan_bd.glb')
+ZONE = ARGS[ARGS.index('--zone') + 1] if '--zone' in ARGS else None   # None＝校園背景（校園座標）；'gongguan'＝公館區域的遠景（公館區域座標）
+assert ZONE in (None, 'gongguan'), ZONE
+OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/env/second_ai/' + ('gongguan_far.glb' if ZONE else 'campus_gongguan_bd.glb'))
+# 範圍（校園座標的 z＝公館區域的 x）：校園背景只要看得到的那一段；公館區域的遠景照 zones3d.js gongguan 的 city（±230）
+NMIN, SMAX = (-230.0, 230.0) if ZONE else (-142.0, 152.0)
+CORE = (-88.0, 77.6)   # 公館區域自己蓋的：轉角公寓（−88～−74）、巷子、15 棟店面（−68～77.6）——公館區域的遠景不重複蓋
 GEN = TXS.GEN; PI = math.pi
 GH, FH = 4.2, 3.1                  # 一樓（騎樓）高、樓層高
 X1F, D1 = -189.0, 16.0             # 第一排：立面在 x −189、朝 +x（校園）、往西 16 m
 X2F, D2 = -212.0, 18.0             # 第二排（高樓）
 ARC = 3.0                          # 騎樓深
+
+
+def seed_of(z, row):
+    """一棟樓的亂數種子：只看位置（z）和第幾排"""
+    return int(round(z * 10)) * 31 + row * 100003 + 86
 
 
 def img_emit(name, fn, efn, rough=0.85):
@@ -77,8 +87,10 @@ def sign_quad_x(xf, za, zb, y0, y1, key):
     u0, v0, u1, v1 = SUV[key]; uvquad(SIGN, [(xf, y0, zb), (xf, y0, za), (xf, y1, za), (xf, y1, zb)], (u0, v0, u1, v1))
 
 
-def building(xf, d, za, zb, floors, k, arcade=True, extras=True, row=1):
-    """一棟：立面、兩側、屋頂（女兒牆、水塔、屋頂看板）、騎樓、二樓橫招牌、整面大看板、直立燈箱、冷氣"""
+def building(xf, d, za, zb, floors, k, arcade=True, extras=True, row=1, R=None):
+    """一棟：立面、兩側、屋頂（女兒牆、水塔、屋頂看板）、騎樓、二樓橫招牌、整面大看板、直立燈箱、冷氣
+    R：這一棟的亂數（用位置當種子，校園背景和公館區域的遠景兩個版本同一棟長得一樣）"""
+    rr = R or random.Random(seed_of(za, row))
     W = zb - za; H = GH + (floors - 1) * FH; xb = xf - d
     g0 = GH if arcade else 0.0
     facade_x(xf, za, zb, g0, H, k)
@@ -141,27 +153,46 @@ def building(xf, d, za, zb, floors, k, arcade=True, extras=True, row=1):
 
 # ================= 第一排（羅斯福路對面的商店街） =================
 ROW1 = []
-z = -142.0
-while z < -88.0 - 1e-6:   # 北段
-    w = min(-88.0 - z, rr.choice((7, 8, 9, 10, 11, 12, 13))); ROW1.append((z, z + w)); z += w
-ROW1.append((-88.0, -74.0))   # 往溫州街的轉角公寓
+rn = random.Random(860); z = -88.0
+while z > NMIN + 1e-6:   # 北段：從轉角公寓往北排（校園、公館兩個版本前面那幾棟一樣）
+    w = min(z - NMIN, rn.choice((7, 8, 9, 10, 11, 12, 13))); ROW1.append((z - w, z)); z -= w
+ROW1.reverse(); ROW1.append((-88.0, -74.0))   # 往溫州街的轉角公寓
 SHOPS_W = [10, 8, 12, 10, 8, 8, 9, 9, 8, 9, 9, 10, 8, 9, 9]   # 公館區域 15 棟的寬度（和 zones3d.js gongguan 的 shops 一樣；前 8 棟各多 1.2 m）
 z = -68.0
 for i, w in enumerate(SHOPS_W): W = w + (1.2 if i < 8 and i < len(SHOPS_W) - 1 else 0.0); ROW1.append((z, z + W)); z += W
 MKT_Z = (100.0, 136.0)
-while z < 152.0 - 1e-6:   # 南段（水源市場那一塊另外蓋）
+rs = random.Random(861)
+while z < SMAX - 1e-6:   # 南段（水源市場那一塊另外蓋）
     if MKT_Z[0] - 1e-6 <= z < MKT_Z[1]: z = MKT_Z[1]; continue
-    w = rr.choice((7, 8, 9, 10, 11, 12)); w = min(w, (MKT_Z[0] - z) if z < MKT_Z[0] else 152.0 - z)
-    if w < 3: w = (MKT_Z[0] - z) if z < MKT_Z[0] else 152.0 - z
+    w = rs.choice((7, 8, 9, 10, 11, 12)); w = min(w, (MKT_Z[0] - z) if z < MKT_Z[0] else SMAX - z)
+    if w < 3: w = (MKT_Z[0] - z) if z < MKT_Z[0] else SMAX - z
     ROW1.append((z, z + w)); z += w
 HEIGHTS_SHOPS = [9, 12, 7, 13, 8, 10, 6, 11, 9, 12, 8, 14, 7, 10, 9]
 stats = dict(row1=0, row2=0)
+SHOP_ROWS = [r for r in ROW1 if -68.0 - 1e-6 <= r[0] < 77.6 - 1e-6]
 for (za, zb) in ROW1:
-    if -68.0 - 1e-6 <= za < 77.6 - 1e-6: f = HEIGHTS_SHOPS[[r for r in ROW1 if -68.0 - 1e-6 <= r[0] < 77.6 - 1e-6].index((za, zb))]
-    elif (za, zb) == (-88.0, -74.0): f = 7
-    else: f = rr.choice((4, 5, 6, 7, 8, 8, 9, 10, 11, 12, 13))
-    k = rr.choice((0, 1, 1, 2, 3, 4, 5, 5)) if f < 12 else rr.choice((0, 3, 6))
-    building(X1F, D1, za, zb, f, k, arcade=True); stats['row1'] += 1
+    if ZONE and CORE[0] - 1e-6 <= za < CORE[1] - 1e-6: continue   # 公館區域自己蓋的那一段
+    R = random.Random(seed_of(za, 1))
+    if (za, zb) in SHOP_ROWS: f = HEIGHTS_SHOPS[SHOP_ROWS.index((za, zb))]; R.random()
+    elif (za, zb) == (-88.0, -74.0): f = 7; R.random()
+    else: f = R.choice((4, 5, 6, 7, 8, 8, 9, 10, 11, 12, 13))
+    k = R.choice((0, 1, 1, 2, 3, 4, 5, 5)) if f < 12 else R.choice((0, 3, 6))
+    building(X1F, D1, za, zb, f, k, arcade=True, R=R); stats['row1'] += 1
+
+# 公館區域的遠景：區域裡 15 棟店面（gongguan_shops.glb，wz_street.py --set gongguan）的整面大看板——那邊的樓層數和這裡的 HEIGHTS_SHOPS 一樣。
+# 只放 7 層以上、沒有陽台（wz_street 的 balcony：第 1、4、7、10、13 棟）的；從三樓開始（二樓是店家自己的大招牌）；兩端留 1.5 m（直立招牌在兩端）；離牆 0.42 m（蓋過鐵窗、冷氣）
+if ZONE:
+    stats['near_boards'] = 0
+    for i, (za, zb) in enumerate(SHOP_ROWS):
+        f = HEIGHTS_SHOPS[i]
+        if f < 7 or i % 3 == 1: continue
+        R = random.Random(seed_of(za, 5)); H = GH + (f - 1) * FH; W = zb - za
+        n = 2 if (W > 10 and f >= 9) else 1; a0, a1 = za + 1.5, zb - 1.5; span = (a1 - a0) / n
+        for j in range(n):
+            bw = min(3.6, span - 0.4); a = a0 + j * span + (span - bw) / 2
+            y0 = GH + FH + 0.4; y1 = min(H - 0.6, y0 + FH * R.choice((3, 4, 5)))
+            if y1 - y0 < 4: continue
+            VC.cbox(X1F, X1F + 0.42, y0 - 0.08, y1 + 0.08, a - 0.08, a + bw + 0.08, '#3a3d40'); sign_quad_x(X1F + 0.425, a, a + bw, y0, y1, 'bb%d' % R.randrange(8)); stats['near_boards'] += 1
 
 # 水源市場（第一排南段）：藍色大樓、彩色橫條、大字；一樓是攤位（遮雨棚）
 za, zb = MKT_Z; fm = 8; Hm = GH + (fm - 1) * FH
@@ -180,12 +211,24 @@ for xb_, dirz in ((-184.5, -1), (-131.0, 1)):   # 兩端的樓梯：沿著 z 走
     for j in range(n):
         zz0 = bz + dirz * (1.5 + j * run); zz1 = zz0 + dirz * run; y = deckY - (j + 1) * rise
         VC.cbox(xb_ - 1.2, xb_ + 1.2, y, y + rise, min(zz0, zz1), max(zz0, zz1), '#5b9a6a')
-    for s_ in (-1, 1): VC.cbox(xb_ + s_ * 1.2 - 0.06, xb_ + s_ * 1.2 + 0.06, 0.0, deckY + 1.0, min(bz + dirz * 1.5, bz + dirz * (1.5 + n * run)), max(bz + dirz * 1.5, bz + dirz * (1.5 + n * run)), '#c9ced2')
+    for j in range(n):   # 樓梯兩側的矮牆跟著踏階往下（原本是一整片從地面到橋面的牆：10-20 截圖看起來像一塊灰色大板子）
+        zz0 = bz + dirz * (1.5 + j * run); zz1 = zz0 + dirz * run; y = deckY - (j + 1) * rise
+        for s_ in (-1, 1): VC.cbox(xb_ + s_ * 1.2 - 0.06, xb_ + s_ * 1.2 + 0.06, y - 0.2, y + rise + 1.0, min(zz0, zz1), max(zz0, zz1), '#c9ced2')
 for xp in (-176.0, -160.0, -146.0, -137.0): VC.cbox(xp - 0.4, xp + 0.4, 0.0, deckY - 0.45, bz - 0.4, bz + 0.4, '#b0b2ae')   # 橋墩
+# 天橋的屋頂（台北常見：藍色浪板屋頂、細柱子）、欄杆上的扶手、兩側的橫招牌（從馬路兩頭看得到）
+VC.cbox(-186.4, -128.6, deckY + 2.7, deckY + 2.86, bz - 1.85, bz + 1.85, '#2f6fb0'); VC.cbox(-186.4, -128.6, deckY + 2.6, deckY + 2.7, bz - 1.85, bz - 1.7, '#e8e8e4'); VC.cbox(-186.4, -128.6, deckY + 2.6, deckY + 2.7, bz + 1.7, bz + 1.85, '#e8e8e4')
+for xp in [-185.6 + k * 6.0 for k in range(10)]:
+    for s_ in (-1, 1): VC.cbox(xp - 0.07, xp + 0.07, deckY + 1.15, deckY + 2.6, bz + s_ * 1.5 - 0.07, bz + s_ * 1.5 + 0.07, '#d9dcd8')
+for s_ in (-1, 1): VC.cbox(-186.0, -129.0, deckY + 1.15, deckY + 1.25, bz + s_ * 1.5 - 0.09, bz + s_ * 1.5 + 0.09, '#8a8e92')   # 扶手
+for (xa, xb, key) in ((-175.0, -165.0, 'hs1'), (-150.0, -140.0, 'hs6')):   # 橋身兩側的橫招牌（朝 +z、−z 兩面）
+    u0, v0, u1, v1 = SUV[key]; y0, y1 = deckY - 0.42, deckY + 0.55
+    uvquad(SIGN, [(xa, y0, bz + 1.62), (xb, y0, bz + 1.62), (xb, y1, bz + 1.62), (xa, y1, bz + 1.62)], (u0, v0, u1, v1))
+    uvquad(SIGN, [(xb, y0, bz - 1.62), (xa, y0, bz - 1.62), (xa, y1, bz - 1.62), (xb, y1, bz - 1.62)], (u0, v0, u1, v1))
 
 # 捷運公館站出口前的「GONGGUAN」字樣（白色字、花台）＋藍色小花（照片：出口 1）
-gz0 = -30.0; gx = -184.6
-VC.cbox(gx - 0.6, gx + 0.6, 0.0, 0.55, gz0 - 4.6, gz0 + 4.6, '#f4f4f0'); VC.cbox(gx - 0.5, gx + 0.5, 0.55, 0.75, gz0 - 4.5, gz0 + 4.5, '#4f8a3a')
+# 位置（公館區域座標）：x −33.5～−26.5、z 14.7～15.5——捷運出口（x −43～−36.5）東邊，夾在路人的兩條路線中間（story3d.js walkRoutes.gongguan：z 16.5 那一條、(−40,14.5)→(0,10) 那一條），導航要擋（公館區域的 patch）
+gz0 = -30.0; gx = -185.1
+VC.cbox(gx - 0.4, gx + 0.4, 0.0, 0.55, gz0 - 3.5, gz0 + 3.5, '#f4f4f0'); VC.cbox(gx - 0.32, gx + 0.32, 0.55, 0.72, gz0 - 3.42, gz0 + 3.42, '#4f8a3a')
 bpy.ops.object.text_add(location=(0, 0, 0)); tob = bpy.context.object; tob.data.body = 'GONGGUAN'; tob.data.size = 1.0; tob.data.extrude = 0.08; tob.data.align_x = 'CENTER'
 bpy.ops.object.convert(target='MESH'); tm = tob.data; tm.calc_loop_triangles()
 for tri in tm.loop_triangles:   # 字（Blender 的 x、y 平面）→ 遊戲：立在花台上、朝 +x（看的人的左手邊是 +z：字的 +x 對到遊戲的 −z）
@@ -194,7 +237,7 @@ for tri in tm.loop_triangles:   # 字（Blender 的 x、y 平面）→ 遊戲：
         v = tm.vertices[vi].co; pts.append((gx + 0.02 + v.z, 0.8 + v.y, gz0 - v.x))
     VC.poly(pts, '#ffffff')
 bpy.data.objects.remove(tob, do_unlink=True)
-for (fz, fh) in ((gz0 - 5.6, 1.9), (gz0 + 5.6, 1.6), (gz0 + 6.8, 1.2)):   # 藍色小花：細桿＋五片花瓣（兩面）＋白色花心
+for (fz, fh) in ((gz0 - 4.2, 1.9), (gz0 + 4.2, 1.6), (gz0 + 5.0, 1.2)):   # 藍色小花：細桿＋五片花瓣（兩面）＋白色花心
     VC.cbox(gx - 0.04, gx + 0.04, 0.0, fh, fz - 0.04, fz + 0.04, '#d9d9d4')
     for p_ in range(5):
         a = p_ * 2 * PI / 5; cx_, cy_ = fz + 0.42 * math.cos(a), fh + 0.42 * math.sin(a); el = []
@@ -205,25 +248,41 @@ for (fz, fh) in ((gz0 - 5.6, 1.9), (gz0 + 5.6, 1.6), (gz0 + 6.8, 1.2)):   # 藍�
     VC.poly(ring[::-1], '#ffffff'); VC.poly(ring, '#ffffff')
 
 # ================= 第二排（後面的高樓：高低錯落、中間有縫） =================
-z = -140.0
-while z < 154.0:
-    w = rr.choice((14, 16, 18, 20, 22, 24)); f = rr.choice((10, 11, 12, 13, 14, 16, 18, 20)); k = rr.choice((2, 3, 6, 6, 0))
-    H = building(X2F, D2, z, min(154.0, z + w), f, k, arcade=False, extras=False)
-    if rr.random() < 0.4:   # 屋頂的天線、看板
-        VC.cbox(X2F - 6, X2F - 5.8, H, H + rr.uniform(3, 7), z + w / 2 - 0.1, z + w / 2 + 0.1, '#6a6d70')
-    if rr.random() < 0.35:
-        a = z + 2; b = min(154.0, z + w) - 2; y0 = H + 1.0; y1 = y0 + 2.6
-        VC.cbox(X2F - 1.2, X2F - 1.0, y0, y1, a, b, '#2b2b2b'); sign_quad_x(X2F - 0.995, a, b, y0 + 0.1, y1 - 0.1, 'hs%d' % rr.randrange(8))
-    stats['row2'] += 1; z += w + rr.choice((2, 3, 4, 6))
+def tower(za, zb, R):
+    f = R.choice((10, 11, 12, 13, 14, 16, 18, 20)); k = R.choice((2, 3, 6, 6, 0))
+    H = building(X2F, D2, za, zb, f, k, arcade=False, extras=False, row=2, R=R)
+    if R.random() < 0.4:   # 屋頂的天線、看板
+        VC.cbox(X2F - 6, X2F - 5.8, H, H + R.uniform(3, 7), (za + zb) / 2 - 0.1, (za + zb) / 2 + 0.1, '#6a6d70')
+    if R.random() < 0.35:
+        a = za + 2; b = zb - 2; y0 = H + 1.0; y1 = y0 + 2.6
+        VC.cbox(X2F - 1.2, X2F - 1.0, y0, y1, a, b, '#2b2b2b'); sign_quad_x(X2F - 0.995, a, b, y0 + 0.1, y1 - 0.1, 'hs%d' % R.randrange(8))
+    stats['row2'] += 1
+
+
+r2 = random.Random(862); z = -140.0
+while z < SMAX + 2.0:   # 往南
+    w = r2.choice((14, 16, 18, 20, 22, 24)); tower(z, min(SMAX + 2.0, z + w), random.Random(seed_of(z, 2))); z += w + r2.choice((2, 3, 4, 6))
+r3 = random.Random(863); z = -140.0
+while ZONE and z > NMIN - 2.0:   # 公館區域的遠景：往北（校園背景看不到那麼遠）
+    z -= r3.choice((2, 3, 4, 6)); w = r3.choice((14, 16, 18, 20, 22, 24)); tower(max(NMIN - 2.0, z - w), z, random.Random(seed_of(z - w, 2))); z -= w
 
 for m in (FAC, SHOP, SIGN, MKT): m.finish(root, uv=False, merge=False)
 VC.finish(root, uv=False)
 L.merge_by_material(root, keep=lambda ob: False, key=lambda ob: '')
+if ZONE:
+    from mathutils import Matrix
+    TZ = Matrix.Translation((0.0, 170.0, 0.0)) @ Matrix.Rotation(PI / 2, 4, 'Z')
+    for ob in bpy.data.objects:
+        if ob.type == 'MESH': ob.data.transform(TZ); ob.data.update()
+    root.name = 'gongguan_far'
 st = L.export(OUT, gpu_instances=False)
 tris = 0
 for ob in bpy.data.objects:
     if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
-info = dict(st if isinstance(st, dict) else {}, tris_total=tris, coords='campus（x 東、z 南）：放在原點、不用轉', replaces='zones3d.js campusBackdrop 的 city：x −189 的第一排（z −142～152、含轉角 z −88～−74）、x −212 的第二排',
+info = dict(st if isinstance(st, dict) else {}, tris_total=tris,
+            coords='公館區域座標：放在原點、不用轉' if ZONE else 'campus（x 東、z 南）：放在原點、不用轉',
+            replaces=('zones3d.js gongguan 的 city：z 19 的第一排（x 77.6～230、−88～−230）、z 42 的第二排；另外有水源市場、天橋、捷運出口前的 GONGGUAN 字樣（花台 x −34.6～−25.4、z 14.0～15.2，導航要擋）' if ZONE else
+                      'zones3d.js campusBackdrop 的 city：x −189 的第一排（z −142～152、含轉角 z −88～−74）、x −212 的第二排'),
             night='gg_bd_facade（窗）、gg_bd_shopfront（店面）、gg_bd_signs（招牌）的 emissive 接了貼圖：TK.addNight(material, nightI, dayI)', **stats)
 L.write_json(OUT[:-4] + '.json', info)
 print(json.dumps(dict(tris=tris, **stats), ensure_ascii=False))
