@@ -45,6 +45,7 @@
 - **LAWWW-C 19:0x 轉使用者 18:5x**：「我接下來十小時不會看這裡……負責美術的 ai 它應該也有很多可以做的，你可以看一下他做好的東西是不是可以更精致一點」；這十小時不停下來問使用者，需要使用者決定的先照判斷做、標「待使用者確認」。
   - LAWWW-C 派的順序：GG 第二階段 → ART-L118-LANE-1020 → ART-ROOM-MULTI-1020（＋ART-ROOM-LIFE-1020）→ SCN-V4-01／V5-01（建議給 Blender 子代理）。
 - 118 巷驗收：README `test_shots/l118_audit_1020/README.md`；韓食重建、九間 layout 說明文字 note→dev。
+- X86 第二階段（公館區域裡面）交付：`test_shots/gg_zone_1020/README.md`、`patches/gg_zone_far_wire.diff`。
 - 接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
   4. X86 第二階段；

@@ -1,0 +1,17 @@
+{
+ "objects": 5,
+ "unique_meshes": 5,
+ "tris": 16336,
+ "tris_drawn": 16336,
+ "materials": 5,
+ "out": "assets/models/env/second_ai/gongguan_far.glb",
+ "bytes": 1665756,
+ "texres": 1024,
+ "tris_total": 16336,
+ "coords": "公館區域座標：放在原點、不用轉",
+ "replaces": "zones3d.js gongguan 的 city：z 19 的第一排（x 77.6～230、−88～−230）、z 42 的第二排；另外有水源市場、天橋、捷運出口前的 GONGGUAN 字樣（花台 x −34.6～−25.4、z 14.0～15.2，導航要擋）",
+ "night": "gg_bd_facade（窗）、gg_bd_shopfront（店面）、gg_bd_signs（招牌）的 emissive 接了貼圖：TK.addNight(material, nightI, dayI)",
+ "row1": 29,
+ "row2": 21,
+ "near_boards": 11
+}
