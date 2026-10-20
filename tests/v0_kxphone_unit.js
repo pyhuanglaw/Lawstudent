@@ -41,7 +41,7 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
   const d26=STORY.dayOfKey('2025-03-26');
   fresh(d26-10,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; let K=days(d26-10,8).filter(m=>m.from==='kexin').map(m=>m.text); check('2. 大一下第 6 週（3/24）以前：可昕大一下那四則不出現（kx2 從 2/15 起算，AA_224 6-1；四則排在第 4～6 週）',!K.some(t=>/同一張桌子|她說那是我的鬧鐘|新的語言|你買飲料/.test(t)),JSON.stringify(K));
   fresh(d26,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; K=days(d26,60).filter(m=>m.from==='kexin').map(m=>m.text);
-  check('2. 3/26 以後：四則都會出現',['同一張桌子，我把你的位子擦了。不是因為想你，是有咖啡漬。','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。','晚安。明天的桌子，我比你早到的話，你買飲料。'].every(t=>K.includes(t)),JSON.stringify(K));
+  check('2. 3/26 以後：四則都會出現（第一則 AA_335 T4）',['同一張桌子，我把你的位子擦了。……有咖啡漬。','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。','晚安。明天的桌子，我比你早到的話，你買飲料。'].every(t=>K.includes(t)),JSON.stringify(K));
   // 暑假（重考期）接著跑；7/11 以後不跑
   const s0=STORY.dayOfKey('2025-06-25'), s1=STORY.dayOfKey('2025-07-12');
   check('3. 6/25（暑假）：學期週次接著第 18 週往下算；7/12 沒有',(()=>{ G.day=s0; const t=STORY.dpTerm(G); G.day=s1; const t2=STORY.dpTerm(G); return t&&t.id==='Y0S2'&&t.week===19&&!t2; })());
