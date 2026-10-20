@@ -14,6 +14,8 @@
    3-11 學姊的讀書計畫和便條（10/21 家族群組；美國路線 10/18 會所；1/9 或 2/21 研究室；2/3 08:30 考場門口（在家的時候包住 STORY.y4HomeDue／y4HomeScene）或 2/2 21:00 照片）
    3-13 方奕廷 F4（1/24 21:00；1/27 07:00 開車去嘉義：出遊＋鬧鐘；在家睡覺的叫醒包住 HOME.wakeFor）
    3-14 學姊交往中的大四（2/26 起每週三研究室、3/14 她爸爸的晚餐（3/17）、4/27 她自己放的一天假（4/28））
+   3-12 何俊朗 1～5（美國路線：8/14、9/8、9/15、10/4、10/24→10/25；人物 npc_long 只在 characters.js 的 PORTRAIT_ONLY 登錄名字）
+   3-19 摘要日的手機小事（池＝加進 STORY.DAILY_PHONE；定時＝PHONE.at；子晴的爸爸＝包住 INV.walkPick）
    測試：node tests/r3_events_unit.js */
 'use strict';
 const R3=(function(){
@@ -249,6 +251,24 @@ const R3=(function(){
   S.dayOffMissed=function(G,k){ const d28=D('2029-04-28'); if(d28==null) return; dayOffMark(G);
     PHONE.at(G,d28,k==='river'?10.5:13.5,[W(k==='river'?'我先騎。慢慢騎。':'我先上去了。纜車上不談論文。……我一個人也不談。')],'r3_sis_dayoff_late'); PHONE.at(G,d28,16,[W('📷（河邊）'),W('今天沒寫。')],'r3_sis_dayoff_none'); };
 
+  /* ===================== 3-12 何俊朗 1～5（美國路線；AA_80 5-3、AA_185 1-1、1-6；AA_291 第 2 節）：美東當地時間；美國行事曆上的固定事件（出遊，可以錯過）=====================
+     1 8/14 10:00 迎新、2a 9/8 12:00 Legal Writing 下課、2b 9/15 18:30 新開的餐廳（2a 去了才有）、3 10/4 20:00 會所、5 10/24 21:00 私訊 → 10/25（或 11/1）19:00 中餐館；
+     3、5 要先見過他（MET_LONG）。4＝3 的當晚回到公寓（3D）的筆記；10/6 20:00 人在社區＝聚餐的旁白，不在＝隔天早上補一句。出遊都在三天前排進行事曆。 */
+  const LG=t=>({th:'p:npc_long',from:'npc_long',text:t});
+  S.longMet=()=>has('npc_long','MET_LONG');
+  const longPlan=(G,id,ev,k,h,late,place,title,travelH)=>{ const d=D(k); if(d==null||OUT.get(G,id)||now(G)<T(d-3,0)||now(G)>=T(d,h+late)) return; OUT.plan(G,{id,ev,day:d,h,late,place,title,travel:'',travelH,back:'回到公寓。'}); };
+  S.long=function(G){ if(route(G)!=='US'||typeof OUT==='undefined') return; const F=G.flags, t=now(G);
+    longPlan(G,'r3_long_1','ev_long_orientation','2028-08-14',10,1,'法學院','國際學生迎新',1/6);
+    longPlan(G,'r3_long_2a','ev_long_class','2028-09-08',12,0.5,'法學院','Legal Writing 下課',1/6);
+    if(done(G,'ev_long_class')) longPlan(G,'r3_long_2b','ev_long_dinner','2028-09-15',18.5,0.5,'新開的餐廳','新開的餐廳',1/6);
+    if(S.longMet(G)) longPlan(G,'r3_long_3','ev_long_bbq','2028-10-04',20,0.5,'會所','會所・自習室',0);
+    { const d=D('2028-10-24'); if(d!=null&&S.longMet(G)&&t>=T(d,21)&&t<T(d+1,18)&&!PHONE.sent(G,'r3_long_5'))
+        PHONE.at(G,d,21,[Object.assign(LG('明天晚上去中餐館？我想吃白飯。'),{ask:{id:'r3_long_5',until:T(d+1,18),opts:[{t:'好。',say:[{from:'npc_long',text:'七點。我訂位。'}],set:{LONG_MENU_DAY:'2028-10-25'}},{t:'明天不行。',say:[{from:'npc_long',text:'那下週三。'}],set:{LONG_MENU_DAY:'2028-11-01'}}]}})],'r3_long_5'); }
+    if(F.LONG_MENU_DAY){ const d=D(F.LONG_MENU_DAY); if(d!=null&&!OUT.get(G,'r3_long_5')&&t<T(d,19.5)) OUT.plan(G,{id:'r3_long_5',ev:'ev_long_menu',day:d,h:19,late:0.5,place:'中餐館',title:'中餐館',travel:'',travelH:1/6,back:'回到公寓。'}); } };
+  S.longNoteDue=G=>{ const d=D('2028-10-04'); return d!=null&&route(G)==='US'&&G.zone==='us_apartment'&&done(G,'ev_long_bbq')&&!G.flags.LONG_NOTE&&!done(G,'ev_long_note')&&now(G)<T(d+1,12); };
+  S.longPartyDue=G=>{ const d=D('2028-10-06'); if(d==null||route(G)!=='US'||G.flags.LONG_PARTY||done(G,'ev_long_party')||!has('npc_long','LONG_BBQ')) return false; const t=now(G);
+    return (t>=T(d,20)&&t<T(d,23)&&G.zone==='us_outside')||(t>=T(d+1,6)&&t<T(d+2,0)); };
+
   /* ===================== 3-19 摘要日的手機小事（BB_97 第 5 節、BB_98 第 6 節、BB_99 9-20；AA_118；BB_70 2-6 F-Q4）=====================
      「池」＝加進 STORY.DAILY_PHONE（每天的手機小事：一天最多一則、輪流、每學期第 4 週起）；「定時」＝固定日子的 PHONE.at（S.DP3_AT）。
      可昕的只給交往中；人在日本、美國照當地時間（臺灣的時刻＋STORY.tzOffset）。每學期最多 2 次的（長頸鹿、欸、二十分鐘）記在 G.flags.R3_DPT。
@@ -325,18 +345,20 @@ const R3=(function(){
 
   /* ===================== 人物面板的記憶名稱（介面字，AA 可改）===================== */
   S.MEMORY_LABEL={ZR_FEE_LETTER:'陪她把試譯稿費的事問清楚',KAI_BOT:'教他的機器人說「先吃飯」',FANG_LAWTREE:'說好下次帶他看法學院的樹',ZR_SWAN:'拉花比賽投了她',
-    PINYU_WORRY:'期末考週在社科圖，聽她說精算的事',KAI_STAYED_UP:'他寫的 bug 那晚，陪他醒著'};
+    PINYU_WORRY:'期末考週在社科圖，聽她說精算的事',KAI_STAYED_UP:'他寫的 bug 那晚，陪他醒著',
+    CHIAYI_TREE:'開車去嘉義看那棵兩千歲的紅檜',MET_SIS_FATHER:'見過她爸爸',SIS_DAY_OFF:'她自己放的一天假',ZQ_DOG_TOLD:'聽她唸她爸爸那則「第七關那隻狗」'};
   if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) for(const k in S.MEMORY_LABEL) if(!(k in SOCIAL.MEMORY_LABEL)) SOCIAL.MEMORY_LABEL[k]=S.MEMORY_LABEL[k];
 
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
-    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.pinyuActuary,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff,S.dp3At]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
+    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.pinyuActuary,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff,S.dp3At,S.long]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
   let lastZone=null;
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false; const entered=G.zone!==lastZone; lastZone=G.zone;   /* 剛走進這一區（讀檔也算）：人放好，不在眼前憑空出現 */
     try{ S.fangPlace(GM); S.sk12Place(GM,entered); }catch(e){ console.warn('R3 place',e); }
     const free=typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active);
     if(S.zqCallDue(G)&&free){ const ev=STORY_EVENTS.find(e=>e.id==='ev_ziqing_3am_call'); if(ev){ void EVENTS.run(ev); return true; } }   /* 3-15 選了「（直接打電話給她）」：手機關掉以後演電話 */
     if(S.noteDue(G)&&free&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.noteRun(GM); return true; }   /* 3-11 D：2/3 08:30 考場門口（在家的時候是 home3d.js 的選單問 STORY.y4HomeDue）*/
+    for(const [due,id] of [[S.longNoteDue,'ev_long_note'],[S.longPartyDue,'ev_long_party']]) if(free&&due(G)){ const ev=STORY_EVENTS.find(e=>e.id===id); if(ev){ void EVENTS.run(ev); return true; } }   /* 3-12 4：10/4 回到公寓的筆記；10/6 聚餐的旁白 */
     return false; };
   /* 在家（寒假）：home3d.js 的 loop 問 STORY.y4HomeDue；'stay'＝在家的選單裡演（3-11 D 的便條）。接在 y34b3d.js 那一層外面 */
   S.homeDue=G=>S.noteDue(G)?'stay':null;

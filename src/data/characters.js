@@ -159,4 +159,5 @@ for(const id in CHARACTERS){ const c=CHARACTERS[id]; if(!c.portrait) continue; c
    台詞的 speaker 寫稱呼（alias）或 id 都對到這個 id（events3d.js 的 speakerId、encounter3d.js 的 sayer）；ADV 照檔案補登立繪（adv3d.js 的 regFromFiles）；
    對話框的名字：寫稱呼的照原文、寫 id 的用 name（SOCIAL.displayName）。沒有立繪檔的配角不要放這裡（照舊 compact 對話）。
    予樂：可昕的政大室友（立繪 campus 的 neutral／smile／surprised，BB-B 驗收過）；手機一對一 p:yule 的名字在 phone3d.js 的 FAM_NM。測試：node tests/yule_portrait_unit.js */
-const PORTRAIT_ONLY={ yule:{id:'yule',name:'予樂',alias:['予樂'],gender:'f'} };
+const PORTRAIT_ONLY={ yule:{id:'yule',name:'予樂',alias:['予樂'],gender:'f'},
+  npc_long:{id:'npc_long',name:'何俊朗',alias:['何俊朗','Long'],gender:'m'} };   /* 何俊朗：美國交換的香港同學（AA_80 5-2、AA_328 3-12）。只登錄名字（手機的對話串、對話框、記憶），立繪、3D 都沒有＝compact */

@@ -427,5 +427,40 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(D('2029-03-14'),8,'dorm'); date('kexin'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 大四下「山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。」', K()[0]==='kexin:山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。');
     fresh(D('2029-03-14'),8,'dorm'); R('kexin','FRI'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 可昕的只給交往中', !K().length); }
 
+  // ===== 15. 3-12 何俊朗 1～5（美國路線）=====
+  { const u14=D('2028-08-14'), s8=D('2028-09-08'), s15=D('2028-09-15'), o4=D('2028-10-04'), o6=D('2028-10-06'), o24=D('2028-10-24');
+    const who=t=>{ const s=said.find(x=>x.t===t); return s?s.who:null; };
+    check('15. 何俊朗只登錄名字（PORTRAIT_ONLY，compact）：對話框、手機都是「何俊朗」', typeof PORTRAIT_ONLY!=='undefined'&&PORTRAIT_ONLY.npc_long&&!CHARACTERS.npc_long&&(fresh(u14,9,'us_apartment',{EXCHANGE_ROUTE:'US'}),SOCIAL.displayName('npc_long')==='何俊朗'&&PHONE.title(G,'p:npc_long')==='何俊朗'));
+    fresh(u14-3,9,'us_apartment',{EXCHANGE_ROUTE:'US'}); run(u14-3,9,9.25);
+    { const q=OUT.get(G,'r3_long_1'); check('15. 8/14 10:00 國際學生迎新排進行事曆（三天前；美東當地時間）', !!q&&q.day===u14&&q.h===10&&q.ev==='ev_long_orientation'); }
+    G.day=u14; G.hour=10; let L1=await play('ev_long_orientation',['亞洲超市']);
+    check('15. L2 挽回中（還沒見過）：迎新、茶點的時間；「這裡的超市幾點關？」；對看笑出來；「香港來的。何俊朗。叫我 Long 就好。」「祐廷。臺灣。」；MET_LONG', L1[0]==='（國際學生迎新。台上在講保險和簽證，台下坐了一百多個人。）'&&has('（你們兩個對看一眼，同時笑出來。）')&&who('香港來的。何俊朗。叫我 Long 就好。')==='何俊朗'&&has('祐廷。臺灣。')&&JSON.stringify(opts[0])===JSON.stringify(['「亞洲超市九點關。」','「我也不知道。」'])&&has('你來幾天就知道了？')&&has('（他笑，只笑一邊。）')&&SOCIAL.has('npc_long','MET_LONG')&&scenes.includes('dark'), JSON.stringify(L1));
+    fresh(u14,10,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); SOCIAL.remember('npc_long','MET_LONG',''); L1=await play('ev_long_orientation');
+    check('15. L1 交往中、US1 已經見過：「B 棟的。又見面了。」「……那天那家亞洲超市，幾點關？我忘了問。」「九點。」「書瑀說了三次。」', JSON.stringify(L1)===JSON.stringify(['何俊朗：B 棟的。又見面了。','何俊朗：……那天那家亞洲超市，幾點關？我忘了問。','祐廷：九點。','何俊朗：你記得？','祐廷：書瑀說了三次。','（他笑，只笑一邊。）']), JSON.stringify(L1));
+    fresh(s8,12,'us_apartment',{EXCHANGE_ROUTE:'US'}); L1=await play('ev_long_class',['……好']);
+    check('15. 2a 迎新沒去、都沒見過：開頭「我叫何俊朗。叫我 Long 就好。」；「真的？那要慶祝。」；「……好。」→（他已經在查餐廳的地址了。）；兩個都接「（你沒有說，其實你只是剛好及格。）」；MET_LONG', L1[0]==='何俊朗：我叫何俊朗。叫我 Long 就好。'&&L1[1]==='（Legal Writing 下課。第一次小考的成績剛發回來。）'&&has('下週五，新開的那家。我請。')&&has('（他已經在查餐廳的地址了。）')&&L1[L1.length-1]==='（你沒有說，其實你只是剛好及格。）'&&SOCIAL.has('npc_long','MET_LONG'), JSON.stringify(L1));
+    run(s15-3,9,9.25); { const q=OUT.get(G,'r3_long_2b'); check('15. 2a 去了：9/15 18:30 新開的餐廳', !!q&&q.day===s15&&q.h===18.5); }
+    G.day=s15; G.hour=18.5; L1=await play('ev_long_dinner',['要看你問']);
+    check('15. L3 9/15「你們台灣人的「還好」，到底是好還是不好？」；選「要看你問的是什麼。」→「所以你們的『還好』，是一個要先知道題目的答案。」；LONG_HAIHAO', has('你們台灣人的「還好」，到底是好還是不好？')&&has('……看情況。')&&has('所以你們的『還好』，是一個要先知道題目的答案。')&&has('（他把這句寫在餐巾紙上。）')&&SOCIAL.has('npc_long','LONG_HAIHAO'));
+    fresh(s8,12,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); L1=await play('ev_long_class',['不用']); check('15. 見過的：沒有自我介紹；「不用啦。」→「要。第一次小考就考好，一定要請。」', !has('我叫何俊朗。叫我 Long 就好。')&&has('要。第一次小考就考好，一定要請。'));
+    fresh(s15-3,9,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); run(s15-3,9,9.25); check('15. 2a 沒去：沒有 2b', !OUT.get(G,'r3_long_2b'));
+    fresh(o4-3,9,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); run(o4-3,9,9.25); check('15. 10/4 20:00 會所排進行事曆', OUT.get(G,'r3_long_3').day===o4&&OUT.get(G,'r3_long_3').h===20);
+    G.day=o4; G.hour=20; L1=await play('ev_long_bbq',['都不要']);
+    check('15. L4 10/4 公布欄是「週五晚上，國際學生會的秋假前聚餐」（不是週六烤肉）；「誰都」「誰也」；「那就都不要去。」→「那我們就變成『誰都』裡面的人了。」「……去吧。」；LONG_BBQ', L1[0]==='（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）'&&!L1.some(t=>/烤肉/.test(t))&&has('「誰也」，像每個人自己決定不去。')&&has('那我們就變成『誰都』裡面的人了。')&&has('……去吧。')&&SOCIAL.has('npc_long','LONG_BBQ'), JSON.stringify(L1));
+    G.hour=21.2; G.zone='us_outside'; check('15. 還沒回公寓：不寫筆記', !R3.longNoteDue(G));
+    G.zone='us_apartment'; said=[]; R3.tick(GM,0.6); for(let k=0;k<6;k++) await new Promise(r=>setImmediate(r));
+    check('15. L4 當晚回到公寓：「（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）」；LONG_NOTE', has('（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）')&&G.flags.LONG_NOTE===true&&!R3.longNoteDue(G), JSON.stringify(lines()));
+    G.day=o6; G.hour=20.5; G.zone='us_outside'; check('15. 10/6 20:00 人在社區：聚餐的旁白', R3.longPartyDue(G)&&(G.zone='us_apartment',!R3.longPartyDue(G))&&(G.day=o6+1,G.hour=7,R3.longPartyDue(G)));
+    said=[]; R3.tick(GM,0.6); for(let k=0;k<6;k++) await new Promise(r=>setImmediate(r)); check('15. 不在社區＝隔天早上補一句「（秋假前的聚餐。何俊朗拿著盤子，……）」', has('（秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）')&&G.flags.LONG_PARTY===true);
+    fresh(o24,20.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); run(o24,20.5,21.25);
+    check('15. 10/24 21:00「明天晚上去中餐館？我想吃白飯。」＋好／明天不行', txt('p:npc_long').slice(-1)[0]==='npc_long:明天晚上去中餐館？我想吃白飯。'&&JSON.stringify(askOpts('r3_long_5'))===JSON.stringify(['好。','明天不行。']));
+    ans('r3_long_5',1); run(o24,21.25,21.5); check('15. 「明天不行。」→「那下週三。」；改 11/1 19:00', txt('p:npc_long').slice(-1)[0]==='npc_long:那下週三。'&&OUT.get(G,'r3_long_5').day===D('2028-11-01')&&OUT.get(G,'r3_long_5').h===19);
+    fresh(o24,20.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); run(o24,20.5,21.25); ans('r3_long_5',0); run(o24,21.25,21.5);
+    check('15. 「好。」→「七點。我訂位。」；10/25 19:00', txt('p:npc_long').slice(-1)[0]==='npc_long:七點。我訂位。'&&OUT.get(G,'r3_long_5').day===o24+1);
+    G.day=o24+1; G.hour=19; L1=await play('ev_long_menu');
+    check('15. L5 中餐館：西蘭花、花椰菜、椰菜花、白花椰；「……條文也是。」；帳單用英文對；LONG_MENU', has('我要這個，西蘭花牛肉。')&&has('這是花椰菜。')&&has('綠色的就是西蘭花。白色的才是椰菜花。')&&has('白色的才是白花椰。')&&has('……條文也是。')&&L1[L1.length-1]==='（那天的帳單，你們用英文對了半天。）'&&SOCIAL.has('npc_long','LONG_MENU'), JSON.stringify(L1));
+    fresh(o24,20.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); run(o24,20.5,21.5); check('15. 沒見過他：沒有 10/24 的私訊', !PHONE.sent(G,'r3_long_5'));
+    fresh(u14-3,9,'dorm',{EXCHANGE_ROUTE:'TW'}); run(u14-3,9,9.25); check('15. 台灣、日本路線：都沒有', !OUT.get(G,'r3_long_1')); }
+
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
