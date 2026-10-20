@@ -137,12 +137,12 @@ const STORY = (function(){
   /* LIFE-LINE 第 7 組（使用者 2026-10-17 10:4x「經濟系是先發生的，所以就是直接進經濟系啦，沒有選擇的問題」；AA_224 第 7 組 @4e3a7c2b）：
      標題的「新遊戲」直接走經濟系開局（2024-08-23 宿營）。法律系開局只留給網址 ?start1（8/22 法律系宿營）、?start0（舊的 9/17）測試 */
   S.LAW_START_TEST=()=>typeof location!=='undefined'&&/[?&](start0|start1)\b/.test(location.search||'');
-  S.newGame=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false);
+  S.newGame=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; if(GM.chooseReset) GM.chooseReset(); GM.hideHUD(false);
     if(!o.law&&!S.LAW_START_TEST()&&S.y0Day1()!=null) return S.newGameEcon(GM,{camp:true});   /* o.law：標題「直接從法律系大一開始」（2026-10-18 使用者）*/
     if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* 新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍（預設；?start0 走下面舊的 9/17 開局）*/
     G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
   /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚已接（AA_154 A24）*/
-  S.newGameEcon=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return null;
+  S.newGameEcon=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; if(GM.chooseReset) GM.chooseReset(); GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return null;
     G.stage='econ'; G.day=d; G.flags.LIFELINE_V=1; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(d).m; G.flags.dating_kexin=false; G.flags.KX_FIRST_MSG=true; G.zone='dorm'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear');
     if(o.camp!==false&&!(typeof location!=='undefined'&&/[?&]y0nocamp\b/.test(location.search||''))){ G.flags.ECON_CAMP_OPEN=true; await S.econCampPrologue(GM); G.day=d; G.weekday=CALENDAR.dateOf(d).wd%7; G.hour=21; E.hour=G.hour; G.flags.allowanceMonth=S.dateOf(d).m; }   /* 第 7 組：新局一律先演 8/23～25 宿營（?y0 的開發按鈕也一樣；?y0nocamp＝舊的 9/1 起點，測試用）*/
     await GM.fade(true); if(GM.titleCard) await GM.titleCard('2024 年 9 月 1 日（日）','開學前一天',2000);   /* AA_168 第 1 節：黑底白字 2 秒 */
