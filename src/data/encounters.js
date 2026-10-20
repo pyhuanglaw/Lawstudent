@@ -37,7 +37,7 @@ const ENCOUNTERS={
       lines:{acq:['……{name}。','我在休息。這裡沒有人會問我考幾分。'],friend:['我以前覺得來這種地方很浪費時間。','現在覺得，浪費兩個小時，第三個小時讀得比較快。']},src:'AA_162 1、2-4'},
     // ---- D12 大稻埕碼頭與迪化街 ----
     {who:'heroine_04',spot:'D12',why:'她坐在碼頭邊，膝上開著筆電。',days:[0],from:16,to:19,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D12_ZQ',away:'在大稻埕',
-      lines:{acq:['欸不是，你也來這裡？','我在測一個關卡。河邊比較好想。這不是邀請。'],friend:['你來得剛好。幫我玩一次。','……你死在第三關。很好，代表那裡太難了。'],dating:['欸不是……你跟蹤我？','好啦，我很高興。這是直述句。']},
+      lines:{acq:['你也來這裡？','我在測一個關卡。河邊比較好想。這不是邀請。'],friend:['你來得剛好。幫我玩一次。','……你死在第三關。很好，代表那裡太難了。'],dating:['欸不是……你跟蹤我？','好啦，我很高興。這是直述句。']},
       ex:{apart_drift:['欸不是……好久不見。我要回去改 bug 了。']},src:'BB_144 1、3-2'},
     {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
       lines:{acq:['啊，嗨！……我在找一本舊的繪本。','找到了我就回去。你也逛逛。'],friend:['你來得正好。幫我看這兩本，哪一本小孩會喜歡？','……你選的那本字比較少。對，就是這本。'],dating:['……你怎麼知道我在這裡？','不知道也來了？那我們一起找。書單有七本。']},src:'BB_144 1、3-4'},
@@ -73,7 +73,7 @@ const ENCOUNTERS={
       lines:{acq:['欸？你怎麼在高雄！','我同學說駁二沒什麼好逛。你看，台北的人都跑來了。'],friend:['哥！你來高雄怎麼沒跟我說？','吃一塊。這家我們高中吃到大，台北吃不到。']},src:'AA_271 1、1-1'},
     /* ---- 第三批景點的 BB 五位：BB_213 第 1、2 節（BB-C；AA-C 核對通過 b0c20f70，2026-10-17）。一人一處；心願地點、外縣市不放；週次避開 AA 六位。 ---- */
     {who:'heroine_04',spot:'D01',why:'她在週末市集的一攤前面，手上拿著一個像素的鑰匙圈。',days:[0],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[4,10],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D01_ZQ',away:'在華山逛市集',
-      lines:{acq:['欸不是，你也來華山？','我在看這個鑰匙圈。點陣的，跟我畫的很像。'],friend:['你看這個。一隻像素貓，十六乘十六。','老闆說是自己點的。我想問他用什麼軟體，又不敢問。'],dating:['你怎麼也在這裡？','剛好。幫我挑一個，我挑不下去。']},
+      lines:{acq:['……你也來華山。','我在看這個鑰匙圈。點陣的，跟我畫的很像。'],friend:['你看這個。一隻像素貓，十六乘十六。','老闆說是自己點的。我想問他用什麼軟體，又不敢問。'],dating:['你怎麼也在這裡？','剛好。幫我挑一個，我挑不下去。']},
       ex:{apart_drift:['好久不見。我逛完了，先走。']},src:'BB_213 1、2'},
     {who:'heroine_02',spot:'D02',why:'她坐在書店門口的長椅上，手上一本電影書，旁邊放著一張票根。',days:[6],from:13,to:17,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S2'],weeks:[3,11],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D02_ZR',away:'在松菸看電影',
       lines:{acq:['你也來松菸？','我剛看完早場。在等下一場。'],friend:['早場的人很少。我一個人坐一整排。','下一場四點。你要不要也看？不看也沒關係。'],dating:['你怎麼在這裡？','下一場還有一個小時。陪我坐一下就好。']},
@@ -105,7 +105,7 @@ const ENCOUNTERS={
       lines:{dating:['我們在等茶涼。予樂說三分鐘，邵鈞說兩分四十秒。','你來當裁判。你說，誰對？']},
       ex:{kx_b:['嗨。我們在喝茶。','這座山是政大的後院。你知道的。'],kx_c:['好久不見。這裡的茶，還是一樣苦。','我們要下山了。你慢慢走。']},src:'BB_150 1、2-1（予樂讓位：enc_walk intro）'},
     {who:'heroine_04',spot:'D18',why:'她坐在石階上，平板上畫著九份的燈籠。',days:[0],from:16,to:20,terms:['Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[13],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D18_ZQ',away:'在九份',
-      lines:{acq:['欸不是，你也來九份？','我在畫燈籠，做遊戲用的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是……你怎麼知道我在這？','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
+      lines:{acq:['你怎麼也在九份。','我在畫燈籠，做遊戲用的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是……你怎麼知道我在這？','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
     {who:'heroine_05',spot:'D24',why:'她和爸媽坐在泡腳池邊，褲管捲到膝蓋。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',
       lines:{acq:['學弟。我陪爸媽來泡腳。（溫爸爸點了一下頭。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我爸問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我爸媽在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
     {who:'classmate_peishan',spot:'D20',why:'她在老街口，幫一群小孩一個一個把帽子戴好。',days:[6],from:10,to:16,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[11],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D20_PS',away:'帶課輔班去烏來',
@@ -118,7 +118,7 @@ const ENCOUNTERS={
      place：只在那個區域說（芷若在 Café）；phone：改成手機小事（語彤傳照片、可昕不在台大）。 */
   school:{
     ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次在西門町，你看完是什麼表情？……我從後面看到了。']},
-    ENC_D12_ZQ:{who:'heroine_04',lines:['欸不是，上次大稻埕那個第三關，我改簡單了。因為你。']},
+    ENC_D12_ZQ:{who:'heroine_04',lines:['上次大稻埕那個第三關，我改簡單了。因為你。']},
     ENC_D06_SIS:{who:'heroine_05',lines:['上次在美術館。……一件事。你在那幅畫前面站很久。']},
     ENC_D12_PS:{who:'classmate_peishan',lines:['上次你選的那本繪本，課輔班的小孩很喜歡。'],linesIfNot:{memory:'SAW_HER_TEACH',lines:['上次那本繪本，我送給鄰居的小孩了。']}},
     ENC_D13_KX:{who:'kexin',phone:['淡水那天，邵鈞回去一直問你是誰。']},
