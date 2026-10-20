@@ -17,7 +17,7 @@ const VAC_DATA=(function(){
   const C04_REP={ keys2:['補習班第一堂。櫃台的人說：「又來了喔。」','模擬考。聽力比上次多對了幾題。','單字本寫到第三本了。','考場是同一間學校。這次你知道廁所在哪裡。'],
                   keys3:['第一堂。你坐到上次同一個位子。','模擬考。閱讀的時間終於夠用了。','你背單字背到睡著，燈沒關。','考完，你在校門口吃了一個飯糰。'] };
   const C04_SIGNUP=(term,flag)=>({kind:'board', term, week:12, wd:1, h:12, flag, famMsgs:['補習費轉過去了。','上課不要坐最後一排。'], famReply:{t:'收到，謝謝。',say:['👍']}});
-  const C04_REMIND={key:3,before:7,h:21,who:'kevin',name:'Kevin',msgs:['考前一週了','不要熬夜 前一天背的單字都會忘','考完請我喝飲料'],opts:[{t:'好，考完請學長。',say:['我記住了喔']},{t:'學長也是熬夜背的吧。',say:['所以我知道會忘']}]};   /* 9-3：考試日前七天 21:00 */
+  const C04_REMIND={key:3,before:7,h:21,who:'kevin',name:'Kevin',msgs:['考前一週了','不要熬夜 前一天背的單字都會忘','考完請我喝飲料'],opts:[{t:'好，考完請學長。',say:['說好了喔']},{t:'學長也是熬夜背的吧。',say:['所以我知道會忘']}]};   /* 9-3：考試日前七天 21:00 */
   const C04_KEYS=(season,[d0,dm,dt,de])=>[
     season==='winter'
       ?{day:d0,h:19,title:'第一堂',bg:'cram_class',lines:[{narr:'（發講義的助教抬起頭，是 Kevin。）'},KV('欸，學弟？你也來這裡補？'),KV('坐前面，後面聽不清楚。講義多給你一份，上一期的。')],

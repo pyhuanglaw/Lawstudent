@@ -37,7 +37,7 @@ const Y2B=(function(){
         if(dating(G,'kexin')&&past(G,'2026-12-02',21)&&!PHONE.sent(G,'y2_kx_bad_1202')){ const v=F.KX_BAD_EXAM;
           const L=v==='quiz'?[K('你上次出的太簡單。下次我出。')]:v==='study'?[K('（照片：那一章畫滿重點）'),K('這一章現在是我的。')]:v==='joke'?[K('你那句不動產，我在讀書會講了。'),K('只有予樂笑。')]:null;   /* 照片圖沒有：先用文字（AA_316 第 5 節）*/
           if(L) PHONE.at(G,d02,21,L,'y2_kx_bad_1202'); }
-        if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',20)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,20,[K('物權考壞的那一章，我講給予樂聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日：AA 沒寫幾點，排 20:00 */
+        if(F.KX_BAD_EXAM&&dating(G,'kexin')&&past(G,'2026-12-05',21+10/60)&&!PHONE.sent(G,'y2_kx_bad_1205')) PHONE.at(G,d05,21+10/60,[K('物權考壞的那一章，我講給予樂聽，講到她懂。')],'y2_kx_bad_1205'); } }   /* 12/5 摘要日 21:10（可昕手機小事的慣例時間，AA_336 B4）*/
     /* ---- 1B-02 語彤事件 8：傳了訊息的那天 21:30 ---- */
     { const dL=F.YT_LEASE_TEXT_DAY; if(typeof dL==='number'&&!PHONE.sent(G,'y2_yt_lease_2130')&&now(G)>=T(dL,21.5)) PHONE.at(G,dL,21.5,[Y('我拿給阿姨看了'),Y('她叫我把那一頁影印給她')].concat(dating(G,'heroine_03')?[Y('謝謝你')]:[]),'y2_yt_lease_2130'); }
     /* ---- 1B-03 語彤事件 9：都沒遇到＝6/12（六）21:00 私訊三句 ---- */
@@ -48,7 +48,7 @@ const Y2B=(function(){
         PHONE.at(G,d,22,[Z('欸跟你說'),Z('我爸上禮拜來過'),Z('……我跟芷若去河堤走了一圈'),Object.assign(Z('沒事'),{ask:{id:'y2_zq_dad_msg',opts:[{t:'他來看妳？',say:[Z('嗯'),Z('看完就搭計程車回去了')]},{t:'沒事就好。',say:[Z('嗯')]}]}})],'y2_zq_dad_msg'); F.ZQ_DAD_HEARD=true; } }
     /* ---- 1B-06 芷若 Z9：錯過最後一班＝9/2 出發那天 10:00 三則（FAMILIAR 以上、有聯絡方式）；TICKET_STUB 照樣有 ---- */
     { const d=D('2027-09-02'); if(d!=null&&G.day>=d&&G.day<=d+21&&past(G,'2027-09-02',10)&&!done(G,'ev_zhiruo_last_shift')&&!F.ZR_LAST_SHIFT&&stageAt('heroine_02','FAMILIAR')&&contact(G,'heroine_02')&&!PHONE.sent(G,'y2_zr_depart')){
-        const L=datingAny(G)?[R('今天出發去英國了。'),R('櫃台有一疊電影票根，常客一人一張，跟老闆拿。'),R('看完寫一句話，寄到店裡。我會回。')]:[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];
+        const L=!dating(G,'heroine_02')&&datingAny(G)?[R('今天出發去英國了。'),R('櫃台有一疊電影票根，常客一人一張，跟老闆拿。'),R('看完寫一句話，寄到店裡。我會回。')]:[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];   /* 一疊票根那一版只給和別人交往中的（AA_338 第 0 節）；和芷若交往中、單身＝給你的那一張 */
         PHONE.at(G,d,10,L,'y2_zr_depart'); F.ZR_LAST_SHIFT='missed'; if(SOCIAL.remember) SOCIAL.remember('heroine_02','TICKET_STUB','她出發那天，櫃台的電影票根'); } }
     /* ---- 1B-07 可昕 K12：3/21（日）21:00 邀約；不回＝3/23（二）21:00 再一則；答應＝3/25（四）18:00 麵店（出遊）---- */
     { const d21=D('2027-03-21'), d23=D('2027-03-23'), d25=D('2027-03-25');
@@ -134,7 +134,7 @@ const Y2B=(function(){
   /* ===================== 1B-10 芷若 Z10 明信片（她在英國的那一學期；刻意不用手機）===================== */
   /* 9/24、10/22、11/19、12/17（週五）中午以後：一般＝宿舍書桌上（她 FAMILIAR 以上）；和別人交往中＝寄到 Café、抬頭「兩點半的常客們」、貼在吧檯旁的牆上；和她交往中＝寄給你，12/17 背面多一行 → 12/25 20:00 視訊。
      每張可以回一次（四個選項各用一次）；期限到下一張寄到以前，12/17 那張到 1/7。記 ZR_CARDS_SENT＝[選項…]；兩張以上記憶 POSTCARDS（寄到 Café 的寫了一句＝POSTCARDS_GROUP）。明信片插畫沒有＝文字 */
-  S.PC=[ {key:'2027-09-24',text:['倫敦一直下雨。今天在一間十二個座位的戲院看《慢車到海邊》。全場只有我是台灣人。我哭了。不要笑。'],missed:['到倫敦了。這學期在這裡交換。','櫃台那張票根，是要你去看一部電影，看完寫一句話給我。']},
+  S.PC=[ {key:'2027-09-24',text:['倫敦一直下雨。今天在一間十二個座位的戲院看《慢車到海邊》。全場只有我是台灣人。我哭了。不要笑。'],missed:['到倫敦了。這學期在這裡交換。','櫃台那張票根，是要你去看一部電影，看完寫一句話給我。'],back:'9/28，台灣晚上十點。打給我。'},   /* back：背面多一行（AA_336 B6；寄給他本人的版本才有，寄到 Café 的常客版沒有）*/
     {key:'2027-10-22',text:['這裡的同學問我最喜歡哪部電影。我第一次沒有說別人最喜歡的那部。']},
     {key:'2027-11-19',text:['我媽改成下午三點打給我。她說，台中十一點，剛好收店。']},
     {key:'2027-12-17',text:['你看了什麼？你還沒寄給我。'],group:['你們看了什麼？還沒有人寄給我。'],gfBack:'12/25，台灣晚上八點。打給我。',until:'2028-01-07'} ];
@@ -153,7 +153,7 @@ const Y2B=(function(){
   S.pcCanReply=(G,c)=>!S.pcRec(G).sent[c.key]&&now(G)<c.end&&S.pcOpts(G).length>0;
   S.pcLines=function(G,c){ const L=[]; if(c.ver!=='cafe'&&c.key==='2027-09-24'&&G.flags.ZR_LAST_SHIFT==='missed') L.push(...c.missed);
     if(c.key==='2027-12-17'){ if(c.ver==='cafe') L.push(...c.group); else if(!(G.flags.ZR_CARDS_SENT||[]).length) L.push(...c.text); if(c.ver==='gf') L.push(c.gfBack); }
-    else L.push(...c.text); return L; };
+    else { L.push(...c.text); if(c.back&&c.ver!=='cafe') L.push(c.back); } return L; };
   S.pcPending=function(G){ const Rr=S.pcRec(G); return S.pcCards(G).filter(c=>!Rr.read[c.key]||S.pcCanReply(G,c)); };
   const PC_ZONE={dorm:'dorm',gf:'dorm',cafe:'cafe'};
   S.pcPlace=function(GM){ const G=GM.G, E=GM.E; if(!E||!E.interactables) return; const P=S.pcPending(G).filter(c=>PC_ZONE[c.ver]===G.zone), k=E.interactables.findIndex(it=>it.zrPostcard);
@@ -175,11 +175,29 @@ const Y2B=(function(){
     finally { if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); GM.sceneEnd(); }
     S.pcPlace(GM); if(GM.autosave) GM.autosave(); return true; };
 
-  /* ===================== 每 0.5 秒（STORY.TICKS；不開劇情，回傳 false）===================== */
+  /* ===================== 1B-10 芷若英國的生日（AA_336 B6；BB_124 第 1 節「她在國外」2027）=====================
+     9/24 那張明信片背面「9/28，台灣晚上十點。打給我。」（S.PC 的 back）：只有收到明信片的人有＝讀過 9/24 那張、而且是寄給他本人的版本（宿舍／交往；寄到 Café 的「兩點半的常客們」沒有）。
+     9/28 21:55 系統字＋「打給她。」「不打。」（到 22:30 都還會問；在家、在劇情裡、睡著了＝這一通沒有）；打了＝22:00 視訊（倫敦 15:00，y2b_events.js 的 ev_zhiruo_bday_video 三句）。
+     記 ZR_BDAY_CALL={2027:true}（不打＝false，不再問）；不打、或沒收到明信片：沒有這一通，不另外補 */
+  S.BDAY={key:'2027-09-28',card:'2027-09-24',h:21+55/60,until:22.5,year:2027};
+  S.bdayCard=G=>{ const Rr=S.pcRec(G), k=S.BDAY.card; return !!Rr.read[k]&&!!Rr.ver[k]&&Rr.ver[k]!=='cafe'; };
+  S.bdayDue=G=>{ if(!G||!G.flags||!law(G)) return false; const d=D(S.BDAY.key); if(d==null||G.day!==d) return false; const hr=hh(G); if(hr<S.BDAY.h||hr>=S.BDAY.until) return false;
+    const C=G.flags.ZR_BDAY_CALL; if(C&&typeof C==='object'&&C[S.BDAY.year]!=null) return false; return S.bdayCard(G); };
+  S.bdayCall=async function(GM){ const G=GM.G, F=G.flags; let k=1;
+    GM.sceneBegin(); try{ await GM.say(null,'（明信片背面寫著：台灣晚上十點。）'); k=await GM.choose([{t:'打給她。'},{t:'不打。'}]); } finally { GM.sceneEnd(); }
+    F.ZR_BDAY_CALL=Object.assign({},F.ZR_BDAY_CALL&&typeof F.ZR_BDAY_CALL==='object'?F.ZR_BDAY_CALL:{},{[S.BDAY.year]:k===0});
+    if(k!==0||typeof OUT==='undefined') return false;
+    OUT.plan(G,{id:'y3_zr_bday_call',ev:'ev_zhiruo_bday_video',day:D(S.BDAY.key),h:22,late:0.5,place:'視訊',verb:'接起來',no:'今天先不要',back:'視訊結束。',title:'和芷若視訊（倫敦下午 3:00）',travel:'',travelH:0});
+    const q=OUT.get(G,'y3_zr_bday_call'); if(q&&q.state==='planned') await OUT.go(GM,q);   /* 自己打過去：不再問「接起來」，直接到 22:00 演 */
+    return true; };
+  let bdayBusy=false;
+
+  /* ===================== 每 0.5 秒（STORY.TICKS；只有芷若生日那一通會開劇情＝回傳 true，其他回傳 false）===================== */
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false;
     { const d=D('2027-09-14'); if(d!=null&&G.day===d&&hh(G)>=17&&G.weather!=='rain'){ G.weather='rain'; if(GM.E&&GM.E.setWeather) GM.E.setWeather('rain'); } }   /* 1B-08 事件 12：那天傍晚一定下雨（AA_321 第 6 節）*/
     { const d=D('2027-11-09'); if(d!=null&&G.day===d&&G.zone==='cafe'&&typeof OUT!=='undefined'){ const q=OUT.get(G,'y3_zq_q10'); if(q&&q.state==='planned') q.state='done'; } }   /* 1B-09：自己走到 Café 了，不用再問「出發」*/
     if(G.zone==='dorm'||G.zone==='cafe') S.pcPlace(GM);   /* 1B-10 明信片 */
+    if(!bdayBusy&&S.bdayDue(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ bdayBusy=true; S.bdayCall(GM).catch(e=>console.warn('Y2B 芷若生日',e)).finally(()=>{ bdayBusy=false; }); return true; }   /* 1B-10 芷若英國的生日（AA_336 B6）*/
     return false; };
 
   if(typeof STORY!=='undefined'){

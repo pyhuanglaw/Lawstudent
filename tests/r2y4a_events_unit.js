@@ -170,7 +170,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-11-11',12,'campus',US({lawclub:true})); check('F3. 美國路線：沒有', !EVENTS.check(ev('ev_fair_booth_y4'))&&!EVENTS.check(ev('ev_fair_booth_y4_pass')));
   // ---------- 2-Y4-08 讀書會交棒 ----------
   fresh('2028-11-30',20,'wancai',TWF()); R('yu','FAM'); R('heroine_01','FRI'); ACTIVITIES.rec(G); for(const k of [10,20,30]) G.acts.att['public_law_group@'+(G.day-k)]={h:20,end:'full'};
-  const plg=ACTIVITIES.list.find(a=>a.id==='public_law_group'); check('H0. 公法讀書會大四上開到第 13 週（11/30）', ACTIVITIES.on(plg,G.day,G)&&!ACTIVITIES.on(plg,D('2028-12-07'),G));
+  const plg=ACTIVITIES.list.find(a=>a.id==='public_law_group'); check('H0. 公法讀書會大四上：第 13 週 11/30 有開；交棒以後學弟帶（第 14 週 12/7 照開）；第 15 週 12/14 停一次（AA_323 1B-20）', ACTIVITIES.on(plg,G.day,G)&&ACTIVITIES.on(plg,D('2028-12-07'),G)&&!ACTIVITIES.on(plg,D('2028-12-14'),G));
   const ce=CLS.clubEvent(G,plg); check('H1. 去過 3 次、11/30 去讀書會：這一場就是交棒', !!ce&&ce.id==='ev_plg_handover', ce&&ce.id);
   picks=[0]; await run('ev_plg_handover'); check('H1. 白板只剩「說理由。」；「例外，要說理由。」；拍照＝PLG_LAST_RULE', has('（對學弟妹）規則只有一條。例外，要說理由。')&&has('妳以前有十條。')&&SOCIAL.has('heroine_01','PLG_LAST_RULE')&&G.flags.PLG_HANDOVER==='there');
   fresh('2028-11-30',22.1,'dorm',TWF()); join('noodle_team','麵店團'); R('yu','FAM'); R('heroine_01','FRI'); rules();
