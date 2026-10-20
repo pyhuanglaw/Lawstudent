@@ -645,7 +645,15 @@ const Z3 = (function(){
       for(let z=-88;z>-230;){ const w=8+Math.round(H(z,1)*5); city.push({x:z-w/2,z:19,w,d:16,floors:4+Math.floor(H(z,2)*4),gh:4.2,ry:Math.PI,color:WALLC[Math.floor(H(z,3)*7)]}); z-=w; }
       for(let z=-140;z<230;){ const w=14+Math.round(H(z,4)*8); city.push({x:z+w/2,z:42,w,d:18,floors:6+Math.floor(H(z,5)*8),gh:4.2,ry:Math.PI,color:TALLC[Math.floor(H(z,6)*7)],shop:false}); z+=w+2+Math.floor(H(z,19)*3)*3; }
       for(let z=-142;z>-230;){ const w=14+Math.round(H(z,4)*8); city.push({x:z-w/2,z:42,w,d:18,floors:6+Math.floor(H(z,5)*8),gh:4.2,ry:Math.PI,color:TALLC[Math.floor(H(z,6)*7)],shop:false}); z-=w+2+Math.floor(H(z,19)*3)*3; }   // 店面街後面一排較高的大樓（從店面街看得到樓頂後面）
-      g.add(TK.bgCity(city,{style:'city'}));
+      /* 遠景（使用者 10-20 X86）：正式模型 bldg.gongguan_far（LAWWW2-C gg_backdrop.py --zone gongguan；公館區域座標、放在原點）＝這兩排＋水源市場、天橋、捷運出口前的 GONGGUAN 字樣、區域裡 15 棟店面的大看板；
+         方盒是載入前、載入失敗的備用（dyn：不參加整區靜態合併，載入後藏起來）；不投影；窗、店面、招牌晚上會亮 */
+      { const farFB=new THREE.Group(); farFB.name='gongguanFarFallback'; farFB.userData.dyn=true; farFB.add(TK.bgCity(city,{style:'city'}));
+        const pl=new THREE.Mesh(new THREE.BoxGeometry(7.0,0.55,0.8),M('#f4f4f0')); pl.position.set(-30,0.275,15.1); farFB.add(pl);   /* GONGGUAN 的花台（模型載入前看得到擋住的是什麼） */
+        g.add(farFB);
+        if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gongguan_far']) ASSETS.loadOne('bldg.gongguan_far').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true);
+            r.traverse(o=>{ if(!o.isMesh) return; o.castShadow=false; o.receiveShadow=false; o.userData.dyn=true; const m=o.material, nm=(m&&m.name)||'';
+              if(/gg_bd_facade/.test(nm)) TK.addNight(m,0.85,0); else if(/gg_bd_shopfront/.test(nm)) TK.addNight(m,1.0,0.3); else if(/gg_bd_signs/.test(nm)) TK.addNight(m,1.0,0.15); });
+            g.add(r); farFB.visible=false; zone.gongguanFar=true; }).catch(e=>console.warn('公館遠景正式模型載入失敗，用方盒',e)); }
       const props=new THREE.Group(); for(const sx of [-1,1]) for(let k=0;k<7;k++){ const gx=sx*(99+k*18); const a=W3.lampPost(); a.position.set(gx,0,-31.4); props.add(a); const b=W3.lampPost(); b.position.set(gx,0,5); b.rotation.y=Math.PI; props.add(b); if(k%2===0){ const t=TK.tree(6.4*0.9); t.position.set(gx+4,0,-36); props.add(t); } }
       const pm=W3.mergeGroup(props); pm.traverse(m=>{ if(m.isMesh) m.castShadow=false; }); g.add(pm); }
     // 機車、路燈、行道樹
@@ -661,6 +669,7 @@ const Z3 = (function(){
     for(let i=0;i<8;i++){ const x=-60+i*14; scRow(x,6.8,3,Math.PI,'S'+(x<-40?0:x<0?1:2)); }
     for(let i=0;i<9;i++){ const l=W3.lampPost(); place(g,l,-63+i*18,-31.4,0); lamps.push(l); nav.blockCircle(-63+i*18,-31.4,0.25); /* 北側路燈原本在 z=-24（馬路的車道上），移到人行道邊 */ const l2=W3.lampPost(); place(g,l2,-63+i*18,5,Math.PI); lamps.push(l2); nav.blockCircle(-63+i*18,5,0.25); }
     for(let i=0;i<6;i++){ const t=TREE(0.9); place(g,t,-65+i*26,-36,0); nav.blockCircle(-65+i*26,-36,0.7); }
+    nav.blockRect(-30,15.1,7.2,1.0,0); for(const fx of [-34.2,-25.8,-25.0]) nav.blockCircle(fx,15.1,0.25);   /* 捷運出口東邊的 GONGGUAN 花台、三朵藍色小花（bldg.gongguan_far；夾在路人 z 16.5、(−40,14.5)→(0,10) 兩條路線中間） */
     // 集合點：公館圓環意象（小廣場）
     { const c=new THREE.Mesh(new THREE.CylinderGeometry(3,3,0.3,24),M('#d9cbb0')); c.position.set(22,0.15,11.5); g.add(c); nav.blockCircle(22,11.5,3.2); const tree=TREE(1.2); place(g,tree,22,11.5,0); }
     // 通往溫州街（西側）

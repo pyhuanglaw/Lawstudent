@@ -30,7 +30,8 @@ const NEEDED_MSGS=(function(){
       miss:['期中那幾天，我找到一個沒有客人的地方了。……不告訴你。'],missDating:['期中那幾天，我找到一個沒有客人的地方了。你要的話，我帶你去。']},
     {id:'yt_rent',who:'heroine_03',term:'Y2S2',w:[10,12],tie:true,cond:G=>done(G,'ev_yutong_landlord')||!!F(G).RENT_RUMOR,msg:['仲介又帶人來店裡看了。','沒事，跟你說一聲。'],reply:'要不要帶阿姨去法服問問看？',resp:['我問問看阿姨。'],
       miss:['仲介那件事，你上週很忙吧。沒事。'],missDating:['仲介那件事，沒事了。……你上週是不是很累？']},
-    {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[14,16],tie:true,cond:NOT_YET,msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
+    {id:'yt_dish',who:'heroine_03',term:'Y2S2',w:[15,16],tie:true,cond:G=>mem(G,'heroine_03','APOLOGIZED'),   /* 語彤事件 11 洗完碗（AA_325 2-Y2-22；AA_255 第 4 節第 6 點：w[15,16]）*/
+     msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
     // 阿哲（AA_179；沒回的那一句都用「你上週很忙齁。」開頭）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總課本借我 我的還在學長那'],reply:'拿去。',resp:['讚。我請你一碗大的。'],miss:['你上週很忙齁。債總我跟學長拿到了。']},
     {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟小語借了。……她的字比你的好看。']},
