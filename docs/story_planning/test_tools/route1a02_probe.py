@@ -100,6 +100,7 @@ async def load_at(pg, base, key, hour, zone, extra):
     st = json.loads(json.dumps(base)); G = st.get('G', st)
     d = await pg.evaluate("STORY.dayOfKey(%s)" % json.dumps(key))
     G.update({'day': d, 'hour': hour, 'zone': zone, 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d)})
+    G['flags'].update({'ROOM_Y2': await pg.evaluate("STORY.dayOfKey('2026-09-06')"), 'ROOM_Y3': await pg.evaluate("STORY.dayOfKey('2027-09-05')")})
     G['flags'].update(extra.get('flags', {}))
     for k in ['EXCHANGE_ROUTE', 'EXCH_APPLIED_DAY', 'EXCH_RULE']:
         if k not in extra.get('flags', {}): G['flags'].pop(k, None)
