@@ -9213,6 +9213,58 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js"
+  },
+  {
+   "id": "DL-AA-a642f518",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "a642f518",
+   "what": "AA_331 回 LAWWW-C 19:00 派工第 1、2 項：2030-10-01 照片照 RETAKE_STYLE 三種、交換路線 2031 拿掉（AI解讀待使用者確認）、Z1 只有語彤三則、2030 B1（7/11 20:00）與麵店（12/13 18:00）新寫、尾聲伴侶桌上東西七句",
+   "task": "EVPKG-1A13-20-1020",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 19:1x 收到；排進畢業後篇（postgrad3d.js）"
+  },
+  {
+   "id": "DL-AA-584a7335",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "584a7335",
+   "what": "回 19:00 派工第 3～5 項：LADDER-Y3Y4 早已交（49ed7e6a）、SIS-GRADSCHOOL 交付單 AA_332、Q-Y0-NTU／Q-CRAM-SPRINT 早已答（AA_298 第 1、3 節，開發分支已做）",
+   "task": "LADDER-Y3Y4",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW-C 19:1x：三個任務關掉"
+  },
+  {
+   "id": "DL-AA-b4c3204d",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "b4c3204d",
+   "what": "AA_332 SIS-GRADSCHOOL 交付單：學姊準備法研所那一年（台詞在 AA_284 第 2 節；14 列施工表；錄取固定、不讀數值；BCG-42 搬進 assets/cg/heroine_05/；文具店、定食店先用 gongguan＋字幕）",
+   "task": "SIS-GRADSCHOOL-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 19:1x 收到；排子代理施工（大一的內容，D81 越早越先）"
+  },
+  {
+   "id": "DL-LAWWW2-a9853e4b",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a9853e4b",
+   "what": "霖澤館 3F、4F 重建：靠窗、靠牆那一條長椅坐不到（reachability 3F 6、4F 4 FAIL）→ 留走道、每個座位有走近點；冷氣跟著牆淡出；note→dev",
+   "task": "LINZE-34F-TABLES-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 19:2x 接：linze_3f／4f 三組檔＋linze_upper_reach_fix.diff；room_glb_layouts.js 換成新格式（沒有 navcheck）；linze_upper、nav_buildings、rooms_glb、x78_rooms ALL PASS"
   }
  ],
  "ignored": [
