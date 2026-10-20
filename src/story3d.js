@@ -3431,7 +3431,7 @@ const STORY = (function(){
     if(F.FAMILY_LAND_Y3) it('land');   /* 1A-07 */
     if(r==='JP') it('jp_key');
     if(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_02','POSTCARDS')) it('postcards');   /* 芷若 Z10 回寄過（1B-10，AA_321 記憶 POSTCARDS）*/
-    if(F.ATTENDED_SHOW&&F.TESTER) it('credits');   /* 子晴 Q12 去了，而且 Q8 TESTER（1B-15，AA_322）*/
+    if(F.ATTENDED_SHOW&&F.PLAYTESTED) it('credits');   /* 子晴 Q12 去了，而且 PLAYTESTED（1B-15；AA-C bf349b96 統一成 AA_322 製作名單「測試：{name}」的條件）*/
     if(tw&&F.YT_T1) it('field');   /* 台灣路線、語彤週四的田野（1B-13，AA_322 YT_T1）*/
     return L; };
   S.roomItemName=function(G,id){ const m=/^y1_(\d+)$/.exec(id||''); if(m) return (ROOM_ITEMS[+m[1]]||[])[0]||null; return ((S.ROOM_Y4_TEXT[id]||S.ROOM_Y3_TEXT[id]||S.ROOM_Y2_TEXT[id])||[])[0]||null; };   /* 大一的五件（y1_0＝書架上的舊《民法》）、大二、大三、大四拆出來的東西的名字 */
@@ -3439,7 +3439,7 @@ const STORY = (function(){
     if(S.route(G)==='US'){ const r=S.dayOfKey(ROUTE_DATES.US.ret); return r!=null&&G.day>=r; } return true; };   /* 美國路線：12/23 返台才搬（exchange3d.js 的返台直接接）*/
   S.roomY4Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y4||!y4Law(G)) return false; const late=y4D('y4s2'); if(late==null||G.day<late) return false; F.ROOM_Y4=G.day; F.ROOM_Y4_ITEMS=[]; F.BOX_KEPT_Y4=null; return true; };   /* 大四下以後才讀檔、還沒搬：直接記、不演 */
   S.roomY4Lines=G=>['（明天開學。最後一次搬進宿舍。）'].concat(S.route(G)==='JP'?['（抽籤是姊姊幫你填的表。）']:[]);
-  S.ROOM_Y4_US=['（機場出來，你沒有回家，直接去宿舍。）','（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'];   /* e75ebc69（AA_326 裁定 #39）：美國路線 7/15 在臺灣，自己抽 */
+  S.ROOM_Y4_US=['（傍晚，你從家裡出發，回宿舍。）','（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'];   /* AA-C bf349b96：清晨 05:40 落地、上午回家，第一句改（原本「機場出來，你沒有回家，直接去宿舍。」對不上）*/   /* e75ebc69（AA_326 裁定 #39）：美國路線 7/15 在臺灣，自己抽 */
   S.roomY4InDorm=async function(GM){ const G=GM.G; if(!S.roomY4Due(G)) return false; const us=S.route(G)==='US'; GM.sceneBegin();
     try{ if(!us) for(const t of S.roomY4Lines(G)) await GM.say(null,t); await GM.fade(true); if(GM.titleCard) await GM.titleCard(us?'四樓 409 號房':'搬到新的房間',us?'':'四樓 409 號房',2400); GM.advance(0.5);
       G.flags.ROOM_Y4_MOVING=true; if(GM.enter) await GM.enter('dorm',Object.assign({},Y4_DORM)); await GM.fade(false); }   /* ROOM_Y4_MOVING：房間直接蓋成 409、紙箱封好（zones3d.js），拆完 unboxY4 清掉 */
