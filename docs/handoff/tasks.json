@@ -20851,6 +20851,111 @@
    "next": "【15:4x 使用者：A、B 兩線並行，B 線照 AA_314 1A → 1B → 1C 直接做；每批 BB 用實際存檔測能不能觸發，沒驗不標完成】【14:30 AA_314 交了（企劃分支 c944b1aa）】第 1 輪 52 件：1A 20 件（先兩個系統：職涯傾向計分 BB_202 第 4 節、交換路線由交往對象決定；主線 5、6、7、9、10、11、12、志願表、「大四要怎麼過？」、R1、畢業典禮、畢業那天傍晚、國考四段 AA_286、第一份工作、尾聲 CG-10）→ 1B 26 件（每位女主角每學期一件）→ 1C 6 件（群戲）；第 0 節裁定、第 4 節 14 點衝突。X64～X81 這批之後從 1A 開始，每場先核對遊戲裡有沒有 ｜ 等 AA_314（AA 今天交）；X64～X81 這批做完接著從大二開始；接的時候逐場核對有沒有已經做好的"
   },
   {
+   "id": "EVPKG-1A02-1020",
+   "title": "1A-02 交換路線照交往狀態定（routeDecide 11/18 12:00；拿掉宿舍選單；兩段同時交往的 11/10 法圖相遇＋11/11 攤牌）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "next": "開發分支 6a931b8e、80c816b0；tests/route_decide_unit.js、two_hearts_unit.js。BB 照 AA_315 1A-02 第 7 節 E1～E8 用存檔驗。2D 背景「法圖長桌・夜」「打烊的 Café」BB 跟使用者要"
+  },
+  {
+   "id": "EVPKG-1A01-1020",
+   "title": "1A-01 職涯傾向 STORY.careerLean(G)（只讀現有紀錄；讀的地方只有四處）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "next": "照 AA_315 1A-01"
+  },
+  {
+   "id": "EVPKG-1A03-1020",
+   "title": "1A-03 主線 5 第三個房間（9/5 unboxY3，可以丟一件 ROOM_Y3_DISCARD）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "next": "照 AA_315 1A-03"
+  },
+  {
+   "id": "EVPKG-1A04-1020",
+   "title": "1A-04 主線 6 感冒的那一週（10/23～10/26，coldWeekCast，CG cg_cold_week_friends）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "next": "照 AA_315 1A-04；CG 從企劃分支 cg_approved 搬進 assets/cg"
+  },
+  {
+   "id": "EVPKG-1A05-1020",
+   "title": "1A-05 志願表＝以安新 15（11/17 15:30 Café，JP／US／TW 三版；學姊、可昕；A5-L5 選項②加 AN15_SEEN）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": null,
+    "earliest": "大三上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "next": "照 AA_315 1A-05"
+  },
+  {
    "id": "BUG-ECON-MONEY-1020",
    "title": "經濟系那一年的錢只進不出（BB-C：使用者 day-18 存檔身上 $349,910）",
    "area": "v0",
