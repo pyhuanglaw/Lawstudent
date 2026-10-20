@@ -105,7 +105,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
   fresh(d16,21.2,'dorm',{COLD_WEEK_PRESENT:['zhe']}); R('heroine_01','FAM'); runPhone(d16,21.2,21.3); await cafe([0]); check('8. 阿哲在場、以安不在：「阿哲說你那週講了一句很帥的話。他不告訴我是什麼。」', lines().includes('沈以安：阿哲說你那週講了一句很帥的話。他不告訴我是什麼。')&&!lines().some(x=>/你換過一次方向/.test(x)));
   // 9. 接線
   { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
-    check('9. S.tick：HOME 那一段之前問 exchFormTick；phoneRules 叫 S.an15Phone', /if\(S\.exchFormTick\(GM\)\) return;[^\n]*\n\s*if\(typeof HOME!=='undefined'&&HOME\.at\(G\)\)\{ HOME\.tick\(GM\); return; \}/.test(s)&&/S\.an15Phone\(G\);/.test(s));
+    check('9. S.tick：HOME 那一段之前問 exchFormTick；phoneRules 叫 S.an15Phone', /if\(S\.exchFormTick\(GM\)\) return;[^\n]*\n(\s*for\(const f of S\.TICKS\)[^\n]*\n)?\s*if\(typeof HOME!=='undefined'&&HOME\.at\(G\)\)\{ HOME\.tick\(GM\); return; \}/.test(s)&&/S\.an15Phone\(G\);/.test(s));
     check('9. 階梯 A5-L5 的選項②條件（LADDER_CHOICE_IF）', /'A5-L5':\{'「妳那天講的，我聽過了。」':\{flags:\['AN15_SEEN'\]\}\}/.test(s)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
