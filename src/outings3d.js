@@ -83,7 +83,7 @@ const OUT=(function(){
       const tr2=DATE.trip(G,q.dateTrip); await GM.fade(true); GM.advance(tr2?(DATE.travel(tr2.locs[0],tr2.transport)||{minutes:30}).minutes/60:0.5); if(tr2&&tr2.fare&&GM.money) GM.money(-tr2.fare,'交通'); await GM.fade(false); if(GM.caption) GM.caption('',q.back||'回到台大。',2400);
       if(GM.autosave) GM.autosave(); return true; }
     if(typeof ADV!=='undefined'){ ADV.begin({background:ev.background||'dark'}); }
-    await GM.fade(false); if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
+    await GM.fade(false); if(typeof EAT!=='undefined'&&EAT.outingFirst) await EAT.outingFirst(GM,q);   /* 宵夜滷味攤第一次去：一句旁白、吃過的（src/eat3d.js，AA_329 第 2 節）*/ if(typeof ev.beforeOuting==='function') await ev.beforeOuting(G,GM,q);   /* 演之前在同一個畫面先做的事（例：可昕的視訊讀書先選讀哪一科，BB_95 9-5）*/
     try{ await EVENTS.run(ev); } finally { running.delete(q.id); } q.state='done'; delete q.arrived; if(typeof ev.afterOuting==='function') await ev.afterOuting(G,GM,q);   /* 演完以後在同一個畫面接著做的事（例：可昕的視訊之後發成績單）*/
     const kxHere=(ev.participants||[]).includes('kexin')&&!ev.kxAway;   /* AA_309 第 3 列（通則）：結尾可昕不在場的（ev.kxAway：10/17 回 412、8/30 一個人開車下山、跨年回程的高鐵）後面不接她的那幾句、不接她的閒聊階梯 */
     const kxTail=kxHere&&typeof STORY!=='undefined'&&typeof ADV!=='undefined'; if(kxTail) ADV.begin({background:ev.background||'dark',right:{charId:'kexin',expression:'neutral'}});   /* 演完以後和可昕的那幾句（沒回的訊息、閒聊階梯）還在政大：畫面留在那裡，不要露出原本的 3D（使用者 2026-10-16：她人根本不在這，對話還在）*/

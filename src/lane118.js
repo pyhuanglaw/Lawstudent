@@ -57,13 +57,14 @@ const L118=(function(){
     try{ if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }
       const comp=S.companions(GM,shopId), clerk={name:s.greet.who||'店員'};
       await GM.say(clerk,comp.length?Dd.groupGreet:s.greet.text);
-      const k=await GM.choose(s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]));
+      const opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
+      const k=typeof EAT!=='undefined'?await EAT.choose(GM,s.name,opts,s.menu.map(m=>m[0]),s.menu.map(m=>m[1])):await GM.choose(opts);   /* 第 5 次起店員認得你、「老樣子」（src/eat3d.js，AA_329 第 3 節）*/
       if(k>=s.menu.length) return true; const [item,price]=s.menu[k];
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item));
-      GM.advance(s.type==='手搖飲'?5/60:40/60);
+      GM.advance(s.type==='手搖飲'?5/60:40/60); if(typeof EAT!=='undefined') await EAT.ordered(GM,s.name,item);   /* 吃過的、第一次的旁白（AA_329 第 2 節）*/
       if(comp.length){ for(const id of comp){ const t=lineOf(id,shopId); if(t) await GM.say(GM.npc&&GM.npc[id]||{name:nm(id),charId:id},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'meal'); } }
-      else await GM.say(null,s.done);
+      else if(!(typeof EAT!=='undefined'&&await EAT.together(GM,s.name))) await GM.say(null,s.done);   /* 店裡有認識的人在吃：坐過去一起吃（AA_329 第 1 節）*/
       const L=S.lunchNow(G); if(L&&L.shop===shopId) L.done=true;
       if(GM.autosave) GM.autosave(); return true;
     } finally { GM.sceneEnd(); } };
