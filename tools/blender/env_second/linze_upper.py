@@ -132,7 +132,7 @@ def picnic(c, cx, cz, Lx=1.9, wood='#b08a5e', frame='#3f4a52', along='x'):
     c.block(min(ax, bx), max(ax, bx), min(az, bz_), max(az, bz_), 'picnic_table')
     for s_ in (-1, 1):
         for k in (-1, 0, 1):
-            x, z = T(k * 0.6, s_ * bz); c.seat(x, z, yaw + (PI if s_ > 0 else 0.0), (cx, cz), 'eat', label='坐長椅')
+            x, z = T(k * 0.6, s_ * bz); c.seat(x, z, yaw + (PI if s_ > 0 else 0.0), (cx, cz), 'study', label='坐長椅'); c.seats[-1]['uses'] = ['討論', '讀書', '吃東西']   # kind study：坐下的選單有「讀書」；吃東西、和同學討論由 LAWWW 接
 
 
 def whiteboard(c, x, z, key, yaw=0.0):
