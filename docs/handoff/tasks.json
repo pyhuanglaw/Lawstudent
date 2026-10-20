@@ -19308,7 +19308,7 @@
    "title": "9/13 保齡球班聚演完回到宿舍就卡住：角色鎖住（busy=true）、鏡頭停在過場模式、沒有對話／事件／2D（使用者 10-18 12:5x 實玩 v9.10.1，附存檔 day-368＋除錯資訊截圖）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -19322,7 +19322,7 @@
    },
    "source": "使用者 10-18 12:5x（存檔 fatiao3d_save_day-368.json：9/13 21:50 dorm、ECONFF done b1、OUT y0_e14 done、E01_DONE）；使用者 10-18 13:xx 補充：卡住時在遊戲裡讀檔，跳「劇情還在進行」讀不了（＝a0926112 保底要解的那一段；線上 v9.10.1 還沒有，暫時解法 F5 重新整理→標題「繼續」）",
    "authorized": "P0 bug",
-   "next": "【交班 14:5x：重現腳本＋使用者存檔 tests/repro_1018/、結果 docs/handoff/TEST_RESULTS_1018.md 第 2b 節】下一版（v9.10.2）一定要帶 a0926112 的保底（game3d.js 和 main 只差這一段）。根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向已先堵（econff3d.js S.advance：黑幕、日期卡期間 sceneBegin、finally sceneEnd；tests/econ_ff_unit.js ⑧ 新版 PASS、舊版 FAIL）；第二階段（在家）advance2 的黑幕＋日期卡同樣沒鎖，還沒改；瀏覽器還沒驗（經濟系 ff 走一段）；③問使用者卡住前一刻按了什麼"
+   "next": "【LAWWW-C 2026-10-20 19:5x】X81 找到的根因很可能就是這一個：一段劇情的選單還在等，另一段劇情的選單蓋上去、選完把畫面收起來，前一段永遠等不到 → 劇情鎖解不開、畫面上什麼都沒有（使用者 v9.10.2 的 _stuck＝8/30 bedScene）。修法在開發分支（game3d.js choose 疊放：被蓋掉的選單等上面那段演完再放回來；tests/choose_cover_unit.js）。和這裡的症狀（busy=true、沒有對話／選項）一樣；v9.10.3 發布後使用者再卡住，_stuck 會多記 cover＝誰蓋的。 ｜ 【交班 14:5x：重現腳本＋使用者存檔 tests/repro_1018/、結果 docs/handoff/TEST_RESULTS_1018.md 第 2b 節】下一版（v9.10.2）一定要帶 a0926112 的保底（game3d.js 和 main 只差這一段）。根本原因還沒找到；保底已做（10-18 LAWWW-C）。瀏覽器重現四次都沒卡住（對 v9.10.1 的乾淨 checkout）：①turbo；②不用 turbo、存檔改回 9/13 18:30＋出遊 planned：OUT.go 19.01～22.59，sceneBegin／sceneEnd 成對，之後到 9/18、9/20、10/12、10/16 都正常；③用使用者存檔原樣（21:50、b1 已演）讀進去：接到 9/20、10/12 都正常。卡住只發生在那一局當時的狀態裡，存檔看不出來。保底（game3d.js）：sceneBegin 記下是誰開的（D.busyWho），除錯面板多一行 SCENE depth／by；鎖住超過 10 秒、沒有對話／選項／事件／2D／手機／選單／淡入淡出／日期卡／劇情走路：標 D.stale、console.warn、HUD 顯示、提示「畫面好像停住了。可以打開選單讀檔，或回標題」，選單的讀取、回標題不再被「劇情還在進行」擋（不自己解鎖、不跳劇情）。測試 tests/stale_lock_escape.py：新版 PASS，v9.10.1 FAIL（讀檔被擋、還鎖著）。下一步：①請使用者再卡住時看除錯面板 SCENE 那行的 by＝哪個函式（要等下一版發布才有）；②懷疑方向已先堵（econff3d.js S.advance：黑幕、日期卡期間 sceneBegin、finally sceneEnd；tests/econ_ff_unit.js ⑧ 新版 PASS、舊版 FAIL）；第二階段（在家）advance2 的黑幕＋日期卡同樣沒鎖，還沒改；瀏覽器還沒驗（經濟系 ff 走一段）；③問使用者卡住前一刻按了什麼"
   },
   {
    "id": "AA290-INTAKE",
@@ -19777,7 +19777,7 @@
    "title": "搬回家以後，可昕問完那一題，回到宿舍（3D）又卡住：鏡頭轉得動，沒有按鈕、沒有劇情接著播；讀自動存檔直接跳去陪可昕上課",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y0S1",
@@ -19791,7 +19791,7 @@
    },
    "source": "使用者 2026-10-18 14:3x：「他問完我剛剛那個問題之後我回到宿舍又卡住了……可以轉我的鏡頭，但沒有任何播放也沒有按鍵可以按」「我重新開遊戲讀進去自動存檔，就直接跳劇情要陪可昕上課」",
    "authorized": "P0 bug",
-   "next": "【22:5x LAWWW-C】v9.10.1 重現兩次都沒卡住：①加速從 9/2 演到 10/29（E30 → E26 車上、摩天輪 → K0-Lx2 → 10/29 小福，全部接上）；②從 10/17 E30 前的存檔用一般速度、照使用者選「我可以開車」重演（K0-Lx2 演完回到宿舍，約 10 秒後自動跳到 10/29）。只照劇情走不會卡，使用者那局應該是空檔多做了一個動作（床、室友、手機、選單）和自動接下一段撞在一起。保底：a0926112（卡住 10 秒放開讀檔／回標題）；新增卡住紀錄（game3d.js stuckLog：localStorage fatiao3d_stuck 最近 5 筆，匯出存檔多一欄 _stuck，記是哪一段沒結束 D.busyWho、哪天哪裡）——v9.10.2 發布後使用者再卡住，請使用者上傳存檔就看得到原因。K0-Lx2 已拿掉（2e28928c）。重現腳本：tests/repro_1018/（probe_live／probe_snap 下一批搬進來） ｜ 舊：【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2a 節】搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
+   "next": "【LAWWW-C 2026-10-20 19:5x】X81 找到的根因很可能就是這一個：一段劇情的選單還在等，另一段劇情的選單蓋上去、選完把畫面收起來，前一段永遠等不到 → 劇情鎖解不開、畫面上什麼都沒有（使用者 v9.10.2 的 _stuck＝8/30 bedScene）。修法在開發分支（game3d.js choose 疊放：被蓋掉的選單等上面那段演完再放回來；tests/choose_cover_unit.js）。和這裡的症狀（busy=true、沒有對話／選項）一樣；v9.10.3 發布後使用者再卡住，_stuck 會多記 cover＝誰蓋的。 ｜ 【22:5x LAWWW-C】v9.10.1 重現兩次都沒卡住：①加速從 9/2 演到 10/29（E30 → E26 車上、摩天輪 → K0-Lx2 → 10/29 小福，全部接上）；②從 10/17 E30 前的存檔用一般速度、照使用者選「我可以開車」重演（K0-Lx2 演完回到宿舍，約 10 秒後自動跳到 10/29）。只照劇情走不會卡，使用者那局應該是空檔多做了一個動作（床、室友、手機、選單）和自動接下一段撞在一起。保底：a0926112（卡住 10 秒放開讀檔／回標題）；新增卡住紀錄（game3d.js stuckLog：localStorage fatiao3d_stuck 最近 5 筆，匯出存檔多一欄 _stuck，記是哪一段沒結束 D.busyWho、哪天哪裡）——v9.10.2 發布後使用者再卡住，請使用者上傳存檔就看得到原因。K0-Lx2 已拿掉（2e28928c）。重現腳本：tests/repro_1018/（probe_live／probe_snap 下一批搬進來） ｜ 舊：【交班 14:5x：docs/handoff/TEST_RESULTS_1018.md 第 2a 節】搬出去以後不該回到宿舍的 3D：查 HOME.goOut／OUT.go 演完可昕階梯（kxTail「（晚上，回到家。）」）以後 H.at 有沒有回來、誰還拿著 sceneBegin；a0926112 的保底（10 秒放開讀檔）要跟 v9.10.2 一起發；要使用者的存檔就問"
   },
   {
    "id": "PHONE-LINE-UI-1018",
