@@ -826,7 +826,7 @@
   {
    "task": "LINZE-34F-TABLES-1020 更新：靠窗、靠牆那一條長椅坐不到（reachability_all FAIL）→ 野餐桌和窗台、牆之間留走道、每個座位有走近點；冷氣跟著牆淡出；note→dev",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "a9853e4b",
    "files": [
     "assets/models/env/second_ai/linze_3f.glb",
     "assets/models/env/second_ai/linze_3f.json",
