@@ -31,7 +31,7 @@ const has=(id,tag)=>SOCIAL.has(id,tag);
     check('① 測試事件：第一次演＝「第一次見面的話」（沒有「又見面的話」）',a.includes('第一次見面的話')&&!a.includes('又見面的話'),JSON.stringify(a));
     check('① 第二次演＝「又見面的話」；第一次演完就記下 FIRST_MET',b.includes('又見面的話')&&!b.includes('第一次見面的話')&&has('heroine_04','FIRST_MET'),JSON.stringify(b)); }
   { fresh(); G.zone='wancai'; await EVENTS.run(evById('ev_ziqing_club')); const a=said.slice();
-    check('① 子晴的吉他社（ev_ziqing_club）第一次：沒聽阿凱說過＝「新人？……」（BB_95 2-6；聽過＝「你就是阿凱的室友？」）、「我高子晴。資工二。」，沒有「又來了」',a.some(t=>/^新人？/.test(t))&&a.some(t=>/我高子晴/.test(t))&&!a.some(t=>/又來了/.test(t)),a.slice(0,3).join(' / '));
+    check('① 子晴的吉他社（ev_ziqing_club）第一次：沒聽阿凱說過＝「新人？……」（BB_95 2-6；聽過＝「你就是阿凱的室友？」）、「我高子晴，資工系的。」，沒有「又來了」',a.some(t=>/^新人？/.test(t))&&a.some(t=>/我高子晴/.test(t))&&!a.some(t=>/又來了/.test(t)),a.slice(0,3).join(' / '));
     said=[]; G.day++; await EVENTS.run(evById('ev_ziqing_club')); const b=said.slice();
     check('① 第二次去吉他社：「又來了」，不再自我介紹',b.some(t=>/又來了/.test(t))&&!b.some(t=>/我高子晴/.test(t)),b.slice(0,2).join(' / ')); }
   { fresh(); G.zone='cafe'; await EVENTS.run(evById('ev_cafe_barista_zhiruo')); const a=said.slice(), o=(opts[0]||[]).join('／');
@@ -53,7 +53,7 @@ const has=(id,tag)=>SOCIAL.has(id,tag);
     check('② 在校園對還沒見過的子晴搭話：一句旁白、不自我介紹、不記 FIRST_MET',said.length===1&&/^（她/.test(said[0])&&!said.some(t=>/我是高子晴|資工/.test(t))&&!has('heroine_04','FIRST_MET'),JSON.stringify(said));
     delete EVENTS.onInteract; EVENTS.onInteract=undefined; load('src/events3d.js'); EVENTS.bind(GM);
     said=[]; G.zone='wancai'; await EVENTS.run(evById('ev_ziqing_club'));
-    check('② 之後第一次去吉他社：照第一次見面演（「新人？……」「我高子晴。資工二。」）',said.some(t=>/^新人？/.test(t))&&said.some(t=>/我高子晴/.test(t))&&!said.some(t=>/又來了/.test(t)),said.slice(0,2).join(' / ')); }
+    check('② 之後第一次去吉他社：照第一次見面演（「新人？……」「我高子晴，資工系的。」）',said.some(t=>/^新人？/.test(t))&&said.some(t=>/我高子晴/.test(t))&&!said.some(t=>/又來了/.test(t)),said.slice(0,2).join(' / ')); }
   { fresh(); G.zone='library'; STORY.populate('none',GM); EVENTS.onInteract=()=>false;
     const n={id:'heroine_03',charId:'heroine_03',obj:{position:{x:1,z:1}},pose:'read',seat:{x:1,z:1}}; await STORY.talkCharacter('heroine_03',n);
     check('② 總圖裡對還沒見過的語彤搭話（她坐著念書）：旁白、不記 FIRST_MET——之後總圖門口的相遇照樣會發生',said.length===1&&/低頭/.test(said[0])&&!has('heroine_03','FIRST_MET')&&EVENTS.cond(evById('ev_library_door_phone').prereq||{}),JSON.stringify(said)); }

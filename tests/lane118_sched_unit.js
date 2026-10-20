@@ -14,7 +14,7 @@ for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/places
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const mkG=(d,h,flags)=>{ const G={day:d,hour:h,weekday:CALENDAR.dateOf(d).wd%7,stage:'law',zone:'campus',flags:Object.assign({introDone:true,afternoonDone:true,classDone:true},flags||{}),choices:{},events:{done:{},last:{},count:0},social:null,rel:{}}; SOCIAL.bind(G); EVENTS.bind({get G(){ return G; },E:{player:{obj:{position:{x:0,z:0}}},npcs:[]},npc:{}}); return G; };
 const ROWS=[]; for(const id in CHARACTERS) for(const e of (CHARACTERS[id].daily_schedule||[])) if(/^AA_320/.test(e.note||'')) ROWS.push({id,e});
-check('0. AA_320 的 16 列都在（118 巷 11、霖澤館樓上 5；以安大三下另一列、沛珊大二上另一列＝18 筆）', ROWS.length===18, String(ROWS.length));
+check('0. AA_320 的 16 列都在（118 巷 11、霖澤館樓上 5；以安大三下、大二上大四上（5-1 提早）另兩列、沛珊大二上另一列＝19 筆）', ROWS.length===19, String(ROWS.length));
 // 找日期：這一列的學期、週次、星期，不是假日
 const D0=STORY.dayOfKey('2025-08-25'), D1=STORY.dayOfKey('2029-06-30');
 const sample=(e,pred)=>{ for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(!T||!e.terms.includes(T.id)||(e.weeks&&!e.weeks.includes(T.week))) continue; if(!e.days.includes(CALENDAR.dateOf(d).wd%7)) continue; if(e.noHoliday&&CALENDAR.holiday(d)) continue; if(pred&&!pred(d,T)) continue; return d; } return null; };
@@ -39,7 +39,8 @@ const row=(id,note)=>ROWS.find(r=>r.id===id&&r.e.note.startsWith(note)).e;
 { const e=row('heroine_04','AA_320 L12'); const dh=(()=>{ for(let d=D0;d<=D1;d++){ const T=CALENDAR.termOf(d); if(T&&e.terms.includes(T.id)&&e.weeks.includes(T.week)&&e.days.includes(CALENDAR.dateOf(d).wd%7)&&CALENDAR.holiday(d)) return d; } return null; })();
   if(dh!=null){ const G=mkG(dh,18.1); check('3. 子晴週二韓式：國定假日不在（noHoliday）', STORY.schedEnt(CHARACTERS.heroine_04,G)!==e, CALENDAR.dateOf(dh).key); } else check('3. 子晴週二：找不到落在假日的週二（跳過）', true); }
 { const e=row('classmate_peishan','AA_320 L6'); check('3. 沛珊週一點：只有大一、大二上', e.terms.join()==='Y1S1,Y1S2,Y2S1'); }
-{ const es=ROWS.filter(r=>r.id==='heroine_01'&&r.e.note.startsWith('AA_320 L3')).map(r=>r.e); const y32=es.find(e=>e.terms.includes('Y3S2')); check('3. 以安週二點：大三下只到第 5 週（3/25 去日本）', !!y32&&y32.weeks.join()==='2,3,4,5'&&es.length===2); }
+{ const es=ROWS.filter(r=>r.id==='heroine_01'&&r.e.note.startsWith('AA_320 L3')).map(r=>r.e); const y32=es.find(e=>e.terms.includes('Y3S2')); check('3. 以安週二點：大三下只到第 5 週（3/25 去日本）；大二上、大四上 11:45～12:30（AA_320 5-1）；大四下不排（上課優先）', !!y32&&y32.weeks.join()==='2,3,4,5'&&es.length===3&&es.some(e=>e.terms.join()==='Y2S1,Y4S1'&&e.from===11.75&&e.to===12.5)&&!es.some(e=>e.terms.includes('Y4S2')));
+  console.log('INFO 2b. 以安週二點新時段還撞到的課（AA_320 5-1：照上課優先、不出現，不用再問 AA）：'+(cls.filter(x=>/^heroine_01 /.test(x)).length||'沒有')); }
 { const e=row('heroine_05','AA_320 L9'); check('3. 學姊週六點：每學期第 6 週不排（北投圖書館）、大四上不排（美國）', !e.weeks.includes(6)&&!e.terms.includes('Y4S1')&&!e.terms.includes('Y1S1')); }
 // 4. 區域
 { const zs=new Set(ROWS.map(r=>r.e.zone)); const known=z=>z==='lane118'||/^linze_[34]f$/.test(z)&&LINZE_UPPER_LAYOUTS[z.slice(6)]||(typeof L118_SHOP_LAYOUTS!=='undefined'&&Object.values(L118_SHOP_LAYOUTS).some(q=>q.zone===z));

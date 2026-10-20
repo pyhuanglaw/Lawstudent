@@ -58,14 +58,14 @@ const NEEDED_MSGS=(function(){
     // 芷若（BB_97 11-1：整年只有這一則、反過來問他「你想」；沒回不提起）
     {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。'],miss:null},   /* Café 常客；Z7 之後 */
     // 子晴（BB_97 11-1；BB_205 第 5 節）
-    {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
+    {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],vars:[{cond:G=>!playtested(G),msg:['幫我看一個東西。現在。','……這不是問句。']}],   /* AA_313 6-4：沒看過 Q6 的玩家，不說破她在做遊戲 */reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
     {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[11,12],tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。'],
       miss:['我爸要來那則，你沒回。','……算了，沒差。'],missUnless:G=>done(G,'ev_ziqing_dad_visit')},   /* 沒看過 Q6（PLAYTESTED）的不提遊戲；沒回的那一句 Q8 之前才說 */
     {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['……好爛。我要用。'],miss:['遊戲名字我自己取了。先不說。']},   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
     {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['……可以。這個可以。'],miss:['第四句歌詞，我自己寫完了。']},
     // 學姊（BB_97 11-1；BB_205 第 4 節：祐廷大二整年她是碩一，只有法圖那本書）
     /* 'sis_duty'、'sis_typo'：刪（BB_207 第 2 節：學姊大二上是碩一，不回法服、推甄整段取消）；'sis_report'：刪（BB_205 第 4 節：學姊沒接阿姨的案子）*/
-    {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['法圖那本行政救濟的書被借走了。你們系上有人有嗎？'],reply:'我問問看。',resp:['好。不急。'],miss:['那本書我借到了。']},   /* id 照舊（原本「家族的學弟妹名單」）*/
+    {id:'sis_list',who:'heroine_05',term:'Y2S2',w:[1,3],msg:['法圖那本行政救濟的書被借走了。你們班上有人有嗎？'],reply:'我問問看。',resp:['好。不急。'],miss:['那本書我借到了。']},   /* id 照舊（原本「家族的學弟妹名單」）*/
     // 沛珊（BB_97 11-1）
     {id:'ps_q',who:'classmate_peishan',term:'Y2S1',w:[2,4],tie:true,msg:['讀書會這週的題目，你可以幫我出一題嗎？我出的都太簡單。'],reply:'好。我出一題難的。',resp:['謝謝。……不要難到大家想退出。'],miss:['讀書會的題目，你上週沒回。我自己出了一題。']},
     {id:'ps_plan',who:'classmate_peishan',term:'Y2S1',w:[6,8],tie:true,cond:G=>done(G,'ev_peishan_decision'),msg:['重考的讀書計畫，我排到明年七月。','……你覺得我瘋了嗎？'],reply:'沒有。',resp:['好。那我就照這個走。'],miss:['重考計畫那則你沒回。……沒關係，我先照那個排。']},

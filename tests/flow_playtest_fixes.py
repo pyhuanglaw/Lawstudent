@@ -19,7 +19,7 @@ ONLY = set(os.environ.get('PT_ONLY', 'ABCDE'))   # 只跑某幾段（例：PT_ON
 want = lambda s: s in ONLY
 BASE_FLAGS = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'fundsV2': 1, 'allowanceMonth': 9}
 NPC_JS = "(id=>{ const n=GAME.E.npcs.find(q=>q.charId===id||q.id===id); if(!n) return null; const o=n.obj.position, P=GAME.E.player.obj.position; return {x:+o.x.toFixed(2), z:+o.z.toFixed(2), d:+Math.hypot(o.x-P.x,o.z-P.z).toFixed(2), beh:n.beh||null, pose:n.pose||null, leaving:!!n.leaving, arrived:!!n.arrived, held:!!n.held, path:n.path?n.path.length:0, t:+GAME.E.time.toFixed(1)}; })(%s)"
-GATED = ('「欸不是，你手指好了沒？」', '「阿凱昨天又通宵，你室友要看好他。」', '「期末成發你要來。這不是問句。」')
+GATED = ('「你手指好了沒？」', '「阿凱昨天又通宵，你室友要看好他。」', '「期末成發你要來。」')
 
 
 async def npc(pg, cid): return await pg.evaluate(NPC_JS % json.dumps(cid))

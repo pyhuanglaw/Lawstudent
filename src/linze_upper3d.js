@@ -21,7 +21,12 @@
     if(GM.caption) GM.caption('','電梯往'+(up?'上':'下')+'……',1800); await GM.enter(q.zone,sp); }
   S_.ride=ride;
   /* 看微波爐、販賣機、公告欄、白板的字：配置檔的 note 是 LAWWW2 寫給開發組的（「說明文字由 AA 寫」），那幾個字不能出現在遊戲裡；正式的字 AA 寫好再換 */
-  const lookText=q=>String(q.note||q.label||'').replace(/；?說明文字由 AA 寫|（說明文字由 AA 寫）/g,'').replace(/（?LAWWW[^）]*）?/g,'').trim()||q.label;
+  /* 看微波爐、販賣機、垃圾桶、公告欄、白板：AA_320 5-2（AA-C e48d8e09）；期末週沿用。沒有的才用配置檔的 note（去掉給開發組的話）*/
+  const LOOK={ '3f':{ microwave:'微波爐前面貼著一張紙：「一次一個便當，三分鐘以內。」中午排隊的人排到樓梯口。', vending:'自動販賣機：茶、咖啡、能量飲料。咖啡那一排比別排空得快。', bins:'三個垃圾桶：一般垃圾、資源回收、廚餘。廚餘那桶的蓋子用膠帶補過。',
+      notice:'公告欄：讀書會招人、二手書轉讓、系學會的考古題借閱。最下面一張寫著：「三樓請降低音量。」', whiteboard:'白板上寫著期中考的範圍，旁邊畫了一張表，三格打勾，兩格還空著。' },
+    '4f':{ microwave:'這台比三樓那台新，門上貼著：「熱完請把門打開一下，讓味道散掉。」', vending:'自動販賣機只剩礦泉水和兩種咖啡。有一格貼著「補貨中」，紙已經有點黃了。', bins:'三個垃圾桶：一般垃圾、資源回收、廚餘。廚餘那桶的蓋子用膠帶補過。',
+      notice:'公告欄上大多是講座的海報。角落有一張手寫的紙條：「撿到一支黑色螢光筆，放在白板下面。」', whiteboard:'白板上留著一題寫到一半的申論題，只寫到「本題爭點在於」就停了。' } };
+  const lookText=(q,f)=>(f&&LOOK[f]&&LOOK[f][q.id])||String(q.note||q.label||'').replace(/；?說明文字由 AA 寫|（說明文字由 AA 寫）/g,'').replace(/（?LAWWW[^）]*）?/g,'').trim()||q.label;
   S_.lookText=lookText;
   /* 樓上的人（使用者 10-20「讓大家可以在那邊討論事情功課或者吃飯」）：一般同學（路人，沒有名字、沒有台詞；有名字的人照各自的作息，AA 排）。
      人數照時段：上課日 3F 午餐 11:30–13:30 八位、傍晚 17:30–19:00 六位、其他 8:00–21:00 四位、21:00–22:30 兩位；4F 自習 8:00–22:30 四位、午餐三位；
@@ -56,7 +61,7 @@
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
       const IT=E.interactables; z.seats=[];
       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; if(s.kind==='study') st.study=true; z.seats.push(st); IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st,label:s.label||'坐下'},s.kind==='study'?{study:true}:{})); }
-      for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(q)}); }
+      for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:lookText(q,f)}); }
       for(const d of L.doors){ if(d.kind==='stair') continue; IT.push({x:d.x,z:d.z+0.75,radius:1.0,lv:0,label:d.label,look:d.label+'。這個時段有課，門關著。'}); }
       const st=L.stairs, sx=st.door.x, sz=st.door.z+0.55;
       { const dn=st.down; IT.push({x:sx-0.45,z:sz,radius:0.6,lv:0,label:dn.label,exit:{to:dn.to,spawn:dn.to==='linze'?Object.assign({},L2SPAWN):Object.assign({},LINZE_UPPER_LAYOUTS[dn.to.slice(6)].stairs.spawn)}}); }

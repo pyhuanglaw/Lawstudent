@@ -134,7 +134,7 @@ const INVITE_DATA={
         if(c.pid==='wenzhou'&&!c.postExam&&(r.res==='accept'||r.res==='resched')) return {res:'decline',why:'exam',lines:['「散步的話，等我考完。」','「週三晚上我在法圖。要讀書的話，可以一起。」'],alt:null};   /* 筆試（2026-02-02 17:00）以前婉拒散步（AA_284 1-3；原本綁作廢的 W8、到 11/30 連交往都拒）*/
         if(r.res!=='accept'||!lib) return null;
         if(c.pid==='library') return {res:'here',lines:['「我就在總圖。三樓。不要講話，傳訊息。」'],alt:null};
-        if(c.pid==='cafe'||c.pid==='wenzhou') return {res:'resched',why:'busy',lines:[c.pid==='cafe'?'「五點以後。重點是我要先把這段寫完。」':'「五點以後。……散步，我試試看。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};
+        if(c.pid==='cafe'||c.pid==='wenzhou') return {res:'resched',why:'busy',lines:[c.pid==='cafe'?'「五點以後好不好？我要先把這段寫完。」':'「五點以後。……散步，我試試看。」'],alt:I.nextFree(G,'heroine_05',c.P,c.day,17)};
         return null; } },
     kai:{ walk:{any:[{if:(G,c)=>c.year<=1,l:['「宿舍網路又斷了 你們有教這個嗎」']}],
         noodle:[{if:(G,c)=>c.year<=1,once:'KAI_SCOOTER_ASK',l:['「所以你們法律系的，路邊的機車擋住騎樓可以告嗎」'],ch:[{t:'不一定是告，可以請警察來看',r:['「所以告跟叫警察不一樣 好 我學到一件事」']},{t:'你想告誰',r:['「沒有 我只是想知道我有沒有這個能力」']},{t:'先讓我吃完',r:['「好 你吃 ……吃完了嗎」']}]}]},   /* BB_70 4-5（大一上；「先讓我吃完」＝去吃飯的路上）*/   /* 阿凱（4-4）：他的句子沒有標點 */

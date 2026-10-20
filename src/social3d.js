@@ -87,7 +87,9 @@ const SOCIAL = (function(){
   S.dayLabel=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const d=CALENDAR.dateOf(day); if(d&&d.m) return d.m+'/'+d.d; } return '第 '+day+' 天'; };   /* 人物面板的記憶：日期（8/22），不是「第 -25 天」*/
   S.noteShown=function(id,m){ if(!m||!m.note) return ''; if(!retiredNotes){ retiredNotes={}; const add=x=>{ if(x&&x.npc&&x.note) (retiredNotes[x.npc]||(retiredNotes[x.npc]=new Set())).add(x.tag+'|'+x.note); };
       if(typeof STORY_EVENTS!=='undefined') for(const e of STORY_EVENTS){ if(!e.retired) continue; for(const x of ((e.consequences&&e.consequences.mem)||[])) add(x); for(const l of (e.dialogue||[])) for(const c of ((l&&l.choice)||[])){ for(const x of (c.mem||[])) add(x); for(const x of ((c.consequences&&c.consequences.mem)||[])) add(x); } } }
-    const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][m.tag+'|'+m.note]; if(rn) return rn; if(/^[a-z_0-9]+$/.test(m.note)){ if(S.PLACE_LABEL[m.note]) return S.PLACE_LABEL[m.note]; const zz=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[m.note]; if(zz&&zz.name) return zz.name; } return m.note; };
+    const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][m.tag+'|'+m.note]; if(rn) return rn; if(/^[a-z_0-9]+$/.test(m.note)){ if(S.PLACE_LABEL[m.note]) return S.PLACE_LABEL[m.note]; const zz=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[m.note]; if(zz&&zz.name) return zz.name; } return S.filmRename(m.note); };
+  /* 真實片名改成虛構的（AA_313 6-2，D77）：舊存檔記憶裡的《東京物語》《晚春》顯示新片名（存檔不改）*/
+  S.filmRename=t=>typeof t==='string'?t.replace(/《東京物語》|東京物語/g,'《進城的那一週》').replace(/《晚春》|晚春/g,'《父親的午後》').replace(/《《/g,'《').replace(/》》/g,'》'):t;
   /* 改過的備註（舊存檔裡記的是舊說法；人物面板顯示新的，存檔不改）：沛珊「她在考慮轉系」→「她在想別的路」（AA 2026-10-14：她之後是休學重考，不是轉系；BB_95 2-8）*/
   const NOTE_RENAMED={classmate_peishan:{'IMPORTANT_CONVERSATION|她在考慮轉系':'她在想別的路'},heroine_03:{'IMPORTANT_CONVERSATION|阿姨說她帶媽媽去醫院':'阿姨扭到手腕，那週她顧店到打烊'}};   /* 語彤 4 原因改輕（交接包 v2 第 1 節）*/
   /* ---- 好感看得見（AA_124 1-6、BB_120 第 1 節；台詞在 src/data/rel_lines.js）----
@@ -106,7 +108,9 @@ const SOCIAL = (function(){
     const v=pickV((s==='CLOSE_FRIEND'&&B.CLOSE_FRIEND)||((s==='CLOSE_FRIEND'||s==='FRIEND')&&B.FRIEND)||B.base); return v?(v.l||v):null; };
   S.meetLine=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
     const v=pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')]); return v?(typeof v==='string'?v:(v.t||null)):null; };
-  S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; const s=S.friendLevel(id);
+  /* 交往中的叫法（rel_lines 的 contact.DATING；AA_313 6-5 第 8 點：學姊交往以後聯絡人是「書瑀」，手機上她的訊息也照這個名字）*/
+  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))?C.DATING:null; };
+  S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||C.base||null; };
   /* 任一方有伴侶（祐廷和別人交往中，或對方這學期有伴侶 CHARACTERS[id].partner）：{solo:true} 的旁白拿掉（BB_120 1-0） */
   S.partnered=function(id){ const F=G.flags||{}; if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&k!=='dating_'+id&&F[k])) return true;

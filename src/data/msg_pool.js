@@ -137,7 +137,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在寫外文系的報告。"], "tags": ["學期中"], "ask": null, "src": "BB_178 1 在幹嘛"},
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["剛下班。", "（照片：收好的吧檯）"], "tags": ["大一～大二，下班後回的那次"], "ask": null, "src": "BB_178 1 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["剛下班，腳好痠。", "你呢？"], "tags": ["大一～大二，下班後回的那次"], "ask": {"opts": [{"t": "在宿舍。", "r": ["好好喔，我也想躺著。"]}, {"t": "在念書。", "r": ["那你念。我不吵你。"]}]}, "src": "BB_178 1 在幹嘛"},
-   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["剛看完《東京物語》。", "第二次看，這次哭得比較早。"], "tags": [], "ask": null, "src": "BB_178 1 在幹嘛"},
+   {"topic": "chat", "tier": "R", "variant": null, "msgs": ["剛看完《進城的那一週》。", "第二次看，這次哭得比較早。"], "tags": [], "ask": null, "src": "BB_178 1 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在想新來的那支豆子要怎麼跟客人介紹。", "它聞起來像葡萄乾，喝起來不像。"], "tags": ["大一～大二"], "ask": null, "src": "BB_178 1 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["剛下班。", "剛剛有個客人點了一杯熱美式，喝完又點一杯冰的。", "我問他為什麼，他說想比較。"], "tags": ["大一～大二，下班後回的那次"], "ask": null, "src": "BB_178 1 在幹嘛"},
    {"topic": "chat", "tier": "L", "variant": null, "msgs": ["（照片：一杯拉花）", "這是今天最好看的一杯。"], "tags": ["大一～大二（帶感情的那一句：她拍了好看的拉花從不傳給別人，`BB_70` 1-2）"], "ask": null, "src": "BB_178 1 在幹嘛", "affection": true},
