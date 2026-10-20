@@ -133,7 +133,7 @@ LAWWW2-C，2026-10-20。
   - `tests/shots_rooms.py`：本頁的截圖。
 - **10-20 18:4x 重建的更新**（LAWWW-C 已經接了 `0a5cc70a`，這次只要換檔）：
   1. 換 `assets/models/env/second_ai/{wancai_sema,linze_202,wancai_multi}.glb`、`.json`、`.layout.json`；
-  2. 重新產生 `src/data/room_glb_layouts.js`，或套 [`../../patches/rooms_layout_dev_note.diff`](../../patches/rooms_layout_dev_note.diff)（對 `0dc0460d`）。
+  2. 重新產生 `src/data/room_glb_layouts.js`，或套 [`../../patches/rooms_layout_dev_note.diff`](../../patches/rooms_layout_dev_note.diff)（對 `0dc0460d`，格式和你產生的一樣、不含 navcheck）。
 - LAWWW-C 正式接線要做的：
   1. 門：拿掉 `closed`、加 `to`；
   2. 上課、社課從「門口上課」改成走進來坐下（`classes3d.js`、`courses.js` 的 rooms、`activities.js`）；

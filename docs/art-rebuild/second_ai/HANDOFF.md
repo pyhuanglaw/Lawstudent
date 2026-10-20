@@ -40,9 +40,9 @@
     - MODEL_READY／INTEGRATED 只在測試工作樹／READY_FOR_ART_REVIEW；
     - 同一次讀檔切換量：draw call −1、三角形 +1 萬、陰影那一輪不變；
     - 第二階段（公館區域裡面的店面樓上、捷運出口的 GONGGUAN、水源市場）還沒做。
+- 研討室 A、202、多功能教室重建版交付 `75ef4ae3`（牆淡出時飄著的東西、note→dev；flow_rooms 三間 ALL PASS）。
+- 霖澤館 3F、4F 重建版交付（靠窗、靠牆那一條長椅坐不到 → 留走道＋走近點；reachability_all 舊版 FAIL、新版 PASS）。
 - 接下來：
-  1. 研討室 A、202、多功能教室：重建（牆淡出）、README、交付；
-  2. 霖澤館 3F、4F：野餐桌離牆、長凳走近點、冷氣淡出，重建再交；
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
   4. X86 第二階段；
   5. ART-BALCONY-POTS（只做公館；溫州街暫停）。
