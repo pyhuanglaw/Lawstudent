@@ -86,7 +86,7 @@ const INVITE_DATA={
         if(c.pid==='wenzhou'&&c.first){ if(c.wd===6) return {lines:['「週六。我本來就在。」']}; return {res:'resched',why:'sat',lines:['「週六。我本來就在。」'],alt:I.nextSat(G,'heroine_03',c.P,c.day,15)}; }
         return null; } },
     zhe:{ walk:{any:[['「這家以前是賣雞排的。」'],['「那家的老闆會記得你點什麼，只要你去三次。」'],['「你知道公館哪家滷味十點後半價嗎？……我知道三家。」']]}, acc:{noodle:['「好啊！我餓了。」']} },   /* 阿哲（2-3；BB_121 2-3：揪人的那句等群體邀約）*/
-    yu:{ acc:{library:['「總圖好安靜……好啦，坐你旁邊我就可以。」']} },   /* 小語（2-4；大三以後「今天是我的晚上」等她那個晚上的作息）*/
+    yu:{ acc:{library:['「總圖喔……好啊，可是我會一直想跟你講話。」']} },   /* 小語（2-4；大三以後「今天是我的晚上」等她那個晚上的作息）*/
     classmate_bohan:{   /* 柏翰：總圖秒答應；其他地方「我要念書」，改到念完的時間（2-5；BB_121 2-5）*/
       rule:(G,c,I)=>{ if(c.pid==='library'||c.r.res!=='accept'||c.h>=21+10/60) return null; const a=I.freeAt(G,'classmate_bohan',c.P,c.day,21+10/60)?{day:c.day,h:21+10/60}:I.nextFree(G,'classmate_bohan',c.P,c.day,21+10/60);
         return {res:'resched',why:'study',lines:[a?'「我要念書。……{zh}可以。」':'「我要念書。」'],alt:a}; } },
