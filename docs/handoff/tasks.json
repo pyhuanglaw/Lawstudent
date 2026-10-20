@@ -20876,7 +20876,7 @@
    "title": "1A-01 職涯傾向 STORY.careerLean(G)（只讀現有紀錄；讀的地方只有四處）",
    "area": "v4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y3S1",
@@ -20890,14 +20890,14 @@
    },
    "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
-   "next": "照 AA_315 1A-01"
+   "next": "開發分支 08b8375d（tests/career_lean_unit.js）；BB 照 AA_315 1A-01 第 7 節 V1～V6 驗（?dev 左下角看分數）；讀它的地方（主線 7、尾聲）跟 1A-06、1A-20 一起接"
   },
   {
    "id": "EVPKG-1A03-1020",
    "title": "1A-03 主線 5 第三個房間（9/5 unboxY3，可以丟一件 ROOM_Y3_DISCARD）",
    "area": "v4",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y3S1",
@@ -20911,7 +20911,7 @@
    },
    "source": "AA_315（企劃分支 e1d9c638，AA-C 10-20 15:51）；AA_314 1A",
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
-   "next": "照 AA_315 1A-03"
+   "next": "開發分支 6ef53e3b（tests/room_y3_unit.js）；BB 照 AA_315 1A-03 第 7 節 R1～R6 驗；大三新東西沒有 3D 模型（只有旁白），507 照舊擺大二的東西——位置要 BB 截圖看"
   },
   {
    "id": "EVPKG-1A04-1020",
