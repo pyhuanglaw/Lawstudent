@@ -3,7 +3,7 @@
 //      C（子晴 PLAYTESTED／CONTEST_DAY、C08／C11／C12、交換回來、法律系那幾年的通識）各自堆高，top 就是那一項；
 //   2. 平手：先比大四那一年（總分 − CAREER_Y4_BASE）；再平手 B → A → C；三項都是 0＝B；
 //   3. 起點：STUDY_AT_LAW＝第一次在法律系那一刻的自習時數（經濟系讀的不算）；CAREER_Y4_BASE 只在大四上第 1 週記，之後讀檔的舊存檔不補；
-//   4. 不上畫面：只有 ?dev 看得到（game3d.js devCareer）；careerLean 不改任何旗標、關係。
+//   4. 不上畫面：只有 ?dev 看得到（game3d.js devCareer）；careerLean 不改任何旗標、關係；畢業以後（postgrad3d.js）讀它決定第一份工作、尾聲的路（AA_319）。
 // 修改前全部 FAIL。用法：node tests/career_lean_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -67,6 +67,6 @@ GM.money=function(n){ G.money+=n; };
   mk(); G.flags.LAWCLUB_SAT_VISITS=2; const snap=JSON.stringify(G.flags), relSnap=JSON.stringify(SOCIAL.rel('heroine_05')); L(); L();
   check('4. careerLean 只讀：不改旗標、不改關係', JSON.stringify(G.flags)===snap&&JSON.stringify(SOCIAL.rel('heroine_05'))===relSnap);
   { const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const used=[]; for(const f of fs.readdirSync(path.join(ROOT,'src'))){ if(!/\.js$/.test(f)) continue; const t=fs.readFileSync(path.join(ROOT,'src',f),'utf8'); if(/careerLean/.test(t)) used.push(f); }
-    check('4. 畫面上只有 ?dev 看得到（game3d.js devCareer 只在網址有 dev 時建立）；其他檔案還沒有讀它的地方（主線 7、尾聲接進來時才加）', /const DEV_Q=typeof location!=='undefined'&&\/\[\?&\]dev\\b\/\.test/.test(g3)&&/function devCareer\(\)\{ if\(!DEV_Q/.test(g3)&&used.sort().join()==='game3d.js,story3d.js', used.join()); }
+    check('4. 畫面上只有 ?dev 看得到（game3d.js devCareer 只在網址有 dev 時建立）；讀它的只有畢業以後（postgrad3d.js：第一份工作、尾聲祐廷的路，AA_319），其他檔案還沒有（主線 7 接進來時才加）', /const DEV_Q=typeof location!=='undefined'&&\/\[\?&\]dev\\b\/\.test/.test(g3)&&/function devCareer\(\)\{ if\(!DEV_Q/.test(g3)&&used.sort().join()==='game3d.js,postgrad3d.js,story3d.js', used.join()); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

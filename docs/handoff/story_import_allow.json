@@ -912,6 +912,14 @@
    "approvedBy": "AA-C 定稿（1A-09～12、1A-15；bf349b96 更正美國回臺、PLAYTESTED，D100）",
    "task": "EVPKG-1A09-15-1020",
    "note": "子代理 2d9baec4 手抄（合併 f7b1473e）；ec371ec6 照 bf349b96 改"
+  },
+  {
+   "path": "docs/story_planning/AA_319_事件包_第三批之三_1A13_1A14_1A16到1A20.md",
+   "sha": "f252a7b5",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（1A-13、1A-14、1A-16～20；c9b4f60e、b6757852、5ae6a133／f252a7b5 更正，D100）",
+   "task": "EVPKG-1A13-20-1020",
+   "note": "子代理 a2e6fc5d 手抄進 src/data/postgrad_lines.js、src/postgrad3d.js（合併 55bbd833）；CG-9、BCG-07、BCG-39、CG-10 還沒有圖（MISSING_EXTERNAL_ART）"
   }
  ]
 }
