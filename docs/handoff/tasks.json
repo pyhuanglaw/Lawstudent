@@ -21324,6 +21324,27 @@
     "parallel": true,
     "confirmed": true
    }
+  },
+  {
+   "area": "v4",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "id": "EVPKG-R2Y4-1020",
+   "title": "第 2 輪之三：大四到尾聲 61 件（2-Y4-01～55＋AA 補的 56～61：美國路線大峽谷、學姊在美國的訊息視訊與大峽谷告白、律師讀書小組、可昕 K27、學姊放榜那句、沛珊大四下期末飯）",
+   "status": "待開工",
+   "source": "AA_327（b6757852；AA-C；使用者 10-20 15:4x B 線）",
+   "next": "第 1 輪之後；2-Y4-47 後半芷若「延後的回答」是 PROPOSAL 等使用者，不做；AA_319 三處更正已轉給做 1A-13～20 的那一批",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "大四上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   }
   }
  ]
 }
