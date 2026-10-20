@@ -21049,7 +21049,7 @@
    "status": "已整合待測試",
    "priority": "P1",
    "source": "BB-C 9430027c（BB_218 X71 小問題）；使用者 10-20 15:4x A-2「玩家一直留在 Café、總圖等室內時，到時段也要能看到人物正常進出」",
-   "next": "【10-20 16:2x 開發分支】S.cafeRefresh（refreshSchedule 每 3 秒）：時段人數變多從門口走進來坐下、變少起身走到門口才離開；Z3 那天 21:25 以後不進、兩段感情攤牌那晚（S.cafeQuiet）不進客人。tests/cafe_refresh_unit.js（修改前 12 FAIL）。下一步：BB 用同一份存檔待在店裡 15:58 → 20:00 看客人 2 → 3、23:00 走剩 1",
+   "next": "【18:3x】BB-C 79f2cd22 PARTIAL：20:00 2→3 進來坐下 ✔、22:59 兩位起身走向門口 ✔；NOT FIXED：要走的客人卡在門口、和站在門口的玩家疊在一起、一直不離開。修：S.leaveStuck——走向出口的人兩次檢查之間幾乎沒動、離出口 3.5 m 內＝當作出了門（所有區域的「時段結束走到門口」都適用）。tests/cafe_refresh_unit.js 第 7 項。等 BB 重驗 ｜ 【10-20 16:2x 開發分支】S.cafeRefresh（refreshSchedule 每 3 秒）：時段人數變多從門口走進來坐下、變少起身走到門口才離開；Z3 那天 21:25 以後不進、兩段感情攤牌那晚（S.cafeQuiet）不進客人。tests/cafe_refresh_unit.js（修改前 12 FAIL）。下一步：BB 用同一份存檔待在店裡 15:58 → 20:00 看客人 2 → 3、23:00 走剩 1",
    "area": "V1",
    "owner": "LAWWW",
    "first": {
@@ -21067,7 +21067,7 @@
   {
    "id": "BUG-NAME-LABEL-1020",
    "title": "還沒認識以安，按鈕寫「和沈以安說話」（BB-C 9430027c 要 LAWWW 確認：不是刻意的例外）",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "source": "BB-C 9430027c（BB_218 X70「要確認」）；AA 10-13 P1-1 認識前不露名字；AA_313 第 4 節第 10 點",
    "next": "【10-20 16:2x 開發分支】原因：那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），displayName 只在 UNKNOWN、RECOGNIZABLE 藏名字。改成只看認識了沒（SOCIAL.metD：FIRST_MET 或舊存檔的 met_an、met_sis）。tests/name_reveal_unit.js 第 6、7 項。下一步：BB 用使用者 9/25 存檔看 101 門口的以安按鈕是「和不認識的女生說話」",
@@ -21083,7 +21083,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "authorized": "使用者直接指示（10-20 試玩回報）"
+   "authorized": "使用者直接指示（10-20 試玩回報）",
+   "evidence": "BB-C 79f2cd22（BB_218）：b00112c1，使用者 9/25 存檔，9/26 普通 101 門口以安的按鈕認識前「和不認識的女生說話」、說完話以後「和沈以安說話」（namecafe_probe.py、nc.log）"
   },
   {
    "area": "v4",

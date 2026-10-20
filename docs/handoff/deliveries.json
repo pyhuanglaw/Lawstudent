@@ -9031,6 +9031,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 18:1x 合併、跑單元測試"
+  },
+  {
+   "id": "DL-BB-79f2cd22",
+   "date": "2026-10-20",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "79f2cd22",
+   "what": "BB_218：NAME-LABEL FIXED；CAFE-REFILL PARTIAL（23:00 要走的客人卡在門口和玩家疊在一起）",
+   "task": "BUG-CAFE-REFILL-1020",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "驗收紀錄；卡門口另修（S.leaveStuck）"
+  },
+  {
+   "id": "DL-LAWWW2-0a5cc70a",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0a5cc70a",
+   "what": "研討室 A、霖澤館 202、萬才館多功能教室：模型＋配置（MODEL_READY；流程測試在 LAWWW2 測試工作樹 ALL PASS）、窗景、臨時接線 patch；README、截圖還在拍（WIP）",
+   "task": "LINZE-WANCAI-FLOORS-1020",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
   }
  ],
  "ignored": [

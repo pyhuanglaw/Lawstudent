@@ -56,4 +56,10 @@ if(typeof STORY.refreshSchedule==='function'){ at(19.5); const GM=mkGM(); for(co
   check('6. 待到 23:00：兩位起身走到門口（leaving、走向出口），留下一位坐著', lv.length===2&&lv.every(n=>n.walkTo&&n.walkTo.x===0&&n.walkTo.z===5.6&&!n.seat)&&stay.length===1&&stay[0].cafeCust===w23[0]&&!!stay[0].seat, JSON.stringify(cust(GM).map(n=>({i:n.cafeCust,leaving:!!n.leaving,seat:!!n.seat}))));
   try{ STORY.refreshSchedule(GM); }catch(e){}
   check('6. 走到門口的下一輪離開（店裡剩一位）', cust(GM).length===1, String(cust(GM).length)); }
+// 7. 要走的客人卡在門口（BB-C 79f2cd22：玩家站在門口，客人走不出去、疊在一起、一直不離開）：兩次檢查之間沒動、離出口 3.5 m 內＝當作出了門
+if(typeof STORY.refreshSchedule==='function'){ at(23); const GM=mkGM(); GM.E.moveTo=(n,x,z,cb)=>{ n.obj.position.x=0; n.obj.position.z=4.1; return true; };   /* 走到門口前 1.5 m 就卡住（玩家站在門口），不會「走到了」*/
+  for(const i of w19) seated(GM,i); GM.E.player.obj.position={x:0,y:0,z:4.6};
+  try{ STORY.refreshSchedule(GM); }catch(e){}
+  const n1=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const n2=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const n3=cust(GM).length;
+  check('7. 要走的兩位卡在門口（沒走到）：下一、兩輪檢查就當作出了門，店裡剩一位', n1===3&&n3===1, [n1,n2,n3].join('→')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
