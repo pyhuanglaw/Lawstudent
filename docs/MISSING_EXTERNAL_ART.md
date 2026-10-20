@@ -63,6 +63,14 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 - cg_cafe_dusk_heroine01（登錄在 `CG_REGISTRY`，檔案不存在時自動退回一般 ADV）
 - ~~cg_library_rain_heroine03~~：2026-10-14 已補（使用者用 AI 生成、BB 檢查通過的第二版，`assets/cg/heroine_03/event_rain_library.webp`）
 - 其他 BB 檢查通過的 CG（企劃分支 `docs/story_planning/cg_approved/`）：事件還沒批准實作，先留在企劃分支，事件批准後再接
+- 畢業以後（AA_319，`src/postgrad3d.js`，2026-10-20）：程式在那一刻呼叫 `ADV.cg(id)`，還沒登錄在 `CG_REGISTRY`＝不顯示，照原本的背景演（D100：CG 由 BB 跟使用者要、交給 LAWWW 接；企劃線 `cg_approved/` 有 BB 檢查過的原圖）
+
+  | CG id | 編號 | 場景（哪一刻） | 現在的背景 |
+  |---|---|---|---|
+  | `cg_graduation_mother_heroine01` | CG-9 | 1A-13 6/2 12:00 畢業典禮拍照 ③ 以安和媽媽（和以安 `FRIEND` 以上），「謝謝你們這四年陪她吵架。」那一句 | 2D `graduation_avenue`（沒有圖＝深色底） |
+  | `cg_two_graduations_kexin` | BCG-07 | 6/9 可昕的畢業典禮（政大）：去了＝「等我拍完。晚上吃山下那家。」之後；沒去＝6/9 18:30 打開她傳的照片那一段 | 去了：2D `nccu_campus`；沒去：深色底 |
+  | `cg_this_time_heroine05` | BCG-39 | 6/2 20:30 學姊的生日（研究室，和學姊交往中）：「……許願要說出來嗎？」之後她閉眼許願那一拍 | 2D 研究室走廊（`ra_lab` 沒有＝`linze_prof_hall`） |
+  | `cg_reunion_window_table_<kai／heroine01／heroine02／heroine03／heroine04／heroine05／kexin／peishan>` | CG-10（基底圖＋8 張人物圖層合成） | 1A-20 尾聲 2034-06-03 19:00 兩點半 Café：同一桌的人、前任說完以後；祐廷右手邊＝畢業時的伴侶，沒有＝阿凱 | 兩點半 Café 的 3D（模糊） |
 
 ### 3D
 - **玩家正式模型**：目前用 Seed-san（VirtualCast, Inc.；VRM Public License 1.0，須標示出處）改色版：黑短髮、墨綠 T-shirt、炭灰長褲；**赤腳、褲長七分、胸口有原貼圖徽章**。要一個「有球鞋、後背包」的台灣大學生男性 VRM。RPM 範例（棕西裝光頭）已降級為 `TEMP_PLAYER_DEV_MODEL`，只在 VRM 載入失敗時出現。
