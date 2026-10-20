@@ -1,0 +1,342 @@
+[
+ {
+  "zone": "noodle",
+  "h": 15,
+  "mesh": 116,
+  "cast": 22,
+  "inst": 0,
+  "lights": 4,
+  "geos": 145,
+  "texs": 77,
+  "progs": 62,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 119,
+    "tris": 131526,
+    "fps": 2.25
+   },
+   {
+    "calls": 118,
+    "tris": 132322,
+    "fps": 3
+   },
+   {
+    "calls": 93,
+    "tris": 82356,
+    "fps": 2.5
+   },
+   {
+    "calls": 122,
+    "tris": 132544,
+    "fps": 2
+   }
+  ]
+ },
+ {
+  "zone": "wenzhou",
+  "h": 15,
+  "mesh": 858,
+  "cast": 419,
+  "inst": 6,
+  "lights": 6,
+  "geos": 660,
+  "texs": 362,
+  "progs": 110,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 422,
+    "tris": 731646,
+    "fps": 0.27
+   },
+   {
+    "calls": 259,
+    "tris": 450472,
+    "fps": 0
+   },
+   {
+    "calls": 264,
+    "tris": 430258,
+    "fps": 0.25
+   },
+   {
+    "calls": 238,
+    "tris": 429521,
+    "fps": 0.5
+   }
+  ]
+ },
+ {
+  "zone": "gongguan",
+  "h": 15,
+  "mesh": 985,
+  "cast": 551,
+  "inst": 8,
+  "lights": 3,
+  "geos": 349,
+  "texs": 322,
+  "progs": 94,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 188,
+    "tris": 322274,
+    "fps": 1
+   },
+   {
+    "calls": 252,
+    "tris": 394249,
+    "fps": 0.5
+   },
+   {
+    "calls": 276,
+    "tris": 483514,
+    "fps": 0.75
+   },
+   {
+    "calls": 200,
+    "tris": 394271,
+    "fps": 1.24
+   }
+  ]
+ },
+ {
+  "zone": "cafe",
+  "h": 15,
+  "mesh": 179,
+  "cast": 24,
+  "inst": 5,
+  "lights": 4,
+  "geos": 213,
+  "texs": 121,
+  "progs": 91,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 178,
+    "tris": 262036,
+    "fps": 0.75
+   },
+   {
+    "calls": 149,
+    "tris": 203194,
+    "fps": 1.5
+   },
+   {
+    "calls": 97,
+    "tris": 100206,
+    "fps": 2.25
+   },
+   {
+    "calls": 107,
+    "tris": 105732,
+    "fps": 1.25
+   }
+  ]
+ },
+ {
+  "zone": "dorm",
+  "h": 15,
+  "mesh": 168,
+  "cast": 15,
+  "inst": 0,
+  "lights": 4,
+  "geos": 173,
+  "texs": 50,
+  "progs": 78,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 133,
+    "tris": 89750,
+    "fps": 1.5
+   },
+   {
+    "calls": 103,
+    "tris": 87536,
+    "fps": 2
+   },
+   {
+    "calls": 108,
+    "tris": 86082,
+    "fps": 1.5
+   },
+   {
+    "calls": 115,
+    "tris": 87754,
+    "fps": 1.75
+   }
+  ]
+ },
+ {
+  "zone": "campus",
+  "h": 19.5,
+  "mesh": 1515,
+  "cast": 857,
+  "inst": 35,
+  "lights": 3,
+  "geos": 654,
+  "texs": 495,
+  "progs": 106,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 443,
+    "tris": 784513,
+    "fps": 0
+   },
+   {
+    "calls": 408,
+    "tris": 988773,
+    "fps": 0.5
+   },
+   {
+    "calls": 327,
+    "tris": 867397,
+    "fps": 0.75
+   },
+   {
+    "calls": 516,
+    "tris": 991169,
+    "fps": 0.25
+   }
+  ]
+ },
+ {
+  "zone": "wenzhou",
+  "h": 19.5,
+  "mesh": 1014,
+  "cast": 335,
+  "inst": 33,
+  "lights": 6,
+  "geos": 609,
+  "texs": 412,
+  "progs": 125,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 359,
+    "tris": 519328,
+    "fps": 0
+   },
+   {
+    "calls": 307,
+    "tris": 512767,
+    "fps": 0.3
+   },
+   {
+    "calls": 310,
+    "tris": 485877,
+    "fps": 0.25
+   },
+   {
+    "calls": 275,
+    "tris": 482134,
+    "fps": 0.75
+   }
+  ]
+ },
+ {
+  "zone": "gongguan",
+  "h": 19.5,
+  "mesh": 1146,
+  "cast": 568,
+  "inst": 16,
+  "lights": 3,
+  "geos": 483,
+  "texs": 455,
+  "progs": 111,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 200,
+    "tris": 327072,
+    "fps": 0.5
+   },
+   {
+    "calls": 318,
+    "tris": 445139,
+    "fps": 1
+   },
+   {
+    "calls": 414,
+    "tris": 640898,
+    "fps": 0.75
+   },
+   {
+    "calls": 263,
+    "tris": 450333,
+    "fps": 0.75
+   }
+  ]
+ },
+ {
+  "zone": "cafe",
+  "h": 19.5,
+  "mesh": 292,
+  "cast": 149,
+  "inst": 5,
+  "lights": 4,
+  "geos": 332,
+  "texs": 246,
+  "progs": 110,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 264,
+    "tris": 407458,
+    "fps": 0.5
+   },
+   {
+    "calls": 187,
+    "tris": 275308,
+    "fps": 1
+   },
+   {
+    "calls": 135,
+    "tris": 172320,
+    "fps": 2
+   },
+   {
+    "calls": 145,
+    "tris": 177846,
+    "fps": 1.5
+   }
+  ]
+ },
+ {
+  "zone": "dorm",
+  "h": 19.5,
+  "mesh": 185,
+  "cast": 15,
+  "inst": 0,
+  "lights": 4,
+  "geos": 303,
+  "texs": 176,
+  "progs": 99,
+  "shadow": true,
+  "dirs": [
+   {
+    "calls": 153,
+    "tris": 140328,
+    "fps": 1.25
+   },
+   {
+    "calls": 122,
+    "tris": 138112,
+    "fps": 2.25
+   },
+   {
+    "calls": 127,
+    "tris": 136658,
+    "fps": 1.5
+   },
+   {
+    "calls": 135,
+    "tris": 138332,
+    "fps": 1.5
+   }
+  ]
+ }
+]
