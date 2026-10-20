@@ -888,7 +888,7 @@ const STORY = (function(){
   S.noodleRegulars=noodleRegulars;
   S.refreshSchedule=refreshSchedule;
   let roomY2Busy=false, eveBusy=false, teBusy=false;
-  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active) return; const P=E.player.obj.position;
+  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return;   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
@@ -912,7 +912,7 @@ const STORY = (function(){
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(typeof HOME!=='undefined'&&HOME.eveDue&&HOME.eveDue(G)&&!eveBusy){ eveBusy=true; HOME.eveGo(GM).catch(e=>console.warn('HOME.eveGo',e)).finally(()=>{ eveBusy=false; }); return; }   /* 除夕 17:00 以後還在宿舍：媽媽「飯快好了。」→ 回家（AA_197 1-2）*/
     if(G.zone==='dorm'&&typeof TERMEND!=='undefined'&&TERMEND.kaiDue&&TERMEND.kaiDue(G)&&!teBusy){ teBusy=true; TERMEND.kaiAsk(GM).catch(e=>console.warn('TERMEND.kaiAsk',e)).finally(()=>{ teBusy=false; }); return; }   /* 學期末沒人約：阿凱「宵夜？」（BB_203 保底）*/
-    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; if(S.roomY2Due(G)&&!roomY2Busy){ roomY2Busy=true; S.roomY2InDorm(GM).catch(e=>console.warn('ROOM_Y2',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 3 第二個房間 */ if(!S.roomY2Due(G)&&S.roomY3Due(G)&&!roomY2Busy){ roomY2Busy=true; S.roomY3InDorm(GM).catch(e=>console.warn('ROOM_Y3',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 5 第三個房間（1A-03）*/ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; }
+    if(G.zone==='dorm'){ if(S.isEcon(G)&&S.y0Tick(GM)) return; if(S.roomY2Due(G)&&!roomY2Busy){ roomY2Busy=true; S.roomY2InDorm(GM).catch(e=>console.warn('ROOM_Y2',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 3 第二個房間 */ if(!S.roomY2Due(G)&&S.roomY3Due(G)&&!roomY2Busy){ roomY2Busy=true; S.roomY3InDorm(GM).catch(e=>console.warn('ROOM_Y3',e)).finally(()=>{ roomY2Busy=false; }); return; }   /* ★主線 5 第三個房間（1A-03）*/ S.dormItems(GM); if(fyPotsTick(GM,dt)) return; if(S.resumeSleepTick(GM,dt)) return; }
     if(S.sk02W8Due(G)){ S.sk02W8(GM).catch(e=>console.warn('SK02 W8',e)); return; }   /* SK02 沒去系辦的玩家（BB_106）*/
     S.kaiDormTick(GM);   /* 室友阿凱的宿舍事件（K-D3 鍵盤聲、K-D5 和解；吵架第 4 天自己和好）*/   /* 房間裡跟著劇情出現的東西（黃金葛、阿凱的鍵盤盒子、方奕廷的三盆植物）*/
     if(typeof CROWD!=='undefined'){ try{ CROWD.tick(GM,dt); }catch(e){ console.warn('CROWD.tick',e); } }   /* 公共場景的人流（D55）*/
@@ -954,7 +954,7 @@ const STORY = (function(){
     if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)){ const inApt=G.zone==='us_apartment'; GM.sceneBegin(); await GM.say(null,inApt?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。'); GM.sceneEnd(); G.flags.companion=null; if(!inApt) await GM.enter('us_apartment',EXCH.SPAWN.us_apartment); await sleepNow(GM); return; }   /* 在美國：回公寓睡（不走回台灣的宿舍）*/
     const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
-  S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
+  S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E; S._resume=null;   /* 玩家自己去做別的事：睡著被叫醒以後不再自動問床的選單（S.resumeSleepTick）*/
     if(it.exchFly&&typeof EXCH!=='undefined'){ await EXCH.interact(GM,it); return true; }   /* 登機（src/exchange3d.js）；宿舍的交換申請選單拿掉了（1A-02） */
     if(it.teaTable){ if(GM.G.flags.TEA_STEP>=3) await S.teaKevin(GM); else await S.teaTable(GM); return true; }   /* 9/2 新生茶會：窗邊家族那一桌（學姊那段以後：Kevin 一句）*/
     if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; } if(it.wzShop&&typeof WZS!=='undefined'){ await WZS.interact(GM,it); return true; }   /* 溫州街三家店的選單（AA_172）*/   /* 溫州街小公園（AA_171）*/
@@ -2669,6 +2669,11 @@ const STORY = (function(){
       if((P.w||[]).includes(G.day)){ await GM.say(null,'土還是濕的。今天澆過了。'); return; }
       const i=await GM.choose([{t:'澆水'},{t:'不用了'}]); if(i!==0) return; (P.w||(P.w=[])).push(G.day); await GM.say(null,'你幫三盆植物澆了水。'); } finally { GM.sceneEnd(); } }
   S._fy={tick:(GM,dt)=>fyPotsTick(GM,dt),hand:GM=>fyHand(GM),back:GM=>fyBack(GM),scene:GM=>fyPotsScene(GM),monAfter,reset(){ fyT=0; }};   /* 測試用 */
+  /* 睡著被叫醒以後（S.lawWakeAt：11/17 22:00 可昕的電話、10/24 感冒那一晚、10/26 可昕、6/1 20:00 收拾）：醒來那一段（和接著到的事件）演完、人還在同一個房間、同一個晚上（03:00 以前）
+     ＝床的選單自動再出來一次（BB-C 10-20：選了「睡到明天早上」，電話講完人醒著站在房間，要自己再走去床）。選「再撐一下」、先去做別的事（S.interact）、走出房間＝不再出 */
+  let resumeT=0;
+  S.resumeSleepTick=function(GM,dt){ const R=S._resume, G=GM.G; if(!R) return false; if(G.zone!==R.zone||G.day!==R.day||G.hour>=27){ S._resume=null; return false; }
+    resumeT+=dt||0; if(resumeT<1) return false; resumeT=0; S._resume=null; bedScene(GM).catch(e=>console.warn('resumeSleep',e)); return true; };
   /* 睡著之後、天亮之前的事件（EVENTS.sleepEvent：trigger 'sleep'，例：阿凱凌晨三點的螢幕）：畫面換成凌晨三點的房間演，演完再暗下來繼續睡 */
   async function nightEvent(GM){ const G=GM.G, E=GM.E; if(typeof EVENTS==='undefined'||!EVENTS.sleepEvent) return false; const ev=EVENTS.sleepEvent(); if(!ev) return false;
     if(ev.sleepCard){ await GM.titleCard(ev.sleepCard[0],ev.sleepCard[1]||'',1400); } else { G.hour=Math.max(G.hour,27); E.hour=G.hour; if(GM.updateHUD) GM.updateHUD(); await GM.titleCard('03:00','',1400); } await GM.fade(false);   /* sleepCard：別的時間、別的地方的一小段（子晴問阿凱：17:00 資工系館），不把時間改成凌晨三點 */
@@ -2685,7 +2690,7 @@ const STORY = (function(){
       else if(i===0){ const L=C&&C.chooseStudy?await C.chooseStudy(GM):{hours:1,uses:[]}; if(L){ P.pose='read'; P.idlePose='read'; await GM.studySession(false,L.hours); if(C){ C.slotUse(G,L.uses); if(C.queueJump) C.queueJump(G); } } }
       else if(i===1){ P.pose='read'; await GM.fade(true); GM.advance(0.5); await GM.fade(false); await GM.say(null,'你把筆記重看一遍。有些地方當時覺得懂，現在看又不太確定。'); if(C) C.slotUse(G,s2.uses); } }
     GM.standUp(P); GM.sceneEnd(); }
-  async function bedScene(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); if(S.mainDay(G)===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const opts=S.bedOptions(G); const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); GM.sceneEnd(); const o=opts[i]; if(!o||o.kind==='stay') return; if(o.kind==='ff'){ if(typeof HOME!=='undefined'&&HOME.ffMenu) await HOME.ffMenu(GM,'dorm'); return; } if(o.kind==='sleep') await sleepNow(GM,o.wake,o.alarm); else if(typeof CLS!=='undefined'&&CLS.skipTo) await CLS.skipTo(GM,o.to,{nap:true}); }
+  async function bedScene(GM){ const G=GM.G, F=G.flags; S._resume=null; GM.sceneBegin(); if(S.mainDay(G)===1&&!F.readCase){ const i=await GM.choose([{t:'還沒讀案例，先睡了'},{t:'等等，先去看一下'}]); if(i===1){ GM.sceneEnd(); return; } F.readCase='none'; GM.memo('沒有讀案例就睡了'); } const opts=S.bedOptions(G); const i=await GM.choose(opts.map(o=>({t:o.t,hint:o.hint}))); GM.sceneEnd(); const o=opts[i]; if(!o||o.kind==='stay') return; if(o.kind==='ff'){ if(typeof HOME!=='undefined'&&HOME.ffMenu) await HOME.ffMenu(GM,'dorm'); return; } if(o.kind==='sleep') await sleepNow(GM,o.wake,o.alarm); else if(typeof CLS!=='undefined'&&CLS.skipTo) await CLS.skipTo(GM,o.to,{nap:true}); }
   /* 床的選項（2026-10-13 使用者試玩：「睡覺只能隔天醒來？應該要有小睡一下的選項」「早上睡覺醒來變成下午、下午睡覺起來變成晚上」；AA_110 第 6-5 節，AA 暫定）：
      白天（05:00–17:30）小睡 30 分鐘／1 小時／2 小時——預設在下一堂課前 20 分鐘叫醒（鬧鐘）；「睡到傍晚」不設鬧鐘（照手機跳過時間：會錯過課先問一次）。
      晚上（17:30 以後、過午夜）睡到明天：早上（有課就在第一堂前 1 小時，沒課 07:30）、中午、下午、晚上——每個選項寫會錯過什麼（只提醒不阻止，翹課照現有規則）；
@@ -2846,10 +2851,12 @@ const STORY = (function(){
     return null; };
   S.E35_AT={x:-91,z:55.6};
   S.E36_AT={x:-23.6,z:-12};   /* E36 可昕在椰林大道的長椅（-25,-13）旁邊（BB_104 8-11「她坐在路邊的椅子上」）*/   /* E35 可昕站的地方：大一女舍門口長椅（-93,54.2）的東邊（AA_154 A41 ①：D1、D2、E13 用的同一個地方）*/
-  async function sleepNow(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
+  /* 睡覺的整段：S._sleeping＝S.tick 不開新的事件（醒來的字卡、換房間之間沒有劇情鎖）；結束（包括中途 return）才放開 */
+  async function sleepNow(GM,wake,alarm){ S._sleeping=true; try{ return await sleepBody(GM,wake,alarm); } finally { S._sleeping=false; } }
+  async function sleepBody(GM,wake,alarm){ const G=GM.G, F=G.flags, E=GM.E;
     if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return;   /* 經濟系事件接事件：睡覺＝到下一個事件（不能睡過去）*/
     /* E24c 的睡前邊界（3/13 頂樓）拿掉：E24c 改成 2/13 23:00 阿勳的私訊（AA_224 5-2）*/
-    { const cw=S.coreCallAt(G), lw=cw==null?S.lawWakeAt(G):null; if(cw!=null||lw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance((cw!=null?cw:lw)-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(cw!=null&&GM.toast) GM.toast('手機響了。',2400); return; } }   /* lw：法律系那幾年睡著也會醒來的時間（1A-04 10/24 21:00、21:30；1A-05 11/17 22:00）*/
+    { const cw=S.coreCallAt(G), lw=cw==null?S.lawWakeAt(G):null; if(cw!=null||lw!=null){ GM.sceneBegin(); try{ await GM.fade(true); await GM.sleep(300); GM.advance((cw!=null?cw:lw)-G.hour); await GM.fade(false); } finally { GM.sceneEnd(); } if(cw!=null&&GM.toast) GM.toast('手機響了。',2400); if(cw==null) S._resume={day:G.day,zone:G.zone}; resumeT=0; return; } }   /* lw：法律系那幾年睡著也會醒來的時間（1A-04 10/24 21:00、21:30；1A-05 11/17 22:00）*/
     GM.sceneBegin(); await GM.fade(true); await GM.sleep(400); if(!S.opening(G)){ try{ await nightEvent(GM); }catch(e){ console.warn('nightEvent',e); } }   /* 睡著之後、天亮之前（trigger 'sleep'）*/ if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1;   /* 01:00 以後才睡：隔天是「累」的一天（明軒那句；AA-B 10-16）*/ G.day++; G.weekday=(G.weekday+1)%7;   /* DL-02：睡覺不再補體力（前一晚打電動的「隔天精力 −10」也不用了）*/ G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day))?'rain':(Math.random()<0.7?'clear':(Math.random()<0.7?'cloudy':'rain'));   /* 颱風假整天下雨（calendar.js 的 TYPHOON）*/ E.setWeather(G.weather); F.companion=null; F.nightKai=false;
     if(S.mainDay(G)===2&&!S.week1Start(G)){ G.hour=13.05; E.hour=G.hour; GM.sceneEnd(); await GM.titleCard('第二天','週四 13:05 · 霖澤館前',2400); await GM.enter('campus',{x:26,z:-90,yaw:Math.PI}); return; }
     G.hour=wake!=null&&!S.opening(G)?wake:7.5; E.hour=G.hour; F.morningLine=false;   /* 醒來的時間（AA_110 6-5）：沒給＝07:30（舊行為）*/ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') CLS.setGoal(GM); else GM.setGoal(isThu(G)?'13:20 民法總則（霖澤館）':'自由的一天。去圖書館、公館，或找人聊天'); GM.sceneEnd(); await GM.titleCard(S.dayTitle(G),['週日','週一','週二','週三','週四','週五','週六'][G.weekday]+' '+hm(G.hour)+(alarm?'・鬧鐘：'+alarm:''),2200); if(typeof EXCH!=='undefined'&&EXCH.inUS&&EXCH.inUS(G)) await GM.enter('us_apartment',EXCH.SPAWN.us_apartment); else await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI});   /* 在美國：在公寓醒來（src/exchange3d.js）*/ { const f=S.monthlyFunds(G); if(f){ GM.money(f.amount); GM.toast(f.text,3800); } }   /* 生活費（D48）：S.monthlyFunds */ if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('CLS.morning',e); } } if(!F.KX_FIRST_MSG&&F.dating_kexin&&!S.e37LawPending(G)){ GM.sceneBegin(); try{ await GM.say(null,'休學到重考的那幾個月，你不是一個人過的。'); await kexinFirstMsg(GM,'morning'); } finally { GM.sceneEnd(); } }   /* 舊存檔（BB_95 9-0）：已經過了第一天、沒看過可昕的訊息的，下一個早上補一次；只補一次 */ if(typeof HOME!=='undefined'&&HOME.breakStartDue&&HOME.breakStartDue(G)){ GM.autosave(); HOME.breakStart(GM).catch(e=>console.warn('HOME.breakStart',e)); return; }   /* 法律系的暑假選了「暑假回家住」（AA_197 1-3；原 AA_183 第 2 節）：起床、成績那一件演完 → 回臺北的家（之後 HOME.tick 接家裡的選單）*/ if(typeof HOME!=='undefined'&&HOME.breakNote) HOME.breakNote(GM);   /* 寒假第一天早上：「寒假宿舍照常開放。……」（AA_197 1-3）*/ if(typeof CLS!=='undefined'&&CLS.queueWake) CLS.queueWake(GM);   /* 起床選單（DL-01 1-2）：宿舍的晨間事件演完、玩家空下來才出（CLS.oneTick）*/ GM.autosave(); }
