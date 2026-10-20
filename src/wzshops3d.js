@@ -63,21 +63,21 @@ const WZS=(()=>{
     if(!best){ await fn(); return; } await GM.fade(true); GM.sitAt(P,best); await GM.fade(false);
     try{ await fn(); } finally { if(GM.standUp) GM.standUp(P); } }
   S._seated=seated;
-  async function buy(GM,items,h,after,sit){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
-    const i=await GM.choose(opts); if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
-    GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); if(after) await after(it); };
+  async function buy(GM,items,h,after,sit,key){ const G=GM.G; const opts=items.map(it=>({t:it[0]+'　'+it[1]+' 元',dim:G.money<it[1]})); opts.push({t:'不用了'});
+    const i=key&&typeof EAT!=='undefined'?await EAT.choose(GM,key,opts,items.map(x=>x[0]),items.map(x=>x[1])):await GM.choose(opts);   /* key：店員認得你、老樣子、吃過的、一起吃（src/eat3d.js，AA_329）*/ if(i>=items.length) return null; const it=items[i]; if(G.money<it[1]){ GM.toast('錢不夠'); return null; }
+    GM.money(-it[1]); const hh=typeof h==='function'?h(it):h; const run=async()=>{ if(hh) GM.advance(hh); const tg=key&&typeof EAT!=='undefined'?await EAT.after(GM,key,it[0]):false; if(after&&!tg) await after(it); };   /* 一起吃了＝結尾換一起吃的那一句 */
     if(sit) await seated(GM,run); else await run(); return it; }
 
   S.interact=async function(GM,it){ const G=GM.G, k=it.wzShop, kind=it.kind; GM.sceneBegin();
     try{
-      if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true); }
+      if(k==='brunch'&&kind==='cashier'){ await buy(GM,S.BRUNCH,40/60,async x=>{ await GM.say(null,x[2]); const j=job(G,'brunch'); if(j&&j.lv>=3){ const r=S.rec(G); r.brunchW=((r.brunchW|0)+1)%S.BRUNCH_WORK.length; await GM.say(null,S.BRUNCH_WORK[r.brunchW]); } },true,'溫州街・半熟'); }
       else if(k==='brunch'&&kind==='chalkboard'){ for(const l of S.boardLines(G)) await GM.say(null,l); }
-      else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true); }
+      else if(k==='teahouse'&&kind==='tea'){ await buy(GM,S.teaMenu(G),x=>x[2],async x=>{ await GM.say(null,x[3]); await GM.say(null,S.teaSeason(G)); const j=job(G,'teahouse'); if(j&&j.lv>=3) await GM.say(null,S.TEA_WORK); },true,'溫州街・一盞'); }
       else if(k==='teahouse'&&kind==='garden'){ await GM.say(null,S.gardenLine(G)); }
       else if(k==='teahouse'&&kind==='tokonoma'){ await GM.say(null,S.tokonomaLine(G)); }
       else if(k==='print'&&kind==='print'){ const j=job(G,'print'); if(j&&j.today&&j.lv!=null&&j.shiftNow){ GM.toast('今天是你的班。'); return; }   /* 他的班剛好是那一天：不能當客人（DL-10 接「上班」）*/
         if(j&&j.lv>=1) await GM.say(null,'阿德：「自己印吧。你知道機器在哪裡。」');
-        await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); }); }
+        await buy(GM,S.printMenu(G),1/6,async()=>{ await GM.say(null,S.printLine(G)); },false,'阿德影印輸出'); }
       else if(k==='print'&&kind==='stationery'){ await buy(GM,S.STATIONERY,0,async x=>{ await GM.say(null,x[2]); }); }
     } finally { GM.sceneEnd(); } };
   return S;
