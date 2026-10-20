@@ -52,7 +52,12 @@ const GAME = (function(){
   GM.habit=habit; GM.habitSlot=habitSlot; GM.seatHabits=seatHabits;
   GM.advance=advance;
   // ---------- HUD ----------
-  function updateHUD(){ if(!G) return; { const dd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day+Math.floor(G.hour/24)):null; $('clockT').textContent=(dd?dd.m+'/'+dd.d+' ':'')+WEEK[G.weekday]+' '+fmtTime(G.hour); }   /* 日期（使用者 2026-10-15：遊戲裡就寫今天幾月幾號，不需要點開手機）*/ const zn=(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?'臺北的家':(Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone); $('clockZ').textContent=zn;   /* 在臺北的家：右上角寫臺北的家（BB-C 10-18 BUG-HOME-HUDZONE）*/ $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('money').textContent='$'+G.money; }
+  /* G.weekday 是快取：日期（G.day）才是準的。出遊跨日（outings3d.js）原本只改日期、沒改星期，之後每天睡覺照樣加一，星期就一直差一天（BUG-DATE-TIMETABLE-1020，X76）。
+     讀檔（migrate）照行事曆重算；遊戲中每次更新 HUD（主迴圈每 30 格、每次跳時間）先對一次；沒有行事曆（測試）照舊 */
+  function wdOfDay(day,fallback){ try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof day==='number'){ const w=CALENDAR.dateOf(day).wd; if(typeof w==='number') return ((w%7)+7)%7; } }catch(e){} return fallback; }
+  function syncWeekday(){ if(!G) return; const w=wdOfDay(G.day,G.weekday); if(w!==G.weekday){ console.warn('星期和日期對不上，照行事曆改：',G.weekday,'→',w); G.weekday=w; } }
+  GM.syncWeekday=syncWeekday;
+  function updateHUD(){ if(!G) return; syncWeekday(); { const dd=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day+Math.floor(G.hour/24)):null; $('clockT').textContent=(dd?dd.m+'/'+dd.d+' ':'')+WEEK[dd&&typeof dd.wd==='number'?((dd.wd%7)+7)%7:G.weekday]+' '+fmtTime(G.hour); }   /* 過了午夜（G.hour≥24）日期顯示隔天，星期也跟著顯示隔天（原本日期換了、星期還是前一天）*/   /* 日期（使用者 2026-10-15：遊戲裡就寫今天幾月幾號，不需要點開手機）*/ const zn=(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))?'臺北的家':(Z3.ZONES[G.zone]?Z3.ZONES[G.zone].name:G.zone); $('clockZ').textContent=zn;   /* 在臺北的家：右上角寫臺北的家（BB-C 10-18 BUG-HOME-HUDZONE）*/ $('clockW').textContent=G.weather==='rain'?'🌧':(G.weather==='cloudy'?'☁':(G.hour%24>=18.5||G.hour%24<5.5?'🌙':'☀')); $('money').textContent='$'+G.money; }
   GM.updateHUD=updateHUD;
   function fade(on){ const f=$('fade'); f.classList.toggle('on',on); return sleep(on?480:500); }
   GM.fade=fade;
@@ -280,6 +285,7 @@ const GAME = (function(){
     if(typeof STORY!=='undefined'&&STORY.lifeLineMigrate&&s.flags&&typeof s.flags==='object'){ try{ STORY.lifeLineMigrate(s); }catch(e){ console.warn('STORY.lifeLineMigrate',e); } }   /* LIFE-LINE（BB_188 A9-2）：舊的 E19／E21／E25 → KX_CAR；過了 10/17 車上的當作演過（先做，ROM.rec 接著補交往紀錄）*/
     if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }
     if(typeof DATE!=='undefined'){ try{ DATE.rec(s); }catch(e){ console.warn('DATE.rec',e); } }   /* 校外單獨約會（DATE-S1）：補 dateLog、trips、groupTrips（空的，不追溯以前的出遊，AA_128 1-3）*/   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
+    try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
