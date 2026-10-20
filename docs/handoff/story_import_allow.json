@@ -875,11 +875,19 @@
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
-   "sha": "c11945d0",
+   "sha": "724d7703",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）",
    "task": "EAT-EFFECT-1020",
    "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_336_回LAWWW_X67吃東西四題_1B1C實作十三題.md",
+   "sha": "724d7703",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（2026-10-20 回 LAWWW-C 19:22、19:44 實作問題 17 題，第①級；D100 台詞歸 AA）",
+   "task": "EAT-EFFECT-1020",
+   "note": "tools/eat/import_eat_lines.py 讀第 A 節 A4（便利商店上次沒加熱的第 5 次那一句＋祐廷回「好。」）→ src/data/eat_lines.js；第 B、C 節（1B、1C）手抄進 y2b_events.js、y2b3d.js、social3d.js、group_events.js、group3d.js、characters.js"
   },
   {
    "path": "docs/story_planning/AA_330_法律系的課搬教室_X78.md",

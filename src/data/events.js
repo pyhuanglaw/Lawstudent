@@ -3774,7 +3774,7 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kai',text:'十點就睡。'},{speaker:'kai',text:'……我還不習慣有人那麼早關燈。'},{goto:'f_end'},
       {label:'b'},{speaker:'kai',text:'普通。你來比較好吃。'},{speaker:'kai',text:'……這句不要記。'},{goto:'f_end'},
       {label:'c'},{speaker:null,text:'（他講了二十分鐘新室友的鬧鐘。你一句都沒插話，他好像很滿意。）'},
-      {label:'f_end'},{speaker:'kai',text:'下週日，同一時間。不是我要找你，是滷味。'},
+      {label:'f_end'},{speaker:'kai',text:'下週日，同一時間。我先去排。'},
       {label:'end'},{advance:G=>Math.max(0,24-G.hour)} ],
     after:(G,GM)=>{ const F=G.flags; F.KAI_SUP_N=(F.KAI_SUP_N|0)+1; F.KAI_SUP_LAST=G.day-(G.hour<1?1:0); if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('kai_supper');
       if(typeof SOCIAL!=='undefined'&&!SOCIAL.has('kai','SUNDAY_SUPPER')&&typeof EVENTS!=='undefined'&&EVENTS.habitCount&&EVENTS.habitCount({key:'kai_supper',withinDays:365})>=3) SOCIAL.remember('kai','SUNDAY_SUPPER','大二的週日宵夜'); } },
