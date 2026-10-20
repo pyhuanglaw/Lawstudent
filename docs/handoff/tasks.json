@@ -13368,9 +13368,9 @@
    "title": "AA 六位人物的假期台詞",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 20:0x】AA_333（56b6f64e）VA-08 麵店過年店休接進 src/noodle_closed3d.js；VA-01～VA-12 台詞都齊了（AA_247、AA_204、AA_241／242、AA_256／264）｜ AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -13397,9 +13397,9 @@
    "title": "AA 企劃裡的「18 週」字樣改 16 週",
    "area": "DOC",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 20:0x】AA-C 175301ac：早已完成（3aa9156f，00_現行設定總表寫明舊文件的「18 週」照 16 週讀）｜ AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
