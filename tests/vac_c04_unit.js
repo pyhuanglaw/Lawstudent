@@ -51,7 +51,7 @@ GM.money=function(n){ G.money+=n; };
   G.day=D('2026-08-03'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C04@Y1_2')); check('3. 累到不行（住宿舍）：「補完習回宿舍，單字本攤在胸口就睡著了。」',lines()[0]==='補完習回宿舍，單字本攤在胸口就睡著了。');
   // 4. 考前一週 Kevin 私訊
   G.day=D('2026-08-15'); G.weekday=wdOf(G.day); run(20.8,21.2); const K=TH('p:kevin');
-  check('4. 考前七天 21:00 Kevin：「考前一週了」「不要熬夜 前一天背的單字都會忘」「考完請我喝飲料」＋兩個回覆',K.map(m=>m.text).join('|')==='考前一週了|不要熬夜 前一天背的單字都會忘|考完請我喝飲料'&&K[2].ask.opts.map(o=>o.t+'→'+o.say[0].text).join('|')==='好，考完請學長。→我記住了喔|學長也是熬夜背的吧。→所以我知道會忘',JSON.stringify(K.map(m=>m.text)));
+  check('4. 考前七天 21:00 Kevin：「考前一週了」「不要熬夜 前一天背的單字都會忘」「考完請我喝飲料」＋兩個回覆（選項①的回覆 AA_335 T5「說好了喔」）',K.map(m=>m.text).join('|')==='考前一週了|不要熬夜 前一天背的單字都會忘|考完請我喝飲料'&&K[2].ask.opts.map(o=>o.t+'→'+o.say[0].text).join('|')==='好，考完請學長。→說好了喔|學長也是熬夜背的吧。→所以我知道會忘',JSON.stringify(K.map(m=>m.text)));
   G.day=D('2026-08-22'); G.hour=9; said=[]; await VAC.outing(GM,OUT.get(G,'vac_C04@Y1_3'));
   check('4. 正式考試：「考場在別的學校。你提早半小時到，還是找了一下教室。」；考完＝done',lines()[0]==='考場在別的學校。你提早半小時到，還是找了一下教室。'&&VAC.state(G,'C04@Y1')==='done');
   G.day=D('2026-09-01'); G.weekday=wdOf(G.day); run(20.8,21.2); const S1=TH('sys').filter(m=>m.tag==='vac_score_C04@Y1').map(m=>m.text);
