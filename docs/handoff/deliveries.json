@@ -8524,6 +8524,19 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "events.js 那部分已在開發分支；retake_home、階梯要重匯（階梯 lines 變成 {t,e}，程式要能讀）"
+  },
+  {
+   "id": "DL-AA-50f2142c",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "50f2142c",
+   "what": "AA_309（QA 劇本 v2 沒蓋到的 4 列）：①10/29 小福「上完大一國文」（AA 已推開發分支 a6d1e65b）②10/17 車上告白交通算在 17:40 以前 ③可昕不在場的場景後面不接她的階梯 ④9/13 保齡球品妤第一句；＋AA_308 第 10 節 7/12 對答案",
+   "task": "CRAM-DEC-SCENE-1018",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "①已在開發分支；②③④、7/12 LAWWW 改（v0_e14、lifeline_g6 寫死的地方）"
   }
  ],
  "ignored": [

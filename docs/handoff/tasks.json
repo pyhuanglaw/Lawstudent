@@ -20454,7 +20454,7 @@
    "title": "118 巷的店走得進去、店員站在店裡（現在店員站在店外）",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -20468,13 +20468,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話；現有 src/data/lane118_layout.js v1、assets/models/env/lane118_street.glb（AA_280）",
     "acceptance": "118 巷每間店走得進去：室內 GLB（櫃台、座位、店員站位），店名照 D77 諧音；交付寫每間店的門口座標和室內尺寸給 LAWWW 接",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    }
   },
   {
@@ -20566,7 +20566,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「到溫州街就算用電腦也很卡?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "量 draw call、三角形、陰影、NPC 數；找出最重的東西（LAWWW2 的模型要減面就派）"
+   "next": "【13:19 LAWWW2 量測】wenzhou_street.glb 材質 131 種（至少 131 draw call）、三角形 81k 不多——LAWWW 先用 ?mdbg 量實際 draw call，確定再派材質合併 ｜ 量 draw call、三角形、陰影、NPC 數；找出最重的東西（LAWWW2 的模型要減面就派）"
   },
   {
    "id": "PERF-CAMPUS-SHADOW-1020",
@@ -20713,7 +20713,7 @@
    "title": "BB 重現使用者 10-20 試玩回報（v9.10.2 線上版）",
    "area": "V1",
    "owner": "BB",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -20733,7 +20733,7 @@
     "branch": "claude/wonderful-mayer-7fm9g6",
     "spec": "使用者 10-20 原話（USER_WANTS X64～X81）",
     "acceptance": "v9.10.2 線上版重現：體育館樓梯方向（X64）、9/17 前遇不到女主角（X70）、Café 沒 NPC（X71）、日期和課表對不上（X76）、地圖南方黃點（X77）、溫州街與校園卡、影子閃（X69、X79）、8/30 搬宿舍沒出現（X81）；每項：重現步驟、截圖、存檔",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    }
   }
  ]
