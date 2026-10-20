@@ -1,0 +1,77 @@
+PASS 一般網址：遊戲載入
+  [前置／捷徑] 讀檔到椰林大道 (74,2) 17:30，關掉條件事件
+PASS library 的正式模型接上（campus_library_glb）
+PASS bell 的正式模型接上（campus_bell_glb）
+PASS admin 的正式模型接上（campus_admin_glb）
+PASS arts 的正式模型接上（campus_arts_glb）
+PASS hist 的正式模型接上（campus_hist_glb）
+PASS pavilion 的正式模型接上（campus_pavilion_glb）
+FAIL soc 的正式模型接上（campus_modern_glb）
+PASS gongtong 的正式模型接上（campus_gongtong_glb）
+PASS freshman 的正式模型接上（campus_freshman_glb）
+PASS 一般：所有延遲載入的模型都載完（量 draw call 之前）
+PASS 一般：校園的路燈、腳踏車、長椅是街道道具的正式模型（建校園之前就載好；兩輪才是同一種）  72
+FAIL 有 ckTag 的套件建築＝admin, arts, bell, freshman, gongtong, hist, library, pavilion, soc（先不放正式模型：boya, gate, male1, putong）  {"male1": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "gate": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 9}, "bell": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 12}, "admin": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "gongtong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "freshman": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 6}, "arts": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "putong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "boya": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 7}, "pavilion": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 8}, "hist": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "soc": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 17}}
+FAIL 先不放正式模型的：套件外觀照舊（沒有接正式模型、照舊參加整區靜態合併）  {"boya": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 7}, "gate": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 9}, "male1": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "putong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}}
+PASS 都接上正式模型（userData.formal）、不參加整區靜態合併（dyn）  {"male1": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "gate": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 9}, "bell": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 12}, "admin": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "gongtong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "freshman": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 6}, "arts": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "putong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "boya": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 7}, "pavilion": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 8}, "hist": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "soc": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 17}}
+PASS 套件外觀全部藏起來  {"male1": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "gate": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 9}, "bell": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 12}, "admin": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "gongtong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "freshman": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 6}, "arts": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "putong": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 10}, "boya": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 7}, "pavilion": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 8}, "hist": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "library": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 11}, "soc": {"formal": true, "dyn": true, "kitVisible": 0, "kitMeshes": 17}}
+PASS 一般：20:30 路燈都開著  {"on": 65, "n": 65}
+PASS library：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [81.9, -0.0, -30.8, 113.8, 30.6, 30.8], "glb": [81.9, 0, -30.8, 113.8, 30.52, 30.8], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.08, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS library：匾額 PLATE_FACE_LIB 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_LIB"], "ratio": [1]}
+PASS bell：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [-40.4, -0.0, 13.27, -35.6, 5.67, 18.9], "glb": [-40.4, 0, 13.27, -35.6, 5.75, 18.9], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.08, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS bell：匾額 PLATE_FACE_BELL 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_BELL"], "ratio": [1]}
+PASS admin：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [-61.8, -0.0, 21.1, -14.2, 15.81, 41.8], "glb": [-61.8, 0, 21.1, -14.2, 15.87, 41.8], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.06, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS admin：匾額 PLATE_FACE_ADMIN 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_ADMIN"], "ratio": [1]}
+PASS arts：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [-58.8, -0.0, -43.8, -17.2, 14.61, -21.1], "glb": [-58.8, 0, -43.8, -17.2, 14.67, -21.1], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.06, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS arts：匾額 PLATE_FACE_ARTS 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_ARTS"], "ratio": [1]}
+PASS hist：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [-89.8, -0.0, -37.8, -64.2, 14.61, -17.5], "glb": [-89.8, 0, -37.8, -64.2, 14.67, -17.5], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.06, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS hist：匾額 PLATE_FACE_HIST 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_HIST"], "ratio": [1]}
+PASS pavilion：位置、尺寸、朝向照套件（外框 x、y、z 的最小最大值差 ≤ 1.5 m）  {"kit": [-116.1, -0.0, -38.1, -91.9, 9.44, -21.9], "glb": [-116.1, 0, -38.1, -91.9, 9.4, -21.9], "kits": 1, "skipped": 0} 差 [0.0, 0.0, 0.0, 0.0, 0.04, 0.0] 容許 [1.5, 1.5, 1.5, 1.5, 1.5, 1.5]
+PASS pavilion：匾額 PLATE_FACE_PAV 是 canvas 字（石材匾額）、貼圖比例＝板面比例（±8%）  {"visible": true, "canvas": true, "n": 1, "names": ["PLATE_FACE_PAV"], "ratio": [1.001]}
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/lwwt2/tests/campus_glb_integration.py", line 314, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "/usr/lib/python3.13/asyncio/runners.py", line 196, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.13/asyncio/runners.py", line 119, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.13/asyncio/base_events.py", line 726, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/lwwt2/tests/campus_glb_integration.py", line 290, in main
+    res[formal] = await check(pg, run, formal)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-Lawstudent/4f52e6f0-1e48-5c03-872f-171d129a03fd/scratchpad/lwwt2/tests/campus_glb_integration.py", line 145, in check
+    g = await pg.evaluate("""(([tag,glbName,reg])=>{ const z=GAME.E.zone; const kits=z.group.children.filter(o=>o.userData&&o.userData.ckTag===tag), kit=kits[0], glb=z.group.children.find(o=>o.name===glbName);   /* 同一個標記可能有好幾個部分（大一女舍 A、B、天橋）：外框要全部算（2026-10-14：原本只拿第一個）*/
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        return {kit:r(bk), glb:r(bg), kits:kits.length, skipped}; })""" + "(%s)" % json.dumps([tag, glb, BBOX_REGION.get(tag)]))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/playwright/async_api/_generated.py", line 16684, in evaluate
+    await self._impl_obj.evaluate(
+        expression=expression, arg=mapping.to_impl(arg)
+    )
+  File "/usr/local/lib/python3.13/dist-packages/playwright/_impl/_page.py", line 476, in evaluate
+    return await self._main_frame.evaluate(expression, arg)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/playwright/_impl/_frame.py", line 346, in evaluate
+    await self._channel.send(
+    ...<6 lines>...
+    )
+  File "/usr/local/lib/python3.13/dist-packages/playwright/_impl/_connection.py", line 78, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/playwright/_impl/_connection.py", line 636, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.evaluate: TypeError: Cannot read properties of undefined (reading 'traverse')
+    at eval (eval at evaluate (:370:30), <anonymous>:5:21)
+    at eval (eval at evaluate (:370:30), <anonymous>:7:77)
+    at eval (<anonymous>)
+    at UtilityScript.evaluate (<anonymous>:370:30)
+    at UtilityScript.<anonymous> (<anonymous>:1:44)
