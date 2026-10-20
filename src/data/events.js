@@ -587,10 +587,15 @@ const STORY_EVENTS=[
      「好，一起寫。」＝記憶 REPORT_PARTNER、照第二天的看法分工；「我已經有組了。」不扣分。之後：沒有一起寫的，她寫完在總圖給你看（ev_an_report_followup）；第 6 週報告發回來兩種都接得上 */
   { id:'ev_an_report_split', title:'民總的報告', participants:['heroine_01'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[4,5], weekday:[4], once:true, npcPresent:'heroine_01', background:'blur',
     prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_followup']},
-    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（把講義收好）民總的報告，兩人一組。我還沒找人。'},{speaker:'heroine_01',expression:'neutral',text:'你那天講的，我想放進去。'},
+    dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'（把講義收好）民總的報告，兩人一組。我還沒找人。'},
+      /* AA_313 第 0 節（X70）：「你那天講的」是第二天 Café 那段——錯過的玩家（沒有 cafeView）換一句：上課回答過（classAnswer）／兩個都沒有 */
+      {if:{custom:G=>!!(G.choices&&G.choices.cafeView)},speaker:'heroine_01',expression:'neutral',text:'你那天講的，我想放進去。'},
+      {if:{custom:G=>!(G.choices&&G.choices.cafeView)&&!!(G.flags&&G.flags.classAnswer)},speaker:'heroine_01',expression:'neutral',text:'你上課回答的那題，我想放進去。'},
+      {if:{custom:G=>!(G.choices&&G.choices.cafeView)&&!(G.flags&&G.flags.classAnswer)},speaker:'heroine_01',expression:'neutral',text:'你要不要跟我一組？'},
       {choice:[{text:'「好，一起寫。」',consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'民總報告一起寫'}]},goto:'yes'},{text:'「我已經有組了。」',goto:'no'}]},
       {label:'yes'},{if:{choice:{cafeView:'A'}},speaker:'heroine_01',expression:'smile',text:'那結論你寫。'},{if:{choice:{cafeView:'B'}},speaker:'heroine_01',expression:'smile',text:'那反方你寫。'},
-      {if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'那判斷標準你寫，你比我會講。'},{goto:'end'},
+      {if:{choice:{cafeView:'C'}},speaker:'heroine_01',expression:'smile',text:'那判斷標準你寫，你比我會講。'},
+      {if:{custom:G=>!(G.choices&&G.choices.cafeView)},speaker:'heroine_01',expression:'smile',text:'好。那分工我來排。'},{goto:'end'},   /* AA_313 第 0 節：沒有 cafeView 的玩家 A／B／C 三句都不出 */
       {label:'no'},{speaker:'heroine_01',expression:'neutral',text:'好。那我自己寫，寫完給你看。'},
       {label:'end'} ] },
   /* 迎新（交接包 v1 A11：AA_71 2-1＋沛珊 P0 BB_95 3-3）：參加法律系迎新的活動時演（src/data/activities.js 的 welcome_y1s1：第 4 週週六傅鐘前；classes3d.js 的 attendActivity 讀活動的 event）。
@@ -2510,7 +2515,7 @@ const STORY_EVENTS=[
       {phone:'kexin',text:'查到了。'},{phone:'kexin',text:'（截圖：她的成績）'},{phone:'kexin',text:'……你呢。'},
       {choice:[{text:'「（傳截圖給她。）」',set:{SCORE_REPLY:'shot'},goto:'s1'},{text:'「我的還好。」',set:{SCORE_REPLY:'fine'},goto:'s2'},{text:'「先不要講分數。我快到了。」',set:{SCORE_REPLY:'later'},goto:'s3',if:{custom:()=>bus}},{text:'「先不要講分數。晚上打給妳。」',set:{SCORE_REPLY:'later'},goto:'s3',unless:{custom:()=>bus}}]},
       {label:'s1'},{phone:'kexin',text:'好。'},{speaker:null,text:'（很久沒有下一則。）'},{goto:'s9'},
-      {label:'s2'},bus?{phone:'kexin',text:'……好。等你到了再說。'}:{phone:'kexin',text:'你騙人。我看得到表。'},{goto:'s9'},   /* 客運版照 AA_308 第 7 節；在家版這句也提到表（07:30 還沒有），等 AA 給一句 */
+      {label:'s2'},bus?{phone:'kexin',text:'……好。等你到了再說。'}:{phone:'kexin',text:'……『還好』是幾分。傳給我。'},{goto:'s9'},   /* 客運版照 AA_308 第 7 節；在家版 AA-C 10-20 14:0x（07:30 還沒有落點表：她只是不讓他含糊帶過）*/
       {label:'s3'},{phone:'kexin',text:'嗯。'},
       {label:'s9'},
       bus?{speaker:null,text:'（你把手機蓋在腿上。窗外是一片一片的田。）'}:null,
@@ -2523,7 +2528,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'sad',text:'……恭喜你。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',expression:'annoyed',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',expression:'annoyed',text:'你從看到表到現在，都沒有看我。'},
       {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
       {speaker:'kexin',expression:'annoyed',text:'……我知道我考不好。我不用你幫我難過。'},{speaker:'kexin',expression:'annoyed',text:'我先回家。你自己逛一下。'},{leave:'kexin'},
-      {speaker:null,text:'（她走了。你在客運站外面站了很久。）'},{speaker:null,text:'（那天你一個人在高雄走了一整天。哪裡都沒有進去。）'},   /* AA_304 第 14 列 */
+      {speaker:null,text:'（她走了。你在早餐店外面站了很久。）'},{speaker:null,text:'（那天你一個人在高雄走了一整天。哪裡都沒有進去。）'},   /* AA_304 第 14 列 */
       to(18.5),{phone:'kexin',text:'你回臺北的車幾點。'},{phoneMe:'kexin',text:'九點。'},{phone:'kexin',text:'我八點去車站。'},
       to(20),{scene:'高雄・客運站外面的便利商店',bg:'kh_store_night'},
       {speaker:'kexin',expression:'sad',text:'早上那樣，對不起。'},{speaker:'player',text:'我也是。我不知道要講什麼。'},

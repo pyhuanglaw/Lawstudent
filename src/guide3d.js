@@ -95,7 +95,9 @@ const GUIDE=(function(){
   // 小地圖（game3d.js 的 drawMinimap 在旋轉後的座標系呼叫）：路線＋目的地
   function drawMini(x,nav,cx,cz,scale){ if(!st.tgt||!on()) return; const f=(wx,wz)=>[((wx-nav.ox)/nav.cell-cx-0.5)*scale,((wz-nav.oz)/nav.cell-cz-0.5)*scale]; const R=st.route;
     if(R&&R.length>1){ x.strokeStyle='rgba(255,200,90,0.95)'; x.lineWidth=2.4; x.lineJoin='round'; x.setLineDash([]); x.beginPath(); R.forEach((q,i)=>{ const [u,v]=f(q[0],q[1]); if(i) x.lineTo(u,v); else x.moveTo(u,v); }); x.stroke(); }
-    const [u,v]=f(st.tgt.x,st.tgt.z); const Rr=Math.min(x.canvas.width,x.canvas.height)/2-6; const d=Math.hypot(u,v); const k=d>Rr?Rr/d:1; x.fillStyle='#ffc85a'; x.strokeStyle='rgba(20,24,30,0.9)'; x.lineWidth=1.5; x.beginPath(); x.arc(u*k,v*k,4.5,0,7); x.fill(); x.stroke(); }
+    const [u,v]=f(st.tgt.x,st.tgt.z); const Rr=Math.min(x.canvas.width,x.canvas.height)/2-6; const d=Math.hypot(u,v); x.fillStyle='#ffc85a'; x.strokeStyle='rgba(20,24,30,0.9)'; x.lineWidth=1.5; x.beginPath();
+    if(d>Rr){ const a=Math.atan2(v,u), t=Rr+1, b=Rr-8; x.moveTo(Math.cos(a)*t,Math.sin(a)*t); x.lineTo(Math.cos(a+0.42)*b,Math.sin(a+0.42)*b); x.lineTo(Math.cos(a-0.42)*b,Math.sin(a-0.42)*b); x.closePath(); }   /* 目的地在小地圖外：邊上畫往外指的箭頭（X77：原本是固定在邊上的金點，看起來像一個永遠走不到的黃點）*/
+    else x.arc(u,v,4.5,0,7); x.fill(); x.stroke(); }
 
   /* ---------- 入口標記 ---------- */
   function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'台大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
