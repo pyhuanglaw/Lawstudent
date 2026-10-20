@@ -9187,6 +9187,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 19:5x UTC：照 patch 接進開發分支；萬才館的門改成「有社課（吉他社、公法讀書會）或大四研討課時照舊在門口參加（CLS.roomDoorBusy→roomDoor），沒事就走進去」——patch 原本直接改成出入口會讓社課、研討課參加不了。tests/rooms_glb_unit.js（4 項）；全部單元測試只有 bg_images_unit。哪幾門課搬到萬才館／202（X78）已問 AA；LAWWW2 的 README、截圖之後補"
+  },
+  {
+   "id": "DL-LAWWW2-2c09476d",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2c09476d",
+   "what": "X86 第一階段：從校園看出去的公館——羅斯福路兩排街廓 GLB（campus_gongguan_bd.glb 1.46 MB、12,838 三角形、5 網格、不投影；店名虛構）＋gg_backdrop_wire.diff（campusBackdrop 第一、二排改 cityRows 備用方盒，載入後隱藏）＋修改前後截圖",
+   "task": "GG-STREETVIEW-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 20:0x UTC：GLB、patch 接進開發分支；載入 zones3d.js 的 40 個單元測試 ALL PASS。效能（LAWWW2 量）：draw call −1、三角形 +1 萬、陰影那一輪不變。美術由使用者看（READY_FOR_ART_REVIEW）；第二階段（公館區域裡面）LAWWW2 排在後面"
   }
  ],
  "ignored": [
