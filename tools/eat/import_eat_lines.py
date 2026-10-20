@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """X67 吃東西（AA_329）的台詞 → src/data/eat_lines.js（照原文，不改字）。
+另讀 AA_336 第 A 節 A4（AA-C 2026-10-20 回 LAWWW 實作問題）：便利商店上次沒加熱的，第 5 次那一句換成另一句、祐廷回一句。
 只讀匯入白名單（docs/handoff/story_import_allow.json）上 approved 的那一版（tools/story/import_guard.py）。
 用法：python3 tools/eat/import_eat_lines.py"""
 import json, os, re, subprocess, sys
@@ -7,12 +8,16 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
 import import_guard as IG
 PATH = 'docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md'
+PATH_A = 'docs/story_planning/AA_336_回LAWWW_X67吃東西四題_1B1C實作十三題.md'
 allow = IG.load(ROOT)
-hit = [e for e in allow.get('files', []) if e.get('path') == PATH and e.get('status') == 'approved']
-if not hit: sys.exit(f'{PATH} 不在匯入白名單')
-SHA = hit[0]['sha']; ok, why = IG.allowed(PATH, SHA, allow)
-if not ok: sys.exit(why)
-src = subprocess.run(['git', 'show', f'{SHA}:{PATH}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+def read_allowed(path):
+    hit = [e for e in allow.get('files', []) if e.get('path') == path and e.get('status') == 'approved']
+    if not hit: sys.exit(f'{path} 不在匯入白名單')
+    sha = hit[0]['sha']; ok, why = IG.allowed(path, sha, allow)
+    if not ok: sys.exit(why)
+    return sha, subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout
+SHA, src = read_allowed(PATH)
+SHA_A, src_a = read_allowed(PATH_A)
 SPK = {'以安': 'heroine_01', '芷若': 'heroine_02', '語彤': 'heroine_03', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin',
        '阿哲': 'zhe', '小語': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan', '祐廷': 'me'}
 SEC = {'沈以安': 'heroine_01', '林芷若': 'heroine_02', '陳語彤': 'heroine_03', '高子晴': 'heroine_04', '溫書瑀': 'heroine_05', '郭沛珊': 'classmate_peishan', '杜可昕': 'kexin',
@@ -62,13 +67,19 @@ for l in lines[s3:s4]:
         m3 = re.match(r'^「([^」]+)」', same); same = m3.group(1) if m3 else same
     staff[m.group(1).strip()] = {'who': m.group(2).strip(), 'line5': m.group(3), 'same': same, 'alt': alt}
 yt = re.search(r'語彤：(……阿姨說，你的不用問。)', '\n'.join(lines[s3:s4])).group(1)
-data = {'source': f'AA_329（企劃 {SHA}）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
+# AA_336 A4：便利商店上次沒加熱的，店員第 5 次那一句改說另一句，回一句（AA-C：「上次沒加熱的，店員改說「**一樣不用加熱，對吧。**」，回「好。」」）
+a4 = next(l for l in src_a.split('\n') if l.startswith('| A4 |'))
+m4 = re.search(r'上次沒加熱的，店員改說「\*\*([^*」]+)\*\*」，回「([^」]+)」', a4)
+if not m4: raise SystemExit('AA_336 A4 那一列格式變了：' + a4)
+staff['公館的便利商店']['line5Alt'] = {'when': '沒加熱', 't': m4.group(1), 'reply': m4.group(2)}
+data = {'source': f'AA_329（企劃 {SHA}）＋AA_336 第 A 節（企劃 {SHA_A}）', 'open': OPEN, 'closeRecycle': RECYCLE, 'closeDoor': DOOR, 'doorShops': door_shops,
         'together': together, 'first': first, 'staff': staff, 'staffYutong': ['heroine_03', yt]}
 n = sum(len(v) for g in together.values() for v in g.values())
 assert len(together) == 12 and len(first) == 15 and len(staff) == 16, (len(together), len(first), len(staff))
-out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢沒有別的功用」）：一起吃、吃過的、店員認得你——台詞 AA_329（AA-C 定稿，D100 照抄）=====\n'
-       f'   自動產生：python3 tools/eat/import_eat_lines.py（只讀匯入白名單上的版本 {SHA}）。不要手改；改字請 AA 改企劃、改白名單、重匯。\n'
-       '   together[id][ACQ|FAM|FRI|dating|exFriend|exLow]＝[說話的人, 台詞]（null＝旁白、me＝祐廷）；first[店]＝第一次的旁白；staff[店]＝{who,line5,same,alt}。程式：src/eat3d.js */\n'
+out = ('/* ===== 吃東西（X67，使用者 10-20「吃東西好像只是花錢沒有別的功用」）：一起吃、吃過的、店員認得你——台詞 AA_329＋AA_336 第 A 節（AA-C 定稿，D100 照抄）=====\n'
+       f'   自動產生：python3 tools/eat/import_eat_lines.py（只讀匯入白名單上的版本 AA_329@{SHA}、AA_336@{SHA_A}）。不要手改；改字請 AA 改企劃、改白名單、重匯。\n'
+       '   together[id][ACQ|FAM|FRI|dating|exFriend|exLow]＝[說話的人, 台詞]（null＝旁白、me＝祐廷）；first[店]＝第一次的旁白；staff[店]＝{who,line5,same,alt}；\n'
+       '   staff[店].line5Alt＝{when,t,reply}：上次點的東西符合 when 時，第 5 次那一句換成 t、祐廷回 reply（AA_336 A4，只有便利商店）。程式：src/eat3d.js */\n'
        "'use strict';\nconst EAT_LINES=" + json.dumps(data, ensure_ascii=False, indent=1) + ';\n')
 open(os.path.join(ROOT, 'src/data/eat_lines.js'), 'w', encoding='utf-8').write(out)
-print(f'wrote src/data/eat_lines.js：一起吃 {len(together)} 人、{n} 句；吃過的 {len(first)} 間；店員 {len(staff)} 間；來源 {SHA}')
+print(f'wrote src/data/eat_lines.js：一起吃 {len(together)} 人、{n} 句；吃過的 {len(first)} 間；店員 {len(staff)} 間；來源 AA_329@{SHA}、AA_336@{SHA_A}')

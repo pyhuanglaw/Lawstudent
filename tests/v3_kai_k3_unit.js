@@ -34,10 +34,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   const ask=d=>(G.msgs||[]).find(m=>m.ask&&m.ask.id==='kai_sup_'+d);
   fresh(s1,22,'dorm',{}); G.stage='law'; run(22,23.5); check('1. 還沒搬房間（沒有 ROOM_Y2）＝週日不問',!K().some(t=>/宵夜/.test(t)));
   fresh(s1,22,'dorm',{ROOM_Y2:d6}); G.stage='law'; run(22,22.95); check('1. 23:00 以前不問',!K().some(t=>/宵夜/.test(t)));
-  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜？」＋「我這棟樓下的滷味比較好吃。不是我要找你，是滷味。」＋兩個回覆',T[T.length-2]==='kai:宵夜？'&&T[T.length-1]==='kai:我這棟樓下的滷味比較好吃。不是我要找你，是滷味。'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
+  run(23,23.1); let T=K(); check('2. 第一個週日 23:00：「宵夜？」＋「我這棟樓下的滷味比較好吃。老闆會多給豆干。」（AA_335 T2）＋兩個回覆',T[T.length-2]==='kai:宵夜？'&&T[T.length-1]==='kai:我這棟樓下的滷味比較好吃。老闆會多給豆干。'&&!!ask(s1)&&ask(s1).ask.opts.length===2,JSON.stringify(T));
   PHONE.answer(G,'kai_sup_'+s1,0); run(23.1,23.2); check('2. 回「去。」＝出發選單（宿舍旁的滷味攤）',G.flags.KAI_SUP_GO===s1&&!!OUT.get(G,'kai_sup_'+s1)&&OUT.get(G,'kai_sup_'+s1).place==='宿舍旁的滷味攤');
   picks=['新室友']; said=[]; await EVENTS.run(ev('ev_kai_sunday_supper')); let L=lines();
-  const want=['（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）','你的我幫你夾了。豆干、海帶、王子麵。','你大一每次都點這三樣。我記得。','十點就睡。','……我還不習慣有人那麼早關燈。','下週日，同一時間。不是我要找你，是滷味。'];
+  const want=['（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）','你的我幫你夾了。豆干、海帶、王子麵。','你大一每次都點這三樣。我記得。','十點就睡。','……我還不習慣有人那麼早關燈。','下週日，同一時間。我先去排。'];   /* 收尾 AA_335 T3 */
   check('3. 第一次：逐字＋「你新室友怎麼樣？」',JSON.stringify(L.map(t=>t.replace(/^[^：（]*：/,'')))===JSON.stringify(want),JSON.stringify(L));
   check('3. 快轉到 00:00（測試的 GM.advance 不換日：24 點）；去過 1 次',((G.day===s1+1&&Math.abs(G.hour)<1e-6)||(G.day===s1&&Math.abs(G.hour-24)<1e-6))&&G.flags.KAI_SUP_N===1,JSON.stringify([G.day-s1,G.hour]));
   // 第二週

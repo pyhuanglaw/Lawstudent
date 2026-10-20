@@ -114,6 +114,8 @@
 
 文字可用 `{name}`（玩家名）與 `{npc:heroine_03}`（依揭露階段顯示的名稱）。
 
+`speaker` 可以寫人物 id，也可以寫稱呼：CHARACTERS 的 alias（例：`'阿勳'`），或只有立繪、不在 CHARACTERS 的人物（`src/data/characters.js` 的 `PORTRAIT_ONLY`，例：可昕的室友 `'予樂'`／`'yule'`）——立繪照 id、對話框的名字照原文（寫 id 的用登錄的名字）。都對不到的稱呼（例：`'邵鈞'`、`'大伯'`）沒有立繪，照舊 compact 對話。
+
 ## Consequences
 
 ```js

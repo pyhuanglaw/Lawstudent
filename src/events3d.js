@@ -6,8 +6,9 @@ const EVENTS = (function(){
   const ALIAS={heroine_01:'an',heroine_05:'sis',prof_zhou:'prof'};
   X.bind=function(gm){ GM=gm; G=gm.G; if(!G.events) G.events={done:{},last:{},count:0}; };
   X.npcOf=function(charId){ if(!GM||!GM.npc) return null; return GM.npc[charId]||GM.npc[ALIAS[charId]]||null; };
-  /* 台詞的 speaker 寫的是稱呼（BB 的原文：'阿勳'、'品妤'），不是人物 id：CHARACTERS 有 alias 的，立繪和人物照 id、對話框的名字照原文（2026-10-16 V2-CHR）*/
-  let aliasIdx=null; X.speakerId=function(sp){ if(!sp||typeof CHARACTERS==='undefined'||CHARACTERS[sp]) return sp; if(!aliasIdx){ aliasIdx={}; for(const id in CHARACTERS){ for(const a of (CHARACTERS[id].alias||[])) aliasIdx[a]=id; } } return aliasIdx[sp]||sp; };
+  /* 台詞的 speaker 寫的是稱呼（BB 的原文：'阿勳'、'品妤'），不是人物 id：CHARACTERS 有 alias 的，立繪和人物照 id、對話框的名字照原文（2026-10-16 V2-CHR）。
+     只有立繪的人物（characters.js 的 PORTRAIT_ONLY：'予樂'→yule）也照它的 alias 對到 id（CHARACTERS 的 alias 優先）；寫 id 'yule' 的，對話框的名字是 SOCIAL.displayName＝予樂 */
+  let aliasIdx=null; X.speakerId=function(sp){ if(!sp||typeof CHARACTERS==='undefined'||CHARACTERS[sp]) return sp; if(!aliasIdx){ aliasIdx={}; for(const id in CHARACTERS){ for(const a of (CHARACTERS[id].alias||[])) aliasIdx[a]=id; } if(typeof PORTRAIT_ONLY!=='undefined') for(const id in PORTRAIT_ONLY){ for(const a of (PORTRAIT_ONLY[id].alias||[])) if(!aliasIdx[a]) aliasIdx[a]=id; } } return aliasIdx[sp]||sp; };
   X.charOf=function(npc){ if(!npc) return null; if(npc.charId) return npc.charId; for(const k in ALIAS) if(ALIAS[k]===npc.id) return k; return npc.id; };
   const h=()=>G.hour%24;
   // ---- 條件評估 ----

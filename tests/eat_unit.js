@@ -1,4 +1,4 @@
-// 吃東西（X67；AA_329 企劃 c11945d0，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
+// 吃東西（X67；AA_329＋AA_336 第 A 節，企劃 724d7703，台詞在 src/data/eat_lines.js）：一起吃、吃過的、店員認得你——不需要瀏覽器。照 AA_329 第 5 節給 BB 的 E1～E8，台詞不寫死（讀 EAT_LINES）。
 //   E1 118 巷以安在滇香吃飯、和她 FAMILIAR：點完問「坐過去一起吃」→ 開場、熟的那一組、結尾（滇香沒有回收台＝在店門口分開）；時間 +30 分鐘；關係加一點；店裡原本的「吃完」旁白不說
 //   E2 同一天再點一次：不再問（一天一次）
 //   E3 和學姊交往中（她不知道別人）：祐廷先說交往版的第一句（「書瑀。」）；她知道祐廷也和可昕交往＝朋友版
@@ -9,6 +9,8 @@
 //   E8 可昕分開、不到朋友：她那一組（她先走）、不加關係、沒有一起收盤子那句、時間 +30 分鐘
 //   其他：老樣子的換句（便利商店加熱／不用加熱）、Café 芷若在班或沒見過芷若＝不演、阿德影印不算吃過的、舊存檔沒有 G.eat、
 //         Café 芷若在班時點過（CAFE_VISITS）＝記進吃過的、之後不再演第一次、宵夜滷味攤第一次的旁白（outings3d.js）、溫州街半熟、接線
+//   AA_336 第 A 節（AA-C 回 LAWWW 實作問題）：A1 老樣子用主句（大碗小碗、全熟半熟不看上次點什麼）、A2 兩間麵店都算沒有回收台、
+//         A3 118 巷一起吃＝40＋30＝70 分鐘、A4 便利商店第 5 次：上次沒加熱＝換句＋祐廷回一句、上次有加熱＝表上那一句
 // 修改前（沒有 src/eat3d.js）：node tests/eat_unit.js --no-eat 大部分 FAIL。用法：node tests/eat_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..'), NO_EAT=process.argv.includes('--no-eat');
@@ -40,18 +42,19 @@ const has=t=>said.some(s=>s.t===t), idx=t=>said.findIndex(s=>s.t===t);
 const EL=typeof EAT_LINES!=='undefined'?EAT_LINES:{together:{},first:{},staff:{},doorShops:[]};
 const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
 (async()=>{
-  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329 c11945d0）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/c11945d0/.test(EAT_LINES.source||''));
+  check('0. 有 EAT（src/eat3d.js）、EAT_LINES（AA_329＋AA_336 第 A 節，企劃 724d7703）', typeof EAT!=='undefined'&&typeof EAT_LINES!=='undefined'&&/AA_329（企劃 724d7703）/.test(EAT_LINES.source||'')&&/AA_336/.test(EAT_LINES.source||''), EAT_LINES&&EAT_LINES.source);
   // ---------- E1 ----------
   const tue=td('Y1S1',3,2);
   fresh(tue,12.4,'l118_dian'); R('heroine_01','FAM'); const an=npcAt('heroine_01');
   { const e=STORY.schedEnt(CHARACTERS.heroine_01,G); check('E1 前置：Y1S1 第 3 週週二 12:24 以安照作息在滇香吃飯（l118_dian、eat）、店開著、不是門口的常客', !!e&&e.zone==='l118_dian'&&e.act==='eat'&&L118.isOpen('dian',G)&&!L118.companions(GM,'dian').includes('heroine_01'), JSON.stringify(e&&{zone:e.zone,act:e.act})); }
   const fam0=SOCIAL.rel('heroine_01').fam; let h0=null; const say0=GM.say; GM.say=async(w,t)=>{ if(t===EL.open) h0=G.hour; return say0(w,t); };
-  picks=[0,'坐過去一起吃']; await L118.order(GM,'dian'); GM.say=say0;
+  const hS=G.hour; picks=[0,'坐過去一起吃']; await L118.order(GM,'dian'); GM.say=say0;
   const S1=EL.together.heroine_01||{}, set1=(S1.FAM||[]).map(x=>x[1]);
   check('E1 點完問「坐過去一起吃」（選項兩個：坐過去一起吃、不用了）', opts.length>=2&&JSON.stringify(opts[1])===JSON.stringify(['坐過去一起吃','不用了']), JSON.stringify(opts));
   check('E1 開場 → 熟的那一組（照順序）→ 在店門口分開（滇香沒有回收台）', has(EL.open)&&set1.length&&set1.every(t=>has(t))&&idx(EL.open)<idx(set1[0])&&idx(set1[set1.length-1])<idx(EL.closeDoor)&&!has(EL.closeRecycle), said.map(s=>s.t).join('｜'));
   check('E1 一起吃的時候店裡原本的「吃完」旁白不說；第一次的旁白在點餐那句之後、一起吃之前', !has(shop('dian').done)&&idx(LANE118_SHOPS.orderLine.replace('{品名}',shop('dian').menu[0][0]))<idx(EL.first['118 巷・滇香小館'])&&idx(EL.first['118 巷・滇香小館'])<idx(EL.open));
   check('E1 一起吃那一段時間 +30 分鐘、關係加一點（日常的一起吃飯）', h0!=null&&Math.abs(G.hour-h0-0.5)<1e-6&&SOCIAL.rel('heroine_01').fam>fam0, 'h0='+h0+' h='+G.hour+' fam '+fam0+'→'+SOCIAL.rel('heroine_01').fam);
+  check('A3（AA_336）E1 點餐到吃完一共 70 分鐘：店裡原本吃飯的 40 分鐘＋一起吃 30 分鐘', Math.abs(G.hour-hS-70/60)<1e-6, 'hS='+hS+' h='+G.hour);
   // ---------- E2 ----------
   said=[]; opts=[]; picks=[1]; await L118.order(GM,'dian');
   check('E2 同一天再點一次：不再問「坐過去一起吃」、照舊說店裡吃完的旁白', !opts.some(o=>o.includes('坐過去一起吃'))&&has(shop('dian').done), JSON.stringify(opts));
@@ -78,6 +81,11 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   check('E6 選單多「老樣子」（在品項後面、「不用了」前面）；選了＝回「好。大碗。」、扣上一次那一樣（牛肉麵）的錢', opts[0]&&opts[0][shop('noodle2').menu.length]==='老樣子'&&opts[0][opts[0].length-1]==='不用了'&&has(T6.same)&&G.money===m0-150&&G.eat.n['六張犁麵舖']===5, JSON.stringify(opts[0])+' money '+(m0-G.money));
   said=[]; opts=[]; picks=[0]; await L118.order(GM,'noodle2');
   check('E6 那一句只說一次；之後選單照樣有「老樣子」', !has(T6.line5)&&opts[0].includes('老樣子'));
+  { const TO=EL.staff['蛋包飯研究所']||{};
+    check('A1（AA_336）老樣子用主句、不看上次點什麼：六張犁麵舖、蛋包飯研究所就算上次的品名有「小碗」「全熟」也回主句', !!T6.same&&!!TO.same&&EAT.sameLine(T6,'小碗牛肉麵')===T6.same&&EAT.sameLine(TO,'全熟咖哩蛋包飯')===TO.same);
+    fresh(td('Y1S1',4,2),12.2,'l118_omu'); G.eat={n:{'蛋包飯研究所':5},last:{'蛋包飯研究所':'咖哩蛋包飯'},l5:{'蛋包飯研究所':1}}; picks=['老樣子']; await L118.order(GM,'omu');
+    check('A1 蛋包飯研究所選「老樣子」＝店員回主句（不是全熟那句）；沒有全熟半熟的點餐步驟（只有一個選單：品項＋老樣子＋不用了）', has(TO.same)&&!(TO.alt&&has(TO.alt.t))&&opts.length===1&&opts[0].length===shop('omu').menu.length+2, JSON.stringify(opts)+' '+said.map(s=>s.t).join('｜')); }
+  check('A2（AA_336）沒有回收台的「麵店」＝阿鳳麵店、六張犁麵舖兩間都算', EAT.isDoor('阿鳳麵店')&&EAT.isDoor('六張犁麵舖'));
   // ---------- E7 ----------
   const tueY=td('Y1S2',4,2); fresh(tueY,18,'noodle'); npcAt('heroine_03'); G.eat={n:{'阿鳳麵店':4},last:{'阿鳳麵店':'乾麵'}};
   { const e=STORY.schedEnt(CHARACTERS.heroine_03,G); check('E7 前置：週二 18:00 語彤在阿鳳麵店顧店（act help）', !!e&&e.zone==='noodle'&&e.act==='help', JSON.stringify(e&&{zone:e.zone,act:e.act})); }
@@ -103,6 +111,10 @@ const shop=id=>LANE118_SHOPS.shops.find(s=>s.id===id);
   await cvsRun('微波義大利麵'); check('便利商店：上次是微波義大利麵＝「好，加熱。」', has(T9.same)&&!has(T9.alt&&T9.alt.t), said.map(s=>s.t).join('｜'));
   await cvsRun('飯糰'); check('便利商店：上次沒加熱（飯糰）＝「好，不用加熱。」', T9.alt&&has(T9.alt.t)&&!has(T9.same), said.map(s=>s.t).join('｜'));
   check('便利商店：老樣子在食物後面、貓罐頭／開學用品之前（序號對得回原本的選單）', opts[0]&&opts[0].indexOf('老樣子')===4);
+  const cvs5=async last=>{ fresh(td('Y1S1',5,2),15,'cvs'); G.eat={n:{'公館的便利商店':4},last:{'公館的便利商店':last}}; picks=['老樣子']; await STORY.interact({shop:'cvs'},GM); };
+  const A9=T9.line5Alt||{};
+  await cvs5('飯糰'); check('A4（AA_336）便利商店第 5 次、上次沒加熱（飯糰）：店員說換句（line5Alt）→ 祐廷回一句 → 老樣子＝不用加熱那句；不說「你每次都要」那句', !!A9.t&&!!A9.reply&&said.some(s=>s.who===T9.who&&s.t===A9.t)&&said.some(s=>s.who==='祐廷'&&s.t===A9.reply)&&idx(A9.t)<said.findIndex(s=>s.who==='祐廷'&&s.t===A9.reply)&&T9.alt&&said.findIndex(s=>s.who==='祐廷'&&s.t===A9.reply)<idx(T9.alt.t)&&!has(T9.line5)&&G.eat.l5['公館的便利商店']===G.day, said.map(s=>(s.who||'')+':'+s.t).join('｜'));
+  await cvs5('微波義大利麵'); check('A4 便利商店第 5 次、上次有加熱（微波義大利麵）：照表上那一句、沒有換句、祐廷不回', said.some(s=>s.who===T9.who&&s.t===T9.line5)&&!has(A9.t)&&!said.some(s=>s.who==='祐廷'), said.map(s=>(s.who||'')+':'+s.t).join('｜'));
   // ---------- Café ----------
   const cafe=async(fl,zr)=>{ fresh(td('Y1S1',5,4),15,'cafe',fl); G.eat={n:{'兩點半 Café':4},last:{'兩點半 Café':'拿鐵'}}; if(zr){ const n=npcAt('heroine_02'); n.staff='cafe'; } picks=[2]; await STORY.interact({counter:'cafe'},GM); };
   const TC=EL.staff['兩點半 Café']||{};
