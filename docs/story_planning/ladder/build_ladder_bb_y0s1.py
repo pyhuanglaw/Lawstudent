@@ -65,13 +65,6 @@ D['characters'][KX] = {'steps': [
              ch('「晚上傳訊息問妳。」','好啊。我十二點以前都醒著。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'KX0_CLASSROOM',
   'note':'第 18 週 E19（誤會）以前；寒假的每晚訊息（E24）接在後面（2026-10-16 上下文修正：不一定在教室遇到，「這間教室」改「經原那間教室」）（2026-10-17 BB-C（照 AA_235 71d62646）：這層只在第 6 週，台詞改成期中前（期中在第 8 週），鋪 10/17「快期中考還是不想念書」，不說破；mem KX0_CLASSROOM 名稱對不上，照留〔AA_235 第 5 節第 5 條〕）'},
  # 杜可昕：交往後（2024-10-17 起；AA_235 AA-C 草稿）。放在 K0-L8 後面；機制見 AA_235 第 3 節
- {'id':'K0-Lx2','if':DK,'week':[7,16],
-  'lines':['你搬回家以後，來學校要多久？'],
-  'linesIf':[{'if':DK,'unless':fl('Y0_MOVED_OUT'),'lines':['等你搬回家，來學校要多久？']}],  # 2026-10-17 BB-C（照 AA_237 208fbe40）：10/17～10/18 還沒退宿＝AA 的未來式；退宿以後（Y0_MOVED_OUT）用原句
-
-  'choices':[ch('「搭捷運還好。」','那你算一下來回多久。不要只為了吃一頓飯跑一趟。'),
-             ch('「我可以開車。」','好啊。社科院底下有停車場。……停車費你出。',rel={'comf':1})],'rel':{'comf':2},'mem':'KX0D_COMMUTE',
-  'note':'10/19 退宿以後住臺北的家；在 10/17～10/18 聽到也通（「搬回家以後」）。「那天」＝車上（AA_224 1-3），不回收台詞'},
  {'id':'K0-Lx3','if':DK,'week':[8,16],
   'lines':['（她手上拿著兩對耳環）草莓，還是叉子？','你選。今天戴你選的。'],
   'choices':[ch('「草莓。」','好。叉子明天再戴。'),
@@ -260,7 +253,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(13 if cid==KX else 6 if cid==PY else 4 if cid==TR else 6 if cid==XN else 7 if cid==WL else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
+        if len(ids)!=(12 if cid==KX else 6 if cid==PY else 4 if cid==TR else 6 if cid==XN else 7 if cid==WL else 8): err.append(cid+(' 不是 13 層（K0-L1～L8＋K0-Lx2、Lx3、Lx5、Lx7、Lx8；Lx1、Lx4、Lx6 使用者 10-18 拿掉，AA_306）' if cid==KX else ' 不是 8 層'))
         if 'context' in c: err.append(cid+' 經濟系大一上不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
