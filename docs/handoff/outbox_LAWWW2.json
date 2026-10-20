@@ -802,7 +802,7 @@
   {
    "task": "WANCAI-SEMA／LINZE-202／WANCAI-MULTI 更新：牆淡出時飄著的東西（白板筆、板擦、門把、書櫃、冷氣、EXIT 燈條、置物櫃飾條）放進牆的群組；note→dev；README 補完",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "75ef4ae3",
    "files": [
     "assets/models/env/second_ai/wancai_sema.glb",
     "assets/models/env/second_ai/wancai_sema.json",
