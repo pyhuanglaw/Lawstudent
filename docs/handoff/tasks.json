@@ -20573,7 +20573,7 @@
    "title": "118 巷也要遇得到人（偶遇）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20587,7 +20587,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「可以遇到人的地方除了公館 溫州街 學校裡 建築裡 也要有118巷阿」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA"
+   "next": "【10-20 16:0x 開發分支 2be7254e】118 巷有路人（walkRoutes.lane118、吃飯時間多一點；tests/lane118_walkers_unit.js）。熟人照作息出現在 118 巷（巷子 lane118／店裡 l118_<店>）等 AA-C 給表（15:5x 已問：who、days、from、to、zone、act、terms）。偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA"
   },
   {
    "id": "PERF-WENZHOU-1020",
