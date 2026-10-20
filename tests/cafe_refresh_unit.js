@@ -62,4 +62,9 @@ if(typeof STORY.refreshSchedule==='function'){ at(23); const GM=mkGM(); GM.E.mov
   try{ STORY.refreshSchedule(GM); }catch(e){}
   const n1=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const n2=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const n3=cust(GM).length;
   check('7. 要走的兩位卡在門口（沒走到）：下一、兩輪檢查就當作出了門，店裡剩一位', n1===3&&n3===1, [n1,n2,n3].join('→')); }
+// 8. 要走的客人一直在動、但碰到站在入口那圈的玩家（BB-C 2026-10-20 CAFE 23:00 重驗：22:59～23:07 疊在一起）：離玩家 0.6 m 內、離出口 3.5 m 內＝下一輪就當作出了門
+if(typeof STORY.refreshSchedule==='function'){ at(23); const GM=mkGM(); let k=0; GM.E.moveTo=(n,x,z,cb)=>{ k++; n.obj.position.x=0.25*(k%2); n.obj.position.z=4.4; return true; };   /* 在玩家身上來回動（每輪都動超過 0.2 m 的話舊的判斷抓不到）*/
+  for(const i of w19) seated(GM,i); GM.E.player.obj.position={x:0,y:0,z:4.6};
+  try{ STORY.refreshSchedule(GM); }catch(e){} const m1=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const m2=cust(GM).length;
+  check('8. 要走的兩位疊在玩家身上（離玩家 0.6 m 內、門口 3.5 m 內）：下一輪就出門，店裡剩一位', m1===3&&m2===1, [m1,m2].join('→')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

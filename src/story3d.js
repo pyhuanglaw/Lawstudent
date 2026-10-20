@@ -816,13 +816,13 @@ const STORY = (function(){
       if(G.flags.companion&&id===G.flags.companion) continue; const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
       /* 2026-10-13 使用者試玩：「林芷若第一次講完話直接消失在校園，本來在我前面」——時段結束時只要鏡頭沒對著她就拿掉（玩家一轉頭人就不見了）。
          改成：還在附近的人先走到最近的門口／出口，走到了才離開（進了那棟樓、走出這一區）；已經在遠處又看不到的照舊直接離開 */
-      if(n.leaving){ if(n.arrived||(d>=30&&!vis)||leaveStuck(n)) GM.removeNPC(id); continue; }
+      if(n.leaving){ if(n.arrived||(d>=30&&!vis)||leaveStuck(n,P)) GM.removeNPC(id); continue; }
       if(d>=12&&!vis){ GM.removeNPC(id); continue; }
       if(walkAway(GM,n)) continue;
       if(d<12&&vis) continue; GM.removeNPC(id); }
     for(const n of (E.npcs||[]).slice()){ if(!n||!n.isExtra||n.clerk||n.until==null||hr<n.until) continue;   /* 路人（不在 GM.npc）有 until 的：同一套，走到門口才離開（芷若 Z3 那天 Café 座位 6 的客人）*/
       const o=n.obj.position, d=Math.hypot(o.x-P.x,o.z-P.z), vis=inView(E,o);
-      if(n.leaving){ if(n.arrived||(d>=30&&!vis)||leaveStuck(n)) E.removeNPC(n); continue; }
+      if(n.leaving){ if(n.arrived||(d>=30&&!vis)||leaveStuck(n,P)) E.removeNPC(n); continue; }
       if(d>=12&&!vis){ E.removeNPC(n); continue; }
       n.pose=n.idlePose='idle'; if(walkAway(GM,n)) continue;
       if(d<12&&vis) continue; E.removeNPC(n); } }
@@ -850,7 +850,8 @@ const STORY = (function(){
   /* 時段結束：走到最近的出口（區域的出口、建築入口）——走得到才走；坐著的先起身；聊天的對象回到原本的樣子 */
   /* 走向出口卡住了（BB-C 79f2cd22：23:00 要走的 Café 客人卡在門口、和站在門口的玩家疊在一起，一直沒離開）：
      兩次檢查（refreshSchedule 每 3 秒）之間幾乎沒動、而且離出口 3.5 m 以內＝當作走出去了（在門口，看起來就是出了門）*/
-  function leaveStuck(n){ const o=n.obj.position, ex=n.leaveTo, last=n.leaveLast; n.leaveLast={x:o.x,z:o.z};
+  function leaveStuck(n,P){ const o=n.obj.position, ex=n.leaveTo, last=n.leaveLast; n.leaveLast={x:o.x,z:o.z};
+    if(ex&&P&&Math.hypot(o.x-P.x,o.z-P.z)<0.6&&Math.hypot(o.x-ex.x,o.z-ex.z)<3.5) return true;   /* 到了門口附近、碰到玩家（玩家站在入口那圈）＝當作出了門，不和玩家疊在一起（BB-C 2026-10-20 CAFE 23:00 重驗：疊了 8 遊戲分鐘）*/
     if(!ex||!last) return false; return Math.hypot(o.x-last.x,o.z-last.z)<0.2&&Math.hypot(o.x-ex.x,o.z-ex.z)<3.5; }
   S.leaveStuck=leaveStuck;
   function walkAway(GM,n){ const E=GM.E; const o=n.obj.position, lv=n.lv|0; let best=null, bd=1e9;
