@@ -210,7 +210,7 @@ def tubes(c, pts, L_=1.2):
         else: c.vc.cbox(x - 0.07, x + 0.07, H - 0.06, H, z - L_ / 2 - 0.04, z + L_ / 2 + 0.04, '#e9e9e6'); c.tube.cyl((x, H - 0.085, z - L_ / 2), (x, H - 0.085, z + L_ / 2), 0.016, seg=8)
 
 
-def bamboo_lamp(c, x, z, y=2.25, r=0.22):
+def bamboo_lamp(c, x, z, y=2.6, r=0.2):   # 吊燈都在 2.5 m 以上：遊戲的鏡頭在人物後上方，太低會擋住人物
     """竹編吊燈（滇緬小館）：上下兩圈竹篾、直條、裡面一顆暖光燈泡"""
     ccyl(c.vc, (x, y + 0.3, z), (x, H, z), 0.006, '#2a2a2a', seg=4)
     for yy, rr in ((y + 0.3, r * 0.55), (y + 0.0, r)):
@@ -464,7 +464,7 @@ def finish(c):
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
     sh = next(q for q in LAY['shops'] if q['id'] == c.sid); Wst = sh['side'] == 'W'; fx = LAY['facade']['west'] if Wst else LAY['facade']['east']; cz = (sh['z0'] + sh['z1']) / 2
     street = dict(side=sh['side'], door=dict(x=round(fx + (0.9 if Wst else -0.9), 3), z=cz, note='118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）'),
-                  spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=round(PI / 2 if Wst else -PI / 2, 4), note='出店門站的位置：人行道上、面向巷子對面；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
+                  spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=0.0, note='出店門站的位置：人行道上、面向後門（辛亥路）那一頭（面向巷子對面的話，鏡頭會被自己店的牆擠到人物背後）；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
     lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=c.T['name'], type=c.T['sub'], src='AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）',
                bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks)
@@ -576,11 +576,12 @@ def glass_case(c, x0, x1, z0, z1, face='-x', h=1.05, rows=1, warm=True):
     c.block(x0 - 0.02, x1 + 0.02, z0 - 0.02, z1 + 0.02, 'case')
 
 
-def pendant(c, x, z, y=2.15, col='#2b2b2b', r=0.2):
-    """吊燈（金屬燈罩，下面一顆暖光燈泡）"""
-    ccyl(c.vc, (x, y + 0.2, z), (x, H, z), 0.005, '#2a2a2a', seg=4)
-    clathe(c.vm, [(0.02, 0.2), (0.05, 0.19), (r * 0.6, 0.1), (r, 0.0), (r * 0.97, -0.004), (r * 0.57, 0.095), (0.0, 0.185)], x, y, z, col, seg=18)
-    c.warm.sphere((x, y + 0.03, z), 0.055, seg=10, rings=6)
+def pendant(c, x, z, y=2.15, col='#2b2b2b', r=0.2, grp=None):
+    """吊燈（金屬燈罩，下面一顆暖光燈泡）；grp＝'N' 等：跟著那一面牆淡出（吧檯上面的燈：鏡頭從吧檯那邊往門口看時不擋住人物）"""
+    vc = c.wg(grp, 'lamps', c.M['vc'], cm=True) if grp else c.vc; vm = c.wg(grp, 'lampshade', c.M['vcm'], cm=True) if grp else c.vm; wm = c.wg(grp, 'lampbulb', c.M['warm']) if grp else c.warm
+    ccyl(vc, (x, y + 0.2, z), (x, H, z), 0.005, '#2a2a2a', seg=4)
+    clathe(vm, [(0.02, 0.2), (0.05, 0.19), (r * 0.6, 0.1), (r, 0.0), (r * 0.97, -0.004), (r * 0.57, 0.095), (0.0, 0.185)], x, y, z, col, seg=18)
+    wm.sphere((x, y + 0.03, z), 0.055, seg=10, rings=6)
 
 
 def counter(c, x0, x1, z0, z1, h=1.0, top='wood', front='#6b5a48', block=True, why='counter'):
@@ -894,7 +895,7 @@ def build_cafe2(c):
     for x_ in (-2.3, -1.4, -0.5, 0.4): chair(c, x_, Z1 - 0.78, 0.0, 'bar', '#3b2a1e'); c.seat(x_, Z1 - 0.78, 0.0, (x_, Z1 - 0.25), 'eat', label='坐窗邊（有插座）')
     for (tx, tz) in ((-1.55, -1.35), (-1.55, 0.85), (0.75, -1.35), (0.75, 0.85), (2.55, -1.6)):
         table(c, tx, tz, 0.72, 0.7, top='wood'); table_seats(c, tx, tz, 0.72, 0.7, ('-z', '+z'), style='wood', col='#4a3426'); table_set(c, tx + 0.15, tz, 'cafe')
-        pendant(c, tx, tz, 2.25, '#2f2a26')
+        pendant(c, tx, tz, 2.5, '#2f2a26')
     tubes(c, [(-0.6, Z0 + 1.2, 'x')], L_=1.2)
     frame_board(c, 'N', -2.4, -0.2, 2.25, 3.05, '#2a2018'); printed(c, 'N', -2.4, -0.2, 2.25, 3.05, 'MENU', inset=0.014)
     printed(c, 'S', -2.6, 0.4, 2.66, 3.1, 'NAME', inset=0.016)
@@ -923,7 +924,7 @@ def build_pasta(c):
     for x_ in (-1.8, -1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -1.4, PI, 'bar', '#2f5d50'); c.seat(x_, -1.4, PI, (x_, -2.07), 'eat', label='坐吧檯')
     for (tx, tz) in ((-1.0, 0.55), (1.05, 0.55), (3.0, 0.3), (-1.0, 2.6), (1.05, 2.6)):
         table(c, tx, tz, 0.72, 0.7, top='lam', col='#f4f1ea', legc='#2b2b2b'); table_seats(c, tx, tz, 0.72, 0.7, ('-z', '+z'), style='wood', col='#3d6b5c'); table_set(c, tx + 0.15, tz, 'cafe')
-    for x_ in (-1.6, 0.0, 1.6): pendant(c, x_, -2.07, 2.3, '#2f5d50', r=0.17)
+    for x_ in (-1.6, 0.0, 1.6): pendant(c, x_, -2.07, 2.55, '#2f5d50', r=0.16, grp='N')   # 吧檯上面：跟著後牆淡出
     tubes(c, [(-1.5, Z0 + 0.9, 'x'), (1.5, Z0 + 0.9, 'x'), (0.0, 1.6, 'x'), (-2.6, 1.0, 'z')])
     frame_board(c, 'E', -1.0, 1.0, 1.55, 2.3, '#4a3020'); printed(c, 'E', -1.0, 1.0, 1.55, 2.3, 'MENU', inset=0.014)
     printed(c, 'S', -1.6, 1.4, 2.66, 3.1, 'NAME', inset=0.016)
@@ -976,8 +977,9 @@ def build_omu(c):
     for x_ in (-1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -0.95, PI, 'bar', '#e0a030'); c.seat(x_, -0.95, PI, (x_, -1.62), 'eat', label='坐吧檯')
     for (tx, tz) in ((-1.95, 0.65), (0.2, 0.75), (2.25, 0.75), (0.2, 2.6), (2.25, 2.6)):
         table(c, tx, tz, 0.7, 0.68, top='lam', col='#fbf3df', legc='#5c3a21'); table_seats(c, tx, tz, 0.7, 0.68, ('-z', '+z'), style='wood', col='#b08a5e'); table_set(c, tx + 0.15, tz, 'cafe')
-    for (x_, z_) in ((-1.95, 0.65), (0.2, 0.75), (2.25, 0.75), (0.2, 2.6), (2.25, 2.6), (-0.4, -1.62), (1.6, -1.62)):
-        ccyl(c.vc, (x_, 2.5, z_), (x_, H, z_), 0.005, '#2a2a2a', seg=4); c.warm.sphere((x_, 2.4, z_), 0.11, seg=14, rings=8)   # 球形吊燈（2.4 m：不擋遊戲的鏡頭）
+    for (x_, z_) in ((-1.95, 0.65), (0.2, 0.75), (2.25, 0.75), (0.2, 2.6), (2.25, 2.6), (-0.4, -1.62), (1.6, -1.62)):   # 球形吊燈（2.6 m：不擋遊戲的鏡頭；吧檯上面那兩盞跟著後牆淡出）
+        bar = z_ < -1; vc_ = c.wg('N', 'lamps', c.M['vc'], cm=True) if bar else c.vc; wm_ = c.wg('N', 'lampbulb', c.M['warm']) if bar else c.warm
+        ccyl(vc_, (x_, 2.7, z_), (x_, H, z_), 0.005, '#2a2a2a', seg=4); wm_.sphere((x_, 2.6, z_), 0.1, seg=14, rings=8)
     frame_board(c, 'N', 1.35, 2.65, 2.2, 2.68, '#e8e8e4') if False else None
     printed(c, 'E', -0.9, 1.1, 1.75, 2.5, 'MENU', inset=0.016)
     printed(c, 'S', -1.0, 2.0, 2.66, 3.1, 'NAME', inset=0.016)
