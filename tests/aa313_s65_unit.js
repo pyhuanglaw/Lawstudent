@@ -1,6 +1,7 @@
-// AA_313 6-5 的程式項目（第 8、11 點）——不需要瀏覽器。
+// AA_313 6-5 的程式項目（第 8、10、11 點）——不需要瀏覽器。
 //   8. 學姊交往以後：聯絡人名稱是「書瑀」，手機上她的訊息也顯示「書瑀」（存的 name 是「溫學姊」也一樣）；沒交往照舊；
 //      Café 的小交流「今天寫了兩份考古題。」大二起（她念碩士）換「今天改了兩段論文。」。
+//   10. 法服的「研究所學姊」名字框＝「雅筑學姊」（AA-C 35933478）。
 //   11. 沛珊：ev_peishan_split 兩句對調（先說分開了），和 ev_peishan_bohan_split 互斥（同一件事只聽一次）。
 // 修改前 8、11 FAIL。用法：node tests/aa313_s65_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'); const ROOT=path.resolve(__dirname,'..');
@@ -22,4 +23,6 @@ check('8. 分手以後回到「溫學姊」', PHONE.who(m)==='溫學姊');
 { const a=STORY_EVENTS.find(e=>e.id==='ev_peishan_split'), b=STORY_EVENTS.find(e=>e.id==='ev_peishan_bohan_split'); const t=a.dialogue.filter(l=>l.text).map(l=>l.text);
   check('11. 沛珊 ev_peishan_split：先「我們上週分開了。我自己說的。」再說原因', t[0]==='我們上週分開了。我自己說的。'&&t[1]==='柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。', JSON.stringify(t));
   check('11. 兩個事件互斥（notEvents 互相指）', (a.prereq.notEvents||[]).includes('ev_peishan_bohan_split')&&(b.prereq.notEvents||[]).includes('ev_peishan_split')); }
+{ const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8');
+  check('10. 法服的「研究所學姊」名字框改「雅筑學姊」（AA-C 35933478；不會被當成溫書瑀）', !/研究所學姊/.test(st)&&/S\.FAFU_OPEN=\[\['雅筑學姊','今天兩桌。你跟我。'\]/.test(st)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -339,7 +339,7 @@ const STORY = (function(){
       /* 法服週六值班（V1-F：AA_163 第 1 節、BB_145）：單週週六 9～12、第 3 週起、考試週停（S.fafuDuty）。社長（大二起學長）在圓桌、研究所學長和學姊、民眾一到兩位（路人底模、名字照 AA_163）；
          大一可以在旁邊看（「在旁邊看法服值班」，S.fafuWatch）。門口的告示照有沒有值班寫下一次的日期 */
       if(S.fafuDuty(G)&&hr>=9&&hr<12){ const ex=(nm,x,z,ry)=>{ const o=CHAR.build(extraSpec(xi++)); o.position.set(x,0,z); o.rotation.y=ry; E.addNPC({obj:o,name:nm,beh:'idle',pose:'idle',idlePose:'idle',frozen:true,isExtra:true,lv:0}); };
-        ex(S.fafuLead(G),0.95,1.25,-0.6); ex('研究所學長',-0.95,1.25,0.6); ex('研究所學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);   /* 圓桌帶的人＝S.fafuLead（社長／學長；學姊四年都不在，AA_238 第 2 節）*/
+        ex(S.fafuLead(G),0.95,1.25,-0.6); ex('研究所學長',-0.95,1.25,0.6); ex('雅筑學姊',-1.2,2.6,1.9); ex('民眾',0,2.85,Math.PI); if(G.day%2===0) ex('民眾',0.95,2.75,-2.2);   /* 圓桌帶的人＝S.fafuLead（社長／學長；學姊四年都不在，AA_238 第 2 節）*/
         if(S.fafuWatchable(G)) E.interactables.push({x:2.3,z:3.1,radius:1.3,lv:0,label:'在旁邊看法服值班',fafuWatch:true,get hidden(){ return !S.fafuWatchable(GM.G)||GM.G.hour>=12; }});
         if(S.fafuMember(G)) E.interactables.push({x:-1.6,z:3.4,radius:1.3,lv:0,label:'坐到圓桌（做初談紀錄）',fafuShift:true,get hidden(){ return !S.fafuShiftable(GM.G); }}); }
       if((G.stage||'law')==='law') E.interactables.push({x:-2.2,z:5.8,radius:0.7,lv:0,label:'看門口的告示',get look(){ return S.fafuNotice(GM.G); }});
@@ -565,15 +565,15 @@ const STORY = (function(){
   S.fafuSisHere=G=>false;
   S.fafuLead=G=>{ const t=(CALENDAR.termOf(G.day)||{}).id||''; return /^Y1/.test(t)?'社長':(/^Y2/.test(t)?'學長':'值班的學長'); };
   S.fafuShiftable=G=>S.fafuDuty(G)&&S.fafuMember(G)&&!S.fafuSpecial(G)&&G.hour<12&&(G.flags||{}).LAWCLUB_SAT_LAST!==G.day;
-  S.FAFU_OPEN=[['研究所學姊','今天兩桌。你跟我。'],['研究所學長','紀錄表在左邊。先寫日期。'],['研究所學長','今天人可能比較多。慢慢來。']];
+  S.FAFU_OPEN=[['雅筑學姊','今天兩桌。你跟我。'],['研究所學長','紀錄表在左邊。先寫日期。'],['研究所學長','今天人可能比較多。慢慢來。']];
   S.FAFU_CASES=[['一位大學生，機車停在騎樓被拖吊了','我只停了五分鐘。','研究所學長','那天的時間、地點先寫清楚。單子還在嗎？'],
-    ['一位阿姨，樓上漏水，天花板發霉，樓上的人不開門','我不想吵架。我只想要它不要再滴。','研究所學姊','每一次滴水都拍照、記日期。下次我們一起看。'],
+    ['一位阿姨，樓上漏水，天花板發霉，樓上的人不開門','我不想吵架。我只想要它不要再滴。','雅筑學姊','每一次滴水都拍照、記日期。下次我們一起看。'],
     ['一位先生，網購的冰箱用三個月就壞了，店家說要自費','它才用三個月。','研究所學長','發票和對話紀錄都帶來，我們幫您整理成一頁。'],
-    ['一個年輕人，借給朋友三萬元，沒有寫借據','我們很好，所以沒有寫。','研究所學姊','有提到錢的訊息，先截圖存起來。匯款的紀錄也是。'],
+    ['一個年輕人，借給朋友三萬元，沒有寫借據','我們很好，所以沒有寫。','雅筑學姊','有提到錢的訊息，先截圖存起來。匯款的紀錄也是。'],
     ['一位阿嬤，公寓要收一筆修繕費，她覺得不公平','我住一樓，電梯我又不用。','研究所學長','社區的規約在您手上嗎？還有開會的紀錄。先看上面寫什麼。'],
-    ['一位女兒替媽媽來，媽媽在路上被推銷，買了一整套保健食品','我媽說她不好意思拒絕。','研究所學姊','買的日期、收據、對方留的電話，今天就先找出來。'],
+    ['一位女兒替媽媽來，媽媽在路上被推銷，買了一整套保健食品','我媽說她不好意思拒絕。','雅筑學姊','買的日期、收據、對方留的電話，今天就先找出來。'],
     ['一個高中生，打工的地方要他簽一張單子，上面寫「自願不投保」','不簽的話，他說我就不能來。','研究所學長','這張單子我們幫你問清楚，這幾天回你。'],
-    ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','研究所學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
+    ['一位太太，父親過世，兄弟姊妹對房子意見不一樣','我只是不想大家以後都不見面。','雅筑學姊','這件要請律師一起看。我們幫您排有律師的那一週。']];   /* AA_184 第 3 節（BB-B 法律查核通過，BB_160 第 2 節）*/
   S.FAFU_STAY=['（後來又來了一位，學長自己接了。）','（你把上週的紀錄重新抄了一次。）'];
   S.FAFU_YT=['……阿伯又來了。他每次都帶橘子。','紀錄我幫你對過了。少寫一個日期。','今天沒有麵店的人來。還好。'];
   S.FAFU_BH=['班表排好了。你下次是單週。','我以為社長只要排班。……還要買垃圾袋。'];
@@ -602,7 +602,7 @@ const STORY = (function(){
       sis=S.fafuSisLines(G,'front'); if(sis.lines.length) await sayL(sisWho,sis.lines);
       const c=S.FAFU_CASES[R.cs%S.FAFU_CASES.length]; R.cs++; await GM.say(null,'（'+c[0]+'。）');
       await GM.say(null,'你先問什麼？'); const k=await GM.choose([{t:'「先請他從頭講一次。」'},{t:'「先問什麼時候發生的。」'},{t:'「先問手上有什麼資料。」'}]);
-      if(k===0){ retell=true; await GM.say(nm('研究所學姊'),'好。先聽完。'); await GM.say(null,'（他講了十五分鐘。最重要的那一句，在最後。）'); }
+      if(k===0){ retell=true; await GM.say(nm('雅筑學姊'),'好。先聽完。'); await GM.say(null,'（他講了十五分鐘。最重要的那一句，在最後。）'); }
       else if(k===1) await GM.say(nm('研究所學長'),'時間寫在最上面。對。'); else await GM.say(nm('研究所學長'),'有的話，下次帶來，會快很多。');
       await GM.say(nm('民眾'),c[1]); await GM.say(nm(c[2]),c[3]);
       if(F.YT_LEGALAID_Y2&&S.ytFafu(G)&&S.knows('heroine_03',G)){ await GM.say({name:SOCIAL.displayName('heroine_03'),charId:'heroine_03'},S.FAFU_YT[R.yt%3]); R.yt++; }
