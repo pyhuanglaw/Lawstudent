@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""BB_130 → ladder_bb.json（給 LAWWW-B 直接實作）。作者：BB-B 2026-10-15（使用者 2026-10-15 授權：大一上閒聊全案通過，直接實作）。
+"""2026-10-20 AA-C（AA_313 第 3 節）：學姊階梯的玩家選項「學姊」一律改「妳」（交往那天起叫「書瑀」，使用者 10-17；交往中的玩家也會選到這些層）。
+BB_130 → ladder_bb.json（給 LAWWW-B 直接實作）。作者：BB-B 2026-10-15（使用者 2026-10-15 授權：大一上閒聊全案通過，直接實作）。
 條件鍵和遊戲現有 SMALLTALK 一樣（story3d.js S.smallTalk 的 ok()）：if／unless（EVENTS.cond：stage、events、memory、flags、notFlags、flagNum…）、term、week、location（zone）、time [h0,h1)、weekday（0＝日）。
 step：依序推進；每人每天最多一層；after 自動是上一層。context:'date' ＝ 只在「我們的日子」見面或視訊時（可昕）。
 choices：玩家二選一；reply 是她的收尾；rel、mem 是該選項的結果（mem＝記憶 tag，寫在她身上）。
@@ -107,7 +108,7 @@ D['characters'][SIS] = {'friendOnly':True,  # 2026-10-17：friendOnly 的理由�
  'steps': [
  {'id':'S-L1','if':st(SIS,'ACQUAINTANCE'),'location':['library','campus'],'time':[9,17],'weekday':[1,2,3,4,5],
   'lines':['學弟。','總圖二樓的飲水機壞了，要裝水去三樓。'],
-  'choices':[ch('「謝謝學姊。」','嗯。我剛剛也白跑一趟。'),ch('「學姊是特地來講的嗎？」','沒有，剛好看到你。')],'rel':{'fam':2}},
+  'choices':[ch('「謝謝妳。」','嗯。我剛剛也白跑一趟。'),ch('「妳是特地來講的嗎？」','沒有，剛好看到你。')],'rel':{'fam':2}},
  {'id':'S-L2','if':{**st(SIS,'ACQUAINTANCE'),'flags':['classDone']},
   'note':'2026-10-16 BB-B（AA_200 第 2 節第 17 項、2-1）：民總第一堂 9/4 下午，茶會 9/2 認識學姊；民總第一堂上過（classDone）才問',
   'lines':['你們民總現在上到哪？','看得懂嗎？'],
@@ -121,24 +122,24 @@ D['characters'][SIS] = {'friendOnly':True,  # 2026-10-17：friendOnly 的理由�
   'note':'2026-10-17 BB-C（照 AA_238 §3-4 01f3ce42）：原 ev_studygroup_wed 散會前的研究所志向搬到總圖。選項另外帶 grad（①bump「學姊提到研究所」field 公法；②bump「問學姊為什麼念研究所」）、IMPORTANT_CONVERSATION「她不確定為什麼念研究所」——LAWWW 照原事件搬。取代 S-Lx1（新版法典那層，「二月考研究所」和這層重複），AA 不同意的話再放回',
   'lines':['二月要考研究所。我現在每天在這裡坐到閉館。','……你們一年級還不用想這個。'],
   'choices':[ch('「研究所在讀什麼？」','讀一個問題，讀兩三年。……大部分人寫不出「為什麼」想讀那個問題。',rel={'fam':3,'resp':2},mem='GRAD_SCHOOL_DISCUSSION'),
-             ch('「學姊為什麼想念研究所？」','……你是這禮拜第三個問的。考上再告訴你。考不上，就當你沒問過。',rel={'trust':4},mem='GRAD_SCHOOL_DISCUSSION')]},
+             ch('「妳為什麼想念研究所？」','……你是這禮拜第三個問的。考上再告訴你。考不上，就當你沒問過。',rel={'trust':4},mem='GRAD_SCHOOL_DISCUSSION')]},
  {'id':'S-L4','if':st(SIS,'FAMILIAR'),
   'lines':['（她喝了一口保溫瓶，皺了一下眉）太濃了。','我今天放了三包。你不要學。'],
-  'choices':[ch('「三包？」','今天事情比較多。'),ch('「學姊睡得夠嗎？」','……還好啦。謝謝。',mem='SIS_ASKED_SLEEP')],'rel':{'fam':2}},
+  'choices':[ch('「三包？」','今天事情比較多。'),ch('「妳睡得夠嗎？」','……還好啦。謝謝。',mem='SIS_ASKED_SLEEP')],'rel':{'fam':2}},
  {'id':'S-L5','if':st(SIS,'FAMILIAR'),
   'lines':['我爸媽都是公務員。從小就一直跟我說，考上司法官很好。','我也覺得很好啊。一直都這樣覺得。'],
-  'choices':[ch('「那學姊想當司法官嗎？」','……想啊。（她低頭翻書）'),ch('「妳說『一直都』。」','……你很會抓字欸。')],'rel':{'fam':2,'trust':3},'mem':'SIS_PARENTS_HEARD'},
+  'choices':[ch('「那妳想當司法官嗎？」','……想啊。（她低頭翻書）'),ch('「妳說『一直都』。」','……你很會抓字欸。')],'rel':{'fam':2,'trust':3},'mem':'SIS_PARENTS_HEARD'},
  {'id':'S-Lx2','if':st(SIS,'FAMILIAR'),'location':['campus'],
   'lines':['我剛剛在總圖計時寫了一份考古題。三個小時。','最後一題還差一段，鬧鐘就響了。'],
   'choices':[ch('「最後一題沒寫完？」','沒寫完。鬧鐘響了就停，不然計時就沒意義了。'),
-             ch('「學姊出來休息？」','嗯，出來走一圈。等一下還要回去對答案。',rel={'comf':1})],'rel':{'fam':2},'mem':'SIS_MOCK_EXAM',
+             ch('「妳出來休息？」','嗯，出來走一圈。等一下還要回去對答案。',rel={'comf':1})],'rel':{'fam':2},'mem':'SIS_MOCK_EXAM',
   'note':'2026-10-17 BB-C（照 AA_234 b7e7d445）：AA 補，取代刪掉的 S-L6（讀書會那題），放在原 S-L6 的位置。FAMILIAR 的日常；地點只放 campus（她「出來」走一圈，在總圖裡面遇到時這句不通）'},
  {'id':'S-L7','if':st(SIS,'FAMILIAR'),'unlessWeekdayTime':{'weekday':[5],'time':[17,21]},
   'lines':['學弟，你覺得憲法無聊嗎？','很多人都說無聊。我覺得是還沒真的跟公家機關打過交道吧。'],
   'choices':[ch('「我還沒遇過。」','那很好啊。真的遇到了，傳訊息問我。'),ch('「我覺得不無聊。」','那你是我今年聽到的第三個。',mem='SIS_PUBLIC_LAW_FAN')],'rel':{'fam':2}},
  {'id':'S-L8','if':st(SIS,'FRIEND'),
   'lines':['你最近有睡飽喔，看得出來。考試前不要換位子，坐習慣的地方就好。','（她想了一下）……沒事，算了。'],
-  'choices':[ch('「學姊剛剛要說什麼？」','就說沒事了啦。（她低頭收東西）'),ch('「學姊也要睡飽。」','……知道了。')],'rel':{'fam':2,'comf':3}},
+  'choices':[ch('「妳剛剛要說什麼？」','就說沒事了啦。（她低頭收東西）'),ch('「妳也要睡飽。」','……知道了。')],'rel':{'fam':2,'comf':3}},
 ],'greet':{'base':['不要只吃泡麵喔。','（她朝你點了一下頭，手上還拿著書）','有在讀書嗎？','（她邊走邊看手上的影本，抬頭看到你）喔，是你。', '今天總圖的冷氣好強。我帶了外套。'],
  'when':[{'location':['library'],'t':'（小聲）三樓有位子。'},
          {'time':[22,24],'t':'這麼晚了，快回去睡。','note':'（2026-10-16 BB-B，AB-62：原本『這麼晚了。一件事：回去睡。』，條列每學期最多 2 次）'},

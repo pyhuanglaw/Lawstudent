@@ -1,5 +1,5 @@
 {
- "_comment": "BB_130 → ladder_bb.json（給 LAWWW-B 直接實作）。作者：BB-B 2026-10-15（使用者 2026-10-15 授權：大一上閒聊全案通過，直接實作）。\n條件鍵和遊戲現有 SMALLTALK 一樣（story3d.js S.smallTalk 的 ok()）：if／unless（EVENTS.cond：stage、events、memory、flags、notFlags、flagNum…）、term、week、location（zone）、time [h0,h1)、weekday（0＝日）。\nstep：依序推進；每人每天最多一層；after 自動是上一層。context:'date' ＝ 只在「我們的日子」見面或視訊時（可昕）。\nchoices：玩家二選一；reply 是她的收尾；rel、mem 是該選項的結果（mem＝記憶 tag，寫在她身上）。\ngreet：當天推進過或條件未到時的短招呼；先挑符合 when 的情境句，沒有就用 base 輪替（不連續重複）。\n用法：python3 build_ladder_bb.py → ladder_bb.json；python3 build_ladder_bb.py --check 只檢查。",
+ "_comment": "2026-10-20 AA-C（AA_313 第 3 節）：學姊階梯的玩家選項「學姊」一律改「妳」（交往那天起叫「書瑀」，使用者 10-17；交往中的玩家也會選到這些層）。\nBB_130 → ladder_bb.json（給 LAWWW-B 直接實作）。作者：BB-B 2026-10-15（使用者 2026-10-15 授權：大一上閒聊全案通過，直接實作）。\n條件鍵和遊戲現有 SMALLTALK 一樣（story3d.js S.smallTalk 的 ok()）：if／unless（EVENTS.cond：stage、events、memory、flags、notFlags、flagNum…）、term、week、location（zone）、time [h0,h1)、weekday（0＝日）。\nstep：依序推進；每人每天最多一層；after 自動是上一層。context:'date' ＝ 只在「我們的日子」見面或視訊時（可昕）。\nchoices：玩家二選一；reply 是她的收尾；rel、mem 是該選項的結果（mem＝記憶 tag，寫在她身上）。\ngreet：當天推進過或條件未到時的短招呼；先挑符合 when 的情境句，沒有就用 base 輪替（不連續重複）。\n用法：python3 build_ladder_bb.py → ladder_bb.json；python3 build_ladder_bb.py --check 只檢查。",
  "term": "Y1S1",
  "characters": {
   "heroine_02": {
@@ -912,11 +912,11 @@
      ],
      "choices": [
       {
-       "t": "「謝謝學姊。」",
+       "t": "「謝謝妳。」",
        "reply": "嗯。我剛剛也白跑一趟。"
       },
       {
-       "t": "「學姊是特地來講的嗎？」",
+       "t": "「妳是特地來講的嗎？」",
        "reply": "沒有，剛好看到你。"
       }
      ],
@@ -1035,7 +1035,7 @@
        "mem": "GRAD_SCHOOL_DISCUSSION"
       },
       {
-       "t": "「學姊為什麼想念研究所？」",
+       "t": "「妳為什麼想念研究所？」",
        "reply": "……你是這禮拜第三個問的。考上再告訴你。考不上，就當你沒問過。",
        "rel": {
         "trust": 4
@@ -1062,7 +1062,7 @@
        "reply": "今天事情比較多。"
       },
       {
-       "t": "「學姊睡得夠嗎？」",
+       "t": "「妳睡得夠嗎？」",
        "reply": "……還好啦。謝謝。",
        "mem": "SIS_ASKED_SLEEP"
       }
@@ -1085,7 +1085,7 @@
      ],
      "choices": [
       {
-       "t": "「那學姊想當司法官嗎？」",
+       "t": "「那妳想當司法官嗎？」",
        "reply": "……想啊。（她低頭翻書）"
       },
       {
@@ -1120,7 +1120,7 @@
        "reply": "沒寫完。鬧鐘響了就停，不然計時就沒意義了。"
       },
       {
-       "t": "「學姊出來休息？」",
+       "t": "「妳出來休息？」",
        "reply": "嗯，出來走一圈。等一下還要回去對答案。",
        "rel": {
         "comf": 1
@@ -1183,11 +1183,11 @@
      ],
      "choices": [
       {
-       "t": "「學姊剛剛要說什麼？」",
+       "t": "「妳剛剛要說什麼？」",
        "reply": "就說沒事了啦。（她低頭收東西）"
       },
       {
-       "t": "「學姊也要睡飽。」",
+       "t": "「妳也要睡飽。」",
        "reply": "……知道了。"
       }
      ],
