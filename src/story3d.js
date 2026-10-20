@@ -911,7 +911,7 @@ const STORY = (function(){
     if(F.FAM_GROUP_SENT&&S.week1Start(G)&&typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')&&(G.day>S.dayOfKey('2025-08-30')||(G.day===S.dayOfKey('2025-08-30')&&h(G)>=21))) SOCIAL.meet('kevin','family_group');   /* 8/30 家族群組＝認識 Kevin（BB_168 第 7 節，AA_200 2-12a）*/   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
     S.careerTick(G);   /* 1A-01：職涯傾向的兩個起點（STUDY_AT_LAW、CAREER_Y4_BASE）*/
     S.roomY3Late(G);   /* 1A-03：大三下以後才讀檔、還沒搬到 507 的舊存檔直接記（不演）*/
-    S.routeMigrate(G); if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeDecide(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉 */
+    S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof ECONFF!=='undefined'){ try{ ECONFF.tick(GM); }catch(e){ console.warn('ECONFF.tick',e); } }   /* 經濟系在學期間事件接事件（D102，src/econff3d.js）*/
@@ -3089,18 +3089,29 @@ const STORY = (function(){
   S.movedOut=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.out), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* X1 退宿以後到返台：台灣沒有宿舍 */
   S.routeWeek=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R||!S.abroad(G)) return null; const a=S.dayOfKey(R.arrive); return Math.floor((G.day-a)/7)+1; };   /* 國外事件的週次：(今天 − 抵達日) ÷ 7 ＋ 1 */
   S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const std=S.dayOfKey('2028-11-05'); return std!=null&&day>=std?-13:-12; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
-  /* 1A-02（AA_315；BB_204 第 1、5 節、AA_253 第 2 節；使用者 2026-10-17 經 BB-C）：交換路線不讓玩家選——志願表截止 2027-11-18（四）12:00 那一刻（之後第一次 tick）照「交往中」定：
+  /* 1A-02（AA_315；BB_204 第 1、5 節、AA_253 第 2 節；使用者 2026-10-17 經 BB-C）：交換路線不讓玩家選——志願表截止 2027-11-18（四）12:00 那一刻照「交往中」定（S.routeWatch，見下面「截止那一刻」）：
      和學姊（heroine_05）＝US、和以安（heroine_01）＝JP、都沒有（只和可昕、芷若、子晴、語彤、沛珊交往也算）＝TW。好感、曖昧不算；定了以後任何事（分手、復合、新的交往）都不改。
      兩段都在交往的，第 10 週的攤牌（ev_two_hearts_cafe）已經選了一個；萬一還是兩段（測試存檔）照學姊那一列。
      舊存檔：截止以後還沒有路線的照同一個規則補，但 2028-02-20（日本路線退宿日）以後一律 TW（來不及準備）；
-     用宿舍舊選單選過、還沒到截止的清掉重來（routeMigrate：那是系統選單，不是劇情選擇）；截止以後已經有路線的照原本的。*/
+     用宿舍舊選單選過、還沒到截止的清掉重來（routeMigrate：那是系統選單，不是劇情選擇）；截止以後已經有路線的照原本的。
+     截止那一刻（BB-C 10-20 回報兩個 bug）：原本「12:00 以後第一次 S.tick」才定——上課坐著（E.player.busy）、劇情裡（GM.D.active）、睡覺（S._sleeping）S.tick 第一行就 return，
+     空下來以前交往狀態變了就定錯（11/18 11:54 上課坐到 13:13、13:15 和以安開始交往 → 定成 JP，應該 TW）；舊選單的 US 也要等 S.tick 才清（讀檔後坐著＝沒清，過了截止就永遠留著）。
+     改成 S.routeWatch（routeMigrate＋routeDecide）在每一個會讓時間跨過截止、或會改交往狀態的地方先跑：主迴圈每一格（不管忙不忙，game3d.js frame）、GM.advance、
+     讀檔（game3d.js migrate）、ROM.start／ROM.end 改狀態之前（ROM.BEFORE）、S.tick。時間跳動本身不改交往狀態，所以跨過截止以後第一次 routeWatch 看到的就是 12:00 那一刻的狀態。
+     另外 routeFor 不算 ROM 記得是截止以後才開始的那一段（sinceDay＋sinceH；舊紀錄只有 sinceDay：那一天以後才算），補舊存檔時也照截止那一刻。*/
   const ROUTE_DL='2027-11-18';
-  S.routeFor=function(G){ const F=(G&&G.flags)||{}, R=F.romance||{}, on=id=>F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); return on('heroine_05')?'US':on('heroine_01')?'JP':'TW'; };
-  S.routeDue=function(G){ const d=S.dayOfKey(ROUTE_DL); return d!=null&&(G.day>d||(G.day===d&&h(G)>=12)); };
+  const routeDlAt=()=>{ const d=S.dayOfKey(ROUTE_DL); return d==null?null:d*24+12; };   /* 截止的絕對時間（day*24+hour）*/
+  S.routeFor=function(G){ const F=(G&&G.flags)||{}, R=F.romance||{}, dl=routeDlAt();
+    const late=id=>{ const r=R[id]; if(!r||r.sinceDay==null||dl==null) return false; return r.sinceH!=null?r.sinceDay*24+r.sinceH>=dl:r.sinceDay*24>dl; };   /* 截止以後才開始的這一段不算（12:00 整開始的也不算）*/
+    const on=id=>(F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'))&&!late(id); return on('heroine_05')?'US':on('heroine_01')?'JP':'TW'; };
+  S.routeDue=function(G){ const dl=routeDlAt(); return dl!=null&&G.day*24+(+G.hour||0)>=dl; };   /* 用絕對時間：同一個 G.day 的 G.hour 過了 24（凌晨）也算 */
   S.routeMigrate=function(G){ const F=G&&G.flags; if(!F||!F.EXCHANGE_ROUTE||F.EXCH_RULE||F.EXCH_APPLIED_DAY==null||S.routeDue(G)) return false; delete F.EXCHANGE_ROUTE; delete F.EXCH_APPLIED_DAY; return true; };
   S.routeDecide=function(G){ const F=G&&G.flags; if(!F||F.EXCHANGE_ROUTE||(G.stage||'law')!=='law'||!S.routeDue(G)) return null; const late=S.dayOfKey('2028-02-20'); const r=late!=null&&G.day>=late?'TW':S.routeFor(G);
     F.EXCHANGE_ROUTE=r; F.EXCH_APPLIED_DAY=G.day; F.EXCH_RULE=1; return r; };
   S.routeBackfill=G=>!!S.routeDecide(G);   /* 舊名字（AA_158 的補 TW）：現在照 routeDecide 的規則補 */
+  /* 每一格、跳時間、讀檔、交往狀態改變之前都叫（見上面「截止那一刻」）：舊選單選過、還沒截止的清掉；截止了、還沒有路線就定。很便宜（定了以後兩個判斷就回）*/
+  S.routeWatch=function(G){ const F=G&&G.flags; if(!F) return null; S.routeMigrate(G); return !F.EXCHANGE_ROUTE&&G.day>=0?S.routeDecide(G):null; };
+  if(typeof ROM!=='undefined'&&Array.isArray(ROM.BEFORE)&&!ROM.BEFORE.includes(S.routeWatch)) ROM.BEFORE.push(S.routeWatch);   /* ROM.start／ROM.end 改狀態之前：截止已經過了、還沒定的，先照改之前的狀態定 */
   /* 1A-01（AA_315；BB_202 4-1、4-2）：四年累積的職涯傾向——只讀遊戲已經記下來的東西；不上畫面、不鎖任何事件、不擋選項、不改關係
      （使用者 10-20：「只定義劇情選項與結局如何讀取，不要擅自增加新的數值玩法」）。只有四處讀：主線 7 選項②（只有 C 的玩家才有）、尾聲祐廷的最後一句、
      尾聲朋友那句、?dev。每次叫都重算，不存結果。
