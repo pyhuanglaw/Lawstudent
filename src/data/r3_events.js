@@ -2,6 +2,7 @@
    這裡是用事件系統演的段落（3D 場景裡碰到的、出遊的 2D 場面）；手機、時間窗、鬧鐘、人物放到場景裡、包住別人的函式在 src/r3_3d.js。
    3-02 ev_kai_sunday_supper（events.js）裡 12/6 那一晚換成 F2：本檔最下面把 F2 那一段接進去（不改 events.js 那一行；對不到就不接，tests/r3_events_unit.js 會失敗）
    3-04 ev_fangyt_6am（3/13 06:00 椰林大道，方奕廷站著、阿凱坐在長椅上）　3-05 ev_zhiruo_latte_contest（5/7 Café 拉花比賽）＋ev_cafe_barista_zhiruo 投她的兩週內「這次有脖子了」
+   3-08 ev_sk12_soclib_table（12/20～12/23 社科圖）、ev_sk12_lawlib_hint（同一週晚上先進法圖的旁白）　3-15 ev_ziqing_3am_call（選了直接打電話）
    測試：node tests/r3_events_unit.js */
 'use strict';
 const R3_EVENTS=(function(){
@@ -46,7 +47,41 @@ const R3_EVENTS=(function(){
       {label:'s'},{speaker:'heroine_02',text:'你把選票喝掉了。這在選舉裡叫什麼？'},{speaker:'player',text:'……廢票？'},{speaker:'heroine_02',text:'叫好喝。'},
       {label:'end'} ] };
 
-  return [FANG_6AM,LATTE];
+  /* ---------- 3-08 SK12 辜振甫圖書館的那張桌子（BB_106 SK12；台詞新寫的是 AA 補的）：大三上第 16 週（期末考週）12/20～12/23 19:00～21:00 第一次走進社科圖，
+     品妤坐在最裡面那張長桌的桌角（r3_3d.js 放好），走過去（npcNear）演。法律系時期沒見過她（MET_PINYU 沒有）先照 events.js:851 自我介紹 ---------- */
+  const sk12Win=(G,h0,h1)=>['2027-12-20','2027-12-21','2027-12-22','2027-12-23'].some(k=>at(G,k,h0,h1));
+  const SK12={ id:'ev_sk12_soclib_table', title:'那張桌子', participants:['econ_pinyu'], location:'soclib', trigger:'auto', once:true, npcNear:'econ_pinyu', background:'blur',
+    prereq:{custom:G=>!G.flags.SK12&&sk12Win(G,19,21)},
+    dialogue:[ {speaker:null,text:'（期末考週。社科圖的長桌坐滿了。最裡面那張，品妤坐在桌角，攤著一本很厚的書，封面寫著「機率」。）'},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},
+      {if:{flags:['ECON_NIGHT']},speaker:'品妤',text:'上次經濟系之夜，你收椅子收得很好。今天換我收你的書。'},
+      {speaker:'品妤',text:'（沒抬頭）坐。這張桌子，我們一年級常坐。'},
+      {speaker:'品妤',text:'精算要一科一科考。可能要好幾年。'},
+      {speaker:'品妤',text:'我媽說，畢業先去銀行。比較穩。'},
+      {speaker:null,text:'（她翻了一頁，又翻回來。）'},
+      {speaker:'品妤',text:'考不過我不怕。'},
+      {speaker:'品妤',text:'我怕考了三年，才發現自己不喜歡。'},
+      {choice:[{text:'「我陪妳讀到閉館。」',set:{PINYU_WORRY:'stay'},goto:'s'},{text:'「先考一科看看，不喜歡再說。」',set:{PINYU_WORRY:'one'},goto:'o'},{text:'「先去問考過的學長姊？」',set:{PINYU_WORRY:'ask'},goto:'a'},{text:'「妳可以兩個都試，只是不要同時。」',set:{PINYU_WORRY:'both'},goto:'b'}]},
+      {label:'s'},{advance:toH(22)},{speaker:null,text:'（你們讀到十點。閉館的音樂響起來的時候，她出了一題機率題考你。你算錯了。）'},{speaker:'品妤',text:'很好。你還是法律系的。'},{goto:'end'},   /* 快轉到 22:00：社科圖閉館（story3d.js 的閉館照常請你離館）*/
+      {label:'o'},{speaker:'品妤',text:'……一科。好。一科我算得出來。'},{goto:'tail'},
+      {label:'a'},{speaker:'品妤',text:'……系上有一個。我明天去問。'},{goto:'tail'},
+      {label:'b'},{speaker:'品妤',text:'你們法律系也懂排程？'},
+      {label:'tail'},{speaker:null,text:'（你回到自己的位子。九點半，她先收書走了。）'},
+      {label:'end'},{mem:[{npc:'econ_pinyu',tag:'PINYU_WORRY',note:''}]},{set:{SK12:true}} ] };   /* 記憶 PINYU_WORRY 的值記在旗標 PINYU_WORRY（stay／one／ask／both）*/
+  /* 提示（BB_106「法律學院圖書館滿了的那幾晚會有一句旁白提示」）：同一週 18:00 以後第一次走進法圖，多一句旁白（SK12 還沒演才有）*/
+  const SK12_HINT={ id:'ev_sk12_lawlib_hint', title:'期末考週的法圖', participants:[], location:'lawlib', trigger:'enter', once:true, background:'freeze',
+    prereq:{custom:G=>!G.flags.SK12&&sk12Win(G,18,24)},
+    dialogue:[ {speaker:null,text:'（法律學院圖書館的位子全滿了。窗外，對面社科院的燈還亮著。）'} ] };
+
+  /* ---------- 3-15 子晴：凌晨三點的 build（BB_165 4-2）：醒著的玩家選「（直接打電話給她）」＝這一段電話（r3_3d.js 在手機回完以後演）---------- */
+  const ZQ_CALL={ id:'ev_ziqing_3am_call', title:'凌晨三點的電話', participants:['heroine_04'], location:'any', trigger:'manual', once:true, background:'blur',   /* 人在自己的房間講電話：背景照現場（不換成路邊）*/
+    dialogue:[
+      {speaker:'heroine_04',text:'……你打來幹嘛。'},
+      {speaker:'heroine_04',text:'……好啦。我在。'},
+      {advance:0.5},{speaker:null,text:'（她講了半小時第二關的事。後來鍵盤聲停了，電話那頭只剩呼吸聲。）'},
+      {speaker:null,text:'（你沒有掛。）'} ] };
+
+  return [FANG_6AM,LATTE,SK12,SK12_HINT,ZQ_CALL];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R3_EVENTS);
 
