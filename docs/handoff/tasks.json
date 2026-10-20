@@ -21584,6 +21584,25 @@
    },
    "next": "【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
    "src": "docs/story_planning/cg_approved/README.md（企劃線 558ccff8）"
+  },
+  {
+   "id": "US-LIFE-AA340-1020",
+   "title": "美國交換那一學期（大四上 8/2～12/23）每一週玩家能做什麼：AA_340 的系統缺口 S1～S12（美國學期日曆、一鍵上課、9/4 以後快轉與摘要日、台灣選課提示與缺考不出、時差、不能約台灣朋友、回程時間…）＋空白週補稿 G1～G7＋學姊在美國的作息",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國路線 8/2 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
   }
  ]
 }
