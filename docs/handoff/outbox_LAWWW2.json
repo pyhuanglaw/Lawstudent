@@ -781,7 +781,7 @@
   {
    "task": "GG-STREETVIEW-1020（X86）第一階段：從校園看出去的公館——羅斯福路兩排街廓",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "2c09476d",
    "files": [
     "assets/models/env/second_ai/campus_gongguan_bd.glb",
     "assets/models/env/second_ai/campus_gongguan_bd.json",
