@@ -2,7 +2,7 @@
    邀約、出發（OUT）、沒去的群組照片、春假三選一的選單、旗標在 src/group3d.js。群戲共通：只有認識的人在場、不熟的人的句子跳過（AA_324 開頭）。
    1C-01 ev_spring_y2_noodle（4/4 麵店團：車上 → 小鎮的市場 → 海邊 → 回程）、ev_kexin_trip_spring_y2（和可昕：BB_97 9-12，沒有假設題）、ev_spring_dorm_empty_y2（留宿舍）；
    1C-02 ev_midautumn_y3（9/15 河濱，以安的生日）；1C-03 ev_xmas_y3_box（12/26 麵店，寄到英國的那一箱）；
-   1C-04 ev_zhe_said_it（4/28 23:00 哲 4：宿舍樓下的便利商店外／視訊）、ev_final_game_y3（4/29 冠軍賽＋賽後麵店）、ev_mx_egg_y3（隔週在麵店遇到明軒，補一顆滷蛋）；
+   1C-04 ev_zhe_said_it（4/28 23:00 哲 4：宿舍樓下的便利商店外（在宿舍＝十分鐘後；在臺北的外面＝二十分鐘回宿舍，AA_336 C10）／視訊）、ev_final_game_y3（4/29 冠軍賽＋賽後麵店）、ev_mx_egg_y3（隔週在麵店遇到明軒，補一顆滷蛋）；
    1C-05 ev_zq_zr_graduation（6/3 上午椰林大道）、ev_zhiruo_graduation_cafe（6/3 14:00 以後第一次進 Café，Z12）；1C-06 ev_last_term_first_dinner（2029-02-22 19:00 麵店）。
    測試：node tests/group_events_unit.js */
 'use strict';
@@ -12,8 +12,8 @@ const GROUP_EVENTS=(function(){
   const stAt=(G,id,st)=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(id,G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st);
   const fam=(id,st)=>({custom:G=>stAt(G,id,st||'FAMILIAR')}), nfam=(id,st)=>({custom:G=>!stAt(G,id,st||'FAMILIAR')});
   const dating=id=>G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
-  const isDown={flagIs:{ZHE4_REPLY:'down'}}, notJP={custom:G=>(G.flags||{}).ZHE4_REPLY!=='jp'};
-  /* 1C-01 和可昕那一趟：還沒去過的目的地（KX_TRIP 的每一個假期；大一春假 Y1S2）。三個都去過＝「迷路到的地方」（BB_97 9-12）*/
+  const isDown={flagIs:{ZHE4_REPLY:['down','out']}}, notJP={custom:G=>(G.flags||{}).ZHE4_REPLY!=='jp'}, isJP={flagIs:{ZHE4_REPLY:'jp'}};   /* down＝在宿舍下樓、out＝在臺北的外面、二十分鐘回宿舍（當面版）；home、away（不在臺北）、jp＝視訊版（AA_336 C10）*/
+  /* 1C-01 和可昕那一趟：還沒去過的目的地（KX_TRIP 的每一個假期；大一春假 Y1S2）＋「山上看星星」一定在（去過的也可以再選，AA_336 C7）。三個都去過＝「迷路到的地方」（BB_97 9-12）*/
   const kxSeen=G=>{ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; return Object.keys(T).filter(k=>k!=='Y2S2').map(k=>T[k]); };
   const kxNot=d=>({custom:G=>!kxSeen(G).includes(d)}), kxAll={custom:G=>['sea','oldtown','stars'].every(d=>kxSeen(G).includes(d))};
   const kxStarsBefore={custom:G=>((G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2)||G.flags.KX_TRIP_Y1S2)==='stars'};
@@ -44,13 +44,13 @@ const GROUP_EVENTS=(function(){
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {if:kxAll,goto:'lost'},
-      {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
-      {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。……目的地，現在決定。'},
-      {choice:[{text:'海邊',if:kxNot('sea'),set:{KX_TRIP_Y2S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:kxNot('oldtown'),set:{KX_TRIP_Y2S2:'oldtown'},goto:'d_old'},{text:'山上看星星',if:kxNot('stars'),set:{KX_TRIP_Y2S2:'stars'},goto:'d_star'}]},
+      {speaker:'kexin',expression:'smile',text:'規則照去年。我管音樂，你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
+      {speaker:'kexin',expression:'teasing',text:'……目的地，現在決定。'},
+      {choice:[{text:'海邊',if:kxNot('sea'),set:{KX_TRIP_Y2S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:kxNot('oldtown'),set:{KX_TRIP_Y2S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y2S2:'stars'},goto:'d_star'}]},
       {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',text:'水比我想的冷。……你先下去。'},{goto:'back'},
       {label:'d_old'},{scene:'老街',bg:'trip_oldtown'},{speaker:'kexin',text:'第三家了。我們只是來看看的。'},{goto:'back'},
       {label:'d_star'},{scene:'山上',bg:'trip_mountain'},{if:kxStarsBefore,speaker:'kexin',text:'今天看得到。……上次那顆，真的是星星。'},{unless:kxStarsBefore,speaker:'kexin',text:'好安靜。手機收不到訊號，剛好。'},
-      {label:'back'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'我不睡。我要陪你開車。'},{speaker:null,text:'過了收費站，她睡著了。音樂還是她選的。'},{goto:'fin'},
+      {label:'back'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'今年我真的不睡。'},{speaker:null,text:'（過了收費站，她又睡著了。音樂還是她選的。）'},{goto:'fin'},
       /* 三個都去過：迷路到的地方（BB_97 9-12，BB-C 10-17 已拿掉假設題；2D 鄉間小路）*/
       {label:'lost'},{set:{KX_TRIP_Y2S2:'lost'}},
       {speaker:'kexin',text:'這次我不出行程表。你帶路，不要看地圖。'},{speaker:'kexin',text:'……我會忍住不看。大概。'},
@@ -111,6 +111,7 @@ const GROUP_EVENTS=(function(){
   /* ---------- 1C-04 哲 4「有事」（2028-04-28 23:00；AA_40 哲 4）：在宿舍＝十分鐘後宿舍樓下的便利商店外；在家、日本路線＝視訊（同一段話）。記憶 ZHE_SAID_IT ---------- */
   { id:'ev_zhe_said_it', title:'阿哲', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.01,
     dialogue:[ {if:isDown,scene:'宿舍樓下的便利商店外',bg:'dark'},{unless:isDown,scene:'視訊',bg:'video'},
+      {unless:isDown,speaker:null,text:'（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）'},   /* 視訊版開頭的舞台指示（AA_336 C10）*/
       {if:isDown,speaker:'zhe',text:'（兩瓶鋁箔包紅茶，一瓶推過來）我爸明天要上來看。'},{unless:isDown,speaker:'zhe',text:'我爸明天要上來看。'},
       {speaker:'zhe',text:'他從來沒有來看過我打球。他是體育老師，他都說：輸了就去跑步，不要哭。'},
       {speaker:'zhe',text:'我剛剛跟小語說「沒事啦」。'},
@@ -120,15 +121,18 @@ const GROUP_EVENTS=(function(){
       {mem:[{npc:'zhe',tag:'ZHE_SAID_IT',note:''}]},
       {choice:[{text:'「嗯。我在。」',goto:'a'},{text:'「你要不要跟你爸說你很緊張？」',goto:'b'},{text:'（什麼都不說，坐著）',goto:'c'}]},
       {label:'a'},{if:isDown,speaker:null,text:'（他點頭，把紅茶喝完，再去買兩瓶。兩個人坐到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},
+      {unless:isDown,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
       {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>24.5-G.hour},{goto:'end'},
       {label:'b'},{speaker:'zhe',text:'……跟我爸？'},
       {speaker:null,text:'（他想了很久，拿出手機，打了一行字，刪掉，又打。按出去。三十秒後手機震了：「我也是。」他盯著螢幕看了很久，然後笑出來。）'},
       {speaker:'zhe',text:'……他也是。'},{advance:0.25},{goto:'end'},
-      {label:'c'},{speaker:null,text:'（他也沒說話。十二點的時候他站起來。）'},
-      {if:notJP,speaker:'zhe',text:'走啦。謝了。明天你要來喔。坐我爸旁邊，他不認識別人。'},{advance:G=>24-G.hour},
+      {label:'c'},{unless:isJP,speaker:null,text:'（他也沒說話。十二點的時候他站起來。）'},{if:isJP,speaker:null,text:'（他也沒說話。十二點，他把手機拿起來。）'},
+      {if:notJP,speaker:'zhe',text:'走啦。謝了。明天你要來喔。坐我爸旁邊，他不認識別人。'},{if:isJP,speaker:'zhe',text:'走啦。謝了。明天記得看直播。'},{advance:G=>24-G.hour},   /* 日本路線選項③（AA_336 C10）；在家的視訊版照原句（人在臺灣，隔天會來）*/
       {label:'end'} ],
     consequences:{memo:'冠軍賽前一晚，阿哲說「有事」'},
-    after:G=>{ const g=G1(); if(g) g.zhe4After(G); } },
+    after:G=>{ const g=G1(); if(g) g.zhe4After(G); },
+    /* 在臺北的外面、二十分鐘回宿舍（out）：講完是在宿舍樓下，回到房間（OUT.go 接著轉場、寫「回到房間。」）*/
+    afterOuting:async(G,GM)=>{ if((G.flags||{}).ZHE4_REPLY!=='out'||['dorm','dorm_hall'].includes(G.zone)||!GM.enter) return; if(GM.fade) await GM.fade(true); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{noFade:true,deferStory:true}); } },
   /* 冠軍賽（2028-04-29 19:00 新體育館；AA_40 哲 4、BB_98 5-2 明軒 M3）→ 20:40 全隊去麵店。和明軒 FAMILIAR 以上：他經過你旁邊、三選一 */
   { id:'ev_final_game_y3', title:'系籃冠軍賽', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'新體育館・球場',bg:'dark'},{speaker:null,text:'（新體育館一樓的球場。看台坐滿了。）'},
