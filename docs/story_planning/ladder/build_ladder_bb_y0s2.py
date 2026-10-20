@@ -118,22 +118,6 @@ D['characters'][WL] = {'friendOnly': True, 'steps': [
   'choices':[ch('「你也可以。」','我可以！……我先做完第一個。是什麼來著。'),
              ch('「走啦，宵夜。」','你學我！好啦，走。',rel={'comf':1})],'rel':{'fam':2,'comf':1},'mem':'WL0B_ONE_MONTH',
   'note':'E28 告訴朋友之後（2026-10-17 BB-C（照 AA_235 71d62646）：休學和交往同一天〔10/17〕，重考是二月）'},
- {'id':'WL0b-L5','if':st(WL,'FAMILIAR'),'week':[10,16],
-  'lines':['你們讀書讀太久了。我規定：每兩個小時，要出來騎一圈。','我會來揪，你們要跟喔。'],
-  'choices':[ch('「好，我跟。」','好！我設鬧鐘。……我設了，然後忘記看。'),
-             ch('「可昕會答應嗎？」','她說要看天氣。我覺得那就是答應了。')],'rel':{'fam':2,'comf':1},'mem':'WL0B_TWO_HOURS'},
- {'id':'WL0b-L6','if':st(WL,'FAMILIAR'),'week':[12,16],
-  'lines':['欸我發現一條新的路，從椰林騎到河濱，紅燈超少。','……好啦，還是有三個。可是比以前少。'],
-  'choices':[ch('「比較少是多少？」','原本五個。……少了四成。品妤會說我算錯。'),
-             ch('「帶我騎一次。」','好！今天？……明天。真的明天。',rel={'comf':1})],'rel':{'fam':2},'mem':'WL0B_NEW_ROUTE'},
- {'id':'WL0b-L7','if':st(WL,'FAMILIAR'),'week':[14,16],
-  'lines':['我決定了，大二要修運動相關的課。','這次的計畫，我寫在手上了。……洗手的時候會洗掉，所以我每天重寫。'],
-  'choices':[ch('「每天重寫很好。」','對吧！洗完手就重寫，順便提醒自己。'),
-             ch('「寫在本子上啦。」','本子我會弄丟。手總不會丟吧。')],'rel':{'fam':2,'trust':1},'mem':'WL0B_ON_HAND'},
- {'id':'WL0b-L8','if':st(WL,'FRIEND'),'week':[15,16],
-  'lines':['你們考完試，我們騎去淡水。','……全部的人喔，我等一下開群組。'],
-  'choices':[ch('「一言為定。」','好！我寫在手上。……今天先不洗手。',rel={'comf':2}),
-             ch('「淡水很遠。」','還好啦，騎慢一點兩個多小時。到了吃完再搭捷運回來。')],'rel':{'fam':2,'comf':1},'mem':'WL0B_TAMSUI'},
 ],'greet':{'base':['（他邊走邊吃飯糰）嗨！','（他推著腳踏車）嗨！','今天要去哪裡？我還沒想。','我肚子好餓。','（他戴著安全帽，瀏海被壓扁）嗨！'],
  'when':[{'weather':'rain','t':'下雨了！……騎腳踏車還是可以。就是會濕。'},
          {'week':[8, 9],'t':'期中！我明天考兩科，今天先不揪了。'},
@@ -158,7 +142,7 @@ def check(d):
     for cid,c in d['characters'].items():
         ids=[s['id'] for s in c['steps']]
         if len(ids)!=len(set(ids)): err.append(cid+' 層 id 重複')
-        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 1 if cid==XN else 5 if cid==WL else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
+        if len(ids)!=(4 if cid==KX else 4 if cid==PY else 2 if cid==TR else 1 if cid==XN else 1 if cid==WL else 8): err.append(cid+' 層數不對（可昕 K0b 只留 L1、L2、L3、L7：L4、L5、L6、L8 使用者 10-18 拿掉，AA_306）')
         if 'context' in c: err.append(cid+' 經濟系大一下不用 context（在 3D 遇到就聊）')
         for s in c['steps']:
             for l in texts(s):
