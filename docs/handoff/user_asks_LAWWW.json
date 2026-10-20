@@ -612,10 +612,10 @@
    "at": "2026-10-20T13:0x",
    "quote": "（LAWWW-C 解讀）「語昕」是可昕：8/30 開車載可昕搬去政大宿舍（E37）沒有出現",
    "kind": "AI解讀",
-   "confirmed": false,
+   "confirmed": true,
    "status": "還沒做",
    "wants": "X81",
-   "note": "回覆時問使用者是不是可昕"
+   "note": "使用者 13:4x 確認：「我講錯了 是可昕」（UA-LAWWW-1020-71）"
   },
   {
    "id": "UA-LAWWW-1020-70",
@@ -626,6 +626,16 @@
    "wants": "X66",
    "task": "LANE118-SHOPS-1020",
    "note": "當下派給 LAWWW2-C（P0，DELIVERED），同時派 AA、BB 其他項目——回覆時已告訴使用者"
+  },
+  {
+   "id": "UA-LAWWW-1020-71",
+   "at": "2026-10-20T13:4x",
+   "quote": "我講錯了 是可昕",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X81",
+   "task": "BUG-E37-MOVEIN-1020",
+   "note": "確認「幫語昕搬進宿舍」是可昕：8/30 開車載她搬去政大宿舍（E37）沒有出現"
   }
  ]
 }
