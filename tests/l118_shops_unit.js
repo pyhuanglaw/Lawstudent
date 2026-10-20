@@ -30,7 +30,13 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
   check('3. 九個區域 l118_<id> 註冊、正式模型的檔案都在', ok&&missing.length===0, missing.join(' '));
   check('3. index.html 載入 l118_shop_layouts.js、l118_shops3d.js（在 lane118.js 後面）', (()=>{ const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'); const a=h.indexOf('src/lane118.js'), b=h.indexOf('src/data/l118_shop_layouts.js'), c=h.indexOf('src/l118_shops3d.js'); return a>0&&b>a&&c>b; })());
   // 6
-  const K=global.L118S&&global.L118S.viewK; check('6. 門外的巷子晚上調暗（22:00 0.32、12:00 1、18:15 中間）', !!K&&K(22)===0.32&&K(12)===1&&K(18.25)>0.32&&K(18.25)<1&&K(26)===0.32, K?[K(22),K(12),K(18.25).toFixed(2)].join():'沒有'); }
+  const K=global.L118S&&global.L118S.viewK; check('6. 門外的巷子晚上調暗（22:00 0.32、12:00 1、18:15 中間）', !!K&&K(22)===0.32&&K(12)===1&&K(18.25)>0.32&&K(18.25)<1&&K(26)===0.32, K?[K(22),K(12),K(18.25).toFixed(2)].join():'沒有');
+  /* 6b. 門外的照片不受店裡的燈影響（BB-C 10-20：晚上從玻璃門看出去是白天的亮度——店裡的燈照亮了照片）：改成自己發光（color 黑、emissiveMap＝照片），晚上 emissiveIntensity 0.32 */
+  { const S=global.L118S; const c=()=>({r:1,g:1,b:1,setRGB(r,g,b){ this.r=r; this.g=g; this.b=b; return this; },copy(o){ this.r=o.r; this.g=o.g; this.b=o.b; return this; },clone(){ return c().copy(this); },multiplyScalar(k){ this.r*=k; this.g*=k; this.b*=k; return this; }});
+    const tex={}, m={name:'l118_tea_view',map:tex,color:c(),emissive:c().setRGB(0,0,0),emissiveIntensity:1,userData:{}}, mesh={isMesh:true,name:'WALL_S_view',material:m};
+    const ok=!!S&&!!S.viewMats&&!!S.setView; let v=[]; if(ok){ v=S.viewMats({traverse(f){ f(mesh); }}); S.setView(v,20.5); }
+    check('6b. 門外的照片：自己發光（顏色黑、emissiveMap＝照片），20:30 亮度 0.32（店裡的燈照不亮它）', ok&&v.length===1&&m.color.r===0&&m.emissiveMap===tex&&m.emissive.r===1&&Math.abs(m.emissiveIntensity-0.32)<1e-9, ok?JSON.stringify({c:m.color.r,e:m.emissiveIntensity}):'沒有 viewMats／setView');
+    if(ok){ S.setView(v,12); check('6b. 中午亮度 1', m.emissiveIntensity===1); } } }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
   check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+sh\.type\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }

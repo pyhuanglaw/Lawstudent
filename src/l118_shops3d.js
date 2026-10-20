@@ -9,9 +9,11 @@ const L118S=(function(){
   function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.l118Base*k; }
   /* 門外的巷子（WALL_S_view：從 lane118_street.glb 拍的白天的圖）：晚上調暗，不用另外拍夜景（LAWWW-C 10-20 回 LAWWW2-C）*/
   function viewMats(root){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||out.includes(m)) continue; if(!/_view/i.test(o.name||'')&&!/_view$/i.test(m.name||'')) continue;
-      if(m.color&&!m.userData.l118View) m.userData.l118View={c:m.color.clone(),e:m.emissiveIntensity!=null?m.emissiveIntensity:null}; out.push(m); } }); return out; }
+      if(!m.userData.l118View){ if(m.map&&m.emissive&&m.color){ m.emissive.setRGB(1,1,1); m.emissiveMap=m.map; m.color.setRGB(0,0,0); m.needsUpdate=true; m.userData.l118View={c:null,e:1}; }   /* 門外的照片改成自己發光、不受店裡的燈影響（BB-C 10-20：晚上 20:32 從一一八茶飲的玻璃門看出去還是白天的亮度——晚上店裡的燈開著，照亮了門外那張照片）*/
+        else if(m.color) m.userData.l118View={c:m.color.clone(),e:m.emissiveIntensity!=null?m.emissiveIntensity:null}; }
+      out.push(m); } }); return out; }
   const viewK=h=>{ const t=((h%24)+24)%24; if(t>=19||t<5.5) return 0.32; if(t>=17.5) return 1-0.68*(t-17.5)/1.5; if(t<6.5) return 0.32+0.68*(t-5.5); return 1; };
-  function setView(mats,h){ const k=viewK(h); for(const m of mats){ const b=m.userData.l118View; if(!b) continue; m.color.copy(b.c).multiplyScalar(k); if(b.e!=null) m.emissiveIntensity=b.e*k; } }
+  function setView(mats,h){ const k=viewK(h); for(const m of mats){ const b=m.userData.l118View; if(!b) continue; if(b.c) m.color.copy(b.c).multiplyScalar(k); if(b.e!=null) m.emissiveIntensity=b.e*k; } }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
   function zoneFor(id){ const L=L118_SHOP_LAYOUTS[id];
     return { id:'l118_'+id, name:L.name+'（118 巷）', indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;
@@ -37,5 +39,5 @@ const L118S=(function(){
       return z; } }; }
   if(typeof L118_SHOP_LAYOUTS!=='undefined') for(const id of Object.keys(L118_SHOP_LAYOUTS)){ Z3.ZONES['l118_'+id]=zoneFor(id);
     if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.l118_'+id]={url:'assets/models/env/second_ai/l118_'+id+'.glb',type:'building',lazy:true,source:'LAWWW2-C lane118_shops.py',license:'本作'}; }
-  return {viewK,zoneFor};
+  return {viewK,zoneFor,viewMats,setView};
 })();
