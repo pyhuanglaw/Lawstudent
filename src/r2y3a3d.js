@@ -49,7 +49,7 @@ const R2Y3A=(function(){
   const K=P('kexin'), Kr=R('kexin');
   const kxYearSet=(G,key,n,v)=>{ const F=G.flags; F[key]=Object.assign({},(F[key]&&typeof F[key]==='object')?F[key]:{},{[n]:v}); };
   const VIDEO=(id,ev,day,h,title,o)=>Object.assign({id,ev,day,h,late:0.5,place:'視訊',verb:'接起來',no:'今天先不要',title,travel:'',travelH:0,back:'視訊結束。',alarm:true},o||{});
-  const CALL=(id,ev,day,h,o)=>Object.assign({id,ev,day,h,late:1/6,place:'電話',verb:'接起來',no:'先不接',title:'可昕打電話來',travel:'',travelH:0,back:'電話掛了。'},o||{});
+  const CALL=(id,ev,day,h,o)=>Object.assign({id,ev,day,h,late:1/6,place:'電話',verb:'接起來',no:'先不接',title:'可昕打電話來',call:true,travel:'',travelH:0,back:'電話掛了。'},o||{});   /* call:true＝電話，人在家也不用出門（OUT.trip）*/
 
   /* ===================== 載入時：作息、syllabus、房間物件、人物面板的記憶名稱 ===================== */
   /* 人物放在哪裡（populateSchedule 照作息）：寫了 terms 的比沒寫的優先、同樣有 terms 照陣列順序——放在最前面＝這幾個小時蓋過一般作息 */
@@ -88,9 +88,9 @@ const R2Y3A=(function(){
   /* ===================== 2-Y3-01 可昕 KH「高雄的兩天」＋七夕 ===================== */
   const KH={inv:'2027-07-20',re:'2027-07-22',d1:'2027-08-07',d2:'2027-08-08'};
   S.KH_FARE=(typeof HOMETOWN_LINES!=='undefined'&&HOMETOWN_LINES.kexin&&HOMETOWN_LINES.kexin.fare)||2980;   /* 高鐵照「去她的縣市」（AA_276 第 7 節）*/
-  S.KH_LODGING=()=>(typeof DATE_DATA!=='undefined'&&DATE_DATA.lodging)||2500;   /* 旅館一晚：約會的「兩天一夜」住宿（date_locations.js lodging）；AA 沒寫金額（要問 AA）*/
-  /* 連續兩個假期都沒和她去（BB_97 9-1）：大二寒假沒有她的旅行（系統沒有），大二春假她約了、你沒和她去（group3d.js 的 SPRING_Y2 不是 kexin）*/
-  S.khTwoMissed=G=>{ const F=G.flags||{}; return sent(G,'y2s2_spring_kx')&&F.SPRING_Y2!=='kexin'&&!(F.KX_TRIP&&F.KX_TRIP.Y2S2); };
+  S.KH_LODGING=()=>0;   /* 旅館一晚：AA_326「照春假兩天一夜（AA_324 1C-01）的住宿扣」——1C-01（group3d.js）沒有扣住宿、遊戲裡也沒有住宿費的先例，先不扣（金額要問 AA）*/
+  /* 連續兩個假期都沒和她去（BB_97 9-1：她約了、你沒去）：大二寒假的高雄（y2r2_3d.js 的 y2r2_kh_ask；去了＝KX_TRIP.Y2W 'kaohsiung'）、大二春假（group3d.js 的 y2s2_spring_kx；去了＝KX_TRIP.Y2S2）*/
+  S.khTwoMissed=G=>{ const F=G.flags||{}, T=(F.KX_TRIP&&typeof F.KX_TRIP==='object')?F.KX_TRIP:{}; return sent(G,'y2r2_kh_ask')&&T.Y2W!=='kaohsiung'&&sent(G,'y2s2_spring_kx')&&!T.Y2S2; };
   S.khPhone=function(G){ const F=G.flags, di=DK(KH.inv), dr=DK(KH.re), d1=DK(KH.d1), d2=DK(KH.d2); if(di==null||G.day<di||G.day>d2+1) return; const n=now(G);
     if(dating(G,'kexin')&&n>=T(di,21.5)&&n<T(d1-1,21)&&!sent(G,'y3_kh_inv')){
       const L=[K('八月七號、八號，週末。我空下來了。'),K('你來高雄。這次住一晚。'),K('八號是七夕。……我借了我爸的車。')]; if(S.khTwoMissed(G)) L.push(K('一天也算。……這次是兩天。'));
@@ -193,6 +193,11 @@ const R2Y3A=(function(){
       else if(G.day>d1&&!outGet(G,'y3_kx_call1')) S.helperMissed(G); }   /* 睡過了（WAKE_AT 叫不醒的情況）：當作沒接 */
     if(F.KX_HELPER_CALL==='dodge'&&F.KX_HELPER_CALL2==null&&G.day===d2&&G.hour>=22&&!outGet(G,'y3_kx_call2')) plan(G,CALL('y3_kx_call2','ev_kexin_call_helper2',d2,G.hour)); };
   S.helperMissed=function(G){ const d1=DK(CD1); G.flags.KX_HELPER_CALL='missed'; PHONE.at(G,d1,22+1/6,[K('你在忙。……沒事，不是急的。')],'y3_kx_call1_missed'); };   /* 沒接的沒有 10/22 那一通 */
+  /* 讀它的：AA_315 1A-04（story3d.js 的感冒那一週）——'admit' 或 KX_HELPER_CALL2:'tell' 的玩家，10/23 起床時「（傳訊息跟可昕說……）」排第一（AA_326 2-Y3-10 第 4 節）。
+     那一串選項照 ROM.partners 的順序（cwPartners）：只在 10/23 那一天、只對這兩種玩家，把可昕排到最前面（不改 story3d.js）*/
+  S.kxFirst=G=>{ const F=(G&&G.flags)||{}; return law(G)&&G.day===DK('2027-10-23')&&dating(G,'kexin')&&(F.KX_HELPER_CALL==='admit'||F.KX_HELPER_CALL2==='tell'); };
+  if(typeof ROM!=='undefined'&&ROM.partners&&!ROM._r2y3aKxFirst){ const orig=ROM.partners; ROM._r2y3aKxFirst=true;
+    ROM.partners=function(G){ const L=orig.apply(this,arguments); return Array.isArray(L)&&S.kxFirst(G)&&L.includes('kexin')?['kexin'].concat(L.filter(id=>id!=='kexin')):L; }; }
   S.wakeAt=function(G){ const F=(G&&G.flags)||{}; if(!law(G)) return null; const d1=DK(CD1), d2=DK(CD2);
     if(G.day===d1&&G.hour<22&&F.KX_HELPER_CALL==null&&S.helperOk(G)) return 22;
     if(G.day===d2&&G.hour<22&&F.KX_HELPER_CALL==='dodge'&&F.KX_HELPER_CALL2==null&&dating(G,'kexin')) return 22;
