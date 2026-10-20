@@ -207,7 +207,7 @@ const R2Y3A=(function(){
   const CR={w7:'2027-10-19',an:'2027-10-22',bohan:'2027-10-20',zhe:'2027-11-16',w11:'2027-11-19',w12:'2027-11-22'};
   const NG='g:noodle_team', A_=M(NG,'heroine_01'), B_=M(NG,'classmate_bohan'), Z_=M(NG,'zhe'), Y_=M(NG,'yu');
   S.CR_RETURN=['格式對了。理由可以再具體一點。','你把旁聽看到的程序寫進去了。這樣很好。','第二段太長。其他不錯。'];   /* 第 13 週發回（三句輪流一句）*/
-  S.crSkipped=G=>{ const d=DK(CR.w7); if(d==null||typeof CLS==='undefined'||!CLS.rec) return false; const R=CLS.rec(G), k=d+':crimpro:am'; return !R.done[k]||!!(R.abs&&R.abs[k]); };
+  S.crSkipped=G=>G.flags.CRIMPRO_W7==null;   /* 翹了第 7 週那堂課＝課堂上沒聽到作業（S.crClass 記 CRIMPRO_W7；遲到超過 15 分鐘進去的照樣聽得到後半堂）*/
   S.crCourt=function(G,who){ const d=DK(CR[who]); if(d==null||outGet(G,'y3_cr_'+who)) return; if(now(G)>=T(d,14)) return;
     plan(G,{id:'y3_cr_'+who,ev:'ev_crimpro_court_visit',day:d,h:13.5,late:0.5,place:'地方法院大門口',title:'地方法院（旁聽）',travel:'捷運約 30 分鐘',travelH:0.5,alarm:true,crWith:who}); };   /* 手機行事曆＝出遊；當天 12:30 鬧鐘（出發前 30 分鐘）*/
   /* 自己找一天：第 7～11 週平日（國定假日不算）13:00～14:00 的出發選單（每天一筆；「不去了」＝今天不去）。約了人、那一天還沒過的不出現；約的那一趟沒去成的照樣可以自己去 */
@@ -219,8 +219,8 @@ const R2Y3A=(function(){
       if(knows('heroine_01',G)) O.push({t:'我跟以安去。',set:{CRIMPRO_WITH:'an'}}); if(knows('classmate_bohan',G)) O.push({t:'我週三跟柏翰。',set:{CRIMPRO_WITH:'bohan'}}); if(knows('zhe',G)) O.push({t:'我也最後一週，跟阿哲。',set:{CRIMPRO_WITH:'zhe'}});
       O.push({t:'我自己找一天。',set:{CRIMPRO_WITH:'self'}});
       const L=(S.crSkipped(G)?[B_('今天刑訴發了旁聽作業。'),B_('自己去地院旁聽，第十二週交答辯狀。你記得。')]:[])   /* 翹了第 7 週那堂課（AA_180 改成作業）*/
-        .concat([A_('旁聽我禮拜五下午去。開庭表我查好了。'),B_('我週三下午沒課。週三。'),Z_('我最後一週再說'),Object.assign(Y_('阿哲你每次都這樣'),{ask:{id:'y3_cr_grp',until:T(e,12),opts:O}})]);
-      PHONE.at(G,d,atH(G,d,21),L,'y3_cr_grp'); F.CRIMPRO_TOLD=true; }
+        .concat([A_('旁聽我禮拜五下午去。開庭表我查好了。'),B_('我週三下午沒課。週三。'),Z_('我最後一週再說'),Y_('阿哲你每次都這樣')]).filter(m=>knows(m.from,G));   /* 只有認識的人說話（第 0 節）*/
+      if(L.length){ L[L.length-1]=Object.assign({},L[L.length-1],{ask:{id:'y3_cr_grp',until:T(e,12),opts:O}}); PHONE.at(G,d,atH(G,d,21),L,'y3_cr_grp'); F.CRIMPRO_TOLD=true; } }
     const w=F.CRIMPRO_WITH; if(w&&w!=='self'&&!F.CRIMPRO_HW) S.crCourt(G,w);
     if(S.crSelfOpen(G)&&!outGet(G,'y3_cr_self_'+G.day)) plan(G,{id:'y3_cr_self_'+G.day,ev:'ev_crimpro_court_visit',day:G.day,h:13.5,late:0.5,ask:T(G.day,13),place:'地方法院',title:'地方法院（旁聽）',travel:'捷運約 30 分鐘',travelH:0.5,crWith:'self'});
     if(!F.CRIMPRO_HW&&G.day>=DK(CR.w12)) F.CRIMPRO_HW='none'; };   /* 第 11 週以前都沒去 */
@@ -229,7 +229,7 @@ const R2Y3A=(function(){
   /* 課堂段（CLS.IN_CLASS：課堂那一句後面）：第 7 週（第一句是 syllabus 的 line）、第 12 週交、第 13 週發回 */
   S.crClass=async function(GM,it,prof,ct){ const G=GM.G, F=G.flags; if(!it||!it.c||it.c.id!=='crimpro'||it.exam||!law(G)||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y3S1') return false;
     const say=x=>GM.say(prof||null,(prof?'':((ct&&ct.prof)||(typeof CLS!=='undefined'&&CLS.profName?CLS.profName(it.c):'林教授'))+'：')+x);
-    if(t.week===7&&F.CRIMPRO_W7==null){ F.CRIMPRO_W7=G.day; F.CRIMPRO_TOLD=true;
+    if(t.week===7&&F.CRIMPRO_W7==null&&!(ct&&ct.second)){ F.CRIMPRO_W7=G.day; F.CRIMPRO_TOLD=true;   /* 第 7 週的作業在那一週的第一堂（週二）；週五是第二格的短片段（ct.second），不在那裡補講 */
       await say('第二，自己去地方法院旁聽一場刑事庭，日期自己挑。'); await say('第三，你是那個案例的辯護律師，寫一份答辯狀。第十二週交。');
       if(!grp(G)&&F.CRIMPRO_WITH==null) F.CRIMPRO_WITH='self'; return true; }   /* 不在麵店團群組：課堂上聽完就是「自己找一天」*/
     if(t.week===12&&F.CRIMPRO_W12==null){ F.CRIMPRO_W12=G.day; if(F.CRIMPRO_HW==='done') await GM.say(null,'（答辯狀在你的資料夾裡，已經交了。）'); else { F.CRIMPRO_HW='none'; await say('旁聽作業，還有幾位沒交。'); } return true; }
@@ -243,7 +243,7 @@ const R2Y3A=(function(){
 
   /* ===================== 2-Y3-13 以安新 14：沒遇到＝22:00 麵店團群組（不在群組、和她 FRIEND 以上＝私訊）===================== */
   S.an14Phone=function(G){ const F=G.flags, d=DK('2027-10-21'); if(d==null||G.day<d||G.day>d+1||F.AN14||done(G,'ev_an_admin_court')||now(G)<T(d,22)) return;
-    const th=grp(G)?NG:(met(G,'heroine_01','FRIEND')?'p:heroine_01':null); if(!th) return;
+    const th=!knows('heroine_01',G)?null:grp(G)?NG:(met(G,'heroine_01','FRIEND')?'p:heroine_01':null); if(!th) return;
     PHONE.at(G,d,atH(G,d,22),[{th,from:'heroine_01',text:'今天下午我自己去行政法院旁聽了。'},{th,from:'heroine_01',text:'是一個人告區公所。'}],'y3_an14_msg'); F.AN14='group'; remember('heroine_01','AN_ADMIN_COURT'); };
 
   /* ===================== 2-Y3-14 翰 4：柏翰接讀書會的版本＝11/18（四）21:40 私訊 ===================== */
@@ -308,7 +308,7 @@ const R2Y3A=(function(){
     if(n>=T(eve,22)&&!sent(G,'kx_kn_y3')) PHONE.at(G,eve,atH(G,eve,22),[K('新年快樂。'),K('今年圍爐，我舅舅問我：「念法律，以後要當法官嗎？」'),Object.assign(K('我說還不知道。我媽在旁邊說：「她要當律師。」……我什麼時候說過？'),{ask:{id:'kx_kn_y3',until:T(ny,9),opts:[
       {t:'妳媽比妳先決定了。',say:[Kr('對。我等一下要跟她吵。……過完年再吵。')],set:{KX_KN3_PICK:'mom'}},
       {t:'那妳想當什麼？',say:[Kr('……還在想。開學以後再跟你說。')],set:{KX_KN3_PICK:'think'}},
-      {t:'打給妳。',set:{KX_KN3_PICK:'call'}}]}})],'kx_kn_y3');
+      {t:'打給妳。',post:false,set:{KX_KN3_PICK:'call'}}]}})],'kx_kn_y3');   /* 「打給妳。」＝直接打過去（不替你傳那一句；同大二 y2r2_kn）*/
     if(F.KX_KN3_PICK){ kxYearSet(G,'KX_KN',3,F.KX_KN3_PICK); if(F.KX_KN3_PICK==='call'&&!outGet(G,'kx_kn_call_y3')) plan(G,CALL('kx_kn_call_y3','ev_kexin_kn_call_y3',G.day,G.hour,{late:2,must:true,verb:'打給她',title:'打給可昕'})); delete F.KX_KN3_PICK; }
     const m=PHONE.byAsk(G,'kx_kn_y3'); if(m&&m.ans==null&&n>=T(ny,9)&&!sent(G,'kx_kn_y3_noreply')){ PHONE.at(G,ny,9,[K('新年快樂。我昨天沒跟我媽吵。今天再說。')],'kx_kn_y3_noreply'); kxYearSet(G,'KX_KN',3,'none'); } };
 

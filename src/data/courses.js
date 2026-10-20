@@ -98,7 +98,7 @@ const COURSES={
     // ---- 大三上（2027 秋）----
     {id:'civpro_1',name:'民事訴訟法甲上',kind:'required',term:'Y3S1',prof:'prof_tsai',room:'L201',slots:[{wd:1,block:'am'},{wd:4,block:'am'}],topics:['訴訟標的','當事人','管轄','審判權','起訴'],specials:[{w:4,title:'告政府一定去行政法院嗎'},{w:11,title:'法院的闡明'}]},
     {id:'crimpro',name:'刑事訴訟法',kind:'required',term:'Y3S1',prof:'prof_lin',room:'L201',slots:[{wd:2,block:'am'},{wd:5,block:'am'}],topics:['證據法：證據能力','證據法：傳聞','強制處分','被告與證人的權利'],
-     specials:[{w:7,title:'法院旁聽'},{w:11,title:'私人偷錄的證據'},{w:15,title:'被告沒有律師'}]},
+     specials:[{w:7,title:'旁聽作業'},{w:11,title:'私人偷錄的證據'},{w:15,title:'被告沒有律師'}]},   /* 第 7 週：AA_252 5-1 改成自己去地院旁聽的作業（AA_326 2-Y3-11）*/
     {id:'company_law',name:'商事法總論及公司法',kind:'required',term:'Y3S1',prof:'prof_he',room:'WMULTI',slots:[{wd:3,block:'am'}],topics:['商業組織','公司種類','股東會','董事會','董事的責任'],specials:[{w:11,title:'董事和股東的利益衝突'}]},
     {id:'securities',name:'證券交易法',kind:'elective',term:'Y3S1',prof:'prof_he',room:'L202',slots:[{wd:4,block:'pm1'}],topics:['證券市場','資訊公開','內線交易的概念']},
     // ---- 大三下（2028 春；台灣路線）----

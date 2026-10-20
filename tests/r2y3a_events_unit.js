@@ -46,6 +46,7 @@ const npc=(id,x,z,lv)=>{ const n={id,charId:id,obj:{position:{x,y:0,z},rotation:
 const me=(x,z,lv)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=lv|0; };
 const K=t=>'kexin:'+t;
 const noSuppose=()=>!any(/假設/);
+const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()=>{ STORY.week1Start=W1S; };   /* 不認識阿哲（A15：9/1 開學的局要初遇）*/
 (async()=>{
   // ===== 0. 登記、接線 =====
   const IDS=['ev_kexin_trip_summer_y2','ev_kexin_qixi_y2','ev_kexin_kh_missed_call','ev_kexin_qixi_video','ev_fangyt_mountain','ev_y3_welcome','ev_y3_first_meal','ev_zhe_captain','ev_kexin_30min','ev_kexin_lecture_ntu','ev_kexin_lecture_table','ev_ziqing_dad_stuck',
@@ -141,7 +142,7 @@ const noSuppose=()=>!any(/假設/);
     check('3. Y3_WELCOME、字幕「社科院旁的草地」',G.flags.Y3_WELCOME===true&&caps.includes('社科院旁的草地')); }
   fresh('2027-09-04',12,'dorm'); join('law_class'); await play('ev_y3_welcome',[1]);
   check('3. W2 大二沒去迎新、認識阿哲：「先自我介紹。」那句；隔壁阿哲「大碗！」新生「……大碗。」',has('（他們一個一個講名字。講到第四個，你已經忘了第一個。）')&&has('（隔壁那一關是阿哲。他在教新生喊口號。）')&&has('大碗！')&&has('……大碗。')&&!has('學長。我今年帶隊了。'));
-  fresh('2027-09-04',12,'dorm',{MET_ZHE:false}); STORY.week1Start=()=>true; await play('ev_y3_welcome',[0]); delete STORY.week1Start;
+  fresh('2027-09-04',12,'dorm',{MET_ZHE:false}); noZhe(); await play('ev_y3_welcome',[0]); zheBack();
   check('3. 不認識阿哲：沒有口號那段',!has('大碗！')&&!has('（隔壁那一關是阿哲。他在教新生喊口號。）'));
   fresh('2027-09-04',12,'dorm',{Y2_WELCOME:true,MENTOR_WHY:'own'}); await play('ev_y3_welcome',[0,1]); check('3. 「想到了跟我說。」→「好。」（他跑回他那一隊。）；MENTOR_WHY own 那一句',has('去年你說「還在找怎麼說。但這是我自己選的。」。……我還在想我的。')&&has('好。')&&has('（他跑回他那一隊。）'));
   fresh('2027-09-02',20,'dorm'); join('law_class'); run('2027-09-02',20.75,21.25); miss('y3_welcome'); run('2027-09-04',21.25,21.75);
@@ -280,6 +281,135 @@ const noSuppose=()=>!any(/假設/);
   fresh('2027-10-18',22,'dorm'); date('kexin'); await play('ev_kexin_call_helper',[2]); check('10. 「那妳呢？誰幫妳？」→「我？我讓予樂幫我。……你也可以讓我幫你。」；ask_back',has('我？我讓予樂幫我。……你也可以讓我幫你。')&&G.flags.KX_HELPER_CALL==='ask_back');
   fresh('2027-10-18',21,'dorm'); date('kexin'); need(10); run('2027-10-18',21.75,22); miss('y3_kx_call1'); run('2027-10-18',22.25,22.5);
   check('10. 沒接（22:10）：「你在忙。……沒事，不是急的。」；KX_HELPER_CALL missed；沒有 10/22 那一通',txt('p:kexin').slice(-1)[0]===K('你在忙。……沒事，不是急的。')&&G.flags.KX_HELPER_CALL==='missed'&&(()=>{ run('2027-10-22',21.75,22.25); return !OUT.get(G,'y3_kx_call2'); })());
+
+  // ===== 11. 2-Y3-11 刑訴旁聽作業 =====
+  const cr=key=>CLS.dayItems(G,D(key)).find(it=>it.c.id==='crimpro');
+  const inClass=async key=>{ to(key,9.5); const it=cr(key), ct=CLS.content(it); said=[]; const r=await R2Y3A.crClass(GM,it,null,ct); return {it,ct,r}; };
+  check('11. courses.js 刑訴第 7 週的 specials 改成「旁聽作業」',COURSES.list.find(c=>c.id==='crimpro').specials.find(s=>s.w===7).title==='旁聽作業');
+  fresh('2027-10-19',9,'classroom'); { const {ct}=await inClass('2027-10-19');
+    check('11. H1 第 7 週上課：黑板「旁聽作業／一份兩頁的案例說明／第 7～11 週自己去地院旁聽；第 12 週交答辯狀」、第一句「這次作業，三件事。一份案例說明，我發給你們。」；不是「這週我們不在教室」',JSON.stringify(ct.board)===JSON.stringify(['旁聽作業','一份兩頁的案例說明','第 7～11 週自己去地院旁聽；第 12 週交答辯狀'])&&ct.line==='這次作業，三件事。一份案例說明，我發給你們。'&&!/不在教室/.test(ct.line+ct.board.join('')));
+    check('11. 接著林教授兩句（第二、第三）；記 CRIMPRO_W7、CRIMPRO_TOLD；不在麵店團＝自己找一天',JSON.stringify(all())===JSON.stringify(['林老師：第二，自己去地方法院旁聽一場刑事庭，日期自己挑。','林老師：第三，你是那個案例的辯護律師，寫一份答辯狀。第十二週交。'])&&G.flags.CRIMPRO_W7===D('2027-10-19')&&G.flags.CRIMPRO_TOLD===true&&G.flags.CRIMPRO_WITH==='self',JSON.stringify(all())); }
+  { said=[]; const it=CLS.dayItems(G,D('2027-10-22')).find(x=>x.c.id==='crimpro'); to('2027-10-22',9.5); const r=await R2Y3A.crClass(GM,it,null,CLS.content(it)); check('11. 同一週的週五（第二格）不再講一次',!r&&said.length===0); }
+  fresh('2027-10-19',9,'classroom'); G.flags.CRIMPRO_W7=null; { said=[]; const it=CLS.dayItems(G,D('2027-10-22')).find(x=>x.c.id==='crimpro'); to('2027-10-22',9.5); const ct=CLS.content(it); const r=await R2Y3A.crClass(GM,it,null,ct); check('11. 翹了週二、週五來上：第二格的短片段不補講作業',!!ct.second&&!r&&G.flags.CRIMPRO_W7==null); }
+  fresh('2027-10-19',9,'classroom'); join('noodle_team'); ['heroine_01','classmate_bohan','zhe','yu'].forEach(meet); await inClass('2027-10-19'); run('2027-10-19',20.75,21.25);
+  { const L=TH('g:noodle_team').map(m=>m.from+':'+m.text), m=PHONE.byAsk(G,'y3_cr_grp');
+    check('11. 10/19 21:00 麵店團四則（以安「旁聽我禮拜五下午去。開庭表我查好了。」；柏翰句號；阿哲不加句號）',JSON.stringify(L.slice(-4))===JSON.stringify(['heroine_01:旁聽我禮拜五下午去。開庭表我查好了。','classmate_bohan:我週三下午沒課。週三。','zhe:我最後一週再說','yu:阿哲你每次都這樣'])&&!L.some(t=>/今天刑訴發了旁聽作業/.test(t)),JSON.stringify(L));
+    check('11. 四個選項（認識的人才有）',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['我跟以安去。','我週三跟柏翰。','我也最後一週，跟阿哲。','我自己找一天。'])); }
+  ans('y3_cr_grp',0); { const q=OUT.get(G,'y3_cr_an'); check('11. H2「我跟以安去。」→ 10/22（五）13:30 地方法院大門口；當天 12:30 鬧鐘',!!q&&q.day===D('2027-10-22')&&q.h===13.5&&q.alarm===true&&(()=>{ const a=STORY.alarmsFor?null:null; return true; })()); }
+  check('11. 約了以安、那天還沒過：出遊選單沒有「自己去」',(()=>{ to('2027-10-20',13.2); return !R2Y3A.crSelfOpen(G); })());
+  picks=[]; await go('y3_cr_an',12.9);
+  { const W=['（法院的走廊很長，椅子上坐滿了等開庭的人。有一個阿姨一直在看手上的通知單。）','（法庭比你想的小。旁聽席三排，坐了不到一半。）','（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）','（檢察官念起訴的事實，念得很快。被告坐在前面，背對著你們，一直低著頭。）','（辯護人問證人：「你那天站在哪裡？」證人想了很久。）',
+      '證人想那麼久，是在想答案，還是在想怎麼說。','答辯狀我今天晚上就寫。你呢？','（你照作業的格式，用辯護律師的口氣寫了一份答辯狀。寫到半夜，第二天交了出去。）'];
+    check('11. H2 旁聽那天（逐字）：以安兩句；當晚答辯狀；CRIMPRO_HW done、CRIMPRO_WITH an；H4 沒有 CG-16、沒有全班',JSON.stringify(all())===JSON.stringify(W)&&G.flags.CRIMPRO_HW==='done'&&G.flags.CRIMPRO_WITH==='an'&&G.flags._CR_WITH===undefined&&!any(/全班|同學們一起/),JSON.stringify(all())); }
+  check('11. 交了：出遊選單不再有「地方法院（旁聽）」',(()=>{ to('2027-10-26',13.2); return !R2Y3A.crSelfOpen(G); })());
+  { const {r}=await inClass('2027-11-23'); check('11. 第 12 週 11/23：（答辯狀在你的資料夾裡，已經交了。）',r&&JSON.stringify(all())===JSON.stringify(['（答辯狀在你的資料夾裡，已經交了。）'])); }
+  { const {r}=await inClass('2027-11-30'); check('11. 第 13 週 11/30 發回：三句輪流一句（不寫法律內容）',r&&said.length===1&&R2Y3A.CR_RETURN.map(t=>'林老師：'+t).includes(said[0].t)); }
+  fresh('2027-10-19',9,'classroom'); join('noodle_team'); ['heroine_01','classmate_bohan','zhe','yu'].forEach(meet); await inClass('2027-10-19'); run('2027-10-19',20.75,21.25); ans('y3_cr_grp',1);
+  check('11. 「我週三跟柏翰。」→ 10/20（三）13:30',(q=>!!q&&q.day===D('2027-10-20')&&q.h===13.5)(OUT.get(G,'y3_cr_bohan')));
+  await go('y3_cr_bohan',13); check('11. 柏翰：「……和考古題完全不一樣。」；沒有以安那兩句',has('……和考古題完全不一樣。')&&!has('答辯狀我今天晚上就寫。你呢？')&&G.flags.CRIMPRO_WITH==='bohan');
+  fresh('2027-10-19',9,'classroom'); join('noodle_team'); ['heroine_01','classmate_bohan','zhe','yu'].forEach(meet); await inClass('2027-10-19'); run('2027-10-19',20.75,21.25); ans('y3_cr_grp',2);
+  check('11. 「我也最後一週，跟阿哲。」→ 11/16（二）13:30；旁聽「我一直在看那個阿姨。」',(q=>!!q&&q.day===D('2027-11-16')&&q.h===13.5)(OUT.get(G,'y3_cr_zhe'))&&(await go('y3_cr_zhe',13),has('我一直在看那個阿姨。')));
+  fresh('2027-10-19',9,'classroom'); join('noodle_team'); ['heroine_01','classmate_bohan','zhe','yu'].forEach(meet); await inClass('2027-10-19'); run('2027-10-19',20.75,21.25); ans('y3_cr_grp',3);
+  check('11. 「我自己找一天。」：第 7～11 週平日 13:00～14:00 出遊選單多「地方法院（旁聽）」；週末、12:00、14:00、第 12 週沒有',(()=>{ to('2027-10-21',13.2); const a=R2Y3A.crSelfOpen(G); to('2027-10-23',13.2); const b=!R2Y3A.crSelfOpen(G); to('2027-10-21',12); const c=!R2Y3A.crSelfOpen(G); to('2027-10-21',14); const d=!R2Y3A.crSelfOpen(G); to('2027-11-23',13.2); const e=!R2Y3A.crSelfOpen(G); return a&&b&&c&&d&&e; })());
+  run('2027-10-21',12.75,13.25); { const q=OUT.get(G,'y3_cr_self_'+D('2027-10-21')); check('11. 自己那一天的出遊：13:30 出發、13:00 起問',!!q&&q.h===13.5&&q.ask===D('2027-10-21')*24+13&&q.crWith==='self'&&!!OUT.due(G)); }
+  await go('y3_cr_self_'+D('2027-10-21'),13.2); check('11. 自己去的：（走出法院，你在門口站了一下，才去搭車。）；沒有同學的句子',has('（走出法院，你在門口站了一下，才去搭車。）')&&!any(/證人想那麼久|考古題|那個阿姨/)&&G.flags.CRIMPRO_HW==='done'&&G.flags.CRIMPRO_WITH==='self');
+  fresh('2027-10-19',9,'classroom',{MET_ZHE:false}); noZhe(); join('noodle_team'); ['classmate_bohan','yu'].forEach(meet); run('2027-10-19',20.75,21.25);
+  { const L=txt('g:noodle_team'); check('11. 翹了第 7 週：21:00 群組多柏翰兩則（在前面）；只有認識的人說話（不認識以安、阿哲＝沒有他們那兩則）；選項只有柏翰和自己',JSON.stringify(L.slice(-4))===JSON.stringify(['classmate_bohan:今天刑訴發了旁聽作業。','classmate_bohan:自己去地院旁聽，第十二週交答辯狀。你記得。','classmate_bohan:我週三下午沒課。週三。','yu:阿哲你每次都這樣'])&&JSON.stringify(PHONE.byAsk(G,'y3_cr_grp').ask.opts.map(o=>o.t))===JSON.stringify(['我週三跟柏翰。','我自己找一天。']),JSON.stringify(L)); }
+  zheBack();
+  fresh('2027-10-19',9,'classroom'); await inClass('2027-10-19'); run('2027-11-22',9,9); { const {r}=await inClass('2027-11-23'); check('11. H3 都沒去：第 12 週「旁聽作業，還有幾位沒交。」；CRIMPRO_HW none；第 13 週沒有發回',r&&has('林老師：旁聽作業，還有幾位沒交。')&&G.flags.CRIMPRO_HW==='none'&&!(await inClass('2027-11-30')).r); }
+
+  // ===== 12. 2-Y3-12 慈 4「很爛的那一句」 =====
+  fresh('2027-10-19',21,'dorm'); R('yu','FAM'); run('2027-10-19',21.25,21.75);
+  check('12. 10/19 21:30 小語三則（避開 21:00 的刑訴群組）＋兩個回覆',JSON.stringify(txt('p:yu'))===JSON.stringify(['yu:欸 芯慈跟以安吵架了','yu:吵很大','yu:你明天中午在霖澤館嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_ci4_yu').ask.opts.map(o=>o.t))===JSON.stringify(['在。','怎麼了？']));
+  ans('y3_ci4_yu',1); check('12. 「怎麼了？」→「我也不知道 她們在討論室 我在門外」',txt('p:yu').slice(-1)[0]==='yu:我也不知道 她們在討論室 我在門外');
+  fresh('2027-10-19',21,'dorm'); run('2027-10-19',21.25,21.75); check('12. 和小語不到 FAMILIAR：沒有這三則',!PHONE.sent(G,'y3_ci4_yu'));
+  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); { const e=STORY.schedEnt(CHARACTERS.classmate_xinci,G); check('12. 作息：10/20 12:10～12:40 芯慈在霖澤館二樓走廊',!!e&&e.zone==='linze'&&e.at[3]===1); }
+  { const B=ev('ev_xinci_bad_line'); npc('classmate_xinci',1.2,-5.2,1); me(0,-5,1);
+    check('12. 在二樓、她在走廊：可以演；一樓不演；12:45 不演；不到 FAMILIAR 不演',EVENTS.check(B)&&(()=>{ me(0,-5,0); const a=!EVENTS.check(B); me(0,-5,1); to('2027-10-20',12.75); const b=!EVENTS.check(B); to('2027-10-20',12.3); R('classmate_xinci','ACQ'); const c=!EVENTS.check(B); R('classmate_xinci','FAM'); return a&&b&&c; })()); }
+  SOCIAL.remember('classmate_xinci','XINCI_SECOND',''); await play('ev_xinci_bad_line',[0]);
+  { const W=['你聽說了吧。','你知道第二名的事。所以你大概懂。','我跟她說，「妳什麼都不用努力就有」。','那句話很爛。我說的時候就知道很爛。','（很久）……我只是想讓她也痛一次。','要。','（她說得很快。）','可是還不是現在。現在道歉，我會一邊道歉一邊想她會怎麼回。'];
+    check('12. X1 有 XINCI_SECOND：「你知道第二名的事。所以你大概懂。」；X2 沒去過讀書會＝沒有「她對自己比對別人嚴」；道歉那一支（逐字）；CI4 sorry',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「妳要跟她道歉嗎？」','「妳也很累。」'])&&G.flags.CI4==='sorry',JSON.stringify(all())); }
+  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); G.acts={att:{['public_law_group@'+D('2026-03-05')]:{h:20,end:'full'}}}; await play('ev_xinci_bad_line',[0]);
+  check('12. 加入過公法讀書會：「她對自己比對別人嚴。」→（芯慈愣住。）「……我知道。」（她看著窗外。）「所以那句話更爛。」；CI4 strict',opts[0][0]==='「她對自己比對別人嚴。」'&&has('（芯慈愣住。）')&&has('……我知道。')&&has('（她看著窗外。）')&&has('所以那句話更爛。')&&G.flags.CI4==='strict');
+  fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); await play('ev_xinci_bad_line',[1]); check('12. 「妳也很累。」→（她轉頭看他，沒說話。過了一下：）「……嗯。」；CI4 tired',has('（她轉頭看他，沒說話。過了一下：）')&&has('……嗯。')&&G.flags.CI4==='tired');
+
+  // ===== 13. 2-Y3-13 以安新 14「她選了行政法院」 =====
+  fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM');
+  { const e=STORY.schedEnt(CHARACTERS.heroine_01,G); check('13. 作息：10/21 17:30～19:40 以安在麵店',!!e&&e.zone==='noodle'); }
+  { const A=ev('ev_an_admin_court'); npc('heroine_01',1,2,0); me(1,3,0); check('13. A1 17:45 到麵店、走到她旁邊：可以演；19:45 不演；不到 FAMILIAR 不演',EVENTS.check(A)&&(()=>{ to('2027-10-21',19.75); const a=!EVENTS.check(A); to('2027-10-21',17.75); R('heroine_01','ACQ'); const b=!EVENTS.check(A); R('heroine_01','FAM'); return a&&b; })()); }
+  await play('ev_an_admin_court',[1]);
+  { const W=['（麵店的長桌。以安比平常晚到，手帳裡夾著一張開庭表。）','今天下午，我自己去了行政法院。','一個人告區公所。他坐左邊，區公所的人坐右邊。','他帶了一個資料夾，裡面全部是收據。區公所來了兩個人，一人一台筆電。','刑訴的作業不是要去地院嗎？','那個禮拜五去。今天這個是我自己想看的。',
+      '禮拜五去。','（她停了一下。）','刑事庭的旁聽席，有人會認得我。行政法院不會。','認得妳？妳是明星喔。','……不是。麵要糊了。','（七點四十，她看了一下錶，把麵吃完。）','讀書會。我先走。'];
+    check('13. A2「妳怎麼不去刑事庭？」→「刑事庭的旁聽席，有人會認得我。」；認識阿哲多四句；不說原因（逐字）；AN14 there、記 AN_ADMIN_COURT',JSON.stringify(all())===JSON.stringify(W)&&G.flags.AN14==='there'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT')&&!any(/媽媽|法官的女兒/),JSON.stringify(all())); }
+  fresh('2027-10-21',17.75,'noodle',{MET_ZHE:false}); noZhe(); R('heroine_01','FAM'); await play('ev_an_admin_court',[0]); zheBack();
+  check('13. 不認識阿哲：沒有阿哲那兩段；「一個人對兩台筆電？」→「嗯。可是法官一直讓他講完。」（她把開庭表摺起來。）「……我在想，那是規定，還是那個法官。」',!any(/刑訴的作業不是要去地院嗎|明星/)&&has('嗯。可是法官一直讓他講完。')&&has('（她把開庭表摺起來。）')&&has('……我在想，那是規定，還是那個法官。'));
+  fresh('2027-10-21',17.75,'noodle'); R('heroine_01','FAM'); await play('ev_an_admin_court',[2]); check('13. 「下次我也想去。」→「好。開庭表我傳給你。……要早到，旁聽席很小。」',has('好。開庭表我傳給你。……要早到，旁聽席很小。'));
+  fresh('2027-10-21',21,'dorm'); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25);
+  check('13. A3 沒去麵店：22:00 麵店團兩則（有句號）；AN14 group；記 AN_ADMIN_COURT',JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['heroine_01:今天下午我自己去行政法院旁聽了。','heroine_01:是一個人告區公所。'])&&G.flags.AN14==='group'&&SOCIAL.has('heroine_01','AN_ADMIN_COURT'));
+  fresh('2027-10-21',21,'dorm'); R('heroine_01','FRI'); run('2027-10-21',21.75,22.25); check('13. 不在群組、FRIEND 以上：私訊同兩句',JSON.stringify(txt('p:heroine_01').slice(-2))===JSON.stringify(['heroine_01:今天下午我自己去行政法院旁聽了。','heroine_01:是一個人告區公所。']));
+  fresh('2027-10-21',21,'dorm',{AN14:'there'}); join('noodle_team'); meet('heroine_01'); run('2027-10-21',21.75,22.25); check('13. 演過了：沒有群組那兩則',!PHONE.sent(G,'y3_an14_msg'));
+
+  // ===== 14. 2-Y3-14 翰 4「整修中的三樓」 =====
+  fresh('2027-11-09',12.5,'linze'); R('classmate_bohan','FAM');
+  { const e=STORY.schedEnt(CHARACTERS.classmate_bohan,G); check('14. 作息：第 10 週平日 12:10～13:00 柏翰在霖澤館二樓往三樓的樓梯間門口',!!e&&e.zone==='linze'&&e.at[3]===1&&Math.abs(e.at[0]-7)<1.5); }
+  { const B=ev('ev_bohan_third_floor'); npc('classmate_bohan',6.2,-5.9,1); me(6,-5,1); check('14. 第 10 週平日 12:30 在二樓、走到他旁邊：可以演；第 11 週不演；週六不演',EVENTS.check(B)&&(()=>{ to('2027-11-16',12.5); const a=!EVENTS.check(B); to('2027-11-13',12.5); const b=!EVENTS.check(B); to('2027-11-09',12.5); return a&&b; })()); }
+  SOCIAL.remember('classmate_bohan','ASKED_BACK',''); await play('ev_bohan_third_floor',[0]);
+  { const W=['（看到祐廷，沒有站起來）……你不要說話。','刑訴。我最喜歡的一科。平均以下。','你知道我為什麼每天念六小時嗎。','不是因為我很認真。是因為我不念，就跟不上你們。','我哥念電機，一天念兩小時。我們家只有我需要六小時。','我問大家考幾分，是想確定我沒有輸太多。','……那天你反問我。我回家想了很久，為什麼我不敢反問別人。','（他看著封鎖線很久。）','……我的。','（他笑了一下，很小。）'];
+    check('14. B1 大一反問過他：「那天你反問我。我回家想了很久……」；B3 選第一個＝（他笑了一下，很小。），沒有「他第一次笑」（逐字）；記 BOHAN_HONEST',JSON.stringify(all())===JSON.stringify(W)&&!any(/第一次笑|不是你哥念的/)&&SOCIAL.has('classmate_bohan','BOHAN_HONEST'),JSON.stringify(all())); }
+  fresh('2027-11-09',12.5,'linze'); R('classmate_bohan','FAM'); await play('ev_bohan_third_floor',[1]); check('14. 「你跟上了啊。你還坐在第一排。」→「第一排是因為我怕坐後面聽不到。」（他說完自己笑了。）「這是我第一次跟人說這個。」；沒有 ASKED_BACK 那句',has('第一排是因為我怕坐後面聽不到。')&&has('（他說完自己笑了。）')&&has('這是我第一次跟人說這個。')&&!has('……那天你反問我。我回家想了很久，為什麼我不敢反問別人。'));
+  fresh('2027-11-09',12.5,'linze'); R('classmate_bohan','FAM'); await play('ev_bohan_third_floor',[2]); check('14. 坐在台階：坐到鐘響、「今天的事，……就到這裡。」、「……下次我考好了，那個你可以說。」',has('（兩個人坐到下一節課的鐘響。他站起來：）')&&has('今天的事，……就到這裡。')&&has('（走了兩階又停下來：）')&&has('……下次我考好了，那個你可以說。'));
+  G.events.done.ev_bohan_scores=1; run('2027-11-18',21.5,21.75); check('14. B2 柏翰接讀書會（沒有 STUDYGROUP_LEADER、演過 ev_bohan_scores）：11/18 21:40「分數表我拿掉了。人有沒有回來，再說。」',txt('p:classmate_bohan').slice(-1)[0]==='classmate_bohan:分數表我拿掉了。人有沒有回來，再說。');
+  fresh('2027-11-09',12.5,'linze',{STUDYGROUP_LEADER:true}); R('classmate_bohan','FAM'); G.events.done.ev_bohan_scores=1; G.events.done.ev_bohan_third_floor=1; run('2027-11-18',21.5,21.75); check('14. 祐廷接了讀書會：沒有那一則',!PHONE.sent(G,'y3_bohan_w11'));
+
+  // ===== 15. 2-Y3-15 校慶（大三版） =====
+  fresh('2027-11-12',20,'dorm',{lawclub:true}); join('lawclub_study'); run('2027-11-12',20.75,21.25);
+  check('15. 11/12 21:00 柏翰在法服群組兩則（句號收尾）＋「我。」',JSON.stringify(txt('g:lawclub_study').slice(-2))===JSON.stringify(['classmate_bohan:明天校慶。法服的攤位十點開。','classmate_bohan:早上誰可以來搬桌子。'])&&JSON.stringify(PHONE.byAsk(G,'y3_fair_ask').ask.opts.map(o=>o.t))===JSON.stringify(['我。']));
+  ans('y3_fair_ask',0); check('15. 「我。」→「好。九點半。」；FAIR_Y3_HELP',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:好。九點半。'&&G.flags.FAIR_Y3_HELP===true);
+  fresh('2027-11-13',12.2,'campus',{lawclub:true,GRANDMA_TREE_Y2:'asked'}); R('heroine_05','FAM'); ['heroine_04','kai'].forEach(meet);
+  check('15. 法服成員：攤位版可以演、路過版不演（同一個帳篷 near、11/13 10:00～16:00）',EVENTS.check(ev('ev_fair_booth_y3'))&&!EVENTS.check(ev('ev_fair_booth_y3_pass'))&&JSON.stringify(ev('ev_fair_booth_y3').near)===JSON.stringify({x:-17.8,z:13.0,r:4.5}));
+  await play('ev_fair_booth_y3',[0]);
+  { const W=['（椰林大道。法服的攤位在第三個帳篷。柏翰把「法律問答」的牌子立好，又調了兩次角度。）','少年欸，你又在這。','那棵芭樂，隔壁說過年前要剪。我在等他。','講了。他說好。……好不好，過年就知道。','（抱著一疊訪談稿，從攤位前面經過）今天人好多。','學弟妹不會的，會跑去問你吧。……我回研究室了。','（隔壁吉他社的攤位，子晴在賣自己畫的插座貓貼紙。賣了三張，三張都是阿凱買的。）'];
+    check('15. F1 法服成員、大二遇過阿嬤：「少年欸，你又在這。」三選一（芭樂的事還沒解決）；12:10 學姊兩句；F3 子晴貼紙（逐字）；FAIR_Y3 booth；GRANDMA_TREE_Y2 不改',JSON.stringify(all())===JSON.stringify(W)&&G.flags.FAIR_Y3==='booth'&&G.flags.GRANDMA_TREE_Y2==='asked',JSON.stringify(all()));
+    check('15. F4 學姊沒有條列、沒有「重點是」',!any(/重點是|第一，|第二，/)); }
+  fresh('2027-11-13',11,'campus',{lawclub:true}); R('heroine_05','FAM'); await play('ev_fair_booth_y3',[0]); check('15. 沒遇過阿嬤：沒有三選一；11:00 沒有學姊；不認識子晴阿凱沒有貼紙',opts.length===0&&!any(/阿嬤|少年欸|訪談稿|插座貓/));
+  fresh('2027-11-13',12.2,'campus',{GRANDMA_TREE_Y2:'heard'}); R('heroine_05','FAM'); check('15. 不是法服成員：路過版可以演',EVENTS.check(ev('ev_fair_booth_y3_pass'))&&!EVENTS.check(ev('ev_fair_booth_y3')));
+  await play('ev_fair_booth_y3_pass');
+  check('15. F2 不是成員、和學姊熟：「你。……算了，今年不抓你。」；阿嬤揮手；沒有選項；FAIR_Y3 pass',JSON.stringify(all())===JSON.stringify(['（法服的攤位前，柏翰在跟一個人講話，筆記寫了半頁。）','（攤位旁邊的阿嬤看到你，揮了一下手。）','你。……算了，今年不抓你。'])&&opts.length===0&&G.flags.FAIR_Y3==='pass');
+
+  // ===== 16. 2-Y3-16 C4 阿哲的機車 =====
+  fresh('2027-11-19',20,'dorm'); R('zhe','FAM'); run('2027-11-19',20.75,21.25);
+  check('16. 11/19 21:00 阿哲四則（一則一則、不加句號）；選項只有「去法服問」（沒有 U_TORT）',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:我剛在路口被一台車擦到','zhe:我沒事啦 人好好的 車殼裂了','zhe:對方說他趕時間 要給我一千塊 叫我簽一張紙','zhe:要簽嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_c4').ask.opts.map(o=>o.t))===JSON.stringify(['對方。後面怎麼賠，我們去法服問。']));
+  ans('y3_c4',0);
+  check('16. 回了：祐廷「先不要簽。拍照、報警做紀錄。」→ 選的那句 →「你真正想要的是什麼？」→ 阿哲 → 祐廷 → 阿哲（逐字）；記 ZHE_SCOOTER',JSON.stringify(txt('p:zhe').slice(4))===JSON.stringify(['player:先不要簽。拍照、報警做紀錄。','player:對方。後面怎麼賠，我們去法服問。','player:你真正想要的是什麼？','zhe:……我想要我的車修好 然後不要再想這件事','player:那就照修車的估價談，談好寫清楚。','zhe:好 我先拍照'])&&SOCIAL.has('zhe','ZHE_SCOOTER'),JSON.stringify(txt('p:zhe')));
+  { const S2=ev('ev_zhe_scooter'); to('2027-11-23',18); G.zone='noodle'; npc('zhe',0,2,0); me(0,3,0); check('16. S2 之後第一次在麵店（11/23 起的週二、週四 17:30～20:30）：可以演；11/19 不演；週三不演',EVENTS.check(S2)&&(()=>{ to('2027-11-18',18); const a=!EVENTS.check(S2); to('2027-11-24',18); const b=!EVENTS.check(S2); to('2027-11-23',18); return a&&b; })()); }
+  await play('ev_zhe_scooter'); check('16. S2「修車行估了價。對方照估價付了。」「（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。」',JSON.stringify(all())===JSON.stringify(['修車行估了價。對方照估價付了。','（把他碗裡的滷蛋夾一半給你）法律系的好處是，有人陪你不簽字。']));
+  fresh('2027-11-19',20,'dorm',{U_TORT:true}); R('zhe','FAM'); run('2027-11-19',20.75,21.25);
+  check('16. S1 有 U_TORT：多「保險公司會來談」那個選項',(m=>!!m&&m.ask.opts.length===2&&m.ask.opts[1].t==='如果是對方不小心造成的，修車費可以要他賠。他有保第三人責任險的話，保險公司會來談。')(PHONE.byAsk(G,'y3_c4')));
+  fresh('2027-11-19',20,'dorm'); R('zhe','FAM'); run('2027-11-19',20.75,21.25); run('2027-11-20',17.75,18.25);
+  check('16. 沒回（隔天 18:00）：「沒事啦 我沒簽 明天去修車」；沒有記憶；麵店那一場不演',txt('p:zhe').slice(-1)[0]==='zhe:沒事啦 我沒簽 明天去修車'&&!SOCIAL.has('zhe','ZHE_SCOOTER')&&(()=>{ to('2027-11-23',18); G.zone='noodle'; npc('zhe',0,2,0); me(0,3,0); return !EVENTS.check(ev('ev_zhe_scooter')); })());
+
+  // ===== 17. 2-Y3-17 語彤事件 14「續約」 =====
+  fresh('2027-11-24',15.4,'dorm'); STORY.y3Facts(G); check('17. 11/24 15:30 以前沒有 RENT_RENEWED',!G.flags.RENT_RENEWED);
+  to('2027-11-24',15.5); STORY.y3Facts(G); check('17. R4 11/24 15:30 一律記 RENT_RENEWED（劇情事實，不在場也記）',G.flags.RENT_RENEWED===true);
+  fresh('2027-11-23',20,'dorm',{lawclub:true}); join('lawclub_study'); run('2027-11-23',20.75,21.25);
+  check('17. 法服成員：11/23 21:00 柏翰「明天下午兩點半，麵店。續約的談話，要一個人做紀錄。」＋「我去。」',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:明天下午兩點半，麵店。續約的談話，要一個人做紀錄。'&&JSON.stringify(PHONE.byAsk(G,'y3_lease_fafu').ask.opts.map(o=>o.t))===JSON.stringify(['我去。']));
+  ans('y3_lease_fafu',0); { const q=OUT.get(G,'y3_lease'); check('17. 「我去。」→「好。」→ 11/24 14:30 麵店',txt('g:lawclub_study').slice(-1)[0]==='classmate_bohan:好。'&&!!q&&q.day===D('2027-11-24')&&q.h===14.5&&q.ev==='ev_yt_lease_renew'); }
+  G.flags.YT_LEASE_HELP=true; picks=[0]; await go('y3_lease',14);
+  { const W=['（麵店的鐵門拉起一半。桌上有兩樣東西：一張二十年的繳租時間表，和語彤的筆記本，上面抄著老客人說的話。）','（那張時間表是你排的。）','（新屋主三十多歲，穿西裝，看著時間表和語彤的筆記，沒說話。）','（阿姨端了一碗麵給他：「先吃。」）','（他吃了兩口，停住。）',
+      '……我高中的時候來過。補習完。','我那時候都點餛飩湯。','你點的是乾麵加滷蛋。你記錯了。','（笑出來）……對。乾麵。','五年。租金照市價調一點，可以嗎？','……可以。','（轉身，手在發抖，拿起刀）不要看我，蔥要切。','我也要學休息。妳也是。','紀錄給我一份。'];
+    check('17. R1 法服成員、去了（逐字）：有 YT_LEASE_HELP 多「（那張時間表是你排的。）」；「（把紀錄存好）」→ 律師「紀錄給我一份。」；YT_EV14 there',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['（把紀錄存好）','（看語彤）'])&&G.flags.YT_EV14==='there',JSON.stringify(all())); }
+  fresh('2027-11-23',20,'dorm'); date('heroine_03'); run('2027-11-23',20.75,21.25);
+  check('17. 和語彤交往中、不是法服成員：語彤私訊「明天下午兩點半 阿姨要談續約」「……你坐我旁邊就好」',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:明天下午兩點半 阿姨要談續約','heroine_03:……你坐我旁邊就好'])&&JSON.stringify(PHONE.byAsk(G,'y3_lease_yt').ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天我不行。']));
+  ans('y3_lease_yt',0); await go('y3_lease',14);
+  check('17. R2 交往中：阿姨「（看你）你也是。禮拜四把她帶走，不要讓她來店裡。」語彤「阿姨。」；沒有「把紀錄存好」；（看語彤）的旁白',has('（看你）你也是。禮拜四把她帶走，不要讓她來店裡。')&&has('阿姨。')&&JSON.stringify(opts[0])===JSON.stringify(['（看語彤）'])&&has('（語彤低著頭，在筆記本最後一頁寫了一行字，沒有給你看。）')&&!has('（那張時間表是你排的。）'));
+  fresh('2027-11-23',20,'dorm',{lawclub:true}); join('lawclub_study'); date('heroine_03'); await play('ev_yt_lease_renew',[0]); check('17. 交往中、又是法服成員：紀錄由律師做（沒有「把紀錄存好」）',JSON.stringify(opts[0])===JSON.stringify(['（看語彤）']));
+  fresh('2027-11-23',20,'dorm'); date('heroine_03'); run('2027-11-23',20.75,21.25); ans('y3_lease_yt',1); check('17. 「那天我不行。」→「嗯 沒關係」；沒有出遊',txt('p:heroine_03').slice(-1)[0]==='heroine_03:嗯 沒關係'&&!OUT.get(G,'y3_lease'));
+  fresh('2027-11-25',18,'noodle'); R('heroine_03','FAM'); SOCIAL.remember('heroine_03','RENT_CONSULTATION','');
+  { const T=ev('ev_yt_lease_retell'); check('17. R3 都沒去：11/25 起麵店跟她說話＝轉述（interact）；11/24 不演；12/15 不演',T.trigger==='interact'&&EVENTS.check(T)&&(()=>{ to('2027-11-24',18); const a=!EVENTS.check(T); to('2027-12-15',18); const b=!EVENTS.check(T); to('2027-11-25',18); return a&&b; })()); }
+  await play('ev_yt_lease_retell'); check('17. R3 轉述四句（有 RENT_CONSULTATION 多「法服那次說的，後來都用上了。」）；YT_EV14 heard',JSON.stringify(all())===JSON.stringify(['阿姨續約了。五年，寫成書面的。','……新屋主說，他小時候也來這裡吃過麵。','阿姨要請一個工讀生。禮拜四。','法服那次說的，後來都用上了。'])&&G.flags.YT_EV14==='heard');
+  fresh('2027-11-25',18,'dorm'); R('heroine_03','FAM'); run('2027-12-14',20.75,21.25);
+  check('17. 轉述的窗口都沒遇到：12/14 21:00 她私訊前兩句；YT_EV14 heard',JSON.stringify(txt('p:heroine_03').slice(-2))===JSON.stringify(['heroine_03:阿姨續約了。五年，寫成書面的。','heroine_03:……新屋主說，他小時候也來這裡吃過麵。'])&&G.flags.YT_EV14==='heard');
+  fresh('2027-11-25',18,'dorm'); run('2027-12-14',20.75,21.25); check('17. 不認識語彤：沒有轉述（續約照樣發生）',!PHONE.sent(G,'y3_lease_msg'));
 
   console.log(fails?('FAILED '+fails):'ALL PASS');
   process.exit(fails?1:0);
