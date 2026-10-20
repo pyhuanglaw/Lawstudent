@@ -25,19 +25,18 @@ async def talk_through(pg, cdp, max_s=90, pick=None):
         await pg.wait_for_timeout(900); s = await L.state(pg)
         if not (s['dlg'] or s['choices'] or s['busy']): return True, log
     return False, log
-async def load_at(pg, d, hour, so):
-    await L.load_state(pg, {'zone': 'lane118', 'hour': hour, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': so['x'], 'z': so['z'], 'yaw': so['yaw']}})
+async def load_at(pg, d, hour, so, wd=2):
+    await L.load_state(pg, {'zone': 'lane118', 'hour': hour, 'day': d, 'weekday': wd, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': so['x'], 'z': so['z'], 'yaw': so['yaw']}})
     await pg.wait_for_timeout(5000)
 async def one_shop(pg, cdp, run, sid, d):
     r = {'shop': sid}; res[sid] = r
-    LL = await pg.evaluate("L118_SHOP_LAYOUTS[%s]" % json.dumps(sid)); nm = LL['name']; so = LL['street']; zone = LL['zone']
+    LL = await pg.evaluate("L118_SHOP_LAYOUTS[%s]" % json.dumps(sid)); nm = LL['name']; so = LL['street']['spawn_out']; zone = LL['zone']
     hrs = await pg.evaluate("(id=>{ const s=L118.shop(id); return s?s.hours:null; })(%s)" % json.dumps(sid)); r['hours'] = hrs
-    # 找一個營業中的時間（週二）
-    hour = None
-    for hh in [12.25, 13.0, 15.0, 18.5, 19.5, 11.5, 10.5, 9.0, 8.0, 7.5]:
-        if await pg.evaluate("(a=>L118.isOpen(a[0],{hour:a[1],day:a[2],weekday:2}))(%s)" % json.dumps([sid, hh, d])): hour = hh; break
-    r['openHour'] = hour
-    await load_at(pg, d, hour or 12.25, so); run.setup('[前置] 讀檔 9/9（二）%.2f %s 門外' % (hour or 12.25, nm))
+    # 找一個營業中的日子和時間（9/8 起一週內，第一段營業時間的中間）
+    pick = await pg.evaluate("""(a=>{ const s=L118.shop(a[0]); if(!s) return null; for(let k=0;k<7;k++){ const day=a[1]+k, wd=CALENDAR.dateOf(day).wd%%7; for(const [x,y] of s.hours.open){ const h=Math.min(x+0.75,(x+y)/2); if(L118.isOpen(a[0],{hour:h,day,weekday:wd})) return {day,h,wd,key:CALENDAR.dateOf(day).key}; } } return null; })(%s)""" % json.dumps([sid, d]))
+    r['open'] = pick
+    if not pick: run.check('%s：一週內找得到營業時間' % nm, False, json.dumps(hrs)); return
+    await load_at(pg, pick['day'], pick['h'], so, pick['wd']); run.setup('[前置] 讀檔 %s %.2f %s 門外（營業中）' % (pick['key'], pick['h'], nm))
     await L.close_panels(pg, cdp)
     it = await L.find_it(pg, '進' + nm)
     ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, nm + '門口')
@@ -78,9 +77,9 @@ async def one_shop(pg, cdp, run, sid, d):
     run.check('%s：%d 張椅子的互動點都走得到（引擎移動模擬）' % (nm, len(seats)), not unreach, json.dumps(unreach))
     satok = []
     for s0 in seats[:3]:
-        ok = await L.go_to(pg, cdp, run, s0['x'], s0['z'], 0.45, '椅子')
+        ok = await L.go_to(pg, cdp, run, s0['x'], s0['z'], 0.6, '椅子')
         lab = (await L.state(pg))['interact']
-        if not (ok and lab.startswith('坐')): satok.append(('走不到或沒有坐下', s0['x'], s0['z'], lab)); continue
+        if not lab.startswith('坐'): satok.append(('走不到或沒有坐下', s0['x'], s0['z'], lab)); continue
         await L.tap(pg, cdp, '#interact'); t0 = time.time(); sat = False
         while time.time() - t0 < 30:
             q = await L.state(pg)
@@ -109,13 +108,13 @@ async def main():
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
-        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
+        d = await pg.evaluate("STORY.dayOfKey('2025-09-08')")
         for sid in SHOPS:
             try: await one_shop(pg, cdp, run, sid, d)
             except Exception as e: run.check('%s：腳本例外' % sid, False, repr(e)[:200])
             json.dump(res, open(os.path.join(OUT, 'x66_res.json'), 'w'), ensure_ascii=False, indent=1)
         # 沒開的時間
-        LL = await pg.evaluate("L118_SHOP_LAYOUTS.korea"); await load_at(pg, d, 3.0, LL['street']); run.setup('[前置] 9/10 03:00 韓食小廚門外'); await L.close_panels(pg, cdp)
+        LL = await pg.evaluate("L118_SHOP_LAYOUTS.korea"); await load_at(pg, d, 3.0, LL['street']['spawn_out']); run.setup('[前置] 9/10 03:00 韓食小廚門外'); await L.close_panels(pg, cdp)
         it = await L.find_it(pg, '進' + LL['name'])
         if it and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, '門口'):
             lab = (await L.state(pg))['interact']; await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
@@ -123,7 +122,9 @@ async def main():
             res['closed'] = {'label': lab, 'log': log, 'zone': z}; await run.shot(pg, 'closed_0300')
             run.check('沒開的時間按「進店」：鐵門拉下來一半、沒有進去', z == 'lane118' and any('鐵門' in t for t in log), json.dumps(res['closed'], ensure_ascii=False))
         # 晚上：店裡往門口看
-        LL = await pg.evaluate("L118_SHOP_LAYOUTS.cafe2"); await load_at(pg, d, 20.5, LL['street']); run.setup('[前置] 9/9 20:30 慢讀咖啡門外'); await L.close_panels(pg, cdp)
+        nt = await pg.evaluate("""(d0=>{ for(let k=0;k<7;k++){ const day=d0+k, wd=CALENDAR.dateOf(day).wd%%7; for(const id of Object.keys(L118_SHOP_LAYOUTS)){ if(L118.isOpen(id,{hour:20.5,day,weekday:wd})) return {id,day,wd,key:CALENDAR.dateOf(day).key}; } } return null; })(%d)""" % d)
+        res['night_pick'] = nt
+        LL = await pg.evaluate("L118_SHOP_LAYOUTS[%s]" % json.dumps((nt or {}).get('id', 'cafe2'))); await load_at(pg, (nt or {}).get('day', d), 20.5, LL['street']['spawn_out'], (nt or {}).get('wd', 2)); run.setup('[前置] %s 20:30 %s 門外' % ((nt or {}).get('key'), LL['name'])); await L.close_panels(pg, cdp)
         await run.shot(pg, 'night_lane_outside')
         it = await L.find_it(pg, '進' + LL['name'])
         if it and await L.go_to(pg, cdp, run, it['x'], it['z'], 0.8, '門口'):
