@@ -511,7 +511,7 @@ const STORY = (function(){
   /* 學姊 M2 換題目、M3 放榜、上榜聚餐：照新年級是 2026 年＝祐廷大一下的事，大二不播（BB_205 第 4 節、BB_97 第 2 節 2026-10-17）；搬到大一下的版本等 AA_218 17-12 第 4 點（AA 下一批）*/
   S.SIS_Y2_EXAM=false;
   S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
-    'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}}};   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
+    'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}},'A5-L5':{'「妳那天講的，我聽過了。」':{flags:['AN15_SEEN']}}};   /* A5-L5 選項②：11/17 在 Café 演過 1A-05 才有（AA_315 1A-02 第 6 節第 5 點）*/   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
   S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
     'A4-L5':{'「妳跟我講話好像也是。」':[{if:{flags:['dating_heroine_01']},reply:'真的？……跟你講話本來就不用敬語啊。'}]},
@@ -899,6 +899,7 @@ const STORY = (function(){
     if(typeof HOME!=='undefined'&&HOME.winterStartDue&&HOME.winterStartDue(G)){ HOME.winterStart(GM).catch(e=>console.warn('HOME.winterStart',e)); return; }   /* 經濟系大一的寒假：回臺北的家（AA_154 A16）*/
     if(S.toLawDue(G)&&!(typeof HOME!=='undefined'&&HOME.at(G))){ S.toLaw(GM).catch(e=>console.warn('STORY.toLaw',e)); return; }   /* 經濟系 → 法律系（8/31；在家的在 home3d.js）*/
     if(S.coldWeekTick(GM)) return;   /* 1A-04 感冒的那一週（AA_315）：10/23 打噴嚏、10/24 晚上、10/25、10/26 可昕、期中考完的麵店 */
+    if(S.exchFormTick(GM)) return;   /* 1A-05 交換志願表（AA_315）：11/17 以安在 Café、學姊在法圖、可昕的電話；11/18 截止旁白 */
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(typeof HOME!=='undefined'&&HOME.eveDue&&HOME.eveDue(G)&&!eveBusy){ eveBusy=true; HOME.eveGo(GM).catch(e=>console.warn('HOME.eveGo',e)).finally(()=>{ eveBusy=false; }); return; }   /* 除夕 17:00 以後還在宿舍：媽媽「飯快好了。」→ 回家（AA_197 1-2）*/
     if(G.zone==='dorm'&&typeof TERMEND!=='undefined'&&TERMEND.kaiDue&&TERMEND.kaiDue(G)&&!teBusy){ teBusy=true; TERMEND.kaiAsk(GM).catch(e=>console.warn('TERMEND.kaiAsk',e)).finally(()=>{ teBusy=false; }); return; }   /* 學期末沒人約：阿凱「宵夜？」（BB_203 保底）*/
@@ -1969,6 +1970,7 @@ const STORY = (function(){
     { const d11=S.dayOfKey('2027-11-11'); if(d11!=null&&G.day===d11&&!F.TWO_HEARTS_PICK&&S.twoHeartsMet&&(()=>{ const ok=F.dating_heroine_01===true&&F.dating_heroine_05===true&&(G.stage||'law')==='law'; if(ok&&F.TWO_HEARTS_MET==null&&typeof ROM!=='undefined'&&!ROM.knowsOf(G,'heroine_01','heroine_05')&&!ROM.knowsOf(G,'heroine_05','heroine_01')) S.twoHeartsMet(G); return ok; })()&&F.TWO_HEARTS_MET!=null&&!PHONE.sent(G,'two_hearts_msg')){
         PHONE.at(G,d11,22,[{th:'p:heroine_05',from:'heroine_05',text:'今天十點半，兩點半 Café。'},{th:'p:heroine_01',from:'heroine_01',text:'十點半，兩點半。我也會去。'}],'two_hearts_msg');
         if(typeof OUT!=='undefined'&&!OUT.get(G,'y3_two_hearts')) OUT.plan(G,{id:'y3_two_hearts',must:true,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d11,h:22.5,late:1,place:'兩點半 Café',title:'兩點半 Café　打烊後',travel:'（你還是去了。）',travelH:1/3}); } }
+    S.an15Phone(G);   /* 1A-05（AA_315）：11/15 學校信箱、11/16 以安私訊、11/17 16:00／18:00、學姊 20:00 與 22:30 */
     /* D3 迎新（大二，小隊輔；AA_177 第 6、9 節；AA_310 第 2 節改到開學前）：9/4（五）21:00 系學會在 law_class「禮拜天迎新，小隊輔兩點在社科院旁的草地集合。」→ 9/6（日）14:00 出發選單（晚 15 分鐘＝沒去；那天早上 08:30 搬進 312）；沒去＝21:30 同一個群組的照片 */
     if(typeof OUT!=='undefined'&&PHONE.inGroup(G,'law_class')){ const d=S.dayOfKey('2026-09-06'), di=S.dayOfKey('2026-09-04'), C=t=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:t});
       if(d!=null&&di!=null&&(G.day>di||(G.day===di&&h(G)>=21))&&G.day<=d&&!PHONE.sent(G,'y2_welcome_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,h(G)):21,[C('禮拜天迎新，小隊輔兩點在社科院旁的草地集合。')],'y2_welcome_ask');
@@ -3254,6 +3256,84 @@ const STORY = (function(){
     if(d24!=null&&G.day===d24&&F.COLD_WEEK==='night'&&F.COLD_WEEK_NIGHT==null){ if(F.COLD_WEEK_CALLS==null&&G.hour<21&&S.coldCallList(G).length) return 21; if(G.hour<21.5) return 21.5; }
     const d26=S.dayOfKey(CW_D26); if(d26!=null&&G.day===d26&&G.hour<18.5&&(F.KX_COLD_WEEK==='told'||F.KX_COLD_WEEK==='found_out')&&F.KX_COLD_WEEK_SEEN==null&&cwDating(G,'kexin')) return 18.5;   /* 10/26 可昕考完過來（3-4）*/
     const d17=S.dayOfKey('2027-11-17'); if(d17!=null&&G.day===d17&&G.hour<22&&S.kxExchTalkDue&&S.kxExchTalkDue(G)) return 22; return null; };
+  /* ---------- 1A-05　大三交換志願表＝以安新 15「為什麼是日本」（AA_315；AA_30 場景 0、AA_253 第 2 節、BB_98 2-3／9-5、AA_180 2-1；台詞照 AA_315 第 2 節，不改字）----------
+     11/15 09:00 學校信箱（所有人）；11/16 21:00 以安私訊（認識、FAMILIAR 以上、沒有和她分手）；11/17 15:15 起兩點半 Café（16:00 還沒到＝「我在窗邊。」延到 17:00；18:00 沒到＝「我先交了」，沒有 AN15_SEEN）。
+     這一場不決定路線：版本照 S.routeFor（routeDecide 的預覽，不寫入）；11/18 第一次起床（起床選單之前；已經過了 12:00＝下一個能播的時候）播截止旁白（2-4）。
+     學姊（交往中或 FRIEND 以上）：20:00「我在法圖。九點四十五關門。」，21:00～21:45 在法圖（或門口）＝當面，沒去＝22:30 手機版（2-5）。
+     可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 的出遊、約會），沒見面＝11/17 22:00 電話（2-6）。*/
+  const AN15_K={d15:'2027-11-15',d16:'2027-11-16',d17:'2027-11-17',d18:'2027-11-18'};
+  const an15D=()=>({d15:S.dayOfKey(AN15_K.d15),d16:S.dayOfKey(AN15_K.d16),d17:S.dayOfKey(AN15_K.d17),d18:S.dayOfKey(AN15_K.d18)});
+  S.an15On=function(G){ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return (G.stage||'law')==='law'&&S.knows('heroine_01',G)&&cwAt('heroine_01','FAMILIAR')&&!(R&&R.status==='ex'); };   /* 第 1 節：認識、FAMILIAR 以上、沒有和她分手（包括 11/11 攤牌選了學姊）*/
+  S.an15Due=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return D.d17!=null&&G.day===D.d17&&G.zone==='cafe'&&h(G)>=15.25&&h(G)<17&&F.AN15_SEEN==null&&S.an15On(G)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y3_an15_invite'); };   /* 窗口 15:15～16:00，16:00 那則訊息延到 17:00 */
+  S.an15Cafe=async function(GM){ const G=GM.G, F=G.flags; if(!S.an15Due(G)) return false; F.AN15_SEEN=G.day; cwDone(G,'ev_an_why_japan'); const an=cwWho('heroine_01'), dating=cwDating(G,'heroine_01'), r=S.routeFor(G);
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload(['heroine_01']); ADV.begin({background:'blur',right:{charId:'heroine_01',expression:'neutral'}}); }
+      if(F.EXPO_COUNTRY) await GM.say(null,'（說明會那天，你坐在'+F.EXPO_COUNTRY+'那一區。）');   /* 2-0：去過交換說明會才有 */
+      await GM.say(an,'（把自己的志願表推過來。第一志願「日本」，字很工整。申請理由那一欄寫得很滿。）'); await GM.say(an,'我的。');
+      await GM.say(null,'（申請理由第一行寫著：「行政指導：沒有命令，對方照做。是信任，還是壓力？」）');
+      await GM.say(an,'台灣也有這一條。可是條文只寫了怎麼規定，我想看的是那邊的人為什麼照做。'); await GM.say(an,'那個要去那裡看。');
+      await GM.say(an,dating?'你的呢？':'你的呢？……你還沒填。很少見。你平常都很快。');
+      const P=Array.isArray(F.COLD_WEEK_PRESENT)?F.COLD_WEEK_PRESENT:[]; if(P.includes('heroine_01')) await GM.say(an,'你上個月感冒的時候說，你想用法律做什麼。'); else if(P.includes('zhe')) await GM.say(an,'阿哲說你那週講了一句很帥的話。他不告訴我是什麼。');   /* 1A-04 第 5 節的回聲 */
+      if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR')) await GM.say(an,'你換過一次方向。這次也是你自己選。');
+      if(r==='JP'){ await GM.say(null,'（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）'); await GM.say(an,'寫好了？'); await GM.say(an,'我們同一所。我查過了，宿舍在同一區。'); await GM.say(an,'下禮拜要補語言成績，你的考了嗎？');
+        const k=await GM.choose([{t:'「考了。」'},{t:'「還沒。」'}]); F.AN15_ANSWER=k===1?'not_yet':'tested'; await GM.say(an,k===1?'……下禮拜。不准賴。':'好。那我們明天早上一起交。'); }   /* A 版：和以安交往中 */
+      else if(r==='US'){ await GM.say(null,'（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）');
+        await GM.say(an,typeof ROM!=='undefined'&&ROM.knowsOf&&ROM.knowsOf(G,'heroine_01','heroine_05')?'美國。……學姊也去那裡吧。':'美國。好遠。'); await GM.say(an,'那理由欄寫你自己的就好。'); }   /* B 版：和學姊交往中（以安知不知道分兩句；不給選項）*/
+      else { await GM.say(null,'（志願表你拿了一張。到現在還是空白的。）'); await GM.say(an,'你不填？');
+        const k=await GM.choose([{t:'「嗯。臺灣的大四也還沒過完。」'},{t:'「還在想。」'}]); F.AN15_ANSWER=k===1?'thinking':'stay'; await GM.say(an,k===1?'明天中午截止喔。……想好了就好。':'好。那麵店那邊，你幫我多吃幾碗。'); }   /* C 版：留在臺灣 */
+      await GM.say(null,'（窗外的溫州街開始暗了。以安把她那一張收進資料夾，對齊了兩次。）');
+      if(typeof SOCIAL!=='undefined') SOCIAL.remember('heroine_01','IMPORTANT_CONVERSATION','為什麼是日本');
+    } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); }
+    if(GM.advance) GM.advance(0.75); if(GM.memo) GM.memo('為什麼是日本'); if(GM.autosave) GM.autosave(); return true; };
+  /* 2-4：截止那一刻的旁白（AA_253 第 2 節原文）。路線已經定了（12:00 以後）照定的，還沒（11/18 早上）照預覽 */
+  S.routeNarrDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return (G.stage||'law')==='law'&&D.d18!=null&&G.day>=D.d18&&G.day<=D.d18+2&&F.ROUTE_NARR==null&&(!F.EXCHANGE_ROUTE||!!F.EXCH_RULE); };   /* 舊選單選過、已經過了截止日的舊存檔（沒有 EXCH_RULE）不播 */
+  S.routeNarrLines=function(G){ const F=(G&&G.flags)||{}, r=S.route(G)||S.routeFor(G), seen=F.AN15_SEEN!=null;
+    if(r==='JP') return [...(seen?[]:['（志願表第一欄，你寫了日本那所大學的名字。和她填的是同一所。附件欄夾了一張語言成績單。）']),'（你把表交到系辦。助理蓋了章，說：『今天第二張寫這間的。』）'];
+    if(r==='US') return [...(seen?[]:['（志願表第一欄，你寫了美國那所大學的名字。大四上，和她同一個學期。附件欄夾了一張語言成績單。）']),'（你把表交到系辦。助理蓋了章，沒有抬頭。）'];
+    return ['（志願表你拿了一張，放在書包裡一個禮拜。最後沒有交。）','（你想，臺灣的大四也還沒過完。）']; };
+  S.routeNarr=async function(GM){ const G=GM.G; if(!S.routeNarrDue(G)) return false; G.flags.ROUTE_NARR=G.day; GM.sceneBegin(); try{ for(const t of S.routeNarrLines(G)) await GM.say(null,t); } finally { GM.sceneEnd(); } return true; };
+  /* 2-5 學姊：交往中，或 FRIEND 以上（不是的沒有這一段）*/
+  S.sisFormOn=G=>(G.stage||'law')==='law'&&(cwDating(G,'heroine_05')||cwAt('heroine_05','FRIEND'));
+  S.sisFormLines=function(G){ const r=S.routeFor(G);
+    if(cwDating(G,'heroine_05')) return {pre:[['sis','志願表交了？'],['me','交了。美國。'],['sis','……我知道你會填那裡。'],['sis','可是你要自己也想去。不是只因為我在那邊。']],opts:[['我自己也想去。','好。那我相信你。'],['一半一半。','……誠實。好。']],route:r};
+    const single=!cwPartners(G).length&&!cwHasMate(G,'heroine_05'), last=r!=='JP'&&single?'好。那我明年在美國，每天傳一張照片給你。':'好。那我明年在美國，每天在家族群組放一張照片。……你們要回。';   /* 雙方都單身：最後一句改 */
+    return {pre:[['sis','志願表填了？'],['me',r==='JP'?'日本。':'沒填。留在臺灣。'],['sis',last]],opts:null,route:r,last}; };
+  S.sisFormFaceDue=function(G,E){ const D=an15D(), F=(G&&G.flags)||{}; if(D.d17==null||G.day!==D.d17||h(G)<21||h(G)>=21.75||F.SIS_FORM_REACT!=null||!S.sisFormOn(G)) return false; if(G.zone==='lawlib') return true;
+    const LD=typeof WANCAI_LAYOUT!=='undefined'&&WANCAI_LAYOUT.lawlibDoor&&WANCAI_LAYOUT.lawlibDoor.it, P=E&&E.player&&E.player.obj.position; return G.zone==='wancai'&&!!LD&&!!P&&Math.hypot(P.x-LD.x,P.z-LD.z)<4; };   /* 法圖或門口（萬才館大廳的法圖門）*/
+  S.sisFormFace=async function(GM){ const G=GM.G, F=G.flags; if(!S.sisFormFaceDue(G,GM.E)) return false; F.SIS_FORM_REACT='face'; cwDone(G,'ev_sis_form_react'); const sis=cwWho('heroine_05'), me={name:G.name}, L=S.sisFormLines(G);
+    GM.sceneBegin(); try{ if(typeof ADV!=='undefined'){ ADV.preload(['heroine_05']); ADV.begin({background:'blur',right:{charId:'heroine_05',expression:'neutral'}}); }
+      for(const [sp,t] of L.pre) await GM.say(sp==='me'?me:sis,t);
+      if(L.opts){ const k=await GM.choose(L.opts.map(o=>({t:'「'+o[0]+'」'}))); await GM.say(sis,(L.opts[k]||L.opts[0])[1]); }
+    } finally { if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); GM.sceneEnd(); } if(GM.autosave) GM.autosave(); return true; };
+  S.sisFormPhone=function(G){ const L=S.sisFormLines(G), S5=t=>({th:'p:heroine_05',from:'heroine_05',text:t});   /* 22:30 手機版：交往中＝當面的四句變訊息、選項一樣；不是交往中＝「Kevin 說……」 */
+    if(L.opts) return [Object.assign(S5('志願表交了？'),{ask:{opts:[{t:'交了。美國。',say:[S5('……我知道你會填那裡。'),Object.assign(S5('可是你要自己也想去。不是只因為我在那邊。'),{ask:{opts:L.opts.map(o=>({t:o[0],say:[S5(o[1])]}))}})]}]}})];
+    return [Object.assign(S5('Kevin 說交換志願明天截止。你填了嗎？'),{ask:{opts:[{t:L.route==='JP'?'日本。':'沒填，留在臺灣。',say:[S5(L.last)]}]}})]; };
+  /* 2-6 可昕（交往中）：11/15～11/17 下一次見面的最後（outings3d.js 呼叫 how 'face'）；沒見面＝11/17 22:00 電話（'call'）。不出假設題、不拿祐廷比較 */
+  S.kxExchTalkDue=function(G){ const D=an15D(), F=(G&&G.flags)||{}; return (G.stage||'law')==='law'&&D.d15!=null&&G.day>=D.d15&&G.day<=D.d17&&F.KX_EXCH_TALK==null&&cwDating(G,'kexin'); };
+  S.kxExchCallDue=G=>{ const D=an15D(); return S.kxExchTalkDue(G)&&G.day===D.d17&&h(G)>=22; };
+  S.kxExchTalk=async function(GM,how){ const G=GM.G, F=G.flags; if(!S.kxExchTalkDue(G)) return false; F.KX_EXCH_TALK=how||'face'; cwDone(G,'ev_kexin_exchange_talk');
+    const kx=how==='call'?{name:'可昕（電話）'}:cwWho('kexin'), me={name:G.name}, r=S.routeFor(G), place=r==='JP'?'日本':'美國';
+    GM.sceneBegin(); try{ const res=async()=>{ if(r==='TW') await GM.say(kx,'留下來？……好。那我們的日子不用排時差。'); else { await GM.say(me,place+'。'); await GM.say(kx,'好。那我們來排時差。'); } };
+      const k=await GM.choose([{t:'「我在想要不要交換。」'},{t:'「交換的表，我已經想好了。」'}]);
+      if(k===0){ await GM.say(kx,'你問我意見，還是告訴我結果？'); await GM.say(kx,'……兩種都可以，我只是想知道是哪一種。'); const j=await GM.choose([{t:'「問妳。」'},{t:'「告訴妳結果。」'}]);
+        if(j===0){ await GM.say(kx,'那我的意見是：想去就去。……不用替我想。'); F.KX_EXCHANGE_ASKED=true; await GM.say(null,r==='TW'?'（你最後沒有交。）':'（你還是寫了'+place+'。）'); } else await res(); }
+      else await res();
+    } finally { GM.sceneEnd(); } return true; };
+  let efBusy=false;
+  S.exchFormTick=function(GM){ const G=GM.G; if(efBusy||(G.stage||'law')!=='law') return false; const D=an15D(); if(D.d15==null||G.day<D.d15||G.day>D.d18+2) return false; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return false;
+    const go=f=>{ efBusy=true; Promise.resolve().then(f).catch(e=>console.warn('AN15',e)).finally(()=>{ efBusy=false; }); return true; };
+    if(S.routeNarrDue(G)) return go(()=>S.routeNarr(GM));
+    if(S.an15Due(G)) return go(()=>S.an15Cafe(GM));
+    if(S.sisFormFaceDue(G,GM.E)) return go(()=>S.sisFormFace(GM));
+    if(S.kxExchCallDue(G)) return go(async()=>{ if(GM.toast) GM.toast('手機響了。',2400); await S.kxExchTalk(GM,'call'); });
+    return false; };
+  /* 手機（S.phoneRules）*/
+  S.an15Phone=function(G){ const D=an15D(), F=G.flags; if(typeof PHONE==='undefined'||D.d15==null||(G.stage||'law')!=='law'||G.day<D.d15||G.day>D.d18) return; const hh=G.hour, after=(d,x)=>G.day>d||(G.day===d&&hh>=x), dt=cwDating(G,'heroine_01');
+    if(after(D.d15,9)&&!PHONE.sent(G,'y3_exch_mail')) PHONE.at(G,D.d15,9,[{th:'sys',name:'學校信箱',text:'交換學生申請：11/18（四）中午截止。'}],'y3_exch_mail');   /* 所有玩家（系統字）*/
+    if(after(D.d16,21)&&G.day<=D.d17&&S.an15On(G)&&!PHONE.sent(G,'y3_an15_invite')) PHONE.at(G,D.d16,21,[{th:'p:heroine_01',from:'heroine_01',text:dt?'明天下午三點半，兩點半 Café。我們一起填。':'明天下午三點半，兩點半 Café。交換的志願表，後天截止。'}],'y3_an15_invite');
+    if(G.day===D.d17&&hh>=16&&hh<17&&F.AN15_SEEN==null&&PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_window')) PHONE.at(G,D.d17,16,[{th:'p:heroine_01',from:'heroine_01',text:'我在窗邊。'}],'y3_an15_window');   /* 16:00 還沒到：延到 17:00 */
+    if(after(D.d17,18)&&F.AN15_SEEN==null&&PHONE.sent(G,'y3_an15_invite')&&!PHONE.sent(G,'y3_an15_missed')) PHONE.at(G,D.d17,18,[{th:'p:heroine_01',from:'heroine_01',text:dt?'我先交了。你的，明天中午以前。……同一所，不要寫錯。':'我先交了。你的，明天中午以前要交。'}],'y3_an15_missed');   /* 2-3 沒到：不帶到場 */
+    if(G.day===D.d17&&hh>=20&&hh<21.75&&S.sisFormOn(G)&&!PHONE.sent(G,'y3_sis_lawlib')) PHONE.at(G,D.d17,20,[{th:'p:heroine_05',from:'heroine_05',text:'我在法圖。九點四十五關門。'}],'y3_sis_lawlib');
+    if(after(D.d17,22.5)&&S.sisFormOn(G)&&F.SIS_FORM_REACT==null){ F.SIS_FORM_REACT='phone'; cwDone(G,'ev_sis_form_react'); PHONE.at(G,D.d17,22.5,S.sisFormPhone(G),'y3_sis_form_phone'); } };   /* 沒去法圖：22:30 手機版 */
   /* 現在的學期在不在 {from, until} 裡（例：人物有伴侶的那幾個學期，invites3d.js 的 partnerBlock）*/
   /* 伴侶期間（AA 2026-10-14：照劇情事件，不照整學期；事件還沒發生、或玩家沒看到時，照日期當保底）：
      {from, until}＝學期（舊格式照舊）；fromWeek／untilWeek＝{term, week}（untilWeek 那一週結束算分開）；startEvent／endEvent＝事件 id（演過就開始／結束；那些事件做好時填）*/
