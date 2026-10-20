@@ -249,6 +249,71 @@ const R3=(function(){
   S.dayOffMissed=function(G,k){ const d28=D('2029-04-28'); if(d28==null) return; dayOffMark(G);
     PHONE.at(G,d28,k==='river'?10.5:13.5,[W(k==='river'?'我先騎。慢慢騎。':'我先上去了。纜車上不談論文。……我一個人也不談。')],'r3_sis_dayoff_late'); PHONE.at(G,d28,16,[W('📷（河邊）'),W('今天沒寫。')],'r3_sis_dayoff_none'); };
 
+  /* ===================== 3-19 摘要日的手機小事（BB_97 第 5 節、BB_98 第 6 節、BB_99 9-20；AA_118；BB_70 2-6 F-Q4）=====================
+     「池」＝加進 STORY.DAILY_PHONE（每天的手機小事：一天最多一則、輪流、每學期第 4 週起）；「定時」＝固定日子的 PHONE.at（S.DP3_AT）。
+     可昕的只給交往中；人在日本、美國照當地時間（臺灣的時刻＋STORY.tzOffset）。每學期最多 2 次的（長頸鹿、欸、二十分鐘）記在 G.flags.R3_DPT。
+     子晴的爸爸（當面）：有 DAD_PLAYS（AA_326 2-Y3-08，開發分支還沒有）的玩家，大三上起和她一起走路的下一次（包住 INV.walkPick）；日本路線還沒聽過的＝3/29 訊息版 */
+  const P1=(id,t,dt)=>({th:'p:'+id,from:id,text:t,dt:dt||0}), SQ=(id,L)=>L.map((t,k)=>P1(id,t,k/60));
+  const kxOn=G=>law(G)&&dating(G,'kexin');
+  const lt=h=>G=>h+tz(G,G.day);   /* 臺灣的時刻 → 當地 */
+  const TERMS=['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
+  const inT=(Tm,a,b,w0)=>!!Tm&&TERMS.includes(Tm.id)&&TERMS.indexOf(Tm.id)>=TERMS.indexOf(a)&&TERMS.indexOf(Tm.id)<=TERMS.indexOf(b)&&(w0==null||Tm.id!==a||Tm.week>=w0);
+  const termOf=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
+  const termN=(G,id)=>{ const Tm=termOf(G), R=((G.flags.R3_DPT||{})[id])||{}; return Tm?(R[Tm.id]|0):0; };
+  const termInc=(G,id)=>{ const Tm=termOf(G); if(!Tm) return; const A=G.flags.R3_DPT||(G.flags.R3_DPT={}), R=A[id]||(A[id]={}); R[Tm.id]=(R[Tm.id]|0)+1; };
+  const dpGot=(G,id)=>((G.flags.dpN||{})[id]|0)>0;   /* 收過那一則（每天的手機小事的 dpN）*/
+  const metZhan=G=>!!G.flags.KX_NCCU_FRIENDS||G.flags._y2BdV==='class';   /* 見過詹靖（政大的電影夜、系上小教室的生日）*/
+  const metShao=G=>has('kexin','ENC_D13_KX')||has('kexin','ENC_D09_KX')||metZhan(G)||done(G,'ev_kexin_k22');   /* 見過或聽過邵鈞（ENC_D13_KX、K22；貓空 D09、政大那兩場也介紹過他）*/
+  const until=G=>T(G.day+1,18);
+  const giraffe={t:'（回一隻長頸鹿）',post:'（長頸鹿貼圖）'};
+  const KX=(id,term,h,txt,o)=>Object.assign({id,term,h:lt(h),ok:G=>kxOn(G),items:G=>[].concat(typeof txt==='function'?txt(G):txt).map((t,k)=>P1('kexin',t,k/60))},o||{});
+  S.DP3=[
+    KX('y2_kx_k10c',Tm=>inT(Tm,'Y2S1','Y2S1'),21+10/60,'物權考壞的那一章，我講給予樂聽，講到她懂。',{ok:(G,day)=>kxOn(G)&&done(G,'ev_kexin_bad_exam')&&G.events.last&&G.events.last.ev_kexin_bad_exam!=null&&(day==null?G.day:day)-G.events.last.ev_kexin_bad_exam>=14}),   /* K10c 演過 14 天以後 */
+    KX('y2_kx_giraffe1',Tm=>inT(Tm,'Y2S1','Y4S2',9),23+10/60,null,{items:G=>[P1('kexin','（長頸鹿貼圖）'),P1('kexin','以後我傳這隻，就是累了、不想打字',1/60),Object.assign(P1('kexin','你回一隻一樣的就好',2/60),{ask:{id:'dp_y2_kx_giraffe1',until:until(G),opts:[giraffe]}})]}),
+    KX('y2_kx_giraffe',Tm=>inT(Tm,'Y2S1','Y4S2',11),23+10/60,null,{max:()=>12,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y2_kx_giraffe1')&&termN(G,'y2_kx_giraffe')<2,items:(G,n)=>{ termInc(G,'y2_kx_giraffe'); return [Object.assign(P1('kexin','（長頸鹿貼圖）'),{ask:{id:'dp_y2_kx_giraffe_'+n,until:until(G),opts:[giraffe]}})]; }}),
+    KX('y3_kx_lunch',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,['📷（政大山下那家的碗）','午餐。']),
+    KX('y3_kx_mid',Tm=>inT(Tm,'Y3S1','Y3S1',10),21+10/60,null,{items:G=>[Object.assign(P1('kexin','民訴期中，你們那邊考哪一題？'),{ask:{id:'dp_y3_kx_mid',until:until(G),opts:[{t:'最後一題沒寫完。',say:[{from:'kexin',text:'我也是。……我們老師一定是約好的。'}]},{t:'不想講。',say:[{from:'kexin',text:'好。不講。'},{from:'kexin',text:'……我也不想講。'}]}]}})]}),
+    KX('y3_kx_zhan',Tm=>inT(Tm,'Y3S1','Y3S1'),21+10/60,G=>metZhan(G)?'詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。':'我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。'),
+    KX('y3_kx_eh1',Tm=>inT(Tm,'Y3S1','Y4S2',4),22+40/60,null,{items:G=>[P1('kexin','欸。'),Object.assign(P1('kexin','……以後我只打一個『欸』，就是想找你講話。',1/60),{ask:{id:'dp_y3_kx_eh1',until:until(G),opts:[{t:'在。',say:[{from:'kexin',text:'好。……沒事了。'}]}]}})]}),
+    KX('y3_kx_eh',Tm=>inT(Tm,'Y3S1','Y4S2'),22+40/60,null,{max:()=>8,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y3_kx_eh1')&&termN(G,'y3_kx_eh')<2,items:(G,n)=>{ termInc(G,'y3_kx_eh'); return [Object.assign(P1('kexin','欸'),{ask:{id:'dp_y3_kx_eh_'+n,until:until(G),opts:[{t:'在。',say:[NAR('（她打來，講了十分鐘今天的事。掛之前說：「好，我要讀書了。」）')]}]}})]; }}),
+    KX('y3s2_kx_cat',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'山上的貓認得我了。'),
+    KX('y3s2_kx_juniors',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,'讀書會的學弟妹全部考過。我比他們還緊張。'),
+    KX('y3s2_kx_film',Tm=>inT(Tm,'Y3S2','Y3S2'),21+10/60,G=>metZhan(G)?'詹靖的短片在小影展放了。我坐第一排。':'我那個拍片的朋友詹靖，短片在小影展放了。我坐第一排。'),
+    KX('y4_kx_index2',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,G=>metShao(G)?'邵鈞的考古題目錄，現在有第二冊。':'我們系那個考古題有目錄的人，現在出第二冊了。'),
+    KX('y4_kx_mutter',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'予樂說我讀書的時候會自言自語。她錄下來了。我不承認。'),
+    KX('y4_kx_mock',Tm=>inT(Tm,'Y4S1','Y4S1'),21+10/60,'今天模擬考，第三題我寫了兩頁。寫完才發現題目只問一句。'),
+    KX('y4_kx_twenty1',Tm=>inT(Tm,'Y4S1','Y4S2',4),22+10/60,null,{items:G=>[P1('kexin','二十分鐘。'),Object.assign(P1('kexin','這段讀完就打給你。',1/60),{ask:{id:'dp_y4_kx_twenty1',until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她真的打來了。）')]}]}})]}),
+    KX('y4_kx_twenty',Tm=>inT(Tm,'Y4S1','Y4S2'),22+10/60,null,{max:()=>4,gap:21,ok:G=>kxOn(G)&&dpGot(G,'y4_kx_twenty1')&&termN(G,'y4_kx_twenty')<2,items:(G,n)=>{ termInc(G,'y4_kx_twenty'); return [Object.assign(P1('kexin','二十分鐘'),{ask:{id:'dp_y4_kx_twenty_'+n,until:until(G),opts:[{t:'好。',say:[NAR('（二十分鐘後，她打來了。）')]}]}})]; }}),
+    KX('y4s2_kx_rest',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'讀書計畫表上，今天那一格寫著『休息』。我休息到下午三點，又開始讀了。'),
+    KX('y4s2_kx_soon',Tm=>inT(Tm,'Y4S2','Y4S2'),21+10/60,'山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。') ];
+  if(typeof STORY!=='undefined'&&Array.isArray(STORY.DAILY_PHONE)&&!STORY._r3dp){ for(const d of S.DP3) if(!STORY.DAILY_PHONE.some(x=>x.id===d.id)) STORY.DAILY_PHONE.push(d); STORY._r3dp=true; }
+  /* 定時：[id, 日子, 臺灣的時刻（null＝寫在 local 的當地時刻）, 條件, 訊息]；隔一分鐘的照 dt 分開排 */
+  const fangOk=G=>met(G,'npc_fangyt','FAMILIAR')&&contact(G,'npc_fangyt');
+  const KW=()=>[GK('這週辛苦了各位'),Object.assign(GK('@學姊 妳也是'),{dt:1/60}),Object.assign(GW('辛苦了。'),{dt:3/60})];
+  S.zqDogTold=G=>has('heroine_04','ZQ_DOG_TOLD')||!!(G.flags&&G.flags.ZQ_DOG_TOLD);
+  S.DP3_AT=[
+    ['y2s_fang_moss','2027-07-19',19.5,fangOk,()=>SQ('npc_fangyt',['📷（山上的一片苔蘚，上面有露水）','沒訊號。下山才傳。'])],
+    ['y3_yu_moon','2027-09-15',22.5,G=>PHONE.inGroup(G,'noodle_team')&&knows('heroine_02',G),()=>[{th:'g:noodle_team',from:'yu',text:'芷若說英國的月亮比較小'},{th:'g:noodle_team',from:'yu',text:'我不信',dt:1/60}]],
+    ['y3_kx_civpro','2027-09-08',21+10/60,kxOn,()=>[P1('kexin','民訴開課了。第一堂就抄了十一頁。')]],
+    ['y3_kevin_week_1015','2027-10-15',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
+    ['y3_fang_sample','2027-11-01',7.5,fangOk,()=>SQ('npc_fangyt',['📷（雲海）','畢業專題的樣區在這裡。這禮拜收不到訊號。'])],
+    ['y3_kevin_week_1203','2027-12-03',17+5/60,G=>PHONE.inGroup(G,'family_law'),KW],
+    ['y3_ps_kid','2027-12-10',19.5,G=>dating(G,'classmate_peishan'),()=>SQ('classmate_peishan',['📷（一張孩子的作業，最上面寫著：老師我長大要當法官）','我回他：那你要先學會寫字。'])],
+    ['y3s2_fang_azalea','2028-03-06',12+20/60,fangOk,()=>SQ('npc_fangyt',['📷（一叢杜鵑）','畢業專題的樣區，花開了。'])],
+    ['y3s2_zq_dog_jp','2028-03-29',22+40/60,G=>route(G)==='JP'&&has('heroine_04','DAD_PLAYS')&&!S.zqDogTold(G)&&contact(G,'heroine_04'),G=>{ G.flags.ZQ_DOG_TOLD='msg'; return SQ('heroine_04',['我爸：『第七關那隻狗是誰設計的，很討厭』','是我','他已讀了']); }],
+    ['y3s2_kai_jp','2028-04-02',23,G=>route(G)==='JP'&&has('kai','SUNDAY_SUPPER'),G=>{ const L=SQ('kai',['宵夜？','喔你在日本','拉麵比較好吃對不對','不要回答']); L[3].ask={id:'r3_y3s2_kai_jp',until:until(G),opts:[{t:'（傳一碗拉麵的照片）',post:'📷（一碗拉麵）',say:[{from:'kai',text:'我就說不要回答'}]}]}; return L; }],
+    ['y3s2_mx_save','2028-05-18',21+40/60,G=>has('classmate_mingxuan','SAW_HIM_TRY')&&contact(G,'classmate_mingxuan'),()=>[P1('classmate_mingxuan','家教又多接了一個。……德國那筆。')].concat(has('classmate_mingxuan','SAW_HIM_STUDY')?[P1('classmate_mingxuan','你什麼都沒看到。',1/60)]:[])],
+    ['y4_kai_us','2028-09-10',23,G=>route(G)==='US'&&has('kai','SUNDAY_SUPPER'),()=>SQ('kai',['宵夜？','喔你在美國','那我自己吃','拍給你看','📷（滷味，籃子夾得很滿）'])],
+    ['y4_sis_egg','2028-09-16',null,G=>route(G)==='US'&&contact(G,SIS),()=>[P1(SIS,'今天的雞蛋，日期是對的。')]] ];
+  S.DP3_LOCAL={y4_sis_egg:10};   /* 美東 10:00（AA 寫的是當地時間）*/
+  S.dp3At=function(G){ if(!law(G)) return; const t=now(G);
+    for(const [id,k,hTW,ok,items] of S.DP3_AT){ const d=D(k); if(d==null||t>=T(d+3,0)||PHONE.sent(G,'r3_'+id+'_0')) continue; const h=hTW==null?S.DP3_LOCAL[id]:hTW+tz(G,d); if(t<T(d,h)||!ok(G)) continue;
+      items(G).forEach((it,j)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,d,h+dt,[x],'r3_'+id+'_'+j); }); } };
+  /* 子晴的爸爸（當面）：大三上起和她一起走路的下一次（日本路線出發以前），排在那一次的第一段（同一個梗只出現一次）*/
+  S.zqDogDue=G=>{ if(!G||!G.flags||!law(G)||!has('heroine_04','DAD_PLAYS')||S.zqDogTold(G)) return false; const Tm=termOf(G); if(!Tm||TERMS.indexOf(Tm.id)<TERMS.indexOf('Y3S1')) return false;
+    if(route(G)==='JP'){ const dep=D('2028-03-25'); if(dep!=null&&G.day>=dep) return false; } return true; };
+  if(typeof INV!=='undefined'&&INV.walkPick&&!INV._r3dog){ const owp=INV.walkPick; INV.walkPick=function(G,id){ if(id==='heroine_04'&&S.zqDogDue(G)) return {lines:['（她把手機舉起來，唸給你聽。）','『第七關那隻狗是誰設計的，很討厭。』','……是我。我很得意。'],next(){ G.flags.ZQ_DOG_TOLD=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_04','ZQ_DOG_TOLD',''); }}; return owp.apply(this,arguments); }; INV._r3dog=true; }
+
   /* ===================== 鬧鐘（STORY.ALARMS）與早於 06:30 的叫醒（包住 STORY.bedOptions）===================== */
   /* 床的「睡到明天早上」最早 06:30（story3d.js 的 bedOptions）；3/13 06:00 的約要 05:30 叫醒（AA_328 3-04 第 6 節）：early 的鬧鐘照它自己的時間 */
   S.alarms=function(G,day){ const F=G.flags||{}, out=[]; if(!law(G)) return out;
@@ -265,7 +330,7 @@ const R3=(function(){
 
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;
-    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.pinyuActuary,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
+    for(const f of [S.zrFee,S.kaiF2,S.fang6am,S.latteMissed,S.kaiHalloween,S.summerFlag,S.pinyuActuary,S.kaiK5,S.zq3am,S.psCamp,S.sisPlan,S.chiayi,S.desks,S.father,S.dayOff,S.dp3At]){ try{ f(G,GM); }catch(e){ console.warn('R3 phone',e); } } };
   let lastZone=null;
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false; const entered=G.zone!==lastZone; lastZone=G.zone;   /* 剛走進這一區（讀檔也算）：人放好，不在眼前憑空出現 */
     try{ S.fangPlace(GM); S.sk12Place(GM,entered); }catch(e){ console.warn('R3 place',e); }

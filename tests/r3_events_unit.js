@@ -367,5 +367,65 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(a27,20.5,'dorm'); R('heroine_05','FRI'); C('heroine_05'); run(a27,20.5,22); fresh(f26,20.5,'dorm'); R('heroine_05','FRI'); C('heroine_05'); run(f26,20.5,22);
     check('13. 不是交往中：都沒有', !PHONE.sent(G,'r3_sis_desk')&&!TH('p:heroine_05').length); }
 
+  // ===== 14. 3-19 摘要日的手機小事（池＝每天的手機小事、定時＝固定日子）=====
+  { const only=(id,f)=>{ const keep=STORY.DAILY_PHONE.slice(); STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep.filter(d=>d.id===id)); try{ f(); } finally { STORY.DAILY_PHONE.splice(0,STORY.DAILY_PHONE.length,...keep); } };
+    const K=()=>{ const L=TH('p:kexin'), i=L.findIndex(m=>/^(dp_|r3_)/.test(m.tag||'')); return i<0?[]:L.slice(i).filter(m=>!m.tag||/^(dp_|r3_)/.test(m.tag)).map(m=>(m.from||'')+':'+m.text); };   /* 這一批的（別的事件包同一天傳的可昕訊息不算）*/
+    check('14. 池的條目都加進 STORY.DAILY_PHONE（18 則）', R3.DP3.length===18&&R3.DP3.every(d=>STORY.DAILY_PHONE.includes(d)));
+    fresh(D('2026-11-04'),8,'dorm'); date('kexin'); only('y2_kx_giraffe1',()=>run(G.day,8,23.5));
+    check('14. M1 大二上第 9 週起 23:10：「（長頸鹿貼圖）」「以後我傳這隻，就是累了、不想打字」「你回一隻一樣的就好」＋（回一隻長頸鹿）', JSON.stringify(K())===JSON.stringify(['kexin:（長頸鹿貼圖）','kexin:以後我傳這隻，就是累了、不想打字','kexin:你回一隻一樣的就好'])&&JSON.stringify(askOpts('dp_y2_kx_giraffe1'))===JSON.stringify(['（回一隻長頸鹿）'])&&Math.abs(at('p:kexin','（長頸鹿貼圖）')-(G.day*24+23+10/60))<0.26, JSON.stringify(K()));
+    ans('dp_y2_kx_giraffe1',0); check('14. 回一隻長頸鹿：貼出去是「（長頸鹿貼圖）」，沒有下文', K().slice(-1)[0]==='player:（長頸鹿貼圖）'&&K().length===4);
+    fresh(D('2026-10-28'),8,'dorm'); date('kexin'); only('y2_kx_giraffe1',()=>run(G.day,8,23.5)); check('14. 第 8 週：還沒有', !K().length);
+    fresh(D('2026-11-18'),8,'dorm',{dpN:{y2_kx_giraffe1:1}}); date('kexin'); only('y2_kx_giraffe',()=>run(G.day,8,23.5));
+    check('14. M1 之後只有貼圖（第 11 週起；收過說明那一則）', JSON.stringify(K())===JSON.stringify(['kexin:（長頸鹿貼圖）'])&&askOpts('dp_y2_kx_giraffe_0')[0]==='（回一隻長頸鹿）'&&G.flags.R3_DPT.y2_kx_giraffe.Y2S1===1, JSON.stringify(K()));
+    fresh(D('2026-11-18'),8,'dorm',{dpN:{y2_kx_giraffe1:1,y2_kx_giraffe:2},R3_DPT:{y2_kx_giraffe:{Y2S1:2}}}); date('kexin'); only('y2_kx_giraffe',()=>run(G.day,8,23.5)); check('14. 一學期最多 2 次', !K().length);
+    fresh(D('2026-11-18'),8,'dorm'); date('kexin'); only('y2_kx_giraffe',()=>run(G.day,8,23.5)); check('14. 沒收過說明那一則：沒有', !K().length);
+    fresh(D('2026-12-03'),8,'dorm'); date('kexin'); G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-19'); only('y2_kx_k10c',()=>run(G.day,8,21.5));
+    check('14. K10c 演過 14 天以後：21:10「物權考壞的那一章，我講給予樂聽，講到她懂。」', K().slice(-1)[0]==='kexin:物權考壞的那一章，我講給予樂聽，講到她懂。');
+    fresh(D('2026-12-02'),8,'dorm'); date('kexin'); G.events.done.ev_kexin_bad_exam=1; G.events.last.ev_kexin_bad_exam=D('2026-11-19'); only('y2_kx_k10c',()=>run(G.day,8,21.5)); check('14. 13 天：還沒有', !K().length);
+    fresh(D('2027-07-19'),19,'home'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(G.day,19,19.75);
+    check('14. M3 大二暑假 7/19 19:30 苔蘚的照片「沒訊號。下山才傳。」', JSON.stringify(txt('p:npc_fangyt'))===JSON.stringify(['npc_fangyt:📷（山上的一片苔蘚，上面有露水）','npc_fangyt:沒訊號。下山才傳。'])&&Math.abs(at('p:npc_fangyt','沒訊號。下山才傳。')-(G.day*24+19.5))<0.26);
+    fresh(D('2027-10-15'),16.5,'dorm'); PHONE.join(G,'family_law','法律系直屬家族'); run(G.day,16.5,17.25,0.05);
+    check('14. 大三上 10/15 17:05 家族群組 Kevin「這週辛苦了各位」「@學姊 妳也是」、溫學姊「辛苦了。」', JSON.stringify(TH('g:family_law').map(m=>m.name+':'+m.text))===JSON.stringify(['Kevin:這週辛苦了各位','Kevin:@學姊 妳也是','溫學姊:辛苦了。'])&&at('g:family_law','辛苦了。')-at('g:family_law','這週辛苦了各位')>=2/60);
+    run(D('2027-12-03'),16.5,17.25,0.05); check('14. 12/03 再一次', TH('g:family_law').length===6);
+    fresh(D('2027-09-15'),22,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('heroine_02','FAM'); run(G.day,22,22.75);
+    check('14. M4 9/15 22:30 麵店團群組 小語「芷若說英國的月亮比較小」「我不信」（沒有「欸芷若妳拍給我看」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:芷若說英國的月亮比較小','yu:我不信']));
+    fresh(D('2027-09-08'),20.5,'dorm'); date('kexin'); run(G.day,20.5,21.5); check('14. 大三上 9/8 21:10 可昕「民訴開課了。第一堂就抄了十一頁。」', K().includes('kexin:民訴開課了。第一堂就抄了十一頁。'));
+    fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
+    check('14. 大三上第 10 週起「民訴期中，你們那邊考哪一題？」；「不想講。」→「好。不講。」「……我也不想講。」', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中，你們那邊考哪一題？','player:不想講。','kexin:好。不講。','kexin:……我也不想講。']));
+    fresh(D('2027-10-06'),8,'dorm'); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 沒見過詹靖：「我那個拍片的朋友詹靖，……」', K()[0]==='kexin:我那個拍片的朋友詹靖，拍了山下那家的老闆一整天。老闆只說了一句：好。');
+    fresh(D('2027-10-06'),8,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); only('y3_kx_zhan',()=>run(G.day,8,21.5)); check('14. 見過詹靖（政大的電影夜）：「詹靖拍了山下那家的老闆一整天，……」', K()[0]==='kexin:詹靖拍了山下那家的老闆一整天，老闆只說了一句：好。');
+    fresh(D('2027-09-29'),8,'dorm'); date('kexin'); only('y3_kx_eh1',()=>run(G.day,8,23)); ans('dp_y3_kx_eh1',0);
+    check('14. 「欸。」「……以後我只打一個『欸』，就是想找你講話。」 22:40；「在。」→「好。……沒事了。」', JSON.stringify(K())===JSON.stringify(['kexin:欸。','kexin:……以後我只打一個『欸』，就是想找你講話。','player:在。','kexin:好。……沒事了。'])&&Math.abs(at('p:kexin','欸。')-(G.day*24+22+40/60))<0.26);
+    fresh(D('2027-10-27'),8,'dorm',{dpN:{y3_kx_eh1:1}}); date('kexin'); only('y3_kx_eh',()=>run(G.day,8,23)); ans('dp_y3_kx_eh_0',0);
+    check('14. 之後只有「欸」；「在。」→ 她打來的旁白', JSON.stringify(K())===JSON.stringify(['kexin:欸','player:在。',':（她打來，講了十分鐘今天的事。掛之前說：「好，我要讀書了。」）']));
+    fresh(D('2027-11-01'),7,'dorm'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(G.day,7,7.75); check('14. 11/1 07:30 方奕廷「📷（雲海）」「畢業專題的樣區在這裡。這禮拜收不到訊號。」', JSON.stringify(txt('p:npc_fangyt'))===JSON.stringify(['npc_fangyt:📷（雲海）','npc_fangyt:畢業專題的樣區在這裡。這禮拜收不到訊號。']));
+    fresh(D('2027-12-10'),19,'dorm'); date('classmate_peishan'); run(G.day,19,19.75); check('14. 和沛珊交往中：12/10 19:30 孩子的作業的照片「我回他：那你要先學會寫字。」', JSON.stringify(txt('p:classmate_peishan'))===JSON.stringify(['classmate_peishan:📷（一張孩子的作業，最上面寫著：老師我長大要當法官）','classmate_peishan:我回他：那你要先學會寫字。']));
+    fresh(D('2027-12-10'),19,'dorm'); R('classmate_peishan','FRI'); C('classmate_peishan'); run(G.day,19,20); check('14. 沒交往：不傳訊息（裁定 25）', !TH('p:classmate_peishan').length);
+    fresh(D('2028-03-06'),12,'dorm'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(G.day,12,12.5); check('14. 大三下 3/6 12:20「📷（一叢杜鵑）」「畢業專題的樣區，花開了。」', JSON.stringify(txt('p:npc_fangyt'))===JSON.stringify(['npc_fangyt:📷（一叢杜鵑）','npc_fangyt:畢業專題的樣區，花開了。']));
+    fresh(D('2028-03-29'),22,'jp',{EXCHANGE_ROUTE:'JP'}); R('heroine_04','FAM'); C('heroine_04'); SOCIAL.remember('heroine_04','DAD_PLAYS',''); run(G.day,22,24);
+    check('14. 日本路線、DAD_PLAYS、還沒聽過：3/29 22:40（臺灣）＝日本 23:40「我爸：『第七關那隻狗是誰設計的，很討厭』」「是我」「他已讀了」', JSON.stringify(txt('p:heroine_04'))===JSON.stringify(['heroine_04:我爸：『第七關那隻狗是誰設計的，很討厭』','heroine_04:是我','heroine_04:他已讀了'])&&Math.abs(at('p:heroine_04','是我')-(G.day*24+23+40/60))<0.3&&!!R3.zqDogTold(G), JSON.stringify(txt('p:heroine_04')));
+    fresh(D('2027-10-20'),15,'campus'); R('heroine_04','FAM'); SOCIAL.remember('heroine_04','DAD_PLAYS','');
+    { const pk=INV.walkPick(G,'heroine_04','cafe'); check('14. 台灣路線、大三上和子晴一起走路（DAD_PLAYS）：「（她把手機舉起來，唸給你聽。）」「『第七關那隻狗是誰設計的，很討厭。』」「……是我。我很得意。」；ZQ_DOG_TOLD', !!pk&&JSON.stringify(pk.lines)===JSON.stringify(['（她把手機舉起來，唸給你聽。）','『第七關那隻狗是誰設計的，很討厭。』','……是我。我很得意。'])&&(pk.next(),SOCIAL.has('heroine_04','ZQ_DOG_TOLD'))&&(()=>{ const p2=INV.walkPick(G,'heroine_04','cafe'); return !p2||JSON.stringify(p2.lines)!==JSON.stringify(pk.lines); })()); }
+    fresh(D('2027-10-20'),15,'campus'); R('heroine_04','FAM'); { const pk=INV.walkPick(G,'heroine_04','cafe'); check('14. 沒有 DAD_PLAYS：照原本的同行聊天', !pk||pk.lines[0]!=='（她把手機舉起來，唸給你聽。）'); }
+    fresh(D('2028-04-02'),22.5,'jp',{EXCHANGE_ROUTE:'JP'}); R('kai','FRI'); SOCIAL.remember('kai','SUNDAY_SUPPER',''); run(G.day,22.5,24.25);
+    check('14. M6 日本路線、阿凱宵夜：4/2 23:00（臺灣）「宵夜？」「喔你在日本」「拉麵比較好吃對不對」「不要回答」＋（傳一碗拉麵的照片）', JSON.stringify(txt('p:kai'))===JSON.stringify(['kai:宵夜？','kai:喔你在日本','kai:拉麵比較好吃對不對','kai:不要回答'])&&Math.abs(at('p:kai','宵夜？')-(D('2028-04-02')*24+24))<0.3&&JSON.stringify(askOpts('r3_y3s2_kai_jp'))===JSON.stringify(['（傳一碗拉麵的照片）']), JSON.stringify(txt('p:kai')));
+    ans('r3_y3s2_kai_jp',0); check('14. M6 回拉麵照片 →「我就說不要回答」', txt('p:kai').slice(-1)[0]==='kai:我就說不要回答');
+    fresh(D('2028-05-18'),21,'dorm'); R('classmate_mingxuan','FAM'); C('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_TRY',''); run(G.day,21,22);
+    check('14. M5 5/18 21:40 明軒「家教又多接了一個。……德國那筆。」（沒有「獎學金」）', JSON.stringify(txt('p:classmate_mingxuan'))===JSON.stringify(['classmate_mingxuan:家教又多接了一個。……德國那筆。'])&&!txt('p:classmate_mingxuan').some(t=>/獎學金/.test(t)));
+    fresh(D('2028-05-18'),21,'dorm'); R('classmate_mingxuan','FAM'); C('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_TRY',''); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); run(G.day,21,22); check('14. 有 SAW_HIM_STUDY：多「你什麼都沒看到。」', txt('p:classmate_mingxuan').slice(-1)[0]==='classmate_mingxuan:你什麼都沒看到。');
+    fresh(D('2028-03-15'),8,'jp',{EXCHANGE_ROUTE:'JP',KX_NCCU_FRIENDS:true}); date('kexin'); G.day=D('2028-04-12'); only('y3s2_kx_film',()=>run(G.day,8,23));
+    check('14. 日本路線：可昕照當地時間（21:10 臺灣＝22:10 日本）「詹靖的短片在小影展放了。我坐第一排。」', K()[0]==='kexin:詹靖的短片在小影展放了。我坐第一排。'&&Math.abs(at('p:kexin','詹靖的短片在小影展放了。我坐第一排。')-(G.day*24+22+10/60))<0.26, JSON.stringify(K()));
+    fresh(D('2028-09-10'),10,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('kai','FRI'); SOCIAL.remember('kai','SUNDAY_SUPPER',''); run(G.day,10,11.25);
+    check('14. 美國路線：9/10 23:00（臺灣）＝美東 11:00 阿凱「宵夜？」「喔你在美國」「那我自己吃」「拍給你看」「📷（滷味，籃子夾得很滿）」', JSON.stringify(txt('p:kai'))===JSON.stringify(['kai:宵夜？','kai:喔你在美國','kai:那我自己吃','kai:拍給你看','kai:📷（滷味，籃子夾得很滿）'])&&Math.abs(at('p:kai','宵夜？')-(G.day*24+11))<0.26);
+    fresh(D('2028-09-16'),9.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('heroine_05','FRI'); C('heroine_05'); run(G.day,9.5,10.25); check('14. M7 美國路線 9/16 10:00（美東）「今天的雞蛋，日期是對的。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:今天的雞蛋，日期是對的。'&&Math.abs(at('p:heroine_05','今天的雞蛋，日期是對的。')-(G.day*24+10))<0.26);
+    fresh(D('2028-09-16'),9.5,'dorm'); R('heroine_05','FRI'); C('heroine_05'); run(G.day,9.5,10.25); check('14. 台灣路線：沒有雞蛋那則', !PHONE.sent(G,'r3_y4_sis_egg_0'));
+    fresh(D('2028-09-27'),8,'dorm'); date('kexin'); only('y4_kx_twenty1',()=>run(G.day,8,22.5)); ans('dp_y4_kx_twenty1',0);
+    check('14. M8 大四上第 4 週起 22:10「二十分鐘。」「這段讀完就打給你。」；「好。」→（二十分鐘後，她真的打來了。）', JSON.stringify(K())===JSON.stringify(['kexin:二十分鐘。','kexin:這段讀完就打給你。','player:好。',':（二十分鐘後，她真的打來了。）']));
+    fresh(D('2028-10-04'),8,'dorm',{dpN:{y4_kx_twenty1:1}}); date('kexin'); only('y4_kx_twenty',()=>run(G.day,8,22.5)); check('14. 之後「二十分鐘」', K()[0]==='kexin:二十分鐘');
+    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 沒見過邵鈞：「我們系那個考古題有目錄的人，現在出第二冊了。」', K()[0]==='kexin:我們系那個考古題有目錄的人，現在出第二冊了。');
+    fresh(D('2028-10-04'),8,'dorm'); date('kexin'); SOCIAL.remember('kexin','ENC_D13_KX',''); only('y4_kx_index2',()=>run(G.day,8,21.5)); check('14. 見過邵鈞（ENC_D13_KX）：「邵鈞的考古題目錄，現在有第二冊。」', K()[0]==='kexin:邵鈞的考古題目錄，現在有第二冊。');
+    fresh(D('2029-03-14'),8,'dorm'); date('kexin'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 大四下「山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。」', K()[0]==='kexin:山下那家的老闆問我們是不是要畢業了。我說還沒。他說：快了。');
+    fresh(D('2029-03-14'),8,'dorm'); R('kexin','FRI'); only('y4s2_kx_soon',()=>run(G.day,8,21.5)); check('14. 可昕的只給交往中', !K().length); }
+
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
