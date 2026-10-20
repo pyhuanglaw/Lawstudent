@@ -44,7 +44,7 @@ const cx=(all.x0+all.x1)/2, cz=(all.z0+all.z1)/2;
   const stand=(x,z)=>E.canStand(x,z,0.32,0);
   const inner=[[cx,(lib.z0+lib.z1)/2,'圖書館中間'],[cx,(tower.z0+tower.z1)/2,'大樓中間'],[112,-62,'原本的位置：系館中間']].filter(([x,z])=>stand(x,z));
   check('2. 圖書館、大樓、原本位置的系館站不住（導航跟著搬）', !inner.length, JSON.stringify(inner));
-  const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const pick=nm=>{ const m=src.match(new RegExp('const '+nm+'=\\{campus:(\\[[\\s\\S]*?\\]\\]\\]),gongguan')); return m?JSON.parse(m[1]):null; };
+  const src=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); const pick=nm=>{ const m=src.match(new RegExp('const '+nm+'=\\{campus:(\\[[\\s\\S]*?\\]\\]\\]),(?:lane118|gongguan):')); return m?JSON.parse(m[1]):null; };
   const W=pick('walkRoutes'), Bk=pick('bikeRoutes'), bad=[];
   for(const [nm,R] of [['路人',W],['腳踏車',Bk]]) if(!R) bad.push(nm+'：story3d.js 找不到路線'); else R.forEach((rt,i)=>rt.forEach(p=>{ if((p[2]||0)===0&&!stand(p[0],p[1])) bad.push(`${nm}第 ${i+1} 條 (${p[0]},${p[1]}) 站不住`); }));
   check('6. 校園路人、腳踏車的路線點（地面那一層）都站得住（沒有點落在搬過去的社科院或原本位置的系館裡面）', !bad.length, bad.slice(0,4).join(' | '));

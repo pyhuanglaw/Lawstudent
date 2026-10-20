@@ -394,9 +394,16 @@ const HOME=(function(){
       G.flags.ROOM_Y2_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* 房間直接蓋成 312（zones3d.js dormSetKey）*/
     finally{ GM.sceneEnd(); }
     if(typeof STORY!=='undefined'&&STORY.unboxY2) await STORY.unboxY2(GM); return true; };
-  S.loop=async function(GM){ const G=GM.G, H=S.rec(G); if(busy) return; busy=true; GM.sceneBegin(); let a3=false, toLaw=false, roomY2=false, backB=false, exch=false;
+  /* ★主線 5 第三個房間（1A-03，AA_315）：2027-09-05 以後在臺北的家＝旁白一句 → 字卡「回宿舍」→ 507 → 拆箱（STORY.unboxY3）*/
+  S.roomY3FromHome=async function(GM){ const G=GM.G, H=S.rec(G); GM.sceneBegin();
+    try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.say(null,'（明天開學。今天搬進第三個房間。）');
+      await GM.fade(true); if(GM.titleCard){ await GM.titleCard('回宿舍','捷運＋公車 約 40 分鐘',2400); await GM.titleCard('搬到新的房間','五樓 507 號房',2000); } GM.advance(0.7); H.at=false; H.wakeAsk=null; H.lbreak=null; H.bskip=null; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
+      G.flags.ROOM_Y3_MOVING=true; if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); }   /* 房間直接蓋成 507（zones3d.js dormSetKey）、紙箱封好 */
+    finally{ GM.sceneEnd(); }
+    if(typeof STORY!=='undefined'&&STORY.unboxY3) await STORY.unboxY3(GM); return true; };
+  S.loop=async function(GM){ const G=GM.G, H=S.rec(G); if(busy) return; busy=true; GM.sceneBegin(); let a3=false, toLaw=false, roomY2=false, roomY3=false, backB=false, exch=false;
     try{ if(typeof ADV!=='undefined') ADV.begin({background:bg()});
-      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); S.postponeMissed(G); if(S.a3Due(G)){ a3=true; break; } if(typeof STORY!=='undefined'&&STORY.toLawDue&&STORY.toLawDue(G)){ toLaw=true; break; } if(typeof STORY!=='undefined'&&STORY.roomY2Due&&STORY.roomY2Due(G)){ roomY2=true; break; } if(typeof EXCH!=='undefined'&&EXCH.departDue&&EXCH.departDue(G)){ exch=true; break; }   /* 交換出發日（src/exchange3d.js）*/
+      for(let guard=0;guard<60&&H.at;guard++){ phoneTick(GM); S.postponeMissed(G); if(S.a3Due(G)){ a3=true; break; } if(typeof STORY!=='undefined'&&STORY.toLawDue&&STORY.toLawDue(G)){ toLaw=true; break; } if(typeof STORY!=='undefined'&&STORY.roomY2Due&&STORY.roomY2Due(G)){ roomY2=true; break; } if(typeof STORY!=='undefined'&&STORY.roomY3Due&&STORY.roomY3Due(G)){ roomY3=true; break; } if(typeof EXCH!=='undefined'&&EXCH.departDue&&EXCH.departDue(G)){ exch=true; break; }   /* 交換出發日（src/exchange3d.js）*/
         if(H.lbreak&&!H.winter&&!H.base){ if(S.breakMode(G)){ if(!(await breakRound(GM))) break; continue; } H.lbreak=null; H.bskip=null; }   /* AA_197 1-3：過了放假最後一天 21:30＝接著照週日晚上那一套（不再強制回宿舍）。舊註解：法律系的寒暑假（AA_183）；過了回宿舍的時間＝回宿舍 */
         if(!H.winter&&!H.base&&S.breakStartDue(G)){ await S.breakStart(GM); continue; }   /* 週末回家住到放假第一天的早上：就地開始放假模式 */
         if(!H.winter&&!H.base&&!H.lbreak){ const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)){ H.lbreak=B.key; H.brk=B.key; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; continue; } }   /* 放假中人在家（週末回家住到放假、讀檔）＝住家裡（AA_197 1-3）*/
@@ -420,7 +427,7 @@ const HOME=(function(){
         else if(o.k==='car') await S.takeCar(GM);
         else if(o.k==='rest'){ if(await confirmMiss(GM,G.hour+1)){ GM.advance(1); } } else { await S.back(GM); break; } } }
     finally{ busy=false; GM.sceneEnd(); }
-    if(a3) await S.a3FromHome(GM); if(toLaw) await STORY.toLaw(GM); if(roomY2) await S.roomY2FromHome(GM); if(backB) await S.breakBack(GM); if(exch) await EXCH.depart(GM); };   /* 經濟系 → 法律系（8/31 早上，AA_154 2-4b）*/
+    if(a3) await S.a3FromHome(GM); if(toLaw) await STORY.toLaw(GM); if(roomY2) await S.roomY2FromHome(GM); if(roomY3) await S.roomY3FromHome(GM); if(backB) await S.breakBack(GM); if(exch) await EXCH.depart(GM); };   /* 經濟系 → 法律系（8/31 早上，AA_154 2-4b）*/
   /* 回家：轉場 → 到家（媽媽一句）→ 選單 */
   S.go=async function(GM){ const G=GM.G; if(!S.canGo(G)||S.at(G)) return false; const H=S.rec(G); GM.sceneBegin();
     try{ const base=S.livesHome(G); await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家',base?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘',2400); GM.advance(base?0.5:0.7); H.at=true; H.day=G.day; if(S.baseMode(G)) H.base=true;

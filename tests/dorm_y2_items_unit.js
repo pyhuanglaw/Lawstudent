@@ -18,7 +18,7 @@ check('1. GLB 有軟木板 WALL_left_Y2_BOARD、ITEM_（'+ITEMS.join('、')+'）
 const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; const build=G=>{ global.GAME={G}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; const z=Z3.ZONES.dorm.build(E); delete global.GAME; return z; };
 const BOX=[(-1.80-1.12)/2,(-0.88-0.36)/2];
 { const z0=build({stage:'law',flags:{},day:300}), z2=build({stage:'law',flags:{ROOM_Y2:365},day:370}), zm=build({stage:'law',flags:{ROOM_Y2_MOVING:true},day:365}), z3=build({stage:'law',flags:{ROOM_Y2:365,ROOM_Y3:700},day:720});
-  check('2. 大一 203：紙箱那一塊走得到；大二 312（拆完或搬進來那一刻）擋住；大三 507 不擋（這一版只有 312）',z0.nav.free(BOX[0],BOX[1])&&!z2.nav.free(BOX[0],BOX[1])&&!zm.nav.free(BOX[0],BOX[1])&&z3.nav.free(BOX[0],BOX[1]));
+  check('2. 大一 203：紙箱那一塊走得到；大二 312（拆完或搬進來那一刻）擋住；大三 507 也擋（1A-03：大二的東西、紙箱帶到 507）',z0.nav.free(BOX[0],BOX[1])&&!z2.nav.free(BOX[0],BOX[1])&&!zm.nav.free(BOX[0],BOX[1])&&!z3.nav.free(BOX[0],BOX[1]));
   const U=DORM_ROOM.units.find(u=>u.id==='L2'); check('2. 312：祐廷的座位走得到（座位前的點沒被紙箱擋）',z2.nav.free(U.seat_approach[0],U.seat_approach[1]));
   const pv=z=>(z.wins||[]).map(w=>w.userData&&w.userData.pview).filter(Boolean);
   check('3. 搬進來那一刻（ROOM_Y2_MOVING）：房間已經是 312（窗景 dorm_room312、擺設 312）',zm.dormSetKey==='312'&&pv(zm).length>0&&pv(zm).every(v=>v==='dorm_room312'),zm.dormSetKey+' '+pv(zm).join());
