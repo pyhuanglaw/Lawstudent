@@ -54,6 +54,8 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | `noodle_table` | 阿鳳麵店的長桌（兩張桌子併起來，晚上；麵店有 3D 區域，這一幕先用 2D） | 大一下期中考完的晚餐（交接包 v2 C11、C21） |
 | `seaside_town` | 海邊的小鎮（虛構，不寫真實地名）：火車站、堤防、民宿；第一天下雨 | 春假麵店團的兩天一夜（交接包 v2 C9） |
 | `trip_sea`、`trip_oldtown`、`trip_mountain` | 海邊、別的城市的老街、山上（虛構或一般化的地點，不指定真實店家） | 春假：可昕 K8 開車旅行（交接包 v2 C9） |
+| （還沒有 id）`bus_night` | 晚上的公車上：窗外的燈、旁邊的人的肩膀（不畫臉） | 可昕 K12b「回程的公車」（AA_325 2-Y2-16；現在是 `dark`＋旁白）。`trip_oldtown` 也用在這一件的老街 |
+| （還沒有 id）`nccu_classroom_small` | 政大・系上的小教室：投影幕、燈關一半、二十幾個人 | 可昕 K10b 電影夜、大二生日（AA_325 2-Y2-06、2-Y2-15；現在先用 `classroom_small`）。邵鈞、詹靖沒有立繪（compact） |
 | `chiayi_living`、`chiayi_balcony` | 嘉義老家的客廳（年菜、圓桌）、陽台；道具：一疊土地謄本（不寫真實地號） | 主線 2 親戚的土地資料（交接包 v2 C2） |
 | `dorm_roof` | 宿舍頂樓 | 跨年（A21） |
 | `video` | 視訊（可昕的房間） | 可昕的期末成績（BB_95 9-8） |
