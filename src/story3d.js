@@ -3076,7 +3076,13 @@ const STORY = (function(){
     const sc={A,B,C}, mx=Math.max(A,B,C); let cand=['B','A','C'].filter(k=>sc[k]===mx);
     if(cand.length>1&&F.CAREER_Y4_BASE&&typeof F.CAREER_Y4_BASE==='object'){ const y4=k=>sc[k]-(+F.CAREER_Y4_BASE[k]||0); const m4=Math.max(...cand.map(y4)); cand=cand.filter(k=>y4(k)===m4); }
     return {A,B,C,top:cand[0]}; };
-  S.careerTick=function(G){ const F=G.flags; if((G.stage||'law')!=='law') return; if(F.STUDY_AT_LAW==null) F.STUDY_AT_LAW=(G.stats&&G.stats.study)||0;
+  /* 大三的劇情事實，到了時間一律記（AA_326；不論玩家在不在場、事件有沒有演——後面的閒聊階梯、事件在等這兩個旗標）：
+     2-Y3-17 語彤續約：2027-11-24 15:30 RENT_RENEWED；2-Y3-20 語彤事件 13（週四空出來）：2027-12-16 20:00 YT_EV13（演過的另外記 YT_EV13_SEEN，事件包做）。
+     2-Y3-09 颱風假 2027-10-13 在 calendar.js 的 TYPHOON；前一晚 20:00 的停課新聞照大一、大二的做法 */
+  S.y3Facts=function(G){ const F=G.flags; if(!F||(G.stage||'law')!=='law') return; const at=(k,hh)=>{ const d=S.dayOfKey(k); return d!=null&&(G.day>d||(G.day===d&&h(G)>=hh)); };
+    if(!F.RENT_RENEWED&&at('2027-11-24',15.5)) F.RENT_RENEWED=true; if(!F.YT_EV13&&at('2027-12-16',20)) F.YT_EV13=true;
+    if(typeof PHONE!=='undefined'&&PHONE.at&&!PHONE.sent(G,'ty3_news')){ const ty=S.dayOfKey('2027-10-13'); if(ty!=null&&typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty) PHONE.at(G,ty-1,20,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty3_news'); } };
+  S.careerTick=function(G){ const F=G.flags; if((G.stage||'law')!=='law') return; S.y3Facts(G); if(F.STUDY_AT_LAW==null) F.STUDY_AT_LAW=(G.stats&&G.stats.study)||0;
     if(F.CAREER_Y4_BASE==null&&typeof CALENDAR!=='undefined'){ const t=CALENDAR.termOf(G.day); if(t&&t.id==='Y4S1'&&t.week===1){ const c=S.careerLean(G); F.CAREER_Y4_BASE={A:c.A,B:c.B,C:c.C}; } } };   /* 大四上第 1 週以後才讀檔、又沒有這個值的舊存檔：不補（平手跳過「比大四」）*/
   /* 1A-02 第 3 節（AA_315；台詞照 AA_253 第 3、4 節）：大三上第 10 週同時和以安、學姊交往，兩人都還不知道（ROM.knowsOf 兩邊都沒有）——
      11/10 那晚睡著以後演法圖相遇（events.js ev_an_sis_meet_lawlib，祐廷不在場）→ 11/11 22:00 兩則私訊、22:30 兩點半 Café 攤牌（ev_two_hearts_cafe，出遊 must）；
