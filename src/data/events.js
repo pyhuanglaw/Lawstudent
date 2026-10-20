@@ -1822,7 +1822,7 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{1:'missed'}); if(typeof PHONE==='undefined'||PHONE.sent(G,'kx_anniv_photo')) return; PHONE.at(G,G.day,Math.max(G.hour,19),[{th:'p:kexin',from:'kexin',text:'📷（一張卡片）'},{th:'p:kexin',from:'kexin',text:'週年快樂。下次你準備。'}],'kx_anniv_photo'); },
     dialogue:[ {if:{flagIs:{KX_ANNIV_PLACE:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{KX_ANNIV_PLACE:'shop'}},scene:'政大・山下的小吃街',bg:'nccu_food'},{if:{flagIs:{KX_ANNIV_PLACE:'river'}},scene:'河堤',bg:'riverside'},
       {if:{flagIs:{K7_GIFT:'ticket'}},goto:'g1'},{if:{flagIs:{K7_GIFT:'planner'}},goto:'g2'},{if:{flagIs:{K7_GIFT:'dumpling'}},goto:'g3'},{goto:'g4'},
-      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',text:'……原本那張呢？'},{speaker:'player',text:'在我皮夾裡。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）*/
+      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'……原本那張呢？'},{speaker:'player',text:'在我皮夾裡。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）*/
       {label:'g2'},{speaker:'kexin',expression:'smile',text:'……這本我要用完。'},{goto:'card'},
       {label:'g3'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'……這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{speaker:null,text:'（她把卡片推過來）'},   /* AA_209 附錄B §2 */
@@ -1846,7 +1846,7 @@ const STORY_EVENTS=[
     outingMissed:(G,GM,q)=>{ const n=(q&&q.year)||2; G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[n]:'missed'}); if(typeof PHONE==='undefined'||PHONE.sent(G,'kx_anniv_photo'+n)) return; PHONE.at(G,G.day,Math.max(G.hour,19),[{th:'p:kexin',from:'kexin',text:'📷（一張卡片）'},{th:'p:kexin',from:'kexin',text:'週年快樂。下次你準備。'}],'kx_anniv_photo'+n); },
     dialogue:[ {if:{flagIs:{_kxAP:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{_kxAP:'shop'}},scene:'政大・山下的小吃街',bg:'nccu_food'},{if:{flagIs:{_kxAP:'river'}},scene:'河堤',bg:'riverside'},
       {if:{flagIs:{_kxAG:'ticket'}},goto:'g1'},{if:{flagIs:{_kxAG:'planner'}},goto:'g2'},{if:{flagIs:{_kxAG:'dumpling'}},goto:'g3'},{goto:'g4'},
-      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',text:'……原本那張呢？'},{speaker:'player',text:'在我皮夾裡。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）*/
+      {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'……原本那張呢？'},{speaker:'player',text:'在我皮夾裡。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）*/
       {label:'g2'},{speaker:'kexin',expression:'smile',text:'……這本我要用完。'},{goto:'card'},
       {label:'g3'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'……這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{speaker:null,text:'（她把卡片推過來）'},
@@ -2520,16 +2520,16 @@ const STORY_EVENTS=[
     const hab=k=>typeof EVENTS!=='undefined'&&EVENTS.habitCount?EVENTS.habitCount({key:'retake:'+k}):0;   /* E29 的旁白（AA_154 A49）：重考期讀書日、玩樂日哪邊多說哪一句，一樣多不說 */
     const lines=[ {scene:'電話'},
       {if:{custom:()=>hab('study')>hab('play')},speaker:null,text:'這半年，你幾乎每天都在念書。'},{if:{custom:()=>hab('play')>hab('study')},speaker:null,text:'這半年，你們很常騎去河堤。'},
-      {speaker:'kexin',text:'台大法律。恭喜你。真的。'},{speaker:'player',text:'只高 0.1。'},{speaker:'kexin',text:'上了就是上了。'},   /* AA d744bf3d 更正（使用者「講話的人反了吧」）：「只高 0.1」照原本是祐廷說、可昕回；KX_CAR only_me 那兩句拿掉（AA_298 第 9 節；旗標照記，這裡不讀）*/
+      {speaker:'kexin',expression:'smile',text:'台大法律。恭喜你。真的。'},{speaker:'player',text:'只高 0.1。'},{speaker:'kexin',expression:'serious',text:'上了就是上了。'},   /* AA d744bf3d 更正（使用者「講話的人反了吧」）：「只高 0.1」照原本是祐廷說、可昕回；KX_CAR only_me 那兩句拿掉（AA_298 第 9 節；旗標照記，這裡不讀）*/
       {speaker:'player',text:'……妳要不要回台大？休學兩年內，都可以復學。'},{speaker:null,text:'（電話那頭安靜了一下。）'},   /* AA_298 第 10 節（使用者 10-18：她沒有在跟我比，不要再把比較的東西放進來）：「政大的山比較多……比你強壯」和 E36_REPLY 三選一拿掉 */
-      {speaker:'kexin',text:'我想過。'},{speaker:'kexin',text:'可是我也想念法律。'},{speaker:'kexin',text:'而且大家都知道，我們是休學去重考的。……這樣回去，有一點丟臉。'},{speaker:'kexin',text:'回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。'},
+      {speaker:'kexin',expression:'thinking',text:'我想過。'},{speaker:'kexin',expression:'serious',text:'可是我也想念法律。'},{speaker:'kexin',expression:'embarrassed',text:'而且大家都知道，我們是休學去重考的。……這樣回去，有一點丟臉。'},{speaker:'kexin',expression:'sad',text:'回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。'},
       {speaker:null,text:'（你想再說什麼，最後沒有說。之後，你也沒有再問過。）'},
-      {label:'p'},{speaker:'kexin',text:'九月以後，就不是同一張桌子了。'},
+      {label:'p'},{speaker:'kexin',expression:'sad',text:'九月以後，就不是同一張桌子了。'},
       {choice:[{text:'「每週一天。我們說好。」',set:{E36_PACT:'weekly'},goto:'w'},{text:'「到時候再說。」',set:{E36_PACT:'later'},goto:'l'},{text:'「妳想怎麼做？」',set:{E36_PACT:'ask'},goto:'q'}]},
-      {label:'w'},{speaker:'kexin',text:'……好。每週一天。'},{speaker:'kexin',text:'是哪一天，等我們都摸熟自己的課表再說。不准忘記。'},{goto:'e'},
-      {label:'l'},{speaker:'kexin',text:'好。到時候再說。'},{speaker:null,text:'（她笑了一下。笑完，沒有馬上說話。）'},{speaker:'kexin',text:'……你說的喔。'},{goto:'e'},
-      {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',text:'我不想每次都看誰剛好有空才見。'},{speaker:'kexin',text:'要固定哪一天，我還沒想好。你也想一下。'},
-      {label:'e'},{speaker:'kexin',text:'月底我就上去了。行李很多，你要載我。'} ];   /* AA_304 第 18 列（8/30 你開車載她搬宿舍）*/
+      {label:'w'},{speaker:'kexin',expression:'smile',text:'……好。每週一天。'},{speaker:'kexin',expression:'teasing',text:'是哪一天，等我們都摸熟自己的課表再說。不准忘記。'},{goto:'e'},
+      {label:'l'},{speaker:'kexin',expression:'neutral',text:'好。到時候再說。'},{speaker:null,text:'（她笑了一下。笑完，沒有馬上說話。）'},{speaker:'kexin',expression:'smile',text:'……你說的喔。'},{goto:'e'},
+      {label:'q'},{speaker:null,text:'（她想了很久。）'},{speaker:'kexin',expression:'serious',text:'我不想每次都看誰剛好有空才見。'},{speaker:'kexin',expression:'thinking',text:'要固定哪一天，我還沒想好。你也想一下。'},
+      {label:'e'},{speaker:'kexin',expression:'teasing',text:'月底我就上去了。行李很多，你要載我。'} ];   /* AA_304 第 18 列（8/30 你開車載她搬宿舍）*/
     const due=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=20&&!!G.flags.E36_ASKED&&!(G.events.done&&(G.events.done.ev_y0_e36||G.events.done.ev_y0_e36h)); };
     const rdue=G=>{ const d=D(); return d!=null&&G.day===d&&G.hour>=10&&!G.flags.E36_RESULT; }, rlines=[ {speaker:null,text:'（八月十三日，早上十點。榜單公布了。）'},{speaker:null,text:'（臺大法律學系，財經法學組。你的名字在上面。）'},{speaker:null,text:'（分數只比那一組的錄取分數高 0.1。）'},{set:{E36_RESULT:true}} ];   /* AA_224 6-6：0.1 只出現在旁白和他那一句 */
     return [
