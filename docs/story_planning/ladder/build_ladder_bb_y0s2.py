@@ -187,6 +187,17 @@ def check(d):
     return err
 e=check(D)
 if e: sys.exit('\n'.join(e))
+# KX-EXPR-1018（使用者 10-18：「可昕不管什麼對話的表情都一樣」）：可昕的台詞標表情，輸出成 {'t','e'}（story3d.js ladLines 讀 l.e）；檢查過後才轉，漏標會失敗（AA-C 10-20）
+KX_EXPR={'你房間那張書桌，你坐左邊，我坐右邊。': 'serious', '中間這一條線，是我們的國界。……橡皮擦可以出口。': 'teasing', '我在你的鉛筆盒上貼了一張便利貼。不要看。': 'embarrassed', '看了不准笑喔。上面那隻長頸鹿，脖子畫太短了，我知道。': 'embarrassed', '歷史我讀了三遍。': 'tired', '第三遍的時候，我開始跟課本講話。我問它，東南亞的歷史為什麼這麼難背。': 'annoyed', '讀書讀到一半，我最喜歡的是休息那五分鐘。': 'smile', '……因為我們會一起下樓去買飲料。五分鐘，走到巷口剛好。': 'smile'}
+_miss=[]
+for _st in D['characters'][KX]['steps']:
+    for _grp in [_st]+list(_st.get('linesIf') or []):
+        _new=[]
+        for _l in _grp['lines']:
+            if _l in KX_EXPR: _new.append({'t':_l,'e':KX_EXPR[_l]})
+            else: _miss.append(_st['id']+'：'+_l); _new.append(_l)
+        _grp['lines']=_new
+if _miss: sys.exit('可昕沒有標表情：\n'+'\n'.join(_miss))
 if '--check' not in sys.argv:
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'ladder_bb_y0s2.json'),'w',encoding='utf-8') as f:
         json.dump(D,f,ensure_ascii=False,indent=1); f.write('\n')

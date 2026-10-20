@@ -289,6 +289,17 @@ def check(d):
     return err
 e=check(D)
 if e: sys.exit('\n'.join(e))
+# KX-EXPR-1018（使用者 10-18：「可昕不管什麼對話的表情都一樣」）：可昕的台詞標表情，輸出成 {'t','e'}（story3d.js ladLines 讀 l.e）；檢查過後才轉，漏標會失敗（AA-C 10-20）
+KX_EXPR={'宿營那天，你在遊覽車上睡了一個小時。': 'teasing', '回程又睡了一個小時。……你來宿營是來睡覺的嗎。': 'laugh', '你有發現我的耳環每天都不一樣嗎？': 'smile', '我發現你經原每次都坐同一個位子。': 'thinking', '這叫路徑依賴。……我今天剛學的，先拿你來用。': 'teasing', '品妤說，經濟系的人以後只會開兩種店：會計事務所、補習班。': 'neutral', '……我說滷味攤。她說不算。': 'annoyed', '微積分助教說，我的答案方向對了，只是走錯路。': 'annoyed', '……整頁都算了，最後一步寫錯。氣死。': 'annoyed', '品妤睡前一定要把明天的花費寫好。': 'neutral', '她在我的名字旁邊寫：「亂花」。……我昨天只買了一杯豆漿。': 'annoyed', '你是不是很常吃小福的冰淇淋？我看到你拿了三次了。': 'teasing', '……下課一起去買。': 'smile', '下下禮拜就期中考了。你經原讀到哪了？': 'serious', '……你這個表情，是還沒開始。': 'laugh', '（她手上拿著兩對耳環）草莓，還是叉子？': 'smile', '你選。今天戴你選的。': 'smile', '今天晚餐我想好了。公館那家水煎包，排十分鐘以內就吃。': 'smile', '超過十分鐘就換隔壁的麵。': 'serious', '我這兩個禮拜有三份報告。': 'tired', '你來的時候，不要問我寫完了沒。我會想丟東西。': 'annoyed', '國文那份最晚交，我還沒開始。……應該來得及。': 'thinking', '寒假我在家的時間比較多。要見面，要先約。': 'serious', '我們家過年事情很多。我先把能出來的日子傳給你。': 'neutral'}
+_miss=[]
+for _st in D['characters'][KX]['steps']:
+    for _grp in [_st]+list(_st.get('linesIf') or []):
+        _new=[]
+        for _l in _grp['lines']:
+            if _l in KX_EXPR: _new.append({'t':_l,'e':KX_EXPR[_l]})
+            else: _miss.append(_st['id']+'：'+_l); _new.append(_l)
+        _grp['lines']=_new
+if _miss: sys.exit('可昕沒有標表情：\n'+'\n'.join(_miss))
 if '--check' not in sys.argv:
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'ladder_bb_y0s1.json'),'w',encoding='utf-8') as f:
         json.dump(D,f,ensure_ascii=False,indent=1); f.write('\n')
