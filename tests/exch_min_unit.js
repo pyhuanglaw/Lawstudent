@@ -35,15 +35,10 @@ const D=k=>STORY.dayOfKey(k), T=(d,h)=>d*24+h; let entered=[];
 GM.enter=async(z,sp)=>{ entered.push(z); G.zone=z; };
 const at=(k,h,zone,flags)=>{ fresh(D(k),h,zone,Object.assign({fundsV2:1,ROOM_Y2:true,ROOM_Y2_ITEMS:true},flags||{}));   /* 大二起的房間（主線 3）早就搬好了 */ G.stage='law'; entered=[]; return G; };
 (async()=>{
-  check('0. 有 EXCH（applyOpen、apply、departAt、depart、fly、tick、inUS、places）',typeof EXCH!=='undefined'&&['applyOpen','apply','departAt','depart','fly','tick','inUS','places'].every(k=>typeof EXCH[k]==='function'));
-  // 1
-  at(CALENDAR.dateOf(STORY.termDay('Y3S1',3,2)).key,15,'dorm'); const w3=EXCH.applyOpen(G);
-  E.player.obj.position={x:1,y:0,z:1}; E.interactables=[]; EXCH.tick(GM); const it=E.interactables.find(i=>i.exchApply);
-  picks=['美國']; const r=await EXCH.apply(GM);
-  check('1. 大三上第 3 週在宿舍：有「交換申請（志願表）」，選美國＝EXCHANGE_ROUTE US',w3&&!!it&&it.label==='交換申請（志願表）'&&r==='US'&&G.flags.EXCHANGE_ROUTE==='US'&&JSON.stringify(opts[0])===JSON.stringify(['美國（印第安納）','日本（關西）','留在台灣','再想想']),JSON.stringify({w3,it:!!it,r,opts:opts[0]}));
-  check('1. 選過了就不再有',!EXCH.applyOpen(G));
-  at(CALENDAR.dateOf(STORY.termDay('Y3S1',12,2)).key,15,'dorm'); check('1. 第 12 週（志願表那一週過了）：沒有',!EXCH.applyOpen(G));
-  at(CALENDAR.dateOf(STORY.termDay('Y2S1',3,2)).key,15,'dorm'); check('1. 大二：沒有',!EXCH.applyOpen(G));
+  check('0. 有 EXCH（departAt、depart、fly、tick、inUS、places）',typeof EXCH!=='undefined'&&['departAt','depart','fly','tick','inUS','places'].every(k=>typeof EXCH[k]==='function'));
+  // 1（1A-02，AA_315：宿舍的「交換申請（志願表）」四選一拿掉了；路線在志願表截止 11/18 12:00 照交往狀態定，tests/route_decide_unit.js 細測）
+  at(CALENDAR.dateOf(STORY.termDay('Y3S1',3,2)).key,15,'dorm'); E.player.obj.position={x:1,y:0,z:1}; E.interactables=[]; EXCH.tick(GM);
+  check('1. 大三上第 3 週在宿舍：沒有「交換申請（志願表）」（不讓玩家選地點）',!EXCH.applyOpen(G)&&!E.interactables.some(i=>i.exchApply||/志願表/.test(i.label||'')));
   // 2
   at('2028-08-01',10,'campus',{EXCHANGE_ROUTE:'US'}); check('2. 8/1：還沒到出發',!EXCH.departDue(G)&&EXCH.departAt(G)===T(D('2028-08-02'),6));
   at('2028-08-02',7,'campus',{EXCHANGE_ROUTE:'US'}); E.interactables=[]; check('2. 8/2 07:00：到出發',EXCH.departDue(G));

@@ -865,7 +865,7 @@ const STORY = (function(){
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
     if(F.FAM_GROUP_SENT&&S.week1Start(G)&&typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')&&(G.day>S.dayOfKey('2025-08-30')||(G.day===S.dayOfKey('2025-08-30')&&h(G)>=21))) SOCIAL.meet('kevin','family_group');   /* 8/30 家族群組＝認識 Kevin（BB_168 第 7 節，AA_200 2-12a）*/   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
-    if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeBackfill(G);   /* 交換路線：志願表那一週過了還沒選的補 TW（AA_158 第 1 節）*/
+    S.routeMigrate(G); if(!F.EXCHANGE_ROUTE&&G.day>=0) S.routeDecide(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉 */
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
     if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ try{ CLS.tick(GM); }catch(e){ console.warn('CLS.tick',e); } }   /* 課表（D52）*/
     if(typeof ECONFF!=='undefined'){ try{ ECONFF.tick(GM); }catch(e){ console.warn('ECONFF.tick',e); } }   /* 經濟系在學期間事件接事件（D102，src/econff3d.js）*/
@@ -922,7 +922,7 @@ const STORY = (function(){
     const home=G.zone==='dorm'; GM.sceneBegin(); await GM.say(null,home?'已經凌晨了。你撐不住，躺上床就睡著了。':'已經凌晨了。你的腳自己往宿舍走。'); GM.sceneEnd(); G.flags.companion=null; if(!home) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await sleepNow(GM); } finally { G.flags._forcing=false; } };
   // ---------- 互動 ----------
   S.interact=async function(it,GM){ const G=GM.G, F=G.flags, E=GM.E;
-    if((it.exchApply||it.exchFly)&&typeof EXCH!=='undefined'){ await EXCH.interact(GM,it); return true; }   /* 交換申請、登機（src/exchange3d.js）*/
+    if(it.exchFly&&typeof EXCH!=='undefined'){ await EXCH.interact(GM,it); return true; }   /* 登機（src/exchange3d.js）；宿舍的交換申請選單拿掉了（1A-02） */
     if(it.teaTable){ if(GM.G.flags.TEA_STEP>=3) await S.teaKevin(GM); else await S.teaTable(GM); return true; }   /* 9/2 新生茶會：窗邊家族那一桌（學姊那段以後：Kevin 一句）*/
     if(it.park&&typeof PARK!=='undefined'){ await PARK.interact(GM,it); return true; } if(it.wzShop&&typeof WZS!=='undefined'){ await WZS.interact(GM,it); return true; }   /* 溫州街三家店的選單（AA_172）*/   /* 溫州街小公園（AA_171）*/
     if(it.home){ if(typeof HOME!=='undefined') await HOME.go(GM); return true; }   /* 回臺北的家（src/home3d.js）*/
@@ -2953,9 +2953,18 @@ const STORY = (function(){
   S.movedOut=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R) return false; const d0=S.dayOfKey(R.out), d1=S.dayOfKey(R.ret); return d0!=null&&d1!=null&&G.day>=d0&&G.day<d1; };   /* X1 退宿以後到返台：台灣沒有宿舍 */
   S.routeWeek=function(G){ const R=ROUTE_DATES[S.routeAbroadRoute(G)]; if(!R||!S.abroad(G)) return null; const a=S.dayOfKey(R.arrive); return Math.floor((G.day-a)/7)+1; };   /* 國外事件的週次：(今天 − 抵達日) ÷ 7 ＋ 1 */
   S.tzOffset=function(G,day){ if(day==null) day=G.day; const r=S.routeAbroadRoute(G); if(!r||!S.abroad(Object.assign({},G,{day}))) return 0; if(r==='JP') return 1; const std=S.dayOfKey('2028-11-05'); return std!=null&&day>=std?-13:-12; };   /* 手機、視訊的當地時間＝台灣時間＋這個數（小時）*/
-  /* 舊存檔：大三上第 11 週（志願表那一週）過了還沒有路線的，補 'TW'（AA_158 第 1 節）*/
-  S.routeBackfill=function(G){ if(!G||!G.flags||G.flags.EXCHANGE_ROUTE||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); const ord=['Y3S1','Y3S2','Y4S1','Y4S2'];
-    const after=t?((t.id==='Y3S1'&&t.week>=12)||ord.indexOf(t.id)>0):(()=>{ const d=S.dayOfKey('2027-11-22'); return d!=null&&G.day>=d; })(); if(!after) return false; G.flags.EXCHANGE_ROUTE='TW'; return true; };
+  /* 1A-02（AA_315；BB_204 第 1、5 節、AA_253 第 2 節；使用者 2026-10-17 經 BB-C）：交換路線不讓玩家選——志願表截止 2027-11-18（四）12:00 那一刻（之後第一次 tick）照「交往中」定：
+     和學姊（heroine_05）＝US、和以安（heroine_01）＝JP、都沒有（只和可昕、芷若、子晴、語彤、沛珊交往也算）＝TW。好感、曖昧不算；定了以後任何事（分手、復合、新的交往）都不改。
+     兩段都在交往的，第 10 週的攤牌（ev_two_hearts_cafe）已經選了一個；萬一還是兩段（測試存檔）照學姊那一列。
+     舊存檔：截止以後還沒有路線的照同一個規則補，但 2028-02-20（日本路線退宿日）以後一律 TW（來不及準備）；
+     用宿舍舊選單選過、還沒到截止的清掉重來（routeMigrate：那是系統選單，不是劇情選擇）；截止以後已經有路線的照原本的。*/
+  const ROUTE_DL='2027-11-18';
+  S.routeFor=function(G){ const F=(G&&G.flags)||{}, R=F.romance||{}, on=id=>F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); return on('heroine_05')?'US':on('heroine_01')?'JP':'TW'; };
+  S.routeDue=function(G){ const d=S.dayOfKey(ROUTE_DL); return d!=null&&(G.day>d||(G.day===d&&h(G)>=12)); };
+  S.routeMigrate=function(G){ const F=G&&G.flags; if(!F||!F.EXCHANGE_ROUTE||F.EXCH_RULE||F.EXCH_APPLIED_DAY==null||S.routeDue(G)) return false; delete F.EXCHANGE_ROUTE; delete F.EXCH_APPLIED_DAY; return true; };
+  S.routeDecide=function(G){ const F=G&&G.flags; if(!F||F.EXCHANGE_ROUTE||(G.stage||'law')!=='law'||!S.routeDue(G)) return null; const late=S.dayOfKey('2028-02-20'); const r=late!=null&&G.day>=late?'TW':S.routeFor(G);
+    F.EXCHANGE_ROUTE=r; F.EXCH_APPLIED_DAY=G.day; F.EXCH_RULE=1; return r; };
+  S.routeBackfill=G=>!!S.routeDecide(G);   /* 舊名字（AA_158 的補 TW）：現在照 routeDecide 的規則補 */
   /* 現在的學期在不在 {from, until} 裡（例：人物有伴侶的那幾個學期，invites3d.js 的 partnerBlock）*/
   /* 伴侶期間（AA 2026-10-14：照劇情事件，不照整學期；事件還沒發生、或玩家沒看到時，照日期當保底）：
      {from, until}＝學期（舊格式照舊）；fromWeek／untilWeek＝{term, week}（untilWeek 那一週結束算分開）；startEvent／endEvent＝事件 id（演過就開始／結束；那些事件做好時填）*/
