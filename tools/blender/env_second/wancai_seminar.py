@@ -214,9 +214,9 @@ def build():
     K.frame_board(c, 'N', -4.0, -2.4, 1.15, 1.95, '#5a4030'); pq(c, 'N', -4.0, -2.4, 1.15, 1.95, 'NOTICE', inset=0.014)
     K.frame_board(c, 'N', 1.55, 2.35, 1.3, 2.0, '#4a3a2e'); pq(c, 'N', 1.55, 2.35, 1.3, 2.0, 'SIGNUP', inset=0.014)
     pq(c, 'N', -1.6, -0.6, 2.35, 3.0, 'CLOCK', inset=0.016)
-    for x in (-1.9, -1.1, -0.3, 0.5, 1.3):
-        z = Z0 + 0.4; wall_chair(c, x, z, 0.0); c.seat(x, z, 0.0, (x, z + 0.6), 'sit', label='坐旁聽席'); c.seats[-1]['uses'] = ['旁聽', '等人']
-    c.block(-2.2, 1.6, Z0, Z0 + 0.62, 'wall_chairs')
+    for x in (-1.9, -1.1, -0.3, 0.5, 1.3):   # 椅背靠牆；碰撞框只到椅子中間，走近點在椅子前面 0.5 m（10-20 流程測試：碰撞框太深時走近點在 0.8 m，剛好在按鈕範圍的邊上）
+        z = Z0 + 0.34; wall_chair(c, x, z, 0.0); c.seat(x, z, 0.0, (x, z + 0.6), 'sit', ap=(x, z + 0.5), label='坐旁聽席'); c.seats[-1]['uses'] = ['旁聽', '等人']
+    c.block(-2.2, 1.6, Z0, Z0 + 0.42, 'wall_chairs')
     # 西牆：白板（兩片）、投影幕（收起來）、講者的位置
     wl = c.wg('W', 'wall', M['wall']); wn = c.wg('W', 'wain', M['wain']); tr = c.wg('W', 'trim', M['vc'], cm=True); bm = c.wg('W', 'board', M['board'])
     wl.quad([(X0, wh, Z1), (X0, wh, Z0), (X0, H, Z0), (X0, H, Z1)]); wn.quad([(X0, 0, Z1), (X0, 0, Z0), (X0, wh, Z0), (X0, wh, Z1)])
