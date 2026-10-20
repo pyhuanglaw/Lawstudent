@@ -7141,7 +7141,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "SYS-06",
+   "next": "【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7234,7 +7234,7 @@
    "area": "SCN",
    "owner": "LAWWW2",
    "status": "待開工",
-   "next": "SYS-06",
+   "next": "【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -21472,6 +21472,90 @@
    "authorized": "使用者 15:4x「修復玩家試玩問題…請 BB 驗收」",
    "next": "【LAWWW-C 19:0x UTC】a335c23f：S.lawWakeAt 叫醒（11/17 22:00 可昕電話、10/24、10/26、6/1）以後，那一段演完、人還在同一個房間、同一個晚上＝床的選單自動再出來一次；選「再撐一下」、先做別的事、走出房間＝不再出；sleepNow 整段 S._sleeping＝S.tick 不開新的事件。tests/sleep_resume_unit.js（修改前 7 項 FAIL）。BB 第一輪（11/16 21:00 → 拆箱 → 22:05 醒著）在我這裡沒重現（同狀態直接睡到 11/17 08:10），請 BB 附腳本與存檔再測。｜BB 驗：11/17 21:00 和可昕交往 → 睡到明天早上 → 22:00 電話 → 演完床的選單自己出來 → 選睡覺 → 11/18 早上",
    "sha": "a335c23f"
+  },
+  {
+   "area": "V1",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一第一週週一 118 巷午餐（AA_280）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 18:5x「看一下他做好的東西是不是可以更精致一點」（X87）；LAWWW-C 美術巡檢截圖 docs/art-rebuild/review_1020_lawww/",
+   "authorized": "使用者 18:5x（X87）",
+   "xai": {
+    "receiver": "LAWWW-C",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/review_1020_lawww/ 截圖＋LAWWW-C 19:2x 訊息",
+    "acceptance": "遊戲內同角度前後截圖、效能（draw call）、相關流程測試照舊通過",
+    "ack": "SENT"
+   },
+   "id": "ART-L118-LANE-1020",
+   "title": "118 巷街道像「巷」不像大馬路：兩側停機車（instancing、顏色不同）、店門口盆栽保麗龍箱、二樓以上冷氣機＋直立招牌＋鐵窗、電線、腳踏車、垃圾桶；路面的大白框淡化、可走的路看起來窄一點；晚上店裡的光灑到人行道",
+   "status": "待開工",
+   "next": "截圖 06、07（巷口往裡看：很寬、很空，像大馬路）；名牌疊在一起 LAWWW-C 已修（a9b14d1c）"
+  },
+  {
+   "area": "V1",
+   "owner": "LAWWW2",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "2026-09 大二上民法物權（X78 搬到多功能教室）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 18:5x「看一下他做好的東西是不是可以更精致一點」（X87）；LAWWW-C 美術巡檢截圖 docs/art-rebuild/review_1020_lawww/",
+   "authorized": "使用者 18:5x（X87）",
+   "xai": {
+    "receiver": "LAWWW-C",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/review_1020_lawww/ 截圖＋LAWWW-C 19:2x 訊息",
+    "acceptance": "遊戲內同角度前後截圖、效能（draw call）、相關流程測試照舊通過",
+    "ack": "SENT"
+   },
+   "id": "ART-ROOM-MULTI-1020",
+   "title": "萬才館多功能教室和霖澤館 202 長得一樣：照 AA_330 旁白「椅子是可以移動的那種，大家坐得比在 201 鬆」改成可移動的單人課桌椅或分組桌、木地板或方塊地毯、投影幕、牆邊疊起來的椅子；座位數不少於現在、layout.json 格式照舊（room multi）",
+   "status": "待開工",
+   "next": "截圖 00（202）、01（多功能教室）幾乎一樣"
+  },
+  {
+   "area": "V1",
+   "owner": "LAWWW2",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "2026-09 大二上（X78）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 18:5x「看一下他做好的東西是不是可以更精致一點」（X87）；LAWWW-C 美術巡檢截圖 docs/art-rebuild/review_1020_lawww/",
+   "authorized": "使用者 18:5x（X87）",
+   "xai": {
+    "receiver": "LAWWW-C",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "docs/art-rebuild/review_1020_lawww/ 截圖＋LAWWW-C 19:2x 訊息",
+    "acceptance": "遊戲內同角度前後截圖、效能（draw call）、相關流程測試照舊通過",
+    "ack": "SENT"
+   },
+   "id": "ART-ROOM-LIFE-1020",
+   "title": "霖澤館 202、萬才館多功能教室（和 201）的生活感：幾張椅子上有書包、桌上筆記本或講義、牆上時鐘、公告欄（傳單虛構）、窗簾、冷氣、投影機；地板材質有一點變化",
+   "status": "待開工",
+   "next": "截圖 00、01：桌椅乾淨但太空"
   }
  ]
 }
