@@ -236,7 +236,8 @@ const TERMEND_LINES=(function(){
           kai:{say:'八月底想去日本，秋葉原。',ok:'「我也想去。」',act:{vac:'C05@Y1'}},yu:{say:'你要不要來探班？',ok:'「我去。」',act:{c15:'yu_camp'}},
           heroine_04:{say:'要不要玩？',ok:'「好。」',if:PT,act:{c15:'zq_play'}}},
     Y2S1:{heroine_01:{say:'寒假我報了東京的冬季課。',ok:'「我也想報。」',act:{flag:'HOOK_AN_EARLY'},after:['下次的暑期課，我提早跟你說。']},
-          heroine_02:{say:'店裡寒假想排一部老電影的放映。',ok:'「我想去。」',act:{c15:'zr_film'}},heroine_04:{say:'你要不要看？',ok:'「好。」',act:{c15:'zq_demo'}},
+          heroine_02:{say:'店裡寒假想排一部老電影的放映。',ok:'「我想去。」',act:{c15:'zr_film'}},heroine_04:{say:'你要不要看？',ok:'「好。」',if:PT,act:{c15:'zq_demo'}},   /* 看過 Q6 才約看 demo（AA_313 6-5 第 1 點）*/
+          
           classmate_mingxuan:{say:'系籃寒假要集訓三天。',ok:'「最後一天我去看。」',act:{c15:'mx_game'}}},
     Y2S2:{heroine_01:{say:'八月去京都上語言課。',ok:'「我也想報。」',act:{vac:'C12@Y2'}},yu:{say:'暑假營隊我當小隊長。',ok:'「我也想去。」',act:{vac:'C02@Y2'}},
           heroine_02:{say:'九月三號出發。',ok:'「出發那天我去送妳。」',act:{flag:'HOOK_ZR_SENDOFF'}},heroine_04:{say:'我去實習，做遊戲的。',ok:'「做好了給我玩。」',if:PT,act:{c15:'zq_play2'}},
