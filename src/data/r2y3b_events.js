@@ -373,6 +373,77 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（七月底。507 只剩你這半邊還有東西。柏翰暑假回新竹了，他的桌子空著。）'},   /* 新寫的開頭 */
       {speaker:null,text:'（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'} ] };   /* AA_144 X1 原文 */
 
-  return [FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US];
+  /* ---------- 2-Y3-52 台灣、美國路線：以安在日本（3/25～8/5）——訊息、視訊、七夕告白（AA_253 10-1、10-3 原句；AA 審稿補）。每週的段、邀約、行程在 r2y3b3d.js ---------- */
+  const AB={
+    t1:[['（照片：大學的櫻花）','四月。這邊的櫻花開得比較晚。'],['（照片：便利商店的飯糰架）','飯糰的海苔要自己拉開。我研究了三天。'],['（照片：宿舍的洗衣機）','一次一百圓。我記在手帳了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。']],
+    t2:[{L:['上課聽懂七成了。剩下三成，我回宿舍查字典。','你那邊的行政法，期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
+        {L:['讀書會小語有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
+    t3:[ [ {speaker:null,text:'（畫面裡是她宿舍的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
+      [ {speaker:'heroine_01',text:'（她把手帳翻到這一週）這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
+      [ {speaker:'heroine_01',text:'（畫面晃了一下，她把手機靠在字典上）你那邊幾點？'},{speaker:'heroine_01',text:'……我只是想看一下你。好，可以了。'},{speaker:'heroine_01',text:'你先掛。'} ] ],
+    invite:[ {speaker:'heroine_01',text:'七月七號，這邊是七夕。商店街會掛很多竹子。'},{speaker:'heroine_01',text:'……你要不要來看？'},
+      {choice:[{text:'「我去。」',set:{AN_JP_TRIP_ASK:'go'},goto:'iy'},{text:'「我再看看。」',set:{AN_JP_TRIP_ASK:'later'},goto:'il'}]},
+      {label:'iy'},{speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},{goto:'ie'},
+      {label:'il'},{speaker:'heroine_01',text:'好。六月底以前跟我說。'},
+      {label:'ie'} ],
+    d1:[ {scene:'關西・大學城',bg:'jp_station'},{speaker:null,text:'（她在車站的剪票口等，手上拿著一張手寫的行程表。）'},{speaker:'heroine_01',text:'這裡。行程表我印了兩份，這份給你。'} ],
+    d2:[ {scene:'關西・大學城',bg:'jp_street_night'},{speaker:null,text:'（商店街掛滿了竹子，短冊在風裡一直響。）'},{speaker:'heroine_01',text:'你要寫一張嗎？'},{speaker:null,text:'（你寫了。她沒有看，把自己的那張掛在旁邊。）'},
+      {choice:[{text:'「以安，我喜歡妳。」',set:{AN_TANABATA_SAID:'player'},goto:'p'},{text:'（把短冊掛上去）',set:{AN_TANABATA_SAID:'her'},goto:'h'}]},
+      {label:'p'},{speaker:'heroine_01',text:'……我知道。我等你說，等了三個月。'},{speaker:'heroine_01',text:'好。'},{goto:'e'},
+      {label:'h'},{speaker:'heroine_01',text:'你不說，那我說。'},{speaker:'heroine_01',text:'我喜歡你。理由我寫在手帳裡，回臺灣再給你看。'},{speaker:'heroine_01',text:'……你不准賴。'},
+      {label:'e'} ],
+    d3:[ {scene:'關西・大學城',bg:'jp_street_day'},{speaker:null,text:'（她排的行程表上，每一格都有時間。你們只走完一半。）'} ],   /* 7/8、7/9 兩個摘要日（新寫）*/
+    d4:[ {scene:'大學城的河堤',bg:'jp_riverbank'},{speaker:null,text:'（大學城的河堤。她讀書，你坐在旁邊看河。）'} ],
+    d5:[ {scene:'關西・大學城',bg:'jp_station'},{speaker:null,text:'（剪票口。她把自己那份行程表折好，塞進你的口袋。）'},{speaker:'heroine_01',text:'八月五號，你來接我。'} ] };
+  const AB_VIDEO={ id:'ev_an_abroad_video', title:'以安的視訊', participants:['heroine_01'], location:'any', trigger:'outing', background:'dark', hours:0.25, dialogue:[],   /* 每週一次（T3）：beforeOuting 照輪到的那一組演 */
+    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.anVideo(GM,q); } };
+  const TANABATA={ id:'ev_an_tanabata', title:'日本的七夕', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5, dialogue:[],   /* 7/6～7/10 五天：beforeOuting 一天一段（STORY.travelOvernight 換日）*/
+    beforeOuting:async(G,GM,q)=>{ const x=X(); if(x) await x.tanabataTrip(GM,q); } };
+  const AN_AIRPORT={ id:'ev_an_airport_y3', title:'接以安', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arr'},{speaker:null,text:'（她一出來就看到你。行李箱上貼著一張商店街的七夕貼紙。）'},{speaker:'heroine_01',text:'……你真的來了。'} ] };
+  const AN_NOTEBOOK={ id:'ev_an_notebook', title:'理由欄', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{speaker:null,text:'（第一頁寫著：「理由欄。空著，給你。」）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };
+
+  /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（2/14 送過東西的）；4/13（四）22:30 視訊（日本 23:30）---------- */
+  const WHITE={ id:'ev_an_white_day', title:'白色情人節', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+    dialogue:[ {scene:'公館',bg:'gongguan_street'},
+      {speaker:'heroine_01',text:'日本的白色情人節，是收到巧克力的人要回禮。'},
+      {speaker:'heroine_01',text:'（她拿出一個小紙袋）一個月前你送的。這是回禮。'},
+      {choice:[{text:'「謝謝。」',set:{AN_WHITE_DAY:'thanks'},goto:'a'},{text:'「台灣是反過來的吧？」',set:{AN_WHITE_DAY:'reverse'},goto:'b'},{text:'「十一天以後妳就走了。」',set:{AN_WHITE_DAY:'eleven'},goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',text:'嗯。……打開以前先猜。'},{goto:'end'},   /* 三個回覆她各回一句（新寫）*/
+      {label:'b'},{speaker:'heroine_01',text:'我查過了。所以我送。'},{goto:'end'},
+      {label:'c'},{speaker:'heroine_01',text:'十一天。……我算過了。'},
+      {label:'end'} ] };
+  const FAR_VIDEO={ id:'ev_an_far_video', title:'以安的視訊', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:'heroine_01',text:'（拿著一張照片對著鏡頭）町公所門口的通知。'},
+      {speaker:'heroine_01',text:'最後一行我還是看不懂。……你幫我想。'},
+      {choice:[{text:'「應該是叫大家準時倒垃圾。」',set:{AN_FAR_VIDEO:'trash'},goto:'a'},{text:'「把照片傳給我，我查。」',set:{AN_FAR_VIDEO:'check'},goto:'b'},{text:'「我也看不懂。」',set:{AN_FAR_VIDEO:'same'},goto:'c'}]},
+      {label:'a'},{speaker:'heroine_01',text:'……那我這三個禮拜都倒錯了。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_01',text:'好。查到了先跟我說。'},{goto:'end'},
+      {label:'c'},{speaker:'heroine_01',text:'好。那我們兩個一起看不懂。'},   /* 回聲 J1 */
+      {label:'end'} ] };
+
+  /* ---------- 2-Y3-54 芷若「十二張點單」（BB_165 3-2，AA-C 10-18 審過；AA_185 1-3、AA_326 2-Y3-54）：8/5（六）14:00 兩點半（店休），和芷若交往中、台灣路線 ---------- */
+  const SLIPS={ id:'ev_zhiruo_twelve_slips', title:'十二張點單', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
+    dialogue:[ {scene:'兩點半 Café（店休）',bg:'cafe_closed'},   /* 打烊的兩點半，窗簾拉下來，只開吧檯燈（2D 沒有＝深色底＋字幕）*/
+      {speaker:'heroine_02',text:'（開門）你敲了四下。……算了，進來。'},
+      {speaker:'heroine_02',text:'吧檯借我們一個下午。投影機是二輪戲院的老闆借我的。他說，九月以前要還。'},
+      {speaker:null,text:'（吧檯上排著十二張點單，每一張寫著一部電影的片名，最後一張是空白的。）'},
+      {speaker:'heroine_02',text:'我不在的時候，一個月一部。看完，在點單背面寫一句，寄給我。'},
+      {speaker:'heroine_02',text:'……我在那邊，也跟你同一天看。時差七個小時。算同一天。'},
+      {speaker:'heroine_02',text:'第一部，我們現在看。'},
+      {speaker:null,text:'（兩個人坐在吧檯前，看第一部。牆上的光照到她的側臉。片子演完，她沒有開燈。）'},
+      {speaker:'heroine_02',text:'第十二張是空的。'},
+      {speaker:'heroine_02',text:'那一部，等我回來，一起寫。'},
+      {choice:[{text:'「空白那張，我可以先寫一個字嗎？」',goto:'a'},{text:'「十一部，我每一部都寫最長的。」',goto:'b'}]},
+      {label:'a'},{speaker:'heroine_02',text:'不行。'},{speaker:null,text:'（她把那張收進自己的口袋）'},{speaker:'heroine_02',text:'那張我回來再拿出來。'},{goto:'end'},
+      {label:'b'},{speaker:'heroine_02',text:'不要寫太長。我會在課堂上看，看到哭。'},{speaker:'heroine_02',text:'……好，寫長一點也可以。'},
+      {label:'end'},{set:{ZR_TWELVE_SLIPS:true}} ],
+    outingMissed:G=>{ const x=X(); if(x) x.slipsMail(G); } };
+
+  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS];
+  ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
+  return ALL;
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y3B_EVENTS);
