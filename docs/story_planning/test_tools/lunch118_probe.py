@@ -112,10 +112,16 @@ async def main():
         await L.touch_tap(cdp, c[0], c[1]); run.setup('標題「讀取」使用者 9/25 存檔'); await pg.wait_for_timeout(5000)
         await drain(pg, cdp, secs=60)
         await go_place(pg, cdp, '宿舍')
+        await skip_to(pg, cdp, 20); await close_phone(pg); await drain(pg, cdp, secs=60)
+        say('   跳到晚上：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False))
         bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
         if bed and await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'):
-            await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
-        await drain(pg, cdp, pref=['睡到明天早上', '睡覺'], secs=150)
+            for k in range(4):
+                await close_phone(pg); await pg.wait_for_timeout(800)
+                await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                if (await L.state(pg))['choices']: break
+        await drain(pg, cdp, pref=['睡到明天早上', '睡到明天', '睡覺'], secs=150)
+        say('   醒來：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False))
         await phone(pg, cdp, 'today')
         await click_in_phone(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-go]')].filter(b=>!/缺席/.test(b.textContent))[0]", '直接去上課')
         await drain(pg, cdp, pref=['還是去', '自己找位子'], secs=200)
@@ -125,12 +131,12 @@ async def main():
             if (await L.state(pg))['interact']: await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000); await drain(pg, cdp, pref=['就這樣'], secs=120)
         say('   認識以安：', json.dumps(await pg.evaluate("({met_an:!!GAME.G.flags.met_an, first:SOCIAL.has('heroine_01','FIRST_MET')})")))
         # 上課（坐下等下課）
-        seat = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const its=GAME.E.interactables.filter(i=>i.seat||/上課|進入.*教室|101/.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const it=its[0]; return it?{x:it.x,z:it.z,label:it.label}:null; })()")
+        seat = None and await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; const its=GAME.E.interactables.filter(i=>i.seat||/上課|進入.*教室|101/.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const it=its[0]; return it?{x:it.x,z:it.z,label:it.label}:null; })()")
         say('   找座位／教室門：', json.dumps(seat, ensure_ascii=False))
         if seat and await L.go_to(pg, cdp, run, seat['x'], seat['z'], 0.6, seat['label'] or '座位'):
             await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2000)
         t0 = time.time()
-        while time.time() - t0 < 600:
+        while False and time.time() - t0 < 600:
             await drain(pg, cdp, pref=['坐', '還是去'], secs=60)
             sn = await pg.evaluate(SNAP)
             if sn['h'] >= 12.15: break
@@ -142,6 +148,12 @@ async def main():
         if sn['zone'] != 'campus': await walk_exit(pg, cdp, run, 'campus')
         ok = await walk_exit(pg, cdp, run, 'lane118')
         sn = await pg.evaluate(SNAP); say('   到 118 巷：%s %s %.2f' % (ok, sn['zone'], sn['h']))
+        if sn['zone'] == 'lane118' and sn['h'] < 12.1:
+            await skip_to(pg, cdp, 12); await close_phone(pg)
+            for k in range(60):
+                if (await pg.evaluate(SNAP))['h'] >= 12.2: break
+                await pg.wait_for_timeout(2000)
+            sn = await pg.evaluate(SNAP); say('   在巷子裡等到 %.2f' % sn['h'])
         await run.shot(pg, 'lane118_arrive')
         LL = await pg.evaluate("L118_SHOP_LAYOUTS.omu")
         reg = await pg.evaluate("(()=>GAME.E.npcs.filter(n=>!n.isExtra&&n.obj).map(n=>({id:n.charId||n.id,name:n.name,x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1)})))()")
