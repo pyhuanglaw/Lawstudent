@@ -889,7 +889,7 @@
   {
    "task": "ART-L118-LANE-1020 118 巷像巷子：機車 55 台（機車格垂直、中間路邊順著停）、店門口雜物、電線桿與頭上電線、樓上直立招牌與冷氣、機車格白線淡一點、晚上店門口的光",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "7d61872e",
    "files": [
     "assets/models/env/second_ai/lane118_props.glb",
     "assets/models/env/second_ai/lane118_props.json",
