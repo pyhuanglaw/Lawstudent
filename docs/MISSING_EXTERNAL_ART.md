@@ -86,6 +86,20 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | 1A-09 美國路線返台 | 2D 桃園機場入境大廳 | 深色底 |
 | 1A-09、1A-11 大三的新東西（志願表、塑膠袋、謄本、鑰匙圈、明信片、製作名單、田野筆記） | 3D 小物件 | 只有旁白（同 1A-03） |
 
+### 1B-01～1B-11（AA_316、AA_321；大二～大三上的人物事件，2026-10-20）
+沒有圖的照下面的退路，不擋遊玩。三張 CG 的圖**已經有**（使用者生成、BB 檢查過），在企劃分支 `docs/story_planning/cg_approved/`，開發分支還沒登錄（`CG_REGISTRY` 沒有＝不放，照原背景演；登錄以後自動出現）。
+| 用在哪 | 缺的 | 現在的退路 |
+|---|---|---|
+| 1B-05 子晴 Q8 河堤 | CG BCG-02 `cg_riverbank_heroine04`（cg_approved/ 有）→ `assets/cg/heroine_04/` | 2D `riverside` |
+| 1B-06 芷若 Z9 最後一個班 | CG BCG-15 `cg_last_shift_heroine02`（cg_approved/ 有）→ `assets/cg/heroine_02/` | 3D Café＋立繪 |
+| 1B-08 語彤事件 12 那把傘 | CG CG-6 `cg_umbrella_heroine03`（cg_approved/ 有）→ `assets/cg/heroine_03/` | 3D 總圖門口（雨）＋立繪 |
+| 1B-03 語彤事件 9 | 阿姨（阿鳳）立繪 | compact（說話人「阿姨」） |
+| 1B-05 | 子晴的爸爸（西裝的中年男人） | 只有旁白 |
+| 1B-06 | 新店員 | 只有台詞裡提到 |
+| 1B-01、1B-02 | 手機照片（畫滿重點的那一頁、課本那一頁） | 文字「（照片：……）」／旁白 |
+| 1B-10 芷若明信片 | 4 張明信片插畫（倫敦的街、戲院、雨） | 文字卡（對話框「明信片」） |
+| 1B-11 沛珊在台南 | 6 張背景：台南車站出口（白天）、她的學校（下午）、她打工的二手書店、老街、運河邊（傍晚）、小咖啡店（晚上） | 去台南的那一天還沒接（`Y2B.PS_TAINAN` 只有台詞）；接了以後深色底＋地點字幕 |
+
 ### 3D
 - **玩家正式模型**：目前用 Seed-san（VirtualCast, Inc.；VRM Public License 1.0，須標示出處）改色版：黑短髮、墨綠 T-shirt、炭灰長褲；**赤腳、褲長七分、胸口有原貼圖徽章**。要一個「有球鞋、後背包」的台灣大學生男性 VRM。RPM 範例（棕西裝光頭）已降級為 `TEMP_PLAYER_DEV_MODEL`，只在 VRM 載入失敗時出現。
 - 五位女主角的 3D VRM（依 Character Bible）：目前只有小安用 three-vrm 範例（白 T 黑短褲，與 2D 不一致）；其餘四位是程序化 placeholder。
