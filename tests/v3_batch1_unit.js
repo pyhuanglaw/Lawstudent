@@ -78,7 +78,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
   run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點。烤肉架今年你負責。」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點。烤肉架今年你負責。')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
-  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。理由：公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
+  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。這樣公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
   const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^小語：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));
   check('8. 台詞（逐字；認識的人都在）＋買夾子',JSON.stringify(nm(L))===JSON.stringify(want)&&G.flags.MIDAUTUMN_Y2,JSON.stringify(L));
   fresh(d25,17,'campus',{}); G.stage='law'; picks=['用筷子']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
