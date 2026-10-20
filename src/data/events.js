@@ -2293,7 +2293,7 @@ const STORY_EVENTS=[
      只在經濟系事件接事件的停點演（econff3d.js STEPS n:'x29'）；記 Y0_FRIENDS_KNOW、XF_ANSWER（week／nodiff／silent，只是紀錄）*/
   { id:'ev_y0_xiaofu', stage:'econ', title:'你什麼時候才要跟我們說？', participants:['econ_zhengxun','econ_pinyu','kexin'], location:'any', trigger:'econff', once:true, background:'xiaofu',
     dialogue:[ {scene:'小福',bg:'xiaofu'},
-      {speaker:null,text:'（十月二十九日，中午。你又坐在可昕旁邊上完經原，六個人一起走到小福。）'},{speaker:null,text:'（品妤排便當，韋綸排麵，阿勳已經占好了位子。）'},
+      {speaker:null,text:'（十月二十九日，中午。你又坐在可昕旁邊上完大一國文，六個人一起走到小福。）'},{speaker:null,text:'（品妤排便當，韋綸排麵，阿勳已經占好了位子。）'},
       {speaker:'唐睿',text:'（坐下來，筷子還沒拆）……欸，問你一件事。'},{speaker:'唐睿',text:'我高中參加過聯校的社團。裡面有一個人，跟你同一個高中。'},
       {speaker:'唐睿',text:'昨天他傳訊息問我：「你們系的{name}，是不是休學了？」'},{speaker:null,text:'（韋綸的麵停在半空中。阿勳抬起頭。）'},
       {speaker:'唐睿',text:'……你什麼時候才要跟我們說？'},
