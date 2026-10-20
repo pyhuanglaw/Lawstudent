@@ -135,6 +135,7 @@ const SOCIAL = (function(){
   MEMORY_LABEL.BEING_HEARD='他說了自己想做的事';   /* 1A-04 感冒的那一週：問「那一句」的那個人（AA_315 第 5 節）*/
   Object.assign(MEMORY_LABEL,{LAW_MEETS_LIFE:'把買賣不破租賃那一頁傳給她',RENT_CONSULTATION:'知道阿姨去法服諮詢的事',TICKET_STUB:'她給的電影票根',TOLD_HER_CHANGE:'跟她說過自己換過方向',POSTCARDS:'回寄過她的明信片',POSTCARDS_GROUP:'在寄給她的大明信片上寫了一句'});   /* 1B-02、1B-03、1B-06、1B-09、1B-10（AA_316、AA_321；面板上的名稱，字待 AA 確認）*/
   Object.assign(MEMORY_LABEL,{ENC_D06_BH3:'在美術館遇到他（第三次）',ENC_D04_ZR3:'在西門町的電影院門口遇到她（第三次）',ENC_D12_ZQ3:'在大稻埕碼頭遇到她（第三次）'});   /* DL-08 小支線的第三次（enc_walk.js side 的 mem）；其他 ENC_ 的名稱在 encounters.js 的 labels */
+  Object.assign(MEMORY_LABEL,{AN_BDAY_POMELO:'在中秋那天幫她過生日',ZHE_SAID_IT:'他第一次說自己「有事」',SAW_HIM_TRY:'冠軍賽那天，他說「我今天很用力。」'});   /* 1C 群戲（AA_324；src/group3d.js）：AN_BDAY_POMELO 照 AA_324 1C-02 第 4 節、ZHE_SAID_IT 照 AA_40 哲 4「影響」、SAW_HIM_TRY 用明軒那一句（BB_98 5-2，待 AA 確認）*/
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
