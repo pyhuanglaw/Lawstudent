@@ -674,7 +674,7 @@ const STORY = (function(){
      開局就有載妹墊。誰願意坐（約好同行的人）：可昕（交往中）、以安／語彤／芷若／子晴／沛珊／學姊（熟悉以上；女生側坐）、阿凱／阿哲（跨坐）。
      台詞：AA_137 的表（SEAT_AA）、BB-B 的 LADDER.bikeSeat（芷若、子晴、沛珊）——沒有寫的就不說話（學姊坐後座的台詞等 BB-B）。
      rideMode：'ride' 坐後座、'refuse' 還不願意（一起走路） */
-  const SEAT_AA={ kexin:{need:'dating',on:'出發。……不要騎太快，我在後面看不到前面。'}, heroine_01:{min:'FAMILIAR',on:'好。不准突然煞車。',decline:'我走路。……不是不信任你，是我還不熟你的煞車。'},
+  const SEAT_AA={ kexin:{need:'dating',on:'出發。……不要騎太快，我在後面看不到前面。'}, heroine_01:{min:'FAMILIAR',on:'好。不准突然煞車。',decline:'我走路。……你的煞車我還不熟。'},
     heroine_03:{min:'FAMILIAR',on:'……嗯。我很輕。'}, kai:{astride:true,any:true,on:'所以 這個墊子是給我的嗎'}, zhe:{astride:true,any:true} };
   S.rideInfo=function(G,id){ let bs=(typeof LADDER!=='undefined'&&LADDER.bikeSeat&&LADDER.bikeSeat[id])||null, a=SEAT_AA[id]||null;
     if(bs&&bs.whilePartner) bs=null;   /* 學姊：BB 原本寫「有伴侶時不坐、走在旁邊」——使用者 10-16 要她也坐後座；走路的兩句不用，坐後座的台詞還沒有 */
@@ -2487,7 +2487,7 @@ const STORY = (function(){
         ['y0_kx_drink',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','晚安。明天的桌子，我比你早到的話，你買飲料。')]],
         ['y0_tr_group',Y0('Y0S2',4),20+40/60,G=>PHONE.inGroup(G,'econ_class')||PHONE.inGroup(G,'econ_friends'),G=>[TR('這學期的分組報告，題目我想好了。組員還沒想好。',grp(G))]],
         ['y0_tr_voice',Y0('Y0S2',4),21.5,()=>true,()=>[TR('（語音）我在練長劇的台詞，對著鏡子。室友問我在跟誰講話。')]],
-        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('我高中的筆記還在，掃描放雲端了。你要的話自己拿。不是同情，是效率。')]],
+        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。')]],
         ['y0_py_beef',Y0('Y0S2',4),21+40/60,()=>true,()=>[PY('今天唐睿請我吃飯，說是謝謝筆記。我說折現。……我們吃了牛肉麵。')]],
         ['y0_xu_lamp',Y0('Y0S1',7,8),22,(G,day)=>!!G.flags.Y0_MOVED_OUT&&day>=DK('2024-10-20'),()=>[XU('你搬走以後，宿舍變暗了。因為你把檯燈帶走了。我只是陳述事實。')]],
         ['y0_xu_seat',Y0('Y0S1',8,8),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師問我，常坐我旁邊的那個人呢。我說他去念更難的東西了。')]],
