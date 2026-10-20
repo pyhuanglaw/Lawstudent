@@ -198,7 +198,7 @@ def shell(c):
     dx0, dx1 = EL['doorX0'], EL['doorX1']; c.steel.box(dx0, (dx0 + dx1) / 2 - 0.005, 0.0, 2.1, ez0 - 0.02, ez0); c.steel.box((dx0 + dx1) / 2 + 0.005, dx1, 0.0, 2.1, ez0 - 0.02, ez0)
     c.vm.cbox(dx0 - 0.08, dx1 + 0.08, 2.1, 2.18, ez0 - 0.03, ez0, '#9aa0a4'); c.vm.cbox(dx0 - 0.08, dx0, 0.0, 2.1, ez0 - 0.03, ez0, '#9aa0a4'); c.vm.cbox(dx1, dx1 + 0.08, 0.0, 2.1, ez0 - 0.03, ez0, '#9aa0a4')
     c.vm.cbox(dx1 + 0.18, dx1 + 0.3, 1.0, 1.28, ez0 - 0.015, ez0, '#c9ced2'); c.fridgel.box(dx1 + 0.21, dx1 + 0.27, 1.06, 1.1, ez0 - 0.02, ez0 - 0.015); c.fridgel.box(dx1 + 0.21, dx1 + 0.27, 1.16, 1.2, ez0 - 0.02, ez0 - 0.015)
-    uvquad(c.prt, [(dx0 - 0.2, 2.3, ez0 - 0.005), (dx1 + 0.2, 2.3, ez0 - 0.005), (dx1 + 0.2, 2.68, ez0 - 0.005), (dx0 - 0.2, 2.68, ez0 - 0.005)], uv(c.FD['sign']))   # 樓層牌（電梯門上面，朝走廊）
+    uvquad(c.prt, [(dx1 + 0.2, 2.3, ez0 - 0.005), (dx0 - 0.2, 2.3, ez0 - 0.005), (dx0 - 0.2, 2.68, ez0 - 0.005), (dx1 + 0.2, 2.68, ez0 - 0.005)], uv(c.FD['sign']))   # 樓層牌（電梯門上面，朝走廊 −z：從走廊看，+x 在左手邊——10-20 截圖發現原本字是反的）
     c.block(ex0 - 0.17, ex1 + 0.17, ez0 - 0.05, ez1 + 0.17, 'elevator_core')
     # 討論區兩側的木條護牆板（1 m 高；跟著那一面牆淡出）
     for k, xw, sg in (('W', X0, 1), ('E', X1, -1)):
@@ -296,7 +296,7 @@ def bins_e(c, xw, z0):
     """三個回收桶背靠東牆（面向 −x），貼標籤"""
     for k, (col, key) in enumerate((('#5a5a5a', 'BIN1'), ('#2f6fb0', 'BIN2'), ('#3b8f4a', 'BIN3'))):
         za = z0 + k * 0.46; c.vc.crbox(xw - 0.45, xw - 0.05, 0.0, 0.78, za, za + 0.4, col, r=0.03, seg=1); c.vc.cbox(xw - 0.42, xw - 0.08, 0.78, 0.8, za + 0.03, za + 0.37, '#2b2b2b')
-        x_ = xw - 0.452; uvquad(c.prt, [(x_, 0.5, za + 0.37), (x_, 0.5, za + 0.03), (x_, 0.64, za + 0.03), (x_, 0.64, za + 0.37)], uv(key))
+        x_ = xw - 0.452; uvquad(c.prt, [(x_, 0.5, za + 0.03), (x_, 0.5, za + 0.37), (x_, 0.64, za + 0.37), (x_, 0.64, za + 0.03)], uv(key))   # 朝 −x：從房間裡看 −z 在左手邊（和電梯的樓牌一樣，原本是反的）
     c.block(xw - 0.48, xw, z0 - 0.02, z0 + 1.38, 'bins')
 
 
@@ -326,7 +326,7 @@ def build_4f(c):
     for cz in (-0.75, 2.75): picnic(c, X0 + 1.1, cz, along='z')
     c.wood.rbox(0.6, X1 - 0.3, 0.98, 1.02, Z1 - 0.62, Z1 - 0.2, r=0.006, seg=1); c.vm.cbox(0.7, X1 - 0.4, 0.0, 0.98, Z1 - 0.26, Z1 - 0.22, '#5a5f63')
     c.block(0.58, X1 - 0.28, Z1 - 0.65, Z1, 'window_desk')
-    for x_ in (1.2, 2.2, 3.2, 4.2, 5.2, 6.2): chair(c, x_, Z1 - 0.95, 0.0, 'bar', '#3f4a52'); c.seat(x_, Z1 - 0.95, 0.0, (x_, Z1 - 0.4), 'study', label='坐窗邊（自習）')
+    for x_ in (1.2, 2.2, 3.2, 4.2, 5.2, 6.2): chair(c, x_, Z1 - 0.95, 0.0, 'bar', '#3f4a52'); c.seat(x_, Z1 - 0.95, 0.0, (x_, Z1 - 0.4), 'study', ap=(x_, Z1 - 1.4), label='坐窗邊（自習）')   # 走近點在高腳椅後面 0.45 m（座位按鈕 0.7 m：原本預設 0.6 m，差一點就看不到按鈕）
     whiteboard(c, -2.6, 1.4, 'WB', yaw=-PI / 2); whiteboard(c, -2.6, -0.5, 'WB2', yaw=-PI / 2)
     c.look('whiteboard', -3.4, 0.45, 0.9, '白板', '上面寫著期中考範圍和討論的題目（說明文字由 AA 寫）')
     water_station(c, X1 - 0.3, -0.6, face='+z'); cups_stack(c, X1 - 0.3, 1.05, -0.6, 5)
