@@ -722,6 +722,24 @@
    "state": "已交付（遊戲內臨時接線 ALL PASS；READY_FOR_ART_REVIEW）",
    "remaining": "正式接線（LAWWW-C）；門外巷子晚上還是白天的圖；118 巷街景的店面沒有真的門；其他八間沒有一張一張椅子走過；實機",
    "next": "LAWWW-C 正式接線，接好後跑 reachability_all"
+  },
+  {
+   "task": "BUG-WZFLICKER-2 溫州街、公館、118 巷的疊面（閃爍）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0acf75bc（GLB）＋224156d0（說明）",
+   "files": [
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "assets/models/env/second_ai/lane118_street.glb",
+    "（各自的 .json）",
+    "tools/blender/env_second/wz_shopkit.py",
+    "tools/blender/env_second/wz_street.py",
+    "tools/shots/wzflicker2_shots.py",
+    "docs/art-rebuild/second_ai/test_shots/wz_flicker2_1020/README.md"
+   ],
+   "state": "已交付（同檔名換 GLB；flow_lane118 ALL PASS；兩支整合測試的 FAIL 是原本就有的）",
+   "remaining": "溫州街 draw call／三角形超過效能目標（原本就有，X69、PERF-WENZHOU-1020）；gongguan_glb_integration 四項 FAIL 要不要改測試（LAWWW-C 決定）；實機",
+   "next": "LAWWW-C 換三份 GLB（manifest 不用改）"
   }
  ]
 }
