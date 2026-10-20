@@ -1,13 +1,13 @@
 {
- "objects": 28,
- "unique_meshes": 28,
- "tris": 16138,
- "tris_drawn": 16138,
- "materials": 15,
+ "objects": 31,
+ "unique_meshes": 31,
+ "tris": 15055,
+ "tris_drawn": 15055,
+ "materials": 18,
  "out": "assets/models/env/second_ai/linze_202.glb",
- "bytes": 1399372,
+ "bytes": 1353104,
  "texres": 512,
- "tris_total": 16138,
+ "tris_total": 15055,
  "layout": "linze_202.layout.json",
  "seats": 40
 }
