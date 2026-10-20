@@ -49,13 +49,35 @@
   {
    "id": "UA-LAWWW2-1020-02",
    "at": "2026-10-20T15:3x",
-   "quote": "請同步 GitHub 最新進度，接續 LAWWW2 目前尚未完成的環境美術工作。第一：完成霖澤館 3、4 樓……第二：霖澤館與萬才館樓層規劃（不要讓玩家四年都只看到「整修中」……涉及課表、法律課堂或人物事件的空間，先與 LAWWW、AA 確認需求）……第三：118 巷九間店的美術驗收與效能……原則：優先完成已開工的成果……須分開標示 MODEL_READY、INTEGRATED、FUNCTIONAL_VERIFIED 和等待我美術審核的狀態。",
+   "quote": "請同步 GitHub 最新進度，接續 LAWWW2 目前尚未完成的環境美術工作。第一：完成霖澤館 3、4 樓……（原則：優先完成已開工的成果……須分開標示 MODEL_READY、INTEGRATED、FUNCTIONAL_VERIFIED 和等待我美術審核的狀態。）",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X74",
+   "task": "LINZE-34F-TABLES-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "同一則訊息拆三筆（第一項）；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支；長椅離牆、4F 長凳的走近點還要重建（reachability）"
+  },
+  {
+   "id": "UA-LAWWW2-1020-02b",
+   "at": "2026-10-20T15:3x",
+   "quote": "第二：霖澤館與萬才館樓層規劃（不要讓玩家四年都只看到「整修中」……涉及課表、法律課堂或人物事件的空間，先與 LAWWW、AA 確認需求）",
    "kind": "原話",
    "status": "進行中",
    "wants": "X73",
-   "task": "LINZE-34F-TABLES-1020、LINZE-WANCAI-FLOORS-1020、L118-SHOPS-AUDIT-1020",
+   "task": "LINZE-WANCAI-FLOORS-1020",
    "src": "LAWWW2-C 對話",
-   "note": "第一項交付 5566a0c5（已接）；第二項規劃 5d1f54ec＋確認 5984c140、研討室 A／202／多功能教室模型 0a5cc70a（等 README）；第三項量測中"
+   "note": "同一則訊息拆三筆（第二項）；規劃 5d1f54ec＋LAWWW-C 確認 5984c140；研討室 A／202／多功能教室模型 0a5cc70a（README、截圖補完中）"
+  },
+  {
+   "id": "UA-LAWWW2-1020-02c",
+   "at": "2026-10-20T15:3x",
+   "quote": "第三：118 巷九間店的美術驗收與效能……",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X66",
+   "task": "LANE118-SHOPS-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "同一則訊息拆三筆（第三項）；鏡頭遮擋、店員位置、座位、燈高、材質、貼圖、效能量測中"
   },
   {
    "id": "UA-LAWWW2-1020-03",
@@ -73,22 +95,22 @@
    "at": "2026-10-20T17:1x",
    "quote": "博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X85",
    "task": "SKYBRIDGE-DOOR-1020",
    "src": "LAWWW2-C 對話",
-   "note": "LAWWW2-C c77e68a2 交付（模型＋teach3d.js patch），等 LAWWW-C 接"
+   "note": "LAWWW2-C c77e68a2 接進開發分支 5a6990dd"
   },
   {
    "id": "UA-LAWWW2-1020-05",
    "at": "2026-10-20T17:2x",
    "quote": "連通道可以走 只是要經過一個門 跟現實不符",
    "kind": "原話",
-   "status": "進行中",
+   "status": "在開發分支",
    "wants": "X85",
    "task": "SKYBRIDGE-DOOR-1020",
    "src": "LAWWW2-C 對話",
-   "note": "補充上一則：問題是門，不是路"
+   "note": "補充上一則：問題是門，不是路；LAWWW2-C c77e68a2 接進開發分支 5a6990dd"
   }
  ]
 }
