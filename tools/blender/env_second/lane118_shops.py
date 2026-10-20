@@ -464,7 +464,7 @@ def finish(c):
         if ob.type == 'MESH': ob.data.calc_loop_triangles(); tris += len(ob.data.loop_triangles)
     sh = next(q for q in LAY['shops'] if q['id'] == c.sid); Wst = sh['side'] == 'W'; fx = LAY['facade']['west'] if Wst else LAY['facade']['east']; cz = (sh['z0'] + sh['z1']) / 2
     street = dict(side=sh['side'], door=dict(x=round(fx + (0.9 if Wst else -0.9), 3), z=cz, note='118 巷的店門口互動點（現在 zones3d.js buildLane118 的位置）'),
-                  spawn_out=dict(x=round(fx + (1.4 if Wst else -1.4), 3), z=round(cz + 0.6, 3), yaw=round(PI / 2 if Wst else -PI / 2, 4), note='出店門站的位置：面向巷子對面；離門口互動點 0.7 m（不會一出來就站在「進門」上）'))
+                  spawn_out=dict(x=round(fx + (1.3 if Wst else -1.3), 3), z=round(cz + 1.7, 3), yaw=round(PI / 2 if Wst else -PI / 2, 4), note='出店門站的位置：人行道上、面向巷子對面；離門口互動點 1.75 m（現在的互動半徑 1.4 m：一出來不會就顯示「進店」）'))
     lay = dict(version=1, zone=f'l118_{c.sid}', shop=c.sid, name=c.T['name'], type=c.T['sub'], src='AA_280（店名、菜單）；LANE118-SHOPS-1020（室內）',
                bounds=dict(x0=c.X0, x1=c.X1, z0=c.Z0, z1=c.Z1), h=H, cam_dist=c.S.get('cam', 4.2), door=c.door, spawn=c.spawn, exits=c.exits, street=street,
                counter=c.counter, clerk=c.clerk, order=c.order, seats=c.seats, interact=c.inter, blocks=c.blocks)
