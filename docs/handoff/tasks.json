@@ -20363,7 +20363,7 @@
    "title": "法律系迎新改到開學前（現在 9/27）",
    "area": "V1",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -20377,7 +20377,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「迎新在9/27不合理阿 應該在開學前」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 13:53 AA_310（143dd683）交了】大一的迎新就是 8/22～24 宿營；9/27 那場是沒去宿營的人的備用，改 8/31（日）09:30～12:00 傅鐘前，第一句「星期天上午……下午就是開學典禮」；ev_ps_w1_room「已認識」加 welcomeDay；大二小隊輔公告 9/4 21:00、出遊 9/6 14:00（大三、大四只有企劃）。LAWWW 接：activities.js welcome_y1s1 日期與條件 ｜ AA 定日期時間地點＋要改的台詞；LAWWW 改 src/data/activities.js welcome_y1s1（dates 2025-09-27）和相關條件",
+   "next": "【10-20 15:0x 開發分支】AA_310 第 1、2 節接好：welcome_y1s1 8/31（日）09:30–12:00（有宿營不辦）、第一句「星期天上午……下午就是開學典禮」、事件不寫 term（8/31 在開學前）、ev_ps_w1_room 迎新認識（welcomeDay）走「已認識」；大二小隊輔 9/4 21:00 公告「禮拜天迎新，小隊輔兩點……」、9/6 14:00 出發、沒去的照片 9/6 21:30；註解。tests/aa310_welcome_unit.js（修改前 5 FAIL）；camp_y1、v1_batch6、v3_welcome 寫死的日期照改。沒找到第 6 週 P2 給沛珊聯絡方式的地方（讀書會 P1／P1b 已停用）——問 AA ｜ 【10-20 13:53 AA_310（143dd683）交了】大一的迎新就是 8/22～24 宿營；9/27 那場是沒去宿營的人的備用，改 8/31（日）09:30～12:00 傅鐘前，第一句「星期天上午……下午就是開學典禮」；ev_ps_w1_room「已認識」加 welcomeDay；大二小隊輔公告 9/4 21:00、出遊 9/6 14:00（大三、大四只有企劃）。LAWWW 接：activities.js welcome_y1s1 日期與條件 ｜ AA 定日期時間地點＋要改的台詞；LAWWW 改 src/data/activities.js welcome_y1s1（dates 2025-09-27）和相關條件",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20769,7 +20769,7 @@
    "title": "使用者那一局沒有大一宿營（CAMP_Y1）：經濟系 30 分鐘版跳過宿營？",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -20783,7 +20783,8 @@
    },
    "source": "AA_310 第 4 節（AA-C 10-20 13:53）：宿營是強制的；使用者存檔 9/25 沒有 CAMP_Y1",
    "authorized": "使用者直接指示（10-20 試玩回報）的衍生待辦",
-   "next": "查使用者存檔：經濟系結束 → 8/22～24 宿營有沒有演；30 分鐘版的快轉有沒有跳過"
+   "next": "結案：見 evidence；BB 用 day-18 存檔（經濟系→法律系）確認 CAMP_Y1 有",
+   "evidence": "使用者 9/25 存檔（tests/repro_1020/user_save_day9.json）：沒有 LAW_START_DAY、MAIN_D1、LAW_RECAP_SEEN、PLAYED_Y0——是舊的 9/17（第 1 天 21:12 宿舍）開局，不是 30 分鐘版跳過宿營；經濟系路線 y1_camp 是 must:true、在家快轉 coreCallAt 停在 8/22 08:00（econff3d.js campCallDue）。舊開局沒有宿營，所以排到 9/27 的備用迎新；AA_310 以後備用改 8/31（那種舊局已經過了，不再出現）"
   },
   {
    "id": "AA312-INTEGRATE-1020",

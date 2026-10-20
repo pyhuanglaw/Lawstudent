@@ -41,10 +41,10 @@ const ACTIVITIES={
     {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-13.5,z:13.6,lv:0,label:'社團博覽會',r:1.3},dates:['2025-09-30','2025-10-01'],t0:11,t1:17,
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
      desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
-    /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——大一上第 4 週週六（遊戲從第 3 週開始；實際日期【待考證】）。傅鐘前集合（和社團博覽會同一點，日期不同）；
+    /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——開學前（8/31 上午，AA_310；使用者 2026-10-20「迎新在9/27不合理阿 應該在開學前」）；有宿營的局不辦（大一的迎新就是 8/22～24 宿營）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
-    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）9/27 回到一般週末；只留給開發起點（直接跳 8/29）防呆 */
-     desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
+    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-08-31'],t0:9.5,t1:12,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）不辦；只留給沒有宿營的局（開發起點直接跳 8/29）防呆——下午 14:00 是開學典禮（S.ceremonyY1），中間有午餐時間 */
+     desc:'開學典禮前的上午，系學會在傅鐘前辦的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
     /* 公法讀書會（交接包 v2 C14 以安新 7 後半）：每週四 20:00～21:30，萬才館研討室 A；第一次＝ev_public_law_group。
        2026-10-17 改到大一上第 10 週開始（AA_218 17-4 使用者批准；BB_191 §8-1、8-6）：大一上 10～16 週；大一下 2～7、10、12～16 週（第 11 週週四以安在博雅 B4 講座，停一次）；大二下加第 1 週（沛珊交接 P4，§8-7）*/

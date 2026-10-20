@@ -137,8 +137,8 @@ const day=k=>STORY.dayOfKey(k);
     check('E7. 宿舍版（AA_208 2-2）：柏翰的床已整理好 → 哥，你第一堂什麼？→ 憲法。→ 一起走 → 這三天都吃便利商店 → 麵店；ZHE_W1_NOODLE、不加熟悉',said.join('|').indexOf('（早上，柏翰的床已經整理好了，人不在。）|阿哲：哥，你第一堂什麼？|祐廷：憲法。|阿哲：我也是。一起走。|阿哲：中午吃什麼？我這三天都吃便利商店。|阿哲：麵店喔，好。在哪？')===0&&G.flags.ZHE_W1_NOODLE===true&&G.flags.ZHE_W1_DORM===true&&JSON.stringify(G.rel.zhe||null)===fam1,said.join(' / '));
     check('E8. 宿舍版演過：教室的宿營版不再演；到教室「柏翰坐在第一排正中間」',evM.prereq.custom(G)===false&&evB.prereq.custom(G)===true);
     said=[]; await EVENTS.run(evB); check('E9. 到教室的旁白',said[0]==='（柏翰坐在第一排正中間，已經在看課本了。）',said.join(' / ')); }
-  const wel=ACTIVITIES.list.find(a=>a.id==='welcome_y1s1'), d927=day('2025-09-27');
-  check('E5. 有宿營（CAMP_Y1）的局 9/27 舊迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d927,G)===false&&ACTIVITIES.on(wel,d927,{flags:{}})===true);
+  const wel=ACTIVITIES.list.find(a=>a.id==='welcome_y1s1'), d831=day('2025-08-31');   /* AA_310：備用的迎新改到開學前 8/31 上午（原本 9/27）*/
+  check('E5. 有宿營（CAMP_Y1）的局 8/31 備用迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d831,G)===false&&ACTIVITIES.on(wel,d831,{flags:{}})===true);
   { fresh(); G.flags.introDone=true; G.flags.DORM_FOUR=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_typhoon_noodles_y1'));
     check('E10. 四人房的颱風夜（AA_208 2-3）：柏翰「（在讀張教授寄來的講義）……第十二頁了。」、阿哲「（拿走一包泡麵）我出熱水。」',said.some(t=>/柏翰：（在讀張教授寄來的講義）……第十二頁了。$/.test(t))&&said.includes('阿哲：（拿走一包泡麵）我出熱水。'),said.slice(0,4).join(' / '));
     said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));

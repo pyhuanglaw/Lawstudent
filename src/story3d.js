@@ -1613,7 +1613,7 @@ const STORY = (function(){
        邀約系統（invites3d.js 的 offer：手機上回答應／改天／不了；見面照邀約系統）；只約一次 */
     { const d=termDay('Y1S1',15,1); if(d&&G.day>=d&&G.day<=d+3&&h(G)>=19&&!F.anFinalInvite&&typeof INV!=='undefined'&&INV.hasContact(G,'heroine_01')&&typeof SOCIAL!=='undefined'&&SOCIAL.stage('heroine_01')!=='STRANGER'){
         F.anFinalInvite=G.day; INV.offer(G,'heroine_01','library',G.day+1,8,'明天 8:00 總圖。周老師那題，我寫了反方的理由。你來反駁。'); } }
-    /* 可昕 K2 她第一次來台大（BB_95 9-3）：第 6 週週五 20:00 她傳（避開第 4 週六的迎新、第 5 週六的中秋）；週六 16:00 社科院門口（出遊：走過去約 10 分鐘）*/
+    /* 可昕 K2 她第一次來台大（BB_95 9-3）：第 6 週週五 20:00 她傳（避開第 5 週六的中秋）；週六 16:00 社科院門口（出遊：走過去約 10 分鐘）*/
     { const fri=termDay('Y1S1',6,5);
       if(fri&&F.dating_kexin&&G.day<=fri&&G.day>=fri-7&&!PHONE.sent(G,'kx_ntu_ask')) PHONE.at(G,fri,20,[{th:'p:kexin',from:'kexin',text:'這次換我去台大。我先去找品妤，再去霖澤館抓你。'}],'kx_ntu_ask');
       if(fri&&F.dating_kexin&&G.day>=fri&&G.day<=fri+1&&PHONE.sent(G,'kx_ntu_ask')&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_ntu'))
@@ -1915,14 +1915,14 @@ const STORY = (function(){
       if(TR.miss>=3&&!off&&!PHONE.sent(G,'fafu_bohan_'+t.id)&&!(t.id==='Y2S1'&&t.week<6)){ silentContact('classmate_bohan'); TR.miss=0; PHONE.at(G,G.day,Math.max(h(G),12),ask,'fafu_bohan_'+t.id); }
       if(F.FAFU_OFF&&F.FAFU_OFF!==t.id&&t.week===1&&!PHONE.sent(G,'fafu_bohan_'+t.id)){ silentContact('classmate_bohan'); F.FAFU_OFF=null; PHONE.at(G,G.day,Math.max(h(G),12),ask,'fafu_bohan_'+t.id); } }
     /* 「法律系（全班）」群組 law_class（AA_177 第 9 節，和經濟系的 econ_class 對稱，四年同一個）：新遊戲第 1 天 21:00 加入＋系統字；舊存檔讀檔時補加入（day 記第 1 天）、不跳系統字。
-       用在系學會的公告：大二迎新 10/1（下面）、大三迎新 9/23、大四直屬名單 9/1、大四迎新 9/28 */
+       用在系學會的公告：大二迎新 9/4（下面；AA_310）、大三迎新 9/2、大四直屬名單 9/1、大四迎新 8/31（AA_310 第 3 節，還沒做進遊戲）*/
     if((G.stage||'law')==='law'&&!PHONE.inGroup(G,'law_class')&&S.week1Start(G)){ const d0=S.dayOfKey('2025-08-31'), t0=14+40/60; if(d0!=null&&(G.day>d0||(G.day===d0&&h(G)>=t0))) S.lawClassJoinY1(G); }   /* 選 1：開學典禮中約 14:40（AA_195 4-4「校長致詞講到一半，手機震了一下」；AA-B 7b2d057f）*/
     else if((G.stage||'law')==='law'&&!PHONE.inGroup(G,'law_class')&&(S.mainDay(G)>1||h(G)>=21)){ const g=PHONE.join(G,'law_class','法律系（全班）'); if(S.mainDay(G)===1) PHONE.at(G,G.day,21,[{th:'g:law_class',text:'你被加進「法律系（全班）」。'}],'law_class_join'); else g.day=S.mainD1(G); }
     else if(PHONE.inGroup(G,'law_class')&&G.phone.groups.law_class.name!=='法律系（全班）') G.phone.groups.law_class.name='法律系（全班）';   /* 舊存檔照年級的名字「法律系 大一（全班）」改成四年同一個 */
-    /* D3 迎新（大二，小隊輔；AA_177 第 6、9 節）：10/1（四）21:00 系學會在 law_class「週六迎新，小隊輔一點在社科院旁的草地集合。」→ 10/3（六）13:00 出發選單（晚 15 分鐘＝沒去）；沒去＝21:30 同一個群組的照片 */
-    if(typeof OUT!=='undefined'&&PHONE.inGroup(G,'law_class')){ const d=S.dayOfKey('2026-10-03'), di=S.dayOfKey('2026-10-01'), C=t=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:t});
-      if(d!=null&&di!=null&&(G.day>di||(G.day===di&&h(G)>=21))&&G.day<=d&&!PHONE.sent(G,'y2_welcome_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,h(G)):21,[C('週六迎新，小隊輔一點在社科院旁的草地集合。')],'y2_welcome_ask');
-        if(!OUT.get(G,'y2_welcome')&&(G.day<d||h(G)<13.25)) OUT.plan(G,{id:'y2_welcome',ev:'ev_y2_welcome',day:d,h:13,late:0.25,place:'社科院旁的草地',title:'迎新（小隊輔）',travel:'走過去約 10 分鐘',travelH:1/6}); }
+    /* D3 迎新（大二，小隊輔；AA_177 第 6、9 節；AA_310 第 2 節改到開學前）：9/4（五）21:00 系學會在 law_class「禮拜天迎新，小隊輔兩點在社科院旁的草地集合。」→ 9/6（日）14:00 出發選單（晚 15 分鐘＝沒去；那天早上 08:30 搬進 312）；沒去＝21:30 同一個群組的照片 */
+    if(typeof OUT!=='undefined'&&PHONE.inGroup(G,'law_class')){ const d=S.dayOfKey('2026-09-06'), di=S.dayOfKey('2026-09-04'), C=t=>({th:'g:law_class',from:'law_assoc',name:'系學會',text:t});
+      if(d!=null&&di!=null&&(G.day>di||(G.day===di&&h(G)>=21))&&G.day<=d&&!PHONE.sent(G,'y2_welcome_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,h(G)):21,[C('禮拜天迎新，小隊輔兩點在社科院旁的草地集合。')],'y2_welcome_ask');
+        if(!OUT.get(G,'y2_welcome')&&(G.day<d||h(G)<14.25)) OUT.plan(G,{id:'y2_welcome',ev:'ev_y2_welcome',day:d,h:14,late:0.25,place:'社科院旁的草地',title:'迎新（小隊輔）',travel:'走過去約 10 分鐘',travelH:1/6}); }
       const o=d!=null?OUT.get(G,'y2_welcome'):null; if(o&&o.state==='missed'&&!G.events.done.ev_y2_welcome&&(G.day>d||h(G)>=21.5)&&G.day<=d+2&&!PHONE.sent(G,'y2_welcome_photo')) PHONE.at(G,d,21.5,[C('📷（一群新生圍成一圈，手上拿著名牌。）')],'y2_welcome_photo'); }
     /* ===== v3 D8（AA_177 第 5、6 節）=====
        校慶（法服問答攤）：法服成員 11/13（五）21:00 語彤在法服讀書會群組「明天九點半，攤位集合。」（攤位的事件 ev_fair_booth_y2）。

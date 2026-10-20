@@ -608,8 +608,8 @@ const STORY_EVENTS=[
     prereq:{flags:['afternoonDone'],notEvents:['ev_an_report_split'],notMemory:[{npc:'heroine_01',tag:'REPORT_PARTNER'}]},
     dialogue:[ {speaker:'heroine_01',expression:'neutral',text:'民總的報告，老師分組那天你沒來。'},{speaker:'heroine_01',expression:'smile',text:'我把你寫在我這組了。……不用謝。理由：剩下的人裡，你最不會遲交。'} ],
     consequences:{mem:[{npc:'heroine_01',tag:'REPORT_PARTNER',note:'分組那天沒來，以安把你寫進她那組'}],flags:{REPORT_PARTNER_LATE:'assigned_absent'}} },
-  { id:'ev_welcome_y1s1', title:'迎新', participants:['classmate_peishan'], location:'campus', trigger:'activity', term:['Y1S1'], once:true, background:'blur',
-    dialogue:[ {speaker:null,text:'傅鐘前面，法律系的迎新。學長姊帶隊，大家先輪流自我介紹。'},
+  { id:'ev_welcome_y1s1', title:'迎新', participants:['classmate_peishan'], location:'campus', trigger:'activity', once:true, background:'blur',   /* 不寫 term：8/31 在大一上開學前（AA_310），日期由 activities.js welcome_y1s1 管 */
+    dialogue:[ {speaker:null,text:'星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'},   /* AA_310 第 1 節：8/31（日）上午 */
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'小語自我介紹講了三分鐘她的三個社團。'},
       {if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)&&STORY.knows('classmate_bohan',G)},speaker:'classmate_bohan',expression:'neutral',text:'（小聲）她剛剛講了四個。'},
       {speaker:null,text:'輪到你。'},
@@ -3536,8 +3536,8 @@ const STORY_EVENTS=[
       {label:'b'},{if:{custom:G=>typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'對嘛。'},
       {label:'end'} ],
     consequences:{flags:{MIDAUTUMN_Y2:true},memo:'大二的中秋烤肉（河濱）'} },
-  /* D3 迎新（大二版，小隊輔；AA_143 1-3、AA_177 第 6、9 節）：10/3（六）13:00 社科院旁的草地（2D 出遊；AA_177 第 9 節：先做 2D，三個背景配三題，3D 帶隊之後再做）。
-     邀約：10/1（四）21:00 系學會在「法律系（全班）」群組（law_class）；沒去＝21:30 同一個群組一張照片。開頭旁白用 AA 寫的照片說明。
+  /* D3 迎新（大二版，小隊輔；AA_143 1-3、AA_177 第 6、9 節；AA_310 第 2 節改到開學前）：9/6（日）14:00 社科院旁的草地（2D 出遊；AA_177 第 9 節：先做 2D，三個背景配三題，3D 帶隊之後再做）。
+     邀約：9/4（五）21:00 系學會在「法律系（全班）」群組（law_class）；沒去＝9/6 21:30 同一個群組一張照片。開頭旁白用 AA 寫的照片說明。
      三題：前兩題各兩個選項、都是好答案（只記 MENTOR_STYLE）；第 3 題「為什麼念法律？」四個短版，第二天選的那一句（whyLaw）排第一，四個都可以選；記 MENTOR_WHY、筆記「我認識的人：迎新的學弟妹」。
      收尾：阿哲（另一隊的小隊輔）在傅鐘下喊口號（沒有傅鐘的 2D 背景：椰林大道）。*/
   { id:'ev_y2_welcome', title:'迎新（小隊輔）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
@@ -3844,7 +3844,7 @@ const STORY_EVENTS_V11=[
   /* 9/2（二）國文第一堂：沛珊找教室（BB_168 2-1；BB_177 第 10 節：宿營認識的一律用已認識版、不記 PS_W1_SEEN）。上課前（beforeClass）演、下課接借筆記；不加數值、不出法律題目 */
   { id:'ev_ps_w1_room', title:'找教室', participants:['classmate_peishan'], location:'any', trigger:'class', beforeClass:'chinese_y1', once:true, background:'blur',
     prereq:{custom:G=>typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G)&&G.day===STORY.dayOfKey('2025-09-02')},
-    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&STORY.metAtCamp&&STORY.metAtCamp(G,'classmate_peishan')},goto:'camp'},
+    dialogue:[ {if:{custom:G=>typeof STORY!=='undefined'&&((STORY.metAtCamp&&STORY.metAtCamp(G,'classmate_peishan'))||(G.flags&&G.flags.welcomeDay!=null))},goto:'camp'},   /* 宿營認識、或 8/31 迎新認識（welcomeDay，AA_310 第 1 節）：走「已認識」那一段 */
       {speaker:'classmate_peishan',expression:'neutral',text:'（拿著手機，對照門口的教室號碼）不好意思，請問這間是大一國文嗎？法律系那班。'},
       {choice:[{text:'「對。」',goto:'u1'},{text:'「我也在找，應該是這間。」',goto:'u2'}]},
       {label:'u1'},{speaker:'classmate_peishan',expression:'smile',text:'喔好，謝謝。'},{speaker:null,text:'（她進去，坐在你斜前面那排。）'},{goto:'useen'},
