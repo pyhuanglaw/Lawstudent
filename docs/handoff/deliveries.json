@@ -9148,6 +9148,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 18:3x UTC：GLB 換檔、patch 套上開發分支；buildLinkView 加 try（對面那棟的配置沒載入時不放；boya_lecture_unit 只載博雅會 ReferenceError）。單元測試 nav_teach、teach_cam_walls、teach_class、teach_perf、boya_lecture ALL PASS。瀏覽器 flow_skybridge 交 BB"
+  },
+  {
+   "id": "DL-AA-c11945d0",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c11945d0",
+   "what": "AA_329 吃東西三項的台詞：①一起吃（12 人×剛認識／熟／朋友以上＋七位女主交往版；可昕三組另寫；開場結尾共用旁白）②吃過的（15 間店第一次的旁白）③店員認得你（16 間店第 5 次一句＋「老樣子」的回答；Café 芷若、麵店語彤、便利商店祐廷打工另處理）",
+   "task": "EAT-EFFECT-1020",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 2026-10-20 18:5x UTC 登記；排在事件包後面做；AA：測試不要寫死全文；這則不用回"
   }
  ],
  "ignored": [

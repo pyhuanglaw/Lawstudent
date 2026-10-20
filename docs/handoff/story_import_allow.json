@@ -872,6 +872,14 @@
    "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」；D103 2/14～7/11 住在一起不開）",
    "task": "MSG-KX-Y0-1018",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
+   "sha": "c11945d0",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）",
+   "task": "EAT-EFFECT-1020",
+   "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
   }
  ]
 }
