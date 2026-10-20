@@ -1733,8 +1733,8 @@ const STORY = (function(){
           OUT.plan(G,Object.assign({id:'kx_quiz1',ev:'ev_kexin_reschedule',day:sun,h:14,place:v?'視訊':'政大・山下的小吃街',title:v?'可昕的視訊：兩校互考':'兩校互考：開車去政大',travel:v?'':'開車約 30 分鐘',travelH:v?0:0.5},v?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
     /* K6b 第一次寫申論題（BB_96 9-7）：第 9 週週三 21:00 她考完民總期中（時間是提案值）；只一次；記 KX_DIR {Y1:'reasons'}（第 10 週以後手機小事「答案被拿去當範例」）*/
     { const w9=termDay('Y1S2',9,3); if(w9&&F.dating_kexin&&G.day>=w9&&G.day<=w9+6&&!PHONE.sent(G,'kx_essay')&&G.day*24+G.hour>=w9*24+21){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
-        PHONE.at(G,w9,21,[K('剛考完。四頁。手好痛。'),Object.assign(K('原來法律不是背答案，是把理由說給一個不認識你的人聽。'),{ask:{opts:[
-          {t:'那妳說給誰聽？',say:[K('改考卷的老師。他不認識我。……寫完的時候，我覺得他懂了。')]},{t:'我也是這學期才發現。',say:[K('那我們發現得一樣晚。很好，沒有人贏。')]},{t:'四頁？',say:[K('老師說兩頁就夠。我停不下來。')]}]}})],'kx_essay');
+        PHONE.at(G,w9,21,[K('剛考完。四頁。手好痛。'),Object.assign(K('申論題，就是把理由說給一個不認識你的人聽。'),{ask:{opts:[
+          {t:'那妳說給誰聽？',say:[K('改考卷的老師。他不認識我。……寫完的時候，我覺得他懂了。')]},{t:'我也是這學期才發現。',say:[K('那我們發現得一樣晚。')]},{t:'四頁？',say:[K('老師說兩頁就夠。我停不下來。')]}]}})],'kx_essay');
         F.KX_DIR=Object.assign({},F.KX_DIR||{},{Y1:'reasons'}); } }
     /* K7 交往週年（BB_96 9-4；日子 AA_224 第 2 組＋AA-C 2026-10-17 Q1）：每年 10/17，第一年 2025-10-17（五）。前一週同一天 10/10 21:00 她傳「下禮拜五是我們的週年。」、玩家選地點（KX_ANNIV_PLACE）；
        當天 18:30 出遊（她政大下課過來），前一晚 21:00 起選準備的東西（K7_GIFT）。第二～四年在下面（AA_224 2-c）。
@@ -1973,7 +1973,7 @@ const STORY = (function(){
       const sunOK=d=>{ const t=CALENDAR.termOf(d), x=CALENDAR.dateOf(d); if(!t||x.wd!==7||d<F.ROOM_Y2) return false; if(t.id==='Y2S1') return true; if(t.id==='Y2S2') return x.d<=7; return false; };   /* 大二下：每個月第一個週日 */
       if(sunOK(G.day)&&G.hour>=23&&!PHONE.sent(G,'kai_sup_'+G.day)){ const first=!F.KAI_SUP_ASKED; F.KAI_SUP_ASKED=(F.KAI_SUP_ASKED|0)+1; const d=G.day;
         const ask={id:'kai_sup_'+d,until:(d+1)*24+18,opts:[{t:'去。',set:{KAI_SUP_GO:d}},{t:'這週不行。',set:{KAI_SUP_LAST:d},say:[A('好。下週日。')]}]};
-        PHONE.at(G,d,Math.max(23,h(G)),first?[A('宵夜？'),Object.assign(A('我這棟樓下的滷味比較好吃。不是我要找你，是滷味。'),{ask})]:[Object.assign(A('宵夜？'),{ask})],'kai_sup_'+d); }
+        PHONE.at(G,d,Math.max(23,h(G)),first?[A('宵夜？'),Object.assign(A('我這棟樓下的滷味比較好吃。老闆會多給豆干。'),{ask})]:[Object.assign(A('宵夜？'),{ask})],'kai_sup_'+d); }
       if(F.KAI_SUP_GO===G.day&&typeof OUT!=='undefined'&&!OUT.get(G,'kai_sup_'+G.day)&&G.hour>=23) OUT.plan(G,{id:'kai_sup_'+G.day,ev:'ev_kai_sunday_supper',day:G.day,h:Math.max(23,h(G)),late:0.5,place:'宿舍旁的滷味攤',title:'週日宵夜（阿凱）',travel:'走過去約 5 分鐘',travelH:1/12});
       /* 連續沒回：每一次問的回覆期限（隔天 18:00）過了才算一週沒回 */
       if(!F.KAI_SUP_ALIVE){ const asks=(G.msgs||[]).filter(m=>m.th==='p:kai'&&m.ask&&/^kai_sup_/.test(m.ask.id||'')), now=G.day*24+G.hour; let run=0;
@@ -2482,7 +2482,7 @@ const STORY = (function(){
         ['y0_kx_obvious',Y0('Y0S1',4),21+10/60,kx1,()=>[P1('kexin','微積分老師今天說了九次『顯然』。我一次都沒有顯然。')]],
         ['y0_kx_laugh',Y0('Y0S1',4),21+10/60,kx1,()=>[P1('kexin','上課老師講了一個冷笑話。全班只有我笑。……笑了很久。')]],
         ['y0_kx_rain',Y0('Y0S1',4),21+10/60,G=>kx1(G)&&G.weather==='rain',()=>[P1('kexin','下雨了。你今天走去總圖還是騎車？……沒事，我在決定要不要帶傘。')]],
-        ['y0_kx_table',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','同一張桌子，我把你的位子擦了。不是因為想你，是有咖啡漬。')]],
+        ['y0_kx_table',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','同一張桌子，我把你的位子擦了。……有咖啡漬。')]],
         ['y0_kx_eight',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。')]],
         ['y0_kx_prof',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。')]],
         ['y0_kx_drink',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','晚安。明天的桌子，我比你早到的話，你買飲料。')]],
