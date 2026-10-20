@@ -8846,9 +8846,9 @@
    "sha": "dfd2e588",
    "what": "AA_319 事件包第三批之三 1A-13、1A-14、1A-16～1A-20",
    "task": "EVPKG-1A13-20-1020",
-   "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-C 16:3x ACK"
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 16:3x ACK；LAWWW-C 19:0x UTC 併進開發分支 70366903（子代理 a2e6fc5d 手抄：src/postgrad3d.js、src/data/postgrad_lines.js；c9b4f60e、b6757852、5ae6a133、f252a7b5 的更正都照做）；graduation／bar_exam／epilogue／postgrad_days 四個單元測試；待 BB 驗 D1～P5"
   },
   {
    "id": "DL-AA-03985a6c",

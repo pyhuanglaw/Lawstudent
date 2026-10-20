@@ -21135,9 +21135,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1A13-20-1020",
    "title": "1A-13 畢業典禮的人、1A-14 畢業那天傍晚、1A-16～20 國考（報名、筆試、放榜…）＝畢業後一路推進",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "AA_319（dfd2e588）（AA-C；使用者 10-20 15:4x B 線「直接依其 1A → 1B → 1C 波次實施」）",
-   "next": "照 AA_319 實作；CG-9、BCG-07、CG-10 從 cg_approved 搬",
+   "next": "【LAWWW-C 2026-10-20 19:0x UTC】併進開發分支 70366903（子代理 a2e6fc5d：src/postgrad3d.js、src/data/postgrad_lines.js、S.tick 叫 PG.tick、床／睡覺／在家睡覺＝畢業後跳到下一件事、S.gradFamily 芷若視訊一行）；graduation_unit 52、bar_exam_unit 60、epilogue_unit 51、postgrad_days_unit 30 項（2029-06-01～2034-06-04 每天 8 個時間點、四種玩法跳到尾聲）；CG-9、BCG-07、BCG-39、CG-10 還沒圖（MISSING_EXTERNAL_ART）。待 AA：2029 一試沒過留台灣的 2030-10-01 版本、方奕廷 2031 那句不會出現、Z1 場景安排；後面批次：BAR_STUDY_GROUP 沒有地方設、AA_327 2-Y4-51、7/14 心意邀約、K26、以安哥大與送機、畢業後住處。｜BB 驗 D1～P5（6/1 晚上睡覺、鬧鐘 08:00 起） ｜ 照 AA_319 實作",
    "first": {
     "term": "Y4S2",
     "week": null,
@@ -21147,7 +21147,8 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
-   }
+   },
+   "sha": "70366903"
   },
   {
    "area": "v4",
@@ -21443,6 +21444,28 @@
     "acceptance": "羅斯福路街廓 GLB（校園座標或附換算）、draw call、三角形數、不投影；校園西側同角度修改前後截圖",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-BED-RESUME-1020",
+   "title": "選了「睡到明天早上」，睡著被叫醒（電話）演完人醒著站在房間；睡覺的醒來字卡之間會插進別的事件（BB-C 10-20 P1，e7b96f70 重現 2 次）",
+   "area": "v4",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S1",
+    "week": 8,
+    "earliest": "2027-10-24（感冒那一晚 21:00 被叫醒）；2027-11-17 22:00 可昕的電話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB-C 2026-10-20 18:42 UTC 回報（e7b96f70 重現 2 次）；使用者 15:4x A 線第 3 點「日期、星期…跨日」同一類",
+   "authorized": "使用者 15:4x「修復玩家試玩問題…請 BB 驗收」",
+   "next": "【LAWWW-C 19:0x UTC】a335c23f：S.lawWakeAt 叫醒（11/17 22:00 可昕電話、10/24、10/26、6/1）以後，那一段演完、人還在同一個房間、同一個晚上＝床的選單自動再出來一次；選「再撐一下」、先做別的事、走出房間＝不再出；sleepNow 整段 S._sleeping＝S.tick 不開新的事件。tests/sleep_resume_unit.js（修改前 7 項 FAIL）。BB 第一輪（11/16 21:00 → 拆箱 → 22:05 醒著）在我這裡沒重現（同狀態直接睡到 11/17 08:10），請 BB 附腳本與存檔再測。｜BB 驗：11/17 21:00 和可昕交往 → 睡到明天早上 → 22:00 電話 → 演完床的選單自己出來 → 選睡覺 → 11/18 早上",
+   "sha": "a335c23f"
   }
  ]
 }
