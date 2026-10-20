@@ -9135,6 +9135,19 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理"
+  },
+  {
+   "id": "DL-LAWWW2-c77e68a2",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c77e68a2",
+   "what": "BUG-BOYA-PUTONG-1020（X85）：博雅、普通室內 GLB 照現在的配置重建（通道沒有門板、南北牆開口＋門框）、skybridge.glb 天花板屋頂單面；teach3d.js patch（buildLinkView：博雅二樓開口外面看得到空橋；門廳天花板改朝下 plane）；flow_skybridge.py 加 C0、C2、D1、D2",
+   "task": "SKYBRIDGE-DOOR-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 18:3x UTC：GLB 換檔、patch 套上開發分支；buildLinkView 加 try（對面那棟的配置沒載入時不放；boya_lecture_unit 只載博雅會 ReferenceError）。單元測試 nav_teach、teach_cam_walls、teach_class、teach_perf、boya_lecture ALL PASS。瀏覽器 flow_skybridge 交 BB"
   }
  ],
  "ignored": [

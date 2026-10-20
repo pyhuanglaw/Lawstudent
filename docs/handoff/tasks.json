@@ -21393,7 +21393,7 @@
    "title": "博雅→普通的空橋：通道上還有一扇很醜的門（跟現實不符）；走到普通後被擋住、到不了一樓或二樓其他地方",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -21407,13 +21407,13 @@
    },
    "source": "使用者 2026-10-20 直接對 LAWWW2-C：「博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方」「連通道可以走 只是要經過一個門 跟現實不符」（LAWWW2-C 17:38 轉 LAWWW-C）",
    "authorized": "使用者直接指示（10-20）",
-   "next": "【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
+   "next": "【LAWWW-C 18:3x】LAWWW2-C c77e68a2 接進開發分支（GLB＋teach3d.js patch，buildLinkView 加 try）；下一步 BB 實玩 flow_skybridge（C0 通道沒有門板、C2 落在空橋鏡頭看得到人、D1 普通二樓東邊、D2 下到一樓大廳）＋看博雅二樓往南的空橋 ｜ 【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話（經 LAWWW2-C）",
     "acceptance": "博雅、普通室內 GLB（通道沒有門板）＋skybridge.glb 單面天花板＋teach3d.js patch；flow_skybridge.py 在修改前 FAIL、修改後 PASS",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
