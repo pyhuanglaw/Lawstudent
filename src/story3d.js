@@ -859,6 +859,13 @@ const STORY = (function(){
     if(ex&&P&&Math.hypot(o.x-P.x,o.z-P.z)<0.6&&Math.hypot(o.x-ex.x,o.z-ex.z)<3.5) return true;   /* 到了門口附近、碰到玩家（玩家站在入口那圈）＝當作出了門，不和玩家疊在一起（BB-C 2026-10-20 CAFE 23:00 重驗：疊了 8 遊戲分鐘）*/
     if(!ex||!last) return false; return Math.hypot(o.x-last.x,o.z-last.z)<0.2&&Math.hypot(o.x-ex.x,o.z-ex.z)<3.5; }
   S.leaveStuck=leaveStuck;
+  /* 每一幀（S.tick）：要走的人走到門口附近、碰到玩家（0.6 m 內、離出口 3.5 m 內）＝當下就出門——refreshSchedule 每 3 秒（遊戲時間）才檢查一次，
+     手機低幀率時一輪要十幾秒，客人疊在站在門口的玩家身上 19 秒（BB-C 7f61112f CAFE 23:00 第三次重驗：0.6 m 內要 2 秒以內）*/
+  S.leaveTouch=function(GM){ const E=GM.E, P=E&&E.player&&E.player.obj&&E.player.obj.position; if(!P) return 0; let k=0;
+    const near=n=>{ const o=n&&n.obj&&n.obj.position, ex=n&&n.leaveTo; return !!(o&&ex&&(n.lv|0)===(E.player.lv|0)&&Math.hypot(o.x-P.x,o.z-P.z)<0.6&&Math.hypot(o.x-ex.x,o.z-ex.z)<3.5); };
+    for(const id of Object.keys(GM.npc||{})){ const n=GM.npc[id]; if(n&&n.leaving&&near(n)){ GM.removeNPC(id); k++; } }
+    for(const n of (E.npcs||[]).slice()){ if(n&&n.isExtra&&n.leaving&&near(n)){ E.removeNPC(n); k++; } }
+    return k; };
   function walkAway(GM,n){ const E=GM.E; const o=n.obj.position, lv=n.lv|0; let best=null, bd=1e9;
     for(const it of (E.interactables||[])){ if(!it.exit&&!it.enter) continue; if((it.lv|0)!==lv) continue; const dd=Math.hypot(it.x-o.x,it.z-o.z); if(dd<bd){ bd=dd; best=it; } }
     if(!best) return false;
@@ -897,7 +904,7 @@ const STORY = (function(){
      WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[];
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
-  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return;   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
+  S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return; S.leaveTouch(GM);   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
