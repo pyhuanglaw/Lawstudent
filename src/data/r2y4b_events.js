@@ -200,7 +200,7 @@ const R2Y4B_EVENTS=(function(){
       {set:{BALL_Y4:'went'}} ],
     outingMissed:G=>{ const r=R(); if(r) r.ballMissed(G); } },
   { id:'ev_concert_y4', title:'吉他社成發', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'吉他社成發',bg:'dark'},
+    dialogue:[ {scene:'萬才館大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
       {speaker:null,text:'（小語拿著流程表跑來跑去。）'},
       {if:kn('yu'),speaker:'yu',text:'最後一首！最後一首！誰把麥克風拿走了！'},
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。你以前都這麼大聲喔？'},   /* 子晴回來當評審（BB_70 8d）*/

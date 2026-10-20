@@ -173,5 +173,46 @@ const date=id=>H.date(id);
     check('2-Y4-38 寫在讀書計畫表：「我說不要慶祝。」「……這不算慶祝。這算註解。」；note', th('p:kexin').includes('我說不要慶祝。')&&th('p:kexin').includes('……這不算慶祝。這算註解。')&&H.G.flags.KX_BDAY[4]==='note'); }
   { fresh('2029-04-23',20,'dorm'); date('kexin'); at('2029-04-23',21); phone(); at('2029-04-25',21); phone(); PHONE.tick(H.G);
     check('K2 什麼都沒做：隔天「昨天我生日。我知道我說不要慶祝。」「可是我還是等了一天。」；none', th('p:kexin').includes('昨天我生日。我知道我說不要慶祝。')&&th('p:kexin').includes('可是我還是等了一天。')&&H.G.flags.KX_BDAY[4]==='none'); }
+  /* ===== 2-Y4-39 系籃最後一場＋吉他社成發 ===== */
+  { fresh('2029-05-11',20,'dorm'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); H.FAMILIAR('classmate_mingxuan'); H.FRIEND('heroine_04'); SOCIAL.remember('heroine_04','CLAPPED',''); grp(); at('2029-05-11',21); phone();
+    const q1=OUT.get(H.G,'y4_last_game'), q2=OUT.get(H.G,'y4_concert');
+    check('2-Y4-39 5/11 21:00 阿哲在群組揪三則；排兩個出遊 5/12 10:00、19:00', JSON.stringify(th('g:noodle_team').slice(-3))===JSON.stringify(['明天早上十點 最後一場','晚上小語成發','兩個都給我來'])&&!!q1&&q1.h===10&&q1.day===D('2029-05-12')&&!!q2&&q2.h===19);
+    at('2029-05-12',9.8); await goOut('y4_last_game',[2]);
+    check('G1 系籃：「（新體育館。阿哲在場邊綁鞋帶，綁了三次。）」；拍手／記分／送水三選一；送水「後勤部長，最後一次。」；明軒「……這次我不先走。」；阿哲「四年。……好，吃午餐。」；BALL_Y4 went', has('（新體育館。阿哲在場邊綁鞋帶，綁了三次。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['拍手','記分','送水'])&&has('（中場你把一箱水搬到場邊。阿哲喝了一口：「後勤部長，最後一次。」）')&&has('最後一場。')&&has('……這次我不先走。')&&has('（坐在場邊，把護膝拿下來）四年。……好，吃午餐。')&&H.G.flags.BALL_Y4==='went');
+    at('2029-05-12',18.8); await goOut('y4_concert');
+    check('G1 成發：小語「最後一首！……」；子晴評審（有 CLAPPED）「原來坐這裡是這種感覺。你以前都這麼大聲喔？」；阿凱「我還是沒入社。」；CONCERT_Y4 went', has('（小語拿著流程表跑來跑去。）')&&has('最後一首！最後一首！誰把麥克風拿走了！')&&has('原來坐這裡是這種感覺。你以前都這麼大聲喔？')&&has('我還是沒入社。')&&H.G.flags.CONCERT_Y4==='went'); }
+  { fresh('2029-05-11',20,'dorm'); H.FAMILIAR('zhe'); H.FAMILIAR('yu'); H.FAMILIAR('classmate_mingxuan'); grp(); at('2029-05-11',21); phone(); at('2029-05-12',22);
+    for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); PHONE.tick(H.G);
+    check('G2 都沒去：12:30 明軒「系籃最後一場打完了。這次我待到最後 😂」、21:30 群組照片（舞台上的小語）；BALL_Y4、CONCERT_Y4 missed', th('g:noodle_team').includes('系籃最後一場打完了。這次我待到最後 😂')&&th('g:noodle_team').includes('📷（舞台上，小語拿著麥克風，對著台下比了一個讚。）')&&H.G.flags.BALL_Y4==='missed'&&H.G.flags.CONCERT_Y4==='missed'); }
+  /* ===== 2-Y4-40 可昕 K25 讀書會的最後一晚 ===== */
+  { fresh('2029-05-16',17,'dorm',{Y4_PATH:'bar',BAR_STUDY_GROUP:['kexin']}); date('kexin'); at('2029-05-16',18); phone();
+    check('2-Y4-40 5/16 18:00「今天是讀書會的最後一晚。你要來，還是視訊？」（按鈕：開車送宵夜／視訊）', th('p:kexin').includes('今天是讀書會的最後一晚。你要來，還是視訊？')&&(()=>{ const m=PHONE.byAsk(H.G,'y4_kx_k25'); return !!m&&m.ask.opts.map(o=>o.t).join('|')==='我開車送宵夜過去。|視訊。'; })());
+    answer('y4_kx_k25',0); phone(); at('2029-05-16',20.3); await goOut('y4_kx_k25');
+    check('L1 開車送宵夜：予樂「司機升級成外送員。」；書架「這一格空著。還不知道要放什麼。」；沒有比數；回程（在讀書小組）「……我們兩個照表。」；KX_SHELF、KX_K25 drive', has('司機升級成外送員。')&&has('（散場前，她帶你看讀書會的書架。最右邊空了一格。）')&&has('這一格空著。還不知道要放什麼。')&&!H.said.some(s=>/比數|領先|請最後一次宵夜|我們沒有比過/.test(s.t))&&has('明天開始，讀書會的人各自讀。……我們兩個照表。')&&H.G.flags.KX_SHELF===true&&H.G.flags.KX_K25==='drive'&&caps.includes('河濱')); }
+  { fresh('2029-05-16',17,'dorm'); date('kexin'); at('2029-05-16',18); phone(); answer('y4_kx_k25',1); phone(); at('2029-05-16',20.9); await goOut('y4_kx_k25');
+    check('2-Y4-40 視訊：「（邵鈞對著鏡頭點頭致意。）」；書架；沒有回程那一句', has('（邵鈞對著鏡頭點頭致意。）')&&has('這一格空著。還不知道要放什麼。')&&!has('明天開始，各自讀。')&&H.G.flags.KX_K25==='video'); }
+  { fresh('2029-05-16',17,'dorm'); date('kexin'); at('2029-05-16',18); phone(); at('2029-05-16',22); phone(); PHONE.tick(H.G);
+    check('2-Y4-40 沒去：「（照片：書架）」「讀書會的書架，最右邊空了一格。還不知道要放什麼。」；KX_SHELF、KX_K25 missed', th('p:kexin').includes('（照片：書架）')&&th('p:kexin').includes('讀書會的書架，最右邊空了一格。還不知道要放什麼。')&&H.G.flags.KX_SHELF===true&&H.G.flags.KX_K25==='missed'); }
+  /* ===== 2-Y4-41 法律專題研究：期末的日誌一句 ===== */
+  { fresh('2029-05-28',15,'classroom',{CRIMPRO_HW:'done'}); memos.length=0; const it={c:{id:'legal_research'},exam:null};
+    const r1=await S.journal(GM,it);
+    check('J1 大三交過旁聽作業：5/28（第 15 週）那堂上完，日誌「法律專題研究的報告交了。你寫的是大三那次旁聽之後一直想的事。」；只寫一次', r1===true&&memos.includes('法律專題研究的報告交了。你寫的是大三那次旁聽之後一直想的事。')&&(await S.journal(GM,it))===false);
+    fresh('2029-05-28',15,'classroom'); memos.length=0; await S.journal(GM,it); const lr=COURSES.list?null:null;
+    const C=(COURSES.Y4S2||[]).concat(COURSES.list||[]).concat(Object.values(COURSES).filter(Array.isArray).flat()).find(c=>c&&c.id==='legal_research');
+    check('J2 沒交過：「法律專題研究的報告交了。」；大四下第 6 週沒有法院旁聽（courses.js 的 specials 拿掉 w6）', memos.includes('法律專題研究的報告交了。')&&!!C&&!(C.specials||[]).some(s=>s.w===6)&&(C.specials||[]).some(s=>s.w===7)); }
+  /* ===== 2-Y4-42 學姊的生日（已在 AA_319 1A-14＝postgrad3d.js；這裡查 AA_327 的驗收點）===== */
+  { fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); H.said=[]; H.picks=[0]; await PG.bdayScene(GM,'outing');
+    check('S1 朋友：「祐廷也來了。」；沒有「學弟也來了」；沒有條列；SIS_BDAY_Y4 there', has('祐廷也來了。')&&!H.said.some(s=>/學弟也來了/.test(s.t))&&!H.said.some(s=>/^(一|二|三)，/.test(s.t))&&H.G.flags.SIS_BDAY_Y4==='there');
+    fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); H.said=[]; H.picks=[0]; await PG.bdayScene(GM,'outing');
+    check('S2 交往中：Kevin 先走「我們先走了！學弟，蛋糕交給你。」；「……不說。這次不排。」；SIS_BDAY_Y4 lover', has('我們先走了！學弟，蛋糕交給你。')&&has('……不說。這次不排。')&&H.G.flags.SIS_BDAY_Y4==='lover'); }
+  /* ===== 2-Y4-43 期末最後一頓 ===== */
+  { fresh('2029-06-22',16,'dorm',{GRADUATED:D('2029-06-02')}); TEAM(); at('2029-06-22',17); pg();
+    const q=OUT.get(H.G,'y4_last_meal');
+    check('2-Y4-43 17:00 阿哲「今天 期末最後一頓」「七點 麵店」；出遊 6/22 19:00', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['今天 期末最後一頓','七點 麵店'])&&!!q&&q.h===19&&q.day===D('2029-06-22'));
+    H.G.flags.ANNIVERSARY_23=true; at('2029-06-22',18.8); await goOut('y4_last_meal',[1]);
+    check('L1 去了：牆上的照片；阿姨「照片我貼起來了。你們自己找，找不到的下次帶一張來。」；「二十三週年那一張。」（有 ANNIVERSARY_23）；小語「這是最後一頓了。」阿哲「這不是最後一頓。下週二還是麵店。」；LAST_MEAL_Y4 went', has('（麵店的牆上貼滿了照片。四年來，大家在長桌拍的。）')&&has('照片我貼起來了。你們自己找，找不到的下次帶一張來。')&&H.opts[0].length===3&&has('（長桌坐滿，你被擠在角落，只照到半張臉。）')&&has('這是最後一頓了。')&&has('這不是最後一頓。下週二還是麵店。')&&H.G.flags.LAST_MEAL_Y4==='went'); }
+  { fresh('2029-06-22',16,'dorm',{GRADUATED:D('2029-06-02')}); TEAM(); at('2029-06-22',17); pg(); at('2029-06-22',21.6);
+    for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); PHONE.tick(H.G);
+    check('L2 沒去：21:30 群組照片「（牆上貼滿了照片。阿姨說，找不到自己的，下次帶一張來。）」', th('g:noodle_team').includes('📷（牆上貼滿了照片。阿姨說，找不到自己的，下次帶一張來。）')&&H.G.flags.LAST_MEAL_Y4==='missed'); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
