@@ -93,6 +93,7 @@ async def skip_to(pg, cdp, t):
     if not ok: await close_phone(pg)
     await drain(pg, cdp, secs=90); return ok
 WHERE = "(ids=>{ const o={}; for(const id of ids){ try{ o[id]=STORY.whereIs(GAME,id); }catch(e){ o[id]=String(e); } } return o; })(['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05'])"
+cdp_g = [None]; run_g = [None]
 SCEN = os.environ.get('SCEN', 'E1,E2,E3,E8,E7,E6,E4').split(',')
 ROUTE = "(()=>({route:GAME.G.flags.EXCHANGE_ROUTE||null, applied:GAME.G.flags.EXCH_APPLIED_DAY, rule:GAME.G.flags.EXCH_RULE||null, d05:!!GAME.G.flags.dating_heroine_05, d01:!!GAME.G.flags.dating_heroine_01, rom01:(GAME.G.romance||{}).heroine_01&&GAME.G.romance.heroine_01.status||null, rom05:(GAME.G.romance||{}).heroine_05&&GAME.G.romance.heroine_05.status||null, h:+GAME.G.hour.toFixed(2), key:CALENDAR.dateOf(GAME.G.day).key}))()"
 async def load_at(pg, base, key, hour, zone, extra):
@@ -103,6 +104,14 @@ async def load_at(pg, base, key, hour, zone, extra):
     for k in ['EXCHANGE_ROUTE', 'EXCH_APPLIED_DAY', 'EXCH_RULE']:
         if k not in extra.get('flags', {}): G['flags'].pop(k, None)
     await L.load_state(pg, G); await pg.wait_for_timeout(6000)
+    if extra.get('settle'):
+        tgt = extra['settle']
+        for k in range(4):
+            sn = await pg.evaluate(SNAP)
+            if sn['real'] >= tgt: break
+            ln = await sleep_bed(pg, cdp_g[0], run_g[0], ['睡到明天早上', '睡到明天', '睡覺']) or []
+            sn2 = await pg.evaluate(SNAP)
+            say('   [前置] 讓之前的事件演完、睡一晚（第 %d 次）：%s %.2f → %s %.2f，台詞 %d 句：%s' % (k + 1, sn['real'], sn['h'], sn2['real'], sn2['h'], len(ln), json.dumps(ln[:6], ensure_ascii=False)))
 async def sleep_bed(pg, cdp, run, pref):
     bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): return False
@@ -122,20 +131,34 @@ async def wait_until(pg, cdp, h, secs=600):
             if nx: await skip_to(pg, cdp, nx[0]); await close_phone(pg)
             else: await pg.wait_for_timeout(3000)
     return False
+async def set_h(pg, run, h):
+    await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % h); run.setup('[捷徑] 時間設 %.2f' % h); await pg.wait_for_timeout(2500)
 async def deadline(pg, cdp, run, tag, lines_out):
     r0 = await pg.evaluate(ROUTE); say('   %s 11/17 晚上：%s' % (tag, json.dumps(r0, ensure_ascii=False)))
     labs = await pg.evaluate("GAME.E.interactables.filter(i=>!i.hidden).map(i=>i.label||'').filter(l=>/交換|志願/.test(l))")
     say('   %s 宿舍裡和交換有關的按鈕：%s' % (tag, json.dumps(labs, ensure_ascii=False))); await run.shot(pg, tag + '_dorm_1117')
     if labs: bad.append('%s 宿舍還有交換選單：%s' % (tag, labs))
-    lines_out += await sleep_bed(pg, cdp, run, ['睡到明天早上', '睡到明天', '睡覺']) or []
+    d_before = (await pg.evaluate(SNAP))['real']
+    for k in range(3):
+        lines_out += await sleep_bed(pg, cdp, run, ['睡到明天早上', '睡到明天', '睡覺']) or []
+        sn = await pg.evaluate(SNAP)
+        if sn['real'] > d_before: break
+        say('   %s 第 %d 次睡覺沒睡著（%s %.2f），台詞 %s' % (tag, k + 1, sn['real'], sn['h'], json.dumps(lines_out[-8:], ensure_ascii=False)))
     r1 = await pg.evaluate(ROUTE); say('   %s 11/18 早上：%s' % (tag, json.dumps(r1, ensure_ascii=False)))
     if r1['route']: bad.append('%s 11/18 中午以前路線就定了：%s' % (tag, r1['route']))
-    await wait_until(pg, cdp, 12.1); await pg.wait_for_timeout(4000)
+    await set_h(pg, run, 11.9)
+    for k in range(90):
+        sn = await pg.evaluate(SNAP)
+        if sn['h'] >= 12.1: break
+        st = await L.state(pg)
+        if st['dlg'] or st['choices']: await drain(pg, cdp, secs=40)
+        await close_phone(pg); await pg.wait_for_timeout(2000)
+    await pg.wait_for_timeout(4000)
     r2 = await pg.evaluate(ROUTE); say('   %s 11/18 12:00 以後：%s' % (tag, json.dumps(r2, ensure_ascii=False))); return r2
 async def main():
     run = L.Run('route1a02', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[0] = cdp; run_g[0] = run
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         for sc in SCEN:
             lines = []; say('== %s' % sc)
@@ -144,32 +167,32 @@ async def main():
                     fl = {'E1': {'dating_heroine_05': True}, 'E2': {'dating_heroine_01': True}, 'E3': {'dating_kexin': True}, 'E8': {'EXCHANGE_ROUTE': 'US', 'EXCH_APPLIED_DAY': None}}[sc]
                     if sc == 'E8': fl['EXCH_APPLIED_DAY'] = await pg.evaluate("STORY.dayOfKey('2027-11-01')")
                     if sc != 'E3': fl.setdefault('dating_kexin', False)
-                    await load_at(pg, base, '2027-11-17', 21.0, 'dorm', {'flags': fl}); run.setup('[前置] %s：使用者存檔改到 2027-11-17 21:00 宿舍，旗標 %s' % (sc, json.dumps(fl)))
+                    await load_at(pg, base, '2027-11-16', 21.0, 'dorm', {'flags': fl, 'settle': '2027-11-17'}); await set_h(pg, run, 21.0); run.setup('[前置] %s：使用者存檔改到 2027-11-17 21:00 宿舍，旗標 %s' % (sc, json.dumps(fl)))
                     if sc == 'E8': say('   E8 讀檔後：%s' % json.dumps(await pg.evaluate(ROUTE), ensure_ascii=False))
                     r = await deadline(pg, cdp, run, sc, lines)
                     want = {'E1': 'US', 'E2': 'JP', 'E3': 'TW', 'E8': 'TW'}[sc]
                     if r['route'] != want: bad.append('%s 路線 %s（應該 %s）' % (sc, r['route'], want))
                 elif sc == 'E7':
-                    await load_at(pg, base, '2027-11-17', 21.0, 'dorm', {'flags': {'dating_kexin': False}}); run.setup('[前置] E7：11/17 沒有交往')
+                    await load_at(pg, base, '2027-11-16', 21.0, 'dorm', {'flags': {'dating_kexin': False}, 'settle': '2027-11-17'}); await set_h(pg, run, 21.0); run.setup('[前置] E7：11/17 沒有交往')
                     r = await deadline(pg, cdp, run, sc, lines)
                     if r['route'] != 'TW': bad.append('E7 截止時沒交往，路線 %s（應該 TW）' % r['route'])
                     await pg.evaluate("(()=>{ GAME.G.flags.dating_heroine_01=true; if(typeof ROM!=='undefined') ROM.rec(GAME.G); })()"); run.setup('[捷徑] E7：11/18 截止後才和以安交往')
                     await pg.wait_for_timeout(5000); r = await pg.evaluate(ROUTE); say('   E7 之後：%s' % json.dumps(r, ensure_ascii=False))
                     if r['route'] != 'TW': bad.append('E7 截止後交往，路線變成 %s' % r['route'])
                 elif sc == 'E6':
-                    await load_at(pg, base, '2027-11-17', 21.0, 'dorm', {'flags': {'dating_heroine_01': True, 'dating_kexin': False}}); run.setup('[前置] E6：和以安交往')
+                    await load_at(pg, base, '2027-11-16', 21.0, 'dorm', {'flags': {'dating_heroine_01': True, 'dating_kexin': False}, 'settle': '2027-11-17'}); await set_h(pg, run, 21.0); run.setup('[前置] E6：和以安交往')
                     r = await deadline(pg, cdp, run, sc, lines)
                     await pg.evaluate("(()=>{ GAME.G.flags.dating_heroine_01=false; if(typeof ROM!=='undefined'&&ROM.rec){ const R=ROM.rec(GAME.G); if(R&&R.heroine_01) R.heroine_01.status='ex'; } })()"); run.setup('[捷徑] E6：11/18 以後分手（狀態 ex）')
                     await pg.wait_for_timeout(5000); r2 = await pg.evaluate(ROUTE); say('   E6 分手後：%s' % json.dumps(r2, ensure_ascii=False))
                     if r['route'] != 'JP' or r2['route'] != 'JP': bad.append('E6 路線 %s → 分手後 %s（應該都是 JP）' % (r['route'], r2['route']))
                 elif sc == 'E4':
-                    await load_at(pg, base, '2027-11-10', 21.5, 'dorm', {'flags': {'dating_heroine_01': True, 'dating_heroine_05': True, 'dating_kexin': False}}); run.setup('[前置] E4：11/10（三）21:30 宿舍，同時和以安、學姊交往')
+                    await load_at(pg, base, '2027-11-09', 21.0, 'dorm', {'flags': {'dating_heroine_01': True, 'dating_heroine_05': True, 'dating_kexin': False}, 'settle': '2027-11-10'}); await set_h(pg, run, 21.5); run.setup('[前置] E4：11/10（三）21:30 宿舍，同時和以安、學姊交往')
                     kn0 = await pg.evaluate("(()=>typeof ROM!=='undefined'&&ROM.knowsOf?[ROM.knowsOf(GAME.G,'heroine_01','heroine_05'),ROM.knowsOf(GAME.G,'heroine_05','heroine_01')]:null)()"); say('   E4 睡前 knowsOf：%s' % kn0)
                     ln = await sleep_bed(pg, cdp, run, ['睡到明天早上', '睡到明天', '睡覺']) or []
                     say('   E4 睡覺時的台詞：%s' % json.dumps(ln[:12], ensure_ascii=False)); await run.shot(pg, 'E4_after_sleep')
                     if not any('法學院圖書館' in x for x in ln): bad.append('E4 11/10 睡覺時沒有「週三晚上的法學院圖書館」那段')
                     kn1 = await pg.evaluate("(()=>typeof ROM!=='undefined'&&ROM.knowsOf?[ROM.knowsOf(GAME.G,'heroine_01','heroine_05'),ROM.knowsOf(GAME.G,'heroine_05','heroine_01')]:null)()"); say('   E4 睡後 knowsOf：%s' % kn1)
-                    await wait_until(pg, cdp, 20.0); await pg.evaluate("(()=>{ GAME.G.hour=21.95; GAME.E.hour=21.95; })()"); run.setup('[捷徑] E4：11/11 21:57（手機只跳到 20:00）')
+                    await set_h(pg, run, 21.95); await pg.evaluate("void 0"); run.setup('[捷徑] E4：11/11 21:57（手機只跳到 20:00）')
                     t0 = time.time(); msgs = []
                     while time.time() - t0 < 120:
                         if (await pg.evaluate(SNAP))['h'] >= 22.1: break
