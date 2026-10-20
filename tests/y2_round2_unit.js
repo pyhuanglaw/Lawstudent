@@ -231,6 +231,13 @@ const K=t=>'kexin:'+t;
   await go('y2r2_bd'); check('13. 電話版：「予樂說你只能打電話。……電話也算。」；最後一句同；KX_BDAY[2] message',has('予樂說你只能打電話。……電話也算。')&&has('明年也這樣。你跟予樂先講好，我假裝不知道。')&&G.flags.KX_BDAY[2]==='message');
   fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',10); tick(); miss('y2r2_bd'); run('2027-04-25',9.75,10.25);
   check('13. B2 沒回予樂、什麼都沒做：4/25「昨天是我生日。……我等了一天。」；KX_BDAY[2] none',txt('p:kexin').slice(-1)[0]===K('昨天是我生日。……我等了一天。')&&G.flags.KX_BDAY[2]==='none',JSON.stringify(txt('p:kexin')));
+  fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',12); G.msgChat={bday:{['kexin:2027']:D('2027-04-24')}}; tick();
+  check('13. 沒回予樂、白天傳了生日快樂：先有「開車去政大」，還沒有電話',(q=>!!q&&q.bdV==='drive'&&q.h===19)(OUT.get(G,'y2r2_bd'))&&!OUT.get(G,'y2r2_bd_call'));
+  await go('y2r2_bd',18.2); check('13. 自己開車去：「予樂說你沒回她。……結果你自己來了。」；KX_BDAY[2] two',has('予樂說你沒回她。……結果你自己來了。')&&G.flags.KX_BDAY[2]==='two');
+  run('2027-04-24',21.5,22.5); check('13. 開車去了：不再排電話',!OUT.get(G,'y2r2_bd_call'));
+  fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',12); G.msgChat={bday:{['kexin:2027']:D('2027-04-24')}}; tick(); miss('y2r2_bd'); tick();
+  { const q=OUT.get(G,'y2r2_bd_call'); check('13. 沒開車去、傳了生日快樂：22:00 電話版',!!q&&q.ev==='ev_kexin_birthday_y2_call'&&q.h===22); }
+  miss('y2r2_bd_call'); run('2027-04-25',9.75,10.25); check('13. 傳了生日快樂、沒打：4/25 不說「我等了一天」、KX_BDAY[2] message',!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。'))&&G.flags.KX_BDAY[2]==='message');
   fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',0); miss('y2r2_bd'); run('2027-04-24',20.5,21.25); run('2027-04-25',9.75,10.25);
   check('13. 答應了沒到：21:00「你沒來。」「……予樂她們陪我過了。」；隔天不再說「等了一天」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('你沒來。'),K('……予樂她們陪我過了。')])&&!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。')));
 

@@ -608,9 +608,9 @@ const Y2R2=(function(){
     if(pk==='message'&&!outGet(G,'y2r2_bd')&&now(G)<abs(m,22.75)) plan(G,{id:'y2r2_bd',ev:'ev_kexin_birthday_y2_call',day:m,h:22,late:0.75,place:'電話',title:'打給可昕（生日）',verb:'打給她',no:'今天先不要',call:true,travel:'',travelH:0,back:'電話結束。',bdV:'call'});
     /* 沒回予樂：當天開車去政大（出遊提示，或 MSG-2 生日按鈕選「我去政大」）＝兩個人版的另一句；傳了生日快樂＝電話版；都沒做＝隔天 10:00 */
     if(!pk&&G.day===m){ if(!outGet(G,'y2r2_bd')&&G.hour<19.25) plan(G,{id:'y2r2_bd',ev:'ev_kexin_birthday_y2',day:m,h:19,late:0.25,place:'政大',title:'可昕的生日：開車去政大',travel:'開車約 40 分鐘',travelH:2/3,bdV:'drive'});
-      const sentBd=!!(G.msgChat&&G.msgChat.bday&&G.msgChat.bday['kexin:'+(typeof CALENDAR!=='undefined'?CALENDAR.dateOf(m).y:2027)]===m);
-      if(sentBd&&!F.KX_BD2_MSG){ F.KX_BD2_MSG=true; if(!outGet(G,'y2r2_bd_call')&&now(G)<abs(m,22.75)) plan(G,{id:'y2r2_bd_call',ev:'ev_kexin_birthday_y2_call',day:m,h:Math.max(22,G.hour),late:0.75,place:'電話',title:'打給可昕（生日）',verb:'打給她',no:'今天先不要',call:true,travel:'',travelH:0,back:'電話結束。',bdV:'call'}); } }
-    if(G.day>m&&G.day<=m+3&&!(F.KX_BDAY&&F.KX_BDAY[2])){ merge(G,'KX_BDAY',{2:'none'}); if(!F.Y2R2_BD_NOSHOW) at(G,m+1,10,[K('昨天是我生日。……我等了一天。')],'y2r2_bd_none'); } };   /* 答應了沒到＝當晚 21:00 那兩則（outingMissed），不再加這一句 */
+      const sentBd=!!(G.msgChat&&G.msgChat.bday&&G.msgChat.bday['kexin:'+(typeof CALENDAR!=='undefined'?CALENDAR.dateOf(m).y:2027)]===m), dq=outGet(G,'y2r2_bd');
+      if(sentBd&&!F.KX_BD2_MSG&&!done(G,'ev_kexin_birthday_y2')&&(!dq||dq.state==='missed')){ F.KX_BD2_MSG=true;   /* 開車去了就不再打電話；沒去（或過了出發時間）才是電話版 */ if(!outGet(G,'y2r2_bd_call')&&now(G)<abs(m,22.75)) plan(G,{id:'y2r2_bd_call',ev:'ev_kexin_birthday_y2_call',day:m,h:Math.max(22,G.hour),late:0.75,place:'電話',title:'打給可昕（生日）',verb:'打給她',no:'今天先不要',call:true,travel:'',travelH:0,back:'電話結束。',bdV:'call'}); } }
+    if(G.day>m&&G.day<=m+3&&!(F.KX_BDAY&&F.KX_BDAY[2])){ merge(G,'KX_BDAY',{2:F.KX_BD2_MSG?'message':'none'}); if(!F.Y2R2_BD_NOSHOW&&!F.KX_BD2_MSG) at(G,m+1,10,[K('昨天是我生日。……我等了一天。')],'y2r2_bd_none'); } };   /* 傳了生日快樂（MSG-2）＝不是「都沒做」*/   /* 答應了沒到＝當晚 21:00 那兩則（outingMissed），不再加這一句 */
 
   /* ==================== 對話選單的一次性選項（STORY.TALK_OPTS）==================== */
   const ytShop=G=>G.zone==='noodle';
