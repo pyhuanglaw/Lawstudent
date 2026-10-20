@@ -75,7 +75,7 @@ const PG=(function(){
   /* ---------- 研究所、職涯（1A-01 的傾向＋考試；尾聲、第一份工作同一套）：研究所的旗標開發分支還沒有（AA_327 2-Y4-06、2-Y4-34）---------- */
   S.gradApplied=G=>{ const F=G.flags||{}; return F.Y4_PATH==='grad'||F.GRAD_ADMIT!=null||F.Y4_PUSH!=null||F.GRAD_RETRY!=null; };
   S.gradAdmit=G=>{ const F=G.flags||{}; return (F.GRAD_ADMIT!=null&&F.GRAD_ADMIT!==false&&F.GRAD_ADMIT!=='fail')||F.Y4_PUSH==='pass'; };
-  S.zqLine=G=>S.lean(G).top==='C'&&S.at(G,'heroine_04','FRIEND')&&(G.flags.ZQ_CONTRACT==='lawyer'||G.flags.ZQ_CONTRACT===true);   /* 子晴線達成：落點 C、FRIEND 以上、Q14 陪她去找律師（Q14 還沒做）*/
+  S.zqLine=G=>S.lean(G).top==='C'&&S.at(G,'heroine_04','FRIEND')&&G.flags.ZQ_CONTRACT!=null&&G.flags.ZQ_CONTRACT!==false;   /* 子晴線達成：落點 C、FRIEND 以上、Q14 有回（AA_323 1B-23 第 4 節：lawyer／legal_aid／honest 三個都算陪她去找律師；src/y34b3d.js）*/
   S.path=function(G){ const F=G.flags||{}, c=S.lean(G); let top=c.top;
     if(top==='B'&&!S.gradApplied(G)) top=(c.C>c.A)?'C':'A';   /* B、四年沒報考研究所：改用 A、C 裡分數比較高的（再平手 A）*/
     if(top==='A') return F.BAR_YEAR!=null?'A_bar':'A_none';
