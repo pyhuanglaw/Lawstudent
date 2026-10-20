@@ -23,8 +23,8 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝小語拍；交往中＝兩個人入鏡（CG-18）---------- */
   { id:'ev_azalea_y4', title:'四年，四張', participants:['heroine_01'], location:'campus', trigger:'auto', once:true, background:'blur',
     prereq:{custom:(G,GM)=>{ const r=R(); return !!r&&r.azaleaDue(G,GM); }},
-    dialogue:[ {if:{custom:G=>R().azaleaVer(G)==='two'},goto:'two'},
-      {if:{custom:G=>R().azaleaVer(G)==='yu'},goto:'yu'},
+    dialogue:[ {if:{custom:G=>R().azaleaNow(G)==='two'},goto:'two'},
+      {if:{custom:G=>R().azaleaNow(G)==='yu'},goto:'yu'},
       {speaker:null,text:'（杜鵑開了。她站在同一棵樹前面。）'},
       {speaker:'heroine_01',text:'（把手機遞給你）第四張。'},
       {speaker:null,text:'（她把四張照片排在一起給你看。同一棵樹，同一個位置。）'},
@@ -37,12 +37,13 @@ const R2Y4B_EVENTS=(function(){
       {if:kn('yu'),speaker:'yu',text:'笑一個嘛！'},{speaker:'heroine_01',text:'不要。'},{set:{AZALEA_Y4:'yu'}},{end:true},
       {label:'two'},{speaker:null,text:'（她把手機交給路過的人。）'},
       {speaker:'heroine_01',text:'麻煩你。……兩個人。'},
-      {speaker:null,text:'（她翻開手帳，在這一張照片的旁邊寫了一行字：「這一張要有兩個人。」）'},   /* 手帳上的字，她沒有說出口（裁定 #41）*/
-      {if:{custom:()=>hasCG('cg_azalea_fourth_heroine01')},cg:'cg_azalea_fourth_heroine01'},   /* CG-18：cg_approved/ README 的那一拍（寫完那一行之後，CG 就是那張照片）*/
+      {if:{custom:()=>hasCG('cg_azalea_fourth_heroine01')},cg:'cg_azalea_fourth_heroine01'},   /* CG-18 在拍下去的那一刻（AA_327 2-Y4-31 第 2 節；cg_approved/ README 寫「寫完那一行之後」，照 AA_327 較新的定稿，見回報）*/
+      {speaker:null,text:'（她翻開手帳，在這一張照片的旁邊寫了一行字：「這一張要有兩個人。」）'},   /* 拍完：手帳上的字，她沒有說出口（裁定 #41）*/
       {set:{AZALEA_Y4:'two'}} ],
-    after:G=>{ const r=R(); if(r&&G.flags.AZALEA_Y4==='yu') r.azaleaPhoto(G); } },
+    after:G=>{ const r=R(); delete G.flags.AZALEA_VER; if(r&&G.flags.AZALEA_Y4==='yu') r.azaleaPhoto(G); } },
   /* ---------- 2-Y4-32 明軒 M4「存夠了」（3/8 19:00 麵店；BB_40 M4 改寫版）。不在麵店＝21:00 群組（R2Y4B）---------- */
   { id:'ev_mingxuan_saved', title:'存夠了', participants:['classmate_mingxuan'], location:'noodle', trigger:'auto', once:true, background:'blur',
+    spawn:{npc:'classmate_mingxuan',dist:1.6},   /* 他衝進來、坐下來（不在作息裡也放進場景）：那句耳語要 npcNear（AA_327 2-Y4-32 第 1 節），放在玩家旁邊 */
     prereq:{custom:G=>{ const r=R(); return !!r&&r.mxSavedDue(G); }},
     dialogue:[ {speaker:'classmate_mingxuan',expression:'laugh',text:'（衝進來，手機舉得很高）我存夠了！'},
       {speaker:'classmate_mingxuan',text:'德國，一年。九月走。……錢是我自己存的。'},

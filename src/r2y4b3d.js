@@ -58,8 +58,10 @@ const R2Y4B=(function(){
   /* ===================== 2-Y4-31 杜鵑花第四張（2029-03-08）===================== */
   const AZ='2029-03-08';
   S.onAvenue=GM=>{ const P=GM&&GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position; return !!P&&Math.abs(P.z)<=14&&P.x>=-110&&P.x<=72; };   /* 椰林大道（zones3d.js：z=0，校門 x=-124 到總圖前 x≈72；兩側杜鵑在 z=±10.8）*/
-  S.azaleaDue=function(G,GM){ const d=DK(AZ); if(d==null||G.day!==d||!law(G)||G.zone!=='campus'||G.flags.AZALEA_Y4!=null) return false; const h=hh(G); if(h<12+25/60||h>=12+55/60) return false; return knows('heroine_01',G)&&S.onAvenue(GM); };
+  S.azaleaDue=function(G,GM){ const d=DK(AZ); if(d==null||G.day!==d||!law(G)||G.zone!=='campus'||G.flags.AZALEA_Y4!=null) return false; const h=hh(G); if(h<12+25/60||h>=12+55/60) return false;
+    const ok=knows('heroine_01',G)&&S.onAvenue(GM); if(ok) G.flags.AZALEA_VER=S.azaleaVer(G); return ok; };   /* 版本在開演前先定：EVENTS.run 一開始的 SOCIAL.meet 會把還不熟的熟悉度補到 5（＝有點熟）*/
   S.azaleaVer=G=>dating(G,'heroine_01')?'two':((G.flags.EX_heroine_01||!stageAt('heroine_01','ACQUAINTANCE'))?'yu':'shot');   /* 不熟、分開過＝她請小語拍 */
+  S.azaleaNow=G=>G.flags.AZALEA_VER||S.azaleaVer(G);
   S.azaleaPhoto=G=>{ const d=DK(AZ); if(d!=null&&grp(G)) PHONE.at(G,d,12+40/60,[GR('heroine_01','📷')],'y4_azalea_photo'); };   /* 12:40 群組一張照片（她請小語拍的）：照片的說明 AA 沒給字 */
   const azaleaPhone=G=>{ const d=DK(AZ), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
     if(G.day===d&&at(G,AZ,12+10/60)&&hh(G)<12+55/60&&knows('heroine_01',G)&&stageAt('heroine_01','ACQUAINTANCE')&&!F.EX_heroine_01&&contact(G,'heroine_01')) PHONE.at(G,d,12+10/60,[P_('heroine_01','杜鵑開了'),P_('heroine_01','十二點半 老位置')],'y4_azalea_dm');
@@ -85,11 +87,13 @@ const R2Y4B=(function(){
   const R34='2029-03-22';
   S.gradPass2029=G=>S.libDays(G,'2028-09-04','2029-02-02')>=24;   /* 2-Y4-27 第 4 節：大四上＋寒假到考前一天 */
   S.anFarewell=G=>G.flags.AN_FAREWELL==='went'||evDone(G,'ev_an_farewell_dinner');   /* AA_322 1B-12 餞行 */
-  S.anPassDue=G=>{ const d=DK(R34); return d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<=19.25&&!G.flags.AN_GRAD_PASS_SEEN&&met(G,'heroine_01','FRIEND'); };
+  /* 祐廷的結果：3/22 15:00 起算一次（2-Y4-27 第 4 節的總圖天數）；跳過 15:00 直接到晚上的也先算好，麵店那一段才讀得到 */
+  S.gradResult=G=>{ const F=G.flags; if(F.GRAD_EXAM_2029===true&&F.GRAD_EXAM_RESULT==null&&at(G,R34,15)){ const ok=S.gradPass2029(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok&&F.GRAD_ADMIT==null) F.GRAD_ADMIT='exam'; } return F.GRAD_EXAM_RESULT; };
+  S.anPassDue=G=>{ const d=DK(R34); const ok=d!=null&&G.day===d&&hh(G)>=18.75&&hh(G)<=19.25&&!G.flags.AN_GRAD_PASS_SEEN&&met(G,'heroine_01','FRIEND'); if(ok) S.gradResult(G); return ok; };
   S.gradResultDue=G=>{ const d=DK(R34), F=G.flags; return d!=null&&F.GRAD_EXAM_RESULT==='fail'&&F.GRAD_RETRY==null&&F.GRAD_QUIT==null&&at(G,R34,21)&&G.day<=d+6&&!F.GRAD_EXAM_2030; };
   const R34_SYS={pass:'研究所放榜：法律學研究所，錄取。',fail:'研究所放榜：法律學研究所，未錄取。'};
   const gradPhone=G=>{ const d=DK(R34), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
-    if(F.GRAD_EXAM_2029===true&&at(G,R34,15)&&!PHONE.sent(G,'y4_grad_result')){ if(F.GRAD_EXAM_RESULT==null){ const ok=S.gradPass2029(G); F.GRAD_EXAM_RESULT=ok?'pass':'fail'; if(ok&&F.GRAD_ADMIT==null) F.GRAD_ADMIT='exam'; }
+    if(F.GRAD_EXAM_2029===true&&at(G,R34,15)&&!PHONE.sent(G,'y4_grad_result')){ S.gradResult(G);
       PHONE.at(G,d,15,[{th:'sys',text:R34_SYS[F.GRAD_EXAM_RESULT]||R34_SYS.fail}],'y4_grad_result'); }
     if(at(G,R34,22)&&!F.AN_GRAD_PASS_SEEN&&!F.Y4_AN_PASS_TOLD&&knows('heroine_01',G)){ F.Y4_AN_PASS_TOLD=true;   /* 沒去麵店的玩家 */
       if(grp(G)) PHONE.at(G,d,22,[GR('heroine_01','商法組放榜。上了。')],'y4_an_pass_grp');
