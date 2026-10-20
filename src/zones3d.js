@@ -1426,7 +1426,7 @@ const Z3 = (function(){
     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
     for(const b of R.blocks) nav.blockRect((b.x[0]+b.x[1])/2,(b.z[0]+b.z[1])/2,b.x[1]-b.x[0],b.z[1]-b.z[0],0,0);   /* 四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間 */
-    const y2Room=!econ&&['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具；大三的新東西沒有模型）；1A-09、1A-11：大四 409 也是 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
+    const y2Room=!econ&&['312','507','409'].includes(dormSetKey(G0));   /* 1A-03：大三 507 照舊擺大二拆出來的東西（同一組家具）＋大三拆出來的（dorm_y3_items.glb）；1A-09、1A-11：大四 409 再加大四的 */ if(y2Room) nav.blockRect((Y2_BOX[0]+Y2_BOX[1])/2,(Y2_BOX[2]+Y2_BOX[3])/2,Y2_BOX[1]-Y2_BOX[0],Y2_BOX[3]-Y2_BOX[2],0,0);   /* 大二 312：書桌旁走道邊的紙箱（拆箱前封好、拆完壓平，dorm_y2_items.glb 的 nav_block）*/
     { const bb=new TK.Bin(), wood=M('#c9a57a',{rough:0.7}), frame=M('#e8e6e0',{rough:0.6}), sheet=M('#efe9dd',{rough:0.9}), bath=M('#dcd8cf',{rough:0.8});
       for(const u of R.units){ const b=u.block, cx=(b.x[0]+b.x[1])/2, cz=(b.z[0]+b.z[1])/2, w=b.x[1]-b.x[0], d=b.z[1]-b.z[0], top=u.bed_top_y||1.76;
         bb.add(frame,new THREE.BoxGeometry(w,0.1,d),cx,top-0.25,cz); bb.add(sheet,new THREE.BoxGeometry(w-0.1,0.15,d-0.1),cx,top-0.12,cz);
@@ -1446,6 +1446,7 @@ const Z3 = (function(){
     E.interactables.push({x:z.spots.roomItems[0],z:z.spots.roomItems[1],radius:0.6,label:'看看房間裡的東西',roomItems:true});   /* 交接包 v1 第 1 節「房間物件」（玩家書桌前；story3d.js 的 roomItems）*/
     P3.mergeStatic(g);
     z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
+    if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(y2Room) loadY2Items(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
@@ -1487,16 +1488,21 @@ const Z3 = (function(){
   /* 大二房間拆箱的物件（主線 3；dorm_y2_items.glb，LAWWW2-C 899f9bcd，AA_208 7-1；READY_FOR_ART_REVIEW）：軟木板 WALL_left_Y2_BOARD（左牆、書桌前，牆淡出時一起淡出）、
      ITEM_<id>＝STORY.roomY2Items 拆出來的東西（大一的摩天輪票根 y1_3＝ITEM_y1_ferris、河堤相簿 y1_4＝ITEM_y1_album；舊《民法》、經濟學原理在 dorm_room4 的 Y312_YUTING 層架）、
      Y2_BOXES_CLOSED／Y2_BOXES_OPEN（拆箱前／拆完）。z.setY2Items({shown:[id…], boxes:'closed'|'open'})：拆箱事件一件一件拿出來（story3d.js 的 unboxY2）；平常照旗標（ROOM_Y2_ITEMS）。
-     大三、大四（507／409）整組帶過去（1A-03、1A-09）：大三丟掉的（ROOM_Y3_DISCARD）、大四留在紙箱的（BOX_KEPT_Y4）不出現；1A-11 收拾好了（PACKED_Y4）全部收起來 */
+     大三、大四（507／409）整組帶過去（1A-03、1A-09）：大三丟掉的（ROOM_Y3_DISCARD）、大四留在紙箱的（BOX_KEPT_Y4）不出現；1A-11 收拾好了（PACKED_Y4）全部收起來。
+     大三、大四拆出來的東西（SCN-V4-01／SCN-V5-01；dorm_y3_items.glb，tools/blender/env_second/dorm_y3_items.py，LAWWW-C 的美術子代理 2026-10-20；READY_FOR_ART_REVIEW）：
+     ITEM_<id>＝S.ROOM_Y3_TEXT（507 起）、S.ROOM_Y4_TEXT（409）的 key，照 ROOM_Y3_ITEMS／ROOM_Y4_ITEMS；FORM_STAMP＝志願表上系辦的章（日本、美國路線才有）。兩組一起由 z.setY2Items 管 */
   const Y2_BOX=[-1.80,-1.12,-0.88,-0.36];
   const Y2_NODE=id=>id==='y1_3'?'ITEM_y1_ferris':(id==='y1_4'?'ITEM_y1_album':'ITEM_'+id);
-  function y2State(G){ const F=(G&&G.flags)||{}; if(F.ROOM_Y3_MOVING) return {shown:[],boxes:'closed'};   /* 1A-03 搬進 507、還沒拆箱 */ if(F.ROOM_Y4_MOVING||F.PACKED_Y4) return {shown:[],boxes:'closed'};   /* 1A-09 搬進 409、還沒拆箱；1A-11 收拾好了（畢業前一晚起）*/ const shown=(Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS:(F.ROOM_Y2&&typeof STORY!=='undefined'&&STORY.roomY2Items?STORY.roomY2Items(G).map(r=>r[0]):[])).filter(id=>id!==F.ROOM_Y3_DISCARD).filter(id=>id!==F.BOX_KEPT_Y4);   /* 大三丟掉的那一件不再出現；大四留在紙箱裡的那一件也不拿出來 */ return {shown,boxes:F.ROOM_Y2&&!F.ROOM_Y2_MOVING?'open':'closed'}; }
-  function loadY2Items(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_y2_items']) return; const yg=new THREE.Group(); yg.name='dorm_y2_items'; yg.userData.dyn=true; g0.add(yg);
-    z.y2=y2State(typeof GAME!=='undefined'?GAME.G:null);
-    z.setY2Items=st=>{ z.y2=Object.assign({},z.y2,st||{}); const S=z.y2; yg.traverse(o=>{ if(/^ITEM_/.test(o.name)) o.visible=(S.shown||[]).some(id=>Y2_NODE(id)===o.name); else if(o.name==='Y2_BOXES_CLOSED') o.visible=S.boxes==='closed'; else if(o.name==='Y2_BOXES_OPEN') o.visible=S.boxes==='open'; }); };
-    ASSETS.loadOne('bldg.dorm_y2_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); yg.add(root); root.updateMatrixWorld(true);
-      root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); } });   /* 軟木板跟著左牆淡出 */
-      z.setY2Items(); }).catch(e=>console.warn('大二房間的物件載入失敗',e)); }
+  const itemRoot=o=>/^ITEM_/.test(o.name)&&!(o.parent&&/^ITEM_/.test(o.parent.name));   /* 每一件的根節點；底下的網格叫 ITEM_<id>_<部位>，不能一起判斷（2026-10-20 以前大二那組的網格全被藏起來，房間裡看不到）*/
+  const stampOn=()=>{ const G=typeof GAME!=='undefined'?GAME.G:null, r=typeof STORY!=='undefined'&&STORY.route?STORY.route(G):((G&&G.flags)||{}).EXCHANGE_ROUTE; return r==='JP'||r==='US'; };   /* ROOM_Y4_TEXT.form：日本、美國路線是蓋了章的影本 */
+  function y2State(G){ const F=(G&&G.flags)||{}; if(F.ROOM_Y3_MOVING) return {shown:[],boxes:'closed'};   /* 1A-03 搬進 507、還沒拆箱 */ if(F.ROOM_Y4_MOVING||F.PACKED_Y4) return {shown:[],boxes:'closed'};   /* 1A-09 搬進 409、還沒拆箱；1A-11 收拾好了（畢業前一晚起）*/ const y34=[].concat(F.ROOM_Y3&&Array.isArray(F.ROOM_Y3_ITEMS)?F.ROOM_Y3_ITEMS:[],F.ROOM_Y4&&Array.isArray(F.ROOM_Y4_ITEMS)?F.ROOM_Y4_ITEMS:[]);   /* 大三、大四拆出來的（舊存檔沒有＝沒有）*/ const shown=(Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS:(F.ROOM_Y2&&typeof STORY!=='undefined'&&STORY.roomY2Items?STORY.roomY2Items(G).map(r=>r[0]):[])).concat(y34).filter(id=>id!==F.ROOM_Y3_DISCARD).filter(id=>id!==F.BOX_KEPT_Y4);   /* 大三丟掉的那一件不再出現；大四留在紙箱裡的那一件也不拿出來 */ return {shown,boxes:F.ROOM_Y2&&!F.ROOM_Y2_MOVING?'open':'closed'}; }
+  function roomItemState(z,G){ z.y2=y2State(G); z.itemGroups=[]; z.itemsLoading=0;
+    z.setY2Items=st=>{ z.y2=Object.assign({},z.y2,st||{}); const S=z.y2, stamp=stampOn(); for(const grp of z.itemGroups) grp.traverse(o=>{ if(itemRoot(o)) o.visible=(S.shown||[]).some(id=>Y2_NODE(id)===o.name); else if(o.name==='Y2_BOXES_CLOSED') o.visible=S.boxes==='closed'; else if(o.name==='Y2_BOXES_OPEN') o.visible=S.boxes==='open'; else if(o.name==='FORM_STAMP') o.visible=stamp; }); }; }
+  function loadY2Items(z,g0,E){ if(typeof ASSETS==='undefined') return; if(!z.setY2Items) roomItemState(z,typeof GAME!=='undefined'?GAME.G:null);
+    const load=(key,name,att,msg)=>{ if(!ASSETS.manifest[key]) return; const grp=new THREE.Group(); grp.name=name; grp.userData.dyn=true; g0.add(grp); z.itemGroups.push(grp); z.itemsLoading++;
+      ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); grp.add(root); root.updateMatrixWorld(true); att(root); z.setY2Items(); }).catch(e=>console.warn(msg,e)).finally(()=>{ z.itemsLoading--; }); };
+    load('bldg.dorm_y2_items','dorm_y2_items',root=>root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); } }),'大二房間的物件載入失敗');   /* 軟木板跟著左牆淡出 */
+    if(['507','409'].includes(z.dormSetKey)) load('bldg.dorm_y3_items','dorm_y3_items',root=>root.traverse(o=>{ if(o.isMesh&&o.material&&/^seethru_/.test(o.material.name)) o.material.userData.seeThrough=true; }),'大三、大四房間的物件載入失敗'); }   /* 床欄上的隊服、名牌：和上舖同一套（seethru_，attachDormInterior）*/
   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
     o.material.transparent=true; o.userData.dir=new THREE.Vector3(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y));   /* 貼的那一面朝室內的方向（四人房：月曆在洗手間隔間、傳單在書桌前的牆）*/ o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
   /* ---------- 溫州街三家新店的室內（DL-09 第一步；ART-WZ3，LAWWW2-B ce586623；AA_164 第 2 節）----------

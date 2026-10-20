@@ -53,7 +53,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   check('3. 第三步：每一件「（把{東西}留在紙箱裡）」、黃金葛不列、最後「（全部拿出來。）」', keepOpts.includes('（把一支隨身碟，標籤「測試版　不准外流」留在紙箱裡）')&&keepOpts.includes('（把書架上的舊《民法》留在紙箱裡）')&&keepOpts.includes('（把志願表留在紙箱裡）')&&!keepOpts.some(t=>/黃金葛/.test(t))&&keepOpts[keepOpts.length-1]==='（全部拿出來。）', JSON.stringify(keepOpts));
   check('3. H4 大三丟掉的那一件（阿凱留下的泡麵）不出現（3D、選單）', !keepOpts.some(t=>/泡麵/.test(t))&&!vis.some(v=>(v.shown||[]).includes('noodle')), JSON.stringify(vis));
   check('3. 旗標：ROOM_Y4＝那天、ROOM_Y4_ITEMS＝新拿出來的、BOX_KEPT_Y4 null、ROOM_Y4_MOVING 清掉', G.flags.ROOM_Y4===d3&&JSON.stringify(G.flags.ROOM_Y4_ITEMS)==='["form","land"]'&&G.flags.BOX_KEPT_Y4===null&&!G.flags.ROOM_Y4_MOVING);
-  check('3. 3D：先封著、前兩年的一次拿出來（大二那組）、拆完打開', JSON.stringify(vis[0])==='{"shown":[],"boxes":"closed"}'&&JSON.stringify(vis[1].shown)===JSON.stringify(['civ','pothos','y1_0','y1_1','y1_2','y1_3','y1_4'])&&vis.some(v=>v.boxes==='open'), JSON.stringify(vis.slice(0,3)));
+  check('3. 3D：先封著、前兩年的一次拿出來（大二、大三兩組，扣掉丟掉的泡麵；2026-10-20 起大三的也有模型 dorm_y3_items.glb）、新的拿一件多一件、拆完打開', JSON.stringify(vis[0])==='{"shown":[],"boxes":"closed"}'&&JSON.stringify(vis[1].shown)===JSON.stringify(['civ','pothos','y1_0','y1_1','y1_2','y1_3','y1_4','notes_y2','zq_usb'])&&JSON.stringify(vis[2].shown)===JSON.stringify(vis[1].shown.concat(['form']))&&vis.some(v=>v.boxes==='open'), JSON.stringify(vis.slice(0,3)));
   fresh(d3,9,'dorm',{pothosWaterN:0}); picks=[0,'隨身碟']; await STORY.unboxY4(GM); T=lines();
   check('3. 黃金葛沒澆過：「黃金葛。第四個房間。它還是沒死。」；留了隨身碟＝BOX_KEPT_Y4 zq_usb', T.includes('黃金葛。第四個房間。它還是沒死。')&&G.flags.BOX_KEPT_Y4==='zq_usb');
   fresh(d3,9,'dorm',{POTHOS:false}); picks=[0,'全部']; await STORY.unboxY4(GM); check('3. 沒有黃金葛：沒有那一句', !lines().some(t=>/黃金葛/.test(t)));
