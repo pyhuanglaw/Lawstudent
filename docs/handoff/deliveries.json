@@ -9174,6 +9174,19 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 19:2x UTC：exchange3d.js 字卡與時間、story3d.js ROOM_Y4_US 第一句、credits 改 PLAYTESTED；room_y4_unit 跟著改（ALL PASS）。入境大廳（學姊、媽媽）等 AA_327 2-Y4-22（第 2 輪事件包）"
+  },
+  {
+   "id": "DL-LAWWW2-0a5cc70a",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "0a5cc70a",
+   "what": "研討室 A（萬才館 2F）、霖澤館 202、萬才館多功能教室：GLB＋配置（layout.json）＋窗景；臨時接線 patch rooms_glb_wire_test.diff（rooms_glb3d.js、room_glb_layouts.js、wancai3d.js 門、tests/flow_rooms.py）",
+   "task": "LINZE-WANCAI-FLOORS-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 19:5x UTC：照 patch 接進開發分支；萬才館的門改成「有社課（吉他社、公法讀書會）或大四研討課時照舊在門口參加（CLS.roomDoorBusy→roomDoor），沒事就走進去」——patch 原本直接改成出入口會讓社課、研討課參加不了。tests/rooms_glb_unit.js（4 項）；全部單元測試只有 bg_images_unit。哪幾門課搬到萬才館／202（X78）已問 AA；LAWWW2 的 README、截圖之後補"
   }
  ],
  "ignored": [

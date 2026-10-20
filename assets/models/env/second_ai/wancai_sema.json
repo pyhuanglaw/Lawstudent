@@ -1,0 +1,13 @@
+{
+ "objects": 25,
+ "unique_meshes": 25,
+ "tris": 18304,
+ "tris_drawn": 18304,
+ "materials": 15,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/semout/wancai_sema.glb",
+ "bytes": 1540640,
+ "texres": 512,
+ "tris_total": 18304,
+ "layout": "wancai_sema.layout.json",
+ "seats": 18
+}

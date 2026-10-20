@@ -1,0 +1,261 @@
+diff --git a/index.html b/index.html
+index ecaaf3d5..135d2d60 100644
+--- a/index.html
++++ b/index.html
+@@ -260,6 +260,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/l118_shops3d.js?v=9.10.2"></script>
+ <script src="src/data/linze_upper_layouts.js?v=9.10.2"></script>
+ <script src="src/linze_upper3d.js?v=9.10.2"></script>
++<script src="src/data/room_glb_layouts.js?v=9.10.2"></script>
++<script src="src/rooms_glb3d.js?v=9.10.2"></script>
+ <script src="src/exchange3d.js?v=9.10.2"></script>
+ <script src="src/data/us_layouts.js?v=9.10.2"></script>
+ <script src="src/us3d.js?v=9.10.2"></script>
+diff --git a/src/data/room_glb_layouts.js b/src/data/room_glb_layouts.js
+new file mode 100644
+index 00000000..cf602ef7
+--- /dev/null
++++ b/src/data/room_glb_layouts.js
+@@ -0,0 +1,2 @@
++/* 走得進去的房間的配置（LAWWW2-C 臨時接線；從 assets/models/env/second_ai/<id>.layout.json 產生，不要手改）*/
++const ROOM_GLB_LAYOUTS={"wancai_sema": {"version": 1, "zone": "wancai_sema", "name": "萬才館 研討室 A", "type": "研討室", "src": "使用者 10-20 第二項；LAWWW-C 15:51 回覆 Q2（WANCAI-SEMA）", "bounds": {"x0": -4.5, "x1": 4.5, "z0": -3.3, "z1": 3.3}, "h": 3.2, "cam_dist": 4.2, "door": {"x": 3.2, "w": 1.0, "z": -3.3, "note": "−z 那一面靠東；從萬才館 2F 北側走廊的「研討室 A」門（wancai_layout.js doors.seminarA，lv 1、x −3.0）進來"}, "spawn": {"x": 3.2, "z": -1.85, "yaw": 0.0, "note": "進門、面向房間裡（+z）"}, "exits": [{"x": 3.2, "z": -2.85, "r": 0.7, "label": "離開研討室", "to": "wancai", "spawn_note": "回到萬才館 2F 北側走廊、研討室 A 的門前面（wancai_layout.js doors.seminarA 的 x，lv 1）"}], "windows": {"side": "S", "wall": "front", "z": 3.3, "xs": [-2.6, 0.0, 2.6], "y": 2.1, "w": 2.2, "h": 1.6, "note": "遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x（room() 的 front 牆 x 是反的）；窗外的景用遊戲裡拍的照片"}, "counter": null, "clerk": {"x": -3.75, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師或報告的人站的位置（白板前、會議桌西端；clerk 欄位沿用店員的格式）"}, "teacherSpot": {"x": -3.75, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師或報告的人站的位置（白板前、會議桌西端；clerk 欄位沿用店員的格式）"}, "order": null, "seats": [{"x": -1.9, "z": -2.96, "yaw": 0.0, "kind": "sit", "table": [-1.9, -2.36], "ap": [-1.9, -2.46], "label": "坐旁聽席", "uses": ["旁聽", "等人"]}, {"x": -1.1, "z": -2.96, "yaw": 0.0, "kind": "sit", "table": [-1.1, -2.36], "ap": [-1.1, -2.46], "label": "坐旁聽席", "uses": ["旁聽", "等人"]}, {"x": -0.3, "z": -2.96, "yaw": 0.0, "kind": "sit", "table": [-0.3, -2.36], "ap": [-0.3, -2.46], "label": "坐旁聽席", "uses": ["旁聽", "等人"]}, {"x": 0.5, "z": -2.96, "yaw": 0.0, "kind": "sit", "table": [0.5, -2.36], "ap": [0.5, -2.46], "label": "坐旁聽席", "uses": ["旁聽", "等人"]}, {"x": 1.3, "z": -2.96, "yaw": 0.0, "kind": "sit", "table": [1.3, -2.36], "ap": [1.3, -2.46], "label": "坐旁聽席", "uses": ["旁聽", "等人"]}, {"x": -2.3, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [-2.3, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": -2.3, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [-2.3, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": -1.45, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [-1.45, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": -1.45, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [-1.45, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": -0.6, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [-0.6, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": -0.6, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [-0.6, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 0.25, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [0.25, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 0.25, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [0.25, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 1.1, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [1.1, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 1.1, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [1.1, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 1.85, "z": -1.07, "yaw": 0.0, "kind": "class", "table": [1.85, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 1.85, "z": 1.07, "yaw": 3.1416, "kind": "class", "table": [1.85, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}, {"x": 2.75, "z": 0.0, "yaw": -1.5708, "kind": "class", "table": [2.3, 0.0], "label": "坐下", "uses": ["上課", "讀書會", "討論"]}], "interact": [{"id": "board", "x": -3.6, "z": 1.6, "r": 0.9, "label": "白板", "note": "白板（字由事件或課堂決定）"}, {"id": "books", "x": 3.6, "z": 0.65, "r": 0.9, "label": "書櫃", "note": "法典、判決彙編、學長姊留下的論文集"}, {"id": "signup", "x": 1.95, "z": -2.55, "r": 0.7, "label": "借用登記表", "note": "研討室的借用登記表"}], "blocks": [{"x0": -4.5, "x1": 4.5, "z0": 2.98, "z1": 3.3, "why": "window_sill"}, {"x0": -2.2, "x1": 1.6, "z0": -3.3, "z1": -2.88, "why": "wall_chairs"}, {"x0": 4.09, "x1": 4.5, "z0": -0.9, "z1": 2.2, "why": "bookcase"}, {"x0": 3.85, "x1": 4.5, "z0": 2.35, "z1": 2.85, "why": "plant"}, {"x0": -4.5, "x1": -4.0, "z0": 2.5, "z1": 2.9, "why": "bin"}, {"x0": -2.93, "x1": 2.33, "z0": -0.68, "z1": 0.68, "why": "conference_table"}], "host_door": {"zone": "wancai", "id": "seminarA", "lv": 1, "note": "wancai_layout.js 的 doors.seminarA：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課從「門口上課」改成走進來由 LAWWW-C 改"}}, "linze_202": {"version": 1, "zone": "linze_202", "name": "霖澤館 202 教室", "type": "教室", "src": "LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）；LINZE-WANCAI-FLOORS-1020", "bounds": {"x0": -6.8, "x1": 6.8, "z0": -4.8, "z1": 4.8}, "h": 3.4, "cam_dist": 4.4, "door": {"x": 5.9, "w": 1.0, "z": -4.8, "note": "−z 那一面靠東（後門）；從霖澤館 2F 迴廊的 202 門（linze_layout.js doors.c202，lv 1、x 3.0）進來"}, "spawn": {"x": 5.9, "z": -3.35, "yaw": -1.1708, "note": "進門，大致面向講台（−x）"}, "exits": [{"x": 5.9, "z": -4.35, "r": 0.7, "label": "離開教室", "to": "linze", "spawn_note": "回到linze、c202 的門前面（lv 1）"}], "windows": {"side": "S", "wall": "front", "z": 4.8, "xs": [-4.0, -0.4, 3.2], "y": 2.1, "w": 2.2, "h": 1.6, "note": "遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x（room() 的 front 牆 x 是反的）；窗外的景用遊戲裡拍的照片"}, "counter": null, "clerk": {"x": -6.05, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師站的位置（講桌後面、白板前，面向學生；clerk 欄位沿用店員的格式）"}, "teacherSpot": {"x": -6.05, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師站的位置（講桌後面、白板前，面向學生；clerk 欄位沿用店員的格式）"}, "order": null, "seats": [{"x": -2.85, "z": -3.25, "yaw": -1.5708, "kind": "class", "table": [-3.4, -3.25], "ap": [-2.4, -3.25], "label": "坐下"}, {"x": -2.85, "z": -2.55, "yaw": -1.5708, "kind": "class", "table": [-3.4, -2.55], "ap": [-2.4, -2.55], "label": "坐下"}, {"x": -2.85, "z": -1.85, "yaw": -1.5708, "kind": "class", "table": [-3.4, -1.85], "ap": [-2.4, -1.85], "label": "坐下"}, {"x": -2.85, "z": -1.15, "yaw": -1.5708, "kind": "class", "table": [-3.4, -1.15], "ap": [-2.4, -1.15], "label": "坐下"}, {"x": -2.85, "z": 1.15, "yaw": -1.5708, "kind": "class", "table": [-3.4, 1.15], "ap": [-2.4, 1.15], "label": "坐下"}, {"x": -2.85, "z": 1.85, "yaw": -1.5708, "kind": "class", "table": [-3.4, 1.85], "ap": [-2.4, 1.85], "label": "坐下"}, {"x": -2.85, "z": 2.55, "yaw": -1.5708, "kind": "class", "table": [-3.4, 2.55], "ap": [-2.4, 2.55], "label": "坐下"}, {"x": -2.85, "z": 3.25, "yaw": -1.5708, "kind": "class", "table": [-3.4, 3.25], "ap": [-2.4, 3.25], "label": "坐下"}, {"x": -0.95, "z": -3.25, "yaw": -1.5708, "kind": "class", "table": [-1.5, -3.25], "ap": [-0.5, -3.25], "label": "坐下"}, {"x": -0.95, "z": -2.55, "yaw": -1.5708, "kind": "class", "table": [-1.5, -2.55], "ap": [-0.5, -2.55], "label": "坐下"}, {"x": -0.95, "z": -1.85, "yaw": -1.5708, "kind": "class", "table": [-1.5, -1.85], "ap": [-0.5, -1.85], "label": "坐下"}, {"x": -0.95, "z": -1.15, "yaw": -1.5708, "kind": "class", "table": [-1.5, -1.15], "ap": [-0.5, -1.15], "label": "坐下"}, {"x": -0.95, "z": 1.15, "yaw": -1.5708, "kind": "class", "table": [-1.5, 1.15], "ap": [-0.5, 1.15], "label": "坐下"}, {"x": -0.95, "z": 1.85, "yaw": -1.5708, "kind": "class", "table": [-1.5, 1.85], "ap": [-0.5, 1.85], "label": "坐下"}, {"x": -0.95, "z": 2.55, "yaw": -1.5708, "kind": "class", "table": [-1.5, 2.55], "ap": [-0.5, 2.55], "label": "坐下"}, {"x": -0.95, "z": 3.25, "yaw": -1.5708, "kind": "class", "table": [-1.5, 3.25], "ap": [-0.5, 3.25], "label": "坐下"}, {"x": 0.95, "z": -3.25, "yaw": -1.5708, "kind": "class", "table": [0.4, -3.25], "ap": [1.4, -3.25], "label": "坐下"}, {"x": 0.95, "z": -2.55, "yaw": -1.5708, "kind": "class", "table": [0.4, -2.55], "ap": [1.4, -2.55], "label": "坐下"}, {"x": 0.95, "z": -1.85, "yaw": -1.5708, "kind": "class", "table": [0.4, -1.85], "ap": [1.4, -1.85], "label": "坐下"}, {"x": 0.95, "z": -1.15, "yaw": -1.5708, "kind": "class", "table": [0.4, -1.15], "ap": [1.4, -1.15], "label": "坐下"}, {"x": 0.95, "z": 1.15, "yaw": -1.5708, "kind": "class", "table": [0.4, 1.15], "ap": [1.4, 1.15], "label": "坐下"}, {"x": 0.95, "z": 1.85, "yaw": -1.5708, "kind": "class", "table": [0.4, 1.85], "ap": [1.4, 1.85], "label": "坐下"}, {"x": 0.95, "z": 2.55, "yaw": -1.5708, "kind": "class", "table": [0.4, 2.55], "ap": [1.4, 2.55], "label": "坐下"}, {"x": 0.95, "z": 3.25, "yaw": -1.5708, "kind": "class", "table": [0.4, 3.25], "ap": [1.4, 3.25], "label": "坐下"}, {"x": 2.85, "z": -3.25, "yaw": -1.5708, "kind": "class", "table": [2.3, -3.25], "ap": [3.3, -3.25], "label": "坐下"}, {"x": 2.85, "z": -2.55, "yaw": -1.5708, "kind": "class", "table": [2.3, -2.55], "ap": [3.3, -2.55], "label": "坐下"}, {"x": 2.85, "z": -1.85, "yaw": -1.5708, "kind": "class", "table": [2.3, -1.85], "ap": [3.3, -1.85], "label": "坐下"}, {"x": 2.85, "z": -1.15, "yaw": -1.5708, "kind": "class", "table": [2.3, -1.15], "ap": [3.3, -1.15], "label": "坐下"}, {"x": 2.85, "z": 1.15, "yaw": -1.5708, "kind": "class", "table": [2.3, 1.15], "ap": [3.3, 1.15], "label": "坐下"}, {"x": 2.85, "z": 1.85, "yaw": -1.5708, "kind": "class", "table": [2.3, 1.85], "ap": [3.3, 1.85], "label": "坐下"}, {"x": 2.85, "z": 2.55, "yaw": -1.5708, "kind": "class", "table": [2.3, 2.55], "ap": [3.3, 2.55], "label": "坐下"}, {"x": 2.85, "z": 3.25, "yaw": -1.5708, "kind": "class", "table": [2.3, 3.25], "ap": [3.3, 3.25], "label": "坐下"}, {"x": 4.75, "z": -3.25, "yaw": -1.5708, "kind": "class", "table": [4.2, -3.25], "ap": [5.2, -3.25], "label": "坐下"}, {"x": 4.75, "z": -2.55, "yaw": -1.5708, "kind": "class", "table": [4.2, -2.55], "ap": [5.2, -2.55], "label": "坐下"}, {"x": 4.75, "z": -1.85, "yaw": -1.5708, "kind": "class", "table": [4.2, -1.85], "ap": [5.2, -1.85], "label": "坐下"}, {"x": 4.75, "z": -1.15, "yaw": -1.5708, "kind": "class", "table": [4.2, -1.15], "ap": [5.2, -1.15], "label": "坐下"}, {"x": 4.75, "z": 1.15, "yaw": -1.5708, "kind": "class", "table": [4.2, 1.15], "ap": [5.2, 1.15], "label": "坐下"}, {"x": 4.75, "z": 1.85, "yaw": -1.5708, "kind": "class", "table": [4.2, 1.85], "ap": [5.2, 1.85], "label": "坐下"}, {"x": 4.75, "z": 2.55, "yaw": -1.5708, "kind": "class", "table": [4.2, 2.55], "ap": [5.2, 2.55], "label": "坐下"}, {"x": 4.75, "z": 3.25, "yaw": -1.5708, "kind": "class", "table": [4.2, 3.25], "ap": [5.2, 3.25], "label": "坐下"}], "interact": [{"id": "board", "x": -5.8, "z": 3.0, "r": 0.9, "label": "白板", "note": "白板（字由課堂或事件決定）"}, {"id": "notice", "x": 5.9, "z": 1.4, "r": 0.9, "label": "公告欄", "note": "公告欄（說明文字由 AA 寫）"}], "blocks": [{"x0": -6.8, "x1": 6.8, "z0": 4.48, "z1": 4.8, "why": "window_sill"}, {"x0": -5.76, "x1": -5.04, "z0": -0.63, "z1": 0.63, "why": "lectern"}, {"x0": 6.32, "x1": 6.8, "z0": 2.28, "z1": 4.4, "why": "lockers"}, {"x0": 6.32, "x1": 6.8, "z0": -4.8, "z1": -4.15, "why": "bin"}, {"x0": -3.68, "x1": -3.12, "z0": -3.63, "z1": -0.77, "why": "desk"}, {"x0": -3.68, "x1": -3.12, "z0": 0.77, "z1": 3.63, "why": "desk"}, {"x0": -1.78, "x1": -1.22, "z0": -3.63, "z1": -0.77, "why": "desk"}, {"x0": -1.78, "x1": -1.22, "z0": 0.77, "z1": 3.63, "why": "desk"}, {"x0": 0.12, "x1": 0.68, "z0": -3.63, "z1": -0.77, "why": "desk"}, {"x0": 0.12, "x1": 0.68, "z0": 0.77, "z1": 3.63, "why": "desk"}, {"x0": 2.02, "x1": 2.58, "z0": -3.63, "z1": -0.77, "why": "desk"}, {"x0": 2.02, "x1": 2.58, "z0": 0.77, "z1": 3.63, "why": "desk"}, {"x0": 3.92, "x1": 4.48, "z0": -3.63, "z1": -0.77, "why": "desk"}, {"x0": 3.92, "x1": 4.48, "z0": 0.77, "z1": 3.63, "why": "desk"}], "view": "linze_201", "host_door": {"zone": "linze", "id": "c202", "lv": 1, "note": "門的資料（linze_layout.js／wancai_layout.js 的 doors）：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課的流程由 LAWWW-C 改"}}, "wancai_multi": {"version": 1, "zone": "wancai_multi", "name": "萬才館 多功能教室", "type": "教室", "src": "LAWWW-C 10-20 15:51 回覆 Q2（多功能教室走進去：吉他社）；LINZE-WANCAI-FLOORS-1020", "bounds": {"x0": -5.8, "x1": 5.8, "z0": -4.5, "z1": 4.5}, "h": 3.4, "cam_dist": 4.4, "door": {"x": 4.8, "w": 1.0, "z": -4.5, "note": "−z 那一面靠東（後門）；從萬才館 1F 大廳北牆的「多功能教室」門（wancai_layout.js doors.multi，lv 0、x 2.0）進來"}, "spawn": {"x": 4.8, "z": -3.05, "yaw": -1.1708, "note": "進門，大致面向講台（−x）"}, "exits": [{"x": 4.8, "z": -4.05, "r": 0.7, "label": "離開教室", "to": "wancai", "spawn_note": "回到wancai、multi 的門前面（lv 0）"}], "windows": {"side": "S", "wall": "front", "z": 4.5, "xs": [-3.2, 0.0, 3.2], "y": 2.1, "w": 2.2, "h": 1.6, "note": "遊戲 room() 的窗：winWall＝front（+z），winXs 要寫 −x（room() 的 front 牆 x 是反的）；窗外的景用遊戲裡拍的照片"}, "counter": null, "clerk": {"x": -5.05, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師站的位置（講桌後面、白板前，面向學生；clerk 欄位沿用店員的格式）"}, "teacherSpot": {"x": -5.05, "z": 0.0, "yaw": 1.5708, "note": "teacherSpot：老師站的位置（講桌後面、白板前，面向學生；clerk 欄位沿用店員的格式）"}, "order": null, "seats": [{"x": -1.65, "z": -3.05, "yaw": -1.5708, "kind": "class", "table": [-2.2, -3.05], "ap": [-1.2, -3.05], "label": "坐下"}, {"x": -1.65, "z": -2.35, "yaw": -1.5708, "kind": "class", "table": [-2.2, -2.35], "ap": [-1.2, -2.35], "label": "坐下"}, {"x": -1.65, "z": -1.65, "yaw": -1.5708, "kind": "class", "table": [-2.2, -1.65], "ap": [-1.2, -1.65], "label": "坐下"}, {"x": -1.65, "z": -0.95, "yaw": -1.5708, "kind": "class", "table": [-2.2, -0.95], "ap": [-1.2, -0.95], "label": "坐下"}, {"x": -1.65, "z": 0.95, "yaw": -1.5708, "kind": "class", "table": [-2.2, 0.95], "ap": [-1.2, 0.95], "label": "坐下"}, {"x": -1.65, "z": 1.65, "yaw": -1.5708, "kind": "class", "table": [-2.2, 1.65], "ap": [-1.2, 1.65], "label": "坐下"}, {"x": -1.65, "z": 2.35, "yaw": -1.5708, "kind": "class", "table": [-2.2, 2.35], "ap": [-1.2, 2.35], "label": "坐下"}, {"x": -1.65, "z": 3.05, "yaw": -1.5708, "kind": "class", "table": [-2.2, 3.05], "ap": [-1.2, 3.05], "label": "坐下"}, {"x": 0.25, "z": -3.05, "yaw": -1.5708, "kind": "class", "table": [-0.3, -3.05], "ap": [0.7, -3.05], "label": "坐下"}, {"x": 0.25, "z": -2.35, "yaw": -1.5708, "kind": "class", "table": [-0.3, -2.35], "ap": [0.7, -2.35], "label": "坐下"}, {"x": 0.25, "z": -1.65, "yaw": -1.5708, "kind": "class", "table": [-0.3, -1.65], "ap": [0.7, -1.65], "label": "坐下"}, {"x": 0.25, "z": -0.95, "yaw": -1.5708, "kind": "class", "table": [-0.3, -0.95], "ap": [0.7, -0.95], "label": "坐下"}, {"x": 0.25, "z": 0.95, "yaw": -1.5708, "kind": "class", "table": [-0.3, 0.95], "ap": [0.7, 0.95], "label": "坐下"}, {"x": 0.25, "z": 1.65, "yaw": -1.5708, "kind": "class", "table": [-0.3, 1.65], "ap": [0.7, 1.65], "label": "坐下"}, {"x": 0.25, "z": 2.35, "yaw": -1.5708, "kind": "class", "table": [-0.3, 2.35], "ap": [0.7, 2.35], "label": "坐下"}, {"x": 0.25, "z": 3.05, "yaw": -1.5708, "kind": "class", "table": [-0.3, 3.05], "ap": [0.7, 3.05], "label": "坐下"}, {"x": 2.15, "z": -3.05, "yaw": -1.5708, "kind": "class", "table": [1.6, -3.05], "ap": [2.6, -3.05], "label": "坐下"}, {"x": 2.15, "z": -2.35, "yaw": -1.5708, "kind": "class", "table": [1.6, -2.35], "ap": [2.6, -2.35], "label": "坐下"}, {"x": 2.15, "z": -1.65, "yaw": -1.5708, "kind": "class", "table": [1.6, -1.65], "ap": [2.6, -1.65], "label": "坐下"}, {"x": 2.15, "z": -0.95, "yaw": -1.5708, "kind": "class", "table": [1.6, -0.95], "ap": [2.6, -0.95], "label": "坐下"}, {"x": 2.15, "z": 0.95, "yaw": -1.5708, "kind": "class", "table": [1.6, 0.95], "ap": [2.6, 0.95], "label": "坐下"}, {"x": 2.15, "z": 1.65, "yaw": -1.5708, "kind": "class", "table": [1.6, 1.65], "ap": [2.6, 1.65], "label": "坐下"}, {"x": 2.15, "z": 2.35, "yaw": -1.5708, "kind": "class", "table": [1.6, 2.35], "ap": [2.6, 2.35], "label": "坐下"}, {"x": 2.15, "z": 3.05, "yaw": -1.5708, "kind": "class", "table": [1.6, 3.05], "ap": [2.6, 3.05], "label": "坐下"}, {"x": 4.05, "z": -3.05, "yaw": -1.5708, "kind": "class", "table": [3.5, -3.05], "ap": [4.5, -3.05], "label": "坐下"}, {"x": 4.05, "z": -2.35, "yaw": -1.5708, "kind": "class", "table": [3.5, -2.35], "ap": [4.5, -2.35], "label": "坐下"}, {"x": 4.05, "z": -1.65, "yaw": -1.5708, "kind": "class", "table": [3.5, -1.65], "ap": [4.5, -1.65], "label": "坐下"}, {"x": 4.05, "z": -0.95, "yaw": -1.5708, "kind": "class", "table": [3.5, -0.95], "ap": [4.5, -0.95], "label": "坐下"}, {"x": 4.05, "z": 0.95, "yaw": -1.5708, "kind": "class", "table": [3.5, 0.95], "ap": [4.5, 0.95], "label": "坐下"}, {"x": 4.05, "z": 1.65, "yaw": -1.5708, "kind": "class", "table": [3.5, 1.65], "ap": [4.5, 1.65], "label": "坐下"}, {"x": 4.05, "z": 2.35, "yaw": -1.5708, "kind": "class", "table": [3.5, 2.35], "ap": [4.5, 2.35], "label": "坐下"}, {"x": 4.05, "z": 3.05, "yaw": -1.5708, "kind": "class", "table": [3.5, 3.05], "ap": [4.5, 3.05], "label": "坐下"}], "interact": [{"id": "board", "x": -4.8, "z": 3.0, "r": 0.9, "label": "白板", "note": "白板（字由課堂或事件決定）"}, {"id": "notice", "x": 4.9, "z": 1.4, "r": 0.9, "label": "公告欄", "note": "公告欄（說明文字由 AA 寫）"}], "blocks": [{"x0": -5.8, "x1": 5.8, "z0": 4.18, "z1": 4.5, "why": "window_sill"}, {"x0": -4.76, "x1": -4.04, "z0": -0.63, "z1": 0.63, "why": "lectern"}, {"x0": 5.35, "x1": 5.8, "z0": 2.18, "z1": 4.1, "why": "shelf"}, {"x0": 5.32, "x1": 5.8, "z0": -4.5, "z1": -3.85, "why": "bin"}, {"x0": -2.48, "x1": -1.92, "z0": -3.43, "z1": -0.57, "why": "desk"}, {"x0": -2.48, "x1": -1.92, "z0": 0.57, "z1": 3.43, "why": "desk"}, {"x0": -0.58, "x1": -0.02, "z0": -3.43, "z1": -0.57, "why": "desk"}, {"x0": -0.58, "x1": -0.02, "z0": 0.57, "z1": 3.43, "why": "desk"}, {"x0": 1.32, "x1": 1.88, "z0": -3.43, "z1": -0.57, "why": "desk"}, {"x0": 1.32, "x1": 1.88, "z0": 0.57, "z1": 3.43, "why": "desk"}, {"x0": 3.22, "x1": 3.78, "z0": -3.43, "z1": -0.57, "why": "desk"}, {"x0": 3.22, "x1": 3.78, "z0": 0.57, "z1": 3.43, "why": "desk"}], "view": "wancai_multi", "host_door": {"zone": "wancai", "id": "multi", "lv": 0, "note": "門的資料（linze_layout.js／wancai_layout.js 的 doors）：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課的流程由 LAWWW-C 改"}}};
+diff --git a/src/rooms_glb3d.js b/src/rooms_glb3d.js
+new file mode 100644
+index 00000000..e24cf55e
+--- /dev/null
++++ b/src/rooms_glb3d.js
+@@ -0,0 +1,41 @@
++/* 測試用（LAWWW2-C 臨時接線；正式接線由 LAWWW-C 做）：走得進去的房間（照霖澤館 3F、118 巷店面的做法）。
++   wancai_sema：萬才館 2F 研討室 A（wancai_layout.js doors.seminarA）；linze_202：霖澤館 2F 的 202（linze_layout.js doors.c202）；
++   wancai_multi：萬才館 1F 多功能教室（wancai_layout.js doors.multi）。配置 src/data/room_glb_layouts.js（從 layout.json 產生），門的資料在 layout 的 host_door。
++   進出：那棟樓的門 → 這裡；「離開…」→ 回到那個門前面。
++   課堂、社課怎麼從「門口上課」改成走進來坐下，由 LAWWW-C 改 classes3d.js（這裡只把門接成出入口；座位 kind 'class'、teacherSpot 在 layout）。 */
++(function(){
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
++  const has=k=>typeof ASSETS!=='undefined'&&!!ASSETS.manifest[k];
++  const G_=()=>typeof GAME!=='undefined'?GAME.G:null;
++  function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.wrBase==null) m.userData.wrBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
++  function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.wrBase*k; }
++  function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
++  const HOST=()=>({wancai:typeof WANCAI_LAYOUT!=='undefined'?WANCAI_LAYOUT:null, linze:typeof LINZE_LAYOUT!=='undefined'?LINZE_LAYOUT:null});
++  function hostDoor(id){ const h=ROOM_GLB_LAYOUTS[id].host_door, HL=HOST()[h.zone]; return HL?{h,HL,d:HL.doors.find(q=>q.id===h.id)}:null; }
++  function backSpawn(id){ const r=hostDoor(id); if(!r||!r.d) return null; return {x:r.d.x,z:-r.HL.D/2+(r.h.zone==='linze'?1.0:1.4),lv:r.d.lv,yaw:Math.PI}; }   /* 門前面（霖澤館照 201 的 spawnBack；萬才館在門的互動範圍外面一點），面向南 */
++  function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;
++    return { id, name:L.name, indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
++      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#ece7dc',floorTex:W3.stoneTex('#9c7a58'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
++      const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++      for(const w of z.walls) w.visible=false; z.walls.length=0;
++      const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
++      for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
++      nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
++      plane(fb,W,D,M('#9c7a58'),0,0,0.005); const bm=M('#8e6a4a'); for(const b of L.blocks){ const h=/bookcase/.test(b.why)?2.0:0.75; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
++      const lamps=[]; for(const [x,zz] of [[-2.8,0],[2.8,0]]){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
++      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
++      const IT=E.interactables; z.seats=[];
++      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0,room:L.host_door.id}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||'坐下'}); }
++      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:q.note||q.label});
++      for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
++      z.teacherSpot=L.teacherSpot||L.clerk||null;
++      z.formal=false; const key='bldg.'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
++        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('萬才館房間正式模型載入失敗',id,e));
++      return z; } }; }
++  if(typeof ROOM_GLB_LAYOUTS!=='undefined') for(const id of Object.keys(ROOM_GLB_LAYOUTS)){ Z3.ZONES[id]=zoneFor(id);
++    if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.'+id]={url:'assets/models/env/second_ai/'+id+'.glb',type:'building',lazy:true,source:'LAWWW2-C '+(id==='wancai_sema'?'wancai_seminar.py':'flat_classroom.py'),license:'本作'};
++    /* 那棟樓的門：接成出入口（測試用；正式改 linze_layout.js／wancai_layout.js 的 doors，門口上課的流程由 LAWWW-C 改）。霖澤館的門用 building3d.js 的 d.spawn、萬才館用 wancai3d.js 的 d.to */
++    const r=hostDoor(id); if(r&&r.d){ delete r.d.closed; r.d.to=id; r.d.spawn=Object.assign({},ROOM_GLB_LAYOUTS[id].spawn); } }
++})();
+diff --git a/src/wancai3d.js b/src/wancai3d.js
+index 6a509992..6f6d5d80 100644
+--- a/src/wancai3d.js
++++ b/src/wancai3d.js
+@@ -116,7 +116,8 @@ const WC3=(function(){
+     IT.push({x:UD.x,z:UD.z,radius:1.0,lv:1,label:'走出去（大樓梯平台）',exit:{to:'campus',spawn:Object.assign({},CAMPUS_2F)}});
+     if(typeof LAWLIB_LAYOUT!=='undefined'){ const LD=L.lawlibDoor; IT.push({x:LD.it.x,z:LD.it.z,radius:LD.it.r,lv:0,label:LD.label,exit:{to:'lawlib',spawn:Object.assign({},LAWLIB_LAYOUT.entrance.spawn)}});   /* 法律學院圖書館（D46）：開放時間在 places.js，關門時 story3d.js 擋 */
+       const sp=W3.signPlane('法律學院圖書館',1.9,0.36,{color:'#3b2a1e'}); sp.position.set(-W/2+0.17,LD.h+0.42,LD.z); sp.rotation.y=Math.PI/2; lv0.add(sp); }
+-    for(const d of L.doors){ const sem=d.id==='seminarA'&&typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.wancai_seminar;   /* 研討室 A：大四的研討課在這裡上（門口上課：classes3d.js 的 doorInteract；沒有課時照舊是說明）*/
++    for(const d of L.doors){ if(d.to){ IT.push({x:d.x,z:-D/2+0.75,radius:1.5,lv:d.lv,label:'進入 '+d.label,exit:{to:d.to,spawn:Object.assign({},d.spawn)}}); continue; }   /* 走得進去的房間（研討室 A：wancai_rooms3d.js 把門接成出入口；上課、社課的流程由 LAWWW-C 改）*/
++      const sem=d.id==='seminarA'&&typeof CLS!=='undefined'&&CLS.DOORS&&CLS.DOORS.wancai_seminar;   /* 研討室 A：大四的研討課在這裡上（門口上課：classes3d.js 的 doorInteract；沒有課時照舊是說明）*/
+       const act=typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list.some(a=>a.zone==='wancai'&&a.room===d.id);   /* 社課在這一間（多功能教室：吉他社；研討室 A：法服讀書會——AA_110 6-8）：門口參加（classes3d.js 的 roomDoor）。互動範圍 1.5 m（BUG-20：1.15 m 時走到門口有時沒出現按鈕；同一層相鄰的門相距 3.5～4.5 m，不重疊）*/
+       IT.push(Object.assign({x:d.x,z:-D/2+0.75,radius:1.5,lv:d.lv,label:d.label,look:d.closed},sem?{door:'wancai_seminar'}:{},(sem||act)?{onInteract:()=>CLS.roomDoor(GAME,'wancai',d.id,{look:d.closed,door:sem?'wancai_seminar':null})}:{})); }
+     for(const f of EL.floors) if(f.lv!==undefined) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
+diff --git a/tests/flow_rooms.py b/tests/flow_rooms.py
+new file mode 100644
+index 00000000..56a5346b
+--- /dev/null
++++ b/tests/flow_rooms.py
+@@ -0,0 +1,96 @@
++"""走得進去的房間（萬才館研討室 A、霖澤館 202、萬才館多功能教室；LAWWW2-C 臨時接線 src/rooms_glb3d.js）：真實玩家流程。
++[前置／捷徑] 讀檔到 2025-09-09（二）12:20 那棟樓、那間房間的門前面（這個時段沒有課、沒有社課）。手機模擬橫向、不用 turbo。
++  1. 「進入 ○○」→ 房間（正式模型）；站得住、不會一進來就在「離開…」上
++  2. 走到一個座位「坐下」→ 坐下、站起來（研討室 A 另外坐一次靠牆的「坐旁聽席」）
++  3. 「離開…」→ 回到那棟樓、門前面那一層，站得住
++  4. 沒有 JS 例外；劇情自動走路沒有用到卡住保險
++這是 Playwright 手機模擬，不是 iPhone 實機。用法：python3 tests/flow_rooms.py URL 區域 [輸出資料夾]"""
++import asyncio, json, sys, time
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++
++URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
++ROOM = sys.argv[2]
++OUT = sys.argv[3] if len(sys.argv) > 3 else '/tmp/flow_rooms_' + ROOM
++CFG = {   # 區域: (那棟樓, 門前面 (x, z, lv), 門的按鈕, 要坐的座位, 離開的按鈕)
++    'wancai_sema': ('wancai', (-3.0, -5.2, 1), '進入 研討室 A', ['坐下', '坐旁聽席'], '離開研討室'),
++    'linze_202': ('linze', (3.0, -5.4, 1), '進入 202 教室', ['坐下'], '離開教室'),
++    'wancai_multi': ('wancai', (2.0, -5.2, 0), '進入 多功能教室', ['坐下'], '離開教室'),
++}
++HOST, (SX, SZ, SLV), DOOR, SEATS, EXIT = CFG[ROOM]
++BASE = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True,
++        'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True, 'fundsV2': 1, 'L118_FIRST_SENT': True}
++
++
++async def go_press(pg, cdp, run, label, zone, near=0.4, timeout=60):
++    it = await L.find_it(pg, label)
++    ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], near, label)
++    s = await L.state(pg)
++    if not (ok and s['interact'].startswith(label)): return False, s
++    await L.tap(pg, cdp, '#interact')
++    for _ in range(timeout):
++        if await pg.evaluate(f"GAME.G.zone==={json.dumps(zone)}&&!GAME.E.player.busy"): break
++        await pg.wait_for_timeout(1000)
++    for _ in range(30):
++        if await pg.evaluate("!!(GAME.E.zone&&(GAME.E.zone.formal!==false))"): break
++        await pg.wait_for_timeout(1000)
++    await pg.wait_for_timeout(2500)
++    return True, await L.state(pg)
++
++
++async def sit_here(pg, cdp, run, label):
++    # 走到遊戲自己算的走近點（GAME.seatApproach：玩家按「坐下」時也是走到這裡），座位按鈕出現就按
++    seat = await pg.evaluate(f"(()=>{{ const P=GAME.E.player.obj.position; const it=GAME.E.interactables.filter(i=>i.seat&&(i.label||'').startsWith({json.dumps(label)})).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z))[0]; if(!it) return null; const ap=GAME.seatApproach(it.seat); return {{x:it.x,z:it.z,ax:ap[0],az:ap[1]}}; }})()")
++    ok = bool(seat) and await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.12, label)
++    s = await L.state(pg)
++    if not ok and s['interact'].startswith(label): run.note(f'沒走到走近點 0.12 m 以內，但「{label}」按鈕已經出現（玩家看到的就是這個按鈕）：照按')
++    if not s['interact'].startswith(label): return False, None, s
++    await L.tap(pg, cdp, '#interact'); t0 = time.time(); sat = None; trace = []
++    while time.time() - t0 < 40:
++        s = await L.state(pg)
++        trace.append((round(time.time() - t0, 1), s['pose'], s['busy'], round(s['x'], 2), round(s['z'], 2)))
++        if s['pose'] == 'sit': sat = s; break   # 坐下以後的選單不按
++        await pg.wait_for_timeout(500)
++    if not sat: run.note('坐下的過程：' + json.dumps(trace[:12], ensure_ascii=False))
++    await pg.wait_for_timeout(1500)
++    return True, sat, s
++
++
++async def stand_up(pg, cdp, run):
++    s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=30)
++    if s['pose'] == 'sit': await L.joystick(pg, cdp, 0, 40, 900); await pg.wait_for_timeout(1500)
++    return await L.state(pg)
++
++
++async def main():
++    run = L.Run('flow_rooms_' + ROOM, OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL)
++        run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear()")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        run.setup(f'讀檔：2025-09-09（二）12:20 {HOST} 第 {SLV} 層、{DOOR[3:]}的門前面 ({SX}, {SZ})')
++        await L.load_state(pg, {'zone': HOST, 'hour': 12.33, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': SX, 'z': SZ, 'lv': SLV, 'yaw': 3.1416}})
++        await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp); await run.shot(pg, '01_host')
++        ok, s = await go_press(pg, cdp, run, DOOR, ROOM)
++        await run.shot(pg, '02_arrive')
++        run.check(f'1. 「{DOOR}」→ 房間（正式模型）、站得住、不在「{EXIT}」上', ok and s['zone'] == ROOM and s['stand'] and not s['interact'].startswith('離開') and await pg.evaluate("!!GAME.E.zone.formal"), json.dumps(s, ensure_ascii=False))
++        for k, lab in enumerate(SEATS):
++            ok, sat, s = await sit_here(pg, cdp, run, lab)
++            await run.shot(pg, f'0{3 + k}_sit')
++            run.check(f'2. 走到座位「{lab}」→ 坐下', ok and bool(sat), json.dumps(sat or s, ensure_ascii=False))
++            s = await stand_up(pg, cdp, run)
++            run.check('2. 站起來、站得住', s['pose'] != 'sit' and s['stand'], json.dumps(s, ensure_ascii=False))
++        ok, s = await go_press(pg, cdp, run, EXIT, HOST)
++        await run.shot(pg, '09_back')
++        lv = await pg.evaluate("GAME.E.player.lv|0")
++        run.check(f'3. 「{EXIT}」→ {HOST} 第 {SLV} 層、站得住', ok and s['zone'] == HOST and lv == SLV and s['stand'], json.dumps(dict(s, lv=lv), ensure_ascii=False))
++        fb = await pg.evaluate("GAME.walkFallbacks||0")
++        run.check('4. 沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        run.check('4. 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）', fb == 0, str(fb))
++        await b.close()
++    run.finish()
++
++asyncio.run(main())
+diff --git a/tests/shots_rooms.py b/tests/shots_rooms.py
+new file mode 100644
+index 00000000..cdb5c167
+--- /dev/null
++++ b/tests/shots_rooms.py
+@@ -0,0 +1,58 @@
++"""室內房間的遊戲內截圖（萬才館研討室 A、霖澤館 202、萬才館多功能教室；LAWWW2-C 2026-10-20）。
++[前置／捷徑] 每個鏡頭都是讀檔把人物放到那個位置、設鏡頭角度（只為了截圖；走進去、坐下的真實流程是 flow_wancai_sema.py 等）。手機模擬橫向（844×390）。
++用法：python3 tests/shots_rooms.py URL 輸出資料夾 區域[,區域…]"""
++import asyncio, json, sys, math
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++URL = sys.argv[1]; OUT = sys.argv[2]; ZS = sys.argv[3].split(',')
++BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True, 'LAW_RECAP_SEEN': True}
++PI = math.pi
++# 名字, 人物 x, z（None＝出生點）, 人物朝向, 鏡頭 yaw（鏡頭在人物的 (sin yaw, cos yaw) 那一側）
++VIEWS = {
++    'wancai_sema': [('1_from_door', None, None, 0.0, PI), ('2_to_board', 3.4, 0.0, -PI / 2, PI / 2), ('3_to_wall_chairs', 0.0, 2.4, PI, 0.0), ('4_bookcase', 2.9, 1.6, PI / 2, -PI / 2)],
++    'linze_202': [('1_from_door', None, None, 0.0, PI), ('2_to_board', 5.2, 0.0, -PI / 2, PI / 2), ('3_from_front', -4.8, 2.0, PI / 2, -PI / 2), ('4_aisle', 3.6, 0.0, -PI / 2, PI / 2 - 0.5)],
++    'wancai_multi': [('1_from_door', None, None, 0.0, PI), ('2_to_board', 4.6, 0.0, -PI / 2, PI / 2), ('3_from_front', -4.4, 2.0, PI / 2, -PI / 2)],
++}
++
++
++async def place(pg, x, z, ry, cyaw):
++    await pg.evaluate(f"(()=>{{ const P=GAME.E.player.obj; const nf=GAME.E.nav.nearestFree({x},{z})||[{x},{z}]; P.position.x=nf[0]; P.position.z=nf[1]; P.rotation.y={ry}; GAME.E.cam.yaw={cyaw}; }})()")
++    await pg.wait_for_timeout(2500)
++
++
++async def load(pg, zone, d, hour, sp):
++    await L.load_state(pg, {'zone': zone, 'hour': hour, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': sp['x'], 'z': sp['z'], 'yaw': sp['yaw']}}, quiet_events=True)
++    for _ in range(40):
++        if await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.formal)"): break
++        await pg.wait_for_timeout(1000)
++    await pg.wait_for_timeout(2500)
++
++
++async def main():
++    run = L.Run('shots_rooms', OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        for z in ZS:
++            sp = await pg.evaluate(f"(()=>{{ const t=typeof ROOM_GLB_LAYOUTS!=='undefined'&&ROOM_GLB_LAYOUTS[{json.dumps(z)}]; return t?t.spawn:null; }})()")
++            run.setup(f'{z}：讀檔到門口進來的位置（9/9 週二 12:20）')
++            await load(pg, z, d, 12.33, sp); await L.close_panels(pg, cdp)
++            run.check(f'{z}：正式模型載入', await pg.evaluate("!!GAME.E.zone.formal"))
++            for name, x, zz, ry, cyaw in VIEWS[z]:
++                if x is None: await place(pg, sp['x'], sp['z'], ry, cyaw)
++                else: run.setup(f'{z}：[捷徑] 人物放到 ({x}, {zz})、鏡頭 yaw {cyaw:.2f}'); await place(pg, x, zz, ry, cyaw)
++                await run.shot(pg, f'{z}_{name}')
++            run.setup(f'{z}：[捷徑] 直接坐到一個座位（GAME.sitAt）')
++            await pg.evaluate("(()=>{ const it=GAME.E.interactables.filter(i=>i.seat&&(i.label||'')==='坐下')[2]; GAME.sitAt(GAME.E.player,it.seat); })()")
++            await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp)
++            await pg.evaluate("GAME.E.cam.yaw=GAME.E.player.obj.rotation.y+Math.PI*0.8"); await pg.wait_for_timeout(2000); await run.shot(pg, f'{z}_5_sit')
++            await L.joystick(pg, cdp, 0, 40, 900); await pg.wait_for_timeout(1500)
++            run.setup(f'{z}：[捷徑] 同一個存檔改到 19:30（晚上）')
++            await load(pg, z, d, 19.5, sp); await L.close_panels(pg, cdp); await place(pg, sp['x'], sp['z'], 0.0, PI); await run.shot(pg, f'{z}_6_night')
++        run.check('沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        await b.close()
++    run.finish()
++asyncio.run(main())
+diff --git a/tools/shots/window_views.py b/tools/shots/window_views.py
+index 1fad2f6d..ad70bf7a 100644
+--- a/tools/shots/window_views.py
++++ b/tools/shots/window_views.py
+@@ -26,6 +26,8 @@ VIEWS = {
+     'linze_201': ('campus', [30, -98], [30.0, 6.6, -101.6], [30, 4.6, -60]),
+     'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60]),     # 霖澤館 3F（地板 8.4 m，窗中心 2.1 m）：往南看法學院前的路、樹（LAWWW2-C 2026-10-20）
+     'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60]),    # 霖澤館 4F（地板 12.0 m）
++    'wancai_sema': ('campus', [80, -96], [85.0, 6.3, -126.0], [85, 5.4, -170]),   # 萬才館 2F 研討室 A（北面的窗：地板 4.2 m＋窗中心 2.1 m）：往北看法學院後面的樹、圍牆、馬路（鏡頭在外牆外 4 m：貼著牆拍，樹葉擋在鏡頭前面；LAWWW2-C 2026-10-20）
++    'wancai_multi': ('campus', [80, -96], [90.0, 2.2, -126.0], [90, 2.0, -170]),   # 萬才館 1F 多功能教室（北面的窗；LAWWW2-C 2026-10-20）
+     # 總圖 3F 閱覽區：總圖正面（x≈83–87 有門廊）前面、三樓高度、偏北一點避開門廊和塔，往西看椰林大道
+     'library_3f': ('campus', [80, 4], [80.5, 13.0, 3.5], [20, 6.0, 0.0]),
+     # 宿舍房間（男一舍 36×14，x 2–38、z 61–75，正面朝北、門廊在中間）：二樓高度、門廊旁邊往北看舟山路與校園

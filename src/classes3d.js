@@ -392,6 +392,8 @@ const CLS=(function(){
     GM.caption('',a.title+'：'+s+(a.desc?a.desc:''),4200); };
   /* 進不去的房間門口（萬才館一樓多功能教室、二樓研討室 A；wancai3d.js）：那一間的社課現在可以參加 →「參加：…」（門口參加＝2D 畫面）；
      研討室 A 有課 → 照門口上課（doorInteract）；今天晚一點才有社課 → 寫幾點；今天參加過了 → 寫參加過了；都沒有 → 原本的說明（門鎖著／研討室的課的說明）*/
+  /* 門口現在有事（社課可以參加、門口上課的課正在上）：走得進去的房間（rooms_glb3d.js）的門，有事的時候照舊在門口參加，沒事就走進去 */
+  S.roomDoorBusy=function(GM,zone,room,o){ o=o||{}; const G=GM.G; const acts=typeof ACTIVITIES!=='undefined'?ACTIVITIES.list.filter(a=>a.zone===zone&&a.room===room&&ACTIVITIES.on(a,G.day,G)):[]; if(acts.some(q=>ACTIVITIES.canJoin(G,q))) return true; return !!(o.door&&S.liveDoor(G,o.door)); };
   S.roomDoor=async function(GM,zone,room,o){ o=o||{}; const G=GM.G, h=hr(G); const acts=typeof ACTIVITIES!=='undefined'?ACTIVITIES.list.filter(a=>a.zone===zone&&a.room===room&&ACTIVITIES.on(a,G.day,G)):[];
     const a=acts.find(q=>ACTIVITIES.canJoin(G,q));
     if(a){ GM.sceneBegin(); let i=1; try{ i=await GM.choose([{t:(a.verb||'參加')+'：'+a.title,hint:hhmm(a.t0)+'–'+hhmm(a.t1)+'　'+(a.desc||'')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i===0) await S.attendActivity(GM,a,{door:true}); return; }

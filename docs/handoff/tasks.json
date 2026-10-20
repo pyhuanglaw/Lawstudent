@@ -20666,7 +20666,7 @@
    "title": "霖澤館 3～8 樓、萬才館樓上不要永遠「整修中」",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20680,7 +20680,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「霖澤館3-8樓為什麼永遠都在蓋 萬才也是阿」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【10-20 17:0x】霖澤館 3F、4F 已接（LINZE-34F-TABLES-1020）、5F–8F 改研究室；還差：霖澤館 202 教室、萬才館研討室 A、多功能教室（LAWWW2 做模型，X78 的課要搬過去）｜ LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
+   "next": "【LAWWW-C 19:5x】LAWWW2-C 0a5cc70a 接進開發分支：霖澤館 202、萬才館多功能教室、研討室 A 走得進去（門不再寫整修中）；萬才館的門有社課、研討課時照舊門口參加；BB 實玩 tests/flow_rooms.py（LAWWW2） ｜ 【10-20 17:0x】霖澤館 3F、4F 已接（LINZE-34F-TABLES-1020）、5F–8F 改研究室；還差：霖澤館 202 教室、萬才館研討室 A、多功能教室（LAWWW2 做模型，X78 的課要搬過去）｜ LAWWW2 先做霖澤 3、4 樓（含長條桌 LINZE-34F-TABLES-1020）、萬才至少一間教室；LAWWW 接導航、電梯樓層",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -20744,7 +20744,7 @@
    "title": "法律系的課不要都在霖澤館，萬才館也要有",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20758,7 +20758,9 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「為什麼法律系的課都在霖澤館 萬才呢?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "等萬才教室（LINZE-WANCAI-FLOORS-1020）；之後把部分課排到萬才（courses.js 的教室）"
+   "next": "【LAWWW-C 19:5x】教室有了（0a5cc70a 已接）；哪幾門法律系的課搬到萬才館多功能教室／霖澤館 202 已問 AA（避開台詞寫死霖澤館 201 的課）；AA 給了以後 LAWWW 改 courses.js＋classes3d.js 座位上課 ｜ 等萬才教室（LINZE-WANCAI-FLOORS-1020）；之後把部分課排到萬才（courses.js 的教室）",
+   "pausedReason": "等 AA 定哪幾門課搬教室",
+   "resumeWhen": "AA 回 X78 課程清單"
   },
   {
    "id": "QA-REPRO-1020",
