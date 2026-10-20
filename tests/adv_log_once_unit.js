@@ -7,5 +7,6 @@ let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info
 const ev=fs.readFileSync(path.join(ROOT,'src/events3d.js'),'utf8'), gm=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 const raw=(ev.match(/ADV\.log\((G\.name|nm)\+'（手機）',text\)/g)||[]).length, guarded=(ev.match(/if\(!ADV\.active\) ADV\.log\((G\.name|nm)\+'（手機）',text\)/g)||[]).length;
 check('1. 事件的手機句（phone、phoneMe）：ADV 開著時不自己記，兩處都有守門', raw===2&&guarded===2, raw+'/'+guarded);
+check('1b. 事件的一般台詞（events3d.js runLines 的 text 句）、法律課堂（legal3d.js 兩處）：ADV 開著時不自己記', /if\(!ADV\.active\) ADV\.log\(who\?who\.name:'',text\); await GM\.say\(who,text/.test(ev)&&(()=>{ const lg=fs.readFileSync(path.join(ROOT,'src/legal3d.js'),'utf8'); return /if\(!ADV\.active\) ADV\.log\(byName,t\)/.test(lg)&&/if\(!ADV\.active\) ADV\.log\(cn,t\)/.test(lg); })());
 check('2. GM.say 在 ADV 開著時記一次', /if\(typeof ADV!=='undefined'&&ADV\.active\)\{[^\n]*ADV\.log\(who\?\(who\.name\|\|''\):'',D\.full\)/.test(gm));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

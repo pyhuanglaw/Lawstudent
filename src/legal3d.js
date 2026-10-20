@@ -40,7 +40,7 @@ const LEGAL = (function(){
   function fill(t,q){ return t.replace('{core}',coreText(q)).replace('{stmt}',stmt(q)).replace('{q}',q.q).replace('{name}',G.name); }
   // 主要 API：在 ADV／對話中問一題。spec: {context, by(charId), qid|pick:{section,type,prefer}, chorus(charId 旁邊插話), quiet}
   L.ask=async function(spec,ev){ const ctx=spec.context||'classmate'; const by=spec.by; const q=spec.qid?L.byId(spec.qid):L.pick(Object.assign({n:1},spec.pick||{})); if(!q){ return null; } const byName=SOCIAL.displayName(by); const npc=EVENTS.npcOf(by); const who={name:byName,obj:npc&&npc.obj,charId:by,pose:npc&&npc.pose};
-    const say=(t,expr)=>{ ADV.speaker(by,expr||'neutral'); ADV.log(byName,t); return GM.say(who,t,{keepPose:!!(npc&&npc.seat)}); };
+    const say=(t,expr)=>{ ADV.speaker(by,expr||'neutral'); if(!ADV.active) ADV.log(byName,t); return GM.say(who,t,{keepPose:!!(npc&&npc.seat)}); };   /* ADV 開著時 GM.say 自己會記 */
     const table={class:[CLASS_INTRO,CLASS_OK,CLASS_BAD,CLASS_UNSURE],classmate:[null,MATE_OK,MATE_BAD,MATE_UNSURE],study:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE],quiz:[null,STUDY_OK,STUDY_BAD,STUDY_UNSURE]}[ctx]||[null,MATE_OK,MATE_BAD,MATE_UNSURE];
     const byTable=(T)=>Array.isArray(T)?T:(T[by]||T.default);
     if(ctx==='class'){ await say(pick(byTable(CLASS_INTRO)),'serious'); if(q.type==='tf') await say('「'+stmt(q)+'——這句話對不對？'+G.name+'，你說。」','serious'); else { await say('「'+q.q+'」','serious'); await say('「'+opts4(q).map(o=>o.k+'、'+o.t).join('；')+'。'+G.name+'，你選哪個？」','neutral'); } }
@@ -50,7 +50,7 @@ const LEGAL = (function(){
     const k=await GM.choose(options.map(o=>({t:o.t}))); const v=options[k].v; ADV.log(G.name,'▶ '+options[k].t);
     let result; if(v===null){ L.expose(q.id,ctx); result='unsure'; await say(fill(pick(byTable(table[3])),q),'neutral'); }
     else { const ok=(v===q.answer); L.mark(q.id,ok,ctx); result=ok?'ok':'bad'; await say(fill(pick(byTable(table[ok?1:2])),q),ok?'smile':'thinking'); }
-    if(spec.chorus&&EVENTS.npcOf(spec.chorus)){ const cn=SOCIAL.displayName(spec.chorus); const cw={name:cn,obj:EVENTS.npcOf(spec.chorus).obj,charId:spec.chorus}; ADV.speaker(spec.chorus,'neutral'); const t=result==='ok'?pick(['（小聲）「你剛剛怎麼知道的？」','（小聲）「……好喔。」']):pick(['（小聲）「我也選那個。」','（小聲）「這題我上週錯過。」']); ADV.log(cn,t); await GM.say(cw,t); }
+    if(spec.chorus&&EVENTS.npcOf(spec.chorus)){ const cn=SOCIAL.displayName(spec.chorus); const cw={name:cn,obj:EVENTS.npcOf(spec.chorus).obj,charId:spec.chorus}; ADV.speaker(spec.chorus,'neutral'); const t=result==='ok'?pick(['（小聲）「你剛剛怎麼知道的？」','（小聲）「……好喔。」']):pick(['（小聲）「我也選那個。」','（小聲）「這題我上週錯過。」']); if(!ADV.active) ADV.log(cn,t); await GM.say(cw,t); }
     // 教授記錄
     if(ctx==='class'&&by&&by.startsWith('prof_')){ SOCIAL.profEvent(by,'part',1,null); if(result==='ok') SOCIAL.profEvent(by,'perf',3,'課堂答對：'+q.id); else if(result==='bad') SOCIAL.profEvent(by,'perf',-1,null); }
     if(!spec.quiet) GM.addNote('law_'+q.id,(q.section||'刑事訴訟法')+'：'+stmt(q).slice(0,18)+'…',(q.core?'核心：'+q.core:'答案：'+(q.type==='tf'?q.answer:q.answer+' '+q.options[q.answer]))+(result==='bad'?'（你答錯過，記得回頭看）':''));
