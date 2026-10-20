@@ -909,6 +909,23 @@
    "state": "MODEL_READY；patch 套開發分支 fd861eec 的測試工作樹 INTEGRATED；flow_lane118、flow_l118_shops ALL PASS；reachability_all（lane118）和沒套 patch 時完全相同；READY_FOR_ART_REVIEW",
    "remaining": "電線遠處鋸齒；道具款式少；晚上的光只是地上的光圈；實機",
    "next": "LAWWW-C 套 patches/l118_lane_props_wire.diff（新檔 src/data/lane118_props.js＋index.html 一行），換三組 GLB"
+  },
+  {
+   "task": "公館店面七樓以上不投影（LAWWW-C 20:08 決定）＋騎樓柱子樹幹透視修好（10-18 包外牆後材質名不見）＋gongguan_glb_integration 4 項舊 FAIL 判斷",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "assets/models/env/second_ai/gongguan_shops.json",
+    "tools/blender/env_second/wz_street.py",
+    "tools/blender/env_second/wz_shopkit.py",
+    "docs/art-rebuild/second_ai/patches/gg_upper_noshadow.diff",
+    "docs/art-rebuild/second_ai/test_shots/gg_zone_1020/README.md",
+    "docs/art-rebuild/second_ai/test_shots/gg_zone_1020/upper_noshadow.webp"
+   ],
+   "state": "MODEL_READY；patch 套 fd861eec 的測試工作樹：gongguan_glb_integration 柱子透視 FAIL→PASS，其他 3 項舊 FAIL 不變（2 項測試過時、1 項 draw call 預算真的超出）；READY_FOR_ART_REVIEW",
+   "remaining": "校門口 draw call 1.53 倍（店面 GLB 材質合併一輪）；wz_shopkit 的柱子改動之後重建溫州街時也會套用（溫州街 B5 若走 arcade_front_v2）",
+   "next": "LAWWW-C 套 patches/gg_upper_noshadow.diff（zones3d.js 兩行），換 gongguan_shops.glb／.json；要不要改測試的兩項、排店面材質合併，LAWWW-C 決定"
   }
  ]
 }

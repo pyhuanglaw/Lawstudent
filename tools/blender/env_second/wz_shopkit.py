@@ -884,9 +884,11 @@ def arcade_front_v2(spec, xf, W, wall):
     # 騎樓：天花板、這一棟的地磚、柱子（包外牆）、日光燈（晚上亮）
     xf.box(acc(M['ceilA']), -W / 2, W / 2, ceil_y, GH - 0.12, -dep, 0.0)
     xf.box(acc(SK[sf['floor']]), -W / 2, W / 2, 0.0, 0.05, -dep, 0.0)
+    pm = Mesh(f'pillar_{spec["id"]}', pillar_mat(spec['wall']))   # 柱子：外牆的樣子，但自己一個材質 wz_pillar_<牆>——遊戲照材質名加「樹幹透視」（擋住玩家時網點透空；10-20 gongguan_glb_integration 查到 10-18 包外牆以後沒了）
     for sx in spec.get('pillars', (-W / 2 + 0.3, W / 2 - 0.3)):
-        xf.box(wall, sx - 0.275, sx + 0.275, 0.05, ceil_y, -0.575, -0.025)
+        xf.box(pm, sx - 0.275, sx + 0.275, 0.05, ceil_y, -0.575, -0.025)
         xf.box(acc(SK['f_granite']), sx - 0.29, sx + 0.29, 0.05, 0.45, -0.59, -0.01)                  # 柱腳的石材護角
+    if not pm.empty(): set_tint(pm.finish(root), spec['color'], spec['wall'])
     nl = max(1, round(W / 2.5))
     for k in range(nl):
         tx = -W / 2 + (k + 0.5) * W / nl; xf.box(acc(M['tube']), tx - 0.6, tx + 0.6, ceil_y - 0.03, ceil_y, -dep * 0.55 - 0.05, -dep * 0.55 + 0.05)
