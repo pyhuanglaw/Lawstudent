@@ -848,7 +848,7 @@
   {
    "task": "L118-SHOPS-AUDIT-1020 118 巷九間店美術驗收與效能（README）＋修正：滇香織布、家常電視的「看」被座位搶；韓食座位卡玻璃邊；九間的說明文字 note→dev",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "317e85c2",
    "files": [
     "assets/models/env/second_ai/l118_korea.glb",
     "assets/models/env/second_ai/l118_korea.json",
