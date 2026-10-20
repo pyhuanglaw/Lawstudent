@@ -20412,7 +20412,7 @@
    "title": "跑步太慢",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -20426,14 +20426,14 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「跑步好慢」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "engine3d.js 跑步倍率加快；跑 p0_movement、movement_regression（腳不能滑步）"
+   "next": "【10-20 13:4x 開發分支】E.SPD.run 4.8 → 6.2 m/s（腳踏車 8.5 不變）；跑步動畫照速度加快（timeScale spd/4.1）。nav_buildings、nav_levels、stairs_feet 和載入 engine3d 的單元測試 40 支全過。下一步：BB 瀏覽器看跑起來的樣子、p0_movement ｜ engine3d.js 跑步倍率加快；跑 p0_movement、movement_regression（腳不能滑步）"
   },
   {
    "id": "LANE118-PLACES-1020",
    "title": "118 巷要能從手機「地點」直接去",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20447,7 +20447,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷也要可及時到達吧手機地圖那邊」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "手機「地點」分頁加 118 巷（和公館、溫州街一樣）"
+   "next": "【10-20 13:4x 開發分支】手機「地點」加「118 巷」（落點＝霖澤館後門走過去的出生點 0,47.6），一開始就知道（known0）；地點名稱加 118 巷。quick_travel_unit（落點站得住、走得到出口）與 places 相關單元測試全過 ｜ 手機「地點」分頁加 118 巷（和公館、溫州街一樣）"
   },
   {
    "id": "LANE118-SHOPS-1020",
