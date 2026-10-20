@@ -291,13 +291,13 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
     dw = sf.get('door_w', 1.8); dx = sf.get('door_x', 0.0)
     if door == 'alu':
         a = acc(SK['alu2'])
-        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(a, x - 0.04, x + 0.04, 0.08, ih + 0.18, gz - 0.05, gz + 0.05)
+        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(a, x - 0.04, x + 0.04, 0.085, ih + 0.175, gz - 0.05, gz + 0.05)   # 直框的兩端藏在上下橫框裡（BUG-WZFLICKER-2：原本頂面、底面和橫框同一個平面）
         for x in (dx - 0.12, dx + 0.08): xf.box(a, x, x + 0.03, 0.9, 1.45, gz + 0.05, gz + 0.1)                    # 長把手
         xf.box(a, -iw / 2, iw / 2, 1.0, 1.04, gz - 0.03, gz + 0.03)                                                   # 腰框
     elif door in ('wood', 'lattice'):
         w = acc(SK['wood_dk'])
-        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(w, x - 0.06, x + 0.06, 0.08, ih + 0.18, gz - 0.06, gz + 0.06)
-        xf.box(w, -iw / 2, iw / 2, 0.08, 0.55, gz - 0.04, gz + 0.04)                                                  # 下半部木板
+        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(w, x - 0.06, x + 0.06, 0.085, ih + 0.175, gz - 0.065, gz + 0.065)   # 直框：兩端藏在橫框裡、前後凸出橫框 5 mm（BUG-WZFLICKER-2）
+        xf.box(w, -iw / 2, iw / 2, 0.085, 0.55, gz - 0.04, gz + 0.04)                                                  # 下半部木板
         if door == 'lattice':                                                                                         # 木格拉門（定食、茶屋）：只有門那一段是格子，其他是木框玻璃窗（v5 整面格子像籠子）
             l0, l1 = dx - dw / 2, dx + dw / 2
             for k in range(1, 8): y = 0.55 + k * (ih - 0.45) / 8; xf.box(w, l0, l1, y - 0.012, y + 0.012, gz - 0.03, gz + 0.03)
@@ -310,7 +310,7 @@ def _door_glass(spec, xf, sf, iw, ih, gz, fr, top):
         for x in (dx - 0.1, dx + 0.07): xf.box(acc(M['brass']), x, x + 0.03, 1.0, 1.2, gz + 0.06, gz + 0.1)
     elif door == 'auto':
         a = acc(SK['alu2']); dw = sf.get('door_w', 2.4)
-        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(a, x - 0.03, x + 0.03, 0.08, ih + 0.18, gz - 0.05, gz + 0.05)
+        for x in (-iw / 2, dx - dw / 2, dx, dx + dw / 2, iw / 2): xf.box(a, x - 0.03, x + 0.03, 0.085, ih + 0.175, gz - 0.05, gz + 0.05)
         xf.box(a, dx - dw / 2 - 0.1, dx + dw / 2 + 0.1, ih + 0.18, ih + 0.36, gz - 0.02, gz + 0.16)                 # 自動門的機箱
         xf.box(acc(M['ac_dark']), dx - 0.08, dx + 0.08, ih + 0.2, ih + 0.26, gz + 0.16, gz + 0.19)                   # 感應器
     elif door == 'open':                                                                                              # 整面拉開：摺門收在兩側
@@ -548,18 +548,18 @@ def shallow_interior(spec, xf, iw, gz, ih):
         n = int((iw - 0.6) / 0.62)
         for j in range(n):
             x0 = -iw / 2 + 0.3 + j * 0.62                                                                    # 冰箱：背板（發光）＋兩側＋上下框，飲料在前面（v6 第一版做成實心方塊，飲料被包在裡面）
-            xf.box(acc(SK['lamp_cool']), x0 + 0.02, x0 + 0.58, y0 + 0.05, y0 + 1.95, zb, zb + 0.03)
+            xf.box(acc(SK['lamp_cool']), x0 + 0.02, x0 + 0.58, y0 + 0.05, y0 + 1.95, zb + 0.005, zb + 0.03)   # 背板離後牆 5 mm（BUG-WZFLICKER-2）
             for (a_, b_) in ((x0, x0 + 0.03), (x0 + 0.57, x0 + 0.6)): vb(a_, b_, y0, y0 + 2.0, zb, zb + 0.56, '#3a3d40', r=0.0)
-            vb(x0, x0 + 0.6, y0 + 1.95, y0 + 2.0, zb, zb + 0.56, '#3a3d40', r=0.0); vb(x0, x0 + 0.6, y0, y0 + 0.1, zb, zb + 0.56, '#3a3d40', r=0.0)
+            vb(x0 + 0.03, x0 + 0.57, y0 + 1.95, y0 + 2.0, zb, zb + 0.56, '#3a3d40', r=0.0); vb(x0 + 0.03, x0 + 0.57, y0, y0 + 0.1, zb, zb + 0.56, '#3a3d40', r=0.0)   # 上下框夾在兩側板中間（BUG-WZFLICKER-2：原本和側板重疊，兩端、前後面同一個平面）
             for t in range(5): vb(x0 + 0.03, x0 + 0.57, y0 + 0.12 + t * 0.36, y0 + 0.14 + t * 0.36, zb + 0.03, zb + 0.5, '#c8ccd0', r=0.0)   # 層架
             for t in range(5):
                 for b in range(4): vb(x0 + 0.06 + b * 0.13, x0 + 0.15 + b * 0.13, y0 + 0.15 + t * 0.36, y0 + 0.38 + t * 0.36, zb + 0.43, zb + 0.5, rr.choice(['#d84a3a', '#3a8ad8', '#f0d040', '#5ab05a', '#f4f4f0', '#8a3a2a']), r=0)
-            xf.quad(acc(M['glass']), [(x0, y0, zb + 0.56), (x0 + 0.6, y0, zb + 0.56), (x0 + 0.6, y0 + 2.0, zb + 0.56), (x0, y0 + 2.0, zb + 0.56)])
+            xf.quad(acc(M['glass']), [(x0 + 0.03, y0 + 0.1, zb + 0.548), (x0 + 0.57, y0 + 0.1, zb + 0.548), (x0 + 0.57, y0 + 1.95, zb + 0.548), (x0 + 0.03, y0 + 1.95, zb + 0.548)])   # 冰箱門玻璃嵌在框裡、比框的前面退 1.2 cm（BUG-WZFLICKER-2：原本和框的前面同一個平面，隔著店面玻璃看得到閃）
         for gx_ in (-1.0, 1.0):
             vb(gx_ - 0.3, gx_ + 0.3, y0, y0 + 1.35, gz - 2.0, gz - 0.7, '#e8e8e4', r=0.01)
             for t in range(4):
                 for sd in (-1, 1):
-                    for b in range(6): vb(gx_ + sd * 0.3 - (0.06 if sd > 0 else -0.0), gx_ + sd * 0.3 + (0.0 if sd > 0 else 0.06), y0 + 0.2 + t * 0.3, y0 + 0.4 + t * 0.3, gz - 1.95 + b * 0.21, gz - 1.78 + b * 0.21, rr.choice(['#e05a3a', '#f0c040', '#4a90d0', '#60b060', '#f4f0e8', '#c060a0']), r=0)
+                    for b in range(6): vb(gx_ + sd * 0.305 - (0.06 if sd > 0 else 0.0), gx_ + sd * 0.305 + (0.0 if sd > 0 else 0.06), y0 + 0.2 + t * 0.3, y0 + 0.4 + t * 0.3, gz - 1.95 + b * 0.21, gz - 1.78 + b * 0.21, rr.choice(['#e05a3a', '#f0c040', '#4a90d0', '#60b060', '#f4f0e8', '#c060a0']), r=0)   # 商品凸出貨架側面 5 mm（BUG-WZFLICKER-2：原本和貨架側面同一個平面）
         vb(iw / 2 - 1.3, iw / 2 - 0.2, y0, y0 + 0.95, gz - 1.6, gz - 0.9, '#f2f2ee', r=0.01); vb(iw / 2 - 1.0, iw / 2 - 0.6, y0 + 0.95, y0 + 1.25, gz - 1.4, gz - 1.2, '#2c2c2e', r=0.01)
     elif kind == 'print':                                                                                   # 影印：兩台影印機、櫃台、價目表
         for x in (-iw / 2 + 0.8, -iw / 2 + 1.8):
