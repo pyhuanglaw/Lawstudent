@@ -46,7 +46,10 @@
   - LAWWW-C 派的順序：GG 第二階段 → ART-L118-LANE-1020 → ART-ROOM-MULTI-1020（＋ART-ROOM-LIFE-1020）→ SCN-V4-01／V5-01（建議給 Blender 子代理）。
 - 118 巷驗收：README `test_shots/l118_audit_1020/README.md`；韓食重建、九間 layout 說明文字 note→dev。
 - X86 第二階段（公館區域裡面）交付：`test_shots/gg_zone_1020/README.md`、`patches/gg_zone_far_wire.diff`。
-- 接下來：
+- LAWWW-C 20:08：X86 第二階段已接 `0582af9f`；決定公館七樓以上不投影（下一個交付順手做）；4 項舊 FAIL 要我判斷。
+- ART-L118-LANE-1020 交付：`test_shots/l118_lane_1020/README.md`、`patches/l118_lane_props_wire.diff`。
+- 接下來：公館七樓以上不投影 → 4 項舊 FAIL 判斷 → 驗收子代理的多功能教室／202 → ART-BALCONY-POTS（只做公館）。
+- （舊）接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
   4. X86 第二階段；
   5. ART-BALCONY-POTS（只做公館；溫州街暫停）。

@@ -885,6 +885,30 @@
    "state": "MODEL_READY；patch 套開發分支 5fc69491 的測試工作樹 INTEGRATED；gongguan_layout_nav、reachability_all（gongguan）、截圖 ALL PASS；gongguan_glb_integration 4 項 FAIL 和沒套 patch 時相同（本來就有）；READY_FOR_ART_REVIEW",
    "remaining": "高樓影子在陰影範圍邊界的直線（可讓七樓以上不投影，LAWWW-C 決定）；大看板種類少；天橋、市場走不到；實機",
    "next": "LAWWW-C 套 patches/gg_zone_far_wire.diff，換三個 GLB（campus_gongguan_bd 也重建了）"
+  },
+  {
+   "task": "ART-L118-LANE-1020 118 巷像巷子：機車 55 台（機車格垂直、中間路邊順著停）、店門口雜物、電線桿與頭上電線、樓上直立招牌與冷氣、機車格白線淡一點、晚上店門口的光",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/lane118_props.glb",
+    "assets/models/env/second_ai/lane118_props.json",
+    "assets/models/env/second_ai/lane118_props.layout.json",
+    "assets/models/env/second_ai/lane118_street.glb",
+    "assets/models/env/second_ai/lane118_street.json",
+    "assets/models/env/second_ai/lane118_ground.glb",
+    "assets/models/env/second_ai/lane118_ground.json",
+    "tools/blender/env_second/lane118_props.py",
+    "tools/blender/env_second/lane118_ground_tex.py",
+    "tools/blender/env_second/wz_street.py",
+    "tools/blender/env_second/textures/gen/l118_road_lane.jpg",
+    "tools/blender/env_second/textures/gen/l118_props_print.png",
+    "docs/art-rebuild/second_ai/patches/l118_lane_props_wire.diff",
+    "docs/art-rebuild/second_ai/test_shots/l118_lane_1020/README.md"
+   ],
+   "state": "MODEL_READY；patch 套開發分支 fd861eec 的測試工作樹 INTEGRATED；flow_lane118、flow_l118_shops ALL PASS；reachability_all（lane118）和沒套 patch 時完全相同；READY_FOR_ART_REVIEW",
+   "remaining": "電線遠處鋸齒；道具款式少；晚上的光只是地上的光圈；實機",
+   "next": "LAWWW-C 套 patches/l118_lane_props_wire.diff（新檔 src/data/lane118_props.js＋index.html 一行），換三組 GLB"
   }
  ]
 }
