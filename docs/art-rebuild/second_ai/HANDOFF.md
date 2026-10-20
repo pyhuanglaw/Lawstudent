@@ -20,12 +20,21 @@
   - 3F、4F 的野餐桌不再擺中間：南窗下一排（一張對一扇窗）、西牆一排（沿著牆）；
   - 微波爐、飲水機、回收桶搬到東牆，中間空出來走路；
   - 我的理解是「桌子沿著窗、沿著牆排」，如果是桌子短邊頂著牆，使用者會再說。
-- 接下來的順序：
-  1. LANE118 遊戲內測試、補交；
-  2. BUG-WZFLICKER-2 換 GLB 交付；
-  3. LINZE-34F-TABLES-1020；
-  4. LINZE-WANCAI-FLOORS-1020；
-  5. ART-BALCONY-POTS（只做公館；溫州街暫停）。
+- 已交：LANE118 九間（LAWWW-C 已整合 `4560f8fd`）、BUG-WZFLICKER-2（`0f430885`）、體育館樓梯（`48275d72`）。
+- **使用者 10-20 15:3x 三項**（全文在 LAWWW-C 的 `docs/handoff/user_asks_LAWWW.json`）：
+  1. **霖澤館 3F、4F：交付 `5566a0c5`**（`test_shots/linze_upper_1020/README.md`、`patches/linze_upper_wire_test.diff` 套開發分支 `207d6c43`，`flow_linze_upper.py` ALL PASS）。狀態：MODEL_READY／INTEGRATED 只在測試工作樹／READY_FOR_ART_REVIEW。電梯沒接（LAWWW-C）。
+  2. **樓層規劃：`LINZE_WANCAI_FLOORS_PLAN.md`（`5d1f54ec`、`5984c140`）**。LAWWW-C、AA-C 都回了：
+     - 202 開成平面教室；
+     - 研討室 A、多功能教室要能走進去；
+     - 5F 以上不做；
+     - 順序：研討室 A → 202 → 多功能教室。
+  3. **118 巷九間店驗收與效能（L118-SHOPS-AUDIT-1020）**：
+     - 進行中；
+     - GLB 數字、吊燈高度已量；
+     - 遊戲內量測腳本 `tests/audit_l118_shops.py` 在測試工作樹 `$S/devwt`。
+- 研討室 A（`tools/blender/env_second/wancai_seminar.py`）、202／多功能教室（`flat_classroom.py`）：模型 MODEL_READY，只在暫存區 `$S/semout`、還沒放進 assets。
+  - 研討室 A 的臨時接線（`src/wancai_rooms3d.js`）在 `$S/devwt`，還沒跑流程。
+- 之後：ART-BALCONY-POTS（只做公館；溫州街暫停）。
 
 ## 🔁 交班（LAWWW2-C，2026-10-18 12:3x UTC；使用者「使用量大概在半小時到上限 先做收尾」）
 - 工作階段 `session_015BuNi47yLUt5PviELapMNj`；分支 **`claude/focused-cray-c9uwvw`**；交班時最後 commit 見本節下面那一個 commit（這份檔是最後一個改動）。
