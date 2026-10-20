@@ -8498,6 +8498,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "下一版接（先套 us_season.diff）；d3fdab82 整合"
+  },
+  {
+   "id": "DL-AA-e544b4f4",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e544b4f4",
+   "what": "AA_308：重考鋪陳（12/13 補習班、1/8 麵店）、高雄三天分場＋新景點、10/17 跟媽媽說、衝刺班請假演兩次再笑、7/25 落點見面後、學期結束日期卡、一層樓、拿掉可昕 Lx2",
+   "task": "CRAM-DEC-SCENE-1018",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "同一份涵蓋 KH-RETAKE-PACING、KH-TRIP-MORE、E30-MOM、CRAM-LEAVE-LAUGH、ECON-TERM-END-CUE、KH-SCORE-TIMING、HOME-ONEFLOOR、LAD-K0LX2-CUT；BB 要寫高雄五張純場景提示詞"
+  },
+  {
+   "id": "DL-AA-36682e78",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "36682e78",
+   "what": "KX-EXPR 可昕表情：retake_home 71 句（86ffcd9a）、階梯 y0s1 24 句＋y0s2 8 句改成 {t,e}（f8a2ce92）；開發分支 events.js 39 句（5df8cdc7、5ed93586 已推進開發分支）",
+   "task": "KX-EXPR-1018",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "events.js 那部分已在開發分支；retake_home、階梯要重匯（階梯 lines 變成 {t,e}，程式要能讀）"
   }
  ],
  "ignored": [

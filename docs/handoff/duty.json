@@ -41,11 +41,11 @@
    "account": "C",
    "session": "session_015BuNi47yLUt5PviELapMNj",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "ae3e0882",
-   "since": null,
-   "state": "handed-off",
+   "sha": "bccf1f8d",
+   "since": "2026-10-20T13:04Z",
+   "state": "on",
    "progressFile": "docs/art-rebuild/second_ai/HANDOFF.md",
-   "sinceSha": null,
+   "sinceSha": "7ed82687",
    "handedOffAt": "2026-10-18T12:24Z",
    "handoffSnapshot": "2026-10-18T1224Z_C_LAWWW2.json"
   },
@@ -53,11 +53,11 @@
    "account": "C",
    "session": "session_019evvieJUJD23EGf4nyLPgo",
    "branch": "claude/magical-albattani-bk7b4n",
-   "sha": "6a97674b",
-   "since": null,
-   "state": "handed-off",
+   "sha": "36682e78",
+   "since": "2026-10-20T13:06Z",
+   "state": "on",
    "progressFile": "docs/story_planning/AA_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "264871e0",
    "handedOffAt": "2026-10-18T12:24Z",
    "handoffSnapshot": "2026-10-18T1224Z_C_AA.json"
   },
@@ -65,11 +65,11 @@
    "account": "C",
    "session": "session_01QYQ1cdaSaRWCGfWi9kZFRU",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "291432b1",
-   "since": null,
-   "state": "handed-off",
+   "sha": "e089132e",
+   "since": "2026-10-20T13:03Z",
+   "state": "on",
    "progressFile": "docs/story_planning/BB_00_交接紀錄.md（企劃線）",
-   "sinceSha": null,
+   "sinceSha": "ffba4fff",
    "handedOffAt": "2026-10-18T12:24Z",
    "handoffSnapshot": "2026-10-18T1224Z_C_BB.json"
   }
@@ -211,7 +211,7 @@
    ]
   }
  ],
- "seq": 17,
+ "seq": 18,
  "chain": [
   {
    "seq": 1,
@@ -331,6 +331,13 @@
    "account": "C",
    "role": "LAWWW",
    "event": "register"
+  },
+  {
+   "seq": 18,
+   "at": "2026-10-20T13:19Z",
+   "account": "C",
+   "role": "LAWWW2,AA,BB",
+   "event": "sync"
   }
  ]
 }
