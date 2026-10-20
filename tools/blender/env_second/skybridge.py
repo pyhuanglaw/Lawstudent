@@ -40,7 +40,9 @@ M = {
     'rail': L.flat('sb_rail', '#c3c7cc', rough=0.25, metal=0.45),
     'door': L.flat('sb_doorframe', '#5d6166', rough=0.4, metal=0.3),
     'mat': L.flat('sb_mat', '#3a3d40', rough=0.95),
+    'roof': L.pbr('sb_roof', 'granular_concrete', tile=1.5, target='#bdbab3', maps=('diff', 'nor'), rough_value=0.85),
 }
+for k in ('ceil', 'roof'): M[k].use_backface_culling = True   # 單面（glTF doubleSided＝false）：從下面看得到、鏡頭在上面時看得穿（見下面天花板的說明）
 root = B.group('skybridge', props={'kind': 'skybridge', 'len': LEN, 'rise': RISE})
 NZ = 16
 ZS = [-LEN * i / NZ for i in range(NZ + 1)]
@@ -82,11 +84,21 @@ for side, sx in (('east', 1), ('west', -1)):
     for m in (wl, gl, al):
         ob = m.finish(root, props={'dir': dirv})
 # 天花板（平的，在最高的地板 + H）＋兩條 LED 燈帶；屋頂（外面）
-ce = Mesh('sb_ceiling', M['ceil']); ce.box(-WI, WI, H + RISE - 0.02, H + RISE, -LEN, 0); ce.finish(root, uv=False)   # 薄板（單面時從室內看是黑的）
+yc = H + RISE - 0.02
+ce = Mesh('sb_ceiling', M['ceil']); ce.quad([(-WI, yc, -LEN), (WI, yc, -LEN), (WI, yc, 0), (-WI, yc, 0)]); ce.finish(root, uv=False)
+# 天花板只有朝下的一面（2026-10-20 LAWWW2-C：使用者「走到普通之後被擋住」——鏡頭跟在人後面、比天花板高，原本的薄板＋屋頂頂面從上面看是一整片灰色，
+#   人物和路都看不到。改成和室內 room() 的天花板一樣：從下面看得到，鏡頭在上面時看得穿）
 led = Mesh('sb_led', M['led'])
 for x in (-0.55, 0.55): led.box(x - 0.04, x + 0.04, H + RISE - 0.03, H + RISE - 0.005, -LEN + 0.4, -0.4)
 led.finish(root)
-rf = Mesh('sb_roof', M['conc']); rf.box(-WO - 0.12, WO + 0.12, H + RISE, H + RISE + 0.25, -LEN, 0); rf.finish(root)
+ra, rb, ry0, ry1 = WO + 0.12, -LEN, H + RISE, H + RISE + 0.25   # 屋頂：四面的簷口＋底面（屋簷下緣），沒有頂面（同上：鏡頭在上面時看得穿；從校園的地面看不到屋頂頂面）
+rf = Mesh('sb_roof', M['roof'])
+rf.quad([(-ra, ry0, rb), (ra, ry0, rb), (ra, ry0, 0), (-ra, ry0, 0)])                                          # 底面（朝下）
+rf.quad([(-ra, ry0, 0), (ra, ry0, 0), (ra, ry1, 0), (-ra, ry1, 0)])                                            # 普通那一端（朝 +z）
+rf.quad([(ra, ry0, rb), (-ra, ry0, rb), (-ra, ry1, rb), (ra, ry1, rb)])                                        # 博雅那一端（朝 −z）
+rf.quad([(ra, ry0, 0), (ra, ry0, rb), (ra, ry1, rb), (ra, ry1, 0)])                                            # 東（朝 +x）
+rf.quad([(-ra, ry0, rb), (-ra, ry0, 0), (-ra, ry1, 0), (-ra, ry1, rb)])                                        # 西（朝 −x）
+rf.finish(root)
 
 # ---- 扶手（兩側，沿著矮牆內面，跟著坡度）
 rl = Mesh('sb_rail', M['rail'])
