@@ -21325,9 +21325,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-R2Y2-1020",
    "title": "第 2 輪之一：大二 24 件（新做 20、部分 2；可昕照 AA_295：不出假設題、不比較；寒假 1/14 祐廷搭高鐵去高雄）",
-   "status": "進行中",
+   "status": "已整合待測試",
    "source": "AA_325（404ae976；AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 20:1x UTC】子代理 200 回合上限停在改三個舊測試（a7b442d8 WIP），20:0x 叫它接著做完 ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y2r2_3d.js；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 第 1 輪（1A、1B、1C）之後；AA 的先做順序：2-Y2-01 語彤事件 7、可昕大二上（03～07）、寒假（09～12）；2-Y2-16 等 1B-07、2-Y2-22 等 1B-03 進遊戲",
+   "next": "【LAWWW-C 2026-10-20 20:3x UTC】子代理 9ed9dfdd 合併 cc31653e（src/y2r2_3d.js；y2_round2_unit 194 項 ALL PASS；改了 v3_batch1／v3_fafu_duty／smalltalk／activities 四個舊測試的預期，照 AA_325）；BB 清單 bb_checklists/BB_R2Y2_1020.md；AA 11 題＋13 個面板名稱已問；予樂立繪 LAWWW-C 接 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】子代理 200 回合上限停在改三個舊測試（a7b442d8 WIP），20:0x 叫它接著做完 ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y2r2_3d.js；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 第 1 輪（1A、1B、1C）之後；AA 的先做順序：2-Y2-01 語彤事件 7、可昕大二上（03～07）、寒假（09～12）；2-Y2-16 等 1B-07、2-Y2-22 等 1B-03 進遊戲",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -21337,7 +21337,8 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
-   }
+   },
+   "sha": "cc31653e"
   },
   {
    "area": "v4",
