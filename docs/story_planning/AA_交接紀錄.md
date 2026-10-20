@@ -143,6 +143,10 @@
 
 ## AA-C 全部待辦（分批；2026-10-17 10:4x UTC；使用者經 LAWWW-C：「先自己審每一批要做什麼、排出順序，手上沒事就先做下一批」）
 
+> **【AA-C 值班登記：2026-10-20 13:06 UTC】** 使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」「沒有別的AI接班 從你上一次開始」。接班：fetch → RULE_SOURCE `claude/adoring-meitner-mqzst8`（HV-18，LAWWW-C 值班）→ 讀新規則（HV-17 帳號 D、HV-18 使用者要求檔＋提醒 hook、D105）→ check OK、duty verify（只有三職位「已交班」的提示，登記後消失）→ asks OK（建 `docs/handoff/user_asks_AA.json` 18 筆）→ duty register（`duty_AA.json` since 264871e0）。上一任＝自己（AA-C 10-18 12:24 交班），之後 AA 分支沒有別人的 commit。
+> - **離開期間使用者給 AA 的新任務**（使用者 10-18 14:xx～15:4x 對 LAWWW-C 說的，總表都有）：【使用者】E30-MOM-1018 10/17 晚上回家跟媽媽說（X46）；【使用者】LAD-K0LX2-CUT-1018 可昕「搬回家以後來學校要多久」整段拿掉（X47）；【使用者】KH-TRIP-MORE-1018 高雄景點要再加、每個地點要圖（X52）；【使用者】ECON-TERM-END-CUE-1018 跨年前學期已結束要看得出來（X53）；【使用者】KH-RETAKE-PACING-1018 去高雄就談重考太突然（X54）；【使用者】CRAM-DEC-SCENE-1018 12 月去補習班要演出來（X55）；【使用者】HOME-ONEFLOOR-1018 家是一層樓、台詞不能有「下樓」（X56）；【使用者】CRAM-LEAVE-LAUGH-1018 管理人員請過很多次假才笑（X59）；【使用者】KH-SCORE-TIMING-1018 7/25 落點見面後才出來、可昕不該說「我看得到表」（X60）；【使用者】KX-EXPR-1018 可昕的表情要跟著對話變（X62）；X44 拉花店員不要像經濟系同學。
+> - 原本的下一步照舊：QA 劇本第三版（AA_308）、韋綸大一下 L5～L8、法律系逐場確認（AA-LAW-RECONFIRM）。
+
 > **【AA-C 交班登記：2026-10-18 12:2x UTC】** 使用者「使用量大概在半小時到上限，先做收尾」。交班時：企劃分支 `claude/magical-albattani-bk7b4n` 最後一筆＝這一筆（交班登記本身）；開發分支 AA 最後推的是 `f4b47480`（已進 v9.10.1 `main` `4c0cbefc`）。本機沒有未保存、未推的東西（兩個 worktree 都乾淨）。**交班紀錄不代表新帳號已經接班。**
 > - 已完成（今天）：`AA_301`～`AA_307`、階梯 `AA_306`（只剩韋綸大一下 L5～L8）、retake_home 照 `AA_303`。
 > - 未完成／下一班第一步：①讀 QA 劇本第三版（開發分支 `docs/qa/econ_transcript_1_開學到退宿_1018b.md`、`econ_transcript_2_休學到放榜_1018b.md`）寫 `AA_308`；②問韋綸大一下階梯 L5～L8；③問使用者法律系要不要也逐場確認；④`AA_299` 第 2 組圖（car_morning、car_rain）等使用者要；⑤`AA_296` 法律系四年的手機盤點。
