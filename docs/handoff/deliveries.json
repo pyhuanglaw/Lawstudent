@@ -8537,6 +8537,71 @@
    "msg": "DELIVERED",
    "integration": "未整合",
    "note": "①已在開發分支；②③④、7/12 LAWWW 改（v0_e14、lifeline_g6 寫死的地方）"
+  },
+  {
+   "id": "DL-AA-143dd683",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "143dd683",
+   "what": "AA_310：迎新日期（大一迎新＝8/22～24 宿營；9/27 備用改 8/31 上午傅鐘前；大二小隊輔 9/4 公告、9/6 出遊）＋第 4 節查 CAMP_Y1",
+   "task": "WELCOME-DATE-1020",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": ""
+  },
+  {
+   "id": "DL-AA-36fd57e8",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "36fd57e8",
+   "what": "AA_311：118 巷九間店的店員、熟客三段招呼＋考試週、H1～H9（H2b 等使用者）",
+   "task": "LANE118-SHOP-STORY-1020",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "等 LAWWW2 店內進遊戲一起接"
+  },
+  {
+   "id": "DL-AA-53885f14",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "53885f14",
+   "what": "AA_312：AB65-3 附錄 B 定稿後的裁定＋給 LAWWW 總表（階梯全部重匯、測試寫死 7 處、程式 C）",
+   "task": "AA312-INTEGRATE-1020",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "D99 三項以外，排在測試回報這批以後"
+  },
+  {
+   "id": "DL-AA-746f8d50",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "746f8d50",
+   "what": "AA 直接改開發分支台詞（D100e）：18951844 以安研究所筆試 2/3、88457098 邀約與期末飯 HEART、746f8d50 學姊邀約四句、子晴大四",
+   "task": "AA309-FIXES-1020",
+   "msg": "DELIVERED",
+   "integration": "已整合待測試",
+   "note": "invite_people、termend 單元測試過"
+  },
+  {
+   "id": "DL-LAWWW2-3b892c42",
+   "date": "2026-10-20",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "3b892c42",
+   "what": "118 巷九間店的室內 GLB＋配置（WIP，遊戲內還沒測）",
+   "task": "LANE118-SHOPS-1020",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "WIP；LAWWW-C 知道，等 LAWWW2 標交付再接（排在 X66）"
   }
  ],
  "ignored": [

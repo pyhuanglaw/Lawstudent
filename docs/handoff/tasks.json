@@ -19835,7 +19835,7 @@
    "title": "高雄三天兩夜景點太少：要再加地點（劇情、台詞），每個地點跟使用者要圖",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -19849,7 +19849,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「跨年之後就變成約我去高雄玩高雄景點太少了三天兩夜怎麼只能去這些地方這個都要再加，然後跟我要圖」",
    "authorized": "使用者直接指示",
-   "next": "LAWWW：AA_308 第 3 節 ev_y0_kh3 換成三天分場（新背景 id，沒圖先深色底＋字幕；BB 寫提示詞） ｜ 舊：下一班 AA：用選擇題問使用者要加哪些高雄景點、各演什麼（ev_y0_kh3，AA_303 第 15 場）；BB 照 D97 跟使用者要每個地點的圖（純場景一次四份）",
+   "next": "【10-20 14:0x 開發分支】ev_y0_kh3 換成 AA_308 第 3 節的三天分場（新崛江 → 駁二、大港橋（二選一）→ 瑞豐 → 旗津 → 西子灣 → 美麗島站 → 蓮池潭），表情照第 9 節；背景：瑞豐暫用 kh_night_market、旗津暫用 kh_harbor，新崛江、駁二、西子灣深色底＋字幕（BB 寫提示詞）。tests/aa308_batch3_unit.js（修改前 17 FAIL） ｜ LAWWW：AA_308 第 3 節 ev_y0_kh3 換成三天分場（新背景 id，沒圖先深色底＋字幕；BB 寫提示詞） ｜ 舊：下一班 AA：用選擇題問使用者要加哪些高雄景點、各演什麼（ev_y0_kh3，AA_303 第 15 場）；BB 照 D97 跟使用者要每個地點的圖（純場景一次四份）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -19891,7 +19891,7 @@
    "title": "跨年以後去高雄就討論休學／重考，太突然",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -19905,7 +19905,7 @@
    },
    "source": "使用者 2026-10-18 15:0x：「然後跨年玩去高雄就討論休息了，好突然」「討論休學」",
    "authorized": "使用者直接指示",
-   "next": "【10-20 13:5x 開發分支】AA_308 第 2 節：新事件 1/8 18:30 公館吃麵（ev_y0_jan8／_h，在家的快轉會停；表情照第 9 節）、日期卡 1/1～1/7、1/9～1/27。還沒做：高雄蓮池潭拿掉國文報告兩句（KH-TRIP-MORE 一起改） ｜ 舊：下一班 AA 用選擇題和使用者討論：高雄之前要不要先有鋪陳（和 CRAM-DEC-SCENE-1018 一起看）",
+   "next": "【10-20 14:0x 開發分支】蓮池潭的國文報告兩句拿掉、換「國文那科，一定會被當。」（和 KH-TRIP-MORE 同一批）——AA_308 第 2 節全部進開發分支 ｜ 【10-20 13:5x 開發分支】AA_308 第 2 節：新事件 1/8 18:30 公館吃麵（ev_y0_jan8／_h，在家的快轉會停；表情照第 9 節）、日期卡 1/1～1/7、1/9～1/27。還沒做：高雄蓮池潭拿掉國文報告兩句（KH-TRIP-MORE 一起改） ｜ 舊：下一班 AA 用選擇題和使用者討論：高雄之前要不要先有鋪陳（和 CRAM-DEC-SCENE-1018 一起看）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20045,7 +20045,7 @@
    "title": "7/25 成績：收到成績簡訊的當下補習班落點還沒出來（見面一兩個小時後才出來）；客運版可昕不知道成績卻說「騙人，我看得到表」",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S2",
@@ -20059,7 +20059,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「收到成績簡訊的當下補習班落點還沒出出來啦 等我們見面大概一兩個小時才出來」「而且畫面是我還在客運上 他不知道我的成績怎麼會說騙人我看得到表」",
    "authorized": "使用者直接指示",
-   "next": "LAWWW：AA_308 第 7 節客運版、在家版落點時間（lifeline_g6 寫死的改） ｜ 舊：下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
+   "next": "【10-20 14:0x 開發分支】客運版：車上沒有落點表、「我的還好。」→「……好。等你到了再說。」、08:00 到站 → 早餐店 → 10:00 落點表 →「你從看到表到現在，都沒有看我。」；在家版 07:30 沒有落點、10:00 三句；lifeline_g6 寫死的照改。在家版「你騙人。我看得到表。」等 AA 換一句（已問 AA-C） ｜ LAWWW：AA_308 第 7 節客運版、在家版落點時間（lifeline_g6 寫死的改） ｜ 舊：下一班 AA 改 7/25 兩個版本（在家、客運）的台詞順序：落點在見面以後才出來；客運版那句改掉",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -20293,7 +20293,7 @@
    },
    "source": "使用者 2026-10-20 13:0x：「其他AI我通知他們上班了」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【13:2x】LAWWW2：LANE118-SHOPS-1020（P0）→ LINZE-34F-TABLES → LINZE-WANCAI-FLOORS；AA：WELCOME-DATE、LANE118-SHOP-STORY；BB：QA-REPRO-1020——三則都 DELIVERED，等 ACK"
+   "next": "【13:5x】AA：WELCOME-DATE（AA_310）、LANE118-SHOP-STORY（AA_311）交了；LAWWW2：店內 WIP 3b892c42；BB：QA-REPRO 還沒回報 ｜ 【13:2x】LAWWW2：LANE118-SHOPS-1020（P0）→ LINZE-34F-TABLES → LINZE-WANCAI-FLOORS；AA：WELCOME-DATE、LANE118-SHOP-STORY；BB：QA-REPRO-1020——三則都 DELIVERED，等 ACK"
   },
   {
    "id": "BUG-MEET-HEROINES-1020",
@@ -20363,7 +20363,7 @@
    "title": "法律系迎新改到開學前（現在 9/27）",
    "area": "V1",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已實作待整合",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -20377,13 +20377,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「迎新在9/27不合理阿 應該在開學前」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "AA 定日期時間地點＋要改的台詞；LAWWW 改 src/data/activities.js welcome_y1s1（dates 2025-09-27）和相關條件",
+   "next": "【10-20 13:53 AA_310（143dd683）交了】大一的迎新就是 8/22～24 宿營；9/27 那場是沒去宿營的人的備用，改 8/31（日）09:30～12:00 傅鐘前，第一句「星期天上午……下午就是開學典禮」；ev_ps_w1_room「已認識」加 welcomeDay；大二小隊輔公告 9/4 21:00、出遊 9/6 14:00（大三、大四只有企劃）。LAWWW 接：activities.js welcome_y1s1 日期與條件 ｜ AA 定日期時間地點＋要改的台詞；LAWWW 改 src/data/activities.js welcome_y1s1（dates 2025-09-27）和相關條件",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-20 原話；src/data/activities.js welcome_y1s1、src/data/events.js ev_welcome_y1s1（沛珊第一次見面、迎新群組聯絡方式）",
     "acceptance": "迎新的日期（開學前哪一天、幾點、在哪）＋所有要跟著改的句子（提到第幾週、9/27、迎新前後順序的）",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -20489,7 +20489,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【13:51 LAWWW2-C 推 3b892c42（focused-cray-c9uwvw）】九間店室內 GLB＋配置（WIP，遊戲內還沒測）——等它標交付再接 ｜ 【13:19 LAWWW2-C ACK、開工】每間店獨立室內區域（Z3.room＋attachRoomGLB＋l118_<id>.layout.json）；順序 dian → self → home → korea/omu/pasta/noodle2 → cafe2 → tea；第一間約 1.5 h、之後每間 30～40 分，一批一批交 ｜ 【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -20503,7 +20503,7 @@
    "title": "118 巷每間店配合故事（店員是誰、和哪條故事有關、去了有什麼）",
    "area": "V1",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20517,13 +20517,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「最好配合故事?劇情?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "AA 給每間店的規格；LAWWW 實作",
+   "next": "【10-20 13:53 AA_311（36fd57e8）交了】九間店的店員（稱呼、外觀、站位，可給 LAWWW2）、熟客三段招呼＋考試週、H1～H9 一次性小段；H2b 等使用者確認、先不做。LAWWW 等 LAWWW2 店內進遊戲後一起接 ｜ AA 給每間店的規格；LAWWW 實作",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-20 原話；118 巷 AA_280",
     "acceptance": "每間店：店名（D77 諧音）、店員（固定 NPC 或哪位人物打工）、和哪條故事有關、去了會發生什麼（事件／台詞／常客關係）；先給清單，不擋三個優先",
-    "ack": "ACK"
+    "ack": "ACTIONED"
    }
   },
   {
@@ -20545,7 +20545,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「而且吃東西好像只是花錢沒有別的功用怎麼改比較好?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做"
+   "next": "【10-20 使用者經 AA 轉述（UA-AA-1020-26）：「不要再問我選擇題、你自己安排一直做下去」】LAWWW 自己定方案，AA 寫台詞 ｜ LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做"
   },
   {
    "id": "LANE118-ENC-1020",
@@ -20756,6 +20756,48 @@
     "acceptance": "v9.10.2 線上版重現：體育館樓梯方向（X64）、9/17 前遇不到女主角（X70）、Café 沒 NPC（X71）、日期和課表對不上（X76）、地圖南方黃點（X77）、溫州街與校園卡、影子閃（X69、X79）、8/30 搬宿舍沒出現（X81）；每項：重現步驟、截圖、存檔",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "BUG-CAMP-Y1-1020",
+   "title": "使用者那一局沒有大一宿營（CAMP_Y1）：經濟系 30 分鐘版跳過宿營？",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S2",
+    "week": null,
+    "earliest": "2025-08-22",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_310 第 4 節（AA-C 10-20 13:53）：宿營是強制的；使用者存檔 9/25 沒有 CAMP_Y1",
+   "authorized": "使用者直接指示（10-20 試玩回報）的衍生待辦",
+   "next": "查使用者存檔：經濟系結束 → 8/22～24 宿營有沒有演；30 分鐘版的快轉有沒有跳過"
+  },
+  {
+   "id": "AA312-INTEGRATE-1020",
+   "title": "AB65-3 附錄 B（BB 人物大二下～大四上）：階梯全部重匯、測試寫死 7 處、AA_312 第 3 節 C 的程式",
+   "area": "v3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "大二下",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10-20 13:53（53885f14，AA_312）",
+   "authorized": "AA 定稿（D100）；D99 三項以外——登記，測試回報這批做完再接",
+   "next": "企劃分支重匯 ladder_bb、y0s1、y1s2～y4s2；改 invite_people 70／71／138／140、dl12_bb158 38、bb163_taipei 64～67、v3_kai_k3 46、lifeline_q34 74；AA_255／259／260／262 的 (b)"
   }
  ]
 }
