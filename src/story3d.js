@@ -1117,7 +1117,7 @@ const STORY = (function(){
   S.teaSpot=function(GM){ const E=GM.E, G=GM.G; if(G.zone!=='wancai'||!E||!E.interactables||E.interactables.some(i=>i.teaTable)) return; E.interactables.push({x:TEA_TABLE.x,z:TEA_TABLE.z,radius:1.4,lv:0,label:'家族那一桌（新生茶會）',teaTable:true}); };
   S.teaTable=async function(GM){ const G=GM.G, F=G.flags; if(F.TEA_STEP!==1) return false; F.TEA_STEP=2; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined') ADV.begin({background:'blur'});
-      await teaLines(GM,['（窗邊那桌放著餅乾、一大瓶紅茶和紙杯。另外兩個大一在聊選課，一個大四的學姊在滑手機。）']); await GM.fade(true); GM.advance(0.25); await GM.fade(false);
+      await teaLines(GM,['（窗邊那桌放著餅乾、一大瓶紅茶和紙杯。另外兩個大一在聊選課，一個大三的學長在滑手機。）']); await GM.fade(true); GM.advance(0.25); await GM.fade(false);
       await teaLines(GM,['（過了一陣子，簽到桌沒人了，Kevin 坐過來。）',KV('簽到終於沒人了。'),KV('群組說的考古題，民總跟憲法的，去年的。你要先看嗎？')]);
       const i=await GM.choose([{t:'「要，謝謝學長。」'},{t:'「現在就要看考古題了嗎？」'}]); F.TEA_EXAM=i+1;
       await teaLines(GM,[i===0?KV('好，晚上丟群組。'):KV('不用啦，期中前再看就好。要的時候跟我說。')]);
