@@ -107,5 +107,71 @@ const date=id=>H.date(id);
     check('R4 沒去麵店：22:00 群組「商法組放榜。上了。」＋FRIEND 以上私訊「八月還有司法官。一樣，先考上。」', th('g:noodle_team').includes('商法組放榜。上了。')&&th('p:heroine_01').includes('八月還有司法官。一樣，先考上。')); }
   { fresh('2029-03-22',20,'dorm'); H.FAMILIAR('heroine_01'); grp(); contact('heroine_01'); at('2029-03-22',22); phone();
     check('2-Y4-34 和以安不到 FRIEND：只有群組', th('g:noodle_team').includes('商法組放榜。上了。')&&!th('p:heroine_01').length&&(()=>{ at('2029-03-22',19); H.G.zone='noodle'; return !EVENTS.check(ev('ev_an_grad_pass')); })()); }
+  /* ===== 2-Y4-35 春假（最後一次）＋可昕三選一 ===== */
+  const TEAM=()=>{ for(const id of ['heroine_01','zhe','yu','classmate_bohan']) H.FAMILIAR(id); grp(); };
+  { fresh('2029-03-25',20,'dorm'); TEAM(); date('kexin'); at('2029-03-25',20.5); phone();
+    check('2-Y4-35 3/25 20:30 群組：以安「春假要不要出去 兩天一夜」「行程我排好了 4/1 前跟我說」；可昕的還沒到＝先不問', JSON.stringify(th('g:noodle_team').slice(-2))===JSON.stringify(['春假要不要出去 兩天一夜','行程我排好了 4/1 前跟我說'])&&!S.springPending(H.G));
+    at('2029-03-25',21); phone();
+    check('2-Y4-35 21:00 交往中的可昕「最後一個春假。……這次不排行程表。」；兩則都到了才問三選一', th('p:kexin').includes('最後一個春假。……這次不排行程表。')&&S.springPending(H.G));
+    H.opts=[]; H.picks=[0]; await S.springPrompt(GM);
+    const q=OUT.get(H.G,'y4_spring');
+    check('2-Y4-35 三選一：麵店團／和可昕開車／留在宿舍（＋晚一點再決定）；選麵店團＝4/3 08:00 校門出發', H.opts[0].length===4&&/麵店團/.test(H.opts[0][0])&&/可昕/.test(H.opts[0][1])&&/宿舍/.test(H.opts[0][2])&&H.G.flags.SPRING_Y4==='noodle'&&!!q&&q.day===D('2029-04-03')&&q.h===8);
+    at('2029-04-03',21.6); PHONE.tick(H.G);
+    check('2-Y4-35 可昕那邊沒選：「好。那畢業旅行再說。」＋她和予樂在讀書會的照片', th('p:kexin').includes('好。那畢業旅行再說。')&&th('p:kexin').some(t=>/^📷/.test(t)&&/予樂/.test(t))); }
+  { fresh('2029-04-02',19,'dorm',{SPRING_Y4:'noodle'}); TEAM(); at('2029-04-02',20.5);
+    check('2-Y4-35 4/2 晚上：旁白「你回家把車開出來。」', S.springCarDue(H.G)&&(H.said=[],await S.springCar(GM),has('（你回家把車開出來。）'))&&!S.springCarDue(H.G));
+    OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'台大校門口',title:'t',travelH:1/6}); at('2029-04-03',7.9); await goOut('y4_spring',[0]);
+    check('S1 麵店團：行程表「最後一次」（旁白，不唸）；阿哲、小語；「妳講了四個。」；「大一中秋，火一直熄。」→「那是你顧的。」；回程「謝謝你開車。」', has('（以安坐副駕，腿上是行程表第四版。理由欄只寫了四個字：「最後一次」。）')&&has('（後座）司機，我要聽歌。')&&has('不要放他的歌。')&&has('妳講了四個。')&&has('那是你顧的。')&&has('（小聲）……謝謝你開車。')&&!has('明天早上空了一格。……你排。')&&caps.includes('宜蘭・民宿'));
+    fresh('2029-04-03',7.9,'dorm',{SPRING_Y4:'noodle'}); TEAM(); date('heroine_01'); OUT.plan(H.G,{id:'y4_spring',ev:'ev_spring_y4',day:D('2029-04-03'),h:8,place:'台大校門口',title:'t',travelH:1/6}); await goOut('y4_spring',[1]);
+    check('2-Y4-35 和以安交往中：睡前「明天早上空了一格。……你排。」；「第一次去麵店。」→「你點了招牌乾麵。大家都是。」', has('明天早上空了一格。……你排。')&&has('你點了招牌乾麵。大家都是。')); }
+  { fresh('2029-03-25',20,'dorm'); TEAM(); H.FRIEND('heroine_03'); date('heroine_03'); at('2029-03-25',20.5); phone(); H.picks=['留在宿舍']; await S.springPrompt(GM); at('2029-04-03',21.6); phone(); PHONE.tick(H.G);
+    check('2-Y4-35 和語彤交往中：4/3 傍晚「看到群組了。……店裡今天很空。」；留在宿舍＝21:30 火車站的照片', th('p:heroine_03').includes('看到群組了。……店裡今天很空。')&&H.G.flags.SPRING_Y4==='dorm'&&th('g:noodle_team').includes('📷（火車站的月台。他們改搭火車。）')); }
+  { fresh('2029-04-03',7.6,'dorm',{KX_TRIP:{Y1S2:'stars',Y2S2:'sea'}}); date('kexin'); OUT.plan(H.G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D('2029-04-03'),h:7+40/60,place:'政大校門口',title:'t',travelH:40/60});
+    await goOut('y4_spring_kx',['山上看星星']);
+    check('2-Y4-35 和可昕開車（照 1C-01）：沒去過的才列、「山上看星星」一定在（AA_336 C7）；去過星星＝「今天看得到。……上次那顆，真的是星星。」；記 KX_TRIP.Y4S2；沒有假設題', JSON.stringify(H.opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&has('今天看得到。……上次那顆，真的是星星。')&&H.G.flags.KX_TRIP.Y4S2==='stars'&&has('規則。我管音樂，你管方向。')&&has('我不睡。我要陪你開車。'));
+    fresh('2029-04-03',7.6,'dorm',{KX_TRIP:{Y1S2:'stars',Y2S2:'sea',Y4WIN:'oldtown'}}); date('kexin'); OUT.plan(H.G,{id:'y4_spring_kx',ev:'ev_kexin_trip_spring_y4',day:D('2029-04-03'),h:7+40/60,place:'政大校門口',title:'t',travelH:40/60});
+    await goOut('y4_spring_kx',[0]);
+    check('2-Y4-35 三個都去過＝迷路到的地方（「這次我不出行程表。你帶路，不要看地圖。」）；KX_TRIP.Y4S2 lost', has('這次我不出行程表。你帶路，不要看地圖。')&&has('（販賣機吃了你的硬幣。）')&&H.G.flags.KX_TRIP.Y4S2==='lost'); }
+  /* ===== 2-Y4-36 沛珊 P6 公開課 ===== */
+  const PSB=()=>{ H.FAMILIAR('classmate_peishan'); H.G.flags.PS_BACK_FIRST=D('2028-08-10'); contact('classmate_peishan'); };
+  { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone();
+    check('2-Y4-36 4/12 21:00 重新聯絡上、FAMILIAR：她私訊兩則（週六下午我上公開課…／在台南喔…）', JSON.stringify(th('p:classmate_peishan'))===JSON.stringify(['週六下午我上公開課，書店那天請假了。家長會來。……你也可以來，坐最後面。','在台南喔。很遠，不來也沒關係。']));
+    answer('y4_ps_open',0); phone(); const q=OUT.get(H.G,'y4_ps_open');
+    check('2-Y4-36「我去。」→ 出遊 4/14 14:00 台南（高鐵）', !!q&&q.day===D('2029-04-14')&&q.h===14&&/高鐵/.test(q.travel));
+    global.CG_REGISTRY.cg_whiteboard_why_peishan={file:'x.webp',title:'t'}; at('2029-04-14',11.8); await goOut('y4_ps_open',[1]); delete global.CG_REGISTRY.cg_whiteboard_why_peishan;
+    const last='……我們家的榜單還貼著。旁邊多貼了一張。';
+    check('P1 去了：台南車站的旁白、媽媽四句、BCG-05 在媽媽最後一句之後、「你真的來了！！」、送到高鐵站「謝謝你跑這麼遠！」；票錢照扣；PS_OPEN_CLASS went', has('（台南車站。你照她傳的地址，搭公車到課輔班。她已經在上課了。）')&&has('（小聲）你是她大學的同學？')&&has('她說她要去當老師。我本來不懂。')&&has('可是她站在前面的樣子，跟她高中講法律的時候不一樣。')&&has(last)&&H.cgs.includes('cg_whiteboard_why_peishan')&&has('你真的來了！！')&&has('……我知道。我一進教室就看到了。')&&has('（傍晚，她陪你坐車到高鐵站。）')&&has('謝謝你跑這麼遠！到臺北傳給我喔。')&&H.G.flags.PS_OPEN_CLASS==='went'&&paid.some(p=>p[0]<0&&p[1]==='交通')&&caps.includes('台南・課輔班'));
+    at('2029-04-14',21.2); phone(); check('2-Y4-36 去了的：當晚沒有「媽媽來了」那一則', !th('p:classmate_peishan').some(t=>/媽媽來了/.test(t))); }
+  { fresh('2029-04-14',11.8,'dorm'); PSB(); date('classmate_peishan'); OUT.plan(H.G,{id:'y4_ps_open',ev:'ev_peishan_open_class',day:D('2029-04-14'),h:14,place:'台南',title:'t',travelH:2}); await goOut('y4_ps_open',[0]);
+    check('2-Y4-36 交往中：送站那一句換「下次待久一點。末班車太早了。」；「沒有。」→「你騙人。……好，我當你沒看到。」；CG 沒登錄＝不放', has('下次待久一點。末班車太早了。')&&!has('謝謝你跑這麼遠！到臺北傳給我喔。')&&has('你騙人。……好，我當你沒看到。')&&!H.cgs.length); }
+  { fresh('2029-04-12',20,'dorm'); PSB(); at('2029-04-12',21); phone(); answer('y4_ps_open',1); at('2029-04-14',21); phone(); PHONE.tick(H.G);
+    check('P2 沒去（「那天不行。」→「好～那我拍照給你看。」）：當晚「媽媽來了。她坐最後一排。……」；沒有 CG；PS_OPEN_CLASS missed', th('p:classmate_peishan').includes('好～那我拍照給你看。')&&th('p:classmate_peishan').includes('媽媽來了。她坐最後一排。……就是我叫你坐的那個位子。')&&H.G.flags.PS_OPEN_CLASS==='missed'&&!OUT.get(H.G,'y4_ps_open')); }
+  { fresh('2029-04-12',20,'dorm'); H.FAMILIAR('classmate_peishan'); contact('classmate_peishan'); at('2029-04-12',21); phone();
+    check('P3 沒重新聯絡上：沒有這一件', !th('p:classmate_peishan').length); }
+  /* ===== 2-Y4-37 語彤 16b 阿姨的照片 ===== */
+  const PH='（照片：阿姨在日本一座寺廟前比 YA，背後是跟團的旗子）';
+  { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); at('2029-04-19',18); phone();
+    const m=(H.G.msgs||[]).find(x=>x.th==='p:heroine_03'&&x.text===PH);
+    check('A1 朋友：4/19 18:00 一張照片、沒有字；三選一', JSON.stringify(th('p:heroine_03'))===JSON.stringify([PH])&&!!m&&m.ask&&m.ask.opts.length===3);
+    answer('y4_yt_aunt',1);
+    check('2-Y4-37（回一張麵的照片）→ 你傳的是照片，她「你在吃別家的麵？我要跟阿姨講。」；YT_AUNT_PHOTO', th('p:heroine_03').includes('你在吃別家的麵？我要跟阿姨講。')&&th('p:heroine_03').some(t=>/^📷/.test(t))&&H.G.flags.YT_AUNT_PHOTO==='noodle');
+    at('2029-04-20',12); H.said=[]; const r=await NOODLE_CLOSED.door(GM);
+    check('A2 4/20 去麵店：門口「老闆出國，休息七天」、進不去（4/26 照常開）', r===true&&H.said.some(s=>/老闆出國，休息七天/.test(s.t))&&(at('2029-04-26',12),!(await NOODLE_CLOSED.door(GM)))); }
+  { fresh('2029-04-19',17,'dorm'); H.FAMILIAR('heroine_03'); contact('heroine_03'); grp(); date('kexin'); ROM.learn(H.G,'heroine_03','kexin','test'); at('2029-04-19',18); phone();
+    check('2-Y4-37 她知道祐廷和別人交往：照片發在麵店團群組，多「阿姨第一次出國」「店休一個禮拜」', JSON.stringify(th('g:noodle_team').slice(-3))===JSON.stringify([PH,'阿姨第一次出國','店休一個禮拜'])&&!th('p:heroine_03').length); }
+  /* ===== 2-Y4-38 可昕：生日「今年不要慶祝」===== */
+  { fresh('2029-04-23',20,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); at('2029-04-23',21); phone();
+    check('2-Y4-38 4/23 21:00「明天我生日。今年不要慶祝，我們都在準備考試。」（回「好。」）', th('p:kexin').includes('明天我生日。今年不要慶祝，我們都在準備考試。')&&(answer('y4_kx_bday',0),th('p:kexin').includes('好。')));
+    at('2029-04-24',10); check('2-Y4-38 4/24 當天問怎麼做', S.kxBdayDue(H.G));
+    H.opts=[]; H.picks=[2]; await S.kxBdayPrompt(GM); const q=OUT.get(H.G,'y4_kx_bday');
+    check('2-Y4-38 四個做法：傳一句／寫在讀書計畫表（有 KX_STUDY_PLAN）／開車上山送湯餃／晚一點；選開車＝出遊（政大宿舍樓下）', H.opts[0].length===4&&/讀書計畫表/.test(H.opts[0][1])&&!!q&&q.day===D('2029-04-24'));
+    at('2029-04-24',20.4); await goOut('y4_kx_bday');
+    check('K1 開車送湯餃：「……你開上山就為了這個？」「湯還是熱的。」；KX_BDAY[4] visit', has('……你開上山就為了這個？')&&has('湯還是熱的。')&&H.G.flags.KX_BDAY[4]==='visit'); }
+  { fresh('2029-04-24',10,'dorm'); date('kexin'); H.G.msgs=[]; PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.opts=[]; H.picks=[0]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
+    check('2-Y4-38 沒有 KX_STUDY_PLAN：沒有寫在表上那一個；傳一句「生日快樂。」→「收到。……謝謝你照做。」；quiet', H.opts[0].length===3&&th('p:kexin').includes('生日快樂。')&&th('p:kexin').includes('收到。……謝謝你照做。')&&H.G.flags.KX_BDAY[4]==='quiet'); }
+  { fresh('2029-04-24',10,'dorm',{KX_STUDY_PLAN:true}); date('kexin'); PHONE.at(H.G,D('2029-04-23'),21,[{th:'p:kexin',from:'kexin',text:'x'}],'y4_kx_bday'); PHONE.tick(H.G); H.picks=[1]; await S.kxBdayPrompt(GM); at('2029-04-24',10.5); PHONE.tick(H.G);
+    check('2-Y4-38 寫在讀書計畫表：「我說不要慶祝。」「……這不算慶祝。這算註解。」；note', th('p:kexin').includes('我說不要慶祝。')&&th('p:kexin').includes('……這不算慶祝。這算註解。')&&H.G.flags.KX_BDAY[4]==='note'); }
+  { fresh('2029-04-23',20,'dorm'); date('kexin'); at('2029-04-23',21); phone(); at('2029-04-25',21); phone(); PHONE.tick(H.G);
+    check('K2 什麼都沒做：隔天「昨天我生日。我知道我說不要慶祝。」「可是我還是等了一天。」；none', th('p:kexin').includes('昨天我生日。我知道我說不要慶祝。')&&th('p:kexin').includes('可是我還是等了一天。')&&H.G.flags.KX_BDAY[4]==='none'); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

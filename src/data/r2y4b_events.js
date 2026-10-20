@@ -137,7 +137,7 @@ const R2Y4B_EVENTS=(function(){
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
       {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
       {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。……目的地，現在決定。'},
-      {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',if:{custom:G=>!R().kxSeen(G).includes('stars')},set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},
+      {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},   /* 「山上看星星」一定在（AA_336 C7 改的 1C-01 做法；只照「還沒去過的」的話「今天看得到。……」永遠不會出現）*/
       {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',text:'水比我想的冷。……你先下去。'},{goto:'back'},
       {label:'d_old'},{scene:'老街',bg:'trip_oldtown'},{speaker:'kexin',text:'第三家了。我們只是來看看的。'},{goto:'back'},
       {label:'d_star'},{scene:'山上',bg:'trip_mountain'},{if:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'今天看得到。……上次那顆，真的是星星。'},{unless:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'好安靜。手機收不到訊號，剛好。'},
@@ -182,8 +182,8 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
     dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
       {speaker:'kexin',text:'……你開上山就為了這個？'},
-      {speaker:'kexin',text:'湯還是熱的。'},
-      {set:{KX_BDAY_Y4:'visit'}} ],
+      {speaker:'kexin',text:'湯還是熱的。'} ],
+    after:G=>{ const r=R(); if(r) r.kxBdaySet(G,'visit'); },   /* KX_BDAY:{4:'visit'}（AA_327 2-Y4-38 第 4 節）*/
     outingMissed:G=>{ const r=R(); if(r) r.kxBdayMissed(G); } },
   /* ---------- 2-Y4-39 系籃最後一場（5/12（六）10:00 新體育館）＋吉他社成發（19:00）---------- */
   { id:'ev_last_game_y4', title:'系籃最後一場', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,

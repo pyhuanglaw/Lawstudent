@@ -152,7 +152,7 @@ const R2Y4B=(function(){
   const knowsOther=(G,id)=>typeof ROM!=='undefined'&&LOVE.filter(x=>x!==id&&dating(G,x)).some(p=>p==='kexin'?(ROM.knowsGF&&ROM.knowsGF(G,id)):(ROM.knowsOf&&ROM.knowsOf(G,id,p)));
   const ytAuntPhone=G=>{ const d=DK('2029-04-19'); if(d==null||G.day<d||G.day>d+6||!at(G,'2029-04-19',18)||!met(G,'heroine_03','FAMILIAR')||PHONE.sent(G,'y4_yt_aunt')) return;
     const ask={id:'y4_yt_aunt',until:T(d+6,24),opts:[{t:'阿姨好開心。',set:{YT_AUNT_PHOTO:'happy'},say:[{from:'heroine_03',text:'她說這是她第一次出國。店休一個禮拜，她說回來要煮多一點補回來。'}]},
-      {t:'（回一張麵的照片）',post:'（照片：一碗麵）',set:{YT_AUNT_PHOTO:'noodle'},say:[{from:'heroine_03',text:'你在吃別家的麵？我要跟阿姨講。'}]},
+      {t:'（回一張麵的照片）',post:'📷（麵的照片）',set:{YT_AUNT_PHOTO:'noodle'},say:[{from:'heroine_03',text:'你在吃別家的麵？我要跟阿姨講。'}]},
       {t:'妳呢？',set:{YT_AUNT_PHOTO:'you'},say:[{from:'heroine_03',text:'我在總圖。期中考，店剛好也沒開。'}]}]};
     const PH='（照片：阿姨在日本一座寺廟前比 YA，背後是跟團的旗子）';
     if(knowsOther(G,'heroine_03')){ if(grp(G)) PHONE.at(G,d,18,[GR('heroine_03',PH),GR('heroine_03','阿姨第一次出國'),GR('heroine_03','店休一個禮拜',{ask})],'y4_yt_aunt'); }   /* 她知道祐廷和別人交往：照片發在麵店團群組 */
@@ -162,8 +162,8 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-38 可昕：生日「今年不要慶祝」（4/23 21:00、4/24）===================== */
   const KB={d23:'2029-04-23',d24:'2029-04-24',d25:'2029-04-25'};
-  S.kxPlanTable=G=>!!G.flags.KX_STUDY_PLAN||!!(G.flags.KX_VDAY&&G.flags.KX_VDAY[4]==='video');   /* 共用的讀書計畫表：KX_STUDY_PLAN，或 2/14 那張（AI 解讀，見回報）*/
-  const kxBdaySet=(G,v)=>{ G.flags.KX_BDAY_Y4=v; G.flags.KX_BDAY=Object.assign({},G.flags.KX_BDAY||{},{4:v}); };
+  S.kxPlanTable=G=>!!G.flags.KX_STUDY_PLAN;   /* 共用的讀書計畫表（2-Y4-13 K21 寫的，沒去也記）*/
+  const kxBdaySet=S.kxBdaySet=(G,v)=>{ G.flags.KX_BDAY_Y4=v; G.flags.KX_BDAY=Object.assign({},G.flags.KX_BDAY||{},{4:v}); };
   const kxBdayPhone=G=>{ const d23=DK(KB.d23), d24=d23+1, d25=d23+2, F=G.flags; if(d23==null||G.day<d23||G.day>d25+1||!dating(G,'kexin')) return;
     if(at(G,KB.d23,21)&&G.day<=d24) PHONE.at(G,d23,atH(G,d23,21),[P_('kexin','明天我生日。今年不要慶祝，我們都在準備考試。',{ask:{id:'y4_kx_bday',until:T(d24,24),opts:[{t:'好。'}]}})],'y4_kx_bday');
     if(G.day>=d25&&F.KX_BDAY_Y4==null&&PHONE.sent(G,'y4_kx_bday')){ const q=outGet(G,'y4_kx_bday'); if(q&&q.state==='planned') return; kxBdaySet(G,'none');
