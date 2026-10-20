@@ -35,9 +35,10 @@ GM.money=function(n){ G.money+=n; };
   const HW=ev('ev_sis_hot_water'), HW2=ev('ev_sis_hot_water_again'), FL=ev('ev_sis_empty_flask');
   check('0. 事件在；W7、W8、W9 作廢',!!HW&&!!HW2&&!!FL&&['ev_sis_prof_xu_door','ev_sis_collapse','ev_sis_skip_interview'].every(i=>ev(i)&&ev(i).retired));
   const near=()=>{ const n={obj:{position:{x:0.5,y:0,z:0}},lv:0,charId:'heroine_05'}; GM.npc.heroine_05=n; E.npcs=[n]; E.player.obj.position.x=0; E.player.obj.position.z=0; E.player.lv=0; };
-  const at=(term,w,wd,h,o)=>{ o=o||{}; fresh(termDay(term,w,wd),h,o.zone||'lawlib',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...(o.lv||[45,30,20])); if(o.flagW1) G.flags.SIS_W1=true; else if(!o.noW1) G.events.done.ev_sis_w1=1; near(); return EVENTS.check(o.e||HW); };
-  const r={ok:at('Y1S1',14,2,21.6),w15:at('Y1S1',15,4,21.7),w13:at('Y1S1',13,2,21.6),fri:at('Y1S1',14,5,21.6),early:at('Y1S1',14,2,20),late:at('Y1S1',14,2,22),cafe:at('Y1S1',14,2,21.6,{zone:'cafe'}),fam:at('Y1S1',14,2,21.6,{lv:[30,10,5]}),noW1:at('Y1S1',14,2,21.6,{noW1:true}),flagW1:at('Y1S1',14,2,21.6,{flagW1:true}),y1s2:at('Y1S2',14,2,21.6)};
-  check('1. 熱水：大一上第 14～15 週週一～四 21:30～21:45（閉館前）、法圖、第 3 階以上、見過她（SIS_W1：家聚、社博相識的也算）；第 13 週、週五、20:00、22:00（閉館後）、Café、只到有點熟、沒見過、大一下都不演',r.ok&&r.w15&&r.flagW1&&!r.w13&&!r.fri&&!r.early&&!r.late&&!r.cafe&&!r.fam&&!r.noW1&&!r.y1s2,JSON.stringify(r));
+  /* 「一起念書」的條件（SIS_STUDY_OK）：2026-10-20 改成有 SIS_STUDY（一起念書解鎖，AA_284 2-3 最後一行；src/sis_grad3d.js），不用數值門檻 */
+  const at=(term,w,wd,h,o)=>{ o=o||{}; fresh(termDay(term,w,wd),h,o.zone||'lawlib',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',...(o.lv||[45,30,20])); G.flags.SIS_W1=true; if(!o.noStudy) G.flags.SIS_STUDY=true; near(); return EVENTS.check(o.e||HW); };
+  const r={ok:at('Y1S1',14,2,21.6),w15:at('Y1S1',15,4,21.7),w13:at('Y1S1',13,2,21.6),fri:at('Y1S1',14,5,21.6),early:at('Y1S1',14,2,20),late:at('Y1S1',14,2,22),cafe:at('Y1S1',14,2,21.6,{zone:'cafe'}),famOnly:at('Y1S1',14,2,21.6,{lv:[30,10,5]}),noStudy:at('Y1S1',14,2,21.6,{noStudy:true,lv:[65,50,40]}),y1s2:at('Y1S2',14,2,21.6)};
+  check('1. 熱水：大一上第 14～15 週週一～四 21:30～21:45（閉館前）、法圖、一起念書解鎖了（SIS_STUDY，不看數值：只到有點熟也演）；第 13 週、週五、20:00、22:00（閉館後）、Café、沒解鎖（好朋友也不演）、大一下都不演',r.ok&&r.w15&&r.famOnly&&!r.w13&&!r.fri&&!r.early&&!r.late&&!r.cafe&&!r.noStudy&&!r.y1s2,JSON.stringify(r));
   { fresh(termDay('Y1S1',14,2),21.6,'lawlib',{}); G.stage='law'; const e=STORY.schedEnt(CHARACTERS.heroine_05,G); check('1. 作息：那幾晚她在法圖念到閉館（21:45）',!!e&&e.zone==='lawlib'&&e.to===21.75,JSON.stringify(e)); }
   // 2. 裝熱水（演過空的保溫瓶、選黑咖啡＝HELPED 多一句）
   { at('Y1S1',14,2,21.6); SOCIAL.remember('heroine_05','HELPED',''); said=[]; picks=[0]; const cg=[]; const c0=ADV.cg; ADV.cg=id=>cg.push(id); await EVENTS.run(HW); ADV.cg=c0; const L=lines();

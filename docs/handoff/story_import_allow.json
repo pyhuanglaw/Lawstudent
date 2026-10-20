@@ -771,7 +771,7 @@
   },
   {
    "path": "docs/story_planning/AA_202_玩家主動傳訊息_規格.md",
-   "sha": "b61e4f55",
+   "sha": "65239add",
    "status": "approved",
    "approvedBy": "AA-B 定稿（22:5x 交 LAWWW-B；BB 互審通過），AA-C 11:04 更新：第 6 節 AA 六位回覆池；AA-C 19:16 改 67f74502：阿哲加回問、柏翰晚安改句、學姊問課改句；AA-C 19:44 指定 MSG-2 全部用 b61e4f55（已含 0ec9b2d7：AA_202 第 7 節 AA 六位第二批、以安／語彤 L 的回問；第 6 節、BB_178 和 67f74502 相同）",
    "task": "SYS-PHONE-CHAT, MSG-2",
@@ -795,9 +795,9 @@
   },
   {
    "path": "docs/story_planning/AA_257_MSG2_BB九位回覆池.md",
-   "sha": "659af025",
+   "sha": "558ccff8",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）",
+   "approvedBy": "AA-C 定稿（第②級，「AA 定稿，可以實作」；條件照 BB_178 第 10 節 BB-C 定稿 4b01f600）；19:44 AA-C 補十處回問 b61e4f55，指定 MSG-2 全部用這一版；659af025 沛珊新年句改台中（AA_276 第 3 節）；558ccff8 Kevin 生日 R 拿掉「你是第一個」（AA-C AA_335，口氣表 0-3）",
    "task": "MSG-2",
    "kind": "text"
   },
@@ -875,11 +875,19 @@
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
-   "sha": "c11945d0",
+   "sha": "724d7703",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）；724d7703 末尾補 AA_336 第 A 節的指引（第 0～5 節和 c11945d0 相同）",
    "task": "EAT-EFFECT-1020",
    "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_336_回LAWWW_X67吃東西四題_1B1C實作十三題.md",
+   "sha": "724d7703",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（2026-10-20 回 LAWWW-C 19:22、19:44 實作問題 17 題，第①級；D100 台詞歸 AA）",
+   "task": "EAT-EFFECT-1020",
+   "note": "tools/eat/import_eat_lines.py 讀第 A 節 A4（便利商店上次沒加熱的第 5 次那一句＋祐廷回「好。」）→ src/data/eat_lines.js；第 B、C 節（1B、1C）手抄進 y2b_events.js、y2b3d.js、social3d.js、group_events.js、group3d.js、characters.js"
   },
   {
    "path": "docs/story_planning/AA_330_法律系的課搬教室_X78.md",
@@ -920,6 +928,22 @@
    "approvedBy": "AA-C 定稿（1A-13、1A-14、1A-16～20；c9b4f60e、b6757852、5ae6a133／f252a7b5 更正，D100）",
    "task": "EVPKG-1A13-20-1020",
    "note": "子代理 a2e6fc5d 手抄進 src/data/postgrad_lines.js、src/postgrad3d.js（合併 55bbd833）；CG-9、BCG-07、BCG-39、CG-10 還沒有圖（MISSING_EXTERNAL_ART）"
+  },
+  {
+   "path": "docs/story_planning/AA_331_回LAWWW_1900_三件確認_2030那一輪_尾聲桌上的東西.md",
+   "sha": "a642f518",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（AA_319 補：2030 那一輪 B1／麵店、RETAKE_STYLE 照片、尾聲伴侶桌上的東西；第 1 節 b 標 AI解讀、待使用者確認，D100）",
+   "task": "EVPKG-1A13-20-1020",
+   "note": "LAWWW-C 手抄進 src/data/postgrad_lines.js（B1_2030、R2_2030、FIRST_RETAKE、EPI_PARTNER）"
+  },
+  {
+   "path": "docs/story_planning/AA_333_HOL-VA_VA08_語彤_麵店過年店休.md",
+   "sha": "56b6f64e",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（HOL-VA 最後一項 VA-08，第①級，D100）",
+   "task": "HOL-VA",
+   "note": "LAWWW-C 手抄進 src/noodle_closed3d.js（A、B、C、D；AA_11 媽媽住院版遊戲裡還沒有那一段，沒做）"
   }
  ]
 }
