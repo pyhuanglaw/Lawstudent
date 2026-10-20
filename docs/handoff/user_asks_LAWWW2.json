@@ -1,0 +1,94 @@
+{
+ "role": "LAWWW2",
+ "format": "HV-18：一則使用者要求一筆；kind＝原話／選擇題答案／轉述／AI解讀（AI解讀要 confirmed:true 才算數）；status 和 USER_WANTS 那一列一樣；wants＝USER_WANTS 的列、task＝tasks.json 的任務，至少一個",
+ "note": "LAWWW-C 2026-10-18 13:5x 依 USER-WANTS-AUDIT-1018 建的種子（原文已對過）；這個職位回來合併 RULE_SOURCE 以後由自己維護，職位分支上的版本優先",
+ "asks": [
+  {
+   "id": "UA-LAWWW2-1017-01",
+   "at": "2026-10-17T20:5x",
+   "quote": "你生成這麼多人物，為什麼每個都要重新從零開始？也沒有一個模板嗎？",
+   "kind": "原話",
+   "status": "暫停",
+   "wants": "X39",
+   "task": "CHAR-TEMPLATE",
+   "src": "LAWWW2 HANDOFF 185～189 行"
+  },
+  {
+   "id": "UA-LAWWW2-1017-02",
+   "at": "2026-10-17T05:0x",
+   "quote": "最後接著做美國的東西 日本的東西",
+   "kind": "原話",
+   "status": "已取消",
+   "wants": "X40",
+   "task": "JP-3D-ASK",
+   "src": "LAWWW2 HANDOFF 365 行",
+   "note": "使用者 14:0x 選「全 2D（建議）」"
+  },
+  {
+   "id": "UA-LAWWW2-1017-03",
+   "at": "2026-10-17T23:0x",
+   "quote": "超市一個大的超市對面有一個小的亞洲超市",
+   "kind": "原話",
+   "status": "還沒做",
+   "wants": "X41",
+   "task": "US-MARKET-STREET",
+   "src": "LAWWW2 HANDOFF 160～178 行",
+   "note": "使用者 14:0x 選「做停車場和馬路」"
+  },
+  {
+   "id": "UA-LAWWW2-1020-01",
+   "at": "2026-10-20T15:1x",
+   "quote": "霖澤館長椅都是靠窗的靠牆的",
+   "kind": "原話",
+   "status": "在開發分支",
+   "wants": "X74",
+   "task": "LINZE-34F-TABLES-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "更正：桌子不擺中間；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支"
+  },
+  {
+   "id": "UA-LAWWW2-1020-02",
+   "at": "2026-10-20T15:3x",
+   "quote": "請同步 GitHub 最新進度，接續 LAWWW2 目前尚未完成的環境美術工作。第一：完成霖澤館 3、4 樓……第二：霖澤館與萬才館樓層規劃（不要讓玩家四年都只看到「整修中」……涉及課表、法律課堂或人物事件的空間，先與 LAWWW、AA 確認需求）……第三：118 巷九間店的美術驗收與效能……原則：優先完成已開工的成果……須分開標示 MODEL_READY、INTEGRATED、FUNCTIONAL_VERIFIED 和等待我美術審核的狀態。",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X73",
+   "task": "LINZE-34F-TABLES-1020、LINZE-WANCAI-FLOORS-1020、L118-SHOPS-AUDIT-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "第一項交付 5566a0c5（已接）；第二項規劃 5d1f54ec＋確認 5984c140、研討室 A／202／多功能教室模型 0a5cc70a（等 README）；第三項量測中"
+  },
+  {
+   "id": "UA-LAWWW2-1020-03",
+   "at": "2026-10-20T17:1x",
+   "quote": "有一件事我覺得從學校去看公館或者外面的建筑都超級丑的完全沒有那種三d游戲的感覺公館的店面",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X86",
+   "task": "GG-STREETVIEW-1020",
+   "src": "LAWWW2-C 對話（附 4 張照片：羅斯福路的直立招牌、捷運出口 GONGGUAN 字樣、水源市場；照片不進 repo）",
+   "note": "B10 店面翻修原本暫停：使用者直接點名公館，公館這部分恢復；溫州街照舊"
+  },
+  {
+   "id": "UA-LAWWW2-1020-04",
+   "at": "2026-10-20T17:1x",
+   "quote": "博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X85",
+   "task": "SKYBRIDGE-DOOR-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "LAWWW2-C c77e68a2 交付（模型＋teach3d.js patch），等 LAWWW-C 接"
+  },
+  {
+   "id": "UA-LAWWW2-1020-05",
+   "at": "2026-10-20T17:2x",
+   "quote": "連通道可以走 只是要經過一個門 跟現實不符",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X85",
+   "task": "SKYBRIDGE-DOOR-1020",
+   "src": "LAWWW2-C 對話",
+   "note": "補充上一則：問題是門，不是路"
+  }
+ ]
+}
