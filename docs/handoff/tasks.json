@@ -21093,9 +21093,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1A06-08-1020",
    "title": "1A-06～08 主線 7 姊姊（1/12 公館火鍋，選項②讀 careerLean）、主線 9 土地資料（二）（1/26）、1A-08",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "AA_317（361e1df8）（AA-C；使用者 10-20 15:4x B 線「直接依其 1A → 1B → 1C 波次實施」）",
-   "next": "照 AA_317 實作；1A-04、05 之後",
+   "next": "【LAWWW-C 19:1x UTC】併進開發分支（子代理 2d9baec4：story3d.js 1A-06～15 一段＋hooks、events.js Y4_EVENTS、home3d.js、exchange3d.js 美國回臺、zones3d.js 409、phone3d.js「姊姊」）；單元測試 sister_hotpot、land_data2、y4_path、room_y4、jetlag、grad_family、move_out_y4（在 632e21ad 上都 FAIL）＋全部單元測試只有 bg_images_unit；已問 AA 程式補的字與 TESTER／PLAYTESTED、JOB_NOODLE、XINCI_FIRST、第 16 週；BB 驗 AA_317／318 的驗收情境 ｜ 照 AA_317 實作；1A-04、05 之後",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -21114,9 +21114,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1A09-15-1020",
    "title": "1A-09～12、1A-15 第四個房間（美國路線 12/23）、R1 時差、收拾（BOX_KEPT_Y4）…",
-   "status": "待開工",
+   "status": "已整合待測試",
    "source": "AA_318（9a9ebba2）（AA-C；使用者 10-20 15:4x B 線「直接依其 1A → 1B → 1C 波次實施」）",
-   "next": "照 AA_318 實作；1A-06～08 之後",
+   "next": "【LAWWW-C 19:1x UTC】併進開發分支（子代理 2d9baec4：story3d.js 1A-06～15 一段＋hooks、events.js Y4_EVENTS、home3d.js、exchange3d.js 美國回臺、zones3d.js 409、phone3d.js「姊姊」）；單元測試 sister_hotpot、land_data2、y4_path、room_y4、jetlag、grad_family、move_out_y4（在 632e21ad 上都 FAIL）＋全部單元測試只有 bg_images_unit；已問 AA 程式補的字與 TESTER／PLAYTESTED、JOB_NOODLE、XINCI_FIRST、第 16 週；BB 驗 AA_317／318 的驗收情境 ｜ 照 AA_318 實作；1A-06～08 之後",
    "first": {
     "term": "Y3S2",
     "week": null,
