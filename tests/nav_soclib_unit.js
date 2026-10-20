@@ -1,6 +1,6 @@
 // 社科院圖書館（辜先生紀念圖書館一樓，D56 社科院第①步，2026-10-13）的導航（不需要瀏覽器）：在 Node 裡建出遊戲真正的校園與圖書館，
 // 用引擎真正的找路（E.pathTo）＋移動碰撞（E.simWalk：人物半徑 0.32 m、dt 1/30 與 0.1、走路與跑步）檢查：
-//   校園：新社科院（ART-01）圖書館南牆有「進入社科院圖書館」（一樓）、新外觀的導航（圖書館、大樓站不住，中庭、柱廊走得到）、鏡頭碰撞、中庭長椅、旁邊站得住、從霖澤館前／萬才館門口／總圖門口走得到；從圖書館出來的位置站得住、離門夠遠（不會一出來又跳出按鈕）；
+//   校園：新社科院（ART-01；X75 搬到霖澤館西南、轉 180°）圖書館北牆（中庭那一面）有「進入社科院圖書館」（一樓）、新外觀的導航（圖書館、大樓站不住，中庭、柱廊、往小椰林道的步道走得到）、鏡頭碰撞、中庭長椅、旁邊站得住、從霖澤館前／萬才館門口／總圖門口走得到；從圖書館出來的位置站得住、離門夠遠（不會一出來又跳出按鈕）；社科院原本的位置是一棟沒有名字的系館；
 //   圖書館：弧形書架的導航阻擋和書架的位置對得上（配置 nav.rects 的 ry 是 three.js 的方向，blockRect 要傳 −ry——用錯方向的版本這一項會失敗，下面也驗證這件事）；
 //          林間書房（弧形書架圍著柱子）從缺口走得進去；閘門只能從三個通道過、欄杆和服務台後面站不住；
 //          每一個座位「坐下」走得到的位置（GAME.seatApproach 的規則）、每一個互動點、背景人物的散步路線都走得到；出口、快速前往的落點站得住。
@@ -29,24 +29,25 @@ const L=SOCLIB_LAYOUT;
 
 // ---------- 校園：社科院正面的門 ----------
 { const z=loadZone('campus'); const door=E.interactables.find(i=>i.exit&&i.exit.to==='soclib');
-  check('校園：新社科院（ART-01）圖書館南牆有「進入社科院圖書館」（一樓、門在 x≈101、z=-69.3，中庭那一面）',!!door&&door.lv===0&&Math.abs(door.x-101)<0.5&&Math.abs(door.z+69.3)<0.5,door?`(${door.x},${door.z}) lv${door.lv} ${door.label}`:'沒有');
+  check('校園：新社科院（ART-01，X75 搬到霖澤館西南）圖書館北牆有「進入社科院圖書館」（一樓、門在 x≈11、z=-65.7，中庭那一面）',!!door&&door.lv===0&&Math.abs(door.x-11)<0.5&&Math.abs(door.z+65.7)<0.5,door?`(${door.x},${door.z}) lv${door.lv} ${door.label}`:'沒有');
   if(door){ const nd=standNear(door); check('門的互動點旁邊站得住（按得到）',!!nd,JSON.stringify(nd));
     const C=SL3.CAMPUS; check('從圖書館出來的位置站得住、離門的互動點 ≥ 半徑＋0.2 m（一出來不會又跳出按鈕）',stand(C.x,C.z)&&Math.hypot(C.x-door.x,C.z-door.z)>=door.radius+0.2,`(${C.x},${C.z}) 距離 ${Math.hypot(C.x-door.x,C.z-door.z).toFixed(2)}`);
-    check('出來時面向南（中庭；人物面向 (sin yaw, cos yaw)）',Math.abs(Math.sin(C.yaw))<1e-6&&Math.abs(Math.cos(C.yaw)-1)<1e-6,`yaw ${C.yaw}`);
+    check('出來時面向北（中庭；人物面向 (sin yaw, cos yaw)）',Math.abs(Math.sin(C.yaw))<1e-6&&Math.abs(Math.cos(C.yaw)+1)<1e-6,`yaw ${C.yaw}`);
     if(nd){ for(const [nm,p] of [['霖澤館前',[34,-98]],['萬才館門口（出來的位置）',[93.8,-98.4]],['總圖門口',[80,0]]]){ const r=walk(p,nd); check(`從${nm}走到社科院圖書館的門（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
       const r=walk([C.x,C.z],[34,-98]); check('從社科院圖書館出來走回霖澤館前',r.ok,fmt(r)); } }
   check('大地圖有「社會科學院」的地名',PLACES.landmarks.campus.some(q=>q[0]==='社會科學院'));
-  /* 新社科院的導航（src/data/socsci_layout.js，LAWWW2 campus_socsci.json）：圖書館、大樓站不住；中庭、大樓一樓西面與北面的柱廊、圖書館和萬才館之間（舊白色樓的位置）站得住、走得到 */
+  /* 新社科院的導航（src/data/socsci_layout.js，LAWWW2 campus_socsci.json；X75 搬家、轉 180°）：圖書館、大樓站不住；中庭、大樓一樓東面與南面的柱廊、往小椰林道的步道站得住、走得到；萬才館東南（社科院原本的位置）照舊走得到 */
   const SX=SOCSCI_LAYOUT; check('socsci_layout：22 個阻擋、1 個樹穴、3 個鏡頭碰撞、4 張長椅',SX.rects.length===22&&SX.circles.length===1&&SX.cams.length===3&&SX.benches.length===4);
-  const blocked=[[110,-81,'圖書館中間'],[97,-90,'圖書館西北角裡面'],[123,-72,'圖書館東南角裡面'],[111,-49,'大樓一樓大廳裡面'],[122.8,-68.6,'樹穴']].filter(([x,z])=>stand(x,z));
-  check('圖書館、大樓、樹穴站不住',!blocked.length,JSON.stringify(blocked));
-  const open_=[[110,-64,'中庭中間'],[100,-64,'中庭西邊'],[96.3,-50,'大樓西面柱廊'],[110,-56.9,'大樓北面柱廊'],[97,-95,'圖書館和萬才館之間（舊白色樓的西北角；x≥100、z≤-84 照舊是北側邊界）'],[93,-75,'往萬才館的小路']].filter(([x,z])=>!stand(x,z));
-  check('中庭、柱廊、圖書館和萬才館之間站得住',!open_.length,JSON.stringify(open_));
-  for(const [nm,p] of [['大樓西面主入口',[SX.westDoor.x-0.3,SX.westDoor.z]],['大樓北面入口',[SX.northDoor.x,SX.northDoor.z-0.4]],['中庭',[110,-64]]]){ const r=walk([34,-98],p); check(`從霖澤館前走到${nm}（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
+  const blocked=[[2,-54,'圖書館中間'],[15,-45,'圖書館東南角裡面'],[-11,-63,'圖書館西北角裡面'],[1,-86,'大樓一樓大廳裡面'],[-10.8,-66.4,'樹穴'],[112,-62,'社科院原本的位置：沒有名字的系館']].filter(([x,z])=>stand(x,z));
+  check('圖書館、大樓、樹穴、原本位置的系館站不住',!blocked.length,JSON.stringify(blocked));
+  const open_=[[2,-71,'中庭中間'],[12,-71,'中庭東邊'],[15.7,-85,'大樓東面柱廊（正門）'],[2,-78.1,'大樓南面柱廊'],[21,-66.5,'小椰林道往中庭的步道'],[21,-85,'法學院廣場往大樓正門的步道'],[97,-95,'萬才館東南（社科院原本的位置旁邊；x≥100、z≤-84 照舊是北側邊界）'],[93,-75,'往萬才館的小路'],[98,-60,'z=-60 那條路的東端（原本位置的系館門口）']].filter(([x,z])=>!stand(x,z));
+  check('中庭、柱廊、往小椰林道的步道、萬才館東南站得住',!open_.length,JSON.stringify(open_));
+  for(const [nm,p] of [['大樓正門（東面）',[SX.mainDoor.x+0.3,SX.mainDoor.z]],['大樓面中庭的入口',[SX.courtDoor.x,SX.courtDoor.z+0.4]],['中庭',[2,-71]]]){ const r=walk([34,-98],p); check(`從霖澤館前走到${nm}（走路、跑步＋低幀率）`,r.ok,fmt(r)); }
+  { const r=walk([30,-40],[2,-71]); check('從小椰林道走進社科院的中庭（走路、跑步＋低幀率）',r.ok,fmt(r)); }
   const old7=[0,1,2,3,4,5,6].map(i=>[96,-90+i*6]).filter(([x,z])=>z>-70&&z<-58&&!stand(x,z));
   check('舊的 7 根白色圓柱拿掉了（中庭那一段站得住）',!old7.length,JSON.stringify(old7));
-  const cams=E.colliders.filter(m=>{ const p=m.position; return p.x>94&&p.x<126&&p.z>-93&&p.z<-41; });
-  check('鏡頭碰撞：圖書館、大樓懸挑以上、大樓一樓各一個（舊的白色樓沒有了）',cams.length===3,cams.map(m=>`(${m.position.x.toFixed(1)},${m.position.y.toFixed(1)},${m.position.z.toFixed(1)})`).join(' '));
+  const cams=E.colliders.filter(m=>{ const p=m.position; return p.x>-14&&p.x<18&&p.z>-94&&p.z<-42; });
+  check('鏡頭碰撞：圖書館、大樓懸挑以上、大樓一樓各一個（X75 的新位置）',cams.length===3,cams.map(m=>`(${m.position.x.toFixed(1)},${m.position.y.toFixed(1)},${m.position.z.toFixed(1)})`).join(' '));
   const sb=z.seats.filter(q=>q.label==='坐在社科院中庭的長椅'); check('中庭四張長椅可以坐（坐下走得到的位置站得住）',sb.length===4&&sb.every(q=>!!approach(q)),JSON.stringify(sb.map(q=>[q.x,q.z,+q.yaw.toFixed(2)])));
   const fbk=E.scene.children.length>=0&&z.group.children.find(o=>o.userData&&o.userData.ckTag==='soc'); check('備用量體標 ckTag soc（正式模型載入後藏起來）、不參加靜態合併',!!fbk&&fbk.userData.dyn===true); }
 

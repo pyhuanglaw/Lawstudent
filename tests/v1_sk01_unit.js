@@ -74,30 +74,30 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('5. 阿勳在聯絡人裡',G.contacts&&G.contacts.econ_zhengxun!=null);
   G.zone='campus'; G.hour=15.5; at(33,-97); check('5. 不在社科院門口＝不觸發',!tick());
   const s1=JSON.stringify(G);
-  at(96.6,-50); picks=['穿去霖澤館']; tick(); await wait(); L=lines();
+  at(15.4,-85); picks=['穿去霖澤館']; tick(); await wait(); L=lines();
   const w2=['你還記得哪一台電梯比較快。只是公告欄上，已經沒有一張是寫給你的。','系辦助理：學號給我。……這個學號，不在我們系的名單上了耶。','祐廷：我現在是法律系的。','系辦助理：那你走錯棟了。……開玩笑的。外套在這裡，等你快一年了。'];
-  check('5. 社科院大樓西面主入口 → 系辦四句（逐字；阿勳不在旁邊＝沒有他那句）',JSON.stringify(L)===JSON.stringify(w2),JSON.stringify(L));
+  check('5. 社科院大樓正門（東面，X75 搬到霖澤館西南）→ 系辦四句（逐字；阿勳不在旁邊＝沒有他那句）',JSON.stringify(L)===JSON.stringify(w2),JSON.stringify(L));
   check('5. 三個按鈕',JSON.stringify(opts[opts.length-1])===JSON.stringify(['（穿去霖澤館上課）','（送給阿勳）','（收進衣櫃）']),JSON.stringify(opts));
   check('5. ①穿去上課：ECON_JACKET wear、SOC_WRONG_BUILDING、SK02_DAY、15 分鐘',G.flags.ECON_JACKET==='wear'&&G.flags.SOC_WRONG_BUILDING&&G.flags.SK02_DAY===mon4&&Math.abs(G.hour-15.75)<1e-6);
   const room=it=>({c:{id:'civ_general'},room:{zone:'classroom'}});
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 同一天霖澤館的課：阿哲還沒說',!said.length);
   G.day=mon4+1; G.weekday=wdOf(G.day); said=[]; await CLS.beforeClassEvent(GM,{c:{id:'english_y1'},room:{zone:'gongtong'}}); check('5. 隔天共同的課：沒有',!said.some(s=>/臥底/.test(s.t)));
   said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 隔天霖澤館的課：阿哲「你是經濟系派來的臥底嗎？」',lines()[0]==='阿哲：你是經濟系派來的臥底嗎？',JSON.stringify(lines()));
-  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); G.day=mon4; G.hour=15.5; G.flags.ECON_JACKET=null; delete G.flags.ECON_JACKET; at(96.6,-50); picks=['穿去霖澤館']; tick(); await wait();
+  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); G.day=mon4; G.hour=15.5; G.flags.ECON_JACKET=null; delete G.flags.ECON_JACKET; at(15.4,-85); picks=['穿去霖澤館']; tick(); await wait();
   G.day=mon4+8; G.weekday=wdOf(G.day); said=[]; await CLS.beforeClassEvent(GM,room()); check('5. 第 8 天才去霖澤館上課＝阿哲不說了',!said.some(s=>/臥底/.test(s.t)));
   // ②送給阿勳（他不在旁邊）
-  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(96.6,-50); picks=['送給阿勳']; tick(); await wait(); L=lines();
+  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(15.4,-85); picks=['送給阿勳']; tick(); await wait(); L=lines();
   check('6. ②送給阿勳、他不在：旁白「你請系辦助理轉交給阿勳。」',L[L.length-1]==='你請系辦助理轉交給阿勳。'&&G.flags.ECON_JACKET==='xun'&&G.flags.SOC_WRONG_BUILDING,JSON.stringify(L));
   run(G.hour,20.9); check('6. 21:00 以前沒有私訊',!txt('p:econ_zhengxun').some(t=>/兩件/.test(t)));
   run(21,21.2); const T=txt('p:econ_zhengxun'); check('6. 21:00「系辦說你把外套給我了。」「我現在有兩件，輪流穿。」',T.some(t=>t.endsWith('系辦說你把外套給我了。'))&&T.some(t=>t.endsWith('我現在有兩件，輪流穿。')),JSON.stringify(T.slice(-2)));
   // ②阿勳在旁邊
-  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(96.6,-50); const xn={obj:{position:{x:96.2,z:-52,y:0}},lv:0}; global.GAME=GM; GM.npc.econ_zhengxun=xn; E.npcs=[xn]; picks=['送給阿勳']; tick(); await wait(); L=lines();
+  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(15.4,-85); const xn={obj:{position:{x:15.8,z:-83,y:0}},lv:0}; global.GAME=GM; GM.npc.econ_zhengxun=xn; E.npcs=[xn]; picks=['送給阿勳']; tick(); await wait(); L=lines();
   check('7. 阿勳在旁邊：「……法律系的書，真的比較重。」、當面「我現在有兩件，輪流穿。」、沒有轉交旁白和私訊',L.includes('阿勳：……法律系的書，真的比較重。')&&L[L.length-1]==='阿勳：我現在有兩件，輪流穿。'&&!G.flags.SK02_GIFT_DM,JSON.stringify(L));
   GM.npc={}; E.npcs=[];
   // ③收進衣櫃
-  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(96.6,-50); picks=['收進衣櫃']; tick(); await wait(); check('8. ③收進衣櫃',G.flags.ECON_JACKET==='closet'&&G.flags.SOC_WRONG_BUILDING);
+  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(15.4,-85); picks=['收進衣櫃']; tick(); await wait(); check('8. ③收進衣櫃',G.flags.ECON_JACKET==='closet'&&G.flags.SOC_WRONG_BUILDING);
   // 時間
-  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(96.6,-50); G.hour=17.2; check('9. 17:00 以後系辦關了＝不觸發',!tick());
+  G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); at(15.4,-85); G.hour=17.2; check('9. 17:00 以後系辦關了＝不觸發',!tick());
   G.hour=14; G.day=mon4+5; G.weekday=wdOf(G.day); check('9. 週六＝不觸發',!tick());
   // 10. SK01 比較晚（第 5 週週三）→ 隔天以後第一個平日
   fresh(termDay('Y1S1',5,3),17.8,'campus',{classDone:true,metAn:true,afternoonDone:true}); G.stage='law'; at(33,-97); picks=['先回宿舍']; tick(); await wait(); run(G.hour,18);

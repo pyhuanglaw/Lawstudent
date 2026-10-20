@@ -1,8 +1,8 @@
 /* ===== 社會科學院 辜先生紀念圖書館：一樓開架閱覽室（D56 社科院第①步；2026-10-13）=====
    使用者 D46：法律系學生念書也會去「新社科院的辜先生紀念圖書館」；D56：社科院在霖澤館對面，經濟系大一那年就在。
    配置：src/data/soclib_layout.js（LAWWW2 的 tools/blender/env_second/soclib_layout_gen.py 產生；Blender 正式模型 soclib_interior.py 讀同一份，兩邊的位置一定一致）。
-   座標：x 往東、z 往南（+z＝南牆：入口、服務台）；一層，地板 y=0。室內的方向和校園一樣（不轉向）：圖書館將來在社科院這一塊靠廣場的那一半
-         （校園 x 95–125、z −92～−70，docs/campus/SOCSCI_PLAN.md 第 3 節），北面、西面的玻璃帷幕朝萬才館、法學院廣場。
+   座標：x 往東、z 往南（+z＝南牆：入口、服務台）；一層，地板 y=0。室內本身的座標照舊；校園上的社科院 X75（2026-10-20）搬到霖澤館西南、整組轉 180°
+         （校園 x −13～17、z −65～−43，src/data/socsci_layout.js）：室內的「北牆、西牆」玻璃帷幕＝校園上圖書館朝南、朝東的玻璃，入口（室內南牆）＝校園上圖書館的北牆（中庭那一面）。
    區域：校園社科院正面的門（zones3d.js 校園的 exits，門的位置在下面的 DOOR）→ soclib（這個檔案）；離開回到社科院正面。
          第①步沿用現在的社科院外觀（門在西面），所以從西邊的門進來、出現在圖書館南面的入口（外觀換成正式模型的第②步再對齊）。
          開放時間（D62，使用者 2026-10-14 查證館方網頁）：src/data/places.js；沒開的時候校園的門擋著（story3d.js 的 onInteract），館裡的人在閉館時被請出去（回到社科院正門前）。
@@ -10,13 +10,13 @@
          E3.NavGrid.blockRect 的 rot 方向相反（本地 x 軸在世界的 (cos rot, sin rot)），所以傳 −ry（只有弧形書架有旋轉；tests/nav_soclib_unit.js 檢查書架和導航對得上）。
    畫面：程序化備用模型（正式模型載入前、載入失敗時：簡單的牆、桌椅、書架、柱子；D38 分類 ③）；
          正式模型（ASSETS 'bldg.soclib_interior'，LAWWW2 ⑬）載入後照其他單層室內的接法（Z3.attachRoomGLB：WALL_* 淡出、備用模型藏起來），招牌的字由這裡畫。
-   窗外的景：北面、西面的玻璃帷幕外面各一片 B3.outView（遊戲裡拍的校園畫面 soclib_north／soclib_west，tools/shots/window_views.py）。 */
+   窗外的景：北面、西面的玻璃帷幕外面各一片 B3.outView（遊戲裡拍的校園畫面 soclib_north／soclib_west，tools/shots/window_views.py；X75 以後在校園上是圖書館朝南、朝東的玻璃外面拍）。 */
 'use strict';
 const SL3=(function(){
   const LAYOUT=()=>SOCLIB_LAYOUT;
   const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
   /* 校園上的門（舊外觀）：社科院（CK.modern，(110,−70) 轉 −90°，正面朝西 x=99）一樓玻璃大廳中間的門前；互動點離建築的導航阻擋（x≥98.7）還有半個人 */
-  /* 新社科院外觀（ART-01，src/data/socsci_layout.js）：圖書館的門在南牆（中庭那一面）(101,−69.3)；出來站在門前 1.7 m、面向南（中庭）。manifest 沒有新模型時照舊外觀 */
+  /* 新社科院外觀（ART-01，src/data/socsci_layout.js）：圖書館的門在中庭那一面；出來站在門前 1.7 m、面向中庭。X75（2026-10-20）整組搬到霖澤館西南、轉 180°：門在圖書館北牆 (11,−65.7)、出來面向北。manifest 沒有新模型時照舊外觀 */
   const NEW=typeof SOCSCI_LAYOUT!=='undefined'&&typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_socsci'];
   const DOOR=NEW?Object.assign({},SOCSCI_LAYOUT.libDoor):{x:97.9,z:-70,r:1.6};
   const CAMPUS=NEW?Object.assign({},SOCSCI_LAYOUT.libOut):{x:95.6,z:-70,yaw:-Math.PI/2};   // 從圖書館出來：站在社科院門前、面向西（法學院廣場）；離門的互動點 2.3 m（一出來不會又跳出「進入社科院圖書館」）；兩邊的白色圓柱在 z=−72、−66（2 m 外）

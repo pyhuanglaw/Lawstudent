@@ -20699,7 +20699,7 @@
    "title": "社科院位置改對：在法學院西南，不是出去左手邊（查實際位置）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20713,7 +20713,8 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「然後社科院位置其實不是在法律系出去左手邊 應該是朝西南 你實際查社科院位置」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "查實際配置（臺大校總區平面圖）；改 zones3d.js 校園社科院位置、導航、劇情站位；跑 campus_layout_nav、reachability_all"
+   "next": "BB 瀏覽器驗：從霖澤館出來往西南走到社科院（大樓正門、中庭、圖書館的門）、進出社科院圖書館、經濟系那一年的社科院事件（SK02、休學後第一次到門口）、原本位置（萬才館東南）的系館；LAWWW 重拍社科院圖書館的窗景（tools/shots/window_views.py soclib_west soclib_north）",
+   "done": "查證：臺大官方交通資訊（霖澤館交通資訊 PDF：辛亥路與復興南路口的校門進來左邊第一棟是霖澤館；社科院在校總區北門西側、靠近霖澤館）。tools/gen_socsci_layout.py 把 LAWWW2 的模型座標轉 180° 再平移（(x,z)→(112−x,−135−z)：x −13～17、z −93～−43，大樓在北、正門朝小椰林道，圖書館在南）；zones3d.js 照 place 放正式模型、備用量體用鏡頭碰撞盒子、長椅照 yaw；原本位置換成沒有名字的系館（CK.modern）；z=−60 那條路縮到系館門口；小椰林道往中庭、往大樓正門兩段步道；SK02、休學後第一次到門口、經濟系事件後回中庭、大地圖地名、路人路線跟著搬。tests/socsci_place_unit.js（新，修改前 13 項 FAIL）、nav_soclib_unit.js、v1_sk01_unit.js 更新"
   },
   {
    "id": "LAW-CLASS-WANCAI-1020",
@@ -20890,6 +20891,27 @@
    "source": "AA-C 10-20 14:38（企劃分支 7ad5a515，AA_313 第 4 節）；AA 已推開發分支 26565012（19 句）",
    "authorized": "AA 定稿（D100）",
    "next": "X64～X81 這批之後；第 10 點（第一次自我介紹「你好，我是沈以安。大家都叫我小安。」）已先做（X70），名字欄、目標的「小安」→「以安」還沒做（guide_unit、guide_flow 等測試要一起改）"
+  },
+  {
+   "id": "AA313-S5-1020",
+   "title": "AA_313 第 5 節：麵店團法律系四年逐場（102 個事件＋課堂）——重新匯入 syllabus.js（課堂 22 句，企劃 10816dd5）、msg2_pool.js（AA_202 小語「明天見面再說」）、enc_walk.js／date_lines.js 的原檔已同步；5-1 給程式的 9 點（博覽會學姊兩行刪、小語傳單那句、阿哲「哥」看 ZHE_CALLS_GE；大一五個事件加 term Y1、notes／kaogu／mingxuan_ball 加 once、宵夜補旁白；語 3 沒去改 12/19 22:00 電話；柏翰分開後第一次見面多一句；聖誕 12/17 前後腳到＋保溫杯那句；阿哲 2028 暑假留臺北（D29、characters.js:57）；camp_y1「公館那條街上有一間麵店」；明軒「哈哈」「CP 值」等測試寫死表 5-8；5-1 第 11 點）",
+   "area": "v3",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上～大四",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA-C 10-20 15:22（企劃分支 c4978283，AA_313 第 5 節）；AA 已推開發分支 2e53f6d4（40 句）",
+   "authorized": "AA 定稿（D100）",
+   "next": "X64～X81 這批之後（AA 指定）；先合 2e53f6d4（LAWWW-C 15:3x 合併）"
   }
  ]
 }
