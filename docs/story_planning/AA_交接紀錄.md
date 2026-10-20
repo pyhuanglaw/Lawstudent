@@ -217,6 +217,11 @@
     - ⑤ Q-Y0-NTU-1018／Q-CRAM-SPRINT-1018：早已答（`AA_298`），開發分支已做。
     - ⑥ HOL-VA 最後一項 VA-08：`AA_333`（56b6f64e）；DOC-18W 早已完成（3aa9156f）。
     - 都已通知 LAWWW（DELIVERED）。
+  - **（19:4x～20:xx）之後自己排的**：
+    - `AA_334`（e284d601）：等使用者的四件寫成 AI 解讀版（第③級三件確認前不施工；H2b 作廢）。
+    - `AA_335`（6d54b139）：開發分支台詞禁用句型清理。AA 推開發 f4c545fd（合併後 f89fef68）10 處；測試寫死的 6 處交 LAWWW。
+    - `AA_336`（724d7703）：回 LAWWW 實作問題 17 題（吃東西 4、1B 6、1C 7）。
+    - BB-C：可昕七夕 CG（高雄港）、CG-16 可選、BCG-42 地點請 BB 判斷（DELIVERED）。
 
 > **【AA-C 值班登記：2026-10-20 13:06 UTC】** 使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」「沒有別的AI接班 從你上一次開始」。接班：fetch → RULE_SOURCE `claude/adoring-meitner-mqzst8`（HV-18，LAWWW-C 值班）→ 讀新規則（HV-17 帳號 D、HV-18 使用者要求檔＋提醒 hook、D105）→ check OK、duty verify（只有三職位「已交班」的提示，登記後消失）→ asks OK（建 `docs/handoff/user_asks_AA.json` 18 筆）→ duty register（`duty_AA.json` since 264871e0）。上一任＝自己（AA-C 10-18 12:24 交班），之後 AA 分支沒有別人的 commit。
 > - **離開期間使用者給 AA 的新任務**（使用者 10-18 14:xx～15:4x 對 LAWWW-C 說的，總表都有）：【使用者】E30-MOM-1018 10/17 晚上回家跟媽媽說（X46）；【使用者】LAD-K0LX2-CUT-1018 可昕「搬回家以後來學校要多久」整段拿掉（X47）；【使用者】KH-TRIP-MORE-1018 高雄景點要再加、每個地點要圖（X52）；【使用者】ECON-TERM-END-CUE-1018 跨年前學期已結束要看得出來（X53）；【使用者】KH-RETAKE-PACING-1018 去高雄就談重考太突然（X54）；【使用者】CRAM-DEC-SCENE-1018 12 月去補習班要演出來（X55）；【使用者】HOME-ONEFLOOR-1018 家是一層樓、台詞不能有「下樓」（X56）；【使用者】CRAM-LEAVE-LAUGH-1018 管理人員請過很多次假才笑（X59）；【使用者】KH-SCORE-TIMING-1018 7/25 落點見面後才出來、可昕不該說「我看得到表」（X60）；【使用者】KX-EXPR-1018 可昕的表情要跟著對話變（X62）；X44 拉花店員不要像經濟系同學。
