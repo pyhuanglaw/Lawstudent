@@ -4,7 +4,7 @@
    1B-03 ev_yt_aunt_retell（不在場：之後第一次在麵店或總圖和語彤說話；在場版在 y2b3d.js 的法服 5/22）　1B-04 ev_an_mother_map（麵店）
    1B-05 ev_ziqing_dad_visit（公館騎樓＋河堤）、ev_ziqing_dad_sorry（選了「一定會懂」：兩週內吉他社社課）　1B-06 ev_zhiruo_last_shift（Café 6/3）
    1B-07 ev_kexin_two_circles（出遊：麵店 3/25 18:00）　1B-08 ev_yt_ta_news／ev_yt_ta_news_lib（13b）、ev_yt_umbrella_y3（事件 12）
-   1B-09 ev_ziqing_capstone（Café 11/9）　1B-10 ev_zhiruo_xmas_video（和芷若交往：12/25 視訊；明信片在 y2b3d.js）
+   1B-09 ev_ziqing_capstone（Café 11/9）　1B-10 ev_zhiruo_xmas_video（和芷若交往：12/25 視訊；明信片在 y2b3d.js）、ev_zhiruo_bday_video（9/28 她的生日，打過去的視訊；AA_336 B6）
    CG（BCG-02、BCG-15、CG-6）：圖在企劃分支 cg_approved/，開發分支還沒登錄（CG_REGISTRY 沒有就不放，照原背景演；MISSING_EXTERNAL_ART.md）。測試：node tests/y2b_events_unit.js */
 'use strict';
 const Y2B_EVENTS=(function(){
@@ -260,6 +260,14 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_02',text:'這裡的聖誕節，店都關了。'},
       {speaker:'heroine_02',text:'我很想做一杯給你。'} ] };
 
-  return [BAD_EXAM,LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TWO_CIRCLES,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO];
+  /* ---- 1B-10 芷若英國的生日（AA_336 B6；BB_124 第 1 節「她在國外」2027）：9/24 那張背面「9/28，台灣晚上十點。打給我。」→ 9/28 21:55 選「打給她。」（y2b3d.js S.bdayCall）＝22:00 視訊（倫敦 15:00）。
+     前兩句 BB_124、第三句是 AA_336 新寫的收尾；ZR_BDAY_CALL 在選的時候記 ---- */
+  const BDAY_VIDEO={ id:'ev_zhiruo_bday_video', title:'生日的視訊', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+    dialogue:[ {scene:'視訊',bg:'video'},
+      {speaker:'heroine_02',text:'今天我一個人看了一部電影。'},
+      {speaker:'heroine_02',text:'……你打來了，所以不算一個人。'},
+      {speaker:'heroine_02',text:'好了。去睡。你那邊很晚了。'} ] };
+
+  return [BAD_EXAM,LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TWO_CIRCLES,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO,BDAY_VIDEO];
 })();
 Array.prototype.push.apply(STORY_EVENTS,Y2B_EVENTS);
