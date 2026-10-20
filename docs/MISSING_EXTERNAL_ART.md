@@ -100,6 +100,18 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | 1B-10 芷若明信片 | 4 張明信片插畫（倫敦的街、戲院、雨） | 文字卡（對話框「明信片」） |
 | 1B-11 沛珊在台南 | 6 張背景：台南車站出口（白天）、她的學校（下午）、她打工的二手書店、老街、運河邊（傍晚）、小咖啡店（晚上） | 去台南的那一天還沒接（`Y2B.PS_TAINAN` 只有台詞）；接了以後深色底＋地點字幕 |
 
+### 1C 群戲（AA_324，2026-10-20；src/data/group_events.js）
+沒有圖的照下面的退路，不擋遊玩。
+| 用在哪 | 缺的 | 現在的退路 |
+|---|---|---|
+| 1C-01 春假麵店團的第一站 | 「小鎮的傳統市場」2D 背景（AA_143，底圖等使用者） | 深色底＋字幕「小鎮的市場」 |
+| 1C-01 和可昕：老街 | `trip_oldtown` 的圖（大一那一趟也是深色底） | 深色底＋字幕「老街」（海邊改用 `y0_sea_blue`） |
+| 1C-04 哲 4 | 宿舍樓下的便利商店外（夜）2D 背景（AA_40 寫「現有」，`OUT.BG` 裡沒有）；鋁箔包紅茶 2D 圖示 | 深色底＋字幕 |
+| 1C-04 冠軍賽 | 新體育館一樓球場的 2D 背景（頒獎 compact 群像）；3D 新體育館（`gym3d.js`）這一場沒有用 | 深色底＋字幕「新體育館・球場」 |
+| 1C-04 阿哲的爸爸 | 立繪（Tier 1：不笑、拿著相機） | compact（說話人「阿哲爸爸」） |
+| 1C-05 子晴交往中的自拍 | **BCG-26**（企劃分支 `cg_approved/cg_crooked_cap_heroine04.webp`，要放進 `assets/cg/heroine_04/`、登錄 `CG_REGISTRY`） | 沒有 CG，照 `graduation_avenue` 演 |
+| 1C-05 子晴、芷若 | 學士服立繪 | 一般立繪 |
+
 ### 3D
 - **玩家正式模型**：目前用 Seed-san（VirtualCast, Inc.；VRM Public License 1.0，須標示出處）改色版：黑短髮、墨綠 T-shirt、炭灰長褲；**赤腳、褲長七分、胸口有原貼圖徽章**。要一個「有球鞋、後背包」的台灣大學生男性 VRM。RPM 範例（棕西裝光頭）已降級為 `TEMP_PLAYER_DEV_MODEL`，只在 VRM 載入失敗時出現。
 - 五位女主角的 3D VRM（依 Character Bible）：目前只有小安用 three-vrm 範例（白 T 黑短褲，與 2D 不一致）；其餘四位是程序化 placeholder。
