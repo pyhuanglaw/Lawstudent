@@ -2,6 +2,27 @@
 
 ## ▶ 值班登記（LAWWW2-C，2026-10-20T13:04Z）：使用者「我回來了，請同步 GitHub 最新進度，接續工作」＋「你的部分沒有別的AI接班 直接從你沒做完的開始」——同一個工作階段接續，基準 `7ed82687`（沒有別人接過 LAWWW2）。照下面「🔁 交班」的 B／C 接著做：BUG-WZFLICKER-2 → US-CAMPUS-WIRE 對 main 重做 → ART-BALCONY-POTS。
 
+### 本班進度（2026-10-20，隨時更新）
+- 使用者 13:2x：「你一堆待辦事項都做好了嗎 你自己安排一直做下去」→ 照下面的順序自己排、一直做。
+- **US-CAMPUS-WIRE 不用重做**：LAWWW-C 10-18 12:30 已經自己整合（`d3fdab82`），main 上的五個資產和我分支的完全相同。
+- **BUG-WZFLICKER-2：停在安全點**（LAWWW-C 13:15 轉使用者的 P0）。
+  - 腳本 `ede6c8de`、`bccf1f8d`：
+    - 門框直框兩端藏進橫框，木門直框凸出 5 mm；
+    - 便利商店冰箱、貨架；
+    - 店內側牆前端退 1.2 cm。
+  - 暫存重建的 always：溫州街 619.35→605.62、公館 397.75→389.02、118 巷 423.41→378.81 m²。
+  - 還沒做：GLB 換進 assets、遊戲內截圖、交付。LAWWW-C 13:25：排在 118 巷第一批店面之後。
+  - 溫州街這次算修 bug（X69、X79），可以換；溫州街材質合併先不動，等 LAWWW-C 量 draw call（PERF-WENZHOU-1020）。
+- **LANE118-SHOPS-1020（P0，使用者 10-20 經 LAWWW-C）：第一批九間全部交付 `43cf956a`**（outbox `4f5f1d89`）。
+  - 說明：`test_shots/lane118_shops_1020/README.md`。
+  - 遊戲內：測試工作樹（LAWWW-C `928d3b78`＋臨時接線 `src/l118_shops3d.js`）跑 `tests/flow_l118_shops.py`（滇香小館）中。
+- 接下來的順序：
+  1. LANE118 遊戲內測試、補交；
+  2. BUG-WZFLICKER-2 換 GLB 交付；
+  3. LINZE-34F-TABLES-1020；
+  4. LINZE-WANCAI-FLOORS-1020；
+  5. ART-BALCONY-POTS（只做公館；溫州街暫停）。
+
 ## 🔁 交班（LAWWW2-C，2026-10-18 12:3x UTC；使用者「使用量大概在半小時到上限 先做收尾」）
 - 工作階段 `session_015BuNi47yLUt5PviELapMNj`；分支 **`claude/focused-cray-c9uwvw`**；交班時最後 commit 見本節下面那一個 commit（這份檔是最後一個改動）。
 - RULE_SOURCE：LAWWW-C 的 `origin/claude/adoring-meitner-mqzst8`；正式版 main `4c0cbefc`（v9.10.1）。
@@ -22,7 +43,7 @@
   | ART-CH-PINYU | 沒做（和使用者凍結人物衝突） | LAWWW-C 確認取消 |
 - **B. 全部未完成工作**：
   1. **BUG-WZFLICKER-2**（做一半，見 C）。
-  2. **US-CAMPUS-WIRE patch 重做**：對 main `4c0cbefc` 以後，`us_season.diff`、`us_campus_wire.diff` 先 `git apply --check`，不乾淨就重做；測試照 README（nav_us_unit、us_season_unit、flow_us_campus.py）。
+  2. ~~**US-CAMPUS-WIRE patch 重做**~~（10-20：不用做，LAWWW-C 已整合 d3fdab82）：對 main `4c0cbefc` 以後，`us_season.diff`、`us_campus_wire.diff` 先 `git apply --check`，不乾淨就重做；測試照 README（nav_us_unit、us_season_unit、flow_us_campus.py）。
   3. **ART-BALCONY-POTS**（P3）：溫州街、公館二樓陽台盆栽。⚠️ 溫州街部分在下面 ⏸ 表是「使用者暫停」，先問 LAWWW-C。
   4. ⏸ 表裡其他暫停項目（ART-VSLICE、ART-WZ0、BB_217 第 7 節、日本場景、宿舍大廳疊面、ART-METHOD6、ART-10）照表。
 - **C. 正在做的工作：BUG-WZFLICKER-2**（LAWWW-C 11:47 派：溫州街三處＋公館、118 巷鐵捲門疊面）。
