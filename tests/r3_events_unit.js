@@ -256,5 +256,116 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(c22+6,15,'home',{PS_BACK_FIRST:500}); R('classmate_peishan','FRI'); C('classmate_peishan'); check('10. 7/28 以後照一般的回覆', !R3.psCampAuto(G));
     fresh(c22,20.5,'home'); R('classmate_peishan','FRI'); run(c22,20.5,21.25); check('10. 沒交往：沒有那三組訊息', !PHONE.sent(G,'r3_ps_camp1')); }
 
+  // ===== 11. 3-11 學姊：讀書計畫和便條 =====
+  { const a21=D('2028-10-21'), b18=D('2028-10-18'), c8=D('2029-01-08'), c20=D('2029-02-20'), d3=D('2029-02-03');
+    const GT=()=>TH('g:family_law').map(m=>(m.name||m.from)+':'+m.text);
+    fresh(a21,20,'dorm'); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,20.5);
+    check('11. S1 10/21 20:30 家族群組 Kevin「大四的各位 讀書計畫貼上來」「學姊說她可以幫忙看」＋貼／不貼', JSON.stringify(GT())===JSON.stringify(['Kevin:大四的各位 讀書計畫貼上來','Kevin:學姊說她可以幫忙看'])&&JSON.stringify(askOpts('r3_sis_plan_a'))===JSON.stringify(['（貼上自己的讀書計畫）','（不貼）']), JSON.stringify(GT()));
+    ans('r3_sis_plan_a',0); run(a21,20.5,20.75);
+    check('11. S1 貼了：20:40「祐廷的讀書計畫我看了。……」（叫名字，不是「學弟的」）、家族的學妹、「以前是以前。」；SIS_PLAN_POSTED', JSON.stringify(GT().slice(-3))===JSON.stringify(['溫學姊:祐廷的讀書計畫我看了。有休息日，有吃飯，有睡覺。','家族的學妹:學姊，妳以前不是這樣說的。','溫學姊:以前是以前。'])&&G.flags.SIS_PLAN_POSTED===true&&Math.abs(at('g:family_law','以前是以前。')-(a21*24+20+40/60))<0.26, JSON.stringify(GT()));
+    fresh(a21,20,'dorm'); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,20.5); ans('r3_sis_plan_a',1); run(a21,20.5,21.5);
+    check('11. 「（不貼）」：沒有後續（也不替你傳字）', GT().length===2&&!G.flags.SIS_PLAN_POSTED);
+    fresh(a21,20,'us_apartment',{EXCHANGE_ROUTE:'US'}); PHONE.join(G,'family_law','法律系直屬家族'); run(a21,20,21); check('11. 美國路線：沒有 A', !PHONE.sent(G,'r3_sis_plan_a'));
+    fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25);
+    { const q=OUT.get(G,'r3_sis_plan_us'); check('11. S2 美國路線、交往中：10/18 當地 19:00「你的讀書計畫，帶去會所給我看。八點。」＋20:00 會所（出遊）', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，帶去會所給我看。八點。'&&!!q&&q.day===b18&&q.h===20&&q.late===0.5); }
+    let P=await play('ev_sis_plan_us',['妳自己']);
+    check('11. S2 會所「你週六排了十二個小時。」「改成八個。……」；選項是「妳自己呢？」→「……我也改。我們一起改。」；名字照交往中的叫法；SIS_PLAN_SEEN us', has('（會所的自習室。她把你的讀書計畫從頭看到尾。）')&&has('你週六排了十二個小時。')&&has('改成八個。剩下四個拿去睡覺。')&&JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='us'&&said.find(s=>s.t==='你週六排了十二個小時。').who===(SOCIAL.datingName('heroine_05')||NAME('heroine_05'))&&scenes.includes('dark'), JSON.stringify(P));
+    G.day=c20; G.hour=20.5; run(c20,20.5,21.25); check('11. B 演過的：C 不再演', !PHONE.sent(G,'r3_sis_plan_c'));
+    fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); C('heroine_05'); run(b18,18.5,19.25); G.hour=20.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(b18,20.75,21.25);
+    check('11. B 沒到（20:30 前）：21:00「……下次帶來。」；SIS_PLAN_SEEN missed', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次帶來。'&&G.flags.SIS_PLAN_SEEN==='missed');
+    fresh(b18,18.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); R('heroine_05','FRI'); C('heroine_05'); run(b18,18.5,20); check('11. 美國路線、沒交往（挽回中）：沒有 B', !PHONE.sent(G,'r3_sis_plan_b')&&!OUT.get(G,'r3_sis_plan_us'));
+    fresh(c8,20.5,'dorm',{Y4_PATH:'grad',SIS_PLAN_POSTED:true}); R('heroine_05','FRI'); C('heroine_05'); run(c8,20.5,21.25);
+    { const q=OUT.get(G,'r3_sis_plan_lab'); check('11. S3 要考 2/3 筆試：1/8 21:00「你的讀書計畫，拿來研究室給我看。明天晚上七點。」＋1/9 19:00 研究室', txt('p:heroine_05').slice(-1)[0]==='heroine_05:你的讀書計畫，拿來研究室給我看。明天晚上七點。'&&!!q&&q.day===c8+1&&q.h===19); }
+    P=await play('ev_sis_plan_lab',['學姊自己']);
+    check('11. C 研究室（不是交往中）：選項「學姊自己呢？」；SIS_PLAN_SEEN lab；背景＝研究室的走廊', JSON.stringify(opts[0])===JSON.stringify(['「好。」','「學姊自己呢？」'])&&has('……我也改。我們一起改。')&&G.flags.SIS_PLAN_SEEN==='lab'&&scenes.some(b=>b&&b.image==='assets/bg/linze_prof_hall.webp'), JSON.stringify(P));
+    fresh(c8,20.5,'dorm',{Y4_PATH:'grad',SIS_PLAN_POSTED:true}); R('heroine_05','FRI'); C('heroine_05'); run(c8,20.5,21.25); G.day=c8+1; G.hour=19.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(c8+1,19.75,21.25);
+    check('11. S4 1/9 沒到、貼過計畫：21:00「我自己看了你傳在群組的那張。……週六十二個小時，改成八個。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:我自己看了你傳在群組的那張。……週六十二個小時，改成八個。'&&G.flags.SIS_PLAN_SEEN==='missed');
+    fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(c20,20.5,21.25);
+    check('11. 其他（不考筆試）、交往中：2/20 21:00 私訊、2/21 19:00；1/8 沒有', PHONE.sent(G,'r3_sis_plan_c')&&OUT.get(G,'r3_sis_plan_lab').day===c20+1);
+    P=await play('ev_sis_plan_lab',['妳自己']); check('11. 交往中：選項「妳自己呢？」', JSON.stringify(opts[0])===JSON.stringify(['「好。」','「妳自己呢？」']));
+    fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(c20,20.5,21.25); G.day=c20+1; G.hour=19.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(c20+1,19.75,21.25);
+    check('11. C 沒到、沒貼過：21:00「……下次拿來。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:……下次拿來。');
+    fresh(c20,20.5,'dorm',{Y4_PATH:'bar'}); R('heroine_05','FRI'); C('heroine_05'); run(c20,20.5,21.5); check('11. 不是交往中、她不知道你的計畫（沒貼過）：沒有 C', !PHONE.sent(G,'r3_sis_plan_c'));
+    fresh(c20,20.5,'dorm',{Y4_PATH:'bar',SIS_PLAN_POSTED:true}); R('heroine_05','FAM'); C('heroine_05'); run(c20,20.5,21.5); check('11. 和她不到 FRIEND：沒有 C', !PHONE.sent(G,'r3_sis_plan_c'));
+    fresh(d3,8.1,'dorm',{Y4_PATH:'grad'}); R('heroine_05','FRI');
+    check('11. S3 2/3 08:00～08:40、要考筆試、雙方都單身：考場門口（noteDue）', R3.noteDue(G)&&(G.hour=8.7,!R3.noteDue(G))&&(G.hour=8.1,true));
+    said=[]; R3.tick(GM,0.6); for(let k=0;k<8;k++) await new Promise(r=>setImmediate(r));
+    check('11. D 當面：08:30「（教學館門口。……）」「（便條：「一，你可以。二，你可以。三，你可以。」）」「三件都一樣。」「對。」（不是交往中＝沒有便利商店那句）；SIS_NOTE_GRAD door', has('（教學館門口。她把一張摺好的便條放進你手裡。）')&&has('（便條：「一，你可以。二，你可以。三，你可以。」）')&&has('三件都一樣。')&&has('對。')&&!has('我在對面的便利商店等。考完先傳訊息。')&&G.flags.SIS_NOTE_GRAD==='door'&&G.hour>=8.5-1e-6&&!R3.noteDue(G), JSON.stringify(lines()));
+    fresh(d3,8.1,'home',{Y4_PATH:'grad',ROOM_Y4:d3-150}); date('heroine_05'); G.home={at:true};
+    check('11. 在家（寒假）：home3d.js 的選單問 STORY.y4HomeDue＝stay', STORY.y4HomeDue(G)==='stay');
+    said=[]; await STORY.y4HomeScene(GM); check('11. 交往中：多「我在對面的便利商店等。考完先傳訊息。」', has('我在對面的便利商店等。考完先傳訊息。')&&G.flags.SIS_NOTE_GRAD==='door');
+    fresh(d3-1,20.5,'dorm',{Y4_PATH:'grad'}); R('heroine_05','FRI'); C('heroine_05'); date('kexin'); run(d3-1,20.5,21.25);
+    check('11. D 祐廷和別人交往中：2/2 21:00 照片＋「三件都一樣。」／「謝謝。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'&&JSON.stringify(askOpts('r3_sis_note_photo'))===JSON.stringify(['三件都一樣。','謝謝。'])&&G.flags.SIS_NOTE_GRAD==='photo');
+    ans('r3_sis_note_photo',1); check('11. 「謝謝。」→「考完傳訊息。」；2/3 早上不當面', txt('p:heroine_05').slice(-1)[0]==='heroine_05:考完傳訊息。'&&(G.day=d3,G.hour=8.2,!R3.noteDue(G)));
+    fresh(d3,8.1,'dorm',{Y4_PATH:'bar'}); R('heroine_05','FRI'); check('11. 不考研究所：沒有便條', !R3.noteDue(G));
+    fresh(d3,8.1,'dorm',{Y4_PATH:'grad',Y4_PUSH:'pass'}); R('heroine_05','FRI'); check('11. 推甄上了：沒有便條', !R3.noteDue(G)); }
+
+  // ===== 12. 3-13 方奕廷 F4 兩千歲的紅檜 =====
+  { const j24=D('2029-01-24'), j27=D('2029-01-27');
+    fresh(j24,20.5,'home'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(j24,20.5,21.25);
+    check('12. 1/24 21:00「📷（雲海）」「我在嘉義的山上。」；沒有 MOUNTAIN_DAY＝「這裡有一棵兩千歲的紅檜。」；好／下次', JSON.stringify(txt('p:npc_fangyt'))===JSON.stringify(['npc_fangyt:📷（雲海）','npc_fangyt:我在嘉義的山上。','npc_fangyt:這裡有一棵兩千歲的紅檜。','npc_fangyt:你要不要上來看。不用會。有點遠，你有車。'])&&JSON.stringify(askOpts('r3_fang_f4'))===JSON.stringify(['好。我開車上去。','下次。']), JSON.stringify(txt('p:npc_fangyt')));
+    ans('r3_fang_f4',0); run(j24,21.25,21.5);
+    { const q=OUT.get(G,'r3_fang_f4'); check('12. 「好。我開車上去。」→「週六早上七點出發剛好。霧中午會散。」、出遊 1/27 07:00（鬧鐘）', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:週六早上七點出發剛好。霧中午會散。'&&!!q&&q.day===j27&&q.h===7&&q.alarm===true);
+      check('12. 鬧鐘 06:30（宿舍的床、在家睡覺都一樣）', STORY.wakeAlarms(G,j27).some(a=>Math.abs(a.h-6.5)<0.01)&&Math.abs(HOME.wakeFor(G,j27,50/60)-6.5)<0.01, JSON.stringify(STORY.wakeAlarms(G,j27))+' '+HOME.wakeFor(G,j27,50/60)); }
+    G.day=j27; G.hour=7; let F4=await play('ev_fangyt_chiayi',['看過很多人']);
+    check('12. F1 出門前是媽媽「你交了什麼朋友，會約人開半個台灣去看樹。」；字卡；「我每天上班都經過它。」；選①；回到臺北 22:00；FANG_F4 went、CHIAYI_TREE', has('你交了什麼朋友，會約人開半個台灣去看樹。')&&said.find(s=>s.t==='你交了什麼朋友，會約人開半個台灣去看樹。').who==='媽媽'&&has('到了。……你開了五個小時。')&&has('兩千歲。……我每天上班都經過它。')&&has('嗯。看過很多人來，也看過很多人走。……我還沒走。')&&has('下次天氣好，再來。……不用約。你來，我就在。')&&F4[F4.length-1]==='（回到臺北，已經晚上十點。）'&&Math.abs(G.hour-22)<0.02&&G.flags.FANG_F4==='went'&&G.flags.CHIAYI_TREE===true&&SOCIAL.has('npc_fangyt','CHIAYI_TREE')&&scenes.some(b=>b&&b.image==='assets/bg/trip_mountain.webp')&&scenes.some(b=>b&&b.image==='assets/bg/cypress_trail.webp'), JSON.stringify(F4));
+    { const ln=PG.epiLine(G,'npc_fangyt'); check('12. 尾聲方奕廷（postgrad3d.js 讀 CHIAYI_TREE）：「嘉義那棵，我上個月又去看了。」', JSON.stringify(ln).includes('嘉義那棵，我上個月又去看了。'), JSON.stringify(ln)); }
+    fresh(j24,20.5,'home'); R('npc_fangyt','FAM'); C('npc_fangyt'); SOCIAL.remember('npc_fangyt','MOUNTAIN_DAY',''); run(j24,20.5,21.25);
+    check('12. 大二暑假和他爬過山（MOUNTAIN_DAY）：「這裡的紅檜比那次爬山看的那棵老。兩千歲。」', txt('p:npc_fangyt').includes('npc_fangyt:這裡的紅檜比那次爬山看的那棵老。兩千歲。'));
+    ans('r3_fang_f4',1); run(j24,21.25,21.5); check('12. F2「下次。」→「好。它也不會走。」；不排出遊；FANG_F4 later', txt('p:npc_fangyt').slice(-1)[0]==='npc_fangyt:好。它也不會走。'&&!OUT.get(G,'r3_fang_f4')&&G.flags.FANG_F4==='later');
+    fresh(j24,20.5,'home'); R('npc_fangyt','FAM'); C('npc_fangyt'); run(j24,20.5,21.25); ans('r3_fang_f4',0); run(j24,21.25,21.5); G.day=j27; G.hour=7.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(j27,7.75,15.25);
+    check('12. F3 答應了、07:30 還沒出發：10:00「路上塞車嗎？」、15:00「霧散了。它還在。下次。」；不記 CHIAYI_TREE', JSON.stringify(txt('p:npc_fangyt').slice(-2))===JSON.stringify(['npc_fangyt:路上塞車嗎？','npc_fangyt:霧散了。它還在。下次。'])&&Math.abs(at('p:npc_fangyt','路上塞車嗎？')-(j27*24+10))<0.05&&G.flags.FANG_F4==='missed'&&!G.flags.CHIAYI_TREE);
+    fresh(j24,20.5,'home'); R('npc_fangyt','ACQ'); C('npc_fangyt'); run(j24,20.5,22); check('12. 不到 FAMILIAR：沒有', !PHONE.sent(G,'r3_fang_f4')); }
+
+  // ===== 13. 3-14 學姊：交往中的大四 =====
+  { const f26=D('2029-02-26'), f28=D('2029-02-28'), m14=D('2029-03-14'), m17=D('2029-03-17'), a27=D('2029-04-27'), a28=a27+1;
+    fresh(f26,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(f26,20.5,21.25);
+    check('13. 2-7a 2/26 21:00「每週三晚上，研究室。」「你寫你的，我寫我的。」＋好／有時候會沒辦法', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:每週三晚上，研究室。','heroine_05:你寫你的，我寫我的。'])&&JSON.stringify(askOpts('r3_sis_desk'))===JSON.stringify(['好。','有時候會沒辦法。']));
+    ans('r3_sis_desk',0); check('13. 「好。」→「九點。我先到。」', txt('p:heroine_05').slice(-1)[0]==='heroine_05:九點。我先到。');
+    run(f28,12,12.25); { const q=OUT.get(G,'r3_desk_2029-02-28'); check('13. 每週三 21:00 研究室（行事曆上的固定格，出遊）', !!q&&q.day===f28&&q.h===21&&q.ev==='ev_sis_y4_desks'); }
+    G.flags.SIS_DATING_D=D('2028-10-08'); G.hour=21; let W1=await play('ev_sis_y4_desks',['熱水']);
+    check('13. W1 第一次：「（晚上十一點半。……「第四章　第二節」。）」「上學期都是視訊。……這樣比較好。」；三選一；熱水＝「……謝謝。」；SIS_DESK_NIGHTS 1', has('（晚上十一點半。她還在打字，螢幕上是「第四章　第二節」。）')&&has('上學期都是視訊。……這樣比較好。')&&JSON.stringify(opts[0])===JSON.stringify(['「十一點半了。」','（把一杯熱水放到她手邊）','（繼續寫自己的）'])&&has('……謝謝。')&&G.flags.SIS_DESK_NIGHTS===1&&Math.abs(G.hour-23.5)<0.02, JSON.stringify(W1));
+    G.day=f28+7; G.hour=21; W1=await play('ev_sis_y4_desks'); check('13. 第二次以後：旁白一句（三句輪流）、快轉到 23:30', W1.length===1&&W1[0]==='（十一點。她的螢幕上還是第四章。你的筆記寫到第三頁。）'&&Math.abs(G.hour-23.5)<0.02&&G.flags.SIS_DESK_NIGHTS===2, JSON.stringify(W1));
+    G.day=f28+21; G.hour=21; W1=await play('ev_sis_y4_desks'); check('13. 第三次：「（她起來倒水，……）」', W1[0]==='（她起來倒水，順便把你的杯子也加滿，沒說話。）');
+    fresh(f28,21,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); G.flags.SIS_DATING_D=D('2028-10-08'); W1=await play('ev_sis_y4_desks',['十一點半']);
+    check('13. 美國路線（上學期一起在美國）：沒有「上學期都是視訊」；「十一點半了。」→「我知道。再一段。」…「……好。今天到這裡。」', !has('上學期都是視訊。……這樣比較好。')&&has('我知道。再一段。')&&has('（五分鐘後她自己關掉螢幕。）')&&has('……好。今天到這裡。'));
+    fresh(f26,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(f26,20.5,21.25); run(f28,12,12.25); G.hour=21.9; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(f28,22,23.25);
+    check('13. 第一次沒去的那一週：23:10「📷（同一張桌子，對面的位子空著）」「你今天沒來。我寫到十一點。」', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:📷（同一張桌子，對面的位子空著）','heroine_05:你今天沒來。我寫到十一點。'])&&Math.abs(at('p:heroine_05','你今天沒來。我寫到十一點。')-(f28*24+23+10/60))<0.26);
+    run(f28+7,12,12.25); G.hour=21.9; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(f28+7,22,23.5); check('13. 第二次沒去：沒有照片', TH('p:heroine_05').filter(m=>/對面的位子空著/.test(m.text)).length===1);
+    fresh(m14,21,'dorm'); date('heroine_05'); C('heroine_05'); G.flags.SIS_DESK_NIGHTS=2; W1=await play('ev_sis_y4_desks',['好']);
+    check('13. W2 3/14 人在研究室：21:10 她當面說「我爸週六會過來，他要請吃飯。」「……你要不要來。六點半，公館。」；「好。」→「好。不用穿太正式。」', has('我爸週六會過來，他要請吃飯。')&&has('……你要不要來。六點半，公館。')&&has('好。不用穿太正式。')&&G.flags.SIS_FATHER_GO===true&&G.flags.SIS_FATHER_ASKED==='face'&&!PHONE.sent(G,'r3_sis_father'), JSON.stringify(W1));
+    run(m14,23.5,24); check('13. 當面說過：手機不再傳；3/17 18:30 出遊', !PHONE.sent(G,'r3_sis_father')&&OUT.get(G,'r3_sis_father').day===m17&&OUT.get(G,'r3_sis_father').h===18.5);
+    fresh(m14,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(m14,20.5,21.25);
+    check('13. 3/14 不在研究室：21:00 私訊兩則＋好／那天不行', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:我爸週六會過來，他要請吃飯。','heroine_05:……你要不要來。六點半，公館。'])&&JSON.stringify(askOpts('r3_sis_father'))===JSON.stringify(['好。','那天不行。']));
+    ans('r3_sis_father',0); G.day=m17; G.hour=18.5; G.weekday=wdOf(m17); run(m17,17,17.25); W1=await play('ev_sis_y4_father',['有用的事']);
+    check('13. W3 3/17「你念法律，以後要做什麼？」；照實說（bar＝「我在準備國考。」）；「我想做對別人有用的事。」→「……妳以前也這樣說過。……」「嗯。」；「他很少請人吃飯。」；MET_SIS_FATHER', W1[0]==='她爸爸：你念法律，以後要做什麼？'&&JSON.stringify(opts[0])===JSON.stringify(['「我在準備國考。」','「我還在想。」','「我想做對別人有用的事。」'])&&has('（她爸爸看了她一眼。）')&&has('……妳以前也這樣說過。現在還這樣想嗎？')&&has('嗯。')&&has('下次再來。')&&has('他很少請人吃飯。')&&G.flags.MET_SIS_FATHER===true&&SOCIAL.has('heroine_05','MET_SIS_FATHER'), JSON.stringify(W1));
+    fresh(m17,18.5,'dorm',{Y4_PATH:'undecided'}); date('heroine_05'); await play('ev_sis_y4_father',['還在想']); check('13. 兩次都「還沒決定」：沒有照實說的那個選項；「我還在想。」→「爸，他還在想。……先吃飯。」', opts[0].length===2&&has('爸，他還在想。……先吃飯。'));
+    fresh(m17,18.5,'dorm',{Y4_PATH:'grad',EXCHANGE_ROUTE:'JP'}); date('heroine_05'); await play('ev_sis_y4_father',[0]); check('13. 交換延畢、考研究所：「我明年考研究所。」→「……想清楚了就好。」', opts[0][0]==='「我明年考研究所。」'&&has('……想清楚了就好。'));
+    fresh(m14,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(m14,20.5,21.25); ans('r3_sis_father',0); run(m17,18,18.25); run(m17,18.5,18.75);
+    check('13. 答應了、18:45 還沒到：「我爸先點菜了。……你在路上嗎？」＋快到了／今天去不了', txt('p:heroine_05').slice(-1)[0]==='heroine_05:我爸先點菜了。……你在路上嗎？'&&JSON.stringify(askOpts('r3_sis_father_late'))===JSON.stringify(['快到了。','今天去不了。']));
+    G.hour=19.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(m17,19.6,19.75);
+    check('13. 19:30 還沒到：「我們吃完了。我爸說下次。」；不記 MET_SIS_FATHER', txt('p:heroine_05').slice(-1)[0]==='heroine_05:我們吃完了。我爸說下次。'&&!G.flags.MET_SIS_FATHER);
+    fresh(m14,20.5,'dorm',{Y4_PATH:'bar'}); date('heroine_05'); C('heroine_05'); run(m14,20.5,21.25); ans('r3_sis_father',0); run(m17,18,18.25); run(m17,18.5,18.75); ans('r3_sis_father_late',1); run(m17,18.8,20);
+    check('13. 「今天去不了。」→「好。」；不再問出發、沒有 19:30 那一則', txt('p:heroine_05').slice(-1)[0]==='heroine_05:好。'&&OUT.get(G,'r3_sis_father').state==='missed'&&!PHONE.sent(G,'r3_sis_father_miss'));
+    fresh(m14,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(m14,20.5,21.25); ans('r3_sis_father',1); run(m17,20.5,21.25);
+    check('13. 婉拒：「好。我跟他說。」；3/17 21:00「我爸說下次。他記住你的名字了。」', txt('p:heroine_05').includes('heroine_05:好。我跟他說。')&&txt('p:heroine_05').slice(-1)[0]==='heroine_05:我爸說下次。他記住你的名字了。'&&!OUT.get(G,'r3_sis_father'));
+    fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25);
+    check('13. 2-7c 4/27 21:00「明天我不寫論文。」「……你排。去哪裡都可以。」＋三選一', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:明天我不寫論文。','heroine_05:……你排。去哪裡都可以。'])&&JSON.stringify(askOpts('r3_sis_dayoff'))===JSON.stringify(['河堤，騎腳踏車。','貓空，喝茶。','哪裡都不去。妳睡到中午。']));
+    ans('r3_sis_dayoff',0); run(a27,21.25,21.5);
+    check('13. 河堤：「好。……我騎很慢。不要等我。」、祐廷「要等。」；4/28 10:00 河濱（出遊）', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:好。……我騎很慢。不要等我。','player:要等。'])&&OUT.get(G,'r3_sis_dayoff').day===a28&&OUT.get(G,'r3_sis_dayoff').h===10&&OUT.get(G,'r3_sis_dayoff').ev==='ev_sis_y4_dayoff_river');
+    G.day=a28; G.hour=10; W1=await play('ev_sis_y4_dayoff_river');
+    check('13. 4/28 河堤「（四月的河堤，風很大。……）」「……你真的在等。」；最後「（回去的路上，……）」「今天就這樣。」；SIS_DAY_OFF', has('（四月的河堤，風很大。她真的騎很慢。你騎到前面，停下來等。）')&&has('……你真的在等。')&&has('（回去的路上，她在計畫本 4/28 那一格畫了一條線，什麼都沒寫。）')&&said[said.length-1].t==='今天就這樣。'&&G.flags.SIS_DAY_OFF===true&&SOCIAL.has('heroine_05','SIS_DAY_OFF'), JSON.stringify(W1));
+    { const ln=PG.epiLine(G,'heroine_05'); check('13. 尾聲「戀人」那一句換 SIS_DAY_OFF 的版本', JSON.stringify(ln).includes('口試前放假的那一天以後，我每年都留一天。'), JSON.stringify(ln)); }
+    fresh(a28,13,'dorm'); date('heroine_05'); await play('ev_sis_y4_dayoff_tea',['纜車上']); check('13. 貓空「（到了山上，她第一個先說了論文。）」；「纜車上不談論文。」→「……我們已經下纜車了。」', has('（到了山上，她第一個先說了論文。）')&&has('……我們已經下纜車了。')&&scenes.some(b=>b&&b.image==='assets/bg/trip_mountain.webp'));
+    fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25); ans('r3_sis_dayoff',2); run(a27,21.25,21.5); run(a28,11.5,12.25);
+    check('13. W4「哪裡都不去」：「……這是最難的選項。」；隔天 12:00「我睡到十一點五十。差一點。」', txt('p:heroine_05').includes('heroine_05:……這是最難的選項。')&&txt('p:heroine_05').slice(-1)[0]==='heroine_05:我睡到十一點五十。差一點。'&&Math.abs(at('p:heroine_05','我睡到十一點五十。差一點。')-(a28*24+12))<0.05);
+    run(a28,20.75,21.25); check('13. W4 21:00 計畫本那一格的照片＋「今天就這樣。」；SIS_DAY_OFF', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:📷（計畫本，4/28 那一格畫了一條線，什麼都沒寫）','heroine_05:今天就這樣。'])&&G.flags.SIS_DAY_OFF===true&&G.flags.SIS_DAY_OFF_PLAN==='sleep');
+    fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25); run(a28,8.5,16.25);
+    check('13. W5 沒回：4/28 16:00「📷（河邊）」「今天沒寫。」；SIS_DAY_OFF none', JSON.stringify(txt('p:heroine_05').slice(-2))===JSON.stringify(['heroine_05:📷（河邊）','heroine_05:今天沒寫。'])&&G.flags.SIS_DAY_OFF_PLAN==='none'&&G.flags.SIS_DAY_OFF===true);
+    fresh(a27,20.5,'dorm'); date('heroine_05'); C('heroine_05'); run(a27,20.5,21.25); ans('r3_sis_dayoff',1); run(a27,21.25,21.5); G.day=a28; G.hour=13.6; for(const q of OUT.expire(G)) OUT.onMissed(GM,q); run(a28,13.6,16.25);
+    check('13. 貓空答應了、30 分鐘沒到：「我先上去了。纜車上不談論文。……我一個人也不談。」，之後照沒回那一版', txt('p:heroine_05').includes('heroine_05:我先上去了。纜車上不談論文。……我一個人也不談。')&&txt('p:heroine_05').slice(-1)[0]==='heroine_05:今天沒寫。'&&G.flags.SIS_DAY_OFF===true);
+    fresh(a27,20.5,'dorm'); R('heroine_05','FRI'); C('heroine_05'); run(a27,20.5,22); fresh(f26,20.5,'dorm'); R('heroine_05','FRI'); C('heroine_05'); run(f26,20.5,22);
+    check('13. 不是交往中：都沒有', !PHONE.sent(G,'r3_sis_desk')&&!TH('p:heroine_05').length); }
+
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

@@ -3,6 +3,8 @@
    3-02 ev_kai_sunday_supper（events.js）裡 12/6 那一晚換成 F2：本檔最下面把 F2 那一段接進去（不改 events.js 那一行；對不到就不接，tests/r3_events_unit.js 會失敗）
    3-04 ev_fangyt_6am（3/13 06:00 椰林大道，方奕廷站著、阿凱坐在長椅上）　3-05 ev_zhiruo_latte_contest（5/7 Café 拉花比賽）＋ev_cafe_barista_zhiruo 投她的兩週內「這次有脖子了」
    3-08 ev_sk12_soclib_table（12/20～12/23 社科圖）、ev_sk12_lawlib_hint（同一週晚上先進法圖的旁白）　3-15 ev_ziqing_3am_call（選了直接打電話）
+   3-11 ev_sis_plan_us（美國路線 10/18 會所）、ev_sis_plan_lab（研究室）、ev_sis_exam_note（2/3 考場門口）　3-13 ev_fangyt_chiayi（1/27 嘉義）
+   3-14 ev_sis_y4_desks（每週三研究室）、ev_sis_y4_father（3/17 公館）、ev_sis_y4_dayoff_river／_tea（4/28）
    測試：node tests/r3_events_unit.js */
 'use strict';
 const R3_EVENTS=(function(){
@@ -163,7 +165,8 @@ const R3_EVENTS=(function(){
       {if:{custom:G=>deskN(G)%3===2},speaker:null,text:'（她起來倒水，順便把你的杯子也加滿，沒說話。）'},
       {if:{custom:G=>deskN(G)%3===0},speaker:null,text:'（十一點半，她伸了一個懶腰。「今天到這裡。」）'},
       {advance:toH(23.5)},
-      {label:'end'},{inc:{SIS_DESK_NIGHTS:1}} ] };
+      {label:'end'},{inc:{SIS_DESK_NIGHTS:1}} ],
+    outingMissed:(G,GM,q)=>{ if(typeof R3!=='undefined') R3.deskMissed(G,q); } };   /* 第一次沒去的那一週：23:10 照片 */
   /* 2-7b 她爸爸的晚餐：3/17（六）18:30 公館的餐廳（出遊）。照實說大四選擇（Y4_PATH；兩次都「還沒決定」的沒有這個選項）*/
   const pathKey=G=>{ const F=G.flags||{}, p=F.Y4_PATH, ab=abroadRoute(G); if(p==='bar') return ab?'bar_next':'bar'; if(p==='grad'){ if(ab) return 'grad_next'; return (F.Y4_PUSH==='pass'||F.GRAD_ADMIT==='push')?'grad_push':'grad_exam'; } if(p==='other') return 'other'; return null; };
   const PK=k=>({custom:G=>pathKey(G)===k});
@@ -178,7 +181,8 @@ const R3_EVENTS=(function(){
       {label:'out'},{speaker:'她爸爸',text:'下次再來。'},
       {speaker:null,text:'（她送爸爸上計程車。回來的路上她沒有說話，過了一個路口才說：）'},
       SIS('他很少請人吃飯。'),
-      {set:{MET_SIS_FATHER:true},mem:[{npc:'heroine_05',tag:'MET_SIS_FATHER',note:''}]} ] };   /* 旗標 MET_SIS_FATHER：postgrad3d.js 畢業典禮那天她轉交「恭喜。」*/
+      {set:{MET_SIS_FATHER:true},mem:[{npc:'heroine_05',tag:'MET_SIS_FATHER',note:''}]} ],
+    outingMissed:(G,GM,q)=>{ if(typeof R3!=='undefined') R3.fatherMissed(G,q); } };   /* 19:30 還沒到：「我們吃完了。我爸說下次。」*/   /* 旗標 MET_SIS_FATHER：postgrad3d.js 畢業典禮那天她轉交「恭喜。」*/
   /* 2-7c 她自己放的一天假：4/28（六）河堤 10:00／貓空 13:00（出遊）；「哪裡都不去」只有訊息 */
   const DAYOFF_END=[ {speaker:null,text:'（回去的路上，她在計畫本 4/28 那一格畫了一條線，什麼都沒寫。）'}, SIS('今天就這樣。'),
     {set:{SIS_DAY_OFF:true},mem:[{npc:'heroine_05',tag:'SIS_DAY_OFF',note:''}]} ];
