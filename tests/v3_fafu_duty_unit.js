@@ -37,7 +37,7 @@ GM.money=function(n){ G.money+=n; };
   const mem=(day,h,extra)=>{ fresh(day,h,'wancai',Object.assign({},MEM,extra||{})); G.stage='law'; meet('heroine_03'); meet('classmate_bohan'); meet('heroine_05'); G.flags.YT_LEGALAID_Y2=true; return G; };
   // 1. 誰、哪幾天
   mem(sat('Y2S1',7),10); check('1. 大二上 10/24（第 7 週六）：社員可以做紀錄、不旁觀',STORY.fafuShiftable(G)&&!STORY.fafuWatchable(G)&&CALENDAR.dateOf(G.day).key==='2026-10-24');
-  mem(sat('Y2S1',3),10); check('1. 9/26 語彤事件 7 那天：不抽池（演事件）',!STORY.fafuShiftable(G));
+  mem(sat('Y2S1',3),10); check('1. 9/26：舊的語彤事件 7 退休（AA_325 2-Y2-01），語彤不在法服＝照常值班（大二最早的一次）',STORY.fafuShiftable(G));
   mem(sat('Y2S1',5),10); check('1. 10/10 國慶日：不值班',!STORY.fafuDuty(G));
   mem(sat('Y2S1',9),10); check('1. 期中考週：不開',!STORY.fafuDuty(G));
   fresh(sat('Y2S1',7),10,'wancai',{}); G.stage='law'; check('1. 沒加入法服＝照舊在旁邊看，不能做紀錄',STORY.fafuWatchable(G)&&!STORY.fafuShiftable(G));

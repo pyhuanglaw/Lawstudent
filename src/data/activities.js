@@ -58,6 +58,8 @@ const ACTIVITIES={
     /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
     {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',
       desc:'吉他社的期末成發。',story:true},
+    {id:'guitar_show_y2s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y2S2'],weeks:[14],weekday:5,t0:19,t1:21,once:true,event:'ev_ziqing_show2',   /* 子晴 Q9 第二次成發（AA_325 2-Y2-19：5/28 週五）*/
+      desc:'吉他社的期末成發。',story:true},
     /* 博雅午後講座第 1 場（BB_105 4-1b、4-5；AA_115 可玩切片；交接包 v2 C13）：法律系大一下第 11 週週四 19:00～20:30，博雅 101。講者虛構；只講方向（比例原則），不給法律結論。
        id 用 'B4'：AA_115 的 attended:B4／missed:B4、BB 課表的回想（syllabus recall activity:'B4'）都用這個名字。選「聽演講」＝ev_b4_lecture；散場＝ev_b4_after；小桌子＝ev_b5_table（src/data/events.js）*/
     {id:'B4',title:'政府可以為了大家，限制一個人嗎？',kind:'lecture',zone:'boya',room:'101',roomName:'博雅 101',term:['Y1S2'],weeks:[11],weekday:4,t0:19,t1:20.5,once:true,crowd:{n:30},poster:{daysBefore:7},event:'ev_b4_lecture',
