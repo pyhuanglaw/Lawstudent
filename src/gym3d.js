@@ -135,7 +135,7 @@ const GY3=(function(){
       for(const [x,zz] of eq.at){ blk(x-w/2,x+w/2,zz-d/2,zz+d/2); const m=new THREE.Mesh(new THREE.BoxGeometry(w,0.9,d),wallM); m.position.set(x,0.45,zz-cz); fb.add(m); } }
     for(const [x,zz] of B.poolBenches) blk(x-1.0,x+1.0,zz-0.2,zz+0.2);
     const IT=E.interactables; z.seats=[]; for(const [x,zz] of B.poolBenches){ const seat={x,z:zz-0.1,yaw:Math.PI}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x,z:zz-0.1,radius:0.8,lv:0,label:'坐在池邊的長椅',seat}); }   /* 面向北邊的泳池 */
-    IT.push({x:B.exit.at.x,z:B.exit.at.z,radius:0.6,lv:0,label:B.exit.label,exit:{to:'gym',spawn:{x:16.8,z:18.4,yaw:Math.PI}}});   /* 回 1F：落點在「下樓到 B1」範圍外 */
+    IT.push({x:B.exit.at.x,z:B.exit.at.z,radius:0.6,lv:0,label:B.exit.label,exit:{to:'gym',spawn:{x:16.8,z:18.4,yaw:0}}});   /* 回 1F：落點在「下樓到 B1」範圍外；面向大廳（原本 π 面向剛上來的樓梯井，BB-C X64）*/
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };

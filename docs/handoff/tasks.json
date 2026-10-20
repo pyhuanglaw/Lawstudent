@@ -20615,7 +20615,7 @@
    "title": "體育館樓梯的方向反了",
    "area": "V1",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20629,13 +20629,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「體育館樓梯的方向反了吧」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【14:1x 轉 LAWWW2-C，排在 BUG-WZFLICKER-2 前面】BB-C 重現（x64_B1stairs_zoom.webp）：台階畫反、從入口看是掉下去的洞；B1 上來朝向 π（gym3d.js 回 1F 的 spawn）LAWWW 改 ｜ 查 gym／gym_b1 樓梯：模型和導航的上下方向",
+   "next": "【10-20 16:0x 開發分支】LAWWW2-C 9eba1567：gym_interior.py stairs_down 改 zz=z1-(j+1)*run、重匯 gym_interior.glb（物件、三角形、材質不變；Blender 前後算圖）；B1 回 1F 的出生點朝向改 0（面向大廳，原本面向樓梯井）。等 BB 走一次 1F→B1→1F ｜ 【14:1x 轉 LAWWW2-C，排在 BUG-WZFLICKER-2 前面】BB-C 重現（x64_B1stairs_zoom.webp）：台階畫反、從入口看是掉下去的洞；B1 上來朝向 π（gym3d.js 回 1F 的 spawn）LAWWW 改 ｜ 查 gym／gym_b1 樓梯：模型和導航的上下方向",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "BB-C 52acaadc：tools/blender/env_second/gym_interior.py 約 241 行 zz=z0+j*run 改 zz=z1-(j+1)*run，重匯 gym_interior.glb",
     "acceptance": "1F 往 B1 的樓梯井從欄杆開口（z1）往 −z 下去；導航、互動點不動",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    }
   },
   {
