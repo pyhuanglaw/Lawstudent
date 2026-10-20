@@ -211,7 +211,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), c=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8');
-    check('接線：index.html 載入 y2b_events.js、y2b3d.js（在 GAME.boot 之前）', /src\/data\/y2b_events\.js[^\n]*\n<script src="src\/y2b3d\.js[^\n]*\n<script>GAME\.boot\(\);/.test(h));
+    check('接線：index.html 載入 y2b_events.js、y2b3d.js（在 GAME.boot 之前）', (()=>{ const a=h.indexOf('src/data/y2b_events.js'), b=h.indexOf('src/y2b3d.js'), z=h.indexOf('GAME.boot()'); return a>0&&b>a&&z>b&&/src\/data\/y2b_events\.js[^\n]*\n<script src="src\/y2b3d\.js/.test(h); })());   /* 後面還可以接別的事件包（1C group3d.js…），只要在 GAME.boot 之前 */
     check('接線：classes3d.js 課堂那一句之後問 IN_CLASS、社課先問 clubEvent', /for\(const f of S\.IN_CLASS\)\{ try\{ await f\(GM,it,prof,ct\);/.test(c)&&/e\.clubEvent===a\.id&&EVENTS\.check\(e,\{chain:true\}\)/.test(c)); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

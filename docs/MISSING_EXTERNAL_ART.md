@@ -90,9 +90,9 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 沒有圖的照下面的退路，不擋遊玩。三張 CG 的圖**已經有**（使用者生成、BB 檢查過），在企劃分支 `docs/story_planning/cg_approved/`，開發分支還沒登錄（`CG_REGISTRY` 沒有＝不放，照原背景演；登錄以後自動出現）。
 | 用在哪 | 缺的 | 現在的退路 |
 |---|---|---|
-| 1B-05 子晴 Q8 河堤 | CG BCG-02 `cg_riverbank_heroine04`（cg_approved/ 有）→ `assets/cg/heroine_04/` | 2D `riverside` |
-| 1B-06 芷若 Z9 最後一個班 | CG BCG-15 `cg_last_shift_heroine02`（cg_approved/ 有）→ `assets/cg/heroine_02/` | 3D Café＋立繪 |
-| 1B-08 語彤事件 12 那把傘 | CG CG-6 `cg_umbrella_heroine03`（cg_approved/ 有）→ `assets/cg/heroine_03/` | 3D 總圖門口（雨）＋立繪 |
+| 1B-05 子晴 Q8 河堤（**2026-10-20 已登錄 CG_REGISTRY**，1e257b9d） | CG BCG-02 `cg_riverbank_heroine04`（cg_approved/ 有）→ `assets/cg/heroine_04/` | 2D `riverside` |
+| 1B-06 芷若 Z9 最後一個班（**2026-10-20 已登錄 CG_REGISTRY**，1e257b9d） | CG BCG-15 `cg_last_shift_heroine02`（cg_approved/ 有）→ `assets/cg/heroine_02/` | 3D Café＋立繪 |
+| 1B-08 語彤事件 12 那把傘（**2026-10-20 已登錄 CG_REGISTRY**，1e257b9d） | CG CG-6 `cg_umbrella_heroine03`（cg_approved/ 有）→ `assets/cg/heroine_03/` | 3D 總圖門口（雨）＋立繪 |
 | 1B-03 語彤事件 9 | 阿姨（阿鳳）立繪 | compact（說話人「阿姨」） |
 | 1B-05 | 子晴的爸爸（西裝的中年男人） | 只有旁白 |
 | 1B-06 | 新店員 | 只有台詞裡提到 |
@@ -109,7 +109,7 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | 1C-04 哲 4 | 宿舍樓下的便利商店外（夜）2D 背景（AA_40 寫「現有」，`OUT.BG` 裡沒有）；鋁箔包紅茶 2D 圖示 | 深色底＋字幕 |
 | 1C-04 冠軍賽 | 新體育館一樓球場的 2D 背景（頒獎 compact 群像）；3D 新體育館（`gym3d.js`）這一場沒有用 | 深色底＋字幕「新體育館・球場」 |
 | 1C-04 阿哲的爸爸 | 立繪（Tier 1：不笑、拿著相機） | compact（說話人「阿哲爸爸」） |
-| 1C-05 子晴交往中的自拍 | **BCG-26**（企劃分支 `cg_approved/cg_crooked_cap_heroine04.webp`，要放進 `assets/cg/heroine_04/`、登錄 `CG_REGISTRY`） | 沒有 CG，照 `graduation_avenue` 演 |
+| 1C-05 子晴交往中的自拍（**2026-10-20 已登錄**，`assets/cg/heroine_04/cg_crooked_cap.webp`） | **BCG-26**（企劃分支 `cg_approved/cg_crooked_cap_heroine04.webp`，要放進 `assets/cg/heroine_04/`、登錄 `CG_REGISTRY`） | 沒有 CG，照 `graduation_avenue` 演 |
 | 1C-05 子晴、芷若 | 學士服立繪 | 一般立繪 |
 
 ### 3D

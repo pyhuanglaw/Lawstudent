@@ -161,7 +161,8 @@ const GROUP_EVENTS=(function(){
   { id:'ev_zq_zr_graduation', title:'子晴、芷若的畢業典禮', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'畢業典禮的椰林大道',bg:'graduation_avenue'},
       {if:{custom:dating('heroine_04')},speaker:'heroine_04',text:'欸不是，你站過來一點。'},
-      {if:{custom:dating('heroine_04')},speaker:'heroine_04',text:'我們兩個。'},   /* BB_119 1c-2：CG 就是那張自拍（BCG-26，還沒登錄 CG_REGISTRY，MISSING_EXTERNAL_ART）*/
+      {if:{custom:G=>dating('heroine_04')(G)&&typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY.cg_crooked_cap_heroine04},cg:'cg_crooked_cap_heroine04'},   /* BCG-26（cg_approved/ README：放在「我們兩個。」，CG 就是那張自拍）*/
+      {if:{custom:dating('heroine_04')},speaker:'heroine_04',text:'我們兩個。'},   /* BB_119 1c-2 */
       {speaker:null,text:'（子晴穿著學士服，學士帽歪的，吉他袋還是背著。她在幫芷若拍照，拍了二十張。）'},
       {speaker:'heroine_04',text:'妳閉眼了啦。再一張。'},
       {if:kn('heroine_02'),speaker:'heroine_02',text:'妳拍歪了。'},
