@@ -20379,7 +20379,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「幫語昕搬進宿舍的功能也沒有」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW-C 2026-10-20 18:1x UTC】查清楚兩件事：①卡住＝使用者 v9.10.2 的 _stuck（8/30 18:01 宿舍、劇情鎖 1 層、bedScene 開的、畫面上沒有選單）：只有 choose() 選完會收起選單——床邊選單還在等的時候被另一段的選單蓋掉、選完收起來，床邊那一段永遠等不到。修法（game3d.js）：被蓋掉的選單先收起來，蓋上去的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho、卡住紀錄多一欄 cover；讀檔、新遊戲清掉。tests/choose_cover_unit.js（v9.10.2 的 choose 第 1b、3a 項 FAIL＝床邊那一段等不到，修改後 ALL PASS）。是誰蓋的還沒找到（靜態查過：所有 tick 都有劇情鎖保護、手機的按鈕都檢查 busy），之後有 cover 欄就看得到。②沒有 8/30 載可昕：使用者那一局是「從法律系開始」（存檔 PLAYED_Y0 沒有、dating_kexin true），E37 只排經濟系路線（S.isEcon||PLAYED_Y0）；經濟系路線有演（BB 驗過）。法律系開局要不要有 8/30、邀約時間地點台詞＝新內容，已問 AA-C（18:1x send_message）。｜BB 驗：8/30 宿舍按床的選單＋同時跳出的另一段（例：手機、出發選單）選完床邊選單會回來，不卡"
+   "next": "【LAWWW-C 18:2x】②法律系開局的 8/30 做好（AA-C bcb678e0）：8/29 21:30 可昕兩則（回覆「好。兩點。」）、8/30「臺北的家（載可昕上山）14:00」從宿舍出發（捷運約 30 分鐘）、14:15 電話、ev_y0_e37 一字不改＋最後「（你把車開回家，再搭捷運回宿舍。）」、19:00 回宿舍（E37_LAW）；出遊加鬧鐘（alarm：8/29 晚上睡到明天下午、晚上會在 13:00 叫醒；8/30 小睡、跳過時間 13:20 停；經濟系那一版也加）。tests/x81_law_e37_unit.js（修改前 7 項 FAIL，修改後 ALL PASS）、v0_e37_unit 照舊 ALL PASS。待 AA：法律系開局 8/30 早上的 kexinFirstMsg（「去上課吧」）要不要拿掉或移到 9/1。｜BB 驗：從法律系開局新遊戲 → 8/29 晚上收到可昕兩則 → 8/30 13:20 前後出發 → 演完 19:00 在宿舍；另一局 8/29 晚上選睡到明天晚上，13:00 被叫醒 ｜ 【LAWWW-C 2026-10-20 18:1x UTC】查清楚兩件事：①卡住＝使用者 v9.10.2 的 _stuck（8/30 18:01 宿舍、劇情鎖 1 層、bedScene 開的、畫面上沒有選單）：只有 choose() 選完會收起選單——床邊選單還在等的時候被另一段的選單蓋掉、選完收起來，床邊那一段永遠等不到。修法（game3d.js）：被蓋掉的選單先收起來，蓋上去的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho、卡住紀錄多一欄 cover；讀檔、新遊戲清掉。tests/choose_cover_unit.js（v9.10.2 的 choose 第 1b、3a 項 FAIL＝床邊那一段等不到，修改後 ALL PASS）。是誰蓋的還沒找到（靜態查過：所有 tick 都有劇情鎖保護、手機的按鈕都檢查 busy），之後有 cover 欄就看得到。②沒有 8/30 載可昕：使用者那一局是「從法律系開始」（存檔 PLAYED_Y0 沒有、dating_kexin true），E37 只排經濟系路線（S.isEcon||PLAYED_Y0）；經濟系路線有演（BB 驗過）。法律系開局要不要有 8/30、邀約時間地點台詞＝新內容，已問 AA-C（18:1x send_message）。｜BB 驗：8/30 宿舍按床的選單＋同時跳出的另一段（例：手機、出發選單）選完床邊選單會回來，不卡"
   },
   {
    "id": "WELCOME-DATE-1020",
@@ -21386,6 +21386,62 @@
     "prereq": true,
     "parallel": true,
     "confirmed": true
+   }
+  },
+  {
+   "id": "SKYBRIDGE-DOOR-1020",
+   "title": "博雅→普通的空橋：通道上還有一扇很醜的門（跟現實不符）；走到普通後被擋住、到不了一樓或二樓其他地方",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "博雅、普通教學館（大一上通識）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 直接對 LAWWW2-C：「博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方」「連通道可以走 只是要經過一個門 跟現實不符」（LAWWW2-C 17:38 轉 LAWWW-C）",
+   "authorized": "使用者直接指示（10-20）",
+   "next": "【LAWWW2-C 17:38】原因：boya_interior.glb、putong_interior.glb 是 10-18 用舊配置建的（往空橋那一間 closed＝木門板、博雅南牆沒開口）；換到普通時鏡頭在空橋天花板上面（skybridge.glb 雙面材質＋teach3d.js 門廳天花板方盒＝一片灰）。LAWWW2 重建兩個室內 GLB（passage＋linkDoor）、skybridge 天花板屋頂改單面；teach3d.js 的天花板改朝下 plane、buildLinkView（博雅二樓開口外面看得到整條空橋）＝patch 給 LAWWW 接；tests/flow_skybridge.py 加 C0、C2、D1、D2。交付後 LAWWW 接、BB 實玩",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話（經 LAWWW2-C）",
+    "acceptance": "博雅、普通室內 GLB（通道沒有門板）＋skybridge.glb 單面天花板＋teach3d.js patch；flow_skybridge.py 在修改前 FAIL、修改後 PASS",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "GG-STREETVIEW-1020",
+   "title": "從學校看出去的公館、校外建築很醜，沒有 3D 遊戲的感覺；公館的店面（照片：羅斯福路直立招牌、捷運出口、水源市場藍色大樓、天橋）",
+   "area": "V1",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "校園西側（看得到羅斯福路、公館）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-20 直接對 LAWWW2-C：「從學校去看公館或者外面的建筑都超級丑的完全沒有那種三d游戲的感覺公館的店面」＋4 張照片（LAWWW2-C 17:38 轉 LAWWW-C）；和 X16（10-18 公館店面從外面看都很醜）同一件事的延伸",
+   "authorized": "使用者直接指示（10-20）",
+   "next": "【LAWWW2-C 17:38】B10 店面翻修原本暫停，使用者直接點名公館＝開工（溫州街不動；店名 D77 諧音，照片不進 repo）；做「羅斯福路街廓」GLB（校園背景用、走不到）換掉 zones3d.js campusBackdrop 的 TK.bgCity 公館那一段（x=-189 第一排 z -88～152、轉角；公館 (gx,gz)→校園 (x=-170-gz, z=gx)）。LAWWW 接：放進 campusBackdrop、拿掉那幾筆 city；不投影、合併材質（X79 校園 draw call）",
+   "xai": {
+    "receiver": "LAWWW",
+    "branch": "claude/focused-cray-c9uwvw",
+    "spec": "使用者 10-20 原話＋照片（經 LAWWW2-C）",
+    "acceptance": "羅斯福路街廓 GLB（校園座標或附換算）、draw call、三角形數、不投影；校園西側同角度修改前後截圖",
+    "ack": "ACK"
    }
   }
  ]

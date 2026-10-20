@@ -9122,6 +9122,19 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 17:3x UTC：story_import_allow.json 14 檔改 49ed7e6a（舊 SHA 進 history）、labelsRef 前面加 49ed7e6a、import_ladder.py 重匯 src/data/ladder.js；ladder_y1s2_y2s1_unit 第 0、6 項白名單 SHA 斷言照 AA 說的一起改。也涵蓋 AA313-S4-1020 的「以安大四階梯重匯」、AA306-KX-LADDER-1018 的經濟系層。AA 說這則不用回。"
+  },
+  {
+   "id": "DL-AA-bcb678e0",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bcb678e0",
+   "what": "AA_303「法律系開局的 8/30（X81）」：8/29 21:30 可昕兩則＋回覆、8/30 從宿舍出發「臺北的家（載可昕上山）14:00」、現場照 ev_y0_e37、演完一句旁白回宿舍 19:00",
+   "task": "BUG-E37-MOVEIN-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理"
   }
  ],
  "ignored": [

@@ -1444,9 +1444,17 @@ const STORY = (function(){
       if(!OUT.get(G,'y1_camp')) OUT.plan(G,{id:'y1_camp',camp:true,must:true,ev:null,day:d0,h:8.5,late:0.5,place:'校門',title:'校門 08:30：迎新宿營（三天兩夜）',travel:'捷運＋公車 約 30 分鐘',travelH:0.5}); } }
     if((S.isEcon(G)||(G.flags.PLAYED_Y0&&G.day<=S.dayOfKey('2025-08-31')))&&typeof OUT!=='undefined'){ const d37=S.dayOfKey('2025-08-30'), K=t=>({th:'p:kexin',from:'kexin',text:t});   /* 選 1：8/29 就轉進法律系，E37（8/30 政大校門）在法律系階段也照常（AA-B 21:09）*/
       if(d37!=null&&(G.day>d37-2||(G.day===d37-2&&G.hour>=21))&&G.day<=d37&&!PHONE.sent(G,'y0_e37_ask')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)){ PHONE.at(G,d37-2,21,[K('我明天坐高鐵上去。後天你載我搬宿舍。')],'y0_e37_ask');   /* AA_303 第 2 節「法律系 8/30」*/
-        if(!OUT.get(G,'y0_e37')) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3}); }
-      else if(d37!=null&&PHONE.sent(G,'y0_e37_ask')&&G.day<=d37&&!OUT.get(G,'y0_e37')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3});   /* 私訊已經發了、約卻不見了（舊存檔在 8/29 轉法律系時被清掉）：補排 */
-      const q37=OUT.get(G,'y0_e37'), home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
+        if(!OUT.get(G,'y0_e37')) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3,alarm:true}); }
+      else if(d37!=null&&PHONE.sent(G,'y0_e37_ask')&&G.day<=d37&&!OUT.get(G,'y0_e37')&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)) OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d37,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3,alarm:true});   /* 私訊已經發了、約卻不見了（舊存檔在 8/29 轉法律系時被清掉）：補排 */
+    }
+    /* X81（AA_303「法律系開局的 8/30」，AA-C bcb678e0；使用者 10-20「幫可昕搬進宿舍的功能也沒有」＝那一局從法律系開始）：沒有 PLAYED_Y0、和可昕交往——
+       8/29（五）21:30 可昕私訊（她坐高鐵到臺北、住你家一晚；那晚在演別的就演完再傳）；回不回都排 8/30「臺北的家（載可昕上山）14:00」從宿舍出發（捷運約 30 分鐘），到家直接演 ev_y0_e37；
+       14:15 還沒到＝S.E37_CALL；演完旁白「（你把車開回家，再搭捷運回宿舍。）」、回到宿舍 19:00 左右（ev_y0_e37 的 afterOuting）*/
+    if(S.e37LawOn(G)&&typeof OUT!=='undefined'&&typeof PHONE!=='undefined'){ const d29=S.dayOfKey('2025-08-29'), K=t=>({th:'p:kexin',from:'kexin',text:t});
+      if(d29!=null&&(G.day>d29||(G.day===d29&&G.hour>=21.5))&&G.day<=d29+1&&!(G.events&&G.events.done&&G.events.done.ev_y0_e37)){
+        if(!PHONE.sent(G,'y0_e37_law_ask')) PHONE.at(G,d29,21.5,[K('我到你家了。阿姨留我住一晚，還煮了麵。'),Object.assign(K('明天下午兩點，你回家開車，載我上山。行李兩箱。'),{ask:{opts:[{t:'好。兩點。',say:[K('嗯。不要遲到。')]}]}})],'y0_e37_law_ask');
+        if(!OUT.get(G,'y0_e37')){ OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:d29+1,h:14,late:0.25,place:'臺北的家',title:'臺北的家（載可昕上山）14:00',travel:'捷運 約 30 分鐘',travelH:0.5,alarm:true}); F.E37_LAW=true; } } }   /* E37_LAW：演完那一句旁白、多 1 小時（events.js ev_y0_e37）*/
+    if(typeof OUT!=='undefined'&&(S.isEcon(G)||G.flags.PLAYED_Y0||S.e37LawOn(G))&&G.day<=S.dayOfKey('2025-08-31')){ const q37=OUT.get(G,'y0_e37'), home=typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
       if(!home&&S.e37CallDue(G)&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy)&&!y0CallBusy){ y0CallBusy=true;
         (async()=>{ try{ GM.sceneBegin(); try{ await GM.say({name:'可昕（電話）'},S.E37_CALL); } finally { GM.sceneEnd(); } q37.state='planned'; await OUT.go(GM,q37); } catch(e){ console.warn('E37 call',e); } finally { y0CallBusy=false; } })(); } }
     /* R 系列沒遇到的照片、私訊（BB_112 第 4 節「沒去時」；時間 LAWWW 定：當天 21:00）＋R4 可昕在總圖外台階、R7 前一晚的群組（S.kxFreeAt 那一段）*/
@@ -2679,6 +2687,7 @@ const STORY = (function(){
   S.wakeAlarms=function(G,day){ const out=[]; if(typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined') for(const it of CLS.dayItems(G,day)) if(it.exam) out.push({h:it.t0-1,why:it.c.name+'考試'});
     for(const iv of (G.invites||[])) if(iv.day===day&&iv.accepted&&!iv.done&&iv.h!=null) out.push({h:iv.h-0.5,why:'約好的時間'+(iv.label?'：'+iv.label:'')});
     if(typeof DATE!=='undefined'&&DATE.alarmsFor) for(const a of DATE.alarmsFor(G,day)) out.push({h:a.h,why:a.why});   /* 校外約會：出發前 30 分鐘（DATE-S4）*/
+    if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.alarm&&q.state==='planned'&&q.day===day) out.push({h:q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.5,why:'約好的時間：'+q.title});   /* 出遊標 alarm 的（X81：8/30 載可昕上山）：出發前 30 分鐘叫醒 */
     return out.sort((a,b)=>a.h-b.h); };
   S.missText=function(G,day,h0,h1){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return ''; const its=CLS.dayItems(G,day).filter(it=>!it.exam&&!CLS.storyClass(Object.assign({},G,{day}),it)&&it.t0+0.5>h0&&it.t0+0.5<=h1&&!(CLS.rec(G).done[it.key]));
     return its.length?'會錯過：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):''; };
@@ -2713,7 +2722,8 @@ const STORY = (function(){
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
   const CORE_OUT=['y0_e14','y0_e26','y0_e27','y0_e27b','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
   S.E37_CALL='你在哪？行李我都搬到樓下了。';   /* AA_307 第 4 列（8/30 你開車載她搬宿舍）*/   /* AA_206 2-4（M19；和 E26 電話同一個模板）*/
-  S.e37CallDue=function(G){ if(!(S.isEcon(G)||(G.flags&&G.flags.PLAYED_Y0))||typeof OUT==='undefined'||(G.events&&G.events.done&&G.events.done.ev_y0_e37)) return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
+  S.e37LawOn=G=>{ const F=(G&&G.flags)||{}; return !F.PLAYED_Y0&&!!F.dating_kexin&&(G.stage||'law')==='law'&&S.week1Start(G); };   /* X81：從法律系開局、和可昕交往（AA_303「法律系開局的 8/30」）*/
+  S.e37CallDue=function(G){ if(!(S.isEcon(G)||(G.flags&&G.flags.PLAYED_Y0)||S.e37LawOn(G))||typeof OUT==='undefined'||(G.events&&G.events.done&&G.events.done.ev_y0_e37)) return false; const q=OUT.get(G,'y0_e37'), d=S.dayOfKey('2025-08-30'); return !!q&&q.state!=='done'&&d!=null&&(G.day>d||(G.day===d&&G.hour>=14.25))&&G.day<=d+1; };
   /* 在臺北的家（休學後）時的固定核心電話：home3d.js 的選單每一輪先問這裡；有＝電話一句 → 直接進出遊（從家裡出發）*/
   /* 沒出發的保底電話（AA_272 第 6 節，BB_214 第 1、2 點：在家吃晚餐、讀書會錯過 E27、E14）：開始 15 分鐘後還沒出發＝電話兩句 → 直接出遊 */
   S.CORE_CALLS=[{id:'y0_e27b',ev:'ev_y0_e27b',who:'可昕（電話）',lines:['我在補習班樓下了。你呢？']},{id:'y0_e27',ev:'ev_y0_e27',who:'可昕（電話）',lines:['人呢？','我在行政大樓門口了。……你說要陪我的。']},{id:'y0_e14',ev:'ev_y0_e14',who:'韋綸（電話）',lines:['人咧！！保齡球館！！','第一局要開了啦，走啦！']}];
