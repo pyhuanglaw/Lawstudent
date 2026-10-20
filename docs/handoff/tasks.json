@@ -21603,6 +21603,52 @@
    },
    "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
    "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
+  },
+  {
+   "id": "HOL-FF-AA340-1020",
+   "title": "寒暑假快轉（AA_340 第 6 節）：H2 有要回的訊息就停、打開手機（邀約不被跳掉）；H1 大四寒假停點＋事件登記的日子一定停、除夕初一一定停（大三寒暑假的表由 AA_326 第 3 節那個子代理填，主線 9 ev_family_land_y3 1/26）；H3 大二以後朋友回老家、回臺北訊息；6-3 空白週摘要日旁白與群組",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 18,
+    "earliest": "大一寒假（快轉）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工；大三的停點另轉給 R2Y3 後半的子代理",
+   "src": "AA_340 第 6 節（企劃線 171b62fb）；使用者 D99 第二優先"
+  },
+  {
+   "id": "AA-JP-SEM-AA341-1020",
+   "title": "日本路線大三下（3/25～8/5）逐週盤點與補稿（照 AA_340 做法；日本 3D 場景清單給 LAWWW2）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本路線 3/25 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 20:4x】派給 AA-C（AA_341）",
+   "src": "AA-C 20:42 提醒：日本路線開發分支只有手機",
+   "xai": {
+    "spec": "AA_340 的做法",
+    "owner": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA_341 交 LAWWW：逐週表、補稿、系統缺口、場景清單",
+    "receiver": "LAWWW-C",
+    "ack": "SENT"
+   }
   }
  ]
 }
