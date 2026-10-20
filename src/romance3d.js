@@ -94,7 +94,7 @@ const ROM=(function(){
     S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
   /* 修補：歷史不變、裂縫歸零 */
   S.mend=function(G,id){ if(S.CRACK[id]) G.flags[S.CRACK[id]]=0; };
-  S.crack=function(G,id,n){ const k=S.CRACK[id]; if(!k) return 0; G.flags[k]=(+G.flags[k]||0)+(n==null?1:n); return G.flags[k]; };
+  S.crack=function(G,id,n){ const k=S.CRACK[id]; if(!k) return 0; const d=n==null?1:n; G.flags[k]=(+G.flags[k]||0)+d; if(d>0) G.flags[k+'_DAY']=G.day; return G.flags[k]; };   /* <人物>_CRACK_DAY：最近一次裂縫增加的那一天（1A-04 第 4 節第 4 點：最近 14 天內有裂縫的交往對象不問「那一句」，story3d.js S.coldWeekCast）*/
   /* 分開（只有這一段）：dating false、EX true、歷史填上 to 和 how、CLEANUP_DONE false（一週內收拾）；別人知道的 knows 裡這一位自然不再算（knows 只看現在還在交往的人）*/
   S.end=function(G,id,how){ const F=G.flags; if(F['dating_'+id]!==true) return false; F['dating_'+id]=false; F['EX_'+id]=true; const R=S.get(G,id); R.status='ex'; R.history.push({ev:'end',at:S.when(G),day:G.day,how:how||'apart_talk'});   /* day：分手的那一天（以安的戀愛前置要算 28 天，AA_128）；舊紀錄沒有，STORY.breakupDaysAgo 用 at 估 */
     const H=S.rec(G); for(let i=H.length-1;i>=0;i--) if(H[i].id===id&&H[i].to==null){ H[i].to=S.when(G); H[i].how=how||'apart_talk'; break; }
