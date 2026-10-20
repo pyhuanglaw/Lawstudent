@@ -155,25 +155,27 @@ def table_things(c, rr, x0, x1, z0, z1):
 
 
 def law_books(c, x0, x1, z0, z1, h=2.1):
-    """東牆書櫃：五層、法典（厚、紅色或深藍書背、燙金線）、判決彙編（一整排同色）、論文集；書背沒有字"""
-    c.wood.box(x0, x1, 0.0, 0.08, z0, z1); c.wood.box(x0, x1, h - 0.03, h, z0, z1)
-    c.wood.box(x0, x1, 0.0, h, z0, z0 + 0.02); c.wood.box(x0, x1, 0.0, h, z1 - 0.02, z1)
-    c.vc.cbox(x1 - 0.015, x1, 0.08, h - 0.03, z0, z1, '#4a3a2e')   # 背板（靠牆那一面；10-20 算圖：原本放在朝房間那一面，把書遮住了）
+    """東牆書櫃：五層、法典（厚、紅色或深藍書背、燙金線）、判決彙編（一整排同色）、論文集；書背沒有字。
+    整個書櫃跟著東牆淡出（10-20 截圖：鏡頭在東牆外面時書櫃擋住整個畫面）"""
+    wd = c.wg('E', 'bookwood', c.M['wood']); bv = c.wg('E', 'books', c.M['vc'], cm=True)
+    wd.box(x0, x1, 0.0, 0.08, z0, z1); wd.box(x0, x1, h - 0.03, h, z0, z1)
+    wd.box(x0, x1, 0.0, h, z0, z0 + 0.02); wd.box(x0, x1, 0.0, h, z1 - 0.02, z1)
+    bv.cbox(x1 - 0.015, x1, 0.08, h - 0.03, z0, z1, '#4a3a2e')   # 背板（靠牆那一面；10-20 算圖：原本放在朝房間那一面，把書遮住了）
     rr = c.rng; shelves = [0.08 + k * (h - 0.11) / 5 for k in range(6)]
     for s in range(5):
         y0 = shelves[s] + 0.02; y1 = shelves[s + 1]
-        c.wood.box(x0, x1, y1 - 0.02, y1, z0, z1)
+        wd.box(x0, x1, y1 - 0.02, y1, z0, z1)
         zz = z0 + 0.03; run = rr.choice(('code', 'reports', 'mixed'))
         while zz < z1 - 0.06:
             if run == 'reports': t, hh, col = 0.045, (y1 - y0) * 0.86, '#2e3e5a'
             elif run == 'code': t, hh, col = rr.uniform(0.06, 0.09), (y1 - y0) * rr.uniform(0.78, 0.9), rr.choice(('#7a2420', '#7a2420', '#23324e'))
             else: t, hh, col = rr.uniform(0.025, 0.05), (y1 - y0) * rr.uniform(0.6, 0.88), rr.choice(('#e8e2d2', '#5a6a4a', '#8a6a3a', '#3a3a3a', '#a8463a'))
             if zz + t > z1 - 0.03: break
-            c.vc.cbox(x0 + 0.04, x1 - 0.02, y0, y0 + hh, zz, zz + t - 0.004, col)
-            if run != 'mixed': c.vc.cbox(x1 - 0.021, x1 - 0.018, y0 + hh * 0.78, y0 + hh * 0.8, zz + 0.006, zz + t - 0.01, '#c9a64a')   # 燙金線
+            bv.cbox(x0 + 0.04, x1 - 0.02, y0, y0 + hh, zz, zz + t - 0.004, col)
+            if run != 'mixed': bv.cbox(x1 - 0.021, x1 - 0.018, y0 + hh * 0.78, y0 + hh * 0.8, zz + 0.006, zz + t - 0.01, '#c9a64a')   # 燙金線
             zz += t
             if rr.random() < 0.04: zz += 0.12
-        if s == 2: rbox(c.vc, rot(x1 - 0.15, z0 + 0.35, 0.2), -0.06, 0.06, y0, y0 + 0.025, -0.03, 0.03, '#2b2b2b', r=0.008)   # 投影機遙控器
+        if s == 2: rbox(bv, rot(x1 - 0.15, z0 + 0.35, 0.2), -0.06, 0.06, y0, y0 + 0.025, -0.03, 0.03, '#2b2b2b', r=0.008)   # 投影機遙控器
     c.block(x0 - 0.03, x1, z0, z1, 'bookcase')
 
 
@@ -209,7 +211,7 @@ def build():
     for (xa, xb) in ((d0, d0 + 0.08), (d1 - 0.08, d1)): tr.cbox(xa, xb, 0.0, 2.2, Z0, Z0 + 0.06, '#5a5f63')
     tr.cbox(d0, d1, 2.12, 2.2, Z0, Z0 + 0.06, '#5a5f63')
     wd.rbox(dx - dw / 2 + 0.01, dx + dw / 2 - 0.01, 0.0, 2.11, Z0 + 0.0, Z0 + 0.04, r=0.004, seg=1)                     # 門片（關著；玩家出入用互動點）
-    c.vm.cbox(dx - dw / 2 + 0.08, dx - dw / 2 + 0.18, 1.0, 1.04, Z0 + 0.04, Z0 + 0.09, '#c9ced2')                        # 門把
+    tr.cbox(dx - dw / 2 + 0.08, dx - dw / 2 + 0.18, 1.0, 1.04, Z0 + 0.04, Z0 + 0.09, '#c9ced2')                          # 門把（跟著牆淡出）
     tr.cbox(dx - 0.2, dx + 0.2, 1.4, 1.85, Z0 + 0.04, Z0 + 0.045, '#2a2e33')                                             # 門上小窗（外面是走廊，暗的）
     K.frame_board(c, 'N', -4.0, -2.4, 1.15, 1.95, '#5a4030'); pq(c, 'N', -4.0, -2.4, 1.15, 1.95, 'NOTICE', inset=0.014)
     K.frame_board(c, 'N', 1.55, 2.35, 1.3, 2.0, '#4a3a2e'); pq(c, 'N', 1.55, 2.35, 1.3, 2.0, 'SIGNUP', inset=0.014)
@@ -224,8 +226,8 @@ def build():
     tr.cbox(X0, X0 + 0.03, 0.95, 2.3, -2.3, 2.3, '#b9bec2'); bm.quad([(X0 + 0.032, 1.0, 2.25), (X0 + 0.032, 1.0, -2.25), (X0 + 0.032, 2.25, -2.25), (X0 + 0.032, 2.25, 2.25)])
     pq(c, 'W', -2.2, 2.2, 1.02, 2.23, 'BOARD', inset=0.034)
     tr.cbox(X0, X0 + 0.09, 0.93, 0.96, -2.2, 2.2, '#9aa0a4')                                                              # 筆槽
-    for k, col in enumerate(('#202020', '#1a3a8a', '#a02020')): c.vc.cbox(X0 + 0.03, X0 + 0.08, 0.96, 0.98, -1.6 + k * 0.14, -1.48 + k * 0.14, col)   # 白板筆
-    c.vc.crbox(X0 + 0.03, X0 + 0.09, 0.96, 1.0, -1.1, -0.95, '#3a3f44', r=0.005, seg=1)                                  # 板擦
+    for k, col in enumerate(('#202020', '#1a3a8a', '#a02020')): tr.cbox(X0 + 0.03, X0 + 0.08, 0.96, 0.98, -1.6 + k * 0.14, -1.48 + k * 0.14, col)   # 白板筆（跟著牆淡出：10-20 截圖，牆藏起來時飄在半空中）
+    tr.cbox(X0 + 0.03, X0 + 0.09, 0.96, 1.0, -1.1, -0.95, '#3a3f44')                                                       # 板擦
     tr.cbox(X0, X0 + 0.14, 2.82, 2.92, -1.3, 1.3, '#e8e8e4')                                                              # 投影幕的捲軸（收起來）
     c.vc.crbox(-1.6, -1.2, 2.98, 3.08, -0.2, 0.2, '#e8e8e4', r=0.01, seg=1); c.vm.cbox(-1.42, -1.38, 3.08, H, -0.02, 0.02, '#9aa0a4')   # 吊掛的投影機
     c.fridgel.box(-1.605, -1.6, 3.0, 3.05, -0.06, 0.06)
@@ -234,7 +236,7 @@ def build():
     wl.quad([(X1, wh, Z0), (X1, wh, Z1), (X1, H, Z1), (X1, H, Z0)]); wn.quad([(X1, 0, Z0), (X1, 0, Z1), (X1, wh, Z1), (X1, wh, Z0)])
     tr.cbox(X1 - 0.015, X1, wh - 0.02, wh + 0.03, Z0, Z1, '#4a3a2e')
     law_books(c, X1 - 0.38, X1, -0.9, 2.2)
-    K.ac_unit(c, X1, 2.6, -1.9, '-x', w=0.9)
+    K.ac_unit(c, X1, 2.6, -1.9, '-x', w=0.9, fade=True)
     plant(c, X1 - 0.4, Z1 - 0.7, 1.2); c.block(X1 - 0.65, X1, Z1 - 0.95, Z1 - 0.45, 'plant')
     c.vc.crbox(X0 + 0.15, X0 + 0.45, 0.0, 0.55, Z1 - 0.75, Z1 - 0.45, '#3f6fb0', r=0.03, seg=1); c.block(X0, X0 + 0.5, Z1 - 0.8, Z1 - 0.4, 'bin')   # 回收桶
     # 會議桌（中間偏西，西端留講者的位置）＋13 張會議椅
@@ -251,15 +253,15 @@ def build():
     for x in (-2.8, 0.0, 2.8):
         for z in (-1.7, 1.7):
             c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
-    c.look('board', round(X0 + 0.9, 3), 1.6, 0.9, '白板', '白板（字由事件或課堂決定）')
-    c.look('books', round(X1 - 0.9, 3), 0.65, 0.9, '書櫃', '法典、判決彙編、學長姊留下的論文集')
-    c.look('signup', 1.95, round(Z0 + 0.75, 3), 0.7, '借用登記表', '研討室的借用登記表')
+    c.look('board', round(X0 + 0.9, 3), 1.6, 0.9, '白板', '', dev='白板上的字由事件或課堂決定；遊戲裡顯示的字等 AA 寫')
+    c.look('books', round(X1 - 0.9, 3), 0.65, 0.9, '書櫃', '', dev='法典、判決彙編、論文集（書背沒有字）；遊戲裡顯示的字等 AA 寫')
+    c.look('signup', 1.95, round(Z0 + 0.75, 3), 0.7, '借用登記表', '', dev='研討室的借用登記表；遊戲裡顯示的字等 AA 寫')
     c.door = dict(x=dx, w=dw, z=Z0, note='−z 那一面靠東；從萬才館 2F 北側走廊的「研討室 A」門（wancai_layout.js doors.seminarA，lv 1、x −3.0）進來')
     c.spawn = dict(x=dx, z=round(Z0 + 1.45, 3), yaw=0.0, note='進門、面向房間裡（+z）')
     c.exits = [dict(x=dx, z=round(Z0 + 0.45, 3), r=0.7, label='離開研討室', to='wancai', spawn_note='回到萬才館 2F 北側走廊、研討室 A 的門前面（wancai_layout.js doors.seminarA 的 x，lv 1）')]
     D = {'N': [0, 0, 1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'S': [0, 0, -1]}
     for k, ms in c.WG.items():
-        for key, m in ms.items(): m.finish(c.root, props={'dir': D[k]}, uv=key in ('wall', 'wain', 'door'), merge=key not in ('print', 'screen', 'view'))
+        for key, m in ms.items(): m.finish(c.root, props={'dir': D[k]}, uv=key in ('wall', 'wain', 'door', 'bookwood'), merge=key not in ('print', 'screen', 'view'))
     for m in (c.vc, c.vm, c.tube, c.warm, c.fridgel, c.steel): m.finish(c.root, uv=False)
     c.wood.finish(c.root)
     for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)

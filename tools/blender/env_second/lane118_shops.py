@@ -103,8 +103,9 @@ class Shop:
         if label: s['label'] = label
         self.seats.append(s)
 
-    def look(self, iid, x, z, r, label, note=''):
-        self.inter.append(dict(id=iid, x=round(x, 3), z=round(z, 3), r=r, label=label, note=note))
+    def look(self, iid, x, z, r, label, note='', dev=None):
+        """只能看的東西：note＝遊戲裡顯示的字（空的＝等 AA 寫，遊戲顯示 label）；dev＝給開發組的說明（不顯示）"""
+        self.inter.append(dict(id=iid, x=round(x, 3), z=round(z, 3), r=r, label=label, note=note, **({'dev': dev} if dev else {})))
 
     # ---------- 牆的分組網格 ----------
     def wg(self, side, key, mat, cm=False):
@@ -237,12 +238,13 @@ def wall_fan(c, x, y, z, face):
         ccyl(c.vc, (g[0] * 0.6 + e[0] * 0.4, y - 0.09 + 0.07 * math.sin(a_), g[1] * 0.6 + e[1] * 0.4), (e[0], y - 0.09 + 0.17 * math.sin(a_), e[1]), 0.045, '#bcd6e6', seg=6, r2=0.02)
 
 
-def ac_unit(c, x, y, z, face, w=0.9):
-    """分離式冷氣的室內機（掛在牆上）"""
+def ac_unit(c, x, y, z, face, w=0.9, fade=False):
+    """分離式冷氣的室內機（掛在牆上）。fade＝跟著那一面牆淡出（鏡頭在牆外時不會飄在半空中擋住畫面；10-20 起新做的房間都用）"""
     yaw = {'+z': 0.0, '-z': PI, '+x': PI / 2, '-x': -PI / 2}[face]; T = rot(x, z, yaw)
-    rbox(c.vc, T, -w / 2, w / 2, y, y + 0.28, 0.0, 0.22, '#f4f4f1', r=0.03, seg=2)
-    rbox(c.vc, T, -w / 2 + 0.03, w / 2 - 0.03, y + 0.01, y + 0.05, 0.12, 0.225, '#d9dad6', r=0.0)
-    rbox(c.vc, T, w / 2 - 0.12, w / 2 - 0.06, y + 0.2, y + 0.215, 0.215, 0.226, '#3fbf6a')
+    m = c.wg({'+z': 'N', '-z': 'S', '+x': 'W', '-x': 'E'}[face], 'trim', c.M['vc'], cm=True) if fade else c.vc
+    rbox(m, T, -w / 2, w / 2, y, y + 0.28, 0.0, 0.22, '#f4f4f1', r=0.03, seg=2)
+    rbox(m, T, -w / 2 + 0.03, w / 2 - 0.03, y + 0.01, y + 0.05, 0.12, 0.225, '#d9dad6', r=0.0)
+    rbox(m, T, w / 2 - 0.12, w / 2 - 0.06, y + 0.2, y + 0.215, 0.215, 0.226, '#3fbf6a')
 
 
 def plant(c, x, z, h=1.1, pot='#5a4a3e', leaf='#3f7a3a'):
@@ -784,7 +786,7 @@ def build_dian(c):
     tr.cbox(X0 + 0.02, X0 + 0.05, 2.47, 2.5, za - 0.08, zb + 0.08, '#6b4a30')
     for k, col in enumerate(['#8c2a2a', '#d9a441', '#2f5d50', '#8c2a2a', '#e8d9b5', '#3b3f6b', '#d9a441', '#8c2a2a']):
         y1 = 2.45 - k * 0.12; tr.cbox(X0 + 0.02, X0 + 0.028, y1 - 0.12, y1, za, zb, col)
-    c.look('tapestry', X0 + 0.6, 0.1, 0.9, '牆上的織布', '看（緬甸的條紋布；說明文字由 AA 寫）')
+    c.look('tapestry', -0.8, 0.5, 0.6, '牆上的織布', '看（緬甸的條紋布；說明文字由 AA 寫）')
     wall_fan(c, X0, 2.45, 2.0, '+x'); ac_unit(c, X1, 2.5, -0.6, '-x')
     plant(c, X1 - 0.4, Z1 - 0.45, 1.15)
     c.cam = 4.2
@@ -869,7 +871,7 @@ def build_home(c):
             if tx > 1 and sd == '+x': continue
             table_seats(c, tx, tz, 0.78, 0.78, (sd,), style='stool', col=cols[(k + int(tx)) % 2])
         table_set(c, tx + 0.2, tz + 0.2, 'tw')
-    tv(c, 'W', -1.2, 2.55, 0.95); c.look('tv', X0 + 0.9, -1.2, 0.9, '電視', '看（午間新聞；AA_280：「電視在播午間新聞，沒有人在看。」）')
+    tv(c, 'W', -1.2, 2.55, 0.95); c.look('tv', X0 + 0.5, 2.35, 0.6, '電視', '看（午間新聞；AA_280：「電視在播午間新聞，沒有人在看。」）')
     c.wg('W', 'trim', c.M['vc'], cm=True).cbox(X0, X0 + 0.3, 2.2, 2.24, -1.6, -0.8, '#3a3a3a')                 # 電視的架子
     counter(c, X0, X0 + 0.7, Z0, Z0 + 1.3, h=0.85, top='steel', front='#d9dadb', why='soup')                    # 自取的湯、白飯（西牆後段）
     rice_cooker(c, X0 + 0.35, 0.85, Z0 + 0.35); clathe(c.vm, [(0.0, 0.0), (0.17, 0.0), (0.17, 0.32), (0.18, 0.33), (0.0, 0.02)], X0 + 0.35, 0.85, Z0 + 0.95, '#c9ced2', seg=16)
@@ -960,7 +962,7 @@ def build_korea(c):
     c.order = dict(x=-0.2, z=round(Z0 + 2.05, 3), r=0.8, label='點餐（' + c.T['name'] + '）', note='櫃台前面；交給 LAWWW 接 AA_280（shop118:korea）')
     glass_case(c, X1 - 0.6, X1, -1.2, 0.4, face='-x', rows=1, warm=False); c.look('banchan', X1 - 1.15, -0.4, 0.8, '小菜櫃', '小菜可以續（自己拿；說明文字由 AA 寫）')
     drink_fridge(c, 1.5, 2.3, Z0, face='+z')
-    for (tx, tz) in ((-1.9, -1.2), (-1.9, 1.0), (0.4, -1.2), (0.4, 1.0), (0.4, 3.0)):
+    for (tx, tz) in ((-1.9, -1.3), (-1.9, 0.65), (0.4, -1.3), (0.4, 0.65), (0.4, 2.55)):   # 靠店面那一張離玻璃 1.3 m：外側的椅子後面走得過去（10-20 reachability_all：原本 3.0，走近點卡在玻璃邊）
         table(c, tx, tz, 1.0, 0.72, top='wood'); table_seats(c, tx, tz, 1.0, 0.72, ('-z', '+z'), style='wood', col='#6a4a30', n_per=2); table_set(c, tx + 0.35, tz, 'korea')
     banners(c, 'W', -3.0, 3.0, ['#c9463d', '#1f4e8c', '#f4f1ea']); banners(c, 'E', 0.8, 3.6, ['#1f4e8c', '#c9463d', '#f4f1ea'])
     tubes(c, [(-1.9, -0.1, 'x'), (0.4, -0.1, 'x'), (0.4, 2.0, 'x'), (-1.9, 2.0, 'x'), (-0.5, Z0 + 1.2, 'x')])

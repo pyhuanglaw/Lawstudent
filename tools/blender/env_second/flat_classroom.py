@@ -70,7 +70,7 @@ class Room(K.Shop):
     def __init__(self, rid, R):
         self.sid = rid; self.R = R; self.T = {'name': R['name'], 'sub': '教室'}; self.S = dict(trim='#5a4a3e', wainH=1.0)
         self.W, self.D = R['W'], R['D']; self.X0, self.X1, self.Z0, self.Z1 = -R['W'] / 2, R['W'] / 2, -R['D'] / 2, R['D'] / 2
-        self.rng = random.Random(hash(rid) & 0xffff); self.extra = {}
+        self.rng = random.Random(sum(map(ord, rid))); self.extra = {}   # 固定的種子（hash() 每個行程不一樣）
         B.reset(texres=512)
         self.root = B.group(rid, props={'kind': rid, 'layout': f'{rid}.layout.json'})
         self.blocks, self.seats, self.inter = [], [], []; self.clerk = self.order = self.counter = None
@@ -154,10 +154,10 @@ def build(rid):
     for (xa, xb) in ((d0, d0 + 0.08), (d1 - 0.08, d1)): tr.cbox(xa, xb, 0.0, 2.2, Z0, Z0 + 0.06, '#5a5f63')
     tr.cbox(d0, d1, 2.12, 2.2, Z0, Z0 + 0.06, '#5a5f63')
     wd.rbox(dx - dw / 2 + 0.01, dx + dw / 2 - 0.01, 0.0, 2.11, Z0, Z0 + 0.04, r=0.004, seg=1)
-    c.vm.cbox(dx - dw / 2 + 0.08, dx - dw / 2 + 0.18, 1.0, 1.04, Z0 + 0.04, Z0 + 0.09, '#c9ced2')
+    tr.cbox(dx - dw / 2 + 0.08, dx - dw / 2 + 0.18, 1.0, 1.04, Z0 + 0.04, Z0 + 0.09, '#c9ced2')   # 門把（跟著牆淡出）
     tr.cbox(dx - 0.2, dx + 0.2, 1.4, 1.85, Z0 + 0.04, Z0 + 0.045, '#2a2e33')
     tr.cbox(d0 - 0.65, d0 - 0.2, 1.7, 1.86, Z0, Z0 + 0.016, '#40464c'); pq(c, 'N', d0 - 0.64, d0 - 0.21, 1.71, 1.85, 'PLATE', inset=0.018)
-    pq(c, 'N', dx - 0.3, dx + 0.3, 2.3, 2.52, 'EXIT', inset=0.016); c.fridgel.box(dx - 0.3, dx + 0.3, 2.28, 2.3, Z0, Z0 + 0.02)
+    pq(c, 'N', dx - 0.3, dx + 0.3, 2.3, 2.52, 'EXIT', inset=0.016); c.wg('N', 'glow', M['fridge']).box(dx - 0.3, dx + 0.3, 2.28, 2.3, Z0, Z0 + 0.02)   # 燈條跟著牆淡出（10-20 截圖：原本飄在半空中）
     pq(c, 'N', -1.0, -0.2, 2.45, 3.15, 'CLOCK', inset=0.016)
     # 西牆（前面）：白板、投影幕（收起來）、講桌、老師的位置
     wl = c.wg('W', 'wall', M['wall']); wn = c.wg('W', 'wain', M['wain']); tr = c.wg('W', 'trim', M['vc'], cm=True); bm = c.wg('W', 'board', M['board'])
@@ -166,7 +166,7 @@ def build(rid):
     tr.cbox(X0, X0 + 0.03, 0.95, 2.35, -bw, bw, '#b9bec2'); bm.quad([(X0 + 0.032, 1.0, bw - 0.05), (X0 + 0.032, 1.0, -bw + 0.05), (X0 + 0.032, 2.3, -bw + 0.05), (X0 + 0.032, 2.3, bw - 0.05)])
     pq(c, 'W', -bw + 0.2, -bw + 3.2, 1.05, 2.25, 'BOARD', inset=0.034); pq(c, 'W', bw - 3.2, bw - 0.2, 1.05, 2.25, 'BOARD', inset=0.034)
     tr.cbox(X0, X0 + 0.09, 0.93, 0.96, -bw + 0.1, bw - 0.1, '#9aa0a4')
-    for k, col in enumerate(('#202020', '#1a3a8a', '#a02020')): c.vc.cbox(X0 + 0.03, X0 + 0.08, 0.96, 0.98, -0.6 + k * 0.14, -0.48 + k * 0.14, col)
+    for k, col in enumerate(('#202020', '#1a3a8a', '#a02020')): tr.cbox(X0 + 0.03, X0 + 0.08, 0.96, 0.98, -0.6 + k * 0.14, -0.48 + k * 0.14, col)   # 白板筆（跟著牆淡出：10-20 截圖，牆藏起來時飄在半空中）
     tr.cbox(X0, X0 + 0.14, 2.92, 3.02, -1.6, 1.6, '#e8e8e4')                                                          # 投影幕的捲軸
     px_ = X0 + 3.0; c.vc.crbox(px_ - 0.2, px_ + 0.2, H - 0.24, H - 0.14, -0.2, 0.2, '#e8e8e4', r=0.01, seg=1); c.vm.cbox(px_ - 0.02, px_ + 0.02, H - 0.14, H, -0.02, 0.02, '#9aa0a4')
     c.fridgel.box(px_ - 0.205, px_ - 0.2, H - 0.22, H - 0.17, -0.06, 0.06)
@@ -182,12 +182,12 @@ def build(rid):
     K.frame_board(c, 'E', 0.4, 2.4, 1.2, 2.0, '#6a4a30'); pq(c, 'E', 0.4, 2.4, 1.2, 2.0, 'NOTICE', inset=0.014)
     K.frame_board(c, 'E', -1.9, -0.5, 1.3, 2.05, '#5a4a3e'); pq(c, 'E', -1.9, -0.5, 1.3, 2.05, 'RULES', inset=0.014)
     if R['back'] == 'lockers':   # 霖澤館 202：後面一排學生置物櫃（低的，上面可以放東西）
-        z0, z1 = Z1 - 0.32 - 2.2, Z1 - 0.4
-        c.vc.cbox(X1 - 0.45, X1, 0.0, 1.0, z0, z1, '#7d868f')
+        z0, z1 = Z1 - 0.32 - 2.2, Z1 - 0.4; bk = c.wg('E', 'trim', M['vc'], cm=True)   # 置物櫃跟著東牆淡出
+        bk.cbox(X1 - 0.45, X1, 0.0, 1.0, z0, z1, '#7d868f')
         n = int((z1 - z0) / 0.37)
         for k in range(n):
             a = z0 + k * (z1 - z0) / n
-            for yy in (0.05, 0.52): c.vc.cbox(X1 - 0.455, X1 - 0.45, yy, yy + 0.43, a + 0.01, a + (z1 - z0) / n - 0.01, '#8e979f'); c.vm.cbox(X1 - 0.47, X1 - 0.455, yy + 0.3, yy + 0.36, a + 0.04, a + 0.06, '#2b2b2b')
+            for yy in (0.05, 0.52): bk.cbox(X1 - 0.455, X1 - 0.45, yy, yy + 0.43, a + 0.01, a + (z1 - z0) / n - 0.01, '#8e979f'); bk.cbox(X1 - 0.47, X1 - 0.455, yy + 0.3, yy + 0.36, a + 0.04, a + 0.06, '#2b2b2b')
         c.block(X1 - 0.48, X1, z0, z1, 'lockers')
     else:                         # 萬才館多功能教室：後面一個開放層架（譜架、音箱、延長線）
         z0, z1 = Z1 - 0.32 - 2.0, Z1 - 0.4
@@ -196,7 +196,7 @@ def build(rid):
         for k in range(3): c.vm.cbox(X1 - 0.38, X1 - 0.08, 0.05 + k * 0.02, 0.07 + k * 0.02, z0 + 0.8 + k * 0.02, z0 + 1.4, '#2b2b2b')                               # 收起來的譜架
         c.vc.cbox(X1 - 0.35, X1 - 0.1, 1.0, 1.06, z1 - 0.7, z1 - 0.2, '#f4f4f1')                                                                                    # 延長線盒
         c.block(X1 - 0.45, X1, z0, z1, 'shelf')
-    K.ac_unit(c, X1, 2.65, -2.4, '-x', w=1.0); K.ac_unit(c, X0, 2.65, Z1 - 1.2, '+x', w=1.0)
+    K.ac_unit(c, X1, 2.65, -2.4, '-x', w=1.0, fade=True); K.ac_unit(c, X0, 2.65, Z1 - 1.2, '+x', w=1.0, fade=True)
     c.vc.crbox(X1 - 0.45, X1 - 0.1, 0.0, 0.6, Z0 + 0.25, Z0 + 0.6, '#3f6fb0', r=0.03, seg=1); c.block(X1 - 0.48, X1, Z0, Z0 + 0.65, 'bin')
     # 學生座位：每排兩張長桌（面向 −x）、一張 4 位；中間是走道，排和排之間 1.9 m（椅子後面走得過去）
     for cx in R['rows']:
@@ -210,8 +210,8 @@ def build(rid):
         for z in (-R['D'] / 4 - 0.3, R['D'] / 4 + 0.3):
             if x > X1 - 0.8: continue
             c.vc.cbox(x - 0.62, x + 0.62, H - 0.02, H, z - 0.32, z + 0.32, '#f4f4f1'); c.tube.box(x - 0.58, x + 0.58, H - 0.026, H - 0.02, z - 0.28, z + 0.28)
-    c.look('board', round(X0 + 1.0, 3), round(bw - 0.6, 3), 0.9, '白板', '白板（字由課堂或事件決定）')
-    c.look('notice', round(X1 - 0.9, 3), 1.4, 0.9, '公告欄', '公告欄（說明文字由 AA 寫）')
+    c.look('board', round(X0 + 1.0, 3), round(bw - 0.6, 3), 0.9, '白板', '', dev='白板上的字由課堂或事件決定；遊戲裡顯示的字等 AA 寫')
+    c.look('notice', round(X1 - 0.9, 3), 1.4, 0.9, '公告欄', '', dev='公告欄；遊戲裡顯示的字等 AA 寫')
     c.door = dict(x=dx, w=dw, z=Z0, note=f"−z 那一面靠東（後門）；從{'霖澤館 2F 迴廊的 202 門（linze_layout.js doors.c202，lv 1、x 3.0）' if rid == 'linze_202' else '萬才館 1F 大廳北牆的「多功能教室」門（wancai_layout.js doors.multi，lv 0、x 2.0）'}進來")
     c.spawn = dict(x=dx, z=round(Z0 + 1.45, 3), yaw=round(-PI / 2 + 0.4, 4), note='進門，大致面向講台（−x）')
     c.exits = [dict(x=dx, z=round(Z0 + 0.45, 3), r=0.7, label='離開教室', to=R['host'], spawn_note=f"回到{R['host']}、{R['door_id']} 的門前面（lv {R['host_lv']}）")]
