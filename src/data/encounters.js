@@ -121,7 +121,7 @@ const ENCOUNTERS={
     ENC_D12_ZQ:{who:'heroine_04',lines:['欸不是，上次大稻埕那個第三關，我改簡單了。因為你。']},
     ENC_D06_SIS:{who:'heroine_05',lines:['上次在美術館。……一件事。你在那幅畫前面站很久。']},
     ENC_D12_PS:{who:'classmate_peishan',lines:['上次你選的那本繪本，課輔班的小孩很喜歡。'],linesIfNot:{memory:'SAW_HER_TEACH',lines:['上次那本繪本，我送給鄰居的小孩了。']}},
-    ENC_D13_KX:{who:'kexin',phone:['上次淡水那件事，我還沒說完。下次說。']},
+    ENC_D13_KX:{who:'kexin',phone:['淡水那天，邵鈞回去一直問你是誰。']},
     ENC_D06_AN:{who:'heroine_01',lines:['上次在美術館。……你後來有看完那一區嗎？']},
     ENC_D12_YT:{who:'heroine_03',phone:['📷（迪化街的騎樓下，一雙正在包貨的手）','上次那張。']},
     ENC_D04_ZHE:{who:'zhe',lines:['哥，上次西門那家，下次麵店團一起去。']},
