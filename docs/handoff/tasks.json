@@ -21231,7 +21231,7 @@
    },
    "source": "使用者 10-20 16:0x 對 AA（AA user_asks UA-AA-1020-30）",
    "authorized": "使用者直接指示",
-   "next": "第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
+   "next": "AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
    "xai": {
     "spec": "AA_314（施工順序）",
     "owner": "AA",
@@ -21360,6 +21360,27 @@
     "term": "Y2S2",
     "week": null,
     "earliest": "大二暑假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": true,
+    "parallel": true,
+    "confirmed": true
+   }
+  },
+  {
+   "area": "v4",
+   "owner": "LAWWW",
+   "priority": "P1",
+   "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
+   "id": "EVPKG-R3-1020",
+   "title": "第 3 輪：大二到畢業後的小事件 19 件（新做 13、部分 4、跳過 2；何俊朗 compact 人物 npc_long、學姊交往中的大四、2031 交換延畢第二年、四學年手機小事池）",
+   "status": "進行中",
+   "source": "AA_328（5ae6a133；AA-C；使用者 10-20 15:4x B 線）",
+   "next": "【19:0x】開發分支順手改的三項已做：y2_zq_lab「實驗室那封信 我回了」、y2_ps_42 刪掉、阿凱「我的作業會頂嘴了」加 KAI_F2==='went'（F2 還沒做，這句先不出現）。其餘 19 件排在第 2 輪之後；AA_327 2-Y4-53 方奕廷那句加 BAR_YEAR===2031 條件（做 2-Y4-53 時照改）",
+   "first": {
+    "term": "Y2S1",
+    "week": null,
+    "earliest": "大二起",
     "mainline": true,
     "blocks": false,
     "prereq": true,

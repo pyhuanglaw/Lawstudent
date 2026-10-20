@@ -48,7 +48,7 @@ GM.money=function(n){ G.money+=n; };
   check('2. 學姊 M2 之後「今天讀了四章」大二不發（BB_205 第 4 節）',!STORY.DAILY_PHONE.some(d=>d.id==='y2_sis_m2read'));
   m=only('y2_sis_hotwater',W5,{},()=>{ PHONE.join(G,'family_law','法律系直屬家族'); }); check('2. 沒有 HOT_WATER：沒有',m.length===0);
   m=only('y2_zq_lab',W5,{},()=>{ SOCIAL.remember('heroine_04','LAB_LETTER','x'); INV.rec(G); G.contacts.heroine_04=1; });
-  check('3. 子晴（Q7 實驗室的信之後）五則：我回信了｜說不要｜教授說好｜就這樣｜好簡單喔',T(m)==='heroine_04:我回信了｜heroine_04:說不要｜heroine_04:教授說好｜heroine_04:就這樣｜heroine_04:好簡單喔',T(m));
+  check('3. 子晴（Q7 實驗室的信之後）五則：實驗室那封信 我回了（AA_328）｜說不要｜教授說好｜就這樣｜好簡單喔',T(m)==='heroine_04:實驗室那封信 我回了｜heroine_04:說不要｜heroine_04:教授說好｜heroine_04:就這樣｜heroine_04:好簡單喔',T(m));
   const zr=(flags)=>only('y2_zr_order',W5,flags,()=>{ done(['ev_zhiruo_applied']); INV.rec(G); G.contacts.heroine_02=1; });
   const a=zr({dating_kexin:false}), b=zr({dating_kexin:true});
   check('4. 芷若（Z7 之後、Z9 之前）「今天第三個客人點錯。我記得他上週點什麼。我沒說。」：單身 22:07、交往中 15:10',a.length===1&&Math.abs(a[0].h-(22+7/60))<0.06&&b.length===1&&Math.abs(b[0].h-(15+10/60))<0.06&&a[0].text==='今天第三個客人點錯。我記得他上週點什麼。我沒說。',JSON.stringify([a.map(x=>x.h),b.map(x=>x.h)]));

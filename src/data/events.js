@@ -3753,7 +3753,7 @@ const STORY_EVENTS=[
       {if:{custom:G=>!(G.flags.KAI_SUP_N>0)},goto:'first'},
       {speaker:null,text:'（週日晚上，滷味攤。阿凱的籃子永遠比你的滿。）'},
       {pick:{flag:'KAI_SUP_LINE',from:G=>{ const L=['今天我多夾了一顆貢丸。這是成長。','新室友說我話太多。我說，那你沒聽過我大一的室友。','你們法律系今天念了什麼？……算了，你吃。'];
-        const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, f2=t&&(t.id!=='Y2S1'||t.week>=13); if(f2) L.push('（打開筆電）你看，我的作業會頂嘴了。'); const n=(G.flags.KAI_SUP_N|0)-1; return [L[((n%L.length)+L.length)%L.length]]; }}},
+        const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, f2=t&&(t.id!=='Y2S1'||t.week>=13); if(f2&&G.flags.KAI_F2==='went') L.push('（打開筆電）你看，我的作業會頂嘴了。');   /* AA_328：只給 F2 去過的玩家 */ const n=(G.flags.KAI_SUP_N|0)-1; return [L[((n%L.length)+L.length)%L.length]]; }}},
       {speaker:'kai',text:'{flag:KAI_SUP_LINE}'},{goto:'end'},
       {label:'first'},{speaker:null,text:'（週日晚上十一點，宿舍旁的滷味攤。阿凱已經夾好兩籃。）'},
       {speaker:'kai',text:'你的我幫你夾了。豆干、海帶、王子麵。'},{speaker:'kai',text:'你大一每次都點這三樣。我記得。'},
