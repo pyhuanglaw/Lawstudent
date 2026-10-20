@@ -20272,14 +20272,14 @@
    },
    "source": "使用者 2026-10-20 13:0x：「其他AI我通知他們上班了」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "LAWWW 把 X64～X81 分給 AA、BB、LAWWW2（send_message，寫任務 ID），自己做程式項目"
+   "next": "【13:2x】LAWWW2：LANE118-SHOPS-1020（P0）→ LINZE-34F-TABLES → LINZE-WANCAI-FLOORS；AA：WELCOME-DATE、LANE118-SHOP-STORY；BB：QA-REPRO-1020——三則都 DELIVERED，等 ACK"
   },
   {
    "id": "BUG-MEET-HEROINES-1020",
    "title": "經濟系進法律系以後 9/17 還沒認識沈以安；校園很難遇到人、一個女主角都沒遇到",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -20293,7 +20293,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「沈以安到法律系9/17都還沒認識 以前版本校園裡很容易遇到人 現在很難 我一個女主角都沒遇到是發生什麼事」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "查：經濟系 8/29 轉法律系以後，第一、二天主線（認識以安、芷若…）有沒有演、metAn 等旗標；偶遇頻率（encounters、enc_walk、學期作息）和舊版比；修好後瀏覽器從 8/29 走到 9/17 確認"
+   "next": "【10-20 13:2x 修好（開發分支 557c7486）】原因：以安追上來只在「主線第 2 天、在校園、走出霖澤館門口 6 m」觸發，錯過了 afternoonDone 永遠不成立，LEGACY_IDS（以安、小語、阿哲、學姊）不照作息出現（使用者存檔 9/25 就是這樣）。修法：主線第 3 天以後還沒認識也沒拒絕＝照常開放（anMissed），第一次跟以安說話她用既有那句自我介紹。tests/an_missed_day2_unit.js（修改前 4 FAIL）、story3d 相關單元測試 222 支全過。下一步：BB 在瀏覽器驗（QA-REPRO-1020）；「以前校園很容易遇到人」其餘原因（偶遇頻率）還要查 ｜ 查：經濟系 8/29 轉法律系以後，第一、二天主線（認識以安、芷若…）有沒有演、metAn 等旗標；偶遇頻率（encounters、enc_walk、學期作息）和舊版比；修好後瀏覽器從 8/29 走到 9/17 確認"
   },
   {
    "id": "BUG-CAFE-NPC-1020",
@@ -20362,7 +20362,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-20 原話；src/data/activities.js welcome_y1s1、src/data/events.js ev_welcome_y1s1（沛珊第一次見面、迎新群組聯絡方式）",
     "acceptance": "迎新的日期（開學前哪一天、幾點、在哪）＋所有要跟著改的句子（提到第幾週、9/27、迎新前後順序的）",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -20455,7 +20455,7 @@
    "area": "V1",
    "owner": "LAWWW2",
    "status": "待開工",
-   "priority": "P1",
+   "priority": "P0",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -20468,13 +20468,13 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「118巷店員為什麼都站在店外 我要的是店裡可以進去 店員也在裡面阿 認真設計每個店面」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
+   "next": "【10-20 13:2x 使用者：「店面裡面內容 店員不要站在店外 你先叫LAWWW2做阿」→ 送達 LAWWW2-C（P0，排在它手上 BUG-WZFLICKER-2 之後第一個），等 ACK】 ｜ LAWWW2 做室內（D38 Blender→GLB），LAWWW 接導航、出入口、店員位置；每間店的故事等 LANE118-SHOP-STORY-1020",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話；現有 src/data/lane118_layout.js v1、assets/models/env/lane118_street.glb（AA_280）",
     "acceptance": "118 巷每間店走得進去：室內 GLB（櫃台、座位、店員站位），店名照 D77 諧音；交付寫每間店的門口座標和室內尺寸給 LAWWW 接",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -20502,7 +20502,7 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "使用者 10-20 原話；118 巷 AA_280",
     "acceptance": "每間店：店名（D77 諧音）、店員（固定 NPC 或哪位人物打工）、和哪條故事有關、去了會發生什麼（事件／台詞／常客關係）；先給清單，不擋三個優先",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -20635,7 +20635,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話；src/data/linze_layout.js、src/data/wancai_layout.js、tools/blender/linze_interior.py、wancai_interior.py",
     "acceptance": "霖澤 3、4 樓走得到的走廊＋教室或討論區（Blender→GLB）；萬才至少一間能上課的教室；還沒做的樓層不要寫「整修中」，改成看得懂的理由；交付附樓層尺寸給 LAWWW 接導航",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -20663,7 +20663,7 @@
     "branch": "claude/focused-cray-c9uwvw",
     "spec": "使用者 10-20 原話",
     "acceptance": "霖澤 3、4 樓的長條桌附長椅（野餐桌式）GLB，交付寫座位位置",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   },
   {
@@ -20733,7 +20733,7 @@
     "branch": "claude/wonderful-mayer-7fm9g6",
     "spec": "使用者 10-20 原話（USER_WANTS X64～X81）",
     "acceptance": "v9.10.2 線上版重現：體育館樓梯方向（X64）、9/17 前遇不到女主角（X70）、Café 沒 NPC（X71）、日期和課表對不上（X76）、地圖南方黃點（X77）、溫州街與校園卡、影子閃（X69、X79）、8/30 搬宿舍沒出現（X81）；每項：重現步驟、截圖、存檔",
-    "ack": "SENT"
+    "ack": "DELIVERED"
    }
   }
  ]
