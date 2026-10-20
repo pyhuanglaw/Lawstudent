@@ -710,17 +710,18 @@
   {
    "task": "LANE118-SHOPS-1020 118 巷九間店走得進去的室內（第一批：九間全部）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "43cf956a",
+   "sha": "43cf956a → d269942b",
    "files": [
     "assets/models/env/second_ai/l118_<id>.glb（dian self tea home cafe2 pasta korea omu noodle2）",
     "assets/models/env/second_ai/l118_<id>.layout.json",
     "tools/blender/env_second/lane118_shops.py",
     "tools/blender/env_second/lane118_shops_tex.py",
-    "docs/art-rebuild/second_ai/test_shots/lane118_shops_1020/README.md"
+    "docs/art-rebuild/second_ai/test_shots/lane118_shops_1020/README.md",
+    "docs/art-rebuild/second_ai/patches/l118_shops_wire_test.diff（參考用的臨時接線＋兩個測試）"
    ],
-   "state": "已交付（MODEL_READY；遊戲內還沒接，READY_FOR_ART_REVIEW）",
-   "remaining": "遊戲內接線與截圖（LAWWW-C）；門外巷子晚上還是白天的圖；118 巷街景的店面沒有真的門；實機",
-   "next": "LAWWW-C 照 layout.json 接成九個室內區域（Z3.room＋attachRoomGLB）；我接著在測試工作樹裡臨時接線、拍遊戲內截圖，結果補交"
+   "state": "已交付（遊戲內臨時接線 ALL PASS；READY_FOR_ART_REVIEW）",
+   "remaining": "正式接線（LAWWW-C）；門外巷子晚上還是白天的圖；118 巷街景的店面沒有真的門；其他八間沒有一張一張椅子走過；實機",
+   "next": "LAWWW-C 正式接線，接好後跑 reachability_all"
   }
  ]
 }
