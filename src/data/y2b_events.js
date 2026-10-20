@@ -117,7 +117,7 @@ const Y2B_EVENTS=(function(){
       {if:{flagNum:{CAFE_VISITS:{min:3}}},speaker:'heroine_02',text:'（對新店員）這位是法律系的。老樣子。'},
       {if:{flagNum:{CAFE_VISITS:{min:3}}},speaker:'heroine_02',text:'（對祐廷）我教她了。你的點法。'},
       {unless:{flagNum:{CAFE_VISITS:{min:3}}},speaker:'heroine_02',text:'（對新店員）這位是法律系的。他點什麼，問他。'},
-      {if:{custom:G=>dating(G,'heroine_02')||datingOther(G,'heroine_02').length>0},goto:'gf'},   /* BB_97 3-6「交往中的玩家」＝祐廷在和人交往（AA_112 8-1；大二下還不可能和芷若交往）：一疊票根給常客，不單獨給他 */
+      {if:{custom:G=>!dating(G,'heroine_02')&&datingOther(G,'heroine_02').length>0},goto:'gf'},   /* BB_97 3-6「交往中的玩家」＝祐廷在和別人交往（AA_338 第 0 節更正 AA_336 B2）：一疊票根給常客，不單獨給他；和芷若交往中、單身＝主版（只給他一張） */
       {if:{custom:()=>hasCG('cg_last_shift_heroine02')},cg:'cg_last_shift_heroine02'},   /* BCG-15（企劃分支 cg_approved/，還沒登錄；交往中不放）*/
       {speaker:'heroine_02',text:'（從包包拿出一張電影票根）幫我做一件事。'},
       {speaker:'heroine_02',text:'我不在的時候，去看一部電影。'},
@@ -208,7 +208,7 @@ const Y2B_EVENTS=(function(){
       {if:{custom:G=>dating(G,'heroine_03')},goto:'gf'},
       {choice:[{text:'「恭喜。」',goto:'c1'},{text:'「去麵店慶祝？」',goto:'c2'},{text:'（陪她走到麵店，不說話）',goto:'c3'}]},
       {label:'c1'},{speaker:'heroine_03',text:'嗯。'},{speaker:null,text:'（她低頭，嘴角一直往上。）'},
-      {if:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'……你是第一個說的。'},
+      {if:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'……可以再說一次嗎。'},   /* AA_338 第 6 節（禁用模板句「你是第一個」的變形）*/
       {unless:{custom:G=>bothSingle(G)},speaker:'heroine_03',text:'謝謝。阿姨等一下一定會說第二次。'},{goto:'end'},
       {label:'c2'},{speaker:'heroine_03',text:'今天週二。本來就要去。'},{speaker:null,text:'（停了一下。）'},{speaker:'heroine_03',text:'……可是今天我不切蔥。我坐著吃。'},{goto:'end'},
       {label:'c3'},{speaker:null,text:'（一路上她講了二十分鐘助教課的事，比她這兩年講過的話加起來都多。）'},{goto:'end'},

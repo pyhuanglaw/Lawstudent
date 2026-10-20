@@ -131,10 +131,16 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('Z2. 不常來：「他點什麼，問他。」、沒有「我教她了」；不知道她要出國＝先說英國', has('（對新店員）這位是法律系的。他點什麼，問他。')&&!has('（對祐廷）我教她了。你的點法。')&&said[0].t==='我下學期要去英國。……現在你知道了。');
   CG_REGISTRY.cg_last_shift_heroine02={file:'x'}; fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); date('kexin'); await run('ev_zhiruo_last_shift');
   check('Z3. 交往中（和可昕）：一疊票根、沒有 CG、沒有「我的那杯」', has('常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。')&&cgs.length===0&&!has('……我的那杯，我沒有教她。'));
+  fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); date('heroine_02'); SOCIAL.remember('heroine_02','ASKED_HER_DRINK',''); await run('ev_zhiruo_last_shift');
+  check('Z5. 和芷若交往中（AA_338 第 0 節更正 AA_336 B2）：照主版——只給他一張、有 ASKED_HER_DRINK 的「……我的那杯，我沒有教她。」；不是一疊票根', has('（從包包拿出一張電影票根）幫我做一件事。')&&has('……我的那杯，我沒有教她。')&&!has('常客一人一張。我不在的時候，去看一部電影。看完寫一句話，寄到店裡。我會回。')&&cgs.join()==='cg_last_shift_heroine02', JSON.stringify(lines()));
   fresh('2027-06-03',21.2,'cafe',{CAFE_VISITS:5}); R('heroine_02','FAM'); await run('ev_zhiruo_last_shift'); delete CG_REGISTRY.cg_last_shift_heroine02;
   check('Z1. CG 登錄了才放（BCG-15）', cgs.join()==='cg_last_shift_heroine02');
   fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); rules();
   check('Z4. 沒去：9/2 三則，第一則說清楚去英國；TICKET_STUB、missed', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一張電影票根，給你的，跟老闆拿。|heroine_02:我不在的時候，去看一部電影。看完寫一句話給我。'&&SOCIAL.has('heroine_02','TICKET_STUB')&&G.flags.ZR_LAST_SHIFT==='missed');
+  fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); date('heroine_02'); rules();
+  check('Z4b. 沒去、和芷若交往中：9/2 照主版（給你的那一張）', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一張電影票根，給你的，跟老闆拿。|heroine_02:我不在的時候，去看一部電影。看完寫一句話給我。', JSON.stringify(txt('p:heroine_02')));
+  fresh('2027-09-02',10.5,'dorm'); R('heroine_02','FAM'); ct('heroine_02'); date('kexin'); rules();
+  check('Z4c. 沒去、和別人（可昕）交往中：9/2 一疊票根那一版', txt('p:heroine_02').join('|')==='heroine_02:今天出發去英國了。|heroine_02:櫃台有一疊電影票根，常客一人一張，跟老闆拿。|heroine_02:看完寫一句話，寄到店裡。我會回。', JSON.stringify(txt('p:heroine_02')));
 
   // ---------- 1B-07 可昕 K12 ----------
   fresh('2027-03-21',21.1,'dorm',{KX_INTRO:'gf',KX_MET_NOODLE_TEAM:true,YL_IMPRESSION:'funny'}); date('kexin'); SOCIAL.remember('yu','FIRST_MET',''); rules();
@@ -164,7 +170,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   at('2027-09-14',17); Y2B.tick(GM,0.6); check('U0. 那天傍晚一定下雨', G.weather==='rain'&&E.w==='rain');
   CG_REGISTRY.cg_umbrella_heroine03={file:'x'}; at('2027-09-14',17.6); E.player.obj.position.x=80; E.player.obj.position.z=1; check('U1. 17:30 在總圖門口：可以演', EVENTS.check(um));
   picks=[0]; await run('ev_yt_umbrella_y3');
-  check('U1. 給傘、兩人單身：她撐著那把傘；「……你是第一個說的。」；CG；記 HELPED', has('（她撐著你兩年前那把傘。）')&&has('……你是第一個說的。')&&cgs.join()==='cg_umbrella_heroine03'&&SOCIAL.has('heroine_03','HELPED')&&G.flags.YT_UMBRELLA_Y3==='seen');
+  check('U1. 給傘、兩人單身：她撐著那把傘；「……可以再說一次嗎。」（AA_338 第 6 節）；CG；記 HELPED', has('（她撐著你兩年前那把傘。）')&&has('……可以再說一次嗎。')&&!said.some(s=>/你是第一個/.test(s.t))&&cgs.join()==='cg_umbrella_heroine03'&&SOCIAL.has('heroine_03','HELPED')&&G.flags.YT_UMBRELLA_Y3==='seen');
   fresh('2027-09-14',17.6,'campus',{rain_umbrella:'none'}); R('heroine_03','FRI'); picks=[0]; await run('ev_yt_umbrella_y3');
   check('U2. 我也沒帶：沒有 CG；「你有帶嗎？……我也沒有。」「我們兩個還是很慘。」；記 SHARED_UMBRELLA', cgs.length===0&&has('你有帶嗎？……我也沒有。')&&has('我們兩個還是很慘。')&&SOCIAL.has('heroine_03','SHARED_UMBRELLA'));
   fresh('2027-09-14',17.6,'campus'); R('heroine_03','FRI'); picks=[1]; await run('ev_yt_umbrella_y3'); delete CG_REGISTRY.cg_umbrella_heroine03;
@@ -172,7 +178,7 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   fresh('2027-09-14',12.3,'campus',{rain_umbrella:'share'}); R('heroine_03','FRI'); ct('heroine_03'); date('heroine_03'); rules(); answer('y3_yt_umb_noon',0); at('2027-09-14',17.6); picks=[0]; await run('ev_yt_umbrella_y3');
   check('U4. 交往中、中午回了「加油！！！」：「中午你傳的那三個驚嘆號……」；恭喜＝「中午說加油，現在說恭喜。」', G.flags.YT12_CHEER===true&&has('中午你傳的那三個驚嘆號，我上台前看了一下。')&&has('嗯。……中午說加油，現在說恭喜。')&&has('我後來買了一把跟你那天一樣的。很蠢吧。'));
   fresh('2027-09-14',17.6,'campus',{rain_umbrella:'give'}); R('heroine_03','FRI'); date('kexin'); ROM.learn(G,'heroine_03','kexin','test'); picks=[0]; await run('ev_yt_umbrella_y3');
-  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「你是第一個說的」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。阿姨等一下一定會說第二次。'));
+  check('U. 和別人交往、她知道：只用友情版（「我今天有帶傘。」、沒有「你的傘」、沒有「可以再說一次嗎」）', has('我今天有帶傘。')&&!has('（她撐著你兩年前那把傘。）')&&has('謝謝。阿姨等一下一定會說第二次。')&&!has('……可以再說一次嗎。'));
   fresh('2027-09-14',18.6,'dorm'); R('heroine_03','FRI'); ct('heroine_03'); rules(); PHONE.tick(G); at('2027-09-14',20.1); rules();
   check('U5. 沒去：20:00「今天講完了」「……傘我自己有帶」', txt('p:heroine_03').join('|')==='heroine_03:今天講完了|heroine_03:……傘我自己有帶'&&G.flags.YT_UMBRELLA_Y3==='missed');
 
