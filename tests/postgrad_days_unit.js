@@ -1,8 +1,8 @@
 // 畢業以後的每一天都不會壞（AA_319；src/postgrad3d.js）——不需要瀏覽器。
 //   A. 2029-06-01 到 2034-06-04 每一天、一天八個時間：STORY.tick、手機規則、PG.rules、作息、課表、床的選項——不丟例外、不印警告
 //      （課表 Y4S2 只到 6/10、學期表只到大四：之後 termOf＝null；STORY.dayOfKey 只到第 2200 天，PG 自己算日子）。
-//   B. 從 6/1 晚上睡覺一路「跳到下一件事」到尾聲：四種玩法（交往中 2029 沒過、單身 2029 考上、日本交換延畢、沒報名），
-//      次數有上限、時間只往前、每一段照順序演、演完回標題（EPILOGUE_DONE）。用法：node tests/postgrad_days_unit.js
+//   B. 從 6/2 早上一路「跳到下一件事」到尾聲：四種玩法（交往中 2029 沒過、單身 2029 考上、日本交換延畢、沒報名），
+//      AA_318 那一批（家人、午餐、大伯的信封、6/28 搬走）照 S.y4Tick 一起演；次數有上限、時間只往前、每一段照順序演、演完回標題（EPILOGUE_DONE）。用法：node tests/postgrad_days_unit.js
 const H=require('./pg_harness.js'); const {check}=H;
 const warns=[]; const ow=console.warn; console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n').slice(0,3).join(' / '):String(x)).join(' ')); };
 const rej=[]; process.on('unhandledRejection',e=>rej.push(String(e&&e.stack||e)));
@@ -30,25 +30,31 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     check('A. 6/10 以後沒有學期（termOf null）＝不會再有課',termAfter===0);
     check('A. 畢業以後一直到尾聲那天都是畢業後篇（PG.on）',!pgOff.length,pgOff.slice(0,3).join('、'));
     check('A. 2034 年的日子 PG.DK 自己算（STORY.dayOfKey 到不了）',PG.DK('2034-06-03')===3182&&CALENDAR.dateOf(3182).wd===6); }
-  // ---- B. 一路跳到尾聲 ----
-  const sim=async(name,flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-01',22,'dorm',flags); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);
+  // ---- B. 一路跳到尾聲（6/2 早上起床開始；6/1 收拾、睡覺的鬧鐘是 AA_318 那一批的）----
+  const y4=async GM=>{ const G=GM.G; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) return null;   /* 照 story3d.js S.y4Tick：人在家的時候不演、一次一段 */
+    if(STORY.packDue(G)){ await STORY.packY4(GM); return 'pack'; } if(STORY.gradMorningDue(G)){ await STORY.gradFamily(GM); return 'family'; } if(STORY.gradLunchDue(G)){ await STORY.gradLunch(GM); return 'lunch'; }
+    if(G.zone==='dorm'&&STORY.gradEnvelopeDue(G)){ await STORY.gradEnvelope(GM); return 'envelope'; } if(STORY.moveOutDue(G)){ await STORY.moveOutY4(GM); return 'moveout'; } return null; };
+  const sim=async(name,flags,setup,o)=>{ o=o||{}; const G=H.fresh('2029-06-02',8,'dorm',Object.assign({PACKED_Y4:PG.gradDay()-1},flags)); FRIENDS.forEach(H.FRIEND); if(setup) setup(G);   /* [前置] 6/1 收拾過、鬧鐘 08:00 起床 */
     PHONE.join(G,'noodle_team','麵店團'); PHONE.join(G,'home','家人');
     warns.length=0; rej.length=0; const order=[], stops=[]; let mono=true, it=0, err=null, sleeps=0;
     const ran=new Set(); const orun=PG.runStep; PG.runStep=async function(GM,s){ const r=await orun.call(PG,GM,s); if(r){ order.push(s.id); ran.add(s.id); } return r; };
     try{
-      const sj=await PG.sleepJump(GM); stops.push('sleep→'+PG.dateLabel(G.day,G.hour));
-      if(!PG.familyModule()) check(name+'：6/1 晚上睡覺＝睡到 6/2 早上 08:00（不會睡過典禮）',sj===true&&G.day===PG.gradDay()&&G.hour===8);
       for(it=0; it<120&&!G.flags.EPILOGUE_DONE; it++){ const before=G.day*24+G.hour;
         const ns=PG.nextStop(G), ex=PG.byId('exam_2029'); if(o.score!=null&&!PG.done(G,'exam_2029')&&ex.cond(G)&&(PG.due(G)===ex||(ns!=null&&Math.abs(ns-ex.at(G))<1e-6))) H.picks=answerK(PG.draw(G,2029),o.score);
+        const y=await y4(GM); if(y){ order.push('y4:'+y); if(G.day*24+G.hour<before-1e-6) mono=false; continue; }
         if(OUT.due(G)){ H.picks=[0]; await OUT.tick(GM); }
         else { const s=PG.due(G); if(s) await PG.runStep(GM,s);
-          else if(o.sleep&&it%2){ sleeps++; if(!await PG.sleepJump(GM)){ stops.push('sleep none'); break; } }
-          else if(!await PG.advance(GM)){ stops.push('none'); break; } }
+          else if((o.sleep&&it%2)||(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ sleeps++;   /* 在家＝家裡的選單「睡覺」 */
+            if(!await PG.sleepJump(GM)){ const t0=G.day*24+G.hour; if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) await HOME.sleep(GM); else await STORY.sleepNow(GM); order.push('sleep'); if(G.day*24+G.hour<=t0){ stops.push('sleep none'); break; } } }   /* 不跳＝一般的睡覺（例：睡著時演的大伯的信封）*/
+          else if(!await PG.advance(GM)){ stops.push('none '+PG.dateLabel(G.day,G.hour)); break; } }
         if(G.day*24+G.hour<before-1e-6) mono=false; }
     }catch(e){ err=e; } finally { PG.runStep=orun; }
     await new Promise(r=>setTimeout(r,50));
     check(name+'：不丟例外、沒有警告、沒有未處理的 Promise',!err&&!warns.length&&!rej.length,(err&&err.stack||'')+warns.slice(0,3).join('｜')+rej.slice(0,2).join('｜'));
-    check(name+'：'+it+' 次就到尾聲（上限 80）、時間只往前、演完回標題',G.flags.EPILOGUE_DONE===true&&it<=80&&mono&&!PG.on(G),it+' 次　'+stops.join(' '));
+    check(name+'：'+it+' 次就到尾聲（上限 90）、時間只往前、演完回標題',G.flags.EPILOGUE_DONE===true&&it<=90&&mono&&!PG.on(G),it+' 次　'+stops.join(' ')+'　'+order.join(' → '));
+    const ix=k=>order.indexOf(k);
+    const env=ix('y4:envelope')>=0?ix('y4:envelope'):ix('sleep'), ED=G.events.done;
+    check(name+'：6/2 照順序：家人（撥穗）→ 拍照 → 午餐 → 大伯的信封（22:00 以後回宿舍，或睡著時）；6/28 搬走（AA_318 那一批照常演，跳的時候不會跳過）',ix('y4:family')===0&&ix('grad')===1&&ix('y4:lunch')===2&&env>2&&!!(ED.ev_grad_envelope||ED.ev_grad_envelope_bed)&&ix('y4:moveout')>env&&G.flags.MOVED_OUT===PG.DK('2029-06-28'),order.slice(0,8).join(' → '));
     return {G,order,ran,sleeps}; };
   { const {G,order}=await sim('B1 和可昕交往、2029 一試沒過（全部選第一個）',{BAR_REG:true,LAWCLUB_SAT_VISITS:10},()=>{ H.FRIEND('kexin'); H.date('kexin'); });
     const want=['grad','cafe','b1','exam_2029','r1_2029','an1','an2','exam_2030','r1_2030','first','e2a_2030','e2b_2030','r2_2030','epi'];
@@ -69,5 +75,8 @@ const FRIENDS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxua
     check('C. 尾聲以後：不是畢業後篇、床照舊、沒有下一件事會演',!PG.on(G)&&!PG.bedOptions(G)&&!PG.due(G));
     warns.length=0; let e=null; try{ PG.tick(GM); STORY.tick(GM,0.5); }catch(x){ e=x; } check('C. 尾聲以後的 tick 不壞',!e&&!warns.length,(e&&e.stack)||warns.join('｜')); }
   { const G=H.fresh('2029-05-20',22,'dorm',{}); check('C. 畢業以前（還沒拍照）：睡覺照舊（不攔）',!PG.on(G)&&!PG.bedOptions(G)); }
+  { const G=H.fresh('2029-07-15',22,'dorm',{MOVED_OUT:PG.DK('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',ROOM_Y2:1,ROOM_Y3:1}); G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; HOME.rec(G).at=true; HOME.rec(G).day=G.day; H.picks=['回宿舍']; warns.length=0;
+    await HOME.loop(GM); const menu=H.opts[0]||[];
+    check('C. 畢業後篇住在家（6/28 搬回家）、週日 22:00：媽媽不說「明天有課吧。早點回去。」、沒有「明天一早直接去學校」、睡覺不是「先回宿舍再睡」',G.weekday===0&&!H.has('明天有課吧。早點回去。')&&!menu.some(t=>/明天一早直接去學校/.test(t))&&menu.includes('睡覺')&&!warns.length,JSON.stringify(menu)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

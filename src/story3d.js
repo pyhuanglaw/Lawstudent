@@ -3512,6 +3512,7 @@ const STORY = (function(){
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('2029 年 6 月 2 日','畢業典禮｜新體育館',2600); at(9);
       if(typeof ADV!=='undefined') ADV.begin({background:bgOf('ntu_gym_ceremony')}); await GM.fade(false);
       await GM.say(null,'（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）');   /* 09:00～10:30 校級典禮，家人坐看台 */
+      if(typeof PG!=='undefined'&&PG.beforeLawCeremony) await PG.beforeLawCeremony(GM,bgOf('ntu_gym_ceremony'));   /* 和芷若交往：典禮開始前的視訊（AA_319 1A-13，src/postgrad3d.js）*/
       await GM.fade(true); at(11); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(bgOf('linze_auditorium')); await GM.fade(false);
       await GM.say(null,'（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'); F.GRADUATED=G.day;   /* 11:00～12:00 法律學院典禮（霖澤館一樓大禮堂）*/
       if(S.routeAbroadRoute(G)) await GM.say(null,'（還差一門實習，證書下學期才拿得到。）');   /* 交換延畢（AA_144 X5）*/

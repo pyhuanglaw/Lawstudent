@@ -189,6 +189,9 @@ const PG=(function(){
     if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_01',M.mem.tag,M.mem.note); };
   S.yt17=async function(GM){ const G=GM.G, Y17=L().YT17; await S.play(GM,Y17.lines); const d=S.dating(G,'heroine_03'), other=!d&&S.partners(G).length>0;
     await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?Y17.other:Y17.friend)); };
+  S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
+  S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多 */
+    if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
   S.partnerBeat=async function(GM,id){ const G=GM.G, P=L().PARTNER;
     if(id==='kexin') return S.play(GM,G.flags.GIRAFFE_KEYCHAIN?P.kexin.key:P.kexin.noKey);
     if(id==='heroine_05') return S.thermos(GM);
@@ -209,7 +212,7 @@ const PG=(function(){
     await GM.say(S.who(G,ask),L().CAFE.ask[ask]); if(!picked) S.planCafe(G); };   /* 接了一對一的不去 Café */
   async function gradScene(GM){ const G=GM.G, F=G.flags, Lx=L(), gd=S.gradDay(), A=adv(), partners=S.partners(G);
     GM.sceneBegin(); try{ await GM.fade(true);
-      if(S.dating(G,'heroine_02')){ toAtLeast(GM,gd*24+9.5); if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await GM.fade(false); await S.play(GM,Lx.PARTNER.heroine_02.video); await GM.fade(true); if(A&&A.active) A.end(); }   /* 芷若（在英國）：典禮開始前視訊 */
+      if(S.dating(G,'heroine_02')&&!F.PG_ZR_VIDEO){ toAtLeast(GM,gd*24+9.5); if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await GM.fade(false); await S.zrVideo(GM); await GM.fade(true); if(A&&A.active) A.end(); }   /* 芷若（在英國）：典禮開始前視訊 */
       toAtLeast(GM,gd*24+12);
       if(GM.titleCard) await GM.titleCard(S.dateLabel(G.day,G.hour),(typeof OUT!=='undefined'&&OUT.BG&&OUT.BG.graduation_avenue&&OUT.BG.graduation_avenue.label)||'',2200);
       if(GM.enter&&G.zone!=='campus') await GM.enter('campus',{x:S.PLAZA.x,z:S.PLAZA.z,yaw:S.PLAZA.yaw,lv:0},{noFade:true});

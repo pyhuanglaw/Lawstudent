@@ -1,7 +1,7 @@
 // 1A-13 畢業典禮的人、1A-14 畢業那天傍晚（AA_319；src/postgrad3d.js）——不需要瀏覽器。
 //   報名提醒（5/10）；拍照的順序（大合照 → 伴侶 → 以安和媽媽 CG-9 → 學姊 W15 → 語彤 17 → 子晴、明軒、阿凱）；BB 的驗收情境 D1～D4、E1～E4；
 //   W15 拿掉「一件事。只有一件。」、MET_SIS_FATHER 多「我爸叫我跟你說：恭喜。」（AA-C 更正 b6757852、5ae6a133）；手機 ⑦；心意邀約、女朋友的約會、Café 併桌；
-//   20:30 學姊的生日（友情版、戀人版、前任）；可昕 6/3、6/9（BCG-07）；畢業後篇（PG.on、床、課表不跳）。用法：node tests/graduation_unit.js
+//   20:30 學姊的生日（友情版、戀人版、前任）；可昕 6/3、6/9（BCG-07）；畢業後篇（PG.on、床、課表不跳）；接在 1A-12 家人那一段（AA_318）後面、午餐演完才跳。用法：node tests/graduation_unit.js
 const H=require('./pg_harness.js'); const {check}=H;
 const heart=(id)=>{ SOCIAL.rel(id).npcRom=40; const L=DATE.log(H.G,id); L.count=4; L.wish=true; };
 const sayIdx=t=>H.said.findIndex(s=>s.t===t);
@@ -15,7 +15,10 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   { const G=H.fresh('2029-05-10',21,'dorm',{Y4_PATH:'bar'}); PG.rules(GM); check('1. Y4_PATH bar：沒有提醒、BAR_REG＝true（X1）',!PG.due(G)&&G.flags.BAR_REG===true); }
   // ---- D1：單身、以安、學姊、子晴 FRIEND 以上 ----
   { const G=H.fresh('2029-06-02',8,'dorm'); ['zhe','yu','classmate_bohan','classmate_xinci'].forEach(H.FAMILIAR); ['heroine_01','heroine_05','heroine_04'].forEach(H.FRIEND);
-    check('2. 6/2 08:00：拍照可以開始（沒有 1A-12 的家人那段）',PG.due(G)&&PG.due(G).id==='grad');
+    check('2. 6/2 08:00：1A-12 家人那一段先（AA_318，story3d.js S.gradFamily），拍照等它',PG.familyModule()&&STORY.gradMorningDue(G)&&!PG.due(G));
+    await STORY.gradFamily(GM);
+    check('2. 家人那一段演完（撥穗＝GRADUATED 是那一天；11:55 霖澤館大廳）→ 12:00 拍照',G.flags.GRADUATED===PG.gradDay()&&Math.abs(G.hour-12)<1e-6&&PG.due(G)&&PG.due(G).id==='grad');
+    H.said=[]; H.cards=[]; H.cgs=[]; H.opts=[]; H.entered=[];
     await H.run('grad'); const L=H.lines();
     const i0=sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）'), i1=sayIdx('（以安的媽媽站在傅鐘旁邊。）'), i2=sayIdx('（她還穿著碩士服，手上拿著一個新的保溫瓶。）'), i3=sayIdx('欸不是，今天禮拜六欸，我本來要睡到中午。');
     check('2. D1 順序：大合照 → 以安和媽媽 → 保溫瓶 → 子晴「本來要睡到中午」',i0===0&&i0<i1&&i1<i2&&i2<i3,JSON.stringify([i0,i1,i2,i3]));
@@ -26,7 +29,9 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     check('2. 旗標：GRADUATED、SIS_THERMOS、GRAD_PHOTO（同班 FAMILIAR 以上）、以安的記憶 IMPORTANT_CONVERSATION',G.flags.GRADUATED===PG.gradDay()&&G.flags.SIS_THERMOS===true&&G.flags.GRAD_PHOTO.includes('zhe')&&!G.flags.GRAD_PHOTO.includes('classmate_mingxuan')&&SOCIAL.has('heroine_01','IMPORTANT_CONVERSATION'),JSON.stringify(G.flags.GRAD_PHOTO));
     check('2. 阿凱（所有玩家）：「畢業快樂。宵夜？」「……現在才中午。」「那晚上。」',H.has('畢業快樂。宵夜？')&&H.has('……現在才中午。')&&H.has('那晚上。'));
     check('2. E2：單身、沒人邀＝以安約 Café「晚上五點半，兩點半 Café。我訂了窗邊。」、排出遊 17:30',H.has('晚上五點半，兩點半 Café。我訂了窗邊。')&&OUT.get(G,'pg_grad_cafe')&&OUT.get(G,'pg_grad_cafe').h===17.5);
-    check('2. 畢業後篇：PG.on、床「睡覺：到下一件事」',PG.on(G)&&STORY.bedOptions(G)[0].hint==='到下一件事');
+    check('2. 13:30 家人的午餐（1A-12）還沒演：先不跳、床照舊',PG.on(G)&&STORY.gradLunchDue(G)&&PG.y4Due(G)&&!PG.bedOptions(G));
+    await STORY.gradLunch(GM);
+    check('2. 午餐演完：畢業後篇、床「睡覺：到下一件事」',PG.on(G)&&!PG.y4Due(G)&&STORY.bedOptions(G)[0].hint==='到下一件事');
     // Café 併桌
     OUT.get(G,'pg_grad_cafe').state='done'; G.zone='cafe'; H.at('2029-06-02',17.5); H.said=[]; ['heroine_03'].forEach(H.FAMILIAR);
     const s=PG.due(G); check('3. Café：出遊到了（在 Café）＝併桌那一段',s&&s.id==='cafe'); await PG.runStep(GM,s);
@@ -45,7 +50,9 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
   // ---- D3：和芷若交往 ----
   { const G=H.fresh('2029-06-01',22.4,'dorm'); H.FRIEND('heroine_02'); H.date('heroine_02'); PG.rules(GM); H.at('2029-06-01',23.1); H.tick();
     check('6. D3：前一晚 23:00「我設了鬧鐘。」',H.msgs('p:heroine_02').includes('我設了鬧鐘。'),JSON.stringify(H.msgs('p:heroine_02')));
-    H.at('2029-06-02',8); await H.run('grad');
+    H.at('2029-06-02',8); await STORY.gradFamily(GM); const a=sayIdx('這裡凌晨三點。……學士服是不是借太大件？'), b=sayIdx('（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）');
+    check('6. D3：視訊在家人那一段裡、校級典禮完、法律學院典禮（撥穗）以前（10:30＝英國凌晨三點多）',a>=0&&a<b&&sayIdx('（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）')<a&&G.flags.PG_ZR_VIDEO===true,JSON.stringify([a,b]));
+    await H.run('grad'); check('6. D3：拍照那一段不再視訊一次',H.said.filter(s=>s.t==='這裡凌晨三點。……學士服是不是借太大件？').length===1);
     check('6. D3：典禮開始前視訊（video 背景）；合照時阿凱舉高手機，螢幕裡有她',H.bgs.some(b=>b&&b.image==='assets/bg/video.webp')&&sayIdx('這裡凌晨三點。……學士服是不是借太大件？')<sayIdx('（傅鐘前，同班的人擠成三排。有人在喊「中間的蹲下」。）')&&H.has('（合照時，阿凱把手機舉高，螢幕裡的她也在。）')); }
   // ---- D4：和學姊分手過 ----
   { const G=H.fresh('2029-06-02',11.6,'campus'); H.FRIEND('heroine_05'); H.date('heroine_05'); ROM.end(G,'heroine_05'); H.FRIEND('heroine_05'); PG.rules(GM); H.at('2029-06-02',12.1); PHONE.tick(G);
