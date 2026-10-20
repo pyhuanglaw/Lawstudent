@@ -888,6 +888,9 @@ const STORY = (function(){
   S.noodleRegulars=noodleRegulars;
   S.refreshSchedule=refreshSchedule;
   let roomY2Busy=false, eveBusy=false, teBusy=false;
+  /* 事件包的掛勾（10-20 起，1B／1C／第 2、3 輪各自一個檔案，不必每一批都改 story3d.js）：TICKS＝每 0.5 秒（S.tick，在 1A-05 之後、在家判斷之前）、PHONE_RULES＝手機規則、
+     WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
+  S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[];
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return;   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
@@ -910,6 +913,7 @@ const STORY = (function(){
     if(S.y4Tick(GM)) return;   /* 1A-06～1A-15（AA_317、AA_318）：大四要怎麼過、第四個房間、R1 時差、收拾、畢業典禮、搬走（人在家的在 home3d.js 的 loop）*/
     if(S.coldWeekTick(GM)) return;   /* 1A-04 感冒的那一週（AA_315）：10/23 打噴嚏、10/24 晚上、10/25、10/26 可昕、期中考完的麵店 */
     if(S.exchFormTick(GM)) return;   /* 1A-05 交換志願表（AA_315）：11/17 以安在 Café、學姊在法圖、可昕的電話；11/18 截止旁白 */
+    for(const f of S.TICKS){ let r=false; try{ r=f(GM,dt); }catch(e){ console.warn('STORY.TICKS',e); } if(r) return; }   /* 事件包各自的檔案（STORY.TICKS.push(fn)）：fn(GM,dt) 回傳 true＝開演了，這一輪不再往下判斷 */
     if(typeof HOME!=='undefined'&&HOME.at(G)){ HOME.tick(GM); return; }   /* 讀檔時人在臺北的家：回到家的選單（在家的時候宿舍、校園的事件不發生）*/
     if(typeof HOME!=='undefined'&&HOME.eveDue&&HOME.eveDue(G)&&!eveBusy){ eveBusy=true; HOME.eveGo(GM).catch(e=>console.warn('HOME.eveGo',e)).finally(()=>{ eveBusy=false; }); return; }   /* 除夕 17:00 以後還在宿舍：媽媽「飯快好了。」→ 回家（AA_197 1-2）*/
     if(G.zone==='dorm'&&typeof TERMEND!=='undefined'&&TERMEND.kaiDue&&TERMEND.kaiDue(G)&&!teBusy){ teBusy=true; TERMEND.kaiAsk(GM).catch(e=>console.warn('TERMEND.kaiAsk',e)).finally(()=>{ teBusy=false; }); return; }   /* 學期末沒人約：阿凱「宵夜？」（BB_203 保底）*/
@@ -1238,7 +1242,7 @@ const STORY = (function(){
       const lines=S.neededMissFor(G,NEEDED_MSGS.list.find(x=>x.id===it[0]),id); if(!lines) continue; b.said[id]=true; N.missLast[id]=now; return lines; }
     return null; };
   S.neededMiss=async function(GM,who,id){ const L=S.neededMissLine(GM.G,id); if(!L) return false; for(const t of L) await GM.say(who,'「'+t+'」'); return true; };
-  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; if(typeof L118!=='undefined'){ try{ L118.phone(G); L118.tick(G); }catch(e){ console.warn('L118.phone',e); } }   /* 阿哲週一揪 118 巷午餐（AA_280 第 4 節）*/ if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
+  S.phoneRules=function(GM){ const G=GM.G, F=G.flags; if(typeof PHONE==='undefined') return; for(const f of S.PHONE_RULES){ try{ f(G,GM); }catch(e){ console.warn('STORY.PHONE_RULES',e); } }   /* 事件包各自的手機規則（STORY.PHONE_RULES.push(fn)）*/ if(typeof L118!=='undefined'){ try{ L118.phone(G); L118.tick(G); }catch(e){ console.warn('L118.phone',e); } }   /* 阿哲週一揪 118 巷午餐（AA_280 第 4 節）*/ if(typeof HOME!=='undefined'){ try{ HOME.phoneRules(GM); if(HOME.breakPhone) HOME.breakPhone(GM); }catch(e){ console.warn('HOME.phoneRules',e); } } if(typeof TERMEND!=='undefined'){ try{ TERMEND.phone(GM); }catch(e){ console.warn('TERMEND.phone',e); } }   /* 學期末的飯（BB_203）*/ if(typeof VAC!=='undefined'){ try{ VAC.phone(GM); }catch(e){ console.warn('VAC.phone',e); } }   /* 假期活動（AA_199）*/ try{ S.neededRules(GM); }catch(e){ console.warn('NEEDED',e); }   /* 主線 4：每週日 21:00「這週的訊息」*/   /* 家人群組（週四 20:00）；放假的手機（AA_183：7/9 語彤生日、7/15 宿舍抽籤）*/ const silentContact=id=>{ if(typeof INV==='undefined') return; INV.rec(G); if(G.contacts[id]==null) G.contacts[id]=G.day; };
     if(S.psKeep(G)&&!PHONE.sent(G,'ps_keep_'+G.day)){ const n=+F.PS_KEEP_N||0; F.PS_KEEP_N=n+1; F.PS_KEPT=true; PHONE.at(G,G.day,23+(G.day%6)/10,[{th:'p:classmate_peishan',from:'classmate_peishan',text:S.PS_KEEP_NIGHT[n%S.PS_KEEP_NIGHT.length]}],'ps_keep_'+G.day); }   /* 沛珊重考消失期、交往中（AA_276 第 4 節）：每晚 23:00 以後一則 */
     /* 芷若的第一則私訊（BB_95 4-2）：Café 第五次加了店裡的帳號（zhiruoShopContactDay）→ 那天 22:07；交往中改在隔天 15:10＋友情版的第三句（AA_112 8-1：交往中的玩家不收晚上只傳給他的訊息）*/
     /* 第三句（BB_95 4-2，BB 2026-10-14 654f5dd）：照第一次點的東西——有奶的（拿鐵、卡布奇諾、熱可可）「奶泡我多打了三秒」、手沖「悶蒸我多等了十秒」、
@@ -2702,6 +2706,7 @@ const STORY = (function(){
     if(typeof DATE!=='undefined'&&DATE.alarmsFor) for(const a of DATE.alarmsFor(G,day)) out.push({h:a.h,why:a.why});   /* 校外約會：出發前 30 分鐘（DATE-S4）*/
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.alarm&&q.state==='planned'&&q.day===day) out.push({h:q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.5,why:'約好的時間：'+q.title});   /* 出遊標 alarm 的（X81：8/30 載可昕上山）：出發前 30 分鐘叫醒 */
     if(S.y4Alarms) for(const a of S.y4Alarms(G,day)) out.push(a);   /* 1A-12 畢業典禮 08:00、1A-15 宿舍期滿 10:00（AA_318）*/
+    for(const f of S.ALARMS){ try{ for(const a of (f(G,day)||[])) out.push(a); }catch(e){ console.warn('STORY.ALARMS',e); } }   /* 事件包各自的鬧鐘（STORY.ALARMS.push(fn)：fn(G,day) 回傳 [{h,why}]）*/
     return out.sort((a,b)=>a.h-b.h); };
   S.missText=function(G,day,h0,h1){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return ''; const its=CLS.dayItems(G,day).filter(it=>!it.exam&&!CLS.storyClass(Object.assign({},G,{day}),it)&&it.t0+0.5>h0&&it.t0+0.5<=h1&&!(CLS.rec(G).done[it.key]));
     return its.length?'會錯過：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):''; };
@@ -3298,7 +3303,8 @@ const STORY = (function(){
     if(d24!=null&&G.day===d24&&F.COLD_WEEK==='night'&&F.COLD_WEEK_NIGHT==null){ if(F.COLD_WEEK_CALLS==null&&G.hour<21&&S.coldCallList(G).length) return 21; if(G.hour<21.5) return 21.5; }
     const d26=S.dayOfKey(CW_D26); if(d26!=null&&G.day===d26&&G.hour<18.5&&(F.KX_COLD_WEEK==='told'||F.KX_COLD_WEEK==='found_out')&&F.KX_COLD_WEEK_SEEN==null&&cwDating(G,'kexin')) return 18.5;   /* 10/26 可昕考完過來（3-4）*/
     const d17=S.dayOfKey('2027-11-17'); if(d17!=null&&G.day===d17&&G.hour<22&&S.kxExchTalkDue&&S.kxExchTalkDue(G)) return 22;
-    { const w=S.y4WakeAt?S.y4WakeAt(G):null; if(w!=null) return w; }   /* 1A-11：6/1 20:00 收拾（AA_318）*/ return null; };
+    { const w=S.y4WakeAt?S.y4WakeAt(G):null; if(w!=null) return w; }   /* 1A-11：6/1 20:00 收拾（AA_318）*/
+    for(const f of S.WAKE_AT){ try{ const w=f(G); if(w!=null) return w; }catch(e){ console.warn('STORY.WAKE_AT',e); } }   /* 事件包各自的「睡著也會醒來」（STORY.WAKE_AT.push(fn)：fn(G) 回傳時間或 null）*/ return null; };
   /* ---------- 1A-05　大三交換志願表＝以安新 15「為什麼是日本」（AA_315；AA_30 場景 0、AA_253 第 2 節、BB_98 2-3／9-5、AA_180 2-1；台詞照 AA_315 第 2 節，不改字）----------
      11/15 09:00 學校信箱（所有人）；11/16 21:00 以安私訊（認識、FAMILIAR 以上、沒有和她分手）；11/17 15:15 起兩點半 Café（16:00 還沒到＝「我在窗邊。」延到 17:00；18:00 沒到＝「我先交了」，沒有 AN15_SEEN）。
      這一場不決定路線：版本照 S.routeFor（routeDecide 的預覽，不寫入）；11/18 第一次起床（起床選單之前；已經過了 12:00＝下一個能播的時候）播截止旁白（2-4）。
