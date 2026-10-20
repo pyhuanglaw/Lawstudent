@@ -50,9 +50,10 @@ const SISG=(function(){
     if(lunch(c.pid,c.day,c.h)&&!awayAt(G,c.day,c.h)) return null;
     if(b!=='off'&&!S.capUsed(G,c.day,c.h)) return null;
     return {res:'decline',why:'exam',lines:[S.declineLine(G)],alt:null}; };
-  /* 校外約會（DATE.menu）：第 1～9 週照一般條件；第 10 週起到筆試婉拒「等我考完。」（第 14 週以後的表上只寫「婉拒」，用同一句）*/
+  /* 校外約會（DATE.menu）：第 1～9 週照一般條件；第 10～13 週婉拒「等我考完。」；第 14 週～筆試（capBucket 'off'）換一句（AA_339 第 4 題）*/
   S.dateDecline=function(G){ const b=S.capBucket(G,G.day,G.hour); return !!b&&!/^w/.test(b); };
-  S.dateNo=async function(GM,n){ const G=GM.G, t='等我考完。', nm=S.who().name;
+  S.DATE_NO={p:'等我考完。',off:'校外的話，等我考完。……考完我想去很遠的地方。'};
+  S.dateNo=async function(GM,n){ const G=GM.G, t=S.capBucket(G,G.day,G.hour)==='off'?S.DATE_NO.off:S.DATE_NO.p, nm=S.who().name;
     if(n) await GM.say({name:nm,obj:n.obj,charId:ID},t); else { if(typeof PHONE!=='undefined') PHONE.post(G,P5(t)); await GM.say({name:nm+'（手機）',charId:ID},t); if(GM.phoneBadge) GM.phoneBadge(); } };
 
   /* ---------- 事件（STORY_EVENTS）----------*/
@@ -118,9 +119,10 @@ const SISG=(function(){
         {if:{flags:['SIS_RESULT_TOLD']},speaker:null,text:'（她小聲對你說。）'},
         {if:{flags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'那天你傳的時候，我還在睡。'},
         {if:{flags:['SIS_NEW_PLANNER'],notFlags:['SIS_RESULT_TOLD']},speaker:ID,expression:'smile',text:'計畫本今天這一格，我寫了『吃飯』。'} ] },
-    /* 2-10 舊教科書（接 12/5「下學期的書，我會留給你」）：去過 12/5 家族聚餐的玩家，2/22（日）回宿舍那天；回家住的在 17:00 回宿舍（寒假表的 back）以後 */
+    /* 2-10 舊教科書（接 12/5「下學期的書，我會留給你」）：去過 12/5 家族聚餐的玩家，2/22（日）回宿舍那天；回家住的在 17:00 回宿舍（寒假表的 back）以後。
+       2/22 那天沒回宿舍的：第一次回宿舍那天演（AA_339 第 10 題；不限 2/28 以前，到大一下結束）*/
     { id:'ev_sis_books_y1s2', title:'舊教科書', participants:[], location:['dorm','dorm_hall'], trigger:'auto', once:true, priority:6, background:'blur',
-      prereq:{events:['ev_sis_family_dinner'],custom:G=>{ const d=D('books'); return law(G)&&d!=null&&G.day>=d&&G.day<=d+6; }},
+      prereq:{events:['ev_sis_family_dinner'],custom:G=>{ const d=D('books'), r=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays('Y1S2'):null; return law(G)&&d!=null&&G.day>=d&&G.day<=(r?r.to:d+6); }},
       dialogue:[ {speaker:null,text:'（管理室有你的一箱書。上面貼著一張便利貼。）'},
         {speaker:null,text:'（便利貼：「民總、刑總、憲法。紅筆是我的，藍筆是我學姊的。」）'} ],
       consequences:{flags:{SIS_OLD_BOOKS:true},memo:'學姊留下的舊教科書'} },
@@ -138,7 +140,7 @@ const SISG=(function(){
         {label:'end'} ],
       after:(G,GM,npcs)=>{ const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },   /* 走回總圖（和 W1 同一條路）*/
     /* 2-12 畢業典禮（BB_97 2-8；W10）：6/6（六）11:00 法律學院的典禮之後、霖澤館一樓大廳；有點熟以上的玩家當天早上收到她的私訊 → 出遊。
-       她的爸爸、媽媽：路人 compact（沒有立繪）；2D linze_auditorium */
+       她的爸爸、媽媽：路人 compact（沒有立繪）；說話人標「學姊的爸爸」（AA_339 第 3 題；媽媽同理標「學姊的媽媽」——這一場媽媽沒有台詞，只有旁白）；2D linze_auditorium */
     { id:'ev_sis_graduation', title:'畢業典禮', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'霖澤館・一樓大廳',bg:'linze_auditorium'},
         {speaker:'學姊的爸爸',text:'九月開學？'},
@@ -158,17 +160,20 @@ const SISG=(function(){
     for(const d of [G.day,G.day-1]){ if(wdOf(d)!==2) continue; const t=term(d); if(!t||t.id!=='Y1S1'||t.week<7||t.week>16||now<T(d,21.5)||now>=T(d+1,9)) continue;
       PHONE.at(G,d,21.5,[P5('你晚上如果也要讀書，可以來法圖。我旁邊的位子常常空著'),Object.assign(P5('不要講話就好。閉館的時候，可以一起去買飲料'),{ask:{id:'sisg_study_invite',until:T(d+1,19),opts:[{t:'好。',say:[P5('明天七點。')]},{t:'這週有點忙。',say:[P5('好。位子還是空的。')]}]}})],'sisg_study_invite');
       F.SIS_STUDY=true; F.SISG_STUDY_DAY=d; done(G,'ev_sis_study_invite'); return; } };
-  /* 2-3 她邀（一週最多一次）：解鎖以後的星期日 21:30「這週三晚上，法圖。」；那個星期三要在大一上的學期裡、法圖晚上有開；沒接不扣分 */
+  /* 2-3 她邀（一週最多一次）：解鎖以後的星期日 21:30「這週三晚上，法圖。」；那個星期三要在大一上的學期裡、法圖晚上有開；沒接不扣分。
+     她不追人（AA_339 第 5 題）：剛解鎖（解鎖後的第一個星期日），或這一週（上一個星期日以後）有去法圖和她坐（SISG_SAT_DAY，S.onStudy 記）才傳——
+     上一個週三沒來＝不傳，連兩週沒來也不傳；玩家自己再去法圖坐一次以後，下一個星期日恢復 */
   S.wedInvite=function(G,now){ const F=G.flags; if(!F.SIS_STUDY||!S.preExam(G.day,G.hour)) return;
     for(const d of [G.day,G.day-1]){ if(wdOf(d)!==0||(F.SISG_STUDY_DAY!=null&&d<=F.SISG_STUDY_DAY)||now<T(d,21.5)||now>=T(d+1,12)) continue; const wed=d+3, t=term(wed); if(!t||t.id!=='Y1S1') continue;
       if(typeof PLACES!=='undefined'&&PLACES.isOpen&&PLACES.hours&&PLACES.hours.lawlib&&!PLACES.isOpen('lawlib',19,wed)) continue;
+      const fresh=F.SISG_STUDY_DAY!=null&&d-F.SISG_STUDY_DAY<=7, came=F.SISG_SAT_DAY!=null&&F.SISG_SAT_DAY>d-7; if(!fresh&&!came) return;
       const tag='sisg_wed_'+wed; if(!sent(G,tag)) PHONE.at(G,d,21.5,[P5('這週三晚上，法圖。')],tag); return; } };
   /* 寒假（2-5、2-6、2-7）*/
   S.breakRules=function(G,now){ const F=G.flags, d26=D('low'), d31=D('fam'), d2=D('exam'), d3=D('ask'), d4=D('planner'); if(d26==null) return;
     if(F.SIS_STUDY&&now>=T(d26,18)&&now<T(d26,20.75)&&!sent(G,'sisg_low_msg')){ PHONE.at(G,d26,18,[P5('今天總圖讀到閉館。位子幫你留了')],'sisg_low_msg');   /* 2-5：1/26（一）18:00 → 20:00 總圖門口的台階 */
       if(typeof OUT!=='undefined') OUT.plan(G,{id:'sisg_low_night',ev:'ev_sis_low_night',day:d26,h:20,late:0.75,place:'總圖',title:'總圖門口的台階',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開總圖。'}); }
-    if(inFam(G)&&now>=T(d31,21)&&now<T(d2+1,0)&&!sent(G,'sisg_fam_0131'))   /* 2-6：1/31（六）21:00 家族群組（Kevin 1/31 從日本回來）：Kevin 起頭、她只回（所有在群組的人）*/
-      PHONE.at(G,d31,21,[K('學姊後天考試！！大家幫學姊集氣'),{th:'g:family_law',from:'fam_junior1',name:'學弟',text:'（貼圖）'},{th:'g:family_law',from:'fam_junior2',name:'學妹',text:'（貼圖）'},W('謝謝。睡了。')],'sisg_fam_0131');
+    if(inFam(G)&&now>=T(d31,21)&&now<T(d2+1,0)&&!sent(G,'sisg_fam_0131'))   /* 2-6：1/31（六）21:00 家族群組（Kevin 1/31 從日本回來）：Kevin 起頭、她只回（所有在群組的人）；兩個學弟妹＝直屬學弟「致遠」、學妹「怡萱」（AA_339 第 1 題，只在家族群組出現）*/
+      PHONE.at(G,d31,21,[K('學姊後天考試！！大家幫學姊集氣'),{th:'g:family_law',from:'fam_junior1',name:'致遠',text:'（貼圖）'},{th:'g:family_law',from:'fam_junior2',name:'怡萱',text:'（貼圖）'},W('謝謝。睡了。')],'sisg_fam_0131');
     if(F.SIS_PREEXAM_NIGHT&&now>=T(d2,17.5)&&now<T(d2+3,0)&&!sent(G,'sisg_exam_done'))   /* 2-6：2/2（一）17:30 私訊，只給 SIS_PREEXAM_NIGHT */
       PHONE.at(G,d2,17.5,[P5('考完了'),Object.assign(P5('我想吃一碗很燙的東西，然後睡十二個小時'),{ask:{id:'sisg_exam_done',opts:[{t:'去吃。',say:[P5('嗯。')]},{t:'辛苦了。',say:[P5('不要問我考得怎麼樣。我也不知道')]}]}})],'sisg_exam_done');
     if(F.SIS_PREEXAM_NIGHT&&now>=T(d3,21)&&now<T(d4,13.5)&&!sent(G,'sisg_planner_ask'))   /* 2-7：2/3（二）21:00；「好。」＝2/4（三）14:00 公館的文具店 */
@@ -182,7 +187,7 @@ const SISG=(function(){
       PHONE.at(G,d,21,[Object.assign(K('學姊上榜聚餐！這週五七點，公館的日日定食。這次我們請學姊'),{ask:{id:'sisg_rank_dinner_q',until:T(d27,18.5),opts:[{t:'去。',set:{SISG_DINNER_GO:true}}]}})],'sisg_rank_dinner');
     if(F.SISG_DINNER_GO===true){ F.SISG_DINNER_GO='planned'; if(typeof OUT!=='undefined'&&now<T(d27,19.25)) OUT.plan(G,{id:'sisg_rank_dinner',ev:'ev_sis_results_dinner_y1',day:d27,h:19,late:0.25,place:'公館・日日定食',title:'學姊上榜聚餐（公館・日日定食）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true}); }
     if(inFam(G)&&sent(G,'sisg_rank_dinner')&&now>=T(d27,21.5)&&now<T(d27+2,0)&&!evDone(G,'ev_sis_results_dinner_y1')&&!sent(G,'sisg_rank_dinner_photo'))   /* 沒去的玩家：21:30 Kevin 貼合照 */
-      PHONE.at(G,d27,21.5,[K('📷（合照）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };
+      PHONE.at(G,d27,21.5,[K('📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'),K('沒來的人錯過請學姊吃飯。千載難逢')],'sisg_rank_dinner_photo'); };   /* 合照的說明：AA_339 第 2 題 */
   /* 2-12：6/6（六）早上她的私訊（有點熟以上）→ 11:00 霖澤館（出遊）。11:00 以後才起床的不補 */
   S.gradRule=function(G,now){ const d=D('grad'); if(d==null||now<T(d,8)||now>=T(d,11)||sent(G,'sisg_grad_msg')||!atLeast(ID,'FAMILIAR')) return;
     PHONE.at(G,d,8,[P5('今天十一點，霖澤館。不用帶花')],'sisg_grad_msg');
@@ -211,11 +216,12 @@ const SISG=(function(){
   S.herAt=function(GM,h0){ const G=GM.G; if(typeof STORY!=='undefined'&&STORY.schedEnt&&typeof CHARACTERS!=='undefined'){ const e=STORY.schedEnt(CHARACTERS[ID],Object.assign({},G,{hour:h0})); if(e&&e.zone==='lawlib') return true; }
     const n=typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(ID):null; return !!n&&!!GM.E&&Array.isArray(GM.E.npcs)&&GM.E.npcs.includes(n); };
   S._seg=null;
-  S.onStudy=function(GM,hrs){ const G=GM.G, F=(G&&G.flags)||{}; if(!law(G)||!F.SIS_STUDY||G.zone!=='lawlib'||!S.preExam(G.day,G.hour)||F.SISG_SEG_DAY===G.day) return;
-    if(!S.herAt(GM,G.hour-(+hrs||1))) return; const k=S.nextSeg(G); if(!k) return; F.SISG_SEG=k; F.SISG_SEG_DAY=G.day;
+  S.onStudy=function(GM,hrs){ const G=GM.G, F=(G&&G.flags)||{}; if(!law(G)||!F.SIS_STUDY||G.zone!=='lawlib'||!S.preExam(G.day,G.hour)) return;
+    if(!S.herAt(GM,G.hour-(+hrs||1))) return; F.SISG_SAT_DAY=G.day;   /* 和她在法圖坐過（週日那則邀約看這個，AA_339 第 5 題）*/
+    if(F.SISG_SEG_DAY===G.day) return; const k=S.nextSeg(G); if(!k) return; F.SISG_SEG=k; F.SISG_SEG_DAY=G.day;
     if(k===3){ if(typeof PHONE!=='undefined') PHONE.at(G,G.day,Math.max(22,(G.hour%24)+0.5),[K('學姊今天有吃飯嗎'),W('有。三件事。一，飯糰。二，飯糰。三，飯糰。')],'sisg_seg3_'+G.day); return; }
     S._seg={k,day:G.day}; };
-  S.SEG={1:[[null,'（她和兩個同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）']],
+  S.SEG={1:[[null,'（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）']],   /* ①不放同學名字（AA_339 第 7 題）*/
     2:[[null,'（她把字卡遞給你。）'],[ID,'念給我聽。'],[null,'（你念錯一個字，她直接說出正確答案和條號。）'],[ID,'……你念錯了。不過我答對了。']],
     4:[[null,'（你卡在一題民總，她看了一眼。）'],[ID,'先看題目問誰。你在幫錯的人想。'],[null,'（說完就回去讀自己的。）']],
     5:[[null,'（你把一杯無糖綠茶去冰放在她的書旁邊。她看了杯子一眼。）'],[ID,'……誰跟你說的。']]};   /* ⑤後面接選項；不加數值、不記憶 */
