@@ -4,7 +4,7 @@
 //   1. 主線第 3 天以後還沒認識、也沒拒絕：開放（afternoonDone、anMissed、anAfter）——修改前這項 FAIL；
 //   2. 主線第 2 天：照舊等她追上來（不提前開放）；
 //   3. 拒絕過她的邀約（anSkipped）、已經認識（metAn）：不動；經濟系那一年：不動；
-//   4. 開放以後第一次跟以安說話：她自我介紹「你好，我是小安。……同班的，你不記得？」、記 met_an 與 FIRST_MET；不說咖啡廳那段的回聲；
+//   4. 開放以後第一次跟以安說話：她自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」（AA_313 第 4 節第 10 點）、記 met_an 與 FIRST_MET；不說咖啡廳那段的回聲；
 //   5. 第二次說話不再自我介紹。
 // 用法：node tests/an_missed_day2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -36,11 +36,11 @@ const F=()=>G.flags;
   at(9); STORY.tick(GM,0.016); const n={id:'an',charId:'heroine_01',name:'小安',obj:{position:{x:1,z:0}},beh:'idle'}; GM.npc.an=n;
   const offer=STORY.offerInvite; STORY.offerInvite=async()=>{};   // 說完會問要不要約（不在這裡測）
   await STORY._day2.talkAn(GM,n);
-  check('4. 第一次說話：她自我介紹「你好，我是小安。……同班的，你不記得？」', said.includes('你好，我是小安。……同班的，你不記得？'), JSON.stringify(said));
+  check('4. 第一次說話：她自我介紹「你好，我是沈以安。大家都叫我小安。」「……同班的，你不記得？」', said.includes('你好，我是沈以安。大家都叫我小安。')&&said.includes('……同班的，你不記得？'), JSON.stringify(said));
   check('4. 記 met_an、FIRST_MET', F().met_an===true&&SOCIAL.has('heroine_01','FIRST_MET'));
   check('4. 不說咖啡廳那段的回聲（無過失、後果自己承擔、不能賠十倍）', !said.some(t=>/無過失|後果自己承擔|不能賠十倍/.test(t)), JSON.stringify(said));
   said=[]; await STORY._day2.talkAn(GM,n);
-  check('5. 第二次說話：不再自我介紹', !said.includes('你好，我是小安。……同班的，你不記得？')&&said.length>0, JSON.stringify(said));
+  check('5. 第二次說話：不再自我介紹', !said.includes('你好，我是沈以安。大家都叫我小安。')&&said.length>0, JSON.stringify(said));
   STORY.offerInvite=offer;
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
