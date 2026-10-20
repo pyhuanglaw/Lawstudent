@@ -60,7 +60,7 @@ function rest(){
   // 7. 接線
   const st=src('src/story3d.js'), gd=src('src/guide3d.js'), ix=src('index.html');
   check('7. story3d.js：進區域（populate）、待在區域裡（refreshSchedule）都叫 LZUP.populate', /linze_\[34\]f\$\/\.test\(zoneId\)&&typeof LZUP!=='undefined'\)\{ try\{ LZUP\.populate\(GM,true\)/.test(st)&&/LZUP\.populate\(GM,false\)/.test(st));
-  check('7. guide3d.js：霖澤館 ⇄ 3F ⇄ 4F 的區域連結、電梯連結', /linze:\['campus','classroom','linze_3f'\]/.test(gd)&&/linze_3f:\['linze','linze_4f'\]/.test(gd)&&/ELEV=\{[^}]*linze:\['linze_3f','linze_4f'\]/.test(gd));
+  check('7. guide3d.js：霖澤館 ⇄ 3F ⇄ 4F 的區域連結、電梯連結', /linze:\['campus','classroom','linze_3f'(,'\w+')*\]/.test(gd)&&/linze_3f:\['linze','linze_4f'\]/.test(gd)&&/ELEV=\{[^}]*linze:\['linze_3f','linze_4f'\]/.test(gd));
   const i1=ix.indexOf('src/building3d.js'), i2=ix.indexOf('src/data/linze_upper_layouts.js'), i3=ix.indexOf('src/linze_upper3d.js');
   check('7. index.html：layouts 在模組前面、都在 building3d.js 後面', i1>0&&i2>i1&&i3>i2);
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0); }

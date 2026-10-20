@@ -880,6 +880,38 @@
    "approvedBy": "AA-C 定稿（2026-10-20 18:06 UTC 交付 X67 台詞，D100 台詞歸 AA）",
    "task": "EAT-EFFECT-1020",
    "note": "tools/eat/import_eat_lines.py → src/data/eat_lines.js"
+  },
+  {
+   "path": "docs/story_planning/AA_330_法律系的課搬教室_X78.md",
+   "sha": "48845c36",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（2026-10-20 18:33 UTC 交付 X78，D100）",
+   "task": "LAW-CLASS-WANCAI-1020",
+   "note": "courses.js 教室、classes3d.js ROOM_FIRST 兩句（手抄）"
+  },
+  {
+   "path": "docs/story_planning/AA_303_可昕劇情逐場確認_經濟系那一年.md",
+   "sha": "bcb678e0",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（2026-10-20 17:45 UTC 交付 X81「法律系開局的 8/30」，D100）",
+   "task": "BUG-E37-MOVEIN-1020",
+   "note": "story3d.js phoneRules 兩則＋回覆、events.js ev_y0_e37 最後一句（手抄）；AA-C 17:53 選 ① 旁白搬到兩則前面"
+  },
+  {
+   "path": "docs/story_planning/AA_317_事件包_第三批之一_1A06到1A08.md",
+   "sha": "361e1df8",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（1A-06～08，D100）",
+   "task": "EVPKG-1A06-08-1020",
+   "note": "子代理 2d9baec4 手抄進 story3d.js、events.js（合併 f7b1473e）"
+  },
+  {
+   "path": "docs/story_planning/AA_318_事件包_第三批之二_1A09到1A12與1A15.md",
+   "sha": "bf349b96",
+   "status": "approved",
+   "approvedBy": "AA-C 定稿（1A-09～12、1A-15；bf349b96 更正美國回臺、PLAYTESTED，D100）",
+   "task": "EVPKG-1A09-15-1020",
+   "note": "子代理 2d9baec4 手抄（合併 f7b1473e）；ec371ec6 照 bf349b96 改"
   }
  ]
 }

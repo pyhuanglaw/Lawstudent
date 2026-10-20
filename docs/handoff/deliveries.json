@@ -9200,6 +9200,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2026-10-20 20:0x UTC：GLB、patch 接進開發分支；載入 zones3d.js 的 40 個單元測試 ALL PASS。效能（LAWWW2 量）：draw call −1、三角形 +1 萬、陰影那一輪不變。美術由使用者看（READY_FOR_ART_REVIEW）；第二階段（公館區域裡面）LAWWW2 排在後面"
+  },
+  {
+   "id": "DL-AA-48845c36",
+   "date": "2026-10-20",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "48845c36",
+   "what": "AA_330 X78 法律系的課搬教室：萬才館多功能教室五門必修（物權、身分法、公司法、保險法、強制執行法）、霖澤館 202 八門選修（原 LINZE）；不搬的列表；第一次在那間教室上課各一句旁白",
+   "task": "LAW-CLASS-WANCAI-1020",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js"
   }
  ],
  "ignored": [
