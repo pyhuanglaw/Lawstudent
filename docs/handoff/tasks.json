@@ -21628,7 +21628,7 @@
    "id": "AA-JP-SEM-AA341-1020",
    "title": "日本路線大三下（3/25～8/5）逐週盤點與補稿（照 AA_340 做法；日本 3D 場景清單給 LAWWW2）",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y3S2",
@@ -21648,8 +21648,28 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA_341 交 LAWWW：逐週表、補稿、系統缺口、場景清單",
     "receiver": "LAWWW-C",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-C c2c5a66e 交付 AA_341"
+  },
+  {
+   "id": "JP-SEM-AA341-1020",
+   "title": "日本路線大三下（3/25～8/5）整學期能玩：進日本（2D hub）、日本學期日曆、一鍵上課、快轉／摘要日、以安作息、臺灣的區域／邀約／打工在日本期間關掉、8/5 回程（AA_341 J-S1～S19）＋補稿 G0～G9",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本路線 3/25 出發",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
+   "src": "AA_341（企劃線 c2c5a66e）"
   }
  ]
 }
