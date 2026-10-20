@@ -877,6 +877,10 @@ const STORY = (function(){
     F.amb=F.amb||{}; for(const a of AMBIENT){ if(a.zone!==G.zone) continue; const k=a.key+G.day; if(F.amb[k]) continue; const hh=h(G); if(hh<a.from||hh>=a.to) continue; if(Math.hypot(P.x-a.x,P.z-a.z)<a.r){ const L=typeof a.lines==='function'?a.lines(G):a.lines; if(!L) continue; F.amb[k]=true; playLines(GM,L.map(l=>['',l,2800])); } }
     // 總圖（D43）：和小安約好去總圖——走上二樓自習區就開始「總圖的下午」（劇情寫的是「二樓靠牆的長桌」）
     if(G.zone==='library_hall'&&F.companion==='an'&&F.plan==='library'&&(E.player.lv|0)===1&&P.y>4.9&&GM.npc.an&&!libSceneOn){ libSceneOn=true; libraryScene(GM).finally(()=>{ libSceneOn=false; }); return; }
+    /* 第二天下課以安追上來那段錯過了（那天沒在校園走出霖澤館：用手機去別的地方、睡過頭……）：第 3 天起照常開放——以安、小語、阿哲、學姊照作息出現
+       （等同她邀你、你沒跟去那條路）；以安第一次說話時自我介紹（talkAn 的 anMissed）、不說咖啡廳那段的回聲（anAfter）。
+       原本 afternoonDone 永遠不會成立，LEGACY_IDS 的人一直不出現（2026-10-20 使用者存檔：9/18 那段沒觸發，到 9/25 一個女主角都沒遇到；X70、BUG-MEET-HEROINES-1020）*/
+    if(!S.isEcon(G)&&S.mainDay(G)>=3&&!F.metAn&&!F.anSkipped&&!F.afternoonDone){ F.afternoonDone=true; F.anMissed=true; F.anAfter=true; }
     // 下課後：小安追上來
     if(G.zone==='campus'&&S.mainDay(G)===2&&!F.metAn&&!F.anSkipped&&(F.classDone||h(G)>=15.3)){ const DR=(typeof B3!=='undefined'&&B3.CAMPUS_DOOR)||{x:34,z:-100}; const d=Math.hypot(P.x-DR.x,P.z-DR.z);   /* 走出霖澤館大廳之後再走 6 m，小安追上來 */ if(d>6||!F.classDone){ if(!F.classDone){ F.classDone=true; F.classAnswer='absent'; GM.memo('翹掉了民法總則'); } F.metAn=true; meetAn(GM); } }
     // 太晚了
@@ -2812,6 +2816,7 @@ const STORY = (function(){
   S.sisCafe=sisCafe;   /* 測試用（tests/sis_cafe_unit.js） */
   async function talkAn(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_01')) return; GM.sceneBegin({adv:'heroine_01'}); SOCIAL.talkedTo('heroine_01'); if(!n.seat) if(!n.seat) if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); const isCompanion=F.companion==='an'; if(!isCompanion&&F.met_an&&await relUp(GM,'heroine_01',n)){ GM.sceneEnd(); return; } if(isCompanion){ const l=[['走吧，還沒到。'],['你走路真的很快。'],['在想今天那題，還有沒有別的講法。']]; await GM.say(n,l[(Math.random()*l.length)|0][0]); }
     else if(!F.afternoonDone&&F.classDone){ await GM.say(n,'嗯？我等一下要去總圖。'); }
+    else if(F.anMissed&&!F.met_an){ await GM.say(n,'你好，我是小安。……同班的，你不記得？',{expr:'normal'}); F.met_an=true; if(typeof SOCIAL!=='undefined'&&SOCIAL.meet&&SOCIAL.has&&!SOCIAL.has('heroine_01','FIRST_MET')) SOCIAL.meet('heroine_01',G.zone); }   /* 第二天那段錯過了（S.tick 的 anMissed）：第一次說話她自我介紹（同下面沒認識的那句）*/
     else if(F.afternoonDone){ if(!F.anAfter){ F.anAfter=true; const w1=S.week1Start(G);   /* 開學改 9/1 的局第一週沒有報告：留 Café 那段的回聲（AA_195 4-11）；舊局照舊 */ if(F.cafeView==='C'){ await GM.say(n,w1?'你說的那個『無過失』，我回去查了一下。課本後面才會講。':'報告我用了你說的那個——「無過失」。老師如果打槍我，就說是你的主意。',{expr:'smile'}); } else if(F.cafeView==='B'){ await GM.say(n,w1?'你說的『後果自己承擔』，我後來想了一下。……還是覺得不太公平。':'我後來想了一下你說的「後果自己承擔」。……我把它寫進反方意見了。'); } else { await GM.say(n,w1?'你那個『不能賠十倍』的講法，我記在筆記旁邊了。':'報告寫到一半。你那個「不能賠十倍」的講法，我放在結論。'); } /* 舊版「家裡希望我念」的追問拿掉（D60：舊的四個回答連同反應整組拿掉；舊存檔的 family 照 AA_120 7-5 當 own 讀，沒有追問）*/GM.rel('an',1); } else if(!(await S.ladderTalk(GM,n,'heroine_01'))){ const l=['明天要不要一起去總圖？早上人少。','周老師說錯誤和撤銷要到這學期後面才講，你先看八十八條。','那間咖啡廳的檸檬塔你還沒吃過吧。']; await GM.say(n,l[(Math.random()*l.length)|0],{expr:'smile'}); } }   /* 閒聊階梯（AA_135）優先；沒有階梯資料（之後的學期）才用舊的三句 */
     else { await GM.say(n,'你好，我是小安。……同班的，你不記得？',{expr:'normal'}); G.flags.met_an=true; }
     if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_01',n); GM.sceneEnd(); }
