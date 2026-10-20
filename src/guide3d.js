@@ -125,7 +125,15 @@ const GUIDE=(function(){
   function updateMarkers(dt){ if(st.markerZone!==E.zone) buildMarkers(); const p=P(), py=p.y; st.hT=(st.hT||0)-dt; const refresh=st.hT<=0; if(refresh) st.hT=5;
     for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&d>(m.it.radius||1.2)+0.8&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(m.ring){ const rv=(E.levels?(m.it.lv|0)===PLV():true)&&d<(m.it===goldIt?60:20)&&!(E.player.busy&&E.cam.mode!=='follow'); m.ring.visible=rv; if(rv) m.ring.material.opacity=0.42+0.22*Math.sin(performance.now()/420); }
       if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
-      if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } } }
+      if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } }
+    hideOverlaps(p); }
+  /* 名牌在畫面上疊在一起（LAWWW-C 10-20 截圖：118 巷兩排九間店，往巷子裡看名牌疊成一排、互相蓋住字）：會疊的只留近的，金色（導航目的地）優先。
+     sizeAttenuation=false：名牌在畫面上的大小固定＝m.w、m.h 乘 fitMarker 的倍率；錨點在名牌底邊中間（center 0.5,0）*/
+  function declutter(L){ L.sort((a,b)=>(b.gold?1:0)-(a.gold?1:0)||a.d-b.d); const kept=[]; for(const r of L){ if(kept.some(k=>r.x0<k.x1+6&&r.x1>k.x0-6&&r.y0<k.y1+4&&r.y1>k.y0-4)){ r.hide=true; continue; } kept.push(r); } return L; }
+  function hideOverlaps(p){ const cam=E.camera; if(!cam||!THREE.Vector3) return; const W=E.w||window.innerWidth||800, H=E.h||window.innerHeight||400, L=[], v=new THREE.Vector3();
+    for(const m of st.markers){ if(!m.spr.visible) continue; m.spr.getWorldPosition(v).project(cam); if(v.z>1) continue; const k=(m.indoor?0.33:0.38)*(m.gold?1.12:1), w=m.w*k, h=m.h*k, x=(v.x+1)/2*W, y=(1-v.y)/2*H;
+      L.push({m,d:Math.hypot(m.it.x-p.x,m.it.z-p.z),gold:m.it===goldIt,x0:x-w/2,x1:x+w/2,y0:y-h,y1:y}); }
+    if(L.length>1) for(const r of declutter(L)) if(r.hide) r.m.spr.visible=false; }
 
   /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */
   function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w||!w.zone) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
@@ -186,5 +194,5 @@ const GUIDE=(function(){
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
   function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; for(const c of st.bmImgs.splice(0)) if(c.nav!==E.nav&&!(E.levels&&E.levels.includes(c.nav))){ freeCanvas(c.img); c.nav._bmImg=null; } else st.bmImgs.push(c); }
-  return { init, tick, infer, drawMini, openMap, closeMap, zoneChanged, nextZone:(a,b)=>nextZone(a,b), _st:st, target:d=>target(d) };
+  return { init, tick, infer, drawMini, openMap, closeMap, zoneChanged, nextZone:(a,b)=>nextZone(a,b), _st:st, target:d=>target(d), declutter };
 })();
