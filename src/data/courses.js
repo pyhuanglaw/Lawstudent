@@ -115,7 +115,7 @@ const COURSES={
     {id:'crim_judgment_sem',name:'刑事判決研討',kind:'elective',term:'Y4S1',prof:'prof_lin',room:'WSEM',slots:[{wd:5,block:'am'}],topics:['判決怎麼讀','不同意見書'],specials:[{w:3,title:'為了保護朋友而動手的回聲'}],choice:{group:'Y4S1_sem',default:'crim_judgment_sem'}},
     {id:'public_judgment_sem',name:'公法判決研討',kind:'elective',term:'Y4S1',prof:'prof_xu',room:'WSEM',slots:[{wd:5,block:'am'}],topics:['判決怎麼讀','憲法判決','行政法院判決'],choice:{group:'Y4S1_sem',default:'crim_judgment_sem'}},
     // ---- 大四下（2029 春）----
-    {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:6,title:'法院旁聽（地方法院）'},{w:7,title:'旁聽之後'},{w:10,title:'回顧大一的案例'}]},   /* AA_263（syllabus 7abe189a）：第 6 週法院旁聽、第 7 週旁聽之後、第 10 週回顧大一 */
+    {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:7,title:'旁聽之後'},{w:10,title:'回顧大一的案例'}]},   /* AA_263（syllabus 7abe189a）：第 7 週旁聽之後、第 10 週回顧大一；第 6 週法院旁聽拿掉（AA_252 2-4、AA_327 2-Y4-41：大四下的法院旁聽整段拿掉，課照上）*/
     {id:'legal_practice',name:'法律實習或法律扶助實務',kind:'required',term:'Y4S2',prof:null,profName:'實習指導',room:'OFF',slots:[{wd:2,block:'am'},{wd:2,block:'pm1'}],topics:['事務所或法扶的實務']},
     {id:'maritime',name:'海商法與海洋法',kind:'elective',term:'Y4S2',prof:null,profName:'兼任老師',room:'L202',slots:[{wd:3,block:'am'}],topics:['海上運送','海洋法']},
   ]
