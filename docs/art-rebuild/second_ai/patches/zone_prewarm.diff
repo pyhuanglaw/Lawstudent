@@ -12,10 +12,10 @@ index a3055b36..aafca148 100644
    GM.enter=enter;
    // ---------- 小地圖 ----------
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 90411992..965c370e 100644
+index 90411992..7e7b41e6 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1687,5 +1687,21 @@ const Z3 = (function(){
+@@ -1687,5 +1687,29 @@ const Z3 = (function(){
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
    const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
@@ -24,15 +24,23 @@ index 90411992..965c370e 100644
 +     原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
 +     淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
 +     現在：先等一個 macrotask 讓已載過的正式模型接上；再用 compileAsync 編整個場景的材質（有 KHR_parallel_shader_compile 時不卡主執行緒、多個 shader 同時編）；
-+     最後把場景裡的貼圖傳上 GPU，每傳約 400 萬像素讓出一次主執行緒。最多等 cap 毫秒，超過就照原本的方式（剩下的第一格做）。E.lastPrewarm 記每一段的時間（測試、量測用）。*/
++     最後把場景裡的貼圖傳上 GPU，每傳約 400 萬像素讓出一次主執行緒。最多等 cap 毫秒，超過就照原本的方式（剩下的第一格做）。E.lastPrewarm 記每一段的時間（測試、量測用）。
++     只做看得到的物件（traverseVisible）：被正式模型取代、藏起來的套件備用模型不編、不傳（省時間也省 GPU 記憶體；晚上才出現的東西照舊在出現那一格做）。
++     compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。*/
 +  async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
 +    const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
-+    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,timedOut:false};
++    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,timedOut:false};
 +    await tick(); out.attachMs=performance.now()-t0;
-+    const tc=performance.now(); let to=null; const ok=await Promise.race([R.compileAsync(E.scene,E.camera).then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
++    const shown=new Set(); E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); });
++    const isMat=m=>Array.isArray(m)?m.every(x=>x&&x.isMaterial):!!(m&&m.isMaterial), off=[];
++    const tc=performance.now(); let job;
++    try{ E.scene.traverse(o=>{ if(o.material&&(!shown.has(o)||!isMat(o.material))){ off.push([o,o.material]); o.material=null; } }); job=R.compileAsync(E.scene,E.camera); }
++    catch(e){ console.warn('prewarm compile',e); job=Promise.resolve(); }
++    finally{ for(const [o,m] of off) o.material=m; }
++    out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
 +    out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
 +    const texs=new Set(), add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture) texs.add(v); };
-+    E.scene.traverse(o=>{ const ms=o.material?(Array.isArray(o.material)?o.material:[o.material]):[]; for(const m of ms){ if(!m) continue; for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } });
++    for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
 +    const tt=performance.now(); let batch=0;
 +    for(const t of texs){ if(left()<=0){ out.timedOut=true; break; } const im=t.image, px=im&&im.width&&im.height?im.width*im.height:0; R.initTexture(t); out.textures++; out.mpix+=px/1e6; batch+=px; if(batch>=(opts.batchPx||4e6)){ batch=0; await tick(); } }
 +    out.texMs=performance.now()-tt; out.ms=performance.now()-t0; E.lastPrewarm=out; return out; }
@@ -40,10 +48,10 @@ index 90411992..965c370e 100644
  })();
 diff --git a/tests/zone_prewarm_unit.js b/tests/zone_prewarm_unit.js
 new file mode 100644
-index 00000000..7c978154
+index 00000000..67ae6e67
 --- /dev/null
 +++ b/tests/zone_prewarm_unit.js
-@@ -0,0 +1,55 @@
+@@ -0,0 +1,65 @@
 +// 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）——不需要瀏覽器。
 +// 原本：GAME.enter 在畫面全黑時建區域、畫第一格，已經載過的正式模型在淡入時（await fade(false)）才接上，淡入那幾格才編 shader、傳貼圖 → 畫面停住。
 +// 修正（src/zones3d.js 的 Z3.prewarm＋src/game3d.js 的 enter）：淡入之前先讓已載過的正式模型接上，再 compileAsync、把貼圖傳上 GPU，最多等 cap 毫秒。
@@ -52,6 +60,7 @@ index 00000000..7c978154
 +//   ③ 場景裡每張貼圖都傳上 GPU（材質的 map／normalMap／emissiveMap、ShaderMaterial 的 uniform、程序化的 canvas 貼圖），render target 的不傳；
 +//   ④ compileAsync 一直沒好也不會卡住：cap 毫秒內回來、標 timedOut；⑤ 大貼圖分批，中間讓出主執行緒；
 +//   ⑥ game3d.js 的 enter：淡入之前、E.update 之後、E.render 之前 await Z3.prewarm；noFade（搭電梯換區域）不等。
++//   ⑦ 藏起來的物件不編、不傳（three.js 的 compile 會走到藏起來的物件：溫州街有三個藏起來的套件零件 material 是 TK paint 描述，編下去丟例外——2026-10-21 遊戲內量測抓到）。
 +// 用法：node tests/zone_prewarm_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -64,10 +73,15 @@ index 00000000..7c978154
 +for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 +let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 +const tex=(name,w,h)=>{ const t=new THREE.Texture({width:w,height:h}); t.name=name; return t; };
-+function fakeRenderer(compileMs){ const R={compiled:null,inited:[],compileAsync(scene){ const names=[]; scene.traverse(o=>{ if(o.material) names.push(o.material.name); }); R.compiled=names; return compileMs<0?new Promise(()=>{}):new Promise(r=>setTimeout(r,compileMs)); }, initTexture(t){ R.inited.push(t.name); } }; return R; }
++// 假的 renderer：compileAsync 和 three.js 的 compile 一樣走過「所有」物件（包括藏起來的），material 不是真的材質（customProgramCacheKey 不是函式）就丟 TypeError
++function fakeRenderer(compileMs){ const R={compiled:null,inited:[],compileAsync(scene){ const names=[]; scene.traverse(o=>{ if(!(o.isMesh||o.isPoints||o.isLine||o.isSprite)) return; const m=o.material; if(!m) return; for(const x of [].concat(m)){ if(typeof x.customProgramCacheKey!=='function') throw new TypeError('material.customProgramCacheKey is not a function'); names.push(x.name); } }); R.compiled=names; return compileMs<0?new Promise(()=>{}):new Promise(r=>setTimeout(r,compileMs)); }, initTexture(t){ R.inited.push(t.name); } }; return R; }
 +function scene(){ const S=new THREE.Scene(); const proc=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name:'proc_mat',map:tex('canvas_sign',512,256)})); S.add(proc);
 +  const sh=new THREE.ShaderMaterial({name:'shader_mat',uniforms:{tDiffuse:{value:tex('uniform_tex',256,256)},k:{value:1}}}); S.add(new THREE.Mesh(new THREE.BoxGeometry(),sh));
-+  const rt=new THREE.WebGLRenderTarget(64,64); rt.texture.name='rt_tex'; S.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshBasicMaterial({name:'rt_mat',map:rt.texture}))); return S; }
++  const rt=new THREE.WebGLRenderTarget(64,64); rt.texture.name='rt_tex'; S.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshBasicMaterial({name:'rt_mat',map:rt.texture})));
++  // 藏起來的東西（被正式模型取代的套件備用模型）：一個是真的材質＋貼圖、一個的 material 是 TK 的 paint 描述（溫州街真的有三個）、一個是藏起來的群組底下「自己 visible」的子物件
++  const fb=new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name:'hidden_fallback',map:tex('hidden_tex',1024,1024)})); fb.visible=false; S.add(fb);
++  const paint=new THREE.Mesh(new THREE.CylinderGeometry(),{isPaint:true,color:'#777777',key:'p1'}); paint.visible=false; S.add(paint); S.userData.paint=paint;
++  const hg=new THREE.Group(); hg.visible=false; hg.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name:'hidden_child',map:tex('hidden_child_tex',512,512)}))); S.add(hg); return S; }
 +const glbTpl=()=>{ const g=new THREE.Group(); g.add(new THREE.Mesh(new THREE.BoxGeometry(),new THREE.MeshStandardMaterial({name:'glb_mat',map:tex('glb_base',1024,1024),normalMap:tex('glb_nor',1024,1024),emissiveMap:tex('glb_emit',512,512)}))); return g; };
 +(async()=>{
 +  check('① Z3.prewarm 存在',typeof Z3.prewarm==='function');
@@ -75,11 +89,15 @@ index 00000000..7c978154
 +    // ②③：和 zones3d.js 一樣，區域建好時對已載過的模型呼叫 loadOne().then(c=>attach)——這時候 promise 已經完成，.then 是 microtask
 +    const R=fakeRenderer(20), E={renderer:R,scene:scene(),camera:new THREE.PerspectiveCamera()}; const cached=Promise.resolve({scene:glbTpl()});
 +    cached.then(c=>{ E.scene.add(c.scene.clone(true)); });
-+    const out=await Z3.prewarm(E,{cap:2000});
++    let out=null, err=null; try{ out=await Z3.prewarm(E,{cap:2000}); }catch(e){ err=e; }
++    check('⓪ Z3.prewarm 不丟例外（藏起來的物件 material 不是真材質也一樣）',!err,err?String(err&&err.message||err):'');
++    if(err){ console.log(`${fails} FAIL`); process.exit(1); }
 +    check('② 已載過的正式模型在編 shader 之前接上（compileAsync 看得到 glb_mat）',!!R.compiled&&R.compiled.includes('glb_mat'),JSON.stringify(R.compiled));
 +    const want=['canvas_sign','uniform_tex','glb_base','glb_nor','glb_emit'];
 +    check('③ 場景裡每張貼圖都傳上 GPU（材質的貼圖、ShaderMaterial uniform、程序化 canvas）',want.every(n=>R.inited.includes(n)),JSON.stringify(R.inited));
 +    check('③ render target 的貼圖不傳',!R.inited.includes('rt_tex'));
++    check('⑦ 藏起來的物件不編 shader、貼圖不傳（套件備用模型、藏起來的群組底下的子物件）',!R.compiled.includes('hidden_fallback')&&!R.compiled.includes('hidden_child')&&!R.inited.includes('hidden_tex')&&!R.inited.includes('hidden_child_tex'),JSON.stringify({compiled:R.compiled,inited:R.inited}));
++    const pm=E.scene.userData.paint; check('⑦ material 不是真材質的藏起來物件（TK paint 描述）：不丟例外，編完 material 放回原本那個',pm&&pm.material&&pm.material.isPaint===true);
 +    check('③ 回傳數字（貼圖數、百萬像素、沒有逾時）',out&&out.textures===5&&Math.abs(out.mpix-(0.131+0.066+1.049+1.049+0.262))<0.01&&!out.timedOut,JSON.stringify(out));
 +    // ④ compileAsync 一直沒好
 +    const R2=fakeRenderer(-1), E2={renderer:R2,scene:scene(),camera:new THREE.PerspectiveCamera()}; const t0=Date.now(); const out2=await Z3.prewarm(E2,{cap:300}); const dt=Date.now()-t0;

@@ -11,6 +11,7 @@ HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, os.path.jo
 import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
+KEEP_ANON = '--keep-anon' in sys.argv   # 量測用：路人底模池換區域時不輪換（已經載好的就照用），看路人 VRM 下載、換上佔多少
 
 HOOK = """(()=>{ if(window.__zp) return; const P=window.__zp={frames:[],loads:[],marks:[]}; const E=GAME.E, R=E.renderer;
   const lo=ASSETS.loadOne; ASSETS.loadOne=function(k,...a){ const t0=performance.now(), rec={k,t0,t1:null,cached:!!(ASSETS.cache&&ASSETS.cache[k])}; P.loads.push(rec); const p=lo.call(this,k,...a); Promise.resolve(p).then(()=>{ rec.t1=performance.now(); },()=>{ rec.t1=-1; }); return p; };
@@ -30,10 +31,12 @@ async def phase(pg, zone, label, rec_s=30):
       return {frames:rows.length,steadyMs:med,over100:rows.filter(r=>r.ms>100).length,over250:rows.filter(r=>r.ms>250).length,top,rows,marks:mk,loads:lds,progEnd:i.programs?i.programs.length:0,tex:i.memory.textures,geo:i.memory.geometries,zone:GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id,prewarm:lp}; })(%s)""" % json.dumps(t0))
     r.update({'label': label, 'enterMs': round(ms), 'progStart': info0['prog'], 'texStart': info0['tex'], 'geoStart': info0['geo']})
     # 玩家看得到的部分：淡入（GAME.enter 結束前 0.5 秒）開始以後 10 秒內，最長的一格、超過 100 ms 的格子加起來多久（黑畫面時的卡不算：玩家只看到黑畫面多停一下）
-    fin = r['enterMs'] / 1000.0; vis = [x for x in r['rows'] if fin - 0.55 <= x['t'] <= fin + 10]
-    r['visibleMaxMs'] = max([x['ms'] for x in vis] or [0]); r['visibleStallMs'] = sum(x['ms'] for x in vis if x['ms'] > 100); r['blackMs'] = round(max(0.0, fin - 0.5) * 1000)
-    del r['rows']
-    print(json.dumps({k: r[k] for k in ('label', 'zone', 'enterMs', 'blackMs', 'visibleMaxMs', 'visibleStallMs', 'marks', 'prewarm', 'progStart', 'progEnd', 'texStart', 'tex', 'steadyMs', 'over100', 'over250')}, ensure_ascii=False), flush=True)
+    # 一格的時間是「上一格結束 → 這一格結束」：開始時間在淡入以前的（黑畫面時開始的長格）不算看得到。SwiftShader 每一格本來就慢（steadyMs），所以另外算「比平常多出來的」
+    fin = r['enterMs'] / 1000.0; vis = [x for x in r['rows'] if x['t'] - x['ms'] / 1000.0 >= fin - 0.55 and x['t'] <= fin + 10]
+    r['visibleMaxMs'] = max([x['ms'] for x in vis] or [0]); r['visibleStallMs'] = sum(x['ms'] for x in vis if x['ms'] > 100)
+    r['visibleExcessMs'] = round(sum(max(0, x['ms'] - 2 * r['steadyMs']) for x in vis)); r['blackMs'] = round(max(0.0, fin - 0.5) * 1000)
+    r['rows'] = [[x['t'], x['ms'], x['newProg']] for x in r['rows']]
+    print(json.dumps({k: r[k] for k in ('label', 'zone', 'enterMs', 'blackMs', 'visibleMaxMs', 'visibleStallMs', 'visibleExcessMs', 'marks', 'prewarm', 'progStart', 'progEnd', 'texStart', 'tex', 'steadyMs', 'over100', 'over250')}, ensure_ascii=False), flush=True)
     print('  最長的幾格：' + json.dumps(r['top'][:8], ensure_ascii=False), flush=True)
     print('  正式模型：' + json.dumps(r['loads'], ensure_ascii=False)[:1500], flush=True)
     return r
@@ -45,6 +48,9 @@ async def main():
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, {'zone': 'gongguan', 'hour': 15.0, 'weather': 'clear', 'pos': None}, quiet_events=True)
         run.setup('[前置] 讀檔到公館 15:00（quiet_events）；等 25 秒讓公館的模型都接上')
+        if KEEP_ANON:
+            await pg.evaluate("""(()=>{ const P=CHAR.anonPool, orig=P.refresh; P.refresh=function(z,l){ if(this.cur&&this.cur.length&&this.cur.every(k=>ASSETS.has(k))){ this.pick={}; this.uses={}; return this.cur; } return orig.call(this,z,l); }; })()""")
+            run.setup('[量測用] 路人底模池不輪換（--keep-anon）')
         await pg.wait_for_timeout(25000); await pg.evaluate(HOOK)
         res.append(await phase(pg, 'wenzhou', '公館 → 溫州街（第一次）'))
         res.append(await phase(pg, 'cafe', '溫州街 → 咖啡廳（第一次）'))
