@@ -1,0 +1,63 @@
+{
+ "role": "BB",
+ "format": "HV-18：一則使用者要求一筆；kind＝原話／選擇題答案／轉述／AI解讀（AI解讀要 confirmed:true 才算數）；status 和 USER_WANTS 那一列一樣；wants＝USER_WANTS 的列、task＝tasks.json 的任務，至少一個",
+ "note": "LAWWW-C 2026-10-18 13:5x 依 USER-WANTS-AUDIT-1018 建的種子（原文已對過）；這個職位回來合併 RULE_SOURCE 以後由自己維護，職位分支上的版本優先",
+ "asks": [
+  {
+   "id": "UA-BB-1018-01",
+   "at": "2026-10-18T10:1x",
+   "quote": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景",
+   "kind": "轉述",
+   "status": "在遊戲裡",
+   "wants": "X37",
+   "task": "CG-NOPERSON-1018",
+   "src": "BB_00 287、311 行；BB_132 第 87 組",
+   "note": "2026-10-21 LAWWW-C 依 BB-C 12:46 訊息代改（BB 分支改不到這份種子）：和 USER_WANTS X37 一致"
+  },
+  {
+   "id": "UA-BB-1018-02",
+   "at": "2026-10-18T10:1x",
+   "quote": "（BB 的解讀）以後有人物的 CG 需求都先改純場景、先問使用者",
+   "kind": "AI解讀",
+   "confirmed": true,
+   "status": "已取消",
+   "task": "CG-NOPERSON-1018",
+   "src": "BB_00 311 行",
+   "note": "使用者 14:0x 問過：選「只有這三張（建議）」，這個擴大解讀不成立"
+  },
+  {
+   "id": "UA-BB-1021-03",
+   "at": "2026-10-21T13:2x",
+   "quote": "美國的場景 或者遊戲已經有3D模型的場景的CG 你是不是應該給我遊戲中的圖搭配提示詞?",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X93",
+   "task": "BG-3DSHOT-1021",
+   "src": "BB-C 對話（使用者直接對 BB-C 說）",
+   "note": "BB-C 回：對，遊戲有 3D 的地方（C208 廚房、會所外觀、Café、體育館球場、萬才館大廳），2D 背景要附遊戲截圖當構圖參考；10-21 生成的 us_shared_kitchen 不用（和 3D 不一致）。LAWWW-C 13:2x 代登，BB-C 補原話",
+   "confirmed": true
+  },
+  {
+   "id": "UA-BB-1021-01",
+   "at": "2026-10-21T12:5x",
+   "quote": "有缺的CG有哪些 如果是單純場景的 給我提示詞 一次10組 有要放人物的再緩緩 我不會馬上給你 你給我後繼續其他工作",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "進行中",
+   "task": "BG-MISSING-1021",
+   "src": "BB-C 對話",
+   "note": "第 92 組（daab8c29）已給、使用者交 10 張（4 張已收檔 fcdc576d、5 張只在對話裡、1 張不用）；第 93 組 10 張 13:2x 已給"
+  },
+  {
+   "id": "UA-BB-1021-04",
+   "at": "2026-10-21T13:2x",
+   "quote": "你等等給我下一批的只需要純文字提示詞 有要附圖片生成的 不是純文字描述的 先等下一批",
+   "kind": "原話",
+   "confirmed": true,
+   "status": "照做中",
+   "task": "BG-3DSHOT-1021",
+   "src": "BB-C 對話",
+   "note": "下一批（第 93 組）只放純文字的；要附遊戲截圖的（us_shared_kitchen、us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby）另外一批，等使用者要"
+  }
+ ]
+}
