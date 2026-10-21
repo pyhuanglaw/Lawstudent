@@ -12437,6 +12437,19 @@
    "msg": "ACTIONED",
    "integration": "已整合待測試",
    "note": "LAWWW-C 接線（jp3d.js 選單、床、tick）"
+  },
+  {
+   "id": "DL-AA-db572d57",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "db572d57",
+   "what": "人物知道不該知道的事（AA-C 清查）：13 句改成每條路線都成立（AA 直接推開發分支，只改引號裡的字）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "cb3ad00d 合併；全套 unit 跑中"
   }
  ],
  "ignored": [
