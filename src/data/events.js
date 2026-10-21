@@ -1024,6 +1024,91 @@ const STORY_EVENTS=[
     prereq:{custom:G=>G.flags.SK05_GO===G.day},
     dialogue:[ {speaker:'阿勳',text:'法律系考試考什麼？'},{speaker:'player',text:'一題寫一整頁。要寫理由。'},{speaker:'阿勳',text:'一整頁？經濟系至少有標準答案。'},{speaker:'阿勳',text:'……好啦，不一定。'},
       {speaker:null,text:'他按了兩罐一樣的飲料，丟一罐給你。'},{speaker:'阿勳',text:'明年也閃三下。'},{set:{SK05_Y1:true,MET_XUN:true}} ] },
+  /* ===== BB_106 法律系大一那幾件（企劃線 BB_106@71b3e6c3，AA-C 2026-10-18 審過＝可以實作；白名單 LAWWW-C 10-21 已登記）：SK06（V2-SK06）、SK07（V2-SK07）、
+     日常 D1、D2（V1-B106-D1D2）、4-2 的球賽（V1-B106-42）。台詞照稿；舞台說明改成旁白的地方標在那一行；時間、條件的寫法在 story3d.js（S.sk06Open、S.b106d2Due、S.fdormGather、手機的 4-2）。
+     經濟系的朋友在法律系時期第一次出現先加一句重新介紹（BB_105 2-1 通則；STORY.tangIntro、STORY.wlIntro）===== */
+  /* SK06 特別感謝：法律系的路人：品妤私訊以後（大一下第 10 週週一 16:00），第 10～14 週週一、三、五 17:00～20:00（她週二、四在補習班）走到社科院大樓的門口＝2D 三樓的討論室（AA_145：classroom_small）。
+     報告題目「學生宿舍要用抽籤，還是用拍賣？」；三選一：①用經濟學反問 ②用法律的角度（法律審查 BB_115 L419 無誤：只寫一般原則，不給結論）③找阿哲來。
+     有 STICKY_NOTES（SK04）的玩家，桌上有一張唐睿的便利貼。去不去都記 SOC_ROAD_PERSON（之後唐睿叫他「路人」：D2、SK08）；沒去＝第 15 週週一 21:00 群組一則（story3d.js）*/
+  { id:'ev_sk06_roadperson', title:'特別感謝：法律系的路人', participants:[], location:'campus', trigger:'auto', term:['Y1S2'], weeks:[10,11,12,13,14], weekday:[1,3,5], time:[17,20], once:true, background:'blur', near:{x:16,z:-85,r:3.5},   /* 社科院大樓的正門（同 SK02）*/
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.sk06Open&&STORY.sk06Open(G)},
+    dialogue:[ {scene:'社科院・三樓的討論室',bg:'classroom_small'},
+      {speaker:null,text:'白板上寫著報告題目：「學生宿舍要用抽籤，還是用拍賣？」'},   /* 舞台說明（白板、報告題目）改旁白 */
+      {if:{flags:['STICKY_NOTES']},speaker:null,text:'討論室的桌上，有一張唐睿的便利貼。'},{if:{flags:['STICKY_NOTES']},speaker:'便利貼',text:'插座只有一個是好的。這次是真的。'},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},   /* 通則：品妤用 BB_96 10-1 那句（BB_105 2-1 寫「可昕的室友」，她們已經不是室友；給 AA 的問題）*/
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.tangIntro(G)},speaker:'唐睿',text:'唐睿。全系最會講話的那個。'},{set:{MET_TANG:true}},
+      {speaker:'品妤',text:'教授要「法律的觀點」。所以我們需要一個法律系的。'},
+      {speaker:'player',text:'所以我是被抽中的？'},
+      {speaker:'品妤',text:'你是被拍賣的。得標價，一杯紅茶。'},
+      {choice:[{text:'「先想想誰會被排擠：付不起的人。」',hint:'用經濟學反問',set:{SK06_CHOICE:'econ'},goto:'a'},{text:'「公立大學分配宿舍，要考慮平等，不能只看誰出得起錢。」',hint:'用法律的角度',set:{SK06_CHOICE:'law'},goto:'b'},{text:'「我找一個人來。」',set:{SK06_CHOICE:'zhe'},goto:'c'}]},
+      {label:'a'},{speaker:'唐睿',text:'……這是福利經濟學的問題。我們漏了。'},{goto:'end'},
+      {label:'b'},{speaker:'品妤',text:'這句放最後一頁。'},{goto:'end'},
+      {label:'c'},{speaker:'阿哲',text:'用猜拳。'},{speaker:'品妤',text:'……其實那是抽籤的一種。'},{speaker:null,text:'唐睿把猜拳寫進了附錄。'},
+      {label:'end'},{speaker:null,text:'報告的最後一頁寫著：「特別感謝：法律系的路人」。'},   /* 「後續記憶」改旁白 */
+      {set:{SOC_ROAD_PERSON:true}},{advance:1} ],
+    consequences:{stamp:['SK06_DAY'],memo:'社科院的討論室：幫經濟系的報告寫「法律的觀點」那一頁'} },
+  /* SK07 唐睿的即興劇：大一下第 14 週週一 21:00 唐睿在群組「給我一個觀眾。一個就好。」→ 排進行程：第 14 週週三 19:00 博雅的教室（出遊；即興劇社借來辦期末小演出，2D classroom_small，同 E18）。
+     「觀眾給一個詞」三選一記 IMPROV_WORD（喊的詞，SK11 的主持詞會用）；③「長頸鹿的尾巴！」只有玩過經濟系大一、知道這個詞的人（PLAYED_Y0＋E12_ANSWER）。散場品妤一句。
+     沒去＝當晚 21:30 品妤在群組傳影片。博雅前的海報（另一個觸發）還沒做：海報是場景的東西（D108 歸 LAWWW2）*/
+  { id:'ev_sk07_improv', title:'唐睿的即興劇', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+    dialogue:[ {scene:'博雅・教室',bg:'classroom_small'},
+      {speaker:null,text:'即興劇社借了博雅的教室，辦期末的小演出。品妤坐在第一排，沒有表情。阿哲是被你拉來的。'},   /* 舞台說明（場景、人物）改旁白 */
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.tangIntro(G)},speaker:'唐睿',text:'唐睿。全系最會講話的那個。'},{set:{MET_TANG:true}},
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},
+      {speaker:null,text:'輪到「觀眾給一個詞」。'},
+      {choice:[{text:'「善意第三人！」',set:{IMPROV_WORD:'善意第三人'},goto:'a'},{text:'「機會成本！」',set:{IMPROV_WORD:'機會成本'},goto:'b'},{text:'「長頸鹿的尾巴！」',if:{flags:['PLAYED_Y0','E12_ANSWER']},set:{IMPROV_WORD:'長頸鹿的尾巴'},goto:'c'}]},
+      {label:'a'},{speaker:null,text:'唐睿演一個一直買到怪東西、每次都說「我不知道」的路人。'},{goto:'end'},
+      {label:'b'},{speaker:null,text:'唐睿演一個選不出午餐的人，演到活大的自助餐收攤。'},{goto:'end'},
+      {label:'c'},{speaker:null,text:'唐睿停了一下。'},{speaker:'唐睿',text:'……這個詞，有人用過了。'},{speaker:null,text:'然後還是演了一隻長頸鹿。'},
+      {label:'end'},{speaker:'品妤',text:'他說是為了練膽量。我覺得是為了社辦的冷氣。'} ],
+    consequences:{memo:'博雅的教室：唐睿的即興劇'},
+    outingMissed:(G,GM,q)=>{ if(typeof PHONE==='undefined') return; const gid=PHONE.inGroup(G,'econ_friends')?'econ_friends':(PHONE.inGroup(G,'econ_class')?'econ_class':null); if(!gid) return; const T='g:'+gid;
+      PHONE.at(G,q.day,Math.max(21.5,G.day===q.day?G.hour+0.02:0),[{th:T,from:'econ_pinyu',name:'品妤',text:'📹（一段影片）'},{th:T,from:'econ_pinyu',name:'品妤',text:'唐睿的即興劇，今天演一棵樹。演得很好。'}],'sk07_video'); } },
+  /* 4-2 韋綸的球賽門票（大四下第 6 週）：選「走。」＝那個週六晚上用摘要帶過（出遊，must：那晚不能另排別的事）。摘要沒有旁白稿——只有出發的字卡、時間往後 3 小時（給 AA 的問題）；
+     回來以後群組一張看台上的合照＋韋綸一句、記 WL_GAME（story3d.js 手機的 4-2）*/
+  { id:'ev_b106_42_game', title:'球賽', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3, dialogue:[] },
+  /* BB_106 日常 D1 大一女舍門口的長椅：法律系大一，等要一起出門的以安（麵店團；週二麵店日 19:00 在女舍門口集合，STORY.fdormGather——D4b 同一個集合，給 AA 的問題）。
+     18:30～19:00 人在長椅旁＝品妤來送東西給住大一女舍的直屬學妹，經過：「你又在等人？這次等誰？」。所有玩家都有「又」字（經濟系那年他在這裡等過人，劇情事實）。
+     法律系時期第一次見到品妤（MET_PINYU 沒有）先加一句介紹。她那時候照作息不在學校（大一下週二晚上在補習班櫃台）就沒有。一次 */
+  { id:'ev_b106_d1_bench', title:'', participants:[], location:'campus', trigger:'auto', near:{x:-93,z:54.26,r:3}, term:['Y1S1','Y1S2'], weekday:[2], time:[18.5,19], once:true, tier:'short', building:'fdorm', background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fdormGather&&STORY.fdormGather(G)&&!STORY.awayNow('econ_pinyu',G)},
+    dialogue:[ {speaker:null,text:'品妤來送東西給住大一女舍的直屬學妹，經過長椅。'},   /* 舞台說明改旁白 */
+      {unless:{flags:['MET_PINYU']},speaker:'品妤',text:'曾品妤。經濟系，可昕以前的室友。'},{set:{MET_PINYU:true}},
+      {speaker:'品妤',text:'你又在等人？這次等誰？'} ] },
+  /* BB_106 日常 D2 社科院—霖澤館—博雅的偶遇表（規則在 story3d.js S.b106d2Due）：擲到的人照作息站在那裡（characters.js 的 b106d2），走到旁邊（npcNear）才說一句；每人每天一句、同一句只說一次。
+     週五中午的活大＝SK03、期中期末前的博雅＝SK10、期末考週的販賣機＝SK05（各自的事件）；可昕和品妤在社科院門口那一列（交往中、她來台大的日子）還沒做：遊戲裡她來台大只有 2D 的出遊（給 AA 的問題）*/
+  { id:'ev_b106d2_weilun', title:'', participants:[], location:'campus', trigger:'auto', npcNear:'econ_weilun', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[12,12+25/60], background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'econ_weilun')},
+    dialogue:[ {pick:{flag:'B106D2_K',from:G=>[STORY.b106d2Key(G,'econ_weilun')]}},
+      {if:{custom:G=>STORY.wlIntro(G)},speaker:'韋綸',text:'韋綸！騎車的！'},{set:{MET_WEILUN:true}},
+      {if:{flagIs:{B106D2_K:'wl_first'}},speaker:'韋綸',text:'欸！……喔你現在是法律系的。那也走啦！'},{if:{flagIs:{B106D2_K:'wl_first'}},set:{WL_SAID_LAW:true}},   /* 和 BB_105 P5 共用「說過了」的紀錄（AA_154 第 3 節）*/
+      {if:{flagIs:{B106D2_K:'wl_go'}},speaker:'韋綸',text:'走啦！'},
+      {if:{flagIs:{B106D2_K:'wl_bike'}},speaker:'韋綸',text:'走啦！……這台是我自己的。有發票。'} ],
+    after:G=>{ STORY.b106d2Done(G,'econ_weilun',G.flags.B106D2_K); delete G.flags.B106D2_K; } },
+  { id:'ev_b106d2_tang', title:'', participants:[], location:'campus', trigger:'auto', npcNear:'econ_tangrui', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[15+20/60,15.75], background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'econ_tangrui')},
+    dialogue:[ {pick:{flag:'B106D2_K',from:G=>[STORY.b106d2Key(G,'econ_tangrui')]}},
+      {if:{custom:G=>STORY.tangIntro(G)},speaker:'唐睿',text:'唐睿。全系最會講話的那個。'},{set:{MET_TANG:true}},
+      {if:{flagIs:{B106D2_K:'tr_road'}},speaker:'唐睿',text:'路人！'},
+      {if:{flagIs:{B106D2_K:'tr_wrong'}},speaker:'唐睿',text:'走錯棟的！'},
+      {if:{flagIs:{B106D2_K:'tr_law'}},speaker:'唐睿',text:'法律系的！'} ],
+    after:G=>{ STORY.b106d2Done(G,'econ_tangrui',G.flags.B106D2_K); delete G.flags.B106D2_K; } },
+  { id:'ev_b106d2_xun', title:'', participants:[], location:'campus', trigger:'auto', npcNear:'econ_zhengxun', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,2,3,4,5], time:[15+20/60,15.75], background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'econ_zhengxun')},
+    dialogue:[ {unless:{flags:['MET_XUN']},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},   /* 通則：阿勳用 BB_96 10-1 那句 */
+      {speaker:'阿勳',text:'你們法律系的課表，是不是也很不合理？'},{set:{MET_XUN:true}} ],
+    after:G=>STORY.b106d2Done(G,'econ_zhengxun','xun_sched') },
+  /* 語彤（AA 的角色；AA 2026-10-13 同意）：週一、五 17:20 社會系下課（週三 17:40 她在 118 巷，AA_320），社科院門口（社會系館旁）。照 ECON_PAST_SHARED：full＝「又回來看舊系館？」；none（沒說過）＝她知道一半，記 YT_KNOWS_ECON；
+     half（說過自學）＝玩家選「我以前常來這棟借書。」（維持原本的說法）或「……其實我念過一個多月。」（升成 full，之後麵店團也知道——稿寫「念過一年」，同一列已經更正「念了一年」是作廢的設定；給 AA 的問題）。一次 */
+  { id:'ev_b106d2_yutong', title:'', participants:['heroine_03'], location:'campus', trigger:'auto', npcNear:'heroine_03', nearDist:3, term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'], weekday:[1,5], time:[17+20/60,17+50/60], once:true, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.b106d2Due&&STORY.b106d2Due(G,'heroine_03')&&typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_03','FIRST_MET')},
+    dialogue:[ {speaker:'heroine_03',text:'你怎麼在我們這一區？'},
+      {if:{flagIs:{ECON_PAST_SHARED:'full'}},goto:'full'},{if:{flagIs:{ECON_PAST_SHARED:'half'}},goto:'half'},
+      {speaker:'player',text:'我以前在這棟上過課。'},{speaker:'heroine_03',text:'……你以前是經濟系的？'},{speaker:'player',text:'念了一個多月。'},{set:{YT_KNOWS_ECON:true}},{goto:'end'},
+      {label:'full'},{speaker:'heroine_03',text:'又回來看舊系館？'},{goto:'end'},
+      {label:'half'},{choice:[{text:'「我以前常來這棟借書。」',goto:'end'},{text:'「……其實我念過一個多月。」',set:{ECON_PAST_SHARED:'full'},goto:'end'}]},
+      {label:'end'} ],
+    after:G=>STORY.b106d2Done(G,'heroine_03',null) },
   /* V2-C13 可玩切片：共同教學館的阿勳（BB_96 10-3、AA_115 選擇④）：大一下第 11 週週四 20:48 以後，阿勳在共同教學館二樓自習區讀統計（AA_155 作息，沒見過也在）；走到他旁邊（npcNear）才開始。
      還沒在法律系時期見過他的玩家（沒有 MET_XUN）先說 10-1 那句。三個選項記 AA_115 的 xun_study:night／xun_met:Y1S2／xun_study:pact＝XUN_NIGHT／XUN_MET_Y1S2／XUN_PACT（XUN_DAY＝這一天）。
      一起讀到閉館：之後時間到 23:00（after）。之後：xun_met＝「走啦」群組一句（AA_157）；pact＝阿勳私訊行程表；night＝隔天週五走廊、小福還債（10-4，ev_sk03_lunch）。不在場的人（沛珊、以安）不知道：不寫進她們的記憶 */
