@@ -1,0 +1,290 @@
+[
+{
+"t": "和盧正勳熟了一點。",
+"d": "2024-09-02",
+"h": 7,
+"z": "dorm",
+"rect": [
+347,
+64,
+149,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "c",
+"hidden": false
+},
+{
+"t": "經濟系大一上開學了。手機的「課表」可以看這學期的課。",
+"d": "2024-09-02",
+"h": 7.01,
+"z": "dorm",
+"rect": [
+236,
+64,
+370,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "c",
+"hidden": false
+},
+{
+"t": "和杜可昕熟了一點。　和曾品妤熟了一點。",
+"d": "2024-09-21",
+"h": 21.25,
+"z": "dorm",
+"rect": [
+282,
+64,
+279,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "c",
+"hidden": false
+},
+{
+"t": "手機｜經濟系 大一（全班）｜韋綸：……有人嗎",
+"d": "2024-10-14",
+"h": 21.3,
+"z": "cafe",
+"rect": [
+268,
+64,
+307,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "nextClass",
+"hidden": false
+},
+{
+"t": "💸 100 元",
+"d": "2024-10-15",
+"h": 19.25,
+"z": "cafe",
+"rect": [
+314,
+64,
+214,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "nextClass",
+"hidden": false
+},
+{
+"t": "和杜可昕在一起，比之前自在。",
+"d": "2024-10-15",
+"h": 22.59,
+"z": "cafe",
+"rect": [
+314,
+64,
+214,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "nextClass",
+"hidden": false
+},
+{
+"t": "家裡匯來這個月的生活費：5,000 元",
+"d": "2024-10-31",
+"h": 22,
+"z": "dorm",
+"rect": [
+303,
+64,
+236,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "adv-on",
+"hidden": false
+},
+{
+"t": "手機｜可昕：今天下課以後，去湖邊坐一下？",
+"d": "2024-11-06",
+"h": 17.75,
+"z": "dorm",
+"rect": [
+275,
+64,
+292,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "fade",
+"hidden": false
+},
+{
+"t": "手機｜經濟系 大一（全班）｜你：被偷的東西，原主兩年內可以要回去。車要還，可是你可以…",
+"d": "2024-11-07",
+"h": 19,
+"z": "campus",
+"rect": [
+131,
+64,
+580,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "BUTTON",
+"hidden": false
+},
+{
+"t": "家裡匯來這個月的生活費：5,000 元",
+"d": "2024-12-13",
+"h": 14,
+"z": "campus",
+"rect": [
+0,
+0,
+0,
+0
+],
+"inView": true,
+"onTop": false,
+"topEl": "adv-on",
+"hidden": true
+},
+{
+"t": "和杜可昕在一起，比之前自在。　盧正勳好像更信任你了一點。",
+"d": "2025-07-10",
+"h": 21,
+"z": "campus",
+"rect": [
+223,
+64,
+396,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "BODY",
+"hidden": false
+},
+{
+"t": "家裡匯來這個月的生活費：5,000 元",
+"d": "2025-08-13",
+"h": 9.5,
+"z": "campus",
+"rect": [
+303,
+64,
+236,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "adv-on",
+"hidden": false
+},
+{
+"t": "和阿哲熟了一點。",
+"d": "2025-08-29",
+"h": 5,
+"z": "campus",
+"rect": [
+353,
+64,
+136,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "adv-on",
+"hidden": false
+},
+{
+"t": "手機｜阿凱：你的冷氣遙控器在我這",
+"d": "2025-08-29",
+"h": 22.67,
+"z": "dorm",
+"rect": [
+301,
+64,
+240,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "c",
+"hidden": false
+},
+{
+"t": "手機｜第七小隊｜阿哲：我在高鐵上了",
+"d": "2025-08-29",
+"h": 22.71,
+"z": "dorm",
+"rect": [
+295,
+64,
+253,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "c",
+"hidden": false
+},
+{
+"t": "手機｜法律系直屬家族｜Kevin：學弟妹好～我是 Kevin，大二。先講幾件事：開學…",
+"d": "2025-08-31",
+"h": 7.51,
+"z": "dorm",
+"rect": [
+162,
+64,
+518,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "BUTTON",
+"hidden": false
+},
+{
+"t": "大一上開學了。手機的「課表」可以看這學期的課。",
+"d": "2025-09-01",
+"h": 8.17,
+"z": "dorm",
+"rect": [
+256,
+64,
+331,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "nextClass",
+"hidden": false
+},
+{
+"t": "30 分鐘後上課：09:10 憲法（上）（霖澤館 201）",
+"d": "2025-09-01",
+"h": 8.68,
+"z": "dorm",
+"rect": [
+266,
+64,
+310,
+34
+],
+"inView": true,
+"onTop": false,
+"topEl": "nextClass",
+"hidden": false
+}
+]
