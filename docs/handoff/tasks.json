@@ -21590,7 +21590,7 @@
    "id": "US-LIFE-AA340-1020",
    "title": "美國交換那一學期（大四上 8/2～12/23）每一週玩家能做什麼：AA_340 的系統缺口 S1～S12（美國學期日曆、一鍵上課、9/4 以後快轉與摘要日、台灣選課提示與缺考不出、時差、不能約台灣朋友、回程時間…）＋空白週補稿 G1～G7＋學姊在美國的作息",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -21602,7 +21602,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "next": "【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
    "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
   },
   {
