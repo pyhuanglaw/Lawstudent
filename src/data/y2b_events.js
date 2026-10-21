@@ -52,7 +52,7 @@ const Y2B_EVENTS=(function(){
       {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},phone:'heroine_03',text:'……房東想把整棟賣掉。還沒確定。'},
       {speaker:null,text:'（你傳了一張課本那一頁的照片。）'},
       {unless:{memory:[{npc:'heroine_03',tag:'RENT_RUMOR'}]},mem:[{npc:'heroine_03',tag:'RENT_RUMOR',note:'她說房東想把整棟賣掉'}]},   /* 沒有的這時候補上（她說了）*/
-      {set:{YT_LEASE_HELP:true},stamp:['YT_LEASE_TEXT_DAY'],mem:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE',note:'債各第 6 週，買賣不破租賃那一頁'}]} ] };   /* YT_LEASE_TEXT_DAY：當天 21:30 那兩則（y2b3d.js）*/
+      {set:{YT_LEASE_HELP:true},stamp:['YT_LEASE_TEXT_DAY'],mem:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE',note:'債各第 6 週'}]} ] };   /* YT_LEASE_TEXT_DAY：當天 21:30 那兩則（y2b3d.js）*/
 
   /* ---- 1B-03 語彤事件 9「陪阿姨來」不在場版：之後第一次在麵店或總圖和語彤說話（5/22 中午以後～6/13）；在場版在 y2b3d.js ---- */
   const AUNT_RETELL={ id:'ev_yt_aunt_retell', title:'陪阿姨來', participants:['heroine_03'], location:['noodle','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
@@ -62,7 +62,7 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_03',text:'阿姨出來的時候在笑。'},
       {if:{custom:G=>dating(G,'heroine_03')},speaker:'heroine_03',text:'那時候很想打給你。後來沒打，阿姨在旁邊。'},
       {if:{memory:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE'}]},speaker:'heroine_03',text:'就是你那天傳的那一頁。'},
-      {mem:[{npc:'heroine_03',tag:'RENT_CONSULTATION',note:'聽她說陪阿姨去法服'}]} ] };
+      {mem:[{npc:'heroine_03',tag:'RENT_CONSULTATION',note:''}]} ] };
 
   /* ---- 1B-04 以安新 12「媽媽的晚餐（二）」：大二下第 10～14 週，第一個週二或週四晚上的麵店（週四 20:00 她有公法讀書會：只到 19:30）---- */
   const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[2,4], time:[17.5,20.5], background:'blur',

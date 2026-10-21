@@ -4,7 +4,8 @@
          事件包登記的「那一天要演」都會停：HOME.STOPS（原本就有）、STORY.WAKE_AT（睡著也會醒來的時間＝快轉也停，這裡登記）、
          STORY_EVENTS 只演一次、在家或任何地方演的事件（home3d.js S.mustEvs，日期寫在 prereq 裡的也算）。
    - H3：大二以後每個寒暑假，朋友回老家、回臺北的訊息（照大一 VA-02 的做法；字照大一的原句，AA_340 6-1「字照 AA_197 1-4 的所在地換，不另寫」）。
-   - 6-3：兩邊都空的週，摘要日的旁白（快轉停在那一天 18:30，日期卡下面那一行）＋群組訊息（大三寒假 2/12 麵店是一趟出遊）。
+   - 6-3：兩邊都空的週，摘要日的旁白（快轉停在那一天 18:30，日期卡下面那一行）＋群組訊息（大三寒假 2/20 開學前一晚麵店是一趟出遊；AA_345 H1、H4）。
+   - AA_345（2026-10-21）H1～H7：大三寒假那一頓改 2/20、大三大四寒假回來的日子、大三暑假 8/12 兩版（日本路線 jp3d.js 的 s_0812 也用這裡的 S.y3sPath）、大四寒假 1/17 補三種人、大二以後柏翰暑假只說「我回新竹了。」。
    台詞照 AA 稿，一字不改；AA 稿沒有字的不寫。存檔：G.flags.HOL_Y3W_NOODLE（'go'／'no'），訊息照 PHONE 的 tag。測試：node tests/holiday_ff_unit.js */
 'use strict';
 const HOLFF=(function(){
@@ -26,7 +27,12 @@ const HOLFF=(function(){
   /* ---------- 6-3 兩邊都空的週：摘要日（AA_340 6-3，第①級）----------
      快轉停在那一天 18:30（同表上的摘要日），日期卡下面那一行是旁白。那天人在國外（假期的出國活動、交換）、那天有報名的活動＝不停、不出（同 HOME.sumSkip）。
      line 是函式的：回傳 null＝那一種玩家沒有字（照樣停，日期卡寫地點）*/
-  const Y4P={bar:'（寒假。你每天八點到總圖，坐同一個位子。）',grad:'（筆試前兩週。你把考古題做到第五年。）',undecided:'（寒假。你還沒決定，每天還是去總圖坐一下。）'};
+  const Y4P={bar:'（寒假。你每天八點到總圖，坐同一個位子。）',grad:'（筆試前兩週。你把考古題做到第五年。）',undecided:'（寒假。你還沒決定，每天還是去總圖坐一下。）',
+    gradPass:'（寒假。推甄上了，你還是每天去總圖，先讀研究所要修的書。）',other:'（寒假。你不用考試。事務所寄來一份實習前要先讀的資料。）',exch:'（寒假。你的考試還要再一年。每天還是到總圖坐一下。）'};   /* AA_345 H5 補的三種（新寫）*/
+  const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
+  /* 大三暑假 8/12（AA_340 6-3；AA_345 H3 換句：這時候 Y4_PATH 已經選好了）：選好了（國考、研究所、實習）／還沒決定兩版。
+     台灣路線照下面的摘要日（日期卡下面那一行）；日本路線 8/5 回來以後住家裡（jp3d.js 的 s_0812）也用這一個；美國路線 8/2 起在國外，沒有 */
+  S.y3sPath=G=>{ const p=G&&G.flags&&G.flags.Y4_PATH; return p&&p!=='undecided'?'（八月。你把大四要走的那條路寫在紙上，下面列了要讀的書。列到第三頁。）':'（八月。你把大四可以走的路寫在紙上：國考、研究所。兩個都畫了問號。）'; };
   S.SUMS=[
     {date:'2026-01-14',line:'（寒假第四週。你把上學期的筆記重新整理了一次。民總那本比刑總厚。）'},   /* 大一寒假 1/12～1/18 */
     {date:'2026-08-12',line:'（暑假過了一半。你把大二上的課表排了三次。）'},   /* 大一暑假 8/10～8/16 */
@@ -35,11 +41,12 @@ const HOLFF=(function(){
     {date:'2028-01-19',line:'（寒假第四週。你回國中的學校走了一圈。圍牆換了顏色。）'},   /* 大三寒假 1/17～1/23 */
     {date:'2028-02-02',line:'（初八。公館的店一間一間開了。）'},   /* 大三寒假 1/31～2/13 */
     {date:'2028-07-18',line:G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)?'（你在家裡的書桌讀書。媽媽每兩個小時進來問一次要不要吃水果。）':'（暑假的宿舍很安靜。走廊只聽得到冷氣的聲音。）'},   /* 大三暑假 7/10～7/23：回家住／續住（照人在哪）*/
-    {date:'2029-01-17',line:G=>{ const F=G.flags||{}; if(F.Y4_PATH==='grad'&&F.Y4_PUSH==='pass') return null; return Y4P[F.Y4_PATH]||null; }},   /* 大四寒假：照 Y4_PATH 三版（交換延畢的也一樣）；推甄上了的不考筆試、「先不考」沒有字 */
+    {date:'2028-08-12',line:G=>S.y3sPath(G),noJP:true},   /* 大三暑假 8/6～8/20（AA_345 H3）：日本路線住家裡那幾週是 jp3d.js 的快轉（s_0812），這裡不重複 */
+    {date:'2029-01-17',line:G=>{ const F=G.flags||{}, r=route(G); if(r==='JP'||r==='US') return Y4P.exch; if(F.Y4_PATH==='grad'&&F.Y4_PUSH==='pass') return Y4P.gradPass; return Y4P[F.Y4_PATH]||null; }},   /* 大四寒假：照 Y4_PATH（AA_340 6-3 三版＋AA_345 H5 推甄上了、實習（先不考））；日本、美國路線（交換延畢，2030 才考）蓋過上面 */
     {date:'2029-01-24',line:'（寒假第五週。總圖的人比期末考的時候還多。）'} ];
   S.SUM_H=18.5;
   S.sums=function(G,B){ B=B||brk(G); if(!B) return []; const out=[];
-    for(const s of S.SUMS){ const d=DK(s.date); if(d==null||d<B.from||d>B.to) continue; if(HOME.sumSkip&&HOME.sumSkip(G,d)) continue; if(abroadOn(G,d)) continue; out.push({day:d,h:S.SUM_H,s}); }
+    for(const s of S.SUMS){ const d=DK(s.date); if(d==null||d<B.from||d>B.to) continue; if(HOME.sumSkip&&HOME.sumSkip(G,d)) continue; if(abroadOn(G,d)) continue; if(s.noJP&&route(G)==='JP') continue; out.push({day:d,h:S.SUM_H,s}); }
     return out; };
   /* 日期卡下面那一行（HOME.CARD_LINES）：快轉剛好停在摘要日的 18:30 */
   S.cardLine=function(G,t){ const x=S.sums(G).find(q=>Math.abs(T(q.day,q.h)-t)<1e-6); if(!x) return null; const l=typeof x.s.line==='function'?x.s.line(G):x.s.line; return l||null; };
@@ -60,7 +67,8 @@ const HOLFF=(function(){
              大三暑假在日本＝沒有；大四寒假 2/9～2/17（AA_271 D26，AA_244「過年才回台中」，2/3 筆試以後）。
        阿哲：每年寒假在海邊那天 21:00「我明天回高雄」（AA_264 第 5 節第 1 點；大二那一則在 vac3d.js nye_y2_zhe）。
      寫法同大一：寒假的以安＝FAMILIAR 以上私訊、不到（認識、在麵店團）＝群組只有第一句；暑假的以安＝FAMILIAR 以上私訊、和她交往中不傳（大一 va02 的規則）；其他＝麵店團群組。
-     沒有做的（和該年的事件撞、AA 還沒給日子，回報給 AA）：大三寒假阿哲回臺北（2/12 他揪麵店，AA_340 6-3）；大四寒假柏翰兩則、阿哲回臺北（開學 2/19，大一的日子在開學當天或之後）。*/
+     大三寒假阿哲回臺北、大四寒假柏翰兩則和阿哲回臺北：AA_345 H1、H2 給的日子（大三寒假阿哲 2/18 揪、2/20 回來就去麵店；大四寒假兩個人都要考國考，柏翰只回去過年）。
+     柏翰的暑假那則：大二以後只說「我回新竹了。」（他週四在總圖的作息只有大一暑假；AA_345 H7）。*/
   const NT='g:noodle_team';
   S.HOME_MSGS=[
     {tag:'hol_y2w_bh_home',day:'2027-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。']]},
@@ -68,7 +76,7 @@ const HOLFF=(function(){
     {tag:'hol_y2w_bh_back',day:'2027-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。']]},
     {tag:'hol_y2w_zhe_back',day:'2027-02-20',h:19,th:NT,ms:[['zhe','我回來了！高雄帶了吃的，開學那天拿去給你們']]},
     {tag:'hol_y2w_an_back',day:'2027-02-21',h:18,an:['回臺北了。']},
-    {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。週四在總圖三樓。']]},
+    {tag:'hol_y2s_bh_home',day:'2027-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。']]},
     {tag:'hol_y2s_zhe_home',day:'2027-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','麵店團不能斷喔']]},
     {tag:'hol_y2s_an_home',day:'2027-07-24',h:15,anS:[['heroine_01','📷（高鐵窗外的田）'],['heroine_01','回台中了。8 號回去。']]},
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。台中好熱。']]},
@@ -78,11 +86,15 @@ const HOLFF=(function(){
     {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','📷（車窗外的田）']},
     {tag:'hol_y3w_an_back',day:'2028-01-29',h:18,an:['回臺北了。']},
     {tag:'hol_y3w_bh_back',day:'2028-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。']]},
-    {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。週四在總圖三樓。']]},
+    {tag:'hol_y3w_zhe_back',day:'2028-02-20',h:17.5,th:NT,ms:[['zhe','我回來了 高雄帶了吃的 等一下拿去麵店']]},   /* AA_345 H1：取代大一那句「開學那天拿去給你們」；2/18 21:00 他揪的那一頓在 S.MSGS */
+    {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。']]},
     {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','麵店團不能斷喔']]},
     {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','誰要吃麵']]},
     {tag:'hol_y4w_zhe_home',c01:'Y4',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
     {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','📷（車窗外的田）']},
+    {tag:'hol_y4w_bh_home',day:'2029-02-11',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹。初三回來。']]},   /* AA_345 H2：大四寒假兩個人都要考國考，柏翰只回去過年（2029 除夕 2/12，初三＝2/15）*/
+    {tag:'hol_y4w_bh_back',day:'2029-02-15',h:20,th:NT,ms:[['classmate_bohan','回來了。總圖見。']]},
+    {tag:'hol_y4w_zhe_back',day:'2029-02-17',h:19,th:NT,ms:[['zhe','我回來了！高雄帶了吃的'],['zhe','禮拜一開學 拿去給你們']]},
     {tag:'hol_y4w_an_back',day:'2029-02-18',h:18,an:['回臺北了。']} ];
   S.msgDay=m=>m.c01?(typeof VAC!=='undefined'&&VAC.c01Day?VAC.c01Day(m.c01):null):DK(m.day);
   /* 日本路線人在日本（3/25～8/5，例：大三暑假 6/27 柏翰、6/30 阿哲）：臺灣傳來的訊息換成當地時間（遊戲時鐘是日本時間；AA_341 J-S13、AA_342 C6）*/
@@ -97,20 +109,20 @@ const HOLFF=(function(){
   S.MSGS=[
     {tag:'hol63_y1w_zhe',day:'2026-01-15',h:21,th:NT,ms:[['zhe','高雄今天二十六度'],['zhe','台北的人在幹嘛']],ask:[{t:'讀書。',say:[['zhe','騙人']]},{t:'睡覺。',say:[['zhe','這才對']]}]},   /* 阿哲在高雄 */
     {tag:'hol63_y2w_pl',day:'2027-02-19',h:21,th:'g:public_law',ms:[['heroine_01','下禮拜開學。讀書會第二週開始。'],['classmate_bohan','收到。']],if:()=>atLeast('heroine_01','FAMILIAR')},   /* 和以安 FAMILIAR 以上、在讀書會群組 */
-    {tag:'hol63_y3w_zhe',day:'2028-02-09',h:21,th:NT,ms:[['zhe','開學前最後一頓'],['zhe','禮拜六六點 麵店']],ask:[{t:'去。',set:{HOL_Y3W_NOODLE:'go'}},{t:'不去。',set:{HOL_Y3W_NOODLE:'no'},say:[['zhe','好喔']]}]},   /* 「去。」＝2/12（六）18:00 麵店（S.EVENTS）*/
+    {tag:'hol63_y3w_zhe',day:'2028-02-18',h:21,th:NT,ms:[['zhe','禮拜天回台北'],['zhe','開學前最後一頓 禮拜天六點 麵店']],ask:[{t:'去。',set:{HOL_Y3W_NOODLE:'go'}},{t:'不去。',set:{HOL_Y3W_NOODLE:'no'},say:[['zhe','好喔']]}]},   /* AA_345 H1、H4：阿哲 2/20 才從高雄回來；「去。」＝2/20（日）18:00 麵店，開學前一晚（S.EVENTS）*/
     {tag:'hol63_y4w_yu',day:'2029-01-31',h:21,th:NT,ms:[['yu','考試的人 加油'],['yu','沒考試的人 不要吵他們']]} ];
   S.msgs63=function(G){ const now=T(G.day,G.hour);
     for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=DK(m.day); if(d==null||now<T(d,m.h)||G.day>d+1) continue; if(!inGrp(G,m.th.slice(2))||(m.if&&!m.if(G))) continue;
       const M=m.ms.map(([w,t])=>({th:m.th,from:w,text:t})); if(m.ask) M[M.length-1].ask={id:m.tag,until:T(d+1,18),opts:m.ask.map(o=>Object.assign({t:o.t},o.set?{set:o.set}:{},{say:(o.say||[]).map(([w,t])=>({th:m.th,from:w,text:t}))}))};
       PHONE.at(G,d,m.h,M,m.tag); }
-    /* 大三寒假 2/12（六）18:00 麵店：回了「去。」＝排出遊（從宿舍走過去；住家裡的照出遊系統從家裡出發）*/
-    const d12=DK('2028-02-12'), F=G.flags||{}; if(F.HOL_Y3W_NOODLE==='go'&&d12!=null&&G.day<=d12&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,'hol63_y3w_noodle'))
-      OUT.plan(G,{id:'hol63_y3w_noodle',ev:'ev_hol63_y3w_noodle',day:d12,h:18,place:'公館',title:'阿鳳麵店',travel:'走過去約 10 分鐘',travelH:1/6}); };
+    /* 大三寒假 2/20（日）18:00 麵店（開學前一晚）：回了「去。」＝排出遊（從宿舍走過去；住家裡的照出遊系統從家裡出發；日本路線 2/20 14:00 退宿、人還在臺北，一樣去得了）*/
+    const d20=DK('2028-02-20'), F=G.flags||{}; if(F.HOL_Y3W_NOODLE==='go'&&d20!=null&&G.day<=d20&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,'hol63_y3w_noodle'))
+      OUT.plan(G,{id:'hol63_y3w_noodle',ev:'ev_hol63_y3w_noodle',day:d20,h:18,place:'公館',title:'阿鳳麵店',travel:'走過去約 10 分鐘',travelH:1/6}); };
   S.EVENTS=[
     { id:'ev_hol63_y3w_noodle', title:'阿鳳麵店', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark',
       dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
-        {speaker:null,text:'（寒假最後一個週六。長桌坐了一半，大家都在講下學期要修什麼。）'},
-        {speaker:'zhe',text:'大三下了。……時間過得好快，我先講，你們不要笑。'} ] } ];   /* AA_340 6-3（第①級）；2028 年麵店店休 1/19～1/28（AA_333），2/12 開著 */
+        {speaker:null,text:'（開學前一晚。長桌坐了一半，阿哲的行李箱還靠在牆邊。大家都在講下學期要修什麼。）'},   /* AA_345 H1（取代「寒假最後一個週六……」）*/
+        {speaker:'zhe',text:'大三下了。……時間過得好快，我先講，你們不要笑。'} ] } ];   /* AA_340 6-3（第①級）；2028 年麵店店休 1/19～1/28（AA_333），2/20 開著 */
 
   /* ---------- 手機規則（STORY.PHONE_RULES：在家、在外面、跳過時間的時候每小時一次）----------*/
   S.phone=function(G){ if(!law(G)||typeof PHONE==='undefined') return; S.homeMsgs(G); S.msgs63(G); };

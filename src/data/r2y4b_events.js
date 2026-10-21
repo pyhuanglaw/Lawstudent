@@ -103,7 +103,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'walk'},{unless:{flagIs:{GRAD_EXAM_RESULT:'fail'}},goto:'end'},   /* 祐廷沒上：散的時候她走在你旁邊 */
       {speaker:'heroine_01',text:'二月那張考卷，第二節很難。'},
       {speaker:'heroine_01',text:'我也寫到鐘響。'},
-      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_GRAD_PASS',note:'研究所放榜那晚在麵店'}]},{set:{AN_GRAD_PASS_SEEN:true}} ] },
+      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_GRAD_PASS',note:''}]},{set:{AN_GRAD_PASS_SEEN:true}} ] },
   /* 祐廷沒上：21:00 以後第一次在宿舍房間（AA_181 2-4 二選一）。明年再考＝2030-02-16 筆試、3/15 放榜（照 2-Y4-52 的做法，台灣路線也一樣；多準備一年就上）*/
   { id:'ev_grad_result', title:'研究所放榜', participants:[], location:['dorm'], trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>{ const r=R(); return !!r&&r.gradResultDue(G); }},
@@ -131,17 +131,17 @@ const R2Y4B_EVENTS=(function(){
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（小聲）……謝謝你開車。'} ],
     consequences:{memo:'最後一個春假：開車載麵店團去宜蘭'},
     outingMissed:G=>{ const r=R(); if(r) r.springPhoto(G); } },
-  /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。記 KX_TRIP.Y4S2 */
+  /* 和可昕開車（照 AA_324 1C-01 可昕那一選：目的地從還沒去過的裡面選；都去過＝迷路到的地方；沒有假設題）。車上開場、回程照 AA_345 G3。記 KX_TRIP.Y4S2 */
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
-      {speaker:'kexin',expression:'smile',text:'規則。我管音樂，你管方向。'},
-      {speaker:'kexin',expression:'teasing',text:'誰都不能管對方的。……目的地，現在決定。'},
+      {speaker:'kexin',expression:'smile',text:'沒有行程表。音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二 */
+      {speaker:'kexin',text:'……目的地也你管。我只是想坐在車上。'},
       {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},   /* 「山上看星星」一定在（AA_336 C7 改的 1C-01 做法；只照「還沒去過的」的話「今天看得到。……」永遠不會出現）*/
       {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',text:'水比我想的冷。……你先下去。'},{goto:'back'},
       {label:'d_old'},{scene:'老街',bg:'trip_oldtown'},{speaker:'kexin',text:'第三家了。我們只是來看看的。'},{goto:'back'},
       {label:'d_star'},{scene:'山上',bg:'trip_mountain'},{if:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'今天看得到。……上次那顆，真的是星星。'},{unless:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'好安靜。手機收不到訊號，剛好。'},
-      {label:'back'},{scene:'車上',bg:'car'},{speaker:'kexin',expression:'smile',text:'我不睡。我要陪你開車。'},{speaker:null,text:'過了收費站，她睡著了。音樂還是她選的。'},{goto:'fin'},
+      {label:'back'},{scene:'車上',bg:'car'},{speaker:null,text:'（回程她沒有睡。過了收費站，她把音樂關小。）'},{speaker:'kexin',text:'……畢業以後，還是要開。'},{goto:'fin'},
       {label:'lost'},{set:{KX_TRIP_Y4S2:'lost'}},
       {speaker:'kexin',text:'這次我不出行程表。你帶路，不要看地圖。'},{speaker:'kexin',text:'……我會忍住不看。大概。'},
       {scene:'迷路到的地方',bg:'country_road'},
@@ -290,7 +290,7 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「我等妳。」',goto:'w'},{text:'「我去紐約找妳。」',goto:'n'}]},
       {label:'w'},{speaker:'heroine_01',text:'……嗯。'},{goto:'end'},
       {label:'n'},{speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},
-      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_COLUMBIA',note:'她說哥大上了、要去'}]} ],
+      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_COLUMBIA',note:''}]} ],
     outingMissed:G=>{ const r=R(); if(r) r.anColumbiaMissed(G); } },
   { id:'ev_an_ny_sendoff', title:'紐約', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・出境',bg:'airport_departure'},

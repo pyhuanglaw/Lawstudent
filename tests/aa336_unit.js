@@ -1,7 +1,7 @@
 // AA_336（AA-C 2026-10-20 回 LAWWW 實作問題 17 題，企劃線 724d7703）裡要接真的手機訊息、作息的兩題——不需要瀏覽器：
 //   C9  「知道以安的生日」再加一種：2026 年傳過她生日快樂（MSG 的 bday 紀錄 heroine_01:2026，src/msg3d.js 傳 bday 時記）；三種（AN5_BIRTHDAY、交往中、2026 傳過）有一種就算
 //       → 大三中秋（1C-02）那一句「（九月十五日。中秋，也是以安的生日。）」在開頭
-//   C12 明軒 2028-05-02 起每週二 18:00～19:00 在麵店吃（19:30 家教前），到 8/29；不在臺北的日子（8/10～8/17 回彰化）照 presence
+//   C12 明軒 2028-05-02 起每週二 18:00～19:00 在麵店吃（19:30 家教前），到 2029-08-28（AA_345 G4 更正年份：原本寫 2028-08-29）；不在臺北的日子（8/10～8/17 回彰化）照 presence
 // 其他題目的測試在各自的檔：吃東西 tests/eat_unit.js、1B tests/y2b_events_unit.js、1C tests/group_events_unit.js。
 // 修改前：C9 的 2026 傳過那一項、C12 的作息都 FAIL。用法：node tests/aa336_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -53,14 +53,17 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   check('C9. 和以安交往中照舊算', GROUP.knowsAnBday(G));
   // ---------- C12 明軒週二麵店 ----------
   const MX=CHARACTERS.classmate_mingxuan, se=()=>STORY.schedEnt(MX,G);
-  check('C12 前置：2028-05-02、8/29 是週二', wdOf(D('2028-05-02'))===2&&wdOf(D('2028-08-29'))===2);
+  check('C12 前置：2028-05-02、2028-08-29、2029-08-28 是週二', wdOf(D('2028-05-02'))===2&&wdOf(D('2028-08-29'))===2&&wdOf(D('2029-08-28'))===2);
   fresh('2028-05-02',18.5,'noodle'); { const e=se(); check('C12. 2028-05-02（二）18:30：明軒在麵店吃（act eat）', !!e&&e.zone==='noodle'&&e.act==='eat', JSON.stringify(e)); }
   at('2028-05-02',19.2); { const e=se(); check('C12. 19:00 以後不在麵店（19:30 家教）', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
   at('2028-04-25',18.5); { const e=se(); check('C12. 5/2 以前的週二（4/25）：沒有', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
   at('2028-05-04',18.5); { const e=se(); check('C12. 週四：沒有（只有週二）', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
   at('2028-07-11',18.5); { const e=se(); check('C12. 暑假的週二（7/11）照樣在麵店', !!e&&e.zone==='noodle'&&e.act==='eat', JSON.stringify(e)); }
-  at('2028-08-29',18.5); { const e=se(); check('C12. 8/29（最後一個週二）：在麵店', !!e&&e.zone==='noodle', JSON.stringify(e)); }
-  at('2028-09-05',18.5); { const e=se(); check('C12. 9/5（他 9/2 出發以後）：沒有', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
+  at('2028-08-29',18.5); { const e=se(); check('C12. 2028-08-29：在麵店', !!e&&e.zone==='noodle', JSON.stringify(e)); }
+  at('2028-09-05',18.5); { const e=se(); check('C12. 2028-09-05（大四上，還沒出發）：照樣在麵店（AA_345 G4：到 2029-08-28）', !!e&&e.zone==='noodle'&&e.act==='eat', JSON.stringify(e)); }
+  at('2029-03-06',18.5); { const e=se(); check('C12. 2029-03-06（大四下的週二）：在麵店', !!e&&e.zone==='noodle'&&e.act==='eat', JSON.stringify(e)); }
+  at('2029-08-28',18.5); { const e=se(); check('C12. 2029-08-28（最後一個週二）：在麵店', !!e&&e.zone==='noodle', JSON.stringify(e)); }
+  at('2029-09-04',18.5); { const e=se(); check('C12. 2029-09-04（他 2029-09-02 出發以後）：沒有', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
   at('2028-08-15',18.5); check('C12. 8/15（二）回彰化（presence）：人不在臺北，作息不用', !STORY.reachable('classmate_mingxuan',G)&&STORY.reachable('classmate_mingxuan',(at('2028-08-22',18.5),G)));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

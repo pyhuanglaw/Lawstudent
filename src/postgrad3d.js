@@ -171,7 +171,8 @@ const PG=(function(){
     if(F.PG_SIS_EX_BDAY==='no'&&F.SIS_BDAY_Y4==null) F.SIS_BDAY_Y4='none';
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
-    if(!F.GRADUATED&&now>=T('2029-06-04',0)){ F.GRADUATED=S.gradDay(); if(!S.rec(G).done.grad) S.rec(G).done.grad='missed'; } };   /* 6/2 那一段沒演到（讀檔、跳過）也算畢業了：不卡在學生的作息裡 */
+    if(!F.GRADUATED&&now>=T('2029-06-04',0)){ F.GRADUATED=S.gradDay(); if(!S.rec(G).done.grad) S.rec(G).done.grad='missed'; }
+    if(F.GRADUATED&&!F.GRAD_DONE) F.GRAD_DONE=true; };   /* 閒聊階梯的 skipIf GRAD_DONE（story3d.js 撥穗那一句設；讀檔、跳過、舊存檔在這裡補）*/   /* 6/2 那一段沒演到（讀檔、跳過）也算畢業了：不卡在學生的作息裡 */
   /* ---------- 場景（時間到了、玩家空下來就演）---------- */
   async function regScene(GM){ const G=GM.G, F=G.flags, R=L().REG; if(F.BAR_REG!=null) return; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys')) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys'});
     GM.sceneBegin(); try{ await GM.say(null,R.text); const k=await GM.choose(R.opts.map(t=>({t}))); F.BAR_REG=k===0; } finally { GM.sceneEnd(); } }
@@ -231,17 +232,21 @@ const PG=(function(){
       if(!S.isEx(G,'classmate_mingxuan')&&S.at(G,'classmate_mingxuan','FAMILIAR')){ await S.play(GM,Lx.OTHERS.mingxuan); if(has('classmate_mingxuan','SAW_HIM_STUDY')) await S.play(GM,Lx.OTHERS.mingxuanSaw); }
       await S.play(GM,Lx.OTHERS.kai);
       await S.invites(GM);   /* ⑧ */
-      F.GRADUATED=F.GRADUATED||G.day;   /* AA_318 1A-12：GRADUATED＝那一天 */
+      F.GRADUATED=F.GRADUATED||G.day; F.GRAD_DONE=true;   /* AA_318 1A-12：GRADUATED＝那一天 */
     } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,gd*24+13.5); await GM.fade(false); }
   async function cafeScene(GM){ const G=GM.G, F=G.flags, C=L().CAFE, A=adv(); GM.sceneBegin(); try{ if(A) A.begin({background:'blur'});
       await S.play(GM,C.open); await S.play(GM,C.pool.filter(x=>S.at(G,x[0],'FAMILIAR')).slice(0,3)); await S.play(GM,C.close); F.GRAD_EVENING='cafe'; }
     finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+19.75); await GM.fade(false); }
+  /* 送禮物（AA_345 G9）：四選一；她的反應＋合適的那一句；只算一次（SIS_BDAY_GIFT_Y4）、不扣錢 */
+  S.bdayGift=async function(GM,gift){ const G=GM.G, F=G.flags; if(F.SIS_BDAY_GIFT_Y4!=null) return false; const k=await GM.choose(gift.items.map(o=>({t:o.t}))), it=gift.items[k]||gift.items[0];
+    await S.play(GM,it.say.concat([gift.fit])); F.SIS_BDAY_GIFT_Y4=it.k; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust('heroine_05',{trust:3,npcRom:2}); return true; };
   S.bdayScene=async function(GM,mode){ const G=GM.G, F=G.flags, B=L().BDAY, A=adv(), lover=S.dating(G,'heroine_05');
     const bg=(typeof OUT!=='undefined'&&OUT.BG&&OUT.BG.ra_lab&&OUT.BG.ra_lab.image)?BG('ra_lab'):BG('linze_prof_hall');   /* AA_327：2D ra_lab（開發分支沒有→研究室的走廊）*/
     const inner=async()=>{ if(lover){ await S.play(GM,[B.friend[0]]); await S.play(GM,B.loverKevin); await S.play(GM,B.lover); const k=await GM.choose(B.loverOpts.map(o=>({t:o.t}))); await S.play(GM,(B.loverOpts[k]||B.loverOpts[0]).say); F.SIS_BDAY_Y4='lover'; }
-      else { await S.play(GM,B.friend); const k=await GM.choose(B.friendOpts.map(o=>({t:o.t}))); await S.play(GM,(B.friendOpts[k]||B.friendOpts[0]).say); F.SIS_BDAY_Y4='there'; } };
+      else { await S.play(GM,B.friend); const gift=B.gift&&F.SIS_BDAY_GIFT_Y4==null?B.gift:null, O=B.friendOpts.map(o=>({t:o.t})).concat(gift?[{t:gift.opt}]:[]);
+        const k=await GM.choose(O); if(gift&&k===B.friendOpts.length) await S.bdayGift(GM,gift); else await S.play(GM,(B.friendOpts[k]||B.friendOpts[0]).say); F.SIS_BDAY_Y4='there'; } };
     if(mode==='outing'){ if(A) A.begin({background:bg}); await inner(); return; }   /* 出遊（OUT.go 已經包著劇情）*/
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,S.gradDay()*24+20.5); if(A) A.begin({background:bg}); await GM.fade(false); await inner(); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+21.5); await GM.fade(false); };

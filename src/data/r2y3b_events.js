@@ -64,7 +64,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（你拍了兩張。她看了一下。）'},
       {speaker:'heroine_01',text:'可以。花有拍到。'},
       {if:dt('heroine_01'),speaker:'heroine_01',text:'出發前我把這三張印出來帶走。'},   /* AA_71 2-9 原文 */
-      {mem:[{npc:'heroine_01',tag:'AN3_AZALEA',note:'幫她拍了第三張杜鵑'}]} ] };
+      {mem:[{npc:'heroine_01',tag:'AN3_AZALEA',note:''}]} ] };
 
   /* ---------- 2-Y3-29 C6 小語的社團經費：3/16（四）12:30～13:00 霖澤館一樓（3/15 21:00 她私訊、回「有。」才約；手機版在 r2y3b3d.js）---------- */
   const C6_OPTS=[{text:'「要學弟賠。」',set:{YU_C6:'pay'},goto:'p'},{text:'「把帳攤開，請大家補單據。」',set:{YU_C6:'open'},goto:'o'},
@@ -245,7 +245,7 @@ const R2Y3B_EVENTS=(function(){
     {choice:[{text:'「看了哪一部？」',goto:'a'},{text:'「妳也坐倒數第三排？」',goto:'b'}]},
     {label:'a'},{speaker:'yu',text:'一部很安靜的。……我差點睡著，可是沒有。'},{goto:'end'},
     {label:'b'},{speaker:'yu',expression:'laugh',text:'對！下次我還要坐那裡。'},
-    {label:'end'},{mem:[{npc:'yu',tag:'YU_ALONE',note:'她一個人去看了一場電影'}]} ];
+    {label:'end'},{mem:[{npc:'yu',tag:'YU_ALONE',note:''}]} ];
   const yu5Pre=G=>{ const x=X(); return !!x&&!(typeof SOCIAL!=='undefined'&&SOCIAL.has('yu','YU_ALONE')); };
   const YU5={ id:'ev_yu_alone_movie', title:'一個人的電影', participants:['yu'], location:'campus', trigger:'auto', once:true, npcNear:'yu', time:[9.5,12], background:'blur',
     prereq:{stage:{npc:'yu',min:'FAMILIAR'},custom:G=>{ const x=X(); return yu5Pre(G)&&!!x&&x.isDay(G,'2028-04-24')&&!x.inJP(G); }},
@@ -268,7 +268,7 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（她把杯子推過來，轉身去洗杯子。）'},
       {choice:[{text:'「那個女生是小語。」',if:{memory:[{npc:'yu',tag:'YU_ALONE'}]},set:{ZR_Z11B:'yu'},consequences:{stamp:['ZR_Z11B_DAY']},goto:'y'},{text:'「那妳想跟誰看？」',set:{ZR_Z11B:'who'},goto:'w'},{text:'「下次我陪妳。」',set:{ZR_Z11B:'with'},goto:'c'}]},
       {label:'y'},{speaker:null,text:'（她愣住。）'},{speaker:'heroine_02',text:'……阿哲的那個小語？'},{speaker:'player',text:'嗯。'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_02',text:'那下次遇到她，我請她一杯。'},
-        {mem:[{npc:'heroine_02',tag:'ZHIRUO_MET_YU',note:'告訴她戲院旁邊的女生是小語'}]},{goto:'end'},
+        {mem:[{npc:'heroine_02',tag:'ZHIRUO_MET_YU',note:''}]},{goto:'end'},
       {label:'w'},{speaker:'heroine_02',text:'……還在想。'},{speaker:null,text:'（她看著門口，笑了一下。）'},{speaker:'heroine_02',text:'想好了再跟你說。'},{goto:'end'},
       {label:'c'},{speaker:'heroine_02',text:'好啊。'},{speaker:null,text:'（她說得很快，然後自己愣了一下。）'},{speaker:'heroine_02',text:'……那你要坐倒數第三排喔。我習慣那裡。'},
       {label:'end'} ] };
@@ -295,7 +295,7 @@ const R2Y3B_EVENTS=(function(){
     {label:'a'},{speaker:'classmate_xinci',text:'嗯。……第二句你也聽到了吧。'},{goto:'end'},
     {label:'b'},{speaker:'classmate_xinci',text:'你要聽嗎？'},
     {unless:JP,speaker:null,text:'（她講了十分鐘。阿哲吃完了兩碗。）'},   /* 視訊版沒有阿哲在旁邊：只到「你要聽嗎？」 */
-    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:'她第一次考第一'}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
+    {label:'end'},{set:{XINCI_FIRST:true}},{mem:[{npc:'classmate_xinci',tag:'XINCI_FIRST',note:''}]} ];   /* XINCI_FIRST：記憶＋旗標（events.js 大四上 R1 讀旗標）*/
   const XC={ id:'ev_xinci_first_place', title:'第一名', participants:['classmate_xinci'], location:'noodle', trigger:'auto', once:true, time:[19,20], npcPresent:'classmate_xinci', background:'blur',
     prereq:{stage:{npc:'classmate_xinci',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.isDay(G,'2028-05-04')&&!x.inJP(G); }},
     dialogue:XC_LINES };

@@ -26,4 +26,7 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
     check('6. ART-BB-READY-1017：BCG-06 摩天輪在 E26「台北看起來好小」之後、祐廷「……在一起吧。」之前（AA_303 第 2 節 9）；BCG-16、CG-2 的位置（cg_peishan_decision、cg_plg_rules）有正式檔',!!reg.cg_ferris_wheel_kexin&&a>0&&c>a&&b>c&&!!reg.cg_peishan_decision&&!!reg.cg_plg_rules);
     check('6. 學姊 W7 研究室門口（prof_door）不再是黑底；BB 第 46～49 組六張背景都登記',B.prof_door&&B.prof_door.image==='assets/bg/linze_prof_hall.webp'&&['linze_prof_hall','graduation_avenue','linze_auditorium','cypress_trail','bus_night','country_road'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp')); }
   check('5. BCG-04 在「熱可可。加一份濃縮。」之後、BCG-11 在「這個 bug 我下次修」之前（BB_117）',!!reg.cg_own_drink_heroine02&&!!reg.cg_bug_fix_heroine04&&z3>0&&c4>z3&&c4-z3<160&&c11>0&&q5>c11&&q5-c11<200); }
+{ const K=['airport_arrival','airport_arr','us_airport','us_bus_station','us_bus_station_winter','us_classroom','us_restaurant','chicago_lake','chicago_dino','chicago_pizza','sf_bridge_fog','sf_bookstore','jp_konbini','trip_oldrail','intl_ca_campus','intl_ca_dorm','intl_tokyo_winter','intl_kyoto_festival','y0_sea_rain'];
+  check('6. 企劃線 bg_approved 十八張接上（2026-10-17～18 通過、一直沒接；airport_arr 用同一張入境大廳）',K.every(k=>B[k]&&B[k].image&&fs.existsSync(path.join(ROOT,B[k].image))),K.filter(k=>!(B[k]&&B[k].image&&fs.existsSync(path.join(ROOT,B[k].image)))).join(' '));
+  check('6. 圖還沒到的四張（BG-ECON-B1-1018）image null＝深色底（不去抓不存在的檔）',['cram_counter','boardgame_gg','mrt_night','phone_street_night'].every(k=>B[k]&&B[k].image===null&&OUT.bg(k)==='dark')); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

@@ -9,7 +9,8 @@
      08 ev_plg_handover　09 ev_yt_share_time　10 ev_y4_xmas　11 明信片資料 R2Y4A_EVENTS.PC2　12 ev_back_home_cafe　13 ev_kexin_study_really（_lib、_us）　14 ev_kexin_two_directions　15 ev_kexin_intern_result
    大四寒假：23 ev_sis_pickup　24 ev_kexin_xmas_y4　25 只有手機　26 ev_kexin_trip_winter_y4　27 ev_grad_exam、ev_grad_exam_after　28 ev_kexin_lunar_eve_y4_call　29 ev_kexin_valentine_y4
    「交往中」＝當天 dating_heroine_05；「挽回中」＝分開了、還沒重新開始（AA_327 美國路線的共通）。何俊朗 1～5 是第 3 輪（還沒有）：MET_LONG 沒有＝他的句子照 AA 寫的「沒有 MET_LONG」那一版。
-   CG：CG_REGISTRY 有才放（hasCG）；BCG-14、BCG-32、BCG-23 要重畫（BB_183 1-4、1-5、1-7：舊圖是冬天、二月的窗外、結冰的湖），AA_327 寫「重畫以前不放」——
+   CG：CG_REGISTRY 有才放（hasCG）；BCG-14、BCG-32、BCG-23 要重畫（BB_183 1-4、1-5、1-7：舊圖是冬天、二月的窗外、結冰的湖），AA_327 寫「重畫以前不放」；
+     BCG-34 接機（AA_345 F2）：登錄的是夏天版（白襯衫），12/23 是冬天，冬天版（BB_184）通過以前不放——
      重畫的圖登錄時在 CG_REGISTRY 那一列加 redrawn:true（或從下面的 REDRAW 拿掉）才放。測試：node tests/r2y4a_events_unit.js */
 'use strict';
 const R2Y4A_EVENTS=(function(){
@@ -19,7 +20,7 @@ const R2Y4A_EVENTS=(function(){
   const done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
   const dating=(G,id)=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
-  const REDRAW=['cg_bus_station_heroine05','cg_us_kitchen_heroine05','cg_frozen_lake_heroine05'];
+  const REDRAW=['cg_bus_station_heroine05','cg_us_kitchen_heroine05','cg_frozen_lake_heroine05','cg_airport_pickup_heroine05'];
   const cgOK=id=>hasCG(id)&&(!REDRAW.includes(id)||CG_REGISTRY[id].redrawn===true);
   const CG=id=>({if:{custom:()=>cgOK(id)},cg:id});
   const S5='heroine_05';
@@ -96,7 +97,7 @@ const R2Y4A_EVENTS=(function(){
       nar('（她看著行程表，然後把它摺起來，放進口袋。）'),
       CG('cg_chicago_heroine05'),   /* BCG-17（何俊朗只畫背影）*/
       sis('……今天不照表。'),
-      IF(LONG,{speaker:'何俊朗',text:'還好。'}),UN(LONG,{speaker:'香港來的同學',text:'還好。'}),   /* 「何俊朗說了好幾次『還好』以後」：AA 只寫了這個說明，句子用他說的「還好」（要問 AA）*/
+      nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句 */
       sis('「還好」是好還是不好？'),
       me('看情況。'),
       sis('……法律系的回答。'),
@@ -111,7 +112,7 @@ const R2Y4A_EVENTS=(function(){
       sis('（看了一眼後面還有二十塊）……好。我跳過一塊。'),
       IF(G=>dating(G,S5),nar('（回程的巴士上，她睡著了。行程表還在她的外套口袋裡。）')),
       UN(G=>dating(G,S5),nar('（晚上回程的巴士上，兩個人隔一排坐。）')),
-      {mem:[{npc:S5,tag:'CHICAGO_TRIP',note:'芝加哥的週末'}]} ] });
+      {mem:[{npc:S5,tag:'CHICAGO_TRIP',note:''}]} ] });
 
   /* ---- 2-Y4-19 US3 感恩節的湖邊（溫書瑀_角色企劃 US3；AA_253 §6 第 3 步）：11/23 09:00 會所門口 → 湖邊（出遊）---- */
   EV.push({ id:'ev_us3_lake', title:'感恩節的湖邊', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
@@ -341,7 +342,7 @@ const R2Y4A_EVENTS=(function(){
       IF(here('yu'),{speaker:'yu',text:'妳以前有十條。'}),
       {speaker:'heroine_01',text:'留一條就好，其他的他們自己會加。'},
       {speaker:'heroine_01',text:'（對學弟妹）規則只有一條。例外，要說理由。'},   /* 以安大四上唯一一次說出口的「理由」（AA_262 2-4）*/
-      {choice:[{text:'（拍一張白板的照片）',mem:[{npc:'heroine_01',tag:'PLG_LAST_RULE',note:'白板上只剩「說理由。」'}],goto:'e'},{text:'（什麼都不說，鼓掌）',goto:'b'}]},
+      {choice:[{text:'（拍一張白板的照片）',mem:[{npc:'heroine_01',tag:'PLG_LAST_RULE',note:''}],goto:'e'},{text:'（什麼都不說，鼓掌）',goto:'b'}]},
       {label:'b'},nar('（學弟妹跟著鼓掌。以安轉過去看白板，沒有回頭。）'),
       {label:'e'},{set:{PLG_HANDOVER:'there'}} ] });
 
@@ -413,20 +414,22 @@ const R2Y4A_EVENTS=(function(){
       {set:{BH_DINNER:'went'}} ],
     outingMissed:G=>{ G.flags.BH_DINNER='missed'; const d=D('2028-11-24'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,19.5,[{th:'p:'+BH,from:BH,text:'我先吃了。……下次還是我請。'}],'y4_bh_dinner_missed'); } });
 
-  /* ---- 2-Y4-15 可昕：放榜那一週，她的實習（BB_99 9-5）：她打來的電話（演出來）；KX_INTERN_CALL＝'pass'／'fail'（r2y4a3d.js 排）---- */
-  const KX='kexin', kx=t=>({speaker:KX,text:t});
+  /* ---- 2-Y4-15 可昕：放榜那一週，她的實習（BB_99 9-5）：她打來的電話（演出來）；KX_INTERN_CALL＝'pass'／'fail'（r2y4a3d.js 排）。
+     2029-03-22 研究所筆試放榜那一通（推甄沒上、後來筆試的玩家；r2y4a3d.js 記 KX_INTERN_EXAM）：她 11/24 已經說過實習上了，這一通換 AA_345 F9 的字、沒有隔天那則 ---- */
+  const KX='kexin', kx=t=>({speaker:KX,text:t}), EXAM=G=>!!G.flags.KX_INTERN_EXAM;
   EV.push({ id:'ev_kexin_intern_result', title:'放榜那一天', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,   /* OUT 的電話（call:true；r2y4a3d.js 排在放榜那天 15:30）*/
     dialogue:[ {scene:'電話'},
       {if:{flagIs:{KX_INTERN_CALL:'fail'}},goto:'f'},
       kx('結果出來了吧。你先說。'),
       nar('（你說上了。）'),
-      kx('我事務所的實習也上了。那今天宵夜誰請？'),
+      UN(EXAM,kx('我事務所的實習也上了。那今天宵夜誰請？')),IF(EXAM,kx('……好。這次換你的上了。那今天宵夜誰請？')),
       {choice:[{text:'「我請。」',goto:'a'},{text:'「各付各的。」',goto:'b'}]},
       {label:'a'},kx('好。山下那家。'),{goto:'e'},
       {label:'b'},kx('……好啦。'),{goto:'e'},
       {label:'f'},kx('你的，先說你的。'),
       nar('（你說沒上。）'),
-      kx('……好。二月還有一次。'),   /* 她不提自己的：隔天 21:00 才傳（那一則記 KX_INTERN）*/
+      UN(EXAM,kx('……好。二月還有一次。')),   /* 推甄沒上那一通：她不提自己的，隔天 21:00 才傳（那一則記 KX_INTERN）*/
+      IF(EXAM,kx('……好。今天宵夜我請。不准說不要。')),   /* 3/22 筆試也沒上（「二月還有一次」已經不成立）*/
       {end:true},
       {label:'e'},{set:{KX_INTERN:true}} ] });
 
@@ -474,7 +477,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
   EV.push({ id:'ev_kexin_study_really_us', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
-    dialogue:[ {scene:'視訊',bg:'video'},nar('（兩小時視訊開著，沒有人說話；她把便條舉到鏡頭前：「先讀完。」）'),{advance:2} ].concat(K21_ECHO,K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA 這一段只寫了說明：照說明的字當旁白 */
+    dialogue:[ {scene:'視訊',bg:'video'},nar('（兩個小時，視訊開著，兩邊都沒有人說話。）'),kx('（把便條舉到鏡頭前）先讀完。'),{advance:2} ].concat(K21_ECHO,K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA_345 F3 定稿 */
 
   /* ---- 2-Y4-14 K22「兩個方向的讀書會」（BB_99 9-6）：11/14（二）19:00 政大；美國路線、沒去＝r2y4a3d.js 一則 ---- */
   const SJ_MET=G=>has(KX,'ENC_D13_KX')||has(KX,'ENC_D09_KX')||!!G.flags.KX_NCCU_FRIENDS;   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇；大二的電影夜，y2r2_3d.js 同一條）*/
@@ -509,8 +512,8 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},kx('嗯。……明天我回高雄。'),{goto:'e'},
       {label:'b'},kx('……你的圍巾很醜。'),nar('（她還是圍上了。）'),
       {label:'e'},
-      IF(PLAN,nar('（手機的共用表格 12/25 那一格，她寫了「聖誕快樂」，旁邊畫了一隻長頸鹿。）')),   /* 她的禮物：AA 只寫了說明，照說明的字當旁白 */
-      UN(PLAN,nar('（一張卡片，上面也是一隻長頸鹿。）')) ],
+      IF(PLAN,nar('（共用的讀書計畫表，12/25 那一格多了一行：「聖誕快樂」。旁邊畫了一隻長頸鹿。）')),   /* 她的禮物（AA_345 F3 定稿）*/
+      UN(PLAN,nar('（她給你一張卡片。上面畫了一隻長頸鹿。）')) ],
     after:G=>{ merge(G,'KX_XMAS',{4:'study'}); } });
 
   /* ---- 2-Y4-26 KH「最後一個寒假的旅行」（BB_99 9-12、10-3；AA_276；裁定第 22 點）：1/6（六）高鐵 07:00 → 08:35 左營，她開車去高雄的海邊；傍晚左營站 ---- */
@@ -539,32 +542,37 @@ const R2Y4A_EVENTS=(function(){
   /* ---- 2-Y4-28 除夕（裁定第 23 點）：選「打給妳。」＝電話三句（OUT call:true）---- */
   EV.push({ id:'ev_kexin_lunar_eve_y4_call', title:'除夕的電話', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
     dialogue:[ {scene:'電話'},
-      nar('（鞭炮聲。）'),   /* AA：「三句：鞭炮聲、……」第一句只寫了「鞭炮聲」*/
+      nar('（鞭炮聲。）'),   /* AA_327「三句：鞭炮聲、……」；AA_345 F3：「（鞭炮聲。）」可以 */
       kx('新年快樂。'),
       kx('……我阿嬤在叫我。你也去陪你媽。') ] });
 
-  /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和上一次她問的回答（KX_VDAY_WX）一樣＝「跟去年一樣。」
-     大三的情人節（r2y3a，2-Y3-24）沒有問天氣：沒有 [3] 就比上一次有問的那一年（大二 [2]、大一 [1]；要問 AA）---- */
-  const VPREV=G=>{ const W=G.flags.KX_VDAY_WX||{}, V=G.flags.KX_VDAY||{}; for(const y of [3,2,1]) if(W[y]!=null) return V[y]==='missed'?null:W[y]; return null; };
-  const VSAME=G=>!!G.flags._y4Vwx&&VPREV(G)===G.flags._y4Vwx;
+  /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和上一次她問的回答（KX_VDAY_WX）一樣＝那一句照差幾年換（AA_345 F5）：
+     大三的情人節（r2y3a，2-Y3-24）沒有問天氣＝比上一次有問的那一年：大二（大部分玩家）「跟前年一樣。」、大一「跟大一那年一樣。」（有 [3] 的照 BB_99 原句「跟去年一樣。」）---- */
+  const VPY=G=>{ const W=G.flags.KX_VDAY_WX||{}; for(const y of [3,2,1]) if(W[y]!=null) return y; return null; };   /* 上一次有問天氣的那一年 */
+  const VPREV=G=>{ const y=VPY(G), W=G.flags.KX_VDAY_WX||{}, V=G.flags.KX_VDAY||{}; return y==null||V[y]==='missed'?null:W[y]; };
+  const VSAME=G=>!!G.flags._y4Vwx&&VPREV(G)===G.flags._y4Vwx, VSY=y=>G=>VSAME(G)&&VPY(G)===y;
   EV.push({ id:'ev_kexin_valentine_y4', title:'情人節，讀書計畫表', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.vdayMissed(G,q); },
     dialogue:[ {scene:'視訊',bg:'video'},
       kx('你那邊天氣怎樣？'),
       {choice:[{text:'「冷。」',set:{_y4Vwx:'cold'}},{text:'「下雨。」',set:{_y4Vwx:'rain'}},{text:'「還好。」',set:{_y4Vwx:'ok'}}]},
-      IF(VSAME,kx('跟去年一樣。')),UN(VSAME,kx('……高雄今天二十五度。')),
+      IF(VSY(3),kx('跟去年一樣。')),IF(VSY(2),kx('跟前年一樣。')),IF(VSY(1),kx('跟大一那年一樣。')),UN(VSAME,kx('……高雄今天二十五度。')),
       IF(PLAN,kx('情人節禮物。我們那張表，我重排了。')),UN(PLAN,kx('情人節禮物。讀書計畫表。')),
       kx('兩個人的格子排在一起。考完以前，都照這張。'),
       nar('（畫面：每天晚上十點那一格，兩欄都寫著「通話」。）') ],
     after:G=>{ const F=G.flags; merge(G,'KX_VDAY',{4:'video'}); if(F._y4Vwx){ merge(G,'KX_VDAY_WX',{4:F._y4Vwx}); delete F._y4Vwx; } } });
 
   /* ---- 2-Y4-23 學姊 M7 接機（BB_99 2-1、10-1 第 1 項；AA 審稿 #1：大四下唯一一次說出口的條列，照 BB_99 原句）：12/23（六）20:30 桃園機場入境大廳（出遊）。
-     版本 SIS_PICKUP_V（r2y4a3d.js 12/20 排）：'family' 家族共乘（Kevin、學妹同車）、'two' 兩個人、'lover' 戀人版。BCG-34 只給兩個人、戀人版（hasCG）---- */
+     版本 SIS_PICKUP_V（r2y4a3d.js 12/20 排）：'family' 家族共乘（Kevin、學妹同車）、'two' 兩個人、'lover' 戀人版。
+     入境大廳的旁白（AA_345 F2 新寫）：兩個人版一句、戀人版兩句；BCG-34 只給兩個人、戀人版，冬天版通過（REDRAW 那一列 redrawn:true）才放，旁白照留、CG 加在第一句之後 ---- */
   const PV=v=>G=>G.flags.SIS_PICKUP_V===v, PV2=G=>['two','lover'].includes(G.flags.SIS_PICKUP_V);
   EV.push({ id:'ev_sis_pickup', title:'接機', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
-      {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34：她走出來、看到你的那一拍（戀人版在擁抱之前）*/
+      IF(PV('two'),nar('（她推著行李推車走出來。看到你，停了一下。）')),
+      IF(PV('lover'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),
+      {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */
+      IF(PV('lover'),nar('（很久，她才放開。）')),
       {scene:'車上',bg:'car_night'},
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
       IF(G=>has(S5,'DROVE_HER'),sis('這次我一直講。你可以轉頭。')),UN(G=>has(S5,'DROVE_HER'),sis('我一直講。你可以轉頭。')),
@@ -577,7 +585,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
       {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。這不是三件事。」（r2y4a3d.js）*/
       {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),
-      {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:'接機'}]} ],
+      {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });
 
   /* ---- 2-Y4-27 研究所筆試（AA_181 2-4；AA_185 0-3：沒有題目，看準備）：2/3（六）09:00 教學館（3D 校園的共同教學館門口；08:50 還沒到＝帶到場，r2y4a3d.js）---- */
@@ -602,7 +610,7 @@ const R2Y4A_EVENTS=(function(){
       {key:'2029-01-05',m:1,text:['寒假我沒有回去。宿舍剩我和一個管理員。','她請我喝茶。英國的茶要加牛奶，我加了。……還好。']},
       {key:'2029-02-19',m:2,text:['今天下雪。很小，落地就不見了。','我拍了照，可是照片裡什麼都沒有。']},
       {key:'2029-03-16',m:3,text:['我開始存錢了。','回去以後，我想開一間很小的戲院。四十個座位就好。']},
-      {key:'2029-04-20',m:4,text:['論文開始寫了。題目還是很小。','每天寫五百字，寫完去公園坐一下。'],fy:['（另一種筆跡）','這棵樹叫英國櫟。……他說的。']},   /* 方奕廷那條路（ZR_FY）：同一張上另一種筆跡（BB_99 沒寫哪一個月，AA 放四月）*/
+      {key:'2029-04-20',m:4,text:['論文開始寫了。題目還是很小。','每天寫五百字，寫完去公園坐一下。'],fy:'（四月那張的最後一行，是另一種筆跡：「這棵樹叫英國櫟。……他說的。」）'},   /* 方奕廷那條路（ZR_FY）：同一張上另一種筆跡（BB_99 沒寫哪一個月，AA 放四月；旁白一句照 AA_345 F3 定稿）*/
       {key:'2029-05-18',m:5,text:['這裡五月很亮，晚上九點天還沒黑。','我把窗簾拉起來看電影。']},
       {key:'2029-06-15',m:6,text:['快結束了。我開始打包。','最難打包的是電影票根。比衣服還多。'],until:'2029-06-28'} ],
     replies:[ {id:'rain',t:'台北也下雨了。我帶了傘。',next:'你說台北下雨。這裡也是。我們今天一樣。'},

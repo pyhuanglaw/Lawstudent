@@ -238,7 +238,7 @@ const Y34B=(function(){
   S.m6=function(G){ const d=G.day, sun=S.m6Sundays(), wi=sun.indexOf(d), hh=d>=D('dst')?20:19;
     if(wi>=0){ if(G.hour<hh) return; const tag='y4_m6_sun_'+d;
       if(wi<M6_Q.length){ const Q=M6_Q[wi], L=[GSIS('（照片）'),GSIS('今天的爭論題：'+Q.q),GSIS('你們先講。我這裡早上七點。')];
-        L[2].ask={id:'y4_m6_q'+(wi+1),until:T(d+1,18),opts:Q.o.map(([t,r])=>({t,say:[{from:'heroine_05',name:'溫學姊',text:r},{from:'kevin',name:'Kevin',text:'我去睡了'}],mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'M6 第 '+(wi+1)+' 題'}]}))};
+        L[2].ask={id:'y4_m6_q'+(wi+1),until:T(d+1,18),opts:Q.o.map(([t,r])=>({t,say:[{from:'heroine_05',name:'溫學姊',text:r},{from:'kevin',name:'Kevin',text:'我去睡了'}],mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'週日的爭論題，第 '+(wi+1)+' 題'}]}))};
         at(G,d,hh,L,tag); }
       else at(G,d,hh,[GSIS('（照片）'),GSIS('今天不吵。今天只放空白。')],tag);
       return; }
@@ -483,7 +483,7 @@ const Y34B=(function(){
     {if:C(G=>datingOther(G,'heroine_02')),speaker:'heroine_02',text:'這杯我請。加了糖。你現在需要甜的。'},
     {goto:'z_end'},
     {label:'z_fine'},{speaker:'heroine_02',text:'你騙人的時候會看門口。'},{speaker:null,text:'（她笑了。）'},{speaker:'heroine_02',text:'……好，我不問。'},
-    {label:'z_end'},{mem:[{npc:'heroine_02',tag:'SHE_SAW_HIM',note:'你最近很累，對吧'}]},{inc:{CAFE_VISITS:1}} ];
+    {label:'z_end'},{mem:[{npc:'heroine_02',tag:'SHE_SAW_HIM',note:''}]},{inc:{CAFE_VISITS:1}} ];
   /* 1B-15 */
   const nine=G=>G.flags.ZQ_Q12==='nine', kaiK4=G=>!JP(G);
   const Q12=[ {scene:'資工系館・一樓展示廳',bg:'soc_hall'},
@@ -540,7 +540,7 @@ const Y34B=(function(){
     {speaker:'heroine_05',text:'回程路上喝。冰的。'},
     {if:C(famV),speaker:'heroine_05',text:'……一件事。只有一件。回到家在群組說一聲。'},
     {if:C(fam2),speaker:'heroine_05',text:'……一件事。只有一件。回到家傳訊息給我。'},
-    {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:'送她去機場'}]},
+    {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
   const dSis=G=>dating(G,'heroine_05'), xSis=G=>exOf(G,'heroine_05'), kxUn=G=>kxIn(G)&&!kxKnows(G,'heroine_05');
   const DEPART_US=[ {if:C(dSis),speaker:'heroine_05',text:'護照、入學許可、I-20。……你的拿出來，我看一次。'},
