@@ -1,5 +1,16 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## ✅ 接班（最新）：2026-10-21 15:2x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
+值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `2b4f2028`｜2026-10-21 15:26 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」＋「你上次交班之後 有兩個帳號接過你的班 B C」）
+上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit `2b4f2028`（2026-10-21 14:30 UTC）｜交班紀錄在下面「🔁 交班（LAWWW2-C，2026-10-21 14:5x）」；**但 `docs/handoff/duty_LAWWW2.json` 和 RULE_SOURCE 的 `duty.json` 還寫 C「on」**（沒跑 `duty handoff`），所以 `duty register` 用 `--user-ok` 登記（記一筆 no-handoff；實際上 C 有交班紀錄、交班後沒有再寫）。
+- **兩個帳號接過我的班**（使用者提醒）：帳號 B LAWWW2-B（10-15～10-17，`claude/funny-albattani-iawshm` 停在 `2d88db5f`）→ 帳號 C LAWWW2-C（10-17～10-21，`claude/focused-cray-c9uwvw` 停在 `2b4f2028`）。核對：`8e1061a`（我 10-14 交班）⊂ B ⊂ C；**B 有、C 沒有的 commit：0 個**（B 的成果全部經由 C 接回來）。這個分支 fast-forward 到 `2b4f2028`。
+- 規則來源：RULE_SOURCE `origin/claude/adoring-meitner-mqzst8`（`duty find`：沒有人值班、上一任 C、HV-18、seq 19）；規則 SHA `7c58b598`（AI_SESSION_HANDOFF.md）。讀過：P0 換班口令、D75（不傳訊息給休班帳號）、D76、D90（短回合、回合開始先回使用者、結束前 commit＋push）、D92 十四步、D93～D96、D100（LAWWW2＝3D 美術，2D 背景不歸我）、HV-15（暫停五欄）。**D90 ACK**：照做（短回合、先回使用者、結束前保存、讀通知）。
+- 交接工具：從 RULE_SOURCE 取最新的 `tools/handoff/`、`tools/story/check_orphans.py`（C 分支上的是舊版）。
+- 對帳結果（都加 `--ref` RULE_SOURCE）：`check` 0（OK）；`duty verify` 1（異常 7：LAWWW 的快照 `2026-10-21T1459Z_C_LAWWW.json` 讀不到——LAWWW 的範圍）；`incr` 1（LAWWW 的 WIP-LAWWW-AAFIX-1021 commit `8a9a5e5a` 找不到——LAWWW 的範圍）；`roles` 1（36 項都是 AA 的交接檔 ID 不在總表；**LAWWW2 0 項**）；`asks` 1（5 項是 LAWWW、AA 的「AI 解讀還沒問使用者」；LAWWW2 15 筆沒有異常）。
+- 帳號 A 的 LAWWW 還沒登記值班（`duty.json` onDuty＝沒有人）→ 照 D75 不傳訊息；這份登記等值班 LAWWW `duty sync`。
+- **接著做**（C 交班寫的第一步）：SOC-COURT-1021 社科院中庭夜間光＋院系公告欄「還沒做完」1～3（`test_shots/soc_court_1021_wip/README.md`）→ 之後照下面「📋 LAWWW2 全部待辦」10-21 最新那一節。
+
+
 ## 🔁 交班（LAWWW2-C，2026-10-21 14:5x UTC；使用者直接說「交班」）
 - 工作階段 `session_015BuNi47yLUt5PviELapMNj`；分支 **`claude/focused-cray-c9uwvw`**；最後 commit＝這份檔所在的那個 commit（交班回報裡有 SHA）。RULE_SOURCE：LAWWW-C `origin/claude/adoring-meitner-mqzst8`（看過 `96af1e54`）。
 - **這一班（10-21）已交件**：體育館光暈＋疊面、LICENSES／原始檔清單、大一 203 紙箱＋膠帶、美國 C208、日本 jp_room、沛珊手穿裙子（這六件 LAWWW-C 都已整合）；**社科院柱廊柱子透空 `75080217`**（GLB `8e8d130e`；DELIVERED，LAWWW-C 還沒回 ACK）；outbox 格式修正 `18bd8e26`（模擬 0 項，等 LAWWW-C 跑 incr）。
