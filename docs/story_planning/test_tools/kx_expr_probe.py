@@ -12,6 +12,7 @@ from playwright.async_api import async_playwright
 URL, OUT, SNAPF, ROOT = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 EVS = os.environ.get('EVS', 'ev_y0_e14,ev_y0_e26,ev_y0_kh3,ev_y0_kh_madeup').split(',')
 WAIT = int(os.environ.get('WAIT', '2000'))
+MODES = os.environ.get('MODES', 'A,B').split(',')   # 修好以後（BUG-ADV-EXPR-RACE-1021）只跑 A：原樣就應該全對
 PATCH = """(()=>{ if(window.__KXP) return; window.__KXP=1; const sp=ADV.speaker; let last=null;
   ADV.speaker=function(c,e,o){ const now=performance.now(); if(e===undefined&&c&&last&&last.c===c&&now-last.t<80) return; last={c,t:now}; return sp.apply(this,arguments); }; })()"""
 READ = """(()=>{ const out={}; for(const s of ['left','right']){ const box=s==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); const sl=(ADV.slots||{})[s];
@@ -88,7 +89,7 @@ def judge(rows, sm):
 async def main():
     run = L.Run('kx_expr', OUT); sm = script_map(ROOT); G = json.load(open(SNAPF, encoding='utf-8')); res = {}
     async with async_playwright() as p:
-        for mode in ('A_原樣', 'B_暫時修正'):
+        for mode in [m for m in ('A_原樣', 'B_暫時修正') if m[0] in MODES]:
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
             await L.load_state(pg, G.get('G', G), quiet_events=True); await pg.wait_for_timeout(6000)
