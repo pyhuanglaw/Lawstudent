@@ -457,7 +457,11 @@ POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, 11)] * 2   # 效能�
 def broad_proto(r, h, seed):
     """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
     import plants as PL_
-    if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
+    if '_PLM_ST' not in globals():
+        globals()['_PLM_ST'] = PL_.materials('wz_pl_')
+        # 街上的大葉盆栽葉子調亮一點（ART-BALCONY-POTS，2026-10-21）：從街上往上看陽台時葉子在陽台的陰影裡，原本的深綠（#2f5130／#3f6a3a）幾乎是黑色剪影
+        for k_, hx_ in (('leaf_dark', '#3d6a3a'), ('leaf_mid', '#55894a')):
+            _PLM_ST[k_].node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (*PL_._srgb(hx_), 1.0)
     random.seed(seed)
     pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
@@ -589,9 +593,16 @@ def apartment(spec):
             rl = acc(M['grille']); xx = bx0 + 0.06
             while xx < bx1 - 0.05: xf.box(rl, xx - 0.01, xx + 0.01, y0 + 0.4, y0 + 0.92, bd - 0.07, bd - 0.05); xx += 0.13
             xf.box(rl, bx0, bx1, y0 + 0.9, y0 + 0.94, bd - 0.09, bd - 0.03)
+            # 盆栽放在鐵花架上（ART-BALCONY-POTS，2026-10-21）：原本放在陽台地上，56 cm 的女兒牆＋欄杆擋住，從街上幾乎看不到；
+            # 花架高 36 cm、貼著欄杆（離欄杆 0.12 m），葉子露出欄杆上緣——台北老公寓陽台常見的擺法
+            sy0, sy1, sz0, sz1 = y0 - 0.16, y0 + 0.2, bd - 0.5, bd - 0.2
+            xf.box(rl, bx0 + 0.25, bx1 - 0.25, sy1 - 0.025, sy1, sz0, sz1)                                  # 架面
+            for lx in (bx0 + 0.28, (bx0 + bx1) / 2, bx1 - 0.28):
+                for lz in (sz0 + 0.02, sz1 - 0.02): xf.box(rl, lx - 0.012, lx + 0.012, sy0, sy1 - 0.025, lz - 0.012, lz + 0.012)   # 腳
+            xf.box(rl, bx0 + 0.28, bx1 - 0.28, sy0 + 0.1, sy0 + 0.12, sz0 + 0.01, sz0 + 0.03)              # 下面的橫撐
             for k in range(3):
-                q = xf.p(bx0 + 0.5 + k * (bx1 - bx0 - 1.0) / 2, 0, bd - 0.45)
-                B.instance(POT_BROAD, f'bpot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.16, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
+                q = xf.p(bx0 + 0.55 + k * (bx1 - bx0 - 1.1) / 2, 0, (sz0 + sz1) / 2)
+                B.instance(POT_BROAD, f'bpot_{spec["id"]}_{len(_inst)}', q[0], sy1, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['hood']:
             inst(HOOD, f'hood_{spec["id"]}', xf, cx, y1 + 0.18, 0.0)
         if w['ac'] and w['kind'] != 'balcony':
