@@ -658,8 +658,7 @@ const STORY_EVENTS=[
       {label:'o2'},{speaker:'kexin',expression:'smile',text:'你挑的那家，我還沒吃過。……好，今天換你當導遊。'},{goto:'park'},
       {label:'o3'},{speaker:'kexin',expression:'teasing',text:'讓我點的人，第三次老闆就會記得你。'},
       {label:'park'},{scene:'政大・校門口',bg:'nccu_gate'},   /* 原本是停車場；政大只做主要校園＋宿舍（使用者 10-16），AA_137 7-1：她送你到校門口，台詞照用 */
-      {speaker:'kexin',expression:'smile',text:'下次你來，我們吃山上那家。'},   /* AA_372 第 7 項：「選宵夜」8/30 講過、大一下「我們的日子」又講一次 */
-      {speaker:'kexin',expression:'neutral',text:'……這是分工，不是命令。'} ],
+      {speaker:'kexin',expression:'smile',text:'下次你來，我們吃山上那家。'} ],   /* AA_372 第 7 項：「選宵夜」8/30 講過、大一下「我們的日子」又講一次；第 6 節第 7 題（企劃線 7fca0df5）：後面的「……這是分工，不是命令。」拿掉（分工的前情已經不在）*/
     consequences:{flags:{NCCU_VISITED:true},mem:[{npc:'kexin',tag:'OUR_SHOP_FIRST',note:'政大山下的小吃街'}],memo:'第一次去政大：可昕當導遊'} },
   /* 可昕 K1b 予樂說：及格（BB_95 9-2）：K1 之後第 6～8 週，她在平日下午傳「明天晚上有空嗎？……」（story3d.js 的 phoneRules）；答應＝隔天 19:30、晚一點＝21:00 去政大（出遊）。
      流程照 AA_112 第 12 節：校門 → 山下的小吃街（予樂先到；予樂的第一句三選一＝YL_IMPRESSION）→ 可昕到了 → 河堤（假設題，玩笑、不給結論）→ 圖書館 → 停車場（約下一次）；
@@ -1704,7 +1703,7 @@ const STORY_EVENTS=[
       {scene:'台大・椰林大道',bg:'ntu_avenue'},{leave:'品妤'},   /* AA_147：霖澤館前品妤還在（在旁邊看手機＝立繪留著、不說話）；椰林大道她先走、剩兩人 */
       {speaker:null,text:'品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。'},
       {unless:{events:['ev_kexin_tour_nccu']},speaker:'kexin',expression:'smile',text:'下次換你來，我當導遊。'} ],
-    consequences:{flags:{MET_PINYU:true},memo:'可昕第一次來台大'} },
+    consequences:{flags:{MET_PINYU:true},memo:'可昕來台大找你'} },   /* AA_372 第 6 節第 9 題：日誌和標題一樣（原本「可昕第一次來台大」）*/
   /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（story3d.js 的 phoneRules）；「好，九點開。」＝當天 21:00 視訊（出遊：接起來）。
      開始前先選讀哪一科（和自學一樣算進期末準備：兩個小時＝兩次）；每半小時她出一題假設題（照順序，玩笑，不給結論），回她＝「你分心了。很好。」、
      不回＝「你今天好認真。我有點寂寞。……繼續。」（各自第一次才說，不重複）。沒接、今天先不要＝23:00 她傳書桌的照片（outingMissed）。記 VIDEO_STUDY（AA_112 第 6 節：和見面一樣算數）*/

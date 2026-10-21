@@ -36,7 +36,7 @@ const ENC=(function(){
   const exKey=(ex,how)=>how==='apart_choice'&&!(ex&&(ex.apart_choice||ex.apart_choiceNarr))?'apart_talk':how; S.exKey=exKey;
   /* 回老家（presence kind 'home'）的人在不在這個景點的城市：景點的 area（「臺中市」）和 presence 的 home（「台中」）比，臺／台、市／縣不分 */
   const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
-  S.atHome=(pr,spot)=>!!(pr&&pr.kind==='home'&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);
+  S.atHome=(pr,spot)=>!!(pr&&(pr.kind==='home'||pr.kind==='trip')&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);   /* trip 帶 home：週末回老家（以安大一上第 4、8、12 週，AA_372 第 6 節第 8 題）——那個城市的偶遇照排 */
   /* 這一列現在成立嗎：回傳 {row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
     if(G.stage==='econ') return no('econ');

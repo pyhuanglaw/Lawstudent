@@ -19,15 +19,20 @@
  "files": [
   {
    "path": "docs/story_planning/ladder/ladder_aa.json",
-   "sha": "659d9d81",
+   "sha": "7fca0df5",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
-   "task": "SYS-15",
-   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（AA_372 第 6 節：第 13、18 項以安的兩句「考完我還會留在臺北一個月。」「你期中哪一週最多？期中考那週我有三科。」改進企劃源檔 ladder_aa.json＋build_ladder_aa.py，企劃線 7fca0df5；和 659d9d81 只差這兩句；D100 台詞歸 AA）",
+   "task": "AA372-Y1S1-FIX-1021",
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）；7fca0df5 起 tools/ladder/import_ladder.py 不再疊 AA_372 那兩句",
    "history": [
     {
      "sha": "25e89f6e",
      "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    },
+    {
+     "sha": "659d9d81",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
+     "task": "SYS-15"
     }
    ]
   },
@@ -931,11 +936,17 @@
   },
   {
    "path": "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md",
-   "sha": "da456892",
+   "sha": "7fca0df5",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 13、18 項以安閒聊階梯的兩句由 tools/ladder/import_ladder.py 疊在 ladder_aa.json 上匯入（「考完我還會留在臺北一個月。」「期中考那週我有三科。」）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；7fca0df5 加第 6 節（AA 20:5x 答實作後十題，2、3、7、8、9、10 要改）。第 13、18 項以安閒聊階梯的兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（tools/ladder/import_ladder.py 不再疊）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js、encounters.js、phone3d.js、social3d.js",
    "task": "AA372-Y1S1-FIX-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "da456892",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿；第 13、18 項以安閒聊階梯的兩句由 tools/ladder/import_ladder.py 疊在 ladder_aa.json 上匯入"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",

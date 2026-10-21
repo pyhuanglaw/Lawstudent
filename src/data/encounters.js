@@ -37,7 +37,7 @@ const ENCOUNTERS={
     {who:'heroine_04',spot:'D12',why:'她坐在碼頭邊，膝上開著筆電。',days:[0],from:16,to:19,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D12_ZQ',away:'在大稻埕',
       lines:{acq:['你也來這裡？','我在寫東西。河邊比較好想。'],friend:['你來得剛好。幫我玩一次。','……你死在第三關。很好，代表那裡太難了。'],dating:['欸不是……你跟蹤我？','好啦，我很高興。']},
       ex:{apart_drift:['欸不是……好久不見。我要回去改 bug 了。']},src:'BB_144 1、3-2'},
-    {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
+    {who:'classmate_peishan',spot:'D12',why:'她在一間舊書店門口翻繪本。',days:[6],from:15,to:18,terms:['Y1S1','Y1S2','Y2S1'],weeks:'even'/* AA_372 第 6 節第 8 題：大一上到大二上只排雙數週的週六（單數週她回台中；作息 characters.js 同）*/,stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D12_PS',away:'在迪化街找舊書',
       lines:{acq:['啊，嗨！……我在找一本舊的繪本。','找到了我就回去。你也逛逛。'],friend:['你來得正好。幫我看這兩本，哪一本小孩會喜歡？','……你選的那本字比較少。對，就是這本。'],dating:['……你怎麼知道我在這裡？','不知道也來了？那我們一起找。書單有七本。']},src:'BB_144 1、3-4'},
     {who:'heroine_03',spot:'D12',why:'她拿著相機，蹲在一間南北貨行的騎樓下。',days:[0],from:15,to:18,terms:null,weeks:'odd',stageMin:'ACQUAINTANCE',busy:{y12:'no',y3:'short'},join:'friend',memo:'ENC_D12_YT',away:'在大稻埕拍照',
       lines:{acq:['……你？','我在拍老闆娘包貨的手，課堂作業。'],friend:['（她把鏡頭蓋遞給你）「拿一下。」','這條街好多店都是阿公阿嬤在顧。'],/* AA_209 附錄A §2 */dating:['……你跟來的？','沒有？那你運氣很好。我剛好拍完。']},
@@ -51,7 +51,7 @@ const ENCOUNTERS={
     /* ---- 第三批景點（spots_v3）的 AA 六位：AA_271 第 1 節（AA-C 01e9d706，2026-10-17）。避開 BB_213 的時段；外縣市只放住在那裡的人。
        dates＝日期區間（含頭尾）；vacation＝寒暑假；weeks 寫陣列＝學期的第幾週。 */
     // ---- D26 臺中（以安回台中的日子：AA_197 1-4、AA_244、AA_199 7-5；大三寒假留臺北、大三暑假在日本＝沒有）----
-    {who:'heroine_01',spot:'D26',why:'她坐在審計新村一間小店門口的階梯上，手上拿著一張寫滿字的購物清單。',days:[6],from:14,to:17,terms:null,dates:[['2026-01-20','2026-02-20'],['2026-07-25','2026-08-08'],['2027-02-01','2027-02-20'],['2027-07-24','2027-08-07'],['2029-02-09','2029-02-17']],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D26_AN',away:'在台中',
+    {who:'heroine_01',spot:'D26',why:'她坐在審計新村一間小店門口的階梯上，手上拿著一張寫滿字的購物清單。',days:[6],from:14,to:17,terms:null,dates:[['2025-09-27','2025-09-27'],['2025-10-25','2025-10-25'],['2025-11-22','2025-11-22'],['2026-01-20','2026-02-20'],['2026-07-25','2026-08-08'],['2027-02-01','2027-02-20'],['2027-07-24','2027-08-07'],['2029-02-09','2029-02-17']]/* AA_372 第 6 節第 8 題：加大一上第 4、8、12 週的週六（她回台中的週末）*/,stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D26_AN',away:'在台中',
       lines:{acq:['{name}？你怎麼在臺中。','我在幫我媽買東西。清單還有四樣，我先走了。'],friend:['你來臺中，怎麼沒先講？','我媽要的東西還沒買完。你要一起的話，走這邊。'],dating:['你來了也不跟我說。','我五點前要回家吃飯。在那之前，你跟著我。']},
       ex:{apart_life:['嗨。這邊的店都不錯，你慢慢逛。'],apart_lifeNarr:'（她先走了。）',apart_drift:['……{name}。','我在幫我媽買東西。']},src:'AA_271 1、1-1、1-2'},
     // ---- D14 淡水漁人碼頭（語彤：心願 D13 以後，寒暑假的週日；雨天沒有；前任不出現）----
