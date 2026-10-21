@@ -13460,9 +13460,9 @@
    "title": "刑訴特別課一句",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：syllabus 刑訴 w15 只有 special:true，AA_103 那三句沒進遊戲；下一步：課堂播 special 台詞（classes3d.js 的 content／special），三句照 AA_103 ｜ AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】classes3d.js S.SPECIAL_PRE（刑訴|15）三句，tests/aa103_sp_unit.js；BB：大三上 2027-12-1x 刑訴第 15 週上課看順序（黑板 → 小語 → 林教授兩句 → 原本那一句 → 小語第二句）｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：syllabus 刑訴 w15 只有 special:true，AA_103 那三句沒進遊戲；下一步：課堂播 special 台詞（classes3d.js 的 content／special），三句照 AA_103 ｜ AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
    "first": {
     "term": "Y2S1",
     "week": null,
