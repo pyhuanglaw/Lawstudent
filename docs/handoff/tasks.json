@@ -20179,12 +20179,12 @@
    "title": "SK06（BB_106，AA_140 排 v2）：從 V0-SK 拆出",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20197,7 +20197,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 照 D94 第 5 點把 BB_106＠71b3e6c3 加進白名單（AA 已審，不必再問使用者），照 D81 在大一下施工 SK06 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大一子代理（AA_372 第 6 節之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 照 D94 第 5 點把 BB_106＠71b3e6c3 加進白名單（AA 已審，不必再問使用者），照 D81 在大一下施工 SK06 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20212,12 +20212,12 @@
    "title": "SK07（BB_106，AA_140 排 v2）：從 V0-SK 拆出",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20230,7 +20230,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：同 V2-SK06：加白名單後施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大一子代理（AA_372 第 6 節之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：同 V2-SK06：加白名單後施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20245,12 +20245,12 @@
    "title": "SK08（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20263,7 +20263,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後照 D81 在大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後照 D81 在大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20278,12 +20278,12 @@
    "title": "SK09（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20296,7 +20296,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20311,12 +20311,12 @@
    "title": "SK10（BB_106，AA_140 排 v3）：從 V0-SK 拆出",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20329,7 +20329,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大二施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大二施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20344,12 +20344,12 @@
    "title": "SK14（BB_106，AA_140 排 v5）：從 V0-SK 拆出",
    "area": "V5",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20362,7 +20362,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大四上施工（讀 E02_WORD） ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大四那一輪：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後大四上施工（讀 E02_WORD） ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20377,12 +20377,12 @@
    "title": "BB_106 日常 D1（品妤「你又在等人？」）、D2（經濟系的人的偶遇表）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20395,7 +20395,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後照 D81 在大一上施工（D2 偶遇表可接 encounters.js） ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大一子代理（AA_372 第 6 節之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後照 D81 在大一上施工（D2 偶遇表可接 encounters.js） ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20410,12 +20410,12 @@
    "title": "BB_106 4-2：經濟系群組三則（畢業照、受試者、球賽門票）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20428,7 +20428,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後接進 group3d／PHONE_RULES 的經濟系群組 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大一子代理（AA_372 第 6 節之後；經濟系群組）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加白名單後接進 group3d／PHONE_RULES 的經濟系群組 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20443,12 +20443,12 @@
    "title": "BB_105 P5 普通教學館前的舊同學（程式 id 用 ev_putong_oldmate，避開沛珊的 P5）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20461,7 +20461,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 BB_105＠68a8479e 加白名單，id 用 ev_putong_oldmate（避開沛珊 P5），大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 BB_105＠68a8479e 加白名單，id 用 ev_putong_oldmate（避開沛珊 P5），大二上施工 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20476,12 +20476,12 @@
    "title": "BB_105 日文班 G1、G5、G6、G7、G8、G10（G10 只有日本路線；搜程式排除 AA_13 群戲的 G1／G4～G6）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20494,7 +20494,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：加 BB_105 白名單後施工 G1、G5～G8；日文班三人先補 characters.js 名字，立繪由 BB 跟使用者要 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：加 BB_105 白名單後施工 G1、G5～G8；日文班三人先補 characters.js 名字，立繪由 BB 跟使用者要 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20509,12 +20509,12 @@
    "title": "BB_105 博雅 B6b、B6c、B7、B11、B12（搜程式排除 BB_119 的 V6-B*）",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20527,7 +20527,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：加 BB_105 白名單後施工 B6b、B7、B11、B12 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：加 BB_105 白名單後施工 B6b、B7、B11、B12 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20542,12 +20542,12 @@
    "title": "BB_105 女舍 D4、D4b、D7、D9（D4 大一上第 4～8 週：讀書會還沒開，沛珊在女舍門口還祐廷課堂筆記，AA_289 5-4；搜程式排除 V1-BB175 的 D1～D9）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20560,7 +20560,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：加 BB_105 白名單後照 AA_289 5-4 在大一上第 4～8 週施工 D4，其餘照週次 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大一子代理（AA_372 第 6 節之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：加 BB_105 白名單後照 AA_289 5-4 在大一上第 4～8 週施工 D4，其餘照週次 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20575,12 +20575,12 @@
    "title": "BB_110 L4 文學院門口的長椅",
    "area": "V3",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20593,7 +20593,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 BB_110＠3a26e94a 加白名單後施工 L4 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給大二子代理（AA_375 之後）：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 BB_110＠3a26e94a 加白名單後施工 L4 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -20608,12 +20608,12 @@
    "title": "打工小事件（AA_289 第 1～3 節：Café、書店、家教補一件、便利商店、補習班助教、事務所工讀、研究助理）；程式現在只有家教，JOBS 只有接口",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P2",
    "source": "AA-C 10-18 03:56（AA_289 第 5 節，企劃線 6574fe73）",
    "authorized": "D79",
-   "pausedReason": "台詞待 AA 審稿（AA_289 5-5：PROPOSAL 改成可以實作、一批一批交白名單）；v9.10 以後（D99 三項優先）",
-   "resumeWhen": "AA 交這幾件的白名單（story_import_allow.json）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "AA-C 10-18 03:56（AA_289 5-3）",
    "recheckOn": "2026-10-25",
    "first": {
@@ -20626,7 +20626,7 @@
     "parallel": true,
     "confirmed": false
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：先做 SYS-13 打工系統本體，再照 AA_289 第 3 節各種打工 3～4 件小事件；白名單加 AA_289 ｜ 等 AA 白名單；到了那一學期照 D81 排",
+   "next": "【LAWWW（帳號 A）21:2x】等的條件已成立：AA_289 5-5 寫 AA 10-18 審完 BB_105（P5、G、B、D）、BB_106（SK05～SK14、D1、D2、4-2）、BB_110（T3、T4、L4），「交白名單等 v9.10 發布」——v9.10.3 已發布；排給SYS-13 打工系統本體之後：白名單照稽核 C 記的版本（BB_105@68a8479e、BB_106@71b3e6c3、BB_110@3a26e94a）加，照 D81 施工 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：先做 SYS-13 打工系統本體，再照 AA_289 第 3 節各種打工 3～4 件小事件；白名單加 AA_289 ｜ 等 AA 白名單；到了那一學期照 D81 排",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -26332,7 +26332,7 @@
    "id": "DATE-OVERNIGHT-1021",
    "title": "兩天一夜的約會（D26～D32）照 AA_359：住宿 +2,500、第 6 階或交往中、沒交往兩間房一句旁白；第一天到達＋最多 2 點＋晚上旁白、第二天早上旁白＋她一句＋最多 2 點；D31＋D32 同一趟；D28 d28a／d28b 兩天各一張；DATE_OVERNIGHT 只記；解除 DATE-L28～L32 的暫停",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "企劃線 AA_359（c7dd0000）；AA-C 10-21 13:35 訊息",
    "first": {
@@ -26345,7 +26345,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
+   "next": "【LAWWW（帳號 A）21:2x】子代理開工（分支 aadate，從開發分支 80af0168；照 AA_359 c7dd0000 第 1～4 節）｜ 【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
   },
   {
    "id": "BG-MISSING-1021",
