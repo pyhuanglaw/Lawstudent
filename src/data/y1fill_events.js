@@ -59,7 +59,8 @@ const Y1FILL_EVENTS=(function(){
         {label:'snack'},{speaker:'kai',text:'……入境申請另外辦。'},
         {label:'end'} ],
       consequences:{flags:{KAI_TAPE:true}} },
-    { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'blur',
+    { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'freeze', portraitLater:true,   /* 開場鏡頭貼近地上的膠帶、不模糊、不擺立繪，讀得到「法律系免簽」（UX-KAI-TAPE-CAM-1021）*/
+      shot:GM=>typeof Y1FILL!=='undefined'&&Y1FILL.tapeShot?Y1FILL.tapeShot(GM):null,
       prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)},
       dialogue:[ {speaker:null,text:'（膠帶上多了一行麥克筆的大字：「法律系免簽」。）'},
         {speaker:'kai',text:'（沒有回頭）期中考完了。國界放寬。'} ] },

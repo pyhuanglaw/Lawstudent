@@ -27096,7 +27096,7 @@
    "title": "ev_kai_tape2 演出時鏡頭貼近膠帶，讓玩家讀得到「法律系免簽」（一般鏡頭看不清楚地上的字，LAWWW2 6437fcf6 對照圖）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -27110,7 +27110,7 @@
    },
    "source": "LAWWW2 16:56（BB_218 退回的膠帶字）；AA 16:10 旁白已改「麥克筆的大字」",
    "authorized": "演出鏡頭（不改台詞）",
-   "next": "GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）21:2x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
   },
   {
    "id": "AA367-PG-DATES-1021",
