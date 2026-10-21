@@ -91,7 +91,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea'}; let K1=await play('ev_kexin_trip_spring_y2',['山上']);
   check('1. S3 可昕：去過海邊＝只有老街、山上看星星；山上沒去過＝「好安靜。手機收不到訊號，剛好。」；記 KX_TRIP.Y2S2', JSON.stringify(opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&K1.includes(NAME('kexin')+'：好安靜。手機收不到訊號，剛好。')&&G.flags.KX_TRIP.Y2S2==='stars'&&G.flags.KX_TRIP.Y1S2==='sea', JSON.stringify(opts[0]));
   check('1. S3 沒有任何假設題', !K1.some(t=>/假設/.test(t)));
-  check('1. C8 車上開場、回程是大二版：「規則照去年。我管音樂，你管方向。」「……目的地，現在決定。」…「今年我真的不睡。」「（過了收費站，她又睡著了。音樂還是她選的。）」；沒有大一的句子', K1.includes(NAME('kexin')+'：規則照去年。我管音樂，你管方向。')&&K1.includes(NAME('kexin')+'：……目的地，現在決定。')&&K1.includes(NAME('kexin')+'：今年我真的不睡。')&&K1[K1.length-1]==='（過了收費站，她又睡著了。音樂還是她選的。）'&&!K1.some(t=>/誰都不能管對方的|我要陪你開車|規則。我管音樂/.test(t)), JSON.stringify(K1));
+  check('1. C8 車上開場、回程是大二版：「我管音樂。你管方向。」「……目的地，現在決定。」…「今年我真的不睡。」「（過了收費站，她又睡著了。音樂還是她選的。）」；沒有大一的句子', K1.includes(NAME('kexin')+'：我管音樂。你管方向。')&&K1.includes(NAME('kexin')+'：……目的地，現在決定。')&&K1.includes(NAME('kexin')+'：今年我真的不睡。')&&K1[K1.length-1]==='（過了收費站，她又睡著了。音樂還是她選的。）'&&!K1.some(t=>/誰都不能管對方的|我要陪你開車|規則。我管音樂/.test(t)), JSON.stringify(K1));
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'stars'}; K1=await play('ev_kexin_trip_spring_y2',['山上']);
   check('1. C7 大一去過山上：「山上看星星」照樣可以選（另外兩個沒去過的也在）；「今天看得到。……上次那顆，真的是星星。」', JSON.stringify(opts[0])===JSON.stringify(['海邊','別的城市的老街','山上看星星'])&&K1.includes(NAME('kexin')+'：今天看得到。……上次那顆，真的是星星。')&&G.flags.KX_TRIP.Y2S2==='stars', JSON.stringify([opts[0],K1]));
   fresh(SD.d0,8,'dorm'); date('kexin'); K1=await play('ev_kexin_trip_spring_y2',['海邊']);

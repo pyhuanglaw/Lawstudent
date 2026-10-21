@@ -100,7 +100,7 @@ const findDay=(spot,h,m,o)=>{ for(let k=0;k<4;k++) for(let wk=1;wk<=16;wk++){ co
     const said=[]; const ok=await ENC.schoolTalk({G,say:async(w,t)=>said.push(t)},{name:'沈以安'},'heroine_01'); check('9. 說過一次以後不再說',ok&&said.length===1&&ENC.schoolLine(G,'heroine_01')===null);
     SOCIAL.remember('heroine_02','ENC_D04_ZR'); G.day+=1; G.zone='campus'; check('9. 芷若那一句只在 Café 說',ENC.schoolLine(G,'heroine_02')===null&&(G.zone='cafe',!!ENC.schoolLine(G,'heroine_02')));
     SOCIAL.remember('classmate_peishan','ENC_D12_PS'); G.day+=1; check('9. 沛珊：還沒去課輔班的玩家，說「我送給鄰居的小孩了」',ENC.schoolLine(G,'classmate_peishan').lines[0]==='上次那本繪本，我送給鄰居的小孩了。');
-    SOCIAL.remember('classmate_peishan','SAW_HER_TEACH'); check('9. 看過她教課（SAW_HER_TEACH）：「課輔班的小孩很喜歡」',ENC.schoolLine(G,'classmate_peishan').lines[0]==='上次你選的那本繪本，課輔班的小孩很喜歡。');
+    SOCIAL.remember('classmate_peishan','SAW_HER_TEACH'); check('9. 看過她教課（SAW_HER_TEACH）：「課輔班的小孩很喜歡」',ENC.schoolLine(G,'classmate_peishan').lines[0]==='上次那本繪本，課輔班的小孩很喜歡。');
     const d0=G.day; SOCIAL.remember('heroine_03','ENC_D12_YT'); check('9. 語彤的照片：遇到的那天不傳',!ENC.phoneReady(G,'ENC_D12_YT')); G.day=d0+1; check('9. 隔天以後可以傳；傳了一次就不再傳',ENC.phoneReady(G,'ENC_D12_YT')&&(ENC.markSaid(G,'ENC_D12_YT'),!ENC.phoneReady(G,'ENC_D12_YT')));
     check('9. 語彤不是聊天時說（是手機）',ENC.schoolLine(G,'heroine_03')===null);
     const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('9. story3d：聊天在閒聊階梯之前先問 ENC.schoolTalk；手機小事有 enc_yt_photo、enc_kx_d13',/ENC\.schoolTalk\(GM,who,id\)\)\{\}[^\n]*\n\s*else if\(await S\.ladderTalk/.test(st)&&/enc_yt_photo/.test(st)&&/enc_kx_d13/.test(st));

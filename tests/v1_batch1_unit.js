@@ -49,7 +49,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('A4 事件資料裡沒有 comf −3 的那個選項',!JSON.stringify(e.dialogue).includes('不關我的事')); }
   /* ---------- A5 ---------- */
   { const e=ev('ev_bohan_kaogu'); fresh(Y1S1+30,14,'library'); SOCIAL.meet('classmate_bohan','campus'); legalAsked=0; await EVENTS.run(e); const L=lines();
-    check('A5 「我在看刑總的題目，有一題我跟芯慈吵了半小時。」',L.includes('你來得正好。我在看刑總的題目，有一題我跟芯慈吵了半小時。'),JSON.stringify(L.slice(0,2)));
+    check('A5 「我在看刑總的題目，有一題我跟班上的芯慈吵了半小時。」',L.includes('你來得正好。我在看刑總的題目，有一題我跟班上的芯慈吵了半小時。'),JSON.stringify(L.slice(0,2)));
     check('A5 不出題（沒有 legal 那一行、演一次沒有問法律題）',legalAsked===0&&!e.dialogue.some(l=>l.legal),String(legalAsked)); }
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);

@@ -47,11 +47,11 @@ async function play(id,pickList,pre){ fresh(30,10,'campus',{met_yu:true}); if(pr
   const rain=(tag)=>()=>{ G.events.done.ev_rain_library_door=1; SOCIAL.remember('heroine_03','FIRST_MET','雨天'); if(tag) SOCIAL.remember('heroine_03',tag,'雨天總圖門口'); };
   L=await play('ev_noodle_yutong',[0],rain('HELPED'));
   check('5. 語彤：雨天把傘給她（HELPED）→ 麵店「（她把手機推過來。）」「傘的事。……你的聯絡方式。」「我還你傘的時候要找你。」＋聯絡方式',L.indexOf('（她把手機推過來。）')>=0&&L[L.indexOf('（她把手機推過來。）')+1]==='傘的事。……你的聯絡方式。'&&L[L.indexOf('（她把手機推過來。）')+2]==='我還你傘的時候要找你。'&&!L.includes('下次下雨的時候找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
-  check('5. 語彤：給過傘的人不會再被問「圖書館那天之後就沒再看到你。你都幾點去？」（只給兩種傘的記憶都沒有的人）',!L.includes('圖書館那天之後就沒再看到你。你都幾點去？'),L.join('｜'));
+  check('5. 語彤：給過傘的人不會再被問「很少在這裡看到你。你都幾點吃飯？」（只給兩種傘的記憶都沒有的人）',!L.includes('很少在這裡看到你。你都幾點吃飯？'),L.join('｜'));
   L=await play('ev_noodle_yutong',[0],rain('SHARED_UMBRELLA'));
   check('5. 語彤：雨天一起撐傘 →「傘的事。……你的聯絡方式。」「下次下雨的時候找你。」＋聯絡方式',L.includes('傘的事。……你的聯絡方式。')&&L.includes('下次下雨的時候找你。')&&!L.includes('我還你傘的時候要找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
   L=await play('ev_noodle_yutong',[0],rain(null));
-  check('5. 語彤：雨天其他選項（沒有傘的記憶）→「圖書館那天之後……」「下次下雨的時候找你。」＋聯絡方式',L.includes('圖書館那天之後就沒再看到你。你都幾點去？')&&L.includes('下次下雨的時候找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
+  check('5. 語彤：雨天其他選項（沒有傘的記憶）→「很少在這裡看到你。……」「下次下雨的時候找你。」＋聯絡方式',L.includes('很少在這裡看到你。你都幾點吃飯？')&&L.includes('下次下雨的時候找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
   L=await play('ev_noodle_yutong',[2],rain('HELPED'));
   check('5. 語彤：選「今天忙嗎？我改天再來。」也已經拿到（她先推過來）',L.includes('我還你傘的時候要找你。')&&INV.hasContact(G,'heroine_03'),L.join('｜'));
   L=await play('ev_noodle_yutong',[0],()=>{ SOCIAL.remember('heroine_03','FIRST_MET','麵店'); });

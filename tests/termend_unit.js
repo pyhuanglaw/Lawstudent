@@ -47,7 +47,7 @@ GM.money=function(n){ G.money+=n; };
   { const w=TERMEND.window(G), P=TERMEND.plan(G,w); check('3. 沒有心意、沒有朋友到門檻＝保底阿凱',P.fallback==='kai'&&!P.heart.length&&!P.friend.length,JSON.stringify(P)); }
   G.hour=19; check('3. 阿凱：20:00 以前不問',!TERMEND.kaiDue(G)); G.hour=20.5; check('3. 20:30 在房間＝問',TERMEND.kaiDue(G));
   { said=[]; picks=[0]; await TERMEND.kaiAsk(GM); const L=lines(); const R=G.termend.Y1S1;
-    check('3. 阿凱「宵夜？」→ 好 → 公館宵夜（「我點不辣的。…」、話題池、收尾「這次我請。」AA_250 10-4 01029de1）',L[0]==='阿凱：宵夜？'&&L.some(t=>t.includes('我點不辣的。你上次吃辣的那家，吃到一半去買水。'))&&L.some(t=>t.includes('寒假我留在臺北，接了一個修電腦的打工。'))&&L[L.length-1]==='阿凱：這次我請。'&&R.picked&&R.picked.who==='kai',JSON.stringify(L));
+    check('3. 阿凱「宵夜？」→ 好 → 公館宵夜（「我點不辣的。…」、話題池、收尾「這次我請。」AA_250 10-4 01029de1）',L[0]==='阿凱：宵夜？'&&L.some(t=>t.includes('我點不辣的。你要辣的自己加。'))&&L.some(t=>t.includes('寒假我留在臺北，接了一個修電腦的打工。'))&&L[L.length-1]==='阿凱：這次我請。'&&R.picked&&R.picked.who==='kai',JSON.stringify(L));
     check('3. 一學期只問一次',!TERMEND.kaiDue(G)); }
   // 4. 朋友的邀約＋心意的邀約；只能接一個
   fresh(D('2025-12-18'),9,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01'); R('classmate_xinci',25,0,0); R('heroine_01',70,50,45);
