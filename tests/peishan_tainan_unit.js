@@ -7,7 +7,9 @@
 //   5. 閒聊階梯：大三上～大四下 context:'date'，3D 搭話不推進，去台南那一天演完接著聊一層（一天一層）；寒暑假去台中不推進
 //   6. 學期末心意邀約、女朋友的學期末約會：大三起在台南她學校附近（地點字幕、走回她租的地方、搭最後一班高鐵回臺北、票錢 2700）；時段在她回台中以前；朋友的邀約不發；還沒重新聯絡上的不發
 //   7. AA_349（2026-10-21）：K1 第一次回覆分台中／台南；K3 北部全部擋、去台南／台中算正式約會、心願地點「台南・美術館」（聊天提到、她主動約、玩家主動約、那一天）；K4 寒假去台中、台南的期末飯、公開課、視訊都推進一層（同一天最多一層）；K5 交往中的視訊；K11 字
-// 修改前：presence 是「在臺北、不在台大」（kind taipei）、臺北作息與偶遇都在、學期中沒有「我去台南找妳？」、期末飯在舊路書房旁邊的簡餐。AA_349 那一批修改前：第 7 節全部失敗（沒有台南的美術館、去台南不計次、沒有視訊）。用法：node tests/peishan_tainan_unit.js
+//   8. AA_350（2026-10-21）：P1 放榜以後第一次傳訊息，寒暑假（她在台中）回台中那一句、學期中回台南那一句；P5 2030、2031 寒假 1/20～2/18、暑假 6/25～8/31 在台中（含頭尾）、其他日子在台南
+// 修改前：presence 是「在臺北、不在台大」（kind taipei）、臺北作息與偶遇都在、學期中沒有「我去台南找妳？」、期末飯在舊路書房旁邊的簡餐。AA_349 那一批修改前：第 7 節全部失敗（沒有台南的美術館、去台南不計次、沒有視訊）。
+// AA_350 那一批修改前（開發分支 5c471a79）：第 8 節 9 項 FAIL 7（寒暑假第一次回覆都是「我現在在台南。」、2030 寒暑假也在台南；學期中那兩項本來就對）。用法：node tests/peishan_tainan_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -240,6 +242,26 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     G.day+=5; G.weekday=wdOf(G.day); G.hour=21; said=[]; await HV.video(GM,ID); check('7. K5 下一週可以再視訊，開頭第三句「（視訊。她那邊在下雨，窗戶一直響。）」「台南很少下這麼大。你那邊呢？」', has('（視訊。她那邊在下雨，窗戶一直響。）')&&has('台南很少下這麼大。你那邊呢？'));
     fresh(d,21,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); check('7. K5 沒交往的不開視訊', HV.videoOffer(G,ID)===null);
     fresh(D('2028-01-10'),21,'dorm',{PS_BACK_FIRST:1}); date(ID); C(ID); check('7. K5 寒暑假她在台中：清單沒有視訊（三句開頭都是台南的事，問 AA）', HV.videoOffer(G,ID)===null); }
+
+  // ===== 8. AA_350（2026-10-21）P1：第一次回覆照她那時候在哪；P5：2030、2031 的寒暑假在台中 =====
+  { const first=key=>{ fresh(D(key),20,'dorm',{}); R(ID,'FRI'); C(ID); const tp=MSG.topics(G,ID); const r=tp.length?MSG.send(G,ID,tp[0].k):null; run(G.day,20,22); return {r,ps:txt(TH_PS).filter(t=>t.startsWith(ID+':')).slice(0,2)}; };
+    const TC=[ID+':好久不見。……我現在在台中，開學以後在台南。',ID+':你要來的話，跟我說。'], TN=[ID+':好久不見。……我現在在台南。',ID+':你要來的話，跟我說。'];
+    const w=first('2028-01-10');
+    check('8. P1 大三寒假（2028-01-10，她在台中）才第一次傳：回台中那一句「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」', !!w.r&&w.r.ok&&JSON.stringify(w.ps)===JSON.stringify(TC), JSON.stringify(w.ps));
+    const s=first('2028-07-20');
+    check('8. P1 大三暑假（2028-07-20）才第一次傳：也是台中那一句', !!s.r&&s.r.ok&&JSON.stringify(s.ps)===JSON.stringify(TC), JSON.stringify(s.ps));
+    const t=first('2028-03-15');
+    check('8. P1 大三下學期中（2028-03-15，她在台南）才第一次傳：照原文「好久不見。……我現在在台南。」', !!t.r&&t.r.ok&&JSON.stringify(t.ps)===JSON.stringify(TN), JSON.stringify(t.ps));
+    const K={PS_BACK_FIRST:1}, at=k=>P(D(k),K), w30=at('2030-02-01'), s30=at('2030-07-15'), t30=at('2030-04-15');
+    check('8. P5 2030 寒假中（2/1）：在台中（kind home、home 台中、「在台中」）', w30.here===false&&w30.kind==='home'&&w30.home==='台中'&&w30.away==='在台中', JSON.stringify(w30));
+    check('8. P5 2030 暑假中（7/15）：在台中', s30.here===false&&s30.kind==='home'&&s30.home==='台中'&&s30.away==='在台中', JSON.stringify(s30));
+    check('8. P5 2030 學期中（4/15）：在台南（kind city、city 台南）', t30.here===false&&t30.kind==='city'&&t30.city==='台南'&&t30.away==='在台南', JSON.stringify(t30));
+    const B=['2030-01-19','2030-01-20','2030-02-18','2030-02-19','2030-06-24','2030-06-25','2030-08-31','2030-09-01','2031-01-19','2031-01-20','2031-02-18','2031-02-19','2031-06-24','2031-06-25','2031-08-31'].map(k=>{ const p=at(k); return p.home||p.city||'?'; });
+    check('8. P5 邊界：寒假 1/20～2/18、暑假 6/25～8/31 在台中（含頭尾），前一天、後一天在台南；2030、2031 一樣', JSON.stringify(B)===JSON.stringify(['台南','台中','台中','台南','台南','台中','台中','台南','台南','台中','台中','台南','台南','台中','台中']), JSON.stringify(B));
+    fresh(D('2030-02-01'),12,'dorm',K); R(ID,'FRI'); C(ID); const k1=HV.key(G,ID); G.day=D('2030-04-15'); const k2=HV.key(G,ID);
+    check('8. P5 去找她照 presence：2030 寒假是台中那一組、學期中是台南那一組（不另外寫事件）', k1===ID&&k2===ID+'@台南', JSON.stringify([k1,k2]));
+    const f=first('2030-02-01');
+    check('8. P1＋P5 2030 寒假（2/1）才第一次傳：台中那一句', !!f.r&&f.r.ok&&JSON.stringify(f.ps)===JSON.stringify(TC), JSON.stringify(f.ps)); }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

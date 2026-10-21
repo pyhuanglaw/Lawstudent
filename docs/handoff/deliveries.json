@@ -11543,7 +11543,7 @@
    "note": "驗收紀錄；卡門口另修（S.leaveStuck）"
   },
   {
-   "id": "DL-LAWWW2-0a5cc70a",
+   "id": "DL-LAWWW2-0a5cc70a-WIP",
    "date": "2026-10-20",
    "from": "LAWWW2-C",
    "account": "C",
@@ -11552,8 +11552,8 @@
    "what": "研討室 A、霖澤館 202、萬才館多功能教室：模型＋配置（MODEL_READY；流程測試在 LAWWW2 測試工作樹 ALL PASS）、窗景、臨時接線 patch；README、截圖還在拍（WIP）",
    "task": "LINZE-WANCAI-FLOORS-1020",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
+   "integration": "取消／被取代",
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
   },
   {
    "id": "DL-AA-b6757852",
@@ -12398,6 +12398,240 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "bc7c64e3 合併；holiday_ff_unit、holiday_presence_unit ALL PASS"
+  },
+  {
+   "id": "DL-AA-cae5cc76",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cae5cc76",
+   "what": "AA_350 第 7 節（R：翹課旗標 7 題＋N3＋S.TELL）、第 8 節（S：回老家 8 題）補答",
+   "task": "AA350-ANSWERS-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "R0、R0b、R6＝10dc79b1；R2、R5、R7、S1～S8 子代理中；R1＝EVPKG-AA227-228-KNOW"
+  },
+  {
+   "id": "DL-LAWWW2-13707c1f",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "13707c1f",
+   "what": "ART-US2-FIX-1018 美術那一半：C 棟 208（BB_217 §7 四點）us_shared.glb＋US_SHARED_LAYOUT patch",
+   "task": "ART-US2-FIX-1018",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:2x 整合"
+  },
+  {
+   "id": "DL-LAWWW2-c8c810e1",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "c8c810e1",
+   "what": "日本宿舍「你的房間」jp_room 3D（使用者 13:0x 已經做的 3D 保留）：GLB、窗景、jp_dorm3d.js、jp_dorm_layouts.js；修好窗外走不到",
+   "task": "JP-ROOM-3D-1021",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 接線（jp3d.js 選單、床、tick）"
+  },
+  {
+   "id": "DL-AA-db572d57",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "db572d57",
+   "what": "人物知道不該知道的事（AA-C 清查）：13 句改成每條路線都成立（AA 直接推開發分支，只改引號裡的字）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "cb3ad00d 合併；全套 unit 跑中"
+  },
+  {
+   "id": "DL-LAWWW2-23456747",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "23456747",
+   "what": "ART-BG-AA185 2D 背景兩張：assets/bg/video_far_jp.webp（視訊另一頭：日本宿舍單人房，晚上）、assets/bg/old_school_playground.webp（老國小操場，柱子黑方塊修好）＋bg_aa185/README（劇情、自己退件的版本、還沒達到的）＋LICENSES；同一組的 video_far_us.webp 在 9442e59b 已 commit",
+   "task": "ART-BG-AA185",
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不整合：video_far_jp 沒有戲用到（視訊照現在的寫法不換底圖）、老國小沒排到戲（64a9e2af 改市場）；圖留在 LAWWW2 分支，有戲要用再接（ART-BG-AA185 owner BB） ｜ LAWWW2 交接檔記「AA185 交件 23456747」，deliveries 之前沒有這筆；開發分支沒有 video_far_jp／old_school_playground／video_far_us 三張。老國小目前沒排到戲（64a9e2af：AA-C 春假第一站改市場，留著備用）；公館機車行那張已依 AA_252 刪（89c856f8）。D100 起 2D 背景歸 BB（ART-BG-AA185 owner BB，next 已寫 LAWWW2 分支上做好的保留、BB 接手先看能不能用）。場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+  },
+  {
+   "id": "DL-LAWWW2-236edded",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "236edded",
+   "what": "BG-19 公館二輪戲院大廳第五版精修 assets/bg/gongguan_cinema.webp（同檔名：海報插圖、售票亭裡的東西、天花板水漬、牆上舊痕跡）＋bg_cinema_curry/README 前後對照；同 commit 另有 bg_curry.py（咖哩店廚房／街景，圖在 01fee6a1）、pinyu_ears.py（品妤第七版耳朵 WIP）",
+   "task": "ART-BG19",
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
+  },
+  {
+   "id": "DL-LAWWW2-01fee6a1",
+   "date": "2026-10-17",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "01fee6a1",
+   "what": "BG-14 永康街咖哩店第五版 assets/bg/yongkang_curry.webp（同檔名：布簾後面的小廚房、窗外照真的比例的商店街）＋README、前後對照圖；同 commit 另有 bg_cinema.py（售票亭電風扇、辦公椅，圖沒重算）、pinyu_ears.py 第四次（WIP）",
+   "task": "ART-BG14",
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：同上（D99 凍結，第四版能用）；第五版留在 LAWWW2 分支 ｜ 開發分支的 yongkang_curry.webp 還是 0100994c 的第四版（blob ab6380a4）。D99 之前做的精修，要不要換由 LAWWW-C 決定；場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+  },
+  {
+   "id": "DL-AA-e2fafef2",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "e2fafef2",
+   "what": "AA_350 第 4 節：回 LAWWW O 節八題（AA_347 實作時遇到的）：O1 有專用句的日期卡不接輪替句、O2 可以到 11/2 晚上、O3 22:30 人在宿舍房間就演、O4 運動會沒去補阿哲私訊、O5 12/8 當天才拆紙箱的一句、O6 語彤要有聯絡方式才傳、O7 註解改成正確日子、O8 字幕與地點名稱都可以",
+   "task": "AA350-ANSWERS-1021",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "開發分支 0af48e50（2026-10-21 12:17，commit 訊息寫 AA-C e2fafef2）已照 O 節改；deliveries 之前沒有這一筆（第 1～3 節＝DL-AA-3f406dbc、第 5～8 節＝DL-AA-25637c20／cae5cc76）。同 commit 另有 AA 交接紀錄、user_asks UA-AA-1021-36（使用者 12:0x「AA＝劇情總監，自主完善」）"
+  },
+  {
+   "id": "DL-AA-f9fb61ff",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "f9fb61ff",
+   "what": "以安生日的記憶標籤 AN5_BIRTHDAY 改「知道她生日是九月十五號」（原「中秋那天」只有 2027 年剛好同一天；AA_357 第 5 節；AA 直接推開發分支，只改引號裡的字）",
+   "task": "Y5-DELAY-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "50e7f16c 合併；src/social3d.js 一行，沒有測試寫死舊字"
+  },
+  {
+   "id": "DL-BB-55ece8db",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "55ece8db",
+   "what": "bg_approved 第 93 組十張 2D 背景：tn_school、tn_oldstreet（柔化三塊像字的牌子）、tn_museum、tn_canal、tn_bookstore、cram_counter、us_club_study、seaside_town、mrt_night、gongguan_cake（README 逐張紀錄）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:4x 照原檔複製到 assets/bg、OUT.BG 登記（cram_counter、mrt_night、seaside_town 原本 image:null）；tests/bg_images_unit.js 2g（改之前 FAIL）；jp_dorm_lobby 等 jp_lounge 交件"
+  },
+  {
+   "id": "DL-AA-d07eb988",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d07eb988",
+   "what": "AA_357 大五上（交換延畢）逐週盤點與補空白：Y5S1、資料頁 200 天懸崖、退宿後出門、2029／2030 國考報名、七處矛盾、四個新場景、跳日期句子",
+   "task": "Y5-DELAY-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 13:4x】子代理實作中（14:1x 派）"
+  },
+  {
+   "id": "DL-AA-659d9d81",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "659d9d81",
+   "what": "AA_358 人物知道不該知道的事：清查 24 筆；開發分支已改 13 句（db572d57）；第 2 節 2-1～2-6 給 LAWWW；閒聊階梯 4 句改在企劃源檔",
+   "task": "AA358-KNOW-FIX-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 13:4x】第 2 節和階梯四檔排下一批"
+  },
+  {
+   "id": "DL-AA-c7dd0000",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c7dd0000",
+   "what": "AA_359 兩天一夜的約會：住宿那一段（D26～D32）",
+   "task": "DATE-OVERNIGHT-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 13:4x】CPU 空出來派子代理"
+  },
+  {
+   "id": "DL-AA-56a36a4d",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "56a36a4d",
+   "what": "AA_242 第 12 節 C16～C18 七項裁定＋缺字（上班日日誌 C16 6 句、C17 12 句；第二次以後日誌；阿哲寒假版；C18 行前說明會；思穎回國）；AA_341 檔尾日本宿舍房間三個「看」（窗外分 4/30 前後、小冰箱、行李箱）",
+   "task": "AA-VAC-C16-C18-Q-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 13:4x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準"
+  },
+  {
+   "id": "DL-AA-2f1aaa22",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2f1aaa22",
+   "what": "AA_355 第 5 節、AA_353 第 3 節：回 LAWWW 13:42 七題（cardLine 出最後一句、延畢 2029 夏天三句、1-1 今天→昨天、挽回中冷靜中不約、運動會大二起不停課、y34b3d.js:346 加以安電話一句、十個物件旁白 5-1）",
+   "task": "AA-Q-1021-PG",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
+  },
+  {
+   "id": "DL-LAWWW2-cfd0e566",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "cfd0e566",
+   "what": "ART-PS-SKIRT-HAND：沛珊走路、上樓梯手不再穿進長裙（manifest armOut 9°、armBack 0.45、armFwd 0.15；character3d.js VRM driver 每幀收小前後擺幅再往外張，沒有參數的模型整段跳過）；量測手離裙面最差 −2.2→+10.1 cm；發現截圖最明顯的粉紅色是左小腿、膝蓋從裙子前面穿出來（這次沒修）",
+   "task": "ART-PS-SKIRT-HAND",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 套 patch（ps_skirt_hand_1021.diff）；stairs_feet、sit_feet、nav_levels、vrm_release、v0_econ_chars 單元全過；LAWWW 角色美術驗收（D100a）：看了 motion_before_after 前後對照，手的部分改善、膝蓋穿出裙子還在 → LAWWW2 接著改 long_skirt_weights、重建 VRM"
+  },
+  {
+   "id": "DL-BB-fdd8383c",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fdd8383c",
+   "what": "bg_approved 第 92 組另外五張：jp_station、trip_sea、trip_oldtown、car（家用小客車白天，只給可昕開車那幾場）、tn_station",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg；OUT.BG 加 jp_station、tn_station，trip_sea、trip_oldtown 原本 image:null；bg 'car' 白天改 car_day＝car.webp（寫死 car_morning 的事件照舊），宿營遊覽車 tour_bus 照舊深色底；bg_images_unit 2h（改之前 FAIL）、3 照新規則改"
+  },
+  {
+   "id": "DL-BB-e10b683a",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "e10b683a",
+   "what": "bg_approved 第 94 組九張：intl_sg_hawker、intl_sg_campus、intl_sg_court、law_firm_office、law_firm_meeting、court_gallery（C16～C18）、tour_bus（宿營遊覽車）、phone_street_night、boardgame_gg（經濟系黑畫面第一批剩的兩張）；BB 柔化車牌、像連鎖品牌的招牌條、小字樣",
+   "task": "BG-VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg、OUT.BG 登記；camp_y1.js 兩處早就是 bg:'tour_bus'；bg_images_unit 2i（改之前 FAIL）、6 改成四張都到了；legal_aid_office 還沒交"
   }
  ],
  "ignored": [
@@ -15116,6 +15350,458 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "kind": "handoff_record",
    "reason": "AA-C 登記使用者要求 UA-AA-1021-37（交換延畢的大五，USER_WANTS X92、任務 Y5-DELAY-1021）＋交接紀錄更新（約會 32 地點完成、AA_356、兩項清查進行中）"
+  },
+  {
+   "sha": "d3a755bb",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_LAWWW2.json（HV-18 使用者要求登記），不是交付（UA-LAWWW2-1021-01 kind 改「轉述」）"
+  },
+  {
+   "sha": "1648b394",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_LAWWW2.json（HV-18 使用者要求登記），不是交付（10-20 三項要求拆三筆、X85 改「在開發分支」）"
+  },
+  {
+   "sha": "7130056e",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_LAWWW2.json（HV-18 使用者要求登記），不是交付（建檔：使用者 10-20 五則原話）"
+  },
+  {
+   "sha": "5984c140",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-0a5cc70a",
+   "reason": "LINZE_WANCAI_FLOORS_PLAN.md 記 LAWWW-C／AA-C 的確認＋研討室 A 腳本 wancai_seminar.py（WIP）；研討室 A 的 GLB＋配置在 0a5cc70a 交付（同分支後代）"
+  },
+  {
+   "sha": "5d1f54ec",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-5566a0c5",
+   "reason": "霖澤館 3F／4F 長椅座位改 study（linze_3f／4f GLB＋layout、linze_upper.py），25 分鐘後 5566a0c5 交付同一批檔；同 commit 的 LINZE_WANCAI_FLOORS_PLAN.md（PROPOSAL）屬 LINZE-WANCAI-FLOORS-1020（DL-LAWWW2-0a5cc70a）"
+  },
+  {
+   "sha": "3b9292b1",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-cd8a54c3",
+   "reason": "SCN-US-02 第二階段 WIP：us_campus_kit.py（共用部件）＋兩張預覽；kit 下一次修改在 cd8a54c3（美國校園第二版交付）"
+  },
+  {
+   "sha": "2069be29",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "ART-KH-BUS",
+   "reason": "LAWWW2 的高雄客運 2D 背景 bg_kh.py 做到一半就停（D100 改由 BB 向使用者要圖）；預覽與 README 寫明做到哪裡。正式圖是 BB-C 23612343（DL-BB-23612343，已接進遊戲）；這份 WIP 不整合，留在 LAWWW2 分支備查"
+  },
+  {
+   "sha": "bbe45962",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-3bff5ef4",
+   "reason": "美國區域檢查點：亞洲超市 GLB、機場看板、會所＋遊戲內截圖、us_zones.diff；11 分鐘後 3bff5ef4 交付（八個 GLB 含亞洲超市、機場、會所）；airport_*.glb、us_asian_market.glb 和開發分支同一個 blob"
+  },
+  {
+   "sha": "b8525b30",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-3bff5ef4",
+   "reason": "美國區域檢查點（WIP）：機場通用、亞洲超市配置／貼圖／腳本、會所重建（us_community.glb）；最後版本在 3bff5ef4 交付"
+  },
+  {
+   "sha": "e60b384a",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-3bff5ef4",
+   "reason": "美國區域檢查點（WIP）：C 棟 208 合租戶 us_shared.glb＋us_shared_layout.js、公寓模板化；3bff5ef4 交付（之後 356d77c6、efaca16f 再修＝DL-LAWWW2-356d77c6／efaca16f）"
+  },
+  {
+   "sha": "2ef1ca4b",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-91ca1bca",
+   "reason": "品妤保溫瓶第二版（props_pinyu.js＋截圖）；DL-LAWWW2-91ca1bca 的 what／note 已寫「保溫瓶第二版 2ef1ca4b」、BB-C f331e153 通過"
+  },
+  {
+   "sha": "977deaf7",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-91ca1bca",
+   "reason": "品妤計算機、保溫瓶改掛前臂（props_pinyu.js），是 2ef1ca4b 第二版的前一步；LAWWW-C 依 DL-LAWWW2-91ca1bca 接成右前臂／左前臂"
+  },
+  {
+   "sha": "c69cbfd2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-4fa4a1e2",
+   "reason": "刪掉作廢的宿舍窗景 112／218／105（6 張 webp）＋window_views.py；DL-LAWWW2-4fa4a1e2 已寫「393eda85 的 112／218／105 作廢」，開發分支也已刪"
+  },
+  {
+   "sha": "f507b153",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第十四版 VRM＋char_review（交 BB-C）；16 分鐘後 ad0552ff 交第十六版 VRM（同檔名），第十四版頭髮已通過"
+  },
+  {
+   "sha": "2ff389c4",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "h01_clothes.py 新選項 SLEEVE_IN（預設不變）＋peishan_clothes.py（第十四版）；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "d67a9f10",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "經濟系三人臉分開＋待機臉（三個 VRM、char_review）；DL-LAWWW2-ad0552ff 寫「經濟系三人臉分開」"
+  },
+  {
+   "sha": "a02c51f8",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第十三版頭髮腳本 peishan_hair.py；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "1452ec61",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第十二版頭髮腳本 peishan_hair.py；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "18e5684b",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第十一版（頭髮＋上衣腳本、h01_clothes 新選項預設不變）；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "475e493a",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "vrm_finish2.py 加 VRM_REST（經濟系待機臉，BB_201）；d67a9f10 的三人臉用它，交付在 ad0552ff"
+  },
+  {
+   "sha": "fe8d4ee0",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第十版 VRM＋char_review＋peishan_clothes.py；被第十六版 ad0552ff 取代（同檔名）"
+  },
+  {
+   "sha": "64a9e2af",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-23456747",
+   "reason": "只改 LICENSES.md、bg_aa185/README.md：老國小操場目前沒排到戲（AA-C：春假第一站改市場），留著備用＝23456747 那批 AA185 背景的註記"
+  },
+  {
+   "sha": "a29ecab8",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "h01_clothes.py 新選項 NECK_GAP／SHOULDER_SKIN（預設不變）＋沛珊第九版；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "f0dcdbd8",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第八版頭髮腳本＋README、交接檔時間更正；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "ad0c2f08",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "沛珊第七版頭髮腳本 peishan_hair.py；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "92fb00fb",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "路人女生頭髮 npc_hair_f.py／npc.py（肩膀細線、中分分線歸零）；38 分鐘後 45fa5907 路人第五批交付（33 個 VRM，「長髮肩膀細線修掉」）"
+  },
+  {
+   "sha": "de6ef5cb",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "路人女生頭髮 npc_hair_f.py（中分第二版、背後散開 1 cm）→ 45fa5907；同 commit 的 court_props（候審椅扶手）在 ee91df8f 交付（DL-LW2-ee91df8f）"
+  },
+  {
+   "sha": "83f8ed2d",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-ee91df8f",
+   "reason": "法庭旁聽席 assets/bg/court_gallery.webp＋README、BG_TRACKER、LICENSES；14 分鐘後 ee91df8f 交付「法院 2D 兩張 court_gallery／court_corridor」（court_gallery.webp 之後沒再改）"
+  },
+  {
+   "sha": "3301a695",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "路人女生頭髮 npc_hair_f.py（長髮正側面、中分第三版）；交付在 45fa5907"
+  },
+  {
+   "sha": "9f1ff261",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "日劇髮型樣式表 JP_STYLE（npc.py、npc_hair_f／m.py）→ 45fa5907；同 commit 的法庭道具組疊面、bg_courthouse.py 在 ee91df8f 交付（DL-LW2-ee91df8f）"
+  },
+  {
+   "sha": "de654185",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "日劇髮型 WIP（npc_hair_f／m.py）；交付在 45fa5907"
+  },
+  {
+   "sha": "56d6c990",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-45fa5907",
+   "reason": "路人頭髮產生器加日劇髮型選項（npc.py、npc_hair_f／m.py）＋交接檔記使用者兩則指示；bg_courthouse.py 部分在 ee91df8f 交付"
+  },
+  {
+   "sha": "f7292d5c",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-ee91df8f",
+   "reason": "地方法院 WIP：court_props.py／court_props.glb＋bg_courthouse.py；53 分鐘後 ee91df8f 交付（法院 2D 兩張＋court_props.glb）"
+  },
+  {
+   "sha": "89c856f8",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "ART-BG-AA185",
+   "reason": "刪掉公館機車行 2D 背景 gongguan_scooter_shop.webp（9442e59b 一起 commit 的）與 bg_scooter_shop.py：AA-C AA_252 說只有已取消的模擬法庭模 2 用到；開發分支沒有這張圖；道具組 GLB 留著（wip.json WIP-L2-SHOP-BG）。ART-BG-AA185 的「公館機車行」要跟著改"
+  },
+  {
+   "sha": "7fb8f88d",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B4",
+   "reason": "路人男生頭髮 npc_hair_m.py（nm15、nm20 的翅膀）→ 13 分鐘後 1b924dd4 路人第四批（耳後頭髮翅膀修好）；同 commit 從 183aa717 找回的 court_props.py 後來在 ee91df8f 交付"
+  },
+  {
+   "sha": "bfa14397",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "SCN-V3-03",
+   "reason": "使用者 10:5x「刪除模擬法庭」：刪掉 183aa717 的模擬法庭道具組（GLB、腳本、貼圖、說明、LICENSES；183aa717 可找回）；SCN-V3-03 已是取消／被取代"
+  },
+  {
+   "sha": "183aa717",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "SCN-V3-03",
+   "reason": "SCN-V3-03 模擬法庭道具組交件，2 分鐘後使用者要求刪除（bfa14397），任務取消／被取代；開發分支沒有這些檔；court_props.py 後來改做真的法院（7fb8f88d→f7292d5c→DL-LW2-ee91df8f）"
+  },
+  {
+   "sha": "c37036d5",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-ad0552ff",
+   "reason": "h01_clothes.py 新選項 NECK_CALM（預設 0）＋沛珊第六版上衣；包含在第十六版 ad0552ff"
+  },
+  {
+   "sha": "0c354263",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B4",
+   "reason": "路人男生頭髮 npc_hair_m.py（髮片離頭中心上限）→ 1b924dd4 路人第四批（耳後頭髮翅膀修好）"
+  },
+  {
+   "sha": "fba34a05",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B4",
+   "reason": "路人男生頭髮 npc_hair_m.py（耳後髮尾上限）→ 1b924dd4；同 commit 的沛珊髮型第二版 peishan_hair.py 在 9a53e643 交付（DL-LW2-PS5）"
+  },
+  {
+   "sha": "f09c2195",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-PS-V2",
+   "reason": "沛珊改日系風（peishan_clothes 灰藍 T＋米白長裙，重建中）＋路人 nf20 上衣改色＋交接；6 分鐘後 e25fde92 交第二版（DL-LW2-PS-V2，之後被第三版取代）"
+  },
+  {
+   "sha": "2114d5b4",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B2",
+   "reason": "npc_manifest.py（產生路人 manifest 條目的工具，b1680957 那批用它產）＋交接檔路人進度"
+  },
+  {
+   "sha": "b1680957",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B2",
+   "reason": "路人第二批 manifest 條目 patches/npc_manifest_batch2.js；DL-LW2-NPC-B2 的 what 已寫「manifest 條目 b1680957」"
+  },
+  {
+   "sha": "b6f9f9eb",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-NPC-B2",
+   "reason": "路人第二批 nf5–nf8／nm5–nm8 設定（npc.py、npc_hair）＋交接；41 分鐘後 9442e59b 交付。同 commit 的 bg_video_far.py（日本房間）在 23456747 出圖（DL-LAWWW2-23456747）"
+  },
+  {
+   "sha": "19d2aca9",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-ECON-CH",
+   "reason": "唐睿 v6 頭髮（tangrui_hair.py）、魏教授第二版頭髮（npc.py）→ 9fe25037 經濟系人物交付（唐睿 v6、魏教授 v2）；同 commit 的公館機車行 2D 背景腳本 bg_scooter_shop.py（WIP）出的圖在 9442e59b，後來 89c856f8 依 AA_252 刪除"
+  },
+  {
+   "sha": "bd6eb212",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-ECON-CH",
+   "reason": "魏教授第一版腳本（npc.py 的 pwei＋wei_clothes.py）；9fe25037 加入 bl_prof_wei.vrm（魏教授 v2），wei_clothes.py 之後沒再改"
+  },
+  {
+   "sha": "28f2f649",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LW2-AIRPORT",
+   "reason": "VAC-A2 機場第一版 WIP（airport GLB、layout、腳本、貼圖）；9 分鐘後 5aeb3220 交件（同一批檔）"
+  },
+  {
+   "sha": "32be8cae",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 AA_交接紀錄.md（BACKLOG-SWEEP-AA-1021 清查補記）＋user_asks_AA.json 五筆狀態，進度與要求登記，不是交付"
+  },
+  {
+   "sha": "60262c02",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（UA-AA-1018-03 改暫停）"
+  },
+  {
+   "sha": "813ef917",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（UA-AA-1020-33、35 改暫停＋五欄）"
+  },
+  {
+   "sha": "e284d601",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "DL-AA-74e9236f",
+   "reason": "AA_334（等使用者的四件 AI 解讀版）新檔＋AA_311／313／326／327 各加一行註記指到 AA_334＋user_asks；DL-AA-74e9236f 的 what 就是 AA_334（它登記的 sha 74e9236f 是下一個交接紀錄 commit，內容在這個 commit）"
+  },
+  {
+   "sha": "96c25ec9",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 AA_交接紀錄.md＋user_asks_AA.json（第 2、3 輪事件包交齊的進度、UA-AA-1020-30 狀態），不是交付"
+  },
+  {
+   "sha": "40c91e58",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（UA-AA-1020-30 kind 改「原話」）"
+  },
+  {
+   "sha": "8c4a4983",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（UA-AA-1020-29 補 AA_314 已交）"
+  },
+  {
+   "sha": "c673c1b4",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（UA-AA-1020-29「大二大三大四沒劇情阿」）"
+  },
+  {
+   "sha": "d4aed838",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 AA_交接紀錄.md＋user_asks_AA.json（10-20 下午進度、UA-AA-1020-27／28），不是交付"
+  },
+  {
+   "sha": "750e72fb",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "DL-AA-49ed7e6a",
+   "reason": "AA_306 經濟系大一下階梯問完：韋綸 WL0b-L5～L8 拿掉（build_ladder_bb_y0s2.py＋ladder_bb_y0s2.json）；49ed7e6a 是後代且這兩個檔沒再改，白名單 ladder_bb_y0s2.json@49ed7e6a、開發分支 1c98fbbf 已重匯（DL-AA-49ed7e6a note：「也涵蓋 AA306-KX-LADDER-1018 的經濟系層」）。同 commit 的 AA_308 第 10 節（7/12 對答案）已記在 DL-AA-50f2142c、開發分支 events.js 已改"
+  },
+  {
+   "sha": "65531f21",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（10-20 五筆 AA 稿已交）"
+  },
+  {
+   "sha": "7f1a4f6c",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（10-20 四題選擇題答案）"
+  },
+  {
+   "sha": "264871e0",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18 使用者要求登記），不是交付（狀態改用 USER_WANTS 的用語）"
+  },
+  {
+   "sha": "650d77d4",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "AA-C 接班（10-20）：建 user_asks_AA.json；tools/handoff 四個檔是從 RULE_SOURCE 複製（blob 都在開發分支歷史：a7b2b043、7c7363b3、2cb5f523、65d4cbb2），不是 AA 的成果"
+  },
+  {
+   "sha": "25c6c76d",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-c8c810e1",
+   "reason": "日本宿舍 3D「你的房間」jp_room WIP（jp_dorm.py、jp_view.py、jp_room.glb＋layout、wip_jp/）；使用者 13:0x 決定已經做的 3D 保留，c8c810e1（後代）修好窗外走不到後交付＝DL-LAWWW2-c8c810e1（JP-ROOM-3D-1021）"
+  },
+  {
+   "sha": "d641dcad",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "covered",
+   "coveredBy": "DL-LAWWW2-c8c810e1",
+   "reason": "wip_jp/README.md 改狀態＋user_asks_LAWWW2 記使用者 13:0x 原話（UA-LAWWW2-1021-03：日本已做的 3D 保留、其餘照舊 2D）；jp_room 交付是 c8c810e1"
+  },
+  {
+   "sha": "9302da6b",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_LAWWW2.json（HV-18 使用者要求登記：UA-LAWWW2-1021-03 補 X91／JP-ROOM-3D-1021），不是交付"
+  },
+  {
+   "sha": "b613fc53",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_LAWWW2.json（HV-18 使用者要求登記：UA-LAWWW2-1021-02 補 X90、UA-LAWWW2-1020-03 改「在開發分支」），不是交付"
+  },
+  {
+   "sha": "f1472f22",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "kind": "handoff_record",
+   "reason": "只改 docs/handoff/user_asks_AA.json（HV-18：照開發分支 7baa4587 核對，10 筆改「在開發分支」、5 筆加核對結果），不是交付"
+  },
+  {
+   "sha": "d1a9fe2b",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "DL-AA-56a36a4d",
+   "reason": "AA_242 第 12 節第一次寫錯檔名（多建一個怪名字的檔），56a36a4d 搬回、刪掉",
+   "why": "AA-C 10-21 13:39 訊息"
   }
  ]
 }

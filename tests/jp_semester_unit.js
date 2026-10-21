@@ -10,6 +10,7 @@
 // 2026-10-21 接上開發分支的 AA_326 大三後半（src/r2y3b3d.js，日本的事件都是出遊）、寒暑假快轉（src/holff3d.js）以後加的（修改前 FAIL）：
 //   R1 r2y3b 的日本事件在據點：當地時間、must 只有「出發」；R2 裁定 10（8/5 沒有三選一）；R3 8/12 摘要日兩版（AA_345 H3）；R4 家人群組在日本不問；R5 臺灣朋友回訊息的時間；
 //   R6 每天的手機小事；R7 holff 朋友回老家的訊息；R8 子晴遊戲展的照片；R9 可昕 K19、學姊 M6 的照片；R10 REPAIR 和 r2y3b 町公所那一步同一個；J-S3／H2 快轉停在要回的訊息、打開手機再接著跳；D103 選單前先開手機。
+// AA_355 1-1（2026-10-21）：G7 以安約的那一頓改成 6/9 私訊、6/10 出遊（6 項；修改前 6 項都 FAIL：6/9 沒有私訊、6/16 自動演）。
 // 用法：node tests/jp_semester_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -199,8 +200,22 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-06-07',21.5); phone(); check('G6 6/7 21:30 以安兩則（交往中）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['梅雨開始了。','投幣洗衣機前面排了四個人。……我在讀行政法。'])); }
   { const G=inJapan('2028-06-07',21.5,{},false); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G6／L7 挽回中：旁白加括號「（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）」（AA_349 L7）', has('（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）')&&!has('交換生群組有人傳「梅雨開始了」，以安按了一個讚')); }
   /* ===================== G7 ===================== */
-  { const G=inJapan('2028-06-16',19); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
-    check('G7 6/16 19:00 以安約的那一頓（AA_250 6-2，商店街）：三句照抄', has('臺大今天考完了。小語在群組說她要睡三天。')&&has('我們這邊七月底才考，還有一個多月。')&&has('八月五號那班，我跟你一起訂好了。')&&H.bgs.some(b=>b&&b.image==='assets/bg/jp_street_night.webp')); }
+  /* AA_355 1-1（2026-10-21）：以安約的那一頓＝6/9（五）21:00（日本時間）她私訊；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底），接 AA_250 6-2 那三句；
+     「那天不行。」＝她回「好。」、不補；交往中或和她 FRIEND 以上。原本 AA_341 G7 的 6/16（五）19:00 自動演那一場拿掉（修改前：6/9 沒有私訊、6/16 自動演）*/
+  const DINNER3=['臺大今天考完了。小語在群組說她要睡三天。','我們這邊七月底才考，還有一個多月。','八月五號那班，我跟你一起訂好了。'];
+  { const G=inJapan('2028-06-09',20.5); phone(); const n0=th('p:heroine_01').length; at('2028-06-09',21); phone(); const L=th('p:heroine_01').slice(n0), m=(G.msgs||[]).filter(x=>x.th==='p:heroine_01').slice(-1)[0];
+    check('G7／AA_355 1-1 6/9（五）21:00（日本時間）以安私訊：「週六晚上有空嗎。」「學校後面那家小餐館，六點半。我訂了兩個人。」；回「好。」／「那天不行。」（20:30 還沒有）', n0===0&&JSON.stringify(L)===JSON.stringify(['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'])&&!!m&&!!m.ask&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天不行。']), JSON.stringify(L));
+    PHONE.answer(G,'jp_g7_dinner_ask',0); phone(); const q=OUT.get(G,'jp_g7_dinner');
+    check('G7／AA_355 1-1 回「好。」：排出遊 6/10（六）18:30「日本・學校後面的小餐館」（ev_jp_dinner）', !!q&&q.state==='planned'&&q.day===D('2028-06-10')&&q.h===18.5&&q.ev==='ev_jp_dinner'&&q.place==='日本・學校後面的小餐館', JSON.stringify(q));
+    at('2028-06-10',18.25); H.said=[]; H.bgs=[]; const logs=[], log0=ADV.log; ADV.log=(a,b)=>{ logs.push(b); }; if(q) await OUT.go(GM,q); ADV.log=log0;
+    check('G7／AA_355 1-1 6/10 那一頓：地點字幕「日本・學校後面的小餐館」、深色底（不是商店街 jp_street_night）；AA_250 6-2 三句照抄；AN_JP_DINNER', DINNER3.every(has)&&logs.includes('日本・學校後面的小餐館')&&H.bgs.length>0&&H.bgs.every(b=>b==='dark')&&G.flags.AN_JP_DINNER===true&&!!q&&q.state==='done', JSON.stringify([logs,H.bgs]));
+    at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
+    check('G7／AA_355 1-1 6/16 19:00 不再自動演那一頓（AA_341 G7 那一場拿掉）', (!st||st.k!=='g7_dinner')&&!DINNER3.some(has)&&!S.SCH.some(s=>s.k==='g7_dinner'), st&&st.k); }
+  { const G=inJapan('2028-06-09',21); phone(); PHONE.answer(G,'jp_g7_dinner_ask',1); phone(); at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
+    check('G7／AA_355 1-1 回「那天不行。」：她回「好。」、不排出遊、之後不補（6/16 也沒有）', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['學校後面那家小餐館，六點半。我訂了兩個人。','那天不行。','好。'])&&G.flags.AN_JP_DINNER_ASK==='no'&&!OUT.get(G,'jp_g7_dinner')&&!DINNER3.some(has), JSON.stringify(th('p:heroine_01').slice(-3))); }
+  { const G=inJapan('2028-06-09',21,{},false); H.FRIEND('heroine_01'); phone(); const a=th('p:heroine_01').includes('週六晚上有空嗎。');
+    const G2=inJapan('2028-06-09',21,{},false); phone(); const b=th('p:heroine_01').includes('週六晚上有空嗎。');
+    check('G7／AA_355 1-1 挽回中、和以安 FRIEND 以上：一樣收到；只有 FAMILIAR（沒交往）：沒有', a&&!b, [a,b].join()); }
   { const G=inJapan('2028-06-24',16,{REPAIR:{heroine_01:2}},false); H.picks=['對不起']; H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 6/24 16:00 挽回第 4 步（河邊）：「那時候我很生氣……」「……現在可以聽了。你說。」；「對不起。……」→「……嗯。你那時候應該要說的。」REPAIR +1', has('那時候我很生氣，生氣到不想聽你講。')&&has('……現在可以聽了。你說。')&&has('……嗯。你那時候應該要說的。')&&G.flags.REPAIR.heroine_01===3);
     at('2028-06-24',16); G.jp.done={}; S.repair(G); check('挽回：一週最多 +1（AA_254 第 10 節）', G.flags.REPAIR.heroine_01===3); }
@@ -320,5 +335,18 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   /* L9 （不算學分）只標在日文課 */
   { const G=inJapan('2028-04-04',10); const w=CLS.weekHTML(G), items=w.split('<div class="item">').filter(x=>/不算學分/.test(x));
     check('L9 手機課表「（不算學分）」只在日本語（中級）那一列；交換學校的法律課沒有', items.length===1&&/日本語（中級）/.test(items[0])&&!/回國申請抵免/.test(w), JSON.stringify(items)); }
+  // ===== jp_room：3D 的「你的房間」（使用者 10-21 13:0x「已經做的 3D 保留」；LAWWW2 c8c810e1、jp_dorm3d.js）=====
+  { const Z0=global.Z3, L0=global.JP_DORM_LAYOUTS; global.Z3=Object.assign({},Z0||{},{ZONES:Object.assign({},(Z0&&Z0.ZONES)||{},{jp_room:{id:'jp_room'}})}); global.JP_DORM_LAYOUTS={jp_room:{spawn:{x:0,z:0.5,yaw:0}}};
+    try{
+      const G=inJapan('2028-04-12',20.5); H.entered=[]; H.picks=['在房間休息一下']; await JP.loop(GM);
+      const a=H.entered.slice(), z1=G.zone;
+      H.entered=[]; const t=JP.tick(GM); const b=H.entered.slice();
+      check('jp_room 1：選單「在房間休息一下」＝走進 3D 的房間（GM.enter jp_room）；人在房間時 JP.tick 不把人拉回據點、也不跑選單（回傳 true，臺灣的事不往下跑）', a[a.length-1]==='jp_room'&&z1==='jp_room'&&t===true&&!b.includes('jp_hub'), JSON.stringify({a,z1,t,b}));
+      const d0=G.day; H.entered=[]; await JP.bedFromRoom(GM); const pend=!!JP.rec(G).pendingSleep, e1=H.entered.slice();
+      H.picks=['在房間休息一下']; await JP.loop(GM);
+      check('jp_room 2：房間的床「睡覺」＝回據點、接著睡到隔天（照選單的睡覺）；睡完選「在房間休息一下」又走進房間', pend&&e1[0]==='jp_hub'&&G.day===d0+1&&!JP.rec(G).pendingSleep&&H.entered[H.entered.length-1]==='jp_room', JSON.stringify({pend,e1,day:G.day-d0,ent:H.entered}));
+    } finally { global.Z3=Z0; global.JP_DORM_LAYOUTS=L0; }
+    const G2=inJapan('2028-04-12',20.5); H.picks=[]; const O=[]; const ch0=GM.choose; GM.choose=async(o)=>{ O.push(o.map(x=>x.t+'｜'+(x.hint||''))); return o.length-1; }; try{ await JP.round(GM); } finally { GM.choose=ch0; }
+    check('jp_room 3：沒有 3D 房間（jp_dorm3d.js 沒載入）＝「在房間休息一下」照舊是過一小時', O[0].some(x=>/^在房間休息一下｜一小時/.test(x)), JSON.stringify(O[0])); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

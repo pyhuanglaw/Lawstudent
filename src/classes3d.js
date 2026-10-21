@@ -154,7 +154,7 @@ const CLS=(function(){
   S.e03Due=(G,it)=>!!(it&&it.c&&it.c.id==='econ_principles_y0'&&!it.exam&&(it.week|0)>=2&&!(G.flags&&G.flags.Y0_B1_ANSWER));   /* 經濟系那一年：E03 還沒上過（BB_105 B1；第 1 週不算）*/
   /* P1 初等會計：借方、貸方、和第一個朋友（BB_105 P1、2-3；AA_154 第 95 行）：第一次在會計課時段走進教室（第 1 週沒去就在之後第一次出席時，不限週次）。
      選坐哪裡（Y0_P1_SEAT：xun／front／window）→ 老師的第一題 → 阿勳、韋綸、品妤、遠處的可昕 → 被點到（課表第 1 週的 C 類三個回答）。
-     遲到超過 15 分鐘才進去＝略過：一句旁白、不記座位（BB-B 2026-10-16 補的那一句；「可跳過」的意思等 AA-B 確認）*/
+     遲到超過 15 分鐘才進去＝略過：一句旁白、不記座位（BB-B 2026-10-16 補的那一句；遲到超過 15 分鐘＝略過那一句，AA_355 第 2 節照用）*/
   S.p1Due=(G,it)=>!!(it&&it.c&&it.c.id==='acct_y0'&&!it.exam&&!(G.flags&&G.flags.Y0_P1_DONE));
   S.P1_SEATS=[['xun','（坐在阿勳旁邊）'],['front','（坐前排）'],['window','（坐靠窗）']];   /* 按鈕字照 AA_154 A51 Q13 */
   /* BB_179 段A #25 #26：韋綸、品妤兩句刪（一場只留一兩個人）*/
@@ -697,7 +697,7 @@ const CLS=(function(){
   // ---------- 手機的「今天」「課表」----------
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   /* 開學第一週的待辦（AA_110 第 6-4 節，AA 暫定）：手機「今天」底下一張小清單，做完一項劃掉一項；不做也不擋任何事；大一上第 3～5 週顯示，第 6 週自動收起來。
-     「買六法」等 AA 定價錢、「逛社團博覽會」等博覽會做進遊戲（AA_110 6-3，已問 AA）——還沒列。 */
+     「買六法」「逛社團博覽會」不列（AA_110 6-3；AA_355 第 3 節：過時、不用做事——社團博覽會已經在遊戲裡，S.fairMenu）。 */
   S.todoItems=function(G){ if(typeof CALENDAR==='undefined') return []; const t=CALENDAR.termOf(G.day); if(!t||t.id!=='Y1S1'||t.week>5) return [];
     const R=S.rec(G), F=G.flags||{}, A=typeof ACTIVITIES!=='undefined'?ACTIVITIES:null, went=id=>!!(A&&A.stateOf&&A.stateOf(G,id));
     return [{key:'textbook',text:'買民總、刑總、憲法的教科書（舊路書房），或在法律學院圖書館看指定參考書',done:!!(F.textbook||F.readReserve)},
@@ -730,7 +730,7 @@ const CLS=(function(){
   /* 起床選單（1-2）、直接去上課（1-3）、下課選單（1-4）、翹課（1-5）；期末考到時間自動帶進考場（AA_126 1-1）。
      待出的選單記在這裡，S.oneTick 等玩家空下來（沒有劇情、對話、移動中、沒坐著）連續 1.5 秒才出：起床選單因此排在宿舍的晨間事件（阿凱 K-D3 等）之後
      （AA-B 2026-10-16 05:49 同意）。不存檔：重新整理就不再問。出席紀錄全部由 S.attend 照實際時間寫，這裡不寫。
-     還沒做（等 AA_160 第 3 節的事件盤點表）：路上經過的區域有【固】【必】事件時停下來演（1-3 第 3 點）、翹課確認的「你會錯過：○○」（1-5）。
+     還沒做（AA_160 第 3 節已交，AA_355 第 3 節：不用再等）：路上經過的區域有【固】【必】事件時停下來演（1-3 第 3 點）；翹課確認現在是一般的「這堂課裡的事你會錯過。」，不列事件名（1-5）。
      腳踏車：騎著才照騎車算（和手機快速前往一樣；車停到那棟門外由 bike3d.js 處理）；人在宿舍、車在宿舍門口還是照走路算（要先把車移過去，之後做）。 */
   let wakeP=null, afterP=null, contP=null, goBusy=false, freeSince=0, freeTicks=0;
   const WAKE_GRACE=2500, FREE_MS=1500;

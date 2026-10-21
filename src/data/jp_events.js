@@ -3,7 +3,7 @@
    什麼時候演、誰演在 src/jp3d.js（JP.SCH 的表、JP.phone 的私訊）；這裡只有台詞（STORY_EVENTS，EVENTS.run 照一般事件演）。
    - 交往中＝和以安交往中（dating_heroine_01）；挽回中＝日本路線、不是交往中（AA_253 第 5 節：日本路線的玩家只有這兩種）。
    - AA 稿裡「以安：……」寫在旁白後面同一行的，拆成旁白一句、以安一句（字不改）；寫成一整句描述的（G7 偷看、G6 挽回中）照原樣當旁白一句。
-   - 沒有背景圖的地方：深色底＋地點字幕（{scene}）；商店街用 jp_street_night（AA_341 第 5 節）；入境大廳沒有圖＝深色底。
+   - 沒有背景圖的地方：深色底＋地點字幕（{scene}）；入境大廳沒有圖＝深色底。以安約的那一頓原本用商店街 jp_street_night（AA_341 第 5 節），AA_355 1-1 改成深色底＋「日本・學校後面的小餐館」。
    - 摘要日的一句（G0、G1 3/28、G4 挽回中、G7 6/28、G8 期末週、8/1、8/12）、一鍵上課的旁白（AA_185 1-5、G2 第一堂）、X2 回家那一句（AA_144）在 src/jp3d.js。 */
 'use strict';
 const JP_EVENTS=(function(){
@@ -57,12 +57,13 @@ const JP_EVENTS=(function(){
     {label:'g5_a'},{if:C(j2),speaker:'heroine_01',text:'還沒有。……五月六號那張通知以後，我一直在想。'},{unless:C(j2),speaker:'heroine_01',text:'還沒有。'},{goto:'g5_end'},   /* 有 J2 的才說後半 */
     {label:'g5_b'},{speaker:'heroine_01',text:'理由？'},
     {label:'g5_end'} ];
-  /* G7 6/16（五）19:00 以安約的那一頓（AA_250 6-2；她那邊的小餐館，2D；交往中）。不算學期末的飯（BB_203 第 9 點）*/
-  const DINNER=[ {scene:'商店街',bg:'jp_street_night'},
+  /* G7 以安約的那一頓（AA_250 6-2 的三句）。AA_355 1-1（AA-C 2026-10-21）：6/9（五）21:00 她私訊約、「好。」＝6/10（六）18:30 出遊（src/jp3d.js 的 S.dinnerPhone；交往中或 FRIEND 以上），
+     地點字幕「日本・學校後面的小餐館」、深色底（原本 AA_341 G7：6/16（五）19:00 自動演、商店街 jp_street_night）。不算學期末的飯（BB_203 第 9 點）。出遊演完照 hours 往後 */
+  const DINNER=[ {scene:'日本・學校後面的小餐館'},
     {speaker:'heroine_01',text:'臺大今天考完了。小語在群組說她要睡三天。'},
     {speaker:'heroine_01',text:'我們這邊七月底才考，還有一個多月。'},
     {speaker:'heroine_01',text:'八月五號那班，我跟你一起訂好了。'},
-    {set:{AN_JP_DINNER:true}},{advance:1.5} ];
+    {set:{AN_JP_DINNER:true}} ];
   /* G7 6/24（六）16:00 挽回第 4 步：河邊（AA_253 第 5 節第 4 步；REPAIR 照 AA_254 第 10 節）*/
   const REPAIR4=[ {scene:'河邊'},
     {speaker:'heroine_01',text:'那時候我很生氣，生氣到不想聽你講。'},
@@ -132,7 +133,7 @@ const JP_EVENTS=(function(){
     ev('ev_jp_kitchen','共用廚房',KITCHEN,{participants:['heroine_01']}),
     ev('ev_jp_goldenweek','黃金週',RIVER,{participants:['heroine_01']}),
     ev('ev_jp_admin_report','比較行政法',ADMIN),
-    ev('ev_jp_dinner','以安約的那一頓',DINNER,{participants:['heroine_01']}),
+    ev('ev_jp_dinner','以安約的那一頓',DINNER,{participants:['heroine_01'],trigger:'outing',hours:1.5}),   /* AA_355 1-1：出遊（6/10 18:30）*/
     ev('ev_jp_repair_river','河邊',REPAIR4),
     ev('ev_jp_tanabata','七夕',TANABATA,{participants:['heroine_01']}),
     ev('ev_jp_tanabata_repair','七夕',TANABATA_R),

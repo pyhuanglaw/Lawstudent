@@ -58,6 +58,10 @@ const JP=(function(){
   S.movedOut=G=>isJP(G)&&!!G.flags&&G.flags.X1_JP!=null&&!G.flags.ROOM_Y4;   /* 2/20 退宿以後到搬進 409：台灣沒有宿舍（AA_158 第 4 節「住處」）*/
   S.homeOn=G=>S.movedOut(G)&&!S.inJapan(G);   /* 住臺北的家：出發前（2/20～3/25）、回來以後（8/5～9/3）*/
   S.place=G=>S.inJapan(G)?(S.rec(G).place||'room'):null;
+  S.hasRoom3d=()=>typeof Z3!=='undefined'&&!!Z3.ZONES&&!!Z3.ZONES.jp_room&&typeof JP_DORM_LAYOUTS!=='undefined'&&!!JP_DORM_LAYOUTS.jp_room;
+  S.room3d=G=>!!G&&G.zone==='jp_room'&&S.hasRoom3d();   /* 人在 3D 的「你的房間」 */
+  /* 3D 房間的床（jp_dorm3d.js）：回據點、接著照選單的「睡覺」（錯過約的確認照舊）*/
+  S.bedFromRoom=async function(GM){ const G=GM.G; if(!S.inJapan(G)) return false; S.rec(G).pendingSleep=true; if(GM.enter) await GM.enter('jp_hub',Object.assign({},S.SPAWN)); return true; };
   S.skipTerm=(G,termId)=>termId==='Y3S2'&&isJP(G);   /* J-S6：日本路線不修台灣的大三下（classes3d.js：不排課、不跳開學和期中期末的提示；成績單換日本的兩門）*/
   STORY.inJapan=G=>S.inJapan(G);
   /* ---------------- 據點：3D 的空區域（畫面是 2D）、背景 ---------------- */
@@ -101,7 +105,7 @@ const JP=(function(){
     {k:'g4_river',d:'2028-05-03',h:14,w:'jp',if:dat,ev:'ev_jp_goldenweek'},
     {k:'g4_s',d:'2028-05-03',h:18.5,w:'jp',if:rep,sum:'（黃金週。電車上都是人。你在宿舍讀了一整天。）'},
     {k:'g6_rain',d:'2028-06-07',h:21.5,w:'jp',if:rep,sum:'（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）'},   /* G6 挽回中（旁白；AA_349 L7：加括號、裡面的引號換『』）；交往中是 21:30 她的私訊（S.phone）*/
-    {k:'g7_dinner',d:'2028-06-16',h:19,w:'jp',if:dat,ev:'ev_jp_dinner'},
+    /* 以安約的那一頓：原本 6/16（五）19:00 自動演（AA_341 G7），AA_355 1-1 改成 6/9 她私訊約、6/10 出遊（S.dinnerPhone）*/
     {k:'g7_repair4',d:'2028-06-24',h:16,w:'jp',if:rep,ev:'ev_jp_repair_river'},
     {k:'g7_s',d:'2028-06-28',h:18.5,w:'jp',sum:'（期末報告的題目定了。你寫了三個版本的第一句。）'},
     {k:'g7_tanabata',d:'2028-07-07',h:19,w:'jp',ev:G=>dat(G)?'ev_jp_tanabata':'ev_jp_tanabata_repair'},   /* 七夕 19:00（AA_349 L5 確認）*/
@@ -199,7 +203,19 @@ const JP=(function(){
     dm('2028-05-02',21,['黃金週，哪裡都是人。……明天去河邊就好。'],'jp_g4_river_ask',d&&jp);
     dm('2028-06-07',21.5,['梅雨開始了。','投幣洗衣機前面排了四個人。……我在讀行政法。'],'jp_g6_rain',d&&jp);
     dm('2028-07-16',21,['明天海之日。……我想看海。電車一個小時。'],'jp_g8_sea_ask',d&&jp);
+    S.dinnerPhone(G,P);   /* AA_355 1-1：6/9 以安約的那一頓 */
     S.grpPhone(G); };   /* 挽回中：交換生群組每週那一則（AA_349 L1）*/
+  /* 以安約的那一頓（AA_355 1-1，AA-C 2026-10-21；台詞照抄，三句在 data/jp_events.js 的 ev_jp_dinner＝AA_250 6-2）：
+     6/9（五）21:00（日本時間：人在日本時遊戲的時鐘就是日本時間）她私訊兩則，交往中或和她 FRIEND 以上；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底）；
+     「那天不行。」＝她回「好。」，不補（6/16 也不演）。不算學期末的飯（AA_250 6-2：不佔名額、沒有告白）。回覆期限 6/10 18:00；AN_JP_DINNER_ASK＝'yes'／'no' */
+  S.DINNER_ASK=['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'];
+  S.dinnerPhone=function(G,P){ const d9=DK('2028-06-09'), d10=DK('2028-06-10'), F=G.flags; if(!P||d9==null||d10==null||!S.inJapan(G)) return;
+    if(G.day>=d9&&G.day<=d9+1&&NOW(G)>=T(d9,21)&&NOW(G)<T(d10,18)&&!P.sent(G,'jp_g7_dinner_ask')&&(dat(G)||lv('heroine_01','FRIEND'))){
+      const L=S.DINNER_ASK.map(t=>({th:'p:heroine_01',from:'heroine_01',text:t}));
+      L[L.length-1].ask={id:'jp_g7_dinner_ask',until:T(d10,18),opts:[{t:'好。',set:{AN_JP_DINNER_ASK:'yes'}},{t:'那天不行。',set:{AN_JP_DINNER_ASK:'no'},say:[{from:'heroine_01',text:'好。'}]}]};
+      P.at(G,d9,G.day===d9?Math.max(21,G.hour):21,L,'jp_g7_dinner_ask'); }
+    if(F.AN_JP_DINNER_ASK==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'jp_g7_dinner')&&NOW(G)<T(d10,19))
+      OUT.plan(G,{id:'jp_g7_dinner',ev:'ev_jp_dinner',day:d10,h:18.5,late:0.5,place:'日本・學校後面的小餐館',title:'和以安：學校後面的小餐館（日本 18:30）',travel:'',travelH:0}); };
   /* ---------------- 快轉、睡覺（J-S3）---------------- */
   S.homeFfEnd=G=>S.returned(G)?T(D('room'),8.5):T(D('dep'),8);   /* 出發前：到 3/25 早上（出發）；回來以後：到 9/3 早上（搬進 409）*/
   S.t1Stops=function(G){ const out=[]; if(typeof Y34B==='undefined'||!Y34B.t1On||!Y34B.t1On(G)) return out; const a=DK('2028-02-24'), dep=D('dep'); if(a==null||dep==null) return out;
@@ -274,7 +290,7 @@ const JP=(function(){
     if(q) O.push({t:(q.verb||'出發')+'：'+q.title,hint:(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:''),k:'out',q});
     const c=S.classNow(G); if(c) O.push({t:'去上課：'+c.c.name,hint:hm(c.t0)+'　交換學校',k:'class',c});
     O.push({t:'共用廚房',k:'place',p:'kitchen'},{t:'便利商店',k:'place',p:'konbini'},{t:'河邊',k:'place',p:'river'});
-    O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'},{t:'在房間休息一下',hint:'一小時',k:'rest'});
+    O.push({t:'看手機',hint:'和朋友聯絡',k:'phone'},S.hasRoom3d()?{t:'在房間休息一下',hint:'走進你的房間',k:'room3d'}:{t:'在房間休息一下',hint:'一小時',k:'rest'});
     const ff=S.ffOpts(G,'jp'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'},{t:'睡覺',hint:'明天 '+hm(S.wakeH(G,G.day+1))+' 醒來',k:'sleep'});
     const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
@@ -283,6 +299,7 @@ const JP=(function(){
     if(o.k==='place'){ await S.visit(GM,o.p); return true; }
     if(o.k==='phone'){ if(GM.phoneThread){ if(A&&A.end) A.end(); await GM.phoneThread(null); S.adv(G); } return true; }
     if(o.k==='rest'){ if(await S.confirmMiss(GM,G.hour+1)) GM.advance(1); return true; }
+    if(o.k==='room3d'){ S.rec(G).place='room'; return 'room'; }   /* 走進 3D 的房間：讓出選單（S.loop 收尾以後 GM.enter）*/
     if(o.k==='ff'){ const f=ff[await GM.choose(ff.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>NOW(G)) await S.ff(GM,f.to,'jp'); return true; }
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return true; }
     if(await S.confirmMiss(GM,24+S.wakeH(G,G.day+1))) await S.sleep(GM); return true; };
@@ -305,17 +322,20 @@ const JP=(function(){
         if(S.othersTick(GM)){ go='yield'; break; }   /* 讓出畫面：那一段演完，下一次 JP.tick 接回選單 */
         { const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null; if(q&&q.must){ await S.goOut(GM,q,true); continue; } }
         if(await S.askAuto(GM,'jp')) continue;
-        await S.round(GM); } }
+        { const Rs=S.rec(G); if(Rs.pendingSleep){ delete Rs.pendingSleep; if(await S.confirmMiss(GM,24+S.wakeH(G,G.day+1))) await S.sleep(GM); continue; } }   /* 3D 房間的床：回到據點就睡 */
+        if(await S.round(GM)==='room'){ go='room'; break; } } }
     catch(e){ console.warn('JP.loop',e); }
     finally{ busy=false; GM.sceneEnd(); }
-    if(go==='ret') await S.returnHome(GM); };
+    if(go==='ret') await S.returnHome(GM);
+    if(go==='room'){ const A=A_(); if(A&&A.end) A.end(); if(GM.enter) await GM.enter('jp_room',Object.assign({},JP_DORM_LAYOUTS.jp_room.spawn)); } };
   S.leaveHome=G=>{ if(typeof HOME==='undefined'||!HOME.rec) return; const H=HOME.rec(G); H.at=false; H.wakeAsk=null; H.lbreak=null; H.bskip=null; H.stayMon=null; };
   S.toHub=async function(GM){ S.leaveHome(GM.G); if(GM.enter) await GM.enter('jp_hub',Object.assign({},S.SPAWN)); };
   /* story3d.js S.tick（事件包 TICKS 之後、在家判斷之前）：人在日本＝據點；回傳 true＝這一輪不再往下判斷 */
   S.tick=function(GM){ const G=GM.G; if(!S.inJapan(G)) return false;
     { const r=D('ret'); if(r!=null&&G.day>r+3){ G.flags.JP_RETURNED=G.day; G.flags.JP_RETURN_LATE=true; return false; } }   /* 舊存檔：早就過了回程（不補演）*/
     if(busy) return true;
-    if(G.zone!=='jp_hub'){ if(!(GM.isEntering&&GM.isEntering())){ busy=true; S.toHub(GM).catch(e=>console.warn('JP.toHub',e)).finally(()=>{ busy=false; }); } return true; }   /* 開發分支舊版出發以後還在臺灣的區域：先進據點 */
+    if(G.zone!=='jp_hub'){ if(S.room3d(G)) return true;   /* 3D 的「你的房間」（jp_dorm3d.js，使用者 10-21 13:0x「已經做的 3D 保留」）：自由走動，走出房門回據點 */
+      if(!(GM.isEntering&&GM.isEntering())){ busy=true; S.toHub(GM).catch(e=>console.warn('JP.toHub',e)).finally(()=>{ busy=false; }); } return true; }   /* 開發分支舊版出發以後還在臺灣的區域：先進據點 */
     S.loop(GM).catch(e=>{ console.warn('JP.loop',e); busy=false; }); return true; };
   /* ---------------- 出發以後（y34b3d.js S.departJP 演完）---------------- */
   /* 出發以後在臺灣的約：出遊（視訊、電話以外）不去了、當面約延後（不算爽約；AA_340 S9 同一個原則）。回來的那天也再跑一次（在日本那段時間答應的臺灣的約）*/

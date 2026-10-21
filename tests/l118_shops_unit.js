@@ -6,6 +6,7 @@
 //   4. 巷子的店門口：營業時間「進○○」（exit 到 l118_<id>），沒開的時候照舊是店門口那個按鈕（L118.order 說鐵門拉下來一半）；
 //   5. 店員在店裡（story3d.js 照 layout 的 clerk）；有室內配置的店，巷子裡不再站店員；
 //   6. 門外的巷子（白天拍的圖）晚上調暗。
+//   9. AA_355 1-3：滇香小館牆上的織布點了有字（修改前 FAIL：只顯示「牆上的織布」）
 // 修改前 1～6 都 FAIL。用法：node tests/l118_shops_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -36,7 +37,10 @@ check('1. 九間都有室內配置', IDS.every(i=>LS[i]), Object.keys(LS).join('
     const tex={}, m={name:'l118_tea_view',map:tex,color:c(),emissive:c().setRGB(0,0,0),emissiveIntensity:1,userData:{}}, mesh={isMesh:true,name:'WALL_S_view',material:m};
     const ok=!!S&&!!S.viewMats&&!!S.setView; let v=[]; if(ok){ v=S.viewMats({traverse(f){ f(mesh); }}); S.setView(v,20.5); }
     check('6b. 門外的照片：自己發光（顏色黑、emissiveMap＝照片），20:30 亮度 0.32（店裡的燈照不亮它）', ok&&v.length===1&&m.color.r===0&&m.emissiveMap===tex&&m.emissive.r===1&&Math.abs(m.emissiveIntensity-0.32)<1e-9, ok?JSON.stringify({c:m.color.r,e:m.emissiveIntensity}):'沒有 viewMats／setView');
-    if(ok){ S.setView(v,12); check('6b. 中午亮度 1', m.emissiveIntensity===1); } } }
+    if(ok){ S.setView(v,12); check('6b. 中午亮度 1', m.emissiveIntensity===1); } }
+  /* 9. AA_355 1-3（AA-C 2026-10-21）：滇香小館牆上的織布點了有字（配置檔的 note 是空的，原本只顯示「牆上的織布」）；其他還沒有 AA 字的照舊顯示名稱 */
+  { const S=global.L118S, q=(LS.dian&&LS.dian.interact||[]).find(x=>x.id==='tapestry'), t=S&&S.lookText&&q?S.lookText('dian',q):null, soup=(LS.self&&LS.self.interact||[]).find(x=>x.id==='soup');
+    check('9. AA_355 1-3 牆上的織布：「（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）」；自取的湯（還沒有 AA 的字）照舊顯示名稱', t==='（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）'&&!!soup&&S.lookText('self',soup)===soup.label, String(t)); } }
 // 4
 { const z=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
   check('4. 店門口：營業時間「進○○」exit 到 l118_<id>（沒開藏起來）；沒開的時候是 L118.order 的按鈕；門口的按鈕比站在門口的常客優先（prio）', /prio:1,label:'進'\+nm\+'（'\+sh\.type\+'）',exit:\{to:'l118_'\+sh\.id,[^}]*\}\},get hidden\(\)\{ return !open118\(\); \}\}\)/.test(z)&&/prio:1,label:nm\+'（'\+sh\.type\+'）',shop118:sh\.id,get hidden\(\)\{ return open118\(\); \}\}\)/.test(z)); }

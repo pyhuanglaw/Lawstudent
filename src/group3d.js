@@ -95,7 +95,7 @@ const GROUP=(function(){
     if(grp(G)&&G.day<=g&&now>=T(d,tw(G,d,21))){ PHONE.at(G,d,atH(G,d,tw(G,d,21)),[Z('明天晚上七點，冠軍賽。來喊。')],'y3_final_ask'); S.planFinal(G); }
     /* 23:00 哲 4（AA_40；AA_324 第 6 節：ask 下樓／我在家／不回）：日本路線＝阿哲打視訊（台灣 23:00＝日本 0:00）*/
     if((jp?(now>=T(d,24)&&now<T(d,26)):(G.day===d&&now>=T(d,23)))&&F.ZHE4_ASKED==null&&met(G,'zhe','FRIEND')){ F.ZHE4_ASKED=d; const away=!jp&&S.awayFromTaipei(G);   /* 日本路線：台灣 23:00＝日本 0:00（AA_341 J-S13）*/
-      if(jp||away){ F.ZHE4_REPLY=jp?'jp':'away'; plan(G,{id:'y3_zhe4',ev:'ev_zhe_said_it',day:d,h:Math.max(jp?24:23,now-T(d,0)),late:1,place:'視訊',title:'阿哲的視訊',verb:'接起來',must:true,travel:'',travelH:0,back:'視訊結束。'}); }   /* 人不在臺北＝在家的視訊版（AA_336 C10）；AA 沒有寫祐廷這時候回什麼，所以照日本路線：阿哲直接打視訊 */
+      if(jp||away){ F.ZHE4_REPLY=jp?'jp':'away'; plan(G,{id:'y3_zhe4',ev:'ev_zhe_said_it',day:d,h:Math.max(jp?24:23,now-T(d,0)),late:1,place:'視訊',title:'阿哲的視訊',verb:'接起來',must:true,travel:'',travelH:0,back:'視訊結束。'}); }   /* 人不在臺北＝在家的視訊版（AA_336 C10）；祐廷這時候不回話，照日本路線：阿哲直接打視訊（AA_355 第 2 節：AA 看過、照用）*/
       else { const home=atHome(G), dorm=['dorm','dorm_hall'].includes(G.zone);
         const opts=home?[{t:'我在家。',set:{ZHE4_REPLY:'home'}}]:dorm?[{t:'（下樓）',post:false,set:{ZHE4_REPLY:'down'}}]:[{t:'我在外面。二十分鐘回宿舍。',set:{ZHE4_REPLY:'out'},say:[{from:'zhe',text:'好。我在樓下。'}]}];   /* 不在宿舍、也不在家（在臺北的外面，AA_336 C10）*/
         PHONE.at(G,d,atH(G,d,23),[{th:'p:zhe',from:'zhe',text:'你在宿舍嗎。',ask:{id:'y3_zhe4',until:T(d,24),opts}}],'y3_zhe4'); } }
