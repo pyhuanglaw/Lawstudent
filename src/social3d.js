@@ -51,11 +51,25 @@ const SOCIAL = (function(){
   S.talkedTo=function(id){ const r=S.rel(id); r.talked++; if(['UNKNOWN','RECOGNIZABLE'].includes(S.reveal(id))) G.social.reveal[id]='ACQUAINTANCE'; if(r.fam<5) r.fam=5; const st=S.stage(id); if(st==='FRIEND'||st==='CLOSE_FRIEND') G.social.reveal[id]='FRIEND'; };
   // 顯示名稱：依揭露階段
   /* 不熟同學（pool_*）顯示的年級跟著遊戲走（AA_120 7-3）：資料上的 year 是玩家大一時的年級，玩家每升一年他們也升一年（大四封頂）；放假期間照上一個學期算 */
-  S.playerYear=function(){ const t=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):(typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)?CALENDAR.termOf(G.day).id:null); const m=/^Y([1-4])/.exec(t||''); return m?+m[1]:1; };
+  /* 交換延畢（日本、美國路線，AA_357 1-1、1-4）：大五上開學（CALENDAR 的 Y5S1，2029-09-03）起算大五；放假照上一個學期算，所以證書（2030-01-21）以後也是 5（沒有比大五更後面的學期）*/
+  const delayedP=()=>!!(G&&(G.stage||'law')==='law'&&typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G));
+  S.playerYear=function(){ if(delayedP()&&typeof CALENDAR!=='undefined'&&CALENDAR.termDays){ const r=CALENDAR.termDays('Y5S1'); if(r&&G.day>=r.from) return 5; }
+    const t=typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):(typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)?CALENDAR.termOf(G.day).id:null); const m=/^Y([1-4])/.exec(t||''); return m?+m[1]:1; };
   S.yearOf=function(id){ const c=CHARACTERS[id]; if(!c||!c.year) return 0; if(!/^pool_/.test(id)) return c.year; return Math.min(4,c.year+S.playerYear()-1); };
   /* 資料頁、朋友列表的「科系・年級」照祐廷的學年（00_現行設定總表第 2-1 節，AA-C c70dc425）：characters.js 的 tagByPY＝[經濟系那一年, 法律大一～大四]；
      沒寫的那一格：經濟系那一年照原值，法律系的年份同一屆跟著升（year＋學年−1），超過四年級只寫科系。{t,alt,ifFlag}：有其中一個旗標才寫 alt（沛珊大三、大四：交往中或放榜後重新聯絡上） */
+  /* 畢業以後（AA_357 第 2-1 節，AA-C 2026-10-21）：祐廷畢業（GRADUATED）以後、2029-09 起，資料頁寫每個人「現在在做什麼」。[從哪一天起, 字]，取最後一個已經到的；
+     字是 null＝照原本的規則（明軒 2030-08-01 回來以後「照 presence」：表上沒有字）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。
+     學姊「研究單位」、方奕廷「嘉義」是 AA_267 附錄 C18 的建議，AA 採用 */
+  S.PG_TAG={ heroine_01:[['2029-09-01','台大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
+    heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','研究單位']], kexin:[['2029-09-01','政大法律系畢業'],['2029-12-14','律師（職前訓練）']],
+    zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','台大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國'],['2030-08-01',null]],
+    yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']] };
+  const dkS=k=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.tOf) return null; const p=String(k).split('-').map(Number); return Math.round((Date.UTC(p[0],p[1]-1,p[2])-CALENDAR.tOf(1))/86400000)+1; };
+  S.pgTag=function(id){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law'||!F.GRADUATED) return null; const L=S.PG_TAG[id]; if(!L) return null; let v;
+    for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d) v=t; } return v==null?null:v; };
   S.yearTag=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const crs=c.course?'・'+c.course:'', dep=c.department||'';
+    { const pt=S.pgTag(id); if(pt) return pt; }
     const idx=G&&G.stage==='econ'?0:S.playerYear(); let v=Array.isArray(c.tagByPY)?c.tagByPY[idx]:null;
     if(v&&typeof v==='object'){ const F=(G&&G.flags)||{}; v=(v.ifFlag||[]).some(k=>F[k])?v.alt:v.t; }
     if(typeof v==='string') return v+crs;

@@ -21,11 +21,16 @@ const CALENDAR=(function(){
                 {id:'Y1S1',start:'2025-09-01',weeks:16}, {id:'Y1S2',start:'2026-02-23',weeks:16}, {id:'Y2S1',start:'2026-09-07',weeks:16}, {id:'Y2S2',start:'2027-02-22',weeks:16},
                 {id:'Y3S1',start:'2027-09-06',weeks:16}, {id:'Y3S2',start:'2028-02-21',weeks:16}, {id:'Y4S1',start:'2028-09-04',weeks:16}, {id:'Y4S2',start:'2029-02-19',weeks:15} ];   /* 大四下 15 週：6/2（六）畢業典禮在第 15 週，第 15 週＝期末考週（5/28～6/1）；第 16 週（6/4 起）不算學期＝畢業後篇（AA_342 C4）*/   /* 16 週制（AA_197 1-6）；大三下開學 2/21（AA_198 第 2 節第 6 點，原本 2/14）*/
   for(const T of TERMS){ T.t0=parse(T.start); T.t1=T.t0+T.weeks*7*DAY; }
+  /* 大五上（AA_357 1-1，AA-C 2026-10-21）：只有交換延畢（日本、美國路線）的玩家才有的學期，2029-09-03（一）～12-23（日）16 週。
+     不放進 TERMS——termOf、寒暑假、成績公布日、課表都不看它（臺灣路線畢業以後照舊沒有學期）；延畢的玩家用 C.termOfDelayed（日期標籤、今日頁、資料頁的年級）*/
+  const TERMS_DELAYED=[{id:'Y5S1',start:'2029-09-03',weeks:16,delayed:true}];
+  for(const T of TERMS_DELAYED){ T.t0=parse(T.start); T.t1=T.t0+T.weeks*7*DAY; }
   // 農曆節日（國曆日期）與清明
   /* 2024：經濟系那一年（D56）。放假規則照 2025 年修正後的（平行世界、虛構年份：不還原真實 2024 的放假日，使用者 D56「不需要還原 2011 年的建築、科技或考試制度」的同一個原則；LAWWW 的技術決定）*/
   const LUNAR={ 2024:{cny:'2024-02-10',dragon:'2024-06-10',moon:'2024-09-17',qm:'2024-04-04'}, 2025:{cny:'2025-01-29',dragon:'2025-05-31',moon:'2025-10-06',qm:'2025-04-04'}, 2026:{cny:'2026-02-17',dragon:'2026-06-19',moon:'2026-09-25',qm:'2026-04-05'},
                 2027:{cny:'2027-02-06',dragon:'2027-06-09',moon:'2027-09-15',qm:'2027-04-05'}, 2028:{cny:'2028-01-26',dragon:'2028-05-28',moon:'2028-10-03',qm:'2028-04-04'},
-                2029:{cny:'2029-02-13',dragon:'2029-06-16',moon:'2029-09-22',qm:'2029-04-04'} };
+                2029:{cny:'2029-02-13',dragon:'2029-06-16',moon:'2029-09-22',qm:'2029-04-04'},
+                2030:{cny:'2030-02-03',dragon:'2030-06-05',moon:'2030-09-12',qm:'2030-04-05'} };   /* 2030（AA_357 1-1：除夕 2/2、初一 2/3；端午、中秋、清明照 AA_181 第 1 節，需查證）*/
   const SCHOOL={'2025-11-15':'校慶','2025-11-21':'運動會（停課）','2026-11-20':'運動會（停課）','2027-11-19':'運動會（停課）','2028-11-17':'運動會（停課）'};   // 校定假日（這一天停課）：'YYYY-MM-DD':'名稱'。AA_195 第 1、3 節：114 學年校慶 11/15（六）、全校運動會 11/21（五）停課（臺大焦點新聞；需查證以當年度行事曆為準）
   /* AA_355 1-4（AA-C 2026-10-21，優先度低、沒有劇情綁這幾天；大二起的運動會不另外寫事件）：115 學年（祐廷大二上）校慶 2026-11-15（日）、運動會 2026-11-20（五）；
      116 學年（大三上）校慶 2027-11-15（一）、運動會 2027-11-19（五）；117 學年（大四上）校慶 2028-11-15（三）、運動會 2028-11-17（五）。
@@ -52,7 +57,9 @@ const CALENDAR=(function(){
     for(const [k,n] of Object.entries(SCHOOL)) if(k.startsWith(String(y))) H[k]=H[k]||n;
     for(const [k,n] of Object.entries(TYPHOON)) if(k.startsWith(String(y))) H[k]=H[k]||n;
     return cache[y]=H; }
-  const C={ TERMS, SCHOOL,
+  const C={ TERMS, TERMS_DELAYED, SCHOOL,
+    /* 延畢的玩家這一天在不在大五上：{id:'Y5S1', week（1～16）, exam:null（大五上沒有期末考，AA_357 第 4 節）, delayed:true}；不在＝null。要不要用由呼叫的人判斷（STORY.routeAbroadRoute）*/
+    termOfDelayed(day){ const t=C.tOf(day); for(const T of TERMS_DELAYED){ if(t>=T.t0&&t<T.t1) return {id:T.id,week:Math.floor((t-T.t0)/(7*DAY))+1,exam:null,delayed:true}; } return null; },
     tOf(day){ return DAY1+((day|0)-1)*DAY; },
     dateOf(day){ const t=C.tOf(day), dt=new Date(t); return {y:dt.getUTCFullYear(),m:dt.getUTCMonth()+1,d:dt.getUTCDate(),wd:wdOf(t),key:key(t)}; },
     holiday(day){ const t=C.tOf(day), y=new Date(t).getUTCFullYear(), k=key(t); return holidaysOf(y)[k]||holidaysOf(y+1)[k]||null; },   /* 隔年元旦落在週六：補假在今年 12/31 */
@@ -61,7 +68,7 @@ const CALENDAR=(function(){
     /* 這一天在哪個學期：{id, week（1～16）, exam：'mid'（第 8～9 週）｜'final'（第 16 週）｜null}；寒暑假＝null */
     termOf(day){ const t=C.tOf(day); for(const T of TERMS){ if(t>=T.t0&&t<T.t1){ const week=Math.floor((t-T.t0)/(7*DAY))+1; return {id:T.id,week,exam:week>=8&&week<=9?'mid':(week>=T.weeks?'final':null)}; } } return null; },
     /* 學期的天數範圍（第 1 天＝開學週一、最後一天＝第 16 週週日）*/
-    termDays(id){ const T=TERMS.find(x=>x.id===id); if(!T) return null; const d0=Math.round((T.t0-DAY1)/DAY)+1; return {from:d0,to:d0+T.weeks*7-1}; },
+    termDays(id){ const T=TERMS.find(x=>x.id===id)||TERMS_DELAYED.find(x=>x.id===id); if(!T) return null; const d0=Math.round((T.t0-DAY1)/DAY)+1; return {from:d0,to:d0+T.weeks*7-1}; },
     /* 成績公布日（AA_197 1-6）：放假後第 3 個週一＝第 16 週之後第 3 個週一（114-1＝2026-01-05、114-2＝2026-06-29）*/
     gradeDay(id){ const r=C.termDays(id); return r?r.to+1+14:null; },
     /* 'holiday'（國定、校定假日）／'term'（學期間）／'break'（寒暑假） */

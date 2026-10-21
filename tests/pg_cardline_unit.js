@@ -4,6 +4,8 @@
 //   C. 2029 一試沒過（明年再考）：9/8～10/19 出「……明年你還會坐在這裡。」；2030 出 2030 那一表（「又是一個要讀書的夏天」……）
 //   D. 交換延畢（日本路線）：2029 不出（2029 那一表只給臺灣路線）；2030 出 2029 那一表的句子（日子換成 2030 的），不出 2030 那一表（「這一次」「比去年快」「還是同一張」）
 //   E. PG.cardLine 本身：同一天、隔一天的跳不出；一句只出一次（記在 G.flags.PG.lines）；舊存檔沒有 lines 照樣能用
+//      AA_355 第 5 節第 2 題（2026-10-21）：一跳只出「最後一句」（落地前最近的那一段）——沒報名 9/7→12/14 出十一月那句（原本出九月那句，修改前 FAIL）；
+//      交換延畢 6/3～6/27 出 AA_353 第 3 節延畢那一句（修改前 null，FAIL）。C 節第一項改成這個規則下的結果（這個模擬沒有 r2y4b3d.js 的 9/8、10/20 停點）
 // 修改前（開發分支 5c471a79）：日期卡下面那一行一律空白、沒有 PG.cardLine——跑得到的 10 項 FAIL 9（只有「不丟例外」過；E 節後三項因為沒有 PG.cardLine 沒跑）。用法：node tests/pg_cardline_unit.js
 const H=require('./pg_harness.js'); const {check}=H;
 const GM=H.GM; GM.spawnCharacter=()=>null; GM.titleCard=async(a,b,ms)=>{ H.cards.push([a,b,H.G?H.G.day:null,ms]); };   /* 日期卡多記那一天、停幾毫秒 */
@@ -48,7 +50,12 @@ const md=c=>{ const x=CALENDAR.dateOf(c[2]); return x.m*100+x.d; }, yr=c=>CALEND
       const G2=H.fresh('2029-06-28',10,'dorm',{BAR_REG:false}); const c=PG.cardLine(G2,d,d2);
       check('E. 沒報名：同一段出「畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。」',c===L29.noreg1,String(c));
       const G3=H.fresh('2029-06-28',10,'dorm',{EXCHANGE_ROUTE:'JP'}); const e=PG.cardLine(G3,d,d2);
-      check('E. 交換延畢：2029 那一段不出（2029 那一表只給臺灣路線）',e===null,String(e)); } }
+      check('E. 交換延畢：2029 那一表不出；6/3～6/27 出 AA_353 第 3 節延畢的那一句（「同屆的人都畢業了……」）',e==='（同屆的人都畢業了。你還差一門實習，九月再回學校。）',String(e));
+      /* AA_355 第 5 節第 2 題（AA-C 2026-10-21）：一跳只出一句＝落地前最近的那一段、條件成立、沒用過的那一句；前面的段落沒出的就不出 */
+      const G4=H.fresh('2029-12-14',15,'dorm',{BAR_REG:false}); const f=PG.cardLine(G4,PG.DK('2029-09-07'),PG.DK('2029-12-14'));
+      const G5=H.fresh('2029-12-14',15,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:10,BAR_STAGE_2029:'none'}); const g=PG.cardLine(G5,PG.DK('2029-09-07'),PG.DK('2029-10-20')), g2=PG.cardLine(G5,PG.DK('2029-10-20'),PG.DK('2029-12-14'));
+      check('E. 一跳只出最後一句：沒報名的玩家 9/7→12/14 一跳出「（十一月。公館的騎樓下，開始有人在賣烤地瓜。）」，不是「（九月。……）」；一試沒過 9/7→10/20 出「明年你還會坐在這裡」、10/20→12/14 出十一月那句',
+        f===L29.other&&g===L29.fail&&g2===L29.other,JSON.stringify([f,g,g2])); } }
   // ===== A. 典型玩家 =====
   { const r=await sim({BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:17});
     const want=[L29.reg1,L29.b1,L29.pre,L29.e1,L29.pass,L29.e2];
@@ -63,8 +70,8 @@ const md=c=>{ const x=CALENDAR.dateOf(c[2]); return x.m*100+x.d; }, yr=c=>CALEND
     check('B. 沒報名：不出「總圖 B1」那幾句（有報名、考試的句子都不出）；出「畢業以後的第一個禮拜……」',!r.err&&!bad.length&&r.lines[0]===L29.noreg1&&new Set(r.lines).size===r.lines.length,JSON.stringify(r.cards)+(r.err?r.err.stack:'')); }
   // ===== C. 2029 一試沒過 =====
   { const r=await sim({BAR_REG:true,LAWCLUB_SAT_VISITS:10},null,{score:5,until:'2030-12-14'});
-    const i=r.lines.indexOf(L29.fail), c=r.cards[i];
-    check('C. 一試沒過：9/8～10/19 出「（九月。學弟妹開學了，總圖又開始搶位子。明年你還會坐在這裡。）」，不出一試過了、考了二試的句子',!r.err&&i>=0&&!r.lines.includes(L29.pass)&&!r.lines.includes(L29.e2)&&!r.lines.includes(L29.noreg9)&&r.G.flags.BAR_STAGE_2029==='none',JSON.stringify(r.cards)+(r.err?r.err.stack:''));
+    const i=r.lines.indexOf(L29.other), c=r.cards[i];   /* 這個模擬沒有載入 r2y4b3d.js（9/8 重考的選擇、10/20 的摘要日），9/7 放榜以後一跳就到 12/14：照「最後一句」出十一月那句（九月那句見 E 節的 9/7→10/20）*/
+    check('C. 一試沒過：9/7→12/14 一跳出最後一段（十一月）那一句；不出一試過了、考了二試、沒報名的句子',!r.err&&i>=0&&c&&md(c)===1214&&!r.lines.includes(L29.pass)&&!r.lines.includes(L29.e2)&&!r.lines.includes(L29.noreg9)&&r.G.flags.BAR_STAGE_2029==='none',JSON.stringify(r.cards)+(r.err?r.err.stack:''));
     const L2=r.lines.filter(t=>Object.values(L30).includes(t));
     check('C. 2030 再考：出 2030 那一表，照順序（又是一個要讀書的夏天 → 這次的讀書計畫表 → 這一次 → 比去年快 → 去打工）',JSON.stringify(L2)===JSON.stringify([L30.sum,L30.pre,L30.e1,L30.pass,L30.e2])&&PG.done(r.G,'r2_2030'),JSON.stringify(r.cards)); }
   // ===== D. 交換延畢 =====

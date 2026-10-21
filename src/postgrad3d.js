@@ -9,7 +9,7 @@
    - 一對一的飯、回家的路照 termend3d.js：TERMEND_LINES 補大四下（Y4S2）的版本（S.patchTermend）。
    - 一試 20 題：期末考的題庫（EXAM_BANK）＋刑訴 QBANK 一起隨機抽、不重複，第二年換一組；題目、答案照題庫，不改。答對題數只在 9/7 放榜看得到。
    - 1A-12（主線 12 畢業典禮的家人，別一批）有 ev_grad_family 的話，拍照等那一段演完；沒有的話 6/2 早上直接帶到 12:00。
-   - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
+   - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_REG_2030（交換延畢 2030 的報名，AA_357 1-6）、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
      GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE）。
    - 開發分支還沒有的旗標（Y4_PATH、GRAD_ADMIT、ZQ_CONTRACT、KAI_STAYED_UP…）一律當作沒有。
    測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js、tests/pg_cardline_unit.js */
@@ -56,7 +56,7 @@ const PG=(function(){
   const toAtLeast=(GM,t)=>{ const G=GM.G; if(NOW(G)>=t-1e-6) return false; const d=Math.floor(t/24); setT(G,GM.E,d,t-d*24); if(GM.updateHUD) GM.updateHUD(); return true; };   /* 只往前，不倒回去 */
   S.toAtLeast=toAtLeast;
   /* ---------- 國考 ---------- */
-  S.sits=(G,y)=>{ const F=G.flags||{}; if(y===2029) return F.BAR_REG===true&&!S.delayed(G); return S.delayed(G)?F.BAR_REG!==false:(F.BAR_SIT_2029===true&&S.stage(G,2029)==='none'); };   /* 2030：交換延畢（第一次考）、2029 一試不到 12 題（AA_319 1A-18 第 7 節）*/
+  S.sits=(G,y)=>{ const F=G.flags||{}; if(y===2029) return F.BAR_REG===true&&!S.delayed(G); return S.delayed(G)?F.BAR_REG_2030===true:(F.BAR_SIT_2029===true&&S.stage(G,2029)==='none'); };   /* 2030：交換延畢（第一次考）、2029 一試不到 12 題（AA_319 1A-18 第 7 節）*/   /* AA_357 1-6：交換延畢的 2030 看 BAR_REG_2030（2030-05-10 21:00 問一次，沒回答＝不報名）；原本 BAR_REG!==false＝沒問就算報名 */
   S.retaker=G=>!S.delayed(G)&&G.flags.BAR_SIT_2029===true&&S.stage(G,2029)==='none';
   S.tier=(y,k)=>k>=16?'both':((k>=12||y===2030)?'lawyer':'none');   /* AA_286 第 2 節；第二年不到 12 題也進律師二試（2-1）*/
   S.stage=(G,y)=>{ const F=G.flags||{}; if(F['BAR_STAGE_'+y]) return F['BAR_STAGE_'+y]; return F['BAR_SIT_'+y]?S.tier(y,F['BAR_SCORE_'+y]|0):null; };
@@ -164,7 +164,7 @@ const PG=(function(){
   S.planNoodle=(G,y)=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_bar_noodle_'+y,ev:'ev_pg_noodle',day:S.DK(Y[y].r2),h:18,late:0.5,place:'阿鳳麵店',title:'阿鳳麵店・長桌',travel:'走過去約 15 分鐘',travelH:0.25});
   /* ---------- 手機規則（story3d.js 的 S.tick、跳的途中照時間）---------- */
   S.rules=function(GM){ const G=GM&&GM.G?GM.G:GM; if(!G||!G.flags||!law(G)) return; const now=NOW(G); if(now<T('2029-05-10',0)) return; const F=G.flags;
-    if(F.Y4_PATH==='bar'&&F.BAR_REG==null&&now>=T('2029-05-10',21)) F.BAR_REG=true;   /* 已經報名的：沒有提醒（X1）*/
+    if(F.Y4_PATH==='bar'&&F.BAR_REG==null&&now>=T('2029-05-10',21)&&!S.delayed(G)) F.BAR_REG=true;   /* 已經報名的：沒有提醒（X1）。交換延畢的 2029 不考、不設（AA_357 1-6：7/14 照「沒報名」那一版）*/
     if(typeof PHONE!=='undefined') for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const t=T(m.at[0],m.at[1]); if(now<t-0.5||now>t+48) continue; let ok=false; try{ ok=!!m.cond(G); }catch(e){ ok=false; } if(!ok) continue;
       const d=Math.floor(t/24); let items=[]; try{ items=m.items(G)||[]; }catch(e){ console.warn('PG msg '+m.tag,e); continue; } if(items.length&&PHONE.at(G,d,t-d*24,items,m.tag)&&m.after) m.after(G); }
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
@@ -177,6 +177,14 @@ const PG=(function(){
   /* ---------- 場景（時間到了、玩家空下來就演）---------- */
   async function regScene(GM){ const G=GM.G, F=G.flags, R=L().REG; if(F.BAR_REG!=null) return; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys')) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys'});
     GM.sceneBegin(); try{ await GM.say(null,R.text); const k=await GM.choose(R.opts.map(t=>({t}))); F.BAR_REG=k===0; } finally { GM.sceneEnd(); } }
+  /* AA_357 1-6：交換延畢的玩家 2030-05-10（五）21:00 問一次，句子、選項照 2029 那一場；選研究所的也問。記 BAR_REG_2030（沒回答＝不報名）*/
+  async function regScene2030(GM){ const G=GM.G, F=G.flags, R=L().REG; if(F.BAR_REG_2030!=null) return; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys_2030')) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys_2030'});
+    GM.sceneBegin(); try{ await GM.say(null,R.text); const k=await GM.choose(R.opts.map(t=>({t}))); F.BAR_REG_2030=k===0; } finally { GM.sceneEnd(); } }
+  /* 舊存檔（讀檔時 game3d.js 的 migrate 叫一次；AA_357 第 6 節）：交換延畢、BAR_REG 被 5/10 自動設成 true 的——2030 的報名問題以前（5/12 以前）清掉，5/10 再問；
+     已經過了 2030 的報名時間（5/12 以後）才讀的舊存檔：照舊規則算（BAR_REG 不是 false＝報了名），記 BAR_REG_2030，不讓已經在準備的國考突然取消 */
+  S.migrate=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||(s.stage||'law')!=='law'||typeof s.day!=='number'||!S.delayed(s)||F.BAR_REG_2030!=null) return false; const now=s.day*24+(+s.hour||0);
+    if(now<T('2030-05-12',0)){ if(F.BAR_REG===true){ delete F.BAR_REG; return true; } return false; }
+    F.BAR_REG_2030=F.BAR_REG!==false; return true; };
   S.familyModule=()=>(typeof STORY!=='undefined'&&!!STORY.gradFamily)||(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_grad_family'));   /* 1A-12 主線 12（AA_318，story3d.js S.gradFamily：08:00～12:00，撥穗記 GRADUATED）*/
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
   S.CLASS=['zhe','yu','classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01','classmate_youchen'];   /* 同班（大合照）*/
@@ -398,6 +406,7 @@ const PG=(function(){
     {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y),run:GM=>result2(GM,y)} ]; };
   S.STEPS=[
     {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene},
+    {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>S.delayed(G)&&G.flags.BAR_REG_2030==null,run:regScene2030},   /* AA_357 1-6 */
     {id:'grad',at:G=>T(GRAD,6),until:G=>T('2029-06-04',0),cond:G=>true,ready:G=>S.gradReady(G),run:gradScene},
     {id:'cafe',at:G=>T(GRAD,17.25),until:G=>T(GRAD,21),cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_grad_cafe'):null; return !!q&&q.state==='done'&&G.zone==='cafe'; },run:cafeScene},
     {id:'ps_video',at:G=>T(GRAD,18),until:G=>T(GRAD,27),cond:G=>graduated(G)&&S.dating(G,'classmate_peishan'),run:psVideo},
@@ -442,7 +451,7 @@ const PG=(function(){
     if(t<target-1e-6){ const d=Math.floor(target/24); setT(G,E,d,target-d*24); look(true); }
     return got>0?'msg':'ok'; };
   /* ---------- 跳日期時日期卡下面那一句（AA_353，AA-C 2026-10-21；照經濟系 econff3d.js 的 cardLine，句子照抄）----------
-     範圍（含頭尾）和跳過的日子（d0+1～d1−1）重疊、條件成立、還沒用過的第一句；用過的記在 G.flags.PG.lines（舊存檔沒有＝空）；同一天、隔一天的跳不出。不加停點、不加旗標。
+     範圍（含頭尾）和跳過的日子（d0+1～d1−1）重疊、條件成立、還沒用過的——落地前最近的那一段的那一句（AA_355 第 5 節第 2 題；原本是第一句）；用過的記在 G.flags.PG.lines（舊存檔沒有＝空）；同一天、隔一天的跳不出。不加停點、不加旗標。
      2029 那一表：臺灣路線（交換延畢的 2029 不考，不出）。2030 那一表：只給 2029 一試沒過再考的（S.retaker）。
      交換延畢（日本、美國路線）2030 第一次考：照 2029 那一表的句子、條件看 2030，日子換成 2030 的——照 S.Y，2030 的每一個日子都是 2029 的同一個星期幾、早一天（一試 8/4→8/3、放榜 9/7→9/6…），整張表往後移同樣的天數。
      每一列：[起 MM-DD, 迄 MM-DD（含）, 條件 (G, 年), 句子]。有沒有考一試看 BAR_SIT_<年>；一試過了＝考二試（S.stage2：BAR_STAGE_<年> 是 both／lawyer）*/
@@ -464,13 +473,53 @@ const PG=(function(){
     ['08-04','09-05',(G,y)=>sat(G,y),'（一試考完。這一次，你沒有把法典放到書架最上面。）'],
     ['09-07','10-18',(G,y)=>two(G,y),'（二試的書還是很厚。你讀得比去年快一點。）'],
     ['10-21','12-12',(G,y)=>two(G,y),'（等放榜的七個禮拜。你去打工，晚上照樣翻一下考古題。）'] ];
+  /* 交換延畢（日本、美國路線）的那幾張（2029 那一表不出；2030-06 起照 2029 那一表往後 364 天，見 S.cardRows）：
+     AA_353 第 3 節：2029 夏天三句（6/3～9/2）；AA_357 第 4 節：大五上（9/4～12/23；Y5_DAYS 三選一；同一段有「共通」的共通先列＝先出）、寒假到 2030-05。
+     美國路線那一句（9/4～12/17）：大五上第一次跳的時候先出（first）。「報名」那兩列：2030-05-10 問過的照回答（BAR_REG_2030），還沒問的照 Y4_PATH（bar＝報名）。
+     每一列：[起 YYYY-MM-DD, 迄 YYYY-MM-DD（含）, 條件 G, 句子, {first}] */
+  const dl=G=>S.delayed(G), y5d=(G,v)=>dl(G)&&!!G.flags&&G.flags.Y5_DAYS===v, y5us=G=>dl(G)&&typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
+  S.reg2030=G=>{ const F=G.flags||{}; return F.BAR_REG_2030!=null?F.BAR_REG_2030===true:F.Y4_PATH==='bar'; };
+  S.CARDS_DELAY=[
+    ['2029-06-03','2029-06-27',dl,'（同屆的人都畢業了。你還差一門實習，九月再回學校。）'],
+    ['2029-06-29','2029-08-03',dl,'（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'],
+    ['2029-08-05','2029-09-02',dl,'（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'],
+    ['2029-09-04','2029-12-17',y5us,'（週一、週三補修兩門課。教室裡坐的，都是大三的。）',{first:true}],
+    ['2029-09-04','2029-09-10',G=>y5d(G,'study'),'（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'],
+    ['2029-09-04','2029-09-10',G=>y5d(G,'work'),'（你接了兩個家教。一個國三，一個高二。）'],
+    ['2029-09-04','2029-09-10',G=>y5d(G,'bar'),'（你把國考的書在書桌上排成一排。先從民法開始。）'],
+    ['2029-09-12','2029-09-21',G=>y5d(G,'study'),'（你常坐的那一排，換了一批大一的。他們讀書的時候，會小聲對答案。）'],
+    ['2029-09-12','2029-09-21',G=>y5d(G,'work'),'（國三那個學生問你，法律系是不是要背很多。你說還好。他不信。）'],
+    ['2029-09-12','2029-09-21',G=>y5d(G,'bar'),'（在家讀書，最難的是不去開冰箱。）'],
+    ['2029-09-23','2029-10-15',G=>y5d(G,'study'),'（十月。總圖的冷氣比外面冷，你在位子上放了一件外套。）'],
+    ['2029-09-23','2029-10-15',G=>y5d(G,'work'),'（家教的錢第一次匯進來。你沒有馬上花。）'],
+    ['2029-09-23','2029-10-15',G=>y5d(G,'bar'),'（民法讀完第一輪。第二輪比第一輪慢。）'],
+    ['2029-10-17','2029-11-19',dl,'（週二去事務所。其他的日子，一天和一天很像。）'],
+    ['2029-10-17','2029-11-19',G=>y5d(G,'study'),'（有一天，一個大一的跟你借延長線。他叫你學長。）'],
+    ['2029-10-17','2029-11-19',G=>y5d(G,'work'),'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）'],
+    ['2029-10-17','2029-11-19',G=>y5d(G,'bar'),'（刑法的書，書邊都翻黑了。）'],
+    ['2029-11-21','2029-12-17',G=>y5d(G,'study'),'（十二月。總圖門口有人在發期末考的講義。……那已經不是你的期末考。）'],
+    ['2029-11-21','2029-12-17',G=>y5d(G,'work'),'（家教學生要期末考了。你比他還緊張。）'],
+    ['2029-11-21','2029-12-17',G=>y5d(G,'bar'),'（考古題寫到第三年。錯的題目，越來越常是同一種。）'],
+    ['2029-12-19','2029-12-23',dl,'（大五上結束了。這一次，沒有期末考。）'],
+    ['2029-12-24','2030-01-20',dl,'（跨年那天晚上，你在家。煙火是從電視上看的。）'],
+    ['2030-01-22','2030-02-01',dl,'（證書放在書桌上。你媽買了一個框，還沒裝進去。）'],
+    ['2030-02-02','2030-02-10',dl,'（過年。親戚問你什麼時候畢業。你說上個月。）'],
+    ['2030-02-11','2030-03-14',dl,'（二月底。學弟妹開學了。你第一次在開學那天沒有課。）'],
+    ['2030-03-16','2030-04-30',G=>dl(G)&&S.reg2030(G),'（四月。你每天早上九點到總圖。這次是為了國考。）'],
+    ['2030-03-16','2030-04-30',G=>dl(G)&&!S.reg2030(G),'（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'],
+    ['2030-05-01','2030-05-31',G=>dl(G)&&S.reg2030(G),'（五月。國考報名的表格，你檢查了兩次才送出去。）'],
+    ['2030-05-01','2030-05-31',G=>dl(G)&&!S.reg2030(G),'（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'] ];
   S.cardRows=function(G){ const R=[], add=(tab,yr,y,sh)=>{ for(const [a,b,c,t] of tab) R.push([S.DK(yr+'-'+a)+sh,S.DK(yr+'-'+b)+sh,c,y,t]); };
-    if(S.delayed(G)) add(S.CARDS_2029,2029,2030,S.DK(Y[2030].exam)-S.DK(Y[2029].exam));
+    if(S.delayed(G)){ for(const [a,b,c,t,o] of S.CARDS_DELAY) R.push([S.DK(a),S.DK(b),c,2030,t,o||null]); add(S.CARDS_2029,2029,2030,S.DK(Y[2030].exam)-S.DK(Y[2029].exam)); }
     else { add(S.CARDS_2029,2029,2029,0); if(S.retaker(G)) add(S.CARDS_2030,2030,2030,0); }
     return R; };
-  S.cardLine=function(G,d0,d1){ if(!G||!G.flags||d1-d0<2) return null; const r=S.rec(G); if(!Array.isArray(r.lines)) r.lines=[]; const k0=d0+1, k1=d1-1;
-    for(const [da,db,c,y,t] of S.cardRows(G)){ if(r.lines.includes(t)||da>k1||db<k0) continue; let ok=false; try{ ok=!!c(G,y); }catch(e){ ok=false; } if(ok){ r.lines.push(t); return t; } }
-    return null; };
+  /* 一跳只出一句（AA_355 第 5 節第 2 題，AA-C 2026-10-21）：出「最後一句」——落地以前最近的那一段裡、條件成立、沒用過的那一句（同一段照表的順序：共通先出）；
+     前面的段落沒出的就不出（句子寫的是「現在」的狀態）。first（美國路線大五上那一句）先出。原本出的是最早一段的第一句（3d1105e2）*/
+  S.cardLine=function(G,d0,d1){ if(!G||!G.flags||d1-d0<2) return null; const r=S.rec(G); if(!Array.isArray(r.lines)) r.lines=[]; const k0=d0+1, k1=d1-1; let best=null;
+    for(const [da,db,c,y,t,o] of S.cardRows(G)){ if(r.lines.includes(t)||da>k1||db<k0) continue; let ok=false; try{ ok=!!c(G,y); }catch(e){ ok=false; } if(!ok) continue;
+      if(o&&o.first){ best={t}; break; }
+      const e=Math.min(db,k1); if(!best||e>best.e||(e===best.e&&da>best.da)) best={t,e,da}; }
+    if(!best) return null; r.lines.push(best.t); return best.t; };
   S.busy=false;
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/
   S.advance=async function(GM,o){ const G=GM.G, E=GM.E; if(E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player);

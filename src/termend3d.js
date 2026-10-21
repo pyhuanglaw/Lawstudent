@@ -17,8 +17,11 @@ const TERMEND=(function(){
   const nm=id=>typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):id;
   const TERMS=['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'];
   const DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
-  S.windowOf=function(id){ if(typeof CALENDAR==='undefined'||!CALENDAR.termDays) return null; const r=CALENDAR.termDays(id); return r?{id,from:r.to-3,to:r.to+7,termTo:r.to}:null; };
-  S.window=function(G){ if(!G||(G.stage||'law')!=='law') return null; for(const id of TERMS){ const w=S.windowOf(id); if(w&&G.day>=w.from&&G.day<=w.to) return w; } return null; };
+  /* 大五上（交換延畢，AA_357 3-4）：只有女朋友的學期末約會（延畢、交往中），時段 12/19～12/23；其他照 kind 'gf'（心意、朋友的邀約、阿凱都沒有）*/
+  S.Y5={id:'Y5S1',from:'2029-12-19',to:'2029-12-23'};
+  const delayedTE=G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G);
+  S.windowOf=function(id){ if(id===S.Y5.id){ const a=DK(S.Y5.from), b=DK(S.Y5.to); return a!=null&&b!=null?{id,from:a,to:b,termTo:b}:null; } if(typeof CALENDAR==='undefined'||!CALENDAR.termDays) return null; const r=CALENDAR.termDays(id); return r?{id,from:r.to-3,to:r.to+7,termTo:r.to}:null; };
+  S.window=function(G){ if(!G||(G.stage||'law')!=='law') return null; for(const id of TERMS.concat(delayedTE(G)?[S.Y5.id]:[])){ const w=S.windowOf(id); if(w&&G.day>=w.from&&G.day<=w.to) return w; } return null; };
   S.rec=function(G,id){ const R=G.termend&&typeof G.termend==='object'?G.termend:(G.termend={}); if(!R.think||typeof R.think!=='object') R.think={}; if(!id) return R; return R[id]||(R[id]={}); };
   /* ---- 這學期常接觸的分數（BB_202 1-1）：同一天同一種只算一次。talk 閒聊 +1、meet 約好的見面／正式約會 +2、same 同一堂課／讀書會／社團 +1、together 劇情事件一起在場 +2 ---- */
   const PTS={talk:1,meet:2,same:1,together:2};
@@ -89,6 +92,7 @@ const TERMEND=(function(){
     if(bd==null){ R.plan={heart:[],friend:[],fallback:null,gf:[],nope:{},kx:false,abroad:true}; return R.plan; }   /* 日本路線的以安那一頓（AA_250 6-2）不算學期末的飯、不在這裡：6/9 她私訊約、6/10 出遊（src/jp3d.js 的 S.dinnerPhone，AA_355 1-1）*/
     const P={back:bd,heart:[],friend:[],fallback:null,gf:[],nope:{},kx:!!(G.flags&&G.flags.dating_kexin)&&!!(Lx.KX&&Lx.KX[w.id])&&!(w.id==='Y1S2'&&G.events&&G.events.done&&G.events.done.ev_revisit_y1_kexin)};   /* 可昕：舊存檔演過重訪日的算大一下已經演過（BB_202 第 6 節）*/
     for(const id of Object.keys(Lx.GF)) if(G.flags&&G.flags['dating_'+id]&&!S.away(G,w,id)) P.gf.push(id);   /* 交往中但人在國外（芷若大三上）：不發期末約會，照 BB_124 聖誕視訊（AA_259 第 5 節，等 BB）*/
+    if(w.id===S.Y5.id){ R.plan=P; return P; }   /* 大五上：只有女朋友的學期末約會（可昕照 KX 那張表）；心意、朋友的邀約、保底都不發（AA_357 3-4）*/
     for(const id of Object.keys(Lx.HEART)){ if(S.away(G,w,id)) continue; const h=S.heartWhy(G,id,w); if(h===true) P.heart.push(id); else if(h&&h.nope) P.nope[id]=h.nope; }
     const taken=new Set(P.heart.concat(P.gf)), fam=id=>typeof SOCIAL!=='undefined'&&SOCIAL.rel?(+SOCIAL.rel(id).fam||0):0;
     const C=Object.keys(Lx.FRIEND).filter(id=>!taken.has(id)&&!S.away(G,w,id)&&S.friendOk(G,id,w)).map(id=>({id,c:S.score(G,w.id,id)})).sort((a,b)=>b.c-a.c||fam(b.id)-fam(a.id));
@@ -170,6 +174,7 @@ const TERMEND=(function(){
   S.playerInvite=function(G,id,P,W){ if(!S.ON||!P||P.kind!=='meal'||!W||(G.stage||'law')!=='law') return null; const w=S.window(Object.assign({},G,{day:W.day,hour:W.h})); const Lx=L(); if(!w||!Lx) return null;
     if(romStatus(G,id)==='ended'&&typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return Lx.ENDED[id]?{refuse:Lx.ENDED[id]}:null;
     if(G.flags&&G.flags['dating_'+id]) return Lx.GF[id]?{w,kind:'gf'}:null;
+    if(w.id===S.Y5.id) return null;   /* 大五上只有女朋友的學期末約會（AA_357 3-4）：自己約別人吃飯照一般的吃飯 */
     const R=S.rec(G,w.id); if(R.picked||R.done) return null;
     if(S.heartWhy(G,id,w)===true) return {w,kind:'heart'};
     if(Lx.FRIEND[id]) return {w,kind:'friend'}; if(Lx.FALLBACK[id]) return {w,kind:'fallback'}; return null; };

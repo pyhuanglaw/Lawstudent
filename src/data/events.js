@@ -1865,12 +1865,16 @@ const STORY_EVENTS=[
     beforeOuting:(G,GM,q)=>{ const F=G.flags, n=(q&&q.year)||2; F._kxAY=n; F._kxAP=(q&&q.ap)||F['KX_ANNIV_PLACE_'+n]||'shop'; if(F['K7_GIFT_'+n]==null) F['K7_GIFT_'+n]='none'; F._kxAG=F['K7_GIFT_'+n]; },
     outingMissed:(G,GM,q)=>{ const n=(q&&q.year)||2; G.flags.KX_ANNIV=Object.assign({},G.flags.KX_ANNIV||{},{[n]:'missed'}); if(typeof PHONE==='undefined'||PHONE.sent(G,'kx_anniv_photo'+n)) return; PHONE.at(G,G.day,Math.max(G.hour,19),[{th:'p:kexin',from:'kexin',text:'📷（一張卡片）'},{th:'p:kexin',from:'kexin',text:'週年快樂。下次你準備。'}],'kx_anniv_photo'+n); },
     dialogue:[ {if:{flagIs:{_kxAP:'wheel'}},scene:'摩天輪',bg:'ferris_wheel'},{if:{flagIs:{_kxAP:'shop'}},scene:'政大・山下的小吃街',bg:'nccu_food'},{if:{flagIs:{_kxAP:'river'}},scene:'河堤',bg:'riverside'},
+      /* 第五年（AA_357 3-2，2029-10-17）：地點之後兩句；第二句延畢（交換路線）和不延畢不同 */
+      {if:{flagIs:{_kxAY:5}},speaker:'kexin',expression:'smile',text:'五年。我們認識的時候，你還在經濟系。'},
+      {if:{flagIs:{_kxAY:5},custom:G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G)},speaker:'kexin',expression:'smile',text:'……你一月拿證書。我們兩個，同一年開始。'},
+      {if:{flagIs:{_kxAY:5},custom:G=>!(typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G))},speaker:'kexin',expression:'smile',text:'我十二月放榜。你八月考。……我們兩個，同一年開始。'},
       {if:{flagIs:{_kxAG:'ticket'}},goto:'g1'},{if:{flagIs:{_kxAG:'planner'}},goto:'g2'},{if:{flagIs:{_kxAG:'dumpling'}},goto:'g3'},{goto:'g4'},
       {label:'g1'},{speaker:null,text:'（她把票根翻到背面，看了那個日期很久。）'},{speaker:'kexin',expression:'surprised',text:'……原本那張呢？'},{speaker:'player',text:'在我皮夾裡。'},{speaker:'kexin',expression:'smile',text:'（笑了）好。那這張我收。'},{goto:'card'},   /* AA_306 附（可昕不出假設題）*/
       {label:'g2'},{speaker:'kexin',expression:'smile',text:'……這本我要用完。'},{goto:'card'},
       {label:'g3'},{speaker:'kexin',expression:'surprised',text:'這是禮物？'},{speaker:'player',text:'是。'},{speaker:'kexin',expression:'laugh',text:'……這是我收過最燙的禮物。'},{goto:'card'},
       {label:'g4'},{speaker:'kexin',expression:'smile',text:'你人來了就好。'},{speaker:null,text:'（她把卡片推過來）'},
-      {label:'card'},{if:{flagIs:{_kxAY:3}},goto:'y3'},{if:{flagIs:{_kxAY:4}},goto:'y4'},
+      {label:'card'},{if:{flagIs:{_kxAY:3}},goto:'y3'},{if:{flagIs:{_kxAY:4}},goto:'y4'},{if:{flagIs:{_kxAY:5}},goto:'end'},   /* 第五年的卡片第一頁 AA 沒寫（AA_357 3-2）：直接接最後一句 */
       {speaker:'kexin',expression:'smile',text:'（把卡片翻到第一頁）第二年。'},
       {choice:[{text:'「明年也是。」',goto:'a1'},{text:'「時間好快。」',goto:'a2'},{text:'（握住她的手）',goto:'a3'}]},
       {label:'a1'},{speaker:'kexin',expression:'teasing',text:'你說的喔。'},{goto:'end'},
@@ -3834,12 +3838,12 @@ const SMALLTALK={
   classmate_mingxuan:['「阿哲說週五練球。」',{t:'「你看起來很累。睡飽比較重要。」',if:{lateNight:true},once:'week',prio:1}],
   classmate_youchen:[{t:'「……現在幾點？我昨天四點才睡。」',time:[8,13]},{t:'「公館那間 bar 週五我放歌，來嗎？」',if:{notEvents:['ev_youchen_dj']}}],
   classmate_peishan:['「我今天旁聽了倫理學。」',{t:'「讀書會週三，萬才館。」',if:{notFlags:['lawclub']}}],
-  npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term'},{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
+  npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term',if:{custom:G=>!(typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey('2028-07-01'))}},   /* AA_357 2-2 第 6 點：他 2028 畢業（2028-07 起在嘉義）以後不說 */{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
   npc_huangxh:['「心理系的統計比你們的民法可怕。」',{t:'「語彤最近很累，你有注意到嗎？」',if:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}}],
   npc_ta_chen:['「論文寫到第三章。……別問我第四章。」',{t:'「林老師的考題，看判決就對了。」',term:['Y2S2','Y3S1']}],
   prof_zhou:['「有問題可以來研究室。週三下午我都在。」'],prof_lin:['「判決要整個讀，不要只讀結論。」'],prof_zhang:[{t:'「講義第三十頁，自己回去看。」',if:{course:{const_1:{min:1}}}}],prof_wu:[{t:'「這個概念我們下週再講兩小時。」',if:{course:{crim_gen1:{min:1}}},term:['Y1S1','Y1S2','Y2S1']}],prof_huang:['「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'],   /* AA_120 7-1 第 4 項：那是書不是電影；上過她的課以後 */prof_xu:[{t:'「行政法大二再說。先把民總讀好。」',if:{course:{admin_law:{max:0}}}}],prof_tsai:['「民訴的題目很長，因為人生很長。」'],prof_chen:['「國際法的新聞，每天都有。有興趣可以來研究室聊。」'],
-  kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm'}],
-  zhe:[{t:'「系籃週五練球，來坐也可以。」',if:{notFlags:['ball_invite']}},'「公館那家滷味晚上十點後半價。」'],
+  kai:[{t:'「所以那個賣家可以告嗎？……不能？那法律系在幹嘛。」',if:{flags:['classDone']}},{t:'「宿舍網路又斷了。你們有教這個嗎？」',location:'dorm',if:{notFlags:['GRADUATED']}}],   /* AA_357 2-2 第 2 點：畢業以後不說 */
+  zhe:[{t:'「系籃週五練球，來坐也可以。」',if:{notFlags:['ball_invite','GRADUATED']}},{t:'「總圖 B1 的冷氣，比去年冷。」',if:{flags:['GRADUATED']}},'「公館那家滷味晚上十點後半價。」'],   /* AA_357 2-2：畢業以後系籃那句換成總圖 B1 的冷氣 */
   yu:[{t:'「辯論社下週辯『網拍標錯價要不要出貨』。」',term:['Y1S1'],week:[4,6],once:true,if:{flags:['classDone']}},   /* AA_120 7-1 第 5 項：引號；辯論社第 5 週開始，第 4～6 週說「下週」才對 */'「溫州街的貓你有看到嗎？」'],
   /* AA_120 7-2（使用者 2026-10-13 批准）：20 位不熟同學各三句，整個存檔各只說一次；第 3 句要對方說過心事（SHARED_SECRET）以後。說完以後只點頭或短招呼（story3d.js 的 smallTalk）。台詞【虛構】 */
   pool_1:[{t:'「我在看一本推理小說，兇手是律師。……我還沒看完，你不要猜。」',once:true},{t:'「總圖那一區的推理小說，我大概看完一半了。剩下那一半都被借走。」',once:true},{t:'「我寫的那篇卡在第三章：兇手的動機，連我自己都不信。……法律系的課，會教怎麼判斷動機嗎？」',once:true,if:{memory:[{npc:'pool_1',tag:'SHARED_SECRET'}]}}],
