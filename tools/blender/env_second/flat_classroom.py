@@ -691,11 +691,66 @@ def build(rid):
                counter=None, clerk=c.clerk, teacherSpot=dict(c.clerk), order=None, seats=c.seats, interact=c.inter, blocks=c.blocks, view=R.get('view', rid),
                host_door=dict(zone=R['host'], id=R['door_id'], lv=R['host_lv'], note='門的資料（linze_layout.js／wancai_layout.js 的 doors）：拿掉 closed、加 to，出生點用這裡的 spawn；上課、社課的流程由 LAWWW-C 改'))
     auto_ap(c, lay)
-    prob = navcheck(c, lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s in lay['seats'] if s.get('ap')))
+    prob = navcheck(c, lay) + seatcheck(lay); lay['navcheck'] = dict(cell=0.4, inset=0.25, problems=prob, ap=sum(1 for s in lay['seats'] if s.get('ap')))
     L.write_json(os.path.join(OUTDIR, f'{rid}.layout.json'), lay)
     L.write_json(out[:-4] + '.json', dict(st if isinstance(st, dict) else {}, tris_total=tris, layout=f'{rid}.layout.json', seats=len(c.seats)))
     print(json.dumps({'room': rid, 'tris': tris, 'seats': len(c.seats), 'ap': lay['navcheck']['ap'], 'problems': prob}, ensure_ascii=False))
     return prob
+
+
+def seatcheck(lay, cell=0.4):
+    """比 navcheck 嚴格的座位檢查（10-20 reachability_all 抓到的問題）：遊戲的 GAME.seatApproach 會在「座位指定的走近點 ap」和椅子前後左右的候選點
+    （前 0.5、後 0.6、兩側 0.55、後 0.7、0.75、前 0.8、後 0.9）裡，挑一個站得住（半徑 0.3）、從玩家現在的位置路線最短的（ap 少算 1 m）。
+    遊戲的找路先走「人物寬度過得去」的格子（clearMask：格子中心半徑 0.33 站得住），起點、終點那一格可以貼邊；找不到才退回貼邊的路（可能走到一半卡住）。
+    所以：每個站得住的候選點，那一格要在 clearMask 連得到的範圍裡，或是緊鄰（上下左右；斜的要轉角那一格也過得去）一格連得到的——
+    不然玩家在遠處按「坐下」（或 NPC 照玩家的位置選點）可能選到它，退回貼邊的路，走過去卡住。"""
+    Bd = lay['bounds']; ox, oz = Bd['x0'], Bd['z0']; cols, rows = math.ceil((Bd['x1'] - ox) / cell), math.ceil((Bd['z1'] - oz) / cell)
+    blk = [[False] * cols for _ in range(rows)]
+    w2 = lambda cx, cz: (ox + (cx + 0.5) * cell, oz + (cz + 0.5) * cell)
+    for r_ in range(rows):
+        for c_ in range(cols):
+            x, z = w2(c_, r_)
+            if x < Bd['x0'] + 0.25 or x > Bd['x1'] - 0.25 or z < Bd['z0'] + 0.25 or z > Bd['z1'] - 0.25: blk[r_][c_] = True
+    for b in lay['blocks']:   # 和遊戲 rooms_glb3d.js 一樣：blockRect(中心, max(寬, 0.4), max(深, 0.4))，格子中心在框裡就擋
+        cx_, cz_ = (b['x0'] + b['x1']) / 2, (b['z0'] + b['z1']) / 2; hw, hd = max(b['x1'] - b['x0'], 0.4) / 2, max(b['z1'] - b['z0'], 0.4) / 2
+        for r_ in range(rows):
+            for c_ in range(cols):
+                x, z = w2(c_, r_)
+                if abs(x - cx_) <= hw and abs(z - cz_) <= hd: blk[r_][c_] = True
+    cellof = lambda x, z: (math.floor((x - ox) / cell), math.floor((z - oz) / cell))
+    def blocked(cx, cz): return not (0 <= cx < cols and 0 <= cz < rows) or blk[cz][cx]
+    def free(x, z): return not blocked(*cellof(x, z))
+    clear = lambda x, z, r: free(x, z) and free(x + r, z) and free(x - r, z) and free(x, z + r) and free(x, z - r)
+    cm = {(c_, r_) for r_ in range(rows) for c_ in range(cols) if not blk[r_][c_] and clear(*w2(c_, r_), 0.33)}
+    sp = lay['spawn']; s0 = cellof(sp['x'], sp['z']); seen = {s0}; q = [s0]
+    while q:   # 起點那一格可以貼邊；之後只走 clearMask（斜著走：轉角的兩格至少一格在 clearMask、而且都沒擋）
+        cx, cz = q.pop()
+        for dx in (-1, 0, 1):
+            for dz in (-1, 0, 1):
+                n = (cx + dx, cz + dz)
+                if (not dx and not dz) or n in seen or blocked(*n) or n not in cm: continue
+                if dx and dz and (blocked(cx + dx, cz) or blocked(cx, cz + dz) or not ((cx + dx, cz) in cm or (cx, cz + dz) in cm)): continue
+                seen.add(n); q.append(n)
+    def ok(x, z):   # 終點那一格可以貼邊：它自己在範圍裡，或從範圍裡的一格走一步進去
+        c0 = cellof(x, z)
+        if c0 in seen: return True
+        for dx in (-1, 0, 1):
+            for dz in (-1, 0, 1):
+                p = (c0[0] - dx, c0[1] - dz)
+                if (not dx and not dz) or p not in seen: continue
+                if dx and dz and (blocked(p[0] + dx, p[1]) or blocked(p[0], p[1] + dz) or not ((p[0] + dx, p[1]) in cm or (p[0], p[1] + dz) in cm)): continue
+                return True
+        return False
+    P = []
+    for s in lay['seats']:
+        fx, fz = math.sin(s['yaw']), math.cos(s['yaw'])
+        cand = ([('ap', s['ap'][0], s['ap'][1])] if s.get('ap') else []) + [(nm, s['x'] + dx, s['z'] + dz) for nm, dx, dz in (
+            ('前0.5', fx * 0.5, fz * 0.5), ('後0.6', -fx * 0.6, -fz * 0.6), ('側0.55', fz * 0.55, -fx * 0.55), ('側0.55', -fz * 0.55, fx * 0.55),
+            ('後0.7', -fx * 0.7, -fz * 0.7), ('後0.75', -fx * 0.75, -fz * 0.75), ('前0.8', fx * 0.8, fz * 0.8), ('後0.9', -fx * 0.9, -fz * 0.9))]
+        for nm, x, z in cand:
+            if clear(x, z, 0.3) and not ok(x, z): P.append(f'座位 ({s["x"]}, {s["z"]}) 的走近點候選 {nm} ({x:.2f}, {z:.2f}) 站得住、但走不過去（遊戲可能選到它、走到一半卡住）')
+        if s.get('ap') and not (clear(*s['ap'], 0.3) and ok(*s['ap'])): P.append(f'座位 ({s["x"]}, {s["z"]}) 的 ap 站不住或走不到')
+    return P
 
 
 def pq(c, side, a0, a1, y0, y1, key, inset=0.015):
