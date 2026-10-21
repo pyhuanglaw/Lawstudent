@@ -1239,6 +1239,24 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "使用者 23:1x 試玩：在圖書館看到學姊不能講話、不知道怎麼認識。改成閱覽室用便條認識（她回「外面說。」，樓梯間演 W1）"
+  },
+  {
+   "task": "AA380-RENAME-ALISON-1021",
+   "branch": "claude/story-planning",
+   "sha": "eb0ccfec",
+   "files": [
+    "docs/story_planning/AA_380_小語改名Alison.md",
+    "docs/story_planning/00_人物口氣表.md",
+    "docs/story_planning/00_現行設定總表.md",
+    "docs/story_planning/AA_交接紀錄.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW：src 一次改名＋匯入時換字＋回歸測試",
+   "next": "LAWWW 實作／BB 測試（AA_380 第 3 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "使用者定：小語改名 Alison（和陳語彤會看錯）；只改叫法，不改人"
   }
  ],
  "items": [
