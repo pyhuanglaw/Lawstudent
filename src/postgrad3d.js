@@ -238,10 +238,14 @@ const PG=(function(){
       await S.play(GM,C.open); await S.play(GM,C.pool.filter(x=>S.at(G,x[0],'FAMILIAR')).slice(0,3)); await S.play(GM,C.close); F.GRAD_EVENING='cafe'; }
     finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+19.75); await GM.fade(false); }
+  /* 送禮物（AA_345 G9）：四選一；她的反應＋合適的那一句；只算一次（SIS_BDAY_GIFT_Y4）、不扣錢 */
+  S.bdayGift=async function(GM,gift){ const G=GM.G, F=G.flags; if(F.SIS_BDAY_GIFT_Y4!=null) return false; const k=await GM.choose(gift.items.map(o=>({t:o.t}))), it=gift.items[k]||gift.items[0];
+    await S.play(GM,it.say.concat([gift.fit])); F.SIS_BDAY_GIFT_Y4=it.k; if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust) SOCIAL.adjust('heroine_05',{trust:3,npcRom:2}); return true; };
   S.bdayScene=async function(GM,mode){ const G=GM.G, F=G.flags, B=L().BDAY, A=adv(), lover=S.dating(G,'heroine_05');
     const bg=(typeof OUT!=='undefined'&&OUT.BG&&OUT.BG.ra_lab&&OUT.BG.ra_lab.image)?BG('ra_lab'):BG('linze_prof_hall');   /* AA_327：2D ra_lab（開發分支沒有→研究室的走廊）*/
     const inner=async()=>{ if(lover){ await S.play(GM,[B.friend[0]]); await S.play(GM,B.loverKevin); await S.play(GM,B.lover); const k=await GM.choose(B.loverOpts.map(o=>({t:o.t}))); await S.play(GM,(B.loverOpts[k]||B.loverOpts[0]).say); F.SIS_BDAY_Y4='lover'; }
-      else { await S.play(GM,B.friend); const k=await GM.choose(B.friendOpts.map(o=>({t:o.t}))); await S.play(GM,(B.friendOpts[k]||B.friendOpts[0]).say); F.SIS_BDAY_Y4='there'; } };
+      else { await S.play(GM,B.friend); const gift=B.gift&&F.SIS_BDAY_GIFT_Y4==null?B.gift:null, O=B.friendOpts.map(o=>({t:o.t})).concat(gift?[{t:gift.opt}]:[]);
+        const k=await GM.choose(O); if(gift&&k===B.friendOpts.length) await S.bdayGift(GM,gift); else await S.play(GM,(B.friendOpts[k]||B.friendOpts[0]).say); F.SIS_BDAY_Y4='there'; } };
     if(mode==='outing'){ if(A) A.begin({background:bg}); await inner(); return; }   /* 出遊（OUT.go 已經包著劇情）*/
     GM.sceneBegin(); try{ await GM.fade(true); toAtLeast(GM,S.gradDay()*24+20.5); if(A) A.begin({background:bg}); await GM.fade(false); await inner(); } finally { if(A&&A.active) A.end(); GM.sceneEnd(); }
     await GM.fade(true); toAtLeast(GM,S.gradDay()*24+21.5); await GM.fade(false); };

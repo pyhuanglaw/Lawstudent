@@ -224,6 +224,13 @@ check('宿舍：房間裡的床、書桌、睡覺照舊',!!E.interactables.find(
   for(const [f,plate,lead,want,sign,y] of [[{ROOM_Y2:5,ROOM_Y3:9},'507','5',['508','509','510','511','512','513','514'],'樓梯 5F ↑','y3'],[{ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12},'409','4',['408','410','411','412','413','414','415'],'樓梯 4F ↑','y4']]){
     global.GAME={G:{stage:'law',flags:f}}; const zh=loadZone('dorm_hall'), I5=E.interactables, h5=I5.find(i=>i.exit&&i.exit.to==='dorm'), lv1=I5.filter(i=>(i.lv|0)===1&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort(), lv0=I5.filter(i=>(i.lv|0)===0&&/^\d{3} 寢室$/.test(i.label||'')).map(i=>i.label.slice(0,3)).sort(), st=signTexts(zh);
     check(`宿舍：${plate}：「回房間（${plate}）」在樓上那一層、${HS[y].rep} 那扇門口；同一層的門牌 ${want[0]}～${want[want.length-1]}（都是 ${lead} 開頭）、一樓照舊 1 開頭；一樓樓梯口「${sign}」`,!!h5&&h5.label==='回房間（'+plate+'）'&&(h5.lv|0)===1&&Math.abs(h5.x-HS[y].x)<1e-6&&JSON.stringify(lv1)===JSON.stringify(want)&&lv0.length&&lv0.every(n=>n[0]==='1')&&st.includes(sign)&&!st.includes('樓梯 2F ↑'),JSON.stringify({h:h5&&h5.label,lv1,lv0,st})); }
+  /* AA_345 J1：大三 507（五樓）——從一樓走上樓梯、換到樓上那一層時，一句轉場旁白「（爬了四層樓梯。五樓的走廊比樓下暗一點。）」（修改前 FAIL）*/
+  { const UP='（爬了四層樓梯。五樓的走廊比樓下暗一點。）', caps=[], climb=(z,seq)=>{ caps.length=0; for(const lv of seq){ E.player.lv=lv; if(z.update) z.update(1/30,E); } return caps.filter(t=>t===UP).length; };
+    const GG=f=>({G:{stage:'law',flags:f},D:{active:false},caption:(w,t)=>caps.push(t)});
+    global.GAME=GG({ROOM_Y2:5,ROOM_Y3:9}); const z3=loadZone('dorm_hall'); const n1=climb(z3,[0,0,1,1,1]), n2=climb(z3,[1,0,0,1]); const zr3=loadZone('dorm_hall'), n0=climb(zr3,[1,1,0]);
+    global.GAME.D.active=true; const zd=loadZone('dorm_hall'), nd=climb(zd,[0,1]); global.GAME.D.active=false;
+    const ny=[]; for(const f of [{},{ROOM_Y2:5},{ROOM_Y2:5,ROOM_Y3:9,ROOM_Y4:12}]){ global.GAME=GG(f); ny.push(climb(loadZone('dorm_hall'),[0,1])); }
+    check('宿舍：大三 507：從一樓走上樓上那一層，一句轉場旁白「'+UP+'」（每次從一樓上去都說；從房間出來就在樓上的不說；對話進行中不說）；大一 203、大二 312、大四 409 沒有（AA_345 J1）',n1===1&&n2===1&&n0===0&&nd===0&&ny.every(x=>x===0)&&DM3.Y3_UP===UP,JSON.stringify({n1,n2,n0,nd,ny})); }
   global.GAME={G:{stage:'law',flags:{}}}; check('宿舍：大一：一樓樓梯口照舊「樓梯 2F ↑」',signTexts(loadZone('dorm_hall')).includes('樓梯 2F ↑'));
   global.GAME={G:{stage:'law',flags:{ROOM_Y2:5}}};
   check('宿舍：大二：門口離「回房間」≥ 半徑＋0.3',!!hd2&&Math.hypot(HS.y2.x-hd2.x,0.4-hd2.z)>=hd2.radius+0.3);

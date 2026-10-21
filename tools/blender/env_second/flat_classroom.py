@@ -171,10 +171,12 @@ class Room(K.Shop):
         }
         M['fabric'].node_tree.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.92
         if self.lec:
-            M['desk'] = L.pbr(f'{rid}_desk', 'fine_grained_wood', tile=1.2, target='#5b4738', contrast=0.9, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.4)   # 深色木紋長桌（201 也是深色桌）
+            # 木紋長桌（201 也是深色桌）：10-21 BB-C「坐下的鏡頭裡桌面幾乎是黑的、木紋看不出來」→ 從 #5b4738 調亮到中等的胡桃色，比椅面（#9a7350）深一點
+            M['desk'] = L.pbr(f'{rid}_desk', 'fine_grained_wood', tile=1.2, target='#7e6048', contrast=1.0, normal=0.25, maps=('diff', 'nor'), res=256, rough_value=0.4)
             M['front'] = L.pbr(f'{rid}_front', 'laminate_floor_02', tile=2.4, target='#7a5c43', contrast=0.9, normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.4)   # 講台區的木地板
         else:
             M['carpet'] = L.pbr(f'{rid}_carpet', 'dirty_carpet', tile=1.0, sat=0.25, target='#56616b', contrast=0.9, normal=0.4, maps=('diff', 'nor'), res=512, rough_value=0.95)   # 方塊地毯
+            carpet_sheen(M['carpet'])
         self.vc = CMesh(f'{rid}_props', M['vc']); self.vm = CMesh(f'{rid}_metal', M['vcm'])
         self.wood = Mesh(f'{rid}_woodparts', M['wood']); self.steel = Mesh(f'{rid}_steel', M['steel'])
         self.tube = Mesh(f'{rid}_tubes', M['tube']); self.warm = Mesh(f'{rid}_warm', M['warm']); self.fridgel = Mesh(f'{rid}_glowpanel', M['fridge'])
@@ -207,11 +209,16 @@ def newf(m, f0):
     return [f for f in m.bm.faces if f not in f0]
 
 
-def part(m, M, lx, ly, lz, w, h, d, col=None, r=0.0, seg=1, rx=0.0, ry=0.0, k=1.0):
-    """M 底下的一個方塊：本地中心 (lx, ly, lz)、大小 w（本地 x）× h（高）× d（本地 z）；r＞0 倒角；rx、ry＝這個零件自己再轉（繞本地 x、繞垂直軸）"""
-    bm = L.rbox_bm(w, h, d, r, seg); f0 = mark(m) if col else None
+def part(m, M, lx, ly, lz, w, h, d, col=None, r=0.0, seg=1, rx=0.0, ry=0.0, k=1.0, sm=False):
+    """M 底下的一個方塊：本地中心 (lx, ly, lz)、大小 w（本地 x）× h（高）× d（本地 z）；r＞0 倒角；rx、ry＝這個零件自己再轉（繞本地 x、繞垂直軸）；
+    sm＝平滑著色（布做的東西：書包、袋子；lib2.export 保留每一面的平滑設定）"""
+    bm = L.rbox_bm(w, h, d, r, seg); f0 = mark(m) if (col or sm) else None
     m.add_bm(bm, M @ Matrix.Translation(g2b(lx, ly, lz)) @ Matrix.Rotation(ry, 4, 'Z') @ Matrix.Rotation(rx, 4, 'X')); bm.free()
-    if col: m.paint(newf(m, f0), col, k)
+    if f0 is not None:
+        fs = newf(m, f0)
+        if sm:
+            for f in fs: f.smooth = True
+        if col: m.paint(fs, col, k)
 
 
 def lcyl(m, T, a, b, r, col, seg=5, caps=False):
@@ -295,50 +302,63 @@ BAGC = ['#2c3e5c', '#26282b', '#5b6345', '#6e2f35', '#7a7f85', '#bfae8f', '#2f6f
 
 
 def backpack(m, M, col):
-    """後背包（本地：背面 −z、前面的口袋 +z；底在 y=0）"""
-    part(m, M, 0, 0.21, 0, 0.30, 0.42, 0.15, col, r=0.05, seg=2)
-    part(m, M, 0, 0.13, 0.087, 0.23, 0.17, 0.05, col, r=0.022, k=0.82)
+    """後背包（本地：背面 −z、前面的口袋 +z；底在 y=0）。10-21 精修（LAWWW-C「書包近看偏硬」）：倒角大一點、多一段（裝了東西鼓鼓的），前面口袋也是圓的"""
+    part(m, M, 0, 0.21, 0, 0.30, 0.42, 0.15, col, r=0.07, seg=3, sm=True)
+    part(m, M, 0, 0.13, 0.087, 0.23, 0.17, 0.05, col, r=0.024, seg=2, k=0.82, sm=True)
     for sx in (-1, 1): part(m, M, sx * 0.075, 0.22, -0.084, 0.05, 0.32, 0.018, col, r=0.006, k=0.62)
     part(m, M, 0, 0.428, -0.02, 0.09, 0.02, 0.022, col, k=0.6)
 
 
 def backpack_flat(m, M, col):
     """平放（背面朝下）的後背包：底在 y=0，頂端朝本地 −z"""
-    part(m, M, 0, 0.075, 0, 0.30, 0.15, 0.42, col, r=0.05, seg=2)
-    part(m, M, 0, 0.16, 0.08, 0.23, 0.05, 0.17, col, r=0.022, k=0.82)
+    part(m, M, 0, 0.075, 0, 0.30, 0.15, 0.42, col, r=0.065, seg=3, sm=True)
+    part(m, M, 0, 0.16, 0.08, 0.23, 0.05, 0.17, col, r=0.024, seg=2, k=0.82, sm=True)
     part(m, M, 0, 0.09, -0.218, 0.09, 0.022, 0.02, col, k=0.6)
 
 
 def tote(m, M, col):
-    """帆布袋（立著放；底在 y=0）"""
-    part(m, M, 0, 0.17, 0, 0.34, 0.34, 0.08, col, r=0.015)
+    """帆布袋（立著放；底在 y=0）：10-21 邊角圓一點（布袋不是硬殼）"""
+    part(m, M, 0, 0.17, 0, 0.34, 0.34, 0.08, col, r=0.03, seg=2, sm=True)
     for sx in (-1, 1): part(m, M, sx * 0.07, 0.4, 0.0, 0.02, 0.13, 0.008, col, k=0.8)
     part(m, M, 0, 0.465, 0.0, 0.16, 0.02, 0.008, col, k=0.8)
 
 
 def jacket(m, M, col, top=0.895, zb=-0.232, w=0.44, seed=0):
     """掛在椅背上的外套（M＝椅子的本地座標；top、zb＝椅背上緣的高度和本地 z：塑膠椅 0.895／−0.232、202 的木頭椅 0.85／−0.222）：
-    一片布從椅背上面翻過去（前面短、後面長；往下垂的那一段下襬往外張一點、左右有一點波浪），領子、兩隻袖子是圓管垂在後面。
-    （10-20 截圖：原本是幾塊方板，看起來像木板。）布是一片的（材質是雙面的）"""
-    prof = [(0.046, -0.15), (0.04, -0.07), (0.031, -0.016), (0.014, 0.01), (-0.008, 0.016), (-0.03, -0.002), (-0.046, -0.07), (-0.056, -0.2), (-0.068, -0.32), (-0.08, -0.43)]   # (離椅背上緣的 z, y)
-    nx = 7; f0 = mark(m); bm = m.bm; grid = []
+    一片布從椅背上面翻過去（前面短、後面長；往下垂的那一段下襬往外張一點），領子、兩隻袖子垂在後面。
+    （10-20 截圖：原本是幾塊方板，看起來像木板。）布是一片的（材質是雙面的）。
+    10-21 精修（LAWWW-C「外套近看偏硬」）：布切得細一點（12 × 19）；往下垂的那一段有大、中、小三種褶子（每件相位不同，越往下越深）；
+    下襬高低不齊；兩側往椅背那邊包一點（布掛在椅背上，邊緣會往前收）；袖子微彎、一長一短、袖口張開一點；布平滑著色"""
+    rs = random.Random(seed * 7919 + 13)
+    prof0 = [(0.046, -0.15), (0.04, -0.07), (0.031, -0.016), (0.014, 0.01), (-0.008, 0.016), (-0.03, -0.002), (-0.046, -0.07), (-0.056, -0.2), (-0.068, -0.32), (-0.08, -0.43)]   # (離椅背上緣的 z, y)
+    prof = [(a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t) for a, b in zip(prof0, prof0[1:]) for t in (0.0, 0.5)] + [prof0[-1]]
+    nx = 12; f0 = mark(m); bm = m.bm; grid = []
+    ph = [rs.uniform(0, 2 * PI) for _ in range(3)]; fr = [rs.uniform(2.2, 2.8), rs.uniform(3.8, 4.6), rs.uniform(6.2, 7.4)]; am = (0.017, 0.008, 0.004)
+    hem0 = [rs.uniform(-0.02, 0.012) for _ in range(nx + 1)]; hem = [(hem0[max(0, i - 1)] + 2 * hem0[i] + hem0[min(nx, i + 1)]) / 4 for i in range(nx + 1)]
     for i in range(nx + 1):
-        t = i / nx; row = []
+        t = i / nx; row = []; fold = sum(a * math.sin(t * PI * f + p) for a, f, p in zip(am, fr, ph)); wrap = abs(t - 0.5) * 2
         for (dz, dy) in prof:
             hang = min(1.0, max(0.0, (-dy - 0.07) / 0.36))                         # 後面往下垂的那一段：0（椅背上）→ 1（下襬）
-            lx = (t - 0.5) * w * (1 + 0.08 * hang); lz = zb + dz + (0.014 * math.sin(t * PI * 2.6 + seed) - 0.01) * hang
-            ly = top + dy + (0.012 * math.sin(t * PI * 3.4 + seed * 1.7) if dy < -0.4 else 0.0)
+            lx = (t - 0.5) * w * (1 + 0.08 * hang) * (1 - 0.06 * wrap ** 3 * hang)
+            lz = zb + dz + (fold - 0.01) * hang + 0.03 * wrap ** 3 * hang
+            ly = top + dy + hem[i] * hang ** 2
             row.append(bm.verts.new(M @ g2b(lx, ly, lz)))
         grid.append(row)
     for i in range(nx):
         for j in range(len(prof) - 1): bm.faces.new((grid[i][j], grid[i + 1][j], grid[i + 1][j + 1], grid[i][j + 1]))
-    m.paint(newf(m, f0), col)
-    f0 = mark(m); bm2 = _tube(w * 0.5, 0.018); m.add_bm(bm2, M @ Matrix.Translation(g2b(0, top + 0.022, zb - 0.004)) @ Matrix.Rotation(PI / 2, 4, 'Y')); bm2.free(); m.paint(newf(m, f0), col, 0.82)   # 領子
-    for sx in (-1, 1):   # 兩隻袖子：從肩膀垂到後面，往外、往後一點；空的袖子是扁的、袖口比較細（10-20 Blender 算圖：圓管看起來像兩根柱子）
-        f0 = mark(m); bm2 = _tube(0.36, 0.034, r1=0.026)
-        for v in bm2.verts: v.co.x *= 1.25; v.co.y *= 0.5
-        m.add_bm(bm2, M @ Matrix.Translation(g2b(sx * (w / 2 - 0.04), top - 0.225, zb - 0.074)) @ Matrix.Rotation(-sx * 0.1, 4, 'Y') @ Matrix.Rotation(0.06, 4, 'X')); bm2.free()   # 繞 Blender Y（遊戲 −z）：下端往外；繞 X：下端往後
-        m.paint(newf(m, f0), col, 0.88)
+    def soft(fs):   # 布：平滑著色（原本一格一格的平面，褶子看起來像摺紙）
+        for f in fs: f.smooth = True
+        return fs
+    m.paint(soft(newf(m, f0)), col)
+    f0 = mark(m); bm2 = _tube(w * 0.5, 0.018); m.add_bm(bm2, M @ Matrix.Translation(g2b(0, top + 0.022, zb - 0.004)) @ Matrix.Rotation(PI / 2, 4, 'Y')); bm2.free(); m.paint(soft(newf(m, f0)), col, 0.82)   # 領子
+    for sx in (-1, 1):   # 兩隻袖子：從肩膀垂到後面，往外、往後一點；空的袖子是扁的（10-20 Blender 算圖：圓管看起來像兩根柱子）
+        ln = 0.36 + rs.uniform(-0.035, 0.015); f0 = mark(m); bm2 = _tube(ln, 0.034, seg=10, r1=0.03)
+        for v in bm2.verts:
+            zz = v.co.z / ln; v.co.x *= 1.25; v.co.y *= 0.5
+            v.co.y += 0.03 * (1 - (2 * zz) ** 2)                                     # 微彎（手肘那裡往後拱一點）
+            v.co.x += sx * 0.012 * (0.5 - zz) ** 2                                   # 越往下越往外
+        m.add_bm(bm2, M @ Matrix.Translation(g2b(sx * (w / 2 - 0.04), top - 0.04 - ln / 2, zb - 0.074)) @ Matrix.Rotation(-sx * 0.1, 4, 'Y') @ Matrix.Rotation(0.06, 4, 'X')); bm2.free()   # 繞 Blender Y（遊戲 −z）：下端往外；繞 X：下端往後
+        m.paint(soft(newf(m, f0)), col, 0.88)
 
 
 def _tube(length, r, seg=8, r1=None):
@@ -433,6 +453,21 @@ def drape(m, x0, x1, y0, y1, z, folds=5, depth=0.05):
     for i in range(n):
         za, zb = z - (depth if i % 2 else 0.0), z - (depth if (i + 1) % 2 else 0.0)
         m.quad([(xs[i + 1], y0, zb), (xs[i], y0, za), (xs[i], y1, za), (xs[i + 1], y1, zb)])
+
+
+def carpet_sheen(mat):
+    """方塊地毯一塊一塊看得出來（10-21 LAWWW-C：「方塊地毯在遊戲裡看不太出來」）：carpet_tiles 每一塊用貼圖的一個象限、一塊轉 90 度交錯；
+    這裡讓四個象限各自亮一點、暗一點，每一格裡沿著毛的方向由暗到亮（毛倒向不同、反光不同，真的方塊地毯就是這樣看出一格一格），格子邊緣暗一點（接縫）"""
+    import numpy as np
+    n = next(n for n in mat.node_tree.nodes if n.type == 'TEX_IMAGE' and n.image and '_diff_' in n.image.name)
+    src = n.image; w, h = src.size; px = np.empty(w * h * 4, np.float32); src.pixels.foreach_get(px); px = px.reshape(h, w, 4)
+    hw, hh = w // 2, h // 2; xs, ys = np.arange(w), np.arange(h)
+    base = np.where(ys[:, None] < hh, np.where(xs[None, :] < hw, 1.05, 0.94), np.where(xs[None, :] < hw, 0.97, 1.07))
+    u = (xs % hw) / (hw - 1); v = (ys % hh) / (hh - 1)
+    edge = np.minimum(np.minimum(u, 1 - u)[None, :] * hw, np.minimum(v, 1 - v)[:, None] * hh)   # 離格子邊緣幾個像素
+    k = base * (0.92 + 0.14 * u[None, :]) * np.where(edge < 1.5, 0.8, 1.0)
+    px[..., :3] *= k[..., None]
+    im = bpy.data.images.new(src.name + '_tiles', w, h, alpha=False); im.pixels.foreach_set(np.clip(px, 0, 1).ravel()); n.image = im
 
 
 def carpet_tiles(c, x0, x1, z0, z1, t=0.5, y=0.007):

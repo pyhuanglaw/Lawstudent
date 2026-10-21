@@ -904,12 +904,19 @@ const STORY = (function(){
      WAKE_AT＝睡著也會醒來的時間（S.lawWakeAt）、ALARMS＝鬧鐘（S.wakeAlarms）。載入順序在 story3d.js 之後，用 STORY.TICKS.push(fn) 登記 */
   S.TICKS=[]; S.PHONE_RULES=[]; S.WAKE_AT=[]; S.ALARMS=[];
   S.TALK_OPTS=[]; S.ROOM_EXTRA=[];   /* TALK_OPTS＝和人說話最後的選單多一個一次性的選項（S.offerInvite）；ROOM_EXTRA＝宿舍房間物件多一件（S.roomItemList；fn(G,L) 往 L 加 [標籤, 旁白]）*/
+  /* 收拾的時刻（AA_123 2-3）：分開以後一週內都沒做的玩家，一週後補一句旁白，也設 CLEANUP_DONE=true，不卡劇情（ROM.cleanupLate）。
+     一週內的三選一（紙箱、阿哲的頂樓、手機筆記、BB 五位各自的物件）還沒做：任務 V6-S4 */
+  let cleanupBusy=false;
+  S.CLEANUP_LINE='（你把那件事放好了。）';
+  S.cleanupTick=function(GM){ const G=GM.G; if(cleanupBusy||typeof ROM==='undefined'||!ROM.cleanupLate||!ROM.cleanupLate(G)) return false;
+    cleanupBusy=true; ROM.cleanup(G); Promise.resolve(GM.say(null,S.CLEANUP_LINE)).catch(e=>console.warn('STORY.cleanupTick',e)).finally(()=>{ cleanupBusy=false; }); return true; };
   S.tick=function(GM,dt){ const G=GM.G, F=G.flags, E=GM.E; if(E.player.busy||GM.D.active||S._sleeping) return; S.leaveTouch(GM);   /* S._sleeping：睡覺的整段（sleepNow）不開新的事件——醒來字卡那 2 秒不是劇情鎖，事件會在換房間的時候插進來（BB-C 10-20）*/ if(S._resume&&(G.zone!==S._resume.zone||G.day!==S._resume.day)) S._resume=null;   /* 被叫醒以後走出房間：回來也不再自動問床（S.resumeSleepTick）*/ const P=E.player.obj.position;
     if(!F.CEREMONY_Y1&&(G.stage||'law')==='law'&&S.week1Start(G)&&G.day===S.dayOfKey('2025-08-31')&&h(G)>=14&&F.KAI_MOVEIN){ void S.ceremonyY1(GM); return; }   /* 開學典禮（AA_195 4-4）*/
     if(S.tut830On(G)&&G.day<=S.dayOfKey('2025-09-07')&&S.tut830Tick(GM)) return;
     if(S.teaTick(GM)) return;   /* 9/2 新生茶會（AA_195 4-5）*/
     if(F.FAM_GROUP_SENT&&S.week1Start(G)&&typeof SOCIAL!=='undefined'&&!SOCIAL.has('kevin','FIRST_MET')&&(G.day>S.dayOfKey('2025-08-30')||(G.day===S.dayOfKey('2025-08-30')&&h(G)>=21))) SOCIAL.meet('kevin','family_group');   /* 8/30 家族群組＝認識 Kevin（BB_168 第 7 節，AA_200 2-12a）*/   /* 8/30 新手教學的三個目標（AA_195 4-3）*/
     S.careerTick(G);   /* 1A-01：職涯傾向的兩個起點（STUDY_AT_LAW、CAREER_Y4_BASE）*/
+    if(S.cleanupTick(GM)) return;   /* V6-S4：分開以後一週都沒收拾＝補一句旁白（AA_123 2-3）*/
     S.roomY3Late(G);   /* 1A-03：大三下以後才讀檔、還沒搬到 507 的舊存檔直接記（不演）*/
     S.routeWatch(G);   /* 交換路線（1A-02，AA_315）：截止 11/18 12:00 照交往狀態定；舊選單選過、還沒截止的清掉（主迴圈每一格、跳時間、讀檔、ROM 改狀態之前也都叫，不靠這裡）*/
     schedT-=dt; if(schedT<=0){ schedT=3; refreshSchedule(GM); }
@@ -2501,10 +2508,10 @@ const STORY = (function(){
         ['y0_kx_drink',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','晚安。明天的桌子，我比你早到的話，你買飲料。')]],
         ['y0_tr_group',Y0('Y0S2',4),20+40/60,G=>PHONE.inGroup(G,'econ_class')||PHONE.inGroup(G,'econ_friends'),G=>[TR('這學期的分組報告，題目我想好了。組員還沒想好。',grp(G))]],
         ['y0_tr_voice',Y0('Y0S2',4),21.5,()=>true,()=>[TR('（語音）我在練長劇的台詞，對著鏡子。室友問我在跟誰講話。')]],
-        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。')]],
+        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('經原的筆記我掃描放雲端了。可昕跟我要的。你要的話也自己拿。放著也是放著。')]],
         ['y0_py_beef',Y0('Y0S2',4),21+40/60,()=>true,()=>[PY('今天唐睿請我吃飯，說是謝謝筆記。我說折現。……我們吃了牛肉麵。')]],
         ['y0_xu_lamp',Y0('Y0S1',7,8),22,(G,day)=>!!G.flags.Y0_MOVED_OUT&&day>=DK('2024-10-20'),()=>[XU('你搬走以後，宿舍變暗了。因為你把檯燈帶走了。我只是陳述事實。')]],
-        ['y0_xu_seat',Y0('Y0S1',8,8),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師問我，常坐我旁邊的那個人呢。我說他去念更難的東西了。')]],
+        ['y0_xu_seat',Y0('Y0S1',8,8),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師今天看了一眼我旁邊的空位，又看了一眼可昕旁邊。什麼都沒問。我覺得他懂了。')]],   /* AA_348（AA-C 10-21）：休學的事 10/29 以前室友都不知道（AA_305），原本「他去念更難的東西了」改成這句；y0_py_notes 的「高中的筆記」＝重考，2/13 才決定，改成經原的筆記 */
         ['y0_wl_wait',Y0('Y0S1',9,9),21,G=>!!G.flags.LEAVE_WEEK&&(PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class')),G=>[WL('走啦！……喔你在念書。那念完再走！我等！',grp(G))]],
         ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>(/^y0_kx_/.test(id)&&hh>=9&&hh<22.1&&G&&S.cramNight(G))?22+10/60:hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 衝刺班的晚上，可昕的手機小事改到 22:10（BB_188 A9-3）*/

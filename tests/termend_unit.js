@@ -208,7 +208,7 @@ GM.money=function(n){ G.money+=n; };
     check('12. 以安還沒回的心意邀約自動婉拒：祐廷「這次我有約了，開學見。」＋她 AA_254 的婉拒句',xm.includes('player:這次我有約了，開學見。')&&askX.ans!=null&&xm[xm.length-1]==='heroine_01:'+TERMEND_LINES.HEART.heroine_01.decline,JSON.stringify(xm.slice(-3)));
     check('12. 這學期接過了：再約吃飯照一般吃飯',TERMEND.playerInvite(G,'heroine_01',P[nIdx],W)===null);
     said=[]; picks=[]; await INV.meet(GM,iv,null); check('12. 見面＝整場期末飯（一對一的開場、收尾）',lines().some(t=>t.includes('靠牆的兩人桌'))||lines().some(t=>t.includes('靠窗的兩人座')),JSON.stringify(lines().slice(0,3)));
-    fresh(D('2025-12-19'),10,'campus',{}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30; ROM.get(G,'heroine_01').status='ended'; G.flags.CLEANUP_DONE=false;
+    fresh(D('2025-12-19'),10,'campus',{}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30; ROM.get(G,'heroine_01').status='ended'; G.flags.CLEANUP_DONE=false; G.flags.cleanupDue=G.day+3;   /* 分開以後一週內（ROM.end 會設 cleanupDue；V6-S4：過了一週就算收拾過，tests/cleanup_unit.js）*/
     said=[]; picks=[nIdx,0]; const iv2=await INV.flow(GM,'heroine_01',null,false);
     check('12. 分手、還不能重新開始：她婉拒「這學期不了。謝謝你約我。」',iv2===null&&lines().some(t=>t.includes('這學期不了。謝謝你約我。')),JSON.stringify(lines()));
     fresh(D('2025-12-19'),10,'campus',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); INV.rec(G); G.contacts.heroine_01=G.day-30;

@@ -225,6 +225,8 @@ const CLS=(function(){
   // ---------- 上課（普通課堂；考試週＝考試）----------
   const ROOM_FIRST={wancai_multi:'（萬才館一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）',linze_202:'（二樓的 202 是平面教室。長桌一排一排，沒有階梯。坐後面也看得到黑板。）'};   /* AA_330（企劃 48845c36）第 3 點，字照抄 */
   S.ROOM_FIRST=ROOM_FIRST;
+  /* 特別週多的幾句（課程代號|週次）：AA-103-SP 大三上刑訴第 15 週強制辯護（AA_103 末節，AA-C 2026-10-17 定稿；法律審查 BB_182：§31 I 第 1～4、6 款看案件與被告狀況，只有第 5 款低收入戶、中低收入戶聲請指定和資力有關）*/
+  S.SPECIAL_PRE={'crimpro|15':[['yu','有些案子一定要有律師……那請不起的人，是國家幫他請？'],['prof','不是看請不請得起，是看案子。最輕本刑三年以上，或是被告沒辦法好好替自己說話——沒有律師，審判長就要指定公設辯護人或律師。有錢沒錢都一樣。'],['prof','那請不起、案子又不是這種的呢？低收入戶可以自己聲請指定。其他的——去找法扶。']]};
   S.IN_CLASS=[];   /* 課堂那一句後面、下課之前的劇情段（async (GM,it,prof,ct)；例：1B-02 債各第 6 週的語彤，src/y2b3d.js）*/
   S.attend=async function(GM,it,o){ o=o||{}; const G=GM.G, E=GM.E, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
     const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const e03=S.e03Due(G,it), p1=S.p1Due(G,it), subW=e03?2:(p1?1:0); const ct=S.content(subW&&it.week!==subW?Object.assign({},it,{week:subW}):it); const door=!!o.door;   /* E03＝BB_105 B1：經原第 2 週那一堂（機會成本）；P1＝會計第 1 週那一堂（宿舍是資產還是負債）——沒去就在之後第一次出席時上（AA_154 第 95、97 行）*/
@@ -250,6 +252,7 @@ const CLS=(function(){
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
+        for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
