@@ -26434,7 +26434,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）16:4x】候選改 ea69e5ed（＝bcbd4b65 的重做：f72a2a21＋手機修正；開發分支的新東西照 README 第 5 節放下一版）；四支背景跑中，全過 → 把候選推成 GitHub 上的分支（只能 push 指定分支：用 GitHub 工具建分支＋PR）→ merge main → RELEASES.md、CANDIDATE_9103.md → 驗 Pages ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班】使用者「現在正式交班……不要再繼續調查搖桿問題、執行測試或嘗試發布 v9.10.3」→ 沒發布。候選 bcbd4b65（f72a2a21＋手機修正；只在暫存區，重做方法 docs/handoff/release_9103/README.md 第 5 節）。擋發布：BUG-SMOKE-JOY-1021（smoke_release 新遊戲搖桿 0.33 m）。bcbd4b65 上還沒跑：flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms。f72a2a21 上 ALL PASS：14 支＋reachability_all＋save_compat_start1_v991 ｜ 【LAWWW-C 2026-10-21 14:4x UTC】f72a2a21 不發布（BUG-PHONE-REOPEN-1021）；候選改 bcbd4b65（f72a2a21＋手機修正，只在 LAWWW-C 暫存區，重做方法在 CANDIDATE_9103.md 發布前狀態）。f72a2a21 上 save_compat_start1_v991、reachability_all ALL PASS；bcbd4b65 上排著 probe→smoke_release→flow_v0_start（再改一次：AA_300 短版不演 9/2 開學典禮、9/5 會計）→touch_flow_wenzhou→flow_exam_terms；全過才 snapshot→PR→merge ｜ 【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+   "next": "【LAWWW（帳號 A）16:5x】候選第三版 f27c36e9＝f72a2a21＋手機修正 4c90c913＋經濟系跳過的課算出席 ca50db33（只在 LAWWW 暫存區）。ea69e5ed 上：touch_flow_wenzhou ALL PASS；smoke_release 失敗＝推搖桿中途 D103 手機打開（測試改了，排隊重跑）；flow_v0_start 失敗＝BUG-ECON-ATTEND-SKIP-1021（已修，排隊在第三版重跑）；flow_exam_terms 跑中。出席修正只動經濟系事件接事件，smoke／溫州街／考試三支的結果在第三版照樣算 ｜ 【LAWWW（帳號 A）16:4x】候選改 ea69e5ed（＝bcbd4b65 的重做：f72a2a21＋手機修正；開發分支的新東西照 README 第 5 節放下一版）；四支背景跑中，全過 → 把候選推成 GitHub 上的分支（只能 push 指定分支：用 GitHub 工具建分支＋PR）→ merge main → RELEASES.md、CANDIDATE_9103.md → 驗 Pages ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班】使用者「現在正式交班……不要再繼續調查搖桿問題、執行測試或嘗試發布 v9.10.3」→ 沒發布。候選 bcbd4b65（f72a2a21＋手機修正；只在暫存區，重做方法 docs/handoff/release_9103/README.md 第 5 節）。擋發布：BUG-SMOKE-JOY-1021（smoke_release 新遊戲搖桿 0.33 m）。bcbd4b65 上還沒跑：flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms。f72a2a21 上 ALL PASS：14 支＋reachability_all＋save_compat_start1_v991 ｜ 【LAWWW-C 2026-10-21 14:4x UTC】f72a2a21 不發布（BUG-PHONE-REOPEN-1021）；候選改 bcbd4b65（f72a2a21＋手機修正，只在 LAWWW-C 暫存區，重做方法在 CANDIDATE_9103.md 發布前狀態）。f72a2a21 上 save_compat_start1_v991、reachability_all ALL PASS；bcbd4b65 上排著 probe→smoke_release→flow_v0_start（再改一次：AA_300 短版不演 9/2 開學典禮、9/5 會計）→touch_flow_wenzhou→flow_exam_terms；全過才 snapshot→PR→merge ｜ 【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
   },
   {
    "id": "BB218-P3-1021",
@@ -26980,6 +26980,30 @@
    "source": "LAWWW（帳號 A）16:3x：v9.10.3 發布前 smoke_release 查到（BUG-SMOKE-JOY-1021）",
    "authorized": "技術修正（D103「玩家空下來」的實作細節，不改規則）",
    "next": "v9.10.3 之後：phoneAuto 加條件（玩家沒有在移動、最後一次搖桿／點地面輸入過了 1.5 秒）；單元測試（移動中不開、停下來就開、同一則只開一次）；BB 驗"
+  },
+  {
+   "id": "BUG-ECON-ATTEND-SKIP-1021",
+   "title": "經濟系事件接事件跳過的課沒算出席：S.advance 跳完才呼叫 attendBetween（G.day 已經是跳到的那天），只算到最後一天（9/2→9/13 只記到 9/12 一堂會計）——D102「其他堂自動算出席」沒做到",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2 早上以後第一次事件接事件跳日期",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）16:5x：v9.10.3 候選 ea69e5ed 跑 flow_v0_start 查到（「跳過的 9/2～9/13 經濟系的課自動算出席」只記到 -369:acct_y0:pm1）",
+   "authorized": "bug 修正（D102）",
+   "sha": [
+    "ca50db33"
+   ],
+   "next": "ca50db33：attendBetween 加 d0（跳之前那一天），S.advance 傳 d0；econ_ff_unit 加真正呼叫順序的檢查（修改前 2 項失敗、修改後全過）；也放進 v9.10.3 候選第三版 f27c36e9，flow_v0_start 背景重跑"
   }
  ]
 }
