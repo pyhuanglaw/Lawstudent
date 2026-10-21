@@ -28132,7 +28132,7 @@
    },
    "source": "企劃線 AA_378（f2de8d1c）；AA（帳號 A）10-21 22:53 訊息；使用者 22:5x「學姊才是真正的女主角」（USER_WANTS C25）",
    "authorized": "D109 AA 劇情自主；D110",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
+   "next": "【LAWWW（帳號 A）2026-10-22 00:2x UTC】第 1 節 S1～S4 做好（r2y4b3d.js saWeekly／saChecks／SA_X、r2y4b_events.js ev_sis_video、r2y4a3d.js y4_push_note、r3_events.js／r3_3d.js「同上。」、termend3d.js dinnerDay＋eveningBusy）：「到了。」8/3 07:00、T1／T2 兩週一則不輪播、X0～X5（過期＝最早那天後兩週，AI 解讀、已問 AA）、T3 視訊臺灣週日 10:00（她那邊週六晚上）、三組用完只剩旁白、「你去吃早餐。」；tests/aa378_sis_unit.js 20 項（修改前 16 項 FAIL）、r2y4b_events_unit 改新排法；相關 32 支全過。剩 S5、第 2～4 節（等 y3／Y2 子代理交回）。BB：照 AA_378 第 7 節測（T1、T2、T3 跑 8/3～12/18；週日 10:00 視訊；2/3 同上；12/20 答應接機期末飯不在 12/23） ｜ 【LAWWW（帳號 A）2026-10-21 23:3x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
   },
   {
    "id": "SIS-LEAD-1021",

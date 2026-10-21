@@ -226,7 +226,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-05 回家再讀：隔天 21:00「讀了嗎」→「讀了」→「嗯」---- */
     if(F.YT_ESSAY==='home'&&typeof F.YT_ESSAY_DAY==='number'&&G.day<=F.YT_ESSAY_DAY+3&&past(G,F.YT_ESSAY_DAY+1,21)&&!PHONE.sent(G,'y4_yt_essay')){ const m={th:'p:'+YT,from:YT,text:'讀了嗎'}; m.ask={id:'y4_yt_essay',opts:[{t:'讀了',say:[{from:YT,text:'嗯'}]}]}; PHONE.at(G,F.YT_ESSAY_DAY+1,21,[m],'y4_yt_essay'); }
     /* ---- 2-Y4-06 推甄 ---- */
-    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）*/
+    { const d25=D('2028-10-25'); if(d25!=null&&S.pushOn(G)&&G.day>=d25&&G.day<=d25+1&&past(G,d25,21)&&knows(S5,G)&&stageAt(S5,'FRIEND')&&F.Y4_PATH_ASK2==null&&!PHONE.sent(G,'y4_push_note')){   /* 10/25 21:00 學姊的便條照片（她在美國）；AA_378 S3：她要知道你要推甄＝6 月就選了路（Y4_PATH_ASK2 沒有值，她 8/2 出國前就知道），10/16 才選的不傳 */
         const L=[P5('📷（一張手寫的便條）'),{th:'p:'+S5,who:null,text:'（便條：「一，你可以。二，你可以。三，你可以。」）'}]; if(dating(G,S5)) L.push(P5('考完傳訊息。我這邊是晚上，我等。'));
         L[L.length-1].ask={id:'y4_push_note',opts:[{t:'三件都一樣。',say:[{from:S5,text:'對。'}]},{t:'謝謝。',say:[{from:S5,text:'考完傳訊息。'}]}]};
         PHONE.at(G,d25,G.day===d25?Math.max(21,G.hour):21,L,'y4_push_note'); } }

@@ -111,9 +111,11 @@ const R3_EVENTS=(function(){
   const SIS_NOTE={ id:'ev_sis_exam_note', title:'研究所筆試', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'dark',
     dialogue:[ {scene:'考場',bg:'ntu_avenue'},
       {speaker:null,text:'（教學館門口。她把一張摺好的便條放進你手裡。）'},
+      {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.sent(G,'y4_push_note')},goto:'same'},   /* AA_378 S3：收過 10/25 推甄前那一張的，這一張只寫「同上。」*/
       {speaker:null,text:'（便條：「一，你可以。二，你可以。三，你可以。」）'},
-      {speaker:'player',text:'三件都一樣。'},
-      SIS('對。'),
+      {speaker:'player',text:'三件都一樣。'},{goto:'yes'},
+      {label:'same'},{speaker:null,text:'（便條只有兩個字：「同上。」）'},{speaker:'player',text:'……同上。'},
+      {label:'yes'},SIS('對。'),
       SIS('我在對面的便利商店等。考完先傳訊息。',{if:{custom:G=>dating(G,'heroine_05')}}),   /* 戀人版（BB_99 2-4）*/
       {set:{SIS_NOTE_GRAD:'door'}} ] };
 

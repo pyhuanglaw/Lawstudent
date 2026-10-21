@@ -342,16 +342,17 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-57 學姊在美國的視訊（T3；她那邊週日 21:00＝臺灣週一早上）：三組輪換；9/30 以前最後一次視訊、條件到了＝約大峽谷（AA_253 10-2）---------- */
   { id:'ev_sis_video', title:'視訊', participants:['heroine_05'], location:'any', trigger:'outing', background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {if:{custom:G=>R().sisVideoSet(G)===0},goto:'v0'},{if:{custom:G=>R().sisVideoSet(G)===1},goto:'v1'},
+      {if:{custom:G=>R().sisVideoSet(G)===0},goto:'v0'},{if:{custom:G=>R().sisVideoSet(G)===1},goto:'v1'},{if:{custom:G=>R().sisVideoSet(G)>=3},goto:'vn'},   /* AA_378 S1：三組各一次，之後只有一行旁白 */
       {speaker:'heroine_05',text:'你那邊是早上吧。……我這邊剛下雨。'},
       {speaker:'heroine_05',text:'今天沒什麼事。……只是想打給你。'},
       {speaker:'heroine_05',text:'好。下禮拜同一個時間。'},{goto:'inv'},
       {label:'v0'},{speaker:null,text:'（畫面裡她的背後是一面白牆，桌上一杯咖啡。）'},
       {speaker:'heroine_05',text:'你那邊是早上吧。……我這邊剛寫完報告。'},
       {speaker:'heroine_05',text:'今天有人問我臺灣在哪裡。我畫了一張地圖給他。'},
-      {speaker:'heroine_05',text:'好，我去睡了。你去上課。'},{goto:'inv'},
+      {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
       {label:'v1'},{speaker:'heroine_05',text:'（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。'},
-      {speaker:'heroine_05',text:'好，我去睡了。你去上課。'},
+      {speaker:'heroine_05',text:'好，我去睡了。你去吃早餐。'},{goto:'inv'},
+      {label:'vn'},{speaker:null,text:'（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）'},   /* R().SA_V_NARR */
       {label:'inv'},{unless:{custom:G=>R().sisInviteDue(G)},end:true},
       {speaker:'heroine_05',text:'十月有一個禮拜的秋假。我想開車去大峽谷。'},
       {speaker:'heroine_05',text:'……一個人開太遠。你要不要來？'},

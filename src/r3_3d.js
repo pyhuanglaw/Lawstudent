@@ -202,7 +202,8 @@ const R3=(function(){
         PHONE.at(G,d,21,[W('你的讀書計畫，拿來研究室給我看。明天晚上七點。')],'r3_sis_plan_c');
         OUT.plan(G,{id:'r3_sis_plan_lab',ev:'ev_sis_plan_lab',day:d+1,h:19,late:0.5,place:'霖澤館・研究室',title:'研究室',travel:'走路 約 10 分鐘',travelH:1/6}); } }
     { const d3=D('2029-02-03'); if(d3!=null&&F.SIS_NOTE_GRAD==null&&S.gradExam(G)&&met(G,SIS,'FRIEND')&&!S.noteDoor(G)&&t>=T(d3-1,21)&&t<T(d3+1,0)&&contact(G,SIS)){   /* D 照片（祐廷和別人交往中）*/
-        F.SIS_NOTE_GRAD='photo'; PHONE.at(G,d3-1,21,[Object.assign(W('📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'),{ask:{id:'r3_sis_note_photo',until:T(d3,18),opts:[{t:'三件都一樣。',say:[{from:SIS,text:'對。'}]},{t:'謝謝。',say:[{from:SIS,text:'考完傳訊息。'}]}]}})],'r3_sis_note_photo'); } } };
+        F.SIS_NOTE_GRAD='photo'; const same=PHONE.sent(G,'y4_push_note');   /* AA_378 S3：收過 10/25 推甄前那一張的，這一張只寫「同上。」*/
+        PHONE.at(G,d3-1,21,[Object.assign(W(same?'📷（一張手寫的便條：同上。）':'📷（一張手寫的便條：一，你可以。二，你可以。三，你可以。）'),{ask:{id:'r3_sis_note_photo',until:T(d3,18),opts:[{t:same?'同上。':'三件都一樣。',say:[{from:SIS,text:'對。'}]},{t:'謝謝。',say:[{from:SIS,text:'考完傳訊息。'}]}]}})],'r3_sis_note_photo'); } } };
   /* B、C 沒到（outingMissed）：21:00 一則；C 沒到、在群組貼過計畫的＝她自己看了那一張 */
   S.sisPlanMissed=function(G,kind){ const F=G.flags, q=typeof OUT!=='undefined'?OUT.get(G,kind==='us'?'r3_sis_plan_us':'r3_sis_plan_lab'):null; if(!q) return; F.SIS_PLAN_SEEN='missed';
     PHONE.at(G,q.day,21,[W(kind==='us'?'……下次帶來。':(F.SIS_PLAN_POSTED?'我自己看了你傳在群組的那張。……週六十二個小時，改成八個。':'……下次拿來。'))],'r3_sis_plan_miss_'+kind); };
