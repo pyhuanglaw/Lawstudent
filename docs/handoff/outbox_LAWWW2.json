@@ -1423,6 +1423,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS"
+  },
+  {
+   "task": "BUG-CAM-203-R2-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/dorm_cam_203.diff",
+    "docs/art-rebuild/second_ai/test_shots/dorm203_cam_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "坐在自己書桌前、鏡頭轉到北時被自己的上鋪床板擋住（修改前就這樣，P3）：之後把上鋪床板標成網點透空＋宿舍開 seeThru",
+   "next": "LAWWW git apply dorm_cam_203.diff（對 15f3c677 乾淨；只改 zones3d.js＋新 tests/dorm_cam_unit.js，不需要 engine3d.js）；BB 用 artrev3 01／04 重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人"
   }
  ]
 }
