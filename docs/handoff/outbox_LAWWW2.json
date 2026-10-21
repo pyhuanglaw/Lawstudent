@@ -930,7 +930,7 @@
   {
    "task": "118 巷效能（道具不投影、機車近 LOD 16→9 m）＋reachability_all 略過隱藏按鈕＋gongguan_glb_integration 過時兩項改掉（LAWWW-C 20:48、21:00 決定）",
    "branch": "claude/focused-cray-c9uwvw",
-   "sha": "（本 commit）",
+   "sha": "536eec11",
    "files": [
     "docs/art-rebuild/second_ai/patches/l118_perf_and_test_fixes.diff",
     "docs/art-rebuild/second_ai/test_shots/l118_lane_1020/README.md",
