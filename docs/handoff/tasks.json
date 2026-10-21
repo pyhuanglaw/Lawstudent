@@ -21744,6 +21744,44 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 08:5x UTC】一般子代理施工中（worktree），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單"
+  },
+  {
+   "id": "AA345-ANSWERS-1021",
+   "title": "照 AA_345（57b2a7b3）改 F／G／H 標「改」的：大四前半（BCG-34 冬天不放改旁白、海報、US2 10/16 18:00…）、大四後半到尾聲（送禮四選一、46 旁白、明軒作息、春假開場回程…）、寒暑假快轉（大三寒假那一頓 2/20、大四寒假柏翰阿哲、8/12、1/17）、面板名稱 5 個",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "企劃線 AA_345（57b2a7b3）",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】一般子代理施工中（worktree）"
+  },
+  {
+   "id": "EVPKG-AA346-APART",
+   "title": "AA_346 選一個人之後的分開談話：ev_choice_apart_<id> 七位（祐廷先說、她知道／不知道兩版、最後一句沿用各人的分開句、學姊那句新寫），排法照 C 表「說清楚」（2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起），三次沒到 22:00 轉電話版，記 apart_choice（讀 apart_talk 的前任版一起讀）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_346（c6b698a9）；AA_327 2-Y4-54；U5 使用者已定",
+   "first": {
+    "term": "Y4S2",
+    "week": 13,
+    "earliest": "2029-05 選一個人的隔天",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工"
   }
  ]
 }
