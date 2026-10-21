@@ -511,11 +511,16 @@ const GAME = (function(){
     let best=C[0], bd=1e9; for(const q of C){ const sp=q[2]; if(!sp) continue; const d=Math.hypot(sp.x-xy[0],sp.z-xy[1]); if(d<bd){ bd=d; best=q; } } return best; }
   /* 手機「朋友」裡點「資料」：原本選單「人物」頁的內容（科系年級、現在大概在哪、介紹、關係、最近的記憶）——2026-10-16 選單「人物」併進來 */
   let phonePerson=null;
+  /* 人物頁的進度條（D36；DATE.progress）：不顯示數字，條下面一句寫還差哪一種；交往中只寫「交往中」*/
+  function progHTML(id){ if(typeof DATE==='undefined'||!DATE.progress) return ''; const p=DATE.progress(G,id); if(!p) return ''; if(p.dating) return '<div style="color:#ffd88a">交往中</div>';
+    const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
+    const row=(lab,b)=>b?'<div class="relbar" data-bar="'+lab+'" style="margin-top:6px"><span class="muted" style="font-size:12px">'+lab+'</span><div style="height:6px;background:rgba(255,255,255,.14);border-radius:3px;margin-top:2px"><div style="height:100%;width:'+Math.round(Math.max(0,Math.min(1,b.pct))*100)+'%;background:#e9b96a;border-radius:3px"></div></div>'+(b.hint?'<div class="muted" style="font-size:12px">'+esc(b.hint)+'</div>':'')+'</div>':'';
+    return row('友情',p.fr)+row('戀愛',p.rom); }
   function personHTML(id){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const c=CHARACTERS[id]; if(!c) return ''; const name=SOCIAL.displayName(id);
     const tag=SOCIAL.yearTag(id); const rv=SOCIAL.reveal(id);
     const desc=(c.social_layer==='B'&&rv!=='FRIEND')?(rv==='ACQUAINTANCE'?(c.facts?c.facts[0]:''):''):(c.personality||''); const wt=whereText(id);
     const mems=SOCIAL.memories(id).slice(-5).map(m=>'<div class="muted">· '+(SOCIAL.dayLabel?SOCIAL.dayLabel(m.day):'第 '+m.day+' 天')+' '+esc(SOCIAL.MEMORY_LABEL[m.tag]||m.tag)+((SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)?'（'+esc(SOCIAL.noteShown?SOCIAL.noteShown(id,m):m.note)+'）':'')+'</div>').join('');
-    return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b></div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+'<div>'+esc(desc)+'</div><div>'+SOCIAL.describe(id)+'</div>'+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }
+    return '<div class="item phrow"><button class="btn" data-personback="1">‹ 朋友</button><b>'+esc(name)+'</b></div><div class="item"><span class="muted">'+esc(tag)+'</span>'+(wt?'<div style="color:#ffd88a">現在大概在：'+esc(wt)+'</div>':'')+'<div>'+esc(desc)+'</div><div>'+SOCIAL.describe(id)+'</div>'+progHTML(id)+(mems?'<div style="margin-top:4px">'+mems+'</div>':'')+'</div>'; }
   /* 手機「朋友」（D54 ④：手機資訊是協助找人，不是任務標記）：認識的人現在大概在哪（照作息，和大地圖的人物線索同一份）；在別的地方的，可以快速前往那個地方（照樣花時間）*/
   function friendsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const ids=knownIds(); const PL=PLACE_LIST();
     if(!ids.length) return '<div class="item muted">還沒有認識的人。</div>'; if(phonePerson&&ids.includes(phonePerson)) return personHTML(phonePerson);

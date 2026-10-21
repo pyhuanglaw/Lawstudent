@@ -40,6 +40,26 @@ const DATE=(function(){
     const fr=n(r.fam)>=60&&n(r.trust)>=45&&n(r.comf)>=40?4:(n(r.fam)>=40&&n(r.trust)>=25?3:(n(r.fam)>=20?2:1));
     if(fr>=4&&n(r.npcRom)>=55&&n(r.rom)>=30) return 6; if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
 
+  /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
+     下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 有三句是暫代（自在、祐廷的戀愛、先成為好朋友：等 AA 給字）*/
+  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你這邊還沒想清楚',close:'先成為好朋友',
+    count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}'};
+  S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
+    const r=SOCIAL.rel(id), n=v=>+v||0, v={fam:n(r.fam),trust:n(r.trust),comf:n(r.comf),npcRom:n(r.npcRom),rom:n(r.rom)};
+    const fr=v.fam>=60&&v.trust>=45&&v.comf>=40?4:(v.fam>=40&&v.trust>=25?3:(v.fam>=20?2:1));
+    const bar=need=>{ let k=null, lo=1; for(const key in need){ const x=Math.min(1,Math.max(0,v[key]/need[key])); if(x<lo-1e-9){ lo=x; k=key; } } return {pct:lo,hint:k?S.PROG_HINT[k]:''}; };
+    const NEED=[null,{fam:20},{fam:40,trust:25},{fam:60,trust:45,comf:40}];
+    const out={fr:fr>=4?{pct:1,hint:''}:bar(NEED[fr]),rom:null};
+    if(!S.HEROINES.includes(id)) return out;
+    const st=S.stageNum(id);
+    if(st<5) out.rom=fr<3?{pct:0,hint:''}:bar({npcRom:30});
+    else if(st===5){ const b=bar({npcRom:55,rom:30}); out.rom=fr<4?{pct:Math.min(b.pct,0.5),hint:S.PROG_HINT.close}:b; }
+    else { const L=(G&&G.dateLog&&G.dateLog[id])||{count:0,wishKnown:false,wish:false}, c=Math.min(4,L.count|0);
+      const pct=(c/4+(L.wishKnown?0.5:0)+(L.wish?0.5:0))/2;
+      const hint=c<4?S.PROG_HINT.count:(!L.wishKnown?S.PROG_HINT.wishUnknown:(!L.wish?S.PROG_HINT.wishPlace.replace('{place}',S.wishName(G,id)||'一個地方'):''));
+      out.rom={pct,hint}; }
+    return out; };
+
   /* 走完一趟：符合五個條件才 +1（一趟只算一次；同一天去兩個地點也是一趟）；同一個地點記次數（遞減用）；心願地點和她單獨去＝wish */
   S.complete=function(G,t){ S.rec(G); const c=S.counts(t); if(!c.ok) return Object.assign({counted:false},c);
     if(G.trips.some(x=>x.trip===t.trip&&x.counted)) return {counted:false,why:'這一趟已經算過'};

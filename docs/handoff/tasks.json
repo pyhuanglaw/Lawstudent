@@ -7999,8 +7999,8 @@
    "title": "關係六階段、各自戀愛值、進度條、告白",
    "area": "D14",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8232,8 +8232,8 @@
    "title": "關係階段重做（＝D14-T8）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
