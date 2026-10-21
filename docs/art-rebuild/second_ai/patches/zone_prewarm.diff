@@ -12,10 +12,10 @@ index a3055b36..aafca148 100644
    GM.enter=enter;
    // ---------- 小地圖 ----------
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 90411992..ec47c29b 100644
+index 90411992..9d2035e0 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1687,5 +1687,43 @@ const Z3 = (function(){
+@@ -1687,5 +1687,46 @@ const Z3 = (function(){
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
    const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
@@ -26,8 +26,11 @@ index 90411992..ec47c29b 100644
 +     現在：先等一個 macrotask 讓已載過的正式模型接上；再用 compileAsync 編整個場景的材質（有 KHR_parallel_shader_compile 時不卡主執行緒、多個 shader 同時編）；
 +     最後把場景裡的貼圖傳上 GPU，每傳約 400 萬像素讓出一次主執行緒。最多等 cap 毫秒，超過就照原本的方式（剩下的第一格做）。E.lastPrewarm 記每一段的時間（測試、量測用）。
 +     只做看得到的物件（traverseVisible）：被正式模型取代、藏起來的套件備用模型不編、不傳（省時間也省 GPU 記憶體；晚上才出現的東西照舊在出現那一格做）。
-+     compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。*/
++     compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。
++     等的時候主迴圈照樣每一格 E.render：畫面是黑的，先不畫（E.renderSkip 暫時回 true，做完還原），不然那一格會停下來等還沒編好的 shader，平行編譯就白做了。*/
 +  async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
++    const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
++  async function prewarmRun(E,R,opts){
 +    const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
 +    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,timedOut:false};
 +    await tick(); out.attachMs=performance.now()-t0;
@@ -62,10 +65,10 @@ index 90411992..ec47c29b 100644
  })();
 diff --git a/tests/zone_prewarm_unit.js b/tests/zone_prewarm_unit.js
 new file mode 100644
-index 00000000..5f1fecab
+index 00000000..59c94774
 --- /dev/null
 +++ b/tests/zone_prewarm_unit.js
-@@ -0,0 +1,90 @@
+@@ -0,0 +1,93 @@
 +// 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）——不需要瀏覽器。
 +// 原本：GAME.enter 在畫面全黑時建區域、畫第一格，已經載過的正式模型在淡入時（await fade(false)）才接上，淡入那幾格才編 shader、傳貼圖 → 畫面停住。
 +// 修正（src/zones3d.js 的 Z3.prewarm＋src/game3d.js 的 enter）：淡入之前先讓已載過的正式模型接上，再 compileAsync、把貼圖傳上 GPU，最多等 cap 毫秒。
@@ -75,6 +78,7 @@ index 00000000..5f1fecab
 +//   ④ compileAsync 一直沒好也不會卡住：cap 毫秒內回來、標 timedOut；⑤ 大貼圖分批，中間讓出主執行緒；
 +//   ⑥ game3d.js 的 enter：淡入之前、E.update 之後、E.render 之前 await Z3.prewarm；noFade（搭電梯換區域）不等。
 +//   ⑧ 下一個區域的建築模型在背景先載（電腦才做；一次一個；換區域就停）。
++//   ⑨ 等的時候主迴圈先不畫（畫面是黑的；不然那一格會停下來等還沒編好的 shader），做完還原 E.renderSkip。
 +//   ⑦ 藏起來的物件不編、不傳（three.js 的 compile 會走到藏起來的物件：溫州街有三個藏起來的套件零件 material 是 TK paint 描述，編下去丟例外——2026-10-21 遊戲內量測抓到）。
 +// 用法：node tests/zone_prewarm_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -104,6 +108,7 @@ index 00000000..5f1fecab
 +    // ②③：和 zones3d.js 一樣，區域建好時對已載過的模型呼叫 loadOne().then(c=>attach)——這時候 promise 已經完成，.then 是 microtask
 +    const R=fakeRenderer(20), E={renderer:R,scene:scene(),camera:new THREE.PerspectiveCamera()}; const cached=Promise.resolve({scene:glbTpl()});
 +    cached.then(c=>{ E.scene.add(c.scene.clone(true)); });
++    const skip0=()=>false; E.renderSkip=skip0; let skipDuring=null; setTimeout(()=>{ skipDuring=E.renderSkip(); },5);   /* 主迴圈在等的時候會呼叫 E.render → E.renderSkip */
 +    let out=null, err=null; try{ out=await Z3.prewarm(E,{cap:2000}); }catch(e){ err=e; }
 +    check('⓪ Z3.prewarm 不丟例外（藏起來的物件 material 不是真材質也一樣）',!err,err?String(err&&err.message||err):'');
 +    if(err){ console.log(`${fails} FAIL`); process.exit(1); }
@@ -111,6 +116,7 @@ index 00000000..5f1fecab
 +    const want=['canvas_sign','uniform_tex','glb_base','glb_nor','glb_emit'];
 +    check('③ 場景裡每張貼圖都傳上 GPU（材質的貼圖、ShaderMaterial uniform、程序化 canvas）',want.every(n=>R.inited.includes(n)),JSON.stringify(R.inited));
 +    check('③ render target 的貼圖不傳',!R.inited.includes('rt_tex'));
++    check('⑨ 等的時候主迴圈先不畫（E.renderSkip 回 true），做完還原成原本的',skipDuring===true&&E.renderSkip===skip0,`等的時候 ${skipDuring}、做完 ${E.renderSkip===skip0?'還原':'沒還原'}`);
 +    check('⑦ 藏起來的物件不編 shader、貼圖不傳（套件備用模型、藏起來的群組底下的子物件）',!R.compiled.includes('hidden_fallback')&&!R.compiled.includes('hidden_child')&&!R.inited.includes('hidden_tex')&&!R.inited.includes('hidden_child_tex'),JSON.stringify({compiled:R.compiled,inited:R.inited}));
 +    const pm=E.scene.userData.paint; check('⑦ material 不是真材質的藏起來物件（TK paint 描述）：不丟例外，編完 material 放回原本那個',pm&&pm.material&&pm.material.isPaint===true);
 +    check('③ 回傳數字（貼圖數、百萬像素、沒有逾時）',out&&out.textures===5&&Math.abs(out.mpix-(0.131+0.066+1.049+1.049+0.262))<0.01&&!out.timedOut,JSON.stringify(out));
