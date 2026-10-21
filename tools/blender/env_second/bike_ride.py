@@ -63,6 +63,8 @@ M = {
     'rubber': L.flat('ride_rubber', '#262728', rough=0.9),
     'metal': L.flat('ride_metal', '#c3c7cc', rough=0.28, metal=0.45),
     'saddle': L.flat('ride_saddle', '#2a2420', rough=0.55),
+    'cushion': L.flat('ride_cushion', '#2c3140', rough=0.5),            # 後座軟墊（載妹墊）：深藍灰的合成皮
+    'strap': L.flat('ride_strap', '#151618', rough=0.8),
     'red': L.flat('ride_reflector', '#b3261e', rough=0.25),
     'amber': L.flat('ride_reflector_amber', '#e39a2a', rough=0.25),
     'lens': L.flat('ride_lamp_lens', '#fff4d6', rough=0.2, emit=B.srgb('#fff1cf')),
@@ -212,6 +214,14 @@ for sx in (-0.065, 0.065):
     sweep(mt, [(sx, 0.72, ST_TOP.z - 0.05), (sx * 0.5, ST_TOP.y - 0.06, ST_TOP.z + 0.01)], 0.006, seg=4)
 for z in (RZ - 0.0, RZ - 0.12, RZ + 0.12): sweep(mt, [(-0.065, 0.72, z), (0.065, 0.72, z)], 0.006, seg=4)
 pm('frame', 'red').box(-0.045, 0.045, 0.68, 0.715, RZ - 0.235, RZ - 0.22)                               # 後反光片
+# 後座軟墊（「載妹墊」，LAWWW-B 2026-10-15 分派；台灣學生淑女車常見的那種：綁在後貨架上的長方形軟墊、兩條黑色綁帶）。
+# 遊戲：同行的人側坐在上面（engine3d.js E.PASSENGER）；墊子頂面的高度、前後位置寫進 bike_ride.json 的「後座軟墊頂」
+CUSH = dict(cx=0.0, cy=0.72 + 0.006 + 0.032, cz=RZ, hx=0.105, hy=0.032, hz=0.165)
+rounded_box(pm('rear_cushion', 'cushion'), (CUSH['cx'], CUSH['cy'], CUSH['cz']), CUSH['hx'], CUSH['hy'], CUSH['hz'], seg=6, e=3.2)
+for dz in (-0.09, 0.09):                                                                                   # 綁帶：繞過墊子上面、往下綁在貨架
+    st_ = pm('rear_cushion', 'strap'); z0 = CUSH['cz'] + dz
+    st_.box(-CUSH['hx'] - 0.004, CUSH['hx'] + 0.004, CUSH['cy'] + CUSH['hy'] - 0.002, CUSH['cy'] + CUSH['hy'] + 0.003, z0 - 0.012, z0 + 0.012)
+    for sx in (-1, 1): st_.box(sx * (CUSH['hx'] + 0.001) - 0.003, sx * (CUSH['hx'] + 0.001) + 0.003, 0.70, CUSH['cy'] + CUSH['hy'], z0 - 0.012, z0 + 0.012)
 # 環形鎖（後上叉之間）
 mt.cyl((-0.05, WY + 0.09, RZ + 0.1), (0.05, WY + 0.09, RZ + 0.1), 0.045, seg=10)
 # 中柱（收起：貼在後下叉下面）
@@ -308,6 +318,19 @@ set_pivot(wf, FA, None, parent=fork)
 set_pivot(wr, Vector((0, WY, RZ)), None, parent=root)
 set_pivot(ck, bbv, None, parent=root)
 set_pivot(pr, PED['pedal_r'], None, parent=ck); set_pivot(pl, PED['pedal_l'], None, parent=ck)
+# 載妹墊（軟墊＋兩條綁帶）是 frame 底下獨立的網格節點：開局的車沒有，公館車行加裝後才有（AA_137 §5）→ 遊戲用 rear_cushion.visible 切換（LAWWW-B 01:09Z）
+rc = make('rear_cushion'); set_pivot(rc, Vector((CUSH['cx'], CUSH['cy'], CUSH['cz'])), None, parent=root)
+# 載妹墊的定位節點（空節點，frame 的子節點；遊戲照它們放乘客、手、上下車的位置——動作在遊戲端做）
+CY_TOP = CUSH['cy'] + CUSH['hy'] * 0.82
+LOC = {'passenger_side': ((0.03, CY_TOP, CUSH['cz'] - 0.02), '側坐（女生）：坐骨點；身體朝 +x（車的左邊），兩腿垂在左邊'),
+       'passenger_astride': ((0.0, CY_TOP, CUSH['cz'] - 0.04), '跨坐（男生）：坐骨點；身體朝 +z（車頭），兩腳在後輪軸兩旁、雙手放膝'),
+       'grip_cushion_L': ((CUSH['hx'], CY_TOP - 0.01, CUSH['cz'] + 0.10), '手扶座墊邊緣（左）'),
+       'grip_cushion_R': ((-CUSH['hx'], CY_TOP - 0.01, CUSH['cz'] + 0.10), '手扶座墊邊緣（右）'),
+       'rider_waist': ((0.0, 1.02, SADDLE.z - 0.12), '扶腰的參考點：騎士腰的中心（座墊頂上方約 9 cm、坐骨後方）；手放在它左右各約 15 cm'),
+       'mount_point': ((0.55, 0.0, CUSH['cz'] - 0.25), '上車前站的位置：車的左後方（地面）')}
+for nm, (pp, _) in LOC.items():
+    e = bpy.data.objects.new(nm, None); B.scene().collection.objects.link(e); e.empty_display_size = 0.05
+    e.parent = root; e.matrix_parent_inverse = Matrix(); e.location = g2b(*pp)
 bpy.context.view_layer.update()
 # 自我檢查：轉向軸方向、節點的世界位置
 ax_b = (fork.matrix_world.to_3x3() @ Vector((0, 0, 1))).normalized(); want = g2b(*AX).normalized()
@@ -315,8 +338,20 @@ assert (ax_b - want).length < 1e-4, (ax_b, want)
 for ob, p in ((wf, FA), (wr, Vector((0, WY, RZ))), (ck, bbv), (pr, PED['pedal_r']), (pl, PED['pedal_l'])):
     assert (ob.matrix_world.translation - g2b(*p)).length < 1e-4, (ob.name, ob.matrix_world.translation, p)
 
+# 減量（2026-10-16，溫州街效能）：純色材質（鍍鉻、黑色零件、輪胎、反光片、軟墊、綁帶）合成一個頂點色材質 ride_vc——
+# 每個節點（車架、前叉、輪子、曲柄、踏板、軟墊）的 draw call 從 2～6 次變 1～4 次（陰影那一輪也少一樣多）。
+# 車架烤漆 ride_frame（遊戲改色）、座墊、輻條（透明貼圖）、車燈（發光）不動；節點、樞軸、定位點都不變。
+RIDE_VC = L.vc_metal('ride_vc', rough=0.45, metal=0.3)
+L.vc_consolidate(root, L.auto_vc_groups(root, RIDE_VC, RIDE_VC, protect={'ride_frame', 'ride_saddle', 'ride_alpha', 'ride_lamp_lens'}))
+for ob in [o for o in [root] + list(root.children_recursive) if o.type == 'MESH']:   # 換掉的材質槽拿掉（沒有面用的槽不匯出，但留著不乾淨）
+    me = ob.data; used = {p.material_index for p in me.polygons}
+    for i in sorted(range(len(me.materials)), reverse=True):
+        if i not in used:
+            for p in me.polygons:
+                if p.material_index > i: p.material_index -= 1
+            me.materials.pop(index=i)
 tris = {}
-for ob in [root] + list(root.children_recursive):
+for ob in [o for o in [root] + list(root.children_recursive) if o.type == "MESH"]:
     me = ob.data; me.calc_loop_triangles(); tris[ob.name] = len(me.loop_triangles)
 st = L.export(OUT, gpu_instances=False)
 r3 = lambda v: [round(v.x, 4), round(v.y, 4), round(v.z, 4)]
@@ -325,11 +360,14 @@ sizes = {
     '座墊頂': r3(Vector((0.0, SADDLE_TOP, sb.z - 0.03))), '座墊頂說明': '座墊最高的那一點（坐骨的位置在它後面約 3–5 cm）',
     '把手握點_左': r3(GL), '把手握點_右': r3(GR), '五通': r3(bbv), '曲柄長': CRANK,
     '踏板中心_靜止姿勢': {'右': r3(PED['pedal_r']), '左': r3(PED['pedal_l'])}, '靜止姿勢': '右曲柄朝前（+z）、左曲柄朝後，都是水平',
+    '後座軟墊頂': r3(Vector((CUSH['cx'], CUSH['cy'] + CUSH['hy'] * 0.82, CUSH['cz']))), '後座軟墊': {'長_前後': round(2 * CUSH['hz'], 3), '寬_左右': round(2 * CUSH['hx'], 3), '前緣z': round(CUSH['cz'] + CUSH['hz'], 3), '後緣z': round(CUSH['cz'] - CUSH['hz'], 3), '說明': '頂面中心（墊子頂端圓角收 18%，坐的面就是這個高度）；同行的人側坐在這裡'},
+    '載妹墊定位節點': {k: {'位置': [round(v, 4) for v in pp], '說明': d} for k, (pp, d) in LOC.items()},
     '輪徑': round(TIRE_R * 2, 4), '前輪軸': r3(FA), '後輪軸': r3(Vector((0, WY, RZ))), '軸距': round(FZ - RZ, 4),
     '轉向軸': {'通過': r3(HT_BOT), '方向_往上': r3(AX), '頭管角_度': round(math.degrees(HEAD_ANG), 2)},
     '節點': {'frame': '根；原點 (0,0,0)', 'fork': 'frame 的子節點；原點＝轉向軸與頭管下緣交點；本地 +Y＝轉向軸（往上）', 'wheel_f': 'fork 的子節點；原點＝前輪軸心；繞本地 X 轉',
              'wheel_r': 'frame 的子節點；原點＝後輪軸心；繞本地 X 轉', 'crank': 'frame 的子節點；原點＝五通；繞本地 X 轉',
-             'pedal_r': 'crank 的子節點；原點＝右踏板軸；繞本地 X 轉（轉負的曲柄角度保持水平）', 'pedal_l': 'crank 的子節點；原點＝左踏板軸；同上'},
+             'pedal_r': 'crank 的子節點；原點＝右踏板軸；繞本地 X 轉（轉負的曲柄角度保持水平）', 'pedal_l': 'crank 的子節點；原點＝左踏板軸；同上',
+             'rear_cushion': 'frame 的子節點（網格：後座軟墊＋兩條綁帶）；原點＝軟墊中心；沒有裝載妹墊時 visible=false（定位節點照舊在 frame 底下）'},
     'tris': tris, 'bytes': st['bytes'],
 }
 L.write_json(OUT[:-4] + '.json', sizes)

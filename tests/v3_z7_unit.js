@@ -72,7 +72,8 @@ GM.money=function(n){ G.money+=n; };
   run(15.2,22.2); check('6. 22:14 還沒有',!PHONE.sent(G,'zr_z7_mom'));
   run(22.25,22.4); check('6. 當晚 22:15「我說了。她說『那妳要穿暖一點』。」',txt(ZTH).slice(-1)[0]==='heroine_02:我說了。她說『那妳要穿暖一點』。');
   r=await play(2,{flags:{Z4_PICK:'family'}},true);
-  check('7. Z4 選家裡：第三個選項和兩句',r.O.length===3&&r.O[2]==='「妳那時候說的家裡……」'&&r.L.includes('芷若：後來我發現，我就是家裡的一部分。我去，家也跟著我去。'));
+  { const i=r.L.indexOf('芷若：你那時候說家裡比較重要。');
+    check('7. Z4 選家裡：第三個選項和三句（AA_360 第 3 節，採 BB_167 E1：她自己算了時差）',r.O.length===3&&r.O[2]==='「妳那時候說的家裡……」'&&i>=0&&r.L[i+1]==='芷若：我後來算了一下。她十點打來，英國那邊是下午兩、三點。'&&r.L[i+2]==='芷若：我那個時間沒課。……接得到。'&&!r.L.some(t=>/家也跟著我去/.test(t)),JSON.stringify(r.L)); }
   // 寒假第一天
   base(d,23.9,'dorm'); run(23.9,23.995,0.01); G.day=bk; G.weekday=wdOf(bk); run(20.5,20.95);
   check('8. 都沒去 Café：寒假第一天 20:57 還沒有',!PHONE.sent(G,'zr_z7_break'));

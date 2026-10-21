@@ -18,13 +18,14 @@ const LINZE_LAYOUT={
   "gallery":{ "z0":-6.6, "z1":-3.4, "x0":-7.6, "x1":7.6, "slabT":0.32, "railZ":-3.4 },
   "elevator":{ "x0":3.6, "x1":5.6, "z0":-3.2, "z1":-0.8, "doorX0":4.0, "doorX1":5.2, "doorZ":-3.2,
     "callZ":-3.9, "floors":[ {"label":"1F 大廳","lv":0,"open":true}, {"label":"2F 201、202 教室","lv":1,"open":true},
-      {"label":"3F（整修中）","open":false}, {"label":"4F（整修中）","open":false}, {"label":"5F–8F（整修中）","open":false} ] },
+      {"label":"3F 討論區、301、302","zone":"linze_3f","open":true,"num":3,"spawn":{"x":4.6,"z":-4.9,"yaw":3.1416}}, {"label":"4F 自習討論區、401、402","zone":"linze_4f","open":true,"num":4,"spawn":{"x":4.6,"z":-4.9,"yaw":3.1416}},
+      {"label":"5F–8F 研究室（教職員）","open":false,"why":"研究室樓層（教職員）","toast":"研究室樓層。電梯要刷教職員證才會停。"} ] },
   "entrance":{ "x":8.0, "z0":2.6, "z1":5.4, "exitX":7.3, "exitZ":4.0, "spawn":{"x":6.6,"z":4.0,"lv":0,"yaw":-1.5708} },
   "frontGlass":{ "z":7.0 },
   "doors":[
     {"id":"c201","lv":1,"x":-2.0,"label":"201 階梯教室","to":"classroom","spawnBack":{"x":-2.0,"z":-6.0,"lv":1,"yaw":0}},
     {"id":"c202","lv":1,"x":3.0,"label":"202 教室","closed":"門鎖著。門上貼著：「本學期整修，暫停使用。」"},
-    {"id":"stairs3f","lv":1,"x":7.0,"label":"樓梯間（往 3F 以上）","closed":"安全梯。3 樓以上這學期在整修，暫時不開放。"},
+    {"id":"stairs3f","lv":1,"x":7.0,"label":"樓梯間（往 3F、4F）","to":"linze_3f","spawn":{"x":7.0,"z":-5.5,"yaw":0}},
     {"id":"c101","lv":0,"x":-3.0,"label":"101 教室","closed":"101 教室。今天這個時段沒有課，門鎖著。"},
     {"id":"office","lv":0,"x":1.6,"label":"法律學院辦公室","closed":"學院辦公室。玻璃門上貼著辦公時間：週一至週五 9:00–17:00。"}
   ],

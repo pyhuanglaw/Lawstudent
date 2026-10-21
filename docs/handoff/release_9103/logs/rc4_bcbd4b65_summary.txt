@@ -1,0 +1,8 @@
+start 14:41:27
+probe_old exit=0 1min {"tag": "f72a2a21", "pending_at_intro_end": ["第三週了，家族的學弟妹還活著嗎？要考古題的舉手"], "auto_opens_in_12s": 1, "moved": 0.37, "pushes": 4, "paused": false}
+probe_new exit=0 1min {"tag": "bcbd4b65", "pending_at_intro_end": ["第三週了，家族的學弟妹還活著嗎？要考古題的舉手"], "auto_opens_in_12s": 1, "moved": 0.37, "pushes": 4, "paused": false}
+smoke_release exit=1 4min FAILED: 新遊戲：搖桿走得動
+restart 14:51:32
+fps_old exit=0 1min {"tag": "v9.10.2_9335763d", "fps_idle": 4.0, "pos": {"x": 0, "z": 2.4, "camYaw": -2.74, "ahead1m": {"ok": false, "reason": "stuck", "x": 0.07, "z": 2.77, "path": [[-0.2, 2.9], [0.39, 3.32]]}, "busy": false, "paused": true, "seat": false, "phone": true}, "moved
+fps_new exit=0 1min {"tag": "bcbd4b65", "fps_idle": 4.2, "pos": {"x": 0, "z": 2.4, "camYaw": -2.74, "ahead1m": {"ok": false, "reason": "stuck", "x": 0.07, "z": 2.77, "path": [[-0.2, 2.9], [0.39, 3.32]]}, "busy": false, "paused": false, "seat": false, "phone": false}, "moved": 0.3
+FPS DONE

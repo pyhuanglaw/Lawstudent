@@ -46,8 +46,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('1. 站一個小時、Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、小語和子晴熟悉 +1',Math.abs(G.hour-13)<1e-6&&G.flags.Y2_EXPO_BOOTH==='club_guitar'&&G.flags.Y2_EXPO_SENIOR===true&&SOCIAL.rel('yu').fam===f0+1&&SOCIAL.rel('heroine_04').fam===f4+1,JSON.stringify([G.hour,SOCIAL.rel('yu').fam,f0]));
   check('1. 只有一次',!tick());
   // 法服＋「先問事實，再找條文。」
-  fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; meet('heroine_05'); meet('heroine_03'); at(-13.5,13.6); picks=['法服','先問事實']; tick(); await wait(); L=lines();
-  check('2. 法服：只加入一個也有選單（一項）；新生問、學姊「……順序對了。」、語彤「……這句，是學姊的。」',L.includes('新生：學長，法服是做什麼的？')&&L.some(t=>t.endsWith('……順序對了。'))&&L.some(t=>t.endsWith('……這句，是學姊的。'))&&G.flags.Y2_EXPO_BOOTH==='lawclub_study',JSON.stringify(L));
+  /* AA_358 2-5（AA-C 2026-10-21 659d9d81）：語彤不進法服（AA_255），博覽會法服攤位的三處換成柏翰（法服社員、同一學期接社長）——修改前 FAIL */
+  fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; meet('heroine_05'); meet('heroine_03'); meet('classmate_bohan'); R('classmate_bohan',...LV.ACQ); R('heroine_03',...LV.ACQ); const fb0=SOCIAL.rel('classmate_bohan').fam, fy0=SOCIAL.rel('heroine_03').fam;
+  at(-13.5,13.6); picks=['法服','先問事實']; tick(); await wait(); L=lines();
+  check('2. 法服：只加入一個也有選單（一項）；新生問、學姊「……順序對了。」、柏翰「……這句，是學姊的。」（AA_358 2-5：不是語彤）；在場的熟悉 +1 是柏翰、不是語彤',L.includes('新生：學長，法服是做什麼的？')&&L.some(t=>t.endsWith('……順序對了。'))&&L.some(t=>/柏翰：……這句，是學姊的。$/.test(t))&&!L.some(t=>/語彤：/.test(t))&&G.flags.Y2_EXPO_BOOTH==='lawclub_study'&&SOCIAL.rel('classmate_bohan').fam===fb0+1&&SOCIAL.rel('heroine_03').fam===fy0,JSON.stringify(L));
+  fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); picks=['法服','先問事實']; tick(); await wait(); L=lines();
+  check('2. 法服「先問事實」、只認識語彤（不認識柏翰）：沒有「……這句，是學姊的。」',L.includes('新生：學長，法服是做什麼的？')&&!L.some(t=>t.endsWith('……這句，是學姊的。')),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; at(-13.5,13.6); picks=['法服','幫人看']; tick(); await wait(); L=lines();
   check('2. 法服「幫人看法律問題。」：新生「那你很厲害耶。」＋旁白；學姊不說話',L.includes('新生：那你很厲害耶。')&&L.includes('你想說「我只是坐在旁邊做紀錄」，最後沒說。')&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_dept_basketball:true}); G.stage='law'; at(-13.5,13.6); picks=['系籃']; tick(); await wait(); L=lines();
@@ -55,9 +59,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(d16,15,'campus',{CLUB_club_debate:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 辯論社',L.includes('社長：……這句我們寫在傳單上。'),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_club_hiking:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 登山社',L.includes('祐廷：會。可是下山的時候，你會想再去一次。'),JSON.stringify(L));
   // 都沒加入
-  fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines();
-  check('4. 都沒加入：走過、語彤遞傳單；沒有「學長」、不花時間、Y2_EXPO_BOOTH none',L[1]==='你只是走過。法服的攤位後面，語彤在發傳單。'&&L.some(t=>t.endsWith('……拿著。給你學弟。'))&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
-  fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 不認識語彤：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
+  fresh(d16,15,'campus',{}); G.stage='law'; meet('classmate_bohan'); at(-13.5,13.6); tick(); await wait(); L=lines();
+  check('4. 都沒加入、認識柏翰（AA_358 2-5）：「（你只是走過。法服的攤位後面，柏翰在發傳單。）」柏翰「……法服。週六。」「（他遞一張給你，又想起來，你不是新生。）」柏翰「……拿著。給你學弟。」；沒有「學長」、不花時間、Y2_EXPO_BOOTH none',
+    L[1]==='（你只是走過。法服的攤位後面，柏翰在發傳單。）'&&/柏翰：……法服。週六。$/.test(L[2]||'')&&L[3]==='（他遞一張給你，又想起來，你不是新生。）'&&/柏翰：……拿著。給你學弟。$/.test(L[4]||'')&&L.length===5&&!L.some(t=>/學長」/.test(t))&&G.flags.Y2_EXPO_BOOTH==='none'&&!G.flags.Y2_EXPO_SENIOR&&Math.abs(G.hour-15)<1e-6,JSON.stringify(L));
+  fresh(d16,15,'campus',{}); G.stage='law'; meet('heroine_03'); at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 只認識語彤、不認識柏翰：只有「你只是走過。」（語彤不在法服攤位的任何一路）',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
+  fresh(d16,15,'campus',{}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('4. 都不認識：只有「你只是走過。」',JSON.stringify(L)===JSON.stringify(['去年，你站在這一排攤位前面填表。','你只是走過。']),JSON.stringify(L));
   fresh(d16,10.5,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 11:00 以前不觸發',!tick());
   fresh(dk('2026-09-18'),12,'campus',{CLUB_club_guitar:true}); G.stage='law'; at(-13.5,13.6); check('5. 9/18 不觸發',!tick());
   check('5. 校園的帳篷在大二的博覽會兩天也擺（zones3d FAIR_DAYS；各年校慶的行為檢查在 nav_buildings_unit）',/FAIR_DAYS=\[[^\]]*'2026-09-16','2026-09-17'/.test(fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8')));
@@ -78,7 +84,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
   run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點。烤肉架今年你負責。」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點。烤肉架今年你負責。')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
-  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。理由：公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
+  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。這樣公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
   const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^小語：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));
   check('8. 台詞（逐字；認識的人都在）＋買夾子',JSON.stringify(nm(L))===JSON.stringify(want)&&G.flags.MIDAUTUMN_Y2,JSON.stringify(L));
   fresh(d25,17,'campus',{}); G.stage='law'; picks=['用筷子']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
@@ -94,22 +100,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 10. 語彤事件 7 法服的第一次值班（9/26）
   const d26=dk('2026-09-26'); check('10. 9/26 是大二上第 3 週週六、法服值班日（單週）',CALENDAR.termOf(d26).week===3&&CALENDAR.dateOf(d26).wd===6&&!!STORY.fafuDuty({day:d26,stage:'law',flags:{}}));
   check('10. 語彤的作息：值班的週六 9～12 在萬才館一樓（國定假日不值班）',(()=>{ const sc=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6)); return !!sc&&sc.from===9&&sc.to===12&&sc.if.custom({day:d26,stage:'law',flags:{}})&&!sc.if.custom({day:d26-7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+14,stage:'law',flags:{}})&&sc.if.custom({day:d26+28,stage:'law',flags:{}}); })());   /* 10/10 國慶日不值班（AA_184），10/24 照常 */
-  fresh(d26,9.5,'wancai',{}); G.stage='law'; meet('heroine_05'); at(0.5,2.2); picks=['怎麼知道']; tick(); await wait(); L=lines();
-  const w10=['溫書瑀：這位是社會系的語彤，她會幫我們做初談。','一位阿伯來諮詢，講了十分鐘還講不到重點；法律系的人都在翻六法。','阿伯：我就是要問那個……那個房子……我兒子……','語彤倒了一杯水，只問了一個問題。','陳語彤：阿伯，你今天來，是擔心你兒子，還是擔心房子？','阿伯：（停很久，笑了）……我兒子啦。房子是藉口。','溫書瑀：（散會後）妳剛剛那一句，我們法律系的人學三年都問不出來。','陳語彤：嗯。我只是常在麵店聽人講話。','陳語彤：他一直在看門口。他兒子在外面等他。'];
-  check('10. 在場：台詞逐字（AA_11 事件 7）＋「妳怎麼知道要問那個？」',JSON.stringify(L.map(t=>t.replace(/^溫學姊：|^學姊：/,'溫書瑀：').replace(/^語彤：/,'陳語彤：')))===JSON.stringify(w10),JSON.stringify(L));
-  check('10. YT_DUTY_SEEN、YT_LEGALAID_Y2、語彤 SHARED_CLASS、認識語彤',G.flags.YT_DUTY_SEEN&&G.flags.YT_LEGALAID_Y2&&SOCIAL.has('heroine_03','SHARED_CLASS')&&SOCIAL.has('heroine_03','FIRST_MET'));
-  fresh(d26,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); picks=['轉法律系']; tick(); await wait(); L=lines(); check('10. 「妳應該轉法律系。」→「不要。你們都在翻書，沒有人在看他。」',L[L.length-1].endsWith('不要。你們都在翻書，沒有人在看他。'));
-  fresh(d26,12.2,'wancai',{}); G.stage='law'; at(0.5,2.2); check('10. 12:00 以後不觸發',!tick());
-  fresh(d26+14,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); check('10. 之後的值班日不觸發（只有 9/26）',!tick());
-  fresh(d26,13,'dorm',{}); G.stage='law'; run(13,13.1); check('10. 不在場也記 YT_LEGALAID_Y2（劇情事實）',G.flags.YT_LEGALAID_Y2===true&&!G.flags.YT_DUTY_SEEN);
-  // 不在場的轉述（第 4 週麵店）
-  const w4=d26+3; G.day=w4; G.weekday=wdOf(w4); G.hour=18; G.zone='noodle'; R('heroine_03',...LV.FAM); meet('heroine_03');
+  // AA_325 2-Y2-01：舊的事件 7（ev_y2_yt_duty）和第 4 週的轉述（ev_y2_yt_duty_heard）退休（AA_11 舊事件 7 已刪），換成大二第一次值班之後的麵店閒聊（src/y2r2_3d.js，tests/y2_round2_unit.js）
+  check('10. ev_y2_yt_duty、ev_y2_yt_duty_heard 標 retired（AA_325 2-Y2-01）',!!ev('ev_y2_yt_duty').retired&&!!ev('ev_y2_yt_duty_heard').retired);
+  fresh(d26,9.5,'wancai',{}); G.stage='law'; meet('heroine_05'); at(0.5,2.2); check('10. 退休以後：就算 YT_FAFU 是 yes，9/26 萬才館也不演舊的事件 7',!tick()&&!G.flags.YT_DUTY_SEEN);
+  const w4=d26+3; fresh(w4,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03');
   const yt={obj:{position:{x:1,y:0,z:0}},lv:0,charId:'heroine_03'}; GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5);
-  const tk=tick(); await wait(); L=lines();
-  check('11. 不在場、有點熟：第 4 週在麵店遇到她＝轉述兩句、YT_DUTY_HEARD',tk&&L[0].endsWith('上週六第一次值班。有一個阿伯，講了十分鐘才講到他兒子。')&&L[1].endsWith('……我只問了一句。')&&G.flags.YT_DUTY_HEARD,JSON.stringify(L));
-  fresh(w4,18,'noodle',{YT_DUTY_SEEN:true}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 在場看過的不轉述',!tick());
-  fresh(w4,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.ACQ); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 只是認識（沒有有點熟）不轉述',!tick());
-  fresh(w4+7,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 第 5 週不轉述（只在第 4 週）',!tick());
+  check('11. 退休以後：第 4 週麵店不轉述（YT_DUTY_HEARD 改由 ev_yt_shift_chat 記）',!tick()&&!G.flags.YT_DUTY_HEARD);
   GM.npc={}; E.npcs=[]; STORY.YT_FAFU='no';
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

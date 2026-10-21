@@ -26,7 +26,7 @@ SCAN = r"""(()=>{ const E=GAME.E, R=0.32; const P=E.player.obj.position; const s
   const walk=(x,z,lv)=>{ lv=lv===undefined?slv:lv; const a=E.simWalk(start[0],start[1],x,z,{dt:1/30,lv0:slv,lv1:lv}); if(!a.ok) return a; const b=E.simWalk(start[0],start[1],x,z,{dt:0.1,lv0:slv,lv1:lv}); return b.ok?a:Object.assign({lowfps:true},b); };
   const items=E.interactables.slice();
   const occupiedBy=(st)=>{ const n=E.npcs.find(n=>n.seat&&Math.hypot(n.seat.x-st.x,n.seat.z-st.z)<0.35); return n?(n.name||n.charId||'路人'):null; };   // 和 E.nearestInteractable 同一條規則：有人坐的位子不能坐
-  for(const it of items){ const r=(it.radius||1.5)-0.05; const lab=it.label||'?'; const rec={label:lab, kind:it.exit?'exit':(it.seat?'seat':'other'), x:+it.x.toFixed(2), z:+it.z.toFixed(2), r:+r.toFixed(2)};
+  for(const it of items){ if(it.hidden) continue;   /* 現在隱藏的互動點（118 巷店門口：營業中／沒營業兩個重疊按鈕裡、這個時段不出現的那一個）不算：E.nearestInteractable 本來就略過它 */ const r=(it.radius||1.5)-0.05; const lab=it.label||'?'; const rec={label:lab, kind:it.exit?'exit':(it.seat?'seat':'other'), x:+it.x.toFixed(2), z:+it.z.toFixed(2), r:+r.toFixed(2)};
     if(it.seat){ const who=occupiedBy(it.seat); if(who){ rec.ok=true; rec.info='這個時段有人坐在這個位子（'+who+'）：設計上不能坐，靠近時不會出現「坐下」'; out.items.push(rec); continue; } }
     // 互動範圍內站得住、而且「最近的互動」就是它的位置（照距離排）
     const ilv=(E.levels&&it.lv!==undefined)?(it.lv|0):slv; if(E.levels) E.setLv(E.player,ilv);

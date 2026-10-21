@@ -71,5 +71,9 @@ check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）�
     check('16. 平日 21:30、週日 17:30 以後：「健身房在清場了。明天吧。」不扣時間',gl.L.says[0]==='健身房在清場了。明天吧。'&&gs.L.says[0]==='健身房在清場了。明天吧。'&&gl.L.adv+gs.L.adv===0);
     const fm=mk('2025-10-27',10); fm.daily={gym:{card:1,pass:'2025-10'}}; const gf=gm(fm); await GY3.workout(gf); check('16. 每月第四個星期一（2025-10-27）：「今天第四個星期一，健身房休館。」',GY3.fourthMonday(fm)&&gf.L.says[0]==='今天第四個星期一，健身房休館。'&&gf.L.adv===0&&!GY3.fourthMonday(mk('2025-10-20',10)));
     const sp=mk('2025-10-15',10); sp.daily={gym:{card:1,pass:'2025-10',fit:60}}; const gsp=gm(sp); await GY3.workout(gsp); check('16. 體能 50 以上：結實的旁白',GY3.FIT_LINES['結實'].includes(gsp.L.says[0])); }
+  // 17. 燈的光暈（LAWWW2-C 09324bda，清查 A1）：兩個 GLB 都有 GLOW_* 空節點（userData.glow），gym3d.js 接成一個網格（Z3.glowBatch＝溫州街那一套、離鏡頭 3 m 淡出）；B1 健身房的線型燈不放光暈
+  { const glows=f=>{ const b=fs.readFileSync(path.join(ROOT,f)), n=b.readUInt32LE(12), j=JSON.parse(b.slice(20,20+n).toString('utf8')); return j.nodes.filter(x=>x.extras&&x.extras.glow).map(x=>x.name||''); };
+    const g1=glows('assets/models/env/second_ai/gym_interior.glb'), g2=glows('assets/models/env/second_ai/gym_b1.glb'), src=fs.readFileSync(path.join(ROOT,'src/gym3d.js'),'utf8'), zs=fs.readFileSync(path.join(ROOT,'src/zones3d.js'),'utf8');
+    check('17. 體育館光暈：1F '+g1.length+' 個、B1 '+g2.length+' 個 GLOW_ 節點；B1 沒有健身房的光暈；兩個 GLB 載入後都接 glowBatch（3 m 淡出）；Z3 匯出 glowBatch',g1.length>=40&&g2.length>=30&&!g2.some(n=>/fitness|gym_line|linear/i.test(n))&&/glowBatch\(E,z,g0,root,'gym_glows'\)/.test(src)&&/glowBatch\(E,z,g0,root,'gym_b1_glows'\)/.test(src)&&/Z3\.glowBatch\(E,g0,root,gl,name,3\.0\)/.test(src)&&/glowBatch:wzGlowBatch/.test(zs)&&/uNearFade/.test(zs),JSON.stringify([g1.length,g2.length])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

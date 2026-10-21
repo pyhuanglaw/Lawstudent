@@ -78,5 +78,5 @@ check('十男十女',POOL.filter(id=>CHARACTERS[id].gender==='m').length===10);
   fresh(10); const vis=()=>ch.filter(c=>(!c.if||EVENTS.cond(c.if))&&(!c.unless||!EVENTS.cond(c.unless))).map(c=>c.text.slice(1,6)).join('|');
   const a=vis(); G.events.done.ev_zhiruo_ge_group=1; const b=vis();
   check('還沒有 Z2：只有「發呆」那個選項；有 Z2：多了經原那個',a==='妳上完課都'&&b==='週五的經原|妳上完課都',a+' / '+b);
-  check('芷若作息的備註：「外文系的課後在傅鐘附近」',CHARACTERS.heroine_02.daily_schedule.some(e=>e.note==='外文系的課後在傅鐘附近')); }
+  check('芷若作息的備註：「外文系的課後在傅鐘附近」',CHARACTERS.heroine_02.daily_schedule.some(e=>typeof e.note==='string'&&e.note.startsWith('外文系的課後在傅鐘附近'))); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

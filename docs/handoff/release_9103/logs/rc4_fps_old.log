@@ -1,0 +1,1 @@
+{"tag": "v9.10.2_9335763d", "fps_idle": 4.0, "pos": {"x": 0, "z": 2.4, "camYaw": -2.74, "ahead1m": {"ok": false, "reason": "stuck", "x": 0.07, "z": 2.77, "path": [[-0.2, 2.9], [0.39, 3.32]]}, "busy": false, "paused": true, "seat": false, "phone": true}, "moved": 0.0, "pushes": 4, "frames_during_push": 0, "errs": []}

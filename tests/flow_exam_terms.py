@@ -39,14 +39,17 @@ async def run_term(pg, cdp, run, tid, want):
                 if len([t for t in texts if t.startswith('▶')]) == 1 or '1／5' in ''.join(texts[-3:]): await run.shot(pg, tid + '_choice')
                 await L.touch_tap(cdp, c[0], c[1])
         elif s['dlg']:
-            t = s['dtext'] or ''
+            t = await pg.evaluate("(GAME.D&&GAME.D.full)||''") or s['dtext'] or ''   # 讀完整的句子：打字到一半的 dtext 會少字（BB 10-21 直向讀到「交卷。」「交卷。答對 」，答對幾題那項誤判）
             if not texts or texts[-1] != t[:60]:
                 texts.append(t[:60])
                 if '1／5' in t: await run.shot(pg, tid + '_q1')
             await L.tap(pg, cdp, '#dlg')
+        elif s.get('paused') and await L.phone_away(pg, cdp):
+            texts.append('［手機自己跳出來 → 收起來／跳過］')   # D103：要回的訊息到了手機自己打開、遊戲暫停（2026-10-21 v9.10.3 發布前：這支卡在大二上的期末考那天）
         elif not went:
             # 沒有劇情的時候：打開手機「今天」，按那一科的「直接去上課」
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(800)   # 手機記得上一次的分頁：自己跳出來的訊息（D103）收起來以後再打開會停在「訊息」，找不到「直接去上課」（2026-10-21 候選第二版：大一上、大二上各卡 15 分鐘）
             b = await pg.evaluate("(k=>{ const e=document.querySelector('[data-go=\"'+k+'\"]'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })(" + json.dumps(f['key']) + ")")
             if b: texts.append('📱' + b[2]); await L.touch_tap(cdp, b[0], b[1]); went = True
             else: await L.close_panels(pg, cdp)

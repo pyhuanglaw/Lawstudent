@@ -33,7 +33,7 @@ def img_mat(name, fn, rough=0.6, emit=0.0):
 
 P = 'gym_'
 M = {
-    'floor': img_mat(P + 'court_floor', 'gym_floor.jpg', rough=0.32),
+    'floor': img_mat(P + 'court_floor', 'gym_floor.jpg', rough=0.6),   # 0.32→0.6（BB_218 2026-10-21 的白霧：引擎的補光 E.fill（固定方向的平行光）在亮面地板上的高光，跟著鏡頭轉、不跟著平移；逐盞關燈量到只有關掉 E.fill 會消失。0.5 還剩四成，0.6 看不出來；球場的光澤由頂燈的點光源保留）
     'lobby_floor': L.pbr(P + 'lobby_floor', 'granite_tile', tile=1.2, target='#a9a7a2', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.35),
     'concrete': L.pbr(P + 'plaster', 'white_plaster_02', tile=2.5, target='#dedbd3', normal=0.5, maps=('diff', 'nor'), rough_value=0.85),   # v2：清水混凝土的水漬太髒（像停車場）→ 白色粉刷牆
     'pad': L.flat(P + 'wall_pad', '#2f5a8a', rough=0.7), 'pad_trim': L.flat(P + 'pad_trim', '#d9dde2', rough=0.5),
@@ -121,23 +121,27 @@ for k in range(6):
         xa = X0 + j * 2.0; xb = xa + 2.0
         st.cyl((xa, HH - 1.2, z), (xb, HH + 0.4, z), 0.035, seg=5); st.cyl((xb, HH - 1.2, z), (xb, HH + 0.4, z), 0.03, seg=5)
     for x in (-12.0, -4.0, 4.0, 12.0):                                                                # 高天井燈（燈罩＋發光面）
-        X0_.lathe(acc('steel_dk'), [(0.06, 0.4), (0.1, 0.36), (0.28, 0.05), (0.3, 0.0), (0.0, 0.0)], x, HH - 1.75, z + 2.5, seg=14)
-        acc('light').cyl((x, HH - 1.751, z + 2.5), (x, HH - 1.75, z + 2.5), 0.27, seg=14)
+        X0_.lathe(acc('steel_dk'), [(0.06, 0.4), (0.1, 0.36), (0.28, 0.05), (0.3, 0.0), (0.27, 0.0)], x, HH - 1.75, z + 2.5, seg=14)   # 燈罩底下只留一圈（原本整片圓蓋住發光面、疊面）
+        acc('light').cyl((x, HH - 1.752, z + 2.5), (x, HH - 1.748, z + 2.5), 0.27, seg=14)
         acc('steel_dk').cyl((x, HH - 1.35, z + 2.5), (x, HH + 0.4, z + 2.5), 0.01, seg=4)
         CL.glow(root, 'highbay', x, HH - 2.0, z + 2.5, color='rgba(245,250,255,1)', size=3.2, day=0.5, night=1.0)
 for k in range(8): st.cyl((X0, HH + 0.4, ZH0 + k * 4.0), (X1, HH + 0.4, ZH0 + k * 4.0), 0.04, seg=5)       # 屋頂的次樑
 
 # ======================== 羽球網、吊掛式籃架 ========================
+nets_g = B.group('SET_NETS', root, {'set': 'nets', 'default': 'on'})   # v3：羽球網＋網柱自己一組（平常顯示；第二會場打開時收起來——BB-B：辦活動前會收網）
+nm_base, nm_post, nm_net, nm_tape = Mesh('SET_NETS_base', M['steel_dk']), Mesh('SET_NETS_post', M['steel']), Mesh('SET_NETS_net', M['net']), Mesh('SET_NETS_tape', M['tape'])
 for (cx, cz) in LAY['courts']['badminton']:
     for sx in (-3.1, 3.1):
-        X0_.lathe(acc('steel_dk'), [(0.0, 0.0), (0.2, 0.0), (0.2, 0.05), (0.06, 0.07), (0.0, 0.07)], cx + sx, 0.0, cz, seg=14)   # 底座
-        acc('steel').cyl((cx + sx, 0.05, cz), (cx + sx, 1.55, cz), 0.022, seg=8)
-    acc('net').quad([(cx - 3.08, 0.79, cz), (cx + 3.08, 0.79, cz), (cx + 3.08, 1.52, cz), (cx - 3.08, 1.52, cz)])
-    acc('net').quad([(cx + 3.08, 0.79, cz), (cx - 3.08, 0.79, cz), (cx - 3.08, 1.52, cz), (cx + 3.08, 1.52, cz)])
-    acc('tape').box(cx - 3.08, cx + 3.08, 1.5, 1.55, cz - 0.01, cz + 0.01)
+        X0_.lathe(nm_base, [(0.0, 0.0), (0.2, 0.0), (0.2, 0.05), (0.06, 0.07), (0.0, 0.07)], cx + sx, 0.0, cz, seg=14)   # 底座
+        nm_post.cyl((cx + sx, 0.05, cz), (cx + sx, 1.55, cz), 0.022, seg=8)
+    nm_net.quad([(cx - 3.08, 0.79, cz), (cx + 3.08, 0.79, cz), (cx + 3.08, 1.52, cz), (cx - 3.08, 1.52, cz)])
+    nm_net.quad([(cx + 3.08, 0.79, cz), (cx - 3.08, 0.79, cz), (cx - 3.08, 1.52, cz), (cx + 3.08, 1.52, cz)])
+    nm_tape.box(cx - 3.08, cx + 3.08, 1.5, 1.55, cz - 0.01, cz + 0.01)
+for m_ in (nm_base, nm_post, nm_tape): m_.finish(nets_g, uv=False, smooth=True)
+nm_net.finish(nets_g, uv=False)
 for (hx, hz) in LAY['courts']['basketball']['hoops']:
     s = 1 if hx < 0 else -1; bx = hx - s * 0.375                                                      # 籃板在籃框後面 0.375 m（籃框中心離籃板 0.15＋半徑 0.225）
-    acc('board_glass').box(bx - 0.025, bx + 0.025, 2.9, 3.95, hz - 0.9, hz + 0.9)
+    acc('board_glass').box(bx - 0.025, bx + 0.025, 2.905, 3.945, hz - 0.895, hz + 0.895)   # 比白框小 5 mm（原本上下左右的面和框疊在一起）
     for (y0, y1, z0, z1) in ((2.9, 2.95, hz - 0.9, hz + 0.9), (3.9, 3.95, hz - 0.9, hz + 0.9), (2.9, 3.95, hz - 0.9, hz - 0.85), (2.9, 3.95, hz + 0.85, hz + 0.9)):
         acc('white').box(bx - 0.03, bx + 0.03, y0, y1, z0, z1)
     acc('white').box(bx - 0.03, bx + 0.03, 3.05, 3.5, hz - 0.3, hz + 0.3)
@@ -159,7 +163,7 @@ for it in LAY['items']:
         x0, x1, z0 = it['x'] - it['w'] / 2, it['x'] + it['w'] / 2, it['z'] + it['d'] / 2
         for r in range(it['rows']):
             zr = z0 - r * 0.7; yr = 0.45 * r
-            X0_.rbox(acc('seat_grey'), x0, x1, 0.0, yr + 0.02, zr - 0.7, zr, r=0.01, seg=1)
+            X0_.rbox(acc('seat_grey'), x0, x1, 0.0, yr + 0.02, max(zr - 0.7, ZH0 + 0.075), zr, r=0.01, seg=1)   # 最後一排停在護牆軟墊前面（原本穿進軟墊、背面和軟墊疊在一起）
             X0_.rbox(acc('wood'), x0 + 0.05, x1 - 0.05, yr + 0.42, yr + 0.47, zr - 0.38, zr - 0.06, r=0.012, seg=2)
             for j in range(int((x1 - x0) / 2.0) + 1): acc('steel_dk').box(x0 + j * 2.0 - 0.02, x0 + j * 2.0 + 0.02, yr, yr + 0.42, zr - 0.3, zr - 0.25)
         acc('steel').cyl((x0, 2.3, z0 - 2.8), (x1, 2.3, z0 - 2.8), 0.025, seg=6)
@@ -178,7 +182,7 @@ for (a, b, c, d) in ((X0, SD['x0'], ZH1, ZL1), (SD['x0'], SD['x1'], ZH1, SD['z0'
     img_quad(f'lobby_floor_{a:.0f}_{c:.0f}', M['lobby_floor'], [(a, 0.001, d), (b, 0.001, d), (b, 0.001, c), (a, 0.001, c)], ((a - X0) / 1.2, (ZL1 - d) / 1.2, (b - X0) / 1.2, (ZL1 - c) / 1.2))
 lc = Mesh(P + 'lobby_ceiling', M['ceil_lobby']); lc.quad([(X0, LH, ZH1), (X1, LH, ZH1), (X1, LH, ZL1), (X0, LH, ZL1)]); lc.finish(root, uv=False)
 for x in (-14, -7, 0, 7, 14):                                                                          # 大廳的嵌燈
-    for zz in (13.0, 17.0): acc('light').cyl((x, LH - 0.01, zz), (x, LH, zz), 0.18, seg=12); CL.glow(root, 'downlight', x, LH - 0.3, zz, color='rgba(255,244,226,1)', size=1.4, day=0.3, night=0.9)
+    for zz in (13.0, 17.0): acc('light').cyl((x, LH - 0.01, zz), (x, LH, zz), 0.18, seg=12); CL.glow(root, 'downlight', x, LH - 0.2, zz, color='rgba(255,244,226,1)', size=1.0, day=0.22, night=0.65)   # 2026-10-21 光暈接進遊戲：原本 1.4 m 在白天花板上太亮
 # 大廳和球場之間的牆（三個開口）：下面石材、上面混凝土；開口上方到大廳天花板
 pz = LAY['partition']['z']; ops = LAY['partition']['openings']; xs = [X0] + [v for o in ops for v in o] + [X1]
 for i in range(0, len(xs), 2):
@@ -211,7 +215,7 @@ for (a, b) in fr['glass'] + [(-18.0 - 2.0, -18.0), (18.0, 20.0)]:
 wm('front', 'glass').quad([(dx + dw / 2, 0.02, ZL1 - 0.05), (dx - dw / 2, 0.02, ZL1 - 0.05), (dx - dw / 2, 2.5, ZL1 - 0.05), (dx + dw / 2, 2.5, ZL1 - 0.05)])
 for x in (dx - dw / 2, dx, dx + dw / 2): wm('front', 'steel_dk').box(x - 0.04, x + 0.04, 0.0, 2.5, ZL1 - 0.1, ZL1)
 wm('front', 'steel_dk').box(dx - dw / 2 - 0.2, dx + dw / 2 + 0.2, 2.5, 2.9, ZL1 - 0.25, ZL1)                          # 自動門的機箱
-wm('front', 'concrete').box(dx - dw / 2, dx + dw / 2, 2.9, LH, ZL1 - 0.1, ZL1)
+wm('front', 'concrete').box(dx - dw / 2, dx + dw / 2, 2.9, LH, ZL1 - 0.095, ZL1)   # 往外退 5 mm：兩側窗框的面原本和它疊在一起
 wm('left', 'stone').box(X0 - 0.25, X0, 0.0, LH, ZH1, ZL1); wm('right', 'stone').box(X1, X1 + 0.25, 0.0, LH, ZH1, ZL1)   # 大廳的東西兩面牆（石材）
 for it in LAY['items']:
     k = it['kind']
@@ -235,10 +239,10 @@ for it in LAY['items']:
             acc('steel').cyl((x1, 1.0, z1), (x1, 3.1, z0 + 1.6), 0.025, seg=6)
             for j in range(6): t = j / 5; acc('steel').cyl((x1, t * 2.1, z1 - t * (z1 - z0 - 1.6)), (x1, t * 2.1 + 1.0, z1 - t * (z1 - z0 - 1.6)), 0.015, seg=5)
             sx0, sz = x1 + 0.2, z1 + 0.15
-        else:                                                                                           # 往 B1：地上的樓梯井（往 +z 下去）＋欄杆
-            acc('steel_dk').box(x0, x1, -2.2, -2.1, z0, z1)
+        else:                                                                                           # 往 B1：地上的樓梯井（從 z1 的開口往 −z 下去；B1 那一跑是往 +z 上來）＋欄杆
+            acc('steel_dk').box(x0 + 0.005, x1 - 0.005, -2.2, -2.105, z0 + 0.005, z1 - 0.005)   # 縮 5 mm：側面原本和兩側的石牆、頂面和最下面一階疊在一起
             n = 14; run = (z1 - z0) / n
-            for j in range(n): zz = z0 + j * run; X0_.rbox(acc('stone'), x0, x1, -2.2, -(j + 1) * 0.15, zz, zz + run, r=0.01, seg=1)
+            for j in range(n): zz = z1 - (j + 1) * run; X0_.rbox(acc('stone'), x0, x1, -2.2, -(j + 1) * 0.15, zz, zz + run, r=0.01, seg=1)   # BUG-GYM-STAIRS-1020：原本 zz＝z0＋j·run，第一階在北端、畫反了（開口、紅龍、「下樓到 B1」都在 z1）
             for (a, b) in (((x0, z0), (x1, z0)), ((x0, z0), (x0, z1)), ((x0, z1), (x1 - 1.2, z1))):
                 acc('steel').cyl((a[0], 1.0, a[1]), (b[0], 1.0, b[1]), 0.025, seg=6)
                 L_ = math.hypot(b[0] - a[0], b[1] - a[1]); m = max(1, int(L_ / 0.9))

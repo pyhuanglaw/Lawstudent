@@ -127,6 +127,7 @@ const BIKE=(function(){
         const want=Math.atan2(ex,ez); if(this.yaw==null) this.yaw=want; const dy=Math.atan2(Math.sin(want-this.yaw),Math.cos(want-this.yaw)), turn=Math.max(-2*dt,Math.min(2*dt,dy)); this.yaw+=turn; g.rotation.y=this.yaw;
         const w=dt>0?turn/dt:0, v=this.speed, kk=Math.min(1,dt*6); this.wheel+=step/(WHEEL_R*k); this.crank+=step/(WHEEL_R*k)*GEAR;
         this.steer+=(Math.max(-STEER_MAX,Math.min(STEER_MAX,Math.atan(WHEELBASE*k*w/Math.max(v,1))))-this.steer)*kk; this.lean+=(Math.max(-0.2,Math.min(0.2,-Math.atan(v*w/9.8)))-this.lean)*kk; g.rotation.z=this.lean;
+        if(typeof E3!=='undefined'&&E3.seeLOD){ const vis=E3.seeLOD(g.position.x,1.0,g.position.z,1.8); if(g.visible!==vis) g.visible=vis; if(!vis&&E3.seeCd>16) return; }   /* 畫面外、遠處（距離 LOD）不畫、不算車和人的動畫，照樣往前騎（X69）；16 m 內畫面外照算（鏡頭一轉過去不會露出沒更新的姿勢，同 NPC）*/
         pose(this.bike.userData.parts,this.wheel,this.crank,this.steer);
         if(typeof CHAR!=='undefined'&&CHAR.animate) CHAR.animate(rd,dt,{pose:'ride',speed:0,ride:{crank:this.crank,grips:grips(this.steer,k),scale:k}}); } }; };
   B.riding=()=>!!ride;

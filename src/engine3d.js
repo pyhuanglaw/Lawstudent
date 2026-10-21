@@ -140,8 +140,17 @@ const E3 = (function(){
   const KEYG=KEY0.filter(r=>r[0]<17||r[0]>18).concat(KEY_GOLDEN).sort((a,b)=>a[0]-b[0]);
   E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||null;
   const c1=new THREE.Color(), c2=new THREE.Color();
+  /* 影子不閃（X79，使用者 2026-10-20「有些建築旁邊影子也一直在閃爍」；BB-C 量到：陰影相機每 5 格跟著玩家移動、沒對齊陰影貼圖格子，1024 蓋 44 m，一格約 4.3 cm）：
+     ①陰影相機的中心在光的平面上對齊到整格（texel snapping；three.js 的 DirectionalLight 用 lookAt、up＝(0,1,0)，右＝cross(up,d)、上＝cross(d,右)）——玩家走動時影子貼圖的格子固定在世界上；
+     ②太陽的方向每 3 遊戲分鐘才換一次（顏色、亮度照舊連續）——時間流動時不會每一格都轉一點點 */
+  function shadowSnap(t,d,texel){ let rx=d.z, rz=-d.x; const rl=Math.hypot(rx,rz); if(rl<1e-4){ rx=1; rz=0; } else { rx/=rl; rz/=rl; }
+    const ux=d.y*rz, uy=d.z*rx-d.x*rz, uz=-d.y*rx; const r=t.x*rx+t.z*rz, u=t.x*ux+t.y*uy+t.z*uz, f=t.x*d.x+t.y*d.y+t.z*d.z;
+    if(!(texel>0)) return {x:t.x,y:t.y,z:t.z}; const r2=Math.round(r/texel)*texel, u2=Math.round(u/texel)*texel;
+    return {x:rx*r2+ux*u2+d.x*f, y:uy*u2+d.y*f, z:rz*r2+uz*u2+d.z*f}; }
+  function sunAng(KEY,h){ const hq=Math.round(h*20)/20; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=hq) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(hq-A[0])/(B[0]-A[0]))); return [(A[3]+(B[3]-A[3])*t)*Math.PI/180,(A[4]+(B[4]-A[4])*t)*Math.PI/180]; }
+  E.shadowSnap=shadowSnap; E.sunAng=sunAng;
   E.applyTime=function(hour){ E.hour=hour; const KEY=E.grade==='golden'?KEYG:KEY0; let h=hour%24; if(h<KEY[0][0]) h=KEY[0][0]; let i=0; while(i<KEY.length-2&&KEY[i+1][0]<=h) i++; const A=KEY[i], B=KEY[i+1]; const t=Math.max(0,Math.min(1,(h-A[0])/(B[0]-A[0]))); const lerpC=(a,b)=>{ c1.set(a); c2.set(b); return c1.lerp(c2,t); }; const lerp=(a,b)=>a+(b-a)*t;
-    E.sun.color.copy(lerpC(A[1],B[1])); E.sun.intensity=lerp(A[2],B[2]); const el=lerp(A[3],B[3])*Math.PI/180, az=lerp(A[4],B[4])*Math.PI/180; const target=E.player?E.player.obj.position:new THREE.Vector3(); /* 太陽方向（v9.3 第二十一批）：azimuth 是羅盤方位（0 北、90 東、180 南）。戶外區域 x 往東、-z 往北（D25），所以 z 用 -cos；區域座標轉過方向的用 def.sunYaw（公館：+x 往南、+z 往西）。之前戶外也用 +cos：中午太陽在北邊，朝南的牆（霖澤館、萬才館正面）整天背光，台北的太陽中午一定在南邊。室內沒有方位，維持原本的方向（室內的光影是照那個方向調的）*/ let sx=Math.sin(az), sz=E.indoor?Math.cos(az):-Math.cos(az); const syw=(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.sunYaw)||0; if(syw){ const cy=Math.cos(syw), sy=Math.sin(syw), x2=sx*cy+sz*sy; sz=-sx*sy+sz*cy; sx=x2; } E.sun.position.set(target.x+Math.cos(el)*sx*60,Math.max(2,Math.sin(el)*60)+target.y,target.z+Math.cos(el)*sz*60); E.sun.target.position.copy(target); E.sun.target.updateMatrixWorld();
+    E.sun.color.copy(lerpC(A[1],B[1])); E.sun.intensity=lerp(A[2],B[2]); const [el,az]=sunAng(KEY,h); const target=E.player?E.player.obj.position:new THREE.Vector3(); /* 太陽方向（v9.3 第二十一批）：azimuth 是羅盤方位（0 北、90 東、180 南）。戶外區域 x 往東、-z 往北（D25），所以 z 用 -cos；區域座標轉過方向的用 def.sunYaw（公館：+x 往南、+z 往西）。之前戶外也用 +cos：中午太陽在北邊，朝南的牆（霖澤館、萬才館正面）整天背光，台北的太陽中午一定在南邊。室內沒有方位，維持原本的方向（室內的光影是照那個方向調的）*/ let sx=Math.sin(az), sz=E.indoor?Math.cos(az):-Math.cos(az); const syw=(!E.indoor&&E.zone&&E.zone.def&&E.zone.def.sunYaw)||0; if(syw){ const cy=Math.cos(syw), sy=Math.sin(syw), x2=sx*cy+sz*sy; sz=-sx*sy+sz*cy; sx=x2; } { const ox=Math.cos(el)*sx*60, oy=Math.max(2,Math.sin(el)*60), oz=Math.cos(el)*sz*60, ol=Math.hypot(ox,oy,oz)||1, sc=E.sun.shadow.camera, tx=(sc.right-sc.left)/((E.sun.shadow.mapSize&&E.sun.shadow.mapSize.x)||1024); const T=shadowSnap(target,{x:ox/ol,y:oy/ol,z:oz/ol},tx); E.sun.position.set(T.x+ox,T.y+oy,T.z+oz); E.sun.target.position.set(T.x,T.y,T.z); } E.sun.target.updateMatrixWorld();   /* 陰影相機對齊整格（shadowSnap）*/
     E.hemi.color.copy(lerpC(A[5],B[5])); E.hemi.groundColor.copy(lerpC(A[6],B[6])); E.hemi.intensity=lerp(A[7],B[7]); scene.fog.color.copy(lerpC(A[8],B[8])); renderer.toneMappingExposure=lerp(parseFloat(A[9]),parseFloat(B[9]));
     const sk=E.sky.material.uniforms; sk.top.value.copy(lerpC(A[10],B[10])); sk.mid.value.copy(lerpC(A[11],B[11])); sk.bot.value.copy(lerpC(A[12],B[12])); sk.sunDir.value.copy(E.sun.position).sub(target).normalize(); sk.sunCol.value.copy(E.sun.color); sk.sunAmt.value=0.15+0.45*Math.max(0,1-Math.abs(el)/0.6);
     { // 雲與天際線：白天白雲、黃昏染上夕陽色、夜晚暗；天際線用霧的顏色做空氣感，越暗越像剪影
@@ -283,7 +292,7 @@ const E3 = (function(){
   // 目前位置本身就不合法（起身位置太靠近桌子、舊存檔、資料錯誤）時：允許「不會變更糟」的移動，讓玩家走出來；不允許穿牆（分數變低的方向仍擋）
   function escapeOK(ent,nx,nz,r){ const o=ent.obj.position; return stuckIn(ent)&&freeScore(nx,nz,r,ent.lv|0)>=freeScore(o.x,o.z,r,ent.lv|0); }
   E.canStand=canStand; E.freeScore=freeScore; E.navOf=navOf; E.setLv=setLv; E.settleY=settleY;
-  E.SPD={walk:1.8,run:4.8,bike:8.5};
+  E.SPD={walk:1.8,run:6.2,bike:8.5};   /* 跑步 4.8 → 6.2（使用者 2026-10-20「跑步好慢」，X72）；跑步動畫照速度加快（character3d.js run 的 timeScale＝spd/4.1）*/
   /* 騎車的速度：載人時 85%（AA_137 第 5 節）；一起走、不坐後座的人走在旁邊（rideMode 'walk'，目前沒有人用；使用者 10-16 要學姊也坐後座）時騎慢，跟走路差不多 */
   E.bikeSp=function(){ let k=1, cap=Infinity; for(const n of E.npcs){ if(n.beh==='passenger') k=0.85; else if(n.beh==='follow'&&E.rideMode&&E.rideMode(n)==='walk') cap=2.4; } return Math.min(E.SPD.bike*k,cap); };
   E.PASSENGER={back:0.52,side:0.03,backAstride:0.54,y:0.334,mount:[0.55,-0.75],mountT:1.5};   /* 後座的位置（車的座標，乘上車的縮放）：LAWWW2-B 的載妹墊坐墊頂面在 (0, 0.784, −0.50)；坐姿的人物原點放在坐墊表面往下 0.45 m（坐姿把模型往下 0.47）——正式 GLB 交付後改讀 passenger_side 節點 */   /* 腳踏車 6.2 → 8.5（使用者 2026-10-15：「騎腳踏車還是好慢」）*/   /* 玩家走路／跑步／騎腳踏車速度（m/s）。2026-10-11 使用者：「走路又很慢完全不想玩遊戲」——原本 1.45／4.1（真實步行速度），校園一頭到另一頭要走兩三分鐘；動畫播放速度跟著速度調整（character3d.js：速度／1.45），不會滑步 */
@@ -304,6 +313,10 @@ const E3 = (function(){
     let best=null; const [cx,cz]=n.toCell(o.x,o.z); for(let r=1;r<=(maxR||16)&&!best;r++){ for(let dz=-r;dz<=r&&!best;dz++) for(let dx=-r;dx<=r;dx++){ if(Math.max(Math.abs(dx),Math.abs(dz))!==r) continue; const [wx,wz]=n.toWorld(cx+dx,cz+dz); if(standL(wx,wz,0.3,lv)){ best=[wx,wz]; break; } } } if(!best) best=nf; o.x=best[0]; o.z=best[1]; o.y=n.heightAt(o.x,o.z); console.warn('unstick →',best); return true; };
   E.moveTo=function(ent,x,z,onArrive,lv){ if(!navOf(ent.lv|0)){ ent.path=[[x,z]]; ent.onArrive=onArrive; return true; } const p=E.pathTo(ent.obj.position.x,ent.obj.position.z,ent.lv|0,x,z,lv===undefined||lv===null?(ent.lv|0):lv); if(p&&p.length){ ent.path=p; ent.onArrive=onArrive; return true; } ent.path=null; return false; };   // lv：目標在哪一層（多樓層區域；不給＝同一層）
   const _fr=new THREE.Frustum(), _frM=new THREE.Matrix4(), _frS=new THREE.Sphere();
+  /* 這一格看得到嗎（鏡頭視錐＋和 NPC 一樣的距離 LOD）：不是 NPC 的會動的人（路上騎腳踏車的人，bike3d.js B.rider）用。
+     X69（使用者 2026-10-20「溫州街、公館與校園卡頓」；tests/perf_breakdown.py：椰林大道一次 488 個 draw call 裡，騎士的人＋車佔 162 個、20 萬個三角形——
+     騎士原本不分遠近、畫面外也一直畫、一直算動畫）。E.seeCd＝離鏡頭的水平距離 */
+  E.seeLOD=function(x,y,z,r){ if(!camera){ E.seeCd=0; return true; } const cd=Math.hypot(camera.position.x-x,camera.position.z-z); E.seeCd=cd; const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); if(cd>=lim) return false; _frS.center.set(x,y,z); _frS.radius=r||1.3; return _fr.intersectsSphere(_frS); };
   /* 跟著人走（follow：跟玩家；buddy：路人跟同伴）。直線追；對方在別層，或同一層但中間有牆、建築（直線走會一直撞）時用找路
      （2026-10-13 使用者試玩：高子晴背吉他跟著同伴跑，一直被牆卡住——原本只有不同層才找路）。E.followStep 給測試用 */
   function followStep(n,dt){ const o=n.obj; let moving=false; const Pp=n.beh==='buddy'?n.buddy.obj:E.player.obj; const side=n.side||1; const yaw=Pp.rotation.y; const fx=Math.sin(yaw), fz=Math.cos(yaw); const rx=Math.cos(yaw), rz=-Math.sin(yaw); const off=n.followOff||0.95; const tx=Pp.position.x+rx*side*off-fx*0.3, tz=Pp.position.z+rz*side*off-fz*0.3; const d=Math.hypot(tx-o.position.x,tz-o.position.z); const ps=(n.beh==='buddy'?n.buddy.speed:E.player.speed)||0;
@@ -451,7 +464,12 @@ const E3 = (function(){
   E.fitSeatRadius=fitSeatRadius;
   /* 手機轉向（使用者 2026-10-15：先橫再直，人物變細／變扁，要重開才正常）：iOS 的 resize 事件常在版面還沒換好時就來，讀到舊的寬高。
      每一幀比一次畫布的實際大小，不一樣就重設（只讀兩個數字，很便宜）；另外 orientationchange、visualViewport 也接上 */
-  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
+  /* 晚上的太陽陰影（X79，使用者 2026-10-20「校園地圖卡」；BB-C 量到校園 19:30 有 857 個投影子的網格、516 draw calls）：19:12～05:30 太陽在地平線下、亮度 0.25 以下，影子幾乎看不到，
+     陰影貼圖改成 2 秒重畫一次（換區域馬上重畫）——不關 castShadow（關掉會讓全部材質重新編譯，黃昏那一下會頓）；白天照舊每一格畫。網址加 ?nightshadow=full＝每一格都畫（量修改前的數字用）*/
+  E.nightShadowFull=typeof location!=='undefined'&&/[?&]nightshadow=full/.test(location.search||'');
+  E.nightShadow=function(now){ if(!renderer||!renderer.shadowMap.enabled) return; const hh=(((E.hour||0)%24)+24)%24, night=!E.nightShadowFull&&(hh>=19.2||hh<5.5);
+    if(!night){ renderer.shadowMap.autoUpdate=true; return; } renderer.shadowMap.autoUpdate=false; if(!(E._shT>0)||now-E._shT>2000||E._shZone!==E.zone){ renderer.shadowMap.needsUpdate=true; E._shT=now; E._shZone=E.zone; } };
+  E.render=function(){ const w=E.canvas.clientWidth||innerWidth, h=E.canvas.clientHeight||innerHeight; if(w!==E.w||h!==E.h) E.resize(); if(E.renderSkip&&E.renderSkip()){ E.skipped=(E.skipped|0)+1; return; } E.nightShadow(performance.now()); renderer.render(scene,camera); };   /* renderSkip：全畫面 2D（出遊、CG、深色底）蓋住 3D 時不畫（P0 BUG-IOS-RELOAD：手機少做一份 GPU 工作，game3d.js 設定）*/
   E.recenter=function(){ if(E.player){ E.cam.yaw=E.player.obj.rotation.y+Math.PI; E.cam.manualT=0; } };
   E.faceEachOther=function(a,b){ const dx=b.position.x-a.position.x, dz=b.position.z-a.position.z; a.rotation.y=Math.atan2(dx,dz); b.rotation.y=Math.atan2(-dx,-dz); };
   return E;

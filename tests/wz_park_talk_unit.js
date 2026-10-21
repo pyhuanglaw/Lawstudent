@@ -59,7 +59,7 @@ const TREE={park:'tree',seat:{x:26,z:19.65,yaw:Math.PI}};
     const g3=mkGM(G,['摸摸']); await PARK.interact(g3,{park:'cat'}); check('6. 同一天第二次摸：灰掉「今天摸過了」',g3.L.menus[0][0]==='摸摸麻糬〔灰〕'&&g3.L.toasts[0]==='今天摸過了');
     G.daily.catCans=2; const g4=mkGM(G,['餵']); await PARK.interact(g4,{park:'cat'}); check('6. 有罐頭：「餵麻糬（小罐罐頭）」→ 用掉一罐、大一那句',g4.L.says[0]==='你才打開罐頭，麻糬已經坐好了。'&&G.daily.catCans===1);
     const st=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'); check('6. 便利商店：取了名字以後有「小罐貓罐頭 35 元」，買了 catCans +1',/\['小罐貓罐頭',35,0,G=>\{ G\.daily=G\.daily\|\|\{\}; G\.daily\.catCans=\(G\.daily\.catCans\|0\)\+1; \}\]/.test(st)&&/if\(typeof items\[i\]\[3\]==='function'\) items\[i\]\[3\]\(G\)/.test(st));
-    const per=[['Y2S1','{cat}胖了。你摸到的不是骨頭，是肉。'],['Y2S2','{cat}瘦了一點。……一點點。'],['Y3S2','脖子上的名牌寫著：請不要再餵我，我很胖。——里長'],['Y4S1','{cat}在你的背包上睡著了。你等牠醒。']]; let ok=true;
+    const per=[['Y2S1','{cat}胖了。你摸摸看，都是肉。'],['Y2S2','{cat}瘦了一點。……一點點。'],['Y3S2','脖子上的名牌寫著：請不要再餵我，我很胖。——里長'],['Y4S1','{cat}在你的背包上睡著了。你等牠醒。']]; let ok=true;
     for(const [id,line] of per){ const Gx=mk(termDay(id,5,6),15); Gx.daily.park={catName:'所長'}; const gx=mkGM(Gx,['摸摸']); await PARK.interact(gx,{park:'cat'}); if(gx.L.says[0]!==line.replace('{cat}','所長')) ok=false; }
     check('6. 四年的樣子：大二上胖、大二下瘦一點、大三名牌、大四睡在背包上',ok);
     const Gl=mk(termDay('Y3S1',9,3),15); check('6. 大三上第 9 週沒有貓',PARK.catLost(Gl)&&await PARK.interact(mkGM(Gl),{park:'cat'})==='lost'); }

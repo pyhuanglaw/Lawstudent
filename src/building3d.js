@@ -93,7 +93,7 @@ const B3=(function(){
       else if(f.type==='sofa'){ const c=Math.cos(ry), s=Math.sin(ry); b.add(MAT.sofa(),TK.boxG(f.w,0.42,f.d),f.x,y+0.21,f.z,ry); b.add(MAT.sofa(),TK.boxG(f.w,0.45,0.18),f.x-s*(f.d/2-0.09),y+0.6,f.z-c*(f.d/2-0.09),ry); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05); }
       else if(f.type==='planter'){ b.add(MAT.graniteD(),new THREE.CylinderGeometry(f.r,f.r*0.9,0.6,16),f.x,y+0.3,f.z); b.add(MAT.plant(),new THREE.IcosahedronGeometry(f.r*1.25,1),f.x,y+1.15,f.z); nav.blockCircle(f.x,f.z,f.r+0.1); }
       else if(f.type==='bench'){ b.add(MAT.wood(),TK.boxG(f.w,0.06,f.d),f.x,y+0.45,f.z); for(const sx of [-1,1]) b.add(MAT.steel(),TK.boxG(0.06,0.43,f.d*0.9),f.x+sx*(f.w/2-0.12),y+0.215,f.z); nav.blockRect(f.x,f.z,f.w,f.d,0,0.05); }
-      else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室（整修中）',24,146); x.fillText('3F–8F　研究室、教室（本學期整修中）',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
+      else if(f.type==='board'){ const tx=W3.canvasTex('b3board',512,256,(x,w,h)=>{ x.fillStyle='#24303a'; x.fillRect(0,0,w,h); x.fillStyle='#f3efe4'; x.font='bold 34px "Noto Sans TC",sans-serif'; x.fillText('霖澤館 樓層簡介',24,52); x.font='24px "Noto Sans TC",sans-serif'; x.fillText('1F　大廳｜101 教室｜法律學院辦公室',24,104); x.fillText('2F　201 階梯教室｜202 教室',24,146); x.fillText('3F 討論區｜4F 自習討論區｜5F–8F 研究室',24,188); x.fillStyle='#d6a425'; x.fillText('↑ 樓梯在大廳西側　電梯在中庭',24,232); });
         const bd=new THREE.Mesh(new THREE.PlaneGeometry(f.w,f.w/2),new THREE.MeshBasicMaterial({map:tx})); bd.position.set(f.x,y+1.65,f.z+0.01); keep0.add(bd); b.add(MAT.frame(),TK.boxG(f.w+0.1,f.w/2+0.1,0.04),f.x,y+1.65,f.z-0.03); } }
     b0.build(lv0); b1.build(lv1); }
   const g0=(lv0,lv1,k)=>k?lv1:lv0;
@@ -165,8 +165,8 @@ const B3=(function(){
     // 互動點
     const IT=E.interactables, EN=L.entrance;
     IT.push({x:EN.exitX,z:EN.exitZ,radius:1.4,lv:0,label:'走出霖澤館',exit:{to:'campus',spawn:Object.assign({},CAMPUS_DOOR)}});
-    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:{x:0,z:7.0,yaw:Math.PI}}; else it.look=d.closed; IT.push(it); }
-    const bd=L.furniture.find(f=>f.type==='board'); if(bd) IT.push({x:bd.x,z:bd.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'霖澤館 樓層簡介：1F 大廳、101 教室、法律學院辦公室；2F 201 階梯教室、202 教室（整修中）；3F–8F 研究室與教室（本學期整修中）。樓梯在大廳西側，電梯在中庭。'});
+    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:d.spawn?Object.assign({},d.spawn):{x:0,z:7.0,yaw:Math.PI}};   /* d.spawn：門自己帶出生點（2F 樓梯間 → 3F 的樓梯間門口）；沒有的照舊（201 教室）*/ else it.look=d.closed; IT.push(it); }
+    const bd=L.furniture.find(f=>f.type==='board'); if(bd) IT.push({x:bd.x,z:bd.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'霖澤館 樓層簡介：1F 大廳、101 教室、法律學院辦公室；2F 201 階梯教室、202 教室；3F 學生討論區、301、302 教室；4F 自習討論區、401 教室、402 研討室；5F–8F 研究室（教職員）。樓梯在大廳西側，電梯在中庭。'});
     for(const f of L.floors) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.linze_interior']){ ASSETS.loadOne('bldg.linze_interior').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); }).catch(e=>console.warn('霖澤館正式模型載入失敗，用程序化備用模型',e)); }

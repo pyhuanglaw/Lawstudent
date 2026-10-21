@@ -109,7 +109,8 @@ const run=(h0,h1,st)=>{ st=st||0.05; for(let h=h0;h<=h1+1e-9;h+=st){ G.hour=+h.t
     check('8. 沒去週日的互考：考古題的照片「下次你逃不掉。」',TH('p:kexin').some(m=>m.text==='下次你逃不掉。')); }
   // ---- 9-7 K6b ----
   { const W9=termDay('Y1S2',9,3); fresh(W9,20.9,'dorm',{introDone:true,dating_kexin:true}); run(20.9,21.1); const P=TH('p:kexin').filter(m=>m.tag==='kx_essay');
-    check('9. K6b 第 9 週週三 21:00：「剛考完。四頁。手好痛。」「原來法律不是背答案……」三個回覆；記 KX_DIR {Y1:reasons}',P.map(m=>m.text).join('｜')==='剛考完。四頁。手好痛。｜原來法律不是背答案，是把理由說給一個不認識你的人聽。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["那妳說給誰聽？","我也是這學期才發現。","四頁？"]'&&G.flags.KX_DIR.Y1==='reasons',JSON.stringify(P.map(m=>m.text)));
+    check('9. K6b 第 9 週週三 21:00：「剛考完。四頁。手好痛。」「申論題，就是把理由說給一個不認識你的人聽。」（AA_335 T1）三個回覆；記 KX_DIR {Y1:reasons}',P.map(m=>m.text).join('｜')==='剛考完。四頁。手好痛。｜申論題，就是把理由說給一個不認識你的人聽。'&&JSON.stringify(P[1].ask.opts.map(o=>o.t))==='["那妳說給誰聽？","我也是這學期才發現。","四頁？"]'&&G.flags.KX_DIR.Y1==='reasons',JSON.stringify(P.map(m=>m.text)));
+    check('9. 「我也是這學期才發現。」→「那我們發現得一樣晚。」（AA_335 T1b：拿掉「很好，沒有人贏。」）',JSON.stringify((P[1].ask.opts[1].say||[]).map(m=>m.text))==='["那我們發現得一樣晚。"]',JSON.stringify(P[1].ask.opts[1].say));
     PHONE.answer(G,P[1].ask.id,2); run(21.1,21.2); check('9. 「四頁？」→「老師說兩頁就夠。我停不下來。」',TH('p:kexin').some(m=>m.text==='老師說兩頁就夠。我停不下來。')); }
   // ---- 9-8 手機小事 ----
   { const D=STORY.DAILY_PHONE, ids=['kx2_late','kx2_azalea','kx2_steps','kx2_yule_hand','kx2_example','kx2_apology','kx2_dumpling','kx2_coffee'];

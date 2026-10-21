@@ -75,7 +75,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true;
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約'];
   const tb=await DATE.menu(GM,'heroine_03',null); const q=tb&&OUT.get(G,'date_'+tb.trip);
-  check('5. 選單：只列有底圖的地點（淡水 D13）',opts[0].includes('淡水金色水岸')&&!opts[0].includes('九份老街'),opts[0].join('/'));
+  check('5. 選單：只列有底圖、有台詞的地點（淡水 D13、九份 D18、動物園 D08、烏來 D20 有；陽明山夜景 D15、D22 有台詞沒底圖＝不列；2026-10-21 32 個地點台詞全部匯入以後）',opts[0].includes('淡水金色水岸')&&opts[0].includes('九份老街')&&opts[0].includes('臺北市立動物園')&&opts[0].includes('烏來')&&!opts[0].includes('陽明山夜景')&&!opts[0].includes(DATE.loc('D22').name),opts[0].join('/'));
   check('5. 日期：今天起 7 天＋算了',opts[1].length===8&&/^今天/.test(opts[1][0])&&/^明天/.test(opts[1][1]),opts[1].join('/'));
   check('5. 時間：半日的出發時間（09:00～15:00）＋換一天＋算了',opts[2].includes('15:00 出發')&&opts[2].includes('換一天'),opts[2].join('/'));
   check('5. 確認的摘要寫：對象、地點、日期、出發、交通、預計花費、回程',said.some(s=>/和.*去淡水金色水岸：明天.*15:00 出發.*單程約.*預計花費.*回到台大/.test(s.t)),said.map(s=>s.t).join(' | '));
@@ -108,7 +108,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);
   check('9. 和她交往中：「答應（和她交往中）」那一句',lines().some(x=>/阿姨說，那天她自己顧。/.test(x)),lines().join(' | '));
   // 交通偏好：語彤 D09 想搭捷運 → 預設選、排第一；改開車她說一句
-  check('9. 有底圖但台詞還沒匯入的地點（貓空 D09：自由出行用得到底圖）不列在約會清單',!!OUT.BG.d09_base_dusk&&!DATE_LINES.loc.D09&&!DATE.listable('D09'));
+  check('9. 有台詞、沒底圖的地點（D22）不列在約會清單；烏來 D20 有底圖、有台詞＝列（32 個地點台詞全部匯入以後，2026-10-21）',!!DATE_LINES.loc.D22&&!Object.keys(OUT.BG).some(k=>k.startsWith('d22_base'))&&!DATE.listable('D22')&&!!DATE_LINES.loc.D20&&DATE.listable('D20'));
   DATE_LINES.loc.D09={lines:{}};   /* 測交通偏好用：假裝貓空的台詞到了 */
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true; said=[]; opts=[]; picks=['貓空','開車','明天','14:00','就這樣約']; const tc=await DATE.menu(GM,'heroine_03',null);
   check('9. 交通：她的偏好（捷運）排第一、寫「（她想這樣去）」',opts[1]&&/（她想這樣去）/.test(opts[1][0])&&/捷運/.test(opts[1][0]),JSON.stringify(opts[1]));

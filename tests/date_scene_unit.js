@@ -31,7 +31,7 @@ const ADV2=global.ADV; ADV2.active=false;
   const day=termDay('Y1S2',5,6);
   OUT.BG.d13_base_sunset=OUT.BG.d13_base_sunset||{label:'淡水',image:'x'};
   const go=async(who,picks0,o)=>{ o=o||{}; const b=DATE.book(G,{who,locs:['D13'],transport:'mrt',day:G.day,depart:15}); const q=OUT.get(G,'date_'+b.trip); G.hour=15; said=[]; opts=[]; picks=['出發'].concat(picks0); await OUT.prompt(GM,q); return {b,t:DATE.trip(G,b.trip),L:lines()}; };
-  check('0. date_lines.js 有 D04、D06、D12、D13 的地點台詞（白名單＠8cac8eaa）',['D04','D06','D12','D13'].every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@8cac8eaa/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
+  check('0. date_lines.js 有 D01～D32 全部地點的台詞（白名單＠57de1709，AA-C 10-21 32 個地點口語審完）',Array.from({length:32},(_,k)=>'D'+String(k+1).padStart(2,'0')).every(k=>DATE_LINES.loc&&DATE_LINES.loc[k]&&DATE_LINES.loc[k].lines)&&/D13\.json@57de1709/.test(DATE_LINES.source),Object.keys(DATE_LINES.loc||{}).join(','));
   check('0. 她喜不喜歡讀地點檔（子晴：飲料攤喜歡、長椅不太喜歡）',DATE.likeOf('heroine_04','D13.drink')==='like'&&DATE.likeOf('heroine_04','D13.bench')==='dislike');
   // 芷若第一次去淡水
   fresh(day,9,'dorm',{}); G.money=5000;
@@ -73,5 +73,20 @@ const ADV2=global.ADV; ADV2.active=false;
   check('7. 第二次去：還沒有快速約會',!opts.some(o=>o.includes('快速約會')),JSON.stringify(opts.slice(0,3)));
   fresh(day,9,'dorm',{}); G.money=5000; DATE.log(G,'heroine_04').byLoc.D13=2; const c0=DATE.log(G,'heroine_04').count|0; r=await go('heroine_04',['快速約會']);
   check('7. 第三次：問「自己選／快速約會」，快速約會＝她喜歡的優先（子晴：飲料攤）、不用她不太喜歡的（長椅）、兩個、跳過抵達和收尾、直接結算、算一次',opts.some(o=>o[0]==='自己選'&&o[1]==='快速約會')&&r.t.spots.length===2&&r.t.spots[0]==='D13.drink'&&!r.t.spots.includes('D13.bench')&&r.t.status==='done'&&(DATE.log(G,'heroine_04').count|0)===c0+1&&r.L.filter(x=>!/^（|現在要出發/.test(x)).length===0,JSON.stringify({spots:r.t.spots,L:r.L}));
+  // 8. DATE-L 第一批（AA-C f21eac3c，2026-10-21）匯入以後：每個有台詞的地點、七位都約得完一次（第一次＝自己選第一個互動點 →「差不多了」），有抵達的一句、沒有例外、錢照扣
+  { const H7=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], bad=[];
+    const ok=loc=>((DATE.loc(loc)||{}).kinds||['half']).some(k=>DATE.STAY[k]), skip=Object.keys(DATE_LINES.loc||{}).filter(l=>!ok(l));   /* 兩天一夜（overnight，例 D28 臺南）這一版還不能約：不在這一項 */
+    for(const loc of Object.keys(DATE_LINES.loc||{}).filter(ok)){ for(const k of Object.keys(OUT.BG)) if(k.startsWith(loc.toLowerCase()+'_base')) OUT.BG[k]=OUT.BG[k]||{image:'x'};
+      for(const who of H7){ try{ fresh(day,9,'dorm',{}); G.money=20000; const b=DATE.book(G,{who,locs:[loc],transport:(DATE.loc(loc).transport||[{}])[0].mode||'mrt',day:G.day,depart:13});
+          if(!b||!b.trip){ bad.push(loc+' '+who+' 約不了'); continue; } const q=OUT.get(G,'date_'+b.trip); G.hour=13; said=[]; opts=[]; picks=['出發',0,0,'差不多了','差不多了','差不多了']; const m0=G.money; await OUT.prompt(GM,q);
+          const L=lines(); if(L.length<3) bad.push(loc+' '+who+' 句子太少：'+L.length); if(G.money>=m0&&((DATE.loc(loc).admission|0)>0)) bad.push(loc+' '+who+' 沒扣錢'); }
+        catch(e){ bad.push(loc+' '+who+' 例外：'+e.message); } } }
+    check('8. 有台詞、這一版約得了的 '+Object.keys(DATE_LINES.loc||{}).filter(ok).length+' 個地點七位都約得完、沒有例外（兩天一夜的不在內：'+skip.join(' ')+'）',!bad.length&&skip.length<=5,bad.slice(0,8).join('；')); }
+  // 9. AA-C 57de1709：「記得上次」不綁上次選哪個——第二次去（visits 1）同一個互動點就播；抽 D24（D30 是兩天一夜，這一版約不了）
+  { const loc='D24', who='heroine_01', HS=((DATE_LINES.loc[loc].lines||{})[who]||{}).hotspots||{}, pid=Object.keys(HS).find(k=>HS[k].remember&&(HS[k].remember.lines||[]).length);
+    fresh(day,9,'dorm',{}); G.money=20000; const b=DATE.book(G,{who,locs:[loc],transport:(DATE.loc(loc).transport||[{}])[0].mode||'mrt',day:G.day,depart:13}); const t=b&&DATE.trip(G,b.trip);
+    let L=[]; if(pid&&t){ DATE.mem(G,who,loc).picks=[pid]; said=[]; await DATE.spotLine(GM,t,pid,1); L=lines(); }
+    const want=pid?(HS[pid].remember.lines||[]).map(x=>x.text||x.narr||x).filter(x=>typeof x==='string'):[];
+    check('9. D24 第二次去同一個互動點：播「記得上次」（57de1709 的新句子，不看上次選哪個）',!!pid&&!!t&&want.length>0&&want.every(x=>L.some(l=>l.endsWith(x))),JSON.stringify({pid,want,L})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

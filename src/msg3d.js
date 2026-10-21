@@ -40,7 +40,7 @@ const MSG=(function(){
   const T=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
   const stageNum=id=>typeof DATE!=='undefined'&&DATE.stageNum?DATE.stageNum(id):(()=>{ const st=typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage(id):'STRANGER'; return Math.max(0,['STRANGER','ACQUAINTANCE','FAMILIAR','FRIEND','CLOSE_FRIEND','POSSIBLE_ROMANTIC_INTEREST','ROMANTIC_TENSION'].indexOf(st)); })();
   const weekKey=G=>{ const t=T(G); return t?t.id+'W'+t.week:'D'+Math.floor(G.day/7); };
-  S.rec=function(G){ if(!G.msgChat||typeof G.msgChat!=='object') G.msgChat={}; const R=G.msgChat; for(const k of ['sent','wk','rot','says','help','thx','bday']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+  S.rec=function(G){ if(!G.msgChat||typeof G.msgChat!=='object') G.msgChat={}; const R=G.msgChat; for(const k of ['sent','wk','rot','says','help','thx','bday','once']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };   /* once：一段期間只播一次的句子（子晴「芷若在英國」）；舊存檔沒有＝空的 */
   /* 祐廷和別人交往中，而且她知道（AA_202 第 4 節，2026-10-17：只在她知道時才算） */
   S.takenFor=function(G,id){ const F=G.flags||{}; for(const k in F){ if(k.indexOf('dating_')!==0||!F[k]) continue; const p=k.slice(7); if(p===id) continue;
       if(typeof ROM!=='undefined'&&ROM.knowsOf?ROM.knowsOf(G,id,p):true) return true; } return false; };
@@ -54,6 +54,34 @@ const MSG=(function(){
   const presence=(G,id)=>typeof STORY!=='undefined'&&STORY.presence?STORY.presence(id,G):{here:true};
   const evDone=(G,e)=>!!(G.events&&G.events.done&&G.events.done[e]);
   const inDates=(G,a,b)=>typeof STORY!=='undefined'&&STORY.inDates?STORY.inDates(G,[[a,b]]):false;
+  /* ---------- 芷若在英國：照交情聯絡（AA_276 第 2 節、BB_178 1-E〔bb6baddf；AA-C 266210fe 定稿〕；任務 VAC-ZR-UK-1017）----------
+     兩段：大三上交換、大四在英國念研究所（人物的 presence：不在、away「英國」）。回覆池是 msg_pool.js 的情況版「在英國」（她在英國只用這一組，不用 Café 的句子）。
+     交情（S.ukRow）：認識、有點熟＝不開（只寄明信片）；朋友＝開，一週回一兩次（週三、週日台灣 22:00＝她那邊的下午；這一段傳的只回最新一則，前面加「抱歉，這週比較忙。」）；
+     好朋友、曖昧（第 5 階以上，兩人都單身＝S.tier 的 L）、交往中＝當天回；她那邊半夜（台灣 07:00～16:00，夏令 06:00～15:00）傳的，她起床再回、先說「我剛起床。」；
+     交往中另外每天一則（英國 23:00 她睡前＝台灣 07:00，夏令 06:00；S.ukDaily，story3d.js 的手機規則每次叫）。前任：不開（BB_119 2-3）。
+     沒做：每月／每週約好的視訊（中間話題、收尾的裂縫 ① 要 BB_119 2-3）、生日新年按鈕的英國句子（MSG-2 回覆池還沒有）、社群發文（AA_276：遊戲沒有，不做）*/
+  S.inUK=(G,id)=>{ const pr=presence(G,id); return !!(pr&&pr.here===false&&/英國/.test(String(pr.away||''))); };
+  /* 英國比台灣慢 8 小時；夏令時間慢 7 小時：2027-10-31 以前、2028-03-26～10-29、2029-03-25 以後（BB_178 1-E）*/
+  S.ukOff=G=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:''; return (k<'2027-10-31'||(k>='2028-03-26'&&k<'2028-10-29')||k>='2029-03-25')?7:8; };
+  S.ukRow=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 'dating'; if(F['EX_'+id]) return 'none'; if(stageNum(id)<3) return 'none'; return S.tier(G,id)==='L'?'close':'friend'; };
+  const UK='在英國';
+  const ukList=(G,id,topic,ctx)=>{ const tier=S.tier(G,id); return ((POOL().people[id]||{}).replies||[]).filter(e=>e.variant===UK&&(topic==='share'?/^share/.test(e.topic):e.topic===topic)&&tierFits(e,tier)&&usable(G,id,e,ctx||{mode:'uk'})); };
+  S.ukHas=(G,id,topic)=>ukList(G,id,topic).length>0;
+  S.UK_FRIEND_SLOTS=[{wd:3,h:22},{wd:0,h:22}];   /* 朋友「一週回一兩次」的兩個時間（BB_178 1-E 沒寫是哪幾天：LAWWW 定週三、週日，她那邊的下午）*/
+  S.ukReplyAt=function(G,id,row){ const h=G.hour%24, day=G.day+Math.floor(G.hour/24);
+    if(row==='friend'){ for(let k=0;k<8;k++){ const d=day+k, wd=CALENDAR.dateOf(d).wd%7; for(const sl of S.UK_FRIEND_SLOTS) if(sl.wd===wd&&(k>0||h<sl.h)) return {day:d,h:sl.h+seedMin(G,id,0,20)/60,late:false,after:true,ukFriend:d+'@'+sl.h}; } }
+    const off=S.ukOff(Object.assign({},G,{day})), wake=8+off, sleep=off-1;   /* 她 08:00 起床、23:00 睡（英國時間）＝台灣 16:00／07:00（夏令 15:00／06:00）*/
+    if(h>=sleep&&h<wake) return {day,h:wake+seedMin(G,id,0,20)/60,late:true,ukWake:true};
+    const m=seedMin(G,id,5,30); return {day,h:h+m/60,late:false,immediate:false}; };
+  /* 交往中每天一則（BB_178 1-E）：輪流、用完從頭；第 8 則（帶感情的那一句）一個月最多一次 */
+  S.ukDaily=function(G){ const id='heroine_02'; if(typeof PHONE==='undefined'||!G||!G.flags||G.flags['dating_'+id]!==true||(G.stage||'law')!=='law'||!S.inUK(G,id)) return false;
+    const tag='zr_uk_daily_'+G.day; if(PHONE.sent(G,tag)) return false; const L=((POOL().people[id]||{}).replies||[]).filter(e=>e.variant===UK&&e.topic==='daily'&&!e.disabled); if(!L.length) return false;
+    const R=S.rec(G), mon=CALENDAR.dateOf(G.day).key.slice(0,7); let i=(R.rot['uk_daily']|0)%L.length, e=L[i];
+    if((e.tags||[]).includes('一個月最多一次')&&R.ukAff===mon){ i=(i+1)%L.length; e=L[i]; }
+    if((e.tags||[]).includes('一個月最多一次')) R.ukAff=mon; R.rot['uk_daily']=i+1;
+    PHONE.at(G,G.day,S.ukOff(G)-1,e.msgs.map(t=>({th:'p:'+id,from:id,text:t})),tag); return true; };
+  /* 子晴「芷若在英國」那一句（BB_178 第 2 節）：她在英國的那一段只播一次（段＝第幾次去英國：大三上、大四）*/
+  S.zrUkKey=G=>{ const k=typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).key:''; return k<'2028-06-01'?'Y3':'Y4'; };
   /* 什麼時候有「傳訊息」：回傳 {ok, why, mode}（mode：'business'＝學姊的事務版；'silent'＝沛珊重考消失期，只顯示已送達）。BB_178 0-1、AA_202 第 4 節 */
   /* 經濟系那一年交往以後的可昕（AA_301 MSG_KX_Y0；使用者 10-18「我還是不能聯絡女朋友啊，可昕？」）：10/17～2/13、7/12～8/29 開；2/14～7/11 住在一起不開（D103 重要的事當面講）*/
   const Y0=()=>typeof MSG_KX_Y0!=='undefined'?MSG_KX_Y0:null, DK=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):0;
@@ -65,7 +93,7 @@ const MSG=(function(){
     if(!met(G,id)||!hasContact(G,id)) return {ok:false,why:'還沒有聯絡方式'};
     const pr=presence(G,id); if(pr&&pr.here===false&&(pr.kind==='before'||pr.kind==='after')) return {ok:false,why:'聯絡不上'};
     if(id==='kexin') return G.flags&&G.flags.dating_kexin===true?{ok:true}:{ok:false,why:'分開以後不開'};
-    if(id==='heroine_02'&&pr&&pr.here===false) return {ok:false,why:'她在英國，只寄明信片'};   /* 大三上交換、大四英國念研究所（presence absent Y3S1／Y4S1／Y4S2）*/
+    if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
     if(id==='heroine_05'){ if(stageNum(id)<2) return {ok:false,why:'還不熟'}; const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }
     if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js */
@@ -75,6 +103,7 @@ const MSG=(function(){
   /* 這個人現在有哪些話題 */
   S.topics=function(G,id){ const o=S.open(G,id); if(!o.ok) return []; const t=T(G), h=G.hour%24, tier=S.tier(G,id), out=[];
     if(o.mode==='y0'){ const L=S.y0Pool(G); for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&h<21.5&&h>=5) continue; if(L.some(e=>q.k==='share'?/^share/.test(e.topic):e.topic===q.k)) out.push(q); } return out; }   /* 經濟系那一年的可昕（AA_301）*/
+    if(o.mode==='uk'){ for(const q of TOPICS){ if(q.k==='course') continue; if(q.k==='night'&&((h<21.5&&h>=5)||S.takenFor(G,id))) continue; if(S.ukHas(G,id,q.k)) out.push(q); } return out; }   /* 芷若在英國：只有「在英國」那一組有的話題（朋友沒有晚安）；生日、新年等第二批話題的英國句子還沒有，先不開 */
     for(const q of TOPICS){
       if(q.k==='course'){ const c=COURSE[id]; if(!c||!t) continue; if(c==='senior'){ const pr=presence(G,id); if(pr&&pr.here===false) continue; } else if(c!=='all'&&!c.includes(t.id)) continue;
         if(id==='heroine_03') continue; }   /* 語彤社會系：問課不出現（AA_202 6-3） */
@@ -100,6 +129,9 @@ const MSG=(function(){
     const tt=TIME_TAGS.find(([k])=>p===k); if(tt) return tt[1](h);
     if(p==='平日') return wd>=1&&wd<=5; if(p==='週末') return wd===0||wd===6; if(p==='學期中') return !brk; if(/^(放假|放假中|寒暑假)$/.test(p)) return brk; if(p==='暑假') return brk&&(()=>{ const x=md(G); return !!x&&x.m>=6&&x.m<=9; })();
     if(p==='考試週') return !!(t&&t.exam); if(p==='深夜') return h>=23||h<5; if(p==='下雨天') return G.weather==='rain'; if(p==='平日課後') return wd>=1&&wd<=5&&h>=12;
+    if(p==='交往中') return !!(G.flags&&G.flags['dating_'+id]===true);   /* BB_178 1-E 交往中那一組 */
+    if(p==='一個月最多一次') return true;   /* 芷若每天一則的第 8 則：S.ukDaily 管 */
+    if(p==='兩人是朋友') return true;   /* 子晴「芷若在英國」（BB_178 第 2 節）：遊戲還沒有子晴×芷若的狀態（ZZ），她們是朋友 */
     if(p==='在臺灣') { const pr=presence(G,id); return !(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在美國'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='abroad'); } if(p==='在老家'||p==='在老家或旅行'){ const pr=presence(G,id); return !!(pr&&pr.here===false&&pr.kind==='home'); }   /* AA_276：寒暑假回老家（可昕高雄、沛珊台中）*/
     let m=p.match(/^(?:祐廷)?(大[一二三四])(上|下)?(?:～(大[一二三四])(上|下)?)?(起)?$/);
     if(m){ const y=yearNow(G), a=YEAR[m[1]], b=m[3]?YEAR[m[3]]:(m[5]?9:a); if(!(y>=a&&y<=b)) return false; const sm=semNow(G);
@@ -124,6 +156,7 @@ const MSG=(function(){
     if(v==='上午傳的') return !!(ctx&&ctx.late)&&yearNow(G)<=3;   /* 子晴：下午兩點才醒，前一晚到早上傳的（大一～大三；大四照上班時間）*/
     if(v==='大三起、課輔班那天'||v==='大三起、書店那天') return yearNow(G)>=3;
     if(v==='大二下在家重考') return yearNow(G)===2&&semNow(G)==='S2';
+    if(v==='芷若在英國') return S.inUK(G,'heroine_02')&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','FIRST_MET')&&!S.rec(G).once[id+':zr_uk:'+S.zrUkKey(G)];   /* 子晴（BB_178 第 2 節）：祐廷認識芷若；一段期間只播一次 */
     return false; };
   const RANK={A:0,R:1,L:2};
   const tierFits=(e,tr)=>e.tier===tr||(!!e.tierMin&&RANK[e.tier]<=RANK[tr]);
@@ -132,6 +165,7 @@ const MSG=(function(){
   S.pick=function(G,id,topic,sub,ctx){ ctx=Object.assign({},ctx||{}); const R=S.rec(G), o=S.open(G,id); ctx.mode=o.mode; const tier=S.tier(G,id);
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
+    if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
       const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
@@ -148,7 +182,8 @@ const MSG=(function(){
     const busy=BUSY_ACTS.has(e.act)||/打工|家教|上課|社課|練球|上班/.test(String(e.label||e.away||'')); return busy&&e.to!=null?e.to:null; };
   /* 什麼時候回：{day,h,late,after,win,immediate}（late＝隔天才回，先說 wakeLine） */
   S.replyAt=function(G,id){ const Tm=S.timing(id), h=G.hour%24, wd=G.weekday, day=G.day+Math.floor(G.hour/24);
-    { const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='trip'&&pr.back!=null&&pr.back>day) return {day:pr.back,h:15,late:true}; }   /* 方奕廷暑假上山沒訊號（BB_171 第 1 節「常常晚好幾天才回」）：下山那天 15:00 才回（照寒假初三 15:00 的做法）*/
+    if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); if(row!=='none') return S.ukReplyAt(G,id,row); }   /* 芷若在英國（BB_178 1-E）*/
+    { const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='trip'&&!pr.signal&&pr.back!=null&&pr.back>day) return {day:pr.back,h:15,late:true}; }   /* 方奕廷暑假上山沒訊號（BB_171 第 1 節「常常晚好幾天才回」）：下山那天 15:00 才回（照寒假初三 15:00 的做法）。signal＝短期出門有訊號（AA_350 S4、S8：阿凱日本／曼谷、以安東京／京都、小語營隊），照平常回 */
     if(Tm.slots){ const nx=Tm.slots.find(x=>x>h+0.01); if(nx!=null) return {day,h:nx,late:false,after:true}; return {day:day+1,h:Tm.slots[0],late:true}; }   /* 學姊 */
     if(id==='heroine_02'&&yearNow(G)<=2&&S.takenFor(G,id)){ const s1=15+10/60; return h<s1?{day,h:s1,late:false,after:true}:{day:day+1,h:s1,late:true}; }   /* 芷若：祐廷交往中改 15:10 回（BB_70 1-2）*/
     const asleep=Tm.sleep!=null&&(Tm.sleep>=12?(h>=Tm.sleep||h<Tm.wake):(h>=Tm.sleep&&h<Tm.wake));
@@ -273,11 +308,13 @@ const MSG=(function(){
     const items=[]; const nm=id==='kevin'?'Kevin':undefined;
     const pre=topic==='night'?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));
     if(pre) for(const t of pre.msgs) items.push({th,from:id,name:nm,text:t});
-    else if(at.late){ const wl=S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }
+    else if(at.late&&!(e&&e.noWake)){ const wl=at.ukWake?['我剛起床。']:S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }   /* 芷若在英國：她那邊半夜傳的，起床先回「我剛起床。」（BB_178 1-E）*/
     if(e&&!(at.late&&topic==='night')){ const L=e.msgs.concat(S.addMsgs(G,id,e)); const ask=S.askOpts(G,id,e,nm,ctx);
       L.forEach((t,i)=>{ const it={th,from:id,name:nm,text:t}; if(i===L.length-1&&ask) it.ask=ask; items.push(it); }); }
     if(!items.length) items.push({th,from:id,name:nm,text:'（貼圖）'});
-    if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items,null);
+    if(e&&e.variant==='芷若在英國') R.once[id+':zr_uk:'+S.zrUkKey(G)]=G.day;   /* 一段期間只播一次 */
+    if(at.ukFriend&&typeof PHONE!=='undefined'){ const tag='zr_uk_r_'+at.ukFriend, P=PHONE.rec(G); P.q=P.q.filter(q=>q.tag!==tag); items.unshift({th,from:id,name:nm,text:'抱歉，這週比較忙。'}); PHONE.at(G,at.day,at.h,items,tag); }   /* 芷若在英國、朋友：這一段傳的只回最新一則（前面那則排好的回覆拿掉），前面加「抱歉，這週比較忙。」（BB_178 1-E）*/
+    else if(typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,items,null);
     /* 熟悉度：同一個人一天最多 +1；一週傳超過三次那週不再加（第 4 節）*/
     if(W.n<=3&&typeof SOCIAL!=='undefined'&&SOCIAL.activity&&id!=='kevin') SOCIAL.activity(id,'msg');
     return {ok:true,text,at,entry:e}; };

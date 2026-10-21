@@ -76,7 +76,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const at=(day,hour,flags,zone)=>{ fresh(day,hour,zone||'campus',Object.assign({met_yu:true,metYuDay:W4TUE},flags||{})); return EVENTS.check(e); };
     const r={next:at(W4TUE+1,8.6),w3:at(3,8.6,{metYuDay:2}),w5:at(W5THU,9),w6:at(W6MON,8.6),pm:at(W4TUE+1,9.3),notmet:at(W4TUE+1,8.6,{met_yu:false}),oldsave:at(W4TUE+1,8.6,{metYuDay:undefined}),lib:at(W4TUE+1,8.6,{},'library')};   /* AA_156 第 4 節：平日上課前 08:20～09:05（原本 9:30～12:00）*/
     check('A10 第 3～5 週上課前（08:20～09:05）在校園：有（隔天、第 3 週、第 5 週 09:00；舊存檔沒有 metYuDay 也算）；第 6 週、09:18（去上課了）、沒認識、在總圖：沒有',r.next&&r.w3&&r.w5&&r.oldsave&&!r.w6&&!r.pm&&!r.notmet&&!r.lib,JSON.stringify(r));
-    const intro=['欸，你要不要坐？','我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。','對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'];
+    const intro=['欸，你要不要坐？','我一個人吃很怪。……太安靜了。我不喜歡安靜。','對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'];
     for(const [pick,after,mem] of [['坐下來',['她講了十五分鐘，關於三個社團。','欸你有沒有群組？沒有？我拉你。','明天你也會經過嗎？'],true],['要遲到',['喔，好！','她揮手。等你走遠，她把耳機戴上。'],false],['不會累',['累啊。','可是累就不會想東想西。'],false]]){
       fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); const h0=G.hour; picks=[pick]; await EVENTS.run(e); const L=lines();
       check('A10 選「'+pick+'」：開場三句＋'+JSON.stringify(after)+(mem?'、記憶 BREAKFAST_YU、過了 15 分鐘':'、沒有 BREAKFAST_YU'),JSON.stringify(L)===JSON.stringify(intro.concat(after))&&SOCIAL.has('yu','BREAKFAST_YU')===mem&&(mem?Math.abs(G.hour-h0-0.25)<0.01:G.hour===h0),JSON.stringify({L,h:G.hour})); }
@@ -99,11 +99,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       const Y=CHARACTERS.yu, ca=ACTIVITIES.list.find(x=>x.id==='club_guitar'); let CM=null; for(let d=termDay(5,1);d<termDay(12,1);d++){ if([1,3].includes(CALENDAR.dateOf(d).wd)&&ACTIVITIES.on(ca,d)){ CM=d; break; } } fresh(CM,19.5,'campus',{}); const ys=STORY.schedEnt(Y,G); fresh(CM,18.5,'campus',{}); const ys2=STORY.schedEnt(Y,G);
       check('A10b 小語作息：第一個有社課的週一或週三（第 5～7 週的週一都放假）19:30 在萬才館吉他社、18:30 在校園（社課前散步）',ys&&ys.zone==='wancai'&&ys.act==='club'&&ys2&&ys2.zone==='campus',JSON.stringify([ys&&ys.zone,ys2&&ys2.zone])); } }
   /* ---------- A11 迎新 ---------- */
-  { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1');
-    check('A11 活動：法律系迎新，第 4 週週六（2025-09-27）14:00–17:00，校園傅鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,W4SAT)&&!ACTIVITIES.on(a,W4SAT+1)&&!ACTIVITIES.on(a,W4SAT+7)&&a.t0===14&&a.t1===17&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
-    const attend=async(flags,setup,pk)=>{ fresh(W4SAT,14,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
+  { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1'), D831=STORY.dayOfKey('2025-08-31');   /* AA_310（使用者 10-20「迎新在9/27不合理阿 應該在開學前」）：8/31（日）09:30～12:00，下午開學典禮 */
+    check('A11 活動：法律系迎新，開學前 8/31（日）09:30–12:00，校園傅鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好；9/27 沒有',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,D831)&&!ACTIVITIES.on(a,D831+1)&&!ACTIVITIES.on(a,W4SAT)&&a.t0===9.5&&a.t1===12&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
+    const attend=async(flags,setup,pk)=>{ fresh(D831,9.5,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
     const ok=await attend({},()=>{ meet('heroine_01'); },['大一歲','還在找']); const L=lines();
-    check('A11 參加：演迎新（開場→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 17:00',ok&&L[0]==='傅鐘前面，法律系的迎新。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-17)<0.01,JSON.stringify({L,h:G.hour}));
+    check('A11 參加：演迎新（開場「星期天上午……下午就是開學典禮」→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 12:00',ok&&L[0]==='星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-12)<0.01,JSON.stringify({L,h:G.hour}));
     check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過經濟系，一個多月。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
@@ -116,7 +116,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
     await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();
     check('A11 見過小語：「小語自我介紹講了三分鐘她的三個社團。」；也見過柏翰才有「（小聲）她剛剛講了四個。」',L3.includes('小語自我介紹講了三分鐘她的三個社團。')&&!L3.includes('（小聲）她剛剛講了四個。')&&L4.includes('（小聲）她剛剛講了四個。'),JSON.stringify({L3:L3.slice(0,3),L4:L4.slice(0,3)}));
-    fresh(W4SAT,14,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（15:30）以後不行',(G.hour=13.75,ACTIVITIES.canJoin(G,a))&&(G.hour=15.6,!ACTIVITIES.canJoin(G,a))); }
+    fresh(D831,9.5,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（10:45）以後不行',(G.hour=9.25,ACTIVITIES.canJoin(G,a))&&(G.hour=10.85,!ACTIVITIES.canJoin(G,a))); }
   /* ---------- A12 以安的報告分工 ---------- */
   { const e=ev('ev_an_report_split'); check('A12 事件存在（ev_an_report_split，民總下課後）',!!e&&e.afterClass==='civ_general'&&e.trigger==='class');
     const item=day=>CLS.dayItems(G,day).find(it=>it.c.id==='civ_general');
@@ -141,6 +141,16 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     const f={w5:chk(fb,termDay(5,5)),w6:chk(fb,W6MON)};
     check('A4／A12 「報告發回來了」第 6 週起（第 5 週沒有）',!f.w5&&f.w6,JSON.stringify(f));
     for(const [partner,want] of [[true,'「下次也一起寫。」'],[false,'「下次一起寫。」']]){ fresh(W6MON,10,'library',{afternoonDone:true}); G.choices.cafeView='C'; SOCIAL.remember('heroine_01','CAFE_AFTERNOON',''); if(partner) SOCIAL.remember('heroine_01','REPORT_PARTNER',''); npc('an',1,1); picks=[0]; await EVENTS.run(fb);
-      check('A12 報告發回來：'+(partner?'一起寫過':'沒有一起寫')+'的第一個選項是'+want+'（數值照舊）',opts[0][0]===want&&opts[0].length===2&&SOCIAL.rel('heroine_01').fam>=5,JSON.stringify(opts[0])); } }
+      check('A12 報告發回來：'+(partner?'一起寫過':'沒有一起寫')+'的第一個選項是'+want+'（數值照舊）',opts[0][0]===want&&opts[0].length===2&&SOCIAL.rel('heroine_01').fam>=5,JSON.stringify(opts[0])); }
+    /* AA_358 2-4（AA-C 2026-10-21 659d9d81）：「謝謝你那天陪我」有 cafeView（A、B）照原句和原選項；沒有 cafeView（拒絕咖啡廳）的換「（小聲）……寫完了，先給你看。」、
+       選項「妳寫得出來的。」「改天請妳喝咖啡。」（記憶的 note 改「你說改天請她喝咖啡」）。修改前 FAIL：沒有 cafeView 也說「謝謝你那天陪我」*/
+    { fresh(W4THU+1,10,'library',{afternoonDone:true}); G.choices.cafeView='A'; npc('an',1,1); picks=[1]; await EVENTS.run(fu); const LA=lines(), oA=opts[0];
+      fresh(W4THU+1,10,'library',{afternoonDone:true}); G.choices.cafeView='B'; npc('an',1,1); picks=[0]; await EVENTS.run(fu); const LB=lines();
+      fresh(W4THU+1,10,'library',{afternoonDone:true,anSkipped:true}); npc('an',1,1); picks=[1]; await EVENTS.run(fu); const LN=lines(), oN=opts[0], mem=SOCIAL.memories('heroine_01').find(m=>m.tag==='IMPORTANT_CONVERSATION');
+      fresh(W4THU+1,10,'library',{afternoonDone:true,anSkipped:true}); npc('an',1,1); const c0=SOCIAL.rel('heroine_01').comf; picks=[0]; await EVENTS.run(fu); const L0=lines(), helped=SOCIAL.has('heroine_01','HELPED_WITH_REPORT');
+      check('AA_358 2-4 報告的結論：cafeView A、B 照原句「（小聲）……謝謝你那天陪我。」和原選項（「妳寫得出來，我只是坐在旁邊。」「下次換我請。」）',LA.includes('（小聲）……謝謝你那天陪我。')&&LB.includes('（小聲）……謝謝你那天陪我。')&&JSON.stringify(oA)===JSON.stringify(['「妳寫得出來，我只是坐在旁邊。」','「下次換我請。」']),JSON.stringify([LA,oA]));
+      check('AA_358 2-4 沒有 cafeView（拒絕咖啡廳）：不說「謝謝你那天陪我」，換「（小聲）……寫完了，先給你看。」；選項「妳寫得出來的。」「改天請妳喝咖啡。」→ 記憶「你說改天請她喝咖啡」',
+        !LN.includes('（小聲）……謝謝你那天陪我。')&&LN.includes('（小聲）……寫完了，先給你看。')&&JSON.stringify(oN)===JSON.stringify(['「妳寫得出來的。」','「改天請妳喝咖啡。」'])&&!!mem&&mem.note==='你說改天請她喝咖啡'&&LN[LN.length-1]==='（小聲）好。',JSON.stringify([LN,oN,mem]));
+      check('AA_358 2-4 沒有 cafeView 選「妳寫得出來的。」：自在、好感照原本第一個選項加；不記「幫她寫報告」（沒有一起寫）',L0.includes('（小聲）……寫完了，先給你看。')&&SOCIAL.rel('heroine_01').comf===c0+4&&!helped,JSON.stringify([L0,SOCIAL.rel('heroine_01').comf,c0,helped])); } }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

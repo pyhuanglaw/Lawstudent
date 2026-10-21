@@ -53,7 +53,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
         Lb[0]==='（同一個櫃台。上次那個工作人員認得你。）'&&Lb.includes('工作人員：不好意思。管理那邊說，沒有社會科的分數，就沒辦法。')&&Lb.includes('工作人員：要上的話，全年班原本是二十萬。現在二月了，前面的課已經上掉一大半，剩下的算妳十三萬。')&&Lb.includes('杜可昕：十三萬。')&&!Lb.join('').includes('十二萬八')&&!Lb.join('').includes('差四分以內')&&Lb.includes('杜可昕：你去上啊。你免費耶。')&&Lb.includes('杜可昕：……好。在家讀。')&&Lb.includes('杜可昕：所以說好了。每天早上，比誰先坐到桌子前面。')&&Lb[Lb.length-1]==='杜可昕：輸的人請早餐。……我不會輸。'&&G.flags.CRAM_ASKED_TOGETHER===true&&opts[0].length===3,J(Lb));
       opts=s0; }
     check('5-1 E27 兩個選項（「歡迎。」「明天去問補習班。」）',opts[0].length===2&&opts[0].every(t=>t.startsWith('「')));
-    { econ(DK('2025-02-02'),15,'home',{}); picks=['我要再考一次']; said=[]; await EVENTS.run(ev('ev_y0_kh3')); const K=lines();
+    { econ(DK('2025-02-02'),15,'home',{}); picks=['轉得好慢','我要再考一次'];   /* AA_308 第 3 節：大港橋先有一個二選一 */ said=[]; await EVENTS.run(ev('ev_y0_kh3')); const K=lines();
       check('5-1 高雄三天兩夜（AA_303 第 15 場）：「（大年初三。你開了四個多小時的車到高雄……）」→ 蓮池潭「我在想要不要休學。」→ 三選一（祐廷提）→「先說好。我考法律，不是因為你。」→「那回台北，一起去問。」；RETAKE_TOGETHER、E27B_PLAN',K[0].startsWith('（大年初三。')&&K.includes('杜可昕：我在想要不要休學。')&&K.includes('杜可昕：好。一起。')&&K[K.length-1]==='杜可昕：那回台北，一起去問。'&&G.flags.RETAKE_TOGETHER===true&&G.flags.E27B_PLAN===true,J(K)); }
     econ(d13,19,'home',{CRAM_FREE_KNOWN:false}); picks=['一起考吧']; await EVENTS.run(ev('ev_y0_e27')); const L2=lines();
     check('5-1 沒有 CRAM_FREE_KNOWN（防呆）：沒有「你十二月去補習班那天」的選項、沒有「那間補習班說我可以免費」，照樣說好',opts[0].length===2&&!L2.join('').includes('補習班')&&G.flags.RETAKE_TOGETHER===true); }

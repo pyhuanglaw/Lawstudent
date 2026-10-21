@@ -1,6 +1,6 @@
-"""118 巷（D46；AA_280；src/lane118.js、zones3d.js buildLane118）：從霖澤館後面的小廣場（法學院後門）走出去 → 118 巷 → 走到六張犁麵舖門口點餐（和阿哲一起）→ 走回後門回到台大。
+"""118 巷（D46；AA_280；src/lane118.js、zones3d.js buildLane118）：從霖澤館後面的小廣場（法學院後門）走出去 → 118 巷 → 走到六張犁麵舖門口、走進店裡點餐（和阿哲一起）→ 走回後門回到台大。
 [前置／捷徑] 讀檔到 2025-09-08（一）12:05 霖澤館穿堂後面的小廣場（大一上第 2 週；見過阿哲、還沒進麵店團群組）。手機模擬橫向、不用 turbo；選項照第一個選。
-檢查：校園有「從後門出去（118 巷）」；進到 118 巷（區域 lane118、正式街景模型載入）；阿哲站在麵舖門口；點餐：老闆「幾位？裡面有位子。」→ 點菜 → 阿哲那句、扣 150；
+檢查：校園有「從後門出去（118 巷）」；進到 118 巷（區域 lane118、正式街景模型載入）；阿哲站在麵舖門口；點餐：老闆「幾位？……那邊那張可以坐。」→ 點菜 → 阿哲那句、扣 150；
       沒開的店（巷口家常菜週一休）「鐵門拉下來一半」；走回後門回到校園；沒有卡住保險、沒有 JS 例外。
 用法：python3 tests/flow_lane118.py URL [輸出資料夾]"""
 import asyncio, json, sys, time
@@ -81,11 +81,29 @@ async def main():
         m0 = await pg.evaluate("GAME.G.money")
         # 記下遊戲送出的完整台詞（對話一個字一個字跑，點一下可能直接跳下一句，從畫面讀只拿得到半句）
         await pg.evaluate("(()=>{ if(window.__saidHook) return; window.__said=[]; const s0=GAME.say; GAME.say=function(who,t,o){ window.__said.push((who&&who.name?who.name+'：':'')+t); return s0.apply(this,arguments); }; window.__saidHook=true; })()")
+        # 118 巷的店走得進去（LANE118-SHOPS-1020，X66）：店門口「進六張犁麵舖」→ 店裡（l118_noodle2），阿哲（在門口等的常客）跟著坐在店裡 → 走到櫃台前「點餐（六張犁麵舖）」
+        await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            if await pg.evaluate("GAME.G.zone==='l118_noodle2'&&!GAME.E.player.busy"): break
+            await pg.wait_for_timeout(1000)
+        inside = await pg.evaluate("({zone:GAME.G.zone, zhe:!!GAME.npc.zhe, order:L118_SHOP_LAYOUTS.noodle2.order})")
+        run.check('進到六張犁麵舖店裡（l118_noodle2）、阿哲跟著進來坐在店裡', inside['zone'] == 'l118_noodle2' and inside['zhe'], json.dumps(inside, ensure_ascii=False))
+        od = inside['order']; ok = await L.go_to(pg, cdp, run, od['x'], od['z'], max(0.3, od['r'] * 0.6), '櫃台前面（點餐）')
+        await pg.wait_for_timeout(800); s = await L.state(pg)
+        run.check('走到櫃台前面，互動鍵「點餐（六張犁麵舖）」', ok and s['interact'].startswith('點餐'), s['interact'])
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await run.shot(pg, 'order_greet')
         okc, _ = await talk_through(pg, cdp, "!GAME.D.active&&!GAME.E.player.busy&&GAME.G.money<" + str(m0), 120)
         log = await pg.evaluate("window.__said||[]")
         m1 = await pg.evaluate("GAME.G.money"); await run.shot(pg, 'order_done')
-        run.check('點餐和阿哲一起：「幾位？裡面有位子。」→「（你點了牛肉麵。）」→ 阿哲「這間我給八十分。上次那間七十。」、扣 150', okc and m0 - m1 == 150 and any('幾位？裡面有位子。' in t for t in log) and any('你點了牛肉麵' in t for t in log) and any('這間我給八十分' in t for t in log), json.dumps(log, ensure_ascii=False) + ' ' + str(m0 - m1))
+        run.check('點餐和阿哲一起：「幾位？……那邊那張可以坐。」→「（你點了牛肉麵。）」→ 阿哲「這間我給八十分。上次那間七十。」、扣 150', okc and m0 - m1 == 150 and any('幾位？……那邊那張可以坐。' in t for t in log) and any('你點了牛肉麵' in t for t in log) and any('這間我給八十分' in t for t in log), json.dumps(log, ensure_ascii=False) + ' ' + str(m0 - m1))
+        ex = await L.find_it(pg, '離開六張犁麵舖')
+        ok = bool(ex) and await L.go_to(pg, cdp, run, ex['x'], ex['z'], ex['r'] * 0.7, '店門（離開）')
+        await pg.wait_for_timeout(800); s = await L.state(pg)
+        if ok and s['interact'].startswith('離開'): await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            if await pg.evaluate("GAME.G.zone==='lane118'&&!GAME.E.player.busy"): break
+            await pg.wait_for_timeout(1000)
+        run.check('「離開六張犁麵舖」→ 回到 118 巷', await pg.evaluate("GAME.G.zone==='lane118'"))
         gate = await L.find_it(pg, '回到台大')
         ok = bool(gate) and await L.go_to(pg, cdp, run, gate['x'], gate['z'], gate['r'] * 0.7, '後門（回台大）')
         await pg.wait_for_timeout(800); s = await L.state(pg)

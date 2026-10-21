@@ -366,11 +366,12 @@
     "assets/models/env/second_ai/prop_pothos.glb",
     "assets/models/env/second_ai/dorm_y2_items.glb"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "黃金葛已整合（待瀏覽器）；SCN-V3-01 大二 312 物件照 AA_208 7-1 重擺（還沒做）",
-   "next": "黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】黃金葛（F.POTHOS）、大二 312 拆箱物件 dorm_y2_items.glb（899f9bcd）都已接（1053653c） ｜ 舊：黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
    "noDirectIntegrate": true,
-   "source": "DL-LW2-POTHOS-412"
+   "source": "DL-LW2-POTHOS-412",
+   "closedBy": "1053653c"
   },
   {
    "id": "WIP-L2-SHOP-BG",
@@ -383,7 +384,7 @@
    ],
    "state": "WIP",
    "remaining": "4 張背景",
-   "next": "道具驗收過；4 張 2D 背景還沒開工",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】公館機車行背景依 AA_252 刪（89c856f8），道具組沒有戲用；其餘三張 2D 背景歸 BB（ART-BG-AA185） ｜ 舊：道具驗收過；4 張 2D 背景還沒開工",
    "noDirectIntegrate": true,
    "source": "WIP_INVENTORY_2026-10-17"
   },
@@ -397,11 +398,12 @@
     "assets/models/env/second_ai/us_apartment.glb",
     "src/data/us_apartment_layout.js"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "",
-   "next": "MODEL_READY；大三下美國篇才整合（D81 第二條線）",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】被新版取代：美國公寓照 3bff5ef4 的正式區域接進（4782cc29），這筆 5e688f34 是舊版 ｜ 舊：MODEL_READY；大三下美國篇才整合（D81 第二條線）",
    "noDirectIntegrate": false,
-   "source": "WIP_INVENTORY_2026-10-17"
+   "source": "WIP_INVENTORY_2026-10-17",
+   "closedBy": "4782cc29"
   },
   {
    "id": "WIP-L2-DATE-CUTOUTS",
@@ -429,11 +431,12 @@
     "assets/portraits/tangrui/campus/neutral.webp",
     "assets/portraits/weilun/campus/neutral.webp"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "",
-   "next": "等 v0 人物 id（AA-REQ-06）和表情",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】經濟系三位立繪改 id econ_*（b82b9eaf），blob 和 8fbe1e1a 相同 ｜ 舊：等 v0 人物 id（AA-REQ-06）和表情",
    "noDirectIntegrate": false,
-   "source": "WIP_INVENTORY_2026-10-17"
+   "source": "WIP_INVENTORY_2026-10-17",
+   "closedBy": "b82b9eaf"
   },
   {
    "id": "WIP-L2-CHAR-SCRIPTS",
@@ -444,11 +447,12 @@
    "files": [
     "tools/blender/char_second/"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "腳本 WIP",
-   "next": "帳號 A 的 WIP 腳本：跑 Blender、BB D59 驗收",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】小語做完接進（55b67ccf）；明軒照 D99 凍結、使用者 10-17 20:5x 停人物細修，不再做 ｜ 舊：帳號 A 的 WIP 腳本：跑 Blender、BB D59 驗收",
    "noDirectIntegrate": true,
-   "source": "WIP_INVENTORY_2026-10-17"
+   "source": "WIP_INVENTORY_2026-10-17",
+   "closedBy": "55b67ccf"
   },
   {
    "id": "WIP-L2-SOP",
@@ -511,6 +515,128 @@
    "next": "AA 定稿後結構化交付",
    "noDirectIntegrate": true,
    "source": "AA-C 04:37Z"
+  },
+  {
+   "id": "WIP-L2-PS-SKIRT-LEG",
+   "role": "LAWWW2",
+   "task": "PS-SKIRT-LEG",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "27618d8d",
+   "files": [
+    "tools/blender/char_second/peishan_skirt_reweight.py"
+   ],
+   "state": "WIP",
+   "remaining": "只靠權重兩全不了：要加前片骨頭或程式布料碰撞",
+   "next": "排回 LAWWW2 佇列；正式 VRM（第二十六版）不動",
+   "noDirectIntegrate": true,
+   "source": "LAWWW2-C 10-21 13:48 訊息"
+  },
+  {
+   "id": "WIP-LAWWW-Y5-1021",
+   "role": "LAWWW",
+   "task": "Y5-DELAY-1021",
+   "branch": "worktree-agent-a49e7888e56ebae1c",
+   "sha": "4786dfdd",
+   "files": [
+    "src/data/calendar.js",
+    "src/postgrad3d.js",
+    "src/home3d.js",
+    "tests/y5_delay_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "（已整合）AA_357 合併 dd578e81；BB 驗收 BB-TEST-Y5-1021",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "dd578e81"
+  },
+  {
+   "id": "WIP-LAWWW-AAFIX-1021",
+   "role": "LAWWW",
+   "task": "AA-VAC-C16-C18-Q-1021",
+   "branch": "worktree-agent-a73c8f28082f050ca",
+   "sha": "8a9a5e5a",
+   "files": [
+    "src/data/vac_activities.js",
+    "src/vac3d.js",
+    "tests/vac_c16_c18_unit.js",
+    "src/jp_dorm3d.js",
+    "tests/aa355_unit.js",
+    "tests/aa358_unit.js"
+   ],
+   "state": "已整合",
+   "remaining": "子代理被停在 8a9a5e5a：A（AA_242 第 12 節）、B（日本房間三個看）、C（AA_355 第 5 節）、D（AA_358 第 2 節）已 commit；E（AA_350 第 9 節）沒做；沒合併、LAWWW 沒驗",
+   "next": "從 wip_backup/wip_subagents_1021_1500.bundle 還原分支（README 有指令），跑它改過的單元測試，沒問題再合併；E 組另外做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "note": "LAWWW（帳號 A）10-21 15:5x 從 bundle 還原（refs/wip/aafix-1021＝bcbc0c82）合併進 claude/confident-ritchie-8rwh7t 32148711：calendar.js 衝突——農曆照開發分支（多 2030，AA_357）、SCHOOL 照 AA_355 第 5 節第 6 題（大二起運動會不停課，只標字）。全部 Node 單元測試合併前後比對：沒有新失敗（390 個，原本就失敗的 2 個是測試過時，b109524d 已修）。E 組（AA_350 第 9 節）沒做，另開任務",
+   "closedBy": "32148711（LAWWW（帳號 A）2026-10-21 15:5x 合併進 claude/confident-ritchie-8rwh7t；推送 d0049d36）"
+  },
+  {
+   "id": "WIP-LAWWW-AA360-1021",
+   "role": "LAWWW",
+   "task": "STORY-AUDIT-1017",
+   "branch": "worktree-agent-ada67c9808dea4534",
+   "sha": "91cd3186",
+   "files": [
+    "src/y34b3d.js"
+   ],
+   "state": "已整合",
+   "remaining": "（已整合）AA_360 第 1～5 組合併 2bce84da；BB 驗收 BB-TEST-AA360-1021",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "2bce84da"
+  },
+  {
+   "id": "WIP-LAWWW-FEATLIST-1021",
+   "role": "LAWWW",
+   "task": "FEATURE-LIST-9102-1019",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "7083b1ad",
+   "files": [
+    "docs/handoff/PLAYER_FEATURES_v9.10.3.md"
+   ],
+   "state": "已整合",
+   "remaining": "玩家功能清單半成品（子代理還在寫）",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "7083b1ad"
+  },
+  {
+   "id": "WIP-L2-SOC-COURT-1021",
+   "role": "LAWWW2",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "2b4f2028",
+   "files": [
+    "tools/blender/env_second/campus_socsci.py",
+    "docs/art-rebuild/second_ai/patches/soc_court_wire_wip.diff",
+    "docs/art-rebuild/second_ai/test_shots/soc_court_1021_wip/README.md"
+   ],
+   "state": "WIP",
+   "remaining": "社科院中庭夜間光＋院系公告欄：腳本改了、GLB 沒換（repo 裡還是柱子版 8e8d130e）；洗牆光移到 3 cm 以後的版本沒匯出、沒截圖；README「還沒做完」1～3",
+   "next": "下一班 LAWWW2 接班後：README「還沒做完」第 1 步（重新匯出＋疊面檢查），交件再由 LAWWW 整合",
+   "noDirectIntegrate": true,
+   "source": "LAWWW2-C 交班（使用者「交班」）"
+  },
+  {
+   "id": "WIP-LAWWW-RC4-1021",
+   "role": "LAWWW",
+   "task": "RELEASE-9103",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "65af7530",
+   "files": [
+    "docs/handoff/release_9103/README.md",
+    "docs/handoff/release_9103/phonefix_4c90c913.patch",
+    "docs/handoff/release_9103/probe_fps.py"
+   ],
+   "state": "WIP",
+   "remaining": "v9.10.3 候選第二版 bcbd4b65（f72a2a21＋手機修正）只在暫存區；smoke_release 搖桿 0.33 m 沒查完（BUG-SMOKE-JOY-1021）；flow_v0_start、touch_flow_wenzhou、flow_exam_terms 沒在 bcbd4b65 跑",
+   "next": "照 docs/handoff/release_9103/README.md 第 5 節重做 bcbd4b65、第 6 節乾淨環境比較",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:5x「現在正式交班」"
   }
  ]
 }

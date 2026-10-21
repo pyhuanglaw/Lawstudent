@@ -68,7 +68,7 @@ const SAT3=Y3(6), MON3=Y3(1); W8=false; fresh(SAT,9); rel('heroine_05',65,50,45)
 check('7. 學姊筆試（2026-02-02）以前約散步：「散步的話，等我考完。」「週三晚上我在法圖。要讀書的話，可以一起。」（AA_284 1-3；婉拒，不給改天）',r.res==='decline'&&r.why==='exam'&&L(r)==='「散步的話，等我考完。」｜「週三晚上我在法圖。要讀書的話，可以一起。」'&&!r.alt,r.res+' '+L(r));
 { const EX=STORY.dayOfKey('2026-02-02'); let d=EX+1; while(wdOf(d)!==6) d++; fresh(d,9); rel('heroine_05',65,50,45); r=ask('heroine_05','wenzhou',d,15.5); check('7. 筆試以後的週六（不看 W8）：答應',r.res==='accept',r.res+' '+L(r)); }
 r=ask('heroine_05','wenzhou',SAT3,15.5); check('7. 學姊大三下的週六（W8 旗標沒有也一樣）：「散步。好。我第一次為了散步而散步。」',r.res==='accept'&&L(r)==='「散步。好。我第一次為了散步而散步。」',r.res+' '+L(r));
-fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後。重點是我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後。重點是我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
+fresh(MON,9); rel('heroine_05',65,50,45); r=ask('heroine_05','cafe',MON,12+10/60); check('7. 學姊平日中午（在總圖）約 Café：「五點以後好不好？我要先把這段寫完。」→ 17:00 以後',r.res==='resched'&&L(r)==='「五點以後好不好？我要先把這段寫完。」'&&r.alt&&r.alt.h>=17,r.res+' '+JSON.stringify(r.alt));
 r=ask('heroine_05','library',MON,12+10/60); check('7. 學姊平日約總圖：「我就在總圖。三樓。不要講話，傳訊息。」',r.res==='here'&&L(r)==='「我就在總圖。三樓。不要講話，傳訊息。」',r.res+' '+L(r));
 r=ask('heroine_05','cafe',MON,19); check('7. 學姊 W8 以後、朋友以上約 Café（晚上）：「今天不看筆記。」',r.res==='accept'&&L(r)==='「今天不看筆記。」',r.res+' '+L(r));
 W8=false;
@@ -137,7 +137,7 @@ async function await0(){}
   { let pk=null; for(let n=0;n<6&&!(pk&&pk.ask);n++){ G.flags.walkChatN.heroine_04=n; pk=INV.walkPick(G,'heroine_04','cafe'); }
     check('13. 子晴有點熟、去 Café 的路上：輪得到「欸不是，阿凱說你念過經濟？那你為什麼換？」（選項句）',!!pk&&pk.ask==='ZQ_CHANGE_ASK',pk&&JSON.stringify(pk)); }
   { G.flags.walkChatN.heroine_04=0; let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',0); break; } }
-    check('13. 子晴：「（說換方向的事）」→ 你說換方向、她問家裡、（她走了好幾步沒說話。）→「……好。我記住了。這不是問句。」→ 記憶 TOLD_HER_CHANGE',!!r&&r.opts[0]==='（說換方向的事）/下次再講。'&&r.said[0]==='高子晴：「欸不是，阿凱說你念過經濟？那你為什麼換？」'&&r.said[1]==='祐廷：「念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。」'&&r.said.includes('旁白：（她走了好幾步沒說話。）')&&r.said.includes('高子晴：「……好。我記住了。這不是問句。」')&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),r&&r.said.slice(0,8).join('｜'));
+    check('13. 子晴：「（說換方向的事）」→ 你說換方向、她問家裡、（她走了好幾步沒說話。）→「……好。知道了。」（AA_335 T6）→ 記憶 TOLD_HER_CHANGE',!!r&&r.opts[0]==='（說換方向的事）/下次再講。'&&r.said[0]==='高子晴：「欸不是，阿凱說你念過經濟？那你為什麼換？」'&&r.said[1]==='祐廷：「念了一個多月經濟，後來重考到法律。考之前很怕，考完就不怕了。」'&&r.said.includes('旁白：（她走了好幾步沒說話。）')&&r.said.includes('高子晴：「……好。知道了。」')&&!r.said.some(t=>/我記住了/.test(t))&&SOCIAL.has('heroine_04','TOLD_HER_CHANGE'),r&&r.said.slice(0,8).join('｜'));
     let again=false; for(let n=0;n<6;n++){ G.flags.walkChatN.heroine_04=n; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask) again=true; } check('13. 子晴：說過以後不再問',!again); }
   fresh(MON,10); rel('heroine_04',25); { let r=null; for(let n=0;n<6;n++){ G.flags.walkChatN={heroine_04:n}; const pk=INV.walkPick(G,'heroine_04','cafe'); if(pk&&pk.ask){ r=await meetAsk('heroine_04','cafe',1); break; } }
     check('13. 子晴：「下次再講。」→「好。那你欠我一次。」、不記 TOLD_HER_CHANGE、這句不再問（一次）',!!r&&r.said[1]==='高子晴：「好。那你欠我一次。」'&&!SOCIAL.has('heroine_04','TOLD_HER_CHANGE')&&G.flags.ZQ_CHANGE_ASK===true,r&&r.said.slice(0,3).join('｜')); }

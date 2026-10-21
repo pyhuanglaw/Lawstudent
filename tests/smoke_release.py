@@ -49,6 +49,20 @@ async def settle(pg, cdp, run, secs=8):
     return await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['dlg'] and not q['choices'] and not q['busy'], max_steps=60)
 
 
+async def close_auto_phone(pg, cdp, run, where, secs=4):
+    """D103（2026-10-18 使用者：「我根本不會看手機，不能都用手機說」）：有要回覆的訊息、玩家空下來，手機會自己打開。
+    玩家會按「收起來」再繼續走（L.phone_away）；這裡照做，並確認收起來以後遊戲恢復（不是暫停）。
+    2026-10-21：本測試寫在 D103 以前，沒有處理，v9.10.3 發布前誤判成「新遊戲走不動」「進不了 201」。"""
+    for _ in range(secs * 2):
+        if await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
+        await pg.wait_for_timeout(500)
+    n = await L.phone_away(pg, cdp)
+    if not n: return 0
+    print(f'  [D103] {where}：手機自動打開（要回覆的訊息）→ 按「收起來」{n} 次', flush=True)
+    run.check(f'{where}：自動打開的手機收得起來、遊戲恢復', await pg.evaluate("!(GAME.phoneIsOpen&&GAME.phoneIsOpen())&&!(GAME.E&&GAME.E.paused)"))
+    return n
+
+
 async def main():
     run = L.Run('smoke_release', OUT)
     async with async_playwright() as p:
@@ -63,8 +77,21 @@ async def main():
         intro = await pg.evaluate("!!GAME.G.flags.introDone")
         await run.shot(pg, 'new_game_dorm')
         run.check('新遊戲：宿舍開場演完、恢復控制', intro and s['zone'] == 'dorm' and not s['busy'], json.dumps(s, ensure_ascii=False))
-        moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)
-        run.check('新遊戲：搖桿走得動', moved > 0.5, f'走了 {moved:.2f} m（推 {pushes} 次）')
+        await close_auto_phone(pg, cdp, run, '新遊戲開場演完')
+        # 開場演完鏡頭朝門口（yaw −2.74），往前推 0.37 m 就碰到門內側的東西（(0.07,2.77)；v9.10.2 9335763d 同一點一樣，
+        # 出生點本來就在「走出房間」範圍內）＝推的方向問題，不是搖桿壞：和讀檔那段一樣四個方向都試，全部走不動才算卡住（BUG-SMOKE-JOY-1021）
+        # D103 的手機也可能在推的中途自己打開（等回覆的訊息；開場演完 12 秒內），打開時遊戲暫停、後面推多少都是 0 m
+        # （ea69e5ed：(0,-40) 0.35 m 之後三個方向都 0.00 m）：玩家會按「收起來」再推，這裡照做，那個方向重推一次
+        best, tried = 0, []
+        for dx, dy in ((0, -40), (0, 40), (40, 0), (-40, 0)):
+            for _ in range(2):
+                await close_auto_phone(pg, cdp, run, '新遊戲推搖桿時', secs=0)
+                moved, pushes, s2 = await L.push_until(pg, cdp, dx, dy, 0.5)
+                if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
+            tried.append(f'({dx},{dy}) {moved:.2f} m')
+            best = max(best, moved)
+            if moved > 0.5: break
+        run.check('新遊戲：搖桿走得動（四個方向裡至少一個）', best > 0.5, '、'.join(tried))
         # ---------- 2. 手機 ----------
         run.check('打開手機', await L.tap(pg, cdp, '#btnPhone'))
         await pg.wait_for_timeout(1200)
@@ -88,6 +115,7 @@ async def main():
         run.setup('讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口；第一、二天主線已過')
         await L.load_state(pg, {'zone': 'linze', 'hour': 12.92, 'day': DAY1_THU, 'weekday': 4, 'weather': 'sunny', 'pos': {'x': -2.0, 'z': -6.0, 'lv': 1, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await settle(pg, cdp, run)
+        await close_auto_phone(pg, cdp, run, '讀檔到 201 門口')
         for _ in range(20):
             s = await L.state(pg)
             if s['interact'].startswith('進入 201'): break

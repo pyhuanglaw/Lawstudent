@@ -1,12 +1,13 @@
 /* 交換的最小可玩流程（使用者 2026-10-17 21:3x，D99 第三優先）：申請交換 → 出發 → 抵達美國 → 進入公寓 → 外出 → 回公寓睡覺 → 推進隔天。
    使用者：「先用現有素材或臨時場景也可以，不要再讓美術成為系統開發的前置條件。」
-   - 申請：大三上第 1～11 週（志願表那一週以前；過了 STORY.routeBackfill 補「台灣」），宿舍房間多一個「交換申請（志願表）」：美國／日本／留在台灣（系統選單，不是劇情）。
+   - 路線：不讓玩家選（1A-02，AA_315；BB_204）——志願表截止 2027-11-18 12:00 照交往狀態定（STORY.routeDecide：學姊＝美國、以安＝日本、其他＝留在臺灣）。原本宿舍房間的「交換申請（志願表）」四選一拿掉了。
    - 出發：美國路線 2028-08-02（STORY.ROUTE_DATES.US.dep）早上 6:00 以後，人在哪裡都先演：字卡 → 桃園機場出境大廳 → 「登機」→ 字卡（飛行）→ 抵達美國公寓社區。
    - 美國：公寓（床「睡覺」＝和宿舍一樣的睡覺選單；「出門」）、社區（「回公寓」）。在美國的時候台灣的課不排（classes3d.js dayItems）、凌晨 2:30 走回公寓睡（story3d.js forceHome）、
      手機「地點」只列公寓和社區（game3d.js）。時間＝當地時間（手機的台灣時差另外照 STORY.tzOffset）。
    - 場景：LAWWW2-C 的正式區域（src/us3d.js：airport_dep、airport_arr、us_outside、us_apartment、us_shared、us_market、us_asian_market；2026-10-17 3bff5ef4 接進來）載入後同名蓋過這裡的臨時場景（這個檔先載入，正式的後載入）。
      還沒接的互動（現在照區域自己的預設：進門、看告示）：usShared（US2 的爐子、冰箱、高腳椅）、usClub（會所）、usMarket（採買）、airportBoard（寒暑假出國）。
-   - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物、12/23 返台。測試：node tests/exch_min_unit.js */
+   - 返台（1A-09，AA_318；AA-C bf349b96 更正；AA_340 S10）：當地 12/21 23:55 起飛（平常由 r2y4a3d.js 12/16 離開那一週帶過來；人在美國、過了這個時間＝保底）→ 字卡（舊金山起飛約 14 小時）→ 臺灣 12/23 清晨 05:40 落地、桃園入境大廳（airport_arr）→ 上午回家睡到下午 → 傍晚 STORY.roomY4FromAirport（從家裡出發，19:00 到 409、拆箱）。
+   - 還沒有的（之後照 AA、BB 的規格接）：志願表、送機、US0～US4、美國的課、出遊、人物。測試：node tests/exch_min_unit.js、tests/room_y4_unit.js */
 'use strict';
 const EXCH=(function(){
   const S={};
@@ -15,13 +16,8 @@ const EXCH=(function(){
   const US_ZONES=['us_apartment','us_outside','us_shared','us_market','us_asian_market','us_campus','us_lawlib'];   /* 美國校園、法學院圖書館（LAWWW2-C US-CAMPUS-WIRE-1018）也算在美國 */   /* LAWWW2-C 的正式區域（src/us3d.js 3bff5ef4）：C 棟 208、大超市、對面的亞洲超市也算在美國 */
   S.US_ZONES=US_ZONES;
   S.inUS=G=>!!G&&US_ZONES.includes(G.zone);
-  /* ---------- 申請 ---------- */
-  S.applyOpen=function(G){ if(!G||(G.stage||'law')!=='law'||!G.flags||G.flags.EXCHANGE_ROUTE) return false; const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&t.id==='Y3S1'&&t.week<=11; };
-  S.APPLY_OPTS=[{t:'美國（印第安納）',hint:'大四上 8/2 出發、12/23 回來',r:'US'},{t:'日本（關西）',hint:'大三下 3/25 出發、8/5 回來',r:'JP'},{t:'留在台灣',hint:'不出國',r:'TW'},{t:'再想想',r:null}];
-  S.apply=async function(GM){ const G=GM.G; if(!S.applyOpen(G)) return null; GM.sceneBegin();
-    try{ const o=S.APPLY_OPTS[await GM.choose(S.APPLY_OPTS.map(x=>({t:x.t,hint:x.hint})))]; if(!o||!o.r) return null; G.flags.EXCHANGE_ROUTE=o.r; G.flags.EXCH_APPLIED_DAY=G.day;
-      if(GM.toast) GM.toast('交換申請：'+o.t,3000); if(GM.autosave) GM.autosave(); return o.r; }
-    finally{ GM.sceneEnd(); } };
+  /* ---------- 申請：沒有選單了（1A-02；路線在 STORY.routeDecide）---------- */
+  S.applyOpen=()=>false;
   /* ---------- 出發 ---------- */
   S.departAt=function(G){ if(!G||!G.flags||G.flags.US_DEPARTED||typeof STORY==='undefined'||STORY.route(G)!=='US') return null; const d=DK(STORY.ROUTE_DATES.US.dep); return d==null?null:T(d,6); };
   S.departDue=function(G){ const t=S.departAt(G); return t!=null&&T(G.day,G.hour)>=t&&!G.flags.US_ARRIVED; };
@@ -37,12 +33,25 @@ const EXCH=(function(){
       const tz=12, h=G.hour+16-tz; G.hour=h; if(GM.E) GM.E.hour=G.hour; F.US_ARRIVED=true; F.US_ARRIVED_DAY=G.day;
       if(GM.titleCard) await GM.titleCard('抵達','美國印第安納　當地時間 '+Math.floor(h)+':'+String(Math.round((h%1)*60)).padStart(2,'0'),2200); }
     finally{ GM.sceneEnd(); }
+    if(typeof S.onArrive==='function'){ let r=false; try{ r=await S.onArrive(GM); }catch(e){ console.warn('EXCH.onArrive',e); } if(r){ if(GM.autosave) GM.autosave(); return true; } }   /* AA_327 2-Y4-16 US1（src/r2y4a3d.js）：巴士站 → 超市 → 公寓 */
     await GM.enter('us_outside',S.SPAWN.us_outside); if(GM.toast) GM.toast('公寓在社區的另一頭。',3000); if(GM.autosave) GM.autosave(); return true; };
+  /* ---------- 返台（美國路線 2028-12-23；AA_318 1A-09、AA_144 X3、AA_291 第 5 節、AA_340 S10）：當地 12/21 23:55 以後、人在美國 → 字卡 → 臺灣 12/23 清晨 05:40 落地 → 回家 → 傍晚去宿舍 409 ---------- */
+  S.returnAt=function(G){ if(!G||!G.flags||!G.flags.US_ARRIVED||G.flags.US_RETURNED!=null||typeof STORY==='undefined'||STORY.route(G)!=='US') return null; const d=DK(STORY.ROUTE_DATES.US.ret); return d==null?null:T(d-2,23+55/60); };   /* AA_340 S10：12/21 23:55 起飛（舊金山；沒交往的 17:00 印第安納波利斯起飛、轉同一班）。平常由 r2y4a3d.js 的 12/16 離開那一週帶過來（force），這裡是保底 */
+  S.returnDue=function(G){ const t=S.returnAt(G); return t!=null&&S.inUS(G)&&T(G.day,G.hour)>=t; };
+  S.returnHome=async function(GM,o){ const G=GM.G, F=G.flags; if(!(o&&o.force&&S.returnAt(G)!=null)&&!S.returnDue(G)) return false;   /* force：AA_327 2-Y4-22 舊金山／布魯明頓那一週演完、12/21 起飛（src/r2y4a3d.js）*/ const d=DK(STORY.ROUTE_DATES.US.ret); F.US_RETURNED=d; GM.sceneBegin();
+    try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard('飛回臺灣','舊金山起飛　約 14 小時',2600);
+      if(STORY.travelOvernight) STORY.travelOvernight(GM,d,5+40/60); if(GM.titleCard) await GM.titleCard('抵達','桃園機場　清晨 05:40',2200);
+      if(typeof Z3==='undefined'||!Z3.ZONES||Z3.ZONES.airport_arr) await GM.enter('airport_arr',Object.assign({},(typeof US3!=='undefined'&&US3.SPAWN&&US3.SPAWN.airport_arr)||S.SPAWN.airport_arr||{x:0,z:0,yaw:Math.PI}),{noFade:true,deferStory:true,noAutosave:true});   /* AA_340 S10：落地在桃園第二航廈的入境大廳（us3d.js 的 airport_arr）；入境大廳那一段在 onLand（r2y4a3d.js）*/
+      if(typeof S.onLand==='function'){ try{ await S.onLand(GM); }catch(e){ console.warn('EXCH.onLand',e); } }   /* AA_327 2-Y4-22：入境大廳、上午回家（src/r2y4a3d.js）*/   /* 時間換回臺灣時間（日期往後到 12/23）；AA-C bf349b96：舊金山 12/21 23:55 起飛、12/23 清晨 05:40 落地（AA_291 第 5 節、AA_327 2-Y4-22）*/
+      if(G.hour<17.5&&GM.advance) GM.advance(17.5-G.hour); }   /* 上午回家睡到下午（入境大廳那一段是 AA_327 2-Y4-22，第 2 輪事件包）；傍晚從家裡出發，19:00 到 409（roomY4FromAirport 再 +1.5 小時）*/
+    finally{ GM.sceneEnd(); }
+    if(STORY.roomY4FromAirport) return STORY.roomY4FromAirport(GM);
+    await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); if(GM.autosave) GM.autosave(); return true; };
   /* ---------- 互動、每幀 ---------- */
-  S.interact=async function(GM,it){ if(it.exchApply){ await S.apply(GM); return true; } if(it.exchFly){ await S.fly(GM); return true; } return false; };
+  S.interact=async function(GM,it){ if(it.exchFly){ await S.fly(GM); return true; } return false; };
   S.tick=function(GM){ const G=GM.G, E=GM.E; if(!G||!G.flags) return false;
     if(S.departDue(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.depart(GM); return true; }   /* 在家的在 home3d.js 的 loop 裡 */
-    if(G.zone==='dorm'&&S.applyOpen(G)&&!E.interactables.some(i=>i.exchApply)){ const P=E.player.obj.position; E.interactables.push({x:P.x,z:P.z,radius:0.9,label:'交換申請（志願表）',exchApply:true}); }   /* 房間裡站的地方附近 */
+    if(S.returnDue(G)){ void S.returnHome(GM); return true; }   /* 美國路線返台（1A-09）*/
     return false; };
   /* 手機「地點」：在美國的時候只有這兩個 */
   S.places=()=>[['us_apartment','公寓',S.SPAWN.us_apartment],['us_outside','公寓社區',S.SPAWN.us_outside]];

@@ -15,8 +15,8 @@ const GUIDE=(function(){
   // 區域之間怎麼走（只有名字；第一步一定用當下區域真正的出口）。宿舍走廊（dorm_hall）還在開發分支外，存在時才會用到
   const LINKS={ dorm:['campus','dorm_hall'], dorm_hall:['campus','dorm'], campus:['gongguan','linze','wancai','library_hall','dorm','dorm_hall','gongtong','putong','boya','soclib'], gongtong:['campus'], boya:['campus'], putong:['campus'],   /* 博雅：校園上還沒有門（位置等使用者決定），只連出去 */
     gongguan:['campus','wenzhou','cvs','noodle','bookstore'], wenzhou:['gongguan','cafe'], cafe:['wenzhou'], cvs:['gongguan'], noodle:['gongguan'], bookstore:['gongguan'],
-    linze:['campus','classroom'], classroom:['linze'], wancai:['campus','lawlib'], lawlib:['wancai'], library_hall:['campus','library'], library:['library_hall'], soclib:['campus'] };
-  const ELEV={ library:['library_hall'], library_hall:['library'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳）
+    linze:['campus','classroom','linze_3f','linze_202'], classroom:['linze'], linze_202:['linze'], linze_3f:['linze','linze_4f'], linze_4f:['linze_3f'], wancai:['campus','lawlib','wancai_multi','wancai_sema'], wancai_multi:['wancai'], wancai_sema:['wancai'], lawlib:['wancai'], library_hall:['campus','library'], library:['library_hall'], soclib:['campus'] };
+  const ELEV={ library:['library_hall'], library_hall:['library'], linze:['linze_3f','linze_4f'], linze_3f:['linze','linze_4f'], linze_4f:['linze','linze_3f'] };   // 搭電梯可以到的別的區域（總圖：閱覽室 ⇄ 大廳；霖澤館 1F、2F ⇄ 3F、4F，LINZE-34F-TABLES-1020）
   const st={ key:'', route:null, routeKey:'', reT:0, tgt:null, info:null, uiT:0, markers:[], markerZone:null, view:null, open:false, tipT:0, bmImgs:[] };
 
   /* ---------- 目的地推算（舊存檔、沒有明確給目的地的目標）----------
@@ -95,7 +95,9 @@ const GUIDE=(function(){
   // 小地圖（game3d.js 的 drawMinimap 在旋轉後的座標系呼叫）：路線＋目的地
   function drawMini(x,nav,cx,cz,scale){ if(!st.tgt||!on()) return; const f=(wx,wz)=>[((wx-nav.ox)/nav.cell-cx-0.5)*scale,((wz-nav.oz)/nav.cell-cz-0.5)*scale]; const R=st.route;
     if(R&&R.length>1){ x.strokeStyle='rgba(255,200,90,0.95)'; x.lineWidth=2.4; x.lineJoin='round'; x.setLineDash([]); x.beginPath(); R.forEach((q,i)=>{ const [u,v]=f(q[0],q[1]); if(i) x.lineTo(u,v); else x.moveTo(u,v); }); x.stroke(); }
-    const [u,v]=f(st.tgt.x,st.tgt.z); const Rr=Math.min(x.canvas.width,x.canvas.height)/2-6; const d=Math.hypot(u,v); const k=d>Rr?Rr/d:1; x.fillStyle='#ffc85a'; x.strokeStyle='rgba(20,24,30,0.9)'; x.lineWidth=1.5; x.beginPath(); x.arc(u*k,v*k,4.5,0,7); x.fill(); x.stroke(); }
+    const [u,v]=f(st.tgt.x,st.tgt.z); const Rr=Math.min(x.canvas.width,x.canvas.height)/2-6; const d=Math.hypot(u,v); x.fillStyle='#ffc85a'; x.strokeStyle='rgba(20,24,30,0.9)'; x.lineWidth=1.5; x.beginPath();
+    if(d>Rr){ const a=Math.atan2(v,u), t=Rr+1, b=Rr-8; x.moveTo(Math.cos(a)*t,Math.sin(a)*t); x.lineTo(Math.cos(a+0.42)*b,Math.sin(a+0.42)*b); x.lineTo(Math.cos(a-0.42)*b,Math.sin(a-0.42)*b); x.closePath(); }   /* 目的地在小地圖外：邊上畫往外指的箭頭（X77：原本是固定在邊上的金點，看起來像一個永遠走不到的黃點）*/
+    else x.arc(u,v,4.5,0,7); x.fill(); x.stroke(); }
 
   /* ---------- 入口標記 ---------- */
   function exitName(it){ const L=it.label||''; if(it.elevator) return '電梯'; if(/^進入/.test(L)) return L.replace(/^進入\s*/,''); if(/^往/.test(L)) return L; const M={'走出校門':'校門・往公館','回到校園':'台大校門','回公館':'往公館','回宿舍':'男生宿舍'}; if(M[L]) return M[L]; if(/^(離開|走出)/.test(L)) return '出口'; return L; }
@@ -123,7 +125,15 @@ const GUIDE=(function(){
   function updateMarkers(dt){ if(st.markerZone!==E.zone) buildMarkers(); const p=P(), py=p.y; st.hT=(st.hT||0)-dt; const refresh=st.hT<=0; if(refresh) st.hT=5;
     for(const m of st.markers){ const lim=m.it===goldIt?60:(m.indoor?12:26); const d=Math.hypot(m.it.x-p.x,m.it.z-p.z); const vis=d<lim&&d>(m.it.radius||1.2)+0.8&&(m.indoor&&E.levels?(m.it.lv|0)===PLV():Math.abs(m.y0-py)<6)&&!(E.player.busy&&E.cam.mode!=='follow'); m.spr.visible=vis; if(m.ring){ const rv=(E.levels?(m.it.lv|0)===PLV():true)&&d<(m.it===goldIt?60:20)&&!(E.player.busy&&E.cam.mode!=='follow'); m.ring.visible=rv; if(rv) m.ring.material.opacity=0.42+0.22*Math.sin(performance.now()/420); }
       if(vis){ if(m.vh!==(E.h||window.innerHeight)) fitMarker(m); m.spr.material.opacity=Math.min(1,(lim-d)/4); if(m.it===goldIt) m.spr.position.y=m.y0+(m.indoor?2.05:2.6)+Math.sin(performance.now()/380)*0.08; }
-      if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } } }
+      if(refresh&&!m.indoor&&m.it.exit&&PLACES.hours[m.it.exit.to]){ const s=hoursLine(m.it.exit.to); if(s!==m.sub){ m.sub=s; const g=m.gold; m.gold=null; setLabel(m,g); } } }
+    hideOverlaps(p); }
+  /* 名牌在畫面上疊在一起（LAWWW-C 10-20 截圖：118 巷兩排九間店，往巷子裡看名牌疊成一排、互相蓋住字）：會疊的只留近的，金色（導航目的地）優先。
+     sizeAttenuation=false：名牌在畫面上的大小固定＝m.w、m.h 乘 fitMarker 的倍率；錨點在名牌底邊中間（center 0.5,0）*/
+  function declutter(L){ L.sort((a,b)=>(b.gold?1:0)-(a.gold?1:0)||a.d-b.d); const kept=[]; for(const r of L){ if(kept.some(k=>r.x0<k.x1+6&&r.x1>k.x0-6&&r.y0<k.y1+4&&r.y1>k.y0-4)){ r.hide=true; continue; } kept.push(r); } return L; }
+  function hideOverlaps(p){ const cam=E.camera; if(!cam||!THREE.Vector3) return; const W=E.w||window.innerWidth||800, H=E.h||window.innerHeight||400, L=[], v=new THREE.Vector3();
+    for(const m of st.markers){ if(!m.spr.visible) continue; m.spr.getWorldPosition(v).project(cam); if(v.z>1) continue; const k=(m.indoor?0.33:0.38)*(m.gold?1.12:1), w=m.w*k, h=m.h*k, x=(v.x+1)/2*W, y=(1-v.y)/2*H;
+      L.push({m,d:Math.hypot(m.it.x-p.x,m.it.z-p.z),gold:m.it===goldIt,x0:x-w/2,x1:x+w/2,y0:y-h,y1:y}); }
+    if(L.length>1) for(const r of declutter(L)) if(r.hide) r.m.spr.visible=false; }
 
   /* ---------- 人物線索（2026-10-11 使用者：自由的那天不知道其他人在哪）---------- */
   function people(){ if(!GM.knownIds||typeof STORY==='undefined'||!STORY.whereIs) return []; const out=[]; for(const id of GM.knownIds()){ const w=STORY.whereIs(GM,id); if(!w||!w.zone) continue; out.push({id,name:SOCIAL.displayName(id),w,text:GM.whereText(id)}); } return out; }
@@ -184,5 +194,5 @@ const GUIDE=(function(){
 
   function init(gm){ GM=gm; E=gm.E; bindMap(); }
   function zoneChanged(){ st.routeKey='~'; st.route=null; clearMarkers(); st.markerZone=null; for(const c of st.bmImgs.splice(0)) if(c.nav!==E.nav&&!(E.levels&&E.levels.includes(c.nav))){ freeCanvas(c.img); c.nav._bmImg=null; } else st.bmImgs.push(c); }
-  return { init, tick, infer, drawMini, openMap, closeMap, zoneChanged, nextZone:(a,b)=>nextZone(a,b), _st:st, target:d=>target(d) };
+  return { init, tick, infer, drawMini, openMap, closeMap, zoneChanged, nextZone:(a,b)=>nextZone(a,b), _st:st, target:d=>target(d), declutter };
 })();

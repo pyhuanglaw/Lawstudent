@@ -53,6 +53,6 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('沒有 FIRST_BUG：「這版比較不會當機」',T('p:heroine_04').map(m=>m.text).slice(-1)[0]==='這版比較不會當機'); }
   { all({d0:termDay('Y1S1',4,1),days:20}); const N=G.flags.dpN||{}; check('大一上：這八則都不出現',IDS.every(id=>!N[id]),JSON.stringify(IDS.filter(id=>N[id]))); }
   { const dShow=termDay('Y1S2',14,3); fresh(dShow-15,20,'dorm'); PHONE.join(G,'guitar','吉他社'); run(20,23.9); G.day=dShow-14; run(0,22);
-    check('子晴成發倒數：成發前十四天 21:00 吉他社群組「成發」「倒數」「十四天」「不能請假」「這不是問句」',JSON.stringify(txt('g:guitar').filter(t=>/成發|倒數|十四天|請假|問句/.test(t)).slice(0,5))==='["heroine_04:成發","heroine_04:倒數","heroine_04:十四天","heroine_04:不能請假","heroine_04:這不是問句"]',JSON.stringify(txt('g:guitar'))); }
+    check('子晴成發倒數：成發前十四天 21:00 吉他社群組「成發」「倒數」「十四天」「不能請假」「都要來」（AA_230、AA_313 6-4）',JSON.stringify(txt('g:guitar').filter(t=>/成發|倒數|十四天|請假|都要來/.test(t)).slice(0,5))==='["heroine_04:成發","heroine_04:倒數","heroine_04:十四天","heroine_04:不能請假","heroine_04:都要來"]',JSON.stringify(txt('g:guitar'))); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

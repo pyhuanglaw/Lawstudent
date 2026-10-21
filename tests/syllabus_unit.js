@@ -8,7 +8,7 @@ const ROOT=path.resolve(__dirname,'..'); global.window=global;
 for(const f of ['src/data/characters.js','src/data/calendar.js','src/data/courses.js','src/data/syllabus.js','src/classes3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|CALENDAR|COURSES|SYLLABUS|CLS)$/.test(n)?'global.'+n+'=':m),{filename:f});
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const DAY=86400000, dayOf=s=>{ const [y,m,d]=s.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/DAY)+1; };
-const ids=COURSES.list.filter(c=>c.kind!=='service').map(c=>c.id);   /* 服務學習沒有課堂內容（每次一句，在 courses.js 的 serviceLines；AA_110 6-1）*/ const has=id=>!!(SYLLABUS.courses[id]||SYLLABUS.pools[id]);
+const ids=COURSES.list.filter(c=>c.kind!=='service').map(c=>c.id);   /* 服務學習沒有課堂內容（每次一句，在 courses.js 的 serviceLines；AA_110 6-1）*/ const has=id=>{ const c=COURSES.list.find(x=>x.id===id), k=(c&&c.redo)||id; return !!(SYLLABUS.courses[k]||SYLLABUS.pools[k]); };   /* 補修（redo，AA_144 X4）＝重播原本那一門的內容 */
 check('每一門課（'+ids.length+' 門）都有普通課堂內容（BB 的 syllabus 或台詞池）',ids.every(has),ids.filter(i=>!has(i)).join(','));
 const extra=[...Object.keys(SYLLABUS.courses),...Object.keys(SYLLABUS.pools)].filter(i=>!ids.includes(i)&&!(SYLLABUS.y0||[]).includes(i)); check('內容的課程代號都對得上 courses.js（AA_103 第 8 節；經濟系那一年 y0 的課遊戲裡還沒有，先不算）',!extra.length,extra.join(','));
 { const long=[]; const caseNo=[]; const re=/(台上|憲判|釋字|台再|消上)\s*\d|\d+\s*(台上|憲判)/;

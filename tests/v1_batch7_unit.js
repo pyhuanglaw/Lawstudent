@@ -121,6 +121,8 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('烤肉：第 5 週週三 21:00 阿哲揪（沒有麵店團群組＝私訊）、兩個回覆',!!m&&m.th==='p:zhe'&&m.from==='zhe'&&Math.abs(m.h-21)<0.06&&m.ask.opts.length===2,JSON.stringify(m&&[m.th,m.text]));
     fresh(WED,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(8,22); const mg=G.msgs.find(x=>x.tag==='bbq_ask');
     check('烤肉：有麵店團群組＝在群組揪',!!mg&&mg.th==='g:noodle_team');
+    { const G0=G; G=JSON.parse(JSON.stringify(G0)); const m2=G.msgs.find(x=>x.tag==='bbq_ask'); G.day=SAT; G.hour=14.9; const open1=PHONE.askOpen(G,m2); G.hour=15.1; const open2=PHONE.askOpen(G,m2); G.day=SAT+100; const open3=PHONE.askOpen(G,m2); G=G0;
+      check('烤肉的揪：週六 15:00 開始以前可以回、之後就關（BB-C 10-21 P3：原本隔年一月還是「待回覆」）',open1&&!open2&&!open3); }
     PHONE.answer(G,mg.ask.id,0); run(22,22.2); const o=OUT.get(G,'bbq');
     check('烤肉：回「去。」＝排週六 15:00 河濱',!!o&&o.day===SAT&&o.h===15&&o.place==='河濱'&&o.ev==='ev_mid_autumn_bbq',JSON.stringify(o));
     const F1=Object.assign({},G.flags), msgs=G.msgs, ph=G.phone; fresh(SAT-1,8,'campus',F1); G.msgs=msgs; G.phone=ph; G.outings=[o]; run(8,20.5); const k=G.msgs.find(x=>x.tag==='kx_bbq_ask');

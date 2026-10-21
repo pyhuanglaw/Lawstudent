@@ -1,0 +1,271 @@
+diff --git a/index.html b/index.html
+index 30ba585d..ecaaf3d5 100644
+--- a/index.html
++++ b/index.html
+@@ -258,6 +258,8 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
+ <script src="src/lane118.js?v=9.10.2"></script>
+ <script src="src/data/l118_shop_layouts.js?v=9.10.2"></script>
+ <script src="src/l118_shops3d.js?v=9.10.2"></script>
++<script src="src/data/linze_upper_layouts.js?v=9.10.2"></script>
++<script src="src/linze_upper3d.js?v=9.10.2"></script>
+ <script src="src/exchange3d.js?v=9.10.2"></script>
+ <script src="src/data/us_layouts.js?v=9.10.2"></script>
+ <script src="src/us3d.js?v=9.10.2"></script>
+diff --git a/src/building3d.js b/src/building3d.js
+index 865ddae3..517d6245 100644
+--- a/src/building3d.js
++++ b/src/building3d.js
+@@ -165,7 +165,7 @@ const B3=(function(){
+     // 互動點
+     const IT=E.interactables, EN=L.entrance;
+     IT.push({x:EN.exitX,z:EN.exitZ,radius:1.4,lv:0,label:'走出霖澤館',exit:{to:'campus',spawn:Object.assign({},CAMPUS_DOOR)}});
+-    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:{x:0,z:7.0,yaw:Math.PI}}; else it.look=d.closed; IT.push(it); }
++    for(const d of L.doors){ const it={x:d.x,z:-D/2+0.75,radius:1.15,lv:d.lv,label:d.to?('進入 '+d.label):d.label}; if(d.to) it.exit={to:d.to,spawn:d.spawn?Object.assign({},d.spawn):{x:0,z:7.0,yaw:Math.PI}};   /* d.spawn：門自己帶出生點（2F 樓梯間 → 3F 的樓梯間門口）；沒有的照舊（201 教室）*/ else it.look=d.closed; IT.push(it); }
+     const bd=L.furniture.find(f=>f.type==='board'); if(bd) IT.push({x:bd.x,z:bd.z+0.9,radius:1.0,lv:0,label:'看樓層簡介',look:'霖澤館 樓層簡介：1F 大廳、101 教室、法律學院辦公室；2F 201 階梯教室、202 教室（整修中）；3F–8F 研究室與教室（本學期整修中）。樓梯在大廳西側，電梯在中庭。'});
+     for(const f of L.floors) IT.push({x:zone.elev.cx,z:EL.callZ,radius:1.0,lv:f.lv,label:'搭電梯',elevator:true});
+     // 正式模型（GLB）：載入成功就藏起程序化備用模型（導航、互動點不變）
+diff --git a/src/data/linze_upper_layouts.js b/src/data/linze_upper_layouts.js
+new file mode 100644
+index 00000000..a5aeee75
+--- /dev/null
++++ b/src/data/linze_upper_layouts.js
+@@ -0,0 +1,2 @@
++/* 霖澤館 3F、4F 的配置（LAWWW2-C 臨時接線；從 assets/models/env/second_ai/linze_<3f|4f>.layout.json 產生，不要手改）*/
++const LINZE_UPPER_LAYOUTS={"3f": {"version": 1, "zone": "linze_3f", "name": "霖澤館 3F", "label": "3F 討論區", "src": "使用者 10-20（X73、X74）；LINZE-34F-TABLES-1020、LINZE-WANCAI-FLOORS-1020", "bounds": {"x0": -8.0, "x1": 8.0, "z0": -7.0, "z1": 7.0}, "h": 3.4, "cam_dist": 4.4, "coords": "和 linze_layout.js 同一套（x、z），每層自己的地板 y＝0", "spawn": {"x": 4.6, "z": -4.9, "yaw": 3.141592653589793, "note": "出電梯，面向走廊（北）；離電梯的按鈕 1 m（不會一出來就站在「電梯」上）"}, "elevator": {"x0": 3.6, "x1": 5.6, "z0": -3.2, "z1": -0.8, "doorX0": 4.0, "doorX1": 5.2, "doorZ": -3.2, "callZ": -3.9, "floors": [{"label": "1F 大廳", "zone": "linze", "lv": 0, "open": true}, {"label": "2F 201、202 教室", "zone": "linze", "lv": 1, "open": true}, {"label": "3F 討論區、301、302", "zone": "linze_3f", "open": true}, {"label": "4F 自習討論區、401、402", "zone": "linze_4f", "open": true}, {"label": "5F–8F 研究室（教職員）", "open": false, "closed": "研究室樓層。電梯要刷教職員證才會停。"}], "note": "位置和 linze_layout.js 的 elevator 相同；樓層清單取代原本的「整修中」"}, "stairs": {"door": {"x": 7.0, "z": -7.0, "w": 1.0}, "spawn": {"x": 7.0, "z": -5.5, "yaw": 0.0, "note": "從樓梯間進來，面向南；離樓梯間的門 1.5 m（不會一上來就站在「走樓梯」上）"}, "down": {"label": "走樓梯下樓（2F）", "to": "linze", "spawn": {"x": 7.0, "z": -4.7, "lv": 1, "yaw": 0.0}, "note": "2F：linze 第 1 層，迴廊上、樓梯間的門（stairs3f）前面 1.5 m"}, "up": {"label": "走樓梯上樓（4F）", "to": "linze_4f", "note": "上一層的 spawn_stair"}}, "doors": [{"id": "r301", "kind": "room", "x": -4.6, "z": -7.0, "w": 1.0, "label": "301 教室"}, {"id": "r302", "kind": "room", "x": -0.6, "z": -7.0, "w": 1.0, "label": "302 教室"}, {"id": "stair", "kind": "stair", "x": 7.0, "z": -7.0, "w": 1.0, "label": "樓梯間"}], "windows": {"side": "S", "wall": "front", "z": 7.0, "xs": [-5.6, -2.0, 1.6, 5.4], "y": 2.1, "w": 2.2, "h": 1.6, "note": "遊戲 room() 的窗：winWall 照這一面、winXs、winY；窗外的景（view）用遊戲裡拍的照片"}, "exits": [], "seats": [{"x": -3.0, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [-3.0, -6.2], "label": "坐在走廊的長椅"}, {"x": -2.2, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [-2.2, -6.2], "label": "坐在走廊的長椅"}, {"x": 4.6, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [4.6, -6.2], "label": "坐在走廊的長椅"}, {"x": 5.4, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [5.4, -6.2], "label": "坐在走廊的長椅"}, {"x": -6.2, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -5.6, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -5.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.2, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.847, 6.132]}, {"x": -5.6, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.801, 5.903]}, {"x": -5.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-4.353, 6.132]}, {"x": -2.6, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -2.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -1.4, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -2.6, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-3.247, 6.132]}, {"x": -2.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-3.201, 5.903]}, {"x": -1.4, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-0.753, 6.132]}, {"x": 1.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 1.6, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 2.2, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 1.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [0.353, 6.132]}, {"x": 1.6, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [0.399, 5.903]}, {"x": 2.2, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [1.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [2.847, 6.132]}, {"x": 4.8, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 5.4, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 6.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 4.8, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [4.015, 6.075]}, {"x": 5.4, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [4.014, 5.826]}, {"x": 6.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [5.4, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [6.785, 6.075]}, {"x": -7.5, "z": -0.15, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 0.635]}, {"x": -7.5, "z": -0.75, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.926, 0.636]}, {"x": -7.5, "z": -1.35, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, -2.135]}, {"x": -6.3, "z": -0.15, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": -0.75, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": -1.35, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -7.5, "z": 3.35, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 4.135]}, {"x": -7.5, "z": 2.75, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.926, 4.136]}, {"x": -7.5, "z": 2.15, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 1.365]}, {"x": -6.3, "z": 3.35, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": 2.75, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": 2.15, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}], "interact": [{"id": "elevator", "x": 4.6, "z": -3.9, "r": 0.8, "label": "電梯", "note": "電梯（LAWWW 接：樓層照 elevator.floors）"}, {"id": "stairs", "x": 7.0, "z": -6.45, "r": 0.7, "label": "樓梯間", "note": "樓梯間（LAWWW 接：stairs.up／down）"}, {"id": "microwave", "x": 6.9, "z": -2.1, "r": 0.9, "label": "微波爐", "note": "熱便當（排隊請自重）；說明文字由 AA 寫"}, {"id": "vending", "x": 6.8, "z": 1.05, "r": 0.9, "label": "販賣機", "note": "飲料（說明文字由 AA 寫）"}, {"id": "bins", "x": 7.0, "z": 2.95, "r": 0.8, "label": "回收桶", "note": "垃圾分類：一般垃圾、資源回收、廚餘"}, {"id": "notice", "x": 3.0, "z": -6.2, "r": 0.9, "label": "公告欄", "note": "讀書會、二手書、系學會（說明文字由 AA 寫）"}], "blocks": [{"x0": 3.43, "x1": 5.77, "z0": -3.25, "z1": -0.63, "why": "elevator_core"}, {"x0": -3.32, "x1": -1.88, "z0": -7.0, "z1": -6.53, "why": "bench"}, {"x0": 4.28, "x1": 5.72, "z0": -7.0, "z1": -6.53, "why": "bench"}, {"x0": -6.27, "x1": -5.73, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": -2.67, "x1": -2.13, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": 0.93, "x1": 1.47, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": -8.0, "x1": 8.0, "z0": 6.68, "z1": 7.0, "why": "window_sill"}, {"x0": -6.58, "x1": -4.62, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": -2.98, "x1": -1.02, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": 0.62, "x1": 2.58, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": 4.42, "x1": 6.38, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": -7.67, "x1": -6.13, "z0": -1.73, "z1": 0.23, "why": "picnic_table"}, {"x0": -7.67, "x1": -6.13, "z0": 1.77, "z1": 3.73, "why": "picnic_table"}, {"x0": 7.37, "x1": 8.03, "z0": -2.93, "z1": -1.27, "why": "microwave_counter"}, {"x0": 7.5, "x1": 7.9, "z0": -0.8, "z1": -0.4, "why": "water"}, {"x0": 7.25, "x1": 8.0, "z0": 0.18, "z1": 1.02, "why": "vending"}, {"x0": 7.25, "x1": 8.0, "z0": 1.03, "z1": 1.87, "why": "vending"}, {"x0": 7.52, "x1": 8.0, "z0": 2.28, "z1": 3.68, "why": "bins"}], "order": null}, "4f": {"version": 1, "zone": "linze_4f", "name": "霖澤館 4F", "label": "4F 自習討論區", "src": "使用者 10-20（X73、X74）；LINZE-34F-TABLES-1020、LINZE-WANCAI-FLOORS-1020", "bounds": {"x0": -8.0, "x1": 8.0, "z0": -7.0, "z1": 7.0}, "h": 3.4, "cam_dist": 4.4, "coords": "和 linze_layout.js 同一套（x、z），每層自己的地板 y＝0", "spawn": {"x": 4.6, "z": -4.9, "yaw": 3.141592653589793, "note": "出電梯，面向走廊（北）；離電梯的按鈕 1 m（不會一出來就站在「電梯」上）"}, "elevator": {"x0": 3.6, "x1": 5.6, "z0": -3.2, "z1": -0.8, "doorX0": 4.0, "doorX1": 5.2, "doorZ": -3.2, "callZ": -3.9, "floors": [{"label": "1F 大廳", "zone": "linze", "lv": 0, "open": true}, {"label": "2F 201、202 教室", "zone": "linze", "lv": 1, "open": true}, {"label": "3F 討論區、301、302", "zone": "linze_3f", "open": true}, {"label": "4F 自習討論區、401、402", "zone": "linze_4f", "open": true}, {"label": "5F–8F 研究室（教職員）", "open": false, "closed": "研究室樓層。電梯要刷教職員證才會停。"}], "note": "位置和 linze_layout.js 的 elevator 相同；樓層清單取代原本的「整修中」"}, "stairs": {"door": {"x": 7.0, "z": -7.0, "w": 1.0}, "spawn": {"x": 7.0, "z": -5.5, "yaw": 0.0, "note": "從樓梯間進來，面向南；離樓梯間的門 1.5 m（不會一上來就站在「走樓梯」上）"}, "down": {"label": "走樓梯下樓（3F）", "to": "linze_3f", "spawn": null, "note": "下一層的 spawn_stair"}, "up": {"label": "往 5F 以上", "closed": "5 樓以上是研究室，樓梯間的門要刷教職員證。"}}, "doors": [{"id": "r401", "kind": "room", "x": -4.6, "z": -7.0, "w": 1.0, "label": "401 教室"}, {"id": "r402", "kind": "room", "x": -0.6, "z": -7.0, "w": 1.0, "label": "402 研討室"}, {"id": "stair", "kind": "stair", "x": 7.0, "z": -7.0, "w": 1.0, "label": "樓梯間"}], "windows": {"side": "S", "wall": "front", "z": 7.0, "xs": [-5.6, -2.0, 1.6, 5.4], "y": 2.1, "w": 2.2, "h": 1.6, "note": "遊戲 room() 的窗：winWall 照這一面、winXs、winY；窗外的景（view）用遊戲裡拍的照片"}, "exits": [], "seats": [{"x": -3.0, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [-3.0, -6.2], "label": "坐在走廊的長椅"}, {"x": -2.2, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [-2.2, -6.2], "label": "坐在走廊的長椅"}, {"x": 4.6, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [4.6, -6.2], "label": "坐在走廊的長椅"}, {"x": 5.4, "z": -6.75, "yaw": 0.0, "kind": "sit", "table": [5.4, -6.2], "label": "坐在走廊的長椅"}, {"x": -6.2, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -5.6, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -5.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.2, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.847, 6.132]}, {"x": -5.6, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.801, 5.903]}, {"x": -5.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-5.6, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-4.353, 6.132]}, {"x": -2.6, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -2.0, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -1.4, "z": 5.2, "yaw": 0.0, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -2.6, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-3.247, 6.132]}, {"x": -2.0, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-3.201, 5.903]}, {"x": -1.4, "z": 6.4, "yaw": 3.1416, "kind": "study", "table": [-2.0, 5.8], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-0.753, 6.132]}, {"x": -7.5, "z": -0.15, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 0.635]}, {"x": -7.5, "z": -0.75, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.926, 0.636]}, {"x": -7.5, "z": -1.35, "yaw": 1.5708, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, -2.135]}, {"x": -6.3, "z": -0.15, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": -0.75, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": -1.35, "yaw": 4.7124, "kind": "study", "table": [-6.9, -0.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -7.5, "z": 3.35, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 4.135]}, {"x": -7.5, "z": 2.75, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-6.926, 4.136]}, {"x": -7.5, "z": 2.15, "yaw": 1.5708, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"], "ap": [-7.175, 1.365]}, {"x": -6.3, "z": 3.35, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": 2.75, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": -6.3, "z": 2.15, "yaw": 4.7124, "kind": "study", "table": [-6.9, 2.75], "label": "坐長椅", "uses": ["討論", "讀書", "吃東西"]}, {"x": 1.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [1.2, 6.6], "ap": [1.2, 5.6], "label": "坐窗邊（自習）"}, {"x": 2.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [2.2, 6.6], "ap": [2.2, 5.6], "label": "坐窗邊（自習）"}, {"x": 3.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [3.2, 6.6], "ap": [3.2, 5.6], "label": "坐窗邊（自習）"}, {"x": 4.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [4.2, 6.6], "ap": [4.2, 5.6], "label": "坐窗邊（自習）"}, {"x": 5.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [5.2, 6.6], "ap": [5.2, 5.6], "label": "坐窗邊（自習）"}, {"x": 6.2, "z": 6.05, "yaw": 0.0, "kind": "study", "table": [6.2, 6.6], "ap": [6.2, 5.6], "label": "坐窗邊（自習）"}], "interact": [{"id": "elevator", "x": 4.6, "z": -3.9, "r": 0.8, "label": "電梯", "note": "電梯（LAWWW 接：樓層照 elevator.floors）"}, {"id": "stairs", "x": 7.0, "z": -6.45, "r": 0.7, "label": "樓梯間", "note": "樓梯間（LAWWW 接：stairs.up／down）"}, {"id": "whiteboard", "x": -3.4, "z": 0.45, "r": 0.9, "label": "白板", "note": "上面寫著期中考範圍和討論的題目（說明文字由 AA 寫）"}, {"id": "vending", "x": 6.8, "z": 0.6, "r": 0.9, "label": "販賣機", "note": "飲料（說明文字由 AA 寫）"}, {"id": "notice", "x": 3.0, "z": -6.2, "r": 0.9, "label": "公告欄", "note": "讀書會、二手書、系學會（說明文字由 AA 寫）"}], "blocks": [{"x0": 3.43, "x1": 5.77, "z0": -3.25, "z1": -0.63, "why": "elevator_core"}, {"x0": -3.32, "x1": -1.88, "z0": -7.0, "z1": -6.53, "why": "bench"}, {"x0": 4.28, "x1": 5.72, "z0": -7.0, "z1": -6.53, "why": "bench"}, {"x0": -6.27, "x1": -5.73, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": -2.67, "x1": -2.13, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": 0.93, "x1": 1.47, "z0": -3.67, "z1": -3.13, "why": "column"}, {"x0": -8.0, "x1": 8.0, "z0": 6.68, "z1": 7.0, "why": "window_sill"}, {"x0": -6.58, "x1": -4.62, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": -2.98, "x1": -1.02, "z0": 5.03, "z1": 6.57, "why": "picnic_table"}, {"x0": -7.67, "x1": -6.13, "z0": -1.73, "z1": 0.23, "why": "picnic_table"}, {"x0": -7.67, "x1": -6.13, "z0": 1.77, "z1": 3.73, "why": "picnic_table"}, {"x0": 0.58, "x1": 7.72, "z0": 6.35, "z1": 7.0, "why": "window_desk"}, {"x0": -2.86, "x1": -2.34, "z0": 0.76, "z1": 2.04, "why": "whiteboard"}, {"x0": -2.86, "x1": -2.34, "z0": -1.14, "z1": 0.14, "why": "whiteboard"}, {"x0": 7.5, "x1": 7.9, "z0": -0.8, "z1": -0.4, "why": "water"}, {"x0": 7.25, "x1": 8.0, "z0": 0.18, "z1": 1.02, "why": "vending"}, {"x0": 7.52, "x1": 8.0, "z0": 1.58, "z1": 2.98, "why": "bins"}], "order": null}};
+diff --git a/src/linze_upper3d.js b/src/linze_upper3d.js
+new file mode 100644
+index 00000000..687a2da3
+--- /dev/null
++++ b/src/linze_upper3d.js
+@@ -0,0 +1,40 @@
++/* 測試用（LAWWW2-C 臨時接線，LINZE-34F-TABLES-1020；正式接線由 LAWWW-C 做）：霖澤館 3F、4F 室內區域 linze_3f、linze_4f（照 118 巷店面的做法）。
++   樓梯：2F 樓梯間的門（linze_layout.js 的 stairs3f）→ 3F；3F ⇄ 4F。電梯沒接（要在這兩個區域放 B3 的電梯車廂，LAWWW-C 做）。 */
++(function(){
++  const M=(c,o)=>P3.M(c,Object.assign({rough:0.85},o||{}));
++  const has=k=>typeof ASSETS!=='undefined'&&!!ASSETS.manifest[k];
++  const G_=()=>typeof GAME!=='undefined'?GAME.G:null;
++  function glowMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(m&&re.test(m.name||'')&&!out.includes(m)){ if(m.userData.lzBase==null) m.userData.lzBase=m.emissiveIntensity!=null?m.emissiveIntensity:1; out.push(m); } } }); return out; }
++  function setGlow(mats,k){ for(const m of mats) m.emissiveIntensity=m.userData.lzBase*k; }
++  function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
++  const L2SPAWN=Object.assign({},LINZE_UPPER_LAYOUTS['3f'].stairs.down.spawn);   /* 回到 2F：迴廊、樓梯間的門前面 1.5 m */
++  function zoneFor(f){ const L=LINZE_UPPER_LAYOUTS[f], WIN=L.windows;
++    return { id:'linze_'+f, name:L.name, indoor:true, camDist:L.cam_dist||4.4, build(E){ const Bd=L.bounds, H=L.h||3.4, W=Bd.x1-Bd.x0, D=Bd.z1-Bd.z0;
++      const z=Z3.room(E,{w:W,d:D,h:H,cool:true,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:'linze_'+f,viewDepth:30,wallColor:'#ece8df',floorTex:W3.stoneTex('#c9c4ba'),spawn:{x:L.stairs.spawn.x,z:L.stairs.spawn.z,yaw:L.stairs.spawn.yaw}});   /* room() 的 front 牆 x 是反的 */
++      const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++      for(const w of z.walls) w.visible=false; z.walls.length=0;
++      const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
++      for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
++      nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
++      plane(fb,W,D,M('#c9c4ba'),0,0,0.005); const bm=M('#b9a486'); for(const b of L.blocks){ const h=/vending|elevator|column/.test(b.why)?1.9:0.75; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
++      const lamps=[]; for(const [x,zz] of [[-4,-5],[4,-5],[-4,2.5],[2,2.5],[-4,5.5],[4,5.5]]){ const l=new THREE.PointLight(0xf6f8ff,3,12,2); l.position.set(x,H-0.4,zz); l.userData.on=5; l.userData.off=3.2; g0.add(l); lamps.push(l); }
++      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
++      const IT=E.interactables; z.seats=[];
++      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push(Object.assign({x:s.x,z:s.z,radius:0.7,lv:0,seat:st,label:s.label||'坐下'},s.kind==='study'?{study:true}:{})); }
++      for(const q of L.interact){ if(q.id==='elevator'||q.id==='stairs') continue; IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,look:q.note||q.label}); }
++      for(const d of L.doors){ if(d.kind==='stair') continue; IT.push({x:d.x,z:d.z+0.75,radius:1.0,lv:0,label:d.label,look:d.label+'。這個時段有課，門關著。'}); }
++      const st=L.stairs, sx=st.door.x, sz=st.door.z+0.55;
++      { const dn=st.down; IT.push({x:sx-0.45,z:sz,radius:0.6,lv:0,label:dn.label,exit:{to:dn.to,spawn:dn.to==='linze'?Object.assign({},L2SPAWN):Object.assign({},LINZE_UPPER_LAYOUTS[dn.to.slice(6)].stairs.spawn)}}); }
++      { const up=st.up; if(up.to) IT.push({x:sx+0.45,z:sz,radius:0.6,lv:0,label:up.label,exit:{to:up.to,spawn:Object.assign({},LINZE_UPPER_LAYOUTS[up.to.slice(6)].stairs.spawn)}}); else IT.push({x:sx+0.45,z:sz,radius:0.6,lv:0,label:up.label,look:up.closed}); }
++      { const el=L.elevator; IT.push({x:(el.doorX0+el.doorX1)/2,z:el.z0-0.7,radius:0.8,lv:0,label:'電梯',look:'（測試用的臨時接線：電梯還沒接，請走樓梯。）'}); }
++      z.formal=false; const key='bldg.linze_'+f; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++        root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
++        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('霖澤館樓上正式模型載入失敗',f,e));
++      return z; } }; }
++  if(typeof LINZE_UPPER_LAYOUTS!=='undefined') for(const f of Object.keys(LINZE_UPPER_LAYOUTS)){ Z3.ZONES['linze_'+f]=zoneFor(f);
++    if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.linze_'+f]={url:'assets/models/env/second_ai/linze_'+f+'.glb',type:'building',lazy:true,source:'LAWWW2-C linze_upper.py',license:'本作'}; }
++  /* 2F 樓梯間的門：打開、往 3F（測試用；正式改 linze_layout.js） */
++  if(typeof LINZE_LAYOUT!=='undefined'){ const d=LINZE_LAYOUT.doors.find(q=>q.id==='stairs3f'); if(d&&typeof LINZE_UPPER_LAYOUTS!=='undefined'){ delete d.closed; d.label='樓梯間（往 3F、4F）'; d.to='linze_3f'; d.spawn=Object.assign({},LINZE_UPPER_LAYOUTS['3f'].stairs.spawn); }
++    const e=LINZE_LAYOUT.elevator.floors; if(e&&e[2]) { e[2].label='3F 討論區（請走樓梯）'; } }
++})();
+diff --git a/tests/flow_linze_upper.py b/tests/flow_linze_upper.py
+new file mode 100644
+index 00000000..3260d960
+--- /dev/null
++++ b/tests/flow_linze_upper.py
+@@ -0,0 +1,100 @@
++"""霖澤館 3F、4F（LINZE-34F-TABLES-1020；LAWWW2-C 臨時接線 src/linze_upper3d.js）：真實玩家流程。
++[前置／捷徑] 讀檔到 2025-09-09（二）12:20 霖澤館 2F 迴廊、樓梯間的門前面。手機模擬橫向、不用 turbo。
++  1. 2F「進入 樓梯間（往 3F、4F）」→ 3F（linze_3f、正式模型）；站得住、不會一上來就在「走樓梯」上
++  2. 走到野餐桌「坐長椅」→ 坐下（坐姿）、站起來
++  3. 「走樓梯上樓（4F）」→ 4F；走到窗邊桌「坐窗邊（自習）」→ 坐下、站起來
++  4. 「走樓梯下樓（3F）」→ 3F；「走樓梯下樓（2F）」→ 霖澤館 2F（第 1 層）、站得住
++  5. 沒有 JS 例外；劇情自動走路沒有用到卡住保險
++這是 Playwright 手機模擬，不是 iPhone 實機。用法：python3 tests/flow_linze_upper.py URL [輸出資料夾]"""
++import asyncio, json, sys, time
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++
++URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
++OUT = sys.argv[2] if len(sys.argv) > 2 else '/tmp/flow_linze_upper'
++BASE = {'introDone': True, 'campusIntro': True, 'readCase': 'full', 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True,
++        'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'CEREMONY_Y1': True, 'KAI_MOVEIN': True, 'LAW_RECAP_SEEN': True, 'fundsV2': 1, 'L118_FIRST_SENT': True}
++
++
++async def go_press(pg, cdp, run, label, zone, near=0.4, timeout=60):
++    it = await L.find_it(pg, label)
++    ok = bool(it) and await L.go_to(pg, cdp, run, it['x'], it['z'], near, label)
++    s = await L.state(pg)
++    if not (ok and s['interact'].startswith(label)): return False, s
++    await L.tap(pg, cdp, '#interact')
++    for _ in range(timeout):
++        if await pg.evaluate(f"GAME.G.zone==={json.dumps(zone)}&&!GAME.E.player.busy"): break
++        await pg.wait_for_timeout(1000)
++    for _ in range(30):
++        if await pg.evaluate("!!(GAME.E.zone&&(GAME.E.zone.formal!==false))"): break
++        await pg.wait_for_timeout(1000)
++    await pg.wait_for_timeout(2500)
++    return True, await L.state(pg)
++
++
++async def sit_here(pg, cdp, run, label):
++    # 長椅的座位在桌子的碰撞框裡面（一體的野餐桌）：走到遊戲自己算的走近點（GAME.seatApproach，玩家按「坐長椅」時也是走到這裡）
++    seat = await pg.evaluate(f"(()=>{{ const P=GAME.E.player.obj.position; const it=GAME.E.interactables.filter(i=>i.seat&&(i.label||'').startsWith({json.dumps(label)})).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z))[0]; if(!it) return null; const ap=GAME.seatApproach(it.seat); return {{x:it.x,z:it.z,ax:ap[0],az:ap[1]}}; }})()")
++    ok = bool(seat) and await L.go_to(pg, cdp, run, seat['ax'], seat['az'], 0.12, label)   # 座位按鈕的範圍 0.7 m：走近點離座位 0.6 m，要真的走到
++    s = await L.state(pg)
++    if not ok and s['interact'].startswith(label): run.note(f'沒走到走近點 0.12 m 以內，但「{label}」按鈕已經出現（玩家看到的就是這個按鈕）：照按')
++    if not s['interact'].startswith(label): return False, None, s
++    await L.tap(pg, cdp, '#interact'); t0 = time.time(); sat = None; trace = []
++    while time.time() - t0 < 40:
++        s = await L.state(pg)
++        toast = await pg.evaluate("(()=>{ const e=document.getElementById('toast'); return e&&!e.classList.contains('hide')?e.textContent:''; })()")
++        trace.append((round(time.time() - t0, 1), s['pose'], s['busy'], round(s['x'], 2), round(s['z'], 2), toast[:20]))
++        if s['pose'] == 'sit': sat = s; break   # 坐下以後的選單（坐一下／起身）不按：按「坐一下」時間會一直往後跳
++        await pg.wait_for_timeout(500)
++    if not sat: run.note('坐下的過程：' + json.dumps(trace[:12], ensure_ascii=False))
++    await pg.wait_for_timeout(1500)
++    return True, sat, s
++
++
++async def stand_up(pg, cdp, run):
++    s = await L.advance_dialogs(pg, cdp, run, until=lambda q: not q['busy'] and not q['dlg'] and not q['choices'], max_steps=30)
++    if s['pose'] == 'sit': await L.joystick(pg, cdp, 0, 40, 900); await pg.wait_for_timeout(1500)
++    return await L.state(pg)
++
++
++async def main():
++    run = L.Run('flow_linze_upper', OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL)
++        run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear()")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        run.setup('讀檔：2025-09-09（二）12:20 霖澤館 2F 迴廊、樓梯間的門前面 (7.0, −5.4)')
++        await L.load_state(pg, {'zone': 'linze', 'hour': 12.33, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': 7.0, 'z': -4.6, 'lv': 1, 'yaw': 3.1416}})
++        await pg.wait_for_timeout(5000); await L.close_panels(pg, cdp); await run.shot(pg, '01_linze_2f')
++        ok, s = await go_press(pg, cdp, run, '進入 樓梯間', 'linze_3f')
++        await run.shot(pg, '02_3f_arrive')
++        run.check('1. 2F「進入 樓梯間（往 3F、4F）」→ 3F（正式模型）、站得住、不在「走樓梯」上', ok and s['zone'] == 'linze_3f' and s['stand'] and not s['interact'].startswith('走樓梯') and await pg.evaluate("!!GAME.E.zone.formal"), json.dumps(s, ensure_ascii=False))
++        ok, sat, s = await sit_here(pg, cdp, run, '坐長椅')
++        await run.shot(pg, '03_3f_sit')
++        run.check('2. 走到野餐桌「坐長椅」→ 坐下', ok and bool(sat), json.dumps(sat or s, ensure_ascii=False))
++        s = await stand_up(pg, cdp, run)
++        run.check('2. 站起來、站得住', s['pose'] != 'sit' and s['stand'], json.dumps(s, ensure_ascii=False))
++        ok, s = await go_press(pg, cdp, run, '走樓梯上樓（4F）', 'linze_4f')
++        await run.shot(pg, '04_4f_arrive')
++        run.check('3. 「走樓梯上樓（4F）」→ 4F、站得住', ok and s['zone'] == 'linze_4f' and s['stand'], json.dumps(s, ensure_ascii=False))
++        ok, sat, s = await sit_here(pg, cdp, run, '坐窗邊')
++        await run.shot(pg, '05_4f_sit')
++        run.check('3. 走到窗邊桌「坐窗邊（自習）」→ 坐下', ok and bool(sat), json.dumps(sat or s, ensure_ascii=False))
++        s = await stand_up(pg, cdp, run)
++        run.check('3. 站起來、站得住', s['pose'] != 'sit' and s['stand'], json.dumps(s, ensure_ascii=False))
++        ok, s = await go_press(pg, cdp, run, '走樓梯下樓（3F）', 'linze_3f')
++        run.check('4. 「走樓梯下樓（3F）」→ 3F、站得住', ok and s['zone'] == 'linze_3f' and s['stand'], json.dumps(s, ensure_ascii=False))
++        ok, s = await go_press(pg, cdp, run, '走樓梯下樓（2F）', 'linze')
++        await run.shot(pg, '06_back_2f')
++        lv = await pg.evaluate("GAME.E.player.lv|0")
++        run.check('4. 「走樓梯下樓（2F）」→ 霖澤館 2F（第 1 層）、站得住', ok and s['zone'] == 'linze' and lv == 1 and s['stand'], json.dumps(dict(s, lv=lv), ensure_ascii=False))
++        fb = await pg.evaluate("GAME.walkFallbacks||0")
++        run.check('5. 沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        run.check('5. 劇情自動走路沒有用到卡住保險（walkFallbacks＝0）', fb == 0, str(fb))
++        await b.close()
++    run.finish()
++
++asyncio.run(main())
+diff --git a/tests/shots_linze_upper.py b/tests/shots_linze_upper.py
+new file mode 100644
+index 00000000..e3bf4c16
+--- /dev/null
++++ b/tests/shots_linze_upper.py
+@@ -0,0 +1,66 @@
++"""霖澤館 3F、4F 的遊戲內截圖（LINZE-34F-TABLES-1020）。[前置／捷徑] 每個鏡頭都是讀檔把人物放到那個位置、設鏡頭角度（只為了截圖；走上去、坐下的真實流程是 flow_linze_upper.py）。
++每層五張：①從樓梯間進來（面向南、看窗邊）②窗邊長桌（從東往西）③西牆長桌（從東邊看）④東牆的微波爐、飲水機、販賣機 ⑤北側走廊（教室門、電梯）。
++另外：⑥ 3F 午餐（12:20）同一角度晚上 19:30 ⑦ 坐在長椅上。手機模擬橫向（844×390）。"""
++import asyncio, json, sys, math
++from playwright.async_api import async_playwright
++sys.path.insert(0, __import__('os').path.dirname(__file__))
++import playlib as L
++URL = sys.argv[1]; OUT = sys.argv[2]
++BASE = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'zheNoodleDone': True, 'KX_FIRST_MSG': True, 'KX_EVE_MSG': True, 'FAM_GROUP_SENT': True, 'L118_FIRST_SENT': True, 'LAW_RECAP_SEEN': True}
++PI = math.pi
++# (名字, 人物 x, z, 人物朝向, 鏡頭 yaw)：鏡頭在人物的 (sin yaw, cos yaw) 那一側
++VIEWS = [('1_from_stair', None, None, 0.0, PI),
++         ('2_window_tables', -0.2, 3.9, -PI / 2, PI / 2),
++         ('3_west_tables', -3.6, 1.0, -PI / 2, PI / 2 - 0.35),
++         ('4_east_wall', 3.6, 0.2, PI / 2, -PI / 2 + 0.3),
++         ('5_corridor', -1.0, -5.0, PI / 2, -PI / 2)]
++
++
++async def place(pg, x, z, ry, cyaw):
++    await pg.evaluate(f"(()=>{{ const P=GAME.E.player.obj; const nf=GAME.E.nav.nearestFree({x},{z})||[{x},{z}]; P.position.x=nf[0]; P.position.z=nf[1]; P.rotation.y={ry}; GAME.E.cam.yaw={cyaw}; }})()")
++    await pg.wait_for_timeout(2500)
++
++
++async def load(pg, zone, d, hour, sp):
++    await L.load_state(pg, {'zone': zone, 'hour': hour, 'day': d, 'weekday': 2, 'weather': 'sunny', 'stage': 'law', 'money': 3000, 'flags': BASE, 'pos': {'x': sp['x'], 'z': sp['z'], 'yaw': sp['yaw']}})
++    for _ in range(40):
++        if await pg.evaluate("!!(GAME.E.zone&&GAME.E.zone.formal)"): break
++        await pg.wait_for_timeout(1000)
++    await pg.wait_for_timeout(2500)
++
++
++async def main():
++    run = L.Run('shots_linze_upper', OUT)
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg))
++        await pg.evaluate("localStorage.clear(); STORY.phoneAuto=()=>{}")
++        d = await pg.evaluate("STORY.dayOfKey('2025-09-09')")
++        for f in ('3f', '4f'):
++            LL = await pg.evaluate(f"LINZE_UPPER_LAYOUTS['{f}']")
++            sp = LL['stairs']['spawn']
++            run.setup(f'{LL["name"]}：讀檔到樓梯間進來的位置（12:20）')
++            await load(pg, 'linze_' + f, d, 12.33, sp)
++            await L.close_panels(pg, cdp)
++            run.check(f'{LL["name"]}：正式模型載入', await pg.evaluate("!!GAME.E.zone.formal"))
++            for name, x, z, ry, cyaw in VIEWS:
++                if x is None: await place(pg, sp['x'], sp['z'], ry, cyaw)
++                else: run.setup(f'{LL["name"]}：[捷徑] 人物放到 ({x}, {z})、鏡頭 yaw {cyaw:.2f}'); await place(pg, x, z, ry, cyaw)
++                await run.shot(pg, f'{f}_{name}')
++            if f == '3f':
++                run.setup('3F：[捷徑] 同一個存檔改到 19:30（晚上）')
++                await load(pg, 'linze_3f', d, 19.5, sp); await L.close_panels(pg, cdp)
++                await place(pg, -0.2, 3.9, -PI / 2, PI / 2); await run.shot(pg, '3f_6_window_tables_night')
++                await load(pg, 'linze_3f', d, 12.33, sp); await L.close_panels(pg, cdp)
++            seat = await pg.evaluate("(()=>{ const it=GAME.E.interactables.filter(i=>i.seat&&(i.label||'').startsWith('坐長椅'))[3]; if(!it) return null; return {x:it.x,z:it.z,seat:it.seat}; })()")
++            if seat:
++                run.setup(f'{LL["name"]}：[捷徑] 直接坐到長椅（GAME.sitAt）')
++                await pg.evaluate("(()=>{ const it=GAME.E.interactables.filter(i=>i.seat&&(i.label||'').startsWith('坐長椅'))[3]; GAME.sitAt(GAME.E.player,it.seat); })()")
++                await pg.wait_for_timeout(3000); await L.close_panels(pg, cdp)
++                await pg.evaluate("GAME.E.cam.yaw=GAME.E.player.obj.rotation.y+Math.PI*0.85")
++                await pg.wait_for_timeout(2000); await run.shot(pg, f'{f}_7_sit')
++                await L.joystick(pg, cdp, 0, 40, 900); await pg.wait_for_timeout(1500)
++        run.check('沒有 JS 例外', not errs, '；'.join(errs[:3]))
++        await b.close()
++    run.finish()
++asyncio.run(main())
+diff --git a/tools/shots/window_views.py b/tools/shots/window_views.py
+index 3bd0dcd7..1fad2f6d 100644
+--- a/tools/shots/window_views.py
++++ b/tools/shots/window_views.py
+@@ -24,6 +24,8 @@ VIEWS = {
+     'wancai_east': ('campus', [106, -108], [104.0, 2.2, -112.0], [140, 2.6, -112.0]),
+     # 霖澤館 201（二樓）：從正面二樓的高度往南看
+     'linze_201': ('campus', [30, -98], [30.0, 6.6, -101.6], [30, 4.6, -60]),
++    'linze_3f': ('campus', [30, -98], [30.0, 10.5, -101.6], [30, 7.6, -60]),     # 霖澤館 3F（地板 8.4 m，窗中心 2.1 m）：往南看法學院前的路、樹（LAWWW2-C 2026-10-20）
++    'linze_4f': ('campus', [30, -98], [30.0, 14.1, -101.6], [30, 10.6, -60]),    # 霖澤館 4F（地板 12.0 m）
+     # 總圖 3F 閱覽區：總圖正面（x≈83–87 有門廊）前面、三樓高度、偏北一點避開門廊和塔，往西看椰林大道
+     'library_3f': ('campus', [80, 4], [80.5, 13.0, 3.5], [20, 6.0, 0.0]),
+     # 宿舍房間（男一舍 36×14，x 2–38、z 61–75，正面朝北、門廊在中間）：二樓高度、門廊旁邊往北看舟山路與校園

@@ -2,7 +2,7 @@
 [前置／捷徑] 每一段讀檔到那一天、那個時間、那一區的門口附近（位置與時間是設定的）；之後都走真的介面（點地面走路、互動按鈕、點對話、點選項）。
 A. 吉他社第一次（還沒認識子晴）：10/15 週三 18:40 萬才館大廳 → 自己走到多功能教室門口 → 還沒開始時按門寫「今天 19:00 在這裡」→ 等到 18:45 以後按門 →「參加：吉他社社課」
    → 社課一開始自動播子晴的初遇（ev_ziqing_club；這個存檔沒聽阿凱轉述過吉他社〔沒有 guitar_invite〕，所以第一句是「新人？……法律系的？」，不是「你就是阿凱的室友？」——v1 Q2 改寫，BB_95）
-     「我高子晴。資工二。」→ 時間到 21:00、記下 FIRST_MET、加入吉他社。
+     「我高子晴，資工系的。」→ 時間到 21:00、記下 FIRST_MET、加入吉他社。
 B. 法服讀書會第一次：10/1 週三 18:55 萬才館大廳 → 自己走上二樓到研討室 A 門口 →「參加：法服讀書會」→ 播 ev_studygroup_wed 整段（學姊「來了？坐。」、題庫三題）→ 21:00、加入法服。
 C. 社團博覽會：9/30 週二 12:00 椰林大道 → 自己走到公告欄前的「社團博覽會」→ 選單有五個社團 → 選吉他社（加入）→ 再看一次寫「已加入」→ 逛完了。
 D. 系籃：10/3 週五 17:35 體育館附近 → 自己走到「系籃練球」→「去練球：系籃練球」→ 轉暗、19:00、系籃的旁白 →「社課結束了。」
@@ -72,7 +72,7 @@ async def main():
             await pg.wait_for_timeout(700)
         await run.shot(pg, 'A_after_guitar')
         G = await g(pg, "(()=>{ const G=GAME.G; return {hour:+(G.hour%24).toFixed(2), met:SOCIAL.has('heroine_04','FIRST_MET'), club:!!G.flags.CLUB_club_guitar, ev:(G.events.done||{}).ev_ziqing_club||0}; })()")
-        run.check('A 社課一開始播子晴的初遇（沒聽阿凱轉述過：「新人？……法律系的？」，不是「你就是阿凱的室友？」；「我高子晴。資工二。」）', any(t.startswith('新人？……法律系的？') for t in seen) and not any('阿凱的室友' in t for t in seen) and any('我高子晴。資工二。' in t for t in seen), ' / '.join(seen[:6]))
+        run.check('A 社課一開始播子晴的初遇（沒聽阿凱轉述過：「新人？……法律系的？」，不是「你就是阿凱的室友？」；「我高子晴，資工系的。」）', any(t.startswith('新人？……法律系的？') for t in seen) and not any('阿凱的室友' in t for t in seen) and any('我高子晴，資工系的。' in t for t in seen), ' / '.join(seen[:6]))
         run.check('A 結束：21:00、記下 FIRST_MET、加入吉他社、事件算播過一次', G['hour'] >= 20.99 and G['met'] and G['club'] and G['ev'] == 1, json.dumps(G))
         # ---------- B：法服讀書會第一次 ----------
         run.setup('讀檔：10/1 週三 18:55，萬才館一樓大廳（沒看過法服公告）')

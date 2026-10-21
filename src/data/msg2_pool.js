@@ -1,9 +1,9 @@
-/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@b61e4f55、AA_257@659af025、BB_178@741e94f1）。
+/* 玩家主動傳訊息的第二批話題（MSG-2：謝謝、生日快樂、還好嗎、新年快樂）回覆池：AA 六位＝AA_202 第 7 節，BB 九位＝AA_257（AA 定稿）＋BB_178 第 10 節的條件（企劃線 AA_202@65239add、AA_257@5f9957a2、BB_178@741e94f1）。
    產生器 tools/msg/build_msg2.py → tools/msg/to_js2.py（每一句照抄原文；tests/msg_chat_unit.js 第 H 項逐字比對 git 上的原文）。不要手改句子。
    people[id]：birthday（MM-DD）、conds（thanks／ok：什麼事以後能傳，key＋原文；bday：分年份的列；closed：不開的時候）、replies（topic thanks／bday／ok／newyear、cond、tier、msgs、tags、ask）。程式的判斷在 src/msg3d.js。 */
 'use strict';
 const MSG2_POOL={
- "source":{"AA_202": "b61e4f55", "AA_257": "659af025", "BB_178": "741e94f1"},
+ "source":{"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1"},
  "topics":{"thanks": {"say": ["謝謝", "上次謝啦"], "when": "對方幫過忙以後 7 天內，一次（例：借筆記 `LENT_NOTES` 的另一方向、借考古題、幫忙排行程、她送了東西）。條件表 LAWWW 照各人事件的旗標列"}, "bday": {"say": ["生日快樂"], "when": "對方生日當天（00:00～23:59）。生日的節日事件（`AA_126` 第 7 節）演過了也可以傳"}, "ok": {"say": ["還好嗎"], "when": "對方遇到事以後 3 天內（下表 7-2 的「事」）"}, "newyear": {"say": ["新年快樂"], "when": "1/1，以及除夕到初三"}},
  "people":{
   "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和小語吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
@@ -59,7 +59,7 @@ const MSG2_POOL={
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不客氣。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不客氣。下次考古題我先給你。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_202 7-3 柏翰"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。今天收到三則生日快樂，你是第三個。"], "tags": [], "src": "AA_202 7-3 柏翰"},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。今天收到三則生日快樂。……我都有回。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "ok", "cond": null, "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_202 7-3 柏翰"},
    {"topic": "ok", "cond": "split_peishan", "tier": "R", "msgs": ["還好。……讀書比較快。"], "tags": ["分開以後"], "src": "AA_202 7-3 柏翰", "alt": "1/2"},
    {"topic": "ok", "cond": "bar_exam_week", "tier": "R", "msgs": ["還有七天。我在算。"], "tags": ["國考前"], "src": "AA_202 7-3 柏翰", "alt": "2/2"},
@@ -148,7 +148,7 @@ const MSG2_POOL={
    {"topic": "bday", "cond": "y2027_gone", "tier": "R", "msgs": [], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2027 重考消失期）", "noReply": true, "ref": "不回（已送達、不顯示已讀；`BB_178` 10-0 第 7 點）", "copiedFrom": "A", "cellText": "同左"},
    {"topic": "bday", "cond": "y2027_gone", "tier": "L", "msgs": [], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "生日快樂（2027 重考消失期）", "noReply": true, "ref": "不回（已送達、不顯示已讀；`BB_178` 10-0 第 7 點）", "copiedFrom": "A", "cellText": "同左"},
    {"topic": "ok", "cond": "p3_retake", "tier": "A", "msgs": ["還好。謝謝。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（P3 我要重考）"},
-   {"topic": "ok", "cond": "p3_retake", "tier": "R", "msgs": ["還好。……我還沒跟我媽說。你先不要跟別人說。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（P3 我要重考）", "notes": ["接 `BB_113` 她之後跟媽媽說的那一則"]},
+   {"topic": "ok", "cond": "p3_retake", "tier": "R", "msgs": ["還好。……我還沒跟我媽說。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（P3 我要重考）", "notes": ["接 `BB_113` 她之後跟媽媽說的那一則"]},
    {"topic": "ok", "cond": "p3_retake", "tier": "L", "msgs": ["不太好。可是我想好了。……你可以聽我講嗎？很長。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（P3 我要重考）", "ask": {"q": "你可以聽我講嗎？很長。", "src": "AA_257 §4 郭沛珊「回問」（2026-10-17 AA-C，b61e4f55）", "opts": [{"t": "好。", "r": ["（旁白：她傳了很長的一段。你看完，回了「我在。」）"]}, {"t": "我打給妳。", "r": ["好。"]}]}},
    {"topic": "ok", "cond": "bohan_split", "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（和柏翰分開）"},
    {"topic": "ok", "cond": "bohan_split", "tier": "R", "msgs": ["還好。……沒有吵架。就是走不到一起。"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "還好嗎（和柏翰分開）"},
@@ -157,7 +157,7 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["新年快樂。今年我想問你的第一個問題是：今年你想做什麼？"], "tags": [], "src": "AA_257 §4 郭沛珊", "rowLabel": "新年快樂", "ask": {"q": "今年你想做什麼？", "src": "AA_257 §4 郭沛珊「回問」（2026-10-17 AA-C，b61e4f55）", "opts": [{"t": "把書念完。", "r": ["好。我記下來了。"]}, {"t": "還沒想好。", "r": ["那我過幾天再問一次。"]}]}}
   ]}),
   "kexin":Object.assign({"name": "杜可昕", "birthday": "04-24", "style": "只有 L；短；累了傳長頸鹿貼圖；政大的「坡」", "bdayInfo": {"src": "BB_178 10-1", "cell": "4/24", "years": ["2026 週五，大一下第 9 週", "2027 週六，大二下第 9 週", "2028 週一，大三下第 10 週", "2029 週二，大四下第 10 週"], "where": ["都在臺北（政大）。每年都有她的生日事件（`ev_kexin_birthday_y1s2`～`_y4`），這個按鈕是另外一條。", "2028 日本路線的祐廷在日本（快 1 小時）。", "只有 L。分開以後不開；走向 C 只有生日這一天開（10-6）。"], "pool": "【回覆池 AA】"}, "conds": {"thanks": [], "ok": [{"key": "k10c_bad_exam", "text": "K10c 第一次考壞一科（`ev_kexin_bad_exam`，`KX_BAD_EXAM`）", "date": "大二上第 11 週，她傳「物權。我考壞了。……不要安慰我。」（2026-11-16 那一週）", "how": "收到那則", "days": "3 天，從她傳的那天算", "tiers": "L", "poolNote": "她說了不要安慰，回覆不寫成被安慰", "src": "BB_178 10-2"}], "bday": [{"key": "y2028_japan", "text": "2028 日本路線，祐廷在日本", "src": "AA_257 §5 話題欄"}, {"key": "route_c", "text": "走向 C，分開以後只留這一句；`BB_107` 第 276 行", "src": "AA_257 §5 話題欄"}], "closed": [{"src": "BB_178 10-1 可昕", "text": "只有 L。分開以後不開；走向 C 只有生日這一天開（10-6）。"}, {"src": "BB_178 10-3 可昕", "text": "無固定事件，LAWWW 照通則（長頸鹿鑰匙圈 `GIRAFFE_KEYCHAIN` 是經濟系那年 2024-12 的事，不在法律系四年內）"}, {"src": "AA_257 §5 謝謝", "text": "沒有固定事件（`BB_178` 10-3），不開"}, {"src": "BB_178 10-6 可昕，分開了｜生日快樂", "text": "走向 C：4/24 開，回一句（`BB_107` 第 276 行「只留生日的一句話」；回覆池 AA 寫一句）；走向 B：不開"}, {"src": "BB_178 10-6 可昕，分開了｜謝謝、還好嗎、新年快樂", "text": "不開"}, {"src": "BB_178 10-2 不開的", "text": "可昕的裂縫和談話（`ev_kexin_talk`，`BB_119` 2-5b）：不開。"}], "closedText": "只有 L。分開以後不開；走向 C 只有生日這一天開（10-6）。\n無固定事件，LAWWW 照通則（長頸鹿鑰匙圈 `GIRAFFE_KEYCHAIN` 是經濟系那年 2024-12 的事，不在法律系四年內）\n沒有固定事件（`BB_178` 10-3），不開\n走向 C：4/24 開，回一句（`BB_107` 第 276 行「只留生日的一句話」；回覆池 AA 寫一句）；走向 B：不開\n不開\n可昕的裂縫和談話（`ev_kexin_talk`，`BB_119` 2-5b）：不開。"}},{"replies":[
-   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝！！", "（長頸鹿貼圖）", "你晚上要下山來，還是我上去"], "tags": [], "src": "AA_257 §5 杜可昕", "rowLabel": "生日快樂", "ask": {"q": "你晚上要下山來，還是我上去", "src": "AA_257 §5 杜可昕「回問」（2026-10-17 AA-C，b61e4f55）", "opts": [{"t": "我去政大", "r": ["好 我在校門口等"]}, {"t": "妳來公館", "r": ["好 七點"]}]}},
+   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝！！", "（長頸鹿貼圖）", "你晚上要上山來，還是我下山"], "tags": [], "src": "AA_257 §5 杜可昕", "rowLabel": "生日快樂", "ask": {"q": "你晚上要上山來，還是我下山", "src": "AA_257 §5 杜可昕「回問」（2026-10-17 AA-C，b61e4f55）", "opts": [{"t": "我去政大", "r": ["好 我在校門口等"]}, {"t": "妳來公館", "r": ["好 七點"]}]}},
    {"topic": "bday", "cond": "y2028_japan", "tier": "L", "msgs": ["謝謝。你那邊比較早一個小時，你比我先過我的生日。"], "tags": [], "src": "AA_257 §5 杜可昕", "rowLabel": "生日快樂（2028 日本路線，祐廷在日本）"},
    {"topic": "bday", "cond": "route_c", "tier": "L", "msgs": ["謝謝。……你還記得。"], "tags": [], "src": "AA_257 §5 杜可昕", "rowLabel": "生日快樂（走向 C，分開以後只留這一句；`BB_107` 第 276 行）"},
    {"topic": "ok", "cond": "k10c_bad_exam", "tier": "L", "msgs": ["還好啦", "我說了不要安慰", "……你陪我吃東西就好，不要講考試"], "tags": [], "src": "AA_257 §5 杜可昕", "rowLabel": "還好嗎（K10c 物權考壞）"},
@@ -209,7 +209,7 @@ const MSG2_POOL={
    {"topic": "thanks", "cond": "notes_exams", "tier": "A", "msgs": ["不會～有問題再問喔"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "謝謝（問課附考古題、筆記）"},
    {"topic": "thanks", "cond": "notes_exams", "tier": "R", "msgs": ["不會啦！考古題家族共享，你下一屆也要傳下去喔"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "謝謝（問課附考古題、筆記）"},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝學弟！！"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "生日快樂（3/6）"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝！！家族群組都沒人講，你是第一個欸", "我要截圖傳到群組"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "生日快樂（3/6）"},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝！！家族群組都還沒人講欸", "我要截圖傳到群組"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "生日快樂（3/6）"},
    {"topic": "bday", "cond": "y2029", "tier": "A", "msgs": ["謝謝！！"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "生日快樂（2029，他畢業了）"},
    {"topic": "bday", "cond": "y2029", "tier": "R", "msgs": ["謝謝！！畢業以後第一次有學弟記得欸"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "生日快樂（2029，他畢業了）"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！！"], "tags": [], "src": "AA_257 §9 Kevin", "rowLabel": "新年快樂"},

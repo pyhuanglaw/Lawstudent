@@ -13,6 +13,53 @@
 
 ---
 
+## 2026-10-21 17:5x UTC（使用者直接對帳號 A 的 LAWWW）｜使用者幾天不監督：LAWWW 主動監督其他 AI，四職位各自按領域決定（D110）
+- 原話（UA-LAWWW-1021-07）：「我接下來幾天不會監督你們的開發 你要主動監督其他AI手上的工作  各自按各自領域決定」。
+- LAWWW 的解讀（UA-LAWWW-1021-08，AI 解讀、delegatedBy 07）：各職位在自己的領域內自己決定；原本明文留給使用者的照舊——人物設定、感情走向、結局（D109），建築與場景的 ART_APPROVED，付款與外部授權（使用者沒說要改）。D99 三個優先項目的順序照舊。
+- 取代：沒有取代舊規則；把 D109（AA 劇情自主）擴到四個職位，D85（LAWWW 決定發布）、D108（LAWWW2 場景程式）照舊。
+- 處理：PROJECT_DECISIONS D110；CLAUDE.md 最上面的表；USER_WANTS X97（規則）；LAWWW 每批工作結束看三個職位的佇列、狀態、待 ACK、交付品質。
+- 通知：AA、BB、LAWWW2（同帳號值班中，send_message）。
+
+## 2026-10-21 約 16:0x～16:1x UTC（使用者直接對帳號 A 的 AA，AA 轉 LAWWW）｜劇情不逐場確認、AA 自主決定（D109）；AA_334 三題答完
+- 原話與選擇題答案（AA 的 `user_asks_AA.json`）：
+  - UA-AA-1021-42（選擇題答案）：「不用逐場確認（建議）」——法律系四年的可昕和其他人物劇情不逐場用選擇題確認，AA 當劇情總監自己判斷，只有改大方向（人物設定、感情走向、結局）才問。
+  - UA-AA-1021-43（原話）：「以後你劇情自己決定我最近不太會關注 你要自主開發」。
+  - UA-AA-1020-33、34、35（AA 的 AI 解讀，使用者用選擇題確認，企劃線 19b1a129）：AA_334 第 1 節沛珊「大一上期末就能交往」可以施工；第 4 節芷若晚一點的窗口可以施工；第 3 節 Z13 拒絕後照現在，不用改。
+  - 時間：AA 的檔寫 16:2x、16:3x，比 AA 的訊息送到 LAWWW 的時間（16:09、16:15 UTC）晚，已請 AA 核對。
+- 取代：10-18「所有可昕的劇情都弄成選擇題再確認一次」（USER_WANTS X33、任務 AA-LAW-RECONFIRM 取消）。
+- 處理：PROJECT_DECISIONS D109；CLAUDE.md 最上面的表；USER_WANTS X96（規則）；新任務 AA334-S1-PS-1021、AA334-S4-ZR-1021（LAWWW，不在三個優先項目裡，照佇列排）。
+- 通知：AA（請它把 UA-AA-1021-43 對到 X96、status 改「規則（永久）」，UA-AA-1018-03 改「已取消」）。
+
+## 2026-10-21 16:0x UTC（使用者直接對帳號 A 的 LAWWW）｜場景相關的程式修改交給 LAWWW2（D108）
+- 原話：「讓 LAWWW2 接場景相關的程式修改 可以」——回答 LAWWW 15:5x「你是瓶頸這件事有辦法透過分工解決嗎」的提議。
+- 取代：D100 第 3 點只寫「LAWWW2＝3D 美術」、程式整合全部 LAWWW 做的部分（D108）。
+- 處理：
+  - 改派 LAWWW2 10 項（DIV-LW2-SCENE-1021）：PERF-CAMPUS-SHADOW-1020（剩「卡」那一半）、BUG-CAM-C208-1021、PERF-ZONE-ENTER-1018、ART-GYM2-INT、ART-02、LIC-GAPS-1017、GRADE-GOLDEN-DEFAULT、ART-WZ6、ART-WZ7、ART-SOY1。
+  - 提議時說的「16 項」重新逐項看過，劇情流程和場景混在一起的（VAC-A2 出國接 3D 機場、DORM-Y34、BUG-ECON-HOME-SHOTS-1018）留在 LAWWW，所以是 10 項。
+  - 文字類給 AA、測試給 BB 本來就在 D100 範圍內，照提議做，不另問。
+- 紀錄：user_asks_LAWWW.json UA-LAWWW-1021-06；PROJECT_DECISIONS D108；CLAUDE.md D100 第 3 點、最上面的表。
+- 通知：LAWWW → LAWWW2（send_message，任務 ID 全列）。
+
+## 2026-10-21 15:2x～15:3x UTC（使用者直接對帳號 A 的 LAWWW2）｜溫州街收尾、舊店面翻修恢復、黃昏收尾、「你是美術總監」
+- 原話（LAWWW2 的 `user_asks_LAWWW2.json` UA-LAWWW2-1021-08～10）：
+  - 「溫州街修改直接收尾 舊店面翻修繼續」
+  - 「黃昏收尾」
+  - 「你之後不要再停下來問我 你是美術總監」（永久）
+- 取代：10-17 05:0x「溫州街修改也暫停」的溫州街部分。人物精修那一半照舊暫停。
+- 處置（值班 LAWWW，HV-18 第 6 點當天同步）：
+  - ART-WZ0 恢復；ART-VSLICE 收尾（做到一半的做完結案、不擴大）。
+  - BUG-WZFLICKER-2、ART-BALCONY-POTS 的溫州街部分做完結案。
+  - USER_WANTS B10、I05 改成進行中。
+- 「你是美術總監」：LAWWW2 自己決定、自己驗收、只報結果，不把美術決定丟回給使用者。LAWWW2 自己的紀錄寫明**建築、場景的 ART_APPROVED 照舊只有使用者能標**；LAWWW 15:4x 也把這一點當成要不要改的問題問了使用者（還沒回）。
+- 通知：LAWWW → LAWWW2 15:4x ACK（DELIVERED）。
+
+## 2026-10-21 15:1x～15:4x UTC（使用者直接對帳號 A 的 LAWWW）｜接班、問交班規則、問互相通訊
+- 「我回來了，請同步 GitHub 最新進度，接續工作。」＋上一班（LAWWW-C）的交班摘要 → 照十四步接班（duty register `de21dbee`、duty verify OK `be5ae4ce`、roles OK `5845667e`）。
+- 「你上次交班之後 有兩個帳號接過你的班 B C」「你知道前面有兩個帳號做過你的工作嗎 還是你只審查上一個帳號 有需要修改交班規則嗎」：
+  - 回答：A→B→C 的登記鏈都有對；離開後的 10 份 LAWWW 交班快照逐一比對，沒有任務不見。
+  - 提議 HV-19：隔了兩班以上回來時，要比對離開後的每一份快照，不是只比最後一份。**等使用者回答要不要加。**
+- 「其他工作崗位的都回來了 互相通訊都Ok嗎」：AA、BB、LAWWW2 都已和 LAWWW 雙向確認（15:31～15:34），BB → LAWWW2 也通。
+
 ## 2026-10-18 12:4x UTC｜第四個帳號 D（HV-17）
 - 使用者對 LAWWW-C：「對了 我可能會開第四個帳號 你幫我把交班規則新增第四個帳號的四個角色怎麼交班」「要讓四個帳號都知道怎麼回來喔 不一定是誰交給誰 可能很隨機」。
 - 做法：A、B、C、D 四個帳號任意方向輪值；帳號 D 的工作階段 LAWWW-D、LAWWW2-D、AA-D、BB-D（AI_SESSION_HANDOFF.md 第 7.9～7.12 節）；回來一律說「我回來了，請同步 GitHub 最新進度，接續工作。」，上一任看 duty.json 登記鏈；tools/handoff/duty_state.py ACCOUNTS 加 D、duty.json accountState D＝unused。

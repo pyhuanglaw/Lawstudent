@@ -203,5 +203,12 @@ if os.path.exists(os.path.join(ROOT, 'docs/handoff/watermarks.json')) and subpro
 else:
     print('SKIP 四 真實資料（沒有 watermarks.json 或沒 fetch）')
 
+# ---------- 五、只改使用者要求檔（user_asks_<職位>.json，HV-18）的 commit 照路徑分類 ----------
+# INCR-CLEANUP-1021（2026-10-21）：REGISTRY 沒有 user_asks，只改它的 commit 每次都被列成「沒分類」（70 個裡占了 18 個的一大半）
+for f in ('docs/handoff/user_asks_AA.json', 'docs/handoff/user_asks_LAWWW2.json', 'docs/handoff/outbox_BB.json', 'docs/handoff/duty_AA.json'):
+    expect(f'五 登記檔照路徑分類：{f}', bool(I.REGISTRY.match(f)))
+for f in ('docs/handoff/user_asks_AA.md', 'docs/handoff/tasks.json', 'src/user_asks_AA.json'):
+    expect(f'五 不是登記檔：{f}', not I.REGISTRY.match(f))
+
 print(f'\n{"全部通過" if not fails else f"{fails} 項失敗"}')
 sys.exit(1 if fails else 0)

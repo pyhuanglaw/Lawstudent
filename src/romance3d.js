@@ -53,7 +53,7 @@ const ROM=(function(){
     if(r.meet==='plg'){ if(wd!==4||typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return null; const d0=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',6,1):null; if(d0==null||day<d0) return null;
       const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); if(!a||!ACTIVITIES.on(a,day,G)) return null;
       const Gx=Object.assign({},G,{day,hour:a.t0,weekday:4}), at=id=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,Gx); return p.here||p.kind==='taipei'; };
-      return at(r.from)&&at(r.to)?{t0:a.t0,t1:a.t1}:null; }   /* 兩人都要出席（BB-C 16:42）：沛珊聯絡不到的那段（2026-12-18～2027-08-06）、以安在日本不算；沛珊回來以後在別的學校（taipei）照常來讀書會 */
+      return at(r.from)&&at(r.to)?{t0:a.t0,t1:a.t1}:null; }   /* 兩人都要出席（BB-C 16:42）：沛珊聯絡不到的那段（2026-12-18～2027-08-06）、以安在日本不算；沛珊放榜以後在台南（kind city，AA_282 第 1 節：不回台大、不來臺北）＝不來讀書會、不會在這裡聽到（原本「回來以後在別的學校照常來讀書會」作廢）*/
     if(r.meet==='fri'){ if(wd!==5) return null; for(const hh of [14.25,14.75,15.25,15.75]) if(onCampus(G,r.from,day,hh,5)&&onCampus(G,r.to,day,hh,5)) return {t0:14,t1:16}; return null; }
     return null; };
   S.spreadTick=function(G){ if(!G||!G.flags) return 0; const F=G.flags, R=S.relRec(G), scan=F.spreadScan&&typeof F.spreadScan==='object'?F.spreadScan:(F.spreadScan={}), now=G.day*24+(G.hour||0); let n=0;
@@ -75,6 +75,7 @@ const ROM=(function(){
     if(!F.romance||typeof F.romance!=='object') F.romance={};
     for(const k in F) if(/^dating_/.test(k)){ const id=k.slice(7), R=F.romance[id]||(F.romance[id]=blank()); if(F[k]===true&&R.status!=='dating'){ R.status='dating'; R.since=R.since||(id==='kexin'?'Y0':S.when(G)); } }
     for(const k in F) if(/^EX_/.test(k)&&F[k]){ const id=k.slice(3), R=F.romance[id]||(F.romance[id]=blank()); if(R.status==='none') R.status='ex'; }
+    if(F.CALLED_SHUYU==null){ const R5=F.romance.heroine_05; if(F.dating_heroine_05===true||(R5&&Array.isArray(R5.history)&&R5.history.some(h=>h&&h.ev==='start'))) F.CALLED_SHUYU=true; }   /* 舊存檔：和學姊交往過（ROM.start 還沒記 CALLED_SHUYU 的版本）＝記上 */
     if(!F.knowsRel_V){ F.knowsRel_V=1; S.relRec(G); S.ytRec(G);
       for(const id in F.romance){ const K=F.romance[id].knows; if(Array.isArray(K)) for(const p of K) S.learn(G,id,p,'legacy'); }   /* 舊欄位 romance[X].knows（祐廷親口說的）搬過來 */
       S.k3Tell(G); }   /* 舊存檔：KX_MET_NOODLE_TEAM 不再當成以安、語彤、沛珊知道；K3 選了「女朋友」（KX_INTRO:'gf'）的，照存檔裡認識的人補（BB_191 9-4 舊存檔）*/
@@ -85,18 +86,41 @@ const ROM=(function(){
   S.isEx=(G,id)=>!!(G.flags&&G.flags['EX_'+id]);
   /* 她知道祐廷現在還在交往的哪些人（不含她自己；分開了的不算）*/
   S.knows=function(G,x){ S.rec(G); return S.partners(G).filter(p=>p!==x&&S.knowsOf(G,x,p)); };
+  /* 誠實／閃避／說謊（BB_194 第 2 節、§24；任務 BB194-YTFLAGS）：她問到祐廷的感情狀態，祐廷的回答記在這三個旗標，期末飯的知情門檻（termend3d.js KNOWS_OK）讀它們。
+     選項標 yt（events3d.js：選項的 yt／ytHer／ytAbout，或劇本固定照實的那一句 {yt:'honest'}）：
+       'honest'＝YT_HONEST[X]；'dodge'＝YT_DODGED[X]（沒有回答、岔開；不算說謊）；
+       'claimEnded'（說已經分了）、'claimNone'（說沒有女朋友）拿去和事實比：說的那個人還在交往中（REL_STATE＝dating）＝YT_LIED[X][Y]，剛好是真的＝YT_HONEST[X]。
+     claimNone 說的是「現在沒有任何人」：比祐廷現在所有的交往對象（X 以外）；claimEnded 說的是 about 那一位（沒寫＝她知道的那幾位，她都不知道＝現在所有的交往對象）。
+     格式照 termend3d.js：YT_HONEST、YT_DODGED＝{她:true}；YT_LIED＝{她:{Y:true}}。只記玩家真的選過的；記過就留著（第 8 節：說謊的紀錄不清掉）。回傳 'honest'／'dodge'／'lied'（null＝標記不認得）*/
+  S.YT_KINDS=['honest','dodge','claimEnded','claimNone'];
+  S.ytAnswer=function(G,x,kind,about){ if(!G||!x||!S.YT_KINDS.includes(kind)) return null; const F=G.flags||(G.flags={}), M=k=>sub(F,k);
+    if(kind==='honest'){ M('YT_HONEST')[x]=true; return 'honest'; }
+    if(kind==='dodge'){ M('YT_DODGED')[x]=true; return 'dodge'; }
+    const now=S.partners(G).filter(p=>p!==x); let ys;
+    if(kind==='claimNone') ys=now;
+    else { const a=typeof about==='function'?about(G):about; ys=a!=null?[].concat(a).filter(p=>p&&p!==x):S.knows(G,x); if(a==null&&!ys.length) ys=now; }
+    const lies=ys.filter(p=>now.includes(p));
+    if(!lies.length){ M('YT_HONEST')[x]=true; return 'honest'; }
+    const L=sub(M('YT_LIED'),x); for(const p of lies) L[p]=true; return 'lied'; };
   /* 開始新的一段：她不是交往中／等你說清楚；被發現退回朋友的要過了重新開始的週數；最近一次分開以後收拾過了（CLEANUP_DONE）。
      已經有別的伴侶不擋（X1）；她答不答應（個性、她知道什麼、告白條件 AA_128 3-2）由告白事件判斷 */
   S.canStart=function(G,id){ const R=S.get(G,id); if(R.status==='dating'||R.status==='paused') return false;
     if(R.status==='friend_after_catch'&&R.restartDay!=null&&G.day<R.restartDay) return false;
-    return G.flags.CLEANUP_DONE!==false; };
-  S.start=function(G,id){ if(!S.canStart(G,id)) return false; const F=G.flags, R=S.get(G,id); F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});
-    S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
+    return G.flags.CLEANUP_DONE!==false||S.cleanupLate(G); };
+  /* 收拾的時刻一週內沒做（AA_123 2-3「一週後補一句旁白，也設 CLEANUP_DONE=true。不卡劇情」）：過了 cleanupDue 就算收拾過了——旁白由 STORY.cleanupTick 補（人在日本、在家、睡著時晚一點補也不擋）。
+     舊存檔 CLEANUP_DONE false、沒有 cleanupDue（V6-S4 以前：S.cleanup 沒有人叫，分開一次以後永遠不能再交往）＝當作已經過了一週 */
+  S.cleanupLate=G=>{ const F=G.flags||{}; return F.CLEANUP_DONE===false&&(F.cleanupDue==null||G.day>=F.cleanupDue); };
+  /* 改交往狀態之前先叫的（ROM.BEFORE.push(fn)；fn(G)）：story3d.js 的 STORY.routeWatch——交換路線照 2027-11-18 12:00 那一刻的交往狀態定，
+     截止已經過了、還沒定的（玩家一直坐著、在劇情裡），先照改之前的狀態定（1A-02，BB-C 10-20）。丟例外不影響交往 */
+  S.BEFORE=[];
+  const before=G=>{ for(const f of S.BEFORE){ try{ f(G); }catch(e){ console.warn('ROM.BEFORE',e); } } };
+  S.start=function(G,id){ if(!S.canStart(G,id)) return false; before(G); const F=G.flags, R=S.get(G,id); if(S.cleanupLate(G)) S.cleanup(G);   /* 過了一週、旁白還沒補就開始新的一段：直接算收拾過（不在新的交往裡補那一句）*/ F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.sinceH=+(+G.hour||0).toFixed(2); R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});   /* sinceH：開始的時刻（G.hour；過了 24＝隔天凌晨），STORY.routeFor 判斷是不是截止以後才開始的 */
+    S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; if(id==='heroine_05') F.CALLED_SHUYU=true;   /* 交往那天起叫「書瑀」（使用者 10-17 甲；AA_262 第 5 節第 3 件「CALLED_SHUYU 在開始交往時記」；social3d.js datingName 讀）*/ return true; };
   /* 修補：歷史不變、裂縫歸零 */
   S.mend=function(G,id){ if(S.CRACK[id]) G.flags[S.CRACK[id]]=0; };
-  S.crack=function(G,id,n){ const k=S.CRACK[id]; if(!k) return 0; G.flags[k]=(+G.flags[k]||0)+(n==null?1:n); return G.flags[k]; };
+  S.crack=function(G,id,n){ const k=S.CRACK[id]; if(!k) return 0; const d=n==null?1:n; G.flags[k]=(+G.flags[k]||0)+d; if(d>0) G.flags[k+'_DAY']=G.day; return G.flags[k]; };   /* <人物>_CRACK_DAY：最近一次裂縫增加的那一天（1A-04 第 4 節第 4 點：最近 14 天內有裂縫的交往對象不問「那一句」，story3d.js S.coldWeekCast）*/
   /* 分開（只有這一段）：dating false、EX true、歷史填上 to 和 how、CLEANUP_DONE false（一週內收拾）；別人知道的 knows 裡這一位自然不再算（knows 只看現在還在交往的人）*/
-  S.end=function(G,id,how){ const F=G.flags; if(F['dating_'+id]!==true) return false; F['dating_'+id]=false; F['EX_'+id]=true; const R=S.get(G,id); R.status='ex'; R.history.push({ev:'end',at:S.when(G),day:G.day,how:how||'apart_talk'});   /* day：分手的那一天（以安的戀愛前置要算 28 天，AA_128）；舊紀錄沒有，STORY.breakupDaysAgo 用 at 估 */
+  S.end=function(G,id,how){ const F=G.flags; if(F['dating_'+id]!==true) return false; before(G); F['dating_'+id]=false; F['EX_'+id]=true; const R=S.get(G,id); R.status='ex'; R.history.push({ev:'end',at:S.when(G),day:G.day,how:how||'apart_talk'});   /* day：分手的那一天（以安的戀愛前置要算 28 天，AA_128）；舊紀錄沒有，STORY.breakupDaysAgo 用 at 估 */
     const H=S.rec(G); for(let i=H.length-1;i>=0;i--) if(H[i].id===id&&H[i].to==null){ H[i].to=S.when(G); H[i].how=how||'apart_talk'; break; }
     F.CLEANUP_DONE=false; F.cleanupDue=G.day+7; if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
   S.cleanup=function(G){ G.flags.CLEANUP_DONE=true; G.flags.cleanupDue=null; };

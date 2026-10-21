@@ -105,13 +105,13 @@ async def check(pg, run, formal):
             const rd=()=>({lens:+mats.wz_lamp_lens.emissiveIntensity.toFixed(2), genkan:+mats.jp_lamp.emissiveIntensity.toFixed(2), shoji:+mats.jp_shoji.emissiveIntensity.toFixed(2)});
             z.applyTimeOutdoor(11,GAME.E); out.day=rd(); z.applyTimeOutdoor(21,GAME.E); out.night=rd(); z.applyTimeOutdoor(17.5,GAME.E);
             out.poleST=!!mats.wz_pole_concrete.userData._st; out.shojiMap=!!mats.jp_shoji.emissiveMap;
-            out.glows=z.group.children.filter(o=>o.isSprite&&o.visible).length; out.wires=z.group.children.filter(o=>o.isLine||o.isLineSegments||(o.isMesh&&o.geometry&&o.geometry.type==='TubeGeometry')).length;
+            out.glows=z.group.children.filter(o=>o.isSprite&&o.visible).length; out.glowBatches=z.group.children.filter(o=>o.userData&&o.userData.glowBatch).map(o=>o.name+' '+o.userData.glowBatch.items.length); out.wires=z.group.children.filter(o=>o.isLine||o.isLineSegments||(o.isMesh&&o.geometry&&o.geometry.type==='TubeGeometry')).length;
             return out; })()""")
         pl = extra['plates']
         run.check('門牌、6 個桿號牌、路牌兩面、路名牌兩面、小公園名牌都有 canvas 字（每個 GLB 合成一張 atlas；名牌 2026-10-16 起在小公園的 GLB 裡）', len(pl) == 12 and 'PLATE_FACE_parksign' in pl and all(pl.values()), json.dumps(pl))
         run.check('路燈燈罩、玄關燈、紙拉門：晚上亮、白天暗', all(extra['night'][k] > extra['day'][k] + 0.3 for k in ('lens', 'genkan', 'shoji')), json.dumps([extra['day'], extra['night']]))
         run.check('電線桿有樹幹透視', extra['poleST'], json.dumps(extra['poleST']))
-        run.note('看得到的光暈 sprite：%d 個（玄關燈、路燈、Café…，套件的光暈不屬於被藏起來的物件）' % extra['glows'])
+        run.note('看得到的光暈 sprite：%d 個（路燈、Café…，套件的光暈不屬於被藏起來的物件）；正式模型的光暈合成網格：%s' % (extra['glows'], '、'.join(extra['glowBatches'])))
         sc = await pg.evaluate("""(()=>{ const z=GAME.E.zone; const kit=z.group.children.find(o=>o.name==='wz_kit_scooters'); const out=z.group.children.find(o=>o.name==='wz_scooters_glb');
             const n=kit?kit.children.filter(o=>o.isGroup).length:-1; const ims=out?out.children.filter(o=>o.isInstancedMesh&&o.name!=='wz_scooter_shadows'):[]; const lods=out?out.children.filter(o=>o.isLOD):[];
             const r={kitScooters:n, kitHidden:kit?!kit.visible:null, lods:lods.length};

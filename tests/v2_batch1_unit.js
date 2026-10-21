@@ -86,7 +86,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { const e=ev('ev_ziqing_contest_day'); check('子晴 Q4：事件在',!!e);
     if(e){ const at=(term,w,wd,h,zone,noMem)=>{ fresh(wk(term,w,wd),h,zone||'gongguan'); SOCIAL.meet('heroine_04','campus'); if(!noMem) SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); return EVENTS.check(e); };
       const r={ok:at('Y1S2',8,6,15.5),h14:at('Y1S2',8,6,14.5),noMem:at('Y1S2',8,6,15.5,null,true),w7:at('Y1S2',7,6,15.5),w9:at('Y1S2',9,6,15.5),w10:at('Y1S2',10,6,15.5),fri:at('Y1S2',8,5,15.5),sun:at('Y1S2',8,7,15.5),eve:at('Y1S2',8,6,18.5),cafe:at('Y1S2',8,6,15.5,'cafe'),y1s1:at('Y1S1',8,6,15.5)};
-      check('子晴 Q4：大一下第 8 週週六 15～18（AA_140 G05：她 15:00 以後才出門）、公館、問過比賽；錯過就第 9 週週六；14:30、沒問過、第 7／10 週、週五、週日、18:30、Café、大一上都沒有',r.ok&&!r.h14&&!r.noMem&&!r.w7&&r.w9&&!r.w10&&!r.fri&&!r.sun&&!r.eve&&!r.cafe&&!r.y1s1,JSON.stringify(r));
+      check('子晴 Q4：大一下第 8 週週六 15～18（AA_140 G05：她 15:00 以後才出門）、公館、問過比賽；錯過不再延到第 9 週（AA_360 第 4 節）；14:30、沒問過、第 7／9／10 週、週五、週日、18:30、Café、大一上都沒有',r.ok&&!r.h14&&!r.noMem&&!r.w7&&!r.w9&&!r.w10&&!r.fri&&!r.sun&&!r.eve&&!r.cafe&&!r.y1s1,JSON.stringify(r));
       const play=async (k,w)=>{ fresh(wk('Y1S2',w||8,6),15.5,'gongguan'); SOCIAL.meet('heroine_04','campus'); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); picks=[k]; await EVENTS.run(e); return lines(); };
       let L=await play(0);
       check('子晴 Q4：旁白「（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）」＋三句（第三罐咖啡）；三個選項（原文）',L[0]==='（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'&&/……今天是那個比賽。系上的人現在都在會場。$/.test(L[1])&&/我在這裡喝第三罐咖啡。$/.test(L[2])&&/你說，我是不是很爛。$/.test(L[3])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「現在去還來得及嗎？」","（陪她喝第四罐）"]',JSON.stringify([L.slice(0,4),opts[0]]));
@@ -97,8 +97,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       const T=JSON.stringify(e.dialogue);
       check('子晴 Q4：舊版刪掉的選項「有一點。但明年還有。」與舊的 IMPORTANT_CONVERSATION 備註都不在；錢：罐裝咖啡 −35，「陪她喝第四罐」再 −35（BB 382e9e2）',!/有一點。但明年還有。/.test(T)&&!/IMPORTANT_CONVERSATION/.test(T)&&e.consequences&&e.consequences.money===-35&&e.dialogue.find(l=>l.choice).choice.find(c=>c.text==='（陪她喝第四罐）').consequences.money===-35&&!e.dialogue.find(l=>l.choice).choice[0].consequences.money);
       check('子晴 Q4：只一次',!EVENTS.check(e));
-      L=await play(1,9);
-      check('子晴 Q4 錯過延到第 9 週週六（BB-B 4ab575c7）：「……上週六是那個比賽。…貼獎狀。」「我上週六也坐在這裡。喝了三罐咖啡。」；第二個選項換成「妳後來有點開群組嗎？」→「沒有。……通知有九十九則…」；結尾照樣「第四罐。你請。」、記 CONTEST_DAY',/上週六是那個比賽。系上的人都回來了，大家在群組裡貼獎狀。$/.test(L[0])&&/我上週六也坐在這裡。喝了三罐咖啡。$/.test(L[1])&&JSON.stringify(opts[0])==='["「妳不想去，就不是爛。」","「妳後來有點開群組嗎？」","（陪她喝第四罐）"]'&&L.some(t=>/沒有。……通知有九十九則，我一則都沒點。好爽。好爛。兩個都有。$/.test(t))&&/……第四罐。你請。$/.test(L[L.length-1])&&SOCIAL.has('heroine_04','CONTEST_DAY')&&!L.includes('（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'),JSON.stringify([L,opts[0]])); } }
+      check('子晴 Q4：第 9 週那一版拿掉（AA_360 第 4 節：她不會為了祐廷再坐一次；錯過的玩家第 9～11 週第一次說話多一句，見 tests/aa360_unit.js）——只有第 8 週、沒有「上週六是那個比賽」「我上週六也坐在這裡」「妳後來有點開群組嗎？」',JSON.stringify(e.weeks)==='[8]'&&!/上週六是那個比賽|我上週六也坐在這裡|妳後來有點開群組嗎/.test(T),JSON.stringify(e.weeks)); } }
   /* ---------- 子晴 Q6 測試我的遊戲。現在。（BB_96 4-2 改門檻）---------- */
   { const e=ev('ev_ziqing_secret_game'); check('子晴 Q6：事件在',!!e);
     if(e){ const Z4=(fam)=>{ const r=SOCIAL.rel('heroine_04'); r.fam=fam; };
@@ -169,6 +168,8 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   { const src=fs.readdirSync(path.join(ROOT,'src')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src',f),'utf8')).join('\n')+fs.readdirSync(path.join(ROOT,'src/data')).filter(f=>f.endsWith('.js')).map(f=>fs.readFileSync(path.join(ROOT,'src/data',f),'utf8')).join('\n');
     const used=new Set(); for(const m of src.matchAll(/tag:'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/remember\([^,()]+,'([A-Z_0-9]+)'/g)) used.add(m[1]); for(const m of src.matchAll(/"mem":\s*"([A-Z_0-9]+)"/g)) used.add(m[1]); used.delete('ADJUST');   /* 閒聊階梯、阿凱宿舍事件（src/data/ladder.js 的 "mem"）也算 */
     const miss=[...used].filter(t=>!SOCIAL.MEMORY_LABEL[t]);
-    check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' ')); }
+    check('人物面板：遊戲裡用到的 '+used.size+' 種記憶都有中文名稱（ADJUST 不顯示）',used.size>30&&!miss.length,miss.join(' '));
+    /* AA_344 第 3 節 ③④（2026-10-21）：KX7_LAST_TERM 換新名稱（social3d.js 優先於 ladder.js 匯入的舊名稱）；以安不延畢以後沒人用的 AN8_RETAKE、AN8_DIPLOMA 刪掉 */
+    check('人物面板：KX7_LAST_TERM＝「她怕畢業以後約吃飯要排半個月」（AA_344 ③）；AN8_RETAKE、AN8_DIPLOMA 已刪、遊戲裡也沒人記（AA_344 ④）',SOCIAL.MEMORY_LABEL.KX7_LAST_TERM==='她怕畢業以後約吃飯要排半個月'&&!('AN8_RETAKE' in SOCIAL.MEMORY_LABEL)&&!('AN8_DIPLOMA' in SOCIAL.MEMORY_LABEL)&&!used.has('AN8_RETAKE')&&!used.has('AN8_DIPLOMA'),JSON.stringify([SOCIAL.MEMORY_LABEL.KX7_LAST_TERM,SOCIAL.MEMORY_LABEL.AN8_RETAKE,SOCIAL.MEMORY_LABEL.AN8_DIPLOMA])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

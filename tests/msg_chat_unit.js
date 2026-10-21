@@ -51,7 +51,9 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
   INV.addContact(G,'classmate_peishan'); STAGE.classmate_peishan=2; const sd=STORY.dayOfKey('2027-01-10'); fresh(sd,15); INV.addContact(G,'classmate_peishan'); check('A7. 沛珊重考消失期（2026-12-17～2027-08-06）：照開、只顯示已送達',MSG.open(G,'classmate_peishan').mode==='silent');
   const r=MSG.send(G,'classmate_peishan','chat'); check('A7. 傳了：已送達，她不回（沒有排回覆）',r.ok&&r.silent&&!pend().length&&th('classmate_peishan').length===1,JSON.stringify(th('classmate_peishan')));
   const uk=STORY.dayOfKey('2027-10-20'); fresh(uk,15); INV.addContact(G,'heroine_02'); STAGE.heroine_02=3; const pr=STORY.presence('heroine_02',G);
-  check('A8. 芷若在英國（大三上交換）：不開（只寄明信片）',pr.here===false&&!MSG.open(G,'heroine_02').ok,JSON.stringify(pr)); }
+  /* AA_276 第 2 節、BB_178 1-E（VAC-ZR-UK-1017）：芷若在英國照交情——朋友以上開（mode uk）、認識／有點熟不開（原本一律只寄明信片）*/
+  { const o3=MSG.open(G,'heroine_02'); STAGE.heroine_02=2; const o2=MSG.open(G,'heroine_02'); STAGE.heroine_02=3;
+    check('A8. 芷若在英國（大三上交換）：朋友＝開（照交情，mode uk）；有點熟＝不開（只寄明信片）',pr.here===false&&o3.ok&&o3.mode==='uk'&&o3.uk==='friend'&&!o2.ok&&o2.why==='她在英國，只寄明信片',JSON.stringify({pr,o3,o2})); } }
 // B 話題
 { fresh(day,15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=1; const tk=id=>MSG.topics(G,id).map(q=>q.k).join(',');
   check('B1. 以安（同班、有點熟、15:00）：在幹嘛、問課、分享，沒有晚安',tk('heroine_01')==='chat,course,share',tk('heroine_01'));
@@ -94,6 +96,8 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
   check('E2. SOCIAL 有 msg 這種活動（fam +1）',/msg:\{fam:1\}/.test(fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8'))); }
 // F 真的回覆池
 if(REAL){ global.MSG_POOL=realPool; const P=realPool.people||{}; let src=''; try{ src=cp.execSync('git show '+realPool.source.AA_202+':"docs/story_planning/AA_202_玩家主動傳訊息_規格.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']})+cp.execSync('git show '+realPool.source.BB_178+':"docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md"',{cwd:ROOT,encoding:'utf8',maxBuffer:32<<20,stdio:['ignore','pipe','ignore']}); }catch(e){}
+  src=src.replace(/《東京物語》/g,'《進城的那一週》').replace(/《晚春》/g,'《父親的午後》');   /* AA_313 6-2：真實片名改虛構的（AA 定，原文之後照這張表讀）*/
+  src=src.replace(/今天的課講小津。我有舉手。/g,'今天的課講一個日本的老導演。他的鏡頭幾乎都不動。');   /* AA_350 R6（企劃線 cae5cc76）：真實的導演名字不寫，1-E 第 5 則換這一句 */
   if(!src) console.log('（略過 F：沒有企劃原文的歷史）'); else { const miss=[]; for(const id in P) for(const e of P[id].replies||[]) for(const t of e.msgs.concat(...(e.ask?e.ask.opts.map(o=>[o.t].concat(o.r||[])):[]))) if(src.indexOf(t)<0) miss.push(id+':'+t);
     check('F1. 回覆池每一句都在 AA_202／BB_178 原文裡（逐字）',!miss.length,miss.slice(0,8).join(' ｜ ')+(miss.length>8?' …共 '+miss.length:'')); }
   const n=Object.values(P).reduce((a,p)=>a+(p.replies||[]).length,0); check('F2. 十五位都有回覆池',Object.keys(P).length>=15&&n>200,Object.keys(P).length+' 人、'+n+' 則'); }
@@ -113,8 +117,9 @@ if(REAL){ global.MSG_POOL=realPool; const P=realPool.people;
   { mk('zhe',3,day,15); const ge=P.zhe.replies.filter(e=>e.geFlag); let bad=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'zhe','chat'); if(e&&e.geFlag) bad++; }
     G.flags.ZHE_CALLS_GE=true; let ok=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'zhe','chat'); if(e&&e.geFlag) ok++; }
     check('G4. 阿哲有「哥」的句子：沒有 ZHE_CALLS_GE 不用、有了才用',ge.length>0&&bad===0&&(ok>0||!ge.some(e=>e.topic==='chat')),JSON.stringify({bad,ok})); }
-  { const dis=P.heroine_02.replies.filter(e=>e.disabled); const uk=STORY.dayOfKey('2028-10-20'); mk('heroine_02',3,uk,15); let used=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'heroine_02','chat'); if(e&&e.disabled) used++; }
-    check('G5. 芷若大四在倫敦的句子（BB 停用）不播；那段按鈕也不開',dis.length>0&&used===0&&!MSG.open(G,'heroine_02').ok); }
+  /* BB_178 1-E（bb6baddf：原本停用的「大四在倫敦」三則搬到 1-E 朋友那一組，取消停用）：她在英國只用「在英國」那一組，不用 Café 的句子 */
+  { const uk=STORY.dayOfKey('2028-10-20'); mk('heroine_02',3,uk,15); let other=0, n=0; for(let i=0;i<10;i++){ const e=MSG.pick(G,'heroine_02','chat'); if(e){ n++; if(e.variant!=='在英國') other++; } }
+    check('G5. 芷若大四在英國（朋友）：按鈕開、回的都是「在英國」那一組（不用 Café 的句子）；原本停用的倫敦句子沒有了',MSG.open(G,'heroine_02').ok&&n===10&&other===0&&!P.heroine_02.replies.some(e=>e.disabled||e.variant==='大四在倫敦'),JSON.stringify({n,other})); }
   { const tue=STORY.termDay('Y1S1',5,2); mk('classmate_mingxuan',3,tue,19.5); const r=MSG.send(G,'classmate_mingxuan','chat'); const q=PHONE.rec(G).q[0];
     check('G6. 明軒週二 19:30（家教）：21:05 一次回，先「剛家教完 你說什麼」再接一般句',r.ok&&Math.abs(q.h-(21+5/60))<1e-6&&q.items[0].text==='剛家教完 你說什麼'&&q.items.length>=2,JSON.stringify(q)); }
   { mk('heroine_04',3,day,10); G.events.done.ev_ziqing_secret_game=1; MSG.send(G,'heroine_04','chat'); const q=PHONE.rec(G).q[0];

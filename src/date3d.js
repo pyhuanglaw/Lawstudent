@@ -18,6 +18,9 @@ const DATE=(function(){
     if(!L.byLoc) L.byLoc={}; if(!Array.isArray(L.cancels)) L.cancels=[]; return L; };
   S.loc=id=>D().locations[id]||null;
   S.wishOf=id=>{ const L=D().locations; for(const k in L) if(L[k].wishOf===id) return k; return null; };   /* 七位各一個專屬心願地點（AA_128 第 6 節） */
+  /* 心願地點的名字（人物頁的提示）：沛珊大三起不上來，同一個心願事件改在「台南・美術館」（AA_349 K3；hometown3d.js 的 HV.museum）*/
+  S.WISH_AWAY={classmate_peishan:'台南・美術館'};
+  S.wishName=function(G,id){ if(S.WISH_AWAY[id]&&S.noNorthOn(G,id,G.day)) return S.WISH_AWAY[id]; const w=S.loc(S.wishOf(id)); return w?w.name:null; };
   /* 第 1 條：目的地在地點表裡（學校周邊日常生活圈以外）；公館、溫州街、Café、校園……不在表裡＝不計數 */
   S.isDateLoc=id=>!!S.loc(id);
 
@@ -44,6 +47,12 @@ const DATE=(function(){
     return {counted:true,count:L.count,wish}; };
   /* 一群人去（AA_128 1-2）：另外記，不計數；讓人物記得「上次大家一起去過」 */
   S.group=function(G,loc,day,members){ S.rec(G); G.groupTrips.push({loc,day,members:(members||[]).slice()}); };
+  /* 去她的城市那一天＝一次正式校外約會（AA_349 K3：沛珊放榜以後只能私下約，去台南（學期中）、去台中（寒暑假）那一天算一次；告白條件的 4 次可以這樣累積）。
+     不是地點表的地點：另外記一筆 trip（kind:'visit'、locs＝城市名，人物頁「一起去過的地方」照寫），只加次數；同一天只算一次。wish＝那一天是心願事件（台南・美術館）*/
+  S.countVisit=function(G,id,place,o){ o=o||{}; S.rec(G); const L=S.log(G,id), d=o.day==null?G.day:o.day;
+    if(G.trips.some(t=>t.kind==='visit'&&t.who===id&&t.day===d&&t.counted)) return {counted:false,why:'這一天已經算過'};
+    L.count++; const t={trip:S.newTripId(G),who:id,locs:[place],day:d,kind:'visit',by:'hv',status:'done',counted:true,wish:!!o.wish,spots:[],departed:true};
+    if(o.wish){ L.wish=true; L.wishKnown=true; } G.trips.push(t); L.last={trip:t.trip,day:d}; return {counted:true,count:L.count,wish:!!o.wish}; };
   S.cancel=function(G,id,day){ const L=S.log(G,id); L.cancels.push(day); };
   S.knowWish=function(G,id){ S.log(G,id).wishKnown=true; };
   S.newTripId=function(G){ S.rec(G); return 'T'+String(G.trips.length+1).padStart(4,'0'); };
@@ -72,7 +81,7 @@ const DATE=(function(){
   /* 人物頁的進度提示（AA_128 3-2；不寫數字） */
   S.hint=function(G,id){ const L=S.log(G,id); if(S.stageNum(id)<5) return null;
     if(L.count<4) return '再多一些兩個人出去的時間';
-    if(!L.wish){ if(!L.wishKnown) return '她好像有一個很想去的地方'; const w=S.loc(S.wishOf(id)); return w?`她提過想去${w.name}`:null; }
+    if(!L.wish){ if(!L.wishKnown) return '她好像有一個很想去的地方'; const nm=S.wishName(G,id); return nm?`她提過想去${nm}`:null; }
     return null; };
   /* 一起去過的地方（人物頁）：每一次正式校外約會的地點和日期 */
   S.history=function(G,id){ S.rec(G); return G.trips.filter(t=>t.counted&&t.who===id).map(t=>({day:t.day,locs:t.locs.map(l=>(S.loc(l)||{}).name||l)})); };
@@ -111,6 +120,12 @@ const DATE=(function(){
     return {ok:true}; };
   const isLaw=c=>!!c&&!/^Y0/.test(c.term||'')&&c.kind!=='general'&&c.kind!=='service';
   const liveIv=v=>v.state==='accepted'||v.state==='going'||v.state==='offered'||v.state==='changed';
+  /* 以安、芷若回台中的日子（presence kind home，AA_350 S6）：校外約會擋掉（和沛珊同一套：約的那一天照那一天算）；約的是她老家那個城市的地點（D26 臺中）不擋——
+     「她人在臺中，正好是 D26 檔頭說的『回到自己長大的城市，被你帶著逛』」。婉拒的句子照 S6（她說的話，用「」）。她今天就在台中的話，手機的約整個關著（INV.whyNot），這裡只管約到以後的日子 */
+  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」'};
+  const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
+  S.homeNo=function(G,id,day,locId){ const w=S.HOME_NO[id]; if(!w||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,Object.assign({},G,{day})); if(p.here||p.kind!=='home') return '';
+    const L=S.loc(locId); if(L&&p.home&&cityOf(L.area)===cityOf(p.home)) return ''; return w; };
   /* 這個時間能不能約（o：who、locs、day、depart、transport、fromHome、skip＝改時間時排除的那一趟）→ {ok, why, warns, plan, cost} */
   S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind})); const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
     const day=o.day, a=P.depart, b=P.back, no=w=>({ok:false,why:w,warns,plan:P});
@@ -127,7 +142,9 @@ const DATE=(function(){
     const ov=mine.find(t=>a<t.back&&t.depart<b); if(ov) return no('和'+nameOf(ov.who)+'的約（'+hm(ov.depart)+' 出發）撞時間');
     const iv=(G.invites||[]).find(v=>liveIv(v)&&v.day===day&&v.h<b&&v.h+(((typeof INV!=='undefined'&&INV.place&&INV.place(v.place))||{}).stay||1)>a); if(iv) return no('那天 '+hm(iv.h)+' 已經約了'+nameOf(iv.who));
     const oq=(G.outings||[]).find(q=>q.state==='planned'&&!q.dateTrip&&q.day===day&&q.h<b+0.5&&q.h+1.5>a); if(oq) return no('那天 '+hm(oq.h)+' 有別的行程：'+(oq.title||oq.place||''));
+    { const hn=S.homeNo(G,o.who,day,P.locs[0]); if(hn) return no(hn); }   /* AA_350 S6：她回台中那幾天（放在她的作息之前：人不在臺北，不是在上班）*/
     if(typeof INV!=='undefined'&&INV.busyAt){ const e=INV.busyAt(G,o.who,day,a,b-a); if(e) return no('她那時候'+(e.act==='class'?'要上課':(e.act==='work'?'要上班':'有事'))); }
+    const nt=S.noTaipei(G,o.who,day,P.locs[0]); if(nt) return no(nt);
     const L0=S.loc(P.locs[0])||{}, cost=(P.fare|0)+(L0.admission|0); if((G.money|0)<cost) return no('錢不夠（預計 '+cost+' 元）');
     return {ok:true,why:'',warns,plan:P,cost}; };
   const wdName=d=>'日一二三四五六'[((d%7)+7)%7];
@@ -152,10 +169,22 @@ const DATE=(function(){
     if(!n&&GM.phoneBadge) GM.phoneBadge(); return true; };
   S.prefOf=(id,locId)=>(((LN().prefs||{})[id]||{})[locId]||{}).transport||null;   /* 她指定的交通（DATE_PREFS）：預約時預設選她的，玩家改了她說一句（不扣分）*/
   /* 玩家約她（手機或當面；入口在 INV.flow 的地點清單「去校外…」）*/
+  /* 她不上來的日子（presence.noTaipei＝從哪一天起；沛珊放榜以後學期中在台南、寒暑假在台中，AA_282 第 1、6 節）：北部的校外約會地點全部約不到（AA_349 K3：不只臺北市——臺北、新北（淡水、九份）、基隆、宜蘭……；
+     北部照國發會的北部區域，桃園、新竹也算）。「兩個人約在外縣市」作廢（不另外設計第三個城市）；去台南、去台中那一天算一次正式校外約會（S.countVisit）。
+     字（AA_349 K11）：清單上灰掉的地點「她現在在台南。」（寒暑假「她現在在台中。」，S.cityNow）；選了、約的時候「她在台南。要見她，得去台南。」（寒暑假台中，S.noTaipei）*/
+  S.NORTH=['臺北市','新北市','基隆市','桃園市','新竹市','新竹縣','宜蘭縣'];
+  S.noNorthOn=function(G,id,day){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], k=c&&c.presence&&c.presence.noTaipei; if(!k||typeof STORY==='undefined'||!STORY.dayOfKey) return false; const d0=STORY.dayOfKey(k); return d0!=null&&day>=d0; };
+  const awayAt=(G,id,day)=>{ if(!S.noNorthOn(G,id,day)||!STORY.presence) return null; const p=STORY.presence(id,Object.assign({},G,{day})); if(p.here) return null; return {at:p.city||p.home||'',away:p.away||''}; };   /* 不在城市、也不在老家（例：2029-07 山上的營隊）＝照 presence 的 away 那幾個字 */
+  S.noTaipei=function(G,id,day,locId){ const L=S.loc(locId); if(!L||!S.NORTH.includes(L.area)) return ''; const a=awayAt(G,id,day); if(!a) return ''; return a.at?'她在'+a.at+'。要見她，得去'+a.at+'。':'她'+a.away+'。'; };
+  S.cityNow=function(G,id,day,locId){ const L=S.loc(locId); if(!L||!S.NORTH.includes(L.area)) return ''; const a=awayAt(G,id,day==null?G.day:day); if(!a) return ''; return a.at?'她現在在'+a.at+'。':'她'+a.away+'。'; };
   S.menu=async function(GM,id,n){ const G=GM.G; S.rec(G); const ca=S.canAsk(G,id); if(!ca.ok){ await GM.say(null,ca.why+'。'); return null; }
+    if(id==='heroine_05'&&typeof SISG!=='undefined'&&SISG.dateDecline&&SISG.dateDecline(G)){ await SISG.dateNo(GM,n); return null; }   /* 學姊：大一上第 10 週起到筆試婉拒校外約會：第 10～13 週「等我考完。」、第 14 週～筆試「校外的話，等我考完。……考完我想去很遠的地方。」（AA_284 2-1、AA_339 第 4 題；句子在 src/sis_grad3d.js 的 SISG.DATE_NO）*/
     const locs=Object.keys(D().locations).filter(k=>S.listable(k)&&S.kindAt(k,10)); if(!locs.length){ await GM.say(null,'（還沒有可以約的校外地點。）'); return null; }
-    for(;;){ const lo=locs.map(k=>{ const L=S.loc(k), tr=S.travel(k); return {t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; }); lo.push({t:'算了'});
-      const li=await GM.choose(lo); if(li>=locs.length) return null; const loc=locs[li], L=S.loc(loc); let mode=((L.transport||[])[0]||{}).mode;
+    for(;;){ const lo=locs.map(k=>{ const L=S.loc(k), tr=S.travel(k), nt=S.noTaipei(G,id,G.day,k); return nt?{t:L.name,hint:S.cityNow(G,id,G.day,k),dim:true,why:nt}:{t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; });   /* 她不上來：北部的地點灰掉（AA_349 K3、K11）*/
+      const mu=typeof HV!=='undefined'&&HV.museumOffer?HV.museumOffer(G,id):null, muIdx=mu?lo.length:-1; if(mu) lo.push({t:mu.name,hint:mu.ok?mu.hint:mu.why,dim:!mu.ok});   /* 沛珊大三起的心願地點「台南・美術館」（AA_349 K3：去台南的那一天；hometown3d.js）*/
+      lo.push({t:'算了'});
+      const li=await GM.choose(lo); if(li===muIdx){ if(!mu.ok){ await GM.say(null,mu.why+'。'); continue; } return HV.museumAsk(GM,id,n); }
+      if(li>=locs.length) return null; if(lo[li].dim){ await GM.say(null,lo[li].why); continue; } const loc=locs[li], L=S.loc(loc); let mode=((L.transport||[])[0]||{}).mode;
       const T=(L.transport||[]).filter(x=>x.mode), pref=S.prefOf(id,loc); let prefOff=false; if(pref&&T.some(x=>x.mode===pref)){ T.sort((a,b)=>(b.mode===pref)-(a.mode===pref)); mode=pref; }   /* 她的偏好排第一、預設選它 */
       if(T.length>1){ const to=T.map(x=>{ const tr=S.travel(loc,x.mode); return {t:tr.label+(x.mode===pref?'（她想這樣去）':''),hint:'單程約 '+tr.minutes+' 分、'+tr.fare+' 元'+(x.mode==='car'?'（從宿舍要先回家取車，多 30 分）':'')}; }); const ti=await GM.choose(to); mode=T[ti].mode; prefOff=!!pref&&mode!==pref; }
       const o={who:id,locs:[loc],transport:mode,fromHome:false}; const w=await S.pickWhen(GM,o); if(!w) return null;
@@ -189,6 +218,7 @@ const DATE=(function(){
       const P=w.check.plan; t.day=w.day; t.depart=w.depart; t.kind=P.kind; t.back=P.back; t.moves=(t.moves|0)+1; t.status='booked'; t.reminded=false; q.day=w.day; q.h=w.depart+P.travelH; q.ask=null; q.state='planned'; await S.movedLine(GM,t); return 'moved'; }
     const nd=k===1?t.day+1:t.day, nh=k===1?t.depart:Math.max(t.depart,G.hour)+1; const P=S.plan(G,{who:t.who,locs:t.locs,depart:nh,transport:t.transport});
     if(!P.ok||P.back>24.5){ if(GM.toast) GM.toast('這個時間回來太晚了，換一天吧。'); return S.move(GM,q,t); }
+    { const hn=S.homeNo(G,t.who,nd,t.locs[0]); if(hn){ if(GM.toast) GM.toast(hn,2600); return S.move(GM,q,t); } }   /* AA_350 S6：改到明天撞到她回台中 */
     t.day=nd; t.depart=nh; t.back=P.back; t.moves=(t.moves|0)+1; t.status='booked'; t.reminded=false; q.day=nd; q.h=nh+P.travelH; q.ask=null; q.state='planned'; await S.movedLine(GM,t); return 'moved'; };
   /* 改時間她回一句；同一個行程改到第三次說「第三次」那句（只說一次，之後照一般）*/
   S.movedLine=async function(GM,t){ GM.sceneBegin(); try{ if(t.moves===3&&!t.move3Said){ t.move3Said=true; if(await S.speak(GM,t.who,'move3',t)) return; } await S.speak(GM,t.who,'move',t); } finally { GM.sceneEnd(); } };

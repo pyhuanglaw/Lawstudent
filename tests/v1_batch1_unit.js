@@ -49,7 +49,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     check('A4 事件資料裡沒有 comf −3 的那個選項',!JSON.stringify(e.dialogue).includes('不關我的事')); }
   /* ---------- A5 ---------- */
   { const e=ev('ev_bohan_kaogu'); fresh(Y1S1+30,14,'library'); SOCIAL.meet('classmate_bohan','campus'); legalAsked=0; await EVENTS.run(e); const L=lines();
-    check('A5 「我在看刑總的題目，有一題我跟芯慈吵了半小時。」',L.includes('你來得正好。我在看刑總的題目，有一題我跟芯慈吵了半小時。'),JSON.stringify(L.slice(0,2)));
+    check('A5 「我在看刑總的題目，有一題我跟班上的芯慈吵了半小時。」',L.includes('你來得正好。我在看刑總的題目，有一題我跟班上的芯慈吵了半小時。'),JSON.stringify(L.slice(0,2)));
     check('A5 不出題（沒有 legal 那一行、演一次沒有問法律題）',legalAsked===0&&!e.dialogue.some(l=>l.legal),String(legalAsked)); }
   /* ---------- A7 ---------- */
   for(const id of ['ev_yutong_absent','ev_yutong_thanks']){ const e=ev(id);
@@ -78,7 +78,7 @@ const Y1S1=dayIn('Y1S1'), Y1S2=dayIn('Y1S2');
     fresh(Y1S1+1,15,'cafe');
     for(let k=0;k<6;k++){ at(Y1S1+1+k,15,'cafe'); picks=['拿鐵','加店裡']; money=0; await EVENTS.run(e); const L=lines(); names+=L.filter(t=>NAME.test(t)).length; runs.push({L,o:opts.slice(),money,v:G.flags.CAFE_VISITS}); }
     check('Z1 點五次（含第六次）：名字只出現一次（第一次）',names===1&&runs[0].L.some(t=>NAME.test(t)),String(names));
-    check('Z1 第 1 次：開場「歡迎光臨——喔，法律系的。……」',runs[0].L[0]==='歡迎光臨——喔，法律系的。你們系的人點餐都像在念條文。',runs[0].L[0]);
+    check('Z1 第 1 次：開場「歡迎光臨——喔，法律系的。……」',runs[0].L[0]==='歡迎光臨——喔，法律系的？要喝什麼，慢慢看。',runs[0].L[0]);
     check('Z1 第 2～4 次：「老樣子？」、不說名字、有點餐選項',[1,2,3].every(k=>runs[k].L[0]==='老樣子？'&&!runs[k].L.some(t=>NAME.test(t))&&runs[k].o.length===1),JSON.stringify(runs.slice(1,4).map(r=>r.L[0])));
     check('Z1 第 5 次：不問、直接做第一次點的東西（「拿鐵。……我已經在做了。」）、照樣收錢',runs[4].L[0]==='拿鐵。……我已經在做了。'&&runs[4].money===-120&&!runs[4].o.some(o=>o.some(t=>/拿鐵。妳怎麼知道/.test(t))),JSON.stringify({L0:runs[4].L[0],money:runs[4].money}));
     check('Z1 第 5 次：集點卡（補蓋到第五格）、背面的聯絡方式；加了記下這一天（zhiruoShopContactDay）',runs[4].L.some(t=>/集點卡/.test(t)&&/第五格/.test(t))&&runs[4].L.some(t=>/點餐可以先傳/.test(t))&&G.flags.zhiruoShopContactDay===Y1S1+5,JSON.stringify(runs[4].L));

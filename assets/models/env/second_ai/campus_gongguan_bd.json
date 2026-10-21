@@ -1,0 +1,16 @@
+{
+ "objects": 5,
+ "unique_meshes": 5,
+ "tris": 15194,
+ "tris_drawn": 15194,
+ "materials": 5,
+ "out": "assets/models/env/second_ai/campus_gongguan_bd.glb",
+ "bytes": 1639472,
+ "texres": 1024,
+ "tris_total": 15194,
+ "coords": "campus（x 東、z 南）：放在原點、不用轉",
+ "replaces": "zones3d.js campusBackdrop 的 city：x −189 的第一排（z −142～152、含轉角 z −88～−74）、x −212 的第二排",
+ "night": "gg_bd_facade（窗）、gg_bd_shopfront（店面）、gg_bd_signs（招牌）的 emissive 接了貼圖：TK.addNight(material, nightI, dayI)",
+ "row1": 29,
+ "row2": 14
+}
