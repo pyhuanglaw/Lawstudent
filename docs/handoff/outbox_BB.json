@@ -958,6 +958,68 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "PASS（a18ae441）：2026-12-21 08:30 讀檔在 201、從霖澤館一樓走進 201 兩種，還沒坐下黑板就是「行政法：期末考／不可以翻書／鈴響請停筆」"
+  },
+  {
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "branch": "claude/story-planning",
+   "sha": "0d2ecab3",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/lamppost_1021/",
+    "docs/story_planning/test_tools/lamppost_probe.py"
+   ],
+   "state": "已測試",
+   "next": "無",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "PASS（修正前後對照）：校園 10／公館 5／溫州街 2 盞，修正前都穿過、修正後 0 盞穿過；118 巷沒測到（腳本找不到兩邊都站得住的燈柱）。椰林大道路面光圈：晚上 17 個看得到、白天 0＝PASS。P3：人物中心停在離燈柱 1.1～1.6 m，正面推 3 盞在 1.6 m 外推不動（像隱形牆）"
+  },
+  {
+   "task": "ART-ECON-3D-GAP-1021",
+   "branch": "claude/story-planning",
+   "sha": "0d2ecab3",
+   "files": [
+    "docs/story_planning/test_tools/banyan_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "榕樹氣根修正前後補拍（banyan_probe.py 排在佇列最前面）",
+   "next": "拍完判讀",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "lamppost 那一輪站在椰林大道，黑森林那一區沒載入、榕樹 0 棵，沒拍到"
+  },
+  {
+   "task": "DATE-OVERNIGHT-1021",
+   "branch": "claude/story-planning",
+   "sha": "0d2ecab3",
+   "files": [
+    "docs/story_planning/test_tools/overnight_probe.py",
+    "docs/story_planning/test_tools/overnight_d27_expect.json"
+   ],
+   "state": "WIP",
+   "remaining": "瀏覽器測試排在美國那幾支後面（overnight_sp、overnight_d27）",
+   "next": "跑完判讀",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "Node 對照（子代理，不是瀏覽器）已先報：改時間沒清 q.arrived、回程時間對不上、今天的行程顯示到達時間；AA_359 第 5 節多數還沒做"
+  },
+  {
+   "task": "AA367-PG-DATES-1021",
+   "branch": "claude/story-planning",
+   "sha": "0d2ecab3",
+   "files": [
+    "docs/story_planning/test_tools/pgdate_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "瀏覽器測試排隊（pgdate，含 AA366 可昕）",
+   "next": "跑完判讀",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "Node 對照已先報：AA_366 第 4 節、AA_367 第 10 節四項還沒做"
   }
  ],
  "items": [
