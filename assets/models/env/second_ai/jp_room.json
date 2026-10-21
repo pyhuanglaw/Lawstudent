@@ -1,0 +1,13 @@
+{
+ "objects": 34,
+ "unique_meshes": 34,
+ "tris": 6152,
+ "tris_drawn": 6152,
+ "materials": 16,
+ "out": "assets/models/env/second_ai/jp_room.glb",
+ "bytes": 481200,
+ "texres": 512,
+ "tris_total": 6152,
+ "layout": "jp_room.layout.json",
+ "seats": 1
+}

@@ -25869,7 +25869,7 @@
    "id": "JP-ROOM-3D-1021",
    "title": "日本宿舍「你的房間」jp_room 3D 保留：LAWWW2 修可達性「窗外」那一項、交 GLB＋patch；LAWWW 從日本據點選單「在房間休息一下」進、走出房門回選單",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "使用者 10-21 13:0x 對 LAWWW2-C（UA-LAWWW2-1021-03；focused-cray d641dcad）；USER_WANTS X91；WIP 25c6c76d",
    "first": {
@@ -25889,7 +25889,9 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 13:1x UTC】LAWWW2：美國 C 棟 208 收尾以後修 jp_room 交件；LAWWW 接線（在房間休息一下→jp_room；房門→回選單）"
+   "next": "【LAWWW-C 2026-10-21 13:3x UTC】BB 瀏覽器（日本路線存檔）：選單「在房間休息一下」進 3D 房間、走動、床「睡覺」回據點睡到隔天、房門「走出房間」回選單；AA 寫窗外、小冰箱、行李箱「看」的字",
+   "sha": "c8c810e1",
+   "evidence": "LAWWW2 c8c810e1（patch jp_room_1021.diff：index.html、src/jp_dorm3d.js、src/data/jp_dorm_layouts.js；jp_room.glb、窗景兩張；LAWWW2 Playwright reachability jp_room ALL PASS）＋LAWWW-C 接線：jp3d.js 選單「在房間休息一下」走進 jp_room、JP.tick 人在房間不拉回、床＝回據點睡覺（S.bedFromRoom）；窗外／小冰箱／行李箱等 AA 的字（note 空的不開）；jp_semester_unit 3 項"
   },
   {
    "id": "Y5-DELAY-1021",

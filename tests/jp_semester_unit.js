@@ -320,5 +320,18 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   /* L9 （不算學分）只標在日文課 */
   { const G=inJapan('2028-04-04',10); const w=CLS.weekHTML(G), items=w.split('<div class="item">').filter(x=>/不算學分/.test(x));
     check('L9 手機課表「（不算學分）」只在日本語（中級）那一列；交換學校的法律課沒有', items.length===1&&/日本語（中級）/.test(items[0])&&!/回國申請抵免/.test(w), JSON.stringify(items)); }
+  // ===== jp_room：3D 的「你的房間」（使用者 10-21 13:0x「已經做的 3D 保留」；LAWWW2 c8c810e1、jp_dorm3d.js）=====
+  { const Z0=global.Z3, L0=global.JP_DORM_LAYOUTS; global.Z3=Object.assign({},Z0||{},{ZONES:Object.assign({},(Z0&&Z0.ZONES)||{},{jp_room:{id:'jp_room'}})}); global.JP_DORM_LAYOUTS={jp_room:{spawn:{x:0,z:0.5,yaw:0}}};
+    try{
+      const G=inJapan('2028-04-12',20.5); H.entered=[]; H.picks=['在房間休息一下']; await JP.loop(GM);
+      const a=H.entered.slice(), z1=G.zone;
+      H.entered=[]; const t=JP.tick(GM); const b=H.entered.slice();
+      check('jp_room 1：選單「在房間休息一下」＝走進 3D 的房間（GM.enter jp_room）；人在房間時 JP.tick 不把人拉回據點、也不跑選單（回傳 true，臺灣的事不往下跑）', a[a.length-1]==='jp_room'&&z1==='jp_room'&&t===true&&!b.includes('jp_hub'), JSON.stringify({a,z1,t,b}));
+      const d0=G.day; H.entered=[]; await JP.bedFromRoom(GM); const pend=!!JP.rec(G).pendingSleep, e1=H.entered.slice();
+      H.picks=['在房間休息一下']; await JP.loop(GM);
+      check('jp_room 2：房間的床「睡覺」＝回據點、接著睡到隔天（照選單的睡覺）；睡完選「在房間休息一下」又走進房間', pend&&e1[0]==='jp_hub'&&G.day===d0+1&&!JP.rec(G).pendingSleep&&H.entered[H.entered.length-1]==='jp_room', JSON.stringify({pend,e1,day:G.day-d0,ent:H.entered}));
+    } finally { global.Z3=Z0; global.JP_DORM_LAYOUTS=L0; }
+    const G2=inJapan('2028-04-12',20.5); H.picks=[]; const O=[]; const ch0=GM.choose; GM.choose=async(o)=>{ O.push(o.map(x=>x.t+'｜'+(x.hint||''))); return o.length-1; }; try{ await JP.round(GM); } finally { GM.choose=ch0; }
+    check('jp_room 3：沒有 3D 房間（jp_dorm3d.js 沒載入）＝「在房間休息一下」照舊是過一小時', O[0].some(x=>/^在房間休息一下｜一小時/.test(x)), JSON.stringify(O[0])); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
