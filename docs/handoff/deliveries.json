@@ -9447,6 +9447,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "等 AA343／AA345 子代理合併後派工（同一段 postgrad 程式）"
+  },
+  {
+   "id": "DL-LAWWW2-a33d85b5",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a33d85b5",
+   "what": "#47 公館校門口 draw call：光暈合批 wzGlowBatch、店內景深卡 atlas、捷運出口 GLB 23→14 網格（校門口 1.53→1.03 倍）",
+   "task": "ART-L118-LANE-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 114a69fa；溫州街 19:30 三角形 +37% LAWWW2 接著查"
   }
  ],
  "ignored": [
