@@ -220,9 +220,10 @@ const R2Y4B=(function(){
     if(A&&A.begin) A.begin({background:bg(sp.bg),right:{charId:'kexin',expression:'smile'}}); if(GM.caption) GM.caption('',sp.name,2400);
     if(sp.bg==='nccu_food') G.flags.NCCU_FOOD_N=(G.flags.NCCU_FOOD_N|0)+1;   /* 在山下那一家吃過幾次（同 events3d.js）*/
     if(sp.shop) await GM.say(null,'（老闆端上兩個人的點法，只說：「畢業了喔？」）'); else await GM.say(K,'畢業了。這裡也算我們的店。');
+    if(G.flags.KX_GRAD==='mine'){ await GM.say(null,'（她把手機交給隔壁桌的人：「不好意思，幫我們拍一張。」）'); await GM.say(K,'典禮那天欠的合照。'); G.flags.KX_GRAD_PHOTO='k26'; }   /* AA_356 1-3：她的典禮沒去（「你欠我一張合照」）的下文 */
     await GM.say(K,delayed(G)?'你還差一門實習。……那今天先慶祝我的。':'下個月考試。今天不讀書。……考試的事，明天再說。');   /* 交換延畢：她說的那一句換掉 */
     G.flags.KX_K26='went'; };
-  S.k26Missed=G=>{ const d=DK('2029-07-07'); G.flags.KX_K26='missed'; if(d!=null) PHONE.at(G,d,Math.max(16,G.day===d?G.hour:16),[P_('kexin','重新排的第一天。你欠我一次。')],'y4_kx_k26_missed'); };
+  S.k26Missed=G=>{ const d=DK('2029-07-07'); G.flags.KX_K26='missed'; if(d!=null) PHONE.at(G,d,Math.max(16,G.day===d?G.hour:16),[P_('kexin','重新排的第一天。你沒來。'),P_('kexin','……我自己吃了兩份。')],'y4_kx_k26_missed'); };   /* AA_356 1-4：之後沒有見面的場合，不留欠債（原句「你欠我一次。」）*/
 
   /* ===================== 2-Y4-46 七月最後一次的心意邀約（7/13 21:00 邀約、7/14）===================== */
   S.JULY={
