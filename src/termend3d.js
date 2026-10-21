@@ -71,6 +71,7 @@ const TERMEND=(function(){
   S.friendOk=function(G,id,w){ if(G.flags&&G.flags['dating_'+id]) return false; const st=romStatus(G,id); if(st==='ended'||st==='friend_after_catch'||st==='paused') return false;
     if(id==='heroine_05'&&w.id==='Y1S1') return false;   /* 學姊筆試前不約（AA_250 10-2）*/
     if(id==='classmate_peishan'&&(w.id==='Y2S1'||w.id==='Y2S2')) return false;   /* 大二上說要重考以後不想見人、大二下聯絡不到（AA_250 第 3、4 節）*/
+    if(id==='classmate_peishan'&&/^Y[34]/.test(w.id)) return false;   /* 大三起她在台南，不來臺北、也不來這一桌（AA_250 第 5 節 2026-10-20 AA-C 更正；AA_282）：朋友的邀約不發；心意的邀約、女朋友的學期末約會照 AA_282 第 5 節第 5 點在台南 */
     if(id==='heroine_02'&&w.id==='Y3S1') return false;   /* 芷若在英國（AA_250 第 5 節）*/
     if(id==='heroine_01'&&w.id==='Y3S2') return false;   /* 以安在日本（AA_250 第 6 節）*/
     if(id==='npc_fangyt'&&w.id==='Y4S1') return false;   /* 方奕廷大四上起在嘉義，不發期末飯邀約（AA_250 01029de1）*/
@@ -79,8 +80,9 @@ const TERMEND=(function(){
   /* 這段期間要晚一點才在的人（AA-C 12:29：學姊美國 2028-08-02～12-23，大四上的學期末 12/24 起可以約）*/
   S.FROM={Y4S1:{heroine_05:'2028-12-24'}};
   S.fromDay=(w,id)=>{ const k=S.FROM[w.id]&&S.FROM[w.id][id]; const d=k?DK(k):null; return d!=null&&d>w.from?d:w.from; };
-  /* 這段期間不在台灣的人不約（AA_259 第 4 節第 5 點 cf864bff）：照人物的 presence（芷若大三上、大四在英國；以安大三下在日本）；在臺北、不在台大的（kind:'taipei'：沛珊大二下起、子晴大四）照約 */
-  S.away=function(G,w,id){ if(typeof STORY==='undefined'||!STORY.presence) return false; const d=S.fromDay(w,id), p=STORY.presence(id,Object.assign({},G,{day:d})); return !p.here&&p.kind!=='taipei'; };
+  /* 這段期間不在台灣的人不約（AA_259 第 4 節第 5 點 cf864bff）：照人物的 presence（芷若大三上、大四在英國；以安大三下在日本）；在臺北、不在台大的（kind:'taipei'：子晴大四）照約；
+     在臺灣的別的城市（kind:'city'：沛珊大三起在台南，AA_282 第 5 節第 5 點）照約，地點照那一學期的 over（台南她學校附近）；放榜後還沒重新聯絡上的（presence 的 lost，AA_282 第 2 節：她不先找人）不約 */
+  S.away=function(G,w,id){ if(typeof STORY==='undefined'||!STORY.presence) return false; const d=S.fromDay(w,id), p=STORY.presence(id,Object.assign({},G,{day:d})); return !p.here&&(!!p.lost||(p.kind!=='taipei'&&p.kind!=='city')); };
   /* 玩家人在國外（交換路線；AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：整段時段都在國外（日本路線大三下）＝臺灣這邊什麼都不發；中途回來（美國路線 12/23）＝回來那天起才發 */
   S.backDay=function(G,w){ if(typeof STORY==='undefined'||!STORY.abroad) return w.from; for(let d=w.from;d<=w.to;d++) if(!STORY.abroad(Object.assign({},G,{day:d}))) return d; return null; };
   S.plan=function(G,w){ const R=S.rec(G,w.id); if(R.plan) return R.plan; const Lx=L(); const bd=S.backDay(G,w);
@@ -122,7 +124,7 @@ const TERMEND=(function(){
     for(let d=Math.max(lo,w.from+2,pb+2);d<=hi;d++) if(ok(d)) return d; for(let d=lo;d<=hi;d++) if(ok(d)) return d; return null; };
   S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec||typeof OUT==='undefined') return false;
     const hh=(kind==='friend'&&spec.hGen&&w.id!=='Y1S1')?spec.hGen:(spec.h||18.5), day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who); if(day==null) return false; const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
-    return OUT.plan(G,{id:'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:'走過去約 15 分鐘',travelH:0.25,te:{term:w.id,who,kind}}); };
+    return OUT.plan(G,Object.assign({id:'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:spec.travel||'走過去約 15 分鐘',travelH:spec.travelH||0.25,te:{term:w.id,who,kind}},spec.back?{back:spec.back}:{})); };   /* travel／travelH／back：外縣市的那一版（沛珊大三起在台南：高鐵去、搭最後一班高鐵回臺北，AA_282 第 5 節第 5 點）*/
   S.planKexin=function(G,w){ const Lx=L(), K=Lx.KX[w.id], PL=Lx.KX_PLACE[K.place]; if(!K||!PL||typeof OUT==='undefined') return false; const day=S.dinnerDay(G,w,{h:PL.h,wd:K.wd},'kexin'); if(day==null) return false;
     return OUT.plan(G,{id:'te_kx_'+w.id,ev:'ev_termend_dinner',day,h:PL.h,late:0.25,place:PL.name,title:'和可昕的學期末約會（'+PL.name+'）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:w.id,who:'kexin',kind:'kexin'}}); };
   S.pickCheck=function(GM){ const G=GM.G, F=G.flags||{};
@@ -149,6 +151,8 @@ const TERMEND=(function(){
     const spec=kind==='heart'?S.heart(who,te.term):(kind==='gf'?S.gf(who,te.term):(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec) return false;
     const INV2TE={noodle:['noodle','noodle_closed']}, other=!!te.place&&!(INV2TE[te.place]||[]).includes(spec.place);   /* 玩家自己約、選的店不是她那一家（AA_268 第 1 節）：開場收尾照選的那一家、不說飯桌一句 */
     const P=other?(Lx.PLACE[(INV2TE[te.place]||[])[0]]||{name:te.placeName||'',open:'（'+(te.placeName||'')+'。）'}):(Lx.PLACE[spec.place]||{}); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:P.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark',right:{charId:who,expression:'neutral'}});
+    if(P.caption&&GM.caption) GM.caption('',P.caption,2400);   /* 沒有底圖的地方：深色底＋地點字幕（台南，AA_282 第 5 節第 6 點）*/
+    if(!other&&spec.fare&&GM.money) GM.money(-spec.fare,'交通');   /* 外縣市的那一版：高鐵來回（沛珊台南 2700，hometown_lines.js 同一個數字）*/
     const pool=((Lx.POOL[te.term]||{})[who]||[]).map(x=>resolve(x,G)).filter(x=>x!=null), me={name:G.name||'祐廷'}; let ri=0;
     const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
     if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
@@ -227,6 +231,7 @@ const TERMEND=(function(){
   /* ---- 回家的路上（AA_254 第 0 節）---- */
   S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:h.walkBg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(h.walkBg):'dark',right:{charId:who,expression:'neutral'}});
+    if(h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・走回她租的地方）*/
     await run(GM,who,h.walk);
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);
