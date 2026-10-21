@@ -1,0 +1,2491 @@
+{
+ "campus_linze": {
+  "hour": 15.007333333333342,
+  "info": {
+   "calls": 237,
+   "tris": 377335
+  },
+  "main": [
+   {
+    "src": "human / vrmWrap",
+    "n": 30,
+    "draws": 41,
+    "tris": 56599
+   },
+   {
+    "src": "(scene)",
+    "n": 31,
+    "draws": 31,
+    "tris": 51719
+   },
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 32,
+    "draws": 32,
+    "tris": 42530
+   },
+   {
+    "src": "street_trees_field",
+    "n": 9,
+    "draws": 9,
+    "tris": 19526
+   },
+   {
+    "src": "campusBackdrop",
+    "n": 10,
+    "draws": 10,
+    "tris": 17470
+   },
+   {
+    "src": "parked_bikes",
+    "n": 5,
+    "draws": 5,
+    "tris": 13648
+   },
+   {
+    "src": "Scene / bball_court",
+    "n": 2,
+    "draws": 2,
+    "tris": 484
+   },
+   {
+    "src": "skyline",
+    "n": 3,
+    "draws": 3,
+    "tris": 384
+   },
+   {
+    "src": "vending_machine",
+    "n": 4,
+    "draws": 4,
+    "tris": 180
+   }
+  ],
+  "shadow": [
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 32,
+    "draws": 32,
+    "tris": 42530
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 11,
+    "draws": 16,
+    "tris": 23534
+   },
+   {
+    "src": "parked_bikes",
+    "n": 16,
+    "draws": 16,
+    "tris": 21808
+   },
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "draws": 8,
+    "tris": 19504
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 5,
+    "draws": 5,
+    "tris": 6940
+   },
+   {
+    "src": "Scene / WancaiExterior",
+    "n": 8,
+    "draws": 8,
+    "tris": 5394
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 1,
+    "draws": 1,
+    "tris": 3522
+   },
+   {
+    "src": "campus_boya_glb / campus_boya",
+    "n": 4,
+    "draws": 4,
+    "tris": 3186
+   },
+   {
+    "src": "(scene)",
+    "n": 10,
+    "draws": 10,
+    "tris": 1614
+   },
+   {
+    "src": "vending_machine",
+    "n": 2,
+    "draws": 2,
+    "tris": 120
+   }
+  ],
+  "anon": [
+   {
+    "mat": "lamp_paint",
+    "tris": 16352,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.6,
+     4.2,
+     175.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 9240,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.3,
+     0.9,
+     154.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 7836,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     73.1,
+     22.3,
+     99.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 3384,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     544.1,
+     42.1,
+     464.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2496,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     522.6,
+     27.5,
+     404.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1946,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1936,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     165.5,
+     1.6,
+     139.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "prop_vc",
+    "tris": 1868,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     153.1,
+     2.1,
+     122.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 1764,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.4,
+     0.5,
+     154.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 960,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     580,
+     580,
+     580
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 915,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_conc",
+    "tris": 576,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.5,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 408,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     519.2,
+     33.1,
+     370.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 348,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.8,
+     1.9,
+     221.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 336,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.5,
+     0,
+     174.8
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 312,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     308.1,
+     23.1,
+     276.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_leaf",
+    "tris": 276,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.4,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 168,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     31.2,
+     24.1,
+     12.9
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 144,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.5,
+     2.5,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 120,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     234,
+     0.1,
+     125.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 96,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     170.6,
+     23.4,
+     213.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 84,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     113.6,
+     2.9,
+     90
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_soil",
+    "tris": 72,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.1,
+     0.1,
+     70.9
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 60,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.5,
+     1.8,
+     291.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 48,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     30,
+     23.2,
+     10
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "board_cork",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.3,
+     1.4,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.7,
+     0.1,
+     115.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 6,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     27.6,
+     3.8,
+     15.6
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     260,
+     0,
+     170
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     120,
+     0,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     124,
+     0,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     72,
+     0,
+     24
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     4.4,
+     0.8,
+     0
+    ],
+    "merged": false,
+    "inst": 0
+   }
+  ]
+ },
+ "campus_avenue": {
+  "hour": 15.01066666666668,
+  "info": {
+   "calls": 360,
+   "tris": 696866
+  },
+  "main": [
+   {
+    "src": "human / vrmWrap",
+    "n": 73,
+    "draws": 101,
+    "tris": 146130
+   },
+   {
+    "src": "(scene)",
+    "n": 64,
+    "draws": 64,
+    "tris": 90703
+   },
+   {
+    "src": "street_trees_field",
+    "n": 9,
+    "draws": 9,
+    "tris": 45186
+   },
+   {
+    "src": "parked_bikes",
+    "n": 18,
+    "draws": 18,
+    "tris": 28930
+   },
+   {
+    "src": "campus_gongtong_glb / campus_gongtong",
+    "n": 7,
+    "draws": 7,
+    "tris": 28623
+   },
+   {
+    "src": "Scene / WancaiExterior",
+    "n": 12,
+    "draws": 12,
+    "tris": 28610
+   },
+   {
+    "src": "campus_library_glb / campus_library",
+    "n": 8,
+    "draws": 8,
+    "tris": 22814
+   },
+   {
+    "src": "campusBackdrop",
+    "n": 15,
+    "draws": 15,
+    "tris": 17490
+   },
+   {
+    "src": "campus_admin_glb / campus_admin",
+    "n": 8,
+    "draws": 8,
+    "tris": 13451
+   },
+   {
+    "src": "campus_male1_glb / campus_male1",
+    "n": 7,
+    "draws": 7,
+    "tris": 12854
+   },
+   {
+    "src": "campusBackdrop / Scene",
+    "n": 3,
+    "draws": 3,
+    "tris": 12726
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 5,
+    "draws": 5,
+    "tris": 7044
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 4,
+    "draws": 4,
+    "tris": 6826
+   },
+   {
+    "src": "bike_ride / frame",
+    "n": 15,
+    "draws": 15,
+    "tris": 4938
+   },
+   {
+    "src": "skyline",
+    "n": 3,
+    "draws": 3,
+    "tris": 384
+   },
+   {
+    "src": "human",
+    "n": 3,
+    "draws": 3,
+    "tris": 6
+   },
+   {
+    "src": "campus_gongtong_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 4
+   },
+   {
+    "src": "campus_library_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   },
+   {
+    "src": "campus_male1_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   }
+  ],
+  "shadow": [
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "draws": 8,
+    "tris": 44976
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 23,
+    "draws": 34,
+    "tris": 44974
+   },
+   {
+    "src": "parked_bikes",
+    "n": 15,
+    "draws": 15,
+    "tris": 19754
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 3,
+    "draws": 3,
+    "tris": 6928
+   },
+   {
+    "src": "campus_admin_glb / campus_admin",
+    "n": 3,
+    "draws": 3,
+    "tris": 3842
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 3,
+    "draws": 3,
+    "tris": 2633
+   },
+   {
+    "src": "(scene)",
+    "n": 9,
+    "draws": 9,
+    "tris": 1608
+   },
+   {
+    "src": "campus_bell_glb / campus_bell",
+    "n": 4,
+    "draws": 4,
+    "tris": 528
+   }
+  ],
+  "anon": [
+   {
+    "mat": "lamp_paint",
+    "tris": 16352,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.6,
+     4.2,
+     175.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 11160,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     138.2,
+     14.4,
+     116.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 9240,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.3,
+     0.9,
+     154.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 8064,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     26.5,
+     10.7,
+     14.5
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 7836,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     73.1,
+     22.3,
+     99.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 4320,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     30.5,
+     14.4,
+     13.5
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 4040,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     34.5,
+     13.2,
+     14.5
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 3400,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     28.5,
+     13.7,
+     16.5
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 3384,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     544.1,
+     42.1,
+     464.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2496,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     522.6,
+     27.5,
+     404.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1992,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     35,
+     16.1,
+     17.8
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1946,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1936,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     165.5,
+     1.6,
+     139.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "prop_vc",
+    "tris": 1868,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     153.1,
+     2.1,
+     122.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 1764,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.4,
+     0.5,
+     154.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1680,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     29,
+     16.6,
+     19.9
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1468,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     27,
+     12.5,
+     17.7
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 960,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     580,
+     580,
+     580
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 915,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 864,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     34.8,
+     14.7,
+     14
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 680,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     26.8,
+     12,
+     14
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 680,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     28.9,
+     15.2,
+     16
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "planter_conc",
+    "tris": 576,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.5,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 408,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     519.2,
+     33.1,
+     370.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 352,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     30.7,
+     17.4,
+     16.2
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 348,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.8,
+     1.9,
+     221.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 336,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.5,
+     0,
+     174.8
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 312,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     308.1,
+     23.1,
+     276.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_leaf",
+    "tris": 276,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.4,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 144,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.5,
+     2.5,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 132,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     22.9,
+     16.9,
+     45.2
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 120,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     234,
+     0.1,
+     125.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 96,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     170.6,
+     23.4,
+     213.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 96,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     111.8,
+     1.7,
+     90.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 84,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     113.6,
+     2.9,
+     90
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_soil",
+    "tris": 72,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.1,
+     0.1,
+     70.9
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 60,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.5,
+     1.8,
+     291.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 48,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     20,
+     15.9,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 48,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     1.6,
+     0.7,
+     0.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     30,
+     16,
+     13
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "board_cork",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.3,
+     1.4,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.7,
+     0.1,
+     115.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 12,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     1.8,
+     0.1,
+     0.7
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 12,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     1.9,
+     0.6,
+     0
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 12,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     0.3,
+     0,
+     0.4
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 6,
+    "cast": true,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     27.6,
+     3.8,
+     15.6
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     260,
+     0,
+     170
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     120,
+     0,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     196,
+     0,
+     16
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     196,
+     0,
+     12
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     17,
+     0,
+     36
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     10,
+     0,
+     74
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     72,
+     0,
+     10
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     5,
+     0,
+     89
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     220,
+     0,
+     9
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     6,
+     0,
+     58
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     28,
+     0,
+     12
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     4,
+     0,
+     16
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     72,
+     0,
+     24
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     4,
+     0,
+     20
+    ],
+    "merged": false,
+    "inst": 0
+   }
+  ]
+ },
+ "campus_socsci": {
+  "hour": 15.01333333333335,
+  "info": {
+   "calls": 307,
+   "tris": 442517
+  },
+  "main": [
+   {
+    "src": "campusBackdrop",
+    "n": 28,
+    "draws": 28,
+    "tris": 80508
+   },
+   {
+    "src": "(scene)",
+    "n": 44,
+    "draws": 44,
+    "tris": 64207
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 30,
+    "draws": 41,
+    "tris": 56599
+   },
+   {
+    "src": "campusBackdrop / Scene",
+    "n": 4,
+    "draws": 4,
+    "tris": 15190
+   },
+   {
+    "src": "street_trees_field",
+    "n": 9,
+    "draws": 9,
+    "tris": 15188
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 14,
+    "draws": 14,
+    "tris": 14132
+   },
+   {
+    "src": "parked_bikes",
+    "n": 7,
+    "draws": 7,
+    "tris": 8958
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 8,
+    "draws": 8,
+    "tris": 8774
+   },
+   {
+    "src": "campus_lake_glb / campus_lake",
+    "n": 10,
+    "draws": 10,
+    "tris": 8448
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 6,
+    "draws": 6,
+    "tris": 7226
+   },
+   {
+    "src": "campus_hist_glb / campus_hist",
+    "n": 8,
+    "draws": 8,
+    "tris": 6352
+   },
+   {
+    "src": "campus_boya_glb / campus_boya",
+    "n": 7,
+    "draws": 7,
+    "tris": 3352
+   },
+   {
+    "src": "campus_gate_glb / campus_gate",
+    "n": 3,
+    "draws": 3,
+    "tris": 1622
+   },
+   {
+    "src": "Scene / skybridge",
+    "n": 15,
+    "draws": 15,
+    "tris": 1376
+   },
+   {
+    "src": "campus_pavilion_glb / campus_pavilion",
+    "n": 4,
+    "draws": 4,
+    "tris": 964
+   },
+   {
+    "src": "Scene / bball_court",
+    "n": 3,
+    "draws": 3,
+    "tris": 948
+   },
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 3,
+    "draws": 3,
+    "tris": 744
+   },
+   {
+    "src": "skyline",
+    "n": 3,
+    "draws": 3,
+    "tris": 384
+   },
+   {
+    "src": "campus_socsci_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 8
+   },
+   {
+    "src": "campus_putong_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   },
+   {
+    "src": "campus_boya_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   },
+   {
+    "src": "campus_pavilion_glb",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   },
+   {
+    "src": "human",
+    "n": 1,
+    "draws": 1,
+    "tris": 2
+   }
+  ],
+  "shadow": [
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 28,
+    "draws": 28,
+    "tris": 42368
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 11,
+    "draws": 16,
+    "tris": 23534
+   },
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "draws": 8,
+    "tris": 15096
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 6,
+    "draws": 6,
+    "tris": 6942
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 3,
+    "draws": 3,
+    "tris": 6928
+   },
+   {
+    "src": "(scene)",
+    "n": 13,
+    "draws": 13,
+    "tris": 3774
+   },
+   {
+    "src": "parked_bikes",
+    "n": 6,
+    "draws": 6,
+    "tris": 2026
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 1,
+    "draws": 1,
+    "tris": 14
+   }
+  ],
+  "anon": [
+   {
+    "mat": "lamp_paint",
+    "tris": 16352,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.6,
+     4.2,
+     175.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 11160,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     138.2,
+     14.4,
+     116.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 9240,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.3,
+     0.9,
+     154.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 7836,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     73.1,
+     22.3,
+     99.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 3384,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     544.1,
+     42.1,
+     464.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2496,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     522.6,
+     27.5,
+     404.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1946,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1936,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     165.5,
+     1.6,
+     139.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "prop_vc",
+    "tris": 1868,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     153.1,
+     2.1,
+     122.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 1764,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171.4,
+     0.5,
+     154.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 1468,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     27,
+     12.5,
+     17.7
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 960,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     580,
+     580,
+     580
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 915,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     171,
+     22.3,
+     213.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 732,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     45.1,
+     0.9,
+     132
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 690,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     31.2,
+     0,
+     12
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 680,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     26.8,
+     12,
+     14
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "planter_conc",
+    "tris": 576,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.5,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 408,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     519.2,
+     33.1,
+     370.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 348,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.8,
+     1.9,
+     221.6
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 336,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     203.5,
+     0,
+     174.8
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 312,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     308.1,
+     23.1,
+     276.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "planter_leaf",
+    "tris": 276,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.2,
+     0.4,
+     71
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_wood",
+    "tris": 144,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.5,
+     2.5,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 120,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     234,
+     0.1,
+     125.7
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 96,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     170.6,
+     23.4,
+     213.1
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 84,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     113.6,
+     2.9,
+     90
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 78,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     33.4,
+     0,
+     19.4
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "planter_soil",
+    "tris": 72,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     153.1,
+     0.1,
+     70.9
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 60,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     254.5,
+     1.8,
+     291.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 24,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     3.2,
+     2.6,
+     7.5
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "board_cork",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.3,
+     1.4,
+     115.3
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "bench_iron",
+    "tris": 24,
+    "cast": true,
+    "inMain": true,
+    "inShad": true,
+    "size": [
+     32.7,
+     0.1,
+     115.4
+    ],
+    "merged": true,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 12,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     12.3,
+     0.2,
+     0.3
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 6,
+    "cast": true,
+    "inMain": false,
+    "inShad": true,
+    "size": [
+     27.6,
+     3.8,
+     15.6
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     260,
+     0,
+     170
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     120,
+     0,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     196,
+     0,
+     16
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     196,
+     0,
+     12
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     10,
+     0,
+     74
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     72,
+     0,
+     10
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     8,
+     0,
+     3
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     8,
+     0,
+     4
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     5,
+     0,
+     89
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     50,
+     0,
+     4
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     46,
+     0,
+     4
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     34,
+     0,
+     3
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     220,
+     0,
+     9
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     124,
+     0,
+     44
+    ],
+    "merged": false,
+    "inst": 0
+   },
+   {
+    "mat": "",
+    "tris": 2,
+    "cast": false,
+    "inMain": true,
+    "inShad": false,
+    "size": [
+     10,
+     0,
+     14
+    ],
+    "merged": false,
+    "inst": 0
+   }
+  ]
+ }
+}

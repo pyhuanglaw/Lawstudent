@@ -1439,6 +1439,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人"
+  },
+  {
+   "task": "PERF-CAMPUS-SHADOW-1020",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/campus_parked_bikes.diff",
+    "docs/art-rebuild/second_ai/test_shots/perf_campus_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "路人（VRM）是現在最大的一項：椰林大道 15:00 主畫面 151 draw call、25.2 萬三角形——人物／NPC 系統是 LAWWW 的（遠的換低面數或藏、手機減少人數；低面數路人模型可以派給 LAWWW2）；長椅、路燈也是全區合併但量小，先不動；真機沒量",
+   "next": "LAWWW git apply campus_parked_bikes.diff（對 15f3c677 乾淨；zones3d.js＋tests/campus_bikes_unit.js）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670"
   }
  ]
 }

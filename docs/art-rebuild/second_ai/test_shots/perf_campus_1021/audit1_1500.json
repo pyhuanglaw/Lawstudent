@@ -1,0 +1,758 @@
+{
+ "campus_linze": {
+  "hour": 15.014778000000017,
+  "casters": 172,
+  "castersInShadowFrustum": 76,
+  "calls": {
+   "noShadow": 122,
+   "withShadow": 212,
+   "shadowPass": 90
+  },
+  "tris": {
+   "noShadow": 321899,
+   "withShadow": 536531
+  },
+  "shadowBox": [
+   -22,
+   22,
+   22,
+   -22
+  ],
+  "rows": [
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 32,
+    "inFr": 32,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 42530,
+    "trisInFr": 42530,
+    "inst": 18
+   },
+   {
+    "src": "(scene)",
+    "n": 33,
+    "inFr": 17,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 105620,
+    "trisInFr": 96800,
+    "inst": 0
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 11,
+    "inFr": 11,
+    "small": 8,
+    "smallInFr": 8,
+    "tris": 23534,
+    "trisInFr": 23534,
+    "inst": 0
+   },
+   {
+    "src": "Scene / WancaiExterior",
+    "n": 25,
+    "inFr": 5,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 39114,
+    "trisInFr": 1692,
+    "inst": 8
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 6,
+    "inFr": 5,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6942,
+    "trisInFr": 6940,
+    "inst": 0
+   },
+   {
+    "src": "campus_boya_glb / campus_boya",
+    "n": 4,
+    "inFr": 4,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3186,
+    "trisInFr": 3186,
+    "inst": 0
+   },
+   {
+    "src": "vending_machine",
+    "n": 1,
+    "inFr": 1,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 60,
+    "trisInFr": 60,
+    "inst": 0
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 3,
+    "inFr": 1,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6928,
+    "trisInFr": 3522,
+    "inst": 0
+   },
+   {
+    "src": "campusBackdrop",
+    "n": 1,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 36,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "bike_ride / frame",
+    "n": 6,
+    "inFr": 0,
+    "small": 5,
+    "smallInFr": 0,
+    "tris": 4036,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "inFr": 0,
+    "small": 2,
+    "smallInFr": 0,
+    "tris": 19504,
+    "trisInFr": 0,
+    "inst": 8
+   },
+   {
+    "src": "campus_library_glb / campus_library",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 5343,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "Scene / bball_court",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 730,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gate_glb / campus_gate",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2744,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_lake_glb / campus_lake",
+    "n": 8,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 4626,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_bell_glb / campus_bell",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 528,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gongtong_glb / campus_gongtong",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 27273,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_male1_glb / campus_male1",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 12486,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_freshman_glb / campus_freshman",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 15442,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_admin_glb / campus_admin",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3842,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2633,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_hist_glb / campus_hist",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2111,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_pavilion_glb / campus_pavilion",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 332,
+    "trisInFr": 0,
+    "inst": 0
+   }
+  ]
+ },
+ "campus_avenue": {
+  "hour": 15.020111333333357,
+  "casters": 184,
+  "castersInShadowFrustum": 46,
+  "calls": {
+   "noShadow": 321,
+   "withShadow": 391,
+   "shadowPass": 70
+  },
+  "tris": {
+   "noShadow": 746045,
+   "withShadow": 968744
+  },
+  "shadowBox": [
+   -22,
+   22,
+   22,
+   -22
+  ],
+  "rows": [
+   {
+    "src": "(scene)",
+    "n": 33,
+    "inFr": 17,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 105620,
+    "trisInFr": 97090,
+    "inst": 0
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 23,
+    "inFr": 11,
+    "small": 17,
+    "smallInFr": 8,
+    "tris": 44974,
+    "trisInFr": 23534,
+    "inst": 0
+   },
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "inFr": 5,
+    "small": 2,
+    "smallInFr": 2,
+    "tris": 44976,
+    "trisInFr": 9264,
+    "inst": 8
+   },
+   {
+    "src": "campus_bell_glb / campus_bell",
+    "n": 4,
+    "inFr": 4,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 528,
+    "trisInFr": 528,
+    "inst": 0
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 3,
+    "inFr": 3,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6928,
+    "trisInFr": 6928,
+    "inst": 0
+   },
+   {
+    "src": "campus_admin_glb / campus_admin",
+    "n": 3,
+    "inFr": 3,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3842,
+    "trisInFr": 3842,
+    "inst": 0
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 3,
+    "inFr": 3,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2633,
+    "trisInFr": 2633,
+    "inst": 0
+   },
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 32,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 42530,
+    "trisInFr": 0,
+    "inst": 18
+   },
+   {
+    "src": "Scene / WancaiExterior",
+    "n": 25,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 39114,
+    "trisInFr": 0,
+    "inst": 8
+   },
+   {
+    "src": "vending_machine",
+    "n": 1,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 60,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campusBackdrop",
+    "n": 1,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 36,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "bike_ride / frame",
+    "n": 6,
+    "inFr": 0,
+    "small": 5,
+    "smallInFr": 0,
+    "tris": 4036,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_library_glb / campus_library",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 5343,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "Scene / bball_court",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 730,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gate_glb / campus_gate",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2744,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_lake_glb / campus_lake",
+    "n": 8,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 4626,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gongtong_glb / campus_gongtong",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 27273,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_male1_glb / campus_male1",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 12486,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_boya_glb / campus_boya",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3186,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_freshman_glb / campus_freshman",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 15442,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_hist_glb / campus_hist",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2111,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_pavilion_glb / campus_pavilion",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 332,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 6,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6942,
+    "trisInFr": 0,
+    "inst": 0
+   }
+  ]
+ },
+ "campus_socsci": {
+  "hour": 15.025555333333363,
+  "casters": 172,
+  "castersInShadowFrustum": 52,
+  "calls": {
+   "noShadow": 300,
+   "withShadow": 381,
+   "shadowPass": 81
+  },
+  "tris": {
+   "noShadow": 632913,
+   "withShadow": 840213
+  },
+  "shadowBox": [
+   -22,
+   22,
+   22,
+   -22
+  ],
+  "rows": [
+   {
+    "src": "(scene)",
+    "n": 33,
+    "inFr": 21,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 105620,
+    "trisInFr": 99256,
+    "inst": 0
+   },
+   {
+    "src": "human / vrmWrap",
+    "n": 11,
+    "inFr": 11,
+    "small": 8,
+    "smallInFr": 8,
+    "tris": 23534,
+    "trisInFr": 23534,
+    "inst": 0
+   },
+   {
+    "src": "Scene / LinzeExterior",
+    "n": 32,
+    "inFr": 10,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 42530,
+    "trisInFr": 11056,
+    "inst": 18
+   },
+   {
+    "src": "campus_socsci_glb / campus_socsci",
+    "n": 6,
+    "inFr": 6,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6942,
+    "trisInFr": 6942,
+    "inst": 0
+   },
+   {
+    "src": "campus_putong_glb / campus_putong",
+    "n": 3,
+    "inFr": 3,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 6928,
+    "trisInFr": 6928,
+    "inst": 0
+   },
+   {
+    "src": "campus_arts_glb / campus_arts",
+    "n": 3,
+    "inFr": 1,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2633,
+    "trisInFr": 14,
+    "inst": 0
+   },
+   {
+    "src": "Scene / WancaiExterior",
+    "n": 25,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 39114,
+    "trisInFr": 0,
+    "inst": 8
+   },
+   {
+    "src": "vending_machine",
+    "n": 1,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 60,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campusBackdrop",
+    "n": 1,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 36,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "bike_ride / frame",
+    "n": 6,
+    "inFr": 0,
+    "small": 5,
+    "smallInFr": 0,
+    "tris": 4036,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "street_trees_field",
+    "n": 8,
+    "inFr": 0,
+    "small": 2,
+    "smallInFr": 0,
+    "tris": 15096,
+    "trisInFr": 0,
+    "inst": 8
+   },
+   {
+    "src": "campus_library_glb / campus_library",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 5343,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "Scene / bball_court",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 730,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gate_glb / campus_gate",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2744,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_lake_glb / campus_lake",
+    "n": 8,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 4626,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_bell_glb / campus_bell",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 528,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_gongtong_glb / campus_gongtong",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 27273,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_male1_glb / campus_male1",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 12486,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_boya_glb / campus_boya",
+    "n": 4,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3186,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_freshman_glb / campus_freshman",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 15442,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_admin_glb / campus_admin",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 3842,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_hist_glb / campus_hist",
+    "n": 3,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 2111,
+    "trisInFr": 0,
+    "inst": 0
+   },
+   {
+    "src": "campus_pavilion_glb / campus_pavilion",
+    "n": 2,
+    "inFr": 0,
+    "small": 0,
+    "smallInFr": 0,
+    "tris": 332,
+    "trisInFr": 0,
+    "inst": 0
+   }
+  ]
+ }
+}
