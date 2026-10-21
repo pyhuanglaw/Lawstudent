@@ -203,8 +203,10 @@ def build():
         for (ua, ub) in ((-0.95, -0.025), (0.025, 0.95)): kit.glass_face(DOORF, [(ua, 0.2), (ub, 0.2), (ub, 2.1), (ua, 2.1)], -0.105, True, 0.1, 2.6)
         kit.glass_face(DOORF, [(-0.95, 2.16), (0.95, 2.16), (0.95, 2.55), (-0.95, 2.55)], -0.105, True, 0.1, 2.6)
         for x in (-0.12, 0.12): kit.box('misc', x - 0.015, x + 0.015, 0.9, 1.3, z0 - 0.1, z0 - 0.05, col='#c9c6bf')
-        lens = kit.acc('lamp')
-        kit.box(lens, -0.18, 0.18, PH - 0.05, PH - 0.001, (z0 + z1) / 2 - 0.18, (z0 + z1) / 2 + 0.18, skip=('top',))
+        # 門廊吸頂燈（2026-10-15 LAWWW2-B：原本 0.36 m 的燈罩在晚上看不出在發光，C13 截圖 B）：0.6 m 金屬框＋0.54 m 乳白燈罩、往下凸 9 cm，側面也看得到亮
+        lens, zc = kit.acc('lamp'), (z0 + z1) / 2
+        kit.box(fm, -0.3, 0.3, PH - 0.025, PH - 0.001, zc - 0.3, zc + 0.3, skip=('top',))
+        kit.box(lens, -0.27, 0.27, PH - 0.115, PH - 0.025, zc - 0.27, zc + 0.27, skip=('top',))
         SIGNF = K.Fr((0, 0, z1 + 0.25), (1, 0, 0), (0, 0, 1))
         plate(kit, f'PLATE_FACE_FD_{bd["key"]}', SIGNF, -2.0, 2.0, PH + 0.04, PH + 0.26, 0.006, {'text': f'大一女舍　{bd["key"]} 棟', 'bg': '#e8e5de', 'color': '#3b2a1e', 'serif': 1, 'fs': 0.75})
         WF = K.Fr((-PW2 + 0.45, 0, (z0 + z1) / 2), (0, 0, 1), (1, 0, 0))     # 門廊左側牆的內面（朝 +x）
