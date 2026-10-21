@@ -1,0 +1,127 @@
+diff --git a/src/teach3d.js b/src/teach3d.js
+index 8ce199c7..3561a47c 100644
+--- a/src/teach3d.js
++++ b/src/teach3d.js
+@@ -154,15 +154,36 @@ const TB3=(function(){
+         put('study_chair',its.flatMap(it=>it.seats),st=>{ V.set(st.x,0,st.z); Q.setFromAxisAngle(UP,st.yaw||0); S.set(1,CHAIR_FIT,1); });   /* 椅子：座位點＝椅面中心、坐的人面向 +z（和座位 yaw 同一個方向）*/
+         fb.parent.add(out); fb.visible=false; }
+       zone.furnGLB=true; }).catch(e=>{ console.warn('furniture_study（照樣用備用模型）',e); }); }
++  /* ---- 關著的房間的門（ART-02：共同教學館沒有正式室內殼，洗手間、203 的門原本是一塊木板）：換成 furniture_study.glb 的門框＋關著的門片＋門牌 ----
++     模組的約定：原點＝門洞中心的地面、z＝0 是牆的中心面、+z＝走廊；門洞 1.2×2.4、牆厚 0.2。這裡的牆沒有開口（關著的房間導航本來就擋著，鏡頭碰撞照牆算），
++     所以門片貼在走廊那一面（中心離牆心 0.1245，比牆面凸 2 mm）、門框整個往走廊移 0.0475（門片比門框的飾條凹進去 1.5 cm，看起來像嵌在門框裡）；門牌在門的右邊、貼牆面（不移）。
++     只換寬 1.2 m 的門（模組的門洞）；放在備用模型群組（fb0／fb1）裡：博雅、普通的正式室內殼載入後跟著整組藏起來（殼裡有自己的門）。載入前、載入失敗照舊是木板 */
++  const DOOR_W=1.2, DOOR_FRAME_DZ=0.0475, DOOR_LEAF_DZ=0.1245;
++  function plateTex(text){ return W3.canvasTex('doorplate_'+text,256,112,(x,w,h)=>{ x.clearRect(0,0,w,h); x.fillStyle='#2b2f33'; x.textAlign='center'; x.textBaseline='middle'; let fs=58; x.font='bold '+fs+'px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif';
++    while(fs>24&&x.measureText(text).width>w-24){ fs-=4; x.font='bold '+fs+'px "Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif'; } x.fillText(text,w/2,h/2+2); }); }
++  function doorsGLB(zone,fbs,doorFb,items,Y1){ if(!items.length||typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest[FURN_KEY]) return;
++    ASSETS.loadOne(FURN_KEY).then(c=>{ const mesh={}; c.scene.traverse(o=>{ if(o.isMesh) mesh[o.name]=o; }); if(!mesh.door_frame||!mesh.door_leaf_closed||!mesh.door_plate) return;
++      const Mx=new THREE.Matrix4(), Q=new THREE.Quaternion(), UP=new THREE.Vector3(0,1,0), V=new THREE.Vector3(), S1=new THREE.Vector3(1,1,1);
++      for(let lv=0;lv<2;lv++){ const its=items.filter(it=>it.lv===lv); if(!its.length||!fbs[lv]) continue; const y=lv?Y1:0, out=new THREE.Group(); out.name='doors_glb';
++        for(const [name,dz] of [['door_frame',DOOR_FRAME_DZ],['door_leaf_closed',DOOR_LEAF_DZ],['door_plate',0]]){ const im=new THREE.InstancedMesh(mesh[name].geometry,mesh[name].material,its.length);
++          its.forEach((it,i)=>{ V.set(it.x,y,it.z+it.out*dz); Q.setFromAxisAngle(UP,it.out>0?0:Math.PI); Mx.compose(V,Q,S1); im.setMatrixAt(i,Mx); });
++          im.instanceMatrix.needsUpdate=true; im.castShadow=false; im.receiveShadow=true; im.computeBoundingSphere(); im.name=name; out.add(im); }
++        for(const it of its){ if(!it.text) continue; const m=new THREE.Mesh(new THREE.PlaneGeometry(0.25,0.11),new THREE.MeshStandardMaterial({map:plateTex(it.text),transparent:true,depthWrite:false,roughness:0.8}));   /* 門牌的字：門右邊 0.89 m、高 1.625 m，貼在門牌面上 */
++          m.position.set(it.x+(it.out>0?0.89:-0.89),y+1.625,it.z+it.out*0.1155); m.rotation.y=it.out>0?0:Math.PI; m.name='door_plate_text'; out.add(m); }
++        fbs[lv].add(out); if(doorFb[lv]) doorFb[lv].visible=false; }
++      zone.doorsGLB=true; }).catch(e=>{ console.warn('furniture_study 的門（照樣用木板）',e); }); }
+   // ---- 家具（備用）＋互動點 ----
+   function buildFurniture(E,L,lv0,lv1,fb0,fb1,zone){ const Y1=L.floors[1].y, MAT=B3.MAT, IT=E.interactables; const b0=new TK.Bin(), b1=new TK.Bin(); const bins=[b0,b1];
+     /* 桌椅、長椅、公告欄、講堂椅（grpOf）放在備用模型群組（fb0／fb1）外面的 fu0／fu1：正式室內模型（ASSETS 'bldg.<id>_interior'，B3.attachFormal）載入後會藏起 fb0／fb1，
+        桌椅要留著（正式模型只有殼和固定設備：黑板、講桌、階梯教室的平台、沙發、關著的門；LAWWW2-C 2026-10-18 ART-EXT-TEACH）。原本是 fb0 和 fb1 裡的 up1 */
+     const fu0=new THREE.Group(), fu1=new THREE.Group(); fu0.name='furniture0'; fu1.name='furniture1'; fu1.position.y=Y1; fu0.userData.dyn=true; fu1.userData.dyn=true; lv0.add(fu0); lv1.add(fu1); const up1=fu1; const grpOf=lv=>lv?fu1:fu0; const dummy={blockRect(){}};
++    const doorBins=[new TK.Bin(),new TK.Bin()], doorItems=[];   /* 關著的門的木板（備用）：一層一組，換成門模組時整組藏起來 */
+     // 教室：黑板、講桌、學生桌；互動：看教室（門口）
+     for(const r of L.rooms){ const y=r.lv?Y1:0, bb=bins[r.lv];
+       /* 關著的房間：門板在 doorZ 那一道牆的外側（走廊那一側），門口的說明在牆外 0.9 m（原本一律放在 z0 那一側：洗手間的門口說明跑到建築外面、走不到）*/
+-      if(r.kind==='closed'){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; const dx=(r.door[0]+r.door[1])/2; bb.add(MAT.woodD(),TK.boxG(r.door[1]-r.door[0]-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13);
++      if(r.kind==='closed'){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; const dx=(r.door[0]+r.door[1])/2, dw=r.door[1]-r.door[0];
++        if(Math.abs(dw-DOOR_W)<0.02){ doorBins[r.lv|0].add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13); doorItems.push({lv:r.lv|0,x:dx,z:dz,out,text:r.plate||String(r.label||'').replace(/（.*?）/g,'').trim()}); }   /* 載入門模組以後藏起來（doorsGLB）*/
++        else bb.add(MAT.woodD(),TK.boxG(dw-0.1,2.3,0.06),dx,y+1.15,dz+out*0.13);
+         /* link：門後面是通到別棟的空橋（普通二樓 ⇄ 博雅二樓，方案 A）——按了就走過去（區域切換、落在對面那棟的二樓）；其他關著的房間：門口的說明 */
+         if(r.link) IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); else IT.push({x:dx,z:dz+out*0.9,radius:1.0,lv:r.lv,label:r.label,look:r.look}); continue; }
+       if(r.kind==='passage'){ if(r.link&&r.linkDoor) IT.push({x:r.linkDoor.x,z:(r.linkDoor.z>0?1:-1)*(L.D/2-0.6),radius:0.8,lv:r.lv,label:r.link.label,exit:{to:r.link.to,spawn:Object.assign({},r.link.spawn)}}); continue; }   /* 打開的通道（往空橋）：沒有門板；博雅那一端的玻璃門＝走上空橋 */
+@@ -206,7 +227,9 @@ const TB3=(function(){
+       IT.push({x:st.x,z:st.z,radius:0.8,lv:st.lv,label,seat:st,study:st.kind!=='bench'}); }
+     mergeFurniture(fu0); mergeFurniture(fu1);   /* 2026-10-13 LAWWW2 審查：博雅空著每個畫面 570–810 次 draw call——每張椅子、桌子各自是網格 */
+     for(const s of swap) if(s) mergeFurniture(s); furnitureGLB(zone,swap,swapItems);
+-    b0.build(fb0); b1.build(fb1); return seats; }
++    b0.build(fb0); b1.build(fb1);
++    const doorFb=[fb0,fb1].map((fb,lv)=>{ if(!doorItems.some(it=>it.lv===lv)) return null; const gd=new THREE.Group(); gd.name='door_fallback'; fb.add(gd); doorBins[lv].build(gd); return gd; });
++    doorsGLB(zone,[fb0,fb1],doorFb,doorItems,Y1); return seats; }
+   /* 一層的桌椅（Z3.desk／Z3.chair、小圓桌，userData.furn）合成每種材質一個網格：位置、樣子不變，只是少畫很多次。座位、導航、互動點是資料，不受影響 */
+   function mergeFurniture(grp){ const fs=grp.children.filter(o=>o.userData&&o.userData.furn); if(fs.length<2) return; const tmp=new THREE.Group(); grp.add(tmp); for(const o of fs) tmp.add(o); const m=W3.mergeGroup(tmp); grp.remove(tmp); m.name='furniture'; grp.add(m);
+     tmp.traverse(o=>{ if(o.isMesh&&o.geometry) o.geometry.dispose(); }); }
+diff --git a/tests/teach_doors_unit.js b/tests/teach_doors_unit.js
+new file mode 100644
+index 00000000..c1573198
+--- /dev/null
++++ b/tests/teach_doors_unit.js
+@@ -0,0 +1,68 @@
++// 共同教學館關著的房間（洗手間、203）的門＝furniture_study.glb 的門模組（ART-02）——不需要瀏覽器。
++// 原本：src/teach3d.js 在牆的走廊那一面貼一塊木板（BoxGeometry），沒有門框、門牌。共同教學館沒有正式室內殼，所以玩家看到的一直是那塊板。
++// 做法：寬 1.2 m 的門換成模組的門框＋關著的門片＋門牌（字由遊戲畫）；牆沒有開口，門片貼在走廊那一面、門框往走廊移，門片凹進門框 1.5 cm。
++// 這裡在 Node 建出三棟教學館（程序化備用＋從 GLB 讀出門模組的真正網格），檢查：
++//  ①換上門模組、木板藏起來（修改前沒有門模組＝FAIL）②每扇門的門片、門框、門牌和牆的相對位置（沒有插進牆、沒有凸到房間裡、門片在門洞寬度裡、門牌在牆上）
++//  ③門牌的字 ④導航、互動點和沒換之前一樣 ⑤門模組放在備用模型群組裡（博雅、普通的正式室內殼載入後跟著藏起來）。
++// 用法：node tests/teach_doors_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/gongtong_layout.js','src/data/boya_layout.js','src/data/putong_layout.js','src/teach3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|LL3|TB3|LINZE_LAYOUT|CLASSROOM_LAYOUT|LAWLIB_LAYOUT|GONGTONG_LAYOUT|BOYA_LAYOUT|PUTONG_LAYOUT|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; let tag=''; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+tag+name+(info?'　'+info:'')); if(!ok) fails++; };
++/* furniture_study.glb 的網格（只讀位置和索引；貼圖在 Node 讀不了）：照 glTF 的 accessor 自己讀 */
++function glbMeshes(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8), out={};
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0);
++    const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  for(const nd of J.nodes){ if(nd.mesh==null) continue; const g=new THREE.BufferGeometry(); const pr=J.meshes[nd.mesh].primitives[0]; g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1));
++    const m=new THREE.Mesh(g,new THREE.MeshStandardMaterial()); m.name=nd.name; out[nd.name]=m; } return out; }
++const GLB=path.join(ROOT,'assets/models/env/second_ai/furniture_study.glb'), meshes=glbMeshes(GLB);
++const scene=new THREE.Group(); for(const k in meshes) scene.add(meshes[k]);
++let loads=[]; ASSETS.loadOne=k=>{ if(k!=='prop.furniture_study') return new Promise(()=>{}); const p=Promise.resolve({scene}); loads.push(p); return p; };   /* 只給家具模組；正式室內殼不載（＝共同教學館的實際情況）*/
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++const WT=0.2, wb=new THREE.Box3(), vis=o=>{ for(let p=o;p;p=p.parent) if(p.visible===false) return false; return true; };
++(async()=>{
++  for(const id of ['gongtong','boya','putong']){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; loads=[];
++    const L=Z3.ZONES[id].build?null:null; const z=Z3.ZONES[id].build(E); const Ly=z.layout; tag='['+Ly.name+'] '; if(P3.mergeStatic&&!Z3.ZONES[id].noMerge) P3.mergeStatic(z.group);
++    const doors=Ly.rooms.filter(r=>r.kind==='closed'&&Math.abs(r.door[1]-r.door[0]-1.2)<0.02);
++    const navBefore=[]; for(const r of doors){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; navBefore.push(E.canStand((r.door[0]+r.door[1])/2,dz+out*0.9,0.32,r.lv)); }
++    const itBefore=E.interactables.length;
++    await Promise.all(loads); await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
++    const glbs=[]; z.group.traverse(o=>{ if(o.name==='doors_glb') glbs.push(o); }); const fbs=[]; z.group.traverse(o=>{ if(o.name==='door_fallback') fbs.push(o); });
++    if(id==='gongtong') check('關著的門換成門模組（'+doors.map(r=>r.id).join('、')+'）、木板藏起來',doors.length===3&&glbs.length===2&&fbs.length===2&&fbs.every(f=>!f.visible)&&glbs.every(vis),`門 ${doors.length}、門模組群組 ${glbs.length}、木板群組 ${fbs.length}（看得到 ${fbs.filter(vis).length}）`);
++    else check('寬 1.2 m 的關門（'+doors.length+' 扇）有門模組',glbs.reduce((n,g)=>n+g.children.filter(c=>c.isInstancedMesh&&c.name==='door_leaf_closed').reduce((a,c)=>a+c.count,0),0)===doors.length);
++    /* 每扇門：照實例矩陣算出門框、門片、門牌在世界座標的範圍，和牆比 */
++    /* 門片本身（不含兩面的把手、觀景窗、踢腳板）：門片是一個方塊，頂點只在上下緣——取離地 1.8 cm 以下、2.33 m 以上的頂點（踢腳板從 2 cm 起、把手在 1 m）*/
++    const coreBox=g=>{ const P=g.attributes.position, bx=new THREE.Box3(), v=new THREE.Vector3(); for(let i=0;i<P.count;i++){ v.fromBufferAttribute(P,i); if(v.y<0.018||v.y>2.33) bx.expandByPoint(v); } return bx; };
++    const inst={}; for(const g of glbs) for(const c of g.children) if(c.isInstancedMesh){ for(let i=0;i<c.count;i++){ const M=new THREE.Matrix4(); c.getMatrixAt(i,M); M.premultiply(c.matrixWorld); const bx=c.geometry.boundingBox||(c.geometry.computeBoundingBox(),c.geometry.boundingBox); (inst[c.name]=inst[c.name]||[]).push(bx.clone().applyMatrix4(M));
++      if(c.name==='door_leaf_closed') (inst.leaf_core=inst.leaf_core||[]).push(coreBox(c.geometry).applyMatrix4(M)); } }
++    const texts=[]; for(const g of glbs) for(const c of g.children) if(c.name==='door_plate_text') texts.push(c);
++    let bad=[]; for(const r of doors){ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1, dx=(r.door[0]+r.door[1])/2, y0=r.lv?Ly.floors[1].y:0, wf=dz+out*WT/2, wbk=dz-out*WT/2;
++      const near=bs=>(bs||[]).find(b=>{ const c=b.getCenter(new THREE.Vector3()); return Math.abs(c.z-dz)<0.4&&Math.abs(c.y-(y0+1.2))<1.5&&Math.abs(c.x-dx)<1.3; });
++      const lfAll=near(inst.door_leaf_closed), lf=near(inst.leaf_core), fr=near(inst.door_frame), pl=near(inst.door_plate); if(!lfAll||!lf||!fr||!pl){ bad.push(r.id+'：找不到門片／門框／門牌'); continue; }
++      const zin=b=>out>0?b.min.z:-b.max.z, zout=b=>out>0?b.max.z:-b.min.z, f=v=>out>0?v:-v;   /* 沿著「往走廊」的方向量 */
++      if(zin(lf)<f(wf)+0.001) bad.push(r.id+'：門片插進牆裡（門片背面 '+(zin(lf)-f(wf)).toFixed(4)+' m）');
++      if(zout(fr)-zout(lf)<0.01) bad.push(r.id+'：門片沒有凹進門框（差 '+(zout(fr)-zout(lf)).toFixed(4)+' m）');
++      if(zin(fr)<f(wbk)+0.005) bad.push(r.id+'：門框凸到房間那一面');
++      if(zin(lfAll)<f(wbk)+0.005) bad.push(r.id+'：門片背面的把手穿到房間那一面');
++      if(lf.min.x<r.door[0]-0.001||lf.max.x>r.door[1]+0.001) bad.push(r.id+'：門片超出門洞寬度');
++      if(Math.abs(zin(pl)-f(wf))>0.003) bad.push(r.id+'：門牌沒貼在牆面（差 '+(zin(pl)-f(wf)).toFixed(4)+'）');
++      const wall=Ly.walls.find(w=>(w.lv|0)===(r.lv|0)&&Math.abs(w.z0-dz)<1e-6&&Math.abs(w.z1-dz)<1e-6&&Math.min(w.x0,w.x1)<=pl.min.x&&Math.max(w.x0,w.x1)>=pl.max.x);
++      if(!wall) bad.push(r.id+'：門牌不在那一道牆的範圍裡'); else if((wall.gaps||[]).some(([a,b])=>pl.max.x>Math.min(a,b)&&pl.min.x<Math.max(a,b))) bad.push(r.id+'：門牌在牆的開口上');
++      if(fr.max.y>y0+(r.lv?(Ly.roofY-Ly.floors[1].y):Ly.ceil0)) bad.push(r.id+'：門框高過天花板');
++      const tx=texts.find(t=>t.position.distanceTo(pl.getCenter(new THREE.Vector3()))<0.05); if(!tx) bad.push(r.id+'：門牌沒有字'); else { const want=String(r.plate||r.label).replace(/（.*?）/g,'').trim(); const key=Object.keys(W3).length&&tx.material.map&&tx.material.map.image?'':''; if(f(tx.position.z)<zout(pl)-0.0005) bad.push(r.id+'：字在門牌面後面'); tx.userData.want=want; } }
++    check('門片貼在走廊那一面（不插進牆）、凹進門框、門框和背面的把手沒凸到房間裡、門片在門洞寬度裡、門牌貼在牆上（不在開口上）、門框低於天花板、門牌有字',!bad.length,bad.slice(0,4).join('；')||(doors.length+' 扇'));
++    if(id==='gongtong'){ const want=['洗手間','洗手間','共同 203']; const got=texts.map(t=>t.userData.want).sort(); check('門牌的字：'+want.join('、'),JSON.stringify(got)===JSON.stringify(want.slice().sort()),got.join('、')); }
++    const navAfter=doors.map(r=>{ const dz=r.doorZ!=null?r.doorZ:r.z0, out=Math.abs(dz-r.z1)<1e-6?1:-1; return E.canStand((r.door[0]+r.door[1])/2,dz+out*0.9,0.32,r.lv); });
++    check('門口站得住、互動點數量不變（門模組不改導航和互動）',JSON.stringify(navBefore)===JSON.stringify(navAfter)&&navAfter.every(Boolean)&&E.interactables.length===itBefore,`站得住 ${navAfter.filter(Boolean).length}/${navAfter.length}、互動點 ${itBefore}→${E.interactables.length}`);
++    const under=glbs.every(g=>{ for(let p=g.parent;p;p=p.parent) if(p.name==='fallback0'||p.name==='fallback1') return true; return false; });
++    check('門模組放在備用模型群組（fallback0／fallback1）裡：正式室內殼載入後跟著藏起來',under&&glbs.length>0);
++  }
++  console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++})();
