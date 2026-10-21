@@ -12812,8 +12812,8 @@
    "what": "ART-BALCONY-POTS 陽台盆栽從街上看得到（溫州街＋公館）：鐵花架＋葉子調亮；wenzhou_street.glb／.json、gongguan_shops.glb／.json（物件、材質數不變，三角形 +288／+480）；遊戲內前後對照 test_shots/balcony_pots_1021/",
    "task": "ART-BALCONY-POTS",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）16:5x 整合 e8b82e4a（四個模型檔＋wz_street.py 從 d0058082；json 只有三角形、位元組數不同）；溫州街／公館單元測試全過；READY_FOR_ART_REVIEW；BB 畫面驗收"
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）16:5x 整合 e8b82e4a（四個模型檔＋wz_street.py 從 d0058082；json 只有三角形、位元組數不同）；溫州街／公館單元測試全過；READY_FOR_ART_REVIEW；BB 畫面驗收｜BB 17:20 PASS（fa2f620f）"
   },
   {
    "id": "DL-LAWWW2-6437fcf6",
@@ -12838,8 +12838,8 @@
    "what": "體育館 1F 白色光柱（BB_218）：gym_court_floor 粗糙度 0.32→0.6（gym_interior.glb 只差 14 bytes）；查明是引擎補光 E.fill 的鏡面高光；對照 test_shots/gym_floor_haze_1021/",
    "task": "BUG-GYM-LIGHT-LOAD-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）17:1x 整合 1cd80a95（GLB＋gym_interior.py）；gym_unit ALL PASS；BB 重拍（20:30、13:00、讀檔直接進）；引擎端（補光不產生鏡面高光）另開 ENGINE-FILL-SPEC-1021"
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）17:1x 整合 1cd80a95（GLB＋gym_interior.py）；gym_unit ALL PASS；BB 重拍（20:30、13:00、讀檔直接進）；引擎端（補光不產生鏡面高光）另開 ENGINE-FILL-SPEC-1021｜BB 17:27 FIXED（2556183c）"
   }
  ],
  "ignored": [
