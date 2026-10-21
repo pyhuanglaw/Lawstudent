@@ -21782,6 +21782,103 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工"
+  },
+  {
+   "id": "BACKLOG-SWEEP-1021",
+   "title": "全面補完歷史遺留（統籌）：LAWWW 清查已交付沒實作、已實作沒整合的程式任務並整合修復；總表去重、補證據、結案、派下一步；回報使用者五項",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 2026-10-21 08:43（UA-LAWWW-1021-02，USER_WANTS X88）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "全學年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21T08:43】開工"
+  },
+  {
+   "id": "BACKLOG-SWEEP-AA-1021",
+   "title": "AA 清查大一～大四與交換學期的企劃缺漏（寒暑假、閒聊階梯、人物事件、感情線、結局、日期矛盾、角色所在地、口氣）；已批准的直接完成",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 2026-10-21 08:43（UA-LAWWW-1021-02，USER_WANTS X88）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "全學年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21T08:43】開工",
+   "xai": {
+    "spec": "使用者 10-21 原話（user_asks_LAWWW.json UA-LAWWW-1021-02）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "缺漏逐項對到總表任務（有就補證據、沒有就開任務交 LAWWW）；已批准的企劃寫完交付",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BACKLOG-SWEEP-BB-1021",
+   "title": "BB 依三級測試自行驗收：完整學年流程、不同感情路線、交換學期、存讀檔、跨日、人物出現條件、手機事件、卡關；單元／模擬器／瀏覽器流程分開記錄，不宣稱 iPhone 實機",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 2026-10-21 08:43（UA-LAWWW-1021-02，USER_WANTS X88）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "全學年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21T08:43】開工",
+   "xai": {
+    "spec": "使用者 10-21 原話（user_asks_LAWWW.json UA-LAWWW-1021-02）",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "每項結果寫 ✔／✘／PARTIAL＋重現步驟＋commit；✘ 直接傳 LAWWW",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "BACKLOG-SWEEP-LAWWW2-1021",
+   "title": "LAWWW2 清查未完成的建築、室內、模型、導航、碰撞、燈光、效能工作與各帳號留下的 WIP；確認已整合／要繼續做",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "使用者 2026-10-21 08:43（UA-LAWWW-1021-02，USER_WANTS X88）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "全學年",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21T08:43】開工",
+   "xai": {
+    "spec": "使用者 10-21 原話（user_asks_LAWWW.json UA-LAWWW-1021-02）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每項對到總表任務（已整合補證據、未完成寫下一步）；WIP 進 wip.json",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
