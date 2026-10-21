@@ -1013,6 +1013,37 @@
    "state": "已整合的證據（D 節 11 項請改狀態、E 節 outbox 55 筆）；未完成 10 項排進 LAWWW2 佇列（A 節）；6 項要 LAWWW-C 決定（C 節，含日本 3D 和使用者 10-18「全 2D」衝突）；舊 WIP 分支沒有獨有成果（F 節）",
    "remaining": "A 節 10 項；沒有重跑瀏覽器測試、沒有實機",
    "next": "LAWWW-C 改任務表狀態（D 節）、回 C 節；LAWWW2 從 A1 體育館光暈開始"
+  },
+  {
+   "task": "GYM-GLOW-COPLANAR-1021：體育館 1F／B1 的燈光暈＋疊面（清查 A1、A2）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gym_glow_batch.diff",
+    "assets/models/env/second_ai/gym_interior.glb",
+    "assets/models/env/second_ai/gym_interior.json",
+    "assets/models/env/second_ai/gym_b1.glb",
+    "assets/models/env/second_ai/gym_b1.json",
+    "tools/blender/env_second/gym_interior.py",
+    "tools/blender/env_second/gym_b1.py",
+    "docs/art-rebuild/second_ai/test_shots/gym_glow_1021/README.md"
+   ],
+   "state": "MODEL_READY＋patch（src/gym3d.js、src/zones3d.js；套在開發分支 7baa4587～382236a5 都可以）；我的測試工作樹 INTEGRATED：gym_unit、reachability_all --zones gym,gym_b1 ALL PASS（Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW，BB-C 畫面驗收待做",
+   "remaining": "B1 健身房牆面單調（P3）；iPhone 實機沒測",
+   "next": "LAWWW-C 套 patch＋換 GLB；BB-C 畫面驗收"
+  },
+  {
+   "task": "ART-02 教室門模組：結案證據（LAWWW-C 10-21 09:29Z：可以結案，證據寫 outbox）",
+   "branch": "claude/adoring-meitner-mqzst8（開發分支）",
+   "sha": "55b67ccf、5a6990dd",
+   "files": [
+    "src/teach3d.js",
+    "assets/models/env/second_ai/boya_interior.glb",
+    "assets/models/env/second_ai/putong_interior.glb"
+   ],
+   "state": "已整合：博雅、普通教學館室內 GLB 在 v9.10.1（55b67ccf）接進遊戲，兩個 GLB 各有 L0_door ×2、L1_door ×2、tb_door 節點；teach3d.js 開頭寫「關著的房間有門、互動寫清楚（不用隱形牆）」；5a6990dd 換掉博雅→普通空橋的木門。原本 ART-02 要的「教室門模組」已由正式室內 GLB 取代",
+   "remaining": "無",
+   "next": "LAWWW-C 改任務表 ART-02 為結案（被正式室內 GLB 取代）"
   }
  ]
 }

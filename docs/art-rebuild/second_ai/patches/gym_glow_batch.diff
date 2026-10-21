@@ -1,0 +1,67 @@
+diff --git a/src/gym3d.js b/src/gym3d.js
+index c55908ea..829c9875 100644
+--- a/src/gym3d.js
++++ b/src/gym3d.js
+@@ -14,6 +14,10 @@ const GY3=(function(){
+     gym_notice:'公告欄：系際盃籃球賽報名、羽球場借用規則、體適能檢測、游泳池冬季開放、失物招領。最下面一張：球場內禁止飲食。',
+     gym_directory:'樓層指引：3F 主球場／1F 多功能球場（目前位置：1F 大廳）／B1 健身中心・游泳池。'
+   };
++  /* GLOW_* 空節點（userData.glow：顏色、大小、白天／晚上的亮度）＝燈的光暈：體育館的兩個 GLB 都有（1F 50 個：天井燈、天窗、筒燈、販賣機；B1 69 個：泳池、健身房、走廊），原本沒有接（LAWWW2-C 2026-10-21 清查 A1）。
++     合成一個網格（Z3.glowBatch，和溫州街、公館的正式模型同一套：一次 draw call）；室內沒有 TK.setNight，所以照路燈開了沒（z.onLamps）切白天／晚上的亮度；離鏡頭 3 m 以內淡出（B1 天花板 3.6 m，頭頂的燈原本撐滿畫面） */
++  function glowBatch(E,z,g0,root,name){ if(!Z3.glowBatch) return null; const gl=[]; root.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(!gl.length) return null;
++    const mesh=Z3.glowBatch(E,g0,root,gl,name,3.0); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; return mesh; }
+   /* 導航：配置的阻擋＋大廳和球場之間的牆（三個 4 m 的開口以外）*/
+   function buildNav(Ly,nav){ for(const b of Ly.blocks){ const tiny=b[2]<0.4&&b[3]<0.4; nav.blockRect(b[0],b[1],tiny?0.4:b[2],tiny?0.4:b[3],0,0.05); }   /* 羽球網柱（0.12 m 見方）比導航格（0.4 m）細：至少擋一格。閘門柱（0.12×0.9）照舊：放大會把 1.2 m 的通道擋掉 */
+     const P=Ly.partition, xs=[Ly.hall.x0]; for(const [a,b] of P.openings){ xs.push(a,b); } xs.push(Ly.hall.x1);
+@@ -85,7 +89,7 @@ const GY3=(function(){
+     IT.push({x:Ly.exit.at.x,z:18.5,radius:0.8,lv:0,label:Ly.exit.label,exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 出生點 z 17.6：出口範圍 0.8 m，一進來不會先看到「離開」*/
+     // 正式模型（GLB）：第二會場平常藏起來；樓梯口的告示畫字
+     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_interior']){ ASSETS.loadOne('bldg.gym_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+-      Z3.attachRoomGLB(z,g0,fb,root);
++      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_glows');
+       const sh=root.getObjectByName('SET_SECONDHALL'); if(sh) sh.visible=false;   /* 畢業典禮那天才打開（打開時導航加 sets.second_hall.blocks；下一階段）*/
+       const nets=root.getObjectByName('SET_NETS'); if(nets) nets.visible=!secondHallOn(typeof GAME!=='undefined'?GAME.G:null);   /* 羽球網（LAWWW2-B f1e732f8；BB_151 第 6 節）：第二會場打開的日子收起來 */
+       root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='PLATE_FACE_gym_stairs_up') paintPlate(o,['3F 主球場','今日不開放']); else if(o.name==='PLATE_FACE_gym_stairs_down') paintPlate(o,['B1','游泳池・健身中心']);   /* B1 開了（9ee41835）：不再寫今日不開放 */
+@@ -137,7 +141,7 @@ const GY3=(function(){
+     const IT=E.interactables; z.seats=[]; for(const [x,zz] of B.poolBenches){ const seat={x,z:zz-0.1,yaw:Math.PI}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x,z:zz-0.1,radius:0.8,lv:0,label:'坐在池邊的長椅',seat}); }   /* 面向北邊的泳池 */
+     IT.push({x:B.exit.at.x,z:B.exit.at.z,radius:0.6,lv:0,label:B.exit.label,exit:{to:'gym',spawn:{x:16.8,z:18.4,yaw:0}}});   /* 回 1F：落點在「下樓到 B1」範圍外；面向大廳（原本 π 面向剛上來的樓梯井，BB-C X64）*/
+     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
+-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
++    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+   return {gym,gym_b1,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+ })();
+diff --git a/src/zones3d.js b/src/zones3d.js
+index d4bb5bd0..622699a8 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1100,7 +1100,7 @@ const Z3 = (function(){
+   /* 光暈合成一個網格：每個光暈是面向鏡頭的四邊形（和 Sprite 同樣的算法：中心點換到鏡頭座標、再往上下左右展開），貼圖是白色的放射漸層 × 頂點色；
+      亮度＝白天值、晚上值照夜間程度內插（材質登記在 TK 的夜間清單、白天 0 晚上 1，emissiveIntensity 就是夜間程度；shader 讀它），太暗（≤ 0.02）的不畫，和 Sprite 一樣；
+      全部都太暗的時候整個網格不畫（白天不多一次 draw call）。userData.glowBatch.items：每個光暈的位置、大小、白天、晚上的亮度（測試用） */
+-  function wzGlowBatch(E,g,root,glows,name){ root.updateMatrixWorld(true); const v=new THREE.Vector3(), c=new THREE.Color(); const n=glows.length;
++  function wzGlowBatch(E,g,root,glows,name,nearFade){ root.updateMatrixWorld(true); const v=new THREE.Vector3(), c=new THREE.Color(); const n=glows.length;
+     const pos=new Float32Array(n*12), cor=new Float32Array(n*8), uv=new Float32Array(n*8), siz=new Float32Array(n*4), col=new Float32Array(n*12), op=new Float32Array(n*8), idx=[]; const items=[]; let maxS=0, maxD=0, maxN=0;
+     glows.forEach((o,i)=>{ const d=o.userData, s=d.size||1.4; g.worldToLocal(o.getWorldPosition(v)); const a=/rgba\([^)]*,\s*([\d.]+)\s*\)/.exec(d.glow||''), al=a?+a[1]:1;   /* rgba 的透明度乘進亮度（放射漸層從這個顏色淡到透明） */
+       c.setStyle(String(d.glow||'#ffffff').replace(/rgba\(([^,]+),([^,]+),([^,]+),[^)]*\)/,'rgb($1,$2,$3)')); const dO=(d.day||0)*al, nO=(d.night==null?1:d.night)*al;
+@@ -1113,9 +1113,10 @@ const Z3 = (function(){
+     const map=TK.tex('rad_glowWhite',128,128,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gr; x.fillRect(0,0,w,h); },false); map.userData.shared=true;
+     const m=new THREE.MeshBasicMaterial({map,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}); m.name='wz_glow_batch';
+     TK.addNight(m,1,0); m.emissiveIntensity=E.lampsOn?1:0;   /* emissiveIntensity＝夜間程度（MeshBasicMaterial 本身不用這個值）；一開始照路燈開了沒，和原本的 Sprite 一樣 */
+-    m.onBeforeCompile=sh=>{ sh.uniforms.uNightK={get value(){ return m.emissiveIntensity; }};
+-      sh.vertexShader='attribute vec2 aCorner;\nattribute float aSize;\nattribute vec2 aOp;\nuniform float uNightK;\nvarying float vGlowOp;\n'+sh.vertexShader
+-        .replace('#include <project_vertex>','vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tmvPosition.xy += aCorner * aSize;\n\tgl_Position = projectionMatrix * mvPosition;\n\tvGlowOp = mix( aOp.x, aOp.y, uNightK );');
++    /* nearFade（公尺，體育館 B1 的低天花板用；預設 0＝不淡出）：光暈離鏡頭比這個近就淡掉——面向鏡頭的板子在頭頂 1～2 m 會撐滿半個畫面 */
++    m.onBeforeCompile=sh=>{ sh.uniforms.uNightK={get value(){ return m.emissiveIntensity; }}; sh.uniforms.uNearFade={value:nearFade||0};
++      sh.vertexShader='attribute vec2 aCorner;\nattribute float aSize;\nattribute vec2 aOp;\nuniform float uNightK;\nuniform float uNearFade;\nvarying float vGlowOp;\n'+sh.vertexShader
++        .replace('#include <project_vertex>','vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tmvPosition.xy += aCorner * aSize;\n\tgl_Position = projectionMatrix * mvPosition;\n\tvGlowOp = mix( aOp.x, aOp.y, uNightK ) * ( uNearFade > 0.0 ? smoothstep( uNearFade * 0.4, uNearFade, -mvPosition.z ) : 1.0 );');
+       sh.fragmentShader='varying float vGlowOp;\n'+sh.fragmentShader.replace('vec4 diffuseColor = vec4( diffuse, opacity );','if ( vGlowOp <= 0.02 ) discard;\n\tvec4 diffuseColor = vec4( diffuse, opacity * vGlowOp );'); };
+     m.customProgramCacheKey=()=>'wzGlowBatch1';
+     const mesh=new THREE.Mesh(geo,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=false; mesh.renderOrder=1;   /* 光暈都在玻璃外面（騎樓燈、燈箱、直立招牌）：畫在半透明的玻璃之後，不被玻璃蓋暗 */
+@@ -1651,5 +1652,5 @@ const Z3 = (function(){
+     return zone; }
+   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
+   const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
+-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+ })();
