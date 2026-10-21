@@ -202,5 +202,10 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
     fresh('2026-02-16',17.1,'dorm',{}); let went=0; const g0=HOME.eveGo; HOME.eveGo=async()=>{ went++; G.zone='home'; return true; };
     const before=now(); const r=await HOME.ffMenu(GM,'dorm'); HOME.eveGo=g0;
     check('HOLFF-EVE-SKIP：除夕 17:00 以後在宿舍點「快轉」＝先回家（eveGo），時間不往前跳',r===true&&went===1&&now()===before,JSON.stringify({r,went,dt:now()-before})); }
+  { // AA_350 O1：停的那一站日期卡有專用句（摘要日）＝一張卡一句，不接輪替旁白
+    fresh('2026-01-10',8.5,'dorm',{}); const H=HOME.rec(G); const B=HOME.lawBreak(G); H.bskipD={key:B.key,n:0,last:-1};
+    picks=['到下一個有事的日子']; said=[]; cards=[]; await HOME.ffMenu(GM,'dorm');
+    const at=Tm(G.day,G.hour), sp=cards.find(c=>/寒假第四週。你把上學期的筆記重新整理了一次/.test(c[1]||'')), extra=said.filter(x=>!x.who).map(x=>x.t);
+    check('AA_350 O1：快轉停在 1/14 18:30 摘要日：日期卡是專用句，後面不再接宿舍的輪替旁白',G.day===D('2026-01-14')&&Math.abs(G.hour-18.5)<1e-6&&!!sp&&!extra.some(t=>/寒假的宿舍|年前|棉被/.test(t)),JSON.stringify({day:G.day,h:G.hour,cards,extra})); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

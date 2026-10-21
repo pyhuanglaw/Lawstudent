@@ -344,7 +344,7 @@ const HOME=(function(){
       const d0=G.day, t0=T(G.day,G.hour); let t1=t0, rl=null;
       for(let k=0;k<40;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=rl||G.flags._repSkipLine; G.flags._repSkipLine=null;
         if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,o.to)) break; }   /* H2（AA_340 6-1；D103）：跳的途中收到要回的訊息＝停在那一刻、打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子 */
-      { const l=rl||S.breakSkipLine(G,t0,t1,{dorm}); if(l) await GM.say(null,l); }   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
+      { const l=rl||(S.cardLine(G,t1,{dorm})?null:S.breakSkipLine(G,t0,t1,{dorm})); if(l) await GM.say(null,l); }   /* AA_350 O1：停的那一站日期卡有專用句（2/5、8/25 等摘要日）＝一張卡一句，不再接輪替句 */   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */
       return true; }
     finally{ if(dorm) GM.sceneEnd(); } };
