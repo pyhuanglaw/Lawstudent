@@ -201,7 +201,7 @@
    "ack": "SENT"
   },
   {
-   "task": "AA215-ROMANCE",
+   "task": "ROM-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "0297b1e0",
    "files": [
@@ -213,12 +213,13 @@
    "next": "AA-C 分工 → BB 照 D81 從大一上開始補",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：AA215-ROMANCE"
   },
   {
-   "task": "AA215-ROMANCE",
+   "task": "ROM-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "0a11a9d5",
    "files": [
     "docs/story_planning/BB_186_大一上交往中_芷若子晴.md"
    ],
@@ -227,12 +228,13 @@
    "next": "AA 核對時間線 → 交 LAWWW；大一下 Z3～Q6 交往版下一批",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：AA215-ROMANCE；原 sha：(本 commit)"
   },
   {
-   "task": "AA215-ROMANCE",
+   "task": "ROM-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "47ea6395",
    "files": [
     "docs/story_planning/BB_187_大一下交往中_芷若子晴.md"
    ],
@@ -241,12 +243,13 @@
    "next": "AA 核對 → 交 LAWWW；大二上下一批",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：AA215-ROMANCE；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION",
+   "task": "LIFE-LINE-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "4b1c49ca",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
     "docs/story_planning/BB_188_附錄_重考主線盤點.md"
@@ -256,12 +259,13 @@
    "next": "AA-C 併入《祐廷人生主線修訂提案》給使用者",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION v2（AA_218）",
+   "task": "LIFE-LINE-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "1408a6f0",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
     "docs/story_planning/BB_122_溫學姊戀愛線v2_分手前後與重新開始.md",
@@ -272,12 +276,13 @@
    "next": "AA-C 併入 AA_218 給使用者；使用者確認後 BB 逐句定稿，LAWWW 實作 A4 替換稿",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION v2（AA_218）；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION 第二批（AA_218 第 9 節）",
+   "task": "LIFE-LINE-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "d615a1a6",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
     "docs/story_planning/BB_183_美國交換改大四上_學姊與BB人物改法.md"
@@ -287,12 +292,13 @@
    "next": "AA-C 審後交使用者／LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION 第二批（AA_218 第 9 節）；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION 第三批（AA_218 第 10 節）",
+   "task": "LIFE-LINE-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "847ea3a4",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md"
    ],
@@ -301,12 +307,13 @@
    "next": "AA-C 審後交使用者／LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION 第三批（AA_218 第 10 節）；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION AA_218 第 12 節（感冒週、重訪日 1/2、E35、10/17 時段、隱私措辭）",
+   "task": "LIFE-LINE-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "8105d618",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md",
     "docs/story_planning/BB_00_協作規範與交接紀錄.md"
@@ -316,12 +323,13 @@
    "next": "AA-C 審",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION AA_218 第 12 節（感冒週、重訪日 1/2、E35、10/17 時段、隱私措辭）；原 sha：(本 commit)"
   },
   {
-   "task": "YT-LIFE-REVISION AA_218 第 13 節（高中校慶 A、社群 B、通識課 C、W0/W1 核對）",
+   "task": "LIFE-HS-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "9119467b",
    "files": [
     "docs/story_planning/BB_188_祐廷人生主線修訂_BB人物與台詞提案.md"
    ],
@@ -330,12 +338,13 @@
    "next": "AA-C 審；LAWWW 檢查高中版造型與 Life Album",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：YT-LIFE-REVISION AA_218 第 13 節（高中校慶 A、社群 B、通識課 C、W0/W1 核對）；原 sha：(本 commit)"
   },
   {
-   "task": "AA215-ROMANCE 第三批：大二交往中（芷若 Z7/Z7b/Z8/Z9、子晴 Q7/Q8/Q9、摘要日）",
+   "task": "ROM-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "e6db8302",
    "files": [
     "docs/story_planning/BB_189_大二交往中_芷若子晴.md"
    ],
@@ -344,12 +353,13 @@
    "next": "AA-C 核時間線後交 LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：AA215-ROMANCE 第三批：大二交往中（芷若 Z7/Z7b/Z8/Z9、子晴 Q7/Q8/Q9、摘要日）；原 sha：(本 commit)"
   },
   {
-   "task": "DATE-S6 預約句子＋DATE_PREFS（BB 五位）",
+   "task": "DATE-S6",
    "branch": "claude/wonderful-mayer-7fm9g6",
-   "sha": "(本 commit)",
+   "sha": "8b7edfdf",
    "files": [
     "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
     "docs/story_planning/date_system/date_prefs_bb.json"
@@ -359,10 +369,11 @@
    "next": "LAWWW-C 接 DATE-S6",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：DATE-S6 預約句子＋DATE_PREFS（BB 五位）；原 sha：(本 commit)"
   },
   {
-   "task": "DATE-REVIEW-1017：D04/D06/D12/D13 BB 五位約會台詞照 AA_188 重審",
+   "task": "DATE-S6",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "74373b86 / 0542a02b / 84efdcc5 / e4f84942",
    "files": [
@@ -377,10 +388,11 @@
    "next": "AA-C 確認後交 LAWWW-C 匯入",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：DATE-REVIEW-1017：D04/D06/D12/D13 BB 五位約會台詞照 AA_188 重審"
   },
   {
-   "task": "使用者 P0 指示原文存檔（2026-10-17 多線戀愛、自然抓包、語彤雙主修）",
+   "task": "KNOWS-SPREAD-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "2343081c",
    "files": [
@@ -391,10 +403,11 @@
    "next": "無",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：使用者 P0 指示原文存檔（2026-10-17 多線戀愛、自然抓包、語彤雙主修）"
   },
   {
-   "task": "法服讀書會出席當條件的地方盤點（AA_218 17-3；只盤點不改）",
+   "task": "FAFU-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "e596654f",
    "files": [
@@ -405,10 +418,11 @@
    "next": "使用者決定 → BB 改條件、AA 改台詞 → LAWWW-C 實作",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：法服讀書會出席當條件的地方盤點（AA_218 17-3；只盤點不改）"
   },
   {
-   "task": "法服條件改寫（沒有讀書會／社課）＋以安讀書會改到大一上的觸發條件（AA_218 17-4）",
+   "task": "FAFU-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "ae9c0b03 / 2613fd15 / 152be8ab",
    "files": [
@@ -420,10 +434,11 @@
    "next": "AA 問使用者 7-2、寫台詞 → BB 改條件 → LAWWW-C 實作",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：法服條件改寫（沒有讀書會／社課）＋以安讀書會改到大一上的觸發條件（AA_218 17-4）"
   },
   {
-   "task": "D59 阿勳 3D 第六版驗收（要改，八點）",
+   "task": "ART-CH-XUN",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "c768fdc5",
    "files": [
@@ -434,10 +449,11 @@
    "next": "LAWWW2-C 改",
    "noDirectIntegrate": true,
    "receiver": "LAWWW2",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：D59 阿勳 3D 第六版驗收（要改，八點）"
   },
   {
-   "task": "使用者定案：沛珊讀書會併進公法讀書會（BB_191 8-7）；芷若子晴大一室友",
+   "task": "FAFU-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "5096a743",
    "files": [
@@ -450,10 +466,11 @@
    "next": "AA 台詞 → BB 整包交 LAWWW-C",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：使用者定案：沛珊讀書會併進公法讀書會（BB_191 8-7）；芷若子晴大一室友"
   },
   {
-   "task": "法服沒有讀書會＋沛珊柏翰併入公法讀書會＋以安讀書會大一上（BB_191 §7、§8、8-7）",
+   "task": "FAFU-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "5dcf26a1",
    "files": [
@@ -466,10 +483,11 @@
    "next": "LAWWW-C 實作（台詞 AA_222 bb83443d）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
+   "ack": "ACK",
+   "note": "原 task：法服沒有讀書會＋沛珊柏翰併入公法讀書會＋以安讀書會大一上（BB_191 §7、§8、8-7）；原 ack：ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
   },
   {
-   "task": "D59 品妤第五版驗收（要改）",
+   "task": "ART-CH-PINYU",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "5dcf26a1",
    "files": [
@@ -480,10 +498,11 @@
    "next": "LAWWW2-C 改",
    "noDirectIntegrate": true,
    "receiver": "LAWWW2",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：D59 品妤第五版驗收（要改）"
   },
   {
-   "task": "誰知道祐廷和可昕交往（knowsGF；BB_191 §9；AA_218 17-7/17-8）",
+   "task": "KNOWS-SPREAD-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "eadf01b7",
    "files": [
@@ -494,10 +513,11 @@
    "next": "AA 確認 → BB 改 BB_95/97/107/125 → 交 LAWWW-C（根源 romance3d.js KEXIN_KNOWN）",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：誰知道祐廷和可昕交往（knowsGF；BB_191 §9；AA_218 17-7/17-8）"
   },
   {
-   "task": "knowsGF 整包交 LAWWW-C（BB_191 §9-1～9-7）＋語彤不入法服",
+   "task": "KNOWS-SPREAD-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "08429294",
    "files": [
@@ -509,10 +529,11 @@
    "next": "LAWWW-C 實作（AA 檔 bd51750b）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
+   "ack": "ACK",
+   "note": "原 task：knowsGF 整包交 LAWWW-C（BB_191 §9-1～9-7）＋語彤不入法服；原 ack：ACKNOWLEDGED（LAWWW-C 08:12：v9.10 發布後的下一版做）"
   },
   {
-   "task": "學姊條件清理（AA_223 取代註記、SIS_HEALED 等作廢、沛珊她單身）＋★-8 不在群組主動說話",
+   "task": "ROM-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "d929ddf1 / c053db1c",
    "files": [
@@ -523,40 +544,43 @@
    "next": "AA",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：學姊條件清理（AA_223 取代註記、SIS_HEALED 等作廢、沛珊她單身）＋★-8 不在群組主動說話"
   },
   {
-   "task": "使用者 P0：子晴×芷若完整事件（BB_192）",
+   "task": "EVPKG-AA227-228-KNOW",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "5e2556a5 / b10e9701",
    "files": [
     "docs/story_planning/使用者指示_20261017_子晴芷若_私下約會雙重交往友情挽回_原文.md",
     "docs/story_planning/BB_192_子晴芷若_私下約會雙重交往友情挽回.md"
    ],
-   "state": "已交付（PROPOSAL）",
+   "state": "已交付",
    "remaining": "芷若挽回線台詞下一批；使用者確認",
    "next": "AA 核對日程 → 使用者確認 → LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：使用者 P0：子晴×芷若完整事件（BB_192）；原 state：已交付（PROPOSAL）"
   },
   {
-   "task": "使用者 P0：以安／書瑀／可昕完整事件（BB_193）",
+   "task": "EVPKG-AA227-228-KNOW",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "257fe7f1 / d38829b9",
    "files": [
     "docs/story_planning/使用者指示_20261017_以安書瑀可昕_私下約會知情告白劈腿挽回_原文.md",
     "docs/story_planning/BB_193_以安書瑀可昕_私下約會知情告白劈腿挽回.md"
    ],
-   "state": "已交付（PROPOSAL）",
+   "state": "已交付",
    "remaining": "書瑀可昕的知情來源待使用者；以安稱呼、書卷獎紀錄待 AA",
    "next": "AA 核對 → 使用者確認 → LAWWW",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：使用者 P0：以安／書瑀／可昕完整事件（BB_193）；原 state：已交付（PROPOSAL）"
   },
   {
-   "task": "BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、模板）",
+   "task": "STORY-AUDIT-1017",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "df8fc8df",
    "files": [
@@ -567,10 +591,11 @@
    "next": "AA 整合 AA_219",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、模板）"
   },
   {
-   "task": "BB_194 機制總表＋§13～22（AA_227/228 機制、使用者回覆、子晴芷若兩人都離開、沛珊消失、子晴河堤乙）",
+   "task": "EVPKG-AA227-228-KNOW",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "05571a45 … 163fd810",
    "files": [
@@ -581,10 +606,11 @@
    "next": "LAWWW 盤點 → 實作",
    "noDirectIntegrate": false,
    "receiver": "AA+LAWWW",
-   "ack": "ACKNOWLEDGED"
+   "ack": "ACK",
+   "note": "原 task：BB_194 機制總表＋§13～22（AA_227/228 機制、使用者回覆、子晴芷若兩人都離開、沛珊消失、子晴河堤乙）；原 ack：ACKNOWLEDGED"
   },
   {
-   "task": "學姊閒聊階梯照新年級搬層（BB_195）＋沛珊 Y2S2 拿掉",
+   "task": "SYS-15",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "efe389a9",
    "files": [
@@ -597,24 +623,26 @@
    "next": "AA 審字 → LAWWW 重建 ladder.js",
    "noDirectIntegrate": false,
    "receiver": "AA+LAWWW",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：學姊閒聊階梯照新年級搬層（BB_195）＋沛珊 Y2S2 拿掉"
   },
   {
-   "task": "芷若×子晴 摯友到戀人 機制（BB_194 §23；對齊 AA_232 4-0 使用者批准的日期，含 4-2 21:50、入場旁白、F3／4-2b 依狀態）",
+   "task": "AA243-P02",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "bac109ce",
    "files": [
     "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md"
    ],
-   "state": "已交付（PROPOSAL）",
+   "state": "已交付",
    "remaining": "AA 寫入場旁白各格、4-2b 情侶版、serious_again 開頭；使用者回 23-9 第 4、5 題",
    "next": "使用者審 → LAWWW 盤點",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：芷若×子晴 摯友到戀人 機制（BB_194 §23；對齊 AA_232 4-0 使用者批准的日期，含 4-2 21:50、入場旁白、F3／4-2b 依狀態）；原 state：已交付（PROPOSAL）"
   },
   {
-   "task": "BB 五人閒聊階梯稽核：給 AA 的台詞清單（BB_196）",
+   "task": "SYS-15",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "eef690ab",
    "files": [
@@ -625,10 +653,11 @@
    "next": "AA 改台詞；BB 推機制修正",
    "noDirectIntegrate": true,
    "receiver": "AA",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：BB 五人閒聊階梯稽核：給 AA 的台詞清單（BB_196）"
   },
   {
-   "task": "BB 五人閒聊階梯機制修正（稽核約 38 項；新欄位 skipAfterWeek；套用 AA 的 S2-L2、大三下短招呼）",
+   "task": "SYS-15",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "a2d49644",
    "files": [
@@ -637,15 +666,16 @@
     "docs/story_planning/ladder/README.md",
     "docs/story_planning/BB_196_閒聊階梯稽核_BB五人_給AA的台詞清單.md"
    ],
-   "state": "已交付（PROPOSAL）",
+   "state": "已交付",
    "remaining": "AA_234 補學姊 3 層、改句、綁地點短招呼的替代句；AA_235 經濟系那一年",
    "next": "AA 審完 → LAWWW 重建 ladder.js（要支援 skipAfterWeek）",
    "noDirectIntegrate": true,
    "receiver": "AA+LAWWW",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：BB 五人閒聊階梯機制修正（稽核約 38 項；新欄位 skipAfterWeek；套用 AA 的 S2-L2、大三下短招呼）；原 state：已交付（PROPOSAL）"
   },
   {
-   "task": "閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位",
+   "task": "SYS-15",
    "branch": "claude/wonderful-mayer-7fm9g6",
    "sha": "6a01ecd4",
    "files": [
@@ -653,12 +683,13 @@
     "docs/story_planning/ladder/ladder_bb*.json",
     "docs/story_planning/ladder/README.md"
    ],
-   "state": "已交付（PROPOSAL；AA 已審）",
+   "state": "已交付",
    "remaining": "沛珊兩句「第一次寫教案」矛盾、4-1 第 5 句未放；LAWWW：skipAfterWeek、ZZ_DATING、extraIf.mem、workShifts、Y0_MOVED_OUT、dating_kexin 10/17",
    "next": "LAWWW 重建 ladder.js（LIFE-LINE 之後）",
    "noDirectIntegrate": false,
    "receiver": "AA+LAWWW",
-   "ack": "SENT"
+   "ack": "SENT",
+   "note": "原 task：閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位；原 state：已交付（PROPOSAL；AA 已審）"
   }
  ]
 }
