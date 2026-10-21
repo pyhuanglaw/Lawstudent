@@ -1447,7 +1447,7 @@
      "lines": [
       {
        "who": "heroine_04",
-       "text": "今天還有一半沒走到。"
+       "text": "水庫好大。我們只走了一邊。"
       },
       {
        "who": "heroine_04",
@@ -2343,7 +2343,7 @@
       "lines": [
        {
         "who": "classmate_peishan",
-        "text": "回去要讀書了。……可是今天值得。"
+        "text": "天黑以前回去。山路我會怕。"
        }
       ]
      },
@@ -2398,7 +2398,7 @@
         "reply": [
          {
           "who": "classmate_peishan",
-          "text": "……那我回去查。"
+          "text": "……那我去問服務台。"
          }
         ]
        }
