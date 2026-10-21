@@ -12593,6 +12593,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
+  },
+  {
+   "id": "DL-LAWWW2-cfd0e566",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "cfd0e566",
+   "what": "ART-PS-SKIRT-HAND：沛珊走路、上樓梯手不再穿進長裙（manifest armOut 9°、armBack 0.45、armFwd 0.15；character3d.js VRM driver 每幀收小前後擺幅再往外張，沒有參數的模型整段跳過）；量測手離裙面最差 −2.2→+10.1 cm；發現截圖最明顯的粉紅色是左小腿、膝蓋從裙子前面穿出來（這次沒修）",
+   "task": "ART-PS-SKIRT-HAND",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 套 patch（ps_skirt_hand_1021.diff）；stairs_feet、sit_feet、nav_levels、vrm_release、v0_econ_chars 單元全過；LAWWW 角色美術驗收（D100a）：看了 motion_before_after 前後對照，手的部分改善、膝蓋穿出裙子還在 → LAWWW2 接著改 long_skirt_weights、重建 VRM"
   }
  ],
  "ignored": [

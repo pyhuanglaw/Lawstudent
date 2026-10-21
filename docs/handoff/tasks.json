@@ -19102,11 +19102,11 @@
   },
   {
    "id": "ART-PS-SKIRT-HAND",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "owner": "LAWWW2",
    "title": "沛珊走路擺手時手穿過長裙（平台、第二段；裙子不跟手臂動）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 派給 LAWWW2：裙襬加寬或裙子加骨頭／手臂擺幅（三選一），修完 LAWWW 用遊戲內截圖驗收（D100a） ｜ 使用者 10-18 00:0x（經 AA-C）：「3D 人物的小錯誤（穿模）LAWWW2 可以修」——這項可能不該再暫停，下一班 LAWWW 確認後恢復（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；LAWWW-C 16:1x 截圖 peishan_motion_after_fix.webp；LAWWW2／BB 看怎麼處理（裙襬寬一點、手臂擺幅、或裙子加骨頭）",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】cfd0e566 手臂擺幅 patch 已套（開發分支）；膝蓋、小腿從裙子前面穿出來是另一個問題：LAWWW2 接著改 peishan_clothes.py long_skirt_weights、重建 VRM（BB 再看一次） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 派給 LAWWW2：裙襬加寬或裙子加骨頭／手臂擺幅（三選一），修完 LAWWW 用遊戲內截圖驗收（D100a） ｜ 使用者 10-18 00:0x（經 AA-C）：「3D 人物的小錯誤（穿模）LAWWW2 可以修」——這項可能不該再暫停，下一班 LAWWW 確認後恢復（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；LAWWW-C 16:1x 截圖 peishan_motion_after_fix.webp；LAWWW2／BB 看怎麼處理（裙襬寬一點、手臂擺幅、或裙子加骨頭）",
    "source": "LAWWW-C 遊戲內截圖",
    "first": {
     "term": "Y1S1",
