@@ -23280,7 +23280,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「管理人員衝刺班的我們請假要很多次他才會笑出來，覺得這兩個人一直請假是現在還感覺是第一次請假，他就笑了莫名其妙」",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 重匯時一起帶：階梯 ladder_bb_y0s1.json（企劃 1b91eea2，AA_309 第 5 列：阿勳宿舍那幾層到第 9 週）、AA_306 那批、y0 的 {t,e} 格式 ｜ LAWWW：重匯 retake_home（RH-C2 6/12、RH-C3 6/17、C4 開頭）＋RH_PLAY 加兩場＋日期卡 6/9～6/23 拆三句；6/25～6/27「後來去請假，她已經不笑了」照使用者 X59 拿掉 ｜ 舊：已做：日期卡「衝刺班。後來去請假，她已經不笑了。」拿掉（使用者「也不需要說……這樣好像很兇」，import_retake_home.py CUT_CARDS）。下一班 AA：用選擇題問使用者——前面加幾次請假的場面，還是 RH-C4 改成看得出是第 N 次",
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】使用者 10-20 已選（不用再問選擇題）；只差 econff3d.js RH_PLAY 加 RH-C2（6/12）、RH-C3（6/17），6/9～6/23 日期卡拆三句（AA_308 第 5 節；AA_348 第 5 節第 1 項）｜ 【LAWWW-C 2026-10-21 稽核 B2】程式已在開發分支（BB 照事件包清單瀏覽器驗收）｜ 重匯時一起帶：階梯 ladder_bb_y0s1.json（企劃 1b91eea2，AA_309 第 5 列：阿勳宿舍那幾層到第 9 週）、AA_306 那批、y0 的 {t,e} 格式 ｜ LAWWW：重匯 retake_home（RH-C2 6/12、RH-C3 6/17、C4 開頭）＋RH_PLAY 加兩場＋日期卡 6/9～6/23 拆三句；6/25～6/27「後來去請假，她已經不笑了」照使用者 X59 拿掉 ｜ 舊：已做：日期卡「衝刺班。後來去請假，她已經不笑了。」拿掉（使用者「也不需要說……這樣好像很兇」，import_retake_home.py CUT_CARDS）。下一班 AA：用選擇題問使用者——前面加幾次請假的場面，還是 RH-C4 改成看得出是第 N 次",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -25067,7 +25067,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 10:4x UTC】合併 f9dca338（a8bab1bf，e8224f70；jp_semester_unit 101 項）：J-S1～S19、G0～G9 都做；AA_342 C6 時差一起；待問 AA 見 AA_QUESTIONS_1021.md L 節（L1 挽回 +1 群組沒有字＝7/7 重新交往到不了）；BB 清單 bb_checklists/BB_JP_SEM_1021.md；5/20 直播畫面沒做 ｜ 【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】更正：日本場景照使用者 10-18 選的「全 2D」（UA-LAWWW-1018-06、JP-3D-ASK 取消）；LAWWW2 不做日本 3D，WIP 25c6c76d 保留不整合｜ 【LAWWW-C 2026-10-21 10:4x UTC】合併 f9dca338（a8bab1bf，e8224f70；jp_semester_unit 101 項）：J-S1～S19、G0～G9 都做；AA_342 C6 時差一起；待問 AA 見 AA_QUESTIONS_1021.md L 節（L1 挽回 +1 群組沒有字＝7/7 重新交往到不了）；BB 清單 bb_checklists/BB_JP_SEM_1021.md；5/20 直播畫面沒做 ｜ 【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
    "src": "AA_341（企劃線 c2c5a66e）"
   },
   {
@@ -25385,6 +25385,143 @@
     "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
     "branch": "claude/focused-cray-c9uwvw",
     "acceptance": "GLB＋遊戲內截圖；不擋床、書桌、黃金葛的互動點",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "AA348-ECON-1021",
+   "title": "AA_348 經濟系那一年覆蓋盤點的程式：日期卡範圍＋四句、7/15～7/23 E35_PLAN、B1 保齡球邀約去不了、B2 跳到訊息不出日期卡、B4 阿勳 lamp、B6 可昕大一下四則、B5、B8",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "企劃線 AA_348（243e0a09）；AA-C 10-21 09:12 訊息",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系 9/2 以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "sha": "3a21d66b",
+   "evidence": "3a21d66b：econ_ff_unit 新增 5 項、v0_kxphone_unit 改 5 項（舊程式 FAIL 7＋6）；經濟系全部 unit ALL PASS",
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】BB 照 bb_checklists/BB_AA348_1021.md 瀏覽器驗；CRAM-LEAVE-LAUGH-1018 另做"
+  },
+  {
+   "id": "AA350-ANSWERS-1021",
+   "title": "照 AA_350（3f406dbc）改 M、N：M1 高雄錢不夠門檻 4,780＋字、M5 家教以外 7/24 一句、M7 畢業那天學姊便條＋CG 位置、N1 語彤週六總圖白天版三句、N2 沒報國考 7/14 一句、N3 迷路版開場回程用大四版、N4 接機戀人版第一句拆兩句 CG 夾中間；N9 舊存檔備註「舊→新」對照（NOTE_RENAMED，新備註空字串另判）；M4 併 AA349-KL；N8 併 HOLIDAY-PRESENCE-1021",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_350（3f406dbc）；AA-C 10-21 09:28 訊息",
+   "first": {
+    "term": "Y3S2",
+    "week": 10,
+    "earliest": "大三高雄（M1）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】等 AA346 子代理（r2y4b／postgrad）合併後派子代理；M2、M3、M6、M8、N5、N6、N7、N10 照現在、不用改"
+  },
+  {
+   "id": "AA296-PHONE-LIVE-1021",
+   "title": "AA_296 2-3-1：法律系四年只用手機演的五件重要劇情改成當面或演出來的電話（以安新 18 美國交往版視訊 AN_CHOICE video；子晴 Q15 回答.exe 場面裡兩選項＋她打來；可昕考上律師 12/14 15:05 電話；沛珊回來 8/7 21:00 電話；芷若答應奕廷的約日本路線 8/5 回國後 Café 當面）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_296 2-3（3f406dbc）；USER_WANTS X25 的 AA 那一半完成",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "大三下（子晴 Q15）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】和 AA350-ANSWERS-1021 同一批派；測試寫死的照改（y34b_events_unit:268、r2y3b_events_unit:552～574、bar_exam_unit:77）"
+  },
+  {
+   "id": "ART-ECON-3D-GAP-1021",
+   "title": "經濟系那一年的 3D 缺口（LAWWW2 清查 B8）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "LAWWW2-C 清查 caf482d1 docs/art-rebuild/second_ai/BACKLOG_SWEEP_1021.md B8",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "xai": {
+    "spec": "LAWWW2 清查 B8",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "GLB＋遊戲內截圖；導航格不變或附 nav 測試",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-PHOTO-CMP-1021",
+   "title": "共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 清查 caf482d1 B14",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 先列差異清單，再決定要不要改",
+   "xai": {
+    "spec": "LAWWW2 清查 B14",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "差異清單＋截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "ART-DORM-LOUNGE-1021",
+   "title": "男宿交誼廳家具（LAWWW2 清查 B16）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "LAWWW2-C 清查 caf482d1 B16",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2 照清查 B16",
+   "xai": {
+    "spec": "LAWWW2 清查 B16",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "GLB＋遊戲內截圖；交誼廳沙發、電視、販賣機、長桌的導航阻擋不變",
     "receiver": "LAWWW",
     "ack": "SENT"
    }
