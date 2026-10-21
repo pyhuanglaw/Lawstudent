@@ -1,0 +1,13 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index ca51560e..d4bb5bd0 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -139,7 +139,7 @@ const Z3 = (function(){
+       if(ck.surfs&&ck.surfs.length){ if(Math.abs(sn)>1e-6) console.warn('ck.surfs：旋轉過的建築還不支援高度'); else for(const s0 of ck.surfs){ const s1=Object.assign({},s0,{x0:x+s0.x0,x1:x+s0.x1,z0:z+s0.z0,z1:z+s0.z1}); nav.addSurf(s1);
+           const ya=s1.y!==undefined?s1.y:s1.ya, yb=s1.y!==undefined?s1.y:s1.yb, dz=s1.z1-s1.z0; const m=new THREE.Mesh(new THREE.PlaneGeometry(s1.x1-s1.x0,Math.hypot(dz,ya-yb)),new THREE.MeshBasicMaterial({visible:false})); m.position.set((s1.x0+s1.x1)/2,(ya+yb)/2+0.01,(s1.z0+s1.z1)/2); m.rotation.x=-Math.PI/2+Math.atan2(ya-yb,dz); m.userData.walkLv=0; m.userData.dyn=true; g.add(m); campusWalk.push(m); } } };
+     // 男一舍：宿舍沒有拱廊——淺灰米色面磚、方窗、平屋頂、一樓正面中間是大門＋小平頂門廊（佔地、門口位置和舊版相同）
+-    const dormB=CK.hall({w:36,d:14,floors:4,gfh:3.6,fh:3.1,wall:'#cfc6b4',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'男一舍'}); ckPlace(dormB,20,68,Math.PI); buildings.push(dormB); const m1GLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_male1']; dormB.userData.ckTag='male1'; if(m1GLB) dormB.userData.dyn=true;   /* 男一舍的 Blender 正式模型（LAWWW2-C campus_male1.py，ART-EXT-M1）：只換外觀；地上 4 層照住宿組資料（套件原本 5 層，一起改成 4 層，鏡頭碰撞跟著變矮）；導航、門口照舊 */ for(const x of [-4,44]){ const b=TREE(1.2); place(g,b,x,60,0); nav.blockCircle(x,60,0.9); }
++    const dormB=CK.hall({w:36,d:14,floors:5,gfh:3.6,fh:3.1,wall:'#cfc6b4',trim:'#e8e2d6',roofType:'flat',win:'rect',arcade:false,porch:{bays:1,depth:2.0,style:'flat',h:3.4},sign:'男一舍'}); ckPlace(dormB,20,68,Math.PI); buildings.push(dormB); const m1GLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_male1']; dormB.userData.ckTag='male1'; if(m1GLB) dormB.userData.dyn=true;   /* 男一舍的 Blender 正式模型（LAWWW2-C campus_male1.py，ART-EXT-M1）：只換外觀；地上 5 層（AA-C 10-21 裁定 J1：祐廷的房間是 507；真實的男一舍是 4 層，10-18 曾照住宿組資料改成 4 層），套件和正式模型一樣高（鏡頭碰撞跟著）；導航、門口照舊 */ for(const x of [-4,44]){ const b=TREE(1.2); place(g,b,x,60,0); nav.blockCircle(x,60,0.9); }
+     // ---- 校門（西端）----
+     // v9.3 第十四批：CK.gate（面磚門柱＋石材、打開的鑄鐵門、矮牆、校名石牌、門房在校內）；校外（本地 +z）朝西。開口寬度和舊版相同
+     const gate=CK.gate(); placeGate(E,g,nav,gate,-124,0,-Math.PI/2);

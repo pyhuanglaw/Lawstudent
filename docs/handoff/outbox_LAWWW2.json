@@ -969,6 +969,38 @@
    "state": "沒有晚上才多出來的場景物件：人藏起來、陰影強制重畫時兩版 draw call 完全一樣、三角形差 0.4% 內；BB 的差別來自路人位置＋X79 陰影 2 秒才重畫（取樣那一格有沒有陰影那一輪）",
    "remaining": "無場景要修；#47 光暈合批讓溫州街晚上再少最多 50 次 draw call",
    "next": "LAWWW-C 轉 BB：比場景時把人藏起來、陰影固定算進去"
+  },
+  {
+   "task": "ROOMS-REFINE-1021：202／多功能教室精修＋seatcheck 掃描（滇香、家常、蛋包飯）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "6620cba8",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/rooms_refine_1021/README.md",
+    "assets/models/env/second_ai/linze_202.glb",
+    "assets/models/env/second_ai/wancai_multi.glb",
+    "assets/models/env/second_ai/l118_home.glb",
+    "assets/models/env/second_ai/l118_omu.glb",
+    "assets/models/env/second_ai/l118_{dian,home,omu}.layout.json"
+   ],
+   "state": "flow_rooms 202/multi、reachability_all 三間、flow_l118_shops ALL PASS（模擬）",
+   "remaining": "實機；外套沒有口袋拉鍊；Café 沒掃",
+   "next": "LAWWW-C 換檔＋gen_shop_layouts.py",
+   "sent": "2026-10-21T08:5xZ DELIVERED"
+  },
+  {
+   "task": "MALE1-5F-1021：男一舍外觀 4→5 層（AA-C J1）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/campus_male1.glb",
+    "assets/models/env/second_ai/campus_male1.json",
+    "tools/blender/env_second/campus_male1.py",
+    "docs/art-rebuild/second_ai/patches/male1_5f.diff",
+    "docs/art-rebuild/second_ai/test_shots/male1_5f_1021/README.md"
+   ],
+   "state": "0b5fb318＋patch＋GLB：校園導航格雜湊、互動點完全相同；鏡頭碰撞只變高（12.9→16）；nav_buildings_unit、kit_nav_check、campus_layout_nav ALL PASS（模擬）",
+   "remaining": "實機",
+   "next": "LAWWW-C 套 male1_5f.diff（一行 floors:4→5）＋換 GLB"
   }
  ]
 }

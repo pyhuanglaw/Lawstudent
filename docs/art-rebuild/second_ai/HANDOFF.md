@@ -50,12 +50,14 @@
 - ART-L118-LANE-1020 交付：`test_shots/l118_lane_1020/README.md`、`patches/l118_lane_props_wire.diff`。
 - 10-20 21:0x 公館七樓不投影＋柱子透視＋4 項判斷交付 `74cfdfb7`（LAWWW-C 接進 `1475d312`）。
 - 10-21 07:xx（工作程序重新接上，中間停約 10 小時）使用者「繼續」：118 巷效能＋兩個測試修正交付（`536eec11`，LAWWW-C 已接 `2fb01ed0`）。
-- 10-21 公館校門口 draw call 交付（本 commit）：`test_shots/gg_drawcall_1021/README.md`、`patches/gg_drawcall_atlas_glow.diff`（套 `0e7a5efa`）、捷運出口 GLB 重匯出。
+- 10-21 公館校門口 draw call 交付（`6620cba8`）：`test_shots/gg_drawcall_1021/README.md`、`patches/gg_drawcall_atlas_glow.diff`（套 `0e7a5efa`）、捷運出口 GLB 重匯出。
   - 主要原因是光暈（一個 GLOW_ 一個 Sprite，17:24 以後 90 次）→ 一個模型一個網格；店內景深卡 15 面 → 一張 atlas；捷運出口 23 → 14 個網格。
   - 校門口 1.53 → 1.03 倍，`gongguan_glb_integration.py` ALL PASS（修改前 3 項 FAIL）。
   - `campus_glb_integration.py` 修改前、後一樣跑不完（過時：campus_modern_glb）；傅鐘光暈另外驗 PASS。
-- 10-21 PERF-WZ-NIGHT（LAWWW-C 08:02Z P1，BB-C 量溫州街 19:30 +37%）：查完，沒有晚上才多的場景物件（人藏起來、陰影強制重畫兩版一樣）；差別是路人位置＋X79 陰影取樣。`test_shots/wz_night_1021/README.md`（本 commit）。
-- 10-21 ROOMS-REFINE-1021（LAWWW-C 07:42Z）：202 桌面調亮、外套書包平滑著色＋褶子、方塊地毯看得出一格一格；seatcheck 掃 118 巷：滇香進門位置、家常加自取櫃、蛋包飯兩側桌子靠牆。`test_shots/rooms_refine_1021/README.md`（本 commit）。
+- 10-21 PERF-WZ-NIGHT（LAWWW-C 08:02Z P1，BB-C 量溫州街 19:30 +37%）：查完，沒有晚上才多的場景物件（人藏起來、陰影強制重畫兩版一樣）；差別是路人位置＋X79 陰影取樣。`test_shots/wz_night_1021/README.md`（`6620cba8`）。
+- 10-21 ROOMS-REFINE-1021（LAWWW-C 07:42Z）：202 桌面調亮、外套書包平滑著色＋褶子、方塊地毯看得出一格一格；seatcheck 掃 118 巷：滇香進門位置、家常加自取櫃、蛋包飯兩側桌子靠牆。`test_shots/rooms_refine_1021/README.md`（`6620cba8`）。
+- 10-21 MALE1-5F-1021（AA-C J1，LAWWW-C 08:22Z）：男一舍 4→5 層；導航、互動點完全相同，鏡頭碰撞只變高。`test_shots/male1_5f_1021/README.md`、`patches/male1_5f.diff`（本 commit）。
+- 10-21 使用者 08:43（LAWWW-C 轉）全面清查歷史遺留（BACKLOG-SWEEP-LAWWW2-1021）：進行中，穿插在佇列中間。
 - 接下來（LAWWW-C 21:00 排的順序）：~~公館店面材質合併~~（交了）→ 日本學期場景優先 1（AA_341 第 5 節）→ ART-BALCONY-POTS；子代理交多功能教室／202 時驗收。
 - （舊）接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
