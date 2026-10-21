@@ -25503,7 +25503,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:5x UTC】AA_350 第 5、6 節（25637c20）：Q3、Q4、Q6 做了（6ee9e78d）；P1、P5 子代理實作中 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器驗 M1（高雄錢不夠的字）、N3（可昕大四迷路版開場回程）、N1（語彤週六總圖白天版）；N8 明軒 2029 暑假＋三個寒假回彰化交給 HOLIDAY-PRESENCE-1021 子代理（同一檔 characters.js）；N4 冬天版 CG 通過以後 BB 看畫面",
+   "next": "【LAWWW-C 2026-10-21 13:2x UTC】第 7 節 R0、R0b、R6 做了（10dc79b1）；R2、R5、R7、第 8 節 S1～S8 子代理做中；R1 開 EVPKG-AA227-228-KNOW；R3、R4 不用動 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】AA_350 第 5、6 節（25637c20）：Q3、Q4、Q6 做了（6ee9e78d）；P1、P5 子代理實作中 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器驗 M1（高雄錢不夠的字）、N3（可昕大四迷路版開場回程）、N1（語彤週六總圖白天版）；N8 明軒 2029 暑假＋三個寒假回彰化交給 HOLIDAY-PRESENCE-1021 子代理（同一檔 characters.js）；N4 冬天版 CG 通過以後 BB 看畫面",
    "sha": "aad9f57e",
    "evidence": "aad9f57e：M1、M5、M7、N1～N4 程式＋測試（新檢查在舊程式上失敗：r2y3a 1、r2y3b 1、r2y4a 1、r2y4b 3、graduation 1；新程式全過）；N9 舊存檔對照 382236a5（note_n9_unit）"
   },
@@ -25914,6 +25914,25 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 2026-10-21 13:1x UTC】等 AA_357 交規格；交了 LAWWW 派子代理實作（延畢路線：日本、美國交換回來）"
+  },
+  {
+   "id": "EVPKG-AA227-228-KNOW",
+   "title": "AA_227／AA_228 知情的曖昧、知情後告白（只在學期末心意邀約）、發現、挽回；BB_194 §1「第一次 L3 她問一次」放在第一次正式約會開頭（到達之後、第一個互動點之前，她知道才問）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA_350 第 7 節 R1（企劃線 cae5cc76）；AA_227、AA_228（使用者 10-17 兩份 P0）；BB_192／BB_193",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "第一次同時和兩個人有曖昧／交往",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt"
   }
  ]
 }
