@@ -21666,7 +21666,7 @@
    "id": "JP-SEM-AA341-1020",
    "title": "日本路線大三下（3/25～8/5）整學期能玩：進日本（2D hub）、日本學期日曆、一鍵上課、快轉／摘要日、以安作息、臺灣的區域／邀約／打工在日本期間關掉、8/5 回程（AA_341 J-S1～S19）＋補稿 G0～G9",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y3S2",
@@ -21678,7 +21678,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
+   "next": "【LAWWW-C 2026-10-21 10:4x UTC】合併 f9dca338（a8bab1bf，e8224f70；jp_semester_unit 101 項）：J-S1～S19、G0～G9 都做；AA_342 C6 時差一起；待問 AA 見 AA_QUESTIONS_1021.md L 節（L1 挽回 +1 群組沒有字＝7/7 重新交往到不了）；BB 清單 bb_checklists/BB_JP_SEM_1021.md；5/20 直播畫面沒做 ｜ 【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
    "src": "AA_341（企劃線 c2c5a66e）"
   },
   {
@@ -21698,7 +21698,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 10:1x UTC】C2 已改（沛珊台南合併）；C1、C4、C5 已改；C3 等 AA 字；C6 在日本學期子代理；補稿待派工 ｜ 【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
+   "next": "【LAWWW-C 2026-10-21 10:4x UTC】C6 已改（日本學期合併）＝C1、C2、C4、C5、C6 都改了，C3 等 AA 海報字；補稿待派工 ｜ 【LAWWW-C 2026-10-21 10:1x UTC】C2 已改（沛珊台南合併）；C1、C4、C5 已改；C3 等 AA 字；C6 在日本學期子代理；補稿待派工 ｜ 【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
    "xai": {
     "spec": "AA_342（c56d4241）",
     "branch": "claude/magical-albattani-bk7b4n",

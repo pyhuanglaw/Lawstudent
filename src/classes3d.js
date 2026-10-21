@@ -59,6 +59,8 @@ const CLS=(function(){
   S.rec=function(G){ const R=G.courses&&typeof G.courses==='object'?G.courses:(G.courses={}); for(const k of ['done','attend','prep','electives','grades','note','disc','ask','late','abs']) if(!R[k]||typeof R[k]!=='object') R[k]={}; migrateIds(R,G); return R; };
   S.byId=id=>COURSES.list.find(c=>c.id===id)||null;
   S.enrolled=function(G,c){ if(c.y0leave&&G&&G.flags&&G.flags.Y0_LEFT) return false;   /* 經濟系大一下休學以後（E30，AA_106 第 0 節第 5 點）：經濟系的課、法學緒論都不排 */
+    if(c.route&&!(G&&typeof STORY!=='undefined'&&STORY.route&&c.route.includes(STORY.route(G)))) return false;   /* 只給某條交換路線的課（AA_144 X4 日本路線大四下的補修，courses.js 的 route）*/
+    if(!c.route&&G&&typeof JP!=='undefined'&&JP.skipTerm&&JP.skipTerm(G,c.term)) return false;   /* 日本路線不修台灣的大三下（AA_341 J-S6；src/jp3d.js）：不排課、不考試、成績單換日本的兩門 */
     if(!c.choice) return true; const pick=S.rec(G).electives[c.choice.group]; const cur=pick===undefined?c.choice.default:pick; return cur===c.id; };
   S.termCourses=(G,termId)=>COURSES.list.filter(c=>c.term===termId&&S.enrolled(G,c));
   S.termName=id=>({Y0S1:'經濟系大一上',Y0S2:'經濟系大一下',Y1S1:'大一上',Y1S2:'大一下',Y2S1:'大二上',Y2S2:'大二下',Y3S1:'大三上',Y3S2:'大三下',Y4S1:'大四上',Y4S2:'大四下'})[id]||id;
@@ -134,7 +136,7 @@ const CLS=(function(){
   /* BB 的普通課堂內容（src/data/syllabus.js，AA_104 的 syllabus 格式）：每週 {w, tpl A／B／C, board 三行, line 教授一句, react 同學反應[{who,text}], obs 觀察小選擇, call 被點到}；
      國文、英文、體育、實習是台詞池（pools：每週一句）。同學反應只用遊戲裡已經有的人物（heroine_06、日文班等新人物的設定還沒確認：略過），'class'＝不具名同學 */
   let sylDone=false; function attachSyllabus(){ if(sylDone||typeof SYLLABUS==='undefined'||typeof COURSES==='undefined') return; sylDone=true;
-    for(const c of COURSES.list){ if(SYLLABUS.courses[c.id]) c.syllabus=SYLLABUS.courses[c.id]; if(SYLLABUS.pools[c.id]) c.pool=SYLLABUS.pools[c.id]; if(SYLLABUS.skip[c.id]) c.skipLines=SYLLABUS.skip[c.id]; if(SYLLABUS.second&&SYLLABUS.second[c.id]) c.second=SYLLABUS.second[c.id]; } }
+    for(const c of COURSES.list){ const sid=c.redo||c.id; if(SYLLABUS.courses[sid]) c.syllabus=SYLLABUS.courses[sid]; if(SYLLABUS.pools[sid]) c.pool=SYLLABUS.pools[sid]; if(SYLLABUS.skip[sid]) c.skipLines=SYLLABUS.skip[sid]; if(SYLLABUS.second&&SYLLABUS.second[sid]) c.second=SYLLABUS.second[sid]; } }   /* redo：補修重播那一門的 syllabus（AA_144 X4）*/
   const inScene=id=>{ if(typeof GAME==='undefined'||!GAME.E||!GAME.E.npcs||typeof EVENTS==='undefined'||!EVENTS.npcOf) return true; return !!EVENTS.npcOf(id); };   /* 3D 場景裡：同學要真的在教室才有反應句（使用者 2026-10-15：以安不在教室卻回答老師）；沒有場景（單元測試）照舊 */
   const reactOK=(r,day,away)=>r&&r.text&&(r.who==='class'||(r.who!=='heroine_06'&&r.who!=='heroine_05'&&typeof CHARACTERS!=='undefined'&&!!CHARACTERS[r.who]&&(day==null||typeof STORY==='undefined'||!STORY.present||STORY.present(r.who,{day}))&&(away||inScene(r.who))));   /* 那學期不在學校的人（presence）沒有反應句；溫書瑀高兩屆，不在祐廷的任何一堂課（AA_110 5-7）*/   /* away：翹課的群組轉述（skipNotes）是群組訊息，說的人不用在玩家身邊（2026-10-19：原本也要 inScene，中午在校園收不到轉述）*/
   S.reactLine=function(r){ if(!r) return ''; const act=/^（.*）$/.test(r.text); if(r.who==='class') return act?r.text:'同學：「'+r.text+'」';
@@ -541,10 +543,12 @@ const CLS=(function(){
       if(!hold) await S.showGrades(GM,prev.id); }
     if(R.note.gradesDue&&!R.grades[R.note.gradesDue]){ const t=R.note.gradesDue; delete R.note.gradesDue; await S.showGrades(GM,t); }   /* 先等的成績單、那晚沒有一起打開：隔天早上照常發 */
     const tmr=CALENDAR.termOf(G.day+1), selT=tmr&&tmr.week===1&&(!now||now.id!==tmr.id)?tmr:(now&&now.week<=2?now:null);
+    const skipT=id=>!!id&&typeof JP!=='undefined'&&!!JP.skipTerm&&JP.skipTerm(G,id);   /* 日本路線的大三下（AA_341 J-S6、JP-H）：不選課、不跳「開學了」、期中期末的提示 */
+    if(selT&&skipT(selT.id)) R.note['sel_'+selT.id]=1;
     if(selT&&!R.note['sel_'+selT.id]) await S.selectTerm(GM,selT.id);
     else if(now&&!R.note['sel_'+now.id]) R.note['sel_'+now.id]=1;
-    if(now&&now.week===1&&CALENDAR.dateOf(G.day).wd===1&&R.note.termStart!==now.id){ R.note.termStart=now.id; GM.toast(S.termName(now.id)+'開學了。手機的「課表」可以看這學期的課。',4800); }
-    if(now&&(now.exam)&&R.note['exam_'+now.id+'_'+now.exam]!==1){ R.note['exam_'+now.id+'_'+now.exam]=1; GM.toast(now.exam==='mid'?'期中考週開始了。這兩週的課都是考試。':'期末考週開始了。這週的課都是考試。',4800); } };   /* 16 週制：期末只有第 16 週 */
+    if(now&&!skipT(now.id)&&now.week===1&&CALENDAR.dateOf(G.day).wd===1&&R.note.termStart!==now.id){ R.note.termStart=now.id; GM.toast(S.termName(now.id)+'開學了。手機的「課表」可以看這學期的課。',4800); }
+    if(now&&!skipT(now.id)&&(now.exam)&&R.note['exam_'+now.id+'_'+now.exam]!==1){ R.note['exam_'+now.id+'_'+now.exam]=1; GM.toast(now.exam==='mid'?'期中考週開始了。這兩週的課都是考試。':'期末考週開始了。這週的課都是考試。',4800); } };   /* 16 週制：期末只有第 16 週 */
   // ---------- 每 0.5 秒（story3d.js 的 S.tick）：上課前 30 分鐘的提醒、目標更新、教室裡的同學 ----------
   let lastT=null, lastRoomT=null;
   S.tick=function(GM){ const G=GM.G; if(!G||!G.flags) return; const R=S.rec(G), h=hr(G);
