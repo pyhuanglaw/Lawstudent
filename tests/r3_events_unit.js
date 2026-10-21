@@ -10,7 +10,7 @@ global.document={ getElementById:()=>null, addEventListener(){} }; global.naviga
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(ROM|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|CG_REGISTRY|EXCH|GROUP|GROUP_EVENTS|Y2B|Y2B_EVENTS|R3|R3_EVENTS|NEEDED_MSGS|MSG|MSG_POOL|MSG2_POOL|POSTGRAD_LINES|PG|HOMETOWN_LINES|HV|TERMEND|TERMEND_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
-const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/r3_events.js','src/r3_3d.js'];
+const FILES=['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js','src/data/postgrad_lines.js','src/postgrad3d.js','src/data/y2b_events.js','src/y2b3d.js','src/data/r3_events.js','src/r3_3d.js'];
 const missing=FILES.filter(f=>!fs.existsSync(path.join(ROOT,f)));
 if(missing.length){ check('0. 有 src/data/r3_events.js、src/r3_3d.js',false,missing.join('、')); console.log('FAILED '+fails); process.exit(1); }
 for(const f of FILES) load(f);
@@ -461,6 +461,30 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('15. L5 中餐館：西蘭花、花椰菜、椰菜花、白花椰；「……條文也是。」；帳單用英文對；LONG_MENU', has('我要這個，西蘭花牛肉。')&&has('這是花椰菜。')&&has('綠色的就是西蘭花。白色的才是椰菜花。')&&has('白色的才是白花椰。')&&has('……條文也是。')&&L1[L1.length-1]==='（那天的帳單，你們用英文對了半天。）'&&SOCIAL.has('npc_long','LONG_MENU'), JSON.stringify(L1));
     fresh(o24,20.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); run(o24,20.5,21.5); check('15. 沒見過他：沒有 10/24 的私訊', !PHONE.sent(G,'r3_long_5'));
     fresh(u14-3,9,'dorm',{EXCHANGE_ROUTE:'TW'}); run(u14-3,9,9.25); check('15. 台灣、日本路線：都沒有', !OUT.get(G,'r3_long_1')); }
+
+  // ===== 16. 3-09 沛珊在台南的「再去」三版（hometown_lines.js 的台南那一組；presence 改台南是 AA_282 第 5 節、還沒做：這裡先假裝她在台南）=====
+  { const ID='classmate_peishan', P0=STORY.presence; let tainan=false;
+    STORY.presence=function(id,G1){ if(id===ID&&tainan) return {here:false,away:'在台南',kind:'after',city:'台南'}; return P0.apply(this,arguments); };
+    try{
+      fresh(D('2027-10-13'),12,'dorm',{PS_BACK_FIRST:500}); R(ID,'FRI'); C(ID);
+      check('16. 現在（presence 還沒改台南）：學期中沒有「我去台南找妳？」', HV.offer(G,ID)===null);
+      tainan=true;
+      check('16. 她在台南（presence city）：用台南那一組「我去台南找妳？」、高鐵約一小時四十分鐘、2700 元', HV.key(G,ID)===ID+'@台南'&&!!HV.offer(G,ID)&&HV.offer(G,ID).ok===true&&HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台南找妳？'&&HOMETOWN_LINES[HV.key(G,ID)].fare===2700);
+      G.day=D('2027-11-16'); check('16. BB_165 5-1（11/19）那天不能選', !HV.days(G,ID).includes(D('2027-11-19'))&&HV.days(G,ID).length===3, JSON.stringify(HV.days(G,ID)));
+      G.day=D('2027-10-13'); picks=[0]; said=[]; const day=await HV.ask(GM,ID); const q=OUT.rec(G).find(x=>x.hv&&x.hv.id===ID);
+      check('16. 約好：出遊去台南（hv.key 記著台南那一組）', day===D('2027-10-14')&&!!q&&q.place==='台南'&&q.travelH===1.75&&q.hv.key===ID+'@台南'&&has('我去台南找妳？')&&has('好啊！！我帶你去吃我家附近那間。……你不能嫌遠喔。'), JSON.stringify(q));
+      G.day=q.day; G.hour=10.5; said=[]; opts=[]; picks=['曬黑']; const m0=G.money; await HV.play(GM,q);
+      check('16. 第一次（AA_321 1B-11）：兩杯飲料、「祐廷！這杯你的。……」、她的學校、「欸，你覺得我有沒有哪裡不一樣？」；曬黑了／頭髮剪短了；送車「謝謝你跑這麼遠！到臺北傳給我喔。」；扣 2700；PS_TAINAN_VISITS 1', has('（台南車站。她站在出口，兩手各拿一杯飲料。）')&&has('祐廷！這杯你的。這邊的紅茶很甜喔，你先喝一口。')&&has('這是我們學校。很小吧？走一圈十分鐘。')&&JSON.stringify(opts[0])===JSON.stringify(['「曬黑了。」','「頭髮剪短了？」'])&&has('對！這裡的太陽跟台中不一樣。')&&has('（傍晚，她陪你坐車到高鐵站。）')&&said[said.length-1].t==='謝謝你跑這麼遠！到臺北傳給我喔。'&&G.money===m0-2700&&G.flags.PS_TAINAN_VISITS===1&&!(G.flags.HV_N||{})[ID], JSON.stringify(lines()));
+      said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
+      check('16. T1 第二次：接人「（台南車站。她在出口揮手。）」「祐廷！你又來了！」「今天我已經想好要去哪裡了。」（沒有兩杯飲料）；三版之一（書店）；PS_AGAIN_LAST', has('（台南車站。她在出口揮手。）')&&has('祐廷！你又來了！')&&has('今天我已經想好要去哪裡了。')&&!has('（台南車站。她站在出口，兩手各拿一杯飲料。）')&&has('這一區是我排的。你看得出來照什麼排的嗎？')&&has('……照書背的顏色。老闆說隨便我。')&&G.flags.PS_TAINAN_VISITS===2&&G.flags.PS_AGAIN_LAST==='books');
+      check('16. T2 去四次：三版輪完，第四次從頭（書店 → 老街 → 運河 → 書店）', ['books','food','canal','books'].every((v,i)=>{ G.flags.HV_N[ID+'@台南']=1+i; return HV.pickVariant(G,ID,false,ID+'@台南')===v; }));
+      G.flags.HV_N[ID+'@台南']=2; G.day=D('2027-12-15'); said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
+      check('16. 老街「我室友說這攤一定要吃。……其實我也是第一次來。」；12/10 以後、沒交往、去過台南：當面看孩子的作業（3-19 裁定 25）', has('我室友說這攤一定要吃。……其實我也是第一次來。')&&has('（一張孩子的作業，最上面寫著：老師我長大要當法官）')&&has('我回他：那你要先學會寫字。')&&G.flags.PS_KID_SHOWN===true);
+      said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}}); check('16. 孩子的作業只看一次；運河「欸，那艘船是不是一直停在那裡？」「它在等什麼啊？」', !has('我回他：那你要先學會寫字。')&&has('欸，那艘船是不是一直停在那裡？')&&has('它在等什麼啊？'));
+      fresh(D('2027-12-15'),10.5,'dorm',{PS_TAINAN_VISITS:1,HV_N:{[ID+'@台南']:1}}); date(ID); said=[]; await HV.play(GM,{hv:{id:ID,key:ID+'@台南'}});
+      check('16. T3 交往中：送車「下次待久一點。末班車太早了。」；不演孩子的作業（交往中是 12/10 的私訊）', said[said.length-1].t==='下次待久一點。末班車太早了。'&&!has('我回他：那你要先學會寫字。'));
+      fresh(D('2027-07-10'),12,'dorm'); date(ID); tainan=false; { const o=HV.offer(G,ID); check('16. 寒暑假在台中：照台中那一組（「我去台中找妳？」）', HV.key(G,ID)===ID&&(!o||HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台中找妳？')); }
+    } finally { STORY.presence=P0; } }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
