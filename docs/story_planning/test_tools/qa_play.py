@@ -5,6 +5,9 @@
   MODE=ff       一直快轉：選項裡有「快轉」「到下一個有事的日子」「跳過」就選
 不瞬移、不改劇情狀態；開局按標題「從經濟系前傳開始」。手機模擬 844×390 觸控（Playwright，不是實機）。
 記錄：卡住超過 4 分鐘（重現：日期、時間、區域、畫面）、JS 例外、畫面檢查（screencheck）、每月一張截圖、遊戲裡的台詞（dlg hook）。
+2026-10-21 BB（帳號 A）加：玩到 9/1（看法律系的生活費）；頁面裡記①每一次錢的變動（日期、時間、多少、當時的提示字）②所有提示（#toast）③可昕每一句的立繪：
+  要的表情（ADV.slots）和實際顯示的圖（img src）——AA363-S2-ECON-MONEY-1021（經濟系 10/31 搬回家後每月 5,000、重考班／衝刺班不扣錢、9/1 法律系 30,000）、
+  KX-EXPR-1018／X62（可昕表情跟著句子換）。結束時寫 money.json、toasts.json、kexin.json 並印摘要。
 用法：MODE=sleep LW_TESTS=<LAWWW>/tests python3 qa_play.py URL OUT"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -17,6 +20,14 @@ PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
+HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, lastToast='', lastKx='';
+  const meta=()=>{ try{ const G=GAME.G; return {d:CALENDAR.dateOf(G.day).key, h:Math.round(G.hour*100)/100, z:G.zone}; }catch(e){ return {}; } };
+  setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const m=GAME.G.money; if(lastMoney!==null&&m!==lastMoney){ const t=document.getElementById('toast'); window.__bb.money.push(Object.assign({from:lastMoney,to:m,delta:m-lastMoney,toast:t&&!t.classList.contains('hide')?t.textContent:'',lastToast},meta())); } lastMoney=m; }catch(e){} },200);
+  document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); if(t) new MutationObserver(()=>{ const x=t.textContent; if(x&&x!==lastToast){ lastToast=x; window.__bb.toasts.push(Object.assign({t:x},meta())); } }).observe(t,{childList:true,characterData:true,subtree:true});
+    const d=document.getElementById('dlgText'); if(d) new MutationObserver(()=>{ try{ const nm=((document.getElementById('dlgName')||{}).textContent||'').trim(); const full=(GAME.D&&GAME.D.full)||''; if(!/可昕/.test(nm)||!full) return; const k=nm+'|'+full; if(k===lastKx) return; lastKx=k;
+      setTimeout(()=>{ try{ const sl=(typeof ADV!=='undefined'&&ADV.slots)||{}; const pick=w=>{ const s=sl[w]; if(!s||s.charId!=='kexin') return null; const box=w==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); return {want:s.expression, outfit:s.outfit||'', shown:im?(im.src.split('/portraits/')[1]||im.src).replace(/\?.*$/,''):'', compact:!!s.compact}; };
+        window.__bb.kx.push(Object.assign({t:full.slice(0,40), slot:pick('left')||pick('right')}, meta())); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
+})();"""
 async def pick(pg, cdp):
     c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
     if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900)
@@ -36,13 +47,14 @@ async def main():
     run = L.Run('qa_play_' + MODE, OUT); sc = SC.Checker(run, OUT); problems = []
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        await pg.add_init_script(HOOK)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
         t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:typeof HOME!=='undefined'&&HOME.at(GAME.G),e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
-            if g['e37'] or g['key'] >= '2025-09-01': break
+            if g['key'] >= '2025-09-02': break   # 2026-10-21：多玩到 9/1（法律系的生活費 30,000），原本 E37 演完就停
             if g['key'] != last_key:
                 last_key = g['key']; print('  [%6.1f 分] %s' % ((time.time()-t0)/60, json.dumps(g, ensure_ascii=False)), flush=True)
                 if g['key'][:7] not in months: months.add(g['key'][:7]); await run.shot(pg, 'month_' + g['key'])
@@ -92,6 +104,19 @@ async def main():
         g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:GAME.G.hour,e37:!!(GAME.G.events.done||{}).ev_y0_e37,fb:GAME.walkFallbacks||0})")
         print('結束', json.dumps(g, ensure_ascii=False), '手機回覆', answered, '收起自動打開的手機', phone_closed, flush=True)
         print('問題：'); [print('   -', x) for x in problems]
+        bb = await pg.evaluate("window.__bb||{}")
+        for k in ('money', 'toasts', 'kx'): json.dump(bb.get(k, []), open(os.path.join(OUT, {'kx': 'kexin'}.get(k, k) + '.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=0)
+        al = [m for m in bb.get('money', []) if m['delta'] in (5000, 20000, 30000)]
+        print('生活費入帳：'); [print('   ', m['d'], m['h'], '+%d' % m['delta'], '提示：', m['toast'] or m['lastToast']) for m in al]
+        neg = [m for m in bb.get('money', []) if m['delta'] < 0 and (m['d'][5:7] in ('02', '06'))]
+        print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
+        kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not x['slot']['shown'].endswith('/' + str(x['slot']['want']) + '.webp')]
+        print('可昕的句子：%d 句；有立繪 %d 句；要的表情和顯示的圖不一樣（退回別的圖）%d 句' % (len(kx), len([x for x in kx if x.get('slot') and x['slot']['shown']]), len(fb)))
+        byday = {}
+        for x in kx:
+            if x.get('slot'): byday.setdefault(x['d'], set()).add(x['slot']['shown'].split('/')[-1])
+        for d in sorted(byday): print('   ', d, sorted(byday[d]))
+        for x in fb[:12]: print('    退回：', x['d'], x['t'], x['slot'])
         run.check('玩到 8/30 第一次去政大（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
         run.check('沒有卡住超過 4 分鐘', stuck == 0, str(stuck))
         run.check('沒有用到卡住保險', g['fb'] == 0, str(g['fb']))
