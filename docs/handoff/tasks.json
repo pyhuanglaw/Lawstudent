@@ -26253,11 +26253,11 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
   },
   {
    "id": "BB218-P3-1021",
-   "title": "BB_218 v9.10.3 判定留下的 P3 四件（下一版）：①econff3d 日期卡句子比它講的日子早出（12/19 出「十二月二十日，期末考考完了」、3/16 出「四月二日，倒數撕到一百」、7/24 出「星期六…那天的海很藍」才收到可昕訊息）→ 視窗起點改成那一天 ②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次；AA_348 B8 PARTIAL）④床邊「出發：臺北的家樓下 14:00」hint 重複地點時間",
+   "title": "BB_218 v9.10.3 判定留下的 P3 四件（下一版）：①econff3d 日期卡句子比它講的日子早出（12/19 出「十二月二十日，期末考考完了」、3/16 出「四月二日，倒數撕到一百」、7/24 出「星期六…那天的海很藍」才收到可昕訊息）→ 視窗起點改成那一天 ②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次；AA_348 B8 PARTIAL）④床邊「出發：臺北的家樓下 14:00」hint 重複地點時間；⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點（一兩個月前）⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（實際 8/25 16:00，只這一次；BB 145d6a74）",
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
@@ -26272,7 +26272,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）"
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）"
   },
   {
    "id": "SAVE-CHECK-1021",

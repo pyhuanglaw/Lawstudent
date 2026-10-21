@@ -12723,6 +12723,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:2x 換兩個檔；zones3d.js:447 社科院走 attachWenzhouModel，wz_pillar_* 本來就透空；socsci_place、nav_soclib、nav_buildings、campus_public 單元全過；BB 畫面驗收（柱廊裡鏡頭跟著時看得到人）"
+  },
+  {
+   "id": "DL-BB-145d6a74",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "145d6a74",
+   "what": "v9.10.3 補完：經濟系新遊戲那一輪跑完 ALL PASS（96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）；判定不變：可以發布。P3 兩件：⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點 ⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（只這一次）",
+   "task": "RELEASE-9103",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "LAWWW-C 14:2x：⑤⑥加進 BB218-P3-1021"
   }
  ],
  "ignored": [
