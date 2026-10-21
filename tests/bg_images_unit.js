@@ -18,8 +18,8 @@ check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d0
 { const K=['jp_station','trip_sea','trip_oldtown','tn_station'];
   const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
   check('2h. BB-C 第 92 組另外五張（fdd8383c）：jp_station、trip_sea、trip_oldtown、tn_station 接上；可昕開車那幾場（bg car）白天用新的 car.webp、晚上和下雨照舊',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&v.join()==='assets/bg/car.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp'&&fs.existsSync(path.join(ROOT,'assets/bg/car.webp'))&&OUT.bg('car_morning').image==='assets/bg/car_morning.webp',K.filter(k=>!(B[k]&&B[k].image)).join('、')+' car='+v.join()); }
-{ const K=['intl_sg_hawker','intl_sg_campus','intl_sg_court','law_firm_office','law_firm_meeting','court_gallery','tour_bus','phone_street_night','boardgame_gg'];
-  check('2i. BB-C 第 94 組九張（e10b683a）：C16～C18 六張、宿營遊覽車、晚上路邊、公館桌遊店接上',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image))),K.filter(k=>!(B[k]&&B[k].image)).join('、')); }
+{ const K=['intl_sg_hawker','intl_sg_campus','intl_sg_court','law_firm_office','law_firm_meeting','court_gallery','tour_bus','phone_street_night','boardgame_gg','legal_aid_office'];
+  check('2i. BB-C 第 94 組九張（e10b683a）＋legal_aid_office（3c1ca343）：C16～C18 七張、宿營遊覽車、晚上路邊、公館桌遊店接上',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image))),K.filter(k=>!(B[k]&&B[k].image)).join('、')); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;

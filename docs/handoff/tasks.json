@@ -26000,7 +26000,7 @@
    "id": "BG-VAC-C16-C18-1021",
    "title": "C16～C18 七張 2D 背景（legal_aid_office、law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker）向使用者要圖",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
    "first": {
@@ -26020,7 +26020,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】七張到齊（e10b683a 六張＋3c1ca343 legal_aid_office），都接進 assets/bg＋OUT.BG；BB 畫面驗收（和 BB-TEST-VAC-C16-C18-1021 一起） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
   },
   {
    "id": "BB-TEST-VAC-C16-C18-1021",

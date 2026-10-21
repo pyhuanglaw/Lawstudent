@@ -12645,6 +12645,19 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "LAWWW-C 13:5x：USER_WANTS X95；派子代理照第 6 節做"
+  },
+  {
+   "id": "DL-BB-3c1ca343",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "3c1ca343",
+   "what": "bg_approved legal_aid_office（法扶分會辦公室）：C16～C18 七張到齊",
+   "task": "BG-VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:0x 照原檔複製、OUT.BG 登記（vac_activities.js C16 四場、r2y4b3d.js 用到）；bg_images_unit 2i 加進去（改之前 FAIL）"
   }
  ],
  "ignored": [
