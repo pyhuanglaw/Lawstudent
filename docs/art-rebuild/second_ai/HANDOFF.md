@@ -595,6 +595,28 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
+### ▶▶ 10-21 16:1x 帳號 A 最新（LAWWW 16:05 P1：使用者 16:0x「讓 LAWWW2 接場景相關的程式修改 可以」＝D108，改 D100 第 3 點；改派 10 項）
+- **D108 範圍**：場景、區域與配置、模型接線、場景導航與碰撞、場景鏡頭碰撞、場景效能與光影、LICENSES 補登。
+  - 劇情流程、事件、存檔、系統照舊是 LAWWW 的。
+  - 推自己的分支、跑相關 Node 單元測試 → outbox＋通知 LAWWW SHA → LAWWW 合併、BB 測。
+  - 共用核心檔 engine3d／game3d／story3d／character3d／assets3d：動手前先告訴 LAWWW。
+  - 改 src 前先把開發分支 merge 進這個分支（不 rebase、不 force）。
+- **順序**（LAWWW2 自己排，16:1x 回 LAWWW）：
+  1. 手上收尾：
+     - ART-BALCONY-POTS 溫州街（陽台盆栽上花架）。
+     - C208：BB_218 的外套、門牌淡出，加上 **BUG-CAM-C208-1021**（C 棟 2F 208 門口走廊 17:46 鏡頭卡進牆、屋簷；BB test_shots/artrev_1021/38、39）一起交。
+  2. **ART-VSLICE**＋**GRADE-GOLDEN-DEFAULT**：重拍 VISUAL_REVIEW 第 10 節；engine3d.js 預設改 golden、保留 ?grade=off；改之前先告訴 LAWWW。
+  3. **PERF-CAMPUS-SHADOW-1020**（P1）：校園投影子物件 857、draw calls 516 → 合併網格、小物件不投影、instancing。影子閃 LAWWW 已修（shadowSnap），等真機。
+  4. **ART-WZ0** 舊店面翻修，**ART-WZ7**、**ART-SOY1** 能一起放就一起。
+  5. **PERF-ZONE-ENTER-1018**：進溫州街、咖啡廳卡一兩秒；用 tests/perf_scenes.py 量，從素材端降。
+  6. **ART-GYM2-INT**：gym_arena.glb＋layout v3 接成 gym 3F 區域、拿掉 closed_3f 紅龍。
+  7. **LIC-GAPS-1017**：LICENSES 補 ntu_gym_ceremony.webp、dorm_room4.glb、gym_arena.glb、機車行道具組。
+  8. **ART-02**：共同教學館的關門換成 furniture_study 門片（teach3d.js:165）。
+  - **ART-WZ6**：擺放歸 LAWWW2，照舊等溫州街故事線（DL-11／DL-13）。
+- **BB_218 補拍判定**（BB 16:03）：
+  - **203 膠帶的字不通過**：已問 AA 膠帶上能寫什麼；特寫鏡頭的建議已交 LAWWW。
+  - 壓平的紙箱、體育館白霧：BB 還在查。
+
 ### ▶ 10-21 最新（照這個順序；任務 ID 對 RULE_SOURCE 的 tasks.json）
 1. **ART-DIRECTOR-LAWWW2 巡場景**（使用者 10-21 12:0x；標準 `ART_SOP.md` 第 10 節；紀錄 `ART_DIRECTOR_PATROL.md`；D99 先做經濟系 → 寒暑假 → 美國）：
    - 第 1 區校園：白天、黃昏、夜晚都拍了也看了。已交：社科院柱廊柱子透空（`75080217`）。
