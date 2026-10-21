@@ -123,9 +123,10 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, base.get('G', base)); await pg.wait_for_timeout(6000); run.setup('讀 9/25 存檔')
-        await section(run, '體育館', gym(pg, run))
-        await section(run, '203', dorm(pg, run))
-        await section(run, 'C208', c208(pg, run))
+        ONLY = os.environ.get('ONLY', '')   # 2026-10-21：ONLY=c208 只重拍 C208（LAWWW2 外套／門牌淡出 46d20af9 → 開發分支 ed65d8cd）
+        if not ONLY or 'gym' in ONLY: await section(run, '體育館', gym(pg, run))
+        if not ONLY or 'dorm' in ONLY: await section(run, '203', dorm(pg, run))
+        if not ONLY or 'c208' in ONLY: await section(run, 'C208', c208(pg, run))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
     run.finish()
 asyncio.run(main())
