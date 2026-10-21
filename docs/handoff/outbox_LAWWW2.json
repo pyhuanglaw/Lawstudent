@@ -1001,6 +1001,18 @@
    "state": "0b5fb318＋patch＋GLB：校園導航格雜湊、互動點完全相同；鏡頭碰撞只變高（12.9→16）；nav_buildings_unit、kit_nav_check、campus_layout_nav ALL PASS（模擬）",
    "remaining": "實機",
    "next": "LAWWW-C 套 male1_5f.diff（一行 floors:4→5）＋換 GLB"
+  },
+  {
+   "task": "BACKLOG-SWEEP-LAWWW2-1021：環境美術歷史遺留清查（使用者 10-21 08:43 UA-LAWWW-1021-02）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/BACKLOG_SWEEP_1021.md",
+    "docs/art-rebuild/second_ai/wip_jp/README.md"
+   ],
+   "state": "已整合的證據（D 節 11 項請改狀態、E 節 outbox 55 筆）；未完成 10 項排進 LAWWW2 佇列（A 節）；6 項要 LAWWW-C 決定（C 節，含日本 3D 和使用者 10-18「全 2D」衝突）；舊 WIP 分支沒有獨有成果（F 節）",
+   "remaining": "A 節 10 項；沒有重跑瀏覽器測試、沒有實機",
+   "next": "LAWWW-C 改任務表狀態（D 節）、回 C 節；LAWWW2 從 A1 體育館光暈開始"
   }
  ]
 }
