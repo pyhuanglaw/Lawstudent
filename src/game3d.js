@@ -299,6 +299,7 @@ const GAME = (function(){
     if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }
     if(typeof DATE!=='undefined'){ try{ DATE.rec(s); }catch(e){ console.warn('DATE.rec',e); } }   /* 校外單獨約會（DATE-S1）：補 dateLog、trips、groupTrips（空的，不追溯以前的出遊，AA_128 1-3）*/   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
     if(typeof STORY!=='undefined'&&STORY.routeWatch&&s.flags&&typeof s.flags==='object'){ try{ STORY.routeWatch(s); }catch(e){ console.warn('STORY.routeWatch',e); } }   /* 交換路線（1A-02，BB-C 10-20）：宿舍舊選單選過、還沒截止的（EXCH_APPLIED_DAY、沒有 EXCH_RULE）讀檔就清掉——讀進來坐著、在劇情裡 S.tick 不跑；已經過了截止、還沒有路線的照同一個規則補（在 ROM.rec 之後：routeFor 讀交往紀錄）*/
+    if(typeof PG!=='undefined'&&PG.migrate&&s.flags&&typeof s.flags==='object'){ try{ PG.migrate(s); }catch(e){ console.warn('PG.migrate',e); } }   /* 交換延畢的國考報名（AA_357 1-6）：2029-05-10 被自動設成報名的清掉，2030-05-10 再問（src/postgrad3d.js）*/
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }

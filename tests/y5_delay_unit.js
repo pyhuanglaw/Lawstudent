@@ -6,6 +6,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM,E}=H;
 const D=k=>PG.DK(k);
 const tag=id=>SOCIAL.yearTag(id);
+const L_REG=POSTGRAD_LINES.REG;
 /* 畢業後篇的存檔（6/2 撥穗、6/28 退宿回臺北的家、1A-08 選過；大四的事件都演過）*/
 const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assign({GRADUATED:D('2029-06-02'),GRAD_DONE:true,MOVED_OUT:D('2029-06-28'),HOME_AFTER:'home',Y4_PATH:'other',PACKED_Y4:D('2029-06-01'),ROOM_Y2:true,ROOM_Y3:true,ROOM_Y4:true},flags||{}));
   PG.rec(G).done.grad=1; for(const e of ['ev_grad_family','ev_grad_lunch','ev_grad_envelope','ev_y4_path','ev_move_out_y4']) G.events.done[e]=1; return G; };
@@ -40,6 +41,19 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const go0=HOME.go; let went=0; HOME.go=async()=>{ went++; return true; }; let err=null; try{ await STORY.forceHome(GM); }catch(e){ err=e; } finally{ HOME.go=go0; }
     const G2=grad('2029-10-02',14,{HOME_AFTER:'gongguan'}); const can2=!!HOME.canGo(G2); const G3=grad('2029-06-20',14,{MOVED_OUT:undefined}); const can3=!!HOME.canGo(G3);
     check('G2. 退宿以後住臺北的家：週二也可以回家（手機「回臺北的家」）、從家裡出發；凌晨＝回家，不回宿舍；公館套房、還沒退宿的照原本的規則',can&&lives&&went===1&&!H.entered.includes('dorm')&&!err&&!can2&&!can3,[can,lives,went,JSON.stringify(H.entered),can2,can3].join(',')+(err?err.stack:'')); }
+  // ===== G3 2029 不自動報名、2030 問報名（AA_357 1-6）=====
+  { const G=H.fresh('2029-05-10',20.5,'dorm',{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); H.at('2029-05-10',22); H.tick(); const jp=G.flags.BAR_REG;
+    const G2=H.fresh('2029-05-10',20.5,'dorm',{EXCHANGE_ROUTE:'TW',Y4_PATH:'bar'}); H.at('2029-05-10',22); H.tick(); const tw=G2.flags.BAR_REG;
+    check('G3. 延畢（日本路線、Y4_PATH bar）2029-05-10 不自動報名（BAR_REG 不設，7/14 走「沒報名」那一版）；臺灣路線照舊自動報名',jp!==true&&tw===true,[jp,tw].join(',')); }
+  { const G=grad('2030-05-10',20,{EXCHANGE_ROUTE:'US',Y4_PATH:'grad'}); const before=PG.sits(G,2030); H.at('2030-05-10',21); const s=PG.due(G); H.said=[]; H.picks=['報名']; if(s) await PG.runStep(GM,s);
+    check('G3. 延畢 2030-05-10 21:00 問一次（選研究所的也問；句子、選項照 2029 那一場）；選「報名」＝BAR_REG_2030、2030 進考場；問之前不算報名',!before&&!!s&&s.id==='reg_2030'&&H.has(L_REG.text)&&JSON.stringify(H.opts[0])===JSON.stringify(L_REG.opts)&&G.flags.BAR_REG_2030===true&&PG.sits(G,2030)&&PG.byId('exam_2030').cond(G),[before,s&&s.id,G.flags.BAR_REG_2030,JSON.stringify(H.opts[0])].join('｜')); }
+  { const G=grad('2030-05-10',20,{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); H.at('2030-05-12',1); const p=PG.pending(G); H.at('2030-08-03',7.9);
+    const G2=grad('2030-05-10',20.9,{EXCHANGE_ROUTE:'TW',Y4_PATH:'bar',BAR_REG:true}); H.at('2030-05-10',21.5); const tw=PG.due(G2);
+    check('G3. 延畢沒回答（過了 5/12）＝不報名：8/3 不進考場；臺灣路線 2030 不問',PG.done(G,'reg_2030')&&G.flags.BAR_REG_2030==null&&!PG.sits(G,2030)&&!PG.byId('exam_2030').cond(G)&&!(tw&&tw.id==='reg_2030'),[PG.rec(G).done.reg_2030,G.flags.BAR_REG_2030,PG.sits(G,2030),tw&&tw.id].join('｜')); }
+  { const mk=(key,fl)=>{ const s={day:D(key),hour:10,stage:'law',flags:Object.assign({EXCHANGE_ROUTE:'JP'},fl)}; if(typeof PG.migrate==='function') PG.migrate(s); return s.flags; };
+    const a=mk('2029-08-01',{BAR_REG:true}), b=mk('2030-06-01',{BAR_REG:true}), c=mk('2030-06-01',{}), d=mk('2030-06-01',{BAR_REG:false}), e=(()=>{ const s={day:D('2029-08-01'),hour:10,stage:'law',flags:{EXCHANGE_ROUTE:'TW',BAR_REG:true}}; if(typeof PG.migrate==='function') PG.migrate(s); return s.flags; })();
+    check('G3. 舊存檔：延畢、BAR_REG 被自動設成 true 的，2030 報名以前讀檔＝清掉（5/10 再問）；已經過了報名時間的照舊規則（報了名＝BAR_REG_2030，不讓準備中的國考消失）；臺灣路線不動',
+      typeof PG.migrate==='function'&&a.BAR_REG==null&&a.BAR_REG_2030==null&&b.BAR_REG_2030===true&&c.BAR_REG_2030===true&&d.BAR_REG_2030===false&&e.BAR_REG===true&&e.BAR_REG_2030==null,JSON.stringify([a,b,c,d,e])); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
-// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL。
+// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL。
