@@ -1,0 +1,86 @@
+[
+ {
+  "out": "a3_balcony.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 15.0,
+   "pos": {
+    "x": 14.2,
+    "z": 1.0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    14.2,
+    1.6,
+    -0.2
+   ],
+   "look": [
+    14.2,
+    4.9,
+    4.6
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 4000
+ },
+ {
+  "out": "c2_balcony.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 15.0,
+   "pos": {
+    "x": 50.5,
+    "z": 13.0,
+    "yaw": 1.57
+   }
+  },
+  "cam": {
+   "pos": [
+    49.8,
+    1.6,
+    13.0
+   ],
+   "look": [
+    55.0,
+    4.9,
+    13.0
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 4000
+ },
+ {
+  "out": "w0_balcony.png",
+  "w": 1280,
+  "h": 800,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.6,
+   "pos": {
+    "x": -31.5,
+    "z": -2.7,
+    "yaw": -1.57
+   }
+  },
+  "cam": {
+   "pos": [
+    -31.0,
+    1.6,
+    -2.7
+   ],
+   "look": [
+    -36.6,
+    4.9,
+    -2.7
+   ]
+  },
+  "hidePlayer": true,
+  "wait": 4000
+ }
+]
