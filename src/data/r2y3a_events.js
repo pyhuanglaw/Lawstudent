@@ -267,8 +267,8 @@ const R2Y3A_EVENTS=(function(){
       {label:'k2'},{speaker:'kai',text:'十二點。我知道規定。'},
       {label:'end'} ],
     consequences:{flags:{TYPHOON_Y3:true}} };
-  /* T3b：家族群組選「我會上線」＝10/14（四）19:00～19:50 線上，只有學姊和祐廷，各讀各的，鏡頭關著。AA 沒有給那一段旁白的字（要問 AA）：先只演字卡、時間往後 */
-  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'家族讀書會（線上）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
+  /* T3b「照常的讀書會」：家族群組選「我會上線」＝10/14（四）19:00～19:50 線上，只有學姊和祐廷，各讀各的，鏡頭關著。AA 沒有給那一段旁白的字（要問 AA）：先只演字卡、時間往後 */
+  const TY_FAMILY={ id:'ev_typhoon_y3_family', title:'照常的讀書會', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
     dialogue:[ {set:{SIS_TYPHOON_Y3_ONLINE:'went'}} ] };
 
   /* ---------- 2-Y3-10 可昕「主線 4 的那通電話」：10/18（一）22:00 演出來的電話；轉移話題的 10/22（五）22:00 再一次。id 一定用 ev_kexin_call_helper ---------- */
