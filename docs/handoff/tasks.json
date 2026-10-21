@@ -25739,7 +25739,7 @@
    "id": "ART-ECON-3D-GAP-1021",
    "title": "經濟系那一年的 3D 缺口（LAWWW2 清查 B8）",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "LAWWW2-C 清查 caf482d1 docs/art-rebuild/second_ai/BACKLOG_SWEEP_1021.md B8",
    "first": {
@@ -25752,7 +25752,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "next": "【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
    "xai": {
     "spec": "LAWWW2 清查 B8",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27599,6 +27599,34 @@
    "source": "AA（帳號 A）2026-10-21 19:32 交（企劃線 da456892，BACKLOG-SWEEP-AA-1021；子代理盤點 b72960bf、AA 核過）",
    "authorized": "D109（AA 劇情自己定）、D110",
    "next": "第 1 項 LAWWW 先做；其餘照 AA_368～AA_370 的做法開子代理整份做（AA_370 子代理在跑，CPU 空出來再開）"
+  },
+  {
+   "id": "BUG-NAV-LAMPPOST-1021",
+   "title": "路燈的燈柱擋不住人：導航阻擋 blockCircle 半徑 0.25 m，燈柱剛好在 0.5 m 格子的角（LAWWW2 巡場景）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "area": "場景程式（D108）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "校園、公館、溫州街的路燈",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）2026-10-21 自己巡場景發現（claude/second-ai-env-art 5f03d748 WIP）",
+   "authorized": "D108（場景程式歸 LAWWW2）、D110",
+   "xai": {
+    "spec": "LAWWW2 巡場景紀錄",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "燈柱擋得住人、nav_buildings／reachability 不變",
+    "receiver": "LAWWW",
+    "ack": "自領"
+   },
+   "next": "LAWWW2 交 patch 後 LAWWW 整合；跑 nav 相關單元測試"
   }
  ]
 }

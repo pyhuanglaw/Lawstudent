@@ -16195,6 +16195,76 @@
    "kind": "wip",
    "task": "BUG-CAM-C208-1021",
    "reason": "C 棟 208／美國公寓跟隨鏡頭 WIP：patches/c208_cam_walls.diff（含 engine3d followCam 一行，LAWWW 已看過）；交件後 LAWWW 整合；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
+  },
+  {
+   "sha": "5f03d748",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "reason": "路燈燈柱導航阻擋 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "72aa3a0d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "巡場景紀錄：校園第 1 節五項改成施工中；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "71ca706a",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "兩點半 Café 吊燈 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "b47d499b",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "宿舍四人房網點透空 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "2bc9992d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "宿舍四人房洗手間頂板 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "f858b47c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "榕樹氣根 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "30e9cb84",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "椰林大道路燈 patch 第二版 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "fa34a418",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "椰林大道晚上的路燈 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "0343b994",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "博雅教學館東側一樓 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "89655410",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "四棟拱廊大門 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
   }
  ]
 }
