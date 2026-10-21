@@ -1178,7 +1178,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "b7c437a1",
    "files": [
     "docs/story_planning/AA_377_法律系大三下_三條路線_修正稿.md",
     "docs/story_planning/AA_342_法律系臺灣路線_每一週能做什麼_覆蓋盤點與補空白.md"
