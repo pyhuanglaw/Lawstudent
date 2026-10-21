@@ -21578,7 +21578,7 @@
    },
    "source": "BB-C 2026-10-18 06:41（claude/wonderful-mayer-7fm9g6 @ 1b706548，docs/story_planning/test_shots/econ_home_1018/README.md）",
    "authorized": "bug 修正",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
+   "next": "【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22575,7 +22575,7 @@
    "title": "8/29 26:30（8/30 凌晨 2:30）快轉多一個空的停點，之後真實時間 20 分鐘才到 8/30 07:30（BB-C QA-AA300 舊版 adb309db 回報）",
    "area": "v1",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -22589,7 +22589,7 @@
    },
    "source": "BB-C 10:58 訊息（QA-AA300-1018 中途結果）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 next 在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 算前一天）停在 26:30、哪個迴圈跑很久；或請 BB 用新版 MODE=ff 再跑一次確認 ｜ BB 的腳本是 MODE=ff（只按對話、睡覺／快轉）＋?turbo；先在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 深夜算前一天）停在 26:30、哪個迴圈跑很久。等 BB 新版結果確認還在不在",
+   "next": "【LAWWW（帳號 A）17:4x】Node 重現不出：d91ebf4a 起 8/29 05:00 就轉法律系；經濟系在家快轉的三個選項上限都是 8/29 05:00，一路快轉只停 8/28 22:00（訊息）→ 8/29 05:00；8/29 晚上在法律系宿舍不是放假（床邊沒有「快轉」），22:30 或凌晨 2:00（hour 26）睡覺都直接到 8/30 07:30、一張日期卡。tests/bug0830_emptystop_unit.js 6 項鎖住（舊版 adb309db 才有的路徑，這支在現在的程式上寫，沒有在舊版跑過）。等 BB 瀏覽器 MODE=ff 從 8/28 跑到 8/30 07:30 確認（BB-TEST-0830-ECONHOME-1021） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 next 在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 算前一天）停在 26:30、哪個迴圈跑很久；或請 BB 用新版 MODE=ff 再跑一次確認 ｜ BB 的腳本是 MODE=ff（只按對話、睡覺／快轉）＋?turbo；先在 node 重現：8/29 晚上睡覺／快轉到 8/30，看哪一段 jumpTo（h≥24 深夜算前一天）停在 26:30、哪個迴圈跑很久。等 BB 新版結果確認還在不在",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -27150,6 +27150,34 @@
    "source": "LAWWW2 17:14（e920fa7e 查明，test_shots/gym_floor_haze_1021/）",
    "authorized": "技術修正（共用核心 engine3d.js，LAWWW 做）",
    "next": "會動到所有室內光線：先量各室內區域前後亮度，再決定（例：fill 光的 specular 關掉——three.js 平行光無法單獨關高光，可改成 HemisphereLight／AmbientLight 補光，或室內 fill 強度降低）；BB 全區域截圖比對；排 v9.10.3 後"
+  },
+  {
+   "id": "BB-TEST-0830-ECONHOME-1021",
+   "title": "瀏覽器重跑經濟系在家到法律系 8/30：①QA-AA300 MODE=ff 從 8/28 晚上快轉／睡覺到 8/30 07:30，確認沒有 8/29 凌晨的空停點（BUG-0830-EMPTYSTOP-1018）②用 econ_home_1018 同一支腳本（flow_v0_home 縮圖總表）重拍，確認 n031 豆花店後半空白、n093 全黑、n180 日期字疊「看手機」按鈕、n212 遊覽車還在不在（BUG-ECON-HOME-SHOTS-1018）",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "10/19 退宿以後到 8/30",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）2026-10-21 17:4x：BUG-0830-EMPTYSTOP-1018 Node 重現不出、BUG-ECON-HOME-SHOTS-1018 剩五格要新版重拍（D99 第一優先：經濟系完整流程）",
+   "authorized": "D100（測試歸 BB）",
+   "next": "v9.10.3 發布前判定之後做；有問題列重現步驟（日期、時間、按了什麼）給 LAWWW",
+   "xai": {
+    "spec": "BB-C 1b706548 docs/story_planning/test_shots/econ_home_1018/README.md（claude/wonderful-mayer-7fm9g6）；tests/bug0830_emptystop_unit.js",
+    "branch": "claude/confident-ritchie-8rwh7t（最新）",
+    "acceptance": "① 8/29 晚上到 8/30 07:30 之間沒有空停點、不會卡很久；② 五格各判 FIXED／PARTIAL／NOT FIXED，附截圖；缺圖的列出來照 D97 跟使用者要",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
   }
  ]
 }
