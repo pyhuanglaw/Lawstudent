@@ -83,7 +83,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1); const q=OUT.get(G,'kx_anniv4v');
       G.day=A(4)-1; G.hour=21.1; const gift=EVENTS.check(ev('ev_k7_gift_prep_n'));
       said=[]; G.day=A(4); G.hour=20.5; q.state='planned'; await OUT.go(GM,q); const L=lines();
-      check('Q4 第四年那天在美國：沒有邀約、沒有準備的東西；她 21:00 打視訊（接起來）三句；KX_ANNIV {4:video}',!TH('p:kexin').some(m=>m.tag==='kx_anniv_ask4')&&!gift&&q&&q.h===21&&q.verb==='接起來'&&J(L.filter(t=>t.startsWith('杜可昕')).slice(0,3))===J(['杜可昕：週年快樂。你那邊是早上吧。','杜可昕：卡片我寄了，下禮拜才會到。','杜可昕：……你回來我們再去一次摩天輪。'])&&G.flags.KX_ANNIV[4]==='video',J([q,L])); }
+      check('Q4 第四年那天在美國：沒有邀約、沒有準備的東西；她台灣 21:00＝當地早上 09:00 打視訊（AA_340 S8；接起來）三句；KX_ANNIV {4:video}',!TH('p:kexin').some(m=>m.tag==='kx_anniv_ask4')&&!gift&&q&&q.h===9&&q.verb==='接起來'&&J(L.filter(t=>t.startsWith('杜可昕')).slice(0,3))===J(['杜可昕：週年快樂。你那邊是早上吧。','杜可昕：卡片我寄了，下禮拜才會到。','杜可昕：……你回來我們再去一次摩天輪。'])&&G.flags.KX_ANNIV[4]==='video',J([q,L])); }
   }
   { fresh(A(2)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true}); run(20.9,21.1); check('Q4 沒在交往：第二年沒有邀約、沒有出遊',!TH('p:kexin').some(m=>/^kx_anniv/.test(m.tag||''))&&!OUT.get(G,'kx_anniv2')); }
   { fresh(D('2025-10-10'),20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true}); run(20.9,21.1); check('Q4 第一年照舊（kx_anniv_ask 兩句、三個地點），沒有第二年的訊息',TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask').length===2&&!TH('p:kexin').some(m=>m.tag==='kx_anniv_ask2')); }

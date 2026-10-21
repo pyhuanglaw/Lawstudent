@@ -117,7 +117,7 @@ const R2Y4A=(function(){
     return true; };
   /* 回到桃園（EXCH.onLand）：入境大廳 → 臺北的家（上午）。之後照 exchange3d.js：睡到下午、19:00 409（roomY4FromAirport）*/
   S.onLand=async function(GM){ const G=GM.G, F=G.flags; if(!isUS(G)) return false; F.US_RETURN=G.day;
-    if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); if(GM.fade) await GM.fade(false);
+    if(typeof ADV!=='undefined') ADV.begin({background:'blur'}); if(GM.fade) await GM.fade(false);   /* blur：落地以後先進入境大廳（airport_arr，AA_340 S10），dark 會把它蓋掉 */
     if(!done(G,'ev_us_return')) await run(GM,'ev_us_return');
     if(!done(G,'ev_us_home')){ at(GM,9); if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); await run(GM,'ev_us_home',{noTitle:true}); }
     if(GM.fade) await GM.fade(true); return true; };
@@ -129,7 +129,7 @@ const R2Y4A=(function(){
     { const d=D913(); if(d!=null&&G.day>=d&&G.day<=d+40){
         if(G.day===d&&dating(G,S5)&&past(G,d,18)&&hh(G)<19.5&&!F.US2&&!PHONE.sent(G,'us2_msg')) PHONE.at(G,d,18,[P5('報告被退回來了。'),P5('……我在煮麵。C 棟，廚房。要不要吃。')],'us2_msg');
         if(PHONE.sent(G,'us2_msg')&&!F.US2&&past(G,d,19.5)){ F.US2='missed'; PHONE.at(G,d,20,[P5('麵我吃完了。報告我自己再改一次。')],'us2_missed'); }   /* 20:00 */
-        const dA=D('2028-10-18'); if(dA!=null&&(F.US2==='there'||F.US2==='missed')&&dating(G,S5)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」：AA 沒寫哪一天，排 10/18（三）21:00 */
+        const dA=D('2028-10-16'); if(dA!=null&&(F.US2==='there'||F.US2==='missed')&&dating(G,S5)&&past(G,dA,21)&&G.day<=dA+7&&!PHONE.sent(G,'us2_grade')) PHONE.at(G,dA,21,[P5('改過的報告拿了 A。教授說：『這次我讀到妳了。』')],'us2_grade'); } }   /* 「10 月中」：AA 沒寫哪一天，排 10/18（三）21:00 */
     /* ---- 芝加哥（11/3 21:00）---- */
     { const d3=D('2028-11-03'), d11=D('2028-11-11'); if(d3!=null&&G.day>=d3&&G.day<=d11+1){
         if(past(G,d3,21)&&now(G)<T(d11,7)&&!PHONE.sent(G,'us_chi_ask')){ const dt=dating(G,S5), L=dt?[P5('下週末去芝加哥。巴士早上七點出發，帶厚外套。'),P5(F.MET_LONG?'何俊朗也去。他說他知道哪一家的披薩最好吃。……我們去驗證。':'香港來的那個同學也去，我們一起認識他。')]:[X5('下週末有人要去芝加哥嗎。巴士早上七點。')];

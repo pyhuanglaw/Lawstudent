@@ -71,7 +71,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   G.hour=18.05; rules(); check('V1. 18:00 私訊兩則', JSON.stringify(txt('p:heroine_05'))===JSON.stringify(['heroine_05:報告被退回來了。','heroine_05:……我在煮麵。C 棟，廚房。要不要吃。']), JSON.stringify(txt('p:heroine_05')));
   await GM.enter('us_shared'); G.hour=18.6; E.player.seat={x:0,z:0,lift:0.31}; await tick();
   check('V1. 坐到高腳椅＝開始；道具打開（z.us2）；「被說中了。」；第三個選項「書瑀，休息一下。」；US2＝there', E.zone.us2On===true&&has('（笑出來）……被說中了。')&&opts[0]&&opts[0][2]==='「書瑀，休息一下。」'&&G.flags.US2==='there', JSON.stringify(opts));
-  at('2028-10-18',21.1); rules(); check('V1. 10/18 21:00「改過的報告拿了 A。」', txt('p:heroine_05').includes('heroine_05:改過的報告拿了 A。教授說：『這次我讀到妳了。』'));
+  at('2028-10-15',21.1); rules(); const v1early=txt('p:heroine_05').includes('改過的報告拿了 A。'); at('2028-10-16',21.1); rules(); check('V1. 10/16 21:00「改過的報告拿了 A。」（AA_340 第 11 週：日子新；10/15 還沒有）', !v1early&&txt('p:heroine_05').includes('heroine_05:改過的報告拿了 A。教授說：『這次我讀到妳了。』'));
   fresh('2028-09-13',18.1,'us_apartment',US()); date('heroine_05'); rules(); G.hour=19.6; rules(); G.hour=20.1; rules(); check('V1. 交往中、沒到：20:00「麵我吃完了。」', txt('p:heroine_05').includes('heroine_05:麵我吃完了。報告我自己再改一次。')&&G.flags.US2==='missed');
   fresh('2028-09-13',18.5,'us_shared',US()); E.player.seat={lift:0.31}; await tick(); check('V2. 挽回中 18:30 坐在高腳椅：不演交往中那一版', !has('（笑出來）……被說中了。'));
   fresh('2028-09-13',19.0,'us_outside',US()); picks=['還沒']; await tick();

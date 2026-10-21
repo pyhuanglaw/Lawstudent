@@ -76,7 +76,7 @@ const date=id=>H.date(id);
   check('T1 台灣路線：「你沒去交換。」；第二個選項是「我沒交志願表。」；YT_T1', has('你沒去交換。')&&H.opts[0].includes('「我沒交志願表。」')&&!H.opts[0].includes('「我八月才走。」')&&has('嗯。那剛好。')&&H.G.flags.YT_T1===true);
   { fresh('2028-02-24',17,'gongguan',{},'US'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; H.picks=['我八月才走']; await run('ev_yt_thursday_first');
     check('T2 美國路線：「你下學期才去交換。」、「我八月才走。」→「嗯。那這學期剛好。」', has('你下學期才去交換。')&&H.opts[0].includes('「我八月才走。」')&&has('嗯。那這學期剛好。')); }
-  { fresh('2028-02-24',17,'gongguan',{},'JP'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; check('1B-13 日本路線：沒有', !S.t1On(H.G)&&!S.t1FirstDue(H.G,E)); }
+  { fresh('2028-02-24',17,'gongguan',{},'JP'); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; check('1B-13 日本路線（AA_341 裁定 4，原本「沒有」）：2/21～3/24 在臺灣，照台灣路線有第一次；3/25 出發以後沒有', S.t1On(H.G)&&S.t1FirstDue(H.G,E)&&(at('2028-03-30',17),!S.t1On(H.G))); }
   fresh('2028-03-02',17,'gongguan',{YT_T1:true,YT_T1_DAY:D('2028-02-24')}); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22;
   check('1B-13 之後的週四 17:00 在門口：問「今天要去嗎？」', S.t1WeekDue(H.G,E));
   H.said=[]; H.opts=[]; H.picks=[0]; const h0=H.G.hour; await S.t1Week(GM);
@@ -92,11 +92,11 @@ const date=id=>H.date(id);
     at('2028-02-24',16.8); const c=S.t1FirstDue(H.G,E); at('2028-03-09',17); H.said=[]; H.picks=[0]; await run('ev_yt_thursday_first');
     check('AA_337 第 2 題 2/24 沒去：之後的週四 17:00～17:30 在門口演「第一次」（16:54 還不演；2/24 照舊 16:45 起）', !a&&b&&c&&has('你沒去交換。')&&H.G.flags.YT_T1===true&&!S.t1WeekDue(H.G,E));
     at('2028-06-01',17.2); H.G.flags.YT_T1=false; const d=S.t1FirstDue(H.G,E); at('2028-06-08',17.2); const e=S.t1FirstDue(H.G,E); check('AA_337 第 2 題 第一次到第 15 週（6/1）為止', d&&!e); }
-  { fresh('2028-02-24',20,'dorm',{},'JP'); H.FRIEND('heroine_03'); at('2028-02-24',20.9); phone(); const a=th('p:heroine_03').length; at('2028-02-24',21); phone(); const b=th('p:heroine_03').slice();
-    at('2028-03-02',21); phone(); const c=th('p:heroine_03').slice(); at('2028-03-30',21.5); phone(); const d=th('p:heroine_03').length; at('2028-03-30',22); phone(); const e=th('p:heroine_03').slice();
-    at('2028-04-06',22); phone(); const f=th('p:heroine_03').slice(-1)[0]; at('2028-06-08',22); phone(); const g=th('p:heroine_03').length;
-    check('AA_337 第 2 節 日本路線：每週四 21:00 一張田野的照片（2/24 第一張、3/2 第二張）', a===0&&JSON.stringify(b)===JSON.stringify([S.YT_JP[0]])&&c[1]===S.YT_JP[1]&&S.YT_JP[0]==='📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）', JSON.stringify(c));
-    check('AA_337 第 2 節 日本路線：人在日本＝當地 22:00；3/30 是第六張；4/6 輪完從頭；第 16 週（6/8）沒有', d===c.length&&e.slice(-1)[0]==='📷（巷口的公布欄，貼著一張手寫的「收舊家電」）'&&f===S.YT_JP[0]&&g===e.length+1, JSON.stringify([d,e.length,f,g]));
+  { fresh('2028-02-24',20,'dorm',{},'JP'); H.FRIEND('heroine_03'); const ph=()=>th('p:heroine_03').filter(t=>/^📷（/.test(t)); at('2028-02-24',21); phone(); const a=ph().length; at('2028-03-02',21); phone(); const b=ph().length;
+    at('2028-03-30',21.5); phone(); const d=ph().length; at('2028-03-30',22); phone(); const e=ph();
+    at('2028-04-06',22); phone(); const f=ph().slice(-1)[0]; at('2028-05-11',22); phone(); const f2=ph().slice(-1)[0], n=ph().length; at('2028-06-08',22); phone(); const g=ph().length;
+    check('AA_337 第 2 節＋AA_341 裁定 4 日本路線：田野的照片從 3/30（四）起（2/24、3/2 人在臺灣，照台灣路線去麵店門口，沒有照片）；人在日本＝當地 22:00（台灣 21:00），第一張是水源市場', a===0&&b===0&&d===0&&JSON.stringify(e)===JSON.stringify([S.YT_JP[0]])&&S.YT_JP[0]==='📷（水源市場的菜攤，阿嬤背對鏡頭在算錢）', JSON.stringify([a,b,d,e]));
+    check('AA_337 第 2 節 日本路線：4/6 第二張；5/11 六張輪完從頭；第 16 週（6/8）沒有', f===S.YT_JP[1]&&f2===S.YT_JP[0]&&g===n, JSON.stringify([f,f2,n,g]));
     check('AA_337 第 2 節 日本路線的照片：沒有字、不用回（沒有選項）', (H.G.msgs||[]).filter(m=>m.th==='p:heroine_03').every(m=>!m.ask&&/^📷（/.test(m.text))); }
   /* ===== 1B-14 ===== */
   const z=ev('ev_zhiruo_no_sugar');
@@ -124,8 +124,8 @@ const date=id=>H.date(id);
     check('1B-15 沒有 nameless、沒有 PLAYTESTED＝《找插座的貓》、沒有「謝謝：爸爸」、沒有測試那一行', has('（她爸爸也來了，在試玩機前玩貓，卡在第三關。）')&&!has('謝謝：爸爸')&&!has('測試：祐廷')&&H.G.flags.ZQ_Q12==='cat'); }
   { fresh('2028-05-19',21,'dorm'); H.FAMILIAR('heroine_04'); phone(); at('2028-05-20',15); OUT.tick(GM); phone(); at('2028-05-20',21); phone();
     check('1B-15 沒去：當晚 21:00 製作名單的照片', th('p:heroine_04').includes('（照片：製作名單）')&&H.G.flags.ZQ_Q12_SEEN==='missed'); }
-  { fresh('2028-05-20',21,'dorm',{},'JP'); H.FAMILIAR('heroine_04'); phone(); check('Q3 日本路線：沒有邀約；21:00 電話到期', !th('p:heroine_04').length&&S.zqCallDue(H.G));
-    await run('ev_ziqing_q12_call'); phone(); check('Q3 「他打了五次。第五次過了。……」；阿凱「子晴的製作名單。」；WATCHED_SHOW_ONLINE', has('他打了五次。第五次過了。……我在後面笑到不行。')&&H.G.flags.WATCHED_SHOW_ONLINE===true&&th('p:kai').includes('子晴的製作名單。')); }
+  { fresh('2028-05-20',21,'dorm',{},'JP'); H.FAMILIAR('heroine_04'); phone(); const a=S.zqCallDue(H.G); at('2028-05-20',22); phone(); check('Q3 日本路線：沒有邀約；人在日本＝當地 22:00（台灣 21:00，AA_341 J-S13）電話到期', !th('p:heroine_04').length&&!a&&S.zqCallDue(H.G));
+    H.G.flags.ZQ_Q10='nameless'; H.said=[]; await S.zqCall(GM); phone(); check('Q3 《九點以後》（ZQ_Q12 nine，AA_341 J-S18）：「他打了五次。第五次過了。……」；阿凱「子晴的製作名單。」；WATCHED_SHOW_ONLINE', has('他打了五次。第五次過了。……我在後面笑到不行。')&&H.G.flags.ZQ_Q12==='nine'&&H.G.flags.WATCHED_SHOW_ONLINE===true&&th('p:kai').includes('子晴的製作名單。')); }
   /* AA_337 第 5 節：收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）＝5/18（四）21:00 阿凱私訊 */
   { fresh('2028-05-18',20,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); at('2028-05-18',20.9); phone(); const a=th('p:kai').length; at('2028-05-18',21); phone(); const mk=(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_zq_kai');
     check('AA_337 第 5 節 5/18 21:00 阿凱：「週六下午兩點，子晴學姊的發表會。資工系館一樓。」「我要去占位子。你要不要？」→「去。」「不了。」', a===0&&th('p:kai').join('|')==='週六下午兩點，子晴學姊的發表會。資工系館一樓。|我要去占位子。你要不要？'&&!!mk&&mk.ask.opts.map(o=>o.t).join('|')==='去。|不了。');
@@ -150,7 +150,7 @@ const date=id=>H.date(id);
   check('1B-16 5/1 21:00 可昕兩則、「去。」「那天不行。」', JSON.stringify(th('p:kexin'))===JSON.stringify(['我的期末報告被選去發表。禮拜三下午三點。','你要來的話，坐最後一排。'])&&!!m19&&m19.ask.opts.map(o=>o.t).join('|')==='去。|那天不行。');
   answer('y3_kx19',0); phone(); at('2028-05-03',14.2); await goOut('y3_kx19',[1]);
   check('K1 去了：最後一排、停半秒、CG；「你坐最後一排。我看得到。」；KX_PRESENT came', has('（政大的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）')&&has('你坐最後一排。我看得到。……講得還好嗎？')&&has('因為你真的坐最後一排。')&&H.cgs.includes('cg_last_row_kexin')&&H.G.flags.KX_PRESENT==='came');
-  { fresh('2028-05-03',16,'dorm',{},'JP'); date('kexin'); at('2028-05-03',17); phone(); check('K2 日本路線：照片「最後一排空著。」；KX_PRESENT photo', th('p:kexin').includes('期末報告講完了。最後一排空著。')&&H.G.flags.KX_PRESENT==='photo'); }
+  { fresh('2028-05-03',16,'dorm',{},'JP'); date('kexin'); at('2028-05-03',17); phone(); const a=th('p:kexin').includes('期末報告講完了。最後一排空著。'); at('2028-05-03',18); phone(); check('K2 日本路線：照片「最後一排空著。」（人在日本＝臺灣 17:00＝當地 18:00，AA_341 J-S13）；KX_PRESENT photo', !a&&th('p:kexin').includes('期末報告講完了。最後一排空著。')&&H.G.flags.KX_PRESENT==='photo'); }
   /* ===== 1B-17 ===== */
   /* AA_337 第 6 節：群組「收到。」後面不掛選項；「生日快樂」改成玩家在學姊的私訊用 MSG-2 的話題，回覆照她回訊息的時間（12:10／17:05／22:30）*/
   const bdayTp=()=>MSG.topics(H.G,'heroine_05').map(q=>q.k).includes('bday');

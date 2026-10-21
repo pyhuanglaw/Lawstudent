@@ -110,20 +110,25 @@ const DM3=(function(){
     const H=homeOf(typeof GAME!=='undefined'&&GAME.G);
     /* 同一層的門牌照自己房間的號碼排（2026-10-18 使用者：「同一層樓為什麼不是同一個號碼開頭？我經濟系宿舍 4 開頭、對面 2 開頭」）：
        自己的房號開頭和那一層原本的開頭（一樓 1、二樓 2）不一樣時（經濟系 412、大二 312），那一層的門牌整排平移——
-       經濟系 410～417（412 在原本 203 的位置）、大二 309～316；大一 203、大三 218、大四 105 照舊 */
+       經濟系 410～417（412 在原本 203 的位置）、大二 309～316、大三 507～514（507 在原本 201 的位置）、大四 408～415（409 在原本 202 的位置）；大一 203 照舊 */
     const base=+(H.rep?((L.doors.find(q=>q.id===H.rep)||{}).plate||'203'):'203'), hn=+H.plate, shift=String(hn)[0]!==String(base)[0]?hn-base:0;
     const ren=d=>{ if(!shift||(d.lv|0)!==(H.lv|0)||!/^\d{3}$/.test(d.plate||'')) return d; const np=String(+d.plate+shift), rp=t=>typeof t==='string'?t.split(d.plate).join(np):t; return Object.assign({},d,{plate:np,label:rp(d.label),closed:rp(d.closed)}); };
     for(const d0 of L.doors.concat(H.key!=='y1'?[OLD_HOME]:[])){ if(d0.id===H.rep) continue; const d=ren(d0); const p=one(d,false); IT.push({x:p.x+Math.sin(p.ry)*0.75,z:p.z+Math.cos(p.ry)*0.75,radius:1.0,lv:d.lv,label:d.label,look:d.closed}); }
     one({x:H.x,lv:H.lv,side:'N',plate:H.plate},true);
     // 房門口的小東西：鞋架、阿凱掛在門把上的耳機袋（一看就知道是自己的房間）
     { const y=H.lv?Y1:0, z=L.corridor.z0+0.25; const b=new TK.Bin(); b.add(M('#3a3f46',{rough:0.6}),TK.boxG(0.7,0.36,0.26),H.x+0.95,y+0.18,z); b.add(M('#e9e4da'),TK.boxG(0.26,0.08,0.11),H.x+0.8,y+0.4,z); b.add(M('#4a6c8c'),TK.boxG(0.26,0.08,0.11),H.x+1.1,y+0.4,z); b.build(H.lv?fb1:fb0); } }
-  /* 每一年的房間（AA_183 第 5 節）：同一個宿舍模型，換一扇門。大一 203（二樓）→ 大二 112（一樓，主線 3）→ 大三 218（二樓的另一頭，主線 5）→ 大四 105（一樓，靠門口，主線 10）。
+  /* 每一年的房間（AA_208 第 7、8 節；取代 AA_183 的 112／218／105）：同一個宿舍模型，換一扇門。大一 203 → 大二 312（三樓，主線 3）→ 大三 507（五樓，主線 5）→ 大四 409（四樓，主線 10）。
+     走廊模型只有兩層：樓上那一層（lv 1）當成自己住的那一樓——門牌整排照自己的房號排（buildDoors 的 shift）、樓梯口的指標寫那一樓（buildFurniture 的 signs）。
+     大三 507 用二樓最西邊 201 那扇門、大四 409 用 202 那扇（每一年走到不同的門口；SCN-V4-01／SCN-V5-01，2026-10-20 LAWWW-C 的美術子代理：原本 218、105 是作廢的 AA_183 房號，和字卡「五樓 507 號房」對不上）。
      經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓），門的位置用大一的。房號只是門牌：換到的那一扇原本的寢室門（rep）不放，203 搬走以後變成一般關著的門。
-     房間裡面（dorm 區域）沿用同一個；窗外（AA_183：腳踏車棚和一棵樹、球場的燈、門口的路燈）等美術。 */
-  const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'312',x:11.15,lv:1,rep:'r204'},y3:{plate:'218',x:-10.9,lv:1,rep:'r201'},y4:{plate:'105',x:-5.25,lv:0,rep:'r102'}};
+     房間裡面（dorm 區域）沿用同一個；窗外照樓層（zones3d.js dormView、tools/blender/env_second/dorm_back_view.py）。 */
+  const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'312',x:11.15,lv:1,rep:'r204'},y3:{plate:'507',x:-10.9,lv:1,rep:'r201'},y4:{plate:'409',x:-5.25,lv:1,rep:'r202'}};
+  /* 自己住的那一樓（中文數字）：樓上那一層的門牌第一個數字（203→二、312→三、507→五、409→四、經濟系 412→四）；住一樓（lv 0）＝一 */
+  const FLOOR_ZH=['','一','二','三','四','五','六','七','八','九'];
+  function homeFloor(h){ const d=h&&h.lv?+String(h.plate||'2')[0]:1; return d>=1&&d<=9?d:2; }
   const OLD_HOME={id:'r203',lv:1,x:5.5,side:'N',label:'203 寢室',plate:'203',closed:'203 寢室。門關著。'};
   function homeOf(G){ const F=(G&&G.flags)||{}, econ=!!G&&G.stage==='econ'; const key=econ?'y1':F.ROOM_Y4?'y4':F.ROOM_Y3?'y3':F.ROOM_Y2?'y2':'y1'; const h=Object.assign({key},HOMES[key]); if(econ) h.plate='412';
-    h.label='回房間（'+h.plate+'）'; h.spawn={x:h.x,z:0.4,lv:h.lv,yaw:0}; return h; }
+    h.label='回房間（'+h.plate+'）'; h.spawn={x:h.x,z:0.4,lv:h.lv,yaw:0}; h.floor=homeFloor(h); h.floorZh=FLOOR_ZH[h.floor]+'樓'; return h; }
   /* 房間（dorm 區域）的「走出房間」：出去站在自己那一扇門前。搬了房間（主線 3）以後，人還在房間裡，就地改出口 */
   function fixRoomExit(E,G){ if(!E||!E.interactables) return; for(const it of E.interactables) if(it.exit&&it.exit.to==='dorm_hall') it.exit.spawn=Object.assign({},homeOf(G).spawn); }
 
@@ -151,8 +156,9 @@ const DM3=(function(){
       else if(f.type==='bench'){ const sg=new THREE.Group(); sg.position.set(f.x,y,f.z); sg.rotation.y=ry; fb.add(sg); const sb=new TK.Bin(); sb.add(MAT.wood(),TK.boxG(f.w,0.05,f.d),0,0.45,0); for(const sx of [-1,1]) sb.add(MAT.steel(),TK.boxG(0.05,0.43,f.d*0.9),sx*(f.w/2-0.12),0.215,0); sb.build(sg); nav.blockRect(f.x,f.z,f.w,f.d,ry,0.05);
         if(f.seat) IT.push({x:f.x+fx*0.65,z:f.z+fz*0.65,radius:0.9,lv:f.lv,label:'坐在長椅上',seat:{x:f.x,z:f.z,yaw:ry,lv:f.lv}}); } }
     b0.build(fb0); b1.build(fb1);
-    // 指標（中文字一直顯示：正式模型沒有字）
-    for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.22),new THREE.MeshBasicMaterial({map:TK.signTex(s.text,{bg:'#2f5d50',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; (s.lv?lv1:lv0).add(sp); } }
+    // 指標（中文字一直顯示：正式模型沒有字）。一樓樓梯口的「2F」寫自己住的那一樓（樓上那一層的門牌整排照房號排：312 → 3F、409 → 4F、507 → 5F、經濟系 412 → 4F）
+    const HF=homeOf(typeof GAME!=='undefined'&&GAME.G), upF=HF.lv?HF.floor:2;
+    for(const s of L.signs){ const y=(s.lv?Y1:0)+s.y, text=(s.lv|0)===0&&upF!==2?s.text.replace('2F',upF+'F'):s.text; const sp=new THREE.Mesh(new THREE.PlaneGeometry(s.w,s.w*0.22),new THREE.MeshBasicMaterial({map:TK.signTex(text,{bg:'#2f5d50',color:'#f3efe4'})})); sp.position.set(s.x,y,s.z); sp.rotation.y=s.ry||0; sp.name='sign_'+text; (s.lv?lv1:lv0).add(sp); } }
 
   // ---- 區域 ----
   const dorm_hall={ id:'dorm_hall', name:'男生宿舍', indoor:true, camDist:3.6, build(E){ const L=LAYOUT(), W=L.W, D=L.D, Y1=L.floors[1].y;

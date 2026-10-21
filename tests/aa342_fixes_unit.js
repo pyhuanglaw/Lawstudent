@@ -17,4 +17,9 @@ const C=CALENDAR, T=s=>C.termOf(dayOf(s));
   const r=C.termDays('Y4S2'); check('C4. termDays(Y4S2) 到 6/3（週日）為止',!!r&&r.to===dayOf('2029-06-03'),JSON.stringify(r));
   const m=T('2029-04-16'); check('C4. 期中考週照舊（第 8～9 週）',!!m&&m.exam==='mid',JSON.stringify(m));
   const o=T('2028-12-18'); check('C4. 別的學期照舊 16 週（大四上第 16 週是期末考週）',!!o&&o.id==='Y4S1'&&o.week===16&&o.exam==='final',JSON.stringify(o)); }
+// AA_344 ②（AA-C 569621e0）：大四上公法判決研討第 11 週，明軒不在課堂上說「我在申請德國的獎學金」（M4 他才說都沒跟大家說）；syllabus 從企劃線重新匯入。修改前失敗。
+vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/data/syllabus.js'),'utf8').replace(/^const SYLLABUS\s*=/m,'global.SYLLABUS='),{filename:'syllabus.js'});
+{ const w11=(SYLLABUS.courses.public_judgment_sem||[]).find(x=>x.w===11), t=JSON.stringify(w11||{});
+  check('AA_344 ②. 公法判決研討第 11 週：「德國的判決，理由寫得好清楚……我想學那個寫法。」，沒有「我在申請德國的獎學金」', t.includes('德國的判決，理由寫得好清楚……我想學那個寫法。')&&!t.includes('我在申請德國的獎學金'));
+  check('AA_344 ②. 重匯以後大四下法律專題研究第 6、7 週還是沒有（AA_342 C1，匯入工具的 DROPPED_WEEKS）', !(SYLLABUS.courses.legal_research||[]).some(x=>x.w===6||x.w===7)); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
