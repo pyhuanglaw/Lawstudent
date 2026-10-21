@@ -25,7 +25,7 @@ const SOCIAL = (function(){
   S.takeFeel=function(max){ const out=[]; const ids=new Set([...Object.keys(S.feel),...S.capNotes]);
     for(const id of ids){ const P=S.feel[id]||{}; if(!CHARACTERS[id]) continue;
       const heroine=/^heroine_0[1-5]$/.test(id), known=S.has(id,'FIRST_MET')||(!heroine&&S.reveal(id)!=='UNKNOWN'); if(!known) continue;   /* 還沒認識的人（女主角要正式見過）不顯示 */
-      const name=heroine&&CHARACTERS[id].nickname||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);
+      const name=heroine&&(S.datingName(id)||CHARACTERS[id].nickname)||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);   /* 交往中的學姊：「和書瑀熟了一點。」（CALLED_SHUYU）*/
       const st0=S.feelStage[id], st1=S.stage(id); if(st0!==undefined&&STAGE_LINE[st1]&&(STAGE_RANK[st1]||0)>(STAGE_RANK[st0]||0)){ out.push({text:STAGE_LINE[st1](name),sum:1000+sum}); continue; }   /* 換階段優先 */
       let k=null; for(const q of FEEL_ORDER) if((P[q]||0)>0&&(!k||P[q]>P[k])) k=q; if(k) out.push({text:FEEL_TEXT[k](name),sum});
       else if(S.capNotes.includes(id)){ out.push({text:'今天和'+name+'已經聊很多了。',sum:0}); const D=G.social&&G.social.daily; if(D&&D.p[id]) D.p[id].cap=1; } }   /* 真的顯示了才算（一天一次）*/
@@ -61,7 +61,7 @@ const SOCIAL = (function(){
     if(typeof v==='string') return v+crs;
     let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }
     const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+crs; };
-  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'yule'→「予樂」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&!S.metD(id)) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
+  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'yule'→「予樂」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&!S.metD(id)) return c.gender==='f'?'不認識的女生':'不認識的男生'; return S.datingName(id)||c.name; };   /* 交往中的叫法（學姊：交往那天起叫「書瑀」，CALLED_SHUYU；對話框、按鈕、人物頁都照這個）*/   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
   /* 女主角（D 層）算認識了沒：FIRST_MET，或舊存檔的 met_ 旗標（met_an、met_sis，FIRST_MET 以前的寫法）。
      BB-C 10-20（6a931b8e，使用者 9/25 存檔）：還沒認識以安，按鈕卻寫「和沈以安說話」——那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），
      原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
@@ -104,14 +104,17 @@ const SOCIAL = (function(){
   /* 好幾個版本（[{if,l}／{if,t}…]）取第一個成立的；不是版本清單就原樣 */
   const pickV=v=>{ if(Array.isArray(v)&&v.length&&v[0]&&typeof v[0]==='object'&&!('n' in v[0])&&(('l' in v[0])||('t' in v[0]))){ for(const x of v) if(!x.if||x.if(G)) return x; return null; } return v; };
   S.upLine=function(id){ const d=RL()[id]; if(!d||!d.up||!G.social) return null; const lv=FL.indexOf(S.friendLevel(id)), done=((G.social.relUp||{})[id])|0;
-    for(let k=lv;k>=2&&k>done;k--){ const e=pickV(d.up[FL[k]]); if(!e) continue; if(e.wait&&!e.wait(G)) continue; return {stage:FL[k],k,l:e.l||[],ch:e.ch||null}; } return null; };
+    for(let k=lv;k>=2&&k>done;k--){ const e=pickV(d.up[FL[k]]); if(!e) continue; if(e.wait&&!e.wait(G)) continue; return {stage:FL[k],k,l:e.l||[],ch:e.ch||null,set:e.set||null}; } return null; };   /* set：演完要記的旗標（阿凱撕掉膠帶＝KAI_TAPE_GONE）*/
   S.markUp=function(id,k){ const U=G.social.relUp||(G.social.relUp={}); if((U[id]|0)<k){ U[id]=k; (G.social.relUpDay||(G.social.relUpDay={}))[id]=G.day; } };   /* relUpDay：那天說的（方奕廷「我下週上山」之後的那一週要知道是哪一天）*/
   S.byeLine=function(id){ const d=RL()[id]; if(!d||!d.bye) return null; const s=S.friendLevel(id), B=d.bye;
     const v=pickV((s==='CLOSE_FRIEND'&&B.CLOSE_FRIEND)||((s==='CLOSE_FRIEND'||s==='FRIEND')&&B.FRIEND)||B.base); return v?(v.l||v):null; };
   S.meetLine=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
     const v=pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')]); return v?(typeof v==='string'?v:(v.t||null)):null; };
   /* 交往中的叫法（rel_lines 的 contact.DATING；AA_313 6-5 第 8 點：學姊交往以後聯絡人是「書瑀」，手機上她的訊息也照這個名字）*/
-  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))?C.DATING:null; };
+  /* 學姊：使用者 10-17 甲「交往那天起叫書瑀」，開始交往以後所有交往中的事件、選項、訊息都叫「書瑀」（AA_243 第 5 節第 6 題、AA_262 第 5 節第 3 件、AA_327）——
+     CALLED_SHUYU 在開始交往那天記（romance3d.js ROM.start），這裡讀它：交往中而且記過＝「書瑀」。分手以後怎麼叫照 BB 定（還沒定：先照原本的名字）*/
+  S.CALLED={heroine_05:'CALLED_SHUYU'};
+  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]])?C.DATING:null; };
   S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||C.base||null; };
   /* 任一方有伴侶（祐廷和別人交往中，或對方這學期有伴侶 CHARACTERS[id].partner）：{solo:true} 的旁白拿掉（BB_120 1-0） */
@@ -121,7 +124,7 @@ const SOCIAL = (function(){
   S.playSteps=async function(GM,who,id,steps){ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
       const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };
   /* 門檻台詞＋小選擇（不加數值）；說了回傳 true（先記下來，演到一半出錯也不會每次都說） */
-  S.playUp=async function(GM,who,id){ const U=S.upLine(id); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l);
+  S.playUp=async function(GM,who,id){ const U=S.upLine(id); if(!U) return false; S.markUp(id,U.k); await S.playSteps(GM,who,id,U.l); if(U.set&&G.flags) Object.assign(G.flags,U.set);
     if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c) await S.playSteps(GM,who,id,c.r); } return true; };
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>{ if(!MEMORY_LABEL[m.tag]) return null; const nt=S.noteShown(id,m); return MEMORY_LABEL[m.tag]+(nt?'（'+nt+'）':''); }).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
   const MEMORY_LABEL={AN_L1_NOTES_PHONE:'跟她說筆記寫在手機上',AN_L1_NOTES_PAPER:'跟她說筆記寫紙本（說好考前互借一頁）',AN_L2_PLANNER:'看過她的手帳（右欄寫理由）',AN_L3_DORM:'知道她也住宿舍（宿舍規則十七頁，她讀完了）',AN_L4_HOME:'知道她家在台中、媽媽每個月一次的晚餐',AN_L5_CONST:'憲法課她坐第三排',AN_L6_RULE_EXAMPLE:'跟她舉過一條沒有理由的規則',AN_L6_RULE_NONE:'跟她說自己都照規則',AN_L7_RUN:'知道她早上六點跑步（那時候沒人找她討論事情）',AN_L8_MIDTERM:'和她聊過期中考的準備',AN_L9_REASON:'聽她說為什麼講話都先準備理由',AN_L10_WINTER:'知道她寒假回台中、媽媽要教她一道菜',AN_L10_PHOTO_PROMISE:'說好寒假互傳照片',

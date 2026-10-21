@@ -36,37 +36,44 @@ const block=async(name,f)=>{ try{ await f(); }catch(e){ check(name+'（例外：
 const N=t=>({n:t});
 const EXP={
   heroine_01:{o:y=>y===2029?'（讀書會散了。萬才館研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）':'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
-    knew:y=>['……我知道是誰。不用說名字。','你選了。這個理由我收下。'],ask:['理由呢？'],
-    told:y=>[N('（她沒有馬上說話。）'),'……謝謝你說實話。我要一點時間，把它寫成理由。'],quiet:y=>['……好。這一格我先空著。'],
-    last:y=>[N('（她翻開手帳，在理由欄寫了一行，沒有給你看。）'),'好了。……你先走。我把這頁寫完。']},
+    knew:y=>['……我知道。不用說名字。','你選了。……好。'],ask:['理由呢？'],
+    told:y=>[N('（她沒有馬上說話。）'),'……你說實話了。','我要一點時間。'],quiet:y=>['……好。',N(y===2029?'（她把白板筆的蓋子蓋上。）':'（她把筷子在碗上放好。）')],
+    last:y=>[N('（她翻開手帳，寫了一行，沒有給你看。）'),'好了。……你先走。我把這頁寫完。']},
   heroine_03:{o:y=>'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',
     knew:y=>[N('（蒜頭一顆一顆放進碗裡。）'),'……嗯。我知道會有這一天。'],
-    told:y=>['……嗯。',N('（很久以後。）'),'謝謝你自己來說。'],quiet:y=>['……嗯。',N('（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）')],
+    told:y=>['……嗯。',N('（很久以後。）'),'你坐。我把這碗剝完。'],quiet:y=>['……嗯。',N('（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）')],
     last:y=>['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
   heroine_02:{o:y=>y===2029?'（視訊。她那邊是下午，窗外是英國灰灰的天。）':'（打烊後的 Café。只開了吧檯一盞燈。）',
-    knew:y=>['……我猜到了。你最近話都很短。'],told:y=>['……謝謝你自己說。不是讓我從別人那裡知道。'],
+    knew:y=>['……我猜到了。你最近話都很短。'],told:y=>[N('（她沒有接話。平常她都會接話。）'),'……我知道了。'],
     quiet:y=>['……好。',N(y===2029?'（她低頭，看著鏡頭外面的什麼。）':'（她低頭，擦了一下已經乾淨的杯子。）'),'我不問。問了，我會想記住答案。'],
     last:y=>[y===2029?'回去以後，我還是在吧檯後面。你點什麼，我都記得。':'我還是在吧檯後面。你點什麼，我都記得。']},
   heroine_04:{o:y=>y===2029?'（吉他社辦外面的樓梯。裡面在上社課，有人一直彈錯同一個和弦。）':'（工作室樓下。她外套的帽子拉起來一半，手上拿著一杯便利商店的咖啡。）',
-    knew:y=>['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:y=>['……你喜歡上別人了。','謝謝你自己來講。'],
-    quiet:y=>['……好。',N('（她把帽子拉起來，蓋住半張臉。）'),'你不說原因，我就不問了。'],last:y=>['之後還是朋友。……我說真的。']},
+    knew:y=>['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:y=>['……你喜歡上別人了。','好喔。好。……那個——',N('（她沒有講完。）')],
+    quiet:y=>['……好。',N('（她把帽子拉起來，蓋住半張臉。）'),'那我也不講了。'],last:y=>['之後還是朋友。……我說真的。']},
   heroine_05:{o:y=>y===2029?'（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）':'（她上班的研究單位樓下。她剛下班，識別證還掛在脖子上。）',
-    knew:y=>['……我知道。我一直在等你自己來說。'],told:y=>['……謝謝你自己來說。','我需要一點時間。'],
+    knew:y=>['……我知道。','走一段吧。這種事，站著講不好。'],told:y=>['……嗯。','我需要一點時間。……不用太久。'],
     quiet:y=>['好。',N('（她把計畫本闔上，沒有寫任何東西。）')],last:y=>[y===2029?'謝謝你。……畢業快樂，先說了。':'謝謝你。……你也要好好吃飯。']},
   classmate_peishan:{o:y=>'（電話。她那邊有小孩子的聲音，她走到外面才講。）',
-    knew:y=>['……我知道你要說什麼。','你特地打來說這個。'],told:y=>['……你特地打來說這個。','謝謝你自己說。'],
-    quiet:y=>['……嗯。',N('（電話那頭很久沒有聲音。）'),'好。我不問。'],last:y=>['謝謝你在我重考那年陪我。那一年，我不會忘。']},
+    knew:y=>['……我知道你要說什麼。','你特地打來說這個。'],told:y=>['……你特地打來說這個。','……還好啦。你那邊吃飯了嗎？'],
+    quiet:y=>['……嗯。',N('（電話那頭很久沒有聲音。）'),'好。……那我掛了喔。'],last:y=>['謝謝你在我重考那年陪我。那一年，我不會忘。']},
   kexin:{o:y=>y===2029?'（政大山下的小吃店。她點好了兩碗，筷子還沒拆。）':'（她家樓下。她穿著拖鞋下來，手上還拿著鑰匙。）',
-    knew:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'我知道。我只是在等你哪一天自己講。'],
-    told:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'謝謝你自己來講。'],
-    quiet:y=>['……就這樣？','好。我不問。'],last:y=>['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
+    knew:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'我知道。……我以為你會更早講。'],
+    told:y=>['……你說完了？',N(y===2029?'（她把筷子放下。）':'（她把鑰匙握在手裡。）'),'……操。','你至少講完了。'],
+    quiet:y=>['……就這樣？',N(y===2029?'（她站起來，自己去付了錢。）':'（她轉身上樓，門沒有關好。）')],last:y=>['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
 const ME='……我想跟妳分開。', DM='你是不是有話要跟我說。', PH='（電話。）', OPTS=['「我喜歡上別人了。」','（不說原因）'];
 /* 表（第 1 節）：[2029 幾點, 2030 幾點, 2029 地點, 2030 地點, 2029 背景, 2030 背景]；背景 null＝深色底、'phone'＝電話（不在家＝晚上的路邊）*/
 const TBL={heroine_01:[18,19,'萬才館研討室外的走廊','麵店，兩人桌','wancai_seminar','noodle_table'],heroine_03:[21.5,21.5,'麵店打烊以後','麵店打烊以後','noodle_table','noodle_table'],
   heroine_02:[22,21.5,'約好的視訊','打烊後的 Café','video',null],heroine_04:[21,20,'吉他社辦外面的樓梯','工作室樓下',null,null],heroine_05:[17,18.5,'研究室走廊','她上班的研究單位樓下','linze_prof_hall',null],
   classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'政大山下的小吃店','她家樓下','nccu_food',null]};
-const want=(id,y,br,phone)=>{ const X=EXP[id], L=[N(phone?PH:X.o(y)),{me:ME}]; if(br==='knew') L.push(...X.knew(y)); else { L.push(...(X.ask||[])); L.push(...X[br](y)); } L.push(...X.last(y)); return L; };
-const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return g.who===nm(id)&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
+/* AA_350 Q3：電話版（沛珊，以及錯過三次改電話的）看得到動作的旁白換成聽得到的；拿掉的＝null（照 AA 的對照表另抄一份）*/
+const HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）','（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）',
+  '（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她翻開手帳，寫了一行，沒有給你看。）':'（翻紙的聲音。）','（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）',
+  '（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）','（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
+const hearOf=L=>L.map(x=>x&&x.n&&x.n in HEAR?(HEAR[x.n]==null?null:N(HEAR[x.n])):x).filter(x=>x!=null);
+const want=(id,y,br,phone)=>{ const X=EXP[id], L=[N(phone?PH:X.o(y)),{me:ME}]; const B=[]; if(br==='knew') B.push(...X.knew(y)); else { B.push(...(X.ask||[])); B.push(...X[br](y)); } B.push(...X.last(y)); return L.concat(phone||id==='classmate_peishan'?hearOf(B):B); };
+/* 談的時候還在交往：學姊的名字框是交往中的叫法「書瑀」（CALLED_SHUYU，never_set_flags_unit 第 5 節）；談完分開以後 nm() 才回到「溫書瑀」*/
+const dn=id=>{ const C=typeof REL_LINES!=='undefined'&&REL_LINES[id]&&REL_LINES[id].contact; return C&&C.DATING||null; };
+const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return (g.who===nm(id)||(!!dn(id)&&g.who===dn(id)))&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
 /* 背景照 OUT.bg（圖還沒到的＝dark）；'phone'＝events3d.js 的 {scene:'電話'} 那一套（不在家＝OUT.bg('phone_street_night')）*/
 const bgKey=b=>b&&typeof b==='object'?b.image:b;
 const bgOk=(want0)=>{ const k=bgKey(want0==='phone'?OUT.bg('phone_street_night'):(want0?OUT.bg(want0):'dark')); if(k==='dark') return H.bgs.length>0&&H.bgs.every(b=>bgKey(b)==='dark'); return H.bgs.some(b=>bgKey(b)===k); };
@@ -177,7 +184,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     setup('heroine_02',2029,{keep:'heroine_04'}); missThree('heroine_02'); const Z=rnd(S.apartRound(H.G,2029),'heroine_02'), zq=OUT.get(H.G,'apart29_heroine_02_2');
     check('4. 芷若 22:00 的視訊第三次沒接：22:30 才算沒到＝當下私訊（不是過去的 22:00）', Z.st==='call'&&Math.abs(Z.call-(zq.day*24+22.51))<1e-6&&PHONE.sent(H.G,'apart29_call_heroine_02'));
     H.picks=[0]; atAbs(Z.call); PHONE.tick(H.G); await H.run('r2y4b_apart29_call_heroine_02');
-    check('4. 芷若的電話版：「（電話。）」→「謝謝你自己說。不是讓我從別人那裡知道。」→ 2029 的最後一句', same('heroine_02',want('heroine_02',2029,'told',true)), dump());
+    check('4. 芷若的電話版：「（電話。）」→（她沒有接話……）「……我知道了。」（AA_346 3-0）→ 2029 的最後一句', same('heroine_02',want('heroine_02',2029,'told',true)), dump());
     /* 睡過頭（隔天早上才知道沒到）：私訊在當下 */
     setup('heroine_03',2029,{keep:'heroine_04'}); for(let n=0;n<2;n++){ const q=OUT.get(H.G,'apart29_heroine_03_'+n); atAbs(q.day*24+q.h+0.51); expireAll(); }
     const q3=OUT.get(H.G,'apart29_heroine_03_2'); at('2029-05-25',8); expireAll(); const Y=rnd(S.apartRound(H.G,2029),'heroine_03');
@@ -193,12 +200,20 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     check('4. 沛珊（電話）：「打給她：打給沛珊」「今天先不要」＝沒到，延到隔天 21:00', H.opts[0][0]==='打給她：打給'+nm('classmate_peishan')&&H.opts[0][2]==='今天先不要'&&OUT.get(H.G,'apart29_classmate_peishan_1').day===pq.day+1&&OUT.get(H.G,'apart29_classmate_peishan_1').h===21, JSON.stringify(H.opts));
   });
 
+  /* ===== 4b. AA_350 Q4：一晚只排一場；延期撞到別人那一晚＝再往後順延一天（不算沒到）===== */
+  await block('4b. 一晚一場',async()=>{
+    setup('heroine_03',2029,{keep:'kexin',more:['heroine_01']}); const q1=OUT.get(H.G,'apart29_heroine_01_0'), q3=OUT.get(H.G,'apart29_heroine_03_0');
+    atAbs(q1.day*24+q1.h-0.2); H.picks=[2]; H.opts=[]; await OUT.prompt(GM,OUT.due(H.G)); const n1=OUT.get(H.G,'apart29_heroine_01_1'), P=rnd(S.apartRound(H.G,2029),'heroine_01');
+    check('4b. 以安第一次沒到、隔天是語彤那一晚＝以安再往後一天（同一時間），只算沒到一次；語彤不動', q3.day===q1.day+1&&!!n1&&n1.day===q1.day+2&&n1.h===q1.h&&P.n===1&&OUT.get(H.G,'apart29_heroine_03_0').day===q3.day&&OUT.get(H.G,'apart29_heroine_03_0').state==='planned', JSON.stringify({q1:q1.day,q3:q3.day,n1:n1&&n1.day,P})); });
+
   /* ===== 5. 知不知道（BB_194 的 knowsRel）===== */
   await block('5. 知不知道',async()=>{
     setup('heroine_03',2029,{keep:'kexin',more:['heroine_01']}); ROM.learn(H.G,'heroine_03','heroine_01','test');
     let q=OUT.get(H.G,'apart29_heroine_01_0'); atAbs(q.day*24+q.h); H.picks=[0]; await goOut(q.id,[0]);
     q=OUT.get(H.G,'apart29_heroine_03_0'); atAbs(q.day*24+q.h); await goOut(q.id,[0]);
-    check('5. 她知道的那一位（以安）先談完、已經分開：語彤照樣是「知道」那一版（她知道祐廷同時在和別人交往）', q.day===D('2029-05-23')&&same('heroine_03',want('heroine_03',2029,'knew',false))&&hist('heroine_03').said==='knew', dump());
+    check('5. AA_350 Q6：她只知道別人（以安，先談完分開的那一位）、不知道被選的可昕＝照「不知道」走（二選一；這裡選「我喜歡上別人了。」）', q.day===D('2029-05-23')&&same('heroine_03',want('heroine_03',2029,'told',false))&&hist('heroine_03').said==='told', dump());
+    setup('heroine_03',2029,{keep:'kexin'}); ROM.learn(H.G,'heroine_03','kexin','test'); q=OUT.get(H.G,'apart29_heroine_03_0'); atAbs(q.day*24+q.h); H.opts=[]; await goOut(q.id,[0]);
+    check('5. AA_350 Q6：她知道被選的那一位（可昕）＝「知道」那一版、沒有二選一', same('heroine_03',want('heroine_03',2029,'knew',false))&&hist('heroine_03').said==='knew'&&H.opts.length===0, dump());
     setup('heroine_04',2029,{keep:'heroine_02'}); ROM.learn(H.G,'heroine_04','heroine_02','told_by:heroine_02'); q=OUT.get(H.G,'apart29_heroine_04_0'); atAbs(q.day*24+q.h); await goOut(q.id,[1]);
     check('5. 子晴從芷若那裡知道（told_by）：知道版，沒有二選一', same('heroine_04',want('heroine_04',2029,'knew',false))&&H.opts.length===0, dump());
     setup('heroine_04',2029,{keep:'heroine_02'}); H.G.flags.knowsRel.heroine_02={heroine_04:{state:'confirmed',source:'test',day:H.G.day}}; q=OUT.get(H.G,'apart29_heroine_04_0'); atAbs(q.day*24+q.h); await goOut(q.id,[1]);

@@ -98,7 +98,7 @@ const REL_LINES=(function(){
       wenzhou:{R:'她走得很慢，看到什麼都停下來看一下。'} } },
   kai:{   /* 阿凱（1-5）：好朋友那一句，大一同房和大二以後不一樣。BB_169 a4ccf909 第 5 節 K-1～K-10：當面說的加標點（手機訊息照舊）；好朋友再分有沒有 KAI_TAPE（G.flags） */
     up:{ FAMILIAR:{l:['「所以你也吃宵夜？好，你在名單上了。」']}, FRIEND:{l:['「泡麵第一名是這個，跟你說一下。」']},
-      CLOSE_FRIEND:[{if:G=>(typeof SOCIAL==='undefined'||!SOCIAL.playerYear||SOCIAL.playerYear()<=1)&&!!(G.flags&&G.flags.KAI_TAPE),l:['（地上的紙膠帶不見了。）','「膠帶我撕掉了啦，反正你一直過來。」']},
+      CLOSE_FRIEND:[{if:G=>(typeof SOCIAL==='undefined'||!SOCIAL.playerYear||SOCIAL.playerYear()<=1)&&!!(G.flags&&G.flags.KAI_TAPE),l:['（地上的紙膠帶不見了。）','「膠帶我撕掉了啦，反正你一直過來。」'],set:{KAI_TAPE_GONE:true}},   /* set：演完記 KAI_TAPE_GONE，203 地上的 3D 膠帶也拿掉（LAWWW2 ART-Y1-BOX-1021）*/
         {if:G=>typeof SOCIAL==='undefined'||!SOCIAL.playerYear||SOCIAL.playerYear()<=1,l:['「欸，今天宵夜你要不要？我請。」']},
         {if:G=>!!(G.flags&&G.flags.KAI_TAPE),l:['「我新房間門口也貼了膠帶，寫法律系免簽。」']},
         {l:['「欸，你哪天來我新房間，我螢幕換大的了。」']}] },

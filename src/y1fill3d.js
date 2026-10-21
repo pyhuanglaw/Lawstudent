@@ -111,6 +111,7 @@ const Y1FILL=(function(){
   let tapeT=0, busy=false;
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false;
     try{ S.boxPlace(GM); }catch(e){ console.warn('Y1FILL 紙箱',e); }
+    if(GM.E&&GM.E.zone&&GM.E.zone.setY1Items) GM.E.zone.setY1Items(G);   /* 紙箱、膠帶的模型（zones3d.js 的 loadY1Items，dorm_y1_items.glb）*/
     const free=!busy&&typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy);
     if(!free){ tapeT=0; return false; }
     const v=S.coldDue(G); if(v){ busy=true; S.coldRun(GM,v).catch(e=>console.warn('Y1FILL 寒流',e)).finally(()=>{ busy=false; }); return true; }

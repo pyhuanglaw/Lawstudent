@@ -141,34 +141,23 @@ Mesh('cvs_doormat', M['mat']).box(-1.1, 1.1, 0.0, 0.012, 3.3, 4.38).finish(root)
 
 # ---- 貨架：白色金屬（底座、背板、層板＋價格條），商品（頂點色）
 goods = GMesh('cvs_goods', M['goods']); sh, rl, tg = Mesh('cvs_shelf', M['shelf']), Mesh('cvs_rail', M['rail']), Mesh('cvs_tag', M['tag'])
+# 商品（2026-10-14 第二版，使用者：「便利商店店面裡面的東西看起來就是一堆模板複製貼上超假的」）：虛構品牌的包裝貼圖集＋各類商品的形狀、同一種並排、分區陳列（cvs_goods.py）
+import tempfile, cvs_goods as CG   # noqa: E402
+ATLAS = CG.make_atlas(os.path.join(tempfile.gettempdir(), 'cvs_goods_atlas.png'))
+gd = CG.Goods('cvs_goods_items', CG.atlas_material('cvs_goods_atlas', ATLAS)); RNG = random.Random(14)
 
 
-def fill(xa, xb, y, depth_a, depth_b, axis='x', hmax=0.3, face='+z'):
-    """一層商品（只排前面一排，背面看不到）：沿著 a（xa→xb）排；depth＝離貨架背板往外的範圍（另一個軸）；face＝朝走道的方向"""
-    a = xa + 0.02
-    while a < xb - 0.06:
-        kind = random.random(); w = random.uniform(0.07, 0.16); h = random.uniform(0.1, hmax); col = random.choice(PALETTE); k = random.uniform(0.85, 1.05)
-        d0, d1 = depth_a + random.uniform(0.0, 0.06), depth_b - random.uniform(0.0, 0.03)
-        if kind < 0.65:
-            if axis == 'x': goods.cbox(a, a + w - 0.012, y, y + h, d0, d1, col, k, face=face)
-            else: goods.cbox(d0, d1, y, y + h, a, a + w - 0.012, col, k, face=face)
-        else:
-            r = min(w, 0.1) * 0.42; c = d1 - r - 0.01
-            if axis == 'x': goods.ccyl(a + w / 2, y, y + h * 0.9, c, r, col, k=k)
-            else: goods.ccyl(c if face == '+x' else d0 + r + 0.01, y, y + h * 0.9, a + w / 2, r, col, k=k)
-        a += w
-
-
-def wall_shelf(x0, x1, zb, levels=(0.12, 0.5, 0.86, 1.22, 1.58), top=2.0):
-    """靠後牆的貨架（背板在 zb，往 +z 深 0.45）"""
+def wall_shelf(x0, x1, zb, levels=(0.12, 0.5, 0.86, 1.22, 1.58), top=2.0, cats=None):
+    """靠後牆的貨架（背板在 zb，往 +z 深 0.45）；cats＝每一層放哪幾類（由下往上）"""
     sh.box(x0, x1, 0.0, 0.1, zb, zb + 0.45); sh.box(x0, x1, 0.1, top, zb, zb + 0.03); sh.box(x0, x1, top, top + 0.05, zb, zb + 0.47)
     for x in (x0, x1): sh.box(x - 0.02, x + 0.02, 0.0, top, zb, zb + 0.45)
     for y in levels:
         sh.box(x0, x1, y - 0.025, y, zb, zb + 0.44); rl.box(x0, x1, y - 0.06, y, zb + 0.43, zb + 0.46); tg.box(x0 + 0.05, x1 - 0.05, y - 0.05, y - 0.012, zb + 0.461, zb + 0.465)
-        fill(x0, x1, y, zb + 0.04, zb + 0.42, 'x', hmax=0.3, face='+z')
+        nxt = [l for l in levels if l > y]; hmax = (nxt[0] if nxt else top) - y - 0.04
+        gd.shelf(x0, x1, y, zb + 0.43, '+z', 'x', cats[levels.index(y)], hmax, RNG, rail_y=y, tag_d=zb + 0.467)
 
 
-def island(xc, z0, z1, levels=(0.12, 0.48, 0.84, 1.2), top=1.55):
+def island(xc, z0, z1, levels=(0.12, 0.48, 0.84, 1.2), top=1.55, cats_neg=None, cats_pos=None):
     """雙面貨架（中間背板，兩面都有商品）＋兩端的端架（促銷堆疊）"""
     sh.box(xc - 0.25, xc + 0.25, 0.0, 0.1, z0, z1); sh.box(xc - 0.015, xc + 0.015, 0.1, top, z0, z1); sh.box(xc - 0.26, xc + 0.26, top, top + 0.04, z0, z1)
     for y in levels:
@@ -176,16 +165,25 @@ def island(xc, z0, z1, levels=(0.12, 0.48, 0.84, 1.2), top=1.55):
             a, b = sorted((xc + s * 0.02, xc + s * 0.25)); sh.box(a, b, y - 0.025, y, z0, z1)
             ra, rb = sorted((xc + s * 0.24, xc + s * 0.27)); rl.box(ra, rb, y - 0.06, y, z0, z1)
             ta, tb = sorted((xc + s * 0.271, xc + s * 0.275)); tg.box(ta, tb, y - 0.05, y - 0.012, z0 + 0.05, z1 - 0.05)
-            fa, fb = sorted((xc + s * 0.03, xc + s * 0.24)); fill(z0, z1, y, fa, fb, 'z', hmax=0.3, face='+x' if s > 0 else '-x')
+            nxt = [l for l in levels if l > y]; hmax = (nxt[0] if nxt else top) - y - 0.04
+            cats = (cats_pos if s > 0 else cats_neg)[levels.index(y)]
+            gd.shelf(z0, z1, y, xc + s * 0.24, '+x' if s > 0 else '-x', 'z', cats, hmax, RNG, rail_y=y, tag_d=xc + s * 0.277)
 
 
-wall_shelf(X0 + 0.02, -1.5, Z0 + 0.05)              # 後牆左段（套件 goodsWall(−4.5,−4.2,0,6)：牆裡面那段藏在牆後）
-island(-2.0, -2.5, 2.5); island(2.0, -2.5, 2.5)     # 兩排雙面貨架（套件 goodsWall(±2,0,π/2,5)）
-# 端架促銷堆疊（在貨架的導航阻擋範圍內：z 端點往內 0.25 m）
-for xc in (-2.0, 2.0):
-    for zz in (-2.5, 2.5):
-        s = 1 if zz > 0 else -1; za, zb = sorted((zz - s * 0.25, zz - s * 0.02))
-        for k in range(4): goods.cbox(xc - 0.24, xc + 0.24, 0.1 + k * 0.26, 0.34 + k * 0.26, za, zb, random.choice(PALETTE), 0.95, face='+z' if s > 0 else '-z')
+wall_shelf(X0 + 0.02, -1.5, Z0 + 0.05, cats=[['daily'], ['daily2', 'daily'], ['stationery', 'daily2'], ['bread'], ['bread', 'cookie']])   # 後牆左段（套件 goodsWall(−4.5,−4.2,0,6)：牆裡面那段藏在牆後）
+island(-2.0, -2.5, 2.5, cats_neg=[['chips'], ['chips'], ['chips', 'candy'], ['candy', 'cookie']], cats_pos=[['cookie'], ['cookie'], ['candy', 'cookie'], ['chips']])   # 兩排雙面貨架（套件 goodsWall(±2,0,π/2,5)）：零食・餅乾
+island(2.0, -2.5, 2.5, cats_neg=[['bagnoodle'], ['cupnoodle'], ['cupnoodle'], ['cupnoodle', 'bagnoodle']], cats_pos=[['bagnoodle'], ['cupnoodle'], ['cupnoodle'], ['bread']])   # 泡麵・調味
+# 端架促銷堆疊（在貨架的導航阻擋範圍內：z 端點往內 0.25 m）：每個端架只放一種商品（堆四層）＋上面一張促銷牌
+ENDCAP = {(-2.0, -2.5): ('chips', 0), (-2.0, 2.5): ('cookie', 1), (2.0, -2.5): ('cupnoodle', 2), (2.0, 2.5): ('bagnoodle', 0)}
+for (xc, zz), (cat, promo) in ENDCAP.items():
+    s = 1 if zz > 0 else -1; face = '+z' if s > 0 else '-z'; front = zz - s * 0.02
+    p = RNG.choice(CG.CATS[cat])
+    for k in range(4):
+        y = 0.1 + k * 0.26; sh.box(xc - 0.25, xc + 0.25, y - 0.02, y, min(front, zz - s * 0.25), max(front, zz - s * 0.25))
+        a = xc - 0.24
+        while a + p['w'] <= xc + 0.24 and p['h'] <= 0.24:
+            gd.one(p, a, y, front, face, 'x'); a += p['w'] + 0.006
+    gd.promo(xc - 0.22, xc + 0.22, 1.14, 1.46, front + s * 0.005, face, promo)
 
 # ---- 櫃檯後面：香菸櫃（後牆右段，套件 goodsWall(4.5,−4.2,0,3) 的位置）＋咖啡機台
 cab = Mesh('cvs_cabinet', M['black']); cab.box(3.0, X1 - 0.02, 0.0, 0.9, Z0 + 0.05, Z0 + 0.5)
@@ -197,7 +195,7 @@ for y in (1.4, 1.6, 1.8, 2.0):
     cab.box(3.04, X1 - 0.06, y - 0.17, y - 0.155, Z0 + 0.08, Z0 + 0.33)
     a = 3.08
     while a < X1 - 0.12:
-        goods.cbox(a, a + 0.07, y - 0.155, y - 0.035, Z0 + 0.12, Z0 + 0.26, random.choice(['#f4f1ea', '#d8432f', '#2f7ed8', '#1d1d1f', '#f0b429']), 0.95, face='+z'); a += 0.085
+        pk = RNG.choice(CG.CATS['smoke']); gd.box(a, a + 0.056, y - 0.155, y - 0.067, Z0 + 0.24, Z0 + 0.262, '+z', pk['cell']); a += 0.07
 Mesh('cvs_cabinet_glass', M['glass']).quad([(3.04, 1.26, Z0 + 0.34), (X1 - 0.06, 1.26, Z0 + 0.34), (X1 - 0.06, 2.14, Z0 + 0.34), (3.04, 2.14, Z0 + 0.34)]).finish(root)
 cab.finish(root)
 top = Mesh('cvs_backtop', M['top']); top.box(3.0, X1 - 0.02, 0.9, 0.95, Z0 + 0.05, Z0 + 0.52); top.finish(root)
@@ -237,17 +235,20 @@ Mesh('cvs_cooler_glass', M['glass']).quad([(fx + 0.02, 0.25, fz0), (fx + 0.02, 0
 cs = Mesh('cvs_cooler_shelf', M['rail'])
 for y in (0.3, 0.68, 1.06, 1.44, 1.82):
     cs.box(fx + 0.1, X1 - 0.1, y - 0.02, y, fz0, fz1)
-    zz = fz0 + 0.04
-    while zz < fz1 - 0.08:
-        col = random.choice(PALETTE); w = random.choice((0.07, 0.07, 0.09))
-        goods.ccyl(fx + 0.16, y, y + random.choice((0.2, 0.24, 0.3)), zz + w / 2, w * 0.45, col, r2=w * 0.3)   # 只放最前面一排（玻璃門後看得到的）
-        zz += w + 0.01
+    door = [(['drink'], ['drink']), (['drink'], ['drink']), (['drink', 'can'], ['can']), (['carton'], ['drink']), (['can'], ['can'])]
+    for k in range(5):
+        za, zb = fz0 + k * (fz1 - fz0) / 5 + 0.05, fz0 + (k + 1) * (fz1 - fz0) / 5 - 0.05
+        cats = door[k][0] if y < 1.4 else door[k][1]
+        if k == 0: cats = ['drink']
+        gd.shelf(za, zb, y, fx + 0.12, '-x', 'z', cats, 0.3, RNG, rail_y=y, tag_d=fx + 0.095, facings=(3, 5))
 cs.finish(root)
 
 # ---- 後牆中間（貨架與香菸櫃之間）：促銷看板（canvas 字）＋海報色塊
-pb = L.CMesh('back_promo', M['poster'])
-for i, col in enumerate(('#e8a33a', '#1f6f78', '#d8432f', '#f4f1ea')): pb.cbox(-1.25 + i * 1.02, -0.35 + i * 1.02, 1.25, 1.95, Z0 + 0.12, Z0 + 0.13, col)
-walls['back'].append(pb)
+# 海報（2026-10-15 LAWWW2-B：原本是四塊純色方塊）：貼圖集裡的海報（現煮咖啡、集點換好禮、早餐組合、霜淇淋），跟著後牆淡出
+pb = CG.Goods('WALL_back_posters', gd.mat)
+for i in range(4):
+    a0, a1, zf = -1.25 + i * 1.02, -0.35 + i * 1.02, Z0 + 0.13
+    pb.poster('back', i, [(a0, 1.28, zf), (a1, 1.28, zf), (a1, 1.955, zf), (a0, 1.955, zf)])
 pm = Mesh('WALL_back_SIGN_FACE_promo', M['board']); pm.quad([(-1.3, 2.05, Z0 + 0.125), (2.75, 2.05, Z0 + 0.125), (2.75, 2.5, Z0 + 0.125), (-1.3, 2.5, Z0 + 0.125)])
 PROMO = (pm, {'dir': DIRS['back'], 'sign': '咖啡第二杯半價・集點換好禮', 'promo': 1})
 
@@ -266,16 +267,17 @@ for i, (x, z, txt) in enumerate(((-2.0, 0.0, '零食・餅乾'), (2.0, 0.0, '泡
             p = [(x - 0.65, 2.3, z + s * 0.012), (x + 0.65, 2.3, z + s * 0.012), (x + 0.65, 2.6, z + s * 0.012), (x - 0.65, 2.6, z + s * 0.012)]
             m = Mesh(f'SIGN_FACE_aisle{i}{"ab"[s > 0]}', M['board']); m.quad(p if s > 0 else [p[1], p[0], p[3], p[2]]); uv01(m.finish(root, props={'sign': txt}))
 hang.finish(root)
-pst = GMesh('left_posters', M['poster'])
-for (z, col) in ((-2.0, '#d8432f'), (-0.6, '#f0b429'), (0.8, '#2f7ed8')):
-    pst.cbox(X0 + 0.12, X0 + 0.13, 1.4, 2.2, z - 0.4, z + 0.4, col)
-walls['left'].append(pst)
+pst = CG.Goods('WALL_left_posters', gd.mat)          # 左牆三張（關東煮、代收繳費・包裹取件、冰涼特調）：從室內看（面向 −x），左邊是 +z
+for i, z in enumerate((0.8, -0.6, -2.0)):
+    xf = X0 + 0.13; pst.poster('left', i, [(xf, 1.4, z + 0.4), (xf, 1.4, z - 0.4), (xf, 2.2, z - 0.4), (xf, 2.2, z + 0.4)])
 
 # ---- 收尾：會淡出的牆（WALL_<side>_*，dir＝往室內）、商品等
 for side, ms in walls.items():
     for m in ms:
         m.name = f'WALL_{m.name}'; ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
 for m in (goods, sh, rl, tg): m.finish(root, uv=(m is not goods))
+gd.finish(root)
+pb.finish(root, props={'dir': DIRS['back']}); pst.finish(root, props={'dir': DIRS['left']})
 uv01(PROMO[0].finish(root, uv=True, props=PROMO[1]))
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name, key=lambda ob: ('WALL_' + ob.name.split('_')[1]) if ob.name.startswith('WALL_') else '')
 info = L.export(OUT, gpu_instances=True)

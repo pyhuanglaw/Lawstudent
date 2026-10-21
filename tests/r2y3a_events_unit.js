@@ -180,6 +180,20 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   fresh('2027-09-10',17.6,'campus',{ZHE2:'self'}); R('zhe','FAM'); await play('ev_zhe_captain',[0]);
   check('5. Z2 選「這個你要自己來」（ZHE2 self）：「你那時候叫我自己來。……我自己來了。」；不認識明軒＝旁白；「恭喜，隊長。」→「不要叫隊長。……好啦，今天可以。」',has('你那時候叫我自己來。……我自己來了。')&&has('（有人運球經過，說了一句什麼，阿哲笑了。）')&&!has('（運球經過）你民法過了啦。')&&has('不要叫隊長。……好啦，今天可以。')&&JSON.stringify(opts[0])===JSON.stringify(['「恭喜，隊長。」']));
   check('5. Z3 任何一版：沒有「這是條件」',!any(/這是條件/));
+  { // AA_356 1-2：大二下三對三沒去（MX_3ON3 missed）＝隊長那場「他都知道」之後補販賣機三行、錢 −75、MX_3ON3 repaid；有去的沒有
+    const L3=['對了。三對三那次，你欠的。','（你去球場旁邊的販賣機，買了三罐運動飲料。阿哲拿了兩罐，一罐丟給剛剛運球經過的人。）','好。清了。'];
+    fresh('2027-09-10',17.6,'campus',{MX_3ON3:'missed'}); R('zhe','FAM'); const m0=G.money; await play('ev_zhe_captain',[0]); const A=all(), i=A.indexOf('……對。過了。（對祐廷）你看，他都知道。');
+    check('5. AA_356 1-2：三對三沒去＝「他都知道」之後「對了。三對三那次，你欠的。」＋販賣機旁白＋「好。清了。」；錢 −75；MX_3ON3 repaid',i>=0&&JSON.stringify(A.slice(i+1,i+4))===JSON.stringify(L3)&&G.money===m0-75&&G.flags.MX_3ON3==='repaid',JSON.stringify(A.slice(i,i+4)));
+    fresh('2027-09-10',17.6,'campus',{MX_3ON3:'went'}); R('zhe','FAM'); const m1=G.money; await play('ev_zhe_captain',[0]);
+    check('5. AA_356 1-2：三對三有去＝沒有那三行、錢不動',!has('好。清了。')&&G.money===m1); }
+  { // AA_356 1-1：大一上第 16 週視訊沒到（書桌照片 kx_video_photo）＝寒假第一天一起打開成績，第一句「你欠我的那一次，用這個還。」；沒有那張照片的沒有
+    fresh('2026-01-05',20.9,'dorm',{}); PHONE.at(G,G.day-20,23,[{th:'p:kexin',from:'kexin',text:'我自己讀了。你欠我一次。'}],'kx_video_photo'); PHONE.tick(G); await play('ev_kexin_grades_open');
+    const a=all(); fresh('2026-01-05',20.9,'dorm',{}); await play('ev_kexin_grades_open'); const b=all();
+    check('AA_356 1-1：視訊沒到過＝「你欠我的那一次，用這個還。」在「三、二、一——」前面；有接的玩家沒有',a.indexOf('你欠我的那一次，用這個還。')===a.indexOf('三、二、一——')-1&&a.includes('三、二、一——')&&!b.includes('你欠我的那一次，用這個還。'),JSON.stringify([a,b])); }
+  { // AA_356 第 2 節：「我明天拿來。」＝隔天以後第一次進總圖還書、−40、清掉；欠著的時候不再跳逾期；當天不還
+    fresh('2026-03-10',14,'library',{}); const fb=ev('ev_forgot_book'), br=ev('ev_book_return'); const c0=EVENTS.check(fb); await play('ev_forgot_book',[1]); const set=G.flags.book_overdue===true&&G.flags.book_overdue_day===G.day;
+    const same=!EVENTS.check(br)&&!EVENTS.check(fb); to('2026-03-11',10); G.zone='library_hall'; const next=EVENTS.check(br); const m0=G.money; await play('ev_book_return');
+    check('AA_356 2：選「我明天拿來。」記 book_overdue＋那一天；當天不還、也不再跳逾期；隔天進總圖（大廳）旁白一句、錢 −40、清掉',c0&&set&&same&&next&&has('（你把那本《民法總則》還了。多拖一天，罰款變成四十元。）')&&G.money===m0-40&&!G.flags.book_overdue&&!EVENTS.check(br),JSON.stringify({c0,set,same,next,m:G.money-m0,f:G.flags.book_overdue})); }
   fresh('2027-09-10',17.6,'campus',{ZHE2:'none'}); R('zhe','FAM'); await play('ev_zhe_captain',[0]); check('5. ZHE2 none：沒有回聲',!any(/記分板|叫我自己來/));
 
   // ===== 6. 2-Y3-06 可昕 K15「三十分鐘的晚餐」 =====

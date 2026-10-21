@@ -82,6 +82,9 @@ const J=x=>JSON.stringify(x);
   await achk('1. 10/30：「（膠帶上多了一行麥克筆的字：「法律系可以無條件入境」。）」阿凱「（沒有回頭）期中考完了。國界放寬。」，沒有選項',async()=>{ fresh(t30,19,'dorm',{KAI_TAPE:true}); G.events.done.ev_kai_tape=1; R('kai','FAM'); const T=await play('ev_kai_tape2'); return [J(T)===J(['（膠帶上多了一行麥克筆的字：「法律系可以無條件入境」。）',NAME('kai')+'：（沒有回頭）期中考完了。國界放寬。'])&&opts.length===0,J(T)]; });
   chk('1. Y1-B KAI_TAPE 讀的那一句：和阿凱升到好朋友（大一）＝「（地上的紙膠帶不見了。）」「膠帶我撕掉了啦，反正你一直過來。」',()=>{ fresh(t30+20,20,'dorm'); R('kai','CLO'); const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let a,b; try{ a=SOCIAL.upLine('kai'); G.flags.KAI_TAPE=true; b=SOCIAL.upLine('kai'); } finally { SOCIAL.playerYear=py; }
     return [a&&a.l[0]!=='（地上的紙膠帶不見了。）'&&b&&J(b.l)===J(['（地上的紙膠帶不見了。）','「膠帶我撕掉了啦，反正你一直過來。」']),J(b)]; });
+  { fresh(t30+20,20,'dorm'); R('kai','CLO'); G.flags.KAI_TAPE=true; const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let before,after,err=null; try{ before=!!G.flags.KAI_TAPE_GONE; await SOCIAL.playUp(GM,null,'kai'); after=G.flags.KAI_TAPE_GONE===true; }catch(e){ err=e.message; } finally { SOCIAL.playerYear=py; }
+    const zs=require('fs').readFileSync(require('path').join(__dirname,'..','src/zones3d.js'),'utf8');
+    check('1. Y1-B 那一句演完記 KAI_TAPE_GONE（203 地上的 3D 膠帶跟著拿掉，LAWWW2 ART-Y1-BOX-1021）；沒演以前沒有；zones3d.js 的 y1State 讀它',!err&&!before&&after&&/tape:!!F\.KAI_TAPE&&mate&&!F\.KAI_TAPE_GONE/.test(zs),J({before,after,err})); }
   await achk('1. 一般玩家照時間走：10/27 晚上在宿舍＝KAI_TAPE 有人設（修改前沒有任何地方設）',async()=>{ fresh(t27,23,'dorm'); R('kai','FAM'); EVENTS.onEnter('dorm'); for(let i=0;i<20&&EVENTS.running;i++) await new Promise(r=>setImmediate(r)); return G.flags.KAI_TAPE===true; });
 
   // ===== 2. 1-2 運動會 =====

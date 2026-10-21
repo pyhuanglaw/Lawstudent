@@ -75,7 +75,7 @@ def materials():
         'roof': L.flat('cafe_roof_slab', '#8f8b84', rough=0.95),
         'tank': L.flat('cafe_tank_steel', '#c4c8cb', rough=0.3, metal=0.45),
         # 店內
-        'floor': M_('cafe_int_floor', 'herringbone_parquet', tile=1.7, target='#8a5f3e', maps=('diff',), rough_value=0.55),
+        'floor': self_leveling('cafe_int_floor', '#b3b2ad', 0.6, tile=3.2, k=0.38),   # 自流坪水泥（使用者 23:4x；原本是人字拼木地板 herringbone_parquet，和木桌顏色太近）
         'plaster': soft_plaster('cafe_int_plaster', '#dcc6a4', 0.9),   # 暖米色灰泥（WZ4b：照片的深色斑對比降到 45%，原本看起來髒）
         'iwood': M_('cafe_int_wood', 'walnut_veneer', tile=1.2, target='#7a5536', maps=('diff',), res=256, rough_value=0.6),
         'shelf': M_('cafe_int_shelf', 'black_walnut_veneer_01', tile=1.0, target='#5a3d26', maps=('diff',), res=256, rough_value=0.65),
@@ -104,6 +104,40 @@ def materials():
     bk = bpy.data.materials.new('cafe_int_books'); bk.use_nodes = True; nt = bk.node_tree
     ti = nt.nodes.new('ShaderNodeTexImage'); ti.image = pal; ti.interpolation = 'Closest'; nt.links.new(ti.outputs['Color'], nt.nodes['Principled BSDF'].inputs['Base Color'])
     nt.nodes['Principled BSDF'].inputs['Roughness'].default_value = 0.8; bk['tile'] = 1.0; m['books'] = bk
+    return m
+
+
+def self_leveling(name, target, rough, tile=3.0, k=0.5, res=512):
+    """自流坪水泥地（使用者 2026-10-16 23:4x：「2am 咖啡廳地板真的太醜，跟桌子顏色太近，我要自流坪那種水泥顏色」）：
+    plaster_grey_04（Poly Haven CC0）的雲紋——去色、明暗留 k——加 granular_concrete 的細小氣孔（只取最暗的點），再校正到 target 的平均顏色。
+    沒有縫、沒有木紋；粗糙度一張圖：雲紋亮的地方稍微光滑一點（自流坪表面不是完全均勻的霧面）"""
+    import numpy as np
+    key = f'{name}_sl'
+    im = bpy.data.images.get(key)
+    if im is None:
+        def load(pid):
+            src = bpy.data.images.load(os.path.join(HERE, 'textures', pid, pid + '_diff_1k.jpg') if os.path.exists(os.path.join(HERE, 'textures', pid)) else os.path.join(HERE, '..', 'textures', pid, pid + '_diff_1k.jpg'), check_existing=True)
+            w, h = src.size; px = np.empty(w * h * 4, dtype=np.float32); src.pixels.foreach_get(px); return px.reshape(h, w, 4)[..., :3], w, h
+        pl, w, h = load('plaster_grey_04'); gr, w2, h2 = load('granular_concrete')
+        lum = pl @ np.array([0.2126, 0.7152, 0.0722], np.float32); lum = lum.mean() + (lum - lum.mean()) * k
+        g = gr @ np.array([0.2126, 0.7152, 0.0722], np.float32)
+        if g.shape != lum.shape: g = np.resize(g, lum.shape)
+        pores = np.clip((np.percentile(g, 3) - g) / max(np.percentile(g, 3) - g.min(), 1e-4), 0, 1)   # 最暗的 3%：氣孔
+        lum = lum * (1.0 - 0.35 * pores)
+        t = np.array([int(target.lstrip('#')[i:i + 2], 16) / 255 for i in (0, 2, 4)], dtype=np.float32) ** 2.2
+        rgb = lum[..., None] / max(float(lum.mean()), 1e-4) * t[None, None, :]
+        px = np.concatenate([np.clip(rgb, 0, 1), np.ones((h, w, 1), np.float32)], 2)
+        im = bpy.data.images.new(key, w, h, alpha=False); im.pixels.foreach_set(px.ravel()); im.scale(res, res)
+        rr = np.clip(rough + (lum.mean() - lum) * 0.8 + pores * 0.15, 0.35, 0.9)   # 粗糙度
+        rp = np.concatenate([np.repeat(rr[..., None], 3, 2), np.ones((h, w, 1), np.float32)], 2)
+        imr = bpy.data.images.new(key + '_rough', w, h, alpha=False); imr.pixels.foreach_set(rp.ravel()); imr.colorspace_settings.name = 'Non-Color'; imr.scale(res // 2, res // 2)
+    else:
+        imr = bpy.data.images.get(key + '_rough')
+    m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
+    tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = im; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    if imr is not None:
+        tr = nt.nodes.new('ShaderNodeTexImage'); tr.image = imr; nt.links.new(tr.outputs['Color'], bs.inputs['Roughness'])
+    m['tile'] = tile
     return m
 
 
@@ -389,7 +423,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     # 書牆（後牆右段）：木格（6 欄 × 6 層）＋書（色票）＋幾個小盆栽與相框
     BK0, BK1 = BOOKCASE[0], min(BOOKCASE[1], X1 - 0.02); DP = 0.38
     bk = wall_mesh('back', 'bookcase', mat['shelf'])
-    bk.box(BK0, BK1, 0, 0.12, Z0, Z0 + DP); bk.box(BK0, BK1, 3.0, 3.08, Z0, Z0 + DP); bk.box(BK0, BK1, 0, 3.08, Z0, Z0 + 0.02)
+    bk.box(BK0, BK1, 0, 0.12, Z0, Z0 + DP); bk.box(BK0, BK1, 3.0, 3.08, Z0, Z0 + DP); bk.box(BK0, BK1, 0, 3.08, Z0, Z0 + 0.025)   # 背板正面在木護牆前 5 mm（原本同一個平面，從書的空隙看進去會閃，BUG-WZFLICKER）
     ncol = 6; cols = [BK0 + (BK1 - BK0) * k / ncol for k in range(ncol + 1)]
     for x in cols: bk.box(x - 0.03, x + 0.03, 0, 3.08, Z0, Z0 + DP)
     rows = [0.12, 0.6, 1.08, 1.56, 2.04, 2.52, 3.0]

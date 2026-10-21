@@ -174,6 +174,9 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('classmate_mingxuan'),speaker:'classmate_mingxuan',text:'（運球經過）你民法過了啦。'},
       {if:nkn('classmate_mingxuan'),speaker:null,text:'（有人運球經過，說了一句什麼，阿哲笑了。）'},
       {speaker:'zhe',text:'……對。過了。（對祐廷）你看，他都知道。'},
+      {if:{custom:G=>G.flags.MX_3ON3==='missed'},speaker:'zhe',text:'對了。三對三那次，你欠的。'},   /* AA_356 1-2：大二下三對三沒去（「你欠我們一次」）的下文 */
+      {if:{custom:G=>G.flags.MX_3ON3==='missed'},speaker:null,text:'（你去球場旁邊的販賣機，買了三罐運動飲料。阿哲拿了兩罐，一罐丟給剛剛運球經過的人。）'},
+      {if:{custom:G=>G.flags.MX_3ON3==='missed'},speaker:'zhe',text:'好。清了。',consequences:{money:-75},set:{MX_3ON3:'repaid'}},
       {if:Z2NS,speaker:'zhe',text:'我民法是靠你過的。這季的記分板，你來。'},
       {if:fl('ZHE2','self'),speaker:'zhe',text:'你那時候叫我自己來。……我自己來了。'},
       {choice:[{text:'「恭喜，隊長。」',goto:'c1'},{text:'「記分要記什麼？」',if:Z2NS,goto:'c2'}]},

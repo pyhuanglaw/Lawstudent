@@ -12,7 +12,7 @@ let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'
 const G={day:400,hour:10,flags:{},social:null,msgs:[],phone:{groups:{},seen:{},q:[],n:0}}; SOCIAL.bind(G);
 const m={th:'g:family_law',from:'heroine_05',name:'溫學姊',text:'學弟好。'};
 check('8. 沒交往：聯絡人名稱照關係、訊息照存的名字「溫學姊」', SOCIAL.contactName('heroine_05')!=='書瑀'&&PHONE.who(m)==='溫學姊', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
-G.flags.dating_heroine_05=true;
+G.flags.dating_heroine_05=true; G.flags.CALLED_SHUYU=true;   /* 開始交往那天記（romance3d.js ROM.start；never_set_flags_unit 第 5 節）：datingName 讀它 */
 check('8. 交往中：聯絡人名稱「書瑀」、她的訊息也顯示「書瑀」', SOCIAL.contactName('heroine_05')==='書瑀'&&PHONE.who(m)==='書瑀', SOCIAL.contactName('heroine_05')+' / '+PHONE.who(m));
 delete G.flags.dating_heroine_05; G.flags.romance={heroine_05:{status:'dating'}};
 check('8. 新的感情紀錄（romance.status＝dating）也算', PHONE.who(m)==='書瑀');

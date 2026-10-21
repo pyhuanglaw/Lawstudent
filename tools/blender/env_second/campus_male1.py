@@ -3,7 +3,9 @@
 
 **依文字資料的遊戲化設計，不是照片還原**（沙盒打不開住宿組網站，只有搜尋摘要；docs/art-rebuild/second_ai/test_shots/campus_male1/README.md）：
   查證過的：長興街 50 號、1980 年落成、2006 年翻修、地上 4 層＋地下 1 層、沒有電梯、約 970 床、四人房為主（住宿組男一舍頁）。
-  → 遊戲的套件是 5 層；這裡照官方資料做 4 層（給 LAWWW-C 的 patch 把套件也改成 4 層，鏡頭碰撞跟著變矮）。
+  → 10-18 照官方資料做 4 層（套件也一起改成 4 層）；**10-21 改回 5 層**：遊戲裡祐廷的房間是 507（存檔鍵 Y507_* 等五十幾處，房號不改），
+    企劃組 AA-C 10-21 裁定 J1（企劃線 d0d7407e AA_345 第 7 節）外觀加到 5 層；宿舍窗景（dorm_back_view.py）本來就照五樓的高度算。
+    遊戲化設計，和真實的男一舍（4 層）不同。
 外觀是台灣 1980 年前後公立大學宿舍常見的樣子（和大一女舍 campus_freshman.py 刻意不同，不是同一個模型換顏色）：
   - 外牆：米灰色小口馬賽克磚（Poly Haven rounded_square_tiled_wall，真實比例約 4 cm 一塊）
   - 露明的混凝土框架：每 4 m 一根柱子、每層樓板一條水平帶，漆成灰白色（立面是一格一格的）
@@ -29,8 +31,8 @@ from PIL import Image, ImageDraw, ImageFilter   # noqa: E402
 OUT = 'assets/models/env/second_ai/campus_male1.glb'
 GEN = os.path.join(HERE, 'textures', 'gen')
 W, D = 36.0, 14.0
-YF = [0.0, 3.6, 6.7, 9.8, 12.9]                 # 一到四樓地板；YF[4]＝屋頂
-TOP = YF[4]; NF = 4
+YF = [0.0, 3.6, 6.7, 9.8, 12.9, 16.0]           # 一到五樓地板；YF[5]＝屋頂（和套件 CK.hall gfh 3.6、fh 3.1、floors 5 一樣高）
+TOP = YF[5]; NF = 5
 PAR = 1.0                                        # 女兒牆
 PD, PH, PW2 = 2.0, 3.4, 2.0                      # 門廊：深、雨遮高、半寬（側牆中心 x=±2，牆厚 0.9；和大一女舍、套件一樣）
 COLS = [-18.0 + 4.0 * i for i in range(10)]     # 柱子（開間 4 m，九開間）
@@ -307,7 +309,7 @@ def build():
     L.vc_consolidate(root, {n: VCM for n in ('m1_misc', 'm1_cloth', 'ck_ceiling', 'ck_frame', 'm1_roof')})
     L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name)
     info = L.export(out, gpu_instances=False)
-    info['note'] = '依文字資料的遊戲化設計（沒有照片）；地上 4 層（住宿組資料；套件是 5 層）；本體、門廊位置照 CK.hall，導航不用改'
+    info['note'] = '依文字資料的遊戲化設計（沒有照片）；地上 5 層（AA-C 10-21 裁定 J1：房號 507；真實的男一舍是 4 層）；本體、門廊位置照 CK.hall，導航不用改'
     L.write_json(out[:-4] + '.json', info)
     return info
 
