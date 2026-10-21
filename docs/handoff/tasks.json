@@ -23620,14 +23620,20 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我發現可昕不管什麼對話的表情都一樣」",
    "authorized": "使用者回報",
-   "next": "【LAWWW-C 2026-10-21 08:5x UTC】retake_home 重匯 86ffcd9a（白名單換版本；可昕 71 句都有表情，含 D4／D10 拿掉跟祐廷比較、姊姊的房間）；閒聊階梯 y0 的 32 句已在 49ed7e6a；events.js 39 句 AA 直接改在開發分支；tests/kx_expr_unit.js（改之前 2 項失敗）｜ AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
+   "next": "【LAWWW（帳號 A）16:1x】AA 做完：d511ec27、5bc5f09a、f1d76f65（加之前 de616dbc 共 245 句，只加 expression）；LAWWW 三處程式組出來的句子補預設表情（8076fe37：r2y3a pickLines、econff 回覆 neutral、重考期早上 rsLines smile）。剩 R4 模擬考 9 句只給舊存檔。下一步：BB 驗經濟系／重考期的可昕表情 ｜ 【LAWWW-C 2026-10-21 08:5x UTC】retake_home 重匯 86ffcd9a（白名單換版本；可昕 71 句都有表情，含 D4／D10 拿掉跟祐廷比較、姊姊的房間）；閒聊階梯 y0 的 32 句已在 49ed7e6a；events.js 39 句 AA 直接改在開發分支；tests/kx_expr_unit.js（改之前 2 項失敗）｜ AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
     "spec": "assets/portraits/kexin/campus/ 的 11 種；retake_home_v1.json 的 e 欄位",
     "acceptance": "經濟系常見的可昕台詞都有表情",
     "ack": "未派"
-   }
+   },
+   "sha": [
+    "5bc5f09a",
+    "8076fe37",
+    "d511ec27",
+    "f1d76f65"
+   ]
   },
   {
    "id": "AA309-FIXES-1020",
@@ -25633,7 +25639,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
+   "next": "【LAWWW（帳號 A）16:1x，LAWWW2 16:04 轉 BB_218 補拍】膠帶上的字看不到：LAWWW2 問 AA 能不能只寫兩三個大字（例「國界」）；如果劇情要玩家讀到原句，ev_kai_tape2 要加一個貼近膠帶的劇情鏡頭（LAWWW 做，等 AA 回）｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
    "xai": {
     "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
     "branch": "claude/focused-cray-c9uwvw",
@@ -26666,9 +26672,9 @@
    "title": "經濟系休學搬回家以後的錢（AA_363 S2）：每月生活費改 5,000、學費不從帳戶扣、回宿舍那個月起恢復 30,000、不設上限、舊存檔不扣回",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
+   "next": "【LAWWW（帳號 A）16:1x，8076fe37】S.monthlyFunds：經濟系 Y0_MOVED_OUT 以後每月 5,000（搬回家的下一個月起）；8/29 轉法律系（stage law）以後 30,000；學費查過本來就沒從帳戶扣；舊存檔不扣回。tests/aa363_s2_unit.js 19 項（修改前 7 項失敗）。等 AA 回「搬回宿舍那個月」A（9/1 起，現在的做法）或 B（8/29 補 8 月差額）；BB 經濟系流程看錢 ｜ 【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
    "first": {
     "term": "Y0S1",
     "week": 8,
@@ -26687,7 +26693,10 @@
     "acceptance": "單元測試：搬回家後每月 5,000、學費不扣、回宿舍那月恢復 30,000、舊存檔不扣回；BB 經濟系流程測試",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": [
+    "8076fe37"
+   ]
   },
   {
    "id": "BUG-CAM-C208-1021",
@@ -26743,6 +26752,70 @@
     "acceptance": "LAWWW2 ACK＋queue --owner LAWWW2 看得到 10 項",
     "receiver": "LAWWW2",
     "ack": "SENT"
+   }
+  },
+  {
+   "id": "WZ-SHOP-AA364-ART",
+   "title": "溫州街店面（AA_364）場景：林家乾麵（A4）、巷子裡定食（B3）能進去內用——室內照 118 巷店面做法（換招牌、桌椅、牆上菜單）、區域接線；巷口茶飲、夏日冰菓室做外帶窗口（冰店 10～4 月鐵捲門＋「五月見」）",
+   "owner": "LAWWW2",
+   "area": "ART",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "溫州街（經濟系那年就走得到）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_364（企劃線 2b0429cd；AA 16:04 send_message）——USER_WANTS B09 溫州街店面",
+   "authorized": "使用者 10-16 iPhone 回報（B09）；AA 定哪幾家（D100）",
+   "pausedBy": "AA（AA_364：「照總表排 v9.10 以後，不插三個優先前面」）＋LAWWW（D99）",
+   "pausedReason": "D99 三個優先項目（經濟系、寒暑假、美國交換）先做",
+   "resumeWhen": "v9.10.3 發布後",
+   "recheckOn": "2026-10-28",
+   "next": "LAWWW2：室內、外帶窗口、鐵捲門、區域與導航（D108）；菜單牆上的字照 AA_364 第 2 節；店名照 D77",
+   "xai": {
+    "spec": "AA_364 第 1、2 節（企劃線 2b0429cd）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "兩家走得進去、坐得下；兩個外帶窗口；冰店 10～4 月關；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   }
+  },
+  {
+   "id": "WZ-SHOP-AA364-SYS",
+   "title": "溫州街店面（AA_364）系統：A4、B3 內用點餐接 eat3d.js、茶飲和冰菓室外帶、營業時間、菜單、店員句",
+   "owner": "LAWWW",
+   "area": "ART",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "溫州街（經濟系那年就走得到）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_364（企劃線 2b0429cd；AA 16:04 send_message）——USER_WANTS B09 溫州街店面",
+   "authorized": "使用者 10-16 iPhone 回報（B09）；AA 定哪幾家（D100）",
+   "pausedBy": "AA（AA_364：「照總表排 v9.10 以後，不插三個優先前面」）＋LAWWW（D99）",
+   "pausedReason": "D99 三個優先項目（經濟系、寒暑假、美國交換）先做",
+   "resumeWhen": "v9.10.3 發布後",
+   "recheckOn": "2026-10-28",
+   "next": "等 WZ-SHOP-AA364-ART 的室內；菜單、營業時間、店員句照 AA_364 第 2、3 節",
+   "xai": {
+    "spec": "AA_364 第 2、3 節（企劃線 2b0429cd）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "能點餐、扣錢、營業時間外關門、店員句；BB 測",
+    "receiver": "LAWWW",
+    "ack": "ACK"
    }
   }
  ]
