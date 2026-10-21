@@ -21696,6 +21696,25 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "PS-TAINAN-AA282",
+   "title": "沛珊大三起在台南（AA_282 第 5 節＋AA_342 C2）：presence 台南／台中、拿掉大三起的臺北作息與 D08（Y3S2、Y4S2）／D20 偶遇、放榜後的重新聯絡訊息、邀約目的地台南／台中（沒交往不開視訊）、閒聊階梯 context:date、學期末心意邀約改台南（大四下不來畢業典禮、7/14 在台中）、缺的台南背景",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "企劃線 AA_282（第 5 節）、AA_342 C2（c56d4241）、AA_314 §4-5",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "2027-08-06 放榜以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
   }
  ]
 }
