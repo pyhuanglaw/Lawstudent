@@ -386,7 +386,10 @@ const date=id=>H.date(id);
     check('U3 子晴：「……你是來跟我說，你還有別人。」「謝謝你自己來講。」「我不要這樣。我們先當朋友。」；沒有「存檔」', has('……你是來跟我說，你還有別人。')&&has('我不要這樣。我們先當朋友。')&&!H.said.some(s=>/存檔/.test(s.t))&&!H.G.flags.dating_heroine_04);
     const T=S.TELL; check('U3 C 表：學姊沒有「一件事」、可昕沒有「假設」、可昕的火氣是旁白「（她把筷子放下。）」；學姊重新開始 3 週', !T.heroine_05.lines.some(x=>typeof x==='string'&&/一件事/.test(x))&&!T.kexin.lines.some(x=>typeof x==='string'&&/假設/.test(x))&&T.kexin.lines.some(x=>x&&x.narr==='（她把筷子放下。）')&&(()=>{ fresh('2029-05-29',21,'dorm'); date('heroine_05'); S.toFriend(H.G,'heroine_05'); return ROM.get(H.G,'heroine_05').restartDay===H.G.day+21; })()); }
   { fresh('2029-05-21',22,'dorm'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.picks=[1,0]; await H.run('r2y4b_multi_pre');
-    check('2-Y4-54「選一個人。」→ 選誰誰就是畢業時的伴侶；其他人分開（前任）', H.G.flags.MULTI_PRE==='pick:heroine_01'&&H.G.flags.dating_heroine_01===true&&!H.G.flags.dating_heroine_04&&H.G.flags.EX_heroine_04===true); }
+    const q=OUT.get(H.G,'apart29_heroine_04_0');   /* AA_346：選的當下不分開，隔天起一位一場分開的談話，談完才分開（細節在 tests/aa346_apart_unit.js）*/
+    check('2-Y4-54「選一個人。」→ 選誰誰就是畢業時的伴侶；其他人照 AA_346 隔天起一位一場分開的談話（子晴 5/22 21:00 吉他社辦外面的樓梯），談話以前照舊交往中', H.G.flags.MULTI_PRE==='pick:heroine_01'&&H.G.flags.dating_heroine_01===true&&H.G.flags.dating_heroine_04===true&&!H.G.flags.EX_heroine_04&&!!q&&q.day===D('2029-05-22')&&q.h===21&&q.place==='吉他社辦外面的樓梯');
+    at('2029-05-22',20.7); await goOut('apart29_heroine_04_0',[0]);
+    check('2-Y4-54「選一個人。」談完：子晴分開（前任；ROMANCE_HISTORY how apart_choice）、選的那一位照舊交往', !H.G.flags.dating_heroine_04&&H.G.flags.EX_heroine_04===true&&H.G.flags.dating_heroine_01===true&&ROM.rec(H.G).some(h=>h.id==='heroine_04'&&h.how==='apart_choice')); }
   { fresh('2030-05-25',21,'dorm',GD); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); at('2030-05-25',22);
     check('2-Y4-54 B 2030-05-25 22:00：還同時有兩位以上＝到期', dueHas('r2y4b_multi_y5'));
     H.said=[]; H.opts=[]; H.picks=[2]; await H.run('r2y4b_multi_y5');

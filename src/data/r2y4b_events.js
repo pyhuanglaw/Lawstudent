@@ -7,6 +7,7 @@
    47 ev_zhiruo_back_cafe（9/1 22:00）、ev_zhiruo_back_ex（分開過：9/1～9/7 第一次進 Café）　48 ev_mingxuan_depart（9/2 機場）
    50 ev_an_columbia（2030-03-28 麵店）、ev_an_ny_sendoff（2030-08-11 機場）　56 ev_us_canyon（美國路線）　57 ev_sis_canyon（台灣、日本路線）
    58 ev_bar_group_start（2/23）、ev_bar_group_night（麵店）、ev_bar_group_video（視訊）、ev_bar_group_three（6/23）　61 ev_ps_termend_y4s2（6/8 台南；R2Y4B.psDinner）
+   AA_346 ev_choice_apart_<id>（2-Y4-54「選一個人」之後其他人各一場分開的談話；R2Y4B.apartScene）
    沒有的字（AA 稿沒寫）不補；CG 只在 CG_REGISTRY 有登錄時放（hasCG 守門）。測試：node tests/r2y4b_events_unit.js */
 'use strict';
 const R2Y4B_EVENTS=(function(){
@@ -429,7 +430,12 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'heroine_03',text:'先吃，麵要糊了。'} ] },
   /* ---------- 2-Y4-61 沛珊大四下的學期末（2029-06-08（五）18:30 台南；AA_254 第 6 節、AA_282 第 5 節第 5 點）：飯與回家的路在 R2Y4B.psDinner ---------- */
   { id:'ev_ps_termend_y4s2', title:'學期末的飯：沛珊（台南）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, dialogue:[],
-    beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.psDinner(GM,q); } }
+    beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.psDinner(GM,q); } },
+  /* ---------- AA_346「選一個人」之後，和其他人的分開談話（2029-05、2030-05；一位一場，每一場是一個出遊）：台詞、地點、知不知道、二選一在 R2Y4B.apartScene；
+     沒到（延到隔天同一時間，最多兩次；第三次 22:00 私訊＋電話版）在 R2Y4B.apartMissed（src/r2y4b3d.js）。participants 空的：演完不接見面的閒聊階梯（OUT.go）---------- */
+  ...['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kexin'].map(id=>({ id:'ev_choice_apart_'+id, title:'分開的談話', participants:[], location:'any', trigger:'outing', background:'dark', hours:id==='classmate_peishan'?0.5:1, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.apartOuting(GM,q); },
+    outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.apartMissed(G,q); } }))
   ];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R2Y4B_EVENTS);
