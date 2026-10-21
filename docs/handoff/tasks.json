@@ -21898,6 +21898,25 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 09:1x UTC】一般子代理施工中（worktree；tests/aa347_y1_unit.js）｜ 【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）"
+  },
+  {
+   "id": "AA349-KL-1021",
+   "title": "照 AA_349（f5e9acae）改 K（沛珊台南）、L（日本學期）：L1 交換生群組十四週（4/2～7/2 週日 20:00，回群組 REPAIR +1，一週最多 +1）、L2 日本 8/21 一句、L3 便利商店點頭三次、L5 共用廚房只給交往中、L6「下一個做完，你來測。」（1B-15 與 5/20 電話）、L8 補修班第一週、L9 抵免標示；K3 北部全擋＋去台南台中算正式約會＋心願改台南美術館、K4 見面都推進一層、K5 交往中視訊、K6 日子照台大學期表、K7、K9 私訊、K11",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "企劃線 AA_349（f5e9acae）",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三上",
+    "mainline": false,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:2x UTC】一般子代理施工中"
   }
  ]
 }
