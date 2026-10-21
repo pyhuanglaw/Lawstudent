@@ -102,6 +102,10 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   fresh('2029-02-01',10,'dorm',{EXCHANGE_ROUTE:'TW',Y4_PATH:'grad',Y4_PUSH:'pass'}); const st7b=HOLFF.stops(G,now());
   fresh('2029-02-01',10,'dorm',{EXCHANGE_ROUTE:'US',Y4_PATH:'grad',Y4_PUSH:'fail'}); const st7c=HOLFF.stops(G,now());
   check('H1-7. 2/3 08:00 筆試：台灣路線、選研究所、推甄沒上才停（推甄上了、美國路線不停）',st7.includes(Tm(D('2029-02-03'),8))&&!st7b.includes(Tm(D('2029-02-03'),8))&&!st7c.includes(Tm(D('2029-02-03'),8)));
+  // H1-9 主線 7（大三寒假 1/10 21:00 姊姊約 1/12 19:00 火鍋，回到 1/12 18:30）：快轉「過三天」停在那則、回「好。」以後停在火鍋出發前
+  fresh('2028-01-10',9,'dorm');
+  { onPhone=async()=>{ PHONE.answer(G,'y3_sis_hotpot',0); }; picks=['過三天']; await HOME.ffMenu(GM,'dorm'); const c=phoneCalls[0];
+    check('H1-9. 主線 7：1/10 9:00「過三天」，21 點多停下來打開手機（姊姊「禮拜三我來臺北出差。」…）；回「好。」以後接著跳，停在 1/12 火鍋出發前（18:15）',!!c&&c.day===D('2028-01-10')&&c.hour>=21&&c.hour<22.01&&c.pend.includes('y3_sis_hotpot')&&!!OUT.get(G,'y3_sis_hotpot')&&G.day===D('2028-01-12')&&Math.abs(G.hour-18.25)<1e-6,JSON.stringify([phoneCalls,lbl(now())])); }
   // H1-8 大四寒假從成績那天一路快轉（住家裡）：成績 → 1/17 → 1/24 → 除夕 → 初一 → 2/18 12:00
   fresh('2029-01-08',8.5,'dorm',{Y4_PATH:'bar'}); atHome();
   { const seq=[]; for(let i=0;i<12&&HOME.ffOpts(G);i++){ picks=['到下一個有事的日子']; cards=[]; await HOME.ffMenu(GM,'home'); seq.push(lbl(now())); }
