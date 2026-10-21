@@ -1,0 +1,89 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 4ba82b0c..19918b27 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1471,10 +1471,22 @@ const Z3 = (function(){
+   /* 每年的窗景（AA_208 第 7、8 節；LAWWW2-C 4fa4a1e2，tools/shots/window_views.py）：經濟系 412、大一 203（朝舟山路）；大二 312（三樓）、大三 507（五樓）、大四 409（四樓）都朝宿舍背面的樟樹。
+      312／507／409 的照片 2026-10-20 起是 Blender 渲染的（tools/blender/env_second/dorm_back_view.py：樟樹、巷子、對面的老公寓與一片屋頂；鏡頭往上抬 9°，窗裡看到的大約是平視的那一段——三樓在樹冠裡、四樓平樹梢、五樓看得到樹梢底下和遠一點的屋頂；SCN-V4-01／SCN-V5-01）。
+      393eda85 的 112／218／105（照較舊的 AA_183）作廢、照片已刪。ROOM_Y2／ROOM_Y3／ROOM_Y4 是 dorm3d.js homeOf 用的旗標名，搬房間事件做的時候照這三個設 */
++  /* 跟隨鏡頭的碰撞（BUG-CAM-203-R2-1021，BB_218 artrev3 01／04／05／08：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 的上鋪擋住整個畫面、在南被洗手間的磁磚牆擋住）——
++     和教學館、美國公寓同一套（engine3d.js 的 followCam 查 zone.camCols：擋到就拉近、抬高，autoSwing 轉向空的那一邊）：
++     洗手間整個隔間（地板到天花板）、四組上鋪（床板底到床欄頂：dorm_room4.py 的 DECK0 1.56～GUARD 2.02）。四面牆照舊淡出（剖面視角），不擋。
++     站在某一組上鋪底下（書桌前、坐著讀書）時那一組不算：頭在床板下面，視線一出發就撞到床板，鏡頭會被拉到頭上（z.update 每一格換清單）。測試：node tests/dorm_cam_unit.js */
++  function dormCamCols(R,H,g){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), all=[];
++    const box=(x0,x1,z0,z1,y0,y1,under)=>{ x0-=0.06; x1+=0.06; z0-=0.06; z1+=0.06; const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),inv); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2);
++      m.userData.noMerge=true; m.userData.under=under?{x0:x0-0.04,x1:x1+0.04,z0:z0-0.04,z1:z1+0.04}:null; g.add(m); all.push(m); };
++    const hb=R.bath.block; box(hb.x[0],hb.x[1],hb.z[0],hb.z[1],0,H,false);
++    for(const u of R.units){ const b=u.block; box(b.x[0],b.x[1],b.z[0],b.z[1],1.56,2.02,true); }
++    return all; }
+   function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
+   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
+     const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
+     z.camBox={x:[-1.6,1.6]};   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
++    { const camAll=dormCamCols(R,RM.h,g0), L0=camAll.slice(); z.camCols=[L0];   /* 鏡頭碰撞（BUG-CAM-203-R2-1021）：站在哪一組上鋪底下，那一組就不算 */
++      const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E2&&E2.player; if(!P) return; const p=P.obj.position; L0.length=0; for(const m of camAll){ const u=m.userData.under; if(u&&p.x>u.x0&&p.x<u.x1&&p.z>u.z0&&p.z<u.z1) continue; L0.push(m); } }; }
+     // 程序化的畫面全部放在 g（備用模型）：正式模型（ASSETS 'bldg.dorm_room4'）載入後整組藏起來；導航、睡覺、書桌座位、離開都不受影響。月曆、社團傳單、z.deskItems 掛在 g0
+     const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+     for(const b of R.blocks) nav.blockRect((b.x[0]+b.x[1])/2,(b.z[0]+b.z[1])/2,b.x[1]-b.x[0],b.z[1]-b.z[0],0,0);   /* 四組床桌、鞋櫃、垃圾桶、曬衣架、洗手間 */
+diff --git a/tests/dorm_cam_unit.js b/tests/dorm_cam_unit.js
+new file mode 100644
+index 00000000..57be91eb
+--- /dev/null
++++ b/tests/dorm_cam_unit.js
+@@ -0,0 +1,56 @@
++// 宿舍房間（大一 203 等四人房）的跟隨鏡頭不會跑到上鋪、洗手間隔間後面（BUG-CAM-203-R2-1021，BB_218 artrev3 01／04／05／08）——不需要瀏覽器。
++// BB 量到的：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 的上鋪擋住整個畫面、鏡頭在南被洗手間的磁磚牆擋住。
++// 做法（src/zones3d.js 的 dormCamCols）：洗手間隔間、四組上鋪（床板底 1.56～床欄頂 2.02）交給 engine3d.js 的 followCam（zone.camCols）；站在某一組上鋪底下時那一組不算。
++// 這裡在 Node 建出遊戲真正的房間（程序化備用模型＝和正式模型同一份配置），每 0.3 m 一點（人站得住）、8 個方向，照引擎的跟隨鏡頭（camDist 3.6、俯角 0.38）算鏡頭位置，
++// 看「頭 → 鏡頭」有沒有穿過洗手間隔間或上鋪（照配置自己算；站在那一組底下時那一組不算）。修改前的公式一定要量得到（證明測試抓得到這個 bug）。
++// 另外：BB 的兩個方向 3 秒內轉開；坐在自己書桌前（上鋪底下）時鏡頭不會被拉到頭上。
++// 用法：node tests/dorm_cam_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|DORM_ROOM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});   // 不載正式模型
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0,seat:null,pose:'idle'};
++const z=Z3.ZONES.dorm.build(E); E.zone=z; E.nav=z.nav; z.group.updateMatrixWorld(true);
++const R=DORM_ROOM, H=R.room.h, PITCH=0.38, DIST=Z3.ZONES.dorm.camDist||3.6, DT=1/30;
++check('引擎有 E.followCam、E.autoSwing',typeof E.followCam==='function'&&typeof E.autoSwing==='function');
++check('鏡頭碰撞（zone.camCols[0]）：洗手間＋四組上鋪',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length===1+R.units.length,z.camCols&&z.camCols[0]?z.camCols[0].length+' 塊':'沒有');
++/* 擋鏡頭的東西（照配置自己算，不拿 camCols 來量）：{x0,x1,z0,z1,y0,y1,unit} */
++const OBST=[{x0:R.bath.block.x[0],x1:R.bath.block.x[1],z0:R.bath.block.z[0],z1:R.bath.block.z[1],y0:0,y1:H}].concat(R.units.map(u=>({x0:u.block.x[0],x1:u.block.x[1],z0:u.block.z[0],z1:u.block.z[1],y0:1.56,y1:2.02,unit:true})));
++const under=(o,p)=>o.unit&&p.x>o.x0-0.1&&p.x<o.x1+0.1&&p.z>o.z0-0.1&&p.z<o.z1+0.1;
++/* 線段穿過方盒（盒子每邊縮 3 cm：擦邊不算）：slab 法 */
++function hitBox(a,b,o){ let t0=0,t1=1; const lo=[o.x0+0.03,o.y0+0.03,o.z0+0.03], hi=[o.x1-0.03,o.y1-0.03,o.z1-0.03], A=[a.x,a.y,a.z], D=[b.x-a.x,b.y-a.y,b.z-a.z];
++  for(let i=0;i<3;i++){ if(Math.abs(D[i])<1e-9){ if(A[i]<lo[i]||A[i]>hi[i]) return false; continue; } let u=(lo[i]-A[i])/D[i], v=(hi[i]-A[i])/D[i]; if(u>v) [u,v]=[v,u]; t0=Math.max(t0,u); t1=Math.min(t1,v); if(t0>t1) return false; } return true; }
++const blocked=(head,cam,p)=>OBST.find(o=>!under(o,p)&&hitBox(head,cam,o))||null;
++const oldCam=(tgt,yaw)=>new THREE.Vector3(Math.sin(yaw)*DIST*Math.cos(PITCH),Math.sin(PITCH)*DIST+0.2,Math.cos(yaw)*DIST*Math.cos(PITCH)).add(tgt);
++const setP=(x,zz)=>{ E.player.obj.position.set(x,0,zz); if(z.update) z.update(DT,E); };
++let n=0, bad=0, badOld=0, ex=null;
++for(let x=-R.room.w/2+0.4;x<=R.room.w/2-0.4;x+=0.3) for(let zz=-R.room.d/2+0.4;zz<=R.room.d/2-0.4;zz+=0.3){ if(!E.canStand(x,zz,0.32,0)) continue; setP(x,zz); const p=E.player.obj.position, tgt=new THREE.Vector3(x,1.45,zz);
++  for(let k=0;k<8;k++){ const yaw=k*Math.PI/4; n++; if(blocked(tgt,oldCam(tgt,yaw),p)) badOld++;
++    const cam=new THREE.Vector3(); E.followCam(tgt,yaw,PITCH,DIST,0,cam); const h=blocked(tgt,cam,p); if(h){ bad++; if(!ex) ex={x:+x.toFixed(1),z:+zz.toFixed(1),yaw:+yaw.toFixed(2),cam:cam.toArray().map(v=>+v.toFixed(2))}; } } }
++check('修改前的公式量得到被上鋪、洗手間擋住的方向（測試抓得到這個 bug）',badOld>0,`${(100*badOld/n).toFixed(1)}%（${badOld}/${n}）`);
++check('跟隨鏡頭不會跑到上鋪、洗手間隔間後面',bad===0,`${(100*bad/n).toFixed(1)}%（${bad}/${n}）`+(ex?' 例：'+JSON.stringify(ex):''));
++/* BB 的兩個方向：3 秒內轉開、不穿過、離頭 ≥ 1.0 m、沒有左右來回 */
++function sim(x,zz,yaw,o){ o=o||{}; const P=E.player; setP(x,zz); P.obj.rotation.y=o.face!=null?o.face:yaw+Math.PI; P.seat=o.seat||null; P.pose=o.seat?'sit':'idle';
++  const C=E.cam={yaw,pitch:PITCH,dist:DIST,distTarget:DIST,target:new THREE.Vector3(x,1.45,zz),mode:'follow',manualT:0,dragging:false,ctl:false,swing:0,swingAcc:0};
++  const cam=new THREE.Vector3(); let flips=0, last=0; for(let i=0;i<90;i++){ const r=E.followCam(C.target,C.yaw,PITCH,DIST,0,cam); const st=E.autoSwing(C,P,PITCH,r,DT); if(st&&last&&Math.sign(st)!==Math.sign(last)) flips++; if(st) last=st; }
++  E.followCam(C.target,C.yaw,PITCH,DIST,0,cam); return {cam,tgt:C.target,h:Math.hypot(cam.x-x,cam.z-zz),turned:Math.round((C.yaw-yaw)*180/Math.PI),flips}; }
++for(const [name,yaw] of [['R2 書桌旁・鏡頭在東（artrev3 01）',Math.PI/2],['R2 書桌旁・鏡頭在南（artrev3 04）',0]]){ const x=1.0, zz=0.25; setP(x,zz);
++  const was=blocked(new THREE.Vector3(x,1.45,zz),oldCam(new THREE.Vector3(x,1.45,zz),yaw),E.player.obj.position); const r=sim(x,zz,yaw);
++  check(name+'：修改前的鏡頭在上鋪／洗手間後面（重現得到 BB 的畫面）',!!was);
++  check(name+'：3 秒內轉開——不穿過、鏡頭水平離頭 ≥ 1.0 m、沒有左右來回',!blocked(r.tgt,r.cam,E.player.obj.position)&&r.h>=1.0&&r.flips===0,`水平 ${r.h.toFixed(2)} m、比頭高 ${(r.cam.y-r.tgt.y).toFixed(2)} m、轉了 ${r.turned}°、來回 ${r.flips} 次`); }
++/* 坐在自己的書桌前（上鋪底下）：自己那一組不算，鏡頭不會一出發就撞到床板、被拉到頭上 */
++/* 鏡頭在背後、也試順著床的方向（北、南）：那兩個方向視線從床板下面往上穿，自己那一組要是算進去，鏡頭會被拉到頭上 0.12 m（坐著不會自動轉開；不排除自己那一組時量到 0.01 m）。
++   北邊是隔壁 L1 的上鋪：鏡頭停在它前面（約 0.7 m）是對的——以前是穿過 L1 的床、畫面被床擋住 */
++{ const me=R.units.find(u=>u.id===(R.player_unit||'L2'))||R.units[3], st=me.seat;
++  for(const [dir,yaw] of [['背後',st.yaw+Math.PI],['北',Math.PI],['南',0]]){ const r=sim(st.x,st.z,yaw,{seat:{x:st.x,z:st.z},face:st.yaw});
++    check('坐在自己書桌前（'+me.id+'）・鏡頭在'+dir+'：沒被自己的上鋪拉到頭上（水平離頭 ≥ 0.5 m）、沒穿過別的上鋪／洗手間',r.h>=0.5&&!blocked(r.tgt,r.cam,E.player.obj.position),`水平 ${r.h.toFixed(2)} m、比頭高 ${(r.cam.y-r.tgt.y).toFixed(2)} m`); } }
++console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
