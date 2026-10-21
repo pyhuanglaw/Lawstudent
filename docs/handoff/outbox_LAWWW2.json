@@ -1624,6 +1624,27 @@
    "sent": "2026-10-21T21:3xZ",
    "receiver": "LAWWW",
    "ack": "—"
+  },
+  {
+   "task": "US-MARKET-STREET",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8512b3b0",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_market_street.diff",
+    "assets/models/env/second_ai/us_market_street.glb",
+    "assets/models/env/second_ai/us_market_street.json",
+    "assets/models/env/second_ai/us_market_street.layout.json",
+    "tools/blender/env_second/us_market_street.py",
+    "tools/blender/env_second/us_market_street_layout_gen.py",
+    "tools/blender/env_second/us_market_street_tex.py",
+    "docs/art-rebuild/second_ai/test_shots/us_market_street_1021/"
+   ],
+   "state": "已交件（2026-10-21 22:2x 傳 LAWWW，DELIVERED、沒 ACK）：READY_FOR_ART_REVIEW；patch 對 80af0168 乾淨；Node us_market_street_unit 修改前 6 FAIL→ALL PASS、nav_us／us_life／exch_min 前後 ALL PASS；遊戲內 12 張；模型 fa7c85e2、說明 07967c55",
+   "remaining": "晚上停車場偏暗（路燈沒有地面光圈，LAWWW2 下一步）；路口白天那張重拍（佇列 j17）；車不會動、沒有路人（美國篇人流是 LAWWW 的範圍）；真機沒看過",
+   "next": "LAWWW git apply us_market_street.diff，放 us_market_street.glb／.json／.layout.json",
+   "sent": "2026-10-21T22:2xZ",
+   "receiver": "LAWWW",
+   "ack": "—"
   }
  ]
 }
