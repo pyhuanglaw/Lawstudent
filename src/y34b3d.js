@@ -27,7 +27,8 @@
    1B-25 學姊 M9：5/28 21:00 家族群組（交往中多一則私訊）→ 5/29 16:00～18:00 研究室走廊（出遊）；沒到＝18:30 群組（交往中私訊）。SIS_DEFENSE。
    掛勾：STORY.TICKS、PHONE_RULES、WAKE_AT、ALARMS（story3d.js）；在家的時候借 STORY.y4HomeDue／y4HomeScene／y4FromHome（home3d.js 的 loop 已經在問）；美國路線的登機借 EXCH.fly；
          學姊 2028 生日的「生日快樂」借 MSG.pick2／MSG.send（msg3d.js 要先載入：index.html 裡 msg3d.js 在這個檔前面）。
-   CG（cg_depart_together_heroine01、cg_final_stage_heroine04、cg_last_row_kexin、cg_anniversary_23、cg_defense_day_heroine05）還沒登錄＝ADV.cg 不顯示，照背景演（MISSING_EXTERNAL_ART）。
+   CG（cg_depart_together_heroine01、cg_final_stage_heroine04、cg_last_row_kexin、cg_anniversary_23、cg_defense_day_heroine05；1B-24 交往版加 CG-19 cg_first_to_ask_heroine01）：
+   2026-10-20 都登錄在 src/adv3d.js 的 CG_REGISTRY（企劃線 cg_approved/ 原檔；tests/cg_batch2_unit.js）。
    測試：node tests/y34b_events_unit.js */
 'use strict';
 const Y34B=(function(){
@@ -639,6 +640,7 @@ const Y34B=(function(){
     {speaker:'heroine_01',text:'大二，一個國中生的家，申請被駁回。我寫了一頁流程說明。'},
     {speaker:'heroine_01',text:'我媽說，那只是地圖，路還是要他們自己走。'},
     {speaker:'heroine_01',text:'所以我念法律，是為了把地圖畫好。'},
+    {if:C(dAn),cg:'cg_first_to_ask_heroine01'},   /* CG-19 第一個問我的人（企劃線 cg_approved/ README：交往版的最後一句；Café 窗邊）*/
     {if:C(dAn),speaker:'heroine_01',text:'……第一個問我的人是你。這也是理由之一。'},
     {choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]},
     {label:'a_mom'},{speaker:'heroine_01',text:'她工作的關係。……典禮那天你就知道了。'},{goto:'a_end'},
