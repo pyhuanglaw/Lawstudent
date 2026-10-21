@@ -14393,7 +14393,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：暫停條件（v9.10 發布後）已成立：LAWWW 改 characters.js 以安 career_goal（AA_285 第 5 節）；對 BB_165 第 8 節新旗標與測試清單逐項打勾；確認 ladder_bb_y2s2 可昕 K4-L6、K4-L3 白名單已換新版 ｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜企劃組互審中；新寫的台詞照使用者 19:1x 暫停，等口語指引確認後交付再實作",
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】AA_360：沛珊 5-1《被等的感覺》（BB_165 §5）實作時拿掉錨點 1（祐廷等她問完），她會等學生問完是因為國中的老師這樣等過她；場面台詞不動，選項「下次換我問，妳等我」照留（BB 標註 bb1b445a） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：暫停條件（v9.10 發布後）已成立：LAWWW 改 characters.js 以安 career_goal（AA_285 第 5 節）；對 BB_165 第 8 節新旗標與測試清單逐項打勾；確認 ladder_bb_y2s2 可昕 K4-L6、K4-L3 白名單已換新版 ｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜企劃組互審中；新寫的台詞照使用者 19:1x 暫停，等口語指引確認後交付再實作",
    "pausedReason": "AA 稿已完成（23663329），施工排在 v9.10 發布後（D99；v9.10 收件範圍外）",
    "resumeWhen": "v9.10 發布後",
    "first": {
@@ -19576,7 +19576,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】不確定：標題列的三項（9/13 傍晚燈光、手寫輪值表、兩張床）整合 commit 沒提到——BB 驗收時對一下 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】不確定：標題列的三項（9/13 傍晚燈光、手寫輪值表、兩張床）整合 commit 沒提到——BB 驗收時對一下 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "priority": "P2",
@@ -25467,7 +25467,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
    "xai": {
     "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
     "branch": "claude/focused-cray-c9uwvw",
@@ -25743,7 +25743,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：白天／晚上各看 1F 大廳、球場、B1 泳池、健身房（光暈、天花板、疊面閃爍）"
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：白天／晚上各看 1F 大廳、球場、B1 泳池、健身房（光暈、天花板、疊面閃爍）"
   },
   {
    "id": "ART-DIRECTOR-LAWWW2",
@@ -25976,7 +25976,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 13:2x UTC】BB 截圖＋出提示詞向使用者要；收到圖 LAWWW 接"
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：test_tools/bg3d_probe.py 寫好沒跑（交班取消）；下一班 BB 照 BB_00 第 3 節交班節第 2 點跑 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 截圖＋出提示詞向使用者要；收到圖 LAWWW 接"
   },
   {
    "id": "AA-VAC-C16-C18-Q-1021",
@@ -26060,7 +26060,7 @@
    "id": "STORY-AUDIT-1017",
    "title": "全劇情合理性與人物真實感審查的後續（使用者 10-17 P0；AA_219 第一批報告已標歷史，處理見 AA_224、AA_225、AA_227、AA_230、AA_218 17-12a）：BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、低潮→陪伴→轉變→告白模板）指的既有事件（Q8、Q12、Q15、筆試前一晚、Z13、沛珊的教學）還沒改",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-17 P0「全劇情合理性與人物真實感審查」；AA_219（企劃線）；BB_190 第四節（BB 分支 df8fc8df，BB outbox 第 37 筆）；INCR-CLEANUP-1021 子代理建議",
    "first": {
@@ -26080,7 +26080,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 13:5x UTC】AA 回了 AA_360（企劃線 ff6f5923；USER_WANTS X95）：使用者 10-17 已回的四題漏登四天。要改：13 y34b3d.js S.zqGame 一律 nine（不看 Q10／PLAYTESTED），日本路線電話照現在固定版，AA_341 J-S18 作廢；14 2-1 拿掉 1/26 學姊私訊→1/24～1/27 晚上離開總圖時演（SIS_STUDY，一次；「學弟。你怎麼在這裡。」、前面兩行旁白、選項 c「我陪妳走到捷運站。」、寒假快轉不為她停），2/2、2/3 前置放寬 SIS_STUDY||SIS_PREEXAM_NIGHT，2-2 計畫本第一頁她自己寫（兩行旁白＋三個反應選項，數值照舊）；15（第②級）沛珊尾聲 mirror 換新句、q15Ready 的 TOLD_HER_CHANGE 不必要、芷若 Z7 家裡版換三句（BB_167 E1）；16 子晴 Q4 只留第 8 週、錯過第 9～11 週第一次說話多一句（CONTEST_HEARD）；17、18 只剩 confess_lines.js 過時註解。第 6 節有總表、舊存檔、測試 → 派子代理"
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】AA_360 第 1～5 組（BB-LOGIC-13～18）合併 2bce84da（子代理 b622a82d；tests/aa360_unit.js 35 項，改之前 FAIL 30；五支寫死舊規格的測試照改；16 支相關單元測試 ALL PASS）。BB 驗收 BB-TEST-AA360-1021；問 AA 的 8 題在 AA_QUESTIONS_1021 R 節（AA-Q-1021-AA360）；沛珊 5-1《被等的感覺》還沒實作，照 AA_360 的改法記在 PLAN-1016-ROM ｜ 【LAWWW-C 2026-10-21 13:5x UTC】AA 回了 AA_360（企劃線 ff6f5923；USER_WANTS X95）：使用者 10-17 已回的四題漏登四天。要改：13 y34b3d.js S.zqGame 一律 nine（不看 Q10／PLAYTESTED），日本路線電話照現在固定版，AA_341 J-S18 作廢；14 2-1 拿掉 1/26 學姊私訊→1/24～1/27 晚上離開總圖時演（SIS_STUDY，一次；「學弟。你怎麼在這裡。」、前面兩行旁白、選項 c「我陪妳走到捷運站。」、寒假快轉不為她停），2/2、2/3 前置放寬 SIS_STUDY||SIS_PREEXAM_NIGHT，2-2 計畫本第一頁她自己寫（兩行旁白＋三個反應選項，數值照舊）；15（第②級）沛珊尾聲 mirror 換新句、q15Ready 的 TOLD_HER_CHANGE 不必要、芷若 Z7 家裡版換三句（BB_167 E1）；16 子晴 Q4 只留第 8 週、錯過第 9～11 週第一次說話多一句（CONTEST_HEARD）；17、18 只剩 confess_lines.js 過時註解。第 6 節有總表、舊存檔、測試 → 派子代理"
   },
   {
    "id": "AA-Q-1021-PG",
@@ -26366,6 +26366,60 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 14:3x UTC】開發分支已修（自動打開時把當下所有待回的一起記成開過；之後來新的才再開）；tests/phone_auto_unit.js 加兩項（改之前 FAIL 2）。要用瀏覽器在候選 f72a2a21 上確認 smoke_release 的失敗是不是這個原因；是的話決定 v9.10.3 要不要帶這個修正"
+  },
+  {
+   "id": "BB-TEST-AA360-1021",
+   "title": "瀏覽器驗收 AA_360（子晴 Q12 一律《九點以後》、學姊路過總圖與計畫本、芷若 Z7 家裡版、子晴 Q4 錯過版）",
+   "area": "v2",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "AA_360 子代理回報（b622a82d，合併 2bce84da）",
+   "first": {
+    "term": "Y1S2",
+    "week": 9,
+    "earliest": "大一下第 9 週子晴 Q4、大一寒假學姊筆試前",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/handoff/bb_checklists/BB_AA360_1021.md 七項",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "BB_300 格式回報，跳日期用存檔／playlib 並標【前置／捷徑】",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 已交班；下一班 BB 接班後、v9.10.3 驗收以後排"
+  },
+  {
+   "id": "AA-Q-1021-AA360",
+   "title": "AA_360 實作時遇到的 8 題（阿凱 5/20 照片、寒假快轉沒有「總圖」、路過版不快轉時間、「上禮拜六」第 10～11 週、CONTEST_HEARD 不進回憶、子代理選的表情、舊存檔用舊字、學妹配樂不是每個玩家都有）",
+   "area": "v2",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "source": "AA_360 子代理回報（b622a82d）",
+   "first": {
+    "term": "Y1S2",
+    "week": 9,
+    "earliest": "大一下第 9 週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/handoff/AA_QUESTIONS_1021.md R 節",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 逐題回（定稿句子或確認暫定做法）給 commit",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法"
   }
  ]
 }

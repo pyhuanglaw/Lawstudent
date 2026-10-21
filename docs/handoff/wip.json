@@ -575,11 +575,12 @@
    "files": [
     "src/y34b3d.js"
    ],
-   "state": "WIP",
-   "remaining": "AA_360：讀完規格（91cd3186 是空的 checkpoint commit），13、14、15、16、17/18 都還沒改；要改的檔 src/y34b3d.js 等",
+   "state": "已整合",
+   "remaining": "（已整合）AA_360 第 1～5 組合併 2bce84da；BB 驗收 BB-TEST-AA360-1021",
    "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
    "noDirectIntegrate": true,
-   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "2bce84da"
   },
   {
    "id": "WIP-LAWWW-FEATLIST-1021",
