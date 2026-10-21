@@ -25,7 +25,7 @@ const SOCIAL = (function(){
   S.takeFeel=function(max){ const out=[]; const ids=new Set([...Object.keys(S.feel),...S.capNotes]);
     for(const id of ids){ const P=S.feel[id]||{}; if(!CHARACTERS[id]) continue;
       const heroine=/^heroine_0[1-5]$/.test(id), known=S.has(id,'FIRST_MET')||(!heroine&&S.reveal(id)!=='UNKNOWN'); if(!known) continue;   /* 還沒認識的人（女主角要正式見過）不顯示 */
-      const name=heroine&&CHARACTERS[id].nickname||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);
+      const name=heroine&&(S.datingName(id)||CHARACTERS[id].nickname)||S.displayName(id), sum=FEEL_ORDER.reduce((a,q)=>a+(P[q]||0),0);   /* 交往中的學姊：「和書瑀熟了一點。」（CALLED_SHUYU）*/
       const st0=S.feelStage[id], st1=S.stage(id); if(st0!==undefined&&STAGE_LINE[st1]&&(STAGE_RANK[st1]||0)>(STAGE_RANK[st0]||0)){ out.push({text:STAGE_LINE[st1](name),sum:1000+sum}); continue; }   /* 換階段優先 */
       let k=null; for(const q of FEEL_ORDER) if((P[q]||0)>0&&(!k||P[q]>P[k])) k=q; if(k) out.push({text:FEEL_TEXT[k](name),sum});
       else if(S.capNotes.includes(id)){ out.push({text:'今天和'+name+'已經聊很多了。',sum:0}); const D=G.social&&G.social.daily; if(D&&D.p[id]) D.p[id].cap=1; } }   /* 真的顯示了才算（一天一次）*/
@@ -61,7 +61,7 @@ const SOCIAL = (function(){
     if(typeof v==='string') return v+crs;
     let y=c.year; if(typeof y==='number'&&idx>0){ y+=idx-1; if(y>4) return dep+crs; }
     const ys=y?(typeof y==='number'?['','一','二','三','四'][y]+'年級':y):''; return dep+(ys?'・'+ys:'')+crs; };
-  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'yule'→「予樂」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&!S.metD(id)) return c.gender==='f'?'不認識的女生':'不認識的男生'; return c.name; };   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
+  S.displayName=function(id){ const c=CHARACTERS[id]; if(!c) return (typeof PORTRAIT_ONLY!=='undefined'&&Object.prototype.hasOwnProperty.call(PORTRAIT_ONLY,id)&&PORTRAIT_ONLY[id].name)||id;   /* 只有立繪的人物（characters.js 的 PORTRAIT_ONLY）：'yule'→「予樂」，不是 id */ const rv=S.reveal(id); if(c.social_layer==='B'){ if(rv==='UNKNOWN') return (c.year? '法律系'+['','一','二','三','四'][S.yearOf(id)]+'年級的'+(c.gender==='f'?'女生':'男生') : '法律系學生'); if(rv==='RECOGNIZABLE') return c.descriptor; return c.name; } if(c.social_layer==='D'&&!S.metD(id)) return c.gender==='f'?'不認識的女生':'不認識的男生'; return S.datingName(id)||c.name; };   /* 交往中的叫法（學姊：交往那天起叫「書瑀」，CALLED_SHUYU；對話框、按鈕、人物頁都照這個）*/   /* 認識前不露名字（AA 10-13 P1-1）：看過三次（noticed → RECOGNIZABLE）也一樣——BB-C 10-20：還沒認識以安，按鈕就寫「和沈以安說話」 */
   /* 女主角（D 層）算認識了沒：FIRST_MET，或舊存檔的 met_ 旗標（met_an、met_sis，FIRST_MET 以前的寫法）。
      BB-C 10-20（6a931b8e，使用者 9/25 存檔）：還沒認識以安，按鈕卻寫「和沈以安說話」——那份存檔的以安是 ACQUAINTANCE（說過話：talkAn 不管認識了沒都記 talkedTo），
      原本只有 UNKNOWN、RECOGNIZABLE 才藏名字。改成只看認識了沒（AA_313 第 4 節第 10 點：她得先自我介紹「……同班的，你不記得？」）*/
@@ -111,7 +111,10 @@ const SOCIAL = (function(){
   S.meetLine=function(id,pid){ const d=RL()[id], T=d&&d.meet&&d.meet[pid]; if(!T) return null; const s=S.friendLevel(id);
     const v=pickV(T[(s==='FRIEND'||s==='CLOSE_FRIEND')?'R':(s==='FAMILIAR'?'F':'A')]); return v?(typeof v==='string'?v:(v.t||null)):null; };
   /* 交往中的叫法（rel_lines 的 contact.DATING；AA_313 6-5 第 8 點：學姊交往以後聯絡人是「書瑀」，手機上她的訊息也照這個名字）*/
-  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))?C.DATING:null; };
+  /* 學姊：使用者 10-17 甲「交往那天起叫書瑀」，開始交往以後所有交往中的事件、選項、訊息都叫「書瑀」（AA_243 第 5 節第 6 題、AA_262 第 5 節第 3 件、AA_327）——
+     CALLED_SHUYU 在開始交往那天記（romance3d.js ROM.start），這裡讀它：交往中而且記過＝「書瑀」。分手以後怎麼叫照 BB 定（還沒定：先照原本的名字）*/
+  S.CALLED={heroine_05:'CALLED_SHUYU'};
+  S.datingName=function(id){ const d=RL()[id], C=d&&d.contact, F=G&&G.flags; if(!C||!C.DATING||!F) return null; const R=F.romance&&F.romance[id]; return (F['dating_'+id]===true||(R&&R.status==='dating'))&&(!S.CALLED[id]||!!F[S.CALLED[id]])?C.DATING:null; };
   S.contactName=function(id){ const d=RL()[id], C=d&&d.contact; if(!C) return null; if(C.DATING&&S.datingName(id)) return C.DATING; const s=S.friendLevel(id);
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||C.base||null; };
   /* 任一方有伴侶（祐廷和別人交往中，或對方這學期有伴侶 CHARACTERS[id].partner）：{solo:true} 的旁白拿掉（BB_120 1-0） */

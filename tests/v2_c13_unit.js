@@ -124,10 +124,13 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     L=await playB(2); check('10. 「改天再給我。」：敬禮的貼圖；PS_CANCEL＝later',L[L.length-1]==='沛珊（手機）：（貼圖：敬禮）'&&G.flags.PS_CANCEL==='later'&&TH(thP).slice(-2).map(m=>m.text).join('|')==='改天再給我。|（貼圖：敬禮）',JSON.stringify(L));
     const wed12=termDay('Y1S2',12,3), thu12=termDay('Y1S2',12,4), mon12=termDay('Y1S2',12,1);
     const later=(day,h,zone,got)=>{ withC(day,h,zone); G.flags.PS_CANCEL='later'; if(got) G.flags.PS_TABLE_GOT=true; return [EVENTS.check(ec,{chain:true}),EVENTS.check(ek)]; };
-    check('10. 改天：週三法服讀書會散場那個版本停用（法服沒有讀書會，BB_191 §8-7）；週四進 201 上課前給（還沒拿到才給）',!later(wed12,21,'wancai')[0]&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&!later(thu12,14,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom')]));
+    /* AA_294 ②（企劃 b3ec8820）：週四上債總一前給（beforeClass oblig_gen1；原本是 12:00～13:20 走進 201），第 12 週沒去延到下一次出席，到第 14 週 */
+    const thu14=termDay('Y1S2',14,4), thu15=termDay('Y1S2',15,4);
+    check('10. 改天：週三法服讀書會散場那個版本停用（法服沒有讀書會，BB_191 §8-7）；週四上債總一前給（還沒拿到才給；AA_294 ② 延到第 14 週、第 15 週沒有）',!later(wed12,21,'wancai')[0]&&ek.beforeClass==='oblig_gen1'&&later(thu12,13,'classroom')[1]&&!later(thu12,13,'classroom',true)[1]&&later(thu14,13.3,'classroom')[1]&&!later(thu15,13.3,'classroom')[1],JSON.stringify([later(wed12,21,'wancai'),later(thu12,13,'classroom'),later(thu14,13.3,'classroom'),later(thu15,13.3,'classroom')]));
     { withC(thu12,13,'classroom'); G.flags.PS_CANCEL='later'; await EVENTS.run(ek); check('10. 改天：「給你。上次說的改天，就是今天。」、拿到表',JSON.stringify(lines())==='["郭沛珊：給你。上次說的改天，就是今天。"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); }
     const mail=(k,day,sent)=>{ withC(day,10,'dorm_hall'); if(k) G.flags.PS_CANCEL=k; if(sent!==false) PHONE.post(G,{th:thP,from:PS,text:'今天下不去了。',tag:'ps_table_cancel'}); return EVENTS.check(em); };
     check('10. 信箱：「沒關係。」、沒去（沒回）＝第 12 週週一起回宿舍；等了、改天＝沒有；第 12 週以前沒有；沒收到改約（沒有聯絡方式）沒有',mail('ok',mon12)&&mail(null,mon12)&&!mail('waited',mon12)&&!mail('later',mon12)&&!mail('ok',mon12-1)&&!mail(null,mon12,false),JSON.stringify([mail('ok',mon12),mail(null,mon12),mail('waited',mon12),mail('later',mon12),mail('ok',mon12-1),mail(null,mon12,false)]));
+    check('10. 信箱（AA_294 ②）：改天、第 14 週週四過了還沒出席債總一＝也走信箱版；第 14 週週四當天還沒有',mail('later',thu14+1)&&!mail('later',thu14),JSON.stringify([mail('later',thu14+1),mail('later',thu14)]));
     { mail('ok',mon12); await EVENTS.run(em); check('10. 信箱：「信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」」',JSON.stringify(lines())==='["信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」"]'&&G.flags.PS_TABLE_GOT===true,JSON.stringify(lines())); } }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

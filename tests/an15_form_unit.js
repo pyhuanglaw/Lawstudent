@@ -63,7 +63,7 @@ const cafe=async(p)=>{ G.day=d17; G.hour=15.5; G.zone='cafe'; said=[]; opts=[]; 
   ROM.learn(G,'heroine_01','heroine_05','rumor'); G.flags.AN15_SEEN=null; await cafe(); check('3. F2 以安知道＝「美國。……學姊也去那裡吧。」', lines().includes('沈以安：美國。……學姊也去那裡吧。'));
   runPhone(d17,19.9,20.1); check('3. F2 20:00 學姊「我在法圖。九點四十五關門。」', txt('p:heroine_05').includes('我在法圖。九點四十五關門。'));
   G.day=d17; G.hour=21.5; G.zone='lawlib'; check('3. F2 21:30 在法圖：當面版到期', STORY.sisFormFaceDue(G,E)); said=[]; opts=[]; picks=['一半一半']; await STORY.sisFormFace(GM); const L3=lines();
-  check('3. F2 當面版逐字（交往中）：「志願表交了？」祐廷「交了。美國。」「……我知道你會填那裡。」「可是你要自己也想去……」→「一半一半。」→「……誠實。好。」', JSON.stringify(L3)===JSON.stringify(['溫書瑀：志願表交了？','祐廷：交了。美國。','溫書瑀：……我知道你會填那裡。','溫書瑀：可是你要自己也想去。不是只因為我在那邊。','溫書瑀：……誠實。好。'])&&opts[0].join('|')==='「我自己也想去。」|「一半一半。」'&&G.flags.SIS_FORM_REACT==='face', JSON.stringify(L3));
+  check('3. F2 當面版逐字（交往中；名字框照交往中的叫法「書瑀」，CALLED_SHUYU）：「志願表交了？」祐廷「交了。美國。」「……我知道你會填那裡。」「可是你要自己也想去……」→「一半一半。」→「……誠實。好。」', JSON.stringify(L3)===JSON.stringify(['書瑀：志願表交了？','祐廷：交了。美國。','書瑀：……我知道你會填那裡。','書瑀：可是你要自己也想去。不是只因為我在那邊。','書瑀：……誠實。好。'])&&opts[0].join('|')==='「我自己也想去。」|「一半一半。」'&&G.flags.SIS_FORM_REACT==='face', JSON.stringify(L3));
   runPhone(d17,22.4,22.6); check('3. 當面演過：22:30 不再傳手機版', !txt('p:heroine_05').includes('志願表交了？'));
   G.day=d17; G.hour=21.5; G.zone='wancai'; G.flags.SIS_FORM_REACT=null; const LD=WANCAI_LAYOUT.lawlibDoor.it; E.player.obj.position.x=LD.x+1; E.player.obj.position.z=LD.z; check('3. 在萬才館的法圖門口也算', STORY.sisFormFaceDue(G,E)); E.player.obj.position.x=LD.x+30; check('3. 萬才館大廳別的地方不算', !STORY.sisFormFaceDue(G,E)); E.player.obj.position.x=0;
   // 4. F3

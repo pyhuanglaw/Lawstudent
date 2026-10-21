@@ -770,7 +770,7 @@ const STORY_EVENTS=[
      遊戲不顯示分數（AA_104 第 10 節）：「（告訴他分數）」只有旁白「你說了分數。」，比他高／低照民總的準備程度（很好＝比他高，不錯以下＝比他低：CLS.gradeOf）。
      記憶 TOLD_SCORE（備註寫比他高／低；分數高於他的玩家，大二的翰 2 會被邀請）、ASKED_BACK（翰 4 多一句）；BOHAN_SCORE：higher／lower／no（「不想說。」翰 2 不邀請）。
      沒見過他：先用 ev_bohan_kaogu 的自我介紹那句 */
-  { id:'ev_bohan_score', title:'你考幾分', participants:['classmate_bohan'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[10,11], once:true, background:'blur',
+  { id:'ev_bohan_score', title:'你考幾分', participants:['classmate_bohan'], location:'classroom', trigger:'class', afterClass:'civ_general', term:['Y1S1'], weeks:[10,11], carryTo:15, once:true, background:'blur',   /* AA_294 ②：第 10～11 週沒去民總，延到下一次出席（到第 15 週）*/
     dialogue:[ {unless:{memory:[{npc:'classmate_bohan',tag:'FIRST_MET'}]},speaker:'classmate_bohan',expression:'serious',text:'許柏翰。第一排那個。'},
       {speaker:'classmate_bohan',expression:'serious',text:'你民總幾分？'},
       {speaker:'classmate_bohan',expression:'neutral',text:'我問了十四個人。你是第十五個。'},
@@ -838,10 +838,13 @@ const STORY_EVENTS=[
       if(typeof SOCIAL!=='undefined') SOCIAL.remember('classmate_peishan','HEARD_ABOUT','和柏翰在一起了（聽說）'); } },
   /* 經濟系的朋友（BB_96 第 10 節，BB 2026-10-14）——10-1 P4d「你怎麼又在這裡？」（大一下版）：重修經原（下）下課，普通教學館的走廊；第 2 週週五（3/6）。
      那天沒去上課的，延到下一個有去的週五（第 3～5、7 週；第 6 週週五是春假、第 8 週是期中考）；一直沒去就不發生。
+     AA_294 ②（2026-10-18，企劃 b3ec8820）：不限第 2～5、7 週，這學期第一次出席經原下就演（考試週照舊不演：afterClass 不是考完的那一場）。
+     例外（照舊）：在那之前已經在 10-3 見過阿勳（XUN_DAY）的玩家，照 AA-B 2026-10-16 的裁定走 SK03（ev_sk03_lunch：10-4「昨天那題我想通了。」＋P4d 的邀約句），不再演 P4d。
      阿勳（盧正勳，經濟系大二）、品妤（v1 K2 見過＝只點頭「你來了。」；沒見過＝先介紹自己）。兩個人還沒有 3D 人物，只有台詞（同 K2 的品妤）。
      通則（BB_105 2-1）：經濟系的朋友在法律系時期第一次出現，先加一句重新介紹；經濟系大一還沒實作，所有玩家都有阿勳那句。
      記 P4D_ANSWER（retake／good／long）、MET_XUN（法律系時期見過阿勳：之後的事件不再重新介紹）、MET_PINYU、ECON_HALLWAY_DAY（SK03 小福午餐從下一個週五開始）*/
-  { id:'ev_econ_hallway', title:'你怎麼又在這裡？', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weeks:[2,3,4,5,7], weekday:[5], once:true, background:'blur',
+  { id:'ev_econ_hallway', title:'你怎麼又在這裡？', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], once:true, background:'blur',
+    prereq:{custom:G=>!G.flags.P4D_ANSWER&&G.flags.XUN_DAY==null},   /* P4D_ANSWER 只有這一場會記（演過了）；10-3 見過的走 SK03（上面）*/
     dialogue:[ {speaker:'阿勳',text:'……你怎麼又在這裡？'},
       /* 第二句（BB_96 10-1，BB-B 2026-10-16 2c67d4d7，AB-46）：已經聯絡過（MET_XUN：SK01 一律記；玩過經濟系那一年的也有）換成「法律系不是在對面嗎」；
          另外領過系外套（SOC_WRONG_BUILDING，SK02）＝「又走錯棟了？」；完全沒聯絡過的舊存檔照原本的重新介紹 */
@@ -933,12 +936,12 @@ const STORY_EVENTS=[
       {label:'end'},{set:{P4B_SEEN:true}} ],
     after:G=>{ const t=CALENDAR.termOf(G.day); if(t) G.flags.P4B_WK=t.week; } },
   /* SK04 便利貼（BB_106 SK04；AA_154 A52）：法律系大一上第 3～16 週，週四上午大一英文（english_y1，共同教學館）。同一個座位下午是經濟系大二的統計學，唐睿坐；兩個人都不知道對方是誰。
-     第一張（第 3～5 週第一次上課）三選一：回了（chair／law）才有之後的兩張和第 15 週的揭曉（那週沒來延到第 16 週；兩次都沒來就不揭曉）；不回＝不再出現。揭曉記 STICKY_NOTES（SK06、SK10 讀它）。
+     第一張（第 3～5 週第一次上課；AA_294 ②：沒去就到下一次出席，最晚第 12 週）三選一：回了（chair／law）才有之後的兩張和第 15 週的揭曉（那週沒來延到第 16 週；兩次都沒來就不揭曉）；不回＝不再出現。揭曉記 STICKY_NOTES（SK06、SK10 讀它）。
      之後的兩張回不回都可以，不影響揭曉。沒玩經濟系大一的玩家，唐睿多一句自我介紹 */
   ...(()=>{ const wk=G=>typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||{}).week|0:0, on=G=>['chair','law'].includes(G.flags.SK04_REPLY);
     const base={ participants:[], location:'any', trigger:'class', beforeClass:'english_y1', term:['Y1S1'], once:true, background:'blur' };
     return [
-      Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G), w1=typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G); return (w1?w>=1&&w<=3:w>=3&&w<=5)&&!G.flags.SK04_REPLY; }},   /* AA_195 4-7 C：開學改 9/1 的局第 1～3 週（舊局照舊第 3～5 週）*/
+      Object.assign({},base,{ id:'ev_sk04_note1', title:'便利貼', prereq:{custom:G=>{ const w=wk(G), w1=typeof STORY!=='undefined'&&STORY.week1Start&&STORY.week1Start(G); return (w1?w>=1:w>=3)&&w<=12&&!G.flags.SK04_REPLY; }},   /* AA_195 4-7 C：開學改 9/1 的局第 1 週起（舊局照舊第 3 週起）；AA_294 ②：下一次出席英文就出現，到第 12 週（原本第 1～3／3～5 週，沒去就沒有）*/
         dialogue:[ {speaker:null,text:'桌角貼著一張便利貼。'},{speaker:'便利貼',text:'這個位子的插座是壞的。'},
           {choice:[{text:'「椅子也是。」',set:{SK04_REPLY:'chair'}},{text:'「已報修。——法律系」',set:{SK04_REPLY:'law'}},{text:'（不回）',set:{SK04_REPLY:'none'}}]} ],
         after:G=>{ G.flags.SK04_WK=wk(G); G.flags.SK04_N=1; } }),
@@ -1099,14 +1102,17 @@ const STORY_EVENTS=[
     prereq:{flagIs:{PS_CANCEL:'later'},notFlags:['PS_TABLE_GOT']},
     dialogue:[ {speaker:'classmate_peishan',expression:'smile',text:'給你。上次說的改天，就是今天。'} ],
     consequences:{flags:{PS_TABLE_GOT:true}} },
-  { id:'ev_peishan_table_later_class', title:'那張表', participants:['classmate_peishan'], location:'classroom', trigger:'enter', term:['Y1S2'], weeks:[12], weekday:[4], time:[12,13+20/60], once:true, background:'blur',
+  /* AA_294 ②（企劃 b3ec8820）：原本是第 12 週週四 12:00～13:20 走進 201（沒進去就沒有）→ 改成上債總一前（beforeClass），第 12 週沒去就延到下一次出席，到第 14 週；
+     第 14 週還沒出席＝走信箱版（ev_peishan_table_mail 加 'later'）*/
+  { id:'ev_peishan_table_later_class', title:'那張表', participants:['classmate_peishan'], location:'any', trigger:'class', beforeClass:'oblig_gen1', term:['Y1S2'], weeks:[12], carryTo:14, weekday:[4], once:true, background:'blur',
     prereq:{flagIs:{PS_CANCEL:'later'},notFlags:['PS_TABLE_GOT']},
     dialogue:[ {speaker:'classmate_peishan',expression:'smile',text:'給你。上次說的改天，就是今天。'} ],
     consequences:{flags:{PS_TABLE_GOT:true}} },
   /* 「沒關係。」、沒去女舍（或沒回）（BB_96 3-7）：第 12 週週一起，回宿舍時信箱裡有那張表，附一張便條（旁白照 BB 的描述寫成句子）*/
   { id:'ev_peishan_table_mail', title:'信箱', participants:[], location:['dorm_hall','dorm'], trigger:'enter', term:['Y1S2'], once:true, background:'freeze',
     prereq:{notFlags:['PS_TABLE_GOT'],custom:G=>{ const d=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y1S2',12,1):null; const k=G.flags.PS_CANCEL;
-      return d!=null&&G.day>=d&&(k==null||k==='ok')&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_table_cancel'); }},
+      const late=k==='later'&&(()=>{ const d14=STORY.termDay('Y1S2',14,4); return d14!=null&&G.day>d14; })();   /* AA_294 ②：「改天再給我。」第 14 週還沒出席債總一＝也走信箱版（第 14 週週四過了）*/
+      return d!=null&&G.day>=d&&(k==null||k==='ok'||late)&&typeof PHONE!=='undefined'&&PHONE.sent(G,'ps_table_cancel'); }},
     dialogue:[ {speaker:null,text:'信箱裡有那張表，附一張便條：「對不起。這份有畫重點。」'} ],
     consequences:{flags:{PS_TABLE_GOT:true}} },
   /* 假期活動的關鍵事件（AA_199；vac3d.js）：出遊的 2D；連續好幾天的（營隊、日本）整段在 beforeOuting（中間的日子跳過、手機照時間收）*/

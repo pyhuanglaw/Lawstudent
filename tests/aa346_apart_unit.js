@@ -71,7 +71,9 @@ const HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東�
   '（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）','（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
 const hearOf=L=>L.map(x=>x&&x.n&&x.n in HEAR?(HEAR[x.n]==null?null:N(HEAR[x.n])):x).filter(x=>x!=null);
 const want=(id,y,br,phone)=>{ const X=EXP[id], L=[N(phone?PH:X.o(y)),{me:ME}]; const B=[]; if(br==='knew') B.push(...X.knew(y)); else { B.push(...(X.ask||[])); B.push(...X[br](y)); } B.push(...X.last(y)); return L.concat(phone||id==='classmate_peishan'?hearOf(B):B); };
-const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return g.who===nm(id)&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
+/* 談的時候還在交往：學姊的名字框是交往中的叫法「書瑀」（CALLED_SHUYU，never_set_flags_unit 第 5 節）；談完分開以後 nm() 才回到「溫書瑀」*/
+const dn=id=>{ const C=typeof REL_LINES!=='undefined'&&REL_LINES[id]&&REL_LINES[id].contact; return C&&C.DATING||null; };
+const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return (g.who===nm(id)||(!!dn(id)&&g.who===dn(id)))&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
 /* 背景照 OUT.bg（圖還沒到的＝dark）；'phone'＝events3d.js 的 {scene:'電話'} 那一套（不在家＝OUT.bg('phone_street_night')）*/
 const bgKey=b=>b&&typeof b==='object'?b.image:b;
 const bgOk=(want0)=>{ const k=bgKey(want0==='phone'?OUT.bg('phone_street_night'):(want0?OUT.bg(want0):'dark')); if(k==='dark') return H.bgs.length>0&&H.bgs.every(b=>bgKey(b)==='dark'); return H.bgs.some(b=>bgKey(b)===k); };
