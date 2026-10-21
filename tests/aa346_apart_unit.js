@@ -6,6 +6,7 @@
 //   沒到：「不去了」或過了時間＝延到隔天同一時間，最多兩次；第三次那一晚 22:00 她私訊「你是不是有話要跟我說。」→ 電話版（地點的旁白換「（電話。）」）；22:00 以後才算沒到的＝當下。
 //   談完：前任（EX_、romance status ex、ROMANCE_HISTORY how apart_choice＋said＋day、CHOICE_APART_DONE），不扣數值、沒有吵架；前任版照 apart_talk（偶遇的那一句、尾聲經過時那一句）。
 //   不排的：只有一位、「先不想」「先跟她們說清楚」、2030「（不選）」「跟她們說實話」；舊存檔（已經 apart_talk 分開）不變；談話以前她因為別的原因分開＝那一場取消。
+//   收拾的時刻（V6-S4，STORY.cleanupTick）：談完才 ROM.end，最後一場的一週後照樣補「（你把那件事放好了。）」。
 // 修改前：選了就直接 ROM.end(…,'apart_talk')，沒有排程、沒有談話（大部分 FAIL）。用法：node tests/aa346_apart_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -66,7 +67,9 @@ const TBL={heroine_01:[18,19,'萬才館研討室外的走廊','麵店，兩人�
   classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'政大山下的小吃店','她家樓下','nccu_food',null]};
 const want=(id,y,br,phone)=>{ const X=EXP[id], L=[N(phone?PH:X.o(y)),{me:ME}]; if(br==='knew') L.push(...X.knew(y)); else { L.push(...(X.ask||[])); L.push(...X[br](y)); } L.push(...X.last(y)); return L; };
 const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return g.who===nm(id)&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
-const bgOk=(want0)=>{ const imgs=H.bgs.map(b=>b&&typeof b==='object'?b.image:b); if(want0==='phone') return imgs.includes('assets/bg/phone_street_night.webp'); if(want0) return imgs.includes('assets/bg/'+want0+'.webp'); return imgs.length>0&&imgs.every(b=>b==='dark'); };
+/* 背景照 OUT.bg（圖還沒到的＝dark）；'phone'＝events3d.js 的 {scene:'電話'} 那一套（不在家＝OUT.bg('phone_street_night')）*/
+const bgKey=b=>b&&typeof b==='object'?b.image:b;
+const bgOk=(want0)=>{ const k=bgKey(want0==='phone'?OUT.bg('phone_street_night'):(want0?OUT.bg(want0):'dark')); if(k==='dark') return H.bgs.length>0&&H.bgs.every(b=>bgKey(b)==='dark'); return H.bgs.some(b=>bgKey(b)===k); };
 const relOf=id=>{ const r=SOCIAL.rel(id); return JSON.stringify({fam:r.fam,trust:r.trust,comf:r.comf,rom:r.rom,npcRom:r.npcRom}); };
 const keepFor=id=>id==='kexin'?'heroine_01':'kexin';
 /* 一位、一年：選好（R2Y4B.apartSchedule，等於 5/21、5/25 選「選一個人」）*/
@@ -168,7 +171,7 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     at('2029-05-24',22); PHONE.tick(H.G); const m=(H.G.msgs||[]).find(x=>x.text===DM);
     check('4. 22:00 她私訊「你是不是有話要跟我說。」（以前沒有）；接著電話版到期', early&&!!m&&m.th==='p:heroine_01'&&m.from==='heroine_01'&&m.h===22&&dueHas('r2y4b_apart29_call_heroine_01'));
     H.said=[]; H.opts=[]; H.bgs=[]; caps.length=0; H.picks=[1]; await H.run('r2y4b_apart29_call_heroine_01'); const h=hist('heroine_01');
-    check('4. 電話版：地點的旁白換成「（電話。）」，其他照原文（以安「理由呢？」→ 沒說）；字幕「電話」、背景是講電話的路邊', same('heroine_01',want('heroine_01',2029,'quiet',true))&&caps.includes('電話')&&!caps.includes('萬才館研討室外的走廊')&&bgOk('phone'), dump());
+    check('4. 電話版：地點的旁白換成「（電話。）」，其他照原文（以安「理由呢？」→ 沒說）；字幕「電話」、背景照事件的 {scene:\'電話\'}（不在家＝晚上的路邊，圖還沒到＝深色底）', same('heroine_01',want('heroine_01',2029,'quiet',true))&&caps.includes('電話')&&!caps.includes('萬才館研討室外的走廊')&&bgOk('phone'), dump());
     check('4. 電話版談完：分開（apart_choice、said quiet）；事件記一次；不會再演', H.G.flags.EX_heroine_01===true&&!!h&&h.how==='apart_choice'&&h.said==='quiet'&&h.day===D('2029-05-24')&&(H.G.events.done.ev_choice_apart_heroine_01|0)===1&&!dueHas('r2y4b_apart29_call_heroine_01')&&apartOuts().filter(q=>q.who==='heroine_01').length===3);
     /* 22:00 以後才算沒到（芷若 22:00 的視訊）：當下私訊 */
     setup('heroine_02',2029,{keep:'heroine_04'}); missThree('heroine_02'); const Z=rnd(S.apartRound(H.G,2029),'heroine_02'), zq=OUT.get(H.G,'apart29_heroine_02_2');
@@ -248,6 +251,23 @@ const missThree=id=>{ for(let n=0;n<3;n++){ const q=OUT.get(H.G,'apart'+(rnd(S.a
     check('9. 選了以後、談話以前她已經不在交往：那一場取消（不問「出發」）、不記 apart_choice', P.st==='void'&&q.state==='cancelled'&&!OUT.due(H.G)&&hist('heroine_01').how==='apart_talk'&&!(H.G.flags.CHOICE_APART_DONE||[]).length);
     setup('heroine_01',2029,{keep:'heroine_04'}); missThree('heroine_01'); ROM.end(H.G,'heroine_01','apart_talk'); S.phone(H.G,GM); at('2029-05-24',22.5); PHONE.tick(H.G);
     check('9. 電話版排好了才分開：私訊不送、電話版不演', rnd(S.apartRound(H.G,2029),'heroine_01').st==='void'&&!H.msgs('p:heroine_01').includes(DM)&&!dueHas('r2y4b_apart29_call_heroine_01'));
+  });
+
+  /* ===== 10. 收拾的時刻（V6-S4，c2035d7f STORY.cleanupTick）：談完才 ROM.end，一週後照樣補旁白 ===== */
+  await block('10. 收拾的時刻',async()=>{
+    const settle=()=>new Promise(r=>setTimeout(r,0)), line=STORY.CLEANUP_LINE;
+    setup('heroine_01',2029,{keep:'heroine_04',more:['heroine_03']}); const F=H.G.flags;   /* 以安 5/22 18:00、語彤 5/23 21:30 */
+    at('2029-05-22',12); H.said=[]; STORY.cleanupTick(GM); await settle();
+    check('10. 選了以後、談話以前：還沒分開，沒有收拾的時刻（CLEANUP_DONE 照舊、不補旁白）', F.CLEANUP_DONE!==false&&!ROM.cleanupLate(H.G)&&!H.has(line));
+    let q=OUT.get(H.G,'apart29_heroine_01_0'); atAbs(q.day*24+q.h); await goOut(q.id,[0]);
+    check('10. 以安談完（ROM.end apart_choice）：CLEANUP_DONE false、cleanupDue＝5/22＋7', F.CLEANUP_DONE===false&&F.cleanupDue===D('2029-05-29'));
+    q=OUT.get(H.G,'apart29_heroine_03_0'); atAbs(q.day*24+q.h); await goOut(q.id,[1]);
+    check('10. 語彤 5/23 談完：cleanupDue 跟著往後（5/30）', F.CLEANUP_DONE===false&&F.cleanupDue===D('2029-05-30'));
+    at('2029-05-29',20); H.said=[]; STORY.cleanupTick(GM); await settle(); const day6=!H.has(line)&&F.CLEANUP_DONE===false;
+    at('2029-05-30',20); H.said=[]; STORY.cleanupTick(GM); await settle(); const day7=H.has(line)&&F.CLEANUP_DONE===true&&F.cleanupDue==null;
+    H.said=[]; STORY.cleanupTick(GM); await settle();
+    check('10. 一週後（最後一場 5/23＋7＝5/30）補一句旁白「（你把那件事放好了。）」、CLEANUP_DONE true；第 6 天不補；補過不再補', line==='（你把那件事放好了。）'&&day6&&day7&&!H.has(line));
+    check('10. 收拾過以後：可以和別人開始新的一段（ROM.canStart）；選的那一位照舊交往', ROM.canStart(H.G,'heroine_02')&&F.dating_heroine_04===true);
   });
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
