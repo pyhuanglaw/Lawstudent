@@ -457,7 +457,11 @@ POT_FERN = [potted_proto('fern', 0.09, 0.16, 0.33, 0.32, 4, 11)] * 2   # 效能�
 def broad_proto(r, h, seed):
     """大葉盆栽（instancing）：陶盆＋土＋plants.py 的模型葉子（v6d：葉片卡的大葉子遠看像折紙）。原點＝盆底中央"""
     import plants as PL_
-    if '_PLM_ST' not in globals(): globals()['_PLM_ST'] = PL_.materials('wz_pl_')
+    if '_PLM_ST' not in globals():
+        globals()['_PLM_ST'] = PL_.materials('wz_pl_')
+        # 街上的大葉盆栽葉子調亮一點（ART-BALCONY-POTS，2026-10-21）：從街上往上看陽台時葉子在陽台的陰影裡，原本的深綠（#2f5130／#3f6a3a）幾乎是黑色剪影
+        for k_, hx_ in (('leaf_dark', '#3d6a3a'), ('leaf_mid', '#55894a')):
+            _PLM_ST[k_].node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (*PL_._srgb(hx_), 1.0)
     random.seed(seed)
     pm = Mesh('pot', M['pot_terra']); pot(pm, 0.0, 0.0, r, h, 'taper4', y0=0.0, seg=8); parts = [pm.finish(None, smooth=True)]
     tmp = B.group('tmp_pl', None)
