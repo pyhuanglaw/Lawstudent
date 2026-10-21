@@ -189,13 +189,20 @@ const K=t=>'kexin:'+t;
   check('8. 三選一（新寫）、送上車 dating 兩句；高鐵 2980 照扣；KX_TRIP.Y2W kaohsiung；21:00 回到臺北',JSON.stringify(opts[0])===JSON.stringify(['「妳從小吃到大的是哪一攤？」','「六攤吃得完嗎？」','（跟在她後面走）'])&&has('這攤。……老闆以前都多給我一顆。現在不給了。')&&has('開學我就上去了。……到時候換你來接我。')&&has('（她站在閘門外面，等你走到看不見。）')&&G.money===5000-2980&&G.flags.KX_TRIP.Y2W==='kaohsiung'&&G.day===D('2027-01-14')&&Math.abs(G.hour-21)<0.01,G.money+' '+G.hour);
   { const L=[]; Y2R2.roomExtra(G,L); check('8. 房間物件「旅行照片：高雄的夜市」',L.some(x=>x[0]==='旅行照片：高雄的夜市'&&x[1]==='她拿著第一攤的東西，後面的燈全糊了。你拍的。')); }
   /* AA_338 第 4 題：1/14 這一趟算進「第一次／再來」的輪替 */
-  check('8. 1/14 算進輪替：HV_N.kexin 記 1；之後去高雄找她（hometown3d）不是 first',(G.flags.HV_N||{}).kexin===1&&HV.pickVariant(G,'kexin',false)===HOMETOWN_LINES.kexin.again[0].key,JSON.stringify(G.flags.HV_N));
+  /* AA_343 A4（改了這一項的期待值）：1/14 是夜市——下一次先演港邊（first），again 第一輪跳過夜市、從下雨開始，輪完一圈夜市照常回來 */
+  check('8. 1/14 算進輪替：HV_N.kexin 記 1；之後去高雄找她（hometown3d）先演港邊（first），不是又一次夜市（AA_343 A4）',(G.flags.HV_N||{}).kexin===1&&HV.pickVariant(G,'kexin',false)==='first'&&JSON.stringify(G.flags.HV_PRE)===JSON.stringify({kexin:{v:'night',at:0}}),JSON.stringify([G.flags.HV_N,G.flags.HV_PRE,HV.pickVariant(G,'kexin',false)]));
+  { const F=G.flags, n0=F.HV_N.kexin, seq=[2,3,4,5,6,7].map(n=>{ F.HV_N.kexin=n; return HV.pickVariant(G,'kexin',false); }); F.HV_N.kexin=n0;
+    check('8. A4 之後的輪替：港邊 → 下雨 → 河邊 → 夜市 → 下雨 → 河邊 → 夜市（第一輪跳過夜市）',JSON.stringify(seq)===JSON.stringify(['rain','river','night','rain','river','night']),JSON.stringify(seq)); }
   { const day=D('2027-01-20'); OUT.plan(G,{id:'hv_kexin_t',ev:'ev_hv_kx',day,h:10.5,late:1,place:'高雄',title:'去高雄找可昕',travel:'高鐵約一個半小時',travelH:1.5,back:'回到臺北。',hv:{id:'kexin',keep:false}}); picks=[0]; await go('hv_kexin_t');
-    check('8. 1/14 去過的：之後去高雄接人用「再來」那一版（pickAgain「這次換這頂安全帽了。……上車。」，沒有第一次的「你真的來了。」）',has('這次換這頂安全帽了。……上車。')&&!has('你真的來了。')&&(G.flags.HV_N||{}).kexin===2,JSON.stringify(said.map(s=>s.t))); }
+    check('8. 1/14 去過的：之後去高雄接人用「再來」那一版（pickAgain「這次換這頂安全帽了。……上車。」，沒有第一次的「你真的來了。」）',has('這次換這頂安全帽了。……上車。')&&!has('你真的來了。')&&(G.flags.HV_N||{}).kexin===2,JSON.stringify(said.map(s=>s.t)));
+    check('8. A4 那一次的中間是港邊（first）：「（你們坐在港邊的長椅上……）」，沒有夜市「這攤我從小吃到大。」；下一次是下雨',has('（你們坐在港邊的長椅上，看船慢慢進來。她買了兩支冰。）')&&has('這裡我國中常來。那時候覺得臺北好遠。')&&!has('這攤我從小吃到大。……你吃得完再說。')&&HV.pickVariant(G,'kexin',false)==='rain',JSON.stringify(said.map(s=>s.t))); }
+  { const F={HV_N:{kexin:1},HV_PRE:{kexin:{v:'night',at:1}}}; const g={flags:F}, seq=[2,3,4,5].map(n=>{ F.HV_N.kexin=n; return HV.pickVariant(g,'kexin',false); });
+    check('8. A4 1/14 以前已經自己去過一次（港邊演過）：之後從下雨開始、第一輪跳過夜市',JSON.stringify(seq)===JSON.stringify(['rain','river','night','rain']),JSON.stringify(seq)); }
   fresh('2026-12-28',20,'dorm',{KX_TRIP:{Y1S2:'sea'}}); date('kexin'); run('2026-12-28',20.75,21.25); check('8. 大一春假去過：三則、沒有「一天也算。」',txt('p:kexin').length===3&&txt('p:kexin')[2]===K('你可以下來嗎？'));
   ans('y2r2_kh_ask',1); check('8. H2 婉拒：「好。那春假。……行程表我會再多做一頁。」、KX_TRIP_DEFERRED spring',txt('p:kexin').slice(-1)[0]===K('好。那春假。……行程表我會再多做一頁。')&&G.flags.KX_TRIP_DEFERRED==='spring'&&!OUT.get(G,'y2r2_kh'));
   fresh('2026-12-28',20,'dorm'); date('kexin'); run('2026-12-28',20.75,21.25); ans('y2r2_kh_ask',0); to('2027-01-14',11); miss('y2r2_kh'); PHONE.tick(G);
   check('8. 答應了沒出發：「你沒上車。」「……夜市我自己去了。行程表還在。」、KX_TRIP.Y2W missed',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('你沒上車。'),K('……夜市我自己去了。行程表還在。')])&&G.flags.KX_TRIP.Y2W==='missed');
+  check('8. A4 1/14 記 missed（她自己去了夜市）：不算去過，照原本的 first／again（HV_N、HV_PRE 都沒有；之後第一次＝first、第二次＝夜市）',!(G.flags.HV_N||{}).kexin&&!G.flags.HV_PRE&&HV.pickVariant(G,'kexin',false)==='first'&&(()=>{ G.flags.HV_N.kexin=1; const v=HV.pickVariant(G,'kexin',false); G.flags.HV_N.kexin=0; return v==='night'; })());
 
   // 9. 2-Y2-11 除夕
   fresh('2027-02-05',21,'dorm'); date('kexin'); run('2027-02-05',21.75,22.25);
@@ -270,6 +277,23 @@ const K=t=>'kexin:'+t;
   run('2027-04-25',9.75,10.25); check('13. 公館那一版：隔天沒有「我等了一天」',!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。')));
   fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',0); miss('y2r2_bd'); run('2027-04-24',20.5,21.25); run('2027-04-25',9.75,10.25);
   check('13. 答應了沒到：21:00「你沒來。」「……予樂她們陪我過了。」；隔天不再說「等了一天」',JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('你沒來。'),K('……予樂她們陪我過了。')])&&!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。')));
+  /* AA_343 A1：MSG-2 選「妳來公館」、答應了沒到——21:30「我到了。公館。」、22:00「……我回去了。蛋糕我帶回去。」、記 'none'（不是 'message'）；沒有電話版、隔天沒有「我等了一天」 */
+  const ggPick=()=>{ fresh('2027-04-17',20,'dorm'); date('kexin'); INV.addContact(G,'kexin'); run('2027-04-17',20.75,21.25); to('2027-04-24',11); tick(); MSG.send(G,'kexin','bday'); run('2027-04-24',11,12,0.05);
+    const m=(G.msgs||[]).find(x=>x.th==='p:kexin'&&x.ask&&(x.ask.opts||[]).some(o=>o.t==='妳來公館')); if(m){ PHONE.answer(G,m.ask.id,m.ask.opts.findIndex(o=>o.t==='妳來公館')); tick(); } return !!OUT.get(G,'y2r2_bd_gg'); };
+  { const ok=ggPick(); run('2027-04-24',12,22.5,0.25); run('2027-04-25',9.75,10.25);
+    const L=TH('p:kexin'), a=L.find(x=>x.text==='我到了。公館。'), b=L.find(x=>x.text==='……我回去了。蛋糕我帶回去。');
+    check('13. A1「妳來公館」答應了沒到：21:30「我到了。公館。」、22:00「……我回去了。蛋糕我帶回去。」；KX_BDAY[2] none（不是 message）',ok&&!!a&&a.day===D('2027-04-24')&&Math.abs(a.h-21.5)<0.02&&!!b&&b.day===D('2027-04-24')&&Math.abs(b.h-22)<0.02&&G.flags.KX_BDAY[2]==='none',JSON.stringify([txt('p:kexin'),G.flags.KX_BDAY]));
+    check('13. A1 沒有 22:00 電話版、隔天沒有「我等了一天」、也沒有「你沒來。」',!OUT.get(G,'y2r2_bd_call')&&!txt('p:kexin').includes(K('昨天是我生日。……我等了一天。'))&&!txt('p:kexin').includes(K('你沒來。'))); }
+  { const ok=ggPick(); run('2027-04-24',12,21.5,0.25); await go('y2r2_bd_gg',21.6); run('2027-04-24',22,22.5,0.25);
+    check('13. A1 22:00 以前到了（21:30 那則已經傳了）：照演「予樂她們先幫我過了一次。……這是第二次。」、記 two；沒有「……我回去了。」',ok&&has('予樂她們先幫我過了一次。……這是第二次。')&&G.flags.KX_BDAY[2]==='two'&&txt('p:kexin').includes(K('我到了。公館。'))&&!txt('p:kexin').includes(K('……我回去了。蛋糕我帶回去。')),JSON.stringify([txt('p:kexin'),G.flags.KX_BDAY])); }
+  /* AA_343 A2：回過予樂的玩家 4/24 傳生日快樂——不問「你晚上要上山來，還是我下山」，整個回覆換一句 */
+  const bdR=(pick,h,prep)=>{ fresh('2027-04-17',20,'dorm'); date('kexin'); INV.addContact(G,'kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',pick); to('2027-04-24',h); tick(); if(prep) prep();
+    const n0=(G.msgs||[]).length, r=MSG.send(G,'kexin','bday'); run('2027-04-24',h,Math.min(h+1.5,23.75),0.05); return {ok:!!(r&&r.ok),L:(G.msgs||[]).slice(n0).filter(x=>x.th==='p:kexin'&&x.from==='kexin')}; };
+  { const x=bdR(0,11); check('13. A2 回過予樂（教室版）19:00 以前傳：她只回「謝謝。……晚上見。」，沒有回問、沒有按鈕',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。……晚上見。'])&&!x.L.some(m=>m.ask),JSON.stringify(x.L.map(m=>m.text))); }
+  { const x=bdR(2,15); check('13. A2 兩個人版 19:00 以前傳：「謝謝。……晚上見。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。……晚上見。']),JSON.stringify(x.L.map(m=>m.text))); }
+  { const x=bdR(3,20); check('13. A2 電話版 22:00 以前傳：「謝謝。……晚上等你電話。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。……晚上等你電話。']),JSON.stringify(x.L.map(m=>m.text))); }
+  { const x=bdR(0,21,()=>{ G.events.done.ev_kexin_birthday_y2=1; }); check('13. A2 那一場已經演過之後才傳：「謝謝。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。']),JSON.stringify(x.L.map(m=>m.text))); }
+  { const x=bdR(1,18.5,()=>{ OUT.get(G,'y2r2_bd').state='missed'; }); check('13. A2 那一場已經錯過（18:30 出發選單選了不去）之後才傳：「謝謝。」',x.ok&&JSON.stringify(x.L.map(m=>m.text))===JSON.stringify(['謝謝。']),JSON.stringify(x.L.map(m=>m.text))); }
 
   // 14. 2-Y2-16 回程的公車
   fresh('2027-04-28',20,'dorm',{met_yu:true}); date('kexin'); run('2027-04-28',20.75,21.25); check('14. 沒有 K12（KX_CIRCLES_MET、麵店分店群組）：沒有',!PHONE.sent(G,'y2r2_u_ask'));
@@ -342,7 +366,8 @@ const K=t=>'kexin:'+t;
     check('17. 交往中、看過 Q5、回過 zq_song：「重來」那句；AA_338 第 3 節的旁白「（下台後，她沒有發貼紙給你。……去年那一張旁邊。）」→「第二張。明年還有第三張。」',has('（第四句唱到「重來」兩個字的時候，她看了觀眾席一眼。）')&&idx(N)>=0&&idx('第二張。明年還有第三張。')===idx(N)+1&&!any(/^（下台後她不發貼紙給你/),JSON.stringify(said.map(s=>s.t))); }
   fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('heroine_04'); await play('ev_ziqing_show2');
   { const N='（下台後，她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）', L='……今年你有來。我看到了。不要換位子。', S0='（你坐在第一排。她上台看到你，愣了一下。這次沒有按錯和弦。）';
-    check('17. 交往中、沒看過 Q5（AA_338 第 3 節）：第一排 →「（下台後，她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）」→「……今年你有來。我看到了。不要換位子。」；不再發「去年的份」',idx(S0)>=0&&idx(N)>idx(S0)&&idx(L)===idx(N)+1&&!has('（下台後，她走到第一排，來的人一人一張插座貓貼紙。）')&&!has('（發到你的時候）去年的份。')&&!has('（她把一張插座貓貼紙，直接貼在你的手機殼上。）')&&SOCIAL.has('heroine_04','CLAPPED'),JSON.stringify(said.map(s=>s.t))); }
+    /* AA_343 A3（改了這一項的期待值）：取代「下台後，她走到第一排……」，但 BB_189 1-3 的「去年的份。」要留 */
+    check('17. 交往中、沒看過 Q5（AA_338 第 3 節＋AA_343 A3）：第一排 →「（下台後，她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）」→「去年的份。」→「……今年你有來。我看到了。不要換位子。」；不發給第一排',idx(S0)>=0&&idx(N)>idx(S0)&&idx('去年的份。')===idx(N)+1&&said[idx(N)+1].who!==null&&idx(L)===idx(N)+2&&!has('（下台後，她走到第一排，來的人一人一張插座貓貼紙。）')&&!has('（發到你的時候）去年的份。')&&!has('（她把一張插座貓貼紙，直接貼在你的手機殼上。）')&&SOCIAL.has('heroine_04','CLAPPED'),JSON.stringify(said.map(s=>s.t))); }
   fresh('2027-05-24',20,'dorm',{ZQ_SHOW:'clap'}); meet('heroine_04'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); run('2027-05-24',20.75,21.25); run('2027-05-28',21.25,21.75);
   check('17. 沒去：21:30 謝幕照片（Q5 去過：「今年沒有人拍太大聲」）',JSON.stringify(txt('p:heroine_04').slice(-3))===JSON.stringify(['heroine_04:📷（謝幕，台上六個人鞠躬）','heroine_04:今年沒有人拍太大聲','heroine_04:……拍給你看'])&&G.flags.ZQ_SHOW2==='absent');
 
