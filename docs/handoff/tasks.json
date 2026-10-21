@@ -24585,7 +24585,7 @@
    "title": "經濟系那一年的錢只進不出（BB-C：使用者 day-18 存檔身上 $349,910）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -24599,7 +24599,7 @@
    },
    "source": "BB-C QA-REPRO-1020 第一批（78cf2e1f）新發現",
    "authorized": "衍生待辦（只記錄）",
-   "next": "【LAWWW-C 2026-10-21 14:2x UTC】查到原因：10/31 搬回家以後 home3d.js 每月照樣叫 STORY.monthlyFunds（家裡匯 30,000），在家幾乎沒支出；startLawWeek1 對經濟系玩家「錢照舊」→ 進法律系時約 35 萬（新遊戲預設就是經濟系開局＝每個玩家都這樣）。已問 AA 定數字（搬回家後零用錢、補習班／衝刺班學費、進法律系那天帳戶上限）；收到就實作（monthlyFunds 看 Y0_MOVED_OUT、startLawWeek1 的 econ 分支）＋單元測試 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
+   "next": "【LAWWW（帳號 A）21:1x】狀態更正：AA 已在 AA_363 S2 定數字、AA363-S2-ECON-MONEY-1021 已實作，BB 19:0x 驗過（見 evidence）；原本寫的「等 AA」是舊的 ｜ 【LAWWW-C 2026-10-21 14:2x UTC】查到原因：10/31 搬回家以後 home3d.js 每月照樣叫 STORY.monthlyFunds（家裡匯 30,000），在家幾乎沒支出；startLawWeek1 對經濟系玩家「錢照舊」→ 進法律系時約 35 萬（新遊戲預設就是經濟系開局＝每個玩家都這樣）。已問 AA 定數字（搬回家後零用錢、補習班／衝刺班學費、進法律系那天帳戶上限）；收到就實作（monthlyFunds 看 Y0_MOVED_OUT、startLawWeek1 的 econ 分支）＋單元測試 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -24614,7 +24614,8 @@
     "acceptance": "AA 給：搬回家後每月零用錢、旁白、補習班／衝刺班學費、進法律系帳戶規則",
     "receiver": "LAWWW",
     "ack": "SENT"
-   }
+   },
+   "evidence": "AA 定稿 AA_363 S2（搬回家以後每月 5,000、學費不扣、搬回宿舍恢復 30,000、不設上限、舊存檔不扣回）；程式 story3d.js S.monthlyFunds（Y0_MOVED_OUT＝5,000）＋tests/aa363_s2_unit.js（AA363-S2-ECON-MONEY-1021）；BB（帳號 A）19:0x～19:3x 經濟系「天天睡覺」整條 PASS（企劃線 BB_218 BUG-ECON-OCT-ALLOWANCE-1021 那一節，開發分支 b72960bf；Playwright 手機模擬，不是 iPhone）：10 月 +30,000、11～4 月各 +5,000、法律系 9 月 +30,000，重考班、衝刺班沒有扣錢"
   },
   {
    "id": "AA313-FIXES-1020",
@@ -26704,9 +26705,9 @@
    "title": "經濟系休學搬回家以後的錢（AA_363 S2）：每月生活費改 5,000、學費不從帳戶扣、回宿舍那個月起恢復 30,000、不設上限、舊存檔不扣回",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "【AA 16:09 選 A】9/1 起 30,000、8 月照在家的 5,000、8/29 不補匯、訊息不改字——和 8076fe37 的做法一樣，不用再改；BB 16:13 ACK，併入 QA-PLAYTHROUGH＋存檔跳 11/1、12/1、2/14、6/8、9/1 補直向截圖 ｜ 【LAWWW（帳號 A）16:1x，8076fe37】S.monthlyFunds：經濟系 Y0_MOVED_OUT 以後每月 5,000（搬回家的下一個月起）；8/29 轉法律系（stage law）以後 30,000；學費查過本來就沒從帳戶扣；舊存檔不扣回。tests/aa363_s2_unit.js 19 項（修改前 7 項失敗）。等 AA 回「搬回宿舍那個月」A（9/1 起，現在的做法）或 B（8/29 補 8 月差額）；BB 經濟系流程看錢 ｜ 【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
+   "next": "【LAWWW（帳號 A）21:1x】BB 19:0x 經濟系「天天睡覺」整條驗過（見 evidence）｜ 【AA 16:09 選 A】9/1 起 30,000、8 月照在家的 5,000、8/29 不補匯、訊息不改字——和 8076fe37 的做法一樣，不用再改；BB 16:13 ACK，併入 QA-PLAYTHROUGH＋存檔跳 11/1、12/1、2/14、6/8、9/1 補直向截圖 ｜ 【LAWWW（帳號 A）16:1x，8076fe37】S.monthlyFunds：經濟系 Y0_MOVED_OUT 以後每月 5,000（搬回家的下一個月起）；8/29 轉法律系（stage law）以後 30,000；學費查過本來就沒從帳戶扣；舊存檔不扣回。tests/aa363_s2_unit.js 19 項（修改前 7 項失敗）。等 AA 回「搬回宿舍那個月」A（9/1 起，現在的做法）或 B（8/29 補 8 月差額）；BB 經濟系流程看錢 ｜ 【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
    "first": {
     "term": "Y0S1",
     "week": 8,
@@ -26728,7 +26729,8 @@
    },
    "sha": [
     "8076fe37"
-   ]
+   ],
+   "evidence": "AA 定稿 AA_363 S2（搬回家以後每月 5,000、學費不扣、搬回宿舍恢復 30,000、不設上限、舊存檔不扣回）；程式 story3d.js S.monthlyFunds（Y0_MOVED_OUT＝5,000）＋tests/aa363_s2_unit.js（AA363-S2-ECON-MONEY-1021）；BB（帳號 A）19:0x～19:3x 經濟系「天天睡覺」整條 PASS（企劃線 BB_218 BUG-ECON-OCT-ALLOWANCE-1021 那一節，開發分支 b72960bf；Playwright 手機模擬，不是 iPhone）：10 月 +30,000、11～4 月各 +5,000、法律系 9 月 +30,000，重考班、衝刺班沒有扣錢"
   },
   {
    "id": "BUG-CAM-C208-1021",
