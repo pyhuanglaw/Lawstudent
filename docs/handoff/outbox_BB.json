@@ -839,17 +839,17 @@
   {
    "task": "BB-TEST-0830-ECONHOME-1021",
    "branch": "claude/story-planning",
-   "sha": "8069189a",
+   "sha": "f23bf620",
    "files": [
-    "docs/story_planning/BB_218_瀏覽器實測紀錄.md"
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/econ_home_1021/"
    ],
-   "state": "WIP",
-   "remaining": "② flow_v0_home 重拍五格（排隊）",
-   "next": "跑完對 econ_home_1018 的五格",
+   "state": "已測試",
+   "next": "無（缺圖 ntu_gate 照 BB_220 ③；RH-O6 接 exam_hs_classroom 給 LAWWW 一行）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "① PASS：8/29 05:00 轉法律系、晚上直接睡到 8/30 07:30"
+   "note": "① PASS；② flow_v0_home ALL PASS（c6348e60）；五格：n031 豆花 FIXED、n093 2/13 全黑沒再出現、n180 選單收起來沒出現、n212 PARTIAL（選座位那一刻）、n255 校門口缺圖 ntu_gate；新看到：7/10 看考場深色底→BB 決定接 exam_hs_classroom、電話全身立繪站在家裡客廳（P3）、12/3 晚上家裡演閒聊 K0-Lx3（P3）"
   },
   {
    "task": "BUG-CAMP-CUT-1018",
