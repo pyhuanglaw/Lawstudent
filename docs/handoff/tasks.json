@@ -19714,7 +19714,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】不確定：標題列的三項（9/13 傍晚燈光、手寫輪值表、兩張床）整合 commit 沒提到——BB 驗收時對一下 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
+   "next": "【LAWWW（帳號 A）16:2x】BB_218 退回的 C208 外套、門牌已修（LAWWW2 46d20af9）並整合 ed65d8cd；等 BB 重拍 ｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】不確定：標題列的三項（9/13 傍晚燈光、手寫輪值表、兩張床）整合 commit 沒提到——BB 驗收時對一下 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "priority": "P2",

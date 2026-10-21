@@ -12798,9 +12798,9 @@
    "sha": "46d20af9",
    "what": "C208 門上的外套、掛勾、白板、門牌跟著牆淡出（BB_218 退回的那一項）＋臥室 C 門板誤歸南牆修正：us_shared.glb、patches/c208_plate_fade.diff",
    "task": "ART-US2-FIX-1018",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "LAWWW（帳號 A）16:2x 從分支上看到（outbox 寫「（本 commit）」incr 對不到）；508ac343 是同一個 patch 的修正（門牌頂點是世界座標，改用網格中心判斷在哪面牆）；等 LAWWW2 通知交件後合併、派 BB 重拍"
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）16:2x 從分支上看到（outbox 寫「（本 commit）」incr 對不到）；508ac343 是同一個 patch 的修正（門牌頂點是世界座標，改用網格中心判斷在哪面牆）；等 LAWWW2 通知交件後合併、派 BB 重拍 ｜ LAWWW2 16:17 通知交件；LAWWW 16:2x 整合 ed65d8cd（patch git apply 乾淨＋GLB／json／us_apartment.py 從 46d20af9）；US 單元測試全過；BB 用 artrev2 同一支腳本重拍"
   }
  ],
  "ignored": [
