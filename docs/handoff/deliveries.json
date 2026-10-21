@@ -12422,8 +12422,8 @@
    "what": "ART-US2-FIX-1018 美術那一半：C 棟 208（BB_217 §7 四點）us_shared.glb＋US_SHARED_LAYOUT patch",
    "task": "ART-US2-FIX-1018",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 13:2x 整合 ｜ BB 16:09（BB_218）：吸頂燈、版畫、拍立得、US2 泡麵袋通過；B 門外套與「B」門牌沒跟著門板淡出 → 退回 LAWWW2（它修 us_apartment 淡出群組）"
+   "integration": "已驗收",
+   "note": "LAWWW-C 13:2x 整合 ｜ BB 16:09（BB_218）：吸頂燈、版畫、拍立得、US2 泡麵袋通過；B 門外套與「B」門牌沒跟著門板淡出 → 退回 LAWWW2（它修 us_apartment 淡出群組） ｜ 外套門牌那一項由 46d20af9 修好、BB 16:55 重拍 FIXED（a86524c8）→ 整批已驗收"
   },
   {
    "id": "DL-LAWWW2-c8c810e1",
