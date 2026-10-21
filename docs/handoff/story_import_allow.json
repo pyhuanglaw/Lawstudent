@@ -938,6 +938,21 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",
+   "sha": "bdab2f42",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 22:0x 定稿（D100、D109：AA 的稿就是定稿）：第 6-1 節「date_lines.js」那一列（可昕不跟祐廷比輸贏，使用者 10-18：「她沒有在跟我比」）由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入；LAWWW 2026-10-21 交 DATE-OVERNIGHT-1021 子代理（aadate）。bdab2f42 只比 a48fe1b7 多第 6 節（git diff 0 行刪除），第 1～5 節和 a48fe1b7 一字不差",
+   "task": "AA373-Y1S2-FIX-1021",
+   "kind": "text",
+   "note": "開發分支 172696ca 已經有一筆 AA_373@a48fe1b7（大一下閒聊階梯五句、通識第 6 週、手動放進的那幾項）：合併時只能留一筆（import_guard：同一個檔不能有兩個 approved）——sha 用 bdab2f42、a48fe1b7 那一筆的 approvedBy 併進來、history 記 a48fe1b7；tests/aa373_y1s2_unit.js 看 sha 的那一項跟著改",
+   "history": [
+    {
+     "sha": "a48fe1b7",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿（開發分支 172696ca 用的那一版；aadate 分支開自 80af0168，沒有這一筆）"
+    }
+   ]
+  },
+  {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
    "sha": "724d7703",
    "status": "approved",
