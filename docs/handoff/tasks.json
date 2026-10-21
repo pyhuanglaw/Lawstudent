@@ -28161,6 +28161,48 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "UI-TODAY-DATE-DEPART-1021",
+   "title": "手機「今天的行程」校外約會寫到達時間（10:50），看不出 09:00 要出門（BB 帳號 A 10-21 22:5x）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "area": "UI",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次排校外約會的那天",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-21 22:54 Node 對照（DATE-OVERNIGHT-1021）",
+   "authorized": "bug 修正（D85）",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:5x UTC】classes3d.js outTodayHTML：q.dateTrip 的寫 DATE.trip 的 depart＋「出發」；tests/today_outings_unit.js 第 4 項（修改前 FAIL）。BB：排一趟兩天一夜，當天打開手機「今天」看"
+  },
+  {
+   "id": "PG-ASKAT-HOME-1021",
+   "title": "畢業以後的固定格：該問「出發」的時間（PGDATE.askAt）照 baseHome 算車程，人在家裡、baseHome 不成立時用原本的車程（18:35 問），從家裡出發卻照家裡算 30 分鐘（19:05 到）；再晚一點出發可昕的 AA_351 就算遲到",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v6",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後從家裡出發去可昕的固定格",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-21 22:54 Node 對照（AA366／AA367）",
+   "authorized": "bug 修正（D85）",
+   "next": "pgdates3d.js askAt 傳 fromHome＝HOME.at(G)（人在家就照家裡算）；等 y3／約會子代理合併後做（兩個都動 pgdates3d.js）"
   }
  ]
 }
