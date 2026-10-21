@@ -22,7 +22,8 @@
    "status": "還沒做",
    "wants": "X32",
    "task": "GRADE-GOLDEN-DEFAULT",
-   "src": "AA_交接紀錄 82 行"
+   "src": "AA_交接紀錄 82 行",
+   "checked": "10-21 AA-C 核對：engine3d.js 黃昏調色預設還是關（註解仍寫「使用者還沒決定」）；任務 GRADE-GOLDEN-DEFAULT 待開工（LAWWW）"
   },
   {
    "id": "UA-AA-1018-03",
@@ -58,17 +59,19 @@
    "status": "做好了沒進遊戲",
    "wants": "X35",
    "task": "US-20W-SPEC",
-   "src": "AA_交接紀錄 81 行；AA_291"
+   "src": "AA_交接紀錄 81 行；AA_291",
+   "checked": "10-21 AA-C 核對：做了一部分——大峽谷（r2y4b3d.js）、交換延畢 S.delayed、courses 補修兩門；其餘照任務 US-20W-SPEC（待開工，LAWWW）"
   },
   {
    "id": "UA-AA-1017-06",
    "at": "2026-10-17T21:2x",
    "quote": "芷若缺第 3 環：甲（2029-09-01 她回 Café 上班那天，杯子上寫字）",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "wants": "X36",
    "task": "ZR-RING3-CUP",
-   "src": "AA_243 第 5 節第 11 題"
+   "src": "AA_243 第 5 節第 11 題",
+   "checked": "r2y4b_events.js ev_zhiruo_back_cafe（2029-09-01 杯子上寫字）；任務 ZR-RING3-CUP 已整合待測試（10-21 AA-C 核對 7baa4587）"
   },
   {
    "id": "UA-AA-1018-07",
@@ -86,16 +89,18 @@
    "kind": "選擇題答案",
    "status": "做好了沒進遊戲",
    "wants": "C23",
-   "src": "AA_交接紀錄 48、77 行；AA_288"
+   "src": "AA_交接紀錄 48、77 行；AA_288",
+   "checked": "10-21 AA-C：AA_351 事件包定稿（c29c49eb，取代 AA_288 第 3～6 節）；開發分支還沒有（grep 不到），已請 LAWWW 開任務"
   },
   {
    "id": "UA-AA-1018-09",
    "at": "2026-10-18T03:3x",
    "quote": "你規劃以安應屆考上司法官 台大法研所 後來都放棄選擇去美國哥倫比亞大學念LLm 之後回台灣大事務所實習後當律師",
    "kind": "原話",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "wants": "C13",
-   "src": "AA_交接紀錄 53、92 行；AA_285"
+   "src": "AA_交接紀錄 53、92 行；AA_285",
+   "checked": "r2y4b_events.js ev_an_grad_pass、ev_an_columbia（哥大）、postgrad3d.js 以安二試、三試電話（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1018-10",
@@ -116,7 +121,8 @@
    "status": "還沒做",
    "wants": "C22",
    "task": "AA243-P02",
-   "src": "AA_交接紀錄 44 行"
+   "src": "AA_交接紀錄 44 行",
+   "checked": "10-21 AA-C 核對：開發分支沒有芷若×子晴那條線（vac_activities.js T03 註「等那條線做好再接」）；任務 AA243-P02 待開工（LAWWW）；AA_232 已交"
   },
   {
    "id": "UA-AA-1018-12",
@@ -187,36 +193,40 @@
    "at": "2026-10-20T13:1x",
    "quote": "去高雄就談重考太突然＋12 月補習班沒演 → 選「12 月演出來＋1 月先透露（建議）」：12/13 一個人回以前的補習班（演出來）；1 月期末考完在公館吃飯她先說國文報告的事、你說問過重考班、都沒決定；高雄才決定",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "KH-RETAKE-PACING-1018",
-   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）"
+   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
+   "checked": "events.js ev_y0_jan8／_h、econff3d.js KEEP；任務 KH-RETAKE-PACING-1018 已整合待測試（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-20",
    "at": "2026-10-20T13:1x",
    "quote": "（同上一題）12 月補習班要演出來",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "CRAM-DEC-SCENE-1018",
-   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）"
+   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
+   "checked": "events.js ev_y0_cram_h、econff3d.js KEEP；任務 CRAM-DEC-SCENE-1018 已整合待測試（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-21",
    "at": "2026-10-20T13:1x",
    "quote": "高雄三天兩夜加：駁二＋大港橋、西子灣看夕陽、旗津（渡輪＋海產）",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "KH-TRIP-MORE-1018",
-   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）"
+   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
+   "checked": "events.js ev_y0_kh3 三天分場；任務 KH-TRIP-MORE-1018 已整合待測試（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-22",
    "at": "2026-10-20T13:1x",
    "quote": "10/17 回家跟媽媽說：媽媽不罵（建議）——「想好了？」「想好了。」「……你從小就想念法律。」「鑰匙在老地方。開慢一點。」",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "E30-MOM-1018",
-   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）"
+   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
+   "checked": "events.js Y0_MOM_TOLD（媽媽不罵那段）；任務 E30-MOM-1018 已整合待測試（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-23",
@@ -225,16 +235,18 @@
    "kind": "選擇題答案",
    "status": "做好了沒進遊戲",
    "task": "CRAM-LEAVE-LAUGH-1018",
-   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）"
+   "src": "AA-C 10-20 選擇題；AA 稿 AA_308（e544b4f4）",
+   "checked": "10-21 AA-C 核對：retake_home.js 有 RH-C2、RH-C3，但 econff3d.js RH_PLAY 沒有、6/9～6/23 日期卡沒拆三句；任務 CRAM-LEAVE-LAUGH-1018 待開工（AA_348 第 5 節）"
   },
   {
    "id": "UA-AA-1020-24",
    "at": "2026-10-20T13:4x",
    "quote": "韋綸大一下閒聊 L5、L6 拿掉；L7、L8 兩層都拿掉（10-20 選擇題）",
    "kind": "選擇題答案",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "AA306-KX-LADDER-1018",
-   "src": "AA-C 10-20 選擇題"
+   "src": "AA-C 10-20 選擇題",
+   "checked": "ladder.js Y0S2 韋綸只剩 1 層（WL0b-L3），照 AA_306；任務 AA306-KX-LADDER-1018 已整合待測試（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-25",
@@ -289,9 +301,10 @@
    "at": "2026-10-20T16:0x",
    "quote": "現在請把這份施工表轉成可以直接交給 LAWWW 實作的正式事件包……不要再問我想優先選哪一場，也不要只交新的待辦表。",
    "kind": "原話",
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "EVPKG-1020",
-   "src": "三輪全部交齊：第 1 輪 AA_315～324（52 件）；第 2 輪 AA_325 大二（404ae976）、AA_326 大三（e75ebc69）、AA_327 大四到尾聲（b6757852）；第 3 輪 AA_328（5ae6a133）。LAWWW 照順序實作中（已整合 1A-01～05）"
+   "src": "三輪全部交齊：第 1 輪 AA_315～324（52 件）；第 2 輪 AA_325 大二（404ae976）、AA_326 大三（e75ebc69）、AA_327 大四到尾聲（b6757852）；第 3 輪 AA_328（5ae6a133）。LAWWW 照順序實作中（已整合 1A-01～05）",
+   "checked": "AA_315～AA_328 台詞 10-21 雙向比對都在開發分支（只差 PROPOSAL「延後的回答」）"
   },
   {
    "id": "UA-AA-1020-31",
@@ -299,9 +312,10 @@
    "quote": "（AI解讀、待使用者確認）交換延畢的人 2030 第一次考國考也不再擋，沒有 2031 的國考；方奕廷尾聲「那一年你在考試」只給台灣路線 BAR_YEAR===2030",
    "kind": "AI解讀",
    "confirmed": false,
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "EVPKG-1020",
-   "src": "使用者 10-18 選「隔年再考一次（AA 建議版）」沒有講交換延畢；LAWWW-C 19:00 問 2031 條件；AA_331 第 1 節 b、AA_286 第 3 節已加註"
+   "src": "使用者 10-18 選「隔年再考一次（AA 建議版）」沒有講交換延畢；LAWWW-C 19:00 問 2031 條件；AA_331 第 1 節 b、AA_286 第 3 節已加註",
+   "checked": "r2y4b3d.js 第 9 行註解：方奕廷「那一年你在考試」只看台灣路線 BAR_YEAR===2030；AI 解讀仍等使用者確認（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-32",
@@ -333,9 +347,10 @@
    "quote": "（AI解讀、待使用者確認）芷若 Z13 選「這杯我不能喝」以後照原本走 6/19 方奕廷 F3，不改成 8/26",
    "kind": "AI解讀",
    "confirmed": false,
-   "status": "做好了沒進遊戲",
+   "status": "在開發分支",
    "task": "EVPKG-1020",
-   "src": "AA_334 第 3 節；現狀就是這樣，不用改"
+   "src": "AA_334 第 3 節；現狀就是這樣，不用改",
+   "checked": "r2y3b3d.js f3Phone：「這杯我不能喝」照常走 6/19 F3；AI 解讀仍等使用者確認（10-21 AA-C 核對）"
   },
   {
    "id": "UA-AA-1020-35",
