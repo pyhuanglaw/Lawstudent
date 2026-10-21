@@ -12,6 +12,7 @@ import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT = sys.argv[1], sys.argv[2]
 KEEP_ANON = '--keep-anon' in sys.argv   # 量測用：路人底模池換區域時不輪換（已經載好的就照用），看路人 VRM 下載、換上佔多少
+DESKTOP = '--desktop' in sys.argv       # 電腦（1280×720、滑鼠、一般 UA）：不縮貼圖（ASSETS.texCap 空）、會預先載下一個區域（使用者回報的是電腦）
 
 HOOK = """(()=>{ if(window.__zp) return; const P=window.__zp={frames:[],loads:[],marks:[]}; const E=GAME.E, R=E.renderer;
   const lo=ASSETS.loadOne; ASSETS.loadOne=function(k,...a){ const t0=performance.now(), rec={k,t0,t1:null,cached:!!(ASSETS.cache&&ASSETS.cache[k])}; P.loads.push(rec); const p=lo.call(this,k,...a); Promise.resolve(p).then(()=>{ rec.t1=performance.now(); },()=>{ rec.t1=-1; }); return p; };
@@ -44,7 +45,13 @@ async def phase(pg, zone, label, rec_s=30):
 async def main():
     run = L.Run('zone_enter_probe', os.path.dirname(os.path.abspath(OUT)) or '.'); res = []
     async with async_playwright() as p:
-        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        if DESKTOP:
+            b = await p.chromium.launch(executable_path='/opt/pw-browsers/chromium', args=L.ARGS)
+            ctx = await b.new_context(viewport={'width': 1280, 'height': 720}, device_scale_factor=1)
+            pg = await ctx.new_page(); errs = []; pg.on('pageerror', lambda e: errs.append(str(e)))
+            run.setup('[環境] 電腦模擬：1280×720、沒有觸控、一般 UA（不縮貼圖、會預先載下一個區域）')
+        else:
+            b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, {'zone': 'gongguan', 'hour': 15.0, 'weather': 'clear', 'pos': None}, quiet_events=True)
         run.setup('[前置] 讀檔到公館 15:00（quiet_events）；等 25 秒讓公館的模型都接上')

@@ -12,10 +12,10 @@ index a3055b36..aafca148 100644
    GM.enter=enter;
    // ---------- 小地圖 ----------
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 90411992..7e7b41e6 100644
+index 90411992..ec47c29b 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1687,5 +1687,29 @@ const Z3 = (function(){
+@@ -1687,5 +1687,43 @@ const Z3 = (function(){
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
    const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
@@ -43,15 +43,29 @@ index 90411992..7e7b41e6 100644
 +    for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
 +    const tt=performance.now(); let batch=0;
 +    for(const t of texs){ if(left()<=0){ out.timedOut=true; break; } const im=t.image, px=im&&im.width&&im.height?im.width*im.height:0; R.initTexture(t); out.textures++; out.mpix+=px/1e6; batch+=px; if(batch>=(opts.batchPx||4e6)){ batch=0; await tick(); } }
-+    out.texMs=performance.now()-tt; out.ms=performance.now()-t0; E.lastPrewarm=out; return out; }
-+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
++    out.texMs=performance.now()-tt; out.ms=performance.now()-t0; E.lastPrewarm=out; prefetchNext(E); return out; }
++  /* 下一個區域的建築模型先在背景載好（PERF-ZONE-ENTER-1018）：第一次進溫州街、咖啡廳時，正式模型淡入以後才一個一個到，每到一個畫面就停一下
++     （80af0168 量測：公館→溫州街第一次，模型 5～13 秒才到齊）。prewarm 做完 4 秒後，照 NEXT 把下一個區域的模型一個一個 ASSETS.loadOne
++     （一次一個、中間空 1.5 秒；已經載過的跳過；換了區域就停）。下次進去時模型已經在快取裡，prewarm 在黑畫面就接上、編好。
++     只在電腦上做（ASSETS.texCap 是空的＝不是手機；手機記憶體少，照舊進去才載）；網址 ?noprefetch 關掉，?prefetch 在手機模擬也做（量測用）。*/
++  const ZONE_GLBS={ wenzhou:['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'], cafe:['bldg.cafe_interior'] };
++  const NEXT={ gongguan:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };
++  let prefetchGen=0;
++  function prefetchNext(E,opts){ opts=opts||{}; const q=(typeof location!=='undefined'&&location.search)||'';
++    if(/[?&]noprefetch\b/.test(q)||typeof ASSETS==='undefined'||!ASSETS.loadOne||(ASSETS.texCap&&!/[?&]prefetch\b/.test(q))) return null;
++    const zone=E.zone, zid=zone&&zone.def&&zone.def.id, keys=[].concat(...(NEXT[zid]||[]).map(z=>ZONE_GLBS[z]||[])).filter(k=>ASSETS.manifest[k]&&!ASSETS.has(k));
++    const gen=++prefetchGen; if(!keys.length) return null; const out={zone:zid,keys:keys.slice(),done:[]}; E.lastPrefetch=out;
++    const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
++      ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
++    setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
++  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
  })();
 diff --git a/tests/zone_prewarm_unit.js b/tests/zone_prewarm_unit.js
 new file mode 100644
-index 00000000..67ae6e67
+index 00000000..5f1fecab
 --- /dev/null
 +++ b/tests/zone_prewarm_unit.js
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,90 @@
 +// 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）——不需要瀏覽器。
 +// 原本：GAME.enter 在畫面全黑時建區域、畫第一格，已經載過的正式模型在淡入時（await fade(false)）才接上，淡入那幾格才編 shader、傳貼圖 → 畫面停住。
 +// 修正（src/zones3d.js 的 Z3.prewarm＋src/game3d.js 的 enter）：淡入之前先讓已載過的正式模型接上，再 compileAsync、把貼圖傳上 GPU，最多等 cap 毫秒。
@@ -60,6 +74,7 @@ index 00000000..67ae6e67
 +//   ③ 場景裡每張貼圖都傳上 GPU（材質的 map／normalMap／emissiveMap、ShaderMaterial 的 uniform、程序化的 canvas 貼圖），render target 的不傳；
 +//   ④ compileAsync 一直沒好也不會卡住：cap 毫秒內回來、標 timedOut；⑤ 大貼圖分批，中間讓出主執行緒；
 +//   ⑥ game3d.js 的 enter：淡入之前、E.update 之後、E.render 之前 await Z3.prewarm；noFade（搭電梯換區域）不等。
++//   ⑧ 下一個區域的建築模型在背景先載（電腦才做；一次一個；換區域就停）。
 +//   ⑦ 藏起來的物件不編、不傳（three.js 的 compile 會走到藏起來的物件：溫州街有三個藏起來的套件零件 material 是 TK paint 描述，編下去丟例外——2026-10-21 遊戲內量測抓到）。
 +// 用法：node tests/zone_prewarm_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -110,6 +125,30 @@ index 00000000..67ae6e67
 +    await Z3.prewarm(E3s,{cap:5000}); stop=true;
 +    const mid=initsAtYield.filter(n=>n>0&&n<12).length;
 +    check('⑤ 大貼圖分批傳（傳到一半的時候主執行緒有空檔）',R3.inited.length===12&&mid>=2,`傳了 ${R3.inited.length} 張；傳到一半時讓出 ${mid} 次`);
++  }
++  // ⑧ 下一個區域的建築模型在背景先載（Z3.prefetchNext）：一次一個、已載過的跳過、換區域就停；手機（ASSETS.texCap）不做；?noprefetch 關掉、?prefetch 強制
++  check('⑧ Z3.prefetchNext 存在',typeof Z3.prefetchNext==='function');
++  if(typeof Z3.prefetchNext==='function'){
++    const realLoad=ASSETS.loadOne, realCap=ASSETS.texCap; let pending=0, maxPending=0; const calls=[];
++    ASSETS.loadOne=k=>{ calls.push(k); pending++; maxPending=Math.max(maxPending,pending); return new Promise(r=>setTimeout(()=>{ pending--; ASSETS.cache[k]={scene:new THREE.Group()}; r(ASSETS.cache[k]); },15)); };
++    const wait=ms=>new Promise(r=>setTimeout(r,ms)), wz=['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'].filter(k=>ASSETS.manifest[k]);
++    const clear=()=>{ for(const k of wz.concat(['bldg.cafe_interior'])) delete ASSETS.cache[k]; calls.length=0; };
++    clear(); ASSETS.cache['bldg.wz_park']={scene:new THREE.Group()}; const E1={zone:{def:{id:'gongguan'}}}; ASSETS.texCap=null;
++    const o1=Z3.prefetchNext(E1,{delay:5,gap:5}); await wait(400);
++    const want=wz.filter(k=>k!=='bldg.wz_park');
++    check('⑧ 在公館：溫州街的建築模型一個一個載（已經載過的小公園跳過）',JSON.stringify(calls)===JSON.stringify(want)&&maxPending===1,`載了 ${JSON.stringify(calls)}；同時最多 ${maxPending} 個`);
++    clear(); const E2={zone:{def:{id:'gongguan'}}}; Z3.prefetchNext(E2,{delay:5,gap:40}); await wait(30); E2.zone={def:{id:'wenzhou'}}; await wait(300);
++    check('⑧ 換了區域就停（只載了第一個）',calls.length===1,JSON.stringify(calls));
++    clear(); ASSETS.texCap={color:1024,data:512}; const o3=Z3.prefetchNext({zone:{def:{id:'gongguan'}}},{delay:5,gap:5}); await wait(200);
++    check('⑧ 手機（ASSETS.texCap）不預先載',o3===null&&calls.length===0,JSON.stringify(calls));
++    clear(); global.location={search:'?prefetch'}; const o4=Z3.prefetchNext({zone:{def:{id:'wenzhou'}}},{delay:5,gap:5}); await wait(200);
++    check('⑧ ?prefetch：手機模擬也預先載（量測用；溫州街 → 咖啡廳室內）',!!o4&&JSON.stringify(calls)===JSON.stringify(['bldg.cafe_interior']),JSON.stringify(calls));
++    clear(); ASSETS.texCap=null; global.location={search:'?noprefetch'}; const o5=Z3.prefetchNext({zone:{def:{id:'gongguan'}}},{delay:5,gap:5}); await wait(150);
++    check('⑧ ?noprefetch 關掉',o5===null&&calls.length===0,JSON.stringify(calls));
++    global.location={search:''}; clear();
++    const R5=fakeRenderer(0), E5={renderer:R5,scene:new THREE.Scene(),camera:new THREE.PerspectiveCamera(),zone:{def:{id:'wenzhou'}}}; await Z3.prewarm(E5,{cap:500});
++    check('⑧ prewarm 做完會排下一個區域的預先載入（溫州街 → 咖啡廳室內）',!!E5.lastPrefetch&&JSON.stringify(E5.lastPrefetch.keys)===JSON.stringify(['bldg.cafe_interior']),JSON.stringify(E5.lastPrefetch||null));
++    E5.zone=null; ASSETS.loadOne=realLoad; ASSETS.texCap=realCap; clear();
 +  }
 +  // ⑥ game3d.js：enter() 在淡入之前 await Z3.prewarm（E.update 之後、E.render 之前；noFade 不等）
 +  const g=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'); const m=g.match(/async function enter\(zoneId,spawn,opts\)\{[\s\S]*?\n/); const body=m?m[0]:'';
