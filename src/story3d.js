@@ -2751,6 +2751,8 @@ const STORY = (function(){
     if(S.y4Alarms) for(const a of S.y4Alarms(G,day)) out.push(a);   /* 1A-12 畢業典禮 08:00、1A-15 宿舍期滿 10:00（AA_318）*/
     for(const f of S.ALARMS){ try{ for(const a of (f(G,day)||[])) out.push(a); }catch(e){ console.warn('STORY.ALARMS',e); } }   /* 事件包各自的鬧鐘（STORY.ALARMS.push(fn)：fn(G,day) 回傳 [{h,why}]）*/
     return out.sort((a,b)=>a.h-b.h); };
+  /* 今天標 alarm 的出遊（X81：8/30 載可昕上山）在白天的床邊選項也要寫：跳過時間會停在出發前 10 分鐘（CLS.skipStops 同一個時間），原本只有晚上的選項有寫（BUG-E37-DORM-SLEEP-1021，BB 10-21）*/
+  S.outStopsToday=function(G,h0){ const out=[]; if(typeof OUT==='undefined'||!OUT.rec) return out; for(const q of OUT.rec(G)){ if(!q.alarm||q.state!=='planned'||q.day!==G.day) continue; const dep=q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0)); if(dep-1/6>h0+0.05) out.push({h:dep-1/6,why:'約好的時間：'+q.title}); } return out.sort((x,y)=>x.h-y.h); };
   S.missText=function(G,day,h0,h1){ if(typeof CLS==='undefined'||typeof CALENDAR==='undefined') return ''; const its=CLS.dayItems(G,day).filter(it=>!it.exam&&!CLS.storyClass(Object.assign({},G,{day}),it)&&it.t0+0.5>h0&&it.t0+0.5<=h1&&!(CLS.rec(G).done[it.key]));
     return its.length?'會錯過：'+its.map(it=>hm(it.t0)+' '+it.c.name).join('、'):''; };
   /* 小睡的長度（30 分鐘、1 小時、2 小時；maxH 以內——圖書館、自習區的桌上趴著睡最多 1 小時）：預設在下一堂課前 20 分鐘叫醒 */
@@ -2758,13 +2760,14 @@ const STORY = (function(){
     const da=typeof DATE!=='undefined'&&DATE.alarmsFor?DATE.alarmsFor(G,G.day).find(q=>q.h>hh+0.05):null;   /* 今天的校外約會：出發前 30 分鐘叫醒（DATE-S4）*/
     for(const [d,lab] of [[0.5,'小睡 30 分鐘'],[1,'小睡 1 小時'],[2,'小睡 2 小時']]){ if(d>maxH+1e-6) continue; let to=hh+d, hint='睡到 '+hm(to); if(alarm!=null&&alarm<to){ to=alarm; hint='下一堂 '+hm(nx.t0)+' '+nx.c.name+'前 20 分鐘叫醒你（'+hm(to)+'）'; }
       if(da&&da.h<to){ to=da.h; hint=da.why+'，出發前 30 分鐘叫醒你（'+hm(to)+'）'; }
+      { const oa=S.outStopsToday(G,hh)[0]; if(oa&&oa.h<to){ to=oa.h; hint=oa.why+'，出發前 10 分鐘叫醒你（'+hm(to)+'）'; } }
       if(to>hh+0.05&&to<24&&!out.some(o=>Math.abs(o.to-to)<0.02)) out.push({kind:'nap',to,t:lab,hint}); } return out; };
   S.bedOptions=function(G){ if(typeof ECONFF!=='undefined'&&ECONFF.on&&ECONFF.on(G)&&ECONFF.next&&ECONFF.next(G)) return [{t:'睡覺',hint:'到下一件事',kind:'sleep'},{t:'先不睡',kind:'stay'}];   /* 經濟系事件模式：睡覺＝到下一件事（ECONFF.sleepJump），不寫「睡到幾點」「會錯過」（BB-C 10-18 建議；UX-ECON-BED-1018）*/
     if(typeof PG!=='undefined'&&PG.bedOptions){ const pg=PG.bedOptions(G); if(pg) return pg; }   /* 畢業後篇：睡覺＝到下一件事（src/postgrad3d.js）*/
     const out=[]; const hh=h(G), late=G.hour>=24, night=late||hh>=17.5||hh<5;
     if(S.opening(G)){ out.push({kind:'sleep',t:'睡覺',hint:'明天早上醒來'}); out.push({kind:'stay',t:'再撐一下'}); return out; }
     if(!night){ out.push(...S.napOptions(G,2));
-      if(hh<17.5){ const ms=S.missText(G,G.day,hh,18), dm=typeof DATE!=='undefined'&&DATE.alarmsFor?DATE.alarmsFor(G,G.day).filter(q=>q.dep>hh&&q.dep<18).map(q=>hm(q.dep)+' '+q.label):[]; const miss=[ms,dm.length?'會錯過：'+dm.join('、'):''].filter(Boolean).join('。'); out.push({kind:'nap',to:18,t:'睡到傍晚（不設鬧鐘）',hint:'睡到 18:00'+(miss?'。'+miss:'')}); } }
+      if(hh<17.5){ const ms=S.missText(G,G.day,hh,18), dm=typeof DATE!=='undefined'&&DATE.alarmsFor?DATE.alarmsFor(G,G.day).filter(q=>q.dep>hh&&q.dep<18).map(q=>hm(q.dep)+' '+q.label):[]; const miss=[ms,dm.length?'會錯過：'+dm.join('、'):''].filter(Boolean).join('。'); const oa=S.outStopsToday(G,hh).find(q=>q.h<18), ms2=oa?S.missText(G,G.day,hh,oa.h):''; out.push({kind:'nap',to:18,t:'睡到傍晚（不設鬧鐘）',hint:oa?'18:00——但'+oa.why+'，'+hm(oa.h)+' 會叫醒你'+(ms2?'。'+ms2:''):'睡到 18:00'+(miss?'。'+miss:'')}); } }
     else { const day=G.day+1, its=typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'?CLS.dayItems(G,day).filter(it=>!CLS.storyClass(Object.assign({},G,{day}),it)):[], first=its.length?its[0]:null, A=S.wakeAlarms(G,day);
       const morning=first?Math.max(6.5,first.t0-1):7.5;
       for(const [k,lab,w0,why] of [['morning',morning>=17?'睡到明天晚上':morning>=13?'睡到明天下午':morning>=11?'睡到明天中午':'睡到明天早上',morning,first?(first.exam?'考試 ':'第一堂 ')+hm(first.t0)+' '+first.c.name+'前一小時':'明天沒有課'],['noon','睡到明天中午',12,''],['afternoon','睡到明天下午',14,''],['evening','睡到明天晚上',18,'']]){

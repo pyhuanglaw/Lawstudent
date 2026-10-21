@@ -41,6 +41,10 @@ const kinds=G=>opts(G).map(o=>o.kind+(o.to!=null?':'+(+o.to.toFixed(2)):'')+(o.w
   check('「睡到傍晚（不設鬧鐘）」寫會錯過什麼：09:10 憲法（開始 30 分鐘內還能進教室）和 15:30 體育',/會錯過：09:10 憲法（上）、15:30 體育/.test((opts(mon(9.5)).find(o=>o.to===18)||{}).hint||''),(opts(mon(9.5)).find(o=>o.to===18)||{}).hint);
   const k1445=opts(mon(14.75));
   check('週一 14:45：鬧鐘在下一堂 15:30 體育前 20 分鐘（15:10）——三種小睡都在 15:10 叫醒，只列一次',k1445.filter(o=>o.kind==='nap'&&o.to<18).length===1&&Math.abs(k1445[0].to-(15+10/60))<0.01&&/前 20 分鐘叫醒你（15:10）/.test(k1445[0].hint),k1445.map(o=>o.t+'｜'+o.hint).join(' / '));
+  { global.OUT={rec:G=>G.outings||[],trip:(G,q)=>({travelH:q.travelH||0})}; const g8=mon(8.0); g8.outings=[{id:'y0_e37',alarm:true,state:'planned',day:g8.day,h:14,travelH:2/3,title:'臺北的家樓下 14:00'}];
+    const ev=opts(g8).find(o=>o.to===18), g12=mon(12.0); g12.outings=g8.outings.map(q=>Object.assign({},q,{day:g12.day})); const n2=opts(g12).filter(o=>o.kind==='nap'&&o.to<18);
+    check('BUG-E37-DORM-SLEEP-1021（BB 10-21：8/30 宿舍床邊沒提醒 14:00 的約）：今天有標 alarm 的出遊（臺北的家樓下 14:00、開車 40 分）——「睡到傍晚」寫「但約好的時間…13:10 會叫醒你」；12:00 小睡 2 小時在 13:10 叫醒、寫出發前 10 分鐘（和跳過時間實際停的時間一樣）',!!ev&&/13:10 會叫醒你/.test(ev.hint)&&/約好的時間：臺北的家樓下 14:00/.test(ev.hint)&&n2.some(o=>Math.abs(o.to-(13+10/60))<0.01&&/出發前 10 分鐘叫醒你/.test(o.hint)),JSON.stringify([ev&&ev.hint,n2.map(o=>[o.t,o.hint])]));
+    delete global.OUT; }
   const sun=g(5);   /* 9/21 週日晚上 → 明天週一 */
   const n22=opts(sun(22));
   check('週日 22:00：睡到明天早上（08:10＝第一堂 09:10 憲法前一小時）、中午、下午、晚上、再撐一下',kinds(sun(22))==='sleep@8.17,sleep@12,sleep@14,sleep@18,stay'&&/第一堂 09:10 憲法（上）前一小時/.test(n22[0].hint),kinds(sun(22))+' '+n22[0].hint);
