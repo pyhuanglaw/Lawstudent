@@ -421,8 +421,8 @@ const Y34B=(function(){
     {label:'jp_team'} ].concat(TEAM,[
     {label:'jp_kx'},
     {if:C(G=>kxIn(G)&&!kxKnows(G,'heroine_01')),speaker:null,text:'（可昕走過來，抱了你一下，很快就放開。以安在看航班表。）'},   /* AA_337 第 6 節：她不知道的版本才有動作 */
-    {if:C(G=>kxIn(G)&&!kxKnows(G,'heroine_01')),speaker:'kexin',text:'到了傳訊息。……時差一個小時，不要算錯。'},
-    {if:C(G=>kxIn(G)&&kxKnows(G,'heroine_01')),speaker:'kexin',text:'……我知道你們同一班。到了傳訊息。兩個都是。'},
+    {if:C(G=>kxIn(G)&&!kxKnows(G,'heroine_01')),speaker:'kexin',expression:'teasing',text:'到了傳訊息。……時差一個小時，不要算錯。'},
+    {if:C(G=>kxIn(G)&&kxKnows(G,'heroine_01')),speaker:'kexin',expression:'teasing',text:'……我知道你們同一班。到了傳訊息。兩個都是。'},
     {if:C(dAn),speaker:'heroine_01',text:'好。走吧。'},
     {unless:C(dAn),speaker:'heroine_01',text:'到了再說。'},   /* 挽回中＝日本路線、不是交往中（AA_253 第 5 節；前任、paused、friend_after_catch 都是）*/
     {scene:'登機口',bg:'airport_departure'},
@@ -522,10 +522,10 @@ const Y34B=(function(){
   const K19=[ {scene:'政大・小教室',bg:'classroom_small'},
     {cg:'cg_last_row_kexin'},
     {speaker:null,text:'（政大的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）'},
-    {speaker:'kexin',text:'你坐最後一排。我看得到。……講得還好嗎？'},
+    {speaker:'kexin',expression:'smile',text:'你坐最後一排。我看得到。……講得還好嗎？'},
     {choice:[{text:'「很好。第三頁那張圖，我聽懂了。」',goto:'k_a'},{text:'「妳停了半秒。」',goto:'k_b'}]},
-    {label:'k_a'},{speaker:'kexin',text:'那張我改了四次。'},{goto:'k_end'},
-    {label:'k_b'},{speaker:'kexin',text:'……你有看到喔。'},{speaker:'kexin',text:'因為你真的坐最後一排。'},
+    {label:'k_a'},{speaker:'kexin',expression:'smile',text:'那張我改了四次。'},{goto:'k_end'},
+    {label:'k_b'},{speaker:'kexin',expression:'embarrassed',text:'……你有看到喔。'},{speaker:'kexin',expression:'teasing',text:'因為你真的坐最後一排。'},
     {label:'k_end'},{set:{KX_PRESENT:'came'}} ];
   /* 1B-17 */
   const BDAY=[ {speaker:null,text:'（Café 窗邊，一小塊蛋糕，兩支叉子。）'},{speaker:'heroine_05',text:'……你先吃。我看你吃。'},{set:{SIS_BDAY_Y3:'cafe'}} ];   /* 6/2 18:00；22:30 那一版回了「好。」＝隔天 15:00 同一場（AA_337 第 7 節）*/
@@ -551,8 +551,8 @@ const Y34B=(function(){
     {if:C(G=>dSis(G)&&kxUn(G)),speaker:null,text:'（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）'},
     {if:C(dSis),speaker:'heroine_05',text:'……謝謝阿姨。'},
     {if:C(kxUn),speaker:null,text:'（可昕抱了你一下，很快就放開。學姊在看手機上的登機證。）'},   /* AA_337 第 6 節：她不知道的版本才有動作 */
-    {if:C(kxUn),speaker:'kexin',text:'到了傳訊息。十二個小時，我算過了。'},
-    {if:C(G=>kxIn(G)&&!kxUn(G)),speaker:'kexin',text:'……我知道你們同一班。到了傳訊息。兩個都是。'},
+    {if:C(kxUn),speaker:'kexin',expression:'teasing',text:'到了傳訊息。十二個小時，我算過了。'},
+    {if:C(G=>kxIn(G)&&!kxUn(G)),speaker:'kexin',expression:'teasing',text:'……我知道你們同一班。到了傳訊息。兩個都是。'},
     {if:C(dSis),speaker:'heroine_05',text:'走了。'},
     {if:C(xSis),speaker:'heroine_05',text:'到了再說。'},
     {set:{SIS_SENDOFF:'together'}} ];
@@ -595,7 +595,7 @@ const Y34B=(function(){
     {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗餛飩湯推過去）妳的。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'你怎麼知道我要點這個？'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'妳每次都點這個。……還有，阿姨說妳大一第一次點的也是這個。'},
-    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',text:'你說了四年的麵，原來是真的。'},
+    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了四年的麵，原來是真的。'},
     {if:C(()=>met('heroine_05')),speaker:null,text:'（語彤把手機給大家看。）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
@@ -627,13 +627,13 @@ const Y34B=(function(){
   /* 1B-21 */
   const y4p=G=>G.flags.Y4_PATH, told=G=>['bar','grad','other'].includes(y4p(G));
   const PATHS_Q=[ {choice:[{text:'（照實說自己的選擇）',if:C(told),goto:'p_told'},{text:'「還在想。」',unless:C(told),goto:'p_think'},{text:'「妳選什麼，我就配合。」',goto:'p_follow'}]},
-    {label:'p_told'},{speaker:'kexin',text:'好。那我們各自準備。'},{unless:C(US),speaker:'kexin',text:'……晚上十點還是要通話喔。'},{if:C(US),speaker:'kexin',text:'……台灣晚上十點、你那邊早上十點，還是要通話喔。'},{set:{KX_PATHS:'told'}},{goto:'p_end'},
-    {label:'p_think'},{speaker:'kexin',text:'那我先記你『還在想』。想好了，第一批告訴我。'},{set:{KX_PATHS:'thinking'}},{goto:'p_end'},
-    {label:'p_follow'},{speaker:'kexin',text:'不要。'},{speaker:null,text:'（她看著你。）'},{speaker:'kexin',text:'你配合我的話，以後你後悔，我會覺得是我害的。'},{set:{KX_PATHS:'follow'}},
+    {label:'p_told'},{speaker:'kexin',expression:'serious',text:'好。那我們各自準備。'},{unless:C(US),speaker:'kexin',expression:'teasing',text:'……晚上十點還是要通話喔。'},{if:C(US),speaker:'kexin',expression:'teasing',text:'……台灣晚上十點、你那邊早上十點，還是要通話喔。'},{set:{KX_PATHS:'told'}},{goto:'p_end'},
+    {label:'p_think'},{speaker:'kexin',expression:'smile',text:'那我先記你『還在想』。想好了，第一批告訴我。'},{set:{KX_PATHS:'thinking'}},{goto:'p_end'},
+    {label:'p_follow'},{speaker:'kexin',expression:'serious',text:'不要。'},{speaker:null,text:'（她看著你。）'},{speaker:'kexin',expression:'serious',text:'你配合我的話，以後你後悔，我會覺得是我害的。'},{set:{KX_PATHS:'follow'}},
     {label:'p_end'} ];
   const PATHS=[ {unless:C(US),scene:'政大・校園裡的路',bg:'nccu_campus'},{if:C(US),scene:'視訊',bg:'video'},
     {speaker:null,text:'（政大的校園。她先說她的：準備律師考試。）'},
-    {speaker:'kexin',text:'我要考律師。從現在開始準備。'} ].concat(PATHS_Q);
+    {speaker:'kexin',expression:'serious',text:'我要考律師。從現在開始準備。'} ].concat(PATHS_Q);
   PATHS[2].unless=C(US);   /* 美國路線是視訊：「政大的校園」那一句不出 */
   const PATHS_CALL=[ {scene:'電話'},{speaker:'可昕（電話）',text:'那我們用電話各自說。'} ].concat(PATHS_Q.map(l=>l.speaker==='kexin'?Object.assign({},l,{speaker:'可昕（電話）'}):l));
   /* 1B-24 */

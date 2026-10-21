@@ -91,14 +91,14 @@ const R2Y3B_EVENTS=(function(){
       {if:{custom:wishKx},speaker:'kexin',text:'這次也不排。跟外澳那次一樣。'},
       {scene:'山裡的舊車站',bg:'trip_oldrail'},   /* 2D trip_oldrail 待生成（G5-09）：沒有圖＝深色底＋地點字幕 */
       {speaker:null,text:'（山裡的舊車站。月台還在，鐵軌已經不走火車了。遠一點，是一座只剩橋墩的紅磚橋。）'},
-      {speaker:'kexin',text:'這裡的火車，很久以前就不來了。'},
-      {speaker:'kexin',text:'……可是月台還在等。'},
+      {speaker:'kexin',expression:'thinking',text:'這裡的火車，很久以前就不來了。'},
+      {speaker:'kexin',expression:'sad',text:'……可是月台還在等。'},
       {choice:[{text:'「月台在等誰？」',goto:'a'},{text:'「走到那座斷橋？」',goto:'b'},{text:'（在月台上坐一下）',goto:'c'}]},
-      {label:'a'},{speaker:'kexin',text:'……不知道。我亂講的。'},{speaker:null,text:'（她笑了一下。）'},{speaker:'kexin',text:'走啦，去看那座橋。'},{goto:'back'},
-      {label:'b'},{speaker:null,text:'（你們走了四十分鐘。她在橋墩下站了很久。）'},{speaker:'kexin',text:'……腳好痠。回去我要在車上睡。'},{goto:'back'},
+      {label:'a'},{speaker:'kexin',expression:'embarrassed',text:'……不知道。我亂講的。'},{speaker:null,text:'（她笑了一下。）'},{speaker:'kexin',expression:'smile',text:'走啦，去看那座橋。'},{goto:'back'},
+      {label:'b'},{speaker:null,text:'（你們走了四十分鐘。她在橋墩下站了很久。）'},{speaker:'kexin',expression:'tired',text:'……腳好痠。回去我要在車上睡。'},{goto:'back'},
       {label:'c'},{speaker:null,text:'（她把頭靠在你肩上，說了一句「好安靜」，就沒有再說話。）'},
       {label:'back'},{scene:'車上',bg:'car_night'},
-      {speaker:'kexin',text:'下一站要去哪裡，回去再想。……不對，不想。'},
+      {speaker:'kexin',expression:'laugh',text:'下一站要去哪裡，回去再想。……不對，不想。'},
       {set:{KX_K18:'trip'}} ],
     consequences:{memo:'和可昕去山裡的舊車站（一天）'},
     outingMissed:(G,GM,q)=>{ const x=X(); if(x) x.k18Missed(G,GM,q); } };
@@ -106,9 +106,9 @@ const R2Y3B_EVENTS=(function(){
   const K18_CALL={ id:'ev_kexin_k18_call', title:'可昕', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.05, kxAway:true,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（電話。她那邊有車子經過的聲音。）'},
-      {speaker:'kexin',text:'你在哪。'},
+      {speaker:'kexin',expression:'serious',text:'你在哪。'},
       {speaker:'player',text:'……還在家。'},
-      {speaker:'kexin',text:'……我叫予樂了。'},
+      {speaker:'kexin',expression:'annoyed',text:'……我叫予樂了。'},
       {speaker:null,text:'（她掛掉了。）'} ] };
 
   /* ---------- 2-Y3-31 SK13 阿勳的那條路：3/22（三）15:00～16:30 社科院的小教室（3/14 21:00 他私訊、回「我去。」才排；沒去＝16:40 照片）---------- */
@@ -277,12 +277,12 @@ const R2Y3B_EVENTS=(function(){
   const KXV={custom:G=>{ const x=X(); return !!x&&x.inJP(G); }};
   const KX_BD={ id:'ev_kexin_birthday_y3', title:'她的生日（大三）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {if:KXV,scene:'視訊',bg:'video'},{unless:KXV,scene:'公館',bg:'gongguan_cake'},   /* 公館的甜點店 2D 沒有＝深色底＋字幕 */
-      {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',text:'這片是你的。我幫你吃。'},
-      {speaker:'kexin',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
-      {speaker:'kexin',text:'三……三十分鐘到了。第三個明年說。'},
+      {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',expression:'teasing',text:'這片是你的。我幫你吃。'},
+      {speaker:'kexin',expression:'smile',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
+      {speaker:'kexin',expression:'laugh',text:'三……三十分鐘到了。第三個明年說。'},
       {if:{custom:G=>KXV.custom(G)&&!!(G.flags&&G.flags.KX_EXCHANGE_ASKED)},speaker:'kexin',text:'沒關係，你先睡。填交換志願的時候，你有先問我。'},   /* AA_344 ⑤：日本路線視訊的最後（三十分鐘到了、她掛之前），交換志願表那一場先問過她的（KX_EXCHANGE_ASKED，story3d.js 1A-05）；BB_98 9-5 */
       {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
-      {unless:KXV,speaker:'kexin',text:'報告寫完了跟我說。'} ],
+      {unless:KXV,speaker:'kexin',expression:'smile',text:'報告寫完了跟我說。'} ],
     after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
     outingMissed:G=>{ const x=X(); if(x) x.kxBdayMissed(G); } };
 
@@ -330,25 +330,25 @@ const R2Y3B_EVENTS=(function(){
     after:G=>{ const x=X(); if(x&&G.flags.AN_NOTICE_REPAIR_OK) x.repairAdd(G,'heroine_01'); } };   /* 「……好。」＝REPAIR +1（AA_254 第 10 節）*/
 
   /* ---------- 2-Y3-44 可昕 K20「一個人聽懂了自己的處境」：5/12（五）19:00 公館河濱（5/11 她約）；沒去河濱、日本路線＝21:00 演出來的電話 ---------- */
-  const K20_AB=[ {label:'a'},{speaker:'kexin',text:'你怎麼知道？'},{speaker:'player',text:'妳每次都先等我講完。'},{goto:'end'},
-    {label:'b'},{speaker:'kexin',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',text:'……這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
+  const K20_AB=[ {label:'a'},{speaker:'kexin',expression:'surprised',text:'你怎麼知道？'},{speaker:'player',text:'妳每次都先等我講完。'},{goto:'end'},
+    {label:'b'},{speaker:'kexin',expression:'teasing',text:'會。所以你要負責宵夜。'},{if:fl('KX_SUMMER','tired'),speaker:'kexin',expression:'laugh',text:'……這句我大二說過了。好，這次換你說一句。'},{goto:'end'} ];   /* KX_SUMMER 'tired'：大二 K14 選過「會不會很累？」*/
   const K20={ id:'ev_kexin_k20', title:'一個人聽懂了自己的處境', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'河濱',bg:'riverside'},
       {speaker:null,text:'（公館的河濱。她靠著欄杆，看了很久的河才開口。）'},
-      {speaker:'kexin',text:'有個人聽懂了自己的處境，就不那麼怕了。'},
-      {speaker:'kexin',text:'我想做這個。'},
+      {speaker:'kexin',expression:'serious',text:'有個人聽懂了自己的處境，就不那麼怕了。'},
+      {speaker:'kexin',expression:'serious',text:'我想做這個。'},
       {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（不說話，陪她看河）',goto:'c'}]} ].concat(K20_AB,[
-      {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',text:'你不問，很好。那個人的事是他的。'},
+      {label:'c'},{speaker:null,text:'（她靠著欄杆。）'},{speaker:'kexin',expression:'smile',text:'你不問，很好。那個人的事是他的。'},
       {label:'end'},{set:{KX_K20:'river'}} ]),
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
   const K20_CALL={ id:'ev_kexin_k20_call', title:'可昕', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（電話。她那邊很安靜。）'},
-      {if:JP,speaker:'kexin',text:'這學期我在實習。今天有一個來問問題的人，聽懂了自己的處境。'},
-      {unless:JP,speaker:'kexin',text:'本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。'},   /* 沒去河濱（BB_98 10-1 原文）*/
-      {speaker:'kexin',text:'我想做這個。'},
+      {if:JP,speaker:'kexin',expression:'serious',text:'這學期我在實習。今天有一個來問問題的人，聽懂了自己的處境。'},
+      {unless:JP,speaker:'kexin',expression:'serious',text:'本來想在河濱講的。實習那邊，有個來問問題的人聽懂了自己的處境。'},   /* 沒去河濱（BB_98 10-1 原文）*/
+      {speaker:'kexin',expression:'serious',text:'我想做這個。'},
       {choice:[{text:'「那妳會很適合。」',goto:'a'},{text:'「做這個要很累。」',goto:'b'},{text:'（聽她說完）',goto:'l'}]} ].concat(K20_AB,[
-      {label:'l'},{speaker:'kexin',text:'……嗯。我講完了。早點睡。'},
+      {label:'l'},{speaker:'kexin',expression:'smile',text:'……嗯。我講完了。早點睡。'},
       {label:'end'},{set:{KX_K20:'call'}} ]),
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
 
