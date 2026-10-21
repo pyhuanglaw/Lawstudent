@@ -19698,7 +19698,7 @@
    "id": "ART-US2-FIX-1018",
    "title": "C 棟 208（US2 廚房）美術修正：泡麵袋、9/13 傍晚燈光、生活痕跡、外套門／手寫輪值表／臥室兩張床",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "prio": "P3",
    "first": {
     "term": "Y4S1",
@@ -19734,7 +19734,7 @@
    ],
    "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
    "sha": "13707c1f",
-   "evidence": "LAWWW2 13707c1f 整合：us_layouts.js US_SHARED_LAYOUT 一行＋us_shared.glb（泡麵軟袋、廚房吸頂燈、沙發上方版畫＋拍立得、B 門掛外套）；nav_us_unit、us_life_unit、exch_min_unit ALL PASS；LAWWW2 Playwright reachability us_shared ALL PASS"
+   "evidence": "BB（帳號 A）：吸頂燈、版畫、拍立得、US2 泡麵袋通過（BB_218，16:09）；C208 B 門外套、掛勾、門牌跟著牆淡出 FIXED（16:55 重拍，test_shots/c208_reshoot_1021/，a86524c8；開發分支 288ea053 含 ed65d8cd）"
   },
   {
    "id": "BUG-US-KITCHEN-1018",
@@ -25646,7 +25646,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【BB 16:09（BB_218 最後兩節，df352cb5）】封好的紙箱通過；膠帶中間的字任何玩家鏡頭都看不到、壓平的紙箱藏在書桌底下深藍色物品後面 → 退回 LAWWW2。【AA 16:10 定】膠帶在 ev_kai_tape2 以前寫「國界」、以後寫「法律系免簽」（LAWWW2 加寬、字放大；兩種狀態）；旁白已改（7b2e1028） ｜ 【LAWWW（帳號 A）16:1x，LAWWW2 16:04 轉 BB_218 補拍】膠帶上的字看不到：LAWWW2 問 AA 能不能只寫兩三個大字（例「國界」）；如果劇情要玩家讀到原句，ev_kai_tape2 要加一個貼近膠帶的劇情鏡頭（LAWWW 做，等 AA 回）｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
+   "next": "【LAWWW（帳號 A）16:5x】LAWWW2 6437fcf6 交件（膠帶加寬、「國界」／「法律系免簽」、壓平紙箱搬到衣櫃門前），整合 0e8f585b；BB 重拍；地上的字一般鏡頭看不清楚 → UX-KAI-TAPE-CAM-1021 ｜ 【BB 16:09（BB_218 最後兩節，df352cb5）】封好的紙箱通過；膠帶中間的字任何玩家鏡頭都看不到、壓平的紙箱藏在書桌底下深藍色物品後面 → 退回 LAWWW2。【AA 16:10 定】膠帶在 ev_kai_tape2 以前寫「國界」、以後寫「法律系免簽」（LAWWW2 加寬、字放大；兩種狀態）；旁白已改（7b2e1028） ｜ 【LAWWW（帳號 A）16:1x，LAWWW2 16:04 轉 BB_218 補拍】膠帶上的字看不到：LAWWW2 問 AA 能不能只寫兩三個大字（例「國界」）；如果劇情要玩家讀到原句，ev_kai_tape2 要加一個貼近膠帶的劇情鏡頭（LAWWW 做，等 AA 回）｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
    "xai": {
     "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27055,6 +27055,27 @@
    "source": "BB（帳號 A）16:51：BB_218 最後一節（38dc2bd5；test_shots/exam_port_1021/ 截圖 11、20）",
    "authorized": "bug 修正",
    "next": "黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後"
+  },
+  {
+   "id": "UX-KAI-TAPE-CAM-1021",
+   "title": "ev_kai_tape2 演出時鏡頭貼近膠帶，讓玩家讀得到「法律系免簽」（一般鏡頭看不清楚地上的字，LAWWW2 6437fcf6 對照圖）",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 9,
+    "earliest": "大一上 10/30 ev_kai_tape2",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2 16:56（BB_218 退回的膠帶字）；AA 16:10 旁白已改「麥克筆的大字」",
+   "authorized": "演出鏡頭（不改台詞）",
+   "next": "GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
   }
  ]
 }

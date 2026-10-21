@@ -12799,8 +12799,8 @@
    "what": "C208 門上的外套、掛勾、白板、門牌跟著牆淡出（BB_218 退回的那一項）＋臥室 C 門板誤歸南牆修正：us_shared.glb、patches/c208_plate_fade.diff",
    "task": "ART-US2-FIX-1018",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）16:2x 從分支上看到（outbox 寫「（本 commit）」incr 對不到）；508ac343 是同一個 patch 的修正（門牌頂點是世界座標，改用網格中心判斷在哪面牆）；等 LAWWW2 通知交件後合併、派 BB 重拍 ｜ LAWWW2 16:17 通知交件；LAWWW 16:2x 整合 ed65d8cd（patch git apply 乾淨＋GLB／json／us_apartment.py 從 46d20af9）；US 單元測試全過；BB 用 artrev2 同一支腳本重拍"
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）16:2x 從分支上看到（outbox 寫「（本 commit）」incr 對不到）；508ac343 是同一個 patch 的修正（門牌頂點是世界座標，改用網格中心判斷在哪面牆）；等 LAWWW2 通知交件後合併、派 BB 重拍 ｜ LAWWW2 16:17 通知交件；LAWWW 16:2x 整合 ed65d8cd（patch git apply 乾淨＋GLB／json／us_apartment.py 從 46d20af9）；US 單元測試全過；BB 用 artrev2 同一支腳本重拍 ｜ BB 16:55 重拍 FIXED（BB_218 最後一節、test_shots/c208_reshoot_1021/，a86524c8）：臥室 B 那側外套、掛勾、門牌跟著牆藏，客廳那側照舊"
   },
   {
    "id": "DL-LAWWW2-d0058082",
@@ -12814,6 +12814,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）16:5x 整合 e8b82e4a（四個模型檔＋wz_street.py 從 d0058082；json 只有三角形、位元組數不同）；溫州街／公館單元測試全過；READY_FOR_ART_REVIEW；BB 畫面驗收"
+  },
+  {
+   "id": "DL-LAWWW2-6437fcf6",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "6437fcf6",
+   "what": "大一 203 膠帶＋紙箱（BB_218 退回）：膠帶 4.8 cm、中間那段 ev_kai_tape2 以前「國界」以後「法律系免簽」；壓平的紙箱搬到衣櫃門前；dorm_y1_items.glb／.json；對照 test_shots/dorm203_tape_box_1021/",
+   "task": "ART-Y1-BOX-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）16:5x 整合 0e8f585b（模型、腳本、貼圖從 6437fcf6）；LAWWW2 誠實寫：一般鏡頭看不清楚地上的字，要劇情鏡頭貼近（另開 UX-KAI-TAPE-CAM-1021）；BB 重拍"
   }
  ],
  "ignored": [
