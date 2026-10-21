@@ -4,14 +4,15 @@
    2030-01-25 以安三試放榜（電話）→（交換延畢、2029 一試不到 12 題：2030 再一輪，8/3、9/6、10/19～20、12/13）→ 2030-10-01 第一份工作 → 2034-06-03 尾聲（CG-10）→ 回標題。
    - 拍照演完（F.GRADUATED）以後是「畢業後篇」（S.on）：站著不動 2 秒、或睡覺＝跳到下一件事（場景、手機訊息、出遊；做法同經濟系的 ECONFF）；
      跳的途中照時間跑手機規則，收到訊息就停、打開那一段。課表的提醒、去上課的選單不再跳（classes3d.js 讀 PG.on）。
+     跳過日子的日期卡下面那一句（AA_353）：S.cardLine（照經濟系的做法，每句一次）。
    - 場景（S.STEPS）：時間到了、玩家空下來就演，不能錯過的不給「不去了」。手機（S.MSGS）照時間排。可以不去的照出遊（OUT：Café、麵店、學姊的生日、可昕的典禮）。
    - 一對一的飯、回家的路照 termend3d.js：TERMEND_LINES 補大四下（Y4S2）的版本（S.patchTermend）。
    - 一試 20 題：期末考的題庫（EXAM_BANK）＋刑訴 QBANK 一起隨機抽、不重複，第二年換一組；題目、答案照題庫，不改。答對題數只在 9/7 放榜看得到。
    - 1A-12（主線 12 畢業典禮的家人，別一批）有 ev_grad_family 的話，拍照等那一段演完；沒有的話 6/2 早上直接帶到 12:00。
-   - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}}；旗標照 AA_319 第 4 節（BAR_REG、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
+   - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
      GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE）。
    - 開發分支還沒有的旗標（Y4_PATH、GRAD_ADMIT、ZQ_CONTRACT、KAI_STAYED_UP…）一律當作沒有。
-   測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js */
+   測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js、tests/pg_cardline_unit.js */
 'use strict';
 const PG=(function(){
   const S={};
@@ -440,6 +441,36 @@ const PG=(function(){
       if(got>0) return 'msg'; if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)) return 'out'; if(S.due(G)) return 'step'; }
     if(t<target-1e-6){ const d=Math.floor(target/24); setT(G,E,d,target-d*24); look(true); }
     return got>0?'msg':'ok'; };
+  /* ---------- 跳日期時日期卡下面那一句（AA_353，AA-C 2026-10-21；照經濟系 econff3d.js 的 cardLine，句子照抄）----------
+     範圍（含頭尾）和跳過的日子（d0+1～d1−1）重疊、條件成立、還沒用過的第一句；用過的記在 G.flags.PG.lines（舊存檔沒有＝空）；同一天、隔一天的跳不出。不加停點、不加旗標。
+     2029 那一表：臺灣路線（交換延畢的 2029 不考，不出）。2030 那一表：只給 2029 一試沒過再考的（S.retaker）。
+     交換延畢（日本、美國路線）2030 第一次考：照 2029 那一表的句子、條件看 2030，日子換成 2030 的——照 S.Y，2030 的每一個日子都是 2029 的同一個星期幾、早一天（一試 8/4→8/3、放榜 9/7→9/6…），整張表往後移同樣的天數。
+     每一列：[起 MM-DD, 迄 MM-DD（含）, 條件 (G, 年), 句子]。有沒有考一試看 BAR_SIT_<年>；一試過了＝考二試（S.stage2：BAR_STAGE_<年> 是 both／lawyer）*/
+  const sat=(G,y)=>!!(G.flags&&G.flags['BAR_SIT_'+y]===true), two=(G,y)=>sat(G,y)&&S.stage2(G,y);
+  S.CARDS_2029=[
+    ['06-03','06-27',(G,y)=>S.sits(G,y),'（畢業以後，你還是每天八點起床。不用上課，就去總圖。）'],
+    ['06-03','06-27',(G,y)=>!S.sits(G,y),'（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）'],
+    ['06-29','07-11',(G,y)=>S.sits(G,y),'（七月。總圖 B1 的長桌，每天早上都是同一群人。）'],
+    ['07-15','08-02',(G,y)=>S.sits(G,y),'（考前三個禮拜。讀書計畫表的格子一格一格劃掉，剩下的比劃掉的少了。）'],
+    ['08-05','09-06',(G,y)=>sat(G,y),'（一試考完，離放榜還有一個月。你把法典放在書架最上面。）'],
+    ['09-08','10-19',(G,y)=>two(G,y),'（二試的書比一試厚。早上讀實體法，下午寫考古題，晚上把寫錯的再寫一次。）'],
+    ['09-08','10-19',(G,y)=>sat(G,y)&&S.stage(G,y)==='none','（九月。學弟妹開學了，總圖又開始搶位子。明年你還會坐在這裡。）'],
+    ['09-08','10-19',(G,y)=>!S.sits(G,y),'（九月。學弟妹開學了，總圖又開始搶位子。）'],
+    ['10-22','12-13',(G,y)=>two(G,y),'（二試考完以後等放榜的七個禮拜，比讀書的時候還長。）'],
+    ['10-22','12-13',(G,y)=>!two(G,y),'（十一月。公館的騎樓下，開始有人在賣烤地瓜。）'] ];
+  S.CARDS_2030=[
+    ['06-01','07-10',(G,y)=>S.sits(G,y),'（又是一個要讀書的夏天。總圖 B1 的位子，你坐的還是同一張。）'],
+    ['07-12','08-01',(G,y)=>S.sits(G,y),'（考前三個禮拜。這次的讀書計畫表，你自己排。）'],
+    ['08-04','09-05',(G,y)=>sat(G,y),'（一試考完。這一次，你沒有把法典放到書架最上面。）'],
+    ['09-07','10-18',(G,y)=>two(G,y),'（二試的書還是很厚。你讀得比去年快一點。）'],
+    ['10-21','12-12',(G,y)=>two(G,y),'（等放榜的七個禮拜。你去打工，晚上照樣翻一下考古題。）'] ];
+  S.cardRows=function(G){ const R=[], add=(tab,yr,y,sh)=>{ for(const [a,b,c,t] of tab) R.push([S.DK(yr+'-'+a)+sh,S.DK(yr+'-'+b)+sh,c,y,t]); };
+    if(S.delayed(G)) add(S.CARDS_2029,2029,2030,S.DK(Y[2030].exam)-S.DK(Y[2029].exam));
+    else { add(S.CARDS_2029,2029,2029,0); if(S.retaker(G)) add(S.CARDS_2030,2030,2030,0); }
+    return R; };
+  S.cardLine=function(G,d0,d1){ if(!G||!G.flags||d1-d0<2) return null; const r=S.rec(G); if(!Array.isArray(r.lines)) r.lines=[]; const k0=d0+1, k1=d1-1;
+    for(const [da,db,c,y,t] of S.cardRows(G)){ if(r.lines.includes(t)||da>k1||db<k0) continue; let ok=false; try{ ok=!!c(G,y); }catch(e){ ok=false; } if(ok){ r.lines.push(t); return t; } }
+    return null; };
   S.busy=false;
   S.DORM={x:0,z:2.4,yaw:Math.PI,lv:0};   /* 宿舍房間（story3d.js Y4_DORM）*/
   S.advance=async function(GM,o){ const G=GM.G, E=GM.E; if(E&&E.player&&E.player.seat&&GM.standUp) GM.standUp(E.player);
@@ -451,7 +482,8 @@ const PG=(function(){
     const ep=S.byId('epi'); if(ep&&!S.done(G,'epi')&&Math.abs(t-ep.at(G))<1e-6&&ep.cond(G)){ await S.runStep(GM,ep); return true; }   /* 五年後：字卡在尾聲裡 */
     const d0=G.day; let res='ok'; GM.sceneBegin(); try{ await GM.fade(true); res=S.jumpTo(GM,t);
       if(GM.updateHUD) GM.updateHUD(); if(E&&E.setWeather) E.setWeather(G.weather);
-      if(GM.titleCard&&(G.day!==d0||(o&&o.sleep))) await GM.titleCard(S.dateLabel(G.day,G.hour),'',1800);
+      const ln=S.cardLine(G,d0,G.day);   /* AA_353：跳過的日子那一句（同一天、隔一天＝null）*/
+      if(GM.titleCard&&(G.day!==d0||(o&&o.sleep))) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800);
       await GM.fade(false); } finally { GM.sceneEnd(); }
     if(GM.autosave) GM.autosave();
     if(res==='msg'&&GM.phoneThread) await GM.phoneThread(S.newestTh(G),{skip:true});   /* 收到訊息：打開那一段，關掉再繼續 */
