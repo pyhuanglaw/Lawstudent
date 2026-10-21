@@ -160,7 +160,7 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：帳號 A 的 LAWWW 值班中（`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-10-21 15:2x 接 LAWWW-C 的班；使用者「我回來了，請同步 GitHub 最新進度，接續工作。」）。帳號 C 四個職位都已交班（AA-C、BB-C、LAWWW2-C 2026-10-21 14:30；LAWWW-C 14:5x）；帳號 A 的 LAWWW2、AA、BB 等使用者各自叫回來**（以下是 10-19 重新值班時的紀錄）：使用者 02:0x 要一份以 v9.10.2 為基準的玩家功能清單（FEATURE-LIST-9102-1019）——同一個工作階段重新值班；01:5x 交班到重新值班之間沒有人值班、沒有別的 commit。v9.10.2 已上線（main `9335763d`）；發布後檢查 REL-9102-POSTCHECK-1019 還沒跑。LAWWW2-C、AA-C、BB-C 照舊交班狀態（使用者 21:4x）；帳號 A、B 休班，D 未啟用。
+**現在：A 值班中（LAWWW；`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-10-21 15:2x 接 LAWWW-C 的班；使用者「我回來了，請同步 GitHub 最新進度，接續工作。」）。帳號 C 四個職位都已交班（AA-C、BB-C、LAWWW2-C 2026-10-21 14:30；LAWWW-C 14:5x）；帳號 A 的 LAWWW2、AA、BB 等使用者各自叫回來**（以下是 10-19 重新值班時的紀錄）：使用者 02:0x 要一份以 v9.10.2 為基準的玩家功能清單（FEATURE-LIST-9102-1019）——同一個工作階段重新值班；01:5x 交班到重新值班之間沒有人值班、沒有別的 commit。v9.10.2 已上線（main `9335763d`）；發布後檢查 REL-9102-POSTCHECK-1019 還沒跑。LAWWW2-C、AA-C、BB-C 照舊交班狀態（使用者 21:4x）；帳號 A、B 休班，D 未啟用。
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|

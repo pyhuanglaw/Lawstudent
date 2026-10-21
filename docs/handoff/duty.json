@@ -79,7 +79,7 @@
   "at": "2026-10-21T14:59Z",
   "kind": "handoff",
   "snapshots": {
-   "LAWWW": "docs/handoff/snapshots/2026-10-21T1459Z_C_LAWWW.json"
+   "LAWWW": "2026-10-21T1459Z_C_LAWWW.json"
   },
   "closed": true
  },
@@ -223,6 +223,38 @@
    "resolved": true,
    "evidence": [
     "a9868928..55717c12"
+   ]
+  },
+  {
+   "kind": "post-handoff-writes",
+   "role": "LAWWW",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "from": "C",
+   "to": "A",
+   "at": "2026-10-21T15:3xZ",
+   "reviewedThrough": "5335c494",
+   "note": "duty verify 第 6、7 項：LAWWW-C 交班 7c58b598 以後的 2 個 commit（9901b0b8、5335c494）是它自己的交班登記（同一個工作階段 session_01Me1thu8Zn934H58kWKNfuF）：快照、duty.json／duty_LAWWW.json、watermarks、HANDOFF_GAP_MATRIX 交班一節，不是兩個帳號同時寫。第 7 項是 lastHandoff.snapshots 寫成完整路徑（工具會再加一次 docs/handoff/snapshots/），改成檔名；快照本身在 9901b0b8 和現在的 HEAD 都在。LAWWW（帳號 A）接班時查核，已快轉合併進 de21dbee",
+   "resolved": true,
+   "evidence": [
+    "7c58b598..5335c494",
+    "de21dbee"
+   ]
+  },
+  {
+   "kind": "roles-handoff-unregistered",
+   "roles": [
+    "LAWWW2",
+    "AA",
+    "BB"
+   ],
+   "account": "C",
+   "at": "2026-10-21T15:3xZ",
+   "note": "duty verify 第 2 項：帳號 C 的 LAWWW2、AA、BB 已在各自分支寫交班（2b4f2028、8d32ed63、a71fe506；HANDOFF_GAP_MATRIX 第 1 節），但 duty_<職位>.json 還是 state on，duty sync 收不到『已交班』。LAWWW 不替它們改登記；帳號 A（或之後被叫回來的帳號）的這三個職位接班時用 duty register 登記，這一項就會消失",
+   "resolved": false,
+   "evidence": [
+    "origin/claude/focused-cray-c9uwvw@2b4f2028",
+    "origin/claude/magical-albattani-bk7b4n@8d32ed63",
+    "origin/claude/wonderful-mayer-7fm9g6@a71fe506"
    ]
   }
  ],
