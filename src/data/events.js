@@ -248,7 +248,7 @@ const STORY_EVENTS=[
   /* 學姊 A5-1 新版 C1（BB_188 @05571a45 原文，使用者 10:3x 對 LAWWW-C「通過」；實作照 AA_218 17-13 第 3、5 點）：她研究所放榜（3/23，SIS_RESULT_OUT）以後，
      2026-04-08（三）16:30 法學院圖書館外的台階；玩家不在校內就延到下一個週三 16:30（跳過考試週＝大一下第 8～9 週），最晚第 15 週。B 發生過（9/3 加好友）才有；不必交往、沒有好感門檻。
      祐廷說完「……等一下。我高二校慶好像被問過。」以後插播回想 A（BB_188 A 十項回覆版），演完回到台階。CG BCG-49 還沒有：先用操場的一般背景。記 SIS_FESTIVAL_MET（C2 讀）*/
-  { id:'ev_sis_c1_festival', title:'高二的校慶', participants:['heroine_05'], location:['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1'], trigger:'auto', term:['Y1S2'], weeks:[7,10,11,12,13,14,15], weekday:[3], time:[16.5,18], once:true, priority:7, background:'blur',
+  { id:'ev_sis_c1_festival', title:'高二的校慶', participants:['heroine_05'], location:['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1','gym_arena'], trigger:'auto', term:['Y1S2'], weeks:[7,10,11,12,13,14,15], weekday:[3], time:[16.5,18], once:true, priority:7, background:'blur',
     prereq:{flags:['SIS_CONTACTED','SIS_RESULT_OUT'],custom:G=>typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey('2026-04-08')},
     dialogue:[ {scene:'臺大・法學院圖書館外的台階',bg:'ntu_linze'},{speaker:null,text:'（你走過法學院圖書館外面的台階，學姊坐在最上面一階，旁邊放著一杯咖啡。）'},
       {speaker:'heroine_05',expression:'neutral',text:'你下學期通識選好了嗎？'},

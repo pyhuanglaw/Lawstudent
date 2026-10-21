@@ -25,10 +25,10 @@ check('3. 大廳和球場之間：牆走不過（x −15、−5、5、15）；�
 check('4. 看台、服務台、往 3F／B1 的樓梯口擋住；羽球網柱擋住、網子本身不擋（上課時同學會穿過場地）',!E.canStand(0,-17.6,0.1,0)&&!E.canStand(11,15.6,0.1,0)&&!E.canStand(-18,15.3,0.1,0)&&!E.canStand(18,15.1,0.1,0)&&!E.canStand(-3.1,-11.2,0.02,0)&&E.canStand(0,-11.2,0.32,0));
 const shows=i=>{ const R=i.radius-0.05; for(let dx=-R;dx<=R+1e-9;dx+=0.2) for(let dz=-R;dz<=R+1e-9;dz+=0.2){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(!E.canStand(x,zz,0.32,0)) continue;
   let best=null, bd=1e9; for(const q of E.interactables){ const d=Math.hypot(q.x-x,q.z-zz); if(d<=q.radius&&d<bd){ bd=d; best=q; } } if(best===i&&walk(sp,[x,zz]).ok) return true; } return false; };
-const want=['服務台','看開館時間','往 3F 的樓梯（今天不開放）','下樓到 B1（健身中心・游泳池）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
+const want=['服務台','看開館時間','上樓到 3F 主球場','下樓到 B1（健身中心・游泳池）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
 const its=want.map(l=>E.interactables.find(i=>i.label===l)); const bad=want.filter((l,k)=>!its[k]||!shows(its[k]));
 check('5. 互動點都有、走得到、按鈕真的出現（不被別的蓋過）：'+want.join('、'),!bad.length,bad.join('、'));
-check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）',its.filter(i=>i&&i.look).length===5&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
+check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）；往 3F 的樓梯可以上樓（ART-GYM2-INT，原本是「今天不開放」的說明）',its.filter(i=>i&&i.look).length===4&&!!(its[2]&&its[2].exit&&its[2].exit.to==='gym_arena')&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
 const seats=E.interactables.filter(i=>i.seat); const badS=seats.filter(i=>!shows(i)).map(i=>i.label+'('+i.x+','+i.z+')');
 check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）都走得到、按鈕出現；看台的位子坐在第一排木板上（z −16.37，從地面坐；QA-W1 座位檢查：原本在看台前面的空中、高 0.9 m）',seats.length===Ly.seats.length&&!badS.length&&seats.filter(i=>i.label==='坐在看台').every(i=>i.seat.y==null&&Math.abs(i.seat.z+16.37)<0.02),badS.join('、'));
 { const zc=loadZone('campus'); check('7. 回校園的落點 (74,58.0) 站得住、走得到體育館門口',E.canStand(74,58.0,0.32,0)&&E.simWalk(74,58.0,74,59.0,{lv0:0,lv1:0,dt:0.1,speed:4.1}).ok); }

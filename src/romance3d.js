@@ -45,7 +45,7 @@ const ROM=(function(){
      小語→子晴：BB 寫「定以前不傳」；語彤、阿哲、小語、柏翰、方奕廷知道了也不傳給女主角；沛珊聽說以後不再往下傳（她的朋友圈沒有表上的人）。
      阿凱（室友）一定知道、不主動說：只有子晴問的時候（zqAsk：子晴第 5 階以上、沒和祐廷交往、還不知道、祐廷和可昕交往中 → 第一個上課日 17:00 資工系下課；那晚睡覺時演 ev_zq_ask_kai）。
      不是每一幀都從頭算：F.spreadScan 記每一組看到哪一天（存檔讀進來很久以後也會補到正確的那一天）*/
-  S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1'];
+  S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1','gym_arena'];   /* gym_arena：新體育館 3F 主球場（ART-GYM2-INT 2026-10-21）*/
   S.SPREAD=[{from:'heroine_01',to:'classmate_peishan',meet:'plg'},{from:'heroine_04',to:'heroine_02',meet:'fri'},{from:'heroine_02',to:'heroine_04',meet:'fri'}];
   const onCampus=(G,id,day,hh,wd)=>{ if(typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined'||!CHARACTERS[id]) return false; const Gx=Object.assign({},G,{day,hour:hh,weekday:wd});
     if(STORY.presence&&!STORY.presence(id,Gx).here) return false; const e=STORY.schedEnt(CHARACTERS[id],Gx); return !!(e&&e.zone&&S.CAMPUS_ZONES.includes(e.zone)); };
