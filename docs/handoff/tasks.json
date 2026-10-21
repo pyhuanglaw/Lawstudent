@@ -8000,7 +8000,7 @@
    "area": "D14",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8233,7 +8233,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -21592,7 +21592,7 @@
    },
    "source": "BB-C 2026-10-18 06:41（claude/wonderful-mayer-7fm9g6 @ 1b706548，docs/story_planning/test_shots/econ_home_1018/README.md）",
    "authorized": "bug 修正",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:4x UTC】BB 重拍（e7dc26c2）：n031 豆花店 FIXED；n093 全黑、n180 日期字疊按鈕這一輪沒出現；n212 遊覽車 PARTIAL（那句在校門口深色底上演，出座位選項那一刻背景已換車內、對話框還留著那句，P3）；n255 NOT FIXED 缺圖 ntu_gate（BB_220 ③）。另照 BB 決定（D110）7/10 看考場 RH-O6 接 exam_hs_classroom（import_retake_home.py 匯入時套用；tests/retake_bg_unit.js） ｜ 【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】BB 重拍（e7dc26c2）：n031 豆花店 FIXED；n093 全黑、n180 日期字疊按鈕這一輪沒出現；n212 遊覽車 PARTIAL（那句在校門口深色底上演，出座位選項那一刻背景已換車內、對話框還留著那句，P3）；n255 NOT FIXED 缺圖 ntu_gate（BB_220 ③）。另照 BB 決定（D110）7/10 看考場 RH-O6 接 exam_hs_classroom（import_retake_home.py 匯入時套用；tests/retake_bg_unit.js） ｜ 【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -25837,7 +25837,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
   },
   {
    "id": "AA283-PARK-1021",
@@ -26011,7 +26011,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】src/kxod3d.js（KXOD，掛 STORY.PHONE_RULES；index.html 在 pgdates3d.js 後面）：大二上、下每週，大三上起隔週（單週），大四下開學那一則問（「好。」＝每週、不回或「隔週就好。」＝隔週，KX_OD_Y4S2）；第 2 週起、考試週和她的那一週（4/24、10/17、她的出遊、和她的校外約會）不排；日本路線大三下視訊臺灣 19:00（當地 20:00）、美國路線大四上臺灣週六 08:00＝當地週五 20:00（11/5 起 19:00）；開學那一則 7 種逐字（白名單 AA_354@86c104df kind text）；分手 skipped；KX_CRACK 照畢業後篇 PGDATE.kxArrive／kxMissed。順手修：story3d.js 大一下那段把大一下以外的 kx_od_ 全部改 skipped（畢業以後可昕的固定格會被改掉）→ 只管大二上開學以前的格子。tests/kxod_unit.js 33 項（修改前全部 FAIL，第 9 項 pg＝skipped）；相關 26 支全過。BB：交往中的存檔從大二上第 1 週跳到大四下，每學期看開學那一則和前兩格（AA_354 第 3 節） ｜ 【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】src/kxod3d.js（KXOD，掛 STORY.PHONE_RULES；index.html 在 pgdates3d.js 後面）：大二上、下每週，大三上起隔週（單週），大四下開學那一則問（「好。」＝每週、不回或「隔週就好。」＝隔週，KX_OD_Y4S2）；第 2 週起、考試週和她的那一週（4/24、10/17、她的出遊、和她的校外約會）不排；日本路線大三下視訊臺灣 19:00（當地 20:00）、美國路線大四上臺灣週六 08:00＝當地週五 20:00（11/5 起 19:00）；開學那一則 7 種逐字（白名單 AA_354@86c104df kind text）；分手 skipped；KX_CRACK 照畢業後篇 PGDATE.kxArrive／kxMissed。順手修：story3d.js 大一下那段把大一下以外的 kx_od_ 全部改 skipped（畢業以後可昕的固定格會被改掉）→ 只管大二上開學以前的格子。tests/kxod_unit.js 33 項（修改前全部 FAIL，第 9 項 pg＝skipped）；相關 26 支全過。BB：交往中的存檔從大二上第 1 週跳到大四下，每學期看開學那一則和前兩格（AA_354 第 3 節） ｜ 【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
   },
   {
    "id": "AA355-WAITS-1021",
@@ -27210,7 +27210,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 17:4x：BUG-0830-EMPTYSTOP-1018 Node 重現不出、BUG-ECON-HOME-SHOTS-1018 剩五格要新版重拍（D99 第一優先：經濟系完整流程）",
    "authorized": "D100（測試歸 BB）",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:4x UTC】結果寫進 BUG-ECON-HOME-SHOTS-1018 ｜ v9.10.3 發布前判定之後做；有問題列重現步驟（日期、時間、按了什麼）給 LAWWW",
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】結果寫進 BUG-ECON-HOME-SHOTS-1018 ｜ v9.10.3 發布前判定之後做；有問題列重現步驟（日期、時間、按了什麼）給 LAWWW",
    "xai": {
     "spec": "BB-C 1b706548 docs/story_planning/test_shots/econ_home_1018/README.md（claude/wonderful-mayer-7fm9g6）；tests/bug0830_emptystop_unit.js",
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
@@ -27239,7 +27239,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:25 DONE-B01 驗收訊息（BB_218 最後一節，story-planning 1e3f976e；截圖 test_shots/done_b01_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:0x UTC】index.html：#caption 加 width:max-content（原本 left:50% 只剩半個畫面寬，長字幕擠成四行）、橫向 max-width min(620px,100%−340px)（不壓到搖桿和右下按鈕）；直向移到 bottom＝max(18px,safe)+142px（搖桿、「坐下」上面）、max-width 100%−40px。tests/ui_portrait_overlap.py（修改前直向 FAIL：字幕 97～293／706～764 壓到「坐下」258～378／730～778 和搖桿；修改後直向、橫向全過，截圖看過）。BB：直向下課那一刻再看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
+   "next": "【LAWWW（帳號 A）2026-10-21 22:4x UTC】index.html：#caption 加 width:max-content（原本 left:50% 只剩半個畫面寬，長字幕擠成四行）、橫向 max-width min(620px,100%−340px)（不壓到搖桿和右下按鈕）；直向移到 bottom＝max(18px,safe)+142px（搖桿、「坐下」上面）、max-width 100%−40px。tests/ui_portrait_overlap.py（修改前直向 FAIL：字幕 97～293／706～764 壓到「坐下」258～378／730～778 和搖桿；修改後直向、橫向全過，截圖看過）。BB：直向下課那一刻再看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
   },
   {
    "id": "UI-PORTRAIT-HUD-MONEY-1021",
@@ -27260,7 +27260,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:25 DONE-B01 驗收訊息（BB_218 最後一節，story-planning 1e3f976e；截圖 test_shots/done_b01_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:0x UTC】直向「現在可以上課…」（#nextClass）max-width＝100vw−--hudRw−30px（--hudRw＝右邊金額、手機、選單那一組的實際寬，game3d.js updateHUD 金額變了才量）；tests/ui_portrait_overlap.py：$41510 右邊 244→197（金額那一組從 206.7 開始）、$1234567 右邊 182（從 192.3）；修改前 FAIL。BB：直向上課前看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
+   "next": "【LAWWW（帳號 A）2026-10-21 22:4x UTC】直向「現在可以上課…」（#nextClass）max-width＝100vw−--hudRw−30px（--hudRw＝右邊金額、手機、選單那一組的實際寬，game3d.js updateHUD 金額變了才量）；tests/ui_portrait_overlap.py：$41510 右邊 244→197（金額那一組從 206.7 開始）、$1234567 右邊 182（從 192.3）；修改前 FAIL。BB：直向上課前看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
   },
   {
    "id": "BB-TEST-HOLFF-1021",
@@ -28111,7 +28111,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 做 AA354 時發現（tests/kxod_unit.js 第 9 項：修改前 pg＝skipped）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】只管大二上開學以前的格子（y2＝Y2S1 第 1 週週一）；AA_373 #1（舊存檔排在大一下暑假的那一格拿掉）照舊。BB：畢業以後交往中的存檔，在 3D 裡走一下再看可昕的格子還在"
+   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】只管大二上開學以前的格子（y2＝Y2S1 第 1 週週一）；AA_373 #1（舊存檔排在大一下暑假的那一格拿掉）照舊。BB：畢業以後交往中的存檔，在 3D 裡走一下再看可昕的格子還在"
   },
   {
    "id": "AA378-Y4S1-FIX-1021",
@@ -28132,7 +28132,7 @@
    },
    "source": "企劃線 AA_378（f2de8d1c）；AA（帳號 A）10-21 22:53 訊息；使用者 22:5x「學姊才是真正的女主角」（USER_WANTS C25）",
    "authorized": "D109 AA 劇情自主；D110",
-   "next": "【LAWWW（帳號 A）2026-10-22 00:2x UTC】第 1 節 S1～S4 做好（r2y4b3d.js saWeekly／saChecks／SA_X、r2y4b_events.js ev_sis_video、r2y4a3d.js y4_push_note、r3_events.js／r3_3d.js「同上。」、termend3d.js dinnerDay＋eveningBusy）：「到了。」8/3 07:00、T1／T2 兩週一則不輪播、X0～X5（過期＝最早那天後兩週，AI 解讀、已問 AA）、T3 視訊臺灣週日 10:00（她那邊週六晚上）、三組用完只剩旁白、「你去吃早餐。」；tests/aa378_sis_unit.js 20 項（修改前 16 項 FAIL）、r2y4b_events_unit 改新排法；相關 32 支全過。剩 S5、第 2～4 節（等 y3／Y2 子代理交回）。BB：照 AA_378 第 7 節測（T1、T2、T3 跑 8/3～12/18；週日 10:00 視訊；2/3 同上；12/20 答應接機期末飯不在 12/23） ｜ 【LAWWW（帳號 A）2026-10-21 23:3x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:1x UTC】第 1 節 S1～S4 做好（r2y4b3d.js saWeekly／saChecks／SA_X、r2y4b_events.js ev_sis_video、r2y4a3d.js y4_push_note、r3_events.js／r3_3d.js「同上。」、termend3d.js dinnerDay＋eveningBusy）：「到了。」8/3 07:00、T1／T2 兩週一則不輪播、X0～X5（過期＝最早那天後兩週，AI 解讀、已問 AA）、T3 視訊臺灣週日 10:00（她那邊週六晚上）、三組用完只剩旁白、「你去吃早餐。」；tests/aa378_sis_unit.js 20 項（修改前 16 項 FAIL）、r2y4b_events_unit 改新排法；相關 32 支全過。剩 S5、第 2～4 節（等 y3／Y2 子代理交回）。BB：照 AA_378 第 7 節測（T1、T2、T3 跑 8/3～12/18；週日 10:00 視訊；2/3 同上；12/20 答應接機期末飯不在 12/23） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
   },
   {
    "id": "SIS-LEAD-1021",
@@ -28181,7 +28181,7 @@
    },
    "source": "BB（帳號 A）10-21 22:54 Node 對照（DATE-OVERNIGHT-1021）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:5x UTC】classes3d.js outTodayHTML：q.dateTrip 的寫 DATE.trip 的 depart＋「出發」；tests/today_outings_unit.js 第 4 項（修改前 FAIL）。BB：排一趟兩天一夜，當天打開手機「今天」看"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:0x UTC】classes3d.js outTodayHTML：q.dateTrip 的寫 DATE.trip 的 depart＋「出發」；tests/today_outings_unit.js 第 4 項（修改前 FAIL）。BB：排一趟兩天一夜，當天打開手機「今天」看"
   },
   {
    "id": "PG-ASKAT-HOME-1021",
@@ -28203,6 +28203,69 @@
    "source": "BB（帳號 A）10-21 22:54 Node 對照（AA366／AA367）",
    "authorized": "bug 修正（D85）",
    "next": "pgdates3d.js askAt 傳 fromHome＝HOME.at(G)（人在家就照家裡算）；等 y3／約會子代理合併後做（兩個都動 pgdates3d.js）"
+  },
+  {
+   "id": "BUG-SIS-STUDY-COMPANION-1021",
+   "title": "和學姊約在總圖讀書：讀完當場再約一次變成「她跟我走」（同行），人已經在總圖卻開始不了讀書；回宿舍她還跟著（使用者 10-21 23:1x 試玩：「不合理吧」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次和學姊約在總圖讀書",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-21 23:1x 直接對 LAWWW（UA-LAWWW-1021-09；USER_WANTS D55）",
+   "authorized": "bug 修正（D85）",
+   "next": "查 INV 當面約：已經在約定地點時不要變成同行（直接開始）；同行到宿舍、回家、睡覺要結束"
+  },
+  {
+   "id": "AA379-SIS-W1-LIB-1021",
+   "title": "AA_379 第 1 節：閱覽室、總圖大廳二樓自習區找學姊說話就直接演第一次見面（W1），拿掉「閱覽室不能講話」（使用者 10-21 23:1x 試玩卡關「圖書館不能講話 這樣要怎麼觸發認識」、23:2x「就直接可以說話就好」）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "2025-09-04 以後在閱覽室看到學姊",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "企劃線 AA_379（6a105a4d；便條版 e865aa5f 作廢）；AA 10-21 23:01、23:02 訊息；使用者 23:1x、23:2x（經 AA）",
+   "authorized": "使用者 23:2x 直接定；D109",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】events.js ev_sis_w1 加 library、library_hall（開頭兩句、最後一句閱覽室版，中間照台階版）；story3d.js talkSis 拿掉那一行；tests/aa379_sis_lib_unit.js（逐字對 6a105a4d）；v1_batch3_unit 的舊斷言（閱覽室只有一行）照使用者 23:2x 改。BB：9/5 白天閱覽室、大廳自習區找她說話＝認識；9/3 以前照舊；已經認識的閱覽室裡閒聊、當面約都出得來 ｜ events.js ev_sis_w1 加 library、library_hall；story3d.js talkSis 拿掉那一行；寫測試"
+  },
+  {
+   "id": "INV-BOTH-PRESENT-1021",
+   "title": "約好的事（當面約、手機約）：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 2,
+    "earliest": "第一次約好在某個地方見面",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-21 23:2x 直接對 LAWWW（UA-LAWWW-1021-10；USER_WANTS D55）",
+   "authorized": "使用者直接定",
+   "next": "invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）"
   }
  ]
 }

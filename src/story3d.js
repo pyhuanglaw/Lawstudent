@@ -3055,7 +3055,7 @@ const STORY = (function(){
     if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_01',n); GM.sceneEnd(); }
   async function talkZhe(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('zhe')) return; GM.sceneBegin({adv:'zhe'}); SOCIAL.talkedTo('zhe'); if(!n.seat) if(!n.seat) if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); if(!(F.zheInvite&&!F.zheNoodleDone)&&await relUp(GM,'zhe',n)){ GM.sceneEnd(); return; } if(n.seat&&G.zone==='noodle'){ await GM.say(n,'坐啊，麵要涼了。',{expr:'smile'}); } else if(!F.classDone&&isThu(G)){ await GM.say(n,'快進去啦，周老師要來了。'); } else if(F.zheInvite&&!F.zheNoodleDone){ await GM.say(n,'六點半，阿鳳麵店，公館那條街上。別忘了。',{expr:'smile'}); } else { const l=['系籃週五練球，要來就來，不會打也可以來坐。','公館那家滷味晚上十點後半價。','我球鞋又開口笑了，這禮拜要去買新的。'];/* AA_209 附錄A §2 */ await GM.say(n,l[(Math.random()*l.length)|0],{expr:'laugh'}); } if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'zhe',n); GM.sceneEnd(); }
   /* 還沒有 W1（events.js ev_sis_w1：總圖門口的台階、Café，AA_218 17-3；BB-C 798e9b14）：9/4 分直屬以前她是陌生人——一行旁白、不加數值、不記認識；
-     9/4 以後在閱覽室只有一行旁白（閱覽室不能講話），W1 不演；其他地方（W1 只在台階和 Café）照陌生人那一行。FIRST_MET／met_sis 只有 W1 會記 */
+     9/4 以後 W1 在台階、Café、閱覽室、大廳自習區都演（AA_379：使用者 10-21 23:2x「就直接可以說話就好」）；其他地方照陌生人那一行。FIRST_MET／met_sis 只有 W1 會記 */
   /* 9/4 分直屬以前找學姊說話（AA-C 2026-10-18 01:4x，SIS-W1 第 ① 點）：只有一句旁白，不算對話、不記關係；9/4 以後才開 W1（總圖台階、Café）*/
   S.SIS_PRE_W1='（她在看手機，沒有抬頭。）';
   S.sisPreW1=(G,id)=>id==='heroine_05'&&!!G&&(G.stage||'law')==='law'&&!(G.flags&&G.flags.met_sis)&&G.day<S.dayOfKey('2025-09-04');
@@ -3064,7 +3064,7 @@ const STORY = (function(){
   S.memoText=(G,m)=>!m?'':(m.named&&m.who&&typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,m.who)?m.named:m.t);
   S.sisZhishuOut=(G,day,hour)=>{ const d=S.dayOfKey('2025-09-04'), dd=day==null?G.day:day, hh=hour==null?G.hour:hour; return d==null||dd>d||(dd===d&&hh>=21); };
   async function talkSis(GM,n){ const G=GM.G, F=G.flags, E=GM.E; if(EVENTS.onInteract('heroine_05')) return; GM.sceneBegin({adv:'heroine_05'}); if(await S.twoHeartsEcho(GM,'heroine_05',n)){ GM.sceneEnd(); return; }   /* 1A-02 攤牌以後第一次說話 */
-    if(!F.met_sis){ const d4=S.dayOfKey('2025-09-04'); await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:G.day>=d4&&(G.zone==='library'||G.zone==='library_hall')?'（你認出她是 家族群組大頭貼上那個學姊。閱覽室不能講話。）':'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }
+    if(!F.met_sis){ await GM.say(null,S.sisPreW1(G,'heroine_05')?S.SIS_PRE_W1:'（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'); GM.sceneEnd(); return; }   /* AA_379：閱覽室、大廳自習區 9/4 以後找她說話＝ev_sis_w1（上面 EVENTS.onInteract），原本那一行旁白（說這裡不能講話）拿掉 */
     SOCIAL.talkedTo('heroine_05'); if(!n.seat) GM.face(n,E.player.obj.position.x,E.player.obj.position.z); GM.cine('talk',E.player.obj,n.obj); if(await relUp(GM,'heroine_05',n)){ GM.sceneEnd(); return; } if(F.met_sis&&G.zone==='cafe'&&await sisCafe(GM,n)){ GM.sceneEnd(); return; }
     if(!(await S.ladderTalk(GM,n,'heroine_05'))){ const l=['判決要看事實，不要只背結論。','法圖九點四十五關門。我都待到最後。','總圖三樓的判例彙編，去年被人翻到脫頁。……不是我。']; await GM.say(n,l[(Math.random()*l.length)|0]); }   /* 閒聊階梯（BB_130）優先 */ if(G.flags.afternoonDone&&G.flags.companion==null) await S.offerInvite(GM,'heroine_05',n); GM.sceneEnd(); }
   /* 室友阿凱的宿舍事件（BB_130 第 6 節；LADDER.kaiDorm K-D1～6；使用者 2026-10-15 試玩回報：室友要有故事——打電動、吵架、和好）：

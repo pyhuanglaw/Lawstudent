@@ -195,12 +195,16 @@ const STORY_EVENTS=[
   /* 學姊 W1 第一次見面（AA_218 17-3，使用者 07:5x 批准；開頭句「台階」與 Café 版 2dc7f23d；機制 BB-C 798e9b14／BB_122 ★-7）：祐廷先開口、她不會叫住他；只一次。
      地點：總圖門口的台階（作息 9/4～9/29 平日 12:10～12:50，characters.js）或 Café（靠窗的位子）；9/4 分直屬以前不演（還不知道她是直屬）。閱覽室與其他地方：talkSis 一行旁白。
      記 SIS_W1、met_sis、FIRST_MET（只有 W1 記）、rel +3（和舊的初遇一樣）。台階版說完她走進總圖 */
-  { id:'ev_sis_w1', title:'直屬學姊', participants:['heroine_05'], location:['campus','cafe'], trigger:'interact', priority:9, once:true, background:'blur',
+  /* AA_379 第 1 節（企劃線 6a105a4d；使用者 10-21 23:1x 試玩卡關「我在圖書館看到學姊 結果圖書館不能講話 這樣要怎麼觸發認識」、23:2x「就直接可以說話就好」）：
+     閱覽室（library）、總圖大廳二樓自習區（library_hall）找她說話也直接演這一場（沒有選項）；開頭、最後一句換閱覽室版，中間照台階版一字不改；記號一樣 */
+  { id:'ev_sis_w1', title:'直屬學姊', participants:['heroine_05'], location:['campus','cafe','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const F=G.flags; if(F.met_sis||F.SIS_W1||(G.stage||'law')!=='law'||typeof STORY==='undefined'||G.day<STORY.dayOfKey('2025-09-04')) return false;
       if(G.zone==='campus'){ const P=typeof GAME!=='undefined'&&GAME.E&&GAME.E.player&&GAME.E.player.obj; return !!P&&Math.hypot(P.position.x-83,P.position.z-3)<8; }   /* 校園只在總圖門口的台階那裡 */
-      return G.zone==='cafe'; }},
+      return G.zone==='cafe'||G.zone==='library'||G.zone==='library_hall'; }},
     dialogue:[ {if:{custom:G=>G.zone==='campus'},speaker:null,text:'（她坐在總圖門口的台階上看手機，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'},
       {if:{custom:G=>G.zone==='cafe'},speaker:null,text:'（她坐在靠窗的位子看手機，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'},
+      {if:{custom:G=>G.zone==='library'},speaker:null,text:'（她坐在靠窗的位子讀書，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'},
+      {if:{custom:G=>G.zone==='library_hall'},speaker:null,text:'（她坐在長桌的一角讀書，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'},
       {if:{custom:G=>typeof STORY==='undefined'||!STORY.sisZhishuOut||STORY.sisZhishuOut(G)},speaker:'player',text:'學姊好，我是{name}，妳的直屬學弟。'},
       {unless:{custom:G=>typeof STORY==='undefined'||!STORY.sisZhishuOut||STORY.sisZhishuOut(G)},speaker:'player',text:'學姊好，我是{name}，法律系大一。'},   /* AA_372 第 12 項：9/4 21:00 Kevin 公布直屬以前遇到她（台階 12:10～12:50、Café 19～21 點）不說「直屬學弟」*/
       {speaker:'heroine_05',expression:'neutral',text:'（抬頭）喔，hi。'},
@@ -210,7 +214,8 @@ const STORY_EVENTS=[
       {speaker:'player',text:'周老師。'},
       {speaker:'heroine_05',expression:'smile',text:'周老師很熱門耶，要很早去佔位置喔。'},
       {speaker:'player',text:'真的，前一堂課就要去佔了。'},
-      {speaker:'heroine_05',expression:'smile',text:'（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。'} ],
+      {unless:{custom:G=>G.zone==='library'||G.zone==='library_hall'},speaker:'heroine_05',expression:'smile',text:'（笑了一下）對，就是這樣。我要去圖書館了，有問題再私訊我。'},
+      {if:{custom:G=>G.zone==='library'||G.zone==='library_hall'},speaker:'heroine_05',expression:'smile',text:'（笑了一下）對，就是這樣。有問題再私訊我。'} ],   /* 她已經在圖書館（AA_379 1-2）；演完她繼續讀書 */
     consequences:{flags:{met_sis:true,SIS_W1:true}},
     after:(G,GM,npcs)=>{ if(GM.rel) GM.rel('sis',3); const n=npcs&&npcs[0]; if(n&&G.zone==='campus'){ n.beh='route'; n.waypoints=[[86.4,1.2]]; n.pauseAt=false; n.talk=null; if(GM.despawnLater) GM.despawnLater(n,6); } } },
   /* 學姊 W1 到社博之間的接觸 ②③（AA_218 17-6，使用者 10:2x 批准；AA-C e4a8ba67 選 (a)）：

@@ -45,10 +45,10 @@ const sisN={id:'sis',charId:'heroine_05',name:'溫學姊',obj:{position:{x:1,y:0
     check('W1 Café 版：開頭「（她坐在靠窗的位子看手機……）」，後面相同（「我要去圖書館了」照留）',ok&&lines()[0]==='（她坐在靠窗的位子看手機，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'&&JSON.stringify(lines().slice(1))===JSON.stringify(W1L),JSON.stringify(lines())); }
   { fresh(D4+1,12.4,'campus',{}); E.player.obj.position.x=0; E.player.obj.position.z=0; const far=EVENTS.check(w1); G.day=D4-1; G.zone='cafe'; const early=EVENTS.check(w1); G.day=D4+1; G.zone='wancai'; const wc=EVENTS.check(w1);
     check('W1 不演：校園別的地方、9/4 以前、萬才館',far===false&&early===false&&wc===false,JSON.stringify([far,early,wc])); }
-  { fresh(D4+1,15,'library',{}); await STORY._v1.talkSis(GM,sisN);
-    check('9/4 以後、還沒 W1，在閱覽室：只有「（你認出她是 家族群組大頭貼上那個學姊。閱覽室不能講話。）」，不記認識',JSON.stringify(lines())===JSON.stringify(['（你認出她是 家族群組大頭貼上那個學姊。閱覽室不能講話。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET'),JSON.stringify(lines()));
-    G.zone='wancai'; said=[]; await STORY._v1.talkSis(GM,sisN);
-    check('還沒 W1，在萬才館：陌生人那一行旁白（W1 只在台階和 Café）',JSON.stringify(lines())===JSON.stringify(['（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'])&&!G.flags.met_sis,JSON.stringify(lines()));
+  { fresh(D4+1,15,'library',{}); const okL=EVENTS.check(w1); await EVENTS.run(w1);
+    check('9/4 以後、還沒 W1，在閱覽室：找她說話就演第一次見面（AA_379：使用者 10-21 23:2x「就直接可以說話就好」；原本只有「閱覽室不能講話」那一行）',okL&&lines()[0]==='（她坐在靠窗的位子讀書，頭髮綁成馬尾。你認得她——家族群組大頭貼上那個學姊。）'&&lines()[lines().length-1]==='（笑了一下）對，就是這樣。有問題再私訊我。'&&G.flags.met_sis===true&&SOCIAL.has('heroine_05','FIRST_MET'),JSON.stringify(lines()));
+    fresh(D4+1,15,'wancai',{}); said=[]; await STORY._v1.talkSis(GM,sisN);
+    check('還沒 W1，在萬才館：陌生人那一行旁白（W1 在台階、Café、閱覽室、大廳自習區）',JSON.stringify(lines())===JSON.stringify(['（她抬頭看了你一眼，點了一下頭，又低頭看手上的書。）'])&&!G.flags.met_sis,JSON.stringify(lines()));
     for(const z of ['library','wancai','campus']){ fresh(D4-2,15,z,{}); said=[]; await STORY._v1.talkSis(GM,sisN);
       check('9/4 以前（'+z+'）：只有「（她在看手機，沒有抬頭。）」，不算對話、不記關係（AA-C 2026-10-18 SIS-W1 第 ① 點）',JSON.stringify(lines())===JSON.stringify(['（她在看手機，沒有抬頭。）'])&&!G.flags.met_sis&&!SOCIAL.has('heroine_05','FIRST_MET')&&!((SOCIAL.rel('heroine_05').talked|0)>0),JSON.stringify(lines())); } }
   /* 社博・法服的攤位（AA_218 17-3；AA-C 09:50：做過 W1＝主版本、沒做過＝合併版）*/
