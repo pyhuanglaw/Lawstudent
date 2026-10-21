@@ -174,6 +174,7 @@ const TERMEND=(function(){
   S.playerInvite=function(G,id,P,W){ if(!S.ON||!P||P.kind!=='meal'||!W||(G.stage||'law')!=='law') return null; const w=S.window(Object.assign({},G,{day:W.day,hour:W.h})); const Lx=L(); if(!w||!Lx) return null;
     if(romStatus(G,id)==='ended'&&typeof ROM!=='undefined'&&ROM.canStart&&!ROM.canStart(G,id)) return Lx.ENDED[id]?{refuse:Lx.ENDED[id]}:null;
     if(G.flags&&G.flags['dating_'+id]) return Lx.GF[id]?{w,kind:'gf'}:null;
+    if(w.id===S.Y5.id) return null;   /* 大五上只有女朋友的學期末約會（AA_357 3-4）：自己約別人吃飯照一般的吃飯 */
     const R=S.rec(G,w.id); if(R.picked||R.done) return null;
     if(S.heartWhy(G,id,w)===true) return {w,kind:'heart'};
     if(Lx.FRIEND[id]) return {w,kind:'friend'}; if(Lx.FALLBACK[id]) return {w,kind:'fallback'}; return null; };
