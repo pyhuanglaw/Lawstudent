@@ -1392,6 +1392,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7"
+  },
+  {
+   "task": "LIC-GAPS-1017",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/lic_gaps_dorm_room4.diff"
+   ],
+   "state": "已交付",
+   "remaining": "機車行道具組（scooter_shop_props.glb）兩列：資產還不在開發分支，跟 ART-BG-AA185 背景一起進開發分支時，照我分支 LICENSES.md 第 63、215 行補",
+   "next": "LAWWW 套 lic_gaps_dorm_room4.diff（對開發分支 807b650a 的 LICENSES.md git apply 乾淨）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "核對結果：ntu_gym_ceremony.webp、gym_arena.glb 開發分支已經有（第 261、262 行）；缺的是 dorm_room4.glb（四人房，取代雙人房 dorm_interior.glb）→ 補一列（來源腳本、Poly Haven 五張 CC0、PIL 畫的名牌）"
   }
  ]
 }
