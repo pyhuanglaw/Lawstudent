@@ -766,7 +766,7 @@ const STORY = (function(){
     if(zoneId==='cafe'&&F.companion==='an'&&F.plan==='cafe'){ await cafeScene(GM); return; }
     if(zoneId==='library'&&F.companion==='an'&&F.plan==='library'){ await libraryScene(GM); return; }
     if(zoneId==='dorm_hall'&&!opts.fromLoad&&(E.player.lv|0)===0){ const HM=typeof DM3!=='undefined'&&DM3.homeOf?DM3.homeOf(G):{key:'y1',plate:'203',lv:1}; const want=HM.key==='y1'?true:HM.plate;   /* 宿舍走廊（D44）：第一次從大門進來時說一次房間在哪（不是劇情，只是指路）；換了房間（AA_183 第 5 節）再說一次新的 */
-      if(HM.key==='y1'?!F.dormHallHint:F.dormHallHint!==want){ F.dormHallHint=want; await GM.sleep(900); GM.caption('',HM.key==='y1'?'你和阿凱的房間在二樓，203。樓梯在走廊北邊。':'你的房間在'+(HM.lv?'二樓':'一樓')+'，'+HM.plate+'。'+(HM.lv?'樓梯在走廊北邊。':''),3600); } }
+      if(HM.key==='y1'?!F.dormHallHint:F.dormHallHint!==want){ F.dormHallHint=want; await GM.sleep(900); GM.caption('',HM.key==='y1'?'你和阿凱的房間在二樓，203。樓梯在走廊北邊。':'你的房間在'+(HM.floorZh||(HM.lv?'二樓':'一樓'))+'，'+HM.plate+'。'+(HM.lv?'樓梯在走廊北邊。':''),3600); } }   /* 樓層照房號（DM3.homeOf 的 floorZh：312 三樓、507 五樓、409 四樓；原本一律寫「二樓」，和字卡「五樓 507 號房」對不上）*/
     if(zoneId==='library_hall'&&F.companion==='an'&&F.plan==='library'&&!opts.fromLoad){ await GM.sleep(900); GM.caption('','自習區在二樓：從中間的大樓梯上去。',3600); GM.setGoal('上二樓的自習區（跟小安一起）'); }   /* 總圖（D43）：走到二樓就開始「總圖的下午」（S.tick）*/
     if(zoneId==='gongguan'&&F.companion==='an'&&!F.gongguanLine){ F.gongguanLine=true; await GM.sleep(1200); GM.caption('小安','公館這邊人真的很多。溫州街在那邊，過馬路再往裡面走。',3600); GM.setGoal('往溫州街（跟小安一起）'); }
     if(zoneId==='wenzhou'&&F.companion==='an'&&!F.wenzhouLine){ F.wenzhouLine=true; await GM.sleep(1000); GM.caption('小安','就是那間，招牌是深色的。他們開到凌晨兩點半，所以叫兩點半。',3800); GM.setGoal('進入 兩點半 Café'); }
@@ -2601,7 +2601,7 @@ const STORY = (function(){
   /* ★主線 5 第三個房間（1A-03，AA_315；AA_12 主線 5、AA_180 2-11）：大三上開學前一天 2027-09-05（日）以後、還沒搬（ROOM_Y3）。做法和主線 3 一樣：
      在臺北的家＝旁白 → 字卡「回宿舍」→ 507（home3d.js 的 loop）；人在宿舍＝直接換房間。拆箱三步：去年的東西一次拿出來 → 大二這一年的新東西一件一件
      （只有經歷過的才有）→ 可以丟一件（黃金葛和大一的五件不列）或都留著。記 ROOM_Y3（第幾天）、ROOM_Y3_ITEMS（新拿出來的）、ROOM_Y3_DISCARD（id 或 null）。
-     新東西沒有 3D 模型＝只有旁白；去年的東西照舊是 dorm_y2_items.glb（312、507 同一組家具）。舊存檔：9/5 以後還沒有 ROOM_Y3＝下一次進宿舍補演；
+     新東西拿一件、房間多一件（dorm_y3_items.glb，2026-10-20）；去年的東西照舊是 dorm_y2_items.glb（312、507 同一組家具）。舊存檔：9/5 以後還沒有 ROOM_Y3＝下一次進宿舍補演；
      大三下（2028-02-21）以後才讀檔＝直接記 ROOM_Y3、不演（roomY3Late，S.tick）*/
   S.roomY3Due=G=>{ if(!G||(G.stage||'law')!=='law'||!G.flags||G.flags.ROOM_Y3) return false; const d=S.dayOfKey('2027-09-05'), late=S.dayOfKey('2028-02-21'); return d!=null&&G.day>=d&&!(late!=null&&G.day>=late); };
   S.roomY3Late=G=>{ const F=G&&G.flags; if(!F||F.ROOM_Y3||(G.stage||'law')!=='law') return false; const late=S.dayOfKey('2028-02-21'); if(late==null||G.day<late) return false; F.ROOM_Y3=G.day; F.ROOM_Y3_ITEMS=[]; F.ROOM_Y3_DISCARD=null; return true; };
@@ -2636,13 +2636,13 @@ const STORY = (function(){
     const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }; GM.sceneBegin(); vis({shown:[],boxes:'closed'});
     try{ await GM.say(null,'（三個紙箱。比去年少一個。）');
       await GM.choose([{t:'（把去年的東西拿出來）'}]); vis({shown:old.slice()}); await GM.say(null,'（去年拆過的東西，今年一次拿出來就好。每一件都知道自己要放哪裡。）');
-      for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); for(const t of r[2]) await GM.say(null,t); }
+      for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:old.concat(shown)}); for(const t of r[2]) await GM.say(null,t); }
       if(F.POTHOS) await GM.say(null,(F.pothosWaterN|0)>0?'黃金葛。第三個房間，第三個窗台。它又長了一點。':'黃金葛。第三個房間。它還是沒死。');   /* 已經在房間裡的照舊跟著搬過來，不用拿 */
       delete F.ROOM_Y3_MOVING; vis({boxes:'open'}); await GM.say(null,'（房間滿了。開始有東西要丟掉。）');
       const T2=S.ROOM_Y2_TEXT, T3=S.ROOM_Y3_TEXT, name=id=>(T3[id]||T2[id]||[])[0];
       const can=old.filter(id=>id!=='pothos'&&!/^y1_/.test(id)&&name(id)).concat(shown.filter(id=>name(id)));   /* 黃金葛和大一的五件不列（主線 11 要用）*/
       const opts=can.map(id=>({t:'（丟掉'+name(id)+'）',id})).concat([{t:'（都留著。擠一點就好。）',id:null}]); const k=await GM.choose(opts.map(o=>({t:o.t}))); const o=opts[k>=0&&k<opts.length?k:opts.length-1];
-      if(o.id){ F.ROOM_Y3_DISCARD=o.id; vis({shown:old.filter(id=>id!==o.id)}); await GM.say(null,'（你把它放進回收的袋子。房間多了一點空。）'); }
+      if(o.id){ F.ROOM_Y3_DISCARD=o.id; vis({shown:old.concat(shown).filter(id=>id!==o.id)}); await GM.say(null,'（你把它放進回收的袋子。房間多了一點空。）'); }
       else await GM.say(null,'（你把書桌上的東西往裡面推了一點。）');
       await GM.say(null,'（兩年。房間比去年滿，你也比去年知道哪些要留。）');
       GM.memo('搬進第三個房間'); if(GM.autosave) GM.autosave(); }
@@ -3503,16 +3503,16 @@ const STORY = (function(){
   S.unboxY4=async function(GM){ const G=GM.G, F=G.flags; if(!S.roomY4Due(G)) return false; F.ROOM_Y4=G.day; if(typeof DM3!=='undefined'&&DM3.fixRoomExit&&G.zone==='dorm') DM3.fixRoomExit(GM.E,G);
     const y2=Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS.slice():S.roomY2Items(G).map(r=>r[0]), y3=Array.isArray(F.ROOM_Y3_ITEMS)?F.ROOM_Y3_ITEMS.slice():[];
     const old=y2.concat(y3).filter(id=>id!==F.ROOM_Y3_DISCARD), L=S.roomY4Items(G), shown=[]; F.ROOM_Y4_ITEMS=shown; F.BOX_KEPT_Y4=null;
-    const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }, y2vis=keep=>old.filter(id=>y2.includes(id)&&id!==keep);   /* 3D 只有大二那組（dorm_y2_items.glb）；大三、大四的新東西只有旁白（同 1A-03）*/
+    const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }, has=keep=>old.concat(shown).filter(id=>id!==keep);   /* 3D：大二那組（dorm_y2_items.glb）＋大三、大四的（dorm_y3_items.glb）*/
     GM.sceneBegin(); vis({shown:[],boxes:'closed'});
     try{ await GM.say(null,'（這是最後一次拆箱。）');
-      vis({shown:y2vis(null)}); await GM.say(null,'（這些東西，閉著眼睛也知道要放哪裡。）');   /* 第一步：前兩年的東西一次拿出來（扣掉大三丟掉的）*/
-      for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); for(const t of r[2]) await GM.say(null,t); }   /* 第二步：大三這一年的東西，一件一件 */
+      vis({shown:has(null)}); await GM.say(null,'（這些東西，閉著眼睛也知道要放哪裡。）');   /* 第一步：前兩年的東西一次拿出來（扣掉大三丟掉的）*/
+      for(let guard=0;guard<40&&L.length;guard++){ const i=await GM.choose(L.map(r=>({t:'（拿出'+r[1]+'）'}))); const r=L.splice(i>=0&&i<L.length?i:0,1)[0]; shown.push(r[0]); vis({shown:has(null)}); for(const t of r[2]) await GM.say(null,t); }   /* 第二步：大三這一年的東西，一件一件 */
       if(F.POTHOS) await GM.say(null,(F.pothosWaterN|0)>0?'黃金葛。第四個窗台。它已經垂到書桌了。':'黃金葛。第四個房間。它還是沒死。');   /* 照舊跟著搬，第二步最後一句 */
       delete F.ROOM_Y4_MOVING; vis({boxes:'open'});
       const can=old.concat(shown).filter(id=>id!=='pothos'&&S.roomItemName(G,id));   /* 第三步：選一件留在紙箱裡（黃金葛不列）*/
       const opts=can.map(id=>({t:'（把'+S.roomItemName(G,id)+'留在紙箱裡）',id})).concat([{t:'（全部拿出來。）',id:null}]); const k=await GM.choose(opts.map(o=>({t:o.t}))); const o=opts[k>=0&&k<opts.length?k:opts.length-1];
-      F.BOX_KEPT_Y4=o.id; if(o.id) vis({shown:y2vis(o.id)});
+      F.BOX_KEPT_Y4=o.id; if(o.id) vis({shown:has(o.id)});
       await GM.say(null,'（三年。這個房間，你只會住一年。）');
       GM.memo('搬進第四個房間'); if(GM.autosave) GM.autosave(); }
     finally{ delete F.ROOM_Y4_MOVING; GM.sceneEnd(); }
@@ -3528,16 +3528,16 @@ const STORY = (function(){
     if(x) L.push(x); return L; };
   S.packDue=function(G){ const F=(G&&G.flags)||{}, d=y4D('pack'); return y4Law(G)&&d!=null&&G.day===d&&G.hour>=20&&!F.PACKED_Y4; };
   S.packY4=async function(GM,o){ o=o||{}; const G=GM.G, F=G.flags; if(!S.packDue(G)) return false; F.PACKED_Y4=G.day; cwDone(G,'ev_pack_y4');
-    const kept=F.BOX_KEPT_Y4&&S.roomItemName(G,F.BOX_KEPT_Y4)?F.BOX_KEPT_Y4:null, L=S.packItems(G).filter(id=>id!==F.BOX_KEPT_Y4), y2=Array.isArray(F.ROOM_Y2_ITEMS)?F.ROOM_Y2_ITEMS:[];
+    const kept=F.BOX_KEPT_Y4&&S.roomItemName(G,F.BOX_KEPT_Y4)?F.BOX_KEPT_Y4:null, L=S.packItems(G).filter(id=>id!==F.BOX_KEPT_Y4);
     GM.sceneBegin(); try{
       if(o.fromHome||G.zone!=='dorm'){ await GM.say(null,'（明天畢業典禮。你回宿舍收東西。）'); await GM.fade(true);   /* 在家的時候 G.zone 還是離開前的 3D 區域（可能就是 dorm）：照 fromHome */ if(GM.titleCard) await GM.titleCard('回宿舍',o.fromHome?'捷運＋公車 約 40 分鐘':'',2000);   /* 人在別的地方（B3：不會錯過）*/
         if(o.fromHome){ GM.advance(0.7); y4LeaveHome(G); if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); } if(GM.enter) await GM.enter('dorm',Object.assign({},Y4_DORM)); await GM.fade(false); }
-      const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }, y2left=()=>L.filter(id=>y2.includes(id));   /* 3D：一件一件拿掉（setY2Items），模型沒有的只出旁白 */
+      const Z=GM.E&&GM.E.zone, vis=st=>{ if(Z&&Z.setY2Items) Z.setY2Items(st); }, left=()=>L.slice();   /* 3D：一件一件拿掉（setY2Items；大二、大三、大四的都有模型）*/ vis({shown:left(),boxes:'open'});   /* 從別的地方回來：房間蓋好時已經是 PACKED_Y4（收起來），先擺回還沒裝的 */
       await GM.say(null,'（明天畢業典禮。房間裡的東西，要一件一件裝回紙箱。）');
       if(kept){ await GM.say(null,'（你從紙箱裡拿出'+S.roomItemName(G,kept)+'。）'); await GM.say(null,'（這一件，你一年都沒有拿出來。）'); await GM.say(null,'（你把它放回去。這次，連箱子一起帶走。）'); }   /* 第一件：BOX_KEPT_Y4 */
       for(let guard=0;guard<80&&L.length;guard++){ const k=await GM.choose(L.map(id=>({t:'（拿起'+S.roomItemName(G,id)+'）'})).concat([{t:'（剩下的一起裝）'}]));
         if(!(k>=0&&k<L.length)){ L.length=0; vis({shown:[]}); await GM.say(null,'（剩下的東西，你一起放進最後兩個箱子。）'); break; }
-        const id=L.splice(k,1)[0]; vis({shown:y2left()}); for(const t of S.packLines(G,id)) await GM.say(null,t); }
+        const id=L.splice(k,1)[0]; vis({shown:left()}); for(const t of S.packLines(G,id)) await GM.say(null,t); }
       vis({shown:[],boxes:'closed'});
       await GM.say(null,'（床底下最後一個紙箱。上面是媽媽的字：「冬天的衣服」。）');   /* 最後一件一定是「冬天的衣服」（AA_12）*/
       await GM.say(null,'（大一搬進來那天，媽媽寫的。四年了，你一直沒把那幾個字撕掉。）');
