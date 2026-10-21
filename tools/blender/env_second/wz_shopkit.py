@@ -272,6 +272,7 @@ def build_notes():
 
 def aboard(xf, x, z, cell='chalk'):
     """A 字立牌：木腳＋前後兩面（圖集的黑板）"""
+    a_, b_ = xf.p(x - 0.3, 0, z - 0.22), xf.p(x + 0.3, 0, z + 0.22); PROP_FP.append(dict(tag='aboard', rect=[round(min(a_[0], b_[0]), 3), round(min(a_[2], b_[2]), 3), round(max(a_[0], b_[0]), 3), round(max(a_[2], b_[2]), 3)], h=0.95))
     m = acc(SK['wood_lt'])
     for sx in (-0.3, 0.27): xf.box(m, x + sx, x + sx + 0.03, 0.0, 0.95, z - 0.22, z + 0.22)
     for s in (-1, 1):
@@ -395,7 +396,7 @@ def shopfront_v2(spec, xf, W, gt, wall):
     for it in sf.get('clutter', []):
         k, x, z = it[0], it[1], it[2]; zz = gz + z
         if k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
-        elif k == 'pot': B.instance(POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2], f'skpot_{spec["id"]}_{len(_inst)}', *_wp(xf, x, zz), root, ry=x * 1.7); _inst.append(1)
+        elif k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(xf, x, zz); B.instance(_pm, f'skpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
         else: inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
     # 設備：一樓冷氣（門楣旁）、電錶箱、排油煙管
     if sf.get('ac'): ax = sf['ac']; inst(AC, f'skac_{spec["id"]}', xf, ax, GH - 0.95, 0.0)
@@ -484,7 +485,7 @@ def housefront_v2(spec, xf, W, rng, rec):
     for (cn, x, y, w, h) in sf.get('notes', []): note(xf, cn, x, y, w, h, z + 0.06)
     for it in sf.get('clutter', []):
         k, x, zc = it[0], it[1], it[2]; zz = z + zc
-        if k == 'pot': B.instance(POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2], f'skpot_{spec["id"]}_{len(_inst)}', *_wp(xf, x, zz), root, ry=x * 1.7); _inst.append(1)
+        if k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(xf, x, zz); B.instance(_pm, f'skpot_{spec["id"]}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
         elif k == 'aboard': aboard(xf, x, zz, it[3] if len(it) > 3 else 'chalk')
         else: inst(PROTO[k], f'sk_{k}_{spec["id"]}', xf, x, 0.0, zz)
     if sf.get('meter') is not None: inst(PROTO['meter'], f'skmeter_{spec["id"]}', xf, sf['meter'], 1.5, z)
@@ -722,7 +723,7 @@ def arcade_split_v2(spec, xf, W, wall):
         for it in part.get('clutter', []):
             k, x, z = it[0], it[1], it[2]
             if k == 'aboard': aboard(px, x, zf + z, it[3] if len(it) > 3 else 'chalk')
-            elif k == 'pot': B.instance(POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2], f'skpot_{pid}_{len(_inst)}', *_wp(px, x, zf + z), root, ry=x * 1.7); _inst.append(1)
+            elif k == 'pot': _pm = POT_BROAD if (len(it) > 3 and it[3] == 'broad') else POT_FERN[int(abs(x * 7)) % 2]; _w = _wp(px, x, zf + z); B.instance(_pm, f'skpot_{pid}_{len(_inst)}', *_w, root, ry=x * 1.7); _inst.append(1); prop_fp(_pm, 'skpot', _w[0], _w[2], x * 1.7)
             else: inst(PROTO[k], f'sk_{k}_{pid}', px, x, 0.0, zf + z)
 
 
@@ -945,7 +946,7 @@ SF = {
                clutter=[('bins', 2.6, 0.32), ('umb', 0.3, 0.3), ('fridge', 3.3, 0.36)]),
     'B2': dict(inner=True, door='alu', sign='panel', awning='#3a6f8c', floor='f_terrazzo', light='cool', door_w=1.0, door_x=-1.6, meter=2.6,
                notes=[('hours2', -0.6, 1.2, 0.4, 0.4), ('lostcat', 1.4, 1.1, 0.4, 0.42)],
-               clutter=[('bench', 0.9, 0.35)]),
+               clutter=[('bench', 0.9, 0.35), ('vend', 2.3, 0.42), ('pot', -2.6, 0.3)]),   # ART-WZ0 第二批（10-21）：洗衣粉販賣機、門邊盆栽（準則 7b-2 第 1 條：騎樓兩樣東西）
     'B3': dict(inner=True, door='lattice', sign='wood', awning='stripe_navy', floor='f_floral', step=0.12, noren=True, light='warm', door_x=-2.0, door_w=1.8, ac=4.8,
                notes=[('menu', 2.2, 1.0, 0.58, 0.62), ('hours', 3.0, 1.2, 0.34, 0.34)],
                clutter=[('aboard', 4.4, 0.45, 'menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', -5.2, 0.32), ('umb', 5.6, 0.3)]),
@@ -964,9 +965,10 @@ SF = {
 SF_HOUSE = {
     'A2': dict(number='31號', door_x=-1.2, notes=[('poster', 1.0, 1.25, 0.36, 0.42)], clutter=[('pot', 1.4, 0.18), ('pot', 2.4, 0.2, 'broad'), ('pot', 3.0, 0.18)], meter=-3.0),
     'B4': dict(number='22號', door_x=-2.6, door_w=1.4, decal='xiaoshubao_decal', banner=('xiaoshubao_v', -3.9), notes=[('tutor', -0.9, 1.2, 0.42, 0.46)], clutter=[('pot', -5.0, 0.18, 'broad'), ('umb', -1.0, 0.25), ('bins', 2.6, 0.25)], meter=-4.6),   # B4：二樓是小書包兒童課輔（樓梯口，ART-BG13）
-    'C2': dict(number='45號', door_x=-1.4, notes=[], clutter=[('pot', 1.6, 0.18, 'broad')]),
+    'C2': dict(number='45號', door_x=-1.4, notes=[('poster', 0.55, 1.25, 0.36, 0.42)], clutter=[('pot', 1.6, 0.18, 'broad')]),   # ART-WZ0 第二批：門邊的社區公告（生活痕跡）
     'W0': dict(number='7號', door_x=-2.8, notes=[('lostcat', -1.6, 1.3, 0.36, 0.4)], clutter=[('pot', 2.0, 0.18), ('pot', 2.5, 0.18, 'broad')], meter=-5.2),
 }
 SF_SHUTTER = {
-    'B1': dict(notes=[('rent', -1.0, 1.0, 0.7, 0.7), ('closed', 1.6, 1.2, 0.5, 0.5)], clutter=[('boxes', 3.6, 0.3)]),
+    'B1': dict(notes=[('rent', -1.0, 1.0, 0.7, 0.7), ('closed', 1.6, 1.2, 0.5, 0.5)], clutter=[('boxes', 3.6, 0.3)]),   # 紙箱凸出牆面 33 cm：zones3d.js 擋住那一格（ART-WZ0 第二批）
+    'C1': dict(notes=[('rent', 1.6, 1.05, 0.7, 0.7), ('poster', -2.2, 1.3, 0.5, 0.6)]),   # ART-WZ0 第二批：Café 南邊拉下鐵捲門的店也貼「招租」和海報（只貼紙，不放東西：門口是人走的地方）
 }

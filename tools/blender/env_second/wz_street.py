@@ -511,7 +511,22 @@ def bake(mesh, tag, xf, x, y, z):
 def inst(mesh, tag, xf, x, y, z, sx=1.0):
     wx, _, wz = xf.p(x, 0, z); ob = B.instance(mesh, f'{tag}_{len(_inst)}', wx, y, wz, root, ry=xf.ry); _inst.append(1)
     if sx != 1.0: ob.scale = (sx, 1.0, 1.0)   # 建築自己的 x（寬度方向）
+    if abs(y) < 0.05: prop_fp(mesh, tag, wx, wz, xf.ry, sx)
     return ob
+
+
+# 地上的雜物腳印（世界座標，人貼牆走會不會穿過去）：輸出 <OUT>.props.json，tests/street_props_nav_unit.js 和遊戲的導航格比對（ART-WZ0，LAWWW2 2026-10-21）。
+# 門口凸出牆面、又在人走得到的地方的，要在 zones3d.js 擋住那幾格（或移進門廊）。
+PROP_FP, _bbc = [], {}
+def prop_fp(mesh, tag, wx, wz, ry, sx=1.0):
+    if mesh.name not in _bbc:
+        vs = mesh.vertices
+        if not len(vs): _bbc[mesh.name] = None
+        else: _bbc[mesh.name] = (min(v.co.x for v in vs), max(v.co.x for v in vs), min(-v.co.y for v in vs), max(-v.co.y for v in vs), max(v.co.z for v in vs))
+    bb = _bbc[mesh.name]
+    if bb is None or bb[4] < 0.1: return                                                  # 貼地的薄片不算
+    c, s_ = math.cos(ry), math.sin(ry); pts = [(wx + lx * sx * c + lz * s_, wz - lx * sx * s_ + lz * c) for lx in (bb[0], bb[1]) for lz in (bb[2], bb[3])]
+    PROP_FP.append(dict(tag=tag, rect=[round(min(p[0] for p in pts), 3), round(min(p[1] for p in pts), 3), round(max(p[0] for p in pts), 3), round(max(p[1] for p in pts), 3)], h=round(bb[4], 2)))
 
 
 def apartment(spec):
@@ -894,3 +909,4 @@ if not os.environ.get('WZ_NOMERGE'):   # 除錯：WZ_NOMERGE=1 不合併，疊�
 info = L.export(OUT, gpu_instances=True)
 info.update({'buildings': [s['id'] for s in SPECS]})
 L.write_json(OUT[:-4] + '.json', info)
+L.write_json(OUT[:-4] + '.props.json', {'set': SET, 'note': '地上雜物的腳印（世界座標 [minx,minz,maxx,maxz]、高度）；tests/street_props_nav_unit.js 用', 'props': PROP_FP})

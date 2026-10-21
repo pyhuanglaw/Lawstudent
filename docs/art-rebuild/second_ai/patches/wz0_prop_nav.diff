@@ -1,0 +1,50 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 9041199..243425c 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -770,6 +770,7 @@ const Z3 = (function(){
+     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
+     { const bk=W3.bikeAny('#2f5d50',546); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
+     { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
++    nav.blockRect(-1.82,5.02,0.83,0.83,0,0.25); nav.blockRect(-21.9,-4.9,0.6,0.46,0,0.25); nav.blockRect(22.73,-7.6,1.46,0.44,0,0.25); nav.blockRect(29.5,-7.5,0.6,0.44,0,0.25); nav.blockRect(-37.2,-3.02,0.8,0.64,0,0.25); nav.blockRect(-37.23,-3.5,0.63,0.61,0,0.25);   /* 正式模型門口、騎樓裡的雜物，人貼牆走會穿過去（ART-WZ0，LAWWW2 10-21；tests/street_props_nav_unit.js）：A2 公寓門邊盆栽、B1 鐵捲門前的紙箱、B5 巷口茶飲騎樓的回收桶、夏日冰菓室的 A 字立牌、W0 巷底公寓的兩個盆栽；範圍照 wenzhou_street.props.json 的腳印，pad 半格（blockRect 只擋格子中心在範圍裡的）。茶飲菜單的互動點 (23,−6.5) 照樣走得到 */
+     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
+     { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
+     { const bk=W3.bikeAny('#3a6fb0',-359); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
+diff --git a/tests/street_props_nav_unit.js b/tests/street_props_nav_unit.js
+new file mode 100644
+index 00000000..1ae6b13d
+--- /dev/null
++++ b/tests/street_props_nav_unit.js
+@@ -0,0 +1,32 @@
++// 街景正式模型（溫州街、公館、118 巷）門口的雜物，人貼牆走會不會穿過去（ART-WZ0，LAWWW2 2026-10-21）——不需要瀏覽器。
++// tools/blender/env_second/wz_street.py 建模時把地上雜物的腳印寫進 <模型>.props.json（世界座標 [minx,minz,maxx,maxz]、高度）。
++// 這裡在 Node 建出遊戲的區域，用引擎的做法取樣「人站得到的地方」（canStand：半徑 0.3 m 的圓碰不到擋住的格子），
++// 看人的身體和雜物最多重疊多少；超過 2 cm 算穿模（門口凸出牆面的盆栽、紙箱，牆外就是人走的地方）。
++// 修法：zones3d.js 擋住那幾格（blockRect 加 pad 半格），或在 Blender 把東西移進門廊（建築的導航阻擋範圍內）。
++// 用法：node tests/street_props_nav_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js']){ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); s=s.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++const SETS=[['wenzhou','wenzhou_street'],['gongguan','gongguan_shops'],['lane118','lane118_street']];
++let tested=0;
++for(const [zid,glb] of SETS){ const f=path.join(ROOT,'assets/models/env/second_ai',glb+'.props.json'); if(!fs.existsSync(f)) continue;
++  const props=JSON.parse(fs.readFileSync(f,'utf8')).props||[]; if(!props.length){ console.log(`（${glb}：沒有地上的雜物）`); continue; } tested++;
++  global.GAME={G:{hour:15,weather:'clear',flags:{},zone:zid}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  const z=Z3.ZONES[zid].build(E), nav=z.nav||E.nav;
++  const blocked=(x,zz)=>{ const [cx,cz]=nav.toCell(x,zz); return cx<0||cz<0||cx>=nav.cols||cz>=nav.rows||!!nav.b[cz*nav.cols+cx]; };
++  const R=0.3, canStand=(x,zz)=>{ if(blocked(x,zz)) return false; for(let a=0;a<16;a++){ const t=a/16*Math.PI*2; if(blocked(x+Math.cos(t)*R,zz+Math.sin(t)*R)) return false; } return true; };
++  const bad=[];
++  for(const p of props){ const r=p.rect; let worst=0, at=null;
++    for(let x=r[0]-0.5;x<=r[2]+0.5;x+=0.05) for(let zz=r[1]-0.5;zz<=r[3]+0.5;zz+=0.05){ if(!canStand(x,zz)) continue; const dx=Math.max(r[0]-x,0,x-r[2]), dz=Math.max(r[1]-zz,0,zz-r[3]); const ov=R-Math.hypot(dx,dz); if(ov>worst){ worst=ov; at=[+x.toFixed(2),+zz.toFixed(2)]; } }
++    if(worst>0.02) bad.push(`${p.tag} 在 (${((r[0]+r[2])/2).toFixed(1)}, ${((r[1]+r[3])/2).toFixed(1)})：人站在 ${JSON.stringify(at)} 身體重疊 ${(worst*100).toFixed(0)} cm`); }
++  check(`${zid}：${props.length} 個地上雜物，人貼牆走不會穿過去（重疊 ≤ 2 cm）`,!bad.length,bad.join('；')); }
++check('至少檢查了一份街景模型的雜物',tested>0);
++console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
