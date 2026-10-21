@@ -21578,7 +21578,7 @@
    "title": "經濟系 10/19→8/29 縮圖總表的畫面問題（BB-C 1b706548 econ_home_1018，261 格）：在家選單後面是校園、宿營白天星空、豆花店後半空白、7/25 家裡空白、Kevin 用女生立繪、校門口空白等",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "等待其他AI／素材",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -21592,7 +21592,7 @@
    },
    "source": "BB-C 2026-10-18 06:41（claude/wonderful-mayer-7fm9g6 @ 1b706548，docs/story_planning/test_shots/econ_home_1018/README.md）",
    "authorized": "bug 修正",
-   "next": "【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:4x UTC】BB 重拍（e7dc26c2）：n031 豆花店 FIXED；n093 全黑、n180 日期字疊按鈕這一輪沒出現；n212 遊覽車 PARTIAL（那句在校門口深色底上演，出座位選項那一刻背景已換車內、對話框還留著那句，P3）；n255 NOT FIXED 缺圖 ntu_gate（BB_220 ③）。另照 BB 決定（D110）7/10 看考場 RH-O6 接 exam_hs_classroom（import_retake_home.py 匯入時套用；tests/retake_bg_unit.js） ｜ 【LAWWW（帳號 A）17:4x】n255 校門口＝camp_y1.js 兩處 bg:'dark'（沒有臺大校門口的 2D 背景，等圖，併 AA299-IMAGES-1018）；n212 遊覽車那句現在在 dark 背景上（車內是下一句以後）；n031 豆花店（ev_y0_e18a 第二段 bg gongguan_douhua 有圖）、n093 全黑、n180 日期字疊按鈕要用新版重拍才知道還在不在→ BB-TEST-0830-ECONHOME-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：派 BB 用同一支腳本重拍 econ_home 縮圖總表（BB-C 1b706548 的 261 格）確認剩下五格；缺圖的列給 BB 跟使用者要 ｜ n123 在家選單背景、n233/n238 宿營白天背景、n255 校門口、n031 豆花店後半、n186 家裡、n252 Kevin 立繪；可能：n093 全黑、n212 遊覽車、n180 日期字疊按鈕。缺圖的列給 BB-C 跟使用者要。和事件接事件第二階段一起看（休學在家換成事件模式，n123 那類選單會收起來）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -21600,7 +21600,9 @@
      "evidence": "已修：n123 在家選單背後露校園（3049cc4a，在家藏起 3D、鋪家裡背景）、n186 家裡空白（BG-HOME-1018，outings3d.js:21）、n233／n238 宿營背景（922789ba 使用者生成的宿營背景）、n252 Kevin 用女生立繪（f09cf0e7 改 npc_kevin，圖還沒有＝無立繪）；未確認：n255 校門口空白、n031 豆花店後半、n093 全黑、n212 遊覽車、n180 日期字疊按鈕",
      "note": "大部分畫面問題已修，剩五格要重拍確認"
     }
-   ]
+   ],
+   "pausedReason": "剩 n255 臺大校門口缺圖 ntu_gate（BB_220 ③，BB 向使用者要）",
+   "resumeWhen": "ntu_gate 圖到了（BB 交 LAWWW）"
   },
   {
    "id": "BUG-ADV-LINGER-1018",
@@ -27194,7 +27196,7 @@
    "title": "瀏覽器重跑經濟系在家到法律系 8/30：①QA-AA300 MODE=ff 從 8/28 晚上快轉／睡覺到 8/30 07:30，確認沒有 8/29 凌晨的空停點（BUG-0830-EMPTYSTOP-1018）②用 econ_home_1018 同一支腳本（flow_v0_home 縮圖總表）重拍，確認 n031 豆花店後半空白、n093 全黑、n180 日期字疊「看手機」按鈕、n212 遊覽車還在不在（BUG-ECON-HOME-SHOTS-1018）",
    "area": "TEST",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27208,14 +27210,15 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 17:4x：BUG-0830-EMPTYSTOP-1018 Node 重現不出、BUG-ECON-HOME-SHOTS-1018 剩五格要新版重拍（D99 第一優先：經濟系完整流程）",
    "authorized": "D100（測試歸 BB）",
-   "next": "v9.10.3 發布前判定之後做；有問題列重現步驟（日期、時間、按了什麼）給 LAWWW",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:4x UTC】結果寫進 BUG-ECON-HOME-SHOTS-1018 ｜ v9.10.3 發布前判定之後做；有問題列重現步驟（日期、時間、按了什麼）給 LAWWW",
    "xai": {
     "spec": "BB-C 1b706548 docs/story_planning/test_shots/econ_home_1018/README.md（claude/wonderful-mayer-7fm9g6）；tests/bug0830_emptystop_unit.js",
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
     "acceptance": "① 8/29 晚上到 8/30 07:30 之間沒有空停點、不會卡很久；② 五格各判 FIXED／PARTIAL／NOT FIXED，附截圖；缺圖的列出來照 D97 跟使用者要",
     "receiver": "LAWWW",
     "ack": "DELIVERED"
-   }
+   },
+   "evidence": "BB（帳號 A）10-21 22:49 send_message＋企劃線 e7dc26c2（BB_218 最後一節、test_shots/econ_home_1021/）：flow_v0_home ?lowres（開發分支 c6348e60）ALL PASS，玩到 8/29 進法律系，卡住保險 0、JS 例外 0，203 格縮圖"
   },
   {
    "id": "UI-PORTRAIT-SIT-CAPTION-1021",
