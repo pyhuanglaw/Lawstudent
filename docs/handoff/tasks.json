@@ -26347,6 +26347,25 @@
     "ack": "SENT"
    },
    "next": "【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
+  },
+  {
+   "id": "BUG-PHONE-REOPEN-1021",
+   "title": "手機自動打開（D103）同時有好幾則待回訊息時，收起來又自己打開、一則跳一次：story3d.js S.phoneAuto 一次只記一則開過（home3d.js 的 askSeen 是全部一起記）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "v9.10.3 發布前 smoke_release_v2：新遊戲收起手機以後搖桿只走 0.33 m（舊版 2～3 m）；LAWWW-C 讀程式找到",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲開場演完、第一次有兩則以上待回訊息",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】開發分支已修（自動打開時把當下所有待回的一起記成開過；之後來新的才再開）；tests/phone_auto_unit.js 加兩項（改之前 FAIL 2）。要用瀏覽器在候選 f72a2a21 上確認 smoke_release 的失敗是不是這個原因；是的話決定 v9.10.3 要不要帶這個修正"
   }
  ]
 }
