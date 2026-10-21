@@ -943,6 +943,21 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "FIXED（825e8a2b）：修正前（只換回那一行）13:00／17:50／20:30 套件 7 個光暈都看得到（白天亮度 0.55）；修正後 0；正式外觀 14 個光暈照常；對照圖 test_shots/cafeglow_1021/"
+  },
+  {
+   "task": "BUG-EXAM-BOARD-1021",
+   "branch": "claude/story-planning",
+   "sha": "ecd099e4",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/examboard_probe.py"
+   ],
+   "state": "已測試",
+   "next": "無",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "PASS（a18ae441）：2026-12-21 08:30 讀檔在 201、從霖澤館一樓走進 201 兩種，還沒坐下黑板就是「行政法：期末考／不可以翻書／鈴響請停筆」"
   }
  ],
  "items": [
