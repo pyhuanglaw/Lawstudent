@@ -10,8 +10,26 @@ index 3a0e83c5..e38c92cc 100644
      'bldg.wz_brunch_interior':{url:'assets/models/env/second_ai/wz_brunch_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop brunch（溫州街「半熟」早午餐店室內，配置 src/data/wz_shops_layout.js；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
      'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
      'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+diff --git a/src/data/gym_layout.js b/src/data/gym_layout.js
+index db320728..08d7c3d1 100644
+--- a/src/data/gym_layout.js
++++ b/src/data/gym_layout.js
+@@ -93,10 +93,10 @@ const GYM_LAYOUT = {
+       note: '第 r 排（0 起）：平台頂 y＝h0＋r×rise、深度 tread；座位在平台後半（離前緣 0.5 m），面向場地（yaw 見 stands）。最前面一排前緣有 1.0 m 的玻璃欄杆（擋住不能從場地爬上去）'},
+     aisles: {w: 1.2, east: [-9, 0, 9], west: [-9, 0, 9], south: [-12, 12],
+       note: '走道（樓梯）從場地 y 0 走到最上排 y 5.22：導航做斜面 {axis, ya:0, yb:5.22}（畫面上 20 階，tread 0.51、rise 0.26），兩側是座位、不能穿過。走道中間有扶手'},
+-    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 24.5, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆'},
++    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 27.2, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆；盡頭 z 27.2＝看台後牆，是回 1F 的樓梯門（v6 ART-GYM2-INT：原本 z1 24.5，畫面上的通道比走得到的長 2.7 m、後牆還有一個開口）'},
+     upper: {rows: 10, tread: 0.8, rise: 0.5, h0: 7.6, front: 32.6, note: '4、5 樓看台：在下層看台後面、高 7.6～12.1 m（只有畫面，走不到；典禮時家長坐這裡）'},
+-    spawn: {x: 0, z: 23.6, yaw: Math.PI},
+-    exit: {at: {x: 0, z: 24.2}, label: '下樓回大廳', to: 'gym', spawn: {x: -18.0, z: 17.6, yaw: 0}, note: '接 1F 大廳往 3F 的樓梯（stairs_up）；第一階段的「往 3F 的樓梯（今天不開放）」改成上樓'},
++    spawn: {x: 0, z: 21.0, yaw: Math.PI},   /* 從 1F 上來：在入口通道裡、面向場地（鏡頭在背後 4.8 m，還在通道裡）*/
++    exit: {at: {x: 0, z: 26.6}, label: '下樓回大廳', to: 'gym', spawn: {x: -18.0, z: 17.6, yaw: 0}, note: '接 1F 大廳往 3F 的樓梯（stairs_up）；第一階段的「往 3F 的樓梯（今天不開放）」改成上樓'},
+     sets: {
+       stage: {node: 'SET_STAGE', x0: -10, x1: 10, z0: -21.6, z1: -15.6, h: 1.2, note: '舞台（共用）：深藍布幕背板、兩側上台的樓梯（x ±10.6）。典禮、演講、演唱會都要先打開這一組'},
+       ceremony: {node: 'SET_CEREMONY', chairs: {x: [-17.4, 17.4], z: [-12.5, 13.5], pitch: [0.62, 1.05], aisles: [[-0.9, 0.9], [-9.4, -8.4], [8.4, 9.4]]},
 diff --git a/src/gym3d.js b/src/gym3d.js
-index 829c9875..99e9e54f 100644
+index 829c9875..436b619f 100644
 --- a/src/gym3d.js
 +++ b/src/gym3d.js
 @@ -1,12 +1,14 @@
@@ -30,7 +48,20 @@ index 829c9875..99e9e54f 100644
    const LOOK={
      gym_desk:'服務台：刷學生證進場。',
      gym_hours:'開館時間：週一到週五 08:00～22:00、週六 09:00～22:00、週日 09:00～18:00。',
-@@ -28,7 +30,7 @@ const GY3=(function(){
+@@ -16,8 +18,11 @@ const GY3=(function(){
+   };
+   /* GLOW_* 空節點（userData.glow：顏色、大小、白天／晚上的亮度）＝燈的光暈：體育館的兩個 GLB 都有（1F 50 個：天井燈、天窗、筒燈、販賣機；B1 69 個：泳池、健身房、走廊），原本沒有接（LAWWW2-C 2026-10-21 清查 A1）。
+      合成一個網格（Z3.glowBatch，和溫州街、公館的正式模型同一套：一次 draw call）；室內沒有 TK.setNight，所以照路燈開了沒（z.onLamps）切白天／晚上的亮度；離鏡頭 3 m 以內淡出（B1 天花板 3.6 m，頭頂的燈原本撐滿畫面） */
+-  function glowBatch(E,z,g0,root,name){ if(!Z3.glowBatch) return null; const gl=[]; root.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(!gl.length) return null;
++  function glowBatch(E,z,g0,root,name){ if(!Z3.glowBatch) return null; const gl=[]; root.traverseVisible(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(!gl.length) return null;   /* 只收看得到的：藏著的布置（3F 的 SET_*）自己另外一批（setGlowBatch）*/
+     const mesh=Z3.glowBatch(E,g0,root,gl,name,3.0); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; return mesh; }
++  /* 布置（SET_*，平常藏著）自己的光暈：合成一批掛在布置底下——布置藏著時不畫、打開時跟著亮（ART-GYM2-INT：原本和全場一起合成，演唱會的燈架藏著、十個光暈還飄在半空中）*/
++  function setGlowBatch(E,z,set,name){ if(!Z3.glowBatch) return null; const gl=[]; set.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(!gl.length) return null;
++    const mesh=Z3.glowBatch(E,set,set,gl,name,3.0); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; return mesh; }
+   /* 導航：配置的阻擋＋大廳和球場之間的牆（三個 4 m 的開口以外）*/
+   function buildNav(Ly,nav){ for(const b of Ly.blocks){ const tiny=b[2]<0.4&&b[3]<0.4; nav.blockRect(b[0],b[1],tiny?0.4:b[2],tiny?0.4:b[3],0,0.05); }   /* 羽球網柱（0.12 m 見方）比導航格（0.4 m）細：至少擋一格。閘門柱（0.12×0.9）照舊：放大會把 1.2 m 的通道擋掉 */
+     const P=Ly.partition, xs=[Ly.hall.x0]; for(const [a,b] of P.openings){ xs.push(a,b); } xs.push(Ly.hall.x1);
+@@ -28,7 +33,7 @@ const GY3=(function(){
      const P=Ly.partition, xs=[Ly.hall.x0]; for(const [a,b] of P.openings) xs.push(a,b); xs.push(Ly.hall.x1);
      for(let i=0;i<xs.length;i+=2){ const a=xs[i], b=xs[i+1]; const m=new THREE.Mesh(new THREE.BoxGeometry(b-a,4.2,0.3),wall); m.position.set((a+b)/2,2.1,P.z); fb.add(m); }
      for(const b of Ly.blocks){ if(b[2]<0.2&&b[3]<0.2) continue; const h=b[2]>10?1.4:0.9; const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],h,b[3]),b[2]>10?dark:wall); m.position.set(b[0],h/2,b[1]); fb.add(m); }
@@ -39,7 +70,7 @@ index 829c9875..99e9e54f 100644
      for(const [cx,cz] of Ly.courts.badminton){ const net=new THREE.Mesh(new THREE.PlaneGeometry(6.2,0.76),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:0.35,side:THREE.DoubleSide})); net.position.set(cx,1.17,cz); fb.add(net); } }
    /* 樓梯口 A 字架的告示（PLATE_FACE_gym_stairs_up／down）：沒有 UV 就照板面補一組，畫上字 */
    function plateTex(lines){ const c=document.createElement('canvas'); c.width=512; c.height=384; const x=c.getContext('2d'); x.fillStyle='#f7f6f2'; x.fillRect(0,0,512,384); x.fillStyle='#9c2f2a'; x.fillRect(0,0,512,22);
-@@ -84,7 +86,8 @@ const GY3=(function(){
+@@ -84,7 +89,8 @@ const GY3=(function(){
      for(const st of Ly.seats){ const seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.y!=null) seat.y=st.y; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:st.label||'坐下',seat}); }
      if(Ly.b1&&typeof Z3!=='undefined'&&Z3.ZONES.gym_b1) IT.push({x:18.0,z:18.2,radius:0.8,lv:0,label:'下樓到 B1（健身中心・游泳池）',exit:{to:'gym_b1',spawn:Object.assign({},Ly.b1.spawn)}});   /* 第三階段（LAWWW2-B f3180c69）：原本「往 B1 的樓梯（今天不開放）」*/
      const AT={closed_3f:{x:-16.0,z:17.4}};   /* 配置的 (−18,18.6) 在樓梯量體和前牆之間（站不住）：移到樓梯口朝大廳的那一側 */
@@ -49,7 +80,7 @@ index 829c9875..99e9e54f 100644
        else if(q.kind==='badminton'||q.kind==='vending'||q.kind==='fountain'){ const f={badminton,vending,fountain}[q.kind]; IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,gym:q.kind,onInteract:()=>scene(GAME,f)}); } }   /* AA_174 */
      IT.push({x:Ly.exit.at.x,z:18.5,radius:0.8,lv:0,label:Ly.exit.label,exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 出生點 z 17.6：出口範圍 0.8 m，一進來不會先看到「離開」*/
      // 正式模型（GLB）：第二會場平常藏起來；樓梯口的告示畫字
-@@ -92,7 +95,7 @@ const GY3=(function(){
+@@ -92,7 +98,7 @@ const GY3=(function(){
        Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_glows');
        const sh=root.getObjectByName('SET_SECONDHALL'); if(sh) sh.visible=false;   /* 畢業典禮那天才打開（打開時導航加 sets.second_hall.blocks；下一階段）*/
        const nets=root.getObjectByName('SET_NETS'); if(nets) nets.visible=!secondHallOn(typeof GAME!=='undefined'?GAME.G:null);   /* 羽球網（LAWWW2-B f1e732f8；BB_151 第 6 節）：第二會場打開的日子收起來 */
@@ -58,7 +89,7 @@ index 829c9875..99e9e54f 100644
          if(o.material&&o.material.name==='gym_window_sky'&&!skyMats.includes(o.material)){ if(o.material.userData.gyBase==null) o.material.userData.gyBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });
        const G=typeof GAME!=='undefined'?GAME.G:null; if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('體育館正式模型載入失敗，用程序化備用模型',e)); }
      return z; } };
-@@ -143,6 +146,48 @@ const GY3=(function(){
+@@ -143,6 +149,58 @@ const GY3=(function(){
      for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
      z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
      return z; } };
@@ -76,21 +107,31 @@ index 829c9875..99e9e54f 100644
 +    const step=d=>{ if(d<-0.42) return 0; if(d<0) return H0/2; const r=Math.min(N-1,Math.floor(d/T)), y=H0+r*R; return (d-r*T)<T/2?(r?y-R/2:H0*0.75):y; };   /* 畫面上一階一階 */
 +    return {T,R,H0,N,DEPTH,TOP,AW:A.aisles.w,sides,cont,step}; }
 +  function arenaNav(A,G){ const nav=new E3.NavGrid(66.3,56.4,0.3,-33.15,-28.35); nav.fillBlocked();   /* 格子 0.3 m、中心在 0.3 的整數倍：走道中心（z 0、±9；x ±12）剛好在格子中心，三格寬 0.9 m（走道 1.2 m） */
-+    const F=A.floor, V=A.vomitory; nav.freeRect(F.x0+0.3,F.z0+0.3,F.x1-0.3,F.z1-0.3); nav.freeRect(V.x0+0.35,F.z1-0.4,V.x1-0.35,V.z1-0.05);
++    const F=A.floor, V=A.vomitory; nav.freeRect(F.x0+0.3,F.z0+0.3,F.x1-0.3,F.z1-0.3); nav.freeRect(V.x0+0.35,F.z1-0.4,V.x1-0.35,V.z1-0.35);   /* 入口通道整條走得到，盡頭是回 1F 的門（z1＝看台後牆）*/
 +    for(const s of G.sides) for(const c of s.aisles){ const [ax0,az0]=s.at(c-0.45,-0.42), [ax1,az1]=s.at(c+0.45,G.DEPTH-0.15);
 +      const r={x0:Math.min(ax0,ax1),x1:Math.max(ax0,ax1),z0:Math.min(az0,az1),z1:Math.max(az0,az1)}; nav.freeRect(r.x0,r.z0,r.x1,r.z1);
 +      nav.addSurf(Object.assign(r,{fn:(x,z)=>G.cont(s.d(x,z)),vfn:(x,z)=>G.step(s.d(x,z))})); }
 +    return nav; }
-+  function arenaCamCols(G,g){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
-+    const box=(s,u0,u1,d0,d1,y1)=>{ const [xa,za]=s.at(u0,d0), [xb,zb]=s.at(u1,d1); const x0=Math.min(xa,xb), x1=Math.max(xa,xb), z0=Math.min(za,zb), z1=Math.max(za,zb);
-+      const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1,z1-z0),inv); m.position.set((x0+x1)/2,y1/2,(z0+z1)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
++  /* 鏡頭碰撞（和 gym_arena.py 同一組數字）：看台每一排；看台後牆＋上層看台（4、5F）；入口通道兩側的牆、入口上方的橫樑＋出口燈；看台轉角（兩面看台端牆中間封起來的空間）；北牆。
++     ART-GYM2-INT 第二輪：原本只有每一排——進場時鏡頭在入口通道盡頭的牆後面、坐在看台第 7 排以上鏡頭退進看台後牆，整個畫面是一片牆（遊戲內截圖）。測試：tests/gym_arena_unit.js 第 12 項 */
++  function arenaCamCols(A,G,g){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
++    const raw=(name,x0,x1,z0,z1,y0,y1)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),inv); m.name=name; m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
++    const box=(name,s,u0,u1,d0,d1,y1)=>{ const [xa,za]=s.at(u0,d0), [xb,zb]=s.at(u1,d1); raw(name,Math.min(xa,xb),Math.max(xa,xb),Math.min(za,zb),Math.max(za,zb),0,y1); };
++    const UP=A.upper, U0=UP.front-22, UO=U0+UP.rows*UP.tread+0.3, TOPH=UP.h0+UP.rows*UP.rise+2.0, V=A.vomitory, F=A.floor, EX=22+UO, SZ=17+UO;   /* 上層看台前緣離下層看台前緣 10.6 m、外牆 x ±40.9、z 35.9（gym_arena.py 的 U0L、EX、SZ）*/
 +    for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];
-+      for(let r=0;r<G.N;r++) for(const [u0,u1] of segs) box(s,u0,u1,r*G.T,(r+1)*G.T,G.H0+r*G.R); }   /* 每一排：從地板到那一排的平台頂（走道前半階低 21 cm，鏡頭用不到這麼細）*/
++      for(let r=0;r<G.N;r++) for(const [u0,u1] of segs) box('cam_row',s,u0,u1,r*G.T,(r+1)*G.T,G.H0+r*G.R);   /* 每一排：從地板到那一排的平台頂（走道前半階低 21 cm，鏡頭用不到這麼細）*/
++      box('cam_back',s,s.along[0],s.along[1],G.DEPTH,UO,UP.h0+0.9);   /* 看台後牆（到 7.6 m）＋上層看台前面的色帶、玻璃（入口通道盡頭的門也在這一面）*/
++      for(let r=1;r<UP.rows;r++) box('cam_upper',s,s.along[0],s.along[1],U0+r*UP.tread,UO,UP.h0+r*UP.rise+0.9); }   /* 上層看台每一排到椅背（底下當實心：鏡頭不鑽進看台下面）*/
++    const yb=G.H0+1.0, yt=G.TOP+1.6;   /* 入口通道兩側的牆：照看台的斜度收邊（前端 1.6 m、後端 6.82 m），每一排一段、取那一段後端的高度 */
++    for(const [x0,x1] of [[V.x0-0.25,V.x0+0.005],[V.x1-0.005,V.x1+0.25]]) for(let r=0;r<G.N;r++) raw('cam_vom',x0,x1,V.z0+r*G.T,V.z0+(r+1)*G.T,0,yb+(r+1)/G.N*(yt-yb));
++    raw('cam_beam',V.x0-0.27,V.x1+0.27,V.z0-0.27,V.z0+0.2,2.8,3.8);   /* 入口上方的橫樑＋綠色出口燈 */
++    for(const sx of [-1,1]) raw('cam_corner',sx>0?22:-EX,sx>0?EX:-22,17,SZ,0,TOPH);   /* 東南、西南角：兩面看台的端牆中間封起來的空間 */
++    raw('cam_north',-EX,EX,F.z0-0.4,F.z0,0,A.h);   /* 北牆（大螢幕那一面）*/
 +    return out; }
 +  const gym_arena={ id:'gym_arena', name:'綜合體育館 3F 主球場', indoor:true, camDist:5.2, build(E){ const A=L().arena, G=arenaGeo(A);
 +    const z=Z3.room(E,{w:66,d:56,h:A.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#c8a36a'),spawn:Object.assign({},A.spawn)}); const g0=z.group;
 +    const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
-+    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(G,g0)];
++    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(A,G,g0)];
 +    { const st=M('#5c6670',{roughness:0.7}); for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];   /* 備用模型：每一排一條量體（正式模型載入前、失敗時）*/
 +        for(let r=0;r<G.N;r+=2) for(const [u0,u1] of segs){ const [xa,za]=s.at(u0,r*G.T), [xb,zb]=s.at(u1,(r+2)*G.T), h=G.H0+(r+1)*G.R; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.abs(xb-xa),h,Math.abs(zb-za)),st); m.position.set((xa+xb)/2,h/2,(za+zb)/2); fb.add(m); } } }
 +    /* 挑高 23 m、66×56 m：房間的頂燈不夠，場地上方六盞（白天弱、晚上亮）*/
@@ -102,8 +143,8 @@ index 829c9875..99e9e54f 100644
 +      const seat={x:sx,z:sz,y:G.H0+r*G.R,yaw:s.yaw,ap:[ax,az],lv:0}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:ax,z:az,radius:0.5,lv:0,label:'坐在看台',seat}); }
 +    IT.push({x:A.exit.at.x,z:A.exit.at.z,radius:0.5,lv:0,label:A.exit.label,exit:{to:'gym',spawn:Object.assign({},ARENA_DOWN)}});
 +    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-+      for(const n of ['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT']){ const o=root.getObjectByName(n); if(o) o.visible=false; }   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
-+      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
++      const sets=['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].map(n=>root.getObjectByName(n)).filter(Boolean); for(const o of sets) o.visible=false;   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
++      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); for(const o of sets) setGlowBatch(E,z,o,o.name+'_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
 +    return z; } };
 +  return {gym,gym_b1,gym_arena,arenaGeo,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
  })();
@@ -111,14 +152,16 @@ index 829c9875..99e9e54f 100644
 +Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;
 diff --git a/tests/gym_arena_unit.js b/tests/gym_arena_unit.js
 new file mode 100644
-index 00000000..38dd8b2e
+index 00000000..05be8fea
 --- /dev/null
 +++ b/tests/gym_arena_unit.js
-@@ -0,0 +1,41 @@
+@@ -0,0 +1,100 @@
 +// 新體育館 3F 主球場接成區域（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb）——不需要瀏覽器。
 +// 檢查：1F 樓梯口的「上樓到 3F 主球場」走得到、按了到 gym_arena；3F 出生點站得住、「下樓回大廳」走得到且一落地不在範圍裡；回 1F 的落點站得住、不在「上樓」範圍裡；
 +//       場地整片走得到（四個角、中圈）；八條看台走道都走得上去（模擬走路到最上面一排，高度 ≈ 5.2 m）；走道兩側的座位、看台前緣的玻璃欄杆走不進去；
 +//       座位的走近點走得到、坐下的高度＝那一排的平台；畫面上的高度一階一階（走道中途和最上面）、碰撞用連續斜面；鏡頭碰撞（每一排）有建；正式模型有登記。
++//       正式模型（自己讀 gym_arena.glb，Node 沒有 fetch）載入以後：鏡頭看得到人（出生點、入口通道、座位、走道、場地邊，鏡頭轉八個方向，鏡頭到頭之間沒有牆、看台、門擋住）；
++//       走道的扶手不在人走的地方；入口通道走得到盡頭的門（沒有看不見的牆）；藏著的布置（舞台、典禮、演講、演唱會）的光暈跟著布置藏起來。
 +// 用法：node tests/gym_arena_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -154,8 +197,65 @@ index 00000000..38dd8b2e
 +{ const seats=E.interactables.filter(i=>i.seat); const bad=[]; for(const it of seats){ const r=walk(sp,[it.x,it.z]); if(!r.ok) bad.push([it.x,it.z,r.reason]); }
 +  const yOk=seats.every(it=>{ const s=G.sides.find(q=>q.yaw===it.seat.yaw), d=s.d(it.seat.x,it.seat.z), row=Math.floor(d/G.T); return Math.abs(it.seat.y-(G.H0+row*G.R))<1e-6; });
 +  check('9. 座位（每條走道 2 個，共 16）：走近點走得到、坐下的高度＝那一排的平台',seats.length===16&&!bad.length&&yOk,seats.length+' 個；'+JSON.stringify(bad)); }
-+check('10. 鏡頭碰撞（zone.camCols）：每一排都有（東、西各 12、南 24）',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length===48,z.camCols&&z.camCols[0]?z.camCols[0].length:0);
-+console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++{ const cc=Array.isArray(z.camCols)&&z.camCols[0]?z.camCols[0]:[], n=k=>cc.filter(m=>m.name===k).length;
++  check('10. 鏡頭碰撞（zone.camCols）：看台每一排（東、西各 12、南 24）＋看台後牆與上層看台、入口通道兩側的牆、入口上方的橫樑、看台轉角、北牆',n('cam_row')===48&&n('cam_back')===3&&n('cam_upper')>=3&&n('cam_vom')>=2&&n('cam_beam')===1&&n('cam_corner')===2&&n('cam_north')===1,
++    JSON.stringify({row:n('cam_row'),back:n('cam_back'),upper:n('cam_upper'),vom:n('cam_vom'),beam:n('cam_beam'),corner:n('cam_corner'),north:n('cam_north'),all:cc.length})); }
++/* ---------- 正式模型載入以後（ART-GYM2-INT 第二輪：遊戲內截圖抓到——進場時鏡頭在入口通道盡頭的牆後面、坐在看台高處鏡頭退進看台後牆，整個畫面是一片牆；走道中間的扶手從人身上穿過去；
++   通道走到一半被看不見的牆擋住；演唱會燈架藏著、光暈還飄在半空中）---------- */
++/* 自己讀 GLB：照節點的名字、父子、TRS、extras（userData）建場景；網格只放位置、索引（射線、頂點檢查用），GPU instancing 的座位不放 */
++function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0);
++    const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  const objs=J.nodes.map(nd=>{ let o;
++    if(nd.mesh!=null&&!(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)){ const prs=J.meshes[nd.mesh].primitives.map(pr=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1));
++        const m=new THREE.MeshStandardMaterial(); m.name=pr.material!=null?J.materials[pr.material].name:''; return new THREE.Mesh(g,m); });
++      if(prs.length===1) o=prs[0]; else { o=new THREE.Group(); for(const q of prs) o.add(q); } }
++    else o=new THREE.Object3D();
++    o.name=nd.name||''; if(nd.extras) o.userData=JSON.parse(JSON.stringify(nd.extras)); if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
++  J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); });
++  const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
++(async()=>{
++  const SC=glbScene(path.join(ROOT,'assets/models/env/second_ai/gym_arena.glb')); let pend=null; const load0=ASSETS.loadOne; ASSETS.loadOne=k=>k==='bldg.gym_arena'?(pend=Promise.resolve({scene:SC})):new Promise(()=>{});
++  const zf=loadZone('gym_arena'); await pend; await new Promise(r=>setTimeout(r,0)); ASSETS.loadOne=load0; zf.group.updateMatrixWorld(true);
++  check('11. 正式模型接上了（formal）、備用模型藏起來',zf.formal===true&&zf.group.getObjectByName('fallback').visible===false);
++  const byMat=k=>{ const out=[]; zf.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name===k) out.push(o); }); return out; };
++  /* 擋視線的東西：看台量體、牆、入口通道的牆、深藍色帶、門、深色鋼（入口的出口燈、門框）——玻璃、細欄杆、座位不算 */
++  const SOLID=['arena_riser','arena_plaster','arena_vomitory_wall','arena_fascia','arena_door','arena_steel_dark'].flatMap(byMat).map(o=>{ const m=new THREE.Mesh(o.geometry,new THREE.MeshBasicMaterial({side:THREE.DoubleSide})); m.matrixAutoUpdate=false; m.matrix.copy(o.matrixWorld); m.matrixWorld.copy(o.matrixWorld); return m; });
++  if(!E.ray) E.ray=new THREE.Raycaster();   /* 引擎的射線在 E.init 才建（Node 不跑 init）*/
++  const ray=new THREE.Raycaster(), PITCH=0.38, DIST=Z3.ZONES.gym_arena.camDist, YAWS=[0,1,2,3,4,5,6,7].map(k=>k*Math.PI/4);
++  const blockedAt=(tgt,cam)=>{ const d=cam.clone().sub(tgt), L=d.length(); ray.set(tgt,d.normalize()); ray.far=L-0.05; const h=ray.intersectObjects(SOLID,false); return h.length?h[0]:null; };
++  const pts=[], G2=GY3.arenaGeo(GYM_LAYOUT.arena), A2=GYM_LAYOUT.arena;
++  pts.push(['出生點',zf.spawn.x,0,zf.spawn.z]);
++  for(let zz=17.6;zz<40;zz+=1.5){ if(!E.canStand(0,zz,0.32,0)) break; pts.push(['入口通道 z '+zz.toFixed(1),0,0,zz]); }
++  for(const it of E.interactables.filter(i=>i.seat)) pts.push(['座位 ('+it.seat.x.toFixed(1)+','+it.seat.z.toFixed(1)+')',it.seat.x,it.seat.y,it.seat.z]);
++  for(const s of G2.sides) for(const c of s.aisles) for(const d of [4,G2.DEPTH-0.7]){ const [x,zz]=s.at(c,d); pts.push([s.side+' 走道 '+c+' d '+d.toFixed(1),x,E.nav.heightAt(x,zz),zz]); }
++  for(const s of G2.sides) for(const u of [-12,-4,4,12]){ if(s.gap&&u>s.gap[0]-1&&u<s.gap[1]+1) continue; const [x,zz]=s.at(u,-1.2); if(E.canStand(x,zz,0.32,0)) pts.push([s.side+' 看台前 '+u,x,0,zz]); }
++  pts.push(['北端',0,0,A2.floor.z0+0.5]);
++  const bad=[]; let n=0; const cam=new THREE.Vector3();
++  for(const [nm,x,y,zz] of pts) for(const yaw of YAWS){ const tgt=new THREE.Vector3(x,y+1.45,zz); E.followCam(tgt,yaw,PITCH,DIST,0,cam); n++; const h=blockedAt(tgt,cam); if(h) bad.push(nm+' yaw '+(yaw*180/Math.PI).toFixed(0)+'°：'+h.object.geometry.uuid.slice(0,0)+(byMatName(h.object)||'')+' 在 '+h.distance.toFixed(2)+' m'); }
++  function byMatName(m){ let k=''; zf.group.traverse(o=>{ if(o.isMesh&&o.geometry===m.geometry) k=o.material.name; }); return k; }
++  check('12. 鏡頭看得到人（'+pts.length+' 個位置×8 個方向＝'+n+' 次）：鏡頭到頭之間沒有看台、牆、門擋住（鏡頭碰撞照遊戲的 E.followCam）',!bad.length,bad.length+' 次被擋：'+bad.slice(0,6).join('；'));
++  /* 扶手：每條走道中線 ±0.35 m、走道那一階上方 0.15～1.7 m（人的身體）沒有鋼管的頂點 */
++  const st=byMat('arena_steel'), v=new THREE.Vector3(); let inBody=0;
++  for(const o of st){ const P=o.geometry.attributes.position; for(let i=0;i<P.count;i++){ v.fromBufferAttribute(P,i).applyMatrix4(o.matrixWorld);
++    for(const s of G2.sides){ const d=s.d(v.x,v.z); if(d<-0.42||d>G2.DEPTH) continue; for(const c of s.aisles){ if(Math.abs(s.u(v.x,v.z)-c)>=0.35) continue; const h=v.y-G2.step(d); if(h>0.15&&h<1.7) inBody++; } } } }
++  check('13. 走道的扶手不在人走的地方（走道中線 ±0.35 m、身體的高度沒有鋼管）',st.length>0&&inBody===0,'頂點 '+inBody);
++  /* 入口通道：畫面上的通道（兩側牆）到哪裡，就走得到哪裡；盡頭有門（下樓回大廳）。走得到的地方離門 0.75 m 以內＝人的半徑 0.32 m＋導航格 0.3 m（再近就碰到門框）；
++     原本走到 z 24.1 就被看不見的牆擋住，離畫面上的盡頭 3.1 m */
++  let vz=-1e9; for(const o of byMat('arena_vomitory_wall')){ const P=o.geometry.attributes.position; for(let i=0;i<P.count;i++){ v.fromBufferAttribute(P,i).applyMatrix4(o.matrixWorld); vz=Math.max(vz,v.z); } }
++  let dz=null; for(const o of byMat('arena_door')){ const P=o.geometry.attributes.position; for(let i=0;i<P.count;i++){ v.fromBufferAttribute(P,i).applyMatrix4(o.matrixWorld); if(Math.abs(v.x)<1&&Math.abs(v.z-vz)<0.15&&v.y<0.5) dz=dz==null?v.z:Math.min(dz,v.z); } }
++  let wz=0; for(let zz=17;zz<vz;zz+=0.05) if(E.canStand(0,zz,0.32,0)) wz=zz;
++  const ex2=E.interactables.find(i=>i.exit&&i.exit.to==='gym');
++  check('14. 入口通道：畫面上的通道到 z '+vz.toFixed(2)+'，盡頭有門；走得到門前 0.75 m 以內（沒有看不見的牆）；「下樓回大廳」在門前',dz!=null&&wz>vz-0.75&&!!ex2&&Math.abs(ex2.z-vz)<1.0&&walk([zf.spawn.x,zf.spawn.z],[ex2.x,ex2.z]).ok,
++    JSON.stringify({通道到:+vz.toFixed(2),門:dz==null?null:+dz.toFixed(2),走得到:+wz.toFixed(2),下樓:ex2&&[ex2.x,ex2.z]}));
++  /* 光暈：全場那一批不含藏著的布置；布置自己那一批掛在布置底下（布置藏著就不畫）*/
++  const under=(o,k)=>{ for(let p=o.parent;p;p=p.parent) if(p.name===k) return true; return false; };
++  let all=0, inSet=0; zf.group.traverse(o=>{ if(o.userData&&o.userData.glow){ all++; if(/^SET_/.test(o.parent&&o.parent.name||'')||['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].some(k=>under(o,k))) inSet++; } });
++  const zb=zf.group.getObjectByName('gym_arena_glows'), con=zf.group.getObjectByName('SET_CONCERT'); let cb=null; if(con) con.traverse(o=>{ if(o.userData&&o.userData.glowBatch) cb=o; });
++  check('15. 光暈：全場那一批 '+(all-inSet)+' 個（不含藏著的布置的 '+inSet+' 個）；演唱會的光暈另外一批、掛在演唱會布置底下（布置藏著就不畫）',!!zb&&zb.userData.glowBatch.items.length===all-inSet&&inSet>0&&!!cb&&cb.userData.glowBatch.items.length>0&&con.visible===false,
++    JSON.stringify({全場:zb&&zb.userData.glowBatch.items.length,應該:all-inSet,演唱會:cb&&cb.userData.glowBatch.items.length}));
++  console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
 diff --git a/tests/gym_unit.js b/tests/gym_unit.js
 index 6e99a7ee..c694d97c 100644
 --- a/tests/gym_unit.js
