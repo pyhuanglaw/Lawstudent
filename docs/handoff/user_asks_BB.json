@@ -46,7 +46,8 @@
    "status": "進行中",
    "task": "BG-MISSING-1021",
    "src": "BB-C 對話",
-   "note": "第 92 組（daab8c29）已給、使用者交 10 張（4 張已收檔 fcdc576d、5 張只在對話裡、1 張不用）；第 93 組 10 張 13:2x 已給"
+   "note": "第 92 組（daab8c29）已給、使用者交 10 張（4 張已收檔 fcdc576d、5 張只在對話裡、1 張不用）；第 93 組 10 張 13:2x 已給",
+   "wants": "X94"
   },
   {
    "id": "UA-BB-1021-04",
@@ -54,10 +55,11 @@
    "quote": "你等等給我下一批的只需要純文字提示詞 有要附圖片生成的 不是純文字描述的 先等下一批",
    "kind": "原話",
    "confirmed": true,
-   "status": "照做中",
+   "status": "進行中",
    "task": "BG-3DSHOT-1021",
    "src": "BB-C 對話",
-   "note": "下一批（第 93 組）只放純文字的；要附遊戲截圖的（us_shared_kitchen、us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby）另外一批，等使用者要"
+   "note": "下一批（第 93 組）只放純文字的；要附遊戲截圖的（us_shared_kitchen、us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby）另外一批，等使用者要",
+   "wants": "X94"
   }
  ]
 }
