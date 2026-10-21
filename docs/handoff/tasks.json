@@ -26189,6 +26189,52 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 停成 WIP（27618d8d，tools/blender/char_second/peishan_skirt_reweight.py 兩版都不行）；排回 LAWWW2 佇列，正式 VRM 不動；LAWWW2 先照使用者 12:0x 巡場景（X90）"
+  },
+  {
+   "id": "AA350-SR-1021",
+   "title": "AA_350 第 7、8 節（企劃線 cae5cc76）：S1～S8 回老家的所在地第二批（柏翰新竹、芷若台中／英國照日期、阿凱與明軒、以安回國那天 S5、約會撞到回台中要擋 S6、阿哲 D29 寒假 S7、以安東京京都與小語營隊 S8）＋R2 活大那條路、R5 法學研究第 11 週引用、R7 交往中不叫學姊",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "sha": "d90675e1",
+   "source": "企劃線 AA_350 第 7、8 節（cae5cc76）；AA-C 10-21 13:12 訊息",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒暑假起（回老家所在地）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】子代理 8f0e6f72（S）、3dab71db（R2）、eef8bdfd（R5）、8a1a2ef8（R7），合併 d90675e1；tests/aa350_s_unit.js 33 項（改之前 27 FAIL）、aa350_r_unit.js 12 項（改之前 7 FAIL）；改了 holiday_ff、holiday_presence、presence、aa336、never_set_flags、two_hearts 寫死舊資料的檢查；相關 65 支單元全過。沒做：S3 閒聊階梯「九月初回來」等 AA 改 ladder_bb_y1s2.json 給 commit；R2 正常玩走不到（大一下週五只有經原下一堂，下課選單只在還有下一堂時出現）→ 問 AA（AA-Q-1021-SR）。BB 驗收步驟在子代理回報（柏翰 2027-07-15 新竹、芷若 2027-01-20 台中、阿凱 2026-08-25 日本、以安 2027-01-20 東京、小語 2026-07-10 營隊、S5、S6 2026-07-23 約 7/28 淡水被擋、S7 1/02 vs 1/09、R5、R7 11/11 22:30 Café 書瑀）"
+  },
+  {
+   "id": "AA-Q-1021-SR",
+   "title": "AA_350 S／R 實作留下要 AA 定的 9 項＋稿子缺的字 4 項（回來那天算哪裡、明軒 2028 暑假、明軒首爾 C08、芷若日子三點、阿凱宜蘭、S5 兩個縫、S6 兩個缺口、S7 除夕到初三與 2028-07-01、R2 兩個細節；缺字：ev_sis_office_together「學姊叫我來的。」、柏翰 2027-08-24 回臺北、R2 阿勳已經坐在那裡的旁白、在東京／京都／日本／曼谷／營隊當隊輔等系統字）",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "source": "子代理 a67a200f 回報（合併 d90675e1）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒暑假起",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_350 第 7、8 節；BB_198",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 逐項回：照現在／改成什麼（附定稿 commit）；S3 階梯改企劃檔給 commit",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】已送 AA-C；R2 走不到的入口我建議：大一下週五 12:00～13:00 人在校園、沒去經原下，跳一次「先去吃飯？」（活大／不了）——請 AA 確認"
   }
  ]
 }
