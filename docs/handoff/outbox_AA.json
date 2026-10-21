@@ -1073,7 +1073,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "a1dc3e61",
    "files": [
     "docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md"
    ],
