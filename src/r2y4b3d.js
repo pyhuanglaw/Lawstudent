@@ -5,7 +5,7 @@
      PG.epiPartner／epiCg／epiLine／epiPresent（2-Y4-54 不選的玩家：尾聲照朋友版）、NOODLE_CLOSED.door（2029-04-19～25 阿姨出國）。
    2-Y4-54「選一個人」以後其他人的談話＝AA_346（AA-C 2026-10-21）：一位一場的出遊（OUT.plan；事件 ev_choice_apart_<id> 在 src/data/r2y4b_events.js）＋第三次沒到的電話版（PG.STEPS），見 2-Y4-54 那一段。
    沒做的（見各段註解）：2-Y4-47 後半「延後的回答」（PROPOSAL 等使用者）、
-     2-Y4-52 calendar.js 的 Y5S1、LUNAR 2030（畢業後篇本來就是摘要日，照 PG 的場景表排）。
+     （2-Y4-52 calendar.js 的 Y5S1、LUNAR 2030：AA_357 已做，見 calendar.js 的 TERMS_DELAYED 與 src/y5s1_3d.js；畢業後篇本來就是摘要日，照 PG 的場景表排）。
    已在 AA_319／AA_331 那一批（src/postgrad3d.js）、這裡不重做：45 七月最後衝刺、49 以安的兩通電話、42 學姊生日（友情／戀人／前任；友情版的「送禮物」四選一照 AA_345 G9 加在 postgrad3d.js S.bdayGift）、51 的 9/7 學姊與 2030 便條、53 尾聲每人一句的表、60 學姊律師錄取那句。
      53 方奕廷「那一年你在考試」照 AA_327 定稿表與 AA_331 第 1 節 b：只看台灣路線 BAR_YEAR===2030（交換路線 2031 那半句 AA 劃掉了，沒有加回去）。
    測試：node tests/r2y4b_events_unit.js、tests/aa346_apart_unit.js */
@@ -292,7 +292,7 @@ const R2Y4B=(function(){
   const narrStep=(id,key,h,text,cond)=>({id,at:G=>T(DK(key),h),until:G=>T(DK(key),h+48),cond,run:async GM=>{ await scene(GM,async()=>{ if(GM.titleCard&&typeof PG!=='undefined') await GM.titleCard(PG.dateLabel(GM.G.day,GM.G.hour),'',1600); await GM.say(null,text); }); }});
 
   /* ===================== 2-Y4-52 交換延畢 Y5S1：實習三件、證書、2030 研究所筆試 ===================== */
-  S.y5Plan=async function(GM){ const G=GM.G; await scene(GM,async()=>{ await GM.say(null,'（這學期，只有週二要去實習。其他的日子——）');
+  S.y5Plan=async function(GM){ const G=GM.G; await scene(GM,async()=>{ await GM.say(null,route(G)==='US'?'（這學期，週二去實習，週一、週三補兩門課。其他的日子——）':'（這學期，只有週二要去實習。其他的日子——）');   /* AA_357 1-1：美國路線週一、週三補修（src/y5s1_3d.js）*/
       const O=[{t:'「去總圖讀書。」',v:'study'},{t:'「接家教，存一點錢。」',v:'work'},{t:'「在家準備國考。」',v:'bar'}]; const k=await GM.choose(O.map(o=>({t:o.t}))); G.flags.Y5_DAYS=(O[k]||O[0]).v; }); return true; };
   const LAWYER={name:'律師'}, UNCLE={name:'阿伯'}, TA={name:'助教'};
   S.INTERN=[

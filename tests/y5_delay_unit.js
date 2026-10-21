@@ -4,6 +4,10 @@
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check,GM,E}=H;
+const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+global.CG_REGISTRY={};
+for(const f of ['src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js']) if(fs.existsSync(path.join(H.ROOT,f))) load(f);   /* 大四下、畢業後篇的事件包（2-Y4-52 的 9/3、實習）；大五上（修改前沒有 y5s1_3d.js）*/
+const hasY5=typeof Y5!=='undefined';
 const D=k=>PG.DK(k);
 const tag=id=>SOCIAL.yearTag(id);
 const L_REG=POSTGRAD_LINES.REG;
@@ -54,6 +58,26 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const a=mk('2029-08-01',{BAR_REG:true}), b=mk('2030-06-01',{BAR_REG:true}), c=mk('2030-06-01',{}), d=mk('2030-06-01',{BAR_REG:false}), e=(()=>{ const s={day:D('2029-08-01'),hour:10,stage:'law',flags:{EXCHANGE_ROUTE:'TW',BAR_REG:true}}; if(typeof PG.migrate==='function') PG.migrate(s); return s.flags; })();
     check('G3. 舊存檔：延畢、BAR_REG 被自動設成 true 的，2030 報名以前讀檔＝清掉（5/10 再問）；已經過了報名時間的照舊規則（報了名＝BAR_REG_2030，不讓準備中的國考消失）；臺灣路線不動',
       typeof PG.migrate==='function'&&a.BAR_REG==null&&a.BAR_REG_2030==null&&b.BAR_REG_2030===true&&c.BAR_REG_2030===true&&d.BAR_REG_2030===false&&e.BAR_REG===true&&e.BAR_REG_2030==null,JSON.stringify([a,b,c,d,e])); }
+  // ===== G4 大五上是一個學期：日期標籤、今日頁、美國路線補修（一鍵上課）、9/3 那一句分路線（AA_357 1-1）=====
+  { const lab=(key,fl)=>{ grad(key,10,fl); return CLS.dayLabel(H.G); };
+    const a=lab('2029-09-04',{EXCHANGE_ROUTE:'JP'}), b=lab('2029-10-16',{EXCHANGE_ROUTE:'US'}), c=lab('2029-12-24',{EXCHANGE_ROUTE:'JP'}), d=lab('2029-10-16',{EXCHANGE_ROUTE:'TW'}), e=lab('2029-12-23',{EXCHANGE_ROUTE:'JP'});
+    check('G4. 日期標籤：延畢 9/4「大五上 第 1 週」、10/16「大五上 第 7 週」、12/23「大五上 第 16 週」（沒有期末考週）；12/24 起「寒假」；臺灣路線照原本',/・大五上 第 1 週$/.test(a)&&/・大五上 第 7 週$/.test(b)&&/・大五上 第 16 週$/.test(e)&&/寒假$/.test(c)&&!/大五/.test(d),[a,b,e,c,d].join('｜')); }
+  { const line=(key,fl)=>{ grad(key,10,fl); return CLS.todayLine(H.G); };
+    const tue=line('2029-09-04',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), usMon=line('2029-09-10',{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}), usWed=line('2029-09-12',{EXCHANGE_ROUTE:'US'}),
+      jpMon=line('2029-09-10',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'}), jpThu=line('2029-09-13',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), jpFri=line('2029-09-14',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}), hol=line('2029-10-10',{EXCHANGE_ROUTE:'US'});
+    check('G4. 今日頁：週二「法律實習　10:00（法扶）」；美國路線週一「補修：強制執行法」、週三「補修：法律倫理」；其他日子照 9/3 的選擇（家教／總圖／在家讀書）；國慶日放假',
+      tue==='今天：法律實習　10:00（法扶）'&&usMon==='今天的課：09:10 補修：強制執行法'&&usWed==='今天的課：09:10 補修：法律倫理'&&jpMon==='今天：家教'&&jpThu==='今天：總圖'&&jpFri==='今天：在家讀書'&&/^今天放假（國慶日）/.test(hol),[tue,usMon,usWed,jpMon,jpThu,jpFri,hol].join('｜')); }
+  { const G=grad('2029-09-10',8.5,{EXCHANGE_ROUTE:'US'}); G.zone='gongguan'; const html=CLS.todayHTML(G); H.said=[]; H.cards=[];
+    const ok=hasY5&&/data-y5go="[^"]*enforcement"/.test(html)&&/補修：強制執行法/.test(html); let went=false; if(hasY5) went=await Y5.goClass(GM,D('2029-09-10')+':enforcement');
+    check('G4. 美國路線週一：今日頁有「補修：強制執行法」和「直接去上課」；一鍵上課＝字卡、教授一句（大四上強制執行法那一週的內容）、時間到下課（12:10）、記上過了',
+      ok&&went&&H.cards.some(c=>c[0]==='補修：強制執行法')&&H.said.some(s=>/^蔡老師：/.test(s.t))&&Math.abs(G.hour-(12+10/60))<0.02&&hasY5&&Y5.status(G,Y5.classItems(G)[0])==='done',[ok,went,JSON.stringify(H.cards),JSON.stringify(H.said.slice(0,2)),G.hour].join('｜')); }
+  { const G=grad('2029-09-12',8.5,{EXCHANGE_ROUTE:'US'}); const Hm=HOME.rec(G); Hm.at=true; Hm.day=G.day; const html=CLS.todayHTML(G); H.picks=['直接去上課：補修：法律倫理','出門','不用了']; H.opts=[]; H.said=[];
+    let err=null; const loop=HOME.loop(GM).catch(e=>{ err=e; }); await Promise.race([loop,new Promise(r=>setTimeout(r,3000))]);
+    check('G4. 人在家（退宿以後住家裡）：手機的今日頁不放按鈕，家裡的選單有「直接去上課：補修：法律倫理」；上完回到家的選單',!err&&!/data-y5go/.test(html)&&(H.opts[0]||[]).includes('直接去上課：補修：法律倫理')&&hasY5&&Y5.status(G,Y5.classItems(G)[0])==='done'&&(H.opts[1]||[]).includes('出門'),(err?err.stack:'')+JSON.stringify(H.opts.slice(0,2))); }
+  { const run=async route=>{ grad('2029-09-03',9,{EXCHANGE_ROUTE:route}); H.said=[]; H.picks=[0]; await R2Y4B.y5Plan(GM); return H.said.map(s=>s.t); };
+    const us=await run('US'), jp=await run('JP');
+    check('G4. 9/3 那一句分路線：美國「（這學期，週二去實習，週一、週三補兩門課。其他的日子——）」；日本照原句',us[0]==='（這學期，週二去實習，週一、週三補兩門課。其他的日子——）'&&jp[0]==='（這學期，只有週二要去實習。其他的日子——）',JSON.stringify([us[0],jp[0]])); }
+  { check('G4. CALENDAR 有 2030 的農曆節日（除夕 2/2、初一 2/3；中秋 9/12）',CALENDAR.holiday(D('2030-02-02'))==='除夕'&&CALENDAR.holiday(D('2030-02-03'))==='春節'&&CALENDAR.holiday(D('2030-09-12'))==='中秋節',[CALENDAR.holiday(D('2030-02-02')),CALENDAR.holiday(D('2030-02-03')),CALENDAR.holiday(D('2030-09-12'))].join(',')); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
-// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL。
+// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL；G4 6 項全部 FAIL。

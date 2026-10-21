@@ -458,12 +458,14 @@ const HOME=(function(){
         const O=[], q=S.dueOuting(G);
         if(q) O.push({t:(q.verb||'出發')+'：'+q.title,hint:'從家裡出發　'+(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:''),k:'out',q});   /* G48：出遊從家裡出發（不加取車時間）*/
         for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 40 分鐘',k:'inv',iv,P}); }
+        if(typeof Y5!=='undefined'&&Y5.homeOpts){ try{ for(const x of Y5.homeOpts(G)) O.push(x); }catch(e){ console.warn('Y5.homeOpts',e); } }   /* 大五上（交換延畢）美國路線的補修：一鍵上課（AA_357 1-1，src/y5s1_3d.js）*/
         if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
-        O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/ 
+        O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/
         O.push({t:'睡覺',hint:sun?'明天有課：先回宿舍再睡':(wk!=null?'明天 '+hm(wk)+' 在家醒來（學校有事）':'隔天早上在家醒來'),k:'sleep'});
         if(sun) O.push({t:'今晚住家裡，明天一早直接去學校',hint:monExam?'明天早上期末考，回宿舍睡吧':'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來，坐捷運＋公車約 40 分鐘',dim:monExam,k:'stay'});   /* DL-05（AA_160 1-6）：週日晚上可以住家裡 */ if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); if(mo) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'}); else O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});   /* AA_357 1-5：退宿以後「回宿舍」換成「出門」三選一 */
         const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
         if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); continue; }
+        if(o.k==='y5cls'){ if(typeof Y5!=='undefined'&&Y5.attend) await Y5.attend(GM,o.it); continue; }   /* 上完課回到家的選單 */
         if(o.k==='out'&&S.pgHome(G)){ if(await S.pgOut(GM,o.q)) continue; break; }   /* 退宿以後住家裡：出遊從家裡出發、演完回家（同放假模式的 breakRound）*/
         if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await OUT.go(GM,o.q); break; }
         if(o.k==='go'){ const L=S.goList(), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) continue; await S.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]?Object.assign({},p[2]):undefined}); break; }   /* AA_357 1-5：校門口／公館／溫州街，進 3D 世界 */

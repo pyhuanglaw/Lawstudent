@@ -451,6 +451,7 @@ const GAME = (function(){
     if(inTh&&phoneTab==='msg'&&phoneThread) body.scrollTop=atEnd?body.scrollHeight:st0;   /* 對話裡重畫（回覆、新訊息）：本來在最下面就留在最下面，往上看舊訊息就不動（PHONE-LINE-UI-1018）*/
     body.querySelectorAll('[data-personback]').forEach(b=>b.onclick=()=>{ phonePerson=null; renderPhone(); });
     body.querySelectorAll('[data-bigmap]').forEach(b=>b.onclick=()=>{ closePhone(); if(typeof GUIDE!=='undefined') GUIDE.openMap(); });
+    body.querySelectorAll('[data-y5go]').forEach(b=>b.onclick=async()=>{ if(E.player.busy){ closePhone(); if(menuOpen) closeMenu(); toast('現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); if(typeof Y5!=='undefined'&&Y5.goClass) await Y5.goClass(GM,b.dataset.y5go); });   /* 大五上（交換延畢）美國路線的補修：一鍵上課（AA_357 1-1，src/y5s1_3d.js）*/
     body.querySelectorAll('[data-gohome]').forEach(b=>b.onclick=async()=>{ if(E.player.busy||GM.titleIdle){ toast('現在不能移動'); return; } closePhone(); if(menuOpen) closeMenu(); await HOME.go(GM); });   /* 手機「地點」的「回臺北的家」（BB-C 10-18 DORM-AFTER-MOVEOUT：退宿以後人在外面，地點最上面要有回家）*/
     body.querySelectorAll('[data-msg]').forEach(b=>b.onclick=()=>{ phoneTab='msg'; phoneThread='p:'+b.dataset.msg; renderPhone(); phoneBadge(); const pb=$('phoneBody'); if(pb) pb.scrollTop=pb.scrollHeight; });
     document.querySelectorAll('#phoneTabs button').forEach(b=>b.classList.toggle('on',b.dataset.ptab===phoneTab));
