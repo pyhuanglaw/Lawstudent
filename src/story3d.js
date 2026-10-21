@@ -2501,10 +2501,10 @@ const STORY = (function(){
         ['y0_kx_drink',Y0('Y0S2',6),21+10/60,kx2,()=>[P1('kexin','晚安。明天的桌子，我比你早到的話，你買飲料。')]],
         ['y0_tr_group',Y0('Y0S2',4),20+40/60,G=>PHONE.inGroup(G,'econ_class')||PHONE.inGroup(G,'econ_friends'),G=>[TR('這學期的分組報告，題目我想好了。組員還沒想好。',grp(G))]],
         ['y0_tr_voice',Y0('Y0S2',4),21.5,()=>true,()=>[TR('（語音）我在練長劇的台詞，對著鏡子。室友問我在跟誰講話。')]],
-        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。')]],
+        ['y0_py_notes',Y0('Y0S1',9,9),21+10/60,G=>!!G.flags.LEAVE_WEEK,()=>[PY('經原的筆記我掃描放雲端了。可昕跟我要的。你要的話也自己拿。放著也是放著。')]],
         ['y0_py_beef',Y0('Y0S2',4),21+40/60,()=>true,()=>[PY('今天唐睿請我吃飯，說是謝謝筆記。我說折現。……我們吃了牛肉麵。')]],
         ['y0_xu_lamp',Y0('Y0S1',7,8),22,(G,day)=>!!G.flags.Y0_MOVED_OUT&&day>=DK('2024-10-20'),()=>[XU('你搬走以後，宿舍變暗了。因為你把檯燈帶走了。我只是陳述事實。')]],
-        ['y0_xu_seat',Y0('Y0S1',8,8),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師問我，常坐我旁邊的那個人呢。我說他去念更難的東西了。')]],
+        ['y0_xu_seat',Y0('Y0S1',8,8),21.5,G=>!!G.flags.LEAVE_WEEK,()=>[XU('微積分老師今天看了一眼我旁邊的空位，又看了一眼可昕旁邊。什麼都沒問。我覺得他懂了。')]],   /* AA_348（AA-C 10-21）：休學的事 10/29 以前室友都不知道（AA_305），原本「他去念更難的東西了」改成這句；y0_py_notes 的「高中的筆記」＝重考，2/13 才決定，改成經原的筆記 */
         ['y0_wl_wait',Y0('Y0S1',9,9),21,G=>!!G.flags.LEAVE_WEEK&&(PHONE.inGroup(G,'econ_friends')||PHONE.inGroup(G,'econ_class')),G=>[WL('走啦！……喔你在念書。那念完再走！我等！',grp(G))]],
         ['y0_wl_newbike',Y0('Y0S2',4),20+40/60,G=>!!G.flags.WL_BIKE,()=>[WL('新車騎了三個月，鏈子一次都沒掉。我有點想念以前那台。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>(/^y0_kx_/.test(id)&&hh>=9&&hh<22.1&&G&&S.cramNight(G))?22+10/60:hh,ok:(G,day)=>S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 衝刺班的晚上，可昕的手機小事改到 22:10（BB_188 A9-3）*/
