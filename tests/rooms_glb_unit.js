@@ -4,6 +4,7 @@
 //   3. 萬才館的門：有社課（吉他社在多功能教室、公法讀書會在研討室 A）或大四研討課的那幾間，按門的時候先看門口有沒有事——
 //      社課可以參加的時間照舊在門口參加（classes3d.js roomDoor），沒事就走進去（不會因為門變成出入口就再也參加不了社課）
 //   4. CLS.roomDoorBusy：吉他社週一 19:00 社課時間＝有事；同一天 15:00＝沒事
+//   5. AA_355 1-3：白板點了有字（修改前 FAIL：沒有 Z3.roomGlbLook、只顯示「白板」）
 // 修改前：沒有這三個區域（第 1 項 FAIL）。用法：node tests/rooms_glb_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -27,4 +28,9 @@ check('2. 霖澤館 202、萬才館多功能教室、研討室 A 的門接成出
     check('4. CLS.roomDoorBusy：吉他社社課時間（19:06）＝有事、同一天 15:00＝沒事', busy===true&&free===false, CALENDAR.dateOf(day).key+' '+busy+'/'+free); } }
 { const src=fs.readFileSync(path.join(ROOT,'src/building3d.js'),'utf8');
   check('2b. 霖澤館大廳的樓層簡介（看板、「看樓層簡介」）不再寫 202「整修中」（稽核 D X73：202 早就走得進去）',!/202 教室（整修中）/.test(src)&&/2F　201 階梯教室｜202 教室'/.test(src)); }
+/* 5. AA_355 1-3（AA-C 2026-10-21）：白板（萬才館研討室 A、多功能教室）點了有字——沒有事件或課堂寫字的時候用這一句（現在沒有寫白板的事件，一律這一句）；
+      202 的是黑板，不套；其他還沒有 AA 字的（書櫃、借用登記表、公告欄）照舊顯示名稱 */
+{ const look=Z3.roomGlbLook, B='（白板上還留著上一堂課的字，擦了一半。）', it=(id,k)=>(ROOM_GLB_LAYOUTS[id].interact||[]).find(q=>q.id===k);
+  const ok=typeof look==='function'&&look('wancai_sema',it('wancai_sema','board'))===B&&look('wancai_multi',it('wancai_multi','board'))===B&&look('linze_202',it('linze_202','board'))==='黑板'&&look('wancai_sema',it('wancai_sema','books'))==='書櫃';
+  check('5. AA_355 1-3 白板：「（白板上還留著上一堂課的字，擦了一半。）」（研討室 A、多功能教室）；202 的黑板、書櫃照舊顯示名稱', ok, typeof look==='function'?[look('wancai_sema',it('wancai_sema','board')),look('linze_202',it('linze_202','board'))].join('／'):'沒有 Z3.roomGlbLook'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

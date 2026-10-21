@@ -3,7 +3,7 @@
    social_layer: A 法律系熟同學 / B 法律系不熟同學 / C 其他系・通識 / D 五位主要女主角 / E 教授 / F 助教・研究生・學長姐 / G ambient
    visual_tier: 0 ambient（只有 3D）/ 1 acquaintance（簡單立繪）/ 2 recurring（完整立繪）/ 3 core（多服裝、多表情、CG）
    char3d: {spec:'P3.CAST key' | inline P3 spec, model:'ASSETS key'（未來換 GLB 只改這裡）}
-   presence:{from:'Y1S1'}：2025 年入學的這一屆，經濟系那一年（Y0S1、Y0S2）還不在學校（AA_110 5-7：已批准的時間線直接推出來的；其他人的交換、休學等 AA 確認、使用者批准後才填）
+   presence:{from:'Y1S1'}：2025 年入學的這一屆，經濟系那一年（Y0S1、Y0S2）還不在學校（AA_110 5-7：已批准的時間線直接推出來的；其他人的交換、休學、回老家後來照 AA 的企劃填了，見下面 SYS-21、各人的 presence；AA_355 第 3 節）
    SYS-21（BB_134 第 9 點，AA-B 確認）：芷若大三上、大四在英國（absent）；學姊大三下在美國（absent）；沛珊大二下休學重考、大三起在別的學校、子晴大三下畢業以後在工作室——
      這兩個人沒出國、人在臺北（BB_163）：kinds taipei＝校園作息換成標了 taipei 的那幾筆（taipei:'both'＝兩種時候都用），邀約不先擋、照 invites.js 她們的規則。
      只管 3D 校園的作息、當面約（手機「約不了的原因」）；她們的手機訊息、劇情事件照各自的事件條件
@@ -160,7 +160,7 @@ const CHARACTERS = {
   prof_xu:{ id:'prof_xu', name:'許教授', fullname:'許志遠', gender:'m', social_layer:'E', visual_tier:1, course:'行政法、行政救濟法（大二）', weekday:1, time:[0,0], field:'公法', teaching_style:'喜歡比較法（德、日）', exam_style:'考試非常長', temperament:'嚴肅、對研究有興趣的學生很熱情', char3d:{spec:'prof'}, portrait:'prof_xu', grad_mentor:true },
   prof_tsai:{ id:'prof_tsai', name:'蔡教授', fullname:'蔡佩君', gender:'f', social_layer:'E', visual_tier:1, course:'民事訴訟法（大三）、強制執行法（大四）', weekday:1, time:[0,0], field:'民事訴訟法', teaching_style:'實務取向、常請律師來', exam_style:'題目長到要翻頁', temperament:'直接', char3d:{spec:'prof'}, portrait:'prof_tsai' },
   prof_chen:{ id:'prof_chen', name:'陳教授', fullname:'陳律言', gender:'m', social_layer:'E', visual_tier:1, course:'目前沒有開課', weekday:4, time:[13.33,15.17], lobby:'linze', field:'國際法', teaching_style:'seminar 式、邀學生報告', exam_style:'口頭報告＋論文', temperament:'鼓勵研究所', char3d:{spec:'prof'}, portrait:'prof_chen', grad_mentor:true },
-  /* 2026-10-13 新的四位教授（AA_103 第 2 節，全部虛構）：大二以後才上課；風格照 AA_103，其他個性等 AA、BB 寫 */
+  /* 2026-10-13 新的四位教授（AA_103 第 2 節，全部虛構）：大二以後才上課；風格照 AA_103（exam_style、temperament 留空：AA_355 第 3 節，不用補）*/
   prof_zheng:{ id:'prof_zheng', name:'鄭教授', fullname:'鄭婉如', gender:'f', social_layer:'E', visual_tier:1, course:'民法物權、民法身分法（大二）', weekday:2, time:[0,0], field:'民法', teaching_style:'畫很多圖（土地、房子、家族樹）', exam_style:'', temperament:'', char3d:{spec:'prof'} },
   prof_ye:{ id:'prof_ye', name:'葉教授', fullname:'葉明哲', gender:'m', social_layer:'E', visual_tier:1, course:'民法債編各論（大二下）', weekday:1, time:[0,0], field:'民法', teaching_style:'每堂課從一份真實的租約或買賣契約開始', exam_style:'', temperament:'', char3d:{spec:'prof'} },
   prof_he:{ id:'prof_he', name:'何教授', fullname:'何安平', gender:'m', social_layer:'E', visual_tier:1, course:'商事法總論及公司法、證券交易法（大三上）', weekday:3, time:[0,0], field:'商事法', teaching_style:'以前在企業當法務，講話像在開會', exam_style:'', temperament:'', char3d:{spec:'prof'} },

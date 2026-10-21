@@ -482,7 +482,7 @@ const GAME = (function(){
     for(const pl of PLACE_LIST()){ const st=placeState(pl); const ht=typeof PLACES!=='undefined'&&PLACES.hours[pl[0]]?(PLACES.hours[pl[0]].rules?PLACES.todayText(pl[0],G.day):(PLACES.hours[pl[0]].open!=null?PLACES.hours[pl[0]].text:'')):'';
       h+='<div class="item phrow"><div>'+esc(pl[1])+'<div class="muted">'+(!st.known?'還沒去過':(st.here?'你在這裡':'約 '+st.mins+' 分鐘'+(st.bike?'（騎車）':'')))+(ht?'・'+esc(ht):'')+'</div></div>'+(st.here||!st.known?'':'<button class="btn'+(st.open?' pri':'')+'" data-place="'+esc(pl[0]+'|'+pl[1])+'">'+(st.open?'前往':'已閉館')+'</button>')+'</div>'; }   /* 已閉館的按鈕按了會說幾點開、可以改去哪裡 */
     return h; }
-  /* 手機「活動」（D55，使用者 2026-10-13「手機查詢：朋友位置、課表、活動」）：這幾天的演講與活動（src/data/activities.js，內容等 AA、BB；目前是空的）。
+  /* 手機「活動」（D55，使用者 2026-10-13「手機查詢：朋友位置、課表、活動」）：這幾天的演講與活動（src/data/activities.js：活動已經排進去了，AA_355 第 3 節）。
      地點有快速前往的，旁邊有「前往」（照樣花時間、照開放時間） */
   function eventsHTML(){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const up=typeof ACTIVITIES!=='undefined'?ACTIVITIES.upcoming(G,7):[];
     const vac=typeof VAC!=='undefined'&&VAC.html?VAC.html(G):'';   /* 假期行事曆（AA_199 3-2）：報名了的、還可以報名的 */

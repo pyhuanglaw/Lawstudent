@@ -223,7 +223,7 @@ const Y34B=(function(){
       if(F.SIS_SENDOFF==='two') at(G,u0,tzH(G,u0,9),[DM('heroine_05','到了。三件事。'),DM('heroine_05','……算了，一件：這裡的天空很大。'),DM('heroine_05','還有，那天我不講話，不是因為不想講。'),DM('heroine_05','是因為那是高速公路。'),DM('heroine_05','……而且我在發燒，講話很難聽。')],'y4_us0');
       else at(G,u0,tzH(G,u0,9),[GSIS('到了。三件事。……算了，一件：這裡的天空很大。'),GKEV('學姊妳可以多講兩個字'),GSIS('這裡的天空很大，大家保重。')],'y4_us0'); }
     if(sent(G,'y4_us0')&&!F.REPLIED_US0&&F.US0_AT!=null&&NOW(G)<F.US0_AT+72){ const mine=(G.msgs||[]).some(m=>m.from==='player'&&(m.th==='p:heroine_05'||m.th==='g:family_law')&&T(m.day,m.h)>=F.US0_AT);
-      if(mine){ F.REPLIED_US0=true; remember('heroine_05','REPLIED_US0','到了'); } }   /* 回了（AA 沒有寫回覆的字：在那個對話串傳任何一句都算）*/
+      if(mine){ F.REPLIED_US0=true; remember('heroine_05','REPLIED_US0','到了'); } }   /* 回了（回覆不另寫字：在那個對話串傳任何一句都算；AA_355 第 2 節照用）*/
     /* M6：8/3 起每天一張照片（只在家族群組；美國路線沒有）；週日六題爭論，之後「今天不吵」 */
     if(!US(G)&&G.day>=u0&&G.day<end) S.m6(G); };
   const M6_PHOTO=['（照片：一片沒有雲的天空）','（照片：一張空的桌子）','（照片：一杯熱水）'];
@@ -343,7 +343,7 @@ const Y34B=(function(){
       await GM.fade(true); if(G.hour<19.75){ G.hour=19.75; if(GM.E) GM.E.hour=G.hour; } if(GM.enter) await GM.enter('noodle',{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 黑幕轉場到長桌 */
     return S.a23Run(GM); };
   S.an20Bring=async function(GM,o){ const G=GM.G; if(G.flags.AN_YOUR_TURN!=null) return false; const cafe=S.an20Mode(G)==='cafe';
-    GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(!cafe&&GM.toast) GM.toast('手機響了。',2400); await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 麵店版：阿哲打電話（AA 沒有寫電話裡的話：只有提示）*/
+    GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(!cafe&&GM.toast) GM.toast('手機響了。',2400); await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 麵店版：阿哲打電話（電話裡的話不另寫，只有提示「手機響了。」；AA_355 第 2 節照用）*/
     G.flags.AN20_LATE=cafe; const ev=evOf(cafe?'ev_an_your_turn':'ev_an_your_turn_noodle'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ---------------- 在家（home3d.js 的 loop 已經在問 STORY.y4HomeDue）---------------- */
   S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };

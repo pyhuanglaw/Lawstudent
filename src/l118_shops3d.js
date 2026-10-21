@@ -15,6 +15,10 @@ const L118S=(function(){
   const viewK=h=>{ const t=((h%24)+24)%24; if(t>=19||t<5.5) return 0.32; if(t>=17.5) return 1-0.68*(t-17.5)/1.5; if(t<6.5) return 0.32+0.68*(t-5.5); return 1; };
   function setView(mats,h){ const k=viewK(h); for(const m of mats){ const b=m.userData.l118View; if(!b) continue; if(b.c) m.color.copy(b.c).multiplyScalar(k); if(b.e!=null) m.emissiveIntensity=b.e*k; } }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
+  /* 看東西的字：配置檔的 note 有字就用（例：家常菜的電視，AA_280 原句）；dev 那一欄是 LAWWW2 給開發組的話（產生的檔，不改；不會出現在遊戲裡）。
+     AA_355 1-3（AA-C 2026-10-21）給了滇香小館牆上的織布；其他還沒有 AA 字的（自取的湯、書架、小菜櫃）照舊顯示名稱 */
+  const LOOK={ dian:{ tapestry:'（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）' } };
+  const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
   function zoneFor(id){ const L=L118_SHOP_LAYOUTS[id];
     return { id:'l118_'+id, name:L.name+'（118 巷）', indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;
       const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;
@@ -30,7 +34,7 @@ const L118S=(function(){
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); setView(views,h); };
       const IT=E.interactables; z.seats=[];
       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||'坐下'}); }   /* prio：站在椅子旁邊要坐下時，「坐下」比旁邊的電視、自取的湯優先（BB-C 10-20 家常菜） */
-      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:q.note||q.label});   /* 只是看的東西（電視、自取的湯）讓位給坐下、點餐、出口：家常菜的湯就在椅子後面（BB-C 10-20） */
+      for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:lookText(id,q)});   /* 只是看的東西（電視、自取的湯）讓位給坐下、點餐、出口：家常菜的湯就在椅子後面（BB-C 10-20） */
       if(L.order) IT.push({x:L.order.x,z:L.order.z,radius:L.order.r,lv:0,label:L.order.label,shop118:id});
       for(const X of L.exits){ const so=L.street.spawn_out; IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:'lane118',spawn:{x:so.x,z:so.z,yaw:so.yaw}}}); }
       z.formal=false; const key='bldg.l118_'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
@@ -39,5 +43,5 @@ const L118S=(function(){
       return z; } }; }
   if(typeof L118_SHOP_LAYOUTS!=='undefined') for(const id of Object.keys(L118_SHOP_LAYOUTS)){ Z3.ZONES['l118_'+id]=zoneFor(id);
     if(typeof ASSETS!=='undefined') ASSETS.manifest['bldg.l118_'+id]={url:'assets/models/env/second_ai/l118_'+id+'.glb',type:'building',lazy:true,source:'LAWWW2-C lane118_shops.py',license:'本作'}; }
-  return {viewK,zoneFor,viewMats,setView};
+  return {viewK,zoneFor,viewMats,setView,lookText};
 })();

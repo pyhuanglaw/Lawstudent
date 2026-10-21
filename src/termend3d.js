@@ -86,7 +86,7 @@ const TERMEND=(function(){
   /* 玩家人在國外（交換路線；AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：整段時段都在國外（日本路線大三下）＝臺灣這邊什麼都不發；中途回來（美國路線 12/23）＝回來那天起才發 */
   S.backDay=function(G,w){ if(typeof STORY==='undefined'||!STORY.abroad) return w.from; for(let d=w.from;d<=w.to;d++) if(!STORY.abroad(Object.assign({},G,{day:d}))) return d; return null; };
   S.plan=function(G,w){ const R=S.rec(G,w.id); if(R.plan) return R.plan; const Lx=L(); const bd=S.backDay(G,w);
-    if(bd==null){ R.plan={heart:[],friend:[],fallback:null,gf:[],nope:{},kx:false,abroad:true}; return R.plan; }   /* 日本路線的以安那一頓（AA_250 6-2）：等 AA 給她約的那則 */
+    if(bd==null){ R.plan={heart:[],friend:[],fallback:null,gf:[],nope:{},kx:false,abroad:true}; return R.plan; }   /* 日本路線的以安那一頓（AA_250 6-2）不算學期末的飯、不在這裡：6/9 她私訊約、6/10 出遊（src/jp3d.js 的 S.dinnerPhone，AA_355 1-1）*/
     const P={back:bd,heart:[],friend:[],fallback:null,gf:[],nope:{},kx:!!(G.flags&&G.flags.dating_kexin)&&!!(Lx.KX&&Lx.KX[w.id])&&!(w.id==='Y1S2'&&G.events&&G.events.done&&G.events.done.ev_revisit_y1_kexin)};   /* 可昕：舊存檔演過重訪日的算大一下已經演過（BB_202 第 6 節）*/
     for(const id of Object.keys(Lx.GF)) if(G.flags&&G.flags['dating_'+id]&&!S.away(G,w,id)) P.gf.push(id);   /* 交往中但人在國外（芷若大三上）：不發期末約會，照 BB_124 聖誕視訊（AA_259 第 5 節，等 BB）*/
     for(const id of Object.keys(Lx.HEART)){ if(S.away(G,w,id)) continue; const h=S.heartWhy(G,id,w); if(h===true) P.heart.push(id); else if(h&&h.nope) P.nope[id]=h.nope; }
