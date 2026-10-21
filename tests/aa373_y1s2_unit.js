@@ -163,7 +163,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
       const ch=(ev('ev_revisit_y1_kexin').dialogue||[]).find(l=>l&&Array.isArray(l.choice)&&l.choice.some(c=>/那場演講/.test(c.text))), o=ch&&ch.choice.find(c=>/那場演講/.test(c.text));
       return {opt:m&&m.ask.opts[0].t,shown:!!(o&&o.if&&o.if.custom&&o.if.custom(G))}; };
     const a=b4(0), b=b4(1), c=b4(null);
-    check('17. 5/7 回過她「講者最後問：『被限制的那個人，最後可以去哪裡？』」：期末河堤有「那場演講。」',/^講者最後問/.test(a.opt||'')&&a.shown,J(a));
+    check('17. 對照：5/7 回過她「講者最後問：『被限制的那個人，最後可以去哪裡？』」：期末河堤照樣有「那場演講。」',/^講者最後問/.test(a.opt||'')&&a.shown,J(a));
     check('17. 聽完 B4、5/7 回的是別的（被點名？）或沒回：「那場演講。」不出（她回「你說講者最後問的那一題…」接不上）',!b.shown&&!c.shown,J([b,c])); }
   // ===== 第 18 項：芷若大一下期末飯 22:00 =====
   { const din=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_02','FRI'); TERMEND.planDinner(G,w,'heroine_02','friend'); const q=OUT.get(G,'te_'+term); return q?[K(q.day),q.h]:null; };
