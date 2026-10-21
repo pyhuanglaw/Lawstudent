@@ -65,6 +65,10 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
     for(const fl of [{},{E01_MORNING:true}]){ fresh(d0,8,'dorm',Object.assign({LEAVE_WEEK:7,E06_DONE:'e06',KX_CAR:true},fl)); G.stage='econ'; const N=G.flags.dpN={}; for(const d of STORY.DAILY_PHONE) if(d.id!=='y0_xu_seat') N[d.id]=9;   /* 其他手機小事都已經收過（第 4～7 週），第 8 週只剩這一則 */
       days(d0,7); const m=(G.msgs||[]).find(x=>/看了一眼我旁邊的空位/.test(x.text)); got.push(m?CALENDAR.dateOf(m.day).key:null); }
     check('5f. AA_368 M6：實際跑 10/21（一）～10/27，阿勳那則 10/23（三）才收到（修改前 10/21 就收到）；完整版、30 分鐘版都是',got.every(k=>k==='2024-10-23'),JSON.stringify(got)); }
+  { const d0=STORY.dayOfKey('2024-10-21'); fresh(d0,8,'dorm',{LEAVE_WEEK:7,E06_DONE:'e06',KX_CAR:true,E01_MORNING:true}); G.stage='econ'; const N=G.flags.dpN={}; for(const d of STORY.DAILY_PHONE) if(d.id!=='y0_xu_seat'&&d.id!=='y0_xu_alarm') N[d.id]=9;
+    PHONE.postAt(G,{th:'p:kai',from:'kai',text:'（測試：10/19 別的訊息）',tag:'test_1019'},STORY.dayOfKey('2024-10-19'),21); PHONE.postAt(G,{th:'p:kai',from:'kai',text:'（測試：10/22 別的訊息）',tag:'test_1022'},STORY.dayOfKey('2024-10-22'),21); days(d0,7);   /* 10/19、10/22 有別的訊息：隔 3 天，這一週只剩 10/25 一個位置（BB 那兩輪的情形）*/
+    const seat=(G.msgs||[]).find(x=>/看了一眼我旁邊的空位/.test(x.text)), alarm=(G.msgs||[]).find(x=>/鬧鐘第二次響/.test(x.text));
+    check('5g. AA_368 M6（BB 10-21：兩輪都看不到）：30 分鐘版 10/19、10/22 有別的訊息、隔 3 天這一週只剩 10/25 一個位置——快過期的阿勳「星期三的微積分」（第 8 週）先排，第 4 週起都能排的「鬧鐘」那則讓位',!!seat&&CALENDAR.dateOf(seat.day).key==='2024-10-25'&&!alarm,JSON.stringify({seat:seat&&CALENDAR.dateOf(seat.day).key,alarm:alarm&&CALENDAR.dateOf(alarm.day).key})); }
   { const d0=STORY.dayOfKey('2024-09-23'); const span=fl=>{ fresh(d0,8,'dorm',fl); G.stage='econ'; days(d0,12); return Object.values(G.flags.dpDayOf||{}).sort((a,b)=>a-b); }, gaps=a=>a.slice(1).map((x,i)=>x-a[i]);
     const S1=span({E01_MORNING:true}), S0=span({});
     check('6. AA_348 B8：經濟系 30 分鐘版（E01_MORNING）9/23～10/4 的手機小事至少隔 3 天一則；完整版（舊流程）照舊',S1.length>=2&&gaps(S1).every(g=>g>=3)&&S0.length>S1.length,JSON.stringify({short:S1,full:S0})); }
