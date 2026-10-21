@@ -22897,7 +22897,7 @@
    },
    "source": "使用者 10-18 選擇題（AA 交接 81 行；AA_291 檔頭，6e3cacb9 已交 LAWWW-C）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接定；D99 第三優先",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】做了一部分：courses.js 加美國路線 Y5S1 補修兩門（route US）＋calendar.js Y5S1（AA267-Y5）；證書 2030-01 照 r2y4b3d.js 2-Y4-52 核對 ｜ 照 AA_291 第 9 節的順序施工；USER_WANTS D46 跟著改",
+   "next": "【LAWWW（帳號 A）17:4x】稽核 B2 說沒做的「美國路線大五上補修強制執行法、法律倫理」現在有了：src/y5s1_3d.js S.MAKEUP（週一強制執行法、週三法律倫理，一鍵上課；AA_357 子代理 dd578e81）＋postgrad3d.js 2029-09-04～12-17 日期卡；BB 驗收 BB-TEST-Y5-1021 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：courses.js 加美國路線 Y5S1 補修兩門（route US）＋calendar.js Y5S1（AA267-Y5）；證書 2030-01 照 r2y4b3d.js 2-Y4-52 核對 ｜ 照 AA_291 第 9 節的順序施工；USER_WANTS D46 跟著改",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -25263,7 +25263,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：S7 補修（courses.js 沒有強制執行法、法律倫理）——大五子代理照 AA_357 1-1 做週一、週三補修一鍵上課 ｜ 【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "next": "【LAWWW（帳號 A）17:4x】S7 補修已由 src/y5s1_3d.js 做（AA_357 dd578e81）；剩 S8 亞利桑那時差（大峽谷 10/7～10/14，r2y4b3d.js:366-378 已有出遊）——小細節，排在 BB 驗收之後；BB 瀏覽器驗收 BB-TEST-US-LIFE-1021 ｜ 【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：S7 補修（courses.js 沒有強制執行法、法律倫理）——大五子代理照 AA_357 1-1 做週一、週三補修一鍵上課 ｜ 【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
    "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
   },
   {
@@ -27223,6 +27223,62 @@
    "source": "BB（帳號 A）2026-10-21 17:25 DONE-B01 驗收訊息（BB_218 最後一節，story-planning 1e3f976e；截圖 test_shots/done_b01_1021/）",
    "authorized": "bug 修正（D85）",
    "next": "D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
+  },
+  {
+   "id": "BB-TEST-HOLFF-1021",
+   "title": "瀏覽器驗收寒暑假快轉（D99 第二優先）：docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md 第一節（每個假期成績公布那天起：到下一個有事的日子／過三天／過一週、中途收到要回的訊息停下打開手機、除夕回家、摘要日一句）",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一寒假（2026-01）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）2026-10-21 17:4x：D99 第二優先的瀏覽器驗收還沒有 BB 任務（清單 LAWWW-C 寫好、瀏覽器沒跑過）",
+   "authorized": "D100（測試歸 BB）；D99 第二、第三優先",
+   "next": "照清單順序走；有問題列重現步驟給 LAWWW",
+   "xai": {
+    "spec": "docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md；src/holff3d.js、src/home3d.js（合併 92030b76）；tests/holiday_ff_unit.js",
+    "branch": "claude/confident-ritchie-8rwh7t（最新）",
+    "acceptance": "每一項判 PASS／FAIL＋截圖；不能一鍵跳過兩個月、有事會停、停下來看得懂為什麼",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
+  },
+  {
+   "id": "BB-TEST-US-LIFE-1021",
+   "title": "瀏覽器驗收美國交換那一學期（D99 第三優先，系統那一半）：docs/handoff/bb_checklists/BB_US_LIFE_1021.md（US-A～，8/2 出發到 12/23 回台：日曆、一鍵上課、快轉與摘要日、時差、不能約台灣朋友、回程）＋BB_R2Y4_1021.md 的美國段",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "大四上 2028-08-02 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）2026-10-21 17:4x：D99 第三優先的瀏覽器驗收還沒有 BB 任務（US-LIFE-AA340-1020、V4-R-US 程式已整合，缺 BB 驗收）",
+   "authorized": "D100（測試歸 BB）；D99 第二、第三優先",
+   "next": "照清單順序走；有問題列重現步驟給 LAWWW",
+   "xai": {
+    "spec": "docs/handoff/bb_checklists/BB_US_LIFE_1021.md、BB_R2Y4_1021.md；src/us_life3d.js、src/exchange3d.js、src/r2y4b3d.js；tests/us_life_unit.js",
+    "branch": "claude/confident-ritchie-8rwh7t（最新）",
+    "acceptance": "每一項判 PASS／FAIL＋截圖；從台灣出發到回台灣走得完；場景完成≠系統完成，報告分開寫",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
