@@ -36,9 +36,9 @@
 **B｜全部未完成（照順序；全部在 tasks.json）**
 1. **RELEASE-9103／BUG-SMOKE-JOY-1021（P0，擋發布）**：照 `docs/handoff/release_9103/README.md` 第 5、6 節——重做候選 bcbd4b65（f72a2a21＋phonefix patch）、乾淨環境查 smoke「新遊戲搖桿」為什麼被擋、再跑 flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms，全過才發布 v9.10.3。
 2. **合併後還沒重跑的單元測試**：AA_357（dd578e81）只跑了 presence_unit；子代理列的約 60 支（y5_delay、pg_cardline、aa331_postgrad、bar_exam、epilogue、presence、holiday_ff、graduation、r2y4b_events、termend、home、move_out_y4、us_life、jp_semester、classes…）要在合併後的樹上跑。AA_360（2bce84da）跑過 16 支 ALL PASS。
-3. **子代理 a73c8f28（AA 回覆小修）**：A～D 組在 wip_backup/wip_subagents_1021_1500.bundle（沒合併、沒驗）；E 組（AA_350 第 9 節）沒做（WIP-LAWWW-AAFIX-1021）。
+3. **子代理 a73c8f28（AA 回覆小修）**：A～D 組在 wip_backup/wip_subagents_1021_1500.bundle（沒合併、沒驗）；E 組（AA_350 第 9 節）沒做（wip.json 的 AAFIX 那一筆）。
 4. 等 AA 回答：AA_QUESTIONS_1021（R：AA_360 八題、S：AA-Q-1021-TE＋BUG-ECON-MONEY-1020、T：AA_357 九題，以及更早的 A～Q）。
-5. 等 BB 驗收：BB-TEST-AA360-1021、BB-TEST-Y5-1021、BB-TEST-VAC-C16-C18-1021、LAWWW2 三件場景截圖判讀（GYM-GLOW、ART-Y1-BOX、ART-US2-FIX；BB 分支 test_shots/artrev_1021/）、BG-3DSHOT-1021 腳本沒跑、BB218-P3 ①②④⑤（⑥③ 已修只有單元測試）。
+5. 等 BB 驗收：AA_360、AA_357、C16～C18 三份清單（docs/handoff/bb_checklists/BB_AA360_1021.md、BB_Y5_1021.md；C16～C18 在任務總表）、LAWWW2 三件場景截圖判讀（GYM-GLOW-COPLANAR-1021、ART-Y1-BOX-1021、ART-US2-FIX-1018；BB 分支 test_shots/artrev_1021/）、BG-3DSHOT-1021 腳本沒跑、BB218-P3 ①②④⑤（⑥③ 已修只有單元測試）。
 6. LAWWW2 的 WIP：SOC-COURT-1021（社科院中庭夜間光＋公告欄，2b4f2028，GLB 沒換）、PS-SKIRT-LEG（27618d8d）、榕樹氣根黑線（查一半）。
 7. 其他照 `check_handoff.py queue --owner LAWWW`。
 
