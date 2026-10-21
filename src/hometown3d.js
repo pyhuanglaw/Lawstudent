@@ -3,7 +3,10 @@
    - 那一天：車站接人 → 一個地方 → 傍晚送上車（2D；第一次演 first，之後 again 三選一輪流；沛珊重考消失期演 keep，只能出來一個下午、一個月最多一次）。結束回臺北（宿舍或家）。
    - 台詞在 src/data/hometown_lines.js。測試：node tests/vac_hometown_unit.js
    - 別的城市那一組（AA_328 3-09，沛珊大三、大四的學期中在台南）：HOMETOWN_LINES['classmate_peishan@台南']，STORY.presence 回 city（或 home）＝'台南' 的時候用（S.key）；
-     presence 改台南、學期中的邀約（AA_282 第 5 節第 1、3 點）還沒做＝現在不會出現。測試：node tests/r3_events_unit.js 第 16 節 */
+     presence 已改台南（AA_282 第 5 節第 1、3 點，任務 PS-TAINAN-AA282）：學期中「我去台南找妳？」（出遊 ev_hv_ps_tn，回程高鐵約一小時四十分鐘）、寒暑假「我去台中找妳？」。
+     沒交往、放榜後還沒重新聯絡上的玩家（presence 的 lost，AA_282 第 2 節：她不先找人）不出現。沒有視訊的選項（沒交往的不開視訊，AA_282 第 3 節）。
+   - 閒聊階梯（AA_282 第 3 節）：沛珊大三上～大四下的階梯是 context:'date'，只在私下約推進——去台南那一天演完地方那一段、送上車以前接著聊一層（S.LADDER；一次推進一層，寒暑假沒有學期＝不推進）。
+   測試：node tests/r3_events_unit.js 第 16 節、node tests/peishan_tainan_unit.js */
 'use strict';
 const HV=(function(){
   const S={};
@@ -18,7 +21,7 @@ const HV=(function(){
   S.key=function(G,id,day){ const p=pres(G,id,day), c=p&&(p.city||p.home); return c&&L(id+'@'+c)?id+'@'+c:id; };
   const away=(G,id,p,day)=>p.here===false&&(p.kind==='home'||S.key(G,id,day)!==id);   /* 寒暑假在老家（kind 'home'），或在有自己那一組的城市 */
   /* 手機約她的清單要不要多這一項：null＝不出現；{ok:false,why}＝出現但不能選（沛珊重考消失期一個月一次）*/
-  S.offer=function(G,id){ if(!G||(G.stage||'law')!=='law') return null; const C=L(S.key(G,id)); if(!C) return null; const p=pres(G,id); if(!away(G,id,p)) return null;
+  S.offer=function(G,id){ if(!G||(G.stage||'law')!=='law') return null; const C=L(S.key(G,id)); if(!C) return null; const p=pres(G,id); if(!away(G,id,p)||p.lost) return null;   /* lost：還沒重新聯絡上，玩家不知道她在哪（AA_282 第 2 節）*/
     if(S.planned(G,id)) return {ok:false,why:'已經約好了'};
     if(C.fare&&(G.money|0)<C.fare) return {ok:false,why:'高鐵票錢不夠'};   /* AA_276 第 7 節第 2 點：來回 2980／1400 元，消失期例外也一樣 */
     if(p.keep&&(G.flags.HV_KEEP_M||{})[ym(G.day)]) return {ok:false,why:'這個月已經去過了（她說一個月一次）'};
@@ -34,7 +37,7 @@ const HV=(function(){
     const day=D[k], me=G.name||'祐廷'; msg(G,id,'player',C.ask); await GM.say({name:me+'（手機）'},C.ask);
     const yes=keep&&C.yesKeep?C.yesKeep:(dating(G,id)&&C.yesDating?C.yesDating:C.yes); msg(G,id,id,yes); await GM.say({name:nm(id)+'（手機）',charId:id},yes);
     if(keep){ (G.flags.HV_KEEP_M||(G.flags.HV_KEEP_M={}))[ym(day)]=true; }
-    OUT.plan(G,{id:'hv_'+id+'_'+day,ev:id==='kexin'?'ev_hv_kx':'ev_hv_ps',day,h,late:1,place:C.city,title:'去'+C.city+'找'+nm(id),travel:C.travel,travelH:C.travelH,back:'回到臺北。',hv:key!==id?{id,keep,key}:{id,keep}});
+    OUT.plan(G,{id:'hv_'+id+'_'+day,ev:id==='kexin'?'ev_hv_kx':(key!==id&&C.ev?C.ev:'ev_hv_ps'),day,h,late:1,place:C.city,title:'去'+C.city+'找'+nm(id),travel:C.travel,travelH:C.travelH,back:'回到臺北。',hv:key!==id?{id,keep,key}:{id,keep}});
     await GM.say(null,'約好 '+label(day)+'，去'+C.city+'。'); if(GM.autosave) GM.autosave(); return day; };
   /* 那一天（ev_hv_kx／ev_hv_ps 的 beforeOuting）*/
   const sub=(G,t)=>String(t).replace(/\{name\}/g,G.name||'祐廷');
@@ -51,9 +54,16 @@ const HV=(function(){
     const P=v==='first'?C.first:C.again.find(a=>a.key===v); await place(GM,P); await play(GM,id,P.lines); if(dt&&P.dating) await play(GM,id,P.dating);
     const O=(P.opts||[]).filter(o=>!o.dating||dt); if(O.length){ const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'}))); await GM.say({name:G.name||'祐廷'},O[k].t); await play(GM,id,O[k].say); }
     if(typeof C.extra==='function') await play(GM,id,C.extra(G)||[]);   /* 那一組自己多的一段（台南：沒交往的玩家當面看孩子的作業，AA_328 3-19 裁定 25）*/
+    await S.ladder(GM,id);   /* 私下約接著聊一層閒聊階梯（AA_282 第 3 節）*/
     toEvening(GM); await beforeSend(GM,q); if(C.send.narr) await GM.say(null,C.send.narr); await play(GM,id,dt?C.send.dating:C.send.other);
     const N=G.flags.HV_N||(G.flags.HV_N={}); N[key]=(N[key]|0)+1; (G.flags.HV_LAST||(G.flags.HV_LAST={}))[key]=G.day;
     if(C.visitsFlag) G.flags[C.visitsFlag]=N[key]; if(C.lastFlag&&v!=='first') G.flags[C.lastFlag]=v;   /* 台南：PS_TAINAN_VISITS（去了幾次）、PS_AGAIN_LAST（上一次是哪一版）*/
     return true; };
+  /* 閒聊階梯只在私下約推進的人（AA_282 第 3 節：沛珊大三上～大四下的階梯 context:'date'，和可昕一樣；outings3d.js 可昕那段是演完見面接一層）。
+     那一學期她的階梯不是 date（大一、大二）＝不在這裡推進（照 3D 搭話）；寒暑假沒有學期＝STORY.ladData 沒有＝不推進；今天推進過、條件不到＝不聊（不用短招呼）*/
+  S.LADDER=['classmate_peishan'];
+  S.ladder=async function(GM,id){ const G=GM.G; if(!S.LADDER.includes(id)||typeof STORY==='undefined'||!STORY.ladNext||!STORY.ladPlay||!STORY.ladData) return false;
+    const D=STORY.ladData(G,id); if(!D||!D.L||D.L.context!=='date') return false; const st=STORY.ladNext(G,id,'meet'); if(!st) return false;
+    await STORY.ladPlay(GM,{name:nm(id),charId:id},id,st); return true; };
   return S;
 })();

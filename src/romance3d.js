@@ -53,7 +53,7 @@ const ROM=(function(){
     if(r.meet==='plg'){ if(wd!==4||typeof ACTIVITIES==='undefined'||!ACTIVITIES.list) return null; const d0=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',6,1):null; if(d0==null||day<d0) return null;
       const a=ACTIVITIES.list.find(x=>x.id==='public_law_group'); if(!a||!ACTIVITIES.on(a,day,G)) return null;
       const Gx=Object.assign({},G,{day,hour:a.t0,weekday:4}), at=id=>{ if(typeof STORY==='undefined'||!STORY.presence) return true; const p=STORY.presence(id,Gx); return p.here||p.kind==='taipei'; };
-      return at(r.from)&&at(r.to)?{t0:a.t0,t1:a.t1}:null; }   /* 兩人都要出席（BB-C 16:42）：沛珊聯絡不到的那段（2026-12-18～2027-08-06）、以安在日本不算；沛珊回來以後在別的學校（taipei）照常來讀書會 */
+      return at(r.from)&&at(r.to)?{t0:a.t0,t1:a.t1}:null; }   /* 兩人都要出席（BB-C 16:42）：沛珊聯絡不到的那段（2026-12-18～2027-08-06）、以安在日本不算；沛珊放榜以後在台南（kind city，AA_282 第 1 節：不回台大、不來臺北）＝不來讀書會、不會在這裡聽到（原本「回來以後在別的學校照常來讀書會」作廢）*/
     if(r.meet==='fri'){ if(wd!==5) return null; for(const hh of [14.25,14.75,15.25,15.75]) if(onCampus(G,r.from,day,hh,5)&&onCampus(G,r.to,day,hh,5)) return {t0:14,t1:16}; return null; }
     return null; };
   S.spreadTick=function(G){ if(!G||!G.flags) return 0; const F=G.flags, R=S.relRec(G), scan=F.spreadScan&&typeof F.spreadScan==='object'?F.spreadScan:(F.spreadScan={}), now=G.day*24+(G.hour||0); let n=0;

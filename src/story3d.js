@@ -2055,8 +2055,9 @@ const STORY = (function(){
     /* 沛珊 P4b 換你陪我念（BB_97 4-4；大二下第 2 週起，前置 MIRROR_PEISHAN 或和她朋友以上）：第 2 週週五 21:00 她私訊（時間 LAWWW-B 排，已告訴 AA-B）。
        她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
        祐廷在和別人交往、而且她知道：之後她開小群組「陪重考生念書」（祐廷、阿哲；阿哲「我來補債各。」），便條寫「你們呢？」（invites.js 的 afterMeet）。
-       第 8 週週六 4/17 12:30「總圖滿了。兩點半，靠窗。」（AA_177 第 8 節②；只有兩個人的版本）→ Café 13～15 點到就演 ev_peishan_cafe_42（CG BCG-35）*/
-    { const d=termDay('Y2S2',2,5), ps='classmate_peishan'; if(d!=null&&!S.psGone(G)&&typeof SOCIAL!=='undefined'&&SOCIAL.has(ps,'FIRST_MET')&&(G.day>d||(G.day===d&&G.hour>=21))&&S.termAt(G.day)==='Y2S2'&&!PHONE.sent(G,'ps_p4b')&&(SOCIAL.has(ps,'MIRROR_PEISHAN')||['FRIEND','CLOSE_FRIEND'].includes(fl(ps)))){
+       第 8 週週六 4/17 12:30「總圖滿了。兩點半，靠窗。」（AA_177 第 8 節②；只有兩個人的版本）→ Café 13～15 點到就演 ev_peishan_cafe_42（CG BCG-35）
+       2026-10-21（PS-TAINAN-AA282）：放榜（2027-08-06）以後不傳——原本消失期一結束，暑假還算 Y2S2、psGone 不成立，8/6 起朋友以上的玩家會收到這一則重考的問題；AA_282 第 2 節：放榜後她不先找人 */
+    { const d=termDay('Y2S2',2,5), ps='classmate_peishan', rd=S.dayOfKey('2027-08-06'); if(d!=null&&!S.psGone(G)&&rd!=null&&G.day<rd&&typeof SOCIAL!=='undefined'&&SOCIAL.has(ps,'FIRST_MET')&&(G.day>d||(G.day===d&&G.hour>=21))&&S.termAt(G.day)==='Y2S2'&&!PHONE.sent(G,'ps_p4b')&&(SOCIAL.has(ps,'MIRROR_PEISHAN')||['FRIEND','CLOSE_FRIEND'].includes(fl(ps)))){
         const know=F.ECON_PAST_SHARED==='full'||SOCIAL.has(ps,'MIRROR_PEISHAN'), P=t=>({th:'p:'+ps,from:ps,text:t}), other=typeof ROM!=='undefined'&&ROM.knows(G,ps).length>0;   /* 她知道祐廷在和別人交往（BB_191 9-4 #4：不是祐廷有沒有伴侶）*/
         const opts=[{t:'每天去同一個位子。',say:[P('……好。我先試這個。')],set:{PS_P4B:'seat'}},{t:'知道自己要去哪裡，就不難撐。',say:[P('我知道要去哪裡。那我應該撐得住。')],set:{PS_P4B:'where'}},{t:'我也不知道，就撐過來了。',say:[P('……這個答案好誠實。我收下了。')],set:{PS_P4B:'dunno'}}];
         if(know) opts.push({t:'那時候有人陪我一起準備。',say:[P('……好。那我也找一個人。')],set:{PS_P4B:'someone'}});
@@ -3051,11 +3052,14 @@ const STORY = (function(){
      沒有 presence 的人物照舊（現在的資料都還沒填：內容要 AA 確認、使用者批准，見 docs/STORY_EVENT_SCHEMA.md）。 */
   const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
   S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
-  S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true};
+  S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true}; const r=presCore(id,P,G);
+    if(P.lost&&!r.here&&S.dayOfKey){ const d=S.dayOfKey(P.lost.from), F=(G&&G.flags)||{}; if(d!=null&&G.day>=d&&!(P.lost.known||[]).some(k=>F[k]!=null&&F[k]!==false)) return Object.assign({},r,{away:P.lost.away||r.away,lost:true}); }   /* lost（AA_282 第 1、2 節，沛珊）：那天以後、玩家還沒重新聯絡上（known 的旗標一個都沒有）＝手機寫「很久沒聯絡」、不能去找她（hometown3d.js 看 lost）；kind、city 照舊 */
+    return r; };
+  const presCore=function(id,P,G){
     if(P.absentDates&&S.dayOfKey) for(const [a,b,away,kind,ex] of P.absentDates){ const d0=S.dayOfKey(a), d1=S.dayOfKey(b); if(d0!=null&&d1!=null&&G.day>=d0&&G.day<d1){ if(ex==='keepDating'&&P.home&&S.keepDating(id,G,d0)) return {here:false,away:'在'+P.home+'老家念書',kind:'home',home:P.home,keep:true}; return Object.assign({here:false,away:away||'',kind:kind||'abroad',back:d1},ex&&typeof ex==='object'?ex:{}); } }   /* keepDating：AA_276 第 4 節，消失期開始時和玩家交往中＝只有玩家聯絡得到（在老家）*/   /* 用日期算的不在（交換：以安 2028-01-08～07-15 在日本、學姊 2028-01-05 起在美國，AA_158 第 4 節；學期中間出發、放假也算）*/
-    if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)&&!S.homeStay(P,G)) return {here:false,away:'寒暑假在'+P.home+'的家',kind:'home',home:P.home};   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北 */
+    if(P.home&&(G.stage||'law')==='law'&&S.homeAway(G)&&!S.homeStay(P,G)){ const ht=P.homeText, hd=ht&&S.dayOfKey?S.dayOfKey(ht[0]):null; return {here:false,away:hd!=null&&G.day>=hd?ht[1]:'寒暑假在'+P.home+'的家',kind:'home',home:P.home}; }   /* AA_276 第 1 節：可昕高雄、沛珊台中；手機照常，偶遇、校園、當面約都不在臺北。homeText＝[從哪一天起, 手機寫的字]（沛珊放榜後「在台中」，AA_282 第 1 節）*/
     const t=S.termAt(G.day); if(!t) return {here:true}; const i=TERM_ORDER.indexOf(t);
-    const A=P.away||{}, K=P.kinds||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)) return {here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'};
+    const A=P.away||{}, K=P.kinds||{}, CI=P.cities||{}; if(P.from&&i<TERM_ORDER.indexOf(P.from)) return {here:false,away:A.before||'',kind:'before'}; if(P.until&&i>TERM_ORDER.indexOf(P.until)){ const ct=CI[t]||CI.after; return Object.assign({here:false,away:A[t]||A.after||'',kind:K[t]||K.after||'after'},ct?{city:ct}:{}); }   /* cities：kind 'city'＝在臺灣的別的城市念書（沛珊大三起在台南，AA_282）：約不到臺北的地點，可以去那個城市找她（hometown3d.js 的 S.key 用 city）*/
     if(P.absent&&P.absent.includes(t)) return {here:false,away:A[t]||'',kind:K[t]||'absent'}; return {here:true}; };   /* kinds：覆寫原因的種類（taipei＝在臺北、不在台大：沛珊大二下起、子晴大四，BB_163——校園作息換成她那份、邀約照她的規則，不先擋）*/   /* kind：手機「約不了的原因」（AA_125 第 1 節：交換＝國外、until 過了＝畢業）*/
   /* 交換路線（SYS-10；AA_158，AA-B 2026-10-16）：G.flags.EXCHANGE_ROUTE＝'TW'／'JP'／'US'（大三上第 11 週志願表，AA_30 場景 0；AA_90 的值）。
      準備出發、在國外、回來了都用日期算，不另存。台灣路線的事件寫「不是 JP、也不是 US」（未決定也算在台灣）。

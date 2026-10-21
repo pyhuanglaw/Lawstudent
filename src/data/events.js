@@ -1127,6 +1127,9 @@ const STORY_EVENTS=[
     beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },
   { id:'ev_hv_ps', title:'去台中', participants:[], location:'any', trigger:'outing', background:'dark', hours:1, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },
+  /* 沛珊大三、大四的學期中在台南（AA_282 第 3 節，hometown_lines.js 的台南那一組）：回程的高鐵約一小時四十分鐘 */
+  { id:'ev_hv_ps_tn', title:'去台南', participants:[], location:'any', trigger:'outing', background:'dark', hours:1.75, dialogue:[],
+    beforeOuting:async(G,GM,q)=>{ if(typeof HV!=='undefined') await HV.play(GM,q); } },
   { id:'ev_te_day', title:'假期的一天', participants:[], location:'any', trigger:'outing', background:'dark', hours:2, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ if(typeof TERMEND!=='undefined') await TERMEND.dayOuting(GM,q); },
     outingMissed:(G,GM,q)=>{ if(typeof TERMEND!=='undefined'&&TERMEND.dayMissed) TERMEND.dayMissed(GM,q); } },
