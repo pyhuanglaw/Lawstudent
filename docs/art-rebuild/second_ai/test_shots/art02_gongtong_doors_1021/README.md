@@ -1,6 +1,6 @@
 # 共同教學館關著的門換成門模組（ART-02）——已交件
 
-帳號 A 的 LAWWW2，2026-10-21 19:2x UTC。狀態：**已交件**，交 LAWWW 整合。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
+帳號 A 的 LAWWW2，2026-10-21 18:4x UTC。狀態：**已交件**，交 LAWWW 整合。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
 
 ## 問題
 

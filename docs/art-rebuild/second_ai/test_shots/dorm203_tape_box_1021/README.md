@@ -80,7 +80,7 @@
 
 ## 後續：壓平紙箱的字改成正的（ART-Y1-BOX-MIRROR-1021）——已交件
 
-帳號 A 的 LAWWW2，2026-10-21 19:1x UTC。狀態：**已交件**，交 LAWWW 整合；請 BB 用 `box_check.py` 重拍。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
+帳號 A 的 LAWWW2，2026-10-21 18:3x UTC。狀態：**已交件**，交 LAWWW 整合；請 BB 用 `box_check.py` 重拍。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
 
 ### 問題（BB_218 2026-10-21「左右鏡像」）
 

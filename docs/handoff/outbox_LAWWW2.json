@@ -1422,7 +1422,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS｜開發分支 6d49e79c（post9103 → 40a8ddc3 合併進開發分支）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
+   "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS｜開發分支 6d49e79c（post9103 → 40a8ddc3 合併進開發分支）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "BUG-CAM-203-R2-1021",
@@ -1438,7 +1438,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人｜開發分支 6313c019（post9103 → 40a8ddc3）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
+   "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人｜開發分支 6313c019（post9103 → 40a8ddc3）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "PERF-CAMPUS-SHADOW-1020",
@@ -1454,7 +1454,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "ACTIONED",
-   "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670｜開發分支 51740da7（post9103 → 40a8ddc3）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
+   "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670｜開發分支 51740da7（post9103 → 40a8ddc3）；LAWWW2 18:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "ART-Y1-BOX-MIRROR-1021",
