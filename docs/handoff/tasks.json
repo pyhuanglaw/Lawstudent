@@ -26868,6 +26868,34 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "BB-TEST-AA355-358-1021",
+   "title": "瀏覽器驗收 AA_355 第 5 節＋AA_358 第 2 節（可以錯過的事不被說成發生過：阿哲麵店問下午去哪看 F.plan、小安「不能賠十倍」、2-6 八句；AA_355 4b、4c 日本、運動會只標字、以安電話、5-1 十個物件旁白）",
+   "area": "TEST",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA 16:11：AA_355 第 5 節、AA_358 第 2 節在開發分支（含 32148711）逐條核過，請派 BB 驗",
+   "authorized": "D100（測試歸 BB）",
+   "next": "有走到／沒走到兩種玩法各看一次；有問題列重現步驟給 LAWWW",
+   "xai": {
+    "spec": "企劃線 AA_355 第 5 節、AA_358 第 2 節；程式 32148711（AA 子代理批，推在 d0049d36）",
+    "branch": "claude/story-planning（BB_218）",
+    "acceptance": "每一條在遊戲裡看得到新句、錯過時不出現「發生過」的說法；截圖進 test_shots",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
