@@ -10,13 +10,13 @@
   "Y1_KAI_TAPE_TEXT": 2
  },
  "tris_total": 40,
- "bytes": 32492,
+ "bytes": 33520,
  "nodes": {
   "Y1_BOX_WINTER": "封好的紙箱：8/29 起、BOX_WINTER_OPEN 以前（衣櫃前、床板底下，在 L2 床桌組裡面，導航本來就擋著）",
-  "Y1_BOX_FOLDED": "拆了以後：壓平的紙箱靠在書桌底下的牆邊（BOX_WINTER_OPEN；寒流那天才拆的也一樣）",
+  "Y1_BOX_FOLDED": "拆了以後：壓平的紙箱靠在衣櫃門前、床板底下（原本封好的紙箱那個位置；BOX_WINTER_OPEN；寒流那天才拆的也一樣）",
   "Y1_KAI_TAPE": "阿凱的國界（KAI_TAPE 以後；R2 床桌組外面一圈，走道那一條離牆 1.38 m）",
-  "Y1_KAI_TAPE_MID": "走道那一條中間那一段：沒寫字（ev_kai_tape2 以前）",
-  "Y1_KAI_TAPE_TEXT": "同一段寫了「法律系可以無條件入境」（ev_kai_tape2 以後）；和 MID 只顯示一個"
+  "Y1_KAI_TAPE_MID": "走道那一條中間那一段：寫「國界」兩個大字（ev_kai_tape2 以前；AA 2026-10-21）",
+  "Y1_KAI_TAPE_TEXT": "同一段寫「法律系免簽」五個大字（ev_kai_tape2 以後；AA 2026-10-21）；和 MID 只顯示一個"
  },
  "box_spot_game": [
   -1.55,

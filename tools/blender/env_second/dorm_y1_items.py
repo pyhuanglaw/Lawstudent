@@ -120,8 +120,8 @@ def draw_atlas():
     # 紙膠帶三種：沒字（其他段）、中間那段寫「國界」（ev_kai_tape2 以前）、寫「法律系免簽」（以後）——AA 2026-10-21 定（BB_218：原本的「法律系可以無條件入境」字太小，玩家看不出來）
     # 字放到最大（佔滿膠帶寬度）、麥克筆粗一點；字頭＝圖的上緣＝阿凱那一邊
     washi(d, R['tape']); washi(d, R['tape_mid']); washi(d, R['tape_text'])
-    x0, y0, x1, y1 = R['tape_mid']; hand(im, '國界', (x0 + x1) // 2, (y0 + y1) // 2 + 1, 31, ang=0.6, seed=11, stroke=1, gap=1.1, wob=4)
-    x0, y0, x1, y1 = R['tape_text']; hand(im, '法律系免簽', (x0 + x1) // 2, (y0 + y1) // 2 + 1, 31, ang=0.4, seed=12, stroke=1, gap=1.04, wob=4)
+    x0, y0, x1, y1 = R['tape_mid']; hand(im, '國界', (x0 + x1) // 2, (y0 + y1) // 2 - 3, 31, ang=0.6, seed=11, stroke=1, gap=1.1, wob=4)   # 字的墨跡比圖層中心低約 4 px（字畫在 2s 方框的 (s/2, s/2)）：往上 4 px 才不會貼到膠帶下緣
+    x0, y0, x1, y1 = R['tape_text']; hand(im, '法律系免簽', (x0 + x1) // 2, (y0 + y1) // 2 - 3, 31, ang=0.4, seed=1, stroke=1, gap=1.04, wob=4)   # seed 12 的「律」「系」中間空了一格（字距 −4、+2、−3、+1 px），seed 1 是 −1、0、0、0；「簽」原本超出膠帶下緣 2 px
     im.save(ATLAS); return im
 
 
