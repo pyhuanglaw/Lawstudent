@@ -1159,6 +1159,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "法律系大二下：高 1、中 6、低 16；芷若 6/3 最後一個班以後還在上班"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "69aa3b0c",
+   "files": [
+    "docs/story_planning/AA_376_法律系大三上_作息與重複_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 整份做（程式＋改字）",
+   "next": "LAWWW 開 AA376-Y3S1-FIX-1021（第 1、2 項先做）／BB 驗（檔內第 6 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系大三上：高 1、中 6、低 13；語彤週四作息（AA 定：大三上總圖三樓、大三下 2/24 起田野）、v7 舊刑訴課堂停用"
   }
  ],
  "items": [
