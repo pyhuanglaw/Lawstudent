@@ -12370,8 +12370,8 @@
    "what": "ART-Y1-BOX-1021 大一 203 紙箱＋阿凱的國界膠帶（dorm_y1_items.glb＋patch）",
    "task": "ART-Y1-BOX-1021",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "7ef4ff56；KAI_TAPE_GONE 由 LAWWW 接在阿凱好朋友那一句 ｜ BB 16:09（BB_218）：封好的紙箱通過；膠帶字看不到、壓平的紙箱被擋住 → 退回 LAWWW2（ART-Y1-BOX-1021）"
+   "integration": "已驗收",
+   "note": "7ef4ff56；KAI_TAPE_GONE 由 LAWWW 接在阿凱好朋友那一句 ｜ BB 16:09（BB_218）：封好的紙箱通過；膠帶字看不到、壓平的紙箱被擋住 → 退回 LAWWW2（ART-Y1-BOX-1021） ｜ 膠帶字與壓平紙箱由 6437fcf6 修好、BB 17:10 重拍 FIXED（6ec20030）→ 整批已驗收"
   },
   {
    "id": "DL-AA-6b8d5e1f",
