@@ -455,6 +455,57 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('ZS3. 日本路線（8/5 當天才回來）：沒有邀約、信封寄到家裡（8/21 那一句）', !PHONE.sent(G,'y3_zr_slips')&&has('（信封到了。十二張點單，第一張背面寫著：『第一部，我先一個人看了。』）'));
   fresh('2028-08-04',21.1,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_02'); date('heroine_05'); ct('heroine_02'); rules(); check('ZS. 美國路線（8/2 起在國外）：沒有這一場', !PHONE.sent(G,'y3_zr_slips')&&G.flags.ZR_SLIPS_MAIL==null);
 
+  // ---------- 2-Y3-46 芷若 Z13「杯子上的字」（大三下學期末的專屬版）----------
+  const zt='te_Y3S2_heroine_02', qt='te_Y3S2_heroine_04';
+  const zrSetup=fl=>{ fresh('2028-06-08',20.6,'dorm',Object.assign({CAFE_VISITS:3},fl||{})); R('heroine_02','CLO'); SOCIAL.rel('heroine_02').npcRom=40; ct('heroine_02'); const L=DATE.log(G,'heroine_02'); L.count=4; L.wish=true; for(const t of ['ASKED_HER_DRINK','REMEMBERED_HER','WATCHED_FILM','POSTCARDS']) SOCIAL.remember('heroine_02',t,''); };
+  zrSetup(); rules();
+  check('Z13-C0. 兩個條件都到：6/8（四）20:30 邀約換成「畢業以後我還有幾個班。」「下禮拜四打烊以後，你要不要來？……店裡只剩我。」', txt('p:heroine_02').join('|')==='heroine_02:畢業以後我還有幾個班。|heroine_02:下禮拜四打烊以後，你要不要來？……店裡只剩我。'&&TERMEND.rec(G,'Y3S2').plan.special.heroine_02==='z13', JSON.stringify(txt('p:heroine_02')));
+  answer(zt,0); rules(); const zq=OUT.get(G,'te_Y3S2');
+  check('Z13-C0. 「好。」＝排 6/15（四）22:00 兩點半打烊後（窗口到 23:00）', !!zq&&zq.day===D('2028-06-15')&&zq.h===22&&zq.late===1&&zq.te.special==='z13', JSON.stringify(zq));
+  CG_REGISTRY.cg_cup_words_heroine02={file:'x'}; at('2028-06-15',21.8); picks=[0]; cgs=[]; await goOut('te_Y3S2'); delete CG_REGISTRY.cg_cup_words_heroine02;
+  check('Z13-C1. 開場照打烊後的 Café；吃完回吧檯：杯子上「熱可可＋濃縮」＋CG（推過來那一句）；「我的點法，我只給過一個人。」；三個選項', has('（店裡的燈關了一半。她把「準備中」的牌子翻過去，在你對面坐下。）')&&has('（是她自己的點法：「熱可可＋濃縮」。）')&&cgs.join()==='cg_cup_words_heroine02'&&has('（很久，沒有轉過來）我的點法，我只給過一個人。')&&opts.some(o=>o.join('|')==='（喝下去）|「芷若。」|「這杯我不能喝。」'), JSON.stringify(lines()));
+  check('Z13-C1. 喝下去：「……好喝嗎？」「很幼稚。」「對。」（她笑出來，眼眶紅了一下）→ 交往；ZR_CUP drank；不走回家的路', has('（很久以後）……好喝嗎？')&&has('很幼稚。')&&has('對。')&&has('（她笑出來，眼眶紅了一下。）')&&G.flags.dating_heroine_02===true&&G.flags.ZR_CUP==='drank'&&!has('今天吃得很開心。……你要說什麼？'));
+  zrSetup(); rules(); answer(zt,0); rules(); at('2028-06-15',21.8); picks=[1,0]; await goOut('te_Y3S2');
+  check('Z13-C2. 「芷若。」：「……你要說什麼，等一下再說。我現在沒辦法看你。」→ 台階「……好。你說。」；「我喜歡妳。」→「……我知道。杯子上寫了。」→ 交往；ZR_CUP steps', has('……你要說什麼，等一下再說。我現在沒辦法看你。')&&has('（她把店收完，關了燈。你們坐在店門口的台階上。）')&&has('……好。你說。')&&has('……我知道。杯子上寫了。')&&G.flags.dating_heroine_02===true&&G.flags.ZR_CUP==='steps');
+  zrSetup(); R('npc_fangyt','FAM'); rules(); answer(zt,0); rules(); at('2028-06-15',21.8); picks=[2]; await goOut('te_Y3S2');
+  check('Z13-C. 「這杯我不能喝。」：「……嗯。」「那這杯我自己喝。我們還是朋友。」；這學期不交往（不是「讓我想想」）', has('那這杯我自己喝。我們還是朋友。')&&has('（她笑了，是真的笑。）')&&!G.flags.dating_heroine_02&&G.flags.ZR_CUP==='declined'&&TERMEND.rec(G,'Y3S2').result==='declined'&&TERMEND.rec(G).think.heroine_02==null);
+  G.flags.FANG_F3_DELAY=true; at('2028-06-19',21.1); rules(); check('Z13-C. 之後方奕廷 F3 照常在 6/19（AA_334 第 3 節）', (OUT.get(G,'y3_fang_f3')||{}).day===D('2028-06-19'));
+  fresh('2028-06-08',20.6,'dorm'); R('heroine_02','CLO'); SOCIAL.rel('heroine_02').npcRom=40; ct('heroine_02'); { const L=DATE.log(G,'heroine_02'); L.count=4; L.wish=true; } rules();
+  check('Z13-C3. 只有心意邀約的條件：一般版的邀約（AA_254 第 4 節）', txt('p:heroine_02').join('|')==='heroine_02:這禮拜五我九點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&!TERMEND.rec(G,'Y3S2').plan.special.heroine_02);
+  answer(zt,0); rules(); { const q=OUT.get(G,'te_Y3S2'); check('Z13-C3. 一般版的飯：週五 21:00', !!q&&q.h===21&&CALENDAR.dateOf(q.day).wd%7===5&&!q.te.special); G.day=q.day; G.hour=20.8; G.weekday=wdOf(q.day); }
+  picks=[0]; await goOut('te_Y3S2'); check('Z13-C3. 一般版：溫州街走到巷口（「今天吃得很開心。……你要說什麼？」），沒有杯子', has('今天吃得很開心。……你要說什麼？')&&!has('（是她自己的點法：「熱可可＋濃縮」。）'));
+  zrSetup({EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); check('Z13-C4. 日本路線：沒有 Z13（人在日本，臺灣這邊的學期末什麼都不發）', !PHONE.sent(G,zt)&&TERMEND.rec(G,'Y3S2').plan.abroad===true);
+  zrSetup(); rules(); answer(zt,0); rules(); at('2028-06-15',21);
+  check('Z13-C5. 睡著也會在 23:00 醒來（帶到場）', STORY.WAKE_AT.some(f=>f(G)===23));
+  at('2028-06-15',22.6); rules(); check('Z13-C5. 22:15 還沒到：22:30 她傳「我多留半小時。……杯子已經寫好了。」', txt('p:heroine_02').includes('heroine_02:我多留半小時。……杯子已經寫好了。'));
+  at('2028-06-15',23.1); OUT.tick(GM); check('Z13-C5. 23:00 再沒到：帶到場（R4）', R2Y3B.z13BringDue(G)&&R2Y3B.homeDue(G)==='r2y3b_z13');
+  said=[]; picks=[0]; await R2Y3B.z13Bring(GM);
+  check('Z13-C5. 黑幕旁白「（店裡只剩吧檯一盞燈。她在等你。）」接原台詞（開場、杯子）；喝下去＝交往；只帶一次', said[0]&&said[0].t==='（店裡只剩吧檯一盞燈。她在等你。）'&&has('（店裡的燈關了一半。她把「準備中」的牌子翻過去，在你對面坐下。）')&&has('（是她自己的點法：「熱可可＋濃縮」。）')&&G.flags.dating_heroine_02===true&&!R2Y3B.z13BringDue(G));
+
+  // ---------- 2-Y3-47 子晴 Q15「存檔點」（大三下學期末的專屬版）----------
+  const zqSetup=fl=>{ fresh('2028-06-08',20.6,'dorm',Object.assign({ZQ_DAD_HEARD:true,ATTENDED_SHOW:true},fl||{})); R('heroine_04','CLO'); SOCIAL.rel('heroine_04').npcRom=40; ct('heroine_04'); const L=DATE.log(G,'heroine_04'); L.count=4; L.wish=true; for(const t of ['CLAPPED','PLAYTESTED','TOLD_HER_CHANGE']) SOCIAL.remember('heroine_04',t,''); };
+  const zqDinner=async pk=>{ answer(qt,0); rules(); const q=OUT.get(G,'te_Y3S2'); G.day=q.day; G.hour=21.8; G.weekday=wdOf(q.day); picks=pk; await goOut('te_Y3S2'); return q; };
+  zqSetup(); rules();
+  check('Q15-Q0. 兩個條件都到：邀約照大四上那一版「欸 你考完了吧 宵夜」「只有我們兩個 不要找阿凱」', txt('p:heroine_04').join('|')==='heroine_04:欸 你考完了吧 宵夜|heroine_04:只有我們兩個 不要找阿凱'&&TERMEND.rec(G,'Y3S2').plan.special.heroine_04==='q15', JSON.stringify(txt('p:heroine_04')));
+  { const q=await zqDinner(['我去','妳下一個遊戲']);
+    check('Q15-Q1. 飯桌一句「發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。」；回家的路上前三個選項換成 BB_165 4-1 的三句', q.h===22&&q.te.special==='q15'&&has('發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。')&&has('好飽。……你今天怎麼都不太講話？')&&opts.some(o=>o.join('|')==='「妳下一個遊戲，我也要當第一個玩的。」|「我喜歡妳。喜歡很久了。」|「我喜歡妳。這不是問句。」|（先不說）'), JSON.stringify(opts));
+    check('Q15-Q1. 「欸不是……你認真的？」「……第一個玩的要負責找 bug 喔。很多。」「（她講話變快）我、我家到了。我先上去。」「（她跑進巷子。）」；還沒交往；ZQ_CONFESS_LINE first_player', has('欸不是……你認真的？')&&has('……第一個玩的要負責找 bug 喔。很多。')&&has('（她講話變快）我、我家到了。我先上去。')&&has('（她跑進巷子。）')&&!G.flags.dating_heroine_04&&G.flags.ZQ_CONFESS_LINE==='first_player');
+    const d1=q.day+1; G.day=d1; G.hour=12.1; G.weekday=wdOf(d1); rules();
+    check('Q15-Q1. 隔天 12:00：手機收到「（檔案：回答.exe）」（按鈕：回一張插座貓貼紙）；回答.exe 該演了（在家也演：HOME 的 stay）', txt('p:heroine_04').includes('heroine_04:（檔案：回答.exe）')&&PHONE.byAsk(G,'y3_zq_exe').ask.opts[0].t==='（回一張插座貓貼紙）'&&R2Y3B.exeDue(G)&&R2Y3B.homeDue(G)==='stay');
+    CG_REGISTRY.cg_answer_exe_heroine04={file:'x'}; cgs=[]; cards=[]; said=[]; await R2Y3B.exeScene(GM); delete CG_REGISTRY.cg_answer_exe_heroine04;
+    check('Q15-Q1. 回答.exe：「（《找插座的貓》的新關卡。……兩隻貓一起充電。）」＋BCG-13＋最後疊「第一個玩家：祐廷」；只演一次', has('（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）')&&cgs.join()==='cg_answer_exe_heroine04'&&cards.some(c=>c[0]==='第一個玩家：祐廷')&&!R2Y3B.exeDue(G), JSON.stringify(cards));
+    answer('y3_zq_exe',0); rules(); check('Q15-Q1. 回插座貓貼紙＝交往', G.flags.dating_heroine_04===true&&txt('p:heroine_04').includes('player:（貼圖：插座貓）')&&TERMEND.rec(G,'Y3S2').result==='yes'); }
+  zqSetup(); rules(); { const q=await zqDinner(['我去','這不是問句']); G.day=q.day+1; G.hour=21.1; G.weekday=wdOf(G.day); rules();
+    check('Q15-Q2. 選「這不是問句」、不回：隔天 21:00「好，我收到你的不回答了。我們還是最好的朋友。」沒有「這次是直述句」；這學期不交往（下學期第二次的邀約）', txt('p:heroine_04').includes('heroine_04:好，我收到你的不回答了。我們還是最好的朋友。')&&!txt('p:heroine_04').some(t=>/直述句/.test(t))&&!G.flags.dating_heroine_04&&TERMEND.rec(G).think.heroine_04==='Y3S2'&&G.flags.ZQ_CONFESS_LINE==='not_question'); }
+  zqSetup(); rules(); { const q=await zqDinner(['我去','喜歡很久了']); G.day=q.day+1; G.hour=21.1; G.weekday=wdOf(G.day); rules();
+    check('Q15-Q2. 其他兩句不回：「……這次是直述句。」照留', txt('p:heroine_04').includes('heroine_04:好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。')&&has('……你不要現在講啦。')); }
+  zqSetup(); rules(); await zqDinner(['我去','先不說','好。']);
+  check('Q15-Q3. 先不說：她說「我喜歡你。講完了。」…「換你。不要讓我在這裡站太久。」；「好。」→ 交往；沒有回答.exe', has('我喜歡你。講完了。')&&has('換你。不要讓我在這裡站太久。')&&G.flags.dating_heroine_04===true&&!G.flags.ZQ_Q15);
+  fresh('2028-06-08',20.6,'dorm'); R('heroine_04','CLO'); SOCIAL.rel('heroine_04').npcRom=40; ct('heroine_04'); { const L=DATE.log(G,'heroine_04'); L.count=4; L.wish=true; } rules();
+  check('Q15-Q4. 只有心意邀約的條件：一般版的邀約「欸 考完了 宵夜」', txt('p:heroine_04').join('|')==='heroine_04:欸 考完了 宵夜|heroine_04:只有我們兩個 不要找阿凱');
+  await zqDinner(['我去','我喜歡妳。」']);
+  check('Q15-Q4. 一般版：飯桌一句照 AA_254、回家路上是通用的三句（「我喜歡妳。」…）、沒有回答.exe', !has('發表會那天的錄影，我爸看了三遍。……第三遍他在做筆記。')&&opts.some(o=>o[0]==='「我喜歡妳。」')&&!G.flags.ZQ_Q15&&G.flags.dating_heroine_04===true);
+
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
     check('接線：index.html 載入 r2y3b_events.js、r2y3b3d.js（連在一起、在 GAME.boot 之前）', (()=>{ const a=h.indexOf('src/data/r2y3b_events.js'), b=h.indexOf('src/r2y3b3d.js'), z=h.indexOf('GAME.boot()'); return a>0&&b>a&&z>b&&/src\/data\/r2y3b_events\.js[^\n]*\n<script src="src\/r2y3b3d\.js/.test(h); })()); }

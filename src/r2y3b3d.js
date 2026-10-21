@@ -3,8 +3,10 @@
    - STORY.PHONE_RULES：手機（邀約、出發提醒 OUT.plan、沒去的照片、結果）；
    - STORY.TICKS：時間到了自動演的 2D（日本路線的便利商店、河堤、宿舍大廳；回答.exe；美國路線退宿）；
    - 一天的作息（以安 3/9 椰林大道、小語 3/16 霖澤館一樓、芯慈 5/4 麵店）：載入時放到她們 daily_schedule 的最前面（同 AA_320 118 巷那一套的寫法）；
-   - 寒暑假的停留日（AA_326 第 3 節）：HOME.BREAK_PTS 的 Y3W、Y3S（照路線過濾）＋摘要日旁白（包住 HOME.breakPts、HOME.breakArrive）；
-   - 學期末專屬版（2-Y3-46 芷若 Z13、2-Y3-47 子晴 Q15）：TERMEND_LINES 的 over＋包住 TERMEND 的 planDinner、dinner、walkHome、missed、heartWhy。
+   - 寒暑假的停留日（AA_326 第 3 節）：HOME.BREAK_PTS 的 Y3W、Y3S（每條路線一樣的）＋HOME.STOPS（照路線的）＋摘要日、抽籤、信封的旁白（包住 HOME.breakArrive；不改快轉主邏輯）；
+   - 學期末專屬版（2-Y3-46 芷若 Z13、2-Y3-47 子晴 Q15）：TERMEND_LINES.HEART 的 over＋包住 TERMEND 的 plan、planDinner、dinner、walkHome、missed（F3 另外包 heartWhy）；
+     Z13 帶到場、Q15「回答.exe」：STORY.TICKS、在家＝STORY.y4HomeDue／y4HomeScene／y4FromHome 那一串（同 y34b3d.js）、STORY.WAKE_AT（23:00）、HOME.STOPS；
+   - 主線 10 第四個房間多一件（2-Y3-54）：包住 STORY.roomY4Items、STORY.ROOM_Y4_TEXT 加三件。
    時間：日本路線在日本的場景（便利商店、河堤、町公所、宿舍大廳）用日本時間寫，遊戲時鐘是臺灣時間（STORY.tzOffset 日本 +1）：S.jp(h)＝日本 h 點在遊戲時鐘的時間。
    測試：node tests/r2y3b_events_unit.js */
 'use strict';

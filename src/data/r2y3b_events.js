@@ -5,7 +5,7 @@
    2-Y3-38 ev_far_call_jp　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
    2-Y3-43 ev_an_town_notice（＋ev_an_town_notice_repair）　44 ev_kexin_k20（＋_call）　45 ev_fangyt_tickets（電話）、ev_zhiruo_f3_cafe
    2-Y3-51 ev_x1_moveout_us　52 ev_an_abroad_video、ev_an_tanabata、ev_an_airport_y3、ev_an_notebook　53 ev_an_white_day、ev_an_far_video
-   2-Y3-54 ev_zhiruo_twelve_slips（BB_165 3-2，AA-C 10-18 審過的台詞）；46、47（學期末專屬版）在 r2y3b3d.js 接 TERMEND。
+   2-Y3-54 ev_zhiruo_twelve_slips（BB_165 3-2，AA-C 10-18 審過的台詞）；46 Z13 杯子的台詞（ALL.Z13、Z13_TXT）、47 Q15 的台詞（ALL.Q15）在檔尾，流程在 r2y3b3d.js 接 TERMEND。
    不重做：32（AA_322）、48（AA_317）、50（AA_322、AA_323）。測試：node tests/r2y3b_events_unit.js */
 'use strict';
 const R2Y3B_EVENTS=(function(){
