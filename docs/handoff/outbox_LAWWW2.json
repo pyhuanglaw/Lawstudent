@@ -926,6 +926,20 @@
    "state": "MODEL_READY；patch 套 fd861eec 的測試工作樹：gongguan_glb_integration 柱子透視 FAIL→PASS，其他 3 項舊 FAIL 不變（2 項測試過時、1 項 draw call 預算真的超出）；READY_FOR_ART_REVIEW",
    "remaining": "校門口 draw call 1.53 倍（店面 GLB 材質合併一輪）；wz_shopkit 的柱子改動之後重建溫州街時也會套用（溫州街 B5 若走 arcade_front_v2）",
    "next": "LAWWW-C 套 patches/gg_upper_noshadow.diff（zones3d.js 兩行），換 gongguan_shops.glb／.json；要不要改測試的兩項、排店面材質合併，LAWWW-C 決定"
+  },
+  {
+   "task": "118 巷效能（道具不投影、機車近 LOD 16→9 m）＋reachability_all 略過隱藏按鈕＋gongguan_glb_integration 過時兩項改掉（LAWWW-C 20:48、21:00 決定）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/l118_perf_and_test_fixes.diff",
+    "docs/art-rebuild/second_ai/test_shots/l118_lane_1020/README.md",
+    "docs/art-rebuild/second_ai/test_shots/l118_lane_1020/perf_before_after.webp",
+    "docs/art-rebuild/second_ai/test_shots/gg_zone_1020/README.md"
+   ],
+   "state": "patch 套 1475d312：118 巷每個鏡頭 −3 draw call、−1.8～2.4 萬三角形；reachability_all lane118 FAIL→PASS；gongguan_glb_integration 景深卡、群組兩項 FAIL→PASS，只剩 draw call 預算（下一輪材質合併）",
+   "remaining": "公館店面材質合併（atlas）；實機",
+   "next": "LAWWW-C 套 patches/l118_perf_and_test_fixes.diff（zones3d.js、tests/reachability_all.py、tests/gongguan_glb_integration.py；模型不用換）"
   }
  ]
 }
