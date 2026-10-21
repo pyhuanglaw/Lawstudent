@@ -1056,6 +1056,23 @@
    "state": "LICENSES：補 13 列（27 個 GLB＋ntu_gym_ceremony.webp），每列寫腳本、Poly Haven id、D77 說明；patch 在開發分支 382236a5 的 LICENSES.md 上 dry-run 套得起來。原始檔：分 A 建議拿（已整合的 GLB／背景的腳本、配置 54）、B 體育館這次（3）、C 不要拿（日本 3D、未整合、2D 歸 BB、草稿 48）、D 文件（12）、E 其他（68）",
    "remaining": "無（不影響遊戲執行）",
    "next": "LAWWW-C 套 LICENSES patch、挑原始檔"
+  },
+  {
+   "task": "ART-Y1-BOX-1021：大一 203 的「冬天的衣服」紙箱＋阿凱的國界紙膠帶（LAWWW-C 10-21 09:29Z 派）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/dorm_y1_items.glb",
+    "assets/models/env/second_ai/dorm_y1_items.json",
+    "tools/blender/env_second/dorm_y1_items.py",
+    "tools/blender/env_second/textures/gen/dorm_y1_print.png",
+    "docs/art-rebuild/second_ai/patches/dorm_y1_items.diff",
+    "docs/art-rebuild/second_ai/patches/licenses_1021.diff",
+    "docs/art-rebuild/second_ai/test_shots/dorm_y1_items_1021/README.md"
+   ],
+   "state": "MODEL_READY＋patch（assets3d.js、zones3d.js、y1fill3d.js；套在 382236a5）；我的測試工作樹 INTEGRATED：aa347_y1_unit、reachability_all --zones dorm ALL PASS（Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW；LICENSES 補列 patch 多一列（第 14 列）",
+   "remaining": "膠帶撕掉的條件要 LAWWW-C 決定（rel_lines 好朋友那句以後；先留 KAI_TAPE_GONE）；iPhone 實機沒測",
+   "next": "LAWWW-C 套 patch＋GLB；BB-C 畫面驗收"
   }
  ]
 }
