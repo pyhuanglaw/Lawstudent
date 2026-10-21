@@ -595,7 +595,33 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 19:4x 進度（帳號 A LAWWW2；最新，蓋過下面 19:0x 那一節）
+### ▶▶ 10-21 20:5x 進度（帳號 A LAWWW2；最新，蓋過下面 19:4x 那一節）
+- 開發分支最新 `d22748f5`（20:5x fetch；19:4x 那一節寫的 `a9da472a` 已經舊了）。交件前所有 patch 要重新對 `d22748f5`（或當時最新）確認乾淨。
+- **已整合**（LAWWW 18:58／19:14／19:27 ACK）：BOX-MIRROR、ART-02、C208、ART-GYM2-INT、A7、arena look 文字。
+- **WIP：ART-ECON-3D-GAP-1021**（六項，19:4x 那一節的 1～6）＋**BUG-NAV-LAMPPOST-1021**（`lamppost_nav.diff`）：
+  - 已看過的遊戲內對照：
+    - 傅鐘 15／20 點；
+    - 大道 20 點的人眼高度、高處；
+    - 總圖門 15／20 點：黑色長方形 → 雙開玻璃木門，晚上透光；
+    - 椰林大道路燈的說明 `test_shots/avenue_lamps_1021/README.md` 已寫（WIP）。
+  - 文學院、行政、校史館的門：econfix2 的斜角鏡頭被拱廊柱子擋住，**改正面鏡頭重拍**（佇列 j9 `doors2`）。
+  - 博雅東側：角度太斜，重拍（佇列 j8 `boya2`）。
+- **WIP：US-MARKET-STREET**（`fa7c85e2`／`8512b3b0`）：區域、GLB、配置、patch、測試都好了，遊戲內 13 張截圖排在佇列 j7（`usms`），看完寫 README 再交。
+- **WIP：PERF-CROWD-LOD-1021**（`1fd9547a`；20:4x 已傳 LAWWW 開工通知，DELIVERED、沒 ACK）：
+  - 工具 `tools/lod/npc_lod.py`：40 個路人底模的遠距離版本，31k → 6.4k 三角形，13 → 2 個網格。
+  - `patches/crowd_far_lod.diff`（對 `d22748f5` 乾淨）＋`tests/npc_far_unit.js`：修改前 FAIL、修改後 ALL PASS；18 支相關單元測試修改前後都 ALL PASS。
+  - 遠距離 GLB 還沒放進 assets：在 `$SP/crowdlod/all/`，工具可以重新產生（確定性）。
+  - 遊戲內量測（`tools/shots/crowd_lod_audit.py`，修改前後各一次）排在佇列 j10。
+- **背景佇列**：
+  - 位置：`$SP/queue/`，`$SP`＝scratchpad；master → master2 → … → master5 依序等前一條寫 ALLQ*；工作樹都用 `devwt_c`。
+  - 順序：j1 econfix2（完）→ j2 banyan → j3 dorm412 → j4 cafe → j5 lampnav（瀏覽器回歸：reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement，修改前後各一次）→ j6 airport 巡場 → j7 美國超市街 → j8 博雅重拍 → j9 三棟大門正面重拍 → j10 路人遠距離版本量測。
+  - 輸出：各自資料夾的 `run.out`、`*.log`。
+- **接下來**：
+  1. 照佇列輸出逐項看、寫 README、交件（ART-ECON 六項＋燈柱導航 → 超市街 → 路人 LOD）；
+  2. 機場巡場（D99 寒暑假）；
+  3. ART-WZ0 盤點。
+
+### ▶▶ 10-21 19:4x 進度（帳號 A LAWWW2；被上面 20:5x 那一節取代）
 - 開發分支照舊是 `a9da472a`（v9.10.3 發布後）；所有 patch 都對它做。
 - **已交件、等整合**（都對 `a9da472a` git apply 乾淨）：BOX-MIRROR `86dd6d54`、ART-02 `8b38e054`、C208 `76b3a0d5`（18:5x 傳，DELIVERED、沒 ACK）、A7 小公園 `1effaa35`、ART-GYM2-INT `c1e65c33`（19:1x 傳，DELIVERED、沒 ACK）。
 - **WIP：ART-ECON-3D-GAP-1021**（經濟系那一年；都已 commit＋push，遊戲內前後對照排隊中，看完才交）：
