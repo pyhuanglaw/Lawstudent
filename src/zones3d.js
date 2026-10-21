@@ -1499,7 +1499,7 @@ const Z3 = (function(){
     P3.mergeStatic(g);
     z.dormSetKey=dormSetKey(G0); z.dormRoot=null; z.dormSet=key=>{ z.dormSetKey=key; const S=DORM_SETS[key]||DORM_SETS['203']; if(z.dormRoot) z.dormRoot.traverse(o=>{ if(/^(Y203_|Y412_|Y312_|Y507_|Y409_|NAMETAG_|ROOMMATE_KAI|BEDDING_)/.test(o.name)&&!/_(duvet|pillow|card|black|bulb|items|screen|metal)$/.test(o.name)) o.visible=!S.hide.test(o.name); }); };
     if(y2Room) roomItemState(z,G0);   /* 拆箱事件一進房間就呼叫 z.setY2Items：模型還沒載完也先記住 */
-    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(y2Room) loadY2Items(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
+    if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_room4']) ASSETS.loadOne('bldg.dorm_room4').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); attachRoomGLB(z,g0,g,root); attachDormInterior(z,g0,root); z.dormRoot=root; z.dormSet(z.dormSetKey); if(!econ&&z.dormSetKey==='203') loadY1Items(z,g0,E); if(y2Room) loadY2Items(z,g0,E); }).catch(e=>console.warn('宿舍室內正式模型載入失敗，用程序化備用模型',e));
     /* 經濟系那一年（412）：開學那晚的紙箱、經濟學原理、阿勳的書桌與保齡球袋（V0-ART-DORM；AA_168、AA_208）。紙箱照 E01（story3d.js 的 y0FirstNight）：
        開場三箱疊在祐廷的書桌上 → 22:00 兩箱在書桌旁邊的地上 → 先睡＝隔天還在地上（隔天晚上拆完）／拆完＝不見 */
     z.setV0Box=()=>{};
@@ -1543,6 +1543,18 @@ const Z3 = (function(){
      大三、大四（507／409）整組帶過去（1A-03、1A-09）：大三丟掉的（ROOM_Y3_DISCARD）、大四留在紙箱的（BOX_KEPT_Y4）不出現；1A-11 收拾好了（PACKED_Y4）全部收起來。
      大三、大四拆出來的東西（SCN-V4-01／SCN-V5-01；dorm_y3_items.glb，tools/blender/env_second/dorm_y3_items.py，LAWWW-C 的美術子代理 2026-10-20；READY_FOR_ART_REVIEW）：
      ITEM_<id>＝S.ROOM_Y3_TEXT（507 起）、S.ROOM_Y4_TEXT（409）的 key，照 ROOM_Y3_ITEMS／ROOM_Y4_ITEMS；FORM_STAMP＝志願表上系辦的章（日本、美國路線才有）。兩組一起由 z.setY2Items 管 */
+  /* 大一 203 的兩樣東西（ART-Y1-BOX-1021；dorm_y1_items.glb，tools/blender/env_second/dorm_y1_items.py，LAWWW2-C；AA_347 1-1、5-1；READY_FOR_ART_REVIEW）：
+     Y1_BOX_WINTER＝「冬天的衣服」紙箱（8/29 起、拆以前；祐廷衣櫃前、床板底下）、Y1_BOX_FOLDED＝拆了以後壓平、靠在書桌底下的牆邊（BOX_WINTER_OPEN）；
+     Y1_KAI_TAPE＝阿凱的國界（KAI_TAPE 以後、還是室友；R2 床桌組外面一圈），中間那段 Y1_KAI_TAPE_MID／_TEXT 只顯示一個（ev_kai_tape2 演過＝寫了字的那段）。
+     都在床桌組裡面或貼在地上（離地 1.5～2.2 mm；走道那一條離牆 1.38 m），不改導航。y1fill3d.js 的 S.tick 每一幀叫 z.setY1Items（狀態沒變就不動）*/
+  function y1State(G){ const F=(G&&G.flags)||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-29'):null, done=(G&&G.events&&G.events.done)||{};
+    const mate=typeof STORY==='undefined'||!STORY.kaiRoommate||STORY.kaiRoommate(G);
+    return {box:F.BOX_WINTER_OPEN?'folded':(G&&d!=null&&G.day>=d?'closed':null), tape:!!F.KAI_TAPE&&mate&&!F.KAI_TAPE_GONE, text:!!done.ev_kai_tape2}; }
+  function loadY1Items(z,g0,E){ if(typeof ASSETS==='undefined'||!ASSETS.manifest['bldg.dorm_y1_items']) return; const grp=new THREE.Group(); grp.name='dorm_y1_items'; grp.userData.dyn=true; g0.add(grp); let key='';
+    z.setY1Items=G=>{ const s=y1State(G), k=JSON.stringify(s); if(k===key) return; key=k;
+      grp.traverse(o=>{ if(o.name==='Y1_BOX_WINTER') o.visible=s.box==='closed'; else if(o.name==='Y1_BOX_FOLDED') o.visible=s.box==='folded'; else if(o.name==='Y1_KAI_TAPE') o.visible=s.tape; else if(o.name==='Y1_KAI_TAPE_MID') o.visible=s.tape&&!s.text; else if(o.name==='Y1_KAI_TAPE_TEXT') o.visible=s.tape&&s.text; }); };
+    ASSETS.loadOne('bldg.dorm_y1_items').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=/^Y1_BOX_/.test(m.parent&&m.parent.name||''); m.receiveShadow=true; if(m.material) TK.bounce(m.material,0.3,0.4); } });   /* 紙箱有接地的影子；膠帶貼在地上不投影 */
+      grp.add(root); key=''; z.setY1Items(typeof GAME!=='undefined'?GAME.G:null); }).catch(e=>console.warn('大一房間的紙箱、膠帶載入失敗',e)); }
   const Y2_BOX=[-1.80,-1.12,-0.88,-0.36];
   const Y2_NODE=id=>id==='y1_3'?'ITEM_y1_ferris':(id==='y1_4'?'ITEM_y1_album':'ITEM_'+id);
   const itemRoot=o=>/^ITEM_/.test(o.name)&&!(o.parent&&/^ITEM_/.test(o.parent.name));   /* 每一件的根節點；底下的網格叫 ITEM_<id>_<部位>，不能一起判斷（2026-10-20 以前大二那組的網格全被藏起來，房間裡看不到）*/
