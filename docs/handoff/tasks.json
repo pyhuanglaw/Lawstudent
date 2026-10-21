@@ -9229,8 +9229,8 @@
    "title": "畢業典禮（G6）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "SYS-12",
+   "status": "取消／被取代",
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】被取代：畢業典禮那一天已用 CG-9＋2D graduation_avenue＋新體育館典禮底圖（ART-GYM-BG1）演完（src/postgrad3d.js；V5-G02、EVPKG-1A13-20-1020），不另做 3D 場景（LAWWW2 BACKLOG_SWEEP_1021 C 節提出） ｜ 舊：SYS-12",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -9251,7 +9251,10 @@
     "spec": "畢業典禮場景美術（G6）",
     "acceptance": "交付 GLB／圖＋遊戲內截圖；建築場景 READY_FOR_ART_REVIEW（使用者標 ART_APPROVED）、人物相關 BB-B 驗收",
     "ack": "SENT"
-   }
+   },
+   "replacedBy": "V5-G02",
+   "authorizedBy": "LAWWW-C（D85 整合決定；D99 夠用素材、不做非必要 3D）",
+   "reason": "畢業典禮那一天已用 CG-9＋2D graduation_avenue＋體育館典禮底圖演完（V5-G02），不另做 3D 場景（D99 夠用素材）"
   },
   {
    "id": "SCN-V5-03",
@@ -13710,8 +13713,8 @@
    "title": "溫州街效能：主巷 draw call 降到 310 左右（wz_street_integration 的 351～401 對 310）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "已實作待整合",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 白天、晚上各跑一次 tests/wz_street_integration.py 記數字；晚上超標的部分併到 PERF-WZ-NIGHT-1021（LAWWW2）後本項結案 ｜ LAWWW2-B 回報 1e445818 wz_street_integration ALL PASS；LAWWW-B 核對內容是否已隨小公園 v7（5e688f34）整合，沒有就整合後重跑",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】LAWWW2 BACKLOG_SWEEP_1021 D 節：a33d85b5 以後 wz_street_integration ALL PASS（模擬）；晚上 19:30 的數字差 LAWWW2 查過是量法雜訊（9aaa24a7：場景兩版一樣，差在路人位置、陰影那一輪）；光暈合批 114a69fa 後晚上 draw call 303→253 等（CANDIDATE_9103 A 線 5）。BB 白天、晚上各跑一次 tests/wz_street_integration.py 記數字就結案 ｜ 舊：【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 白天、晚上各跑一次 tests/wz_street_integration.py 記數字；晚上超標的部分併到 PERF-WZ-NIGHT-1021（LAWWW2）後本項結案 ｜ LAWWW2-B 回報 1e445818 wz_street_integration ALL PASS；LAWWW-B 核對內容是否已隨小公園 v7（5e688f34）整合，沒有就整合後重跑",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -14704,7 +14707,7 @@
    "owner": "LAWWW",
    "status": "已實作待整合",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】機場模型已接（4782cc29，美國交換出發用 airport_dep／airport_arr）；寒暑假出國（C13 等）、日本送機還沒接 3D 機場（grep：vac3d.js、jp3d.js 沒有 airport_dep）——D99 第二項寒暑假裡的出國照 2D 能玩，接 3D 排在美國交換後面 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把寒暑假出國出發、日本送機接到 3D airport_dep（airportBoard 互動）；暫停條件已成立 ｜ 【LAWWW2-C 06:42Z 交付 5aeb3220（DL-LW2-AIRPORT）】最早 2026-08-24 阿凱去日本：照 D81 排在 v2 之後、美國篇之前接成區域。【使用者 2026-10-17 00:0x：「美國的3D你交給lawww2了嗎? 他現在手上沒什麼任務 而且這種本來就要交給他」「機場的也是阿」】LAWWW-B 已正式派給 LAWWW2-B：順序 SCN-US-01（含 ART-US1～3）→ VAC-A2 機場 → SCN-US-03 超市 → SCN-US-02 街道，排在典禮背景重做之後（等使用者看小圖的空檔就開始）。｜排在 ART-GYM-BG1 之後。範圍等 AA_201 規格（AA-B 下一單位）；先做出境大廳＋報到櫃台＋送機的道別點（真實機場名稱照查證，航空公司、店名改虛構／諧音，D77）。Blender → GLB，走得進去（D38）。旅館、街景不做 3D：使用者給 CG，BB-B 去拿",
    "first": {
     "term": "Y3S2",
     "week": 6,
@@ -14868,7 +14871,7 @@
    "owner": "LAWWW2",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "S1～S4＋影印、日日定食已換（40b73c64，整合 66b28a89；gongguan_glb_integration ALL PASS 40 項）；等使用者在遊戲裡看；S5～S18 等使用者生成（BB-B 出提示詞）",
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】ART-GG-SIGNS-2（6b8e2385）以後的版本已在開發分支（LAWWW2 BACKLOG_SWEEP_1021 D 節）；建築場景 ART_APPROVED 只有使用者能標 ｜ 舊：S1～S4＋影印、日日定食已換（40b73c64，整合 66b28a89；gongguan_glb_integration ALL PASS 40 項）；等使用者在遊戲裡看；S5～S18 等使用者生成（BB-B 出提示詞）",
    "first": {
     "term": "Y1S1",
     "week": 1,
