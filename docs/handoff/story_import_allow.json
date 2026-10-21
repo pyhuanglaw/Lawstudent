@@ -19,11 +19,17 @@
  "files": [
   {
    "path": "docs/story_planning/ladder/ladder_aa.json",
-   "sha": "25e89f6e",
+   "sha": "659d9d81",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
    "task": "SYS-15",
-   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）"
+   "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
+   "history": [
+    {
+     "sha": "25e89f6e",
+     "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y1s2.json",
@@ -239,12 +245,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y3s2.json",
-   "sha": "49ed7e6a",
+   "sha": "659d9d81",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
    "task": "SYS-15",
    "note": "BB-C 13:27：九個檔用 408398d7",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "9fecc202",
      "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
@@ -253,12 +263,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s1.json",
-   "sha": "49ed7e6a",
+   "sha": "659d9d81",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
    "task": "SYS-15",
    "note": "BB-C：大四上口語審完，可以匯入",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "f6269502",
      "approvedBy": "BB-C（2026-10-17 13:34）"
@@ -267,12 +281,16 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y4s2.json",
-   "sha": "49ed7e6a",
+   "sha": "659d9d81",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_358 人物知道不該知道的事：閒聊階梯 4 句改在企劃源檔，企劃分支 659d9d81；D100 台詞歸 AA）",
    "task": "BB210-Y4S2",
    "note": "skipIf GRAD_DONE（暫名，畢業典禮那天設）；PS8_FAR_AHEAD 中文名改（BB_143）",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "9fecc202",
      "approvedBy": "AA-C 定稿（DL-AA-9fecc202：AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
