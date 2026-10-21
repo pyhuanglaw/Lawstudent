@@ -56,6 +56,11 @@ function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J
     o.name=nd.name||''; if(nd.extras) o.userData=JSON.parse(JSON.stringify(nd.extras)); if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
   J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); });
   const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
+{ const looks=E.interactables.filter(i=>i.label==='看主球場'||i.label==='大螢幕'), said=[]; global.GAME={G:{hour:14},caption:(a,t)=>said.push(t)};
+  const lk=looks.find(i=>i.label==='看主球場'), sc=looks.find(i=>i.label==='大螢幕'), reach=looks.every(i=>walk(sp,[i.x,i.z]).ok);
+  if(lk){ lk.onInteract(); lk.onInteract(); lk.onInteract(); } if(sc) sc.onInteract(); GAME.G.hour=21; if(lk){ lk.onInteract(); lk.onInteract(); } z.ceremonyOn=true; if(lk) lk.onInteract(); if(sc) sc.onInteract(); z.ceremonyOn=false;
+  check('9b. AA_371 第 2 節：「看主球場」「大螢幕」有、走得到；平常兩句輪流、晚上不講「睡午覺」、典禮的布置打開時換典禮那句',looks.length===2&&reach&&said.length===8&&/木頭地板/.test(said[0])&&/睡午覺/.test(said[1])&&/木頭地板/.test(said[2])&&/大螢幕是黑的/.test(said[3])&&said.slice(4,6).every(t=>/木頭地板/.test(t))&&/折疊椅/.test(said[6])&&/校徽/.test(said[7]),JSON.stringify(said.map(t=>t.slice(1,9))));
+  delete global.GAME; }
 (async()=>{
   const SC=glbScene(path.join(ROOT,'assets/models/env/second_ai/gym_arena.glb')); let pend=null; const load0=ASSETS.loadOne; ASSETS.loadOne=k=>k==='bldg.gym_arena'?(pend=Promise.resolve({scene:SC})):new Promise(()=>{});
   const zf=loadZone('gym_arena'); await pend; await new Promise(r=>setTimeout(r,0)); ASSETS.loadOne=load0; zf.group.updateMatrixWorld(true);

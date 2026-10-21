@@ -83,7 +83,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* AA_272 4-1～4-3：7/24 21:00 邀約 → 7/25 客運版（一整天）／在家版（10:00 手機） */
   { const d24=DK('2025-07-24'), d25=DK('2025-07-25'); econ(d24,20.9,'home',{E35_DONE:true,EXAM2_DONE:true}); run(20.9,21.1);
     const q=(G.msgs||[]).find(x=>x.tag==='y0_kh_ask'&&x.ask); const K=txt('p:kexin');
-    check('4-1 7/24 21:00：「明天公布成績。」「你要不要來高雄？我不想一個人查。」＋「好。我搭早上的客運。」／「我在家查就好。」',K.includes('kexin:明天公布成績。')&&!!q&&q.text==='你要不要來高雄？我不想一個人查。'&&J(q.ask.opts.map(o=>o.t))===J(['好。我搭早上的客運。','我在家查就好。']),J(K.slice(-2)));
+    check('4-1 7/24 21:00：「明天公布成績。」「你要不要來高雄？我不想一個人查。」＋「好。我搭半夜的客運下去。」（AA_371 第 4 題）／「我在家查就好。」',K.includes('kexin:明天公布成績。')&&!!q&&q.text==='你要不要來高雄？我不想一個人查。'&&J(q.ask.opts.map(o=>o.t))===J(['好。我搭半夜的客運下去。','我在家查就好。']),J(K.slice(-2)));
     check('4-1 快轉停在 7/24 21:15',HOME.y0FixedNext(G,Tm(d24,20))===Tm(d24,21.25));
     check('4-1 AA_368 M7：回覆期限＝7/25 02:30（夜班客運出發；原本 07:00）',!!q&&q.ask.until===d25*24+2.5,q&&q.ask.until-d25*24);
     const snap=JSON.stringify(G);

@@ -914,6 +914,14 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_371_回AA368實作五題_新體育館主球場的看.md",
+   "sha": "7eb45d69",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 19:14 定稿（D109、D110：AA 的稿就是定稿）；第 1 節第 2、3 題由 tools/msg/import_msg_kx_y0.py 疊在 AA_368 上匯入（學期中延到 12/20、「剛起床。……不要問我現在幾點。」）；第 4、5 題、第 2 節新體育館主球場的「看」照稿手動放進 story3d.js、gym3d.js",
+   "task": "AA368-Y0-FIX-1021",
+   "kind": "text"
+  },
+  {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
    "sha": "724d7703",
    "status": "approved",

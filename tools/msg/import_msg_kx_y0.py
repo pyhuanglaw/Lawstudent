@@ -1,7 +1,7 @@
 """經濟系那一年，祐廷主動傳訊息給可昕的回覆（AA_301 第 3 節 MSG_KX_Y0；企劃線）→ src/data/msg_kx_y0.js。台詞一字不改。
 只匯入 docs/handoff/story_import_allow.json 列出、status approved 的版本（從名單上的 commit 讀）。
 AA_368（經濟系那一年「知道太早／時間矛盾」修正稿，AA 定稿）疊在 AA_301 上：H5 分期的日子＋新分期「寒假在臺北」（第 4 節的 5 則，從表格讀）、
-M5「經濟系學期中」帶感情的那一句、L8「寒假在高雄」那一句。AA_301 下一版改了以後，這裡的 AA_368 部分拿掉。
+M5「經濟系學期中」帶感情的那一句、L8「寒假在高雄」那一句；AA_371（AA_368 實作後的五題）第 2 題學期中延到 12/20（和期末重疊、期末優先）、第 3 題換句。AA_301 下一版改了以後，這裡的 AA_368、AA_371 部分拿掉。
 用法：python3 tools/msg/import_msg_kx_y0.py"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -52,10 +52,18 @@ for k, a, b in FIX:
     hit = [e for e in d['replies'] if e['msgs'] == a]
     assert len(hit) == 1, (k, len(hit))
     hit[0]['msgs'] = b; hit[0]['fix'] = 'AA_368 ' + k
+# ---- AA_371（企劃線，白名單 AA368-Y0-FIX-1021）：AA_368 實作後的五題，第 2、3 題 ----
+P3, SHA3, md3 = src_of('docs/story_planning/AA_371_')
+for t in ('**學期中延到 12/20**', '「剛起床。……不要問我現在幾點。」'):
+    if t not in md3: sys.exit('AA_371 裡找不到：' + t)
+V['經濟系學期中']['to'] = '2024-12-20'   # 第 2 題：和期末（12/14～12/20）重疊、期末優先（msg3d.js y0Pool 範圍短的先）——AA_301 第 1 節「期末沒有的話題照學期中」
+hit = [e for e in d['replies'] if e['msgs'] == ['剛起床。……現在下午一點。不要講。']]
+assert len(hit) == 1, len(hit)
+hit[0]['msgs'] = ['剛起床。……不要問我現在幾點。']; hit[0]['fix'] = 'AA_371 第 3 題'   # 不限時段
 for e in d['replies']:
     assert e['topic'] in ('chat', 'share_cat', 'share_food', 'share_notes', 'night'), e
     assert any(v['variant'] == e['variant'] for v in d['variants']), e['variant']
-d['source'] = f'白名單 {P}@{SHA}＋{P2}@{SHA2}（H5、M5、L8、第 4 節）'
+d['source'] = f'白名單 {P}@{SHA}＋{P2}@{SHA2}（H5、M5、L8、第 4 節）＋{P3}@{SHA3}（第 1 節第 2、3 題）'
 js = '/* 自動產生：tools/msg/import_msg_kx_y0.py（AA_301 經濟系那一年主動傳訊息給可昕的回覆＋AA_368 修正；台詞一字不改）*/\n\'use strict\';\nconst MSG_KX_Y0=' + json.dumps(d, ensure_ascii=False) + ';\n'
 open(os.path.join(ROOT, 'src/data/msg_kx_y0.js'), 'w', encoding='utf-8').write(js)
 print('src/data/msg_kx_y0.js：', len(d['replies']), '則', [(v['variant'], v['from'], v['to']) for v in d['variants']])

@@ -57,7 +57,7 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
     const it=E('y0_xu_seat').items({})[0].text;
     check('5c. AA_368 M6：阿勳「星期三的微積分，老師看了一眼我旁邊的空位……」；第 8 週、10/23（三）起才發（原本 10/21 一就會發，微積分是星期三）',it==='星期三的微積分，老師看了一眼我旁邊的空位，又看了一眼可昕旁邊。什麼都沒問。我覺得他懂了。'&&E('y0_xu_seat').term(T('2024-10-21'))&&!E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-21'))&&!E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-22'))&&E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-23'))&&E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-27'))&&!E('y0_xu_seat').ok(g({}),dk('2024-10-23'))&&CALENDAR.dateOf(dk('2024-10-23')).wd===3,it);
     const pr=E('y0_py_rain').items({})[0].text;
-    check('5d. AA_368 L9b：品妤「今天下大雨。我在社科院門口等雨停，等了半小時，雨沒停。」（原本「我室友今天問我：如果雨可以退貨……」＝可昕出假設題）',pr==='今天下大雨。我在社科院門口等雨停，等了半小時，雨沒停。'&&!/室友|退貨/.test(pr),pr); }
+    check('5d. AA_368 L9b＋AA_371 第 5 題：品妤「今天在社科院門口等公車，等了半小時。……最後是用走的。」（原本「我室友今天問我：如果雨可以退貨……」＝可昕出假設題；AA_368 的「今天下大雨。……」改字、不限天氣）',pr==='今天在社科院門口等公車，等了半小時。……最後是用走的。'&&!/室友|退貨/.test(pr),pr); }
   { const d0=STORY.dayOfKey('2025-02-17'), NT='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。', got=[];
     for(const fl of [{},{E01_MORNING:true}]){ fresh(d0,8,'home',Object.assign({Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true,Y0_MOVED_OUT:true},fl)); G.stage='econ'; days(d0,35); const m=(G.msgs||[]).find(x=>x.text===NT); got.push(m?CALENDAR.termOf(m.day).week:null); }
     check('5e. AA_368 附：實際跑大一下 2/17～3/23，品妤那則真的收到、在第 4 週（完整版、30 分鐘版都是；修改前第 2 週永遠輪不到）',got.every(w=>w===4),JSON.stringify(got)); }
