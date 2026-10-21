@@ -1349,13 +1349,13 @@
     "tools/blender/env_second/wz_street.py",
     "docs/art-rebuild/second_ai/test_shots/balcony_pots_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "118 巷的陽台沒重建（另外排）；只拍了白天和黃昏",
    "next": "LAWWW 換 wenzhou_street.glb＋json、gongguan_shops.glb＋json（只換 GLB，不用改程式；導航、碰撞、互動點不變）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "陽台盆栽放到鐵花架上、葉子調亮，從街上看得到（溫州街 A3／C2／W0、公館 G04／G07／G10 遊戲內前後對照）；物件、材質數不變，三角形 +288（溫州街）、+480（公館）"
+   "ack": "ACTIONED",
+   "note": "陽台盆栽放到鐵花架上、葉子調亮，從街上看得到（溫州街 A3／C2／W0、公館 G04／G07／G10 遊戲內前後對照）；物件、材質數不變，三角形 +288（溫州街）、+480（公館）｜開發分支 e8b82e4a 已整合（LAWWW）；BB 17:20 PASS（balcony_probe 67 張，沒有浮空、穿牆、閃面）"
   },
   {
    "task": "BB218-Y1-TAPE-BOX",
@@ -1368,13 +1368,13 @@
     "tools/blender/env_second/textures/gen/dorm_y1_print.png",
     "docs/art-rebuild/second_ai/test_shots/dorm203_tape_box_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "玩家一般的鏡頭看不清楚地上的字（要靠 ev_kai_tape2 的劇情鏡頭貼近，LAWWW／AA 決定）；只拍了白天",
    "next": "LAWWW 換 dorm_y1_items.glb＋json（不用改程式）；BB 用 y1_check.py 重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）"
+   "ack": "ACTIONED",
+   "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）｜開發分支 0e8f585b 已整合（LAWWW）；BB 17:10 FIXED（「國界」／「法律系免簽」兩種旗標都 PASS、壓平紙箱看得到）；BB 另報壓平紙箱的字像鏡像 → ART-Y1-BOX-MIRROR-1021"
   },
   {
    "task": "BB218-GYM-HAZE",
@@ -1385,13 +1385,13 @@
     "tools/blender/env_second/gym_interior.py",
     "docs/art-rebuild/second_ai/test_shots/gym_floor_haze_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "別的亮面地板可能也有 E.fill 的高光（引擎補光的鏡面反射；要不要從引擎改由 LAWWW 決定）",
    "next": "LAWWW 換 gym_interior.glb（只差 gym_court_floor 粗糙度，14 bytes）；BB 用 artrev 同角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7"
+   "ack": "ACTIONED",
+   "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7｜開發分支 1cd80a95 已整合（LAWWW 17:17 ACK＋ACTIONED）；BB 17:27 FIXED（20:30 +43.8→+9.0、13:00 +27.7→+3.9）；引擎補光另開 ENGINE-FILL-SPEC-1021（LAWWW）"
   },
   {
    "task": "LIC-GAPS-1017",
@@ -1407,6 +1407,22 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "核對結果：ntu_gym_ceremony.webp、gym_arena.glb 開發分支已經有（第 261、262 行）；缺的是 dorm_room4.glb（四人房，取代雙人房 dorm_interior.glb）→ 補一列（來源腳本、Poly Haven 五張 CC0、PIL 畫的名牌）"
+  },
+  {
+   "task": "GRADE-GOLDEN-DEFAULT",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/grade_golden_default.diff",
+    "docs/art-rebuild/second_ai/test_shots/grade_golden_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "CLAUDE.md「等使用者決定：黃昏調色提案…」那一句、USER_WANTS X32、tasks.json 由 LAWWW 改；ART-VSLICE 收尾：後製 src/post3d.js 不接（效能、人物凍結、收尾不擴大；window.GAME 的 bug 已在這個分支修好，只為以後評估）",
+   "next": "LAWWW git apply grade_golden_default.diff（對 15f3c677 乾淨；engine3d.js 兩行＋golden_compare.sh 四行）；BB 可以用 golden_compare.sh 同角度重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS"
   }
  ]
 }

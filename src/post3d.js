@@ -86,5 +86,5 @@
       R.autoClear=ac; POST.stats.frames++;
     };
   };
-  (function wait(){ if(window.GAME&&GAME.E&&GAME.E.renderer) POST.install(GAME.E); else setTimeout(wait,150); })();
+  (function wait(){ if(typeof GAME!=='undefined'&&GAME.E&&GAME.E.renderer) POST.install(GAME.E); else setTimeout(wait,150); })();   /* GAME 是 const 宣告（game3d.js），不在 window 上：原本寫 window.GAME 永遠掛不上去（LAWWW2 2026-10-21 查到）*/
 })();
