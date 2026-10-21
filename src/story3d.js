@@ -3566,7 +3566,7 @@ const STORY = (function(){
       await GM.say(null,'（看台上，媽媽一直在揮手。爸爸舉著手機，沒有放下來過。）');   /* 09:00～10:30 校級典禮，家人坐看台 */
       if(typeof PG!=='undefined'&&PG.beforeLawCeremony) await PG.beforeLawCeremony(GM,bgOf('ntu_gym_ceremony'));   /* 和芷若交往：典禮開始前的視訊（AA_319 1A-13，src/postgrad3d.js）*/
       await GM.fade(true); at(11); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(bgOf('linze_auditorium')); await GM.fade(false);
-      await GM.say(null,'（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'); F.GRADUATED=G.day;   /* 11:00～12:00 法律學院典禮（霖澤館一樓大禮堂）*/
+      await GM.say(null,'（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'); F.GRADUATED=G.day; F.GRAD_DONE=true;   /* GRAD_DONE：閒聊階梯的 skipIf（ladder.js A8-L6、A8-L7、Y8-L1、Y8-L4、S7-L8、招呼的 unless：典禮演完，6/2 晚上、6/3 不播「典禮那天……」的未來式；BB210-Y4S2，原本沒有人設）*/   /* 11:00～12:00 法律學院典禮（霖澤館一樓大禮堂）*/
       if(S.routeAbroadRoute(G)) await GM.say(null,'（還差一門實習，證書下學期才拿得到。）');   /* 交換延畢（AA_144 X5）*/
       if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); at(11+55/60); if(GM.enter) await GM.enter('linze',Object.assign({},Y4_LOBBY)); await GM.fade(false);
       if(typeof ADV!=='undefined') ADV.begin({background:'blur'});   /* 11:55 大禮堂外的大廳（3D linze）*/
