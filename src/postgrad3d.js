@@ -184,6 +184,7 @@ const PG=(function(){
      已經過了 2030 的報名時間（5/12 以後）才讀的舊存檔：照舊規則算（BAR_REG 不是 false＝報了名），記 BAR_REG_2030，不讓已經在準備的國考突然取消 */
   S.migrate=function(s){ const F=s&&s.flags; if(!F||typeof F!=='object'||(s.stage||'law')!=='law'||typeof s.day!=='number'||!S.delayed(s)||F.BAR_REG_2030!=null) return false; const now=s.day*24+(+s.hour||0);
     if(now<T('2030-05-12',0)){ if(F.BAR_REG===true){ delete F.BAR_REG; return true; } return false; }
+    if(F.PG&&F.PG.done&&F.PG.done.reg_2030){ F.BAR_REG_2030=false; return true; }   /* 這一版排過 2030 的報名問題、錯過了（done＝missed）：沒回答＝不報名，和沒讀檔時一樣（BUG-PG-REG2030-MIGRATE-1021，BB 10-21 20:45）；下面是沒有這一題的舊存檔 */
     F.BAR_REG_2030=F.BAR_REG!==false; return true; };
   S.familyModule=()=>(typeof STORY!=='undefined'&&!!STORY.gradFamily)||(typeof STORY_EVENTS!=='undefined'&&STORY_EVENTS.some(e=>e.id==='ev_grad_family'));   /* 1A-12 主線 12（AA_318，story3d.js S.gradFamily：08:00～12:00，撥穗記 GRADUATED）*/
   S.gradReady=G=>!S.familyModule()||G.day>S.gradDay()||!!(G.events&&G.events.done&&G.events.done.ev_grad_family);   /* 拍照接在家人那一段後面（那一段在演＝玩家不空，不會插進去）*/
@@ -406,7 +407,7 @@ const PG=(function(){
     {id:'r2_'+y,at:G=>T(K.r2,15+5/60),until:G=>T(K.r2,48),cond:G=>G.flags['BAR_SIT_'+y]===true&&S.stage2(G,y),run:GM=>result2(GM,y)} ]; };
   S.STEPS=[
     {id:'reg',at:G=>T('2029-05-10',21),until:G=>T('2029-05-12',0),cond:G=>!S.delayed(G)&&G.flags.BAR_REG==null&&G.flags.Y4_PATH!=='bar',run:regScene},
-    {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>S.delayed(G)&&G.flags.BAR_REG_2030==null,run:regScene2030},   /* AA_357 1-6 */
+    {id:'reg_2030',at:G=>T('2030-05-10',21),until:G=>T('2030-05-12',0),cond:G=>S.delayed(G)&&G.flags.BAR_REG_2030==null,run:regScene2030,onMiss:G=>{ G.flags.BAR_REG_2030=false; }},   /* AA_357 1-6；錯過＝沒回答＝不報名（日期卡、考不考都照這個）*/
     {id:'grad',at:G=>T(GRAD,6),until:G=>T('2029-06-04',0),cond:G=>true,ready:G=>S.gradReady(G),run:gradScene},
     {id:'cafe',at:G=>T(GRAD,17.25),until:G=>T(GRAD,21),cond:G=>{ const q=typeof OUT!=='undefined'?OUT.get(G,'pg_grad_cafe'):null; return !!q&&q.state==='done'&&G.zone==='cafe'; },run:cafeScene},
     {id:'ps_video',at:G=>T(GRAD,18),until:G=>T(GRAD,27),cond:G=>graduated(G)&&S.dating(G,'classmate_peishan'),run:psVideo},
@@ -425,7 +426,7 @@ const PG=(function(){
   const running=new Set();
   S.pending=function(G){ const now=NOW(G), r=S.rec(G), out=[]; if(!law(G)||G.flags.EPILOGUE_DONE) return out;   /* 尾聲演完：讀那個存檔＝2034 年自由活動，不再有場景 */
     for(const s of S.STEPS){ if(r.done[s.id]||running.has(s.id)) continue; const t=s.at(G); if(t==null) continue; let ok=false; try{ ok=!!s.cond(G); }catch(e){ ok=false; } if(!ok) continue;
-      if(now>(s.until?s.until(G):t+6)){ r.done[s.id]='missed'; continue; } out.push({s,t}); }
+      if(now>(s.until?s.until(G):t+6)){ r.done[s.id]='missed'; if(s.onMiss) try{ s.onMiss(G); }catch(e){ console.warn('PG miss '+s.id,e); } continue; } out.push({s,t}); }
     return out.sort((a,b)=>a.t-b.t); };
   S.due=function(G){ const now=NOW(G); for(const {s,t} of S.pending(G)){ if(t>now+1e-6) break; if(s.ready&&!s.ready(G)) continue; return s; } return null; };
   S.runStep=async function(GM,s){ const G=GM.G, r=S.rec(G); if(r.done[s.id]||running.has(s.id)) return false; running.add(s.id);

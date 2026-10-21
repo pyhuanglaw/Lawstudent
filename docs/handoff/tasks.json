@@ -20814,7 +20814,7 @@
    "title": "去宿營前一秒還在椰林大道（轉場太突然，X09）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -20828,7 +20828,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "【LAWWW（帳號 A）19:3x】2cd8cf5a：經濟系新遊戲回顧完 2D 不關、宿營字卡疊黑底、遊覽車段換 tour_bus；法律系宿營字卡前黑底、隔天字卡之間留黑底；BB 從新遊戲（經濟系、直接法律系各一次）看到宿營第一段 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
+   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 PASS（看縮圖，72560881；經濟系 22 張、法律系 94 張，宿營開頭全是 2D；企劃線 BB_218 d6df42c4） ｜ 【LAWWW（帳號 A）19:3x】2cd8cf5a：經濟系新遊戲回顧完 2D 不關、宿營字卡疊黑底、遊覽車段換 tour_bus；法律系宿營字卡前黑底、隔天字卡之間留黑底；BB 從新遊戲（經濟系、直接法律系各一次）看到宿營第一段 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -26467,7 +26467,7 @@
    "id": "BB218-P3-1021",
    "title": "BB_218 v9.10.3 判定留下的 P3 四件（下一版）：①econff3d 日期卡句子比它講的日子早出（12/19 出「十二月二十日，期末考考完了」、3/16 出「四月二日，倒數撕到一百」、7/24 出「星期六…那天的海很藍」才收到可昕訊息）→ 視窗起點改成那一天 ②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次；AA_348 B8 PARTIAL）④床邊「出發：臺北的家樓下 14:00」hint 重複地點時間；⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點（一兩個月前）⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（實際 8/25 16:00，只這一次；BB 145d6a74）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "source": "BB-C 856cece9（BB_218 最後一節）",
    "first": {
@@ -26480,7 +26480,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）20:03 UTC】BB aa300 快轉 PASS：①（十二月二十日在 12/31、7/19 約定在 7/24）③（小事 27 則都隔 3 天）⑥（右上角日期 0 次不一致）；剩 ②⑤（p3b）④（aa368 S 段）｜ 【LAWWW（帳號 A）2026-10-21 19:2x】①②④⑤ 81acfd1f（①12/20、7/19 日期卡；②通知條在手機打開時改到下面；④出遊小字不重複地點時間；⑤未讀只算 14 天）；③⑥ 是 LAWWW-C 的 a6441e98、cbf820a3——六項都在開發分支，BB 瀏覽器看（② 只有畫面能驗）｜ 【LAWWW-C 2026-10-21 14:5x UTC】⑥ 右上角日期跟上跳時間 cbf820a3（tests/hud_jump_unit.js）、③ 經濟系手機小事也和別的訊息隔 3 天 a6441e98（v0_kxphone_unit 6b；commit 訊息寫「30 支」是錯的，實際跑了經濟系相關 62 支 ALL PASS）——都只有單元測試、沒瀏覽器驗收、不在 v9.10.3 候選裡；剩 ①②④⑤ ｜ 【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）",
+   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 ①～⑥ 全部 PASS（企劃線 BB_218 d6df42c4：①③⑥ 94eba942、④ 2b25a509、②⑤ de6bbb8c～72560881） ｜ 【LAWWW（帳號 A）20:03 UTC】BB aa300 快轉 PASS：①（十二月二十日在 12/31、7/19 約定在 7/24）③（小事 27 則都隔 3 天）⑥（右上角日期 0 次不一致）；剩 ②⑤（p3b）④（aa368 S 段）｜ 【LAWWW（帳號 A）2026-10-21 19:2x】①②④⑤ 81acfd1f（①12/20、7/19 日期卡；②通知條在手機打開時改到下面；④出遊小字不重複地點時間；⑤未讀只算 14 天）；③⑥ 是 LAWWW-C 的 a6441e98、cbf820a3——六項都在開發分支，BB 瀏覽器看（② 只有畫面能驗）｜ 【LAWWW-C 2026-10-21 14:5x UTC】⑥ 右上角日期跟上跳時間 cbf820a3（tests/hud_jump_unit.js）、③ 經濟系手機小事也和別的訊息隔 3 天 a6441e98（v0_kxphone_unit 6b；commit 訊息寫「30 支」是錯的，實際跑了經濟系相關 62 支 ALL PASS）——都只有單元測試、沒瀏覽器驗收、不在 v9.10.3 候選裡；剩 ①②④⑤ ｜ 【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）",
    "sha": "81acfd1f"
   },
   {
@@ -27073,7 +27073,7 @@
    "title": "期末考那天進教室、還沒坐下時黑板寫的是別的課（「憲法：基本權的限制」），坐下後才換成該科的期末考（Y2S1、Y3S1）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -27087,7 +27087,7 @@
    },
    "source": "BB（帳號 A）16:51：BB_218 最後一節（38dc2bd5；test_shots/exam_port_1021/ 截圖 11、20）",
    "authorized": "bug 修正",
-   "next": "黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）21:0x】CLS.examBoard：今天這間教室還沒考完的期中／期末考，進門就是「X：期末考／不可以翻書／鈴響請停筆」，沒有才照星期幾的表；tests/exam_board_unit.js（修改前 7 項 FAIL）；BB 大二上 12/21 進 201 看黑板 ｜ 黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後"
   },
   {
    "id": "UX-KAI-TAPE-CAM-1021",
@@ -27333,7 +27333,7 @@
    "title": "AA_368 經濟系那一年「知道太早／時間矛盾」修正（企劃線 e55fda50）：高 5 項（H1 颱風假日期卡 9/24 就出現、H2 四月二日卡 3/16 就出現——拆範圍；H3 2/8 又問重選科系——換一則、拿掉 ask；H4 7/10 公館巷子→她家巷子；H5 msg_kx_y0 分期改日子＋寒假在臺北 12/21～1/13）、中 8 項（M3 資料頁休學日期照日期換、M6 y0_xu_seat 10/23 起、M7 7/25 夜班客運 02:30→7/26 02:10、M8 E37 經濟系路線也開車回家再搭捷運…）、低（可昕假設題兩則、{name} 寫死兩處、指考→分科測驗、y0_py_notes2 週次）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27347,7 +27347,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
    "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
-   "next": "【LAWWW（帳號 A）20:14 UTC】BB 瀏覽器（企劃線 5a8f2826 BB_218 最後一節；開發分支 2b25a509、3893c523）PASS：L9b、H1、H5、M3、M4、H4、M7 出發、M8、BB218-P3 ④；M6 看不到（快轉位置被鬧鐘那則拿走）→ 87d815fb 快過期的先排（v0_kxphone 5g）；剩 M7 回程 7/26 02:10（BB S7）、M6 重驗 ｜ 【LAWWW（帳號 A）20:03 UTC】BB aa300 快轉（94eba942）PASS：H1 颱風那句 10/2、H2 三月 3/13／四月二日 4/23、H3 2/8 講義兩句沒選項、附 3/16 品妤筆記；剩 aa368 探針 N／W／S 段（H5、M3、M4、H4、M7、M8、L9b）｜ 【LAWWW（帳號 A）19:2x】AA_371（7eb45d69，AA 回五題）8a9b05f2：L7 維持、學期中延到 12/20、「不要問我現在幾點」、7/24「好。我搭半夜的客運下去。」、品妤等公車那句；BB 瀏覽器照 AA_368 第 6 節 ｜ 【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
+   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 PASS（M6 修正後 d22748f5 也 PASS；企劃線 BB_218 d6df42c4）；12/27、1/2 兩次傳訊息沒測到（P3，BB 記著） ｜ 【LAWWW（帳號 A）20:14 UTC】BB 瀏覽器（企劃線 5a8f2826 BB_218 最後一節；開發分支 2b25a509、3893c523）PASS：L9b、H1、H5、M3、M4、H4、M7 出發、M8、BB218-P3 ④；M6 看不到（快轉位置被鬧鐘那則拿走）→ 87d815fb 快過期的先排（v0_kxphone 5g）；剩 M7 回程 7/26 02:10（BB S7）、M6 重驗 ｜ 【LAWWW（帳號 A）20:03 UTC】BB aa300 快轉（94eba942）PASS：H1 颱風那句 10/2、H2 三月 3/13／四月二日 4/23、H3 2/8 講義兩句沒選項、附 3/16 品妤筆記；剩 aa368 探針 N／W／S 段（H5、M3、M4、H4、M7、M8、L9b）｜ 【LAWWW（帳號 A）19:2x】AA_371（7eb45d69，AA 回五題）8a9b05f2：L7 維持、學期中延到 12/20、「不要問我現在幾點」、7/24「好。我搭半夜的客運下去。」、品妤等公車那句；BB 瀏覽器照 AA_368 第 6 節 ｜ 【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
    "sha": "eb2bc150",
    "note": "子代理 d0cce657 合併進開發分支 eb2bc150（H1～H5、M1～M8、L1～L9 全 FIXED；42 句逐字比對 AA_368；15 支相關單元測試修改前 FAIL、修改後 PASS）；5 個問題轉 AA（L7 開頭、H5 期末週補位、H5 新句時段、M7 選項字、L9b 下雨）；M7 回覆期限 07:00→02:30 是 LAWWW 自己加的（AA 沒寫）；BB 瀏覽器照 AA_368 第 6 節"
   },
@@ -27462,7 +27462,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
-   "next": "【LAWWW（帳號 A）19:48 UTC】4df34170：兩張都登記、圖從 cg_approved/ 拿、LICENSES；BB 驗：美國篇學姊交往中 SF2 出 BCG-48、尾聲不選出共通圖 ｜ 從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
+   "next": "【LAWWW（帳號 A）20:5x】BB 整合檢查 PASS（兩張都登記、圖讀得到 1672×941）；劇情裡出現另外測 ｜ 【LAWWW（帳號 A）19:48 UTC】4df34170：兩張都登記、圖從 cg_approved/ 拿、LICENSES；BB 驗：美國篇學姊交往中 SF2 出 BCG-48、尾聲不選出共通圖 ｜ 從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
    "recheckOn": "2026-10-22",
    "sha": "4df34170"
   },
@@ -27644,7 +27644,7 @@
    "id": "AA373-Y1S2-FIX-1021",
    "title": "AA_373 法律系大一下修正（企劃線 a48fe1b7）：高 #1「我們的日子」迴圈 w<=18 排到暑假（可昕人在高雄）、#3 沛珊 partner.from 改 2026-04-06、#25 使用者規則「可昕不跟祐廷比較」四處改字；中：小語 4/4 兩地、沛珊週二四課輔班、語彤期末說禮拜五、通識觀星天文館、可昕情人節第二個週末、春假行程表、方奕廷七月上山、明軒考試",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "area": "v2",
    "first": {
@@ -27659,7 +27659,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 20:01 交（企劃線 a48fe1b7；子代理盤點 96ddcbcc，AA 在 eb091a28 核過）",
    "authorized": "D109、D110；#25 是使用者 10-18 的規則",
-   "next": "等 AA_372 子代理合併（同樣動 events.js、story3d.js、ladder）後，照 AA_368～372 的做法開子代理整份做"
+   "next": "【LAWWW（帳號 A）20:5x】子代理開工（分支 aa373，從開發分支 73ce13de；整份照稿，#2 已在 AA_369 第 4 節；#1 只做大一下，大二以後的「我們的日子」是 AA354）｜ 等 AA_372 子代理合併（同樣動 events.js、story3d.js、ladder）後，照 AA_368～372 的做法開子代理整份做"
   },
   {
    "id": "BUG-E37-DORM-SLEEP-1021",
@@ -27724,6 +27724,69 @@
    "source": "AA_372 子代理 2026-10-21 20:3x 順手發現（5a943046 的回報）",
    "authorized": "一般 bug 修正（D87）",
    "next": "【LAWWW（帳號 A）20:4x】home3d.js 週數不到 0 照第 0 週＋拿不到句子不發；tests/home_famgroup_unit.js（修改前第 1 項 FAIL：9/4 沒訊息、警告 16 次；9/11 其實沒壞，(-5/7|0)＝0）；BB 新遊戲 9/4 20:00 看手機「家人」群組"
+  },
+  {
+   "id": "BG-CAMP-NIGHT-TRAIL-1021",
+   "title": "法律系宿營 8/22 21:30「（九點半，小隊輔帶小隊走到後山的步道…）」用白天大太陽的步道背景",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "2025-08-22 法律系宿營第一晚",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 20:45 觀察（BB_218 d6df42c4 最後一節）",
+   "authorized": "一般修正（D87）；要不要新圖 BB 決定（D110）",
+   "next": "【LAWWW（帳號 A）21:0x】暫代：OUT.BG camp_trail_night＝同一張步道圖＋night（adv3d.js #adv.night 調暗、偏藍），夜遊改用它；tests/ui_night_bg_unit.js 第 1、2 項；要不要出夜間步道的新圖 BB 決定（D110） ｜ LAWWW 先用現成圖調暗（夜晚版）；BB 決定要不要出夜間步道的提示詞"
+  },
+  {
+   "id": "BUG-NOTEBOOK-ADVBTN-1021",
+   "title": "劇情播著時打開筆記本：ADV 的「紀錄」「略過對話」兩顆按鈕浮在筆記本上面而且按得到（經濟系 12/13 補習班）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "area": "UI",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系 12/13 補習班（任何劇情中打開筆記本）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 20:45 觀察（BB_218 d6df42c4 最後一節）",
+   "authorized": "UI 修正（D87）",
+   "next": "【LAWWW（帳號 A）21:0x】adv3d.js：#menu 開著時 #advTop（紀錄、略過對話）不顯示；tests/ui_night_bg_unit.js 第 3 項（修改前 FAIL）；BB 劇情中打開筆記本看 ｜ 筆記本開著時藏 ADV 的按鈕（或筆記本疊在上面）＋單元測試"
+  },
+  {
+   "id": "BUG-PG-REG2030-MIGRATE-1021",
+   "title": "交換延畢 2030 報名問題錯過（沒回答＝不報名）以後存檔再讀檔，PG.migrate 把 BAR_REG_2030 設成 true（變成有報名）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v5",
+   "first": {
+    "term": "Y5S1",
+    "week": null,
+    "earliest": "2030-05-12 以後讀檔（交換延畢、錯過 5/10 的報名問題）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 20:45 讀碼懷疑（BB-TEST-Y5-1021 會實測）；LAWWW 讀碼確認",
+   "authorized": "bug 修正（D87）",
+   "next": "【LAWWW（帳號 A）21:0x】錯過 2030 報名問題的當下記 BAR_REG_2030＝false（onMiss），讀檔 migrate：這一版排過的＝不報名、只有舊存檔照舊規則；y5_delay G3b、G3c 修改前 FAIL，G3 期望改成 false；BB 的 y5_probe 照樣實測 ｜ migrate：這一版排過（PG.done.reg_2030 有記）的＝不報名；只有舊存檔（沒有這一題）照舊規則＋單元測試"
   }
  ]
 }

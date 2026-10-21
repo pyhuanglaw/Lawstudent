@@ -14,6 +14,7 @@ const ADV = (function(){
 #adv.blur #advBg{backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);background:rgba(10,12,18,.38)}
 #adv.image #advBg{background-size:cover;background-position:center}
 #adv.freeze #advBg{background:rgba(0,0,0,0)}
+#adv.night #advBg{filter:brightness(.42) saturate(.6)}#adv.night #advBg::after{content:'';position:absolute;inset:0;background:rgba(18,28,64,.32)}   /* 白天的圖當晚上用（OUT.BG 的 night:true；有夜晚版的圖以前先這樣）*/
 #adv.dark #advBg{background:#15171d;backdrop-filter:none;-webkit-backdrop-filter:none}   /* 出遊（離開 3D 地圖的地方）：2D 背景還沒有圖時的深色底（MISSING_EXTERNAL_ART）*/
 #advCg{position:absolute;inset:0;display:none;background-repeat:no-repeat;background-position:center;background-size:cover}
 #adv.cg #advCg{display:block}
@@ -31,7 +32,7 @@ const ADV = (function(){
 .ph.f .sil:before{width:38%}
 .ph .tag{position:relative;z-index:1;background:rgba(233,185,106,.92);color:#1c1a17;font:10px/1.35 ui-monospace,monospace;padding:5px 7px;border-radius:8px;margin-top:6px;text-align:center;letter-spacing:.02em}
 .ph .name{position:relative;z-index:1;color:#f4efe6;font-size:15px;text-shadow:0 2px 6px rgba(0,0,0,.6)}
-#advTop{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);display:flex;gap:8px;pointer-events:auto;z-index:7}body:not(.adv-on) #advTop{display:none}
+#advTop{position:fixed;left:50%;top:max(8px,env(safe-area-inset-top));transform:translateX(-50%);display:flex;gap:8px;pointer-events:auto;z-index:7}body:not(.adv-on) #advTop{display:none}body:has(#menu:not(.hide)) #advTop{display:none}
 #advTop button{min-height:34px;padding:0 12px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:rgba(20,22,28,.75);color:#e8e2d6;font-size:12px}
 #advHist{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,calc(100% - 28px));max-height:70%;overflow:auto;background:rgba(20,22,28,.96);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:12px 16px;color:#f4efe6;font-size:14px;line-height:1.6;pointer-events:auto;display:none}
 #advHist b{color:#e9b96a;font-weight:500;margin-right:6px}
@@ -94,8 +95,8 @@ const ADV = (function(){
   /* 手機直向（BB 2026-10-14 同意）：整張 CG 縮小放進畫面（contain），人物不會被裁；上下的空白是同一張 CG 放大模糊（#advBg）。橫向照舊 cover。
      CG 一律 16:9（docs/CHARACTER_ART_SPEC.md）；直向時圖放在畫面 40% 的高度，下面留給對話框與選項 */
   /* 演到一半換背景（出遊的場景，src/outings3d.js）：mode＝'blur'／'freeze'／'dark'／{image}；圖載不到就用深色底 */
-  A.setBg=function(mode){ if(!A.active) return; mode=mode||'blur'; A.bgMode=mode; for(const c of ['blur','freeze','dark','image','cg']) A.root.classList.remove(c); if(A.cgEl) A.cgEl.style.backgroundImage='';   /* 換場景＝離開 CG 那一拍（例：芷若 Z5 戲院門口 BCG-21 → 豆漿店）；之後說話的人照常出現 */
-    if(typeof mode==='object'&&mode.image){ A.root.classList.add('image'); A.bg.style.backgroundImage='url('+mode.image+')'; loadImage(mode.image).catch(()=>{ A.root.classList.remove('image'); A.root.classList.add('dark'); A.bg.style.backgroundImage=''; }); }
+  A.setBg=function(mode){ if(!A.active) return; mode=mode||'blur'; A.bgMode=mode; for(const c of ['blur','freeze','dark','image','cg','night']) A.root.classList.remove(c); if(A.cgEl) A.cgEl.style.backgroundImage='';   /* 換場景＝離開 CG 那一拍（例：芷若 Z5 戲院門口 BCG-21 → 豆漿店）；之後說話的人照常出現 */
+    if(typeof mode==='object'&&mode.image){ A.root.classList.add('image'); if(mode.night) A.root.classList.add('night'); A.bg.style.backgroundImage='url('+mode.image+')'; loadImage(mode.image).catch(()=>{ A.root.classList.remove('image','night'); A.root.classList.add('dark'); A.bg.style.backgroundImage=''; }); }
     else { A.root.classList.add(typeof mode==='object'?'dark':mode); A.bg.style.backgroundImage=''; } };
   A.cg=function(cgId){ const reg=(typeof CG_REGISTRY!=='undefined')?CG_REGISTRY[cgId]:null; if(!reg) return false; loadImage(reg.file).then(()=>{ A.root.className='on image cg'; A.bg.style.backgroundImage='url('+reg.file+')'; A.cgEl.style.backgroundImage='url('+reg.file+')'; A.L.classList.remove('show'); A.R.classList.remove('show'); if(window.GAME&&GAME.G){ GAME.G.cg=GAME.G.cg||{unlocked:[]}; if(!GAME.G.cg.unlocked.includes(cgId)) GAME.G.cg.unlocked.push(cgId); } }).catch(()=>{ /* fallback：維持一般 ADV */ }); return true; };
   return A;
