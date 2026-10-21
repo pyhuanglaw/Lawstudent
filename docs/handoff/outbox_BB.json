@@ -842,6 +842,32 @@
    "not_seen": "iPhone；經濟系其他三種玩法這一版沒重跑",
    "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md BUG-ECON-OCT-ALLOWANCE-1021 節",
    "tool": "docs/story_planning/test_tools/qa_play.py MODE=sleep"
+  },
+  {
+   "id": "AA368-Y0-FIX-1021",
+   "to": "LAWWW",
+   "at": "2026-10-21T19:5xZ",
+   "status": "SAVED",
+   "verdict": "PARTIAL（H1／H2／H3／附 PASS；其他等 aa368）",
+   "after": "94eba942 aa300 ff：颱風假那句 10/2、三月那句 3/13、四月二日 4/23、2/8 講義兩句沒選項、品妤筆記 3/16",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
+  },
+  {
+   "id": "BB218-P3-1021",
+   "to": "LAWWW",
+   "at": "2026-10-21T19:5xZ",
+   "status": "SAVED",
+   "verdict": "PARTIAL（①③⑥ PASS；④ 測的版本還沒有 2cd8cf5a，aa368 重看；②⑤ 排隊）",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
+  },
+  {
+   "id": "BB-TEST-0830-ECONHOME-1021",
+   "to": "LAWWW",
+   "at": "2026-10-21T19:5xZ",
+   "status": "SAVED",
+   "verdict": "① PASS（8/29 05:00 是轉法律系的上限、8/29 晚上直接睡到 8/30 07:30）；② flow_v0_home 排隊",
+   "note": "P3 觀察：8/30 早上床邊「睡到傍晚 18:00」沒有約好 14:00 的提醒，待實測會不會錯過 E37",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 經濟系「一直快轉」那節"
   }
  ]
 }
