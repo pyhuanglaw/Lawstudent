@@ -27914,6 +27914,27 @@
    "source": "AA_373 子代理 2026-10-21 21:4x 順手發現（scratchpad aa373_interms.js 驗證）",
    "authorized": "bug 修正（D87）",
    "next": "兩處改用 STORY.partnerOn＋單元測試（修改前 FAIL）；全部單元測試跑完再改"
+  },
+  {
+   "id": "AA376-Y3S1-FIX-1021",
+   "title": "AA_376 法律系大三上修正（企劃線 69aa3b0c）：#1 語彤大三上空出來的週四 17:00–20:00 是總圖三樓（大三下 2/24 起才是田野訪談，手機「現在大概在」跟著改）；#2 v7 舊課堂 ev_class_crimpro、ev_quiz_crimpro 沒有 once、每週二重演→停用；中：TA_NEWS_LIB、子晴 Q10、可昕 K5-L3／K17、K5-L2、9/9 讀書會三人 19:40 先走；低 13 項；AA_342 3-1 大三上補稿",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "v4",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "2027-09 法律系大三上開學",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 21:43 交（企劃線 69aa3b0c；子代理盤點 89008abd）",
+   "authorized": "D109、D110",
+   "next": "#2 LAWWW 先做（停用兩件 v7 舊課堂）；其他等大二子代理（aa374）或畢業後子代理（aapg）做完接著做"
   }
  ]
 }
