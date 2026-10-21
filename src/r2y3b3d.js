@@ -444,14 +444,15 @@ const R2Y3B=(function(){
   /* ===================== 2-Y3-46 芷若 Z13、2-Y3-47 子晴 Q15：大三下學期末（Y3S2，6/8～6/18）心意邀約的專屬版 =====================
      在 termend3d.js 的一般版之上包一層（不改 termend3d.js）：時段第一天排這學期的邀約（TERMEND.plan）時，心意邀約裡有她、而且這一版的前置也到齊＝記 plan.special（之後不重算，BB_203 第 5 節）。
      Z13 前置（BB_90 4-1 七環拿掉作廢的兩環，裁定 #25）：CAFE_VISITS ≥3、ASKED_HER_DRINK、REMEMBERED_HER、看過她的早場（WATCHED_FILM／WATCHED_FILM_GROUP）、POSTCARDS、不是日本路線、沒演過 ev_zhiruo_his_order。
-     Q15 前置（BB_90 4-2）：CLAPPED、PLAYTESTED、ZQ_DAD_HEARD、TOLD_HER_CHANGE、ATTENDED_SHOW、不是日本路線。沒到齊＝AA_254 的一般版。
+     Q15 前置（BB_90 4-2）：CLAPPED、PLAYTESTED、ZQ_DAD_HEARD、ATTENDED_SHOW、不是日本路線。沒到齊＝AA_254 的一般版。
+     TOLD_HER_CHANGE（祐廷說過自己換方向）不是必要：有沒有都照樣走，不加新句（AA_360 第 3 節，第②級：她的專業核心不是跟祐廷學的）。
      - Z13：邀約的字換（TERMEND_LINES.HEART 的 over）；飯排 6/15（四）22:00 兩點半打烊後（TERMEND.planDinner；22:15 還沒到＝22:30 她傳、窗口延到 23:00；23:00 再沒到＝帶到場 R4）；
        飯＝開場（AA_250 10-1）＋話題池兩句＋邀約鉤子，吃完接杯子（S.z13Dinner，不走回家的路）：喝下去／台階＝交往；「這杯我不能喝」＝這學期不交往（F3 照 6/19，AA_334 第 3 節）。
      - Q15：邀約、飯桌一句換（over）；回家路上（TERMEND.walkHome）前三個選項換成 BB_165 4-1 的三句：說出來＝她跑進巷子、隔天 12:00「回答.exe」（演一次＋手機檔案，回插座貓貼紙＝交往；
        收到檔案的隔天 21:00 以前沒回（AA_343 D11）＝她傳那一句、這學期不交往＝「讓我想想」，下學期她用第二次的邀約）；先不說＝照一般版她說（第二次＝she2）。記 ZQ_CONFESS_LINE。
      上學期選了「讓我想想」的：第二次也走專屬版，邀約換第二次的字（AA_343 D10）。 */
   S.z13Ready=G=>{ const F=G.flags||{}; return (+F.CAFE_VISITS||0)>=3&&has('heroine_02','ASKED_HER_DRINK')&&has('heroine_02','REMEMBERED_HER')&&(has('heroine_02','WATCHED_FILM')||has('heroine_02','WATCHED_FILM_GROUP'))&&has('heroine_02','POSTCARDS')&&!isJP(G)&&!done(G,'ev_zhiruo_his_order'); };
-  S.q15Ready=G=>{ const F=G.flags||{}; return has('heroine_04','CLAPPED')&&(has('heroine_04','PLAYTESTED')||!!F.PLAYTESTED)&&(!!F.ZQ_DAD_HEARD||has('heroine_04','ZQ_DAD_HEARD'))&&has('heroine_04','TOLD_HER_CHANGE')&&!!F.ATTENDED_SHOW&&!isJP(G); };
+  S.q15Ready=G=>{ const F=G.flags||{}; return has('heroine_04','CLAPPED')&&(has('heroine_04','PLAYTESTED')||!!F.PLAYTESTED)&&(!!F.ZQ_DAD_HEARD||has('heroine_04','ZQ_DAD_HEARD'))&&!!F.ATTENDED_SHOW&&!isJP(G); };   /* AA_360 第 3 節：TOLD_HER_CHANGE 拿掉（不是必要）*/
   S.special=(G,id)=>{ const R=G&&G.termend&&G.termend.Y3S2, P=R&&R.plan; return P&&P.special?P.special[id]||null:null; };
   const XT=()=>{ const X=ABE(); return X?{Z13:X.Z13,Z13_TXT:X.Z13_TXT||{},Q15:X.Q15||{}}:null; };
   const TL=()=>typeof TERMEND_LINES!=='undefined'?TERMEND_LINES:null;

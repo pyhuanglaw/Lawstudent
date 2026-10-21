@@ -4024,11 +4024,11 @@ const STORY_EVENTS_V11=[
       {speaker:'heroine_02',expression:'thinking',text:'如果沒錄取，就永遠不用跟我媽說。……很膽小吧。'},
       {choice:[{text:'「不會。」',consequences:{rel:{heroine_02:{trust:5,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說「不會」'}]},goto:'no'},
         {text:'「妳跟妳媽說了嗎？」',set:{ZR_Z7_MOM:true},consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問她跟媽媽說了沒'}]},goto:'mom'},
-        {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：「我去，家也跟著我去。」'}]},goto:'fam'}]},
+        {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：她算過時差，媽媽十點打來接得到'}]},goto:'fam'}]},
       {label:'no'},{unless:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'embarrassed',text:'……你這樣講，我會當真。'},
         {if:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'smile',text:'……好。那我先不要怕。'},{goto:'end'},
       {label:'mom'},{speaker:'heroine_02',expression:'neutral',text:'還沒。今天十點，她會打來。'},{goto:'end'},
-      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。我想了很久。'},{speaker:'heroine_02',expression:'smile',text:'後來我發現，我就是家裡的一部分。我去，家也跟著我去。'},
+      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。'},{speaker:'heroine_02',expression:'neutral',text:'我後來算了一下。她十點打來，英國那邊是下午兩、三點。'},{speaker:'heroine_02',expression:'smile',text:'我那個時間沒課。……接得到。'},   /* AA_360 第 3 節（第②級，採 BB_167 E1）：她自己去算時差，回答 Z4「她十點要打給誰」；「兩、三點」＝英國冬天、夏天差一小時（她在那邊一整年）。原本兩句「……我想了很久。」「後來我發現，我就是家裡的一部分。我去，家也跟著我去。」作廢 */
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
     consequences:{stamp:['zrAppliedDay']} },
   // ── 語彤 arc ──
