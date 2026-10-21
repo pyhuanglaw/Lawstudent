@@ -1144,6 +1144,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "法律系大二上：高 1（另 1 已在 AA_372）、中 9、低 13；大二宿舍房間裡的人、交往中的沛珊和柏翰互斥（AA 定）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "45121a97",
+   "files": [
+    "docs/story_planning/AA_375_法律系大二下_芷若最後一個班與時間_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 整份做（程式＋改字）",
+   "next": "LAWWW 開 AA375-Y2S2-FIX-1021（第 1 項和 AA_369 第 8、9 節芷若一起做）／BB 驗（檔內第 6 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系大二下：高 1、中 6、低 16；芷若 6/3 最後一個班以後還在上班"
   }
  ],
  "items": [
