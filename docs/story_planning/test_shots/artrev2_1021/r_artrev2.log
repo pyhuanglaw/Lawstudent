@@ -1,0 +1,58 @@
+  [前置／捷徑] 讀 9/25 存檔
+  [前置／捷徑] [捷徑] gym 13.0
+   玩家放到中間 [0, 0] → [0, 0]
+  [前置／捷徑] [捷徑] 玩家搬到 gym 中間 [0, 0]
+   gym 13 {"n": "gym_glows", "vis": true, "k": 0, "cnt": 200}
+PASS gym 13.0 有光暈網格  {"n": "gym_glows", "vis": true, "k": 0, "cnt": 200}
+   最近的光暈 [-4, 7, 1]
+  [前置／捷徑] [捷徑] gym 20.5
+   玩家放到中間 [0, 0] → [0, 0]
+  [前置／捷徑] [捷徑] 玩家搬到 gym 中間 [0, 0]
+   gym 20.5 {"n": "gym_glows", "vis": true, "k": 1, "cnt": 200}
+PASS gym 20.5 有光暈網格  {"n": "gym_glows", "vis": true, "k": 1, "cnt": 200}
+   最近的光暈 [-4, 7, 1]
+  [前置／捷徑] [捷徑] gym_b1 13.0
+   玩家放到中間 [18, 8] → [17.2, 7.2]
+  [前置／捷徑] [捷徑] 玩家搬到 gym_b1 中間 [17.2, 7.2]
+   gym_b1 13 {"n": "gym_b1_glows", "vis": true, "k": 0, "cnt": 180}
+PASS gym_b1 13.0 有光暈網格  {"n": "gym_b1_glows", "vis": true, "k": 0, "cnt": 180}
+   最近的光暈 [18, 3.4000000953674316, 6]
+  [前置／捷徑] [捷徑] gym_b1 20.5
+   玩家放到中間 [18, 8] → [17.2, 7.2]
+  [前置／捷徑] [捷徑] 玩家搬到 gym_b1 中間 [17.2, 7.2]
+   gym_b1 20.5 {"n": "gym_b1_glows", "vis": true, "k": 1, "cnt": 180}
+PASS gym_b1 20.5 有光暈網格  {"n": "gym_b1_glows", "vis": true, "k": 1, "cnt": 180}
+   最近的光暈 [18, 3.4000000953674316, 6]
+  [前置／捷徑] [捷徑] dorm closed
+   預設鏡頭 3.6 0.38
+   dorm closed ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:false', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
+   紙箱互動點 [-1.55, 0.628, '床底下的紙箱'] 紙箱 [{'n': 'Y1_BOX_WINTER', 'c': [-2.13, 0.17, 0.64], 's': [0.34, 0.35, 0.54]}] 膠帶 []
+   玩家放到 [-1, 0.63]
+  [前置／捷徑] [捷徑] dorm tape_text
+   預設鏡頭 3.6 0.38
+   dorm tape_text ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:true', 'Y1_KAI_TAPE_TEXT_m:true']
+   紙箱互動點 [-1.55, 0.628, '床底下的紙箱'] 紙箱 [{'n': 'Y1_BOX_WINTER', 'c': [-2.13, 0.17, 0.64], 's': [0.34, 0.35, 0.54]}] 膠帶 [{'n': 'Y1_KAI_TAPE', 'c': [2.19, 0, 0.19], 's': [1.39, 0, 2.36]}, {'n': 'Y1_KAI_TAPE_TEXT', 'c': [1.52, 0, 0.21], 's': [0.03, 0, 0.64]}]
+   玩家放到 [-1, 0.63]
+   玩家放到膠帶旁 [1.4, -1.1]
+  [前置／捷徑] [捷徑] dorm folded_tape
+   預設鏡頭 3.6 0.38
+   dorm folded_tape ['Y1_BOX_FOLDED:true', 'Y1_box_folded:true', 'Y1_BOX_WINTER:false', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:true', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
+   紙箱互動點 None 紙箱 [{'n': 'Y1_BOX_FOLDED', 'c': [-2.83, 0.3, -0.1], 's': [0.08, 0.6, 0.78]}] 膠帶 [{'n': 'Y1_KAI_TAPE', 'c': [2.19, 0, 0.19], 's': [1.39, 0, 2.36]}, {'n': 'Y1_KAI_TAPE_MID', 'c': [1.52, 0, 0.21], 's': [0.03, 0, 0.64]}]
+   玩家放到膠帶旁 [1.4, -1.1]
+  [前置／捷徑] [捷徑] us_shared 17.75（旗標 US_DEPARTED、US_ARRIVED；日期仍是 9/25 存檔那天）
+   us_shared 17.75 us_shared [0.4, 0, 4]
+   物件名稱（前 400） ["fallback", "Scene", "us_shared", "breezeway_wall_w", "door_deco_bedA", "door_deco_bedC", "EVENT_US2", "EVENT_US2_bowl0", "EVENT_US2_bowl1", "EVENT_US2_bowl2", "EVENT_US2_chopsticks", "EVENT_US2_noodle0", "EVENT_US2_noodle1", "EVENT_US2_pot", "EVENT_US2_report0", "EVENT_US2_report1", "EVENT_US2_report2", "EVENT_US2_soup", "furniture", "chore_chart", "door_coat_bedB", "door_coat_hook_bedB", "fridge_note0", "fridge_note1", "life_blanket", "life_bowl0", "life_bowl1", "life_bowl2", "life_plant_leaves", "life_plant_pot", "life_rack", "life_rice", "life_rice_band", "life_soy", "life_soy_cap", "US_ARMCHAIR001", "US_BALCONY_TABLE001", "US_BAR001", "US_BATHMAT001", "US_CEILINGFAN001", "US_CEILINGFAN_GLOW001", "US_CEILINGLIGHT001", "US_CEILINGLIGHT_GLOW001", "US_CEILINGLIGHT002", "US_CEILINGLIGHT_GLOW002", "US_COFFEE001", "US_COUNTER001", "US_DESK001", "US_DESK_GLOW001", "US_DESK002", "US_DESK_GLOW002", "US_DISHWASHER001", "US_ENDTABLE001", "US_ENDTABLE_GLOW001", "US_FRIDGE001", "US_KITCHEN_LIFE001", "US_LADDER001", "US_NIGHTSTAND001", "US_PASSSHELF001", "US_RANGE001", "US_RUG001", "US_SINK001", "US_SOFA001", "US_SUITCASE001", "US_TOILET001", "US_TOWELBAR001", "US_TUB001", "US_TVSTAND001", "US_UPPER001", "US_VANITY001", "furniture0", "furniture1", "furniture2", "furniture3", "lau_w_wall_k", "PLATE_FACE_door_213", "PLATE_FACE_door_bedA", "PLATE_FACE_door_bedB", "PLATE_FACE_door_bedC", "PLATE_FACE_door_front", "SEASON_SNOW_off", "usa_lot_off", "usa_view_off", "SEASON_SNOW_on", "usa_lot_on", "usa_view_on", "usa_backsplash", "usa_black", "usa_blinds", "usa_carpet", "usa_ceil", "usa_chrome", "usa_concrete", "usa_curtain", "usa_door", "usa_glass", "usa_rail_white", "usa_rail_wood", "usa_roof", "usa_sconce", "usa_tile", "usa_trim", "usa_wall", "usa_wood", "WALL_bath_n_door", "WALL_bath_n_trim", "WALL_bath_n_wall", "WALL_bed_ab_trim", "WALL_bed_ab_wall", "WALL_bed_w_door", "WALL_bed_w_trim", "WALL_bed_w_wall", "WALL_E_siding", "WALL_E_trim", "WALL_E_wall", "WALL_kit_e_trim", "WALL_kit_e_wall_k", "WALL_kit_n_trim", "WALL_kit_n_wall_k", "WALL_N_siding", "WALL_N_trim", "WALL_N_wall", "WALL_S_door", "WALL_S_siding", "WALL_S_trim", "WALL_S_wall", "WALL_W_black", "WALL_W_life_art", "WALL_W_life_frame", "WALL_W_life_pol0", "WALL_W_life_pol1", "WALL_W_life_pol2", "WALL_W_life_pol3", "WALL_W_life_twine", "WALL_W_siding", "WALL_W_trim", "WALL_W_wall"]
+   室內物件 [{"n": "door_coat_bedB", "c": [1.33, 1.41, -0.2], "s": [0.1, 0.84, 0.57]}, {"n": "door_coat_hook_bedB", "c": [1.38, 1.93, -0.2], "s": [0.1, 0.26, 0.01]}, {"n": "life_blanket", "c": [-4.24, 0.68, -1.59], "s": [0.77, 0.53, 0.72]}, {"n": "life_bowl0", "c": [-2.53, 0.96, 2.8], "s": [0.13, 0.06, 0.13]}, {"n": "life_bowl1", "c": [-2.4, 0.96, 2.8], "s": [0.15, 0.06, 0.15]}, {"n": "life_bowl2", "c": [-2.27, 0.96, 2.8], "s": [0.17, 0.06, 0.17]}, {"n": "life_plant_leaves", "c": [1.17, 0.23, -2.75], "s": [0.54, 0.11, 0.57]}, {"n": "life_plant_pot", "c": [1.16, 0.11, -2.76], "s": [0.26, 0.22, 0.26]}, {"n": "life_rack", "c": [-2.4, 0.98, 2.68], "s": [0.44, 0.12, 0.01]}, {"n": "life_rice", "c": [-3.6, 0.21, 2.28], "s": [0.34, 0.42, 0.24]}, {"n": "life_rice_band", "c": [-3.6, 0.27, 2.28], "s": [0.34, 0.06, 0.24]}, {"n": "life_soy", "c": [-2.95, 1.02, 2.75], "s": [0.07, 0.19, 0.07]}, {"n": "life_soy_cap", "c": [-2.95, 1.12, 2.75], "s": [0.03, 0.03, 0.04]}, {"n": "WALL_W_life_art", "c": [-4.48, 1.72, -1.2], "s": [0, 0.55, 0.85]}, {"n": "WALL_W_life_frame", "c": [-4.48, 1.72, -1.2], "s": [0.03, 0.6, 0.9]}, {"n": "WALL_W_life_pol0", "c": [-4.49, 1.59, -2.4], "s": [0, 0.11, 0.09]}, {"n": "WALL_W_life_pol1", "c": [-4.49, 1.57, -2.53], "s": [0, 0.12, 0.09]}, {"n": "WALL_W_life_pol2", "c": [-4.49, 1.57, -2.65], "s": [0, 0.12, 0.1]}, {"n": "WALL_W_life_pol3", "c": [-4.49, 1.59, -2.78], "s": [0, 0.12, 0.1]}, {"n": "WALL_W_life_twine", "c": [-4.49, 1.65, -2.59], "s": [0.01, 0.05, 0.55]}]
+   玩家放到門口 [-1, 2.2]
+   玩家放到 A、B 門前（臥室不能進） [0.9, -0.6]
+  [前置／捷徑] [捷徑] 打開 US2 道具（us2(true)；平常藏著，9/13 演出才開）
+   玩家放到廚房旁 [-2.6, 1.9]
+  [前置／捷徑] [捷徑] us_shared 19.00（旗標 US_DEPARTED、US_ARRIVED；日期仍是 9/25 存檔那天）
+   us_shared 19.0 us_shared [0.4, 0, 4]
+   室內物件 [{"n": "door_coat_bedB", "c": [1.33, 1.41, -0.2], "s": [0.1, 0.84, 0.57]}, {"n": "door_coat_hook_bedB", "c": [1.38, 1.93, -0.2], "s": [0.1, 0.26, 0.01]}, {"n": "life_blanket", "c": [-4.24, 0.68, -1.59], "s": [0.77, 0.53, 0.72]}, {"n": "life_bowl0", "c": [-2.53, 0.96, 2.8], "s": [0.13, 0.06, 0.13]}, {"n": "life_bowl1", "c": [-2.4, 0.96, 2.8], "s": [0.15, 0.06, 0.15]}, {"n": "life_bowl2", "c": [-2.27, 0.96, 2.8], "s": [0.17, 0.06, 0.17]}, {"n": "life_plant_leaves", "c": [1.17, 0.23, -2.75], "s": [0.54, 0.11, 0.57]}, {"n": "life_plant_pot", "c": [1.16, 0.11, -2.76], "s": [0.26, 0.22, 0.26]}, {"n": "life_rack", "c": [-2.4, 0.98, 2.68], "s": [0.44, 0.12, 0.01]}, {"n": "life_rice", "c": [-3.6, 0.21, 2.28], "s": [0.34, 0.42, 0.24]}, {"n": "life_rice_band", "c": [-3.6, 0.27, 2.28], "s": [0.34, 0.06, 0.24]}, {"n": "life_soy", "c": [-2.95, 1.02, 2.75], "s": [0.07, 0.19, 0.07]}, {"n": "life_soy_cap", "c": [-2.95, 1.12, 2.75], "s": [0.03, 0.03, 0.04]}, {"n": "WALL_W_life_art", "c": [-4.48, 1.72, -1.2], "s": [0, 0.55, 0.85]}, {"n": "WALL_W_life_frame", "c": [-4.48, 1.72, -1.2], "s": [0.03, 0.6, 0.9]}, {"n": "WALL_W_life_pol0", "c": [-4.49, 1.59, -2.4], "s": [0, 0.11, 0.09]}, {"n": "WALL_W_life_pol1", "c": [-4.49, 1.57, -2.53], "s": [0, 0.12, 0.09]}, {"n": "WALL_W_life_pol2", "c": [-4.49, 1.57, -2.65], "s": [0, 0.12, 0.1]}, {"n": "WALL_W_life_pol3", "c": [-4.49, 1.59, -2.78], "s": [0, 0.12, 0.1]}, {"n": "WALL_W_life_twine", "c": [-4.49, 1.65, -2.59], "s": [0.01, 0.05, 0.55]}]
+   玩家放到門口 [-1, 2.2]
+   玩家放到 A、B 門前（臥室不能進） [0.9, -0.6]
+  [前置／捷徑] [捷徑] 打開 US2 道具（us2(true)；平常藏著，9/13 演出才開）
+   玩家放到廚房旁 [-2.6, 1.9]
+PASS 沒有 JS 例外  []
+ALL PASS
