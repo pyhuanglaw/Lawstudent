@@ -406,6 +406,55 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-07-05',20,'dorm'); R('heroine_01','FAM'); ct('heroine_01'); G.flags.AN_JP_TRIP_ASK='go'; G.flags.AN_ABROAD={log:[],tier:3,wk:15,n1:0,n2:0,n3:0}; rules(); at('2028-07-06',9.2); OUT.tick(GM); at('2028-07-07',20.1); rules();
   check('AN. 答應了、7/6 沒出發：照條件沒到那一版（7/7 竹子的照片）', OUT.get(G,'y3_an_tanabata').state==='missed'&&PHONE.sent(G,'y3_ab_tana_photo'));
 
+  // ---------- 第 3 節：大三寒暑假的停點（BREAK_PTS Y3W／Y3S＋HOME.STOPS）----------
+  const fmt=t=>{ const d=Math.floor(t/24), x=CALENDAR.dateOf(d); return x.m+'/'+x.d+' '+(+(t-d*24).toFixed(2)); };
+  const seq=(k0,k1)=>{ const out=[]; let t=Tm(D(k0),0); const end=Tm(D(k1),24); for(let i=0;i<80;i++){ const x=HOME.breakNext(G,t); if(x==null||x>end) break; out.push(fmt(x)); t=x; } return out; };
+  fresh('2028-01-20',9,'dorm',{EXCHANGE_ROUTE:'TW'});
+  { const P=HOME.breakPts(G).map(p=>fmt(Tm(p.day,p.h))+' '+p.k); check('BP1. 大三寒假（Y3W）表上：除夕 1/25 12:00、初一 1/26 11:00，寒假最後一天 2/20 17:00 回宿舍（HOME.breakPts 自己補）', P.join('|')==='1/25 12 eve|1/26 11 cny|2/20 17 back', JSON.stringify(P)); }
+  { const L=seq('2028-01-20','2028-02-20'); check('BP1. 台灣路線快轉停點：除夕 12:00 → 初一 11:00 → 2/20 17:00（沒有 14:00）', L.join('|')==='1/25 12|1/26 11|2/20 17', JSON.stringify(L)); }
+  G.flags.EXCHANGE_ROUTE='JP'; { const L=seq('2028-01-20','2028-02-20'); check('BP1. 日本路線：2/20 14:00 X1 退宿也停', L.includes('2/20 14')&&L.includes('1/26 11'), JSON.stringify(L)); }
+  fresh('2028-01-26',11,'dorm',{EXCHANGE_ROUTE:'TW'}); HOME.rec(G).at=true; HOME.rec(G).lbreak='Y3W';
+  check('BP2. 初一 11:00 停在家：主線 9 ev_family_land_y3 可以演（在家的第一個時段）', EVENTS.check(ev('ev_family_land_y3'))&&ev('ev_family_land_y3').trigger==='home', JSON.stringify((HOME.breakEvent(G)||{}).id));
+  fresh('2028-06-12',9,'dorm',{EXCHANGE_ROUTE:'TW'});
+  { const P=HOME.breakPts(G).map(p=>fmt(Tm(p.day,p.h))+' '+p.k); check('BP3. 大三暑假（Y3S）表上：7/9 語彤生日、7/15 抽籤、9/3 08:30 主線 10', P.join('|')==='7/9 12 ytbday|7/15 10 lottery4|9/3 8.5 room', JSON.stringify(P)); }
+  { const L=seq('2028-06-12','2028-09-03'); check('BP3. 台灣路線：6/19 21:00 三選一、6/26、7/24、8/21 18:30 摘要日、7/9、7/15、9/3 08:30；沒有 7/25、7/31、8/5', ['6/19 21','6/26 18.5','7/9 12','7/15 10','7/24 18.5','8/21 18.5','9/3 8.5'].every(x=>L.includes(x))&&!['7/25 14','7/31 18.5','8/5 21'].some(x=>L.includes(x)), JSON.stringify(L)); }
+  G.flags.EXCHANGE_ROUTE='US'; { const L=seq('2028-06-12','2028-08-01'); check('BP3. 美國路線：7/25 14:00 退宿、7/31 18:30 第三個摘要日', ['6/19 21','6/26 18.5','7/24 18.5','7/25 14','7/31 18.5'].every(x=>L.includes(x)), JSON.stringify(L)); }
+  G.flags.EXCHANGE_ROUTE='JP'; { const L=seq('2028-06-12','2028-09-03'); check('BP3. 日本路線：三選一 8/5 21:00、只有 8/21 一個摘要日', L.includes('8/5 21')&&L.includes('8/21 18.5')&&!L.includes('6/19 21')&&!L.includes('6/26 18.5')&&!L.includes('7/24 18.5'), JSON.stringify(L)); }
+
+  // ---------- 2-Y3-54 大三暑假 ----------
+  fresh('2028-06-19',21.05,'dorm'); rules();
+  { const m=PHONE.byAsk(G,'y3_summer_plan'); check('S0. 台灣路線 6/19（一）21:00 手機「這個暑假要做什麼？」三選一', !!m&&m.text==='這個暑假要做什麼？'&&m.ask.opts.map(o=>o.t).join('|')==='法律服務中心的暑期實習|打工|在家開始讀國考的書'); }
+  answer('y3_summer_plan',0); check('S1. 選實習：SUMMER_Y3 intern（選項不當成你傳出去的話）', G.flags.SUMMER_Y3==='intern'&&!txt('sys').some(t=>/^player:/.test(t)));
+  at('2028-06-26',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 6/26 摘要日「實習第一天，你負責影印。影印機比你還資深。」', has('實習第一天，你負責影印。影印機比你還資深。'), JSON.stringify(lines()));
+  at('2028-07-24',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 7/24「你第一次自己寫完一份初談紀錄。律師只改了兩個字。」', has('你第一次自己寫完一份初談紀錄。律師只改了兩個字。'));
+  at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM); check('S1. 8/21「最後一天，主任說：『明年考完，再來。』」', has('最後一天，主任說：『明年考完，再來。』'));
+  { const L=STORY.roomY4Items(G); check('S1. 9/3 第四個房間多一件「一張影印的初談紀錄表」（收拾的名字也對得到）', L.some(x=>x[0]==='sum_intern'&&x[1]==='一張影印的初談紀錄表')&&STORY.roomItemName(G,'sum_intern')==='一張影印的初談紀錄表'); }
+  fresh('2028-06-26',18.5,'dorm',{SUMMER_Y3:'work'}); said=[]; await HOME.breakArrive(GM); check('S. 打工、住宿舍：6/26 沒有「你從家裡搭捷運去」那一句（AA 沒有寫宿舍版）', !said.some(s=>/從家裡/.test(s.t)));
+  HOME.rec(G).at=true; said=[]; await HOME.breakArrive(GM); check('S. 打工、住家裡：6/26「暑假的班比學期中多。你從家裡搭捷運去。」', has('暑假的班比學期中多。你從家裡搭捷運去。'));
+  at('2028-07-24',18.5); said=[]; await HOME.breakArrive(GM); check('S. 打工 7/24：家教那一句（大三下沒有別的打工＝照家教）', has('學生問你，法律系是不是都在背。你說：『背完以後才開始。』'));
+  { const L=STORY.roomY4Items(G); check('S. 打工：房間多「那家店的班表」', L.some(x=>x[0]==='sum_work'&&x[1]==='那家店的班表')); }
+  fresh('2028-06-19',21.05,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); rules(); answer('y3_summer_plan',2); at('2028-07-31',18.5); said=[]; await HOME.breakArrive(GM);
+  check('S2. 美國路線：第三個摘要日在 7/31（「姊姊回家，看到你的筆記：『這是你寫的？字變小了。』」）', has('姊姊回家，看到你的筆記：『這是你寫的？字變小了。』'));
+  at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM); check('S2. 美國路線 8/21 沒有摘要的那一句', !has('姊姊回家，看到你的筆記：『這是你寫的？字變小了。』'));
+  fresh('2028-06-19',21.5,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); check('S3. 日本路線：6/19 沒有三選一', !PHONE.sent(G,'y3_summer_plan'));
+  at('2028-08-05',21.1); rules(); answer('y3_summer_plan',1); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
+  check('S3. 日本路線：三選一在 8/5 晚上；8/21 摘要日（第三句）', G.flags.SUMMER_Y3==='work'&&has('最後一班，老闆多給了一個便當。'));
+  fresh('2028-07-15',10,'dorm'); said=[]; await HOME.breakArrive(GM);
+  check('L4. 台灣路線 7/15 10:00：宿舍系統那一則先到，旁白「（最後一次抽籤。四樓。）」', has('（最後一次抽籤。四樓。）')&&txt('g:dorm').some(t=>t.endsWith('大四宿舍抽籤結果：已分配。請於 9/3 前完成入住。')));
+  fresh('2028-07-15',10,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); said=[]; await HOME.breakArrive(GM); check('L4. 日本路線：沒有那一句旁白（姊姊幫你填表）', !has('（最後一次抽籤。四樓。）'));
+  fresh('2028-07-09',12.1,'dorm'); grpJoin(); R('heroine_03','FAM'); R('yu','FAM'); rules(); answer('yt_bday_y3',0);
+  check('YT. 7/9 12:00 麵店團小語「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十三個了。」', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十三個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
+  fresh('2028-07-09',12.1,'dorm'); R('heroine_03','FAM'); rules(); check('YT. 不在群組、和語彤 FAMILIAR 以上：她的私訊放同一個按鈕', !!PHONE.byAsk(G,'yt_bday_y3')&&txt('p:heroine_03').includes(':今天是語彤的生日。'));
+  fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const sq=OUT.get(G,'y3_zr_slips');
+  check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「兩點半（店休）」', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!sq&&sq.day===D('2028-08-05')&&sq.h===14&&sq.place==='兩點半（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));
+  picks=[1]; await run('ev_zhiruo_twelve_slips');
+  check('ZS1. 去了：「你敲了四下。」…「第十二張是空的。」「那一部，等我回來，一起寫。」；ZR_TWELVE_SLIPS', has('（開門）你敲了四下。……算了，進來。')&&has('那一部，等我回來，一起寫。')&&has('……好，寫長一點也可以。')&&G.flags.ZR_TWELVE_SLIPS===true);
+  fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); at('2028-08-05',14.6); OUT.tick(GM); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
+  check('ZS2. 14:30 還沒到：信封寄到家裡；8/21 摘要日「（信封到了。十二張點單……）」；ZR_TWELVE_SLIPS mail', G.flags.ZR_SLIPS_MAIL===D('2028-08-05')&&has('（信封到了。十二張點單，第一張背面寫著：『第一部，我先一個人看了。』）')&&G.flags.ZR_TWELVE_SLIPS==='mail');
+  fresh('2028-08-04',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_02'); date('heroine_01'); ct('heroine_02'); rules(); at('2028-08-05',21); rules(); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
+  check('ZS3. 日本路線（8/5 當天才回來）：沒有邀約、信封寄到家裡（8/21 那一句）', !PHONE.sent(G,'y3_zr_slips')&&has('（信封到了。十二張點單，第一張背面寫著：『第一部，我先一個人看了。』）'));
+  fresh('2028-08-04',21.1,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_02'); date('heroine_05'); ct('heroine_02'); rules(); check('ZS. 美國路線（8/2 起在國外）：沒有這一場', !PHONE.sent(G,'y3_zr_slips')&&G.flags.ZR_SLIPS_MAIL==null);
+
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
     check('接線：index.html 載入 r2y3b_events.js、r2y3b3d.js（連在一起、在 GAME.boot 之前）', (()=>{ const a=h.indexOf('src/data/r2y3b_events.js'), b=h.indexOf('src/r2y3b3d.js'), z=h.indexOf('GAME.boot()'); return a>0&&b>a&&z>b&&/src\/data\/r2y3b_events\.js[^\n]*\n<script src="src\/r2y3b3d\.js/.test(h); })()); }
