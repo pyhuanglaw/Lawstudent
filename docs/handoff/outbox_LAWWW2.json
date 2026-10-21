@@ -1375,6 +1375,23 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）"
+  },
+  {
+   "task": "BB218-GYM-HAZE",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/gym_interior.glb",
+    "tools/blender/env_second/gym_interior.py",
+    "docs/art-rebuild/second_ai/test_shots/gym_floor_haze_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "別的亮面地板可能也有 E.fill 的高光（引擎補光的鏡面反射；要不要從引擎改由 LAWWW 決定）",
+   "next": "LAWWW 換 gym_interior.glb（只差 gym_court_floor 粗糙度，14 bytes）；BB 用 artrev 同角度重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "BB_218 體育館 1F 白色光柱：逐盞關燈量到是引擎補光 E.fill 在亮面球場地板（0.32）上的高光；地板粗糙度改 0.6，20:30 左右亮度差 25.5→1.7"
   }
  ]
 }
