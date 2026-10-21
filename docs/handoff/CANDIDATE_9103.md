@@ -56,3 +56,30 @@ CG：新登錄六張（CG-9 畢業典禮與媽媽、BCG-15 最後一個班、CG-
 - 多功能教室和 202 長得一樣、118 巷街道太空（LAWWW2 排在十小時內）
 - CG：BCG-39、CG-10（尾聲窗邊長桌，合成中）還沒有，照背景演
 - iPhone 實機沒測過
+
+## 發布前狀態（2026-10-21 14:1x UTC，LAWWW-C；使用者要求先存檔時寫的，還沒發布）
+
+**候選 `f72a2a21`（版本字樣 v9.10.3）**。回退目標 v9.10.2（main `9335763d`）。發布條件＝下面全部過＋BB 判定；**還沒發布**。
+
+**BB-C 判定：可以發布**（`856cece9`，BB_218 最後一節；Playwright 手機模擬，不是 iPhone）：
+- 使用者 9/25 存檔讀取 → 熬夜跨午夜 → 宵夜 → 9/27 存讀 PASS
+- 大三寒假除夕回家、旁白、成績單（三件退件修好）PASS
+- 新遊戲法律系開局 → 宿營 → 8/29 可昕 → 8/30 E37 → 8/31 PASS
+- 新遊戲經濟系開局快轉到 8/30 14:00 E37 開車 PASS（15 停點、沒卡住）；**整輪跑完 ALL PASS**（145d6a74：96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）
+- 沒測：大一寒假在 f72a2a21 完整重跑
+
+**LAWWW 發布前清單（docs/TESTING.md 第五節；乾淨 worktree 開在 f72a2a21，舊版 9335763d；12:21 起）**：
+- ALL PASS：deploy_check、flow_main_day12、flow_camp_y1、save_compat_main、dorm_start_memory、zone_memory、zone_transitions、p0_movement、minimap_direction、joystick_direction、flow_class_real、flow_linze_floors、map_canvas_leak、flow_trip_date
+- 第一次沒過、查過都是**測試腳本跟不上遊戲**（遊戲行為是對的），測試已修、排在後面重跑（用開發分支的新版測試對 f72a2a21）：
+  - smoke_release、flow_v0_start：沒處理手機自己打開（D103）、還在找 D102 以前的起床選單 → aad9f57e 等修；重跑 smoke_release_v2、flow_v0_start_v2
+  - save_compat_start1：舊版應該用 v9.9.1（6d5c3279），第一次給成 v9.10.2 → 重跑 save_compat_start1_v991
+  - touch_flow_wenzhou：存檔寫「第 8 天＋星期六」，第 8 天其實是 9/24（三）；X76 起照行事曆重算星期，週三 14:48 小安不在 Café → 6dc53a39 改第 11 天（9/27 六）；重跑 touch_flow_wenzhou_v2
+  - flow_exam_terms：大二上期末考那天手機自己打開、遊戲暫停，測試等不到（同 D103）→ ebe5f8c0 補「收起來／跳過」；要重跑
+- 還在跑／還沒跑：flow_exam_terms（這次的結果不算，等新版重跑）、reachability_all、上面四支重跑
+- 結果檔在 LAWWW-C 工作階段的暫存區（`rc3_f72a2a21/summary.txt`），**不在 GitHub**；工作階段斷了要重跑：照 docs/TESTING.md 第五節對 f72a2a21 跑上面這幾支（用開發分支最新的 tests/）。
+
+**已知、不擋這版**（下一版做）：
+- AA_357 查到畢業後篇三件（2029-12-20 起資料頁年級變回大一、退宿後家裡還有「回宿舍」、延畢的人 2029 被自動報名國考）——只有玩到 2029 年以後才會遇到、不卡關；Y5-DELAY-1021 子代理施工中
+- BB218-P3-1021：經濟系日期卡句子早一跳出現、手機通知條蓋住分頁列、快轉中手機小事 9/29→9/30 只隔一天、床邊出發 hint 重複
+- X95：使用者 10-17 回過、漏登的劇情審查四題（STORY-AUDIT-1017／AA_360）施工中
+- 今天接進開發分支的 39 張 2D 背景、C16～C18、AA_350～358 的修改都**不在**這個候選裡（下一版）

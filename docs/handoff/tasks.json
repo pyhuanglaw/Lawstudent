@@ -989,8 +989,8 @@
    "title": "v3～v6 CG（CG_REGISTRY 只有大一的 5 張）",
    "area": "ART",
    "owner": "BB",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 照 D97 寫 BCG-31 夏天版、CG-10b 傘圖層的提示詞排給使用者；其餘已登錄的 CG 隨各事件施工接上（LAWWW）；BB 驗 CG 第二批在遊戲裡的實際畫面 ｜ 【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜跟著各學期事件接；圖通過才接；BCG-27 K1 導遊已接（本批）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】標題過時：CG_REGISTRY main 20 張、候選 76 張（5e675a33）；剩 BCG-31 夏天版、CG-10b 傘圖層 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 照 D97 寫 BCG-31 夏天版、CG-10b 傘圖層的提示詞排給使用者；其餘已登錄的 CG 隨各事件施工接上（LAWWW）；BB 驗 CG 第二批在遊戲裡的實際畫面 ｜ 【02:3x】負責人已是 BB（LAWWW2 02:23 列的這三項不用改）。｜跟著各學期事件接；圖通過才接；BCG-27 K1 導遊已接（本批）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -3106,8 +3106,8 @@
    "title": "刑訴第一堂（舊 ev_class_crimpro 第 1 週衝突）",
    "area": "V4",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：ev_class_crimpro 加 minWeek:{term:'Y3S1',week:2}（或 weeks 2～16），補一條單元測試 ｜ 照交接包_v4 實作",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】下一版（v9.10.3 候選）：86beabca；f72a2a21 src/data/events.js:420 minWeek；tests/crimpro_week1_unit.js ｜ 【LAWWW-C 2026-10-21 稽核 B1】做了一部分：ev_class_crimpro 加 minWeek:{term:'Y3S1',week:2}（或 weeks 2～16），補一條單元測試 ｜ 照交接包_v4 實作",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -6461,8 +6461,8 @@
    "title": "交接包_校外約會 C1",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：AA 交 D01、D09、D18、D25、D05、D03、D07、D15 的已審台詞（AA_188 口語版）＋commit；LAWWW 加白名單、跑 tools/date/import_date_lines.py ｜ 依賴 SYS-02～04",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成（候選之後）：7ef4ff56 date_lines.js 32 個地點全部匯入；D15 只差底圖 ｜ 【LAWWW-C 2026-10-21 稽核 B1】做了一部分：AA 交 D01、D09、D18、D25、D05、D03、D07、D15 的已審台詞（AA_188 口語版）＋commit；LAWWW 加白名單、跑 tools/date/import_date_lines.py ｜ 依賴 SYS-02～04",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8682,8 +8682,8 @@
    "title": "美國篇 CG（BCG-32、BCG-17、雪裡的台階、BCG-09）",
    "area": "SCN",
    "owner": "BB",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 向使用者要 BCG-31 夏天版（或請 AA 決定送機不放 CG）；其餘 BB 在遊戲裡看實際畫面 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】BCG-09、14、17、23、32、33 圖已通過：CG 第二批子代理登錄中；放的那一拍跟 AA_327 2-Y4-16～22 一起 ｜ CG 齊、等施工（BB-B 2d1d2ab9）：BCG-14、32、17、23、09（cg_approved/…heroine05）、送機 BCG-31；2D 與立繪（SCN-US-2D／CH）在使用者下一批第 2 項",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】下一版（v9.10.3 候選）：f72a2a21 r2y4a_events.js frozen_lake、us_kitchen、bus_station、chicago、snow_steps（BCG-09）、last_dinner；剩 BCG-31 送機夏天版 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 向使用者要 BCG-31 夏天版（或請 AA 決定送機不放 CG）；其餘 BB 在遊戲裡看實際畫面 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】BCG-09、14、17、23、32、33 圖已通過：CG 第二批子代理登錄中；放的那一拍跟 AA_327 2-Y4-16～22 一起 ｜ CG 齊、等施工（BB-B 2d1d2ab9）：BCG-14、32、17、23、09（cg_approved/…heroine05）、送機 BCG-31；2D 與立繪（SCN-US-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -8841,8 +8841,8 @@
    "title": "日本線 CG（CG-13、17、22、23）",
    "area": "SCN",
    "owner": "BB",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-20 20:1x UTC】CG-13、17、22、23 圖已通過（cg_approved/）：CG 第二批子代理登錄中（CG-BATCH2-1020）；放的那一拍跟日本路線事件（AA_326 2-Y3-34、37、43）一起 ｜ CG 齊、等施工（BB-B 2d1d2ab9）：CG-22、13、17、23（…heroine01）；2D 與立繪（SCN-JP-2D／CH）在使用者下一批第 2 項",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】下一版（v9.10.3 候選）4 張中 3 張：f72a2a21 r2y3b_events.js:162、212、309；剩臺中情人節那張等節日事件 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】CG-13、17、22、23 圖已通過（cg_approved/）：CG 第二批子代理登錄中（CG-BATCH2-1020）；放的那一拍跟日本路線事件（AA_326 2-Y3-34、37、43）一起 ｜ CG 齊、等施工（BB-B 2d1d2ab9）：CG-22、13、17、23（…heroine01）；2D 與立繪（SCN-JP-2D／CH）在使用者下一批第 2 項",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -10762,8 +10762,8 @@
    "title": "S.BG 新增 AA_145 的 2D 背景 id（v0 11 個、法律系 3 個、大三 5 個）＋場景對應",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：剩下 4 張併入 SCN-V4-02（court_criminal）、SCN-JP-2D（jp_*）追蹤，本項可結案 ｜ 已接：v0 背景 soc_hall、soc_classroom、riverside、xiaofu、girls_dorm_gate、bowling、econ_camp、econ_camp_room、gongguan_douhua、gongguan_hotpot、newyear_crowd、home_room；除夕 home_living_cny、home_balcony、ferris_wheel。還沒接：AA_145 其餘 id（等圖）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】程式部分線上就有（main src/outings3d.js 的 v0 背景都接了）；剩的 4 張由 SCN-V4-02、SCN-JP-2D 追 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：剩下 4 張併入 SCN-V4-02（court_criminal）、SCN-JP-2D（jp_*）追蹤，本項可結案 ｜ 已接：v0 背景 soc_hall、soc_classroom、riverside、xiaofu、girls_dorm_gate、bowling、econ_camp、econ_camp_room、gongguan_douhua、gongguan_hotpot、newyear_crowd、home_room；除夕 home_living_cny、home_balcony、ferris_wheel。還沒接：AA_145 其餘 id（等圖）",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -11607,8 +11607,8 @@
    "title": "2D 背景 trip_sea「海邊」：春假開車旅行（用約會底圖 D25（夕陽））",
    "area": "ART",
    "owner": "BB",
-   "status": "待開工",
-   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_sea.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -11635,8 +11635,8 @@
    "title": "2D 背景 trip_oldtown「別的城市的老街」：春假開車旅行（用約會底圖 D18（黃昏））",
    "area": "ART",
    "owner": "BB",
-   "status": "待開工",
-   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】開發分支已完成：28afd003 assets/bg/trip_oldtown.webp＋OUT.BG ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜AA-B 03:43 裁定：照用約會底圖、調成白天版（調色、燈籠不亮，不重新生成）",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -15798,9 +15798,9 @@
    "title": "假期 BB 人物部分 B3",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 找出該用火車白天的那一段（寒暑假回家、去台中／高雄的移動字卡）換上 train_day；沒有適合的就標未使用素材 ｜ BB-B 02:40 交班：寒暑假 5 張背景都通過（trip_hotel_twin、jp_street_night、cram_class、camp_school、train_day；DL-BB-BG-*），LAWWW-B 已註冊（五張都只是註冊備用，還沒有事件用——交班補強核對更正），等假期系統（HOLIDAY-SYS、VAC-L1）接事件。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】線上就有（trip_hotel_twin、jp_street_night、cram_class 都有事件用）；只剩 train_day 登錄了沒有事件用 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 找出該用火車白天的那一段（寒暑假回家、去台中／高雄的移動字卡）換上 train_day；沒有適合的就標未使用素材 ｜ BB-B 02:40 交班：寒暑假 5 張背景都通過（trip_hotel_twin、jp_street_night、cram_class、camp_school、train_day；DL-BB-BG-*），LAWWW-B 已註冊（五張都只是註冊備用，還沒有事件用——交班補強核對更正），等假期系統（HOLIDAY-SYS、VAC-L1）接事件。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S1",
     "week": null,
@@ -15960,9 +15960,9 @@
    "title": "刑訴特別課一句",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：syllabus／classes3d.js：刑訴第 15 週 special 播 AA_103「AA-103-SP」節＋BB_182 第 5 節的句子（或 AA 寫回 syllabus/_src/y3s1.py 後重匯）；發布前對刑訴 §31 現行條文 ｜ 【LAWWW-C 2026-10-21 09:4x UTC】classes3d.js S.SPECIAL_PRE（刑訴|15）三句，tests/aa103_sp_unit.js；BB：大三上 2027-12-1x 刑訴第 15 週上課看順序（黑板 → 小語 → 林教授兩句 → 原本那一句 → 小語第二句）｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：syllabus 刑訴 w15 只有 special:true，AA_103 那三句沒進遊戲；下一步：課堂播 special 台詞（classes3d.js 的 content／special），三句照 AA_103 ｜ AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】下一版（v9.10.3 候選）：741a4a63；f72a2a21 src/classes3d.js:229 S.SPECIAL_PRE；tests/aa103_sp_unit.js ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：syllabus／classes3d.js：刑訴第 15 週 special 播 AA_103「AA-103-SP」節＋BB_182 第 5 節的句子（或 AA 寫回 syllabus/_src/y3s1.py 後重匯）；發布前對刑訴 §31 現行條文 ｜ 【LAWWW-C 2026-10-21 09:4x UTC】classes3d.js S.SPECIAL_PRE（刑訴|15）三句，tests/aa103_sp_unit.js；BB：大三上 2027-12-1x 刑訴第 15 週上課看順序（黑板 → 小語 → 林教授兩句 → 原本那一句 → 小語第二句）｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：syllabus 刑訴 w15 只有 special:true，AA_103 那三句沒進遊戲；下一步：課堂播 special 台詞（classes3d.js 的 content／special），三句照 AA_103 ｜ AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -17946,9 +17946,9 @@
    "title": "寒暑假活動卡 C01～C13（每個寒暑假都開放的模板，AA_199 7-5 4ff1220c；C13 出國旅遊：日韓泰越港）＋出國活動卡 C08～C12（姊妹校首爾 7/13～24、柬埔寨志工 7/27～8/5、加州暑期課 6/21～7/31（學分採計）、東京冬季短期 1/17～30、京都語言課 8/9～27）＋海外期間機制（手機時差、3D 不能走、關鍵事件 2D）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：確認芷若×子晴那條線（BB_194 §23）現在的狀態；台詞要 AA（D100）寫好再接 T03 ｜ 【17:5x LAWWW-C】C04 托福／多益補習做好（AA_199 7-2、AA_241 第 9、10 節 ecfae62d、AA_264 第 2 節）：暑假卡 C04（大一 7/6～8/12 週一三晚上、考 8/22；大二 7/12～8/18、考 8/28）、寒假卡 C04W（大二 12/28～1/20、考 1/23；大三多益 12/27～1/12、考 1/16），寒暑假算同一系列的第幾次（series）；行事曆報名＋當晚家人群組兩則；第一堂（第一次＝Kevin 寒／暑假版，KEVIN_TA_MET）、模擬考、累到不行（住家裡換句）、正式考試（別的學校）；考前七天 Kevin 私訊；考完 10 天系統字＋分數（照去了幾場、考過幾次；比上次多）；寒假沒報的 Kevin 公館門口招呼（ev_kevin_cram_door，大二寒假起、一個假期一次）。大一寒假不開（AA-C 確認）。之後各假期的上課日 LAWWW 排、分數公式 LAWWW 定。tests/vac_c04_unit.js 24 項。另外：宿舍快轉旁白（AA_183 4-b）、C05／C13 第二次日誌早就做好了；曼谷芷若×子晴版等芷若×子晴那條線（大三，D81）。｜【15:4x LAWWW-C】C01 大二以後才第一次去（AA_264 第 4 節 e01ee2a8）做好：前一個週五 21:05 照 AA_204 3-1（阿哲換句）、以安 FAMILIAR＋那天在臺北才回／去、禮拜一 08:50 出遊演 ev_va03_beach（第一句旁白換「寒假的第一個禮拜一」）、當晚群組；隔年算第二次（tests/vac_abroad_unit.js 17b）。還沒：C04 托福、C05／C13 同目的地第二次的日誌、C14／C15、芷若×子晴曼谷版。｜【15:0x LAWWW-C】每年重開（AA_264 77c7f3db）做好：C02、C03、C08、C09 大一～大三、C10 大二～大三、C11 大二～大四、C12 大二～大三；第二次以後日誌、C02 小隊長（CAMP_LEADER）、大二才第一次參加的換人版、招募第二年同一句＋C02／C08 多一句、C03 大二起行事曆報名、C09 家睿隔年邀約＋不用面試、人在國外不能報；tests/vac_abroad_unit.js 15。還沒：C01 海邊每年（在 story3d 的 va03）、C04 托福、C05／C13 同目的地第二次的日誌、C14／C15｜【14:2x LAWWW-C】8-7 回來的招呼（78d9e553）、朋友揪團 T02 方奕廷日本的山／T03 子晴曼谷（e949dd6d）、C13 自己排出國旅遊（手機活動頁「安排」：目的地七個、和誰（自己、戀人、FAMILIAR 的朋友）、天數、出發日；戀人條件 28 天／2 次／都在臺灣／學姊放榜後／沛珊消失期不行／歐美 90 天否則「下次」；三場＋最後一晚同行的話＋雙床房「燈關了」；算一次正式約會；媽媽兩句；學姊前一天「我跟我媽說了。」）。還沒：每年重開（第二次以後）、C04 托福（等 BB 補習班 NPC）、C14／C15、芷若×子晴曼谷版（等 BB_194 §23）｜【14:0x LAWWW-C】沒錄取（C08／C11 報名隔天 20:00 寫申請資料、C09 面試要到；沒做＝很遺憾＋阿哲一句、出遊取消）、8-6 重逢（回國當天 21:00 她約、隔天她的地方、REUNION_<卡>、芷若大一暑假台中 8/26 補、沒到隔天一則）、子晴一到兩則、C10 成績（C10_STUDY＝週末去圖書館才 A，等 BB 定）、Priya 兩則；白名單 AA_242 79adc9f2。還沒：8-7 回來的 3D 招呼、每年重開、C04、C13（AA_244）、C14／C15｜【13:3x LAWWW-C】出國期間的訊息做好（AA_242 第 6、8-1～8-5 節、BB_200 第 2～3 節）：交往中出發／輪播池（",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】線上就有 C01～C13（main vac_activities.js）；只剩 T03（芷若×子晴那條線） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：確認芷若×子晴那條線（BB_194 §23）現在的狀態；台詞要 AA（D100）寫好再接 T03 ｜ 【17:5x LAWWW-C】C04 托福／多益補習做好（AA_199 7-2、AA_241 第 9、10 節 ecfae62d、AA_264 第 2 節）：暑假卡 C04（大一 7/6～8/12 週一三晚上、考 8/22；大二 7/12～8/18、考 8/28）、寒假卡 C04W（大二 12/28～1/20、考 1/23；大三多益 12/27～1/12、考 1/16），寒暑假算同一系列的第幾次（series）；行事曆報名＋當晚家人群組兩則；第一堂（第一次＝Kevin 寒／暑假版，KEVIN_TA_MET）、模擬考、累到不行（住家裡換句）、正式考試（別的學校）；考前七天 Kevin 私訊；考完 10 天系統字＋分數（照去了幾場、考過幾次；比上次多）；寒假沒報的 Kevin 公館門口招呼（ev_kevin_cram_door，大二寒假起、一個假期一次）。大一寒假不開（AA-C 確認）。之後各假期的上課日 LAWWW 排、分數公式 LAWWW 定。tests/vac_c04_unit.js 24 項。另外：宿舍快轉旁白（AA_183 4-b）、C05／C13 第二次日誌早就做好了；曼谷芷若×子晴版等芷若×子晴那條線（大三，D81）。｜【15:4x LAWWW-C】C01 大二以後才第一次去（AA_264 第 4 節 e01ee2a8）做好：前一個週五 21:05 照 AA_204 3-1（阿哲換句）、以安 FAMILIAR＋那天在臺北才回／去、禮拜一 08:50 出遊演 ev_va03_beach（第一句旁白換「寒假的第一個禮拜一」）、當晚群組；隔年算第二次（tests/vac_abroad_unit.js 17b）。還沒：C04 托福、C05／C13 同目的地第二次的日誌、C14／C15、芷若×子晴曼谷版。｜【15:0x LAWWW-C】每年重開（AA_264 77c7f3db）做好：C02、C03、C08、C09 大一～大三、C10 大二～大三、C11 大二～大四、C12 大二～大三；第二次以後日誌、C02 小隊長（CAMP_LEADER）、大二才第一次參加的換人版、招募第二年同一句＋C02／C08 多一句、C03 大二起行事曆報名、C09 家睿隔年邀約＋不用面試、人在國外不能報；tests/vac_abroad_unit.js 15。還沒：C01 海邊每年（在 story3d 的 va03）、C04 托福、C05／C13 同目的地第二次的日誌、C14／C15｜【14:2x LAWWW-C】8-7 回來的招呼（78d9e553）、朋友揪團 T02 方奕廷日本的山／T03 子晴曼谷（e949dd6d）、C13 自己排出國旅遊（手機活動頁「安排」：目的地七個、和誰（自己、戀人、FAMILIAR 的朋友）、天數、出發日；戀人條件 28 天／2 次／都在臺灣／學姊放榜後／沛珊消失期不行／歐美 90 天否則「下次」；三場＋最後一晚同行的話＋雙床房「燈關了」；算一次正式約會；媽媽兩句；學姊前一天「我跟我媽說了。」）。還沒：每年重開（第二次以後）、C04 托福（等 BB 補習班 NPC）、C14／C15、芷若×子晴曼谷版（等 BB_194 §23）｜【14:0x LAWWW-C】沒錄取（C08／C11 報名隔天 20:00 寫申請資料、C09 面試要到；沒做＝很遺憾＋阿哲一句、出遊取消）、8-6 重逢（回國當天 21:00 她約、隔天她的地方、REUNION_<卡>、芷若大一暑假台中 8/26 補、沒到隔天一則）、子晴一到兩則、C10 成績（C10_STUDY＝週末去圖書館才 A，等 BB 定）、Priya 兩則；白名單 AA_242 79adc9f2。還沒：8-7 回來的 3D 招呼、每年重開、C04、C13（AA_244）、C14／C15｜【13:3x LAWWW-C】出國期間的訊息做好（AA_242 第 6、8-1～8-5 節、BB_200 第 2～3 節）：交往中出發／輪播池（",
    "first": {
     "term": "Y1S2",
     "week": 17,
@@ -19102,11 +19102,11 @@
   },
   {
    "id": "ART-PS-SKIRT-HAND",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "owner": "LAWWW2",
    "title": "沛珊走路擺手時手穿過長裙（平台、第二段；裙子不跟手臂動）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 派給 LAWWW2：裙襬加寬或裙子加骨頭／手臂擺幅（三選一），修完 LAWWW 用遊戲內截圖驗收（D100a） ｜ 使用者 10-18 00:0x（經 AA-C）：「3D 人物的小錯誤（穿模）LAWWW2 可以修」——這項可能不該再暫停，下一班 LAWWW 確認後恢復（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；LAWWW-C 16:1x 截圖 peishan_motion_after_fix.webp；LAWWW2／BB 看怎麼處理（裙襬寬一點、手臂擺幅、或裙子加骨頭）",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】cfd0e566 手臂擺幅 patch 已套（開發分支）；膝蓋、小腿從裙子前面穿出來是另一個問題：LAWWW2 接著改 peishan_clothes.py long_skirt_weights、重建 VRM（BB 再看一次） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 派給 LAWWW2：裙襬加寬或裙子加骨頭／手臂擺幅（三選一），修完 LAWWW 用遊戲內截圖驗收（D100a） ｜ 使用者 10-18 00:0x（經 AA-C）：「3D 人物的小錯誤（穿模）LAWWW2 可以修」——這項可能不該再暫停，下一班 LAWWW 確認後恢復（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）；LAWWW-C 16:1x 截圖 peishan_motion_after_fix.webp；LAWWW2／BB 看怎麼處理（裙襬寬一點、手臂擺幅、或裙子加骨頭）",
    "source": "LAWWW-C 遊戲內截圖",
    "first": {
     "term": "Y1S1",
@@ -19576,7 +19576,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】不確定：標題列的三項（9/13 傍晚燈光、手寫輪值表、兩張床）整合 commit 沒提到——BB 驗收時對一下 ｜ 【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "priority": "P2",
@@ -22774,7 +22774,7 @@
    "title": "高雄三天兩夜兩張、衝刺班一張 CG 不要人物，改純場景（只有這三張；其他有人物的 CG 照原本要人物）",
    "area": "ART",
    "owner": "BB",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S2",
@@ -22788,7 +22788,7 @@
    },
    "source": "使用者 10-18 10:1x 對 BB（BB_00 287、311 行；BB_132 第 87 組）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示（前半）；後半待使用者確認",
-   "next": "使用者 14:0x 選「只有這三張」：BB 擴大成「以後都先改純場景」作廢；下一班 BB 照純場景寫這三張的提示詞向使用者要；I09 節日 CG、I10 抓包 CG 照原本要人物",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】線上就有：main src/data/events.js:2224-2228 ev_y0_kh3 背景 kh_dome、kh_lotus_bench（純場景）；衝刺班那張使用者取消（X37） ｜ 使用者 14:0x 選「只有這三張」：BB 擴大成「以後都先改純場景」作廢；下一班 BB 照純場景寫這三張的提示詞向使用者要；I09 節日 CG、I10 抓包 CG 照原本要人物",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/wonderful-mayer-7fm9g6",
@@ -23288,7 +23288,7 @@
    "title": "經濟系黑畫面第一批四張純場景（使用者生）：以前的補習班櫃台、公館桌遊店、晚上的捷運車廂、晚上的路邊（講電話）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -23302,7 +23302,7 @@
    },
    "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：boardgame_gg、phone_street_night 到了＝四張都到（cram_counter、mrt_night 是第 93 組）；BB 畫面驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -23626,7 +23626,7 @@
    "title": "以 v9.10.2 為基準的玩家功能清單：逐項分「線上可玩／開發分支已完成／有企劃但未實作／等待美術／暫停」，把已經進遊戲卻還寫待辦的找出來",
    "area": "META",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "META",
@@ -23640,7 +23640,7 @@
    },
    "source": "使用者 2026-10-19 02:0x：有一些已經坐著也進遊戲的東西還是寫了待辦。先整理一份以v9.10.2 為基準的玩家功能清單，逐項區分「線上可玩」「開發分支已完成」「有企劃但未實作」「等待美術」「暫停」。這件事不需要重新規劃整款遊戲，卻能有效減少之後的重工",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：用這次 BACKLOG-SWEEP-1021 的稽核結果（slice A～D 的 JSONL）直接產出玩家功能清單：線上可玩／開發分支已完成／有企劃未實作／等待美術／暫停五欄 ｜ 【02:0x LAWWW-C】背景子代理分段核對（tasks.json 依學年學期分、USER_WANTS 依主題分），每項對 main 9335763d 的程式找證據；彙整成 docs/handoff/PLAYER_FEATURES_v9.10.2.md＋「看板寫待辦、其實已在遊戲裡」的清單。不重新規劃、不新增功能",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 10-1 節核對】清單完成；第 10 節 12 項看板改狀態、第 11 節 4 項補缺口註記（這一批）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -23648,7 +23648,8 @@
      "evidence": "使用者 10-19 02:0x 要的 docs/handoff/PLAYER_FEATURES_v9.10.2.md 在開發分支不存在，git log 只有 d4845e6d（重新值班時的登記）",
      "note": "使用者點名要的清單沒做，這次稽核正好可以用"
     }
-   ]
+   ],
+   "evidence": "docs/handoff/PLAYER_FEATURES_v9.10.3.md（262 列，每列附檔案:行號／commit／測試檔；狀態核到 5601a46f）"
   },
   {
    "id": "DISPATCH-1020",
@@ -23935,7 +23936,7 @@
    "title": "吃東西不要只是花錢（使用者問怎麼改比較好）",
    "area": "V1",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -23949,7 +23950,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「而且吃東西好像只是花錢沒有別的功用怎麼改比較好?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW-C 19:5x】合併 105f9f76（src/eat3d.js）：①點完餐後「坐過去一起吃」②第一次的旁白＋手機「吃過的」③第 5 次店員一句＋「老樣子」。tests/eat_unit.js（E1～E8＋38 項）。沒做：滷味攤沒有點餐選單（只有第一次那句）、便利商店打工排除（沒有這個工作）、可昕前任（附近沒有她吃飯的作息）。問 AA 四點（大碗小碗／全熟半熟要不要加選單、麵店＝兩間、+30 分鐘、便利商店加熱）。｜BB 驗 E1～E8 ｜ 【LAWWW-C 19:1x UTC】子代理在背景施工 src/eat3d.js（AA_329 c11945d0 三項：一起吃、吃過的、店員認得你＋老樣子）；台詞 src/data/eat_lines.js 已匯入 ｜ 【LAWWW-C 18:5x】AA_329 交了（企劃 c11945d0）：台詞齊了，LAWWW 做程式（排在 1A 事件包合併之後）——①一起吃 ②吃過的 ③店員認得你；測試不要寫死全文 ｜ 【LAWWW-C 18:4x】方案定了，台詞請 AA 寫（見 pausedReason）；台詞到了 LAWWW 做程式、BB 實玩 ｜ 【10-20 使用者經 AA 轉述（UA-AA-1020-26）：「不要再問我選擇題、你自己安排一直做下去」】LAWWW 自己定方案，AA 寫台詞 ｜ LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：宵夜滷味攤沒有點餐選單 ｜ 【LAWWW-C 19:5x】合併 105f9f76（src/eat3d.js）：①點完餐後「坐過去一起吃」②第一次的旁白＋手機「吃過的」③第 5 次店員一句＋「老樣子」。tests/eat_unit.js（E1～E8＋38 項）。沒做：滷味攤沒有點餐選單（只有第一次那句）、便利商店打工排除（沒有這個工作）、可昕前任（附近沒有她吃飯的作息）。問 AA 四點（大碗小碗／全熟半熟要不要加選單、麵店＝兩間、+30 分鐘、便利商店加熱）。｜BB 驗 E1～E8 ｜ 【LAWWW-C 19:1x UTC】子代理在背景施工 src/eat3d.js（AA_329 c11945d0 三項：一起吃、吃過的、店員認得你＋老樣子）；台詞 src/data/eat_lines.js 已匯入 ｜ 【LAWWW-C 18:5x】AA_329 交了（企劃 c11945d0）：台詞齊了，LAWWW 做程式（排在 1A 事件包合併之後）——①一起吃 ②吃過的 ③店員認得你；測試不要寫死全文 ｜ 【LAWWW-C 18:4x】方案定了，台詞請 AA 寫（見 pausedReason）；台詞到了 LAWWW 做程式、BB 實玩 ｜ 【10-20 使用者經 AA 轉述（UA-AA-1020-26）：「不要再問我選擇題、你自己安排一直做下去」】LAWWW 自己定方案，AA 寫台詞 ｜ LAWWW 提方案給使用者選（回覆裡），選定以後 AA 補台詞、LAWWW 做",
    "sha": "105f9f76"
   },
   {
@@ -24387,8 +24388,8 @@
    "title": "經濟系那一年的錢只進不出（BB-C：使用者 day-18 存檔身上 $349,910）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "priority": "P2",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -24401,7 +24402,7 @@
    },
    "source": "BB-C QA-REPRO-1020 第一批（78cf2e1f）新發現",
    "authorized": "衍生待辦（只記錄）",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】查到原因：10/31 搬回家以後 home3d.js 每月照樣叫 STORY.monthlyFunds（家裡匯 30,000），在家幾乎沒支出；startLawWeek1 對經濟系玩家「錢照舊」→ 進法律系時約 35 萬（新遊戲預設就是經濟系開局＝每個玩家都這樣）。已問 AA 定數字（搬回家後零用錢、補習班／衝刺班學費、進法律系那天帳戶上限）；收到就實作（monthlyFunds 看 Y0_MOVED_OUT、startLawWeek1 的 econ 分支）＋單元測試 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -24409,7 +24410,14 @@
      "evidence": "tasks.json next「沒查」；10-20 以後和錢有關的提交（e0e80168 X67 吃東西、4560f8fd 118 巷點餐）沒有處理經濟系那一年的收支；使用者 day-18 存檔身上 $349,910",
      "note": "經濟系那年錢只進不出還沒查"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "AA 回覆（待）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 給：搬回家後每月零用錢、旁白、補習班／衝刺班學費、進法律系帳戶規則",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "AA313-FIXES-1020",
@@ -24745,9 +24753,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-1B18-25-1020",
    "title": "1B-18＋22 學姊出發（8/2）與 M6、1B-19 以安新 18、1B-20 二十三週年、1B-21 可昕 K23、1B-23 子晴 Q14、1B-24 以安新 20、1B-25 學姊 M9",
-   "status": "已整合待測試",
+   "status": "進行中",
    "source": "AA_323（c9b4f60e）（AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：BCG-31 有登記但沒有任何地方呼叫；夏天版的圖也還沒有 ｜ 【LAWWW-C 2026-10-20 20:2x UTC】子代理 50f1578d 合併 0d5d3130（src/y34b3d.js；y34b_events_unit 121 項 ALL PASS）；BB 清單 bb_checklists/BB_1B01-11_1C_CG_1020.md 最後一節；AA 8 題已問；沒做：1B-15 日本路線直播畫面、沒收到邀請自己去的入口、1B-18 BCG-31 夏天版、US0／M6 只有訊息、1B-20 麵店團倒數與門口白紙、1B-23「三件事」（U_COPYRIGHT／U_CONTRACT 沒有地方設） ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y34b3d.js（和 1B-12～17 同一個子代理）；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 1B-12～17 之後；BCG-31 重畫夏天版以前不放；AA_319 更正：以安二試、三試放榜改她打來的電話",
    "first": {
     "term": "Y4S1",
     "week": null,
@@ -25062,7 +25070,7 @@
    "id": "US-LIFE-AA340-1020",
    "title": "美國交換那一學期（大四上 8/2～12/23）每一週玩家能做什麼：AA_340 的系統缺口 S1～S12（美國學期日曆、一鍵上課、9/4 以後快轉與摘要日、台灣選課提示與缺考不出、時差、不能約台灣朋友、回程時間…）＋空白週補稿 G1～G7＋學姊在美國的作息",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y4S1",
@@ -25074,7 +25082,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC，玩家功能清單 PLAYER_FEATURES_v9.10.3.md 第 11 節核對】缺：S7 補修（courses.js 沒有強制執行法、法律倫理）——大五子代理照 AA_357 1-1 做週一、週三補修一鍵上課 ｜ 【LAWWW-C 2026-10-21 09:1x UTC】合併 dd049047（a1899084，c0e3b6e1；us_life_unit 132 項）＋cde34b2e（US2 成績 10/16、落地 blur）：S1～S12 都做（S7 大五上補修沒做、S8 亞利桑那時差等大峽谷）、G1～G7（G4 門鈴第二次、G6 熱可可沒有字）；BB 清單 bb_checklists/BB_US_LIFE_1021.md；待問 AA 見 AA_QUESTIONS_1021.md I 節 ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
    "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
   },
   {
@@ -26000,7 +26008,7 @@
    "id": "BG-VAC-C16-C18-1021",
    "title": "C16～C18 七張 2D 背景（legal_aid_office、law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker）向使用者要圖",
    "owner": "BB",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
    "first": {
@@ -26020,7 +26028,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】七張到齊（e10b683a 六張＋3c1ca343 legal_aid_office），都接進 assets/bg＋OUT.BG；BB 畫面驗收（和 BB-TEST-VAC-C16-C18-1021 一起） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
   },
   {
    "id": "BB-TEST-VAC-C16-C18-1021",
@@ -26051,9 +26059,9 @@
   {
    "id": "STORY-AUDIT-1017",
    "title": "全劇情合理性與人物真實感審查的後續（使用者 10-17 P0；AA_219 第一批報告已標歷史，處理見 AA_224、AA_225、AA_227、AA_230、AA_218 17-12a）：BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、低潮→陪伴→轉變→告白模板）指的既有事件（Q8、Q12、Q15、筆試前一晚、Z13、沛珊的教學）還沒改",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
-   "priority": "P2",
+   "priority": "P1",
    "source": "使用者 10-17 P0「全劇情合理性與人物真實感審查」；AA_219（企劃線）；BB_190 第四節（BB 分支 df8fc8df，BB outbox 第 37 筆）；INCR-CLEANUP-1021 子代理建議",
    "first": {
     "term": "Y1S1",
@@ -26070,9 +26078,9 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 逐條回：已處理（寫處理檔、節）／要改（出定稿交 LAWWW）／作廢（寫原因）；13、14、16、18 BB 寫「待使用者」的，先查有沒有已定案",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】開任務、送 AA-C；AA 回了再照定稿排進事件包"
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】AA 回了 AA_360（企劃線 ff6f5923；USER_WANTS X95）：使用者 10-17 已回的四題漏登四天。要改：13 y34b3d.js S.zqGame 一律 nine（不看 Q10／PLAYTESTED），日本路線電話照現在固定版，AA_341 J-S18 作廢；14 2-1 拿掉 1/26 學姊私訊→1/24～1/27 晚上離開總圖時演（SIS_STUDY，一次；「學弟。你怎麼在這裡。」、前面兩行旁白、選項 c「我陪妳走到捷運站。」、寒假快轉不為她停），2/2、2/3 前置放寬 SIS_STUDY||SIS_PREEXAM_NIGHT，2-2 計畫本第一頁她自己寫（兩行旁白＋三個反應選項，數值照舊）；15（第②級）沛珊尾聲 mirror 換新句、q15Ready 的 TOLD_HER_CHANGE 不必要、芷若 Z7 家裡版換三句（BB_167 E1）；16 子晴 Q4 只留第 8 週、錯過第 9～11 週第一次說話多一句（CONTEST_HEARD）；17、18 只剩 confess_lines.js 過時註解。第 6 節有總表、舊存檔、測試 → 派子代理"
   },
   {
    "id": "AA-Q-1021-PG",
@@ -26137,6 +26145,227 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
+  },
+  {
+   "id": "BG-MISSING-1021",
+   "title": "缺的 CG、2D 背景（純場景）：給使用者純文字提示詞一次 10 組（使用者 10-21 12:5x 對 BB），有人物的緩緩；遊戲裡有 3D 的地方另一批附截圖（X93、BG-3DSHOT-1021）",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 12:5x、13:2x 對 BB-C（UA-BB-1021-01、UA-BB-1021-04）；USER_WANTS X94",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系起各處黑底（深色底）的對話背景",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "D97（10-21 改：純場景一次 10 組、純文字）；BB_132 第 92～94 組",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "使用者給圖、BB bg_approved 通過，LAWWW 接進 assets/bg＋OUT.BG",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】純文字的純場景全部交齊、都接進遊戲（第 92 組 fcdc576d＋fdd8383c、第 93 組 55ece8db、第 94 組 e10b683a＋3c1ca343、第 95 組 4d98fad2，共 39 張）；剩要附截圖那一批（X93／BG-3DSHOT-1021） ｜ 【LAWWW-C 2026-10-21 13:5x UTC】第 92 組四張（fcdc576d）、第 93 組十張（55ece8db）已接；第 94 組（C16～C18 等十張）提示詞給了，等使用者"
+  },
+  {
+   "id": "PS-SKIRT-LEG",
+   "title": "沛珊上樓梯時左小腿、膝蓋從長裙前面穿出來（ART-PS-SKIRT-HAND 量測時發現）：只改裙子權重兩全不了（v1 平台、第二段不穿，但第一段前片中線被兩腿拉開出現深色直線；v2 更差）→ 要加前片骨頭或程式布料碰撞",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "LAWWW2-C 10-21 13:48 訊息（WIP 27618d8d）；ART-PS-SKIRT-HAND README",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "沛珊在法律系大一走樓梯（霖澤館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/test_shots/ps_skirt_hand_1021/README.md（LAWWW2 分支）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "char_motion 前後對照（上樓梯平台、第二段）＋坐下兩個角度裙子不炸開；正式 VRM 第二十六版不動到通過為止",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 停成 WIP（27618d8d，tools/blender/char_second/peishan_skirt_reweight.py 兩版都不行）；排回 LAWWW2 佇列，正式 VRM 不動；LAWWW2 先照使用者 12:0x 巡場景（X90）"
+  },
+  {
+   "id": "AA350-SR-1021",
+   "title": "AA_350 第 7、8 節（企劃線 cae5cc76）：S1～S8 回老家的所在地第二批（柏翰新竹、芷若台中／英國照日期、阿凱與明軒、以安回國那天 S5、約會撞到回台中要擋 S6、阿哲 D29 寒假 S7、以安東京京都與小語營隊 S8）＋R2 活大那條路、R5 法學研究第 11 週引用、R7 交往中不叫學姊",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "sha": "d90675e1",
+   "source": "企劃線 AA_350 第 7、8 節（cae5cc76）；AA-C 10-21 13:12 訊息",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒暑假起（回老家所在地）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】子代理 8f0e6f72（S）、3dab71db（R2）、eef8bdfd（R5）、8a1a2ef8（R7），合併 d90675e1；tests/aa350_s_unit.js 33 項（改之前 27 FAIL）、aa350_r_unit.js 12 項（改之前 7 FAIL）；改了 holiday_ff、holiday_presence、presence、aa336、never_set_flags、two_hearts 寫死舊資料的檢查；相關 65 支單元全過。沒做：S3 閒聊階梯「九月初回來」等 AA 改 ladder_bb_y1s2.json 給 commit；R2 正常玩走不到（大一下週五只有經原下一堂，下課選單只在還有下一堂時出現）→ 問 AA（AA-Q-1021-SR）。BB 驗收步驟在子代理回報（柏翰 2027-07-15 新竹、芷若 2027-01-20 台中、阿凱 2026-08-25 日本、以安 2027-01-20 東京、小語 2026-07-10 營隊、S5、S6 2026-07-23 約 7/28 淡水被擋、S7 1/02 vs 1/09、R5、R7 11/11 22:30 Café 書瑀）"
+  },
+  {
+   "id": "AA-Q-1021-SR",
+   "title": "AA_350 S／R 實作留下要 AA 定的 9 項＋稿子缺的字 4 項（回來那天算哪裡、明軒 2028 暑假、明軒首爾 C08、芷若日子三點、阿凱宜蘭、S5 兩個縫、S6 兩個缺口、S7 除夕到初三與 2028-07-01、R2 兩個細節；缺字：ev_sis_office_together「學姊叫我來的。」、柏翰 2027-08-24 回臺北、R2 阿勳已經坐在那裡的旁白、在東京／京都／日本／曼谷／營隊當隊輔等系統字）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "子代理 a67a200f 回報（合併 d90675e1）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒暑假起",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_350 第 7、8 節；BB_198",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 逐項回：照現在／改成什麼（附定稿 commit）；S3 階梯改企劃檔給 commit",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】AA 回了（2e255e9a，AA_350 第 9 節）；S3 閒聊階梯已重新匯入；T1、T6a、T7a、T7b、T8、T9a～c＋缺字三句交給 AA 小修子代理（E 組，合併開發分支以後做）"
+  },
+  {
+   "id": "RELEASE-9103",
+   "title": "發布 v9.10.3（候選 f72a2a21）：發布前清單＋BB 判定＋PR 合併 main＋Pages 驗證",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "D85；使用者 10-21 12:0x（自主發布、不帶已知 P0、保留可回復版本）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+  },
+  {
+   "id": "BB218-P3-1021",
+   "title": "BB_218 v9.10.3 判定留下的 P3 四件（下一版）：①econff3d 日期卡句子比它講的日子早出（12/19 出「十二月二十日，期末考考完了」、3/16 出「四月二日，倒數撕到一百」、7/24 出「星期六…那天的海很藍」才收到可昕訊息）→ 視窗起點改成那一天 ②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次；AA_348 B8 PARTIAL）④床邊「出發：臺北的家樓下 14:00」hint 重複地點時間；⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點（一兩個月前）⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（實際 8/25 16:00，只這一次；BB 145d6a74）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 856cece9（BB_218 最後一節）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年快轉（12/19 起）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）"
+  },
+  {
+   "id": "SAVE-CHECK-1021",
+   "title": "每週額度快到了：先檢查手上的任務、待辦、做好的東西，沒上 GitHub 的先推（不是交班，推完繼續原本的工作；D45）",
+   "owner": "LAWWW",
+   "status": "已驗收",
+   "priority": "P0",
+   "source": "使用者 10-21 14:1x 對 LAWWW-C（UA-LAWWW-1021-04）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "（工作流程，不是遊戲內容）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】做完：①開發分支全部推上（b0ceecef）②AA／BB／LAWWW2 已通知各自推 ③三個子代理先 commit、打包 wip_backup/wip_subagents_1021_1415.bundle＋兩份 patch ④v9.10.3 發布前狀態寫進 CANDIDATE_9103.md ⑤wip.json 四項 WIP ⑥玩家功能清單半成品 PLAYER_FEATURES_v9.10.3_WIP.md ⑦今天的稽核原始結果 docs/handoff/audit_1021/。接著繼續原本的工作（v9.10.3 發布前測試、子代理合併）",
+   "sha": "b0ceecef",
+   "evidence": "git ls-remote origin claude/adoring-meitner-mqzst8＝b0ceecef（本機 git status 乾淨）；wip_backup/wip_subagents_1021_1415.bundle git bundle verify 通過；check_handoff incr 的 WIP 項目 0 異常"
+  },
+  {
+   "id": "AA361-TE-FRIEND-1021",
+   "title": "AA_361 朋友的學期末邀約每學期一句（genByTerm；九位 × 大二上～大四上）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "企劃線 AA_361（c7af5599）；AA-C 10-21 14:13 訊息",
+   "first": {
+    "term": "Y2S1",
+    "week": 18,
+    "earliest": "大二上學期末的朋友邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】41 句照原文接進 termend_lines.js FRIEND.genByTerm、termend3d.js 送邀約先讀 genByTerm[學期]；termend_unit 16（改之前 FAIL 2）全過。BB：大二上、大三下各跑一次學期末，看收到的幾則邀約都不一樣、和女朋友那一句、話題池不重複。學姊大四上那句等 AA（AA-Q-1021-TE）"
+  },
+  {
+   "id": "AA-Q-1021-TE",
+   "title": "AA_361 學姊大四上那句「期末考完了嗎？我回來三個禮拜了。法圖旁邊那家，還在。」和日期對不上：她 2028-12-23 從美國回來，學期末邀約 12/24 20:30 就送出（termend_unit 9f）",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "source": "LAWWW-C 實作 AA_361 時發現",
+   "first": {
+    "term": "Y4S1",
+    "week": 18,
+    "earliest": "大四上學期末（學姊從美國回來隔天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_361 第 1 節、AA_352",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 改句子（或確認邀約日子要往後）給 commit",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
+  },
+  {
+   "id": "BUG-PHONE-REOPEN-1021",
+   "title": "手機自動打開（D103）同時有好幾則待回訊息時，收起來又自己打開、一則跳一次：story3d.js S.phoneAuto 一次只記一則開過（home3d.js 的 askSeen 是全部一起記）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "source": "v9.10.3 發布前 smoke_release_v2：新遊戲收起手機以後搖桿只走 0.33 m（舊版 2～3 m）；LAWWW-C 讀程式找到",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "新遊戲開場演完、第一次有兩則以上待回訊息",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:3x UTC】開發分支已修（自動打開時把當下所有待回的一起記成開過；之後來新的才再開）；tests/phone_auto_unit.js 加兩項（改之前 FAIL 2）。要用瀏覽器在候選 f72a2a21 上確認 smoke_release 的失敗是不是這個原因；是的話決定 v9.10.3 要不要帶這個修正"
   }
  ]
 }

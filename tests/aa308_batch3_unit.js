@@ -27,8 +27,8 @@ const texts=d=>d.filter(l=>l&&l.text&&!l.phone).map(l=>l.text);
   check('1. 結尾照舊記 RETAKE_TOGETHER、E27B_PLAN、KH_TRIP_DONE', D.some(l=>l.set&&l.set.RETAKE_TOGETHER&&l.set.E27B_PLAN&&l.set.KH_TRIP_DONE)); }
 // 2
 { const B=OUT.BG||{};
-  check('2. 新崛江、駁二、西子灣登記了、還沒有圖＝深色底', ['kh_xinjuejiang','kh_pier2','kh_sizihwan'].every(k=>B[k]&&OUT.bg(k)==='dark'));
-  check('2. 瑞豐夜市暫用夜市、旗津暫用港邊（檔案都在）', B.kh_ruifeng&&B.kh_ruifeng.image==='assets/bg/kh_night_market.webp'&&B.kh_cijin&&B.kh_cijin.image==='assets/bg/kh_harbor.webp'&&fs.existsSync(path.join(ROOT,B.kh_ruifeng.image))&&fs.existsSync(path.join(ROOT,B.kh_cijin.image))); }
+  check('2. 新崛江、駁二、西子灣登記了；2026-10-21 BB 第 95 組（4d98fad2）有圖了（原本深色底）', ['kh_xinjuejiang','kh_pier2','kh_sizihwan'].every(k=>B[k]&&OUT.bg(k).image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image))));
+  check('2. 瑞豐夜市、旗津：2026-10-21 BB 第 95 組換成自己的圖（原本暫用夜市、港邊；檔案都在）', B.kh_ruifeng&&B.kh_ruifeng.image==='assets/bg/kh_ruifeng.webp'&&B.kh_cijin&&B.kh_cijin.image==='assets/bg/kh_cijin.webp'&&fs.existsSync(path.join(ROOT,B.kh_ruifeng.image))&&fs.existsSync(path.join(ROOT,B.kh_cijin.image))); }
 // 3
 { const D=ev('ev_y0_kh_bus').dialogue, iA=D.findIndex(l=>l.scene==='高雄・客運站出口'), pre=D.slice(0,iA), T=texts(D), P=D.filter(l=>l&&l.phone).map(l=>l.text);
   check('3. 客運版：到站以前沒有落點表（「落點」「差了一大截」「考上的話」）', iA>0&&!texts(pre).some(t=>/落點|差了一大截|考上的話/.test(t)), J(texts(pre)));

@@ -12593,6 +12593,188 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
+  },
+  {
+   "id": "DL-LAWWW2-cfd0e566",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "cfd0e566",
+   "what": "ART-PS-SKIRT-HAND：沛珊走路、上樓梯手不再穿進長裙（manifest armOut 9°、armBack 0.45、armFwd 0.15；character3d.js VRM driver 每幀收小前後擺幅再往外張，沒有參數的模型整段跳過）；量測手離裙面最差 −2.2→+10.1 cm；發現截圖最明顯的粉紅色是左小腿、膝蓋從裙子前面穿出來（這次沒修）",
+   "task": "ART-PS-SKIRT-HAND",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 套 patch（ps_skirt_hand_1021.diff）；stairs_feet、sit_feet、nav_levels、vrm_release、v0_econ_chars 單元全過；LAWWW 角色美術驗收（D100a）：看了 motion_before_after 前後對照，手的部分改善、膝蓋穿出裙子還在 → LAWWW2 接著改 long_skirt_weights、重建 VRM"
+  },
+  {
+   "id": "DL-BB-fdd8383c",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fdd8383c",
+   "what": "bg_approved 第 92 組另外五張：jp_station、trip_sea、trip_oldtown、car（家用小客車白天，只給可昕開車那幾場）、tn_station",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg；OUT.BG 加 jp_station、tn_station，trip_sea、trip_oldtown 原本 image:null；bg 'car' 白天改 car_day＝car.webp（寫死 car_morning 的事件照舊），宿營遊覽車 tour_bus 照舊深色底；bg_images_unit 2h（改之前 FAIL）、3 照新規則改"
+  },
+  {
+   "id": "DL-BB-e10b683a",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "e10b683a",
+   "what": "bg_approved 第 94 組九張：intl_sg_hawker、intl_sg_campus、intl_sg_court、law_firm_office、law_firm_meeting、court_gallery（C16～C18）、tour_bus（宿營遊覽車）、phone_street_night、boardgame_gg（經濟系黑畫面第一批剩的兩張）；BB 柔化車牌、像連鎖品牌的招牌條、小字樣",
+   "task": "BG-VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg、OUT.BG 登記；camp_y1.js 兩處早就是 bg:'tour_bus'；bg_images_unit 2i（改之前 FAIL）、6 改成四張都到了；legal_aid_office 還沒交"
+  },
+  {
+   "id": "DL-AA-ff6f5923",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ff6f5923",
+   "what": "AA_360 STORY-AUDIT-1017 逐條回覆（BB-LOGIC-13～18）：使用者 10-17 已回的四題漏登（補 UA-AA-1017-38～41）；13 子晴 Q12 她自己決定、14 學姊考試前後（2-1、2-2）、15 第②級三處、16 子晴 Q4、17／18 殘句",
+   "task": "STORY-AUDIT-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 13:5x：USER_WANTS X95；派子代理照第 6 節做"
+  },
+  {
+   "id": "DL-BB-3c1ca343",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "3c1ca343",
+   "what": "bg_approved legal_aid_office（法扶分會辦公室）：C16～C18 七張到齊",
+   "task": "BG-VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:0x 照原檔複製、OUT.BG 登記（vac_activities.js C16 四場、r2y4b3d.js 用到）；bg_images_unit 2i 加進去（改之前 FAIL）"
+  },
+  {
+   "id": "DL-BB-856cece9",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "856cece9",
+   "what": "v9.10.3 判定（BB_218 最後一節）：可以發布。候選 f72a2a21，Playwright 手機模擬：①使用者 9/25 存檔讀取→熬夜跨午夜→宵夜→9/27 存讀 PASS ②大三寒假除夕回家／旁白／成績單 PASS ③新遊戲法律系開局→宿營→8/29 可昕→8/30 E37→8/31 PASS ④新遊戲經濟系開局快轉到 8/30 14:00 E37 PASS（15 停點、沒卡住；8/30 以後到 9/2 還在跑）。沒測：Y1W 完整重跑。P3 四件給下一版",
+   "task": "RELEASE-9103",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "LAWWW-C 14:0x：P3 四件開 BB218-P3-1021"
+  },
+  {
+   "id": "DL-AA-2e255e9a",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2e255e9a",
+   "what": "AA_350 第 9 節：回 AA-Q-1021-SR 九題（T1 回來那天算臺北、T6a 以安 C08 重逢改 7/25 11:00 臺北車站＋「……我一點的車。」、T7a 她在臺中時只列 D26＋答應句、T7b 出國期間擋＋四種婉拒句、T8 阿哲暑假 2027／2028-07-02～08-20、T9a 跳一次「先去吃飯？」、T9b 便當照片 13:00、T9c 沒見過阿勳的走廊版自我介紹）＋缺字三句＋S3 閒聊階梯「八月底回來」",
+   "task": "AA-Q-1021-SR",
+   "msg": "ACK",
+   "integration": "部分整合",
+   "note": "LAWWW-C 14:0x：S3 階梯已重新匯入（白名單 ladder_bb_y1s2 換 2e255e9a）；其餘交給 AA 小修子代理（E 組）"
+  },
+  {
+   "id": "DL-BB-4d98fad2",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "4d98fad2",
+   "what": "bg_approved 第 95 組十張：jp_street_day、jp_town_hall、jp_lounge（jp_dorm_lobby 指到這張）、jp_kitchen、jp_dorm_gate、kh_xinjuejiang、kh_pier2、kh_ruifeng、kh_cijin、kh_sizihwan；純文字的純場景全部交齊",
+   "task": "BG-MISSING-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:1x 照原檔複製、OUT.BG 登記（kh 三張原本 image:null、瑞豐旗津原本暫用夜市港邊）；日本路線共用廚房（S.PLACES.kitchen、ev_jp_kitchen）、七夕宿舍門口（jp_events TANABATA）用新圖；bg_images_unit 2j（改之前 FAIL）、aa308_batch3_unit 第 2 項照新圖改"
+  },
+  {
+   "id": "DL-AA-c7af5599",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c7af5599",
+   "what": "AA_361 朋友的學期末邀約每學期一句：九位 × 大二上～大四上 FRIEND[id].genByTerm（42 句）；termend3d.js 送邀約先讀 genByTerm",
+   "task": "AA361-TE-FRIEND-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 照原文 41 句接進 termend_lines.js、termend3d.js 一行；學姊大四上「我回來三個禮拜了」先不用（她 12/23 回來、12/24 就約），問 AA；termend_unit 16（改之前 FAIL 2）"
+  },
+  {
+   "id": "DL-LAWWW2-8e8d130e",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8e8d130e",
+   "what": "ART-DIRECTOR-LAWWW2 巡場景（校園）：社科院一樓柱廊 14 根柱子換 wz_pillar_soc 材質＝擋住玩家時網點透空（鏡頭跟進柱廊時整個人看不見的問題）；只換 campus_socsci.glb＋.json（三角形不變、材質 +1、導航／鏡頭碰撞／門不變）；說明 75080217 test_shots/soc_pillar_1021/README.md",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 換兩個檔；zones3d.js:447 社科院走 attachWenzhouModel，wz_pillar_* 本來就透空；socsci_place、nav_soclib、nav_buildings、campus_public 單元全過；BB 畫面驗收（柱廊裡鏡頭跟著時看得到人）"
+  },
+  {
+   "id": "DL-BB-145d6a74",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "145d6a74",
+   "what": "v9.10.3 補完：經濟系新遊戲那一輪跑完 ALL PASS（96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）；判定不變：可以發布。P3 兩件：⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點 ⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（只這一次）",
+   "task": "RELEASE-9103",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "LAWWW-C 14:2x：⑤⑥加進 BB218-P3-1021"
+  },
+  {
+   "id": "DL-AA-8244a990",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "8244a990",
+   "what": "禁用句型第三輪（口氣表 0-3「不是 X，是 Y」格言句不用在日常）：散步偶遇「……真的很燙。」、隊伍合照「這張我要留著。……我帶的第一個隊伍。」（AA 直接推開發分支，只改引號裡的字）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 合併（87ecb999）；沒有測試寫死舊句子"
+  },
+  {
+   "id": "DL-AA-bde0df0a",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bde0df0a",
+   "what": "AA_362 禁用句型第三輪（「不是 X，是 Y」日常不用）：約會 D01、D05 五句、ladder_bb_y2s1 學姊一句（企劃源檔）；要 LAWWW 改的四處（一個人吃飯、國考簡章兩處、沛珊台南「你可以說不」、溫州街公園貓）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x（3c6b9440）：白名單 D01、D05、ladder_bb_y2s1 換 bde0df0a 重新匯入；四處照第 3 節改字、四支測試寫死的舊句照改（改之前 src 一改 4 支 FAIL）"
+  },
+  {
+   "id": "DL-AA-8d32ed63",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "8d32ed63",
+   "what": "AA-C 交班紀錄（AA_交接紀錄.md 最上面）；交班時沒做完、寫死在測試裡的兩句：沛珊台南 D06 草地「（一起看）」改「雲走得好慢。……我們也走慢一點。」；柏翰 b2「這是我第一次跟人說這個。」刪掉",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:3x：hometown_lines.js、r2y3a_events.js 照改；peishan_tainan_unit 加第 9 項（新句在、舊句不在）、r2y3a_events_unit 第 14 項改成那句不在；兩支 ALL PASS"
   }
  ],
  "ignored": [
@@ -15763,6 +15945,25 @@
    "coveredBy": "DL-AA-56a36a4d",
    "reason": "AA_242 第 12 節第一次寫錯檔名（多建一個怪名字的檔），56a36a4d 搬回、刪掉",
    "why": "AA-C 10-21 13:39 訊息"
+  },
+  {
+   "sha": "074b5050",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 交接檔「全部待辦」補 10-21 最新清單＋巡場景校園夜晚的紀錄（社科院大廳中庭全黑、椰林大道路面太暗、醉月湖背景…）；LAWWW2 自己的待辦，不是交付"
+  },
+  {
+   "sha": "18bd8e26",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "outbox_LAWWW2.json 照 outbox_fix_1021 改欄位（舊筆數沒刪）；不是交付"
+  },
+  {
+   "sha": "27618d8d",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PS-SKIRT-LEG",
+   "reason": "沛珊膝蓋穿出長裙試做 WIP（不交）；WIP-L2-PS-SKIRT-LEG"
   }
  ]
 }

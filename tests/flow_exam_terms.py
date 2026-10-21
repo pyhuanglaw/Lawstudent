@@ -44,6 +44,8 @@ async def run_term(pg, cdp, run, tid, want):
                 texts.append(t[:60])
                 if '1／5' in t: await run.shot(pg, tid + '_q1')
             await L.tap(pg, cdp, '#dlg')
+        elif s.get('paused') and await L.phone_away(pg, cdp):
+            texts.append('［手機自己跳出來 → 收起來／跳過］')   # D103：要回的訊息到了手機自己打開、遊戲暫停（2026-10-21 v9.10.3 發布前：這支卡在大二上的期末考那天）
         elif not went:
             # 沒有劇情的時候：打開手機「今天」，按那一科的「直接去上課」
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)

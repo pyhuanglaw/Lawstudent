@@ -574,7 +574,7 @@ const STORY_EVENTS=[
      「坐下來一起吃」記憶 BREAKFAST_YU（之後早上經過傅鐘她會先揮手：AA_118，之後再做）。吉他社的入口之一（另一個是阿凱）*/
   { id:'ev_yu_breakfast', title:'傅鐘旁邊的早餐', participants:['yu'], location:'campus', trigger:'interact', priority:6, term:['Y1S1'], weeks:[2,3,4,5], time:[8+20/60,9+5/60], once:true, background:'blur',   /* A14（AA_195 4-7）：第 2～5 週（舊局的第 2 週在第 1 天以前，等於照舊）*/
     prereq:{flags:['met_yu'],custom:G=>G.flags.metYuDay==null||G.flags.metYuDay<G.day},
-    dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……不是怪，是很安靜。我不喜歡安靜。'},
+    dialogue:[ {speaker:'yu',expression:'smile',text:'欸，你要不要坐？'},{speaker:'yu',expression:'neutral',text:'我一個人吃很怪。……太安靜了。我不喜歡安靜。'},
       {speaker:'yu',expression:'smile',text:'對了，你有參加社團嗎？我有三個。你要不要加一個？吉他社缺人，辯論社也缺人，系學會永遠缺人。'},
       {choice:[{text:'（坐下來一起吃）',consequences:{mem:[{npc:'yu',tag:'BREAKFAST_YU',note:''}],flags:{YU_CLUB_INVITE:true},advance:0.25},goto:'sit'},{text:'「我上課要遲到了。」',goto:'rush'},{text:'「三個社團不會累嗎？」',goto:'tired'}]},
       {label:'sit'},{speaker:null,text:'她講了十五分鐘，關於三個社團。'},{unless:{custom:G=>typeof INV!=='undefined'&&INV.hasContact(G,'yu')},speaker:'yu',expression:'smile',text:'欸你有沒有群組？沒有？我拉你。',consequences:{contact:'yu'}},{speaker:'yu',expression:'smile',text:'明天你也會經過嗎？'},{goto:'end'},   /* 聯絡方式的劇情時刻（AA_124 1-7、AA_70 2-4）*/
@@ -869,11 +869,15 @@ const STORY_EVENTS=[
   { id:'ev_sk03_lunch', title:'週五的活大', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], background:'blur',
     prereq:{custom:G=>{ const F=G.flags; if(F.SK03_ASKED===G.day) return false; if(F.P4D_ANSWER) return F.ECON_HALLWAY_DAY!=null&&G.day>F.ECON_HALLWAY_DAY; if(F.MET_XUN&&F.XUN_DAY!=null&&G.day>F.XUN_DAY) return true;
       const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&t.week>=8&&!(G.events&&G.events.done&&G.events.done.ev_econ_hallway); }},   /* BB_161 ⑱（AA-B 16:22 確認，BB-B 063ab633）：P4d 沒發生的玩家（第 2～7 週都沒去重修），之後第一次有去的週五下課在走廊直接遇到阿勳 */   /* AA-B 2026-10-16：只在 10-3 見過阿勳（沒有 P4d）的玩家也算重新認識，第 11 週週五起開 SK03 */
-    dialogue:[ {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
+    dialogue:[ {if:{custom:G=>G.flags.SK03_HUODA===G.day},goto:'huoda'},   /* AA_350 R2：那個週五沒去經原下、12:00～13:00 下課選單選「先去吃飯→活大」（classes3d.js 的 CLS.sk03Huoda 記 SK03_HUODA）＝在活大演，開頭換一句、不出選項 */
+      {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
       {if:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1&&!G.flags.MET_XUN},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},   /* ⑱ 走廊直接遇到：還沒見過＝10-1 那句完整的自我介紹（見過的照 P4d 的規則不重新介紹）*/
       {if:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'週五中午，我們在活大。你要來就來。'},{unless:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'活大。走不走？'},{set:{SK03_INV1:true,MET_XUN:true}},   /* 只在 10-3 見過的玩家第一次邀約照用 P4d 原句（AA-B）*/
       {choice:[{text:'「一起去」',consequences:{stamp:['SK03_LAST']},goto:'go'},{text:'「今天不行」',goto:'end'}]},
+      /* 活大那一條（AA_350 R2）：阿勳已經坐在那裡；記的旗標和「一起去」一樣（SK03_INV1、MET_XUN、SK03_LAST），直接接 go 那一段（還債、第一次、芯慈的先後照舊）。選項兩個都有 goto，走廊那一條不會掉進來 */
+      {label:'huoda'},{scene:'活大',bg:'xiaofu'},{speaker:'阿勳',text:'……你今天沒來上課。坐。'},{set:{SK03_INV1:true,MET_XUN:true}},{stamp:['SK03_LAST']},{goto:'go2'},
       {label:'go'},{scene:'活大',bg:'xiaofu'},
+      {label:'go2'},
       {if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},unless:{flags:['SK03_FIRST']},goto:'first'},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},
       {unless:{flags:['SK03_FIRST']},goto:'first'},
       {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE&&typeof EVENTS!=='undefined'&&EVENTS.habitCount({key:'meal:xiaofu:fri'})>=2},goto:'xinci'},
@@ -3313,7 +3317,7 @@ const STORY_EVENTS=[
       {unless:{flags:['MOOT_WIN']},speaker:null,text:'（以安在手帳上寫：「計畫以外：輸了也很開心。」）'},
       {if:{flags:['MOOT_WIN']},speaker:'classmate_xinci',expression:'smile',text:'你們第三段很好。……我們下次會贏。'},
       {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'……好。'},{if:{flags:['MOOT_WIN']},speaker:null,text:'（她把評分表摺起來收進包包。）'},
-      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。不是你們的，是我的。我第一次帶的隊伍。'},
+      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。……我帶的第一個隊伍。'},
       /* 可昕在場（BB_97 9-19，KX_MOOT 'came'）：輸、贏都一樣，只有這一句 */
       {if:{flagIs:{KX_MOOT:'came'}},speaker:null,text:'（可昕把自己那份滷味的豆干夾給你。）'},{if:{flagIs:{KX_MOOT:'came'}},speaker:'kexin',text:'發抖的人要補充。'} ],
     consequences:{memo:'模擬法庭之後的麵店'} },
@@ -3441,7 +3445,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'serious',text:'我們不吵。也不想聽你解釋為什麼。'},
       {speaker:'heroine_01',expression:'serious',text:'你只要選一個。'},
       {speaker:null,text:'（店裡很安靜。吧台的冰箱一直在響。）'},
-      {choice:[{text:'「學姊。」',set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},
+      {choice:[{text:'「學姊。」',unless:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「書瑀。」',if:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},   /* AA_350 R7（裁定 12）：交往當天起祐廷說出口的「學姊。」→「書瑀。」（這一場兩個都在交往中）*/
       {label:'sis'},{speaker:'heroine_01',expression:'serious',text:'……好。'},
       {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）理由我不用聽了。'},
       {speaker:null,text:'（她走出去的時候，門上的鈴響了一聲。）'},
@@ -4277,7 +4281,7 @@ const Y4_EVENTS=(function(){
       {text:'「先不考。去實習，或做別的事。」',set:{Y4_PATH:'other'},goto:'p_other'},{text:'「還沒決定。」',set:{Y4_PATH:'undecided'},goto:'p_und'}]},
     {label:'p_bar'},{speaker:null,text:'（你在桌曆上，把每個禮拜二、四的晚上圈起來。）'},{goto:'p_end'},
     {label:'p_grad'},{unless:{custom:JP},speaker:null,text:'（你打開系上的網頁，找推甄的簡章。十月報名。）'},{if:{custom:JP},speaker:null,text:'（你查了一下。交換回來要多念一學期，推甄趕不上。筆試在後年二月。）'},{goto:'p_end'},
-    {label:'p_other'},{speaker:null,text:'（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）'},{goto:'p_end'},
+    {label:'p_other'},{speaker:null,text:'（你把國考的簡章收進抽屜最下面，沒有丟。）'},{goto:'p_end'},
     {label:'p_und'},{speaker:null,text:'（你把四個選項寫在便利貼上，貼在檯燈旁邊。）'},
     {label:'p_end'} ];
   const homeBg=G=>JP(G)||atHome(G);

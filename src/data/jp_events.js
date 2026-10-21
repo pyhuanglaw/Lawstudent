@@ -29,7 +29,7 @@ const JP_EVENTS=(function(){
     {if:C(repair),speaker:null,text:'（以安排在你前面兩個人。她辦完，沒有回頭。）'},
     {set:{JP_OFFICE:true}},{advance:1} ];
   /* G3 4/19（三）18:30 宿舍的共用廚房（交往中；17:00 她私訊）*/
-  const KITCHEN=[ {scene:'宿舍・共用廚房'},
+  const KITCHEN=[ {scene:'宿舍・共用廚房',bg:'jp_kitchen'},
     {speaker:null,text:'（宿舍的共用廚房。她把一袋菜放在流理台上，綁起頭髮。）'},
     {unless:C(memWinter),speaker:'heroine_01',text:'寒假我媽教我的那一道。'},
     {if:C(memWinter),speaker:'heroine_01',text:'寒假我媽教的那一道。你那時候問過。'},   /* 有 AN_L10_WINTER（知道媽媽寒假要教她一道菜）：第二句換這一句 */
@@ -74,7 +74,7 @@ const JP_EVENTS=(function(){
     {label:'r4_b'},{speaker:'heroine_01',text:'你上次也是這樣想的吧。'},{set:{AN_REPAIR4:'promise'}},
     {label:'r4_end'},{advance:1} ];
   /* G7 7/7（五）七夕，交往中（本檔補；AA_253 第 5 節只寫了挽回的版本）*/
-  const TANABATA=[ {scene:'宿舍門口'},
+  const TANABATA=[ {scene:'宿舍門口',bg:'jp_dorm_gate'},
     {speaker:null,text:'（宿舍門口立了一枝竹子，掛滿了短冊。）'},
     {speaker:'heroine_01',text:'一人一張。寫願望。'},
     {speaker:'heroine_01',text:'……我寫好了。你不要看。'},

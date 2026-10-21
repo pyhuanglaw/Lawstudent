@@ -19,7 +19,7 @@ const PARK=(function(){
   const FOUNTAIN={normal:'水很冰。你多喝了兩口。',summer:'你把水潑在臉上。好一點了。',night:'直飲台的燈還亮著，整個公園只有這裡在發光。'};
   const CAT_NAME_INTRO=['一隻橘白色的胖貓，在圓椅上曬太陽。牠沒有逃走。','你要叫牠什麼？'];
   const CAT_NAMES=[['所長','牠的耳朵動了一下。好像在說：本所長知道了。'],['麻糬','牠翻了一個身，肚子是白的。確實像麻糬。'],['常客','牠看了你一眼，好像在說：你也是嗎？']];
-  const CAT={ y1:['{cat}跟著你走了一段，走到巷口又回去。','你才打開罐頭，{cat}已經坐好了。'], y2a:['{cat}胖了。你摸到的不是骨頭，是肉。','吃完，{cat}躺下來，肚子朝天。'], y2b:['{cat}瘦了一點。……一點點。','吃得比上學期慢。你猜有人在幫牠控制。'],
+  const CAT={ y1:['{cat}跟著你走了一段，走到巷口又回去。','你才打開罐頭，{cat}已經坐好了。'], y2a:['{cat}胖了。你摸摸看，都是肉。','吃完，{cat}躺下來，肚子朝天。'], y2b:['{cat}瘦了一點。……一點點。','吃得比上學期慢。你猜有人在幫牠控制。'],
     y3:['脖子上的名牌寫著：請不要再餵我，我很胖。——里長','你看了名牌一眼。……還是餵了。'], y4:['{cat}在你的背包上睡著了。你等牠醒。','吃了幾口，又回到你的背包上。'] };
   S.LINES={TREE,NEIGHBOR,NEIGHBOR_ELSE,CHESS_OPEN,CHESS,SWING,SHRINE,FOUNTAIN,CAT_NAME_INTRO,CAT_NAMES,CAT};
   const T_=G=>typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;

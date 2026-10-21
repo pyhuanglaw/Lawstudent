@@ -411,6 +411,8 @@ const VAC_DATA=(function(){
     reunionHome:{kexin:['回來了？……我在高雄。要來的話，先跟我說幾點的車。'],classmate_peishan:['歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。']},
     /* 那一天起換的句子（{from, lines}）：沛珊放榜（2027-08-06）以後開學是回台南、不是上臺北（AA_349 K7：「我在台中，開學前才回台南。」後半照原文；大二以前照舊）*/
     reunionHomeAfter:{classmate_peishan:{from:'2027-08-06',lines:['歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。']}},
+    /* 回國「那一天」她在老家（看回國當天的 presence，不看隔天）：那天晚上兩則，不約見面、不約下次（AA_350 S5：以安交往中，C08、C09、2027 C10、T02）*/
+    reunionHomeBack:{heroine_01:['到了嗎？','……好。我在台中，沒辦法去接你。行李先放著，先睡。']},
     reunion:{
       heroine_01:{invite:['明天下午三點，總圖門口。','時差調不過來的話，四點也可以。'],h:15,place:'總圖門口',bg:'campus',lines:[{narr:'（她站在門口，手上拿著手帳。）'},{who:'heroine_01',text:'你回來了。'},{who:'heroine_01',text:'……行程表上寫你今天會到。我沒有算錯。'}],miss:['昨天等你等到總圖關門。……你還在調時差嗎？']},
       heroine_03:{invite:['明天收店以後','九點'],h:21,place:'麵店',bg:'noodle',lines:[{narr:'（她把一碗乾麵放在你前面，坐到對面。）'},{who:'heroine_03',text:'回來了。'},{who:'heroine_03',text:'……加蛋了。'}],miss:['昨天的麵我自己吃了']},

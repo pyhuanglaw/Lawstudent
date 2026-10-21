@@ -376,7 +376,7 @@ const R2Y3A_EVENTS=(function(){
       {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我。我回家想了很久，為什麼我不敢反問別人。'},
       {choice:[{text:'「六小時也是你的。」',goto:'b1'},{text:'「你跟上了啊。你還坐在第一排。」',goto:'b2'},{text:'（在他旁邊的台階坐下）',goto:'b3'}]},
       {label:'b1'},{speaker:null,text:'（他看著那扇刷卡的門很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
-      {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{speaker:'classmate_bohan',expression:'smile',text:'這是我第一次跟人說這個。'},{goto:'end'},
+      {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{goto:'end'},
       {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
       {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')) ] };
 

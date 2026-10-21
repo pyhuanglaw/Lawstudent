@@ -14,4 +14,8 @@ ctx.EVENTS.running='ev_x'; S.phoneAuto(GM); check('劇情事件中：不開',ope
 home=true; S.phoneAuto(GM); check('在家（2D 畫面，家裡那一輪自己會打開）：不開',opened.length===1); home=false;
 phoneOpen=true; S.phoneAuto(GM); check('手機已經開著：不再開',opened.length===1); phoneOpen=false;
 S.phoneAuto(GM); check('空下來：開第二則',opened.length===2);
+// 2026-10-21（v9.10.3 發布前 smoke_release：新遊戲收起手機以後搖桿只走 0.33 m）：同時有兩三則要回的，打開一次就把當下所有待回的都記成開過——列表上本來就都看得到；原本一次只記一則，收起來下一格又自己打開（一則跳一次）
+{ const G2={flags:{}}, GM2=Object.assign({},GM,{G:G2}); opened.length=0; pend=[{id:'a1',th:'p:kexin'},{id:'a2',th:'g:fam'},{id:'a3',th:'p:zhe'}];
+  S.phoneAuto(GM2); S.phoneAuto(GM2); S.phoneAuto(GM2); check('同時三則要回的：只自動開一次（收起來不會一則跳一次）',opened.length===1,String(opened.length));
+  pend.push({id:'a4',th:'p:yu'}); S.phoneAuto(GM2); check('之後又來一則新的：再開一次',opened.length===2,String(opened.length)); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

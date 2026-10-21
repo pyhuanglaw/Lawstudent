@@ -515,6 +515,87 @@
    "next": "AA 定稿後結構化交付",
    "noDirectIntegrate": true,
    "source": "AA-C 04:37Z"
+  },
+  {
+   "id": "WIP-L2-PS-SKIRT-LEG",
+   "role": "LAWWW2",
+   "task": "PS-SKIRT-LEG",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "27618d8d",
+   "files": [
+    "tools/blender/char_second/peishan_skirt_reweight.py"
+   ],
+   "state": "WIP",
+   "remaining": "只靠權重兩全不了：要加前片骨頭或程式布料碰撞",
+   "next": "排回 LAWWW2 佇列；正式 VRM（第二十六版）不動",
+   "noDirectIntegrate": true,
+   "source": "LAWWW2-C 10-21 13:48 訊息"
+  },
+  {
+   "id": "WIP-LAWWW-Y5-1021",
+   "role": "LAWWW",
+   "task": "Y5-DELAY-1021",
+   "branch": "worktree-agent-a49e7888e56ebae1c",
+   "sha": "4786dfdd",
+   "files": [
+    "src/data/calendar.js",
+    "src/postgrad3d.js",
+    "src/home3d.js",
+    "tests/y5_delay_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_357：1-4 資料頁 200 天懸崖、1-5 退宿後出門已 commit；1-6 國考報名 WIP；Y5S1 學期、9/3 後果、停點、presence、新場景、日期卡（含 AA 2f1aaa22 cardLine 出最後一句）還沒做",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+  },
+  {
+   "id": "WIP-LAWWW-AAFIX-1021",
+   "role": "LAWWW",
+   "task": "AA-VAC-C16-C18-Q-1021",
+   "branch": "worktree-agent-a73c8f28082f050ca",
+   "sha": "d4ae2af9",
+   "files": [
+    "src/data/vac_activities.js",
+    "src/vac3d.js",
+    "tests/vac_c16_c18_unit.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA 回覆小修：A 組（AA_242 第 12 節）測試先寫、程式 WIP；B（日本房間三個看）、C（AA_355 第 5 節）、D（AA_358 第 2 節）、E（AA_350 第 9 節）還沒做",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+  },
+  {
+   "id": "WIP-LAWWW-AA360-1021",
+   "role": "LAWWW",
+   "task": "STORY-AUDIT-1017",
+   "branch": "worktree-agent-ada67c9808dea4534",
+   "sha": "91cd3186",
+   "files": [
+    "src/y34b3d.js"
+   ],
+   "state": "WIP",
+   "remaining": "AA_360：讀完規格（91cd3186 是空的 checkpoint commit），13、14、15、16、17/18 都還沒改；要改的檔 src/y34b3d.js 等",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+  },
+  {
+   "id": "WIP-LAWWW-FEATLIST-1021",
+   "role": "LAWWW",
+   "task": "FEATURE-LIST-9102-1019",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "7083b1ad",
+   "files": [
+    "docs/handoff/PLAYER_FEATURES_v9.10.3.md"
+   ],
+   "state": "已整合",
+   "remaining": "玩家功能清單半成品（子代理還在寫）",
+   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "7083b1ad"
   }
  ]
 }

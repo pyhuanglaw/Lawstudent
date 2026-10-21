@@ -1,11 +1,11 @@
 {
- "objects": 15,
- "unique_meshes": 15,
+ "objects": 16,
+ "unique_meshes": 16,
  "tris": 14014,
  "tris_drawn": 14014,
- "materials": 12,
+ "materials": 13,
  "out": "assets/models/env/second_ai/campus_socsci.glb",
- "bytes": 997560,
+ "bytes": 998728,
  "texres": 512,
  "nav": {
   "rects": [

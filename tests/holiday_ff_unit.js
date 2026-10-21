@@ -4,6 +4,7 @@
 // 修改前（1475d312）FAIL 的：H2 全部（一路跳過邀約、不打開手機）；H1 的大四寒假表、大三大四的除夕初一、除夕在宿舍 17:00、主線 9、WAKE_AT、2/3 筆試；H3、6-3 全部（沒有 src/holff3d.js）。
 // AA_345 H1～H7（2026-10-21）：大三寒假那一頓改 2/20（2/18 21:00 揪、2/20 17:30 回來）、大四寒假柏翰兩則和阿哲回來、大三暑假 8/12 兩版、大四寒假 1/17 推甄上了／實習／交換延畢、
 //   大二以後柏翰暑假只說「我回新竹了。」——H3-3、H3-4、H3-5、H3-6、6-3-5、6-3-6 的期待照改；6-3-9（8/12）新加。修改前這幾項 FAIL。
+// AA_350 S1、S2（2026-10-21）：柏翰大三寒假只回去過年（1/24 17:00、1/28 20:00，蓋掉 AA 170a150d 的「民訴」兩句）、大三暑假七月補習（6/27、7/2 兩則）——H3-4 柏翰那一項、H3-5 照改，修改前（10dc79b1）這兩項 FAIL。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -131,11 +132,13 @@ const ptsOf=(key)=>HOME.breakPts(Object.assign({},G,{day:D(key)})).map(p=>CALEND
   // 大三寒假
   { const d=VAC.c01Day('Y3'); fresh('2027-12-28',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2028-02-20',23,1);
     check('H3-4. 大三寒假：阿哲在海邊那天（'+CALENDAR.dateOf(d).key.slice(5)+'）21:00「我明天回高雄」',JSON.stringify(msg('hol_y3w_zhe_home'))===JSON.stringify(['g:noodle_team|zhe:我明天回高雄'])&&at('hol_y3w_zhe_home')===CALENDAR.dateOf(d).key.slice(5)+' 21',at('hol_y3w_zhe_home'));
-    check('H3-4. 大三寒假：以安 1/24 15:00 回台中、1/29 18:00 回臺北（AA_275 第 12 節）；柏翰 1/9、2/19',at('hol_y3w_an_home')==='01-24 15'&&at('hol_y3w_an_back')==='01-29 18'&&at('hol_y3w_bh_home')==='01-09 17'&&at('hol_y3w_bh_back')==='02-19 20');
+    check('H3-4. 大三寒假：以安 1/24 15:00 回台中、1/29 18:00 回臺北（AA_275 第 12 節）；柏翰只回去過年（AA_350 S2）：1/24 17:00「我明天回新竹過年。初三回來。」、1/28 20:00「回來了。民法讀到物權了。」（麵店團）',at('hol_y3w_an_home')==='01-24 15'&&at('hol_y3w_an_back')==='01-29 18'&&at('hol_y3w_bh_home')==='01-24 17'&&at('hol_y3w_bh_back')==='01-28 20'
+      &&JSON.stringify(msg('hol_y3w_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我明天回新竹過年。初三回來。'])&&JSON.stringify(msg('hol_y3w_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。民法讀到物權了。']),JSON.stringify([at('hol_y3w_bh_home'),msg('hol_y3w_bh_home'),at('hol_y3w_bh_back'),msg('hol_y3w_bh_back')]));
     check('H3-4. 大三寒假：阿哲 2/18 21:00「禮拜天回台北」「開學前最後一頓 禮拜天六點 麵店」、2/20 17:30「我回來了 高雄帶了吃的 等一下拿去麵店」（AA_345 H1、H2；沒有大一那句「開學那天拿去給你們」）',JSON.stringify(msg('hol63_y3w_zhe'))===JSON.stringify(['g:noodle_team|zhe:禮拜天回台北','g:noodle_team|zhe:開學前最後一頓 禮拜天六點 麵店'])&&at('hol63_y3w_zhe')==='02-18 21'&&JSON.stringify(msg('hol_y3w_zhe_back'))===JSON.stringify(['g:noodle_team|zhe:我回來了 高雄帶了吃的 等一下拿去麵店'])&&at('hol_y3w_zhe_back')==='02-20 17.5'&&!(G.msgs||[]).some(m=>m.day>=D('2028-01-20')&&m.from==='zhe'&&/開學那天拿去給你們/.test(m.text)),JSON.stringify([msg('hol63_y3w_zhe'),at('hol63_y3w_zhe'),msg('hol_y3w_zhe_back'),at('hol_y3w_zhe_back')])); }
   // 大三暑假：以安在日本
   fresh('2028-06-26',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2028-08-22',10,1);
-  check('H3-5. 大三暑假：柏翰 6/27「我回新竹了。」（AA_345 H7）、阿哲 6/30、8/21；以安在日本＝沒有',at('hol_y3s_bh_home')==='06-27 20'&&JSON.stringify(msg('hol_y3s_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我回新竹了。'])&&at('hol_y3s_zhe_home')==='06-30 22'&&at('hol_y3s_zhe_back')==='08-21 19'&&!(G.msgs||[]).some(m=>m.from==='heroine_01'&&/回台中|回臺北/.test(m.text)));
+  check('H3-5. 大三暑假：柏翰七月要補習（AA_350 S1）6/27 20:00「我回新竹幾天。七月三號補習班開課就回來。」、7/2 20:00「回來了。明天開課。」；阿哲 6/30、8/21；以安在日本＝沒有',at('hol_y3s_bh_home')==='06-27 20'&&JSON.stringify(msg('hol_y3s_bh_home'))===JSON.stringify(['g:noodle_team|classmate_bohan:我回新竹幾天。七月三號補習班開課就回來。'])&&at('hol_y3s_bh_back')==='07-02 20'&&JSON.stringify(msg('hol_y3s_bh_back'))===JSON.stringify(['g:noodle_team|classmate_bohan:回來了。明天開課。'])
+    &&at('hol_y3s_zhe_home')==='06-30 22'&&at('hol_y3s_zhe_back')==='08-21 19'&&!(G.msgs||[]).some(m=>m.from==='heroine_01'&&/回台中|回臺北/.test(m.text)),JSON.stringify([msg('hol_y3s_bh_home'),at('hol_y3s_bh_back'),msg('hol_y3s_bh_back')]));
   // 大四寒假
   { const d=VAC.c01Day('Y4'); fresh('2028-12-26',10,'dorm'); noodle(); FAM('heroine_01'); runTo('2029-02-18',23,1);
     check('H3-6. 大四寒假：阿哲海邊那天（'+CALENDAR.dateOf(d).key.slice(5)+'）21:00「我明天回高雄」；以安 2/9 15:00、2/18 18:00',at('hol_y4w_zhe_home')===CALENDAR.dateOf(d).key.slice(5)+' 21'&&at('hol_y4w_an_home')==='02-09 15'&&at('hol_y4w_an_back')==='02-18 18',JSON.stringify([at('hol_y4w_zhe_home'),at('hol_y4w_an_home'),at('hol_y4w_an_back')]));

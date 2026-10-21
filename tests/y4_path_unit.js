@@ -48,7 +48,7 @@ const OPTS=['「準備國考。律師，可以的話司法官也考。」','「�
   check('1. 選完不能馬上改：不再到期', !STORY.y4PathDue(G));
   const pick=async(route,k,zone,flags)=>{ const R=route==='JP'?D('2028-08-05'):dX; fresh(R,route==='JP'?20:21,zone||'dorm',Object.assign({EXCHANGE_ROUTE:route},flags||{})); picks=[k]; await STORY.y4Path(GM); return lines(); };
   T=await pick('TW',1); check('1. 選②（台灣）：grad、「（你打開系上的網頁，找推甄的簡章。十月報名。）」', G.flags.Y4_PATH==='grad'&&T[T.length-1]==='（你打開系上的網頁，找推甄的簡章。十月報名。）');
-  T=await pick('TW',2); check('1. 選③：other、「（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）」', G.flags.Y4_PATH==='other'&&T[T.length-1]==='（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）');
+  T=await pick('TW',2); check('1. 選③：other、「（你把國考的簡章收進抽屜最下面，沒有丟。）」', G.flags.Y4_PATH==='other'&&T[T.length-1]==='（你把國考的簡章收進抽屜最下面，沒有丟。）');
   T=await pick('TW',3); check('1. 選④：undecided、「（你把四個選項寫在便利貼上，貼在檯燈旁邊。）」', G.flags.Y4_PATH==='undecided'&&T[T.length-1]==='（你把四個選項寫在便利貼上，貼在檯燈旁邊。）');
   T=await pick('US',1); check('1. 美國路線（大三下在臺灣）：宿舍版、②是推甄那句', T[0]==='（最後一科考完。宿舍很安靜，隔壁在收行李。）'&&T[T.length-1]==='（你打開系上的網頁，找推甄的簡章。十月報名。）');
   // 2. 日本路線

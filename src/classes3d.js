@@ -195,9 +195,11 @@ const CLS=(function(){
     for(const k in R.done){ const q=k.split(':'); if(q[1]!==p[1]) continue; const t=CALENDAR.termOf(+q[0]); if(t&&t.id===p[0]&&t.week===w) return true; } return false; };
   /* 「你不在」的版本（AA_294 第 1 節「討論課的選擇被大四引用」那一列，企劃 b3ec8820）：大四那堂引用大一的答案，玩家大一那一堂沒去（沒有紀錄）時說的那一句。
      課表資料（syllabus.js，企劃匯入）有 missed 的照它（公法判決研討第 3 週）；還沒有的兩處照 AA_294 這一句：課程|週|引用的紀錄 */
-  S.RECALL_MISSED={'crim_judgment_sem|3|B_Y1S2_crim_gen2_w3':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）','legal_research|11|B_Y1S1_const_1_w11':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）'};
+  S.RECALL_MISSED={'crim_judgment_sem|3|B_Y1S2_crim_gen2_w3':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）','legal_research|11|B_Y1S1_const_1_w11':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）',
+    /* AA_350 R5：法學研究第 11 週引用大四上公法判決研討第 3 週那一題——美國路線（大四上人在美國）／其他沒去的 */
+    'legal_research|11|B_Y4S1_public_judgment_sem_w3':G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US'?'（大四上那一堂，你在美國。老師講的那一題，你是第一次聽。）':'（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）'};
   S.recallText=function(G,r,it){ if(!r) return ''; const R=S.rec(G);
-    if(r.record){ const i=R.disc[r.record]; if(i==null) return r.missed||(it&&it.c?S.RECALL_MISSED[it.c.id+'|'+it.week+'|'+r.record]:'')||''; const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
+    if(r.record){ const i=R.disc[r.record]; if(i==null){ const m=it&&it.c?S.RECALL_MISSED[it.c.id+'|'+it.week+'|'+r.record]:''; return r.missed||(typeof m==='function'?m(G):m)||''; } const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
       const ch=opts[i]&&opts[i].text; return ch?String(r.said||'').replace('{choice}',ch):''; }
     let ok=false;
     if(r.attended) ok=S.attendedWeek(G,r.attended);
@@ -810,8 +812,15 @@ const CLS=(function(){
   const MEALS=[{t:'小福',price:90,line:'小福的自助餐，夾了三樣菜。'},{t:'阿鳳麵店',price:70,line:'阿鳳麵店，一碗乾麵加一顆滷蛋。'},{t:'便利商店',price:75,line:'便利商店的微波義大利麵，在門口的桌子吃完。'}];
   /* 小福（AA_186 4-4：小福樓 2025/12/31 停業、2026/1/10 拆除重建）：經濟系那一年、大一上照常；大一下起改成活大的自助餐 */
   const mealsOf=G=>{ const t=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null, id=t?t.id:(typeof STORY!=='undefined'&&STORY.termAt?STORY.termAt(G.day):null); return id&&!/^Y0/.test(id)&&id!=='Y1S1'?MEALS.map(m=>m.t==='小福'?{t:'活大',price:m.price,line:'活大的自助餐，夾了三樣菜。'}:m):MEALS; };
+  /* AA_350 R2（AA_294 第 3 節「翹了經原下也還有機會」）：大一下那個週五沒去經原下、12:00～13:00 選了「先去吃飯→活大」＝ ev_sk03_lunch 在活大演（阿勳已經坐在那裡，不出選項）。
+     其他條件照事件本身（EVENTS.check：大一下、週五、prereq 的 P4d／10-3／⑱ 和 SK03_ASKED）；那天放假（沒有經原下這一堂）、去上了經原下（走廊那一條演過）都不算 */
+  S.sk03Huoda=function(G){ if(!G||(G.stage||'law')!=='law'||typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return null; const h=hr(G); if(h<12||h>=13) return null;
+    const it=S.dayItems(G).find(q=>q.c&&q.c.id==='econ_principles_2'&&!q.exam); if(!it||S.rec(G).done[it.key]) return null;
+    const ev=STORY_EVENTS.find(e=>e.id==='ev_sk03_lunch'); return ev&&EVENTS.check(ev)?ev:null; };
   S.lunchBreak=async function(GM){ const G=GM.G, MEALS=mealsOf(G); const opts=MEALS.map(m=>({t:m.t+'　'+m.price+' 元',dim:G.money<m.price})).concat([{t:'算了'}]); let i=opts.length-1; GM.sceneBegin(); try{ i=await GM.choose(opts); } finally { GM.sceneEnd(); }
-    const m=MEALS[i]; if(!m) return false; if(G.money<m.price){ GM.toast('錢不夠',2400); return false; } GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); GM.advance(40/60); GM.caption('',m.line,2600); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
+    const m=MEALS[i]; if(!m) return false; if(G.money<m.price){ GM.toast('錢不夠',2400); return false; }
+    const sk=m.t==='活大'?S.sk03Huoda(G):null; if(sk){ GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); await GM.fade(false); } finally { GM.sceneEnd(); } G.flags.SK03_HUODA=G.day; await EVENTS.run(sk); return true; }   /* 時間：事件的 after 快轉到 13:00「午休結束。」*/
+    GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); GM.advance(40/60); GM.caption('',m.line,2600); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
   /* 在附近讀書（1-4）：讀到出門時間；每小時一份準備給下一堂（和自學同一個 prep，AA_104 4-3）。時段次數（DL-03）做好以後算一次自習 */
   S.studyUntil=async function(GM,nx,until){ const G=GM.G, h0=hr(G); if(until<=h0+0.1) return true; if(S.slotPlan){ const sp=S.slotPlan(G,until-h0,'study'); if(!sp.ok){ GM.toast(sp.why,3000); return false; } S.slotUse(G,sp.uses); }   /* 算一次自習（DL-03）*/ const R=S.rec(G), hrs=Math.max(1,Math.floor(until-h0)); GM.sceneBegin(); try{ await GM.fade(true); GM.advance(until-h0); R.prep[nx.c.id]=(R.prep[nx.c.id]||0)+hrs; R.lastStudy={day:G.day,id:nx.c.id,name:nx.c.name}; if(G.stats) G.stats.study=(G.stats.study||0)+hrs; GM.caption('','你找了個位子，把'+nx.c.name+'這週的進度讀到 '+hhmm(hr(G))+'。',2800); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
   /* 開學第二天的民總（劇情課：story3d.js 的 classScene，進 201 就開始）不能翹（AA_294 第 1 節第 1 列、第 3 節「時間到了直接帶去」，任務 AA294-SKIPCLASS-1018）：
