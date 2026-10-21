@@ -98,6 +98,10 @@ const J=x=>JSON.stringify(x);
     fresh(r20,20,'dorm'); noodle(); runTo(r20,21.25); how(); runTo(r21,11.5);
     const early=PHONE.sent(G,'y1_relay_photo'); if(name==='答應了沒到'){ const q=OUT.get(G,'y1_relay'); if(q) q.state='missed'; } runTo(r21,11.75);
     chk('2. '+name+'：11:40 群組「📷（獎狀：大隊接力第五名）」小語「第五名有獎狀喔」阿哲「有 參加獎等級的那種」（11:40 以前沒有）',()=>[!early&&J(msgOf('y1_relay_photo'))===J(['zhe:📷（獎狀：大隊接力第五名）','yu:第五名有獎狀喔','zhe:有 參加獎等級的那種'])&&near(atOf('y1_relay_photo'),Tm(r21,11+40/60)),name+' '+early+' '+J(msgOf('y1_relay_photo'))]); }
+  { fresh(r20,20,'dorm'); noodle(); G.contacts=G.contacts||{}; G.contacts.zhe=r20-30; runTo(r20,21.25); ans('y1_relay_ask',1); runTo(r21,12.5);
+    chk('2. AA_350 O4：沒去的，12:10 阿哲私訊「你沒來」「下次系籃要來喔」（不扣好感）',()=>[J(msgOf('y1_relay_miss'))===J(['zhe:你沒來','zhe:下次系籃要來喔'])&&near(atOf('y1_relay_miss'),Tm(r21,12+10/60)),J(msgOf('y1_relay_miss'))]);
+    fresh(r20,20,'dorm'); noodle(); G.contacts=G.contacts||{}; G.contacts.zhe=r20-30; runTo(r20,21.25); ans('y1_relay_ask',0); G.flags.Y1_RELAY='went'; runTo(r21,12.5);
+    chk('2. AA_350 O4：去了的沒有那則私訊',()=>!PHONE.sent(G,'y1_relay_miss')); }
   chk('2. 回「不去。」：不排出遊',()=>{ fresh(r20,20,'dorm'); noodle(); runTo(r20,21.25); ans('y1_relay_ask',1); runTo(r20,22); return !OUT.get(G,'y1_relay')&&G.flags.Y1_RELAY==='no'; });
   chk('2. 不在麵店團群組：沒有',()=>{ fresh(r20,20,'dorm'); runTo(r21,12); return !PHONE.sent(G,'y1_relay_ask')&&!PHONE.sent(G,'y1_relay_photo'); });
 
@@ -124,7 +128,7 @@ const J=x=>JSON.stringify(x);
 
   // ===== 6. 3-2 大一下的手機小事八則 =====
   const typical=(d0,days)=>{ fresh(d0,7,'dorm'); noodle(); PHONE.join(G,'family_law','法律系直屬家族'); R('heroine_01','FAM'); R('heroine_03','FAM'); R('classmate_xinci','ACQ'); R('kai','FAM');
-    G.contacts.heroine_01=0; G.contacts.classmate_xinci=0; G.flags.ndlDays=[D('2026-03-05')];   /* 3/5 週四在麵店 */
+    G.contacts.heroine_01=0; G.contacts.classmate_xinci=0; G.contacts.heroine_03=0; G.flags.ndlDays=[D('2026-03-05')];   /* 3/5 週四在麵店；語彤要有聯絡方式（AA_350 O6）*/
     for(let k=0;k<days;k++){ G.day=d0+k; G.weekday=wdOf(G.day); G.hour=7; for(let h=7;h<=23.95;h+=0.25){ G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); } } };
   const wk4=STORY.termDay('Y1S2',4,1);
   typical(wk4,77);
@@ -178,5 +182,8 @@ const J=x=>JSON.stringify(x);
     const last=['（床底下最後一個紙箱。上面是媽媽的字：「冬天的衣服」。）','（大一搬進來那天，媽媽寫的。四年了，你一直沒把那幾個字撕掉。）','（四年。房間又空了。可是這次空，是因為要走了。）'];
     const y1=typeof Y1FILL_LINES!=='undefined'?Y1FILL_LINES.box.look:''; return [out.every(L=>J(L)===J(last))&&/媽媽的字：「冬天的衣服」/.test(y1)&&/媽媽的字：「冬天的衣服」/.test(last[0]),J(out)]; });
 
-  console.log('（通過 '+passes+' 項）'); console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
+  console.log('（通過 '+passes+' 項）');   await achk('8. AA_350 O5：12/8（寒流那天）當天才拆＝「（寒流來了。你終於把床底下的紙箱拆了。外套有一股衣櫃的味道。）」；12/8 的 glad、12/9 的 night 都不演',async()=>{ const c=Y1FILL.coldDay(); fresh(c,14,'dorm',{}); said=[]; opts=[]; picks=[0]; await Y1FILL.boxScene(GM); const L=lines(); G.day=c+1; G.hour=7.5; const n=Y1FILL.coldDue(G); G.day=c; G.hour=8; const g=Y1FILL.coldDue(G);
+    return [L[L.length-1]==='（寒流來了。你終於把床底下的紙箱拆了。外套有一股衣櫃的味道。）'&&G.flags.BOX_WINTER_OPEN===true&&n===null&&g===null,J([L,n,g])]; });
+  chk('6. AA_350 O6：語彤那則（y1s2_yt_board）要有她的聯絡方式',()=>{ const d=STORY.DAILY_PHONE.find(x=>x.id==='y1s2_yt_board'); fresh(D('2026-03-26'),7,'dorm'); R('heroine_03','FAM'); G.flags.ndlDays=[D('2026-03-05')]; const no=d.ok(G,G.day); G.contacts=G.contacts||{}; G.contacts.heroine_03=G.day-10; const yes=d.ok(G,G.day); return [!no&&yes,J([no,yes])]; });
+console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack)); console.log('FAILED '+(fails+1)); process.exit(1); });

@@ -366,28 +366,27 @@ const R2Y3B=(function(){
 
   /* ===================== 2-Y3-54 大三暑假（AA_185 1-3，AA_326 2-Y3-54）===================== */
   const rk=G=>isJP(G)?'JP':(isUS(G)?'US':'TW');   /* 路線（還沒定＝台灣）*/
-  /* 回到家那天晚上，手機「這個暑假要做什麼？」三選一，都不扣分：台灣、美國路線 6/19（一）21:00；日本路線 8/5（六）21:00。
-     回覆開到兩天後的 21:00（台灣、美國＝6/21 21:00，AA_343 D8；日本照同一個算法＝8/7 21:00）；還是沒回＝預設：有打工的 'work'、沒有的 'study'（不傳訊息，摘要日照預設那一套播）*/
-  S.planY3At=G=>isJP(G)?{d:D('2028-08-05'),h:21}:{d:D('2028-06-19'),h:21};
+  /* 回到家那天晚上，手機「這個暑假要做什麼？」三選一，都不扣分：台灣、美國路線 6/19（一）21:00。日本路線沒有三選一（AA_341 裁定 10、AA_349 L2：AA_343 D5 日本路線作廢）。
+     回覆開到兩天後的 21:00（台灣、美國＝6/21 21:00，AA_343 D8）；還是沒回＝預設：有打工的 'work'、沒有的 'study'（不傳訊息，摘要日照預設那一套播）*/
+  S.planY3At=G=>isJP(G)?null:{d:D('2028-06-19'),h:21};
   S.hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&!!JOBS.any&&!!JOBS.any(G));   /* 同 home3d.js 的 hasJob */
   S.summerDefault=G=>S.hasJob(G)?'work':'study';
   S.summerPlanPhone=function(G){ const a=S.planY3At(G); if(!a||a.d==null||now(G)<T(a.d,a.h)||G.flags.SUMMER_Y3) return;
     if(now(G)>T(a.d+2,21)){ const m=PHONE.byAsk(G,'y3_summer_plan'); if(!m||m.ans==null) G.flags.SUMMER_Y3=S.summerDefault(G); return; }   /* 沒回（或那一則錯過了）＝預設 */
     if(PHONE.sent(G,'y3_summer_plan')) return;
     PHONE.at(G,a.d,a.h,[{th:'sys',text:'這個暑假要做什麼？',ask:{id:'y3_summer_plan',until:T(a.d+2,21),opts:[{t:'法律服務中心的暑期實習',post:false,set:{SUMMER_Y3:'intern'}},{t:'打工',post:false,set:{SUMMER_Y3:'work'}},{t:'在家開始讀國考的書',post:false,set:{SUMMER_Y3:'study'}}]}}],'y3_summer_plan'); };
-  /* 摘要日的旁白：台灣 6/26、7/24、8/21；美國 6/26、7/24、7/31（8/2 出發，第三句搬到 7/31）；日本只有 8/21（8/5 才回來：日本路線專用的那一句，AA_343 D5）。HOME.sumSkip（那天在國外、有報名的活動）＝不播 */
-  S.SUM_DAYS={TW:[['2028-06-26',0],['2028-07-24',1],['2028-08-21',2]],US:[['2028-06-26',0],['2028-07-24',1],['2028-07-31',2]],JP:[['2028-08-21','jp']]};
+  /* 摘要日的旁白：台灣 6/26、7/24、8/21；美國 6/26、7/24、7/31（8/2 出發，第三句搬到 7/31）。HOME.sumSkip（那天在國外、有報名的活動）＝不播。
+     日本路線沒有三選一：8/21 只有一句，不看三選一（AA_349 L2），在 src/jp3d.js 的 JP.SCH（8/5～9/3 住臺北的家是 JP.homeRound）；AA_343 D5 的三句作廢 */
+  S.SUM_DAYS={TW:[['2028-06-26',0],['2028-07-24',1],['2028-08-21',2]],US:[['2028-06-26',0],['2028-07-24',1],['2028-07-31',2]],JP:[]};
   S.jobKind=G=>{ const j=typeof JOBS!=='undefined'&&JOBS.any?JOBS.any(G):null; return j&&j!=='tutor'&&j!==true?j:'tutor'; };   /* 大三下有在做的那一份；沒有的照家教（打工系統只有家教 JOB_TUTOR）*/
   const tutor=G=>S.jobKind(G)==='tutor';
   S.SUMMER_LINES={intern:['實習第一天，你負責影印。影印機比你還資深。','你第一次自己寫完一份初談紀錄。律師只改了兩個字。','最後一天，主任說：『明年考完，再來。』'],
-    /* 打工（AA_343 D6）：家教那一套換字（6/26 在家／住宿舍各一句、8/21（美國 7/31）最後一堂課）；以後有其他打工（麵店、Café 店員）用原稿那三句，住宿舍的 6/26 照 D6 那一句；家教以外的 7/24 AA 沒有寫（不播）*/
+    /* 打工（AA_343 D6）：家教那一套換字（6/26 在家／住宿舍各一句、8/21（美國 7/31）最後一堂課）；以後有其他打工（麵店、Café 店員）用原稿那三句，住宿舍的 6/26 照 D6 那一句；家教以外的 7/24 照 AA_350 M5 新寫的那一句 */
     work:[G=>tutor(G)?(atHome(G)?'暑假學生的課排得比學期中多。你從家裡搭捷運去。':'暑假學生的課排得比學期中多。宿舍沒什麼人，你每次都是第一個出門。'):(atHome(G)?'暑假的班比學期中多。你從家裡搭捷運去。':'暑假的班比學期中多。宿舍沒什麼人，你每天第一個出門。'),
-      G=>tutor(G)?'學生問你，法律系是不是都在背。你說：『背完以後才開始。』':null,
+      G=>tutor(G)?'學生問你，法律系是不是都在背。你說：『背完以後才開始。』':'七月最熱的那個禮拜，店裡的冷氣壞了三天。你學會一邊流汗，一邊說『歡迎光臨』。',   /* AA_350 M5：家教以外的打工 7/24（原本 null 不播）*/
       G=>tutor(G)?'最後一堂課，學生的媽媽塞了一盒水果給你。':'最後一班，老闆多給了一個便當。'],
     study:['你把大一的《民法》從紙箱裡拿出來。書角都翻捲了。','七月。冷氣開著，你讀完第一本。','姊姊回家，看到你的筆記：『這是你寫的？字變小了。』']};
-  /* 日本路線 8/21 專用（AA_343 D5：前兩個月他在日本，「最後一天」「讀完第一本（七月）」都不成立）；打工＝家教那一句（家教以外的打工 AA 沒有寫）*/
-  S.SUMMER_JP={intern:'實習兩個禮拜。你第一次自己寫完一份初談紀錄。律師只改了兩個字。',work:G=>tutor(G)?'學生問你，日本的考試是不是比較難。你說：『我只考了日文。』':null,study:'八月。時差調回來了，你讀完第一本。'};
-  S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=i==='jp'?S.SUMMER_JP[k]:(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
+  S.sumLine=function(G,i){ const k=G.flags&&G.flags.SUMMER_Y3; const x=(S.SUMMER_LINES[k]||[])[i]; return typeof x==='function'?x(G):(x||null); };
   /* 7/9（日）12:00 語彤生日：照大一的寫法（home3d.js 2026 那一則）——麵店團群組小語＋按鈕「傳一句生日快樂」；不在群組、和語彤 FAMILIAR 以上＝她的私訊放同一個按鈕。日本路線也是同一則 */
   S.ytBdayPhone=function(G){ const d=D('2028-07-09'); if(d==null||now(G)<T(d,lt(G,d,12))||now(G)>=T(d+1,lt(G,d+1,0))||PHONE.sent(G,'yt_bday_y3')) return;
     const reply={from:'heroine_03',text:'……謝謝。今年的田野，訪問到第二十三個了。'}, opt={t:'傳一句生日快樂',post:'生日快樂。',say:[reply],set:{YT_BDAY_Y3:true}};
@@ -413,7 +412,7 @@ const R2Y3B=(function(){
     tutor:['sum_tutor','家教學生的卡片','（家教學生最後一堂課給的卡片。上面寫著：『老師，背完以後才開始，對嗎？』）'],
     work:['sum_work','那家店的班表','（暑假的班表。最後一班那一格，老闆畫了一個便當。）']};
   S.ROOM_SUMMER_OLD={sum_study:'翻捲了書角的《民法》'};   /* 這一版以前拆箱拆到的舊存檔：收拾時叫得出名字 */
-  S.roomSummer=G=>{ const k=G&&G.flags&&G.flags.SUMMER_Y3; return k==='intern'?S.ROOM_SUMMER.intern:(k==='work'?(tutor(G)?S.ROOM_SUMMER.tutor:S.ROOM_SUMMER.work):null); };
+  S.roomSummer=G=>{ const k=G&&G.flags&&G.flags.SUMMER_Y3; if(G&&isJP(G)) return null; return k==='intern'?S.ROOM_SUMMER.intern:(k==='work'?(tutor(G)?S.ROOM_SUMMER.tutor:S.ROOM_SUMMER.work):null); };   /* 日本路線 9/3 的房間沒有三選一的物件（AA_349 L2：D7 那一套只給台灣、美國路線）*/
   S.Y1_CIVIL_STUDY='（大一的《民法》。書角都翻捲了。這個暑假，又從第一頁讀起。）';
   if(typeof STORY!=='undefined'&&STORY.roomY4Items&&STORY.ROOM_Y4_TEXT&&!STORY._r2y3bRoom){ for(const k in S.ROOM_SUMMER){ const [id,n]=S.ROOM_SUMMER[k]; STORY.ROOM_Y4_TEXT[id]=[n,null]; } for(const id in S.ROOM_SUMMER_OLD) STORY.ROOM_Y4_TEXT[id]=[S.ROOM_SUMMER_OLD[id],null];
     const ri0=STORY.roomY4Items; STORY.roomY4Items=function(G){ const L=ri0.apply(this,arguments), r=S.roomSummer(G); if(r&&Array.isArray(L)&&!L.some(x=>x[0]===r[0])) L.push([r[0],r[1],[r[2]]]); return L; };
@@ -428,7 +427,7 @@ const R2Y3B=(function(){
     Y3S:[['2028-07-09',12,'ytbday'],['2028-07-15',10,'lottery4'],['2028-09-03',8.5,'room']]};   /* 9/3 美國路線不演（在美國；roomY4Due 等 12/23）*/
   S.Y3_STOPS=[['2028-02-20',14,['JP']],   /* out_jp：日本路線 X1 退宿（2-Y3-25）*/
     ['2028-06-19',21,['TW','US']],['2028-06-26',18.5,['TW','US'],'sum'],['2028-07-24',18.5,['TW','US'],'sum'],['2028-07-25',14,['US']],   /* plan3、摘要日、out_us（2-Y3-51）*/
-    ['2028-07-31',18.5,['US'],'sum'],['2028-08-05',21,['JP'],'plan3'],['2028-08-21',18.5,['TW','JP'],'sum']];
+    ['2028-07-31',18.5,['US'],'sum'],['2028-08-21',18.5,['TW'],'sum']];   /* 日本路線沒有 8/5 的三選一、8/21 的摘要日在 jp3d.js（AA_349 L2）*/
   if(typeof HOME!=='undefined'&&HOME.BREAK_PTS){ for(const k in S.BREAK_Y3) if(!HOME.BREAK_PTS[k]) HOME.BREAK_PTS[k]=S.BREAK_Y3[k]; }
   S.stops=function(G){ const B=typeof HOME!=='undefined'&&HOME.lawBreak?HOME.lawBreak(G):null; if(!B||(B.key!=='Y3W'&&B.key!=='Y3S')) return null; const r=rk(G), out=[];
     for(const [k,h,rs,kind] of S.Y3_STOPS){ const d=D(k); if(d==null||d<B.from||d>B.to||!rs.includes(r)) continue; if(kind==='sum'&&HOME.sumSkip&&HOME.sumSkip(G,d)) continue; out.push(T(d,h)); }

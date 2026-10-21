@@ -43,7 +43,8 @@ const Y1FILL=(function(){
   S.RELAY_DAY='2025-11-21'; S.RELAY_PHOTO_H=11+40/60;
   S.relay=function(G){ const F=G.flags, d=D(S.RELAY_DAY); if(d==null||G.day<d-1||G.day>d+1) return;
     if(F.Y1_RELAY==='go'&&typeof OUT!=='undefined'&&OUT.plan&&!OUT.get(G,'y1_relay')&&now(G)<T(d,10.75)) OUT.plan(G,{id:'y1_relay',ev:'ev_y1_relay',day:d,h:10,place:'田徑場',title:'運動會',travel:'走過去約 10 分鐘',travelH:1/6});
-    if(F.Y1_RELAY!=='went'&&now(G)>=T(d,S.RELAY_PHOTO_H)&&PHONE.sent(G,'y1_relay_ask')&&!PHONE.sent(G,'y1_relay_photo')&&inGrp(G,'noodle_team')) PHONE.at(G,d,S.RELAY_PHOTO_H,L.relayPhoto.map(grpMsg),'y1_relay_photo'); };
+    if(F.Y1_RELAY!=='went'&&now(G)>=T(d,S.RELAY_PHOTO_H)&&PHONE.sent(G,'y1_relay_ask')&&!PHONE.sent(G,'y1_relay_photo')&&inGrp(G,'noodle_team')) PHONE.at(G,d,S.RELAY_PHOTO_H,L.relayPhoto.map(grpMsg),'y1_relay_photo');
+    if(F.Y1_RELAY!=='went'&&now(G)>=T(d,12+10/60)&&PHONE.sent(G,'y1_relay_photo')&&!PHONE.sent(G,'y1_relay_miss')&&L.relayMiss&&contact(G,'zhe',d)) PHONE.at(G,d,12+10/60,L.relayMiss.map(t=>({th:'p:zhe',from:'zhe',text:t})),'y1_relay_miss'); };   /* AA_350 O4：沒去的，12:10 阿哲私訊（不扣好感）*/
   /* 2-1 回「去。」＝2/7（六）18:00 麵店的出遊（住家裡的照出遊系統從家裡出發）；「不去。」或沒回：沒有後續 */
   S.NOODLE_LAST_DAY='2026-02-07';
   S.noodleLast=function(G){ const F=G.flags, d=D(S.NOODLE_LAST_DAY); if(d==null||F.Y1W_NOODLE_LAST!=='go'||typeof OUT==='undefined'||!OUT.plan||OUT.get(G,'y1w_noodle_last')||now(G)>=T(d,18.75)) return;
@@ -64,7 +65,7 @@ const Y1FILL=(function(){
     {id:'y1s2_zhe_three',term:Y1S2,h:()=>22+40/60,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.zhe_three)},
     {id:'y1s2_bohan_closed',term:Y1S2,h:()=>23+10/60,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.bohan_closed)},
     {id:'y1s2_an_ac',term:Y1S2,h:()=>15+20/60,ok:(G,day)=>law(G)&&met(G,'heroine_01','FAMILIAR')&&contact(G,'heroine_01',day),items:()=>seqP('heroine_01',L.dp.an_ac)},
-    {id:'y1s2_yt_board',term:Y1S2,h:()=>17+40/60,ok:G=>law(G)&&met(G,'heroine_03','FAMILIAR')&&S.thuNoodle(G),items:()=>seqP('heroine_03',L.dp.yt_board)},
+    {id:'y1s2_yt_board',term:Y1S2,h:()=>17+40/60,ok:G=>law(G)&&met(G,'heroine_03','FAMILIAR')&&S.thuNoodle(G)&&contact(G,'heroine_03'),items:()=>seqP('heroine_03',L.dp.yt_board)},   /* AA_350 O6：要有她的聯絡方式 */
     {id:'y1s2_xinci_drama',term:Y1S2,h:()=>23.5,ok:(G,day)=>law(G)&&contact(G,'classmate_xinci',day),items:()=>seqP('classmate_xinci',L.dp.xinci_drama)},
     {id:'y1s2_kai_app',term:Y1S2,max:()=>2,gap:14,h:()=>22+5/60,ok:G=>law(G)&&roommate(G),items:(G,n)=>seqP('kai',n?L.dp.kaiApp2:L.dp.kaiApp1)} ];   /* 第二次＝兩週後同一則的後半 */
   if(typeof STORY!=='undefined'&&Array.isArray(STORY.DAILY_PHONE)&&!STORY._y1filldp){ for(const d of S.DP) if(!STORY.DAILY_PHONE.some(x=>x.id===d.id)) STORY.DAILY_PHONE.push(d); STORY._y1filldp=true; }
@@ -87,7 +88,7 @@ const Y1FILL=(function(){
     const p=S.boxSpot(); E.interactables.push({x:p[0],z:p[1],radius:0.45,lv:0,label:L.box.label,y1WinterBox:true,onInteract:()=>{ S.boxScene(GM).catch(e=>console.warn('Y1FILL 紙箱',e)); }}); };
   S.boxScene=async function(GM){ const G=GM.G, F=G.flags; if(!S.boxDue(G)) return false; let k=1; GM.sceneBegin();
     try{ await GM.say(null,L.box.look); k=await GM.choose(L.box.opts.map(t=>({t})));
-      if(k===0){ F.BOX_WINTER_OPEN=true; F.BOX_WINTER_DAY=G.day; await GM.say(null,L.box.open); } }
+      if(k===0){ F.BOX_WINTER_OPEN=true; F.BOX_WINTER_DAY=G.day; await GM.say(null,G.day===S.coldDay()&&L.boxColdOpen?L.boxColdOpen:L.box.open); } }   /* AA_350 O5：寒流那天（12/8）當天才拆＝換那一句；BOX_WINTER_DAY＝那天，所以 12/8 的 glad、12/9 的 night 都不演 */
     finally{ GM.sceneEnd(); }
     if(k===0){ S.boxPlace(GM); if(GM.autosave) GM.autosave(); } return true; };
   /* 寒流日（STORY.firstColdDay，大一上第 15 週週一 12/8）：有拆＝12/8 第一次醒來（在宿舍房間、中午以前）；沒拆＝12/8 晚上在宿舍睡、12/9 醒來，之後算拆了。

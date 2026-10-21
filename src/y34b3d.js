@@ -505,7 +505,7 @@ const Y34B=(function(){
     {speaker:'子晴爸爸',text:'我知道。'},
     {speaker:null,text:'（她笑出來，用連帽外套的袖子擦了一下眼睛。很短。）'},
     {speaker:'heroine_04',text:'（對你）好。我可以畢業了。'},{goto:'q_kai'},
-    {label:'q_cat'},{speaker:null,text:'（她爸爸也來了，在試玩機前玩貓，卡在第三關。）'},{speaker:'heroine_04',text:'下一個做完，第一個給你玩。'},
+    {label:'q_cat'},{speaker:null,text:'（她爸爸也來了，在試玩機前玩貓，卡在第三關。）'},{speaker:'heroine_04',text:'下一個做完，你來測。'},   /* AA_349 L6：「第一個給你玩」是「你是第一個」的模板句，換「你來測」（AA_322 原稿已改）*/
     {label:'q_kai'},
     {if:C(kaiK4),speaker:'kai',text:'……她把我放在第二行。'},
     {if:C(kaiK4),speaker:'player',text:'第一行是誰？'},
@@ -514,7 +514,7 @@ const Y34B=(function(){
     {if:C(G=>kaiK4(G)&&mem('kai','KAI_WANTS_CREDIT')),speaker:'kai',text:'我後來有跟她說。她說『你早講啊，白痴』。'},
     {if:C(G=>kaiK4(G)&&!!G.flags.TOLD_KAI_TELL_HER),speaker:'kai',text:'你那時候叫我跟她說。我沒說。……她自己寫的。'},
     {set:{ATTENDED_SHOW:true,ZQ_Q12_SEEN:'came'}},{rel:{heroine_04:{fam:2}}} ];
-  const Q12_CALL=[ {scene:'電話'},{if:C(nine),speaker:'子晴（電話）',text:'他打了五次。第五次過了。……我在後面笑到不行。'},{unless:C(nine),speaker:'子晴（電話）',text:'下一個做完，第一個給你玩。'},{set:{WATCHED_SHOW_ONLINE:true,ZQ_Q12_SEEN:'online'}} ];   /* 《找插座的貓》那一版：AA 稿只有《九點以後》的電話句，暫定借 1B-15 貓那一版現場的一句（要問 AA）*/
+  const Q12_CALL=[ {scene:'電話'},{if:C(nine),speaker:'子晴（電話）',text:'他打了五次。第五次過了。……我在後面笑到不行。'},{unless:C(nine),speaker:'子晴（電話）',text:'下一個做完，你來測。'},{set:{WATCHED_SHOW_ONLINE:true,ZQ_Q12_SEEN:'online'}} ];   /* 《找插座的貓》那一版：和 1B-15 貓那一版現場同一句（AA_349 L6：「下一個做完，你來測。」——「測試員」是她給他的位置 TESTER，沒有 TESTER 的玩家也接得上）*/
   /* 1B-16 */
   const K19=[ {scene:'政大・小教室',bg:'classroom_small'},
     {cg:'cg_last_row_kexin'},

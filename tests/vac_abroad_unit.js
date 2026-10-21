@@ -108,6 +108,10 @@ GM.money=function(n){ G.money+=n; };
     const K=txt('p:kexin'), P=txt('p:classmate_peishan');
     check('11a. 可昕在高雄：「回來了？……我在高雄。要來的話，先跟我說幾點的車。」、沒有臺北的重逢',K.includes('kexin:回來了？……我在高雄。要來的話，先跟我說幾點的車。')&&!OUT.get(G,'vac_C08@Y1_re_kexin'),JSON.stringify(K));
     check('11a. 沛珊在台中：「歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。」、沒有臺北的重逢',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才上去。……好想聽你講那邊的事。')&&!OUT.get(G,'vac_C08@Y1_re_classmate_peishan'),JSON.stringify(P)); }
+  // 11a. AA_349 K7：沛珊放榜以後（大三起）開學是回台南、不是「上去」
+  { const I=VAC.inst('T03','Y3'); fresh(I.to,17.9,'dorm',{dating_classmate_peishan:true,PS_BACK_FIRST:1}); G.stage='law'; meet('classmate_peishan'); VAC.rec(G).reg['T03@Y3']='done'; run(17.9,21.2);
+    const P=txt('p:classmate_peishan');
+    check('11a. K7 大三暑假（曼谷回來，沛珊在台中）：「歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。」（不是「開學前才上去」）',P.includes('classmate_peishan:歡迎回來！我在台中，開學前才回台南。……好想聽你講那邊的事。')&&!P.some(t=>/開學前才上去/.test(t)),JSON.stringify([CALENDAR.dateOf(I.to),P])); }
   // 11. 重逢（AA_242 8-6 79adc9f2）、子晴第二則、C10 成績、Priya
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true,dating_heroine_02:true}); G.stage='law'; meet('heroine_01'); meet('heroine_02'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q=OUT.get(G,'vac_C08@Y1_re_heroine_01');

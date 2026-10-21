@@ -122,7 +122,7 @@ const TERMEND_LINES=(function(){
     heroine_03:{invite:'打烊以後。我煮。',place:'noodle_closed',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; }},
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。'},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。'},
-    heroine_04:{invite:G=>TM(G)==='Y4S1'?'你考完了吧 宵夜 我想吃兩份':'考完了 宵夜 我想吃兩份',place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'我做的那個關卡，最後一關的名字是你。……不要問。':'這學期熬了很多夜。有幾個晚上是在想你。'},
+    heroine_04:{invite:G=>TM(G)==='Y4S1'?'你考完了吧 宵夜 我想吃兩份':'考完了 宵夜 我想吃兩份',place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'你測過的那一關，我改完了。……下學期再給你玩。':'這學期熬了很多夜。有幾個晚上是在想你。'},
     classmate_peishan:{invite:'期末考完了！今天吃飯，我想吃熱的。',place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期有幾次我想打給你，後來沒打。怕你在讀書。',
       over:[{terms:['Y3S1','Y3S2','Y4S1'],...PS_TN}]} };   /* 大三起她在台南（AA_282 第 5 節第 5 點、AA_250 第 5 節）：女朋友的學期末約會也在台南她學校附近 */
   /* 她不發心意邀約時的手機一句（AA_254 第 9 節）：時段第一天 20:00，只一次；preexam＝學姊筆試前、knows＝她知道你有別人、low＝低潮期；沛珊重考期、她自己有伴侶＝不傳 */

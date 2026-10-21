@@ -163,8 +163,8 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-03-26',10,'campus','TW'); phone(); check('J-S17 以安 3/25 出發以後（所有路線）：AN_JP_DEPARTED（階梯 A6 的 skipIf 讀這個）', G.flags.AN_JP_DEPARTED===D('2028-03-25')); }
   /* ===================== J-S18 子晴的電話兩版 ===================== */
   { const G=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); G.flags.ZQ_Q10='nameless'; H.said=[]; await Y34B.zqCall(GM); const a=has('他打了五次。第五次過了。……我在後面笑到不行。');
-    const G2=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); H.said=[]; await Y34B.zqCall(GM); const b=has('下一個做完，第一個給你玩。')&&!has('他打了五次。第五次過了。……我在後面笑到不行。');
-    check('J-S18 5/20 子晴的電話照 ZQ_Q12 分兩版：《九點以後》＝「他打了五次……」；《找插座的貓》＝貓那一版的句子', a&&b&&G2.flags.ZQ_Q12==='cat'&&G2.flags.WATCHED_SHOW_ONLINE===true, [a,b].join()); }
+    const G2=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); H.said=[]; await Y34B.zqCall(GM); const b=has('下一個做完，你來測。')&&!has('下一個做完，第一個給你玩。')&&!has('他打了五次。第五次過了。……我在後面笑到不行。');
+    check('J-S18／L6 5/20 子晴的電話照 ZQ_Q12 分兩版：《九點以後》＝「他打了五次……」；《找插座的貓》＝「下一個做完，你來測。」（AA_349 L6：不再借「第一個給你玩」）', a&&b&&G2.flags.ZQ_Q12==='cat'&&G2.flags.WATCHED_SHOW_ONLINE===true, [a,b].join()); }
   /* ===================== G0 出發前 ===================== */
   { fresh('2028-02-24',17,'gongguan','JP',{X1_JP:D('2028-02-20')}); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; H.picks=['我三月底才出發']; await run('ev_yt_thursday_first');
     check('G0／裁定 4／JP-C 2/24 語彤的週四（日本路線）：「你下個月才走。」；選項「我三月底才出發。」→「嗯。那剛好。」', Y34B.t1FirstDue(H.G,E)===false&&has('你下個月才走。')&&H.opts[0].includes('「我三月底才出發。」')&&!H.opts[0].includes('「我沒交志願表。」')&&has('嗯。那剛好。')&&!has('你沒去交換。'));
@@ -197,7 +197,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-05-03',18.5,{},false); H.said=[]; const st=S.dueStop(G,'jp'); await S.playStop(GM,st,'jp'); check('G4 挽回中：5/3 摘要日「（黃金週。電車上都是人。你在宿舍讀了一整天。）」', st&&st.k==='g4_s'&&has('（黃金週。電車上都是人。你在宿舍讀了一整天。）')); }
   /* ===================== G6 梅雨 ===================== */
   { const G=inJapan('2028-06-07',21.5); phone(); check('G6 6/7 21:30 以安兩則（交往中）', JSON.stringify(th('p:heroine_01').slice(-2))===JSON.stringify(['梅雨開始了。','投幣洗衣機前面排了四個人。……我在讀行政法。'])); }
-  { const G=inJapan('2028-06-07',21.5,{},false); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G6 挽回中：旁白「交換生群組有人傳「梅雨開始了」，以安按了一個讚」', has('交換生群組有人傳「梅雨開始了」，以安按了一個讚')); }
+  { const G=inJapan('2028-06-07',21.5,{},false); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G6／L7 挽回中：旁白加括號「（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）」（AA_349 L7）', has('（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）')&&!has('交換生群組有人傳「梅雨開始了」，以安按了一個讚')); }
   /* ===================== G7 ===================== */
   { const G=inJapan('2028-06-16',19); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 6/16 19:00 以安約的那一頓（AA_250 6-2，商店街）：三句照抄', has('臺大今天考完了。小語在群組說她要睡三天。')&&has('我們這邊七月底才考，還有一個多月。')&&has('八月五號那班，我跟你一起訂好了。')&&H.bgs.some(b=>b&&b.image==='assets/bg/jp_street_night.webp')); }
@@ -268,5 +268,57 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   /* ===================== JP-D 平日 09:00 在宿舍＝有「去上課」；黃金週、海之日沒有 ===================== */
   { const G=inJapan('2028-05-10',8.5); const a=!!S.classNow(G); at('2028-05-03',8.5); const b=!!S.classNow(G); at('2028-07-17',8.5); const c=!!S.classNow(G);
     check('JP-D 平日 08:30 有「去上課」（一鍵）；黃金週、海之日沒有課', a&&!b&&!c, [a,b,c].join()); }
+  /* ===================== AA_349（2026-10-21 AA-C 回 K、L）：L1 交換生群組每週那一則、L2 8/21、L3 便利商店點頭、L8 補修班、L9 不算學分 ===================== */
+  const GRP='g:jp_exchange';
+  { const G=inJapan('2028-04-02',19.5,{},false); PHONE.join(G,'jp_exchange','交換生群組'); phone(); const a=th(GRP).length; at('2028-04-02',20); phone(); const m=PHONE.byAsk(G,'jp_grp_1');
+    check('L1 挽回中 4/2（日）日本時間 20:00（19:30 還沒有）：以安在交換生群組「國際學生辦公室週三下午不開。要交表的，請上午去。」；選項：在群組回「收到。週三上午去。」、「（私訊她）……我們可以談一下嗎？」',
+      a===0&&!!m&&m.th===GRP&&m.from==='heroine_01'&&m.text==='國際學生辦公室週三下午不開。要交表的，請上午去。'&&m.ask.opts.map(o=>o.t).join('|')==='收到。週三上午去。|（私訊她）……我們可以談一下嗎？', JSON.stringify(m));
+    const r0=S.repairN(G); PHONE.answer(G,'jp_grp_1',0); phone();
+    check('L1 在群組回：群組裡多「收到。週三上午去。」、REPAIR +1（G.flags.REPAIR.heroine_01）', th(GRP).includes('收到。週三上午去。')&&S.repairN(G)===r0+1&&G.flags.REPAIR.heroine_01===r0+1, JSON.stringify([r0,G.flags.REPAIR]));
+    at('2028-04-09',20); phone(); PHONE.answer(G,'jp_grp_2',0); phone();
+    check('L1 第 2 週 4/9：「宿舍的垃圾分六種。……」→「謝謝。寶特瓶的蓋子要拆嗎？」→ 以安「要。蓋子是另一類。」；REPAIR 再 +1', th(GRP).join('|').includes('宿舍的垃圾分六種。分類表我拍了，在相簿。|謝謝。寶特瓶的蓋子要拆嗎？|要。蓋子是另一類。')&&S.repairN(G)===r0+2, JSON.stringify(th(GRP)));
+    at('2028-04-16',20); phone(); PHONE.answer(G,'jp_grp_3',0); phone();
+    check('L1 第 3 週 4/16：回了以後群組裡「（群組裡有人回了一個笑臉。）」；回了三週＝REPAIR 3（一個月內就到）', th(GRP).includes('（群組裡有人回了一個笑臉。）')&&S.repairN(G)===r0+3, JSON.stringify([th(GRP).slice(-3),S.repairN(G)])); }
+  { const G=inJapan('2028-04-23',20,{},false); PHONE.join(G,'jp_exchange','交換生群組'); phone(); const n0=th('p:heroine_01').length; PHONE.answer(G,'jp_grp_4',1); phone(); at('2028-04-25',22); phone();
+    const p=(G.msgs||[]).filter(x=>x.th==='p:heroine_01').slice(n0);
+    check('L1 「（私訊她）……我們可以談一下嗎？」：私訊她「……我們可以談一下嗎？」（不貼在群組）、她沒有回、不加分', p.length===1&&p[0].from==='player'&&p[0].text==='……我們可以談一下嗎？'&&!th(GRP).includes('……我們可以談一下嗎？')&&!th(GRP).includes('我也發現了。還以為是我抄錯。')&&S.repairN(G)===0, JSON.stringify([p,S.repairN(G)])); }
+  { const G=inJapan('2028-04-09',20,{},false); PHONE.join(G,'jp_exchange','交換生群組'); at('2028-04-02',20); phone(); at('2028-04-09',20); phone(); PHONE.answer(G,'jp_grp_1',0); PHONE.answer(G,'jp_grp_2',0); phone();
+    check('L1 一週最多 +1：同一週回了兩則（上週那則晚回）只 +1', S.repairN(G)===1, JSON.stringify(G.flags.REPAIR)); }
+  { const G=inJapan('2028-04-02',20); PHONE.join(G,'jp_exchange','交換生群組'); phone(); check('L1 交往中的玩家不收這一套', !PHONE.sent(G,'jp_grp_1')&&!th(GRP).length); }
+  { const G=inJapan('2028-04-02',19,{},false); PHONE.join(G,'jp_exchange','交換生群組'); const RP=[]; const tags=[];
+    for(let i=0;i<S.GRP.length;i++){ at(S.GRP[i][0],20); phone(); tags.push(PHONE.sent(G,S.grpTag(i))); PHONE.answer(G,S.grpTag(i),0); phone(); RP.push(S.repairN(G)); }
+    const third=RP.findIndex(n=>n>=3);
+    check('L1 14 週：4/2～7/2 每週日一則（共 14 則）；每週在群組回的玩家第 3 週（4/16）就到 3', S.GRP.length===14&&tags.every(Boolean)&&S.GRP[0][0]==='2028-04-02'&&S.GRP[13][0]==='2028-07-02'&&third===2&&S.GRP[third][0]==='2028-04-16', JSON.stringify(RP));
+    at('2028-07-07',19); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
+    check('L1 → 7/7 七夕：挽回到了（REPAIR ≥ 3）＝短冊「再一次。理由：我想。」、重新交往', S.repairN(G)>=3&&has('（短冊上只有一行：「再一次。理由：我想。」）')&&G.flags.dating_heroine_01===true&&ROM.get(G,'heroine_01').status==='dating', JSON.stringify([S.repairN(G),H.said.map(s=>s.t)])); }
+  { const G=inJapan('2028-04-02',19,{},false); PHONE.join(G,'jp_exchange','交換生群組');
+    for(let i=0;i<S.GRP.length;i++){ at(S.GRP[i][0],20); phone(); PHONE.answer(G,S.grpTag(i),1); phone(); }
+    at('2028-07-07',19); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
+    check('L1 只私訊追問、不在群組回的：到不了 3，7/7 只演前兩句', S.repairN(G)===0&&has('你要看嗎？')&&!has('……不准賴。')&&G.flags.dating_heroine_01!==true, S.repairN(G)); }
+  /* L3 便利商店點頭 */
+  { const G=inJapan('2028-04-10',8,{},false); H.said=[]; caps.length=0; const r0=S.round, w0=console.warn; S.round=async()=>{ throw new Error('stop'); }; console.warn=()=>{};
+    try{ await S.loop(GM); } finally{ S.round=r0; console.warn=w0; }
+    check('L3 挽回中 4/10（一）08:00（有 9:00 的課，08:00 醒）：據點的選單之前演「（宿舍附近的便利商店。以安在飯糰架前面。……）」、字幕「便利商店」；不加 REPAIR', has(S.NOD[0])&&S.NOD[0]==='（宿舍附近的便利商店。以安在飯糰架前面。她看到你，點了一下頭，拿了一個鮭魚的就去結帳。）'&&caps.includes('便利商店')&&S.repairN(G)===0&&S.place(G)==='room', JSON.stringify(H.said.map(s=>s.t)));
+    at('2028-04-12',8); const a=S.nodDue(G); at('2028-04-17',7.75); const b=S.nodDue(G); H.said=[]; await S.nod(GM); at('2028-04-24',8); H.said=[]; await S.nod(GM); const c=has(S.NOD[2]); at('2028-05-01',8); const d=S.nodDue(G);
+    check('L3 一週最多一次（4/12 同一週沒有）、共三次照順序（4/17 第二句「麥茶」、4/24 第三句「側身讓你」）、5 月沒有', !a&&b&&c&&!d&&S.rec(G).nod.length===3, [a,b,c,d].join()); }
+  { const G=inJapan('2028-04-10',8); check('L3 交往中：沒有', !S.nodDue(G)); at('2028-04-11',9.75); G.flags.dating_heroine_01=false; ROM.get(G,'heroine_01').status='ended'; const a=S.nodDue(G); at('2028-04-15',7.75); const b=S.nodDue(G); check('L3 07:30～08:00 以外、週末：沒有', !a&&!b, [a,b].join()); }
+  /* L2 8/21 */
+  { const G=fresh('2028-08-13',9,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),JP_RETURNED:D('2028-08-05'),Y4_PATH:'bar'}); HOME.rec(G).at=true; S.rec(G).done.s_0812=D('2028-08-12'); const ff=S.ffOpts(G,'home');   /* Y4_PATH：8/5 晚上 1A-08 選好了（不然快轉先停在 1A-08）*/
+    await S.jump(GM,ff[0].to,'home'); const st=S.dueStop(G,'home'); H.said=[]; if(st) await S.playStop(GM,st,'home');
+    check('L2 日本路線 8/21 18:30 摘要日一句（不看三選一）：「（八月。時差調回來了。你把在日本的筆記和大四的課表放在一起，書桌一下子滿了。）」；快轉停在那裡', G.day===D('2028-08-21')&&Math.abs(G.hour-18.5)<1e-6&&JSON.stringify(H.said.map(s=>s.t))===JSON.stringify(['（八月。時差調回來了。你把在日本的筆記和大四的課表放在一起，書桌一下子滿了。）']), JSON.stringify([G.day,G.hour,H.said.map(s=>s.t)]));
+    G.flags.SUMMER_Y3='study'; S.rec(G).done={s_0812:1}; at('2028-08-21',18.5); H.said=[]; await S.playStop(GM,S.dueStop(G,'home'),'home');
+    check('L2 舊存檔有 SUMMER_Y3 也是同一句（AA_343 D5 日本路線作廢）；9/3 的房間沒有三選一的物件', JSON.stringify(H.said.map(s=>s.t))===JSON.stringify(['（八月。時差調回來了。你把在日本的筆記和大四的課表放在一起，書桌一下子滿了。）'])&&R2Y3B.roomSummer(G)===null, JSON.stringify(H.said.map(s=>s.t))); }
+  /* L8 補修班的第一堂 */
+  { const G=fresh('2029-02-19',9,'classroom','JP'); const it=CLS.dayItems(G,G.day).find(x=>x.c.id==='civpro_2_re'); H.said=[]; H.opts=[]; H.picks=['交換回來補的']; const a=!!it&&await CLS.beforeClassEvent(GM,it);
+    check('L8 民訴甲下（補修，週一上午）第一堂：「（補修班。教室裡都是大三的學弟妹。……）」學弟「學長，你也來補這門喔？」；「交換回來補的。」→「喔，日本！那邊的民訴也這樣上嗎？」→（你想了一下……）',
+      a&&has('（補修班。教室裡都是大三的學弟妹。你坐在最後一排，旁邊的學弟看了你兩次。）')&&H.said.some(s=>s.who==='學弟'&&s.t==='學長，你也來補這門喔？')&&H.opts[0].join('|')==='「交換回來補的。」|「嗯。」'&&has('喔，日本！那邊的民訴也這樣上嗎？')&&has('（你想了一下，說不出一樣還是不一樣。）'), JSON.stringify(H.said));
+    H.said=[]; const b=await CLS.beforeClassEvent(GM,it); check('L8 之後的補修課照一般上課（只演第一次）', b===false&&!H.said.length);
+    const G2=fresh('2029-02-19',9,'classroom','JP'); const it2=CLS.dayItems(G2,G2.day).find(x=>x.c.id==='civpro_2_re'); H.said=[]; H.picks=['嗯']; await CLS.beforeClassEvent(GM,it2);
+    check('L8 選「嗯。」→（他沒有再問，把講義往你這邊推了一點。）', has('（他沒有再問，把講義往你這邊推了一點。）')&&!has('喔，日本！那邊的民訴也這樣上嗎？'));
+    const G3=fresh('2029-02-22',9,'classroom','JP'); const it3=CLS.dayItems(G3,G3.day).find(x=>x.c.id==='insurance_re'); H.said=[]; const c=!!it3&&await CLS.beforeClassEvent(GM,it3);
+    check('L8 保險法（補修）第一堂：「（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）」', c&&JSON.stringify(H.said.map(s=>s.t))===JSON.stringify(['（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）']), JSON.stringify(H.said)); }
+  /* L9 （不算學分）只標在日文課 */
+  { const G=inJapan('2028-04-04',10); const w=CLS.weekHTML(G), items=w.split('<div class="item">').filter(x=>/不算學分/.test(x));
+    check('L9 手機課表「（不算學分）」只在日本語（中級）那一列；交換學校的法律課沒有', items.length===1&&/日本語（中級）/.test(items[0])&&!/回國申請抵免/.test(w), JSON.stringify(items)); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

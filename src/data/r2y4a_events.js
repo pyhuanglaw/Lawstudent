@@ -570,8 +570,10 @@ const R2Y4A_EVENTS=(function(){
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
     dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
       IF(PV('two'),nar('（她推著行李推車走出來。看到你，停了一下。）')),
-      IF(PV('lover'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),
+      IF(G=>PV('lover')(G)&&!cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地，她走過來，抱住你。）')),   /* 冬天版還沒通過：照一句、不放 CG（AA_350 N4）*/
+      IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她一出來就看到你。推車停在原地。）')),   /* 冬天版通過：第一句拆成兩句，CG 夾在中間（AA_350 N4）*/
       {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34（冬天版）：她走出來、看到你的那一拍 */
+      IF(G=>PV('lover')(G)&&cgOK('cg_airport_pickup_heroine05'),nar('（她走過來，抱住你。）')),
       IF(PV('lover'),nar('（很久，她才放開。）')),
       {scene:'車上',bg:'car_night'},
       {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},

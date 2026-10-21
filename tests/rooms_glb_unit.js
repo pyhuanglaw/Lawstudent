@@ -25,4 +25,6 @@ check('2. 霖澤館 202、萬才館多功能教室、研討室 A 的門接成出
   if(day==null) check('4. 找不到吉他社上課的日子（跳過）',true);
   else { const busy=CLS.roomDoorBusy(mk(19.1),'wancai','multi',{}), free=CLS.roomDoorBusy(mk(15),'wancai','multi',{});
     check('4. CLS.roomDoorBusy：吉他社社課時間（19:06）＝有事、同一天 15:00＝沒事', busy===true&&free===false, CALENDAR.dateOf(day).key+' '+busy+'/'+free); } }
+{ const src=fs.readFileSync(path.join(ROOT,'src/building3d.js'),'utf8');
+  check('2b. 霖澤館大廳的樓層簡介（看板、「看樓層簡介」）不再寫 202「整修中」（稽核 D X73：202 早就走得進去）',!/202 教室（整修中）/.test(src)&&/2F　201 階梯教室｜202 教室'/.test(src)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

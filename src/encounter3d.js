@@ -32,6 +32,8 @@ const ENC=(function(){
     return {t:ST().indexOf(st)>=ST().indexOf('FRIEND')?'friend':'acq',st}; };
   /* 可昕分開的走向：B（可能回來）／C（自然分開）。分開的事件還沒做，how 寫 kx_b 的是 B，其他都當 C */
   const kxRoute=how=>/kx_b|_b$|route_b/i.test(String(how||''))?'kx_b':'kx_c';
+  /* 「選一個人」以後的分開談話（AA_346，how 'apart_choice'）＝apart_talk 的一種：這一列沒有寫 apart_choice 的前任版，就讀 apart_talk 那一句（AA_346 第 5 節）*/
+  const exKey=(ex,how)=>how==='apart_choice'&&!(ex&&(ex.apart_choice||ex.apart_choiceNarr))?'apart_talk':how; S.exKey=exKey;
   /* 回老家（presence kind 'home'）的人在不在這個景點的城市：景點的 area（「臺中市」）和 presence 的 home（「台中」）比，臺／台、市／縣不分 */
   const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
   S.atHome=(pr,spot)=>!!(pr&&pr.kind==='home'&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);
@@ -87,7 +89,7 @@ const ENC=(function(){
     const exAcq=(tr.t==='ex'||tr.t==='catch')&&!!row.exAsAcq; if(exAcq) tr={t:'acq',st:'ACQUAINTANCE'};   /* exAsAcq：沒有前任版，照「認識」那兩句、不一起走（BB_213 沛珊 D08：課輔班在）*/
     await ESAY(GM,null,row.why);
     if(tr.t==='ex'||tr.t==='catch'){ const i=await GM.choose([{t:'點頭'},{t:'走過去'},{t:'打招呼'}]); if(i!==2) return 'pass';   /* 前任：不加任何關係數值、不留記錄 */
-      const k=row.kexin?kxRoute(tr.how):tr.how; const ex=row.ex||{}; const L=tr.t==='ex'?(ex[k]||null):null, N=tr.t==='ex'?(ex[k+'Narr']||null):null;
+      const k=row.kexin?kxRoute(tr.how):exKey(row.ex,tr.how); const ex=row.ex||{}; const L=tr.t==='ex'?(ex[k]||null):null, N=tr.t==='ex'?(ex[k+'Narr']||null):null;
       if(L) for(const t of L) await ESAY(GM,who,t); if(N) await ESAY(GM,null,N); if(!L&&!N) await ESAY(GM,null,D().NOD); return 'ex'; }
     if(row.busy==='yes'){ await ESAY(GM,null,row.busyLine||'（她在講電話，對你揮揮手。）');   /* busyLine：她在忙的樣子（AA_162 8：語彤在九份做田野，只點頭）*/
       if(row.memo&&typeof SOCIAL!=='undefined'&&SOCIAL.has&&!SOCIAL.has(row.who,row.memo)&&SOCIAL.remember) SOCIAL.remember(row.who,row.memo,S.memoNote(row));   /* 只點頭也留記憶：之後在學校她會說一句 */

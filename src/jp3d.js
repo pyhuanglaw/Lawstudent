@@ -21,7 +21,9 @@
      事件可以寫 trigger:'jp'（據點每一輪、快轉每 15 分鐘 EVENTS.check，到了就演；location 可以寫 'any'），或照舊掛 STORY.TICKS（據點每一輪會跑，回傳 true＝開演了，據點讓出畫面）。
      快轉、睡覺要停的時間：JP.STOPS.push((G,now,where)=>時間或陣列)。出遊（OUT.plan）照舊：據點的選單出現「出發：…」（must＝只有「出發」），演完回到據點（q.back 沒寫＝「回到宿舍。」）；
      人在日本時 OUT.plan 擋掉 goto 臺灣區域的出遊。挽回的分數：JP.repair(G)（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；一週最多 +1；AA_254 第 10 節）。
-   存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9}；旗標 JP_RETURNED（回來的那天）、REPAIR／REPAIR_WK（挽回，同 r2y3b3d.js、r2y4a3d.js）、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
+   挽回中（AA_349 L1、L3）：交換生群組每週日 20:00 以安一則（4/2～7/2 共 14 週；在群組回＝REPAIR +1，私訊她＝已讀不回、不加；JP.grpPhone）；4 月平日 07:30～08:00 便利商店點頭三次（JP.nod，不加分）。
+  存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9, grp:{第幾週:在群組回、加過分的那天}, nod:[點頭的那幾天]}；
+    旗標 JP_RETURNED（回來的那天）、REPAIR／REPAIR_WK（挽回，同 r2y3b3d.js、r2y4a3d.js）、JP_GRP_1～14（群組那一則選了 'group'／'dm'）、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
    測試：node tests/jp_semester_unit.js */
 'use strict';
 const JP=(function(){
@@ -66,7 +68,7 @@ const JP=(function(){
   S.PLACES={room:{label:'國際學生宿舍',bg:'jp_room'},kitchen:{label:'宿舍・共用廚房',bg:null},konbini:{label:'便利商店',bg:null},river:{label:'河邊',bg:null}};   /* 便利商店的 jp_konbini 窗外有雪（3 月底那一張）：據點不用 */
   S.bgNow=G=>{ G=G||(typeof GAME!=='undefined'?GAME.G:null); const p=S.PLACES[(G&&S.place(G))||'room']||S.PLACES.room; return p.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(p.bg):'dark'; };
   S.adv=G=>{ const A=A_(); if(A&&A.begin) A.begin({background:S.bgNow(G)}); };
-  /* ---------------- 一鍵上課（J-S2；AA_185 1-5，課名、星期、時間、兩句旁白照抄；結束時間是程式定的 90 分鐘）---------------- */
+  /* ---------------- 一鍵上課（J-S2；AA_185 1-5，課名、星期、時間、兩句旁白照抄；每門 90 分鐘：AA_349 L5 確認）---------------- */
   S.CLASSES=[
     {id:'jp_nihongo',name:'日本語（中級）',wds:[1,3,5],t0:9,t1:10.5,credit:null,lines:['老師說你的敬語很有禮貌，只是用錯了對象。','今天學了『よろしく』的十種用法。']},   /* 不抵學分 */
     {id:'jp_law_intro',name:'日本法入門（英語授課）',wds:[2],t0:10+40/60,t1:12+10/60,credit:'外國法導論',lines:['老師畫了一張圖：同一條規定，兩國的法院怎麼讀。','同學問台灣的民法從哪裡來。你答了很久。']},
@@ -98,20 +100,22 @@ const JP=(function(){
     {k:'g3_kitchen',d:'2028-04-19',h:18.5,w:'jp',if:dat,ev:'ev_jp_kitchen'},
     {k:'g4_river',d:'2028-05-03',h:14,w:'jp',if:dat,ev:'ev_jp_goldenweek'},
     {k:'g4_s',d:'2028-05-03',h:18.5,w:'jp',if:rep,sum:'（黃金週。電車上都是人。你在宿舍讀了一整天。）'},
-    {k:'g6_rain',d:'2028-06-07',h:21.5,w:'jp',if:rep,sum:'交換生群組有人傳「梅雨開始了」，以安按了一個讚'},   /* G6 挽回中（旁白）；交往中是 21:30 她的私訊（S.phone）*/
+    {k:'g6_rain',d:'2028-06-07',h:21.5,w:'jp',if:rep,sum:'（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）'},   /* G6 挽回中（旁白；AA_349 L7：加括號、裡面的引號換『』）；交往中是 21:30 她的私訊（S.phone）*/
     {k:'g7_dinner',d:'2028-06-16',h:19,w:'jp',if:dat,ev:'ev_jp_dinner'},
     {k:'g7_repair4',d:'2028-06-24',h:16,w:'jp',if:rep,ev:'ev_jp_repair_river'},
     {k:'g7_s',d:'2028-06-28',h:18.5,w:'jp',sum:'（期末報告的題目定了。你寫了三個版本的第一句。）'},
-    {k:'g7_tanabata',d:'2028-07-07',h:19,w:'jp',ev:G=>dat(G)?'ev_jp_tanabata':'ev_jp_tanabata_repair'},   /* 七夕的時間 AA 稿沒寫：暫定 19:00 */
-    {k:'g8_sea',d:'2028-07-17',h:9,w:'jp',if:dat,ev:'ev_jp_sea'},   /* 海之日的時間 AA 稿沒寫：暫定 09:00 出發、傍晚回來 */
+    {k:'g7_tanabata',d:'2028-07-07',h:19,w:'jp',ev:G=>dat(G)?'ev_jp_tanabata':'ev_jp_tanabata_repair'},   /* 七夕 19:00（AA_349 L5 確認）*/
+    {k:'g8_sea',d:'2028-07-17',h:9,w:'jp',if:dat,ev:'ev_jp_sea'},   /* 海之日 09:00 出發、傍晚回來（AA_349 L5 確認）*/
     {k:'g8_f1',d:'2028-07-24',h:18.5,w:'jp',sum:'（日本語的期末考。聽力那一段，你聽懂了七成。）'},
     {k:'g8_f2',d:'2028-07-26',h:18.5,w:'jp',sum:'（日本法入門交報告。你在最後一頁寫了台灣的對照表。）'},
     {k:'g8_f3',d:'2028-07-28',h:18.5,w:'jp',sum:'（比較行政法的期末報告。你的題目是：協力，和義務。）'},
     {k:'g8_s',d:'2028-08-01',h:18.5,w:'jp',sum:'（你開始收行李。來的時候的那件外套，一次都沒穿過。）'},
     {k:'g8_konbini',d:'2028-08-04',h:22,w:'jp',ev:G=>dat(G)?'ev_jp_lastnight':'ev_jp_lastnight_alone'},   /* 挽回成功＝已經回到交往的，照交往版 */
-    {k:'s_0812',d:'2028-08-12',h:18.5,w:'home',sum:G=>typeof HOLFF!=='undefined'&&HOLFF.y3sPath?HOLFF.y3sPath(G):null} ];
+    {k:'s_0812',d:'2028-08-12',h:18.5,w:'home',sum:G=>typeof HOLFF!=='undefined'&&HOLFF.y3sPath?HOLFF.y3sPath(G):null},
+    {k:'s_0821',d:'2028-08-21',h:18.5,w:'home',sum:'（八月。時差調回來了。你把在日本的筆記和大四的課表放在一起，書桌一下子滿了。）'} ];
     /* 8/5～9/3 照台灣暑假的摘要日（AA_340 6-3 的 8/12；2026-10-21 AA_345 H3 換句：8/5 晚上 1A-08 選好了 Y4_PATH＝第一句，還沒決定＝第二句）。
-       兩句只寫在 holff3d.js 的 S.y3sPath（台灣路線的摘要日也用它；holff 那邊日本路線不排 8/12，不會兩次）*/
+       兩句只寫在 holff3d.js 的 S.y3sPath（台灣路線的摘要日也用它；holff 那邊日本路線不排 8/12，不會兩次）。
+       8/21（AA_349 L2）：日本路線沒有暑假三選一（裁定 10），8/21 只有這一句（AA_343 D5「依三選一分三句」日本路線作廢；r2y3b3d.js 的日本那一列拿掉）；9/3 的房間也沒有三選一的物件 */
   /* AA_326 大三後半在日本的事件（src/r2y3b3d.js：J1 便利商店、立衡、櫻花、主線 8 視訊、町公所、各人打來的視訊）都是出遊（OUT.plan）或有選項的訊息：快轉照出遊、要回的訊息停（不另外列）*/
   /* 開發分支已經有的（當地時間）：5/20 子晴的電話（台灣 21:00）、6/2 學姊的視訊（台灣 18:00）、4/28 哲 4（台灣 23:00）、4/29 冠軍賽直播（台灣 19:00）*/
   S.KNOWN=[ G=>lv('heroine_04','FAMILIAR')&&G.flags.ZQ_Q12_SEEN==null?T(DK('2028-05-20'),22):null, G=>G.flags.SIS_BDAY_Y3==='video_set'?T(DK('2028-06-02'),19):null,
@@ -131,14 +135,50 @@ const JP=(function(){
   S.repair=function(G){ if(typeof R2Y3B!=='undefined'&&R2Y3B.repairAdd){ R2Y3B.repairAdd(G,'heroine_01'); return S.repairN(G); }   /* 和 AA_326 町公所那一步（r2y3b3d.js）用同一個：G.flags.REPAIR＝{人物:n}、REPAIR_WK＝{人物:第幾週}（Math.floor(day/7)）*/
     const F=G.flags, R=F.REPAIR&&typeof F.REPAIR==='object'?F.REPAIR:(F.REPAIR={}), W=F.REPAIR_WK&&typeof F.REPAIR_WK==='object'?F.REPAIR_WK:(F.REPAIR_WK={}), wk=Math.floor(G.day/7);
     if(W.heroine_01!==wk){ W.heroine_01=wk; R.heroine_01=(R.heroine_01|0)+1; } return R.heroine_01|0; };
+  /* 挽回中：交換生群組每週那一則（AA_349 L1，AA-C 2026-10-21 新寫；AA_254 第 10 節、BB_194 §8）：日本時間週日 20:00（臺灣 19:00），4/2～7/2 共 14 週，以安發在交換生群組，寫給大家用的事。
+     第一個選項＝在群組回（REPAIR +1；一週最多 +1，和町公所、河堤合起來算：S.repair）；第二個每週都一樣「（私訊她）……我們可以談一下嗎？」＝私訊她，已讀、沒有回，不加。不回＝不加。
+     交往中的玩家不收這一套（交往中走她的私訊）。[日期, 以安在群組, 祐廷回（群組）, 之後（沒有＝null；from 沒寫＝群組裡的旁白）] */
+  S.GRP=[
+    ['2028-04-02','國際學生辦公室週三下午不開。要交表的，請上午去。','收到。週三上午去。',null],
+    ['2028-04-09','宿舍的垃圾分六種。分類表我拍了，在相簿。','謝謝。寶特瓶的蓋子要拆嗎？',{from:'heroine_01',text:'要。蓋子是另一類。'}],
+    ['2028-04-16','學校附近的超市，晚上八點以後便當打折。','八點半去，只剩一個。',{text:'（群組裡有人回了一個笑臉。）'}],
+    ['2028-04-23','日文課的作業，第三課的動詞表有一個印錯。第 12 行。','我也發現了。還以為是我抄錯。',{from:'heroine_01',text:'不是你。是講義。'}],
+    ['2028-04-30','黃金週圖書館只開到下午三點。','好。那我早上去。',null],
+    ['2028-05-07','町公所的窗口週六也開，只到中午。','好。週六中午以前。',null],   /* 接 5 月的町公所（第 3 步）*/
+    ['2028-05-14','比較行政法的報告，我排在第八週。要換的人跟我說。','我第十週，不用換。',null],
+    ['2028-05-21','宿舍三號洗衣機壞了。不要投錢。','……我昨天投了。',{from:'heroine_01',text:'退幣口用力按一下。'}],
+    ['2028-05-28','下週開始梅雨。傘不要放在宿舍門口，會被拿走。','收到。傘帶進房間。',null],
+    ['2028-06-04','圖書館三樓有插座的位子只有八個。早上九點以前去。','明天去試試。',null],
+    ['2028-06-11','期末考的時間表出來了，在學校網站的第二頁。','找到了。謝謝。',null],
+    ['2028-06-18','宿舍門口要立竹子了。七夕那天，一個人可以掛一張短冊。','好。我會寫。',null],   /* 接 7/7 的竹子（第 5 步）*/
+    ['2028-06-25','回國的機票，學校的旅行社有團體價。截止日是七月十號。','謝謝。我去問。',null],
+    ['2028-07-02','七號晚上，宿舍門口有七夕的活動。','我會去。',null] ];   /* 接 7/7 的竹子（第 5 步）*/
+  S.GRP_DM='（私訊她）……我們可以談一下嗎？';
+  S.grpTag=i=>'jp_grp_'+(i+1);
+  S.grpPhone=function(G){ const P=P_(); if(!P||!S.inJapan(G)||!rep(G)||!P.inGroup(G,'jp_exchange')) return; const R=S.rec(G), F=G.flags, gr=R.grp||(R.grp={});
+    S.GRP.forEach(([k,post,reply,after],i)=>{ const d=DK(k), tag=S.grpTag(i); if(d==null) return;
+      if(NOW(G)>=T(d,20)&&NOW(G)<T(d+7,20)&&!P.sent(G,tag)){ const th='g:jp_exchange';
+        P.at(G,d,20,[{th,from:'heroine_01',text:post,ask:{id:tag,opts:[{t:reply,say:after?[Object.assign({th},after)]:[],set:{['JP_GRP_'+(i+1)]:'group'}},
+          {t:S.GRP_DM,post:false,say:[{th:'p:heroine_01',from:'player',who:null,text:'……我們可以談一下嗎？'}],set:{['JP_GRP_'+(i+1)]:'dm'}}]}}],tag); }
+      if(F['JP_GRP_'+(i+1)]==='group'&&gr[i+1]==null){ gr[i+1]=G.day; S.repair(G); } }); };   /* 在群組回了＝REPAIR +1（回的那一週算；一週最多 +1）*/
+  /* 挽回中：早上在便利商店（AA_349 L3，新寫；AA_253 §5 第 2 步：剛到的那幾週她只在群組說話，早上會在便利商店遇到，點頭）：4 月平日 07:30～08:00、宿舍附近的便利商店，一週最多一次，共三次；不加 REPAIR。
+     據點的選單之前演（醒來在那個時間＝去便利商店買早餐的路上遇到；有 9:00 的課那天 08:00 醒）*/
+  S.NOD=['（宿舍附近的便利商店。以安在飯糰架前面。她看到你，點了一下頭，拿了一個鮭魚的就去結帳。）','（便利商店。她在排隊，手上一瓶麥茶。你們中間隔了一個人。她點了一下頭。）','（便利商店門口。她要出去，你要進來。她側身讓你，點了一下頭。）'];
+  const monOf=d=>d-((wdOf(d)+6)%7);   /* 那一週的週一（一週＝週一到週日）*/
+  S.nodDue=function(G){ if(!S.inJapan(G)||!rep(G)||typeof CALENDAR==='undefined') return false; const R=S.rec(G), L=Array.isArray(R.nod)?R.nod:[], wd=wdOf(G.day), h=G.hour;
+    if(L.length>=S.NOD.length||CALENDAR.dateOf(G.day).m!==4||wd<1||wd>5||S.holiday(G.day)||h<7.5-1e-6||h>8+1e-6) return false;
+    return !L.some(d=>monOf(d)===monOf(G.day)); };
+  S.nod=async function(GM){ const G=GM.G, R=S.rec(G), A=A_(); if(!S.nodDue(G)) return false; const L=Array.isArray(R.nod)?R.nod:(R.nod=[]); const line=S.NOD[L.length]; L.push(G.day);
+    R.place='konbini'; try{ if(A&&A.setBg) A.setBg('dark'); if(GM.caption) GM.caption('',S.PLACES.konbini.label,2400); if(GM.sleep) await GM.sleep(700); await GM.say(null,line); GM.advance(0.25); }
+    finally{ R.place='room'; if(A&&A.active&&A.setBg) A.setBg(S.bgNow(G)); } return true; };
   S.resume=function(G){ const id='heroine_01', F=G.flags; if(dat(G)) return true; if(typeof ROM==='undefined'||!ROM.get){ F['dating_'+id]=true; return true; }
     const R=ROM.get(G,id); if(R.status!=='paused'&&ROM.start(G,id)) return true;   /* 等你說清楚（paused）、或還沒收拾（CLEANUP_DONE false）：直接回到交往 */
     const when=ROM.when?ROM.when(G):null; F['dating_'+id]=true; R.status='dating'; R.since=when; R.sinceDay=G.day; (R.history||(R.history=[])).push({ev:'start',at:when,how:'jp_tanabata'}); if(ROM.rec) ROM.rec(G).push({id,from:when,to:null,how:null}); return true; };
   /* ---------------- 以安在日本（J-S4、G9）---------------- */
   S.anWhere=function(G){ const h=G.hour%24, wd=G.weekday, we=wd===0||wd===6;
     if(!we&&!S.holiday(G.day)&&h>=9&&h<16) return '學校';
-    if(dat(G)&&(wd===2||wd===4)&&h>=18&&h<22) return '宿舍（你那邊）';   /* 週二、四晚上（交往中）：暫定 18:00～22:00 */
-    if(we&&h>=13&&h<17) return '河邊';   /* 週末下午：暫定 13:00～17:00 */
+    if(dat(G)&&(wd===2||wd===4)&&h>=18&&h<22) return '宿舍（你那邊）';   /* 週二、四 18:00～22:00 在祐廷宿舍的共用廚房：只給交往中（AA_349 L5、AA_341 J-S4）；挽回中她不來祐廷的宿舍（大廳查字典那一場是她自己來交表、剛好遇到，r2y3b3d.js）*/
+    if(we&&h>=13&&h<17) return '河邊';   /* 週末下午 13:00～17:00 河邊（AA_349 L5：照舊）*/
     return '她的房間'; };
   S.anAt=G=>{ const w=S.anWhere(G); return w==='宿舍（你那邊）'?'kitchen':(w==='河邊'?'river':null); };
   S.G9=['學校。剛下課。','房間。日文作業，第三頁。','河邊。今天風很大，書一直被翻過去。','投幣洗衣機前面。還有十二分鐘。'];   /* 問「在哪？」的回覆（輪流；挽回中只回前兩句）*/
@@ -158,7 +198,8 @@ const JP=(function(){
     dm('2028-04-19',17,['今天去你那邊的廚房。我買了菜。'],'jp_g3_kitchen_ask',d&&jp);
     dm('2028-05-02',21,['黃金週，哪裡都是人。……明天去河邊就好。'],'jp_g4_river_ask',d&&jp);
     dm('2028-06-07',21.5,['梅雨開始了。','投幣洗衣機前面排了四個人。……我在讀行政法。'],'jp_g6_rain',d&&jp);
-    dm('2028-07-16',21,['明天海之日。……我想看海。電車一個小時。'],'jp_g8_sea_ask',d&&jp); };
+    dm('2028-07-16',21,['明天海之日。……我想看海。電車一個小時。'],'jp_g8_sea_ask',d&&jp);
+    S.grpPhone(G); };   /* 挽回中：交換生群組每週那一則（AA_349 L1）*/
   /* ---------------- 快轉、睡覺（J-S3）---------------- */
   S.homeFfEnd=G=>S.returned(G)?T(D('room'),8.5):T(D('dep'),8);   /* 出發前：到 3/25 早上（出發）；回來以後：到 9/3 早上（搬進 409）*/
   S.t1Stops=function(G){ const out=[]; if(typeof Y34B==='undefined'||!Y34B.t1On||!Y34B.t1On(G)) return out; const a=DK('2028-02-24'), dep=D('dep'); if(a==null||dep==null) return out;
@@ -260,6 +301,7 @@ const JP=(function(){
         if(G.hour>=24+2.5){ await GM.say(null,'已經凌晨了。你撐不住，躺上床就睡著了。'); await S.sleep(GM); continue; }
         const st=S.dueStop(G,'jp'); if(st){ await S.playStop(GM,st,'jp'); S.adv(G); continue; }
         const ev=S.jpEvent(G); if(ev){ await EVENTS.run(ev); S.adv(G); continue; }
+        if(await S.nod(GM)) continue;   /* 挽回中：4 月平日早上在便利商店點頭（AA_349 L3）*/
         if(S.othersTick(GM)){ go='yield'; break; }   /* 讓出畫面：那一段演完，下一次 JP.tick 接回選單 */
         { const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null; if(q&&q.must){ await S.goOut(GM,q,true); continue; } }
         if(await S.askAuto(GM,'jp')) continue;
@@ -379,7 +421,8 @@ const JP=(function(){
       const x=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(x/24); out.h=x-out.day*24; return out; }; }
   /* 每天的手機小事（STORY.DAILY_PHONE，例：阿凱的泡麵評鑑表 21:48）：臺灣的朋友傳的，人在日本＝當地時間（AA_341 J-S13）*/
   for(const d of (STORY.DAILY_PHONE||[])){ if(!d||d.jpTz||typeof d.h!=='function') continue; const h0=d.h; d.h=function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }; d.jpTz=true; }
-  /* AA_326 2-Y3-54 大三暑假的三選一（src/r2y3b3d.js）：日本路線不演（AA_341 裁定 10：8/5 晚上只演 1A-08；三選一是給留在臺灣的玩家 6/19 選的），快轉也不停在 8/5 21:00 */
+  /* AA_326 2-Y3-54 大三暑假的三選一（src/r2y3b3d.js）：日本路線不演（AA_341 裁定 10：8/5 晚上只演 1A-08；三選一是給留在臺灣的玩家 6/19 選的），快轉也不停在 8/5 21:00。
+     2026-10-21 起 r2y3b3d.js 自己也不排日本路線的三選一（AA_349 L2）；這裡留著，舊版的事件包也一樣 */
   if(typeof R2Y3B!=='undefined'){ const sp0=R2Y3B.summerPlanPhone; if(sp0) R2Y3B.summerPlanPhone=function(G){ if(isJP(G)) return; return sp0.apply(this,arguments); };
     if(Array.isArray(R2Y3B.Y3_STOPS)) for(const x of R2Y3B.Y3_STOPS) if(x&&x[3]==='plan3'&&Array.isArray(x[2])) x[2]=x[2].filter(r=>r!=='JP'); }
   if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM));
