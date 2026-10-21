@@ -307,7 +307,7 @@ const R2Y4A_EVENTS=(function(){
       IF(here('heroine_03'),{speaker:'heroine_03',text:'阿姨今年醃了兩倍。她說你們最後一年了。'}),
       IF(here(BH),{speaker:BH,text:'夾子排班。一人十分鐘。'}),
       IF(here('heroine_01'),{speaker:'heroine_01',text:'……我贊成。'}),   /* 大四只說「……我贊成。」（裁定第 4 點）*/
-      IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',text:'……今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
+      IF(KX_TEAM,{speaker:'zhe',text:'可昕，冷笑話，最後一回合。'}),IF(KX_TEAM,{speaker:'kexin',expression:'laugh',text:'……今年我認輸。我只想吃。'}),IF(KX_TEAM,{speaker:'zhe',text:'可昕認輸了！大家記下來！'}),
       {advance:G=>Math.max(0,21-(((G.hour%24)+24)%24))},
       {speaker:'zhe',text:'明年還是要回來烤。'},
       {choice:[{text:'「好。」',goto:'a'},{text:'「明年大家都在讀書吧。」',goto:'b'}]},

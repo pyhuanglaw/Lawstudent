@@ -26,16 +26,16 @@ const Y2B_EVENTS=(function(){
   const BAD_EXAM={ id:'ev_kexin_bad_exam', title:'她第一次考壞一科', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
     dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
       {speaker:null,text:'（她坐在長椅上，膝蓋上攤著物權的課本。看到你，把課本闔起來一半。）'},
-      {speaker:'kexin',text:'你真的來了。'},
-      {speaker:'kexin',text:'先說好，你一安慰我就回去。'},
+      {speaker:'kexin',expression:'surprised',text:'你真的來了。'},
+      {speaker:'kexin',expression:'serious',text:'先說好，你一安慰我就回去。'},
       {choice:[{text:'「我幫妳出題，答對才吃宵夜。」',set:{KX_BAD_EXAM:'quiz'},goto:'q'},{text:'「我陪妳把那一章再讀一次。」',set:{KX_BAD_EXAM:'study'},goto:'s'},{text:'「沒關係。物權又不會跑。它有一半是不動產。」',set:{KX_BAD_EXAM:'joke'},goto:'j'}]},
-      {label:'q'},{speaker:'kexin',text:'……好。出難一點。'},{goto:'end'},
-      {label:'s'},{speaker:'kexin',text:'好。'},{speaker:null,text:'（她停了一下）'},{speaker:'kexin',text:'你不要先翻答案。'},{goto:'end'},
-      {label:'j'},{speaker:null,text:'（她沒笑。三秒後，笑了。）'},{speaker:'kexin',text:'……好。我收下。'},
+      {label:'q'},{speaker:'kexin',expression:'smile',text:'……好。出難一點。'},{goto:'end'},
+      {label:'s'},{speaker:'kexin',expression:'neutral',text:'好。'},{speaker:null,text:'（她停了一下）'},{speaker:'kexin',expression:'teasing',text:'你不要先翻答案。'},{goto:'end'},
+      {label:'j'},{speaker:null,text:'（她沒笑。三秒後，笑了。）'},{speaker:'kexin',expression:'smile',text:'……好。我收下。'},
       {label:'end'},{advance:toH(21.5)},
       {speaker:null,text:'（九點半。她把課本收進包包，站起來。）'},
-      {speaker:'kexin',text:'好了。你回去開車小心。'},
-      {speaker:'kexin',text:'……今天這樣剛好。'} ],   /* AA_316（2026-10-21 AA-C）：原「……謝謝你沒有安慰我。」是口氣表 0-3 的模板句 */
+      {speaker:'kexin',expression:'smile',text:'好了。你回去開車小心。'},
+      {speaker:'kexin',expression:'smile',text:'……今天這樣剛好。'} ],   /* AA_316（2026-10-21 AA-C）：原「……謝謝你沒有安慰我。」是口氣表 0-3 的模板句 */
     consequences:{mem:[{npc:'kexin',tag:'HELPED',note:'物權考壞那晚'}]},
     /* 答應了但沒到：20:50 兩則、記 'self'（之後不追問，不扣分）；11/22 那則由 y2b3d.js 照 'self' 發 */
     outingMissed:(G)=>{ if(!G.flags.KX_BAD_EXAM) G.flags.KX_BAD_EXAM='self'; const d=D('2026-11-19'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,20+50/60,[{th:'p:kexin',from:'kexin',text:'……你沒來。'},{th:'p:kexin',from:'kexin',text:'沒關係。我自己讀。'}],'y2_kx_bad_missed'); } };
@@ -137,8 +137,8 @@ const Y2B_EVENTS=(function(){
   /* ---- 1B-07 可昕 K12「兩邊的朋友第一次一起吃飯」：2027-03-25（四）18:00 阿鳳麵店（出遊；3/21 21:00 的邀約答應了才有）---- */
   const TWO_CIRCLES={ id:'ev_kexin_two_circles', title:'兩邊的朋友', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
-      {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',text:'上次是烤肉，這次是麵。'},
-      {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',text:'你們就是麵店團？我聽了一年半。'},
+      {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'smile',text:'上次是烤肉，這次是麵。'},
+      {unless:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'surprised',text:'你們就是麵店團？我聽了一年半。'},
       {if:{flagIs:{KX_INTRO:'gf'}},goto:'yl'},   /* K3 已經說了「我女朋友」：大家已經知道，不另外介紹 */
       {choice:[{text:'「這是可昕。我女朋友。」',set:{KX_CIRCLES_INTRO:'gf'},goto:'ig'},{text:'「這是可昕，政大法律。」',set:{KX_CIRCLES_INTRO:'school'},goto:'is'}]},
       {label:'ig'},{speaker:'zhe',text:'……喔。'},{if:{custom:G=>knows('yu',G)},speaker:'yu',text:'你都不講！'},{goto:'yl'},
@@ -147,7 +147,7 @@ const Y2B_EVENTS=(function(){
       {if:{flagIs:{YL_IMPRESSION:'funny'}},speaker:'予樂',text:'這是很好笑的司機。'},
       {if:{flagIs:{YL_IMPRESSION:'honest'}},speaker:'予樂',text:'這是很老實的司機。'},
       {if:{flagIs:{YL_IMPRESSION:'polite'}},speaker:'予樂',text:'這是很客氣的司機。'},
-      {unless:{flagIs:{YL_IMPRESSION:['funny','honest','polite']}},speaker:'kexin',text:'這是我的司機。'},
+      {unless:{flagIs:{YL_IMPRESSION:['funny','honest','polite']}},speaker:'kexin',expression:'teasing',text:'這是我的司機。'},
       {speaker:'予樂',text:'你就是阿哲？可昕說你的民法筆記是借來的。'},
       {speaker:'zhe',text:'……誰說的。是「暫時保管」。'},
       {speaker:'予樂',text:'那我叫你「保管人」。'},
@@ -159,11 +159,11 @@ const Y2B_EVENTS=(function(){
       {label:'an'},
       {if:{custom:G=>knows('heroine_01',G)},advance:toH(19+40/60)},
       {if:{custom:G=>knows('heroine_01',G)},speaker:'heroine_01',text:'我八點讀書會。……很高興認識妳。'},
-      {if:{custom:G=>knows('heroine_01',G)},speaker:'kexin',text:'嗯。下次見。'},
+      {if:{custom:G=>knows('heroine_01',G)},speaker:'kexin',expression:'neutral',text:'嗯。下次見。'},
       {advance:toH(20.5)},
       {speaker:null,text:'（八點半。予樂說要開一個群組，名字她來取。）'},
       {speaker:'予樂',text:'「麵店分店」。不准改。'},
-      {speaker:'kexin',text:'……她取名字一向這樣。'},
+      {speaker:'kexin',expression:'laugh',text:'……她取名字一向這樣。'},
       {set:{KX_MET_NOODLE_TEAM:true,KX_CIRCLES_MET:true}} ],
     /* 介紹說了「女朋友」：在場的人知道（阿哲一定在；小語、柏翰、以安認識才在）；群組「麵店分店」 */
     after:(G)=>{ const here=['zhe'].concat(['yu','classmate_bohan','heroine_01'].filter(id=>knows(id,G)));

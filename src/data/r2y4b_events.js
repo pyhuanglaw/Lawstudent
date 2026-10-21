@@ -136,20 +136,20 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_kexin_trip_spring_y4', title:'春假：開車旅行（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {speaker:'kexin',expression:'smile',text:'沒有行程表。音樂我管，方向你管。'},   /* 車上開場、回程：大四版（AA_345 G3 新寫），不沿用大一、大二；三個地方都去過（迷路那一版）也一樣（AA_350 N3）*/
-      {speaker:'kexin',text:'……目的地也你管。我只是想坐在車上。'},
+      {speaker:'kexin',expression:'smile',text:'……目的地也你管。我只是想坐在車上。'},
       {if:{custom:G=>R().kxAllSeen(G)},goto:'lost'},
       {choice:[{text:'海邊',if:{custom:G=>!R().kxSeen(G).includes('sea')},set:{KX_TRIP_Y4S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:{custom:G=>!R().kxSeen(G).includes('oldtown')},set:{KX_TRIP_Y4S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y4S2:'stars'},goto:'d_star'}]},   /* 「山上看星星」一定在（AA_336 C7 改的 1C-01 做法；只照「還沒去過的」的話「今天看得到。……」永遠不會出現）*/
-      {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',text:'水比我想的冷。……你先下去。'},{goto:'back'},
-      {label:'d_old'},{scene:'老街',bg:'trip_oldtown'},{speaker:'kexin',text:'第三家了。我們只是來看看的。'},{goto:'back'},
-      {label:'d_star'},{scene:'山上',bg:'trip_mountain'},{if:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'今天看得到。……上次那顆，真的是星星。'},{unless:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',text:'好安靜。手機收不到訊號，剛好。'},
-      {label:'back'},{scene:'車上',bg:'car'},{speaker:null,text:'（回程她沒有睡。過了收費站，她把音樂關小。）'},{speaker:'kexin',text:'……畢業以後，還是要開。'},{goto:'fin'},
+      {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',expression:'teasing',text:'水比我想的冷。……你先下去。'},{goto:'back'},
+      {label:'d_old'},{scene:'老街',bg:'trip_oldtown'},{speaker:'kexin',expression:'embarrassed',text:'第三家了。我們只是來看看的。'},{goto:'back'},
+      {label:'d_star'},{scene:'山上',bg:'trip_mountain'},{if:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',expression:'smile',text:'今天看得到。……上次那顆，真的是星星。'},{unless:{custom:G=>R().kxStarsBefore(G)},speaker:'kexin',expression:'smile',text:'好安靜。手機收不到訊號，剛好。'},
+      {label:'back'},{scene:'車上',bg:'car'},{speaker:null,text:'（回程她沒有睡。過了收費站，她把音樂關小。）'},{speaker:'kexin',expression:'smile',text:'……畢業以後，還是要開。'},{goto:'fin'},
       {label:'lost'},{set:{KX_TRIP_Y4S2:'lost'}},   /* AA_350 N3：開場、回程用大四版，中間迷路的那一段照用（原本的開場「這次我不出行程表……」、回程「行程表我回去再補……」是大一、大二版）*/
       {scene:'迷路到的地方',bg:'country_road'},
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
-      {speaker:'kexin',text:'這間店沒有招牌欸。'},{speaker:'kexin',text:'……我們到底在哪。'},
+      {speaker:'kexin',expression:'surprised',text:'這間店沒有招牌欸。'},{speaker:'kexin',expression:'thinking',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',text:'……十塊。回去再記。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
-      {label:'l2'},{speaker:'kexin',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',expression:'laugh',text:'……十塊。回去再記。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
+      {label:'l2'},{speaker:'kexin',expression:'laugh',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
       {label:'lb'},{goto:'back'},
       {label:'fin'} ],
@@ -181,8 +181,8 @@ const R2Y4B_EVENTS=(function(){
   /* ---------- 2-Y4-38 可昕的生日「今年不要慶祝」：開車上山，送一碗山下那家的酸辣湯餃，不進去（4/24 晚上；nccu_dorm）---------- */
   { id:'ev_kexin_bday_visit_y4', title:'生日（大四）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3, kxAway:true,
     dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
-      {speaker:'kexin',text:'……你開上山就為了這個？'},
-      {speaker:'kexin',text:'湯還是熱的。'} ],
+      {speaker:'kexin',expression:'surprised',text:'……你開上山就為了這個？'},
+      {speaker:'kexin',expression:'smile',text:'湯還是熱的。'} ],
     after:G=>{ const r=R(); if(r) r.kxBdaySet(G,'visit'); },   /* KX_BDAY:{4:'visit'}（AA_327 2-Y4-38 第 4 節）*/
     outingMissed:G=>{ const r=R(); if(r) r.kxBdayMissed(G); } },
   /* ---------- 2-Y4-39 系籃最後一場（5/12（六）10:00 新體育館）＋吉他社成發（19:00）---------- */
@@ -217,12 +217,12 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（邵鈞對著鏡頭點頭致意。）'},
       {label:'shelf'},
       {speaker:null,text:'（散場前，她帶你看讀書會的書架。最右邊空了一格。）'},
-      {speaker:'kexin',text:'這一格空著。還不知道要放什麼。'},
+      {speaker:'kexin',expression:'thinking',text:'這一格空著。還不知道要放什麼。'},
       {set:{KX_SHELF:true}},
       {if:{flagIs:{KX_K25:'video'}},end:true},
       {scene:'河濱',bg:'riverside'},   /* 回程（開車的版本）*/
-      {if:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',text:'明天開始，讀書會的人各自讀。……我們兩個照表。'},
-      {unless:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',text:'明天開始，各自讀。'} ],
+      {if:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',expression:'serious',text:'明天開始，讀書會的人各自讀。……我們兩個照表。'},
+      {unless:{custom:G=>R().kxInBarGroup(G)},speaker:'kexin',expression:'serious',text:'明天開始，各自讀。'} ],
     outingMissed:G=>{ const r=R(); if(r) r.k25Missed(G); } },
   /* ---------- 2-Y4-43 期末最後一頓（2029-06-22（五）19:00 麵店；不佔學期末的飯）---------- */
   { id:'ev_last_meal_y4', title:'期末最後一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
@@ -387,13 +387,13 @@ const R2Y4B_EVENTS=(function(){
     dialogue:[ {if:{flagIs:{BAR_GROUP_START:'kexin'}},goto:'kx'},{if:{flagIs:{BAR_GROUP_START:'yutong'}},goto:'yt'},
       {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:null,text:'（開學第一個週五晚上，麵店打烊以後。長桌上多了一張手寫的表，可昕寫的。）'},
-      {speaker:'kexin',text:'每週一、三、五晚上，週六整天。……有意見現在說。'},
+      {speaker:'kexin',expression:'serious',text:'每週一、三、五晚上，週六整天。……有意見現在說。'},
       {speaker:'heroine_03',text:'週二我在店裡。你們在這裡讀，我順便考你們。'},
-      {speaker:'kexin',text:'……好。那表上多一格。'},{end:true},
+      {speaker:'kexin',expression:'smile',text:'……好。那表上多一格。'},{end:true},
       {label:'kx'},{scene:'視訊',bg:'video'},
-      {if:{custom:G=>R().kxVday(G)},speaker:'kexin',text:'情人節那張表，我把八月以前都排完了。'},
-      {unless:{custom:G=>R().kxVday(G)},speaker:'kexin',text:'我排了一張表，到八月，一天三科。'},   /* 沒有 2/14 那張表（KX_VDAY[4] 不是 'video'）*/
-      {speaker:'kexin',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
+      {if:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'teasing',text:'情人節那張表，我把八月以前都排完了。'},
+      {unless:{custom:G=>R().kxVday(G)},speaker:'kexin',expression:'serious',text:'我排了一張表，到八月，一天三科。'},   /* 沒有 2/14 那張表（KX_VDAY[4] 不是 'video'）*/
+      {speaker:'kexin',expression:'smile',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
       {label:'yt'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:'heroine_03',text:'我今年不考。……可是你考的那幾科，我也要修。'},
       {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ] },   /* 成立那一晚不算讀書（BAR_GROUP_N＝讀的次數，從 2/26 第一次讀書算起；三個人的那一晚先輪到可昕）*/
@@ -401,10 +401,10 @@ const R2Y4B_EVENTS=(function(){
   { id:'ev_bar_group_night', title:'律師讀書小組', participants:[], location:['noodle','library','library_hall'], trigger:'auto', background:'blur',   /* 週六只有語彤的那幾天在總圖 */
     prereq:{custom:G=>{ const r=R(); return !!r&&r.groupNightDue(G); }},
     dialogue:[ {if:{custom:G=>R().groupLine(G)==='yt_first'},goto:'first'},
-      {if:{custom:G=>R().groupLine(G)==='k1'},speaker:'kexin',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
-      {if:{custom:G=>R().groupLine(G)==='k2'},speaker:'kexin',text:'這題你上禮拜錯過。……我記得。再一次。'},
-      {if:{custom:G=>R().groupLine(G)==='k3'},speaker:'kexin',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
-      {if:{custom:G=>R().groupLine(G)==='k4'},speaker:'kexin',text:'好，換你出題。出一題你自己也不確定的。'},   /* 裁定 #49 */
+      {if:{custom:G=>R().groupLine(G)==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
+      {if:{custom:G=>R().groupLine(G)==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
+      {if:{custom:G=>R().groupLine(G)==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
+      {if:{custom:G=>R().groupLine(G)==='k4'},speaker:'kexin',expression:'smile',text:'好，換你出題。出一題你自己也不確定的。'},   /* 裁定 #49 */
       {if:{custom:G=>R().groupLine(G)==='y1'},speaker:'heroine_03',text:'押租金那個，你講給我聽。不要講條號。'},
       {if:{custom:G=>R().groupLine(G)==='y2'},speaker:'heroine_03',text:'……這個詞我在社會系也學過，可是意思不一樣。你講你們的。'},
       {if:{custom:G=>R().groupLine(G)==='y3'},speaker:'heroine_03',text:'你剛剛那一段，跟上禮拜講的不一樣。哪一個對？'},
@@ -418,15 +418,15 @@ const R2Y4B_EVENTS=(function(){
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'noodle'); } },
   { id:'ev_bar_group_video', title:'律師讀書小組（視訊）', participants:['kexin'], location:'any', trigger:'outing', background:'dark', hours:2, kxAway:true,
     dialogue:[ {if:{custom:G=>R().isSat(G)},scene:'政大・宿舍樓下',bg:'nccu_dorm'},{unless:{custom:G=>R().isSat(G)},scene:'視訊',bg:'video'},   /* 只有可昕：週六在政大（AA_253 第 11 節）*/
-      {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
-      {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',text:'這題你上禮拜錯過。……我記得。再一次。'},
-      {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
-      {if:{custom:G=>R().groupLine(G,'kexin')==='k4'},speaker:'kexin',text:'好，換你出題。出一題你自己也不確定的。'} ],
+      {if:{custom:G=>R().groupLine(G,'kexin')==='k1'},speaker:'kexin',expression:'serious',text:'刑總那題，你先講結論，再講理由。講完我再問。'},
+      {if:{custom:G=>R().groupLine(G,'kexin')==='k2'},speaker:'kexin',expression:'teasing',text:'這題你上禮拜錯過。……我記得。再一次。'},
+      {if:{custom:G=>R().groupLine(G,'kexin')==='k3'},speaker:'kexin',expression:'teasing',text:'你講得太快了。慢一點，講給一個不懂法律的人聽。……就是我那個室友。'},
+      {if:{custom:G=>R().groupLine(G,'kexin')==='k4'},speaker:'kexin',expression:'smile',text:'好，換你出題。出一題你自己也不確定的。'} ],
     after:G=>{ const r=R(); if(r) r.groupNightDone(G,'video'); } },
   { id:'ev_bar_group_three', title:'三個人的長桌', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:null,text:'（長桌上攤著三疊考古題。語彤在收碗，可昕在算時間。）'},
-      {speaker:'kexin',text:'還有四十二天。'},
+      {speaker:'kexin',expression:'serious',text:'還有四十二天。'},
       {speaker:'heroine_03',text:'先吃，麵要糊了。'} ] },
   /* ---------- 2-Y4-61 沛珊大四下的學期末（2029-06-08（五）18:30 台南；AA_254 第 6 節、AA_282 第 5 節第 5 點）：飯與回家的路在 R2Y4B.psDinner ---------- */
   { id:'ev_ps_termend_y4s2', title:'學期末的飯：沛珊（台南）', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5, dialogue:[],

@@ -133,12 +133,12 @@ const US_LIFE_EVENTS=(function(){
   /* ---------------- G2：8/26（六）可昕七夕（和可昕交往中；台灣 21:00＝當地 09:00，視訊）---------------- */
   ev('ev_usl_qixi','七夕',{participants:['kexin'],trigger:'outing',hours:0.5,dialogue:[
     {scene:'視訊',bg:'video'},
-    {speaker:'kexin',text:'七夕。你那邊是早上吧。'},
-    {speaker:'kexin',text:'……我這邊是晚上。剛好一人一半。'},
-    {speaker:'kexin',text:'牛郎織女要等一年。我們等四個月。'},
+    {speaker:'kexin',expression:'smile',text:'七夕。你那邊是早上吧。'},
+    {speaker:'kexin',expression:'smile',text:'……我這邊是晚上。剛好一人一半。'},
+    {speaker:'kexin',expression:'teasing',text:'牛郎織女要等一年。我們等四個月。'},
     {choice:[{text:'「十二月二十三號。」',goto:'a'},{text:'「妳那邊幾點睡？」',goto:'b'}]},
-    {label:'a'},{speaker:'kexin',text:'我知道。我算過了。'},{goto:'e'},
-    {label:'b'},{speaker:'kexin',text:'等你掛掉就睡。……快掛。'},
+    {label:'a'},{speaker:'kexin',expression:'teasing',text:'我知道。我算過了。'},{goto:'e'},
+    {label:'b'},{speaker:'kexin',expression:'smile',text:'等你掛掉就睡。……快掛。'},
     {label:'e'},{set:{USL_QIXI:true}} ]});
 
   /* ---------------- G3 9/4（一）勞動節，會所的烤肉（社區辦的；17:00～19:00）---------------- */
