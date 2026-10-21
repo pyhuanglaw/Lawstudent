@@ -12957,6 +12957,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）21:1x 整合進開發分支（對 54ae1009 乾淨；新測試修改前 7、7、7、7 個，修改後 0；cafe_*、wz_*、street_trees 11 支全過）；BB 看溫州街 Café 白天、晚上；LAWWW2 瀏覽器 cafe_glb_integration 重跑結果出來再補"
+  },
+  {
+   "id": "DL-LAWWW2-f858b47c",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "f858b47c",
+   "what": "ART-ECON-3D-GAP-1021 第一批：榕樹氣根不再是黑線（street_trees.glb＋street_trees.json、tree_leaves.png、tree_atlas.py --lift-roots；校園、溫州街、公館共用；說明＋前後對照 test_shots/banyan_roots_1021/README.md c36c2dbe）；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 整合進開發分支（只換 GLB／貼圖／工具；street_trees 等相關 45 支 Node 測試全過）；BB 看校園、公館的榕樹"
+  },
+  {
+   "id": "DL-LAWWW2-5f03d748",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5f03d748",
+   "what": "BUG-NAV-LAMPPOST-1021＋椰林大道路燈：patches/lamppost_nav.diff（路燈導航阻擋半徑 0.25→0.5：校園、公館、118 巷、溫州街小公園）＋patches/campus_avenue_lamps.diff 第三版（大道與鐘亭兩側路燈、路面光圈）；tests/lamppost_nav_unit.js（修改前 4 FAIL）、tests/campus_lamps_unit.js（修改前 3 FAIL）；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS（LAWWW2 跑，SwiftShader）；說明 test_shots/avenue_lamps_1021/README.md（fb8546f3）",
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 照順序套兩份 patch，對 78f4c813 乾淨；相關 45 支 Node 測試全過；路燈畫面 READY_FOR_ART_REVIEW、燈柱導航 FUNCTIONAL_VERIFIED（LAWWW2）；BB 晚上走椰林大道看路燈、試著穿過燈柱"
   }
  ],
  "ignored": [

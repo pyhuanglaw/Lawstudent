@@ -25757,7 +25757,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
+   "next": "【LAWWW（帳號 A）21:3x】第一批整合：榕樹氣根（f858b47c）、椰林大道路燈（5f03d748）；其餘照 LAWWW2 截圖佇列（博雅東側＋三棟大門 j8、j9 → 美國超市街 j7 → 412 洗手間＋Café 地板 j12、j13 → 路人遠距離 j10）｜ 【LAWWW（帳號 A）19:51 UTC】LAWWW2 巡場景 WIP（claude/second-ai-env-art f858b47c 榕樹氣根、89655410 四棟拱廊大門、fa34a418／30e9cb84 椰林大道路燈、0343b994 博雅東側一樓、71ca706a Café 吊燈、b47d499b 宿舍網點透空、2bc9992d 宿舍洗手間頂板）；交件後 LAWWW 整合 ｜ LAWWW2 照清查 B8 列出的缺口做，D99 第一優先",
    "xai": {
     "spec": "LAWWW2 清查 B8",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27621,7 +27621,7 @@
    "id": "BUG-NAV-LAMPPOST-1021",
    "title": "路燈的燈柱擋不住人：導航阻擋 blockCircle 半徑 0.25 m，燈柱剛好在 0.5 m 格子的角（LAWWW2 巡場景）",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "場景程式（D108）",
    "first": {
@@ -27643,7 +27643,7 @@
     "receiver": "LAWWW",
     "ack": "自領"
    },
-   "next": "LAWWW2 交 patch 後 LAWWW 整合；跑 nav 相關單元測試"
+   "next": "【LAWWW（帳號 A）21:3x】LAWWW2 5f03d748 lamppost_nav.diff＋campus_avenue_lamps.diff 整合進開發分支（Node 45 支全過；LAWWW2 瀏覽器回歸前後都過）；BB 晚上走椰林大道、試著穿過燈柱 ｜ LAWWW2 交 patch 後 LAWWW 整合；跑 nav 相關單元測試"
   },
   {
    "id": "AA373-Y1S2-FIX-1021",
