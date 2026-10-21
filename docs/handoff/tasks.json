@@ -25308,7 +25308,7 @@
    "id": "AA347-Y1-COVER-1021",
    "title": "AA_347 法律系大一空白週補稿（第 7 節）：阿凱的國界、大隊接力、期末範圍群組、寒假摘要日與語彤店休、大一下群組、手機小事八則（Y1S2）、暑假摘要日與群組、冬天的衣服紙箱＋寒流兩版",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_347（83f130c0）",
    "first": {
@@ -25321,7 +25321,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:1x UTC】一般子代理施工中（worktree；tests/aa347_y1_unit.js）｜ 【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）"
+   "next": "【LAWWW-C 2026-10-21 12:0x UTC】合併；BB 清單 bb_checklists/BB_AA347_1021.md；問 AA 的在 AA_QUESTIONS_1021.md O 節；紙箱 3D 模型派 LAWWW2（ART-Y1-BOX-1021）｜ 【LAWWW-C 2026-10-21 09:1x UTC】一般子代理施工中（worktree；tests/aa347_y1_unit.js）｜ 【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）",
+   "sha": "f9ba1396",
+   "evidence": "合併 f9ba1396（子代理 593783b1）：src/data/y1fill_events.js、src/y1fill3d.js；tests/aa347_y1_unit.js 60 項（舊程式 FAIL 50）"
   },
   {
    "id": "AA349-KL-1021",
@@ -25360,6 +25362,32 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 09:3x UTC】下一步：從 holff3d.js 的 H3 表（回老家、回臺北的日子）產生 presence absentDates（kind home＋home 城市），presence_unit 加檢查；等 AA_345 子代理（改 holff3d）合併以後做"
+  },
+  {
+   "id": "ART-Y1-BOX-1021",
+   "title": "大一房間床底下的紙箱（AA_347 5-1「冬天的衣服」）＋地上的膠帶（阿凱的國界 KAI_TAPE）：現在只有互動點和旁白，沒有 3D 模型",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "AA_347 第 7 節 5-1、1-1；子代理 593783b1 回報",
+   "first": {
+    "term": "Y1S1",
+    "week": 9,
+    "earliest": "大一上 10/27（膠帶）、8/29 起（紙箱）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "LAWWW2：紙箱（膠帶封著、寫「冬天的衣服」不必有字）放在大一房間書桌和梯子中間（y1fill3d.js 互動點座標）；地板膠帶一條（房間中線）。交 GLB，LAWWW 接",
+   "xai": {
+    "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "GLB＋遊戲內截圖；不擋床、書桌、黃金葛的互動點",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
