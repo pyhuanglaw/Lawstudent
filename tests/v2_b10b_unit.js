@@ -37,7 +37,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   const F2=termDay('Y1S2',2,5), F3=termDay('Y1S2',3,5), W11T=termDay('Y1S2',11,4), F11=termDay('Y1S2',11,5), F12=termDay('Y1S2',12,5), W10T=termDay('Y1S2',10,4), F8=termDay('Y1S2',8,5), F9=termDay('Y1S2',9,5);
   /* 1. AA_155 作息 */
   { const a=at(F3,12.15), b=at(F3,12.15,{MET_XUN:true}), c=at(F3,12.5,{MET_XUN:true}), d=at(W11T,20.9), e=at(W10T,19.5), f=at(W10T,19.5,{MET_XUN:true}), g=at(termDay('Y1S2',16,2),22), y4=at(termDay('Y1S2',3,5),12.15,{MET_XUN:true});
-    check('1. 阿勳：P4d 之前（沒有 MET_XUN）週五 12:15 不在走廊；之後在普通教學館走廊；12:30「在小福吃午餐」',!(a&&a.zone)&&b&&b.zone==='putong'&&b.act==='linger'&&c&&c.zone===null&&c.away==='在小福吃午餐',JSON.stringify([a&&a.zone,b&&b.zone,c&&c.away]));
+    check('1. 阿勳：P4d 之前（沒有 MET_XUN）週五 12:15 不在走廊；之後在普通教學館走廊；12:30「在活大吃午餐」（AA_373 #23：小福已拆）',!(a&&a.zone)&&b&&b.zone==='putong'&&b.act==='linger'&&c&&c.zone===null&&c.away==='在活大吃午餐',JSON.stringify([a&&a.zone,b&&b.zone,c&&c.away]));
     check('1. 阿勳：第 11 週週四 20:54 共同教學館自習區（沒見過也在）；第 10 週週四 19:30 要 MET_XUN',d&&d.zone==='gongtong'&&d.room==='study'&&!(e&&e.zone)&&f&&f.zone==='gongtong',JSON.stringify([d,e&&e.zone,f&&f.zone]));
     check('1. 阿勳：期末考週 22:00「在社科院四樓的窗邊讀書」',g&&g.zone===null&&g.away==='在社科院四樓的窗邊讀書',JSON.stringify(g));
     const lab=termDay('Y1S2',10,5); fresh(lab,12.15,'campus',{MET_XUN:true,MET_PINYU:true}); const hol=CALENDAR.holiday(lab);

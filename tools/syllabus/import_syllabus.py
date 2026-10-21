@@ -5,16 +5,23 @@
 法律審查（AA_122 第 0a 節）：SYLLABUS.reviewed＝可以顯示 BB 內容的週（'課程代號|週次'），照 BB_115_法律審查清單.json 產生——那一週的審查項目
 全部通過（review.result 是 無誤／已修正／補充）才開；沒有審查項目的週可以開（BB 的快速抽查已經掃過，AA 2026-10-14）。其他週遊戲裡只用寫主題的一般句子（src/classes3d.js 的 S.sylReviewed）。
 用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/story-planning] [檔名=ref …（個別檔案用別的 ref）]
-（2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）"""
+     ref 可以寫「分支@commit」：從那個 commit 讀、來源寫分支名（分支已經往前走、要重產同一版時用；例：claude/magical-albattani-bk7b4n@57b2a7b3）
+（2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）
+AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉
+（旁白「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+import import_guard as GUARD
 REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
+LABEL = None
+if '@' in REF: LABEL, REF = REF.split('@', 1)   # 分支@commit：讀 commit、來源寫分支名
 TERMS = ['Y0S1', 'Y0S2', 'Y1S1', 'Y1S2', 'Y2S1', 'Y2S2', 'Y3S1', 'Y3S2', 'Y4S1', 'Y4S2', 'JP']
 PASS = ('無誤', '已修正', '補充')   # BB_115 的 review.result：通過的三種（沒有 result＝還沒審）
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
 OVR = dict(a.split('=', 1) for a in sys.argv[2:] if '=' in a)   # 個別檔案改用別的 ref（例：Y0S1.json=9ebf6663）
 show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{OVR.get(os.path.basename(p), REF)}:{p}'], text=True)
-out = {'source': REF.replace('origin/', '') + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
+out = {'source': (LABEL or REF.replace('origin/', '')) + ' ' + sha + ''.join(f'＋{k}@{v}' for k, v in OVR.items()), 'courses': {}, 'skip': {}, 'pools': {}, 'second': {}, 'reviewed': [], 'y0': []}   # y0：經濟系那一年的課與台詞池（遊戲裡還沒有）
 KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_slot_lines', 'ask', 'recall')   # recall＝週層級的回想（例：大一下憲法二第 12 週回想 B4 演講；v2 C15，AA-B 2026-10-16：要匯入）   # ask＝課堂提問 {qid}（AA_130 第 3 節第 3 點；題目從 EXAM_BANK 讀）
 owner = {}
 # 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
@@ -38,6 +45,25 @@ for t in TERMS:
     for p in d.get('pools', []):
         out['pools'][p['id']] = {k: p[k] for k in ('prof_label', 'lines', 'react') if k in p}
         if t.startswith('Y0'): out['y0'].append(p['id'])
+# AA_373 第 9 項（白名單 AA373-Y1S2-FIX-1021）：大一下通識第 6 週改成天文館的圓頂（白天關燈看星空投影）。整句相同才換；「先讓眼睛習慣黑暗。」不改
+ALLOW = GUARD.load(ROOT)
+A373 = GUARD.approved_files(ALLOW, 'docs/story_planning/AA_373_')
+if A373:
+    P373, S373 = next(iter(A373.items()))
+    ok, why = GUARD.allowed(P373, S373, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md373 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True)
+    w6 = next((w for w in out['courses'].get('ge_y1s2', []) if w.get('w') == 6), None)
+    if w6 is None: sys.exit('AA_373 第 9 項：找不到 ge_y1s2 第 6 週')
+    for old, new, quote in [('晚上的課，我最清醒。', '關了燈的課，我最清醒。', '宥辰「關了燈的課，我最清醒。」'), ('操場很暗。你……', '圓頂裡很暗。你……', '「操場很暗」→「圓頂裡很暗」')]:
+        if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到第 9 項的「改成」：{quote}')
+        hits = [r for r in w6.get('react', []) if r.get('text') == old] + ([w6['obs']] if isinstance(w6.get('obs'), dict) and w6['obs'].get('prompt') == old else [])
+        news = [r for r in w6.get('react', []) if r.get('text') == new] + ([w6['obs']] if isinstance(w6.get('obs'), dict) and w6['obs'].get('prompt') == new else [])
+        if len(hits) == 1:
+            if 'prompt' in hits[0] and hits[0].get('prompt') == old: hits[0]['prompt'] = new
+            else: hits[0]['text'] = new
+        elif not (len(hits) == 0 and len(news) == 1): sys.exit(f'AA_373 第 9 項：ge_y1s2 第 6 週「{old}」有 {len(hits)} 處（應該是 1 處；或已經是新句）')
+    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（通識第 6 週 2 句）'
 # 法律審查：一週一週開
 rv = json.loads(show('docs/story_planning/BB_115_法律審查清單.json'))
 items = {}   # '課程|週' → [通過嗎]

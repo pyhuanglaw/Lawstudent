@@ -94,7 +94,7 @@ const ENCOUNTERS={
     {who:'heroine_03',spot:'D18',why:'她跟在一位老師後面，在訪問一位擦香爐的阿嬤。',days:[6],from:10,to:17,terms:['Y3S1','Y3S2'],weeks:[12],stageMin:'ACQUAINTANCE',busy:'yes',busyLine:'（她看到你，點了一下頭，繼續聽阿嬤說話。）',join:false,memo:'ENC_D18_YT',away:'在九份做田野',lines:{},src:'AA_162 8、8-1（她在工作，只點頭；之後在學校說一句）'},
     {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
       lines:{acq:['欸！你也來外澳？下來啊！','水很冷！……超冷。下來就知道。'],friend:['哥！我們差一個人推板子。你來！','你不會衝浪？我也不會啊，我們都在被浪打。快下來！']},src:'AA_162 8、8-1、8-5'},
-    {who:'yu',spot:'D20',why:'她在老街口數人頭，手上拿著社團的點名單。',days:[6],from:10,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[6],stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:null,away:'和社團在烏來',
+    {who:'yu',spot:'D20',why:'她在老街口數人頭，手上拿著社團的點名單。',days:[6],from:10,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2'],weeks:[6],termWeeks:{Y1S2:[8]}/* AA_373 #5（企劃線 a48fe1b7）：大一下第 6 週週六 4/4 她在麵店團的春假旅行，烏來改第 8 週週六 4/18（期中考完那個週六）；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:null,away:'和社團在烏來',
       lines:{all:['欸{name}？你也來烏來？對了我在點名，二十三、二十四……','好啦我先忙，你自己玩！不要掉到溪裡！']},src:'AA_162 8、8-1'},
     {who:'classmate_bohan',spot:'D09',why:'他一個人坐在纜車站外面的長椅上，手上沒有書，也沒有手機。',days:[6],from:15,to:19,terms:['Y4S1'],weeks:[12],stageMin:'FAMILIAR',busy:'no',join:true,memo:'ENC_D09_BH',away:'在貓空',
       lines:{acq:['{name}。','我今天沒帶書出門。……有點不習慣。'],friend:['結果出來了。我不說是什麼結果。','今天就是不想念書，上來坐一下。你要坐嗎？']},src:'AA_162 8、8-1、8-5（大四推甄結果出來的那個週末）'},

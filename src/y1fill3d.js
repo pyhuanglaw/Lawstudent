@@ -63,7 +63,7 @@ const Y1FILL=(function(){
     {id:'y1s2_kevin_parrot',term:Y1S2,h:()=>21+18/60,ok:G=>law(G)&&inGrp(G,'family_law'),items:()=>seqG('g:family_law',L.dp.kevin_parrot,{kevin:'Kevin',heroine_05:'溫學姊'})},   /* 家族群組的帳號名稱照 kevin_video */
     {id:'y1s2_yu_curry',term:Y1S2,h:()=>12.5,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.yu_curry)},
     {id:'y1s2_zhe_three',term:Y1S2,h:()=>22+40/60,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.zhe_three)},
-    {id:'y1s2_bohan_closed',term:Y1S2,h:()=>23+10/60,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.bohan_closed)},
+    {id:'y1s2_bohan_closed',term:Y1S2,h:()=>22+10/60/* AA_373 #19：總圖十點關（原本 23:10）*/,ok:G=>law(G)&&inGrp(G,'noodle_team'),items:()=>seqG(NG,L.dp.bohan_closed)},
     {id:'y1s2_an_ac',term:Y1S2,h:()=>15+20/60,ok:(G,day)=>law(G)&&met(G,'heroine_01','FAMILIAR')&&contact(G,'heroine_01',day),items:()=>seqP('heroine_01',L.dp.an_ac)},
     {id:'y1s2_yt_board',term:Y1S2,h:()=>17+40/60,ok:G=>law(G)&&met(G,'heroine_03','FAMILIAR')&&S.thuNoodle(G)&&contact(G,'heroine_03'),items:()=>seqP('heroine_03',L.dp.yt_board)},   /* AA_350 O6：要有她的聯絡方式 */
     {id:'y1s2_xinci_drama',term:Y1S2,h:()=>23.5,ok:(G,day)=>law(G)&&contact(G,'classmate_xinci',day),items:()=>seqP('classmate_xinci',L.dp.xinci_drama)},
