@@ -24,16 +24,19 @@ async def main():
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
             await L.load_state(pg, G); await pg.wait_for_timeout(6000); run.setup('[前置] %s：讀經濟系 11/30 狀態 %s' % (orient, os.path.basename(SNAPF)))
             # 10-21 第一輪：讀檔後遊戲自己往下走（在家快轉），馬上演 12/13 補習班那一段，手機打不開——先照玩家把劇情點完、等到可以開手機
-            for k in range(200):
+            idle = 0   # 第二輪：讀檔後一兩秒內什麼都沒有，劇情是之後才開始的——要等到家裡的選單出現「看手機」（或連續 40 秒什麼都沒有）才算點完
+            for k in range(400):
                 s = await L.state(pg)
-                if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+                if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); idle = 0; continue
                 if s['choices']:
                     cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled).map(b=>b.textContent.trim())")
                     if any(c.startswith('看手機') for c in cs): break   # 家裡的選單：手機開得了
                     c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled)[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
-                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); continue
-                if s['busy']: await pg.wait_for_timeout(700); continue
-                break
+                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); idle = 0; continue
+                if s['busy']: await pg.wait_for_timeout(700); idle = 0; continue
+                idle += 1
+                if idle >= 40: break
+                await pg.wait_for_timeout(1000)
             sn0 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2); })()"); print('%s 劇情點完：%s' % (orient, sn0), flush=True)
             await L.close_panels(pg, cdp)
             # ⑤ 未讀：照玩家打開手機 → 訊息
