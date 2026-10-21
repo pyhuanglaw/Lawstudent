@@ -25981,7 +25981,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
+   "next": "【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
   },
   {
    "id": "AA355-WAITS-1021",
@@ -26938,6 +26938,27 @@
    "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
    "authorized": "使用者選擇題（UA-AA-1020-35 confirmed）",
    "next": "照 AA_334 第 4 節；第 3 節 Z13 拒絕後照現在、不改；不在三個優先項目裡，照佇列排"
+  },
+  {
+   "id": "AA366-KX-POSTGRAD-1021",
+   "title": "AA_366 可昕「我們的日子」畢業以後五段：P1 2029-06-03～08-04 每週日 19:00「不讀書的兩小時」、P2 08-05～10-21 隔週日、P3 10-22～12-13 每週照 KX_OUR_DAY、P4 12-15～2030-01-19 週六 21:00 電話（受訓）、P5 2030-01-20 起每週日；每段開頭她一則、見面九句抽一句不重複；她自己的事件那週、一試當週、二試兩天不排",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y5S1",
+    "week": null,
+    "earliest": "2029-06-03 畢業以後和可昕交往中",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "企劃線 AA_366（1b4bbdac；outbox 8c2625da；AA 16:24 send_message）",
+   "authorized": "D100／D109（AA 定稿）",
+   "next": "和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排"
   }
  ]
 }
