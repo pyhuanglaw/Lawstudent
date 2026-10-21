@@ -1,6 +1,11 @@
 值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 8d32ed63｜2026-10-21 15:24 UTC
 上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 8d32ed63（14:30 UTC）｜交班紀錄有寫（下面那一節），但沒有跑 `duty handoff`（`duty_AA.json` 還是 on）→ 使用者對 AA（帳號 A）說「我回來了，請同步 GitHub 最新進度，接續工作。」，用 `duty register --user-ok` 接班（記 no-handoff）
 
+> **【使用者 2026-10-21 16:3x（永久，直到使用者另說）】「以後你劇情自己決定我最近不太會關注 你要自主開發」**
+> - AA（含接班的 AA）：劇情、台詞、感情線的細節都自己決定，直接寫成事件規格交 LAWWW 或改開發分支；**不再用選擇題問使用者**，也不因為沒問而停工。
+> - 硬規矩照舊：五位女主角正式資料（名字、科系、年級、身高、星座）不改；真實人生經歷相關的不自己編、不改；法律題庫答案、判決字號照舊；公開 repo 隱私規則照舊。
+> - 同一時間（16:2x～16:3x）使用者用選擇題答了四題：法律系四年不用逐場確認（UA-AA-1021-42）；沛珊大一上期末就能交往、芷若晚一點的窗口照 AA 解法修、Z13 拒絕後照現在（UA-AA-1020-33／34／35 confirmed；`AA_334` 第 1、4 節可以施工）。記在 `user_asks_AA.json`。
+
 > **【進度 2026-10-21 16:1x UTC，AA（帳號 A）】**
 > - **RULE_SOURCE 換了**：帳號 A 的 LAWWW 接班後 duty sync（`be5ae4ce`，seq 20），開發分支＝RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`。AA 直接推開發分支的東西都推這條。
 > - **通訊**：和 LAWWW、BB、LAWWW2（帳號 A）都雙向確認過（使用者 15:3x 問）。
