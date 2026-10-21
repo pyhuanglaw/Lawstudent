@@ -162,10 +162,10 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-04-20',12,'campus','TW'); H.FRIEND('heroine_01'); INV.addContact(G,'heroine_01'); check('J-S16 台灣路線約在日本的以安：「她這學期在國外。」', INV.whyNot(G,'heroine_01')==='她這學期在國外。', INV.whyNot(G,'heroine_01')); }
   /* ===================== J-S17 旗標別名 ===================== */
   { const G=fresh('2028-03-26',10,'campus','TW'); phone(); check('J-S17 以安 3/25 出發以後（所有路線）：AN_JP_DEPARTED（階梯 A6 的 skipIf 讀這個）', G.flags.AN_JP_DEPARTED===D('2028-03-25')); }
-  /* ===================== J-S18 子晴的電話兩版 ===================== */
+  /* ===================== J-S18 子晴的電話（AA_360 第 1 節：「依 ZQ_Q12 分兩版」作廢——發表哪一個她自己決定，一律《九點以後》）===================== */
   { const G=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); G.flags.ZQ_Q10='nameless'; H.said=[]; await Y34B.zqCall(GM); const a=has('他打了五次。第五次過了。……我在後面笑到不行。');
-    const G2=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); H.said=[]; await Y34B.zqCall(GM); const b=has('下一個做完，你來測。')&&!has('下一個做完，第一個給你玩。')&&!has('他打了五次。第五次過了。……我在後面笑到不行。');
-    check('J-S18／L6 5/20 子晴的電話照 ZQ_Q12 分兩版：《九點以後》＝「他打了五次……」；《找插座的貓》＝「下一個做完，你來測。」（AA_349 L6：不再借「第一個給你玩」）', a&&b&&G2.flags.ZQ_Q12==='cat'&&G2.flags.WATCHED_SHOW_ONLINE===true, [a,b].join()); }
+    const G2=inJapan('2028-05-20',22); H.FAMILIAR('heroine_04'); G2.flags.ZQ_Q10='cat'; H.said=[]; await Y34B.zqCall(GM); const b=has('他打了五次。第五次過了。……我在後面笑到不行。')&&!has('下一個做完，你來測。')&&!has('下一個做完，第一個給你玩。');
+    check('J-S18 5/20 子晴的電話一律《九點以後》＝「他打了五次……」（AA_360 第 1 節；Q10 選「交貓。貓很好。」的也一樣、沒有貓那一句）', a&&b&&G.flags.ZQ_Q12==='nine'&&G2.flags.ZQ_Q12==='nine'&&G2.flags.WATCHED_SHOW_ONLINE===true, [a,b].join()); }
   /* ===================== G0 出發前 ===================== */
   { fresh('2028-02-24',17,'gongguan','JP',{X1_JP:D('2028-02-20')}); H.FRIEND('heroine_03'); E.player.obj.position.x=-63; E.player.obj.position.z=22; H.picks=['我三月底才出發']; await run('ev_yt_thursday_first');
     check('G0／裁定 4／JP-C 2/24 語彤的週四（日本路線）：「你下個月才走。」；選項「我三月底才出發。」→「嗯。那剛好。」', Y34B.t1FirstDue(H.G,E)===false&&has('你下個月才走。')&&H.opts[0].includes('「我三月底才出發。」')&&!H.opts[0].includes('「我沒交志願表。」')&&has('嗯。那剛好。')&&!has('你沒去交換。'));
