@@ -7,12 +7,14 @@ LAWWW2 的六個位置（README：docs/art-rebuild/second_ai/test_shots/balcony_
   ③ 斜 45° 兩邊、離陽台 7 m 的眼睛高度（走過來的路人看到的）；
   ④ 一般遊戲鏡頭：玩家站在那個位置、鏡頭在玩家背後（背對建築那一側）、進區域時的距離和俯角＋拉到最近——玩家平常玩看不看得到。
 另外 A3 晚上 20:30 一張（LAWWW2 沒拍晚上）。
+EXTRA=1（第二輪）：只拍欄杆外高處往下看（看花架面、腳、陽台地，判斷浮空）＋陽台兩端沿欄杆看（盆底和架面之間的縫、花架有沒有插進牆）。
 [捷徑] 讀 9/25 存檔（關掉條件事件）、GAME.enter、設時間、搬玩家、藏玩家、劇情鏡頭。不是 iPhone：Playwright 手機橫向模擬（SwiftShader）。
 用法：LW_TESTS=<開發分支>/tests python3 balcony_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
 import os, sys, json, math, asyncio
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, SAVE = sys.argv[1], sys.argv[2], sys.argv[3]
+EXTRA = os.environ.get('EXTRA') == '1'   # 2026-10-21 第二輪：只拍看得到花架的角度（陡的俯視、沿陽台）
 SPOTS = [   # 名稱、區域、時間、玩家站的位置、LAWWW2 的鏡頭位置、看的點（shots.json、shots_gongguan.json）
     ('A3', 'wenzhou', 15.0, (14.2, 1.0), (14.2, 1.6, -0.2), (14.2, 4.9, 4.6)),
     ('C2', 'wenzhou', 15.0, (50.5, 13.0), (49.8, 1.6, 13.0), (55.0, 4.9, 13.0)),
@@ -61,6 +63,13 @@ async def main():
                     d0, p0 = await pg.evaluate("[GAME.E.cam.distTarget, GAME.E.cam.pitch]")
                 await sethour(pg, h)
                 at = await put(pg, px, pz); await pg.evaluate("GAME.E.player.obj.visible=false"); print('   %s 玩家（藏起來）放到' % nm, at, flush=True)
+                if EXTRA:   # 第二輪：只拍看得到花架的角度——欄杆外面高處往下看（花架面、腳、陽台地）、陽台一端貼著欄杆高度沿陽台看（盆底和架面之間有沒有縫）
+                    dx, dz = look[0] - cpos[0], look[2] - cpos[2]; n = math.hypot(dx, dz) or 1; dx, dz = dx / n, dz / n; px_, pz_ = -dz, dx
+                    await cine(pg, run, '%s_6_steep' % nm, (look[0] - dx * 0.9, look[1] + 1.6, look[2] - dz * 0.9), (look[0] + dx * 0.15, look[1] - 0.5, look[2] + dz * 0.15))
+                    await cine(pg, run, '%s_6_steep_far' % nm, (look[0] - dx * 1.6, look[1] + 2.4, look[2] - dz * 1.6), (look[0] + dx * 0.15, look[1] - 0.6, look[2] + dz * 0.15))
+                    for sgn, side in ((1, 'L'), (-1, 'R')):
+                        await cine(pg, run, '%s_7_along_%s' % (nm, side), (look[0] + px_ * sgn * 2.2 - dx * 0.35, look[1] - 0.05, look[2] + pz_ * sgn * 2.2 - dz * 0.35), (look[0] + dx * 0.1, look[1] - 0.25, look[2] + dz * 0.1))
+                    continue
                 await cine(pg, run, '%s_1_lawww2' % nm, cpos, look)
                 await cine(pg, run, '%s_1_lawww2_3cm' % nm, (cpos[0] + 0.03, cpos[1] + 0.02, cpos[2] + 0.03), look)
                 dx, dz = look[0] - cpos[0], look[2] - cpos[2]; n = math.hypot(dx, dz) or 1; dx, dz = dx / n, dz / n   # 從街上往陽台的方向
