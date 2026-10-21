@@ -1,3 +1,21 @@
+值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 8d32ed63｜2026-10-21 15:24 UTC
+上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 8d32ed63（14:30 UTC）｜交班紀錄有寫（下面那一節），但沒有跑 `duty handoff`（`duty_AA.json` 還是 on）→ 使用者對 AA（帳號 A）說「我回來了，請同步 GitHub 最新進度，接續工作。」，用 `duty register --user-ok` 接班（記 no-handoff）
+
+> **【接班 2026-10-21 15:2x UTC，AA（帳號 A）｜總入口第 4 節十四步】**
+> - 使用者 15:1x 補充：「你上次交班之後 有兩個帳號接過你的班 B C」——已確認：AA-B（`claude/cool-heisenberg-o8kuqx`，10-15～10-17）、AA-C（`claude/magical-albattani-bk7b4n`，10-17～10-21）。以 AA-C 交班狀態為準，不用帳號 A 停在 10-14 的舊進度。
+> - 第 1～2 步：fetch 全部遠端；`duty find` → RULE_SOURCE `origin/claude/adoring-meitner-mqzst8`（登記鏈 seq 19、HV-18、規則 SHA `7c58b598`）。值班：沒有人（帳號 C 四個職位 10-21 14:30～14:59 交班）。
+> - 第 3 步：讀了 RULE_SOURCE 的 `CLAUDE.md`（D90、D93～D96、D99、D100～D100e、HV-15／D101、HV-18）、`AI_SESSION_HANDOFF.md` 第 0a、0b、1、4、5、6、6c 節。帳號 A 交班後新增的規則以 RULE_SOURCE 為準。
+> - 第 11 步：企劃線 `claude/story-planning` 從 `0d278bb9` 快轉到 AA-C 的 `8d32ed63`（AA-B、BB-B 的分支都已在裡面）。BB-C 的 `claude/wonderful-mayer-7fm9g6` 有 134 個 commit 不在企劃線（`docs/story_planning` 539 檔、`docs/handoff` 4 檔；10-18 02:12 以後）——D100 以後 BB 不寫劇情，**還沒合併，下一回合核對內容再決定**。
+> - 第 12 步：`duty register --account A --role AA --branch claude/story-planning --user-ok`（`duty_AA.json`）。
+> - 檢查結果（都加 `--ref origin/claude/adoring-meitner-mqzst8`）：
+>   - `duty verify` 結束碼 1：異常 7「LAWWW 交班快照找不到」——檔案其實在（`docs/handoff/snapshots/2026-10-21T1459Z_C_LAWWW.json`），是 `duty.json` 的 `lastHandoff.snapshots` 寫了完整路徑、工具又加一次資料夾（和 `3468c35c` 修過的一樣）。LAWWW 的檔，記給 LAWWW。
+>   - `check` 結束碼 0。
+>   - `incr` 結束碼 1：7 項都是 `WIP-LAWWW-AAFIX-1021`——commit `8a9a5e5a` 在所有遠端都找不到（vac_activities.js、vac3d.js、jp_dorm3d.js、aa355／aa358 測試）。這是 LAWWW 實作 AA_355、AA_358 的 WIP，可能沒推；**AA 要核對 AA_355 第 5 節、AA_358 到底進開發分支了沒**。
+>   - `roles` 結束碼 1：36 項——本檔「全部待辦」裡的子項編號（J-S1～J-S19、C-1、C-4、F-K1、AB65-1、CG-16、BB-LOGIC-13）、規則版本（HV-17、HV-18）、使用者要求編號（UA-AA-1017-38～41、UA-AA-1018-03、UA-AA-1020-31、UA-AA-1021-37、UA-LAWWW-1021-02）在總表找不到，另 1 行【表外】（第 224 行附近「C.」）。要值班 LAWWW 補任務或寫進 `meta.reconcileIgnore`。**逐職位核對：異常 36 項未處理**（不宣稱交接完整）。
+>   - `asks` 結束碼 1：AA 4 項（UA-AA-1020-31／33／34／35 是 AI 解讀、使用者還沒確認）、LAWWW 1 項。
+> - D90／HV-9 ACK（AA，帳號 A）：已讀 RULE_SOURCE `CLAUDE.md`「P0 使用者訊息優先協定」；規則 HV-18＠`7c58b598`；沒有沒處理的使用者指示；沒有在跑的長工作。（第 14 節 ACK 表是 LAWWW 的檔，請值班 LAWWW 抄進去。）
+> - 還沒做：第 9b 步（USER_WANTS「不在遊戲裡」、`check_orphans.py`）、BB-C 分支要不要合併、AA-C 交班時「沒做完」的兩項、核對 AA_357／358／360 的實作。
+
 > **【交班 2026-10-21 14:3x UTC，AA-C｜使用者：「現在交班」（P0 換班口令）】**
 > - **這個工作階段的最後一筆**：見本 commit（企劃線 `claude/magical-albattani-bk7b4n`）。開發分支 `claude/adoring-meitner-mqzst8` 上 AA 最後推的是 `8244a990`（合併 `769e4e8e`），本機沒有沒推的。
 > - **交班當下正在做**：劇情總監清查「AI 味句型」第四輪（「這是我第一次」「後來才發現」等；掃描結果：約會台詞、閒聊階梯 0 處，程式 3 處）。
