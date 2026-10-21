@@ -590,11 +590,12 @@
    "files": [
     "docs/handoff/PLAYER_FEATURES_v9.10.3_WIP.md"
    ],
-   "state": "WIP",
+   "state": "已整合",
    "remaining": "玩家功能清單半成品（子代理還在寫）",
    "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
    "noDirectIntegrate": true,
-   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "PENDING"
   }
  ]
 }
