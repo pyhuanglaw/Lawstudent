@@ -1,5 +1,5 @@
 /* ===== 邀約與訊息（D54 ⑥；使用者 2026-10-11 的七點，見 src/data/invites.js）=====
-   一般系統，不寫人物台詞：結果用旁白（「阿哲說他在打工，問你 15:00 可不可以」），每個人的個性等 AA、BB 的內容批准後放進 INVITE_DATA.people。
+   一般系統，不寫人物台詞：結果用旁白（「阿哲說他在打工，問你 15:00 可不可以」），每個人的個性照 INVITE_DATA.people（AA、BB 的內容已經放進去；AA_355 第 3 節）。
    存檔欄位（舊存檔沒有就從空的開始）：
      G.invites＝[{id, who, place, zone, day, h, state, accepted, by, now}]
        state：offered（對方約你、等你回）／accepted（約好了）／going（現在一起走過去）／done（見到了）／missed（沒赴約）／declined／cancelled／changed（對方改約、等你回）
@@ -8,7 +8,7 @@
      G.contacts＝{人物 id: 第幾天拿到的}（認識的人才有聯絡方式；開場有阿哲、阿凱，INVITE_DATA.contacts0）
    答不答應（使用者第 4 點；decide）：在不在學校（presence）→ 關係（地點的 minStage）→ 天氣（下雨不散步，改 Café）→ 開沒開 → 和別人約了／和你約了別的 → 那時候的作息（打工、上課、社團…）。
    「改天」一定附一個具體的時間（alt），玩家可以答應。沒赴約不扣分（留一筆小記憶「放過鴿子」）。
-   NPC 主動約、臨時改約（AA_115 第 6 節）：offer／change 是給事件用的介面（劇情內容等 AA、BB），玩家在手機上有三種回法。
+   NPC 主動約、臨時改約（AA_115 第 6 節）：offer／change 是給事件用的介面（劇情內容照各事件、各人的 INVITE_DATA；AA_355 第 3 節），玩家在手機上有三種回法。
    測試：node tests/invites_unit.js */
 'use strict';
 const INV=(function(){

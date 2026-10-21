@@ -105,7 +105,7 @@ const JP=(function(){
     {k:'g4_river',d:'2028-05-03',h:14,w:'jp',if:dat,ev:'ev_jp_goldenweek'},
     {k:'g4_s',d:'2028-05-03',h:18.5,w:'jp',if:rep,sum:'（黃金週。電車上都是人。你在宿舍讀了一整天。）'},
     {k:'g6_rain',d:'2028-06-07',h:21.5,w:'jp',if:rep,sum:'（交換生群組有人傳『梅雨開始了』，以安按了一個讚。）'},   /* G6 挽回中（旁白；AA_349 L7：加括號、裡面的引號換『』）；交往中是 21:30 她的私訊（S.phone）*/
-    {k:'g7_dinner',d:'2028-06-16',h:19,w:'jp',if:dat,ev:'ev_jp_dinner'},
+    /* 以安約的那一頓：原本 6/16（五）19:00 自動演（AA_341 G7），AA_355 1-1 改成 6/9 她私訊約、6/10 出遊（S.dinnerPhone）*/
     {k:'g7_repair4',d:'2028-06-24',h:16,w:'jp',if:rep,ev:'ev_jp_repair_river'},
     {k:'g7_s',d:'2028-06-28',h:18.5,w:'jp',sum:'（期末報告的題目定了。你寫了三個版本的第一句。）'},
     {k:'g7_tanabata',d:'2028-07-07',h:19,w:'jp',ev:G=>dat(G)?'ev_jp_tanabata':'ev_jp_tanabata_repair'},   /* 七夕 19:00（AA_349 L5 確認）*/
@@ -203,7 +203,19 @@ const JP=(function(){
     dm('2028-05-02',21,['黃金週，哪裡都是人。……明天去河邊就好。'],'jp_g4_river_ask',d&&jp);
     dm('2028-06-07',21.5,['梅雨開始了。','投幣洗衣機前面排了四個人。……我在讀行政法。'],'jp_g6_rain',d&&jp);
     dm('2028-07-16',21,['明天海之日。……我想看海。電車一個小時。'],'jp_g8_sea_ask',d&&jp);
+    S.dinnerPhone(G,P);   /* AA_355 1-1：6/9 以安約的那一頓 */
     S.grpPhone(G); };   /* 挽回中：交換生群組每週那一則（AA_349 L1）*/
+  /* 以安約的那一頓（AA_355 1-1，AA-C 2026-10-21；台詞照抄，三句在 data/jp_events.js 的 ev_jp_dinner＝AA_250 6-2）：
+     6/9（五）21:00（日本時間：人在日本時遊戲的時鐘就是日本時間）她私訊兩則，交往中或和她 FRIEND 以上；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底）；
+     「那天不行。」＝她回「好。」，不補（6/16 也不演）。不算學期末的飯（AA_250 6-2：不佔名額、沒有告白）。回覆期限 6/10 18:00；AN_JP_DINNER_ASK＝'yes'／'no' */
+  S.DINNER_ASK=['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'];
+  S.dinnerPhone=function(G,P){ const d9=DK('2028-06-09'), d10=DK('2028-06-10'), F=G.flags; if(!P||d9==null||d10==null||!S.inJapan(G)) return;
+    if(G.day>=d9&&G.day<=d9+1&&NOW(G)>=T(d9,21)&&NOW(G)<T(d10,18)&&!P.sent(G,'jp_g7_dinner_ask')&&(dat(G)||lv('heroine_01','FRIEND'))){
+      const L=S.DINNER_ASK.map(t=>({th:'p:heroine_01',from:'heroine_01',text:t}));
+      L[L.length-1].ask={id:'jp_g7_dinner_ask',until:T(d10,18),opts:[{t:'好。',set:{AN_JP_DINNER_ASK:'yes'}},{t:'那天不行。',set:{AN_JP_DINNER_ASK:'no'},say:[{from:'heroine_01',text:'好。'}]}]};
+      P.at(G,d9,G.day===d9?Math.max(21,G.hour):21,L,'jp_g7_dinner_ask'); }
+    if(F.AN_JP_DINNER_ASK==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'jp_g7_dinner')&&NOW(G)<T(d10,19))
+      OUT.plan(G,{id:'jp_g7_dinner',ev:'ev_jp_dinner',day:d10,h:18.5,late:0.5,place:'日本・學校後面的小餐館',title:'和以安：學校後面的小餐館（日本 18:30）',travel:'',travelH:0}); };
   /* ---------------- 快轉、睡覺（J-S3）---------------- */
   S.homeFfEnd=G=>S.returned(G)?T(D('room'),8.5):T(D('dep'),8);   /* 出發前：到 3/25 早上（出發）；回來以後：到 9/3 早上（搬進 409）*/
   S.t1Stops=function(G){ const out=[]; if(typeof Y34B==='undefined'||!Y34B.t1On||!Y34B.t1On(G)) return out; const a=DK('2028-02-24'), dep=D('dep'); if(a==null||dep==null) return out;
