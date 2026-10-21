@@ -1,6 +1,6 @@
 // AA_347 法律系大一逐週覆蓋盤點＋補空白（AA-C 2026-10-21 定稿 83f130c0；任務 AA347-Y1-COVER-1021）——不需要瀏覽器。照 AA_347 第 7 節施工清單、第 8 節給 BB 的驗收情境寫：
 //   0. 接線：index.html 載入 data/y1fill_events.js、y1fill3d.js（holff3d.js 之後、GAME.boot() 之前）；事件在 STORY_EVENTS；八則手機小事在 STORY.DAILY_PHONE；三個摘要日在 HOLFF.SUMS
-//   1. 1-1 阿凱的國界（10/27 22:30 起、隔天晚上、10/29 以後不演；進門比 ev_dorm_late_kai 先；人已經在房間裡也算；10/30「法律系可以無條件入境」；KAI_TAPE＝rel_lines 好朋友那句）
+//   1. 1-1 阿凱的國界（10/27 22:30 起、隔天晚上、10/29 以後不演；進門比 ev_dorm_late_kai 先；人已經在房間裡也算；10/30「法律系免簽」（AA 10-21 改）；KAI_TAPE＝rel_lines 好朋友那句）
 //   2. 1-2 運動會（11/20 21:00 群組、去＝11/21 10:00 田徑場、不去／沒回／答應了沒到＝11:40 獎狀照片）　3. 1-3 期末範圍（11/26 22:10）
 //   4. 2-1 寒假第 7 週（2/5 摘要日專用句、2/6 21:00 語彤、去＝2/7 18:00 麵店）　5. 3-1 期中考完（4/24 21:30；那天不加手機小事）
 //   6. 3-2 大一下的手機小事八則（第 4 週起、條件、一天最多一則、阿凱的 App 隔兩週兩次、大一上沒有）　7. 4-1 暑假（7/29 兩版、8/18、8/25）
@@ -79,7 +79,7 @@ const J=x=>JSON.stringify(x);
     return [!before&&!mid&&!!G.events.done.ev_kai_tape&&G.flags.KAI_TAPE===true,before+','+mid+','+!!G.events.done.ev_kai_tape]; });
   chk('1. 三天後那一則：第一晚沒演的沒有；10/30 17:59 還沒、18:00 以後第一次回房間；11/3 以後不演',()=>{ fresh(t30,18.5,'dorm'); R('kai','FAM'); const a=EVENTS.check(ev('ev_kai_tape2')); G.events.done.ev_kai_tape=1; G.flags.KAI_TAPE=true; G.hour=17.98; const b=EVENTS.check(ev('ev_kai_tape2')); G.hour=18; const c=EVENTS.check(ev('ev_kai_tape2')); G.day=t30+2; G.hour=22; const d=EVENTS.check(ev('ev_kai_tape2')); G.day=t30+4; G.hour=20; const e=EVENTS.check(ev('ev_kai_tape2'));
     return [!a&&!b&&c&&d&&!e,[a,b,c,d,e].join(',')]; });
-  await achk('1. 10/30：「（膠帶上多了一行麥克筆的字：「法律系可以無條件入境」。）」阿凱「（沒有回頭）期中考完了。國界放寬。」，沒有選項',async()=>{ fresh(t30,19,'dorm',{KAI_TAPE:true}); G.events.done.ev_kai_tape=1; R('kai','FAM'); const T=await play('ev_kai_tape2'); return [J(T)===J(['（膠帶上多了一行麥克筆的字：「法律系可以無條件入境」。）',NAME('kai')+'：（沒有回頭）期中考完了。國界放寬。'])&&opts.length===0,J(T)]; });
+  await achk('1. 10/30：「（膠帶上多了一行麥克筆的大字：「法律系免簽」。）」阿凱「（沒有回頭）期中考完了。國界放寬。」，沒有選項',async()=>{ fresh(t30,19,'dorm',{KAI_TAPE:true}); G.events.done.ev_kai_tape=1; R('kai','FAM'); const T=await play('ev_kai_tape2'); return [J(T)===J(['（膠帶上多了一行麥克筆的大字：「法律系免簽」。）',NAME('kai')+'：（沒有回頭）期中考完了。國界放寬。'])&&opts.length===0,J(T)]; });
   chk('1. Y1-B KAI_TAPE 讀的那一句：和阿凱升到好朋友（大一）＝「（地上的紙膠帶不見了。）」「膠帶我撕掉了啦，反正你一直過來。」',()=>{ fresh(t30+20,20,'dorm'); R('kai','CLO'); const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let a,b; try{ a=SOCIAL.upLine('kai'); G.flags.KAI_TAPE=true; b=SOCIAL.upLine('kai'); } finally { SOCIAL.playerYear=py; }
     return [a&&a.l[0]!=='（地上的紙膠帶不見了。）'&&b&&J(b.l)===J(['（地上的紙膠帶不見了。）','「膠帶我撕掉了啦，反正你一直過來。」']),J(b)]; });
   { fresh(t30+20,20,'dorm'); R('kai','CLO'); G.flags.KAI_TAPE=true; const py=SOCIAL.playerYear; SOCIAL.playerYear=()=>1; let before,after,err=null; try{ before=!!G.flags.KAI_TAPE_GONE; await SOCIAL.playUp(GM,null,'kai'); after=G.flags.KAI_TAPE_GONE===true; }catch(e){ err=e.message; } finally { SOCIAL.playerYear=py; }

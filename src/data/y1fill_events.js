@@ -61,7 +61,7 @@ const Y1FILL_EVENTS=(function(){
       consequences:{flags:{KAI_TAPE:true}} },
     { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'blur',
       prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)},
-      dialogue:[ {speaker:null,text:'（膠帶上多了一行麥克筆的字：「法律系可以無條件入境」。）'},
+      dialogue:[ {speaker:null,text:'（膠帶上多了一行麥克筆的大字：「法律系免簽」。）'},
         {speaker:'kai',text:'（沒有回頭）期中考完了。國界放寬。'} ] },
     /* ---------- 1-2 運動會：11/21 10:00 田徑場（2D：校園一般背景＋字幕「田徑場」）---------- */
     { id:'ev_y1_relay', title:'運動會', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark',

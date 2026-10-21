@@ -717,7 +717,7 @@ python3 build.py
 - 找路（v9.3 第二十五批，D35）：`E3.NavGrid.path` 先只走「人物（半徑 0.33 m）站得住」的格子（`clearMask`），找不到才退回舊的；拉直路線用 `losR`。**加家具、改 `blockRect` 後跑 `tests/reachability_all.py`**（全遊戲 103 個互動點用引擎真正的移動模擬走一遍；`--legacy` 切回舊找路）。測試用的掛勾：`E.simWalk`、`?navlegacy`、`GAME.walkFallbacks`（劇情自動走路卡住 4 秒遊戲時間就放到目的地的次數，真實流程測試要求 0）、`GAME.seatApproach`、`GAME.minimapArrow`。
 - 小地圖（v9.3 第二十五批）：前方朝上的旋轉地圖，旋轉角＝鏡頭角度（`E.cam.yaw`，鏡頭在玩家的 (sin yaw, cos yaw) 那一側）；有「北」標示與玩家箭頭。改小地圖跑 `tests/minimap_direction.py`。
 - 已修：教室同學朝向、VRM 0.x 朝向與坐姿軸向、標題畫面自動存檔覆蓋進度、標題「讀取」選單被蓋住、Café 座位擋住對話、直向小地圖蓋住選單、互動按鈕蓋住搖桿（細節見 ART_REBUILD_PROGRESS 的技術問題紀錄）。
-- 等使用者決定：黃昏調色提案（`engine3d.js` 的 `KEY_GOLDEN`，網址加 `?grade=golden` 才用，預設不開；比較圖在 VISUAL_REVIEW 第 10 節）。使用者沒選之前不要改預設。
+- 黃昏調色提案（`engine3d.js` 的 `KEY_GOLDEN`；比較圖在 VISUAL_REVIEW 第 10 節）：**使用者 10-18 已選「預設就開」**（GRADE-GOLDEN-DEFAULT；D108 起由 LAWWW2 改：只把 `E.grade` 預設改成 golden、`?grade=off` 回到原本，並重拍第 10 節）。LAWWW2 的修改合併以前，程式預設仍是關（網址加 `?grade=golden` 才用）。
 - 已知、暫不修：陳語彤領口中間的黑色小蝴蝶結（ART_REBUILD_PROGRESS #34：連帽上衣改的領口離胸口 5–6 cm；收緊領口會更醜，需要真的圓領 T 恤模型）。查人物畫面問題時，用 `tools/dev_scratch/outline_probe.py` 在遊戲裡「一次只改一樣東西」截圖，不要用猜的（同一個問題猜錯過兩次）。
 - 跑回歸測試（尤其 `touch_flow_wenzhou`、`movement_regression`）時，不要同時跑其他瀏覽器工作：SwiftShader 搶不到 CPU，走路停的位置會變，曾因此誤判（#36）。
 - VRM 彈簧骨（頭髮、馬尾）：`src/character3d.js` 的 `updateVRM` 在彈簧骨更新前先 `vrm.scene.updateWorldMatrix(true,true)`——three-vrm 用子骨頭的 matrixWorld 算骨長，少了這行，人物移動或低幀率時頭髮會被甩到耳朵高度（v9.3 技術問題 #25）。**不要拿掉**。開發時可以用 Node 載入 `lib/` 與 `src/` 模擬彈簧骨（不需要瀏覽器），做法見 ART_REBUILD_PROGRESS #25。
