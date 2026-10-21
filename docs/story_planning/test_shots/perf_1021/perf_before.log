@@ -1,0 +1,15 @@
+  [前置／捷徑] 讀存檔
+  [前置／捷徑] [捷徑] 15.0 GAME.enter(campus)
+  campus     15.0  calls 最多  614  三角形 1357497  fps(SwiftShader) [0.34, 0.48, 0.42, 0.5]  mesh 1952  投影子 1234  instanced 35  燈 3  幾何 617  貼圖 593  shader 83
+  [前置／捷徑] [捷徑] 15.0 GAME.enter(wenzhou)
+  wenzhou    15.0  calls 最多  289  三角形  524538  fps(SwiftShader) [0, 0.33, 0.5, 0.74]  mesh 997  投影子 327  instanced 33  燈 6  幾何 560  貼圖 353  shader 98
+  [前置／捷徑] [捷徑] 15.0 GAME.enter(gongguan)
+  gongguan   15.0  calls 最多  311  三角形  579376  fps(SwiftShader) [1, 0.5, 0.75, 1.48]  mesh 988  投影子 551  instanced 8  燈 3  幾何 365  貼圖 298  shader 82
+  [前置／捷徑] [捷徑] 19.5 GAME.enter(campus)
+  campus     19.5  calls 最多  544  三角形 1079191  fps(SwiftShader) [0.5, 0.5, 0.75, 0.25]  mesh 1496  投影子 846  instanced 35  燈 3  幾何 658  貼圖 468  shader 87
+  [前置／捷徑] [捷徑] 19.5 GAME.enter(wenzhou)
+  wenzhou    19.5  calls 最多  331  三角形  371298  fps(SwiftShader) [0, 0.38, 0.48, 0.5]  mesh 995  投影子 327  instanced 33  燈 6  幾何 585  貼圖 358  shader 100
+  [前置／捷徑] [捷徑] 19.5 GAME.enter(gongguan)
+  gongguan   19.5  calls 最多  413  三角形  637334  fps(SwiftShader) [0.46, 0.75, 0.75, 1.5]  mesh 1145  投影子 568  instanced 16  燈 3  幾何 473  貼圖 449  shader 84
+PASS 沒有 JS 例外  []
+ALL PASS

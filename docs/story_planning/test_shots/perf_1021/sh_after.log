@@ -1,0 +1,8 @@
+  [前置／捷徑] [捷徑] campus 15.5 (34,-92)
+  campus：[{"from_min": 0, "to_min": 1, "changed_pct": 0.501}, {"from_min": 1, "to_min": 2, "changed_pct": 12.513}, {"from_min": 2, "to_min": 4, "changed_pct": 0.0}, {"from_min": 4, "to_min": 8, "changed_pct": 18.052}]
+  [前置／捷徑] [捷徑] wenzhou 15.5 (30,0)
+  wenzhou：[{"from_min": 0, "to_min": 1, "changed_pct": 0.009}, {"from_min": 1, "to_min": 2, "changed_pct": 4.048}, {"from_min": 2, "to_min": 4, "changed_pct": 3.512}, {"from_min": 4, "to_min": 8, "changed_pct": 1.776}]
+  [前置／捷徑] [捷徑] gongguan 15.5 (0,-28)
+  gongguan：[{"from_min": 0, "to_min": 1, "changed_pct": 0.0}, {"from_min": 1, "to_min": 2, "changed_pct": 0.612}, {"from_min": 2, "to_min": 4, "changed_pct": 0.017}, {"from_min": 4, "to_min": 8, "changed_pct": 1.402}]
+PASS 沒有 JS 例外  []
+ALL PASS
