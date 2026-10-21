@@ -164,7 +164,7 @@ const DATE=(function(){
     if(b>23.5) return no('回來會超過 23:30，來回趕不上');
     /* 要看的時段：當天來回＝出發到回來；兩天一夜＝第一天出發到半夜、第二天到回來（她的作息看第一天到 22:00、第二天 08:30 起）*/
     const span=ov?[[day,a,24,a,O.dayEnd],[day+1,0,b,O.morning,P.leave]]:[[day,a,b,a,b]], dw=d=>d===day?'那天 ':'隔天 ';
-    if(ov) for(const [d] of span){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T&&T.exam) return no('考試週'); }   /* AA_126 1-1：考試週不能排過夜（期中第 8～9 週、期末第 16 週）*/
+    if(ov||P.kind==='day') for(const [d] of span){ const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(d):null; if(T&&T.exam) return no('考試週'); }   /* AA_126 1-1（企劃線第 41 行）：「一日遊和兩天一夜在考試週的日子不能選，行程表上直接標『考試週』」（期中第 8～9 週、期末第 16 週）；半日、晚上照舊（只避開考試時段）——BUG-DATE-EXAMWEEK-DAY-1021 */
     if(typeof CLS!=='undefined'&&CLS.dayItems){ for(const [d,x,y] of span) for(const it of (CLS.dayItems(G,d)||[])){ if(it.t1<=x||it.t0>=y) continue;
       if(it.examMain||(CLS.examAt&&CLS.examAt(G,d,it.t0,it.t1))) return no(dw(d)+hm(it.t0)+' 要考'+it.c.name);
       warns.push((ov&&d!==day?'隔天':'')+(isLaw(it.c)?'會錯過 '+hm(it.t0)+' 的'+it.c.name+'（法律課不點名）':'會少一次出席：'+hm(it.t0)+' 的'+it.c.name)); } }
