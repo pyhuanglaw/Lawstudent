@@ -27307,6 +27307,27 @@
    "source": "BB（帳號 A）2026-10-21 17:50 QA-PLAYTHROUGH-1018「天天睡覺」（807b650a＝候選 b23483dd 的遊戲程式；BB_218 最後一節 story-planning d4b05752，test_shots/qa_sleep_1021/）",
    "authorized": "bug 修正（D85）",
    "next": "【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去"
+  },
+  {
+   "id": "AA368-Y0-FIX-1021",
+   "title": "AA_368 經濟系那一年「知道太早／時間矛盾」修正（企劃線 e55fda50）：高 5 項（H1 颱風假日期卡 9/24 就出現、H2 四月二日卡 3/16 就出現——拆範圍；H3 2/8 又問重選科系——換一則、拿掉 ask；H4 7/10 公館巷子→她家巷子；H5 msg_kx_y0 分期改日子＋寒假在臺北 12/21～1/13）、中 8 項（M3 資料頁休學日期照日期換、M6 y0_xu_seat 10/23 起、M7 7/25 夜班客運 02:30→7/26 02:10、M8 E37 經濟系路線也開車回家再搭捷運…）、低（可昕假設題兩則、{name} 寫死兩處、指考→分科測驗、y0_py_notes2 週次）",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 4,
+    "earliest": "2024-09-24 颱風假日期卡",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
+   "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
+   "next": "v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做"
   }
  ]
 }
