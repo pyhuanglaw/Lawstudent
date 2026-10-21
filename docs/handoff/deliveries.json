@@ -15893,6 +15893,25 @@
    "coveredBy": "DL-AA-56a36a4d",
    "reason": "AA_242 第 12 節第一次寫錯檔名（多建一個怪名字的檔），56a36a4d 搬回、刪掉",
    "why": "AA-C 10-21 13:39 訊息"
+  },
+  {
+   "sha": "074b5050",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 交接檔「全部待辦」補 10-21 最新清單＋巡場景校園夜晚的紀錄（社科院大廳中庭全黑、椰林大道路面太暗、醉月湖背景…）；LAWWW2 自己的待辦，不是交付"
+  },
+  {
+   "sha": "18bd8e26",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "outbox_LAWWW2.json 照 outbox_fix_1021 改欄位（舊筆數沒刪）；不是交付"
+  },
+  {
+   "sha": "27618d8d",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PS-SKIRT-LEG",
+   "reason": "沛珊膝蓋穿出長裙試做 WIP（不交）；WIP-L2-PS-SKIRT-LEG"
   }
  ]
 }
