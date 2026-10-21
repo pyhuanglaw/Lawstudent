@@ -12710,6 +12710,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:2x 照原文 41 句接進 termend_lines.js、termend3d.js 一行；學姊大四上「我回來三個禮拜了」先不用（她 12/23 回來、12/24 就約），問 AA；termend_unit 16（改之前 FAIL 2）"
+  },
+  {
+   "id": "DL-LAWWW2-8e8d130e",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8e8d130e",
+   "what": "ART-DIRECTOR-LAWWW2 巡場景（校園）：社科院一樓柱廊 14 根柱子換 wz_pillar_soc 材質＝擋住玩家時網點透空（鏡頭跟進柱廊時整個人看不見的問題）；只換 campus_socsci.glb＋.json（三角形不變、材質 +1、導航／鏡頭碰撞／門不變）；說明 75080217 test_shots/soc_pillar_1021/README.md",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 換兩個檔；zones3d.js:447 社科院走 attachWenzhouModel，wz_pillar_* 本來就透空；socsci_place、nav_soclib、nav_buildings、campus_public 單元全過；BB 畫面驗收（柱廊裡鏡頭跟著時看得到人）"
   }
  ],
  "ignored": [
