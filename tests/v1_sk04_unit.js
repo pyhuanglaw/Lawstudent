@@ -44,6 +44,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   fresh(thu(3),9.1,'gongtong'); G.stage='law'; L=await cls(3,'不回'); const L2=await cls(4), L3=await cls(15);
   check('4. 第一張選「不回」：之後沒有便利貼、不揭曉',G.flags.SK04_REPLY==='none'&&!L2.length&&!L3.length&&!G.flags.STICKY_NOTES);
   fresh(thu(4),9.1,'gongtong'); G.stage='law'; L=await cls(4,'椅子也是'); check('5. 第 3 週沒來：第 4 週才看到第一張',L[1]==='這個位子的插座是壞的。'&&G.flags.SK04_REPLY==='chair');
-  fresh(thu(6),9.1,'gongtong'); G.stage='law'; L=await cls(6); check('5. 第 6 週以後才第一次來：沒有',!L.length);
+  /* AA_294 ②（企劃 b3ec8820）：第一張延到下一次出席英文，到第 12 週（原本第 6 週以後就沒有）*/
+  fresh(thu(6),9.1,'gongtong'); G.stage='law'; L=await cls(6,'椅子也是'); check('5. 第 6 週才第一次來：照樣有第一張（AA_294 ②：到第 12 週）',L[1]==='這個位子的插座是壞的。'&&G.flags.SK04_REPLY==='chair',JSON.stringify(L));
+  fresh(thu(12),9.1,'gongtong'); G.stage='law'; L=await cls(12,'椅子也是'); check('5. 第 12 週才第一次來：還有',L[1]==='這個位子的插座是壞的。',JSON.stringify(L));
+  fresh(thu(13),9.1,'gongtong'); G.stage='law'; L=await cls(13); check('5. 第 13 週以後才第一次來：沒有（這條線沒有）',!L.length,JSON.stringify(L));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

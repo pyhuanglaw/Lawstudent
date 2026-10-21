@@ -193,8 +193,11 @@ const CLS=(function(){
   const recObs=id=>{ if(!recIdx){ attachSyllabus(); if(typeof SYLLABUS==='undefined') return null; recIdx={}; for(const cid in SYLLABUS.courses) for(const w of SYLLABUS.courses[cid]) if(w.obs&&w.obs.record) recIdx[w.obs.record]=w.obs; } return recIdx[id]||null; };
   S.attendedWeek=function(G,spec){ const p=String(spec||'').split(':'); if(p.length!==3||typeof CALENDAR==='undefined') return false; const w=+p[2].replace(/^w/,''), R=S.rec(G);
     for(const k in R.done){ const q=k.split(':'); if(q[1]!==p[1]) continue; const t=CALENDAR.termOf(+q[0]); if(t&&t.id===p[0]&&t.week===w) return true; } return false; };
-  S.recallText=function(G,r){ if(!r) return ''; const R=S.rec(G);
-    if(r.record){ const i=R.disc[r.record]; if(i==null) return r.missed||''; const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
+  /* 「你不在」的版本（AA_294 第 1 節「討論課的選擇被大四引用」那一列，企劃 b3ec8820）：大四那堂引用大一的答案，玩家大一那一堂沒去（沒有紀錄）時說的那一句。
+     課表資料（syllabus.js，企劃匯入）有 missed 的照它（公法判決研討第 3 週）；還沒有的兩處照 AA_294 這一句：課程|週|引用的紀錄 */
+  S.RECALL_MISSED={'crim_judgment_sem|3|B_Y1S2_crim_gen2_w3':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）','legal_research|11|B_Y1S1_const_1_w11':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）'};
+  S.recallText=function(G,r,it){ if(!r) return ''; const R=S.rec(G);
+    if(r.record){ const i=R.disc[r.record]; if(i==null) return r.missed||(it&&it.c?S.RECALL_MISSED[it.c.id+'|'+it.week+'|'+r.record]:'')||''; const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
       const ch=opts[i]&&opts[i].text; return ch?String(r.said||'').replace('{choice}',ch):''; }
     let ok=false;
     if(r.attended) ok=S.attendedWeek(G,r.attended);
@@ -203,7 +206,7 @@ const CLS=(function(){
     else if(r.activity) ok=typeof ACTIVITIES!=='undefined'&&(r.full?!!ACTIVITIES.attended&&ACTIVITIES.attended(G,r.activity):!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,r.activity));   /* full：要聽完（含 left_after；AA-B 10-16：C15 那句中途離開的沒有）*/
     return ok?(r.say||''):''; };
   S.discuss=async function(GM,it,ct,prof){ const G=GM.G, R=S.rec(G), ob=ct.obs, c=it.c, opts=ob.options||[], rc=ob.recall||[];
-    const recall=async who=>{ for(const r of rc) if((r.after||null)===who){ const t=S.recallText(G,r); if(t) await GM.say(null,t); } };
+    const recall=async who=>{ for(const r of rc) if((r.after||null)===who){ const t=S.recallText(G,r,it); if(t) await GM.say(null,t); } };
     if(ob.prompt) await GM.say(null,ob.prompt);
     await recall(null);
     const i=await GM.choose(opts.map(o=>({t:o.text}))); const res=opts[i]&&opts[i].result; if(res) await GM.say(null,res);
@@ -255,7 +258,7 @@ const CLS=(function(){
         for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
-        for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
+        for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r,it); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
         for(const f of S.IN_CLASS){ try{ await f(GM,it,prof,ct); }catch(e){ console.warn('CLS.IN_CLASS',e); } }
         if(p1){ for(const l of S.P1_LINES) await GM.say(null,typeof l==='function'?l():l); } else if(ct.react) await GM.say(null,ct.react);
         if(S.e04Due(G,it)) await S.e04(GM);   /* E04 微積分初體驗（BB_104 8b-1）：第 2 週那一堂才有，沒去就沒有 */   /* P1：BB_105 2-3 的四句（阿勳、韋綸、品妤、遠處的可昕）*/
@@ -667,6 +670,7 @@ const CLS=(function(){
   S.canSkip=function(GM){ const G=GM.G; if(!G||opening(G)) return '第一、二天先跟著劇情走'; if(late(G)) return '已經過午夜了，回宿舍睡覺吧（睡醒就是明天）'; if(GM.D&&GM.D.active) return '對話中'; if(GM.E&&GM.E.player&&GM.E.player.busy) return '現在不能跳'; return ''; };
   S.skipStops=function(GM,h1){ const G=GM.G, out=[]; const h0=hr(G);
     for(const it of S.dayItems(G)){ const sp=(it.c.specials||[]).find(q=>q.w===it.week&&q.content); if(sp&&it.t0-1/6>h0&&it.t0-1/6<h1) out.push({h:it.t0-1/6,why:'特殊課堂：'+it.c.name}); }
+    for(const it of S.dayItems(G)){ if(it.exam&&!S.rec(G).done[it.key]&&it.t0-1/6>h0&&it.t0-1/6<h1) out.push({h:it.t0-1/6,why:'考試：'+it.c.name}); }   /* 考試不給翹（AA_294 ①）：跳過時間停在考試前 10 分鐘，接著 S.oneTick 帶進考場 */
     for(const iv of (G.invites||[])){ if(iv.day===G.day&&iv.accepted&&!iv.done&&iv.h-1/6>h0&&iv.h-1/6<h1) out.push({h:iv.h-1/6,why:'約好的時間：'+(iv.label||'')}); }
     if(typeof DATE!=='undefined'&&DATE.alarmsFor) for(const q of DATE.alarmsFor(G,G.day)){ if(q.dep-1/6>h0&&q.dep-1/6<h1) out.push({h:q.dep-1/6,why:'約好的出發時間：'+q.label}); }   /* 校外約會：出發前 10 分鐘停（DATE-S4）*/
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)){ if(!q.alarm||q.state!=='planned'||q.day!==G.day) continue; const dep=q.h-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0)); if(dep-1/6>h0&&dep-1/6<h1) out.push({h:dep-1/6,why:'約好的出發時間：'+q.title}); }   /* 出遊標 alarm 的（X81：8/30 載可昕上山）：出發前 10 分鐘停 */
@@ -680,6 +684,7 @@ const CLS=(function(){
   /* o.nap：在床上小睡（story3d.js 的 S.bedOptions）——一樣的停點與確認；旁白寫「醒來」*/
   S.skipTo=async function(GM,h1,o){ o=o||{}; const G=GM.G, why=S.canSkip(GM); if(why){ GM.toast(why,3000); return false; } const h0=hr(G); if(h1<=h0+0.05) return false; if(h1>23.99) h1=23.99;
     const cb=S.closingBlock(G,h1); if(cb){ GM.toast(cb,4000); return false; }
+    { const ex=S.dayItems(G).find(it=>it.exam&&!S.rec(G).done[it.key]&&S.status(G,it)==='open'&&h0>=it.t0-1/6); if(ex){ GM.toast(S.examName(ex)+'快開始了。',3000); return false; } }   /* 考試前 10 分鐘以後不能跳過去（AA_294 ①）*/
     const stops=S.skipStops(GM,h1); const stop=stops[0]; const target=stop?stop.h:h1;
     const passed=S.dayItems(G).filter(it=>S.status(G,it)!=='done'&&it.t1-LATE_END>h0&&it.t1-LATE_END<=target&&!S.storyClass(G,it)&&!(h0>it.t0+WIN1));   /* 已經遲到超過 15 分鐘的課（照樣記缺席）不再警告「會錯過」（v9.7 試玩回歸 flow_playtest_fixes C：10:00 小睡，跳出「會錯過 09:10 國文」）*/
     if(passed.length){ GM.sceneBegin(); let i=0; try{ i=await GM.choose([{t:'照樣跳過',hint:'會錯過：'+passed.map(it=>hhmm(it.t0)+' '+it.c.name).join('、')},{t:'先不要'}]); } finally { GM.sceneEnd(); } if(i!==0) return false; }
@@ -751,7 +756,7 @@ const CLS=(function(){
   const freeNow=GM=>{ const E=GM.E, P=E&&E.player; return !!P&&!E.paused&&!P.busy&&!P.seat&&!(GM.D&&GM.D.active)&&!GM.titleIdle&&!(P.path&&P.path.length); };   /* E.paused＝手機或選單開著：下課選單、起床選單不要跳在手機下面（flow_v0_to1017 9/19 卡住：選單在手機後面點不到）*/
   S.canGo=function(GM){ const why=S.canSkip(GM); if(why) return why; if(typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(GM.G).at) return '你在臺北的家'; return ''; };
   /* 起床選單（1-2）*/
-  S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=it.exam==='final';
+  S.wakeMenu=async function(GM){ const G=GM.G; if(S.wakeMenuOn(GM)&&typeof STORY!=='undefined'&&STORY.retakeOn&&STORY.retakeOn(G)&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))) return !!(await STORY.retakeWake(GM));   /* 經濟系重考期的起床選單（AA_154 A39）*/ if(!S.wakeMenuOn(GM)||S.canGo(GM)) return false; const list=S.goList(G).filter(it=>!S.planSkip(G,it)); if(!list.length) return false; const it=list[0], exam=!!it.exam;   /* 期中、期末都一樣不給翹（AA_294 ①；原本只有期末）*/
     const pl=S.goPlan(GM,it); let k=-1; GM.sceneBegin(); try{
       await GM.say(null,'早安。今天的課：'+list.slice(0,3).map(q=>hhmm(q.t0)+'　'+q.c.name+'　'+(q.room.name||'')).join('　／　')); const more=S.todayMore(G); if(more.length) await GM.say(null,'今天還有：'+more.join('、'));
       const opts=exam?[{t:'直接去考場：'+it.c.name,hint:S.planHint(GM,it,pl)},{t:'先起床',hint:'考試前 10 分鐘會自動帶你進考場'}]
@@ -761,7 +766,8 @@ const CLS=(function(){
       if(to>hr(G)+0.25){ let j=1; GM.sceneBegin(); try{ j=await GM.choose([{t:'再睡一下（睡到 '+hhmm(to)+'）'},{t:'起床'}]); } finally { GM.sceneEnd(); } if(j===0) await S.skipTo(GM,to,{nap:true}); } }   /* 小睡醒來 skipTo 會再排一次起床選單 */
     return true; };
   /* 翹課（1-5）：確認一句；記 plan_skip（手機寫「翹課」、30 分鐘提醒不出）；不加旗標、不改關係；期末考不能翹 */
-  S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam==='final'){ GM.toast('期末考不能翹。',3000); return false; } let k=1; GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); k=await GM.choose([{t:'翹'},{t:'還是去'}]); } finally { GM.sceneEnd(); }
+  S.examName=it=>it&&it.exam==='mid'?'期中考':'期末考';
+  S.skipClass=async function(GM,it){ const G=GM.G; if(it.exam){ GM.toast(S.examName(it)+'不能翹。',3000); return false; }   /* 考試不給翹：期中、期末都一樣（AA_294 ①）*/ let k=1; GM.sceneBegin(); try{ await GM.say(null,'翹掉'+it.c.name+'？記「沒去」，不扣分。'); k=await GM.choose([{t:'翹'},{t:'還是去'}]); } finally { GM.sceneEnd(); }
     if(k!==0){ await S.goClass(GM,it); return false; } S.rec(G).note['plan_skip_'+it.key]=1; if(GM.autosave) GM.autosave(); return true; };
   /* 直接去上課（1-3）*/
   S.goClass=async function(GM,it,o){ o=o||{}; const G=GM.G; if(S.rec(G).done[it.key]) return false; const why=o.forced||o.fromHome?'':S.canGo(GM); if(why){ GM.toast(why,3000); return false; }
@@ -769,7 +775,7 @@ const CLS=(function(){
     if(!o.forced&&!o.fromHome&&hr(G)<pl.depart-0.02){ const ok=await S.skipTo(GM,pl.depart); if(!ok) return false; if(hr(G)<pl.depart-0.02){ contP={day:G.day,key:it.key}; return false; } pl=S.goPlan(GM,it); }   /* 等待照跳過時間的規則（停點：約好的時間、特殊課堂、劇情）；停下來的話，劇情演完出「繼續去上課」*/
     if(S.status(G,it)==='missed'){ GM.toast(it.c.name+'已經快下課了，現在進去不算出席。',3600); return false; }
     const d=pl.d; if(G.zone!==d.zone||o.fromHome){ if(typeof ACTIVITIES!=='undefined'&&ACTIVITIES.leave) ACTIVITIES.leave(G);
-      GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',o.forced?'期末考快開始了。你收拾東西往考場走。':(pl.mrt?'坐捷運、轉公車到':(pl.bike?'騎腳踏車到':'走路到'))+bldName(it)+'。',2400); GM.advance(pl.mins/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
+      GM.sceneBegin(); try{ await GM.fade(true); GM.caption('',o.forced?S.examName(it)+'快開始了。你收拾東西往考場走。':(pl.mrt?'坐捷運、轉公車到':(pl.bike?'騎腳踏車到':'走路到'))+bldName(it)+'。',2400); GM.advance(pl.mins/60); await GM.sleep(500); } finally { GM.sceneEnd(); }
       await GM.enter(d.zone); }
     if(d.door) return S.attend(GM,it,{door:true,lateOk:!!o.forced});   /* 門口上課（萬才館研討室、法圖櫃台、服務學習、體育館）：不選座位 */
     return S.seatPick(GM,it,o); };
@@ -808,10 +814,19 @@ const CLS=(function(){
     const m=MEALS[i]; if(!m) return false; if(G.money<m.price){ GM.toast('錢不夠',2400); return false; } GM.sceneBegin(); try{ await GM.fade(true); GM.money(-m.price); GM.advance(40/60); GM.caption('',m.line,2600); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
   /* 在附近讀書（1-4）：讀到出門時間；每小時一份準備給下一堂（和自學同一個 prep，AA_104 4-3）。時段次數（DL-03）做好以後算一次自習 */
   S.studyUntil=async function(GM,nx,until){ const G=GM.G, h0=hr(G); if(until<=h0+0.1) return true; if(S.slotPlan){ const sp=S.slotPlan(G,until-h0,'study'); if(!sp.ok){ GM.toast(sp.why,3000); return false; } S.slotUse(G,sp.uses); }   /* 算一次自習（DL-03）*/ const R=S.rec(G), hrs=Math.max(1,Math.floor(until-h0)); GM.sceneBegin(); try{ await GM.fade(true); GM.advance(until-h0); R.prep[nx.c.id]=(R.prep[nx.c.id]||0)+hrs; R.lastStudy={day:G.day,id:nx.c.id,name:nx.c.name}; if(G.stats) G.stats.study=(G.stats.study||0)+hrs; GM.caption('','你找了個位子，把'+nx.c.name+'這週的進度讀到 '+hhmm(hr(G))+'。',2800); await GM.sleep(600); await GM.fade(false); } finally { GM.sceneEnd(); } return true; };
+  /* 開學第二天的民總（劇情課：story3d.js 的 classScene，進 201 就開始）不能翹（AA_294 第 1 節第 1 列、第 3 節「時間到了直接帶去」，任務 AA294-SKIPCLASS-1018）：
+     法律系主線第 2 天（週四）12:30～15:12 還沒上（classDone）、玩家空下來，就帶過去。還沒演過霖澤館前那一段（campusIntro：阿哲；新局 9/4 的初遇也在那裡，
+     AA_294 ev_zhe_w1_meet 那一列靠它）先帶到校園，演完再帶進 201；人已經在 201（12:30 以前就進來了）＝重新進一次，照舊開始上課 */
+  S.day2Due=function(G){ if(!G||late(G)||typeof STORY==='undefined'||!STORY.mainDay||STORY.mainDay(G)!==2||(STORY.isEcon&&STORY.isEcon(G))) return false; const F=G.flags||{}, h=hr(G);
+    return G.weekday===4&&!F.classDone&&!F.classNow&&h>=12.5&&h<15.2; };
+  S.goDay2=async function(GM){ const G=GM.G, F=G.flags||{}; if(!S.day2Due(G)) return false; const to=F.campusIntro?'classroom':'campus';   /* 已經在那一區也重新進一次：進區域才會開始那一段（story3d.js S.onEnter）*/
+    GM.sceneBegin(); try{ await GM.fade(true); GM.caption('','走路到霖澤館。',2400); await GM.sleep(500); } finally { GM.sceneEnd(); } await GM.enter(to);
+    return true; };
   /* 每 0.5 秒（S.tick）：待出的選單；期末考到時間（開始前 10 分鐘）自動帶進考場（AA_126 1-1）*/
   S.oneTick=function(GM){ const G=GM.G; if(!G||goBusy) return; if(typeof ECONFF!=='undefined'&&ECONFF.on(G)) return;   /* 經濟系事件接事件（D102）：不跳「去上課」「起床」選單，由 ECONFF 帶 */ if(typeof PG!=='undefined'&&PG.on&&PG.on(G)) return;   /* 畢業後篇（src/postgrad3d.js）：不再跳去上課、考試 */ if(!freeNow(GM)){ freeSince=0; freeTicks=0; return; } const now=Date.now(); if(!freeSince) freeSince=now; freeTicks++; if(now-freeSince<FREE_MS||freeTicks<3) return;   /* 連續空下來 1.5 秒、而且至少 3 次 tick：這一區的 auto／enter 事件先檢查過（低幀率時一幀可能就超過 1.5 秒）*/
     const run=f=>{ goBusy=true; (async()=>{ try{ await f(); }catch(e){ console.warn('oneclick',e); } finally{ goBusy=false; freeSince=0; freeTicks=0; } })(); };
-    if(!opening(G)&&!late(G)){ const ex=S.dayItems(G).find(q=>q.exam==='final'&&!S.rec(G).done[q.key]&&S.status(G,q)==='open'&&hr(G)>=q.t0-1/6); if(ex&&!S.canGo(GM)){ run(()=>S.goClass(GM,ex,{forced:true})); return; } }
+    if(!opening(G)&&!late(G)){ const ex=S.dayItems(G).find(q=>q.exam&&!S.rec(G).done[q.key]&&S.status(G,q)==='open'&&hr(G)>=q.t0-1/6); if(ex&&!S.canGo(GM)){ run(()=>S.goClass(GM,ex,{forced:true})); return; } }   /* 期中、期末都帶進考場（AA_294 ①；原本只有期末）*/
+    if(S.day2Due(G)){ run(()=>S.goDay2(GM)); return; }   /* 開學第二天的民總（AA_294 ①）*/
     if(contP){ const c=contP; contP=null; if(c.day===G.day){ const it=S.dayItems(G).find(q=>q.key===c.key); if(it&&!S.rec(G).done[it.key]&&S.status(G,it)!=='missed'){ run(async()=>{ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'繼續去上課：'+it.c.name,hint:S.planHint(GM,it)},{t:'先不去了'}]); } finally { GM.sceneEnd(); } if(k===0) await S.goClass(GM,it); }); return; } } }
     if(afterP&&now-(afterP.t||0)>=WAKE_GRACE){ const a=afterP; afterP=null; if(a.day===G.day){ run(()=>S.afterMenu(GM,a.key)); return; } }   /* 下課選單也排在這一區的 auto／enter 事件之後（AA_160 3-4 C，AA-B 10-16：例 週五 12:06 普通的芷若 ev_zhiruo_ge_group）*/
     if(wakeP&&now-wakeP.t>=WAKE_GRACE){ const w=wakeP; wakeP=null; if(w.day===G.day) run(()=>S.wakeMenu(GM)); } };

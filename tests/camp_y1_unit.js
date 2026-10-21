@@ -194,6 +194,7 @@ const day=k=>STORY.dayOfKey(k);
     check('L5. 校慶 11/15、運動會 11/21 停課（AA_195 第 3 節：CALENDAR.SCHOOL）',CALENDAR.holiday(day('2025-11-21'))==='運動會（停課）'&&CALENDAR.holiday(day('2025-11-15'))==='校慶'&&CALENDAR.kind(day('2025-11-21'))==='holiday');
     const sk01=STORY_EVENTS.find(e=>e.id==='ev_sk01_soc'), n1=STORY_EVENTS.find(e=>e.id==='ev_sk04_note1');
     fresh(); Object.assign(G.flags,{MAIN_D1:STORY.MAIN_D1_NEW,LAW_START_DAY:day('2025-08-29')}); G.day=day('2025-09-10');
-    check('L6. SK01 第 1～6 週；SK04 第一張便利貼新局第 2 週可以（第 1～3 週）、第 4 週不行',JSON.stringify(sk01.weeks)==='[1,2,3,4,5,6]'&&!!n1&&(n1.prereq.custom(G)!==false||true)&&(()=>{ const ok2=n1.prereq.custom(G); G.day=day('2025-09-24'); const ok4=n1.prereq.custom(G); return ok2!==false&&ok4===false; })()); }
+    /* AA_294 ②（企劃 b3ec8820）：第一張延到下一次出席，到第 12 週（原本新局第 1～3 週、第 4 週不行）*/
+    check('L6. SK01 第 1～6 週；SK04 第一張便利貼新局第 2 週可以、第 4 週也可以（AA_294 ②：到第 12 週）、第 13 週不行',JSON.stringify(sk01.weeks)==='[1,2,3,4,5,6]'&&!!n1&&(()=>{ const ok2=n1.prereq.custom(G); G.day=day('2025-09-24'); const ok4=n1.prereq.custom(G); G.day=STORY.termDay('Y1S1',13,4); const ok13=n1.prereq.custom(G); return ok2!==false&&ok4!==false&&ok13===false; })()); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

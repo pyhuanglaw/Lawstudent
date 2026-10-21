@@ -52,6 +52,7 @@
   tier: 'short' | 'major',           // 層次（BB_105 第 1 節，AA_107 第 9 節第 5 項）：short＝同一棟一次進入最多一個、同一天全校最多兩個；
                                      // major＝同一棟一學期最多一個（寒暑假算前一個學期的假期）。不寫＝不受限（現有事件都不寫）
   building: 'dorm_f1',               // tier 的「同一棟」：預設是玩家所在的區域；校園上的門口事件可以另外指定
+  weeks: [10,11], carryTo: 15,       // 課堂事件（afterClass／beforeClass）：weeks 到了沒演（翹課）就延到下一次出席同一門課，最晚到第 carryTo 週（AA_294 ②）
 }
 ```
 
@@ -110,10 +111,10 @@
 { choice:[ { text:'「一起走吧。」', hint:'你有傘', if:{…}, dim:false,
             consequences:{…}, set:{…}, mem:[…], rel:{…}, choiceKey:'rainChoice', value:'share',
             goto:'share' | next:'ev_xxx' | end:true } ] }
-```
 // 她問到祐廷的感情狀態（BB_194 §24）：選項或劇本固定照實的那一句加 yt（ytHer＝問的那一位，沒寫＝事件的第一位人物；ytAbout＝claimEnded 說的是誰）
 { choice:[ { text:'「她不知道。」', yt:'honest' }, { text:'「就吃飯而已。」', yt:'dodge' }, { text:'「我跟她分了。」', yt:'claimEnded', ytAbout:'kexin' }, { text:'「我沒有女朋友。」', yt:'claimNone' } ] }
 { speaker:'player', text:'對。', yt:'honest', ytHer:'heroine_01' }   // 和事實比：說的那個人還在交往中＝YT_LIED[她][Y]，真的＝YT_HONEST[她]（romance3d.js ROM.ytAnswer）
+```
 
 文字可用 `{name}`（玩家名）與 `{npc:heroine_03}`（依揭露階段顯示的名稱）。
 
