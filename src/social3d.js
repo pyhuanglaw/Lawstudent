@@ -137,6 +137,7 @@ const SOCIAL = (function(){
   /* 面板名稱：AA_338 第 10 題（AA-C 21c74e3a）定稿 */ Object.assign(MEMORY_LABEL,{WATCHED_GAME_Y2B:'大二下也去看了他的系籃比賽',KX_BDAY2_CAKE:'她大二的生日，系上小教室的蛋糕',ECON_NIGHT:'經濟系之夜坐在前系友席',ZHE_PHOTOS:'跟他說搬進去那天要拍照',HEARD_FROM_ZIQING:'她錄取的事，先聽子晴說了',MX_TOLD:'聽他說，他跟以安說出口了',HEARD_ECON_NIGHT:'經濟系之夜沒去，聽說了那張空椅子',HELP_OFFERED:'說過想幫她', SHE_SAW_HIM:'她看出你最近很累', DROVE_HER:'開車送她去機場', AN_CHOICE_TOLD:'她說要考商法組的時候，你在', ANNIVERSARY_23:'麵店二十三週年那晚在場', REPLIED_US0:'她到美國那天，回了她的訊息', SIS_LAWLIB_NOTE:'十月的法圖，她用便利貼問你小考', SIS_RESULT_TOLD:'放榜那天，你先查到她的名字'});   /* 事件包第 2 輪之一（AA_325，src/y2r2_3d.js）*/
   Object.assign(MEMORY_LABEL,{ENC_D06_BH3:'在美術館遇到他（第三次）',ENC_D04_ZR3:'在西門町的電影院門口遇到她（第三次）',ENC_D12_ZQ3:'在大稻埕碼頭遇到她（第三次）'});   /* DL-08 小支線的第三次（enc_walk.js side 的 mem）；其他 ENC_ 的名稱在 encounters.js 的 labels */
   Object.assign(MEMORY_LABEL,{AN_BDAY_POMELO:'在中秋那天幫她過生日',ZHE_SAID_IT:'他第一次說自己「有事」',SAW_HIM_TRY:'聽他說交換放棄了，畢業以後自己存錢去'});   /* 1C 群戲（AA_324；src/group3d.js）：AN_BDAY_POMELO 照 AA_324 1C-02 第 4 節、ZHE_SAID_IT 照 AA_40 哲 4「影響」、SAW_HIM_TRY 照 AA_336 C13（選「那出國呢？」才記的）*/
+  Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'研究所放榜那晚在麵店',AN_COLUMBIA:'她說哥大上了、要去'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱先用 AA 稿旗標那一節寫的備註（AA 還沒另外定面板名稱）*/
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
