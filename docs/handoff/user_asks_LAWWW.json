@@ -823,6 +823,26 @@
    "status": "進行中",
    "task": "DIV-LW2-SCENE-1021",
    "note": "回答 LAWWW 15:5x 的分工提議（LAWWW 的 123 項開發待辦裡，場景類改派 LAWWW2；這一項要改 D100 才問使用者）。文字類給 AA、測試給 BB 本來就在 D100 範圍，不另問"
+  },
+  {
+   "id": "UA-LAWWW-1021-07",
+   "at": "2026-10-21T17:5x",
+   "quote": "我接下來幾天不會監督你們的開發 你要主動監督其他AI手上的工作  各自按各自領域決定",
+   "kind": "原話",
+   "status": "規則（永久）",
+   "wants": "X97",
+   "note": "D110；回覆時寫進 PROJECT_DECISIONS、CLAUDE.md、USER_WANTS X97，通知 AA、BB、LAWWW2"
+  },
+  {
+   "id": "UA-LAWWW-1021-08",
+   "at": "2026-10-21T17:5x",
+   "quote": "（LAWWW 解讀 UA-LAWWW-1021-07「各自按各自領域決定」）各職位在自己的領域內自己決定、不問使用者；但原本明文留給使用者的照舊：人物設定、感情走向、結局（D109），建築與場景的 ART_APPROVED（D59 的使用者那一半），付款與外部授權——使用者沒說要改這幾項",
+   "kind": "AI解讀",
+   "confirmed": false,
+   "delegatedBy": "UA-LAWWW-1021-07",
+   "status": "規則（永久）",
+   "wants": "X97",
+   "note": "保守解讀：不擴大到使用者原本保留的那幾項；使用者回來說要改再改"
   }
  ]
 }
