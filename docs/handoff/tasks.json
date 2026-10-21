@@ -26137,6 +26137,32 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
+  },
+  {
+   "id": "BG-MISSING-1021",
+   "title": "缺的 CG、2D 背景（純場景）：給使用者純文字提示詞一次 10 組（使用者 10-21 12:5x 對 BB），有人物的緩緩；遊戲裡有 3D 的地方另一批附截圖（X93、BG-3DSHOT-1021）",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 12:5x、13:2x 對 BB-C（UA-BB-1021-01、UA-BB-1021-04）；USER_WANTS X94",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系起各處黑底（深色底）的對話背景",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "D97（10-21 改：純場景一次 10 組、純文字）；BB_132 第 92～94 組",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "使用者給圖、BB bg_approved 通過，LAWWW 接進 assets/bg＋OUT.BG",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】第 92 組四張（fcdc576d）、第 93 組十張（55ece8db）已接；第 94 組（C16～C18 等十張）提示詞給了，等使用者"
   }
  ]
 }
