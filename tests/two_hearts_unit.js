@@ -2,7 +2,7 @@
 //   1. 11/10 那晚睡著以後：法圖相遇（trigger 'sleep'，祐廷不在場）；兩人都還不知道才演；演完兩邊都知道、TWO_HEARTS_MET；
 //   2. 已經知道了、只和一位交往、不是 11/10：不演；
 //   3. 11/11 22:00 兩則私訊（逐字）＋22:30 兩點半 Café（出遊 must，只有「出發」）；11/10 那晚沒睡著過也一樣排；
-//   4. 進 Café 就演：只有「學姊。」／「以安。」，沒被選的那位分手（ex、by her），逐字；
+//   4. 進 Café 就演：只有「書瑀。」／「以安。」（AA_350 R7：交往當天起祐廷不叫「學姊」；原本是「學姊。」），沒被選的那位分手（ex、by her），逐字；
 //   5. 選學姊：11/18 12:00 路線＝US；選以安＝JP；
 //   6. 被選的那位之後第一次說話記得一次（逐字），第二次不說。
 // 修改前 1～6 FAIL。用法：node tests/two_hearts_unit.js
@@ -57,10 +57,10 @@ GM.money=function(n){ G.money+=n; };
   check('3. 22:30 兩點半 Café 的出遊：must（只有「出發」）、帶到 3D 的 Café', !!q&&q.must===true&&q.h===22.5&&q.goto&&q.goto.zone==='cafe'&&q.day===d11, JSON.stringify(q));
   setup(d11,9); STORY.phoneRules(GM); check('3. 11/10 那晚沒睡著過（法圖那段沒演）：11/11 照樣排（TWO_HEARTS_MET 補上）', G.flags.TWO_HEARTS_MET!=null&&!!OUT.get(G,'y3_two_hearts'));
   // 4、5
-  for(const [pick,lose,route] of [['學姊','heroine_01','US'],['以安','heroine_05','JP']]){
-    setup(d11,22.6); G.zone='cafe'; STORY.twoHeartsMet(G); const e=evr('ev_two_hearts_cafe'); const ok=EVENTS.check(e); picks=[pick]; await EVENTS.run(e); const L=lines();
+  for(const [pick,lose,route,say] of [['學姊','heroine_01','US','書瑀'],['以安','heroine_05','JP','以安']]){   /* AA_350 R7：兩個都在交往中，祐廷叫學姊「書瑀。」*/
+    setup(d11,22.6); G.zone='cafe'; STORY.twoHeartsMet(G); const e=evr('ev_two_hearts_cafe'); const ok=EVENTS.check(e); picks=[say]; await EVENTS.run(e); const L=lines();
     const R=ROM.get(G,lose); const two=opts.find(o=>o.length===2);
-    check('4. 選「'+pick+'」：進 Café 就演、選項只有「學姊。」「以安。」', ok!==false&&!!two&&two.join('|')==='「學姊。」|「以安。」', JSON.stringify(opts));
+    check('4. 選「'+pick+'」：進 Café 就演、選項只有「書瑀。」「以安。」（AA_350 R7：交往中不叫「學姊。」）', ok!==false&&!!two&&two.join('|')==='「書瑀。」|「以安。」', JSON.stringify(opts));
     check('4. 選「'+pick+'」：沒被選的那位分手（ex、by her）、被選的還在交往', G.flags['dating_'+lose]===false&&R.status==='ex'&&R.by==='her'&&G.flags['dating_'+(lose==='heroine_01'?'heroine_05':'heroine_01')]===true, JSON.stringify({st:R.status,by:R.by}));
     check('4. 選「'+pick+'」：逐字（'+(pick==='學姊'?'以安「理由我不用聽了。」':'學姊「志願表的事，你自己決定。不要因為今天。」')+'）', pick==='學姊'?L.includes('以安：（站起來，把椅子推回去）理由我不用聽了。')||L.some(x=>/理由我不用聽了。$/.test(x)):L.some(x=>/志願表的事，你自己決定。不要因為今天。$/.test(x)), JSON.stringify(L.slice(-5)));
     G.day=D('2027-11-18'); G.hour=12; STORY.routeDecide(G); check('5. 選「'+pick+'」：11/18 12:00 路線＝'+route, G.flags.EXCHANGE_ROUTE===route);

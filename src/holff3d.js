@@ -68,7 +68,8 @@ const HOLFF=(function(){
        阿哲：每年寒假在海邊那天 21:00「我明天回高雄」（AA_264 第 5 節第 1 點；大二那一則在 vac3d.js nye_y2_zhe）。
      寫法同大一：寒假的以安＝FAMILIAR 以上私訊、不到（認識、在麵店團）＝群組只有第一句；暑假的以安＝FAMILIAR 以上私訊、和她交往中不傳（大一 va02 的規則）；其他＝麵店團群組。
      大三寒假阿哲回臺北、大四寒假柏翰兩則和阿哲回臺北：AA_345 H1、H2 給的日子（大三寒假阿哲 2/18 揪、2/20 回來就去麵店；大四寒假兩個人都要考國考，柏翰只回去過年）。
-     柏翰的暑假那則：大二以後只說「我回新竹了。」（他週四在總圖的作息只有大一暑假；AA_345 H7）。*/
+     柏翰的暑假那則：大二以後只說「我回新竹了。」（他週四在總圖的作息只有大一暑假；AA_345 H7）。
+     AA_350 S1、S2（2026-10-21）：大三寒假只回去過年（1/24 17:00、1/28 20:00 兩則）；大三暑假七月要補習（6/27 20:00、7/2 20:00 兩則）。在新竹的日子在 characters.js 的 presence */
   const NT='g:noodle_team';
   S.HOME_MSGS=[
     {tag:'hol_y2w_bh_home',day:'2027-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。']]},
@@ -82,13 +83,14 @@ const HOLFF=(function(){
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。台中好熱。']]},
     {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','誰要吃麵']]},
     {tag:'hol_y3w_zhe_home',c01:'Y3',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
-    {tag:'hol_y3w_bh_home',day:'2028-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。寒假要把民訴讀完。']]},
     {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','這次只住五天。']},
+    {tag:'hol_y3w_bh_home',day:'2028-01-24',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹過年。初三回來。']]},   /* AA_350 S2：大三寒假只回去過年（期末飯「寒假我每天都去總圖」；2028 除夕 1/25）；蓋掉 AA 170a150d 那兩句（1/9「寒假要把民訴讀完」、2/19「民訴沒讀完」）*/
+    {tag:'hol_y3w_bh_back',day:'2028-01-28',h:20,th:NT,ms:[['classmate_bohan','回來了。民法讀到物權了。']]},
     {tag:'hol_y3w_an_back',day:'2028-01-29',h:18,an:['回臺北了。','行李箱我先拿出來了。']},
-    {tag:'hol_y3w_bh_back',day:'2028-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。民訴沒讀完。']]},
     {tag:'hol_y3w_zhe_back',day:'2028-02-20',h:17.5,th:NT,ms:[['zhe','我回來了 高雄帶了吃的 等一下拿去麵店']]},   /* AA_345 H1：取代大一那句「開學那天拿去給你們」；2/18 21:00 他揪的那一頓在 S.MSGS */
-    {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。']]},
+    {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹幾天。七月三號補習班開課就回來。']]},   /* AA_350 S1：七月要補習（7/08 公館補習班），6/27 原本的「我回新竹了。」和期末飯矛盾 */
     {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','最後一個暑假了 麵店團交給你們']]},
+    {tag:'hol_y3s_bh_back',day:'2028-07-02',h:20,th:NT,ms:[['classmate_bohan','回來了。明天開課。']]},
     {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','大四了欸'],['zhe','誰要吃麵']]},
     {tag:'hol_y4w_zhe_home',c01:'Y4',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
     {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','考完了。這次在家什麼都不讀。']},

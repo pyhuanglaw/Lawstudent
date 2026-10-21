@@ -120,6 +120,12 @@ const DATE=(function(){
     return {ok:true}; };
   const isLaw=c=>!!c&&!/^Y0/.test(c.term||'')&&c.kind!=='general'&&c.kind!=='service';
   const liveIv=v=>v.state==='accepted'||v.state==='going'||v.state==='offered'||v.state==='changed';
+  /* 以安、芷若回台中的日子（presence kind home，AA_350 S6）：校外約會擋掉（和沛珊同一套：約的那一天照那一天算）；約的是她老家那個城市的地點（D26 臺中）不擋——
+     「她人在臺中，正好是 D26 檔頭說的『回到自己長大的城市，被你帶著逛』」。婉拒的句子照 S6（她說的話，用「」）。她今天就在台中的話，手機的約整個關著（INV.whyNot），這裡只管約到以後的日子 */
+  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」'};
+  const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
+  S.homeNo=function(G,id,day,locId){ const w=S.HOME_NO[id]; if(!w||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,Object.assign({},G,{day})); if(p.here||p.kind!=='home') return '';
+    const L=S.loc(locId); if(L&&p.home&&cityOf(L.area)===cityOf(p.home)) return ''; return w; };
   /* 這個時間能不能約（o：who、locs、day、depart、transport、fromHome、skip＝改時間時排除的那一趟）→ {ok, why, warns, plan, cost} */
   S.check=function(G,o){ const kind=o.kind||S.kindAt((o.locs||[])[0],o.depart); const P=S.plan(G,Object.assign({},o,{kind})); const warns=[]; if(!P.ok) return {ok:false,why:P.why,warns};
     const day=o.day, a=P.depart, b=P.back, no=w=>({ok:false,why:w,warns,plan:P});
@@ -136,6 +142,7 @@ const DATE=(function(){
     const ov=mine.find(t=>a<t.back&&t.depart<b); if(ov) return no('和'+nameOf(ov.who)+'的約（'+hm(ov.depart)+' 出發）撞時間');
     const iv=(G.invites||[]).find(v=>liveIv(v)&&v.day===day&&v.h<b&&v.h+(((typeof INV!=='undefined'&&INV.place&&INV.place(v.place))||{}).stay||1)>a); if(iv) return no('那天 '+hm(iv.h)+' 已經約了'+nameOf(iv.who));
     const oq=(G.outings||[]).find(q=>q.state==='planned'&&!q.dateTrip&&q.day===day&&q.h<b+0.5&&q.h+1.5>a); if(oq) return no('那天 '+hm(oq.h)+' 有別的行程：'+(oq.title||oq.place||''));
+    { const hn=S.homeNo(G,o.who,day,P.locs[0]); if(hn) return no(hn); }   /* AA_350 S6：她回台中那幾天（放在她的作息之前：人不在臺北，不是在上班）*/
     if(typeof INV!=='undefined'&&INV.busyAt){ const e=INV.busyAt(G,o.who,day,a,b-a); if(e) return no('她那時候'+(e.act==='class'?'要上課':(e.act==='work'?'要上班':'有事'))); }
     const nt=S.noTaipei(G,o.who,day,P.locs[0]); if(nt) return no(nt);
     const L0=S.loc(P.locs[0])||{}, cost=(P.fare|0)+(L0.admission|0); if((G.money|0)<cost) return no('錢不夠（預計 '+cost+' 元）');
@@ -211,6 +218,7 @@ const DATE=(function(){
       const P=w.check.plan; t.day=w.day; t.depart=w.depart; t.kind=P.kind; t.back=P.back; t.moves=(t.moves|0)+1; t.status='booked'; t.reminded=false; q.day=w.day; q.h=w.depart+P.travelH; q.ask=null; q.state='planned'; await S.movedLine(GM,t); return 'moved'; }
     const nd=k===1?t.day+1:t.day, nh=k===1?t.depart:Math.max(t.depart,G.hour)+1; const P=S.plan(G,{who:t.who,locs:t.locs,depart:nh,transport:t.transport});
     if(!P.ok||P.back>24.5){ if(GM.toast) GM.toast('這個時間回來太晚了，換一天吧。'); return S.move(GM,q,t); }
+    { const hn=S.homeNo(G,t.who,nd,t.locs[0]); if(hn){ if(GM.toast) GM.toast(hn,2600); return S.move(GM,q,t); } }   /* AA_350 S6：改到明天撞到她回台中 */
     t.day=nd; t.depart=nh; t.back=P.back; t.moves=(t.moves|0)+1; t.status='booked'; t.reminded=false; q.day=nd; q.h=nh+P.travelH; q.ask=null; q.state='planned'; await S.movedLine(GM,t); return 'moved'; };
   /* 改時間她回一句；同一個行程改到第三次說「第三次」那句（只說一次，之後照一般）*/
   S.movedLine=async function(GM,t){ GM.sceneBegin(); try{ if(t.moves===3&&!t.move3Said){ t.move3Said=true; if(await S.speak(GM,t.who,'move3',t)) return; } await S.speak(GM,t.who,'move',t); } finally { GM.sceneEnd(); } };

@@ -869,11 +869,15 @@ const STORY_EVENTS=[
   { id:'ev_sk03_lunch', title:'週五的活大', participants:[], location:'any', trigger:'class', afterClass:'econ_principles_2', term:['Y1S2'], weekday:[5], background:'blur',
     prereq:{custom:G=>{ const F=G.flags; if(F.SK03_ASKED===G.day) return false; if(F.P4D_ANSWER) return F.ECON_HALLWAY_DAY!=null&&G.day>F.ECON_HALLWAY_DAY; if(F.MET_XUN&&F.XUN_DAY!=null&&G.day>F.XUN_DAY) return true;
       const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!t&&t.week>=8&&!(G.events&&G.events.done&&G.events.done.ev_econ_hallway); }},   /* BB_161 ⑱（AA-B 16:22 確認，BB-B 063ab633）：P4d 沒發生的玩家（第 2～7 週都沒去重修），之後第一次有去的週五下課在走廊直接遇到阿勳 */   /* AA-B 2026-10-16：只在 10-3 見過阿勳（沒有 P4d）的玩家也算重新認識，第 11 週週五起開 SK03 */
-    dialogue:[ {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
+    dialogue:[ {if:{custom:G=>G.flags.SK03_HUODA===G.day},goto:'huoda'},   /* AA_350 R2：那個週五沒去經原下、12:00～13:00 下課選單選「先去吃飯→活大」（classes3d.js 的 CLS.sk03Huoda 記 SK03_HUODA）＝在活大演，開頭換一句、不出選項 */
+      {if:{custom:G=>!!G.flags.XUN_NIGHT&&G.flags.XUN_DAY!=null&&G.day===G.flags.XUN_DAY+1},speaker:'阿勳',text:'昨天那題我想通了。'},   /* 10-4 走廊（第 11 週週五＝10-3 的隔天）*/
       {if:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1&&!G.flags.MET_XUN},speaker:'阿勳',text:'盧正勳。你經濟系那年的室友。……你該不會連我都忘了。'},   /* ⑱ 走廊直接遇到：還沒見過＝10-1 那句完整的自我介紹（見過的照 P4d 的規則不重新介紹）*/
       {if:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'週五中午，我們在活大。你要來就來。'},{unless:{custom:G=>!G.flags.P4D_ANSWER&&!G.flags.SK03_INV1},speaker:'阿勳',text:'活大。走不走？'},{set:{SK03_INV1:true,MET_XUN:true}},   /* 只在 10-3 見過的玩家第一次邀約照用 P4d 原句（AA-B）*/
       {choice:[{text:'「一起去」',consequences:{stamp:['SK03_LAST']},goto:'go'},{text:'「今天不行」',goto:'end'}]},
+      /* 活大那一條（AA_350 R2）：阿勳已經坐在那裡；記的旗標和「一起去」一樣（SK03_INV1、MET_XUN、SK03_LAST），直接接 go 那一段（還債、第一次、芯慈的先後照舊）。選項兩個都有 goto，走廊那一條不會掉進來 */
+      {label:'huoda'},{scene:'活大',bg:'xiaofu'},{speaker:'阿勳',text:'……你今天沒來上課。坐。'},{set:{SK03_INV1:true,MET_XUN:true}},{stamp:['SK03_LAST']},{goto:'go2'},
       {label:'go'},{scene:'活大',bg:'xiaofu'},
+      {label:'go2'},
       {if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},unless:{flags:['SK03_FIRST']},goto:'first'},{if:{custom:G=>!!G.flags.XUN_NIGHT&&!G.flags.XUN_REPAID},goto:'repay'},
       {unless:{flags:['SK03_FIRST']},goto:'first'},
       {if:{custom:G=>!G.flags.ECON_LAW_BRIDGE&&typeof EVENTS!=='undefined'&&EVENTS.habitCount({key:'meal:xiaofu:fri'})>=2},goto:'xinci'},
@@ -3435,7 +3439,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'serious',text:'我們不吵。也不想聽你解釋為什麼。'},
       {speaker:'heroine_01',expression:'serious',text:'你只要選一個。'},
       {speaker:null,text:'（店裡很安靜。吧台的冰箱一直在響。）'},
-      {choice:[{text:'「學姊。」',set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},
+      {choice:[{text:'「學姊。」',unless:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「書瑀。」',if:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},   /* AA_350 R7（裁定 12）：交往當天起祐廷說出口的「學姊。」→「書瑀。」（這一場兩個都在交往中）*/
       {label:'sis'},{speaker:'heroine_01',expression:'serious',text:'……好。'},
       {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）理由我不用聽了。'},
       {speaker:null,text:'（她走出去的時候，門上的鈴響了一聲。）'},
