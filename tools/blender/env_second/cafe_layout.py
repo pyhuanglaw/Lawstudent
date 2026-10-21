@@ -58,6 +58,7 @@ def materials():
         'wood2': M_('cafe_wood_mid', 'dark_wood', tile=1.2, target='#6b4a30', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.7),
         'board': L.pbr('cafe_sign_face', None, tint=B.srgb('#3b2a1e'), rough=0.7),
         'metal': L.flat('cafe_iron_black', '#24221f', rough=0.45, metal=0.45),
+        'cord': L.flat('seethru_cafe_cord', '#24221f', rough=0.45, metal=0.45),   # 吊燈電線：鏡頭貼著電線經過時整根擋在畫面中間（巡場景）——遊戲裡網點透空（seethru_，zones3d.js 的 Café）
         'brass': L.flat('cafe_brass', '#9a7840', rough=0.35, metal=0.45),
         'glass': L.flat('cafe_glass', '#dfe6e6', rough=0.05, alpha=0.16),
         'lampglass': L.flat('cafe_lampglass', '#f6e2b8', rough=0.2, emit=B.srgb('#ffd49a'), alpha=0.85),
@@ -477,7 +478,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     for k, sx in enumerate(WC_STOOLS): B.instance(stm, f'winstool_{k}', sx, 0, COUNTER_Z - 0.4, parent)
     if not lite: wz4_details(mat, parent, stm, wall_mesh, Z0)
     # 吊燈：每張桌子上方一盞玻璃球、吧檯上方三盞金屬燈罩、窗邊吧台上方四盞小燈
-    pm = Mesh('int_pendant_metal', mat['brass']); pg = Mesh('int_pendant_glass', mat['lampglass']); pb = Mesh('int_pendant_bulb', mat['bulb']); cord = Mesh('int_pendant_cord', mat['metal'])
+    pm = Mesh('int_pendant_metal', mat['brass']); pg = Mesh('int_pendant_glass', mat['lampglass']); pb = Mesh('int_pendant_bulb', mat['bulb']); cord = Mesh('int_pendant_cord', mat.get('cord', mat['metal']))
     glows = []
     def pendant(x, y, z, kind='globe'):
         cord.cyl((x, RH, z), (x, y + 0.16, z), 0.006, seg=4)
