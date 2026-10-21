@@ -104,7 +104,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'walk'},{unless:{flagIs:{GRAD_EXAM_RESULT:'fail'}},goto:'end'},   /* 祐廷沒上：散的時候她走在你旁邊 */
       {speaker:'heroine_01',text:'二月那張考卷，第二節很難。'},
       {speaker:'heroine_01',text:'我也寫到鐘響。'},
-      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_GRAD_PASS',note:'研究所放榜那晚在麵店'}]},{set:{AN_GRAD_PASS_SEEN:true}} ] },
+      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_GRAD_PASS',note:''}]},{set:{AN_GRAD_PASS_SEEN:true}} ] },
   /* 祐廷沒上：21:00 以後第一次在宿舍房間（AA_181 2-4 二選一）。明年再考＝2030-02-16 筆試、3/15 放榜（照 2-Y4-52 的做法，台灣路線也一樣；多準備一年就上）*/
   { id:'ev_grad_result', title:'研究所放榜', participants:[], location:['dorm'], trigger:'auto', once:true, background:'blur',
     prereq:{custom:G=>{ const r=R(); return !!r&&r.gradResultDue(G); }},
@@ -291,7 +291,7 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「我等妳。」',goto:'w'},{text:'「我去紐約找妳。」',goto:'n'}]},
       {label:'w'},{speaker:'heroine_01',text:'……嗯。'},{goto:'end'},
       {label:'n'},{speaker:'heroine_01',text:'好。機票你自己訂，行程我排。'},
-      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_COLUMBIA',note:'她說哥大上了、要去'}]} ],
+      {label:'end'},{mem:[{npc:'heroine_01',tag:'AN_COLUMBIA',note:''}]} ],
     outingMissed:G=>{ const r=R(); if(r) r.anColumbiaMissed(G); } },
   { id:'ev_an_ny_sendoff', title:'紐約', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'桃園機場・出境',bg:'airport_departure'},
