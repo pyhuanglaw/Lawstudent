@@ -1257,6 +1257,8 @@ const STORY = (function(){
     if(!(typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team'))||!S.anNameTold(G)) return false; const pr=S.presence('heroine_01',G); return !(pr&&pr.here===false); };
   /* 這個人現在照作息不在學校（例：品妤大一下週二、四 18:00～22:00 在補習班櫃台）*/
   S.awayNow=function(id,G){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(!c) return false; const pr=S.presence(id,G); if(pr&&pr.here===false) return true; const e=schedEnt(c,G); return !!(e&&e.zone===null); };
+  /* 這個人現在照作息沒有別的事（沒有那一筆作息、或只是在校園）：例 BB_105 D4 沛珊在女舍下樓——她上課、在總圖、在 118 巷的時候不會下樓 */
+  S.freeNow=function(id,G){ if(S.awayNow(id,G)) return false; const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; const e=c?schedEnt(c,G):null; return !e||e.zone==='campus'; };
   /* SK06 特別感謝：法律系的路人（BB_106 SK06；V2-SK06）：大一下第 10 週週一 16:00 品妤私訊；第 10～14 週週一、三、五 17:00～20:00（她週二、四在補習班）走到社科院大樓的門口＝2D 三樓討論室。
      沒去：第 15 週週一 21:00「走啦」群組一則。去不去都記 SOC_ROAD_PERSON（群組已經這樣叫他）*/
   S.sk06Open=function(G){ const F=G.flags; if(F.SK06_DM_DAY==null||F.SOC_ROAD_PERSON) return false; return G.day>F.SK06_DM_DAY||(G.day===F.SK06_DM_DAY&&h(G)>=16); };

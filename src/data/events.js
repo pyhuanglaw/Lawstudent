@@ -1116,7 +1116,7 @@ const STORY_EVENTS=[
      要有沛珊的聯絡方式（第一句是她的私訊）、她在臺北（單數週末回台中）。旁白「一年前，你常在這裡等人。」只出現這一次（所有玩家都有：經濟系那年他和可昕交往、她住這裡，是劇情事實）。
      稿沒有寫怎麼約的（借筆記也沒有另外一場）：走到門口就演，當作已經說好（給 AA 的問題）。一次 */
   { id:'ev_b105_d4_notes', title:'一年後，再走到女舍門口', participants:['classmate_peishan'], portraitLater:true, location:'campus', trigger:'auto', near:{x:-93,z:56,r:5}, term:['Y1S1'], weeks:[4,5,6,7,8], time:[12,21], once:true, tier:'short', building:'fdorm', background:'blur',
-    prereq:{custom:G=>typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&typeof STORY!=='undefined'&&!STORY.awayNow('classmate_peishan',G)},
+    prereq:{custom:G=>typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&typeof STORY!=='undefined'&&!!STORY.freeNow&&STORY.freeNow('classmate_peishan',G)},   /* 她照作息沒有別的事（上課、總圖、118 巷的時候不演）*/
     dialogue:[ {phone:'classmate_peishan',text:'我下樓了！你等我一下下'},
       {speaker:null,text:'一年前，你常在這裡等人。'},
       {speaker:'classmate_peishan',text:'（下樓）對不起！你的筆記我找了一下……'},

@@ -164,7 +164,9 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     ck(wk5,15); await RUN(D4); const L=lines().map(t=>t.replace(/^[^：]*沛珊（手機）：/,'沛珊（手機）：').replace(/^[^：]*沛珊：/,'沛珊：'));
     check('D4：「我下樓了！你等我一下下」（私訊）→ 旁白「一年前，你常在這裡等人。」→「（下樓）對不起！你的筆記我找了一下……」「在我手上。我自己拿著還在找。」「謝謝你借我！第三章我抄完了。」',
       J(L)===J(['沛珊（手機）：我下樓了！你等我一下下','一年前，你常在這裡等人。','沛珊：（下樓）對不起！你的筆記我找了一下……','沛珊：在我手上。我自己拿著還在找。','沛珊：謝謝你借我！第三章我抄完了。'])&&txt('p:classmate_peishan').includes('classmate_peishan:我下樓了！你等我一下下'),J(lines()));
-    check('D4：演過一次就不再演（旁白只出現這一次）',!!D4&&!!G.events.done[D4.id]&&!EVENTS.check(D4)); }
+    check('D4：演過一次就不再演（旁白只出現這一次）',!!D4&&!!G.events.done[D4.id]&&!EVENTS.check(D4));
+    { let busy=null, free=null; for(let w=4;w<=8&&!(busy&&free);w++) for(let wd=1;wd<=5&&!(busy&&free);wd++) for(let h=12;h<21&&!(busy&&free);h+=0.5){ const d=TD('Y1S1',w,wd); fresh(d,h,'campus'); const e=STORY.schedEnt(CHARACTERS.classmate_peishan,G); if(!busy&&e&&e.act==='class') busy=[d,h,e.zone]; if(!free&&!e) free=[d,h]; }
+      check('D4：她照作息在上課的時候不演（下不了樓）；沒有別的事的時候演',!!busy&&!!free&&!ck(busy[0],busy[1])&&ck(free[0],free[1]),J({busy,free})); } }
   // ---- D4b 以安準時下樓 ----
   { const D4B=ev('ev_b105_d4b_on_time'), tue=TD('Y1S1',5,2);
     const ck=(day,h,grp)=>{ G.day=day; G.weekday=wdOf(day); G.hour=h; return !!D4B&&EVENTS.check(D4B); };
