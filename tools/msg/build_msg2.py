@@ -127,8 +127,9 @@ PEOPLE["heroine_03"] = person(
                "opts": [{"t": "我現在過去。", "r": ["嗯。"]},
                         {"t": "現在走不開，晚點打給妳。", "r": ["好。"]}]}),
         E("newyear", "A", ["新年快樂。"], S),
-        E("newyear", "R", ["（照片：麵店拉下來的鐵門，貼著紅紙）"], S),
-        E("newyear", "L", ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], S,
+        # AA_369 M6（AA 2026-10-21）：麵店的鐵門、初四開店、高雄的年夜飯、新竹風很大、宜蘭家裡的電腦桌＝「過年」標籤，只在農曆年用；1/1 用一般版（A）
+        E("newyear", "R", ["（照片：麵店拉下來的鐵門，貼著紅紙）"], S, tags=["過年"]),
+        E("newyear", "L", ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], S, tags=["過年"],
           copiedFrom="R", added=["初四開店。你要第一個來。"], cellText="同 R，加「初四開店。你要第一個來。」"),
     ],
     birthdayText="語彤 7/9", style="常傳沒有字的照片；沒有貼圖")
@@ -148,7 +149,7 @@ PEOPLE["zhe"] = person(
         E("ok", "A", ["還好啦"], S, cond="team_loss"),
         E("ok", "R", ["輸了", "明天再打"], S, cond="team_loss"),
         E("newyear", "A", ["新年快樂！！"], S),
-        E("newyear", "R", ["（照片：高雄的年夜飯）", "新年快樂哥"], S, flags=GE),
+        E("newyear", "R", ["（照片：高雄的年夜飯）", "新年快樂哥"], S, flags=GE, tags=["過年"]),  # AA_369 M6
     ],
     birthdayText="阿哲 11/2", style="極快；「哥」要有 `ZHE_CALLS_GE`")
 
@@ -186,7 +187,7 @@ PEOPLE["classmate_bohan"] = person(
         E("ok", "R", ["還好。……讀書比較快。"], S, cond="split_peishan", tags=["分開以後"], alt="1/2"),
         E("ok", "R", ["還有七天。我在算。"], S, cond="bar_exam_week", tags=["國考前"], alt="2/2"),
         E("newyear", "A", ["新年快樂。"], S),
-        E("newyear", "R", ["新年快樂。新竹風很大。"], S),
+        E("newyear", "R", ["新年快樂。新竹風很大。"], S, tags=["過年"]),  # AA_369 M6
     ],
     birthdayText="柏翰 8/14", style="數字多、不用貼圖")
 
@@ -472,7 +473,7 @@ PEOPLE["kai"] = person(
         E("ok", "A", ["還好 公司處理了"], S, cond="k5_sue", rowLabel="還好嗎（K5 所以他可以告我嗎）"),
         E("ok", "R", ["還好", "公司處理了", "謝謝你那天沒睡"], S, cond="k5_sue", rowLabel="還好嗎（K5 所以他可以告我嗎）"),
         E("newyear", "A", ["新年快樂"], S, rowLabel="新年快樂"),
-        E("newyear", "R", ["新年快樂", "（照片：宜蘭家裡的電腦桌）", "我爸也在打電動"], S, rowLabel="新年快樂"),
+        E("newyear", "R", ["新年快樂", "（照片：宜蘭家裡的電腦桌）", "我爸也在打電動"], S, tags=["過年"], rowLabel="新年快樂"),  # AA_369 M6
     ],
     style="沒有標點；一點以前傳的一點才回，先接「剛醒」",
     bdayInfo={"src": T1, "cell": "5/24（雙子）【BB-C 抽，AA 可改】",
@@ -522,7 +523,9 @@ PEOPLE["npc_fangyt"] = person(
         C("f1_pothos", "F1 黃金葛", flag="`ev_fangyt_pothos`，房間物件 `pothos`", date="大一上第 3 週", src=T3)],
      "ok": [
         C("f3_declined", "F3 芷若婉拒（`AA_232` 第三節；`ZZ.fy='declined'`）", date="F3 2028-05-29（一）以後，他傳「她跟我說了。」那三則", how="收到那三則（`FAMILIAR` 以上）", days="3 天", tiers="A／R", poolNote="他不寫成失戀戲，`AA_232` 第三節最後一點", src=T2)],
-     "bday": [C("y2028", "2028，他畢業了；美國路線的祐廷慢 12 小時", src="AA_257 §8 話題欄")],
+     "bday": [C("y2028", "2028，他畢業了；美國路線的祐廷慢 12 小時", src="AA_257 §8 話題欄"),
+              C("y2028_us", "2028，美國路線（祐廷在美國，慢 12 小時）", src="AA_369 L8"),
+              C("y2028_notus", "2028，美國路線以外", src="AA_369 L8")],
      "closed": [
         X("BB_178 10-2 不開的", "方奕廷 F3 的 Z13 版（祐廷和芷若在一起，他傳「恭喜」）：不開。")]},
     [
@@ -531,7 +534,9 @@ PEOPLE["npc_fangyt"] = person(
         E("bday", "A", ["謝謝。剛下山，剛看到。"], S, rowLabel="生日快樂（8/13，暑假）"),
         E("bday", "R", ["謝謝。山上的同學送我一顆石頭。……很普通的石頭。我很喜歡。"], S, rowLabel="生日快樂（8/13，暑假）"),
         E("bday", "A", ["謝謝。"], S, cond="y2028", rowLabel="生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"),
-        E("bday", "R", ["謝謝。你那邊應該還是昨天。……兩天都算。"], S, cond="y2028", rowLabel="生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"),
+        # AA_369 L8（AA 2026-10-21）：「你那邊應該還是昨天。」只給美國路線；其他路線「謝謝。」
+        E("bday", "R", ["謝謝。你那邊應該還是昨天。……兩天都算。"], S, cond="y2028_us", rowLabel="生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"),
+        E("bday", "R", ["謝謝。"], "AA_369 L8", cond="y2028_notus", rowLabel="生日快樂（2028，他畢業了；美國路線以外）"),
         E("ok", "A", ["還好。謝謝。"], S, cond="f3_declined", rowLabel="還好嗎（F3 芷若婉拒）"),
         E("ok", "R", ["還好。她說得很清楚。……這樣比較好。"], S, cond="f3_declined", rowLabel="還好嗎（F3 芷若婉拒）",
           notes=["不寫成失戀戲"]),

@@ -99,7 +99,7 @@ const SISG=(function(){
         {speaker:ID,expression:'tired',text:'每一週都排滿了。我剛剛在找有沒有哪一週是空的。'},
         {speaker:ID,expression:'tired',text:'……沒有。'},
         {speaker:null,text:'（她把計畫本闔上。）'},
-        {speaker:ID,expression:'sad',text:'下禮拜就考試了。我有一點怕。'},
+        {speaker:ID,expression:'sad',text:'再一個禮拜就考試了。我有一點怕。'},   /* AA_369 L7：1/24 起會觸發，筆試 2/2 */
         {choice:[{text:'「我陪妳坐一下。」',goto:'a'},{text:'「妳準備得很夠了。」',goto:'b'},{text:'「我陪妳走到捷運站。」',goto:'c'}]},   /* 這一場沒有告白選項。AA_363 R7：舊存檔（LOW_OLD）的選項 c 也用新的，舊的「要不要吃點熱的？」拿掉（熱的東西已經移到平常日）；舊開頭「學弟。你來了。」照留 */
         /* AA_363 R3：路過版（不是出遊）演完照選項走時間——a 跳到總圖關門（places.js 22:00；已經過了就不動）、b 不動、c 加 15 分鐘（總圖走到公館站，人在原地）。
            舊存檔照出遊系統演的（LOW_OLD，出遊本身快轉 1.5 小時）照舊，不再加 */

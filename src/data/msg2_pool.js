@@ -32,8 +32,8 @@ const MSG2_POOL={
    {"topic": "ok", "cond": "dm_exam_eve", "tier": "R", "msgs": ["明天考試。……有點緊張。"], "tags": ["筆試前一天"], "src": "AA_202 7-3 語彤", "alt": "2/2"},
    {"topic": "ok", "cond": null, "tier": "L", "msgs": ["……不太好。你可以來店裡坐一下嗎。"], "tags": [], "src": "AA_202 7-3 語彤", "ask": {"q": "你可以來店裡坐一下嗎。", "src": "AA_202 7-3 語彤「L 的回問」", "opts": [{"t": "我現在過去。", "r": ["嗯。"]}, {"t": "現在走不開，晚點打給妳。", "r": ["好。"]}]}},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）"], "tags": [], "src": "AA_202 7-3 語彤"},
-   {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], "tags": [], "src": "AA_202 7-3 語彤", "copiedFrom": "R", "added": ["初四開店。你要第一個來。"], "cellText": "同 R，加「初四開店。你要第一個來。」"}
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）"], "tags": ["過年"], "src": "AA_202 7-3 語彤"},
+   {"topic": "newyear", "cond": null, "tier": "L", "msgs": ["（照片：麵店拉下來的鐵門，貼著紅紙）", "初四開店。你要第一個來。"], "tags": ["過年"], "src": "AA_202 7-3 語彤", "copiedFrom": "R", "added": ["初四開店。你要第一個來。"], "cellText": "同 R，加「初四開店。你要第一個來。」"}
   ]}),
   "zhe":Object.assign({"name": "阿哲", "birthday": "11-02", "birthdayText": "阿哲 11/2", "style": "極快；「哥」要有 `ZHE_CALLS_GE`", "conds": {"thanks": [], "ok": [{"key": "team_loss", "text": "系籃輸球那天", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["小事"], "tags": [], "src": "AA_202 7-3 阿哲"},
@@ -43,7 +43,7 @@ const MSG2_POOL={
    {"topic": "ok", "cond": "team_loss", "tier": "A", "msgs": ["還好啦"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "ok", "cond": "team_loss", "tier": "R", "msgs": ["輸了", "明天再打"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！！"], "tags": [], "src": "AA_202 7-3 阿哲"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：高雄的年夜飯）", "新年快樂哥"], "tags": [], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]}
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：高雄的年夜飯）", "新年快樂哥"], "tags": ["過年"], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]}
   ]}),
   "yu":Object.assign({"name": "小語", "birthday": "01-18", "birthdayText": "小語 1/18", "style": "一句拆好幾則", "conds": {"thanks": [], "ok": [{"key": "camp_end", "text": "營隊結束那天", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會不會"], "tags": [], "src": "AA_202 7-3 小語"},
@@ -64,7 +64,7 @@ const MSG2_POOL={
    {"topic": "ok", "cond": "split_peishan", "tier": "R", "msgs": ["還好。……讀書比較快。"], "tags": ["分開以後"], "src": "AA_202 7-3 柏翰", "alt": "1/2"},
    {"topic": "ok", "cond": "bar_exam_week", "tier": "R", "msgs": ["還有七天。我在算。"], "tags": ["國考前"], "src": "AA_202 7-3 柏翰", "alt": "2/2"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_202 7-3 柏翰"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂。新竹風很大。"], "tags": [], "src": "AA_202 7-3 柏翰"}
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂。新竹風很大。"], "tags": ["過年"], "src": "AA_202 7-3 柏翰"}
   ]}),
   "classmate_xinci":Object.assign({"name": "芯慈", "birthday": "03-28", "birthdayText": "芯慈 3/28", "style": "句子完整、客氣；00:30 以後很多話", "conds": {"thanks": [], "ok": [{"key": "rank_second", "text": "慈 3（排名第二）以後", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會，有需要再跟我說。"], "tags": [], "src": "AA_202 7-3 芯慈"},
@@ -173,7 +173,7 @@ const MSG2_POOL={
    {"topic": "ok", "cond": "k5_sue", "tier": "A", "msgs": ["還好 公司處理了"], "tags": [], "src": "AA_257 §6 阿凱", "rowLabel": "還好嗎（K5 所以他可以告我嗎）"},
    {"topic": "ok", "cond": "k5_sue", "tier": "R", "msgs": ["還好", "公司處理了", "謝謝你那天沒睡"], "tags": [], "src": "AA_257 §6 阿凱", "rowLabel": "還好嗎（K5 所以他可以告我嗎）"},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂"], "tags": [], "src": "AA_257 §6 阿凱", "rowLabel": "新年快樂"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂", "（照片：宜蘭家裡的電腦桌）", "我爸也在打電動"], "tags": [], "src": "AA_257 §6 阿凱", "rowLabel": "新年快樂"}
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂", "（照片：宜蘭家裡的電腦桌）", "我爸也在打電動"], "tags": ["過年"], "src": "AA_257 §6 阿凱", "rowLabel": "新年快樂"}
   ]}),
   "classmate_mingxuan":Object.assign({"name": "江明軒", "birthday": "01-16", "style": "表情符號、玩笑；不在訊息講累；二四六 21:05 才回；念書的句子要 `SAW_HIM_STUDY`", "bdayInfo": {"src": "BB_178 10-1", "cell": "1/16（摩羯）【BB-C 抽，AA 可改】", "years": ["每年都在寒假：2026 週五、2027 週六、2028 週日、2029 週二"], "where": ["都在臺北：寒假留臺北接家教，2/13 前後才回彰化（`BB_171` 第 1 節）。2027 祐廷 C11 東京是 1/17 出發，1/16 還在臺灣。"], "pool": "【回覆池 AA】"}, "conds": {"thanks": [{"key": "m1_highlighter", "text": "M1 給一支綠色螢光筆（選「坐到他旁邊」的）", "flag": "`ev_mingxuan_notes`", "date": "大一上第 7 週起", "src": "BB_178 10-3"}, {"key": "tutor_intro", "text": "介紹家教（答應的那一次）", "flag": "`ev_mingxuan_tutor_intro`（旗標照 `BB_96` 3-2）", "date": "大一下第 3 週起", "src": "BB_178 10-3"}, {"key": "notes_photo", "text": "問課附筆記照片", "flag": "通則", "date": "同班期間", "src": "BB_178 10-3"}], "ok": [{"key": "m2_answer", "text": "M2 以安的回答（`BB_40` 3-3 M2，回宿舍路上他自己講的那一段；id 照 `AA_113` 9-2）", "date": "大二下第 16 週之後一週（2027-06-14 那一週）", "how": "和他 `FRIEND` 以上、他講了。祐廷和以安交往中、明軒知道的版本沒有這件事，不開", "days": "3 天", "tiers": "A／R", "src": "BB_178 10-2"}], "closed": [{"src": "BB_178 10-2 明軒 M2", "text": "和他 `FRIEND` 以上、他講了。祐廷和以安交往中、明軒知道的版本沒有這件事，不開"}], "closedText": "和他 `FRIEND` 以上、他講了。祐廷和以安交往中、明軒知道的版本沒有這件事，不開"}},{"replies":[
    {"topic": "thanks", "cond": "m1_highlighter", "tier": "A", "msgs": ["一支筆而已 😂"], "tags": [], "src": "AA_257 §7 江明軒", "rowLabel": "謝謝（M1 綠色螢光筆）"},
@@ -190,13 +190,14 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！！彰化今天好多人 😂"], "tags": ["過年"], "src": "AA_257 §7 江明軒", "rowLabel": "新年快樂", "alt": "1/2", "split": "altByTag"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！家教的小朋友今天放假，我也放假"], "tags": ["1/1"], "src": "AA_257 §7 江明軒", "rowLabel": "新年快樂", "alt": "2/2", "split": "altByTag"}
   ]}),
-  "npc_fangyt":Object.assign({"name": "方奕廷", "birthday": "08-13", "style": "有禮貌、句號；每個話題最多一句講植物；下山才回", "bdayInfo": {"src": "BB_178 10-1", "cell": "8/13（獅子）【BB-C 抽，AA 可改】", "years": ["每年都在暑假：2026 週四、2027 週五、2028 週日"], "where": ["2026：宿舍（7 月上山兩週已經下山）；祐廷 C09 8/5 回來，在臺灣。", "2027：宿舍。祐廷如果去 C12 京都（8/9～8/27），照 10-0 第 6 點。", "2028：他畢業了；到嘉義工作站的日子沒有定（10-7 第 7 點），先照大四版。美國路線的祐廷在美國（慢 12 小時）。", "他上山的日子照「下山才回」。"], "pool": "【回覆池 AA】"}, "conds": {"thanks": [{"key": "f1_pothos", "text": "F1 黃金葛", "flag": "`ev_fangyt_pothos`，房間物件 `pothos`", "date": "大一上第 3 週", "src": "BB_178 10-3"}], "ok": [{"key": "f3_declined", "text": "F3 芷若婉拒（`AA_232` 第三節；`ZZ.fy='declined'`）", "date": "F3 2028-05-29（一）以後，他傳「她跟我說了。」那三則", "how": "收到那三則（`FAMILIAR` 以上）", "days": "3 天", "tiers": "A／R", "poolNote": "他不寫成失戀戲，`AA_232` 第三節最後一點", "src": "BB_178 10-2"}], "bday": [{"key": "y2028", "text": "2028，他畢業了；美國路線的祐廷慢 12 小時", "src": "AA_257 §8 話題欄"}], "closed": [{"src": "BB_178 10-2 不開的", "text": "方奕廷 F3 的 Z13 版（祐廷和芷若在一起，他傳「恭喜」）：不開。"}], "closedText": "方奕廷 F3 的 Z13 版（祐廷和芷若在一起，他傳「恭喜」）：不開。"}},{"replies":[
+  "npc_fangyt":Object.assign({"name": "方奕廷", "birthday": "08-13", "style": "有禮貌、句號；每個話題最多一句講植物；下山才回", "bdayInfo": {"src": "BB_178 10-1", "cell": "8/13（獅子）【BB-C 抽，AA 可改】", "years": ["每年都在暑假：2026 週四、2027 週五、2028 週日"], "where": ["2026：宿舍（7 月上山兩週已經下山）；祐廷 C09 8/5 回來，在臺灣。", "2027：宿舍。祐廷如果去 C12 京都（8/9～8/27），照 10-0 第 6 點。", "2028：他畢業了；到嘉義工作站的日子沒有定（10-7 第 7 點），先照大四版。美國路線的祐廷在美國（慢 12 小時）。", "他上山的日子照「下山才回」。"], "pool": "【回覆池 AA】"}, "conds": {"thanks": [{"key": "f1_pothos", "text": "F1 黃金葛", "flag": "`ev_fangyt_pothos`，房間物件 `pothos`", "date": "大一上第 3 週", "src": "BB_178 10-3"}], "ok": [{"key": "f3_declined", "text": "F3 芷若婉拒（`AA_232` 第三節；`ZZ.fy='declined'`）", "date": "F3 2028-05-29（一）以後，他傳「她跟我說了。」那三則", "how": "收到那三則（`FAMILIAR` 以上）", "days": "3 天", "tiers": "A／R", "poolNote": "他不寫成失戀戲，`AA_232` 第三節最後一點", "src": "BB_178 10-2"}], "bday": [{"key": "y2028", "text": "2028，他畢業了；美國路線的祐廷慢 12 小時", "src": "AA_257 §8 話題欄"}, {"key": "y2028_us", "text": "2028，美國路線（祐廷在美國，慢 12 小時）", "src": "AA_369 L8"}, {"key": "y2028_notus", "text": "2028，美國路線以外", "src": "AA_369 L8"}], "closed": [{"src": "BB_178 10-2 不開的", "text": "方奕廷 F3 的 Z13 版（祐廷和芷若在一起，他傳「恭喜」）：不開。"}], "closedText": "方奕廷 F3 的 Z13 版（祐廷和芷若在一起，他傳「恭喜」）：不開。"}},{"replies":[
    {"topic": "thanks", "cond": "f1_pothos", "tier": "A", "msgs": ["不客氣。它很好養。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "謝謝（F1 黃金葛）"},
    {"topic": "thanks", "cond": "f1_pothos", "tier": "R", "msgs": ["不客氣。", "（照片：他房間的那一盆）", "這盆是它的媽媽。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "謝謝（F1 黃金葛）", "photoSplit": true},
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。剛下山，剛看到。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "生日快樂（8/13，暑假）"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。山上的同學送我一顆石頭。……很普通的石頭。我很喜歡。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "生日快樂（8/13，暑假）"},
    {"topic": "bday", "cond": "y2028", "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"},
-   {"topic": "bday", "cond": "y2028", "tier": "R", "msgs": ["謝謝。你那邊應該還是昨天。……兩天都算。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"},
+   {"topic": "bday", "cond": "y2028_us", "tier": "R", "msgs": ["謝謝。你那邊應該還是昨天。……兩天都算。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "生日快樂（2028，他畢業了；美國路線的祐廷慢 12 小時）"},
+   {"topic": "bday", "cond": "y2028_notus", "tier": "R", "msgs": ["謝謝。"], "tags": [], "src": "AA_369 L8", "rowLabel": "生日快樂（2028，他畢業了；美國路線以外）"},
    {"topic": "ok", "cond": "f3_declined", "tier": "A", "msgs": ["還好。謝謝。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "還好嗎（F3 芷若婉拒）"},
    {"topic": "ok", "cond": "f3_declined", "tier": "R", "msgs": ["還好。她說得很清楚。……這樣比較好。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "還好嗎（F3 芷若婉拒）", "notes": ["不寫成失戀戲"]},
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂。"], "tags": [], "src": "AA_257 §8 方奕廷", "rowLabel": "新年快樂"},

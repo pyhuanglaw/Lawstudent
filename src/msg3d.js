@@ -146,10 +146,25 @@ const MSG=(function(){
     return false; };
   S.tagOk=function(G,id,tag){ const s=String(tag).replace(/（[^）]*）|\([^)]*\)|〔[^〕]*〕/g,'').trim(); if(!s) return true;
     const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); return parts.every(p=>S.tok(G,id,p)); };
-  /* 情況版（3-1 第 2 點；BB_178 0-3）：認得的才用；其他的（祐廷在國外、在山上…）先不用 */
-  S.sitOk=function(G,id,v,ctx){ if(!v||v==='閒聊版'||v==='事務版') return null; const t=T(G), h=G.hour%24;
+  /* 放假那幾版還要看人在哪（AA_369 H5，AA 2026-10-21；句子照原文、不改字）：①「在老家」那幾版只在 presence 是 home 的日子用——有老家的人（presence 有 home）的「放假在X／放假、在X／過年回X」，
+     或句子寫了「在台中」「在宜蘭」「在新竹」「回家了」這種；②句子寫了「寒假」「過年」（或「寒假留…」那幾版）只在寒假用、寫「暑假」的只在暑假用；③人在臺北的日子用一般版（這裡回 false，S.pick 就用一般版）；
+     ④語彤「店裡。放假人比較少。」在麵店過年店休那幾天不用（noodle_closed3d.js）。「寒假留…」＝寒假、人在臺北。柏翰「週四會上去總圖」：週四來總圖只有大一（AA_345 H7）。
+     「過年回彰化」的 variantNote 寫「2/13～2/19；8 月中一週」：照 presence（明軒八月那一週也在彰化），標題的「過年」不另外限寒假 */
+  const HOME_WORDS=/在(台中|臺中|高雄|新竹|宜蘭|彰化|嘉義)|回(台中|臺中|高雄|新竹|宜蘭|彰化|嘉義)|回家了/;
+  const hasHome=id=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id], P=c&&c.presence; return !!P&&(!!P.home||(P.absentDates||[]).some(a=>!!a&&a[3]==='home')); };
+  const breakKind=G=>{ const B=typeof HOME!=='undefined'&&HOME.breakOf?HOME.breakOf(G.day):null; if(B) return B.kind; const x=md(G); return !x?null:(x.m>=6&&x.m<=9?'summer':(x.m===12||x.m<=2?'winter':null)); };
+  S.breakOk=function(G,id,v,e){ const msgs=((e&&e.msgs)||[]).join('／'), pr=presence(G,id)||{here:true}, home=pr.here===false&&pr.kind==='home', bk=breakKind(G);
+    if((/寒假|過年/.test(msgs)||/^寒假/.test(v))&&bk!=='winter') return false;   /* ② */
+    if(/暑假/.test(msgs+'／'+v)&&bk!=='summer') return false;
+    if(/^寒假留/.test(v)&&pr.here===false) return false;   /* 寒假留宿舍／留臺北：人要在臺北 */
+    if(hasHome(id)&&(/^放假[、]?在/.test(v)||/^過年回/.test(v)||HOME_WORDS.test(msgs))&&!home) return false;   /* ①③ */
+    if(/週四.*總圖/.test(msgs)&&yearNow(G)!==1) return false;
+    if(id==='heroine_03'&&/店裡/.test(msgs)&&typeof NOODLE_CLOSED!=='undefined'&&NOODLE_CLOSED.closed&&NOODLE_CLOSED.closed(G)) return false;   /* ④ */
+    return true; };
+  /* 情況版（3-1 第 2 點；BB_178 0-3）：認得的才用；其他的（祐廷在國外、在山上…）先不用。e＝那一則（放假那幾版要看句子，AA_369 H5）*/
+  S.sitOk=function(G,id,v,ctx,e){ if(!v||v==='閒聊版'||v==='事務版') return null; const t=T(G), h=G.hour%24;
     if(v==='考試週') return !!(t&&t.exam); if(v==='深夜') return h>=23||h<5; if(v==='00:30 以後傳的') return h>=0.5&&h<5;
-    if(/^(放假|放假中)$/.test(v)||/^放假[、]?在/.test(v)||/^過年回/.test(v)||/^寒假留/.test(v)) return !t;
+    if(/^(放假|放假中)$/.test(v)||/^放假[、]?在/.test(v)||/^過年回/.test(v)||/^寒假留/.test(v)) return !t&&S.breakOk(G,id,v,e);
     if(/^大四/.test(v)) return yearNow(G)===4&&!/倫敦/.test(v);
     if(v==='在美國') return S.tok(G,id,'在美國');
     if(v==='家教日 21:05') return !!(ctx&&ctx.win);
@@ -168,11 +183,11 @@ const MSG=(function(){
     if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
-      const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
-      const gen=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx)===null); if(gen.length) return rot(R,id,topic+tr,gen); }
+      const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
+      const gen=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===null); if(gen.length) return rot(R,id,topic+tr,gen); }
     return null; };
   /* 開頭句（thenGeneral）：先說這一句，再接一般版（明軒「剛家教完 你說什麼」、子晴「早／剛看到」；BB_178）*/
-  S.prefix=function(G,id,topic,ctx){ const R=S.rec(G); const c=((POOL().people[id]||{}).replies||[]).filter(e=>e.thenGeneral&&e.topic===topic&&!e.disabled&&S.sitOk(G,id,e.variant,ctx)===true); return c.length?rot(R,id,'pre:'+topic+'|'+c[0].variant,c):null; };
+  S.prefix=function(G,id,topic,ctx){ const R=S.rec(G); const c=((POOL().people[id]||{}).replies||[]).filter(e=>e.thenGeneral&&e.topic===topic&&!e.disabled&&S.sitOk(G,id,e.variant,ctx,e)===true); return c.length?rot(R,id,'pre:'+topic+'|'+c[0].variant,c):null; };
   S.addMsgs=function(G,id,e){ const A=e.addIf; if(!A) return []; const tag=String(A.tag||''); let ok=false; if(tag==='下雨天') ok=G.weather==='rain'; else { const m=tag.match(/(\d{1,2})～(\d{1,2}) 月/); if(m){ const x=md(G); ok=!!x&&x.m>=+m[1]&&x.m<=+m[2]; } } return ok?(A.msgs||[]):[]; };
   const rot=(R,id,key,c)=>{ const k=id+':'+key; const i=(R.rot[k]|0)%c.length; R.rot[k]=i+1; return c[i]; };
   /* ---------- 回覆時間 ---------- */
@@ -258,7 +273,9 @@ const MSG=(function(){
     return out.sort((a,b)=>b.day-a.day); };
   /* 生日的分年份列：y2026_2027＝那幾年；y2028_japan＝那一年而且祐廷在日本；route_c（可昕走向 C）還沒有這條路線＝不用 */
   const bdayRowOk=(G,key)=>{ if(key==null) return true; const m=String(key).match(/^y(\d{4}(?:_\d{4})*)/); if(!m||!m[1].split('_').map(Number).includes(calY(G))) return false;
-    if(/_japan$/.test(key)) return typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'&&!!STORY.abroad&&STORY.abroad(G); return true; };
+    if(/_japan$/.test(key)) return typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='JP'&&!!STORY.abroad&&STORY.abroad(G);
+    if(/_(not)?us$/.test(key)){ const us=typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'; return /_notus$/.test(key)?!us:us; }   /* 方奕廷 2028 生日：「你那邊應該還是昨天」只給美國路線（AA_369 L8）*/
+    return true; };
   /* 第二批的標籤（AA_257 寫在句子後面括號裡的） */
   const TAG2=[[/^過年(；初三 15:00 以後才回)?$/,G=>S.lunarNY(G)],[/^1\/1，大一、大二$/,G=>isMD(G,1,1)&&yearNow(G)>=1&&yearNow(G)<=2],
     [/^(\d{1,2})\/(\d{1,2})$/,(G,m)=>isMD(G,+m[1],+m[2])],[/^2025、2026，Café 有班$/,G=>calY(G)===2025||calY(G)===2026],

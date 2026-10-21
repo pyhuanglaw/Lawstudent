@@ -56,7 +56,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
   /* 在總圖（zone）待到 h、然後走出總圖（到 out）：SISG.tick 在總圖裡、走出去以後各跑一次 */
   const lowPlay=async(day,h,flags,pick,zone,out)=>{ freshD(day,h,zone||'library_hall',Object.assign({SIS_W1:true,SIS_STUDY:true},flags||{})); FRI5(); const r0=Object.assign({},SOCIAL.rel(SID)); H.said=[]; H.opts=[]; H.cgs=[]; H.picks=[pick||0];
     const a=SISG.tick(GM); if(a) await SISG._p; const inLib=H.said.length; H.G.zone=out||'campus'; const b=SISG.tick(GM); if(b) await SISG._p; return {a,b,inLib,L:txts(),O:H.opts[0],r0,r1:Object.assign({},SOCIAL.rel(SID)),t0:Tm(day,h),t:Tm(H.G.day,H.G.hour),zone:H.G.zone}; };   /* t0／t：演之前、演完的時間（AA_363 R3）*/
-  const HEAD=['（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）','（她還坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）','學弟。你怎麼在這裡。','我在看我的計畫本。大一到現在的。','每一週都排滿了。我剛剛在找有沒有哪一週是空的。','……沒有。','（她把計畫本闔上。）','下禮拜就考試了。我有一點怕。'];
+  const HEAD=['（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）','（她還坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）','學弟。你怎麼在這裡。','我在看我的計畫本。大一到現在的。','每一週都排滿了。我剛剛在找有沒有哪一週是空的。','……沒有。','（她把計畫本闔上。）','再一個禮拜就考試了。我有一點怕。'];
   await sec('14-1',async()=>{
     freshD(d26,17,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI5(); span(Tm(d26,17.9),Tm(d26,21));
     check('14-1. 1/26 不再由她約：18:00 沒有私訊「今天總圖讀到閉館。位子幫你留了」、沒有排 20:00 的出遊', !her().length&&!PHONE.sent(H.G,'sisg_low_msg')&&!OUT.get(H.G,'sisg_low_night'), JSON.stringify(her().map(m=>m.text)));
