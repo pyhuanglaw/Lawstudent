@@ -555,15 +555,18 @@
    "role": "LAWWW",
    "task": "AA-VAC-C16-C18-Q-1021",
    "branch": "worktree-agent-a73c8f28082f050ca",
-   "sha": "d4ae2af9",
+   "sha": "8a9a5e5a",
    "files": [
     "src/data/vac_activities.js",
     "src/vac3d.js",
-    "tests/vac_c16_c18_unit.js"
+    "tests/vac_c16_c18_unit.js",
+    "src/jp_dorm3d.js",
+    "tests/aa355_unit.js",
+    "tests/aa358_unit.js"
    ],
    "state": "WIP",
-   "remaining": "AA 回覆小修：A 組（AA_242 第 12 節）測試先寫、程式 WIP；B（日本房間三個看）、C（AA_355 第 5 節）、D（AA_358 第 2 節）、E（AA_350 第 9 節）還沒做",
-   "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
+   "remaining": "子代理被停在 8a9a5e5a：A（AA_242 第 12 節）、B（日本房間三個看）、C（AA_355 第 5 節）、D（AA_358 第 2 節）已 commit；E（AA_350 第 9 節）沒做；沒合併、LAWWW 沒驗",
+   "next": "從 wip_backup/wip_subagents_1021_1500.bundle 還原分支（README 有指令），跑它改過的單元測試，沒問題再合併；E 組另外做",
    "noDirectIntegrate": true,
    "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
   },
@@ -615,6 +618,23 @@
    "next": "下一班 LAWWW2 接班後：README「還沒做完」第 1 步（重新匯出＋疊面檢查），交件再由 LAWWW 整合",
    "noDirectIntegrate": true,
    "source": "LAWWW2-C 交班（使用者「交班」）"
+  },
+  {
+   "id": "WIP-LAWWW-RC4-1021",
+   "role": "LAWWW",
+   "task": "RELEASE-9103",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "65af7530",
+   "files": [
+    "docs/handoff/release_9103/README.md",
+    "docs/handoff/release_9103/phonefix_4c90c913.patch",
+    "docs/handoff/release_9103/probe_fps.py"
+   ],
+   "state": "WIP",
+   "remaining": "v9.10.3 候選第二版 bcbd4b65（f72a2a21＋手機修正）只在暫存區；smoke_release 搖桿 0.33 m 沒查完（BUG-SMOKE-JOY-1021）；flow_v0_start、touch_flow_wenzhou、flow_exam_terms 沒在 bcbd4b65 跑",
+   "next": "照 docs/handoff/release_9103/README.md 第 5 節重做 bcbd4b65、第 6 節乾淨環境比較",
+   "noDirectIntegrate": true,
+   "source": "使用者 10-21 14:5x「現在正式交班」"
   }
  ]
 }

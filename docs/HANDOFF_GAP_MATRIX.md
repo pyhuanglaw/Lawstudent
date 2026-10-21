@@ -26,24 +26,36 @@
 
 ## 1. 交班快照（每次交班覆寫這一節；上一次的快照搬到第 11 節）
 
-### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:5x UTC 第四次正式交班（發布 v9.10.2 以後）
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-21 14:5x UTC 正式交班（使用者「現在正式交班」；每週用量 98%；AA-C、BB-C、LAWWW2-C 已在 14:30 交班）
 
-使用者 01:4x：「你可以先發佈最新版嗎既然你的大部分測試都過了，中間沒有其他人值班，所以你可以直接從剛剛的地方開始，你先發佈然後剩下的測試留在等一下的交班，你現在先值班」→ 01:4x 同一個工作階段重新值班、發布 v9.10.2、交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細：docs/RELEASES.md v9.10.2、docs/handoff/TEST_RESULTS_1018.md 第 0、0a 節。**
+**A｜本班成果（10-19 02:0x 重新值班以後；細節在 tasks.json、deliveries.json、CANDIDATE_9103.md、PLAYER_FEATURES_v9.10.3.md）**
+- v9.10.3 候選 f72a2a21：發布前清單 14 支＋reachability_all（29 區、1099 點）＋save_compat_start1（舊版 v9.9.1）ALL PASS；BB-C 判定可以發布（856cece9、145d6a74）。**沒有發布**（見 F、B 第 1 項）。
+- 今天最後一段合進開發分支、都已 push：AA_362 句子（3c6b9440）、手機自動打開一次記全部（4c90c913，BUG-PHONE-REOPEN-1021）、AA-C 交班兩句（bc7c8823）、AA_360 劇情審查 13～18（2bce84da）、右上角日期跟上跳時間（cbf820a3）、經濟系手機小事也和別的訊息隔 3 天（a6441e98）、AA_357 大五上交換延畢（dd578e81：阿凱 2029-06-28 起在臺北上班、方奕廷 2028-07-01 起在嘉義的 presence 衝突兩邊都留）。
+- 交班保存：65af7530（搖桿調查、子代理備份）＋本筆。
 
-**A｜本班成果**
-- **v9.10.2 上線**（REL-9102-1019 已驗收）：main `9335763d`（PR #8，檔案和測過的 `f6351696` 逐檔相同），GitHub Pages run 39187157610 01:52:21 成功。發布前：乾淨 checkout deploy_check ALL PASS（版本字樣 v9.10.2、96 支 script ?v=9.10.2、33 區域、5387 個網址、JS 例外 0）；題目漏收檢查（和 AA 分支最新版逐題相同，483 題）；check_lines（v9.10.1 以後改的 12 筆提醒都不是手抄錯字）；check_orphans。
-- USER_WANTS「在開發分支」74 列改成「在遊戲裡（v9.10.2 起）」，對應的 20 筆 asks 跟著改（asks OK）。
-- 上一班（01:3x 交班）的成果見第 11 節第一則：手機訊息照 LINE 做完、用到手機的流程測試六支 ALL PASS、翹課群組轉述修好。
+**B｜全部未完成（照順序；全部在 tasks.json）**
+1. **RELEASE-9103／BUG-SMOKE-JOY-1021（P0，擋發布）**：照 `docs/handoff/release_9103/README.md` 第 5、6 節——重做候選 bcbd4b65（f72a2a21＋phonefix patch）、乾淨環境查 smoke「新遊戲搖桿」為什麼被擋、再跑 flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms，全過才發布 v9.10.3。
+2. **合併後還沒重跑的單元測試**：AA_357（dd578e81）只跑了 presence_unit；子代理列的約 60 支（y5_delay、pg_cardline、aa331_postgrad、bar_exam、epilogue、presence、holiday_ff、graduation、r2y4b_events、termend、home、move_out_y4、us_life、jp_semester、classes…）要在合併後的樹上跑。AA_360（2bce84da）跑過 16 支 ALL PASS。
+3. **子代理 a73c8f28（AA 回覆小修）**：A～D 組在 wip_backup/wip_subagents_1021_1500.bundle（沒合併、沒驗）；E 組（AA_350 第 9 節）沒做（WIP-LAWWW-AAFIX-1021）。
+4. 等 AA 回答：AA_QUESTIONS_1021（R：AA_360 八題、S：AA-Q-1021-TE＋BUG-ECON-MONEY-1020、T：AA_357 九題，以及更早的 A～Q）。
+5. 等 BB 驗收：BB-TEST-AA360-1021、BB-TEST-Y5-1021、BB-TEST-VAC-C16-C18-1021、LAWWW2 三件場景截圖判讀（GYM-GLOW、ART-Y1-BOX、ART-US2-FIX；BB 分支 test_shots/artrev_1021/）、BG-3DSHOT-1021 腳本沒跑、BB218-P3 ①②④⑤（⑥③ 已修只有單元測試）。
+6. LAWWW2 的 WIP：SOC-COURT-1021（社科院中庭夜間光＋公告欄，2b4f2028，GLB 沒換）、PS-SKIRT-LEG（27618d8d）、榕樹氣根黑線（查一半）。
+7. 其他照 `check_handoff.py queue --owner LAWWW`。
 
-**B｜全部未完成**：第一件事＝**REL-9102-POSTCHECK-1019**（使用者說剩下的測試留到交班）：對 main 跑 TESTING 第五節其他幾支（reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7）、deploy_check 沒走的 us_campus／us_lawlib、TEST_RESULTS 第 3 節還沒在瀏覽器看過的；有壞的修、重發 v9.10.3。其他照第 11 節第一則的 B（卡住等使用者上傳 `_stuck` 存檔、給 AA／BB 的、等使用者的圖）；USER_WANTS 第 1 節改成在遊戲裡的列還沒搬到第 3 節。
+**C｜正在做的**：沒有。背景測試、子代理都停了（rc4 第二輪在 fps 量完、flow_v0_start 剛開始時停掉）。
 
-**C｜正在做的**：沒有。
+**D｜最新決策與規則**：本班沒有新規則；使用者 14:5x 交班口令（不調查、不測、不發布 v9.10.3）記在 user_asks UA-LAWWW-1021-05。
 
-**D｜本班新的使用者決策**：01:4x 先發布、剩下的測試留到交班、先值班（UA-LAWWW-1019-47，已完成）。
+**E｜跨 AI 協作**：AA-C `8d32ed63`、BB-C `a71fe506`、LAWWW2-C `2b4f2028` 都在 14:30 交班（交班 commit 都已分類進 deliveries／ignored，incr OK）；LAWWW2 社科院柱子透空（8e8d130e）已整合、ACK 沒回（對方已交班，不叫醒）。AA-C 交班後傳的兩題已記 AA_QUESTIONS_1021 S 節。沒有待回的訊息。
 
-**E｜跨 AI**：沒有（沒有傳訊息給任何工作階段）。
+**F｜測試與問題**
+- f72a2a21：smoke_release_v2 FAIL（新遊戲搖桿 0.33 m）、flow_v0_start_v2 FAIL（測試還在等 AA_300 短版不演的 9/2 開學典禮——測試已改成 9/13 保齡球，開發分支 8861aed8）；其餘見 A。
+- bcbd4b65：probe 兩版手機自己開 1 次；乾淨環境待機 4.2 fps、推搖桿 6 格只走 0.36 m、前方 (0.07,2.77) stuck；smoke_release 一樣 0.33 m。
+- **逐職位核對：roles 異常 36 項未處理**（AA 交接檔的表外項目，清單 `docs/handoff/release_9103/roles_anomalies_1021_1456.txt`）；**asks 異常 5 項**（AI 解讀還沒問使用者：UA-LAWWW-1020-85、UA-AA-1020-31／33／34／35，清單 asks_anomalies_1021_1456.txt）。**因此這次交接不算完整**，下一班接班第 9 步先處理。check OK、incr OK。
 
-**F｜測試**：發布前的見 A；發布後檢查還沒跑（B 第一件事）。
+**沒有遠端備份的**：LAWWW-C 暫存區的測試工作樹（wt_rc3＝f72a2a21、wt_rc4＝bcbd4b65、wt_rel9102、wt_v991、wt_main9102，都能從 GitHub 重建）、probe 的截圖原檔。子代理分支已打包進 wip_backup；其他程式、文件都已 push。
+
+**下一班第一步**：照 AI_SESSION_HANDOFF.md 第 4 節接班（處理 F 的 roles 36 項、asks 5 項）→ BUG-SMOKE-JOY-1021（release_9103/README.md 第 6 節，一次只跑一支瀏覽器）→ 補跑 B 第 2 項的單元測試。
 
 ## 2. 試玩 Bug 與技術問題（BUG）
 
@@ -319,6 +331,25 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 | X-04 | v4 助教 M4、M5 | BB_98（遊戲不出現助教） |
 
 ## 11. 交班快照歷史
+
+### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:5x UTC 第四次正式交班（發布 v9.10.2 以後）
+
+使用者 01:4x：「你可以先發佈最新版嗎既然你的大部分測試都過了，中間沒有其他人值班，所以你可以直接從剛剛的地方開始，你先發佈然後剩下的測試留在等一下的交班，你現在先值班」→ 01:4x 同一個工作階段重新值班、發布 v9.10.2、交班。AA-C、BB-C、LAWWW2-C 一直是交班狀態（使用者 21:4x）。分支 `claude/adoring-meitner-mqzst8`（RULE_SOURCE）；最後 SHA 以 `duty.json` 和 `snapshots/` 最新的 LAWWW-C 交班快照為準。**詳細：docs/RELEASES.md v9.10.2、docs/handoff/TEST_RESULTS_1018.md 第 0、0a 節。**
+
+**A｜本班成果**
+- **v9.10.2 上線**（REL-9102-1019 已驗收）：main `9335763d`（PR #8，檔案和測過的 `f6351696` 逐檔相同），GitHub Pages run 39187157610 01:52:21 成功。發布前：乾淨 checkout deploy_check ALL PASS（版本字樣 v9.10.2、96 支 script ?v=9.10.2、33 區域、5387 個網址、JS 例外 0）；題目漏收檢查（和 AA 分支最新版逐題相同，483 題）；check_lines（v9.10.1 以後改的 12 筆提醒都不是手抄錯字）；check_orphans。
+- USER_WANTS「在開發分支」74 列改成「在遊戲裡（v9.10.2 起）」，對應的 20 筆 asks 跟著改（asks OK）。
+- 上一班（01:3x 交班）的成果見第 11 節第一則：手機訊息照 LINE 做完、用到手機的流程測試六支 ALL PASS、翹課群組轉述修好。
+
+**B｜全部未完成**：第一件事＝**REL-9102-POSTCHECK-1019**（使用者說剩下的測試留到交班）：對 main 跑 TESTING 第五節其他幾支（reachability_all、flow_class_real、minimap_direction、zone_transitions、touch_flow_wenzhou、p0_movement、save_compat_v7）、deploy_check 沒走的 us_campus／us_lawlib、TEST_RESULTS 第 3 節還沒在瀏覽器看過的；有壞的修、重發 v9.10.3。其他照第 11 節第一則的 B（卡住等使用者上傳 `_stuck` 存檔、給 AA／BB 的、等使用者的圖）；USER_WANTS 第 1 節改成在遊戲裡的列還沒搬到第 3 節。
+
+**C｜正在做的**：沒有。
+
+**D｜本班新的使用者決策**：01:4x 先發布、剩下的測試留到交班、先值班（UA-LAWWW-1019-47，已完成）。
+
+**E｜跨 AI**：沒有（沒有傳訊息給任何工作階段）。
+
+**F｜測試**：發布前的見 A；發布後檢查還沒跑（B 第一件事）。
 
 - **（2026-10-19 01:5x C 帳號第四次交班前的第 1 節原文：01:3x 第三次交班）**
   ### 帳號 C → 下一個帳號（看使用者對哪一邊說話）｜LAWWW-C｜2026-10-19 01:3x UTC 第三次正式交班

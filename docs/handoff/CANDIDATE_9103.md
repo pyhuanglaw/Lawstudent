@@ -59,6 +59,8 @@ CG：新登錄六張（CG-9 畢業典禮與媽媽、BCG-15 最後一個班、CG-
 
 ## 發布前狀態（2026-10-21 14:4x UTC 更新，LAWWW-C；還沒發布）
 
+**【2026-10-21 14:5x UTC 交班時：沒有發布】** 使用者「現在正式交班……不要再繼續調查搖桿問題、執行測試或嘗試發布 v9.10.3」。卡在 smoke_release「新遊戲：搖桿走得動」（bcbd4b65 一樣 0.33 m；不是手機、不是幀率；前方 (0.07, 2.77) 被擋，v9.10.2 同一點一樣）——調查、數據、腳本、下一步：`docs/handoff/release_9103/README.md`（BUG-SMOKE-JOY-1021）。bcbd4b65 上還沒跑：flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms。
+
 **候選改成第二版 `bcbd4b65`＝`f72a2a21`＋手機自動打開修正**（開發分支 `4c90c913` 的 `src/story3d.js` 一行＋`tests/phone_auto_unit.js`；版本字樣照舊 v9.10.3）。回退目標 v9.10.2（main `9335763d`）。**還沒發布。**
 - **`f72a2a21` 不發布**：重跑 smoke_release_v2 仍 FAIL（新遊戲搖桿只走 0.33 m），flow_v0_start_v2 停在一直自己跳出來的手機上 → 查到是遊戲的 bug（BUG-PHONE-REOPEN-1021：同時有好幾則待回訊息時一次只記一則，收起來下一格又自己打開，一則跳一次）。
 - `bcbd4b65` 只在 LAWWW-C 暫存區的工作樹、**沒推上 GitHub**。重做：`git worktree add --detach <dir> f72a2a21`，在那裡套 `git diff 4c90c913~1 4c90c913 -- src/story3d.js tests/phone_auto_unit.js`（直接套得上），commit。
