@@ -75,13 +75,13 @@ OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAM
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).concat((E.extras||[]).filter(x=>x.rider).map(x=>[x.obj,x.obj.parent])).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人、騎腳踏車的路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
     const f0=E.frame; for(let i=0;i<240&&E.frame<f0+4;i++) await new Promise(r=>setTimeout(r,250)); const ri=E.renderer.info.render; const out={calls:ri.calls, tris:ri.triangles}; hid.forEach(a=>a[1].add(a[0])); return out; })"""
-# 傅鐘的夜間：地燈燈罩、柱面暖光（加法混合）、正式模型的光暈（formalGlow）、套件的光暈（藏起來的那兩個）
+# 傅鐘的夜間：地燈燈罩、柱面暖光（加法混合）、正式模型的光暈（campus_bell_glb_glows：合成一個網格）、套件的光暈（藏起來的那兩個）
 BELL_NIGHT = """(h=>{ const E=GAME.E, z=E.zone, root=z.group.children.find(o=>o.name==='campus_bell_glb'); if(h!=null) E.applyTime(h); const mats={};
     root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; }); const kit=z.group.children.find(o=>o.userData&&o.userData.ckTag==='bell');
-    const g=z.group.children.filter(o=>o.isSprite&&o.userData.formalGlow);
+    const b=z.group.children.find(o=>o.name==='campus_bell_glb_glows'), k=b?b.material.emissiveIntensity:0, g=b?b.userData.glowBatch.items:[];   /* 正式模型的光暈合成一個網格（LAWWW2-C 2026-10-21）：每個光暈的亮度＝白天、晚上的值照夜間程度內插 */
     return {lens:+(mats.ck_bell_lens?mats.ck_bell_lens.emissiveIntensity:-1).toFixed(2), wash:+(mats.ck_bell_wash?mats.ck_bell_wash.emissiveIntensity:-1).toFixed(2),
       washAdditive:!!(mats.ck_bell_wash&&mats.ck_bell_wash.blending===THREE.AdditiveBlending&&!mats.ck_bell_wash.depthWrite),
-      glows:g.length, glowsOn:g.filter(s=>s.visible&&s.material.opacity>0.3).length, kitSpritesOn:kit.children.filter(o=>o.isSprite&&o.visible).length, lampsOn:!!E.lampsOn}; })"""
+      glows:g.length, glowsOn:b&&b.visible?g.filter(i=>i.day*(1-k)+i.night*k>0.3).length:0, kitSpritesOn:kit.children.filter(o=>o.isSprite&&o.visible).length, lampsOn:!!E.lampsOn}; })"""
 # 校園座標：x 往東、−z 往北；椰林大道 z=0（校門 x=−124、總圖 x=100，正面朝西：門廊前緣 x≈82.8、一樓拱廊 x 87–90）；傅鐘在 (−38,16.5)，石碑朝北
 VIEWS = [('gate_avenue', (-110, 1.7, 0.5), (100, 8, 0)),     # 進校門往東看椰林大道盡頭的總圖（玩家最常看到的角度；傅鐘在右邊）
          ('avenue', (38, 1.7, 0.5), (100, 10, 0)),            # 大道後段

@@ -178,6 +178,8 @@ GM.money=function(n){ G.money+=n; };
       check('11. 接了＝C14 事務所參觀：寒假第三週的週三 10:00；隔天 21:00 芯慈傳日子（{日期}換成 1/7（三）那種）',!!q&&q.day===d&&q.h===10&&x.wd%7===3&&!CALENDAR.termOf(d)&&JSON.stringify(mm)===JSON.stringify([x.m+'/'+x.d+'（三）早上十點，我爸說可以。','穿平常的衣服就好，他們不看。']),JSON.stringify([q,x,mm]));}
       said=[]; picks=[0]; await TERMEND.dayOuting(GM,q); const L2=lines();
       check('11. C14 那天：電梯門打開、芯慈「這是我爸。」、芯慈爸爸問「你們法律系現在都教什麼？」（還沒旁聽過開庭＝只有一個回答）、白板、「我以前來這裡，都只坐櫃台。」；記 C14_VISITED',L2.includes('（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）')&&L2.some(t=>t==='芯慈爸爸：你們法律系現在都教什麼？')&&L2.some(t=>t.endsWith('考試沒變。'))&&L2.some(t=>t.includes('都只坐櫃台'))&&G.flags.C14_VISITED===G.day,JSON.stringify(L2));
+      { const find=(o,out=[])=>{ if(Array.isArray(o)) o.forEach(x=>find(x,out)); else if(o&&typeof o==='object'){ if(o.t==='「我去法院旁聽過一場開庭。」') out.push(o); for(const k in o) find(o[k],out); } return out; }, op=find(TERMEND_LINES)[0];
+        check('11. C14 第二個回答（AA_344 ①）：演過大三上刑訴的法院旁聽（ev_crimpro_court_visit）才出現「我去法院旁聽過一場開庭。」；原本讀的 COURT_VISITED 沒有地方設', !!op&&typeof op.if==='function'&&op.if({flags:{},events:{done:{ev_crimpro_court_visit:1}}})===true&&op.if({flags:{COURT_VISITED:true},events:{done:{}}})===false); }
       TERMEND.dayMissed(GM,q); said=[]; const a1=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci'), a2=await TERMEND.meetLine(GM,{name:'芯慈'},'classmate_xinci');
       check('11. 沒去：芯慈下次見面一句「我自己去了。我爸問你怎麼沒來。」（只一次）',a1&&!a2&&lines().some(t=>t.includes('我自己去了。我爸問你怎麼沒來。')),JSON.stringify(lines()));
       fresh(D('2026-06-11'),19,'campus',{}); G.stage='law'; meet('heroine_01'); said=[]; opts=[]; picks=[1]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'friend',term:'Y1S2'}});
