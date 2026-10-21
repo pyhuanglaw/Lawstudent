@@ -26983,7 +26983,7 @@
    "title": "AA_366（第二版）可昕「我們的日子」畢業以後：隔週（P1～P4）、實習後每月第一個週日（P5），每格指定一句；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -26997,7 +26997,7 @@
    },
    "source": "企劃線 AA_366（1b4bbdac；outbox 8c2625da；AA 16:24 send_message）",
    "authorized": "D100／D109（AA 定稿）",
-   "next": "【LAWWW（帳號 A）17:0x】AA_366 第二版（a7bd9741）：畢業後改隔週（P1～P4）、實習後每月第一個週日（P5）；每格指定一句、不再隨機抽；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00——以第二版為準 ｜ 和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排"
+   "next": "【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 【LAWWW（帳號 A）17:0x】AA_366 第二版（a7bd9741）：畢業後改隔週（P1～P4）、實習後每月第一個週日（P5）；每格指定一句、不再隨機抽；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00——以第二版為準 ｜ 和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排"
   },
   {
    "id": "UX-PHONE-AUTO-WALK-1021",
@@ -27110,14 +27110,14 @@
    },
    "source": "LAWWW2 16:56（BB_218 退回的膠帶字）；AA 16:10 旁白已改「麥克筆的大字」",
    "authorized": "演出鏡頭（不改台詞）",
-   "next": "【LAWWW（帳號 A）21:2x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）21:1x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
   },
   {
    "id": "AA367-PG-DATES-1021",
    "title": "AA_367 畢業後篇交往中的六位（以安、芷若、語彤、子晴、學姊、沛珊）每月第一個週六一格停點（撞到別的停點往後一週；那個月已有一對一接觸就不排，群組不算）：地點字幕＋她一句、不加選項，旗標 PG_DATE_<id>；2029-06～2030-12 共 102 句逐月指定",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -27131,7 +27131,7 @@
    },
    "source": "企劃線 AA_367（a7bd9741；第 0 節共通規格、第 8 節月份表；AA 17:05 send_message）",
    "authorized": "D100／D109（AA 定稿）",
-   "next": "和 AA366-KX-POSTGRAD-1021、AA354-KX-OURDAYS-1021 同一套固定格機制一起做；做成 PG 停點（S.SOFT／stops），不靠長跳的整點規則；不在三個優先項目裡，照佇列排"
+   "next": "【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 和 AA366-KX-POSTGRAD-1021、AA354-KX-OURDAYS-1021 同一套固定格機制一起做；做成 PG 停點（S.SOFT／stops），不靠長跳的整點規則；不在三個優先項目裡，照佇列排"
   },
   {
    "id": "ART-Y1-BOX-MIRROR-1021",
