@@ -540,8 +540,10 @@ const R2Y4A_EVENTS=(function(){
       kx('新年快樂。'),
       kx('……我阿嬤在叫我。你也去陪你媽。') ] });
 
-  /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和去年（KX_VDAY_WX[3]）一樣＝「跟去年一樣。」---- */
-  const VSAME=G=>!!G.flags._y4Vwx&&(G.flags.KX_VDAY_WX||{})[3]===G.flags._y4Vwx&&(G.flags.KX_VDAY||{})[3]!=='missed';
+  /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和上一次她問的回答（KX_VDAY_WX）一樣＝「跟去年一樣。」
+     大三的情人節（r2y3a，2-Y3-24）沒有問天氣：沒有 [3] 就比上一次有問的那一年（大二 [2]、大一 [1]；要問 AA）---- */
+  const VPREV=G=>{ const W=G.flags.KX_VDAY_WX||{}, V=G.flags.KX_VDAY||{}; for(const y of [3,2,1]) if(W[y]!=null) return V[y]==='missed'?null:W[y]; return null; };
+  const VSAME=G=>!!G.flags._y4Vwx&&VPREV(G)===G.flags._y4Vwx;
   EV.push({ id:'ev_kexin_valentine_y4', title:'情人節，讀書計畫表', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.vdayMissed(G,q); },
     dialogue:[ {scene:'視訊',bg:'video'},

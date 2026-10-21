@@ -411,8 +411,10 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   // ---------- 2-Y4-29 可昕：情人節，讀書計畫表 ----------
   fresh('2029-02-14',20.5,'dorm',TWF({KX_STUDY_PLAN:'went',KX_VDAY_WX:{3:'rain'},KX_VDAY:{3:'video'}})); date('kexin'); rules(); const qv4=OUT.get(G,'y4_kx_vday'); picks=[1]; said=[]; await OUT.go(GM,qv4);
   check('V1. 2/14 21:00 視訊；「你那邊天氣怎樣？」三選一；和去年一樣＝「跟去年一樣。」；有 KX_STUDY_PLAN＝「我們那張表，我重排了。」；十點那一格「通話」', !!qv4&&qv4.h===21&&qv4.verb==='接起來'&&has('你那邊天氣怎樣？')&&opts[0].length===3&&has('跟去年一樣。')&&has('情人節禮物。我們那張表，我重排了。')&&has('兩個人的格子排在一起。考完以前，都照這張。')&&has('（畫面：每天晚上十點那一格，兩欄都寫著「通話」。）')&&G.flags.KX_VDAY[4]==='video'&&G.flags.KX_VDAY_WX[4]==='rain');
-  fresh('2029-02-14',20.5,'dorm',TWF()); date('kexin'); rules(); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
+  fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{2:'rain'},KX_VDAY:{2:'video',3:'video'}})); date('kexin'); rules(); picks=[0]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
   check('V. 沒有 KX_STUDY_PLAN、天氣不一樣：「……高雄今天二十五度。」「情人節禮物。讀書計畫表。」', has('……高雄今天二十五度。')&&has('情人節禮物。讀書計畫表。')&&!has('跟去年一樣。'));
+  fresh('2029-02-14',20.5,'dorm',TWF({KX_VDAY_WX:{2:'rain'},KX_VDAY:{2:'video',3:'video'}})); date('kexin'); rules(); picks=[1]; said=[]; await OUT.go(GM,OUT.get(G,'y4_kx_vday'));
+  check('V. 大三的情人節沒有問天氣（r2y3a）：比上一次有問的大二「下雨。」＝「跟去年一樣。」', has('跟去年一樣。'));
   fresh('2029-02-14',20.5,'dorm',TWF()); date('kexin'); rules(); at('2029-02-14',21.6); await outTick(); at('2029-02-14',22.1); rules();
   check('V. 沒接：照片＋「情人節快樂。十點那一格，今天先空著。」；KX_VDAY[4] missed', txt('p:kexin').includes('kexin:📷（讀書計畫表）')&&txt('p:kexin').includes('kexin:情人節快樂。十點那一格，今天先空著。')&&G.flags.KX_VDAY[4]==='missed');
 
