@@ -3439,7 +3439,7 @@ const STORY_EVENTS=[
       {speaker:'heroine_05',expression:'serious',text:'我們不吵。也不想聽你解釋為什麼。'},
       {speaker:'heroine_01',expression:'serious',text:'你只要選一個。'},
       {speaker:null,text:'（店裡很安靜。吧台的冰箱一直在響。）'},
-      {choice:[{text:'「學姊。」',set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},
+      {choice:[{text:'「學姊。」',unless:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「書瑀。」',if:{flags:['dating_heroine_05']},set:{TWO_HEARTS_PICK:'heroine_05'},goto:'sis'},{text:'「以安。」',set:{TWO_HEARTS_PICK:'heroine_01'},goto:'an'}]},   /* AA_350 R7（裁定 12）：交往當天起祐廷說出口的「學姊。」→「書瑀。」（這一場兩個都在交往中）*/
       {label:'sis'},{speaker:'heroine_01',expression:'serious',text:'……好。'},
       {speaker:'heroine_01',expression:'serious',text:'（站起來，把椅子推回去）理由我不用聽了。'},
       {speaker:null,text:'（她走出去的時候，門上的鈴響了一聲。）'},

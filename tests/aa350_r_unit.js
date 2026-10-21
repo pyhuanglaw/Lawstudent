@@ -1,14 +1,16 @@
 // AA_350 第 7 節 R 節（企劃線 cae5cc76）——不需要瀏覽器。用法：node tests/aa350_r_unit.js
 //   R2 ev_sk03_lunch：加一條路——那個週五沒去經原下、12:00～13:00 下課選單選「先去吃飯→活大」＝在活大演（開頭「……你今天沒來上課。坐。」、不出選項、直接接 go；還債、第一次、芯慈的先後照舊）
 //   R5 法學研究第 11 週引用大四上那一題（B_Y4S1_public_judgment_sem_w3）沒有紀錄：美國路線／其他沒去的兩句（CLS.RECALL_MISSED）
-// 修改前（開發分支 10dc79b1）：R2 七項 FAIL 4（R2-0、R2-4、R2-5 是前提和防回歸）；R5 三項 FAIL 1（R5-1；R5-0、R5-2 是前提和防回歸）。
+//   R7 交往當天起祐廷說出口的「學姊」換句（兩點半 Café 選一個「書瑀。」）；掃全部事件，交往中可能播到的「學姊」都要有交往中的版本
+// 修改前（開發分支 10dc79b1）：R2 七項 FAIL 4（R2-0、R2-4、R2-5 是前提和防回歸）；R5 三項 FAIL 1（R5-1；R5-0、R5-2 是前提和防回歸）；R7 兩項都 FAIL。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|SYLLABUS|ROM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/syllabus.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/syllabus.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/romance3d.js','src/story3d.js','src/classes3d.js',
+  'src/data/y2b_events.js','src/data/group_events.js','src/data/r2y3a_events.js','src/data/r2y3b_events.js','src/data/jp_events.js','src/data/r2y4a_events.js','src/data/r2y4b_events.js','src/data/r3_events.js','src/data/us_life_events.js','src/data/y1fill_events.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);   /* 後面那幾個事件包：R7 掃全部的事件 */
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){},setBg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -55,6 +57,25 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
       us==='（大四上那一堂，你在美國。老師講的那一題，你是第一次聽。）'&&[tw,none,jp].every(t=>t==='（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）'),JSON.stringify([us,tw,none,jp]));
     const said0=at('TW',0), ch0=(((SYLLABUS.courses.public_judgment_sem||[]).find(w=>w.obs&&w.obs.record==='B_Y4S1_public_judgment_sem_w3')||{}).obs||{}).options||[];
     check('R5-2. 有紀錄的照舊（防回歸）：「大四上的你：「{選的那一句}」」；大一那一筆沒有紀錄照舊「（大一那一堂，你不在。…）」',!!ch0.length&&said0==='大四上的你：「'+ch0[0].text+'」'&&(fresh(termDay('Y4S2',11,1),14,'wsem',{}),CLS.recallText(G,r1,it))==='（大一那一堂，你不在。老師講的那一題，你是第一次聽。）',JSON.stringify(said0)); }
+
+  /* ===================== R7 交往當天起祐廷不叫「學姊」 ===================== */
+  { const e=STORY_EVENTS.find(x=>x.id==='ev_two_hearts_cafe'), ch=e&&e.dialogue.find(l=>l.choice&&l.choice.some(c=>c.set&&c.set.TWO_HEARTS_PICK));
+    const shown=flags=>{ fresh(termDay('Y3S1',10,4),22.6,'cafe',flags); return ch.choice.filter(c=>(!c.if||EVENTS.cond(c.if))&&(!c.unless||!EVENTS.cond(c.unless))).map(c=>c.text+'>'+c.set.TWO_HEARTS_PICK); };
+    const a=shown({dating_heroine_01:true,dating_heroine_05:true}), b=shown({dating_heroine_01:true});
+    check('R7-1. 兩點半 Café 選一個（ev_two_hearts_cafe，兩個都在交往中）：祐廷叫學姊「書瑀。」（不是「學姊。」）；沒和學姊交往的寫法照原句',
+      JSON.stringify(a)==='["「書瑀。」>heroine_05","「以安。」>heroine_01"]'&&JSON.stringify(b)==='["「學姊。」>heroine_05","「以安。」>heroine_01"]',JSON.stringify([a,b])); }
+  { /* 防回歸：祐廷說出口的「學姊」（選項、speaker player），沒有「交往中換句」的事件只能是下面這幾場（交往以前一定已經過了的；或待 AA 定的）。新加的要照 R7 換句或加進這張表並寫原因 */
+    const OK={ev_sis_w1:'大一上認識她',ev_sis_fam_hall:'大一上第 2 週',ev_sis_fam_hall2:'大一上第 2 週',ev_sis_fam_dinner:'大一上家聚',ev_sis_club_expo:'大一上社團博覽會',ev_sis_festival_booth:'大一上第 11 週',ev_sis_family_dinner:'大一上第 14 週',ev_sis_empty_flask:'大一上第 8、9 週',ev_sis_canyon:'告白那一場（還沒交往）',
+      ev_sis_office_together:'「學姊叫我來的。」是對許教授說的，R7 沒有對第三人說的寫法：等 AA'};
+    const src=v=>typeof v==='function'?String(v):JSON.stringify(v,(k,x)=>typeof x==='function'?String(x):x)||'';
+    const guarded=l=>!!l.unless&&/heroine_05/.test(src(l.unless))&&/dating/.test(src(l.unless));
+    const bad=[];
+    const walk=(ev,lines)=>{ for(const l of (lines||[])){ if(!l||typeof l!=='object') continue;
+      if(l.choice) for(const c of l.choice){ if(/學姊/.test(c.text||'')&&!guarded(c)) bad.push(ev.id+'：'+c.text); if(c.say) walk(ev,c.say); }
+      if((l.speaker==='player'||l.phoneMe)&&/學姊/.test(l.text||'')&&!guarded(l)) bad.push(ev.id+'：'+l.text); } };
+    for(const ev of STORY_EVENTS){ if(ev.retired||ev.off) continue; walk(ev,ev.dialogue); }
+    const extra=bad.filter(x=>!OK[x.split('：')[0]]);
+    check('R7-2. 交往中可能播到、祐廷說出口的「學姊」：除了交往以前的那幾場（和等 AA 的許教授那一句）都已經有交往中的版本',!extra.length&&bad.length>0,JSON.stringify(extra.length?extra:bad.length)); }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });
