@@ -595,7 +595,21 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 21:5x 進度（帳號 A LAWWW2；最新，蓋過下面 20:5x 那一節）
+### ▶▶ 10-21 22:2x 進度（帳號 A LAWWW2；最新，蓋過下面 21:5x 那一節）
+- 開發分支照舊 `80af0168`。
+- **22:2x 已交件 US-MARKET-STREET**（patch `8512b3b0`、模型 `fa7c85e2`、說明 `07967c55`；遊戲內 12 張；DELIVERED、沒 ACK）。
+- **WIP：ART-VAC-AIRPORT-1021**（機場；說明 `test_shots/airport_1021/README.md`，最新 `7587ac4f`）：
+  - `patches/airport_cam_night.diff`（`ef7ffd89`）：鏡頭牆、網點透空、晚上換夜景平面（沒有夜景平面的舊模型照舊調暗）；`airport_cam_unit` 修改前 13 FAIL→ALL PASS。
+  - 窗外遠景改 Blender 渲染：新 `tools/blender/env_second/airport_backdrop.py`（停車大樓 P2、樟樹、車、高架、飯店、塔台；白天＋`--night`），貼圖 `textures/gen/ap_outside*.png`（`31ae6897`）；`airport_t2.py` 加夜景平面、背牆鋁收邊、框改鋁灰（`ab8544f6`、`ef7ffd89`）。
+  - 新 GLB 在 `$SP/airport/glb/new_{dep,arr}.glb`（還沒換進 assets；等 j15 遊戲內對照）。
+- **WIP：US-MS-NIGHT-1021**（`17c2af30`，`patches/us_lamp_pools.diff`，接在超市街 patch 後面）：美國戶外區域路燈地面光圈；`us_lamp_pools_unit` 修改前 12 FAIL→ALL PASS。遊戲內 20:00 前後對照排 j18。
+- **WIP：PERF-CROWD-LOD-1021**（`21ada28c`）：照舊等 j10。
+- **PERF-ZONE-ENTER-1018**（使用者 X14，LAWWW 改派）：量測工具 `tools/shots/zone_enter_probe.py`（`83b4a478`）排 j16。靜態盤點：進溫州街要載約 4,500 萬像素的貼圖；`wz_signs_atlas`（2048²）在 `wenzhou_street.glb`、`wz_jphouse.glb` 各包一份；`wz_road_atlas` 4096×1200。懷疑是新材質第一次畫的 shader 編譯＋大貼圖解碼上傳；等數字再改（預熱 compileAsync、縮貼圖）。
+- **背景佇列**（`$SP/queue/`）：j8 博雅 → j9 三棟大門 → j10 路人量測 → j11 溫州街巡場景 → j12 宿舍 412 → j13 Café → j14 美國巡場景 → j15 機場前後對照 → j16 換區域量測 → j17 超市街重拍一張 → j18 超市街夜間光圈前後對照（master13，ALLQ13）。
+- 稀疏工作樹：`$SP/devwt_ap`（80af0168＋機場修改）、`$SP/devwt_us`（80af0168＋超市街 patch 已 stage＋光圈修改）。
+- **接下來**：佇列輸出逐項交件（博雅＋三棟大門 → 路人 LOD → 宿舍 412＋Café 地板 → 機場 → 超市街光圈）；ART-WZ0 盤點（j11）；PERF-ZONE-ENTER（j16）；B16 男宿交誼廳家具（P3）。
+
+### ▶▶ 10-21 21:5x 進度（帳號 A LAWWW2；被上面 22:2x 那一節取代）
 - 開發分支最新 `80af0168`（21:19；LAWWW 已整合 BUG-CAFE-KIT-GLOW-1021）。待交的 patch（lamppost_nav→campus_avenue_lamps、dorm_seethru、cafe_seethru、us_market_street、crowd_far_lod、airport_cam_night）在 `80af0168` 上一起套都乾淨。
 - **21:3x 已交件（DELIVERED、沒 ACK）**：榕樹氣根（`f858b47c`／說明 `c36c2dbe`）、燈柱導航＋椰林大道路燈（`5f03d748`／說明 `fb8546f3`；Node＋四支瀏覽器回歸修改前後都 ALL PASS）。
 - **WIP：PERF-CROWD-LOD-1021**（`21ada28c`）：遠距離路人的明暗改成照 MToon 公式（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮）；`npc_far_unit` 第 8 項最大差 0.002；18 支相關單元測試 ALL PASS。j10 會用新版（`$SP/crowdlod/crowd_lod_src.diff` 已更新）。遠距離 GLB 等 j10 看過再放進 assets＋LICENSES。
