@@ -27514,10 +27514,10 @@
    },
    "source": "AA（帳號 A）2026-10-21 18:34 企劃線 4042e078（子代理盤點開發分支 860a101b，AA 核過原句）",
    "authorized": "D109／D110；D99 第二優先（寒暑假）",
-   "next": "【LAWWW（帳號 A）19:3x】子代理 6e4b9739 合併進開發分支 8202e9b0：H1～H5、M1、M2、M4～M6、L1～L9、第 4 節 FIXED，M3 PARTIAL（芷若、以安在家那天的重逢沒有句子）；aa369_hol_unit 54 項（修改前 49 FAIL）；12 個問題轉 AA（最要緊：方奕廷老家嘉義／台中）；BB 瀏覽器：寒暑假（holff、vac）時一起看 ｜ 【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
+   "next": "【LAWWW（帳號 A）20:3x】第 7 節（AA 回 12 題的第 1、2、5、6、7、9、10、11 題）子代理 d3e3e79d 合併進開發分支 36d0e6a1（aa369_hol 67 項，第 7 節 15 項修改前 FAIL）；第 8 節子代理在跑 ｜ 【LAWWW（帳號 A）19:3x】子代理 6e4b9739 合併進開發分支 8202e9b0：H1～H5、M1、M2、M4～M6、L1～L9、第 4 節 FIXED，M3 PARTIAL（芷若、以安在家那天的重逢沒有句子）；aa369_hol_unit 54 項（修改前 49 FAIL）；12 個問題轉 AA（最要緊：方奕廷老家嘉義／台中）；BB 瀏覽器：寒暑假（holff、vac）時一起看 ｜ 【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
    "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22",
-   "sha": "8202e9b0"
+   "sha": "36d0e6a1"
   },
   {
    "id": "AA370-US-FIX-1021",
@@ -27594,7 +27594,7 @@
    "id": "AA372-Y1S1-FIX-1021",
    "title": "AA_372 法律系大一上「知道太早／重複／作廢設定」修正（企劃線 da456892）：高 3 項（1 社團博覽會法服小字是作廢的週三讀書會時間、2 Kevin 9/4 家族群組又自我介紹、3 芯慈／柏翰／明軒三個事件沒有 once 每 2～3 天重演）、中 8 項（4～11）、低（12～）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "v1",
    "first": {
@@ -27609,7 +27609,8 @@
    },
    "source": "AA（帳號 A）2026-10-21 19:32 交（企劃線 da456892，BACKLOG-SWEEP-AA-1021；子代理盤點 b72960bf、AA 核過）",
    "authorized": "D109（AA 劇情自己定）、D110",
-   "next": "第 1 項 LAWWW 先做；其餘照 AA_368～AA_370 的做法開子代理整份做（AA_370 子代理在跑，CPU 空出來再開）"
+   "next": "【LAWWW（帳號 A）20:3x】子代理 5a943046 合併進開發分支 75eeef60：第 2～18 項 FIXED（第 1 項在 2d0a075c）；aa372_y1s1_unit 60 項（修改前 48 FAIL）、改到的 12 支＋presence 等全過；9 個問題轉 AA（沒有宿營的 Kevin、升級句後半、主線以安一直沒報名字與目標列「小安」、翹課版「不認識的女生」、「呼——你走好快。」、語彤知道名字的時機、「這是分工，不是命令。」、沛珊大一下以後隔週回台中？、可昕第一次來台大的日誌）；BB 照 AA_372 第 5 節測 ｜ 第 1 項 LAWWW 先做；其餘照 AA_368～AA_370 的做法開子代理整份做（AA_370 子代理在跑，CPU 空出來再開）",
+   "sha": "75eeef60"
   },
   {
    "id": "BUG-NAV-LAMPPOST-1021",
@@ -27681,6 +27682,48 @@
    "authorized": "D99 第一項（經濟系完整流程的最後一段）",
    "next": "【LAWWW（帳號 A）20:10 UTC】32ae3325：不會錯過 E37（跳過時間停在出發前 10 分鐘 13:10，X81 的 skipStops）；白天床邊選項補寫提醒（睡到傍晚、小睡）；BB 瀏覽器：8/30 宿舍選「睡到傍晚」→ 13:10 醒來 → 出發選單 ｜ 查宿舍床邊選單的提醒（home3d.js 的出發提示只在家裡）和睡覺會不會被 14:15 的電話叫醒（S.homeCall／e37CallDue 在宿舍有沒有用）；BB 實測選了會不會錯過",
    "sha": "32ae3325"
+  },
+  {
+   "id": "AA374-Y2S1-FIX-1021",
+   "title": "AA_374 法律系大二上修正（企劃線 6fc64130）：#1 story3d.js 宿舍每晚生阿凱（不看年級）→大二起照 AA_208 第 7 節生 312 的阿哲、柏翰；#11 柏翰×沛珊整段只在玩家沒有和沛珊交往時發生；AA_211 與附錄早就寫好沒做的（yu_expo、zhe_score、an_admin、博覽會學姊換柏翰、阿哲「哥」看 ZHE_CALLS_GE、y2_zq_lab、mx_toefl P4、xmas 4-4、後勤部長、分手合併＋E6）；其他（語彤阿姨扭到手、芯慈第二次看 LENT_NOTES、沛珊不回從 12/18 起算、柏翰週三晚上改總圖、翹課句照當週主題、mx_tutor 大二拿掉）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "v3",
+   "first": {
+    "term": "Y2S1",
+    "week": 1,
+    "earliest": "2026-09 法律系大二上開學（宿舍 312）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 20:32 交（企劃線 6fc64130；子代理盤點 eb091a28，AA 核過）",
+   "authorized": "D109、D110",
+   "next": "AA_373 之後，照 AA_368～372 的做法開子代理整份做（第 2 項已在 AA_372 第 3 項）"
+  },
+  {
+   "id": "BUG-HOME-FAMGROUP-NEGIDX-1021",
+   "title": "home3d.js 家人群組「這週回來吃飯嗎」：新局 9/4、9/11 兩個週四 G.day 是負的，(G.day/7|0)%len 算出負索引丟例外（外層攔下只印警告），那兩週的訊息沒發",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "2025-09-04（法律系新局第一個週四）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_372 子代理 2026-10-21 20:3x 順手發現（5a943046 的回報）",
+   "authorized": "一般 bug 修正（D87）",
+   "next": "LAWWW 改成非負索引＋單元測試（修改前 FAIL）"
   }
  ]
 }
