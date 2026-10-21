@@ -903,12 +903,35 @@
     "src/data/events.js"
    ],
    "state": "已整合",
-   "remaining": "法律系四年的可昕台詞約 150 句還沒標表情（下一批）",
+   "remaining": "（已在 d511ec27、5bc5f09a、f1d76f65 補完）",
    "next": "AA 補法律系四年；BB 測經濟系可昕表情",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "可昕經濟系 35 句補表情（ev_y0_e07 26、ev_y0_r7 3、ev_y0_e37 6）；AA 直接推開發分支"
+  },
+  {
+   "task": "KX-EXPR-1018",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "f1d76f65",
+   "files": [
+    "src/data/events.js",
+    "src/data/r2y3a_events.js",
+    "src/data/r2y3b_events.js",
+    "src/y34b3d.js",
+    "src/data/r2y4b_events.js",
+    "src/data/group_events.js",
+    "src/data/y2b_events.js",
+    "src/data/us_life_events.js",
+    "src/data/r2y4a_events.js"
+   ],
+   "state": "已整合",
+   "remaining": "R4 模擬考 9 句（已拿掉）、程式組的兩處 text:x／text:t、rsLines 早上那串：請 LAWWW 加預設表情",
+   "next": "LAWWW 改 KX-EXPR-1018、USER_WANTS X62 狀態；BB 驗表情",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "可昕法律系四年＋重考期補表情：d511ec27（61）、5bc5f09a（38）、f1d76f65（111）；連同 de616dbc（35）共 245 句；Node 390 支全過"
   }
  ],
  "items": [
