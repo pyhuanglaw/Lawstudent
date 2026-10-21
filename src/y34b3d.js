@@ -27,7 +27,8 @@
    1B-25 學姊 M9：5/28 21:00 家族群組（交往中多一則私訊）→ 5/29 16:00～18:00 研究室走廊（出遊）；沒到＝18:30 群組（交往中私訊）。SIS_DEFENSE。
    掛勾：STORY.TICKS、PHONE_RULES、WAKE_AT、ALARMS（story3d.js）；在家的時候借 STORY.y4HomeDue／y4HomeScene／y4FromHome（home3d.js 的 loop 已經在問）；美國路線的登機借 EXCH.fly；
          學姊 2028 生日的「生日快樂」借 MSG.pick2／MSG.send（msg3d.js 要先載入：index.html 裡 msg3d.js 在這個檔前面）。
-   CG（cg_depart_together_heroine01、cg_final_stage_heroine04、cg_last_row_kexin、cg_anniversary_23、cg_defense_day_heroine05）還沒登錄＝ADV.cg 不顯示，照背景演（MISSING_EXTERNAL_ART）。
+   CG（cg_depart_together_heroine01、cg_final_stage_heroine04、cg_last_row_kexin、cg_anniversary_23、cg_defense_day_heroine05；1B-24 交往版加 CG-19 cg_first_to_ask_heroine01）：
+   2026-10-20 都登錄在 src/adv3d.js 的 CG_REGISTRY（企劃線 cg_approved/ 原檔；tests/cg_batch2_unit.js）。
    測試：node tests/y34b_events_unit.js */
 'use strict';
 const Y34B=(function(){
@@ -258,7 +259,7 @@ const Y34B=(function(){
   S.a23CallDue=G=>{ const d=D('a23'); return law(G)&&!US(G)&&d!=null&&G.day===d&&G.hour>=19.5&&G.hour<23&&G.flags.ANNIV23==null&&G.zone!=='noodle'&&!(typeof TRIP!=='undefined'&&TRIP.at&&TRIP.at(G)); };   /* 一定會發生：19:30 還沒到＝電話帶到場 */
   S.a23TueDue=G=>{ const d=D('a23tue'); return law(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&!G.flags.ANNIV23_TOLD&&fam('heroine_03')&&!!(typeof EVENTS!=='undefined'&&EVENTS.npcOf&&EVENTS.npcOf('heroine_03')); };   /* 12/12（二）語彤的班：人在店裡才說 */
   S.a23Phone=function(G){ const F=G.flags, d=D('a23'), m=D('a23msg'); if(d==null||G.day<m||G.day>d+1||!law(G)) return;
-    if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,21)&&G.day<=m+1) at(G,m,G.day===m?Math.max(21,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店'}],'y4_a23_group');
+    { const hm=tzH(G,m,21); if(inGrp(G,'public_law')&&met('heroine_01')&&NOW(G)>=T(m,hm)&&G.day<=m+1) at(G,m,G.day===m?Math.max(hm,G.hour):G.hour,[{th:'g:public_law',from:'heroine_01',text:'學弟說這週四停一次'},{th:'g:public_law',from:'heroine_01',text:'大家去麵店'}],'y4_a23_group'); }   /* 美國路線照當地時間（AA_340 S8：台灣 21:00＝當地 08:00）*/
     if(inGrp(G,'noodle_team')) for(const [k,L] of [['a23msg',[GZ('週四 二十三週年 倒數三天')]],['a23tue',[{th:'g:noodle_team',from:'yu',text:'兩天'}]],['a23wed',[GZ('明天七點 不准遲到'),{th:'g:noodle_team',from:'classmate_bohan',text:'我六點半到。'}]]]){
       const dd=D(k), hh=dd!=null?tzH(G,dd,21):21; if(dd!=null&&NOW(G)>=T(dd,hh)&&G.day<=dd+1) at(G,dd,hh,L,'y4_a23_count_'+k); }   /* 麵店團群組的倒數（AA_337 第 3 節）：12/11、12/12、12/13 21:00 */
     if(!US(G)&&F.ANNIV23==='there'&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&NOW(G)>=T(d,22.5)&&G.day<=d+1)
@@ -640,6 +641,7 @@ const Y34B=(function(){
     {speaker:'heroine_01',text:'大二，一個國中生的家，申請被駁回。我寫了一頁流程說明。'},
     {speaker:'heroine_01',text:'我媽說，那只是地圖，路還是要他們自己走。'},
     {speaker:'heroine_01',text:'所以我念法律，是為了把地圖畫好。'},
+    {if:C(dAn),cg:'cg_first_to_ask_heroine01'},   /* CG-19 第一個問我的人（企劃線 cg_approved/ README：交往版的最後一句；Café 窗邊）*/
     {if:C(dAn),speaker:'heroine_01',text:'……第一個問我的人是你。這也是理由之一。'},
     {choice:[{text:'「妳媽媽好像很懂這些。」',goto:'a_mom'},{text:'「妳大一就知道了嗎？」',goto:'a_y1'},{text:'「換妳問我。」',goto:'a_me'}]},
     {label:'a_mom'},{speaker:'heroine_01',text:'她工作的關係。……典禮那天你就知道了。'},{goto:'a_end'},

@@ -948,7 +948,7 @@ const Z3 = (function(){
         base+=pa.count; }); }
     const geo=new THREE.BufferGeometry(); geo.setAttribute('position',new THREE.Float32BufferAttribute(P,3)); geo.setAttribute('normal',new THREE.Float32BufferAttribute(N,3)); geo.setAttribute('color',new THREE.Float32BufferAttribute(C,3)); geo.setAttribute('uv',new THREE.Float32BufferAttribute(U,2));
     geo.setIndex(base>65535?new THREE.Uint32BufferAttribute(I,1):new THREE.Uint16BufferAttribute(I,1)); geo.computeBoundingSphere(); return geo; }
-  function attachWzScooters(g,scG,list,root,name){ if(!list.length) return 0; root.updateMatrixWorld(true);
+  function attachWzScooters(g,scG,list,root,name,lodD){ if(!list.length) return 0; root.updateMatrixWorld(true);   /* lodD：近的模型換成簡化版的距離（預設 SC_LOD_D；118 巷 9 m：本來就 55～60 萬三角形，X69 卡）*/
     const V=[]; root.traverse(o=>{ const m=/^scooter_(S\w+)$/.exec(o.name); if(!m||/_lod1$/.test(o.name)||!o.userData||!(o.userData.weight>0)) return; let pal=[]; try{ pal=JSON.parse(o.userData.palette||'[]'); }catch(e){}
       V.push({code:m[1],node:o,lod:root.getObjectByName(o.name+'_lod1')||o,w:+o.userData.weight,pal}); });
     if(!V.length) return attachWzScootersAB(g,scG,list,root,name);
@@ -962,7 +962,7 @@ const Z3 = (function(){
     for(const [gk,L] of grps){ const c=new THREE.Vector3(); L.forEach(e=>c.add(e.p)); c.divideScalar(L.length);
       const near=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.node,M4:e.M4,color:e.col})),c),scooterMat()), far=new THREE.Mesh(scMerge(L.map(e=>({node:e.v.lod,M4:e.M4,color:e.col})),c),scooterMat());
       for(const m of [near,far]){ m.castShadow=false; m.receiveShadow=true; }
-      const lod=new THREE.LOD(); lod.position.copy(c); lod.addLevel(near,0); lod.addLevel(far,SC_LOD_D); lod.name='scooters_'+gk; lod.userData.scGroup=gk; out.add(lod); }
+      const lod=new THREE.LOD(); lod.position.copy(c); lod.addLevel(near,0); lod.addLevel(far,lodD||SC_LOD_D); lod.name='scooters_'+gk; lod.userData.scGroup=gk; out.add(lod); }
     out.userData.scPick=pick; out.userData.scColors=cols.size; out.userData.scPerGroup=Object.fromEntries([...grps].map(([k,L])=>[k,L.length]));   /* 每一款擺了幾台、用了幾種顏色（測試、截圖紀錄用） */
     scooterShadows(out,list,fix); scG.visible=false; g.add(out); return list.length; }
   /* 影子：機車不進陰影那一輪，改成每台車底下一片柔和的影子貼片（全部一個 InstancedMesh、一次 draw call） */
@@ -1589,9 +1589,9 @@ const Z3 = (function(){
       for(const [x,z,r] of LP.pools){ const pl=TK.lightPool(r,'rgba(255,206,140,1)'); pl.position.set(x,0.031,z); pl.userData.poolMax=0.62; g.add(pl); pools.push(pl); } }
     const zoneTime=(h,E)=>{ let k=h>=19.2||h<5.6?1:(h>=17.4?(h-17.4)/1.8:(h<6.3?(6.3-h)/0.7:0)); k=Math.max(0,Math.min(1,k)); TK.setNight(k); if(E&&E.hemi) E.hemi.intensity+=0.7*k; for(const p of pools) if(p.material) p.material.opacity=(p.userData.poolMax||0.55)*k; };
     const zone={group:g,nav,spawn:L?{x:L.backGate.spawn.x,z:L.backGate.spawn.z,yaw:L.backGate.spawn.yaw}:{x:0,z:31,yaw:Math.PI},lamps:[],buildings:fb,applyTimeOutdoor:zoneTime,onLamps(on){}};
-    if(scGLB&&scList.length){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene,'l118_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_*，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
+    if(scGLB&&scList.length){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene,'l118_scooters_glb',9); if(!n) console.warn('機車正式模型沒有 scooter_*，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
     if(LP&&typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_props']) ASSETS.loadOne('bldg.lane118_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true); r.name='lane118_props_glb';
-      r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; o.castShadow=!/wire/.test((o.material&&o.material.name)||''); o.userData.dyn=true; });   /* 電線不投影（細線的影子在地上會閃）*/
+      r.traverse(o=>{ if(!o.isMesh) return; o.receiveShadow=true; o.castShadow=false; o.userData.dyn=true; });   /* 道具、電線桿、電線都不投影（LAWWW-C 10-20：118 巷本來就 55～60 萬三角形，X69 卡；電線的細影子在地上會閃）*/
       g.add(r); propFB.visible=false; zone.l118Props=true; }).catch(e=>console.warn('118 巷街道道具正式模型載入失敗，用方塊',e));
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_ground']) ASSETS.loadOne('bldg.lane118_ground').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const r=c.scene.clone(true);
       r.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=(mt&&mt.name)||''; o.receiveShadow=true; o.castShadow=/gate|booth|bark|trunk|leaf|tree|far_hall/.test(nm);

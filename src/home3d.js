@@ -264,14 +264,28 @@ const HOME=(function(){
   /* 大一下有在做的打工（家教 JOB_TUTOR；溫州街三家等 DL-10 的 JOBS）*/
   const hasJob=G=>!!(G.flags&&G.flags.JOB_TUTOR)||(typeof JOBS!=='undefined'&&JOBS.any&&!!JOBS.any(G));
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24); if(d>G.day){ G.day=d; G.weekday=wdOf(d); G.energy=100; G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(d))?'rain':(Math.random()<0.7?'clear':'cloudy'); } G.hour=tt-d*24; if(E) E.hour=G.hour; };
-  /* 跳到下一個要停的時間：中間每小時跑一次手機規則（訊息照時間戳記收進來，A44）；中間冒出新的出遊、當面約就停在那裡 */
-  S.breakJump=async function(GM,t,o){ o=o||{}; const G=GM.G, E=GM.E; await GM.fade(true); let n=0, tt=T(G.day,G.hour), mo=null; G.flags._repSkipLine=null;
+  /* ===== 快轉途中要停下來的事（AA_340 第 6 節 6-1 H1、H2；D99 第二優先）：跳之前先記下已經在的，跳的途中「新出現的」才停 =====
+     要回的訊息（手機有選項的 ask、當面約的邀請 offered）＝'msg'；事件包登記的事件到了＝'event'：只演一次、在家或在哪裡都可以演的（同 S.breakEvent），
+     日期寫在 prereq 裡的也算（例：主線 9 大年初一 ev_family_land_y3）。已經成立、還沒演的不算（不然每跳一次停一次）*/
+  S.MUST_TRIG=e=>e.trigger==='home'||(e.trigger==='auto'&&e.location==='any'&&!e.near&&!e.spawn);
+  S.mustEvs=function(G){ if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined'||!EVENTS.check) return []; const done=(G.events&&G.events.done)||{}, out=[];
+    for(const e of STORY_EVENTS){ if(!e.once||done[e.id]||e.retired||e.off||!S.MUST_TRIG(e)) continue; let ok=false; try{ ok=!!EVENTS.check(e); }catch(err){ ok=false; } if(ok) out.push(e.id); } return out; };
+  S.waitSnap=G=>({asks:new Set(typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G):[]), inv:new Set((G.invites||[]).filter(iv=>iv.state==='offered').map(iv=>iv.id)), evs:new Set(S.mustEvs(G))});
+  S.waitNew=function(G,w){ if(typeof PHONE!=='undefined'&&PHONE.pending&&PHONE.pending(G).some(m=>!w.asks.has(m))) return 'msg'; if((G.invites||[]).some(iv=>iv.state==='offered'&&!w.inv.has(iv.id))) return 'msg';
+    return S.mustEvs(G).some(id=>!w.evs.has(id))?'event':null; };
+  /* 快轉停下來的日期卡下面那一行：fn(G,t,o) 回傳字或 null（例：AA_340 6-3 摘要日的旁白，src/holff3d.js）；都沒有＝「臺北的家」／「宿舍」*/
+  S.CARD_LINES=[];
+  S.cardLine=function(G,t,o){ for(const f of S.CARD_LINES){ try{ const l=f(G,t,o||{}); if(l) return l; }catch(e){ console.warn('HOME.CARD_LINES',e); } } return null; };
+  /* 跳到下一個要停的時間：中間每小時跑一次手機規則（訊息照時間戳記收進來，A44）；中間冒出新的出遊、當面約就停在那裡。
+     o.ff（玩家選的快轉，S.ffMenu）：再加上面 S.waitNew 那幾種，停在收到的那一刻（o.why＝'msg'／'event'）*/
+  S.breakJump=async function(GM,t,o){ o=o||{}; const G=GM.G, E=GM.E; await GM.fade(true); let n=0, tt=T(G.day,G.hour), mo=null; G.flags._repSkipLine=null; const w0=o.ff?S.waitSnap(G):null;
     const repPass=x=>{ if(typeof OUT==='undefined'||typeof VAC==='undefined'||!VAC.repSkip) return; for(const q of OUT.rec(G)){ if(q.state!=='planned'||T(q.day,q.h)>x) continue; const l=VAC.repSkip(G,q); if(l){ VAC.repDone(G,q); G.flags._repSkipLine=l; } } };   /* 跳過的第二次以後的活動：記成去過、旁白換成那一句（AA_275 第 1 節）*/
     while(tt+1<t-1e-6){ tt+=1; setTime(G,E,tt); repPass(tt);
       if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
       if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME breakJump phone',e); } }
-      const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx; }
-    setTime(G,E,t); repPass(t); if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD(); if(GM.titleCard) await GM.titleCard(dateLabel(t),o.dorm?'宿舍':'臺北的家',2200); if(!o.dorm&&typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false);   /* o.dorm：宿舍的床快轉（AA_197 1-2）*/
+      const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
+      if(w0){ const why=S.waitNew(G,w0); if(why){ o.why=why; t=tt; break; } } }   /* H2：要回的訊息不會被一次跳過（例：C05 阿凱、VA10 香港、C01 海邊的邀約）*/
+    setTime(G,E,t); repPass(t); if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD(); { const cl=S.cardLine(G,t,o); if(GM.titleCard) await GM.titleCard(dateLabel(t),cl||(o.dorm?'宿舍':'臺北的家'),cl?3200:2200); } if(!o.dorm&&typeof ADV!=='undefined') ADV.begin({background:bg()}); await GM.fade(false);   /* o.dorm：宿舍的床快轉（AA_197 1-2）*/
     if(mo&&GM.toast) GM.toast(mo.text,3800); if(n&&GM.toast) GM.toast('手機｜跳過的日子收到 '+n+' 則訊息',3800); if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return t; };
   /* 到了表上的日子：那一天要做的（旁白、手機在 S.breakPhone）*/
   S.breakArrive=async function(GM){ const G=GM.G, now=T(G.day,G.hour), P=S.breakPts(G).filter(p=>Math.abs(T(p.day,p.h)-now)<1e-6);
@@ -326,10 +340,24 @@ const HOME=(function(){
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
   S.ffMenu=async function(GM,where){ const G=GM.G; if(typeof ECONFF!=='undefined'&&ECONFF.sleepJump&&await ECONFF.sleepJump(GM)) return true; const O=S.ffOpts(G); if(!O) return false; const dorm=where==='dorm'; if(dorm) GM.sceneBegin();
     try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null||o.to<=T(G.day,G.hour)) return false;
-      const d0=G.day, t0=T(G.day,G.hour), t1=await S.breakJump(GM,o.to,{dorm}); { const rl=G.flags._repSkipLine; G.flags._repSkipLine=null; const l=rl||S.breakSkipLine(G,t0,t1,{dorm}); if(l) await GM.say(null,l); }   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
+      const d0=G.day, t0=T(G.day,G.hour); let t1=t0, rl=null;
+      for(let k=0;k<40;k++){ const jo={dorm,ff:true}; t1=await S.breakJump(GM,o.to,jo); rl=rl||G.flags._repSkipLine; G.flags._repSkipLine=null;
+        if(jo.why!=='msg'||!(await S.ffPhone(GM,dorm))||!S.ffGoOn(G,o.to)) break; }   /* H2（AA_340 6-1；D103）：跳的途中收到要回的訊息＝停在那一刻、打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子 */
+      { const l=rl||S.breakSkipLine(G,t0,t1,{dorm}); if(l) await GM.say(null,l); }   /* 宿舍版旁白 AA_183 4-b；跳過第二次以後的活動＝那張卡的一句（AA_275 第 1 節）*/
       await S.breakArrive(GM); if(G.day>d0&&typeof CLS!=='undefined'&&CLS.morning&&typeof CALENDAR!=='undefined'){ try{ await CLS.morning(GM); }catch(e){ console.warn('HOME ff CLS.morning',e); } }   /* 成績、選課（放假最後一天）照早上那一套 */
       return true; }
     finally{ if(dorm) GM.sceneEnd(); } };
+  /* 要回的訊息自動打開手機（D103「我根本不會看手機」）：打開過的記在 G.flags._autoAsk（3D 的 STORY.phoneAuto 用同一張，同一則不重複開）*/
+  const askKey=x=>x.id||x.key||x.text;
+  S.askSeen=function(G,L){ const F=G.flags||(G.flags={}), seen=F._autoAsk||(F._autoAsk=[]); for(const x of L){ const k=askKey(x); if(!seen.includes(k)) seen.push(k); } if(seen.length>200) seen.splice(0,seen.length-200); };
+  /* 快轉停在要回的訊息：打開手機的對話列表（使用者 22:4x 選 B），「收起來」寫「跳過」（同經濟系 ECONFF，AA_300 第 6 節）；家裡的 2D 畫面先收起來 */
+  S.ffPhone=async function(GM,dorm){ const G=GM.G; if(typeof PHONE==='undefined'||!PHONE.pending||!GM.phoneThread) return false; const P=PHONE.pending(G), m=P[P.length-1]; S.askSeen(G,P); const home=!dorm&&S.at(G);
+    if(home&&typeof ADV!=='undefined'&&ADV.end) ADV.end(); try{ await GM.phoneThread(m&&PHONE.th?PHONE.th(m):null,{skip:true}); } finally { if(home&&S.at(G)&&typeof ADV!=='undefined') ADV.begin({background:bg()}); } return true; };
+  /* 關掉手機以後還要不要接著跳：還在同一個假期、還沒到原本選的日子、現在沒有該出發的出遊／當面約、該演的事件、除夕該回家 */
+  S.ffGoOn=(G,to)=>!!S.lawBreak(G)&&T(G.day,G.hour)<to-1e-6&&!S.dueOuting(G)&&!S.dueInvites(G).length&&!S.breakEvent(G)&&!S.eveDue(G);
+  /* 在家（放假住家裡）的選單之前：有沒開過的要回的訊息（睡著、吃飯時收到的，快轉剛好停在收到那一刻的）＝打開手機的對話列表 */
+  S.askAuto=async function(GM){ const G=GM.G; if(typeof PHONE==='undefined'||!PHONE.pending||!GM.phoneThread) return false; const seen=(G.flags&&G.flags._autoAsk)||[], P=PHONE.pending(G); if(!P.some(x=>!seen.includes(askKey(x)))) return false; S.askSeen(G,P);
+    if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); try{ await GM.phoneThread(null); } finally { if(S.at(G)&&typeof ADV!=='undefined') ADV.begin({background:bg()}); } return true; };
   /* 寒假第一天早上在宿舍醒來：系統字一次（AA_197 1-3）*/
   S.BREAK_NOTE='寒假宿舍照常開放。要回家的話，從選單選『回家』。';
   S.breakNote=function(GM){ const G=GM.G, B=S.lawBreak(G); if(!B||B.kind!=='winter'||S.at(G)) return false; const H=S.rec(G); if(H.bnote===B.key) return false; H.bnote=B.key; if(GM.toast) GM.toast(S.BREAK_NOTE,5200); return true; };
@@ -341,6 +369,7 @@ const HOME=(function(){
   /* 在家演的事件：trigger 'home'，和在哪裡都可以演的 auto（location 'any'，例：除夕的主線 2）*/
   S.breakEvent=G=>{ if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined') return null; return STORY_EVENTS.find(e=>(e.trigger==='home'||(e.trigger==='auto'&&e.location==='any'&&!e.near&&!e.spawn))&&EVENTS.check(e))||null; };
   async function breakRound(GM){ const G=GM.G, H=S.rec(G); const ev=S.breakEvent(G); if(ev){ await EVENTS.run(ev); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); return H.at; }
+    if(await S.askAuto(GM)) return H.at;   /* 要回的訊息：在家也自動打開手機（D103；3D 的在 STORY.phoneAuto）*/
     const h=G.hour, ateToday=H.eat&&H.eat.day===G.day, nx=S.breakNext(G), O=[], q=S.dueOuting(G);
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:(q.verb==='接起來'||q.place==='視訊'?'':'從家裡出發　')+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }
     for(const iv of S.dueInvites(G)){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }

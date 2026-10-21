@@ -246,7 +246,9 @@ const TERMEND_LINES=(function(){
           yu:{say:'我寒假要去考多益。',ok:'「我也去考。」',act:{c15:'yu_toeic'}},heroine_04:{say:'發表會那個遊戲，我想做到可以上架。',ok:'「做出來給我玩。」',if:Q6,act:{flag:'HOOK_ZQ_GAME'}},
           classmate_peishan:{say:'去國小看課那幾次，我是真的很喜歡。',ok:'「哪天去看你們上課？」',act:{c15:'ps_class'}}},
     Y3S2:{heroine_05:{say:'八月二號出發。',ok:'「那天我去送學姊。」',if:G=>!(G.flags&&G.flags.EXCHANGE_ROUTE==='US'),act:{flag:'HOOK_SIS_SENDOFF'}},
-          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'}},classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}} };
+          heroine_04:{say:'七月三號到七號 曼谷',ok:'「我去。」',act:{flag:'HOOK_T03'}},classmate_bohan:{say:'七月開始補習，國考。',ok:'「我也想去聽一堂。」',act:{c15:'bh_cram'}}},
+    /* 大四上（AA_262 第 2 節第 8 點，AA-C 10-20 更正：以安不延畢，2029-02-03 和祐廷同一場）：只給臺灣路線、選②、推甄沒上；接了＝寒假一起讀（AA_327 2-Y4-27：r2y4a3d.js 的寒假總圖那一句）*/
+    Y4S1:{heroine_01:{say:'你也二月三號考？……那寒假一起讀。總圖，早上八點。',ok:'「好。八點。」',if:G=>{ const F=(G&&G.flags)||{}, r=F.EXCHANGE_ROUTE; return r!=='JP'&&r!=='US'&&F.Y4_PATH==='grad'&&F.Y4_PUSH==='fail'; },act:{flag:'HOOK_AN_WINTER_STUDY'}}} };
   const HOOK_NO='（笑了一下，沒有接話。）';   /* 不接（AA_270 第 1 節）：對方不回，直接接收尾，不扣不記 */
   /* C14 事務所參觀（AA_251 第 1 節）：寒假或暑假的平日上午；msg＝芯慈傳日子（AA_270 第 2 節）*/
   const C14={msg:['{日期}早上十點，我爸說可以。','穿平常的衣服就好，他們不看。'],bg:null,place:'芯慈爸爸的事務所',
