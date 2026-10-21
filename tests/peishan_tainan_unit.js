@@ -124,6 +124,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
 
   // ===== 5. 閒聊階梯（AA_282 第 3 節；context:'date'）=====
   { check('5. 階梯資料：大三上～大四下的沛珊是 context:date（白名單 49ed7e6a，AA_282 第 4 節已改）', ['Y3S1','Y3S2','Y4S1','Y4S2'].every(t=>LADDER.byTerm[t]&&LADDER.byTerm[t][ID]&&LADDER.byTerm[t][ID].context==='date'));
+    check('5. 大四上兩個記憶的名稱照 AA_262 第 6 點：「沛珊說她晚兩年」「沛珊選了國小」', SOCIAL.MEMORY_LABEL.PS7_SPECIAL_ED==='沛珊說她晚兩年'&&SOCIAL.MEMORY_LABEL.PS7_DECIDE==='沛珊選了國小', JSON.stringify([SOCIAL.MEMORY_LABEL.PS7_SPECIAL_ED,SOCIAL.MEMORY_LABEL.PS7_DECIDE]));
     const L=LADDER.byTerm.Y3S1[ID].steps, d=termDay('Y3S1',6,4);
     fresh(d,10.5,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID);
     check('5. 3D 搭話（沒有 mode）不推進', STORY.ladNext(G,ID)===null);

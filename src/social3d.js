@@ -141,6 +141,7 @@ const SOCIAL = (function(){
   /* 面板名稱：大三後半（AA_326 26～54，r2y3b3d.js 原本在執行時才加）。AN3_AZALEA、YU_CLUB_BEAR、YU_ALONE 是 AA_326 寫的；XUN_PATH、YU4_SAT、ZHIRUO_MET_YU、XINCI_FIRST 用 AA_326 的事件名稱＝暫定，待 AA 確認 */ Object.assign(MEMORY_LABEL,{AN3_AZALEA:'幫她拍了第三張杜鵑',YU_CLUB_BEAR:'學弟的熊',YU_ALONE:'她一個人去看了一場電影',XUN_PATH:'阿勳的那條路',YU4_SAT:'一個人的晚上',ZHIRUO_MET_YU:'倒數第三排',XINCI_FIRST:'第一名'});
   /* 面板名稱：大四前半（AA_327 01～29）。用 AA_327 的事件名稱或原句＝暫定，待 AA 確認 */ Object.assign(MEMORY_LABEL,{CHICAGO_TRIP:'芝加哥的週末',PLG_LAST_RULE:'白板上只剩「說理由。」',PICKED_HER_UP:'接機'});
   Object.assign(MEMORY_LABEL,{AN_GRAD_PASS:'研究所放榜那晚在麵店',AN_COLUMBIA:'她說哥大上了、要去'});   /* AA_327 2-Y4-34、2-Y4-50（src/data/r2y4b_events.js）：面板名稱先用 AA 稿旗標那一節寫的備註（AA 還沒另外定面板名稱）*/
+  Object.assign(MEMORY_LABEL,{PS7_SPECIAL_ED:'沛珊說她晚兩年',PS7_DECIDE:'沛珊選了國小'});   /* 沛珊大四上的階梯記憶（AA_262 第 6 點、BB_209：階梯台詞照 AA_282 改了，名稱跟著改；企劃的階梯表 BB_142 還是舊名稱，匯入的 LADDER.labels 會帶舊的——這裡優先）*/
   if(typeof LADDER!=='undefined'&&LADDER.labels) for(const k in LADDER.labels) if(!MEMORY_LABEL[k]) MEMORY_LABEL[k]=LADDER.labels[k];   /* 閒聊階梯的記憶名稱：匯入工具從企劃線的階梯文件表格抓（tools/ladder/import_ladder.py）*/
   S.MEMORY_LABEL=MEMORY_LABEL;
   return S;
