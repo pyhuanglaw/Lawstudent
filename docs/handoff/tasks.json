@@ -6186,7 +6186,7 @@
    "area": "D14",
    "owner": "LAWWW",
    "status": "待開工",
-   "next": "—",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：以安 2/14、BB_124 情人節、子晴生日當面都沒有；稿都交了；下一步派子代理照 BB_124、AA_311／AA_337 實作 ｜ —",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -10708,7 +10708,7 @@
    "area": "SYS",
    "owner": "AA",
    "status": "已整合待測試",
-   "next": "【LAWWW-C 19:2x】AA-C 584a7335：早已交（白名單 49ed7e6a 的 ladder_bb_y3s1～y4s2，ladder.js 已有 Y3S1～Y4S2；學姊大四上美國路線交往中 SU-L1～L8）｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：已核實在開發分支；只剩 BB 驗收 ｜ 【LAWWW-C 19:2x】AA-C 584a7335：早已交（白名單 49ed7e6a 的 ladder_bb_y3s1～y4s2，ladder.js 已有 Y3S1～Y4S2；學姊大四上美國路線交往中 SU-L1～L8）｜ 【03:4x AA-C（企劃 23663329，全部 v9.10 後）】BB_165（芷若、子晴、沛珊、可昕補拍）照口氣表改完可以實作：沛珊 5-1、5-2 搬台南、芷若 3-2 在家模式拿掉、子晴 Q15 選項、可昕 K7 卡片翻頁；AA_187 以安、語彤口氣修正；新旗標與測試清單在 BB_165 第 8 節。另：AA_282 3-1「去台南那一天」＋缺圖；AA_276 沛珊台中兩句改；ladder_bb_y2s2 可昕 K4-L6、K4-L3 改（白名單要更新）；AA_285 第 5 節以安 career_goal 要改。｜檔案在企劃線 claude/cool-heisenberg-o8kuqx（a27e354c；BB_140～143；build_ladder_bb_y*.py --check 通過；AA 核對）。大三開放時接（D81）。注意：學姊大三上 1/5 出發去美國，作息 1/5 以後 away",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -10732,7 +10732,8 @@
     "spec": "BB_140～143 舊稿＋D100 台詞歸 AA",
     "acceptance": "AA_交付（大三～大四 BB 五位閒聊階梯定稿）",
     "ack": "未派"
-   }
+   },
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）"
   },
   {
    "id": "DL-09",
@@ -13051,7 +13052,7 @@
    "owner": "AA",
    "status": "進行中",
    "priority": "P1",
-   "next": "【交班補強核對】BB_181（docs/story_planning/BB_181_AA211口氣審_大二上BB人物_WIP.md，BB 分支 5c8e7539）約 95%：審完 AA_211 附錄 B 第 2 節與 AA 第 2、5 節，9 處建議（2 處事實錯：值班只在單數週週六）；剩去掉 _WIP、傳給 AA-B（BB 下一班第一件，AA 在等）。｜【交班補強】AA_211 大二上口語改稿 8f837d93 是 WIP（等 BB-B 口氣審 BB_181），還沒交 LAWWW，總表沒有 LAWWW 實作任務（交付時再建）。大一下階梯寫回 2fd0399d、34b1d21a 是 WIP，不要匯入。｜AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】改回進行中：65-1、3、6 完成、65-4 取消（AA-C 清查）；65-2（AA_207 大一上改稿，交付 DL-AA-AB652）和 BB_180（DL-BB-BB180）的整合狀態還沒核實，等交付稽核結果 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：65-1、3、6 完成，65-4 重訪日取消；全部結案 ｜ 【交班補強核對】BB_181（docs/story_planning/BB_181_AA211口氣審_大二上BB人物_WIP.md，BB 分支 5c8e7539）約 95%：審完 AA_211 附錄 B 第 2 節與 AA 第 2、5 節，9 處建議（2 處事實錯：值班只在單數週週六）；剩去掉 _WIP、傳給 AA-B（BB 下一班第一件，AA 在等）。｜【交班補強】AA_211 大二上口語改稿 8f837d93 是 WIP（等 BB-B 口氣審 BB_181），還沒交 LAWWW，總表沒有 LAWWW 實作任務（交付時再建）。大一下階梯寫回 2fd0399d、34b1d21a 是 WIP，不要匯入。｜AA-B、BB-B 02:39～02:40 交班：第 3 批大一下 BB_180＋AA_209 已交 LAWWW-B（AB65-3-Y1S2-L）；大二上 AA_211 等 BB-B 口氣審（BB_181_..._WIP.md 還沒回 AA-B＝BB 下一班第一件），還沒交 LAWWW。｜AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -13340,7 +13341,7 @@
    "owner": "AA",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：缺的兩項 AA_210 5-7 已答、開發分支已有；只剩 BB 驗收 ｜ 【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13362,7 +13363,8 @@
     "ack": "ACK"
    },
    "note": "",
-   "sha": "5cb76551"
+   "sha": "5cb76551",
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）"
   },
   {
    "id": "HOL-VA",
@@ -13460,7 +13462,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P3",
-   "next": "AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：syllabus 刑訴 w15 只有 special:true，AA_103 那三句沒進遊戲；下一步：課堂播 special 台詞（classes3d.js 的 content／special），三句照 AA_103 ｜ AA 交付（AA_103 最後一節 @1073ff2f、9f375383；BB_182 審過）：大三上刑訴第 15 週 special，小語「請不起的人，是國家幫他請？」＋林教授兩句；syllabus y3s1 w15 已指過去、Y3S1.json 重產——LAWWW 從企劃線同步；發布前對一次刑訴 §31 現行條文。AA-C WIP（2235d87a，BB_182 法律審查）：寫回 syllabus/_src/y3s1.py w15，併大三上那批交 LAWWW；發布前核對 §31",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -13480,16 +13482,17 @@
     "acceptance": "課堂 special；§31 核對",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "severity": "P2"
   },
   {
    "id": "Y3S1-XMAS",
    "title": "大三上聖誕細節",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "AA 交付 AA_180 最後一節 @bb311e46：2027-12-23（四）19:00 麵店，寄一箱東西到英國給芷若（12/22 阿哲揪；熟不熟芷若兩版；沒去照片）；另記以安餞行 3/24、被取代的舊出國日期清單。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：「寄到英國的那一箱」已在開發分支（1C-03，y34b3d.js）；只剩 BB 驗收 ｜ AA 交付 AA_180 最後一節 @bb311e46：2027-12-23（四）19:00 麵店，寄一箱東西到英國給芷若（12/22 阿哲揪；熟不熟芷若兩版；沒去照片）；另記以安餞行 3/24、被取代的舊出國日期清單。AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -13509,7 +13512,8 @@
     "acceptance": "兩版＋沒去照片",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）；1C-03 EVPKG-1C01-06-1020"
   },
   {
    "id": "SIS-BF-CAMPUS",
@@ -13781,9 +13785,9 @@
    "title": "美術方法交接第 6 項：AA-B 做驗證件（土地公廟供品組），交 LAWWW2-B 驗收",
    "area": "ART",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P3",
-   "next": "AA-B 交驗證件 → LAWWW2-B 照方法交接表驗收",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：D100 以後 AA 只管台詞；美術方法驗證件不再由 AA 做，有需要由 LAWWW2 另開 ｜ AA-B 交驗證件 → LAWWW2-B 照方法交接表驗收",
    "first": {
     "term": "META",
     "week": null,
@@ -13803,7 +13807,10 @@
     "acceptance": "LAWWW2-B 驗收紀錄",
     "receiver": "LAWWW2-B",
     "ack": "SENT"
-   }
+   },
+   "reason": "D100（使用者 10-17 23:5x 四職位新分工）：AA 只管台詞與劇情",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-17 D100"
   },
   {
    "id": "ART-BIKES2-F",
@@ -14414,7 +14421,7 @@
    "owner": "AA",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：缺的兩項 AA_210 5-7 已答、開發分支已有；只剩 BB 驗收 ｜ 【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14436,7 +14443,8 @@
     "ack": "ACK"
    },
    "note": "",
-   "sha": "1553837c"
+   "sha": "1553837c",
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）"
   },
   {
    "id": "HOL-NYE-Y4",
@@ -14445,7 +14453,7 @@
    "owner": "AA",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：缺的兩項 AA_210 5-7 已答、開發分支已有；只剩 BB 驗收 ｜ 【LAWWW-C 00:5x】已接：大二 5b7aecaf／5cb76551、大三 da8f12f8／1553837c、大四 f6515c69、可昕三年 fde7c956（Node：v3_d12_unit）；缺：芷若 5-3（社群發文、BB_171 視訊台詞、子晴那行，已問 AA-C）、大四沒去的照片（已問）；瀏覽器派 BB-C｜【LAWWW-C 2026-10-18 00:3x】AA-C 已交 AA_210@881ed505 第 5 節（c66204dd 白名單）；待 LAWWW 實作（16 週制 12/31 在寒假：ev_y2_newyear 的頂樓邀約要換）｜AA_210 已寫完（AA-C 10:36 告知），等 16 週＋HOLIDAY-SYS 接。AA-B 交班 C 類（還沒開始）列 HOL-NYE-Y2～Y4；總表原本只有 Y2，交班補強補建（內容照 Y2 那一列的做法、換學年）",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -14467,7 +14475,8 @@
     "ack": "ACK"
    },
    "note": "",
-   "sha": "f6515c69"
+   "sha": "f6515c69",
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）"
   },
   {
    "id": "DORM-Y34",
@@ -16097,7 +16106,7 @@
    "owner": "LAWWW",
    "status": "待開工",
    "priority": "P3",
-   "next": "排在大四下之後（D81）",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：next 過時——國考規則 10-18 已定（AA_286）、以安不延畢；只剩語彤的 presence（畢業後篇） ｜ 排在大四下之後（D81）",
    "first": {
     "term": "Y4S2",
     "week": 16,
@@ -21239,7 +21248,7 @@
    "title": "AA_314 施工表轉成可以直接實作的正式事件包（使用者 10-20 16:0x 對 AA：「不要再問我想優先選哪一場，也不要只交新的待辦表」）",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y2S1",
@@ -21253,7 +21262,7 @@
    },
    "source": "使用者 10-20 16:0x 對 AA（AA user_asks UA-AA-1020-30）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA_344（569621e0）覆核 AA_314 第 4 節 14 項：12 項已照新規則、沛珊台南在 PS-TAINAN-AA282；五件小改 ①② 已改（6026c0ce），③④⑤ 和 AA_343 B7 更正在 AA343 子代理 ｜ AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA 的部分已交齊（AA-C 清查）；整合在各 EVPKG-* 和 AA336～AA344 的合併，等 BB 驗收 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：AA 的部分（事件包 AA_316～AA_328、AA_335～AA_341）都交了；施工狀態看各 EVPKG-* 任務 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA_344（569621e0）覆核 AA_314 第 4 節 14 項：12 項已照新規則、沛珊台南在 PS-TAINAN-AA282；五件小改 ①② 已改（6026c0ce），③④⑤ 和 AA_343 B7 更正在 AA343 子代理 ｜ AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
    "xai": {
     "spec": "AA_314（施工順序）",
     "owner": "AA",
@@ -21261,7 +21270,8 @@
     "acceptance": "每件六項＋給 BB 的驗收表；LAWWW 照包實作",
     "receiver": "LAWWW-C",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA-C 清查（企劃線 4739fca1 AA_交接紀錄「AA-C 全部待辦」最上面一節，對開發 d480762f）"
   },
   {
    "area": "v4",
@@ -21917,6 +21927,25 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 09:2x UTC】一般子代理施工中"
+  },
+  {
+   "id": "HOLIDAY-PRESENCE-1021",
+   "title": "以安、阿哲、柏翰寒暑假回老家：訊息說回台中、高雄、新竹，可是 characters.js 的 presence 沒有那幾段＝玩家照樣約得到臺北（人物所在地矛盾）；presence 直接讀 holff3d 的回老家表（HOME_MSGS／VA-02 同一張表），以安五段日子在 AA 紀錄",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "AA-C 清查【表外】第 4 點（企劃線 4739fca1）；USER X88 全面補完",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】下一步：從 holff3d.js 的 H3 表（回老家、回臺北的日子）產生 presence absentDates（kind home＋home 城市），presence_unit 加檢查；等 AA_345 子代理（改 holff3d）合併以後做"
   }
  ]
 }

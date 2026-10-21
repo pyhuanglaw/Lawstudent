@@ -9419,8 +9419,8 @@
    "what": "AA_343 B7 更正（翰 4 改到四樓樓梯間刷卡門前的台階）＋AA_344：AA_314 第 4 節 14 項在開發 2900fa69 的覆核（12 項已照新規則）＋五件小改 ①～⑤",
    "task": "EVPKG-1020",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理"
+   "integration": "已整合待測試",
+   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理；B7 更正與 ③④⑤ 在 584d4030（AA_343 子代理）、①② 在 6026c0ce"
   },
   {
    "id": "DL-AA-57b2a7b3",
@@ -12193,6 +12193,12 @@
    "kind": "wip",
    "task": "ART-EXT-TEACH",
    "reason": "普通、博雅室內 WIP；正式交付是 511f6cd6（DL-LAWWW2-511f6cd6）"
+  },
+  {
+   "sha": "e53693f9",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 的 user_asks 登記（UA-LAWWW2-1021-01，使用者 10-21 08:43 全面清查，LAWWW-C 轉達）；不是交付"
   }
  ]
 }
