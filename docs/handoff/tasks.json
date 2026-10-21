@@ -24193,7 +24193,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】剩下「卡」那一半：校園投影子物件 857 個、draw calls 516（BB-C 量測）——合併網格、小物件不投影、instancing；影子閃（shadowSnap，LAWWW ddfd1d5e）等真機 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
+   "next": "【LAWWW（帳號 A）18:3x】LAWWW2 49b26ecb（停著的腳踏車分區合併）已套在本機 post9103，發布後放進開發分支；路人那一半開成 PERF-CROWD-LOD-1021 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】剩下「卡」那一半：校園投影子物件 857 個、draw calls 516（BB-C 量測）——合併網格、小物件不投影、instancing；影子閃（shadowSnap，LAWWW ddfd1d5e）等真機 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -27460,6 +27460,29 @@
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
    "next": "從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
    "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
+   "recheckOn": "2026-10-22"
+  },
+  {
+   "id": "PERF-CROWD-LOD-1021",
+   "title": "校園路人是現在最大的一項（一個 VRM 約 1.7～2.5 萬三角形、10 個網格；椰林大道 15:00 路人 151 個 draw call／25.2 萬三角形）：遠的換低面數或藏起來（現在中畫質 60 m 才不畫）、手機少放幾個；低面數路人模型可以派 LAWWW2",
+   "area": "PERF",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系開學走校園",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）2026-10-21 18:28 PERF-CAMPUS-SHADOW-1020 交件時量的（Playwright SwiftShader，不是 iPhone）",
+   "authorized": "效能（D85；D99 經濟系每天走的校園）",
+   "next": "發布後：先量路人的距離分布，決定遠距離藏起來還是換低面數；要模型就派 LAWWW2",
+   "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22"
   }
  ]
