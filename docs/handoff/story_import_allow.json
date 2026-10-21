@@ -1304,6 +1304,15 @@
    "task": "DATE-OVERNIGHT-1021",
    "kind": "text",
    "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對"
+  },
+  {
+   "path": "docs/story_planning/AA_354_可昕我們的日子_大二到大四.md",
+   "sha": "86c104df",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:33 劇情總監自主補寫（D109：AA 的稿就是定稿；send_message 12:33）",
+   "task": "AA354-KX-OURDAYS-1021",
+   "kind": "text",
+   "note": "第 2 節開學那一則手抄進 src/kxod3d.js 的 KXOD.MSG、KXOD.Y4S2_OPTS；tests/kxod_unit.js 從這個 commit 讀稿逐字對"
   }
  ]
 }

@@ -25835,7 +25835,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
   },
   {
    "id": "AA283-PARK-1021",
@@ -25996,7 +25996,7 @@
    "id": "AA354-KX-OURDAYS-1021",
    "title": "AA_354 可昕「我們的日子」大二到大四（大二每週、大三大四隔週、大四下問改回每週；交換視訊；開學第 1 週一則私訊；分手停）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_354（86c104df）；AA-C 10-21 12:33 訊息",
    "first": {
@@ -26009,7 +26009,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】src/kxod3d.js（KXOD，掛 STORY.PHONE_RULES；index.html 在 pgdates3d.js 後面）：大二上、下每週，大三上起隔週（單週），大四下開學那一則問（「好。」＝每週、不回或「隔週就好。」＝隔週，KX_OD_Y4S2）；第 2 週起、考試週和她的那一週（4/24、10/17、她的出遊、和她的校外約會）不排；日本路線大三下視訊臺灣 19:00（當地 20:00）、美國路線大四上臺灣週六 08:00＝當地週五 20:00（11/5 起 19:00）；開學那一則 7 種逐字（白名單 AA_354@86c104df kind text）；分手 skipped；KX_CRACK 照畢業後篇 PGDATE.kxArrive／kxMissed。順手修：story3d.js 大一下那段把大一下以外的 kx_od_ 全部改 skipped（畢業以後可昕的固定格會被改掉）→ 只管大二上開學以前的格子。tests/kxod_unit.js 33 項（修改前全部 FAIL，第 9 項 pg＝skipped）；相關 26 支全過。BB：交往中的存檔從大二上第 1 週跳到大四下，每學期看開學那一則和前兩格（AA_354 第 3 節） ｜ 【LAWWW（帳號 A）16:2x】畢業以後那段 AA_366 交了（AA366-KX-POSTGRAD-1021），一起做 ｜ 【LAWWW-C 2026-10-21 12:5x UTC】和 AA351-KX-DRIFT-1021（慢慢分手的加減分靠這一格）、V6-S5、V6-S4 三選一一起派子代理；發布前測試跑完再派（CPU）"
   },
   {
    "id": "AA355-WAITS-1021",
@@ -28088,6 +28088,27 @@
    "source": "LAWWW2（帳號 A）2026-10-21 22:18 交件 US-MARKET-STREET 的「還不到」",
    "authorized": "D99 第三項美國交換；一般開發（D87）",
    "next": "照現有 US 人流（us_life3d／us3d 的路人）加超市街的路人與車流；LAWWW2 補停車場路燈光圈"
+  },
+  {
+   "id": "BUG-KX-OD-SKIPALL-1021",
+   "title": "大一下「我們的日子」那段（story3d.js）把大一下以外所有 planned 的 kx_od_ 改成 skipped：畢業以後可昕的固定格（pgdates3d.js 同一個 id 格式）在 3D 裡走動時會被改掉",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v6",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後和可昕交往中、在 3D 世界裡",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）2026-10-21 做 AA354 時發現（tests/kxod_unit.js 第 9 項：修改前 pg＝skipped）",
+   "authorized": "bug 修正（D85）",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】只管大二上開學以前的格子（y2＝Y2S1 第 1 週週一）；AA_373 #1（舊存檔排在大一下暑假的那一格拿掉）照舊。BB：畢業以後交往中的存檔，在 3D 裡走一下再看可昕的格子還在"
   }
  ]
 }

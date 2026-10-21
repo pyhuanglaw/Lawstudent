@@ -1749,7 +1749,7 @@ const STORY = (function(){
     /* 可昕 K4 第一次視訊一起讀書（BB_95 9-5）：第 16 週週二 20:00 她問（期末前；回覆到 21:45 為止）。「好，九點開。」＝當天 21:00 視訊（ev_kexin_video_study，出遊）；
        「今天不行。」或沒回＝23:00 她傳書桌的照片（沒接也是，ev_kexin_video_study 的 outingMissed）*/
     /* K5「我們的日子」（BB_96 9-3）：大一下第 2 週週一 21:00 她傳；玩家選哪一天（回她的那一句裡接著選方式）。兩樣都選了＝KX_OUR_DAY {day, mode}，排同一週那一天的「第一次」（出遊）；
-       那一週那天已經過了＝下週同一天。時間、地點是 AA-B 確認前的提案值（週五 19:00、週六 14:00、週日 14:00；政大小吃街／社科院門口／公館／視訊）。大二以後的固定格見 AA_354（可昕「我們的日子」大二到大四，企劃已交、還沒接）*/
+       那一週那天已經過了＝下週同一天。時間、地點是 AA-B 確認前的提案值（週五 19:00、週六 14:00、週日 14:00；政大小吃街／社科院門口／公館／視訊）。大二以後的固定格：src/kxod3d.js（AA_354）*/
     { const m2=termDay('Y1S2',2,1); if(m2&&F.dating_kexin&&G.day>=m2-1&&G.day<=m2+13){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
         const MODE=[{t:'我開車去政大。',set:{_kxOM:'nccu'},say:[K('好。我負責選宵夜。')]},{t:'妳來台大。',set:{_kxOM:'ntu'},say:[K('好。我順便看品妤。')]},{t:'約在中間。',set:{_kxOM:'mid'},say:[K('公館、溫州街、河濱，輪流。')]},{t:'視訊也算。',set:{_kxOM:'video'},say:[K('算。可是一個月至少見一次面。')]}];
         const DAYS=[['週五晚上。','fri','好，週五。我那天下午沒課。']/* AA_209 附錄B §2 */,['週六。','sat','整天？……好，我不會整天都要。'],['週日下午。','sun','週日下午很好。隔天要上課，我們不會玩太晚。']].map(([t,k,r])=>({t,set:{_kxOD:k},say:[Object.assign(K(r),{ask:{opts:MODE}})]}));
@@ -1761,13 +1761,13 @@ const STORY = (function(){
           if(d!=null&&P) OUT.plan(G,Object.assign({id:'kx_our_day1',ev:'ev_kexin_our_day',day:d,h:hh,place:P[0],title:P[1],travel:P[2],travelH:P[3]},OD.mode==='video'?{verb:'接起來',no:'今天先不要',back:'視訊結束。'}:{})); } } }
     /* K5 之後每週的「我們的日子」（AA-B 2026-10-16 裁定）：第一次之後，每週那一天排一個可以接受或略過的出遊；見面時一句地點字幕，接著推進她的閒聊階梯（OUT.go），沒有新台詞。
        約在中間＝第一次在公館，之後照她說的「公館、溫州街、河濱」輪流；視訊＝每個月第一個「我們的日子」改成見面（地點照約在中間那一輪）；（K7 週年改到 10/17，AA_224 第 2 組）；
-       撞到別的出遊、選了別的＝她說「好，這週換一天。」（ev_kexin_our_day_wk 的 outingMissed）；單純略過沒有台詞、不扣分。只排大一下（大二到大四見 AA_354，企劃已交、還沒接）*/
+       撞到別的出遊、選了別的＝她說「好，這週換一天。」（ev_kexin_our_day_wk 的 outingMissed）；單純略過沒有台詞、不扣分。只排大一下（大二到大四：src/kxod3d.js，AA_354）*/
     { const OD=F.KX_OUR_DAY, q1=typeof OUT!=='undefined'&&OUT.get(G,'kx_our_day1');
       if(OD&&q1&&q1.state!=='planned'&&F.dating_kexin){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day], T1=CALENDAR.termOf(q1.day);
         /* BB_161 ⑭：那一週有她自己的事件就不排固定格、也不傳「換一天」——K8 春假旅行（第 6 週，選了和她開車旅行）、K6 互考（第 8 週）、生日（第 9 週 4/24）。
            已經排好的那一格（例：第 6 週的固定格排好以後才選了春假旅行）改成 skipped，不會過期、不會傳訊息 */
         const herWeek=w=>w===8||w===9||(w===6&&!!OUT.get(G,'kx_trip_y1s2'));   /* K7 週年改到 10/17（大一上），第 4 週不再是她的那一週 */
-        for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2'||herWeek(t.week)) q.state='skipped'; }   /* AA_373 #1：舊存檔已經排在學期以後（6/15 起她在高雄）的那一格也拿掉 */
+        const y2=S.termDayIn('Y2S1',1,1); for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'&&(y2==null||q.day<y2)){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2'||herWeek(t.week)) q.state='skipped'; }   /* AA_373 #1：舊存檔已經排在學期以後（6/15 起她在高雄）的那一格也拿掉；只管大二上開學以前的格子（大二以後 src/kxod3d.js、畢業以後 pgdates3d.js 的 kx_od_ 不動：原本全部改成 skipped）*/
         /* AA_373 #1（企劃線 a48fe1b7）：只排到學期的最後一週（第 16 週）；超過學期的日子不排（原本 w<=18，6/15～6/28 還有兩格，可昕那時候在高雄）*/
         for(let w=(T1?T1.week:2)+1,LW=S.termWeeks('Y1S2');w<=LW;w++){ if(herWeek(w)) continue; const d=S.termDayIn('Y1S2',w,wd); if(d==null||d*24+hh<G.day*24+G.hour) continue; const id='kx_od_'+d; if(OUT.get(G,id)) break;
           const mon=CALENDAR.dateOf(d).m, firstOfMonth=!OUT.rec(G).some(q=>/^kx_od_/.test(q.id)&&CALENDAR.dateOf(q.day).m===mon);
