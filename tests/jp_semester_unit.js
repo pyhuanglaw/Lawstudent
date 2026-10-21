@@ -117,12 +117,12 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('J-S13 6/2 家族群組「學姊今天生日！」：當地 13:00（台灣 12:00）', !a&&b, [a,b].join()); }
   { const G=inJapan('2028-07-15',10.5); PHONE.join(G,'noodle_team','麵店團'); phone(); const a=th('g:noodle_team').includes('我又二樓'); at('2028-07-15',11.1); phone(); const b=th('g:noodle_team').includes('我又二樓');
     check('J-S13 7/15 阿哲的抽籤群組：當地 11:05（台灣 10:05）', !a&&b, [a,b].join()); }
-  { const G=inJapan('2028-04-25',21.5); date('kexin'); phone(); const a=th('p:kexin').length; at('2028-04-25',22); phone(); const b=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); const q=OUT.get(G,'y3_k17_jrv');
-    check('J-S7 可昕 K17（日本路線）：台灣 21:00＝當地 22:00；視訊台灣 19:30＝當地 20:30', a===0&&b&&!!q&&Math.abs(q.h-20.5)<1e-6, [a,b,q&&q.h].join()); }
+  { const G=inJapan('2028-04-25',21.5); date('kexin'); phone(); const a=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); at('2028-04-25',22); phone(); const b=th('p:kexin').includes('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。'); const q=OUT.get(G,'y3_k17_jrv');
+    check('J-S7 可昕 K17（日本路線）：台灣 21:00＝當地 22:00；視訊台灣 19:30＝當地 20:30', !a&&b&&!!q&&Math.abs(q.h-20.5)<1e-6, [a,b,q&&q.h].join()); }
   /* ===================== J-S8 在日本約台灣的朋友 ===================== */
   { const G=inJapan('2028-04-20',12); H.FRIEND('zhe'); INV.addContact(G,'zhe'); check('J-S8 人在日本：台灣朋友沒有「約」（canInvite false、沒有原因字）', !INV.canInvite(G,'zhe')&&INV.whyNot(G,'zhe')===''); }
   /* ===================== J-S9／J-S19 8/5 回程 ===================== */
-  { const G=inJapan('2028-08-04',23); H.cards=[]; await S.sleep(GM);
+  { const G=inJapan('2028-08-04',23); S.rec(G).done.g8_konbini=G.day; H.cards=[]; await S.sleep(GM);
     check('J-S19 8/4 晚上睡覺：8/5 早上停（回程），不會睡過去', G.day===D('2028-08-05')&&Math.abs(G.hour-8)<1e-6&&S.returnDue(G), G.day+' '+G.hour);
     H.said=[]; H.cards=[]; H.entered=[]; await S.returnHome(GM); const ci=H.cards.findIndex(c=>c[0]==='抵達');
     check('J-S9 回程：字卡「飛回臺灣」「抵達」（臺灣時間 13:00 以後）；入境大廳「（自動門一打開，臺灣的熱氣撲過來。）」「……好熱。」「明天有空的話，打給我。」「（她媽媽在出口等。……）」',
@@ -144,7 +144,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-07-05',21.5); PHONE.join(G,'law_class','法律系'); phone(); const tw=fresh('2028-07-05',21.5,'dorm','TW'); PHONE.join(tw,'law_class','法律系'); phone();
     check('J-S14 7/5 系學會營隊的大合照：日本路線不發、台灣路線照發', !(G.msgs||[]).some(m=>/營隊的大合照/.test(m.text))&&(tw.msgs||[]).some(m=>/營隊的大合照/.test(m.text))); }
   /* ===================== J-S15 成績單 ===================== */
-  { const G=inJapan('2028-08-05',8); G.jp.n={jp_nihongo:30,jp_law_intro:12,jp_comp_admin:6}; await S.returnHome(GM); at('2028-08-06',8.5); H.said=[]; await CLS.morning(GM); const L=H.said.map(s=>s.t).join('｜');
+  { const G=inJapan('2028-08-05',8); S.rec(G).n={jp_nihongo:30,jp_law_intro:12,jp_comp_admin:6}; await S.returnHome(GM); at('2028-08-06',8.5); H.said=[]; await CLS.morning(GM); const L=H.said.map(s=>s.t).join('｜');
     check('J-S15 回來以後發大三下的成績：只有日本的兩門（日本法入門、比較行政法），日本語不算；沒有「缺考」、沒有台灣的課', /大三下的成績出來了/.test(L)&&/日本法入門（英語授課）：很好/.test(L)&&/比較行政法：不錯/.test(L)&&!/日本語/.test(L)&&!/缺考/.test(L)&&!/民事訴訟法/.test(L), L); }
   { const G=inJapan('2028-07-03',8); H.said=[]; check('J-S15 在日本的時候不發（jp3d 的據點不叫 CLS.morning；6/26 公布日那時人在日本）', !G.courses||!G.courses.grades||!G.courses.grades.Y3S2); }
   /* ===================== J-S16 以安的婉拒句 ===================== */
