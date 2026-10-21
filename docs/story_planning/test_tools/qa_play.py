@@ -80,6 +80,9 @@ async def main():
                 pend = await pg.evaluate(PENDING)
                 if pend and (s['choices'] or not s['busy'] or await phone_open(pg)):
                     a = await answer_phone(pg, cdp, pend[0]); answered += 1; print('   手機回覆', pend[0], a, flush=True); continue
+                if not pend and not s['choices'] and await phone_open(pg):   # 2026-10-21：事件接事件停在新訊息上（AA_300 第 6 節：手機自己打開、按鈕寫「跳過」）、沒有要回的＝按「跳過」（玩家會做的；原本 sleep／decline 不收，9/12 21:00 在床邊空轉）
+                    lab = await pg.evaluate("((document.getElementById('btnPhoneClose')||{}).textContent||'').trim()")
+                    phone_closed += 1; await L.tap(pg, cdp, '#btnPhoneClose'); await pg.wait_for_timeout(700); print('   手機沒有要回的：按「%s」' % lab, flush=True); continue
             if s['choices']:
                 opts = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,12)).join('|')")
                 if opts != last_opts: last_opts = opts; await sc.check(pg, '%s 選項 %s' % (last_key, opts[:16]))

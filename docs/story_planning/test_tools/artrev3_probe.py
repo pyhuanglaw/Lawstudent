@@ -4,7 +4,7 @@
      燈和天花板有沒有閃（z-fighting）：同一個角度鏡頭偏 4 cm 再拍一張，兩張比對。
   ② 1F 預設鏡頭（玩家在中間、進場時的鏡頭方向）畫面左邊那道白霧是哪一個光暈：把光暈網格（userData.glowBatch.items）的每一個投影到畫面，
      列出在畫面裡的（離鏡頭多遠、在畫面上多大、現在的亮度）。
-  ③ 203 膠帶中間寫字的那段：玩家站在旁邊（不是紙箱互動點：紙箱在房間西邊、膠帶在東邊 R2 床桌組，站在紙箱旁邊鏡頭朝紙箱時膠帶在鏡頭後面），
+  ③（2026-10-21 第二版：LAWWW2 6437fcf6 以後）203 膠帶中間那段兩種狀態都拍，見 dorm()。舊說明：203 膠帶中間寫字的那段：玩家站在旁邊（不是紙箱互動點：紙箱在房間西邊、膠帶在東邊 R2 床桌組，站在紙箱旁邊鏡頭朝紙箱時膠帶在鏡頭後面），
      預設鏡頭／拉到最近／最大俯角，看字認不認得出（腳本 dorm_y1_items.py：字是「法律系可以無條件入境」）。
   ④ 壓平的紙箱：artrev2 的近拍被書桌擋住，這次低角度＋玩家站在書桌前的預設／最近鏡頭。
 [捷徑] GAME.enter、設時間、搬玩家、藏玩家、劇情鏡頭。不是 iPhone：只看畫面。
@@ -76,32 +76,63 @@ async def gym(pg, run):
         await hide(pg, False)
 
 
+TAPEVIS = """(()=>{ const eff=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; }; const out={};
+  GAME.E.scene.traverse(o=>{ if(/^Y1_(KAI_TAPE|BOX_)/.test(o.name)&&!out[o.name]){ const b=new THREE.Box3().setFromObject(o), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3());
+    out[o.name]={vis:o.visible, eff:eff(o), c:[+c.x.toFixed(2),+c.y.toFixed(3),+c.z.toFixed(2)], s:[+s.x.toFixed(3),+s.y.toFixed(3),+s.z.toFixed(3)]}; } }); return out; })()"""
+
+
+async def tape_state(pg, run, after):
+    """after＝ev_kai_tape2 演過（中間那段應該是「法律系免簽」Y1_KAI_TAPE_TEXT）；沒演過＝「國界」Y1_KAI_TAPE_MID（LAWWW2 6437fcf6、AA 2026-10-21）"""
+    await pg.evaluate("(a=>{ const G=GAME.G; for(const k of ['KAI_TAPE','BOX_WINTER_OPEN','KAI_TAPE_GONE']) delete G.flags[k]; G.events=G.events||{}; G.events.done=G.events.done||{}; G.flags.KAI_TAPE=true; if(a) G.events.done.ev_kai_tape2=true; else delete G.events.done.ev_kai_tape2; })(%s)" % ('true' if after else 'false'))
+    await enter(pg, 'dorm', 15); tag = 'after' if after else 'before'
+    run.setup('[捷徑] dorm 15:00，KAI_TAPE＋ev_kai_tape2 %s' % ('演過（應該是「法律系免簽」）' if after else '沒演過（應該是「國界」）'))
+    v = await pg.evaluate(TAPEVIS); print('   %s：' % tag, json.dumps({k: v[k] for k in v if 'TAPE' in k}, ensure_ascii=False), flush=True)
+    mid, txt = v.get('Y1_KAI_TAPE_MID', {}), v.get('Y1_KAI_TAPE_TEXT', {})
+    want_mid, want_txt = (not after), after
+    run.check('%s：中間那段只顯示一個（國界 %s／法律系免簽 %s）' % (tag, mid.get('eff'), txt.get('eff')), bool(mid) and bool(txt) and mid.get('eff') == want_mid and txt.get('eff') == want_txt, json.dumps([mid, txt], ensure_ascii=False))
+    seg = txt if after else mid
+    if seg:   # 正上方近拍：字是哪幾個字、方向（只為了確認內容；一般鏡頭看不清楚是已知的 UX-KAI-TAPE-CAM-1021）
+        c = seg['c']; await cine(pg, run, 'tape_%s_closeup' % tag, [c[0] + 0.12, 0.62, c[2] + 0.01], [c[0], c[1], c[2]])
+        await cine(pg, run, 'tape_%s_closeup_side' % tag, [c[0] - 0.55, 0.45, c[2]], [c[0], c[1], c[2]])
+    return v
+
+
 async def dorm(pg, run):
-    """③ 203 膠帶中間寫了字的那段（Y1_KAI_TAPE_TEXT，約 (1.52, 0, 0~0.53)，沿 z）：玩家站在旁邊的走道，
-    預設鏡頭（進區域時的距離、俯角）四個方向、拉到最近（2.2 m）四個方向、最近＋玩家能調到的最大俯角（1.05）兩個方向——字認不認得出"""
-    await pg.evaluate("(()=>{ const G=GAME.G; for(const k of ['KAI_TAPE','BOX_WINTER_OPEN','KAI_TAPE_GONE']) delete G.flags[k]; G.events=G.events||{}; G.events.done=G.events.done||{}; G.flags.KAI_TAPE=true; G.events.done.ev_kai_tape2=true; })()")
-    await enter(pg, 'dorm', 15); run.setup('[捷徑] dorm 15:00，KAI_TAPE＋ev_kai_tape2 演過（膠帶中間有字）')
-    d0, p0 = await pg.evaluate("[GAME.E.cam.distTarget, GAME.E.cam.pitch]")
-    for x, z in ((1.0, 0.25), (0.9, 0.9)):
-        at = await put(pg, x, z); print('   玩家放到膠帶字旁邊', (x, z), '→', at, flush=True); await closephone(pg)
-        for tag, d, pt in (('default', d0, p0), ('closest', 2.2, p0), ('top', 2.2, 1.05)):
-            for k in range(4 if tag != 'top' else 2):
-                y = 1.5708 + k * 1.5708
-                await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([y, d, pt]))
-                await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'tape_%s_%s_%.1f_%d' % (tag, 'a' if x == 1.0 else 'b', d, k))
-    # ④ 壓平的紙箱（Y1_BOX_FOLDED，約 (-2.83, 0.3, -0.1)，0.08×0.6×0.78，靠在書桌底下的牆邊）：artrev2 的近拍被書桌擋住——這次從房間這邊低低地看、玩家站在書桌前的預設鏡頭
+    """③ 203 膠帶中間那段（LAWWW2 6437fcf6：寬 4.8 cm；ev_kai_tape2 以前「國界」以後「法律系免簽」）：
+    演過的狀態照 artrev3 第一次的角度全部重拍（玩家站在旁邊的走道 a (1.0,0.25)、b (0.9,0.9)；預設鏡頭四個方向、拉到最近 2.2 m 四個方向、最近＋最大俯角 1.05 兩個方向）；
+    沒演過的狀態拍 a 的最近＋最大俯角；兩種狀態各一張正上方近拍確認字"""
+    d0 = p0 = None
+    for after in (False, True):
+        await tape_state(pg, run, after)
+        if d0 is None: d0, p0 = await pg.evaluate("[GAME.E.cam.distTarget, GAME.E.cam.pitch]")
+        for x, z in (((1.0, 0.25), (0.9, 0.9)) if after else ((1.0, 0.25),)):
+            at = await put(pg, x, z); print('   玩家放到膠帶字旁邊', (x, z), '→', at, flush=True); await closephone(pg)
+            for tag, d, pt in ((('default', d0, p0),) if after else ()) + (('closest', 2.2, p0), ('top', 2.2, 1.05)):
+                for k in range(4 if tag != 'top' else 2):
+                    y = 1.5708 + k * 1.5708
+                    await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([y, d, pt]))
+                    await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'tape_%s_%s_%s_%.1f_%d' % ('after' if after else 'before', tag, 'a' if x == 1.0 else 'b', d, k))
+    # ④ 壓平的紙箱（Y1_BOX_FOLDED）：LAWWW2 6437fcf6 搬到衣櫃門前（原本在書桌底下看不到）——進房間不動的預設鏡頭、玩家站在房間中間、從房間中間那一側低角度／高角度、玩家站在紙箱前
     await pg.evaluate("(()=>{ const G=GAME.G; G.flags.BOX_WINTER_OPEN=true; })()")
     await enter(pg, 'dorm', 15); run.setup('[捷徑] dorm 15:00，BOX_WINTER_OPEN（紙箱拆了、壓平）')
-    box = await pg.evaluate("(()=>{ let m=null; GAME.E.scene.traverse(o=>{ if(o.name==='Y1_BOX_FOLDED') m=o; }); if(!m) return null; const b=new THREE.Box3().setFromObject(m), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()); return {vis:m.visible, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], s:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)]}; })()")
-    print('   壓平的紙箱', box, flush=True)
+    await closephone(pg); await run.shot(pg, 'folded_enter_default')
+    v = await pg.evaluate(TAPEVIS); box = v.get('Y1_BOX_FOLDED'); print('   壓平的紙箱', json.dumps(box, ensure_ascii=False), '封好的紙箱', json.dumps(v.get('Y1_BOX_WINTER'), ensure_ascii=False), flush=True)
+    run.check('壓平的紙箱顯示、封好的紙箱藏起來', bool(box) and box['eff'] and not (v.get('Y1_BOX_WINTER') or {}).get('eff'), json.dumps(v, ensure_ascii=False)[:300])
+    at = await put(pg, 0.0, 0.0); print('   玩家放到房間中間', at, flush=True); await closephone(pg)
+    for k in range(4):
+        await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([k * 1.5708, d0, p0]))
+        await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'folded_center_default_%d' % k)
     if box:
-        c = box['c']
-        await cine(pg, run, 'folded_low', [c[0] + 1.1, 0.45, c[2]], [c[0], c[1], c[2]])
-        await cine(pg, run, 'folded_low_side', [c[0] + 1.0, 0.55, c[2] + 0.7], [c[0], c[1], c[2]])
-        await cine(pg, run, 'folded_high', [c[0] + 1.2, 1.5, c[2] + 0.4], [c[0], c[1], c[2]])
-        at = await put(pg, c[0] + 1.3, c[2]); print('   玩家放到書桌前', at, flush=True); await closephone(pg)
+        import math
+        c = box['c']; n = math.hypot(c[0], c[2]) or 1; dx, dz = -c[0] / n, -c[2] / n   # 從紙箱往房間中間的方向
+        rx, rz = dx * math.cos(0.6) - dz * math.sin(0.6), dx * math.sin(0.6) + dz * math.cos(0.6)
+        await cine(pg, run, 'folded_low', [c[0] + dx * 1.1, 0.45, c[2] + dz * 1.1], c)
+        await cine(pg, run, 'folded_low_side', [c[0] + rx * 1.0, 0.55, c[2] + rz * 1.0], c)
+        await cine(pg, run, 'folded_high', [c[0] + dx * 1.2, 1.5, c[2] + dz * 1.2], c)
+        at = await put(pg, c[0] + dx * 1.3, c[2] + dz * 1.3); print('   玩家放到紙箱前', at, flush=True); await closephone(pg)
+        y = math.atan2(dx, dz)   # 鏡頭在玩家的 (sin yaw, cos yaw) 那一側＝紙箱的反方向
         for tag, d, pt in (('default', d0, p0), ('closest', 2.2, p0)):
-            await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([1.5708, d, pt]))
+            await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([y, d, pt]))
             await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'folded_player_%s' % tag)
 
 
@@ -111,7 +142,9 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, base.get('G', base)); await pg.wait_for_timeout(6000); run.setup('讀 9/25 存檔')
+        ONLY = os.environ.get('ONLY', '')   # 2026-10-21：ONLY=dorm 只重拍 203（LAWWW2 膠帶字＋壓平紙箱 6437fcf6）；ONLY=gym 只拍體育館
         for nm, f in (('膠帶', dorm), ('體育館', gym)):
+            if ONLY and (('dorm' if f is dorm else 'gym') not in ONLY): continue
             try: await f(pg, run)
             except Exception as e: print('  ! 失敗：', e, flush=True); run.check('%s跑完' % nm, False, str(e)[:200])
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
