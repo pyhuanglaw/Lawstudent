@@ -128,11 +128,12 @@ const HOME=(function(){
      GAME.enterN：真的換了區域（goto 醉月湖、3D 的步驟、回學校）才露出 3D */
   S.backdrop=function(G){ if(typeof document==='undefined') return; const c=document.getElementById('c'); if(!c) return; const at=!!(G&&S.at(G)), n=(typeof GAME!=='undefined'&&GAME.enterN)|0;
     if(prevAt&&!at) leftAt=n; prevAt=at; const lives=!!G&&(S.livesHome?S.livesHome(G):(S.baseMode&&S.baseMode(G)));
-    const on=at||(typeof OUT!=='undefined'&&OUT.fromHome)||(lives&&leftAt===n);
+    const jp=!!(G&&typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G));   /* 人在日本（src/jp3d.js）：據點是 2D，3D 的空區域一樣藏著 */
+    const on=at||jp||(typeof OUT!=='undefined'&&OUT.fromHome)||(lives&&leftAt===n);
     /* 底下鋪的圖跟著 2D 現在的背景（BUG-KH-HOMEFLASH-1018，使用者 10-18：「我在高雄走了一整天……轉場中間又跑出台北的家」）：7/25 客運版從家裡出發、整天演完才回家，
        演的時候還算「在家」，換場景（新圖還在載入、2D 淡出淡入）那一下露出家裡。2D 正在顯示別的圖就鋪同一張、深色底就鋪深色；2D 沒開或是透明的（模糊）而且人真的在家，才鋪家裡 */
     const am=typeof ADV!=='undefined'&&ADV.active?ADV.bgMode:null, aImg=am&&typeof am==='object'&&am.image?am.image:null;
-    const b=on&&!aImg&&am!=='dark'&&at?bg():null, img=on&&aImg?aImg:(b&&b.image?b.image:null);
+    const b=on&&!aImg&&am!=='dark'?(at?bg():(jp&&JP.bgNow?JP.bgNow(G):null)):null, img=on&&aImg?aImg:(b&&b.image?b.image:null);
     if(on===bdOn&&img===bdImg) return; bdOn=on; bdImg=img; c.style.visibility=on?'hidden':''; document.body.style.background=on?('#14161a'+(img?' url('+img+') center/cover no-repeat':'')):''; };
   { const iv=typeof setInterval!=='undefined'?setInterval(()=>{ try{ const G=typeof GAME!=='undefined'&&GAME.G; if(G) S.backdrop(G); }catch(e){} },250):null; if(iv&&iv.unref) iv.unref(); }
   /* 從家裡出發去一個出遊、演完回家（休學在家）：baseRound 的「出發」和事件接事件（econff3d.js S.homeStep）共用。回傳 true＝回到家、false＝人留在外面 */
@@ -366,7 +367,7 @@ const HOME=(function(){
     /* 暑住（AA_197 1-3）：大一～大三下學期最後一天 12:00 宿舍系統問；選的結果記 G.home.stay[暑假]＝'stay'／'home'（沒回＝續住）*/
     { const H=S.rec(G), F=G.flags; if(typeof F.SUMMER_PICK==='string'){ const m=F.SUMMER_PICK.split(':'); if(m.length===2){ (H.stay||(H.stay={}))[m[0]]=m[1]; } delete F.SUMMER_PICK; }
       const T0=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null;
-      if(T0&&/^Y[1-3]S2$/.test(T0.id)&&CALENDAR.termDays){ const r=CALENDAR.termDays(T0.id), key=T0.id.slice(0,2)+'S', tag='summer_stay_'+key, nb=S.breakOf(r.to+1);
+      if(T0&&/^Y[1-3]S2$/.test(T0.id)&&CALENDAR.termDays&&!(typeof STORY!=='undefined'&&STORY.movedOut&&STORY.movedOut(G))){   /* 日本路線 2/20 退宿以後沒有宿舍、6/11 人在日本：不問（AA_341 J-S14）*/ const r=CALENDAR.termDays(T0.id), key=T0.id.slice(0,2)+'S', tag='summer_stay_'+key, nb=S.breakOf(r.to+1);
         if(r&&G.day===r.to&&now>=T(r.to,12)&&!PHONE.sent(G,tag)){ PHONE.join(G,'dorm','宿舍系統'); PHONE.at(G,r.to,12,[{th:'g:dorm',text:'暑假住宿：可以續住到開學前。要續住嗎？',ask:{id:tag,until:nb?T(nb.to,12):T(r.to+60,0),opts:[{t:'續住',set:{SUMMER_PICK:key+':stay'}},{t:'暑假回家住',set:{SUMMER_PICK:key+':home'}}]}}],tag); } } }
     /* 除夕 15:00（AA_197 1-2）：人不在家＝媽媽問「幾點回來？」 */
     { const B=S.lawBreak(G), e=S.eveDay(B); if(e!=null&&G.day===e&&now>=T(e,15)&&!S.at(G)&&!S.baseMode(G)&&!PHONE.sent(G,'eve_ask_'+e)){ PHONE.join(G,'home','家人'); PHONE.at(G,e,15,[{th:'g:home',from:'mom',name:'媽媽',text:'幾點回來？'}],'eve_ask_'+e); } }
@@ -377,11 +378,11 @@ const HOME=(function(){
         } }
     /* 每年 7/15 10:05 抽籤的群組訊息（AA_208 第 9 節 7f2cd8d8，回 AA_275 第 11 點）：大二 312 阿哲、柏翰同房；大三 507、大四 409 只有柏翰同房，阿哲同一棟二樓。
        不在麵店團群組、和阿哲 FAMILIAR 以上：阿哲私訊同樣的句子（柏翰那句只在群組）。只在那個暑假（9/7 以前）；舊的「我們還是不同棟」不用了（大一同房） */
-    for(const [y,tag] of [[2026,'dorm_lottery_y2_zhe'],[2027,'dorm_lottery_y3_zhe'],[2028,'dorm_lottery_y4_zhe']]){ const d=DK(y+'-07-15'), d9=DK(y+'-09-07'); if(d==null||now<T(d,10+5/60)||(d9!=null&&now>=T(d9,0))||PHONE.sent(G,tag)) continue;
+    for(const [y,tag] of [[2026,'dorm_lottery_y2_zhe'],[2027,'dorm_lottery_y3_zhe'],[2028,'dorm_lottery_y4_zhe']]){ const d=DK(y+'-07-15'), d9=DK(y+'-09-07'), h0=10+5/60+(d!=null&&typeof STORY!=='undefined'&&STORY.tzOffset?STORY.tzOffset(G,d):0); if(d==null||now<T(d,h0)||(d9!=null&&now>=T(d9,0))||PHONE.sent(G,tag)) continue;   /* h0：人在日本＝當地 11:05（台灣 10:05；AA_341 J-S13）*/
       const ge=!!G.flags.ZHE_CALLS_GE, Z=y===2026?['抽到了！',ge?'哥我們又同一間！！':'欸我們又同一間！！']:y===2027?['抽到了','我二樓','你們兩個五樓 同一棟啦 一樣找得到我']:['抽到了','我又二樓','你們兩個又同一間喔 好啦'], B=y===2026?'我也是。312。':y===2027?'507。':'409。';
       const famZhe=typeof SOCIAL!=='undefined'&&SOCIAL.STAGES&&SOCIAL.has&&SOCIAL.has('zhe','FIRST_MET')&&SOCIAL.STAGES.indexOf(SOCIAL.stage('zhe'))>=SOCIAL.STAGES.indexOf('FAMILIAR');
-      if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,10+5/60,Z.map(t=>({th:'g:noodle_team',from:'zhe',text:t})).concat([{th:'g:noodle_team',from:'classmate_bohan',text:B}]),tag);
-      else if(famZhe) PHONE.at(G,d,10+5/60,Z.map(t=>({th:'p:zhe',from:'zhe',text:t})),tag); } };
+      if(PHONE.inGroup(G,'noodle_team')) PHONE.at(G,d,h0,Z.map(t=>({th:'g:noodle_team',from:'zhe',text:t})).concat([{th:'g:noodle_team',from:'classmate_bohan',text:B}]),tag);
+      else if(famZhe) PHONE.at(G,d,h0,Z.map(t=>({th:'p:zhe',from:'zhe',text:t})),tag); } };
   /* A3 搬家不能錯過（AA_154 A46 ①）：3/29 以後、還沒搬、人在家（週末回家那一套）＝下一輪選單（含起床選單）之前先回宿舍演 A3，演完搬回家（HOME.moveOut）。旁白 AA 寫 */
   S.a3Due=G=>{ const F=G.flags||{}; if((G.stage||'law')!=='econ'||F.LEAVE_WEEK!==6||F.Y0_MOVED_OUT||(G.events&&G.events.done&&G.events.done.ev_y0_a3)) return false; const d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-31'); return d!=null&&G.day>=d; };   /* 退宿 10/19（AA_218 第 11 節）*/
   S.a3FromHome=async function(GM){ const G=GM.G, H=S.rec(G), d=DK(typeof STORY!=='undefined'&&STORY.Y0_MOVE_DAY||'2024-10-31'), ev=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_y0_a3'):null; if(!ev) return false; GM.sceneBegin();
@@ -411,6 +412,7 @@ const HOME=(function(){
         if(typeof STORY!=='undefined'&&STORY.coldHomeBackDue&&STORY.coldHomeBackDue(G)){ coldBack=true; break; }   /* 1A-04 感冒的那一週：10/24（日）18:00 還在家＝提早回宿舍（AA_315 3-2）*/
         if(typeof STORY!=='undefined'&&STORY.coldSneezeDue&&STORY.coldSneezeDue(G,true)){ await STORY.coldWeekSneeze(GM); continue; }   /* 1A-04：10/23 在家醒來也打噴嚏（起床選單之前，AA_315 3-1）*/
         { const y4=typeof STORY!=='undefined'&&STORY.y4HomeDue?STORY.y4HomeDue(G):null; if(y4==='stay'){ await STORY.y4HomeScene(GM); if(H.at&&typeof ADV!=='undefined') ADV.begin({background:bg()}); continue; } if(y4){ y4Go=y4; break; } }   /* 1A-06～1A-15（AA_317、AA_318；story3d.js）：在家演「大四要怎麼過」；第四個房間、收拾、畢業典禮、搬走＝先離開家 */
+        if(typeof JP!=='undefined'&&JP.homeOn&&JP.homeOn(G)){ if(!(await JP.homeRound(GM))) break; continue; }   /* 日本路線住臺北的家（2/20 退宿～3/25 出發、8/5 回來～9/3 搬進 409；AA_341 J-S11，src/jp3d.js）：沒有「回宿舍」，有「出門」、快轉 */
         if(H.lbreak&&!H.winter&&!H.base){ if(S.breakMode(G)){ if(!(await breakRound(GM))) break; continue; } H.lbreak=null; H.bskip=null; }   /* AA_197 1-3：過了放假最後一天 21:30＝接著照週日晚上那一套（不再強制回宿舍）。舊註解：法律系的寒暑假（AA_183）；過了回宿舍的時間＝回宿舍 */
         if(!H.winter&&!H.base&&S.breakStartDue(G)){ await S.breakStart(GM); continue; }   /* 週末回家住到放假第一天的早上：就地開始放假模式 */
         if(!H.winter&&!H.base&&!H.lbreak){ const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)){ H.lbreak=B.key; H.brk=B.key; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; continue; } }   /* 放假中人在家（週末回家住到放假、讀檔）＝住家裡（AA_197 1-3）*/
