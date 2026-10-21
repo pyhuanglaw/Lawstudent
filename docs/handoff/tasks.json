@@ -27328,7 +27328,7 @@
    "title": "AA_368 經濟系那一年「知道太早／時間矛盾」修正（企劃線 e55fda50）：高 5 項（H1 颱風假日期卡 9/24 就出現、H2 四月二日卡 3/16 就出現——拆範圍；H3 2/8 又問重選科系——換一則、拿掉 ask；H4 7/10 公館巷子→她家巷子；H5 msg_kx_y0 分期改日子＋寒假在臺北 12/21～1/13）、中 8 項（M3 資料頁休學日期照日期換、M6 y0_xu_seat 10/23 起、M7 7/25 夜班客運 02:30→7/26 02:10、M8 E37 經濟系路線也開車回家再搭捷運…）、低（可昕假設題兩則、{name} 寫死兩處、指考→分科測驗、y0_py_notes2 週次）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27342,7 +27342,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
    "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
-   "next": "v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做"
+   "next": "【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做"
   },
   {
    "id": "BUG-SIS-Y4S1-DATEINV-1021",
