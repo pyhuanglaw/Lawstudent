@@ -92,6 +92,8 @@ async def one(pg, cdp, run, case, prev_ask):
         if not s['busy'] and s['zone'] == 'classroom' and opts_seen is not None: break
         await pg.wait_for_timeout(1000)
     await run.shot(pg, '%s_4_after_%s' % (tag, 'land' if land else 'port'))
+    ov = await pg.evaluate(OVERLAP); print('   %s 下課那一刻的版面：%s' % (tag, json.dumps(ov, ensure_ascii=False)), flush=True)   # 2026-10-21 23:1x：LAWWW c30d7a79 修直向兩個重疊後重驗
+    run.check('%s：下課字幕框沒有蓋到「坐下」等互動鈕、HUD 下一堂課那一列沒有被金額蓋住（%s）' % (tag, 'land' if land else 'port'), not ov.get('capVsInteract') and not ov.get('nextVsMoney'), json.dumps(ov, ensure_ascii=False)[:400])
     r1 = await pg.evaluate(REC)
     print('   %s 看到的句子：' % tag, json.dumps(seen[-14:], ensure_ascii=False), flush=True)
     lines = [x.split('｜', 1)[1] if '｜' in x else x for x in seen]
@@ -110,10 +112,16 @@ async def one(pg, cdp, run, case, prev_ask):
     return r1['ask']
 
 
+OVERLAP = """(()=>{ const R=id=>{ const e=document.getElementById(id); if(!e) return null; const cs=getComputedStyle(e); if(cs.display==='none'||cs.visibility==='hidden'||e.classList.contains('hide')||+cs.opacity<0.05) return null; const r=e.getBoundingClientRect(); if(!r.width||!r.height) return null; return {l:Math.round(r.left),t:Math.round(r.top),r:Math.round(r.right),b:Math.round(r.bottom),text:(e.textContent||'').trim().slice(0,30)}; };
+  const X=(a,b)=>!!(a&&b)&&a.l<b.r&&b.l<a.r&&a.t<b.b&&b.t<a.b; const cap=R('caption'), it=R('interact'), nx=R('nextClass'), mo=R('money');
+  return {vw:innerWidth, vh:innerHeight, caption:cap, interact:it, nextClass:nx, money:mo, capVsInteract:X(cap,it), nextVsMoney:X(nx,mo)}; })()"""
+
+
 async def main():
     run = L.Run('done_b01', OUT); ask = None
     async with async_playwright() as p:
-        for case in CASES:
+        for i, case in enumerate(CASES):
+            if str(i + 1) not in os.environ.get('PARTS', '12'): continue   # PARTS=2：只跑第二段（直向）
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=case[1])
             await pg.goto(URL); run.check('%s：遊戲載入' % case[0], await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
             if case[0] != CASES[0][0] and not ask:
