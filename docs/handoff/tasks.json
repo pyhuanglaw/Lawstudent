@@ -16744,9 +16744,9 @@
    "title": "二樓陽台盆栽從街上幾乎看不到（溫州街效能第六輪換的模型葉子比較矮）：溫州街、公館下一輪一起改",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "【LAWWW（帳號 A）15:4x】溫州街部分照「溫州街修改直接收尾」（UA-LAWWW2-1021-08）做完結案 ｜ LAWWW2-B 下一輪溫州街／公館一起改",
+   "next": "【LAWWW（帳號 A）16:5x】LAWWW2 d0058082 交件、整合 e8b82e4a；READY_FOR_ART_REVIEW；BB 畫面驗收（溫州街 A3／C2／W0、公館 G04／G07／G10） ｜ 【LAWWW（帳號 A）15:4x】溫州街部分照「溫州街修改直接收尾」（UA-LAWWW2-1021-08）做完結案 ｜ LAWWW2-B 下一輪溫州街／公館一起改",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16765,7 +16765,11 @@
     "spec": "gg_signs README",
     "acceptance": "街上鏡頭看得到盆栽；wz_street／gongguan 整合測試 ALL PASS",
     "ack": "SENT"
-   }
+   },
+   "sha": [
+    "d0058082",
+    "e8b82e4a"
+   ]
   },
   {
    "id": "BUG-DORM-CAL",
