@@ -188,6 +188,11 @@ SCENS = [
   # ① 子晴 Q12：5/19 20:30 宿舍 → 21:00 私訊 → 睡覺 → 5/20 13:45 出發；三種 ZQ_Q10 都應該是《九點以後》（AA_360 第 1 節）
   *[dict(id='Q12_' + q, key='2028-05-19', h=20.5, zone='dorm', flags=dict(TW, ZQ_Q10=q), js=ZQ, steps=[('until', 21.3), ('sleep',), ('set', 13.6, '5/20 早上到中午沒有事，撥到出遊前'), ('until', 16.6)],
          pref=['出發', '去'], want=Q12_WANT, wantMsg=['明天兩點，資工系館一樓。一百個人'], cflags=['ZQ_Q12', 'ZQ_Q12_SEEN', 'ZQ_Q10'], eqflags={'ZQ_Q12': 'nine', 'ZQ_Q12_SEEN': 'came'}) for q in ('nameless', 'cat', 'both')],
+  # ①b AA_363 R1（BB 18:5x 補）：和子晴不熟、和阿凱熟 → 5/18 21:00 阿凱問「我要去占位子。你要不要？」回「不了。」→ 5/20 16:30 阿凱的照片＝《九點以後》（不是貓）
+  dict(id='Q12_kai_decline', key='2028-05-18', h=20.5, zone='dorm', flags=dict(TW), js="LV('kai',40,32,30); SOCIAL.remember('heroine_04','FIRST_MET','');",
+       steps=[('until', 21.3), ('sleep',), ('set', 20.9, '5/19 白天沒有事'), ('sleep',), ('set', 16.3, '5/20 撥到 16:30 前'), ('until', 16.8)],
+       asks={'y3_zq_kai': '不了。'}, pref=['不去了', '晚一點'], wantMsg=['📷（投影幕上，一個小孩坐在玄關，腿上放著兩支搖桿。標題：《九點以後》）', '好。我幫你拍。'],
+       noneMsg=['📷（投影幕上一隻在找插座的貓）'], cflags=['ZQ_KAI_GO'], eqflags={'ZQ_KAI_GO': False}),
   # ② 日本路線：5/20 晚上（台灣 21:00＝日本 22:00）電話「他打了五次……」
   dict(id='Q12_JP_call', key='2028-05-20', h=21.8, zone='jp_room', flags={'EXCHANGE_ROUTE': 'JP', 'ZQ_Q10': 'cat'}, js=ZQ, steps=[('until', 22.8)],
        pref=['接起來', '接'], want=['他打了五次。第五次過了。'], none=['下一個做完，你來測。'], cflags=['ZQ_Q12', 'ZQ_Q12_SEEN'], eqflags={'ZQ_Q12': 'nine'}),
@@ -198,7 +203,7 @@ SCENS = [
   # ⑦ 子晴 Q4 錯過版：大一下第 9 週週一 12:00 校園；有 ARGUED_ABOUT_CAREER、沒有 CONTEST_DAY → 第一次說話多一句、第二次沒有
   dict(id='Q4_missed_talk', key='TERMDAY:Y1S2:9:1', h=12.0, zone='campus', flags=dict(TW),
        js="LV('heroine_04',30,25,25); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','');", steps=[('talk', 'heroine_04'), ('talk', 'heroine_04')],
-       want=['上禮拜六那個比賽，我沒去。'], once=['上禮拜六那個比賽，我沒去。'], cflags=['CONTEST_HEARD']),
+       want=['那個比賽，我沒去。……那天我在公館喝咖啡。'], once=['那個比賽，我沒去。……那天我在公館喝咖啡。'], none=['上禮拜六那個比賽'], cflags=['CONTEST_HEARD']),   # AA_363 R4 改字（BB 18:5x 同步）
   # ⑦ 第 9 週週六 15:30 公館：Q4（weeks:[8]）不演
   dict(id='Q4_week9_sat', key='TERMDAY:Y1S2:9:6', h=15.5, zone='gongguan', flags=dict(TW),
        js="LV('heroine_04',30,25,25); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','');", steps=[('until', 16.4)],
