@@ -121,7 +121,7 @@ const date=id=>H.date(id);
   check('Q1 《九點以後》、製作名單（測試、插座的位置、音樂、謝謝：爸爸）、爸爸「最後一關，我打過了。」CG；ZQ_Q12 nine、ATTENDED_SHOW', has('（一個小孩每天晚上等一個人回家，一起打一場。最後一關，那個人回來了，但小孩已經長大了，換她陪那個人打。）')&&has('測試：祐廷')&&has('插座的位置：祐廷')&&has('音樂：吉他社的學妹')&&has('謝謝：爸爸')&&has('（轉過來）最後一關，我打過了。')&&H.cgs.includes('cg_final_stage_heroine04')&&H.G.flags.ZQ_Q12==='nine'&&H.G.flags.ATTENDED_SHOW===true);
   check('Q2／Q4 阿凱 K4：「她把我放在第二行。」、KAI_WANTS_CREDIT、TOLD_KAI_TELL_HER 兩句', has('……她把我放在第二行。')&&has('我後來有跟她說。她說『你早講啊，白痴』。')&&has('你那時候叫我跟她說。我沒說。……她自己寫的。'));
   { fresh('2028-05-19',21,'dorm'); H.FAMILIAR('heroine_04'); phone(); at('2028-05-20',13.8); await goOut('y3_zq_q12');
-    check('1B-15 沒有 nameless、沒有 PLAYTESTED＝《找插座的貓》、沒有「謝謝：爸爸」、沒有測試那一行', has('（她爸爸也來了，在試玩機前玩貓，卡在第三關。）')&&!has('謝謝：爸爸')&&!has('測試：祐廷')&&H.G.flags.ZQ_Q12==='cat'); }
+    check('1B-15 沒有 nameless、沒有 PLAYTESTED：也是《九點以後》（AA_360 第 1 節：她自己決定）、「謝謝：爸爸」和爸爸那一幕；沒有測試那一行、沒有貓那一版', has('（一個小孩每天晚上等一個人回家，一起打一場。最後一關，那個人回來了，但小孩已經長大了，換她陪那個人打。）')&&has('謝謝：爸爸')&&has('（轉過來）最後一關，我打過了。')&&!has('（她爸爸也來了，在試玩機前玩貓，卡在第三關。）')&&!has('測試：祐廷')&&H.G.flags.ZQ_Q12==='nine'); }
   { fresh('2028-05-19',21,'dorm'); H.FAMILIAR('heroine_04'); phone(); at('2028-05-20',15); OUT.tick(GM); phone(); at('2028-05-20',21); phone();
     check('1B-15 沒去：當晚 21:00 製作名單的照片', th('p:heroine_04').includes('（照片：製作名單）')&&H.G.flags.ZQ_Q12_SEEN==='missed'); }
   { fresh('2028-05-20',21,'dorm',{},'JP'); H.FAMILIAR('heroine_04'); phone(); const a=S.zqCallDue(H.G); at('2028-05-20',22); phone(); check('Q3 日本路線：沒有邀約；人在日本＝當地 22:00（台灣 21:00，AA_341 J-S13）電話到期', !th('p:heroine_04').length&&!a&&S.zqCallDue(H.G));

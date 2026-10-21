@@ -4028,11 +4028,11 @@ const STORY_EVENTS_V11=[
       {speaker:'heroine_02',expression:'thinking',text:'如果沒錄取，就永遠不用跟我媽說。……很膽小吧。'},
       {choice:[{text:'「不會。」',consequences:{rel:{heroine_02:{trust:5,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你說「不會」'}]},goto:'no'},
         {text:'「妳跟妳媽說了嗎？」',set:{ZR_Z7_MOM:true},consequences:{rel:{heroine_02:{trust:4,comf:2}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請，你問她跟媽媽說了沒'}]},goto:'mom'},
-        {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：「我去，家也跟著我去。」'}]},goto:'fam'}]},
+        {text:'「妳那時候說的家裡……」',if:{flagIs:{Z4_PICK:'family'}},consequences:{rel:{heroine_02:{trust:6}},mem:[{npc:'heroine_02',tag:'IMPORTANT_CONVERSATION',note:'她交了交換申請：她算過時差，媽媽十點打來接得到'}]},goto:'fam'}]},
       {label:'no'},{unless:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'embarrassed',text:'……你這樣講，我會當真。'},
         {if:{custom:G=>typeof ROM!=='undefined'&&ROM.knows(G,'heroine_02').length>0},speaker:'heroine_02',expression:'smile',text:'……好。那我先不要怕。'},{goto:'end'},
       {label:'mom'},{speaker:'heroine_02',expression:'neutral',text:'還沒。今天十點，她會打來。'},{goto:'end'},
-      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。我想了很久。'},{speaker:'heroine_02',expression:'smile',text:'後來我發現，我就是家裡的一部分。我去，家也跟著我去。'},
+      {label:'fam'},{speaker:'heroine_02',expression:'neutral',text:'你那時候說家裡比較重要。'},{speaker:'heroine_02',expression:'neutral',text:'我後來算了一下。她十點打來，英國那邊是下午兩、三點。'},{speaker:'heroine_02',expression:'smile',text:'我那個時間沒課。……接得到。'},   /* AA_360 第 3 節（第②級，採 BB_167 E1）：她自己去算時差，回答 Z4「她十點要打給誰」；「兩、三點」＝英國冬天、夏天差一小時（她在那邊一整年）。原本兩句「……我想了很久。」「後來我發現，我就是家裡的一部分。我去，家也跟著我去。」作廢 */
       {label:'end'},{speaker:'heroine_02',expression:'smile',text:'今天的咖啡我請。'} ],
     consequences:{stamp:['zrAppliedDay']} },
   // ── 語彤 arc ──
@@ -4097,19 +4097,18 @@ const STORY_EVENTS_V11=[
   /* 子晴 Q4 比賽那天（BB_96 4-1 改寫，交接包 v2）：她週六的作息在公館（13–16），原本放在 Café 走不到 → 公館騎樓的長椅、只在比賽那一個週六（大一下第 8 週的週六，
      第 8～9 週之間）、前置 v1 Q2 問過比賽（ARGUED_ABOUT_CAREER）；三個選項都沒有正解（刪掉「有一點。但明年還有。」comf −2）；記 CONTEST_DAY（Q6 的前置之一）。
      id 不改：舊存檔在 Café 演過的不再演。錢（BB 382e9e2）：便利商店的罐裝咖啡一罐 −35（舊版 Café 的第四杯 −120）；選「陪她喝第四罐」的玩家自己也喝了一罐，再 −35 */
-  /* 子晴 Q4（BB_96 4-1，BB-B 4ab575c7；AA_140 G05）：週六 15～18 點（她 14:00 起床、15:00 以後才出門）；錯過比賽那個週六（第 8 週）延到下一個週六（第 9 週），台詞換成「上週六是那個比賽」那一版；再錯過就不再延 */
-  { id:'ev_ziqing_contest_day', title:'比賽那天', participants:['heroine_04'], location:'gongguan', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[8,9], weekday:[6], time:[15,18], prereq:{memory:[{npc:'heroine_04',tag:'ARGUED_ABOUT_CAREER'}]}, background:'blur',
-    dialogue:[ {unless:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},speaker:null,text:'（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'},
-      {unless:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},speaker:'heroine_04',expression:'tired',text:'……今天是那個比賽。系上的人現在都在會場。'},{unless:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},speaker:'heroine_04',expression:'tired',text:'我在這裡喝第三罐咖啡。'},
-      {if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},speaker:'heroine_04',expression:'tired',text:'……上週六是那個比賽。系上的人都回來了，大家在群組裡貼獎狀。'},{if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},speaker:'heroine_04',expression:'tired',text:'我上週六也坐在這裡。喝了三罐咖啡。'},
+  /* 子晴 Q4（BB_96 4-1，BB-B 4ab575c7；AA_140 G05）：週六 15～18 點（她 14:00 起床、15:00 以後才出門）。
+     AA_360 第 4 節（第②級，使用者 10-17 回 BB-LOGIC-16）：只有比賽那個週六（第 8 週）；原本錯過延到第 9 週週六「我上週六也坐在這裡」那一版拿掉——她不會為了祐廷再坐一次。
+     錯過的玩家：第 9～11 週第一次和她說話，開頭多她一句（CONTEST_HEARD，story3d.js 的 S.contestHeard）。舊存檔演過第 9 週那一版的照舊（記憶的備註照舊） */
+  { id:'ev_ziqing_contest_day', title:'比賽那天', participants:['heroine_04'], location:'gongguan', trigger:'interact', priority:9, once:true, term:['Y1S2'], weeks:[8], weekday:[6], time:[15,18], prereq:{memory:[{npc:'heroine_04',tag:'ARGUED_ABOUT_CAREER'}]}, background:'blur',
+    dialogue:[ {speaker:null,text:'（她坐在騎樓的長椅，旁邊三個空的咖啡罐。）'},
+      {speaker:'heroine_04',expression:'tired',text:'……今天是那個比賽。系上的人現在都在會場。'},{speaker:'heroine_04',expression:'tired',text:'我在這裡喝第三罐咖啡。'},
       {speaker:'heroine_04',expression:'neutral',text:'你說，我是不是很爛。'},
       {choice:[{text:'「妳不想去，就不是爛。」',consequences:{rel:{heroine_04:{trust:8,comf:4}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'brave'},
-        {text:'「現在去還來得及嗎？」',unless:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},consequences:{rel:{heroine_04:{resp:4,trust:3}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'late'},
-        {text:'「妳後來有點開群組嗎？」',if:{custom:G=>typeof CALENDAR!=='undefined'&&(CALENDAR.termOf(G.day)||{}).week===9},consequences:{rel:{heroine_04:{resp:4,trust:3}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽的下一個週六，公館騎樓'}]},goto:'late9'},
+        {text:'「現在去還來得及嗎？」',consequences:{rel:{heroine_04:{resp:4,trust:3}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}]},goto:'late'},
         {text:'（陪她喝第四罐）',consequences:{rel:{heroine_04:{comf:7}},mem:[{npc:'heroine_04',tag:'CONTEST_DAY',note:'比賽那天，公館騎樓'}],money:-35},goto:'drink'}]},
       {label:'brave'},{speaker:'heroine_04',expression:'smile',text:'……你這樣講，好像我很勇敢。'},{speaker:null,text:'（她笑。）'},{speaker:'heroine_04',expression:'laugh',text:'我只是怕輸。'},{goto:'end'},
       {label:'late'},{speaker:'heroine_04',expression:'tired',text:'來不及了。第一輪已經結束了。'},{speaker:null,text:'（她把手機蓋在長椅上。）'},{speaker:'heroine_04',expression:'laugh',text:'……好爽。好爛。兩個都有。'},{goto:'end'},
-      {label:'late9'},{speaker:'heroine_04',expression:'laugh',text:'沒有。……通知有九十九則，我一則都沒點。好爽。好爛。兩個都有。'},{goto:'end'},
       {label:'drink'},{speaker:'heroine_04',expression:'smile',text:'欸不是，你也喝？'},{speaker:'player',text:'嗯。'},{speaker:'heroine_04',expression:'smile',text:'……你很奇怪。'},{speaker:null,text:'（她第一次沒有吐槽下去。）'},
       {label:'end'},{speaker:'heroine_04',expression:'smile',text:'……第四罐。你請。'} ], consequences:{money:-35} },
   // ── 溫學姊 arc ──

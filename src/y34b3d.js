@@ -8,7 +8,7 @@
    1B-15 子晴 Q12：5/19 21:00 私訊 → 5/20 14:00 出遊（資工系館展示廳，沒有背景＝社科院大講堂的圖＋字幕）；製作名單照旗標；阿凱 K4；沒去＝21:00 製作名單照片；
          收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊 → 去＝出遊 5/20 13:45；不了＝16:30 阿凱的照片（AA_337 第 5 節）；
          回了「去。」卻沒到＝16:30 阿凱三則「你說要來的。」「……我幫你拍了。」＋照片（AA_337 第 7 節）；
-         日本路線＝當晚電話＋阿凱一則。ZQ_Q12（nine／cat，畢業後篇讀這個；ZQ_SHOW 是大一下成發的，不覆蓋）、ATTENDED_SHOW、WATCHED_SHOW_ONLINE。
+         日本路線＝當晚電話＋阿凱一則。ZQ_Q12（一律 nine，AA_360 第 1 節；舊存檔演過貓的是 cat。畢業後篇讀這個；ZQ_SHOW 是大一下成發的，不覆蓋）、ATTENDED_SHOW、WATCHED_SHOW_ONLINE。
    1B-16 可昕 K19：5/1 21:00 邀約 → 5/3 15:00 政大（開車約 40 分鐘）；沒去、日本路線＝照片。KX_PRESENT。
    1B-17 學姊生日 6/2：白天家族群組（「收到。」後面不掛選項）；玩家在她的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js），2028 的回覆照三版（AA_337 第 6 節）；
          交往中 18:00 Café（17:45～18:30），沒去＝21:00；17:05 以後才傳＝22:30「……明天下午，Café？」→「好。」＝隔天 15:00 Café／「明天不行。」；
@@ -118,7 +118,8 @@ const Y34B=(function(){
   S.zrRead=function(G){ const L=Array.isArray(G.flags.ZR_CARDS_SENT)?G.flags.ZR_CARDS_SENT:[]; for(let i=L.length-1;i>=0;i--){ const k=S.zrCardKey(G,L[i]); if(k) return {k,line:ZR_READ[k]}; } return null; };   /* 寄過不只一張的，唸最後一張 */
   S.zrWindow=G=>{ const a=D('zr0'), b=D('zrEnd'); if(a==null||G.day<a||G.day>b) return false; if(JP(G)&&STORY.abroad&&STORY.abroad(G)) return false; return true; };   /* 2/21～8/26（她最後一場放映以前）；日本路線在日本的那幾個月不算 */
   /* ================= 1B-15 子晴 Q12 ================= */
-  S.zqGame=G=>{ const q=G.flags.ZQ_Q10; if(q==='nameless') return 'nine'; if(q==='cat') return 'cat'; return mem('heroine_04','PLAYTESTED')?'nine':'cat'; };   /* ZQ_Q10（AA_321 1B-09）：nameless＝《九點以後》、cat＝貓、both 或沒有＝看 Q8（「我想玩玩看」TESTER＝PLAYTESTED，AA-C bf349b96）*/
+  S.zqGame=G=>'nine';   /* AA_360 第 1 節（使用者 2026-10-17「她自己決定」，BB_194 §17）：發表哪一個照她自己的進度——Q8b 爸爸那件事、學妹的配樂在程式裡都一定會發生，所以一律《九點以後》。
+     不再讀祐廷 Q10 的選擇（ZQ_Q10 照樣記，只換她在 Q10 當場的反應）、不讀 PLAYTESTED（只影響製作名單）。貓那一版（Q12 的 q_cat、Q12_CALL 的貓那句、尾聲 zq.cat）留給舊存檔，新的不會播 */
   S.zqPhone=function(G){ const F=G.flags, d19=D('zqAsk'), d20=D('zq'); if(d19==null||G.day<d19||G.day>d20+1||!fam('heroine_04')) return;
     if(!JP(G)){ if(NOW(G)>=T(d19,21)&&NOW(G)<T(d20,14.5)) at(G,d19,G.day===d19?Math.max(21,G.hour):G.hour,[DM('heroine_04','明天兩點，資工系館一樓。一百個人'),DM('heroine_04','……你會來吧')],'y3_zq_q12_ask');   /* BB_98 第 10 節 */
       if(sent(G,'y3_zq_q12_ask')&&F.ZQ_Q12_SEEN==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_zq_q12')&&NOW(G)<T(d20,14.75))
@@ -126,7 +127,7 @@ const Y34B=(function(){
       if(F.ZQ_Q12_SEEN==='missed'&&!sent(G,'y3_zq_q12_miss')) at(G,d20,21,[DM('heroine_04','（照片：製作名單）')],'y3_zq_q12_miss'); }   /* 沒去：當晚 21:00 製作名單的照片，沒有 CG */
     else if(NOW(G)>=T(d20,tzH(G,d20,21))&&!sent(G,'y3_zq_q12_kai')&&F.ZQ_Q12_SEEN==='online') at(G,d20,G.day===d20?Math.max(tzH(G,d20,21),G.hour):G.hour,[DM('kai','子晴的製作名單。')],'y3_zq_q12_kai'); };   /* 日本路線：電話之後阿凱傳製作名單的特寫（人在日本＝當地時間，AA_341 J-S13）*/
   S.zqCallDue=G=>{ const d=D('zq'); return law(G)&&JP(G)&&d!=null&&G.day===d&&G.hour>=tzH(G,d,21)&&G.hour<tzH(G,d,24)&&G.flags.ZQ_Q12_SEEN==null&&fam('heroine_04'); };   /* 台灣 21:00＝日本 22:00（AA_341 J-S13）*/
-  S.zqCall=GM=>{ const F=GM.G.flags; if(F.ZQ_Q12==null) F.ZQ_Q12=S.zqGame(GM.G); return play('ev_ziqing_q12_call')(GM); };   /* 電話照 ZQ_Q12 分兩版（AA_341 J-S18；原本固定是《九點以後》那一句）*/
+  S.zqCall=GM=>{ const F=GM.G.flags; if(F.ZQ_Q12==null) F.ZQ_Q12=S.zqGame(GM.G); return play('ev_ziqing_q12_call')(GM); };   /* 電話一律《九點以後》那一句（S.zqGame；AA_341 J-S18「依 ZQ_Q12 分兩版」AA_360 第 1 節作廢）。Q12_CALL 貓那句留著不刪：只有舊存檔已經記了 cat 才會用到 */
   /* 收不到子晴 5/19 那則的玩家（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊（AA_337 第 5 節，新寫）。跟阿凱不熟的沒有入口；
      日本路線人在日本＝沒有。去＝出遊 5/20 13:45（同一場 ev_ziqing_q12）；不了＝「好。我幫你拍。」→ 16:30 阿凱傳一張照片 */
   S.zqKaiPhone=function(G){ const F=G.flags, k=D('zqKai'), d20=D('zq'); if(k==null||d20==null||G.day<k||G.day>d20+1||!law(G)||JP(G)) return;
