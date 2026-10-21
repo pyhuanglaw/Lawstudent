@@ -85,11 +85,13 @@ const HOLFF=(function(){
     {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','📷（車窗外的田）']},
     {tag:'hol_y4w_an_back',day:'2029-02-18',h:18,an:['回臺北了。']} ];
   S.msgDay=m=>m.c01?(typeof VAC!=='undefined'&&VAC.c01Day?VAC.c01Day(m.c01):null):DK(m.day);
+  /* 日本路線人在日本（3/25～8/5，例：大三暑假 6/27 柏翰、6/30 阿哲）：臺灣傳來的訊息換成當地時間（遊戲時鐘是日本時間；AA_341 J-S13、AA_342 C6）*/
+  const jpTz=(G,d)=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='JP'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
   S.homeMsgs=function(G){ const now=T(G.day,G.hour), F=G.flags||{};
-    for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m); if(d==null||now<T(d,m.h)||G.day>d+(m.c01?1:3)) continue;
-      if(m.an){ const th='p:heroine_01'; if(atLeast('heroine_01','FAMILIAR')) PHONE.at(G,d,m.h,m.an.map(t=>({th,from:'heroine_01',text:t})),m.tag); else if(inGrp(G,'noodle_team')&&met('heroine_01')) PHONE.at(G,d,m.h,[{th:NT,from:'heroine_01',text:m.an[0]}],m.tag); continue; }   /* 大一寒假的寫法（story3d.js an_home_y1）*/
-      if(m.anS){ if(!atLeast('heroine_01','FAMILIAR')||F.dating_heroine_01) continue; PHONE.at(G,d,m.h,m.anS.map(([w,t])=>({th:'p:heroine_01',from:w,text:t})),m.tag); continue; }   /* 大一暑假的寫法（va02_3、va02_4：交往中的另外補）*/
-      if(!inGrp(G,m.th.slice(2))) continue; PHONE.at(G,d,m.h,m.ms.map(([w,t])=>({th:m.th,from:w,text:t})),m.tag); } };
+    for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m), h=d==null?m.h:m.h+jpTz(G,d); if(d==null||now<T(d,h)||G.day>d+(m.c01?1:3)) continue;
+      if(m.an){ const th='p:heroine_01'; if(atLeast('heroine_01','FAMILIAR')) PHONE.at(G,d,h,m.an.map(t=>({th,from:'heroine_01',text:t})),m.tag); else if(inGrp(G,'noodle_team')&&met('heroine_01')) PHONE.at(G,d,h,[{th:NT,from:'heroine_01',text:m.an[0]}],m.tag); continue; }   /* 大一寒假的寫法（story3d.js an_home_y1）*/
+      if(m.anS){ if(!atLeast('heroine_01','FAMILIAR')||F.dating_heroine_01) continue; PHONE.at(G,d,h,m.anS.map(([w,t])=>({th:'p:heroine_01',from:w,text:t})),m.tag); continue; }   /* 大一暑假的寫法（va02_3、va02_4：交往中的另外補）*/
+      if(!inGrp(G,m.th.slice(2))) continue; PHONE.at(G,d,h,m.ms.map(([w,t])=>({th:m.th,from:w,text:t})),m.tag); } };
 
   /* ---------- 6-3 群組訊息（AA_340 6-3）：私訊 21:00；有選項的回覆開到隔天 18:00（R7）----------*/
   S.MSGS=[

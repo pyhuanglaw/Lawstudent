@@ -118,5 +118,9 @@ const COURSES={
     {id:'legal_research',name:'法律專題研究',kind:'required',term:'Y4S2',prof:'prof_zhou',room:'WSEM',slots:[{wd:1,block:'pm1'}],topics:['自選題目','報告'],specials:[{w:10,title:'回顧大一的案例'}]},   /* AA_263（syllabus 7abe189a）：第 10 週回顧大一。第 6 週法院旁聽、第 7 週旁聽之後都拿掉、改成一般的週（AA_252 2-4、AA_327 2-Y4-41：使用者 10-18 拿掉大四下的法院旁聽，課照上；AA_342 C1：兩週都改一般週——syllabus.js 也不放那兩週，tools/syllabus/import_syllabus.py 的 DROPPED_WEEKS）*/
     {id:'legal_practice',name:'法律實習或法律扶助實務',kind:'required',term:'Y4S2',prof:null,profName:'實習指導',room:'OFF',slots:[{wd:2,block:'am'},{wd:2,block:'pm1'}],topics:['事務所或法扶的實務']},
     {id:'maritime',name:'海商法與海洋法',kind:'elective',term:'Y4S2',prof:null,profName:'兼任老師',room:'L202',slots:[{wd:3,block:'am'}],topics:['海上運送','海洋法']},
+    /* 日本路線的補修（AA_144 X4；AA_341 J-S6）：大三下在日本，兩門必修大四下和學弟妹同堂；課堂內容重播大三下那一門的 syllabus（redo）。
+       保險法原本週三上午會撞海商法，照 AA_144「換到沒撞課的上午」＝週四上午。以安不補修（AA_341 裁定 7）。學弟妹的反應句 BB 還沒補 */
+    {id:'civpro_2_re',name:'民事訴訟法甲下',kind:'required',term:'Y4S2',prof:'prof_tsai',room:'L201',slots:[{wd:1,block:'am'}],topics:['證據調查','舉證責任','判決','上訴'],route:['JP'],redo:'civpro_2'},
+    {id:'insurance_re',name:'保險法',kind:'required',term:'Y4S2',prof:'prof_jian',room:'WMULTI',slots:[{wd:4,block:'am'}],topics:['保險契約','告知義務','理賠爭議'],route:['JP'],redo:'insurance'},
   ]
 };

@@ -444,8 +444,8 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
     check('19. P2 去了：「學姊說你都坐第四排。」「我沒說。」…（逐字）；KX_JUNIORS came',JSON.stringify(all().slice(0,W.length))===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「還好。」','「他們很喜歡妳。」'])&&G.flags.KX_JUNIORS==='came',JSON.stringify(all())); }
   fresh('2028-04-25',20,'dorm'); date('kexin'); run('2028-04-25',20.75,21.25); ans('y3_k17_jr',1); run('2028-04-26',20.75,21.25);
   check('19. 不去：「……好。我跟他們說你很忙。」；4/26 21:00 照片兩則；KX_JUNIORS photo',txt('p:kexin').includes(K('……好。我跟他們說你很忙。'))&&JSON.stringify(txt('p:kexin').slice(-2))===JSON.stringify([K('（照片：小吃店的圓桌，三個學弟妹）'),K('他們說下次一定要看到本人。')])&&G.flags.KX_JUNIORS==='photo');
-  fresh('2028-04-25',20,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); run('2028-04-25',20.75,21.25);
-  { const q=OUT.get(G,'y3_k17_jrv'); check('19. 日本路線：4/25 21:00「讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。」；4/26 19:30 視訊',txt('p:kexin').slice(-1)[0]===K('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。')&&!!q&&q.day===D('2028-04-26')&&q.h===19.5&&!PHONE.sent(G,'y3_k17_jr')); }
+  fresh('2028-04-25',20,'dorm',{EXCHANGE_ROUTE:'JP'}); date('kexin'); run('2028-04-25',21.75,22.25);
+  { const q=OUT.get(G,'y3_k17_jrv'); check('19. 日本路線：4/25 台灣 21:00＝當地 22:00「讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。」；4/26 台灣 19:30＝當地 20:30 視訊（AA_341 J-S7）',txt('p:kexin').slice(-1)[0]===K('讀書會的學弟妹要請你吃飯。你在國外，先視訊被看。')&&!!q&&q.day===D('2028-04-26')&&q.h===20.5&&!PHONE.sent(G,'y3_k17_jr')); }
   await go('y3_k17_jrv'); check('19. 視訊被看：一段旁白；KX_JUNIORS video',has('（螢幕裡三個學弟妹擠在一起揮手。可昕把手機拿回去：「好，看完了。」）')&&G.flags.KX_JUNIORS==='video');
 
   // ===== 20. 2-Y3-20 語彤事件 13「空出來的週四」 =====
