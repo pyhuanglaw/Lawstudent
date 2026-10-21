@@ -860,11 +860,11 @@
     "docs/story_planning/test_tools/campcut_probe.py"
    ],
    "state": "已測試",
-   "next": "自動判定修好重跑（campcut2）；觀察：校門口黑底、宿營 21:30 白天背景、劇情按鈕浮在筆記本上（P3）",
+   "next": "觀察 a～c（P3）：校門口黑底、宿營 21:30 白天背景、劇情按鈕浮在筆記本上",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "未派",
-   "note": "看縮圖 PASS：經濟系 22 張、法律系 94 張，宿營開頭全是 2D（72560881）"
+   "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D"
   }
  ],
  "items": [
