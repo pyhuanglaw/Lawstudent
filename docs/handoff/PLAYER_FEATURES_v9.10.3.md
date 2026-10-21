@@ -1,5 +1,3 @@
-> **WIP（2026-10-21 14:1x UTC，LAWWW-C 先存檔）**：子代理還在寫的玩家功能清單半成品（FEATURE-LIST-9102-1019）。唯讀整理、不是驗收；寫完會換成正式版 docs/handoff/PLAYER_FEATURES_v9.10.3.md。
-
 # 《法條之外》玩家功能清單（v9.10.3 候選）
 
 > LAWWW-C 派的唯讀整理（2026-10-21 14:1x UTC）。**這不是驗收**：只把「玩家會看到什麼」逐項對到程式、看板與測試檔名；沒有開瀏覽器、沒有跑測試、沒有改 repo。任務 FEATURE-LIST-9102-1019（使用者 10-19 02:0x 要的那份）的內容，改用 v9.10.3 候選當基準。
@@ -9,8 +7,8 @@
 | 名稱 | commit | 說明 |
 |---|---|---|
 | 線上 v9.10.2 | main `9335763d` | GitHub Pages 上的版本 |
-| 下一版 v9.10.3 候選 | `f72a2a21` | main 之後 397 個 commit。BB-C 10-21 判定「可以發布、四項實際流程 PASS」（856cece9，登記 4cbd72d5）；LAWWW 發布前清單還在跑（RELEASE-9103）；回退目標 v9.10.2 |
-| 開發分支 `claude/adoring-meitner-mqzst8` | 證據行號用 `31fcaccf`（13:29 UTC 快照）；狀態核到 `d394e72d`（14:06 UTC） | 候選之後 90 個 commit（快照之後又 37 個，影響到的列都改了狀態、證據寫 commit） |
+| 下一版 v9.10.3 候選 | `f72a2a21` | main 之後 397 個 commit。**還沒發布**。BB-C 10-21 判定「可以發布」（856cece9，登記 4cbd72d5；Playwright 手機模擬）；LAWWW 發布前清單（RELEASE-9103，CANDIDATE_9103.md「發布前狀態」14:1x 節）14 支 ALL PASS、5 支第一次沒過（查過是測試腳本跟不上遊戲，已修待重跑）、reachability_all 還沒跑；BB-C 另外從新遊戲經濟系完整玩一輪到 8/31 ALL PASS（145d6a74，96 分鐘，登記 5601a46f；判定不變）；回退目標 v9.10.2 |
+| 開發分支 `claude/adoring-meitner-mqzst8` | 證據行號用 `31fcaccf`（13:29 UTC 快照）；狀態核到 `5601a46f`（14:19 UTC） | 候選之後 101 個 commit（快照之後又 48 個，影響到的列都改了狀態、證據寫 commit）。三個子代理（大五上 AA_357、AA 回答小修、AA_360 劇情稽核修正）還在跑，之後的 commit 這份沒有核 |
 
 ## 六種狀態（每一列只用一種）
 
@@ -26,29 +24,29 @@
 - 行號：**線上可玩**的列是 main `9335763d` 的行號（多寫「main」）；**下一版**是 `f72a2a21`；**開發分支已完成、有企劃未實作、等待、暫停**是 `31fcaccf`（另外註明的除外）。
 - commit 後面括號＝它在哪一版：（main）、（候選）、（候選之後）、（快照之後＝31fcaccf 以後）。
 - 測試只列 `tests/` 裡存在的檔名，**這次都沒有重跑**。寫「BB ✔」的是 `docs/handoff/CANDIDATE_9103.md` 記的 BB 瀏覽器實測（Playwright 手機模擬＋SwiftShader）；**全部沒有 iPhone 實機測試**。
-- 任務 ID 以 `docs/handoff/tasks.json`（d394e72d）為準；斜線後面是 `docs/handoff/USER_WANTS.md` 的列號。今天早上的稽核（scratchpad audit/out_A～D.jsonl）只當線索，和 tasks.json 現況不同時照 tasks.json，並寫 commit。
-- 黑畫面（2D 對話沒有背景圖）的現況：`node tools/story/black_bg_audit.js`（不加 --md，只印出來）在 a5d4880e（14:01Z）跑的結果是 **77 段、391 句**（12:23Z 的 `docs/handoff/BLACK_BG_AUDIT.md` 是 111 段、676 句，之後又接了三組背景）。
+- 任務 ID 以 `docs/handoff/tasks.json`（5601a46f）為準；斜線後面是 `docs/handoff/USER_WANTS.md` 的列號。今天早上的稽核（scratchpad audit/out_A～D.jsonl）只當線索，和 tasks.json 現況不同時照 tasks.json，並寫 commit。
+- 黑畫面（2D 對話沒有背景圖）的現況：`node tools/story/black_bg_audit.js`（不加 --md，只印出來）在 9f9e8100（14:14Z）跑的結果是 **70 段、351 句**（12:23Z 的 `docs/handoff/BLACK_BG_AUDIT.md` 是 111 段、676 句；14:01Z 是 77 段、391 句，之後又接了 BB-C 第 95 組十張）。這是開發分支的數字；v9.10.3 候選比這個多（候選之後接的背景候選都沒有）。
 
 ## 0. 總覽（列數）
 
 | 章 | 線上可玩 | 下一版（v9.10.3 候選） | 開發分支已完成（候選之後） | 有企劃未實作 | 等待美術／素材 | 暫停 | 合計 |
 |---|---|---|---|---|---|---|---|
-| 1. 經濟系完整流程 | 27 | 7 | 1 | 4 | 1 | 1 | 41 |
+| 1. 經濟系完整流程 | 27 | 7 | 2 | 5 | 0 | 1 | 42 |
 | 2. 寒暑假系統 | 14 | 3 | 4 | 3 | 0 | 0 | 24 |
-| 3. 交換 | 3 | 10 | 2 | 3 | 4 | 0 | 22 |
+| 3. 交換 | 3 | 10 | 3 | 4 | 3 | 0 | 23 |
 | 4. 法律系大一～大四各學期 | 13 | 14 | 4 | 9 | 1 | 1 | 42 |
-| 5. 人物與感情 | 9 | 11 | 5 | 16 | 2 | 2 | 45 |
+| 5. 人物與感情 | 9 | 11 | 6 | 16 | 2 | 2 | 46 |
 | 6. 手機 | 12 | 2 | 1 | 2 | 0 | 0 | 17 |
 | 7. 存讀檔與舊存檔相容 | 6 | 3 | 1 | 2 | 0 | 1 | 13 |
-| 8. 地圖、場景、操作、效能 | 17 | 10 | 2 | 10 | 0 | 2 | 41 |
+| 8. 地圖、場景、操作、效能 | 17 | 10 | 3 | 10 | 0 | 2 | 42 |
 | 9. 結尾 | 0 | 10 | 1 | 0 | 0 | 2 | 13 |
-| **合計** | **101** | **70** | **21** | **49** | **8** | **9** | **258** |
+| **合計** | **101** | **70** | **25** | **51** | **6** | **9** | **262** |
 
 另外（最後兩節）：「看板寫待辦、其實已在遊戲裡」完整做好的 12 項、做了一大部分的 13 項、素材其實已經在別的分支的 3 組；「看板寫完成、其實找不到的」沒有整項不存在的，部分找不到的 4 項。
 
 ## 1. 經濟系完整流程（新遊戲 → 宿營 → 在學 → 10/17 休學與可昕交往 → 休學在家 → 重考 → 考試、放榜 → 進法律系）
 
-> 驗收標準照企劃線 AA_269 第 6 節（15 點）；目前的版本是 AA_300／AA_303 的「30 分鐘版」：9/2 以後只停逐場確認過的場，其他用日期卡一句帶過（`src/econff3d.js`）。BB 瀏覽器實測紀錄：v9.10.1 發布時 BB-C 從新遊戲玩到 8/22 法律系宿營兩輪（QA-AA300-1018，見 `docs/RELEASES.md` v9.10.1 節）；v9.10.2 發布前 flow_v0_home 8/8（RELEASES v9.10.2 節）。下一版的改動多數只有 node 單元測試。
+> 驗收標準照企劃線 AA_269 第 6 節（15 點）；目前的版本是 AA_300／AA_303 的「30 分鐘版」：9/2 以後只停逐場確認過的場，其他用日期卡一句帶過（`src/econff3d.js`）。BB 瀏覽器實測紀錄：v9.10.1 發布時 BB-C 從新遊戲玩到 8/22 法律系宿營兩輪（QA-AA300-1018，見 `docs/RELEASES.md` v9.10.1 節）；v9.10.2 發布前 flow_v0_home 8/8（RELEASES v9.10.2 節）；**v9.10.3 候選：BB-C 從新遊戲經濟系完整玩一輪到 8/31 ALL PASS**（145d6a74，96 分鐘，登記 5601a46f；Playwright 手機模擬，不是 iPhone）。下面各列的小改動多數只有 node 單元測試。
 
 | 功能（玩家看到什麼） | 狀態 | 證據 | 任務／USER_WANTS | 負責人與下一步 |
 |---|---|---|---|---|
@@ -71,26 +69,27 @@
 | 12/13 一個人回以前的補習班問重考班（30 分鐘版也會停下來演） | 下一版（v9.10.3 候選） | 事件 main 就有（`events.js:2090`），但 30 分鐘版不演；f72a2a21 `src/econff3d.js:64` 加進 S.KEEP | CRAM-DEC-SCENE-1018／X55 | BB 驗收 |
 | 1/8 公館吃麵（她先透露想休學）；12/14～12/30 日期卡交代「期末考考完、寒假開始」 | 下一版（v9.10.3 候選） | f72a2a21 `src/data/events.js:2121`（ev_y0_jan8）、`src/econff3d.js:104`（期末那句）；main 沒有 | KH-RETAKE-PACING-1018、ECON-TERM-END-CUE-1018／X53、X54 | BB 驗收 |
 | 1/31～2/2 高雄三天兩夜（美麗島站、蓮池潭兩張純場景背景） | 線上可玩 | main `src/data/events.js:2224`（ev_y0_kh3）；`assets/bg/kh_dome.webp`、`kh_lotus_bench.webp`（main 有）；tests/lifeline_g5_unit.js | AA303-KX-RECONFIRM-1018、CG-NOPERSON-1018／X37 | — |
-| 高雄三天分七個地點演（新崛江、駁二／大港橋二選一、瑞豐、旗津、西子灣、美麗島站、蓮池潭） | 下一版（v9.10.3 候選） | 3542dd82（候選）；f72a2a21 `src/data/events.js:2257`（kh_xinjuejiang 等）；tests/lifeline_g6_unit.js | KH-TRIP-MORE-1018／X52 | 新崛江、駁二、西子灣三張背景等使用者（見下） |
+| 高雄三天分七個地點演（新崛江、駁二／大港橋二選一、瑞豐、旗津、西子灣、美麗島站、蓮池潭） | 下一版（v9.10.3 候選） | 3542dd82（候選）；f72a2a21 `src/data/events.js:2257`（kh_xinjuejiang 等）；tests/lifeline_g6_unit.js | KH-TRIP-MORE-1018／X52 | 新崛江、駁二、西子灣三張背景候選之後才接上（見本章「高雄三個地點的背景」）；候選裡這三處還是深色底 |
 | 2/12 看不懂的民法、2/13 一起重考吧、2/14 一起去問補習班 | 線上可玩 | main `src/data/events.js:2110`（e23）、`:2212`（e27）、`:2239`（e27b）；tests/v0_e22_unit.js、tests/v0_retake_unit.js | V0-A5、V0-A7 | 2/14 補習班櫃台的背景在候選之後才接上（見本章「經濟系四張背景」） |
 | 2/15 起可昕住進來一起重考：每 3 天一段日常、週六長場景、書桌念書、約可昕出門、主動傳訊息給她（她在家時改「直接去講」） | 線上可玩 | main `src/data/retake_home.js:3`、`src/econff3d.js:191`（RH_EVERY）、`src/home3d.js:153`；`src/data/msg_kx_y0.js`（MSG_KX_Y0）；tests/v0_retake_r_unit.js | RT-TOGETHER-1018、UX-RT-DATE-1018、MSG-KX-Y0-1018／X27 | — |
 | 衝刺班 6/9～7/9（每天 09:00～21:00）：請假演兩次（6/12、6/17）才在 6/24 笑；「後來去請假她已經不笑了」那張日期卡拿掉 | 下一版（v9.10.3 候選） | main 還有那張日期卡（`src/econff3d.js:106`）；f72a2a21 `:115` 拿掉、`S.RH_PLAY`（`:68`）有 RH-C2／C3／C4 | CRAM-LEAVE-LAUGH-1018、AA298-RETAKE-FIX-1018／X59 | BB 驗收 |
 | 4/24 可昕生日（公館豆花店） | 線上可玩 | main `src/data/events.js:2324`（ev_y0_e18b）；tests/v0_e18b_unit.js | V0-B1 | — |
 | 7/10 考前一晚、7/11 考場 07:40、7/12 對答案 | 線上可玩 | main `src/data/events.js:2420`（e35h）、`:2450`（exam1h）、`:2452`（exam2）；tests/v0_e35_unit.js | AA272-1017 | — |
-| 7/25 成績公布：客運版（高雄客運站、早餐店）／在家版；和好是她打回來的電話 | 線上可玩 | main `src/data/events.js:2508`（kh_bus）、`:2510`（kh_home）；`assets/bg/kh_bus_day.webp` 等（main 有） | AA272-1017、ART-KH-BUS／I14 | — |
-| 7/25 客運版：見面後才看到落點表（「……好。等你到了再說。」） | 下一版（v9.10.3 候選） | f72a2a21 `src/data/events.js:2522`；main 還是舊句 | KH-SCORE-TIMING-1018／X60 | BB 驗收 |
+| 7/25 成績公布：客運版（客運車廂、高雄客運站、晚上的便利商店）／在家版；和好是她打回來的電話 | 線上可玩 | main `src/data/events.js:2508`（kh_bus）、`:2510`（kh_home）、`:2479-2486`（kh_bus_day、kh_bus_station、kh_store_night 三張背景，main 有） | AA272-1017、ART-KH-BUS／I14 | — |
+| 7/25 客運版：見面後才看到落點表（「……好。等你到了再說。」）；08:00 到站 → 早餐店 → 10:00 落點表 | 下一版（v9.10.3 候選） | f72a2a21 `src/data/events.js:2522`；main 還是舊句 | KH-SCORE-TIMING-1018／X60 | BB 驗收；候選新加的早餐店那段（f72a2a21 `src/data/events.js:2530`）沒有給背景，black_bg_audit（9f9e8100，14:14Z）列 16 句深色底：BB 要一張早餐店圖，或 LAWWW 先借客運站那張 |
 | 8/13 放榜電話＋宵夜（「只高 0.1」改可昕說） | 線上可玩 | main `src/data/events.js:2539`（ev_y0_e36）、`:2541`（e36n）；tests/v0_e36_unit.js | Q-E36-CALL-1018 | — |
 | 8/29 轉進法律系：同一份存檔接著玩，帶過去的東西、經濟系經驗的句子（PLAYED_Y0） | 線上可玩 | main `PLAYED_Y0` 17 處（例 `src/data/camp_y1.js:41`）；tests/v0_tolaw_unit.js、tests/flow_v0_tolaw.py | V0-A4 | — |
 | 8/30 開車載可昕搬進政大宿舍（E37，經濟系路線） | 線上可玩 | main `src/data/events.js:2546`（ev_y0_e37）；tests/v0_e37_unit.js | BUG-E37-TOLAW-1018（已驗收） | — |
 | 經濟系閒聊階梯（大一上可昕 13、品妤 6、唐睿 4、阿勳 6、韋綸 7 層；大一下可昕 4 層；「搬回家以後來學校要多久」那段拿掉） | 線上可玩 | main `src/data/ladder.js` byTerm Y0S1 5 人、Y0S2 5 人（node 讀檔核對）；`src/story3d.js:480`（LAD_CUT）；tests/ladder_unit.js | AA306-KX-LADDER-1018、V0-LADDER、LAD-K0LX2-CUT-1018／X47 | — |
 | 經濟系人物 3D（阿勳、品妤第六版、韋綸、唐睿、家豪、魏教授）＋品妤保溫瓶、家豪筆記本 | 線上可玩 | main `src/assets3d.js:39-44`（char.econ_*）、`:128`（prop.thermos_black）；tests/v0_econ_chars_unit.js | V0-ECON-CHARS、ART-PINYU-PROPS、ART-JIAHAO-FOODMAP／C07、C08 | — |
 | 可昕的表情照台詞變（已標的句子） | 線上可玩 | v9.10.2 起重考期在家 71 句、經濟系階梯 32 句標了表情（tests/kx_expr_unit.js 檔頭）；main `src/data/retake_home.js:3` | KX-EXPR-1018／X62 | 剩下約 67 句還沒標：AA 補表情標記 → LAWWW 照標 |
-| 跳日期途中收到要回的訊息就停、打開那段、按「跳過」繼續（經濟系） | 線上可玩 | main `src/econff3d.js:72`（cutMsg）、`src/home3d.js:160`（y0Jump）；RELEASES v9.10.2「跳日期途中手機跳出來 50 次都按跳過」 | SKIP-MSG-POP-1018／X58（經濟系部分） | 法律系放假的快轉見第 6 章 |
+| 跳日期途中收到要回的訊息就停、打開那段、按「跳過」繼續（經濟系） | 線上可玩 | main `src/econff3d.js:72`（cutMsg）、`src/home3d.js:160`（y0Jump）；RELEASES v9.10.2「跳日期途中手機跳出來 50 次都按跳過」 | SKIP-MSG-POP-1018／X58（經濟系部分） | 法律系放假的快轉見第 2 章 |
 | AA_348 經濟系覆蓋盤點的程式（日期卡範圍對齊停點、四句新旁白、7/15 那句照路線） | 下一版（v9.10.3 候選） | 3a21d66b（候選）；f72a2a21 `src/econff3d.js:94-120`（S.CARDS 註「AA_348」） | AA348-ECON-1021 | BB 清單 bb_checklists/BB_AA348_1021.md |
 | 經濟系四張背景：以前的補習班櫃台（2/14，24 句）、公館桌遊店（10/15）、晚上的捷運車廂（10/17 電話）、晚上路邊講電話 | 開發分支已完成（候選之後） | 1fd0d419、1796eef1（快照之後）：`assets/bg/cram_counter.webp`、`mrt_night.webp`、`boardgame_gg.webp`、`phone_street_night.webp`；`src/outings3d.js` S.BG 接上 | BG-ECON-B1-1018（已整合待測試）／X57 | BB 畫面驗收 |
-| 高雄三天兩夜的新崛江、駁二／大港橋、西子灣三個地點的背景（現在深色底） | 等待美術／素材 | `src/outings3d.js` S.BG `kh_xinjuejiang`、`kh_pier2`、`kh_sizihwan` image:null；`node tools/story/black_bg_audit.js`（a5d4880e，14:01Z）仍列這三個 | KH-TRIP-MORE-1018／X52 | BB 的 BB_132 第 88 組提示詞已寫好（使用者 10-20「我現在不想弄 CG」先存著），使用者想弄時給 → LAWWW 接 |
+| 高雄三天兩夜的新崛江、駁二／大港橋、西子灣三個地點的背景（候選裡是深色底）；瑞豐、旗津也從借用的夜市、港邊圖換成專屬圖 | 開發分支已完成（候選之後） | bddea6b9（快照之後，14:09Z，BB-C 4d98fad2 第 95 組）：`assets/bg/kh_xinjuejiang.webp`、`kh_pier2.webp`、`kh_sizihwan.webp`、`kh_ruifeng.webp`、`kh_cijin.webp`；9f9e8100 `src/outings3d.js:19` 都有 image；black_bg_audit（9f9e8100，14:14Z）不再列這三處 | KH-TRIP-MORE-1018、BG-MISSING-1021／X52 | BB 畫面驗收；下下版才有 |
+| 經濟系還剩的深色底：1/28 除夕的電話（6 句）、8/13 放榜那天開頭（3 句）、10/17 拿車鑰匙出門、和可昕出門的第一句（各 1 句） | 有企劃未實作 | black_bg_audit（9f9e8100，14:14Z）：ev_y0_e21o、ev_y0_e36r、ev_y0_e26、ev_y0_rp 都是「事件底色 dark、還沒換背景」 | BLACK-BG-AUDIT-1018（看板待開工） | 看板 next 寫「在家的電話改用家裡背景（不用圖）」→ LAWWW 換 bg；另外三段 BB 決定要不要圖 |
 | 經濟系那一年的錢只進不出（使用者存檔身上 $349,910） | 有企劃未實作 | 看板稽核 B2：沒做（還沒查收支）；`src/story3d.js:86`、`:146` 是開局的錢與零用錢設定 | BUG-ECON-MONEY-1020 | LAWWW：查經濟系那年的收支（allowanceMonth、花費），照 AA 的生活費規格補支出 |
-| BB 判定 v9.10.3 時留下的經濟系小問題：日期卡句子比它講的日子早出（例 12/19 就出「十二月二十日，期末考考完了」）；快轉中手機自動打開但待回 0 則（約每 3 天一次）；床邊「出發」提示重複地點時間 | 有企劃未實作 | BB_218 判定（856cece9，快照之後登記 4cbd72d5）；`src/econff3d.js` S.CARDS 的日期視窗 | BB218-P3-1021（待開工，P3） | LAWWW：v9.10.3 發布後先做「手機空開」和「日期卡早出」 |
+| BB 判定 v9.10.3 時留下的 P3 六件：①日期卡句子比它講的日子早出（例 12/19 就出「十二月二十日，期末考考完了」）②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次）④床邊「出發」提示重複地點時間 ⑤快轉到 11/11 訊息列表還掛著 9/1 媽媽、8/25 第三小隊的未讀紅點 ⑥8/25 宿營回家那段右上角日期還是 8/23 | 有企劃未實作 | BB_218 判定（856cece9，快照之後登記 4cbd72d5）；⑤⑥ 是 BB-C 145d6a74 完整一輪看到的（登記 5601a46f）；`src/econff3d.js` S.CARDS 的日期視窗 | BB218-P3-1021（待開工，P3） | LAWWW：看板最新 next（14:2x）寫 v9.10.3 發布後先做⑥（右上角日期沒跟上，使用者對日期不同步很敏感，X76）和③（手機空開），再做① |
 | 經濟系那一年的 3D 缺口（社科院窗戶單調；整年的方盒、黑塊、穿模盤點） | 有企劃未實作 | 蓮花柱已修；盤點沒做 | ART-ECON-3D-GAP-1021／X06 | LAWWW2 照清查 B8 列的缺口做（D99 第一優先） |
 | 書店：經濟系那年賣經濟系的書、法律系每門課的教科書，買了那一科準備度多加 | 有企劃未實作 | 程式沒有書單（看板稽核 B2 沒做） | SYS-BOOKS-1018／X15 | LAWWW：照使用者 10-18 選擇題做 bookshop 書單＋F.books |
 
@@ -141,16 +140,17 @@
 | 回國時差（R1） | 下一版（v9.10.3 候選） | f72a2a21 `src/data/events.js:4207`（jetlag）；tests/jetlag_unit.js | EVPKG-1A06-08-1020 | BB 驗收 |
 | 合租 C 棟 208（新配置）＋道具：泡麵軟袋、廚房吸頂燈、沙發上方版畫＋拍立得、B 門掛外套 | 開發分支已完成（候選之後） | fc645c8b（候選之後）；`src/data/us_shared_layout.js`（候選之後新增） | ART-US2-FIX-1018、BB_217 §7 | BB 畫面驗收（D100：LAWWW2 不自測） |
 | 美國篇 CG：雪裡的台階（BCG-09）、芝加哥、結冰的湖、208 廚房、巴士站、最後一頓晚餐在事件那一拍出現 | 下一版（v9.10.3 候選） | 5e675a33（v9.10.3 候選）；CG_REGISTRY main 20 張 → 候選 76 張（`src/adv3d.js:107`）；f72a2a21 `src/data/r2y4a_events.js:157`（cg_snow_steps_heroine05）、`:23`（frozen_lake、us_kitchen、bus_station）、`:98`（chicago）、`:189`（last_dinner）；tests/cg_batch2_unit.js | CG-BATCH2-1020、SCN-US-CG（看板待開工） | BCG-31 送機（夏天版）還沒有：BB 向使用者要，或 AA 決定送機不放 CG（`cg_airport_send_heroine05` 登錄了沒有呼叫） |
-| 美國篇缺的 2D 背景：會所草地（烤肉）、C 棟 208 廚房；舊金山三段照片沒有背景；舊金山霧中的橋 CG 沒登錄（會所交誼廳、自習室、湖邊、教堂台階 10-21 已接） | 等待美術／素材 | `node tools/story/black_bg_audit.js`（a5d4880e，14:01Z）：`us_club_lawn`、`us_shared_kitchen`、`false`（ev_sf_photo17／19／21）、`cg_sf_bridge_fog_heroine05`；已接的：6f52d289、1fd0d419（`us_lake`、`us_chapel_steps`、`us_club_lounge`、`us_club_study`） | SCN-US-2D、BG-3DSHOT-1021、BG-MISSING-1021、ART-15／F08、I06、X93 | BB 附遊戲截圖寫提示詞向使用者要；CG 那張：AA 回 AA_QUESTIONS_1021 E1、LAWWW 登錄 |
+| 美國篇缺的 2D 背景：會所草地（烤肉）、C 棟 208 廚房、秋假大峽谷（亞利桑那、峽谷、鳳凰城機場）；舊金山三段照片沒有背景；舊金山霧中的橋 CG 沒登錄（會所交誼廳、自習室、湖邊、教堂台階 10-21 已接） | 等待美術／素材 | black_bg_audit（9f9e8100，14:14Z）：`us_club_lawn`（ev_usl_bbq 9 句）、`us_shared_kitchen`（ev_usl_thanks 7 句）、`dark`（ev_us_canyon 13 句、ev_sis_canyon 12 句；9f9e8100 `src/data/r2y4b_events.js:323-380`）、`false`（ev_sf_photo17／19／21）、`cg_sf_bridge_fog_heroine05`；已接的：6f52d289、1fd0d419（`us_lake`、`us_chapel_steps`、`us_club_lounge`、`us_club_study`） | SCN-US-2D、BG-3DSHOT-1021、BG-MISSING-1021、ART-15／F08、I06、X93 | BB 附遊戲截圖寫提示詞向使用者要；CG 那張：AA 回 AA_QUESTIONS_1021 E1、LAWWW 登錄。**會所・自習室兩場（ev_sis_plan_us 5 句、ev_long_bbq 14 句；9f9e8100 `src/data/r3_events.js:95`、`:252`）還寫 bg:'dark'，`us_club_study` 已經有圖：LAWWW 換代號就好** |
 | 學姊羽絨外套、香港朋友何俊朗的立繪 | 等待美術／素材 | `assets/portraits/` 沒有這兩組 | SCN-US-CH、ART-16／I11 | BB 照 D97（有人物單獨一輪、附參考圖）向使用者要 |
 | 美國兩家超市之間的停車場和馬路（現在「過馬路」直接換區域） | 有企劃未實作 | `src/us3d.js` 兩個超市各自是區域 | US-MARKET-STREET／X41 | LAWWW2，排在美國篇必需場景之後（使用者 10-18 選擇題） |
 | 日本那一學期：出發前住臺北的家 → 3/25 出發 → 2D 據點（國際學生宿舍：一鍵上課、共用廚房、便利商店、河邊、快轉、存檔）→ 日本學期日曆 → 8/5 回程；手機是日本時間 | 下一版（v9.10.3 候選） | f72a2a21 `src/jp3d.js:1-14`、`:350`（homeRound）、`src/data/jp_events.js`；tests/jp_semester_unit.js | JP-SEM-AA341-1020、SCN-JP-SYS、VAC-X2、V4-R-JP（看板待開工） | BB 驗收 |
 | 日本宿舍「你的房間」3D（睡覺、讀書、看手機；從據點選單「在房間休息一下」進、走出房門回選單） | 開發分支已完成（候選之後） | 90680fc6（候選之後）；`src/jp_dorm3d.js:1-8`、`src/data/jp_dorm_layouts.js`（候選之後新增） | JP-ROOM-3D-1021／X91 | 其他日本場景照 2D（使用者 10-21 13:0x） |
 | 日本線 CG：便利商店、町公所的通知、河堤櫻花三張在事件那一拍出現 | 下一版（v9.10.3 候選） | f72a2a21 `src/data/r2y3b_events.js:162`（cg_japan_konbini_heroine01）、`:309`（cg_japan_notice_heroine01）、`:212`（cg_sakura_riverbank_heroine01） | CG-BATCH2-1020、SCN-JP-CG（看板待開工） | 臺中情人節那張（cg_valentine_taichung_heroine01）登錄了、沒有事件呼叫：等節日事件（D14-T11）；BB 在遊戲裡看實際畫面 |
-| 日本缺的 2D 背景：宿舍大廳、町公所門口（便利商店、入境大廳候選就有；河堤、車站 10-21 已接） | 等待美術／素材 | `node tools/story/black_bg_audit.js`（a5d4880e）：`jp_dorm_lobby`（ev_an_town_notice_repair）、`jp_town_hall`（ev_an_town_notice）；`assets/bg/jp_konbini.webp`、`airport_arrival.webp` 在 a15ba2ea（候選）；`jp_riverbank`（6f52d289）、`jp_station`（28afd003）在快照之後 | SCN-JP-2D／F09 | BB 照 D97 向使用者要 |
+| 日本的 2D 背景：宿舍大廳、町公所門口、白天街道、共用廚房、七夕宿舍門口（便利商店、入境大廳候選就有；河堤、車站 10-21 稍早已接） | 開發分支已完成（候選之後） | bddea6b9（快照之後，14:09Z，BB-C 4d98fad2 第 95 組）：`assets/bg/jp_lounge.webp`（＝jp_dorm_lobby）、`jp_town_hall.webp`、`jp_street_day.webp`、`jp_kitchen.webp`、`jp_dorm_gate.webp`；9f9e8100 `src/outings3d.js:21`、`src/jp3d.js` 共用廚房據點換 jp_kitchen；`jp_konbini`、`airport_arrival` 在 a15ba2ea（候選）；`jp_riverbank`（6f52d289）、`jp_station`（28afd003） | SCN-JP-2D、BG-MISSING-1021／F09 | BB 畫面驗收；v9.10.3 候選裡宿舍大廳、町公所兩段還是深色底 |
+| 日本線還有 10 段「換場景沒有給背景」：河邊（兩段）、宿舍門口、便利商店（兩段）、海邊、學校後面的小餐館、國際學生辦公室、出發前的公館、回程桃園入境大廳 | 有企劃未實作 | black_bg_audit（9f9e8100，14:14Z）`undefined` 組：ev_jp_goldenweek、ev_jp_repair_river、ev_jp_tanabata_repair、ev_jp_lastnight、ev_jp_lastnight_alone、ev_jp_sea、ev_jp_dinner、ev_jp_office、ev_jp_suitcase、ev_jp_return_hall（共 37 句） | SCN-JP-2D、BLACK-BG-AUDIT-1018 | LAWWW 先對已經有的圖（河邊 jp_riverbank、宿舍門口 jp_dorm_gate、入境大廳 airport_arrival、公館 gongguan）補 bg；海邊、小餐館、國際學生辦公室 BB 向使用者要 |
 | 留在臺灣的路線：大三下以後的臺灣版事件（第 2 輪、第 3 輪事件包） | 下一版（v9.10.3 候選） | f72a2a21 `src/r2y3b3d.js`、`src/r3_3d.js`；tests/r2y3b_events_unit.js、tests/r3_events_unit.js | V4-R-TW、EVPKG-R2Y3-1020、EVPKG-R3-1020 | 覆蓋缺口見下一列 |
 | 臺灣路線六學期的空白週補稿（教師節群組、服務學習下象棋、母親節回家、端午媽媽寄粽子、大四下學士服拍照、畢業紀念冊…） | 有企劃未實作 | AA_342 C1、C2、C4、C5、C6 已改（f72a2a21 `AA_342` 8 處）；補稿清單沒做 | AA342-COVERAGE-1021、V4-R-TW／D15 | LAWWW 照 AA_342（c56d4241）補稿清單派子代理；C3 等 AA 給校慶海報字；驗收 T1～T7 給 BB |
-| 臺灣路線想換的 2D：地方法院（現在深色底）、公館市場、修鞋店（現在借別的背景）；公館甜點店 10-21 已接 | 等待美術／素材 | black_bg_audit（a5d4880e）`dark` 組的「地方法院」；`gongguan_cake`（1fd0d419，快照之後） | SCN-V4-02、SCN-V4-03／I12 | BB 向使用者要 court_criminal、gongguan_market、gongguan_cobbler |
+| 臺灣路線想換的 2D：地方法院（現在深色底）、公館市場、修鞋店（現在借別的背景）；公館甜點店 10-21 已接 | 等待美術／素材 | black_bg_audit（9f9e8100）`dark` 組的「地方法院」（ev_crimpro_court_visit 11 句，9f9e8100 `src/data/r2y3a_events.js:315` bg:'dark'）；`gongguan_cake`（1fd0d419，快照之後） | SCN-V4-02、SCN-V4-03／I12 | BB 向使用者要 court_criminal、gongguan_market、gongguan_cobbler；法院旁聽席 `court_gallery` 已經在開發分支（1796eef1，C16 寒暑假用）：要不要先借給地院旁聽那場，BB 決定 |
 | 交換回來延畢的大五上（2029-09-03～12-23）：選總圖讀書／家教／在家準備、實習三件、證書、2030 研究所筆試 | 下一版（v9.10.3 候選） | f72a2a21 `src/r2y4b3d.js:294-310`（2-Y4-52、gradPass2030） | AA267-Y5（看板待開工）、EVPKG-R2Y4-1020（2-Y4-52） | 逐週內容見下一列 |
 | 大五上逐週內容、行事曆 Y5S1、2030 國考前；美國路線大五上補修強制執行法、法律倫理 | 有企劃未實作 | 31fcaccf：`src/data/calendar.js` 沒有 Y5S1、`src/data/courses.js` 沒有 enforcement_re／legal_ethics_re；AA_357 規格快照之後交了（96af1e54，企劃 d07eb988），子代理實作中（631ae6cb） | Y5-DELAY-1021、SYS-12、US-20W-SPEC、V4-X18／X92、X35、D46 | 子代理先做影響畢業後篇所有玩家的三項（資料頁、退宿後「回宿舍」、延畢的人被自動報名國考），再做 Y5S1 學期 |
 
@@ -162,7 +162,7 @@
 |---|---|---|---|---|
 | 8/22～24 法律系宿營（所有玩家都去、不用報名）：6～7 人小隊、學長姐臥底、第二晚烤肉、晚會；11 個活動各自的 2D 背景 | 線上可玩 | main `src/data/camp_y1.js:11`（CAMP_Y1）、`:198`（camp_bbq）；`assets/bg/camp_*.webp` 11 張；tests/camp_y1_unit.js、tests/flow_camp_y1.py | CAMP-L1、CAMP-FIX-614、BG-CAMP-1018／D07、D08、X30 | — |
 | 宿營的 Kevin（潮流大哥型）立繪（現在台上常常沒人） | 等待美術／素材 | 程式已接（`src/data/camp_y1.js` speaker npc_kevin）；`assets/portraits/` 沒有 npc_kevin | CAMP-PORTRAITS-1018／X63 | BB 照 D97 寫提示詞向使用者要 → LAWWW 放 assets/portraits |
-| 宿營遊覽車上的背景（不再借家用小客車的圖，換成使用者生成的遊覽車） | 開發分支已完成（候選之後） | 6f52d289（`src/data/camp_y1.js` 兩處 bg 改 `tour_bus`）、1796eef1（`assets/bg/tour_bus.webp`），都在快照之後或候選之後 | AA299-IMAGES-1018（看板仍寫等待） | BB 畫面驗收；其餘車內圖照 AA299-IMAGES-1018 的清單核對（白天車內 car_day 已換，28afd003） |
+| 宿營遊覽車上的背景（不再借家用小客車的圖，換成使用者生成的遊覽車） | 開發分支已完成（候選之後） | 6f52d289（候選之後）：`src/data/camp_y1.js:17`、`:305` 兩處 bg 改 `tour_bus`；1796eef1（快照之後）：`assets/bg/tour_bus.webp` | AA299-IMAGES-1018（看板仍寫等待） | BB 畫面驗收；其餘車內圖照 AA299-IMAGES-1018 的清單核對（白天車內 car_day 已換，28afd003） |
 | 去宿營前一秒還在椰林大道（出發沒有過場） | 有企劃未實作 | `src/story3d.js` S.campY1 開頭沒有過場（看板稽核 B2：沒做） | BUG-CAMP-CUT-1018／X09 | LAWWW：校門集合／遊覽車過場，再進第一個活動；請 BB 從新遊戲看一次 |
 | 8/29 搬進 203 四人房（阿凱、阿哲、柏翰；床在上、書桌在下）、8/31 開學典禮（體育館 2D）、9/1 開學、第一週就有劇情 | 線上可玩 | main `src/story3d.js:835`（ceremonyY1）、`src/outings3d.js:34`（ntu_gym_ceremony）、`src/data/dorm_room_layout.js`；tests/todo_opening_unit.js、tests/flow_main_day12.py | START-WEEK、DORM-LOFT-L、AA208-L／D09、D10、A08、C19 | — |
 | 從法律系開局也有：8/29 21:30 可昕兩則訊息、8/30 開車載可昕上山搬政大宿舍 | 下一版（v9.10.3 候選） | 91fb70aa、b1be3639（候選）；f72a2a21 `src/story3d.js:56-72`（KX_FIRST_MSG）；tests/x81_law_e37_unit.js；BB ✔（CANDIDATE_9103） | BUG-E37-MOVEIN-1020、BUG-KXFIRST-0830／X81 | — |
@@ -175,7 +175,7 @@
 | 時段次數規則重新設計（走來走去不算，做一件事才算；三個方案） | 暫停 | 使用者 10-18 06:1x「先不要決定，給我幾個方案」 | DEC-SLOTS-1018／X19 | 使用者選方案（①做一件事算一次 ②只算時間 ③每時段一件主要的事）；恢復條件：使用者回來後 |
 | 每週課堂內容（16 週版 syllabus：法律審查通過的週、第 16 週併進第 15 週） | 線上可玩 | main `src/data/syllabus.js:4`（SYLLABUS）；tests/syllabus_unit.js、tests/flow_lecture_attend.py | V3-SYL、V4-SYL | — |
 | 大三上刑訴課的兩個修正：第 1 週不再演「上週我們談了刑事訴訟的目的」；第 15 週強制辯護的三句（黑板 → 小語 → 林教授） | 下一版（v9.10.3 候選） | 86beabca（候選）；f72a2a21 `src/data/events.js:420`（minWeek）；tests/crimpro_week1_unit.js；741a4a63（候選）；f72a2a21 `src/classes3d.js:229`（S.SPECIAL_PRE）；tests/aa103_sp_unit.js | V4-E2（看板寫待開工）、AA-103-SP（看板寫待開工） | BB：大三上 2027-12 刑訴第 15 週看順序 |
-| 大三上刑訴作業：案例說明、第 7～11 週自己去地院旁聽（可以約以安／柏翰／阿哲）、第 12 週交答辯狀、第 13 週發回；大四那次旁聽拿掉 | 下一版（v9.10.3 候選） | f72a2a21 `src/r2y3a3d.js:75`（CR_BOARD）、`src/data/r2y3a_events.js:319-323`；tests/r2y3a_events_unit.js | CRIMPRO-HW-Y3S1、AA252-COURT（取消）／X31、D28 | 地方法院 2D（court_criminal）等使用者 |
+| 大三上刑訴作業：案例說明、第 7～11 週自己去地院旁聽（可以約以安／柏翰／阿哲）、第 12 週交答辯狀、第 13 週發回；大四那次旁聽拿掉 | 下一版（v9.10.3 候選） | f72a2a21 `src/r2y3a3d.js:75`（CR_BOARD）、`src/data/r2y3a_events.js:319-323`；tests/r2y3a_events_unit.js | CRIMPRO-HW-Y3S1、AA252-COURT（取消）／X31、D28 | 地方法院 2D（court_criminal）等使用者；法院旁聽席 court_gallery 已在開發分支，要不要先借見第 3 章 |
 | 法律系的課不只在霖澤館：萬才館多功能教室五門必修、霖澤館 202 八門選修；第一次在新教室一句旁白；202 上課有一般同學 | 下一版（v9.10.3 候選） | f72a2a21 `src/classes3d.js:226`（ROOM_FIRST）、`src/rooms_glb3d.js`；90973650；tests/x78_rooms_unit.js；BB ✔（CANDIDATE_9103 第 6 列，BB 分支 36faaeec） | LAW-CLASS-WANCAI-1020／X78 | — |
 | 期末考：真的五題考試、抽題順序（課堂題 → 使用者題目 → AI 題補到 5 題）、全部 483 題、交卷有分數、考卷不顯示來源；選單「法律」頁只列上過的課 | 線上可玩 | main `src/classes3d.js:425`（EXAM_MIX）、`src/data/exam_bank.js:3`（399 題）、`src/data/legal_qbank.js:5`（刑訴 84）；tests/flow_exam_terms.py（LAWWW-C 第 2 層通過，RELEASES v9.10 短清單第 16 項）、tests/aa130_exam_unit.js；main `src/classes3d.js:172`、`src/game3d.js:359`（legalCourses） | EXAM-AI-1018、TEST-01（考試直向截圖還沒進 repo）／G01～G05、D41、BUG-21／G09 | 考試中直向露出「離開教室」待重現（BUG-08） |
 | 成績制度：被當以後下一學期自動重修（衝堂換另一位老師、大四下沒過延畢）；非法律課出席三堂才及格、課表看得到次數、第 12 週提醒；書卷獎（法律科平均答對 4 題） | 有企劃未實作 | 現在答對 0 題＝0 分（main `src/classes3d.js:482` scoreOf），沒有重修；考試時段開學就公告已做（D14-T3），出席門檻沒做；書卷獎只有 `src/classes3d.js:520` 一句註解（看板稽核 B2：都沒做或做了一部分） | D14-T5、D14-T4、D14-T6／D42、D43、D44 | LAWWW 照使用者 10-18 02:2x 規則（「沒有暑修，下一學期再修」）、AA_126 第 1、2 節做；被當台詞 BB_120 請 AA 確認 |
@@ -195,13 +195,13 @@
 | 大二上劇情（v3 已整合的 34 件，例：直屬學姊的帶法 MENTOR_STYLE） | 線上可玩 | main `src/data/events.js:3492`（MENTOR_STYLE）；tests/v3_batch1_unit.js、tests/v3_w6w7_unit.js | V3-*（34 件）／D14 | — |
 | 大二第 2 輪 24 件（AA_325）、大二～大三上每位女主角的事件 1B-01～11、1C 群戲六件（春假三選一、中秋＝以安生日…） | 下一版（v9.10.3 候選） | f72a2a21 `src/y2r2_3d.js:1-4`、`src/y2b3d.js:1-4`、`src/group3d.js:1-5`；tests/y2_round2_unit.js、tests/y2b_events_unit.js、tests/group_events_unit.js | EVPKG-R2Y2-1020、EVPKG-1B01-07-1020、EVPKG-1B08-11-1020、EVPKG-1C01-06-1020／X82 | BB 照 BB_R2Y2_1020、BB_1B01-11_1C_CG_1020 實際觸發驗收 |
 | 大三（含大二暑假、大三寒假）第 2 輪 54 件；大三下～大四下 1B-12～25；第 3 輪小事件 | 下一版（v9.10.3 候選） | f72a2a21 `src/r2y3a3d.js`、`src/r2y3b3d.js`、`src/y34b3d.js`、`src/r3_3d.js`；tests/r2y3a_events_unit.js、tests/r2y3b_events_unit.js、tests/y34b_events_unit.js、tests/r3_events_unit.js | EVPKG-R2Y3-1020、EVPKG-1B12-17-1020、EVPKG-1B18-25-1020、EVPKG-R3-1020／D15、X82 | BB 照 BB_R2Y3A／B_1021、BB_R3_1021 驗收 |
-| 大三上主線：感冒的那一週（10/23～26）、志願表 11/17～18；搬進第三個房間 507（9/5 拆箱）、大四搬進 409（拆箱小道具、6/28 搬出）——房間模型 main 就有，搬進去的劇情在下一版 | 下一版（v9.10.3 候選） | f72a2a21 `src/story3d.js:934`（coldWeekTick，1A-04）、`:2609`（第三個房間，1A-03）；tests/cold_week_unit.js、tests/room_y3_unit.js；模型：main `src/zones3d.js:1401-1408`（dorm_room4.glb 的 Y507_／Y409_）；搬房間：f72a2a21 `src/story3d.js:2609`（1A-03 第三個房間）、409（1A-06～08）；tests/room_y3_unit.js、tests/room_y4_unit.js、tests/dorm_y3_items_unit.js | EVPKG-1A01-1020～EVPKG-1A05-1020、ART-DORM-Y34、SYS-06、DORM-Y34（看板已實作待整合）／A09 | 大三大四室友的晚上作息、AA_208 第 8 節旁白：LAWWW（DORM-Y34） |
+| 大三上主線：感冒的那一週（10/23～26）、志願表 11/17～18；搬進第三個房間 507（9/5 拆箱）、大四搬進 409（拆箱小道具、6/28 搬出）——房間模型 main 就有，搬進去的劇情在下一版 | 下一版（v9.10.3 候選） | f72a2a21 `src/story3d.js:934`（coldWeekTick，1A-04）、`:3103`（1A-02 志願表 2027-11-18 12:00 截止）、`:2609`（搬進 507，1A-03）；409 是 1A-06～08；房間模型 main 就有（`src/zones3d.js:1401-1408`，dorm_room4.glb 的 Y507_／Y409_）；tests/cold_week_unit.js、tests/room_y3_unit.js、tests/room_y4_unit.js、tests/dorm_y3_items_unit.js | EVPKG-1A01-1020～EVPKG-1A05-1020、ART-DORM-Y34、SYS-06、DORM-Y34（看板已實作待整合）／A09 | 大三大四室友的晚上作息、AA_208 第 8 節旁白：LAWWW（DORM-Y34） |
 | 大二搬進 312（9/6，阿哲、柏翰同房；拆箱、票根） | 線上可玩 | main `src/dorm3d.js:125`（homeOf ROOM_Y2）、`src/data/events.js:3648`（ROOM_Y2）；tests/v3_room2_unit.js、tests/dorm_y2_items_unit.js | DORM-Y2-312、V3-D1 | 窗外景、3D 小物件沒做（V3-D1 註） |
 | 大一 203 的紙箱＋阿凱的國界膠帶（演完那一句就拿掉） | 開發分支已完成（候選之後） | 7ef4ff56（候選之後，整合 LAWWW2-C 36c07603） | ART-Y1-BOX-1021 | BB 畫面驗收 |
-| 溫州街的故事：四條故事線＋單一事件（腳本、觸發、法律審查都好了）；小公園誰幾點在（平日九個時段、週末、寒暑假、下雨、大三上第 9 週貓不見） | 有企劃未實作 | `src/` 沒有這些事件（看板稽核 B2：沒做）；`src/` 沒有 AA_283（貓的四年已做） | DL-11／B05、AA283-PARK-1021、DL-13／B08 | LAWWW 照 AA_167（43ac6a69）轉事件、觸發照 BB_148 第 8b 節；故事小物 wz6、wz7、豆漿店道具一起搬進來（ART-WZ6、ART-WZ7、ART-SOY1）；公園：LAWWW 派子代理：crowd3d.js 公園時段表＋互動，接好 DL-13、B08 結案 |
+| 溫州街的故事：四條故事線＋單一事件（腳本、觸發、法律審查都好了）；小公園誰幾點在（平日九個時段、週末、寒暑假、下雨、大三上第 9 週貓不見） | 有企劃未實作 | 溫州街故事 `src/` 沒有（看板稽核 B2：沒做）；小公園時段表（AA_283）`src/` 也沒有（貓的四年已做） | DL-11／B05、AA283-PARK-1021、DL-13／B08 | LAWWW 照 AA_167（43ac6a69）轉事件、觸發照 BB_148 第 8b 節；故事小物 wz6、wz7、豆漿店道具一起搬進來（ART-WZ6、ART-WZ7、ART-SOY1）；公園：LAWWW 派子代理：crowd3d.js 公園時段表＋互動，接好 DL-13、B08 結案 |
 | 已審好、等白名單的小事件：BB_105 女舍 D4～D9、日文班 G1～G10、博雅 B6～B13、普通教學館前的舊同學；BB_106 SK06～SK14、經濟系群組三則、品妤「你又在等人？」；BB_110 L4 文學院長椅 | 有企劃未實作 | 程式沒有（看板寫「等待其他AI／素材＝等 AA 白名單」，稽核 C：AA 已審，不必再問使用者） | V1-B105-D2、V3-B105、V3-B105-G2、V3-B105-B2、V3-B105-P5、V2-SK06、V2-SK07、V3-SK08～10、V5-SK14、V1-B106-D1D2、V1-B106-42、V3-B110-L4 | LAWWW 照 D94 第 5 點把 BB_105＠68a8479e、BB_106＠71b3e6c3、BB_110＠3a26e94a 加白名單，照 D81 在那一學期施工 |
 | 大一下 S-3 阿凱的鍵盤（第 7 週週四 24:00 以前在房間；大二會讀到） | 有企劃未實作 | 只有讀 KAI_KEYBOARD 的那一句（main 起就有），沒有設它的事件 | BB154-KAI-KB、AA255-Y2S2 | LAWWW 照 BB_154 第 2 節（台詞請 AA 確認現行版） |
-| 已交稿、還沒換進遊戲的台詞修正：大一上 BB 人物事件逐句改稿（AA_207）、邀約台詞定稿（AA_194 第 4 節＋BB_172）、AA_313 逐場修正（可昕四年 31 場、以安 43 場、語彤 25 場、麵店團 102 個事件、芷若子晴學姊沛珊四年） | 有企劃未實作 | 看板稽核：做了一部分；一部分做了（例 e319a31a 以安自我介紹）；看板稽核 B2：其餘逐點沒做 | AB65-2-L、AB65-2、V1-INV-WORDING、AA313-FIXES-1020、AA313-S4-1020、AA313-S5-1020、AA313-S6-1020、AA312-INTEGRATE-1020 | LAWWW 先用 check_lines 對 AA_207，扣掉 AA_303／AA_313 已改的，再換句；做完 AA 核對；LAWWW 照 AA_313 第 2～6 節逐點改＋改寫死的測試、重產 msg2_pool |
+| 已交稿、還沒換進遊戲的台詞修正：大一上 BB 人物事件逐句改稿（AA_207）、邀約台詞定稿（AA_194 第 4 節＋BB_172）、AA_313 逐場修正（可昕四年 31 場、以安 43 場、語彤 25 場、麵店團 102 個事件、芷若子晴學姊沛珊四年） | 有企劃未實作 | 一部分做了（例 e319a31a 以安自我介紹，候選）；看板稽核 B2：其餘逐點沒做 | AB65-2-L、AB65-2、V1-INV-WORDING、AA313-FIXES-1020、AA313-S4-1020、AA313-S5-1020、AA313-S6-1020、AA312-INTEGRATE-1020 | LAWWW 先用 check_lines 對 AA_207，扣掉 AA_303／AA_313 已改的，再換句；做完 AA 核對；LAWWW 照 AA_313 第 2～6 節逐點改＋改寫死的測試、重產 msg2_pool |
 
 ## 5. 人物與感情（認識、閒聊、告白、交往、多段關係、約會、期末飯、分開、畢業後）
 
@@ -216,12 +216,13 @@
 | 學期末一對一的飯＋心意邀約（大一上～大四上），告白只在這裡；門檻＝她的戀愛 30＋4 次正式約會含一次心願地點；保底一定有人約 | 線上可玩 | main `src/termend3d.js:13`、`:58`（S.cond）；tests/termend_unit.js、tests/confess_unit.js、tests/flow_termend.py（v9.10.2 前 12/12） | BB203-CONFESS-1017、ROM-1017、TE-HOOKS-1017／D30、D31 | — |
 | 告白的最後兩場：大四下畢業那天傍晚的心意邀約、畢業後 2029-07-14 最後一次（選「讓我想想」的那一位） | 下一版（v9.10.3 候選） | f72a2a21 `src/termend3d.js:177`（AUTO_ME_GRAD）、`src/data/r2y4b_events.js:248`（ev_heart_july）；tests/r2y4b_events_unit.js | AA263-Y4S2、BB210-Y4S2（看板待開工）／D54 | BB 驗收 |
 | 台詞細修（AA-C 10-21）：女朋友學期末約會的飯桌那一句每學期不一樣；人物不會知道不該知道的事（13 句改成每條路線都成立）；「你欠我一次」說了以後有下文 | 開發分支已完成（候選之後） | 634f6324、ac91ebea（候選之後）；`src/data/termend_lines.js:120`、`src/termend3d.js:160`（AA_352）；db572d57、cb3ad00d（候選之後）：encounters.js、events.js、invites.js、vac_activities.js、story3d.js 各改幾句；4ab8110f（候選之後）；`src/data/events.js:1781`（AA_356）；tests/r2y3a_events_unit.js、tests/r2y4b_events_unit.js | AA352-GF-TABLE-1021、AA356-DEBTS-1021、（db572d57 AA-C 清查） | BB：各看兩個學期、四條路線各跑一次 |
+| 學期末朋友的邀約每學期一句不一樣（九位 × 大二上～大四上，41 句照 AA_361 原文） | 開發分支已完成（候選之後） | 3de6f4a7（快照之後）：`src/data/termend_lines.js` FRIEND.genByTerm、`src/termend3d.js` 送邀約先讀那學期那一句；tests/termend_unit.js | AA361-TE-FRIEND-1021（已整合待測試）、AA-Q-1021-TE（等待） | BB：大二上、大三下各跑一次學期末；學姊大四上那句和她 12/23 回國的日期對不上，等 AA 改（AA-Q-1021-TE） |
 | 同時和多位交往、每段各自計算（誰知道誰、懷疑會累積） | 線上可玩 | main `src/romance3d.js:83`（S.partners）、events.js `KNOWS` 判斷 87 處；tests/romance_unit.js、tests/knows_spread_unit.js、tests/knows_gf_unit.js | V6-S1b、V6-X2、KNOWS-SPREAD-1017／D34（地基） | — |
-| 分開以後不會永遠不能再交往：「收拾的時刻」一週後自動補旁白 | 下一版（v9.10.3 候選） | c2035d7f（候選）；`CLEANUP_DONE`（main 8 處 → C 14 處）；tests/cleanup_unit.js | V6-S4（看板進行中） | 一週內的三選一（紙箱、阿哲頂樓、手機筆記、BB 五位的物件）還沒做：LAWWW 和 V6-S5 一起派 |
-| 畢業前選一個人：其他幾位的分開談話（七位、她知道／不知道兩版；2029 選的隔天起一晚一位；三次沒到轉電話版） | 下一版（v9.10.3 候選） | f72a2a21 `src/data/r2y4b_events.js:10`（ev_choice_apart_*）；tests/aa346_apart_unit.js | EVPKG-AA346-APART | AA_346 第 3-0 節換 15 句在候選之後（6ee9e78d，H）；BB 清單 BB_AA346_1021.md |
+| 分開以後不會永遠不能再交往：「收拾的時刻」一週後自動補旁白 | 下一版（v9.10.3 候選） | c2035d7f（候選）；`CLEANUP_DONE`（main 8 處 → 候選 14 處）；tests/cleanup_unit.js | V6-S4（看板進行中） | 一週內的三選一（紙箱、阿哲頂樓、手機筆記、BB 五位的物件）還沒做：LAWWW 和 V6-S5 一起派 |
+| 畢業前選一個人：其他幾位的分開談話（七位、她知道／不知道兩版；2029 選的隔天起一晚一位；三次沒到轉電話版） | 下一版（v9.10.3 候選） | f72a2a21 `src/data/r2y4b_events.js:10`（ev_choice_apart_*）；tests/aa346_apart_unit.js | EVPKG-AA346-APART | AA_346 第 3-0 節換 15 句在候選之後（6ee9e78d，候選之後）；BB 清單 BB_AA346_1021.md |
 | 裂縫計數 → 談話事件（同一學期滿 3 次）、以安語彤 A2～A8、BB 人物 B1～B7 的修補／好好分開／前任分支 | 有企劃未實作 | `src/romance3d.js:17` 只有 KX_CRACK 計數器；沒有 ROM.crack 談話（看板稽核 B1：沒做） | V6-S5、V6-A2、V6-A3、V6-A5～A8、V6-B1、V6-B2、V6-B4～B7、AA185-V6 | LAWWW 照 AA_123 4-2、5-2、BB_119 第 2 節，和 AA351、AA354 同一批派 |
-| 可昕線的兩包：「個性磨合不了，慢慢分手」（D0～D6 七段、只在學期末分手、分開後只能當朋友）；「我們的日子」大二到大四（大二每週、大三大四隔週、交換視訊、分手停） | 有企劃未實作 | 只有計數器 `src/romance3d.js:17`（KX_CRACK）；程式沒有 AA_354 | AA351-KX-DRIFT-1021／C23、AA354-KX-OURDAYS-1021／C23 | LAWWW 照 AA_351、AA_354 同一批派子代理（和 V6-S5 一起） |
-| 知情的曖昧、知情後告白（只在學期末）、被發現、挽回（七位）；第一次正式約會開頭她問一次 | 有企劃未實作 | 程式沒有這幾場；她問到祐廷感情狀態時記誠實／閃避／說謊的機制在開發分支（1b85137e、7e141b81，H：`src/events3d.js:114`） | EVPKG-AA227-228-KNOW（看板待開工）、BB194-YTFLAGS（看板待開工）／D35（**USER_WANTS 寫暫停：等使用者看提案**） | 兩邊要先對齊：使用者是否已同意實作（AA_350 R1）；同意了再派子代理，先做明確曖昧和發現 |
+| 可昕線的兩包：「個性磨合不了，慢慢分手」（D0～D6 七段、只在學期末分手、分開後只能當朋友）；「我們的日子」大二到大四（大二每週、大三大四隔週、交換視訊、分手停） | 有企劃未實作 | 只有計數器 `src/romance3d.js:17`（KX_CRACK）；程式沒有 AA_354 | AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021／C23 | LAWWW 照 AA_351、AA_354 同一批派子代理（和 V6-S5 一起） |
+| 知情的曖昧、知情後告白（只在學期末）、被發現、挽回（七位）；第一次正式約會開頭她問一次 | 有企劃未實作 | 程式沒有這幾場；她問到祐廷感情狀態時記誠實／閃避／說謊的機制在開發分支（1b85137e、7e141b81，候選之後；`src/events3d.js:114`） | EVPKG-AA227-228-KNOW（看板待開工）、BB194-YTFLAGS（看板待開工）／D35（**USER_WANTS 寫暫停：等使用者看提案**） | 兩邊要先對齊：使用者是否已同意實作（AA_350 R1）；同意了再派子代理，先做明確曖昧和發現 |
 | 芷若×子晴「從摯友到戀人」（6/5 交往；祐廷正在追其中一人時順延下學期） | 有企劃未實作 | 只有鋪陳句（`AA_232` 2 處）；三場沒做 | AA243-P02、AA290-INTAKE／C22 | LAWWW 先收 AA_232（白名單）做 4-2～4-4 |
 | 學姊交往那天起叫「書瑀」（對話、選項、手機；祐廷說出口的「學姊」也換句） | 開發分支已完成（候選之後） | 候選只有大峽谷告白那一處（f72a2a21 `src/data/r2y4b_events.js:380`）；1a1b3a3f（候選之後）`src/romance3d.js:78` 交往那天就記、`src/social3d.js:113-114`；8a1a2ef8（快照之後，AA_350 R7：兩點半 Café 選一個「書瑀。」） | SIS-SHUYU-1017／C15 | BB 驗收 |
 | 學姊：直屬、大四（祐廷大一）、一開始沒有男朋友；W1 祐廷先開口 | 線上可玩 | main `src/data/characters.js:49`（year:4）；`SIS_W1` 等 34 處（例 `src/classes3d.js:160`）；tests/sis_a51_unit.js、tests/sis_walkin_unit.js | SIS-GRADE-1017、SIS-W1-1017／C14、D49 | — |
@@ -233,7 +234,7 @@
 | BB_119 還沒做的兩場：沛珊放榜回來那天（2027-08-06：10:00 私訊、12:00 總圖外面台階、CG BCG-22）；芷若 2028-08-26 出發前最後一場可以告白（例外：我等妳回來＝遠距交往） | 有企劃未實作 | `src/` 沒有 ev_peishan_results（grep 0）；芷若：看板稽核 B2：做了一部分（沛珊、子晴那兩場不再告白）；8/26 例外沒做 | PS-RESULTS-1018、V6-B1、BB119-Y4-1017、V6-B5／D53 | LAWWW 照 BB_119 1b-3＋AA_276 6-2＋AA_282 第 1 節；芷若：LAWWW 照 BB_119 3-2（台詞請 AA 確認） |
 | 芷若：2029-09-01 回 Café 上班那天在杯子上寫字（「熱拿鐵・不加糖」「一年。」） | 下一版（v9.10.3 候選） | f72a2a21 `src/data/r2y4b_events.js:252`（ev_zhiruo_back_cafe） | ZR-RING3-CUP／X36 | BB 驗收 |
 | 芷若在英國照交情聯絡（認識＝社群發文、朋友＝一週一兩次私訊＋明信片、曖昧＝每月視訊、交往＝每天一則） | 開發分支已完成（候選之後） | 9e13e96b（候選之後）；`src/msg3d.js:70-72`、`src/data/msg_pool.js`；tests/msg_chat_unit.js | VAC-ZR-UK-1017（看板進行中）／E07 | 還沒做：每月每週約好的視訊、英國的生日新年句、子晴另外兩句；BB 驗 2027-10、2028-11 |
-| 劇情一致性修正（快照之後 AA 交的）：可以錯過的事被說成發生過（阿哲麵店問「下午你跟小安去哪了」要看有沒有約…）；使用者 10-17 已回、漏登四天的劇情審查四題（子晴自己決定、學姊考試前後、子晴河堤乙、沛珊重考期消失） | 有企劃未實作 | AA_358 第 2 節快照之後交了（659d9d81）；AA_360（ff6f5923）快照之後交了；例：`src/y34b3d.js` S.zqGame 要一律 nine | AA358-KNOW-FIX-1021、STORY-AUDIT-1017／X95 | LAWWW 和 AA 回覆的小修同一批派；階梯四檔先改白名單再匯入；LAWWW 照 AA_360 改 |
+| 劇情一致性修正（快照之後 AA 交的）：可以錯過的事被說成發生過（阿哲麵店問「下午你跟小安去哪了」要看有沒有約…）；使用者 10-17 已回、漏登四天的劇情審查四題（子晴自己決定、學姊考試前後、子晴河堤乙、沛珊重考期消失） | 有企劃未實作 | AA_358 第 2 節快照之後交了（659d9d81）；AA_360（ff6f5923）快照之後交了；例：子晴發表哪一款遊戲不再看祐廷的選擇，一律《九點以後》（AA_360 第 1 點；31fcaccf `src/y34b3d.js:121` S.zqGame 還在讀祐廷的選擇） | AA358-KNOW-FIX-1021、STORY-AUDIT-1017／X95 | LAWWW 和 AA 回覆的小修同一批派；階梯四檔先改白名單再匯入；LAWWW 照 AA_360 改 |
 | 吃東西不只是花錢：遇到認識的人一起吃、吃過的、店員認得你＋「老樣子」 | 下一版（v9.10.3 候選） | 105f9f76（候選）；f72a2a21 `src/eat3d.js:16`、`src/data/eat_lines.js`；tests/eat_unit.js | EAT-EFFECT-1020／X67 | BB 驗收 |
 | 校外單獨約會：預約、到時間出發、交通、到了以後的互動點、約好同行 | 線上可玩 | main `src/date3d.js:11`（DATE）、`:103`（listable）；tests/date_core_unit.js、tests/date_book_unit.js、tests/date_trip_unit.js、tests/flow_trip_date.py | DATE-S2～S5、SYS-02／D32 | — |
 | 約會地點：線上有底圖又有台詞的 16 處 → 開發分支匯入 32 處台詞後 23 處進清單 | 開發分支已完成（候選之後） | main 16 處（`src/data/date_lines.js` 17 個地點×OUT.BG 底圖）；7ef4ff56、634f6324、6ee9e78d（候選之後）`date_lines.js` 32 個地點 | DATE-L01～L27（L15、L16、L22、L23 以外的 23 項，已整合待測試）／D33 | BB 驗收 |
@@ -242,7 +243,7 @@
 | 約會的 2D 疊圖（底圖上可點熱區、她的人物圖層）、心願事件（以安 D07、語彤 D13、芷若 D05、子晴 D03、學姊 D15、沛珊 D06、可昕 D25） | 有企劃未實作 | 現在是文字選單；看板稽核：做了一部分 | SYS-03、SYS-04、DATE-S6、DATE-C2～C5、ART-14／I07、I08 | LAWWW 照 date_system/art/Dxx_coords.json 做疊圖；心願事件先加白名單 wish_aa.json、wish_bb.json |
 | 一年三個情人節（2/14、3/14、七夕）、一天最多兩場、國外視訊版、禮物；七位各一張節日 CG | 有企劃未實作 | 只有路線專屬的幾場（可昕七夕 f72a2a21 `src/data/r2y3a_events.js:59`、日本七夕 `src/data/jp_events.js:137`）；共用的節日系統沒做；`cg_valentine_taichung_heroine01` 登錄了沒有呼叫 | D14-T11、DATE-C7／D38、I09 | LAWWW 照 AA_126 第 7 節＋BB_124 做；圖都有了 |
 | 腳踏車一開始就有載妹墊、約好同行坐後座（學姊也能載） | 線上可玩 | main `src/story3d.js:663`（rideInfo）、`src/bike3d.js`；tests/bike_seat_unit.js、tests/flow_bike.py | DONE-B13、DONE-B09／D22 | — |
-| 開車：可昕春假開車旅行（大一、大二、大四） | 線上可玩 | main events.js `ev_kexin_trip_spring_y1`；`cg_dont_sleep_kexin`（main 有） | V2-K8D／X02 | 背景：白天車內、海邊、老街快照之後接上（28afd003）；`car` 那一組還有 16 句深色底（black_bg_audit，a5d4880e） |
+| 開車：可昕春假開車旅行（大一、大二、大四） | 線上可玩 | main `src/data/events.js:1410`（ev_kexin_trip_spring_y1）、`src/story3d.js:2246`（kx_trip_y1s2 出遊排程）；`cg_dont_sleep_kexin`（main 有） | V2-K8D／X02 | 背景：白天車內、海邊、老街快照之後接上（28afd003）；`car` 那一組還有 16 句深色底（black_bg_audit，9f9e8100） |
 | 健身與體態（運動來源、體態影響旁白與人物反應） | 有企劃未實作 | 健身房在線上（`src/gym3d.js`）；體態沒做 | D14-T10／D40 | LAWWW 照 AA_126 第 6 節 |
 | 七位都要有完整的戀愛故事（BB_165 沛珊 5-1、5-2、芷若 3-2、子晴 Q15、可昕 K7 卡片翻頁；AA_187 口氣） | 有企劃未實作 | 看板稽核 C：做了一部分；暫停條件（v9.10 發布後）已成立 | PLAN-1016-ROM、AA349-KL-1021（BB_165 5-1、5-2 沒做）／C09 | LAWWW 對 BB_165 第 8 節逐項打勾、補做 |
 | 人物口氣照 10-18 的口氣表（可昕火爆、學姊包容好笑、子晴理工腦…） | 有企劃未實作 | 階梯口氣已進；其他台詞檔還沒換版本（稽核 D） | AA290-INTAKE／C11 | LAWWW 照 AA_290 第 4-1 節逐檔換白名單、重匯 |
@@ -291,7 +292,7 @@
 | 讀檔時清掉舊的交換申請選單（路線改照交往定以後） | 下一版（v9.10.3 候選） | ea4fac8c（候選） | EVPKG-1A02-1020 | — |
 | 舊存檔的人物面板備註照新說法顯示（43 筆；露出開發代號的換掉、和名稱重複的清空） | 開發分支已完成（候選之後） | 382236a5（候選之後）；tests/note_n9_unit.js | AA350-ANSWERS-1021（N9） | BB 驗收 |
 | 劇情鎖住 10 秒的保底（可以讀檔、回標題）＋卡住紀錄（匯出存檔帶 `_stuck`） | 線上可玩 | a0926112、d3643e46（main 的祖先）；main `src/game3d.js:395`（stuckLog）；tests/stale_lock_escape.py | BUG-BOWL-STUCK-1018 | — |
-| 選單被另一段劇情的選單蓋掉時，等上面那段演完再放回來（使用者 v9.10.2 的 _stuck 8/30 床邊選單；搬回家以後卡住、保齡球卡住很可能同一個原因） | 下一版（v9.10.3 候選） | 778ca207（候選）；f72a2a21 `src/game3d.js` chooseStack；BB ✔（CANDIDATE_9103 第 1 節「另外修的卡住」，BB 分支 6ae5e693） | BUG-E37-MOVEIN-1020、BUG-MOVEOUT-STUCK-1018／X81、X48 | X48 還要 BB 用使用者 10-18 的存檔重走一次 |
+| 選單被另一段劇情的選單蓋掉時，等上面那段演完再放回來（使用者 v9.10.2 的 _stuck 8/30 床邊選單；搬回家以後卡住、保齡球卡住很可能同一個原因） | 下一版（v9.10.3 候選） | 778ca207（候選）；f72a2a21 `src/game3d.js:91-96`（chooseStack、chooseRestore）；BB ✔（CANDIDATE_9103 第 1 節「另外修的卡住」，BB 分支 6ae5e693） | BUG-E37-MOVEIN-1020、BUG-MOVEOUT-STUCK-1018／X81、X48 | X48 還要 BB 用使用者 10-18 的存檔重走一次 |
 | 換區域多次以後被踢回標題（iPhone 記憶體）：路人骨架貼圖釋放 | 線上可玩 | main `src/assets3d.js:265-268`（disposeClone 釋放骨架貼圖）；tests/vrm_release_unit.js、tests/zone_memory.py（Playwright，不是 iPhone） | BUG-01（已驗收；iPhone 實機沒驗） | — |
 | iPhone 去政大找可昕等長出遊時被踢回標題，自動存檔在出發前要一直重來 | 有企劃未實作 | 看板稽核 C：做了一部分；tests/reload_resume_unit.js、tests/dorm_start_memory.py | BUG-IOS-RELOAD（看板進行中）、TEST-05（暫停：等使用者 iPhone） | BB 用 dorm_start_memory.py 量來回多次的貼圖數；若持續上升，LAWWW 做離開區域時釋放 GLB；iPhone 實機等使用者 |
 | 經濟系進法律系：9/1 早上畫面寫 8/31、上完課才變 9/1（使用者回報） | 暫停 | 重現不出來 | BUG-DATE-0831-1018 | 等使用者說當時怎麼操作，BB 照做重現 |
@@ -316,6 +317,7 @@
 | 博雅→普通的空橋不再經過木門；鏡頭不被空橋屋頂擋 | 下一版（v9.10.3 候選） | f72a2a21 `src/assets3d.js:113`（skybridge.glb＝LAWWW2 c77e68a2）；tests/flow_skybridge.py | SKYBRIDGE-DOOR-1020／X85 | BB 驗收 |
 | 法律學院圖書館（萬才館一樓）、社科院＋辜振甫紀念圖書館（照官網開放時間、閉館要離館） | 線上可玩 | main `src/data/lawlib_layout.js:4`、`src/data/soclib_layout.js:2`；tests/nav_lawlib_unit.js、tests/nav_soclib_unit.js、tests/soclib_hours_unit.js | A10、A11（D46、D53、D56、D62） | — |
 | 社科院搬到霖澤館西南（照真實位置，大樓在北、正門朝小椰林道） | 下一版（v9.10.3 候選） | 75298b73（候選）；f72a2a21 `src/zones3d.js:118-119`（X75）；tests/socsci_place_unit.js | CAMPUS-SOCSCI-POS-1020／X75 | BB ✔（CANDIDATE_9103 第 6 列 X75） |
+| 社科院一樓柱廊 14 根柱子擋住玩家時網點透空 | 開發分支已完成（候選之後） | 8c9287ab（快照之後，整合 LAWWW2-C 8e8d130e 巡場景・校園）：只換 `assets/models/env/second_ai/campus_socsci.glb`／`.json`，導航與碰撞不變；tests/socsci_place_unit.js、tests/nav_soclib_unit.js | （LAWWW2 巡場景） | BB 畫面驗收 |
 | 新體育館 1F、B1（體育課、一個人打羽球、販賣機、健身房） | 線上可玩 | main `src/gym3d.js`、`src/data/gym_layout.js:8`；tests/gym_unit.js | A18 | — |
 | 體育館 1F 往 B1 的台階方向改對、B1 上來面向大廳 | 下一版（v9.10.3 候選） | f72a2a21 `src/assets3d.js:78`（gym_interior.glb＝LAWWW2 9eba1567）、`src/gym3d.js:138` | BUG-GYM-STAIRS-1020／X64 | BB 驗收 |
 | 體育館 1F／B1 的燈有光暈、疊面修正 | 開發分支已完成（候選之後） | 77e990dc（候選之後，整合 LAWWW2-C 09324bda） | （LAWWW2 清查 A1、A2） | BB 畫面驗收 |
@@ -367,7 +369,7 @@
 
 ## 10. 看板寫待辦、其實已在遊戲裡
 
-> 對照的是 `docs/handoff/tasks.json`（d394e72d）的 status。很多是今天早上稽核（BACKLOG-SWEEP-1021）之後才做完、看板沒跟著改；**AA-103-SP 是稽核套用把狀態改回去**：3433818b 先改「已整合待測試」，c251ce57（稽核 B2 套用）又改回「待開工」，因為稽核的快照比實作 741a4a63 早。
+> 對照的是 `docs/handoff/tasks.json`（5601a46f；和 d394e72d 比只多了 SAVE-CHECK-1021、AA361-TE-FRIEND-1021、AA-Q-1021-TE 三項新任務，沒有任務改狀態）的 status。很多是今天早上稽核（BACKLOG-SWEEP-1021）之後才做完、看板沒跟著改；**AA-103-SP 是稽核套用把狀態改回去**：3433818b 先改「已整合待測試」，c251ce57（稽核 B2 套用）又改回「待開工」，因為稽核的快照比實作 741a4a63 早。
 
 ### 10-1 完整做好了（看板應該改成已整合待測試，或結案）
 
@@ -394,10 +396,10 @@
 | BB210-Y4S2 大四下口語審程式清單 | 待開工 | GRAD_DONE 修好（56a8f4cf，候選）；畢業傍晚、7/14 心意邀約在候選 | 口頭禪、備用句逐項核對 |
 | AA267-Y5、SYS-12、US-20W-SPEC、V4-X18 交換延畢與大五 | 待開工 | 大五上實習三件、證書、2030 筆試（f72a2a21 `src/r2y4b3d.js:294-310`）；秋假大峽谷（`src/data/r2y4b_events.js:322`） | calendar.js Y5S1、補修兩門、逐週內容（AA_357 子代理做中，Y5-DELAY-1021） |
 | V4-R-US 美國路線 | 待開工 | 美國那一學期整套（f72a2a21 `src/us_life3d.js`、`src/r2y4a3d.js`）、返台 | BB 照 BB_US_LIFE_1021 驗收；AA_QUESTIONS_1021 I 節 8 題 |
-| V4-R-JP 日本路線 | 待開工 | 日本那一學期（f72a2a21 `src/jp3d.js`）；jp_konbini、airport_arrival 圖在候選（a15ba2ea），jp_riverbank、jp_station 在候選之後 | jp_dorm_lobby、jp_town_hall；看板 next 還寫「assets/bg 沒有 jp_konbini…」已過時 |
+| V4-R-JP 日本路線 | 待開工 | 日本那一學期（f72a2a21 `src/jp3d.js`）；看板 next 列的六張圖都有了：jp_konbini（候選 a15ba2ea）、jp_riverbank、jp_station（候選之後）、jp_street_day、jp_town_hall、jp_dorm_lobby（＝jp_lounge，bddea6b9，快照之後） | 5/20 子晴發表會直播畫面；日本線 10 段換場景沒給背景（第 3 章）；看板 next 還寫「assets/bg 沒有 jp_konbini…」已過時 |
 | V4-R-TW、AA342-COVERAGE-1021 臺灣路線覆蓋 | 待開工 | C1、C2、C4（大四下 15 週，f85f5e7f）、C5、C6 已改 | 補稿清單、C3 校慶海報字 |
-| SCN-V4-02 地方法院、桃園機場入境 | 等待其他AI／素材 | airport_arrival 圖在候選（a15ba2ea） | court_criminal；next 還寫要 airport_arrival（過時） |
-| SCN-JP-2D 日本 2D | 等待其他AI／素材 | jp_konbini（候選）、jp_riverbank、jp_station（候選之後） | jp_dorm_lobby、jp_town_hall |
+| SCN-V4-02 地方法院、桃園機場入境 | 等待其他AI／素材 | airport_arrival 圖在候選（a15ba2ea）；法院旁聽席 court_gallery 在開發分支（1796eef1，快照之後，C16 用） | court_criminal（地院旁聽那場 9f9e8100 `src/data/r2y3a_events.js:315` 還是 dark；要不要先借 court_gallery，BB 決定）；next 還寫要 airport_arrival（過時） |
+| SCN-JP-2D 日本 2D | 等待其他AI／素材 | jp_konbini（候選）、jp_riverbank、jp_station（候選之後）、jp_dorm_lobby、jp_town_hall、jp_street_day、jp_kitchen、jp_dorm_gate（bddea6b9，快照之後） | 便利商店 3 月底沒雪的版本（看板 next）；海邊、學校後面的小餐館、國際學生辦公室（black_bg_audit 9f9e8100） |
 | AA313-S4-1020 以安、語彤逐場修正 | 待開工 | 第 10 點以安全名自我介紹（e319a31a，候選；BB ✔） | 其餘逐點 |
 | ART-13 明軒、小語模型 | 待開工 | 小語 Blender 版 main 就有（`src/assets3d.js:45` bl_yu.vrm） | 明軒 |
 | VAC-B1 假期 BB 人物 | 已實作待整合 | 以安、阿哲、柏翰、明軒、芷若、阿凱回老家（372208db、d90675e1，候選之後） | Kevin（不在 CHARACTERS 裡，沒有作息可放） |

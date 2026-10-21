@@ -12697,6 +12697,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:1x 照原檔複製、OUT.BG 登記（kh 三張原本 image:null、瑞豐旗津原本暫用夜市港邊）；日本路線共用廚房（S.PLACES.kitchen、ev_jp_kitchen）、七夕宿舍門口（jp_events TANABATA）用新圖；bg_images_unit 2j（改之前 FAIL）、aa308_batch3_unit 第 2 項照新圖改"
+  },
+  {
+   "id": "DL-AA-c7af5599",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c7af5599",
+   "what": "AA_361 朋友的學期末邀約每學期一句：九位 × 大二上～大四上 FRIEND[id].genByTerm（42 句）；termend3d.js 送邀約先讀 genByTerm",
+   "task": "AA361-TE-FRIEND-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 照原文 41 句接進 termend_lines.js、termend3d.js 一行；學姊大四上「我回來三個禮拜了」先不用（她 12/23 回來、12/24 就約），問 AA；termend_unit 16（改之前 FAIL 2）"
+  },
+  {
+   "id": "DL-LAWWW2-8e8d130e",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "8e8d130e",
+   "what": "ART-DIRECTOR-LAWWW2 巡場景（校園）：社科院一樓柱廊 14 根柱子換 wz_pillar_soc 材質＝擋住玩家時網點透空（鏡頭跟進柱廊時整個人看不見的問題）；只換 campus_socsci.glb＋.json（三角形不變、材質 +1、導航／鏡頭碰撞／門不變）；說明 75080217 test_shots/soc_pillar_1021/README.md",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 換兩個檔；zones3d.js:447 社科院走 attachWenzhouModel，wz_pillar_* 本來就透空；socsci_place、nav_soclib、nav_buildings、campus_public 單元全過；BB 畫面驗收（柱廊裡鏡頭跟著時看得到人）"
+  },
+  {
+   "id": "DL-BB-145d6a74",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "145d6a74",
+   "what": "v9.10.3 補完：經濟系新遊戲那一輪跑完 ALL PASS（96 分鐘、到 8/31 09:24、E37 演完、沒卡住、沒用卡住保險、沒有 JS 例外、自動畫面檢查 136 次）；判定不變：可以發布。P3 兩件：⑤快轉到 11/11 時訊息列表還掛著 9/1 媽媽、8/25 第三小隊兩則未讀紅點 ⑥8/25 宿營回家「回到家，你倒在床上」那段右上角日期還是 8/23 週五 09:00（只這一次）",
+   "task": "RELEASE-9103",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "LAWWW-C 14:2x：⑤⑥加進 BB218-P3-1021"
   }
  ],
  "ignored": [
@@ -15867,6 +15906,25 @@
    "coveredBy": "DL-AA-56a36a4d",
    "reason": "AA_242 第 12 節第一次寫錯檔名（多建一個怪名字的檔），56a36a4d 搬回、刪掉",
    "why": "AA-C 10-21 13:39 訊息"
+  },
+  {
+   "sha": "074b5050",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 交接檔「全部待辦」補 10-21 最新清單＋巡場景校園夜晚的紀錄（社科院大廳中庭全黑、椰林大道路面太暗、醉月湖背景…）；LAWWW2 自己的待辦，不是交付"
+  },
+  {
+   "sha": "18bd8e26",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "outbox_LAWWW2.json 照 outbox_fix_1021 改欄位（舊筆數沒刪）；不是交付"
+  },
+  {
+   "sha": "27618d8d",
+   "branch": "origin/claude/focused-cray-c9uwvw",
+   "kind": "wip",
+   "task": "PS-SKIRT-LEG",
+   "reason": "沛珊膝蓋穿出長裙試做 WIP（不交）；WIP-L2-PS-SKIRT-LEG"
   }
  ]
 }
