@@ -14794,7 +14794,7 @@
    "owner": "AA",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-20 20:2x UTC】子代理 2f4c0103 合併 f6915575（src/sis_grad3d.js；sis_grad_unit 90 項 ALL PASS）；BCG-42 登錄；BB 清單 bb_checklists/BB_SIS_GRAD_1020.md；AA 10 題已問；日常 ⑤ 等 SIS_TEA_ORDER（AA_311 H1） ｜ 【LAWWW-C 19:2x】AA_332（b4c3204d）交付單到了：子代理施工｜ 【2026-10-18 02:4x】AA：v9.10 發布後 AA 寫規格；recheckOn 改發布當天。｜等 AA_218 批准與規格交付；日期（115 學年度筆試 2/1～2、放榜 3/9、3/23）上線前要核對台大法研所招生簡章，查不到只寫月份",
+   "next": "【LAWWW-C 2026-10-21 07:2x UTC】AA_339＋AA_311 H1 合併（SIS_TEA_ORDER 在 lane118.js；日常 ⑤ 開）｜ 【LAWWW-C 2026-10-20 20:2x UTC】子代理 2f4c0103 合併 f6915575（src/sis_grad3d.js；sis_grad_unit 90 項 ALL PASS）；BCG-42 登錄；BB 清單 bb_checklists/BB_SIS_GRAD_1020.md；AA 10 題已問；日常 ⑤ 等 SIS_TEA_ORDER（AA_311 H1） ｜ 【LAWWW-C 19:2x】AA_332（b4c3204d）交付單到了：子代理施工｜ 【2026-10-18 02:4x】AA：v9.10 發布後 AA 寫規格；recheckOn 改發布當天。｜等 AA_218 批准與規格交付；日期（115 學年度筆試 2/1～2、放榜 3/9、3/23）上線前要核對台大法研所招生簡章，查不到只寫月份",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -21328,7 +21328,7 @@
    "title": "第 2 輪之一：大二 24 件（新做 20、部分 2；可昕照 AA_295：不出假設題、不比較；寒假 1/14 祐廷搭高鐵去高雄）",
    "status": "已整合待測試",
    "source": "AA_325（404ae976；AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 20:3x UTC】子代理 9ed9dfdd 合併 cc31653e（src/y2r2_3d.js；y2_round2_unit 194 項 ALL PASS；改了 v3_batch1／v3_fafu_duty／smalltalk／activities 四個舊測試的預期，照 AA_325）；BB 清單 bb_checklists/BB_R2Y2_1020.md；AA 11 題＋13 個面板名稱已問；予樂立繪 LAWWW-C 接 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】子代理 200 回合上限停在改三個舊測試（a7b442d8 WIP），20:0x 叫它接著做完 ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y2r2_3d.js；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 第 1 輪（1A、1B、1C）之後；AA 的先做順序：2-Y2-01 語彤事件 7、可昕大二上（03～07）、寒假（09～12）；2-Y2-16 等 1B-07、2-Y2-22 等 1B-03 進遊戲",
+   "next": "【LAWWW-C 2026-10-21 07:2x UTC】AA_338 合併（03e51675 之後的 merge）；待問 AA（claude-code-remote 連不上，連上就問）：①「妳來公館」答應了沒到（現在不傳、隔天記 message）②回過予樂的玩家「妳來公館」照舊「好 七點」不排事③Q9 交往中沒看 Q5：新旁白取代「下台後，她走到第一排……」「去年的份。」（BB_189 1-3 原本保留）④1/14 算進輪替後下一次高雄地點和 1/14 同一個夜市 ｜ 【LAWWW-C 2026-10-20 20:3x UTC】子代理 9ed9dfdd 合併 cc31653e（src/y2r2_3d.js；y2_round2_unit 194 項 ALL PASS；改了 v3_batch1／v3_fafu_duty／smalltalk／activities 四個舊測試的預期，照 AA_325）；BB 清單 bb_checklists/BB_R2Y2_1020.md；AA 11 題＋13 個面板名稱已問；予樂立繪 LAWWW-C 接 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】子代理 200 回合上限停在改三個舊測試（a7b442d8 WIP），20:0x 叫它接著做完 ｜ 【LAWWW-C 2026-10-20 19:1x UTC】子代理在背景施工（src/y2r2_3d.js；用 81fc2eee 的 STORY.TICKS 等掛勾，各自一個檔案）；做完由 LAWWW-C 合併、跑全部單元測試、交 BB 驗收清單 ｜ 第 1 輪（1A、1B、1C）之後；AA 的先做順序：2-Y2-01 語彤事件 7、可昕大二上（03～07）、寒假（09～12）；2-Y2-16 等 1B-07、2-Y2-22 等 1B-03 進遊戲",
    "first": {
     "term": "Y2S1",
     "week": null,
