@@ -49,8 +49,12 @@
 - LAWWW-C 20:08：X86 第二階段已接 `0582af9f`；決定公館七樓以上不投影（下一個交付順手做）；4 項舊 FAIL 要我判斷。
 - ART-L118-LANE-1020 交付：`test_shots/l118_lane_1020/README.md`、`patches/l118_lane_props_wire.diff`。
 - 10-20 21:0x 公館七樓不投影＋柱子透視＋4 項判斷交付 `74cfdfb7`（LAWWW-C 接進 `1475d312`）。
-- 10-21 07:xx（工作程序重新接上，中間停約 10 小時）使用者「繼續」：118 巷效能＋兩個測試修正交付（本 commit）。
-- 接下來（LAWWW-C 21:00 排的順序）：公館店面材質合併（atlas，校門口 draw call 1.53 倍）→ 日本學期場景優先 1（AA_341 第 5 節）→ ART-BALCONY-POTS；子代理交多功能教室／202 時驗收。
+- 10-21 07:xx（工作程序重新接上，中間停約 10 小時）使用者「繼續」：118 巷效能＋兩個測試修正交付（`536eec11`，LAWWW-C 已接 `2fb01ed0`）。
+- 10-21 公館校門口 draw call 交付（本 commit）：`test_shots/gg_drawcall_1021/README.md`、`patches/gg_drawcall_atlas_glow.diff`（套 `0e7a5efa`）、捷運出口 GLB 重匯出。
+  - 主要原因是光暈（一個 GLOW_ 一個 Sprite，17:24 以後 90 次）→ 一個模型一個網格；店內景深卡 15 面 → 一張 atlas；捷運出口 23 → 14 個網格。
+  - 校門口 1.53 → 1.03 倍，`gongguan_glb_integration.py` ALL PASS（修改前 3 項 FAIL）。
+  - `campus_glb_integration.py` 修改前、後一樣跑不完（過時：campus_modern_glb）；傅鐘光暈另外驗 PASS。
+- 接下來（LAWWW-C 21:00 排的順序）：~~公館店面材質合併~~（交了）→ 日本學期場景優先 1（AA_341 第 5 節）→ ART-BALCONY-POTS；子代理交多功能教室／202 時驗收。
 - （舊）接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
   4. X86 第二階段；
