@@ -322,7 +322,7 @@ const R2Y4A=(function(){
         plan(G,{id:'y4_kx_intern2',ev:'ev_kexin_intern_result',day:d,h:15.5,late:5.5,place:'電話',title:'可昕打來',verb:'接起來',must:true,call:true,travel:'',travelH:0,back:'電話結束。'}); } }
     /* ---- 2-Y4-23 學姊 M7 接機（台灣、日本路線；家族群組）：12/20 21:00 → 12/23（六）20:30 入境大廳；沒有人說要去＝21:30「到了。捷運很快。」---- */
     { const a=D('2028-12-20'), d=D('2028-12-23'); if(a!=null&&d!=null&&!us&&PHONE.inGroup(G,'family_law')&&G.day>=a&&G.day<=d+2){
-        if(past(G,a,21)&&now(G)<T(d,20)&&!PHONE.sent(G,'y4_pickup_ask')){ const v=S.pickupVer(G), h=G.day===a?Math.max(21,G.hour):21; F.SIS_PICKUP_V0=v;
+        if(past(G,a,21)&&now(G)<T(d,20)&&!PHONE.sent(G,'y4_pickup_ask')){ const v=S.pickupVer(G), h=G.day===a?Math.max(21,G.hour):21;
           if(v==='lover'){ PHONE.at(G,a,h,[GS('這週六回來。')],'y4_pickup_ask'); PHONE.at(G,a,h,[P5('這週六，晚上八點。你來。')],'y4_pickup_dm'); F.SIS_PICKUP_V='lover'; }   /* 戀人版：家族群組只說「這週六回來。」*/
           else { const L=[GS('這週六晚上八點落地。'),GS('……有人有空嗎。')]; if(done(G,'ev_sis_graduation')) L.push(GS('我畢業那天，謝謝你來。'));   /* 去過她的畢業典禮 G4 */
             if(v==='family') L[L.length-1].ask={id:'y4_pickup',until:T(d,20),opts:[{t:'我去接。我有車。',set:{SIS_PICKUP_GO:'family'}}]};   /* 另一個是不回 */
