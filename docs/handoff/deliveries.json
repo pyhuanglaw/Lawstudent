@@ -16304,6 +16304,74 @@
    "kind": "wip",
    "task": "ART-ECON-3D-GAP-1021",
    "reason": "四棟拱廊大門 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "88059634",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（榕樹、路燈、燈柱導航改成已交件；社科院中庭改成已整合）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "bf90b318",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（溫州街巡查排隊、美國超市街施工中、校園榕樹 READY_FOR_ART_REVIEW）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "21ada28c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "遠距離路人明暗改照 MToon 公式 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "6553cae4",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "路人遠距離版本交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "5f183825",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "四棟拱廊大門＋博雅東側交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "30519553",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "拱廊大門補兩個漏光的地方 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "05bc1012",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "美國超市街交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "8512b3b0",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街等紅燈的車頭燈、煞車燈 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "fa7c85e2",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街接成可以走的區域 us_market_street（patch）WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "d20da1e3",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "草原超市和竹葉亞洲超市之間的停車場、馬路 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
   }
  ]
 }

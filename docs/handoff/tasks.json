@@ -23047,7 +23047,7 @@
    "title": "美國大超市對面有一間小的亞洲超市：要不要做停車場＋馬路的戶外（現在是「過馬路」直接換區域）",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P3",
    "first": {
     "term": "Y4S1",
@@ -23061,7 +23061,7 @@
    },
    "source": "使用者 10-17 23:0x：「超市一個大的超市對面有一個小的亞洲超市」（LAWWW2 HANDOFF 160～178 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示；戶外做法等使用者回答",
-   "next": "使用者 14:0x 選「做停車場和馬路」：LAWWW2 做兩家超市之間的停車場和馬路（走得過去），排在美國篇必需場景之後（使用者 2026-10-18 14:0x 選擇題）",
+   "next": "【LAWWW（帳號 A）21:4x】LAWWW2 施工中（d20da1e3、fa7c85e2、8512b3b0、05bc1012 WIP；patches/us_market_street.diff）｜ 使用者 14:0x 選「做停車場和馬路」：LAWWW2 做兩家超市之間的停車場和馬路（走得過去），排在美國篇必需場景之後（使用者 2026-10-18 14:0x 選擇題）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -27864,6 +27864,34 @@
    "source": "BB（帳號 A）2026-10-21 21:4x P3（UI-MONEY-TOAST-ADV-1021 驗收時看到）",
    "authorized": "UI 修正（D87）",
    "next": "【LAWWW（帳號 A）21:3x】STORY.fundsJoin：五個快轉迴圈（home3d.js 兩處、econff3d.js、jp3d.js、us_life3d.js）合成一則寫總數「家裡匯來 5、6 月的生活費：10,000 元」；tests/funds_join_unit.js（修改前 3 項 FAIL）；BB 經濟系天天睡覺那條 6/8 看提示"
+  },
+  {
+   "id": "BUG-CAFE-FLOOR-MIRROR-1021",
+   "title": "兩點半 Café 店內自流坪地板是鏡面（粗糙度貼圖匯出成 0.004），吊燈下面反光成一個白點",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "第一次進兩點半 Café（經濟系那一年就會去）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）2026-10-21 21:18 訊息（outbox 第 81 筆 2a682738）",
+   "authorized": "D108；美術修正",
+   "next": "LAWWW2 只換 cafe_interior.glb＋json（粗糙度 0.78），重拍看完和 412 洗手間一起交件",
+   "xai": {
+    "spec": "LAWWW2 21:18 訊息",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "吊燈下面沒有白點（遊戲內對照）",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
