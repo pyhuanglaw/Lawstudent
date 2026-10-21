@@ -55,7 +55,7 @@ H['heroine_02']=dict(  # 芷若
  })
 H['heroine_03']=dict(  # 語彤
  likes={'D07.court':'normal','D07.cell':'normal','D07.wall':'like','D07.path':'like'},
- arrive=dict(first=('any',['……嗯。這裡好安靜。','連鳥叫都聽得到。'],),
+ arrive=dict(first=('any',['……原來在新店。我以為會在更遠的地方。','連鳥叫都聽得到。'],),
    normal=[('any',['今天不用顧店。……我跟阿姨說，要來這裡。']),('any',['社會系的老師，上課提過這裡。']),('high',['你約我來這裡。……我知道你為什麼約我。謝謝。'])],
    dating=[('any',['（她把髮圈綁好，走在你旁邊）'])]),
  close=dict(first=('any',['……今天，很重。','可是我想來。']),

@@ -134,7 +134,7 @@ H['heroine_01']=dict(  # 以安（AA 的人物，BB 寫一般反應、AA 審語�
  })
 H['heroine_03']=dict(  # 語彤（AA 的人物，BB 寫一般反應、AA 審語氣；話少、「嗯」、看人；不寫十分鐘、寫東西、阿姨的店）
  likes={'D05.cafe':'normal','D05.garden':'like','D05.shop':'normal','D05.board':'normal'},
- arrive=dict(first=('any',['……嗯。這裡好安靜。','比一般的電影院……安靜很多。']),
+ arrive=dict(first=('any',['……這是電影院？看起來像有人住的房子。','比一般的電影院……安靜很多。']),
    normal=[('any',['……我早到了。在院子看樹。']),('any',['今天的片，我沒查。……想直接看。']),('high',['跟你看電影，好像不用想要說什麼。'])],
    dating=[('any',['（她在售票口前面，把髮圈綁好）……走吧。'])]),
  close=dict(first=('any',['……嗯。','我哭了一下。……沒有，是眼睛很乾。']),
