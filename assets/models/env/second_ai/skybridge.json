@@ -4,7 +4,7 @@
  "tris": 1376,
  "tris_drawn": 1376,
  "materials": 10,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/sbout/skybridge.glb",
+ "out": "assets/models/env/second_ai/skybridge.glb",
  "bytes": 308256,
  "texres": 512,
  "local": "原點＝普通那一端門口中心的地板；往北（−z）7.5 m 到博雅；x 東、y 上",
