@@ -8,6 +8,7 @@
 - 交接工具：從 RULE_SOURCE 取最新的 `tools/handoff/`、`tools/story/check_orphans.py`（C 分支上的是舊版）。
 - 對帳結果（都加 `--ref` RULE_SOURCE）：`check` 0（OK）；`duty verify` 1（異常 7：LAWWW 的快照 `2026-10-21T1459Z_C_LAWWW.json` 讀不到——LAWWW 的範圍）；`incr` 1（LAWWW 的 WIP-LAWWW-AAFIX-1021 commit `8a9a5e5a` 找不到——LAWWW 的範圍）；`roles` 1（36 項都是 AA 的交接檔 ID 不在總表；**LAWWW2 0 項**）；`asks` 1（5 項是 LAWWW、AA 的「AI 解讀還沒問使用者」；LAWWW2 15 筆沒有異常）。
 - 帳號 A 的 LAWWW 還沒登記值班（`duty.json` onDuty＝沒有人）→ 照 D75 不傳訊息；這份登記等值班 LAWWW `duty sync`。
+- **⛔ 使用者 15:3x（永久）：「你之後不要再停下來問我 你是美術總監」**（UA-LAWWW2-1021-10）→ 美術上的決定自己做、自己驗收、直接往下做；回報只報結果、不等回覆、不把美術決定丟回給使用者。ART_APPROVED（建築／場景）照舊只有使用者能標；發布是 LAWWW；劇情是 AA。
 - **使用者 15:2x～15:3x（接班後第一個指示）**：「溫州街修改直接收尾 舊店面翻修繼續」「黃昏收尾」（UA-LAWWW2-1021-08、09）→ 暫停表三列已改「已恢復」。順序：SOC-COURT-1021 收尾（做一半）→ 溫州街收尾（BUG-WZFLICKER-2 溫州街三處、A7 小公園疊面、ART-BALCONY-POTS 溫州街、ART-VSLICE 做一半的）→ ART-WZ0 舊店面翻修。
 - **接著做**（C 交班寫的第一步）：SOC-COURT-1021 社科院中庭夜間光＋院系公告欄「還沒做完」1～3（`test_shots/soc_court_1021_wip/README.md`）→ 之後照下面「📋 LAWWW2 全部待辦」10-21 最新那一節。
 
