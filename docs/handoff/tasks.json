@@ -723,8 +723,8 @@
    "title": "furniture_study 教室門模組",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】共同教學館的關門換成 furniture_study 的門片（teach3d.js:165 那段） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：決定：博雅／普通部分結案（被 ART-EXT-TEACH 取代），共同教學館的關門改用 furniture_study 的門片（teach3d.js:165 那段）；暫停條件「v9.10 發布後」已成立 ｜ teach3d 換門",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）19:0x】LAWWW2 交件已整合進開發分支（55 支相關單元測試全過）；BB 看畫面 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】共同教學館的關門換成 furniture_study 的門片（teach3d.js:165 那段） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：決定：博雅／普通部分結案（被 ART-EXT-TEACH 取代），共同教學館的關門改用 furniture_study 的門片（teach3d.js:165 那段）；暫停條件「v9.10 發布後」已成立 ｜ teach3d 換門",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -22781,7 +22781,7 @@
    "title": "黃昏調色預設就開（使用者選「預設就開（建議）」）：用現在的版本重拍比較圖、跑回歸，把預設換成 golden",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22795,7 +22795,7 @@
    },
    "source": "使用者 10-18 選擇題（AA 交接 82 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接定",
-   "next": "【LAWWW（帳號 A）17:5x】LAWWW2 交件 723d49a4：docs/art-rebuild/second_ai/patches/grade_golden_default.diff（engine3d.js 兩行：E.grade 預設 golden、?grade=off 回原本；tools/shots/golden_compare.sh）、nav 兩支單元測試 ALL PASS、遊戲內六組對照 test_shots/grade_golden_1021/（白天、夜晚、室內差 1～2%；黃昏溫州街 62%、校園 70%、Café 門口 38%）；READY_FOR_ART_REVIEW。v9.10.3 合併 main 以後整合，順手改 CLAUDE.md 那句、USER_WANTS X32 ｜ 【LAWWW2 16:12 事先告知（D108）】只改 E.grade 預設 null→golden（?grade=off 回原本），KEY_GOLDEN 和其他時段不動；重拍 VISUAL_REVIEW 第 10 節。CLAUDE.md 那句 LAWWW 已改（7b2e1028） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）17:5x】LAWWW2 交件 723d49a4：docs/art-rebuild/second_ai/patches/grade_golden_default.diff（engine3d.js 兩行：E.grade 預設 golden、?grade=off 回原本；tools/shots/golden_compare.sh）、nav 兩支單元測試 ALL PASS、遊戲內六組對照 test_shots/grade_golden_1021/（白天、夜晚、室內差 1～2%；黃昏溫州街 62%、校園 70%、Café 門口 38%）；READY_FOR_ART_REVIEW。v9.10.3 合併 main 以後整合，順手改 CLAUDE.md 那句、USER_WANTS X32 ｜ 【LAWWW2 16:12 事先告知（D108）】只改 E.grade 預設 null→golden（?grade=off 回原本），KEY_GOLDEN 和其他時段不動；重拍 VISUAL_REVIEW 第 10 節。CLAUDE.md 那句 LAWWW 已改（7b2e1028） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22810,9 +22810,7 @@
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   },
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   }
   },
   {
    "id": "AA-LAW-RECONFIRM",
@@ -26517,7 +26515,7 @@
    "id": "AA-Q-1021-TE",
    "title": "AA_361 學姊大四上那句「期末考完了嗎？我回來三個禮拜了。法圖旁邊那家，還在。」和日期對不上：她 2028-12-23 從美國回來，學期末邀約 12/24 20:30 就送出（termend_unit 9f）",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "LAWWW-C 實作 AA_361 時發現",
    "first": {
@@ -26537,9 +26535,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 S1，221433e5）：改成「期末考完了嗎？我昨天回來的。法圖旁邊那家，還在。」 ｜ 【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」",
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 S1，221433e5）：改成「期末考完了嗎？我昨天回來的。法圖旁邊那家，還在。」 ｜ 【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
   },
   {
    "id": "BUG-PHONE-REOPEN-1021",
@@ -26592,7 +26588,7 @@
    "title": "AA_360 實作時遇到的 8 題（阿凱 5/20 照片、寒假快轉沒有「總圖」、路過版不快轉時間、「上禮拜六」第 10～11 週、CONTEST_HEARD 不進回憶、子代理選的表情、舊存檔用舊字、學妹配樂不是每個玩家都有）",
    "area": "v2",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "AA_360 子代理回報（b622a82d）",
    "first": {
@@ -26612,9 +26608,7 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "next": "【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 1 節，企劃線 221433e5）：要改 R1 阿凱照片換《九點以後》（y34b3d.js:140/142，舊存檔 ZQ_Q12==='cat' 照舊）、R3 a 跳到 22:00／c 加 15 分鐘、R4 改字、R5 CONTEST_HEARD 回憶名稱、R7 拿掉 c0、R8 拿掉 y34b3d.js:498 的 if；R2、R6 照現在 ｜ 【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法",
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 1 節，企劃線 221433e5）：要改 R1 阿凱照片換《九點以後》（y34b3d.js:140/142，舊存檔 ZQ_Q12==='cat' 照舊）、R3 a 跳到 22:00／c 加 15 分鐘、R4 改字、R5 CONTEST_HEARD 回憶名稱、R7 拿掉 c0、R8 拿掉 y34b3d.js:498 的 if；R2、R6 照現在 ｜ 【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法"
   },
   {
    "id": "BB-TEST-Y5-1021",
@@ -26648,7 +26642,7 @@
    "title": "AA_357 實作時遇到的（卡片第一頁、中秋照片誰傳、一跳只出最後一句的兩段、2-1 表空白、舊存檔報名規則、子代理自己定的作息日期、沒處理的三件、介面字）",
    "area": "v5",
    "owner": "AA",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "source": "AA_357 子代理回報（ca9116ce）",
    "first": {
@@ -26668,9 +26662,7 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "next": "【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 3 節，企劃線 e39f0d6b）：要改 T1 第五年卡片＋新三選項、T2 照片阿哲傳、T3 一跳落點超過範圍最後一天出三選一不出共通、T4 畢業後資料頁沿用最後一列、T7 沒延畢的畢業生 9/3 後日期標籤／回套房／退宿後宿舍門口不能進、T9 中秋交通「捷運＋走路 約 30 分鐘」；T5、T6、T8 照現在 ｜ 【LAWWW-C 2026-10-21 14:5x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照子代理的暫定做法",
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:0x】子代理照 AA_363 定稿做完 1af30cc6（R1、R3、R4、R5、R7、R8、S1、T1、T2、T3、T4、T7、T9；R2、R6、T5、T6、T8 照現在）：y34b_events 170、aa360 38、termend 102、y5_delay 45、新 dorm_moved_out 4 項，修改前各有 FAIL；393 支單元測試全過。在本機 post9103（495c1534，wip_backup/post9103.bundle），v9.10.3 合併 main 以後放進開發分支、派 BB（BB-TEST-AA360-1021、BB-TEST-Y5-1021）；子代理問 AA 5 題（T3 交往玩家看不到共通、T3 落在最後一天、T7-1 國定假日名、學姊交往版飯桌那句、介面字）已轉 AA ｜ 【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 3 節，企劃線 e39f0d6b）：要改 T1 第五年卡片＋新三選項、T2 照片阿哲傳、T3 一跳落點超過範圍最後一天出三選一不出共通、T4 畢業後資料頁沿用最後一列、T7 沒延畢的畢業生 9/3 後日期標籤／回套房／退宿後宿舍門口不能進、T9 中秋交通「捷運＋走路 約 30 分鐘」；T5、T6、T8 照現在 ｜ 【LAWWW-C 2026-10-21 14:5x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照子代理的暫定做法"
   },
   {
    "id": "BUG-SMOKE-JOY-1021",
@@ -26729,9 +26721,9 @@
    "title": "美國交換 C 棟 2F 208 門口走廊 17:46 鏡頭卡進牆／屋簷：y1 方向整個畫面米色平面、y2 方向木牆擋住三分之二看不到玩家",
    "area": "BUG",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】美國 C 棟 2F 208 門口走廊的鏡頭碰撞（走廊牆、屋簷進 E.colliders／鏡頭淡出群組）；BB 的重現：test_shots/artrev_1021/38、39；修好把 SHA 給 BB 重拍四個方向＋17:46／19:00 ｜ 【LAWWW（帳號 A）15:5x】等 BB 補拍四個方向＋19:00 的重現步驟，再查鏡頭碰撞（走廊牆、屋簷有沒有進 E.colliders）",
+   "next": "【LAWWW（帳號 A）19:0x】LAWWW2 交件已整合進開發分支（55 支相關單元測試全過）；BB 看畫面 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】美國 C 棟 2F 208 門口走廊的鏡頭碰撞（走廊牆、屋簷進 E.colliders／鏡頭淡出群組）；BB 的重現：test_shots/artrev_1021/38、39；修好把 SHA 給 BB 重拍四個方向＋17:46／19:00 ｜ 【LAWWW（帳號 A）15:5x】等 BB 補拍四個方向＋19:00 的重現步驟，再查鏡頭碰撞（走廊牆、屋簷有沒有進 E.colliders）",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -26879,7 +26871,7 @@
    "title": "大一 203：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 上鋪床架擋住整個畫面、在南被浴室磁磚牆擋住",
    "area": "BUG",
    "owner": "LAWWW2",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -26893,16 +26885,14 @@
    },
    "source": "BB（帳號 A）16:09（BB_218 最後兩節；test_shots/artrev3_1021/01、04、05、08）",
    "authorized": "bug 修正（D108：場景鏡頭碰撞歸 LAWWW2）",
-   "next": "【LAWWW（帳號 A）18:1x】LAWWW2 交件 58fb6115，已套在本機 post9103（dorm_cam_unit ALL PASS）；v9.10.3 合併 main 以後放進開發分支、派 BB 看畫面 ｜ 房間的鏡頭碰撞或淡出群組（上鋪床架、浴室牆）；交 patch",
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:1x】LAWWW2 交件 58fb6115，已套在本機 post9103（dorm_cam_unit ALL PASS）；v9.10.3 合併 main 以後放進開發分支、派 BB 看畫面 ｜ 房間的鏡頭碰撞或淡出群組（上鋪床架、浴室牆）；交 patch",
    "xai": {
     "spec": "BB_218 最後兩節（df352cb5）",
     "branch": "claude/second-ai-env-art",
     "acceptance": "BB 同位置東、南兩個方向都看得到玩家",
     "receiver": "LAWWW",
     "ack": "SENT"
-   },
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   }
   },
   {
    "id": "BB-TEST-AA355-358-1021",
@@ -27133,7 +27123,7 @@
    "title": "大一 203 壓平的紙箱上「冬天的衣服」字左右鏡像",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -27147,7 +27137,7 @@
    },
    "source": "BB（帳號 A）17:10：BB_218 最後一節（6ec20030）",
    "authorized": "bug 修正（D108 場景美術）",
-   "next": "dorm_y1_items.py 壓平紙箱那面的貼圖 UV 翻過來；交 GLB",
+   "next": "【LAWWW（帳號 A）19:0x】LAWWW2 交件已整合進開發分支（55 支相關單元測試全過）；BB 看畫面 ｜ dorm_y1_items.py 壓平紙箱那面的貼圖 UV 翻過來；交 GLB",
    "xai": {
     "spec": "BB_218 最後一節（6ec20030）",
     "branch": "claude/second-ai-env-art",
@@ -27322,9 +27312,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:50 QA-PLAYTHROUGH-1018「天天睡覺」（807b650a＝候選 b23483dd 的遊戲程式；BB_218 最後一節 story-planning d4b05752，test_shots/qa_sleep_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去",
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去"
   },
   {
    "id": "AA368-Y0-FIX-1021",
@@ -27352,7 +27340,7 @@
    "title": "學姊大四上（2028）交往中的學期末約會邀約 12/21 20:15 就送出，她 12/23 才從美國回來（台灣、日本路線和她交往的玩家）：女朋友期末約會那條沒照 termend3d.js 的 S.FROM；飯桌那句「回來三個禮拜，時差還沒調好。」也對不上",
    "area": "v4",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -27366,16 +27354,14 @@
    },
    "source": "AA_363 子代理（LAWWW 帳號 A）18:0x 回報問題 4（在暫存副本跑過確認）",
    "authorized": "bug 修正（D85）；飯桌那句的新字問 AA（D110）",
-   "next": "【LAWWW（帳號 A）18:1x】本機 post9103 9f504f7a：termend3d.js 女朋友的邀約照 S.FROM（dg＝max(fromDay, 回來那天)）；飯桌換 AA_363 第 4 節「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」；termend_unit 9g、15 修改前 FAIL；發布後放進開發分支 ｜ 發布後：邀約時間照 S.FROM（她回國以後）；新的飯桌那句等 AA",
-   "resumeWhen": "v9.10.3 合併 main 以後：本機 post9103（wip_backup/post9103.bundle）合進開發分支、push、派 BB",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:1x】本機 post9103 9f504f7a：termend3d.js 女朋友的邀約照 S.FROM（dg＝max(fromDay, 回來那天)）；飯桌換 AA_363 第 4 節「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」；termend_unit 9g、15 修改前 FAIL；發布後放進開發分支 ｜ 發布後：邀約時間照 S.FROM（她回國以後）；新的飯桌那句等 AA"
   },
   {
    "id": "BUG-ADV-EXPR-RACE-1021",
    "title": "立繪表情被舊表情蓋掉（BB KX-EXPR：0.45 秒時 125 句裡 27 句圖不對）：events3d.js 先 ADV.speaker(id, 表情)，GM.say 又 ADV.speaker(id, 沒帶表情)＝拿 ADV.slots 的舊表情；adv3d.js render 是 async、載完圖才更新 slots，兩次 120 ms 換圖照順序套用＝舊的蓋掉新的；影響所有有表情的人物（從 v7 就有）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "已實作待整合",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27389,9 +27375,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:18 qa_play nophone（BB_218 最後兩節，story-planning 43079efc）；BB 的 kx_expr_probe.py A／B 約 19:0x 證實",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）18:4x】本機 post9103：adv3d.js render 同步記下要的那一張＋每框序號、speaker 看「要的」、hide 作廢載圖中的；tests/adv_expr_race_unit.js 7 項修改前 5 FAIL、修改後 ALL PASS（遊戲裡同一場戲第二次用到的表情＝已快取，最容易撞到）；載 adv3d 的 14 支單元測試全過 ｜ 不擋 v9.10.3（不是這版新增）；修法：render 一進來就同步記下要的表情＋每框一個序號，舊的 render 回來不換圖；speaker 找框也看「要的」那一個；單元測試；發布後放進開發分支、BB 重跑 probe",
-   "resumeWhen": "v9.10.3 合併 main 以後：post9103 合進開發分支、push、請 BB 重跑 kx_expr_probe",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:4x】本機 post9103：adv3d.js render 同步記下要的那一張＋每框序號、speaker 看「要的」、hide 作廢載圖中的；tests/adv_expr_race_unit.js 7 項修改前 5 FAIL、修改後 ALL PASS（遊戲裡同一場戲第二次用到的表情＝已快取，最容易撞到）；載 adv3d 的 14 支單元測試全過 ｜ 不擋 v9.10.3（不是這版新增）；修法：render 一進來就同步記下要的表情＋每框一個序號，舊的 render 回來不換圖；speaker 找框也看「要的」那一個；單元測試；發布後放進開發分支、BB 重跑 probe"
   },
   {
    "id": "BG-DARK-70-1021",

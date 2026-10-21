@@ -12851,7 +12851,7 @@
    "what": "GRADE-GOLDEN-DEFAULT：黃昏調色預設開（patches/grade_golden_default.diff：engine3d.js E.grade 預設 golden、?grade=off 回原本；golden_compare.sh）；遊戲內六組對照 test_shots/grade_golden_1021/；ART-VSLICE 收尾說明（post3d.js 不接）",
    "task": "GRADE-GOLDEN-DEFAULT",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）17:5x：v9.10.3 發布凍結中，合併 main 以後整合｜18:1x 套在本機 post9103 6d49e79c（nav 兩支 ALL PASS），發布後放進開發分支；CLAUDE.md「黃昏調色」那句、USER_WANTS X32 到時一起改"
   },
   {
@@ -12864,7 +12864,7 @@
    "what": "BUG-CAM-203-R2-1021：大一 203 跟隨鏡頭不再跑到上鋪、洗手間隔間後面（patches/dorm_cam_203.diff：zones3d.js dormCamCols＋tests/dorm_cam_unit.js）；遊戲內對照 test_shots/dorm203_cam_1021/；P3 剩坐書桌前鏡頭轉北被自己的上鋪擋（修改前就這樣）",
    "task": "BUG-CAM-203-R2-1021",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）18:1x：已套在本機 post9103（dorm_cam_unit ALL PASS），v9.10.3 合併 main 以後放進開發分支"
   },
   {
@@ -12877,8 +12877,47 @@
    "what": "PERF-CAMPUS-SHADOW-1020（卡那一半）：patches/campus_parked_bikes.diff（zones3d.js 停著的腳踏車 40 m 分區合併、45 m 外不畫）＋tests/campus_bikes_unit.js；遊戲內 test_shots/perf_campus_1021/（大道主畫面 24.2 萬→12.0 萬三角形、陰影 9.7 萬→2.1 萬）",
    "task": "PERF-CAMPUS-SHADOW-1020",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）18:3x：已套在本機 post9103（8 支相關單元測試全過），v9.10.3 合併 main 以後放進開發分支"
+  },
+  {
+   "id": "DL-LAWWW2-86dd6d54",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "86dd6d54",
+   "what": "大一 203 壓平紙箱的字（上下顛倒）改正：dorm_y1_items.glb／.json（37884326）",
+   "task": "ART-Y1-BOX-MIRROR-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-8b38e054",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8b38e054",
+   "what": "共同教學館三扇關著的門換門模組：patches/art02_gongtong_doors.diff（teach3d.js＋tests/teach_doors_unit.js）",
+   "task": "ART-02-GONGTONG-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-76b3a0d5",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "76b3a0d5",
+   "what": "C208 鏡頭第二版：patches/c208_cam_walls.diff（us3d.js aptCamCols＋engine3d.js followCam 一行＋tests/us_cam_walls_unit.js）；78 號 PARTIAL",
+   "task": "BUG-CAM-C208-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
   }
  ],
  "ignored": [
