@@ -86,25 +86,40 @@ def judge(rows, sm):
     return ok, bad, unk, out
 
 
+async def one(p, run, G, mode, ev):
+    """一場一個新瀏覽器（2026-10-21 第二次跑：ev_y0_e26 卡了 12 分鐘、evaluate 不回來，整支拖垮）"""
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    try:
+        await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
+        await L.load_state(pg, G.get('G', G), quiet_events=True); await pg.wait_for_timeout(6000)
+        if mode.startswith('B'): await pg.evaluate(PATCH)
+        rows = await play(pg, cdp, run, ev, 0, mode[:1])
+        return rows, errs
+    finally:
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+
+
 async def main():
-    run = L.Run('kx_expr', OUT); sm = script_map(ROOT); G = json.load(open(SNAPF, encoding='utf-8')); res = {}
+    run = L.Run('kx_expr', OUT); sm = script_map(ROOT); G = json.load(open(SNAPF, encoding='utf-8')); res = {}; allerrs = []
     async with async_playwright() as p:
         for mode in [m for m in ('A_原樣', 'B_暫時修正') if m[0] in MODES]:
-            b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
-            await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
-            await L.load_state(pg, G.get('G', G), quiet_events=True); await pg.wait_for_timeout(6000)
-            run.setup('[前置] %s：讀 qa_play nophone 存的經濟系狀態（%s）；[捷徑] 用 EVENTS.run 依序演 %s' % (mode, os.path.basename(SNAPF), ','.join(EVS)))
-            if mode.startswith('B'): await pg.evaluate(PATCH)
+            run.setup('[前置] %s：讀 qa_play nophone 存的經濟系狀態（%s）；[捷徑] 每一場開新的瀏覽器、用 EVENTS.run 演 %s' % (mode, os.path.basename(SNAPF), ','.join(EVS)))
             allrows = []
             for ev in EVS:
-                rows = await play(pg, cdp, run, ev, 0, mode[:1]); allrows += rows
+                try:
+                    rows, errs = await asyncio.wait_for(one(p, run, G, mode, ev), 540); allerrs += errs
+                except asyncio.TimeoutError:
+                    print('   ⚠ %s %s 超過 9 分鐘，跳過（畫面卡住或台詞不前進）' % (mode, ev), flush=True); rows = []
+                except Exception as e:
+                    print('   ⚠ %s %s 例外 %r' % (mode, ev, e), flush=True); rows = []
+                allrows += rows
                 ok, bad, unk, out = judge(rows, sm)
                 print('%s %s：可昕 %d 句對、%d 句不對、%d 句沒得比' % (mode, ev, ok, bad, unk), flush=True)
                 for x in out: print('     ✗', json.dumps(x, ensure_ascii=False), flush=True)
             ok, bad, unk, out = judge(allrows, sm); res[mode] = {'ok': ok, 'bad': bad, 'unk': unk, 'bad_rows': out, 'rows': allrows}
-            run.check('%s：每句停 %.1f 秒後，可昕的立繪和劇本的表情一樣（%d 對／%d 不對）' % (mode, WAIT / 1000, ok, bad), bad == 0, json.dumps(out[:6], ensure_ascii=False)[:600])
-            run.check('%s：沒有 JS 例外' % mode, not errs, json.dumps(errs[:3], ensure_ascii=False))
-            await b.close()
+            run.check('%s：每句停 %.1f 秒後，可昕的立繪和劇本的表情一樣（%d 對／%d 不對）' % (mode, WAIT / 1000, ok, bad), bad == 0 and ok > 0, json.dumps(out[:6], ensure_ascii=False)[:600])
+        run.check('沒有 JS 例外', not allerrs, json.dumps(allerrs[:3], ensure_ascii=False))
         json.dump(res, open(os.path.join(OUT, 'kx_expr.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     run.finish()
 asyncio.run(main())
