@@ -54,5 +54,18 @@ let caps=[], toasts=[]; GM.caption=(a,b)=>{ caps.push(b); }; GM.toast=t=>{ toast
     const before=JSON.stringify([G.flags.YT_HONEST,G.flags.YT_DODGED,G.flags.YT_LIED]); const bad=ROM.ytAnswer(G,'heroine_04','maybe'); check('1-12. 認不得的標記不記',bad===null&&JSON.stringify([G.flags.YT_HONEST,G.flags.YT_DODGED,G.flags.YT_LIED])===before);
     const snap=JSON.parse(JSON.stringify(G.flags)); check('1-13. 存檔：三個旗標都是一般物件（JSON 來回不變）',JSON.stringify(snap.YT_LIED)===JSON.stringify(G.flags.YT_LIED)&&snap.YT_HONEST.heroine_04===true); }
 
+  /* ======================= 2. U_COPYRIGHT／U_CONTRACT（原本已做）======================= */
+  { const G=fresh('2025-12-04',13.3,'classroom'); const it=itemOf('Y1S1',14,'civ_general'); let ok=false;
+    if(it){ setDay(it.day,it.t0); H.picks=[0,0,0,0,0,0]; try{ await CLS.attend(GM,it,{door:true}); ok=true; }catch(e){ console.log(e); } }
+    check('2-1. 民總第 14 週的討論課（網拍標錯價）去了＝U_CONTRACT（AA_337 第 6 題）',ok&&G.flags.U_CONTRACT===true&&!G.flags.U_COPYRIGHT); }
+  { const G=fresh('2028-09-27',9,'campus'); const it=itemOf('Y4S1',4,'ip_law'); let ok=false;
+    if(it){ setDay(it.day,it.t0); H.picks=[0,0,0,0,0,0]; try{ await CLS.attend(GM,it,{door:true}); ok=true; }catch(e){ console.log(e); } }
+    check('2-2. 大四上智財法第 4 週的討論課（合理使用）去了＝U_COPYRIGHT',ok&&G.flags.U_COPYRIGHT===true); }
+  { const G=fresh('2028-09-27',9,'campus'); const it=itemOf('Y4S1',4,'ip_law'); setDay(it.day,it.t1+0.5); const n=CLS.skipNotes(GM);
+    check('2-3. 條件不成立不設：沒去那一堂（下課後只有翹課的轉述）＝沒有 U_COPYRIGHT',n>=0&&!G.flags.U_COPYRIGHT&&!CLS.rec(G).done[it.key]); }
+  const q14=flags=>{ const G=fresh('2028-10-11',21,'dorm',Object.assign({EXCHANGE_ROUTE:'TW',EXCH_RULE:1},flags||{})); H.FRIEND('heroine_04'); H.at('2028-10-11',21); G.zone='dorm'; Y34B.phone(G); PHONE.tick(G); const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='y4_q14'); return m?m.ask.opts.map(o=>o.t):null; };
+  { const both=q14({U_COPYRIGHT:true,U_CONTRACT:true}), one=q14({U_COPYRIGHT:true});
+    check('2-4. 讀的地方：兩個都有＝子晴 Q14 多「先看三件事：…」；只有一個＝沒有',!!both&&both.some(t=>/^先看三件事/.test(t))&&!!one&&!one.some(t=>/^先看三件事/.test(t)),JSON.stringify([both,one])); }
+
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
