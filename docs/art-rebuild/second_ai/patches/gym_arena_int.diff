@@ -1,0 +1,175 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index 3a0e83c5..e38c92cc 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -77,6 +77,7 @@ const ASSETS = (function(){
+     'bldg.v0_dorm_props':{url:'assets/models/env/second_ai/aa_support/v0_dorm_props.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/aa_support/v0_dorm_props.py（經濟系那一年的宿舍：紙箱三種狀態、阿勳的書桌、保齡球袋、經濟學原理；AA-B 製作、LAWWW2-B 驗收 f2bebf72）', license:'本作'},
+     'bldg.gym_interior':{url:'assets/models/env/second_ai/gym_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_interior.py（新體育館第一階段：大廳＋1F 多功能球場；LAWWW2-B 4d19c88d v2；貼圖 Poly Haven CC0＋gym_tex.py）', license:'本作；貼圖 CC0'},
+     'bldg.gym_b1':{url:'assets/models/env/second_ai/gym_b1.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_b1.py（新體育館 B1：大廳、健身中心、游泳池；健身器材是 BB-B 的 GYM-P1；LAWWW2-B f3180c69）', license:'本作；貼圖 CC0'},
++    'bldg.gym_arena':{url:'assets/models/env/second_ai/gym_arena.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/gym_arena.py（新體育館 3F 主球場：場地、三面看台、上層看台、舞台與典禮／演講／演唱會布置；LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4；接成區域 ART-GYM2-INT LAWWW2 2026-10-21）', license:'本作；貼圖 CC0'},
+     'bldg.wz_brunch_interior':{url:'assets/models/env/second_ai/wz_brunch_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop brunch（溫州街「半熟」早午餐店室內，配置 src/data/wz_shops_layout.js；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+     'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
+diff --git a/src/gym3d.js b/src/gym3d.js
+index 829c9875..99e9e54f 100644
+--- a/src/gym3d.js
++++ b/src/gym3d.js
+@@ -1,12 +1,14 @@
+ /* 新體育館（綜合體育館）室內 第一階段：大廳＋1F 多功能球場（BB_151；LAWWW2-B 4d19c88d：src/data/gym_layout.js v2＋gym_interior.glb）。
+    校園的體育館門口（classes3d.js 的 DOORS.gym）按下去走進來；體育課照舊可以在門口上，也可以在球場中圈「體育課集合」上（同一堂課、同一套出席）。
+-   3F 主球場、B1 健身中心與游泳池是下一階段：樓梯口用紅龍＋告示關起來（D38 第 4 條）。
++   3F 主球場（gym_arena，ART-GYM2-INT 2026-10-21）、B1 健身中心與游泳池（gym_b1）都開了：樓梯口的紅龍拿掉，A 字架的告示改成樓層名稱。
+    程序化的量體放在 fb（備用模型，dyn）：正式模型載入後整組藏起來；導航、座位、互動點、出口不受影響（和社科院圖書館一樣）。
+    畫面上的字（服務台、開館時間、公告欄、樓層指引、樓梯口的告示）照配置檔與 BB_151 查到的開館時間，是設施的說明，不是劇情。 */
+ const GY3=(function(){
+   const L=()=>GYM_LAYOUT;
+   const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:0.8},o||{}));
+   const CAMPUS={x:74,z:58.0,yaw:Math.PI};
++  /* 1F 大廳 ⇄ 3F 主球場（ART-GYM2-INT）：上樓的點在樓梯口朝大廳那一側（配置的 (−18, 18.6) 在樓梯量體和前牆之間，站不住）；從 3F 下來落在它東邊 0.9 m、面向大廳（不一落地就出「上樓」）*/
++  const ARENA_UP={x:-16.0,z:17.4}, ARENA_DOWN={x:-15.1,z:17.4,yaw:Math.PI/2};
+   const LOOK={
+     gym_desk:'服務台：刷學生證進場。',
+     gym_hours:'開館時間：週一到週五 08:00～22:00、週六 09:00～22:00、週日 09:00～18:00。',
+@@ -28,7 +30,7 @@ const GY3=(function(){
+     const P=Ly.partition, xs=[Ly.hall.x0]; for(const [a,b] of P.openings) xs.push(a,b); xs.push(Ly.hall.x1);
+     for(let i=0;i<xs.length;i+=2){ const a=xs[i], b=xs[i+1]; const m=new THREE.Mesh(new THREE.BoxGeometry(b-a,4.2,0.3),wall); m.position.set((a+b)/2,2.1,P.z); fb.add(m); }
+     for(const b of Ly.blocks){ if(b[2]<0.2&&b[3]<0.2) continue; const h=b[2]>10?1.4:0.9; const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],h,b[3]),b[2]>10?dark:wall); m.position.set(b[0],h/2,b[1]); fb.add(m); }
+-    for(const it of Ly.items) if(it.kind==='stairs_up'||it.kind==='stairs_down'){ const cx=(it.x0+it.x1)/2, rope=new THREE.Mesh(new THREE.BoxGeometry(it.x1-it.x0,0.06,0.06),red); rope.position.set(cx,0.9,it.kind==='stairs_up'?it.z1+0.1:it.z1+0.3); fb.add(rope); }
++    for(const it of Ly.items) if((it.kind==='stairs_up'&&!Z3.ZONES.gym_arena)||(it.kind==='stairs_down'&&!Z3.ZONES.gym_b1)){ const cx=(it.x0+it.x1)/2, rope=new THREE.Mesh(new THREE.BoxGeometry(it.x1-it.x0,0.06,0.06),red); rope.position.set(cx,0.9,it.kind==='stairs_up'?it.z1+0.1:it.z1+0.3); fb.add(rope); }
+     for(const [cx,cz] of Ly.courts.badminton){ const net=new THREE.Mesh(new THREE.PlaneGeometry(6.2,0.76),new THREE.MeshStandardMaterial({color:0xffffff,transparent:true,opacity:0.35,side:THREE.DoubleSide})); net.position.set(cx,1.17,cz); fb.add(net); } }
+   /* 樓梯口 A 字架的告示（PLATE_FACE_gym_stairs_up／down）：沒有 UV 就照板面補一組，畫上字 */
+   function plateTex(lines){ const c=document.createElement('canvas'); c.width=512; c.height=384; const x=c.getContext('2d'); x.fillStyle='#f7f6f2'; x.fillRect(0,0,512,384); x.fillStyle='#9c2f2a'; x.fillRect(0,0,512,22);
+@@ -84,7 +86,8 @@ const GY3=(function(){
+     for(const st of Ly.seats){ const seat={x:st.x,z:st.z,yaw:st.yaw}; if(st.y!=null) seat.y=st.y; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:st.x,z:st.z,radius:0.8,lv:0,label:st.label||'坐下',seat}); }
+     if(Ly.b1&&typeof Z3!=='undefined'&&Z3.ZONES.gym_b1) IT.push({x:18.0,z:18.2,radius:0.8,lv:0,label:'下樓到 B1（健身中心・游泳池）',exit:{to:'gym_b1',spawn:Object.assign({},Ly.b1.spawn)}});   /* 第三階段（LAWWW2-B f3180c69）：原本「往 B1 的樓梯（今天不開放）」*/
+     const AT={closed_3f:{x:-16.0,z:17.4}};   /* 配置的 (−18,18.6) 在樓梯量體和前牆之間（站不住）：移到樓梯口朝大廳的那一側 */
+-    for(const q0 of Ly.interact){ const q=Object.assign({},q0,AT[q0.kind]||{}); if(LOOK[q.kind]) IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,look:LOOK[q.kind]}); else if(q.kind==='pe_class') IT.push({x:q.x,z:q.z,radius:1.4,lv:0,label:'體育課集合',mark:true,onInteract:()=>peClass(GAME)});
++    for(const q0 of Ly.interact){ if(q0.kind==='closed_3f'&&Ly.arena&&Z3.ZONES.gym_arena){ IT.push({x:ARENA_UP.x,z:ARENA_UP.z,radius:0.8,lv:0,label:'上樓到 3F 主球場',exit:{to:'gym_arena',spawn:Object.assign({},Ly.arena.spawn)}}); continue; }   /* ART-GYM2-INT：原本「往 3F 的樓梯（今天不開放）」*/
++      const q=Object.assign({},q0,AT[q0.kind]||{}); if(LOOK[q.kind]) IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,look:LOOK[q.kind]}); else if(q.kind==='pe_class') IT.push({x:q.x,z:q.z,radius:1.4,lv:0,label:'體育課集合',mark:true,onInteract:()=>peClass(GAME)});
+       else if(q.kind==='badminton'||q.kind==='vending'||q.kind==='fountain'){ const f={badminton,vending,fountain}[q.kind]; IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:q.label,gym:q.kind,onInteract:()=>scene(GAME,f)}); } }   /* AA_174 */
+     IT.push({x:Ly.exit.at.x,z:18.5,radius:0.8,lv:0,label:Ly.exit.label,exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 出生點 z 17.6：出口範圍 0.8 m，一進來不會先看到「離開」*/
+     // 正式模型（GLB）：第二會場平常藏起來；樓梯口的告示畫字
+@@ -92,7 +95,7 @@ const GY3=(function(){
+       Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_glows');
+       const sh=root.getObjectByName('SET_SECONDHALL'); if(sh) sh.visible=false;   /* 畢業典禮那天才打開（打開時導航加 sets.second_hall.blocks；下一階段）*/
+       const nets=root.getObjectByName('SET_NETS'); if(nets) nets.visible=!secondHallOn(typeof GAME!=='undefined'?GAME.G:null);   /* 羽球網（LAWWW2-B f1e732f8；BB_151 第 6 節）：第二會場打開的日子收起來 */
+-      root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='PLATE_FACE_gym_stairs_up') paintPlate(o,['3F 主球場','今日不開放']); else if(o.name==='PLATE_FACE_gym_stairs_down') paintPlate(o,['B1','游泳池・健身中心']);   /* B1 開了（9ee41835）：不再寫今日不開放 */
++      root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='PLATE_FACE_gym_stairs_up') paintPlate(o,Z3.ZONES.gym_arena?['3F','主球場']:['3F 主球場','今日不開放']); else if(o.name==='PLATE_FACE_gym_stairs_down') paintPlate(o,['B1','游泳池・健身中心']);   /* B1 開了（9ee41835）：不再寫今日不開放 */
+         if(o.material&&o.material.name==='gym_window_sky'&&!skyMats.includes(o.material)){ if(o.material.userData.gyBase==null) o.material.userData.gyBase=o.material.emissiveIntensity||1; skyMats.push(o.material); } });
+       const G=typeof GAME!=='undefined'?GAME.G:null; if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('體育館正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+@@ -143,6 +146,48 @@ const GY3=(function(){
+     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
+     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+     return z; } };
+-  return {gym,gym_b1,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
++  /* ---------- 3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb（LAWWW2-B 3effc0e0、f1e732f8、f1d23fd4））----------
++     從 1F 大廳西側的樓梯上來＝南看台中間的入口通道（vomitory）。場地整片能走；三面看台走中間的走道（樓梯）上去：導航是連續的斜面（碰撞、找路），
++     畫面一階一階（走道每排兩階，最前面多一階；和 gym_arena.py 的 stand() 同一組數字）。每條走道第 3、7 排旁邊的座位可以坐（面向場地）。
++     上層看台（4、5F）只有畫面；舞台、典禮、演講、演唱會的布置（SET_*）平常藏著，劇情要用時再打開。看台每一排當鏡頭碰撞（走在走道上，鏡頭不鑽進看台）。
++     「看主球場」「大螢幕」還沒有字（要 AA／BB），先不開。座標：x 往東、z 往南、y＝場地地板 0（配置的座標，不平移）。 */
++  function arenaGeo(A){ const SR=A.standRows, T=SR.tread, R=SR.rise, H0=SR.h0, N=SR.rows, DEPTH=N*T, TOP=H0+(N-1)*R;
++    const sides=A.stands.map(sd=>{ const ax=sd.axis==='x';   /* ax：看台的深度沿 x（東、西）；d＝離最前排前緣的距離（往看台裡面為正）；u＝沿著看台的座標 */
++      return {side:sd.side, ax, yaw:sd.yaw, along:sd.along, gap:sd.gap||null, aisles:A.aisles[sd.side],
++        d:(x,z)=>ax?(x-sd.front)*sd.dir:(z-sd.front)*sd.dir, u:(x,z)=>ax?z:x, at:(u,d)=>ax?[sd.front+sd.dir*d,u]:[u,sd.front+sd.dir*d]}; });
++    const cont=d=>Math.max(0,Math.min(1,(d+0.42)/(DEPTH+0.42)))*TOP;   /* 走道：碰撞、找路用的連續斜面（前緣外 0.42 m 的那一階起算，到最上一排）*/
++    const step=d=>{ if(d<-0.42) return 0; if(d<0) return H0/2; const r=Math.min(N-1,Math.floor(d/T)), y=H0+r*R; return (d-r*T)<T/2?(r?y-R/2:H0*0.75):y; };   /* 畫面上一階一階 */
++    return {T,R,H0,N,DEPTH,TOP,AW:A.aisles.w,sides,cont,step}; }
++  function arenaNav(A,G){ const nav=new E3.NavGrid(66.3,56.4,0.3,-33.15,-28.35); nav.fillBlocked();   /* 格子 0.3 m、中心在 0.3 的整數倍：走道中心（z 0、±9；x ±12）剛好在格子中心，三格寬 0.9 m（走道 1.2 m） */
++    const F=A.floor, V=A.vomitory; nav.freeRect(F.x0+0.3,F.z0+0.3,F.x1-0.3,F.z1-0.3); nav.freeRect(V.x0+0.35,F.z1-0.4,V.x1-0.35,V.z1-0.05);
++    for(const s of G.sides) for(const c of s.aisles){ const [ax0,az0]=s.at(c-0.45,-0.42), [ax1,az1]=s.at(c+0.45,G.DEPTH-0.15);
++      const r={x0:Math.min(ax0,ax1),x1:Math.max(ax0,ax1),z0:Math.min(az0,az1),z1:Math.max(az0,az1)}; nav.freeRect(r.x0,r.z0,r.x1,r.z1);
++      nav.addSurf(Object.assign(r,{fn:(x,z)=>G.cont(s.d(x,z)),vfn:(x,z)=>G.step(s.d(x,z))})); }
++    return nav; }
++  function arenaCamCols(G,g){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[];
++    const box=(s,u0,u1,d0,d1,y1)=>{ const [xa,za]=s.at(u0,d0), [xb,zb]=s.at(u1,d1); const x0=Math.min(xa,xb), x1=Math.max(xa,xb), z0=Math.min(za,zb), z1=Math.max(za,zb);
++      const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1,z1-z0),inv); m.position.set((x0+x1)/2,y1/2,(z0+z1)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
++    for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];
++      for(let r=0;r<G.N;r++) for(const [u0,u1] of segs) box(s,u0,u1,r*G.T,(r+1)*G.T,G.H0+r*G.R); }   /* 每一排：從地板到那一排的平台頂（走道前半階低 21 cm，鏡頭用不到這麼細）*/
++    return out; }
++  const gym_arena={ id:'gym_arena', name:'綜合體育館 3F 主球場', indoor:true, camDist:5.2, build(E){ const A=L().arena, G=arenaGeo(A);
++    const z=Z3.room(E,{w:66,d:56,h:A.h,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#c8a36a'),spawn:Object.assign({},A.spawn)}); const g0=z.group;
++    const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
++    z.nav=arenaNav(A,G); z.camCols=[arenaCamCols(G,g0)];
++    { const st=M('#5c6670',{roughness:0.7}); for(const s of G.sides){ const segs=s.gap?[[s.along[0],s.gap[0]],[s.gap[1],s.along[1]]]:[s.along];   /* 備用模型：每一排一條量體（正式模型載入前、失敗時）*/
++        for(let r=0;r<G.N;r+=2) for(const [u0,u1] of segs){ const [xa,za]=s.at(u0,r*G.T), [xb,zb]=s.at(u1,(r+2)*G.T), h=G.H0+(r+1)*G.R; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.abs(xb-xa),h,Math.abs(zb-za)),st); m.position.set((xa+xb)/2,h/2,(za+zb)/2); fb.add(m); } } }
++    /* 挑高 23 m、66×56 m：房間的頂燈不夠，場地上方六盞（白天弱、晚上亮）*/
++    const lamps=[]; for(const [x,zz] of [[-12,-12],[12,-12],[-12,2],[12,2],[-12,14],[12,14]]){ const l=new THREE.PointLight(0xfff6ea,4,34,2); l.position.set(x,17,zz); l.userData.on=12; l.userData.off=4; g0.add(l); lamps.push(l); }
++    const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++    // 座位：每條走道第 3、7 排，往 +u 那一邊的第一個位子（走道邊）；互動點在走道上同一排（走近點 ap）
++    const IT=E.interactables; z.seats=[];
++    for(const s of G.sides) for(const c of s.aisles) for(const r of [2,6]){ const d=r*G.T+0.5, [sx,sz]=s.at(c+G.AW/2+0.25,d), [ax,az]=s.at(c,r*G.T+0.62);
++      const seat={x:sx,z:sz,y:G.H0+r*G.R,yaw:s.yaw,ap:[ax,az],lv:0}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x:ax,z:az,radius:0.5,lv:0,label:'坐在看台',seat}); }
++    IT.push({x:A.exit.at.x,z:A.exit.at.z,radius:0.5,lv:0,label:A.exit.label,exit:{to:'gym',spawn:Object.assign({},ARENA_DOWN)}});
++    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_arena']){ ASSETS.loadOne('bldg.gym_arena').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
++      for(const n of ['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT']){ const o=root.getObjectByName(n); if(o) o.visible=false; }   /* 布置平常藏著（劇情要用時打開：導航加椅子區的阻擋，見 gym_layout.js arena.sets）*/
++      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_arena_glows'); const G0=typeof GAME!=='undefined'?GAME.G:null; if(G0) z.applyTime(G0.hour,G0.weather); }).catch(e=>console.warn('3F 主球場正式模型載入失敗，用程序化備用模型',e)); }
++    return z; } };
++  return {gym,gym_b1,gym_arena,arenaGeo,ARENA_UP,ARENA_DOWN,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
+ })();
+-Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1;
++Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;
+diff --git a/tests/gym_arena_unit.js b/tests/gym_arena_unit.js
+new file mode 100644
+index 00000000..38dd8b2e
+--- /dev/null
++++ b/tests/gym_arena_unit.js
+@@ -0,0 +1,41 @@
++// 新體育館 3F 主球場接成區域（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb）——不需要瀏覽器。
++// 檢查：1F 樓梯口的「上樓到 3F 主球場」走得到、按了到 gym_arena；3F 出生點站得住、「下樓回大廳」走得到且一落地不在範圍裡；回 1F 的落點站得住、不在「上樓」範圍裡；
++//       場地整片走得到（四個角、中圈）；八條看台走道都走得上去（模擬走路到最上面一排，高度 ≈ 5.2 m）；走道兩側的座位、看台前緣的玻璃欄杆走不進去；
++//       座位的走近點走得到、坐下的高度＝那一排的平台；畫面上的高度一階一階（走道中途和最上面）、碰撞用連續斜面；鏡頭碰撞（每一排）有建；正式模型有登記。
++// 用法：node tests/gym_arena_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js',
++  'src/data/linze_layout.js','src/data/classroom_layout.js','src/building3d.js','src/data/wancai_layout.js','src/wancai3d.js','src/data/library_layout.js','src/library3d.js','src/data/lawlib_layout.js','src/lawlib3d.js','src/data/socsci_layout.js','src/data/soclib_layout.js','src/soclib3d.js',
++  'src/data/wz_park_layout.js','src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/courses.js','src/classes3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|B3|WC3|LB3|LL3|SL3|LINZE_LAYOUT|CLASSROOM_LAYOUT|WANCAI_LAYOUT|LIBRARY_LAYOUT|LAWLIB_LAYOUT|SOCLIB_LAYOUT|SOCSCI_LAYOUT|WZ_PARK_LAYOUT|CALENDAR|PLACES|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|COURSES|CLS|PROPS|CHAR)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch'));
++for(const f of ['src/data/gym_layout.js','src/gym3d.js']) vm.runInThisContext(fs.readFileSync(path.join(ROOT,f),'utf8').replace(/^const (GYM_LAYOUT|GY3)\s*=/mg,'global.$1='),{filename:f});
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); E.zone=z; E.levels=z.levels||null; E.nav=z.nav; if(E.levels) for(const n of E.levels) n._cm=null; E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; if(E.fitSeatRadius) E.fitSeatRadius(); return z; }
++check('1. 有 gym_arena 區域；manifest 有 bldg.gym_arena、檔案在',!!Z3.ZONES.gym_arena&&!!ASSETS.manifest['bldg.gym_arena']&&fs.existsSync(path.join(ROOT,'assets/models/env/second_ai/gym_arena.glb')));
++const walk=(a,b,o)=>E.simWalk(a[0],a[1],b[0],b[1],Object.assign({lv0:0,lv1:0,dt:0.1,speed:4.1},o||{}));
++{ const z1=loadZone('gym'), sp=[z1.spawn.x,z1.spawn.z]; const up=E.interactables.find(i=>i.exit&&i.exit.to==='gym_arena'); const old=E.interactables.find(i=>/今天不開放/.test(i.label||''));
++  const r=up?walk(sp,[up.x,up.z]):null; check('2. 1F：「上樓到 3F 主球場」有、走得到、到 gym_arena；舊的「往 3F 的樓梯（今天不開放）」沒有了',!!up&&!!r&&r.ok&&!old,up?JSON.stringify([up.label,up.x,up.z,r&&(r.reason||'ok')]):'沒有');
++  const dn=GY3.ARENA_DOWN; check('3. 從 3F 下來的落點站得住、不在「上樓」的範圍裡（不一落地就出上樓）',E.canStand(dn.x,dn.z,0.32,0)&&!!up&&Math.hypot(dn.x-up.x,dn.z-up.z)>up.radius,JSON.stringify(dn)); }
++const z=loadZone('gym_arena'), A=GYM_LAYOUT.arena, G=GY3.arenaGeo(A), sp=[z.spawn.x,z.spawn.z];
++const ex=E.interactables.find(i=>i.exit&&i.exit.to==='gym');
++check('4. 3F 出生點站得住；「下樓回大廳」走得到；一進來不在出口的範圍裡',E.canStand(sp[0],sp[1],0.32,0)&&!!ex&&Math.hypot(ex.x-sp[0],ex.z-sp[1])>ex.radius&&walk(sp,[ex.x,ex.z]).ok,ex&&JSON.stringify([ex.x,ex.z,ex.radius]));
++{ const pts=[[0,-2],[-20.5,-20.5],[20.5,-20.5],[-20.5,15.5],[20.5,15.5]]; const bad=pts.filter(p=>!walk(sp,p).ok); check('5. 場地走得到：中圈、四個角',!bad.length,JSON.stringify(bad)); }
++/* 走道：從場地走到最上面一排（d＝DEPTH−0.7：最上面那一階後半貼著走道頂端關著的門，人的半徑 0.32 m 站不到；最上面一排的前半階），高度要接近 TOP（差不到一階）；中途第 5 排後半的畫面高度＝那一排的平台 */
++{ const res=[]; for(const s of G.sides) for(const c of s.aisles){ const top=s.at(c,G.DEPTH-0.7), r=walk(sp,top); res.push({side:s.side,c,ok:r.ok,y:r.y,reason:r.reason}); }
++  const bad=res.filter(q=>!q.ok||Math.abs(q.y-G.TOP)>G.R); check('6. 八條看台走道都走得上去、走到最上面一排的高度 ≈ '+G.TOP.toFixed(2)+' m',res.length===8&&!bad.length,JSON.stringify(bad.length?bad:res.map(q=>q.y)));
++  const s=G.sides[0], c=s.aisles[1], [mx,mz]=s.at(c,4*G.T+0.6), vh=E.nav.visualHeightAt(mx,mz), ch=E.nav.heightAt(mx,mz);
++  check('7. 畫面上的高度一階一階（第 5 排後半＝平台 '+(G.H0+4*G.R).toFixed(2)+' m）、碰撞用連續斜面（差不到半階）',Math.abs(vh-(G.H0+4*G.R))<1e-6&&Math.abs(vh-ch)<G.R,`畫面 ${vh.toFixed(3)}、碰撞 ${ch.toFixed(3)}`); }
++{ const s=G.sides[0], c=s.aisles[1]; const seatPt=s.at(c+G.AW/2+0.5,3*G.T+0.4), rail=s.at(c+3,-0.1), inStand=s.at(c+3,5);
++  check('8. 走道兩側的座位、看台前緣的玻璃欄杆、看台裡面走不進去',!E.canStand(seatPt[0],seatPt[1],0.1,0)&&!E.canStand(rail[0],rail[1],0.1,0)&&!E.canStand(inStand[0],inStand[1],0.1,0)); }
++{ const seats=E.interactables.filter(i=>i.seat); const bad=[]; for(const it of seats){ const r=walk(sp,[it.x,it.z]); if(!r.ok) bad.push([it.x,it.z,r.reason]); }
++  const yOk=seats.every(it=>{ const s=G.sides.find(q=>q.yaw===it.seat.yaw), d=s.d(it.seat.x,it.seat.z), row=Math.floor(d/G.T); return Math.abs(it.seat.y-(G.H0+row*G.R))<1e-6; });
++  check('9. 座位（每條走道 2 個，共 16）：走近點走得到、坐下的高度＝那一排的平台',seats.length===16&&!bad.length&&yOk,seats.length+' 個；'+JSON.stringify(bad)); }
++check('10. 鏡頭碰撞（zone.camCols）：每一排都有（東、西各 12、南 24）',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length===48,z.camCols&&z.camCols[0]?z.camCols[0].length:0);
++console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
+diff --git a/tests/gym_unit.js b/tests/gym_unit.js
+index 6e99a7ee..c694d97c 100644
+--- a/tests/gym_unit.js
++++ b/tests/gym_unit.js
+@@ -25,10 +25,10 @@ check('3. 大廳和球場之間：牆走不過（x −15、−5、5、15）；
+ check('4. 看台、服務台、往 3F／B1 的樓梯口擋住；羽球網柱擋住、網子本身不擋（上課時同學會穿過場地）',!E.canStand(0,-17.6,0.1,0)&&!E.canStand(11,15.6,0.1,0)&&!E.canStand(-18,15.3,0.1,0)&&!E.canStand(18,15.1,0.1,0)&&!E.canStand(-3.1,-11.2,0.02,0)&&E.canStand(0,-11.2,0.32,0));
+ const shows=i=>{ const R=i.radius-0.05; for(let dx=-R;dx<=R+1e-9;dx+=0.2) for(let dz=-R;dz<=R+1e-9;dz+=0.2){ if(dx*dx+dz*dz>R*R) continue; const x=i.x+dx, zz=i.z+dz; if(!E.canStand(x,zz,0.32,0)) continue;
+   let best=null, bd=1e9; for(const q of E.interactables){ const d=Math.hypot(q.x-x,q.z-zz); if(d<=q.radius&&d<bd){ bd=d; best=q; } } if(best===i&&walk(sp,[x,zz]).ok) return true; } return false; };
+-const want=['服務台','看開館時間','往 3F 的樓梯（今天不開放）','下樓到 B1（健身中心・游泳池）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
++const want=['服務台','看開館時間','上樓到 3F 主球場','下樓到 B1（健身中心・游泳池）','體育課集合','看公告欄','看樓層指引','打羽球','販賣機','直飲台'];
+ const its=want.map(l=>E.interactables.find(i=>i.label===l)); const bad=want.filter((l,k)=>!its[k]||!shows(its[k]));
+ check('5. 互動點都有、走得到、按鈕真的出現（不被別的蓋過）：'+want.join('、'),!bad.length,bad.join('、'));
+-check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）',its.filter(i=>i&&i.look).length===5&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
++check('5. 看的互動點都有說明字（設施的說明，不是劇情）；打羽球、販賣機、直飲台是 AA_174 的選單；往 B1 的樓梯可以下樓（第三階段）；往 3F 的樓梯可以上樓（ART-GYM2-INT，原本是「今天不開放」的說明）',its.filter(i=>i&&i.look).length===4&&!!(its[2]&&its[2].exit&&its[2].exit.to==='gym_arena')&&!!(its[3]&&its[3].exit&&its[3].exit.to==='gym_b1')&&['打羽球','販賣機','直飲台'].every(l=>E.interactables.some(i=>i.label===l&&i.gym&&i.onInteract)));
+ const seats=E.interactables.filter(i=>i.seat); const badS=seats.filter(i=>!shows(i)).map(i=>i.label+'('+i.x+','+i.z+')');
+ check('6. 座位 '+seats.length+' 個（大廳長椅、看台、場邊長椅）都走得到、按鈕出現；看台的位子坐在第一排木板上（z −16.37，從地面坐；QA-W1 座位檢查：原本在看台前面的空中、高 0.9 m）',seats.length===Ly.seats.length&&!badS.length&&seats.filter(i=>i.label==='坐在看台').every(i=>i.seat.y==null&&Math.abs(i.seat.z+16.37)<0.02),badS.join('、'));
+ { const zc=loadZone('campus'); check('7. 回校園的落點 (74,58.0) 站得住、走得到體育館門口',E.canStand(74,58.0,0.32,0)&&E.simWalk(74,58.0,74,59.0,{lv0:0,lv1:0,dt:0.1,speed:4.1}).ok); }

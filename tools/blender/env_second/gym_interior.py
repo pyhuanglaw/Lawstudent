@@ -248,10 +248,7 @@ for it in LAY['items']:
                 L_ = math.hypot(b[0] - a[0], b[1] - a[1]); m = max(1, int(L_ / 0.9))
                 for j in range(m + 1): t = j / m; acc('steel').cyl((a[0] + (b[0] - a[0]) * t, 0.0, a[1] + (b[1] - a[1]) * t), (a[0] + (b[0] - a[0]) * t, 1.0, a[1] + (b[1] - a[1]) * t), 0.015, seg=5)
             sx0, sz = x0 - 0.2, z1 - 0.3
-        for j in range(2):                                                                             # 紅龍（不鏽鋼柱＋紅繩）
-            px = (x0 + 0.2) if j == 0 else (x1 - 0.2); pz_ = sz if k == 'stairs_up' else z1 + 0.25
-            X0_.lathe(acc('steel'), [(0.0, 0.0), (0.16, 0.0), (0.16, 0.03), (0.03, 0.05), (0.03, 0.92), (0.05, 0.95), (0.0, 0.97)], px, 0.0, pz_, seg=12)
-        acc('red').cyl(((x0 + 0.2), 0.85, sz if k == 'stairs_up' else z1 + 0.25), ((x1 - 0.2), 0.8, sz if k == 'stairs_up' else z1 + 0.25), 0.02, seg=6)
+        # 紅龍（不鏽鋼柱＋紅繩）拿掉了：3F 主球場（ART-GYM2-INT，LAWWW2 2026-10-21）、B1（f3180c69）都開了，樓梯口留 A 字架的樓層告示
         sxm = (x0 + x1) / 2; szm = (sz if k == 'stairs_up' else z1 + 0.25)                              # 告示牌（A 字架）
         Xf(sxm, szm + 0.35).rbox(acc('white'), -0.3, 0.3, 0.55, 1.2, -0.02, 0.02, r=0.01, seg=1)
         PLATE.append((f'PLATE_FACE_gym_{k}', [(sxm - 0.27, 0.6, szm + 0.375), (sxm + 0.27, 0.6, szm + 0.375), (sxm + 0.27, 1.15, szm + 0.375), (sxm - 0.27, 1.15, szm + 0.375)],
