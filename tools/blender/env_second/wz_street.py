@@ -589,9 +589,16 @@ def apartment(spec):
             rl = acc(M['grille']); xx = bx0 + 0.06
             while xx < bx1 - 0.05: xf.box(rl, xx - 0.01, xx + 0.01, y0 + 0.4, y0 + 0.92, bd - 0.07, bd - 0.05); xx += 0.13
             xf.box(rl, bx0, bx1, y0 + 0.9, y0 + 0.94, bd - 0.09, bd - 0.03)
+            # 盆栽放在鐵花架上（ART-BALCONY-POTS，2026-10-21）：原本放在陽台地上，56 cm 的女兒牆＋欄杆擋住，從街上幾乎看不到；
+            # 花架高 36 cm、貼著欄杆（離欄杆 0.12 m），葉子露出欄杆上緣——台北老公寓陽台常見的擺法
+            sy0, sy1, sz0, sz1 = y0 - 0.16, y0 + 0.2, bd - 0.5, bd - 0.2
+            xf.box(rl, bx0 + 0.25, bx1 - 0.25, sy1 - 0.025, sy1, sz0, sz1)                                  # 架面
+            for lx in (bx0 + 0.28, (bx0 + bx1) / 2, bx1 - 0.28):
+                for lz in (sz0 + 0.02, sz1 - 0.02): xf.box(rl, lx - 0.012, lx + 0.012, sy0, sy1 - 0.025, lz - 0.012, lz + 0.012)   # 腳
+            xf.box(rl, bx0 + 0.28, bx1 - 0.28, sy0 + 0.1, sy0 + 0.12, sz0 + 0.01, sz0 + 0.03)              # 下面的橫撐
             for k in range(3):
-                q = xf.p(bx0 + 0.5 + k * (bx1 - bx0 - 1.0) / 2, 0, bd - 0.45)
-                B.instance(POT_BROAD, f'bpot_{spec["id"]}_{len(_inst)}', q[0], y0 - 0.16, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
+                q = xf.p(bx0 + 0.55 + k * (bx1 - bx0 - 1.1) / 2, 0, (sz0 + sz1) / 2)
+                B.instance(POT_BROAD, f'bpot_{spec["id"]}_{len(_inst)}', q[0], sy1, q[2], root, ry=rng.uniform(0, 2 * math.pi)); _inst.append(1)
         elif w['hood']:
             inst(HOOD, f'hood_{spec["id"]}', xf, cx, y1 + 0.18, 0.0)
         if w['ac'] and w['kind'] != 'balcony':
