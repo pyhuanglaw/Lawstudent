@@ -27445,7 +27445,7 @@
    "title": "兩張已通過的 CG 沒進遊戲：cg_sf_bridge_fog_heroine05（BCG-48；r2y4a_events.js:219 用 hasCG 包著＝一定跳過；圖在企劃線 cg_approved/）、cg_reunion_window_table（尾聲「不選」的共通圖，cg_approved/cg_reunion_window_table_base.webp）",
    "area": "BG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -27459,9 +27459,9 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
-   "next": "從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
-   "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）19:48 UTC】4df34170：兩張都登記、圖從 cg_approved/ 拿、LICENSES；BB 驗：美國篇學姊交往中 SF2 出 BCG-48、尾聲不選出共通圖 ｜ 從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
+   "recheckOn": "2026-10-22",
+   "sha": "4df34170"
   },
   {
    "id": "PERF-CROWD-LOD-1021",
