@@ -5,7 +5,8 @@
   S（H4、M7）：讀 qa_play 存的經濟系狀態（6/7）→ 快轉 → 7/10 晚上選「妳選一家。」→ 7/14 訊息「巷子那家我問過了。」→ 7/15～7/23 的日期卡在高雄（客運南下、巷子）
      → 7/24 可昕的訊息選「好。我搭早上的客運。」→ 7/25 凌晨兩點半夜班客運 → 7/26 凌晨回到家
 [前置] 狀態檔是 qa_play.py 在真的玩法裡存的（G 整份）；之後全部照玩家：家裡的選單、手機介面、出發。Playwright 手機橫向模擬、?turbo，不是 iPhone。
-用法：LW_TESTS=<開發分支>/tests python3 aa368_probe.py '<URL>/index.html?turbo' <輸出資料夾> <11-30 狀態.json> <6-07 狀態.json>（ONLY=W 或 S）"""
+  N（L9b、M6、H1）：新遊戲快轉到 10/25；W 加 M3 資料頁 2/14 以前；S 加 M3 2/14 以後、M8 8/30（S 延到 8/30）。AA_371 改字照新的比。
+用法：LW_TESTS=<開發分支>/tests python3 aa368_probe.py '<URL>/index.html?turbo' <輸出資料夾> <11-30 狀態.json> <6-07 狀態.json>（ONLY=N、W 或 S）"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -80,6 +81,14 @@ async def send_kexin(pg, cdp, topic, sub=None):
     await close_phone(pg, cdp); return sent, n0
 
 
+async def kexin_tag(pg, cdp):
+    """M3：手機「朋友」分頁裡可昕那一列的字（資料頁的「科系・年級」）"""
+    if not await open_phone(pg, cdp): return None
+    await tap_js(pg, cdp, "document.querySelector('#phoneTabs button[data-ptab=\"friends\"]')")
+    txt = await pg.evaluate("(()=>{ const rows=[...document.querySelectorAll('#phoneBody .item')]; const r=rows.find(e=>/可昕/.test(e.innerText||'')); return r?r.innerText.replace(/\\n/g,'｜'):''; })()")
+    await close_phone(pg, cdp); return txt
+
+
 def pick_opt(cs, mode, force):
     for w in force:
         x = next((c for c in cs if c.startswith(w)), None)
@@ -137,13 +146,13 @@ async def load_snap(pg, path):
     say('   讀檔：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False))
 
 
-WINTER_OK = ['在宿舍。品妤回家了，整間都是我的。', '在總圖。放假了還是很多人。……我不是在讀書，我只是不想待在宿舍。', '剛起床。……現在下午一點。不要講。', '公館那家麵店放假也開。阿姨認得我了。', '晚安。明天不用早起。……好爽。']
+WINTER_OK = ['在宿舍。品妤回家了，整間都是我的。', '在總圖。放假了還是很多人。……我不是在讀書，我只是不想待在宿舍。', '剛起床。……不要問我現在幾點。', '公館那家麵店放假也開。阿姨認得我了。', '晚安。明天不用早起。……好爽。']   # 「剛起床」那句照 AA_371 第 3 題改字
 WINTER_BAD = ['剛下課', '明天八點的課', '期末考']
 
 
 async def run_w(pg, cdp, run):
     await load_snap(pg, SNAP_W); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_W))
-    plan = {'2024-12-22': ('chat', None), '2024-12-27': ('share', 'food'), '2025-01-02': ('chat', None)}; sent = []
+    plan = {'2024-12-22': ('chat', None), '2024-12-27': ('share', 'food'), '2025-01-02': ('chat', None)}; sent = []; tagw = []
     async def on_day(sn):
         p = plan.get(sn['key'])
         if p and not any(x['day'] == sn['key'] for x in sent):
@@ -153,6 +162,7 @@ async def run_w(pg, cdp, run):
                 await step(pg, cdp, 'day', [], []); await pg.wait_for_timeout(500)
             t, n0 = await send_kexin(pg, cdp, *p); sent.append({'day': sn['key'], 'topic': p, 'sent': t, 'n0': n0})
             await run.shot(pg, 'w_send_%s' % sn['key'])
+            if sn['key'] == '2024-12-22': tagw.append(await kexin_tag(pg, cdp)); say('   可昕資料頁（2/14 以前）：%s' % tagw[-1])
     await drive(pg, cdp, '2025-01-09 09.00', lambda k: 'ff' if k < '2024-12-12' else 'day', ['出發：'], [], on_day=on_day, max_s=4800)
     msgs = await pg.evaluate(MSGS); lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
     json.dump({'msgs': msgs, 'lines': lines, 'sent': sent}, open(os.path.join(OUT, 'w.json'), 'w'), ensure_ascii=False, indent=1)
@@ -171,12 +181,15 @@ async def run_w(pg, cdp, run):
     ok_new = any('葉老師那封信，我又看了一次。' in l for l in jan8) and any('期末考考完快三個禮拜了' in l for l in jan8)
     old = [l for l in jan8 if '國文那份報告，我記錯時間了。' in l or '期末考考完兩個禮拜了' in l]
     say('   1/8 台詞（前 12）：%s' % json.dumps(jan8[:12], ensure_ascii=False))
+    tw = (tagw or [''])[0] or ''
+    verdict('M3 可昕資料頁 2/14 以前', '經濟系・一年級' in tw and '休學' not in tw, '12/22 手機「朋友」可昕那一列：%s' % tw)
     verdict('M4 1/8 公館吃麵', ok_new and not old, '新句 %s；舊句 %s；1/8 台詞 %d 句' % (ok_new, old[:2], len(jan8)))
 
 
 async def run_s(pg, cdp, run):
     await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
-    await drive(pg, cdp, '2025-07-26 03.00', lambda k: 'ff' if k < '2025-07-24' else 'day', ['「妳選一家。」', '好。我搭早上的客運。', '出發：'], ['好。我搭早上的客運。'], max_s=4800)
+    tag0 = await kexin_tag(pg, cdp); say('   可昕資料頁（2/14 以後）：%s' % tag0); await run.shot(pg, 's_kexin_tag')
+    await drive(pg, cdp, '2025-08-30 23.50', lambda k: 'day' if '2025-07-24' <= k <= '2025-07-26' else 'ff', ['「妳選一家。」', '好。我搭', '出發：'], ['好。我搭'], max_s=7200)   # AA_371 第 4 題：選項改「好。我搭半夜的客運下去。」
     await run.shot(pg, 's_end')
     msgs = await pg.evaluate(MSGS); lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
     F = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {E35_PLAN:F.E35_PLAN, KH_GO:F.KH_GO}; })()")
@@ -189,6 +202,10 @@ async def run_s(pg, cdp, run):
     kh = any('巷子' in l and '客運南下' in l for l in cards); gg = any('公館巷子' in l for l in lines)
     verdict('H4 7/10「妳選一家」→ 高雄', F.get('E35_PLAN') == 'shop' and e35 and '巷子那家我問過了。' in m714 and kh and not gg,
             'E35_PLAN=%s；她說「我家巷子裡那家」=%s；7/14「巷子那家我問過了。」=%s；日期卡客運南下＋巷子=%s；還有「公館巷子」=%s' % (F.get('E35_PLAN'), e35, '巷子那家我問過了。' in m714, kh, gg))
+    verdict('M3 可昕資料頁 2/14 以後', '休學中' in (tag0 or ''), '6/7 手機「朋友」可昕那一列：%s' % tag0)
+    m8 = [l for l in lines if l.startswith('2025-08-30') and '你把車開回家，再搭捷運回宿舍。' in l]; e37 = [l for l in lines if l.startswith('2025-08-30')]
+    say('   8/30 台詞（最後 6）：%s' % json.dumps(e37[-6:], ensure_ascii=False))
+    verdict('M8 8/30 住宿舍的人：開車回家再搭捷運回宿舍', bool(m8), '8/30 台詞 %d 句；那一句 %s' % (len(e37), '有' if m8 else '沒有'))
     bus = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]
     say('   夜班客運那句：%s' % bus[:2])
     home = [l for l in lines if l.startswith('2025-07-26')][:6]; say('   7/26 的台詞：%s' % json.dumps(home, ensure_ascii=False))
@@ -197,18 +214,38 @@ async def run_s(pg, cdp, run):
     verdict('M7 7/25 夜班客運', F.get('KH_GO') == 'bus' and ok_dep, 'KH_GO=%s；夜班客運那句在 %s；結束在 %s %.2f %s' % (F.get('KH_GO'), bus[0][:16] if bus else '（沒有）', sn['key'], sn['h'], sn['zone']))
 
 
+async def run_n(pg, cdp, run):
+    """N：新遊戲「從經濟系前傳開始」一路快轉到 10/25——L9b 品妤（大一上第 4 週）、M6 阿勳（10/23 起）、H1 9/24 的日期卡（開發分支最新）"""
+    await L.tap(pg, cdp, '#btnNew'); run.setup('N：標題「從經濟系前傳開始」（新遊戲，不改狀態）')
+    for k in range(60):
+        if await pg.evaluate("!!(GAME.G&&GAME.running)"): break
+        await pg.wait_for_timeout(1000)
+    await pg.evaluate(HOOK); await pg.evaluate('window.__LOG=[]')
+    await drive(pg, cdp, '2024-10-25 23.00', lambda k: 'ff', [], [], max_s=3000)
+    msgs = await pg.evaluate(MSGS); lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
+    json.dump({'msgs': msgs, 'lines': lines}, open(os.path.join(OUT, 'n.json'), 'w'), ensure_ascii=False, indent=1)
+    rain = [m for m in msgs if '社科院門口等公車' in m['text']]; old = [m for m in msgs if '雨可以退貨' in m['text'] or '今天下大雨' in m['text']]
+    verdict('L9b 品妤（大一上第 4 週）', bool(rain) and not old, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:20]) for m in rain], [(m['d'], m['text'][:20]) for m in old]))
+    seat = [m for m in msgs if '星期三的微積分' in m['text']]; oldseat = [m for m in msgs if m['text'].startswith('微積分老師今天看了一眼')]
+    verdict('M6 阿勳「星期三的微積分」10/23 起', bool(seat) and all(m['d'] >= '2024-10-23' for m in seat) and not oldseat, '新句 %s；舊句 %s' % ([(m['d'], m['text'][:16]) for m in seat], [(m['d'], m['text'][:16]) for m in oldseat]))
+    cards = [l for l in lines if 'CARD:' in l]
+    typh = [l for l in cards if '颱風假' in l]; early = [l for l in typh if l[:10] < '2024-10-01']
+    say('   日期卡：%s' % json.dumps(cards, ensure_ascii=False)[:1200])
+    verdict('H1 颱風假那句 10/1 以後才出', bool(typh) and not early, '颱風那張 %s；10/1 以前 %d 張' % ([l[:16] for l in typh], len(early)))
+
+
 async def main():
     run = L.Run('aa368', OUT); allerrs = []
     async with async_playwright() as p:
-        for name, fn in (('W', run_w), ('S', run_s)):
+        for name, fn in (('N', run_n), ('W', run_w), ('S', run_s)):
             if ONLY and name not in ONLY: continue
             say('== %s' % name); t0 = time.time()
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             try:
                 await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
-                await asyncio.wait_for(fn(pg, cdp, run), 5400)
+                await asyncio.wait_for(fn(pg, cdp, run), 7800)
             except asyncio.TimeoutError:
-                verdict(name, False, '超過 90 分鐘沒做完'); await run.shot(pg, 'timeout_' + name)
+                verdict(name, False, "超過 130 分鐘沒做完"); await run.shot(pg, 'timeout_' + name)
             except Exception as e:
                 verdict(name, False, '例外 %r' % e)
             allerrs += errs; say('   （%.0f 秒）' % (time.time() - t0))
