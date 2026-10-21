@@ -7641,8 +7641,8 @@
    "title": "約會地點 D28 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋底圖 d28a／d28b 沒登錄進 OUT.BG",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:2x】DATE-OVERNIGHT-1021 合併（c6348e60）：兩天一夜開放，這個地點約得到；BB 照 AA_359 第 4 節測 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋底圖 d28a／d28b 沒登錄進 OUT.BG",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7664,8 +7664,8 @@
      "note": "D28 底圖有了，只差 AA 審過的台詞"
     }
    ],
-   "pausedReason": "兩天一夜的約會這一版不開放（date3d.js S.STAY 沒有 overnight；第一版的設計）",
-   "resumeWhen": "做兩天一夜的約會時（要 AA 的住宿規格、使用者同意）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "LAWWW-C（技術：S.STAY 第一版就不含 overnight）",
    "nextCheck": "2026-10-28"
   },
@@ -7674,8 +7674,8 @@
    "title": "約會地點 D29 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:2x】DATE-OVERNIGHT-1021 合併（c6348e60）：兩天一夜開放，這個地點約得到；BB 照 AA_359 第 4 節測 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7697,8 +7697,8 @@
      "note": "D29 底圖有了，只差 AA 審過的台詞"
     }
    ],
-   "pausedReason": "兩天一夜的約會這一版不開放（date3d.js S.STAY 沒有 overnight；第一版的設計）",
-   "resumeWhen": "做兩天一夜的約會時（要 AA 的住宿規格、使用者同意）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "LAWWW-C（技術：S.STAY 第一版就不含 overnight）",
    "nextCheck": "2026-10-28"
   },
@@ -7707,8 +7707,8 @@
    "title": "約會地點 D30 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:2x】DATE-OVERNIGHT-1021 合併（c6348e60）：兩天一夜開放，這個地點約得到；BB 照 AA_359 第 4 節測 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7730,8 +7730,8 @@
      "note": "D30 底圖有了，只差 AA 審過的台詞"
     }
    ],
-   "pausedReason": "兩天一夜的約會這一版不開放（date3d.js S.STAY 沒有 overnight；第一版的設計）",
-   "resumeWhen": "做兩天一夜的約會時（要 AA 的住宿規格、使用者同意）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "LAWWW-C（技術：S.STAY 第一版就不含 overnight）",
    "nextCheck": "2026-10-28"
   },
@@ -7740,8 +7740,8 @@
    "title": "約會地點 D31 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:2x】DATE-OVERNIGHT-1021 合併（c6348e60）：兩天一夜開放，這個地點約得到；BB 照 AA_359 第 4 節測 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7763,8 +7763,8 @@
      "note": "D31 底圖有了，只差 AA 審過的台詞"
     }
    ],
-   "pausedReason": "兩天一夜的約會這一版不開放（date3d.js S.STAY 沒有 overnight；第一版的設計）",
-   "resumeWhen": "做兩天一夜的約會時（要 AA 的住宿規格、使用者同意）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "LAWWW-C（技術：S.STAY 第一版就不含 overnight）",
    "nextCheck": "2026-10-28"
   },
@@ -7773,8 +7773,8 @@
    "title": "約會地點 D32 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋沒有底圖",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）22:2x】DATE-OVERNIGHT-1021 合併（c6348e60）：兩天一夜開放，這個地點約得到；BB 照 AA_359 第 4 節測 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋沒有底圖",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7796,8 +7796,8 @@
      "note": "D32（開車地點）底圖在企劃線、還沒進開發分支；台詞等 AA 口語審"
     }
    ],
-   "pausedReason": "兩天一夜的約會這一版不開放（date3d.js S.STAY 沒有 overnight；第一版的設計）",
-   "resumeWhen": "做兩天一夜的約會時（要 AA 的住宿規格、使用者同意）",
+   "pausedReason": null,
+   "resumeWhen": null,
    "pausedBy": "LAWWW-C（技術：S.STAY 第一版就不含 overnight）",
    "nextCheck": "2026-10-28"
   },
@@ -26332,7 +26332,7 @@
    "id": "DATE-OVERNIGHT-1021",
    "title": "兩天一夜的約會（D26～D32）照 AA_359：住宿 +2,500、第 6 階或交往中、沒交往兩間房一句旁白；第一天到達＋最多 2 點＋晚上旁白、第二天早上旁白＋她一句＋最多 2 點；D31＋D32 同一趟；D28 d28a／d28b 兩天各一張；DATE_OVERNIGHT 只記；解除 DATE-L28～L32 的暫停",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "企劃線 AA_359（c7dd0000）；AA-C 10-21 13:35 訊息",
    "first": {
@@ -26345,7 +26345,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）21:2x】子代理開工（分支 aadate，從開發分支 80af0168；照 AA_359 c7dd0000 第 1～4 節）｜ 【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
+   "next": "【LAWWW（帳號 A）22:2x】子代理 669b4fa3 合併進開發分支 c6348e60：AA_359 第 1～4 節 FIXED；date_overnight 72 項（修改前 56 FAIL）；13 題轉 AA；BB 照 AA_359 第 4 節七位各跑一次 ｜ 【LAWWW（帳號 A）21:2x】子代理開工（分支 aadate，從開發分支 80af0168；照 AA_359 c7dd0000 第 1～4 節）｜ 【LAWWW-C 2026-10-21 13:4x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight",
+   "sha": "c6348e60"
   },
   {
    "id": "BG-MISSING-1021",
@@ -26985,7 +26986,7 @@
    "title": "AA_366（第二版）可昕「我們的日子」畢業以後：隔週（P1～P4）、實習後每月第一個週日（P5），每格指定一句；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -26999,7 +27000,8 @@
    },
    "source": "企劃線 AA_366（1b4bbdac；outbox 8c2625da；AA 16:24 send_message）",
    "authorized": "D100／D109（AA 定稿）",
-   "next": "【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 【LAWWW（帳號 A）17:0x】AA_366 第二版（a7bd9741）：畢業後改隔週（P1～P4）、實習後每月第一個週日（P5）；每格指定一句、不再隨機抽；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00——以第二版為準 ｜ 和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排"
+   "next": "【LAWWW（帳號 A）22:2x】畢業後子代理 53f252fa 合併進開發分支 9e4e6387：25 格、開頭訊息、長跳停在格子上、分手停、舊存檔不補；aa366 34 項（修改前 31 FAIL）；12 題轉 AA；AA_351 的加減分已記 KX_CRACK（AA_351 本身還沒做） ｜ 【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 【LAWWW（帳號 A）17:0x】AA_366 第二版（a7bd9741）：畢業後改隔週（P1～P4）、實習後每月第一個週日（P5）；每格指定一句、不再隨機抽；開頭訊息 6/10、8/5、10/22、12/16、1/20 21:00——以第二版為準 ｜ 和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排",
+   "sha": "9e4e6387"
   },
   {
    "id": "UX-PHONE-AUTO-WALK-1021",
@@ -27119,7 +27121,7 @@
    "title": "AA_367 畢業後篇交往中的六位（以安、芷若、語彤、子晴、學姊、沛珊）每月第一個週六一格停點（撞到別的停點往後一週；那個月已有一對一接觸就不排，群組不算）：地點字幕＋她一句、不加選項，旗標 PG_DATE_<id>；2029-06～2030-12 共 102 句逐月指定",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y4S2",
@@ -27133,7 +27135,8 @@
    },
    "source": "企劃線 AA_367（a7bd9741；第 0 節共通規格、第 8 節月份表；AA 17:05 send_message）",
    "authorized": "D100／D109（AA 定稿）",
-   "next": "【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 和 AA366-KX-POSTGRAD-1021、AA354-KX-OURDAYS-1021 同一套固定格機制一起做；做成 PG 停點（S.SOFT／stops），不靠長跳的整點規則；不在三個優先項目裡，照佇列排"
+   "next": "【LAWWW（帳號 A）22:2x】畢業後子代理合併進開發分支 9e4e6387：102 句逐月照稿、撞到往後挪、PG_DATE_<id>；aa367 32 項（修改前 29 FAIL）；沛珊去台南的時間與字幕是子代理定的（轉 AA） ｜ 【LAWWW（帳號 A）21:1x】畢業後子代理開工（分支 aapg，從開發分支 2eba2fab；AA_366 第二版＋AA_367 照 a7bd9741，做成 PG 停點的固定格；AA354 在學期間那一段之後另外做）｜ 和 AA366-KX-POSTGRAD-1021、AA354-KX-OURDAYS-1021 同一套固定格機制一起做；做成 PG 停點（S.SOFT／stops），不靠長跳的整點規則；不在三個優先項目裡，照佇列排",
+   "sha": "9e4e6387"
   },
   {
    "id": "ART-Y1-BOX-MIRROR-1021",
@@ -27956,6 +27959,111 @@
    "source": "AA（帳號 A）2026-10-21 22:13 交（企劃線 b7c437a1；子代理盤點 2469df7f）",
    "authorized": "D109、D110",
    "next": "和 AA376-Y3S1-FIX-1021 一起給下一個空出來的子代理（大三）"
+  },
+  {
+   "id": "BUG-DATE-FARE-DOUBLE-1021",
+   "title": "校外約會車資扣兩倍：地點資料的 fare 已經是來回，S.plan 又乘 2（臺南高鐵 5,600＋住宿 2,500＝8,100）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "area": "DATE",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次約校外約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "DATE-OVERNIGHT 子代理 2026-10-21 22:2x 順手發現",
+   "authorized": "bug 修正（D87）",
+   "next": "派給做約會的子代理（DATE 那幾項一起）"
+  },
+  {
+   "id": "BUG-DATE-EXAMWEEK-DAY-1021",
+   "title": "AA_126 1-1：一日遊也不能排在考試週，現在 D24～D27 一日遊照樣約得到（只擋考試那個時段）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "DATE",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次約校外約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "DATE-OVERNIGHT 子代理 2026-10-21 22:2x 順手發現",
+   "authorized": "bug 修正（D87）",
+   "next": "派給做約會的子代理（DATE 那幾項一起）"
+  },
+  {
+   "id": "BUG-DATE-OVERLAP-1021",
+   "title": "校園邀約、NPC 主動約、其他出遊排程不看已經約好的校外約會，同一天還能被排進別的約",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "DATE",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次約校外約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "DATE-OVERNIGHT 子代理 2026-10-21 22:2x 順手發現",
+   "authorized": "bug 修正（D87）",
+   "next": "派給做約會的子代理（DATE 那幾項一起）"
+  },
+  {
+   "id": "DATE-T7A-HOMETOWN-1021",
+   "title": "AA_350 T7a：她人在台中時手機的「約」只列 D26（現在她回台中那幾天手機的約整個關著）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "DATE",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "第一次約校外約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "DATE-OVERNIGHT 子代理 2026-10-21 22:2x 順手發現",
+   "authorized": "bug 修正（D87）",
+   "next": "派給做約會的子代理（DATE 那幾項一起）"
+  },
+  {
+   "id": "BUG-PG-RETURN-TEXT-1021",
+   "title": "畢業以後的出遊演完都出 OUT 預設的「回到台大。」（6/9 典禮、K26、麵店、PG 的見面格）：退宿住家裡的玩家不是回台大",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v5",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "畢業以後（2029-06 起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "畢業後子代理 2026-10-21 22:2x 順手發現",
+   "authorized": "bug 修正（D87）",
+   "next": "照 PG 的回程，住家裡的寫回家"
   }
  ]
 }
