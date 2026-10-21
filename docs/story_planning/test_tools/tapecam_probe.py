@@ -147,6 +147,13 @@ async def one(p, base, sid, run):
         # 演完
         await settle(pg, cdp, "!(typeof EVENTS!=='undefined'&&EVENTS.running)&&!document.getElementById('dlg').offsetParent", secs=60, keep_tape=False)
         await pg.wait_for_timeout(2500); m3 = await pg.evaluate(MEAS); await run.shot(pg, '%s_after' % sid); res['after'] = m3
+        aw = float(os.environ.get('AFTER_WAIT', '0') or 0)   # 演完以後多等幾秒再看一次地上的字（劇情的 tick 每 0.5 秒遊戲時間才跑；低幀率下 2.5 秒可能一次都還沒跑）
+        if aw:
+            await pg.wait_for_timeout(int(aw * 1000)); m4 = await pg.evaluate(MEAS); res['after2'] = m4
+            say('   演完 +%.0f 秒：%s' % (aw + 2.5, json.dumps({k: m4[k] for k in ('ev', 'done', 'txtVis', 'midVis', 'h')}, ensure_ascii=False)))
+            await pg.evaluate("(()=>{ const t=GAME.E.scene.getObjectByName('Y1_KAI_TAPE_TEXT')||GAME.E.scene.getObjectByName('Y1_KAI_TAPE_MID'); if(!t) return; const c=new THREE.Box3().setFromObject(t).getCenter(new THREE.Vector3()); GAME.E.cinematic(new THREE.Vector3(c.x-0.6,0.9,c.z), c); GAME.E.snapCinematic(); })()")
+            await pg.wait_for_timeout(2000); await run.shot(pg, '%s_after_floor' % sid); await pg.evaluate("(()=>{ try{ GAME.E.endCinematic(); }catch(e){} })()")
+            m3 = m4
         say('   演完：%s' % json.dumps({k: m3[k] for k in ('ev', 'done', 'txtVis', 'midVis', 'cam', 'cine', 'zone')}, ensure_ascii=False))
         if not m3['done']: bad.append('演完沒有記 ev_kai_tape2 done')
         if not m3['txtVis'] or m3['midVis']: bad.append('演完以後地上不是寫字的那段（TEXT %s、MID %s）' % (m3['txtVis'], m3['midVis']))
