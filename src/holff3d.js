@@ -82,20 +82,20 @@ const HOLFF=(function(){
     {tag:'hol_y2s_an_back',day:'2027-08-08',h:21,anS:[['heroine_01','回臺北了。台中好熱。']]},
     {tag:'hol_y2s_zhe_back',day:'2027-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','誰要吃麵']]},
     {tag:'hol_y3w_zhe_home',c01:'Y3',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
-    {tag:'hol_y3w_bh_home',day:'2028-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。']]},
-    {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','📷（車窗外的田）']},
-    {tag:'hol_y3w_an_back',day:'2028-01-29',h:18,an:['回臺北了。']},
-    {tag:'hol_y3w_bh_back',day:'2028-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。']]},
+    {tag:'hol_y3w_bh_home',day:'2028-01-09',h:17,th:NT,ms:[['classmate_bohan','我今天回新竹。2/19 回來。寒假要把民訴讀完。']]},
+    {tag:'hol_y3w_an_home',day:'2028-01-24',h:15,an:['回台中了。','這次只住五天。']},
+    {tag:'hol_y3w_an_back',day:'2028-01-29',h:18,an:['回臺北了。','行李箱我先拿出來了。']},
+    {tag:'hol_y3w_bh_back',day:'2028-02-19',h:20,th:NT,ms:[['classmate_bohan','回來了。民訴沒讀完。']]},
     {tag:'hol_y3w_zhe_back',day:'2028-02-20',h:17.5,th:NT,ms:[['zhe','我回來了 高雄帶了吃的 等一下拿去麵店']]},   /* AA_345 H1：取代大一那句「開學那天拿去給你們」；2/18 21:00 他揪的那一頓在 S.MSGS */
     {tag:'hol_y3s_bh_home',day:'2028-06-27',h:20,th:NT,ms:[['classmate_bohan','我回新竹了。']]},
-    {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','麵店團不能斷喔']]},
-    {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','誰要吃麵']]},
+    {tag:'hol_y3s_zhe_home',day:'2028-06-30',h:22,th:NT,ms:[['zhe','明天回高雄'],['zhe','最後一個暑假了 麵店團交給你們']]},
+    {tag:'hol_y3s_zhe_back',day:'2028-08-21',h:19,th:NT,ms:[['zhe','我回來了'],['zhe','大四了欸'],['zhe','誰要吃麵']]},
     {tag:'hol_y4w_zhe_home',c01:'Y4',h:21,th:NT,ms:[['zhe','我明天回高雄']]},
-    {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','📷（車窗外的田）']},
+    {tag:'hol_y4w_an_home',day:'2029-02-09',h:15,an:['回台中了。','考完了。這次在家什麼都不讀。']},
     {tag:'hol_y4w_bh_home',day:'2029-02-11',h:17,th:NT,ms:[['classmate_bohan','我明天回新竹。初三回來。']]},   /* AA_345 H2：大四寒假兩個人都要考國考，柏翰只回去過年（2029 除夕 2/12，初三＝2/15）*/
     {tag:'hol_y4w_bh_back',day:'2029-02-15',h:20,th:NT,ms:[['classmate_bohan','回來了。總圖見。']]},
     {tag:'hol_y4w_zhe_back',day:'2029-02-17',h:19,th:NT,ms:[['zhe','我回來了！高雄帶了吃的'],['zhe','禮拜一開學 拿去給你們']]},
-    {tag:'hol_y4w_an_back',day:'2029-02-18',h:18,an:['回臺北了。']} ];
+    {tag:'hol_y4w_an_back',day:'2029-02-18',h:18,an:['回臺北了。','放榜前，我不想一直看信箱。']} ];
   S.msgDay=m=>m.c01?(typeof VAC!=='undefined'&&VAC.c01Day?VAC.c01Day(m.c01):null):DK(m.day);
   /* 日本路線人在日本（3/25～8/5，例：大三暑假 6/27 柏翰、6/30 阿哲）：臺灣傳來的訊息換成當地時間（遊戲時鐘是日本時間；AA_341 J-S13、AA_342 C6）*/
   const jpTz=(G,d)=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='JP'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
