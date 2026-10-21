@@ -155,5 +155,44 @@ const near=(id,dx)=>{ const n={id,charId:id,name:id,obj:{position:{x:E.player.ob
     y=await yt({ECON_PAST_SHARED:'half'},'其實');
     check('D2：語彤（說過自學 half）：選「我以前常來這棟借書。」或「……其實我念過一個多月。」（升成 full）',J(y.O[0])===J(['「我以前常來這棟借書。」','「……其實我念過一個多月。」'])&&y.F.ECON_PAST_SHARED==='full',J(y.O));
     check('D2：語彤週一、五 17:20～17:50 在社科院門口（週三她在 118 巷）；說過一次就不再排',(()=>{ const e=CHARACTERS.heroine_03.daily_schedule.find(x=>x.b106d2); fresh(dd,17.4,'campus'); G.events.done.ev_b106d2_yutong=1; return !!e&&J(e.days)==='[1,5]'&&!B2.due(G,'heroine_03'); })()); }
+  // ======================= BB_105 大一女舍門口（V1-B105-D2）=======================
+  // ---- D4 一年後，再走到女舍門口（AA_289 5-4：沛珊還筆記）----
+  { const D4=ev('ev_b105_d4_notes'), wk5=TD('Y1S1',5,3), sat=D('2025-10-04'), wk9=TD('Y1S1',9,3);
+    check('D4：事件存在（大一上第 4～8 週、大一女舍門口、12:00～21:00、一次）',!!D4&&J(D4.weeks)==='[4,5,6,7,8]'&&J(D4.term)==='["Y1S1"]'&&!!D4.near&&D4.near.x===-93&&D4.once===true);
+    const ck=(day,h,contact)=>{ fresh(day,h,'campus'); if(contact!==false) INV.addContact(G,'classmate_peishan'); return !!D4&&EVENTS.check(D4); };
+    check('D4：有沛珊的聯絡方式、她在臺北＝第 5 週週三 15:00 走到門口就演；沒有聯絡方式、她回台中的週末（10/4）、第 9 週都不演',ck(wk5,15)&&!ck(wk5,15,false)&&!ck(sat,15)&&!ck(wk9,15)&&!ck(wk5,22));
+    ck(wk5,15); await RUN(D4); const L=lines().map(t=>t.replace(/^[^：]*沛珊（手機）：/,'沛珊（手機）：').replace(/^[^：]*沛珊：/,'沛珊：'));
+    check('D4：「我下樓了！你等我一下下」（私訊）→ 旁白「一年前，你常在這裡等人。」→「（下樓）對不起！你的筆記我找了一下……」「在我手上。我自己拿著還在找。」「謝謝你借我！第三章我抄完了。」',
+      J(L)===J(['沛珊（手機）：我下樓了！你等我一下下','一年前，你常在這裡等人。','沛珊：（下樓）對不起！你的筆記我找了一下……','沛珊：在我手上。我自己拿著還在找。','沛珊：謝謝你借我！第三章我抄完了。'])&&txt('p:classmate_peishan').includes('classmate_peishan:我下樓了！你等我一下下'),J(lines()));
+    check('D4：演過一次就不再演（旁白只出現這一次）',!!D4&&!!G.events.done[D4.id]&&!EVENTS.check(D4)); }
+  // ---- D4b 以安準時下樓 ----
+  { const D4B=ev('ev_b105_d4b_on_time'), tue=TD('Y1S1',5,2);
+    const ck=(day,h,grp)=>{ G.day=day; G.weekday=wdOf(day); G.hour=h; return !!D4B&&EVENTS.check(D4B); };
+    fresh(tue,19.05,'campus'); PHONE.join(G,'noodle_team','麵店團');
+    check('D4b：麵店團在女舍門口集合（大一上週二麵店日）19:00～19:15＝以安下來；週三不是',ck(tue,19.05)&&!ck(tue+1,19.05)&&!ck(tue,18.9));
+    G.day=tue; G.weekday=2; G.hour=19.05; said=[]; await RUN(D4B);
+    check('D4b：以安「七點。你們遲到兩分鐘。」',J(lines().map(t=>t.replace(/^[^：]*：/,'')))===J(['七點。你們遲到兩分鐘。']),J(lines()));
+    check('D4b：可以重複，隔兩週（下週二不會、兩週後的週二會）',!ck(tue+7,19.05)&&ck(tue+14,19.05)); }
+  // ---- D7 宿舍的人們 ----
+  { const C=typeof CROWD!=='undefined'?CROWD:null, sp=C&&C.SPOTS.find(s=>s.id==='fdorm');
+    const L=(day,key)=>{ fresh(day,8,'campus'); return sp&&sp.lines?sp.lines(G,{key}):null; };
+    const w1=TD('Y1S1',1,2), w5=TD('Y1S1',5,2), w8=TD('Y1S1',8,2);
+    check('D7：開學第一週白天＝「（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……對，有電梯。」」',J(L(w1,'am'))===J(['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……對，有電梯。」']),J(L(w1,'am')));
+    check('D7：傍晚「她說五分鐘。……我數到第三個五分鐘了。」；晚上兩句（宵夜、講電話）；考試週「總圖還有位子嗎？……那我去社科圖。」；第 5 週早上沒有',J(L(w5,'eve'))===J(['「她說五分鐘。……我數到第三個五分鐘了。」'])&&J(L(w5,'night'))===J(['（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','（在門口講電話）「沒有啦，我只是想打給你。」'])&&J(L(w8,'eve'))===J(['（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」'])&&J(L(w5,'am'))==='[]',J([L(w5,'eve'),L(w5,'night'),L(w8,'eve'),L(w5,'am')]));
+    fresh(w5,20.5,'campus'); const ns=[0,1,2].map(i=>({obj:{position:{x:i,y:0,z:0}}})); const got=C&&C.giveLines?C.giveLines(GM,sp,{key:'night'},ns):[];
+    check('D7：一群人裡一句給一個人（晚上兩句＝兩個人可以點「聽一句」，第三個不行）',got.length===2&&ns[0].talkLabel==='聽一句'&&typeof ns[0].talk==='function'&&!ns[2].talk);
+    said=[]; if(ns[1].talk) await ns[1].talk();
+    check('D7：點了＝那一句（旁白）',J(said)===J([{who:null,t:'（在門口講電話）「沒有啦，我只是想打給你。」'}]),J(said)); }
+  // ---- D9 法服的攤位 ----
+  { const C=typeof CROWD!=='undefined'?CROWD:null, sp=C&&C.SPOTS.find(s=>s.id==='fdorm_fafu');
+    const sl=(day,h,stage)=>{ fresh(day,h,'campus'); if(stage) G.stage=stage; return sp?C.slotAt(G,sp,h):null; };
+    const y2w1=TD('Y2S1',1,2), y2w3=TD('Y2S1',3,2), y1w1=TD('Y1S1',1,2), y3w2=TD('Y3S1',2,4), sat=y2w1+4;
+    check('D9：大二以後上學期第 1～2 週平日 12:00～17:00 法服在女舍外的路邊擺攤；大一、第 3 週、週末、晚上都沒有',!!sl(y2w1,13)&&!!sl(y3w2,16.5)&&!sl(y1w1,13)&&!sl(y2w3,13)&&!sl(sat,13)&&!sl(y2w1,18),'');
+    const s1=sl(y2w1,13); const g=s1?(()=>{ const ox=STORY.CROWD_X; STORY.CROWD_X=2; const r=C.group(G,sp,s1); STORY.CROWD_X=ox; return r; })():[];
+    check('D9：攤位兩位社員（路人加倍也不加）',g.length===2,String(g.length));
+    const ns=[0,1].map(i=>({obj:{position:{x:i,y:0,z:0}}})); const got=sp&&C.giveLines?C.giveLines(GM,sp,s1,ns):[];
+    check('D9：兩位都可以點「看法服的攤位」',got.length===2&&ns[0].talkLabel==='看法服的攤位'&&ns[1].talkLabel==='看法服的攤位');
+    said=[]; if(ns[0].talk) await ns[0].talk();
+    check('D9：點了＝旁白「（攤位上一疊傳單，法服的社員在喊：「法律服務社！免費法律諮詢的那個！」）」＋社員「新生可以來旁聽喔。……你是學長？那你也可以來。」',J(said)===J([{who:null,t:'（攤位上一疊傳單，法服的社員在喊：「法律服務社！免費法律諮詢的那個！」）'},{who:'法服的社員',t:'新生可以來旁聽喔。……你是學長？那你也可以來。'}]),J(said)); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

@@ -1109,6 +1109,24 @@ const STORY_EVENTS=[
       {label:'half'},{choice:[{text:'「我以前常來這棟借書。」',goto:'end'},{text:'「……其實我念過一個多月。」',set:{ECON_PAST_SHARED:'full'},goto:'end'}]},
       {label:'end'} ],
     after:G=>STORY.b106d2Done(G,'heroine_03',null) },
+  /* ===== BB_105 大一女舍門口（企劃線 BB_105@68a8479e，AA-C 2026-10-18 審過＝可以實作；白名單 LAWWW-C 10-21 已登記；V1-B105-D2）：D4、D4b（這裡）；D7 宿舍的人們、D9 法服的攤位在 src/crowd3d.js。
+     祐廷不進女舍，場景只有門口（5-1）；晚上不排長戲 ===== */
+  /* D4 一年後，再走到女舍門口（AA_289 5-4：讀書會第 10 週才開，改成沛珊把借的課堂筆記還給祐廷）：大一上第 4～8 週，12:00～21:00 走到大一女舍門口（長椅一帶）。
+     要有沛珊的聯絡方式（第一句是她的私訊）、她在臺北（單數週末回台中）。旁白「一年前，你常在這裡等人。」只出現這一次（所有玩家都有：經濟系那年他和可昕交往、她住這裡，是劇情事實）。
+     稿沒有寫怎麼約的（借筆記也沒有另外一場）：走到門口就演，當作已經說好（給 AA 的問題）。一次 */
+  { id:'ev_b105_d4_notes', title:'一年後，再走到女舍門口', participants:['classmate_peishan'], portraitLater:true, location:'campus', trigger:'auto', near:{x:-93,z:56,r:5}, term:['Y1S1'], weeks:[4,5,6,7,8], time:[12,21], once:true, tier:'short', building:'fdorm', background:'blur',
+    prereq:{custom:G=>typeof INV!=='undefined'&&INV.hasContact&&INV.hasContact(G,'classmate_peishan')&&typeof STORY!=='undefined'&&!STORY.awayNow('classmate_peishan',G)},
+    dialogue:[ {phone:'classmate_peishan',text:'我下樓了！你等我一下下'},
+      {speaker:null,text:'一年前，你常在這裡等人。'},
+      {speaker:'classmate_peishan',text:'（下樓）對不起！你的筆記我找了一下……'},
+      {speaker:'classmate_peishan',text:'在我手上。我自己拿著還在找。'},
+      {speaker:'classmate_peishan',text:'謝謝你借我！第三章我抄完了。'} ],
+    consequences:{memo:'大一女舍門口：沛珊還了借的筆記'} },
+  /* D4b 以安準時下樓（背／短，大一上～大一下，可重複）：麵店團在大一女舍門口集合（STORY.fdormGather：週二麵店日 19:00；同一個集合 BB_106 日常 D1）——她一定是第一個下來的人。
+     19:00～19:15 人在長椅旁：「七點。你們遲到兩分鐘。」。隔兩週才再一次（cooldown 14 天）*/
+  { id:'ev_b105_d4b_on_time', title:'', participants:['heroine_01'], location:'campus', trigger:'auto', near:{x:-93,z:54.26,r:4}, term:['Y1S1','Y1S2'], weekday:[2], time:[19,19.25], cooldown_days:14, background:'blur',
+    prereq:{custom:G=>typeof STORY!=='undefined'&&!!STORY.fdormGather&&STORY.fdormGather(G)},
+    dialogue:[ {speaker:'heroine_01',text:'七點。你們遲到兩分鐘。'} ] },
   /* V2-C13 可玩切片：共同教學館的阿勳（BB_96 10-3、AA_115 選擇④）：大一下第 11 週週四 20:48 以後，阿勳在共同教學館二樓自習區讀統計（AA_155 作息，沒見過也在）；走到他旁邊（npcNear）才開始。
      還沒在法律系時期見過他的玩家（沒有 MET_XUN）先說 10-1 那句。三個選項記 AA_115 的 xun_study:night／xun_met:Y1S2／xun_study:pact＝XUN_NIGHT／XUN_MET_Y1S2／XUN_PACT（XUN_DAY＝這一天）。
      一起讀到閉館：之後時間到 23:00（after）。之後：xun_met＝「走啦」群組一句（AA_157）；pact＝阿勳私訊行程表；night＝隔天週五走廊、小福還債（10-4，ev_sk03_lunch）。不在場的人（沛珊、以安）不知道：不寫進她們的記憶 */
