@@ -122,6 +122,11 @@ def wm(wid, key):
     if key not in walls[wid]: walls[wid][key] = Mesh(f'{wid}_{key}', M[key])
     return walls[wid][key]
 WALLDEF = {w['id']: w for w in LAY['walls'][0]['list']}
+DOOR_WALL = {'front': 'S', 'bedroom': 'bed_w', 'bedA': 'bed_w', 'bedB': 'bed_w', 'bedC': 'lau_w', 'bath': 'bath_n', 'coat': 'lau_w', 'storage': 'lau_w', 'closet': 'bath_n', 'laundry': 'lau_w'}
+def door_wall(d):
+    """門在哪一面牆（門板、門框、門上的裝飾都放進這面牆的組：牆淡出時一起淡出）。合租戶的臥室 C（x −0.2、z 1.4）在 lau_w 上——
+    原本對照表沒有 bedC、預設成南牆 S：C 門門板跟著南牆淡出（2026-10-21 BB_218 補拍時一起查到）"""
+    return DOOR_WALL.get(d['id'], 'S')
 
 # ======================== 地板、天花板 ========================
 FLOORMAT = {'wood': 'wood', 'carpet': 'carpet', 'tile': 'tile'}
@@ -246,7 +251,7 @@ for d in LAY['doors']:
             acc('trim').box(u0, u1, v0, v1, at - 0.025, at + 0.025)
         acc('chrome').box(c + w_ / 2 - 0.14, c + w_ / 2 - 0.11, 0.95, 1.1, at + 0.03, at + 0.05)
         continue
-    wid = {'front': 'S', 'bedroom': 'bed_w', 'bedA': 'bed_w', 'bedB': 'bed_w', 'bath': 'bath_n', 'coat': 'lau_w', 'storage': 'lau_w', 'closet': 'bath_n', 'laundry': 'lau_w'}.get(d['id'], 'S')
+    wid = door_wall(d)
     wframe(wid, axis, at, c - w_ / 2, c + w_ / 2, 0.0, DOOR_H, nrm)
     if d.get('style') == 'louverBifold':   # 洗衣機櫃的百葉摺門（關著）：四片、橫向百葉
         for k in range(4):
@@ -491,7 +496,7 @@ def coat_on_door(d_, col='#55623f'):
     for (a_, b_) in (((d_['x'] + 0.03, yt - 0.06, zc), (d_['x'] + 0.03, yt + 0.012, zc)), ((d_['x'] + 0.03, yt + 0.012, zc), (xf - 0.004, yt + 0.012, zc)),
                      ((xf - 0.004, yt + 0.012, zc), (xf - 0.004, yt - 0.24, zc)), ((xf - 0.004, yt - 0.24, zc), (xf - 0.045, yt - 0.2, zc))):
         hk.cyl(a_, b_, 0.005, seg=6)
-    hk.finish(fur, uv=False)
+    walls.setdefault(door_wall(d_), {})['deco_hook_' + d_['id']] = hk   # 掛勾、外套放進門所在那面牆的組（WALL_<牆>_deco_*）：牆淡出時一起淡出（BB_218：鏡頭在臥室 B 那一側時門板淡出、外套飄在半空）
     cm = Mesh('door_coat_' + d_['id'], L.flat(P + 'coat_' + d_['id'], col, rough=0.92)); bm_ = cm.bm; ytop = yt - 0.2; h_ = 0.8; nw, nh = 12, 16; grid = []; ph = [rs.uniform(0, 6.28) for _ in range(3)]
     for i in range(nw + 1):
         t = i / nw - 0.5; row = []
@@ -506,15 +511,15 @@ def coat_on_door(d_, col='#55623f'):
     for sg in (-1, 1):   # 袖子：從肩膀垂下來、貼著衣身兩邊、袖口張開一點，一長一短
         ln = 0.58 + 0.04 * sg; cm.cyl((xf - 0.05, ytop - 0.09, zc + sg * 0.215), (xf - 0.062, ytop - 0.09 - ln, zc + sg * 0.245), 0.043, seg=10, r2=0.038)
     cm.cyl((xf - 0.035, ytop - 0.035, zc - 0.1), (xf - 0.035, ytop - 0.035, zc + 0.1), 0.024, seg=8)   # 領子（翻領的一圈）
-    cm.finish(fur, uv=False, smooth=True)
+    walls[door_wall(d_)]['deco_coat_' + d_['id']] = cm
 for d_ in LAY['doors']:
     if d_.get('deco') == 'coat': coat_on_door(d_); continue
     if not d_.get('deco'): continue
     fn, W_, H_, w_, h_, y_ = DECO[d_['deco']]
     mt = img_mat(P + 'deco_' + d_['id'], tex_simple(os.path.join(GEN, 'us_deco_%s.png' % d_['deco']), W_, H_, fn), rough=0.7)
     axis = d_.get('axis', 'x')
-    if axis == 'z': card('door_deco_' + d_['id'], mt, d_['x'] - 0.045, y_, d_['z'], w_, h_, 'z', 1).finish(root, uv=False)   # 牆在 z 軸上：貼在門的西面（客廳、走道那一面）
-    else: card('door_deco_' + d_['id'], mt, d_['x'], y_, d_['z'] - 0.045, w_, h_, 'x', -1).finish(root, uv=False)
+    cd_ = card('door_deco_' + d_['id'], mt, d_['x'] - 0.045, y_, d_['z'], w_, h_, 'z', 1) if axis == 'z' else card('door_deco_' + d_['id'], mt, d_['x'], y_, d_['z'] - 0.045, w_, h_, 'x', -1)   # 牆在 z 軸上：貼在門的西面（客廳、走道那一面）
+    walls.setdefault(door_wall(d_), {})['deco_card_' + d_['id']] = cd_   # 和門板同一組：牆淡出時一起淡出（BB_218）
 NOTE_MAT = None
 for cc in [f for f in LAY['furniture'] if f['type'] == 'choreChart']:   # 輪值表旁邊兩張便條（黃、粉紅）
     for k, (dz, dy, col) in enumerate(((0.19, 0.08, '#f4dc6a'), (0.17, -0.12, '#f2a8b8'))):
@@ -637,7 +642,7 @@ for wid, ms in walls.items():
     if w.get('fade') and wid not in OUTER: props['partition'] = 1
     if w.get('fadeInside'): props['inside'] = 1   # 南牆（樓梯平台那一面）：遊戲只在玩家在屋裡、鏡頭在平台那一側時淡出（us3d.js）
     for key, m in ms.items():
-        nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol')), props=props)   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
+        nm = (f'WALL_{wid}_{key}' if w.get('fade') else f'{wid}_{key}'); m.name = nm; m.finish(root, uv=not key.startswith(('life_art', 'life_pol', 'deco_')), props=props, smooth=key.startswith('deco_coat'))   # 牆上的畫、照片自己有 UV（uv=True 會照世界座標重算，貼圖變成一格一格重複）
 L.merge_by_material(root, keep=lambda ob: 'FACE' in ob.name or 'SEASON' in ob.name or 'EVENT_' in ob.name or (ob.parent is not None and 'EVENT_' in ob.parent.name) or (ob.parent is not None and ('SEASON' in ob.parent.name or ob.parent.name == 'furniture')) or ob.name.startswith('WALL_') or (ob.parent is not None and ob.parent.parent is not None and ob.parent.parent.name == 'furniture'),
                     key=lambda ob: '')
 info = L.export(OUT, gpu_instances=True)

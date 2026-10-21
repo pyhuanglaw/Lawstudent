@@ -151,6 +151,11 @@ const US3=(function(){
     z.us2On=false; z.us2=on=>{ z.us2On=!!on; };   /* 正式模型還沒載入時先記著，載入後照這個開關 */
     z.formal=false; if(has(o.glb)) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       Z3.attachRoomGLB(z,g0,fb,root); aptSouthView(root); aptSeason(root);
+      /* 門牌跟著所在的牆淡出（BB_218 C208：鏡頭在臥室 B 那一側時門板淡出、「B」門牌浮在半空）：會淡出的內牆（fade、不是外牆 N／S／W／E）上的 PLATE_FACE_door_* 放進 winParts——
+         和窗的零件同一套：鏡頭和玩家在牆的兩邊就藏起來（partition）。門上的外套、掛勾、白板、貼紙在 GLB 裡已經是 WALL_<牆>_deco_*（LAWWW2 us_apartment.py） */
+      { root.updateMatrixWorld(true); const inner=L.walls[0].list.filter(w=>w.fade&&!/^[NSWE]$/.test(w.id)); const p=new THREE.Vector3();
+        root.traverse(o=>{ if(!o.isMesh||!/^PLATE_FACE_door_/.test(o.name)) return; new THREE.Box3().setFromObject(o).getCenter(p);   /* 頂點是世界座標、物件原點在 (0,0,0)：用網格的中心 */
+          for(const w of inner){ const c=w.axis==='z'?p.x:p.z, u=w.axis==='z'?p.z:p.x; if(Math.abs(c-w.at)<0.1&&u>Math.min(w.from,w.to)&&u<Math.max(w.from,w.to)){ (z.winParts=z.winParts||[]).push({obj:o,at:p.clone(),dir:new THREE.Vector3(w.dir[0],w.dir[1],w.dir[2]),partition:true}); break; } } }); }
       /* 南牆＝樓梯平台那一面（WALL_S_*，props inside）：原本一律不淡出——玩家在屋裡、鏡頭退到平台那一側時畫面被壁板擋住（合租戶截圖：整個畫面是牆）。
          改成：玩家在屋裡（z < 南牆）而且鏡頭在南牆外面才淡出，門牌、門口的壁燈一起藏；玩家在平台上時照舊是實牆（看得到大門）*/
       { const SW=L.walls[0].list.find(w=>w.id==='S'), sAt=SW?SW.at:3.0, sw=z.walls.filter(w=>w.userData&&w.userData.inside); for(const w of sw) z.walls.splice(z.walls.indexOf(w),1);
