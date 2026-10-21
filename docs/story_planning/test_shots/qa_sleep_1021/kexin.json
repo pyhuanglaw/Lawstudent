@@ -1,0 +1,1558 @@
+[
+{
+"t": "你醒了？你是第三小隊的吧。我也是。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-08-23",
+"h": 9,
+"z": "dorm"
+},
+{
+"t": "我叫杜可昕。……你睡了一個小時，車子轉彎你都沒醒。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-08-23",
+"h": 9,
+"z": "dorm"
+},
+{
+"t": "看得出來。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-08-23",
+"h": 9,
+"z": "dorm"
+},
+{
+"t": "睡飽了嗎第三小隊",
+"slot": null,
+"d": "2024-08-25",
+"h": 21,
+"z": "dorm"
+},
+{
+"t": "我不抽。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "（拿起祐廷的那一件）我要這件。",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "這件比較好看。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "我沒有抽。所以沒有違規。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "（甩了一下太長的袖子）剛好。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "洗好再還你。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-09-13",
+"h": 19.33,
+"z": "dorm"
+},
+{
+"t": "（抬頭）……你會修嗎？",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-09-20",
+"h": 17,
+"z": "dorm"
+},
+{
+"t": "（遞面紙）……謝謝。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-09-20",
+"h": 17,
+"z": "dorm"
+},
+{
+"t": "（從車籃拿出制服）洗好了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-09-20",
+"h": 17,
+"z": "dorm"
+},
+{
+"t": "當然。我又不是那種人。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2024-09-20",
+"h": 17,
+"z": "dorm"
+},
+{
+"t": "走。我請你喝飲料。公館。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-09-20",
+"h": 17,
+"z": "dorm"
+},
+{
+"t": "（把那串玉米遞過來）焦的那一面我吃掉了。剩下的給你。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-09-21",
+"h": 17.25,
+"z": "dorm"
+},
+{
+"t": "算。不要問。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2024-09-21",
+"h": 17.25,
+"z": "dorm"
+},
+{
+"t": "可以畫長頸鹿嗎？",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-10-12",
+"h": 14,
+"z": "cafe"
+},
+{
+"t": "我在看你的表情。牌我早就猜到了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-15",
+"h": 19.25,
+"z": "cafe"
+},
+{
+"t": "我還不想回去。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-15",
+"h": 19.25,
+"z": "cafe"
+},
+{
+"t": "……我餓了。剛剛在夜市都在講話。",
+"slot": {
+"want": "laugh",
+"outfit": "",
+"shown": "kexin/campus/laugh.webp",
+"compact": false
+},
+"d": "2024-10-15",
+"h": 19.25,
+"z": "cafe"
+},
+{
+"t": "……蛤？",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 14.67,
+"z": "cafe"
+},
+{
+"t": "今天？快期中考了耶。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 14.67,
+"z": "cafe"
+},
+{
+"t": "你現在在哪。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/serious.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 14.67,
+"z": "cafe"
+},
+{
+"t": "你現在回來學校找我。我還有一堂，五點下課。社科院門口。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/serious.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 14.67,
+"z": "cafe"
+},
+{
+"t": "休學又不是不能進校門。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 14.67,
+"z": "cafe"
+},
+{
+"t": "所以你現在是自由人了。",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "好恐怖。說。",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "「過」？",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "唐睿？",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "他在問我會計作業。他問了一個晚上。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "……你是不是很笨。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "我喜歡的是你。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "保齡球那天，我挑你的制服。……你都沒發現。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "你今天說你休學，我第一個想到的是：完了，他要跑了。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "宿營？你那天一直在睡覺。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "……好。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "你晚上有事嗎？",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "那去坐摩天輪。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "好。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-17",
+"h": 17.67,
+"z": "cafe"
+},
+{
+"t": "……他叫我不要說。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-10-29",
+"h": 12.17,
+"z": "dorm"
+},
+{
+"t": "休學的人，今天做了什麼？",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "……好羨慕。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "牠的腳好長。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "……我小時候在動物園，看長頸鹿看了一整個下午。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "我最喜歡牠的尾巴。尾端有一撮毛，可以趕蒼蠅。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "看了一整個下午啊。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "好冷。走吧。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-11-06",
+"h": 17.75,
+"z": "campus"
+},
+{
+"t": "新年快樂。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2024-12-31",
+"h": 23,
+"z": "campus"
+},
+{
+"t": "……國文那份報告，我記錯時間了。",
+"slot": {
+"want": "sad",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-01-08",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "老師回信說，不能補交。",
+"slot": {
+"want": "sad",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-01-08",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "……嗯。",
+"slot": {
+"want": "sad",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-01-08",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "……你那天傳訊息，我以為你在開玩笑。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2025-01-08",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "先吃麵。麵要糊了。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-08",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "你等一下，我走到陽台。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-01-28",
+"h": 22,
+"z": "campus"
+},
+{
+"t": "好了。……新年快樂。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-28",
+"h": 22,
+"z": "campus"
+},
+{
+"t": "初三你要不要來高雄？開車來。我帶你去玩。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-01-28",
+"h": 22,
+"z": "campus"
+},
+{
+"t": "那初三早上出發。到了打給我。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-28",
+"h": 22,
+"z": "campus"
+},
+{
+"t": "這家一定要喝。我高中每天下課都來。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "一天只轉一次。我高中的時候，還沒有這座橋。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "慢才好看。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "這個你一定要吃。……那個也是。",
+"slot": {
+"want": "laugh",
+"outfit": "",
+"shown": "kexin/campus/laugh.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "我在看風景。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "……以前不開心的時候，我會一個人來這裡。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "成績下禮拜出來。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/serious.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "國文那科，一定會被當。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "我在想要不要休學。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "……你是說真的？",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "好。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "先說好。我考法律，不是因為你。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "我寒假就在查了。你只是剛好先說。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "我呢？",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "那回台北，一起去問。",
+"slot": {
+"want": "surprised",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-01-31",
+"h": 8,
+"z": "campus"
+},
+{
+"t": "……十五分鐘。跟你那時候一樣。",
+"slot": {
+"want": "tired",
+"outfit": "",
+"shown": "kexin/campus/tired.webp",
+"compact": false
+},
+"d": "2025-02-13",
+"h": 14,
+"z": "campus"
+},
+{
+"t": "從今天開始，我們兩個都是休學的人了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-13",
+"h": 14,
+"z": "campus"
+},
+{
+"t": "……一點都不想被歡迎。",
+"slot": {
+"want": "laugh",
+"outfit": "",
+"shown": "kexin/campus/laugh.webp",
+"compact": false
+},
+"d": "2025-02-13",
+"h": 14,
+"z": "campus"
+},
+{
+"t": "自然組。……現在在臺大經濟。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "……好。謝謝。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "十三萬。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "你去上啊。你免費耶。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "……你確定？",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/surprised.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "……好。在家讀。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "所以說好了。每天早上，比誰先坐到桌子前面。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "輸的人請早餐。……我不會輸。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-14",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "謝謝阿姨。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-02-15",
+"h": 15,
+"z": "campus"
+},
+{
+"t": "（吹完蠟燭）好，許完了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "講出來就不靈了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "空白的。（翻了幾頁）……好，這本拿來寫我們互考的題目。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "你房間那張書桌，你坐左邊，我坐右邊。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/serious.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "中間這一條線，是我們的國界。……橡皮擦可以出口。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "飲料可以。可是你要分我一口。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-04-24",
+"h": 19,
+"z": "campus"
+},
+{
+"t": "……我想回家。",
+"slot": {
+"want": "tired",
+"outfit": "",
+"shown": "kexin/campus/tired.webp",
+"compact": false
+},
+"d": "2025-06-12",
+"h": 17,
+"z": "campus"
+},
+{
+"t": "那走。",
+"slot": {
+"want": "tired",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-06-12",
+"h": 17,
+"z": "campus"
+},
+{
+"t": "這裡冷氣好冷。回家讀。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2025-06-12",
+"h": 17,
+"z": "campus"
+},
+{
+"t": "（小聲）……今天兩個人都輸。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2025-06-17",
+"h": 10.33,
+"z": "campus"
+},
+{
+"t": "早餐誰請？",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-06-17",
+"h": 10.33,
+"z": "campus"
+},
+{
+"t": "……好。午餐我請。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2025-06-17",
+"h": 10.33,
+"z": "campus"
+},
+{
+"t": "她是不是覺得我們很荒謬。",
+"slot": {
+"want": "laugh",
+"outfit": "",
+"shown": "kexin/campus/laugh.webp",
+"compact": false
+},
+"d": "2025-06-24",
+"h": 17,
+"z": "campus"
+},
+{
+"t": "阿姨……我們如果都沒考上——",
+"slot": {
+"want": "sad",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-06-28",
+"h": 23,
+"z": "campus"
+},
+{
+"t": "准考證我看了第四次了。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-07-10",
+"h": 21,
+"z": "campus"
+},
+{
+"t": "考完要去哪？先講好，我才睡得著。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-07-10",
+"h": 21,
+"z": "campus"
+},
+{
+"t": "我也要睡。那天誰都不要叫我。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-07-10",
+"h": 21,
+"z": "campus"
+},
+{
+"t": "好。去睡。明天要早起。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-07-10",
+"h": 21,
+"z": "campus"
+},
+{
+"t": "（回頭，小聲）……我手好冰。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/serious.webp",
+"compact": false
+},
+"d": "2025-07-11",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "加油。",
+"slot": {
+"want": "serious",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-07-11",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "查到了。",
+"slot": null,
+"d": "2025-07-25",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "（截圖：她的成績）",
+"slot": null,
+"d": "2025-07-25",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "……你呢。",
+"slot": null,
+"d": "2025-07-25",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "好。",
+"slot": null,
+"d": "2025-07-25",
+"h": 7.5,
+"z": "campus"
+},
+{
+"t": "……恭喜你。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 10,
+"z": "campus"
+},
+{
+"t": "你可以高興一點。我又不會怎樣。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 10,
+"z": "campus"
+},
+{
+"t": "你從看到表到現在，都沒有看我。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 10,
+"z": "campus"
+},
+{
+"t": "……我知道我考不好。我不用你幫我難過。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 10,
+"z": "campus"
+},
+{
+"t": "我先回家。你自己逛一下。",
+"slot": {
+"want": "annoyed",
+"outfit": "",
+"shown": "kexin/campus/annoyed.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 10,
+"z": "campus"
+},
+{
+"t": "你回臺北的車幾點。",
+"slot": null,
+"d": "2025-07-25",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "我八點去車站。",
+"slot": null,
+"d": "2025-07-25",
+"h": 18.5,
+"z": "campus"
+},
+{
+"t": "早上那樣，對不起。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "車上吃。不要在車上難過。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-07-25",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "台大法律。恭喜你。真的。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "上了就是上了。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "我想過。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "可是我也想念法律。",
+"slot": {
+"want": "neutral",
+"outfit": "",
+"shown": "kexin/campus/neutral.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "而且大家都知道，我們是休學去重考的。……這樣回去，有一點丟臉。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/sad.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "九月以後，就不是同一張桌子了。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/embarrassed.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "……好。每週一天。",
+"slot": {
+"want": "embarrassed",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "是哪一天，等我們都摸熟自己的課表再說。不准忘記。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "月底我就上去了。行李很多，你要載我。",
+"slot": {
+"want": "teasing",
+"outfit": "",
+"shown": "kexin/campus/teasing.webp",
+"compact": false
+},
+"d": "2025-08-13",
+"h": 20,
+"z": "campus"
+},
+{
+"t": "你在哪？行李我都搬到樓下了。",
+"slot": null,
+"d": "2025-08-30",
+"h": 18.01,
+"z": "dorm"
+},
+{
+"t": "（擦汗）……好。這是我的床。",
+"slot": {
+"want": "tired",
+"outfit": "",
+"shown": "kexin/campus/tired.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 18.67,
+"z": "dorm"
+},
+{
+"t": "以後你開車來找我。我負責選宵夜。",
+"slot": {
+"want": "smile",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 18.67,
+"z": "dorm"
+},
+{
+"t": "去年這個時候，我以為我九月會在臺大念大二。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/thinking.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 18.67,
+"z": "dorm"
+},
+{
+"t": "結果兩個人都繞了一圈。",
+"slot": {
+"want": "thinking",
+"outfit": "",
+"shown": "kexin/campus/smile.webp",
+"compact": false
+},
+"d": "2025-08-30",
+"h": 18.67,
+"z": "dorm"
+}
+]

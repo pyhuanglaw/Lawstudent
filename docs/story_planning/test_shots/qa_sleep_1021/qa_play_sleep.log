@@ -1,0 +1,326 @@
+PASS 遊戲載入
+MODE sleep ：標題「從經濟系前傳開始」
+  [   0.0 分] {"stage": "econ", "key": "2024-09-01", "h": 21, "zone": "dorm", "home": false, "e37": false}
+  [   0.1 分] {"stage": "econ", "key": "2024-08-23", "h": 9, "zone": "dorm", "home": false, "e37": false}
+   ▶ 「……我昨天沒睡。」 ／ ['「……我昨天沒睡。」', '「妳一直在看我睡覺喔？」']
+  [   0.3 分] {"stage": "econ", "key": "2024-08-25", "h": 16, "zone": "dorm", "home": false, "e37": false}
+  [   0.4 分] {"stage": "econ", "key": "2024-09-01", "h": 21, "zone": "dorm", "home": false, "e37": false}
+  [  98.0s] 到達「床」附近（0.54 m）：點地面 3 次、轉鏡頭 0 次、搖桿 0 次，50 秒
+   去睡： 睡覺到下一件事
+  [   1.3 分] {"stage": "econ", "key": "2024-09-12", "h": 21, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 103.7s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   1.4 分] {"stage": "econ", "key": "2024-09-13", "h": 19.33, "zone": "dorm", "home": false, "e37": false}
+   ▶ 「這件妳穿太大了。」 ／ ['「這件妳穿太大了。」', '「那我穿妳的？」', '（拿起手機拍照）']
+  [ 120.6s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [ 127.6s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [   1.8 分] {"stage": "econ", "key": "2024-09-16", "h": 21, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 131.1s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   1.9 分] {"stage": "econ", "key": "2024-09-20", "h": 17, "zone": "dorm", "home": false, "e37": false}
+   ▶ 「妳真的洗了。」 ／ ['「妳真的洗了。」', '「下次再借妳穿。」']
+  [ 151.8s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+   手機回覆 p:kexin 我的也是。
+  [ 160.5s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   2.4 分] {"stage": "econ", "key": "2024-09-21", "h": 13, "zone": "dorm", "home": false, "e37": false}
+   手機回覆 p:kexin 吉他社
+  [ 168.7s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+   手機回覆 p:econ_weilun 好
+  [ 176.8s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+   ▶ （戴上） ／ ['（戴上）', '「我拿著就好。」']
+   ▶ 「這樣算分我嗎？」 ／ ['「這樣算分我嗎？」', '「謝謝。」', '（接過來，吃了一口）']
+  [ 203.9s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.1 分] {"stage": "econ", "key": "2024-09-24", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+   手機沒有要回的：按「跳過」
+  [ 210.2s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.2 分] {"stage": "econ", "key": "2024-09-27", "h": 21, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 215.8s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.3 分] {"stage": "econ", "key": "2024-09-29", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 221.6s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   手機回覆 g:econ_class 「睡到中午。」
+  [ 227.6s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.5 分] {"stage": "econ", "key": "2024-10-02", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 233.8s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.6 分] {"stage": "econ", "key": "2024-10-05", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 239.6s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+  [   3.7 分] {"stage": "econ", "key": "2024-10-08", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 243.2s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.8 分] {"stage": "econ", "key": "2024-10-11", "h": 21, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 249.0s] 到達「床」附近（0.54 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   3.8 分] {"stage": "econ", "key": "2024-10-12", "h": 14, "zone": "cafe", "home": false, "e37": false}
+   ▶ 熱拿鐵 ／ ['熱拿鐵', '冰美式', '熱可可']
+  [   4.3 分] {"stage": "econ", "key": "2024-10-14", "h": 21, "zone": "cafe", "home": false, "e37": false}
+   ▶ 出發：兩點半 Café 14:00：長頸鹿拉花兩點半 C ／ ['出發：兩點半 Café ', '晚一點（20 分鐘後再提', '不去了']
+   手機沒有要回的：按「跳過」
+  [   4.7 分] {"stage": "econ", "key": "2024-10-15", "h": 18, "zone": "cafe", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+   ▶ 「妳在看我的牌。」 ／ ['「妳在看我的牌。」', '（假裝沒看到）']
+  [   5.5 分] {"stage": "econ", "key": "2024-10-16", "h": 0, "zone": "cafe", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   5.8 分] {"stage": "econ", "key": "2024-10-17", "h": 14.67, "zone": "cafe", "home": false, "e37": false}
+   ▶ 「其實從宿營那天就是了。」 ／ ['「其實從宿營那天就是了。', '「……我一直以為只有我。', '「……不是『過』。是現在']
+  [ 416.3s] 到達「床」附近（0.13 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+   去睡： 睡覺到下一件事
+  [   6.6 分] {"stage": "econ", "key": "2024-10-19", "h": 21, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 422.0s] 到達「床」附近（0.13 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   6.7 分] {"stage": "econ", "key": "2024-10-22", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 427.7s] 到達「床」附近（0.13 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   6.8 分] {"stage": "econ", "key": "2024-10-25", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 433.0s] 到達「床」附近（0.13 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+   手機沒有要回的：按「跳過」
+  [   6.9 分] {"stage": "econ", "key": "2024-10-28", "h": 22, "zone": "dorm", "home": false, "e37": false}
+   手機沒有要回的：按「跳過」
+  [ 439.3s] 到達「床」附近（0.13 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   7.0 分] {"stage": "econ", "key": "2024-10-29", "h": 12.17, "zone": "dorm", "home": false, "e37": false}
+   ▶ 「……這個禮拜。」 ／ ['「……這個禮拜。」', '「我想說，你們不知道也沒', '（沒有說話）']
+  [ 457.9s] 到達「床」附近（0.13 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡覺到下一件事
+  [   7.3 分] {"stage": "econ", "key": "2024-10-31", "h": 9, "zone": "dorm", "home": false, "e37": false}
+   ▶ （請阿勳吃小福的雞腿便當） ／ ['（請阿勳吃小福的雞腿便當', '（不請）']
+   手機沒有要回的：按「跳過」
+  [   7.7 分] {"stage": "econ", "key": "2024-11-03", "h": 21, "zone": "dorm", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   7.7 分] {"stage": "econ", "key": "2024-11-06", "h": 17.75, "zone": "dorm", "home": false, "e37": false}
+   ▶ 「睡到中午。」 ／ ['「睡到中午。」', '「去書店站了一下午。」']
+   ▶ 「妳怎麼知道？」 ／ ['「妳怎麼知道？」', '「拉花那隻，尾巴也沒畫。', '「我要第三隻手，幫妳拿尾']
+  [   8.3 分] {"stage": "econ", "key": "2024-11-07", "h": 18, "zone": "campus", "home": true, "e37": false}
+   手機回覆 g:econ_class （查完再回）
+  [   8.4 分] {"stage": "econ", "key": "2024-11-11", "h": 22, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   8.4 分] {"stage": "econ", "key": "2024-11-21", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   8.4 分] {"stage": "econ", "key": "2024-11-24", "h": 22, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+   手機沒有要回的：按「跳過」
+  [   8.4 分] {"stage": "econ", "key": "2024-12-13", "h": 14, "zone": "campus", "home": true, "e37": false}
+   ▶ 「……他怎麼知道我會來？」 ／ ['「……他怎麼知道我會來？', '「我只是來問問。」', '「主任還有說什麼嗎？」']
+   手機沒有要回的：按「跳過」
+  [   8.7 分] {"stage": "econ", "key": "2024-12-22", "h": 22, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+   手機沒有要回的：按「跳過」
+  [   8.8 分] {"stage": "econ", "key": "2024-12-31", "h": 19, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   9.0 分] {"stage": "econ", "key": "2025-01-03", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機回覆 p:kexin 寄信問葉老師？
+  [   9.0 分] {"stage": "econ", "key": "2025-01-06", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   9.0 分] {"stage": "econ", "key": "2025-01-08", "h": 18.5, "zone": "campus", "home": true, "e37": false}
+   ▶ 「整科就那一份？」 ／ ['「整科就那一份？」', '（等她說下去）']
+  [   9.2 分] {"stage": "econ", "key": "2025-01-10", "h": 23, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [   9.2 分] {"stage": "econ", "key": "2025-01-18", "h": 23, "zone": "campus", "home": true, "e37": false}
+   手機回覆 p:kexin 玉米濃湯。
+  [   9.3 分] {"stage": "econ", "key": "2025-01-27", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機回覆 g:econ_class 加阿勳的表叔，十三個。
+  [   9.3 分] {"stage": "econ", "key": "2025-01-28", "h": 22, "zone": "campus", "home": true, "e37": false}
+   ▶ 「好。」 ／ ['「好。」', '「我媽會問我去哪。」']
+  [   9.4 分] {"stage": "econ", "key": "2025-01-31", "h": 8, "zone": "campus", "home": true, "e37": false}
+   ▶ 「轉得好慢。」 ／ ['「轉得好慢。」', '（拍她的照片）']
+   ▶ 「那我們都休學了，就一起重考吧。」 ／ ['「那我們都休學了，就一起', '「我要再考一次。法律。…', '「一起考吧。兩個人一起讀']
+  [   9.9 分] {"stage": "econ", "key": "2025-02-02", "h": 23, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.0 分] {"stage": "econ", "key": "2025-02-08", "h": 23, "zone": "campus", "home": true, "e37": false}
+   手機回覆 p:kexin 法律。
+  [  10.0 分] {"stage": "econ", "key": "2025-02-09", "h": 0, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.0 分] {"stage": "econ", "key": "2025-02-12", "h": 20, "zone": "campus", "home": true, "e37": false}
+   存狀態 snap_2025-02-12.json
+  [  10.1 分] {"stage": "econ", "key": "2025-02-13", "h": 13.25, "zone": "campus", "home": false, "e37": false}
+   ▶ 「歡迎。」 ／ ['「歡迎。」', '「明天去問補習班。」']
+   手機回覆 p:econ_zhengxun 社會考壞了，差四分。……還是想念法律。
+  [  10.3 分] {"stage": "econ", "key": "2025-02-14", "h": 14.25, "zone": "campus", "home": false, "e37": false}
+   ▶ 「那我也在家讀。」 ／ ['「那我也在家讀。」', '「我們都在家讀，比較好約', '「那我們都在家讀。社會我']
+  [  10.6 分] {"stage": "econ", "key": "2025-02-15", "h": 15, "zone": "campus", "home": true, "e37": false}
+  [  10.7 分] {"stage": "econ", "key": "2025-02-21", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+   手機回覆 p:econ_tangrui 算。
+  [  10.7 分] {"stage": "econ", "key": "2025-03-10", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.7 分] {"stage": "econ", "key": "2025-03-13", "h": 22, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.8 分] {"stage": "econ", "key": "2025-03-16", "h": 22, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.8 分] {"stage": "econ", "key": "2025-03-19", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.8 分] {"stage": "econ", "key": "2025-04-23", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  10.8 分] {"stage": "econ", "key": "2025-04-24", "h": 19, "zone": "campus", "home": false, "e37": false}
+   ▶ 一本空白的筆記本 ／ ['一本空白的筆記本', '請她吃一碗豆花', '跟大家合送']
+   ▶ 「飲料呢？」 ／ ['「飲料呢？」', '「我想坐右邊。」']
+  [  11.0 分] {"stage": "econ", "key": "2025-06-08", "h": 15, "zone": "campus", "home": true, "e37": false}
+  [  11.1 分] {"stage": "econ", "key": "2025-06-12", "h": 17, "zone": "campus", "home": true, "e37": false}
+   ▶ 「我也是。」 ／ ['「我也是。」', '「再撐一堂？」']
+  [  11.2 分] {"stage": "econ", "key": "2025-06-17", "h": 10.33, "zone": "campus", "home": true, "e37": false}
+   ▶ 「我請。」 ／ ['「我請。」', '「平手，不用請。」']
+  [  11.3 分] {"stage": "econ", "key": "2025-06-24", "h": 17, "zone": "campus", "home": true, "e37": false}
+  [  11.4 分] {"stage": "econ", "key": "2025-06-28", "h": 23, "zone": "campus", "home": true, "e37": false}
+  [  11.5 分] {"stage": "econ", "key": "2025-07-10", "h": 20.5, "zone": "campus", "home": true, "e37": false}
+   ▶ 「睡一整天。」 ／ ['「海邊。」', '「睡一整天。」', '「妳選一家。」']
+  [  11.6 分] {"stage": "econ", "key": "2025-07-11", "h": 7.5, "zone": "campus", "home": true, "e37": false}
+  [  11.8 分] {"stage": "econ", "key": "2025-07-14", "h": 20, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  11.8 分] {"stage": "econ", "key": "2025-07-24", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機回覆 p:kexin 好。我搭早上的客運。
+  [  11.8 分] {"stage": "econ", "key": "2025-07-25", "h": 6, "zone": "campus", "home": true, "e37": false}
+   ▶ 「（傳截圖給她。）」 ／ ['「（傳截圖給她。）」', '「我的還好。」', '「先不要講分數。我快到了']
+   ▶ 「我只是在想，以後我們不在同一個學校了。」 ／ ['「我只是在想，以後我們不', '「妳那幾題，我們明明一起', '（沒有說話。）']
+  [  12.3 分] {"stage": "econ", "key": "2025-08-13", "h": 9.5, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+   ▶ 「每週一天。我們說好。」 ／ ['「每週一天。我們說好。」', '「到時候再說。」', '「妳想怎麼做？」']
+   手機沒有要回的：按「跳過」
+  [  12.6 分] {"stage": "econ", "key": "2025-08-22", "h": 7.75, "zone": "campus", "home": true, "e37": false}
+   ▶ 坐阿哲旁邊 ／ ['坐阿哲旁邊', '坐明軒旁邊', '自己坐窗邊']
+   ▶ 「洋芋片給我一包。」 ／ ['「洋芋片給我一包。」', '「我暈車，先不要。」']
+   ▶ 「便利商店的飯糰。」 ／ ['「便利商店的飯糰。」', '「一杯豆漿，在車上喝完了', '「我媽塞給我的三明治。」']
+   ▶ 第一關：兩人三腳 ／ ['第一關：兩人三腳', '第二關：找三樣東西', '第三關：全隊跑完']
+   ▶ 和阿哲一組 ／ ['和阿哲一組', '和明軒一組']
+   ▶ 第二關：找三樣東西 ／ ['第二關：找三樣東西', '第三關：全隊跑完']
+   ▶ 「應該是被罵吧。」 ／ ['「應該是被罵吧。」', '「要不要問小隊輔？」', '「這個以後上課應該會教。']
+   ▶ 走前面 ／ ['走前面', '走後面', '跟凱文走在一起']
+  [  13.7 分] {"stage": "econ", "key": "2025-08-23", "h": 7, "zone": "campus", "home": false, "e37": false}
+   ▶ 「我上去。」 ／ ['「我上去。」', '「沛珊去吧，問題是她想的', '「明軒去？」']
+   ▶ 「看他是寫錯，還是本來就在特價。」 ／ ['「看他是寫錯，還是本來就', '「付了錢就是我的。」', '「我會還，但我想先問清楚']
+   ▶ 衝前面 ／ ['衝前面', '幫忙裝水球', '躲在樹下']
+   ▶ 顧火 ／ ['顧火', '去搶答', '負責吃']
+   ▶ 「你是不是來過這裡？」 ／ ['「你是不是來過這裡？」', '不問']
+   ▶ 上台演 ／ ['上台演', '幕後拉燈', '在旁邊看']
+   ▶ 「我大一歲。」 ／ ['「我大一歲。」', '「我念過經濟系，一個多月', '「跟你們一樣啦。」']
+  [  14.6 分] {"stage": "econ", "key": "2025-08-24", "h": 7.5, "zone": "campus", "home": false, "e37": false}
+   ▶ 「好，開學見。」 ／ ['「好，開學見。」', '「這麼遠還跑一趟？」']
+   手機沒有要回的：按「跳過」
+  [  15.0 分] {"stage": "econ", "key": "2025-08-28", "h": 21, "zone": "campus", "home": true, "e37": false}
+   手機沒有要回的：按「跳過」
+  [  15.0 分] {"stage": "econ", "key": "2025-08-29", "h": 5, "zone": "campus", "home": true, "e37": false}
+   ▶ 沒關係，你先放。 ／ ['沒關係，你先放。', '我是祐廷，法律系。', '（點頭，先搬自己的東西）']
+   手機回覆 p:kai 你可以直接講啊
+   ▶ 你可以直接講啊 ／ ['你可以直接講啊', '好 開幾度']
+  [1005.6s] 到達「床」附近（0.01 m）：點地面 1 次、轉鏡頭 1 次、搖桿 0 次，24 秒
+   去睡： 睡到明天早上（07:30）07:30（明
+  [  16.5 分] {"stage": "law", "key": "2025-08-30", "h": 7.51, "zone": "dorm", "home": false, "e37": false}
+  [1015.0s] 到達「床」附近（0.01 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，4 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00
+  [1020.5s] 到達「床」附近（0.01 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00
+   ▶ 「我也以為我會在經濟系。」 ／ ['「我也以為我會在經濟系。', '（等她說下去）', '「現在呢？」']
+  [1040.3s] 到達「床」附近（0.01 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到明天早上（07:30）07:30（明
+  [  17.0 分] {"stage": "law", "key": "2025-08-31", "h": 7.5, "zone": "dorm", "home": false, "e37": true}
+   存狀態 snap_2025-08-31.json
+  [1049.7s] 「床」途中：phone 開著（遊戲暫停），先關掉
+  [1054.0s] 到達「床」附近（0.01 m）：點地面 2 次、轉鏡頭 0 次、搖桿 0 次，8 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00
+   手機回覆 g:family_law 是我。
+  [1063.7s] 到達「床」附近（0.01 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到明天早上（08:10）08:10（第
+  [  17.4 分] {"stage": "law", "key": "2025-09-01", "h": 8.17, "zone": "dorm", "home": false, "e37": true}
+  [1074.1s] 到達「床」附近（0.25 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，3 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00。會
+  [1079.0s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00。會
+  [1083.8s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00。會
+  [1088.5s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   ▶ 「溫州街有一間麵店，便宜，份量也夠。」 ／ ['「溫州街有一間麵店，便宜', '「往捷運站那邊走，店比較', '「我也還在找。」']
+  [1108.6s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到傍晚（不設鬧鐘）睡到 18:00。會
+   ▶ 照樣跳過會錯過：09:10 憲法（上）、15:30 體育 ／ ['照樣跳過會錯過：09:1', '先不要']
+  [1116.5s] 到達「床」附近（0.25 m）：點地面 0 次、轉鏡頭 0 次、搖桿 0 次，0 秒
+   去睡： 睡到明天早上（08:10）08:10（第
+PASS 畫面檢查（自動，132 次）：沒有黑畫面、被蓋住、文字超框、按鈕出界、人物不在畫面  []
+  [1124.2s] 縮圖總表：/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_1.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_2.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_3.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_4.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_5.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_6.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_7.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_8.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_9.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_10.png、/tmp/claude-0/-home-user-Lawstudent/a08a2075-8dd6-5be2-9e44-b63f69067248/scratchpad/r_qa_sleep/screens_sheet_11.png
+結束 {"stage": "law", "key": "2025-09-02", "h": 8.185888000000004, "e37": true, "fb": 0} 手機回覆 14 收起自動打開的手機 43
+問題：
+生活費入帳：
+    2024-10-31 22 +5000 提示： 和杜可昕在一起，比之前自在。
+    2024-11-03 21 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2024-12-13 14 +5000 提示： 手機｜經濟系 大一（全班）｜你：被偷的東西，原主兩年內可以要回去。車要還，可是你可以…
+    2025-01-03 21 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2025-02-02 23 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2025-03-10 21 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2025-04-23 21 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2025-07-10 20.5 +5000 提示： 家裡匯來這個月的生活費：5,000 元
+    2025-08-13 9.5 +5000 提示： 和杜可昕在一起，比之前自在。　盧正勳好像更信任你了一點。
+    2025-09-01 8.17 +30000 提示： 大一上開學了。手機的「課表」可以看這學期的課。
+2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：
+提示字被擋或超出畫面：18／18
+    2024-09-02 7 和盧正勳熟了一點。 [347, 64, 149, 34] 最上層： c
+    2024-09-02 7.01 經濟系大一上開學了。手機的「課表」可以看這學期的課。 [236, 64, 370, 34] 最上層： c
+    2024-09-21 21.25 和杜可昕熟了一點。　和曾品妤熟了一點。 [282, 64, 279, 34] 最上層： c
+    2024-10-14 21.3 手機｜經濟系 大一（全班）｜韋綸：……有人嗎 [268, 64, 307, 34] 最上層： nextClass
+    2024-10-15 19.25 💸 100 元 [314, 64, 214, 34] 最上層： nextClass
+    2024-10-15 22.59 和杜可昕在一起，比之前自在。 [314, 64, 214, 34] 最上層： nextClass
+    2024-10-31 22 家裡匯來這個月的生活費：5,000 元 [303, 64, 236, 34] 最上層： adv-on
+    2024-11-06 17.75 手機｜可昕：今天下課以後，去湖邊坐一下？ [275, 64, 292, 34] 最上層： fade
+    2024-11-07 19 手機｜經濟系 大一（全班）｜你：被偷的東西，原主兩年內可以要 [131, 64, 580, 34] 最上層： BUTTON
+    2024-12-13 14 家裡匯來這個月的生活費：5,000 元 [0, 0, 0, 0] 最上層： adv-on
+可昕的句子：133 句；有立繪 125 句；要的表情和顯示的圖不一樣（退回別的圖）38 句
+    2024-08-23 ['neutral.webp']
+    2024-09-13 ['neutral.webp', 'smile.webp', 'teasing.webp']
+    2024-09-20 ['neutral.webp', 'smile.webp', 'teasing.webp']
+    2024-09-21 ['embarrassed.webp', 'neutral.webp']
+    2024-10-12 ['smile.webp']
+    2024-10-15 ['laugh.webp', 'neutral.webp']
+    2024-10-17 ['annoyed.webp', 'embarrassed.webp', 'neutral.webp', 'serious.webp', 'smile.webp', 'surprised.webp', 'thinking.webp']
+    2024-10-29 ['neutral.webp']
+    2024-11-06 ['neutral.webp', 'smile.webp', 'teasing.webp']
+    2024-12-31 ['neutral.webp']
+    2025-01-08 ['sad.webp', 'smile.webp', 'surprised.webp']
+    2025-01-28 ['neutral.webp', 'smile.webp']
+    2025-01-31 ['laugh.webp', 'neutral.webp', 'sad.webp', 'serious.webp', 'smile.webp', 'surprised.webp', 'teasing.webp', 'thinking.webp']
+    2025-02-13 ['laugh.webp', 'neutral.webp', 'tired.webp']
+    2025-02-14 ['neutral.webp', 'smile.webp', 'surprised.webp']
+    2025-02-15 ['neutral.webp']
+    2025-04-24 ['neutral.webp', 'serious.webp', 'smile.webp', 'teasing.webp']
+    2025-06-12 ['annoyed.webp', 'neutral.webp', 'tired.webp']
+    2025-06-17 ['embarrassed.webp', 'teasing.webp']
+    2025-06-24 ['laugh.webp']
+    2025-06-28 ['sad.webp']
+    2025-07-10 ['smile.webp', 'thinking.webp']
+    2025-07-11 ['serious.webp', 'smile.webp']
+    2025-07-25 ['annoyed.webp', 'neutral.webp', 'sad.webp', 'smile.webp']
+    2025-08-13 ['embarrassed.webp', 'neutral.webp', 'sad.webp', 'smile.webp', 'teasing.webp', 'thinking.webp']
+    2025-08-30 ['smile.webp', 'thinking.webp', 'tired.webp']
+    退回： 2024-09-13 我沒有抽。所以沒有違規。 {'want': 'teasing', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-09-13 洗好再還你。 {'want': 'teasing', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-09-20 （遞面紙）……謝謝。 {'want': 'neutral', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-09-20 當然。我又不是那種人。 {'want': 'neutral', 'outfit': '', 'shown': 'kexin/campus/teasing.webp', 'compact': False}
+    退回： 2024-10-12 可以畫長頸鹿嗎？ {'want': 'neutral', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-10-17 好恐怖。說。 {'want': 'smile', 'outfit': '', 'shown': 'kexin/campus/surprised.webp', 'compact': False}
+    退回： 2024-10-17 他在問我會計作業。他問了一個晚上。 {'want': 'thinking', 'outfit': '', 'shown': 'kexin/campus/neutral.webp', 'compact': False}
+    退回： 2024-10-17 我喜歡的是你。 {'want': 'thinking', 'outfit': '', 'shown': 'kexin/campus/embarrassed.webp', 'compact': False}
+    退回： 2024-10-17 你今天說你休學，我第一個想到的是：完了，他要跑了。 {'want': 'thinking', 'outfit': '', 'shown': 'kexin/campus/neutral.webp', 'compact': False}
+    退回： 2024-10-17 ……好。 {'want': 'thinking', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-10-17 那去坐摩天輪。 {'want': 'thinking', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+    退回： 2024-11-06 ……好羨慕。 {'want': 'neutral', 'outfit': '', 'shown': 'kexin/campus/smile.webp', 'compact': False}
+PASS 玩到 8/30 第一次去政大（E37 演完）  {"stage": "law", "key": "2025-09-02", "h": 8.185888000000004, "e37": true, "fb": 0}
+PASS 沒有卡住超過 4 分鐘  0
+PASS 沒有用到卡住保險  0
+PASS 沒有 JS 例外  []
+ALL PASS

@@ -20,15 +20,16 @@ PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
-SNAP_KEYS = {'2024-10-30', '2024-11-29', '2025-02-12', '2025-06-06', '2025-08-31'}   # 11/1、12/1 匯款前、2/14 重考班、6/8 衝刺班前、9/1 法律系前
+SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、重考班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
 HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, lastToast='', lastKx='';
   const meta=()=>{ try{ const G=GAME.G; return {d:CALENDAR.dateOf(G.day).key, h:Math.round(G.hour*100)/100, z:G.zone}; }catch(e){ return {}; } };
   setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const m=GAME.G.money; if(lastMoney!==null&&m!==lastMoney){ const t=document.getElementById('toast'); window.__bb.money.push(Object.assign({from:lastMoney,to:m,delta:m-lastMoney,toast:t&&!t.classList.contains('hide')?t.textContent:'',lastToast},meta())); } lastMoney=m; }catch(e){} },200);
-  document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); if(t) new MutationObserver(()=>{ const x=t.textContent; if(x&&x!==lastToast){ lastToast=x; const rec=Object.assign({t:x},meta()); window.__bb.toasts.push(rec);
-      setTimeout(()=>{ try{ const r=t.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2, top=document.elementFromPoint(cx,cy); rec.rect=[r.left|0,r.top|0,r.width|0,r.height|0]; rec.inView=r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight; rec.onTop=!!top&&(top===t||t.contains(top)); rec.topEl=top?String(top.id||top.className||top.tagName).slice(0,30):''; rec.hidden=t.classList.contains('hide'); }catch(e){} },600); } }).observe(t,{childList:true,characterData:true,subtree:true});
+  document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); let lastVis=false; if(t) new MutationObserver(()=>{ const x=t.textContent, vis=!t.classList.contains('hide'); if(x&&vis&&(x!==lastToast||!lastVis)){ lastToast=x; const rec=Object.assign({t:x},meta()); window.__bb.toasts.push(rec);
+      setTimeout(()=>{ try{ const r=t.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2; const pe=t.style.pointerEvents; t.style.pointerEvents='auto'; const top=document.elementFromPoint(cx,cy); t.style.pointerEvents=pe; rec.rect=[r.left|0,r.top|0,r.width|0,r.height|0]; rec.inView=r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight; rec.onTop=!!top&&(top===t||t.contains(top)); rec.topEl=top?String(top.id||top.className||top.tagName).slice(0,30):''; rec.hidden=t.classList.contains('hide'); }catch(e){} },600); } if(x) lastToast=x; lastVis=vis; }).observe(t,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
     const d=document.getElementById('dlgText'); if(d) new MutationObserver(()=>{ try{ const nm=((document.getElementById('dlgName')||{}).textContent||'').trim(); const full=(GAME.D&&GAME.D.full)||''; if(!/可昕/.test(nm)||!full) return; const k=nm+'|'+full; if(k===lastKx) return; lastKx=k;
       setTimeout(()=>{ try{ const sl=(typeof ADV!=='undefined'&&ADV.slots)||{}; const pick=w=>{ const s=sl[w]; if(!s||s.charId!=='kexin') return null; const box=w==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); return {want:s.expression, outfit:s.outfit||'', shown:im?(im.src.split('/portraits/')[1]||im.src).replace(/\?.*$/,''):'', compact:!!s.compact}; };
-        window.__bb.kx.push(Object.assign({t:full.slice(0,40), slot:pick('left')||pick('right')}, meta())); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
+        const rec=Object.assign({t:full.slice(0,40), slot:pick('left')||pick('right')}, meta()); window.__bb.kx.push(rec);
+        setTimeout(()=>{ try{ const p2=pick('left')||pick('right'); rec.shown2=p2?p2.shown:''; }catch(e){} },1500); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
 })();"""
 async def pick(pg, cdp):
     c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
@@ -52,7 +53,7 @@ async def main():
         await pg.add_init_script(HOOK)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
-        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; snapped = set()
+        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; snapped = set(); pre = {}
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:typeof HOME!=='undefined'&&HOME.at(GAME.G),e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
@@ -60,10 +61,16 @@ async def main():
             if g['key'] != last_key:
                 last_key = g['key']; print('  [%6.1f 分] %s' % ((time.time()-t0)/60, json.dumps(g, ensure_ascii=False)), flush=True)
                 if g['key'][:7] not in months: months.add(g['key'][:7]); await run.shot(pg, 'month_' + g['key'])
-                if g['key'] in SNAP_KEYS and g['key'] not in snapped:   # 2026-10-21：存一份狀態（GAME.snapshot），直向補拍「生活費」提示字從這裡讀檔
-                    snapped.add(g['key'])
-                    try: open(os.path.join(OUT, 'snap_%s.json' % g['key']), 'w', encoding='utf-8').write(await pg.evaluate("JSON.stringify(GAME.snapshot())")); print('   存狀態 snap_%s.json' % g['key'], flush=True)
-                    except Exception as e: print('   存狀態失敗', g['key'], e, flush=True)
+                snap = None
+                for T in SNAP_BEFORE:   # 2026-10-21：跨過 T 之前最後一個狀態（GAME.snapshot）寫成 snap_before_T.json，直向補拍「生活費」提示字從這裡讀檔
+                    if T in snapped: continue
+                    if g['key'] < T:
+                        if snap is None:
+                            try: snap = await pg.evaluate("JSON.stringify(GAME.snapshot())")
+                            except Exception as e: print('   存狀態失敗', T, e, flush=True); snap = ''
+                        if snap: pre[T] = (g['key'], snap)
+                    elif T in pre:
+                        snapped.add(T); open(os.path.join(OUT, 'snap_before_%s.json' % T), 'w', encoding='utf-8').write(pre[T][1]); print('   存狀態 snap_before_%s.json（%s 的狀態）' % (T, pre[T][0]), flush=True)
             s = await L.state(pg)
             sig = (s['dtext'], s['choices'], g['zone'], g['h'], g['key'])
             if sig != last_sig: last_sig = sig; stuck_t = time.time()
@@ -121,7 +128,7 @@ async def main():
         print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
         tb = [x for x in bb.get('toasts', []) if 'rect' in x and (not x.get('inView') or not x.get('onTop'))]
         print('提示字被擋或超出畫面：%d／%d' % (len(tb), len(bb.get('toasts', [])))); [print('   ', x['d'], x['h'], x['t'][:30], x.get('rect'), '最上層：', x.get('topEl')) for x in tb[:10]]
-        kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not x['slot']['shown'].endswith('/' + str(x['slot']['want']) + '.webp')]
+        kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not (x.get('shown2') or x['slot']['shown']).endswith('/' + str(x['slot']['want']) + '.webp')]   # 2026-10-21：看 1.5 秒後的圖（0.45 秒時常常還是上一句的圖）
         print('可昕的句子：%d 句；有立繪 %d 句；要的表情和顯示的圖不一樣（退回別的圖）%d 句' % (len(kx), len([x for x in kx if x.get('slot') and x['slot']['shown']]), len(fb)))
         byday = {}
         for x in kx:
