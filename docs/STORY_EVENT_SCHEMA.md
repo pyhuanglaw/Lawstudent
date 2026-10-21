@@ -111,6 +111,9 @@
             consequences:{…}, set:{…}, mem:[…], rel:{…}, choiceKey:'rainChoice', value:'share',
             goto:'share' | next:'ev_xxx' | end:true } ] }
 ```
+// 她問到祐廷的感情狀態（BB_194 §24）：選項或劇本固定照實的那一句加 yt（ytHer＝問的那一位，沒寫＝事件的第一位人物；ytAbout＝claimEnded 說的是誰）
+{ choice:[ { text:'「她不知道。」', yt:'honest' }, { text:'「就吃飯而已。」', yt:'dodge' }, { text:'「我跟她分了。」', yt:'claimEnded', ytAbout:'kexin' }, { text:'「我沒有女朋友。」', yt:'claimNone' } ] }
+{ speaker:'player', text:'對。', yt:'honest', ytHer:'heroine_01' }   // 和事實比：說的那個人還在交往中＝YT_LIED[她][Y]，真的＝YT_HONEST[她]（romance3d.js ROM.ytAnswer）
 
 文字可用 `{name}`（玩家名）與 `{npc:heroine_03}`（依揭露階段顯示的名稱）。
 

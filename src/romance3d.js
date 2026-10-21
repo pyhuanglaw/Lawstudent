@@ -85,6 +85,22 @@ const ROM=(function(){
   S.isEx=(G,id)=>!!(G.flags&&G.flags['EX_'+id]);
   /* 她知道祐廷現在還在交往的哪些人（不含她自己；分開了的不算）*/
   S.knows=function(G,x){ S.rec(G); return S.partners(G).filter(p=>p!==x&&S.knowsOf(G,x,p)); };
+  /* 誠實／閃避／說謊（BB_194 第 2 節、§24；任務 BB194-YTFLAGS）：她問到祐廷的感情狀態，祐廷的回答記在這三個旗標，期末飯的知情門檻（termend3d.js KNOWS_OK）讀它們。
+     選項標 yt（events3d.js：選項的 yt／ytHer／ytAbout，或劇本固定照實的那一句 {yt:'honest'}）：
+       'honest'＝YT_HONEST[X]；'dodge'＝YT_DODGED[X]（沒有回答、岔開；不算說謊）；
+       'claimEnded'（說已經分了）、'claimNone'（說沒有女朋友）拿去和事實比：說的那個人還在交往中（REL_STATE＝dating）＝YT_LIED[X][Y]，剛好是真的＝YT_HONEST[X]。
+     claimNone 說的是「現在沒有任何人」：比祐廷現在所有的交往對象（X 以外）；claimEnded 說的是 about 那一位（沒寫＝她知道的那幾位，她都不知道＝現在所有的交往對象）。
+     格式照 termend3d.js：YT_HONEST、YT_DODGED＝{她:true}；YT_LIED＝{她:{Y:true}}。只記玩家真的選過的；記過就留著（第 8 節：說謊的紀錄不清掉）。回傳 'honest'／'dodge'／'lied'（null＝標記不認得）*/
+  S.YT_KINDS=['honest','dodge','claimEnded','claimNone'];
+  S.ytAnswer=function(G,x,kind,about){ if(!G||!x||!S.YT_KINDS.includes(kind)) return null; const F=G.flags||(G.flags={}), M=k=>sub(F,k);
+    if(kind==='honest'){ M('YT_HONEST')[x]=true; return 'honest'; }
+    if(kind==='dodge'){ M('YT_DODGED')[x]=true; return 'dodge'; }
+    const now=S.partners(G).filter(p=>p!==x); let ys;
+    if(kind==='claimNone') ys=now;
+    else { const a=typeof about==='function'?about(G):about; ys=a!=null?[].concat(a).filter(p=>p&&p!==x):S.knows(G,x); if(a==null&&!ys.length) ys=now; }
+    const lies=ys.filter(p=>now.includes(p));
+    if(!lies.length){ M('YT_HONEST')[x]=true; return 'honest'; }
+    const L=sub(M('YT_LIED'),x); for(const p of lies) L[p]=true; return 'lied'; };
   /* 開始新的一段：她不是交往中／等你說清楚；被發現退回朋友的要過了重新開始的週數；最近一次分開以後收拾過了（CLEANUP_DONE）。
      已經有別的伴侶不擋（X1）；她答不答應（個性、她知道什麼、告白條件 AA_128 3-2）由告白事件判斷 */
   S.canStart=function(G,id){ const R=S.get(G,id); if(R.status==='dating'||R.status==='paused') return false;
