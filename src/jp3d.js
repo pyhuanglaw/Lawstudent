@@ -14,7 +14,8 @@
    - 8/5 回程（J-S9、J-S19）：入境大廳（AA_253 9-2）→ 回臺北的家（AA_144 X2）→ 當晚 1A-08（story3d.js，在家的版本）；大三暑假三選一不演（裁定 10）。時間換回臺灣時間。
    - 台灣的大三下（J-S6、J-S15）：日本路線不排台灣的課、不跳開學和期中期末的提示（classes3d.js 問 JP.skipTerm）；成績單只有日本的兩門（日本語不算學分），回來以後照公布日在早上發。
      大四下補修（AA_144 X4；以安不補修，裁定 7）：courses.js 的 civpro_2_re、insurance_re（route JP；redo＝重播大三下那一門的 syllabus）。
-   - 以安的手機（G9、J-S16）、時差（J-S7、J-S13：group3d.js、y34b3d.js、r2y3a3d.js、home3d.js 各自換算）、該關的（J-S14）、旗標別名 AN_JP_DEPARTED（J-S17）見各段。
+   - 以安的手機（G9、J-S16）、時差（J-S7、J-S13、AA_342 C6：group3d.js、y34b3d.js、r2y3a3d.js、r2y3b3d.js、home3d.js、holff3d.js、vac3d.js 各自換算；這裡包住 MSG.replyAt、STORY.DAILY_PHONE）、
+     該關的（J-S14；家人群組每週四「這週回來吃飯嗎」人在日本不問）、旗標別名 AN_JP_DEPARTED（J-S17）見各段。
    給其他事件包（例：AA_326 的日本路線事件，src/r2y3b3d.js）：人在日本＝STORY.inJapan(G)；G.zone＝'jp_hub'；據點裡的地方 JP.place(G)＝'room'|'kitchen'|'konbini'|'river'。
      遊戲時鐘＝日本時間：臺灣傳來的時間要 +STORY.tzOffset(G,day)（r2y3b3d.js 的 lt／jt、group3d.js 的 tw、y34b3d.js 的 tzH）。
      事件可以寫 trigger:'jp'（據點每一輪、快轉每 15 分鐘 EVENTS.check，到了就演；location 可以寫 'any'），或照舊掛 STORY.TICKS（據點每一輪會跑，回傳 true＝開演了，據點讓出畫面）。
