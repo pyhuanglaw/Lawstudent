@@ -903,7 +903,7 @@ const Z3 = (function(){
       g.userData.wzMeanArea=m?a/m:0; }
     return g.userData.wzMeanArea>0.1; }   /* 平均三角形面積 > 0.1 m²：牆、屋頂、雨遮、鐵捲門、騎樓天花板這種大面才投影；門把、花盆、窗框、欄杆、信箱這種小零件不投影 */
   function attachCafeExterior(cafe,root,hide){
-    for(const m of cafe.children) if(m.isMesh||m.isSprite) m.visible=false;
+    for(const m of cafe.children) if(m.isMesh||m.isSprite){ m.visible=false; if(m.isSprite&&m.userData.nightO!==undefined){ m.userData.nightO=0; m.userData.dayO=0; } }   /* 套件的光暈（TK.glowSprite）：TK.setNight 每次依時段重設 visible，只藏起來的話又會出現、疊在正式外觀上（和 attachWenzhouModel 一樣，日夜的亮度都設成 0；LAWWW2 2026-10-21 cafe_glb_integration 量到 7 個）*/
     for(const o of hide||[]) o.visible=false;
     const glows=[];
     root.traverse(o=>{ if(o.userData&&o.userData.glow) glows.push(o); if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;

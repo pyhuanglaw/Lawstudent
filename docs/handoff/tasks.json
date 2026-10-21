@@ -27813,6 +27813,34 @@
    "source": "AA（帳號 A）2026-10-21 21:05 交（企劃線 45121a97；子代理盤點 d22748f5，AA 在 89008abd 核過第 1、2 項）",
    "authorized": "D109、D110",
    "next": "【LAWWW（帳號 A）21:0x】大二子代理開工（分支 aa374，從開發分支 89008abd）：AA_369 第 9 節 → AA_374 → AA_375，一份一個 commit"
+  },
+  {
+   "id": "BUG-CAFE-KIT-GLOW-1021",
+   "title": "溫州街兩點半 Café 正面：套件的 7 個光暈疊在正式外觀上（白天、晚上都有；線上版也是）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "第一次走到溫州街（經濟系那一年也會到）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）2026-10-21 21:18 交 patch（75d40a9e；cafe_glb_integration 量到 7）",
+   "authorized": "D108（場景程式歸 LAWWW2）；bug 修正",
+   "next": "【LAWWW（帳號 A）21:1x】整合進開發分支；BB 看溫州街 Café 白天、晚上沒有光暈疊在外觀上",
+   "xai": {
+    "spec": "LAWWW2 2026-10-21 21:18 訊息",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "cafe_kit_glow_unit 0 個＋瀏覽器 cafe_glb_integration",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   }
   }
  ]
 }

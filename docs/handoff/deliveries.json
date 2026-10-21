@@ -12944,6 +12944,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-75d40a9e",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "75d40a9e",
+   "what": "BUG-CAFE-KIT-GLOW-1021：溫州街兩點半 Café 正面套件的 7 個光暈疊在正式外觀上（白天、晚上都有）：docs/art-rebuild/second_ai/patches/cafe_kit_glow.diff（zones3d.js attachCafeExterior 一行：藏起來的套件光暈日夜亮度設 0）＋tests/cafe_kit_glow_unit.js",
+   "task": "BUG-CAFE-KIT-GLOW-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:1x 整合進開發分支（對 54ae1009 乾淨；新測試修改前 7、7、7、7 個，修改後 0；cafe_*、wz_*、street_trees 11 支全過）；BB 看溫州街 Café 白天、晚上；LAWWW2 瀏覽器 cafe_glb_integration 重跑結果出來再補"
   }
  ],
  "ignored": [
