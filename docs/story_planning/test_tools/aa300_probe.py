@@ -42,7 +42,7 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
-        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; stops = []; seen_bad = set(); cards = []; last_card = ''; in_scene = False; phone_auto = 0
+        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; stops = []; seen_bad = set(); cards = []; beds = []; last_card = ''; in_scene = False; phone_auto = 0
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:typeof HOME!=='undefined'&&HOME.at(GAME.G),e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
@@ -103,10 +103,12 @@ async def main():
                 idle = 0; continue
             if s['busy']: await pg.wait_for_timeout(700); continue
             idle += 1
-            if MODE == 'sleep' and g['zone'] == 'dorm' and not g['home'] and idle >= 2:
+            if (MODE == 'sleep' or (MODE == 'ff' and g['stage'] == 'law')) and g['zone'] == 'dorm' and not g['home'] and idle >= 2:   # 2026-10-21：快轉玩法進了法律系宿舍（8/29 起）也去床邊——床的選單有沒有「快轉」照實記下來（BUG-0830-EMPTYSTOP-1018）
                 bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
                 if bed and await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床', max_s=90):
-                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200); idle = 0; continue
+                    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); idle = 0
+                    bo = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim().slice(0,30))")
+                    print('   床的選單 %s %.2f：%s' % (g['key'], g['h'], ' / '.join(bo)), flush=True); beds.append((g['key'], g['h'], bo)); continue
             if idle >= 40 and not g['home'] and g['zone'] == 'campus':   # 出遊演完人留在校園：走到校門口「回臺北的家」（玩家會做的）
                 problems.append('演完留在校園、要自己走去校門口回家：%s %.2f' % (g['key'], g['h'])); print('   ' + problems[-1], flush=True)
                 if await L.go_to(pg, cdp, run, -120.5, 2.4, 0.9, '回臺北的家', max_s=240): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
@@ -118,6 +120,7 @@ async def main():
         print('總時間 %.1f 分（真實時間，?turbo 下）' % ((time.time()-t0)/60))
         print('停點 %d 個：' % len(stops)); [print('   %2d %s %5.2f %-10s「%s」' % (i+1, *x)) for i, x in enumerate(stops)]
         print('日期卡 %d 張：' % len(cards)); [print('   ', x) for x in cards]
+        print('床的選單 %d 次：' % len(beds)); [print('   %s %5.2f %s' % (k, h, ' / '.join(o))) for k, h, o in beds]
         print('手機自己打開 %d 次' % phone_auto)
         print('問題：'); [print('   -', x) for x in problems]
         run.check('玩到 8/30 第一次去政大（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
