@@ -21356,7 +21356,7 @@
    },
    "source": "AA-C 06:23（AA_293 第 4 點）",
    "authorized": "系統提示字（LAWWW 可寫，D79 第 3 點）",
-   "next": "【LAWWW（帳號 A）21:3x】BB 21:4x ① 排進行程的提示 PASS（78f4c813：收起手機後出現、停 5.2 秒、不被擋）；② 10/4 出發→烤肉重跑中；P3 建議手機開著按完選項就跑一次 phoneRules（不改也看得到）｜ 【LAWWW（帳號 A）19:59 UTC】e9ccc6e4：排進行程時出提示（第一次說明「時間到會跳出出發、手機今天看得到」）＋早上「今天還有」寫時間到會跳出出發；BB 瀏覽器：法律系大一上答應阿哲中秋烤肉 → 看提示 → 週六 15:00 出發選單 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：法律系各群組活動公告（系烤、中秋、聖誕…）後加一句系統提示，或當天由人私訊帶路（AA_293 第 4 點） ｜ 經濟系：事件接事件自動帶去；法律系那幾年同類群組活動公告後加系統提示「當天會有人私訊你」",
+   "next": "【LAWWW（帳號 A）22:3x】BB 讀碼：出遊不在手機「今天」頁（invTodayHTML 只列當面約），提示卻寫「手機的『今天』也看得到」→ 修：CLS.outTodayHTML 在「今天」加「今天的行程」（tests/today_outings_unit.js，修改前 FAIL）；BB 的 groupnotice3 10/4 打開「今天」頁確認 ｜ 【LAWWW（帳號 A）21:3x】BB 21:4x ① 排進行程的提示 PASS（78f4c813：收起手機後出現、停 5.2 秒、不被擋）；② 10/4 出發→烤肉重跑中；P3 建議手機開著按完選項就跑一次 phoneRules（不改也看得到）｜ 【LAWWW（帳號 A）19:59 UTC】e9ccc6e4：排進行程時出提示（第一次說明「時間到會跳出出發、手機今天看得到」）＋早上「今天還有」寫時間到會跳出出發；BB 瀏覽器：法律系大一上答應阿哲中秋烤肉 → 看提示 → 週六 15:00 出發選單 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：法律系各群組活動公告（系烤、中秋、聖誕…）後加一句系統提示，或當天由人私訊帶路（AA_293 第 4 點） ｜ 經濟系：事件接事件自動帶去；法律系那幾年同類群組活動公告後加系統提示「當天會有人私訊你」",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -27079,7 +27079,7 @@
    "title": "期末考那天進教室、還沒坐下時黑板寫的是別的課（「憲法：基本權的限制」），坐下後才換成該科的期末考（Y2S1、Y3S1）",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y2S1",
@@ -27093,14 +27093,15 @@
    },
    "source": "BB（帳號 A）16:51：BB_218 最後一節（38dc2bd5；test_shots/exam_port_1021/ 截圖 11、20）",
    "authorized": "bug 修正",
-   "next": "【LAWWW（帳號 A）21:0x】CLS.examBoard：今天這間教室還沒考完的期中／期末考，進門就是「X：期末考／不可以翻書／鈴響請停筆」，沒有才照星期幾的表；tests/exam_board_unit.js（修改前 7 項 FAIL）；BB 大二上 12/21 進 201 看黑板 ｜ 黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）22:3x】BB 驗收 PASS ｜ 【LAWWW（帳號 A）21:0x】CLS.examBoard：今天這間教室還沒考完的期中／期末考，進門就是「X：期末考／不可以翻書／鈴響請停筆」，沒有才照星期幾的表；tests/exam_board_unit.js（修改前 7 項 FAIL）；BB 大二上 12/21 進 201 看黑板 ｜ 黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後",
+   "evidence": "BB（帳號 A）22:3x PASS（企劃線 BB_218 c73d942b；開發分支 a18ae441；Playwright 手機模擬）：2026-12-21 08:30 在 201 讀檔、從霖澤館一樓走進 201 兩種，還沒坐下黑板都是「行政法：期末考／不可以翻書／鈴響請停筆」"
   },
   {
    "id": "UX-KAI-TAPE-CAM-1021",
    "title": "ev_kai_tape2 演出時鏡頭貼近膠帶，讓玩家讀得到「法律系免簽」（一般鏡頭看不清楚地上的字，LAWWW2 6437fcf6 對照圖）",
    "area": "STORY",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -27114,7 +27115,8 @@
    },
    "source": "LAWWW2 16:56（BB_218 退回的膠帶字）；AA 16:10 旁白已改「麥克筆的大字」",
    "authorized": "演出鏡頭（不改台詞）",
-   "next": "【LAWWW（帳號 A）21:5x】BB 21:4x：走廊進門、待在房間等到 18:00 PASS（字 376×24／342×22 px）；讀檔後第一次進門 FAIL（模型還沒載到）→ 修：ev_kai_tape2 條件加 Y1FILL.tapeReady（膠帶模型載到才演，交給「進房間 2.5 秒」；載不到待滿 12 秒照原本鏡頭）；kai_tape_cam 第 5 項；請 BB 重跑 C_L、C_P ｜ 【LAWWW（帳號 A）21:1x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）22:3x】BB 驗收 PASS ｜ 【LAWWW（帳號 A）21:5x】BB 21:4x：走廊進門、待在房間等到 18:00 PASS（字 376×24／342×22 px）；讀檔後第一次進門 FAIL（模型還沒載到）→ 修：ev_kai_tape2 條件加 Y1FILL.tapeReady（膠帶模型載到才演，交給「進房間 2.5 秒」；載不到待滿 12 秒照原本鏡頭）；kai_tape_cam 第 5 項；請 BB 重跑 C_L、C_P ｜ 【LAWWW（帳號 A）21:1x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後",
+   "evidence": "BB（帳號 A）22:3x ALL PASS（企劃線 BB_218 c73d942b；開發分支 2469df7f；Playwright 手機模擬，不是 iPhone）：讀檔後第一次進 203（C_L 橫向、C_P 直向）開場是 ev.shot、1.8 秒後「法律系免簽」在畫面正中、地上是寫字那段；擋掉模型下載（F_L）照原本鏡頭演完沒卡；走廊走回（W_L）照舊 PASS。進門到開演 C_L 20.9 秒（模擬器載模型），F_L 115.8 秒（?turbo 每格 dt 上限 0.1 秒；實機 60 fps 約 12 秒，實機沒量）"
   },
   {
    "id": "AA367-PG-DATES-1021",
@@ -27824,7 +27826,7 @@
    "id": "BUG-CAFE-KIT-GLOW-1021",
    "title": "溫州街兩點半 Café 正面：套件的 7 個光暈疊在正式外觀上（白天、晚上都有；線上版也是）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": "ART",
    "first": {
@@ -27839,14 +27841,15 @@
    },
    "source": "LAWWW2（帳號 A）2026-10-21 21:18 交 patch（75d40a9e；cafe_glb_integration 量到 7）",
    "authorized": "D108（場景程式歸 LAWWW2）；bug 修正",
-   "next": "【LAWWW（帳號 A）21:1x】整合進開發分支；BB 看溫州街 Café 白天、晚上沒有光暈疊在外觀上",
+   "next": "【LAWWW（帳號 A）22:3x】BB 驗收 FIXED ｜ 【LAWWW（帳號 A）21:1x】整合進開發分支；BB 看溫州街 Café 白天、晚上沒有光暈疊在外觀上",
    "xai": {
     "spec": "LAWWW2 2026-10-21 21:18 訊息",
     "branch": "claude/second-ai-env-art",
     "acceptance": "cafe_kit_glow_unit 0 個＋瀏覽器 cafe_glb_integration",
     "receiver": "LAWWW",
     "ack": "ACTIONED"
-   }
+   },
+   "evidence": "BB（帳號 A）22:3x FIXED（企劃線 BB_218 c73d942b；開發分支 825e8a2b；同一版只把那一行換回修正前做對照；Playwright 手機模擬）：修正前 13:00／17:50／20:30 都看得到套件那 7 個光暈，修正後 0；正式外觀自己的 14 個光暈照常；對照圖 test_shots/cafeglow_1021/（畫面 READY_FOR_ART_REVIEW）"
   },
   {
    "id": "BUG-FUNDS-TOAST-MULTI-1021",

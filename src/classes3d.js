@@ -725,8 +725,11 @@ const CLS=(function(){
             {key:'service',text:'服務學習報到（9/24 週三 13:20，法律學院圖書館 櫃台）',done:(R.attend.service_1||0)>=1}]; };
   S.todoHTML=function(G){ const its=S.todoItems(G); if(!its.length) return ''; const left=its.filter(q=>!q.done).length;
     return '<div class="item"><b>開學待辦</b>'+(left?'<span class="muted">（還有 '+left+' 項，不做也沒關係）</span>':'<span class="muted">（都做完了）</span>')+its.map(q=>'<div class="'+(q.done?'muted':'')+'" style="margin-top:4px'+(q.done?';text-decoration:line-through':'')+'">'+(q.done?'✓ ':'☐ ')+esc(q.text)+'</div>').join('')+'</div>'; };
+  /* 手機「今天」：今天排進行程的出遊（UX-GROUP-NOTICE-1018；BB 10-21：排進行程的提示寫「手機的『今天』也看得到」，可是「今天」原本只列課和當面約，出遊看不到）*/
+  S.outTodayHTML=function(G){ if(typeof OUT==='undefined'||!OUT.rec) return ''; const L=OUT.rec(G).filter(q=>q&&q.state==='planned'&&q.day===G.day).sort((a,b)=>a.h-b.h); if(!L.length) return '';
+    return '<div class="item"><b>今天的行程</b>'+L.map(q=>{ const t=q.title||q.place||'出遊', pl=q.place&&!t.includes(q.place)?'（'+q.place+'）':''; return '<div>'+esc(hhmm(q.h)+'　'+t+pl)+'</div>'; }).join('')+'<div class="muted">時間到會跳出「出發」</div></div>'; };
   S.todayHTML=function(G){ const its=S.dayItems(G).filter(it=>!S.storyClass(G,it)); const st={done:'上過了',missed:'沒去',open:'現在可以進教室',upcoming:'還沒開始'};
-    let h='<div class="item"><b>'+esc(S.dayLabel(G))+'</b><div class="muted">現在 '+hhmm(hr(G))+'</div></div>'+(S.slotHTML?S.slotHTML(G):'')+S.todoHTML(G);
+    let h='<div class="item"><b>'+esc(S.dayLabel(G))+'</b><div class="muted">現在 '+hhmm(hr(G))+'</div></div>'+(S.slotHTML?S.slotHTML(G):'')+S.todoHTML(G)+S.outTodayHTML(G);
     if(typeof HOME!=='undefined'&&HOME.baseMode&&HOME.baseMode(G)&&HOME.y0CalHTML) h+=HOME.y0CalHTML(G,7);   /* 經濟系休學在家：序章行事曆（衝刺班、模擬考、放榜…；home3d.js）*/   /* 時段次數（DL-03 2-6）在最上面 */
     if(!its.length) h+='<div class="item">'+esc(S.todayLine(G))+'</div>';
     const R2=S.rec(G); for(const it of its){ const s=S.status(G,it); const lab=s==='done'&&R2.abs[it.key]?'進去聽了（記缺席）':(s==='done'&&R2.late[it.key]?'上過了（遲到）':(s==='open'&&S.isLateAbsent(G,it)?'已經開始超過 15 分鐘（進去會記缺席）':(s==='open'&&S.lateMin(G,it)>=1?'已經開始（現在進去算遲到）':((s==='open'||s==='upcoming')&&R2.note['plan_skip_'+it.key]?'翹課':st[s])))); h+='<div class="item phrow"><div><b>'+hhmm(it.t0)+'–'+hhmm(it.t1)+'</b> '+esc(it.c.name)+(it.exam?'（考試）':'')+'<div class="muted">'+esc(it.room.name||'')+(it.c.prof||it.c.profName?'・'+esc(S.profName(it.c)):'')+'・'+lab+'</div></div>'+
