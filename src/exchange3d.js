@@ -33,13 +33,14 @@ const EXCH=(function(){
       const tz=12, h=G.hour+16-tz; G.hour=h; if(GM.E) GM.E.hour=G.hour; F.US_ARRIVED=true; F.US_ARRIVED_DAY=G.day;
       if(GM.titleCard) await GM.titleCard('抵達','美國印第安納　當地時間 '+Math.floor(h)+':'+String(Math.round((h%1)*60)).padStart(2,'0'),2200); }
     finally{ GM.sceneEnd(); }
+    if(typeof S.onArrive==='function'){ let r=false; try{ r=await S.onArrive(GM); }catch(e){ console.warn('EXCH.onArrive',e); } if(r){ if(GM.autosave) GM.autosave(); return true; } }   /* AA_327 2-Y4-16 US1（src/r2y4a3d.js）：巴士站 → 超市 → 公寓 */
     await GM.enter('us_outside',S.SPAWN.us_outside); if(GM.toast) GM.toast('公寓在社區的另一頭。',3000); if(GM.autosave) GM.autosave(); return true; };
   /* ---------- 返台（美國路線 2028-12-23；AA_318 1A-09、AA_144 X3、AA_291 第 5 節）：當地 12/22 06:00 以後、人在美國 → 字卡 → 臺灣 12/23 清晨 05:40 落地 → 回家 → 傍晚去宿舍 409 ---------- */
   S.returnAt=function(G){ if(!G||!G.flags||!G.flags.US_ARRIVED||G.flags.US_RETURNED!=null||typeof STORY==='undefined'||STORY.route(G)!=='US') return null; const d=DK(STORY.ROUTE_DATES.US.ret); return d==null?null:T(d-1,6); };
   S.returnDue=function(G){ const t=S.returnAt(G); return t!=null&&S.inUS(G)&&T(G.day,G.hour)>=t; };
-  S.returnHome=async function(GM){ const G=GM.G, F=G.flags; if(!S.returnDue(G)) return false; const d=DK(STORY.ROUTE_DATES.US.ret); F.US_RETURNED=d; GM.sceneBegin();
+  S.returnHome=async function(GM,o){ const G=GM.G, F=G.flags; if(!(o&&o.force&&S.returnAt(G)!=null)&&!S.returnDue(G)) return false;   /* force：AA_327 2-Y4-22 舊金山／布魯明頓那一週演完、12/21 起飛（src/r2y4a3d.js）*/ const d=DK(STORY.ROUTE_DATES.US.ret); F.US_RETURNED=d; GM.sceneBegin();
     try{ if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end(); await GM.fade(true); if(GM.titleCard) await GM.titleCard('飛回臺灣','舊金山起飛　約 14 小時',2600);
-      if(STORY.travelOvernight) STORY.travelOvernight(GM,d,5+40/60); if(GM.titleCard) await GM.titleCard('抵達','桃園機場　清晨 05:40',2200);   /* 時間換回臺灣時間（日期往後到 12/23）；AA-C bf349b96：舊金山 12/21 23:55 起飛、12/23 清晨 05:40 落地（AA_291 第 5 節、AA_327 2-Y4-22）*/
+      if(STORY.travelOvernight) STORY.travelOvernight(GM,d,5+40/60); if(GM.titleCard) await GM.titleCard('抵達','桃園機場　清晨 05:40',2200); if(typeof S.onLand==='function'){ try{ await S.onLand(GM); }catch(e){ console.warn('EXCH.onLand',e); } }   /* AA_327 2-Y4-22：入境大廳、上午回家（src/r2y4a3d.js）*/   /* 時間換回臺灣時間（日期往後到 12/23）；AA-C bf349b96：舊金山 12/21 23:55 起飛、12/23 清晨 05:40 落地（AA_291 第 5 節、AA_327 2-Y4-22）*/
       if(G.hour<17.5&&GM.advance) GM.advance(17.5-G.hour); }   /* 上午回家睡到下午（入境大廳那一段是 AA_327 2-Y4-22，第 2 輪事件包）；傍晚從家裡出發，19:00 到 409（roomY4FromAirport 再 +1.5 小時）*/
     finally{ GM.sceneEnd(); }
     if(STORY.roomY4FromAirport) return STORY.roomY4FromAirport(GM);

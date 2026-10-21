@@ -43,6 +43,7 @@ const POSTGRAD_LINES=(function(){
     lines:[[null,'（語彤穿著學士服，手上拿著一把深藍色的長柄傘。外面在飄雨。）'],['heroine_03','阿姨說今天不開店。她要來拍照。']],
     friend:'恭喜。……我還要一年，今天先穿一次學士服。',
     dating:'恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。',
+    cgDating:'cg_one_umbrella_heroine03',   /* CG-21 一把傘：交往中那一句（企劃線 cg_approved/ README；AA_121 第 6 節）*/
     other:'恭喜。我證書還要再等一年。' },
   /* ⑥ 其他人（BB_99 第 6 節定稿）*/
   OTHERS:{
@@ -95,7 +96,7 @@ const POSTGRAD_LINES=(function(){
     friend:[[null,'（研究室的燈只開了一半。長桌上一個蛋糕，比她平常吃的大很多。Kevin 在點蠟燭。）'],[KEVIN,'學姊！快！蠟燭要燒完了！'],['heroine_05','……我說過不用。'],['heroine_05','……謝謝。蠟燭一根就好。'],['heroine_05','{name}也來了。'],[null,'（她吹熄蠟燭。Kevin 問她許了什麼，她說：「許好了。不說。」）']],
     friendOpts:[{t:'「生日快樂。」',say:[['heroine_05','嗯。'],['heroine_05','今天你畢業，我生日。都沒排，結果還不錯。']]},{t:'「口試也過了，雙喜。」',say:[['heroine_05','口試是禮拜二的事。今天只過生日。']]}],
     loverKevin:[[KEVIN,'我們先走了！學弟，蛋糕交給你。']],
-    lover:[['heroine_05','……許願要說出來嗎？'],{cg:'cg_this_time_heroine05'},['heroine_05','……不說。這次不排。']],   /* BCG-39 在她閉眼許願那一拍（開發分支沒有圖＝不放）*/
+    lover:[['heroine_05','……許願要說出來嗎？'],{cg:'cg_this_time_heroine05'},['heroine_05','……不說。這次不排。']],   /* BCG-39 在她閉眼許願那一拍（2026-10-20 登錄：assets/cg/heroine_05/cg_no_plan.webp，企劃線 cg_approved/cg_no_plan_heroine05.webp）*/
     loverOpts:[{t:'「修正本我陪妳改。」',say:[['heroine_05','今天不改了。明天再說。']]},{t:'「那我也不問。」',say:[['heroine_05','嗯。'],['heroine_05','……可是你可以猜。猜對了我不會說。']]},{t:'（陪她坐著）',say:[[null,'（她把檯燈轉暗一格。蠟燭燒完以前，你們都沒有說話。）']]}],
     exOpts:['傳一句生日快樂','不傳'], exSend:'生日快樂。', exReply:['謝謝。','今天畢業，恭喜你。'],
     thanks:'謝謝大家。' },   /* 沒去的玩家：第二天家族群組只有她一句 */

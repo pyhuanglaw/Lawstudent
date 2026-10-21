@@ -19,6 +19,8 @@ KEEP = ('w', 'tpl', 'board', 'line', 'react', 'obs', 'call', 'special', 'second_
 owner = {}
 # 2026-10-14 課程調整（使用者 16:15，企劃分支 AA_130）：刪掉的 7 門課——就算舊的 JSON 還有，也不匯入
 DROPPED = ('law_society', 'law_society_2', 'juris', 'intl_public', 'legal_history', 'fair_trade', 'conflict_laws')
+# AA_342 C1（AA-C c56d4241）：大四下法律專題研究第 6、7 週改成一般的週（使用者 10-18 拿掉大四下的法院旁聽，AA_327 2-Y4-41）——企劃分支的 JSON 還有那兩週，也不匯入（那兩週照一般句子）
+DROPPED_WEEKS = {('legal_research', 6), ('legal_research', 7)}
 dropped_seen = []
 for t in TERMS:
     d = json.loads(show(f'docs/story_planning/syllabus/{t}.json'))
@@ -27,7 +29,7 @@ for t in TERMS:
         if c['id'] in owner: sys.exit(f"課程代號重複：{c['id']}（{owner[c['id']]}、{t}）")
         owner[c['id']] = t
         if t.startswith('Y0'): out['y0'].append(c['id'])
-        weeks = [{k: w[k] for k in KEEP if k in w} for w in c.get('syllabus', [])]
+        weeks = [{k: w[k] for k in KEEP if k in w} for w in c.get('syllabus', []) if (c['id'], w.get('w')) not in DROPPED_WEEKS]
         for w in weeks:
             if isinstance(w.get('obs'), dict) and 'echo' in w['obs']: w['obs'] = {k: v for k, v in w['obs'].items() if k != 'echo'}   # echo 只是企劃備註（AA_119：回聲改用 recall）
         if weeks: out['courses'][c['id']] = weeks
