@@ -1,26 +1,49 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 9041199..243425c 100644
+index 9041199..5b6302d 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -770,6 +770,7 @@ const Z3 = (function(){
-     { const ab=TK.aBoard(['今日手沖','衣索比亞','耶加雪菲','—','讀書位 有']); ab.position.set(54.4,0,3.6); ab.rotation.y=-Math.PI/2; g.add(ab); nav.blockCircle(54.4,3.6,0.35); ab.userData.dyn=true; cafeKitProps.push(ab); }
-     { const bk=W3.bikeAny('#2f5d50',546); bk.position.set(54.6,0,-5.4); bk.rotation.y=Math.PI+0.15; g.add(bk); nav.blockRect(54.6,-5.4,0.6,1.8,0.15,0.1); }
-     { const pt=TK.pots(5,1); pt.position.set(54.85,0,4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,5.4,0.6,1.8,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
-+    nav.blockRect(-1.82,5.02,0.83,0.83,0,0.25); nav.blockRect(-21.9,-4.9,0.6,0.46,0,0.25); nav.blockRect(22.73,-7.6,1.46,0.44,0,0.25); nav.blockRect(29.5,-7.5,0.6,0.44,0,0.25); nav.blockRect(-37.2,-3.02,0.8,0.64,0,0.25); nav.blockRect(-37.23,-3.5,0.63,0.61,0,0.25);   /* 正式模型門口、騎樓裡的雜物，人貼牆走會穿過去（ART-WZ0，LAWWW2 10-21；tests/street_props_nav_unit.js）：A2 公寓門邊盆栽、B1 鐵捲門前的紙箱、B5 巷口茶飲騎樓的回收桶、夏日冰菓室的 A 字立牌、W0 巷底公寓的兩個盆栽；範圍照 wenzhou_street.props.json 的腳印，pad 半格（blockRect 只擋格子中心在範圍裡的）。茶飲菜單的互動點 (23,−6.5) 照樣走得到 */
-     nav.blockRect(54.8,4.22,0.7,0.65,0,0); nav.blockRect(46.25,4.7,0.9,0.7,0,0);   // 比人窄的縫（A 字立牌和盆栽之間、電線桿和郵筒之間）：會留下只有一點站得住的小孤島，滑進去就出不來（v9.3 #31，tools/dev_scratch/nav_islands.py）
-     { const pt=TK.pots(4,3); pt.position.set(54.85,0,-4.6); pt.rotation.y=-Math.PI/2; g.add(pt); nav.blockRect(54.85,-3.8,0.6,1.6,0,0); pt.userData.dyn=true; cafeKitProps.push(pt); }
-     { const bk=W3.bikeAny('#3a6fb0',-359); bk.position.set(-35.9,0,-5.2); bk.rotation.y=0.15; g.add(bk); nav.blockRect(-35.9,-5.2,0.6,1.8,0.15,0.1); }
+@@ -18,6 +18,11 @@ const Z3 = (function(){
+   // ---- 資產層：樹／長椅／小道具（有 GLB 就用 GLB，沒有就 fallback 到 W3 placeholder）----
+   let treeIdx=0, leafyCount=0; const TREE=(scale)=>{ treeIdx++; /* 闊葉樹（townkit 葉片卡，和溫州街同一套）；舊的 GLB 方塊葉樹／針葉樹看起來不像台北的樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.tree) return TK.tree(6.4*(scale||1)); const useLeafy=(treeIdx%2===1)&&leafyCount<14; if(useLeafy) leafyCount++; return ASSETS.get(useLeafy?'tree.leafy':'tree.conifer',{height:6*(scale||1)}); };
+   let palmIdx=0; const PALM=(h)=>{ palmIdx++; /* 大王椰子：townkit 程序化（灰白筆直樹幹＋綠色葉鞘＋羽狀葉）；舊 GLB 是彎曲的椰子樹，只在 TK 不存在時退回 */ if(typeof TK!=='undefined'&&TK.royalPalm) return TK.royalPalm((h||9)*1.35,palmIdx); return ASSETS.get('tree.palm',{height:h||9}); };
++  /* 正式街景模型門口、騎樓裡的雜物：人貼牆走會穿過去的那幾個，模型接上以後才擋住那幾格（ART-WZ0，LAWWW2 10-21；套件備用模型沒有這些雜物，不能先擋，不然是看不見的牆）。
++     [x, z, 寬, 深]＝wenzhou_street.props.json／gongguan_shops.props.json 的腳印（wz_street.py 建模時寫出來）；pad 半格（blockRect 只擋格子中心在範圍裡的）。改了 Blender 的雜物要跟著改，tests/street_props_nav_unit.js 會抓 */
++  const WZ_PROP_BLOCKS=[[-1.82,5.02,0.83,0.83],[-21.9,-4.9,0.6,0.46],[22.73,-7.6,1.46,0.44],[29.5,-7.5,0.6,0.44],[-37.2,-3.02,0.8,0.64],[-37.23,-3.5,0.63,0.61]];   /* A2 公寓門邊盆栽、B1 鐵捲門前紙箱、B5 茶飲騎樓回收桶、冰菓室 A 字立牌、W0 兩個盆栽 */
++  const GG_PROP_BLOCKS=[[-58.0,21.65,0.34,0.34],[-58.6,21.65,0.34,0.34],[-66.23,21.65,1.46,0.44],[-48.8,21.4,0.6,0.44],[-54.83,21.4,1.46,0.44],[-37.4,21.65,1.24,0.52],[-35.41,21.7,0.49,0.52],[-46.0,21.65,0.6,0.44],[-31.43,21.68,1.46,0.44],[-25.6,21.7,0.25,0.26],[-33.3,21.57,0.9,0.74],[-17.0,21.65,0.6,0.44],[-15.2,21.7,0.6,0.46],[-22.12,21.71,0.82,0.68],[-5.9,21.65,0.34,0.34],[-6.5,21.6,0.34,0.34],[-12.23,21.65,1.46,0.44],[11.3,21.6,0.6,0.44],[8.59,21.7,0.49,0.52],[7.3,21.65,1.4,0.36],[6.0,21.7,0.56,0.54],[21.4,21.56,2.2,1.09],[17.0,21.7,0.6,0.46],[27.7,21.65,1.4,0.36],[25.1,21.57,0.9,0.74],[40.3,21.57,0.9,0.74],[38.9,21.7,0.6,0.46],[46.4,21.6,0.6,0.44],[43.0,21.7,0.52,0.54],[50.9,21.7,0.25,0.26],[57.6,21.65,1.24,0.52],[59.0,21.7,0.6,0.46],[52.27,21.7,0.85,0.81],[63.7,21.6,0.6,0.44],[62.7,21.7,0.25,0.26],[60.48,21.71,0.77,0.58],[73.9,21.6,0.6,0.44],[75.9,21.65,1.4,0.36],[69.5,21.7,0.52,0.54]];   /* 公館騎樓 14 間店玻璃前的雜物（G06 腳踏車行的車另外擋） */
++  function propBlocks(nav,list){ for(const [x,z,w,d] of list) nav.blockRect(x,z,w,d,0,0.25); }
+   const BENCH=()=>W3.formalBench()||ASSETS.get('prop.bench',{});   /* 第二個 AI 的公園長椅（prop.street）優先 */
+   const PROP=(g,key,x,y,z,ry,scale)=>{ const o=ASSETS.get(key,{}); if(!o) return null; o.position.set(x,y,z); if(ry) o.rotation.y=ry; if(scale) o.scale.multiplyScalar(scale); g.add(o); return o; };
+   function place(g,obj,x,z,ry,scale){ obj.position.set(x,0,z); if(ry) obj.rotation.y=ry; if(scale) obj.scale.setScalar(scale); g.add(obj); return obj; }
+@@ -696,7 +701,7 @@ const Z3 = (function(){
+     const zone={group:g,nav,spawn:{x:0,z:-30,yaw:Math.PI},lamps,buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
+     // 店面街的 Blender 正式模型（第二個 AI）：載入後藏起套件外觀（和溫州街同一套接法；招牌、直立招牌合成一張 atlas，晚上照 TK.setNight 發光）；失敗或 ?nobldg 時維持套件
+     gateGLB(E,g,gate,0,-46,0,zone);   /* 校門（ART-EXT-GATE）：和校園同一個模型 */
+-    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
++    if(ggGLB) ASSETS.loadOne('bldg.gongguan_shops').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'ggShop','gongguan_shops_glb'); propBlocks(nav,GG_PROP_BLOCKS); }).catch(e=>console.warn('公館店面正式模型載入失敗，用套件的外觀',e));
+     if(ggScGLB){ P3.mergeStatic(ggScG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,ggScG,ggScList,c.scene,'gg_scooters_glb'); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
+     return zone; } };
+   // ---------- 溫州街 ----------
+@@ -870,7 +875,7 @@ const Z3 = (function(){
+     const zone={group:g,nav,spawn:{x:44,z:-1,yaw:-Math.PI/2},lamps:[],buildings,applyTimeOutdoor:zoneTime,onLamps(on){}};
+     // 兩點半 Café 的 Blender 正式模型（第二個 AI：tools/blender/env_second/cafe_exterior.py）：載入後接到套件建築上；失敗或 ?nobldg 時維持套件外觀
+     // 主巷兩側公寓的 Blender 正式模型（第二個 AI：tools/blender/env_second/wz_street.py）：載入後藏起套件外觀；失敗或 ?nobldg 時維持套件
+-    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); wzParkSeason(root); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
++    if(wzGLB) ASSETS.loadOne('bldg.wenzhou_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzApt','wenzhou_street_glb'); propBlocks(nav,WZ_PROP_BLOCKS); wzParkSeason(root); })   /* 季節節點：夏日冰菓室冬天休息（SEASON_ICECLOSED）*/.catch(e=>console.warn('溫州街公寓正式模型載入失敗，用套件的外觀',e));
+     if(scGLB){ P3.mergeStatic(scG); ASSETS.loadOne('bldg.wz_scooter').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const n=attachWzScooters(g,scG,scList,c.scene); if(!n) console.warn('機車正式模型沒有 scooter_a／scooter_b，用套件的機車'); }).catch(e=>console.warn('機車正式模型載入失敗，用套件的機車',e)); }
+     if(pkGLB) ASSETS.loadOne('bldg.wz_park').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); attachWenzhouModel(E,g,root,'wzPark','wz_park_glb'); wzParkSeason(root); for(const o of g.children) if(o.userData.wzParkFb) o.visible=false; }).catch(e=>console.warn('小公園正式模型載入失敗，用套件的外觀',e));
+     if(prGLB) ASSETS.loadOne('bldg.wz_props').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'wzProp','wz_props_glb'); }).catch(e=>console.warn('溫州街街道細節正式模型載入失敗，用套件的外觀',e));
 diff --git a/tests/street_props_nav_unit.js b/tests/street_props_nav_unit.js
 new file mode 100644
-index 00000000..1ae6b13d
+index 00000000..8b13f3f7
 --- /dev/null
 +++ b/tests/street_props_nav_unit.js
-@@ -0,0 +1,32 @@
+@@ -0,0 +1,40 @@
 +// 街景正式模型（溫州街、公館、118 巷）門口的雜物，人貼牆走會不會穿過去（ART-WZ0，LAWWW2 2026-10-21）——不需要瀏覽器。
 +// tools/blender/env_second/wz_street.py 建模時把地上雜物的腳印寫進 <模型>.props.json（世界座標 [minx,minz,maxx,maxz]、高度）。
 +// 這裡在 Node 建出遊戲的區域，用引擎的做法取樣「人站得到的地方」（canStand：半徑 0.3 m 的圓碰不到擋住的格子），
 +// 看人的身體和雜物最多重疊多少；超過 2 cm 算穿模（門口凸出牆面的盆栽、紙箱，牆外就是人走的地方）。
-+// 修法：zones3d.js 擋住那幾格（blockRect 加 pad 半格），或在 Blender 把東西移進門廊（建築的導航阻擋範圍內）。
++// 修法：zones3d.js 的 WZ_PROP_BLOCKS／GG_PROP_BLOCKS（模型接上時才擋；blockRect 加 pad 半格），或在 Blender 把東西移進門廊（建築的導航阻擋範圍內）。
++// 也檢查：阻擋是模型接上以後才加的（套件備用模型沒有這些雜物；先擋會變成看不見的牆）。
 +// 用法：node tests/street_props_nav_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
 +const ROOT=path.resolve(__dirname,'..');
@@ -30,21 +53,28 @@ index 00000000..1ae6b13d
 +global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
 +process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
 +for(const f of ['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js']){ let s=fs.readFileSync(path.join(ROOT,f),'utf8'); s=s.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(s,{filename:f}); }
-+if(typeof ASSETS!=='undefined') ASSETS.loadOne=()=>new Promise(()=>{});
++// 街景正式模型：當作已經載好（空的場景），讓區域的接法跑完（雜物的導航阻擋是模型接上時才加的）；其他模型不載
++const STREET_GLB={wenzhou:'bldg.wenzhou_street',gongguan:'bldg.gongguan_shops',lane118:'bldg.lane118_street'};
++if(typeof ASSETS!=='undefined') ASSETS.loadOne=k=>Object.values(STREET_GLB).includes(k)?Promise.resolve({scene:new THREE.Group()}):new Promise(()=>{});
 +let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 +const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'};
 +const SETS=[['wenzhou','wenzhou_street'],['gongguan','gongguan_shops'],['lane118','lane118_street']];
 +let tested=0;
++(async()=>{
 +for(const [zid,glb] of SETS){ const f=path.join(ROOT,'assets/models/env/second_ai',glb+'.props.json'); if(!fs.existsSync(f)) continue;
 +  const props=JSON.parse(fs.readFileSync(f,'utf8')).props||[]; if(!props.length){ console.log(`（${glb}：沒有地上的雜物）`); continue; } tested++;
 +  global.GAME={G:{hour:15,weather:'clear',flags:{},zone:zid}}; E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
-+  const z=Z3.ZONES[zid].build(E), nav=z.nav||E.nav;
++  const z=Z3.ZONES[zid].build(E), nav=z.nav||E.nav; E.zone=z; z.def=Z3.ZONES[zid];
++  // 模型的 .then 要等 E.zone 是這個區域（區域接法裡的 E.zone!==zone 檢查）；套件階段先記下可走的格數，接上以後再比
++  const free0=nav.b.reduce((n,v)=>n+(v?0:1),0); await new Promise(r=>setTimeout(r,0)); const free1=nav.b.reduce((n,v)=>n+(v?0:1),0);
 +  const blocked=(x,zz)=>{ const [cx,cz]=nav.toCell(x,zz); return cx<0||cz<0||cx>=nav.cols||cz>=nav.rows||!!nav.b[cz*nav.cols+cx]; };
 +  const R=0.3, canStand=(x,zz)=>{ if(blocked(x,zz)) return false; for(let a=0;a<16;a++){ const t=a/16*Math.PI*2; if(blocked(x+Math.cos(t)*R,zz+Math.sin(t)*R)) return false; } return true; };
 +  const bad=[];
 +  for(const p of props){ const r=p.rect; let worst=0, at=null;
 +    for(let x=r[0]-0.5;x<=r[2]+0.5;x+=0.05) for(let zz=r[1]-0.5;zz<=r[3]+0.5;zz+=0.05){ if(!canStand(x,zz)) continue; const dx=Math.max(r[0]-x,0,x-r[2]), dz=Math.max(r[1]-zz,0,zz-r[3]); const ov=R-Math.hypot(dx,dz); if(ov>worst){ worst=ov; at=[+x.toFixed(2),+zz.toFixed(2)]; } }
 +    if(worst>0.02) bad.push(`${p.tag} 在 (${((r[0]+r[2])/2).toFixed(1)}, ${((r[1]+r[3])/2).toFixed(1)})：人站在 ${JSON.stringify(at)} 身體重疊 ${(worst*100).toFixed(0)} cm`); }
-+  check(`${zid}：${props.length} 個地上雜物，人貼牆走不會穿過去（重疊 ≤ 2 cm）`,!bad.length,bad.join('；')); }
++  check(`${zid}：${props.length} 個地上雜物，人貼牆走不會穿過去（重疊 ≤ 2 cm）`,!bad.length,bad.join('；'));
++  check(`${zid}：雜物的阻擋是模型接上以後才加（套件備用模型沒有這些雜物，不能先擋）`,free1<free0,`可走的格子 ${free0} → ${free1}`); }
 +check('至少檢查了一份街景模型的雜物',tested>0);
 +console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++})();

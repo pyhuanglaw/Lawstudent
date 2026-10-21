@@ -1,11 +1,11 @@
 {
- "objects": 1074,
- "unique_meshes": 52,
- "tris": 42211,
- "tris_drawn": 85387,
- "materials": 113,
- "out": "assets/models/env/second_ai/gongguan_shops.glb",
- "bytes": 4464772,
+ "objects": 1081,
+ "unique_meshes": 54,
+ "tris": 47735,
+ "tris_drawn": 93141,
+ "materials": 114,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/wz0/gg_new.glb",
+ "bytes": 4906632,
  "texres": 512,
  "buildings": [
   "G00",
