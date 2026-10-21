@@ -46,23 +46,23 @@
 | 毛病 | 優先 | 處理 |
 |---|---|---|
 | 社科院一樓柱廊：鏡頭在柱廊裡時，0.6 m 的柱子把玩家整個擋住（從中庭往圖書館走、從大樓北門出來） | P1 | **已交件** `75080217`（GLB 在 `8e8d130e`；`test_shots/soc_pillar_1021/`）：14 根柱子換 `wz_pillar_soc`，擋住玩家時網點透空；三角形不變、+1 材質；待 BB 驗收 |
-| 榕樹的氣根在近處是一條一條黑線（舊社科院位置的大樹；`street_trees.glb` 的 `banyan_a`，所有用到榕樹的地方都一樣） | P2 | **READY_FOR_ART_REVIEW（`f858b47c`；遊戲內對照 `test_shots/banyan_roots_1021/`，黑線變灰褐色的根，溫州街同一個模型沒有變壞）**：原因是氣根垂在樹冠下面的陰影裡，只吃到環境光；`tree_atlas.py --lift-roots` 把貼圖上氣根那一格照比例調亮（平均 (127,120,112)→(212,200,184)），只動那一格、透明度不變；`street_trees.glb` 三角形不變 |
-| 社科院中庭朝圖書館那一面是一整片清水混凝土實牆（X75 轉 180° 以後，原本朝南的實牆變成朝中庭） | P2 | **施工中（WIP，交班時停）**：加院系公告欄（同上）；中間要留空（典禮、迎新） |
+| 榕樹的氣根在近處是一條一條黑線（舊社科院位置的大樹；`street_trees.glb` 的 `banyan_a`，所有用到榕樹的地方都一樣） | P2 | **已交件（21:3x 傳 LAWWW）、READY_FOR_ART_REVIEW（`f858b47c`；遊戲內對照 `test_shots/banyan_roots_1021/`，黑線變灰褐色的根，溫州街同一個模型沒有變壞）**：原因是氣根垂在樹冠下面的陰影裡，只吃到環境光；`tree_atlas.py --lift-roots` 把貼圖上氣根那一格照比例調亮（平均 (127,120,112)→(212,200,184)），只動那一格、透明度不變；`street_trees.glb` 三角形不變 |
+| 社科院中庭朝圖書館那一面是一整片清水混凝土實牆（X75 轉 180° 以後，原本朝南的實牆變成朝中庭） | P2 | **已整合**（SOC-COURT-1021 `bf3ed802`，LAWWW `e7bd9146`；`test_shots/soc_court_1021_wip/`）：加院系公告欄，中間留空（典禮、迎新）；READY_FOR_ART_REVIEW |
 | 文學院、校史館的門是一個全黑的長方形（套件 `CK.hall`，還沒有 Blender 正式模型） | P2 | **施工中（WIP `89655410`＋`30519553` 補兩扇門中間的縫和門檻；總圖門遊戲內已看過，文學院、行政、校史館正面重拍排隊中；`test_shots/campus_doors_1021/`）**：`campus_hall.py` 的雙開木門（邊梃、冒頭、下半木板、上半玻璃，晚上透出門廳的燈）；總圖、行政大樓、文學院、校史館四棟一起換 |
-| 社科院 20:00：柱廊雨遮底下和中庭沒有被照亮的感覺，整區一片黑（＝清查 A6；近看大廳天花板其實有亮） | P2 | **施工中（WIP，交班時停）**：`test_shots/soc_court_1021_wip/README.md`——光圈、洗牆光、公告欄；腳本改了、GLB 沒換 |
-| 椰林大道 20:00：路面很暗，路燈只照亮燈下一小圈，大道中間幾乎全黑 | P2 | **施工中（WIP `30e9cb84`，遊戲內對照排隊中）**：原因是路燈的燈臂朝外對著樹牆、地面光圈在燈的背面；`patches/campus_avenue_lamps.diff` 第二版（對 `a9da472a`）：燈臂轉向路面、路面加暖色光圈（不透明度 0.38，和其他區域同一套 `E.lampGlows`，入夜才開）；新測試 `tests/campus_lamps_unit.js` |
+| 社科院 20:00：柱廊雨遮底下和中庭沒有被照亮的感覺，整區一片黑（＝清查 A6；近看大廳天花板其實有亮） | P2 | **已整合**（SOC-COURT-1021 `bf3ed802`，LAWWW `e7bd9146`）：光圈、洗牆光、公告欄；`test_shots/soc_court_1021_wip/README.md` |
+| 椰林大道 20:00：路面很暗，路燈只照亮燈下一小圈，大道中間幾乎全黑 | P2 | **已交件（21:3x 傳 LAWWW；patch `5f03d748`、說明 `fb8546f3`、`test_shots/avenue_lamps_1021/`）、READY_FOR_ART_REVIEW**：原因是路燈的燈臂朝外對著樹牆、地面光圈在燈的背面；`patches/campus_avenue_lamps.diff` 第二版（對 `a9da472a`）：燈臂轉向路面、路面加暖色光圈（不透明度 0.38，和其他區域同一套 `E.lampGlows`，入夜才開）；新測試 `tests/campus_lamps_unit.js` |
 | 醉月湖北邊圍牆外的背景樓，晚上是一條五顏六色的色帶 | P3 | 記錄（D27 走不到的背景） |
 | 男一舍門口的「男生宿舍」名牌（遊戲的門牌標籤）上半被門廊雨遮切掉 | P3 | 記錄：標籤是遊戲程式畫的（LAWWW-C），不是模型 |
-| 傅鐘正前方有一支路燈擋在鐘亭中間 | P3 | **施工中（WIP `30e9cb84`，同上）**：那一盞改成鐘亭兩側各一盞（兩棵椰子中間） |
+| 傅鐘正前方有一支路燈擋在鐘亭中間 | P3 | **已交件（同上）**：那一盞改成鐘亭兩側各一盞（兩棵椰子中間） |
 | 博雅東側是一整片沒有窗的牆 | P3 | **施工中（WIP `0343b994`，遊戲內對照排隊中）**：經濟學原理在博雅、經濟系每天從小椰林道過來，升級處理；`campus_teach.py` 東側一樓加大廳玻璃帶（13 m，晚上亮；官方資料：入口在西南與東側） |
-| 椰林大道的路燈柱子人可以直接穿過去（BUG-NAV-LAMPPOST-1021） | P1 | **施工中（`5f03d748`，`patches/lamppost_nav.diff`）**：校園、公館、118 巷、小公園的燈柱阻擋改 0.5 m；`tests/lamppost_nav_unit.js` 修改前 FAIL、修改後 ALL PASS；瀏覽器回歸跑到一半（修改前：reachability_all 四區 ALL PASS） |
+| 椰林大道的路燈柱子人可以直接穿過去（BUG-NAV-LAMPPOST-1021） | P1 | **已交件（21:3x 傳 LAWWW；`5f03d748`，`patches/lamppost_nav.diff`）、FUNCTIONAL_VERIFIED**：校園、公館、118 巷、小公園的燈柱阻擋改 0.5 m；`tests/lamppost_nav_unit.js` 修改前 FAIL、修改後 ALL PASS；瀏覽器回歸 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS、項目相同 |
 
 ## 5. 溫州街（2026-10-21，開發分支 `d22748f5`；巡查排隊中）
 看 Café 的遊戲內對照（佇列 j4）時順便查到兩個原本就有的錯：
 
 | 毛病 | 優先 | 處理 |
 |---|---|---|
-| 兩點半 Café 正面：套件的 7 個光暈疊在正式外觀上，白天、晚上都有（cafe_glb_integration「套件的 Café 外觀與光暈藏起來」量到 7，以前的紀錄都是 0） | P1 | **施工中（`75d40a9e`，`patches/cafe_kit_glow.diff`）**：`attachCafeExterior` 只把套件光暈設成看不見，`TK.setNight` 每次又依時段打開；照 `attachWenzhouModel` 的做法把日夜亮度設成 0。新測試 `tests/cafe_kit_glow_unit.js` 修改前 7、7、7、7 個，修改後 0。瀏覽器重跑排隊中（j13） |
+| 兩點半 Café 正面：套件的 7 個光暈疊在正式外觀上，白天、晚上都有（cafe_glb_integration「套件的 Café 外觀與光暈藏起來」量到 7，以前的紀錄都是 0） | P1 | **已整合（LAWWW `80af0168`；`75d40a9e`，`patches/cafe_kit_glow.diff`）**：`attachCafeExterior` 只把套件光暈設成看不見，`TK.setNight` 每次又依時段打開；照 `attachWenzhouModel` 的做法把日夜亮度設成 0。新測試 `tests/cafe_kit_glow_unit.js` 修改前 7、7、7、7 個，修改後 0。瀏覽器 cafe_glb_integration 前後排隊中（j13），結果補在 Café 的交件說明 |
 | 兩點半 Café 店內：自流坪地板是鏡面（粗糙度貼圖匯出成 0.004），吊燈正下方反光成一個小白點 | P2 | **施工中（`2a682738`）**：`cafe_layout.py` 粗糙度圖改用「分離色彩」G 接、霧一點（0.78）；`cafe_interior.glb` 地板粗糙度 0.004 → 0.78。重拍排隊中（j13） |
 
 ## 3b. 宿舍 412（經濟系；2026-10-21）
