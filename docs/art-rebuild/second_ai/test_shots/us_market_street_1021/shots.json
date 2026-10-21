@@ -1,0 +1,392 @@
+[
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/arrive_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+-20,
+2.2,
+16
+],
+"look": [
+0,
+3.5,
+-22
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/lot_in_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+11.5,
+1.7,
+1.5
+],
+"look": [
+13.5,
+2.2,
+-20
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/front_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+-5.5,
+1.7,
+-14.5
+],
+"look": [
+-13.5,
+2.2,
+-21
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/cross_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+7.5,
+1.7,
+13.2
+],
+"look": [
+17,
+1.4,
+24
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/asian_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+0.5,
+1.8,
+29.5
+],
+"look": [
+-3,
+3.0,
+38
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/high_summer_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+0,
+30,
+52
+],
+"look": [
+0,
+0,
+0
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/arrive_summer_20.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 20.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+-20,
+2.2,
+16
+],
+"look": [
+0,
+3.5,
+-22
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/cross_summer_20.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 20.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+7.5,
+1.7,
+13.2
+],
+"look": [
+17,
+1.4,
+24
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/asian_summer_20.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 20.0,
+"day": 1095,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+0.5,
+1.8,
+29.5
+],
+"look": [
+-3,
+3.0,
+38
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/arrive_autumn_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1130,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+-20,
+2.2,
+16
+],
+"look": [
+0,
+3.5,
+-22
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/arrive_snow_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1181,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+-20,
+2.2,
+16
+],
+"look": [
+0,
+3.5,
+-22
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/asian_autumn_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1130,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+0.5,
+1.8,
+29.5
+],
+"look": [
+-3,
+3.0,
+38
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+},
+{
+"out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/usms/shots/asian_snow_15.png",
+"w": 1280,
+"h": 720,
+"state": {
+"zone": "us_market_street",
+"hour": 15.0,
+"day": 1181,
+"pos": {
+"x": -22.6,
+"z": 12.9,
+"yaw": 3.14159
+}
+},
+"cam": {
+"pos": [
+0.5,
+1.8,
+29.5
+],
+"look": [
+-3,
+3.0,
+38
+]
+},
+"hidePlayer": true,
+"hud": false,
+"wait": 6000
+}
+]
