@@ -950,6 +950,46 @@
    "approvedBy": "AA-C 定稿（HOL-VA 最後一項 VA-08，第①級，D100）",
    "task": "HOL-VA",
    "note": "LAWWW-C 手抄進 src/noodle_closed3d.js（A、B、C、D；AA_11 媽媽住院版遊戲裡還沒有那一段，沒做）"
+  },
+  {
+   "path": "docs/story_planning/BB_106_社會科學院與附近教學館_跨學年日常事件.md",
+   "sha": "71b3e6c3",
+   "status": "approved",
+   "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
+   "task": "V2-SK06、V2-SK07、V3-SK08、V3-SK09、V3-SK10、V5-SK14、V1-B106-D1D2、V1-B106-42",
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；SK05～SK14、日常 D1／D2、4-2由子代理照這個版本手抄進遊戲"
+  },
+  {
+   "path": "docs/story_planning/BB_105_四個地點的跨學年故事.md",
+   "sha": "68a8479e",
+   "status": "approved",
+   "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
+   "task": "V3-B105-P5、V1-B105-D2、V3-B105-G2、V3-B105-B2",
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；P5／G／B／D 法律系時期由子代理照這個版本手抄進遊戲"
+  },
+  {
+   "path": "docs/story_planning/BB_137_AB05台詞_日文班博雅女舍十五件.md",
+   "sha": "a047e5fe",
+   "status": "approved",
+   "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
+   "task": "V3-B105-G2、V3-B105-B2",
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；V3-B105 的台詞由子代理照這個版本手抄進遊戲"
+  },
+  {
+   "path": "docs/story_planning/BB_110_日常內容_好玩事件_颱風假_社團_打工.md",
+   "sha": "3a26e94a",
+   "status": "approved",
+   "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
+   "task": "V3-B110-L4",
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；颱風 T3／T4（已做）、L4由子代理照這個版本手抄進遊戲"
+  },
+  {
+   "path": "docs/story_planning/AA_289_打工_SYS13_事件規格.md",
+   "sha": "3a26e94a",
+   "status": "approved",
+   "approvedBy": "AA-C 審過（A11，2026-10-18；D100：台詞歸 AA，AA 審過＝定稿）",
+   "task": "SYS-13-EV",
+   "note": "LAWWW-C 2026-10-21 補登（BACKLOG-SWEEP 稽核 C：審過以後白名單一直沒人加）；打工 SYS-13 每一種的小事件由子代理照這個版本手抄進遊戲"
   }
  ]
 }
