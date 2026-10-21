@@ -180,6 +180,10 @@ const MSG=(function(){
   S.travelPlace=function(G,id){ const pr=presence(G,id); if(!pr||pr.here!==false||!((pr.kind==='trip'&&pr.signal)||pr.kind==='abroad'||pr.kind==='absent')) return null;
     const nm=String(pr.away||'').replace(/^在/,'').trim(); return nm&&!/[（(]/.test(nm)?nm:null; };
   S.travelEntry=function(G,id){ const L=TRAVEL_LINE[id], nm=L&&!S.inUK(G,id)?S.travelPlace(G,id):null; return nm?{topic:'chat',tier:'A',tierMin:true,variant:'旅行、出國',travel:true,msgs:['在'+nm+'。',L],tags:[],ask:null,src:'AA_369 第 7 節第 5 題'}:null; };
+  /* 出門那幾天用她們自己的那一版（AA_369 第 8 節第 1 題，AA 2026-10-21 20:3x）：小語營隊（presence「在營隊當隊輔」）＝「7 月營隊期間」、方奕廷上山（「上山做調查（沒有訊號）」）＝「在山上」；
+     照 presence 的日子，蓋過放假那幾版和一般版。回覆時間照舊（方奕廷沒訊號：下山那天 15:00 才回）*/
+  const OWN_TRIP={yu:{v:'7 月營隊期間',away:/營隊/},npc_fangyt:{v:'在山上',away:/上山/}};
+  S.ownTrip=function(G,id){ const o=OWN_TRIP[id]; if(!o) return null; const pr=presence(G,id); return pr&&pr.here===false&&pr.kind==='trip'&&o.away.test(String(pr.away||''))?o.v:null; };
   const RANK={A:0,R:1,L:2};
   const tierFits=(e,tr)=>e.tier===tr||(!!e.tierMin&&RANK[e.tier]<=RANK[tr]);
   const versionOk=(e,mode)=>{ const v=e.version||(e.variant==='事務版'||e.variant==='閒聊版'?e.variant:null); if(!v) return true; if(/都/.test(v)) return true; return mode==='business'?v==='事務版':v==='閒聊版'; };
@@ -188,7 +192,8 @@ const MSG=(function(){
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
     if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
-    if(topic==='chat'){ const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
+    if(topic==='chat'){ const ov=S.ownTrip(G,id); if(ov){ const c=all.filter(e=>e.variant===ov&&usable(G,id,e,ctx)); if(c.length) return rot(R,id,'own:'+topic+'|'+ov,c); }   /* 小語營隊、方奕廷上山：自己那一版（AA_369 第 8 節第 1 題）*/
+      const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
       const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
