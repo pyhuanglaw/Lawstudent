@@ -19551,7 +19551,7 @@
    "id": "ART-US2-FIX-1018",
    "title": "C 棟 208（US2 廚房）美術修正：泡麵袋、9/13 傍晚燈光、生活痕跡、外套門／手寫輪值表／臥室兩張床",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "prio": "P3",
    "first": {
     "term": "Y4S1",
@@ -19573,7 +19573,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 BB_217 第 7 節四點派給 LAWWW2（附 9/13 US2 時刻），交件後整合 ｜ 【02:5x LAWWW-C 更正】LAWWW2 02:2x 用這個編號交的 356d77c6 是廚房冰箱與鏡頭（USER_WANTS X05），改登記在 BUG-US-KITCHEN-1018；這一項（BB_217 第 7 節四點）照舊暫停。｜等 resumeWhen；到時派 LAWWW2（附 BB_217 第 7 節四點）",
+   "next": "【LAWWW-C 2026-10-21 13:2x UTC】BB 瀏覽器看 C 棟 208 白天／晚上（18:12 以後廚房吸頂燈亮）、西牆淡出時版畫拍立得一起淡",
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "priority": "P2",
@@ -19585,7 +19585,9 @@
      "note": "可以恢復了"
     }
    ],
-   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）"
+   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
+   "sha": "13707c1f",
+   "evidence": "LAWWW2 13707c1f 整合：us_layouts.js US_SHARED_LAYOUT 一行＋us_shared.glb（泡麵軟袋、廚房吸頂燈、沙發上方版畫＋拍立得、B 門掛外套）；nav_us_unit、us_life_unit、exch_min_unit ALL PASS；LAWWW2 Playwright reachability us_shared ALL PASS"
   },
   {
    "id": "BUG-US-KITCHEN-1018",
