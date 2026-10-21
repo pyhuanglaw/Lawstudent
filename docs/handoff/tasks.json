@@ -26163,6 +26163,32 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 2026-10-21 13:5x UTC】第 92 組四張（fcdc576d）、第 93 組十張（55ece8db）已接；第 94 組（C16～C18 等十張）提示詞給了，等使用者"
+  },
+  {
+   "id": "PS-SKIRT-LEG",
+   "title": "沛珊上樓梯時左小腿、膝蓋從長裙前面穿出來（ART-PS-SKIRT-HAND 量測時發現）：只改裙子權重兩全不了（v1 平台、第二段不穿，但第一段前片中線被兩腿拉開出現深色直線；v2 更差）→ 要加前片骨頭或程式布料碰撞",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "LAWWW2-C 10-21 13:48 訊息（WIP 27618d8d）；ART-PS-SKIRT-HAND README",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "沛珊在法律系大一走樓梯（霖澤館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/test_shots/ps_skirt_hand_1021/README.md（LAWWW2 分支）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "char_motion 前後對照（上樓梯平台、第二段）＋坐下兩個角度裙子不炸開；正式 VRM 第二十六版不動到通過為止",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 停成 WIP（27618d8d，tools/blender/char_second/peishan_skirt_reweight.py 兩版都不行）；排回 LAWWW2 佇列，正式 VRM 不動；LAWWW2 先照使用者 12:0x 巡場景（X90）"
   }
  ]
 }

@@ -515,6 +515,21 @@
    "next": "AA 定稿後結構化交付",
    "noDirectIntegrate": true,
    "source": "AA-C 04:37Z"
+  },
+  {
+   "id": "WIP-L2-PS-SKIRT-LEG",
+   "role": "LAWWW2",
+   "task": "PS-SKIRT-LEG",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "27618d8d",
+   "files": [
+    "tools/blender/char_second/peishan_skirt_reweight.py"
+   ],
+   "state": "WIP",
+   "remaining": "只靠權重兩全不了：要加前片骨頭或程式布料碰撞",
+   "next": "排回 LAWWW2 佇列；正式 VRM（第二十六版）不動",
+   "noDirectIntegrate": true,
+   "source": "LAWWW2-C 10-21 13:48 訊息"
   }
  ]
 }
