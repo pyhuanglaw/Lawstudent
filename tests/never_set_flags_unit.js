@@ -134,7 +134,7 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
   { const G=fresh('2028-09-20',9,'campus'); const r1={record:'B_Y1S2_crim_gen2_w3',said:'x',listened:'y'}, r2={record:'B_Y1S1_const_1_w11',said:'x',listened:'y'}, r3={record:'B_Y4S1_public_judgment_sem_w3',said:'x',listened:'y'};
     const a=CLS.recallText(G,r1,{c:{id:'crim_judgment_sem'},week:3}), b=CLS.recallText(G,r2,{c:{id:'legal_research'},week:11}), c3=CLS.recallText(G,r3,{c:{id:'legal_research'},week:11});
     check('3-23. 大一那一堂沒去：刑事判決研討第 3 週、法學研究第 11 週（引用大一憲法）回想「（大一那一堂，你不在。老師講的那一題，你是第一次聽。）」（AA_294）',a==='（大一那一堂，你不在。老師講的那一題，你是第一次聽。）'&&b===a,JSON.stringify([a,b]));
-    check('3-24. 法學研究第 11 週引用大四上的那一題、AA 沒給「你不在」的句子：照舊不說',c3==='',c3);
+    check('3-24. 法學研究第 11 週引用大四上的那一題：AA_350 R5 補了句子（沒選路線＝其他沒去的那一句；美國路線那一句在 tests/aa350_r_unit.js）',c3==='（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）',c3);
     CLS.rec(G).disc.B_Y1S2_crim_gen2_w3=0; const d=CLS.recallText(G,r1,{c:{id:'crim_judgment_sem'},week:3}); check('3-25. 去過、有紀錄：照原本的回想（不出「你不在」）',d==='x'||d!==a,d); }
   });
 

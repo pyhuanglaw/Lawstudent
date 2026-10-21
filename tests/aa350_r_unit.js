@@ -1,6 +1,7 @@
 // AA_350 第 7 節 R 節（企劃線 cae5cc76）——不需要瀏覽器。用法：node tests/aa350_r_unit.js
 //   R2 ev_sk03_lunch：加一條路——那個週五沒去經原下、12:00～13:00 下課選單選「先去吃飯→活大」＝在活大演（開頭「……你今天沒來上課。坐。」、不出選項、直接接 go；還債、第一次、芯慈的先後照舊）
-// 修改前（開發分支 10dc79b1）：見各節的說明。
+//   R5 法學研究第 11 週引用大四上那一題（B_Y4S1_public_judgment_sem_w3）沒有紀錄：美國路線／其他沒去的兩句（CLS.RECALL_MISSED）
+// 修改前（開發分支 10dc79b1）：R2 七項 FAIL 4（R2-0、R2-4、R2-5 是前提和防回歸）；R5 三項 FAIL 1（R5-1；R5-0、R5-2 是前提和防回歸）。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -44,6 +45,16 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('R2-4. 不演的（照一般的吃飯）：去上了經原下、13:06、11:54、選阿鳳麵店、那天已經演過、週六',plain(a)&&plain(b)&&plain(c)&&plain(d)&&plain(e)&&plain(f),JSON.stringify([a,b,c,d,e,f].map(x=>[x.L.length,x.caps]))); }
   { fresh(F13,12.17,'putong',Object.assign({},base,{SK03_FIRST:true})); picks=['一起去']; said=[]; opts=[]; await CLS.afterClassEvent(GM,{c:{id:'econ_principles_2'}}); const L=lines();
     check('R2-5. 走廊那一條照舊（防回歸）：「活大。走不走？」＋「一起去／今天不行」',L[0]==='阿勳：活大。走不走？'&&JSON.stringify(opts[0])==='["「一起去」","「今天不行」"]'&&!L.includes('阿勳：……你今天沒來上課。坐。'),JSON.stringify([L,opts])); }
+
+  /* ===================== R5 法學研究第 11 週引用大四上那一題 ===================== */
+  { const wk=((SYLLABUS.courses||{}).legal_research||[]).find(w=>w.w===11), rc=wk&&wk.obs&&wk.obs.recall||[], r4=rc.find(x=>x.record==='B_Y4S1_public_judgment_sem_w3'), r1=rc.find(x=>x.record==='B_Y1S1_const_1_w11'), it={c:{id:'legal_research'},week:11};
+    check('R5-0. 課表：法學研究第 11 週的回想引用大一憲法第 11 週、大四上公法判決研討第 3 週；大四上那一筆沒有 missed',!!r4&&!!r1&&!r4.missed);
+    const at=(route,disc)=>{ fresh(termDay('Y4S2',11,1),14,'wsem',route?{EXCHANGE_ROUTE:route}:{}); if(disc!=null) CLS.rec(G).disc.B_Y4S1_public_judgment_sem_w3=disc; return CLS.recallText(G,r4,it); };
+    const us=at('US'), tw=at('TW'), none=at(null), jp=at('JP');
+    check('R5-1. 大四上那一堂沒有紀錄：美國路線「（大四上那一堂，你在美國。老師講的那一題，你是第一次聽。）」；其他（台灣、日本、沒選）「（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）」',
+      us==='（大四上那一堂，你在美國。老師講的那一題，你是第一次聽。）'&&[tw,none,jp].every(t=>t==='（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）'),JSON.stringify([us,tw,none,jp]));
+    const said0=at('TW',0), ch0=(((SYLLABUS.courses.public_judgment_sem||[]).find(w=>w.obs&&w.obs.record==='B_Y4S1_public_judgment_sem_w3')||{}).obs||{}).options||[];
+    check('R5-2. 有紀錄的照舊（防回歸）：「大四上的你：「{選的那一句}」」；大一那一筆沒有紀錄照舊「（大一那一堂，你不在。…）」',!!ch0.length&&said0==='大四上的你：「'+ch0[0].text+'」'&&(fresh(termDay('Y4S2',11,1),14,'wsem',{}),CLS.recallText(G,r1,it))==='（大一那一堂，你不在。老師講的那一題，你是第一次聽。）',JSON.stringify(said0)); }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+(e&&e.stack||e)); process.exit(1); });

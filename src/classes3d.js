@@ -195,9 +195,11 @@ const CLS=(function(){
     for(const k in R.done){ const q=k.split(':'); if(q[1]!==p[1]) continue; const t=CALENDAR.termOf(+q[0]); if(t&&t.id===p[0]&&t.week===w) return true; } return false; };
   /* 「你不在」的版本（AA_294 第 1 節「討論課的選擇被大四引用」那一列，企劃 b3ec8820）：大四那堂引用大一的答案，玩家大一那一堂沒去（沒有紀錄）時說的那一句。
      課表資料（syllabus.js，企劃匯入）有 missed 的照它（公法判決研討第 3 週）；還沒有的兩處照 AA_294 這一句：課程|週|引用的紀錄 */
-  S.RECALL_MISSED={'crim_judgment_sem|3|B_Y1S2_crim_gen2_w3':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）','legal_research|11|B_Y1S1_const_1_w11':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）'};
+  S.RECALL_MISSED={'crim_judgment_sem|3|B_Y1S2_crim_gen2_w3':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）','legal_research|11|B_Y1S1_const_1_w11':'（大一那一堂，你不在。老師講的那一題，你是第一次聽。）',
+    /* AA_350 R5：法學研究第 11 週引用大四上公法判決研討第 3 週那一題——美國路線（大四上人在美國）／其他沒去的 */
+    'legal_research|11|B_Y4S1_public_judgment_sem_w3':G=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='US'?'（大四上那一堂，你在美國。老師講的那一題，你是第一次聽。）':'（大四上那一堂，你不在。老師講的那一題，你是第一次聽。）'};
   S.recallText=function(G,r,it){ if(!r) return ''; const R=S.rec(G);
-    if(r.record){ const i=R.disc[r.record]; if(i==null) return r.missed||(it&&it.c?S.RECALL_MISSED[it.c.id+'|'+it.week+'|'+r.record]:'')||''; const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
+    if(r.record){ const i=R.disc[r.record]; if(i==null){ const m=it&&it.c?S.RECALL_MISSED[it.c.id+'|'+it.week+'|'+r.record]:''; return r.missed||(typeof m==='function'?m(G):m)||''; } const opts=(recObs(r.record)||{}).options||[]; if(!opts.length||i>=opts.length-1) return r.listened||'';
       const ch=opts[i]&&opts[i].text; return ch?String(r.said||'').replace('{choice}',ch):''; }
     let ok=false;
     if(r.attended) ok=S.attendedWeek(G,r.attended);
