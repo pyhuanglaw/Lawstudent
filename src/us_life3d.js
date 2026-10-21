@@ -291,7 +291,7 @@ const USL=(function(){
   S.jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); const tS=now(G); let tt=tS, n=0, why=null, mo=null; const P=typeof PHONE!=='undefined'?PHONE:null, p0=P&&P.pending?P.pending(G).length:0;
     { const nx=S.nextStop(G,tt); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
-      if(Math.abs(tt-Math.round(tt))<1e-6&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
+      if(Math.abs(tt-Math.round(tt))<1e-6&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
       if(P){ try{ STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('USL jump phone',e); } }
       const nx=S.nextStop(G,tt); if(nx!=null&&nx<t) t=nx;
       if(P&&P.pending&&P.pending(G).length>p0){ why='msg'; break; } if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)){ why='out'; break; } }   /* 要回的訊息、該出發的出遊：停在那裡 */

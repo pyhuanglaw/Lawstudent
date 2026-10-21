@@ -12944,6 +12944,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-75d40a9e",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "75d40a9e",
+   "what": "BUG-CAFE-KIT-GLOW-1021：溫州街兩點半 Café 正面套件的 7 個光暈疊在正式外觀上（白天、晚上都有）：docs/art-rebuild/second_ai/patches/cafe_kit_glow.diff（zones3d.js attachCafeExterior 一行：藏起來的套件光暈日夜亮度設 0）＋tests/cafe_kit_glow_unit.js",
+   "task": "BUG-CAFE-KIT-GLOW-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:1x 整合進開發分支（對 54ae1009 乾淨；新測試修改前 7、7、7、7 個，修改後 0；cafe_*、wz_*、street_trees 11 支全過）；BB 看溫州街 Café 白天、晚上；LAWWW2 瀏覽器 cafe_glb_integration 重跑結果出來再補"
+  },
+  {
+   "id": "DL-LAWWW2-f858b47c",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "f858b47c",
+   "what": "ART-ECON-3D-GAP-1021 第一批：榕樹氣根不再是黑線（street_trees.glb＋street_trees.json、tree_leaves.png、tree_atlas.py --lift-roots；校園、溫州街、公館共用；說明＋前後對照 test_shots/banyan_roots_1021/README.md c36c2dbe）；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 整合進開發分支（只換 GLB／貼圖／工具；street_trees 等相關 45 支 Node 測試全過）；BB 看校園、公館的榕樹"
+  },
+  {
+   "id": "DL-LAWWW2-5f03d748",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5f03d748",
+   "what": "BUG-NAV-LAMPPOST-1021＋椰林大道路燈：patches/lamppost_nav.diff（路燈導航阻擋半徑 0.25→0.5：校園、公館、118 巷、溫州街小公園）＋patches/campus_avenue_lamps.diff 第三版（大道與鐘亭兩側路燈、路面光圈）；tests/lamppost_nav_unit.js（修改前 4 FAIL）、tests/campus_lamps_unit.js（修改前 3 FAIL）；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS（LAWWW2 跑，SwiftShader）；說明 test_shots/avenue_lamps_1021/README.md（fb8546f3）",
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 照順序套兩份 patch，對 78f4c813 乾淨；相關 45 支 Node 測試全過；路燈畫面 READY_FOR_ART_REVIEW、燈柱導航 FUNCTIONAL_VERIFIED（LAWWW2）；BB 晚上走椰林大道看路燈、試著穿過燈柱"
   }
  ],
  "ignored": [
@@ -16265,6 +16304,74 @@
    "kind": "wip",
    "task": "ART-ECON-3D-GAP-1021",
    "reason": "四棟拱廊大門 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "88059634",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（榕樹、路燈、燈柱導航改成已交件；社科院中庭改成已整合）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "bf90b318",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（溫州街巡查排隊、美國超市街施工中、校園榕樹 READY_FOR_ART_REVIEW）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "21ada28c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "遠距離路人明暗改照 MToon 公式 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "6553cae4",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "路人遠距離版本交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "5f183825",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "四棟拱廊大門＋博雅東側交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "30519553",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "拱廊大門補兩個漏光的地方 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "05bc1012",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "美國超市街交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "8512b3b0",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街等紅燈的車頭燈、煞車燈 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "fa7c85e2",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街接成可以走的區域 us_market_street（patch）WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "d20da1e3",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "草原超市和竹葉亞洲超市之間的停車場、馬路 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
   }
  ]
 }

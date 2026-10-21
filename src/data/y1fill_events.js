@@ -23,7 +23,7 @@ const Y1FILL_LINES={
     kevin_parrot:[['kevin','📹（一隻鸚鵡在背九九乘法，背到七就開始亂講）'],['heroine_05','七八五十六。']],
     yu_curry:[['yu','📷（學生餐廳的咖哩飯，飯比咖哩多很多）'],['yu','這個比例是違憲的'],['classmate_bohan','比例原則不是這樣用的。'],['yu','我知道 我在用']],
     zhe_three:[['zhe','系籃練習 今天投進三顆'],['zhe','三十顆裡面'],['yu','進步了']],
-    bohan_closed:[['classmate_bohan','總圖今天十一點關。'],['classmate_bohan','我被趕出來了。'],['zhe','你根本住那裡吧']],
+    bohan_closed:[['classmate_bohan','總圖十點關。'],['classmate_bohan','我被趕出來了。'],['zhe','你根本住那裡吧']],   /* AA_373 #19：總圖十點關（y1fill3d.js 22:10）*/
     an_ac:['總圖三樓的冷氣壞了。','我換到二樓。……二樓的也壞了。'],
     yt_board:['📷（麵店門口的黑板，今天的小菜寫錯一個字）','阿姨說不要改。客人看得懂。'],
     xinci_drama:['最近在追《檔案室的燈》。','第三集有一個律師講錯了一條。','……我還是會看完。'],   /* 《檔案室的燈》是虛構的劇名（AA_347）*/
@@ -59,8 +59,9 @@ const Y1FILL_EVENTS=(function(){
         {label:'snack'},{speaker:'kai',text:'……入境申請另外辦。'},
         {label:'end'} ],
       consequences:{flags:{KAI_TAPE:true}} },
-    { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'blur',
-      prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)},
+    { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'freeze', portraitLater:true,   /* 開場鏡頭貼近地上的膠帶、不模糊、不擺立繪，讀得到「法律系免簽」（UX-KAI-TAPE-CAM-1021）*/
+      shot:GM=>typeof Y1FILL!=='undefined'&&Y1FILL.tapeShot?Y1FILL.tapeShot(GM):null,
+      prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)&&(typeof Y1FILL==='undefined'||!Y1FILL.tapeReady||Y1FILL.tapeReady())},   /* 膠帶的模型載好才演（讀檔後第一次進門：交給 Y1FILL.tick，最多等 12 秒）*/
       dialogue:[ {speaker:null,text:'（膠帶上多了一行麥克筆的大字：「法律系免簽」。）'},
         {speaker:'kai',text:'（沒有回頭）期中考完了。國界放寬。'} ] },
     /* ---------- 1-2 運動會：11/21 10:00 田徑場（2D：校園一般背景＋字幕「田徑場」）---------- */
