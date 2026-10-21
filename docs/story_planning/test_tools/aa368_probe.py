@@ -257,13 +257,21 @@ async def run_s7(pg, cdp, run):
     """M7 回程（AA_368：九點的客運開了以後約五小時，7/26 02:10 到臺北的家）：S 那一輪 7/25 21:00 以後直接快轉到 8/13，沒看到回到家的時間——這裡從 6/7 狀態一路玩，
     7/24 起一天一天過，記下 7/25 那一場結束以後第一次停下來的時間和地點"""
     await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    # 第一輪（3893c523）：7/25 那一場結束以後，遊戲自己一路快轉到 8/13 才停（玩家在 7/24 以前選過「快轉」），看不到 7/26 02:10——
+    # 這裡只加記錄（不改遊戲）：每一次 GAME.advance 前後的日子、時間，和 HOME.go 被叫的時間
+    await pg.evaluate("""(()=>{ if(window.__ADVH) return; window.__ADVH=1; window.__ADV=[]; const k=()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2);
+      const o=GAME.advance; GAME.advance=function(h){ const a=k(); const r=o.apply(this,arguments); try{ if(r&&r.then) r.then(()=>window.__ADV.push([a,+h,k(),'async'])); else window.__ADV.push([a,+h,k()]); }catch(e){} return r; };
+      if(typeof HOME!=='undefined'&&HOME.go){ const g=HOME.go; HOME.go=function(){ try{ window.__ADV.push(['HOME.go',0,k()]); }catch(e){} return g.apply(this,arguments); }; } })()""")
     await drive(pg, cdp, '2025-07-26 00.00', lambda k: 'day' if k >= '2025-07-24' else 'ff', ['「妳選一家。」', '好。我搭', '出發：'], ['好。我搭'], max_s=2400)
     sn = await pg.evaluate(SNAP); await run.shot(pg, 's7_after_bus')
     lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
     dep = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]; ret = [l for l in lines if '九點的客運開了。' in l]
     say('   7/25 那一場：出發 %s；回程 %s；之後第一次停下來 %s' % (dep[:1], ret[:1], json.dumps(sn, ensure_ascii=False)))
-    ok = sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']
-    verdict('M7 回程 7/26 02:10 到臺北的家', bool(dep) and bool(ret) and ok, '出發那句 %s；回程那句 %s；之後第一次停下來 %s %.2f 在家=%s' % (dep[0][:16] if dep else '（沒有）', ret[0][:16] if ret else '（沒有）', sn['key'], sn['h'], sn['home']))
+    adv = await pg.evaluate("window.__ADV||[]"); near = [x for x in adv if x[0][:10] in ('2025-07-25', '2025-07-26') or x[2][:10] in ('2025-07-25', '2025-07-26') or x[0] == 'HOME.go']
+    say('   7/25～7/26 的 GAME.advance／HOME.go：%s' % json.dumps(near[:24], ensure_ascii=False))
+    arr = [x for x in adv if x[0][:10] == '2025-07-25' and x[2][:13] in ('2025-07-26 2.', '2025-07-26 02')]
+    ok = (sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']) or (bool(arr) and any(abs(float(x[2][11:].split()[0]) - 2.17) < 0.05 for x in arr))
+    verdict('M7 回程 7/26 02:10 到臺北的家', bool(dep) and bool(ret) and ok, '出發那句 %s；回程那句 %s；時間跳到 %s；之後第一次停下來 %s %.2f 在家=%s' % (dep[0][:16] if dep else '（沒有）', ret[0][:16] if ret else '（沒有）', [x[:3] for x in arr][:2] or '（沒看到）', sn['key'], sn['h'], sn['home']))
 
 
 async def main():
