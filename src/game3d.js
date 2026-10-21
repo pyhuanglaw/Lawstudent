@@ -16,7 +16,14 @@ const GAME = (function(){
   GM.sleep=sleep;
   function fmtTime(h){ const hh=Math.floor(h%24), mm=Math.floor((h%1)*60); return (hh<10?'0':'')+hh+':'+(mm<10?'0':'')+mm; }
   GM.fmtTime=fmtTime;
-  function toast(t,ms){ const el=$('toast'); el.textContent=t; el.classList.remove('hide'); el.style.opacity=1; clearTimeout(toast.t); toast.t=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>el.classList.add('hide'),300); },ms||2200); }
+  /* 提示一次一則：前一則出現不到 1.5 秒又有新的，排在後面（原本直接蓋掉——BB 10-21 經濟系天天睡覺：12/13 生活費的提示 24 次有 1 次看不到，UI-MONEY-TOAST-ADV-1021）；
+     同一句還在畫面上＝延長；同一句已經在排＝不重複；最多排三則 */
+  const TQ=[]; let tCur='', tMin=0, tHide=null, tNext=null; const TOAST_MIN=1500;
+  function toastShow(t,ms){ const el=$('toast'); if(!el) return; el.textContent=t; el.classList.remove('hide'); el.style.opacity=1; tCur=t; tMin=Date.now()+TOAST_MIN; clearTimeout(tHide);
+    tHide=setTimeout(()=>{ el.style.opacity=0; setTimeout(()=>{ if(el.textContent===t&&tCur!==t) el.classList.add('hide'); },300); tCur=''; toastPump(); },ms||2200); }
+  function toastPump(){ clearTimeout(tNext); tNext=null; if(!TQ.length) return; const w=tMin-Date.now(); if(tCur&&w>0){ tNext=setTimeout(toastPump,w); return; } const [t,ms]=TQ.shift(); toastShow(t,ms); }
+  function toast(t,ms){ if(t===tCur){ toastShow(t,ms); return; } if(TQ.some(x=>x[0]===t)) return; if(tCur&&Date.now()<tMin){ TQ.push([t,ms]); if(TQ.length>3) TQ.shift(); toastPump(); return; } toastShow(t,ms); }
+  toast.queue=()=>TQ.map(x=>x[0]);   /* 測試用 */
   GM.toast=toast; Object.defineProperty(GM,'S',{get:()=>S});   // 導航（guide3d.js）讀設定
   function setGoal(t,dest){ G.goal=t; G.goalDest=(dest!==undefined)?dest:(typeof GUIDE!=='undefined'?GUIDE.infer(t):null); $('goal').textContent='目標：'+t; }   /* 目的地（2026-10-11，src/guide3d.js）：沒給就從文字推算；null＝自由行動，不指路 */
   GM.setGoal=setGoal;
