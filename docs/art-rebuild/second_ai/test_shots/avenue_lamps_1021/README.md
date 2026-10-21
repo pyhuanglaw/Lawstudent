@@ -1,6 +1,6 @@
 # 椰林大道晚上的路燈＋路燈柱擋不住人（ART-ECON-3D-GAP-1021／BUG-NAV-LAMPPOST-1021）
 
-帳號 A 的 LAWWW2，2026-10-21 20:3x UTC。狀態：**WIP**——遊戲內畫面已確認；燈柱導航的瀏覽器回歸（reachability_all、campus_layout_nav、gongguan_layout_nav、p0_movement）還在排隊，跑完才交件。
+帳號 A 的 LAWWW2，2026-10-21 20:2x UTC。狀態：**WIP**——遊戲內畫面已確認；燈柱導航的瀏覽器回歸（reachability_all、campus_layout_nav、gongguan_layout_nav、p0_movement）還在排隊，跑完才交件。
 
 ## 問題
 
