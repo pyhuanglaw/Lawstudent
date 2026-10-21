@@ -269,8 +269,12 @@ async def run_s7(pg, cdp, run):
     say('   7/25 那一場：出發 %s；回程 %s；之後第一次停下來 %s' % (dep[:1], ret[:1], json.dumps(sn, ensure_ascii=False)))
     adv = await pg.evaluate("window.__ADV||[]"); near = [x for x in adv if x[0][:10] in ('2025-07-25', '2025-07-26') or x[2][:10] in ('2025-07-25', '2025-07-26') or x[0] == 'HOME.go']
     say('   7/25～7/26 的 GAME.advance／HOME.go：%s' % json.dumps(near[:24], ensure_ascii=False))
-    arr = [x for x in adv if x[0][:10] == '2025-07-25' and x[2][:13] in ('2025-07-26 2.', '2025-07-26 02')]
-    ok = (sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']) or (bool(arr) and any(abs(float(x[2][11:].split()[0]) - 2.17) < 0.05 for x in arr))
+    # 遊戲過午夜的寫法是「前一天 26.17 點」（= 隔天 02:10），換日在之後才做：兩種寫法都換算成隔天的鐘點
+    def nxt(x):
+        d, h = x[2][:10], float(x[2][11:].split()[0])
+        return h - 24 if d == '2025-07-25' and h >= 24 else (h if d == '2025-07-26' else None)
+    arr = [x for x in adv if x[0][:10] == '2025-07-25' and x[0] != 'HOME.go' and nxt(x) is not None and nxt(x) < 6]
+    ok = (sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']) or any(abs(nxt(x) - (2 + 10 / 60)) < 0.05 for x in arr)
     verdict('M7 回程 7/26 02:10 到臺北的家', bool(dep) and bool(ret) and ok, '出發那句 %s；回程那句 %s；時間跳到 %s；之後第一次停下來 %s %.2f 在家=%s' % (dep[0][:16] if dep else '（沒有）', ret[0][:16] if ret else '（沒有）', [x[:3] for x in arr][:2] or '（沒看到）', sn['key'], sn['h'], sn['home']))
 
 

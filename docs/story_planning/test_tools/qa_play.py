@@ -24,7 +24,8 @@ SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-
 HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, lastToast='', lastKx='';
   const meta=()=>{ try{ const G=GAME.G; return {d:CALENDAR.dateOf(G.day).key, h:Math.round(G.hour*100)/100, z:G.zone}; }catch(e){ return {}; } };
   setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const m=GAME.G.money; if(lastMoney!==null&&m!==lastMoney){ const t=document.getElementById('toast'); window.__bb.money.push(Object.assign({from:lastMoney,to:m,delta:m-lastMoney,toast:t&&!t.classList.contains('hide')?t.textContent:'',lastToast},meta())); } lastMoney=m; }catch(e){} },200);
-  document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); let lastVis=false; if(t) new MutationObserver(()=>{ const x=t.textContent, vis=!t.classList.contains('hide'); if(x&&vis&&(x!==lastToast||!lastVis)){ lastToast=x; const rec=Object.assign({t:x},meta()); window.__bb.toasts.push(rec);
+  document.addEventListener('DOMContentLoaded',()=>{ const t=document.getElementById('toast'); let lastVis=false; if(t) new MutationObserver(()=>{ const x=t.textContent, vis=!t.classList.contains('hide'), now=performance.now(); if(window.__bbCur&&window.__bbCur.dur==null&&(!vis||(x&&x!==window.__bbCur.t))) window.__bbCur.dur=Math.round(now-window.__bbT0);   /* UI-MONEY-TOAST-ADV-1021：每一則實際留在畫面上多久（毫秒） */
+      if(x&&vis&&(x!==lastToast||!lastVis)){ lastToast=x; const rec=Object.assign({t:x},meta()); window.__bb.toasts.push(rec); window.__bbCur=rec; window.__bbT0=now;
       setTimeout(()=>{ try{ const r=t.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2; const pe=t.style.pointerEvents; t.style.pointerEvents='auto'; const top=document.elementFromPoint(cx,cy); t.style.pointerEvents=pe; rec.rect=[r.left|0,r.top|0,r.width|0,r.height|0]; rec.inView=r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight; rec.onTop=!!top&&(top===t||t.contains(top)); rec.topEl=top?String(top.id||top.className||top.tagName).slice(0,30):''; rec.hidden=t.classList.contains('hide'); }catch(e){} },600); } if(x) lastToast=x; lastVis=vis; }).observe(t,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
     const d=document.getElementById('dlgText'); if(d) new MutationObserver(()=>{ try{ const nm=((document.getElementById('dlgName')||{}).textContent||'').trim(); const full=(GAME.D&&GAME.D.full)||''; if(!/可昕/.test(nm)||!full) return; const k=nm+'|'+full; if(k===lastKx) return; lastKx=k;
       setTimeout(()=>{ try{ const sl=(typeof ADV!=='undefined'&&ADV.slots)||{}; const pick=w=>{ const s=sl[w]; if(!s||s.charId!=='kexin') return null; const box=w==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); return {want:s.expression, outfit:s.outfit||'', shown:im?(im.src.split('/portraits/')[1]||im.src).replace(/\?.*$/,''):'', compact:!!s.compact}; };
@@ -126,6 +127,12 @@ async def main():
         print('生活費入帳：'); [print('   ', m['d'], m['h'], '+%d' % m['delta'], '提示：', m['toast'] or m['lastToast']) for m in al]
         neg = [m for m in bb.get('money', []) if m['delta'] < 0 and (m['d'][5:7] in ('02', '06'))]
         print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
+        # UI-MONEY-TOAST-ADV-1021（LAWWW 20:11）：生活費那幾則提示，每一則都要看得到（在最上層、在畫面裡）、至少 1.5 秒；看不到的記最上層是什麼、前後的提示
+        T = bb.get('toasts', []); ai = [i for i, x in enumerate(T) if '生活費' in x['t']]
+        print('生活費的提示：%d 則（入帳 %d 次）' % (len(ai), len(al)))
+        for i in ai:
+            x = T[i]; okv = x.get('inView') and x.get('onTop') and (x.get('dur') is None or x['dur'] >= 1450)
+            print('   %s %s %s 在畫面上 %s 毫秒 最上層=%s%s' % ('OK ' if okv else '看不到', x['d'], x['h'], x.get('dur'), x.get('topEl'), '' if okv else '；前一則「%s」、後一則「%s」' % (T[i - 1]['t'][:24] if i > 0 else '', T[i + 1]['t'][:24] if i + 1 < len(T) else '')))
         tb = [x for x in bb.get('toasts', []) if 'rect' in x and (not x.get('inView') or not x.get('onTop'))]
         print('提示字被擋或超出畫面：%d／%d' % (len(tb), len(bb.get('toasts', [])))); [print('   ', x['d'], x['h'], x['t'][:30], x.get('rect'), '最上層：', x.get('topEl')) for x in tb[:10]]
         kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not (x.get('shown2') or x['slot']['shown']).endswith('/' + str(x['slot']['want']) + '.webp')]   # 2026-10-21：看 1.5 秒後的圖（0.45 秒時常常還是上一句的圖）

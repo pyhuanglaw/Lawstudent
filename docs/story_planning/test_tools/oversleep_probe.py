@@ -87,6 +87,11 @@ async def main():
         json.dump(res, open(os.path.join(OUT, 'oversleep.json'), 'w'), ensure_ascii=False, indent=1)
         say('   結束：%s；可昕 8/30 的訊息：%s' % (json.dumps(end, ensure_ascii=False), kx)); say('   台詞（最後 12）：%s' % json.dumps(log[-12:], ensure_ascii=False))
         run.check('8/30 早上選「睡到傍晚」：要嘛選項有約好的提醒、要嘛 14:00 前叫醒去載可昕（E37 有演）', warn or end['e37'], json.dumps({'option': t, 'e37': end['e37'], 'end': end}, ensure_ascii=False))
+        # LAWWW 20:11（BUG-E37-DORM-SLEEP-1021，開發分支 56225a7c）：選項寫「…13:10 會叫醒你」；13:10 醒來 → 出發選單 → E37
+        wk = (woke or {}).get('at') or {}; wc = (woke or {}).get('choices') or []
+        run.check('「睡到傍晚」那一行寫了 14:00 的約、13:10 會叫醒（%s）' % t, '14:00' in t and '13:10' in t, '')
+        run.check('13:10 左右醒來（%s %.2f），接著是出發選單（%s）' % (wk.get('key'), wk.get('h') or 0, [c[:16] for c in wc]), wk.get('key') == '2025-08-30' and 13.0 <= (wk.get('h') or 0) <= 13.4 and any(c.startswith('出發') for c in wc), '')
+        run.check('E37 有演（載可昕）', bool(end['e37']), json.dumps(end, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
         await b.close()
     run.finish()

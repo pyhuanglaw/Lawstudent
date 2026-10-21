@@ -814,13 +814,12 @@
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
     "docs/story_planning/test_tools/aa368_probe.py"
    ],
-   "state": "WIP",
-   "remaining": "M7 回程 7/26 02:10 到家（S7 排隊，從 6/7 一路玩到 7/26）",
-   "next": "S7 跑完補進 BB_218；全部 PASS 就改「已測試」",
+   "state": "已測試",
+   "next": "M6 要不要改排法由 LAWWW 決定；12/27 分享吃的、1/2 兩次傳訊息沒測到（P3）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發、M8 PASS（2b25a509／3893c523）；M6 看不到（手機小事隔 3 天，第 8 週只剩 10/25 一格，兩輪都給了 y0_xu_alarm）——建議快過期的先排；H1、H2、H3、附 PASS（aa300 94eba942）"
+   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發與回程（7/25 26:10＝7/26 02:10）、M8 PASS（2b25a509／3893c523）；M6 看不到（手機小事隔 3 天，第 8 週只剩 10/25 一格，兩輪都給了 y0_xu_alarm）——建議快過期的先排；H1、H2、H3、附 PASS（aa300 94eba942）"
   },
   {
    "task": "BB218-P3-1021",
