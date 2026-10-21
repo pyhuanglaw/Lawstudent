@@ -1,7 +1,7 @@
 // 聯絡方式的劇情時刻（AA_124 1-7 第 1 點、AA_70 第 2 節；AA 2026-10-14 第②級）：在那個時刻對方說那一句、拿到聯絡方式（手機多一則「加了…的聯絡方式」）；
 // 已經有聯絡方式的不再說。不需要瀏覽器：
 //   1. 芯慈「借筆記」：借給她（兩個分支）→「筆記還你的時候要找你。」＋聯絡方式；不借＝沒有；
-//   2. 柏翰「你考幾分」（期中放榜）：結尾「你的聯絡方式。考古題要傳給你。」＋聯絡方式（三個分支都有）；
+//   2. 柏翰「你考幾分」（期中放榜）：結尾「考古題我晚上傳給你。」＋聯絡方式（三個分支都有）；
 //   3. 小語「傅鐘旁邊的早餐」：坐下來一起吃＝「欸你有沒有群組？沒有？我拉你。」＋聯絡方式；趕上課＝沒有；
 //   4. 已經有聯絡方式：那一句不說。修正前（事件裡沒有這幾句）這個測試會失敗。
 //   5. 語彤「雨天之後在麵店」：她把手機推過來「傘的事。……你的聯絡方式。」＋傘給她「我還你傘的時候要找你。」／其他「下次下雨的時候找你。」；沒有雨天、已經有的不說。用法：node tests/contact_moments_unit.js
@@ -37,7 +37,7 @@ async function play(id,pickList,pre){ fresh(30,10,'campus',{met_yu:true}); if(pr
   check('1. 芯慈：不借 → 沒有那一句、沒有聯絡方式',!L.includes('筆記還你的時候要找你。')&&!INV.hasContact(G,'classmate_xinci'),L.join('｜'));
   // 2 柏翰
   for(const k of [0,1,2]){ L=await play('ev_bohan_score',[k]);
-    check('2. 柏翰「你考幾分」第 '+(k+1)+' 個選項：結尾「你的聯絡方式。考古題要傳給你。」＋聯絡方式',L[L.length-1]==='你的聯絡方式。考古題要傳給你。'&&INV.hasContact(G,'classmate_bohan'),L.slice(-2).join('｜')); }
+    check('2. 柏翰「你考幾分」第 '+(k+1)+' 個選項：結尾「考古題我晚上傳給你。」（AA_372 第 16 項，原本「你的聯絡方式。考古題要傳給你。」）＋聯絡方式',L[L.length-1]==='考古題我晚上傳給你。'&&INV.hasContact(G,'classmate_bohan'),L.slice(-2).join('｜')); }
   // 3 小語
   L=await play('ev_yu_breakfast',[0]);
   check('3. 小語：坐下來一起吃 →「欸你有沒有群組？沒有？我拉你。」＋聯絡方式',L.includes('欸你有沒有群組？沒有？我拉你。')&&INV.hasContact(G,'yu'),L.join('｜'));
@@ -60,7 +60,7 @@ async function play(id,pickList,pre){ fresh(30,10,'campus',{met_yu:true}); if(pr
   check('5. 語彤：已經有聯絡方式 → 不推手機',!L.includes('（她把手機推過來。）')&&!L.includes('我還你傘的時候要找你。'),L.join('｜'));
   // 4 已經有聯絡方式
   L=await play('ev_bohan_score',[0],()=>{ INV.rec(G); G.contacts.classmate_bohan=5; });
-  check('4. 已經有柏翰的聯絡方式：那一句不說',!L.includes('你的聯絡方式。考古題要傳給你。'),L.slice(-2).join('｜'));
+  check('4. 已經有柏翰的聯絡方式：那一句不說',!L.includes('考古題我晚上傳給你。'),L.slice(-2).join('｜'));
   const msg=(await play('ev_xinci_notes',[0]),(G.msgs||[]).map(m=>m.text));
   check('4. 拿到聯絡方式時手機多一則「加了吳芯慈的聯絡方式。」',msg.some(t=>/加了.*的聯絡方式/.test(t)),msg.join('｜'));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

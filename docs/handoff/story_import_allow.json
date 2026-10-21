@@ -922,6 +922,14 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md",
+   "sha": "da456892",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 13、18 項以安閒聊階梯的兩句由 tools/ladder/import_ladder.py 疊在 ladder_aa.json 上匯入（「考完我還會留在臺北一個月。」「期中考那週我有三科。」）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js",
+   "task": "AA372-Y1S1-FIX-1021",
+   "kind": "text"
+  },
+  {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
    "sha": "724d7703",
    "status": "approved",

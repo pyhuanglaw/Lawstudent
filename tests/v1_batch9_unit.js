@@ -117,7 +117,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     fresh(midDay,20,'campus',{}); const r0=JSON.stringify(G.social.rel), e0=G.energy, m0=G.money; OUT.plan(G,{id:'supper_mid1',ev:'ev_midterm_supper',day:midDay,h:20.5,place:'公館滷味攤',title:'考完的宵夜',travelH:1/6}); G.hour=20.4; picks=['不去了']; await tickOut();
     check('A15 不去：不扣分（關係、體力、錢都不變），沒有演',OUT.get(G,'supper_mid1').state==='missed'&&JSON.stringify(G.social.rel)===r0&&G.energy===e0&&G.money===m0&&!lines().length); }
   /* ---------- A16 翰 1 你考幾分 ---------- */
-  /* 最後一句「你的聯絡方式。考古題要傳給你。」：還沒有柏翰的聯絡方式時，期中放榜那天給（AA_70 第 2 節、AA_124 1-7；3a0dafe，contact_moments_unit 另外測） */
+  /* 最後一句「考古題我晚上傳給你。」：還沒有柏翰的聯絡方式時，期中放榜那天給（AA_70 第 2 節、AA_124 1-7；3a0dafe，contact_moments_unit 另外測） */
   { const e=ev('ev_bohan_score'); const civ=w=>{ for(let wd=1;wd<=5;wd++){ const d=termDay(w,wd); fresh(d,8,'campus'); const it=CLS.dayItems(G,d).find(x=>x.c.id==='civ_general'&&!x.exam); if(it) return {d,it}; } return null; };
     const w10=civ(10), w11=civ(11), w9=civ(9)||civ(7);
     const cls=async(at,prep,met,pk)=>{ fresh(at.d,at.it.t0+0.2,'classroom',{readCase:'full'}); if(met) SOCIAL.remember('classmate_bohan','FIRST_MET',''); CLS.rec(G).prep.civ_general=prep; picks=pk||[]; await CLS.attend(GM,at.it); return lines(); };
@@ -125,11 +125,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     let L=await cls(w10,12,true,['告訴他']); const o=opts.find(x=>x.includes('（告訴他分數）'));
     check('A16 柏翰「你民總幾分？」「我問了十四個人。你是第十五個。」；三個選項（AA 原文）',L.includes('你民總幾分？')&&L.includes('我問了十四個人。你是第十五個。')&&JSON.stringify(o)==='["（告訴他分數）","「不想說。」","「你考幾分？」"]',JSON.stringify({L,o}));
     const tail=a=>L.slice(L.indexOf('我問了十四個人。你是第十五個。')+1);
-    check('A16 告訴他、民總準備很好＝比他高：「你說了分數。」→ 他點頭，寫進手機的備忘錄。「好。」；畫面上沒有數字；TOLD_SCORE（比他高）、BOHAN_SCORE higher',JSON.stringify(tail())==='["你說了分數。","他點頭，寫進手機的備忘錄。","好。","你的聯絡方式。考古題要傳給你。"]'&&!tail().some(t=>/[0-9０-９]/.test(t))&&SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='higher',JSON.stringify(tail()));
+    check('A16 告訴他、民總準備很好＝比他高：「你說了分數。」→ 他點頭，寫進手機的備忘錄。「好。」；畫面上沒有數字；TOLD_SCORE（比他高）、BOHAN_SCORE higher',JSON.stringify(tail())==='["你說了分數。","他點頭，寫進手機的備忘錄。","好。","考古題我晚上傳給你。"]'&&!tail().some(t=>/[0-9０-９]/.test(t))&&SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='higher',JSON.stringify(tail()));
     check('A16 只一次',!EVENTS.check(e,{chain:true}));
-    L=await cls(w10,6,true,['告訴他']); check('A16 準備「不錯」＝比他低：「你說了分數。」「好。」他也寫進手機的備忘錄；BOHAN_SCORE lower',JSON.stringify(tail())==='["你說了分數。","好。","他也寫進手機的備忘錄。","你的聯絡方式。考古題要傳給你。"]'&&G.flags.BOHAN_SCORE==='lower'&&SOCIAL.has('classmate_bohan','TOLD_SCORE'),JSON.stringify(tail()));
-    L=await cls(w10,12,true,['不想說']); check('A16「不想說。」：「好。」他沒有生氣，只是把「15」改成「14」；沒有 TOLD_SCORE',JSON.stringify(tail())==='["好。","他沒有生氣，只是把「15」改成「14」。","你的聯絡方式。考古題要傳給你。"]'&&!SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='no',JSON.stringify(tail()));
-    L=await cls(w10,0,true,['你考幾分']); check('A16「你考幾分？」：他停了一下。「……八十一。第六。」；ASKED_BACK',JSON.stringify(tail())==='["他停了一下。","……八十一。第六。","第一次有人反問他。","你的聯絡方式。考古題要傳給你。"]'&&SOCIAL.has('classmate_bohan','ASKED_BACK'),JSON.stringify(tail()));
+    L=await cls(w10,6,true,['告訴他']); check('A16 準備「不錯」＝比他低：「你說了分數。」「好。」他也寫進手機的備忘錄；BOHAN_SCORE lower',JSON.stringify(tail())==='["你說了分數。","好。","他也寫進手機的備忘錄。","考古題我晚上傳給你。"]'&&G.flags.BOHAN_SCORE==='lower'&&SOCIAL.has('classmate_bohan','TOLD_SCORE'),JSON.stringify(tail()));
+    L=await cls(w10,12,true,['不想說']); check('A16「不想說。」：「好。」他沒有生氣，只是把「15」改成「14」；沒有 TOLD_SCORE',JSON.stringify(tail())==='["好。","他沒有生氣，只是把「15」改成「14」。","考古題我晚上傳給你。"]'&&!SOCIAL.has('classmate_bohan','TOLD_SCORE')&&G.flags.BOHAN_SCORE==='no',JSON.stringify(tail()));
+    L=await cls(w10,0,true,['你考幾分']); check('A16「你考幾分？」：他停了一下。「……八十一。第六。」；ASKED_BACK',JSON.stringify(tail())==='["他停了一下。","……八十一。第六。","第一次有人反問他。","考古題我晚上傳給你。"]'&&SOCIAL.has('classmate_bohan','ASKED_BACK'),JSON.stringify(tail()));
     L=await cls(w10,0,false,['不想說']); check('A16 沒見過柏翰：先「許柏翰。第一排那個。」',L.includes('許柏翰。第一排那個。')&&L.indexOf('許柏翰。第一排那個。')<L.indexOf('你民總幾分？'),JSON.stringify(L));
     L=await cls(w11,0,true,['不想說']); check('A16 第 10 週沒去：第 11 週那堂也會',L.includes('你民總幾分？'));
     L=await cls(w9,0,true,['不想說']); check('A16 第 10 週以前的民總下課沒有',!L.includes('你民總幾分？')); }
