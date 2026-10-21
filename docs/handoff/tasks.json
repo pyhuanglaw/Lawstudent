@@ -27222,7 +27222,7 @@
    "title": "直向：下課字幕框蓋住「坐下」按鈕的左半（BB DONE-B01 實玩 17:25）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -27236,14 +27236,14 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:25 DONE-B01 驗收訊息（BB_218 最後一節，story-planning 1e3f976e；截圖 test_shots/done_b01_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:0x UTC】index.html：#caption 加 width:max-content（原本 left:50% 只剩半個畫面寬，長字幕擠成四行）、橫向 max-width min(620px,100%−340px)（不壓到搖桿和右下按鈕）；直向移到 bottom＝max(18px,safe)+142px（搖桿、「坐下」上面）、max-width 100%−40px。tests/ui_portrait_overlap.py（修改前直向 FAIL：字幕 97～293／706～764 壓到「坐下」258～378／730～778 和搖桿；修改後直向、橫向全過，截圖看過）。BB：直向下課那一刻再看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
   },
   {
    "id": "UI-PORTRAIT-HUD-MONEY-1021",
    "title": "直向：HUD「現在可以上課…」那一行的尾巴被金額標籤蓋住（BB DONE-B01 實玩 17:25）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -27257,7 +27257,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:25 DONE-B01 驗收訊息（BB_218 最後一節，story-planning 1e3f976e；截圖 test_shots/done_b01_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:0x UTC】直向「現在可以上課…」（#nextClass）max-width＝100vw−--hudRw−30px（--hudRw＝右邊金額、手機、選單那一組的實際寬，game3d.js updateHUD 金額變了才量）；tests/ui_portrait_overlap.py：$41510 右邊 244→197（金額那一組從 206.7 開始）、$1234567 右邊 182（從 192.3）；修改前 FAIL。BB：直向上課前看一次 ｜ D99：不影響遊玩的外觀問題先記錄；三個優先項目之後或發布空檔修"
   },
   {
    "id": "BB-TEST-HOLFF-1021",
