@@ -69,7 +69,7 @@ const JP=(function(){
   { const hub={id:'jp_hub',name:'國際學生宿舍',indoor:true,camDist:4.2,tmp:true,build(E){ return Z3.room(E,{w:6,d:6,h:3,wallColor:'#1b1e24',floorTex:W3.stoneTex('#22252b'),spawn:S.SPAWN}); }};
     if(typeof Z3!=='undefined'&&Z3.ZONES&&!Z3.ZONES.jp_hub) Z3.ZONES.jp_hub=hub; }
   if(typeof OUT!=='undefined'&&OUT.BG&&!OUT.BG.jp_room) OUT.BG.jp_room={label:'日本・國際學生宿舍',image:'assets/bg/jp_room.webp'};   /* 企劃線 bg_approved/jp_room.webp（BB-C S4 0758caf3）；其他地方沒有圖＝深色底＋地點字幕（AA_341 第 5 節）*/
-  S.PLACES={room:{label:'國際學生宿舍',bg:'jp_room'},kitchen:{label:'宿舍・共用廚房',bg:null},konbini:{label:'便利商店',bg:null},river:{label:'河邊',bg:null}};   /* 便利商店的 jp_konbini 窗外有雪（3 月底那一張）：據點不用 */
+  S.PLACES={room:{label:'國際學生宿舍',bg:'jp_room'},kitchen:{label:'宿舍・共用廚房',bg:'jp_kitchen'},konbini:{label:'便利商店',bg:null},river:{label:'河邊',bg:null}};   /* 便利商店的 jp_konbini 窗外有雪（3 月底那一張）：據點不用 */
   S.bgNow=G=>{ G=G||(typeof GAME!=='undefined'?GAME.G:null); const p=S.PLACES[(G&&S.place(G))||'room']||S.PLACES.room; return p.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(p.bg):'dark'; };
   S.adv=G=>{ const A=A_(); if(A&&A.begin) A.begin({background:S.bgNow(G)}); };
   /* ---------------- 一鍵上課（J-S2；AA_185 1-5，課名、星期、時間、兩句旁白照抄；每門 90 分鐘：AA_349 L5 確認）---------------- */

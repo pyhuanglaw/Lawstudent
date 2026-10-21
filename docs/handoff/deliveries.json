@@ -12684,6 +12684,19 @@
    "msg": "ACK",
    "integration": "部分整合",
    "note": "LAWWW-C 14:0x：S3 階梯已重新匯入（白名單 ladder_bb_y1s2 換 2e255e9a）；其餘交給 AA 小修子代理（E 組）"
+  },
+  {
+   "id": "DL-BB-4d98fad2",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "4d98fad2",
+   "what": "bg_approved 第 95 組十張：jp_street_day、jp_town_hall、jp_lounge（jp_dorm_lobby 指到這張）、jp_kitchen、jp_dorm_gate、kh_xinjuejiang、kh_pier2、kh_ruifeng、kh_cijin、kh_sizihwan；純文字的純場景全部交齊",
+   "task": "BG-MISSING-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:1x 照原檔複製、OUT.BG 登記（kh 三張原本 image:null、瑞豐旗津原本暫用夜市港邊）；日本路線共用廚房（S.PLACES.kitchen、ev_jp_kitchen）、七夕宿舍門口（jp_events TANABATA）用新圖；bg_images_unit 2j（改之前 FAIL）、aa308_batch3_unit 第 2 項照新圖改"
   }
  ],
  "ignored": [
