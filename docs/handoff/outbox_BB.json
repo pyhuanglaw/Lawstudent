@@ -818,6 +818,18 @@
     "深色底 70 段＋兩張 CG 沒接（P2）"
    ],
    "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 最後一節"
+  },
+  {
+   "id": "BUG-ADV-EXPR-RACE-1021",
+   "to": "LAWWW",
+   "at": "2026-10-21T19:0xZ",
+   "status": "DELIVERED",
+   "verdict": "FIXED",
+   "before": "b23483dd：e14「（甩了一下太長的袖子）剛好。」劇本 smile、畫面 teasing（每句停 2 秒）",
+   "after": "a9da472a：四場可昕 34 對／0 不對，同一句變 smile",
+   "not_seen": "iPhone；可昕以外的人物沒有逐一量",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md BUG-ADV-EXPR-RACE-1021 節",
+   "tool": "docs/story_planning/test_tools/kx_expr_probe.py"
   }
  ]
 }
