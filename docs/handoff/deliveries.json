@@ -12385,6 +12385,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "4ab8110f"
+  },
+  {
+   "id": "DL-AA-170a150d",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "170a150d",
+   "what": "寒暑假回老家的訊息：大三、大四不再和大二一字不差（AA 直接推開發分支，只改引號裡的字）",
+   "task": "HOL-FF-AA340-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "bc7c64e3 合併；holiday_ff_unit、holiday_presence_unit ALL PASS"
   }
  ],
  "ignored": [
