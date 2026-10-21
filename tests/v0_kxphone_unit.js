@@ -6,7 +6,7 @@ global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
 const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
-for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
+for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/econff3d.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 global.ADV={active:false,preload(){},begin(){},end(){},log(){},speaker(){},cg(){}}; global.CHAR={setExpr(){}};
 global.LEGAL={ask:async()=>{},apply(){},stateOf:()=>'unseen',STATES:['unseen']};
@@ -30,7 +30,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.weekday=wdOf(d); G.weather=weather||'clear'; for(const h of [8,12,18,23.9]){ G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); } } return (G.msgs||[]).filter(m=>m.from!=='player'); };
 (async()=>{
-  const D=STORY.DAILY_PHONE.filter(d=>/^y0_/.test(d.id)); check('0. 經濟系的手機小事 24 則',D.length===24,String(D.length));
+  const D=STORY.DAILY_PHONE.filter(d=>/^y0_/.test(d.id)); check('0. 經濟系的手機小事 21 則（AA_348 B6 拿掉可昕大一下四則、B5 加品妤 y0_py_notes2）',D.length===21,String(D.length));
   // 大一上：E06 以後
   fresh(termDay('Y0S1',5,1),8,'dorm',{E06_DONE:'e06'}); G.stage='econ'; let M=days(G.day,40).map(m=>m.text);
   check('1. Y0S1：可昕三則（不是雨天那則）、阿勳、品妤、唐睿、韋綸的都會出現；一天最多一則',['品妤說小福的滷肉飯是全校效用最高的。她算的時候沒有算排隊。','微積分老師今天說了九次『顯然』。我一次都沒有顯然。','上課老師講了一個冷笑話。全班只有我笑。……笑了很久。','你的鬧鐘第二次響的時候，我已經在刷牙了。我們的作息差八分鐘。這很好。'].every(t=>M.includes(t))&&!M.includes('下雨了。你今天走去總圖還是騎車？……沒事，我在決定要不要帶傘。'),JSON.stringify(M.slice(0,12)));
@@ -41,16 +41,21 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
   const d26=STORY.dayOfKey('2025-03-26');
   fresh(d26-10,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; let K=days(d26-10,8).filter(m=>m.from==='kexin').map(m=>m.text); check('2. 大一下第 6 週（3/24）以前：可昕大一下那四則不出現（kx2 從 2/15 起算，AA_224 6-1；四則排在第 4～6 週）',!K.some(t=>/同一張桌子|她說那是我的鬧鐘|新的語言|你買飲料/.test(t)),JSON.stringify(K));
   fresh(d26,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true}); G.stage='econ'; K=days(d26,60).filter(m=>m.from==='kexin').map(m=>m.text);
-  check('2. 3/26 以後：四則都會出現（第一則 AA_335 T4）',['同一張桌子，我把你的位子擦了。……有咖啡漬。','品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。','在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。','晚安。明天的桌子，我比你早到的話，你買飲料。'].every(t=>K.includes(t)),JSON.stringify(K));
+  check('2. 3/26 以後：四則也不出現（AA_348 B6：她 2/15 起住在你家，AA_301「直接去講」；博雅門口和 AA_298 衝突——四則拿掉）',!K.some(t=>/同一張桌子|她說那是我的鬧鐘|新的語言|你買飲料/.test(t)),JSON.stringify(K));
   // 暑假（重考期）接著跑；7/11 以後不跑
   const s0=STORY.dayOfKey('2025-06-25'), s1=STORY.dayOfKey('2025-07-12');
   check('3. 6/25（暑假）：學期週次接著第 18 週往下算；7/12 沒有',(()=>{ G.day=s0; const t=STORY.dpTerm(G); G.day=s1; const t2=STORY.dpTerm(G); return t&&t.id==='Y0S2'&&t.week===19&&!t2; })());
   fresh(s0,8,'dorm',{Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true,Y0_MOVED_OUT:true}); G.stage='econ'; M=days(s0,15).map(m=>m.text); check('3. 暑假 6/25～7/9 還會有手機小事',M.length>0,String(M.length));
   // AA_269 第 8 節（1fb2e4cf）：照新時間線重排的五則
   { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k)), g=f=>({stage:'econ',flags:f});
-    check('5. 微積分第五題＝第 6 週；搬走的隔天 10/20 以後（Y0_MOVED_OUT）；老師問那個人呢＝第 8 週；韋綸、品妤＝第 9 週，品妤改讀 LEAVE_WEEK',
-      E('y0_xu_calc').term(T('2024-10-08'))&&!E('y0_xu_calc').term(T('2024-10-15'))&&E('y0_xu_lamp').term(T('2024-10-20'))&&E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-10-20'))&&!E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-10-19'))
+    check('5. 微積分第五題＝第 6 週；阿勳「宿舍變暗了」＝第 11 週（11/11～17）＋Y0_MOVED_OUT（AA_348 B4：退宿 10/31 以後原本的第 7～8 週永遠不成立）；老師問那個人呢＝第 8 週；韋綸、品妤＝第 9 週，品妤改讀 LEAVE_WEEK',
+      E('y0_xu_calc').term(T('2024-10-08'))&&!E('y0_xu_calc').term(T('2024-10-15'))&&E('y0_xu_lamp').term(T('2024-11-12'))&&!E('y0_xu_lamp').term(T('2024-10-20'))&&!E('y0_xu_lamp').term(T('2024-11-19'))&&E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-11-12'))&&!E('y0_xu_lamp').ok(g({}),STORY.dayOfKey('2024-11-12'))
       &&E('y0_xu_seat').term(T('2024-10-22'))&&E('y0_wl_wait').term(T('2024-10-29'))&&E('y0_py_notes').term(T('2024-10-29'))&&E('y0_py_notes').ok(g({LEAVE_WEEK:7}),STORY.dayOfKey('2024-10-29'))&&!E('y0_py_notes').term(T('2025-03-24'))); }
+  { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k));
+    check('5b. AA_348 B5：品妤「我高中的筆記還在……」搬到大一下第 2 週（y0_py_notes2）',!!E('y0_py_notes2')&&E('y0_py_notes2').term(T('2025-02-25'))&&!E('y0_py_notes2').term(T('2025-03-10'))&&E('y0_py_notes2').items({})[0].text==='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。'); }
+  { const d0=STORY.dayOfKey('2024-09-23'); const span=fl=>{ fresh(d0,8,'dorm',fl); G.stage='econ'; days(d0,12); return Object.values(G.flags.dpDayOf||{}).sort((a,b)=>a-b); }, gaps=a=>a.slice(1).map((x,i)=>x-a[i]);
+    const S1=span({E01_MORNING:true}), S0=span({});
+    check('6. AA_348 B8：經濟系 30 分鐘版（E01_MORNING）9/23～10/4 的手機小事至少隔 3 天一則；完整版（舊流程）照舊',S1.length>=2&&gaps(S1).every(g=>g>=3)&&S0.length>S1.length,JSON.stringify({short:S1,full:S0})); }
   // 法律系的存檔不受影響
   fresh(termDay('Y1S1',6,2),8,'dorm',{}); G.stage='law'; M=days(G.day,10); check('4. 法律系：沒有經濟系的手機小事',!M.some(m=>/^econ_/.test(m.from||'')&&/dp_y0_/.test(m.tag||''))&&!(G.flags.dpN&&Object.keys(G.flags.dpN).some(k=>/^y0_/.test(k))));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

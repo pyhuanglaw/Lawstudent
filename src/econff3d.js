@@ -69,7 +69,8 @@ const ECONFF=(()=>{
   S.short=G=>!!G&&G.stage==='econ'&&!S.off()&&!!(G.flags&&G.flags.E01_MORNING)&&!G.flags.ECON_FULL;   /* ECON_FULL：測試用，照 AA_292 的完整版（舊流程的測試）*/
   /* AA_300 第 7 節（Q-AA300-INVITES）：不在 29 場裡的出遊，排它們的私訊、群組邀約整個不傳 */
   S.CUT_MSG=['y0_kx_essay3',   /* AA_303：1/11「我在想要不要休學」那則拿掉（高雄當面說）*/
-    'y0_e18_missed','y0_e18a_ask','y0_e20_ask','y0_e20_day','y0_e20_mail','y0_r5_miss','y0_r2_miss','y0_r6_miss'];
+    'y0_e18_missed','y0_e18a_ask','y0_e20_ask','y0_e20_day','y0_e20_mail','y0_r5_miss','y0_r2_miss','y0_r6_miss',
+    'y0_r3_miss','y0_r7_ask','y0_r7_miss'];   /* AA_348 B1：R3（4/1 大安森林公園）、R7（5/24 保齡球再戰）AA_303 已拿掉，訊息還在傳——5/23 阿勳約保齡球、那場出遊卻被標成 done＝玩家被約了卻去不了（舊流程 ECON_FULL 照舊）*/
   S.cutMsg=(G,tag)=>S.short(G)&&(/^y0_c1_/.test(tag)||S.CUT_MSG.includes(tag));
   /* AA_300 第 8 節：T1、T3、T6（AA_293 交往前的手機過場）在 30 分鐘版改成跳的途中照時間收到的手機訊息（自動打開那段對話、可以「跳過」，不另外停）；T2、T4、T5 不演。
      句子照 events.js ev_y0_kt1／kt3／kt6 原句；選項掛在最後一則、回覆在 say；熟悉度、記憶、閒聊階梯在收到時記 */
@@ -98,21 +99,25 @@ const ECONFF=(()=>{
     ['2024-10-16','2024-10-16','（十月十六日晚上，你們在總圖三樓念微積分。她看了五分鐘，還在第一行。）'],
     ['2024-10-18','2024-10-28','（休學以後，你還住在 412，照樣陪可昕去上課。坐在她旁邊，不用點名。沒有人問你為什麼。）'],   /* AA_305 第 5 節 */
     ['2024-11-01','2024-11-05','（搬回家以後，你還是常回學校。陪可昕上課，跟阿勳、品妤吃飯。）'],   /* AA_305 第 7 節（取代 10/20～11/05 那句）*/
-    ['2024-11-07','2024-12-12','（十二月，她第一次來你家吃飯，媽媽煮了一桌。）'],   /* AA_308 第 1 節：補習班 12/13 演出來，這句不再提 */
+    ['2024-11-08','2024-11-20','（十一月。你沒有課表了，可是她有。星期三五點二十，她體育課下課，你都在門口等。）'],   /* AA_348 第 3 節：範圍對齊實際的停點（原本 11/07～12/12 一句，在 11/7→11/21 那一跳就用掉了，十二月的事出現在 11/21＝B3）*/
+    ['2024-11-22','2024-12-12','（十二月，她第一次來你家吃飯，媽媽煮了一桌。）'],   /* AA_308 第 1 節：補習班 12/13 演出來，這句不再提 */
     ['2024-12-14','2024-12-30','（十二月二十日，期末考考完了。寒假開始，經濟系的人陸續回家。可昕說她過年前才回高雄。）'],   /* AA_308 第 6 節 ECON-TERM-END-CUE（X53）*/
     ['2025-01-01','2025-01-07','（一月，你大部分的時間都在家裡。手機裡經濟系的群組，你看了，不太回。）'],
     ['2025-01-09','2025-01-27','（一月中，她回高雄了。每天晚上講一通電話，誰都沒有再提國文的事。）'],   /* AA_308 第 2 節：1/8 公館吃麵前後拆兩句 */
     ['2025-02-03','2025-02-11','（爸爸回上海了。成績出來那天，她傳來一張截圖：國文，零分。）'],   /* 1/29～1/30 不出（AA_303）*/
-    ['2025-02-16','2025-04-23','（她住進來以後，你房間的書桌，一半是她的書。讀到很晚的時候，兩個人會走去巷口吃一碗豆花。）'],
+    ['2025-02-16','2025-02-20','（她住進來以後，你房間的書桌，一半是她的書。讀到很晚的時候，兩個人會走去巷口吃一碗豆花。）'],   /* AA_348 第 3 節：原本到 4/23 */
+    ['2025-02-22','2025-03-09','（晚上九點讀不下去的時候，她會說：「下樓。十分鐘。」兩個人走到便利商店，看一下外面的燈，再回來。）'],   /* AA_348 新句（RH-O1 3/1）*/
+    ['2025-03-13','2025-04-22','（四月二日，牆上的倒數撕到一百。那個禮拜，媽媽燉了雞湯。她那碗多一隻雞腿。）'],   /* AA_348 新句（ev_y0_r5 4/2、RH-L3 4/12）*/
     ['2025-04-25','2025-06-07','（五月，書桌旁邊多了一台電風扇。考前一個月，兩個人說好，去報一個衝刺班。）'],
     ['2025-06-09','2025-06-23','（衝刺班，早上九點到晚上九點，每天。傍晚你們常常想回家，請了好幾次假，也遲到過。）'],
     ['2025-06-25','2025-06-27','（衝刺班。後來去請假，她已經不笑了。）'],
     ['2025-06-29','2025-07-10','（衝刺班最後一天，你們待到九點。管理人員說：「後天考試對吧。加油。」）'],
-    ['2025-07-12','2025-07-24','（對答案。數學，你從第一題重新對了一次，全對。考完，她回高雄過暑假。）'],
+    ['2025-07-12','2025-07-13','（對答案。數學，你從第一題重新對了一次，全對。考完，她回高雄過暑假。）'],   /* AA_348 第 3 節：原本到 7/24 */
+    ['2025-07-15','2025-07-23',G=>({sea:'（星期六，你搭早上八點的客運南下。那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。）',shop:'（星期六，你搭早上的客運南下。巷子裡那家店很小。她點了兩份一樣的，說這樣才公平。）',sleep:'（星期六，雨下了一整天。你睡到下午三點，醒來的時候，她剛好傳來一張窗外下雨的照片。）'})[G&&G.flags&&G.flags.E35_PLAN]||null],   /* AA_348 第 5 節第 2 項：7/19 考完的約定（ev_y0_e35s 30 分鐘版剪掉了），照 E35_PLAN 三種；沒有約定就不出 */
     ['2025-07-26','2025-08-12','（後來，你們每天晚上講電話。分數的事，沒有人再提。）'],
     ['2025-08-14','2025-08-21','（你把經濟系的課本裝進紙箱。民法那本，留在書桌上。）']];
   S.cardLine=function(G,d0,d1){ if(!S.short(G)||d1-d0<2) return null; const r=S.rec(G), k0=d0+1, k1=d1-1;
-    for(const [a,b,t] of S.CARDS){ if(r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };
+    for(const [a,b,t0] of S.CARDS){ const t=typeof t0==='function'?t0(G):t0; if(!t||r.lines.includes(t)) continue; const da=DK(a), db=DK(b); if(da!=null&&db!=null&&da<=k1&&db>=k0){ r.lines.push(t); return t; } } return null; };   /* 第三格可以是函式（G）→ 句子或 null＝這一跳不出（AA_348：7/15～7/23 看 E35_PLAN）*/
   /* 沒演到的事件，旗標的預設（AA_300 第 4 節最後）：MATH_100＝true（對答案那句寫了全對）；E22B_TOLD 不記；CRAM_FREE_KNOWN 照 LIFE_FIXED */
   S.defaults=function(G){ if(!S.short(G)) return; const F=G.flags, d=DK('2025-07-12'), c=DK('2024-12-13'); if(d!=null&&G.day>=d&&F.MATH_100==null) F.MATH_100=true;
     if(c!=null&&G.day>=c+2&&!F.CRAM_FREE_KNOWN) F.CRAM_FREE_KNOWN=true; };   /* AA_308 第 1 節：12/13 那場現在會演（KEEP）——只有 12/13～12/14 都錯過了才補記（原本 12/13 一到就記，那場永遠演不到）*/   /* 12/13 補習班那場不演：過了就算知道可以免費（AA_300 第 4 節；沒有它 2/13 水餃店不會約 2/14 一起去問補習班，BB-C 10-18 QA-AA300）*/
@@ -173,7 +178,9 @@ const ECONFF=(()=>{
     if(t>now+0.05){ const d0=G.day; const sb=!!(GM.sceneBegin&&GM.sceneEnd); if(sb) GM.sceneBegin(); try{ await GM.fade(true);   /* 跳日期的黑幕、日期卡期間把玩家鎖住（BUG-BOWL-STUCK-1018 懷疑的方向：原本這段玩家沒有標 busy，日期卡那 3 秒點互動、NPC 或別的自動劇情會和跳日期同時開演，兩段搶同一個對話框）*/
       const res=S.jumpTo(GM,day,h);
       S.attendBetween(G,G.day*24+G.hour);
-      if(res==='msg'){ if(GM.updateHUD) GM.updateHUD(); await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
+      if(res==='msg'){ if(GM.updateHUD) GM.updateHUD();
+        { const ln=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(ln&&!S.short(G)) r.lines.push(ln); if(GM.titleCard&&G.day!==d0) await GM.titleCard(S.dateLabel(G.day,G.hour),ln||'',ln?3200:1800); }   /* AA_348 B2：停在手機訊息上也先出日期卡＋那一句（原本直接打開手機，玩家看不到今天幾號，9/2～10/28 的四句典型玩家都看不到；同 home3d.js 的 y0Jump）*/
+        await GM.fade(false); if(GM.phoneThread) GM.phoneThread(S.newestTh(G),{skip:true}); else if(GM.openPhone) GM.openPhone(); return true; }   /* AA_300 第 6 節：直接打開那一段對話，按「跳過」關掉、繼續跳 */   /* 收到要回的訊息：先回，回完下一次再接 */
       if(s.zone&&G.zone!==s.zone&&GM.enter) await GM.enter(s.zone,s.at?Object.assign({lv:0},s.at):undefined,{noFade:true});
       else if(s.at&&E&&E.placeAt){ E.placeAt(E.player,s.at.x,s.at.z,0); E.player.obj.rotation.y=s.at.yaw||0; }
       const line=S.short(G)?S.cardLine(G,d0,G.day):S.lineFor(G,d0,G.day); if(line&&!S.short(G)) r.lines.push(line);   /* AA_300 第 4 節的句子（cardLine 自己記用過）*/
