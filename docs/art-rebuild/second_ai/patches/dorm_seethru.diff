@@ -1,0 +1,73 @@
+diff --git a/src/zones3d.js b/src/zones3d.js
+index 03d6f215..96548035 100644
+--- a/src/zones3d.js
++++ b/src/zones3d.js
+@@ -1553,7 +1553,7 @@ const Z3 = (function(){
+       if(nm==='dorm_tube'){ mt.emissive=new THREE.Color(0xfff7ea); mt.emissiveIntensity=1.3; }
+       if(nm==='dorm_lamp_bulb'){ mt.emissive=new THREE.Color(0xffe9b8); mt.emissiveIntensity=1.6; }
+       if(nm==='dorm_lcd'){ mt.emissive=new THREE.Color(0x6f98bd); mt.emissiveIntensity=0.9; }
+-      const b=DORM_BOUNCE[nm.replace(/^seethru_/,'').replace(/_(L|R)[12]$/,'')]; if(b) TK.bounce(mt,b[0],b[1]); if(/^seethru_/.test(nm)) mt.userData.seeThrough=true;   /* 上舖（床架、床單、被子、枕頭）擋住玩家時網點透空（engine3d 的樹幹透視；區域 seeThru）*/
++      const b=DORM_BOUNCE[nm.replace(/^seethru_/,'').replace(/_(L|R)[12]$/,'')]; if(b) TK.bounce(mt,b[0],b[1]); if(/^seethru_/.test(nm)){ mt.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(mt); }   /* 上舖（床架、床單、被子、枕頭）、洗手間頂板擋住玩家時網點透空（engine3d 的樹幹透視；區域 seeThru）。正式模型是進區域以後才載入的：引擎進區域時那一次整理已經過了，這裡要自己 patch（原本只標記、沒 patch，上舖從來沒有透空過——LAWWW2 2026-10-21 查到）*/
+       if(nm==='dorm_items'){ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.25;\n#endif'); }; mt.customProgramCacheKey=()=>'dormVcGlow'; mt.needsUpdate=true; } });
+     dormWallItems(z,g0);   /* attachRoomGLB 換掉了 z.walls：月曆、傳單再加回去 */
+     return root; }
+@@ -1588,7 +1588,7 @@ const Z3 = (function(){
+     const load=(key,name,att,msg)=>{ if(!ASSETS.manifest[key]) return; const grp=new THREE.Group(); grp.name=name; grp.userData.dyn=true; g0.add(grp); z.itemGroups.push(grp); z.itemsLoading++;
+       ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); grp.add(root); root.updateMatrixWorld(true); att(root); z.setY2Items(); }).catch(e=>console.warn(msg,e)).finally(()=>{ z.itemsLoading--; }); };
+     load('bldg.dorm_y2_items','dorm_y2_items',root=>root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); } }),'大二房間的物件載入失敗');   /* 軟木板跟著左牆淡出 */
+-    if(['507','409'].includes(z.dormSetKey)) load('bldg.dorm_y3_items','dorm_y3_items',root=>root.traverse(o=>{ if(o.isMesh&&o.material&&/^seethru_/.test(o.material.name)) o.material.userData.seeThrough=true; }),'大三、大四房間的物件載入失敗'); }   /* 床欄上的隊服、名牌：和上舖同一套（seethru_，attachDormInterior）*/
++    if(['507','409'].includes(z.dormSetKey)) load('bldg.dorm_y3_items','dorm_y3_items',root=>root.traverse(o=>{ if(o.isMesh&&o.material&&/^seethru_/.test(o.material.name)){ o.material.userData.seeThrough=true; if(typeof E3!=='undefined'&&E3.patchSeeThrough) E3.patchSeeThrough(o.material); } }),'大三、大四房間的物件載入失敗'); }   /* 床欄上的隊服、名牌：和上舖同一套（seethru_，attachDormInterior；載入以後自己 patch）*/
+   function dormWallItems(z,g0){ for(const n of ['dorm_calendar','dorm_flyer']){ const o=g0.getObjectByName(n); if(!o||z.walls.includes(o)) continue;
+     o.material.transparent=true; o.userData.dir=new THREE.Vector3(Math.sin(o.rotation.y),0,Math.cos(o.rotation.y));   /* 貼的那一面朝室內的方向（四人房：月曆在洗手間隔間、傳單在書桌前的牆）*/ o.updateWorldMatrix(true,false); o.userData.center=o.getWorldPosition(new THREE.Vector3()); z.walls.push(o); } }
+   /* ---------- 溫州街三家新店的室內（DL-09 第一步；ART-WZ3，LAWWW2-B ce586623；AA_164 第 2 節）----------
+diff --git a/tests/dorm_seethru_unit.js b/tests/dorm_seethru_unit.js
+new file mode 100644
+index 00000000..0ad1ba45
+--- /dev/null
++++ b/tests/dorm_seethru_unit.js
+@@ -0,0 +1,45 @@
++// 宿舍四人房（大一 203、經濟系 412、大二～大四）的正式模型載入以後，seethru_ 材質真的會網點透空——不需要瀏覽器。
++// 原本：attachDormInterior 只把 seethru_ 材質標成 userData.seeThrough，沒有 patch shader；正式模型是進區域以後才載入的，
++//       引擎進區域時那一次整理（engine3d.js enter）已經過了——上舖從來沒有透空過（LAWWW2 2026-10-21 查宿舍 412 洗手間頂板時查到）。
++// 做法（src/zones3d.js）：標記的同時呼叫 E3.patchSeeThrough；大三、大四的物件（dorm_y3_items）也一樣。
++// 檢查（自己讀 dorm_room4.glb，Node 沒有 fetch）：每一個 seethru_ 材質都 patch 過（userData._st）；洗手間頂板 BATH_LID 在、是 seethru_、蓋住洗手間。
++// 用法：node tests/dorm_seethru_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/dorm_room_layout.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(THREE|THREE_JSM|P3|ASSETS|W3|E3|TK|CK|Z3|DORM_ROOM)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); }
++let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
++/* 自己讀 GLB：照節點的名字、父子、TRS、extras 建場景；網格只放位置、索引；材質名照 GLB（每個材質一個物件，和 GLTFLoader 一樣共用）*/
++function glbScene(file){ const b=fs.readFileSync(file), jl=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+jl).toString('utf8')), bin=b.slice(20+jl+8);
++  const acc=i=>{ const a=J.accessors[i], v=J.bufferViews[a.bufferView], n={SCALAR:1,VEC2:2,VEC3:3,VEC4:4}[a.type], off=(v.byteOffset||0)+(a.byteOffset||0);
++    const T={5126:Float32Array,5125:Uint32Array,5123:Uint16Array,5121:Uint8Array}[a.componentType]; return new T(bin.buffer.slice(bin.byteOffset+off,bin.byteOffset+off+a.count*n*T.BYTES_PER_ELEMENT)); };
++  const mats=(J.materials||[]).map(m=>{ const t=new THREE.MeshStandardMaterial(); t.name=m.name||''; return t; });
++  const objs=J.nodes.map(nd=>{ let o;
++    if(nd.mesh!=null&&!(nd.extensions&&nd.extensions.EXT_mesh_gpu_instancing)){ const prs=J.meshes[nd.mesh].primitives.map(pr=>{ const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(acc(pr.attributes.POSITION),3)); if(pr.indices!=null) g.setIndex(new THREE.BufferAttribute(acc(pr.indices),1));
++        return new THREE.Mesh(g,pr.material!=null?mats[pr.material]:new THREE.MeshStandardMaterial()); });
++      if(prs.length===1) o=prs[0]; else { o=new THREE.Group(); for(const q of prs) o.add(q); } }
++    else o=new THREE.Object3D();
++    o.name=nd.name||''; if(nd.extras) o.userData=JSON.parse(JSON.stringify(nd.extras)); if(nd.translation) o.position.fromArray(nd.translation); if(nd.rotation) o.quaternion.fromArray(nd.rotation); if(nd.scale) o.scale.fromArray(nd.scale); return o; });
++  J.nodes.forEach((nd,i)=>{ for(const c of nd.children||[]) objs[i].add(objs[c]); });
++  const sc=new THREE.Group(); for(const r of J.scenes[J.scene||0].nodes) sc.add(objs[r]); return sc; }
++(async()=>{
++  const SC=glbScene(path.join(ROOT,'assets/models/env/second_ai/dorm_room4.glb')); let pend=null;
++  ASSETS.loadOne=k=>k==='bldg.dorm_room4'?(pend=Promise.resolve({scene:SC})):new Promise(()=>{});
++  const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
++  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0,seat:null,pose:'idle'};
++  const z=Z3.ZONES.dorm.build(E); E.zone=z; E.nav=z.nav; await pend; await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
++  check('1. 宿舍區域開網點透空（zone.seeThru）、正式模型接上了',Z3.ZONES.dorm.seeThru===true&&!!z.dormRoot);
++  const st=new Map(); z.group.traverse(o=>{ if(o.isMesh&&o.material&&/^seethru_/.test(o.material.name)) st.set(o.material.name,o.material); });
++  const notPatched=[...st.values()].filter(m=>!(m.userData.seeThrough&&m.userData._st)).map(m=>m.name);
++  check('2. seethru_ 材質（'+st.size+' 個）都標記、也 patch 過 shader（userData._st）——正式模型是進區域以後才載入的',st.size>=8&&!notPatched.length,'沒有 patch：'+notPatched.slice(0,6).join('、'));
++  const lid=z.group.getObjectByName('BATH_LID'), R=DORM_ROOM;
++  let ok=false, info='沒有'; if(lid){ const b=new THREE.Box3().setFromObject(lid); info=JSON.stringify([b.min.toArray().map(v=>+v.toFixed(2)),b.max.toArray().map(v=>+v.toFixed(2)),lid.material.name]); ok=/^seethru_/.test(lid.material.name)&&b.min.y>=R.room.h-0.001&&(b.max.x-b.min.x)>2&&(b.max.z-b.min.z)>1.8; }
++  check('3. 洗手間頂板 BATH_LID：在隔間牆上面（≥ 房間高 '+R.room.h+' m）、蓋住洗手間、是 seethru_（玩家在洗手間裡會透空）',ok,info);
++  console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
