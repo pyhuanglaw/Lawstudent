@@ -1505,6 +1505,45 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "接續 ART-02（教室門模組，已結案）：共同教學館沒有正式室內殼，關著的門還是木板——共同教學館關著的門（1F 兩間洗手間、2F 203）：黑色長方形→門框、木門片、觀景窗、把手、門牌；teach_doors_unit 修改前 FAIL／修改後 ALL PASS；在 a9da472a 上 teach_doors、nav_teach、teach_cam_walls、teach_class ALL PASS"
+  },
+  {
+   "task": "ART-GYM2-INT",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gym_arena_int.diff",
+    "assets/models/env/second_ai/gym_arena.glb",
+    "assets/models/env/second_ai/gym_arena.json",
+    "assets/models/env/second_ai/gym_interior.glb",
+    "assets/models/env/second_ai/gym_interior.json",
+    "tools/blender/env_second/gym_arena.py",
+    "tools/blender/env_second/gym_interior.py",
+    "docs/art-rebuild/second_ai/test_shots/gym_arena_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "「看主球場」「大螢幕」還沒有字（AA／BB）；上層看台走不上去；布置打開時的導航阻擋是下一步；東北、西北角沒有鏡頭碰撞（看得到空地，不擋）；真機沒看過",
+   "next": "LAWWW git apply gym_arena_int.diff v3（對 a9da472a 乾淨，5 個檔）＋換 gym_arena.glb、gym_interior.glb＋json（dec70791、5d6c715f）；跑 gym_arena_unit、gym_unit、group_events_unit、v0_c2_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "3F 主球場接成區域：1F 樓梯口上樓、紅龍拿掉；第二輪修遊戲內抓到的四個問題（進場／坐看台高處鏡頭在牆裡、扶手穿過人、入口通道看不見的牆、藏著的演唱會光暈）；gym_arena_unit 11～15 項修改前 FAIL、修改後 ALL PASS；遊戲內前後對照 7 個角度"
+  },
+  {
+   "task": "BACKLOG-A7-WZPARK-COPLANAR",
+   "branch": "claude/second-ai-env-art",
+   "sha": "1effaa35",
+   "files": [
+    "assets/models/env/second_ai/wz_park.glb",
+    "tools/blender/env_second/wz_park.py",
+    "docs/art-rebuild/second_ai/test_shots/wz_park_coplanar_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "閃爍消失只靠 check_coplanar 的數字（沒錄影）；真機沒看過",
+   "next": "LAWWW 換 wz_park.glb＋wz_park.py（c53c3c6d），不用改程式；開發分支 a9da472a 的 wz_park.glb 還是修改前那一版",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "溫州街收尾①：小公園一定會閃 11→0、遠處才閃 18→1（涼亭頂 0.04 m²）；涼亭樑、神龕背板、環狀步道、公布欄軟木板各移 3～5 mm；物件、材質、三角形不變"
   }
  ]
 }
