@@ -1,0 +1,13 @@
+{
+ "objects": 28,
+ "unique_meshes": 28,
+ "tris": 17408,
+ "tris_drawn": 17408,
+ "materials": 15,
+ "out": "assets/models/env/second_ai/l118_pasta.glb",
+ "bytes": 1486716,
+ "texres": 512,
+ "tris_total": 17408,
+ "layout": "l118_pasta.layout.json",
+ "seats": 16
+}

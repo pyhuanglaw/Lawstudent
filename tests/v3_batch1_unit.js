@@ -78,7 +78,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(20,20.9); check('8. 9/24 21:00 以前沒有',!txt('g:noodle_team').some(t=>/中秋/.test(t)));
   run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點。烤肉架今年你負責。」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點。烤肉架今年你負責。')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
-  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。理由：公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
+  const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。這樣公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
   const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^小語：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));
   check('8. 台詞（逐字；認識的人都在）＋買夾子',JSON.stringify(nm(L))===JSON.stringify(want)&&G.flags.MIDAUTUMN_Y2,JSON.stringify(L));
   fresh(d25,17,'campus',{}); G.stage='law'; picks=['用筷子']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
@@ -94,22 +94,12 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   // 10. 語彤事件 7 法服的第一次值班（9/26）
   const d26=dk('2026-09-26'); check('10. 9/26 是大二上第 3 週週六、法服值班日（單週）',CALENDAR.termOf(d26).week===3&&CALENDAR.dateOf(d26).wd===6&&!!STORY.fafuDuty({day:d26,stage:'law',flags:{}}));
   check('10. 語彤的作息：值班的週六 9～12 在萬才館一樓（國定假日不值班）',(()=>{ const sc=CHARACTERS.heroine_03.daily_schedule.find(q=>q.zone==='wancai'&&q.days.includes(6)); return !!sc&&sc.from===9&&sc.to===12&&sc.if.custom({day:d26,stage:'law',flags:{}})&&!sc.if.custom({day:d26-7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+7,stage:'law',flags:{}})&&!sc.if.custom({day:d26+14,stage:'law',flags:{}})&&sc.if.custom({day:d26+28,stage:'law',flags:{}}); })());   /* 10/10 國慶日不值班（AA_184），10/24 照常 */
-  fresh(d26,9.5,'wancai',{}); G.stage='law'; meet('heroine_05'); at(0.5,2.2); picks=['怎麼知道']; tick(); await wait(); L=lines();
-  const w10=['溫書瑀：這位是社會系的語彤，她會幫我們做初談。','一位阿伯來諮詢，講了十分鐘還講不到重點；法律系的人都在翻六法。','阿伯：我就是要問那個……那個房子……我兒子……','語彤倒了一杯水，只問了一個問題。','陳語彤：阿伯，你今天來，是擔心你兒子，還是擔心房子？','阿伯：（停很久，笑了）……我兒子啦。房子是藉口。','溫書瑀：（散會後）妳剛剛那一句，我們法律系的人學三年都問不出來。','陳語彤：嗯。我只是常在麵店聽人講話。','陳語彤：他一直在看門口。他兒子在外面等他。'];
-  check('10. 在場：台詞逐字（AA_11 事件 7）＋「妳怎麼知道要問那個？」',JSON.stringify(L.map(t=>t.replace(/^溫學姊：|^學姊：/,'溫書瑀：').replace(/^語彤：/,'陳語彤：')))===JSON.stringify(w10),JSON.stringify(L));
-  check('10. YT_DUTY_SEEN、YT_LEGALAID_Y2、語彤 SHARED_CLASS、認識語彤',G.flags.YT_DUTY_SEEN&&G.flags.YT_LEGALAID_Y2&&SOCIAL.has('heroine_03','SHARED_CLASS')&&SOCIAL.has('heroine_03','FIRST_MET'));
-  fresh(d26,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); picks=['轉法律系']; tick(); await wait(); L=lines(); check('10. 「妳應該轉法律系。」→「不要。你們都在翻書，沒有人在看他。」',L[L.length-1].endsWith('不要。你們都在翻書，沒有人在看他。'));
-  fresh(d26,12.2,'wancai',{}); G.stage='law'; at(0.5,2.2); check('10. 12:00 以後不觸發',!tick());
-  fresh(d26+14,9.5,'wancai',{}); G.stage='law'; at(0.5,2.2); check('10. 之後的值班日不觸發（只有 9/26）',!tick());
-  fresh(d26,13,'dorm',{}); G.stage='law'; run(13,13.1); check('10. 不在場也記 YT_LEGALAID_Y2（劇情事實）',G.flags.YT_LEGALAID_Y2===true&&!G.flags.YT_DUTY_SEEN);
-  // 不在場的轉述（第 4 週麵店）
-  const w4=d26+3; G.day=w4; G.weekday=wdOf(w4); G.hour=18; G.zone='noodle'; R('heroine_03',...LV.FAM); meet('heroine_03');
+  // AA_325 2-Y2-01：舊的事件 7（ev_y2_yt_duty）和第 4 週的轉述（ev_y2_yt_duty_heard）退休（AA_11 舊事件 7 已刪），換成大二第一次值班之後的麵店閒聊（src/y2r2_3d.js，tests/y2_round2_unit.js）
+  check('10. ev_y2_yt_duty、ev_y2_yt_duty_heard 標 retired（AA_325 2-Y2-01）',!!ev('ev_y2_yt_duty').retired&&!!ev('ev_y2_yt_duty_heard').retired);
+  fresh(d26,9.5,'wancai',{}); G.stage='law'; meet('heroine_05'); at(0.5,2.2); check('10. 退休以後：就算 YT_FAFU 是 yes，9/26 萬才館也不演舊的事件 7',!tick()&&!G.flags.YT_DUTY_SEEN);
+  const w4=d26+3; fresh(w4,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03');
   const yt={obj:{position:{x:1,y:0,z:0}},lv:0,charId:'heroine_03'}; GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5);
-  const tk=tick(); await wait(); L=lines();
-  check('11. 不在場、有點熟：第 4 週在麵店遇到她＝轉述兩句、YT_DUTY_HEARD',tk&&L[0].endsWith('上週六第一次值班。有一個阿伯，講了十分鐘才講到他兒子。')&&L[1].endsWith('……我只問了一句。')&&G.flags.YT_DUTY_HEARD,JSON.stringify(L));
-  fresh(w4,18,'noodle',{YT_DUTY_SEEN:true}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 在場看過的不轉述',!tick());
-  fresh(w4,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.ACQ); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 只是認識（沒有有點熟）不轉述',!tick());
-  fresh(w4+7,18,'noodle',{}); G.stage='law'; R('heroine_03',...LV.FAM); meet('heroine_03'); GM.npc.heroine_03=yt; E.npcs=[yt]; at(1.5,0.5); check('11. 第 5 週不轉述（只在第 4 週）',!tick());
+  check('11. 退休以後：第 4 週麵店不轉述（YT_DUTY_HEARD 改由 ev_yt_shift_chat 記）',!tick()&&!G.flags.YT_DUTY_HEARD);
   GM.npc={}; E.npcs=[]; STORY.YT_FAFU='no';
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

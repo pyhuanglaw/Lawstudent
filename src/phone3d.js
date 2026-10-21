@@ -12,18 +12,21 @@
 'use strict';
 const PHONE=(function(){
   const S={};
-  const nm=id=>{ const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法）——
+  const FAM_NM={mom:'媽媽',dad:'爸爸',sister:'姊姊',yule:'予樂'};   /* yule：可昕的室友予樂（不在 CHARACTERS；AA_325 2-Y2-15 她私訊祐廷）*/   /* 家人（不在 CHARACTERS 裡）：一對一對話串的名字（p:mom；1A-06 姊姊的私訊 p:sister，AA_317）*/
+  const nm=id=>{ if(FAM_NM[id]&&!(typeof CHARACTERS!=='undefined'&&CHARACTERS[id])) return FAM_NM[id]; const cn=typeof SOCIAL!=='undefined'&&SOCIAL.contactName?SOCIAL.contactName(id):null;   /* 手機聯絡人的名字跟著關係（AA_124 1-6、BB_120：到「朋友」時改叫法）——
       名字已經知道了才用（還沒見過的女主角照舊「不認識的女生」，不能因為聯絡人名稱提前露出名字）*/
     if(cn&&SOCIAL.displayName&&typeof CHARACTERS!=='undefined'&&CHARACTERS[id]&&SOCIAL.displayName(id)===CHARACTERS[id].name) return cn;
     const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(c&&c.phoneName) return c.phoneName; return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(id):((c&&c.name)||id); };   /* phoneName：手機上的名字（可昕）*/
   S.rec=function(G){ if(typeof INV!=='undefined') INV.rec(G); else if(!Array.isArray(G.msgs)) G.msgs=[];
-    if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0; return P; };
+    if(!G.phone||typeof G.phone!=='object') G.phone={}; const P=G.phone; if(!P.groups||typeof P.groups!=='object') P.groups={}; if(!P.seen||typeof P.seen!=='object') P.seen={}; if(!Array.isArray(P.q)) P.q=[]; if(typeof P.n!=='number') P.n=0;
+    if(!P.filmRen){ P.filmRen=1; const fr=typeof SOCIAL!=='undefined'&&SOCIAL.filmRename; if(fr){ for(const k in P.groups){ const g=P.groups[k]; if(g&&typeof g.name==='string'&&/東京物語|晚春/.test(g.name)) g.name=fr(g.name).replace(/[《》]/g,''); } for(const m of (G.msgs||[])) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); for(const m of P.q) if(m&&typeof m.text==='string'&&/東京物語|晚春/.test(m.text)) m.text=fr(m.text); } }   /* 舊存檔：手機裡的真實片名換成虛構的（AA_313 6-2，D77；只做一次）*/
+    return P; };
   S.th=m=>m.th||(m.who?'p:'+m.who:'sys');
   const abs=(day,h)=>day*24+h;
   S.join=function(G,gid,name){ const P=S.rec(G); if(!P.groups[gid]) P.groups[gid]={name,day:G.day}; return P.groups[gid]; };
   S.inGroup=(G,gid)=>!!S.rec(G).groups[gid];
   S.title=function(G,th){ if(th.startsWith('g:')){ const g=S.rec(G).groups[th.slice(2)]; return g?g.name:th.slice(2); } if(th.startsWith('p:')) return nm(th.slice(2)); return '通知'; };
-  S.who=m=>m.from==='player'?'你':(m.name||(m.from?nm(m.from):''));
+  S.who=m=>m.from==='player'?'你':((m.from&&typeof SOCIAL!=='undefined'&&SOCIAL.datingName&&SOCIAL.datingName(m.from))||m.name||(m.from?nm(m.from):''));   /* 交往中：她的訊息顯示交往中的叫法（學姊＝「書瑀」，AA_313 6-5 第 8 點）*/
   const mk=(G,it,day,h)=>{ const hh=((h%24)+24)%24, dd=day+Math.floor(h/24); const th=it.th||(it.who?'p:'+it.who:'sys');
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/

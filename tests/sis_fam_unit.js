@@ -50,7 +50,7 @@ GM.money=function(n){ G.money+=n; };
   G.day=d10; G.weekday=3; G.hour=12.2; check('2. 沒有 W1：不演',!EVENTS.check(h1,{trigger:'class',afterClass:'crim_gen1'}));
   G.flags.SIS_W1=true; G.flags.met_sis=true; check('2. W1：9/10 刑總下課會演',EVENTS.check(h1,{trigger:'class',afterClass:'crim_gen1'}));
   picks=['會啊']; await EVENTS.run(h1); let L=lines();
-  check('2. 「學姊。」「喔，祐廷。剛下課喔？」「對，刑總。」「週五家聚你會來嗎？」→「好，那週五見。」「我先去圖書館了，掰掰。」',L.some(t=>t.endsWith('喔，祐廷。剛下課喔？'))&&L.some(t=>t.endsWith('對，刑總。'))&&L.some(t=>t.endsWith('好，那週五見。'))&&L[L.length-1].endsWith('我先去圖書館了，掰掰。')&&G.flags.SIS_FAM_HALL===true,JSON.stringify(L));
+  check('2. 「學姊。」「喔，學弟。剛下課喔？」（AA_313 6-4：FAMILIAR 以前不叫名字）「對，刑總。」「週五家聚你會來嗎？」→「好，那週五見。」「我先去圖書館了，掰掰。」',L.some(t=>t.endsWith('喔，學弟。剛下課喔？'))&&L.some(t=>t.endsWith('對，刑總。'))&&L.some(t=>t.endsWith('好，那週五見。'))&&L[L.length-1].endsWith('我先去圖書館了，掰掰。')&&G.flags.SIS_FAM_HALL===true,JSON.stringify(L));
   G.day=d11; G.weekday=4; check('2. 演過了：9/11 民總下課不再演',!EVENTS.check(h2,{trigger:'class',afterClass:'civ_general'}));
   back(); G.flags.SIS_W1=true; G.flags.met_sis=true; G.day=d11; G.weekday=4; G.hour=15.2; check('2. 9/10 沒遇到：9/11 民總下課演「對，民總。」',EVENTS.check(h2,{trigger:'class',afterClass:'civ_general'}));
   picks=['還不確定']; await EVENTS.run(h2); L=lines(); check('2. 「對，民總。」→「可以的話就來啦，大家都會來。」',L.some(t=>t.endsWith('對，民總。'))&&L.some(t=>t.endsWith('可以的話就來啦，大家都會來。')));
@@ -62,7 +62,7 @@ GM.money=function(n){ G.money+=n; };
   { const s2=JSON.stringify(G); back(); G.flags.SIS_W1=true; G.flags.met_sis=true; G.day=d12; G.weekday=5; G.hour=19; said=[]; await EVENTS.run(ev('ev_sis_fam_dinner')); check('3. 做過 W1：沒有自我介紹那三句',!lines().some(t=>/我是妳的直屬|名單上看過/.test(t))); G=JSON.parse(s2); SOCIAL.bind(G); EVENTS.bind(GM); }
   G.events.done.ev_sis_fam_dinner=1; run(21,21.1); check('3. 去了：當晚沒有 Kevin 的照片',!PHONE.sent(G,'sis_fam_photo'));
   G.day=d16; G.weekday=2; run(20.9,21.1); const S=TH('p:heroine_05').map(m=>m.from+':'+m.text);
-  check('4. 9/16 21:00 私訊：問憲法怎麼準備、「解題書我推鷗律師那本……」「加油。」、SIS_FAM_MSG',S.includes('player:學姊，想問一下，妳憲法那時候怎麼準備的？')&&S.includes('heroine_05:解題書我推鷗律師那本，題目多，解得也清楚。')&&S[S.length-1]==='heroine_05:加油。'&&G.flags.SIS_FAM_MSG===true,JSON.stringify(S));
+  check('4. 9/16 21:00 私訊：問憲法怎麼準備、「解題書我推補習班那本……」「加油。」、SIS_FAM_MSG',S.includes('player:學姊，想問一下，妳憲法那時候怎麼準備的？')&&S.includes('heroine_05:解題書我推補習班那本，題目多，解得也清楚。')&&S[S.length-1]==='heroine_05:加油。'&&G.flags.SIS_FAM_MSG===true,JSON.stringify(S));
   // 沒去
   back(); G.day=d12; G.weekday=5; run(20.9,21.1); check('5. 沒去：9/12 21:00 Kevin「📷（照片：長桌，大家舉杯）今天大一只來一半，下次都要來喔！」',TH('g:family_law').some(m=>m.text==='📷（照片：長桌，大家舉杯）今天大一只來一半，下次都要來喔！'));
   G.day=d15; G.weekday=1; run(20.9,21.1); check('5. 沒去：9/15 21:00 Kevin「對了大一的，憲法有問題可以問書瑀學姊，她是張老師 95 分的傳奇。」',TH('g:family_law').some(m=>m.text==='對了大一的，憲法有問題可以問書瑀學姊，她是張老師 95 分的傳奇。'));

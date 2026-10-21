@@ -41,14 +41,14 @@ const ACTIVITIES={
     {id:'club_expo_y1s1',title:'社團博覽會',kind:'fair',zone:'campus',roomName:'椰林大道',spot:{x:-13.5,z:13.6,lv:0,label:'社團博覽會',r:1.3},dates:['2025-09-30','2025-10-01'],t0:11,t1:17,
      clubs:['club_guitar','lawclub_study','club_debate','club_hiking','dept_basketball'],
      desc:'攤位：吉他社、法服、辯論社、登山社、系籃（系學會）。在攤位填表＝加入。',story:false},
-    /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——大一上第 4 週週六（遊戲從第 3 週開始；實際日期【待考證】）。傅鐘前集合（和社團博覽會同一點，日期不同）；
+    /* 交接包 v1 A11（AA_71 2-1、BB_95 3-3）：法律系迎新——開學前（8/31 上午，AA_310；使用者 2026-10-20「迎新在9/27不合理阿 應該在開學前」）；有宿營的局不辦（大一的迎新就是 8/22～24 宿營）。傅鐘前集合（和社團博覽會同一點，日期不同）；
        參加＝演 ev_welcome_y1s1（自我介紹、大地遊戲和沛珊同一組），演完快轉到結束。event：參加時演的事件（classes3d.js 的 attendActivity）；去一次就好 */
-    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-09-27'],t0:14,t1:17,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）9/27 回到一般週末；只留給開發起點（直接跳 8/29）防呆 */
-     desc:'系上的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
+    {id:'welcome_y1s1',title:'法律系迎新',kind:'event',zone:'campus',roomName:'傅鐘前',spot:{x:-13.5,z:13.6,lv:0,label:'迎新集合點',r:1.3},dates:['2025-08-31'],t0:9.5,t1:12,once:true,event:'ev_welcome_y1s1',skip:G=>!!(G.flags&&G.flags.CAMP_Y1),   /* 開學前宿營演過的局（新遊戲、AA_205 6-13 第 6 項）不辦；只留給沒有宿營的局（開發起點直接跳 8/29）防呆——下午 14:00 是開學典禮（S.ceremonyY1），中間有午餐時間 */
+     desc:'開學典禮前的上午，系學會在傅鐘前辦的新生迎新：自我介紹、分組玩大地遊戲。學長姊帶隊。',story:true},
     /* 6-8 (c)：系籃——2026-10-14 搬到球場（LAWWW2 9428f9f，醉月湖東側；zones3d.js 的 bballCourt）：活動點在場邊兩張長椅中間、面向場內；id 不變（原本先放在體育館門口）*/
     /* 公法讀書會（交接包 v2 C14 以安新 7 後半）：每週四 20:00～21:30，萬才館研討室 A；第一次＝ev_public_law_group。
        2026-10-17 改到大一上第 10 週開始（AA_218 17-4 使用者批准；BB_191 §8-1、8-6）：大一上 10～16 週；大一下 2～7、10、12～16 週（第 11 週週四以安在博雅 B4 講座，停一次）；大二下加第 1 週（沛珊交接 P4，§8-7）*/
-    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2'],weeks:[10,11,12,13,14,15],termWeeks:{Y1S2:[2,3,4,5,6,7,10,12,13,14,15],Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15],Y2S2:[2,3,4,5,6,7,10,11,12,13,14,15],Y3S1:[1,2,3,4,5,6,7,10,11,12,13,14,15],Y3S2:[1,2,3,4,5]},weekday:4,   /* 大三上也開（AA_259 第 4 節第 2 點：A5-L4、A5-L6、週四招呼講的事要看得到）；大三下第 1～5 週（AA_260 第 4 節第 4 點：以安 A6-L3、週四招呼）*/t0:20,t1:21.5,
+    {id:'public_law_group',title:'公法讀書會',clubName:'公法讀書會',kind:'club',zone:'wancai',room:'seminarA',door:true,roomName:'萬才館 研討室 A',term:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'],weeks:[10,11,12,13,14,15],termWeeks:{Y1S2:[2,3,4,5,6,7,10,12,13,14,15],Y2S1:[2,3,4,5,6,7,10,11,12,13,14,15],Y2S2:[2,3,4,5,6,7,10,11,12,13,14,15],Y3S1:[1,2,3,4,5,6,7,10,11,12,13,14,15],Y3S2:[1,2,3,4,5],Y4S1:[1,2,3,4,5,6,7,10,11,12,13,14]},weekday:4,   /* 大三上也開（AA_259 第 4 節第 2 點：A5-L4、A5-L6、週四招呼講的事要看得到）；大三下第 1～5 週（AA_260 第 4 節第 4 點：以安 A6-L3、週四招呼）；大四上照大三上（學弟帶；AA_323 1B-19 10/19 散會、1B-20 第 15 週「這週四停一次」）*/t0:20,t1:21.5,
      desc:'以安和小語發起的讀書會。每人十分鐘。',story:true},
     /* 大一的系籃比賽（交接包 v2 C16；AA_71 2-11「大一的系籃比賽（v2 C16，第 14 週）」）：AA 只寫第 14 週，日子、時間是 LAWWW 定的（週六 14～16，和練球同一個球場；已告訴 AA）；去看＝演 ev_zhe_game_y1 */
     /* 法服學期檢討會（BB_96 2-6 學姊 W5；交接包 v2）：大一下第 17 週週三 19:00–21:00，萬才館研討室 A（門口參加）；群戲用旁白，會後接 W5（afterActivity）*/
@@ -57,6 +57,8 @@ const ACTIVITIES={
       desc:'法服這學期的檢討會。',story:true},
     /* 吉他社成發（BB_96 4-4 子晴 Q5、AA_13 G3；交接包 v2）：大一下第 14 週週三 19:00–21:00，萬才館大廳的小舞台；和法服讀書會同一晚，走進哪一個就是哪一個 */
     {id:'guitar_show_y1s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y1S2'],weeks:[14],weekday:3,t0:19,t1:21,once:true,event:'ev_ziqing_show',
+      desc:'吉他社的期末成發。',story:true},
+    {id:'guitar_show_y2s2',title:'吉他社成發',kind:'event',zone:'wancai',roomName:'萬才館大廳',spot:{x:0,z:4.6,lv:0,label:'吉他社成發'},verb:'去看',term:['Y2S2'],weeks:[14],weekday:5,t0:19,t1:21,once:true,event:'ev_ziqing_show2',   /* 子晴 Q9 第二次成發（AA_325 2-Y2-19：5/28 週五）*/
       desc:'吉他社的期末成發。',story:true},
     /* 博雅午後講座第 1 場（BB_105 4-1b、4-5；AA_115 可玩切片；交接包 v2 C13）：法律系大一下第 11 週週四 19:00～20:30，博雅 101。講者虛構；只講方向（比例原則），不給法律結論。
        id 用 'B4'：AA_115 的 attended:B4／missed:B4、BB 課表的回想（syllabus recall activity:'B4'）都用這個名字。選「聽演講」＝ev_b4_lecture；散場＝ev_b4_after；小桌子＝ev_b5_table（src/data/events.js）*/

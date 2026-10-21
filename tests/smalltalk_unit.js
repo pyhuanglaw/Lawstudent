@@ -1,5 +1,5 @@
 // 閒聊（story3d.js 的 S.smallTalk）——不需要瀏覽器。2026-10-13 使用者試玩回報：
-//   洪珮瑜（不太熟的同學）一直重複「喜歡聽 podcast」；高子晴第一次在校園聊天就說「期末成發你要來。這不是問句。」（那時候還不熟，也還沒去吉他社）。
+//   洪珮瑜（不太熟的同學）一直重複「喜歡聽 podcast」；高子晴第一次在校園聊天就說「期末成發你要來。」（那時候還不熟，也還沒去吉他社）。
 // 檢查（第一版）：一天只聊一句新的、同一天再找是打招呼；熟的人輪流不重複（說完一輪才重來、不會連續兩次同一句）。
 // 檢查（AA_120，2026-10-13 晚）：
 //   - 不熟的同學（B 層，AA_120 7-2 定稿）：三句各只說一次、第 3 句要說過心事；說完只點頭或短招呼（開學、期中、期末，同學期同一句一次）；換學期不從頭重播。
@@ -54,7 +54,7 @@ const talk=id=>STORY.smallTalk(G,id), txt=L=>L.say||L.narr;
   check('大一下第 3 週：還不到成發前，不說「期末成發」',!s5.some(t=>/成發/.test(t)),s5.join(' / ')); }
 { const id='heroine_04'; let d2=null; for(let d=dayOf('2027-02-01');d<dayOf('2027-07-01');d++){ const T=CALENDAR.termOf(d); if(T&&T.id==='Y2S2'&&T.week===11){ d2=d; break; } }
   delete G.social.small; const s6=[]; for(let k=0;k<3;k++){ G.day=d2+k; s6.push(txt(talk(id))); }
-  check('熟了＋大二下第 11 週：大二下的成發（Q9）還沒做，不說「期末成發」（BB_134 1-8）；「手指」只在大一下，大二換「你看到他，叫他去睡」（BB_166 1-3）',d2!=null&&!s6.some(t=>/成發|手指/.test(t))&&s6.some(t=>/叫他去睡/.test(t)),s6.join(' / ')); }
+  check('熟了＋大二下第 11 週：大二下的成發（Q9）做了（AA_325 2-Y2-19），「期末成發」加回來；「手指」只在大一下，大二換「你看到他，叫他去睡」（BB_166 1-3）',d2!=null&&s6.some(t=>/成發/.test(t))&&!s6.some(t=>/手指/.test(t))&&s6.some(t=>/叫他去睡/.test(t)),s6.join(' / ')); }
 // ---------- 地點、時間、週次 ----------
 { const id='heroine_02'; delete G.social.small; G.zone='campus'; G.day=W; const a=txt(talk(id)); G.day=W+1; const b=txt(talk(id)); G.day=W+2; const c=txt(talk(id));
   check('芷若在校園（第 5 週）：不說「今天的豆子很酸」（在店裡才說）、也不說期中（第 6～9 週）',![a,b,c].some(t=>/豆子|期中/.test(t)),[a,b,c].join(' / '));

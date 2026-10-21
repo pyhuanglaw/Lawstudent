@@ -1,5 +1,5 @@
 // 交接包 v2 W3b 不讓步的晚上（BB_96 2-4；文章 BB 137bf31）——不需要瀏覽器。修改前沒有 W3b（第 1 項失敗）。
-// 檢查：ev_grad_debate 之後第 14 天 20:30 在讀書會群組（第一次的開頭依 W3_STANCE）；三個論點、三個反例；選了以後她的回應、「哪裡。」、折起來的長回覆、「那我換一個反例。」「……重點是，你的論點比上週好。」、記 ARGUED_GOOD；
+// 檢查：ev_grad_debate 之後第 14 天 20:30 在讀書會群組（第一次的開頭依 W3_STANCE）；三個論點、三個反例；選了以後她的回應、「哪裡。」、折起來的長回覆、「那我換一個反例。」「……你的論點比上週好。」、記 ARGUED_GOOD；
 //   三篇輪流；第四次「這篇你讀過了。」選第二點＝「對。」；不在讀書會群組＝沒有；大三以後沒有。
 // 用法：node tests/v2_w3b_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -38,7 +38,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('1. 20:30：開頭依 W3_STANCE（no）的那一句「取代」「這篇。三個論點。」（BB_161 ⑧）→ 校刊投書〈總圖應該全面禁止占位〉→ 一二三',T.slice(0,5).join('|')==='heroine_05:這篇作者沒跳步。你找找看他哪裡偷懶。|heroine_05:📄 校刊投書〈總圖應該全面禁止占位〉|heroine_05:一，座位是公共的，占著不用，別人就用不到。|heroine_05:二，規定要簡單：離開超過三十分鐘就清位，沒有例外。|heroine_05:三，禁止占位，考試週更多人用得到總圖。',JSON.stringify(T));
   const q=TH('p:heroine_05').find(m=>m.ask); check('2. 三個反例可以回',!!q&&q.ask.opts.length===3&&q.ask.opts[2].t==='三十分鐘，對吃飯的人太短，對午睡的人太長。');
   PHONE.answer(G,q.ask.id,2); const T2=txt('p:heroine_05').slice(5);
-  check('2. 換角度 → 她「……這個角度我沒想過。但你漏了一步。」→「哪裡。」→ 長回覆 →「那我換一個反例。」→「……重點是，你的論點比上週好。」',T2.join('|')==='player:第二點有反例。三十分鐘，對吃飯的人太短，對午睡的人太長。|heroine_05:……這個角度我沒想過。但你漏了一步。|player:哪裡。|heroine_05:第二點的問題不在三十分鐘，在「沒有例外」。|player:那我換一個反例。|heroine_05:……重點是，你的論點比上週好。',JSON.stringify(T2));
+  check('2. 換角度 → 她「……這個角度我沒想過。但你漏了一步。」→「哪裡。」→ 長回覆 →「那我換一個反例。」→「……你的論點比上週好。」',T2.join('|')==='player:第二點有反例。三十分鐘，對吃飯的人太短，對午睡的人太長。|heroine_05:……這個角度我沒想過。但你漏了一步。|player:哪裡。|heroine_05:第二點的問題不在三十分鐘，在「沒有例外」。|player:那我換一個反例。|heroine_05:……你的論點比上週好。',JSON.stringify(T2));
   const lg=TH('p:heroine_05').find(m=>m.fold); check('2. 長回覆折起來（7 行，最後一行「你要反駁，就打「沒有例外」這四個字。」）',!!lg&&lg.fold.length===7&&lg.fold[6]==='你要反駁，就打「沒有例外」這四個字。');
   check('2. 記 ARGUED_GOOD',SOCIAL.has('heroine_05','ARGUED_GOOD'));
   // 第二、三、四次（AA_284 1-5：上一篇沒回就不發下一篇）

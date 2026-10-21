@@ -57,7 +57,7 @@ GM.money=function(n){ G.money+=n; };
   run(20.9,21.1); const S=txt('p:heroine_05');
   check('1. 9/3 21:00 祐廷先私訊（五則原文）',JSON.stringify(S.slice(-5))===JSON.stringify(['player:學姊好，謝謝妳的留言。想問一下，民總要先買哪一本嗎？','heroine_05:先不要買。第一堂課老師會說用哪一本。','heroine_05:真的想先看的話，系圖有，二樓。','player:好，謝謝學姊。','heroine_05:不會。']),JSON.stringify(S));
   G.flags.FAM_GROUP_SENT=true; PHONE.join(G,'family_law','法律系直屬家族'); G.day=d4; G.weekday=4; run(20.9,21.1); const FM=txt('g:family_law');
-  check('2. 9/4 21:00 家族群組：Kevin 點到她、她兩句、Kevin「你們認識？」',JSON.stringify(FM.slice(-4))===JSON.stringify(['kevin:歡迎學弟！我是你直屬學長，上面那位是我們的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),JSON.stringify(FM));
+  check('2. 9/4 21:00 家族群組：Kevin 點到她、她兩句、Kevin「你們認識？」',JSON.stringify(FM.slice(-4))===JSON.stringify(['kevin:歡迎學弟！我是 Kevin，你的家族學長。上面那位是你的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),JSON.stringify(FM));
   // 9/17 開局（舊的）：沒有 B
   fresh(D('2025-09-17'),21.2,'dorm',{LAW_START_DAY:1}); G.stage='law'; STORY.lawClassJoinY1(G); run(21.2,21.4); check('1. 9/1 以後才開始的局：不補自我介紹',!PHONE.sent(G,'sis_b_intro'));
   // 放榜

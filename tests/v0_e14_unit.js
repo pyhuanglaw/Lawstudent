@@ -29,13 +29,13 @@ const TH=th=>PHONE.thread(G,th).map(m=>m.text);
   const q=OUT.get(G,'y0_e14'); check('1. 出發選單 9/13 19:00',!!q&&q.day===D15&&q.h===19&&q.title==='保齡球館 19:00');
   const snap=JSON.stringify(G);
   picks=['拍照']; said=[]; G.day=D15; G.weekday=wdOf(D15); G.hour=18.6; await OUT.go(GM,q); let L=said.map(x=>x.t);
-  check('2. 出發：開頭旁白（AA_302 第 1 列：第一次班聚、帶高中制服）→ 品妤抽籤、可昕「我要這件。」、學號、阿勳全倒',L[0]==='（第一次班聚。品妤在群組說，每個人帶一件高中制服，抽籤交換穿。）'&&L[1]==='大家都帶了吧？高中制服。抽籤交換。'&&L.includes('（拿起祐廷的那一件）我要這件。')&&L.includes('這件比較好看。')&&L.includes('（阿勳打出全倒。那時沒有人在看。）'),JSON.stringify(L.slice(0,6)));
+  check('2. 出發：開頭旁白（AA_302 第 1 列：第一次班聚、帶高中制服）→ 品妤抽籤、可昕「我要這件。」、學號、阿勳全倒',L[0]==='（第一次班聚。品妤在群組說，每個人帶一件高中制服，抽籤交換穿。）'&&L[1]==='都帶了吧？來，抽籤。'&&L.includes('（拿起祐廷的那一件）我要這件。')&&L.includes('這件比較好看。')&&L.includes('（阿勳打出全倒。那時沒有人在看。）'),JSON.stringify(L.slice(0,6)));
   check('2. 拍照 →「拍好看一點。這是證據。」→（AA_303 第 2 節 3）「（打完第三局，她還穿著。）」「洗好再還你。」→（AA_305 第 3 節）阿勳「（收球的時候）全倒沒人看到。下次跟你單挑，你要看。」→ 最後的旁白「……她穿著你的高中制服……」',L.includes('（比了一個勝利手勢）拍好看一點喔。')&&JSON.stringify(L.slice(-4))===JSON.stringify(['（打完第三局，她還穿著。）','洗好再還你。','（收球的時候）全倒沒人看到。下次跟你單挑，你要看。','手機裡多了一張照片。她穿著你的高中制服，袖子太長，正在比一個勝利手勢。']),JSON.stringify(L.slice(-4)));
   at(G.day,G.hour+0.1); await new Promise(r=>setTimeout(r,20)); check('2. 去了：不會再打電話',!said.some(x=>x.t==='你在哪？球道開好了，就差你！')||said.filter(x=>x.t==='你在哪？球道開好了，就差你！').length===0);
   // 沒出發 → 電話
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; picks=['妳穿太大']; at(D15,19.1); await new Promise(r=>setTimeout(r,20)); check('3. 19:15 以前不打電話',!said.length);
   at(D15,19.3); for(let i=0;i<30&&!said.some(x=>x.t==='手機裡多了一張照片。她穿著你的高中制服，袖子太長，正在比一個勝利手勢。');i++) await new Promise(r=>setTimeout(r,10)); L=said.map(x=>x.t);
-  check('3. 19:15 還沒出發：韋綸打電話「你在哪？球道開好了，就差你！」（BB_179 段 B #51）→ 直接進出遊',L[0]==='你在哪？球道開好了，就差你！'&&L.includes('大家都帶了吧？高中制服。抽籤交換。')&&L.includes('（甩了一下太長的袖子）剛好。')&&L[L.indexOf('（甩了一下太長的袖子）剛好。')+1]==='（打完第三局，她還穿著。）'&&L.includes('洗好再還你。'),JSON.stringify(L.slice(0,3)));
+  check('3. 19:15 還沒出發：韋綸打電話「你在哪？球道開好了，就差你！」（BB_179 段 B #51）→ 直接進出遊',L[0]==='你在哪？球道開好了，就差你！'&&L.includes('都帶了吧？來，抽籤。')&&L.includes('（甩了一下太長的袖子）剛好。')&&L[L.indexOf('（甩了一下太長的袖子）剛好。')+1]==='（打完第三局，她還穿著。）'&&L.includes('洗好再還你。'),JSON.stringify(L.slice(0,3)));
   check('3. 出遊記成做過',OUT.get(G,'y0_e14').state==='done');
   G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); said=[]; GM.D.active=true; at(D15,19.4); await new Promise(r=>setTimeout(r,20)); check('4. 在別的事件裡：先不打',!said.length); GM.D.active=false; run(); for(let i=0;i<30&&!said.length;i++) await new Promise(r=>setTimeout(r,10)); check('4. 事件結束後馬上打',said.length&&said[0].t==='你在哪？球道開好了，就差你！');
   // 睡覺：19:15 以前上床＝19:15 被電話吵醒（不跳到隔天）

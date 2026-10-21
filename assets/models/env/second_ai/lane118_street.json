@@ -1,11 +1,11 @@
 {
- "objects": 860,
- "unique_meshes": 67,
- "tris": 21763,
- "tris_drawn": 110155,
- "materials": 74,
+ "objects": 501,
+ "unique_meshes": 82,
+ "tris": 25466,
+ "tris_drawn": 58052,
+ "materials": 84,
  "out": "assets/models/env/second_ai/lane118_street.glb",
- "bytes": 2009052,
+ "bytes": 2330328,
  "texres": 512,
  "buildings": [
   "W00",

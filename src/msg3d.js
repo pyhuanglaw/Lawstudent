@@ -273,7 +273,7 @@ const MSG=(function(){
     const items=[]; const nm=id==='kevin'?'Kevin':undefined;
     const pre=topic==='night'?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));
     if(pre) for(const t of pre.msgs) items.push({th,from:id,name:nm,text:t});
-    else if(at.late){ const wl=S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }
+    else if(at.late&&!(e&&e.noWake)){ const wl=S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }
     if(e&&!(at.late&&topic==='night')){ const L=e.msgs.concat(S.addMsgs(G,id,e)); const ask=S.askOpts(G,id,e,nm,ctx);
       L.forEach((t,i)=>{ const it={th,from:id,name:nm,text:t}; if(i===L.length-1&&ask) it.ask=ask; items.push(it); }); }
     if(!items.length) items.push({th,from:id,name:nm,text:'（貼圖）'});

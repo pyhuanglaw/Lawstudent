@@ -99,11 +99,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       const Y=CHARACTERS.yu, ca=ACTIVITIES.list.find(x=>x.id==='club_guitar'); let CM=null; for(let d=termDay(5,1);d<termDay(12,1);d++){ if([1,3].includes(CALENDAR.dateOf(d).wd)&&ACTIVITIES.on(ca,d)){ CM=d; break; } } fresh(CM,19.5,'campus',{}); const ys=STORY.schedEnt(Y,G); fresh(CM,18.5,'campus',{}); const ys2=STORY.schedEnt(Y,G);
       check('A10b 小語作息：第一個有社課的週一或週三（第 5～7 週的週一都放假）19:30 在萬才館吉他社、18:30 在校園（社課前散步）',ys&&ys.zone==='wancai'&&ys.act==='club'&&ys2&&ys2.zone==='campus',JSON.stringify([ys&&ys.zone,ys2&&ys2.zone])); } }
   /* ---------- A11 迎新 ---------- */
-  { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1');
-    check('A11 活動：法律系迎新，第 4 週週六（2025-09-27）14:00–17:00，校園傅鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,W4SAT)&&!ACTIVITIES.on(a,W4SAT+1)&&!ACTIVITIES.on(a,W4SAT+7)&&a.t0===14&&a.t1===17&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
-    const attend=async(flags,setup,pk)=>{ fresh(W4SAT,14,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
+  { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1'), D831=STORY.dayOfKey('2025-08-31');   /* AA_310（使用者 10-20「迎新在9/27不合理阿 應該在開學前」）：8/31（日）09:30～12:00，下午開學典禮 */
+    check('A11 活動：法律系迎新，開學前 8/31（日）09:30–12:00，校園傅鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好；9/27 沒有',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,D831)&&!ACTIVITIES.on(a,D831+1)&&!ACTIVITIES.on(a,W4SAT)&&a.t0===9.5&&a.t1===12&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
+    const attend=async(flags,setup,pk)=>{ fresh(D831,9.5,'campus',flags||{}); if(setup) setup(); picks=pk||[]; const ok=await CLS.attendActivity(GM,a); return ok; };
     const ok=await attend({},()=>{ meet('heroine_01'); },['大一歲','還在找']); const L=lines();
-    check('A11 參加：演迎新（開場→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 17:00',ok&&L[0]==='傅鐘前面，法律系的迎新。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-17)<0.01,JSON.stringify({L,h:G.hour}));
+    check('A11 參加：演迎新（開場「星期天上午……下午就是開學典禮」→輪到你→阿哲「那我們叫你哥？」→你「不要。」→大地遊戲→沛珊→「好。那我們兩個都還在找。」）、演完到 12:00',ok&&L[0]==='星期天上午，傅鐘前面，法律系的迎新。下午就是開學典禮。學長姊帶隊，大家先輪流自我介紹。'&&L.includes('輪到你。')&&L.includes('那我們叫你哥？')&&L.includes('不要。')&&L.includes('我可以問一個奇怪的問題嗎。……如果答不出來，可以算過關嗎？')&&L.includes('好。那我們兩個都還在找。')&&Math.abs(G.hour-12)<0.01,JSON.stringify({L,h:G.hour}));
     check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過經濟系，一個多月。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
@@ -116,7 +116,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
     await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();
     check('A11 見過小語：「小語自我介紹講了三分鐘她的三個社團。」；也見過柏翰才有「（小聲）她剛剛講了四個。」',L3.includes('小語自我介紹講了三分鐘她的三個社團。')&&!L3.includes('（小聲）她剛剛講了四個。')&&L4.includes('（小聲）她剛剛講了四個。'),JSON.stringify({L3:L3.slice(0,3),L4:L4.slice(0,3)}));
-    fresh(W4SAT,14,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（15:30）以後不行',(G.hour=13.75,ACTIVITIES.canJoin(G,a))&&(G.hour=15.6,!ACTIVITIES.canJoin(G,a))); }
+    fresh(D831,9.5,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（10:45）以後不行',(G.hour=9.25,ACTIVITIES.canJoin(G,a))&&(G.hour=10.85,!ACTIVITIES.canJoin(G,a))); }
   /* ---------- A12 以安的報告分工 ---------- */
   { const e=ev('ev_an_report_split'); check('A12 事件存在（ev_an_report_split，民總下課後）',!!e&&e.afterClass==='civ_general'&&e.trigger==='class');
     const item=day=>CLS.dayItems(G,day).find(it=>it.c.id==='civ_general');

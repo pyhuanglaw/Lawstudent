@@ -1,6 +1,6 @@
 // 沛珊 P2「為什麼念法律」（ev_peishan_doubt；BB_95 第 2-8 節完整版；使用者 2026-10-14 解除大一上交接包暫緩、AA 轉達）——不需要瀏覽器。
 // 檢查：三個選項的文字（第一個是「我想知道事情『應該』怎麼處理。」）；三個分支的反應照 BB_95；三個選項的數值與選項三的記憶和原本相同（備註照 BB_95）；
-//       結尾「她把書包背起來」＋「讀書會要開始了」（週三晚上在萬才館）或「我要去上課了」（其他）＋「剛剛那個問題，當作我們兩個都還在找。」只說一次；
+//       結尾「她把書包背起來」＋「讀書會要開始了」（週三晚上在萬才館）或「我要去上課了」（其他）＋「剛剛那個問題，你想到再跟我說。」只說一次；
 //       開場自我介紹只在還沒認識時說，讀書會那句只在週三晚上的萬才館；只發生一次（once）；沒有「分數到了」和企劃組禁用的模板句。
 // 用法：node tests/peishan_doubt_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -27,7 +27,7 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
   const want=[
     {opt:'「我想知道事情『應該』怎麼處理。」',react:['應該。','她重複一次。','我喜歡這個詞。……可是我常常想，是誰說的應該。'],d:{fam:3,comf:3},mem:false},
     {opt:'「想幫人。」',react:['我以前也這樣說。後來發現想幫人的方法很多，不一定要背條文。'],d:{fam:3,resp:2},mem:false},
-    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。我第一次講出來，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
+    {opt:'「妳呢？」',react:['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一個多月都自在。','……我還沒跟家裡說。','她停了一下。','好奇怪。講出來以後，聲音比我想的還大。'],d:{fam:4,trust:3},mem:true}];
   for(let k=0;k<3;k++){ at('library',2,15); SOCIAL.meet(PS,'library'); const r0=rel(); pick=k; await EVENTS.run(ev); const L=lines(), r1=rel(), w=want[k];
     check('選項 '+(k+1)+'：三個選項的文字（第一個換成 BB 寫好的）',JSON.stringify(opts[0])===JSON.stringify(want.map(x=>x.opt)),JSON.stringify(opts[0]));
     const q=L.indexOf('欸，你為什麼會來念法律？我是說，除了考上以外。');   /* AA_236 B3 口語改稿 */
@@ -38,7 +38,7 @@ const PS='classmate_peishan', rel=()=>Object.assign({},SOCIAL.rel(PS));
     const im=(G.social.mem[PS]||[]).filter(m=>m.tag==='IMPORTANT_CONVERSATION');
     check('選項 '+(k+1)+'：'+(w.mem?'記下 IMPORTANT_CONVERSATION（她在想別的路）':'不加記憶'),w.mem?(im.length===1&&im[0].note==='她在想別的路'):im.length===0,JSON.stringify(im));
     const tail=L.slice(-3);
-    check('選項 '+(k+1)+'：結尾（不是週三晚上的萬才館）＝「她把書包背起來。」「我要去上課了。」「剛剛那個問題，當作我們兩個都還在找。」，只說一次',JSON.stringify(tail)===JSON.stringify(['她把書包背起來。','我要去上課了。','剛剛那個問題，當作我們兩個都還在找。'])&&L.filter(t=>/還在找/.test(t)).length===1&&!L.includes('讀書會要開始了。'),JSON.stringify(tail));
+    check('選項 '+(k+1)+'：結尾（不是週三晚上的萬才館）＝「她把書包背起來。」「我要去上課了。」「剛剛那個問題，你想到再跟我說。」，只說一次',JSON.stringify(tail)===JSON.stringify(['她把書包背起來。','我要去上課了。','剛剛那個問題，你想到再跟我說。'])&&L.filter(t=>/你想到再跟我說/.test(t)).length===1&&!L.includes('讀書會要開始了。'),JSON.stringify(tail));
     check('選項 '+(k+1)+'：沒有禁用句',BANNED.every(b=>!L.some(t=>t.includes(b))));
     check('選項 '+(k+1)+'：演完以後不會再發生（once）',EVENTS.check(ev)===false); }
   /* 週三晚上在萬才館、第一次見面 */

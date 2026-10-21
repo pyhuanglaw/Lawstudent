@@ -37,7 +37,7 @@ GM.money=function(n){ G.money+=n; };
   const mem=(day,h,extra)=>{ fresh(day,h,'wancai',Object.assign({},MEM,extra||{})); G.stage='law'; meet('heroine_03'); meet('classmate_bohan'); meet('heroine_05'); G.flags.YT_LEGALAID_Y2=true; return G; };
   // 1. 誰、哪幾天
   mem(sat('Y2S1',7),10); check('1. 大二上 10/24（第 7 週六）：社員可以做紀錄、不旁觀',STORY.fafuShiftable(G)&&!STORY.fafuWatchable(G)&&CALENDAR.dateOf(G.day).key==='2026-10-24');
-  mem(sat('Y2S1',3),10); check('1. 9/26 語彤事件 7 那天：不抽池（演事件）',!STORY.fafuShiftable(G));
+  mem(sat('Y2S1',3),10); check('1. 9/26：舊的語彤事件 7 退休（AA_325 2-Y2-01），語彤不在法服＝照常值班（大二最早的一次）',STORY.fafuShiftable(G));
   mem(sat('Y2S1',5),10); check('1. 10/10 國慶日：不值班',!STORY.fafuDuty(G));
   mem(sat('Y2S1',9),10); check('1. 期中考週：不開',!STORY.fafuDuty(G));
   fresh(sat('Y2S1',7),10,'wancai',{}); G.stage='law'; check('1. 沒加入法服＝照舊在旁邊看，不能做紀錄',STORY.fafuWatchable(G)&&!STORY.fafuShiftable(G));
@@ -49,7 +49,7 @@ GM.money=function(n){ G.money+=n; };
   const SISRE=/^(溫書瑀|溫學姊)：|學姊在最下面簽名|她坐到十二點/;
   mem(sat('Y2S1',7),9); picks=['從頭講','再待到十二點']; said=[]; opts=[]; await STORY.fafuShift(GM); let L=lines();
   const iyt=L.findIndex(t=>/^陳語彤：|^語彤：/.test(t)), ibh=L.findIndex(t=>/^(柏翰|.*柏翰)：/.test(t));
-  check('3. 開場「今天兩桌。你跟我。」→ 民眾第 1 件 →「你先問什麼？」→ 從頭講 → 民眾「我只停了五分鐘。」；沒有學姊的句子',L[0]==='研究所學姊：今天兩桌。你跟我。'&&L.includes('你先問什麼？')&&L.includes('民眾：我只停了五分鐘。')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
+  check('3. 開場「今天兩桌。你跟我。」→ 民眾第 1 件 →「你先問什麼？」→ 從頭講 → 民眾「我只停了五分鐘。」；沒有學姊的句子',L[0]==='雅筑學姊：今天兩桌。你跟我。'&&L.includes('你先問什麼？')&&L.includes('民眾：我只停了五分鐘。')&&!L.some(t=>SISRE.test(t)),JSON.stringify(L));
   check('3. 柏翰一句（柏翰第 6 週起是社長）；語彤不在法服（AA_255 第 4 節第 2 點）＝沒有她的句子',iyt<0&&ibh>0,JSON.stringify([iyt,ibh]));
   check('3. 結尾「（初談紀錄，一頁。學長在最下面簽名。）」→ 再待到十二點＝輪流的旁白（「學長自己接了」，AA_238 旁白的學姊改掉）、12:00；LAWCLUB_SAT_VISITS +1',L.includes('（初談紀錄，一頁。學長在最下面簽名。）')&&L.includes('（後來又來了一位，學長自己接了。）')&&G.hour>=12&&G.flags.LAWCLUB_SAT_VISITS===1,JSON.stringify(L.slice(-3)));
   check('3. 同一天不能再做一次',!STORY.fafuShiftable(G)&&!(await STORY.fafuShift(GM)));

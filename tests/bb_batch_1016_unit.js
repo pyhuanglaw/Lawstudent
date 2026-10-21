@@ -49,7 +49,7 @@ GM.money=function(n){ G.money+=n; };
   const ps=txt('g:ps_study').filter(x=>x.startsWith('classmate_peishan:'));
   check('3. 之後的週五也沒有小組訊息',!ps.length,J(ps));
   const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8');
-  check('4. 手機小事：學姊 M2 之後那則大二不發（BB_205 第 4 節）；沛珊 42 頁（你呢／你們呢）；子晴那封信',/'我回信了'/.test(src)&&!/今天讀了四章。一件事：腰很痛。/.test(src)&&/今天念了 42 頁。你們呢？'\}\]:\[P1\('classmate_peishan','今天念了 42 頁。你呢？'\)\]/.test(src));
+  check('4. 手機小事：學姊 M2 之後那則大二不發（BB_205 第 4 節）；沛珊 42 頁 AA_328 刪掉；子晴那封信（AA_328：「實驗室那封信 我回了」）',/'實驗室那封信 我回了'/.test(src)&&!/今天讀了四章。一件事：腰很痛。/.test(src)&&!/y2_ps_42/.test(src));
   const out=require('fs').readFileSync(require('path').join(ROOT,'src/outings3d.js'),'utf8');
   check('5. ntu_court_night 有圖、檔案在',/ntu_court_night=\{label:'台大・新體育館旁的籃球場（晚上）',image:'assets\/bg\/ntu_court_night\.webp'\}/.test(out)&&require('fs').existsSync(require('path').join(ROOT,'assets/bg/ntu_court_night.webp')));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);

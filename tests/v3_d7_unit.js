@@ -42,7 +42,7 @@ GM.money=function(n){ G.money+=n; };
   check('1. 大二上有期中考週（刑法分則週二的考試在那裡）',mid.length>=1,JSON.stringify(mid.map(d=>CALENDAR.termOf(d).week)));
   const g1=async(know)=>{ fresh(mid[0],12.3,'classroom'); const k0=STORY.knows; STORY.knows=(id)=>id==='zhe'||know.includes(id); try{ said=[]; await EVENTS.run(G1); } finally { STORY.knows=k0; } return linesN(); };
   let L=await g1(['classmate_bohan','classmate_xinci','heroine_01']);
-  check('1. 都認識：阿哲、柏翰、芯慈、以安照 AA_143 原文，以安後面一句「（她自己在手帳上偷偷對了一題）」',JSON.stringify(L)===JSON.stringify(['阿哲：第三題，我寫了一整面。……寫的是第二題的答案。','柏翰：大家都考幾分？……我是說，大家覺得考得怎樣。','芯慈：還沒考完的人在旁邊，小聲一點。','以安：考完的題目，不要對答案。理由：改不了。','（她自己在手帳上偷偷對了一題）']),JSON.stringify(L));
+  check('1. 都認識：阿哲、柏翰、芯慈、以安照 AA_143 原文，以安後面一句「（她自己在手帳上偷偷對了一題）」',JSON.stringify(L)===JSON.stringify(['阿哲：第三題，我寫了一整面。……寫的是第二題的答案。','柏翰：大家都考幾分？……我是說，大家覺得考得怎樣。','芯慈：還沒考完的人在旁邊，小聲一點。','以安：考完的題目，不要對答案。改不了。','（她自己在手帳上偷偷對了一題）']),JSON.stringify(L));
   L=await g1([]); check('1. 只認識阿哲：只有阿哲那一句（不認識的人不說話）',L.length===1&&/^阿哲：第三題/.test(L[0]),JSON.stringify(L));
   // 語彤 10 的時間
   const at=(term,w,wd,hh,stage)=>{ const d=termDay(term,w,wd); fresh(d,hh,'noodle'); R('heroine_03',...(stage||LV.FRI)); meet('heroine_03'); return EVENTS.check(Y10); };

@@ -47,9 +47,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('3. 黃金葛澆過水「比去年長了一點。」',tx('pothos')===JSON.stringify(['比去年長了一點。']));
   G.flags.pothosWaterN=0; check('3. 黃金葛沒澆過「他說忘記澆也不會死。他說對了。」',JSON.stringify(STORY.roomY2Items(G).find(r=>r[0]==='pothos')[2])===JSON.stringify(['他說忘記澆也不會死。他說對了。']));
   G.flags.cafeView='C'; check('3. cafeView C＝「『無過失的判斷標準寫得好。』」',STORY.roomY2Items(G).find(r=>r[0]==='report')[2][0]==='『無過失的判斷標準寫得好。』');
-  G.flags.ZR_MATINEE_SEEN=true; check('3. 看的是午場（晚春）＝沒有《東京物語》票根',!STORY.roomY2Items(G).some(r=>r[0]==='film')); G.flags.ZR_MATINEE_SEEN=false;
+  G.flags.ZR_MATINEE_SEEN=true; check('3. 看的是午場（父親的午後）＝沒有《進城的那一週》票根',!STORY.roomY2Items(G).some(r=>r[0]==='film')); G.flags.ZR_MATINEE_SEEN=false;
   SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 兩人、三人都看過＝一張票根',STORY.roomY2Items(G).filter(r=>r[0]==='film').length===1);
-  { const g0=G; fresh(G.day,G.hour,'dorm',{}); G.stage='law'; SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 只有三個人看早場（WATCHED_FILM_GROUP）＝也有《東京物語》票根（AA_177 第 10 節）',STORY.roomY2Items(G).some(r=>r[0]==='film'));
+  { const g0=G; fresh(G.day,G.hour,'dorm',{}); G.stage='law'; SOCIAL.remember('heroine_02','WATCHED_FILM_GROUP',''); check('3. 只有三個人看早場（WATCHED_FILM_GROUP）＝也有《進城的那一週》票根（AA_177 第 10 節）',STORY.roomY2Items(G).some(r=>r[0]==='film'));
     G.flags.ZR_MATINEE_SEEN=true; check('3. 三個人、看的是午場＝沒有',!STORY.roomY2Items(G).some(r=>r[0]==='film')); G=g0; SOCIAL.bind(G); }
   G.flags.LAWCLUB_SAT_VISITS=0; check('3. 沒參加過法服＝沒有值班表',!STORY.roomY2Items(G).some(r=>r[0]==='duty'));
   // 4. 拆箱流程（宿舍房間）

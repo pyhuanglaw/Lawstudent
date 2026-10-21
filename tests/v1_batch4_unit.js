@@ -134,8 +134,8 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     const can=(day,h,near,sis)=>{ fresh(day,h,'campus'); if(sis) sisN(); E.player.obj.position={x:near?-17.5:0,y:0,z:near?12:0}; const ok=EVENTS.check(e); E.player.obj.position={x:0,y:0,z:0}; return ok; };
     check('走近攤位（學姊在）才有；沒加入法服的玩家也會被叫住',can(sat,10.5,true,true));
     check('別的週六、12 點以後、學姊不在都不會',!can(sat+7,10.5,true,true)&&!can(sat,12.2,true,true)&&!can(sat,10.5,true,false));
-    const HEAD=['你。過來。','兩件事。一，顧十分鐘。二，不會的不要亂答，叫我。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
-    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。我們一起看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。','原來法律是分科的。'],{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
+    const HEAD=['你。過來。','幫我顧十分鐘。不會的不要亂答，叫我就好。','少年仔，隔壁的樹長到我家這邊，我可以自己剪嗎？'];
+    for(const [pick,tail,d,helped] of [['幫妳問學姊',['阿嬤，先跟鄰居講，請他剪。講了一直沒剪，兩週後的週六早上，九點到十二點，來萬才館。值班的學長姊會幫妳看。'],{fam:2},false],['翻民總',['翻了半天找不到。學姊探頭。','那是物權。你們大二才上。','物權是什麼？','……阿嬤，下一次值班，週六早上來。','原來法律是分科的。'],{fam:2},false],['一起查',['你和阿嬤用手機一起查。學姊在旁邊看完。','……還可以。'],{fam:3,resp:2},true]]){
       fresh(sat,10.5,'campus'); sisN(); SOCIAL.meet('heroine_05','wancai'); const r0=Object.assign({},SOCIAL.rel('heroine_05'));   /* 已經認識學姊（第一次見面的熟悉度另外算）*/ picks=[pick]; await EVENTS.run(e); const L=lines(), r1=SOCIAL.rel('heroine_05'); const got={}; for(const k in r1){ const dd=(r1[k]||0)-(r0[k]||0); if(dd&&typeof dd==='number') got[k]=dd; }
       check('校慶 選「'+pick+'」：BB_95 原文、學姊 '+JSON.stringify(d)+(helped?'、HELPED':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail))&&Object.keys(d).every(k=>got[k]===d[k])&&SOCIAL.has('heroine_05','HELPED')===helped,JSON.stringify({L,got})); }
     check('校慶 阿嬤用名字顯示（路人，不是人物資料）',said.some(x=>x.who==='阿嬤'));
@@ -154,7 +154,7 @@ const enterEv=()=>{ const L=STORY_EVENTS.filter(e=>e.trigger==='enter'&&EVENTS.c
     check('家族聚餐：第 14 週週五 18:00–19:30 在公館（DL-04B 放寬，AA_160 3-4、BB_95 3-8）',!!fri&&can(fri,18.05)&&can(fri,19.4)&&!can(fri,19.6)&&!can(fri,17.9)&&!can(fri-7,18.4)&&!can(fri+1,18.4));
     fresh(fri-7,21,'campus'); grp(); STORY.phoneRules(GM); PHONE.tick(G);
     check('前一週 Kevin 在家族群組約（BB_95 原文）＋學姊「收到。」',JSON.stringify(T())===JSON.stringify(['Kevin：家族聚餐！週五 18:30，阿鳳麵店。學姊說她會來（截圖為證）','溫學姊：收到。']),JSON.stringify(T()));
-    const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','三件事。','一，周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','二，下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','三——','三是傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','重點是，「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
+    const HEAD=['18:31。她跑進來，有點喘。','抱歉。抱歉。……抱歉，我遲到了。','一分鐘。學姊，一分鐘。','一分鐘也是遲到。','她坐下，從包包拿出一個資料夾。','三件事。','一，周老師歷年的考古題。我整理過，錯的地方用紅筆改了。','二，下學期的書，開學前我會分。書上標紅的地方是修法了，自己查新的。','三——','三是傳統！直屬學姊要講一個自己大一的糗事！','……','我大一第一次被點名，老師問什麼是「善意第三人」。我說：心地善良的第三人。','老師說：「那心地不好的第三人，是不是就不用保護了？」','全桌笑。她也笑了一下。','其實「善意」在法律上是「不知道」的意思。下學期你們就會學到。'];
     for(const [pick,tail,sticker] of [['手心都是汗',['那一題大家都會卡。你有回答就很好了。'],false],['收到',['因為收到了。','她連過年都回收到。','……不然要回什麼？','貼圖啊！','我沒有貼圖。'],true],['資料夾收進書包',['學姊看了一眼。','資料夾回去再看。現在吃麵。','學姊說吃麵耶！'],false]]){
       fresh(fri,18.55,'gongguan',{classDone:true,classAnswer:'good'}); grp(); picks=[pick]; await EVENTS.run(e); const L=lines();
       check('家族聚餐 選「'+pick+'」：BB_95 原文、散會「下學期的書，我會留給你。」、SHARED_MEAL'+(sticker?'、SIS_NO_STICKER':''),JSON.stringify(L)===JSON.stringify(HEAD.concat(tail,['下學期的書，我會留給你。']))&&SOCIAL.has('heroine_05','SHARED_MEAL')&&!!G.flags.SIS_NO_STICKER===sticker,JSON.stringify(L.slice(-6))); }

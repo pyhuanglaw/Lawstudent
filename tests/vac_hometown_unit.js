@@ -92,7 +92,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2026-07-10',20); R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=G.day-200; G.flags.dating_classmate_peishan=true;
     picks=['我去台中找妳？',0]; await INV.flow(GM,'classmate_peishan',null,false); const q3=OUT.rec(G).find(x=>x.hv&&x.hv.id==='classmate_peishan');
     said=[]; opts=[]; picks=['常笑']; G.day=q3.day; G.hour=10.5; await HV.play(GM,q3); const o3=opts[opts.length-1]||[];
-    check('7. 沛珊第一次（交往中）：「{name}！這裡這裡！」換成名字、三個選項（多「妳在這裡比較常笑。」）、送上車「下次換我上去找你。」',said0().includes((G.name||'祐廷')+'！這裡這裡！')&&o3.length===3&&said0().includes('……你不要突然講這種話啦。')&&said0().includes('下次換我上去找你。……這樣比較公平。'),J([o3,said0()]));
+    check('7. 沛珊第一次（交往中）：「{name}！這裡這裡！」換成名字、三個選項（多「妳在這裡比較常笑。」）、送上車「下次換你來台南。」',said0().includes((G.name||'祐廷')+'！這裡這裡！')&&o3.length===3&&said0().includes('……你不要突然講這種話啦。')&&said0().includes('下次換你來台南。……我帶你走。'),J([o3,said0()]));
     // 7 例外：沛珊重考消失期、交往中（第 4、5-5 節）：下午三個小時、一個月一次
     const D0=DK('2026-12-18'); law('2027-03-03',20,{dating_classmate_peishan:true}); G.flags.romance={classmate_peishan:{status:'dating',sinceDay:D0-30}}; R('classmate_peishan',40,30,30); G.contacts.classmate_peishan=D0-200;
     check('7 例外. 消失期交往中：可以約「我去台中找妳？」',INV.whyNot(G,'classmate_peishan')===''&&HV.offer(G,'classmate_peishan').ok===true,J([INV.whyNot(G,'classmate_peishan'),HV.offer(G,'classmate_peishan')]));
