@@ -3142,7 +3142,7 @@ const STORY_EVENTS=[
       {label:'why'},{speaker:'heroine_03',expression:'neutral',text:'說了你要來幫我顧店嗎？'},{speaker:'player',text:'……可以啊。'},{speaker:'heroine_03',expression:'smile',text:'你連蔥都不會切。'},
       {label:'end'} ] },
   /* D8（交接包 v3 第 10 週）：校慶法服問答攤大二版（AA_71 2-5，BB 法律查核過：民法 §797、§798；台詞裡沒有人直接說出答案）＋哲 2 三種幫法（AA_40、AA_177 第 5 節）。
-     校慶：11/14（六）10:00～16:00 椰林大道同一排攤位、加入法服才在攤位裡（沒加入的＝下面的路過版 ev_fair_booth_y2_pass，AA-B 682d911f；AA_355 1-2 另給的一句旁白版和它重複、沒有換，換不換請 AA 決定）；阿嬤第一句看大一有沒有遇過她（ev_sis_festival_booth）；
+     校慶：11/14（六）10:00～16:00 椰林大道同一排攤位、加入法服才在攤位裡（沒加入的＝下面的路過版 ev_fair_booth_y2_pass，AA-B 682d911f；AA_355 1-2 另給的一句旁白版和它重複——AA_355 第 5 節第 5 題（2f1aaa22）：照現在、不換）；阿嬤第一句看大一有沒有遇過她（ev_sis_festival_booth）；
        三選一結果一樣；學姊（和她「有點熟」以上）在攤位後面那一句；記 GRANDMA_TREE_Y2（大四校慶的回聲，交接包 v5 第 3b 節）。
      哲 2：手機與出發選單在 story3d.js phoneRules（v3 D8）；2D 背景 ntu_court_night（ART-BG-COURT，沒有圖時是深色底＋字幕）。三個選項都不是錯的，不扣分 */
   { id:'ev_fair_booth_y2', title:'法律問答攤（大二）', participants:[], location:'campus', trigger:'auto', term:['Y2S1'], weeks:[10], weekday:[6], time:[10,16], once:true, near:{x:-17.8,z:13.0,r:4.5},

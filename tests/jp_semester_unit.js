@@ -202,11 +202,13 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   /* ===================== G7 ===================== */
   /* AA_355 1-1（2026-10-21）：以安約的那一頓＝6/9（五）21:00（日本時間）她私訊；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底），接 AA_250 6-2 那三句；
      「那天不行。」＝她回「好。」、不補；交往中或和她 FRIEND 以上。原本 AA_341 G7 的 6/16（五）19:00 自動演那一場拿掉（修改前：6/9 沒有私訊、6/16 自動演）*/
-  const DINNER3=['臺大今天考完了。小語在群組說她要睡三天。','我們這邊七月底才考，還有一個多月。','八月五號那班，我跟你一起訂好了。'];
+  /* AA_355 第 5 節（AA-C 2026-10-21 2f1aaa22）：4b「臺大今天考完了」差一天＝「今天」改「昨天」（台大 6/9 考完，她 6/10 說）；4c 挽回中、冷靜中不約；1-1 走路約 10 分鐘 */
+  const DINNER3=['臺大昨天考完了。小語在群組說她要睡三天。','我們這邊七月底才考，還有一個多月。','八月五號那班，我跟你一起訂好了。'];
   { const G=inJapan('2028-06-09',20.5); phone(); const n0=th('p:heroine_01').length; at('2028-06-09',21); phone(); const L=th('p:heroine_01').slice(n0), m=(G.msgs||[]).filter(x=>x.th==='p:heroine_01').slice(-1)[0];
     check('G7／AA_355 1-1 6/9（五）21:00（日本時間）以安私訊：「週六晚上有空嗎。」「學校後面那家小餐館，六點半。我訂了兩個人。」；回「好。」／「那天不行。」（20:30 還沒有）', n0===0&&JSON.stringify(L)===JSON.stringify(['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'])&&!!m&&!!m.ask&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天不行。']), JSON.stringify(L));
     PHONE.answer(G,'jp_g7_dinner_ask',0); phone(); const q=OUT.get(G,'jp_g7_dinner');
     check('G7／AA_355 1-1 回「好。」：排出遊 6/10（六）18:30「日本・學校後面的小餐館」（ev_jp_dinner）', !!q&&q.state==='planned'&&q.day===D('2028-06-10')&&q.h===18.5&&q.ev==='ev_jp_dinner'&&q.place==='日本・學校後面的小餐館', JSON.stringify(q));
+    check('G7／AA_355 第 5 節 1-1：學校後面的小餐館走路約 10 分鐘（字幕「走路約 10 分鐘」）', !!q&&q.travel==='走路約 10 分鐘'&&Math.abs(q.travelH-1/6)<1e-9, JSON.stringify(q&&[q.travel,q.travelH]));
     at('2028-06-10',18.25); H.said=[]; H.bgs=[]; const logs=[], log0=ADV.log; ADV.log=(a,b)=>{ logs.push(b); }; if(q) await OUT.go(GM,q); ADV.log=log0;
     check('G7／AA_355 1-1 6/10 那一頓：地點字幕「日本・學校後面的小餐館」、深色底（不是商店街 jp_street_night）；AA_250 6-2 三句照抄；AN_JP_DINNER', DINNER3.every(has)&&logs.includes('日本・學校後面的小餐館')&&H.bgs.length>0&&H.bgs.every(b=>b==='dark')&&G.flags.AN_JP_DINNER===true&&!!q&&q.state==='done', JSON.stringify([logs,H.bgs]));
     at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
@@ -215,7 +217,9 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('G7／AA_355 1-1 回「那天不行。」：她回「好。」、不排出遊、之後不補（6/16 也沒有）', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['學校後面那家小餐館，六點半。我訂了兩個人。','那天不行。','好。'])&&G.flags.AN_JP_DINNER_ASK==='no'&&!OUT.get(G,'jp_g7_dinner')&&!DINNER3.some(has), JSON.stringify(th('p:heroine_01').slice(-3))); }
   { const G=inJapan('2028-06-09',21,{},false); H.FRIEND('heroine_01'); phone(); const a=th('p:heroine_01').includes('週六晚上有空嗎。');
     const G2=inJapan('2028-06-09',21,{},false); phone(); const b=th('p:heroine_01').includes('週六晚上有空嗎。');
-    check('G7／AA_355 1-1 挽回中、和以安 FRIEND 以上：一樣收到；只有 FAMILIAR（沒交往）：沒有', a&&!b, [a,b].join()); }
+    const G3=fresh('2028-06-09',21,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),AN_SENDOFF:'together'}); H.FRIEND('heroine_01'); date('heroine_01'); ROM.get(G3,'heroine_01').status='paused'; G3.flags.dating_heroine_01=false; phone(); const c=th('p:heroine_01').includes('週六晚上有空嗎。');
+    const G4=fresh('2028-06-09',21,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),AN_SENDOFF:'together'}); H.FRIEND('heroine_01'); phone(); const d=th('p:heroine_01').includes('週六晚上有空嗎。');
+    check('G7／AA_355 第 5 節 4c：挽回中（分手以後，和以安 FRIEND 以上）、冷靜中（對質後「等你說清楚」paused）都不約；沒交往過、FRIEND 以上照舊收到；只有 FAMILIAR（挽回中）：沒有', !a&&!b&&!c&&d, [a,b,c,d].join()); }
   { const G=inJapan('2028-06-24',16,{REPAIR:{heroine_01:2}},false); H.picks=['對不起']; H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 6/24 16:00 挽回第 4 步（河邊）：「那時候我很生氣……」「……現在可以聽了。你說。」；「對不起。……」→「……嗯。你那時候應該要說的。」REPAIR +1', has('那時候我很生氣，生氣到不想聽你講。')&&has('……現在可以聽了。你說。')&&has('……嗯。你那時候應該要說的。')&&G.flags.REPAIR.heroine_01===3);
     at('2028-06-24',16); G.jp.done={}; S.repair(G); check('挽回：一週最多 +1（AA_254 第 10 節）', G.flags.REPAIR.heroine_01===3); }

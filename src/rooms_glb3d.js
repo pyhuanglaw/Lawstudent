@@ -14,10 +14,12 @@
   function hostDoor(id){ const h=ROOM_GLB_LAYOUTS[id].host_door, HL=HOST()[h.zone]; return HL?{h,HL,d:HL.doors.find(q=>q.id===h.id)}:null; }
   function backSpawn(id){ const r=hostDoor(id); if(!r||!r.d) return null; return {x:r.d.x,z:-r.HL.D/2+(r.h.zone==='linze'?1.0:1.4),lv:r.d.lv,yaw:Math.PI}; }   /* 門前面（霖澤館照 201 的 spawnBack；萬才館在門的互動範圍外面一點），面向南 */
   /* 看東西的字：配置檔的 note 有字就用；dev 那一欄是 LAWWW2 給開發組的話（不會出現在遊戲裡）。
-     AA_355 1-3（AA-C 2026-10-21）：白板（研討室 A、多功能教室）——當天有事件或課堂寫字的照事件的字，這一句是沒有字的時候用（現在還沒有寫白板的事件＝一律這一句）；
-     202 的是黑板，不套。其他還沒有 AA 字的（書櫃、借用登記表、黑板、公告欄）照舊顯示名稱 */
+     AA_355 1-3（AA-C 2026-10-21）：白板（研討室 A、多功能教室）——當天有事件或課堂寫字的照事件的字，這一句是沒有字的時候用（現在還沒有寫白板的事件＝一律這一句）。
+     AA_355 5-1（2f1aaa22）：研討室 A 的書櫃、借用登記表；202 的黑板（同白板：沒有課堂寫字的時候用這一句；現在沒有寫黑板的課堂＝一律這一句）、公告欄；多功能教室的公告欄。台詞照抄 */
   const BOARD='（白板上還留著上一堂課的字，擦了一半。）';
-  const LOOK={ wancai_sema:{ board:BOARD }, wancai_multi:{ board:BOARD } };
+  const LOOK={ wancai_sema:{ board:BOARD, books:'（書櫃裡是歷屆的研究所論文，有些書背的字已經褪色了。）', signup:'（借用登記表夾在門邊。今天下午那一格，已經有人寫了名字。）' },
+    linze_202:{ board:'（黑板角落寫著「下週停課」，不知道是哪一堂的。）', notice:'（公告欄上貼著獎學金、徵才、讀書會的傳單，最上面那張一直被風吹起來。）' },
+    wancai_multi:{ board:BOARD, notice:'（公告欄上只剩一張場地借用規則，四個角都用膠帶補過。）' } };
   const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
   if(typeof Z3!=='undefined') Z3.roomGlbLook=lookText;   /* 測試、除錯用 */
   function zoneFor(id){ const L=ROOM_GLB_LAYOUTS[id], WIN=L.windows;

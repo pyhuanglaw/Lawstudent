@@ -1,5 +1,6 @@
 // AA_355（AA-C 2026-10-21）「程式裡等 AA 的五十二處」——不需要瀏覽器。
-//   1. 1-4 校定假日其他學年：115～117 學年全校運動會停課（2026-11-20、2027-11-19、2028-11-17，週五）；校慶照常上課（2027-11-15 週一、2028-11-15 週三有課，不是假日）；114 學年照舊
+//   1. 1-4 校定假日其他學年：115～117 學年全校運動會（2026-11-20、2027-11-19、2028-11-17，週五）——第 5 節第 6 題（2f1aaa22）改成不停課、日曆只標「全校運動會」、課照上（改之前 FAIL 2）；
+//      校慶照常上課（2027-11-15 週一、2028-11-15 週三有課，不是假日）；114 學年照舊（大一 2025-11-21 停課）
 //   2. 第 2、3 節：AA 看過照用的 8 處、過時的 36 處，註解不再寫「等 AA」（下一個接手的人不會以為還在等）；1-5 vac3d.js 的註解改成現況
 //   （1-1 日本路線以安約的那一頓在 tests/jp_semester_unit.js 的 G7；1-3 三個物件的字在 tests/l118_shops_unit.js 第 9 項、tests/rooms_glb_unit.js 第 5 項、tests/linze_upper_unit.js）
 // 修改前（開發分支 5c471a79）：5 項 FAIL 3——1 的三個運動會不是假日、2 的舊註解都還在（1 的校慶、114 學年兩項是保護舊行為，本來就過）。用法：node tests/aa355_unit.js
@@ -11,9 +12,10 @@ for(const f of ['src/data/calendar.js','src/data/places.js','src/data/courses.js
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
 const D=k=>{ const [y,m,d]=k.split('-').map(Number); return Math.round((Date.UTC(y,m-1,d)-Date.UTC(2025,8,17))/86400000)+1; };
 const items=k=>{ const day=D(k); const G={day,hour:8,weekday:CALENDAR.dateOf(day).wd%7,stage:'law',flags:{},clubs:{joined:[]},acts:{}}; return (CLS.dayItems(G,day)||[]).map(it=>it.c.id); };
-// ===== 1. 1-4 校定假日 =====
-{ const sp=['2026-11-20','2027-11-19','2028-11-17'].map(k=>[k,CALENDAR.dateOf(D(k)).wd,CALENDAR.holiday(D(k)),CALENDAR.kind(D(k)),items(k).length]);
-  check('1. 115～117 學年全校運動會（週五）停課：2026-11-20、2027-11-19、2028-11-17 是「運動會（停課）」、沒有課', sp.every(([k,wd,h,kd,n])=>wd===5&&h==='運動會（停課）'&&kd==='holiday'&&n===0), JSON.stringify(sp));
+// ===== 1. 1-4 校定假日；第 5 節第 6 題（AA-C 2026-10-21 2f1aaa22）：大二起的運動會不停課，日曆只標「全校運動會」、三堂課照上；大一（114 學年 2025-11-21）照舊停課 =====
+{ const sp=['2026-11-20','2027-11-19','2028-11-17'].map(k=>[k,CALENDAR.dateOf(D(k)).wd,CALENDAR.holiday(D(k)),CALENDAR.kind(D(k)),items(k).length,typeof CALENDAR.mark==='function'?CALENDAR.mark(D(k)):null,CLS.dayLabel({flags:{},stage:'law'},D(k))]);
+  check('1. 115～117 學年全校運動會（週五）不停課（AA_355 第 5 節第 6 題）：2026-11-20、2027-11-19、2028-11-17 不是假日、照課表有課；日曆標「全校運動會」（CALENDAR.mark、手機「今天」那一行）', sp.every(([k,wd,h,kd,n,mk,lab])=>wd===5&&h===null&&kd==='term'&&n>0&&mk==='全校運動會'&&lab.includes('・全校運動會')&&!lab.includes('停課')), JSON.stringify(sp));
+  { const ge=['2026-11-20','2027-11-19','2028-11-17'].map(k=>items(k)); check('1. 那三個週五的課照上：通識 ge_y2s1、刑訴 crimpro、刑事判決研討 crim_judgment_sem（原本被運動會停掉的那三堂第 11 週）', ge[0].includes('ge_y2s1')&&ge[1].includes('crimpro')&&ge[2].includes('crim_judgment_sem'), JSON.stringify(ge)); }
   const an=['2027-11-15','2028-11-15'].map(k=>[k,CALENDAR.dateOf(D(k)).wd,CALENDAR.holiday(D(k)),items(k).length]);
   check('1. 校慶照常上課：2027-11-15（一）、2028-11-15（三）不是假日、照課表有課', an.every(([k,wd,h,n])=>h===null&&n>0)&&an[0][1]===1&&an[1][1]===3, JSON.stringify(an));
   check('1. 114 學年照舊：校慶 2025-11-15（六）、運動會 2025-11-21（五）停課', CALENDAR.holiday(D('2025-11-15'))==='校慶'&&CALENDAR.holiday(D('2025-11-21'))==='運動會（停課）'); }
