@@ -1060,6 +1060,41 @@
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:29Z DATE-L 第一批（send_message 12:29Z）：照 AA_188、口氣表 0-3／0-4／第 1 節口語審完；只改字串，結構、key、likes、tier、條件、選項數不變，build_lines 全部 ok",
    "task": "DATE-L19"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D08.json",
+   "sha": "12d52835",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:39Z DATE-L 第二批（send_message 12:39Z）：照 AA_188、口氣表口語審完；build 全部 ok，只改字串",
+   "task": "DATE-L08"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D09.json",
+   "sha": "12d52835",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:39Z DATE-L 第二批（send_message 12:39Z）：照 AA_188、口氣表口語審完；build 全部 ok，只改字串",
+   "task": "DATE-L09"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D10.json",
+   "sha": "12d52835",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:39Z DATE-L 第二批（send_message 12:39Z）：照 AA_188、口氣表口語審完；build 全部 ok，只改字串",
+   "task": "DATE-L10"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D11.json",
+   "sha": "12d52835",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:39Z DATE-L 第二批（send_message 12:39Z）：照 AA_188、口氣表口語審完；build 全部 ok，只改字串",
+   "task": "DATE-L11"
+  },
+  {
+   "path": "docs/story_planning/date_system/lines/D14.json",
+   "sha": "12d52835",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 12:39Z DATE-L 第二批（send_message 12:39Z）：照 AA_188、口氣表口語審完；build 全部 ok，只改字串",
+   "task": "DATE-L14"
   }
  ]
 }

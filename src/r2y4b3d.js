@@ -369,40 +369,45 @@ const R2Y4B=(function(){
   const NEAR={travel:'走過去約 10 分鐘',travelH:1/6}, NOODLE={travel:'走過去約 15 分鐘',travelH:0.25}, Y30={travel:'捷運＋公車 約 30 分鐘',travelH:0.5};   /* 照現有的出遊（萬才館、研究室、吉他社 10 分鐘；麵店 15 分鐘；2030 照 y6_an_col）*/
   /* 每個人：h＝[2029, 2030] 幾點；at29／at30＝地點（place 也是出遊的地點、字幕）；open29／open30＝地點的旁白；knew／ask／told／quiet／last＝台詞
      （字串＝她說；{narr}＝旁白，n30＝2030 的那一句；{t, t30}＝她說、2030 換成 t30）*/
-  S.APART={
+  S.APART={   /* AA_346 第 3-0 節（企劃線 12d52835，AA-C 10-21）改句：五位「謝謝你自己說」太像、四位「我不問」、以安的理由欄比喻、「我知道是誰」→ 照表換 */
     heroine_01:{h:[18,19],at29:Object.assign({place:'萬才館研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'麵店，兩人桌',bg:'noodle_table'},Y30),
       open29:'（讀書會散了。萬才館研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
-      knew:['……我知道是誰。不用說名字。','你選了。這個理由我收下。'],ask:['理由呢？'],
-      told:[{narr:'（她沒有馬上說話。）'},'……謝謝你說實話。我要一點時間，把它寫成理由。'],quiet:['……好。這一格我先空著。'],
-      last:[{narr:'（她翻開手帳，在理由欄寫了一行，沒有給你看。）'},'好了。……你先走。我把這頁寫完。']},
+      knew:['……我知道。不用說名字。','你選了。……好。'],ask:['理由呢？'],
+      told:[{narr:'（她沒有馬上說話。）'},'……你說實話了。','我要一點時間。'],quiet:['……好。',{narr:'（她把白板筆的蓋子蓋上。）',n30:'（她把筷子在碗上放好。）'}],
+      last:[{narr:'（她翻開手帳，寫了一行，沒有給你看。）'},'好了。……你先走。我把這頁寫完。']},
     heroine_03:{h:[21.5,21.5],at29:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},NOODLE),at30:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},Y30),
       open29:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',open30:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',
       knew:[{narr:'（蒜頭一顆一顆放進碗裡。）'},'……嗯。我知道會有這一天。'],
-      told:['……嗯。',{narr:'（很久以後。）'},'謝謝你自己來說。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）'}],
+      told:['……嗯。',{narr:'（很久以後。）'},'你坐。我把這碗剝完。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）'}],
       last:['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
     heroine_02:{h:[22,21.5],at29:{place:'約好的視訊',bg:'video',video:true},at30:Object.assign({place:'打烊後的 Café',bg:'dark'},Y30),
       open29:'（視訊。她那邊是下午，窗外是英國灰灰的天。）',open30:'（打烊後的 Café。只開了吧檯一盞燈。）',
-      knew:['……我猜到了。你最近話都很短。'],told:['……謝謝你自己說。不是讓我從別人那裡知道。'],
+      knew:['……我猜到了。你最近話都很短。'],told:[{narr:'（她沒有接話。平常她都會接話。）'},'……我知道了。'],
       quiet:['……好。',{narr:'（她低頭，看著鏡頭外面的什麼。）',n30:'（她低頭，擦了一下已經乾淨的杯子。）'},'我不問。問了，我會想記住答案。'],
       last:[{t:'回去以後，我還是在吧檯後面。你點什麼，我都記得。',t30:'我還是在吧檯後面。你點什麼，我都記得。'}]},
     heroine_04:{h:[21,20],at29:Object.assign({place:'吉他社辦外面的樓梯',bg:'dark'},NEAR),at30:Object.assign({place:'工作室樓下',bg:'dark'},Y30),
       open29:'（吉他社辦外面的樓梯。裡面在上社課，有人一直彈錯同一個和弦。）',open30:'（工作室樓下。她外套的帽子拉起來一半，手上拿著一杯便利商店的咖啡。）',
-      knew:['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:['……你喜歡上別人了。','謝謝你自己來講。'],
-      quiet:['……好。',{narr:'（她把帽子拉起來，蓋住半張臉。）'},'你不說原因，我就不問了。'],last:['之後還是朋友。……我說真的。']},
+      knew:['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:['……你喜歡上別人了。','好喔。好。……那個——',{narr:'（她沒有講完。）'}],
+      quiet:['……好。',{narr:'（她把帽子拉起來，蓋住半張臉。）'},'那我也不講了。'],last:['之後還是朋友。……我說真的。']},
     heroine_05:{h:[17,18.5],fix29:'2029-05-30',at29:Object.assign({place:'研究室走廊',bg:'linze_prof_hall'},NEAR),at30:Object.assign({place:'她上班的研究單位樓下',bg:'dark'},Y30),
       open29:'（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）',open30:'（她上班的研究單位樓下。她剛下班，識別證還掛在脖子上。）',
-      knew:['……我知道。我一直在等你自己來說。'],told:['……謝謝你自己來說。','我需要一點時間。'],quiet:['好。',{narr:'（她把計畫本闔上，沒有寫任何東西。）'}],
+      knew:['……我知道。','走一段吧。這種事，站著講不好。'],told:['……嗯。','我需要一點時間。……不用太久。'],quiet:['好。',{narr:'（她把計畫本闔上，沒有寫任何東西。）'}],
       last:[{t:'謝謝你。……畢業快樂，先說了。',t30:'謝謝你。……你也要好好吃飯。'}]},
     classmate_peishan:{h:[21,21],at29:{place:'電話',call:true},at30:{place:'電話',call:true},
       open29:'（電話。她那邊有小孩子的聲音，她走到外面才講。）',open30:'（電話。她那邊有小孩子的聲音，她走到外面才講。）',
-      knew:['……我知道你要說什麼。','你特地打來說這個。'],told:['……你特地打來說這個。','謝謝你自己說。'],quiet:['……嗯。',{narr:'（電話那頭很久沒有聲音。）'},'好。我不問。'],
+      knew:['……我知道你要說什麼。','你特地打來說這個。'],told:['……你特地打來說這個。','……還好啦。你那邊吃飯了嗎？'],quiet:['……嗯。',{narr:'（電話那頭很久沒有聲音。）'},'好。……那我掛了喔。'],
       last:['謝謝你在我重考那年陪我。那一年，我不會忘。']},
     kexin:{h:[18.5,20],at29:{place:'政大山下的小吃店',bg:'nccu_food',travel:'開車約 40 分鐘',travelH:2/3},at30:Object.assign({place:'她家樓下',bg:'dark'},Y30),
       open29:'（政大山下的小吃店。她點好了兩碗，筷子還沒拆。）',open30:'（她家樓下。她穿著拖鞋下來，手上還拿著鑰匙。）',
-      knew:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'我知道。我只是在等你哪一天自己講。'],
-      told:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'謝謝你自己來講。'],quiet:['……就這樣？','好。我不問。'],
+      knew:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'我知道。……我以為你會更早講。'],
+      told:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'……操。','你至少講完了。'],quiet:['……就這樣？',{narr:'（她站起來，自己去付了錢。）',n30:'（她轉身上樓，門沒有關好。）'}],
       last:['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
   S.APART_ME='……我想跟妳分開。'; S.APART_DM='你是不是有話要跟我說。'; S.APART_PHONE='（電話。）';
+  /* 電話版（沛珊，以及錯過三次改電話的）：看得到動作的旁白換成聽得到的，不另寫整段（AA_350 Q3）；null＝拿掉。視訊版（芷若 2029）看得到，照留 */
+  S.APART_HEAR={'（蒜頭一顆一顆放進碗裡。）':'（電話那頭有剝東西的聲音。）','（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）':'（電話那頭有剝東西的聲音。）',
+    '（她低頭，擦了一下已經乾淨的杯子。）':'（那頭有杯子碰到的聲音。）','（她把計畫本闔上，沒有寫任何東西。）':'（紙闔起來的聲音。）','（她翻開手帳，寫了一行，沒有給你看。）':'（翻紙的聲音。）',
+    '（她把筷子放下。）':'（那頭安靜了一下。）','（她把筷子在碗上放好。）':'（那頭安靜了一下。）','（她站起來，自己去付了錢。）':'（那頭安靜了一下。）','（她轉身上樓，門沒有關好。）':'（那頭安靜了一下。）',
+    '（她把帽子拉起來，蓋住半張臉。）':null,'（她把鑰匙握在手裡。）':null,'（她把白板筆的蓋子蓋上。）':null,'（她低頭，看著鏡頭外面的什麼。）':null};
   S.APART_OPTS=['「我喜歡上別人了。」','（不說原因）'];   /* 她不知道的時候，祐廷二選一（第 2 節）；以安先問「理由呢？」*/
   const AK=y=>'CHOICE_APART'+(y%100);
   S.apartRound=(G,y)=>{ const R=G&&G.flags&&G.flags[AK(y)]; return R&&typeof R==='object'&&R.at&&typeof R.at==='object'?R:null; };
@@ -416,8 +421,12 @@ const R2Y4B=(function(){
     for(const id of list){ let day=fix[id]; if(day==null){ while(used.has(d)||(y===2029&&d===gd)) d++; day=d; used.add(d); d++; }   /* 一晚一位；6/2 畢業典禮當天不排（5/28 才選、人又多到排不下的，接到典禮以後）*/
       R.at[id]={d:day,h:S.APART[id].h[y===2029?0:1],n:0,st:'plan'}; }
     F[AK(y)]=R; for(const id of list) S.apartPlan(G,R,id); return R; };
+  S.apartDay=(R,id)=>{ const P=R&&R.at[id]; return P?(P.day!=null?P.day:P.d+P.n):null; };   /* 那一場實際排在哪一天（P.day；舊存檔沒有＝d＋n）*/
   S.apartPlan=function(G,R,id){ const P=R.at[id], C=S.APART[id]; if(!P||!C) return false; const at=R.y===2029?C.at29:C.at30, nm0=nm(id);
-    const o={id:S.apartOutId(R.y,id,P.n),ev:'ev_choice_apart_'+id,day:P.d+P.n,h:P.h,late:0.5,place:at.place,who:id,apart:{y:R.y,id,n:P.n}};   /* who：那一天不會在外面偶遇她（encounter3d.js）*/
+    let day=Math.max(P.d+P.n,P.day!=null?P.day+(P.n>(P.dn|0)?1:0):0); const gd=DK('2029-06-02');   /* 沒到＝隔天同一時間 */
+    while((R.y===2029&&day===gd)||Object.keys(R.at).some(x=>x!==id&&R.at[x].st==='plan'&&S.apartDay(R,x)===day)) day++;   /* AA_350 Q4：一晚只排一場，撞到的往後順延一天（不算沒到）；6/2 典禮當天不排 */
+    P.day=day; P.dn=P.n;
+    const o={id:S.apartOutId(R.y,id,P.n),ev:'ev_choice_apart_'+id,day,h:P.h,late:0.5,place:at.place,who:id,apart:{y:R.y,id,n:P.n}};   /* who：那一天不會在外面偶遇她（encounter3d.js）*/
     if(at.call) Object.assign(o,{title:'打給'+nm0,verb:'打給她',no:'今天先不要',call:true,travel:'',travelH:0,back:'電話結束。'});
     else if(at.video) Object.assign(o,{title:at.place+'（'+nm0+'）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'});
     else Object.assign(o,{title:at.place+'（'+nm0+'）',travel:at.travel,travelH:at.travelH});
@@ -430,13 +439,13 @@ const R2Y4B=(function(){
     if(typeof PHONE!=='undefined') PHONE.at(G,d,t-d*24,[P_(a.id,S.APART_DM)],'apart'+(a.y%100)+'_call_'+a.id);
     return 'call'; };
   /* 她知道祐廷同時和別人交往嗎（BB_194 的 knowsRel；不看 OPEN_OK，同意過的也是知道）*/
-  S.apartKnew=function(G,id,R){ if(typeof ROM==='undefined'||!ROM.knowsOf) return false; const set=new Set([].concat(R&&R.keep?[R.keep]:[],(R&&R.list)||[],partners(G))); set.delete(id);
-    for(const p of set) if(ROM.knowsOf(G,id,p)) return true; return false; };
+  S.apartKnew=function(G,id,R){ if(typeof ROM==='undefined'||!ROM.knowsOf) return false; const k=R&&R.keep; return !!k&&k!==id&&!!ROM.knowsOf(G,id,k); };   /* AA_350 Q6：只看她知不知道「被選的那一位」；只知道別人（例：先談完分開的那一位）＝照「不知道」走 */
   const phoneBg=G=>{ if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)&&HOME.bgNow) return HOME.bgNow(); if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)&&JP.bgNow) return JP.bgNow(G); return bg('phone_street_night'); };   /* 同 events3d.js 的 {scene:'電話'}：人在家＝家裡，不在家＝晚上的路邊 */
   /* 演一場（出遊的 beforeOuting、電話版共用；第 2 節的流程）：回傳 said（knew／told／quiet）；已經談過、她不在交往＝false */
   S.apartScene=async function(GM,id,o){ o=o||{}; const G=GM.G, C=S.APART[id], R=o.y?S.apartRound(G,o.y):S.apartOf(G,id), P=R&&R.at[id]; if(!C||!P||P.st==='done'||P.st==='void'||!dating(G,id)) return false;
     const y30=R.y===2030, ph=!!o.phone, at=y30?C.at30:C.at29, A=adv();
-    const v=x=>x&&typeof x==='object'?(x.narr!=null?{narr:y30&&x.n30?x.n30:x.narr}:(y30&&x.t30!=null?x.t30:x.t)):x, L=a=>(a||[]).map(v);
+    const hear=ph||!!at.call, v=x=>x&&typeof x==='object'?(x.narr!=null?{narr:y30&&x.n30?x.n30:x.narr}:(y30&&x.t30!=null?x.t30:x.t)):x;
+    const L=a=>(a||[]).map(v).map(x=>x&&typeof x==='object'&&hear&&Object.prototype.hasOwnProperty.call(S.APART_HEAR,x.narr)?(S.APART_HEAR[x.narr]==null?null:{narr:S.APART_HEAR[x.narr]}):x).filter(x=>x!=null);   /* 電話：聽得到的旁白（AA_350 Q3）*/
     if(A&&A.begin) A.begin({background:ph||at.call?phoneBg(G):bg(at.bg),right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('',ph?'電話':at.place,2600);
     await GM.say(null,ph?S.APART_PHONE:(y30?C.open30:C.open29));   /* 1. 地點的旁白（電話版＝「（電話。）」）*/
     await GM.say({name:G.name||'祐廷'},S.APART_ME);   /* 2. 祐廷先開口 */
