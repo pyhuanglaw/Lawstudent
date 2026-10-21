@@ -1,6 +1,8 @@
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 50895934..c3e2a61f 100644
 --- a/src/engine3d.js
 +++ b/src/engine3d.js
-@@ -131,14 +131,14 @@
+@@ -131,14 +131,14 @@ const E3 = (function(){
      [21,'#3a4670',0.08,-10,280,'#2b3a5c','#1a1a24',0.55,'#1b2233',0.85,'#0f1a33','#243052','#3a3a4a',1],
      [24,'#3a4670',0.05,-10,280,'#232f4c','#151520',0.5,'#141a2b',0.8,'#0b1329','#1c2540','#2b2b3a',1],
    ];
@@ -17,3 +19,28 @@
    const c1=new THREE.Color(), c2=new THREE.Color();
    /* 影子不閃（X79，使用者 2026-10-20「有些建築旁邊影子也一直在閃爍」；BB-C 量到：陰影相機每 5 格跟著玩家移動、沒對齊陰影貼圖格子，1024 蓋 44 m，一格約 4.3 cm）：
       ①陰影相機的中心在光的平面上對齊到整格（texel snapping；three.js 的 DirectionalLight 用 lookAt、up＝(0,1,0)，右＝cross(up,d)、上＝cross(d,右)）——玩家走動時影子貼圖的格子固定在世界上；
+diff --git a/tools/shots/golden_compare.sh b/tools/shots/golden_compare.sh
+index f46901be..85d799d9 100644
+--- a/tools/shots/golden_compare.sh
++++ b/tools/shots/golden_compare.sh
+@@ -1,5 +1,6 @@
+ #!/usr/bin/env bash
+-# 黃昏調色（?grade=golden，D64 使用者 2026-10-14：先不設成預設）的對照：同一地點、同一時間、同一鏡頭，原版與 golden 各拍一張，左右並排。
++# 黃昏調色的對照：同一地點、同一時間、同一鏡頭，原版（?grade=off）與 golden 各拍一張，左右並排。
++# golden 是預設（使用者 2026-10-18 選「預設就開」，X32／GRADE-GOLDEN-DEFAULT；D64 2026-10-14 那時還沒設成預設）。
+ # 四種環境：白天（12:00）、黃昏（17:30）、夜間（20:00）——溫州街巷口同一個鏡頭；室內（兩點半 Café，17:30）；另外加校園傅鐘的黃昏。
+ # golden 只換 17:00–18:00 那一段的光線（engine3d.js 的 KEY_GOLDEN），白天、夜間兩張應該一樣——拍出來確認這件事，不是漏拍。
+ # 用法：bash tools/shots/golden_compare.sh <遊戲網址，不含參數> [輸出資料夾，預設 docs/art-rebuild/screenshots/golden_compare]
+@@ -25,10 +26,10 @@ for tag in ("orig", "golden"):
+         shots.append(s)
+     json.dump(shots, open(f"{O}/{tag}.json", "w"), ensure_ascii=False, indent=1)
+ EOF
+-python3 tools/shots/scene_shot.py "$U" "$O/orig.json"
++python3 tools/shots/scene_shot.py "$U?grade=off" "$O/orig.json"
+ python3 tools/shots/scene_shot.py "$U?grade=golden" "$O/golden.json"
+ for n in day dusk night indoor campus_dusk; do
+-  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（目前的預設）=$O/${n}_orig.png" "golden（提案）=$O/${n}_golden.png"
++  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（?grade=off）=$O/${n}_orig.png" "golden（預設）=$O/${n}_golden.png"
+ done
+ python3 - "$O" <<'EOF'
+ import sys
