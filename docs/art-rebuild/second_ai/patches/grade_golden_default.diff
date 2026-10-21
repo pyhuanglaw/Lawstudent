@@ -40,7 +40,7 @@ index f46901be..85d799d9 100644
  python3 tools/shots/scene_shot.py "$U?grade=golden" "$O/golden.json"
  for n in day dusk night indoor campus_dusk; do
 -  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（目前的預設）=$O/${n}_orig.png" "golden（提案）=$O/${n}_golden.png"
-+  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（?grade=off）=$O/${n}_orig.png" "golden（預設）=$O/${n}_golden.png"
++  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（golden 關掉）=$O/${n}_orig.png" "golden（預設）=$O/${n}_golden.png"   # 標籤不能有「=」（compare.py 用第一個 = 分開標籤和檔名）
  done
  python3 - "$O" <<'EOF'
  import sys
