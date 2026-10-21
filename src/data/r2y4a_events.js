@@ -368,7 +368,7 @@ const R2Y4A_EVENTS=(function(){
   const YT='heroine_03', yt=t=>({speaker:YT,text:t});
   const YT_DAYS=['2028-10-17','2028-10-24'];
   EV.push({ id:'ev_yt_essay', title:'公館的時間', participants:[YT], location:'noodle', trigger:'auto', once:true, time:[17.5,20.5], background:'blur',
-    prereq:{stage:{npc:YT,min:'FAMILIAR'},custom:G=>YT_DAYS.some(k=>D(k)===G.day)&&!G.flags.YT_ESSAY&&notUS(G)},
+    prereq:{stage:{npc:YT,min:'FAMILIAR'},custom:G=>YT_DAYS.some(k=>D(k)===G.day)&&(!G.flags.YT_ESSAY||G.flags.YT_ESSAY==='shelf')&&notUS(G)},   /* 先翻過期刊架（shelf）的，那兩個班照樣遇得到她 */
     dialogue:[ yt('系刊登了。我沒有寫阿姨是我阿姨。'),
       yt('最後一段寫的是一家麵店。你讀到的時候，不要在我面前讀。'),
       {choice:[{text:'（當著她的面讀）',goto:'a'},{text:'（回家再讀）',goto:'b'}]},
@@ -412,7 +412,7 @@ const R2Y4A_EVENTS=(function(){
 
   /* ---- 2-Y4-15 可昕：放榜那一週，她的實習（BB_99 9-5）：她打來的電話（演出來）；KX_INTERN_CALL＝'pass'／'fail'（r2y4a3d.js 排）---- */
   const KX='kexin', kx=t=>({speaker:KX,text:t});
-  EV.push({ id:'ev_kexin_intern_result', title:'放榜那一天', participants:[KX], location:'any', trigger:'manual', once:true, background:'dark',
+  EV.push({ id:'ev_kexin_intern_result', title:'放榜那一天', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,   /* OUT 的電話（call:true；r2y4a3d.js 排在放榜那天 15:30）*/
     dialogue:[ {scene:'電話'},
       {if:{flagIs:{KX_INTERN_CALL:'fail'}},goto:'f'},
       kx('結果出來了吧。你先說。'),
@@ -423,7 +423,8 @@ const R2Y4A_EVENTS=(function(){
       {label:'b'},kx('……好啦。'),{goto:'e'},
       {label:'f'},kx('你的，先說你的。'),
       nar('（你說沒上。）'),
-      kx('……好。二月還有一次。'),   /* 她不提自己的：隔天 21:00 才傳 */
+      kx('……好。二月還有一次。'),   /* 她不提自己的：隔天 21:00 才傳（那一則記 KX_INTERN）*/
+      {end:true},
       {label:'e'},{set:{KX_INTERN:true}} ] });
 
   /* ---- 2-Y4-09 語彤事件 16「分一點時間」（AA_11）：12/21（四）17:15～18:45 總圖三樓；沒到延到 12/28（美國路線只有 12/28）---- */
@@ -449,6 +450,161 @@ const R2Y4A_EVENTS=(function(){
       UN(REG,{speaker:'新店員',text:'你是……法律系的那位？'}),UN(REG,{speaker:'新店員',text:'芷若姊說，你回來的話要跟你說一聲：歡迎回來。'}),
       nar('（半年。大家都還在。）'),
       {stamp:['BACK_HOME']} ] });
+
+  /* ===================== 可昕（大四上、寒假；和可昕交往中。邀約、出遊、沒去在 r2y4a3d.js）===================== */
+  const KXD=G=>dating(G,KX), hh=G=>((G.hour%24)+24)%24;
+  const E10=v=>G=>G.flags.E10_STUDY===v;   /* 經濟系那一年 E10 總圖（先念書＝'study'、漫畫字典＝'chat'；沒玩經濟系的沒有）*/
+  const K21_ECHO=[ IF(E10('chat'),kx('大一那次在總圖，我們都沒讀。')),IF(E10('study'),kx('大一那次在總圖，你有讀。我還在你筆記上畫了長頸鹿。')) ];
+  const K21_PICK=third=>[ {choice:[{text:'「現在可以聊天了？」',goto:'k1'},{text:'「下週同一天？」',goto:'k2'},{text:third,goto:'k3'}]},
+    {label:'k1'},kx('可以。……先去吃東西，我餓了。'),{goto:'ke'},
+    {label:'k2'},kx('好。寫進表格。'),{goto:'ke'},
+    {label:'k3'},kx('……你整頁都畫了。那等於沒畫。'),
+    {label:'ke'},{set:{KX_STUDY_PLAN:'went'}} ];
+  const TO16={advance:G=>Math.max(0,16-hh(G))};   /* 讀到 16:00（9/23 14:00～16:00）*/
+  /* ---- 2-Y4-13 K21「約讀書，而且真的有讀」（BB_99 9-2、9-0b；裁定第 18 點）：9/23（六）14:00 政大（出遊）／總圖（3D：goto 到閱覽室，這裡的 auto 演）；美國路線＝視訊（當地 09:00）---- */
+  EV.push({ id:'ev_kexin_study_really', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
+    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
+  EV.push({ id:'ev_kexin_study_really_lib', title:'約讀書，而且真的有讀', participants:[KX], location:['library','library_hall'], trigger:'auto', once:true, time:[13.75,15], background:'blur',
+    prereq:{custom:G=>{ const d=D('2028-09-23'); return d!=null&&G.day===d&&KXD(G)&&G.flags.KX_K21_AT==='lib'&&!G.flags.KX_STUDY_PLAN; }},
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
+    dialogue:[ nar('（兩個小時，沒有人說話。她只推過來一張便條：「先讀完。」）'),TO16 ].concat(K21_ECHO,K21_PICK('（給她看自己畫滿重點的那一頁）')) });
+  EV.push({ id:'ev_kexin_study_really_us', title:'約讀書，而且真的有讀', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k21Missed(G,q); },
+    dialogue:[ {scene:'視訊',bg:'video'},nar('（兩小時視訊開著，沒有人說話；她把便條舉到鏡頭前：「先讀完。」）'),{advance:2} ].concat(K21_ECHO,K21_PICK('（把自己畫滿重點的那一頁舉到鏡頭前）')) });   /* AA 這一段只寫了說明：照說明的字當旁白 */
+
+  /* ---- 2-Y4-14 K22「兩個方向的讀書會」（BB_99 9-6）：11/14（二）19:00 政大；美國路線、沒去＝r2y4a3d.js 一則 ---- */
+  const SJ_MET=G=>has(KX,'ENC_D13_KX')||has(KX,'ENC_D09_KX')||!!G.flags.KX_NCCU_FRIENDS;   /* 見過邵鈞（淡水 D13、貓空 D09 的偶遇；大二的電影夜，y2r2_3d.js 同一條）*/
+  EV.push({ id:'ev_kexin_two_directions', title:'兩個方向的讀書會', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.k22Missed(G); },
+    dialogue:[ {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+      UN(SJ_MET,kx('這是邵鈞，考古題有目錄的那個。')),
+      nar('（邵鈞說他從大一就知道自己要當法官。）'),
+      {advance:G=>Math.max(0,21-hh(G))},   /* 讀完以後（讀書會 19:00～21:00）*/
+      kx('他想當那個判的人。'),
+      kx('我比較想當那個幫人講話的人。'),
+      {choice:[{text:'「妳會很適合。」',goto:'a'},{text:'「兩種都需要。」',goto:'b'},{text:'（點頭，不說話）',goto:'c'}]},
+      {label:'a'},kx('你每次都這樣說。……好啦，謝謝。'),{goto:'e'},
+      {label:'b'},kx('對。所以邵鈞和我是好朋友。'),{goto:'e'},
+      {label:'c'},nar('（她把筆記收進包包。）'),kx('……走吧，山下那家還開著。'),
+      {label:'e'},{set:{KX_DIRECTION:true}} ] });
+
+  /* ---- 2-Y4-24 可昕「聖誕，讀到打烊」（BB_99 9-9；裁定第 21 點）：12/25（一）19:00 政大山下的咖啡店（沒有底圖＝深色底＋字幕）→ 自強十舍樓下 ---- */
+  const usR=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US';
+  const PLAN=G=>!!G.flags.KX_STUDY_PLAN;
+  const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
+  EV.push({ id:'ev_kexin_xmas_y4', title:'聖誕，讀到打烊', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:2/3,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.kxXmasMissed(G); },
+    dialogue:[ {scene:'政大山下・咖啡店',bg:'dark'},
+      IF(usR,kx('你的時差還沒調回來吧。……那今天讀到打烊，剛好。')),   /* 美國路線（12/23 已經回來）*/
+      {advance:G=>Math.max(0,22-hh(G))},
+      nar('（兩個人讀到店員開始收椅子。走出來，山上的風。）'),
+      {scene:'政大・宿舍樓下',bg:'nccu_dorm'},
+      kx('……冷死了。'),
+      kx('聖誕快樂。今天讀了幾頁，不要說。今天不算。'),
+      {choice:[{text:'「聖誕快樂。」',goto:'a'},{text:'（把圍巾給她）',goto:'b'}]},
+      {label:'a'},kx('嗯。……明天我回高雄。'),{goto:'e'},
+      {label:'b'},kx('……你的圍巾很醜。'),nar('（她還是圍上了。）'),
+      {label:'e'},
+      IF(PLAN,nar('（手機的共用表格 12/25 那一格，她寫了「聖誕快樂」，旁邊畫了一隻長頸鹿。）')),   /* 她的禮物：AA 只寫了說明，照說明的字當旁白 */
+      UN(PLAN,nar('（一張卡片，上面也是一隻長頸鹿。）')) ],
+    after:G=>{ merge(G,'KX_XMAS',{4:'study'}); } });
+
+  /* ---- 2-Y4-26 KH「最後一個寒假的旅行」（BB_99 9-12、10-3；AA_276；裁定第 22 點）：1/6（六）高鐵 07:00 → 08:35 左營，她開車去高雄的海邊；傍晚左營站 ---- */
+  const TRIPPED=G=>{ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; return Object.keys(T).some(k=>k!=='Y4WIN'&&T[k]&&T[k]!=='missed')||!!G.flags.KX_TRIP_Y1S2; };   /* 一起旅行過（KX_TRIP 有一個假期不是 missed）*/
+  EV.push({ id:'ev_kexin_trip_winter_y4', title:'最後一個寒假的旅行', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:1.6, kxAway:true,
+    beforeOuting:(G,GM)=>{ const C=typeof HOMETOWN_LINES!=='undefined'?HOMETOWN_LINES.kexin:null, fare=(C&&C.fare)||2980; if(GM&&GM.money) GM.money(-fare,'交通'); },   /* 高鐵來回照 AA_276 扣（同大二 2-Y2-10）*/
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.khMissed(G); },
+    dialogue:[ {scene:'高雄・左營站',bg:'dark'},
+      nar('（她靠在一台舊舊的家用車旁邊。）'),
+      kx('上車。……音樂你管。'),
+      {scene:'車上',bg:'car_morning'},
+      IF(TRIPPED,kx('第一次去的時候，我管音樂，你管方向。')),IF(TRIPPED,kx('今年交換。')),
+      UN(TRIPPED,kx('我們沒有「第一次去的地方」。……那今天就是。')),
+      {scene:'高雄・海邊',bg:'trip_sea'},
+      kx('到了。今天你說要做什麼，就做什麼。'),
+      {choice:[{text:'「走到那個堤防的盡頭。」',goto:'a'},{text:'「找一家沒吃過的。」',goto:'b'},{text:'「坐著就好。」',goto:'c'}]},
+      {label:'a'},kx('好。走慢一點，我鞋子穿錯了。'),{goto:'e'},
+      {label:'b'},kx('這附近我都吃過。……好，那找一家我也沒吃過的。'),{goto:'e'},
+      {label:'c'},kx('……你很無聊。'),nar('（她還是坐下來了。一個小時，兩個人都沒說話。）'),
+      {label:'e'},
+      {advance:G=>Math.max(0,17-hh(G))},   /* 傍晚 */
+      {scene:'高雄・左營站',bg:'dark'},
+      kx('回去讀書。……二月十四號，視訊。') ],
+    after:G=>{ merge(G,'KX_TRIP',{Y4WIN:'kaohsiung'}); const F=G.flags; (F.HV_LAST||(F.HV_LAST={})).kexin=G.day; } });
+
+  /* ---- 2-Y4-28 除夕（裁定第 23 點）：選「打給妳。」＝電話三句（OUT call:true）---- */
+  EV.push({ id:'ev_kexin_lunar_eve_y4_call', title:'除夕的電話', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,
+    dialogue:[ {scene:'電話'},
+      nar('（鞭炮聲。）'),   /* AA：「三句：鞭炮聲、……」第一句只寫了「鞭炮聲」*/
+      kx('新年快樂。'),
+      kx('……我阿嬤在叫我。你也去陪你媽。') ] });
+
+  /* ---- 2-Y4-29 情人節，讀書計畫表（BB_99 9-14）：2/14（三）21:00 視訊。天氣和去年（KX_VDAY_WX[3]）一樣＝「跟去年一樣。」---- */
+  const VSAME=G=>!!G.flags._y4Vwx&&(G.flags.KX_VDAY_WX||{})[3]===G.flags._y4Vwx&&(G.flags.KX_VDAY||{})[3]!=='missed';
+  EV.push({ id:'ev_kexin_valentine_y4', title:'情人節，讀書計畫表', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.vdayMissed(G,q); },
+    dialogue:[ {scene:'視訊',bg:'video'},
+      kx('你那邊天氣怎樣？'),
+      {choice:[{text:'「冷。」',set:{_y4Vwx:'cold'}},{text:'「下雨。」',set:{_y4Vwx:'rain'}},{text:'「還好。」',set:{_y4Vwx:'ok'}}]},
+      IF(VSAME,kx('跟去年一樣。')),UN(VSAME,kx('……高雄今天二十五度。')),
+      IF(PLAN,kx('情人節禮物。我們那張表，我重排了。')),UN(PLAN,kx('情人節禮物。讀書計畫表。')),
+      kx('兩個人的格子排在一起。考完以前，都照這張。'),
+      nar('（畫面：每天晚上十點那一格，兩欄都寫著「通話」。）') ],
+    after:G=>{ const F=G.flags; merge(G,'KX_VDAY',{4:'video'}); if(F._y4Vwx){ merge(G,'KX_VDAY_WX',{4:F._y4Vwx}); delete F._y4Vwx; } } });
+
+  /* ---- 2-Y4-23 學姊 M7 接機（BB_99 2-1、10-1 第 1 項；AA 審稿 #1：大四下唯一一次說出口的條列，照 BB_99 原句）：12/23（六）20:30 桃園機場入境大廳（出遊）。
+     版本 SIS_PICKUP_V（r2y4a3d.js 12/20 排）：'family' 家族共乘（Kevin、學妹同車）、'two' 兩個人、'lover' 戀人版。BCG-34 只給兩個人、戀人版（hasCG）---- */
+  const PV=v=>G=>G.flags.SIS_PICKUP_V===v, PV2=G=>['two','lover'].includes(G.flags.SIS_PICKUP_V);
+  EV.push({ id:'ev_sis_pickup', title:'接機', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
+    outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.pickupMissed(G); },
+    dialogue:[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
+      {if:{custom:G=>PV2(G)&&cgOK('cg_airport_pickup_heroine05')},cg:'cg_airport_pickup_heroine05'},   /* BCG-34：她走出來、看到你的那一拍（戀人版在擁抱之前）*/
+      {scene:'車上',bg:'car_night'},
+      {if:{custom:G=>!!G.flags.REPLIED_US0||has(S5,'REPLIED_US0')},speaker:S5,text:'我剛到美國那天，你回得很快。……謝謝。'},
+      IF(G=>has(S5,'DROVE_HER'),sis('這次我一直講。你可以轉頭。')),UN(G=>has(S5,'DROVE_HER'),sis('我一直講。你可以轉頭。')),
+      sis('……不行，看前面。'),
+      sis('三件事。一，美國的雞蛋。二，圖書館的咖啡機。'),
+      sis('三，我想吃滷肉飯。現在。'),
+      IF(PV('family'),{speaker:'Kevin',text:'學姊妳終於講超過三句了！'}),   /* Kevin 在後座 */
+      IF(PV('lover'),sis('……四，我想你。我多講了一件。')),
+      {choice:[{text:'「下交流道找一家。」',goto:'a'},{text:'「先回家睡覺。」',goto:'b'},{text:'「公館那家？」',goto:'c'}]},
+      {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
+      {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。這不是三件事。」（r2y4a3d.js）*/
+      {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),
+      {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:'接機'}]} ],
+    after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });
+
+  /* ---- 2-Y4-27 研究所筆試（AA_181 2-4；AA_185 0-3：沒有題目，看準備）：2/3（六）09:00 教學館（3D 校園的共同教學館門口；08:50 還沒到＝帶到場，r2y4a3d.js）---- */
+  const AN='heroine_01', an=t=>({speaker:AN,text:t});
+  const AN_FAM=G=>knows(AN,G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage(AN))>=SOCIAL.STAGES.indexOf('FAMILIAR');
+  EV.push({ id:'ev_grad_exam', title:'研究所筆試', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
+    dialogue:[ IF(AN_FAM,nar('（教學館門口，以安在看考場的配置圖。）')),
+      IF(AN_FAM,an('你在三樓。我在二樓。')),IF(AN_FAM,an('……考完，門口。')),
+      {scene:'考場',bg:'dark'},
+      nar('（兩節。第二節最後一題，你寫到鐘響。）'),
+      {set:{GRAD_EXAM_2029:true}} ] });
+  EV.push({ id:'ev_grad_exam_after', title:'研究所筆試', participants:[AN], location:'any', trigger:'manual', once:true, background:'blur',
+    dialogue:[ an('考完了。……先吃麵。') ] });   /* 12:30 門口（和以安 FAMILIAR 以上）*/
+
+  /* ---- 2-Y4-11 芷若第二輪明信片（BB_99 3-1、10-2；AA_262 附錄 B ZR1～ZR6）：每月一張，中午以後在宿舍（美國路線九～十二月在公寓 214）。r2y4a3d.js 放、讀、回寄 ---- */
+  EV.PC2={
+    first:{seen:'（明信片又開始寄來了。這次的字比較小，寫得比較多。）',none:'（信箱裡有一張明信片。英國的郵戳。）'},   /* 第一張的開頭旁白：大三收過第一輪（POSTCARDS）／沒收過 */
+    cards:[ {key:'2028-09-22',m:9,text:['到英國了。宿舍窗戶看出去，是一棵很大的樹。','我還不知道它叫什麼。'],gf:'熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。'},
+      {key:'2028-10-20',m:10,text:['這次我知道要帶雨衣了。','班上有一個人跟我一樣，看電影會坐倒數第三排。','我們沒有講話，但每週都坐同一排。']},
+      {key:'2028-11-17',m:11,text:['又到四點就天黑的時候了。去年很不習慣，今年還好。','我開始在下午看電影。出來的時候，像看了兩場。']},
+      {key:'2028-12-15',m:12,text:['我在寫一篇關於『一個人看電影』的報告。','教授說題目很小。我說，小的我才寫得完。'],us:'你也在國外。我們今天都不在家。',back:['（背面最後一行）','麵店生日快樂。']},
+      {key:'2029-01-05',m:1,text:['寒假我沒有回去。宿舍剩我和一個管理員。','她請我喝茶。英國的茶要加牛奶，我加了。……還好。']},
+      {key:'2029-02-19',m:2,text:['今天下雪。很小，落地就不見了。','我拍了照，可是照片裡什麼都沒有。']},
+      {key:'2029-03-16',m:3,text:['我開始存錢了。','回去以後，我想開一間很小的戲院。四十個座位就好。']},
+      {key:'2029-04-20',m:4,text:['論文開始寫了。題目還是很小。','每天寫五百字，寫完去公園坐一下。'],fy:['（另一種筆跡）','這棵樹叫英國櫟。……他說的。']},   /* 方奕廷那條路（ZR_FY）：同一張上另一種筆跡（BB_99 沒寫哪一個月，AA 放四月）*/
+      {key:'2029-05-18',m:5,text:['這裡五月很亮，晚上九點天還沒黑。','我把窗簾拉起來看電影。']},
+      {key:'2029-06-15',m:6,text:['快結束了。我開始打包。','最難打包的是電影票根。比衣服還多。'],until:'2029-06-28'} ],
+    replies:[ {id:'rain',t:'台北也下雨了。我帶了傘。',next:'你說台北下雨。這裡也是。我們今天一樣。'},
+      {id:'row',t:'那一排的同學，今天也坐那裡嗎？',next:'他今天沒來。那一排只剩我。……還好。'},
+      {id:'light',t:'Café 下午的光，還是一樣。',next:'你說光還是一樣。……窗邊那個位子，現在誰坐？'},
+      {id:'ticket',t:'妳的戲院，我要第一張票。',next:'好。第一張給你。……開幕那天要來。',fromCard:'2029-03-16'} ],   /* 第四個三月那張以後才有；和芷若分開過的不出 */
+    usAsk:'給我你在那邊的地址。英國寄到美國要多久，我想試試看。' };   /* 美國路線：八月她傳訊息要地址 */
 
   return EV;
 })();
