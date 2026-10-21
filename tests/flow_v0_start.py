@@ -1,10 +1,11 @@
 """經濟系開局（v0）從標題玩前幾天的真實玩家流程（2026-10-17 第 7 組起：標題的「新遊戲」就是經濟系開局，先演 8/23～25 宿營）（使用者 2026-10-17：先把經濟系做好；標題畫面開放經濟系開局之前要過這一支）。
 不用 ?turbo、不改旗標；網址加 ?y0（經濟系開局按鈕現在只在 ?y0 出現，D81）：
   標題「經濟系開局」→ 2024-09-01 晚上男宿（E01 宿舍第一晚）→ 對話選第一個 → 走到床邊「睡覺」→ 9/2（一）早上阿勳的兩句 →
-  事件接事件（D102，使用者 2026-10-18 選；9/2 早上以後不出起床選單，中間的課自動算出席）：9/2 12:15 開學典禮（ev_y0_e02）→
-  9/5 會計第一堂（帶到教室坐好、上課）→ 上完課、恢復控制。手機自己跳出來（D103）就像玩家一樣按「收起來／跳過」。
-  （2026-10-21 改：原本檢查 9/2 早上的起床選單「直接去上課」第一堂經原，是 D102 以前的流程。）
-檢查：stage 是 econ、日期、那一堂記成出席、沒有卡住保險、畫面上沒有看得到的備用人物、沒有 JS 例外。
+  事件接事件（D102＋AA_300／AA_303 短版，使用者 2026-10-18 選「縮到約 30 分鐘」「只留長場景」；9/2 早上以後不出起床選單，中間的課自動算出席）：
+  9/2 開學典禮（ev_y0_e02）、9/5 會計第一堂不在短版的場次裡（econff3d.js 的 KEEP），直接跳到 9/13（五）19:00 第一次班聚保齡球（ev_y0_e14）→ 演完、恢復控制。
+  手機自己跳出來（D103）就像玩家一樣按「收起來／跳過」。
+  （2026-10-21 改兩次：原本檢查 9/2 早上的起床選單「直接去上課」第一堂經原，是 D102 以前的流程；之後改成開學典禮＋會計第一堂，是 AA_300 以前的完整版——v9.10.3 候選 f72a2a21 上跑出來對不上。）
+檢查：stage 是 econ、日期、跳過的課記成出席、沒有卡住保險、畫面上沒有看得到的備用人物、沒有 JS 例外。
 用法：python3 tests/flow_v0_start.py URL [輸出資料夾]"""
 import asyncio, json, sys, time
 from playwright.async_api import async_playwright
@@ -65,16 +66,16 @@ async def main():
                 await L.tap(pg, cdp, '#interact')
         if ok:
             # 睡覺可能先問要幾點起床／確認：照第一個選項
-            ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G; return !!(G.events&&G.events.done&&G.events.done.ev_y0_e02)&&!GAME.E.player.busy&&!GAME.D.active; })()", ['睡覺', '七點', '7', '好'], 600)
-            await run.shot(pg, 'after_e02')
-            st = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key, hour:+GAME.G.hour.toFixed(2), zone:GAME.G.zone, morning:!!GAME.G.flags.E01_MORNING, wake:!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(b=>b.textContent.includes('直接去上課'))})")
-            run.check('9/2（一）早上阿勳那兩句（E01_MORNING）→ 事件接事件（D102）帶到 12:15 開學典禮（ev_y0_e02）演完、恢復控制；沒有起床選單', ok and st['key'] == '2024-09-02' and st['morning'] and not any('直接去上課' in t for t in log), json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-8:], ensure_ascii=False))
-            if ok:
-                ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G, R=CLS.rec(G); return Object.keys(R.done).some(k=>/:acct_y0/.test(k))&&!GAME.E.player.busy&&!GAME.D.active; })()", ['出發', '好'], 900)
-                st = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), done:Object.keys(CLS.rec(GAME.G).done).filter(k=>/acct_y0|econ_principles_y0/.test(k)), fb:GAME.walkFallbacks||0})")
-                await run.shot(pg, 'after_class')
-                run.check('9/5（四）會計第一堂：帶到教室上完（記出席）、恢復控制（D102 第 5 步）', ok and st['key'] == '2024-09-05', json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
-                run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
+            # 短版（AA_300／AA_303）：9/2 早上以後第一場是 9/13 19:00 保齡球（econff3d.js S.STEPS 的 b1）；過了 9/13 還沒演＝漏掉
+            E14 = "(()=>{ const G=GAME.G, o=(typeof OUT!=='undefined'&&OUT.get)?OUT.get(G,'y0_e14'):null; return !!(G.events&&G.events.done&&G.events.done.ev_y0_e14)||!!(o&&o.state==='done'); })()"
+            ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G, k=CALENDAR.dateOf(G.day).key; return (%s||k>'2024-09-13')&&!GAME.E.player.busy&&!GAME.D.active; })()" % E14, ['睡覺', '七點', '7', '好', '出發'], 900)
+            await run.shot(pg, 'after_e14')
+            st = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key, hour:+GAME.G.hour.toFixed(2), zone:GAME.G.zone, morning:!!GAME.G.flags.E01_MORNING, e14:%s, e02:!!(GAME.G.events&&GAME.G.events.done&&GAME.G.events.done.ev_y0_e02), done:Object.keys(CLS.rec(GAME.G).done).filter(k=>/acct_y0|econ_principles_y0/.test(k)), fb:GAME.walkFallbacks||0})" % E14)
+            run.check('9/2（一）早上阿勳那兩句（E01_MORNING）→ 事件接事件（D102、AA_300 短版）跳到 9/13（五）第一次班聚保齡球（ev_y0_e14）演完、恢復控制（演完可能已經接著跳到 9/20）；沒有起床選單',
+                      ok and '2024-09-13' <= st['key'] <= '2024-09-20' and st['morning'] and st['e14'] and not any('直接去上課' in t for t in log), json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-8:], ensure_ascii=False))
+            run.check('短版不演 9/2 開學典禮（ev_y0_e02 不在 KEEP）', not st['e02'], json.dumps(st, ensure_ascii=False))
+            run.check('跳過的 9/2～9/13 經濟系的課自動算出席（會計、經原都有）', any('acct_y0' in k for k in st['done']) and any('econ_principles_y0' in k for k in st['done']), json.dumps(st['done'], ensure_ascii=False))
+            run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         bad = await pg.evaluate(VIS_BAD)
         run.check('畫面上沒有看得到的備用人物', not bad, json.dumps(bad, ensure_ascii=False))
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))

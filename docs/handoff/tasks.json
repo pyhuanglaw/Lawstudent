@@ -26261,7 +26261,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+   "next": "【LAWWW-C 2026-10-21 14:4x UTC】f72a2a21 不發布（BUG-PHONE-REOPEN-1021）；候選改 bcbd4b65（f72a2a21＋手機修正，只在 LAWWW-C 暫存區，重做方法在 CANDIDATE_9103.md 發布前狀態）。f72a2a21 上 save_compat_start1_v991、reachability_all ALL PASS；bcbd4b65 上排著 probe→smoke_release→flow_v0_start（再改一次：AA_300 短版不演 9/2 開學典禮、9/5 會計）→touch_flow_wenzhou→flow_exam_terms；全過才 snapshot→PR→merge ｜ 【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
   },
   {
    "id": "BB218-P3-1021",
@@ -26365,7 +26365,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 14:3x UTC】開發分支已修（自動打開時把當下所有待回的一起記成開過；之後來新的才再開）；tests/phone_auto_unit.js 加兩項（改之前 FAIL 2）。要用瀏覽器在候選 f72a2a21 上確認 smoke_release 的失敗是不是這個原因；是的話決定 v9.10.3 要不要帶這個修正"
+   "next": "【LAWWW-C 2026-10-21 14:4x UTC】確認是遊戲 bug：f72a2a21 上 smoke_release_v2（搖桿 0.33 m）、flow_v0_start_v2（停在一直跳出來的手機上）都是這個；v9.10.3 帶這個修正（候選第二版 bcbd4b65＝f72a2a21＋4c90c913 的兩個檔），瀏覽器重跑排在 bcbd4b65 上 ｜ 【LAWWW-C 2026-10-21 14:2x UTC】開發分支已修（4c90c913）（自動打開時把當下所有待回的一起記成開過；之後來新的才再開）；tests/phone_auto_unit.js 加兩項（改之前 FAIL 2）。要用瀏覽器在候選 f72a2a21 上確認 smoke_release 的失敗是不是這個原因；是的話決定 v9.10.3 要不要帶這個修正"
   },
   {
    "id": "BB-TEST-AA360-1021",

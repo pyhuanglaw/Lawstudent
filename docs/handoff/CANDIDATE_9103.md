@@ -57,9 +57,16 @@ CG：新登錄六張（CG-9 畢業典禮與媽媽、BCG-15 最後一個班、CG-
 - CG：BCG-39、CG-10（尾聲窗邊長桌，合成中）還沒有，照背景演
 - iPhone 實機沒測過
 
-## 發布前狀態（2026-10-21 14:1x UTC，LAWWW-C；使用者要求先存檔時寫的，還沒發布）
+## 發布前狀態（2026-10-21 14:4x UTC 更新，LAWWW-C；還沒發布）
 
-**候選 `f72a2a21`（版本字樣 v9.10.3）**。回退目標 v9.10.2（main `9335763d`）。發布條件＝下面全部過＋BB 判定；**還沒發布**。
+**候選改成第二版 `bcbd4b65`＝`f72a2a21`＋手機自動打開修正**（開發分支 `4c90c913` 的 `src/story3d.js` 一行＋`tests/phone_auto_unit.js`；版本字樣照舊 v9.10.3）。回退目標 v9.10.2（main `9335763d`）。**還沒發布。**
+- **`f72a2a21` 不發布**：重跑 smoke_release_v2 仍 FAIL（新遊戲搖桿只走 0.33 m），flow_v0_start_v2 停在一直自己跳出來的手機上 → 查到是遊戲的 bug（BUG-PHONE-REOPEN-1021：同時有好幾則待回訊息時一次只記一則，收起來下一格又自己打開，一則跳一次）。
+- `bcbd4b65` 只在 LAWWW-C 暫存區的工作樹、**沒推上 GitHub**。重做：`git worktree add --detach <dir> f72a2a21`，在那裡套 `git diff 4c90c913~1 4c90c913 -- src/story3d.js tests/phone_auto_unit.js`（直接套得上），commit。
+- f72a2a21 上的重跑：save_compat_start1_v991（舊版 v9.9.1 6d5c3279）**ALL PASS**；reachability_all **ALL PASS**（29 區、1099 個互動點）；smoke_release_v2、flow_v0_start_v2 FAIL（上面那個 bug；flow_v0_start 另外還在等 AA_300 短版已經不演的 9/2 開學典禮、9/5 會計第一堂——測試再改一次，改成 9/13 保齡球＋跳過的課算出席）。
+- **bcbd4b65 上排著跑（一次一支）**：probe（f72a2a21 對 bcbd4b65：手機自己打開幾次、搖桿走不走得動）→ smoke_release → flow_v0_start（新版）→ touch_flow_wenzhou（9/27 週六版）→ flow_exam_terms（收手機版）；結果在 LAWWW-C 暫存區 `rc4_bcbd4b65/summary.txt`。
+- 下面 f72a2a21 上 ALL PASS 的 14 支，bcbd4b65 **沒有重跑**；推論照舊有效：修正只會讓手機少自己打開幾次，其他程式一樣。
+
+（以下是 14:1x 寫的，候選那時是 f72a2a21）
 
 **BB-C 判定：可以發布**（`856cece9`，BB_218 最後一節；Playwright 手機模擬，不是 iPhone）：
 - 使用者 9/25 存檔讀取 → 熬夜跨午夜 → 宵夜 → 9/27 存讀 PASS
