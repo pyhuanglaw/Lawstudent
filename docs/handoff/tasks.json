@@ -27935,6 +27935,27 @@
    "source": "AA（帳號 A）2026-10-21 21:43 交（企劃線 69aa3b0c；子代理盤點 89008abd）",
    "authorized": "D109、D110",
    "next": "【LAWWW（帳號 A）21:5x】#2 做了：ev_class_crimpro、ev_quiz_crimpro 加 retired（tests/crimpro_week1_unit.js 第 2、3 項改成也不演）；其他項等子代理 ｜ #2 LAWWW 先做（停用兩件 v7 舊課堂）；其他等大二子代理（aa374）或畢業後子代理（aapg）做完接著做"
+  },
+  {
+   "id": "AA377-Y3S2-FIX-1021",
+   "title": "AA_377 法律系大三下三條路線修正（企劃線 b7c437a1）：高 #1 jp3d.js 日本比較行政法兩句照日期換、#2 哲 4 視訊日本版 advance 照當地時間（4/29 冠軍賽直播演不到）；中：公法讀書會大三下整學期＋以安走後小語排題目、以安在日本照 AA_341 租公寓、以安訊息池照日期、杜鵑花照片看 AN3_AZALEA、日本路線挽回中 A6／228、芷若大三下只週三四晚班（workShifts）、民訴第 14 週板書改「言詞辯論的順序」；低 11 項；#19 以安視訊改日本 22:00",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "v4",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "2028-02 法律系大三下（三條路線）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 22:13 交（企劃線 b7c437a1；子代理盤點 2469df7f）",
+   "authorized": "D109、D110",
+   "next": "和 AA376-Y3S1-FIX-1021 一起給下一個空出來的子代理（大三）"
   }
  ]
 }
