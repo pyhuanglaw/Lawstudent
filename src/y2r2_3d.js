@@ -78,7 +78,9 @@ const Y2R2=(function(){
       {label:'e'},{speaker:'kexin',expression:'teasing',text:'定義？……你在暖身。'},{speaker:null,text:'（她直接寫完，把筆推給你。）'},{goto:'end'},
       {label:'m'},{speaker:null,text:'（她想了很久，在紙上畫了一間房子和一塊地。）'},{speaker:'kexin',expression:'thinking',text:'……這題好。我回去再想一次。'},{goto:'end'},
       {label:'h'},{speaker:'kexin',expression:'neutral',text:'冷門學說不算。'},{speaker:null,text:'（她把題目紙翻過去。）'},{speaker:'kexin',expression:'neutral',text:'……出一題人真的會遇到的。'},
-      {label:'end'},{speaker:null,text:'（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）'},
+      {label:'end'},
+      {if:{custom:()=>!video},cg:'cg_quiz_kexin'},   /* BCG-30 兩校互考，正式開打（企劃線 cg_approved/ README：山下小吃互考的玩家、她舉起第一張題目卡；視訊的不放）*/
+      {speaker:null,text:'（換她出題。三題都是物權：誰的房子、誰的地、誰先登記。）'},
       video?{speaker:'kexin',expression:'smile',text:'……好，吃飯。你那邊吃什麼？'}:{speaker:'kexin',expression:'smile',text:'……好，吃飯。湯餃我已經點了。'} ] });
   EV.push(quizEv('ev_kexin_quiz_y2',false), quizEv('ev_kexin_quiz_y2_video',true));
   /* ---------- 2-Y2-06 可昕 K10b「系上的電影夜」：12/11（五）19:00 政大的小教室 ---------- */

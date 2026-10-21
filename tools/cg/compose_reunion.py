@@ -8,10 +8,12 @@
 
 做法：
   1. 去背：圖層是單一淺灰底。Lab 色差 < 9 而且和上、左、右邊緣連在一起的＝背景；包在裡面的小塊（髮絲之間、手臂和身體之間）
-     要夠平、夠接近底色才算背景（白襯衫的陰影不會被挖掉）。
+     要夠平、夠接近底色才算背景（白襯衫的陰影不會被挖掉）。飄出來的細髮絲和頭髮本體圍起來的灰底（芷若、語彤、子晴頭髮外側的淺灰楔形）：
+     把 4 px 以下的細線當成穿得過去，還是和邊緣連得到、色差中位數 < 5 的也算背景（2026-10-20 加；--debug 的 <名字>_holes.png 紅色＝挖掉的）。
   2. 邊緣（輪廓內外各 3 px）：用附近確定是人物的顏色 F 和底色 B 估透明度 α＝(C−B)·(F−B)/|F−B|²，再把灰色從邊緣扣掉
      （C＝B＋(C−B)/α）——頭髮邊緣不留灰邊、不是硬邊。
-  3. 桌子：原圖 y 以下拿掉（3 px 漸層）；阿凱照桌緣斜切，冰飲、咖啡杯、右邊椅背拿掉，冰飲擋住的那一塊用上面的襯衫、兩隻手腕之間補起來。
+  3. 桌子：原圖 y 以下拿掉（3 px 漸層）；阿凱照桌緣斜切，冰飲、咖啡杯、右邊椅背拿掉，冰飲擋住的襯衫用上面的襯衫鏡射、
+     前臂照杯子右邊看得到的那一段前臂的明暗往手腕延伸（fix_kai）。
   4. 調暖 → 預乘 α 縮放（Lanczos）→ 貼到基底圖。
   5. 蓋回基底圖在人物前面的東西：冰咖啡＋杯墊（照輪廓）、前景三個人失焦的頭和肩膀（柔邊）。
 
@@ -178,9 +180,18 @@ def cutout(rgb, name, debug=None):
     lbl, sizes = label(near)
     edge_ids = set(np.unique(np.concatenate([lbl[0], lbl[:, 0], lbl[:, -1]])).tolist()) - {0}
     bgmask = np.isin(lbl, list(edge_ids))
+    outer = bgmask.copy()
     # 2. 包在裡面的背景（髮絲之間、手臂和身體之間）：
-    #    小塊（≤ 3000 px）：色差的中位數 < 5，而且外圍一圈大多是頭髮（暗，L 中位數 < 50）——白襯衫、米色毛衣的陰影外圍是亮的，不會被挖掉；
-    #    大塊：要很平（L 的標準差 < 2.5）、平均色差 < 3.5
+    #    a. 被細的髮絲圍起來的（飄出來的幾根頭髮和頭髮本體之間）：把「細的前景」（腐蝕再膨脹 2 px 就不見的＝寬度 4 px 以下的髮絲）
+    #       當成可以穿過，還是和上、左、右邊緣連得到、而且色差中位數 < 5（幾乎就是底色）的＝背景。髮絲本身不是 near，照樣留下。
+    #       毛衣、襯衫上剛好接近底色的亮面（色差 8～9）、被粗的東西（皮膚、衣服）圍住的眼白不會被挖掉；
+    #    b. 小塊（≤ 3000 px）：色差的中位數 < 5，而且外圍一圈大多是頭髮（暗，L 中位數 < 50）——白襯衫、米色毛衣的陰影外圍是亮的，不會被挖掉；
+    #    c. 大塊：要很平（L 的標準差 < 2.5）、平均色差 < 3.5
+    fg0 = ~near
+    thin = fg0 & ~dilate(erode(fg0, 2), 2)
+    lblT, _ = label(near | thin)
+    edgeT = set(np.unique(np.concatenate([lblT[0], lblT[:, 0], lblT[:, -1]])).tolist()) - {0}
+    reach = np.isin(lblT, list(edgeT))
     lbl2, sizes2 = label(near & ~bgmask)
     holes = 0
     L = lab[..., 0]
@@ -199,7 +210,9 @@ def cutout(rgb, name, debug=None):
         sub[ys - y0, xs - x0] = True
         ring = dilate(sub, 2) & ~sub
         dsub = d[y0:y1, x0:x1][sub]
-        if sizes2[i] <= 3000:
+        if float(reach[y0:y1, x0:x1][sub].mean()) > 0.5 and float(np.median(dsub)) < 5:
+            ok = True                                    # a. 細髮絲圍起來的
+        elif sizes2[i] <= 3000:
             ok = float(np.median(dsub)) < 5 and float(np.median(L[y0:y1, x0:x1][ring])) < 50
         else:
             ok = float(L[y0:y1, x0:x1][sub].std()) < 2.5 and float(dsub.mean()) < 3.5
@@ -229,6 +242,10 @@ def cutout(rgb, name, debug=None):
     col = np.clip(col, 0, 255)
     if debug:
         Image.fromarray((alpha * 255).astype(np.uint8)).save(os.path.join(debug, name + '_alpha.png'))
+        ov = rgb.copy()
+        inner = bgmask & ~outer                          # 挖掉的內部背景塊：紅色
+        ov[inner] = ov[inner] * 0.3 + np.array([255, 0, 0], np.float32) * 0.7
+        Image.fromarray(np.clip(ov, 0, 255).astype(np.uint8)).save(os.path.join(debug, name + '_holes.png'))
     print('  %-10s 底色 Lab %s，內部的背景塊 %d 個' % (name, np.round(bg0, 1), holes))
     return col.astype(np.float32), alpha.astype(np.float32)
 
@@ -255,30 +272,45 @@ def keep_mask(rgb, kind):
 
 
 def fix_kai(rgb):
-    """阿凱：README 要去掉他自己的冰飲和咖啡杯——杯子後面原本是他的襯衫和放在桌上的左前臂（手錶在手腕，x 1102～1177），補起來：
-    吸管先用左邊 34 px 的襯衫蓋掉；冰飲那一塊（x 1166～1354）前臂上緣（手腕 y 797 → 手肘那邊 y 787）以上是襯衫：用上面的襯衫往下鏡射；
-    以下是前臂：每一列在左右兩邊的皮膚（x 1058、x 1356）之間內插。咖啡杯擋住的（x 1062～1166、y 858 以下）是手腕下緣：同樣內插。"""
+    """阿凱：README 要去掉他自己的冰飲和咖啡杯。冰飲（x 1170～1356、杯緣 y 710）後面原本是襯衫和放在桌上的左前臂（手錶 x 1102～1175），
+    咖啡杯（x 1062～1298、杯緣 y 858）擋住手腕的下緣。補法（2026-10-20 重寫：舊的「左右兩欄內插」補出來是一塊平平的淺色板子）：
+      吸管：用左邊 34 px 的襯衫蓋掉；
+      杯緣以上到前臂上緣的線稿（袖口那邊 y 792 → 手腕 y 802）：杯緣上面的襯衫，以 y 703.5 為軸往下鏡射；
+      前臂：杯子右邊看得到的那一段前臂（x 1358～1366 平均）一欄的明暗——上緣的線稿 → 皮膚 → 下緣的影子 → 桌子——整段往左延伸，
+            上緣跟著前臂往手腕斜，越靠手腕亮一點（原圖手腕比較亮）；
+      咖啡杯擋住的手腕下緣（x 1062～1170、y 856 以下）：同一欄明暗的下半段（皮膚 → 影子），4 px 漸層接上手腕。
+    桌子之後照 cut 切掉，接基底圖的桌子。"""
     out = rgb.copy()
     straw = poly_mask([(1302, 556), (1344, 556), (1324, 722), (1287, 722)], feather=1.0)
     shifted = np.roll(rgb, 34, axis=1)                  # 往右移 34 px＝拿左邊的襯衫
     out = out * (1 - straw[..., None]) + shifted * straw[..., None]
-    gx0, gx1, gy0, gy1, mx0 = 1166, 1354, 712, 905, 1062
-    mirror = out[gy0 - (gy1 - gy0):gy0][::-1, gx0:gx1].copy()     # 杯子上緣往上那一段襯衫，上下鏡射（第 0 列接著 y 711）
-    xl, xr = 1058, gx1 + 2
-    xs = np.arange(mx0, gx1, dtype=np.float32)
-    t = ((xs - xl) / (xr - xl))[:, None]
-    arm_top = 797.0 - 10.0 * np.clip((xs[gx0 - mx0:] - gx0) / (gx1 - gx0), 0, 1)   # 前臂上緣（斜的）
-    for y in range(gy0, gy1):
-        interp = out[y, xl][None, :] * (1 - t) + out[y, xr][None, :] * t
-        a = np.clip((y - (arm_top - 5)) / 10.0, 0, 1)[:, None]           # 襯衫→前臂，10 px 漸層
-        out[y, gx0:gx1] = mirror[y - gy0] * (1 - a) + interp[gx0 - mx0:] * a
-        if y >= 856:                                                     # 咖啡杯擋住的手腕下緣
-            b = min(1.0, (y - 856) / 6.0)
-            out[y, mx0:gx0] = out[y, mx0:gx0] * (1 - b) + interp[:gx0 - mx0] * b
-    region = poly_mask([(gx0, gy0), (gx1, gy0), (gx1, gy1), (mx0, gy1), (mx0, 852), (gx0, 852)], feather=1.5)
-    soft = gauss(out, 1.2)                               # 補的地方稍微柔一點，接近原圖的筆觸
-    out = out * (1 - region[..., None]) + soft * region[..., None]
-    return out
+    prof = rgb[786:941, 1358:1367].mean(axis=1)         # 前臂那一欄；index 0 ↔ y 786（線稿在 y 792）
+    n = len(prof)
+    gx0, gx1, mx0 = 1170, 1357, 1062
+    filled = np.zeros((H, W), np.float32)
+    for x in range(gx0, gx1):
+        line = 792.0 + 10.0 * (gx1 - x) / (gx1 - 1092.0)            # 前臂上緣的線稿（往手腕斜）
+        bright = 1.0 + 0.05 * (gx1 - x) / (gx1 - gx0)
+        for y in range(704, H):
+            if y < line - 6:
+                out[y, x] = out[int(2 * 703.5 - y), x] if 2 * 703.5 - y >= 0 else out[y, x]   # 襯衫（鏡射）
+            else:
+                i = int(round(y - line + 6))
+                p = prof[min(n - 1, i)] * bright
+                if y < line - 2:                                     # 襯衫 → 前臂，4 px 漸層
+                    w = (y - (line - 6)) / 4.0
+                    p = out[int(2 * 703.5 - y), x] * (1 - w) + p * w
+                out[y, x] = p
+            filled[y, x] = 1
+    for x in range(mx0, gx0):                                        # 咖啡杯擋住的手腕下緣
+        for y in range(856, H):
+            p = prof[min(n - 1, y - 856 + 80)]                       # 從皮膚的下半段（y 866）開始
+            w = min(1.0, (y - 855) / 4.0)
+            out[y, x] = out[y, x] * (1 - w) + p * w
+            filled[y, x] = 1
+    soft = gauss(out, 0.8)                                           # 補的地方稍微柔一點，接近原圖的筆觸
+    f = gauss(filled, 1.0)[..., None]
+    return out * (1 - f) + soft * f
 
 
 def kai_remove():
