@@ -47,7 +47,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     check('1. 國定假日的週五不在走廊（noHoliday）',holOk); }
   /* 2. 「走啦」群組 */
   { fresh(1,9,'dorm',{}); STORY.phoneRules(GM); const g=G.phone.groups.econ_friends, M=G.msgs.filter(m=>m.th==='g:econ_friends'), u=PHONE.unreadAll?PHONE.unreadAll(G):null;
-    check('2. 第一天就有群組「走啦」，裡面只有 2025-08-13 那張照片（韋綸）',!!g&&g.name==='走啦'&&M.length===1&&M[0].text==='📷（公館的宵夜攤，六個人和準備收攤的老闆）'&&CALENDAR.dateOf(M[0].day).key==='2025-08-13',JSON.stringify([g,M]));
+    check('2. 第一天就有群組「走啦」，裡面只有 2025-08-13 那張照片（韋綸）；AA_368 M1：「四個人和準備收攤的老闆。桌上多擺了兩副碗筷。」（那晚可昕在高雄，原本「六個人」）',!!g&&g.name==='走啦'&&M.length===1&&M[0].text==='📷（公館的宵夜攤，四個人和準備收攤的老闆。桌上多擺了兩副碗筷。）'&&CALENDAR.dateOf(M[0].day).key==='2025-08-13',JSON.stringify([g,M]));
     const sum=PHONE.threads?PHONE.threads(G).find(t=>t.th==='g:econ_friends'):null; check('2. 舊照片不算未讀',!sum||!sum.unread,JSON.stringify(sum));
     STORY.phoneRules(GM); check('2. 重跑不會多一張',G.msgs.filter(m=>m.th==='g:econ_friends').length===1); }
   /* 3. 10-3 */

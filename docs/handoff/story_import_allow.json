@@ -906,6 +906,14 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_368_經濟系那一年_知道太早與時間矛盾_修正稿.md",
+   "sha": "e55fda50",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021）；第 1 節 H5、第 2 節 M5、第 3 節 L8 的「寒假在高雄」、第 4 節「寒假在臺北」5 則由 tools/msg/import_msg_kx_y0.py 疊在 AA_301 上匯入",
+   "task": "AA368-Y0-FIX-1021",
+   "kind": "text"
+  },
+  {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
    "sha": "724d7703",
    "status": "approved",
