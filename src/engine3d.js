@@ -131,14 +131,14 @@ const E3 = (function(){
     [21,'#3a4670',0.08,-10,280,'#2b3a5c','#1a1a24',0.55,'#1b2233',0.85,'#0f1a33','#243052','#3a3a4a',1],
     [24,'#3a4670',0.05,-10,280,'#232f4c','#151520',0.5,'#141a2b',0.8,'#0b1329','#1c2540','#2b2b3a',1],
   ];
-  // 黃昏調色提案（v9.3，使用者還沒決定，預設不開）：網址加 ?grade=golden 才用。目標是參考圖 07 的 17:30——
+  // 黃昏調色（v9.3 提案；使用者 2026-10-18 選「預設就開」，GRADE-GOLDEN-DEFAULT，LAWWW2 2026-10-21 改）：預設就用；網址加 ?grade=off 回到原本的黃昏（比較用）。目標是參考圖 07 的 17:30——
   // 暖金色的陽光、陰影裡也偏暖（環境光從冷灰改成暖杏色）、街道盡頭的空氣有一層暖橘色的霧、天空下緣金黃。只換 17:00–18:00 這一段。
   const KEY_GOLDEN=[
     [17,'#ffbb70',2.4,24,262,'#ffd2a4','#b8845e',1.1,'#f6c294',1.1,'#7a9acb','#f6c08a','#ffd49a',0],
     [17.5,'#ffa458',2.6,18,265,'#ffc488','#a8704e',1.18,'#ffb074',1.18,'#6f8cc2','#ffae72','#ffc480',0.5],   // 路燈：最後一欄 0.5，17:30 一過就亮（和預設一樣）
     [18,'#ff9450',2.1,13,268,'#f6b088','#8f6248',1.08,'#f4a272',1.14,'#5f7fb2','#f6a070','#ffb47c',1]];
   const KEYG=KEY0.filter(r=>r[0]<17||r[0]>18).concat(KEY_GOLDEN).sort((a,b)=>a[0]-b[0]);
-  E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||null;
+  E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||'golden';   /* ?grade=off（或任何不是 golden 的值）＝原本的黃昏 */
   const c1=new THREE.Color(), c2=new THREE.Color();
   /* 影子不閃（X79，使用者 2026-10-20「有些建築旁邊影子也一直在閃爍」；BB-C 量到：陰影相機每 5 格跟著玩家移動、沒對齊陰影貼圖格子，1024 蓋 44 m，一格約 4.3 cm）：
      ①陰影相機的中心在光的平面上對齊到整格（texel snapping；three.js 的 DirectionalLight 用 lookAt、up＝(0,1,0)，右＝cross(up,d)、上＝cross(d,右)）——玩家走動時影子貼圖的格子固定在世界上；

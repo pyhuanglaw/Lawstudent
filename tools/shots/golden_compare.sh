@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# 黃昏調色（?grade=golden，D64 使用者 2026-10-14：先不設成預設）的對照：同一地點、同一時間、同一鏡頭，原版與 golden 各拍一張，左右並排。
+# 黃昏調色的對照：同一地點、同一時間、同一鏡頭，原版（?grade=off）與 golden 各拍一張，左右並排。
+# golden 是預設（使用者 2026-10-18 選「預設就開」，X32／GRADE-GOLDEN-DEFAULT；D64 2026-10-14 那時還沒設成預設）。
 # 四種環境：白天（12:00）、黃昏（17:30）、夜間（20:00）——溫州街巷口同一個鏡頭；室內（兩點半 Café，17:30）；另外加校園傅鐘的黃昏。
 # golden 只換 17:00–18:00 那一段的光線（engine3d.js 的 KEY_GOLDEN），白天、夜間兩張應該一樣——拍出來確認這件事，不是漏拍。
 # 用法：bash tools/shots/golden_compare.sh <遊戲網址，不含參數> [輸出資料夾，預設 docs/art-rebuild/screenshots/golden_compare]
@@ -25,10 +26,10 @@ for tag in ("orig", "golden"):
         shots.append(s)
     json.dump(shots, open(f"{O}/{tag}.json", "w"), ensure_ascii=False, indent=1)
 EOF
-python3 tools/shots/scene_shot.py "$U" "$O/orig.json"
+python3 tools/shots/scene_shot.py "$U?grade=off" "$O/orig.json"
 python3 tools/shots/scene_shot.py "$U?grade=golden" "$O/golden.json"
 for n in day dusk night indoor campus_dusk; do
-  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（目前的預設）=$O/${n}_orig.png" "golden（提案）=$O/${n}_golden.png"
+  python3 tools/shots/compare.py "$O/cmp_$n.jpg" 540 "原版（golden 關掉）=$O/${n}_orig.png" "golden（預設）=$O/${n}_golden.png"   # 標籤不能有「=」（compare.py 用第一個 = 分開標籤和檔名）
 done
 python3 - "$O" <<'EOF'
 import sys
