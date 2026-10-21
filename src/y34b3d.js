@@ -144,7 +144,7 @@ const Y34B=(function(){
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];
       L[1].ask={id:'y3_kx19',until:T(d,14),opts:[{t:'去。',set:{KX19_GO:true}},{t:'那天不行。',set:{KX19_GO:false},say:[{from:'kexin',text:'好。'}]}]}; at(G,a,G.day===a?Math.max(21,G.hour):G.hour,L,'y3_kx19_ask'); }   /* 新寫（AA_322 1B-16 第 1 節）*/
     if(F.KX19_GO===true&&F.KX_PRESENT==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_kx19')&&NOW(G)<T(d,15.5)) OUT.plan(G,{id:'y3_kx19',ev:'ev_kexin_presentation',day:d,h:15,late:0.5,place:'政大',title:'可昕的期末報告',travel:'開車 約 40 分鐘',travelH:2/3,hours:1.5});
-    if(F.KX_PRESENT==null&&NOW(G)>=T(d,17)){ F.KX_PRESENT='photo'; at(G,d,17,[K('（照片：台上，詹靖拍的）'),K('期末報告講完了。最後一排空著。')],'y3_kx19_photo'); } };
+    { const h17=tzH(G,d,17); if(F.KX_PRESENT==null&&NOW(G)>=T(d,h17)){ F.KX_PRESENT='photo'; at(G,d,h17,[K('（照片：台上，詹靖拍的）'),K('期末報告講完了。最後一排空著。')],'y3_kx19_photo'); } } };   /* 日本路線人在日本＝當地 18:00（臺灣 17:00；AA_341 J-S13）*/
   /* ================= 1B-17 學姊的生日 ================= */
   /* 群組：Kevin「學姊今天生日！」學姊「收到。」，後面不掛選項。私訊改成玩家自己在學姊的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js；AA_337 第 6 節）：
      2028 的回覆照 AA_322 1B-17 三版——交往中＝蛋糕＋六點 Café、前任＝「謝謝。」、朋友＝研究室的小蛋糕；不到 FRIEND（也不是交往、前任）＝這一年沒有這個話題。
@@ -242,8 +242,8 @@ const Y34B=(function(){
         at(G,d,hh,L,tag); }
       else at(G,d,hh,[GSIS('（照片）'),GSIS('今天不吵。今天只放空白。')],tag);
       return; }
-    if(G.hour<9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;
-    at(G,d,9,[GSIS(M6_PHOTO[(d-D('us0'))%3])],tag);
+    const h9=tzH(G,d,9); if(G.hour<h9) return; const tag='y4_m6_d'+d; if(sent(G,tag)) return;   /* 日本路線 8/3、8/4 還在日本＝當地 10:00（AA_341 J-S13）*/
+    at(G,d,h9,[GSIS(M6_PHOTO[(d-D('us0'))%3])],tag);
     const old=(G.msgs||[]).filter(m=>/^y4_m6_d\d+$/.test(m.tag||'')); if(old.length>6){ const cut=old.slice(0,old.length-6); G.msgs=G.msgs.filter(m=>!cut.includes(m)); } };   /* 只留最近 7 張（手機訊息上限 200 則，不讓她的照片把別人的訊息擠掉）*/
   /* 美國路線：一起出發（exchange3d.js 的 3D 機場；進到機場演前三列、登機前演登機口那一列）*/
   S.usDepartDue=G=>law(G)&&US(G)&&G.zone==='airport_dep'&&!!G.flags.US_DEPARTED&&!G.flags.US_ARRIVED&&G.flags.SIS_SENDOFF==null&&(dating(G,'heroine_05')||exOf(G,'heroine_05'));

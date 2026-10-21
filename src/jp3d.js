@@ -7,18 +7,20 @@
      每一輪先：手機規則、到了的事（JP.SCH：G1～G8 的事件、摘要日；trigger:'jp' 的事件）、其他事件包的 STORY.TICKS（開演了就讓出畫面，演完下一輪接回選單）。
    - 日本的學期（J-S1）：3/27 入住、4/10（一）開學、黃金週 4/29、5/3～5/5 沒有課、海之日 7/17 沒有課、7/21 最後一堂、期末週 7/24～7/28（摘要日）、8/4 最後一天、8/5 回程。
    - 一鍵上課（J-S2，AA_185 1-5）：日本語（中級）週一、三、五 09:00；日本法入門 週二 10:40；比較行政法 週四 13:00。2D（借台灣的小教室＋字幕），每門兩句輪流；4/10 第一堂（G2）、5/18（G5）換。
-   - 快轉、睡覺（J-S3）：到下一個有事的日子／過三天／過一週；停在 JP.SCH、其他事件包在日本那幾個月的時間（JP.EXT、JP.KNOWN、JP.STOPS）、約好的出遊、要回的訊息、特別的課、回程。日期卡寫「宿舍」，手機規則每小時跑一次。
+   - 快轉、睡覺（J-S3）：到下一個有事的日子／過三天／過一週；停在 JP.SCH、開發分支其他事件包在日本那幾個月的時間（JP.KNOWN、JP.STOPS、STORY.WAKE_AT）、約好的出遊（AA_326 大三後半在日本的事件都是出遊）、特別的課、回程。
+     日期卡寫「宿舍」，手機規則每小時跑一次。玩家選的快轉：途中收到要回的訊息就停、打開手機（「跳過」接著跳；AA_340 6-1 H2，同 home3d.js）；選單前有沒開過的要回的訊息也先打開手機（D103）。
    - 住臺北的家（J-S11）：2/20 退宿（r2y3a3d.js 2-Y3-25）以後到 3/25 出發、8/5 回來以後到 9/3 搬進 409：home3d.js 的 loop 交給 JP.homeRound——沒有「回宿舍」，有「出門」、快轉（摘要日 G0）；
      宿舍進不去（story3d.js populate、game3d.js 的手機「地點」）。
    - 8/5 回程（J-S9、J-S19）：入境大廳（AA_253 9-2）→ 回臺北的家（AA_144 X2）→ 當晚 1A-08（story3d.js，在家的版本）；大三暑假三選一不演（裁定 10）。時間換回臺灣時間。
    - 台灣的大三下（J-S6、J-S15）：日本路線不排台灣的課、不跳開學和期中期末的提示（classes3d.js 問 JP.skipTerm）；成績單只有日本的兩門（日本語不算學分），回來以後照公布日在早上發。
      大四下補修（AA_144 X4；以安不補修，裁定 7）：courses.js 的 civpro_2_re、insurance_re（route JP；redo＝重播大三下那一門的 syllabus）。
    - 以安的手機（G9、J-S16）、時差（J-S7、J-S13：group3d.js、y34b3d.js、r2y3a3d.js、home3d.js 各自換算）、該關的（J-S14）、旗標別名 AN_JP_DEPARTED（J-S17）見各段。
-   給其他事件包（例：AA_326 的日本路線事件）：人在日本＝STORY.inJapan(G)；G.zone＝'jp_hub'；據點裡的地方 JP.place(G)＝'room'|'kitchen'|'konbini'|'river'。
+   給其他事件包（例：AA_326 的日本路線事件，src/r2y3b3d.js）：人在日本＝STORY.inJapan(G)；G.zone＝'jp_hub'；據點裡的地方 JP.place(G)＝'room'|'kitchen'|'konbini'|'river'。
+     遊戲時鐘＝日本時間：臺灣傳來的時間要 +STORY.tzOffset(G,day)（r2y3b3d.js 的 lt／jt、group3d.js 的 tw、y34b3d.js 的 tzH）。
      事件可以寫 trigger:'jp'（據點每一輪、快轉每 15 分鐘 EVENTS.check，到了就演；location 可以寫 'any'），或照舊掛 STORY.TICKS（據點每一輪會跑，回傳 true＝開演了，據點讓出畫面）。
-     快轉、睡覺要停的時間：JP.STOPS.push((G,now,where)=>時間或陣列)。出遊（OUT.plan）照舊：據點的選單出現「出發：…」，演完回到據點（q.back 沒寫＝「回到宿舍。」）；
-     人在日本時 OUT.plan 擋掉 goto 臺灣區域的出遊。挽回的分數：JP.repair(G)（F.AN_REPAIR，一週最多 +1；AA_254 第 10 節）。
-   存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9}；旗標 JP_RETURNED（回來的那天）、AN_REPAIR、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
+     快轉、睡覺要停的時間：JP.STOPS.push((G,now,where)=>時間或陣列)。出遊（OUT.plan）照舊：據點的選單出現「出發：…」（must＝只有「出發」），演完回到據點（q.back 沒寫＝「回到宿舍。」）；
+     人在日本時 OUT.plan 擋掉 goto 臺灣區域的出遊。挽回的分數：JP.repair(G)（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；一週最多 +1；AA_254 第 10 節）。
+   存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9}；旗標 JP_RETURNED（回來的那天）、REPAIR／REPAIR_WK（挽回，同 r2y3b3d.js、r2y4a3d.js）、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
    測試：node tests/jp_semester_unit.js */
 'use strict';
 const JP=(function(){
@@ -106,9 +108,9 @@ const JP=(function(){
     {k:'g8_f3',d:'2028-07-28',h:18.5,w:'jp',sum:'（比較行政法的期末報告。你的題目是：協力，和義務。）'},
     {k:'g8_s',d:'2028-08-01',h:18.5,w:'jp',sum:'（你開始收行李。來的時候的那件外套，一次都沒穿過。）'},
     {k:'g8_konbini',d:'2028-08-04',h:22,w:'jp',ev:G=>dat(G)?'ev_jp_lastnight':'ev_jp_lastnight_alone'},   /* 挽回成功＝已經回到交往的，照交往版 */
-    {k:'s_0812',d:'2028-08-12',h:18.5,w:'home',sum:'（八月。你把大四要選的路寫在紙上：國考、研究所、還沒決定。三個都畫了問號。）'} ];   /* 8/5～9/3 照台灣暑假的摘要日（AA_340 6-3；8/12）*/
-  /* 其他事件包在日本那幾個月的時間（AA_326 2-Y3-34 J1、35 立衡、38 主線 8 視訊、43 町公所）：快轉停在這裡，據點下一輪跑 STORY.TICKS／trigger:'jp' 就會演。事件包用 JP.STOPS 登記以後可以拿掉 */
-  S.EXT=[['2028-03-26',22],['2028-04-02',15],['2028-04-13',20.5],['2028-05-06',15,dat],['2028-05-06',22,rep]];
+    {k:'s_0812',d:'2028-08-12',h:18.5,w:'home',sum:G=>{ const p=G.flags&&G.flags.Y4_PATH; return p&&p!=='undecided'?'（八月。你把大四要走的那條路寫在紙上，下面列了要讀的書。列到第三頁。）':'（八月。你把大四可以走的路寫在紙上：國考、研究所。兩個都畫了問號。）'; }} ];
+    /* 8/5～9/3 照台灣暑假的摘要日（AA_340 6-3 的 8/12；2026-10-21 AA_345 H3 換句：8/5 晚上 1A-08 選好了 Y4_PATH＝第一句，還沒決定＝第二句）*/
+  /* AA_326 大三後半在日本的事件（src/r2y3b3d.js：J1 便利商店、立衡、櫻花、主線 8 視訊、町公所、各人打來的視訊）都是出遊（OUT.plan）或有選項的訊息：快轉照出遊、要回的訊息停（不另外列）*/
   /* 開發分支已經有的（當地時間）：5/20 子晴的電話（台灣 21:00）、6/2 學姊的視訊（台灣 18:00）、4/28 哲 4（台灣 23:00）、4/29 冠軍賽直播（台灣 19:00）*/
   S.KNOWN=[ G=>lv('heroine_04','FAMILIAR')&&G.flags.ZQ_Q12_SEEN==null?T(DK('2028-05-20'),22):null, G=>G.flags.SIS_BDAY_Y3==='video_set'?T(DK('2028-06-02'),19):null,
     G=>lv('zhe','FRIEND')&&G.flags.ZHE4_ASKED==null?T(DK('2028-04-28'),24):null,
@@ -118,12 +120,15 @@ const JP=(function(){
     for(const s of S.SCH){ if(s.w!==where||R.done[s.k]!=null) continue; const d=DK(s.d); if(d==null) continue; const t=T(d,s.h); if(now<t||now>=T(d,26.5)) continue; if(s.if&&!s.if(G)) continue; return s; }
     return null; };
   S.playStop=async function(GM,s,where){ const G=GM.G, R=S.rec(G), A=A_(); R.done[s.k]=G.day;
-    if(s.sum){ GM.sceneBegin(); try{ if(A&&A.begin) A.begin({background:where==='jp'?S.bgNow(G):(typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark')}); await GM.say(null,s.sum); } finally{ GM.sceneEnd(); } return true; }
+    if(s.sum){ const line=typeof s.sum==='function'?s.sum(G):s.sum; GM.sceneBegin(); try{ if(A&&A.begin) A.begin({background:where==='jp'?S.bgNow(G):(typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark')}); if(line) await GM.say(null,line); } finally{ GM.sceneEnd(); } return true; }
     const id=typeof s.ev==='function'?s.ev(G):s.ev, ev=evOf(id); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* trigger:'jp' 的事件（其他事件包；location 'any' 或 'jp_hub'），和 auto 但地點寫 jp_hub 的 */
   S.jpEvent=G=>{ if(typeof STORY_EVENTS==='undefined'||typeof EVENTS==='undefined') return null; return STORY_EVENTS.find(e=>(e.trigger==='jp'||(e.trigger==='auto'&&e.location==='jp_hub'))&&(!e.jpPlace||e.jpPlace===S.place(G))&&EVENTS.check(e))||null; };
   /* ---------------- 挽回（AA_254 第 10 節）：REPAIR 一週最多 +1；7/7 REPAIR ≥ 3 重新交往 ---------------- */
-  S.repair=function(G,n){ const F=G.flags, wk=STORY.routeWeek?STORY.routeWeek(G):null; if(wk!=null&&F.AN_REPAIR_WK===wk) return +F.AN_REPAIR||0; F.AN_REPAIR=(+F.AN_REPAIR||0)+(n==null?1:n); if(wk!=null) F.AN_REPAIR_WK=wk; return F.AN_REPAIR; };
+  S.repairN=G=>{ const R=G&&G.flags&&G.flags.REPAIR; return R&&typeof R==='object'?(R.heroine_01|0):0; };
+  S.repair=function(G){ if(typeof R2Y3B!=='undefined'&&R2Y3B.repairAdd){ R2Y3B.repairAdd(G,'heroine_01'); return S.repairN(G); }   /* 和 AA_326 町公所那一步（r2y3b3d.js）用同一個：G.flags.REPAIR＝{人物:n}、REPAIR_WK＝{人物:第幾週}（Math.floor(day/7)）*/
+    const F=G.flags, R=F.REPAIR&&typeof F.REPAIR==='object'?F.REPAIR:(F.REPAIR={}), W=F.REPAIR_WK&&typeof F.REPAIR_WK==='object'?F.REPAIR_WK:(F.REPAIR_WK={}), wk=Math.floor(G.day/7);
+    if(W.heroine_01!==wk){ W.heroine_01=wk; R.heroine_01=(R.heroine_01|0)+1; } return R.heroine_01|0; };
   S.resume=function(G){ const id='heroine_01', F=G.flags; if(dat(G)) return true; if(typeof ROM==='undefined'||!ROM.get){ F['dating_'+id]=true; return true; }
     const R=ROM.get(G,id); if(R.status!=='paused'&&ROM.start(G,id)) return true;   /* 等你說清楚（paused）、或還沒收拾（CLEANUP_DONE false）：直接回到交往 */
     const when=ROM.when?ROM.when(G):null; F['dating_'+id]=true; R.status='dating'; R.since=when; R.sinceDay=G.day; (R.history||(R.history=[])).push({ev:'start',at:when,how:'jp_tanabata'}); if(ROM.rec) ROM.rec(G).push({id,from:when,to:null,how:null}); return true; };
@@ -158,8 +163,7 @@ const JP=(function(){
     for(let d=a;d<dep;d+=7) out.push(T(d,(d===a?16.75:17)-0.5)); return out; };   /* 語彤的週四（裁定 4）：出門到麵店門口要 30 分鐘 */
   S.nextStop=function(G,now,where){ let best=null; const c=x=>{ if(x!=null&&x>now+1e-6&&(best==null||x<best)) best=x; }; const R=S.rec(G);
     for(const s of S.SCH){ if(s.w!==where||R.done[s.k]!=null||(s.if&&!s.if(G))) continue; const d=DK(s.d); if(d!=null) c(T(d,s.h)); }
-    if(where==='jp'){ for(const [k,h,f] of S.EXT){ if(f&&!f(G)) continue; const d=DK(k); if(d!=null) c(T(d,h)); }
-      for(const f of S.KNOWN){ try{ c(f(G)); }catch(e){ console.warn('JP.KNOWN',e); } }
+    if(where==='jp'){ for(const f of S.KNOWN){ try{ c(f(G)); }catch(e){ console.warn('JP.KNOWN',e); } }
       c(T(D('term0'),8)); c(T(D('g5'),12));   /* 特別的課：4/10 第一堂、5/18 比較行政法 */
       c(T(D('ret'),8)); }
     else { for(const x of S.t1Stops(G)) c(x); if(!S.departed(G)) c(T(D('dep'),8));
@@ -167,27 +171,43 @@ const JP=(function(){
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned') c(Math.max(T(q.day,q.h)-OUT.trip(G,q,where==='home').travelH-0.25,q.ask!=null?q.ask:-1e9));
     if(where==='home'&&Array.isArray(G.invites)) for(const iv of G.invites) if(iv.state==='accepted') c(T(iv.day,iv.h)-1);
     for(const f of S.STOPS){ try{ const x=f(G,now,where); if(x!=null) for(const v of [].concat(x)) c(v); }catch(e){ console.warn('JP.STOPS',e); } }
+    if(STORY.lawWakeAt){ let w=null; try{ w=STORY.lawWakeAt(G); }catch(e){ w=null; } if(w!=null) c(T(G.day,w)); }   /* 事件包登記的「睡著也會醒來」（STORY.WAKE_AT）＝快轉也停（AA_340 H1，同 holff3d.js）*/
     return best; };
   S.returnDue=G=>S.inJapan(G)&&D('ret')!=null&&NOW(G)>=T(D('ret'),8);
-  S.stopNow=function(G,where,p0){ if(S.dueStop(G,where)) return true; const P=P_(); if(P&&P.pending&&P.pending(G).length>p0) return true;   /* 要回的訊息 */
-    if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)) return true;
-    if(where==='jp'){ if(S.returnDue(G)||S.classSpecialNow(G)||S.jpEvent(G)) return true; }
-    else if(typeof HOME!=='undefined'){ if(HOME.dueInvites&&HOME.dueInvites(G).length) return true; if(HOME.homeEvent&&HOME.homeEvent(G)) return true; if(STORY.y4HomeDue&&STORY.y4HomeDue(G)) return true; }
-    return false; };
+  /* 快轉途中新出現的要回的訊息（手機有選項的 ask、當面約的邀請 offered）：玩家選的快轉才停（睡覺不停）；同 home3d.js 的 S.waitSnap／waitNew（AA_340 6-1 H2）*/
+  S.waitSnap=G=>{ const P=P_(); return {asks:new Set(P&&P.pending?P.pending(G):[]),inv:new Set((G.invites||[]).filter(iv=>iv.state==='offered').map(iv=>iv.id))}; };
+  S.waitNew=(G,w)=>{ const P=P_(); if(P&&P.pending&&P.pending(G).some(m=>!w.asks.has(m))) return true; return (G.invites||[]).some(iv=>iv.state==='offered'&&!w.inv.has(iv.id)); };
+  /* 現在該停嗎：'msg'＝新的要回的訊息（w＝跳之前的快照；沒有 w＝不看）、'stop'＝其他該演、該出發的；null＝不用停 */
+  S.stopNow=function(G,where,w){ if(S.dueStop(G,where)) return 'stop'; if(w&&S.waitNew(G,w)) return 'msg';
+    if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)) return 'stop';
+    if(where==='jp'){ if(S.returnDue(G)||S.classSpecialNow(G)||S.jpEvent(G)) return 'stop'; }
+    else if(typeof HOME!=='undefined'){ if(HOME.dueInvites&&HOME.dueInvites(G).length) return 'stop'; const be=HOME.breakEvent||HOME.homeEvent; if(be&&be(G)) return 'stop'; if(STORY.y4HomeDue&&STORY.y4HomeDue(G)) return 'stop'; }
+    return null; };
   const setTime=(G,E,tt)=>{ const d=Math.floor(tt/24+1e-9); if(d>G.day){ G.day=d; G.weekday=wdOf(d); if(G.flags) G.flags.companion=null; G.weather=Math.random()<0.7?'clear':'cloudy'; } G.hour=tt-d*24; if(E) E.hour=G.hour; };   /* 同 home3d.js 的快轉 */
   /* 跳到 t（where＝'jp'：日本的據點；'home'：臺北的家）：每 15 分鐘看要不要停；整點跑手機規則、生活費 */
-  S.jump=async function(GM,t,where){ const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, p0=P&&P.pending?P.pending(G).length:0;
+  S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/
     { const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
       if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=f; } }
         if(P){ try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('JP.jump phone',e); } } }
-      if(S.stopNow(G,where,p0)){ why='stop'; break; }
+      { const s=S.stopNow(G,where,w0); if(s){ why=s; break; } }
       const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     if(!why&&NOW(G)<t-1e-6) setTime(G,E,t);
     if(E&&E.setWeather) E.setWeather(G.weather); if(GM.updateHUD) GM.updateHUD();
     const brief=G.day===d0&&NOW(G)-t0<1; if(GM.titleCard&&!brief) await GM.titleCard(dateLabel(NOW(G)),where==='jp'?'宿舍':'臺北的家',2200);   /* J-S3：日期卡寫「宿舍」*/
     const A=A_(); if(A&&A.begin) A.begin({background:where==='jp'?S.bgNow(G):(typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark')}); await GM.fade(false);
     if(mo&&GM.toast) GM.toast(mo.text,3800); if(n&&GM.toast) GM.toast('手機｜跳過的日子收到 '+n+' 則訊息',3800); if(n&&GM.phoneBadge) GM.phoneBadge(); if(GM.autosave) GM.autosave(); return why||'end'; };
+  /* 玩家選的快轉：停在要回的訊息＝打開手機（「跳過」關掉），關掉以後接著跳到原本選的日子（同 home3d.js 的 S.ffMenu；AA_340 6-1 H2、D103）*/
+  S.ff=async function(GM,to,where){ const G=GM.G; for(let k=0;k<40;k++){ const why=await S.jump(GM,to,where,{ff:true}); if(why!=='msg'||!(await S.ffPhone(GM,where))||!S.ffGoOn(G,to,where)) break; } return true; };
+  S.ffGoOn=(G,to,where)=>NOW(G)<to-1e-6&&(where==='jp'?S.inJapan(G):S.homeOn(G))&&!S.stopNow(G,where,null);
+  const askKey=x=>x.id||x.key||x.text;
+  S.askSeen=function(G,L){ const F=G.flags||(G.flags={}), seen=F._autoAsk||(F._autoAsk=[]); for(const x of L){ const k=askKey(x); if(!seen.includes(k)) seen.push(k); } if(seen.length>200) seen.splice(0,seen.length-200); };   /* 同 home3d.js 的 S.askSeen（同一張 G.flags._autoAsk）*/
+  S.bgBack=function(GM,where){ const A=A_(), G=GM.G; if(!A||!A.begin) return; if(where==='jp'){ if(S.inJapan(G)) A.begin({background:S.bgNow(G)}); } else if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) A.begin({background:HOME.bgNow?HOME.bgNow():'dark'}); };
+  S.ffPhone=async function(GM,where){ const G=GM.G, P=P_(); if(!P||!P.pending||!GM.phoneThread) return false; const L=P.pending(G), m=L[L.length-1]; S.askSeen(G,L); const A=A_(); if(A&&A.end) A.end();
+    try{ await GM.phoneThread(m&&P.th?P.th(m):null,{skip:true}); } finally{ S.bgBack(GM,where); } return true; };
+  /* 選單之前：有沒開過的要回的訊息（睡著、上課、出遊時收到的）＝打開手機的對話列表（同 home3d.js 的 S.askAuto）*/
+  S.askAuto=async function(GM,where){ const G=GM.G, P=P_(); if(!P||!P.pending||!GM.phoneThread) return false; const seen=(G.flags&&G.flags._autoAsk)||[], L=P.pending(G); if(!L.some(x=>!seen.includes(askKey(x)))) return false; S.askSeen(G,L);
+    const A=A_(); if(A&&A.end) A.end(); try{ await GM.phoneThread(null); } finally{ S.bgBack(GM,where); } return true; };
   S.ffOpts=function(G,where){ const now=NOW(G), end=where==='jp'?T(D('ret'),8):S.homeFfEnd(G); if(end==null||end<=now+0.5) return null;
     const nx=S.nextStop(G,now,where), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };   /* 同 home3d.js 的快轉選單 */
@@ -215,14 +235,17 @@ const JP=(function(){
     const ff=S.ffOpts(G,'jp'); if(ff) O.push({t:'快轉',hint:'到下一個有事的日子、過三天、過一週',k:'ff'});
     O.push({t:'存檔',hint:'存到存檔欄位',k:'save'},{t:'睡覺',hint:'明天 '+hm(S.wakeH(G,G.day+1))+' 醒來',k:'sleep'});
     const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
-    if(o.k==='out'){ if(o.q.back==null) o.q.back='回到宿舍。'; if(A&&A.end) A.end(); await OUT.go(GM,o.q); S.adv(G); return true; }
+    if(o.k==='out') return S.goOut(GM,o.q,false);
     if(o.k==='class'){ await S.attend(GM,o.c); return true; }
     if(o.k==='place'){ await S.visit(GM,o.p); return true; }
     if(o.k==='phone'){ if(GM.phoneThread){ if(A&&A.end) A.end(); await GM.phoneThread(null); S.adv(G); } return true; }
     if(o.k==='rest'){ if(await S.confirmMiss(GM,G.hour+1)) GM.advance(1); return true; }
-    if(o.k==='ff'){ const f=ff[await GM.choose(ff.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>NOW(G)) await S.jump(GM,f.to,'jp'); return true; }
+    if(o.k==='ff'){ const f=ff[await GM.choose(ff.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>NOW(G)) await S.ff(GM,f.to,'jp'); return true; }
     if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); return true; }
     if(await S.confirmMiss(GM,24+S.wakeH(G,G.day+1))) await S.sleep(GM); return true; };
+  /* 出發（出遊、視訊）：演完回到據點。must＝一定要去的（例：AA_326 J1 便利商店）只有「出發」一個選項（同 outings3d.js 的 S.prompt）*/
+  S.goOut=async function(GM,q,must){ const G=GM.G, A=A_(); if(must) await GM.choose([{t:(q.verb||'出發')+'：'+q.title,hint:(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')}]);
+    if(q.back==null) q.back='回到宿舍。'; if(A&&A.end) A.end(); await OUT.go(GM,q); S.adv(G); return true; };
   /* 其他事件包（STORY.TICKS）：據點每一輪跑一次；回傳 true＝開演了 */
   S.othersTick=function(GM){ for(const f of (STORY.TICKS||[])){ let r=false; try{ r=f(GM,0.5); }catch(e){ console.warn('JP TICKS',e); } if(r) return true; } return false; };
   let busy=false;
@@ -236,6 +259,8 @@ const JP=(function(){
         const st=S.dueStop(G,'jp'); if(st){ await S.playStop(GM,st,'jp'); S.adv(G); continue; }
         const ev=S.jpEvent(G); if(ev){ await EVENTS.run(ev); S.adv(G); continue; }
         if(S.othersTick(GM)){ go='yield'; break; }   /* 讓出畫面：那一段演完，下一次 JP.tick 接回選單 */
+        { const q=typeof OUT!=='undefined'&&OUT.due?OUT.due(G):null; if(q&&q.must){ await S.goOut(GM,q,true); continue; } }
+        if(await S.askAuto(GM,'jp')) continue;
         await S.round(GM); } }
     catch(e){ console.warn('JP.loop',e); }
     finally{ busy=false; GM.sceneEnd(); }
@@ -282,6 +307,7 @@ const JP=(function(){
     const st=S.dueStop(G,'home'); if(st){ await S.playStop(GM,st,'home'); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; }   /* 摘要日（G0、8/12）*/
     { const ev=HOME.breakEvent?HOME.breakEvent(G):(HOME.homeEvent?HOME.homeEvent(G):null); if(ev&&typeof EVENTS!=='undefined'){ await EVENTS.run(ev); if(H.at&&A&&A.begin) A.begin({background:bg()}); return H.at; } }
     if(G.hour>=24+2.5){ if(await S.confirmMiss(GM,24+8.5)) await HOME.sleep(GM); return H.at; }
+    if(await S.askAuto(GM,'home')) return H.at;   /* 沒開過的要回的訊息：先打開手機（D103）*/
     const O=[], q=HOME.dueOuting?HOME.dueOuting(G):null, ateToday=H.eat&&H.eat.day===G.day;
     if(q){ const tr=OUT.trip?OUT.trip(G,q,true):{travel:q.travel||''}; O.push({t:(q.verb||'出發')+'：'+q.title,hint:(S.callLike(q)?'':'從家裡出發　')+(q.place||'')+'　'+hm(q.h)+(tr.travel?'　'+tr.travel:''),k:'out',q}); }
     for(const iv of (HOME.dueInvites?HOME.dueInvites(G):[])){ const P=INV.place(iv.place)||{}; O.push({t:'出發：和'+(typeof SOCIAL!=='undefined'?SOCIAL.displayName(iv.who):iv.who)+'約在'+(P.name||''),hint:hm(iv.h)+'　捷運＋公車 約 30 分鐘',k:'inv',iv,P}); }
@@ -302,7 +328,7 @@ const JP=(function(){
     if(o.k==='go'){ const L=S.goList(G), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) return H.at; await HOME.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]||undefined}); return false; }
     if(o.k==='phone'){ if(GM.phoneThread){ if(A&&A.end) A.end(); await GM.phoneThread(null); if(A&&A.begin) A.begin({background:bg()}); } return H.at; }
     if(o.k==='eat'){ if(await S.confirmMiss(GM,G.hour+1)) await HOME.dinner(GM); return H.at; }
-    if(o.k==='ff'){ const f=ff[await GM.choose(ff.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>NOW(G)) await S.jump(GM,f.to,'home'); return H.at; }
+    if(o.k==='ff'){ const f=ff[await GM.choose(ff.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(f&&f.to!=null&&f.to>NOW(G)) await S.ff(GM,f.to,'home'); return H.at; }
     if(o.k==='car'){ if(HOME.takeCar) await HOME.takeCar(GM); return H.at; }
     if(o.k==='rest'){ if(await S.confirmMiss(GM,G.hour+1)) GM.advance(1); return H.at; }
     if(await S.confirmMiss(GM,24+8.5)) await HOME.sleep(GM); return H.at; };
@@ -343,6 +369,17 @@ const JP=(function(){
   { const e=evOf('ev_jp_repair_river'); if(e) e.after=G=>{ if(G.flags.AN_REPAIR4==='sorry') S.repair(G); };   /* 挽回第 4 步：REPAIR +1 */
     const t=evOf('ev_jp_tanabata_repair'); if(t) t.after=G=>{ if(G.flags.AN_JP_RECONCILED) S.resume(G); };   /* 挽回第 5 步：重新交往 */
     const o=evOf('ev_jp_office'); if(o) o.after=G=>{ if(typeof PHONE!=='undefined') PHONE.join(G,'jp_exchange','交換生群組'); }; }
+  /* 家人群組（每週四 20:00「這週回來吃飯嗎」）：人在日本不問（同 us_life3d.js 美國的做法；AA_341 J-S14 的原則：在國外不出現臺灣才成立的事）*/
+  if(typeof HOME!=='undefined'&&HOME.phoneRules){ const h0=HOME.phoneRules; HOME.phoneRules=function(GM){ if(GM&&GM.G&&S.inJapan(GM.G)) return; return h0.apply(this,arguments); }; }
+  /* 臺灣的朋友回訊息的時間（MSG.replyAt）：照臺灣時間算他們醒著、在忙，再換回日本時間；以安在日本，照當地（AA_341 J-S7；同 us_life3d.js 的美國版）*/
+  if(typeof MSG!=='undefined'&&MSG.replyAt){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ if(!S.inJapan(G)||id==='heroine_01') return r0.apply(this,arguments); const tz=STORY.tzOffset?(STORY.tzOffset(G)||0):0; if(!tz) return r0.apply(this,arguments);
+      const t=NOW(G)-tz, tw=Object.assign({},G); tw.day=Math.floor(t/24); tw.hour=t-tw.day*24; tw.weekday=wdOf(tw.day); const r=r0.call(this,tw,id); if(!r) return r;
+      const x=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(x/24); out.h=x-out.day*24; return out; }; }
+  /* 每天的手機小事（STORY.DAILY_PHONE，例：阿凱的泡麵評鑑表 21:48）：臺灣的朋友傳的，人在日本＝當地時間（AA_341 J-S13）*/
+  for(const d of (STORY.DAILY_PHONE||[])){ if(!d||d.jpTz||typeof d.h!=='function') continue; const h0=d.h; d.h=function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }; d.jpTz=true; }
+  /* AA_326 2-Y3-54 大三暑假的三選一（src/r2y3b3d.js）：日本路線不演（AA_341 裁定 10：8/5 晚上只演 1A-08；三選一是給留在臺灣的玩家 6/19 選的），快轉也不停在 8/5 21:00 */
+  if(typeof R2Y3B!=='undefined'){ const sp0=R2Y3B.summerPlanPhone; if(sp0) R2Y3B.summerPlanPhone=function(G){ if(isJP(G)) return; return sp0.apply(this,arguments); };
+    if(Array.isArray(R2Y3B.Y3_STOPS)) for(const x of R2Y3B.Y3_STOPS) if(x&&x[3]==='plan3'&&Array.isArray(x[2])) x[2]=x[2].filter(r=>r!=='JP'); }
   if(Array.isArray(STORY.PHONE_RULES)) STORY.PHONE_RULES.push((G,GM)=>S.phone(G,GM));
   return S;
 })();

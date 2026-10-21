@@ -150,7 +150,7 @@ const date=id=>H.date(id);
   check('1B-16 5/1 21:00 可昕兩則、「去。」「那天不行。」', JSON.stringify(th('p:kexin'))===JSON.stringify(['我的期末報告被選去發表。禮拜三下午三點。','你要來的話，坐最後一排。'])&&!!m19&&m19.ask.opts.map(o=>o.t).join('|')==='去。|那天不行。');
   answer('y3_kx19',0); phone(); at('2028-05-03',14.2); await goOut('y3_kx19',[1]);
   check('K1 去了：最後一排、停半秒、CG；「你坐最後一排。我看得到。」；KX_PRESENT came', has('（政大的小教室。你坐在最後一排。她講到一半看了你一眼，停了半秒，接著講完。）')&&has('你坐最後一排。我看得到。……講得還好嗎？')&&has('因為你真的坐最後一排。')&&H.cgs.includes('cg_last_row_kexin')&&H.G.flags.KX_PRESENT==='came');
-  { fresh('2028-05-03',16,'dorm',{},'JP'); date('kexin'); at('2028-05-03',17); phone(); check('K2 日本路線：照片「最後一排空著。」；KX_PRESENT photo', th('p:kexin').includes('期末報告講完了。最後一排空著。')&&H.G.flags.KX_PRESENT==='photo'); }
+  { fresh('2028-05-03',16,'dorm',{},'JP'); date('kexin'); at('2028-05-03',17); phone(); const a=th('p:kexin').includes('期末報告講完了。最後一排空著。'); at('2028-05-03',18); phone(); check('K2 日本路線：照片「最後一排空著。」（人在日本＝臺灣 17:00＝當地 18:00，AA_341 J-S13）；KX_PRESENT photo', !a&&th('p:kexin').includes('期末報告講完了。最後一排空著。')&&H.G.flags.KX_PRESENT==='photo'); }
   /* ===== 1B-17 ===== */
   /* AA_337 第 6 節：群組「收到。」後面不掛選項；「生日快樂」改成玩家在學姊的私訊用 MSG-2 的話題，回覆照她回訊息的時間（12:10／17:05／22:30）*/
   const bdayTp=()=>MSG.topics(H.G,'heroine_05').map(q=>q.k).includes('bday');

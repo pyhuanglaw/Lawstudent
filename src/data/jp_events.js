@@ -12,7 +12,7 @@ const JP_EVENTS=(function(){
   const repair=G=>!dating(G);
   const memWinter=()=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_01','AN_L10_WINTER');
   const j2=G=>{ const v=G&&G.flags&&G.flags.AN_TOWN_NOTICE; return v==='there'||v==='photo'; };   /* 5/6 町公所那張通知（AA_326 2-Y3-43 的旗標：去了、或收到她的照片）*/
-  const repairOk=G=>(+((G&&G.flags&&G.flags.AN_REPAIR)||0))>=3;   /* AA_254 第 10 節：REPAIR ≥ 3（說謊歸零：日本這學期沒有說謊的事件）*/
+  const repairOk=G=>{ const R=G&&G.flags&&G.flags.REPAIR; return !!R&&typeof R==='object'&&(R.heroine_01|0)>=3; };   /* AA_254 第 10 節：REPAIR ≥ 3（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；說謊歸零：日本這學期沒有說謊的事件）*/
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
   const SUITCASE=[ {scene:'公館'},
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
