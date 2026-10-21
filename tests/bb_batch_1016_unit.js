@@ -36,7 +36,7 @@ GM.money=function(n){ G.money+=n; };
 (async()=>{
   const ev2=id=>STORY_EVENTS.find(e=>e.id===id), J=x=>JSON.stringify(x);
   const BG=ev2('ev_zhe_game_y2'); const t=J(BG.dialogue);
-  check('1. 明軒：送水接「（接住水）哈哈，謝謝部長。」「這瓶 CP 值最高。……免費的。」；賽後兩句（三個選項都有）',/謝謝部長/.test(t)&&/這瓶 CP 值最高/.test(t)&&BG.dialogue.findIndex(l=>l.label==='end')<BG.dialogue.findIndex(l=>/我上場六分鐘，摸到球三次/.test(l.text||''))&&/以 CP 值來說，我今天賺很大/.test(t));
+  check('1. 明軒：送水接「（接住水）謝啦。」（AA_374 第 16 項，原本「哈哈，謝謝部長。」）「這瓶 CP 值最高。……免費的。」；賽後兩句（三個選項都有）',/（接住水）謝啦。/.test(t)&&!/謝謝部長/.test(t)&&/這瓶 CP 值最高/.test(t)&&BG.dialogue.findIndex(l=>l.label==='end')<BG.dialogue.findIndex(l=>/我上場六分鐘，摸到球三次/.test(l.text||''))&&/以 CP 值來說，我今天賺很大/.test(t));
   const m3=D('2027-03-19'), dn=D('2027-03-26'), FAM='g:family_law';
   // 2026-10-17 BB_205 第 4 節：M2、M3、上榜聚餐照新年級是祐廷大一下的事，大二不播（STORY.SIS_Y2_EXAM=false；大一下的版本等 AA_218 17-12）
   fresh(m3,20.9,'dorm'); meet('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); run(20.9,21.2); PHONE.answer(G,'sis_m3_dinner',0); run(21.2,21.4);

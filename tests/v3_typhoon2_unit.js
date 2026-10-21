@@ -39,7 +39,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   G.hour=9.1; picks=['進去聽']; tick(); await wait(); let L=lines();
   check('2. 9:00：通知、許教授兩句、畫面；「進去聽」三句、XU_TYPHOON',L[0]==='（早上九點，線上會議的通知）'&&/今天停課，所以這不是上課。$/.test(L[1])&&/沒有。這就是重點。$/.test(L[L.length-1])&&SOCIAL.has('prof_xu','XU_TYPHOON'),JSON.stringify(L));
   said=[]; await CLS.beforeClassEvent(GM,{c:{id:'admin_law'},room:{zone:'classroom'}}); check('2. 同一天沒有課前那句（停課）',!said.length);
-  G.day=ty+14; G.weekday=1; said=[]; await CLS.beforeClassEvent(GM,{c:{id:'admin_law'},room:{zone:'classroom'}}); check('2. 兩週內的行政法（11/2）：「颱風那天來討論的同學，今天坐前面。」',/颱風那天來討論的同學，今天坐前面。$/.test((lines()[0]||'')),JSON.stringify(lines()));
+  G.day=ty+21; G.weekday=1; said=[]; await CLS.beforeClassEvent(GM,{c:{id:'admin_law'},room:{zone:'classroom'}}); check('2. 期中考後第一堂行政法（11/9；AA_374 第 13 項，原本 11/2 期中考那天）：「颱風那天來討論的同學，今天坐前面。」',/颱風那天來討論的同學，今天坐前面。$/.test((lines()[0]||'')),JSON.stringify(lines()));
   fresh(ty,9.5,'dorm',{}); G.stage='law'; picks=['私訊柏翰']; tick(); await wait(); const B=txt('p:classmate_bohan');
   check('3. 私訊柏翰：四則照稿（祐廷兩則、柏翰兩則）',JSON.stringify(B)===JSON.stringify(['player:你為什麼穿襯衫','classmate_bohan:因為是上課。','player:教授說不是上課。','classmate_bohan:……那是自願的襯衫。']),JSON.stringify(B));
   fresh(ty,9.5,'dorm',{}); G.stage='law'; picks=['繼續睡']; tick(); await wait(); check('3. 不進去：柏翰「教授問你在哪裡。我說你在颱風裡。」',txt('p:classmate_bohan').includes('classmate_bohan:教授問你在哪裡。我說你在颱風裡。'));

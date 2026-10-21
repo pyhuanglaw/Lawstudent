@@ -232,12 +232,23 @@ const CLS=(function(){
   /* 翹課的轉述（AA_104 4-2「同學偶爾會在群組吐槽他沒來（一行，不是懲罰）」、AA_119 第 0 節第 4 點「群組裡一句轉述，不補演」）：
      沒去的課下課以後，手機「訊息」多一行——討論週：那一週的 skip_line（那堂課發生了什麼，每次都有）；其他週：那門課的 skip 句子，偶爾（這學期第 1、4、7…次沒去那門課）。
      今天的課下課後才發；睡過一整天的，前一天的照那堂課下課的時間補進訊息。考試、服務學習、劇情的課、第一二天不發。R.note 記發過了（skip_<key>）和沒去的次數（skipn_<課>_<學期>）*/
+  /* 翹課那一句照那一週的課程主題選（AA_374 第 21 項，大二上）：原本第 1、4、7 次照順序發，講到的主題（行政處分第 5 週、竊盜第 10 週、給付遲延第 3 週、相鄰關係第 6 週）常常不是那一週。
+     表裡的課＝那一週有對應的句子才發那一句；那週沒有對應的＝同學私訊「今天的筆記我拍給你。」（傳的人：認識的人裡，照芯慈、以安、柏翰、小語、阿哲的順序；都不認識寫「同學」——給 AA 的問題）。
+     句子照 syllabus.js 的原文比對（syllabus 改了字、對不到＝那一週當作沒有對應的；tests/aa374_y2s1_unit.js 會抓到）；表裡沒有的課照舊（第 1、4、7…次照順序）*/
+  S.SKIP_TOPIC={admin_law:{5:'（群組）以安：許教授今天講行政處分。筆記在雲端。第三頁很重要。'},crim_spec:{10:'（群組）阿哲：吳教授今天講竊盜，舉例舉到他自己的雨傘。'},
+    oblig_gen2:{3:'（群組）芯慈：周教授今天講給付遲延。他點了你的座位。'},property:{6:'（群組）阿哲：今天講相鄰關係，我想到我們宿舍。'}};
+  S.SKIP_NOTES='今天的筆記我拍給你。';
+  S.skipLine=function(G,it,L,m){ const T=S.SKIP_TOPIC[it.c.id]; if(!T) return L[Math.floor((m-1)/3)%L.length];
+    const t=T[it.week]; if(t&&L.includes(t)) return t;
+    const who=['classmate_xinci','heroine_01','classmate_bohan','yu','zhe'].find(id=>typeof STORY!=='undefined'&&STORY.knows&&STORY.knows(id,G));
+    const nm=who?((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(who):((CHARACTERS[who]||{}).name||'同學')):'同學';
+    return '（私訊）'+nm+'：'+S.SKIP_NOTES; };
   S.skipNotes=function(GM){ const G=GM.G; if(typeof INV==='undefined'||!INV.msgAt) return 0; const R=S.rec(G), h=hr(G); let n=0;
     for(const day of [G.day-1,G.day]){ const m1=m1d(G), ls1=typeof STORY!=='undefined'&&STORY.lawStart?STORY.lawStart(G):1; if(ls1===m1&&(day===m1||day===m1+1)) continue;   /* 第一、二天是劇情（玩家第一天晚上才到宿舍、第二天跟著劇情走）：那兩天的課不算翹課；開局 B 的第 1、2 週（第 1 天以前）照常（D91）*/
       for(const it of S.dayItems(G,day)){ const k='skip_'+it.key; if(R.note[k]||R.done[it.key]||it.exam||it.c.kind==='service'||S.storyClass(G,it)) continue; if(day===G.day&&h<it.t1+0.1) continue;
         R.note[k]=1; const ct=S.content(it), sl=ct.obs&&ct.obs.kind==='discuss'?ct.obs.skip_line:null; let text='';
         if(sl&&reactOK(sl,it.day,true)) text='（群組）'+((typeof SOCIAL!=='undefined'&&SOCIAL.displayName)?SOCIAL.displayName(sl.who):((CHARACTERS[sl.who]||{}).name||'同學'))+'：'+sl.text;   /* 和 BB 那門課的 skip 句子同一個格式 */
-        else if(!sl){ const nk='skipn_'+it.c.id+'_'+it.term, m=(R.note[nk]||0)+1; R.note[nk]=m; const L=it.c.skipLines||[]; if(L.length&&(m-1)%3===0) text=L[Math.floor((m-1)/3)%L.length]; }
+        else if(!sl){ const nk='skipn_'+it.c.id+'_'+it.term, m=(R.note[nk]||0)+1; R.note[nk]=m; const L=it.c.skipLines||[]; if(L.length&&(m-1)%3===0) text=S.skipLine(G,it,L,m); }
         if(text){ INV.msgAt(G,null,text,day,it.t1+0.15); n++; } } }
     return n; };
   // ---------- 上課（普通課堂；考試週＝考試）----------

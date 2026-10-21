@@ -41,10 +41,10 @@ GM.money=function(n){ G.money+=n; };
     check('3-2. 大二上第 6 週週一 12:18 霖澤館：會演；第 7 週、13:00 不演',ok&&!no&&!no2); }
   { fresh(mon,12.3,'linze'); const e=STORY.schedEnt(CHARACTERS.classmate_peishan,G); check('3-2. 那一週中午她的作息在霖澤館二樓走廊（窗邊等柏翰）',e&&e.zone==='linze'&&e.at[3]===1,JSON.stringify(e)); }
   { fresh(mon,12.3,'linze'); meet('classmate_peishan'); said=[]; await EVENTS.run(P); const L=L0();
-    check('3-2. 台詞照 BB_100 2-3（AA_313 6-5 第 11 點：兩句對調，先說分開了）、沒有選項、記 HEARD_PS_SPLIT',JSON.stringify(L)===JSON.stringify(['沛珊：我們上週分開了。我自己說的。','沛珊：柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。'])&&G.flags.HEARD_PS_SPLIT===true&&!P.dialogue.some(l=>l.choice),JSON.stringify(L));
+    check('3-2. 只認識她（沒看過 P3、還不熟）：AA_374 第 18 項的短的兩句（「跟你說一下，我跟柏翰分開了。」「我們都還好，讀書會照常。」）、沒有選項、記 HEARD_PS_SPLIT',JSON.stringify(L)===JSON.stringify(['沛珊：跟你說一下，我跟柏翰分開了。','沛珊：我們都還好，讀書會照常。'])&&G.flags.HEARD_PS_SPLIT===true&&!P.dialogue.some(l=>l.choice),JSON.stringify(L));
     check('3-2. 伴侶期間的 endEvent＝ev_peishan_split（演過就結束）',CHARACTERS.classmate_peishan.partner.endEvent==='ev_peishan_split'&&!STORY.partnerOn(G,CHARACTERS.classmate_peishan.partner)); }
   { fresh(fri,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const T=txt('g:noodle_team');
-    check('3-2. 沒遇到：週五 21:00 麵店團群組「說一下：我和柏翰分開了。我們都好。你們吃你們的。」阿哲「……收到。」；HEARD_PS_SPLIT',T.includes('classmate_peishan:說一下：我和柏翰分開了。我們都好。你們吃你們的。')&&T.includes('zhe:……收到。')&&G.flags.HEARD_PS_SPLIT===true,JSON.stringify(T)); }
+    check('3-2. 沒遇到：週五 21:00 麵店團群組（AA_374 第 18 項：BB_97 版）「說一件事，說完就好。」「我和柏翰分開了。是我說的。我們都好。」「……大家照常吃飯，不用特別安慰我。」阿哲「……收到。」；HEARD_PS_SPLIT',T.includes('classmate_peishan:說一件事，說完就好。')&&T.includes('classmate_peishan:我和柏翰分開了。是我說的。我們都好。')&&T.includes('classmate_peishan:……大家照常吃飯，不用特別安慰我。')&&T.includes('zhe:……收到。')&&G.flags.HEARD_PS_SPLIT===true,JSON.stringify(T)); }
   { fresh(fri,20,'campus'); G.events.done.ev_peishan_split=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); check('3-2. 遇到過：群組沒有那兩則',!txt('g:noodle_team').some(t=>/分開了/.test(t))); }
   // 3-3
   { const d=D('2027-03-23'); fresh(d,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.3); const T=txt('g:noodle_team');

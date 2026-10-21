@@ -118,7 +118,8 @@ const TERMEND=(function(){
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag); S.planKexin(G,w); } }   /* 可昕：她排好了，直接排出遊（不佔名額）*/
     for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id, dg=Math.max(S.fromDay(w,id),d1); if(now>=T(dg,20.25)&&!PHONE.sent(G,tag)) PHONE.at(G,dg,20.25,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until,opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); }   /* 女朋友的邀約也照 S.FROM：學姊大四上 12/23 才從美國回來，原本 12/21 20:15 就約（BUG-SIS-Y4S1-DATEINV-1021）*/
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
-    for(const id of P.friend){ const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),(f.noBySem&&f.noBySem[sem])||f.no); }   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
+    for(const id of P.friend){ if(id==='zhe'&&w.id==='Y2S1'&&G.events&&G.events.done&&G.events.done.ev_term_last_meal_y2s1) continue;   /* AA_374 第 24 項：最後一科考完那天 17:00 阿哲約的「期末最後一頓」（麵店）演過了，20:30 他不再約期末飯（同一晚約兩次）*/
+      const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),(f.noBySem&&f.noBySem[sem])||f.no); }   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
     S.pickCheck(GM); };
   /* 接了一個：排出遊、其他的自動婉拒；女朋友的學期末約會另外排 */
   S.dinnerDay=function(G,w,spec,who){ const hh=spec.h||18.5, xm=who==='kexin'&&w.id==='Y2S1'?DK('2026-12-25'):null, ok=d=>d!==xm&&(d>G.day||(d===G.day&&G.hour<hh-0.5)), pb=(S.rec(G,w.id).plan||{}).back||w.from; let lo=Math.max(w.from+1,pb+1,G.day);

@@ -103,6 +103,29 @@ if A372:
         if n != 1 and not (n == 0 and _walk(an, new) == 1): sys.exit(f'AA_372 {item}：大一上以安的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
     out['source'] += f'＋{os.path.basename(P372)[:6]}@{S372}（以安 2 句）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
+# ---- 大二的修正稿（企劃線，白名單上的 commit；AA 定稿）：一層的一個欄位疊在 ladder_*_y2s1／y2s2.json 上——整個欄位相同才換（週次、句子、選項）；
+#      那個檔下一版自己改好了（已經是新值）就跳過，舊值、新值都不是＝停下來（企劃改過了，要重看）。每一項先確認修正稿裡有那一句「改成」。
+#      AA_374（AA374-Y2S1-FIX-1021）第 14 項：可昕 K3-L4 週次 [6,16]→[6,6]（互考 10/23 只有一次；第 6 週沒聊到就跳過，不卡住後面的層）
+def _fix(prefix, label, patches):
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return
+    P, SHA = next(iter(A.items()))
+    ok, why = G.allowed(P, SHA, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True)
+    for item, term, cid, sid, field, old, new, quote in patches:
+        if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
+        if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
+        cur = st.get(field)
+        if cur == new: continue
+        if cur != old: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} {sid} 的 {field} 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        if new is None: st.pop(field, None)
+        else: st[field] = new
+    out['source'] += f'＋{os.path.basename(P)[:6]}@{SHA}（{label}）'
+_fix('docs/story_planning/AA_374_', '可昕 K3-L4 週次', [
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'week', [6, 16], [6, 6], '週次改 **[6,6]**'),
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'skipAfterWeek', None, 6, '週次改 **[6,6]**')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

@@ -96,7 +96,7 @@ const MSG=(function(){
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); return row==='none'?{ok:false,why:'她在英國，只寄明信片'}:{ok:true,mode:'uk',uk:row}; }   /* 大三上交換、大四英國念研究所：照交情（AA_276 第 2 節、BB_178 1-E；原本一律只寄明信片）。回台中（presence home）照常傳 */
     if(id==='heroine_04'&&!evDone(G,'ev_ziqing_secret_game')) return {ok:false,why:'還沒有她的私訊'};
     if(id==='heroine_05'){ if(stageNum(id)<2) return {ok:false,why:'還不熟'}; const chat=stageNum(id)>=3&&!S.takenFor(G,id)&&!Object.keys(G.flags||{}).some(k=>k.indexOf('dating_')===0&&k!=='dating_heroine_05'&&G.flags[k]); return {ok:true,mode:chat||G.flags.dating_heroine_05?null:'business'}; }
-    if(id==='classmate_peishan'&&inDates(G,'2026-12-17','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js */
+    if(id==='classmate_peishan'&&inDates(G,'2026-12-18','2027-08-06')) return typeof STORY!=='undefined'&&STORY.psKeep&&STORY.psKeep(G)?{ok:true,mode:'keep'}:{ok:true,mode:'silent'};   /* 交往中的例外（AA_276 第 4、6-1 節）：她 23:00 以後回，句子在 hometown_lines.js；AA_374 第 17 項：從 12/18 00:00 起算（12/17 當天她 21:30、22:00 還在發，照常回）*/
     return {ok:true}; };
   S.sentToday=(G,id)=>S.rec(G).sent[id]===G.day;
   S.canSend=(G,id)=>{ const o=S.open(G,id); return o.ok&&!S.sentToday(G,id); };
@@ -230,7 +230,7 @@ const MSG=(function(){
   const TOPICS2=[{k:'thanks',t:'謝謝'},{k:'bday',t:'生日快樂'},{k:'ok',t:'還好嗎'},{k:'newyear',t:'新年快樂'}];
   S.isT2=k=>TOPICS2.some(q=>q.k===k);
   const dayOf=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
-  const evDay=(G,e)=>{ const L=G.events&&G.events.last; return L&&L[e]!=null?L[e]:null; };
+  const evDay=(G,e)=>{ const L=G.events&&G.events.last; if(!L) return null; let d=null; for(const x of [].concat(e)) if(L[x]!=null&&(d==null||L[x]>d)) d=L[x]; return d; };   /* e 可以是好幾個事件（合併的事件：舊存檔演的是舊的那一件，AA_374 第 18 項）：最近演的那一天 */
   const calY=G=>typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).y:0;
   /* 新年＝1/1，以及除夕到初三（calendar.js 的春節假：「除夕」「春節」×3；不含除夕前一日和補假）*/
   const hol=d=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.holidaysOf) return null; const x=CALENDAR.dateOf(d); return CALENDAR.holidaysOf(x.y)[x.key]||null; };
@@ -245,7 +245,7 @@ const MSG=(function(){
     'heroine_01:yu_argument':{ev:'ev_an_yu_argument'},
     'heroine_03:aunt_hand':{ev:'ev_yutong_absent'},   /* AA_11 事件 4：阿姨扭到手、她顧店的那兩週 */
     'heroine_03:dm_exam_eve':{on:'2026-06-17'},   /* 雙主修筆試 6/18（AA_250 第 2 節）的前一天 */
-    'classmate_bohan:split_peishan':{ev:'ev_peishan_bohan_split'},
+    'classmate_bohan:split_peishan':{ev:['ev_peishan_split','ev_peishan_bohan_split']},   /* AA_374 第 18 項：兩件分手合併成 ev_peishan_split；舊存檔演的是 ev_peishan_bohan_split */
     'classmate_xinci:rank_second':{ev:'ev_xinci_second'},
     'heroine_02:z2_ge_group':{ev:'ev_zhiruo_ge_group',flag:'ge_group_zhiruo'},   /* 選「我已經有組了」的沒有這個旗標 */
     'heroine_02:z9_ticket':{ev:'ev_zhiruo_last_shift'},
@@ -259,7 +259,7 @@ const MSG=(function(){
     'heroine_05:grad_exam':{dates:['2026-02-01','2026-02-02'],stage:2},
     'classmate_peishan:notes_files':{help:'notes'},
     'classmate_peishan:p3_retake':{ev:'ev_peishan_decision'},
-    'classmate_peishan:bohan_split':{ev:'ev_peishan_bohan_split',stage:2},
+    'classmate_peishan:bohan_split':{ev:['ev_peishan_split','ev_peishan_bohan_split'],stage:2},
     'kexin:k10c_bad_exam':{ev:'ev_kexin_bad_exam'},
     'kai:k1_keyboard':{ev:'ev_kai_keyboard_quiet'},
     'kai:k2_engineer':{ev:'ev_kai_engineer'},
