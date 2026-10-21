@@ -12619,6 +12619,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg；OUT.BG 加 jp_station、tn_station，trip_sea、trip_oldtown 原本 image:null；bg 'car' 白天改 car_day＝car.webp（寫死 car_morning 的事件照舊），宿營遊覽車 tour_bus 照舊深色底；bg_images_unit 2h（改之前 FAIL）、3 照新規則改"
+  },
+  {
+   "id": "DL-BB-e10b683a",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "e10b683a",
+   "what": "bg_approved 第 94 組九張：intl_sg_hawker、intl_sg_campus、intl_sg_court、law_firm_office、law_firm_meeting、court_gallery（C16～C18）、tour_bus（宿營遊覽車）、phone_street_night、boardgame_gg（經濟系黑畫面第一批剩的兩張）；BB 柔化車牌、像連鎖品牌的招牌條、小字樣",
+   "task": "BG-VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg、OUT.BG 登記；camp_y1.js 兩處早就是 bg:'tour_bus'；bg_images_unit 2i（改之前 FAIL）、6 改成四張都到了；legal_aid_office 還沒交"
   }
  ],
  "ignored": [

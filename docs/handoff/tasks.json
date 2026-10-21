@@ -23288,7 +23288,7 @@
    "title": "經濟系黑畫面第一批四張純場景（使用者生）：以前的補習班櫃台、公館桌遊店、晚上的捷運車廂、晚上的路邊（講電話）",
    "area": "ART",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -23302,7 +23302,7 @@
    },
    "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：boardgame_gg、phone_street_night 到了＝四張都到（cram_counter、mrt_night 是第 93 組）；BB 畫面驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -26020,7 +26020,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】BB-C 第 94 組（e10b683a）接進：六張到了（law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker），只差 legal_aid_office ｜ 【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
   },
   {
    "id": "BB-TEST-VAC-C16-C18-1021",
