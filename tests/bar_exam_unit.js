@@ -81,7 +81,8 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     const s=PG.due(G); if(s) await PG.runStep(GM,s);
     check('11. X3：8/4 群組＋旁白「（明年八月，換你。）」；可昕多「你明年考。我先去探路。」',H.msgs('g:noodle_team').includes('晚上燒肉 誰要')&&H.has('（明年八月，換你。）')&&H.msgs('p:kexin').includes('你明年考。我先去探路。'));
     H.at('2029-12-14',14.6); PG.rules(GM); H.at('2029-12-14',15.2); H.tick(); check('11. Z4：2029 是阿哲那則私訊「我沒上。……明年跟你同一場。」',H.msgs('p:zhe').includes('我沒上。……明年跟你同一場。'));
-    // 2030 全演
+    // 2030 全演（AA_357 1-6：延畢的 2030 要先在 5/10 21:00 報名，原本沒問就算報名）
+    H.at('2030-05-10',21); H.picks=['報名']; await PG.runStep(GM,PG.byId('reg_2030')); check('11. 延畢 2030-05-10 報名（AA_357 1-6）',G.flags.BAR_REG_2030===true);
     H.at('2030-08-03',8); const e=PG.due(G); check('11. Z4：2030-08-03 一試',e&&e.id==='exam_2030'); const qs30=PG.draw(G,2030); H.picks=answerK(qs30,9); await PG.runStep(GM,e);
     H.at('2030-09-06',15.1); await H.run('r1_2030'); check('11. 第二年不到 12 題也進律師二試（「律師一試：通過。司法官一試：未通過。」）',H.has('律師一試：通過。司法官一試：未通過。')&&G.flags.BAR_STAGE_2030==='lawyer');
     H.at('2030-10-19',8.5); await H.run('e2a_2030'); H.at('2030-10-20',17.5); await H.run('e2b_2030'); H.at('2030-12-13',15.1); await H.run('r2_2030');

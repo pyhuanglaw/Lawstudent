@@ -20,7 +20,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('J1. 阿哲、小語、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('還在等放榜。先顧店。'));
     check('J2. 芯慈不認識＝沒有她的照片',!M.includes('📷（照片：會計師事務所的電腦螢幕，一排 Excel）')&&!M.includes('法遵。四色筆還是要帶。'));
     check('J1. 旁白「（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）」；FIRST_DAY_SEEN；沒有延畢那一句',H.has('（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）')&&G.flags.FIRST_DAY_SEEN===true&&!H.has('（你的第一天，還在後面。）')); }
-  { const G=await first({EXCHANGE_ROUTE:'JP'});
+  { const G=await first({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true});   /* AA_357 1-6：延畢的 2030 報名看 BAR_REG_2030 */
     check('J3. 交換延畢（還在準備 2030 年的律師二試，b6757852）：「（照片：補習班的自習室。）」＋「（你的第一天，還在後面。）」',H.msgs('g:noodle_team')[0]==='📷（照片：補習班的自習室。）'&&H.has('（你的第一天，還在後面。）')&&!H.msgs('g:noodle_team').some(t=>/職前訓練/.test(t))); }
   { const G=await first({EXCHANGE_ROUTE:'JP',BAR_YEAR:2030});
     check('J3. 交換延畢、已經放榜（BAR_YEAR 有值）＝照落點，不是自習室',H.msgs('g:noodle_team')[0]!=='📷（照片：補習班的自習室。）'&&!H.has('（你的第一天，還在後面。）')); }
@@ -105,7 +105,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   { const G=H.fresh('2034-06-03',19,'dorm',{}); graduated(G);
     check('W1. 第一份工作還沒演（FIRST_DAY_SEEN 沒有）：先演 2030-10-01 那一段，不是尾聲',PG.due(G)&&PG.due(G).id==='first');
     await H.run('first'); check('W1. 演完第一份工作就是尾聲',PG.due(G)&&PG.due(G).id==='epi'); }
-  { const G=H.fresh('2030-12-13',10,'dorm',{EXCHANGE_ROUTE:'US',BAR_SIT_2030:true,BAR_SCORE_2030:8,BAR_STAGE_2030:'lawyer'}); graduated(G); G.flags.FIRST_DAY_SEEN=true;
+  { const G=H.fresh('2030-12-13',10,'dorm',{EXCHANGE_ROUTE:'US',BAR_REG_2030:true,BAR_SIT_2030:true,BAR_SCORE_2030:8,BAR_STAGE_2030:'lawyer'}); graduated(G); G.flags.FIRST_DAY_SEEN=true;
     check('W2. 交換延畢、2030 那一輪還沒演完：尾聲的條件不成立',PG.pendingExam(G)&&!PG.byId('epi').cond(G));
     PG.rec(G).done.r2_2030=1; G.flags.BAR_YEAR=2030; check('W2. 2030 放榜以後成立',!PG.pendingExam(G)&&PG.byId('epi').cond(G)); }
   H.done();
