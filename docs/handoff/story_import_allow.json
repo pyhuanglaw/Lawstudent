@@ -1304,6 +1304,15 @@
    "task": "DATE-OVERNIGHT-1021",
    "kind": "text",
    "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對"
+  },
+  {
+   "path": "docs/story_planning/AA_350_回LAWWW_AA_QUESTIONS_1021_M_N十八題.md",
+   "sha": "2e255e9a",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；第 9 節 T 節「LAWWW-C 14:02，任務 AA-Q-1021-SR；2026-10-21 補答」）：T7a「她人在台中時手機的『約』整個關著」→「打開，但只列 D26 臺中」＋她答應的那一句（以安、芷若）",
+   "task": "DATE-T7A-HOMETOWN-1021",
+   "kind": "text",
+   "note": "第 9 節 T7a 兩句手抄進 src/date3d.js 的 DATE.T7A_YES（第 8 節 S6 的婉拒兩句 DATE.HOME_NO 之前已經手抄、同一份稿）；tests/date_t7a_unit.js 從這個 commit 讀稿逐字對。T7b（出國的日子要擋）不在這一筆的範圍"
   }
  ]
 }
