@@ -276,7 +276,7 @@ const R2Y3B=(function(){
       if(B&&B.key==='Y3S'&&isUS(G)&&HOME.breakStartDue(G)) return S.usBreakStart(GM,B); return orig.apply(this,arguments); }; HOME._r2y3b=true; }
 
   /* ===================== 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4）===================== */
-  /* 3/14（二）白色情人節：交往中一律有（AA_343 D1：2/14 的系統還沒有；她出發前十一天）。開頭分兩版：2/14 送過（AN_VDAY_GIFT，以後 2/14 的系統記）／沒送過＝「預付」那一版（r2y3b_events.js）。
+  /* 3/14（二）白色情人節：交往中一律有（AA_343 D1：2/14 的系統還沒有；她出發前十一天）。開頭分兩版：2/14 送過（AN_VDAY_GIFT，以後 2/14 的系統記）／沒送過＝「不是回禮」那一版（r2y3b_events.js；AA_369 H2 改字）。
      3/13（一）21:00 她私訊 → 3/14 18:00 公館 */
   S.anVdayGift=G=>!!(G.flags&&G.flags.AN_VDAY_GIFT);
   S.whitePhone=function(G){ const d13=D('2028-03-13'), d14=D('2028-03-14'); if(d13==null||G.day<d13||G.day>d14||isJP(G)||!dating(G,'heroine_01')||!dmOk(G,'heroine_01')) return;

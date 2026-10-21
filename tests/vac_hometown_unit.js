@@ -120,11 +120,17 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外小語的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';
     law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2);
-    const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組九則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===9&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
+    const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組十則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===10&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
+    /* AA_369 H1：以安 8/9～8/27 在京都，不去香港——她「我那幾天在京都。你們去，拍照給我。」；排行程的兩句改柏翰（沒有「可以。」）*/
+    const who=t=>(L.find(m=>m.text===t)||{}).from;
+    check('9. AA_369 H1：以安「我那幾天在京都。你們去，拍照給我。」；柏翰「行程我來排？」→ 阿哲「不要…」→ 柏翰「……好。我只排第一天。」；沒有「可以。行程我來排？」',who('我那幾天在京都。你們去，拍照給我。')==='heroine_01'&&who('行程我來排？')==='classmate_bohan'&&who('……好。我只排第一天。')==='classmate_bohan'&&!L.some(m=>m.text==='可以。行程我來排？')&&!L.some(m=>m.from==='heroine_01'&&/排/.test(m.text))&&L.map(m=>m.text).indexOf('行程我來排？')<L.map(m=>m.text).indexOf('不要 這次不排 走到哪吃到哪'),J(L.map(m=>m.from+':'+m.text)));
     PHONE.answer(G,'va10_ask',0); G.hour=21.4; STORY.phoneRules(GM); const q=OUT.get(G,'vac_va10');
     check('9. 回「我也去。」→ 行事曆 8/25 出發（香港）',G.flags.VA10==='yes'&&!!q&&q.day===DK('2027-08-25'),J(q));
-    said=[]; G.day=DK('2027-08-25'); G.hour=8; await VAC.outing(GM,q); const S0=said.map(x=>x.t);
-    check('9. 三場：地鐵門外的小語、茶餐廳的奶茶、海邊步道；以安交往中多一句「……下次只有我們兩個的時候，我再排。」；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔')&&S0.includes('……下次只有我們兩個的時候，我再排。')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
+    said=[]; G.day=DK('2027-08-25'); G.hour=8; await VAC.outing(GM,q); const S0=said.map(x=>x.t), W0=said.map(x=>x.who+'：'+x.t);
+    check('9. 三場：地鐵門外的小語、茶餐廳的奶茶、海邊步道；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
+    check('9. AA_369 H1：8/25、8/27 那兩句是柏翰說；以安不在香港（三場沒有她）、交往版「……下次只有我們兩個的時候，我再排。」拿掉',W0.includes('許柏翰：……下一站等她。我第一天的行程有寫「走散的話在下一站等」。')&&W0.includes('許柏翰：（看著對岸）……第二天以後都沒排，結果也走完了。')&&!said.some(x=>x.who==='沈以安')&&!S0.includes('……下次只有我們兩個的時候，我再排。'),J(W0));
+    const AN=TH('p:heroine_01').find(m=>m.tag==='va10_dm_heroine_01');
+    check('9. AA_369 H1：和以安交往中，8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」',!!AN&&AN.day===DK('2027-08-27')&&AN.h===21&&J(TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01').map(m=>m.text))===J(['📷（京都車站的月台）','明天回去。……香港好玩嗎？']),J(TH('p:heroine_01').map(m=>[m.day,m.h,m.text,m.tag])));
     q.state='done'; step('2027-08-28',21.5); const B=TH(g).map(m=>m.text); check('9. 8/28 晚上群組四則（兩盒蛋塔…蛋用得比較少），去了的沒有「欠一次」',B.some(t=>/兩盒蛋塔/.test(t))&&B.some(t=>/蛋用得比較少/.test(t))&&!B.some(t=>/欠一次/.test(t)),J(B.slice(-4)));
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
     check('9. 回「我那幾天不行。」→ 阿哲「靠 好啦 下次」、沒有行程',txt(g).includes('zhe:靠 好啦 下次')&&!OUT.get(G,'vac_va10'));
@@ -135,11 +141,11 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   // 10. AA_275 第 1 節：快轉跳過的日子裡，第二次以後、只有一行的活動不停（C03 日語課第二年），跳過的旁白換成 AA_264 那一句；第一次參加的照常停
   { law('2027-07-05',10); const V=VAC.rec(G); V.reg['C03@Y1']='done'; VAC.signup(G,'C03@Y2','yes'); const qs=OUT.rec(G).filter(q=>q.vac&&q.vac.key==='C03@Y2');
     const nx=HOME.breakNext(G), k0=T0=>qs.find(q=>q.vac.k===0);
-    check('10. 第二年日語課：三場都排了；快轉的「下一個有事的日子」不停在 7/7 第一堂',qs.length===3&&(nx==null||nx>STORY.dayOfKey('2027-07-07')*24+19),JSON.stringify([qs.length,nx]));
+    check('10. 第二年日語課：三場都排了（AA_369 M4：照 2027 的週二、四＝7/8、7/15、7/22）；快轉的「下一個有事的日子」不停在 7/8 第一堂',qs.length===3&&JSON.stringify(qs.map(q=>q.day))===JSON.stringify(['2027-07-08','2027-07-15','2027-07-22'].map(k=>STORY.dayOfKey(k)))&&(nx==null||nx>STORY.dayOfKey('2027-07-08')*24+19),JSON.stringify([qs.map(q=>q.day),nx]));
     said=[]; await HOME.breakJump(GM,STORY.dayOfKey('2027-07-10')*24+8.5,{dorm:true}); const q0=qs.find(q=>q.vac.k===0);
-    check('10. 跳過 7/7：第一堂記成去過，旁白換成「第一堂。老師記得你，說你去年的作業字很工整。」',q0.state==='done'&&G.flags._repSkipLine==='第一堂。老師記得你，說你去年的作業字很工整。'&&(V.att||{})['C03@Y2']===1,JSON.stringify([q0.state,G.flags._repSkipLine]));
-    law('2027-07-05',10); VAC.signup(G,'C03@Y2','yes'); const nx2=HOME.breakNext(G), d7=STORY.dayOfKey('2027-07-07');
-    check('10. 第一次參加（沒上過大一那期）：快轉停在第一堂前',nx2!=null&&nx2<=d7*24+19,JSON.stringify(nx2)); }
+    check('10. 跳過 7/8：第一堂記成去過，旁白換成「第一堂。老師記得你，說你去年的作業字很工整。」',q0.state==='done'&&G.flags._repSkipLine==='第一堂。老師記得你，說你去年的作業字很工整。'&&(V.att||{})['C03@Y2']===1,JSON.stringify([q0.state,G.flags._repSkipLine]));
+    law('2027-07-05',10); VAC.signup(G,'C03@Y2','yes'); const nx2=HOME.breakNext(G), d7=STORY.dayOfKey('2027-07-08');
+    check('10. 第一次參加（沒上過大一那期）：快轉停在第一堂（7/8）前',nx2!=null&&nx2<=d7*24+19,JSON.stringify(nx2)); }
   // 11. AA_275 第 6 節：摘要日那天有已報名的活動（或人在國外）＝跳過，不播、快轉不停
   { law('2027-07-10',10); const d20=STORY.dayOfKey('2027-07-20'); const has=()=>HOME.breakPts(G).some(p=>p.k==='sum'&&p.day===d20);
     const before=has(); OUT.plan(G,{id:'t_vac_0720',ev:'ev_vac_key',day:d20,h:14,place:'x',title:'x',vac:{key:'C99@Y2',k:0}});

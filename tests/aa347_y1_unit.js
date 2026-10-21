@@ -162,7 +162,7 @@ const J=x=>JSON.stringify(x);
   await achk('7. 從 7/27 在家快轉（選了「暑假回家住」）：停在 7/29 18:30，日期卡寫回家住那一句',async()=>{ fresh(s29-2,10,'dorm'); const H=HOME.rec(G); H.stay={Y1S:'home'}; H.at=true; H.day=G.day; const B=HOME.lawBreak(G); H.lbreak=B.key; H.brk=B.key; H.bskip={key:B.key,n:0,last:-1};
     picks=['到下一個有事的日子']; await HOME.ffMenu(GM,'home'); const c=cards[0]||[]; return [G.day===s29&&Math.abs(G.hour-18.5)<1e-6&&c[1]==='（七月底。你陪媽媽去了一趟大賣場，推車是你推的。）',J(cards)]; });
   chk('7. 8/18（二）21:00 麵店團群組：小語「暑假還在臺北的 舉手」柏翰「新竹。」小語「你那個不叫舉手」',()=>{ fresh(s18,9,'dorm'); noodle(); runTo(s18,21.25); return [CALENDAR.dateOf(s18).wd===2&&J(msgOf('y1s_still_taipei'))===J(['yu:暑假還在臺北的 舉手','classmate_bohan:新竹。','yu:你那個不叫舉手'])&&near(atOf('y1s_still_taipei'),Tm(s18,21)),J(msgOf('y1s_still_taipei'))]; });
-  chk('7. 8/25 摘要日：「（暑假最後一週。你先把大二上的兩本課本買了。比大一的厚。）」',()=>{ fresh(s25-1,10,'dorm'); const l=has('HOLFF')?HOLFF.cardLine(G,Tm(s25,18.5)):null; return [l==='（暑假最後一週。你先把大二上的兩本課本買了。比大一的厚。）',l]; });
+  chk('7. 8/25 摘要日：「（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）」（AA_369 L6）',()=>{ fresh(s25-1,10,'dorm'); const l=has('HOLFF')?HOLFF.cardLine(G,Tm(s25,18.5)):null; return [l==='（暑假剩兩個禮拜。你先把大二上的兩本課本買了。比大一的厚。）',l]; });
   chk('7. 那天出國（例：8/25 報名的假期活動）：照 HOME.sumSkip 不停、不出',()=>{ fresh(s25-1,10,'dorm'); OUT.plan(G,{id:'t_vac',ev:'ev_x',day:s25,h:10,place:'x',title:'x',vac:{key:'T@Y1',k:0}}); return has('HOLFF')&&HOLFF.cardLine(G,Tm(s25,18.5))==null; });
 
   // ===== 8. 5-1「冬天的衣服」紙箱 =====

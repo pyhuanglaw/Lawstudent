@@ -1246,7 +1246,7 @@ const STORY_EVENTS=[
       {label:'a'},{speaker:'kexin',expression:'smile',text:'……那我先說：新年快樂。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'smile',text:'好無聊。'},{speaker:null,text:'她數到三。'},{speaker:'kexin',expression:'smile',text:'新年快樂。'},{goto:'end'},
       {label:'c'},{speaker:'kexin',expression:'smile',text:'明年的這個時候，也在這裡看。……新年快樂。'},
-      {label:'end'},{speaker:'kexin',expression:'neutral',text:'十分鐘。然後回去念書。我們都還有考試。'},
+      {label:'end'},{speaker:'kexin',expression:'neutral',text:'十分鐘。看完就回去。我媽說十二點半以前要到家。'},   /* AA_369 M5：期末考 12/15～12/19 已經考完，她 12/22 起在高雄放寒假 */
       {speaker:null,text:'（凌晨一點，加開的那班高鐵。你在車上睡著了。）'} ],
     consequences:{flags:{NYE_DONE:'river'},memo:'跨年：去高雄和可昕在愛河邊'} },
   /* 跨年大一（AA_204 第 2 節，企劃線 27711a39；AA_197 1-5）：12/26 阿哲揪（story3d.js）→「我去」＝19:00 麵店（ev_nye_dinner：吃飯 → 21:40 選 → 22:50 信義區管制線 → 23:40 頂樓）；
@@ -3850,7 +3850,7 @@ const SMALLTALK={
     {t:'「你念過經濟系，我只問一件事：經濟系的期中，會不會跟法律系的撞在同一週？」',term:['Y1S1','Y1S2'],if:{notEvents:['ev_xinci_double'],flagIs:{ECON_PAST_SHARED:'full'}}}],
   classmate_mingxuan:['「阿哲說週五練球。」',{t:'「你看起來很累。睡飽比較重要。」',if:{lateNight:true},once:'week',prio:1}],
   classmate_youchen:[{t:'「……現在幾點？我昨天四點才睡。」',time:[8,13]},{t:'「公館那間 bar 週五我放歌，來嗎？」',if:{notEvents:['ev_youchen_dj']}}],
-  classmate_peishan:['「我今天旁聽了倫理學。」',{t:'「讀書會週三，萬才館。」',if:{notFlags:['lawclub']}}],
+  classmate_peishan:['「我今天旁聽了倫理學。」',{t:'「萬才館的研討室，下午都沒人。你可以去那裡讀書。」',if:{notFlags:['lawclub']}}],   /* AA_369 第 4 節：法服沒有週三讀書會（口氣表 0-3）*/
   npc_fangyt:[{t:'「森林系的野外實習，下週去溪頭。」',once:'term',if:{custom:G=>!(typeof STORY!=='undefined'&&STORY.dayOfKey&&G.day>=STORY.dayOfKey('2028-07-01'))}},   /* AA_357 2-2 第 6 點：他 2028 畢業（2028-07 起在嘉義）以後不說 */{t:'「芷若跟你講過我嗎？她高中就這樣，什麼都不講。」',if:{events:['ev_fangyt_hint']}}],   /* 第二句在 Z6（BB_96 3-6，大一下）之後才說；Z6 還沒做，先不說（BB 2026-10-13）*/
   npc_huangxh:['「心理系的統計比你們的民法可怕。」',{t:'「語彤最近很累，你有注意到嗎？」',if:{memory:[{npc:'heroine_03',tag:'FIRST_MET'}]}}],
   npc_ta_chen:['「論文寫到第三章。……別問我第四章。」',{t:'「林老師的考題，看判決就對了。」',term:['Y2S2','Y3S1']}],

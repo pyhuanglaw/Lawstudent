@@ -61,8 +61,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
   /* ===== S3 芷若大一暑假 ===== */
   rowCheck('S3. 芷若大一暑假 8/25 還在台中、8/26 回臺北（防回歸）','heroine_02',[['2026-08-25',p=>isHome(p,'台中')],['2026-08-26',here]]);
   /* ===== S4 芷若（BB_198 5-2、7-1）===== */
-  rowCheck('S4. 芷若大二寒假（BB_198 5-2）：1/15 在臺北、1/16～2/17 台中、2/18 回臺北','heroine_02',
-    [['2027-01-15',here],['2027-01-16',p=>isHome(p,'台中')],['2027-02-17',p=>isHome(p,'台中')],['2027-02-18',here]]);
+  rowCheck('S4. 芷若大二寒假（BB_198 5-2；AA_369 M1：1/16 晚上 C15 放映她還在臺北）：1/16 在臺北、1/17～2/17 台中、2/18 回臺北','heroine_02',
+    [['2027-01-15',here],['2027-01-16',here],['2027-01-17',p=>isHome(p,'台中')],['2027-02-17',p=>isHome(p,'台中')],['2027-02-18',here]]);
   rowCheck('S4. 芷若大二暑假：8/20 在臺北、8/21 起台中、9/2 從台中出發（遊戲裡她說「九月二號」；出發那天還算台中）、9/3 起英國（BB_198 7-1）；英國那一學期照舊 kind absent；2/12 回臺灣先回台中、2/19 回臺北（2/19、2/20 不再算英國）','heroine_02',
     [['2027-08-20',here],['2027-08-21',p=>isHome(p,'台中')],['2027-09-02',p=>isHome(p,'台中')],['2027-09-03',p=>isUK(p)],['2027-10-15',p=>isUK(p,'absent')],['2028-01-10',p=>isUK(p,'absent')],['2028-02-11',p=>isUK(p)],
      ['2028-02-12',p=>isHome(p,'台中')],['2028-02-18',p=>isHome(p,'台中')],['2028-02-19',here],['2028-02-20',here]]);
@@ -98,7 +98,8 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
     check('S5. '+key+'（回國 '+(rd!=null?K(rd):'?')+'，以安在台中）：21:00 兩則「到了嗎？」「……好。我在台中，沒辦法去接你。行李先放著，先睡。」；不約見面、不排出遊',
       isHome(pr,'台中')&&JSON.stringify(A)===JSON.stringify(reTwo)&&!q&&(G.msgs||[]).filter(m=>m.th==='p:heroine_01').every(m=>m.h===21),JSON.stringify([sh(pr),A,!!q])); }
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true}); know('heroine_01',60); VAC.rec(G).reg['C08@Y1']='done'; runPh(17.9,21.2); const A=txt('p:heroine_01'), q=OUT.get(G,'vac_C08@Y1_re_heroine_01');
-    check('S5. C08 大一（2026-07-24 回國，那天以安還在臺北）：照原本的重逢「明天下午三點，總圖門口。」（防回歸）',A.includes('heroine_01:明天下午三點，總圖門口。')&&!!q&&!A.includes(reTwo[0]),JSON.stringify(A)); }
+    /* AA_369 M3（取代原本的防回歸「照原本的重逢」）：重逢那天（7/25）她回台中＝一律走 reunionHome，以安沒有那一句＝不約總圖、不排出遊；回國那天她還在臺北＝也不是 S5 那兩則 */
+    check('S5. C08 大一（2026-07-24 回國，那天以安還在臺北、7/25 回台中）：AA_369 M3 不約「明天下午三點，總圖門口。」、不排出遊；也不是 S5 那兩則',!A.includes('heroine_01:明天下午三點，總圖門口。')&&!q&&!A.includes(reTwo[0]),JSON.stringify(A)); }
   { fresh(D('2026-08-05'),17.9,'dorm',{}); know('heroine_01',60); VAC.rec(G).reg['C09@Y1']='done'; runPh(17.9,21.2);
     check('S5. 沒有和以安交往：沒有那兩則',!txt('p:heroine_01').some(t=>t===reTwo[0]||t===reTwo[1]),JSON.stringify(txt('p:heroine_01'))); }
 

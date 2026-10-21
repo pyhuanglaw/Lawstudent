@@ -86,7 +86,8 @@ const th=id=>PHONE.thread(G,'p:'+id).filter(m=>m.from).map(m=>(m.from==='player'
   G.hour=18.5; const c1=MSG.pick(G,'heroine_01','chat').msgs[0], c2=MSG.pick(G,'heroine_01','chat').msgs[0]; check('D2. 18:30：兩句輪流',c1!==c2,c1+' / '+c2);
   check('D3. L 層只給交往中或第 5 階以上而且兩人都單身',MSG.tier(G,'heroine_01')==='R'&&(STAGE.heroine_01=5,MSG.tier(G,'heroine_01')==='L')&&(G.flags.dating_classmate_peishan=true,MSG.tier(G,'heroine_01')==='R'));
   delete G.flags.dating_classmate_peishan; STAGE.zhe=6; check('D4. 不是戀愛對象：最高 R',MSG.tier(G,'zhe')==='R');
-  fresh(STORY.dayOfKey('2026-07-15'),15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=3; check('D5. 放假：先用情況版「在台中。」',MSG.pick(G,'heroine_01','chat').msgs[0]==='在台中。');
+  fresh(STORY.dayOfKey('2026-07-30'),15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=3; check('D5. 放假、她在台中（7/25～8/7）：先用情況版「在台中。」',MSG.pick(G,'heroine_01','chat').msgs[0]==='在台中。');
+  fresh(STORY.dayOfKey('2026-07-15'),15); INV.addContact(G,'heroine_01'); STAGE.heroine_01=3; check('D5. 放假、她還在臺北（7/15）：不用「在台中。」，用一般版（AA_369 H5 ③）',MSG.pick(G,'heroine_01','chat').msgs[0]!=='在台中。',MSG.pick(G,'heroine_01','chat').msgs[0]);
   fresh(day,15); STAGE.heroine_05=2; INV.addContact(G,'heroine_05'); check('D6. 學姊事務版只用事務版的句子',MSG.pick(G,'heroine_05','chat').msgs[0]==='收到。'); }
 // E 熟悉度
 { const acts=[]; const orig=SOCIAL.activity; SOCIAL.activity=(id,k)=>{ acts.push(id+':'+k); return {}; };

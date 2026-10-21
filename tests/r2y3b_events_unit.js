@@ -350,12 +350,12 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true}); date('heroine_01'); ct('heroine_01'); rules(); const wq=OUT.get(G,'y3_an_white');
   check('WD1. 交往中、2/14 送過：3/13 21:00「明天傍晚六點，公館。」；排 3/14 18:00 公館', txt('p:heroine_01').includes('heroine_01:明天傍晚六點，公館。')&&!!wq&&wq.day===D('2028-03-14')&&wq.h===18, JSON.stringify(txt('p:heroine_01')));
   picks=[2]; await run('ev_an_white_day');
-  check('WD1. 3/14「日本的白色情人節……」「一個月前你送的。這是回禮。」；三個回覆；「十一天以後妳就走了。」→「十一天。……我算過了。」', has('日本的白色情人節，是收到巧克力的人要回禮。')&&has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&opts[0].length===3&&has('十一天。……我算過了。')&&G.flags.AN_WHITE_DAY==='eleven'&&!has('二月十四號，我在臺中，你在臺北。沒有巧克力。'));
-  /* AA_343 D1（改了這一項的期待值）：交往中一律有；2/14 沒送（現在所有玩家）＝「預付」那一版 */
+  check('WD1. 3/14「日本的白色情人節……」「一個月前你送的。這是回禮。」；三個回覆；「十一天以後妳就走了。」→「十一天。……我算過了。」', has('日本的白色情人節，是收到巧克力的人要回禮。')&&has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&opts[0].length===3&&has('十一天。……我算過了。')&&G.flags.AN_WHITE_DAY==='eleven'&&!has('二月十四號那天，我在讀書。……你也沒說什麼。'));
+  /* AA_343 D1（改了這一項的期待值）：交往中一律有；2/14 沒送（現在所有玩家）＝「不是回禮」那一版（AA_369 H2 改字：2/14 她在臺北、「理由欄」不說出口）*/
   fresh('2028-03-13',21.1,'dorm'); date('heroine_01'); ct('heroine_01'); rules(); { const q=OUT.get(G,'y3_an_white'); check('WD. D1 2/14 沒送（現在所有玩家）：交往中一律有 3/13 21:00 私訊、3/14 18:00 公館', PHONE.sent(G,'y3_an_white')&&!!q&&q.day===D('2028-03-14')&&q.h===18); }
   picks=[0]; await run('ev_an_white_day');
-  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號，我在臺中，你在臺北。沒有巧克力。','（她拿出一個小紙袋）所以這個不是回禮。理由欄我寫了：預付。','嗯。……打開以前先猜。'];
-    check('WD. D1 沒送過：「二月十四號，我在臺中，你在臺北。沒有巧克力。」「（她拿出一個小紙袋）所以這個不是回禮。理由欄我寫了：預付。」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。'), JSON.stringify(said.map(x=>x.t))); }
+  { const W=['日本的白色情人節，是收到巧克力的人要回禮。','二月十四號那天，我在讀書。……你也沒說什麼。','（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。','嗯。……打開以前先猜。'];
+    check('WD. D1 沒送過（AA_369 H2）：「二月十四號那天，我在讀書。……你也沒說什麼。」「（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。」；沒有「我在臺中」「理由欄」；三個回覆照原稿（「謝謝。」→「嗯。……打開以前先猜。」）', JSON.stringify(said.map(x=>x.t))===JSON.stringify(W)&&opts[0].length===3&&!has('（她拿出一個小紙袋）一個月前你送的。這是回禮。')&&!said.some(x=>/我在臺中|理由欄/.test(x.t)), JSON.stringify(said.map(x=>x.t))); }
   fresh('2028-03-13',21.1,'dorm',{AN_VDAY_GIFT:true,EXCHANGE_ROUTE:'JP'}); date('heroine_01'); ct('heroine_01'); rules(); check('WD. 日本路線：沒有 3/14', !OUT.get(G,'y3_an_white'));
   fresh('2028-04-13',21,'dorm'); date('heroine_01'); rules(); const fv=OUT.get(G,'y3_an_far_video');
   check('WD2. 交往中：4/13 22:30 視訊（日本 23:30；10 分鐘沒接＝沒接）', !!fv&&fv.h===22.5&&Math.abs(fv.late-1/6)<1e-9&&fv.verb==='接起來'&&fv.place==='視訊');

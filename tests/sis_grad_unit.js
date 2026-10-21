@@ -161,7 +161,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     check('2-5. 1/26 不再有她的私訊、不排 20:00 的出遊（AA_360 2-1）',!her().length&&!OUT.get(G,'sisg_low_night'));
     const pass=async(day,h,fl,k)=>{ fresh(day,h,'library_hall',Object.assign({SIS_W1:true,SIS_STUDY:true},fl||{})); FRI(); const r0=relOf(); picks=[k||0]; const a=SISG.tick(GM); if(a) await SISG._p; G.zone='campus'; const b=SISG.tick(GM); if(b) await SISG._p; return {a,b,L:txts(),r0,r1:relOf()}; };
     { const r=await pass(d25,20.5,{SIS_STUDY:false}); check('2-5. 沒有 SIS_STUDY：沒有這一場',!r.a&&!r.b&&!r.L.length); }
-    const a=await pass(d25,20.5,{},0); const head=['（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）','（她還坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）','學弟。你怎麼在這裡。','我在看我的計畫本。大一到現在的。','每一週都排滿了。我剛剛在找有沒有哪一週是空的。','……沒有。','（她把計畫本闔上。）','下禮拜就考試了。我有一點怕。'];
+    const a=await pass(d25,20.5,{},0); const head=['（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）','（她還坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）','學弟。你怎麼在這裡。','我在看我的計畫本。大一到現在的。','每一週都排滿了。我剛剛在找有沒有哪一週是空的。','……沒有。','（她把計畫本闔上。）','再一個禮拜就考試了。我有一點怕。'];
     check('2-5. 1/25 20:30 在總圖、走出總圖就演；台詞照 BB_122 ★-3 5-2＋AA_360 2-1（開頭兩行旁白、「學弟。你怎麼在這裡。」）；CG BCG-42；「我陪妳坐一下。」→「好。不用講話。」（坐到熄燈）→ 結尾',!a.a&&a.b===true&&JSON.stringify(a.L)===JSON.stringify(head.concat(['好。不用講話。','（你們坐到圖書館熄燈。）','好了，我回去了。明天還是八點到。']))&&cgs.includes('cg_planner_four_years_heroine05'),JSON.stringify(a.L));
     check('2-5. 記 SIS_PREEXAM_NIGHT；信任 +3、自在 +2；沒有告白選項；選項 c 換「我陪妳走到捷運站。」（AA_360 2-1）',G.flags.SIS_PREEXAM_NIGHT===true&&a.r1.trust-a.r0.trust===3&&a.r1.comf-a.r0.comf===2&&opts[0].join('|')==='「我陪妳坐一下。」|「妳準備得很夠了。」|「我陪妳走到捷運站。」');
     const b=await pass(d25,20.5,{},1), c=await pass(d25,20.5,{},2); check('2-5. 另外兩個選項的回答',b.L.slice(-2).join('/')==='大家都這樣說。……可是謝謝。/好了，我回去了。明天還是八點到。'&&c.L.slice(-2).join('/')==='……好。走到那裡就好。/好了，我回去了。明天還是八點到。');

@@ -413,13 +413,13 @@ const R2Y3B_EVENTS=(function(){
     dialogue:[ {scene:'兩點半 Café・窗邊',bg:'cafe_window'},{speaker:'heroine_01',text:'（從包包拿出一本日本的手帳）給你。'},{speaker:null,text:'（第一頁寫著：「理由欄。空著，給你。」）'},{set:{AN_NOTEBOOK_GIFT:true}} ] };
 
   /* ---------- 2-Y3-53 台灣、美國路線：和以安交往中的遠距（AA_187 1-4 原句）：3/14（二）白色情人節公館當面（交往中一律有，AA_343 D1）；4/13（四）22:30 視訊（日本 23:30）---------- */
-  const VDAY={custom:G=>!!(G.flags&&G.flags.AN_VDAY_GIFT)};   /* 2/14 送過（以後 2/14 的系統做好、那一場記 AN_VDAY_GIFT）；沒送過＝現在所有玩家：「預付」那一版 */
+  const VDAY={custom:G=>!!(G.flags&&G.flags.AN_VDAY_GIFT)};   /* 2/14 送過（以後 2/14 的系統做好、那一場記 AN_VDAY_GIFT）；沒送過＝現在所有玩家：「不是回禮」那一版（AA_369 H2：2028 寒假她只回台中 1/24～1/28，2/14 在臺北；「理由欄」不說出口）*/
   const WHITE={ id:'ev_an_white_day', title:'白色情人節', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'公館',bg:'gongguan'},
       {speaker:'heroine_01',text:'日本的白色情人節，是收到巧克力的人要回禮。'},
       {if:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）一個月前你送的。這是回禮。'},
-      {unless:VDAY,speaker:'heroine_01',text:'二月十四號，我在臺中，你在臺北。沒有巧克力。'},
-      {unless:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）所以這個不是回禮。理由欄我寫了：預付。'},
+      {unless:VDAY,speaker:'heroine_01',text:'二月十四號那天，我在讀書。……你也沒說什麼。'},
+      {unless:VDAY,speaker:'heroine_01',text:'（她拿出一個小紙袋）所以這個不是回禮。……是我自己想送的。'},
       {choice:[{text:'「謝謝。」',set:{AN_WHITE_DAY:'thanks'},goto:'a'},{text:'「台灣是反過來的吧？」',set:{AN_WHITE_DAY:'reverse'},goto:'b'},{text:'「十一天以後妳就走了。」',set:{AN_WHITE_DAY:'eleven'},goto:'c'}]},
       {label:'a'},{speaker:'heroine_01',text:'嗯。……打開以前先猜。'},{goto:'end'},   /* 三個回覆她各回一句（新寫）*/
       {label:'b'},{speaker:'heroine_01',text:'我查過了。所以我送。'},{goto:'end'},
