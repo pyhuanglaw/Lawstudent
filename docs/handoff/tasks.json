@@ -25633,7 +25633,7 @@
    "id": "ART-Y1-BOX-1021",
    "title": "大一房間床底下的紙箱（AA_347 5-1「冬天的衣服」）＋地上的膠帶（阿凱的國界 KAI_TAPE）：現在只有互動點和旁白，沒有 3D 模型",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "source": "AA_347 第 7 節 5-1、1-1；子代理 593783b1 回報",
    "first": {
@@ -25655,7 +25655,7 @@
     "ack": "SENT"
    },
    "sha": "7ef4ff56",
-   "evidence": "7ef4ff56：LAWWW2 36c07603 的 patch（assets3d／zones3d／y1fill3d）＋dorm_y1_items.glb；膠帶在阿凱好朋友那句演完記 KAI_TAPE_GONE（aa347_y1_unit）"
+   "evidence": "BB（帳號 A）17:10：BB_218 最後一節（6ec20030）——開發分支 47adae82 同角度重拍 FIXED；兩種膠帶狀態程式檢查 PASS；截圖 test_shots/tape_box_reshoot_1021/"
   },
   {
    "id": "AA348-ECON-1021",
@@ -27097,6 +27097,34 @@
    "source": "企劃線 AA_367（a7bd9741；第 0 節共通規格、第 8 節月份表；AA 17:05 send_message）",
    "authorized": "D100／D109（AA 定稿）",
    "next": "和 AA366-KX-POSTGRAD-1021、AA354-KX-OURDAYS-1021 同一套固定格機制一起做；做成 PG 停點（S.SOFT／stops），不靠長跳的整點規則；不在三個優先項目裡，照佇列排"
+  },
+  {
+   "id": "ART-Y1-BOX-MIRROR-1021",
+   "title": "大一 203 壓平的紙箱上「冬天的衣服」字左右鏡像",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一 203 拆了「冬天的衣服」紙箱以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）17:10：BB_218 最後一節（6ec20030）",
+   "authorized": "bug 修正（D108 場景美術）",
+   "next": "dorm_y1_items.py 壓平紙箱那面的貼圖 UV 翻過來；交 GLB",
+   "xai": {
+    "spec": "BB_218 最後一節（6ec20030）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB 同角度重拍字是正的",
+    "receiver": "LAWWW",
+    "ack": "DELIVERED"
+   }
   }
  ]
 }
