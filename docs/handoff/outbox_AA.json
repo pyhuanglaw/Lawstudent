@@ -1114,6 +1114,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "法律系大一上：高 3、中 8、低 7；法服週三讀書會的時間還顯示在博覽會選單"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "a48fe1b7",
+   "files": [
+    "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 整份做（程式＋改字）",
+   "next": "LAWWW 開 AA373-Y1S2-FIX-1021／BB 驗（檔內第 5 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系大一下：高 2、中 11、低 9；可昕比輸贏四處（使用者 10-18 規則）"
   }
  ],
  "items": [
