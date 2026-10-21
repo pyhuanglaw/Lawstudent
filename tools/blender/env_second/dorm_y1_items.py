@@ -44,7 +44,7 @@ rng = random.Random(1021)
 # ---------------- 印刷品貼圖（1024×1024；PIL 左上原點）----------------
 AW, AH = 1024, 1024
 R = {'top': (0, 0, 512, 320), 'side': (512, 0, 1024, 330), 'end': (0, 336, 330, 676), 'plain': (340, 336, 500, 496),
-     'flat': (512, 340, 1024, 734), 'tape': (0, 700, 512, 724), 'tape_text': (0, 732, 512, 756)}
+     'flat': (512, 340, 1024, 734), 'tape': (0, 690, 512, 731), 'tape_mid': (0, 740, 512, 781), 'tape_text': (0, 790, 512, 831)}   # 膠帶 4.8 cm：中間那段 0.6 m＝512×41（長寬比 12.5）
 KRAFT, KRAFT_D = (184, 142, 94), (172, 132, 86)
 TAPE_C = (112, 186, 178)
 
@@ -117,9 +117,11 @@ def draw_atlas():
     for t in (0.22, 0.78): d.line((x0, y0 + H_ * t, x1, y0 + H_ * t), fill=(150, 112, 72), width=2)
     for (a, b) in ((0.05, 0.2), (0.55, 0.72)): opp_tape(d, (int(x0 + W_ * a), int(y0 + H_ * 0.2), int(x0 + W_ * b), int(y0 + H_ * 0.26)))
     hand(im, '冬天的衣服', x0 + W_ * 0.4, y0 + H_ * 0.5, 34, ang=180 + 2, seed=3); icons(d, x0 + W_ * 0.62, y0 + H_ * 0.62, 40)
-    # 紙膠帶兩種：沒字、寫了字（字頭＝圖的上緣＝阿凱那一邊）
-    washi(d, R['tape']); washi(d, R['tape_text']); x0, y0, x1, y1 = R['tape_text']
-    hand(im, '法律系可以無條件入境', (x0 + x1) // 2, (y0 + y1) // 2 + 1, 19, ang=0.6, seed=11, stroke=0, gap=0.98, wob=8)
+    # 紙膠帶三種：沒字（其他段）、中間那段寫「國界」（ev_kai_tape2 以前）、寫「法律系免簽」（以後）——AA 2026-10-21 定（BB_218：原本的「法律系可以無條件入境」字太小，玩家看不出來）
+    # 字放到最大（佔滿膠帶寬度）、麥克筆粗一點；字頭＝圖的上緣＝阿凱那一邊
+    washi(d, R['tape']); washi(d, R['tape_mid']); washi(d, R['tape_text'])
+    x0, y0, x1, y1 = R['tape_mid']; hand(im, '國界', (x0 + x1) // 2, (y0 + y1) // 2 - 3, 31, ang=0.6, seed=11, stroke=1, gap=1.1, wob=4)   # 字的墨跡比圖層中心低約 4 px（字畫在 2s 方框的 (s/2, s/2)）：往上 4 px 才不會貼到膠帶下緣
+    x0, y0, x1, y1 = R['tape_text']; hand(im, '法律系免簽', (x0 + x1) // 2, (y0 + y1) // 2 - 3, 31, ang=0.4, seed=1, stroke=1, gap=1.04, wob=4)   # seed 12 的「律」「系」中間空了一格（字距 −4、+2、−3、+1 px），seed 1 是 −1、0、0、0；「簽」原本超出膠帶下緣 2 px
     im.save(ATLAS); return im
 
 
@@ -182,8 +184,9 @@ for (za, zb) in ((bz0, bz0), (bz1, bz1)):                                       
 t.finish(g)
 NOTE['Y1_BOX_WINTER'] = '封好的紙箱：8/29 起、BOX_WINTER_OPEN 以前（衣櫃前、床板底下，在 L2 床桌組裡面，導航本來就擋著）'
 
-# 壓平的紙箱：靠在書桌底下的牆邊（抽屜櫃 k0～k0+0.42 和右側板 k1 中間），往外斜一點
-k0, k1 = P2['desk_u']; fz0, fz1 = k0 + 0.47, k1 - 0.03; fh = 0.6; vb, vt = 0.11, 0.035                    # 底邊離牆 11 cm、上緣靠牆
+# 壓平的紙箱（BB_218 2026-10-21：原本在書桌底下的牆邊，被書桌下的深藍色物品整個擋住，玩家看不到）→ 靠在衣櫃門前（原本封好的紙箱那個位置、床板底下＝「塞回床底下」），
+# 朝走道那一面看得到；在 L2 床桌組裡面（導航本來就擋著）。XW 換成衣櫃門面（離牆 0.585），寬度照衣櫃門（0.56 m）
+XW = -2.9 + 0.585; fz0, fz1 = w0 + 0.02, ust - 0.02; fh = 0.62; vb, vt = 0.13, 0.03                    # 底邊離衣櫃門 13 cm、上緣靠在門上
 g = B.group('Y1_BOX_FOLDED', root, {'kind': 'y1_box', 'state': 'folded'}); t = TMesh('Y1_box_folded', M['print'])
 th = 0.008
 t.q([(XW + vb, 0.0, fz1), (XW + vb, 0.0, fz0), (XW + vt, fh, fz0), (XW + vt, fh, fz1)], 'flat')              # 朝走道那一面
@@ -192,10 +195,10 @@ for (za, zb, s) in ((fz0, fz0, 1), (fz1, fz1, -1)):
     t.q([(XW + vb - th, 0.0, za), (XW + vb, 0.0, za), (XW + vt, fh, za), (XW + vt - th, fh, za)][::s], 'plain', (0, 0, 0.1, 1))
 t.q([(XW + vt - th, fh, fz0), (XW + vt - th, fh, fz1), (XW + vt, fh, fz1), (XW + vt, fh, fz0)], 'plain', (0, 0, 1, 0.1))
 t.finish(g)
-NOTE['Y1_BOX_FOLDED'] = '拆了以後：壓平的紙箱靠在書桌底下的牆邊（BOX_WINTER_OPEN；寒流那天才拆的也一樣）'
+NOTE['Y1_BOX_FOLDED'] = '拆了以後：壓平的紙箱靠在衣櫃門前、床板底下（原本封好的紙箱那個位置；BOX_WINTER_OPEN；寒流那天才拆的也一樣）'
 
 # ---------------- 2. 阿凱的國界（R2：右牆 x=2.9，離牆 v → x=2.9−v）----------------
-P = U['R2']; ua, ub = P['u']; XR = 2.9; TW = 0.03; VF = 1.38   # 走道那一條在拖鞋（離牆 1.05～1.31）外面
+P = U['R2']; ua, ub = P['u']; XR = 2.9; TW = 0.048; VF = 1.38   # 膠帶寬 4.8 cm（一般封箱膠帶；原本 3 cm 的紙膠帶，字看不出來）   # 走道那一條在拖鞋（離牆 1.05～1.31）外面
 TY0, TY1 = 0.0015, 0.0022                                             # 貼在地上（地板 y=0）；接頭重疊的那一段高 0.7 mm
 def tape_piece(tm, a, b, key='tape', y=TY0, cut=(0.0, 0.0)):
     """一段膠帶：中心線 a→b（遊戲座標 (x, z)）、寬 TW；cut＝兩端斷口斜的程度（公尺）"""
@@ -225,11 +228,11 @@ run(t, (xf + 0.012, z0_), (xw, z0_), [0.55, 0.45], flip=True)         # 兩端�
 run(t, (xf + 0.012, z1_), (xw, z1_), [0.5, 0.5], flip=True)
 t.finish(g)
 pa, pb, y = front[1]
-for nm, key in (('Y1_KAI_TAPE_MID', 'tape'), ('Y1_KAI_TAPE_TEXT', 'tape_text')):
+for nm, key in (('Y1_KAI_TAPE_MID', 'tape_mid'), ('Y1_KAI_TAPE_TEXT', 'tape_text')):
     g = B.group(nm, root, {'kind': 'kai_tape', 'part': 'mid'}); t = TMesh(nm + '_m', M['print']); tape_piece(t, pa, pb, key=key, y=y, cut=(0.008, -0.006)); t.finish(g)
 NOTE['Y1_KAI_TAPE'] = '阿凱的國界（KAI_TAPE 以後；R2 床桌組外面一圈，走道那一條離牆 1.38 m）'
-NOTE['Y1_KAI_TAPE_MID'] = '走道那一條中間那一段：沒寫字（ev_kai_tape2 以前）'
-NOTE['Y1_KAI_TAPE_TEXT'] = '同一段寫了「法律系可以無條件入境」（ev_kai_tape2 以後）；和 MID 只顯示一個'
+NOTE['Y1_KAI_TAPE_MID'] = '走道那一條中間那一段：寫「國界」兩個大字（ev_kai_tape2 以前；AA 2026-10-21）'
+NOTE['Y1_KAI_TAPE_TEXT'] = '同一段寫「法律系免簽」五個大字（ev_kai_tape2 以後；AA 2026-10-21）；和 MID 只顯示一個'
 
 # ---------------- 匯出 ----------------
 for m in bpy.data.materials:

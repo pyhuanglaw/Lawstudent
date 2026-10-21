@@ -1544,8 +1544,8 @@ const Z3 = (function(){
      大三、大四拆出來的東西（SCN-V4-01／SCN-V5-01；dorm_y3_items.glb，tools/blender/env_second/dorm_y3_items.py，LAWWW-C 的美術子代理 2026-10-20；READY_FOR_ART_REVIEW）：
      ITEM_<id>＝S.ROOM_Y3_TEXT（507 起）、S.ROOM_Y4_TEXT（409）的 key，照 ROOM_Y3_ITEMS／ROOM_Y4_ITEMS；FORM_STAMP＝志願表上系辦的章（日本、美國路線才有）。兩組一起由 z.setY2Items 管 */
   /* 大一 203 的兩樣東西（ART-Y1-BOX-1021；dorm_y1_items.glb，tools/blender/env_second/dorm_y1_items.py，LAWWW2-C；AA_347 1-1、5-1；READY_FOR_ART_REVIEW）：
-     Y1_BOX_WINTER＝「冬天的衣服」紙箱（8/29 起、拆以前；祐廷衣櫃前、床板底下）、Y1_BOX_FOLDED＝拆了以後壓平、靠在書桌底下的牆邊（BOX_WINTER_OPEN）；
-     Y1_KAI_TAPE＝阿凱的國界（KAI_TAPE 以後、還是室友；R2 床桌組外面一圈），中間那段 Y1_KAI_TAPE_MID／_TEXT 只顯示一個（ev_kai_tape2 演過＝寫了字的那段）。
+     Y1_BOX_WINTER＝「冬天的衣服」紙箱（8/29 起、拆以前；祐廷衣櫃前、床板底下）、Y1_BOX_FOLDED＝拆了以後壓平、靠在衣櫃門前（原本封好的那格；BOX_WINTER_OPEN；LAWWW2 6437fcf6，原本在書桌底下看不到）；
+     Y1_KAI_TAPE＝阿凱的國界（KAI_TAPE 以後、還是室友；R2 床桌組外面一圈，寬 4.8 cm），中間那段 Y1_KAI_TAPE_MID「國界」／_TEXT「法律系免簽」只顯示一個（ev_kai_tape2 演過＝後者；AA 2026-10-21）。
      都在床桌組裡面或貼在地上（離地 1.5～2.2 mm；走道那一條離牆 1.38 m），不改導航。y1fill3d.js 的 S.tick 每一幀叫 z.setY1Items（狀態沒變就不動）*/
   function y1State(G){ const F=(G&&G.flags)||{}, d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-08-29'):null, done=(G&&G.events&&G.events.done)||{};
     const mate=typeof STORY==='undefined'||!STORY.kaiRoommate||STORY.kaiRoommate(G);
