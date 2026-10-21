@@ -24,26 +24,16 @@ async def main():
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
             await L.load_state(pg, G); await pg.wait_for_timeout(6000); run.setup('[前置] %s：讀經濟系 11/30 狀態 %s' % (orient, os.path.basename(SNAPF)))
             # 10-21 第一輪：讀檔後遊戲自己往下走（在家快轉），馬上演 12/13 補習班那一段，手機打不開——先照玩家把劇情點完、等到可以開手機
-            idle = 0   # 第二輪：讀檔後一兩秒內什麼都沒有，劇情是之後才開始的——要等到家裡的選單出現「看手機」（或連續 40 秒什麼都沒有）才算點完
-            for k in range(400):
+            # 第三輪除錯（scratchpad dbg/p3b_dbg.py）：讀檔 3 秒多以後，經濟系在家快轉到 23:00 停下來，手機自己打開（訊息列表，關閉鈕寫「跳過」），遊戲暫停等玩家；
+            # 前兩輪腳本把它當成「沒開」，收起來＝按了「跳過」→ 快轉到 12/13 補習班那一段，之後手機當然打不開。這一輪就用它自己打開的手機（玩家真的會看到的那一刻）
+            for k in range(60):
+                if await pg.evaluate(PH_OPEN): break
                 s = await L.state(pg)
-                if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); idle = 0; continue
-                if s['choices']:
-                    cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled).map(b=>b.textContent.trim())")
-                    if any(c.startswith('看手機') for c in cs): break   # 家裡的選單：手機開得了
-                    c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled)[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
-                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); idle = 0; continue
-                if s['busy']: await pg.wait_for_timeout(700); idle = 0; continue
-                idle += 1
-                if idle >= 40: break
-                await pg.wait_for_timeout(1000)
-            sn0 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2); })()"); print('%s 劇情點完：%s' % (orient, sn0), flush=True)
-            await L.close_panels(pg, cdp)
-            # ⑤ 未讀：照玩家打開手機 → 訊息
-            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+                if s['dlg']: await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(500)
+            sn0 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2); })()"); print('%s 手機自己打開：%s（%s）' % (orient, await pg.evaluate(PH_OPEN), sn0), flush=True)
             if not await pg.evaluate(PH_OPEN):
-                c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.trim().startsWith('看手機')); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
-                if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200)
+                await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
             ph1 = await pg.evaluate(PH_OPEN); print('%s 手機打開了：%s' % (orient, ph1), flush=True)
             c = await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"msg\"]'); if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
             if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200)
