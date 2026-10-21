@@ -469,6 +469,8 @@ const date=id=>H.date(id);
     check('2-Y4-60 第二年才上（2-Y4-51）：「恭喜。」「……這次可以停一下了。」', JSON.stringify(th('p:heroine_05').slice(-2))===JSON.stringify(['恭喜。','……這次可以停一下了。'])); }
   /* ===== 2-Y4-61 沛珊：大四下的學期末（台南）===== */
   { fresh('2029-06-08',14,'dorm',GD); H.FRIEND('classmate_peishan'); heartOk('classmate_peishan'); delete TERMEND.rec(H.G).think.classmate_peishan; contact('classmate_peishan'); at('2029-06-08',15); phone();
+    check('2-Y4-61 放榜後還沒重新聯絡上（沒交往）：不約（AA_282 第 2 節：她不先找人；PS-TAINAN-AA282）', !th('p:classmate_peishan').some(t=>/^期末考完了！/.test(t)));
+    fresh('2029-06-08',14,'dorm',Object.assign({},GD,{PS_BACK_FIRST:D('2027-08-12')})); H.FRIEND('classmate_peishan'); heartOk('classmate_peishan'); delete TERMEND.rec(H.G).think.classmate_peishan; contact('classmate_peishan'); at('2029-06-08',15); phone();   /* 放榜後重新聯絡上的（AA_282 第 2 節）*/
     const inv=TERMEND.heart('classmate_peishan','Y4S2').invite;
     check('2-Y4-61 6/8（五）15:00 她傳 AA_254 第 6 節一般版的邀約（「期末考完了！……」）', th('p:classmate_peishan').includes(typeof inv==='function'?inv(H.G):inv)&&/^期末考完了！/.test(th('p:classmate_peishan').slice(-1)[0]));
     answer('y4_ps_te',0); phone(); const q=OUT.get(H.G,'y4_ps_te');

@@ -110,7 +110,15 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     fresh(D('2028-01-10'),12,'dorm',{PS_BACK_FIRST:1}); R(ID,'FRI'); C(ID);
     check('4. 大三寒假：「我去台中找妳？」（台中那一組）', HV.key(G,ID)===ID&&!!HV.offer(G,ID)&&HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台中找妳？');
     fresh(d,12,'dorm',{}); date(ID); C(ID); picks=['算了']; opts=[]; await INV.flow(GM,ID,null,false);
-    check('4. 交往中：約她的清單也沒有視訊（AA_282 只說交往中的可以視訊，遊戲還沒有沛珊的視訊）', (opts[0]||[]).includes('我去台南找妳？')&&!(opts[0]||[]).some(t=>/視訊/.test(t)), JSON.stringify(opts[0])); }
+    check('4. 交往中：約她的清單也沒有視訊（AA_282 只說交往中的可以視訊，遊戲還沒有沛珊的視訊）', (opts[0]||[]).includes('我去台南找妳？')&&!(opts[0]||[]).some(t=>/視訊/.test(t)), JSON.stringify(opts[0]));
+    // 校外約會（DATE）：她不來臺北（AA_282 第 6 節第 1 點）——臺北市的地點約不到，外縣市不擋
+    fresh(d,12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID);
+    const c1=DATE.check(G,{who:ID,locs:['D06'],day:d+3,depart:10}), c2=DATE.check(G,{who:ID,locs:['D13'],day:d+3,depart:10}), w0=DATE.noTaipei(G,ID,d+3,'D06');
+    check('4. 校外約會：臺北市的地點（北美館）約不到「她那時候在台南，不來臺北」；新北（淡水）不擋', !c1.ok&&c1.why==='她那時候在台南，不來臺北'&&w0===c1.why&&c2.why!==c1.why, JSON.stringify([c1.why,c2.ok,c2.why]));
+    fresh(D('2028-01-10'),12,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); const c4=DATE.check(G,{who:ID,locs:['D06'],day:G.day+3,depart:10});
+    check('4. 大三寒假：臺北市的地點也約不到「她那時候在台中，不來臺北」', !c4.ok&&c4.why==='她那時候在台中，不來臺北', JSON.stringify(c4.why));
+    fresh(termDay('Y1S2',5,3),12,'dorm',{}); R(ID,'CLO'); C(ID); const c3=DATE.check(G,{who:ID,locs:['D06'],day:G.day+3,depart:10});
+    check('4. 大一（放榜以前）照舊：北美館不擋', !/不來臺北/.test(c3.why||''), JSON.stringify(c3.why)); }
 
   // ===== 5. 閒聊階梯（AA_282 第 3 節；context:'date'）=====
   { check('5. 階梯資料：大三上～大四下的沛珊是 context:date（白名單 49ed7e6a，AA_282 第 4 節已改）', ['Y3S1','Y3S2','Y4S1','Y4S2'].every(t=>LADDER.byTerm[t]&&LADDER.byTerm[t][ID]&&LADDER.byTerm[t][ID].context==='date'));
