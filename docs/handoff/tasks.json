@@ -21698,7 +21698,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
+   "next": "【LAWWW-C 2026-10-21 10:1x UTC】C2 已改（沛珊台南合併）；C1、C4、C5 已改；C3 等 AA 字；C6 在日本學期子代理；補稿待派工 ｜ 【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
    "xai": {
     "spec": "AA_342（c56d4241）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -21711,7 +21711,7 @@
    "id": "PS-TAINAN-AA282",
    "title": "沛珊大三起在台南（AA_282 第 5 節＋AA_342 C2）：presence 台南／台中、拿掉大三起的臺北作息與 D08（Y3S2、Y4S2）／D20 偶遇、放榜後的重新聯絡訊息、邀約目的地台南／台中（沒交往不開視訊）、閒聊階梯 context:date、學期末心意邀約改台南（大四下不來畢業典禮、7/14 在台中）、缺的台南背景",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_282（第 5 節）、AA_342 C2（c56d4241）、AA_314 §4-5",
    "first": {
@@ -21724,7 +21724,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
+   "next": "【LAWWW-C 2026-10-21 10:1x UTC】合併（a659521d，a4218065；peishan_tainan_unit 50 項，舊程式 40 項失敗）：五項都做；校外約會臺北市地點擋（子代理照第 6 節第 1 點加的）；待問 AA 見 AA_QUESTIONS_1021.md K 節；缺的台南背景 8 張（BB 跟使用者要）；BB 清單 bb_checklists/BB_PS_TAINAN_1021.md ｜ 【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
   },
   {
    "id": "AA343-ANSWERS-1021",
