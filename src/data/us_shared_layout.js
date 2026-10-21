@@ -449,7 +449,8 @@ const US_SHARED_LAYOUT={
    "plate": "B",
    "closed": "臥室 B。門關著。",
    "style": "sixPanelWhite",
-   "deco": "poster"
+   "deco": "coat",
+   "note": "門後掛勾掛著一件外套（BB_217 §1：一扇貼便條、一扇掛外套、一扇什麼都沒有；§7-4，2026-10-21 由海報改）"
   },
   {
    "id": "bath",
@@ -926,6 +927,32 @@ const US_SHARED_LAYOUT={
    "z": 2.78,
    "y": 0.92,
    "note": "瀝水架上三種不同的碗（BB_217）"
+  },
+  {
+   "type": "ceilingLight",
+   "room": "kitchen",
+   "x": -3.2,
+   "z": 2.0,
+   "note": "廚房的吸頂燈（BB_217 §7-2：9/13 傍晚廚房開著燈；燈的位置和 us3d.js 的 PointLight (−3.2, 2.0) 一樣）"
+  },
+  {
+   "type": "lifeWallArt",
+   "room": "living",
+   "x": -4.5,
+   "z": -1.2,
+   "y": 1.72,
+   "w": 0.9,
+   "h": 0.6,
+   "note": "沙發上方的西牆：裱框的風景版畫（虛構、沒有字；BB_217 §7-3 客廳牆面很空）"
+  },
+  {
+   "type": "lifePhotoString",
+   "room": "living",
+   "wall": "W",
+   "z0": -2.86,
+   "z1": -2.32,
+   "y": 1.66,
+   "note": "西牆北端（沙發和牆角中間、檯燈上方）：麻繩夾著四張拍立得照片（照片是色塊，沒有人臉；BB_217 §7-3）。第一版放北牆窗戶左邊，被窗簾擋住"
   },
   {
    "type": "eventUS2",

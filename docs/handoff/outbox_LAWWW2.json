@@ -1073,6 +1073,24 @@
    "state": "MODEL_READY＋patch（assets3d.js、zones3d.js、y1fill3d.js；套在 382236a5）；我的測試工作樹 INTEGRATED：aa347_y1_unit、reachability_all --zones dorm ALL PASS（Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW；LICENSES 補列 patch 多一列（第 14 列）",
    "remaining": "膠帶撕掉的條件要 LAWWW-C 決定（rel_lines 好朋友那句以後；先留 KAI_TAPE_GONE）；iPhone 實機沒測",
    "next": "LAWWW-C 套 patch＋GLB；BB-C 畫面驗收"
+  },
+  {
+   "task": "ART-US2-FIX-1018 美術那一半：C 棟 208（BB_217 §7；LAWWW-C 10-21 09:29Z 派）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/us_shared.glb",
+    "assets/models/env/second_ai/us_shared.json",
+    "src/data/us_shared_layout.js",
+    "tools/blender/env_second/us_apartment.py",
+    "tools/blender/env_second/textures/gen/us_life_art.png",
+    "tools/blender/env_second/textures/gen/us_life_polaroid.png",
+    "docs/art-rebuild/second_ai/patches/us2_c208_1021.diff",
+    "docs/art-rebuild/second_ai/test_shots/us2_c208_1021/README.md"
+   ],
+   "state": "§7-1 泡麵袋、§7-2 廚房吸頂燈、§7-3 版畫＋拍立得、§7-4 外套門；§7-5、§7-6 開發分支已經是對的。MODEL_READY＋patch（只有 us_layouts.js 的 US_SHARED_LAYOUT 一行）；測試工作樹 INTEGRATED：nav_us_unit、reachability_all --zones us_shared ALL PASS（Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW",
+   "remaining": "US2 演出的光照舊是遊戲時段；iPhone 實機沒測",
+   "next": "LAWWW-C 換 GLB＋套 patch；BB-C 畫面驗收"
   }
  ]
 }
