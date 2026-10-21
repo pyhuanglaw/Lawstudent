@@ -359,11 +359,11 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'heroine_01',text:'讀書會。我先走。'},
       {set:{AN14:'there'}},(mem('heroine_01','AN_ADMIN_COURT')) ] };
 
-  /* ---------- 2-Y3-14 翰 4「整修中的教室」（裁定 #8）：第 10 週（11/8～11/12）平日 12:10～13:00，霖澤館二樓 202 教室門口（門上「本學期整修，暫停使用。」；他坐在門口的地上，背靠著牆；作息在 r2y3a3d.js），和柏翰 FAMILIAR 以上。
-     三、四樓已經開放、沒有整修的樓梯口了，地點換到 202（AA_343 B7；標題改、id 不變、台詞不改）---------- */
-  const THIRD={ id:'ev_bohan_third_floor', title:'整修中的教室', participants:['classmate_bohan'], location:'linze', trigger:'auto', once:true, background:'blur', npcNear:'classmate_bohan', nearDist:3,
+  /* ---------- 2-Y3-14 翰 4「四樓的樓梯間」（裁定 #8）：第 10 週（11/8～11/12）平日 12:10～13:00，霖澤館 4F（linze_4f）樓梯間，他坐在往五樓那扇刷卡門前的台階上（「5 樓以上是研究室，樓梯間的門要刷教職員證。」；作息在 r2y3a3d.js），和柏翰 FAMILIAR 以上。
+     三、四樓已經開放、沒有整修的樓梯口了（AA_343 B7，569621e0 改四樓；第一版的 202 門口作廢：202 已做成正式教室）：標題改、id 不變；「台階」、選項、「走了兩階」照原文 ---------- */
+  const THIRD={ id:'ev_bohan_third_floor', title:'四樓的樓梯間', participants:['classmate_bohan'], location:'linze_4f', trigger:'auto', once:true, background:'blur', npcNear:'classmate_bohan', nearDist:3,
     term:['Y3S1'], weeks:[10], weekday:[1,2,3,4,5], time:[12+10/60,13],
-    prereq:{custom:(G,GM)=>stAt(G,'classmate_bohan','FAMILIAR')&&onLv(1)(G,GM)},
+    prereq:{custom:(G,GM)=>stAt(G,'classmate_bohan','FAMILIAR')},   /* linze_4f 只有一層 */
     dialogue:[ {speaker:'classmate_bohan',expression:'tired',text:'（看到祐廷，沒有站起來）……你不要說話。'},
       {speaker:'classmate_bohan',expression:'serious',text:'刑訴。我最喜歡的一科。平均以下。'},
       {speaker:'classmate_bohan',text:'你知道我為什麼每天念六小時嗎。'},
@@ -371,10 +371,10 @@ const R2Y3A_EVENTS=(function(){
       {speaker:'classmate_bohan',text:'我哥念電機，一天念兩小時。我們家只有我需要六小時。'},
       {speaker:'classmate_bohan',text:'我問大家考幾分，是想確定我沒有輸太多。'},
       {if:{memory:[{npc:'classmate_bohan',tag:'ASKED_BACK'}]},speaker:'classmate_bohan',text:'……那天你反問我。我回家想了很久，為什麼我不敢反問別人。'},
-      {choice:[{text:'「六小時也是你的。」',goto:'b1'},{text:'「你跟上了啊。你還坐在第一排。」',goto:'b2'},{text:'（在他旁邊坐下）',goto:'b3'}]},
-      {label:'b1'},{speaker:null,text:'（他看著門上那張告示很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
+      {choice:[{text:'「六小時也是你的。」',goto:'b1'},{text:'「你跟上了啊。你還坐在第一排。」',goto:'b2'},{text:'（在他旁邊的台階坐下）',goto:'b3'}]},
+      {label:'b1'},{speaker:null,text:'（他看著那扇刷卡的門很久。）'},{speaker:'classmate_bohan',text:'……我的。'},{speaker:null,text:'（他笑了一下，很小。）'},{goto:'end'},
       {label:'b2'},{speaker:'classmate_bohan',text:'第一排是因為我怕坐後面聽不到。'},{speaker:null,text:'（他說完自己笑了。）'},{speaker:'classmate_bohan',expression:'smile',text:'這是我第一次跟人說這個。'},{goto:'end'},
-      {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了幾步又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
+      {label:'b3'},{speaker:null,text:'（兩個人坐到下一節課的鐘響。他站起來：）'},{speaker:'classmate_bohan',text:'今天的事，……就到這裡。'},{speaker:null,text:'（走了兩階又停下來：）'},{speaker:'classmate_bohan',text:'……下次我考好了，那個你可以說。'},
       {label:'end'},(mem('classmate_bohan','BOHAN_HONEST')) ] };
 
   /* ---------- 2-Y3-15 校慶（大三版）：11/13（六）10:00～16:00 椰林大道，和大二同一個帳篷。法服成員＝攤位版；不是＝路過版。學姊那段只在 12:00～12:30；不改 GRANDMA_TREE_Y2 ---------- */

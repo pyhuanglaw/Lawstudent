@@ -249,6 +249,12 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('B. 日本路線：4/24 21:00 視訊（日本 22:00）；「這片是你的。我幫你吃。」、沒有走到門口那一句；KX_BDAY[3] video', !!bv&&bv.h===21&&bv.place==='視訊'&&(at('2028-04-24',21),true));
   await run('ev_kexin_birthday_y3');
   check('B. 日本路線視訊的台詞', has('這片是你的。我幫你吃。')&&has('三……三十分鐘到了。第三個明年說。')&&!has('報告寫完了跟我說。')&&G.flags.KX_BDAY[3]==='video');
+  check('B. AA_344 ⑤ 沒有 KX_EXCHANGE_ASKED：沒有「沒關係，你先睡。……」', !has('沒關係，你先睡。填交換志願的時候，你有先問我。'));
+  fresh('2028-04-24',12,'dorm',{EXCHANGE_ROUTE:'JP',KX_EXCHANGE_ASKED:true}); date('kexin'); date('heroine_01'); rules(); at('2028-04-24',21); await run('ev_kexin_birthday_y3');
+  { const L=said.map(s=>s.t), i=L.indexOf('沒關係，你先睡。填交換志願的時候，你有先問我。');
+    check('B. AA_344 ⑤ 日本路線視訊、填志願時先問過她（KX_EXCHANGE_ASKED）：「三……三十分鐘到了。第三個明年說。」之後、最後一句「沒關係，你先睡。填交換志願的時候，你有先問我。」', i>0&&L[i-1]==='三……三十分鐘到了。第三個明年說。'&&i===L.length-1&&said[i].who!==null, JSON.stringify(L)); }
+  fresh('2028-04-23',21.1,'dorm',{KX_BDAY:{1:'visit',2:'met'},KX_EXCHANGE_ASKED:true}); date('kexin'); rules(); answer('y3_kx_bday_ask',0); rules(); at('2028-04-24',18); await run('ev_kexin_birthday_y3');
+  check('B. AA_344 ⑤ 當面那一版（不是日本路線）有 KX_EXCHANGE_ASKED 也沒有這一句', has('報告寫完了跟我說。')&&!has('沒關係，你先睡。填交換志願的時候，你有先問我。'));
 
   // ---------- 2-Y3-42 慈 6 ----------
   const here=id=>{ const n={id,charId:id,obj:{position:{x:0.6,y:0,z:0}},lv:0}; GM.npc[id]=n; E.npcs.push(n); };

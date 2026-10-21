@@ -280,6 +280,7 @@ const R2Y3B_EVENTS=(function(){
       {if:KXV,speaker:null,text:'（她把一片蛋糕舉到鏡頭前。）'},{if:KXV,speaker:'kexin',text:'這片是你的。我幫你吃。'},
       {speaker:'kexin',text:'生日願望。一，報告寫完。二，你的報告也寫完。'},
       {speaker:'kexin',text:'三……三十分鐘到了。第三個明年說。'},
+      {if:{custom:G=>KXV.custom(G)&&!!(G.flags&&G.flags.KX_EXCHANGE_ASKED)},speaker:'kexin',text:'沒關係，你先睡。填交換志願的時候，你有先問我。'},   /* AA_344 ⑤：日本路線視訊的最後（三十分鐘到了、她掛之前），交換志願表那一場先問過她的（KX_EXCHANGE_ASKED，story3d.js 1A-05）；BB_98 9-5 */
       {unless:KXV,speaker:null,text:'（她把最後一口蛋糕吃完，拿了包包就走。走到門口又回頭。）'},   /* 收尾（新寫）：當面那一版 */
       {unless:KXV,speaker:'kexin',text:'報告寫完了跟我說。'} ],
     after:G=>{ const x=X(); if(x) x.kxBdayDone(G); },
