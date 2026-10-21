@@ -915,18 +915,18 @@
   {
    "task": "UX-KAI-TAPE-CAM-1021",
    "branch": "claude/story-planning",
-   "sha": "6b4b86bd",
+   "sha": "a2f79fde",
    "files": [
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
     "docs/story_planning/test_tools/tapecam_probe.py",
     "docs/story_planning/test_shots/tapecam_1021/"
    ],
    "state": "已測試",
-   "next": "等 LAWWW 修讀檔後第一次進門（C_L、C_P）再重跑 SCEN=C_L,C_P",
+   "next": "無（實機秒數沒量過）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "note": "走回房間（橫／直）、待在房間＝PASS：1.8 秒後「法律系免簽」整段在畫面正中（橫 376×24、直 342×22 px）、沒被蓋、開場沒立繪、演完是寫字那段；讀檔後第一次進門（203 模型還沒載過）＝FAIL：開場時模型沒載到→talk 鏡頭＋地上顯示「國界」、旁白說「法律系免簽」；演完 18 秒以後地上才變對"
+   "ack": "未派",
+   "note": "修正後（2469df7f）ALL PASS：讀檔後第一次進門橫／直向開場 ev.shot、地上「法律系免簽」、沒被蓋；模型載不到照原本鏡頭演完不卡；走回房間照舊 PASS；進門到開演 20.9 秒（模擬器，模型已載）、載不到 115.8 秒（?turbo 每格 0.1 秒，實機約 12 秒）。第一輪（2eba2fab）讀檔後第一次進門 FAIL 已修"
   },
   {
    "task": "BUG-CAFE-KIT-GLOW-1021",
