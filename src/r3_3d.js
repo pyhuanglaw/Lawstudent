@@ -348,10 +348,7 @@ const R3=(function(){
     return O; };
 
   /* ===================== 人物面板的記憶名稱（介面字，AA 可改）===================== */
-  S.MEMORY_LABEL={ZR_FEE_LETTER:'陪她把試譯稿費的事問清楚',KAI_BOT:'教他的機器人說「先吃飯」',FANG_LAWTREE:'說好下次帶他看法學院的樹',ZR_SWAN:'拉花比賽投了她',
-    PINYU_WORRY:'期末考週在社科圖，聽她說精算的事',KAI_STAYED_UP:'他寫的 bug 那晚，陪他醒著',
-    CHIAYI_TREE:'開車去嘉義看那棵兩千歲的紅檜',MET_SIS_FATHER:'見過她爸爸',SIS_DAY_OFF:'她自己放的一天假',ZQ_DOG_TOLD:'聽她唸她爸爸那則「第七關那隻狗」'};
-  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL) for(const k in S.MEMORY_LABEL) if(!(k in SOCIAL.MEMORY_LABEL)) SOCIAL.MEMORY_LABEL[k]=S.MEMORY_LABEL[k];
+  /* 搬到 social3d.js 的 MEMORY_LABEL（ZR_FEE_LETTER、KAI_BOT…、何俊朗四項；人物面板的測試只讀那裡）*/
 
   /* ===================== 掛勾 ===================== */
   S.phone=function(G,GM){ if(!G||!G.flags||!law(G)||typeof PHONE==='undefined') return;

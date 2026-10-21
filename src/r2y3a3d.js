@@ -81,10 +81,7 @@ const R2Y3A=(function(){
   if(typeof STORY!=='undefined'&&STORY.roomY3Items&&!STORY._r2y3aRoom){ const orig=STORY.roomY3Items; STORY._r2y3aRoom=true;
     STORY.roomY3Items=function(G){ const L=orig.apply(this,arguments); const T3=(G&&G.flags&&G.flags.KX_TRIP)||{}; if(T3.Y2SUM==='two_days'&&!L.some(r=>r[0]==='kx_lighthouse')) L.push(['kx_lighthouse',S.LIGHTHOUSE[0],[S.LIGHTHOUSE[1]]]); return L; };
     if(STORY.ROOM_Y3_TEXT&&!STORY.ROOM_Y3_TEXT.kx_lighthouse) STORY.ROOM_Y3_TEXT.kx_lighthouse=S.LIGHTHOUSE.slice(); }
-  /* 人物面板的記憶名稱：AA_326 寫了的照寫（AN_ADMIN_COURT、ZHE_SCOOTER）；其他用 AA 的事件名稱或那一場的原句 */
-  if(typeof SOCIAL!=='undefined'&&SOCIAL.MEMORY_LABEL){ const ML=SOCIAL.MEMORY_LABEL, add=(k,v)=>{ if(!ML[k]) ML[k]=v; };
-    add('AN_ADMIN_COURT','她自己去行政法院旁聽'); add('ZHE_SCOOTER','他擦撞以後，你叫他先不要簽'); add('MOUNTAIN_DAY','山上沒有訊號'); add('FANG_KNOWS_ECON','「我其實換過一次跑道。」');
-    add('DAD_PLAYS','爸爸卡關了'); add('BOHAN_HONEST','「你知道我為什麼每天念六小時嗎。」'); add('FIELD_NOTES_IDEA','「……我可以拿去問老師，能不能當專題。」'); }
+  /* 人物面板的記憶名稱：搬到 social3d.js 的 MEMORY_LABEL（AN_ADMIN_COURT、ZHE_SCOOTER…；人物面板的測試只讀那裡）*/
 
   /* ===================== 2-Y3-01 可昕 KH「高雄的兩天」＋七夕 ===================== */
   const KH={inv:'2027-07-20',re:'2027-07-22',d1:'2027-08-07',d2:'2027-08-08'};
