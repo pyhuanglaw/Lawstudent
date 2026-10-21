@@ -41,6 +41,8 @@ const R2Y4B=(function(){
   const bg=id=>typeof OUT!=='undefined'&&OUT.bg?OUT.bg(id):'dark';
   const graduated=G=>typeof PG!=='undefined'&&PG.done&&PG.done(G,'grad');
   S.isDay=(G,k)=>{ const d=DK(k); return d!=null&&G.day===d; };
+  /* 好幾天的出遊（春假宜蘭、大峽谷）：跳到那一天的那個時間，日期、星期、天氣一起換（PG.setT；只往後）。給 r2y4b_events.js 的 advance 用（回傳 0，GM.advance(0) 會照新的時間更新光線）*/
+  S.jumpTo=(G,k,h)=>{ const d=DK(k); if(d==null||T(d,h)<=now(G)) return false; if(typeof PG!=='undefined'&&PG.setT) PG.setT(G,null,d,h); else { G.day=d; G.hour=h; } return true; };
   S.isSat=G=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(G.day).wd%7===6;
   const LIB_ZONES=['library','library_hall','lawlib'];
   /* 對話：字串＝她說、{narr}＝旁白（同 termend3d.js 的寫法）*/
@@ -360,7 +362,7 @@ const R2Y4B=(function(){
     return true; };
 
   /* ===================== 2-Y4-56 美國路線、和學姊交往中：秋假大峽谷（美東當地時間；AA_291 2-1）===================== */
-  const SISP=t=>P_('heroine_05',t);
+  const SISP=(t,o)=>P_('heroine_05',t,o);   /* o：回覆按鈕（ask）等，照 P_ */
   const usCanyonPhone=G=>{ const d=DK('2028-09-27'), d7=DK('2028-10-07'), F=G.flags; if(d==null||G.day<d||G.day>d7+8||route(G)!=='US') return;
     if(dating(G,'heroine_05')&&at(G,'2028-09-27',21)&&now(G)<T(d7,6)){
       const L=[SISP('十月有一個禮拜的秋假。我想開車去大峽谷。'),SISP('機票我看好了，飛到鳳凰城，在那邊租車。'),SISP('……你坐副駕，負責放音樂。')];

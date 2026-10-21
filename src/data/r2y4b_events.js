@@ -16,7 +16,7 @@ const R2Y4B_EVENTS=(function(){
   const dating=id=>G=>{ const F=(G&&G.flags)||{}, Rm=F.romance||{}; return F['dating_'+id]===true||!!(Rm[id]&&Rm[id].status==='dating'); };
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
   const toH=h=>G=>{ const hh=((G.hour%24)+24)%24; return h>hh?h-hh+1e-6:0; };   /* advance：跳到當天的某個時間（已經過了就不動）*/
-  const toDay=(k,h)=>G=>{ const r=R(); const d=r?r.DK(k):null; if(d==null) return 0; const t=d*24+h-(G.day*24+G.hour); return t>0?t+1e-6:0; };   /* 跳到某一天的某個時間 */
+  const toDay=(k,h)=>G=>{ const r=R(); if(r) r.jumpTo(G,k,h); return 0; };   /* 跳到某一天的某個時間：日期、星期一起換（R2Y4B.jumpTo；只加小時的話 G.hour 會超過 24、日期不動）*/
   const ex=id=>({custom:G=>!!(G.flags&&G.flags['EX_'+id])});
   const SAW={any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY'}]}]};
   return [
@@ -396,8 +396,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:'kexin',text:'你那一欄不喜歡的地方圈起來，我改。'},{end:true},
       {label:'yt'},{scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:'heroine_03',text:'我今年不考。……可是你考的那幾科，我也要修。'},
-      {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ],
-    consequences:{inc:{BAR_GROUP_N:1}} },
+      {speaker:'heroine_03',text:'所以你讀的時候，我也在旁邊讀我的。'} ] },   /* 成立那一晚不算讀書（BAR_GROUP_N＝讀的次數，從 2/26 第一次讀書算起；三個人的那一晚先輪到可昕）*/
   /* 讀書的那一晚（麵店）：一晚一句，輪流；只有語彤的第一次是那三句（AA_253 第 11 節）。只出題、不給答案、不寫條號 */
   { id:'ev_bar_group_night', title:'律師讀書小組', participants:[], location:['noodle','library','library_hall'], trigger:'auto', background:'blur',   /* 週六只有語彤的那幾天在總圖 */
     prereq:{custom:G=>{ const r=R(); return !!r&&r.groupNightDue(G); }},
