@@ -184,7 +184,38 @@ const INV=(function(){
     for(const iv of G.invites){ if(iv.state==='accepted'&&past(iv)&&!(iv.waitSeat&&G.zone===iv.zone)){ iv.state='missed'; S.msg(G,iv.who,'你沒有赴約：'+when(G,iv.day,iv.h)+'，'+((S.place(iv.place)||{}).name||'')+'（'+nameOf(iv.who)+'）。',iv);
         if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember(iv.who,'MISSED_DINNER',(S.place(iv.place)||{}).name||''); }
       else if(iv.state==='going'&&(iv.day<G.day||h>=iv.h+2)){ iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv); const n=GM.npc&&GM.npc[iv.who]; if(n){ n.beh='idle'; } }
-      else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; } };
+      else if((iv.state==='offered'||iv.state==='changed')&&past(iv)) iv.state='cancelled'; }
+    for(const iv of G.invites){ if(iv.state==='going'&&typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)) S.dropGoing(GM,iv); }   /* 一起走的時候回臺北的家＝作罷（使用者 10-21 23:1x：回宿舍學姊還跟著）*/
+    S.autoStart(GM); };
+  /* 約好的事：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）。
+     她從約好的時間前 15 分鐘就在那裡（S.entryFor）；你進那個區域、她也生出來了＝開始。有座位的地方兩個人一起坐下（淡出淡入），接著照 S.meet。STORY.tick 只在玩家空下來的時候跑 */
+  let autoBusy=false;
+  S.npcOf=(GM,id)=>(GM.npc&&GM.npc[id])||(typeof EVENTS!=='undefined'&&EVENTS.npcOf?EVENTS.npcOf(id):null);   /* 學姊在總圖閱覽室、Café 是舊的 sis 生成（別名，EVENTS.npcOf）*/
+  S.autoStart=function(GM){ const G=GM.G; if(autoBusy||!G||!Array.isArray(G.invites)) return false; const h=G.hour%24;
+    for(const iv of G.invites){ if(iv.state!=='accepted'||iv.day!==G.day||h<iv.h-0.25||h>=iv.h+S.WAIT_H||G.zone!==iv.zone) continue;
+      const n=S.npcOf(GM,iv.who); if(!n||!n.obj) continue;
+      autoBusy=true; Promise.resolve().then(()=>S.startTogether(GM,iv,n)).catch(e=>console.warn('INV.autoStart',e)).finally(()=>{ autoBusy=false; }); return true; }
+    return false; };
+  /* 開始：有座位的地點（總圖、Café、麵店、茶館、早午餐）先一起坐下——她坐著就坐她旁邊，沒坐就找兩個相鄰的空位；找不到就照舊直接開始 */
+  S.pairSeats=function(GM,n,place){ const E=GM.E; if(!SEATED[place]||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
+    const near=(a,b,r)=>Math.hypot(a.x-b.x,a.z-b.z)<r;
+    const busy=st=>st.taken||E.npcs.some(m=>m!==n&&(m.seat||m.seatTarget)&&near(m.seat||m.seatTarget,st,0.35));
+    const ok=E.zone.seats.filter(st=>!st.label&&!busy(st)), mate=st=>ok.filter(q=>q!==st&&(q.lv|0)===(st.lv|0)&&near(q,st,1.3)).sort((a,b)=>Math.hypot(a.x-st.x,a.z-st.z)-Math.hypot(b.x-st.x,b.z-st.z))[0]||null;
+    if(n.seat){ const m=mate(n.seat); return m?{her:n.seat,me:m}:null; }
+    const P=E.player.obj.position; const cand=ok.filter(st=>!!mate(st)).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z));
+    return cand[0]?{her:cand[0],me:mate(cand[0])}:null; };
+  S.startTogether=async function(GM,iv,n){ const G=GM.G, E=GM.E, P=E&&E.player; iv.waitSeat=null; if(GM.setGoal&&/旁邊$/.test(G.goal||'')) GM.setGoal('—');
+    const pr=S.pairSeats(GM,n,iv.place); let sat=false;
+    if(pr&&GM.sitAt&&P){ if(GM.fade) await GM.fade(true);
+      if(n.seat!==pr.her){ if(GM.standUp&&n.seat) GM.standUp(n); n.seatTarget=null; n.path=null; GM.sitAt(n,pr.her); }
+      n.pose=n.idlePose=SEATED[iv.place]; n.frozen=true; n.beh='idle';
+      if(P.seat&&GM.standUp) GM.standUp(P); GM.sitAt(P,pr.me); sat=true; if(GM.fade) await GM.fade(false); }
+    await S.meet(GM,iv,n);
+    if(sat&&P&&P.seat&&GM.standUp) GM.standUp(P); };
+  /* 一起走過去的路上作罷（走回宿舍、回家）：她不再跟著 */
+  S.dropGoing=function(GM,iv){ const G=GM.G; if(!iv||iv.state!=='going') return false; iv.state='cancelled'; S.msg(G,iv.who,'和'+nameOf(iv.who)+'一起去'+((S.place(iv.place)||{}).name||'')+'的事，後來作罷了。',iv);
+    const n=GM.npc&&GM.npc[iv.who]; if(n){ n.beh='idle'; n.path=null; } return true; };
+  S.privateZone=z=>z==='dorm'||z==='fdorm'||/^dorm_/.test(String(z||''));   /* 宿舍（男舍走廊、房間、女舍）：一起要去的地方不會在這裡 */
   /* 一起走過去的路上聊一句（AA_70 第 2 節、BB_70 各人的「一起走路時聊什麼」，照 BB_121：照目的地對應，對不上的放 any；下雨先用 rain）：
      一起走 6 秒以後、跟著的人在旁邊（6 m 內）才說；字幕，不打斷走路；一趟一句，同一個人輪流換（G.flags.walkChatN）。
      要選項的那幾句（{once, l, ch:[{t, r, mem}], after}：芷若猜電影、阿凱「機車擋騎樓可以告嗎」、子晴「你為什麼換」、沛珊「大家都不遵守的法律」）照 BB_120 1-7c：路上不打斷，走到目的地、見面開始前選（S.walkAsk）；
@@ -213,9 +244,10 @@ const INV=(function(){
       iv.chat=true; const pk=S.walkPick(G,iv.who,iv.place); if(!pk) continue; pk.next(); if(pk.ask){ iv.ask=pk.ask; continue; } const nm=nameOf(iv.who);
       pk.lines.forEach((t,k)=>{ const show=()=>GM.caption(/^（/.test(t)?'':nm,t,3400); if(k===0) show(); else S._later(show,k*3600); }); } };
   /* 走進一個區域：一起走過去的人到了目的地 → 見面 */
-  S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=GM.npc&&GM.npc[iv.who]; iv.state='accepted';
-      if(S.seatFirst(GM,iv,n)) return true;   /* 有座位的地方：她先去找位子坐下，你坐到她旁邊（或跟她說話）才開始（使用者 2026-10-16：一進總圖大廳就念完了，根本還沒坐下）*/
-      await S.meet(GM,iv,n); return true; } return false; };
+  S.arrive=async function(GM,zoneId){ const G=GM.G; for(const iv of (G.invites||[])){ if(iv.state==='going'&&iv.zone!==zoneId&&S.privateZone(zoneId)) S.dropGoing(GM,iv); }   /* 走回宿舍＝作罷（使用者 10-21 23:1x）*/
+    for(const iv of (G.invites||[])){ if(iv.state!=='going'||iv.zone!==zoneId) continue; await GM.sleep(900); const n=GM.npc&&GM.npc[iv.who]; iv.state='accepted'; iv.h=+((G.hour%24)).toFixed(3);   /* 約定時間改成到的時候（路上花的時間不算遲到）*/
+      await S.startTogether(GM,iv,n); return true; }   /* 兩個人都到了＝直接開始，有座位的地方一起坐下（使用者 10-21 23:2x；原本她先去找位子、你坐到她旁邊或跟她說話才開始：S.seatFirst 留給舊的流程）*/
+    return false; };
   /* 一起走到有座位的地點（總圖、Café、麵店、茶館、早午餐）：她走去一個旁邊還有空位的位子坐下；約定時間改成現在（不會因為路上花的時間被算成沒赴約）。
      見面：你坐到她旁邊（S.seatMeet，座位選單呼叫）或跟她說話（story3d.js talkCharacter 的 INV.meetable）。找不到位子或走不到就照舊直接見面。 */
   const SEATED={library:'read',cafe:'sit',noodle:'sit',teahouse:'sit',brunch:'sit'};
@@ -279,9 +311,11 @@ const INV=(function(){
     const te=typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null;   /* 期末時段裡約吃飯＝期末的飯（BB_203 第 1 節第 13 點、AA_268）*/
     if(te&&te.refuse){ act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700); await GM.say(who,'「'+te.refuse+'」'); return null; }   /* 關係結束、還不能重新開始（C8、C9）*/
     act(her+'看了一下手機的行事曆。'); if(n&&GM.sleep) await GM.sleep(700);
-    if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now,by:'player'}); const tail=W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。';
-      if(NC){ await GM.say(who,'「'+NC.line+'」'); await GM.say(null,tail); } else if(r.lines){ await S.playLines(GM,who,r.lines,r); await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
+    if(r.res==='accept'){ act(her+'點點頭。'); if(n&&typeof CHAR!=='undefined'&&CHAR.setExpr) CHAR.setExpr(n.obj,'smile'); const here=!!W.now&&!!n&&P.zone===G.zone;   /* 兩個人已經在那個地方（例：在總圖讀完、當場再約一次讀書；使用者 10-21 23:1x）：不用一起走過去 */
+      const iv=S.accept(G,id,P.id,W.day,W.h,{now:!!W.now&&!here,by:'player'}); const tail=here?'':(W.now?'你們一起'+P.verb+'。':'約好 '+when(G,W.day,W.h)+'，'+P.name+'。');
+      if(NC){ await GM.say(who,'「'+NC.line+'」'); if(tail) await GM.say(null,tail); } else if(r.lines){ await S.playLines(GM,who,r.lines,r); if(tail) await GM.say(null,tail); } else await GM.say(null,S.reply(G,id,P.id,r)+tail);
       S.teMark(GM,iv,id,P,W);
+      if(here){ await S.startTogether(GM,iv,n); return iv; }   /* 直接開始（S.accept 已經是 accepted、時間＝現在）*/
       if(W.now&&n){ if(GM.standUp) GM.standUp(n); n.beh='follow'; n.frozen=false; n.followOff=1.1; n.path=null; } return iv; }   /* 坐著被約「現在一起過去」：先起身再跟（使用者 2026-10-16 試玩：Café 約吃麵，以安坐姿懸空跟著走）*/
     if(r.lines) await S.playLines(GM,who,r.lines,r); else await GM.say(null,S.reply(G,id,P.id,r));
     if(r.res==='here') return null;   /* 她已經在那裡：玩家直接去（以安的總圖、芷若上班時的 Café、學姊平日的總圖、語彤週二週四的麵店）*/

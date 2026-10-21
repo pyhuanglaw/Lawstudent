@@ -28208,7 +28208,7 @@
    "id": "BUG-SIS-STUDY-COMPANION-1021",
    "title": "和學姊約在總圖讀書：讀完當場再約一次變成「她跟我走」（同行），人已經在總圖卻開始不了讀書；回宿舍她還跟著（使用者 10-21 23:1x 試玩：「不合理吧」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "v1",
    "first": {
@@ -28223,7 +28223,7 @@
    },
    "source": "使用者 2026-10-21 23:1x 直接對 LAWWW（UA-LAWWW-1021-09；USER_WANTS D55）",
    "authorized": "bug 修正（D85）",
-   "next": "查 INV 當面約：已經在約定地點時不要變成同行（直接開始）；同行到宿舍、回家、睡覺要結束"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】invites3d.js：S.autoStart（INV.tick）——約好的時間（前 15 分鐘～後 30 分鐘）、你在約定的區域、她也在（含舊的 sis 別名）＝直接開始；S.startTogether：有座位的地方（總圖、Café、麵店、茶館、早午餐）兩個人一起坐下（淡出淡入）再演 S.meet、演完你站起來；S.flow：已經在那個地方當面約「現在一起過去」＝直接開始，不變成跟著走；S.arrive：一起走到了直接開始（取代 10-16 的「她先坐下、你坐到旁邊或說話才開始」）；同行時走進宿舍（dorm、dorm_*、fdorm）或回臺北的家＝作罷。tests/inv_both_present_unit.js（修改前 6 項 FAIL；照使用者存檔 fatiao3d_save_day8_1.json 的 iv6 重現）、invites_unit 舊流程那 5 項改新規則；約會相關 234 支全過。BB：用使用者的存檔（第 7 天晚上總圖）重走一次；flow_invite_phone.py 第 94～96 行「自己走到阿哲旁邊」會被自動開始搶先，要照新規則改 ｜ 查 INV 當面約：已經在約定地點時不要變成同行（直接開始）；同行到宿舍、回家、睡覺要結束"
   },
   {
    "id": "AA379-SIS-W1-LIB-1021",
@@ -28250,7 +28250,7 @@
    "id": "INV-BOTH-PRESENT-1021",
    "title": "約好的事（當面約、手機約）：時間到了、兩個人都在約定的地方＝直接開始，不用一起走過去、不用先找她說話（使用者 10-21 23:2x：「有約好任何事情 改成只要兩個都在場 就不用一起走或說話才能開始」）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "v1",
    "first": {
@@ -28265,7 +28265,7 @@
    },
    "source": "使用者 2026-10-21 23:2x 直接對 LAWWW（UA-LAWWW-1021-10；USER_WANTS D55）",
    "authorized": "使用者直接定",
-   "next": "invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】invites3d.js：S.autoStart（INV.tick）——約好的時間（前 15 分鐘～後 30 分鐘）、你在約定的區域、她也在（含舊的 sis 別名）＝直接開始；S.startTogether：有座位的地方（總圖、Café、麵店、茶館、早午餐）兩個人一起坐下（淡出淡入）再演 S.meet、演完你站起來；S.flow：已經在那個地方當面約「現在一起過去」＝直接開始，不變成跟著走；S.arrive：一起走到了直接開始（取代 10-16 的「她先坐下、你坐到旁邊或說話才開始」）；同行時走進宿舍（dorm、dorm_*、fdorm）或回臺北的家＝作罷。tests/inv_both_present_unit.js（修改前 6 項 FAIL；照使用者存檔 fatiao3d_save_day8_1.json 的 iv6 重現）、invites_unit 舊流程那 5 項改新規則；約會相關 234 支全過。BB：用使用者的存檔（第 7 天晚上總圖）重走一次；flow_invite_phone.py 第 94～96 行「自己走到阿哲旁邊」會被自動開始搶先，要照新規則改 ｜ invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）"
   }
  ]
 }
