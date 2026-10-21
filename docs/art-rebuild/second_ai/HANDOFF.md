@@ -595,7 +595,22 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 22:2x 進度（帳號 A LAWWW2；最新，蓋過下面 21:5x 那一節）
+### ▶▶ 10-21 22:5x 進度（帳號 A LAWWW2；最新，蓋過下面 22:2x 那一節）
+- **開發分支最新 `34e488e4`**（22:3x fetch）。LAWWW 已整合：榕樹氣根＋燈柱導航＋椰林大道路燈（`ae968ffb`）、US-MARKET-STREET（`d2252a05`）。outbox 已改（`41043fec`）。
+- 待交的 patch 在 `34e488e4` 上都乾淨：`us_lamp_pools.diff`（現在不用先套超市街）、`airport_cam_night.diff`、`crowd_far_lod.diff`、`zone_prewarm.diff`。
+- **WIP：PERF-ZONE-ENTER-1018**（使用者 X14；最新 `03d91e7a`）：
+  - 修改前量測（j16，80af0168，SwiftShader）：每次換區域黑畫面 4～5 秒（建區域＋第一格編 shader）；淡入以後還會再停：
+    - 已載過的正式模型在淡入時才接上（microtask），那一格才編 shader、傳貼圖；
+    - **路人底模池每次換區域輪換 8 個新的 VRM**（`character3d.js` 的 `C.anonPool`，使用者 10-17 P0「長得很像的路人太多」），下載、解析、換上時最長停 8.5 秒（第二次進溫州街）——LAWWW 的範圍，量完 `--keep-anon` 對照再寫建議給 LAWWW。
+  - `patches/zone_prewarm.diff` 第二版：`Z3.prewarm`（等已載過的模型接上 → compileAsync → 傳貼圖；只做看得到的物件）＋`game3d.js` 的 enter 淡入前等它（**LAWWW 的檔，交件前先通知**）。第一版在遊戲裡丟例外：溫州街三個藏起來的套件零件 material 是 TK paint 描述，compile 走到就丟 TypeError——第二版已修，單元測試加了這一項（第一版 FAIL、第二版 PASS）。
+  - `wz_jphouse.glb` 不再帶整張 2048² 招牌圖集（`63d3bc5e`；燈籠、木牌切 288×416，UV 對到同一個像素）。
+  - 修改後量測排在佇列 j16c（after2、base_keepanon、after2_keepanon），在 j9 之後。
+- **ART-ECON-3D-GAP-1021**：博雅東側一樓遊戲內前後對照已寫進 `campus_doors_1021/README.md`（`081847ae`；15:00 灰牆→玻璃帶、20:00 透暖光；「正面」兩張鏡頭落在東邊系館的柱子裡作廢）。三棟拱廊門的正面重拍 j9 跑中，看完就交「四棟大門＋博雅」。
+- **背景佇列**（`$SP/queue/`）：j9 三棟大門（跑中）→ j16c 換區域量測 → j10 路人 LOD → j11 溫州街巡場景 → j12 宿舍 412 → j13 Café → j14 美國巡場景 → j15 機場前後對照 →（j16b 空）→ j17 超市街重拍 → j18 超市街光圈。監看到 ALLQ13。
+- 稀疏工作樹：`$SP/devwt_ze`（`34e488e4`＋prewarm 修改＋新測試）、`$SP/devwt_ap`（機場）、`$SP/devwt_us`（超市街光圈）。
+- **接下來**：j9 看完交「四棟大門＋博雅」→ j16c 看完寫 PERF-ZONE-ENTER 說明、通知 LAWWW（game3d.js 一行＋路人池建議）→ 照佇列交其他項。
+
+### ▶▶ 10-21 22:2x 進度（帳號 A LAWWW2；被上面 22:5x 那一節取代）
 - 開發分支照舊 `80af0168`。
 - **22:2x 已交件 US-MARKET-STREET**（patch `8512b3b0`、模型 `fa7c85e2`、說明 `07967c55`；遊戲內 12 張；DELIVERED、沒 ACK）。
 - **WIP：ART-VAC-AIRPORT-1021**（機場；說明 `test_shots/airport_1021/README.md`，最新 `7587ac4f`）：
