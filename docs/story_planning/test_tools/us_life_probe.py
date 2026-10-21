@@ -17,7 +17,9 @@ bad = []; rep = []; results = []
 def say(*a):
     s = ' '.join(str(x) for x in a); print(s, flush=True); rep.append(s)
 HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; if(GAME.titleCard&&!GAME.titleCard.__bb){ const tc=GAME.titleCard; const f=function(t,s){ try{ window.__LOG.push({n:'CARD',t:'CARD:'+t+(s?'｜'+s:''), h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return tc.apply(this,arguments); }; f.__bb=1; GAME.titleCard=f; } const o=ADV.log; ADV.log=function(n,t){ try{ window.__LOG.push({n:n||'',t:String(t), h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return o.apply(this,arguments); };
-  const oc=ADV.cg; ADV.cg=function(id){ try{ window.__LOG.push({n:'CG',t:'CG:'+id, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return oc.apply(this,arguments); }; })()"""
+  const oc=ADV.cg; ADV.cg=function(id){ try{ window.__LOG.push({n:'CG',t:'CG:'+id, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return oc.apply(this,arguments); };
+  const ot=GAME.toast; GAME.toast=function(x){ try{ window.__LOG.push({n:'TOAST',t:'TOAST:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ot.apply(this,arguments); };
+  if(GAME.caption){ const ocp=GAME.caption; GAME.caption=function(x){ try{ window.__LOG.push({n:'CAPTION',t:'CAPTION:'+x, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return ocp.apply(this,arguments); }; } })()"""   # 2026-10-21 AA370：提示（亞洲超市公休）、字幕（208 的門關著）也記
 async def drain(pg, cdp, pref=None, secs=120):
     t0 = time.time()
     while time.time() - t0 < secs:
@@ -112,6 +114,9 @@ async def verify(pg, run, sc):
         if any(w in t for t in txt): probs.append('不應該有「%s」，出現了' % w)
     for w in sc.get('noneMsg', []):
         if any(w == t for t in o['msgTexts']): probs.append('手機不應該有「%s」，出現了' % w)
+    for w, n in sc.get('countMsg', {}).items():   # 手機裡這一句剛好幾則（AA370 L4 雞蛋一則、L5 地址一次）
+        c = sum(1 for t in o['msgTexts'] if t == w)
+        if c != n: probs.append('手機「%s」有 %d 則（應該 %d 則）' % (w[:16], c, n))
     for k, v in sc.get('eqflags', {}).items():
         if o['flags'].get(k) != v: probs.append('旗標 %s=%s（應該 %s）' % (k, json.dumps(o['flags'].get(k), ensure_ascii=False), json.dumps(v, ensure_ascii=False)))
     for key, want in sc.get('eqmem', {}).items():
@@ -254,8 +259,8 @@ SCENS = [
   # US-G 出發日（AA_370 H2，LAWWW 2026-10-21 19:06 要加；開發分支 3a4c01cf）：8/2 05:50 宿舍（沒交往＝挽回中）→ 遊戲時間照走、06:00 自動出發 → 出境大廳 13:00：
   #   沒有「搭車離開（回台北）」、有「登機：飛往美國」→ 不按登機、站著等 → 13:30 還在出境大廳、沒抵達 → 14:00（進來一小時）自動登機 →「飛往美國」字卡 → 抵達、US_ARRIVED
   dict(id='USG_depart', key='2028-08-02', h=5.83, zone='dorm', flags=dict(USF_PRE), js="G.flags.Y4_PATH_DAY=D('2028-06-08');",
-       steps=[('until', 13.0, 600), ('airport',), ('until', 13.5, 600), ('notyet',), ('until', 14.3, 900)], pref=['出發'],
-       want=['出發｜桃園機場第二航廈', 'CARD:飛往美國'], eqflags={'US_DEPARTED': True, 'US_ARRIVED': True}, wantZone='us_outside',
+       steps=[('until', 7.1, 600), ('airport',), ('until', 7.6, 600), ('notyet',), ('until', 8.4, 900)], pref=['出發'],   # AA370-US-FIX（d22748f5）：06:00 出發、07:00 到機場、08:00 自動登機、09:30 起飛、當地 16:30 落地
+       want=['出發｜桃園機場第二航廈', 'CARD:飛往美國｜舊金山轉機到印第安納　約 19 小時', 'CARD:抵達｜美國印第安納　當地時間 16:30'], none=['25:00'], eqflags={'US_DEPARTED': True, 'US_ARRIVED': True}, wantZone='us_outside',
        cflags=['US_DEPARTED', 'US_AIRPORT_AT', 'US_ARRIVED', 'US_ARRIVED_DAY', 'US1']),
   # US-A 交往中：8/2 21:40 床尾 → 睡覺（04:30，只有這一個睡法）→ 時差旁白、05:10 學姊兩則（回「醒了。」）→ 一路快轉到 9/4 17:00 會所烤肉
   dict(id='USA_dating', key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF), js=USJS + DATE + BED,
@@ -296,7 +301,41 @@ SCENS = [
        steps=[('sleep',), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
   # US-H 回台灣：12/15 22:00（交往中）睡覺 → 12/16 離開、舊金山一週 → 12/21 23:55「飛回臺灣」→ 抵達 05:40 → 入境大廳（不是黑底）
   dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
-       steps=[('sleep',), ('ffloop', '2028-12-23', 5.8)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05'], cflags=['US_TRIP_DONE']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
+       steps=[('sleep',), ('ffloop', '2028-12-23', 9.3)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05', '阿姨好。……上次的鳳梨酥，很好吃。', '（九點。廚房裡有粥的味道。你回來了。）'], none=['伯母好。……我是書瑀。'], cflags=['US_TRIP_DONE', 'US1']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
+  # ===== AA370-US-FIX-1021（AA_370 第 5 節、LAWWW 20:23；開發分支 d22748f5 起）=====
+  # K23 和可昕：10/18 當地 09:00 三則（視訊各自說）→ 回「改天。」→「好。那週六晚上九點，你那邊早上九點。」→ 10/21 08:45「接起來：和可昕視訊」→ 視訊：「我要考律師。從現在開始準備。」
+  dict(id='US370_k23', key='2028-10-18', h=8.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + ALONE + PLAT,
+       steps=[('until', 9.3), ('ffloop', '2028-10-21', 9.6)], asks={'y4_kx23': '改天。'}, pref=['接起來', '「（照實說自己的選擇）」', '出發'],
+       wantMsg=['大四要走哪條路，你決定了嗎？不用現在說。', '週五晚上七點，你那邊是早上。我們視訊，各自說。', '好。那週六晚上九點，你那邊早上九點。'], want=['我要考律師。從現在開始準備。'], cflags=['KX23_CALL']),
+  # 湖邊（交往中）：8/5 17:30「傍晚去湖邊走走。……走路十五分鐘。」→ 18:30 出發：湖邊 →「台灣這時候，天快亮了。」（不是吃宵夜）
+  dict(id='US370_lake', key='2028-08-05', h=17.2, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
+       steps=[('until', 19.6, 900)], pref=['出發：湖邊', '出發'], wantMsg=['傍晚去湖邊走走。……走路十五分鐘。'], want=['台灣這時候，天快亮了。'], none=['台灣這時候，已經在吃宵夜了。'], cflags=['US_LAKE_FIRST']),
+  # 雞蛋（交往中）：9/16 只有一則「今天的雞蛋，日期是對的。」（R3 那一份拿掉了）；沒交往：沒有
+  dict(id='US370_egg', key='2028-09-16', h=11.6, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
+       steps=[('until', 13.0)], countMsg={'今天的雞蛋，日期是對的。': 1}, cflags=[]),
+  dict(id='US370_eggAlone', key='2028-09-16', h=11.6, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE + PLAT,
+       steps=[('until', 13.0)], countMsg={'今天的雞蛋，日期是對的。': 0}, cflags=[]),
+  # 地址（芷若熟、有聯絡方式）：8/10 當地 09:00 一次；到 8/21 還是一次（8/20 那一份拿掉了）
+  dict(id='US370_addr', key='2028-08-10', h=8.6, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE + PLAT + "LV('heroine_02',60,50,50); G.contacts=G.contacts||{}; G.contacts.heroine_02=D('2027-03-01');",
+       steps=[('until', 9.4), ('ffloop', '2028-08-21', 10.0)], pref=['出發'], countMsg={'給我你在那邊的地址。英國寄到美國要多久，我想試試看。': 1}, cflags=[]),
+  # 何俊朗：8/14 10:00 國際學生迎新（MET_LONG）→ 一路快轉 → 9/8 12:00 Legal Writing 下課：不再自我介紹
+  dict(id='US370_long', key='2028-08-14', h=9.6, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE + PLAT,
+       steps=[('until', 11.0, 900), ('ffloop', '2028-09-08', 12.8)], pref=['出發：國際學生迎新', '出發：Legal Writing', '「亞洲超市九點關。」', '出發'],
+       want=['香港來的。何俊朗。叫我 Long 就好。', '（Legal Writing 下課。第一次小考的成績剛發回來。）'], none=['我叫何俊朗。叫我 Long 就好。', 'B 棟的。又見面了。'], cflags=['MET_LONG']),
+  # 大峽谷＋Q14（交往中、子晴朋友以上）：9/27 21:00 回「好。」→ 10/7 出發：秋假：大峽谷 → 10/14 18:00 回來 → 子晴 Q14 還能回（期限 10/15 12:00）
+  dict(id='US370_q14', key='2028-09-27', h=20.6, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT + "LV('heroine_04',60,50,50); G.contacts=G.contacts||{}; G.contacts.heroine_04=D('2026-10-01');",
+       steps=[('until', 21.4), ('ffloop', '2028-10-15', 9.0)], asks={'y4_us_canyon': '好。', 'y4_q14': '我還是學生，不能給妳正式的法律意見。'}, pref=['出發：秋假：大峽谷', '出發'],
+       eqflags={'US_CANYON': True, 'ZQ_CONTRACT': 'honest'}, wantMsg=['我們要跟一間發行商簽約。合約四十頁。'], cflags=['US_CANYON', 'ZQ_CONTRACT']),
+  # 學姊在哪（沒交往）：11/11 芝加哥；12/2 20:30 小教堂前的台階、208 的門關著
+  dict(id='US370_whereChi', key='2028-11-11', h=10.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE + PLAT,
+       steps=[('where', 'heroine_05', '芝加哥')], cflags=[]),
+  dict(id='US370_where208', key='2028-12-02', h=20.4, zone='us_outside', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE,
+       steps=[('where', 'heroine_05', '小教堂前的台階'), ('use', '^上樓（C 棟 208）')], want=['CAPTION:（208 的門關著。）'], cflags=[]),
+  # 亞洲超市：週日公休（10/15）；平日 21:00 以後關（10/17 21:30）——營業時間 AA_370 第 6 節第 2 題改成 10:00～21:00，開發分支還是 09:00（照現在的比，記下來）
+  dict(id='US370_asiaSun', key='2028-10-15', h=14.0, zone='us_market', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE,
+       steps=[('use', '^過馬路（對面的亞洲超市）')], want=['今天公休。下次開門：明天'], wantZone='us_market', cflags=[]),
+  dict(id='US370_asiaNight', key='2028-10-17', h=21.5, zone='us_market', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE,
+       steps=[('use', '^過馬路（對面的亞洲超市）')], want=['現在沒有開（今天'], wantZone='us_market', cflags=[]),
 ]
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
@@ -325,7 +364,7 @@ async def main():
                         z = await pg.evaluate("GAME.G.zone"); labs = await pg.evaluate("(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>i.label||'')")
                         aat = await pg.evaluate("GAME.G.flags.US_AIRPORT_AT===undefined?null:GAME.G.flags.US_AIRPORT_AT"); sn = await pg.evaluate(SNAP)
                         say('   出境大廳 %s %s %.2f：互動點 %s｜US_AIRPORT_AT=%s' % (z, sn['key'], sn['h'], ' / '.join(labs), aat)); await run.shot(pg, 'airport_' + sc['id'])
-                        if z != 'airport_dep': bad.append('%s：13:00 應該在出境大廳（實際 %s）' % (sc['id'], z))
+                        if z != 'airport_dep': bad.append('%s：%.2f 應該在出境大廳（實際 %s）' % (sc['id'], sn['h'], z))
                         if any('搭車離開' in x for x in labs): bad.append('%s：出境大廳還有「搭車離開（回台北）」' % sc['id'])
                         if not any(x.startswith('登機：飛往美國') for x in labs): bad.append('%s：出境大廳沒有「登機：飛往美國」（%s）' % (sc['id'], labs))
                         if aat is None: bad.append('%s：沒記進出境大廳的時間 US_AIRPORT_AT' % sc['id'])
@@ -347,6 +386,10 @@ async def main():
                         say('   手機「人」：%s' % txt[:400].replace('\n', '｜'))
                         if '你人在美國。' not in txt: bad.append('%s：手機「人」沒有「你人在美國。」' % sc['id'])
                         await close_phone(pg)
+                    elif st[0] == 'where':   # AA370 M9：GAME.whereText(人)（手機朋友那一列、資料頁「現在大概在」用的同一個）
+                        w = await pg.evaluate("(id=>{ try{ return GAME.whereText(id)||''; }catch(e){ return 'ERR '+e; } })(%s)" % json.dumps(st[1])); npc = await pg.evaluate("(id=>!!(GAME.npc&&GAME.npc[id]))(%s)" % json.dumps(st[1]))
+                        sn = await pg.evaluate(SNAP); say('   %s 在哪（%s %.2f）：「%s」；3D 裡有她：%s' % (st[1], sn['key'], sn['h'], w, npc))
+                        if st[2] not in w: bad.append('%s：%s %s %.2f 應該在「%s」（實際「%s」）' % (sc['id'], st[1], sn['key'], sn['h'], st[2], w))
                     elif st[0] == 'grp':
                         g = await pg.evaluate("((PHONE.rec(GAME.G).groups||{}).noodle_team||{}).name||null"); say('   群組名稱（17:00 以後）：%s' % g)
                         if g != st[1]: bad.append('%s：群組名稱「%s」（應該「%s」）' % (sc['id'], g, st[1]))
