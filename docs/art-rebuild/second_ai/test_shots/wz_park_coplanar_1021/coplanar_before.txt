@@ -1,0 +1,61 @@
+faces 22435 overlap pairs 62 一定會閃 11 遠處才閃 18 背對背雙面 32
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(12.96, 0.85, 28.42)  0.203 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(12.64, 1.05, 28.42)  0.166 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(12.65, 0.63, 28.42)  0.104 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(14.06, 2.60, 26.73)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(15.14, 2.60, 26.67)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(13.13, 2.60, 24.66)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(15.14, 2.60, 23.67)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(14.06, 2.84, 26.67)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(15.14, 2.84, 26.73)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(13.07, 2.84, 24.66)  0.024 m²  same（一定會閃）
+  wz_vc_matte[wz_vc_matte] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(15.14, 2.84, 23.73)  0.024 m²  same（一定會閃）
+  wz_park_small_atlas[wz_park_small_atlas] × wz_park_small_atlas[wz_park_small_atlas]  遊戲座標≈(14.33, 0.04, 20.00)  2.85 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_granite[park_granite] × park_wall[park_wall]  遊戲座標≈(19.86, 0.90, 29.24)  1.348 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_wall[park_wall] × park_granite[park_granite]  遊戲座標≈(27.93, 0.90, 29.23)  1.348 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_park_small_atlas[wz_park_small_atlas] × wz_park_small_atlas[wz_park_small_atlas]  遊戲座標≈(14.17, 0.04, 18.90)  1.08 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_granite[park_granite] × park_wall[park_wall]  遊戲座標≈(36.16, 0.90, 25.14)  0.679 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_wall[park_wall] × park_granite[park_granite]  遊戲座標≈(36.17, 0.90, 21.07)  0.679 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(21.63, 0.02, 24.63)  0.384 m²  same（相差 1.0 mm：遠處才閃）
+  wz_vc_metal[wz_vc_metal] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(21.73, 1.58, 6.32)  0.358 m²  same（相差 1.01 mm：遠處才閃）
+  wz_vc_metal[wz_vc_metal] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(22.27, 1.22, 6.32)  0.358 m²  same（相差 1.01 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(29.38, 0.02, 21.93)  0.324 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(17.96, 0.02, 20.73)  0.32 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(25.63, 0.02, 13.67)  0.311 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(25.38, 0.02, 17.80)  0.298 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(30.69, 0.02, 21.99)  0.294 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(18.77, 0.02, 24.57)  0.12 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(29.26, 0.02, 22.36)  0.118 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(24.94, 0.02, 17.91)  0.101 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(28.80, 0.02, 22.06)  0.075 m²  same（相差 1.0 mm：遠處才閃）
+  park_grass[park_grass] × park_grass[park_grass]  遊戲座標≈(26.80, 0.01, 21.00)  0.071 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(28.89, 0.02, 21.69)  0.062 m²  same（相差 1.0 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(25.72, 0.02, 18.28)  0.059 m²  same（相差 1.0 mm：遠處才閃）
+  park_grass[park_grass] × park_grass[park_grass]  遊戲座標≈(17.60, 0.00, 21.00)  0.057 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(25.34, 0.02, 18.35)  0.048 m²  same（相差 1.0 mm：遠處才閃）
+  park_grass[park_grass] × park_grass[park_grass]  遊戲座標≈(26.80, 0.00, 17.00)  0.045 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_stone[park_stone] × park_stone[park_stone]  遊戲座標≈(13.01, 0.12, 27.68)  0.045 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_stone[park_stone] × park_stone[park_stone]  遊戲座標≈(13.01, 0.32, 28.28)  0.044 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(16.30, 0.25, 19.01)  0.039 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(16.90, 0.25, 17.79)  0.039 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_stone[park_stone] × park_stone[park_stone]  遊戲座標≈(14.05, 0.14, 24.65)  0.039 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_stone[park_stone] × park_stone[park_stone]  遊戲座標≈(15.15, 0.14, 25.75)  0.039 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_vc_metal[wz_vc_metal] × park_lamp[park_lamp_glass]  遊戲座標≈(30.60, 3.85, 22.80)  0.038 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_park_small_atlas[wz_park_small_atlas] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(14.71, 3.82, 25.09)  0.038 m²  same（相差 0.92 mm：遠處才閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(13.24, 0.02, 19.47)  0.037 m²  same（相差 1.0 mm：遠處才閃）
+  wz_vc_metal[wz_vc_metal] × park_lamp[park_lamp_glass]  遊戲座標≈(23.40, 3.85, 23.40)  0.033 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_vc_metal[wz_vc_metal] × park_lamp[park_lamp_glass]  遊戲座標≈(23.40, 3.40, 23.40)  0.032 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_vc_metal[wz_vc_metal] × park_lamp[park_lamp_glass]  遊戲座標≈(30.60, 3.40, 22.80)  0.032 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_paver[park_paver] × park_paver[park_paver]  遊戲座標≈(27.16, 0.02, 17.94)  0.032 m²  same（相差 1.0 mm：遠處才閃）
+  park_grass[park_grass] × park_grass[park_grass]  遊戲座標≈(17.60, 0.01, 17.00)  0.029 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(16.30, 0.25, 17.78)  0.029 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_vc_matte[wz_vc_matte] × wz_park_small_atlas[wz_park_small_atlas]  遊戲座標≈(15.89, 3.10, 25.57)  0.029 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_stone[park_stone] × park_stone[park_stone]  遊戲座標≈(12.59, 0.32, 28.00)  0.026 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(15.74, 0.25, 18.59)  0.022 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(17.46, 0.25, 18.21)  0.022 m²  back-to-back（雙面材質：看得到背面才會閃）
+  wz_park_small_atlas[wz_park_small_atlas] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(15.03, 3.51, 24.45)  0.022 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(16.90, 0.25, 19.02)  0.019 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(15.73, 0.25, 18.21)  0.018 m²  back-to-back（雙面材質：看得到背面才會閃）
+  park_play.001[park_play] × park_play.001[park_play]  遊戲座標≈(17.47, 0.25, 18.59)  0.018 m²  back-to-back（雙面材質：看得到背面才會閃）
+  tree_bark_camphor[tree_bark_camphor] × tree_bark_camphor[tree_bark_camphor]  遊戲座標≈(20.52, 4.26, 12.54)  0.018 m²  back-to-back（單面：不閃）
+  park_stone[park_stone] × wz_vc_matte[wz_vc_matte]  遊戲座標≈(12.97, 0.62, 28.49)  0.017 m²  back-to-back（雙面材質：看得到背面才會閃）
