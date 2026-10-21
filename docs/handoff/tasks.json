@@ -9161,7 +9161,7 @@
    "area": "SCN",
    "owner": "BB",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 gongguan_market、gongguan_cobbler、gongguan_cake 三張純場景；LAWWW 收到後在 ev_yt_thursday／ev_field_finding 換背景 ｜ AA-B 清單；AA_175：麵店門口、書店用現有 3D；新 2D gongguan_market、gongguan_cobbler（BB-B 96daf8e7 加進清單）",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：gongguan_cake（r2y3b 公館甜點店）到了 ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 照 D97 向使用者要 gongguan_market、gongguan_cobbler、gongguan_cake 三張純場景；LAWWW 收到後在 ev_yt_thursday／ev_field_finding 換背景 ｜ AA-B 清單；AA_175：麵店門口、書店用現有 3D；新 2D gongguan_market、gongguan_cobbler（BB-B 96daf8e7 加進清單）",
    "priority": "P2",
    "first": {
     "term": "Y3S2",
@@ -10325,7 +10325,7 @@
    "area": "ART",
    "owner": "BB",
    "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把 black_bg_audit.js 改成掃全部 src/ 與 src/data/（含 vac_activities、r2y*、us_life_events、jp）；BB 照新清單依玩家遇到的順序（經濟系 → 大一寒暑假 → 大三 → 美國）寫提示詞向使用者要 ｜ 【02:5x】第 80 組：行政大樓、補習班街、火鍋店門口已接（e9cfbf80）；雨天海邊不接（BB 22bf4908）；7/19 sea 分支要晴天海邊 y0_sea_blue（BB 下一批提示詞），sleep 分支先用 home_living。｜【02:4x】BB_132 第 79 組四張接進遊戲（a46637d3 → DL-BB-a46637d3）：水餃店、家樓下、公館、總圖門口夜；第 80 組（行政大樓、海邊、補習班街、火鍋店）使用者在生。｜【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：tn_bookstore、cram_counter、seaside_town、mrt_night、gongguan_cake 五張到了 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：LAWWW 把 black_bg_audit.js 改成掃全部 src/ 與 src/data/（含 vac_activities、r2y*、us_life_events、jp）；BB 照新清單依玩家遇到的順序（經濟系 → 大一寒暑假 → 大三 → 美國）寫提示詞向使用者要 ｜ 【02:5x】第 80 組：行政大樓、補習班街、火鍋店門口已接（e9cfbf80）；雨天海邊不接（BB 22bf4908）；7/19 sea 分支要晴天海邊 y0_sea_blue（BB 下一批提示詞），sleep 分支先用 home_living。｜【02:4x】BB_132 第 79 組四張接進遊戲（a46637d3 → DL-BB-a46637d3）：水餃店、家樓下、公館、總圖門口夜；第 80 組（行政大樓、海邊、補習班街、火鍋店）使用者在生。｜【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜總項：拆成 ART-BG02～BG20（BG-01 riverside 已接、第 2 級 run13 通過；BG-03＝ART-11、BG-04＝ART-10、BG-06／07＝ART-12）",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -11663,8 +11663,8 @@
    "title": "2D 背景 seaside_town「春假・海邊的小鎮」：ev_noodle_trip_spring_y1（用約會底圖 D13，字幕寫通稱）",
    "area": "ART",
    "owner": "BB",
-   "status": "待開工",
-   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：seaside_town 接上（大一春假麵店團 C9）；BB 畫面驗收 ｜ 【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜D13 底圖在企劃線的話直接接進 S.BG；沒有就等 ART-14",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -23302,7 +23302,7 @@
    },
    "source": "使用者 2026-10-18 15:3x：「又是黑畫面，可以叫我給cg」（截圖：一起去問補習班）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】BB-C 第 93 組（55ece8db）接進 assets/bg＋OUT.BG：cram_counter、mrt_night 到了（E27b 2/14、E30 下午電話不再黑底）；還差 boardgame_gg、phone_street_night ｜ 【LAWWW-C 2026-10-21 稽核 C】等圖：BB 追使用者生這四張（提示詞 15:3x 已給）；收到放 assets/bg 後跑 node tools/story/black_bg_audit.js ｜ 15:3x 已給四張提示詞（D97 純場景一次四份、不附圖）。程式已接好：outings3d.js BG cram_counter／boardgame_gg／mrt_night／phone_street_night → assets/bg/<代號>.webp，檔案放進去就顯示（沒放＝深色底）。另外：在家的電話改用家裡的背景（events3d.js，不用新圖）。收到圖：存 assets/bg/、跑 node tools/story/black_bg_audit.js --md docs/handoff/BLACK_BG_AUDIT_1018.md",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",

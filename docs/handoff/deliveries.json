@@ -12515,6 +12515,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "50e7f16c 合併；src/social3d.js 一行，沒有測試寫死舊字"
+  },
+  {
+   "id": "DL-BB-55ece8db",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "55ece8db",
+   "what": "bg_approved 第 93 組十張 2D 背景：tn_school、tn_oldstreet（柔化三塊像字的牌子）、tn_museum、tn_canal、tn_bookstore、cram_counter、us_club_study、seaside_town、mrt_night、gongguan_cake（README 逐張紀錄）",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:1x 照原檔複製到 assets/bg、OUT.BG 登記（cram_counter、mrt_night、seaside_town 原本 image:null）；tests/bg_images_unit.js 2g（改之前 FAIL）；jp_dorm_lobby 等 jp_lounge 交件"
   }
  ],
  "ignored": [
