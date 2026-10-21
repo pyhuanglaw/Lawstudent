@@ -31,4 +31,6 @@ const ROWS=[
 for(const [name,f,id,want,key] of ROWS){ const ok=id?(first(f,id)||'').startsWith(want):src(f).includes(want); check(name+'：'+key,ok&&img(key),id?first(f,id):''); }
 check('已經有的：10/15 桌遊（ev_y0_gather）boardgame_gg、8/13 在家看榜（ev_y0_e36rh）home_room 放最前面',src('src/data/events.js').includes("{scene:'公館・桌遊店',bg:'boardgame_gg'}")&&src('src/data/events.js').includes("dialogue:[{scene:'臺北的家',bg:'home_room'}].concat(rlines)"));
 check('BB 說維持深色／等新圖的不動：颱風天線上讀書會（ev_typhoon_y3_family）沒有加背景',!/id:'ev_typhoon_y3_family'[^\n]*dialogue:\[ \{scene:'[^']*',bg:'(?!dark)/.test(src('src/data/events.js')));
+{ const A=src('src/adv3d.js'), cg=(k,f)=>A.includes(k+":{file:'"+f+"'")&&fs.existsSync(path.join(ROOT,f));
+  check('CG-APPROVED-MISSING-1021（BB_220★）：尾聲「不選」的共通圖 cg_reunion_window_table、BCG-48 霧裡的大橋 cg_sf_bridge_fog_heroine05 都登記了、圖在（原本沒登記：不選的尾聲沒有圖、SF2 用 hasCG 包著一定跳過）',cg('cg_reunion_window_table','assets/cg/epilogue/cg_reunion_base.webp')&&cg('cg_sf_bridge_fog_heroine05','assets/cg/heroine_05/cg_sf_bridge_fog.webp')); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
