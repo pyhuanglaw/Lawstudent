@@ -25888,6 +25888,32 @@
     "ack": "ACK"
    },
    "next": "【LAWWW-C 2026-10-21 13:1x UTC】LAWWW2：美國 C 棟 208 收尾以後修 jp_room 交件；LAWWW 接線（在房間休息一下→jp_room；房門→回選單）"
+  },
+  {
+   "id": "Y5-DELAY-1021",
+   "title": "交換延畢的大五：Y5S1（2029-09-03～12-23）逐週內容與 2030 國考前（AA_357 盤點＋補空白，LAWWW 實作）",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 下午對 AA-C（UA-AA-1021-37）；USER_WANTS X92",
+   "first": {
+    "term": "Y5S1",
+    "week": 1,
+    "earliest": "交換延畢的玩家 2029-09-03",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_357（企劃線，進行中）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "大五上每週有事、2030 國考前銜接；LAWWW 實作後 BB 驗",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:1x UTC】等 AA_357 交規格；交了 LAWWW 派子代理實作（延畢路線：日本、美國交換回來）"
   }
  ]
 }
