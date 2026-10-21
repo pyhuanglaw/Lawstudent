@@ -690,6 +690,55 @@
    "receiver": "AA+LAWWW",
    "ack": "SENT",
    "note": "原 task：閒聊階梯套用 AA_234（學姊補三層、約 61 句、4-1 鋪陳、ZZ_DATING、可昕美國版、11 句短招呼）與 AA_235（經濟系那一年）；README 新欄位；原 state：已交付（PROPOSAL；AA 已審）"
+  },
+  {
+   "task": "ART-Y1-BOX-1021",
+   "branch": "claude/story-planning",
+   "sha": "6ec20030",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/tape_box_reshoot_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "P3：壓平紙箱上的「冬天的衣服」左右鏡像（LAWWW2）；膠帶中間那段兩端小階（可不改）",
+   "next": "LAWWW2 決定要不要修鏡像；一般鏡頭看不清楚字＝UX-KAI-TAPE-CAM-1021（LAWWW）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "203 膠帶字（國界／法律系免簽只顯示一個）＋壓平紙箱（衣櫃門前看得到）同角度重拍＝FIXED（開發分支 47adae82，含 0e8f585b）；也傳 LAWWW2"
+  },
+  {
+   "task": "ART-BALCONY-POTS",
+   "branch": "claude/story-planning",
+   "sha": "fa2f620f",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/balcony_pots_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "花架被擋住，腳落地沒辦法從畫面確認",
+   "next": "LAWWW 改已驗收",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "陽台盆栽（溫州街 A3／C2／W0、公館 G04／G07／G10）67 張：沒有浮空、穿牆、閃面＝PASS（開發分支 47adae82，含 e8b82e4a）；也傳 LAWWW2"
+  },
+  {
+   "task": "DONE-B01",
+   "branch": "claude/story-planning",
+   "sha": "1e3f976e",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/done_b01_1021/",
+    "docs/story_planning/test_tools/done_b01_probe.py"
+   ],
+   "state": "已交付",
+   "remaining": "P3：直向下課字幕框蓋住「坐下」左半；直向 HUD「現在可以上課」尾巴被金額標籤蓋住",
+   "next": "LAWWW 改已驗收",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "課堂提問瀏覽器實玩（不用 turbo）＝PASS：10/2 民總第 5 週橫向、10/15 刑總第 7 週直向；題庫原文、不洗牌、答案考點、期末考那句只有學期第一次、不計分（開發分支 47adae82）"
   }
  ]
 }
