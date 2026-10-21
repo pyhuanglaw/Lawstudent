@@ -3574,7 +3574,7 @@ const STORY = (function(){
       const can=old.concat(shown).filter(id=>id!=='pothos'&&S.roomItemName(G,id));   /* 第三步：選一件留在紙箱裡（黃金葛不列）*/
       const opts=can.map(id=>({t:'（把'+S.roomItemName(G,id)+'留在紙箱裡）',id})).concat([{t:'（全部拿出來。）',id:null}]); const k=await GM.choose(opts.map(o=>({t:o.t}))); const o=opts[k>=0&&k<opts.length?k:opts.length-1];
       F.BOX_KEPT_Y4=o.id; if(o.id) vis({shown:has(o.id)});
-      await GM.say(null,'（三年。這個房間，你只會住一年。）');
+      await GM.say(null,S.route(G)==='US'?'（三年。這個房間，你只會住半年。）':'（三年。這個房間，你只會住一年。）');   /* AA_370 L10：美國路線 12/23 才搬進來（大四下就畢業）＝半年 */
       GM.memo('搬進第四個房間'); if(GM.autosave) GM.autosave(); }
     finally{ delete F.ROOM_Y4_MOVING; GM.sceneEnd(); }
     return true; };

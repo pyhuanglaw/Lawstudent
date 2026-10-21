@@ -3,6 +3,7 @@
 //   大四上：W 迎新、T 颱風、M 中秋、P 再問一次、E 語彤 15b、U／IV 推甄、F 校慶、H 交棒、S 語彤 16、X 聖誕、Z 芷若第二輪明信片、B 回來、K 可昕 K21／K22、I 可昕的實習。
 //   寒假：A 學姊接機、XK 可昕聖誕、GR 期末成績、KH 高雄、EX 以安考前一晚＋筆試、Y 除夕、V 情人節。
 // 修改前：沒有這些事件（第 0 項 FAIL，之後全部不跑）。用法：node tests/r2y4a_events_unit.js
+// AA_370（企劃線 a1dc3e61，2026-10-21）改了期待的三項：R1 回國入境大廳（M5：見過媽媽的版本、九點是旁白）、M3 中秋（M7：可昕沒見過麵店團改私訊）、Z2（M1：8/20 不再要地址）——細測在 tests/aa370_us_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -130,7 +131,7 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-15',23,'us_apartment',US()); date('heroine_05'); check('R0. 12/16 鬧鐘 06:30（07:00 社區門口）', STORY.wakeAlarms(G,D('2028-12-16')).some(a=>a.h===6.5));
   at('2028-12-16',7.05); room409=0; said=[]; await tick();
   check('R1. 交往中：社區門口 → SF1「這一週，你排。」→ SF2 霧裡的大橋 → SF3 老書店 → 照片三天', has('（天還沒亮。社區門口停著機場巴士。）')&&has('這一週，你排。')&&has('……走得過去嗎。')&&has('（她買了那本詩集。）')&&has('寄給家族了。Kevin 收到會說我終於寫超過三句。')&&G.flags.SF_DONE===true, JSON.stringify(lines().slice(0,3)));
-  check('R1. 12/23 05:40 桃園：「伯母好。……我是書瑀。」沒有「伯父」；車上三句不編號；下車訊息「第二句是反的」；上午回家；接 409', has('伯母好。……我是書瑀。')&&!said.some(s=>/伯父/.test(s.t))&&has('……他在美國很照顧我。')&&txt('p:heroine_05').includes('heroine_05:……第二句是反的。是我照顧你。')&&has('你回來了。')&&G.flags.CAME_BACK_TOGETHER===true&&G.flags.US_RETURNED===D('2028-12-23')&&G.flags.US_RETURN===D('2028-12-23')&&room409===1, JSON.stringify({d:CALENDAR.dateOf(G.day).key,r:room409}));
+  check('R1. 12/23 05:40 桃園：8/2 一起出發見過媽媽＝「（……她笑了一下。）」「阿姨好。……上次的鳳梨酥，很好吃。」（AA_370 M5；不是「伯母好。……我是書瑀。」）、沒有「伯父」；車上三句不編號；下車訊息「第二句是反的」；上午回家（九點是旁白）；接 409', has('（媽媽先看到你，再看到你旁邊的人。她笑了一下。）')&&has('阿姨好。……上次的鳳梨酥，很好吃。')&&!has('伯母好。……我是書瑀。')&&!said.some(s=>/伯父/.test(s.t))&&has('……他在美國很照顧我。')&&txt('p:heroine_05').includes('heroine_05:……第二句是反的。是我照顧你。')&&said.some(s=>s.who===null&&s.t==='（九點。廚房裡有粥的味道。你回來了。）')&&G.flags.CAME_BACK_TOGETHER===true&&G.flags.US_RETURNED===D('2028-12-23')&&G.flags.US_RETURN===D('2028-12-23')&&room409===1, JSON.stringify({d:CALENDAR.dateOf(G.day).key,r:room409}));
   check('R3. 學姊沒有說出口的「一，二，三」', !sisSaid().some(t=>/一，|二，|三，/.test(t)));
   at('2028-12-23',20.1); rules(); check('R1. 20:00 阿凱「回來了？」三則＋兩個回覆', txt('p:kai').join('|')==='kai:回來了？|kai:所以時差調了沒|kai:宵夜 我在宿舍樓下'&&PHONE.byAsk(G,'msg_kai_back_us').ask.opts.length===2);
   fresh('2028-12-16',7.05,'us_outside',US()); room409=0; said=[]; await tick();
@@ -167,7 +168,9 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-10-03',17.8,'dorm',TWF({KX_MET_NOODLE_TEAM:true})); date('kexin'); said=[]; await run('ev_y4_midautumn');
   check('M2. 和可昕交往、見過麵店團：「……今年我認輸。我只想吃。」', has('……今年我認輸。我只想吃。')&&has('可昕認輸了！大家記下來！'));
   fresh('2028-10-02',21.1,'us_apartment',US()); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
-  check('M3. 美國路線：19:30（當地 07:30）照片；可昕「阿哲今年贏了。」', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('g:noodle_team').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!PHONE.sent(G,'y4_ma_ask'));
+  check('M3. 美國路線：19:30（當地 07:30）照片；可昕沒見過麵店團＝「阿哲今年贏了。」改私訊（AA_370 M7，句子不改）', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('p:kexin').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('g:noodle_team').some(t=>/阿哲今年贏了/.test(t))&&!PHONE.sent(G,'y4_ma_ask'));
+  fresh('2028-10-02',21.1,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
+  check('M3. 美國路線、可昕見過麵店團：在群組說「阿哲今年贏了。」', txt('g:noodle_team').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('p:kexin').some(t=>/阿哲今年贏了/.test(t)));
   // ---------- 2-Y4-07 校慶 ----------
   fresh('2028-11-11',12,'campus',TWF({lawclub:true,GRANDMA_TREE_Y2:'asked'})); E.player.obj.position={x:-17.8,y:0,z:13.0};
   check('F1. 法服成員、11/11 中午在攤位：攤位裡那一版', EVENTS.check(ev('ev_fair_booth_y4'))&&!EVENTS.check(ev('ev_fair_booth_y4_pass')));
@@ -292,9 +295,9 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); await pc('2028-09-22',13,['（先不回）']); const gf=has('「熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。」')&&has('（信箱裡有一張明信片。英國的郵戳。）');
   fresh('2028-09-22',13,'dorm',TWF()); R('heroine_02','FAM'); date('heroine_02'); ROM.get(G,'heroine_02').sinceDay=D('2028-08-26'); await pc('2028-09-22',13,['（先不回）']); const gf2=!has('「熱可可在這裡叫 hot chocolate。加濃縮，他們看我的表情很奇怪。」');
   check('Z. 方奕廷那條路：四月多一行另一種筆跡；沒收過第一輪＝「英國的郵戳。」；交往中九月多熱可可那一行（8/26 才交往的不加）', fy&&gf&&gf2);
-  fresh('2028-08-20',9.2,'us_apartment',US()); R('heroine_02','FAM'); ct('heroine_02'); rules(); const zaddr=txt('p:heroine_02').includes('heroine_02:給我你在那邊的地址。英國寄到美國要多久，我想試試看。');
+  fresh('2028-08-20',9.2,'us_apartment',US()); R('heroine_02','FAM'); ct('heroine_02'); rules(); const zaddr=!PHONE.sent(G,'y4_zr_addr')&&!txt('p:heroine_02').includes('heroine_02:給我你在那邊的地址。英國寄到美國要多久，我想試試看。');   /* AA_370 M1：8/20 不再要地址（只在 8/10，us_life3d.js 的 usl_zr_0810）*/
   at('2028-12-15',13); G.zone='us_apartment'; await tick(); const zus=!!E.interactables.find(x=>x.zrPostcard2); said=[]; for(let i=0;i<4;i++){ picks=['（先不回）']; await R2Y4A.pc2Scene(GM); }
-  check('Z2. 美國路線：八月她要地址（台灣 8/20 21:00＝當地 09:00）；九～十二月寄到公寓 214；十二月多一行「你也在國外。我們今天都不在家。」', zaddr&&zus&&has('「你也在國外。我們今天都不在家。」')&&has('「麵店生日快樂。」'));
+  check('Z2. 美國路線：8/20 不再要地址（AA_370 M1：8/10 那則在 us_life3d.js）；九～十二月寄到公寓 214；十二月多一行「你也在國外。我們今天都不在家。」', zaddr&&zus&&has('「你也在國外。我們今天都不在家。」')&&has('「麵店生日快樂。」'));
   at('2029-01-05',13); G.flags.US_RETURNED=D('2028-12-23'); G.zone='dorm'; E.interactables=[]; await tick(); check('Z2. 一月起照常寄回臺灣（宿舍）', !!E.interactables.find(x=>x.zrPostcard2));
 
   // ---------- 2-Y4-12 主線 8「回來」 ----------

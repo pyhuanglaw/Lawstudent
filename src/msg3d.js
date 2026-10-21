@@ -145,7 +145,10 @@ const MSG=(function(){
     if(p==='認識小語才有') return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('yu')!=='STRANGER':false;
     return false; };
   S.tagOk=function(G,id,tag){ const s=String(tag).replace(/（[^）]*）|\([^)]*\)|〔[^〕]*〕/g,'').trim(); if(!s) return true;
-    const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); return parts.every(p=>S.tok(G,id,p)); };
+    const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); if(id==='heroine_05'&&parts.includes('在美國')&&S.usWithHer(G)) return false; return parts.every(p=>S.tok(G,id,p)); };
+  /* 學姊標「在美國」的那一則（事務版「在這邊的圖書館。有事嗎？」，照時差寫的）：祐廷也在布魯明頓（美國路線、人在美國）時不用（BB_178 第 3 節「美國路線：照時差寫的句子不用」；AA_370 L6）。
+     情況版「在美國」（閒聊版四則：每條路線都一樣）走 sitOk，不受影響 */
+  S.usWithHer=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&!!STORY.abroad&&STORY.abroad(G);
   /* 放假那幾版還要看人在哪（AA_369 H5，AA 2026-10-21；句子照原文、不改字）：①「在老家」那幾版只在 presence 是 home 的日子用——有老家的人（presence 有 home）的「放假在X／放假、在X／過年回X」，
      或句子寫了「在台中」「在宜蘭」「在新竹」「回家了」這種；②句子寫了「寒假」「過年」（或「寒假留…」那幾版）只在寒假用、寫「暑假」的只在暑假用；③人在臺北的日子用一般版（這裡回 false，S.pick 就用一般版）；
      ④語彤「店裡。放假人比較少。」在麵店過年店休那幾天不用（noodle_closed3d.js）。「寒假留…」＝寒假、人在臺北。柏翰「週四會上去總圖」：週四來總圖只有大一（AA_345 H7）。

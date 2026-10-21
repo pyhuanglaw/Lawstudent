@@ -335,7 +335,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-07-25',14.1,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); HOME.rec(G).stay={Y3S:'stay'};
   check('U1. 美國路線、暑假續住：7/25 14:00 到了', R2Y3B.x1Due(G));
   said=[]; await R2Y3B.x1Go(GM);
-  check('U1. 507 只剩你這半邊；床墊下面的課表；「搬回臺北的家」計程車；之後住臺北的家；X1_US', has('（七月底。507 只剩你這半邊還有東西。柏翰暑假回新竹了，他的桌子空著。）')&&has('（宿舍的床墊翻起來的時候，下面有一張大一的課表。）')&&cards.some(c=>c[0]==='搬回臺北的家'&&c[1]==='計程車　約 30 分鐘')&&HOME.at(G)&&HOME.rec(G).lbreak==='Y3S'&&G.flags.X1_US===D('2028-07-25'));
+  check('U1. 507 只剩你這半邊；床墊下面的課表；「搬回臺北的家」計程車；之後住臺北的家；X1_US', has('（七月底。507 只剩你這半邊還有東西。柏翰白天在補習班，他的桌上堆滿了講義。）')&&has('（宿舍的床墊翻起來的時候，下面有一張大一的課表。）')&&cards.some(c=>c[0]==='搬回臺北的家'&&c[1]==='計程車　約 30 分鐘')&&HOME.at(G)&&HOME.rec(G).lbreak==='Y3S'&&G.flags.X1_US===D('2028-07-25'));
   fresh('2028-07-25',14.1,'campus',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); said=[]; cards=[]; await R2Y3B.x1Go(GM);
   check('U1. 人在外面：先帶回宿舍再演', !!cards[0]&&cards[0][0]==='回宿舍'&&has('（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'));
   fresh('2028-06-12',9,'dorm',{EXCHANGE_ROUTE:'US'}); date('heroine_05'); HOME.rec(G).stay={Y3S:'home'}; said=[];

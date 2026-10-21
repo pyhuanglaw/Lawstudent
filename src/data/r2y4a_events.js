@@ -24,7 +24,7 @@ const R2Y4A_EVENTS=(function(){
   const cgOK=id=>hasCG(id)&&(!REDRAW.includes(id)||CG_REGISTRY[id].redrawn===true);
   const CG=id=>({if:{custom:()=>cgOK(id)},cg:id});
   const S5='heroine_05';
-  const LONG=G=>!!(G.flags&&G.flags.MET_LONG);   /* 何俊朗 1 演過（AA_80；第 3 輪）*/
+  const LONG=G=>!!(G.flags&&G.flags.MET_LONG)||has('npc_long','MET_LONG');   /* 何俊朗 1 演過（AA_80；第 3 輪）；記憶也算（AA_370 M3：R3 版記的是記憶）*/
   const sis=t=>({speaker:S5,text:t}), nar=t=>({speaker:null,text:t}), me=t=>({speaker:'player',text:t});
   const IF=(fn,l)=>Object.assign({if:{custom:fn}},l), UN=(fn,l)=>Object.assign({unless:{custom:fn}},l);
   /* 日文（下）第 10 週那一堂「『大丈夫』不一定是沒事」（BB_105 G6）：有去、沒有記缺席 */
@@ -97,7 +97,8 @@ const R2Y4A_EVENTS=(function(){
       nar('（她看著行程表，然後把它摺起來，放進口袋。）'),
       CG('cg_chicago_heroine05'),   /* BCG-17（何俊朗只畫背影）*/
       sis('……今天不照表。'),
-      nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）'),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句 */
+      IF(LONG,nar('（一路上，何俊朗說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_345 F10：不寫成他的台詞，一句旁白接學姊那句 */
+      UN(LONG,nar('（一路上，同行的人說了好幾次「還好」：巴士、披薩、湖邊的風。每一次聽起來都不一樣。）')),   /* AA_370 L1：沒見過他（沒去 8/14 迎新、9/8 下課）＝「同行的人」*/
       sis('「還好」是好還是不好？'),
       me('看情況。'),
       sis('……法律系的回答。'),
@@ -247,8 +248,14 @@ const R2Y4A_EVENTS=(function(){
       {unless:{custom:G=>dating(G,S5)},goto:'n'},
       nar('（自動門一打開，你們兩個同時把外套脫了。）'),
       sis('十二月的臺北，還是比那邊熱。'),
+      {unless:{flagIs:{US1:'together'}},goto:'m0'},   /* AA_370 M5：8/2 一起出發（交往中）媽媽已經塞鳳梨酥給她、她說過「謝謝阿姨」——不是第一次見面 */
+      nar('（媽媽先看到你，再看到你旁邊的人。她笑了一下。）'),
+      sis('阿姨好。……上次的鳳梨酥，很好吃。'),
+      {goto:'m1'},
+      {label:'m0'},   /* 8/2 出發那天還沒在交往（挽回中、後來重新開始）：媽媽第一次見到她（原句）*/
       nar('（媽媽先看到你，再看到你旁邊的人。）'),
       sis('伯母好。……我是書瑀。'),
+      {label:'m1'},
       sis('（小聲）我搭捷運就好。'),
       {speaker:'媽媽',text:'一起走啦，順路。'},
       sis('……好。謝謝。'),
@@ -262,7 +269,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'n'},nar('（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）') ] });
   EV.push({ id:'ev_us_home', title:'臺北的家', participants:[], location:'any', trigger:'manual', once:true, background:'dark',   /* 上午（AA_144 X2；兩種玩家都有）*/
     dialogue:[ {scene:'臺北・家裡',bg:'home_living_day'},
-      {speaker:'媽媽',text:'你回來了。'},
+      nar('（九點。廚房裡有粥的味道。你回來了。）'),   /* AA_370 M5：媽媽 05:40 就接到人了，九點這句是旁白（AA_291 第 5 節；原「媽媽：你回來了。」）*/
       nar('（房間打掃過了。桌上多了一盒你小時候的模型。）') ] });
 
   /* ===================== 大四上（臺灣這邊；美國路線人在美國＝只有照片）===================== */
@@ -619,7 +626,7 @@ const R2Y4A_EVENTS=(function(){
       {id:'row',t:'那一排的同學，今天也坐那裡嗎？',next:'他今天沒來。那一排只剩我。……還好。'},
       {id:'light',t:'Café 下午的光，還是一樣。',next:'你說光還是一樣。……窗邊那個位子，現在誰坐？'},
       {id:'ticket',t:'妳的戲院，我要第一張票。',next:'好。第一張給你。……開幕那天要來。',fromCard:'2029-03-16'} ],   /* 第四個三月那張以後才有；和芷若分開過的不出 */
-    usAsk:'給我你在那邊的地址。英國寄到美國要多久，我想試試看。' };   /* 美國路線：八月她傳訊息要地址 */
+    usAsk:'給我你在那邊的地址。英國寄到美國要多久，我想試試看。' };   /* 美國路線：八月她傳訊息要地址（AA_370 M1：r2y4a3d.js 8/20 那則拿掉，只發 us_life_events.js 的 8/10 那則；字留著）*/
 
   return EV;
 })();
