@@ -522,7 +522,11 @@ def ask_check(role, data, rows, have):
         if a.get('kind') and a['kind'] not in ASK_KINDS:
             bad.append(f'{role} {aid}：kind「{a["kind"]}」不是 {ASK_KINDS}')
         if a.get('kind') == 'AI解讀' and not a.get('confirmed'):
-            bad.append(f'{role} {aid}：AI 自己的解讀還沒問使用者（confirmed 不是 true）：{a.get("quote", "")[:40]}')
+            dg = a.get('delegatedBy')   # 使用者授權這個職位自己決定（例：D109「以後你劇情自己決定」UA-AA-1021-43）：紀錄照留、不必再問
+            src = next((b for b in items if b.get('id') == dg), None) if dg else None
+            if not (src and src.get('kind') in ('原話', '選擇題答案') and src.get('status') == '規則（永久）'):
+                bad.append(f'{role} {aid}：AI 自己的解讀還沒問使用者（confirmed 不是 true）：{a.get("quote", "")[:40]}'
+                           + (f'（delegatedBy {dg} 不是這個職位檔裡、status 規則（永久）的使用者原話或選擇題答案）' if dg else ''))
         st = a.get('status') or ''
         if st and st not in ASK_STATUS:
             bad.append(f'{role} {aid}：status「{st}」不是 {ASK_STATUS}')
