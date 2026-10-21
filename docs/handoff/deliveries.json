@@ -16063,6 +16063,34 @@
    "kind": "wip",
    "task": "ART-WZ0",
    "reason": "溫州街收尾①（BACKLOG A7 小公園疊面：涼亭樑、土地公廟神龕背板、步道、公布欄）——ART-WZ0 收尾中，整批交件時再登記交付；LAWWW（帳號 A）16:2x 分類"
+  },
+  {
+   "sha": "b0217a39",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "GRADE-GOLDEN-DEFAULT",
+   "reason": "黃昏調色預設開（D108）WIP：patch＋tools/shots/golden_compare.sh；LAWWW2 交件前重拍 VISUAL_REVIEW 第 10 節；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
+  },
+  {
+   "sha": "bee24087",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-GYM2-INT",
+   "reason": "體育館 3F 主球場接成區域 gym_arena 的 WIP：patches/gym_arena_int.diff（對 807b650a）；GLB 要一起換，遊戲內對照排隊中（LAWWW2 17:35 事先告知）；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
+  },
+  {
+   "sha": "837ac4e0",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "BUG-CAM-203-R2-1021",
+   "reason": "宿舍四人房跟隨鏡頭 WIP：patches/dorm_cam_203.diff（對開發分支）；交件後 LAWWW 整合；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
+  },
+  {
+   "sha": "74abbef1",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "BUG-CAM-C208-1021",
+   "reason": "C 棟 208／美國公寓跟隨鏡頭 WIP：patches/c208_cam_walls.diff（含 engine3d followCam 一行，LAWWW 已看過）；交件後 LAWWW 整合；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
   }
  ]
 }
