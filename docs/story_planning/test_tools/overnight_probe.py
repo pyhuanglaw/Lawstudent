@@ -100,6 +100,7 @@ async def wait_choices(pg, cdp, secs=40):
 async def book(pg, cdp, run, sc, res):
     """手機「約」→ 一層一層選。回傳 True＝約好了"""
     picks = ['去校外…', '兩天一夜…', sc['loc']] + ([sc['combo']] if sc.get('combo') else []) + ([sc['mode']] if sc.get('mode') else []) + [sc['date'], '09:00 出發', '就這樣約']
+    optional = {sc.get('combo'), sc.get('mode')} - {None}   # 只有這兩層可能不出現（清境不問交通、合併那一項才有）；其他層找不到就是失敗，不能往下找（「去校外…」那一層也有同名的一日遊地點）
     levels = []; res['levels'] = levels
     if sc['cid'] == 'kexin' and not sc['dating']:
         run.note('【捷徑】可昕第 6 階沒交往：介面上沒有「約」，console 呼叫 INV.flow(GAME,"kexin",null,false)（手機那條）')
@@ -119,7 +120,7 @@ async def book(pg, cdp, run, sc, res):
         texts = [o['t'] for o in ops]; levels.append(texts)
         if sc.get('portrait') and len(levels) <= 8: await run.shot(pg, '%s_book%d' % (sc['id'], len(levels)))
         k = next((j for j, o in enumerate(ops) if o['t'].startswith(picks[i])), None)
-        if k is None and i + 1 < len(picks):   # 沒有這一層（例：清境沒有交通）就看下一層
+        if k is None and picks[i] in optional and i + 1 < len(picks):   # 沒有這一層（例：清境沒有交通）就看下一層
             k2 = next((j for j, o in enumerate(ops) if o['t'].startswith(picks[i + 1])), None)
             if k2 is not None: i += 1; k = k2
         if k is None: run.check('%s：第 %d 層找得到「%s」' % (sc['id'], len(levels), picks[i]), False, json.dumps(texts, ensure_ascii=False)[:400]); return False
