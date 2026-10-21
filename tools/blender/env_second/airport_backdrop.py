@@ -71,7 +71,6 @@ for i in range(1, 5):
 for x in [GX0 + 0.3 + k * 8.0 for k in range(int((GX1 - GX0) / 8.0) + 1)]:
     cs.box(x - 0.3, x + 0.3, 0.0, 4 * LV, GZ0 + 0.3, GZ0 + 0.9)                      # 柱子（到屋頂樓板）
     cs.box(x - 0.3, x + 0.3, 0.0, 4 * LV, GZ0 + 16.0, GZ0 + 16.6)
-cs.box(GX0, GX1, 4 * LV + 0.08, 4 * LV + 1.15, GZ0, GZ0 + 0.18)                         # 屋頂矮牆
 cs.box(GX0, GX0 + 0.3, 0.0, 4 * LV + 1.1, GZ0, GZ1).box(GX1 - 0.3, GX1, 0.0, 4 * LV + 1.1, GZ0, GZ1)
 cs.box(GX0, GX1, 0.0, 4 * LV + 1.1, GZ1 - 0.3, GZ1)                                     # 後面的牆
 gl, sg = Mesh('bd_g_glass', M['glass']), Mesh('bd_g_sign', M['sign'])
@@ -213,6 +212,6 @@ try: sc.cycles.use_denoising = True
 except Exception: pass
 sc.render.resolution_x = RES; sc.render.resolution_y = RES // 5; sc.render.resolution_percentage = 100
 sc.view_settings.view_transform = 'Standard'; sc.view_settings.exposure = -0.2 if not NIGHT else 0.3
-sc.render.image_settings.file_format = 'PNG'; sc.render.filepath = OUT
+sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGB'; sc.render.filepath = OUT   # 不要 alpha（全不透明，匯出時白佔空間）
 bpy.ops.render.render(write_still=True)
 print('backdrop', 'night' if NIGHT else 'day', OUT, RES, SAMPLES)
