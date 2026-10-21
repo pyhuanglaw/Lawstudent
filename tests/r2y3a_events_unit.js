@@ -67,6 +67,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   run('2027-07-20',21.5,21.75);
   check('1. K1 7/20 21:30 三則（八月七號、八號……我借了我爸的車。）',JSON.stringify(txt('p:kexin'))===JSON.stringify([K('八月七號、八號，週末。我空下來了。'),K('你來高雄。這次住一晚。'),K('八號是七夕。……我借了我爸的車。')]),JSON.stringify(txt('p:kexin')));
   G.money=1000; check('1. 高鐵票錢不夠（2980）不能選「好。我坐早上的高鐵。」',ans('y3_kh_inv',0)===null&&G.flags.KX_KH_GO==null);
+  G.money=4000; check('1. AA_350 M1：付得出高鐵、付不出旅館（4,000 < 4,780）也不能選；字是「高鐵票和旅館的錢不夠。」',ans('y3_kh_inv',0)===null&&G.flags.KX_KH_GO==null&&JSON.stringify(PHONE.byAsk(G,'y3_kh_inv').ask.opts[0].need)===JSON.stringify({money:4780,why:'高鐵票和旅館的錢不夠。'}));
   G.money=5000; ans('y3_kh_inv',0); { const q=OUT.get(G,'y3_kh');
     check('1. 答應 →「九點到左營。旅館我幫你找好了，在車站旁邊。」→ 排 8/7 09:00 左營站（高鐵一個半小時）',txt('p:kexin').slice(-1)[0]===K('九點到左營。旅館我幫你找好了，在車站旁邊。')&&!!q&&q.day===D('2027-08-07')&&q.h===9&&q.travelH===1.5&&q.ev==='ev_kexin_trip_summer_y2'); }
   { const m0=G.money; picks=[]; await go('y3_kh',7.4);

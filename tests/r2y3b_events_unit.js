@@ -474,6 +474,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   at('2028-08-05',21.1); rules(); at('2028-08-08',12); rules(); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
   check('S3. L2 日本路線：8/5 晚上也沒有三選一、過了也不設預設；r2y3b 的 8/21 不播（日本那一句在 jp3d.js）', !PHONE.sent(G,'y3_summer_plan')&&!G.flags.SUMMER_Y3&&said.length===0, JSON.stringify([G.flags.SUMMER_Y3,said.map(x=>x.t)]));
   check('S3. L2 日本路線：快轉不停在 8/5 21:00、8/21 18:30（R2Y3B.stops）', (()=>{ const st=(R2Y3B.stops(G)||[]).map(x=>x-Tm(D('2028-08-05'),0)); return !st.includes(21)&&!st.includes(16*24+18.5); })(), JSON.stringify(R2Y3B.stops(G)));
+  { fresh('2028-07-24',18.5,'dorm',{SUMMER_Y3:'work'}); const jk=R2Y3B.jobKind; R2Y3B.jobKind=()=>'cafe'; const l=R2Y3B.sumLine(G,1); R2Y3B.jobKind=()=>'tutor'; const t=R2Y3B.sumLine(G,1); R2Y3B.jobKind=jk;
+    check('S2b. AA_350 M5：家教以外的打工 7/24 有那一句（原本 null 不播）；家教照舊',l==='七月最熱的那個禮拜，店裡的冷氣壞了三天。你學會一邊流汗，一邊說『歡迎光臨』。'&&t==='學生問你，法律系是不是都在背。你說：『背完以後才開始。』',JSON.stringify([l,t])); }
   for(const k of ['intern','work']){ fresh('2028-09-04',9,'dorm',{EXCHANGE_ROUTE:'JP',SUMMER_Y3:k,ROOM_Y4:D('2028-09-03')}); check('S3. L2 日本路線（舊存檔有 SUMMER_Y3＝'+k+'）：9/3 的房間沒有三選一的物件', R2Y3B.roomSummer(G)===null&&!STORY.roomY4Items(G).some(x=>/^sum_/.test(x[0])), JSON.stringify(STORY.roomY4Items(G).map(x=>x[0]))); }
   /* AA_343 D8：三選一沒回（台灣、美國 6/21 21:00 以前）＝預設：有打工 'work'、沒有 'study'；不傳訊息，摘要日照預設那一套 */
   fresh('2028-06-19',21.05,'dorm'); rules(); at('2028-06-21',20.9); rules(); check('S4. D8 三選一 6/21 21:00 以前還可以回', !G.flags.SUMMER_Y3&&PHONE.askOpen(G,PHONE.byAsk(G,'y3_summer_plan')));

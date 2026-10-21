@@ -1,7 +1,9 @@
 """經濟系開局（v0）從標題玩前幾天的真實玩家流程（2026-10-17 第 7 組起：標題的「新遊戲」就是經濟系開局，先演 8/23～25 宿營）（使用者 2026-10-17：先把經濟系做好；標題畫面開放經濟系開局之前要過這一支）。
 不用 ?turbo、不改旗標；網址加 ?y0（經濟系開局按鈕現在只在 ?y0 出現，D81）：
-  標題「經濟系開局」→ 2024-09-01 晚上男宿（E01 宿舍第一晚）→ 對話選第一個 → 走到床邊「睡覺」→ 9/2（一）早上的起床選單 →
-  「直接去上課」第一堂經濟學原理（博雅 101）→ 上完課、恢復控制。
+  標題「經濟系開局」→ 2024-09-01 晚上男宿（E01 宿舍第一晚）→ 對話選第一個 → 走到床邊「睡覺」→ 9/2（一）早上阿勳的兩句 →
+  事件接事件（D102，使用者 2026-10-18 選；9/2 早上以後不出起床選單，中間的課自動算出席）：9/2 12:15 開學典禮（ev_y0_e02）→
+  9/5 會計第一堂（帶到教室坐好、上課）→ 上完課、恢復控制。手機自己跳出來（D103）就像玩家一樣按「收起來／跳過」。
+  （2026-10-21 改：原本檢查 9/2 早上的起床選單「直接去上課」第一堂經原，是 D102 以前的流程。）
 檢查：stage 是 econ、日期、那一堂記成出席、沒有卡住保險、畫面上沒有看得到的備用人物、沒有 JS 例外。
 用法：python3 tests/flow_v0_start.py URL [輸出資料夾]"""
 import asyncio, json, sys, time
@@ -26,6 +28,7 @@ async def drive(pg, cdp, run, until_js, prefer, max_s=300):
         elif s['dlg']:
             if s['dtext'] and (not log or log[-1] != s['dtext'][:30]): log.append(s['dtext'][:30])
             await L.tap(pg, cdp, '#dlg')
+        elif s.get('paused') and await L.phone_away(pg, cdp): log.append('［手機自己跳出來 → 收起來／跳過］')   # D103、D102 跳的途中收到要回的訊息
         await pg.wait_for_timeout(700)
     return False, log
 
@@ -62,14 +65,15 @@ async def main():
                 await L.tap(pg, cdp, '#interact')
         if ok:
             # 睡覺可能先問要幾點起床／確認：照第一個選項
-            ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key==='2024-09-02'&&!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(b=>b.textContent.includes('直接去上課')); })()", ['睡覺', '七點', '7', '好'], 300)
-            await run.shot(pg, 'wake_902')
-            run.check('9/2（一）早上：起床選單有「直接去上課」', ok, json.dumps(log[-6:], ensure_ascii=False))
+            ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G; return !!(G.events&&G.events.done&&G.events.done.ev_y0_e02)&&!GAME.E.player.busy&&!GAME.D.active; })()", ['睡覺', '七點', '7', '好'], 600)
+            await run.shot(pg, 'after_e02')
+            st = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key, hour:+GAME.G.hour.toFixed(2), zone:GAME.G.zone, morning:!!GAME.G.flags.E01_MORNING, wake:!!document.querySelector('#choices button')&&[...document.querySelectorAll('#choices button')].some(b=>b.textContent.includes('直接去上課'))})")
+            run.check('9/2（一）早上阿勳那兩句（E01_MORNING）→ 事件接事件（D102）帶到 12:15 開學典禮（ev_y0_e02）演完、恢復控制；沒有起床選單', ok and st['key'] == '2024-09-02' and st['morning'] and not any('直接去上課' in t for t in log), json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-8:], ensure_ascii=False))
             if ok:
-                ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G, R=CLS.rec(G); return Object.keys(R.done).some(k=>k.startsWith(G.day+':econ_principles_y0'))&&!GAME.E.player.busy&&!GAME.D.active; })()", ['直接去上課', '經濟學原理'], 600)
-                st = await pg.evaluate("({zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), done:Object.keys(CLS.rec(GAME.G).done).filter(k=>k.startsWith(GAME.G.day+':')), fb:GAME.walkFallbacks||0})")
+                ok, log = await drive(pg, cdp, run, "(()=>{ const G=GAME.G, R=CLS.rec(G); return Object.keys(R.done).some(k=>/:acct_y0/.test(k))&&!GAME.E.player.busy&&!GAME.D.active; })()", ['出發', '好'], 900)
+                st = await pg.evaluate("({key:CALENDAR.dateOf(GAME.G.day).key, zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), done:Object.keys(CLS.rec(GAME.G).done).filter(k=>/acct_y0|econ_principles_y0/.test(k)), fb:GAME.walkFallbacks||0})")
                 await run.shot(pg, 'after_class')
-                run.check('第一堂經濟學原理上完（出席）、恢復控制', ok, json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
+                run.check('9/5（四）會計第一堂：帶到教室上完（記出席）、恢復控制（D102 第 5 步）', ok and st['key'] == '2024-09-05', json.dumps(st, ensure_ascii=False) + ' ' + json.dumps(log[-6:], ensure_ascii=False))
                 run.check('沒有用到卡住保險', st['fb'] == 0, str(st['fb']))
         bad = await pg.evaluate(VIS_BAD)
         run.check('畫面上沒有看得到的備用人物', not bad, json.dumps(bad, ensure_ascii=False))

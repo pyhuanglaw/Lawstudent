@@ -559,7 +559,7 @@ const R2Y4B=(function(){
   S.groupNightDue=function(G){ const F=G.flags; if(F.BAR_GROUP_LAST===G.day) return false; const s=S.session(G,G.day); if(!s||(s.mode!=='noodle'&&s.mode!=='library')) return false; const h=hh(G); if(h<s.t0||h>=s.t1) return false;
     return s.mode==='noodle'?G.zone==='noodle':LIB_ZONES.includes(G.zone); };
   S.groupLine=function(G,force){ const F=G.flags, s=S.session(G,G.day), w=force||(s&&s.who)||'kexin';
-    if(w!=='kexin'&&!F.BAR_GROUP_YT_FIRST&&(w==='yutong')&&F.BAR_GROUP_KIND!=='three'&&s&&s.mode==='noodle') return 'yt_first';   /* 只有語彤（或分開讀的語彤那幾晚）：第一次那三句。是晚上的事（「十點，麵店拉下一半的鐵門」）：週六白天在總圖不演；分開讀的放在她的第一個週五晚上 3/2（AA_345 G6）*/
+    if(w!=='kexin'&&!F.BAR_GROUP_YT_FIRST&&(w==='yutong')&&F.BAR_GROUP_KIND!=='three'&&s&&(s.mode==='noodle'||(s.mode==='library'&&F.BAR_GROUP_KIND==='yutong'))) return 'yt_first';   /* AA_350 N1：只有語彤、第一次是週六白天總圖的＝演白天版（第一句旁白換，其他兩句一樣）；分開讀的照舊留到她第一個麵店的晚上 */   /* 只有語彤（或分開讀的語彤那幾晚）：第一次那三句。是晚上的事（「十點，麵店拉下一半的鐵門」）：週六白天在總圖不演；分開讀的放在她的第一個週五晚上 3/2（AA_345 G6）*/
     const pick=w==='three'?(((F.BAR_GROUP_N|0)%2===0)?'kexin':'yutong'):w;
     return pick==='kexin'?'k'+(((F.BAR_GROUP_KI|0)%4)+1):'y'+(((F.BAR_GROUP_YI|0)%4)+1); };
   S.groupNightDone=function(G,mode){ const F=G.flags, ln=S.groupLine(G,mode==='video'?'kexin':undefined); F.BAR_GROUP_LAST=G.day; F.BAR_GROUP_N=(F.BAR_GROUP_N|0)+1;
@@ -652,6 +652,7 @@ const R2Y4B=(function(){
     {id:'r2y4b_multi_y5',at:G=>T(DK('2030-05-25'),22),until:G=>T(DK('2030-06-01'),24),cond:G=>S.multiY5Due(G),run:GM=>S.multiY5(GM)},
     /* 2-Y4-46 7/14 白天（AA_345 G9 新寫）：有那天晚上的心意邀約（7/14 00:00 重判還成立）、報了國考的；10:00 演，17:00 以前沒空下來就不補（AA 沒給沒報國考的那一句）*/
     Object.assign(narrStep('r2y4b_july_day','2029-07-14',10,'（白天照樣在總圖。離一試還有二十一天。）',G=>{ const q=outGet(G,'y4_july'); return !!q&&q.state==='planned'&&G.flags.BAR_REG===true; }),{until:G=>T(DK('2029-07-14'),17)}),
+    Object.assign(narrStep('r2y4b_july_day_nobar','2029-07-14',10,'（白天沒有排什麼事。畢業以後的第一個七月，一天變得很長。）',G=>{ const q=outGet(G,'y4_july'); return !!q&&q.state==='planned'&&G.flags.BAR_REG!==true; }),{until:G=>T(DK('2029-07-14'),17)}),   /* AA_350 N2：沒報國考的 7/14 白天（「離一試還有二十一天」不成立）*/
     /* 2-Y4-51 2030 重考的那一年（摘要日）*/
     {id:'r2y4b_retake_plan',at:G=>T(DK('2029-09-08'),21),until:G=>T(DK('2029-09-15'),24),cond:G=>ret(G)&&G.flags.RETAKE_STYLE==null,run:GM=>S.retakePlan(GM)},
     narrStep('r2y4b_rt_1020','2029-10-20',10,'（朋友們去考二試的那兩天，你在自習室讀民法。）',ret),
