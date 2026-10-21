@@ -206,6 +206,7 @@ const US3=(function(){
   // =================== 戶外：公寓社區 us_outside（主街 us_street 之後也可以用同一套）===================
   const CAR_DIMS={car_sedan:[4.88,1.84],car_suv:[4.6,1.85],car_pickup:[5.9,2.03],car_hatch:[4.4,1.8],car_minivan:[5.15,2.0]};   /* us_cars.json 的 dims：[車長, 車寬]；車頭朝 +z */
   const US_LINK={x:-35.0,z:0,yaw:Math.PI/2};   /* 從社區入口（西邊的車道）走進來、面向東：登機抵達、從超市回來都到這裡；離「出門」3.8 m（−37.5 的時候一到就在「出門」的範圍裡）*/
+  const MS=()=>typeof US_MARKET_STREET_LAYOUT!=='undefined'?US_MARKET_STREET_LAYOUT:null;   /* 超市街（US-MARKET-STREET）：有這份配置就把超市、亞洲超市、社區的「出門」接過去；沒有就照舊直接進店 */
   /* 戶外區域：配置的 bounds、blocks（長方形，why）、cars；正式模型 glb＋bldg.us_cars（車照配置停）。
      o.interact(E,L,IT)：這一區自己的互動點。建築本體（why 開頭是 building）＝鏡頭碰撞（加高到屋簷 6 m）＋備用模型的方塊 */
   function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, noSkyline:o.noSkyline!==false, build(E){   /* noSkyline：不畫引擎的遠景剪影（台北的山和城市大樓；US-CAMPUS-WIRE-1018）*/ const L=o.layout(), B=L.bounds;
@@ -232,7 +233,7 @@ const US3=(function(){
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
       for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
-        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; }); r.material=Array.isArray(r.material)?ms:ms[0]; });
+        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
         cg.add(q); n++; }
       if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
     return zone; } }; }
@@ -241,7 +242,7 @@ const US3=(function(){
       IT.push({x:H_.x,z:H_.z,radius:H_.r,lv:0,label:'回公寓',exit:{to:'us_apartment',spawn:Object.assign({},APT().spawns.fromOutside)}});   /* 配置寫「上樓（213）」：公寓那份的門牌是自己 214、隔壁 213（兩份不一致，先不寫號碼）；字照 LAWWW-C 的最小流程 */
       /* 「出門」（LAWWW-C 的最小可玩流程：外出 → 回公寓睡覺）：usGoOut＝交換系統可以攔下來換成自己的外出；現在去超市（BB_215：超市一定要、主街不需要；
          真的要搭公車，公車站先不做 3D）*/
-      IT.push({x:X.x+1.2,z:X.z,radius:X.r,lv:0,label:'出門（去超市）',usGoOut:true,exit:{to:'us_market',spawn:Object.assign({},US_MARKET_LAYOUT.spawn)}});
+      IT.push({x:X.x+1.2,z:X.z,radius:X.r,lv:0,label:'出門（去超市）',usGoOut:true,exit:MS()?{to:'us_market_street',spawn:Object.assign({},MS().spawn_bus)}:{to:'us_market',spawn:Object.assign({},US_MARKET_LAYOUT.spawn)}});   /* US-MARKET-STREET：搭公車到超市街（北側人行道的公車站），走過停車場進草原超市 */
       /* 搭公車去學校（US-CAMPUS-WIRE-1018）：社區出口旁邊（和「出門（去超市）」相距 3.6 m、範圍不重疊）→ 美國校園的公車站；usBus＝交換系統可以攔下來換成自己的字卡、時間 */
       if(typeof US_CAMPUS_LAYOUT!=='undefined') IT.push({x:X.x+1.2,z:X.z-3.6,radius:1.2,lv:0,label:'搭公車（去學校）',usBus:'campus',exit:{to:'us_campus',spawn:Object.assign({},US_CAMPUS_LAYOUT.spawn_bus)}});
       for(const p of L.props){ if(p.type==='mailboxes') IT.push({x:p.x,z:p.z+1.1,radius:1.0,lv:0,label:'看信箱',look:lookText('社區的集中信箱。')}); }
@@ -305,9 +306,9 @@ const US3=(function(){
     const IT=E.interactables;
     for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});   /* usMarket＝互動的 id（serviceDesk、dairy……）：採買、US1 的「看蛋的日期」由交換系統（LAWWW-C）接 */
     for(const a of L.aisle_signs){ const gd=L.gondolas.find(q=>q.aisle===a.aisle); const cat=gd?AISLE_ZH[gd.cat]||gd.cat:''; IT.push({x:a.x,z:a.z,radius:1.0,lv:0,label:'第 '+a.aisle+' 走道：'+cat,usMarket:'aisle_'+(gd?gd.cat:a.aisle),look:lookText(cat+'。')}); }
-    { const X=L.exit; IT.push({x:X.x,z:X.z-0.4,radius:X.r,lv:0,label:X.label,exit:{to:'us_outside',spawn:Object.assign({},US_LINK)}}); }   /* 回到社區入口（真的要搭公車）*/
+    { const X=L.exit; IT.push({x:X.x,z:X.z-0.4,radius:X.r,lv:0,label:X.label,exit:MS()?{to:'us_market_street',spawn:Object.assign({},MS().spawn_pb_out)}:{to:'us_outside',spawn:Object.assign({},US_LINK)}}); }   /* 從 OUT 門出去到停車場（US-MARKET-STREET）；沒有超市街時照舊回社區入口（真的要搭公車）*/
     /* 對面的小亞洲超市（使用者 2026-10-17 23:0x）：從出口那扇門出去過馬路；第一階段直接接到亞洲超市門口（超市前的停車場、馬路之後做成走得過去的戶外）*/
-    if(typeof US_ASIAN_MARKET_LAYOUT!=='undefined'){ const X=L.exit; IT.push({x:X.x+2.6,z:X.z-0.4,radius:1.0,lv:0,label:'過馬路（對面的亞洲超市）',exit:{to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)}}); }
+    if(typeof US_ASIAN_MARKET_LAYOUT!=='undefined'&&!MS()){ const X=L.exit; IT.push({x:X.x+2.6,z:X.z-0.4,radius:1.0,lv:0,label:'過馬路（對面的亞洲超市）',exit:{to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)}}); }
     z.formal=false; if(has('bldg.us_market')) ASSETS.loadOne('bldg.us_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
       root.traverse(o=>{ if(o.isMesh&&/^PLATE_FACE_lane/.test(o.name)) paintPlate(o,(/(\d+)$/.exec(o.name)||[])[1]||'','#1f4f8f','#ffffff'); });
@@ -332,7 +333,8 @@ const US3=(function(){
     const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); viewTint(views,h); };   /* 燈盤、冷藏櫃、燈籠整天都亮 */
     const IT=E.interactables;
     for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,label:q.label,usMarket:q.id,look:lookText(q.label+'。')});
-    for(const X of L.exits){ const sp=X.to==='us_market'?Object.assign({},US_MARKET_LAYOUT.spawn):Object.assign({},US_LINK); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
+    if(MS()){ const X=L.exits[0], X2=L.exits[1]||X; IT.push({x:(X.x+X2.x)/2,z:X.z,radius:Math.max(X.r,1.1),lv:0,label:'出門',exit:{to:'us_market_street',spawn:Object.assign({},MS().spawn_am_out)}}); }   /* US-MARKET-STREET：出門到騎樓；回大超市（過斑馬線）、搭公車都從外面走 */
+    else for(const X of L.exits){ const sp=X.to==='us_market'?Object.assign({},US_MARKET_LAYOUT.spawn):Object.assign({},US_LINK); IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:X.to,spawn:sp}}); }
     z.formal=false; if(has('bldg.us_asian_market')) ASSETS.loadOne('bldg.us_asian_market').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
       root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); Z3.attachRoomGLB(z,g0,fb,root); z.formal=true;
       const vm=new Set(); root.traverse(q=>{ if(q.isMesh&&/^usam_view/.test(q.name)) vm.add(q.material); }); views=[...vm]; for(const m of views){ m.transparent=false; m.alphaTest=0.5; m.depthWrite=true; m.needsUpdate=true; }   /* 和公寓的窗外景一樣：天空挖空 */
@@ -340,6 +342,19 @@ const US3=(function(){
       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const cy=E2&&E2.camera?E2.camera.position.y:0; for(const q of top) q.visible=cy<=H-0.05; };
       glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('亞洲超市正式模型載入失敗，用程序化備用模型',e));
     return z; } };
+
+  // =================== 超市街 us_market_street（草原超市和對面竹葉亞洲超市之間的停車場、馬路；US-MARKET-STREET，LAWWW2 2026-10-21）===================
+  /* 使用者 2026-10-17：「超市一個大的超市對面有一個小的亞洲超市」，選「做停車場和馬路」。社區搭公車來（北側人行道的公車站）→ 停車場 → 草原超市的 IN 門；
+     從 OUT 門出來 → 停車場 → 路口的斑馬線過馬路（中央分隔島只在斑馬線那裡斷開）→ 竹葉亞洲超市。
+     正式模型 bldg.us_market_street（tools/blender/env_second/us_market_street.py，配置 us_market_street.layout.json 同一份；四季照 usSeason）。
+     公車：usBus＝交換系統可以攔下來換成自己的字卡、時間（社區、校園的公車同一個做法）*/
+  const us_market_street=MS()?outdoorZone({ id:'us_market_street', name:'超市街（美國）', size:[84,76], glb:'bldg.us_market_street', layout:MS, spawn:L=>L.spawn_bus,
+    interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
+        if(q.id==='pb_in') it.exit={to:'us_market',spawn:Object.assign({},US_MARKET_LAYOUT.spawn)};
+        else if(q.id==='am_in') it.exit={to:'us_asian_market',spawn:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn)};
+        else if(q.id==='bus'){ it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)}; it.usBus='community'; }
+        else if(q.look) it.look=lookText(q.look);
+        IT.push(it); } } }):null;
 
   // =================== 桃園機場第二航廈 airport_dep／airport_arr ===================
   const AP=()=>AIRPORT_T2_LAYOUT;
@@ -401,9 +416,10 @@ const US3=(function(){
   const SPAWN={ airport_dep:Object.assign({},AP().dep.spawn_curb), airport_arr:Object.assign({},AP().arr.spawn_customs), us_outside:Object.assign({},US_LINK),
     us_apartment:Object.assign({},APT().spawns.fromOutside), us_apartment_bed:Object.assign({},APT().spawns.bedroom), us_market:Object.assign({},US_MARKET_LAYOUT.spawn), us_shared:Object.assign({},US_SHARED_LAYOUT.spawns.fromOutside), us_shared_kitchen:Object.assign({},US_SHARED_LAYOUT.spawns.kitchen), us_asian_market:Object.assign({},US_ASIAN_MARKET_LAYOUT.spawn), us_campus:Object.assign({},US_CAMPUS_LAYOUT.spawn_bus), us_campus_class_out:Object.assign({},US_CAMPUS_LAYOUT.spawn_class_out), us_lawlib:Object.assign({},US_LAWLIB_LAYOUT.spawn) };   /* 美國校園：公車到站、下課從法學院出來；法學院圖書館：從門進來 */
   if(US_COMMUNITY_LAYOUT.clubhouse){ const D=US_COMMUNITY_LAYOUT.clubhouse.door; SPAWN.us_clubhouse={x:D.x,z:+(D.z-1.5).toFixed(2),yaw:Math.PI}; }   /* 會所門口的走道上、面向停車場（會所裡的 2D 演完回到社區站這裡）*/
+  if(MS()){ SPAWN.us_market_street=Object.assign({},MS().spawn_bus); SPAWN.us_market_street_pb_out=Object.assign({},MS().spawn_pb_out); SPAWN.us_market_street_am_out=Object.assign({},MS().spawn_am_out); }   /* 超市街：公車站、草原超市 OUT 門外、亞洲超市門外 */
   for(const k in SPAWN) delete SPAWN[k].note;
   /* 交換系統（LAWWW-C 的 src/exchange3d.js，比這個檔先載入）：出發、登機抵達、睡醒、凌晨走回公寓、手機「地點」都讀 EXCH.SPAWN（LAWWW-C 21:13 的介面）*/
   if(typeof EXCH!=='undefined'&&EXCH.SPAWN) Object.assign(EXCH.SPAWN,{airport_dep:Object.assign({},SPAWN.airport_dep),us_outside:Object.assign({},SPAWN.us_outside),us_apartment:Object.assign({},SPAWN.us_apartment_bed)});
-  return {usSeasonKey,usSeason,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
+  return {usSeasonKey,usSeason,us_campus,us_lawlib,us_apartment,us_shared,us_outside,us_market,us_asian_market,us_market_street,airport_dep,airport_arr,aptNav,US_LINK,CAR_DIMS,SPAWN,C208};
 })();
-Z3.ZONES.us_campus=US3.us_campus; Z3.ZONES.us_lawlib=US3.us_lawlib; Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr;
+Z3.ZONES.us_campus=US3.us_campus; Z3.ZONES.us_lawlib=US3.us_lawlib; Z3.ZONES.us_apartment=US3.us_apartment; Z3.ZONES.us_shared=US3.us_shared; Z3.ZONES.us_outside=US3.us_outside; Z3.ZONES.us_market=US3.us_market; Z3.ZONES.us_asian_market=US3.us_asian_market; Z3.ZONES.airport_dep=US3.airport_dep; Z3.ZONES.airport_arr=US3.airport_arr; if(US3.us_market_street) Z3.ZONES.us_market_street=US3.us_market_street;

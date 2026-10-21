@@ -23047,7 +23047,7 @@
    "title": "美國大超市對面有一間小的亞洲超市：要不要做停車場＋馬路的戶外（現在是「過馬路」直接換區域）",
    "area": "v4",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y4S1",
@@ -23061,7 +23061,7 @@
    },
    "source": "使用者 10-17 23:0x：「超市一個大的超市對面有一個小的亞洲超市」（LAWWW2 HANDOFF 160～178 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示；戶外做法等使用者回答",
-   "next": "【LAWWW（帳號 A）21:4x】LAWWW2 施工中（d20da1e3、fa7c85e2、8512b3b0、05bc1012 WIP；patches/us_market_street.diff）｜ 使用者 14:0x 選「做停車場和馬路」：LAWWW2 做兩家超市之間的停車場和馬路（走得過去），排在美國篇必需場景之後（使用者 2026-10-18 14:0x 選擇題）",
+   "next": "【LAWWW（帳號 A）22:3x】LAWWW2 8512b3b0＋fa7c85e2 整合進開發分支；社區「出門（去超市）」→ 超市街公車站、草原超市「離開超市」→ OUT 門外、亞洲超市只剩「出門」；BB 走一次；還不到：晚上停車場暗、車不動、沒有路人（路人歸 LAWWW，排 US 人流）｜ 【LAWWW（帳號 A）21:4x】LAWWW2 施工中（d20da1e3、fa7c85e2、8512b3b0、05bc1012 WIP；patches/us_market_street.diff）｜ 使用者 14:0x 選「做停車場和馬路」：LAWWW2 做兩家超市之間的停車場和馬路（走得過去），排在美國篇必需場景之後（使用者 2026-10-18 14:0x 選擇題）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",

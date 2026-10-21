@@ -161,7 +161,7 @@ const USL=(function(){
     return h>=14&&h<21?{zone:'us_shared',act:'sit',to:21}:null; };
   S.sisClub=G=>{ const a=S.sisAt(G); return !!(a&&a.club); };
   /* 手機「人」的「現在大概在」（game3d.js whereText：PLACES.names[zone]＋（看書，到 12:00））：美國的區域用 us3d.js 的區域名字 */
-  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
+  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
   /* 「現在大概在」：法學院圖書館只在玩家人在校園或圖書館時給區域（「帶我去」指得到路：校園有往圖書館的門）；其他地方只寫地名（美國的區域沒有在 guide3d.js 的 LINKS 裡）*/
   { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null; const until=a.to!=null?hm(a.to):null;
       if(a.away) return {zone:null,act:'',away:a.away,until}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208',until};
