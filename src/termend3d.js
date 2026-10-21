@@ -157,7 +157,7 @@ const TERMEND=(function(){
     const talk=async n=>{ for(let i=0;i<Math.min(n,pool.length);i++){ await run(GM,who,[pool[i]]); if(i<Math.min(n,pool.length)-1){ await GM.say(me,Lx.REPLY[(ri++)%Lx.REPLY.length]); } } };
     if(kind==='fallback'){ await run(GM,who,spec.open); await talk(2); await S.hook(GM,te.term,who); await run(GM,who,spec.close); }
     else { await GM.say(null,P.open||'（'+(other?P.name:(spec.placeName||P.name||''))+'。）');
-      if(kind==='gf'){ await run(GM,who,lines(spec.table,G)); await talk(2); }
+      if(kind==='gf'){ const tb=spec.tableByTerm&&spec.tableByTerm[te.term]; await run(GM,who,lines(tb!=null?tb:spec.table,G)); await talk(2); }   /* 飯桌一句每學期不一樣（AA_352）；沒寫的學期照 table */
       else if(kind==='heart'){ await talk(2); if(!other) await run(GM,who,lines(spec.table,G)); }
       else await talk(3);
       await S.hook(GM,te.term,who);   /* 邀約鉤子（AA_250 10-1：話題之後、收尾之前）*/

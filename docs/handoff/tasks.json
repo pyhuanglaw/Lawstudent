@@ -6665,8 +6665,8 @@
    "title": "約會地點 D01 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】等 AA：AA 交 D01 已審台詞＋commit；LAWWW 加白名單、跑 tools/date/import_date_lines.py；底圖核准等使用者（不擋清單） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6687,15 +6687,17 @@
      "evidence": "底圖已在 assets/bg/d01_base_*.webp（src/outings3d.js 已登錄）；但 DATE.listable（src/date3d.js:103）要同時有台詞：src/data/date_lines.js 只有 D04、D06、D12、D13，D01 不在白名單（docs/handoff/story_import_allow.json；企劃線 date_system/lines/D01.json 是 AA_188 口語改革之前的版本）",
      "note": "有圖、缺 AA 定稿的字"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D01.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L02",
    "title": "約會地點 D02 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】等 AA：AA 交 D02 已審台詞＋commit；LAWWW 加白名單、跑 tools/date/import_date_lines.py；底圖核准等使用者（不擋清單） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6716,15 +6718,17 @@
      "evidence": "底圖已在 assets/bg/d02_base_*.webp（src/outings3d.js 已登錄）；但 DATE.listable（src/date3d.js:103）要同時有台詞：src/data/date_lines.js 只有 D04、D06、D12、D13，D02 不在白名單（docs/handoff/story_import_allow.json；企劃線 date_system/lines/D02.json 是 AA_188 口語改革之前的版本）",
      "note": "有圖、缺 AA 定稿的字"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D02.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L03",
    "title": "約會地點 D03 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B1】等 AA：AA 交 D03 已審台詞＋commit；LAWWW 加白名單、跑 tools/date/import_date_lines.py；底圖核准等使用者（不擋清單） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6745,7 +6749,9 @@
      "evidence": "底圖已在 assets/bg/d03_base_*.webp（src/outings3d.js 已登錄）；但 DATE.listable（src/date3d.js:103）要同時有台詞：src/data/date_lines.js 只有 D04、D06、D12、D13，D03 不在白名單（docs/handoff/story_import_allow.json；企劃線 date_system/lines/D03.json 是 AA_188 口語改革之前的版本）",
      "note": "有圖、缺 AA 定稿的字"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D03.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L04",
@@ -6782,8 +6788,8 @@
    "title": "約會地點 D05 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D05 台詞（企劃線 docs/story_planning/date_system/lines/D05.json）照 AA_188 口語審、附已審 commit 交 LAWWW；LAWWW：白名單加 D05.json@commit、跑 tools/date/import_date_lines.py、補 date_scene_unit 一項 ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6804,7 +6810,9 @@
      "evidence": "底圖已在：assets/bg/d05_base_dusk.webp（OUT.BG 已登錄、自由出行在用）；台詞沒匯入：src/data/date_lines.js DATE_LINES.loc 只有 D04/D06/D12/D13，S.listable（src/date3d.js:103）因此不列 D05（tests/date_book_unit.js 第 9 項驗證這個規則）",
      "note": "D05 底圖有了，只差 AA 審過的台詞"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D05.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L06",
@@ -6841,8 +6849,8 @@
    "title": "約會地點 D07 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D07 台詞（企劃線 docs/story_planning/date_system/lines/D07.json）照 AA_188 口語審、附已審 commit 交 LAWWW；LAWWW：白名單加 D07.json@commit、跑 tools/date/import_date_lines.py、補 date_scene_unit 一項 ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -6863,7 +6871,9 @@
      "evidence": "底圖已在：assets/bg/d07_base_afternoon.webp（OUT.BG 已登錄、自由出行在用）；台詞沒匯入：src/data/date_lines.js DATE_LINES.loc 只有 D04/D06/D12/D13，S.listable（src/date3d.js:103）因此不列 D07（tests/date_book_unit.js 第 9 項驗證這個規則）",
      "note": "D07 底圖有了，只差 AA 審過的台詞"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D07.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L08",
@@ -7076,7 +7086,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D15 台詞口語審後附 commit 交 LAWWW；LAWWW：同時把 d15_base_night.webp 加進 story_import_allow.json、複製到 assets/bg、OUT.BG 登錄，再跑 tools/date/import_date_lines.py（開車才到的地點，SYS-18 的取車時間一起看） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】台詞已匯入（634f6324，AA-C f21eac3c）；還缺底圖（BB 跟使用者要，D97 提示詞）。有底圖就自動進清單 ｜ 【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D15 台詞口語審後附 commit 交 LAWWW；LAWWW：同時把 d15_base_night.webp 加進 story_import_allow.json、複製到 assets/bg、OUT.BG 登錄，再跑 tools/date/import_date_lines.py（開車才到的地點，SYS-18 的取車時間一起看） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7105,7 +7115,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D16 台詞口語審後附 commit 交 LAWWW；LAWWW：同時把 d16_base_afternoon.webp 加進 story_import_allow.json、複製到 assets/bg、OUT.BG 登錄，再跑 tools/date/import_date_lines.py（開車才到的地點，SYS-18 的取車時間一起看） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】台詞已匯入（634f6324，AA-C f21eac3c）；還缺底圖（BB 跟使用者要，D97 提示詞）。有底圖就自動進清單 ｜ 【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D16 台詞口語審後附 commit 交 LAWWW；LAWWW：同時把 d16_base_afternoon.webp 加進 story_import_allow.json、複製到 assets/bg、OUT.BG 登錄，再跑 tools/date/import_date_lines.py（開車才到的地點，SYS-18 的取車時間一起看） ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7133,8 +7143,8 @@
    "title": "約會地點 D17 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D17 台詞（企劃線 docs/story_planning/date_system/lines/D17.json）照 AA_188 口語審、附已審 commit 交 LAWWW；LAWWW：白名單加 D17.json@commit、跑 tools/date/import_date_lines.py、補 date_scene_unit 一項 ｜ 底圖 BB-B 驗收通過（企劃線 date_system/art/d17_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7155,15 +7165,17 @@
      "evidence": "底圖已在：assets/bg/d17_base_morning.webp（OUT.BG 已登錄、自由出行在用）；台詞沒匯入：src/data/date_lines.js DATE_LINES.loc 只有 D04/D06/D12/D13，S.listable（src/date3d.js:103）因此不列 D17（tests/date_book_unit.js 第 9 項驗證這個規則）",
      "note": "D17 底圖有了，只差 AA 審過的台詞"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D17.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L18",
    "title": "約會地點 D18 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D18 台詞（企劃線 docs/story_planning/date_system/lines/D18.json）照 AA_188 口語審、附已審 commit 交 LAWWW；LAWWW：白名單加 D18.json@commit、跑 tools/date/import_date_lines.py、補 date_scene_unit 一項 ｜ 【AA-C 06:18 盤點更正】底圖已有（使用者生成、BB 檢查通過；核准待使用者裁定）；台詞：cf959b8f 是 BB_115 法律審查的 commit，不是台詞交付，32 處都寫在 AA_188 口語改革之前、互審不完整→AA 先改 D04、D06、D12、D13（以安語彤 AA、BB 五位 BB-C 審），逐地點附已審 commit 交 LAWWW，其餘照約會清單順序分批；coords 是技術資料，LAWWW 照畫面驗收（D27 srcSize 941→實際 940）",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7184,15 +7196,17 @@
      "evidence": "底圖已在：assets/bg/d18_base_dusk.webp（OUT.BG 已登錄、自由出行在用）；台詞沒匯入：src/data/date_lines.js DATE_LINES.loc 只有 D04/D06/D12/D13，S.listable（src/date3d.js:103）因此不列 D18（tests/date_book_unit.js 第 9 項驗證這個規則）",
      "note": "D18 底圖有了，只差 AA 審過的台詞"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D18.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L19",
    "title": "約會地點 D19 可玩（有底圖才出現在清單）",
    "area": "DATE",
    "owner": "LAWWW",
-   "status": "等待其他AI／素材",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】等 AA：AA：D19 台詞（企劃線 docs/story_planning/date_system/lines/D19.json）照 AA_188 口語審、附已審 commit 交 LAWWW；LAWWW：白名單加 D19.json@commit、跑 tools/date/import_date_lines.py、補 date_scene_unit 一項 ｜ 底圖 BB-B 驗收通過（企劃線 date_system/art/d19_base_*.webp）；等 DATE-S6 半互動約會系統一起接",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：約這個地點一次（互動點、她喜不喜歡、收尾、相簿）；底圖核准仍等使用者（不擋清單）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7213,7 +7227,9 @@
      "evidence": "底圖已在：assets/bg/d19_base_morning.webp（OUT.BG 已登錄、自由出行在用）；台詞沒匯入：src/data/date_lines.js DATE_LINES.loc 只有 D04/D06/D12/D13，S.listable（src/date3d.js:103）因此不列 D19（tests/date_book_unit.js 第 9 項驗證這個規則）",
      "note": "D19 底圖有了，只差 AA 審過的台詞"
     }
-   ]
+   ],
+   "sha": "634f6324",
+   "evidence": "634f6324：AA-C f21eac3c 口語審完的 lines/D19.json 進白名單、import_date_lines.py；有底圖＝進約會清單；date_scene_unit 8（14 地點×七位都約得完）、date_book_unit 5"
   },
   {
    "id": "DATE-L20",
@@ -25419,7 +25435,7 @@
    "id": "AA350-ANSWERS-1021",
    "title": "照 AA_350（3f406dbc）改 M、N：M1 高雄錢不夠門檻 4,780＋字、M5 家教以外 7/24 一句、M7 畢業那天學姊便條＋CG 位置、N1 語彤週六總圖白天版三句、N2 沒報國考 7/14 一句、N3 迷路版開場回程用大四版、N4 接機戀人版第一句拆兩句 CG 夾中間；N9 舊存檔備註「舊→新」對照（NOTE_RENAMED，新備註空字串另判）；M4 併 AA349-KL；N8 併 HOLIDAY-PRESENCE-1021",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_350（3f406dbc）；AA-C 10-21 09:28 訊息",
    "first": {
@@ -25432,7 +25448,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:3x UTC】等 AA346 子代理（r2y4b／postgrad）合併後派子代理；M2、M3、M6、M8、N5、N6、N7、N10 照現在、不用改"
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器驗 M1（高雄錢不夠的字）、N3（可昕大四迷路版開場回程）、N1（語彤週六總圖白天版）；N8 明軒 2029 暑假＋三個寒假回彰化交給 HOLIDAY-PRESENCE-1021 子代理（同一檔 characters.js）；N4 冬天版 CG 通過以後 BB 看畫面",
+   "sha": "aad9f57e",
+   "evidence": "aad9f57e：M1、M5、M7、N1～N4 程式＋測試（新檢查在舊程式上失敗：r2y3a 1、r2y3b 1、r2y4a 1、r2y4b 3、graduation 1；新程式全過）；N9 舊存檔對照 382236a5（note_n9_unit）"
   },
   {
    "id": "AA296-PHONE-LIVE-1021",
@@ -25568,6 +25586,121 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 12:3x UTC】派子代理：crowd3d.js 加公園時段表、wenzhou 區域互動、tests 照 AA_283 第 4 節四項；接好以後 DL-13、B08 結案"
+  },
+  {
+   "id": "AA352-GF-TABLE-1021",
+   "title": "AA_352 女朋友學期末約會的飯桌一句每學期不一樣（六位 tableByTerm 26 句）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "企劃線 AA_352（6f472c61）；AA-C 10-21 12:29 訊息",
+   "sha": "634f6324",
+   "evidence": "634f6324：termend_unit 15（六位各抽一學期；舊程式 6 項失敗）",
+   "first": {
+    "term": "Y1S2",
+    "week": 16,
+    "earliest": "大一下學期末和女朋友約會",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 照 AA_352 第 2 節：瀏覽器各看兩個學期（同一個人兩學期不一樣、不和話題池重複）"
+  },
+  {
+   "id": "PS-SEND-DATE-1021",
+   "title": "沛珊台中送行句照日子分兩句（2027-08-06 考上台南以前／以後）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "AA-C 10-21 12:29 訊息第 3 點（AA_276 5-3 原稿）",
+   "sha": "634f6324",
+   "evidence": "634f6324：vac_hometown_unit 7（舊程式失敗）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一暑假去台中找沛珊（交往中）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器順路看一次（大一暑假去台中、交往中）"
+  },
+  {
+   "id": "VAC-C16-C18-1021",
+   "title": "寒暑假第二批活動 C16 法扶實習、C17 律所暑期實習、C18 海外見習團（報名、門檻、不能報的期間、四到六場、新 NPC、旗標、沒錄取）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "企劃線 AA_199 第 7-7 節（7915ac9d）＋AA_242 第 9～11 節（ede67b34）；AA-C 10-21 12:10 訊息",
+   "first": {
+    "term": "Y2S2",
+    "week": 18,
+    "earliest": "大二暑假（C16）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】v9.10.3 發布前測試跑完（CPU 空出來）派子代理照 vac_activities.js 現有寫法實作；C17 門檻要 C04 托福／多益；交換重疊、日本路線大三暑假 8/5 回台、美國路線大三暑假排不下 C17、大四下以後沒有"
+  },
+  {
+   "id": "GYM-GLOW-COPLANAR-1021",
+   "title": "體育館 1F／B1 燈的光暈接上（一個網格、離鏡頭 3 m 淡出；B1 健身房線型燈不放）＋疊面（1F 5.41→0.95、B1 2.23→0 m²）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "LAWWW2-C 清查 A1、A2（focused-cray 09324bda）",
+   "sha": "09324bda",
+   "evidence": "patch gym_glow_batch.diff 套進 src/gym3d.js、src/zones3d.js（glowBatch 加 nearFade，溫州街、公館預設 0 不變）＋gym_interior／gym_b1.glb；gym_unit 17（GLOW 節點 50／45、接線）；LAWWW2 的 Playwright 截圖與 draw call 表：docs/art-rebuild/second_ai/test_shots/gym_glow_1021/README.md（LAWWW2 分支）",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一體育課（新體育館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "LAWWW2 清查 A1、A2",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "晚上 1F、B1 燈有光暈、天花板不過曝、沒有閃爍的疊面",
+    "receiver": "LAWWW",
+    "ack": "ACTIONED"
+   },
+   "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：白天／晚上各看 1F 大廳、球場、B1 泳池、健身房（光暈、天花板、疊面閃爍）"
+  },
+  {
+   "id": "ART-DIRECTOR-LAWWW2",
+   "title": "LAWWW2 當 3D 美術總監：照玩家路線巡場景、自訂品質標準（ART_SOP 第 10 節）、交付前自我驗收、BB 獨立畫面驗收（使用者 10-21 12:0x，長期）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 12:0x 直接對 LAWWW2-C（UA-LAWWW2-1021-02；focused-cray edfe5a2c）；USER_WANTS X90",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "全遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/ART_SOP.md 第 10 節、ART_DIRECTOR_PATROL.md（LAWWW2 分支）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每批：玩家鏡頭截圖前後對照、BB 畫面驗收、LAWWW 整合",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:0x UTC】長期工作方式；溫州街暫停（使用者 10-17）、人物凍結（D99）照舊；交付照舊給 LAWWW 整合"
   }
  ]
 }

@@ -253,5 +253,23 @@ GM.money=function(n){ G.money+=n; };
     check('14. 沛珊女朋友的學期末約會：大三起在台南她學校附近（AA_282 第 5 節第 5 點）',TERMEND.gf('classmate_peishan','Y3S1').place==='eatery_tn'&&TERMEND.gf('classmate_peishan','Y2S2').place==='eatery');
     fresh(D('2028-12-20'),9,'campus',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',60,40,30); G.termend={contact:{Y4S1:{npc_fangyt:{pts:20,k:{}}}},think:{}};
     check('14. 方奕廷大四上（在嘉義）不發期末飯邀約',!TERMEND.friendOk(G,'npc_fangyt',TERMEND.windowOf('Y4S1'))); }
+  // 15. AA_352：女朋友的學期末約會，飯桌一句每學期不一樣（tableByTerm）；沒寫的學期照 table
+  { const gfDin=async(who,term,_d,flags)=>{ fresh(TERMEND.windowOf(term).from+2,19,'campus',flags||{}); G.stage='law'; meet(who); R(who,70,60,50); G.flags['dating_'+who]=true; said=[]; picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_'+term+'_'+who,te:{term,who,kind:'gf'}}); return said.map(x=>x.t); };
+    const has=(L,a)=>a.every(t=>L.includes(t)), T=k=>D(k);
+    const a=await gfDin('heroine_01','Y2S1',T('2027-01-14')), a0=await gfDin('heroine_01','Y1S2',T('2026-06-15'));
+    check('15. AA_352 以安大二上「寒假東京那兩個禮拜，我晚上十點打給你。……」；大一下照原本「這學期的手帳……」',has(a,['寒假東京那兩個禮拜，我晚上十點打給你。……你那邊是九點，剛好。'])&&!a.includes('這學期的手帳，很多頁都寫到你。……你不准翻。')&&a0.includes('這學期的手帳，很多頁都寫到你。……你不准翻。'),JSON.stringify(a));
+    const y=await gfDin('heroine_03','Y2S2',T('2027-06-17')), y1=await gfDin('heroine_03','Y2S1',T('2027-01-14'));
+    check('15. 語彤大二下「（她把兩碗麵推過來。她那碗多了一把蔥。）」（旁白）「……今天想吃蔥。」；大二上照寒假那句',has(y,['（她把兩碗麵推過來。她那碗多了一把蔥。）','……今天想吃蔥。'])&&y1.includes('我媽問你寒假要不要來吃年菜。……我說我問問看。'),JSON.stringify(y));
+    const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));
+    check('15. 學姊大四上「回來三個禮拜，時差還沒調好。」「……我今天下午睡了一覺才來的。」；沒有「今天我沒帶計畫本出門。」',has(s5,['回來三個禮拜，時差還沒調好。','……我今天下午睡了一覺才來的。'])&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
+    const z=await gfDin('heroine_02','Y3S2',T('2028-06-15'));
+    check('15. 芷若大三下「九月又要走，這次一年。」「……八月以前的週五，你先全部給我。」',has(z,['九月又要走，這次一年。','……八月以前的週五，你先全部給我。'])&&!z.includes('店長最近都讓我早一點下班。她什麼都沒問。'),JSON.stringify(z));
+    const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
+    check('15. 子晴大三上「期末專題，我挑了一個可能做不完的題目。」「……做不完也沒關係吧。」',has(c,['期末專題，我挑了一個可能做不完的題目。','……做不完也沒關係吧。']),JSON.stringify(c));
+    const ps=await gfDin('classmate_peishan','Y3S2',T('2028-06-15')), ps0=await gfDin('classmate_peishan','Y1S2',T('2026-06-15'));
+    check('15. 沛珊大三下（台南）「你每次下來，都搭最後一班高鐵。」「……下次早一點來，我帶你去運河邊。」；大一下照原本',has(ps,['你每次下來，都搭最後一班高鐵。','……下次早一點來，我帶你去運河邊。'])&&ps0.includes('這學期有幾次我想打給你，後來沒打。怕你在讀書。'),JSON.stringify(ps));
+    const GF=TERMEND_LINES.GF, all=[];
+    for(const id in GF) for(const t in (GF[id].tableByTerm||{})){ const v=[].concat(GF[id].tableByTerm[t]).map(x=>typeof x==='string'?x:x.narr); const pool=((TERMEND_LINES.POOL[t]||{})[id]||[]).filter(x=>typeof x==='string'); all.push(...v.filter(x=>pool.includes(x)).map(x=>id+' '+t+' '+x)); }
+    check('15. 飯桌一句不和同一學期的話題池重複（AA_352 寫法）',!all.length,all.join(' ')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

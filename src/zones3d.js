@@ -1100,7 +1100,7 @@ const Z3 = (function(){
   /* 光暈合成一個網格：每個光暈是面向鏡頭的四邊形（和 Sprite 同樣的算法：中心點換到鏡頭座標、再往上下左右展開），貼圖是白色的放射漸層 × 頂點色；
      亮度＝白天值、晚上值照夜間程度內插（材質登記在 TK 的夜間清單、白天 0 晚上 1，emissiveIntensity 就是夜間程度；shader 讀它），太暗（≤ 0.02）的不畫，和 Sprite 一樣；
      全部都太暗的時候整個網格不畫（白天不多一次 draw call）。userData.glowBatch.items：每個光暈的位置、大小、白天、晚上的亮度（測試用） */
-  function wzGlowBatch(E,g,root,glows,name){ root.updateMatrixWorld(true); const v=new THREE.Vector3(), c=new THREE.Color(); const n=glows.length;
+  function wzGlowBatch(E,g,root,glows,name,nearFade){ root.updateMatrixWorld(true); const v=new THREE.Vector3(), c=new THREE.Color(); const n=glows.length;
     const pos=new Float32Array(n*12), cor=new Float32Array(n*8), uv=new Float32Array(n*8), siz=new Float32Array(n*4), col=new Float32Array(n*12), op=new Float32Array(n*8), idx=[]; const items=[]; let maxS=0, maxD=0, maxN=0;
     glows.forEach((o,i)=>{ const d=o.userData, s=d.size||1.4; g.worldToLocal(o.getWorldPosition(v)); const a=/rgba\([^)]*,\s*([\d.]+)\s*\)/.exec(d.glow||''), al=a?+a[1]:1;   /* rgba 的透明度乘進亮度（放射漸層從這個顏色淡到透明） */
       c.setStyle(String(d.glow||'#ffffff').replace(/rgba\(([^,]+),([^,]+),([^,]+),[^)]*\)/,'rgb($1,$2,$3)')); const dO=(d.day||0)*al, nO=(d.night==null?1:d.night)*al;
@@ -1113,9 +1113,10 @@ const Z3 = (function(){
     const map=TK.tex('rad_glowWhite',128,128,(x,w,h)=>{ const gr=x.createRadialGradient(w/2,h/2,0,w/2,h/2,w/2); gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=gr; x.fillRect(0,0,w,h); },false); map.userData.shared=true;
     const m=new THREE.MeshBasicMaterial({map,vertexColors:true,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending}); m.name='wz_glow_batch';
     TK.addNight(m,1,0); m.emissiveIntensity=E.lampsOn?1:0;   /* emissiveIntensity＝夜間程度（MeshBasicMaterial 本身不用這個值）；一開始照路燈開了沒，和原本的 Sprite 一樣 */
-    m.onBeforeCompile=sh=>{ sh.uniforms.uNightK={get value(){ return m.emissiveIntensity; }};
-      sh.vertexShader='attribute vec2 aCorner;\nattribute float aSize;\nattribute vec2 aOp;\nuniform float uNightK;\nvarying float vGlowOp;\n'+sh.vertexShader
-        .replace('#include <project_vertex>','vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tmvPosition.xy += aCorner * aSize;\n\tgl_Position = projectionMatrix * mvPosition;\n\tvGlowOp = mix( aOp.x, aOp.y, uNightK );');
+    /* nearFade（公尺，體育館 B1 的低天花板用；預設 0＝不淡出）：光暈離鏡頭比這個近就淡掉——面向鏡頭的板子在頭頂 1～2 m 會撐滿半個畫面 */
+    m.onBeforeCompile=sh=>{ sh.uniforms.uNightK={get value(){ return m.emissiveIntensity; }}; sh.uniforms.uNearFade={value:nearFade||0};
+      sh.vertexShader='attribute vec2 aCorner;\nattribute float aSize;\nattribute vec2 aOp;\nuniform float uNightK;\nuniform float uNearFade;\nvarying float vGlowOp;\n'+sh.vertexShader
+        .replace('#include <project_vertex>','vec4 mvPosition = modelViewMatrix * vec4( transformed, 1.0 );\n\tmvPosition.xy += aCorner * aSize;\n\tgl_Position = projectionMatrix * mvPosition;\n\tvGlowOp = mix( aOp.x, aOp.y, uNightK ) * ( uNearFade > 0.0 ? smoothstep( uNearFade * 0.4, uNearFade, -mvPosition.z ) : 1.0 );');
       sh.fragmentShader='varying float vGlowOp;\n'+sh.fragmentShader.replace('vec4 diffuseColor = vec4( diffuse, opacity );','if ( vGlowOp <= 0.02 ) discard;\n\tvec4 diffuseColor = vec4( diffuse, opacity * vGlowOp );'); };
     m.customProgramCacheKey=()=>'wzGlowBatch1';
     const mesh=new THREE.Mesh(geo,m); mesh.name=name; mesh.castShadow=false; mesh.receiveShadow=false; mesh.renderOrder=1;   /* 光暈都在玻璃外面（騎樓燈、燈箱、直立招牌）：畫在半透明的玻璃之後，不被玻璃蓋暗 */
@@ -1651,5 +1652,5 @@ const Z3 = (function(){
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
   const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
 })();

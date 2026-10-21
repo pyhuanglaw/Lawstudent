@@ -75,7 +75,7 @@ const ADV2=global.ADV; ADV2.active=false;
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=true;
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約'];
   const tb=await DATE.menu(GM,'heroine_03',null); const q=tb&&OUT.get(G,'date_'+tb.trip);
-  check('5. 選單：只列有底圖的地點（淡水 D13）',opts[0].includes('淡水金色水岸')&&!opts[0].includes('九份老街'),opts[0].join('/'));
+  check('5. 選單：只列有底圖、有台詞的地點（淡水 D13、九份 D18 有；陽明山夜景 D15 有台詞沒底圖、動物園 D08 有底圖沒台詞＝不列；2026-10-21 DATE-L 第一批匯入以後）',opts[0].includes('淡水金色水岸')&&opts[0].includes('九份老街')&&!opts[0].includes('陽明山夜景')&&!opts[0].includes('臺北市立動物園'),opts[0].join('/'));
   check('5. 日期：今天起 7 天＋算了',opts[1].length===8&&/^今天/.test(opts[1][0])&&/^明天/.test(opts[1][1]),opts[1].join('/'));
   check('5. 時間：半日的出發時間（09:00～15:00）＋換一天＋算了',opts[2].includes('15:00 出發')&&opts[2].includes('換一天'),opts[2].join('/'));
   check('5. 確認的摘要寫：對象、地點、日期、出發、交通、預計花費、回程',said.some(s=>/和.*去淡水金色水岸：明天.*15:00 出發.*單程約.*預計花費.*回到台大/.test(s.t)),said.map(s=>s.t).join(' | '));
