@@ -11,7 +11,7 @@ index 3a0e83c5..e38c92cc 100644
      'bldg.wz_print_interior':{url:'assets/models/env/second_ai/wz_print_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop print（溫州街「阿德影印輸出」室內；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
      'bldg.wz_teahouse_interior':{url:'assets/models/env/second_ai/wz_teahouse_interior.glb', type:'building', lazy:true, source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop teahouse（溫州街「一盞」茶屋室內、緣側、前院；LAWWW2-B ce586623）', license:'本作；貼圖 Poly Haven CC0＋本作程式產生'},
 diff --git a/src/data/gym_layout.js b/src/data/gym_layout.js
-index db320728..08d7c3d1 100644
+index db320728..39e2e8d4 100644
 --- a/src/data/gym_layout.js
 +++ b/src/data/gym_layout.js
 @@ -93,10 +93,10 @@ const GYM_LAYOUT = {
@@ -19,7 +19,7 @@ index db320728..08d7c3d1 100644
      aisles: {w: 1.2, east: [-9, 0, 9], west: [-9, 0, 9], south: [-12, 12],
        note: '走道（樓梯）從場地 y 0 走到最上排 y 5.22：導航做斜面 {axis, ya:0, yb:5.22}（畫面上 20 階，tread 0.51、rise 0.26），兩側是座位、不能穿過。走道中間有扶手'},
 -    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 24.5, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆'},
-+    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 27.2, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆；盡頭 z 27.2＝看台後牆，是回 1F 的樓梯門（v6 ART-GYM2-INT：原本 z1 24.5，畫面上的通道比走得到的長 2.7 m、後牆還有一個開口）'},
++    vomitory: {x0: -2.0, x1: 2.0, z0: 17.0, z1: 27.2, note: '南看台中間的入口通道（場地高度）；兩側是看台的側牆；盡頭 z 27.2＝看台後牆，是回 1F 的樓梯門（v6 ART-GYM2-INT：原本 z1 24.5，畫面上的通道比走得到的長 2.7 m、盡頭是一面素牆）'},
      upper: {rows: 10, tread: 0.8, rise: 0.5, h0: 7.6, front: 32.6, note: '4、5 樓看台：在下層看台後面、高 7.6～12.1 m（只有畫面，走不到；典禮時家長坐這裡）'},
 -    spawn: {x: 0, z: 23.6, yaw: Math.PI},
 -    exit: {at: {x: 0, z: 24.2}, label: '下樓回大廳', to: 'gym', spawn: {x: -18.0, z: 17.6, yaw: 0}, note: '接 1F 大廳往 3F 的樓梯（stairs_up）；第一階段的「往 3F 的樓梯（今天不開放）」改成上樓'},
@@ -152,10 +152,10 @@ index 829c9875..436b619f 100644
 +Z3.ZONES.gym=GY3.gym; Z3.ZONES.gym_b1=GY3.gym_b1; Z3.ZONES.gym_arena=GY3.gym_arena;
 diff --git a/tests/gym_arena_unit.js b/tests/gym_arena_unit.js
 new file mode 100644
-index 00000000..05be8fea
+index 00000000..51367c1d
 --- /dev/null
 +++ b/tests/gym_arena_unit.js
-@@ -0,0 +1,100 @@
+@@ -0,0 +1,104 @@
 +// 新體育館 3F 主球場接成區域（ART-GYM2-INT，LAWWW2 2026-10-21；gym_layout.js 的 arena 段＋gym_arena.glb）——不需要瀏覽器。
 +// 檢查：1F 樓梯口的「上樓到 3F 主球場」走得到、按了到 gym_arena；3F 出生點站得住、「下樓回大廳」走得到且一落地不在範圍裡；回 1F 的落點站得住、不在「上樓」範圍裡；
 +//       場地整片走得到（四個角、中圈）；八條看台走道都走得上去（模擬走路到最上面一排，高度 ≈ 5.2 m）；走道兩側的座位、看台前緣的玻璃欄杆走不進去；
@@ -246,8 +246,12 @@ index 00000000..05be8fea
 +  let dz=null; for(const o of byMat('arena_door')){ const P=o.geometry.attributes.position; for(let i=0;i<P.count;i++){ v.fromBufferAttribute(P,i).applyMatrix4(o.matrixWorld); if(Math.abs(v.x)<1&&Math.abs(v.z-vz)<0.15&&v.y<0.5) dz=dz==null?v.z:Math.min(dz,v.z); } }
 +  let wz=0; for(let zz=17;zz<vz;zz+=0.05) if(E.canStand(0,zz,0.32,0)) wz=zz;
 +  const ex2=E.interactables.find(i=>i.exit&&i.exit.to==='gym');
-+  check('14. 入口通道：畫面上的通道到 z '+vz.toFixed(2)+'，盡頭有門；走得到門前 0.75 m 以內（沒有看不見的牆）；「下樓回大廳」在門前',dz!=null&&wz>vz-0.75&&!!ex2&&Math.abs(ex2.z-vz)<1.0&&walk([zf.spawn.x,zf.spawn.z],[ex2.x,ex2.z]).ok,
-+    JSON.stringify({通道到:+vz.toFixed(2),門:dz==null?null:+dz.toFixed(2),走得到:+wz.toFixed(2),下樓:ex2&&[ex2.x,ex2.z]}));
++  /* 從通道裡看盡頭（推桿上面、門片中間）：第一個打到的是門片——門片不能被後牆包在裡面（第一次重建時南看台後牆一路蓋過通道，門片在牆裡、只露出門框和推桿）*/
++  const ALL=[]; zf.group.traverse(o=>{ if(o.isMesh&&o.visible!==false&&o.material&&/^arena_/.test(o.material.name)&&o.material.name!=='arena_glass'){ const m=new THREE.Mesh(o.geometry,new THREE.MeshBasicMaterial({side:THREE.DoubleSide})); m.matrixAutoUpdate=false; m.matrix.copy(o.matrixWorld); m.matrixWorld.copy(o.matrixWorld); m.userData.mat=o.material.name; ALL.push(m); } });
++  const hitMat=(x,y)=>{ ray.set(new THREE.Vector3(x,y,vz-2.5),new THREE.Vector3(0,0,1)); ray.far=4; const h=ray.intersectObjects(ALL,false); return h.length?h[0].object.userData.mat:null; };
++  const seen=[[-0.5,1.6],[0.5,1.6],[-0.5,0.6],[0.5,0.6]].map(([x,y])=>hitMat(x,y));
++  check('14. 入口通道：畫面上的通道到 z '+vz.toFixed(2)+'，盡頭有門（從通道看得到門片）；走得到門前 0.75 m 以內（沒有看不見的牆）；「下樓回大廳」在門前',dz!=null&&seen.every(m=>m==='arena_door')&&wz>vz-0.75&&!!ex2&&Math.abs(ex2.z-vz)<1.0&&walk([zf.spawn.x,zf.spawn.z],[ex2.x,ex2.z]).ok,
++    JSON.stringify({通道到:+vz.toFixed(2),門:dz==null?null:+dz.toFixed(2),看到:seen,走得到:+wz.toFixed(2),下樓:ex2&&[ex2.x,ex2.z]}));
 +  /* 光暈：全場那一批不含藏著的布置；布置自己那一批掛在布置底下（布置藏著就不畫）*/
 +  const under=(o,k)=>{ for(let p=o.parent;p;p=p.parent) if(p.name===k) return true; return false; };
 +  let all=0, inSet=0; zf.group.traverse(o=>{ if(o.userData&&o.userData.glow){ all++; if(/^SET_/.test(o.parent&&o.parent.name||'')||['SET_STAGE','SET_CEREMONY','SET_LECTURE','SET_CONCERT'].some(k=>under(o,k))) inSet++; } });

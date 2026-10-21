@@ -202,6 +202,7 @@ SEAT_ME = SEAT.data; bpy.data.objects.remove(SEAT)
 seats_lower = B.group('arena_seats_lower', root)
 nseat = 0
 AW = A['aisles']['w']
+DOOR_HW, DOOR_H = 1.05, 2.45                                         # 入口通道盡頭的門洞（半寬、高）
 
 
 def stand(sd):
@@ -255,8 +256,10 @@ def stand(sd):
     for (a, b) in cut(t0, t1):
         xf.box(acc('fascia'), a, b, 0.0, H0, -0.15, 0.0)
         xf.box(acc('glass'), a, b, H0, H0 + 1.0, -0.06, -0.04); xf.box(acc('steel'), a, b, H0 + 0.98, H0 + 1.04, -0.08, -0.02)
-    # 看台後牆（走廊在後面，這一版不做）＋上層看台（4、5F）
-    xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)   # 頂比上層看台前面的色帶低 1 cm（原本兩個頂面同一個平面）
+    # 看台後牆（走廊在後面，這一版不做）＋上層看台（4、5F）；頂比上層看台前面的色帶低 1 cm（原本兩個頂面同一個平面）
+    if side == 'south':                                              # v6：入口通道盡頭的門洞（回 1F 的樓梯門；門片、門框在下面入口通道那一段）
+        for (a_, b_, y0_) in ((t0, -DOOR_HW, 0.0), (DOOR_HW, t1, 0.0), (-DOOR_HW, DOOR_HW, DOOR_H)): xf.box(acc('plaster'), a_, b_, y0_, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)
+    else: xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)
     U0 = U0L
     xf.box(acc('fascia'), t0, t1, UP['h0'] - 1.2, UP['h0'], U0 - 0.2, U0)                  # 上層看台前面的深藍色帶
     xf.box(acc('glass'), t0, t1, UP['h0'], UP['h0'] + 0.9, U0 - 0.12, U0 - 0.1)
@@ -295,12 +298,11 @@ Xf(0, 0).rbox(acc('steel_dk'), -0.42, 0.42, 3.42, 3.78, V['z0'] - 0.24, V['z0'] 
 ex = Mesh(P + 'exit_face', EXIT_M); ex.box(-0.38, 0.38, 3.46, 3.74, V['z0'] - 0.26, V['z0'] - 0.24); ex.finish(root, uv=False)
 exw = Mesh(P + 'exit_figure', M['light']); exw.box(-0.22, -0.08, 3.5, 3.7, V['z0'] - 0.265, V['z0'] - 0.26); exw.box(-0.02, 0.3, 3.57, 3.63, V['z0'] - 0.265, V['z0'] - 0.26); exw.finish(root, uv=False)
 CL.glow(root, 'exit', 0.0, 3.6, V['z0'] - 0.5, color='rgba(80,230,120,1)', size=1.2, day=0.3, night=0.8)
-acc('plaster').box(V['x0'], V['x1'], 2.8, UP['h0'], 17 + DEPTH, 17 + DEPTH + 0.3)
-# 通道盡頭（看台後牆 z 27.2）：回 1F 的樓梯門（v6，ART-GYM2-INT 2026-10-21）——原本這裡是 4×2.8 m 的開口，看得到看台底下的空地；
-# 遊戲裡通道走到一半就被看不見的牆擋住（D38 第 4 條）。改成整條通道都能走，盡頭一面牆＋雙開門（門框、門片、推桿）＋門上的綠色出口燈
+# 通道盡頭（南看台後牆 z 27.2）：回 1F 的樓梯門（v6，ART-GYM2-INT 2026-10-21）——原本是一面素牆，遊戲裡通道走到 z 24.5 就被看不見的牆擋住（離畫面上的盡頭 2.7 m，D38 第 4 條）。
+# 改成整條通道都能走，盡頭的後牆開門洞（stand() 南看台那一段）＋雙開門（門框、門片、推桿）＋門上的綠色出口燈。
+# 原本這裡另外疊了一塊 2.8～7.6 m 的牆，和南看台後牆同一個面（疊面、頂面又和上層看台的色帶同高）：拿掉，後牆本來就蓋住
 ZB = 17 + DEPTH
-for (a_, b_, y0_, y1_) in ((V['x0'], -1.05, 0.0, 2.8), (1.05, V['x1'], 0.0, 2.8), (-1.05, 1.05, 2.45, 2.8)): acc('plaster').box(a_, b_, y0_, y1_, ZB, ZB + 0.3)
-for (a_, b_, y0_, y1_) in ((-1.05, -0.97, 0.0, 2.45), (0.97, 1.05, 0.0, 2.45), (-1.05, 1.05, 2.37, 2.45)): acc('steel_dk').box(a_, b_, y0_, y1_, ZB - 0.03, ZB + 0.06)   # 門框（往通道凸 3 cm）
+for (a_, b_, y0_, y1_) in ((-DOOR_HW, -0.97, 0.0, DOOR_H), (0.97, DOOR_HW, 0.0, DOOR_H), (-DOOR_HW, DOOR_HW, 2.37, DOOR_H)): acc('steel_dk').box(a_, b_, y0_, y1_, ZB - 0.03, ZB + 0.06)   # 門框（往通道凸 3 cm）
 for (a_, b_) in ((-0.97, -0.005), (0.005, 0.97)):
     acc('door').box(a_, b_, 0.005, 2.37, ZB + 0.02, ZB + 0.06)                                   # 門片（凹進門框 2 cm）
     acc('steel').box(a_ + 0.1, b_ - 0.1, 0.98, 1.04, ZB - 0.04, ZB - 0.005)                       # 推桿
