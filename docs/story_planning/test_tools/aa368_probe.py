@@ -7,7 +7,7 @@
 [前置] 狀態檔是 qa_play.py 在真的玩法裡存的（G 整份）；之後全部照玩家：家裡的選單、手機介面、出發。Playwright 手機橫向模擬、?turbo，不是 iPhone。
   N（L9b、M6、H1）：新遊戲快轉到 10/25；W 加 M3 資料頁 2/14 以前；S 加 M3 2/14 以後、M8 8/30（S 延到 8/30）。AA_371 改字照新的比。
 用法：LW_TESTS=<開發分支>/tests python3 aa368_probe.py '<URL>/index.html?turbo' <輸出資料夾> <11-30 狀態.json> <6-07 狀態.json>（ONLY=N、W 或 S）"""
-import os, sys, json, asyncio, time
+import os, sys, json, asyncio, time, datetime
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, SNAP_W, SNAP_S = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
@@ -17,7 +17,9 @@ HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; con
   const o=ADV.log; ADV.log=function(n,t){ try{ window.__LOG.push({at:k(), n:n||'', t:String(t)}); }catch(e){} return o.apply(this,arguments); };
   if(GAME.titleCard&&!GAME.titleCard.__bb){ const tc=GAME.titleCard; const f=function(t,s){ try{ window.__LOG.push({at:k(), n:'CARD', t:'CARD:'+t+(s?'｜'+s:'')}); }catch(e){} return tc.apply(this,arguments); }; f.__bb=1; GAME.titleCard=f; } })()"""
 MSGS = "(GAME.G.msgs||[]).map((m,i)=>({i, d:CALENDAR.dateOf(m.day).key, from:m.from||'', text:String(m.text||''), ask:!!m.ask}))"
-res = {}; bad = []
+res = {}; bad = []; RUN = None
+async def run_shot(pg, name):
+    if RUN: await RUN.shot(pg, name)
 def say(*a): print(' '.join(str(x) for x in a), flush=True)
 
 
@@ -82,10 +84,14 @@ async def send_kexin(pg, cdp, topic, sub=None):
 
 
 async def kexin_tag(pg, cdp):
-    """M3：手機「朋友」分頁裡可昕那一列的字（資料頁的「科系・年級」）"""
+    """M3：手機「朋友」→ 可昕那一列按「資料」→ 資料頁最上面的「科系・年級」
+    （10-21 第一輪讀的是朋友列表那一列：那一列寫「現在大概在哪」（在台大），不是科系年級——是測試讀錯地方，不是遊戲的錯）"""
     if not await open_phone(pg, cdp): return None
     await tap_js(pg, cdp, "document.querySelector('#phoneTabs button[data-ptab=\"friends\"]')")
-    txt = await pg.evaluate("(()=>{ const rows=[...document.querySelectorAll('#phoneBody .item')]; const r=rows.find(e=>/可昕/.test(e.innerText||'')); return r?r.innerText.replace(/\\n/g,'｜'):''; })()")
+    if not await tap_js(pg, cdp, "document.querySelector('#phoneBody [data-person=\"kexin\"]')"):
+        await close_phone(pg, cdp); return '（朋友裡沒有可昕的「資料」）'
+    txt = await pg.evaluate("(()=>{ const s=document.querySelector('#phoneBody .item:not(.phrow) .muted'); return s?s.textContent.trim():''; })()")
+    await run_shot(pg, 'kexin_profile')
     await close_phone(pg, cdp); return txt
 
 
@@ -156,11 +162,15 @@ async def run_w(pg, cdp, run):
     async def on_day(sn):
         p = plan.get(sn['key'])
         if p and not any(x['day'] == sn['key'] for x in sent):
-            for k in range(30):   # 等家裡的選單或場景空下來（不在對話中）
+            for k in range(30):   # 等對話講完：只點對話，不選選項（家裡的選單一直都在；10-21 第一輪在這裡選了「睡覺」，從 12/22 一路推到 1/27 才傳）
                 s = await L.state(pg)
-                if not s['dlg'] and not s['busy']: break
-                await step(pg, cdp, 'day', [], []); await pg.wait_for_timeout(500)
-            t, n0 = await send_kexin(pg, cdp, *p); sent.append({'day': sn['key'], 'topic': p, 'sent': t, 'n0': n0})
+                if not s['dlg']: break
+                await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450)
+            k2 = (await pg.evaluate(SNAP))['key']
+            if k2 != sn['key']: sent.append({'day': sn['key'], 'topic': p, 'sent': None, 'n0': '日子已經到 %s，沒傳' % k2}); return
+            t, n0 = await send_kexin(pg, cdp, *p)
+            at = await pg.evaluate("(()=>{ const m=(GAME.G.msgs||[]).filter(m=>m.from==='player').slice(-1)[0]; return m?CALENDAR.dateOf(m.day).key:''; })()")
+            sent.append({'day': sn['key'], 'at': at, 'topic': p, 'sent': t, 'n0': n0})
             await run.shot(pg, 'w_send_%s' % sn['key'])
             if sn['key'] == '2024-12-22': tagw.append(await kexin_tag(pg, cdp)); say('   可昕資料頁（2/14 以前）：%s' % tagw[-1])
     await drive(pg, cdp, '2025-01-09 09.00', lambda k: 'ff' if k < '2024-12-12' else 'day', ['出發：'], [], on_day=on_day, max_s=4800)
@@ -170,7 +180,9 @@ async def run_w(pg, cdp, run):
     probs = []; got = []
     for x in sent:
         if x['sent'] is None: probs.append('%s 沒傳成：%s' % (x['day'], x['n0'])); continue
-        rep = [m for m in msgs[x['n0']:] if m['from'] == 'kexin'][:3]; got.append((x['day'], [m['text'] for m in rep]))
+        if x.get('at') and x['at'] != x['day']: probs.append('（測試）排在 %s 傳，實際 %s 才傳——這一次不算' % (x['day'], x['at'])); continue
+        nxt = (datetime.date.fromisoformat(x['day']) + datetime.timedelta(days=1)).isoformat()
+        rep = [m for m in msgs[x['n0']:] if m['from'] == 'kexin' and x['day'] <= m['d'] <= nxt][:3]; got.append((x['day'], [m['text'] for m in rep]))
         if not rep: probs.append('%s 傳了「%s」，可昕沒有回' % (x['day'], x['sent']))
         for m in rep:
             if any(b in m['text'] for b in WINTER_BAD): probs.append('%s 可昕回「%s」（寒假不該有）' % (x['day'], m['text']))
@@ -209,7 +221,7 @@ async def run_s(pg, cdp, run):
     bus = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]
     say('   夜班客運那句：%s' % bus[:2])
     home = [l for l in lines if l.startswith('2025-07-26')][:6]; say('   7/26 的台詞：%s' % json.dumps(home, ensure_ascii=False))
-    ok_dep = bool(bus) and bus[0][:16] >= '2025-07-25 02.0' and bus[0][:16] <= '2025-07-25 03.5'
+    ok_dep = bool(bus) and bus[0][:10] == '2025-07-25' and 2.0 <= float(bus[0][11:].split(' ')[0]) <= 3.5   # 小時沒有補零（'2.50'）：10-21 第一輪用字串比，02:30 被判成不對
     sn = await pg.evaluate(SNAP)
     verdict('M7 7/25 夜班客運', F.get('KH_GO') == 'bus' and ok_dep, 'KH_GO=%s；夜班客運那句在 %s；結束在 %s %.2f %s' % (F.get('KH_GO'), bus[0][:16] if bus else '（沒有）', sn['key'], sn['h'], sn['zone']))
 
@@ -234,11 +246,44 @@ async def run_n(pg, cdp, run):
     verdict('H1 颱風假那句 10/1 以後才出', bool(typh) and not early, '颱風那張 %s；10/1 以前 %d 張' % ([l[:16] for l in typh], len(early)))
 
 
+async def run_s3(pg, cdp, run):
+    """M3 2/14 以後（只讀 6/7 狀態、看資料頁；S 一開頭也做同一件事，S3 是重驗用的短版）"""
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    tag0 = await kexin_tag(pg, cdp); say('   可昕資料頁（2/14 以後）：%s' % tag0)
+    verdict('M3 可昕資料頁 2/14 以後', '休學中' in (tag0 or ''), '6/7 手機「朋友」→ 可昕「資料」：%s' % tag0)
+
+
+async def run_s7(pg, cdp, run):
+    """M7 回程（AA_368：九點的客運開了以後約五小時，7/26 02:10 到臺北的家）：S 那一輪 7/25 21:00 以後直接快轉到 8/13，沒看到回到家的時間——這裡從 6/7 狀態一路玩，
+    7/24 起一天一天過，記下 7/25 那一場結束以後第一次停下來的時間和地點"""
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    # 第一輪（3893c523）：7/25 那一場結束以後，遊戲自己一路快轉到 8/13 才停（玩家在 7/24 以前選過「快轉」），看不到 7/26 02:10——
+    # 這裡只加記錄（不改遊戲）：每一次 GAME.advance 前後的日子、時間，和 HOME.go 被叫的時間
+    await pg.evaluate("""(()=>{ if(window.__ADVH) return; window.__ADVH=1; window.__ADV=[]; const k=()=>CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2);
+      const o=GAME.advance; GAME.advance=function(h){ const a=k(); const r=o.apply(this,arguments); try{ if(r&&r.then) r.then(()=>window.__ADV.push([a,+h,k(),'async'])); else window.__ADV.push([a,+h,k()]); }catch(e){} return r; };
+      if(typeof HOME!=='undefined'&&HOME.go){ const g=HOME.go; HOME.go=function(){ try{ window.__ADV.push(['HOME.go',0,k()]); }catch(e){} return g.apply(this,arguments); }; } })()""")
+    await drive(pg, cdp, '2025-07-26 00.00', lambda k: 'day' if k >= '2025-07-24' else 'ff', ['「妳選一家。」', '好。我搭', '出發：'], ['好。我搭'], max_s=2400)
+    sn = await pg.evaluate(SNAP); await run.shot(pg, 's7_after_bus')
+    lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
+    dep = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]; ret = [l for l in lines if '九點的客運開了。' in l]
+    say('   7/25 那一場：出發 %s；回程 %s；之後第一次停下來 %s' % (dep[:1], ret[:1], json.dumps(sn, ensure_ascii=False)))
+    adv = await pg.evaluate("window.__ADV||[]"); near = [x for x in adv if x[0][:10] in ('2025-07-25', '2025-07-26') or x[2][:10] in ('2025-07-25', '2025-07-26') or x[0] == 'HOME.go']
+    say('   7/25～7/26 的 GAME.advance／HOME.go：%s' % json.dumps(near[:24], ensure_ascii=False))
+    # 遊戲過午夜的寫法是「前一天 26.17 點」（= 隔天 02:10），換日在之後才做：兩種寫法都換算成隔天的鐘點
+    def nxt(x):
+        d, h = x[2][:10], float(x[2][11:].split()[0])
+        return h - 24 if d == '2025-07-25' and h >= 24 else (h if d == '2025-07-26' else None)
+    arr = [x for x in adv if x[0][:10] == '2025-07-25' and x[0] != 'HOME.go' and nxt(x) is not None and nxt(x) < 6]
+    ok = (sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']) or any(abs(nxt(x) - (2 + 10 / 60)) < 0.05 for x in arr)
+    verdict('M7 回程 7/26 02:10 到臺北的家', bool(dep) and bool(ret) and ok, '出發那句 %s；回程那句 %s；時間跳到 %s；之後第一次停下來 %s %.2f 在家=%s' % (dep[0][:16] if dep else '（沒有）', ret[0][:16] if ret else '（沒有）', [x[:3] for x in arr][:2] or '（沒看到）', sn['key'], sn['h'], sn['home']))
+
+
 async def main():
-    run = L.Run('aa368', OUT); allerrs = []
+    global RUN
+    run = L.Run('aa368', OUT); RUN = run; allerrs = []
     async with async_playwright() as p:
-        for name, fn in (('N', run_n), ('W', run_w), ('S', run_s)):
-            if ONLY and name not in ONLY: continue
+        for name, fn in (('N', run_n), ('W', run_w), ('S', run_s), ('S3', run_s3), ('S7', run_s7)):
+            if (ONLY and name not in ONLY) or (not ONLY and name in ('S3', 'S7')): continue
             say('== %s' % name); t0 = time.time()
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             try:

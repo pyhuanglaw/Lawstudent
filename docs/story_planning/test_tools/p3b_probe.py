@@ -8,6 +8,7 @@ import os, sys, json, asyncio
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
 URL, OUT, SNAPF = sys.argv[1], sys.argv[2], sys.argv[3]
+PH_OPEN = "(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&getComputedStyle(p).display!=='none'; })()"
 RECT = """(()=>{ const r=e=>{ if(!e) return null; const b=e.getBoundingClientRect(); return [Math.round(b.left),Math.round(b.top),Math.round(b.width),Math.round(b.height)]; };
   const t=document.getElementById('toast'), tabs=document.getElementById('phoneTabs'), menu=document.getElementById('menu');
   const tr=r(t), tb=r(tabs); const over=(a,b)=>!!a&&!!b&&a[2]>0&&b[2]>0&&a[0]<b[0]+b[2]&&b[0]<a[0]+a[2]&&a[1]<b[1]+b[3]&&b[1]<a[1]+a[3];
@@ -22,9 +23,28 @@ async def main():
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=(orient == 'landscape'))
             await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
             await L.load_state(pg, G); await pg.wait_for_timeout(6000); run.setup('[前置] %s：讀經濟系 11/30 狀態 %s' % (orient, os.path.basename(SNAPF)))
+            # 10-21 第一輪：讀檔後遊戲自己往下走（在家快轉），馬上演 12/13 補習班那一段，手機打不開——先照玩家把劇情點完、等到可以開手機
+            idle = 0   # 第二輪：讀檔後一兩秒內什麼都沒有，劇情是之後才開始的——要等到家裡的選單出現「看手機」（或連續 40 秒什麼都沒有）才算點完
+            for k in range(400):
+                s = await L.state(pg)
+                if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); idle = 0; continue
+                if s['choices']:
+                    cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled).map(b=>b.textContent.trim())")
+                    if any(c.startswith('看手機') for c in cs): break   # 家裡的選單：手機開得了
+                    c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled)[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); idle = 0; continue
+                if s['busy']: await pg.wait_for_timeout(700); idle = 0; continue
+                idle += 1
+                if idle >= 40: break
+                await pg.wait_for_timeout(1000)
+            sn0 = await pg.evaluate("(()=>{ const G=GAME.G; return CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2); })()"); print('%s 劇情點完：%s' % (orient, sn0), flush=True)
             await L.close_panels(pg, cdp)
             # ⑤ 未讀：照玩家打開手機 → 訊息
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+            if not await pg.evaluate(PH_OPEN):
+                c = await pg.evaluate("(()=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.trim().startsWith('看手機')); if(!e) return null; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+                if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200)
+            ph1 = await pg.evaluate(PH_OPEN); print('%s 手機打開了：%s' % (orient, ph1), flush=True)
             c = await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"msg\"]'); if(!b) return null; const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
             if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200)
             th = await pg.evaluate("""(()=>{ const G=GAME.G; const T=PHONE.threads(G,{sys:true}); const now=G.day*24+G.hour; return T.map(t=>{ const ms=(G.msgs||[]).filter(m=>PHONE.th(m)===t.th&&m.from!=='player'); const last=ms[ms.length-1];
@@ -32,6 +52,10 @@ async def main():
             listTxt = await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''")
             await run.shot(pg, '%s_msglist' % orient)
             old_unread = [t for t in th if t['unread'] > 0 and t['ageDays'] is not None and t['ageDays'] > 14]
+            raw = await pg.evaluate("""(()=>{ const G=GAME.G, P=PHONE.rec(G), ab=(d,h)=>d*24+(h||0), out={}; for(const m of (G.msgs||[])){ const th=PHONE.th(m); if(m.from==='player'||m.pin) continue;
+              if(ab(m.day,m.h)>(P.seen&&P.seen[th]!=null?P.seen[th]:-1e9)) out[th]=(out[th]||0)+1; } return out; })()""")
+            raw_old = {k: v for k, v in raw.items() if any(t['th'] == k and (t['ageDays'] or 0) > 14 for t in th)}
+            print('%s ⑤ 對照：照修正前的算法（不管幾天前）還沒看過的：%s；其中超過 14 天的對話串 %s' % (orient, json.dumps(raw, ensure_ascii=False), json.dumps(raw_old, ensure_ascii=False)), flush=True)
             print('%s 訊息列表：%s' % (orient, json.dumps(th[:14], ensure_ascii=False)), flush=True)
             # ② 通知條：手機開著時叫出一個通知
             await pg.evaluate("GAME.toast('手機｜經濟系 大一（全班）｜（BB 測試）通知條位置',6000)"); await pg.wait_for_timeout(1500)
@@ -53,7 +77,8 @@ async def main():
             run.check('%s ② 手機開著時通知條在下面、不蓋分頁列（分頁按鈕都點得到）' % orient, r1['toastVis'] and not r1['overlap'] and all(r1['tabsClickable']) and r1['toast'][1] > r1['vh'] / 2, json.dumps(r1))
             run.check('%s ② 沒開手機時通知條照舊在上面' % orient, r0['toastVis'] and r0['toast'][1] < r0['vh'] / 2, json.dumps(r0))
             if r2: run.check('%s ② 筆記本開著時通知條在下面' % orient, r2['menuOpen'] and r2['toast'][1] > r2['vh'] / 2, json.dumps(r2))
-            run.check('%s ⑤ 超過 14 天的舊訊息不掛未讀（要回的另外算）' % orient, not old_unread, json.dumps(old_unread, ensure_ascii=False))
+            run.check('%s ⑤ 超過 14 天的舊訊息不掛未讀（要回的另外算；對照：修正前的算法這些串有 %d 則未讀）' % (orient, sum(raw_old.values())), not old_unread, json.dumps(old_unread, ensure_ascii=False))
+            run.check('%s ② 這一輪手機真的打開了（不然 ② 手機開著那一項不算數）' % orient, bool(ph1), '')
             if orient == 'landscape':   # CG-APPROVED-MISSING-1021（4df34170）：兩張補接的 CG 登記了、圖讀得到（I：整合檢查；真的在劇情裡出現看 us_life 的 USH_home、尾聲另外跑）
                 cg = await pg.evaluate("""(async()=>{ const out={}; for(const k of ['cg_sf_bridge_fog_heroine05','cg_reunion_window_table']){ const r=(typeof CG_REGISTRY!=='undefined')&&CG_REGISTRY[k]; if(!r){ out[k]=null; continue; }
                   const ok=await new Promise(res=>{ const im=new Image(); im.onload=()=>res([im.naturalWidth,im.naturalHeight]); im.onerror=()=>res(null); im.src=r.file; }); out[k]={file:r.file,title:r.title,size:ok}; } return out; })()""")
