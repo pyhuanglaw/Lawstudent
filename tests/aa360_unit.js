@@ -7,6 +7,7 @@
 //   第 4 組（16）子晴 Q4 只有第 8 週；錯過的玩家第 9～11 週第一次和她說話，開頭多一句（CONTEST_HEARD，一次）。
 //   第 5 組（17、18）confess_lines.js 沛珊那一段的過時註解。
 // 台詞照 AA_360 逐字比對。修改前（開發分支 04f65f59）：35 項裡 FAIL 30 項（沒 FAIL 的 5 項是「照舊」的保護：Q10 選 nameless、舊存檔兩項、兩個都沒有的 2/2、計畫本的數值）。
+// AA_363（2026-10-21）：R3 路過版演完的時間、R4「那個比賽，我沒去。……」、R5 CONTEST_HEARD 回憶、R7 舊存檔選項 c——在開發分支 6a47ff46 上 5 項 FAIL，改完 PASS。
 // 用法：node tests/aa360_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -54,7 +55,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
   const OLD_MSG=()=>PHONE.at(H.G,d26,18,[{th:'p:'+SID,from:SID,text:'今天總圖讀到閉館。位子幫你留了'}],'sisg_low_msg');   /* 舊版本的程式在 1/26 18:00 傳的那一則（舊存檔裡有）*/
   /* 在總圖（zone）待到 h、然後走出總圖（到 out）：SISG.tick 在總圖裡、走出去以後各跑一次 */
   const lowPlay=async(day,h,flags,pick,zone,out)=>{ freshD(day,h,zone||'library_hall',Object.assign({SIS_W1:true,SIS_STUDY:true},flags||{})); FRI5(); const r0=Object.assign({},SOCIAL.rel(SID)); H.said=[]; H.opts=[]; H.cgs=[]; H.picks=[pick||0];
-    const a=SISG.tick(GM); if(a) await SISG._p; const inLib=H.said.length; H.G.zone=out||'campus'; const b=SISG.tick(GM); if(b) await SISG._p; return {a,b,inLib,L:txts(),O:H.opts[0],r0,r1:Object.assign({},SOCIAL.rel(SID))}; };
+    const a=SISG.tick(GM); if(a) await SISG._p; const inLib=H.said.length; H.G.zone=out||'campus'; const b=SISG.tick(GM); if(b) await SISG._p; return {a,b,inLib,L:txts(),O:H.opts[0],r0,r1:Object.assign({},SOCIAL.rel(SID)),t0:Tm(day,h),t:Tm(H.G.day,H.G.hour),zone:H.G.zone}; };   /* t0／t：演之前、演完的時間（AA_363 R3）*/
   const HEAD=['（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）','（她還坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）','學弟。你怎麼在這裡。','我在看我的計畫本。大一到現在的。','每一週都排滿了。我剛剛在找有沒有哪一週是空的。','……沒有。','（她把計畫本闔上。）','下禮拜就考試了。我有一點怕。'];
   await sec('14-1',async()=>{
     freshD(d26,17,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI5(); span(Tm(d26,17.9),Tm(d26,21));
@@ -72,6 +73,10 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
       check('14-2. 記 SIS_PREEXAM_NIGHT；信任 +3、自在 +2（照舊）；只演一次', H.G.flags.SIS_PREEXAM_NIGHT===true&&r.r1.trust-r.r0.trust===3&&r.r1.comf-r.r0.comf===2&&!again, JSON.stringify([r.r0,r.r1])); }
     const a=await lowPlay(d26,21,{},0), b=await lowPlay(d27,20.1,{},1);
     check('14-2. 選項 a、b 照舊；1/26、1/27 也會', a.b&&b.b&&a.L.slice(-3).join('/')==='好。不用講話。/（你們坐到圖書館熄燈。）/好了，我回去了。明天還是八點到。'&&b.L.slice(-2).join('/')==='大家都這樣說。……可是謝謝。/好了，我回去了。明天還是八點到。', JSON.stringify([a.L.slice(-3),b.L.slice(-2)]));
+    { const late=await lowPlay(d26,22.5,{},0), mid=await lowPlay(d26,24.3,{},0), near=(x,y)=>Math.abs(x-y)<1e-6;
+      check('14-2. AA_363 R3 路過版演完的時間（修改前 a、c 都不動）：a「（你們坐到圖書館熄燈。）」21:00 → 22:00（總圖關門，places.js）；22:30、過了午夜（00:18）選 a 不動；b 20:06 不動；c「我陪妳走到捷運站。」20:30 → 20:45、人在原地（還在校園）',
+        a.b&&near(a.t,Tm(d26,22))&&late.b&&near(late.t,late.t0)&&mid.b&&near(mid.t,mid.t0)&&near(b.t,b.t0)&&r.b&&near(r.t,r.t0+0.25)&&r.zone==='campus'&&near(SISG.lowCloseH({day:d26,hour:21}),1),
+        JSON.stringify({a:[a.t0,a.t],late:[late.b,late.t0,late.t],mid:[mid.b,mid.t0,mid.t],b:[b.t0,b.t],c:[r.t0,r.t,r.zone]})); }
     const w={d24:(await lowPlay(d24,20.5)).b, d23:(await lowPlay(d23,20.5)).b, d28:(await lowPlay(d28,20.5)).b, early:(await lowPlay(d25,19.9)).b, noStudy:(await lowPlay(d25,20.5,{SIS_STUDY:false})).b};
     check('14-2. 只在 1/24～1/27、20:00 以後、一起念過書（SIS_STUDY）：1/24 會；1/23、1/28、19:54、沒一起念過書都不演', w.d24&&!w.d23&&!w.d28&&!w.early&&!w.noStudy, JSON.stringify(w));
     { freshD(d27,23.5,'library_hall',{SIS_W1:true,SIS_STUDY:true}); FRI5(); SISG.tick(GM); H.G.hour=24.3; H.G.zone='campus'; H.said=[]; H.picks=[0]; const x=SISG.tick(GM); if(x) await SISG._p;
@@ -80,9 +85,11 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
       check('14-2. 在總圖 3F 閱覽區讀書、讀完 20:12 用手機「地點」回宿舍（也是離開總圖）：演', x===true&&has('學弟。你怎麼在這裡。')); }
   });
   await sec('14-3',async()=>{
-    freshD(d26,17,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI5(); OLD_MSG(); OUT.plan(H.G,{id:'sisg_low_night',ev:'ev_sis_low_night',day:d26,h:20,late:0.75,place:'總圖',title:'總圖門口的台階',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開總圖。'});
-    span(Tm(d26,17.9),Tm(d26,18.1)); setT(d26,19.7); const q=OUT.get(H.G,'sisg_low_night'); H.said=[]; H.opts=[]; H.picks=[2]; if(q) await OUT.go(GM,q);
-    check('14-3. 舊存檔：已經收到 1/26 那則私訊、排好 20:00 的＝照舊演一次（舊的開頭「學弟。你來了。」、舊的選項 c「要不要吃點熱的？」）', !!q&&q.state==='done'&&has('（她坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）')&&has('學弟。你來了。')&&!has('學弟。你怎麼在這裡。')&&!has('（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「我陪妳坐一下。」','「妳準備得很夠了。」','「要不要吃點熱的？」'])&&has('現在？……好。熱的。')&&H.G.flags.SIS_PREEXAM_NIGHT===true, JSON.stringify(txts()));
+    const oldGo=async pick=>{ freshD(d26,17,'dorm',{SIS_W1:true,SIS_STUDY:true}); FRI5(); OLD_MSG(); OUT.plan(H.G,{id:'sisg_low_night',ev:'ev_sis_low_night',day:d26,h:20,late:0.75,place:'總圖',title:'總圖門口的台階',travel:'走過去約 10 分鐘',travelH:1/6,alarm:true,back:'離開總圖。'});
+      span(Tm(d26,17.9),Tm(d26,18.1)); setT(d26,19.7); const q=OUT.get(H.G,'sisg_low_night'); H.said=[]; H.opts=[]; H.picks=[pick]; if(q) await OUT.go(GM,q); return {q,t:Tm(H.G.day,H.G.hour)}; };
+    const ob=await oldGo(1), {q,t:tc}=await oldGo(2);
+    check('14-3. 舊存檔：已經收到 1/26 那則私訊、排好 20:00 的＝照舊演一次（舊的開頭「學弟。你來了。」）；AA_363 R7：選項 c 也是新的「我陪妳走到捷運站。」→「……好。走到那裡就好。」，沒有「要不要吃點熱的？」（修改前 FAIL）', !!q&&q.state==='done'&&has('（她坐在台階上，計畫本攤在膝蓋上，一頁一頁往回翻。）')&&has('學弟。你來了。')&&!has('學弟。你怎麼在這裡。')&&!has('（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「我陪妳坐一下。」','「妳準備得很夠了。」','「我陪妳走到捷運站。」'])&&has('……好。走到那裡就好。')&&!has('現在？……好。熱的。')&&H.G.flags.SIS_PREEXAM_NIGHT===true, JSON.stringify([txts(),H.opts[0]]));
+    check('14-3. AA_363 R3 舊存檔照出遊系統演的（1.5 小時那一版）照舊：選 c 不再多加 15 分鐘（和選 b 演完的時間一樣）', Math.abs(tc-ob.t)<1e-6&&ob.q&&ob.q.state==='done', JSON.stringify([ob.t,tc]));
     freshD(d27,20.5,'library_hall',{SIS_W1:true,SIS_STUDY:true}); FRI5(); OLD_MSG(); PHONE.tick(H.G); SISG.tick(GM); H.G.zone='campus'; const x=SISG.tick(GM); if(x) await SISG._p;
     check('14-3. 舊存檔收到 1/26 私訊、那晚沒去的：之後晚上路過總圖不再補演（照舊）', !x&&!H.G.events.done.ev_sis_low_night);
   });
@@ -120,7 +127,7 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
 
   /* ===================== 第 4 組（16）子晴 Q4 比賽那天 ===================== */
   await sec('16',async()=>{
-    const wk=(w,wd)=>STORY.termDay('Y1S2',w,wd), Q4=ev('ev_ziqing_contest_day'), LINE='上禮拜六那個比賽，我沒去。……我在公館喝咖啡。';
+    const wk=(w,wd)=>STORY.termDay('Y1S2',w,wd), Q4=ev('ev_ziqing_contest_day'), LINE='那個比賽，我沒去。……那天我在公館喝咖啡。';   /* AA_363 R4（原本「上禮拜六那個比賽，我沒去。……我在公館喝咖啡。」）*/
     { const at=w=>{ freshD(wk(w,6),15.5,'gongguan',{}); SOCIAL.meet('heroine_04','campus'); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','x'); return EVENTS.check(Q4); };
       const r={w8:at(8),w9:at(9)};
       check('16-1. 子晴 Q4 只有第 8 週的週六；第 9 週「我上週六也坐在這裡」那一版拿掉', r.w8&&!r.w9&&JSON.stringify(Q4.weeks)==='[8]'&&!/我上週六也坐在這裡/.test(JSON.stringify(Q4.dialogue)), JSON.stringify(r)); }
@@ -128,7 +135,9 @@ const span=(t0,t1,st)=>{ st=st||0.05; for(let t=t0;t<=t1+1e-9;t+=st){ const d=Ma
     const talk=async(w,wd,mems)=>{ freshD(wk(w,wd),12.2,'gongguan',{}); SOCIAL.meet('heroine_04','campus'); SOCIAL.rel('heroine_04').fam=25; for(const t of mems) SOCIAL.remember('heroine_04',t,'x');
       const n={obj:{position:{x:1,y:0,z:0},rotation:{y:0}},lv:0,charId:'heroine_04',pose:'idle'}; GM.npc.heroine_04=n; H.said=[]; H.opts=[]; H.picks=['就這樣','就這樣','就這樣']; await STORY.talkCharacter('heroine_04',n); return txts(); };
     const a=await talk(9,1,['ARGUED_ABOUT_CAREER']); const flag=H.G.flags.CONTEST_HEARD; H.said=[]; H.picks=['就這樣','就這樣','就這樣']; await STORY.talkCharacter('heroine_04',GM.npc.heroine_04); const a2=txts();
-    check('16-2. 錯過比賽（問過比賽、沒有 CONTEST_DAY）：第 9 週第一次和她說話，開頭多一句「上禮拜六那個比賽，我沒去。……我在公館喝咖啡。」、記 CONTEST_HEARD；第二次不再說', a[0]===LINE&&!!flag&&!a2.includes(LINE), JSON.stringify([a.slice(0,2),a2.slice(0,2),flag]));
+    check('16-2. 錯過比賽（問過比賽、沒有 CONTEST_DAY）：第 9 週第一次和她說話，開頭多一句「那個比賽，我沒去。……那天我在公館喝咖啡。」（AA_363 R4，不管隔幾週都對）、記 CONTEST_HEARD；第二次不再說', a[0]===LINE&&!!flag&&!a2.includes(LINE), JSON.stringify([a.slice(0,2),a2.slice(0,2),flag]));
+    { const mem=SOCIAL.memories('heroine_04').filter(m=>m.tag==='CONTEST_HEARD');
+      check('16-2. AA_363 R5：CONTEST_HEARD 也記成子晴的回憶、回憶面板的名稱「聽她說那場比賽她沒去，在公館喝咖啡」（不是英文代號；修改前 FAIL）', mem.length===1&&SOCIAL.MEMORY_LABEL.CONTEST_HEARD==='聽她說那場比賽她沒去，在公館喝咖啡'&&SOCIAL.describe('heroine_04').includes('聽她說那場比賽她沒去，在公館喝咖啡'), JSON.stringify([mem,SOCIAL.describe('heroine_04')])); }
     const r={w11:(await talk(11,3,['ARGUED_ABOUT_CAREER']))[0]===LINE, w12:(await talk(12,1,['ARGUED_ABOUT_CAREER'])).includes(LINE), w8:(await talk(8,3,['ARGUED_ABOUT_CAREER'])).includes(LINE), went:(await talk(9,1,['ARGUED_ABOUT_CAREER','CONTEST_DAY'])).includes(LINE), noAsk:(await talk(9,1,[])).includes(LINE)};
     check('16-2. 第 11 週也會；第 12 週、第 8 週（比賽還沒到）、去過比賽那天（CONTEST_DAY）、沒問過比賽都沒有', r.w11&&!r.w12&&!r.w8&&!r.went&&!r.noAsk, JSON.stringify(r));
   });

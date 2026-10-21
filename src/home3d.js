@@ -18,6 +18,7 @@ const HOME=(function(){
      住臺北的家的（HOME_AFTER 不是公館的套房）：隨時可以回家、出遊從家裡出發、演完回家、凌晨回家（不回宿舍）——照日本路線退宿後住家裡的做法（jp3d.js J-S11）*/
   S.movedOut=G=>!!G&&(G.stage||'law')==='law'&&!!G.flags&&G.flags.MOVED_OUT!=null&&G.flags.MOVED_OUT!==false;
   S.pgHome=G=>S.movedOut(G)&&G.flags.HOME_AFTER!=='gongguan';
+  S.suite=G=>S.movedOut(G)&&G.flags.HOME_AFTER==='gongguan';   /* 公館的套房（台灣路線準備國考，1A-15）：晚上回套房、在套房醒來，不回宿舍（AA_363 T7-2；套房沒有 3D＝公館捷運站旁，story3d.js 的 Y4_GG）*/
   S.GO_OUT=['校門口','公館商圈','溫州街'];   /* 照手機「地點」的名字（PLACES.quickList）*/
   S.goList=()=>{ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[]; return S.GO_OUT.map(n=>L.find(p=>p&&p[1]===n)).filter(Boolean); };
   S.canGo=G=>{ if(S.baseMode(G)||S.breakMode(G)||S.pgHome(G)) return true;   /* 放假模式（AA_183）：出門赴約以後隨時可以回家 */ { const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)) return true; }   /* 16 週制寒暑假（AA_197 1-3）：隨時可以回家住、再回宿舍 */ const h=G.hour; if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return false;   /* 颱風假不能回家（AA_160 3-4 D）*/ if(typeof STORY!=='undefined'&&STORY.homeHold&&STORY.homeHold(G)) return false;   /* 經濟系 9/20 E05 演完以前（story3d.js）*/ return (G.weekday===5&&h>=17)||G.weekday===6||(G.weekday===0&&h<21.5); };

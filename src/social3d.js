@@ -59,15 +59,16 @@ const SOCIAL = (function(){
   /* 資料頁、朋友列表的「科系・年級」照祐廷的學年（00_現行設定總表第 2-1 節，AA-C c70dc425）：characters.js 的 tagByPY＝[經濟系那一年, 法律大一～大四]；
      沒寫的那一格：經濟系那一年照原值，法律系的年份同一屆跟著升（year＋學年−1），超過四年級只寫科系。{t,alt,ifFlag}：有其中一個旗標才寫 alt（沛珊大三、大四：交往中或放榜後重新聯絡上） */
   /* 畢業以後（AA_357 第 2-1 節，AA-C 2026-10-21）：祐廷畢業（GRADUATED）以後、2029-09 起，資料頁寫每個人「現在在做什麼」。[從哪一天起, 字]，取最後一個已經到的；
-     字是 null＝照原本的規則（明軒 2030-08-01 回來以後「照 presence」：表上沒有字）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。
+     AA_363 T4：畢業以後資料頁一律不回到學年的規則——表上沒有新的一列（或那一列是 null）就沿用最後一列（所有畢業的人；明軒 2030-08-01 以後照樣「德國」）。
+     2029-06-02～08-31 表還沒開始＝照原本的年級寫法（照現在）。沒有寫的人（沛珊「照現在（台南）」、教授、不熟的同學）照原本的規則。
      學姊「研究單位」、方奕廷「嘉義」是 AA_267 附錄 C18 的建議，AA 採用 */
   S.PG_TAG={ heroine_01:[['2029-09-01','台大法研所・碩一'],['2030-08-11','紐約']], heroine_02:[['2029-09-01','兩點半 Café']], heroine_03:[['2029-09-01','社會系・延畢（修法律必修）'],['2030-07-01','準備國考']],
     heroine_04:[['2029-09-01','獨立遊戲工作室']], heroine_05:[['2029-09-01','研究單位']], kexin:[['2029-09-01','政大法律系畢業'],['2029-12-14','律師（職前訓練）']],
-    zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','台大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國'],['2030-08-01',null]],
+    zhe:[['2029-09-01','準備國考']], classmate_bohan:[['2029-09-01','台大法研所・碩一']], kai:[['2029-09-01','資工系畢業・上班']], classmate_mingxuan:[['2029-09-01','德國']],
     yu:[['2029-09-01','準備司法官']], classmate_xinci:[['2029-09-01','事務所']], npc_fangyt:[['2029-09-01','嘉義']] };
   const dkS=k=>{ if(typeof CALENDAR==='undefined'||!CALENDAR.tOf) return null; const p=String(k).split('-').map(Number); return Math.round((Date.UTC(p[0],p[1]-1,p[2])-CALENDAR.tOf(1))/86400000)+1; };
   S.pgTag=function(id){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law'||!F.GRADUATED) return null; const L=S.PG_TAG[id]; if(!L) return null; let v;
-    for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d) v=t; } return v==null?null:v; };
+    for(const [k,t] of L){ const d=dkS(k); if(d!=null&&G.day>=d&&t!=null) v=t; } return v==null?null:v; };   /* null 的那一列不蓋掉前一列（AA_363 T4：沿用最後一列，不退回學年的規則）*/
   S.yearTag=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const crs=c.course?'・'+c.course:'', dep=c.department||'';
     { const pt=S.pgTag(id); if(pt) return pt; }
     const idx=G&&G.stage==='econ'?0:S.playerYear(); let v=Array.isArray(c.tagByPY)?c.tagByPY[idx]:null;
@@ -142,7 +143,7 @@ const SOCIAL = (function(){
     if(U.ch&&U.ch.length){ const k=await GM.choose(U.ch.map(c=>({t:c.t}))); const c=U.ch[k]; if(c) await S.playSteps(GM,who,id,c.r); } return true; };
   S.describe=function(id){ const c=CHARACTERS[id]; if(!c) return ''; const st=S.stage(id); const label={STRANGER:'還不認識',ACQUAINTANCE:'認識',FAMILIAR:'有點熟',FRIEND:'朋友',CLOSE_FRIEND:'好朋友',POSSIBLE_ROMANTIC_INTEREST:'……有點在意',ROMANTIC_TENSION:'說不清楚的關係',RELATIONSHIP:'在一起'}[st]; const mems=S.memories(id).slice(-4).map(m=>{ if(!MEMORY_LABEL[m.tag]) return null; const nt=S.noteShown(id,m); return MEMORY_LABEL[m.tag]+(nt?'（'+nt+'）':''); }).filter(Boolean); return label+(mems.length?' · '+mems.join('、'):''); };
   const MEMORY_LABEL={AN_L1_NOTES_PHONE:'跟她說筆記寫在手機上',AN_L1_NOTES_PAPER:'跟她說筆記寫紙本（說好考前互借一頁）',AN_L2_PLANNER:'看過她的手帳（右欄寫理由）',AN_L3_DORM:'知道她也住宿舍（宿舍規則十七頁，她讀完了）',AN_L4_HOME:'知道她家在台中、媽媽每個月一次的晚餐',AN_L5_CONST:'憲法課她坐第三排',AN_L6_RULE_EXAMPLE:'跟她舉過一條沒有理由的規則',AN_L6_RULE_NONE:'跟她說自己都照規則',AN_L7_RUN:'知道她早上六點跑步（那時候沒人找她討論事情）',AN_L8_MIDTERM:'和她聊過期中考的準備',AN_L9_REASON:'聽她說為什麼講話都先準備理由',AN_L10_WINTER:'知道她寒假回台中、媽媽要教她一道菜',AN_L10_PHOTO_PROMISE:'說好寒假互傳照片',
-    YT_MOM_HEARD:'聽她說媽媽很愛笑',YT_CLASS_PRAISED:'聽她說社會學課被老師說「很好」',YT_TEN_MINUTES:'聽她說打烊時那十分鐘（椅子倒放在桌上）',ZR_ASKED_MESSY:'問過她經原那學期怎麼了（她說「就是亂」）',ZR_HOMETOWN:'知道她家在台中開影印店（一張一塊）',ZQ_GAME_HEARD:'聽她說在做的遊戲（一隻一直在找插座的貓）',
+    YT_MOM_HEARD:'聽她說媽媽很愛笑',YT_CLASS_PRAISED:'聽她說社會學課被老師說「很好」',YT_TEN_MINUTES:'聽她說打烊時那十分鐘（椅子倒放在桌上）',ZR_ASKED_MESSY:'問過她經原那學期怎麼了（她說「就是亂」）',ZR_HOMETOWN:'知道她家在台中開影印店（一張一塊）',ZQ_GAME_HEARD:'聽她說在做的遊戲（一隻一直在找插座的貓）',CONTEST_HEARD:'聽她說那場比賽她沒去，在公館喝咖啡',   /* AA_363 R5：子晴 Q4 錯過的玩家第 9～11 週那一句（story3d.js S.contestHeard）*/
     SIS_ASKED_SLEEP:'問過學姊睡得夠不夠（保溫瓶裡是三倍濃的咖啡）',SIS_PARENTS_HEARD:'聽學姊說爸媽一直覺得考上司法官很好',SIS_PUBLIC_LAW_FAN:'跟學姊說公法不無聊（她說你是第三個）',PS_FAMILY_SHOP:'知道她家在台中開早餐店',PS_NOTES_SHARED:'和她把筆記拼成一整份',PS_REASSURED:'跟她說「條文課本都有，故事沒有」',
     KX_EARRING_STORY:'聽她說耳環只戴一邊的理由（另一邊留給還沒想到的那一個）',KX_FIVE_MINUTES:'聽她說分開前的那五分鐘',KX_TERM1_DONE:'聽她說不同學校「只是很遠，不是很難」',KAI_QUIET_KEYBOARD:'阿凱換了靜音的鍵盤',KAI_ROOM_RULES:'和阿凱訂了宿舍的規則',   /* 閒聊階梯、阿凱宿舍事件的記憶（2026-10-16 LAWWW-B 照台詞寫的草稿；以安、語彤 AA-B 審過、改了四個；其他等 BB-B）*/
     ZQ_OUTLETS:'她在記總圖哪裡有插座',   /* 子晴 Q-L5（取代 ZQ_GAME_HEARD；BB_166 第 86 行的備註，baa5c577）*/
