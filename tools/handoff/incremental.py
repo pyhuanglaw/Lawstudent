@@ -174,7 +174,7 @@ def _ref(branch, remote):
     return f'origin/{branch}' if remote and not branch.startswith('origin/') else branch
 
 
-REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.json|snapshots/.+\.json)$')
+REGISTRY = re.compile(r'^docs/handoff/(outbox_[A-Z0-9]+\.json|duty_[A-Z0-9]+\.json|user_asks_[A-Z0-9]+\.json|snapshots/.+\.json)$')   # user_asks：HV-18 各職位的使用者要求檔（INCR-CLEANUP-1021 加）
 
 
 def only_registry(root, sha):

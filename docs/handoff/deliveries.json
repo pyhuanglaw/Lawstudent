@@ -12460,9 +12460,9 @@
    "sha": "23456747",
    "what": "ART-BG-AA185 2D 背景兩張：assets/bg/video_far_jp.webp（視訊另一頭：日本宿舍單人房，晚上）、assets/bg/old_school_playground.webp（老國小操場，柱子黑方塊修好）＋bg_aa185/README（劇情、自己退件的版本、還沒達到的）＋LICENSES；同一組的 video_far_us.webp 在 9442e59b 已 commit",
    "task": "ART-BG-AA185",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "LAWWW2 交接檔記「AA185 交件 23456747」，deliveries 之前沒有這筆；開發分支沒有 video_far_jp／old_school_playground／video_far_us 三張。老國小目前沒排到戲（64a9e2af：AA-C 春假第一站改市場，留著備用）；公館機車行那張已依 AA_252 刪（89c856f8）。D100 起 2D 背景歸 BB（ART-BG-AA185 owner BB，next 已寫 LAWWW2 分支上做好的保留、BB 接手先看能不能用）。場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不整合：video_far_jp 沒有戲用到（視訊照現在的寫法不換底圖）、老國小沒排到戲（64a9e2af 改市場）；圖留在 LAWWW2 分支，有戲要用再接（ART-BG-AA185 owner BB） ｜ LAWWW2 交接檔記「AA185 交件 23456747」，deliveries 之前沒有這筆；開發分支沒有 video_far_jp／old_school_playground／video_far_us 三張。老國小目前沒排到戲（64a9e2af：AA-C 春假第一站改市場，留著備用）；公館機車行那張已依 AA_252 刪（89c856f8）。D100 起 2D 背景歸 BB（ART-BG-AA185 owner BB，next 已寫 LAWWW2 分支上做好的保留、BB 接手先看能不能用）。場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-LAWWW2-236edded",
@@ -12473,9 +12473,9 @@
    "sha": "236edded",
    "what": "BG-19 公館二輪戲院大廳第五版精修 assets/bg/gongguan_cinema.webp（同檔名：海報插圖、售票亭裡的東西、天花板水漬、牆上舊痕跡）＋bg_cinema_curry/README 前後對照；同 commit 另有 bg_curry.py（咖哩店廚房／街景，圖在 01fee6a1）、pinyu_ears.py（品妤第七版耳朵 WIP）",
    "task": "ART-BG19",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-LAWWW2-01fee6a1",
@@ -12486,9 +12486,9 @@
    "sha": "01fee6a1",
    "what": "BG-14 永康街咖哩店第五版 assets/bg/yongkang_curry.webp（同檔名：布簾後面的小廚房、窗外照真的比例的商店街）＋README、前後對照圖；同 commit 另有 bg_cinema.py（售票亭電風扇、辦公椅，圖沒重算）、pinyu_ears.py 第四次（WIP）",
    "task": "ART-BG14",
-   "msg": "DELIVERED",
-   "integration": "未整合",
-   "note": "開發分支的 yongkang_curry.webp 還是 0100994c 的第四版（blob ab6380a4）。D99 之前做的精修，要不要換由 LAWWW-C 決定；場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+   "msg": "ACK",
+   "integration": "不整合",
+   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不換：同上（D99 凍結，第四版能用）；第五版留在 LAWWW2 分支 ｜ 開發分支的 yongkang_curry.webp 還是 0100994c 的第四版（blob ab6380a4）。D99 之前做的精修，要不要換由 LAWWW-C 決定；場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-AA-e2fafef2",
