@@ -41,7 +41,7 @@ const Y2R2=(function(){
   const merge=(G,k,v)=>{ G.flags[k]=Object.assign({},(G.flags[k]&&typeof G.flags[k]==='object')?G.flags[k]:{},v); };
 
   /* ---------- 日子（照 AA_325 的日曆；Python datetime 核過）---------- */
-  S.D={k9a:'2026-09-17',k9:'2026-09-18',ma0:'2026-09-24',ma:'2026-09-25',q0:'2026-10-09',qr:'2026-10-23',q:'2026-10-25',qf:'2026-12-20',
+  S.D={k9a:'2026-09-17',k9:'2026-09-18',ma0:'2026-09-24',ma:'2026-09-25',q0:'2026-10-09',qr:'2026-10-21',q:'2026-10-23',qf:'2026-12-20',
     f0:'2026-12-04',fr:'2026-12-09',f:'2026-12-11',x0:'2026-12-18',xr:'2026-12-22',xg:'2026-12-24',x:'2026-12-25',
     g1:'2027-01-11',kh0:'2026-12-28',khr:'2026-12-30',kh:'2027-01-14',kn:'2027-02-05',vd:'2027-02-14',
     dep1:'2027-03-23',dep2:'2027-03-30',b0:'2027-04-17',b:'2027-04-24',u0:'2027-04-28',u:'2027-05-08',
@@ -67,7 +67,8 @@ const Y2R2=(function(){
       {label:'c'},{speaker:'kexin',expression:'surprised',text:'……真的？'},{speaker:null,text:'（她把手機收進包包。）'},{speaker:'kexin',expression:'smile',text:'那我今天不滑了。'},
       {label:'end'},{speaker:null,text:'（六點半，她說要回山上。你陪她走到公車站。）'} ],
     after:G=>{ G.flags.KX_K9='met'; merge(G,'KX_DIR',{Y2:'rules'}); } });
-  /* ---------- 2-Y2-05 可昕 K10「互相出題」：10/25（日）12:00 山下或視訊（沒有輸贏、不記勝負）---------- */
+  /* ---------- 2-Y2-05 可昕 K10「互相出題」：10/23（五）18:30 山下或視訊（沒有輸贏、不記勝負）。
+     原本 10/25（日）12:00；AA_343 E4：BCG-30 是「十月的星期五晚上」的圖，改事件時間對齊圖（出發選單 17:50，開車約 40 分鐘）---------- */
   const K6=G=>!!G.flags.KX_K6_EXAM||!!(G.flags.KX_QUIZ&&((G.flags.KX_QUIZ.win|0)+(G.flags.KX_QUIZ.lose|0)+(G.flags.KX_QUIZ.draw|0))>0);   /* 做過大一 K6（舊存檔有 KX_QUIZ 也算，同 events.js）*/
   const quizEv=(id,video)=>({ id, title:'互相出題', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:video?1:1.5,
     outingMissed:()=>{},
@@ -489,13 +490,22 @@ const Y2R2=(function(){
     /* --- 2-Y2-05 K10 互相出題 --- */
     { const a=d('q0'), r=d('qr'), m=d('q'), f=d('qf'); if(kx(G)&&a!=null){
         if(win(G,a,21,3)&&!sent(G,'y2r2_q_ask')) at(G,a,21,[K('這學期起，期中、期末前都互相出題。'),K(K6(G)?'規則照舊，只能出老師上課講過的。':'只能出老師上課講過的。冷門學說算犯規。'),
-          KASK('第一次：期中前那個週日，中午，山下那一攤。不能來就視訊，題目照出。',{id:'y2r2_q_ask',until:abs(m,11),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE_Y2:'video'},say:[{from:'kexin',text:'可以。你自己準備午餐。'}]}]})],'y2r2_q_ask');
-        if(!F.KX_QUIZ_MODE_Y2&&win(G,r,21,1)&&sent(G,'y2r2_q_ask')&&!sent(G,'y2r2_q_remind')) at(G,r,21,[K('週日中午。你還沒回。')],'y2r2_q_remind');
-        if(F.KX_QUIZ_MODE_Y2==='meet'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,12.25)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2',day:m,h:12,late:0.25,place:'政大・山下的小吃街',title:'互相出題（政大山下）',travel:'開車約 40 分鐘',travelH:2/3});
-        if(F.KX_QUIZ_MODE_Y2==='video'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,12.25)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2_video',day:m,h:12,late:0.25,place:'視訊',title:'可昕的視訊：互相出題',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'});
+          KASK('第一次：期中前那個週五，晚上六點半，山下那一攤。不能來就視訊，題目照出。',{id:'y2r2_q_ask',until:abs(m,17.5),opts:[{t:'好。',set:{KX_QUIZ_MODE_Y2:'meet'},say:[{from:'kexin',text:'好。題目不要先給我看。'}]},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE_Y2:'video'},say:[{from:'kexin',text:'可以。你自己準備晚餐。'}]}]})],'y2r2_q_ask');
+        /* 不回的提醒：10/21（三）21:00（AA_343 E4；原本 10/23 21:00「週日中午。」）*/
+        if(!F.KX_QUIZ_MODE_Y2&&win(G,r,21,1)&&sent(G,'y2r2_q_ask')&&!sent(G,'y2r2_q_remind')) at(G,r,21,[K('週五晚上。你還沒回。')],'y2r2_q_remind');
+        if(F.KX_QUIZ_MODE_Y2==='meet'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2',day:m,h:18.5,late:0.25,place:'政大・山下的小吃街',title:'互相出題（政大山下）',travel:'開車約 40 分鐘',travelH:2/3});
+        if(F.KX_QUIZ_MODE_Y2==='video'&&!outGet(G,'y2r2_q')&&now(G)<abs(m,18.75)) plan(G,{id:'y2r2_q',ev:'ev_kexin_quiz_y2_video',day:m,h:18.5,late:0.25,place:'視訊',title:'可昕的視訊：互相出題',verb:'接起來',no:'今天先不要',travel:'',travelH:0,back:'視訊結束。'});
         const q=outGet(G,'y2r2_q'), quizDone=done(G,'ev_kexin_quiz_y2')||done(G,'ev_kexin_quiz_y2_video');
-        if(!quizDone&&win(G,m,13,2)&&sent(G,'y2r2_q_ask')&&(!q||q.state==='missed')&&!sent(G,'y2r2_q_missed')){ F.KX_QUIZ_Y2S1='missed'; at(G,m,13,[K('📷（一張題目紙，三題）'),K('這三題留到期末。')],'y2r2_q_missed'); }
+        /* 沒去：10/23 19:30（AA_325 2-Y2-05 已照 AA_343 E4 改）*/
+        if(!quizDone&&win(G,m,19.5,2)&&sent(G,'y2r2_q_ask')&&(!q||q.state==='missed')&&!sent(G,'y2r2_q_missed')){ F.KX_QUIZ_Y2S1='missed'; at(G,m,19.5,[K('📷（一張題目紙，三題）'),K('這三題留到期末。')],'y2r2_q_missed'); }
         if(f!=null&&win(G,f,21,2)&&!sent(G,'y2r2_q_final')) at(G,f,21,[K('期末的題目。'),K('📷（她手寫的三題）'),KASK('寫完拍照傳我。我的也傳給你了。',{id:'y2r2_q_final',opts:[{t:'好。我寫完傳妳。',say:[{from:'kexin',text:'嗯。不用急。'}]}]})],'y2r2_q_final'); } }
+    /* --- AA_343 E2：CG-2b 的群組。以安新 8 的後半（大二上第 7 週週六 14:00 萬才館研討室的補讀，ev_plg_rules_after，story3d.js）那天沒去、在公法讀書會群組的玩家：
+       小語傳照片（CG-2b cg_study_group_rules_photo，群組照片版、沒有祐廷；AA_121「那天沒去讀書會、但在群組裡的玩家」）＋三則（AA_343 第 6 節，小語不打句號、以安標點完整）。
+       14:30＝出發的期限（14:15）過了以後：去的人 14:25 以前就到、事件已經演了，不會兩張都看到。幾點傳 AA 沒寫（暫定，交接要問 AA）。
+       照片：手機訊息帶 cg（phone3d.js 送出時收進相簿、game3d.js 在訊息下面顯示那張圖）*/
+    { const m=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',7,6):null;
+      if(m!=null&&inGroup(G,'public_law')&&knows('yu',G)&&!done(G,'ev_plg_rules_after')&&win(G,m,14.5,1)&&!sent(G,'y2r2_plg_photo')){ const Y=(f,t)=>({th:'g:public_law',from:f,text:t});
+        at(G,m,14.5,[Object.assign(Y('yu','📷'),{cg:'cg_study_group_rules_photo'}),Y('yu','規則剩三條 另外一半是我撕的'),Y('heroine_01','小語，刪掉。'),Y('yu','不要 這是歷史')],'y2r2_plg_photo'); } }
     /* --- 2-Y2-06 K10b 電影夜 --- */
     { const a=d('f0'), r=d('fr'), m=d('f'); if(kx(G)&&a!=null){
         if(win(G,a,21,3)&&!sent(G,'y2r2_f_ask')) at(G,a,21,[K('下週五系上電影夜。予樂說每個人要帶一個外系的朋友。'),KASK('你是我的外系。',{id:'y2r2_f_ask',until:abs(m,18.25),opts:[{t:'好。幾點？',set:{KX_FILM:'yes'},say:[{from:'kexin',text:'七點。不要遲到，予樂會點名。'}]},{t:'那天不行。',set:{KX_FILM:'no'},say:[{from:'kexin',text:'……好。我跟予樂說你在忙。'}]}]})],'y2r2_f_ask');
