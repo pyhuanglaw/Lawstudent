@@ -1058,7 +1058,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "4042e078",
    "files": [
     "docs/story_planning/AA_369_寒暑假_人在哪與時間矛盾_修正稿.md"
    ],
