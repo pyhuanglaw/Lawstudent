@@ -255,7 +255,7 @@ const JP=(function(){
   S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/
     { const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
-      if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=f; } }
+      if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
         if(P){ try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('JP.jump phone',e); } } }
       { const s=S.stopNow(G,where,w0); if(s){ why=s; break; } }
       const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }

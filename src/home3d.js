@@ -290,7 +290,7 @@ const HOME=(function(){
   S.breakJump=async function(GM,t,o){ o=o||{}; const G=GM.G, E=GM.E; await GM.fade(true); let n=0, tt=T(G.day,G.hour), mo=null; G.flags._repSkipLine=null; const w0=o.ff?S.waitSnap(G):null;
     const repPass=x=>{ if(typeof OUT==='undefined'||typeof VAC==='undefined'||!VAC.repSkip) return; for(const q of OUT.rec(G)){ if(q.state!=='planned'||T(q.day,q.h)>x) continue; const l=VAC.repSkip(G,q); if(l!=null){ VAC.repDone(G,q); if(l) G.flags._repSkipLine=l; } } };   /* ''＝記成去過、沒有旁白（C16、C17 沒有關鍵事件的上班日，vac3d.js S.workSkip）*/   /* 跳過的第二次以後的活動：記成去過、旁白換成那一句（AA_275 第 1 節）*/
     while(tt+1<t-1e-6){ tt+=1; setTime(G,E,tt); repPass(tt);
-      if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
+      if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
       if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME breakJump phone',e); } }
       const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
       if(w0){ const why=S.waitNew(G,w0); if(why){ o.why=why; t=tt; break; } } }   /* H2：要回的訊息不會被一次跳過（例：C05 阿凱、VA10 香港、C01 海邊的邀約）*/
@@ -332,7 +332,7 @@ const HOME=(function(){
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
       if(G.day!==dPrev){ dPrev=G.day; const play=typeof ECONFF!=='undefined'&&ECONFF.on2&&ECONFF.on2(G)&&ECONFF.PLAY_DAYS.some(k=>DK(k)===G.day); if(!play&&ra!=null&&rb!=null&&G.day>ra&&G.day<=rb&&typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:study'); const cc=typeof ECONFF!=='undefined'&&ECONFF.cramCard?ECONFF.cramCard(G):null; if(cc) cards.push({t:T(G.day,9),c:cc}); }   /* 事件模式：玩樂日（R3、R6、R7）不記讀書日（AA_292 第 6 節）*/
       if(Math.abs(tt-Math.round(tt))<1e-6){
-        if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
+        if(typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
         if(typeof PHONE!=='undefined'){ try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('HOME y0Jump phone',e); } } }
       const nx=S.breakNext(G,tt); if(nx!=null&&nx<t) t=nx;
       why=S.y0Stop(G,p0); if(why) break; if(n>0){ why='msg'; break; } }   /* 跳的途中收到任何一則訊息就停：直接打開那一段、按「跳過」繼續跳（使用者 10-18 15:4x：「如果中間顯示簡訊跳出來按它可以繼續跳」；原本只有要回的才停、其他跳完才說「收到 N 則」）*/

@@ -2803,8 +2803,10 @@ const STORY = (function(){
      讀檔本身不改錢（tests/save_compat_v7.py 檢查讀檔前後金錢一樣）。睡覺一次只過一天，所以「換月份的第一個早上」就是 1 日。測試：node tests/allowance_unit.js */
   const CAL0={m:9,d:17}, MDAYS=[31,28,31,30,31,30,31,31,30,31,30,31];
   S.dateOf=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const x=CALENDAR.dateOf(day); return {m:x.m,d:x.d}; } let m=CAL0.m, d=CAL0.d+(day-1); while(d>MDAYS[m-1]){ d-=MDAYS[m-1]; m=m%12+1; } return {m,d}; };   /* 有日曆就照日曆（經濟系大一的負天數也對）*/
-  S.monthlyFunds=function(G){ const F=G.flags, mo=S.dateOf(G.day).m; if(F.fundsV2!==1){ F.fundsV2=1; F.allowanceMonth=mo; return {amount:20000,text:'帳戶裡還有這個月的生活費：20,000 元'}; }
-    if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; if(S.isEcon(G)&&F.Y0_MOVED_OUT) return {amount:5000,text:'家裡匯來這個月的生活費：5,000 元'}; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };   /* AA_363 S2：經濟系休學搬回家（Y0_MOVED_OUT）以後每月 5,000，從搬回家的下一個月起（匯款在每月 1 日，10/31 搬＝11/1 起）；8/29 搬進法律系宿舍（stage 變 law）以後照舊 30,000；舊存檔不扣回已經匯的錢；重考班、衝刺班的學費本來就沒有從帳戶扣（tests/aa363_s2_unit.js）*/
+  S.monthlyFunds=function(G){ const F=G.flags, mo=S.dateOf(G.day).m; if(F.fundsV2!==1){ F.fundsV2=1; F.allowanceMonth=mo; return {amount:20000,m:mo,text:'帳戶裡還有這個月的生活費：20,000 元'}; }
+    if(F.allowanceMonth!==mo){ F.allowanceMonth=mo; if(S.isEcon(G)&&F.Y0_MOVED_OUT) return {amount:5000,m:mo,text:'家裡匯來這個月的生活費：5,000 元'}; return {amount:30000,m:mo,text:'家裡匯來這個月的生活費：30,000 元'}; } return null; };   /* AA_363 S2：經濟系休學搬回家（Y0_MOVED_OUT）以後每月 5,000，從搬回家的下一個月起（匯款在每月 1 日，10/31 搬＝11/1 起）；8/29 搬進法律系宿舍（stage 變 law）以後照舊 30,000；舊存檔不扣回已經匯的錢；重考班、衝刺班的學費本來就沒有從帳戶扣（tests/aa363_s2_unit.js）*/
+  /* 快轉一次跨過好幾個月（例：經濟系 6/8 一次跨過 5/1、6/1）：入帳照月加，提示合成一則寫總數（BB 10-21：一次進 10,000、提示只寫 5,000——原本 mo 只留最後一個月）*/
+  S.fundsJoin=function(a,f){ if(!f) return a; if(!a) return Object.assign({ms:[f.m]},f); const ms=a.ms.concat([f.m]), amount=a.amount+f.amount; return {amount,m:f.m,ms,text:'家裡匯來 '+ms.join('、')+' 月的生活費：'+amount.toLocaleString('en-US')+' 元'}; };
   S.sleepNow=(GM,wake,alarm)=>sleepNow(GM,wake,alarm);   /* 測試用（tests/bed_nap_unit.js）*/
   /* 經濟系那一年的固定核心出遊（AA_154 A33③：E14，之後 E19）：當天出發前就去睡覺＝電話把你吵醒——睡到「開始後 15 分鐘」那一刻，不跳到隔天（AA-B 2026-10-16 抽查）*/
   const CORE_OUT=['y0_e14','y0_e26','y0_e27','y0_e27b','y0_e37'];   /* y0_e26＝10/17 車上＋摩天輪（AA_224 1-3）；E19 拿掉 */
