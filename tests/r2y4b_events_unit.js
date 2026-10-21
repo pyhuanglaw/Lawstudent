@@ -335,5 +335,66 @@ const date=id=>H.date(id);
     check('2-Y4-52「明年再考。」→ 2031-02-15 再考，上了', H.G.flags.GRAD_RETRY2===true&&H.G.flags.GRAD_EXAM_2031===true&&H.G.flags.GRAD_EXAM_RESULT==='pass'&&H.G.flags.GRAD_ADMIT==='exam'); }
   { fresh('2029-09-03',8,'dorm',Object.assign({Y4_PATH:'grad'},GD)); at('2029-09-03',9);
     check('2-Y4-52 台灣路線沒有 Y5S1 那幾件', !PG.pending(H.G).some(p=>/^r2y4b_y5_/.test(p.s.id))); }
+  /* ===== 2-Y4-53 尾聲：每人一句的條件細分（已在 AA_319 1A-20＝postgrad3d.js 的表；這裡查 AA_327 的驗收點）===== */
+  const LAWYER29={BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029};
+  const epiRun=async(flags,setup,route)=>{ const G=fresh('2034-06-03',18,'dorm',Object.assign({},GD,flags),route); PG.rec(G).done.grad=1; G.flags.FIRST_DAY_SEEN=true; PG.rec(G).done.first=1; if(setup) setup(G);
+    H.said=[]; H.cards=[]; H.cgs=[]; GM.running=true; await H.run('epi'); return G; };
+  { await epiRun(LAWYER29,()=>{ H.FAMILIAR('classmate_mingxuan'); H.FRIEND('heroine_01'); H.G.flags.EX_heroine_01=true; });
+    check('E1 律師、2029 錄取、明軒 FAMILIAR：「你放榜那天，我在德國。早上八點，在去上課的電車上看到的。」', has('你放榜那天，我在德國。早上八點，在去上課的電車上看到的。'));
+    check('E4 和以安分開過：她在店的另一頭「好久不見。」「我先走了，合約週一要交。」，不再接；E3 沒有「司法官」的句子', has('好久不見。')&&has('我先走了，合約週一要交。')&&!has(POSTGRAD_LINES.EPI.an.friend)&&!H.said.some(s=>s.who&&/司法官/.test(s.t))); }
+  { await epiRun(LAWYER29,()=>{ date('kexin'); });
+    check('E2 和可昕交往（A）、律師：沒有「你不要讓我」、沒有假設題', !H.said.some(s=>/你不要讓我|假設/.test(s.t))&&H.said.some(s=>s.who===SOCIAL.displayName('kexin'))); }
+  { const src=fs.readFileSync(path.join(H.ROOT,'src/postgrad3d.js'),'utf8'); await epiRun({BAR_YEAR:2031},()=>{ H.FAMILIAR('npc_fangyt'); },'JP');
+    check('2-Y4-53 方奕廷「那一年你在考試。……我知道。」照 AA_327 定稿表與 AA_331 第 1 節 b：只看台灣路線 BAR_YEAR===2030（交換路線 2031 劃掉了，這一批沒有加回去）', /if\(!S\.delayed\(G\)&&F\.BAR_YEAR===2030\) t=Fy\.y2030;/.test(src)&&!has('那一年你在考試。……我知道。')); }
+  /* ===== 2-Y4-54 多段感情 ===== */
+  { fresh('2029-05-21',21,'campus'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); at('2029-05-21',22);
+    check('2-Y4-54 A 5/21 22:00：兩位以上、至少一位還不知道＝到期；要在宿舍房間（在校園＝等）', S.multiPreDue(H.G)&&!dueHas('r2y4b_multi_pre')&&(H.G.zone='dorm',dueHas('r2y4b_multi_pre')));
+    H.said=[]; H.opts=[]; H.picks=[2]; await H.run('r2y4b_multi_pre');
+    check('U1 5/21「（典禮那天，她們都會來。）」三選一；「先不想。」＝MULTI_PRE later、不演被發現', has('（典禮那天，她們都會來。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「先跟她們說清楚。」','「選一個人。」','「先不想。」'])&&H.G.flags.MULTI_PRE==='later'&&H.G.flags.dating_heroine_01&&H.G.flags.dating_heroine_04);
+    fresh('2029-06-02',12,'campus'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.FAMILIAR('classmate_mingxuan'); await H.run('grad');
+    const iZ=iOf(POSTGRAD_LINES.PARTNER.heroine_04[0][1]), iK=iOf(POSTGRAD_LINES.OTHERS.kai[0][1]), iA=H.said.findIndex(s=>s.who===SOCIAL.displayName('heroine_01'));
+    check('U1 典禮兩段伴侶戲分開演：第一位（以安）在大合照之後，第二位（子晴）在 ⑥ 其他人之前；沒有被發現', iA>=0&&iZ>iA&&iK>iZ&&!H.said.some(s=>/被發現|你還有別人/.test(s.t))); }
+  { fresh('2029-05-21',22,'dorm'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.picks=[0]; await H.run('r2y4b_multi_pre');
+    const L=H.G.flags.MULTI_TELL29; at('2029-05-22',21);
+    check('2-Y4-54「先跟她們說清楚。」＝當週一位一場（每天晚上 21:00 一位）', H.G.flags.MULTI_PRE==='tell'&&!!L&&JSON.stringify(L.list)==='["heroine_01","heroine_04"]'&&dueHas('r2y4b_tell29_0')&&!dueHas('r2y4b_tell29_1'));
+    H.said=[]; caps.length=0; await H.run('r2y4b_tell29_0'); const R1=ROM.get(H.G,'heroine_01');
+    check('U3 以安（萬才館研討室外的走廊）：「……謝謝你說實話。」「我們先當朋友。」→ 退回朋友、重新開始最少 2 週；不是前任', has('……謝謝你說實話。')&&has('我們先當朋友。')&&caps.includes('萬才館研討室外的走廊')&&!H.G.flags.dating_heroine_01&&R1.status==='friend_after_catch'&&R1.restartDay===H.G.day+14&&!H.G.flags.EX_heroine_01);
+    at('2029-05-23',21); H.said=[]; await H.run('r2y4b_tell29_1');
+    check('U3 子晴：「……你是來跟我說，你還有別人。」「謝謝你自己來講。」「我不要這樣。我們先當朋友。」；沒有「存檔」', has('……你是來跟我說，你還有別人。')&&has('我不要這樣。我們先當朋友。')&&!H.said.some(s=>/存檔/.test(s.t))&&!H.G.flags.dating_heroine_04);
+    const T=S.TELL; check('U3 C 表：學姊沒有「一件事」、可昕沒有「假設」、可昕的火氣是旁白「（她把筷子放下。）」；學姊重新開始 3 週', !T.heroine_05.lines.some(x=>typeof x==='string'&&/一件事/.test(x))&&!T.kexin.lines.some(x=>typeof x==='string'&&/假設/.test(x))&&T.kexin.lines.some(x=>x&&x.narr==='（她把筷子放下。）')&&(()=>{ fresh('2029-05-29',21,'dorm'); date('heroine_05'); S.toFriend(H.G,'heroine_05'); return ROM.get(H.G,'heroine_05').restartDay===H.G.day+21; })()); }
+  { fresh('2029-05-21',22,'dorm'); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.picks=[1,0]; await H.run('r2y4b_multi_pre');
+    check('2-Y4-54「選一個人。」→ 選誰誰就是畢業時的伴侶；其他人分開（前任）', H.G.flags.MULTI_PRE==='pick:heroine_01'&&H.G.flags.dating_heroine_01===true&&!H.G.flags.dating_heroine_04&&H.G.flags.EX_heroine_04===true); }
+  { fresh('2030-05-25',21,'dorm',GD); H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); at('2030-05-25',22);
+    check('2-Y4-54 B 2030-05-25 22:00：還同時有兩位以上＝到期', dueHas('r2y4b_multi_y5'));
+    H.said=[]; H.opts=[]; H.picks=[2]; await H.run('r2y4b_multi_y5');
+    check('2-Y4-54 B「（畢業快一年了。手機裡，兩個對話框都停在「晚安」。）」；「（不選）」＝EPI_SEAT_EMPTY、不演被發現、兩段都還在', has('（畢業快一年了。手機裡，兩個對話框都停在「晚安」。）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「選一個人。」','「跟她們說實話。」','（不選）'])&&H.G.flags.EPI_SEAT_EMPTY===true&&H.G.flags.dating_heroine_01&&H.G.flags.dating_heroine_04); }
+  { const G=await epiRun({EPI_SEAT_EMPTY:true},()=>{ H.FRIEND('heroine_01'); H.FRIEND('heroine_04'); date('heroine_01'); date('heroine_04'); H.FAMILIAR('zhe'); });
+    const seat='（你旁邊的位子一直空著。沒有人問。）';
+    check('U2 不選：尾聲祐廷旁邊空著（「沒有人問。」接在 CG-10 之後）；CG-10 只有共通圖（沒有伴侶、也沒有阿凱的圖層）；她們照朋友版那一句；桌上沒有伴侶那一樣', has(seat)&&H.cgs.includes('cg_reunion_window_table')&&!H.cgs.some(c=>/_layer|_kai|_heroine/.test(c))&&has(POSTGRAD_LINES.EPI.an.friend)&&!has(POSTGRAD_LINES.EPI.an.partner[0])&&(G.flags.EPI_ITEMS||[]).length===1);
+    await epiRun({},()=>{ H.FRIEND('heroine_01'); date('heroine_01'); });
+    check('2-Y4-54 一般的玩家（沒有 EPI_SEAT_EMPTY）：照舊伴侶在旁邊、沒有空座位那一句', !has(seat)&&has(POSTGRAD_LINES.EPI.an.partner[0])&&H.cgs.includes('cg_reunion_window_table_heroine01')); }
+  /* ===== 2-Y4-55 美國路線：何俊朗的訊息 ===== */
+  { await epiRun({MET_LONG:true},null,'US');
+    const a='（你把長桌的合照傳給一個人。過了一下，手機亮了。）', b='看到你們的合照了。下次來香港，我帶你去吃。', iE=iOf(POSTGRAD_LINES.EPI.end), iItem=iOf(POSTGRAD_LINES.EPI.itemNarr.replace('{item}',H.G.flags.EPI_ITEMS[0]));
+    check('H1 美國路線、有 MET_LONG：尾聲最後畫面之前一則訊息（⑥ 桌上的東西之後、⑦ 之前）；說話的人是「何俊朗（手機）」', has(a)&&has(b)&&iItem>=0&&iOf(a)>iItem&&iOf(b)>iOf(a)&&iE>iOf(b)&&H.said[iOf(b)].who==='何俊朗（手機）');
+    await epiRun({MET_LONG:true},null,'TW'); const tw=!has(a); await epiRun({},null,'US');
+    check('H2 台灣路線（或沒有 MET_LONG）：沒有', tw&&!has(a)); }
+  /* ===== 2-Y4-56 美國路線、和學姊交往中：秋假大峽谷 ===== */
+  { fresh('2028-09-27',20,'dorm',{},'US'); H.FRIEND('heroine_05'); date('heroine_05'); at('2028-09-27',21); phone();
+    const q=OUT.get(H.G,'y4_us_canyon');
+    check('GC1 9/27 21:00 三則（十月有一個禮拜的秋假…／機票我看好了…／……你坐副駕，負責放音樂。）；兩個選項都會去：行事曆 10/7 06:00（一定會去）', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['十月有一個禮拜的秋假。我想開車去大峽谷。','機票我看好了，飛到鳳凰城，在那邊租車。','……你坐副駕，負責放音樂。'])&&!!q&&q.day===D('2028-10-07')&&q.h===6&&q.must===true&&(answer('y4_us_canyon',1),th('p:heroine_05').includes('所以才要你放音樂。')));
+    const r0=SOCIAL.rel('heroine_05'), rom0=r0.rom|0, nr0=r0.npcRom|0, c0=DATE.log(H.G,'heroine_05').count|0;
+    at('2028-10-07',5.9); await goOut('y4_us_canyon',[0]);
+    check('GC1 10/7「路線我排好了。上車。」；五個摘要日（10/10 是「她回頭把手伸給你」）；10/13「第四章，我本來想在這裡寫完。」；不是告白；10/14「里程表多了一千兩百哩」', has('（她靠在租來的車旁邊，手上拿著一張列印的地圖。）')&&has('路線我排好了。上車。')&&has('（沙漠裡的加油站，她買了兩瓶很大的水。）')&&has('（她在步道上走得比你快。走到一半，她回頭把手伸給你。）')&&has('（汽車旅館的電視只有三台。她轉到氣象台，看了很久。）')&&has('第四章，我本來想在這裡寫完。')&&has('嗯。今天不寫。')&&has('（車還回去的時候，里程表多了一千兩百哩。）')&&!H.said.some(s=>/我喜歡/.test(s.t)));
+    const r1=SOCIAL.rel('heroine_05');
+    check('2-Y4-56 US_CANYON；算 2 次正式約會；她和祐廷的戀愛各 +2；GC3 沒有說出口的條列', H.G.flags.US_CANYON===true&&(DATE.log(H.G,'heroine_05').count|0)===c0+2&&(r1.rom|0)===rom0+2&&(r1.npcRom|0)===nr0+2&&!H.said.some(s=>/^(一|二|三)，|三件事/.test(s.t))); }
+  { fresh('2028-10-07',8,'dorm',{MET_LONG:true},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; at('2028-10-07',9.1);
+    check('GC2 挽回中：秋假兩個摘要日', S.usFallDue(H.G)===1);
+    H.said=[]; await S.usFall(GM,1); at('2028-10-08',9.1); await S.usFall(GM,S.usFallDue(H.G));
+    check('GC2 「秋假。社區的停車場空了一半。」「何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。」（沒有 MET_LONG＝只有後半）；沒有邀約', has('秋假。社區的停車場空了一半。')&&has('何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。')&&!S.usFallDue(H.G)&&!th('p:heroine_05').length);
+    fresh('2028-10-08',9.1,'dorm',{US_FALL_1:1},'US'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; H.said=[]; await S.usFall(GM,2);
+    check('GC2 沒有 MET_LONG：「你把三門課的閱讀都讀完了。」', has('你把三門課的閱讀都讀完了。')&&!has('何俊朗去了芝加哥找朋友。你把三門課的閱讀都讀完了。')); }
+  { fresh('2028-09-27',20,'dorm',{},'TW'); H.FRIEND('heroine_05'); date('heroine_05'); at('2028-09-27',21); phone();
+    check('2-Y4-56 不是美國路線：沒有（台灣、日本路線見 2-Y4-57）', !OUT.get(H.G,'y4_us_canyon')&&!th('p:heroine_05').includes('機票我看好了，飛到鳳凰城，在那邊租車。')); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
