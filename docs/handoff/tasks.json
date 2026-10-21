@@ -27387,6 +27387,75 @@
    "source": "BB（帳號 A）2026-10-21 18:18 qa_play nophone（BB_218 最後兩節，story-planning 43079efc）；BB 的 kx_expr_probe.py A／B 約 19:0x 證實",
    "authorized": "bug 修正（D85）",
    "next": "不擋 v9.10.3（不是這版新增）；修法：render 一進來就同步記下要的表情＋每框一個序號，舊的 render 回來不換圖；speaker 找框也看「要的」那一個；單元測試；發布後放進開發分支、BB 重跑 probe"
+  },
+  {
+   "id": "BG-DARK-70-1021",
+   "title": "深色底 70 段改用現成的圖（BB_220★，BB 逐張看過）：經濟系 kh_bus 早餐店→soymilk_shop（16 句）、10/15 桌遊→boardgame_gg、除夕電話加 {scene:電話}、8/13 放榜 home_room 移到最前面；美國 會所自習室→us_club_study（19 句）、鳳凰城機場→us_airport；寒暑假 左營站→kh_station、跨年視訊 5 個→video、跨年電話 3 個→{scene:電話}；日本線、萬才館二樓、台南車站等照表；颱風線上讀書會、峽谷 24 句維持深色（BB 決定）",
+   "area": "BG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "2024-10-15 桌遊（經濟系）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
+   "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
+   "next": "照 BB_220★ 的表逐列改（events.js 等資料檔的 bg／scene），改完派 BB 用同一張表驗",
+   "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
+   "recheckOn": "2026-10-22"
+  },
+  {
+   "id": "BUG-BG-CARDAY-1021",
+   "title": "可昕春假開車白天是深色底：outings3d.js:43 carVariant() 白天回 car_day，S.BG 只有 car_morning／night／rain（三年 16 句）——兩個 car_day 改 car_morning",
+   "area": "BG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S2",
+    "week": null,
+    "earliest": "大一春假開車旅行",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
+   "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
+   "next": "一行修正，放 post9103",
+   "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
+   "recheckOn": "2026-10-22"
+  },
+  {
+   "id": "CG-APPROVED-MISSING-1021",
+   "title": "兩張已通過的 CG 沒進遊戲：cg_sf_bridge_fog_heroine05（BCG-48；r2y4a_events.js:219 用 hasCG 包著＝一定跳過；圖在企劃線 cg_approved/）、cg_reunion_window_table（尾聲「不選」的共通圖，cg_approved/cg_reunion_window_table_base.webp）",
+   "area": "BG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "美國篇舊金山霧裡的橋",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
+   "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
+   "next": "從企劃線 cg_approved/ 拿圖、登記 CG、LICENSES；BB 驗",
+   "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
+   "recheckOn": "2026-10-22"
   }
  ]
 }
