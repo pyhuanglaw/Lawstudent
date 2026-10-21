@@ -1,0 +1,8 @@
+  [前置／捷徑] [前置] 讀 9/25 存檔
+  [前置／捷徑] [捷徑] us_shared 17:45
+bedside_camEast {"lau_w_deco_card_bedC": {"vis": true, "op": 1}, "PLATE_FACE_door_bedA": {"vis": false, "op": 1}, "PLATE_FACE_door_bedB": {"vis": false, "op": 1}, "PLATE_FACE_door_bedC": {"vis": true, "op": 1}, "WALL_bed_w_deco_card_bedA": {"vis": false, "op": 0.12}, "WALL_bed_w_deco_coat_bedB": {"vis": false, "op": 0.12}, "WALL_bed_w_deco_hook_bedB": {"vis": false, "op": 0.12}}
+bedside_camEast_A {"lau_w_deco_card_bedC": {"vis": true, "op": 1}, "PLATE_FACE_door_bedA": {"vis": false, "op": 1}, "PLATE_FACE_door_bedB": {"vis": false, "op": 1}, "PLATE_FACE_door_bedC": {"vis": true, "op": 1}, "WALL_bed_w_deco_card_bedA": {"vis": false, "op": 0.12}, "WALL_bed_w_deco_coat_bedB": {"vis": false, "op": 0.12}, "WALL_bed_w_deco_hook_bedB": {"vis": false, "op": 0.12}}
+living_camWest {"lau_w_deco_card_bedC": {"vis": true, "op": 1}, "PLATE_FACE_door_bedA": {"vis": true, "op": 1}, "PLATE_FACE_door_bedB": {"vis": true, "op": 1}, "PLATE_FACE_door_bedC": {"vis": true, "op": 1}, "WALL_bed_w_deco_card_bedA": {"vis": true, "op": 1}, "WALL_bed_w_deco_coat_bedB": {"vis": true, "op": 1}, "WALL_bed_w_deco_hook_bedB": {"vis": true, "op": 1}}
+cdoor {"lau_w_deco_card_bedC": {"vis": true, "op": 1}, "PLATE_FACE_door_bedA": {"vis": true, "op": 1}, "PLATE_FACE_door_bedB": {"vis": true, "op": 1}, "PLATE_FACE_door_bedC": {"vis": true, "op": 1}, "WALL_bed_w_deco_card_bedA": {"vis": true, "op": 1}, "WALL_bed_w_deco_coat_bedB": {"vis": true, "op": 1}, "WALL_bed_w_deco_hook_bedB": {"vis": true, "op": 1}}
+PASS 沒有 JS 例外  []
+ALL PASS
