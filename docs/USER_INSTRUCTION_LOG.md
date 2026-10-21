@@ -13,6 +13,16 @@
 
 ---
 
+## 2026-10-21 16:0x UTC（使用者直接對帳號 A 的 LAWWW）｜場景相關的程式修改交給 LAWWW2（D108）
+- 原話：「讓 LAWWW2 接場景相關的程式修改 可以」——回答 LAWWW 15:5x「你是瓶頸這件事有辦法透過分工解決嗎」的提議。
+- 取代：D100 第 3 點只寫「LAWWW2＝3D 美術」、程式整合全部 LAWWW 做的部分（D108）。
+- 處理：
+  - 改派 LAWWW2 10 項（DIV-LW2-SCENE-1021）：PERF-CAMPUS-SHADOW-1020（剩「卡」那一半）、BUG-CAM-C208-1021、PERF-ZONE-ENTER-1018、ART-GYM2-INT、ART-02、LIC-GAPS-1017、GRADE-GOLDEN-DEFAULT、ART-WZ6、ART-WZ7、ART-SOY1。
+  - 提議時說的「16 項」重新逐項看過，劇情流程和場景混在一起的（VAC-A2 出國接 3D 機場、DORM-Y34、BUG-ECON-HOME-SHOTS-1018）留在 LAWWW，所以是 10 項。
+  - 文字類給 AA、測試給 BB 本來就在 D100 範圍內，照提議做，不另問。
+- 紀錄：user_asks_LAWWW.json UA-LAWWW-1021-06；PROJECT_DECISIONS D108；CLAUDE.md D100 第 3 點、最上面的表。
+- 通知：LAWWW → LAWWW2（send_message，任務 ID 全列）。
+
 ## 2026-10-21 15:2x～15:3x UTC（使用者直接對帳號 A 的 LAWWW2）｜溫州街收尾、舊店面翻修恢復、黃昏收尾、「你是美術總監」
 - 原話（LAWWW2 的 `user_asks_LAWWW2.json` UA-LAWWW2-1021-08～10）：
   - 「溫州街修改直接收尾 舊店面翻修繼續」

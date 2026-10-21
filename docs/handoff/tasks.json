@@ -720,9 +720,9 @@
    "id": "ART-02",
    "title": "furniture_study 教室門模組",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "已實作待整合",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：決定：博雅／普通部分結案（被 ART-EXT-TEACH 取代），共同教學館的關門改用 furniture_study 的門片（teach3d.js:165 那段）；暫停條件「v9.10 發布後」已成立 ｜ teach3d 換門",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】共同教學館的關門換成 furniture_study 的門片（teach3d.js:165 那段） ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：決定：博雅／普通部分結案（被 ART-EXT-TEACH 取代），共同教學館的關門改用 furniture_study 的門片（teach3d.js:165 那段）；暫停條件「v9.10 發布後」已成立 ｜ teach3d 換門",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -750,7 +750,14 @@
      "evidence": "furniture_study.glb 的桌椅已接（src/teach3d.js:138-156 furnitureGLB），門模組沒有任何程式讀；博雅、普通的關門改由正式室內殼（assets3d.js:105-106 bldg.putong_interior／boya_interior，ART-EXT-TEACH）帶；共同教學館沒有室內 GLB，門仍是程序化方塊（teach3d.js:165）",
      "note": "大部分被正式室內模型取代，只剩共同教學館的門"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "LAWWW2／LAWWW2-B 交付",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "ART-03",
@@ -13637,9 +13644,9 @@
    "id": "ART-WZ6",
    "title": "故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：暫停條件的前半（v9.10 發布後）已成立：LAWWW 開工 DL-11（AA_166／AA_167、BB_148）時，把 wz6_items.glb／.json 從 focused-cray 搬進開發分支、登錄 assets3d、LICENSES 補，擺進對應店面 ｜ 等 DL-13／AA_167 溫州街故事線實作時一起放",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】故事小物件擺進對應店面（照舊等 DL-11／DL-13 溫州街故事線施工；故事線程式 LAWWW 做，擺放 LAWWW2 做） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：暫停條件的前半（v9.10 發布後）已成立：LAWWW 開工 DL-11（AA_166／AA_167、BB_148）時，把 wz6_items.glb／.json 從 focused-cray 搬進開發分支、登錄 assets3d、LICENSES 補，擺進對應店面 ｜ 等 DL-13／AA_167 溫州街故事線實作時一起放",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13656,10 +13663,10 @@
    "commit": "—",
    "xai": {
     "receiver": "LAWWW",
-    "branch": "claude/funny-albattani-iawshm",
+    "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
-    "acceptance": "遊戲內截圖、導航一致",
-    "ack": "ACTIONED"
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "ack": "SENT"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "pausedReason": "故事小物件等 DL-13／DL-11 溫州街故事線一起放",
@@ -13773,9 +13780,9 @@
    "id": "ART-WZ7",
    "title": "溫州街路邊小物（AA-B 做、LAWWW2-B 驗收 97f315ca）：安全帽、傘桶等",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：和 ART-WZ6 一起：DL-11 開工時搬進開發分支並擺上溫州街（路邊小物不依賴劇情，也可以先擺） ｜ wz7_street_props.glb 跟 DL-13／AA_167 溫州街故事線一起放",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】溫州街路邊小物擺放（同上，跟溫州街收尾 ART-WZ0 一起看能不能先放） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：和 ART-WZ6 一起：DL-11 開工時搬進開發分支並擺上溫州街（路邊小物不依賴劇情，也可以先擺） ｜ wz7_street_props.glb 跟 DL-13／AA_167 溫州街故事線一起放",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13792,10 +13799,10 @@
    "commit": "—",
    "xai": {
     "receiver": "LAWWW",
-    "branch": "claude/funny-albattani-iawshm",
+    "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作（2fc00ced）、LAWWW2-B 驗收 97f315ca",
-    "acceptance": "遊戲內截圖、導航一致",
-    "ack": "DELIVERED"
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "ack": "SENT"
    },
    "aliases": [
     "WZ7"
@@ -13888,9 +13895,9 @@
    "id": "ART-SOY1",
    "title": "豆漿店道具組（AA-B 222472d2 做、LAWWW2-B 驗收 12a33672）＋寶特瓶袋 v2（wz7_street_props）",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：DL-11 開工時一起搬進開發分支、登錄 assets3d、LICENSES；寶特瓶袋 v2 跟 ART-WZ7 一起 ｜ soy_props.glb 等豆漿店場景（AA-B 的故事線）一起放；寶特瓶袋 v2 跟 ART-WZ7 一起放",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】豆漿店道具組＋寶特瓶袋 v2 擺放（同上） ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：DL-11 開工時一起搬進開發分支、登錄 assets3d、LICENSES；寶特瓶袋 v2 跟 ART-WZ7 一起 ｜ soy_props.glb 等豆漿店場景（AA-B 的故事線）一起放；寶特瓶袋 v2 跟 ART-WZ7 一起放",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -13907,10 +13914,10 @@
    "commit": "—",
    "xai": {
     "receiver": "LAWWW",
-    "branch": "claude/funny-albattani-iawshm",
+    "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作 222472d2、寶特瓶袋 v2 6209692d",
-    "acceptance": "遊戲內截圖、導航一致",
-    "ack": "DELIVERED"
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "ack": "SENT"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "pausedReason": "豆漿店道具等溫州街故事線（DL-11）一起放",
@@ -17112,10 +17119,10 @@
    "id": "LIC-GAPS-1017",
    "title": "LICENSES.md 缺漏：ntu_gym_ceremony.webp、dorm_room4.glb（兩條分支都沒有）；gym_arena.glb、機車行道具組兩筆（只有 funny 有）",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：LICENSES.md 補三筆（來源、作者、授權照各交付紀錄）；機車行道具組進開發分支時一起補 ｜ 照各交付的來源與授權補列；機車行道具組跟 ART-BG-AA185 背景一起進開發分支時補",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】LICENSES.md 補 ntu_gym_ceremony.webp、dorm_room4.glb、gym_arena.glb、機車行道具組（來源、作者、授權照各交付紀錄） ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：LICENSES.md 補三筆（來源、作者、授權照各交付紀錄）；機車行道具組進開發分支時一起補 ｜ 照各交付的來源與授權補列；機車行道具組跟 ART-BG-AA185 背景一起進開發分支時補",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -17135,7 +17142,14 @@
      "evidence": "LICENSES.md 找不到 ntu_gym_ceremony（assets/bg/ntu_gym_ceremony.webp 在用）、dorm_room4.glb、gym_arena.glb（assets/models/env/second_ai/ 都在）；機車行道具組還沒進開發分支",
      "note": "三個素材沒有授權紀錄"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "LAWWW-B 交班補強核對（子代理比對兩條分支）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "V1-AA194-L",
@@ -20053,7 +20067,7 @@
    "id": "ART-GYM2-INT",
    "title": "新體育館 3F 主球場接成區域（gym_arena.glb；樓梯口紅龍拿掉；LICENSES 補）",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -20067,7 +20081,7 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答「開」（USER_WANTS A16）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】gym_arena.glb＋layout v3 接成 gym 3F 區域、樓梯接上、closed_3f 紅龍拿掉、LICENSES 補 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
    "pausedReason": "v9.10 範圍是經濟系＋寒暑假＋16 週（D99）；典禮已有 2D 底圖，3D 主球場不擋流程",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99；USER_WANTS A16 排「v9.10 後」）",
@@ -20080,7 +20094,14 @@
      "note": "暫停五欄齊（recheckOn「v9.10 發布當天」已過），恢復條件已成立；使用者要開的場地，模型早就交了"
     }
    ],
-   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）"
+   "resumedBy": "LAWWW-C 2026-10-21（稽核 C：暫停條件已成立）",
+   "xai": {
+    "spec": "任務總表",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SCN-US-IU-1018",
@@ -20926,7 +20947,7 @@
    "id": "PERF-ZONE-ENTER-1018",
    "title": "電腦換畫面卡一兩秒（溫州街、咖啡廳，X14）",
    "area": "P0",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -20941,7 +20962,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：用 tests/perf_scenes.py 量進溫州街、咖啡廳的模型／貼圖／shader 編譯時間，找出卡一兩秒的來源（例：區域預載、renderer.compile 預熱） ｜ v9.10.1",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】進溫州街、咖啡廳卡一兩秒：用 tests/perf_scenes.py 量模型／貼圖／shader 編譯時間，從場景素材那一邊降（貼圖壓縮、合併、預熱）；要改 engine3d.js 的載入流程先告訴 LAWWW ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：用 tests/perf_scenes.py 量進溫州街、咖啡廳的模型／貼圖／shader 編譯時間，找出卡一兩秒的來源（例：區域預載、renderer.compile 預熱） ｜ v9.10.1",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -20949,7 +20970,14 @@
      "evidence": "docs/handoff/USER_WANTS.md:90 X14「待查」；10-18 以後的效能提交只有夜間陰影（ddfd1d5e）、118 巷投影（2fb01ed0），沒有量溫州街、咖啡廳換區域的載入時間",
      "note": "換畫面卡頓還沒查"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "SYS-BOOKS-1018",
@@ -22741,7 +22769,7 @@
    "id": "GRADE-GOLDEN-DEFAULT",
    "title": "黃昏調色預設就開（使用者選「預設就開（建議）」）：用現在的版本重拍比較圖、跑回歸，把預設換成 golden",
    "area": "ART",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -22756,7 +22784,7 @@
    },
    "source": "使用者 10-18 選擇題（AA 交接 82 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接定",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22764,7 +22792,14 @@
      "evidence": "src/engine3d.js:141 E.grade 預設 null，只有網址 ?grade=golden 才用 KEYG（engine3d.js:134-152 註「使用者還沒決定，預設不開」）；CLAUDE.md 仍寫「等使用者決定」",
      "note": "使用者已選預設開，程式還是預設關"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "使用者 10-18 選擇題（AA 交接 82 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "AA-LAW-RECONFIRM",
@@ -24123,7 +24158,7 @@
    "id": "PERF-CAMPUS-SHADOW-1020",
    "title": "校園地圖卡；有些建築旁邊的影子一直閃",
    "area": "V1",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "進行中",
    "priority": "P1",
    "first": {
@@ -24138,7 +24173,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】剩下「卡」那一半：校園投影子物件 857 個、draw calls 516（BB-C 量測）——合併網格、小物件不投影、instancing；影子閃（shadowSnap，LAWWW ddfd1d5e）等真機 ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 在 SwiftShader 已無法再驗；實機（iPhone）等使用者回來看影子閃與卡不卡，再決定太陽跳動間隔 ｜ 【LAWWW-C 2026-10-20 19:0x UTC，ddfd1d5e】晚上（19:12～05:30）陰影貼圖 2 秒才重畫一次——修改前後（tests/perf_scenes.py，PERF_HOUR=19.5，修改前＝?nightshadow=full；同一台機器、Playwright SwiftShader；原始數字 docs/perf/x79_night_*.json）：校園霖澤館前 每一格 228 calls／56.5 萬三角形 → 平常一格 124／32.3 萬（−46%／−43%）；校園椰林大道 377／87.4 萬 → 302／62.5 萬（−20%／−29%）；公館捷運 229／35.8 萬 → 173／25.5 萬（−24%／−29%）；溫州街中段 陰影那一輪 85 calls（同一次量：452 → 367，−19%；兩次量的路人數不同，絕對值不能直接比）。2 秒一次的那一格和修改前一樣。白天沒有變（白天的陰影照舊每一格畫）。SwiftShader 的毫秒數不是手機的，只看 draw call、三角形。手機上實際順不順要 BB／真機看 ｜ 【10-20 14:5x 開發分支】影子閃：陰影相機的中心在光的平面對齊整格（shadowSnap）、太陽方向每 3 遊戲分鐘才換（sunAng）；tests/shadow_snap_unit.js（修改前 FAIL）。SwiftShader 看不出來，要 BB 截圖比對或真機。還沒做：「卡」——投影子物件幾百個（校園 857）、draw calls 516 ｜ 【BB-C 第二批量測】19:30 校園 516 draw calls／99 萬三角形／857 個投影子物件，公館 414／64 萬／568，溫州街 359～422／52～73 萬／335～419，Café 264，宿舍 153；影子閃＝engine3d.js 約 144 行陰影相機每幀跟著玩家、沒對齊陰影貼圖格（1024 蓋 44 m，一格約 4.3 cm）；換區域後貼圖數一路上升（只記錄） ｜ 影子閃：陰影相機跟著玩家移動時對齊貼圖格、調 bias；卡：量效能",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -24146,7 +24181,14 @@
      "evidence": "影子閃：陰影相機對齊整格、太陽方向 3 遊戲分鐘才換（tests/shadow_snap_unit.js 修改前 FAIL）；卡：晚上陰影 2 秒一畫（ddfd1d5e）、畫面外騎車路人不畫；BB 前後數字（7a9c4bdf）校園 draw call −31%～−36%；CANDIDATE_9103 第 5 列：X79 實機 NOT TESTED、白天太陽每約 7.5 秒跳一下要使用者看",
      "note": "修正與數據都有，實機沒驗"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「地圖蠻卡的 有些建築旁邊影子也一直在閃爍」",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "BUG-GYM-STAIRS-1020",
@@ -26651,10 +26693,10 @@
    "id": "BUG-CAM-C208-1021",
    "title": "美國交換 C 棟 2F 208 門口走廊 17:46 鏡頭卡進牆／屋簷：y1 方向整個畫面米色平面、y2 方向木牆擋住三分之二看不到玩家",
    "area": "BUG",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
-   "next": "【LAWWW（帳號 A）15:5x】等 BB 補拍四個方向＋19:00 的重現步驟，再查鏡頭碰撞（走廊牆、屋簷有沒有進 E.colliders）",
+   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】美國 C 棟 2F 208 門口走廊的鏡頭碰撞（走廊牆、屋簷進 E.colliders／鏡頭淡出群組）；BB 的重現：test_shots/artrev_1021/38、39；修好把 SHA 給 BB 重拍四個方向＋17:46／19:00 ｜ 【LAWWW（帳號 A）15:5x】等 BB 補拍四個方向＋19:00 的重現步驟，再查鏡頭碰撞（走廊牆、屋簷有沒有進 E.colliders）",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -26669,10 +26711,38 @@
    "authorized": "玩家看得到的畫面錯誤（D99 第三優先：美國交換）",
    "xai": {
     "spec": "BB 的重現步驟（補拍後）",
-    "branch": "claude/story-planning",
+    "branch": "claude/second-ai-env-art",
     "acceptance": "BB 同位置四個方向、17:46 與 19:00 都看得到玩家、沒有大片牆面",
     "receiver": "LAWWW",
-    "ack": "ACK"
+    "ack": "SENT"
+   }
+  },
+  {
+   "id": "DIV-LW2-SCENE-1021",
+   "title": "分工調整：場景相關的程式修改交給 LAWWW2（使用者 10-21）",
+   "area": "PROC",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "所有玩家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-21 16:0x UTC 對 LAWWW（帳號 A）：「讓 LAWWW2 接場景相關的程式修改 可以」——回答 LAWWW 15:5x 的分工提議",
+   "authorized": "使用者直接定（D108，修改 D100 第 3 點）",
+   "next": "改派 10 項（PERF-CAMPUS-SHADOW-1020、BUG-CAM-C208-1021、PERF-ZONE-ENTER-1018、ART-GYM2-INT、ART-02、LIC-GAPS-1017、GRADE-GOLDEN-DEFAULT、ART-WZ6、ART-WZ7、ART-SOY1）；LAWWW2 ACK 後結案。範圍：場景、區域、模型接線、場景鏡頭碰撞、場景效能與光影；劇情流程、事件、存檔照舊 LAWWW；共用核心檔（engine3d／game3d／story3d／character3d／assets3d）先告訴 LAWWW；LAWWW2 推自己的分支、LAWWW 合併、BB 測",
+   "xai": {
+    "spec": "使用者 10-21 原話",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "LAWWW2 ACK＋queue --owner LAWWW2 看得到 10 項",
+    "receiver": "LAWWW2",
+    "ack": "SENT"
    }
   }
  ]
