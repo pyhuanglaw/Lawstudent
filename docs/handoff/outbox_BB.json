@@ -809,36 +809,34 @@
   {
    "task": "AA368-Y0-FIX-1021",
    "branch": "claude/story-planning",
-   "sha": "8069189a",
+   "sha": "7c14dc4d",
    "files": [
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
-    "docs/story_planning/test_tools/aa300_check.py",
-    "docs/story_planning/test_tools/aa300_probe.py",
     "docs/story_planning/test_tools/aa368_probe.py"
    ],
    "state": "WIP",
-   "remaining": "aa368（N 新遊戲到 10/25、W 寒假、S 夏天到 8/30）跑中：L9b、M6、H5、M3、M4、H4、M7、M8",
-   "next": "跑完寫 BB_218、告訴 LAWWW",
+   "remaining": "M7 回程 7/26 02:10 到家（S7 排隊，從 6/7 一路玩到 7/26）",
+   "next": "S7 跑完補進 BB_218；全部 PASS 就改「已測試」",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "aa300 ff（94eba942）：H1、H2、H3、附 PASS"
+   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發、M8 PASS（2b25a509／3893c523）；M6 看不到（手機小事隔 3 天，第 8 週只剩 10/25 一格，兩輪都給了 y0_xu_alarm）——建議快過期的先排；H1、H2、H3、附 PASS（aa300 94eba942）"
   },
   {
    "task": "BB218-P3-1021",
    "branch": "claude/story-planning",
-   "sha": "8069189a",
+   "sha": "7c14dc4d",
    "files": [
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
     "docs/story_planning/test_tools/p3b_probe.py"
    ],
    "state": "WIP",
-   "remaining": "② 通知條、⑤ 舊訊息紅點（p3b 排隊）；④ 8/30 那張等 aa368 S 段",
+   "remaining": "② 通知條、⑤ 舊訊息紅點（p3b 排隊）",
    "next": "跑完寫 BB_218",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "①③⑥ PASS（aa300 ff 94eba942）"
+   "note": "①③⑥ PASS（aa300 ff 94eba942）；④ PASS（aa368 S 2b25a509：8/30 小字只剩「開車」）"
   },
   {
    "task": "BB-TEST-0830-ECONHOME-1021",
