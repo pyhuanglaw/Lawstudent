@@ -27708,7 +27708,7 @@
    "id": "BUG-HOME-FAMGROUP-NEGIDX-1021",
    "title": "home3d.js 家人群組「這週回來吃飯嗎」：新局 9/4、9/11 兩個週四 G.day 是負的，(G.day/7|0)%len 算出負索引丟例外（外層攔下只印警告），那兩週的訊息沒發",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "v1",
    "first": {
@@ -27723,7 +27723,7 @@
    },
    "source": "AA_372 子代理 2026-10-21 20:3x 順手發現（5a943046 的回報）",
    "authorized": "一般 bug 修正（D87）",
-   "next": "LAWWW 改成非負索引＋單元測試（修改前 FAIL）"
+   "next": "【LAWWW（帳號 A）20:5x】home3d.js 週數不到 0 照第 0 週＋拿不到句子不發；tests/home_famgroup_unit.js（修改前第 1 項 FAIL：9/4 沒訊息、警告 16 次；9/11 其實沒壞，(-5/7|0)＝0）；BB 新遊戲 9/4 20:00 看手機「家人」群組"
   }
  ]
 }
