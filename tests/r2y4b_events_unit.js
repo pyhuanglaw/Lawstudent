@@ -35,6 +35,7 @@ const goOut=async(id,picks)=>{ const q=OUT.get(H.G,id); H.said=[]; H.opts=[]; H.
 const grp=()=>PHONE.join(H.G,'noodle_team','麵店團');
 const contact=(...ids)=>{ for(const id of ids) INV.addContact(H.G,id); };
 const ACQ=id=>H.rel(id,8,0,0);
+const dueHas=id=>{ const now=H.G.day*24+H.G.hour; return PG.pending(H.G).some(p=>p.s.id===id&&p.t<=now+1e-6&&(!p.s.ready||p.s.ready(H.G))); };   /* PG.due 只回最早的那一件（AA_319 的放榜那幾件可能也在等）*/
 const date=id=>H.date(id);
 (async()=>{
   /* ===== 2-Y4-31 杜鵑花第四張 ===== */
@@ -298,7 +299,7 @@ const date=id=>H.date(id);
   /* ===== 2-Y4-51 一試不到 12 題：2030 重考的那一年 ===== */
   const RT={BAR_REG:true,BAR_SIT_2029:true,BAR_STAGE_2029:'none'};
   { fresh('2029-09-08',20,'dorm',Object.assign({},GD,RT)); H.FAMILIAR('zhe'); at('2029-09-08',21);
-    const s=PG.due(H.G); check('2-Y4-51 9/8 21:00：重考那一年的選擇到期（只有台灣路線、2029 一試沒過）', !!s&&s.id==='r2y4b_retake_plan'&&S.retaker(H.G)&&!S.retaker(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:'JP'})})));
+    check('2-Y4-51 9/8 21:00：重考那一年的選擇到期（只有台灣路線、2029 一試沒過）', dueHas('r2y4b_retake_plan')&&S.retaker(H.G)&&!S.retaker(Object.assign({},H.G,{flags:Object.assign({},H.G.flags,{EXCHANGE_ROUTE:'JP'})})));
     H.said=[]; H.opts=[]; H.picks=['跟阿哲一起讀']; await H.run('r2y4b_retake_plan'); at('2029-09-08',21.1); PHONE.tick(H.G);
     check('Y1 9/8「（明年八月，再一次。）」三選一（補習班／在家／跟阿哲，阿哲 FAMILIAR 以上）；阿哲「好。總圖 B1，週四照舊。」「……這次我們兩個。」；RETAKE_STYLE zhe', has('（明年八月，再一次。）')&&H.opts[0].length===3&&H.G.flags.RETAKE_STYLE==='zhe'&&th('p:zhe').includes('好。總圖 B1，週四照舊。')&&th('p:zhe').includes('……這次我們兩個。'));
     const N=[['r2y4b_rt_1020','（朋友們去考二試的那兩天，你在自習室讀民法。）'],['r2y4b_rt_1214','（群組很熱鬧。你把手機蓋起來，讀完那一章才打開。）'],['r2y4b_rt_0109','（你接了一個國中生的家教，週三晚上。）'],['r2y4b_rt_0308','（杜鵑又開了。你從椰林大道旁邊走過去，沒有停。）']];
@@ -313,11 +314,11 @@ const date=id=>H.date(id);
     check('2-Y4-51 2030-08-02 學姊的便條（「你比去年多念了一年。」）＋可昕 22:00「明天你考。」「……早點睡。我十點不打給你。」', JSON.stringify(N)===JSON.stringify(['（照片：一張手寫的便條）','（便條：「早點睡。」「你比去年多念了一年。」）'])&&JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['明天你考。','……早點睡。我十點不打給你。'])); }
   /* ===== 2-Y4-52 交換延畢 Y5S1 ===== */
   { fresh('2029-09-03',8,'dorm',Object.assign({Y4_PATH:'grad'},GD),'JP'); H.FAMILIAR('classmate_mingxuan'); at('2029-09-03',9);
-    check('2-Y4-52 9/3 開學那天：這學期怎麼過（只有日本、美國路線）', PG.due(H.G)&&PG.due(H.G).id==='r2y4b_y5_plan');
+    check('2-Y4-52 9/3 開學那天：這學期怎麼過（只有日本、美國路線）', dueHas('r2y4b_y5_plan'));
     H.said=[]; H.opts=[]; H.picks=[0]; await H.run('r2y4b_y5_plan');
     check('2-Y4-52「（這學期，只有週二要去實習。其他的日子——）」三選一；「去總圖讀書。」→ Y5_DAYS study', has('（這學期，只有週二要去實習。其他的日子——）')&&JSON.stringify(H.opts[0])===JSON.stringify(['「去總圖讀書。」','「接家教，存一點錢。」','「在家準備國考。」'])&&H.G.flags.Y5_DAYS==='study');
     const IT=[['r2y4b_y5_intern1','2029-09-11',['（卷宗有三公分厚。你影印了兩個小時。）','影完了？好。現在讀第一頁。']],['r2y4b_y5_intern2','2029-10-16',['（一位阿伯在走廊的塑膠椅上坐了一個早上。）','我不急。我只是想問，要等多久。','我去問。','（四十分鐘。他說：好，知道就好。）']],['r2y4b_y5_intern3','2029-11-20',['（當事人講到一半，你想插話。）','（小聲）先聽他說完。','（他講了很久。你記了兩頁，律師只圈了最後三行。）']]];
-    let okI=true; for(const [id,k,L] of IT){ at(k,10); if(!PG.due(H.G)||PG.due(H.G).id!==id) okI=false; H.said=[]; await H.run(id); if(!L.every(has)) okI=false; if(H.said.some(s=>/以安|小安/.test(s.who||''))) okI=false; }
+    let okI=true; for(const [id,k,L] of IT){ at(k,10); if(!dueHas(id)) okI=false; H.said=[]; await H.run(id); if(!L.every(has)) okI=false; if(H.said.some(s=>/以安|小安/.test(s.who||''))) okI=false; }
     check('X1 三件實習（9/11、10/16、11/20 週二 10:00）：AA_181 X7 原句；律師、阿伯不具名；沒有以安；Y5_INTERN [1,2,3]', okI&&JSON.stringify(H.G.flags.Y5_INTERN)==='[1,2,3]');
     at('2029-10-15',21); pg(); check('2-Y4-52 10 月明軒（FAMILIAR 以上）：「（照片：宿舍窗外的樹都黃了）」「這裡十月就要穿大衣了。」', JSON.stringify(th('p:classmate_mingxuan'))===JSON.stringify(['（照片：宿舍窗外的樹都黃了）','這裡十月就要穿大衣了。']));
     at('2030-01-21',10); H.said=[]; await H.run('r2y4b_y5_cert'); at('2030-01-21',12.1); PHONE.tick(H.G);
@@ -325,11 +326,11 @@ const date=id=>H.date(id);
     at('2030-02-16',9); H.said=[]; await H.run('r2y4b_grad_exam_2030'); at('2030-03-15',15); H.said=[]; await H.run('r2y4b_grad_result_2030');
     check('X2 2030-02-16 筆試（黑幕兩節、字卡「考場」、沒有以安）→ 3/15 放榜：Y5S1 選了去總圖（一週 4 天）＝上；GRAD_ADMIT exam', H.G.flags.GRAD_EXAM_2030===true&&H.G.flags.GRAD_EXAM_RESULT==='pass'&&H.G.flags.GRAD_ADMIT==='exam'&&th('sys').includes('研究所放榜：法律學研究所，錄取。')); }
   { fresh('2030-02-16',8,'dorm',Object.assign({Y4_PATH:'grad',Y5_DAYS:'work'},GD),'US'); at('2030-02-16',9); H.said=[]; H.cards=[];
-    check('2-Y4-52 2030 筆試只給交換延畢、選②、還沒上的', S.gradExam2030Due(H.G)&&PG.due(H.G)&&PG.due(H.G).id==='r2y4b_grad_exam_2030');
+    check('2-Y4-52 2030 筆試只給交換延畢、選②、還沒上的', S.gradExam2030Due(H.G)&&dueHas('r2y4b_grad_exam_2030'));
     await H.run('r2y4b_grad_exam_2030');
     check('2-Y4-52 筆試：字卡「考場」、旁白「（兩節。第二節最後一題，你寫到鐘響。）」', H.cards.some(c=>c[0]==='考場')&&has('（兩節。第二節最後一題，你寫到鐘響。）'));
     at('2030-03-15',15); await H.run('r2y4b_grad_result_2030'); at('2030-03-15',21);
-    check('2-Y4-52 選了家教、總圖天數不到 24＝沒上；21:00 二選一到期', H.G.flags.GRAD_EXAM_RESULT==='fail'&&PG.due(H.G)&&PG.due(H.G).id==='r2y4b_grad_retry_2030');
+    check('2-Y4-52 選了家教、總圖天數不到 24＝沒上；21:00 二選一到期', H.G.flags.GRAD_EXAM_RESULT==='fail'&&dueHas('r2y4b_grad_retry_2030'));
     H.said=[]; H.picks=[0]; await H.run('r2y4b_grad_retry_2030'); at('2031-02-15',9); await H.run('r2y4b_grad_exam_2031');
     check('2-Y4-52「明年再考。」→ 2031-02-15 再考，上了', H.G.flags.GRAD_RETRY2===true&&H.G.flags.GRAD_EXAM_2031===true&&H.G.flags.GRAD_EXAM_RESULT==='pass'&&H.G.flags.GRAD_ADMIT==='exam'); }
   { fresh('2029-09-03',8,'dorm',Object.assign({Y4_PATH:'grad'},GD)); at('2029-09-03',9);
