@@ -111,6 +111,17 @@
    "task": "SKYBRIDGE-DOOR-1020",
    "src": "LAWWW2-C 對話",
    "note": "補充上一則：問題是門，不是路；LAWWW2-C c77e68a2 接進開發分支 5a6990dd"
+  },
+  {
+   "id": "UA-LAWWW2-1021-01",
+   "at": "2026-10-21T08:43",
+   "quote": "LAWWW2：清查所有未完成的建築、室內空間、模型、導航、碰撞、燈光及效能工作，包括過往各帳號留下的 WIP……不要只相信任務表的狀態，要比對實際程式碼、事件資料、提交紀錄與測試證據……模擬器測試、單元測試及實際瀏覽器流程測試要分開記錄……不得宣稱已完成未執行的 iPhone 實機驗收。（全文在開發分支 docs/handoff/user_asks_LAWWW.json UA-LAWWW-1021-02）",
+   "kind": "原話（LAWWW-C 轉，LAWWW2-C 已核對開發分支 cbe8cb4c 的原文）",
+   "status": "進行中",
+   "wants": "X88",
+   "task": "BACKLOG-SWEEP-LAWWW2-1021",
+   "src": "LAWWW-C 08:44Z send_message（P0）",
+   "note": "原本的開發不停：佇列 男一舍 5 層 → 日本學期優先 1 → ART-BALCONY-POTS，清查穿插做；證據寫 outbox_LAWWW2.json，沒做完的排佇列"
   }
  ]
 }
