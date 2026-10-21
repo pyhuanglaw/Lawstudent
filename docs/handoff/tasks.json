@@ -24878,7 +24878,7 @@
    },
    "source": "使用者 10-20 16:0x 對 AA（AA user_asks UA-AA-1020-30）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（施工驗收看各 EVPKG-* 與 BB 清單；只剩 2-Y4-47「延後的回答」PROPOSAL 等使用者）｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA 的部分已交齊（AA-C 清查）；整合在各 EVPKG-* 和 AA336～AA344 的合併，等 BB 驗收 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：AA 的部分（事件包 AA_316～AA_328、AA_335～AA_341）都交了；施工狀態看各 EVPKG-* 任務 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA_344（569621e0）覆核 AA_314 第 4 節 14 項：12 項已照新規則、沛珊台南在 PS-TAINAN-AA282；五件小改 ①② 已改（6026c0ce），③④⑤ 和 AA_343 B7 更正在 AA343 子代理 ｜ AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
+   "next": "【LAWWW（帳號 A）16:2x】AA_334 三題使用者確認：第 1 節→AA334-S1-PS-1021、第 4 節→AA334-S4-ZR-1021、第 3 節不改 ｜ 【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（施工驗收看各 EVPKG-* 與 BB 清單；只剩 2-Y4-47「延後的回答」PROPOSAL 等使用者）｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA 的部分已交齊（AA-C 清查）；整合在各 EVPKG-* 和 AA336～AA344 的合併，等 BB 驗收 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA-C 清查：AA 的部分（事件包 AA_316～AA_328、AA_335～AA_341）都交了；施工狀態看各 EVPKG-* 任務 ｜ 【LAWWW-C 2026-10-21 09:3x UTC】AA_344（569621e0）覆核 AA_314 第 4 節 14 項：12 項已照新規則、沛珊台南在 PS-TAINAN-AA282；五件小改 ①② 已改（6026c0ce），③④⑤ 和 AA_343 B7 更正在 AA343 子代理 ｜ AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
    "xai": {
     "spec": "AA_314（施工順序）",
     "owner": "AA",
@@ -26896,6 +26896,48 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA334-S1-PS-1021",
+   "title": "AA_334 第 1 節：沛珊大一上期末就能交往——大一下柏翰三場（ev_midterm_supper_y1s2、ev_peishan_bohan_w4、ps_split_group）加 unless dating_classmate_peishan；partner「沒和玩家交往」才是柏翰",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上期末（沛珊告白）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
+   "authorized": "使用者選擇題（UA-AA-1020-33 confirmed）",
+   "next": "照 AA_334 第 1 節；和 AA245-PSBH（沛珊×柏翰沒在一起的版本）一起看；不在三個優先項目裡，照佇列排"
+  },
+  {
+   "id": "AA334-S4-ZR-1021",
+   "title": "AA_334 第 4 節：芷若晚一點的窗口——6/19 F3 多一個不發生的情況、8/26「我先收著」記 ZR_STUB_KEPT、2029-09-01 延後的回答改看 ZR_STUB_KEPT＋單身、杯子小字「寄放的那張，還在嗎？」",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y2S2",
+    "week": null,
+    "earliest": "6/19 方奕廷 F3",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "企劃線 docs/story_planning/AA_334_等使用者的四件_AI解讀版.md；使用者選擇題確認 UA-AA-1020-33／35（19b1a129，AA 16:15 轉）",
+   "authorized": "使用者選擇題（UA-AA-1020-35 confirmed）",
+   "next": "照 AA_334 第 4 節；第 3 節 Z13 拒絕後照現在、不改；不在三個優先項目裡，照佇列排"
   }
  ]
 }
