@@ -84,6 +84,9 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
   { const run=async route=>{ grad('2029-09-03',9,{EXCHANGE_ROUTE:route}); H.said=[]; H.picks=[0]; await R2Y4B.y5Plan(GM); return H.said.map(s=>s.t); };
     const us=await run('US'), jp=await run('JP');
     check('G4. 9/3 那一句分路線：美國「（這學期，週二去實習，週一、週三補兩門課。其他的日子——）」；日本照原句',us[0]==='（這學期，週二去實習，週一、週三補兩門課。其他的日子——）'&&jp[0]==='（這學期，只有週二要去實習。其他的日子——）',JSON.stringify([us[0],jp[0]])); }
+  { const h=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), y=h.indexOf('src/y5s1_3d.js');
+    check('G4. 接線：index.html 載入 src/y5s1_3d.js（在 classes3d、home3d、termend3d、postgrad3d、r2y4b3d、us_life3d 之後、GAME.boot 之前）',
+      y>0&&['src/classes3d.js','src/home3d.js','src/termend3d.js','src/postgrad3d.js','src/r2y4b3d.js','src/us_life3d.js'].every(f=>h.indexOf(f)>0&&h.indexOf(f)<y)&&y<h.indexOf('GAME.boot()')); }
   { check('G4. CALENDAR 有 2030 的農曆節日（除夕 2/2、初一 2/3；中秋 9/12）',CALENDAR.holiday(D('2030-02-02'))==='除夕'&&CALENDAR.holiday(D('2030-02-03'))==='春節'&&CALENDAR.holiday(D('2030-09-12'))==='中秋節',[CALENDAR.holiday(D('2030-02-02')),CALENDAR.holiday(D('2030-02-03')),CALENDAR.holiday(D('2030-09-12'))].join(',')); }
   // ===== G5-4 跳日期那一句（AA_357 第 4 節、AA_353 第 3 節；AA_355 第 5 節第 2 題：一跳出最後一句）=====
   { const cl=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
@@ -183,4 +186,4 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
       !U.err&&JSON.stringify(U.lines)===JSON.stringify(ue)&&U.stops.some(s=>/^te_kx_Y5S1@2029-12-2[123]$/.test(s))&&PG.done(U.G,'y5_intern4'),(U.err?U.err.stack:'')+JSON.stringify(U.lines)+JSON.stringify(U.stops)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
-// 修改前（開發分支 f0dcc337，scratchpad 的乾淨副本）：36 項全部 FAIL（G1 8、G2 3、G3 5、G4 6、G5 14）。
+// 修改前（開發分支 f0dcc337，scratchpad 的乾淨副本）：37 項全部 FAIL（G1 8、G2 3、G3 5、G4 7、G5 14）。
