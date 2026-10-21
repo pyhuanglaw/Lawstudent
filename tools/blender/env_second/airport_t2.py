@@ -79,16 +79,16 @@ AIRL = {'lumen': (0.0, 0.5, 0.5, 1.0), 'kite': (0.5, 0.5, 1.0, 1.0), 'nanfeng': 
 M = {'floor': L.pbr('ap_floor', 'granite_tile', tile=1.6, target='#cfcdc7', contrast=0.5, normal=0.12, maps=('diff', 'nor'), res=512, rough_value=0.2),
      'floorD': L.pbr('ap_floor_band', 'granite_tile', tile=1.6, target='#5d5e60', contrast=0.6, maps=('diff',), res=256, rough_value=0.22),
      'wall': L.pbr('ap_wall', 'white_plaster_02', tile=2.4, target='#e8e6e0', contrast=0.2, normal=0.06, maps=('diff', 'nor'), res=256, rough_value=0.8),
-     'panel': L.flat('ap_wall_panel', '#3a3e42', rough=0.45, metal=0.2),
+     'panel': L.flat('ap_wall_panel', '#575c61', rough=0.55),   # 報到島背牆、燈箱框：烤漆深灰（ART-VAC-AIRPORT-1021：原本 #3a3e42＋金屬 0.2，遊戲沒有環境貼圖，看起來是一片黑洞）
      'ceil': img_mat('ap_ceiling', 'ap_ceiling.png', rough=0.4, nor='ap_ceiling_nor.png'),
      'white': L.flat('ap_white', '#ecebe7', rough=0.4),
      'col': L.flat('ap_column', '#eeeeea', rough=0.35),
      'steel': L.flat('ap_steel', '#b9bcc0', rough=0.3, metal=0.45),
-     'mull': L.flat('ap_mullion', '#4a4e52', rough=0.35, metal=0.35),
+     'mull': L.flat('ap_mullion', '#8a8f94', rough=0.35, metal=0.3),   # 帷幕、門的框：陽極鋁灰（原本 #4a4e52＋金屬 0.35，近看一根黑柱）
      'glass': L.flat('ck_glass', '#dfe9ec', rough=0.05, alpha=0.16),
      'frost': L.flat('GLOW_ap_frosted', '#eef2f2', rough=0.3, emit=B.srgb('#c8d2d6'), alpha=0.85),
      'top': L.pbr('ap_counter_top', 'granite_tile_03', tile=0.8, target='#4a4a4c', normal=0.15, maps=('diff', 'nor'), res=256, rough_value=0.25),
-     'rubber': L.flat('ap_belt', '#1c1d1f', rough=0.8),
+     'rubber': L.flat('ap_belt', '#2c2e31', rough=0.85),   # 輸送帶：深橡膠灰（原本 #1c1d1f，看起來是挖空的黑方塊）
      'seat': L.flat('ap_seat', '#26282b', rough=0.5),
      'belt': L.flat('ap_queue_belt', '#24427a', rough=0.6),
      'down': L.flat('GLOW_ap_downlight', '#ffffff', rough=0.3, emit=B.srgb('#fff6e6')),
@@ -310,6 +310,10 @@ if AREA == 'dep':
     for isl in J['islands']:
         x, z0, z1, w, sp = isl['x'], isl['z0'], isl['z1'], isl['w'], isl['spine']
         pn.box(x - sp / 2, x + sp / 2, 0.0, 3.2, z0, z1)                                             # 背牆
+        for s in (-1, 1):                                                                            # 背牆的鋁收邊：每 1.2 m 一道直的、頂邊一道（板材的分割，看得出尺度）
+            xf = x + s * sp / 2; zz = z0 + 0.6
+            while zz < z1 - 0.3: mu.box(min(xf, xf + s * 0.012), max(xf, xf + s * 0.012), 0.1, 3.2, zz - 0.02, zz + 0.02); zz += 1.2
+        mu.box(x - sp / 2 - 0.015, x + sp / 2 + 0.015, 3.17, 3.22, z0 - 0.015, z1 + 0.015)
         for s in (-1, 1):
             xb0 = x + s * sp / 2
             st.box(min(xb0, xb0 + s * 0.75), max(xb0, xb0 + s * 0.75), 0.0, 0.45, z0, z1)          # 行李輸送帶（送進背牆）
