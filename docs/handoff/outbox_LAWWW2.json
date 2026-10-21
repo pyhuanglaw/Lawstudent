@@ -1110,6 +1110,18 @@
    "state": "MODEL_READY＋patch（index.html 兩行、src/jp_dorm3d.js、src/data/jp_dorm_layouts.js 新檔）；測試工作樹 INTEGRATED：reachability_all --zones jp_room ALL PASS（改之前窗外 FAIL；Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW",
    "remaining": "2D 據點從哪裡進 3D 房間（LAWWW-C 決定）；看的字等 AA；共用廚房、大廳、宿舍門口照使用者指示維持 2D",
    "next": "LAWWW-C 決定接法、套 patch；BB-C 畫面驗收"
+  },
+  {
+   "task": "ART-PS-SKIRT-HAND：沛珊走路、上樓梯時手穿過長裙（LAWWW-C 10-21 09:29Z 派；D100a）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/ps_skirt_hand_1021.diff",
+    "docs/art-rebuild/second_ai/test_shots/ps_skirt_hand_1021/README.md"
+   ],
+   "state": "手的部分修好：manifest armOut 9°／armBack 0.45／armFwd 0.15＋character3d.js VRM driver 每幀調上臂（只有沛珊有參數）。量測：手離裙面最差 −2.2 cm → +10.1 cm、不到 3 cm 的取樣 15→0（Playwright，不是 iPhone）。發現截圖裡最明顯的粉紅色是左小腿從裙子前面穿出來（不是手），這次沒修",
+   "remaining": "腿穿出裙子：改 long_skirt_weights、重建 VRM（BB 要再看）",
+   "next": "LAWWW-C 套 patch、用遊戲內截圖驗收；LAWWW2 接著做 PS-SKIRT-LEG"
   }
  ]
 }
