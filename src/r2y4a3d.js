@@ -8,6 +8,8 @@
      21:30 還沒到＝帶到場；挽回中 20:00 自動到場、REPAIR ≥ 3 才重新開始）；12/13 21:00 → 12/14 19:00 會所晚餐；12/16 07:00 社區門口（鬧鐘 06:30）→ 交往中舊金山一週／挽回中布魯明頓三天
      → 12/21 起飛 → 12/23 05:40 桃園入境大廳 → 家 → 19:00 409（story3d.js roomY4FromAirport）→ 20:00 阿凱。
    REPAIR（BB_194 §8、BB_204 第 4 節對照）：G.flags.REPAIR={heroine_05:n}，一週最多 +1（抵達後第幾週，STORY.routeWeek）。+1 的地方：US2「還沒。」、群組裡芝加哥的邀約有回、US3「那妳想因為什麼？」。
+   大四上、寒假（臺灣這邊）：phoneY4／phoneY4b／phoneY4c（邀約、出遊、沒去的訊息、照片；美國路線只有照片，照當地時間）；tickTW（明信片、總圖三樓期刊架、10/26 面試與 2/3 筆試的目標和帶到場、
+     寒假總圖那兩句）；在家被帶到場借 STORY.y4HomeDue／y4FromHome（home3d.js 的 loop）；寒假快轉的停點 HOME.STOPS；閒聊階梯 LADDER_HOLD（Y7-L3、A7-L6）。
    測試：node tests/r2y4a_events_unit.js */
 'use strict';
 const R2Y4A=(function(){

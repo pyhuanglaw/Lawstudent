@@ -5,6 +5,9 @@
      17 US2：ev_us2_kitchen（交往中：坐到 C 棟 208 窗口的高腳椅＝開始）、ev_us2_repair（挽回中：19:00 前後還鍋子）
      18 芝加哥：ev_us_chicago（11/11）＋ev_us_chicago2（11/12 博物館、回程）　19 US3：ev_us3_lake　20 初雪：ev_us_first_snow（交往中）、ev_us_snow_repair（挽回中）
      21 會所晚餐：ev_us_club_dinner　22 離開：ev_us_leave → 交往中 ev_sf1、ev_sf_photo17、ev_sf2、ev_sf_photo19、ev_sf3、ev_sf_photo21／挽回中 ev_us_bloom16、18、20、ev_us_bus21 → ev_us_return（桃園）→ ev_us_home
+   大四上（臺灣這邊）：01 ev_y4_welcome　02 ev_y4_typhoon_noodle　03 ev_y4_midautumn　04 ev_y4_path_again（換台詞）　05 ev_yt_essay　06 ev_push_interview、ev_bh_dinner　07 ev_fair_booth_y4（_pass）
+     08 ev_plg_handover　09 ev_yt_share_time　10 ev_y4_xmas　11 明信片資料 R2Y4A_EVENTS.PC2　12 ev_back_home_cafe　13 ev_kexin_study_really（_lib、_us）　14 ev_kexin_two_directions　15 ev_kexin_intern_result
+   大四寒假：23 ev_sis_pickup　24 ev_kexin_xmas_y4　25 只有手機　26 ev_kexin_trip_winter_y4　27 ev_grad_exam、ev_grad_exam_after　28 ev_kexin_lunar_eve_y4_call　29 ev_kexin_valentine_y4
    「交往中」＝當天 dating_heroine_05；「挽回中」＝分開了、還沒重新開始（AA_327 美國路線的共通）。何俊朗 1～5 是第 3 輪（還沒有）：MET_LONG 沒有＝他的句子照 AA 寫的「沒有 MET_LONG」那一版。
    CG：CG_REGISTRY 有才放（hasCG）；BCG-14、BCG-32、BCG-23 要重畫（BB_183 1-4、1-5、1-7：舊圖是冬天、二月的窗外、結冰的湖），AA_327 寫「重畫以前不放」——
      重畫的圖登錄時在 CG_REGISTRY 那一列加 redrawn:true（或從下面的 REDRAW 拿掉）才放。測試：node tests/r2y4a_events_unit.js */
