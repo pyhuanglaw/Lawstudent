@@ -1,0 +1,28 @@
+SHA f72a2a21 start 12:21:37
+deploy_check exit=0 2min ALL PASS
+smoke_release exit=1 4min FAILED: 新遊戲：搖桿走得動, 進到 201, 走到座位旁邊, 出現「坐下」, 坐下後第一個選項是「上課：民法總則」, 上完課：記出席（民法總則 1 次）、時間�
+flow_v0_start exit=1 7min FAILED: 9/2（一）早上：起床選單有「直接去上課」
+flow_main_day12 exit=0 16min ALL PASS
+flow_camp_y1 exit=0 4min ALL PASS
+save_compat_main exit=0 4min ALL PASS
+save_compat_start1 exit=1 6min FAILED: 這是 v9.9.1（標題畫面的版本字樣）, 舊版開新遊戲、點完開場、自動存檔（第 1 天晚上、沒有 MAIN_D1）, 「繼續」（真的按鈕）讀第 1 天晚上：第 1
+dorm_start_memory exit=0 1min ALL PASS
+zone_memory exit=0 1min ALL PASS
+zone_transitions exit=0 1min ALL PASS
+p0_movement exit=0 3min RESULT: ALL PASS
+minimap_direction exit=0 1min ALL PASS
+joystick_direction exit=0 6min ALL PASS
+touch_flow_wenzhou exit=1 3min FAILED: Café 裡有沈以安（正式模型）
+flow_class_real exit=0 4min ALL PASS
+flow_linze_floors exit=0 10min ALL PASS
+map_canvas_leak exit=0 1min ALL PASS
+flow_trip_date exit=0 1min ALL PASS
+flow_exam_terms exit=143 27min   [前置／捷徑] Y2S1 讀檔到 2026-12-21 07:40 宿舍（行政法 期末考那天）
+reachability_all exit=0 4min ALL PASS
+end 14:18:22
+DONE f72a2a21
+smoke_release_v2 exit=1 4min FAILED: 新遊戲：搖桿走得動
+flow_v0_start_v2 exit=1 12min FAILED: 9/2（一）早上阿勳那兩句（E01_MORNING）→ 事件接事件（D102）帶到 12:15 開學典禮（ev_y0_e02）演完、恢復控制；沒有起床選單
+RERUN DONE
+save_compat_start1_v991 exit=0 5min ALL PASS
+START1 DONE

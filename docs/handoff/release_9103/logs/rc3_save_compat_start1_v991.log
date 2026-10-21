@@ -1,0 +1,36 @@
+PASS 舊版載入
+PASS 這是 v9.9.1（標題畫面的版本字樣）  有人物與故事皆為虛構。
+    版本 v9.9.1（2026-10-16）
+  
+PASS 舊版開新遊戲、點完開場、自動存檔（第 1 天晚上、沒有 MAIN_D1）  {"day": 1, "hour": 21.215, "zone": "dorm"}
+PASS 舊版做出大一上七個存檔  w3: 第 3 天, w4: 第 8 天, w6: 第 21 天, w9: 第 43 天, w12: 第 65 天, w16: 第 90 天, w18: 第 108 天
+PASS 舊版沒有 JS 例外  []
+PASS 舊版（?y0）載入
+PASS 舊版經濟系開局：stage econ、負的天數  {"day": -379, "hour": 7.02, "zone": "dorm", "stage": "econ", "m1": null, "mf": null, "ls": null, "opening": false, "intro": false, "metAn": false}
+PASS 舊版經濟系 8/30 晚上的存檔  {"stage": "econ", "day": -17, "hour": 22.512, "zone": "dorm"}
+PASS 新版載入
+PASS 標題畫面停 6 秒：舊版的自動存檔沒有被改寫
+PASS 「繼續」（真的按鈕）讀第 1 天晚上：第 1 天、宿舍、mainD1＝1、沒有 MAIN_D1  {"day": 1, "hour": 21.22, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": true, "intro": true, "metAn": false}
+PASS 第 1 天晚上讀進來不重播宿舍第一晚（沒有「第一天」標題卡、沒有開場旁白）  [[], []]
+PASS [前置／捷徑 applySave] night1：天數、時間、地點照存檔，mainD1＝1  {"day": 1, "hour": 21.23, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": true, "intro": true, "metAn": false}
+PASS [前置／捷徑 sleepNow] night1：睡到第 2 天，主線照常接「第二天」13:05 校園（舊局不變），沒有重播第一天  [{"day": 2, "hour": 13.06, "zone": "campus", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": true, "intro": true, "metAn": false}, ["第二天"], []]
+PASS [前置／捷徑 applySave] w3：天數、時間、地點照存檔，mainD1＝1  {"day": 3, "hour": 10.52, "zone": "campus", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w3：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 4, "hour": 7.5, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["9 月 20 日"], []]
+PASS [前置／捷徑 applySave] w4：天數、時間、地點照存檔，mainD1＝1  {"day": 8, "hour": 12.22, "zone": "campus", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w4：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 9, "hour": 7.51, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["9 月 25 日"], []]
+PASS [前置／捷徑 applySave] w6：天數、時間、地點照存檔，mainD1＝1  {"day": 21, "hour": 21.03, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w6：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 22, "hour": 7.51, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["10 月 8 日"], []]
+PASS [前置／捷徑 applySave] w9：天數、時間、地點照存檔，mainD1＝1  {"day": 43, "hour": 22.03, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w9：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 44, "hour": 7.51, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["10 月 30 日"], []]
+PASS [前置／捷徑 applySave] w12：天數、時間、地點照存檔，mainD1＝1  {"day": 65, "hour": 16.02, "zone": "campus", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w12：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 66, "hour": 7.51, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["11 月 21 日"], []]
+PASS [前置／捷徑 applySave] w16：天數、時間、地點照存檔，mainD1＝1  {"day": 90, "hour": 21.52, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w16：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 91, "hour": 7.5, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["12 月 16 日"], []]
+PASS [前置／捷徑 applySave] w18：天數、時間、地點照存檔，mainD1＝1  {"day": 108, "hour": 21.51, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}
+PASS [前置／捷徑 sleepNow] w18：睡到隔天早上，天數 +1、沒有重播主線  [{"day": 109, "hour": 7.5, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": false, "intro": true, "metAn": true}, ["1 月 3 日"], []]
+PASS 新版讀大一上存檔、推進一天：沒有 JS 例外  []
+PASS 經濟系 8/30 存檔 → 轉進法律系（預設：讀檔就轉，留在 8/30～8/31，不倒退回 8/29）：mainD1 -13  {"day": -16, "hour": 22.67, "zone": "dorm", "stage": "law", "m1": -13, "mf": -13, "ls": -18, "opening": false, "intro": false, "metAn": false}
+PASS 經濟系轉場（預設）沒有 JS 例外  []
+PASS 經濟系 8/30 存檔 → 轉進法律系（?start0 舊開局：睡到 8/31 才轉、第 1 天）：mainD1 1  {"day": 1, "hour": 21.21, "zone": "dorm", "stage": "law", "m1": 1, "mf": null, "ls": null, "opening": true, "intro": true, "metAn": false}
+PASS 經濟系轉場（?start0）沒有 JS 例外  []
+ALL PASS

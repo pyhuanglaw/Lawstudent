@@ -1,0 +1,26 @@
+PASS 遊戲載入（標題畫面）
+PASS 標題畫面有「開始新的一天」
+PASS 新遊戲：宿舍開場演完、恢復控制  {"zone": "dorm", "x": 0, "z": 2.4, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "走出房間", "hour": 21.21, "stand": true, "camYaw": -2.743, "fallbacks": 0, "y": 0, "lv": 0, "frame": 957, "paused": false}
+  [D103] 新遊戲開場演完：手機自動打開（要回覆的訊息）→ 按「收起來」1 次
+PASS 新遊戲開場演完：自動打開的手機收得起來、遊戲恢復
+FAIL 新遊戲：搖桿走得動  走了 0.33 m（推 4 次）
+PASS 打開手機
+PASS 手機每個分頁都打得開、有內容（today、week、places、events、msg、friends、album）  空的：
+PASS 手機關得掉
+  [前置／捷徑] 讀檔：第 9 天（9/25 週四）12:55，霖澤館二樓 201 門口；第一、二天主線已過
+  [D103] 讀檔到 201 門口：手機自動打開（要回覆的訊息）→ 按「收起來」1 次
+PASS 讀檔到 201 門口：自動打開的手機收得起來、遊戲恢復
+PASS 門口出現「進入 201」  {"zone": "linze", "x": -2, "z": -6, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "進入 201 階梯教室", "hour": 12.96, "stand": true, "camYaw": 6.282, "fallbacks": 0, "y": 4.2, "lv": 1, "frame": 1055, "paused": false}
+PASS 進到 201  {"zone": "classroom", "x": 0, "z": 7, "ry": 3.14, "busy": false, "pose": "idle", "path": 0, "dlg": false, "dtext": "（他把耳機戴回去。）", "choices": 0, "interact": "和賴宥辰說話", "hour": 12.97, "stand": true, "camYaw": 6.283, "fallbacks": 0, "y": 1.8, "lv": 0, "frame": 1065, "paused": false}
+  [ 156.7s] 到達「座位」附近（0.16 m）：點地面 1 次、轉鏡頭 0 次、搖桿 0 次，28 秒
+PASS 走到座位旁邊
+PASS 出現「坐下」  坐下
+PASS 坐下後第一個選項是「上課：民法總則」  上課：民法總則13:20–15:10　快轉到下課（點對話可以略過）
+PASS 上完課：記出席（民法總則 1 次）、時間到下課  {"done": ["9:civ_general:pm1"], "attend": {"civ_general": 1}, "hour": 15.17, "day": 9, "zone": "classroom"}
+PASS BUG-15：坐在座位上課，課後以安的報告分工有演（ev_an_report_split）
+PASS 選單存到欄位 1
+PASS 重新整理後載入
+PASS 讀取欄位 1：天數、地點、課表紀錄一樣  {'done': ['9:civ_general:pm1'], 'attend': {'civ_general': 1}, 'hour': 15.17, 'day': 9, 'zone': 'classroom'} → {'done': ['9:civ_general:pm1'], 'attend': {'civ_general': 1}, 'hour': 15.2, 'day': 9, 'zone': 'classroom'}
+PASS 讀檔後搖桿走得動（四個方向裡至少一個）  (0,-40) 0.00 m、(0,40) 0.09 m、(40,0) 2.70 m；{"zone": "classroom", "x": 1.95, "z": 1.09, "stand": true, "busy": false, "pose": "walk"}
+PASS 全程沒有 JS 例外  []
+FAILED: 新遊戲：搖桿走得動

@@ -46,3 +46,7 @@ git worktree add <資料夾> wip/dorm-hall
 ## wip_subagents_1020_2035.bundle（LAWWW-C 2026-10-20 20:35 UTC，容器重啟以後）
 子代理在 worktree 分支上的半成品（還沒合併進開發分支）：第 2 輪大三前後半（AA_326）、大四前後半（AA_327，含美國路線 US1～US4 c2ba77f3）、第 3 輪（AA_328）、CG 第二批腳本、多功能教室／202 美術、507／409 拆箱小道具。
 還原：`git fetch wip_backup/wip_subagents_1020_2035.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/worktree-agent-<id>`。這些都已經交給新的子代理接著做；合併進開發分支以後這個檔可以刪。
+
+## wip_subagents_1021_1500.bundle（LAWWW-C 2026-10-21 14:5x UTC，使用者「現在正式交班」）
+子代理 a73c8f28（AA 回覆小修 A～E）被停在 `8a9a5e5a`（分支 `worktree-agent-a73c8f28082f050ca`，最上面還有一個合併開發分支的 `bcbc0c82`）：A 組 AA_242 第 12 節 `d5d7e526`（測試先寫 `d4ae2af9`）、B 組日本宿舍「你的房間」三個「看」`16e97be8`、C 組 AA_355 第 5 節 `cb29c54f`、D 組 AA_358 第 2 節 `8a9a5e5a`；E 組（AA_350 第 9 節）沒做。**沒合併進開發分支、LAWWW 沒驗過**（WIP-LAWWW-AAFIX-1021）。
+還原：`git fetch wip_backup/wip_subagents_1021_1500.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/worktree-agent-a73c8f28082f050ca`；合併前跑它改過的那些單元測試（vac_c16_c18、aa355、aa358、jp_semester、termend 等）。合併進開發分支以後這個檔可以刪。
