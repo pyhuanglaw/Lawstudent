@@ -34,6 +34,7 @@ const USL=(function(){
   const isUS=G=>!!G&&!!G.flags&&law(G)&&!!STORY.route&&STORY.route(G)==='US';
   const dating=US_LIFE_EVENTS.dating, LONG=US_LIFE_EVENTS.LONG;
   const done=(G,id)=>!!(G.events&&G.events.done&&G.events.done[id]);
+  const stageAt=(id,lv)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&!!SOCIAL.stage&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(lv);   /* 同 r2y4a3d.js */
   const evOf=id=>STORY_EVENTS.find(e=>e.id===id)||null;
   const run=(id,o)=>{ const e=evOf(id); return e&&typeof EVENTS!=='undefined'?EVENTS.run(e,o):Promise.resolve(); };
   const inUS=G=>typeof EXCH!=='undefined'&&!!EXCH.inUS&&EXCH.inUS(G);
@@ -280,6 +281,9 @@ const USL=(function(){
     plan(G,{id:'usl_office',ev:'ev_usl_office',day:D('2028-08-04'),h:10,late:1,place:'國際學生辦公室',title:'國際學生辦公室',alarm:true});
     /* G1 8/5 17:30 學姊「傍晚去湖邊走走。……」→ 18:30 湖邊（交往中）*/
     { const d=D('2028-08-05'); if(dt&&G.day===d&&past(G,d,17.5)&&hh(G)<19.25&&!PHONE.sent(G,'usl_lake_ask')){ PHONE.at(G,d,17.5,[P5(M.sis0805)],'usl_lake_ask'); plan(G,{id:'usl_lake1',ev:'ev_usl_lake1',day:d,h:18.5,late:0.5,place:'湖邊',title:'湖邊',travel:'走路 約 15 分鐘',travelH:0.25}); } }
+    /* G1 8/10（四）芷若要地址（2-Y4-11 原句；台灣 21:00＝當地 09:00；和芷若 FAMILIAR 以上、有她的聯絡方式）。九～十二月寄到美國公寓的明信片是 2-Y4-11 本身（還沒做）*/
+    { const d=D('2028-08-10'), Z='heroine_02', h=21+(STORY.tzOffset(G,d)||0); if(G.day>=d&&G.day<=d+1&&past(G,d,h)&&!PHONE.sent(G,'usl_zr_0810')&&stageAt(Z,'FAMILIAR')&&(!STORY.knows||STORY.knows(Z,G))&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,Z))){
+        PHONE.at(G,d,h,[{th:'p:'+Z,from:Z,text:M.zr0810}],'usl_zr_0810'); F.USL_ZR_ADDR=true; } }
     /* 何俊朗 1（8/14 10:00 國際學生迎新）*/
     plan(G,{id:'usl_long1',ev:'ev_usl_long1',day:D('2028-08-14'),h:10,late:1,place:'法學院',title:'國際學生迎新',alarm:true});
     /* G2 8/26 可昕七夕（和可昕交往中；台灣 21:00＝當地 09:00，視訊）*/

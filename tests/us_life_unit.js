@@ -216,6 +216,9 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   at('2028-08-05',18.2); picks=[1]; await go('usl_lake1');
   check('G1. 湖邊：「這裡天黑得好晚。」「台灣這時候，已經在吃宵夜了。」→「想家嗎？」→「……問我第四十天的時候。」；記 US_LAKE_FIRST', has('這裡天黑得好晚。')&&has('……問我第四十天的時候。')&&G.flags.US_LAKE_FIRST===true, JSON.stringify(lines()));
   fresh('2028-08-05',17,'us_apartment',US()); runRules('2028-08-05',17,19); check('G1／US-B. 挽回中：湖邊沒有邀約', !OUT.get(G,'usl_lake1')&&!txt('p:heroine_05').length);
+  fresh('2028-08-10',8,'us_apartment',US()); R('heroine_02','FAM'); G.contacts.heroine_02=1; runRules('2028-08-10',8,10);
+  check('G1. 8/10 當地 09:00（台灣 21:00）芷若「給我你在那邊的地址。英國寄到美國要多久，我想試試看。」（和芷若 FAMILIAR 以上）', JSON.stringify(txt('p:heroine_02'))===JSON.stringify(['heroine_02:給我你在那邊的地址。英國寄到美國要多久，我想試試看。'])&&G.msgs.find(m=>m.th==='p:heroine_02').h===9&&G.flags.USL_ZR_ADDR===true, JSON.stringify(txt('p:heroine_02')));
+  fresh('2028-08-10',8,'us_apartment',US()); G.contacts.heroine_02=1; runRules('2028-08-10',8,10); check('G1. 和芷若還不熟：不傳', !txt('p:heroine_02').length);
 
   // ======================= G2、S11 何俊朗 1、2a、2b、3、4、5 =======================
   fresh('2028-08-10',9,'us_apartment',US()); rules(); { const q=OUT.get(G,'usl_long1'); check('S11. 何俊朗 1：8/14 10:00「國際學生迎新」（出遊、可以錯過）', !!q&&q.day===D('2028-08-14')&&q.h===10&&q.title==='國際學生迎新'); }
