@@ -27497,6 +27497,27 @@
    "next": "【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
    "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22"
+  },
+  {
+   "id": "AA370-US-FIX-1021",
+   "title": "AA_370 美國交換「時差／人在哪／重複事件」修正（企劃線 a1dc3e61）：H2 出發後出境大廳還能搭車回臺北＝永遠不會 US_ARRIVED（LAWWW 先修好）；H1 可昕 K23 美國版還約去政大、改天用臺灣 15:00 換算＝當地凌晨 3 點；H3 學姊 8/5「台灣在吃宵夜」→「天快亮了」；中 M1～M10（芷若地址、學姊雞蛋重複、何俊朗兩套、出發字卡與時間、12/23 伯母、可昕沒見過麵店團、子晴 Q14 過期、學姊作息、柏翰暑假補習）；低 L1～L4",
+   "area": "US",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": null,
+    "earliest": "2028-08-02 出發",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 19:03 企劃線 a1dc3e61（子代理盤點 860a101b，AA 在 7677ede3 核過）",
+   "authorized": "D109／D110；D99 第三優先（美國交換）",
+   "next": "【LAWWW（帳號 A）19:1x】H2 先修好（出境大廳不能搭車回去、一小時後自動登機、舊存檔直接登機；exch_min_unit 2b 修改前 4 FAIL）；其餘等 AA_368、AA_369 子代理回來後開子代理整份做"
   }
  ]
 }
