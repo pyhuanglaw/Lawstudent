@@ -1,0 +1,29 @@
+# 日本宿舍 3D（WIP，**暫停**）
+
+LAWWW2-C，2026-10-21。
+
+## 為什麼暫停
+- LAWWW-C 10-20 21:00 把「日本學期場景優先 1（AA_341 第 5 節）」排進 LAWWW2 的佇列，我 10-21 開工。
+- 清查歷史遺留時（BACKLOG-SWEEP-LAWWW2-1021）查到：**使用者 10-18 14:0x 選擇題選了「日本場景：全 2D（建議）」**。
+  - 證據：開發分支 `docs/handoff/user_asks_LAWWW.json` UA-LAWWW-1018-06；`tasks.json` JP-3D-ASK「取消／被取代」，原文「LAWWW2 不做日本 3D」。
+  - 兩邊衝突，使用者的決定優先，所以停下來。
+- 等 LAWWW-C 確認：
+  - 照舊不做 → 這個資料夾留著不整合；
+  - 使用者另外改過決定 → 寫出來源，我接著做。
+
+## 已經做的（保存，**不整合、不是使用者批准**）
+| 檔案 | 內容 | 狀態 |
+|---|---|---|
+| `tools/blender/env_second/jp_dorm.py` | 你的房間 `jp_room`（照 2D 背景 jp_room.webp：書桌靠窗、書櫃、床頭靠窗的單人床、掛勾上的外套、玄關、拉門衣櫃、小冰箱、行李箱、窗外陽台欄杆） | MODEL_READY（WIP） |
+| `assets/models/env/second_ai/jp_room.glb`（＋`.json`、`.layout.json`） | 6,152 三角形、約 0.6 MB；座位 1（書桌）、看 4（窗外、床、小冰箱、行李箱）、出口 1 | WIP |
+| `tools/blender/env_second/jp_view.py`＋本資料夾 `jp_room_{day,night}.webp` | 窗景：電線桿和電線、瓦屋頂的住宅、菜園、溫室、一塊一塊的田、村子、遠一點的一座山；Cycles 24 取樣（草稿） | WIP |
+| 本資料夾 `jp_dorm3d.js`、`src/data/jp_dorm_layouts.js` | 遊戲端的區域（照 rooms_glb3d.js 的做法）、`?jpdemo` 試玩按鈕 | 只在測試工作樹跑過 |
+| `tools/blender/env_second/gen_jp_layouts.py` | layout.json → `src/data/jp_dorm_layouts.js` | — |
+| `game_shots_wip.webp` | 遊戲內截圖（10:00、20:30） | — |
+
+## 測試（只在測試工作樹，Playwright 手機模擬，不是實機）
+- 正式模型載入、沒有 JS 例外：PASS。
+- `reachability_all.py --zones jp_room`：**FAIL 1 項**。
+  - 「窗外」(0.05,−1.85) 互動範圍內沒有站得住的位置；
+  - 「走出房間」修好了。
+- 沒做：共用廚房＋大廳、宿舍門口（竹子）。

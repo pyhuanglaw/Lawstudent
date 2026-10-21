@@ -58,6 +58,7 @@
 - 10-21 ROOMS-REFINE-1021（LAWWW-C 07:42Z）：202 桌面調亮、外套書包平滑著色＋褶子、方塊地毯看得出一格一格；seatcheck 掃 118 巷：滇香進門位置、家常加自取櫃、蛋包飯兩側桌子靠牆。`test_shots/rooms_refine_1021/README.md`（`6620cba8`）。
 - 10-21 MALE1-5F-1021（AA-C J1，LAWWW-C 08:22Z）：男一舍 4→5 層；導航、互動點完全相同，鏡頭碰撞只變高。`test_shots/male1_5f_1021/README.md`、`patches/male1_5f.diff`（本 commit）。
 - 10-21 使用者 08:43（LAWWW-C 轉）全面清查歷史遺留（BACKLOG-SWEEP-LAWWW2-1021）：進行中，穿插在佇列中間。
+- 10-21 日本宿舍 3D（AA_341 優先 1）：做到你的房間 jp_room（WIP），**暫停**——清查查到使用者 10-18 14:0x 選「日本場景：全 2D」（UA-LAWWW-1018-06、JP-3D-ASK 取消），和 LAWWW-C 10-20 的排程衝突，等 LAWWW-C 確認。WIP 在 `wip_jp/README.md`（本 commit），不整合。
 - 接下來（LAWWW-C 21:00 排的順序）：~~公館店面材質合併~~（交了）→ 日本學期場景優先 1（AA_341 第 5 節）→ ART-BALCONY-POTS；子代理交多功能教室／202 時驗收。
 - （舊）接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
