@@ -5,6 +5,7 @@
    - 常客：平日中午照 AA_280 第 3 節站在他那間店門口（寒暑假、第 16 週不出現；人在國外、老家、消失期照 STORY.presence）。
    - 阿哲週一 12:00 揪人（AA_280 第 4 節）：第一次 Y1S1 第 2 週；之後每學期第 2～15 週每週一，店照 noodle2 → dian → korea → home 輪；
      「走。」＝12:15 在那間店門口（出遊 goto，阿哲、小語在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
+   - AA_311（118 巷每間店的故事）：H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）。其餘 H2～H9、熟客三段招呼還沒做。
    測試：node tests/lane118_unit.js */
 'use strict';
 const L118=(function(){
@@ -52,10 +53,24 @@ const L118=(function(){
     const L=S.lunchNow(G); if(L&&L.shop===shopId) for(const id of L.with) put(id,14);
     for(const r of S.regularsAt(G,shopId)) put(r.id,r.to);
     return n; };
+  /* AA_311 H1（第②級，118 巷店員那一批）：一一八茶飲 × 學姊「她的老樣子」。大一上第 3 週～大一下第 16 週的平日 12:20～12:45 在 tea 點飲料、已經認識學姊（met_sis／FIRST_MET）、
+     當天學姊來過 tea（AA_280 第 3 節的常客 12:30～12:40：那一天她照作息在，而且飲料做好的時候她的時段已經開始）→ 店員兩句＋兩選一，記 SIS_TEA_ORDER
+     （學姊備考那一年「一起念書的日常」⑤ 才排得到，src/sis_grad3d.js）。只一次；不加數值（店員不是人物，AA_311 第 2 節）。台詞照 AA_311 H1 */
+  S.H1={lines:['剛剛那個學姊，你認識喔？','她每天這個時間來。無糖綠茶，去冰。從來沒換過。'],
+    opts:[{t:'「她很固定。」',say:[['店員','對啊。我都在她走到窗口以前就做好了。']]},{t:'「……謝謝。」',say:[[null,'（店員笑了一下，沒有再說。）']]}]};
+  S.h1Due=function(G,shopId,h0){ const F=G.flags||{}; if(shopId!=='tea'||F.SIS_TEA_ORDER||(G.stage||'law')!=='law') return false;
+    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(!T||!((T.id==='Y1S1'&&T.week>=3)||(T.id==='Y1S2'&&T.week>=1&&T.week<=16))) return false;
+    const wd=wdOf(G); if(wd<1||wd>5) return false; const h=((h0!=null?h0:G.hour)%24); if(h<12+20/60||h>12.75) return false;   /* 點的那一刻 */
+    const met=typeof SOCIAL!=='undefined'&&SOCIAL.metD?SOCIAL.metD('heroine_05'):!!F.met_sis; if(!met) return false;
+    const r=((D()&&D().regulars)||[]).find(x=>x.id==='heroine_05'&&x.shop==='tea'); if(!r||(G.hour%24)<r.from) return false;   /* 她已經來過（飲料做好的時候）*/
+    return S.regActive(r,Object.assign({},G,{hour:r.from})); };   /* 那一天她照作息會來（學期第 2～15 週、平日、人在臺北）*/
+  S.playH1=async function(GM,clerk){ const G=GM.G, H=S.H1; for(const t of H.lines) await GM.say(clerk,t);
+    const k=await GM.choose(H.opts.map(o=>({t:o.t}))); for(const [w,t] of (H.opts[k]||H.opts[0]).say) await GM.say(w?clerk:null,t);
+    G.flags.SIS_TEA_ORDER=true; };
   /* 店門口點餐 */
   S.order=async function(GM,shopId){ const G=GM.G, s=S.shop(shopId), Dd=D(); if(!s||!Dd) return false; GM.sceneBegin();
     try{ if(!S.isOpen(shopId,G)){ await GM.say(null,Dd.closedLine); return true; }
-      const comp=S.companions(GM,shopId), clerk={name:s.greet.who||'店員'};
+      const comp=S.companions(GM,shopId), clerk={name:s.greet.who||'店員'}, h0=G.hour;
       await GM.say(clerk,comp.length?Dd.groupGreet:s.greet.text);
       const opts=s.menu.map(([n,p])=>({t:n+'　'+p+' 元',dim:(G.money|0)<p})).concat([{t:'不用了'}]);
       const k=typeof EAT!=='undefined'?await EAT.choose(GM,s.name,opts,s.menu.map(m=>m[0]),s.menu.map(m=>m[1])):await GM.choose(opts);   /* 第 5 次起店員認得你、「老樣子」（src/eat3d.js，AA_329 第 3 節）*/
@@ -63,8 +78,10 @@ const L118=(function(){
       if((G.money|0)<price){ GM.toast('錢不夠'); return true; }
       GM.money(-price,'餐費'); await GM.say(null,Dd.orderLine.replace('{品名}',item));
       GM.advance(s.type==='手搖飲'?5/60:40/60); if(typeof EAT!=='undefined') await EAT.ordered(GM,s.name,item);   /* 吃過的、第一次的旁白（AA_329 第 2 節）*/
+      const h1=S.h1Due(G,shopId,h0);   /* AA_311 H1：飲料做好、拿到手的時候（一起來的人那一句之後、走回巷口以前）*/
       if(comp.length){ for(const id of comp){ const t=lineOf(id,shopId); if(t) await GM.say(GM.npc&&GM.npc[id]||{name:nm(id),charId:id},t); if(typeof SOCIAL!=='undefined'&&SOCIAL.activity) SOCIAL.activity(id,'meal'); } }
-      else if(!(typeof EAT!=='undefined'&&await EAT.together(GM,s.name))) await GM.say(null,s.done);   /* 店裡有認識的人在吃：坐過去一起吃（AA_329 第 1 節）*/
+      if(h1) await S.playH1(GM,clerk);
+      if(!comp.length&&!(typeof EAT!=='undefined'&&await EAT.together(GM,s.name))) await GM.say(null,s.done);   /* 店裡有認識的人在吃：坐過去一起吃（AA_329 第 1 節）*/
       const L=S.lunchNow(G); if(L&&L.shop===shopId) L.done=true;
       if(GM.autosave) GM.autosave(); return true;
     } finally { GM.sceneEnd(); } };
