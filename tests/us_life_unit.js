@@ -118,7 +118,8 @@ const interact=async(o)=>{ said=[]; opts=[]; caps=[]; toasts=[]; return STORY.in
   // ======================= S4 學姊在美國的作息、SU 階梯 =======================
   fresh('2028-09-11',10,'us_lawlib',US()); date('heroine_05');
   check('S4. 平日 10:00 法學院圖書館；週三 15:00 研討課；週二 19:30（9 月）C 棟 208；10 月週二 19:30 會所自習室；週六 15:00 C 棟 208；平日 12:30 沒有', USL.sisAt(G).zone==='us_lawlib'&&(at('2028-09-13',15),USL.sisAt(G).away==='研討課')&&(at('2028-09-12',19.5),USL.sisAt(G).zone==='us_shared')&&(at('2028-10-10',19.5),USL.sisAt(G).away==='會所自習室')&&(at('2028-09-16',15),USL.sisAt(G).zone==='us_shared')&&(at('2028-09-11',12.5),USL.sisAt(G)===null));
-  at('2028-09-11',10); { const w=STORY.whereIs(GM,'heroine_05'); check('S4. 「現在大概在」：法學院圖書館（看書）', w&&w.zone==='us_lawlib'&&w.act==='看書', JSON.stringify(w)); }
+  at('2028-09-11',10); { const w=STORY.whereIs(GM,'heroine_05'); check('S4. 「現在大概在」：人在圖書館（或校園）＝法學院圖書館（看書，到 12:00）', w&&w.zone==='us_lawlib'&&w.act==='看書'&&w.until==='12:00', JSON.stringify(w)); }
+  G.zone='us_apartment'; { const w=STORY.whereIs(GM,'heroine_05'); check('S4. 人在公寓：只寫地名（away，沒有「帶我去」：美國的區域不在 guide3d.js 的 LINKS）', w&&w.zone==null&&w.away==='法學院圖書館'&&w.until==='12:00', JSON.stringify(w)); } G.zone='us_lawlib';
   at('2028-09-13',15); { const w=STORY.whereIs(GM,'heroine_05'); check('S4. 「現在大概在」：研討課', w&&w.away==='研討課'); }
   at('2028-09-11',10); G.zone='us_lawlib'; E.zone={seats:[{x:1,z:1},{x:2,z:2},{x:3,z:3},{x:-4.75,z:-1.733,yaw:-1.57}],roomAt:()=>null}; USL.populate('us_lawlib',GM);
   check('S4. 3D：進法學院圖書館，她坐在長桌看書（3D 美國區域裡有學姊）', !!GM.npc.heroine_05&&GM.npc.heroine_05.uslSis&&GM.npc.heroine_05.pose==='read');

@@ -140,12 +140,17 @@ const USL=(function(){
   /* ======================= S4 學姊在美國的作息（AA_340 4-1）======================= */
   /* 回傳 {zone, act} 在 3D 的那一區；{away} 不在 3D（「現在大概在」寫 away）；null＝沒有固定行程 */
   S.sisAt=function(G){ if(!S.here(G)||!(G.day<D(S.CAL.leave))) return null; const w=G.weekday, h=hh(G), oct=G.day>=D('2028-10-01');
-    if(w>=1&&w<=5){ if(h>=9&&h<12) return {zone:'us_lawlib',act:'read'}; if(h>=12&&h<13) return null;   /* 草原超市旁的三明治店：3D 進來以前不出現 */
-      if(w===3&&h>=14&&h<16+50/60) return {away:'研討課'}; if(oct&&(w===2||w===4)&&h>=19&&h<21) return {away:'會所自習室',club:true}; if(h>=18&&h<21) return {zone:'us_shared',act:'sit'}; return null; }
-    return h>=14&&h<21?{zone:'us_shared',act:'sit'}:null; };
+    if(w>=1&&w<=5){ if(h>=9&&h<12) return {zone:'us_lawlib',act:'read',to:12}; if(h>=12&&h<13) return null;   /* 草原超市旁的三明治店：3D 進來以前不出現 */
+      if(w===3&&h>=14&&h<16+50/60) return {away:'研討課',to:16+50/60}; if(oct&&(w===2||w===4)&&h>=19&&h<21) return {away:'會所自習室',club:true,to:21}; if(h>=18&&h<21) return {zone:'us_shared',act:'sit',to:21}; return null; }
+    return h>=14&&h<21?{zone:'us_shared',act:'sit',to:21}:null; };
   S.sisClub=G=>{ const a=S.sisAt(G); return !!(a&&a.club); };
-  { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null;
-      if(a.away) return {zone:null,act:'',away:a.away}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208'}; return {zone:a.zone,room:null,act:a.act==='read'?'看書':'坐著',until:null}; }; }
+  /* 手機「人」的「現在大概在」（game3d.js whereText：PLACES.names[zone]＋（看書，到 12:00））：美國的區域用 us3d.js 的區域名字 */
+  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
+  /* 「現在大概在」：法學院圖書館只在玩家人在校園或圖書館時給區域（「帶我去」指得到路：校園有往圖書館的門）；其他地方只寫地名（美國的區域沒有在 guide3d.js 的 LINKS 裡）*/
+  { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null; const until=a.to!=null?hm(a.to):null;
+      if(a.away) return {zone:null,act:'',away:a.away,until}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208',until};
+      const act=a.act==='read'?'看書':'坐著'; if(G.zone===a.zone||G.zone==='us_campus') return {zone:a.zone,room:null,act,until};
+      return {zone:null,act,away:(typeof PLACES!=='undefined'&&PLACES.names&&PLACES.names[a.zone])||'法學院圖書館',until}; }; }
   /* 3D：她照作息在法學院圖書館（看書）、C 棟 208（客廳的沙發；9/13 傍晚 US2 在廚房）*/
   const seatOf=(E,zone)=>{ const st=(E&&E.zone&&E.zone.seats)||[]; if(zone==='us_lawlib') return st[3]||st[0]||null; if(zone==='us_shared') return st.find(s=>s.ap&&Math.abs(s.ap[0]+3.8)<0.01)||null; return null; };
   S.sisSync=function(GM){ const G=GM.G, E=GM.E; if(!E||!GM.npc) return; const n=GM.npc[S5], a=S.sisAt(G), want=!!(a&&a.zone&&a.zone===G.zone);
