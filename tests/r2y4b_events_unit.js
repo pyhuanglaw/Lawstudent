@@ -10,6 +10,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };   // 地點字幕（{scene}�
 const memos=[]; GM.memo=t=>{ memos.push(t); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); if(H.G) H.G.money=(H.G.money|0)+n; };
 global.CG_REGISTRY={};   // adv3d.js 沒有載入：CG 都還沒登錄（hasCG 守門＝不放）
+const cgAt=[]; { const oc=ADV.cg; ADV.cg=function(id){ cgAt.push([id,H.said.length]); return oc.call(this,id); }; }   // CG 放在第幾句之後
 load('src/noodle_closed3d.js');
 const hasFiles=fs.existsSync(path.join(H.ROOT,'src/r2y4b3d.js'))&&fs.existsSync(path.join(H.ROOT,'src/data/r2y4b_events.js'));
 if(hasFiles){ load('src/data/r2y4b_events.js'); load('src/r2y4b3d.js'); }
@@ -47,7 +48,8 @@ const date=id=>H.date(id);
     check('Z1 朋友：「第四張。」；四張排在一起；選項三個；AZALEA_Y4 shot', has('（把手機遞給你）第四張。')&&has('（她把四張照片排在一起給你看。同一棵樹，同一個位置。）')&&has('一樣才對。')&&H.opts[0].length===3&&H.G.flags.AZALEA_Y4==='shot'&&!has('麻煩你。……兩個人。')); }
   { fresh('2029-03-08',12.5,'campus'); ACQ('heroine_01'); date('heroine_01'); H.FAMILIAR('yu'); global.CG_REGISTRY.cg_azalea_fourth_heroine01={file:'x.webp',title:'t'}; await run('ev_azalea_y4');
     const pen='（她翻開手帳，在這一張照片的旁邊寫了一行字：「這一張要有兩個人。」）';
-    check('Z2 交往中：「麻煩你。……兩個人。」；CG-18 在拍下去的那一刻（手帳那一行之前）；手帳那一行是旁白、她不唸', has('麻煩你。……兩個人。')&&H.cgs.includes('cg_azalea_fourth_heroine01')&&has(pen)&&H.said.find(s=>s.t===pen).who===null&&!has('第四張。')&&H.G.flags.AZALEA_Y4==='two');
+    const cz=cgAt.filter(c=>c[0]==='cg_azalea_fourth_heroine01').pop();
+    check('Z2 交往中：「麻煩你。……兩個人。」；CG-18 在拍下去的那一刻（手帳那一行之前）；手帳那一行是旁白、她不唸', has('麻煩你。……兩個人。')&&H.cgs.includes('cg_azalea_fourth_heroine01')&&!!cz&&cz[1]===iOf('麻煩你。……兩個人。')+1&&cz[1]<=iOf(pen)&&has(pen)&&H.said.find(s=>s.t===pen).who===null&&!has('第四張。')&&H.G.flags.AZALEA_Y4==='two');
     delete global.CG_REGISTRY.cg_azalea_fourth_heroine01;
     H.said=[]; H.cgs=[]; await (async()=>{ fresh('2029-03-08',12.5,'campus'); ACQ('heroine_01'); date('heroine_01'); await run('ev_azalea_y4'); })();
     check('2-Y4-31 CG 沒登錄＝不放（hasCG 守門）', !H.cgs.length&&has('麻煩你。……兩個人。')); }
