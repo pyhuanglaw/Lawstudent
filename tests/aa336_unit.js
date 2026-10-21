@@ -1,7 +1,7 @@
 // AA_336（AA-C 2026-10-20 回 LAWWW 實作問題 17 題，企劃線 724d7703）裡要接真的手機訊息、作息的兩題——不需要瀏覽器：
 //   C9  「知道以安的生日」再加一種：2026 年傳過她生日快樂（MSG 的 bday 紀錄 heroine_01:2026，src/msg3d.js 傳 bday 時記）；三種（AN5_BIRTHDAY、交往中、2026 傳過）有一種就算
 //       → 大三中秋（1C-02）那一句「（九月十五日。中秋，也是以安的生日。）」在開頭
-//   C12 明軒 2028-05-02 起每週二 18:00～19:00 在麵店吃（19:30 家教前），到 2029-08-28（AA_345 G4 更正年份：原本寫 2028-08-29）；不在臺北的日子（8/10～8/17 回彰化）照 presence
+//   C12 明軒 2028-05-02 起每週二 18:00～19:00 在麵店吃（19:30 家教前），到 2029-08-28（AA_345 G4 更正年份：原本寫 2028-08-29）；不在臺北的日子照 presence（2028 暑假 8/7～8/13 回彰化，AA_350 S4 照 BB_198）
 // 其他題目的測試在各自的檔：吃東西 tests/eat_unit.js、1B tests/y2b_events_unit.js、1C tests/group_events_unit.js。
 // 修改前：C9 的 2026 傳過那一項、C12 的作息都 FAIL。用法：node tests/aa336_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -64,6 +64,6 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   at('2029-03-06',18.5); { const e=se(); check('C12. 2029-03-06（大四下的週二）：在麵店', !!e&&e.zone==='noodle'&&e.act==='eat', JSON.stringify(e)); }
   at('2029-08-28',18.5); { const e=se(); check('C12. 2029-08-28（最後一個週二）：在麵店', !!e&&e.zone==='noodle', JSON.stringify(e)); }
   at('2029-09-04',18.5); { const e=se(); check('C12. 2029-09-04（他 2029-09-02 出發以後）：沒有', !(e&&e.zone==='noodle'), JSON.stringify(e)); }
-  at('2028-08-15',18.5); check('C12. 8/15（二）回彰化（presence）：人不在臺北，作息不用', !STORY.reachable('classmate_mingxuan',G)&&STORY.reachable('classmate_mingxuan',(at('2028-08-22',18.5),G)));
+  at('2028-08-08',18.5); check('C12. 8/8（二）回彰化（presence；2028 暑假照 BB_198 是 8/7～8/13，AA_350 S4）：人不在臺北，作息不用；8/15 回來了', !STORY.reachable('classmate_mingxuan',G)&&STORY.reachable('classmate_mingxuan',(at('2028-08-15',18.5),G)));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });
