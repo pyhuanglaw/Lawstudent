@@ -115,13 +115,14 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
       check('5. 以安在紐約：臺灣週日 07:45 問「接起來」、地點字幕「視訊（紐約）」、那一句（這邊晚上八點，你那邊早上八點……）、視訊結束',!!q&&(H.opts[0]||[])[0]==='接起來：和'+SOCIAL.displayName('heroine_01')+'：視訊（紐約）'&&caps.includes('視訊（紐約）')&&H.said.length===1&&H.said[0].t===docLine('heroine_01','2030-09')&&caps.includes('視訊結束。'),JSON.stringify([H.opts[0],caps,H.said])); }
     /* 一路跳：以安、芷若、沛珊同時交往，沒報國考 */
     { const W=['heroine_01','heroine_02','classmate_peishan'], G=fresh('2029-06-03',10,{MULTI_Y5:'none'},W); PHONE.join(G,'noodle_team','麵店團');   /* [前置] 2030-05-25 多段感情的那一題當作選了「（不選）」：三位都還在交往（選了一位的另見第 6 項）*/
-      const seen={}, bad=[]; let it=0, err=null; const end=T(D('2030-12-13'),24);
+      const seen={}, bad=[], warns=[], ow=console.warn; let it=0, err=null; const end=T(D('2030-12-13'),24); console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n')[0]:String(x)).join(' ')); };
       try{ for(it=0;it<600&&G.day*24+G.hour<end;it++){ const before=G.day*24+G.hour;
           const y=await y4(GM); if(y) continue;
           const q=OUT.due(G); if(q){ H.picks=[0]; H.said=[]; await OUT.tick(GM); if(/^pg_date_/.test(q.id)) (seen[q.pgWho]||(seen[q.pgWho]=[])).push([q.pgKey,(H.said[0]||{}).t,lab(q.day,q.h)]); continue; }
           const s=PG.due(G); if(s){ H.picks=[]; await PG.runStep(GM,s); continue; }
           E.player.busy=false; if(!await PG.advance(GM)) break;
-          if(G.day*24+G.hour<before-1e-6) bad.push('倒退 '+lab(G.day,G.hour)); } }catch(e){ err=e; }
+          if(G.day*24+G.hour<before-1e-6) bad.push('倒退 '+lab(G.day,G.hour)); } }catch(e){ err=e; } finally { console.warn=ow; }
+      check('5. 一路跳的途中不丟例外、沒有警告（被吞掉的錯誤）',!err&&!warns.length,(err&&err.stack||'')+warns.slice(0,3).join('｜'));
       const want=id=>(DOC[id]||[]).map(r=>r.ym).filter(ym=>!(id==='classmate_peishan'&&ym==='2030-12'));   /* 2030-12 只有 12/7：芷若排了（以安在紐約是週日），沛珊排不到 */
       const got=id=>(seen[id]||[]).map(x=>x[0]);
       const okLines=W.every(id=>(seen[id]||[]).every(x=>x[1]===docLine(id,x[0])));
