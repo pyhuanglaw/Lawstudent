@@ -2,7 +2,8 @@
 框架照 evsem_probe.py（BB-C）：[前置] 用使用者 9/25 存檔改日期／旗標（GAME.applySave）→ 遊戲時間照走 → 台詞（ADV.log）、CG（ADV.cg）全部記下來 → 檢查。
 這一版做：①子晴 Q12 三種 ZQ_Q10（nameless／cat／both）都是《九點以後》＋爸爸那一幕＋CG ②日本路線 5/20 的電話「他打了五次……」
 ⑥芷若 Z7 家裡那一版（時差那幾句）⑦子晴 Q4 錯過版（第 9 週第一次說話多一句、第二次沒有；第 9 週週六公館不演 Q4）。
-學姊三項（③快轉停 1/31、④1/25 路過總圖、⑤2/2～2/4 計畫本）要先查家族群組與旗標，下一版加。
+③學姊寒假快轉停在 1/31 21:00、1/26 沒有學姊私訊 ⑤2/2「考完了」→ 2/3 回「好。」→ 2/4 文具店「二月四日　買計畫本。」。
+④1/25 路過總圖（走進總圖、上二樓坐下讀書一小時、走出大門）要走樓梯和座位，下一版加。
 不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
 用法：LW_TESTS=<開發分支>/tests SHA=<sha> python3 aa360_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>   （SCEN=id1,id2 只跑某幾個）"""
 import os, sys, json, asyncio, time
@@ -144,6 +145,31 @@ async def talk(pg, cdp, run, who):
         await pg.wait_for_timeout(800)
     say('   互動鈕：%s' % lab); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
     await drain(pg, cdp, pref=['聊', '說'], secs=150); return True
+async def ff_bed(pg, cdp, run, want_key, want_h):
+    """床 →「快轉」→「到下一個有事的日子」（真的操作），停下來的日期時間要是 want_key want_h（±0.75 小時）"""
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('快轉：走不到床'); return False
+    for k in range(4):
+        await close_phone(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        if (await L.state(pg))['choices']: break
+    for k in range(6):
+        cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+        t = next((c for c in cs if c.startswith('到下一個有事的日子')), None) or next((c for c in cs if c.startswith('快轉')), None)
+        if not t: break
+        c = await pg.evaluate("(t=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.trim()===t); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(t))
+        await L.touch_tap(cdp, c[0], c[1]); say('   ▶ 床：%s' % t[:20]); await pg.wait_for_timeout(1500)
+        if t.startswith('到下一個有事的日子'): break
+    await drain(pg, cdp, pref=['睡到明天早上'], secs=300)
+    sn = await pg.evaluate(SNAP); say('   快轉停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
+    if sn['key'] != want_key or abs(sn['h'] - want_h) > 0.75: bad.append('快轉停在 %s %.2f（應該 %s %.2f）' % (sn['key'], sn['h'], want_key, want_h))
+    return True
+async def nomsg(pg, who, key):
+    """那一天不應該有 who 的私訊"""
+    m = await pg.evaluate("(([w,k])=>{ const d=STORY.dayOfKey(k); return (GAME.G.msgs||[]).filter(m=>m.from===w&&m.day===d).map(m=>m.text); })(%s)" % json.dumps([who, key]))
+    say('   %s 的 %s 私訊：%s' % (key, who, json.dumps(m, ensure_ascii=False)))
+    if m: bad.append('%s 不應該有 %s 的私訊，有 %d 則：%s' % (key, who, len(m), m[0][:20]))
+SIS = "LV('heroine_05',50,40,35); PHONE.join(G,'family_law','法律系家族');"
+SISF = {'EXCHANGE_ROUTE': 'TW', 'SIS_W1': True, 'SIS_STUDY': True}
 TW = {'EXCHANGE_ROUTE': 'TW'}
 ZQ = "LV('heroine_04',40,32,30);"
 Q12_WANT = ['一個小孩每天晚上等一個人回家', '謝謝：爸爸', '最後一關，我打過了。', 'CG:cg_final_stage_heroine04']
@@ -166,6 +192,13 @@ SCENS = [
   dict(id='Q4_week9_sat', key='TERMDAY:Y1S2:9:6', h=15.5, zone='gongguan', flags=dict(TW),
        js="LV('heroine_04',30,25,25); SOCIAL.remember('heroine_04','ARGUED_ABOUT_CAREER','');", steps=[('until', 16.4)],
        none=['我在這裡喝第三罐咖啡。', '今天是那個比賽。']),
+  # ③ 學姊快轉：1/21 10:00 宿舍，SIS_W1、SIS_STUDY、學姊朋友以上、在家族群組 → 床的快轉直接停在 1/31 21:00；1/26 沒有學姊私訊（AA_360 2-1）
+  dict(id='SIS_ff_0131', key='2026-01-21', h=10.0, zone='dorm', flags=SISF, js=SIS, steps=[('ff', '2026-01-31', 21.0), ('nomsg', 'heroine_05', '2026-01-26')]),
+  # ⑤ 2/2 17:30「考完了」→ 2/3 21:00 回「好。」→ 2/4 14:00 文具店 → 第一頁「二月四日　買計畫本。」＋三個反應選項
+  dict(id='SIS_planner', key='2026-02-02', h=17.0, zone='dorm', flags=SISF, js=SIS,
+       steps=[('until', 17.8), ('sleep',), ('set', 20.9, '2/3 白天沒有學姊的事'), ('until', 21.4), ('sleep',), ('set', 13.6, '2/4 早上到中午沒有事，撥到出遊前'), ('until', 15.4)],
+       asks={'sisg_exam_done': '去吃。', 'sisg_planner_ask': '好。'}, pref=['出發'], want=['二月四日　買計畫本。'], wantMsg=['考完了', '我想去買一本新的計畫本'],
+       cflags=['SIS_NEW_PLANNER', 'SISG_PLANNER_GO'], eqflags={'SIS_NEW_PLANNER': True}),
 ]
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
@@ -193,6 +226,8 @@ async def main():
                     elif st[0] == 'set': await set_h(pg, run, st[1], st[2])
                     elif st[0] == 'sleep': await sleep_bed(pg, cdp, run)
                     elif st[0] == 'talk': await talk(pg, cdp, run, st[1])
+                    elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
+                    elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
                     elif st[0] == 'grp':
                         g = await pg.evaluate("((PHONE.rec(GAME.G).groups||{}).noodle_team||{}).name||null"); say('   群組名稱（17:00 以後）：%s' % g)
                         if g != st[1]: bad.append('%s：群組名稱「%s」（應該「%s」）' % (sc['id'], g, st[1]))
