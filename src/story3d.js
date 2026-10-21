@@ -2545,14 +2545,22 @@ const STORY = (function(){
   /* 每天的手機小事用的學期週次：照日曆；經濟系重考期的暑假（6/23～7/10）沒有學期週次，AA-B 10-16：接著第 18 週往下算 */
   S.dpTerm=function(G){ const t=CALENDAR.termOf(G.day); if(t||!S.isEcon(G)) return t; const a=S.dayOfKey('2025-06-23'), b=S.dayOfKey('2025-07-10'); if(a==null||b==null||G.day<a||G.day>b) return null; return {id:'Y0S2',week:18+Math.floor((G.day-a)/7)+1,exam:null}; };
   /* ok(G, day)：那一天條件成立嗎（決定時是今天、補送時是原本那天）。存檔：dpDay（決定過的那天）、dpPick（{id, day}：今天那一則）、dpN（每則出現過幾次）、dpLast（上一次輪到哪一則，輪流用）、dpDayOf（每則上一次是哪一天）；舊存檔沒有＝從頭開始 */
+  /* AA_348 B8（BB218-P3-1021 ③）：經濟系 30 分鐘版跳日期時，任何新訊息都會停下來、打開手機（econff3d.js jumpTo）——所以手機小事不只要和上一則小事隔 3 天，
+     也要和別的訊息（颱風假、錯過的邀約、群組）隔 3 天；當天或兩天內已經排好別的訊息也先不排。原本只看小事自己：9/29 颱風假群組、9/30 小事，10/11 約、10/12 小事，玩家連兩天被打斷。
+     決定那天（G.day）、送出那一刻（原本決定的那天）都看；rt_ 例行訊息、dp_ 小事自己不算「別的」。法律系、經濟系完整版不受影響 */
+  S.dpTooSoon=function(G,day){ if(!(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G))) return false; const F=G.flags||{}, other=t=>!(t&&/^(rt_|dp_)/.test(t)); let last=-1e9;
+    for(const x of Object.values(F.dpDayOf||{})) if(typeof x==='number'&&x<=day) last=Math.max(last,x);
+    for(const m of (G.msgs||[])) if(m&&m.from!=='player'&&typeof m.day==='number'&&m.day<=day&&other(m.tag)) last=Math.max(last,m.day);
+    if(day-last<3) return true;
+    return typeof PHONE!=='undefined'&&PHONE.rec(G).q.some(q=>q.day>=day&&q.day-day<3&&other(q.tag)); };
   function dailyPhone(GM){ const G=GM.G, F=G.flags; if(typeof CALENDAR==='undefined') return; const N=()=>F.dpN||(F.dpN={});
     const p=F.dpPick; if(p){ const d=DAILY.find(x=>x.id===p.id); if(!d) F.dpPick=null; else { const h0=d.h(G), t=p.day*24+h0, now=G.day*24+G.hour;
-        if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
+        if(now>=t){ F.dpPick=null; const late=now-t>0.25; if(d.ok(G,p.day)&&(late||!d.live||d.live(G))&&!S.dpTooSoon(G,p.day)){ const n=N()[d.id]|0; N()[d.id]=n+1; F.dpLast=d.id; (F.dpDayOf||(F.dpDayOf={}))[d.id]=p.day; const h1=late?h0:G.hour;
             d.items(G,n).forEach((it,k)=>{ const x=Object.assign({},it), dt=x.dt||0; delete x.dt; PHONE.at(G,late?p.day:G.day,h1+dt,[x],'dp_'+d.id+'_'+n+'_'+k); }); }
           else F.dpLast=d.id; } } }   /* 那天不傳（例：阿凱那則你醒著待在宿舍）：輪到下一則，改天再輪回來——不然每天都挑到它，別人的小事永遠輪不到 */
     if(F.dpDay===G.day) return; F.dpDay=G.day; const t=S.dpTerm(G); if(!t||t.week<(t.id==='Y1S1'?2:4)||F.dpPick) return;   /* BB_170 第 26 列：大一上第 2 週起（第 1 週事情已經很多），其他學期照舊第 4 週起 */   /* 每學期第 4 週起；條目沒寫 term 的只在大一上（BB_95 4-4），寫了的照它自己的（阿凱大二起的評鑑表照片）*/
     if(PHONE.rec(G).q.some(q=>q.day===G.day&&!(q.tag&&q.tag.startsWith('rt_')))) return;   /* 今天已經有排好的劇情訊息（rt_ 例行訊息不算）*/
-    if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)){ const ds=Object.values(F.dpDayOf||{}).filter(x=>typeof x==='number'); if(ds.length&&G.day-Math.max(...ds)<3) return; }   /* AA_348 B8：經濟系 30 分鐘版的手機小事至少隔 3 天一則（9/23～10/3 原本每天停一次，使用者 10-18 嫌「每天一直按快轉」）；法律系不受影響 */
+    if(S.dpTooSoon(G,G.day)) return;   /* AA_348 B8：經濟系 30 分鐘版的手機小事至少隔 3 天一則（9/23～10/3 原本每天停一次，使用者 10-18 嫌「每天一直按快轉」）；法律系不受影響 */
     const i0=DAILY.findIndex(d=>d.id===F.dpLast)+1;
     const last=F.dpDayOf||{};
     for(let k=0;k<DAILY.length;k++){ const d=DAILY[(i0+k)%DAILY.length]; if(!(d.term?d.term(t):t.id==='Y1S1')||(N()[d.id]|0)>=(d.max?d.max():1)||(last[d.id]!=null&&G.day-last[d.id]<(d.gap||7))||d.h(G)<=G.hour+0.1||!d.ok(G,G.day)) continue; F.dpPick={id:d.id,day:G.day}; break; } }   /* 會出現好幾次的（Kevin 的影片）：同一則至少隔 7 天（gap：阿凱的照片隔 28 天）*/

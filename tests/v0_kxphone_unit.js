@@ -56,6 +56,10 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
   { const d0=STORY.dayOfKey('2024-09-23'); const span=fl=>{ fresh(d0,8,'dorm',fl); G.stage='econ'; days(d0,12); return Object.values(G.flags.dpDayOf||{}).sort((a,b)=>a-b); }, gaps=a=>a.slice(1).map((x,i)=>x-a[i]);
     const S1=span({E01_MORNING:true}), S0=span({});
     check('6. AA_348 B8：經濟系 30 分鐘版（E01_MORNING）9/23～10/4 的手機小事至少隔 3 天一則；完整版（舊流程）照舊',S1.length>=2&&gaps(S1).every(g=>g>=3)&&S0.length>S1.length,JSON.stringify({short:S1,full:S0})); }
+  { const d0=STORY.dayOfKey('2024-09-23'); fresh(d0,8,'dorm',{E01_MORNING:true}); G.stage='econ'; days(d0,30);
+    const M=(G.msgs||[]).filter(m=>m.from!=='player'&&!(m.tag&&/^rt_/.test(m.tag))), dp=[...new Set(M.filter(m=>/^dp_/.test(m.tag||'')).map(m=>m.day))], ot=[...new Set(M.filter(m=>!/^dp_/.test(m.tag||'')).map(m=>m.day))];
+    const bad=dp.filter(D=>ot.some(X=>X<=D&&D-X<3)).map(D=>CALENDAR.dateOf(D).key);
+    check('6b. BB218-P3-1021 ③：經濟系 30 分鐘版跳日期時任何新訊息都會停——手機小事和前面別的訊息（9/29 颱風假群組、10/11 邀約…）也隔 3 天、不在同一天（原本 9/30、10/12 隔 1 天）',dp.length>=4&&!bad.length,JSON.stringify({bad,dp:dp.map(d=>CALENDAR.dateOf(d).key)})); }
   // 法律系的存檔不受影響
   fresh(termDay('Y1S1',6,2),8,'dorm',{}); G.stage='law'; M=days(G.day,10); check('4. 法律系：沒有經濟系的手機小事',!M.some(m=>/^econ_/.test(m.from||'')&&/dp_y0_/.test(m.tag||''))&&!(G.flags.dpN&&Object.keys(G.flags.dpN).some(k=>/^y0_/.test(k))));
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
