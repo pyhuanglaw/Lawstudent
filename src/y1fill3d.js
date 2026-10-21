@@ -114,7 +114,7 @@ const Y1FILL=(function(){
     if(!free){ tapeT=0; return false; }
     const v=S.coldDue(G); if(v){ busy=true; S.coldRun(GM,v).catch(e=>console.warn('Y1FILL 寒流',e)).finally(()=>{ busy=false; }); return true; }
     const ev=S.tapeDue(G); if(!ev){ tapeT=0; return false; }
-    tapeT+=dt||0; if(tapeT<2.5) return false; tapeT=0; void EVENTS.run(ev); return true; };
+    tapeT+=Math.min(dt||0,1); if(tapeT<2.5) return false; tapeT=0; void EVENTS.run(ev); return true; };   /* 一次最多算 1 秒：低幀率（一次 tick 好幾秒）也至少等三次，進門的招呼（「喔，回來了。」）、enter 事件先 */
   S.reset=()=>{ tapeT=0; busy=false; };   /* 測試用 */
 
   /* ===================== 掛勾 ===================== */
