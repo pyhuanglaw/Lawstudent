@@ -1,0 +1,104 @@
+[
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/banyan/before/banyan_campus_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": 92,
+    "z": -70,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "hidePlayer": false,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/banyan/before/banyan_campus_1730.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 17.5,
+   "pos": {
+    "x": 92,
+    "z": -70,
+    "yaw": 1.5707963267948966
+   }
+  },
+  "cam": {
+   "yaw": -1.5707963267948966,
+   "pitch": 0.22,
+   "dist": 6
+  },
+  "hidePlayer": false,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/banyan/before/banyan_wz_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 15.0,
+   "pos": {
+    "x": 26,
+    "z": 24,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    21.5
+   ],
+   "look": [
+    26,
+    4.2,
+    13.2
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "/tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/banyan/before/banyan_wz_1730.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "wenzhou",
+   "hour": 17.5,
+   "pos": {
+    "x": 26,
+    "z": 24,
+    "yaw": 3.141592653589793
+   }
+  },
+  "cam": {
+   "pos": [
+    26,
+    1.7,
+    21.5
+   ],
+   "look": [
+    26,
+    4.2,
+    13.2
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ }
+]
