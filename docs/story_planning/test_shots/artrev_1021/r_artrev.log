@@ -18,11 +18,11 @@ PASS gym_b1 20.5 白天／晚上亮度切換  1
   [前置／捷徑] [捷徑] dorm closed
    dorm closed ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:false', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
 PASS 203 closed 顯示對  ["Y1_BOX_FOLDED:false", "Y1_box_folded:true", "Y1_BOX_WINTER:true", "Y1_box_winter:true", "Y1_KAI_TAPE:false", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:false", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:false", "Y1_KAI_TAPE_TEXT_m:true"]
-   紙箱互動點 None
+   紙箱互動點 [-1.55, 0.628, '床底下的紙箱']
   [前置／捷徑] [捷徑] dorm tape_text
    dorm tape_text ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:true', 'Y1_KAI_TAPE_TEXT_m:true']
 PASS 203 tape_text 顯示對  ["Y1_BOX_FOLDED:false", "Y1_box_folded:true", "Y1_BOX_WINTER:true", "Y1_box_winter:true", "Y1_KAI_TAPE:true", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:false", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:true", "Y1_KAI_TAPE_TEXT_m:true"]
-   紙箱互動點 None
+   紙箱互動點 [-1.55, 0.628, '床底下的紙箱']
   [前置／捷徑] [捷徑] dorm folded_tape
    dorm folded_tape ['Y1_BOX_FOLDED:true', 'Y1_box_folded:true', 'Y1_BOX_WINTER:false', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:true', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
 PASS 203 folded_tape 顯示對  ["Y1_BOX_FOLDED:true", "Y1_box_folded:true", "Y1_BOX_WINTER:false", "Y1_box_winter:true", "Y1_KAI_TAPE:true", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:true", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:false", "Y1_KAI_TAPE_TEXT_m:true"]
