@@ -1,7 +1,7 @@
 值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 8d32ed63｜2026-10-21 15:24 UTC
 上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 8d32ed63（14:30 UTC）｜交班紀錄有寫（下面那一節），但沒有跑 `duty handoff`（`duty_AA.json` 還是 on）→ 使用者對 AA（帳號 A）說「我回來了，請同步 GitHub 最新進度，接續工作。」，用 `duty register --user-ok` 接班（記 no-handoff）
 
-> **【使用者 2026-10-21 23:0x～23:2x UTC，人物設定，已定】「小語」改名 Alison**
+> **【使用者 2026-10-21 23:0x～23:1x UTC，人物設定，已定】「小語」改名 Alison**
 > - 使用者：「不要有小語這個角色吧　我一直以為是陳語彤」→ AA 建議保留人、只改名 →「改成Alison」。
 > - 只改叫法：所有人叫她 Alison；中文全名李語晴不變；人物 id `yu` 不變；劇情、和阿哲交往都照舊。規則與交辦：`AA_380`。**以後不寫「小語」。**
 > - AA 先提的「李宜蓁（小蓁）」撞到祐廷姊姊宜蓁（AA 沒先查，錯），作廢。
