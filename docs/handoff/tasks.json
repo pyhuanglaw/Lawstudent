@@ -25185,7 +25185,7 @@
    "id": "EVPKG-AA346-APART",
    "title": "AA_346 選一個人之後的分開談話：ev_choice_apart_<id> 七位（祐廷先說、她知道／不知道兩版、最後一句沿用各人的分開句、學姊那句新寫），排法照 C 表「說清楚」（2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起），三次沒到 22:00 轉電話版，記 apart_choice（讀 apart_talk 的前任版一起讀）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_346（c6b698a9）；AA_327 2-Y4-54；U5 使用者已定",
    "first": {
@@ -25198,7 +25198,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_346（c6b698a9）做 ev_choice_apart_<id> 七位（她知道／不知道兩版、學姊新句）、C 表排法（2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起）、三次沒到 22:00 轉電話版、記 apart_choice ｜ 【LAWWW-C 2026-10-21 10:2x UTC】AA343（584d4030）、AA345（a0772635）都合併了，可以派工 ｜ 【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工",
+   "next": "【LAWWW-C 2026-10-21 13:0x UTC】BB 清單 bb_checklists/BB_AA346_1021.md；問 AA 的 AA_QUESTIONS_1021 Q 節；G9-54 這一項完成 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：照 AA_346（c6b698a9）做 ev_choice_apart_<id> 七位（她知道／不知道兩版、學姊新句）、C 表排法（2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起）、三次沒到 22:00 轉電話版、記 apart_choice ｜ 【LAWWW-C 2026-10-21 10:2x UTC】AA343（584d4030）、AA345（a0772635）都合併了，可以派工 ｜ 【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -25206,7 +25206,9 @@
      "evidence": "ev_choice_apart_* 在 src 不存在；src/r2y4b3d.js:327-331 S.pickOne 只對沒被選的人 ROM.end(…,'apart_talk')，註明「談話事件開發分支還沒有：只記分開」；tasks next：等 AA343／AA345 子代理合併後派工（AA345 已合併 a0772635）",
      "note": "選一個人之後的分開談話沒做"
     }
-   ]
+   ],
+   "sha": "84f3cc5b",
+   "evidence": "合併 84f3cc5b（子代理 707b169c）：tests/aa346_apart_unit.js 58 項（舊程式 FAILED 29）；r2y4b_events、cleanup、romance、termend、two_hearts、graduation、epilogue、dl07_enc ALL PASS"
   },
   {
    "id": "BACKLOG-SWEEP-1021",
