@@ -26666,7 +26666,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）16:4x】判定：推的方向問題，不是搖桿壞——宿舍房間 6×7 m、門在南牆 z=3.5（dorm_room_layout），出生點 (0,2.4) 本來就在「走出房間」(0,3.3) 半徑 1.4 m 內；開場演完鏡頭 yaw −2.74 朝門口，往前推 0.37 m 碰到門內側的東西 (0.07,2.77)，找路繞得過去（path (-0.2,2.9)→(0.39,3.32)）；v9.10.2 9335763d 同一點一樣（LAWWW-C rc4 fps_old）；讀檔那段四個方向都試、(40,0) 走 3.78 m。照 release_9103/README 第 6 節第 4 點：smoke「新遊戲」改成四個方向都試、全部走不動才算卡住（tests/smoke_release.py）。候選重做 ea69e5ed（f72a2a21＋phonefix_4c90c913，只在 LAWWW 暫存區；phone_auto_unit ALL PASS），背景跑 smoke_release→flow_v0_start→touch_flow_wenzhou→flow_exam_terms（一次一支） ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班，調查到一半】已排除：手機一直自己打開（另案已修 4c90c913，推搖桿時手機關著照樣 0.36 m）、幀率（乾淨環境待機 4.2 fps，推的那段 6 格≈1.8 秒遊戲時間應走 2 m 以上）。證據：出生點 (0,2.4)、鏡頭 yaw −2.74，E.simWalk 前方 1 m 在 (0.07,2.77) stuck（找路說通、移動被擋）；v9.10.2 9335763d 同一點一樣卡＝不是新障礙。下一步照 docs/handoff/release_9103/README.md 第 6 節：查 (0.07,2.77) 是什麼、用 v9.10.2 當時的 smoke 對 9335763d 跑、判斷是測試推的方向還是碰撞；一次只跑一支瀏覽器"
+   "next": "【LAWWW（帳號 A）16:3x，ea69e5ed 第一次跑】四個方向版還是失敗：(0,-40) 0.35 m、其他三個方向 0.00 m（連往房間裡退都不動）＝推的中途 D103 手機自己打開、遊戲暫停（S.phoneAuto 的「空下來」只看對話／選單／劇情，不看玩家正在推搖桿；探針量過開場演完 12 秒內會開）。smoke 改成每個方向推之前、推完手機開著就「收起來」重推一次（玩家會做的事）；等 rc5 其他三支跑完重跑 smoke（排好了）。遊戲端「推搖桿走路時不要跳手機」另開 UX-PHONE-AUTO-WALK-1021（下一版） ｜ 【LAWWW（帳號 A）16:4x】判定：推的方向問題，不是搖桿壞——宿舍房間 6×7 m、門在南牆 z=3.5（dorm_room_layout），出生點 (0,2.4) 本來就在「走出房間」(0,3.3) 半徑 1.4 m 內；開場演完鏡頭 yaw −2.74 朝門口，往前推 0.37 m 碰到門內側的東西 (0.07,2.77)，找路繞得過去（path (-0.2,2.9)→(0.39,3.32)）；v9.10.2 9335763d 同一點一樣（LAWWW-C rc4 fps_old）；讀檔那段四個方向都試、(40,0) 走 3.78 m。照 release_9103/README 第 6 節第 4 點：smoke「新遊戲」改成四個方向都試、全部走不動才算卡住（tests/smoke_release.py）。候選重做 ea69e5ed（f72a2a21＋phonefix_4c90c913，只在 LAWWW 暫存區；phone_auto_unit ALL PASS），背景跑 smoke_release→flow_v0_start→touch_flow_wenzhou→flow_exam_terms（一次一支） ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班，調查到一半】已排除：手機一直自己打開（另案已修 4c90c913，推搖桿時手機關著照樣 0.36 m）、幀率（乾淨環境待機 4.2 fps，推的那段 6 格≈1.8 秒遊戲時間應走 2 m 以上）。證據：出生點 (0,2.4)、鏡頭 yaw −2.74，E.simWalk 前方 1 m 在 (0.07,2.77) stuck（找路說通、移動被擋）；v9.10.2 9335763d 同一點一樣卡＝不是新障礙。下一步照 docs/handoff/release_9103/README.md 第 6 節：查 (0.07,2.77) 是什麼、用 v9.10.2 當時的 smoke 對 9335763d 跑、判斷是測試推的方向還是碰撞；一次只跑一支瀏覽器"
   },
   {
    "id": "AA363-S2-ECON-MONEY-1021",
@@ -26959,6 +26959,27 @@
    "source": "企劃線 AA_366（1b4bbdac；outbox 8c2625da；AA 16:24 send_message）",
    "authorized": "D100／D109（AA 定稿）",
    "next": "和 AA354-KX-OURDAYS-1021 同一套固定格一起做；不在三個優先項目裡，照佇列排"
+  },
+  {
+   "id": "UX-PHONE-AUTO-WALK-1021",
+   "title": "D103 自動打開手機不要打斷正在走路的玩家：S.phoneAuto 的「空下來」加上「搖桿／點地面移動停下來一兩秒」再開（現在推搖桿走到一半手機跳出來、遊戲暫停）",
+   "area": "UX",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "所有玩家（有要回覆的訊息時）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW（帳號 A）16:3x：v9.10.3 發布前 smoke_release 查到（BUG-SMOKE-JOY-1021）",
+   "authorized": "技術修正（D103「玩家空下來」的實作細節，不改規則）",
+   "next": "v9.10.3 之後：phoneAuto 加條件（玩家沒有在移動、最後一次搖桿／點地面輸入過了 1.5 秒）；單元測試（移動中不開、停下來就開、同一則只開一次）；BB 驗"
   }
  ]
 }

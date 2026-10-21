@@ -80,9 +80,14 @@ async def main():
         await close_auto_phone(pg, cdp, run, '新遊戲開場演完')
         # 開場演完鏡頭朝門口（yaw −2.74），往前推 0.37 m 就碰到門內側的東西（(0.07,2.77)；v9.10.2 9335763d 同一點一樣，
         # 出生點本來就在「走出房間」範圍內）＝推的方向問題，不是搖桿壞：和讀檔那段一樣四個方向都試，全部走不動才算卡住（BUG-SMOKE-JOY-1021）
+        # D103 的手機也可能在推的中途自己打開（等回覆的訊息；開場演完 12 秒內），打開時遊戲暫停、後面推多少都是 0 m
+        # （ea69e5ed：(0,-40) 0.35 m 之後三個方向都 0.00 m）：玩家會按「收起來」再推，這裡照做，那個方向重推一次
         best, tried = 0, []
         for dx, dy in ((0, -40), (0, 40), (40, 0), (-40, 0)):
-            moved, pushes, s2 = await L.push_until(pg, cdp, dx, dy, 0.5)
+            for _ in range(2):
+                await close_auto_phone(pg, cdp, run, '新遊戲推搖桿時', secs=0)
+                moved, pushes, s2 = await L.push_until(pg, cdp, dx, dy, 0.5)
+                if not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
             tried.append(f'({dx},{dy}) {moved:.2f} m')
             best = max(best, moved)
             if moved > 0.5: break
