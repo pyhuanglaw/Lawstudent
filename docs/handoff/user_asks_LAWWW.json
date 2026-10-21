@@ -767,8 +767,9 @@
    "quote": "（LAWWW-C 解讀 UA-LAWWW-1020-84「看一下他做好的東西是不是可以更精致一點」）這十小時對美術放寬 D99「夠用的素材凍結」：精修照玩家最常看到的近景排（校園主要建築、宿舍房間、118 巷、Café、公館），不為看不到的細節反覆做版本",
    "kind": "AI解讀",
    "confirmed": false,
-   "status": "進行中",
-   "wants": "X87"
+   "status": "已取消",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "cancelReason": "時限已過：這則解讀只管 10-20 18:5x 起的十小時（UA-LAWWW-1020-84）；之後美術怎麼精修照使用者 10-21 15:2x 對 LAWWW2「你之後不要再停下來問我 你是美術總監」（user_asks_LAWWW2 UA-LAWWW2-1021-10、ART-DIRECTOR-LAWWW2）。LAWWW（帳號 A）10-21 16:3x 標取消，沒有問使用者"
   },
   {
    "id": "UA-LAWWW-1021-01",
