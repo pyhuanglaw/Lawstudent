@@ -2436,7 +2436,7 @@ const STORY_EVENTS=[
         dialogue:[ {speaker:null,text:'（模擬考考完，她對完答案，坐在總圖外的台階上，把試題本捲成一根。）'},{speaker:'kexin',text:'我決定把分數當作抽象藝術。'},
           {choice:[{text:'「那我要收藏。開個價。」',set:{E32_COMFORT:'joke'},goto:'a'},{text:'（在她旁邊坐下，不說話）',set:{E32_COMFORT:'quiet'},goto:'b'},{text:'「是考爛了。可是錯的那幾題，剛好是我們還沒讀的那兩章。」',set:{E32_COMFORT:'truth'},goto:'c'}]},
           {label:'a'},{speaker:'kexin',text:'……非賣品。'},{speaker:null,text:'（她笑出來，把捲好的試題本塞進你的包包。）'},{speaker:'kexin',text:'好吧，送你。不要給別人看。'},{goto:'e'},
-          {label:'b'},{speaker:null,text:'（你們坐在台階上，看總圖前面的人走來走去。）'},{speaker:null,text:'（過了很久，她把頭靠在你的肩膀上。）'},{speaker:'kexin',text:'……謝謝你沒有說話。'},{goto:'e'},
+          {label:'b'},{speaker:null,text:'（你們坐在台階上，看總圖前面的人走來走去。）'},{speaker:null,text:'（過了很久，她把頭靠在你的肩膀上。）'},{speaker:'kexin',text:'……再坐五分鐘。'},{goto:'e'},
           {label:'c'},{speaker:'kexin',text:'……你真的很不會安慰人。'},{speaker:'kexin',text:'可是你說得對。'},{speaker:'kexin',text:'那兩章下禮拜讀。你畫架構，我出題。'},
           {label:'e'},{speaker:'kexin',text:'好。今天考爛了，明天再說。'},{speaker:'kexin',text:'走吧，我好餓。早上緊張到沒吃。'} ] },
       { id:'ev_y0_r7', stage:'econ', title:'保齡球再戰', participants:['econ_zhengxun','kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:3,

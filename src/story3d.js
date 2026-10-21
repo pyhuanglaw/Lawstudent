@@ -3718,7 +3718,7 @@ const STORY = (function(){
   S.psKeep=G=>!!S.presence('classmate_peishan',G).keep;
   /* 每晚 23:00 以後她傳一則（AA_276 第 4 節，輪流）；放榜回來那段的替換句（放榜那天的事件做好時用：F.PS_KEPT＝整段都聯絡著）*/
   S.PS_KEEP_NIGHT=['今天寫完兩回考古題。地理還是最爛。','我媽煮了一大鍋湯，說喝完才可以去念書。','晚安。今天念書念到一半，有想到你。','模擬考的分數出來了。先不要問。','窗外下雨了。台中很少下這麼大。','今天沒有念完。明天補。晚安。'];
-  S.PS_KEEP_BACK='那半年，只有你知道我在幹嘛。……你一次都沒有跟別人說。';   /* 取代「我那時候誰都沒回。你也是。」（BB_194 第 19 節）*/
+  S.PS_KEEP_BACK='那半年，每天晚上十一點，我都傳一則給你。……現在可以白天講了。';   /* 取代「我那時候誰都沒回。你也是。」（BB_194 第 19 節）*/
   /* 大一下期中那兩週（第 8～9 週，語彤顧店的那一週，AA_11 事件 4）有沒有去過總圖：Y1_MID_LIB；舊存檔沒有這個旗標就看習慣記錄（place:library…）*/
   S.y1MidLib=function(G){ const F=G.flags||{}; if(F.Y1_MID_LIB) return true; const a=termDay('Y1S2',8,1), b=termDay('Y1S2',9,7); if(a==null||b==null) return false;
     const H=G.habits||{}; return Object.keys(H).some(k=>/^place:library(_hall)?:/.test(k)&&(H[k].days||[]).some(d=>d>=a&&d<=b)); };
