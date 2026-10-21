@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-21T15:5xZ LAWWW（帳號 A）接班：roles 36 項（AA-C 交接）——子項／規則版本／使用者要求編號寫進 reconcileIgnore，C 節【表外】10 項對到 20 個既有任務（offList）",
+  "updated": "2026-10-21T15:5xZ LAWWW（帳號 A）：AA_363（R、S、T）對到 AA-Q-1021-AA360／TE／Y5 改待開工；新增 AA363-S2-ECON-MONEY-1021、BUG-CAM-C208-1021",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -16337,9 +16337,9 @@
    "title": "垂直切片：溫州街 Café 前黃昏做到商業水準（後製、黃昏光、街道 AO＋路面、人物光影）（ART-POLISH 的一部分）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "進行中",
    "priority": "P1",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：溫州街美術暫停要不要解除（含本項、ART-WZ0）；在那之前 recheckOn 改到下一次發布或 10-28 ｜ LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
+   "next": "【LAWWW（帳號 A）15:4x】收尾：使用者 2026-10-21 15:3x 對 LAWWW2（帳號 A）：「黃昏收尾」（UA-LAWWW2-1021-09）——做到一半的做完就結案，不再擴大範圍（LAWWW2 以美術總監身分自己決定做到哪裡算收尾，UA-LAWWW2-1021-10） ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：溫州街美術暫停要不要解除（含本項、ART-WZ0）；在那之前 recheckOn 改到下一次發布或 10-28 ｜ LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16360,10 +16360,6 @@
     "ack": "ACK"
    },
    "pausedFrom": "待開工",
-   "pausedReason": "等使用者：只有使用者能解除；檢查日已過要更新｜原本：使用者 2026-10-17 05:0x 對 LAWWW2-C：「溫州街修改也暫停」",
-   "resumeWhen": "列進給使用者的「必須由你決定」：溫州街美術暫停要不要解除（含本項、ART-WZ0）；在那之前 recheckOn 改到下一次發布或 10-28",
-   "pausedBy": "使用者",
-   "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -16378,9 +16374,9 @@
    "title": "溫州街舊店面翻修：盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "暫停",
+   "status": "進行中",
    "priority": "P2",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：和 ART-VSLICE 一起請使用者決定；recheckOn 改新日期 ｜ LAWWW2-B 盤點舊店面",
+   "next": "【LAWWW（帳號 A）15:4x】恢復：使用者 2026-10-21 15:2x 對 LAWWW2（帳號 A）：「溫州街修改直接收尾 舊店面翻修繼續」（UA-LAWWW2-1021-08）——解除 10-17 05:0x「溫州街修改也暫停」；照原規劃盤點缺哪幾層 → 店面組件 → 套用 → 前後白天晚上截圖 ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：和 ART-VSLICE 一起請使用者決定；recheckOn 改新日期 ｜ LAWWW2-B 盤點舊店面",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16401,10 +16397,6 @@
     "ack": "ACK"
    },
    "pausedFrom": "待開工",
-   "pausedReason": "等使用者：同 ART-VSLICE｜原本：使用者 2026-10-17 05:0x 對 LAWWW2-C：「溫州街修改也暫停」",
-   "resumeWhen": "和 ART-VSLICE 一起請使用者決定；recheckOn 改新日期",
-   "pausedBy": "使用者",
-   "recheckOn": "v9.10 發布前（最晚 2026-10-25）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -16421,7 +16413,7 @@
    "owner": "LAWWW2",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "【10-20 15:2x 開發分支接好】LAWWW2-C 0acf75bc（三份街景 GLB 用現在的腳本重建：同方向重疊 溫州街 619→606、公館 398→389、118 巷 423→374 m²；修掉看得到的：割字貼紙、鋁框、冰箱貨架、門框、店內側牆、118 巷鐵捲門與窄窗）＋224156d0（說明）。flow_lane118 在開發分支跑；wz_street_integration 效能那一項、gongguan_glb_integration 四項 FAIL 是原本就有的（換 GLB 前後一樣）→ 交 BB／X69 ｜ 【12:3x LAWWW2-C 交班：e5532105 腳本改好、GLB 沒重建沒交付；A5 冰箱、公館冷氣還沒查】LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
+   "next": "【LAWWW（帳號 A）15:4x】溫州街部分解除暫停：使用者 2026-10-21 15:2x 對 LAWWW2（帳號 A）：「溫州街修改直接收尾 舊店面翻修繼續」（UA-LAWWW2-1021-08）——溫州街三處疊面（x 10.35、41.4、−4.3）、BACKLOG A7 小公園疊面做完結案、不擴大 ｜ 【10-20 15:2x 開發分支接好】LAWWW2-C 0acf75bc（三份街景 GLB 用現在的腳本重建：同方向重疊 溫州街 619→606、公館 398→389、118 巷 423→374 m²；修掉看得到的：割字貼紙、鋁框、冰箱貨架、門框、店內側牆、118 巷鐵捲門與窄窗）＋224156d0（說明）。flow_lane118 在開發分支跑；wz_street_integration 效能那一項、gongguan_glb_integration 四項 FAIL 是原本就有的（換 GLB 前後一樣）→ 交 BB／X69 ｜ 【12:3x LAWWW2-C 交班：e5532105 腳本改好、GLB 沒重建沒交付；A5 冰箱、公館冷氣還沒查】LAWWW2-B：溫州街三處先修；公館重建前先查結構差異",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16441,9 +16433,6 @@
     "acceptance": "glb_coplanar 掃描前後數字＋遊戲截圖",
     "ack": "ACTIONED"
    },
-   "pausedReason": "溫州街部分：使用者 2026-10-17 05:0x 對 LAWWW2-C「溫州街修改也暫停」（LAWWW-C 11:4x 誤派，LAWWW2-C 交班時指出）；公館、118 巷部分腳本改好（LAWWW2 e5532105）、GLB 沒重建",
-   "resumeWhen": "使用者說溫州街可以改；公館、118 巷那一半下一班 LAWWW2 可以先做（不碰溫州街）",
-   "pausedBy": "使用者",
    "nextCheck": "2026-10-25"
   },
   {
@@ -16748,7 +16737,7 @@
    "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P3",
-   "next": "LAWWW2-B 下一輪溫州街／公館一起改",
+   "next": "【LAWWW（帳號 A）15:4x】溫州街部分照「溫州街修改直接收尾」（UA-LAWWW2-1021-08）做完結案 ｜ LAWWW2-B 下一輪溫州街／公館一起改",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -26461,7 +26450,7 @@
    "id": "AA-Q-1021-TE",
    "title": "AA_361 學姊大四上那句「期末考完了嗎？我回來三個禮拜了。法圖旁邊那家，還在。」和日期對不上：她 2028-12-23 從美國回來，學期末邀約 12/24 20:30 就送出（termend_unit 9f）",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "source": "LAWWW-C 實作 AA_361 時發現",
    "first": {
@@ -26481,7 +26470,7 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    },
-   "next": "【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
+   "next": "【LAWWW（帳號 A）15:5x】AA 已答（AA_363 S1，221433e5）：改成「期末考完了嗎？我昨天回來的。法圖旁邊那家，還在。」 ｜ 【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
   },
   {
    "id": "BUG-PHONE-REOPEN-1021",
@@ -26534,7 +26523,7 @@
    "title": "AA_360 實作時遇到的 8 題（阿凱 5/20 照片、寒假快轉沒有「總圖」、路過版不快轉時間、「上禮拜六」第 10～11 週、CONTEST_HEARD 不進回憶、子代理選的表情、舊存檔用舊字、學妹配樂不是每個玩家都有）",
    "area": "v2",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "source": "AA_360 子代理回報（b622a82d）",
    "first": {
@@ -26554,7 +26543,7 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法"
+   "next": "【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 1 節，企劃線 221433e5）：要改 R1 阿凱照片換《九點以後》（y34b3d.js:140/142，舊存檔 ZQ_Q12==='cat' 照舊）、R3 a 跳到 22:00／c 加 15 分鐘、R4 改字、R5 CONTEST_HEARD 回憶名稱、R7 拿掉 c0、R8 拿掉 y34b3d.js:498 的 if；R2、R6 照現在 ｜ 【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法"
   },
   {
    "id": "BB-TEST-Y5-1021",
@@ -26588,7 +26577,7 @@
    "title": "AA_357 實作時遇到的（卡片第一頁、中秋照片誰傳、一跳只出最後一句的兩段、2-1 表空白、舊存檔報名規則、子代理自己定的作息日期、沒處理的三件、介面字）",
    "area": "v5",
    "owner": "AA",
-   "status": "等待其他AI／素材",
+   "status": "待開工",
    "priority": "P3",
    "source": "AA_357 子代理回報（ca9116ce）",
    "first": {
@@ -26608,7 +26597,7 @@
     "receiver": "LAWWW",
     "ack": "未派"
    },
-   "next": "【LAWWW-C 2026-10-21 14:5x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照子代理的暫定做法"
+   "next": "【LAWWW（帳號 A）15:5x】AA 已答（AA_363 第 3 節，企劃線 e39f0d6b）：要改 T1 第五年卡片＋新三選項、T2 照片阿哲傳、T3 一跳落點超過範圍最後一天出三選一不出共通、T4 畢業後資料頁沿用最後一列、T7 沒延畢的畢業生 9/3 後日期標籤／回套房／退宿後宿舍門口不能進、T9 中秋交通「捷運＋走路 約 30 分鐘」；T5、T6、T8 照現在 ｜ 【LAWWW-C 2026-10-21 14:5x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照子代理的暫定做法"
   },
   {
    "id": "BUG-SMOKE-JOY-1021",
@@ -26629,6 +26618,62 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 14:5x UTC 交班，調查到一半】已排除：手機一直自己打開（另案已修 4c90c913，推搖桿時手機關著照樣 0.36 m）、幀率（乾淨環境待機 4.2 fps，推的那段 6 格≈1.8 秒遊戲時間應走 2 m 以上）。證據：出生點 (0,2.4)、鏡頭 yaw −2.74，E.simWalk 前方 1 m 在 (0.07,2.77) stuck（找路說通、移動被擋）；v9.10.2 9335763d 同一點一樣卡＝不是新障礙。下一步照 docs/handoff/release_9103/README.md 第 6 節：查 (0.07,2.77) 是什麼、用 v9.10.2 當時的 smoke 對 9335763d 跑、判斷是測試推的方向還是碰撞；一次只跑一支瀏覽器"
+  },
+  {
+   "id": "AA363-S2-ECON-MONEY-1021",
+   "title": "經濟系休學搬回家以後的錢（AA_363 S2）：每月生活費改 5,000、學費不從帳戶扣、回宿舍那個月起恢復 30,000、不設上限、舊存檔不扣回",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "next": "【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
+   "first": {
+    "term": "Y0S1",
+    "week": 8,
+    "earliest": "經濟系 10/17 休學搬回家以後",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_363 S2（企劃線 221433e5；AA 15:31 send_message）",
+   "authorized": "D100：AA 的稿就是定稿",
+   "xai": {
+    "spec": "docs/story_planning/AA_363_回LAWWW_AA_QUESTIONS_1021_R_S_T.md 第 2 節",
+    "branch": "claude/story-planning",
+    "acceptance": "單元測試：搬回家後每月 5,000、學費不扣、回宿舍那月恢復 30,000、舊存檔不扣回；BB 經濟系流程測試",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-CAM-C208-1021",
+   "title": "美國交換 C 棟 2F 208 門口走廊 17:46 鏡頭卡進牆／屋簷：y1 方向整個畫面米色平面、y2 方向木牆擋住三分之二看不到玩家",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "【LAWWW（帳號 A）15:5x】等 BB 補拍四個方向＋19:00 的重現步驟，再查鏡頭碰撞（走廊牆、屋簷有沒有進 E.colliders）",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國交換 8/2 以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）15:33 send_message；test_shots/artrev_1021/38_c208_17_y1.webp、39_c208_17_y2.webp",
+   "authorized": "玩家看得到的畫面錯誤（D99 第三優先：美國交換）",
+   "xai": {
+    "spec": "BB 的重現步驟（補拍後）",
+    "branch": "claude/story-planning",
+    "acceptance": "BB 同位置四個方向、17:46 與 19:00 都看得到玩家、沒有大片牆面",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }
