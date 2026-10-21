@@ -1,7 +1,7 @@
 # outbox_BB.json 要改的地方
 
 - 來源：LAWWW-C 的子代理，2026-10-21，對 `origin/claude/wonderful-mayer-7fm9g6 fcdc576d`。工具：`python3 tools/handoff/check_handoff.py incr`。
-- 現在報 **39 項**；照下面改完，用同一支工具的 `outbox_problems()` 模擬＝**0 項**（LAWWW-C 10-21 13:5x：要用的任務都在總表了——AFFAIR-P0-1017 不另開、改用 EVPKG-AA227-228-KNOW；STORY-AUDIT-1017 已開）。
+- 現在報 **39 項**；照下面改完，用同一支工具的 `outbox_problems()` 模擬＝**0 項**（LAWWW-C 10-21 13:4x：要用的任務都在總表了——AFFAIR-P0-1017 不另開、改用 EVPKG-AA227-228-KNOW；STORY-AUDIT-1017 已開）。
 - 只改欄位，**舊的筆數不要刪**。state、task 原本括號裡的說明搬到新欄位 `note`（工具不讀 note，資訊不會丟）。
 
 ## 同類一起改（規則）

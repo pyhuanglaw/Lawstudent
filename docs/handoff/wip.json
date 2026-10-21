@@ -368,7 +368,7 @@
    ],
    "state": "已整合",
    "remaining": "黃金葛已整合（待瀏覽器）；SCN-V3-01 大二 312 物件照 AA_208 7-1 重擺（還沒做）",
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】黃金葛（F.POTHOS）、大二 312 拆箱物件 dorm_y2_items.glb（899f9bcd）都已接（1053653c） ｜ 舊：黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】黃金葛（F.POTHOS）、大二 312 拆箱物件 dorm_y2_items.glb（899f9bcd）都已接（1053653c） ｜ 舊：黃金葛：LAWWW 接 F.POTHOS；312 物件等 LAWWW2 重擺",
    "noDirectIntegrate": true,
    "source": "DL-LW2-POTHOS-412",
    "closedBy": "1053653c"
@@ -384,7 +384,7 @@
    ],
    "state": "WIP",
    "remaining": "4 張背景",
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC】公館機車行背景依 AA_252 刪（89c856f8），道具組沒有戲用；其餘三張 2D 背景歸 BB（ART-BG-AA185） ｜ 舊：道具驗收過；4 張 2D 背景還沒開工",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】公館機車行背景依 AA_252 刪（89c856f8），道具組沒有戲用；其餘三張 2D 背景歸 BB（ART-BG-AA185） ｜ 舊：道具驗收過；4 張 2D 背景還沒開工",
    "noDirectIntegrate": true,
    "source": "WIP_INVENTORY_2026-10-17"
   },
@@ -400,7 +400,7 @@
    ],
    "state": "已整合",
    "remaining": "",
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】被新版取代：美國公寓照 3bff5ef4 的正式區域接進（4782cc29），這筆 5e688f34 是舊版 ｜ 舊：MODEL_READY；大三下美國篇才整合（D81 第二條線）",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】被新版取代：美國公寓照 3bff5ef4 的正式區域接進（4782cc29），這筆 5e688f34 是舊版 ｜ 舊：MODEL_READY；大三下美國篇才整合（D81 第二條線）",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17",
    "closedBy": "4782cc29"
@@ -433,7 +433,7 @@
    ],
    "state": "已整合",
    "remaining": "",
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】經濟系三位立繪改 id econ_*（b82b9eaf），blob 和 8fbe1e1a 相同 ｜ 舊：等 v0 人物 id（AA-REQ-06）和表情",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】經濟系三位立繪改 id econ_*（b82b9eaf），blob 和 8fbe1e1a 相同 ｜ 舊：等 v0 人物 id（AA-REQ-06）和表情",
    "noDirectIntegrate": false,
    "source": "WIP_INVENTORY_2026-10-17",
    "closedBy": "b82b9eaf"
@@ -449,7 +449,7 @@
    ],
    "state": "已整合",
    "remaining": "腳本 WIP",
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】小語做完接進（55b67ccf）；明軒照 D99 凍結、使用者 10-17 20:5x 停人物細修，不再做 ｜ 舊：帳號 A 的 WIP 腳本：跑 Blender、BB D59 驗收",
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC，LAWWW2 BACKLOG_SWEEP_1021 D 節】小語做完接進（55b67ccf）；明軒照 D99 凍結、使用者 10-17 20:5x 停人物細修，不再做 ｜ 舊：帳號 A 的 WIP 腳本：跑 Blender、BB D59 驗收",
    "noDirectIntegrate": true,
    "source": "WIP_INVENTORY_2026-10-17",
    "closedBy": "55b67ccf"

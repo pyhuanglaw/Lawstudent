@@ -11553,7 +11553,7 @@
    "task": "LINZE-WANCAI-FLOORS-1020",
    "msg": "ACK",
    "integration": "取消／被取代",
-   "note": "【LAWWW-C 2026-10-21 13:5x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
   },
   {
    "id": "DL-AA-b6757852",
@@ -12462,7 +12462,7 @@
    "task": "ART-BG-AA185",
    "msg": "ACK",
    "integration": "不整合",
-   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不整合：video_far_jp 沒有戲用到（視訊照現在的寫法不換底圖）、老國小沒排到戲（64a9e2af 改市場）；圖留在 LAWWW2 分支，有戲要用再接（ART-BG-AA185 owner BB） ｜ LAWWW2 交接檔記「AA185 交件 23456747」，deliveries 之前沒有這筆；開發分支沒有 video_far_jp／old_school_playground／video_far_us 三張。老國小目前沒排到戲（64a9e2af：AA-C 春假第一站改市場，留著備用）；公館機車行那張已依 AA_252 刪（89c856f8）。D100 起 2D 背景歸 BB（ART-BG-AA185 owner BB，next 已寫 LAWWW2 分支上做好的保留、BB 接手先看能不能用）。場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不整合：video_far_jp 沒有戲用到（視訊照現在的寫法不換底圖）、老國小沒排到戲（64a9e2af 改市場）；圖留在 LAWWW2 分支，有戲要用再接（ART-BG-AA185 owner BB） ｜ LAWWW2 交接檔記「AA185 交件 23456747」，deliveries 之前沒有這筆；開發分支沒有 video_far_jp／old_school_playground／video_far_us 三張。老國小目前沒排到戲（64a9e2af：AA-C 春假第一站改市場，留著備用）；公館機車行那張已依 AA_252 刪（89c856f8）。D100 起 2D 背景歸 BB（ART-BG-AA185 owner BB，next 已寫 LAWWW2 分支上做好的保留、BB 接手先看能不能用）。場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-LAWWW2-236edded",
@@ -12475,7 +12475,7 @@
    "task": "ART-BG19",
    "msg": "ACK",
    "integration": "不整合",
-   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：D99 夠用素材凍結，遊戲裡的第四版能用、玩家看得到的差別是細節；第五版留在 LAWWW2 分支，BB 畫面驗收第四版有退件再換 ｜ 開發分支的 gongguan_cinema.webp 還是 0100994c 的第四版（74a655e8 接的，blob e931b857）。LAWWW2 交接檔：售票亭電風扇、椅背腳本改了但圖沒重算，「第五版的圖照用」。這張在 D99（10-17 21:0x 夠用素材凍結）之前做的，要不要換由 LAWWW-C 決定；ART-BG-AA185 next 也記了「戲院與咖哩店第五版保留在 LAWWW2 分支」。pinyu_ears.py 不是這筆的成果（使用者 20:5x 停人物細修，品妤 v7 沒交）。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-LAWWW2-01fee6a1",
@@ -12488,7 +12488,7 @@
    "task": "ART-BG14",
    "msg": "ACK",
    "integration": "不整合",
-   "note": "【LAWWW-C 2026-10-21 13:5x UTC 讀過】不換：同上（D99 凍結，第四版能用）；第五版留在 LAWWW2 分支 ｜ 開發分支的 yongkang_curry.webp 還是 0100994c 的第四版（blob ab6380a4）。D99 之前做的精修，要不要換由 LAWWW-C 決定；場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
+   "note": "【LAWWW-C 2026-10-21 13:4x UTC 讀過】不換：同上（D99 凍結，第四版能用）；第五版留在 LAWWW2 分支 ｜ 開發分支的 yongkang_curry.webp 還是 0100994c 的第四版（blob ab6380a4）。D99 之前做的精修，要不要換由 LAWWW-C 決定；場景美術 READY_FOR_ART_REVIEW 等使用者。LAWWW-C 讀過就把 msg 改 ACK"
   },
   {
    "id": "DL-AA-e2fafef2",
@@ -12527,7 +12527,7 @@
    "task": "ART-17",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 14:1x 照原檔複製到 assets/bg、OUT.BG 登記（cram_counter、mrt_night、seaside_town 原本 image:null）；tests/bg_images_unit.js 2g（改之前 FAIL）；jp_dorm_lobby 等 jp_lounge 交件"
+   "note": "LAWWW-C 13:4x 照原檔複製到 assets/bg、OUT.BG 登記（cram_counter、mrt_night、seaside_town 原本 image:null）；tests/bg_images_unit.js 2g（改之前 FAIL）；jp_dorm_lobby 等 jp_lounge 交件"
   },
   {
    "id": "DL-AA-d07eb988",
@@ -12540,7 +12540,7 @@
    "task": "Y5-DELAY-1021",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "【LAWWW-C 14:1x】子代理實作中（14:1x 派）"
+   "note": "【LAWWW-C 13:4x】子代理實作中（14:1x 派）"
   },
   {
    "id": "DL-AA-659d9d81",
@@ -12553,7 +12553,7 @@
    "task": "AA358-KNOW-FIX-1021",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "【LAWWW-C 14:1x】第 2 節和階梯四檔排下一批"
+   "note": "【LAWWW-C 13:4x】第 2 節和階梯四檔排下一批"
   },
   {
    "id": "DL-AA-c7dd0000",
@@ -12566,7 +12566,7 @@
    "task": "DATE-OVERNIGHT-1021",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "【LAWWW-C 14:1x】CPU 空出來派子代理"
+   "note": "【LAWWW-C 13:4x】CPU 空出來派子代理"
   },
   {
    "id": "DL-AA-56a36a4d",
@@ -12579,7 +12579,7 @@
    "task": "AA-VAC-C16-C18-Q-1021",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "【LAWWW-C 14:1x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準"
+   "note": "【LAWWW-C 13:4x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準"
   },
   {
    "id": "DL-AA-2f1aaa22",
@@ -12592,7 +12592,7 @@
    "task": "AA-Q-1021-PG",
    "msg": "ACK",
    "integration": "未整合",
-   "note": "【LAWWW-C 14:1x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
+   "note": "【LAWWW-C 13:4x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
   }
  ],
  "ignored": [
