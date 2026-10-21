@@ -829,13 +829,12 @@
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
     "docs/story_planning/test_tools/p3b_probe.py"
    ],
-   "state": "WIP",
-   "remaining": "② 通知條、⑤ 舊訊息紅點（p3b 排隊）",
-   "next": "跑完寫 BB_218",
+   "state": "已測試",
+   "next": "無",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "①③⑥ PASS（aa300 ff 94eba942）；④ PASS（aa368 S 2b25a509：8/30 小字只剩「開車」）"
+   "note": "①③⑥ PASS（aa300 ff 94eba942）；④ PASS（aa368 S 2b25a509）；② PASS（p3b 第四輪：手機開著時通知條在下面、不蓋分頁；筆記本開著也在下面；沒開在上面，橫直向）；⑤ PASS（14 天以上的未讀 0，修正前算法 15～27 則）"
   },
   {
    "task": "BB-TEST-0830-ECONHOME-1021",
@@ -851,6 +850,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "① PASS：8/29 05:00 轉法律系、晚上直接睡到 8/30 07:30"
+  },
+  {
+   "task": "BUG-CAMP-CUT-1018",
+   "branch": "claude/story-planning",
+   "sha": "92315ca5",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/campcut_probe.py"
+   ],
+   "state": "已測試",
+   "next": "觀察 a～c（P3）：校門口黑底、宿營 21:30 白天背景、劇情按鈕浮在筆記本上",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D"
   }
  ],
  "items": [

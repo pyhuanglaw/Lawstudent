@@ -11,7 +11,8 @@ URL, OUT = sys.argv[1], sys.argv[2]
 ONLY = os.environ.get('ONLY', '').split(',') if os.environ.get('ONLY') else None
 TOP = """(()=>{ const x=innerWidth/2, y=innerHeight*0.32; const e=document.elementFromPoint(x,y); const f=document.getElementById('fade');
   let G=null; try{ G=GAME.G; }catch(err){}
-  return {top:e?(e.id||String(e.className||'').slice(0,30)||e.tagName):'', tag:e?e.tagName:'', fade:f?+getComputedStyle(f).opacity:null, adv:!!(typeof ADV!=='undefined'&&ADV.active),
+  const ar=document.getElementById('adv'), ab=document.getElementById('advBg'); const advOp=ar?+getComputedStyle(ar).opacity:0; const advImg=ab?getComputedStyle(ab).backgroundImage:'';
+  return {top:e?(e.id||String(e.className||'').slice(0,30)||e.tagName):'', tag:e?e.tagName:'', fade:f?+getComputedStyle(f).opacity:null, adv:!!(typeof ADV!=='undefined'&&ADV.active), advOp, advBg:!!advImg&&advImg!=='none',
     d:G?CALENDAR.dateOf(G.day).key:'', h:G?+(+G.hour).toFixed(2):0, zone:G?G.zone:'', dlg:((document.getElementById('dlgText')||{}).textContent||'').trim().slice(0,24),
     card:((document.getElementById('titleCard')||document.getElementById('tcard')||{}).textContent||'').trim().slice(0,24)}; })()"""
 
@@ -48,7 +49,7 @@ def sheet(frames, out, per=24, w=240):
         for i, fr in enumerate(ch):
             x, y = (i % cols) * w, (i // cols) * (h + 18)
             sh.paste(Image.open(fr['f']).convert('RGB').resize((w, h)), (x, y + 18))
-            d.text((x + 2, y + 2), '%s %s %.1f %s' % (fr['rt'], fr['d'][5:], fr['h'], fr['tag']), fill=(255, 255, 0) if fr['tag'] == 'CANVAS' else (200, 200, 200))
+            d.text((x + 2, y + 2), '%s %s %.1f %s' % (fr['rt'], fr['d'][5:], fr['h'], fr['tag']), fill=(255, 255, 0) if not (fr.get('advOp', 0) >= 0.9 and fr.get('advBg')) else (200, 200, 200))
         fn = out.replace('.png', '_%d.png' % (s // per + 1)); sh.save(fn); files.append(fn)
     return files
 
@@ -61,10 +62,11 @@ async def main():
             frames, errs, seen = await one(p, run, mode)
             # 宿營開場的範圍：第一張提到宿營／遊覽車的那一格 → 最後一格；那之間畫面中間是 3D 畫布的格子
             i0 = next((i for i, f in enumerate(frames) if '宿營' in (f['dlg'] + f['card']) or '遊覽車' in (f['dlg'] + f['card'])), None)
-            cv = [f for f in (frames[i0:] if i0 is not None else []) if f['tag'] == 'CANVAS' and (f['fade'] is None or f['fade'] < 0.5)]
+            # 10-21 第一輪：#adv（2D 那一層）是 pointer-events:none，elementFromPoint 永遠回 3D 畫布，22 格全被算成 CANVAS——改成：2D 那一層沒蓋著（不透明度 < 0.9 或沒有背景圖）而且沒有黑幕、字卡，才算露出 3D
+            cv = [f for f in (frames[i0:] if i0 is not None else []) if not (f.get('advOp', 0) >= 0.9 and f.get('advBg')) and (f['fade'] is None or f['fade'] < 0.5) and not f.get('card')]
             files = sheet(frames, os.path.join(OUT, '%s_sheet.png' % mode))
             for f in frames[:]:
-                if f['tag'] != 'CANVAS' and f not in frames[:3]:
+                if (f.get('advOp', 0) >= 0.9 and f.get('advBg')) and f not in frames[:3]:
                     try: os.remove(f['f'])
                     except Exception: pass
             res[mode] = {'frames': len(frames), 'camp_from': i0, 'canvas_in_camp': [(f['rt'], f['d'], f['h'], f['dlg']) for f in cv], 'sheets': files}
