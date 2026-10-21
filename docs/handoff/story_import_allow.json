@@ -1002,6 +1002,22 @@
    "note": "LAWWW-C 手抄進 src/data/postgrad_lines.js（B1_2030、R2_2030、FIRST_RETAKE、EPI_PARTNER）"
   },
   {
+   "path": "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md",
+   "sha": "a7bd9741",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；第二版，取代同一天的第一版 1b4bbdac）；第 1 節五段的開頭那一則、第 2 節每一格她說的一句由 tools/story/import_pg_dates.py 匯入 src/data/pg_dates.js；第 1、3 節的日子、時間、不排、停、舊存檔照稿手動寫進 src/pgdates3d.js（tests/aa366_kx_postgrad_unit.js）",
+   "task": "AA366-KX-POSTGRAD-1021",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
+   "sha": "a7bd9741",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿）；第 1～6 節每個月她說的一句由 tools/story/import_pg_dates.py 匯入 src/data/pg_dates.js；第 0 節共通規格、各節的方式與不排的月份照稿手動寫進 src/pgdates3d.js（tests/aa367_pg_dates_unit.js）；第 9 節語彤 2030-10-01 那一則開發分支已經是新句",
+   "task": "AA367-PG-DATES-1021",
+   "kind": "text"
+  },
+  {
    "path": "docs/story_planning/AA_333_HOL-VA_VA08_語彤_麵店過年店休.md",
    "sha": "56b6f64e",
    "status": "approved",
