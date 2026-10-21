@@ -116,7 +116,7 @@ const TERMEND=(function(){
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag); S.planKexin(G,w); } }   /* 可昕：她排好了，直接排出遊（不佔名額）*/
-    for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id; if(now>=T(d1,20.25)&&!PHONE.sent(G,tag)) PHONE.at(G,d1,20.25,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until,opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); }
+    for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id, dg=Math.max(S.fromDay(w,id),d1); if(now>=T(dg,20.25)&&!PHONE.sent(G,tag)) PHONE.at(G,dg,20.25,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until,opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); }   /* 女朋友的邀約也照 S.FROM：學姊大四上 12/23 才從美國回來，原本 12/21 20:15 就約（BUG-SIS-Y4S1-DATEINV-1021）*/
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ const f=Lx.FRIEND[id]; send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||f.gen),f.no); }
     S.pickCheck(GM); };

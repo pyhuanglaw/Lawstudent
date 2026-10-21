@@ -154,11 +154,13 @@ const ECONFF=(()=>{
     return n; };
   const setT=(G,E,day,h)=>{ if(day!==G.day){ G.day=day; G.weekday=wdOf(day);   /* 0＝週日（game3d 的 WEEK、sleepNow 都是 0；原本 ||7 會錯開，AA-C 10-18 回報）*/ G.energy=100; if(G.flags) G.flags.companion=null; G.weather=(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(day))?'rain':'clear'; } G.hour=h; if(E) E.hour=G.hour; };
   /* 往前跳到 (day,h)：每 15 分鐘走一格，整點跑手機規則；收到要回的訊息就停（回傳 'msg'）*/
-  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour;
+  S.jumpTo=function(GM,day,h){ const G=GM.G, E=GM.E; const target=day*24+h; const p0=typeof PHONE!=='undefined'&&PHONE.pending?PHONE.pending(G).length:0; let t=G.day*24+G.hour, mo=null;
+    const paid=()=>{ if(mo&&GM.toast) GM.toast(mo.text,3800); };
     while(t+0.25<=target+1e-6){ t=Math.round((t+0.25)*4)/4; const d=(h>=24&&t>=day*24)?day:Math.floor(t/24); setT(G,E,d,t-d*24);   /* h≥24：深夜還算前一天（遊戲的「過了午夜還是晚上」）*/
+      if(Math.abs(t-Math.round(t))<1e-6&&typeof STORY!=='undefined'&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=f; } }   /* 住宿舍的月份也照月匯（BUG-ECON-OCT-ALLOWANCE-1021：原本只有搬回家以後的 HOME.y0Jump 會匯，10/1 那筆一直沒匯，到 10/31 搬家才照在家的 5,000 匯）*/
       if(Math.abs(t-Math.round(t))<1e-6&&typeof PHONE!=='undefined'){ let got=0; try{ if(typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('ECONFF phone',e); }
-        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0) return 'msg'; } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
-    setT(G,E,day,h); return 'ok'; };
+        if((PHONE.pending&&PHONE.pending(G).length>p0)||got>0){ paid(); return 'msg'; } } }   /* 任何新訊息都停（使用者 10-18 15:4x），打開那一段、按「跳過」繼續 */
+    setT(G,E,day,h); paid(); return 'ok'; };
   async function sitIn(GM,it){ const E=GM.E, P=E.player; const room=it.room&&it.room.room; const seats=((E.zone&&E.zone.seats)||[]).filter(q=>!room||q.room===room);
     const free=seats.filter(q=>!GM.freeSeat||GM.freeSeat(q)===q); const st=free[Math.floor(free.length/2)]||seats[0]; if(st&&GM.sitAt) GM.sitAt(P,st); return {st,free}; }
   /* 有劇情的課：帶到教室坐好，講到話的同學坐在附近，上課 */

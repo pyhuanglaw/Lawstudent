@@ -120,11 +120,14 @@ const Y5=(function(){
       if(k===1) await GM.say(who('yu'),'……我也不知道。所以今年要吃多一點。'); else await GM.say(who('zhe'),'你說的喔。'); }
     await GM.say(null,'（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）');
     G.flags.MIDAUTUMN_2029='went'; };
-  S.moonPlan=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_moon29',ev:'ev_pg_moon29',day:DKy(S.MOON_DAY),h:18,late:0.5,place:'河濱',title:'中秋：河濱',travel:'騎車約 15 分鐘',travelH:0.25});
+  /* AA_363 T9：交通「捷運＋走路 約 30 分鐘」（2029-06-28 以後大家都退宿了，祐廷從臺北的家出發；原本「騎車約 15 分鐘」）。從家裡出發也是這一句（homeTravel，outings3d.js OUT.trip）*/
+  S.MOON_TRAVEL='捷運＋走路 約 30 分鐘';
+  S.moonPlan=G=>typeof OUT!=='undefined'&&OUT.plan(G,{id:'pg_moon29',ev:'ev_pg_moon29',day:DKy(S.MOON_DAY),h:18,late:0.5,place:'河濱',title:'中秋：河濱',travel:S.MOON_TRAVEL,travelH:0.5,homeTravel:S.MOON_TRAVEL});
   S.moonRules=function(G){ const F=(G&&G.flags)||{}; if(!G||!law(G)||typeof PHONE==='undefined') return; const d=DKy(S.MOON_DAY); if(d==null||G.day<d-3||G.day>d+2) return;
     if(F.MOON29_GO===true&&F.MIDAUTUMN_2029==null&&typeof OUT!=='undefined'&&!OUT.get(G,'pg_moon29')) S.moonPlan(G);
+    { const q=typeof OUT!=='undefined'?OUT.get(G,'pg_moon29'):null; if(q&&q.state==='planned'&&q.homeTravel==null) Object.assign(q,{travel:S.MOON_TRAVEL,travelH:0.5,homeTravel:S.MOON_TRAVEL}); }   /* 舊版本已經排好的（「騎車約 15 分鐘」）：出發前換成 AA_363 T9 那一行 */
     if(F.MIDAUTUMN_2029==null&&F.MOON29_GO!==true&&PHONE.sent(G,'pg_moon29')&&now(G)>=T(d,18)) F.MIDAUTUMN_2029='no';   /* 沒回 */
-    if(F.MIDAUTUMN_2029==='no'&&!PHONE.sent(G,'pg_moon29_photo')) PHONE.at(G,d,22,[GRP(null,'📷（河濱，烤肉架，螢幕裡的明軒在揮手）')],'pg_moon29_photo'); };   /* 誰傳的 AA 沒寫：群組裡不寫名字 */
+    if(F.MIDAUTUMN_2029==='no'&&!PHONE.sent(G,'pg_moon29_photo')) PHONE.at(G,d,22,[GRP('zhe','📷（河濱，烤肉架，螢幕裡的明軒在揮手）')],'pg_moon29_photo'); };   /* AA_363 T2：阿哲傳的（他借烤肉架、開視訊，照片也是他拍的），群組顯示「阿哲」*/
   S.MSGS=[{tag:'pg_moon29',at:['2029-09-20',21],cond:G=>graduatedPG(G)&&inNoodle(G),items:G=>S.moonMsg(G)}];
   S.EVS=[{id:'ev_pg_moon29',title:'中秋',participants:[],location:'any',trigger:'outing',background:'dark',hours:1.5,dialogue:[],
     beforeOuting:async(G,GM,q)=>{ await S.moonScene(GM); }, outingMissed:(G,GM,q)=>{ if(G.flags.MIDAUTUMN_2029==null) G.flags.MIDAUTUMN_2029='no'; S.moonRules(G); }}];
