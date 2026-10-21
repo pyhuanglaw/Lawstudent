@@ -27004,6 +27004,30 @@
     "ca50db33"
    ],
    "next": "ca50db33：attendBetween 加 d0（跳之前那一天），S.advance 傳 d0；econ_ff_unit 加真正呼叫順序的檢查（修改前 2 項失敗、修改後全過）；也放進 v9.10.3 候選第三版 f27c36e9，flow_v0_start 背景重跑"
+  },
+  {
+   "id": "BUG-PG-JUMP-PHONE-1021",
+   "title": "畢業以後長跳（60 天以上）整段不跑整點手機規則：每 6 小時一步、起點不在整點時每一步都不在整點，「那一天幾點以後」的訊息整段不見（可昕 10/10 週年邀約、10/17 第五年……）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "first": {
+    "term": "Y4S2",
+    "week": null,
+    "earliest": "畢業以後（2029-06 起）跳 60 天以上，例：台灣路線沒報 2029 國考 9/22→12/14",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA 16:45 盤點發現（postgrad3d.js:447–449）",
+   "authorized": "bug 修正",
+   "sha": [
+    "e36faad7"
+   ],
+   "next": "e36faad7：長跳對齊在每天 05／11／17／23 點、每一步跑整點規則；tests/pg_longjump_phone_unit.js（修改前 2 項失敗），畢業後相關 18 支單元測試全過；83 天 0.66 秒。更窄的時段長跳會錯過：AA 寫畢業後節奏（AA_366 改版／AA_367）時要準時的訊息做成停點。BB 驗：台灣路線沒報國考那一跳，10/10、10/17 的可昕訊息有出現"
   }
  ]
 }
