@@ -12177,6 +12177,97 @@
    "msg": "ACK",
    "integration": "未整合",
    "note": "AA-C 10-21 訊息；LAWWW-C 開任務、排子代理"
+  },
+  {
+   "id": "DL-AA-3f406dbc",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "3f406dbc",
+   "what": "AA_350 回 AA_QUESTIONS_1021 M、N 十八題（M1、M5、M7、N1～N4、N8、N9 要改程式）",
+   "task": "AA350-ANSWERS-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "aad9f57e（M1、M5、M7、N1～N4）、382236a5（N9 舊存檔）；N8 併 HOLIDAY-PRESENCE-1021 子代理"
+  },
+  {
+   "id": "DL-AA-f21eac3c",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "f21eac3c",
+   "what": "約會台詞口語審 DATE-L 第一批：D01 D02 D03 D05 D07 D15～D19（約 910 句）",
+   "task": "DATE-L01",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "634f6324：白名單＋import_date_lines.py；D15、D16 沒底圖不列；DATE-L02 03 05 07 15～19 同一筆"
+  },
+  {
+   "id": "DL-AA-6f472c61",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "6f472c61",
+   "what": "AA_352 女朋友的學期末約會：飯桌一句每學期不一樣",
+   "task": "AA352-GF-TABLE-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "634f6324；子晴 Q6 那一句 AA 已直接改開發分支 ac91ebea（3ae17a4e 合併）"
+  },
+  {
+   "id": "DL-AA-ac91ebea",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/adoring-meitner-mqzst8",
+   "sha": "ac91ebea",
+   "what": "AA_352 子晴學期末約會（看過 Q6）那一句去掉用遊戲講感情（AA 直接推開發分支）",
+   "task": "AA352-GF-TABLE-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "3ae17a4e 合併；termend_unit ALL PASS"
+  },
+  {
+   "id": "DL-AA-7915ac9d",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "7915ac9d",
+   "what": "寒暑假第二批活動 C16 法扶實習、C17 律所暑期實習、C18 海外見習團 活動卡（AA_199 第 7-7 節）",
+   "task": "VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-C 10-21 12:10 訊息；台詞 ede67b34 同一件"
+  },
+  {
+   "id": "DL-AA-ede67b34",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ede67b34",
+   "what": "C16～C18 台詞（AA_242 第 9～11 節）",
+   "task": "VAC-C16-C18-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "AA-C 10-21 12:10 訊息"
+  },
+  {
+   "id": "DL-LAWWW2-09324bda",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "09324bda",
+   "what": "體育館 1F／B1 燈光暈接線 patch（gym_glow_batch.diff）＋光暈大小改在腳本＋疊面（清查 A1、A2）；換 gym_interior.glb、gym_b1.glb",
+   "task": "GYM-GLOW-COPLANAR-1021",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW2-C 12:28 訊息；patch 動 src/gym3d.js、src/zones3d.js（git apply 可直接套）"
   }
  ],
  "ignored": [
@@ -14883,6 +14974,12 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "kind": "handoff_record",
    "reason": "BACKLOG-SWEEP-AA-1021：AA 清查結果寫在 AA 交接紀錄「全部待辦」（表外五件已開任務：EVPKG-AA346-APART、AA347-Y1-COVER-1021、HOLIDAY-PRESENCE-1021…）"
+  },
+  {
+   "sha": "edfe5a2c",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2-C 記錄使用者 10-21 12:0x 直接對 LAWWW2 的指示（UA-LAWWW2-1021-02，user_asks_LAWWW2.json）、ART_SOP 第 10 節品質標準、巡場景紀錄；不是要整合的成果（USER_WANTS 由 LAWWW 同步，見 X90）"
   }
  ]
 }

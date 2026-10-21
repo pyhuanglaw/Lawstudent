@@ -95,11 +95,11 @@ img_quad('fitness_east_floor', M['granite'], [(FI['x1'], 0.002, Z1), (CO['x1'], 
 for (a, b, c, d) in ((X0, X1, Z0, BA['z0']), (X0, X1, BA['z1'], PO['z1']), (X0, BA['x0'], BA['z0'], BA['z1']), (BA['x1'], X1, BA['z0'], BA['z1'])):   # 池邊（池子挖掉）
     img_quad(f'deck_{a:.0f}_{c:.0f}', M['deck'], [(a, 0.002, d), (b, 0.002, d), (b, 0.002, c), (a, 0.002, c)], ((a - X0) / 0.5, (Z1 - d) / 0.5, (b - X0) / 0.5, (Z1 - c) / 0.5))
 img_quad('pool_bottom', M['pool_floor'], [(BA['x0'], -DEP, BA['z1']), (BA['x1'], -DEP, BA['z1']), (BA['x1'], -DEP, BA['z0']), (BA['x0'], -DEP, BA['z0'])], (0, 0, 1, 1))
-mo = acc('mosaic')                                                   # 池壁（朝池子裡）
-for (pts) in ([(BA['x0'], -DEP, BA['z0']), (BA['x1'], -DEP, BA['z0']), (BA['x1'], 0, BA['z0']), (BA['x0'], 0, BA['z0'])],
-              [(BA['x1'], -DEP, BA['z1']), (BA['x0'], -DEP, BA['z1']), (BA['x0'], 0, BA['z1']), (BA['x1'], 0, BA['z1'])],
-              [(BA['x0'], -DEP, BA['z1']), (BA['x0'], -DEP, BA['z0']), (BA['x0'], 0, BA['z0']), (BA['x0'], 0, BA['z1'])],
-              [(BA['x1'], -DEP, BA['z0']), (BA['x1'], -DEP, BA['z1']), (BA['x1'], 0, BA['z1']), (BA['x1'], 0, BA['z0'])]):
+mo = acc('mosaic')                                                   # 池壁（朝池子裡；上緣停在池緣磚下面 2 cm，原本和池緣磚的內側疊面）
+for (pts) in ([(BA['x0'], -DEP, BA['z0']), (BA['x1'], -DEP, BA['z0']), (BA['x1'], -0.02, BA['z0']), (BA['x0'], -0.02, BA['z0'])],
+              [(BA['x1'], -DEP, BA['z1']), (BA['x0'], -DEP, BA['z1']), (BA['x0'], -0.02, BA['z1']), (BA['x1'], -0.02, BA['z1'])],
+              [(BA['x0'], -DEP, BA['z1']), (BA['x0'], -DEP, BA['z0']), (BA['x0'], -0.02, BA['z0']), (BA['x0'], -0.02, BA['z1'])],
+              [(BA['x1'], -DEP, BA['z0']), (BA['x1'], -DEP, BA['z1']), (BA['x1'], -0.02, BA['z1']), (BA['x1'], -0.02, BA['z0'])]):
     mo.quad(pts)
 for (a, b, c, d) in ((BA['x0'] - 0.3, BA['x1'] + 0.3, BA['z0'] - 0.3, BA['z0']), (BA['x0'] - 0.3, BA['x1'] + 0.3, BA['z1'], BA['z1'] + 0.3),   # 池緣（白色倒角磚＋溢水溝的格柵）
                      (BA['x0'] - 0.3, BA['x0'], BA['z0'], BA['z1']), (BA['x1'], BA['x1'] + 0.3, BA['z0'], BA['z1'])):
@@ -165,7 +165,7 @@ for (a, b) in ((FI['x0'], fx0), (fx1, FI['x1'])):
     for j in range(n + 1): x = a + j * (b - a) / n; wm('fitN', 'steel_dk').box(x - 0.035, x + 0.035, 0.0, 2.6, zf - 0.05, zf + 0.05)
 wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 2.6, 2.68, zf - 0.05, zf + 0.05); wm('fitN', 'plaster').box(FI['x0'], FI['x1'], 2.68, H, zf - 0.08, zf + 0.08)
 wm('fitN', 'steel_dk').box(FI['x0'], FI['x1'], 0.0, 0.08, zf - 0.05, zf + 0.05)
-wm('fitE', 'plaster').box(FI['x1'], FI['x1'] + 0.15, 0.0, H, zf, Z1)
+wm('fitE', 'plaster').box(FI['x1'], FI['x1'] + 0.15, 0.0, H, zf + 0.08, Z1)   # 從北牆（fitN）後面開始：原本兩道牆重疊，牆角的面疊在一起
 wm('fitN', 'plaster').box(FI['x1'], CO['x1'], 0.0, H, zf - 0.08, zf + 0.08)
 # 鏡牆（南牆、整面）：鏡面＋上下框
 mr = FI['mirror']
@@ -216,12 +216,14 @@ c2 = Mesh(P + 'ceiling_pool', M['ceil_pool']); c2.quad([(X0, PH, Z0), (X1, PH, Z
 for x in range(-21, 22, 6):                                           # 泳池上方：吸音板（橫向長條）＋燈
     for z in (-21.0, -15.0, -9.0, -3.5):
         X0_.rbox(acc('white'), x - 2.2, x + 2.2, PH - 0.5, PH - 0.42, z - 0.5, z + 0.5, r=0.02, seg=1)
-        acc('light').cyl((x + 2.6, PH - 0.3, z), (x + 2.6, PH - 0.29, z), 0.3, seg=14); CL.glow(root, 'pool', x + 2.6, PH - 0.6, z, color='rgba(240,248,255,1)', size=3.0, day=0.5, night=1.0)
+        acc('light').cyl((x + 2.6, PH - 0.3, z), (x + 2.6, PH - 0.29, z), 0.3, seg=14); CL.glow(root, 'pool', x + 2.6, PH - 0.6, z, color='rgba(240,248,255,1)', size=2.4, day=0.35, night=0.8)   # 2026-10-21 光暈接進遊戲以後：白天花板上 3.0 m 太亮
 for x in range(-21, 10, 4):                                           # 健身中心：線型燈（沿 x）
-    for z in (5.5, 9.0, 12.2): acc('light').box(x - 1.2, x + 1.2, H - 0.04, H - 0.01, z - 0.06, z + 0.06); CL.glow(root, 'fitness', x, H - 0.3, z, color='rgba(245,250,255,1)', size=2.2, day=0.4, night=0.9)
-for x in range(-21, 12, 5): acc('light').cyl((x, 2.99, 1.4), (x, 3.0, 1.4), 0.12, seg=12); CL.glow(root, 'corridor', x, 2.7, 1.4, color='rgba(255,244,226,1)', size=1.4, day=0.3, night=0.9)
+    for z in (5.5, 9.0, 12.2):
+        acc('light').box(x - 1.2, x + 1.2, H - 0.04, H - 0.01, z - 0.06, z + 0.06)
+        # 線型燈不放光暈（2026-10-21 光暈接進遊戲以後看：圓的光暈和一條燈管不搭，3.6 m 的白天花板上一團一團過曝；燈管本身會發光）
+for x in range(-21, 12, 5): acc('light').cyl((x, 2.99, 1.4), (x, 3.0, 1.4), 0.12, seg=12); CL.glow(root, 'corridor', x, 2.8, 1.4, color='rgba(255,244,226,1)', size=0.8, day=0.2, night=0.6)
 for x in (14, 18, 22):
-    for z in (2.0, 6.0): acc('light').cyl((x, H - 0.01, z), (x, H, z), 0.15, seg=12); CL.glow(root, 'downlight', x, H - 0.3, z, color='rgba(255,244,226,1)', size=1.4, day=0.3, night=0.9)
+    for z in (2.0, 6.0): acc('light').cyl((x, H - 0.01, z), (x, H, z), 0.15, seg=12); CL.glow(root, 'downlight', x, H - 0.2, z, color='rgba(255,244,226,1)', size=0.9, day=0.2, night=0.6)
 
 # 顏色：泳池四周牆上一圈深藍色帶、北牆的大時鐘、池邊長椅；大廳的深藍牆裙（v1 整片白，像醫院）
 for (a_, b_, c_, d_) in ((X0, X1, Z0, Z0 + 0.04), (X0, X0 + 0.04, Z0, CO['z0'] - 0.15), (X1 - 0.04, X1, Z0, CO['z0'] - 0.15)):
@@ -237,7 +239,7 @@ for x in (-21.0, -18.6, 18.6, 21.0):
     xf = Xf(x, CO['z0'] - 0.8); xf.rbox(acc('white'), -1.0, 1.0, 0.42, 0.48, -0.2, 0.2, r=0.02, seg=2)
     for sx in (-0.8, 0.8): xf.rbox(acc('steel'), sx - 0.025, sx + 0.025, 0.0, 0.42, -0.18, 0.18, r=0.01, seg=1)
 for (a_, b_, c_, d_) in ((CO['x1'], X1, CO['z0'] + 0.0, CO['z0'] + 0.03), (X1 - 0.03, X1, CO['z0'], Z1)):
-    acc('fascia').box(a_, b_, 0.0, 1.1, c_, d_)
+    acc('fascia').box(a_, b_, 0.0, 1.1, c_ + 0.004, d_ - 0.004 if d_ - c_ > 0.1 else d_)   # 離牆 4 mm（原本貼在牆面上，疊面）
 
 # ======================== 健身器材（BB-B 的 gym_b1_props.glb，照 layout 擺；GPU instancing）========================
 eq_g = B.group('b1_equipment', root, {'kind': 'equipment'})

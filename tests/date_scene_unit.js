@@ -73,5 +73,13 @@ const ADV2=global.ADV; ADV2.active=false;
   check('7. 第二次去：還沒有快速約會',!opts.some(o=>o.includes('快速約會')),JSON.stringify(opts.slice(0,3)));
   fresh(day,9,'dorm',{}); G.money=5000; DATE.log(G,'heroine_04').byLoc.D13=2; const c0=DATE.log(G,'heroine_04').count|0; r=await go('heroine_04',['快速約會']);
   check('7. 第三次：問「自己選／快速約會」，快速約會＝她喜歡的優先（子晴：飲料攤）、不用她不太喜歡的（長椅）、兩個、跳過抵達和收尾、直接結算、算一次',opts.some(o=>o[0]==='自己選'&&o[1]==='快速約會')&&r.t.spots.length===2&&r.t.spots[0]==='D13.drink'&&!r.t.spots.includes('D13.bench')&&r.t.status==='done'&&(DATE.log(G,'heroine_04').count|0)===c0+1&&r.L.filter(x=>!/^（|現在要出發/.test(x)).length===0,JSON.stringify({spots:r.t.spots,L:r.L}));
+  // 8. DATE-L 第一批（AA-C f21eac3c，2026-10-21）匯入以後：每個有台詞的地點、七位都約得完一次（第一次＝自己選第一個互動點 →「差不多了」），有抵達的一句、沒有例外、錢照扣
+  { const H7=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan','kexin'], bad=[];
+    for(const loc of Object.keys(DATE_LINES.loc||{})){ for(const k of Object.keys(OUT.BG)) if(k.startsWith(loc.toLowerCase()+'_base')) OUT.BG[k]=OUT.BG[k]||{image:'x'};
+      for(const who of H7){ try{ fresh(day,9,'dorm',{}); G.money=20000; const b=DATE.book(G,{who,locs:[loc],transport:(DATE.loc(loc).transport||[{}])[0].mode||'mrt',day:G.day,depart:13});
+          if(!b||!b.trip){ bad.push(loc+' '+who+' 約不了'); continue; } const q=OUT.get(G,'date_'+b.trip); G.hour=13; said=[]; opts=[]; picks=['出發',0,0,'差不多了','差不多了','差不多了']; const m0=G.money; await OUT.prompt(GM,q);
+          const L=lines(); if(L.length<3) bad.push(loc+' '+who+' 句子太少：'+L.length); if(G.money>=m0&&((DATE.loc(loc).admission|0)>0)) bad.push(loc+' '+who+' 沒扣錢'); }
+        catch(e){ bad.push(loc+' '+who+' 例外：'+e.message); } } }
+    check('8. 有台詞的 '+Object.keys(DATE_LINES.loc||{}).length+' 個地點（含 DATE-L 第一批 D01 D02 D03 D05 D07 D15～D19）七位都約得完、沒有例外',!bad.length,bad.slice(0,8).join('；')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

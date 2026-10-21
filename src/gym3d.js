@@ -14,6 +14,10 @@ const GY3=(function(){
     gym_notice:'公告欄：系際盃籃球賽報名、羽球場借用規則、體適能檢測、游泳池冬季開放、失物招領。最下面一張：球場內禁止飲食。',
     gym_directory:'樓層指引：3F 主球場／1F 多功能球場（目前位置：1F 大廳）／B1 健身中心・游泳池。'
   };
+  /* GLOW_* 空節點（userData.glow：顏色、大小、白天／晚上的亮度）＝燈的光暈：體育館的兩個 GLB 都有（1F 50 個：天井燈、天窗、筒燈、販賣機；B1 69 個：泳池、健身房、走廊），原本沒有接（LAWWW2-C 2026-10-21 清查 A1）。
+     合成一個網格（Z3.glowBatch，和溫州街、公館的正式模型同一套：一次 draw call）；室內沒有 TK.setNight，所以照路燈開了沒（z.onLamps）切白天／晚上的亮度；離鏡頭 3 m 以內淡出（B1 天花板 3.6 m，頭頂的燈原本撐滿畫面） */
+  function glowBatch(E,z,g0,root,name){ if(!Z3.glowBatch) return null; const gl=[]; root.traverse(o=>{ if(o.userData&&o.userData.glow) gl.push(o); }); if(!gl.length) return null;
+    const mesh=Z3.glowBatch(E,g0,root,gl,name,3.0); const on0=z.onLamps; z.onLamps=function(on){ if(on0) on0.call(z,on); mesh.material.emissiveIntensity=on?1:0; }; return mesh; }
   /* 導航：配置的阻擋＋大廳和球場之間的牆（三個 4 m 的開口以外）*/
   function buildNav(Ly,nav){ for(const b of Ly.blocks){ const tiny=b[2]<0.4&&b[3]<0.4; nav.blockRect(b[0],b[1],tiny?0.4:b[2],tiny?0.4:b[3],0,0.05); }   /* 羽球網柱（0.12 m 見方）比導航格（0.4 m）細：至少擋一格。閘門柱（0.12×0.9）照舊：放大會把 1.2 m 的通道擋掉 */
     const P=Ly.partition, xs=[Ly.hall.x0]; for(const [a,b] of P.openings){ xs.push(a,b); } xs.push(Ly.hall.x1);
@@ -85,7 +89,7 @@ const GY3=(function(){
     IT.push({x:Ly.exit.at.x,z:18.5,radius:0.8,lv:0,label:Ly.exit.label,exit:{to:'campus',spawn:Object.assign({},CAMPUS)}});   /* 出生點 z 17.6：出口範圍 0.8 m，一進來不會先看到「離開」*/
     // 正式模型（GLB）：第二會場平常藏起來；樓梯口的告示畫字
     z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_interior']){ ASSETS.loadOne('bldg.gym_interior').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
-      Z3.attachRoomGLB(z,g0,fb,root);
+      Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_glows');
       const sh=root.getObjectByName('SET_SECONDHALL'); if(sh) sh.visible=false;   /* 畢業典禮那天才打開（打開時導航加 sets.second_hall.blocks；下一階段）*/
       const nets=root.getObjectByName('SET_NETS'); if(nets) nets.visible=!secondHallOn(typeof GAME!=='undefined'?GAME.G:null);   /* 羽球網（LAWWW2-B f1e732f8；BB_151 第 6 節）：第二會場打開的日子收起來 */
       root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='PLATE_FACE_gym_stairs_up') paintPlate(o,['3F 主球場','今日不開放']); else if(o.name==='PLATE_FACE_gym_stairs_down') paintPlate(o,['B1','游泳池・健身中心']);   /* B1 開了（9ee41835）：不再寫今日不開放 */
@@ -137,7 +141,7 @@ const GY3=(function(){
     const IT=E.interactables; z.seats=[]; for(const [x,zz] of B.poolBenches){ const seat={x,z:zz-0.1,yaw:Math.PI}; z.seats.push(Object.assign({kind:'gym'},seat)); IT.push({x,z:zz-0.1,radius:0.8,lv:0,label:'坐在池邊的長椅',seat}); }   /* 面向北邊的泳池 */
     IT.push({x:B.exit.at.x,z:B.exit.at.z,radius:0.6,lv:0,label:B.exit.label,exit:{to:'gym',spawn:{x:16.8,z:18.4,yaw:0}}});   /* 回 1F：落點在「下樓到 B1」範圍外；面向大廳（原本 π 面向剛上來的樓梯井，BB-C X64）*/
     for(const q of B.interact){ if(q.kind==='gym_fitness') IT.push({x:q.x,z:q.z,radius:1.2,lv:0,label:'去健身房',mark:true,onInteract:()=>scene(GAME,workout)}); else if(q.kind==='gym_b1_desk') IT.push({x:q.x,z:q.z,radius:1.1,lv:0,label:'服務櫃台',onInteract:()=>scene(GAME,deskB1)}); }   /* 看游泳池、更衣室：還沒有字（要 AA／BB），先不開 */
-    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
+    z.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.gym_b1']){ ASSETS.loadOne('bldg.gym_b1').then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.position.z-=cz; Z3.attachRoomGLB(z,g0,fb,root); glowBatch(E,z,g0,root,'gym_b1_glows'); }   /* 天花板 b1_ceiling* 是單面、法線朝下（B1 v5）：從下面看得到，跟隨鏡頭在天花板上面時自動透空；不要改材質的 side */).catch(e=>console.warn('體育館 B1 正式模型載入失敗，用程序化備用模型',e)); }
     return z; } };
   return {gym,gym_b1,CAMPUS,buildNav,LOOK,badminton,vending,fountain,fitStage,JOIN,SERVE,VEND,rec,workout,deskB1,FIT_LINES,fourthMonday};
 })();
