@@ -20095,7 +20095,7 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答「開」（USER_WANTS A16）",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】gym_arena.glb＋layout v3 接成 gym 3F 區域、樓梯接上、closed_3f 紅龍拿掉、LICENSES 補 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
+   "next": "【LAWWW（帳號 A）20:2x】「看主球場」「大螢幕」接上 AA_371 第 2 節（8a9b05f2；平常／典禮，典禮那句等 z.ceremonyOn）；LAWWW2 下一步：開學典禮 2025-08-31、畢業典禮 2029-06-02 打開 SET_CEREMONY＋導航阻擋時設 z.ceremonyOn=true；BB 看畫面 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】gym_arena.glb＋layout v3 接成 gym 3F 區域、樓梯接上、closed_3f 紅龍拿掉、LICENSES 補 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
    "pausedReason": "v9.10 範圍是經濟系＋寒暑假＋16 週（D99）；典禮已有 2D 底圖，3D 主球場不擋流程",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99；USER_WANTS A16 排「v9.10 後」）",
@@ -27339,7 +27339,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
    "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
-   "next": "【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
+   "next": "【LAWWW（帳號 A）20:2x】AA_371（7eb45d69，AA 回五題）8a9b05f2：L7 維持、學期中延到 12/20、「不要問我現在幾點」、7/24「好。我搭半夜的客運下去。」、品妤等公車那句；BB 瀏覽器照 AA_368 第 6 節 ｜ 【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
    "sha": "eb2bc150",
    "note": "子代理 d0cce657 合併進開發分支 eb2bc150（H1～H5、M1～M8、L1～L9 全 FIXED；42 句逐字比對 AA_368；15 支相關單元測試修改前 FAIL、修改後 PASS）；5 個問題轉 AA（L7 開頭、H5 期末週補位、H5 新句時段、M7 選項字、L9b 下雨）；M7 回覆期限 07:00→02:30 是 LAWWW 自己加的（AA 沒寫）；BB 瀏覽器照 AA_368 第 6 節"
   },
