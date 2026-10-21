@@ -1163,7 +1163,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "69aa3b0c",
    "files": [
     "docs/story_planning/AA_376_法律系大三上_作息與重複_修正稿.md"
    ],
