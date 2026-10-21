@@ -732,6 +732,15 @@
    "kind": "art"
   },
   {
+   "path": "docs/story_planning/date_system/art/d32_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-OVERNIGHT-1021",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的那一張（稽核 A 2026-10-21：「D32 清境 d32_base_afternoon.webp 沒進 assets/bg（企劃線有、已核准）：加白名單複製」）；照原檔複製到 assets/bg（blob 4f9e17e7），登錄 src/outings3d.js 的 OUT.BG：兩天一夜 D31＋D32 的第二天"
+  },
+  {
    "path": "docs/story_planning/free_trip/spots_v3.json",
    "sha": "3b599624",
    "status": "approved",

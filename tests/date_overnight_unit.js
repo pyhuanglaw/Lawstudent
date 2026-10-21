@@ -60,7 +60,7 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     picks=['算了']; await DATE.menu(GM,'heroine_03',null); const L0=DATE.loc('D28').name;
     check('1. 第 5 階的約會清單：沒有「兩天一夜…」、沒有臺南（D28～D32 不列）；臺中、嘉義（一日）照列',!opts[0].some(x=>/兩天一夜/.test(x))&&!opts[0].includes(L0)&&opts[0].includes(DATE.loc('D26').name)&&opts[0].includes(DATE.loc('D27').name),opts[0].join('/'));
     setRel('heroine_03',S6); opts=[]; picks=['兩天一夜…','算了','算了']; await DATE.menu(GM,'heroine_03',null);
-    const ov=opts[1]||[]; check('1. 第 6 階：多一個「兩天一夜…」；裡面是 D26～D31（有底圖、有台詞的），沒有淡水',opts[0].includes('兩天一夜…')&&['D26','D27','D28','D29','D30','D31'].every(k=>ov.includes(DATE.loc(k).name))&&!ov.includes(DATE.loc('D13').name),J(opts.slice(0,2)));
+    const ov=opts[1]||[]; check('1. 第 6 階：多一個「兩天一夜…」；裡面是 D26～D32（有底圖、有台詞的；D32 清境的底圖 abad2fa0），沒有淡水',opts[0].includes('兩天一夜…')&&['D26','D27','D28','D29','D30','D31','D32'].every(k=>ov.includes(DATE.loc(k).name))&&ov.length===8&&!ov.includes(DATE.loc('D13').name),J(opts.slice(0,2)));
     check('1. 第 6 階的主清單照樣沒有臺南（只在「兩天一夜…」裡）',!opts[0].includes(L0),opts[0].join('/'));
     check('1. 交往中不看階段',(()=>{ setRel('heroine_03',{fam:20,trust:5,comf:5,npcRom:0,rom:0}); G.flags.dating_heroine_03=true; const ok=D().canOvernight(G,'heroine_03'); delete G.flags.dating_heroine_03; return ok; })()); });
   // ===== 2. 第 6 階、沒交往：從選單約臺南 → 兩天走完（兩間房那句；第二天不重複第一天的點；多扣住宿 2,500）=====
@@ -107,7 +107,15 @@ const after=(L,a,b)=>{ const i=L.indexOf(a), j=L.indexOf(b); return i>=0&&j>i; }
     check('4. 第二天的互動點是清境的四個（日月潭的不列）',['大草原','高山步道','觀景台看雲海','山上的小攤'].every(x=>d2.includes(x)||r.t.spots.includes('D32.meadow')&&x==='大草原')&&!d2.some(x=>/湖邊|遊湖|纜車/.test(x)),J(opts));
     check('4. 一趟只算一次；D31、D32 各記一次（byLoc、DATE_OVERNIGHT）',!!r.t&&r.t.status==='done'&&DATE.log(G,'heroine_04').count===1&&DATE.log(G,'heroine_04').byLoc.D31===1&&DATE.log(G,'heroine_04').byLoc.D32===1&&G.flags.DATE_OVERNIGHT.D31===1&&G.flags.DATE_OVERNIGHT.D32===1,J(G.flags.DATE_OVERNIGHT));
     check('4. 錢：車資 2200＋住宿 2500＋茶葉蛋 10＋草原門票 200',r.m0-G.money===2200+2500+10+200,r.m0-G.money);
-    check('4. 第一天、第二天的記憶各記各的（dateMemory 的 last）',J(DATE.mem(G,'heroine_04','D31').last)===J(['D31.trail','D31.egg'])&&J(DATE.mem(G,'heroine_04','D32').last)===J(['D32.meadow','D32.cloud']),J(G.dateMemory.heroine_04)); });
+    check('4. 第一天、第二天的記憶各記各的（dateMemory 的 last）',J(DATE.mem(G,'heroine_04','D31').last)===J(['D31.trail','D31.egg'])&&J(DATE.mem(G,'heroine_04','D32').last)===J(['D32.meadow','D32.cloud']),J(G.dateMemory.heroine_04));
+    const i31=bgs.findIndex(b=>b&&/d31_base/.test(b.image||'')), i32=bgs.findIndex(b=>b&&/d32_base_afternoon/.test(b.image||''));
+    check('4. 底圖：第一天日月潭（d31）、第二天到清境換 d32_base_afternoon（企劃線 abad2fa0 那一張，使用者 10-17 核准）',i31===0&&i32>i31&&!!OUT.BG.d32_base_afternoon&&fs.existsSync(path.join(ROOT,OUT.BG.d32_base_afternoon.image)),J(bgs));
+    // 選單：D31 多一個「日月潭＋清境」，選了只能開車（不問交通）；清境自己也列在「兩天一夜…」
+    fresh(d-1,20,{}); setRel('heroine_04',S6); G.contacts.heroine_04=1; const L31=DATE.loc('D31').name, L32=DATE.loc('D32').name;
+    picks=['兩天一夜…',L31,L31+'＋'+L32,'明天','09:00','就這樣約']; const tb=await DATE.menu(GM,'heroine_04',null); const ovl=opts[1]||[], cmb=opts[2]||[];
+    check('4. 「兩天一夜…」清單有清境（有底圖、有台詞）；日月潭多問一次「只去日月潭／日月潭＋清境」',ovl.includes(L32)&&J(cmb)===J(['只去'+L31,L31+'＋'+L32]),J(opts.slice(0,3)));
+    check('4. 選了日月潭＋清境：不問交通（只能開車）、直接選日期；約成 locs D31、D32、開車、住宿 2500',!!tb&&tb.ok&&J(tb.locs)===J(['D31','D32'])&&tb.transport==='car'&&tb.lodging===2500&&/^今天 .*～/.test((opts[3]||[])[0]||''),J({tb,o3:opts[3]}));
+    check('4. 清境自己不會再問「＋日月潭」（第一天日月潭、第二天清境，順序固定）',DATE.comboOf('D32')===null&&DATE.comboOf('D31')==='D32'); });
   // ===== 5. 考試週排不進去（AA_126 1-1）=====
   await sec('5',async()=>{
     const d16=STORY.termDay('Y1S2',16,6), d7=STORY.termDay('Y1S2',7,7); fresh(d7-3,10,{}); setRel('heroine_03',S6);
