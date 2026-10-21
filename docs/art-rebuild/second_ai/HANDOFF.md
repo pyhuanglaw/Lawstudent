@@ -595,6 +595,33 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
+### ▶▶ 10-21 18:0x 進度（帳號 A LAWWW2；最新，蓋過下面 16:4x 那一節）
+- **BB／LAWWW 已驗收或已整合**：
+  - ART-BALCONY-POTS：BB PASS。
+  - 203 膠帶＋壓平紙箱：BB FIXED。
+  - 體育館 1F 白色光柱：LAWWW 整合 `1cd80a95`，BB FIXED（20:30 +43.8→+9.0）。
+  - LIC-GAPS-1017：已交件 `64bcc529`（patch）。
+- **新任務 ART-Y1-BOX-MIRROR-1021**（BB 17:10「壓平紙箱上的字左右鏡像」，LAWWW 17:17 排進來）：
+  - 原因：原本故意寫倒著（`hand(..., ang=182)`，整串轉半圈），遊戲裡看起來像寫反了。
+  - 改法：改成正的、微歪，`37884326`；貼圖只變那一塊，三角形、物件、旗標不變。
+  - 狀態：遊戲內前後對照排在背景最後（`$SP/boxmirror/run_box.sh`，工作樹 `devwt_a`＝開發分支 `15f3c677`）。
+- **patch 都對最新開發分支 `15f3c677` git apply 乾淨**（`docs/art-rebuild/second_ai/patches/`）：
+  - `grade_golden_default.diff`：v2 `b0217a39`，加了 `tools/shots/golden_compare.sh`，原版用 `?grade=off`。
+  - `c208_cam_walls.diff`：`74abbef1`。
+  - `dorm_cam_203.diff`：`837ac4e0`。
+  - `gym_arena_int.diff`：`bee24087`。
+  - `lic_gaps_dorm_room4.diff`。
+- **ART-GYM2-INT 的 GLB 還沒放到正式路徑**：
+  - 拿掉紅龍的 `gym_interior.glb` 只在 scratchpad（`$SP/gym/gym_norope.glb`，沒有遠端備份）。
+  - 腳本 `gym_interior.py` 已在 `bee24087`，可以重建。
+  - 交件時 GLB 和 patch 一起。
+- **背景排隊**（一條，不並行）：
+  - `master.sh`：黃昏 golden 對照（白天、黃昏、夜晚已拍完：白天、夜晚一樣，黃昏變暖、店燈亮）→ 後製開關＋每幀時間 → C208 鏡頭前後 → 校園投影子物件盤點 19.5／15.0 → 203 鏡頭前後 → 小公園前後。
+  - 接著 `arena/run_arena.sh`（3F 主球場）→ `boxmirror/run_box.sh`。
+- **接下來**：跑完一項交一項（README＋前後對照 → outbox → LAWWW／BB SHA）→ PERF-CAMPUS-SHADOW-1020（P1，用盤點數字）→ ART-WZ0 → PERF-ZONE-ENTER-1018 → ART-02。
+  - ART-02 已查：共同教學館三個關著的門（203、兩間洗手間）都是 1.2 m 寬，剛好是門模組的門洞；牆在那裡沒有開口，門片要貼在走廊那一面。
+- **磁碟**：剩 5.8 GB。刪舊測試工作樹被權限擋下（不硬做）；不夠時請使用者決定。
+
 ### ▶▶ 10-21 16:4x 進度（帳號 A LAWWW2；做完的照順序交，交件時傳 LAWWW SHA）
 - **已保存、遊戲內對照排隊中**（背景工作串成一條：公館陽台 → 203 第二輪 → 體育館 → 黃昏（golden＋後製） → C208 鏡頭；腳本與輸出在 scratchpad，重跑方法寫在各 README）：
   - ART-BALCONY-POTS：溫州街 `efc1730d`（遊戲內前後對照拍完，`test_shots/balcony_pots_1021/`）＋公館 `a53eb709`（舊腳本重建和遊戲裡的逐位元組相同；遊戲內對照拍中）。
