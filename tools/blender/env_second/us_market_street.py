@@ -80,7 +80,6 @@ def in_uv(name, rep=1.0):
 M = {
     'asph': L.pbr('usms_asphalt', 'asphalt_02', tile=3.0, target='#6f6e6b', normal=0.4, maps=('diff', 'nor'), rough_value=0.9),
     'conc': L.pbr('usms_concrete', 'concrete_wall_006', tile=2.0, target='#c4bfb5', normal=0.3, maps=('diff', 'nor'), rough_value=0.85),
-    'curb': L.pbr('usms_curb', 'concrete_wall_006', tile=1.0, target='#d2cec6', normal=0.3, maps=('diff', 'nor'), res=256, rough_value=0.8),
     'grass': L.pbr('usms_grass', 'grass_ground', tile=3.0, target='#5d6a44', normal=0.4, maps=('diff', 'nor'), rough_value=0.95),
     'mulch': L.flat('usms_mulch', '#4a3426', rough=0.97),
     'stucco': L.pbr('usms_stucco', 'plaster_grey_04', tile=2.5, target='#d8cbb0', normal=0.35, maps=('diff', 'nor'), rough_value=0.88),
@@ -188,7 +187,7 @@ for g0, g1 in [(bs_['x1'] + 0.4, bs_['x1'] + 1.2), (bs_['x0'] - 1.2, bs_['x0'] -
     cn2.box(g0, g1, -0.05, SW, J['strip']['z0'], J['strip']['z1'])                                 # 灌木帶的行人缺口（公車亭兩側、對著西側斑馬線）
 cn2.finish(root)
 # 路緣（水泥條，高 0.12）：停車場邊、灌木帶、草帶靠馬路、中央分隔島、安全島；斑馬線、車道出入口斷開
-cb = Mesh('usms_curbs', M['curb'], tile=1.0)
+cb = Mesh('usms_curbs', M['conc'], tile=1.0)
 def curb_x(x0, x1, z, cuts=()):
     xs = [x0]; ys = []
     segs = [(x0, x1)]
@@ -455,37 +454,31 @@ for t in J['props']:
         nx, nz = math.sin(yaw), math.cos(yaw)
         gv.cyl((x, 0.0, z), (x, 8.2, z), 0.11, seg=10, r2=0.07); gv.cyl((x, 7.9, z), (x + nx * 1.2, 8.55, z + nz * 1.2), 0.05, seg=6); gv.cyl((x + nx * 1.2, 8.55, z + nz * 1.2), (x + nx * 2.4, 8.7, z + nz * 2.4), 0.045, seg=6)
         hx, hz = x + nx * 2.75, z + nz * 2.75
-        f0 = set(pv.bm.faces); pv.ell((hx, 8.66, hz), 0.24, 0.1, 0.36 if abs(nz) > 0.5 else 0.24, seg=10, rings=6) if False else None
         gv.ell((hx, 8.66, hz), 0.2 if abs(nz) > 0.5 else 0.36, 0.09, 0.36 if abs(nz) > 0.5 else 0.2, seg=10, rings=6)
         lamps.box(hx - (0.13 if abs(nz) > 0.5 else 0.26), hx + (0.13 if abs(nz) > 0.5 else 0.26), 8.565, 8.575, hz - (0.26 if abs(nz) > 0.5 else 0.13), hz + (0.26 if abs(nz) > 0.5 else 0.13))
         gv.cyl((x, 0.0, z), (x, 0.5, z), 0.2, seg=10, r2=0.14)
-    elif ty == 'signal_mast':   # 號誌懸臂桿（遠側）：桿、往馬路伸的橫桿、兩組三燈（主幹道紅燈亮）、桿上一組給側邊車道（綠燈亮）
+    elif ty == 'signal_mast':   # 號誌懸臂桿（路口遠側）：桿、往馬路伸的橫桿、兩組三燈（主幹道紅燈亮）、桿上一組給側邊車道（綠燈亮）、行人燈、路名牌
         nx, nz = math.sin(yaw), math.cos(yaw)
         gv.cyl((x, 0.0, z), (x, 7.2, z), 0.17, seg=12, r2=0.13); gv.cyl((x, 0.0, z), (x, 0.4, z), 0.3, seg=12, r2=0.22)
         gv.cyl((x, 6.3, z), (x + nx * 8.2, 6.3, z + nz * 8.2), 0.09, seg=8, r2=0.06); gv.cyl((x, 7.0, z), (x + nx * 3.6, 6.36, z + nz * 3.6), 0.03, seg=5)
-        face = 1 if nz > 0 else -1     # 西北桿（橫桿往南）燈面向東；東南桿燈面向西
-        fx = 1 if nz > 0 else -1
+        fx = 1 if nz > 0 else -1        # 燈面向 −fx（西北桿往南伸、燈面向東＝往西開過來的車；東南桿相反）
         for k_ in (0.42, 0.88):
             hx, hz = x + nx * 8.2 * k_, z + nz * 8.2 * k_
             blk.box(hx - 0.06, hx + 0.06, 6.0, 6.3, hz - 0.05, hz + 0.05)
-            pv.cbox(hx + fx * 0.02 - 0.17, hx + fx * 0.02 + 0.17, 4.95, 6.0, hz - 0.17, hz + 0.17, '#1e1f21') if False else None
             blk.box(hx - 0.17, hx + 0.17, 4.95, 6.0, hz - 0.17, hz + 0.17)
             blk.box(hx + fx * 0.17, hx + fx * 0.19, 4.8, 6.15, hz - 0.3, hz + 0.3)                                    # 背板
-            pv.cbox(hx + fx * 0.19, hx + fx * 0.2, 4.8, 6.15, hz - 0.3, hz + 0.3, '#e0c040') if False else None
             for i_, mm in enumerate((srd, sof, sof)):
                 yy = 5.8 - i_ * 0.33; mm.cyl((hx - fx * 0.17, yy, hz), (hx - fx * 0.2, yy, hz), 0.11, seg=12)
-                blk.cyl((hx - fx * 0.17, yy + 0.06, hz), (hx - fx * 0.32, yy + 0.12, hz), 0.12, seg=10, r2=0.12) if False else None
-        # 桿上給側邊車道的一組（面向馬路對面的車道：西北桿面向南、東南桿面向北）
-        sx, sz2 = x, z
-        blk.box(sx - 0.17, sx + 0.17, 3.4, 4.45, sz2 - 0.17, sz2 + 0.17) if False else None
-        hz0 = sz2 + nz * 0.32
-        blk.box(sx - 0.17, sx + 0.17, 3.4, 4.45, hz0 - 0.17, hz0 + 0.17)
+        hz0 = z + nz * 0.32                                                                                           # 桿上給側邊車道的一組（面向橫桿那一邊）
+        blk.box(x - 0.17, x + 0.17, 3.4, 4.45, hz0 - 0.17, hz0 + 0.17)
         for i_, mm in enumerate((sof, sof, sgn)):
-            yy = 4.25 - i_ * 0.33; mm.cyl((sx, yy, hz0 + nz * 0.17), (sx, yy, hz0 + nz * 0.2), 0.11, seg=12)
-        # 路名牌（橫桿上）
-        face_quad(sg2, x + nx * 5.0, 6.62, z + nz * 5.0, 1.6, 0.45, math.pi / 2 if nz > 0 else -math.pi / 2, sg_uv('street'), off=0.06)
-        face_quad(sg2, x + nx * 5.0, 6.62, z + nz * 5.0, 1.6, 0.45, -math.pi / 2 if nz > 0 else math.pi / 2, sg_uv('street'), off=0.06)
-        gv.box(x + nx * 5.0 - 0.05, x + nx * 5.0 + 0.05, 6.38, 6.86, z + nz * 5.0 - 0.8, z + nz * 5.0 + 0.8) if abs(nz) > 0.5 else None
+            yy = 4.25 - i_ * 0.33; mm.cyl((x, yy, hz0 + nz * 0.17), (x, yy, hz0 + nz * 0.2), 0.11, seg=12)
+        hz1 = z - nz * 0.28                                                                                           # 行人燈（給斑馬線對面的人看：面向橫桿那一邊）
+        blk.box(x - 0.24, x + 0.24, 2.3, 2.78, hz1 - 0.14, hz1 + 0.14); face_quad(sgc, x, 2.54, hz1, 0.38, 0.38, yaw, sg_uv('walk'), off=0.145)
+        pv.cbox(x - 0.07, x + 0.07, 1.0, 1.2, z - nz * 0.2 - 0.04, z - nz * 0.2 + 0.04, '#e2c030')                 # 按鈕盒
+        sx_, sz_ = x + nx * 5.0, z + nz * 5.0                                                                         # 路名牌（掛在橫桿上，兩面）
+        gv.box(sx_ - 0.05, sx_ + 0.05, 6.38, 6.86, sz_ - 0.8, sz_ + 0.8)
+        for yy_ in (math.pi / 2, -math.pi / 2): face_quad(sg2, sx_, 6.62, sz_, 1.6, 0.45, yy_, sg_uv('street'), off=0.06)
     elif ty == 'ped_signal':   # 行人號誌：短桿、黑盒、亮的走路人（朝馬路對面）
         gv.cyl((x, 0.0, z), (x, 3.0, z), 0.06, seg=8)
         nx, nz = math.sin(yaw), math.cos(yaw)
@@ -653,7 +646,6 @@ def tree(x, z, h, big):
 for t in J['trees']:
     tree(t['x'], t['z'], t['h'], t['kind'] == 'big')
     litter(t['x'], t['z'], t['h'] * (0.3 if t['kind'] == 'big' else 0.22) + 0.6, 9 if t['kind'] == 'big' else 4)
-    if t.get('grate'): blk.box(t['x'] - 0.6, t['x'] + 0.6, SW, SW + 0.006, t['z'] - 0.6, t['z'] + 0.6) if False else None
 gt = Mesh('usms_tree_grates', M['bronze'])
 for t in [t for t in J['trees'] if t.get('grate')]:
     for k in range(7): gt.box(t['x'] - 0.6, t['x'] + 0.6, SW, SW + 0.012, t['z'] - 0.6 + k * 0.19, t['z'] - 0.55 + k * 0.19)
@@ -708,6 +700,9 @@ for (x_, z_, r_) in ((-37.0, -14.5, 1.6), (37.0, -14.5, 1.6), (-37.0, 7.5, 1.4),
     for k in range(3): snow.ell((x_ + rng.uniform(-0.6, 0.6), 0.0, z_ + rng.uniform(-0.6, 0.6)), r_ * rng.uniform(0.7, 1.0), r_ * 0.5, r_ * rng.uniform(0.7, 1.0), seg=10, rings=6)
 SEA.geo(root, 'snow_piles', 'snow', snow, smooth=True)
 
+# 純色材質合成頂點色（三組：霧面、金屬、亮面）：材質數和美國社區同一個量級；季節要換的、會亮的、有貼圖的不動
+VC_METAL = L.vc_metal('usms_vc_metal', rough=0.42, metal=0.4); VC_GLOSS = L.vc_material('usms_vc_gloss', rough=0.35)
+L.vc_consolidate(root, L.auto_vc_groups(root, M['vc'], VC_METAL, VC_GLOSS, protect={'usms_mulch', 'usms_tree_core', 'usms_shrub_core'}))
 L.merge_by_material(root, keep=SEA.keep)
 st_ = L.export(OUT, gpu_instances=False)
 tris = 0

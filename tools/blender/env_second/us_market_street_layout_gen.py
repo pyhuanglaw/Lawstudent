@@ -110,9 +110,9 @@ L = {'version': 1, 'bounds': {'x0': X0, 'x1': X1, 'z0': Z0, 'z1': Z1},
      'market': PB, 'apron': APRON, 'fire_lane': FIRE, 'lot': LOT, 'stall': {'w': STALL_W, 'd': STALL_D}, 'rows': ROWS, 'aisles': AISLES, 'stalls': STALLS, 'poles': [{'x': p, 'z': -3.5} for p in POLES],
      'strip': STRIP, 'walk_n': WALK_N, 'lawn_n': LAWN_N, 'road': ROAD, 'lane_c': LANE_C, 'drive': DRIVE, 'drive_w': DRIVE_W, 'cross': CROSS, 'stop_w': R(STOP_W), 'stop_e': R(STOP_E),
      'walk_s': WALK_S, 'arcade': ARCADE, 'stripmall': STRIPMALL, 'bus': BUS, 'cars': CARS,
-     'spawn_bus': {'x': BUS['x'], 'z': R(BUS['z'] + 0.3), 'yaw': math.pi, 'note': '從社區搭公車來：下車站在公車站、面向北（停車場、草原超市）'},
-     'spawn_pb_out': {'x': D_OUT['x'], 'z': R(VZ + 1.2), 'yaw': 0.0, 'note': '從草原超市 OUT 門出來（us_market 的「離開超市」），面向南'},
-     'spawn_am_out': {'x': UA['door_x'], 'z': R(STRIPMALL_FZ - 1.4), 'yaw': math.pi, 'note': '從竹葉亞洲超市出來，面向北（馬路、草原超市）'},
+     'spawn_bus': {'x': R(BUS['x'] + 3.4), 'z': R(BUS['z'] + 0.3), 'yaw': math.pi, 'note': '從社區搭公車來：在公車站東邊下車、面向北（停車場、草原超市）；離「搭公車（回社區）」3.4 m（一到就在範圍裡會來回跳）'},
+     'spawn_pb_out': {'x': D_OUT['x'], 'z': R(VZ + 0.9), 'yaw': 0.0, 'note': '從草原超市 OUT 門出來（us_market 的「離開超市」），面向南'},
+     'spawn_am_out': {'x': UA['door_x'], 'z': R(STRIPMALL_FZ - 2.2), 'yaw': math.pi, 'note': '從竹葉亞洲超市出來，面向北（馬路、草原超市）'},
      'interact': [
          {'id': 'pb_in', 'x': D_IN['x'], 'z': R(VZ + 0.6), 'r': 1.2, 'label': '進草原超市', 'to': 'us_market'},
          {'id': 'am_in', 'x': UA['door_x'], 'z': R(STRIPMALL_FZ - 0.7), 'r': 1.0, 'label': '進竹葉亞洲超市', 'to': 'us_asian_market'},
@@ -132,7 +132,7 @@ for k in range(8):                                                         # 北
     x = -39.0 + k * 11.0
     if DRIVE['x0'] - 3 < x < DRIVE['x1'] + 3 or CROSS[0]['x0'] - 2 < x < CROSS[0]['x1'] + 2 or DRIVE_W['x0'] - 2 < x < DRIVE_W['x1'] + 2: continue
     TREES.append({'x': R(x), 'z': R((LAWN_N['z0'] + LAWN_N['z1']) / 2), 'kind': 'street', 'h': round(rng.uniform(8.0, 10.0), 2)})
-for x in (-30.0, -14.0, 2.0):                                              # 南側人行道的樹（樹穴格柵）
+for x in (-32.0, -18.5, 32.0):                                             # 南側人行道的樹（樹穴格柵；竹葉亞洲超市正前方 x −10～10 不種，招牌要看得到）
     TREES.append({'x': x, 'z': 32.6, 'kind': 'street', 'h': round(rng.uniform(7.5, 9.0), 2), 'grate': True})
 for k in range(6):                                                         # 商店東邊的草地、社區招牌後面
     TREES.append({'x': R(28.0 + (k % 3) * 5.0 + rng.uniform(-1, 1)), 'z': R(37.0 + (k // 3) * 6.0 + rng.uniform(-1, 1)), 'kind': 'big', 'h': round(rng.uniform(10, 14), 1)})
@@ -145,7 +145,7 @@ for d in PB['doors']:                                                      # 門
     s = 1 if d['x'] > 0 else -1
     prop('cart_corral', d['x'] + s * 5.9, PB_FZ + 0.9, math.pi / 2, carts=6)       # 門斗外側、沿牆（長邊沿 x）
     prop('trash', d['x'] - s * 3.6, VZ + 0.3, 0.0)
-    for k in (-1, 0, 1): prop('bollard', d['x'] + k * 1.6, VZ + 1.9, 0.0)
+    for k in (-1, 1): prop('bollard', d['x'] + k * 1.7, VZ + 1.9, 0.0)                   # 門口兩側的車阻（正前方留給人、推車走）
 prop('ice_chest', -4.2, PB_FZ + 0.6, 0.0); prop('propane_cage', 3.6, PB_FZ + 0.6, 0.0); prop('bench', 0.0, PB_FZ + 2.4, math.pi)
 prop('season_display', -7.0, PB_FZ + 1.5, 0.0, note='季節陳列：夏天花架、秋天南瓜、初冬柴薪和融雪鹽、雪天聖誕樹')
 prop('season_display', 7.0, PB_FZ + 1.5, 0.0)
@@ -155,12 +155,12 @@ prop('bus_shelter', (BUS['shelter']['x0'] + BUS['shelter']['x1']) / 2, (BUS['she
 prop('bus_sign', BUS['sign']['x'], BUS['sign']['z'], math.pi / 2)                                                                 # 站牌面向東（往西開來的公車）
 for x in (-34.0, -10.0, 32.0):                                             # 北側路燈（草帶，燈臂朝馬路）
     prop('street_lamp', x, LAWN_N['z0'] + 1.3, 0.0)
-for x in (-24.0, 4.0, 34.0):                                               # 南側路燈（人行道外緣，燈臂朝北）
+for x in (-25.0, -11.0, 33.0):                                             # 南側路燈（人行道外緣，燈臂朝北；亞洲超市正前方不放、東邊讓開號誌桿）
     prop('street_lamp', x, WALK_S['z0'] + 0.4, math.pi)
 prop('signal_mast', CROSS[0]['x0'] - 1.0, LAWN_N['z0'] + 1.0, 0.0, note='西北角（往西的車過了路口那一邊＝美國的號誌在路口遠側）：橫桿往南伸過往西的兩線、燈面向東；桿上另一組燈面向南（給商店那邊開出來的車）')
 prop('signal_mast', CROSS[1]['x1'] + 1.0, WALK_S['z0'] + 1.0, math.pi, note='東南角（往東的車的遠側）：橫桿往北伸過往東的兩線、燈面向西；桿上另一組燈面向北（給停車場開出來的車）')
-prop('ped_signal', CROSS[0]['x0'] - 0.4, WALK_N['z1'] + 0.3, 0.0); prop('ped_signal', CROSS[0]['x0'] - 0.4, WALK_S['z0'] + 0.3, math.pi)
-prop('ped_signal', CROSS[1]['x1'] + 0.4, WALK_N['z1'] + 0.3, 0.0); prop('ped_signal', CROSS[1]['x1'] + 0.4, WALK_S['z0'] + 0.3, math.pi)
+# 行人燈：西側斑馬線北端、東側斑馬線南端的掛在號誌桿上（Blender 照號誌桿畫）；另外兩端各一支短桿
+prop('ped_signal', CROSS[0]['x0'] - 0.4, WALK_S['z0'] + 0.3, math.pi); prop('ped_signal', CROSS[1]['x1'] + 0.4, WALK_N['z1'] + 0.3, 0.0)
 prop('hydrant', -16.0, LAWN_N['z0'] + 0.5, 0.0); prop('hydrant', 18.0, WALK_S['z1'] - 0.4, 0.0)
 prop('newsbox', -20.0, ARCADE['z0'] + 0.6, math.pi); prop('bench', -12.0, STRIPMALL_FZ - 0.6, math.pi); prop('trash', -2.0, STRIPMALL_FZ - 0.5, 0.0)
 prop('monument_sign', 31.0, 35.4, -math.pi / 4, note='商店街的社區招牌（Bamboo Plaza，虛構）')
@@ -197,12 +197,13 @@ blk(X0, STRIPMALL['x0'], ARCADE['z0'], Z1, 'landscape 小商店西邊（圍籬�
 blk(DRIVE['x1'] + 2.0, X1, WALK_S['z1'] + 0.6, Z1, 'landscape 社區招牌後面的草地、樹')
 for t in TREES:
     if t['kind'] in ('young', 'street'): blk(t['x'] - 0.35, t['x'] + 0.35, t['z'] - 0.35, t['z'] + 0.35, 'tree trunk')
+POLE_T = ('street_lamp', 'signal_mast', 'ped_signal', 'bus_sign', 'hydrant', 'bollard', 'trash')
 for p in PROPS:
     sz = {'cart_corral': (1.0, 4.4), 'trash': (0.7, 0.7), 'bollard': (0.4, 0.4), 'ice_chest': (2.0, 0.9), 'propane_cage': (1.6, 0.9), 'bench': (1.8, 0.7),
           'season_display': (3.2, 1.6), 'bus_sign': (0.3, 0.3), 'street_lamp': (0.45, 0.45), 'signal_mast': (0.6, 0.6), 'ped_signal': (0.3, 0.3), 'hydrant': (0.45, 0.45),
           'newsbox': (0.6, 0.6), 'monument_sign': (3.6, 1.2), 'planter': (0.9, 0.9)}.get(p['type'])
     if not sz: continue
-    w, d = sz
+    w, d = max(sz[0], 0.8) if p['type'] in POLE_T else sz[0], max(sz[1], 0.8) if p['type'] in POLE_T else sz[1]   # 桿子類至少 0.8 m（0.5 m 導航格只看格子中心，太細的阻擋可能一格都沒擋到：BUG-NAV-LAMPPOST-1021）
     if abs(math.sin(p['yaw'])) > 0.7: w, d = d, w
     blk(p['x'] - w / 2, p['x'] + w / 2, p['z'] - d / 2, p['z'] + d / 2, 'prop ' + p['type'])
 L['blocks'] = BLOCKS
@@ -216,6 +217,9 @@ def check():
     for n, p in pts:
         for b in BLOCKS:
             if inside(p['x'], p['z'], b): bad.append(f'{n} ({p["x"]},{p["z"]}) 在阻擋裡：{b["why"]}')
+    for n, p in pts[:3]:
+        for i in L['interact']:
+            if i.get('to') and math.hypot(i['x'] - p['x'], i['z'] - p['z']) < i['r'] + 0.3: bad.append(f"{n} 一到就在「{i['label']}」的範圍裡（會來回跳）")
     for c in CARS:
         for n, p in pts:
             if abs(c['x'] - p['x']) < 2.6 and abs(c['z'] - p['z']) < 2.6: bad.append(f'{n} 旁邊有車 {c}')
