@@ -1,0 +1,321 @@
+[
+ {
+  "out": "<輸出>/after/boya_east_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": -10,
+    "z": -70,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -4,
+    2.6,
+    -75
+   ],
+   "look": [
+    -21,
+    3.0,
+    -83
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/boya_east_20.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 20.0,
+   "pos": {
+    "x": -10,
+    "z": -70,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -4,
+    2.6,
+    -75
+   ],
+   "look": [
+    -21,
+    3.0,
+    -83
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/bell_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": -60,
+    "z": 0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    2.0,
+    -3
+   ],
+   "look": [
+    -38,
+    3.2,
+    16
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/bell_20.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 20.0,
+   "pos": {
+    "x": -60,
+    "z": 0,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -38,
+    2.0,
+    -3
+   ],
+   "look": [
+    -38,
+    3.2,
+    16
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/avenue_20_eye.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 20.0,
+   "pos": {
+    "x": -90,
+    "z": -30,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -75,
+    1.7,
+    -2
+   ],
+   "look": [
+    -25,
+    1.2,
+    2
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/avenue_20_high.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 20.0,
+   "pos": {
+    "x": -90,
+    "z": -30,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -42,
+    10,
+    -15
+   ],
+   "look": [
+    -20,
+    0,
+    2
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/library_door_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": 70,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    87.4,
+    1.8,
+    -3.4
+   ],
+   "look": [
+    90.2,
+    1.5,
+    0.3
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/library_door_20.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 20.0,
+   "pos": {
+    "x": 70,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    87.4,
+    1.8,
+    -3.4
+   ],
+   "look": [
+    90.2,
+    1.5,
+    0.3
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/arts_door_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": -60,
+    "z": -10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -35,
+    1.8,
+    -23
+   ],
+   "look": [
+    -38,
+    1.5,
+    -27.6
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/admin_door_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": -60,
+    "z": 10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -35,
+    1.8,
+    23
+   ],
+   "look": [
+    -38,
+    1.5,
+    27.6
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ },
+ {
+  "out": "<輸出>/after/hist_door_15.png",
+  "w": 1280,
+  "h": 720,
+  "state": {
+   "zone": "campus",
+   "hour": 15.0,
+   "pos": {
+    "x": -60,
+    "z": -10,
+    "yaw": 0
+   }
+  },
+  "cam": {
+   "pos": [
+    -74,
+    1.8,
+    -19.5
+   ],
+   "look": [
+    -77,
+    1.5,
+    -23.6
+   ]
+  },
+  "hidePlayer": true,
+  "hud": false,
+  "wait": 5000
+ }
+]
