@@ -3311,7 +3311,7 @@ const STORY_EVENTS=[
       {unless:{flags:['MOOT_WIN']},speaker:null,text:'（以安在手帳上寫：「計畫以外：輸了也很開心。」）'},
       {if:{flags:['MOOT_WIN']},speaker:'classmate_xinci',expression:'smile',text:'你們第三段很好。……我們下次會贏。'},
       {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'……好。'},{if:{flags:['MOOT_WIN']},speaker:null,text:'（她把評分表摺起來收進包包。）'},
-      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。不是你們的，是我的。我第一次帶的隊伍。'},
+      {if:{flags:['MOOT_WIN']},speaker:'heroine_05',expression:'smile',text:'這張我要留著。……我帶的第一個隊伍。'},
       /* 可昕在場（BB_97 9-19，KX_MOOT 'came'）：輸、贏都一樣，只有這一句 */
       {if:{flagIs:{KX_MOOT:'came'}},speaker:null,text:'（可昕把自己那份滷味的豆干夾給你。）'},{if:{flagIs:{KX_MOOT:'came'}},speaker:'kexin',text:'發抖的人要補充。'} ],
     consequences:{memo:'模擬法庭之後的麵店'} },
