@@ -75,6 +75,7 @@ const ROM=(function(){
     if(!F.romance||typeof F.romance!=='object') F.romance={};
     for(const k in F) if(/^dating_/.test(k)){ const id=k.slice(7), R=F.romance[id]||(F.romance[id]=blank()); if(F[k]===true&&R.status!=='dating'){ R.status='dating'; R.since=R.since||(id==='kexin'?'Y0':S.when(G)); } }
     for(const k in F) if(/^EX_/.test(k)&&F[k]){ const id=k.slice(3), R=F.romance[id]||(F.romance[id]=blank()); if(R.status==='none') R.status='ex'; }
+    if(F.CALLED_SHUYU==null){ const R5=F.romance.heroine_05; if(F.dating_heroine_05===true||(R5&&Array.isArray(R5.history)&&R5.history.some(h=>h&&h.ev==='start'))) F.CALLED_SHUYU=true; }   /* 舊存檔：和學姊交往過（ROM.start 還沒記 CALLED_SHUYU 的版本）＝記上 */
     if(!F.knowsRel_V){ F.knowsRel_V=1; S.relRec(G); S.ytRec(G);
       for(const id in F.romance){ const K=F.romance[id].knows; if(Array.isArray(K)) for(const p of K) S.learn(G,id,p,'legacy'); }   /* 舊欄位 romance[X].knows（祐廷親口說的）搬過來 */
       S.k3Tell(G); }   /* 舊存檔：KX_MET_NOODLE_TEAM 不再當成以安、語彤、沛珊知道；K3 選了「女朋友」（KX_INTRO:'gf'）的，照存檔裡認識的人補（BB_191 9-4 舊存檔）*/
@@ -114,7 +115,7 @@ const ROM=(function(){
   S.BEFORE=[];
   const before=G=>{ for(const f of S.BEFORE){ try{ f(G); }catch(e){ console.warn('ROM.BEFORE',e); } } };
   S.start=function(G,id){ if(!S.canStart(G,id)) return false; before(G); const F=G.flags, R=S.get(G,id); if(S.cleanupLate(G)) S.cleanup(G);   /* 過了一週、旁白還沒補就開始新的一段：直接算收拾過（不在新的交往裡補那一句）*/ F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.sinceH=+(+G.hour||0).toFixed(2); R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});   /* sinceH：開始的時刻（G.hour；過了 24＝隔天凌晨），STORY.routeFor 判斷是不是截止以後才開始的 */
-    S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
+    S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; if(id==='heroine_05') F.CALLED_SHUYU=true;   /* 交往那天起叫「書瑀」（使用者 10-17 甲；AA_262 第 5 節第 3 件「CALLED_SHUYU 在開始交往時記」；social3d.js datingName 讀）*/ return true; };
   /* 修補：歷史不變、裂縫歸零 */
   S.mend=function(G,id){ if(S.CRACK[id]) G.flags[S.CRACK[id]]=0; };
   S.crack=function(G,id,n){ const k=S.CRACK[id]; if(!k) return 0; const d=n==null?1:n; G.flags[k]=(+G.flags[k]||0)+d; if(d>0) G.flags[k+'_DAY']=G.day; return G.flags[k]; };   /* <人物>_CRACK_DAY：最近一次裂縫增加的那一天（1A-04 第 4 節第 4 點：最近 14 天內有裂縫的交往對象不問「那一句」，story3d.js S.coldWeekCast）*/

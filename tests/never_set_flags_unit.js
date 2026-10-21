@@ -180,5 +180,27 @@ let caps=[], toasts=[]; GM.caption=(a,b)=>{ caps.push(b); }; GM.toast=t=>{ toast
       check('4-19. 芷若不在英國：子晴沒有那一句',n===0); }
   }
 
+  /* ======================= 5. CALLED_SHUYU：學姊交往那天起叫「書瑀」 ======================= */
+  { const S5='heroine_05';
+    { const G=fresh('2026-04-10',20,'dorm'); H.rel(S5,45,30,0); ROM.rec(G);
+      check('5-1. 前提：還沒交往＝沒有 CALLED_SHUYU、對話框的名字「溫書瑀」',!G.flags.CALLED_SHUYU&&SOCIAL.displayName(S5)==='溫書瑀',SOCIAL.displayName(S5));
+      const ok=ROM.start(G,S5);
+      check('5-2. 和學姊開始交往（ROM.start，期末飯、大峽谷都走這裡）那天就記 CALLED_SHUYU（原本只有大峽谷那一場記）',ok&&G.flags.CALLED_SHUYU===true);
+      check('5-3. 讀的地方：交往中對話框、按鈕上她的名字＝「書瑀」（原本「溫書瑀」）；聯絡人、她的訊息照舊「書瑀」',SOCIAL.displayName(S5)==='書瑀'&&SOCIAL.contactName(S5)==='書瑀'&&PHONE.who({from:S5,name:'溫學姊'})==='書瑀',SOCIAL.displayName(S5));
+      const ev={id:'t_sis_line',participants:[S5],dialogue:[{speaker:S5,text:'（測試）'}]}; H.said=[]; await EVENTS.runLines(ev.dialogue,ev);
+      check('5-4. 劇情事件裡她說話：名字框「書瑀」',H.said.length===1&&H.said[0].who==='書瑀',JSON.stringify(H.said));
+      SOCIAL.feel[S5]={fam:2}; const ft=SOCIAL.takeFeel(2);
+      check('5-5. 交往中的「熟了一點」提示也叫書瑀（「和書瑀熟了一點。」）',ft.includes('和書瑀熟了一點。'),JSON.stringify(ft));
+      ROM.end(G,S5,'apart_talk');
+      check('5-6. 分手以後：CALLED_SHUYU 留著（叫過）；名字回到「溫書瑀」（分手以後怎麼叫等 BB 定）',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='溫書瑀'); }
+    { const G=fresh('2026-04-10',20,'dorm'); H.rel(S5,45,30,0); H.rel('heroine_01',45,30,0); ROM.start(G,'heroine_01');
+      check('5-7. 條件不成立不設：和別人（以安）交往＝沒有 CALLED_SHUYU、學姊照原本的名字',!G.flags.CALLED_SHUYU&&SOCIAL.displayName(S5)==='溫書瑀'&&SOCIAL.displayName('heroine_01')==='沈以安'); }
+    { const G=fresh('2026-04-10',20,'dorm',{dating_heroine_05:true}); H.rel(S5,45,30,0); delete G.flags.CALLED_SHUYU;
+      check('5-8. 舊存檔還沒記：交往中的「書瑀」要等 CALLED_SHUYU（datingName 讀它）',SOCIAL.displayName(S5)==='溫書瑀'&&!G.flags.CALLED_SHUYU,SOCIAL.displayName(S5));
+      ROM.rec(G); check('5-9. 舊存檔：讀檔（ROM.rec）時和學姊交往中＝補記 CALLED_SHUYU',G.flags.CALLED_SHUYU===true&&SOCIAL.displayName(S5)==='書瑀'); }
+    { const G=fresh('2026-04-10',20,'dorm',{EX_heroine_05:true,romance:{heroine_05:{status:'ex',since:null,knows:[],suspicion:0,history:[{ev:'start',at:'Y1S2W5'},{ev:'end',at:'Y1S2W8'}]}}}); ROM.rec(G);
+      check('5-10. 舊存檔：交往過（歷史有開始）也補記',G.flags.CALLED_SHUYU===true); }
+  }
+
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
