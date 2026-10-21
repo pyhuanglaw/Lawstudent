@@ -5,7 +5,8 @@
    - AA_287 美國區域「看」的文字（公寓、合租戶、社區、兩間超市；依日期換的三處照美國當地日期）。
    什麼時候演、手機、出遊、系統（美國學期日曆、一鍵上課、快轉與摘要日、時差、邀約、學姊的作息、會所、超市、湖邊）在 src/us_life3d.js（USL）。
    「交往中」＝當天 dating_heroine_05；「挽回中」＝美國路線、不是交往中（BB_204 第 4 節）。何俊朗沒有立繪、沒有 3D（compact；PORTRAIT_ONLY 登錄 npc_long 只是給名字）。
-   AA 稿沒有的字：沒有寫（缺的列在 USL.GAPS，回報 AA）。測試：node tests/us_life_unit.js */
+   AA 稿沒有的字：沒有寫（缺的列在 USL.GAPS，回報 AA）。AA_345 第 6 節 I1～I7（2026-10-21）補的：感恩節會所兩句旁白、何俊朗 17:00 的邀約、萬聖節第二次門鈴、
+   自習室她只點頭、湖邊 8～9 月與 11 月的「看」、法學院圖書館的 SU 開頭旁白與三句閒聊、C 棟 208 門關著的旁白。測試：node tests/us_life_unit.js */
 'use strict';
 if(typeof PORTRAIT_ONLY!=='undefined'&&!PORTRAIT_ONLY.npc_long) PORTRAIT_ONLY.npc_long={id:'npc_long',name:'何俊朗',alias:['何俊朗','Long'],gender:'m'};   /* AA_328 3-12 第 6 節第 1 點：npc_long（何俊朗／Long；compact）*/
 const US_LIFE_EVENTS=(function(){
@@ -160,6 +161,12 @@ const US_LIFE_EVENTS=(function(){
     {label:'a'},IF(ASIA3,nar('（兩個小孩，一個是南瓜，一個是恐龍。你沒有糖。你把亞洲超市買的小饅頭餅乾給了他們。）')),UN(ASIA3,nar('（兩個小孩，一個是南瓜，一個是恐龍。你沒有糖。你把冰箱裡的蘋果給了他們。）')),{set:{USL_HALLOWEEN:'open'}},{goto:'e'},
     {label:'b'},nar('（門外有小孩在笑。過了一下，腳步聲往樓下去了。）'),{set:{USL_HALLOWEEN:'closed'}},
     {label:'e'} ]});
+  /* 第二次門鈴（19:00；AA_345 I2 新寫）：第一次給的是小饅頭餅乾還是蘋果，都說「剩下的」*/
+  ev('ev_usl_halloween2','萬聖節',{background:'blur',dialogue:[
+    {choice:[{text:'（開門）',goto:'a'},{text:'（不開）',goto:'b'}]},
+    {label:'a'},nar('（一個戴著皇冠的小女孩，後面跟著她爸爸。你把剩下的都給了她。爸爸幫她說了謝謝。）'),{set:{USL_HALLOWEEN2:'open'}},{goto:'e'},
+    {label:'b'},nar('（這次門外很安靜。過了一下，隔壁的門開了，有人在說 Happy Halloween。）'),{set:{USL_HALLOWEEN2:'closed'}},
+    {label:'e'} ]});
 
   /* ---------------- G6 感恩節（11/23（四））---------------- */
   /* 17:30 感恩節的晚餐（交往中；US3 之後她在湖邊說「晚上來 C 棟。室友不在。」→ 排出遊）*/
@@ -172,8 +179,11 @@ const US_LIFE_EVENTS=(function(){
     {label:'a'},sis('嗯。'),nar('（她又幫你盛了一碗。）'),{goto:'e'},
     {label:'b'},nar('（她想了很久。）'),sis('……今天湖邊那一句，算不算。'),
     {label:'e'},{set:{USL_THANKS:'dinner'}} ]});
-  /* 挽回中、有 MET_LONG：晚上何俊朗約在會所（熱可可那一句旁白 AA 稿沒有原文：USL.GAPS）*/
-  ev('ev_usl_thanks_long','感恩節',{trigger:'outing',hours:1,dialogue:[ {scene:'會所',bg:'us_club_lounge'}, lg('感恩節。兩個沒地方去的人。'), {set:{USL_THANKS:'long'}} ]});
+  /* 挽回中、有 MET_LONG：17:00 何俊朗私訊「感恩節。兩個沒地方去的人。」「七點，會所。」（AA_345 I6：AA_340 G6 那一句當邀約）→ 19:00 會所，兩句旁白（AA_345 I1 新寫）*/
+  ev('ev_usl_thanks_long','感恩節',{trigger:'outing',hours:1,dialogue:[ {scene:'會所',bg:'us_club_lounge'},
+    nar('（會所的自動販賣機只剩熱可可。何俊朗按了兩次，一杯推給你。）'),
+    nar('（你們坐在自習室的窗邊喝完。誰都沒說今天是什麼節日。）'),
+    {set:{USL_THANKS:'long'}} ]});
   /* 挽回中、沒有 MET_LONG：公寓裡一個人 */
   ev('ev_usl_thanks_alone','感恩節',{background:'blur',dialogue:[ nar('（你煮了一包台灣帶來的泡麵。窗外開始飄小雪。）'), {set:{USL_THANKS:'alone'}} ]});
 
@@ -221,6 +231,11 @@ const US_LIFE_EVENTS=(function(){
     long1209:'下禮拜考完，我就要回香港了。……你們什麼時候走？',   /* G7：12/9（六）招呼換這一句 */
     longSisThere:'你們台灣人讀書都不說話的嗎',   /* 4-1：學姊在旁邊那張桌子（交往中）時，招呼後面多這一句（原文沒有句號）*/
     sisStudyRepair:'（她抬頭看了你一眼，又低下頭。）',   /* 4-1：挽回中在自習室遇到她 */
+    sisStudyDating:'（她抬頭，點了一下頭，把旁邊椅子上的外套拿起來，放到自己腿上。）',   /* AA_345 I3：交往中在自習室，她只點頭（旁邊的位子給你），不說話 */
+    /* AA_345 I5：學姊美國篇的 SU 階梯改在法學院圖書館演（平日 11:30～12:00 她收書去吃午餐的時候），開頭這一句旁白；自習室、湖邊作廢 */
+    suLibOpen:'（她把書收進包包，跟你走到圖書館外面才開口。）',
+    /* AA_345 I5：法學院圖書館的一般閒聊（09:00～11:30，小聲）：原本的「……我沒事。只是沒睡。」再加三句輪流（交往中；挽回中只有原本那一句）*/
+    libTalk:['（她把螢幕轉過來給你看：第四章，第三節。）「……還差一節。」','（她小聲）「三明治店十二點人很多。你先去占位子。」','（她指了一下桌上的紙杯）「圖書館的咖啡機又壞了。這杯是外面買的。」'],
     /* AA_291 4-1：每個星期天 台灣 21:00（＝美國早上 9:00，11/5 以後 8:00），媽媽一則，輪流 */
     mom:[ {t:'吃飯了沒。'}, {t:'天氣預報說你那邊變冷了。外套夠不夠。',from:'2028-10-01'}, {t:'你姊問你要不要帶什麼回來。我說不用。'}, {t:'你爸說他看了地圖，那邊離芝加哥很近。',from:'2028-11-01',to:'2028-11-30'} ],
     /* 手機（時間都是當地）*/
@@ -234,11 +249,14 @@ const US_LIFE_EVENTS=(function(){
       sis1031:['我們這戶買了兩包糖。室友說不夠。','……她說對了。七點半就發完了。'],
       sis1116:['下週四感恩節。','室友兩個都要回家。……C 棟會變得很安靜。'], sis1116ask:[['那天我們做什麼？','還不知道。我想一下。'],['妳要不要過來吃飯？','……我想一下。']],
       long1123:'你們吃火雞了嗎。我吃了泡麵。還好。',
+      long1123r:['感恩節。兩個沒地方去的人。','七點，會所。'],   /* AA_345 I6：挽回中、有 MET_LONG，11/23 17:00 何俊朗私訊（邀約）*/
       sis1206:['期末週以後，還有五天。','……你想去哪裡，你先想。'],
       us3Tail:'晚上來 C 棟。室友不在。',   /* G6：US3 交往中那一版的最後她說的（接 17:30 晚餐）*/
       lakeFirst:'（八月你們來的時候，湖邊都是遛狗的人。今天只有你們。）' },   /* G1：US3 的湖邊開頭，有 US_LAKE_FIRST 多一句旁白 */
     /* 「看」：湖邊（4-4）、會所門口的公告（G3）、超市換季（G5）、公寓門口（G7）、10/3 亞洲超市的月餅（G3）*/
     looks:{ lakeOct:'（湖面很平。對岸的樹，一棵一棵變顏色。）', lakeSnow:'（湖邊的長椅積了雪。）', bbqPoster:'（公告上畫了一個烤肉架。下面寫：自己帶飲料。）',
+      lakeSummer:'（湖邊有人在遛狗。太陽很晚才下山。）', lakeNov:'（樹葉都掉光了。湖面的顏色比天還灰。）',   /* AA_345 I4：8～9 月、11 月～12/1（新寫）*/
+      c208Eve:'（208 的門關著。平日晚上她在寫論文。）', c208:'（208 的門關著。）',   /* AA_345 I7：C 棟 208 不能敲門（交往中、平日晚上／挽回中）*/
       marketFall:'（入口堆滿了南瓜和火雞。火雞比你想的大很多。）', railSnow:'（樓梯的扶手上積了一層雪。你用手指寫了一個字，又抹掉。）', mooncake:'（月餅擺在結帳台旁邊。你買了一盒。）' },
     /* AA_287（AA-C 2026-10-18）：美國區域「看」的文字（只換字串，不動判斷）。函式＝依美國當地日期換（AA_213 2-1）*/
     aa287:{
@@ -263,3 +281,5 @@ const US_LIFE_EVENTS=(function(){
   return {EV,DATA,dating,LONG};
 })();
 Array.prototype.push.apply(STORY_EVENTS,US_LIFE_EVENTS.EV);
+/* 法學院圖書館的一般閒聊（AA_345 I5）：學姊的 SMALLTALK 多三句——只在美國的法學院圖書館（us_lawlib）09:00～11:30、交往中；和原本的「……我沒事。只是沒睡。」輪流 */
+if(typeof SMALLTALK!=='undefined'){ const L=SMALLTALK.heroine_05||(SMALLTALK.heroine_05=[]); for(const t of US_LIFE_EVENTS.DATA.libTalk) if(!L.some(e=>e&&e.t===t)) L.push({t,location:['us_lawlib'],time:[9,11.5],if:{custom:US_LIFE_EVENTS.dating}}); }
