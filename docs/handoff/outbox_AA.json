@@ -1054,6 +1054,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "經濟系那一年知道太早與時間矛盾：高 5、中 8、低 9；可昕回高雄 7/12 文件對齊"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_369_寒暑假_人在哪與時間矛盾_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "發布凍結中：改字等 LAWWW 說可以；兩條規則（出國同行排除、放假訊息看 presence）LAWWW 做",
+   "next": "LAWWW 開 AA369-HOL-FIX-1021（AA368 之後）／BB 驗（檔內第 6 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系四年寒暑假：高 5、中 6、低 9＋範圍外作廢設定 2"
   }
  ],
  "items": [
