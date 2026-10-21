@@ -1416,13 +1416,13 @@
     "docs/art-rebuild/second_ai/patches/grade_golden_default.diff",
     "docs/art-rebuild/second_ai/test_shots/grade_golden_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "CLAUDE.md「等使用者決定：黃昏調色提案…」那一句、USER_WANTS X32、tasks.json 由 LAWWW 改；ART-VSLICE 收尾：後製 src/post3d.js 不接（效能、人物凍結、收尾不擴大；window.GAME 的 bug 已在這個分支修好，只為以後評估）",
    "next": "LAWWW git apply grade_golden_default.diff（對 15f3c677 乾淨；engine3d.js 兩行＋golden_compare.sh 四行）；BB 可以用 golden_compare.sh 同角度重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS"
+   "ack": "ACTIONED",
+   "note": "使用者 10-18 選「預設就開」（X32）：E.grade 預設 golden、?grade=off 回原本；六組遊戲內對照（白天／夜晚／室內差 1～2%＝沒動，黃昏 38～70%）；nav_levels_unit、nav_buildings_unit ALL PASS｜開發分支 6d49e79c（post9103 → 40a8ddc3 合併進開發分支）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "BUG-CAM-203-R2-1021",
@@ -1432,13 +1432,13 @@
     "docs/art-rebuild/second_ai/patches/dorm_cam_203.diff",
     "docs/art-rebuild/second_ai/test_shots/dorm203_cam_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "坐在自己書桌前、鏡頭轉到北時被自己的上鋪床板擋住（修改前就這樣，P3）：之後把上鋪床板標成網點透空＋宿舍開 seeThru",
    "next": "LAWWW git apply dorm_cam_203.diff（對 15f3c677 乾淨；只改 zones3d.js＋新 tests/dorm_cam_unit.js，不需要 engine3d.js）；BB 用 artrev3 01／04 重拍",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "SENT",
-   "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人"
+   "ack": "ACTIONED",
+   "note": "大一 203 鏡頭碰撞：洗手間隔間＋四組上鋪（站在某一組底下時那一組不算）；單元測試被擋的方向 23.2%→0%；遊戲內 R2 書桌旁鏡頭在東、在南 6 秒內轉開，看得到人｜開發分支 6313c019（post9103 → 40a8ddc3）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
   },
   {
    "task": "PERF-CAMPUS-SHADOW-1020",
@@ -1448,13 +1448,63 @@
     "docs/art-rebuild/second_ai/patches/campus_parked_bikes.diff",
     "docs/art-rebuild/second_ai/test_shots/perf_campus_1021/"
    ],
-   "state": "已交付",
+   "state": "已整合",
    "remaining": "路人（VRM）是現在最大的一項：椰林大道 15:00 主畫面 151 draw call、25.2 萬三角形——人物／NPC 系統是 LAWWW 的（遠的換低面數或藏、手機減少人數；低面數路人模型可以派給 LAWWW2）；長椅、路燈也是全區合併但量小，先不動；真機沒量",
    "next": "LAWWW git apply campus_parked_bikes.diff（對 15f3c677 乾淨；zones3d.js＋tests/campus_bikes_unit.js）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
+   "ack": "ACTIONED",
+   "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670｜開發分支 51740da7（post9103 → 40a8ddc3）；LAWWW2 19:5x 在 a9da472a 確認 patch 已在（git apply -R --check）"
+  },
+  {
+   "task": "ART-Y1-BOX-MIRROR-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "86dd6d54",
+   "files": [
+    "assets/models/env/second_ai/dorm_y1_items.glb",
+    "assets/models/env/second_ai/dorm_y1_items.json",
+    "tools/blender/env_second/dorm_y1_items.py",
+    "docs/art-rebuild/second_ai/test_shots/dorm203_tape_box_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "玩家鏡頭拉到最近時紙箱上的字太小（只改方向、沒改大小）；只拍 15:00",
+   "next": "LAWWW 換 dorm_y1_items.glb＋.json（37884326），不用改程式；BB 用 box_check.py 重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "校園約 120 台停著的車被全區合併成橫跨 153×184 m 的網格（畫面外、很遠的照畫）→ 40 m 一區分區合併、鏡頭 45 m 外整區不畫；遊戲內同位置 15:00：主畫面合併場景三角形 −12～−14 萬、陰影那一輪 −7.5～−9.3 萬，draw call 差不多；導航每 0.5 m 站得住的格子修改前後都是 135,670"
+   "note": "BB_218「左右鏡像」：其實是上下顛倒（腳本故意 ang 182° 倒著寫）；壓平後靠著放、底蓋著地，側板的字本來就是正的→改正的；遊戲內貼近對照：原本倒的、現在正的"
+  },
+  {
+   "task": "BUG-CAM-C208-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "76b3a0d5",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/c208_cam_walls.diff",
+    "docs/art-rebuild/second_ai/test_shots/c208_cam_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "78 號（廚房、鏡頭在東）看得到人，但左邊約四成是隔間牆頂（鏡頭在牆上方，全遊戲室內鏡頭都這樣；要再改是 autoSwing 的範圍）；只拍 17:45",
+   "next": "LAWWW git apply c208_cam_walls.diff（對 a9da472a 乾淨；us3d.js aptCamCols＋engine3d.js followCam 一行＋tests/us_cam_walls_unit.js）；BB 用 artrev2 角度重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "第二版 eec79b9e：外牆鏡頭碰撞加高到壁板 H+0.4；遊戲內 57、58、62、77 從整個畫面是牆變成看得到人；在 a9da472a 上 us_cam_walls、teach_cam_walls、nav_us、us_life ALL PASS；engine3d.js 一行是 LAWWW 的檔案"
+  },
+  {
+   "task": "ART-02-GONGTONG-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8b38e054",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/art02_gongtong_doors.diff",
+    "docs/art-rebuild/second_ai/test_shots/art02_gongtong_doors_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "門牌的字是遊戲畫的平面字，貼近有點模糊；共同教學館其他室內仍是程序化",
+   "next": "LAWWW git apply art02_gongtong_doors.diff（對 a9da472a 乾淨；teach3d.js＋tests/teach_doors_unit.js）；不用加資產（門模組在已整合的 furniture_study.glb）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "接續 ART-02（教室門模組，已結案）：共同教學館沒有正式室內殼，關著的門還是木板——共同教學館關著的門（1F 兩間洗手間、2F 203）：黑色長方形→門框、木門片、觀景窗、把手、門牌；teach_doors_unit 修改前 FAIL／修改後 ALL PASS；在 a9da472a 上 teach_doors、nav_teach、teach_cam_walls、teach_class ALL PASS"
   }
  ]
 }
