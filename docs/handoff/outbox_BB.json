@@ -815,11 +815,11 @@
     "docs/story_planning/test_tools/aa368_probe.py"
    ],
    "state": "已測試",
-   "next": "M6 要不要改排法由 LAWWW 決定；12/27 分享吃的、1/2 兩次傳訊息沒測到（P3）",
+   "next": "12/27 分享吃的、1/2 兩次傳訊息沒測到（P3）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發與回程（7/25 26:10＝7/26 02:10）、M8 PASS（2b25a509／3893c523）；M6 看不到（手機小事隔 3 天，第 8 週只剩 10/25 一格，兩輪都給了 y0_xu_alarm）——建議快過期的先排；H1、H2、H3、附 PASS（aa300 94eba942）"
+   "note": "BB_218「AA368-Y0-FIX-1021 經濟系那一年的修正」：L9b、H1、H5、M3（2/14 前後）、M4、H4、M7 出發與回程（7/25 26:10＝7/26 02:10）、M8 PASS（2b25a509／3893c523）；M6 修正後 PASS（87d815fb，d22748f5 新遊戲 10/25 收到阿勳那則）；H1、H2、H3、附 PASS（aa300 94eba942）"
   },
   {
    "task": "BB218-P3-1021",
