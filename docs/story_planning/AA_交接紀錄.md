@@ -1,6 +1,23 @@
 值班登記：帳號 A｜AA｜session_019Y3emYqxxC4Ch1GGf4fMzw｜分支 claude/story-planning｜接班基準 8d32ed63｜2026-10-21 15:24 UTC
 上一班：帳號 C｜AA-C｜session_019evvieJUJD23EGf4nyLPgo｜最後 commit 8d32ed63（14:30 UTC）｜交班紀錄有寫（下面那一節），但沒有跑 `duty handoff`（`duty_AA.json` 還是 on）→ 使用者對 AA（帳號 A）說「我回來了，請同步 GitHub 最新進度，接續工作。」，用 `duty register --user-ok` 接班（記 no-handoff）
 
+> **【進度 2026-10-21 16:1x UTC，AA（帳號 A）】**
+> - **RULE_SOURCE 換了**：帳號 A 的 LAWWW 接班後 duty sync（`be5ae4ce`，seq 20），開發分支＝RULE_SOURCE＝`claude/confident-ritchie-8rwh7t`。AA 直接推開發分支的東西都推這條。
+> - **通訊**：和 LAWWW、BB、LAWWW2（帳號 A）都雙向確認過（使用者 15:3x 問）。
+> - **做完的**：
+>   - `AA_363`：回 LAWWW `AA_QUESTIONS_1021` 的 R、S、T 共 19 題（企劃線 `221433e5`、`e39f0d6b`；LAWWW 15:36 ACK，已排進佇列）。
+>   - 芷若英國明信片那句（AA-C 交班沒做完的）：開發分支 `43a8c17a`；沛珊、柏翰兩句 LAWWW-C `bc7c8823` 已改（`AA_362` 第 4 節）。
+>   - KX-EXPR-1018／X62：可昕 245 句補表情（開發分支 `de616dbc`、`d511ec27`、`5bc5f09a`、`f1d76f65`；Node 390 支全過）。剩 R4 模擬考 9 句（已拿掉）和兩處程式組的句子，請 LAWWW 加預設。
+>   - `AA_364`：USER_WANTS B09 溫州街其他店面哪幾家能進（`2b0429cd`）。
+>   - `AA_288` 第 8 節：指向 `AA_351` 定稿（`504ca1a7`）。
+>   - 核對 AA_360、AA_357 已進開發分支（S.zqGame、學姊考前、沛珊尾聲、芷若 Z7、Y5S1、中秋、第五年、最後一次實習、跳日期那句都在）。
+> - **AA（帳號 A）全部待辦**：
+>   - AA-Q-1021-AAFIX：等 LAWWW 合併 WIP-LAWWW-AAFIX-1021（`8a9a5e5a` 在 bundle 裡）給 SHA，AA 核 `AA_355` 第 5 節、`AA_358` 第 2 節。
+>   - BACKLOG-SWEEP-AA-1021：劇情總監清查繼續（AA-C 留的：朋友版學期末約人那一句、可昕畢業後「我們的日子」節奏；AI 味句型第四輪的其他句）。
+>   - SIS-SHUYU-1017（USER_WANTS C15）：學姊交往後叫「書瑀」——LAWWW 要 AA 給換句；排在三個優先之後。
+>   - USER_WANTS X33（法律系四年可昕劇情逐場用選擇題確認）：AA 解讀＝已被使用者 10-21 12:0x「沒有時間逐場審稿、自主判斷」取代；**還沒問過使用者，算 AI 解讀**，回報時順帶說。
+>   - UA-AA-1020-31／33／34／35：AI 解讀，照 AA-C 的做法不追問（使用者 10-21：不要因為選擇題沒回就停）。
+
 > **【接班 2026-10-21 15:2x UTC，AA（帳號 A）｜總入口第 4 節十四步】**
 > - 使用者 15:1x 補充：「你上次交班之後 有兩個帳號接過你的班 B C」——已確認：AA-B（`claude/cool-heisenberg-o8kuqx`，10-15～10-17）、AA-C（`claude/magical-albattani-bk7b4n`，10-17～10-21）。以 AA-C 交班狀態為準，不用帳號 A 停在 10-14 的舊進度。
 > - 第 1～2 步：fetch 全部遠端；`duty find` → RULE_SOURCE `origin/claude/adoring-meitner-mqzst8`（登記鏈 seq 19、HV-18、規則 SHA `7c58b598`）。值班：沒有人（帳號 C 四個職位 10-21 14:30～14:59 交班）。
