@@ -78,6 +78,23 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const us=await run('US'), jp=await run('JP');
     check('G4. 9/3 那一句分路線：美國「（這學期，週二去實習，週一、週三補兩門課。其他的日子——）」；日本照原句',us[0]==='（這學期，週二去實習，週一、週三補兩門課。其他的日子——）'&&jp[0]==='（這學期，只有週二要去實習。其他的日子——）',JSON.stringify([us[0],jp[0]])); }
   { check('G4. CALENDAR 有 2030 的農曆節日（除夕 2/2、初一 2/3；中秋 9/12）',CALENDAR.holiday(D('2030-02-02'))==='除夕'&&CALENDAR.holiday(D('2030-02-03'))==='春節'&&CALENDAR.holiday(D('2030-09-12'))==='中秋節',[CALENDAR.holiday(D('2030-02-02')),CALENDAR.holiday(D('2030-02-03')),CALENDAR.holiday(D('2030-09-12'))].join(',')); }
+  // ===== G5-4 跳日期那一句（AA_357 第 4 節、AA_353 第 3 節；AA_355 第 5 節第 2 題：一跳出最後一句）=====
+  { const cl=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
+    const s1=cl({EXCHANGE_ROUTE:'JP'},'2029-06-02','2029-06-28'), s2=cl({EXCHANGE_ROUTE:'JP'},'2029-06-28','2029-07-12'), s3=cl({EXCHANGE_ROUTE:'JP'},'2029-08-04','2029-09-03'), tw=cl({EXCHANGE_ROUTE:'TW',BAR_REG:false},'2029-06-02','2029-06-28');
+    check('G5. 延畢的 2029 夏天三句（AA_353 第 3 節）：6/3～、7 月、8 月；臺灣路線照原本的表',s1==='（同屆的人都畢業了。你還差一門實習，九月再回學校。）'&&s2==='（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'&&s3==='（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'&&tw==='（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）',JSON.stringify([s1,s2,s3,tw])); }
+  { const one=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
+    const st=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'},'2029-09-03','2029-09-11'), wk=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'},'2029-09-03','2029-09-11'), br=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'},'2029-09-03','2029-09-11');
+    const G=grad('2029-09-11',10,{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}); const u1=PG.cardLine(G,D('2029-09-03'),D('2029-09-11')), u2=PG.cardLine(G,D('2029-09-11'),D('2029-09-22')), u3=PG.cardLine(G,D('2029-09-22'),D('2029-10-16'));
+    check('G5. 大五上第一週：三選一各一句（總圖／家教／國考）；美國路線第一次跳先出「週一、週三補修兩門課……」，下一次跳再出那一段的句子',
+      st==='（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'&&wk==='（你接了兩個家教。一個國三，一個高二。）'&&br==='（你把國考的書在書桌上排成一排。先從民法開始。）'&&u1==='（週一、週三補修兩門課。教室裡坐的，都是大三的。）'&&u2==='（國三那個學生問你，法律系是不是要背很多。你說還好。他不信。）'&&u3==='（家教的錢第一次匯進來。你沒有馬上花。）',JSON.stringify([st,wk,br,u1,u2,u3])); }
+  { const G=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const c1=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c2=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c3=PG.cardLine(G,D('2029-12-18'),D('2029-12-24')), c4=PG.cardLine(G,D('2029-12-24'),D('2030-01-21'));
+    check('G5. 同一段有共通和三選一：共通先出（「週二去事務所……」），下一次跳再出三選一（「刑法的書……」）；12/19～12/23「大五上結束了……」；寒假「跨年那天晚上……」',
+      c1==='（週二去事務所。其他的日子，一天和一天很像。）'&&c2==='（刑法的書，書邊都翻黑了。）'&&c3==='（大五上結束了。這一次，沒有期末考。）'&&c4==='（跨年那天晚上，你在家。煙火是從電視上看的。）',JSON.stringify([c1,c2,c3,c4])); }
+  { const r4=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
+    const bar=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'},'2030-03-15','2030-04-20'), gr=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'grad'},'2030-03-15','2030-04-20'), m1=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'bar',BAR_REG_2030:false},'2030-05-10','2030-05-25'), m2=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'grad',BAR_REG_2030:true},'2030-05-10','2030-05-25');
+    const jan=r4({EXCHANGE_ROUTE:'JP'},'2030-01-21','2030-02-02'), cny=r4({EXCHANGE_ROUTE:'JP'},'2030-02-01','2030-02-11'), feb=r4({EXCHANGE_ROUTE:'JP'},'2030-02-16','2030-03-15');
+    check('G5. 2030 年初：證書、過年、二月底；「報名」那兩列 5/10 以前照 Y4_PATH（bar＝報名），問過的照回答',
+      jan==='（證書放在書桌上。你媽買了一個框，還沒裝進去。）'&&cny==='（過年。親戚問你什麼時候畢業。你說上個月。）'&&feb==='（二月底。學弟妹開學了。你第一次在開學那天沒有課。）'&&bar==='（四月。你每天早上九點到總圖。這次是為了國考。）'&&gr==='（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'&&m1==='（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'&&m2==='（五月。國考報名的表格，你檢查了兩次才送出去。）',JSON.stringify([jan,cny,feb,bar,gr,m1,m2])); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
-// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL；G4 6 項全部 FAIL。
+// 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL；G4 6 項全部 FAIL；G5-4 4 項全部 FAIL。
