@@ -126,5 +126,59 @@ let caps=[], toasts=[]; GM.caption=(a,b)=>{ caps.push(b); }; GM.toast=t=>{ toast
     check('3-24. 法學研究第 11 週引用大四上的那一題、AA 沒給「你不在」的句子：照舊不說',c3==='',c3);
     CLS.rec(G).disc.B_Y1S2_crim_gen2_w3=0; const d=CLS.recallText(G,r1,{c:{id:'crim_judgment_sem'},week:3}); check('3-25. 去過、有紀錄：照原本的回想（不出「你不在」）',d==='x'||d!==a,d); }
 
+  /* ======================= 4. VAC-ZR-UK-1017 芷若在英國照交情 ======================= */
+  { const ZR='heroine_02', thZ='p:heroine_02';
+    check('4-0. 有 MSG.inUK、MSG.ukRow、MSG.ukReplyAt、MSG.ukDaily',typeof MSG.inUK==='function'&&typeof MSG.ukRow==='function'&&typeof MSG.ukReplyAt==='function'&&typeof MSG.ukDaily==='function');
+    const monOf=k=>{ let d=STORY.dayOfKey(k); while(CALENDAR.dateOf(d).wd%7!==1) d++; return d; };
+    const zr=(d,h,lv,flags)=>{ const G=fresh('2027-10-18',h,'dorm',flags); setDay(d,h); INV.addContact(G,ZR); SOCIAL.remember(ZR,'FIRST_MET',''); const r=SOCIAL.rel(ZR); r.fam=lv>=3?45:25; r.trust=lv>=3?30:0; r.comf=0; r.npcRom=lv>=5?35:0; return G; };
+    const q=G=>(PHONE.rec(G).q||[]).filter(x=>x.items.some(it=>it.th===thZ));
+    const M1=monOf('2027-10-18');
+    /* 1. 開不開 */
+    { const G=zr(M1,20,2); const o=MSG.open(G,ZR);
+      check('4-1. 前提：大三上（2027-10）芷若在英國；有點熟＝不開（「她在英國，只寄明信片」）',MSG.inUK&&MSG.inUK(G,ZR)&&!o.ok&&o.why==='她在英國，只寄明信片',JSON.stringify(o)); }
+    { const G=zr(M1,20,3); const o=MSG.open(G,ZR), T=MSG.topics(G,ZR).map(x=>x.k);
+      check('4-2. 朋友＝開（原本一律不開）；話題：在幹嘛、分享，沒有問課、晚安',o.ok&&o.mode==='uk'&&o.uk==='friend'&&T.includes('chat')&&T.includes('share')&&!T.includes('course')&&!T.includes('night'),JSON.stringify({o,T})); }
+    /* 2. 朋友：一週回一兩次、只回最新一則、前面加「抱歉，這週比較忙。」*/
+    { const G=zr(M1,10,3); const r1=MSG.send(G,ZR,'chat'); const Q1=q(G);
+      check('4-3. 朋友：週一傳 → 回覆排在週三台灣 22:00 以後（她那邊的下午），第一則「抱歉，這週比較忙。」、接著是「在英國」那一組',r1.ok&&Q1.length===1&&Q1[0].day===M1+2&&Q1[0].h>=22&&Q1[0].items[0].text==='抱歉，這週比較忙。'&&Q1[0].items.length>=2,JSON.stringify(Q1));
+      setDay(M1+1,10); const r2=MSG.send(G,ZR,'share','cat'); const Q2=q(G);
+      check('4-4. 週二又傳：這一段只回最新一則（週一那則排好的回覆拿掉），回的是貓那句「這邊的貓都不給摸。」',r2.ok&&Q2.length===1&&Q2[0].items.some(it=>it.text==='這邊的貓都不給摸。'),JSON.stringify(Q2));
+      setDay(M1+2,23); PHONE.tick(G); const got=(G.msgs||[]).filter(m=>m.th===thZ&&m.from===ZR).map(m=>m.text);
+      check('4-5. 週三晚上收到：「抱歉，這週比較忙。」「這邊的貓都不給摸。」（週一那則不回）',JSON.stringify(got)===JSON.stringify(['抱歉，這週比較忙。','這邊的貓都不給摸。']),JSON.stringify(got)); }
+    /* 3. 好朋友、曖昧：當天回；她那邊半夜傳的，起床先回「我剛起床。」*/
+    { const G=zr(M1,10,5); const o=MSG.open(G,ZR); MSG.send(G,ZR,'chat'); const Q=q(G);
+      check('4-6. 好朋友、曖昧（第 5 階、兩人都單身）：她那邊半夜（夏令：台灣 06:00～15:00）傳的，15:00 以後她起床回，先「我剛起床。」',o.uk==='close'&&Q.length===1&&Q[0].day===M1&&Q[0].h>=15&&Q[0].h<16&&Q[0].items[0].text==='我剛起床。',JSON.stringify(Q)); }
+    { const G=zr(M1,22,5); const T=MSG.topics(G,ZR).map(x=>x.k); const r=MSG.send(G,ZR,'night'); const Q=q(G);
+      check('4-7. 好朋友：台灣 22:00 有晚安（她那邊下午）；回的是「這邊才下午。」或「晚安。我還有一堂課。」、當天就回',T.includes('night')&&r.ok&&Q.length===1&&Q[0].day===M1&&Q[0].h<23&&['這邊才下午。','晚安。我還有一堂課。'].includes(Q[0].items[0].text),JSON.stringify({T,Q})); }
+    { const G=zr(M1,20,5); let cafe=0; for(let i=0;i<12;i++){ const e=MSG.pick(G,ZR,'chat'); if(!e||e.variant!=='在英國') cafe++; if(e&&(e.tags||[]).includes('交往中')) cafe++; }
+      check('4-8. 好朋友：只用「在英國」那一組（朋友那一組也用），不出交往中才有的句子、不用 Café 的句子',cafe===0); }
+    /* 4. 交往中：每天一則（英國 23:00 她睡前＝台灣 07:00，夏令 06:00）*/
+    { const W=STORY.dayOfKey('2028-11-14'); const G=zr(W,6,5,{dating_heroine_02:true}); ROM.rec(G);
+      check('4-9. 交往中＝mode uk、dating',MSG.open(G,ZR).uk==='dating');
+      setDay(W,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d1=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W).map(m=>[m.h,m.text]);
+      check('4-10. 大四（2028-11，冬令）：台灣 07:00 收到每天那一則（第一則「今天看了兩部片。一部很好，一部我睡著了。」）',d1.length===1&&d1[0][0]>=7&&d1[0][0]<7.25&&d1[0][1]==='今天看了兩部片。一部很好，一部我睡著了。',JSON.stringify(d1));
+      STORY.phoneRules(GM); PHONE.tick(G); check('4-11. 同一天不再有第二則',(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W).length===1);
+      setDay(W+1,7.2); STORY.phoneRules(GM); PHONE.tick(G); const d2=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+1).map(m=>m.text);
+      check('4-12. 隔天輪下一則（照片＋「要睡了。你那邊早安。」）',JSON.stringify(d2)===JSON.stringify(['（照片：宿舍窗外的路燈）','要睡了。你那邊早安。']),JSON.stringify(d2));
+      MSG.rec(G).rot.uk_daily=7; setDay(W+2,7.2); STORY.phoneRules(GM); PHONE.tick(G); MSG.rec(G).rot.uk_daily=7; setDay(W+3,7.2); STORY.phoneRules(GM); PHONE.tick(G);
+      const a=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+2).map(m=>m.text), b=(G.msgs||[]).filter(m=>m.th===thZ&&m.day===W+3).map(m=>m.text);
+      check('4-13. 第 8 則「今天沒什麼事。只是想跟你說晚安。」一個月最多一次（同一個月又輪到＝換下一則）',a[0]==='今天沒什麼事。只是想跟你說晚安。'&&b[0]==='學校的咖啡今天比較好喝。換了一個人煮。',JSON.stringify([a,b]));
+      const T=MSG.topics(G,ZR).map(x=>x.k); check('4-14. 交往中的「在幹嘛」會出現交往中那兩則（照好朋友那一組再加）',T.includes('chat')&&(()=>{ let hit=false; for(let i=0;i<20;i++){ const e=MSG.pick(G,ZR,'chat'); if(e&&(e.tags||[]).includes('交往中')) hit=true; } return hit; })()); }
+    { const W=STORY.dayOfKey('2028-11-14'); const G=zr(W,7.2,5); STORY.phoneRules(GM); PHONE.tick(G);
+      check('4-15. 條件不成立不發：沒有交往＝沒有每天那一則',!(G.msgs||[]).some(m=>m.th===thZ)); }
+    /* 5. 前任、回台中 */
+    { const G=zr(M1,20,5,{EX_heroine_02:true}); const o=MSG.open(G,ZR); check('4-16. 前任：不開（只有寄到 Café 的明信片，BB_119 2-3）',!o.ok,JSON.stringify(o)); }
+    { const H8=STORY.dayOfKey('2029-08-27'); const G=zr(H8,20,3); const pr=STORY.presence(ZR,G), o=MSG.open(G,ZR);
+      check('4-17. 2029-08-25 回國後在台中（presence home）：照常傳（不是「她在英國」）',pr.kind==='home'&&o.ok&&o.mode!=='uk',JSON.stringify({pr,o})); }
+    /* 6. 子晴「芷若在英國」那一句：認識芷若、一段期間只播一次 */
+    { const G=zr(M1,23,3); INV.addContact(G,'heroine_04'); SOCIAL.remember('heroine_04','FIRST_MET',''); const r=SOCIAL.rel('heroine_04'); r.fam=45; r.trust=30; G.events.done.ev_ziqing_secret_game=1;
+      let n=0; for(let i=0;i<8;i++){ const e=MSG.pick(G,'heroine_04','chat',null,{}); if(e&&e.variant==='芷若在英國'){ n++; MSG.rec(G).once['heroine_04:zr_uk:'+MSG.zrUkKey(G)]=G.day; } }
+      const first=MSG.pick(G,'heroine_04','chat',null,{});
+      check('4-18. 子晴：芷若在英國、祐廷認識芷若＝「芷若發了一張下雨的照片」那一句（一段期間只播一次）',n===1&&!(first&&first.variant==='芷若在英國'),String(n)); }
+    { const G=zr(STORY.dayOfKey('2027-08-16'),23,3); INV.addContact(G,'heroine_04'); SOCIAL.remember('heroine_04','FIRST_MET',''); const r=SOCIAL.rel('heroine_04'); r.fam=45; r.trust=30; G.events.done.ev_ziqing_secret_game=1;
+      let n=0; for(let i=0;i<8;i++){ const e=MSG.pick(G,'heroine_04','chat',null,{}); if(e&&e.variant==='芷若在英國') n++; }
+      check('4-19. 芷若不在英國：子晴沒有那一句',n===0); }
+  }
+
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });
