@@ -64,8 +64,8 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 ### Event CG
 - cg_cafe_dusk_heroine01（登錄在 `CG_REGISTRY`，檔案不存在時自動退回一般 ADV）
 - ~~cg_library_rain_heroine03~~：2026-10-14 已補（使用者用 AI 生成、BB 檢查通過的第二版，`assets/cg/heroine_03/event_rain_library.webp`）
-- 其他 BB 檢查通過的 CG（企劃分支 `docs/story_planning/cg_approved/`）：事件還沒批准實作，先留在企劃分支，事件批准後再接
-- 畢業以後（AA_319，`src/postgrad3d.js`，2026-10-20）：程式在那一刻呼叫 `ADV.cg(id)`，還沒登錄在 `CG_REGISTRY`＝不顯示，照原本的背景演（D100：CG 由 BB 跟使用者要、交給 LAWWW 接；企劃線 `cg_approved/` 有 BB 檢查過的原圖）
+- 其他 BB 檢查通過的 CG（企劃分支 `docs/story_planning/cg_approved/`）：**2026-10-20 第二批全部登錄 `CG_REGISTRY`**（40 張原檔＋CG-10 尾聲 8 張合成；`tests/cg_batch2_unit.js`、LICENSES.md「CG 第二批」那一列）。事件還沒做的先登錄，事件做好、在那一拍寫 `{cg:id}` 就會出現
+- 畢業以後（AA_319，`src/postgrad3d.js`，2026-10-20）：程式在那一刻呼叫 `ADV.cg(id)`；下表的圖**2026-10-20 都已登錄**（BCG-39 `assets/cg/heroine_05/cg_no_plan.webp`、CG-10 `assets/cg/epilogue/`，`tools/cg/compose_reunion.py` 合成；語彤事件 17 交往版加 CG-21 `cg_one_umbrella_heroine03`）
 
   | CG id | 編號 | 場景（哪一刻） | 現在的背景 |
   |---|---|---|---|
@@ -115,7 +115,7 @@ law_classroom_day / law_classroom_evening / library_day / library_night / cafe_d
 | 1C-05 子晴、芷若 | 學士服立繪 | 一般立繪 |
 
 ### 1B-12～1B-25（AA_322、AA_323；大三下到大四下的人物線，`src/y34b3d.js`，2026-10-20）
-事件在那一刻有 `{cg:id}`（`ADV.cg`）：還沒登錄在 `CG_REGISTRY`＝不顯示，照原本的背景演。原圖都在企劃分支 `cg_approved/`（AA 的素材表）；放進 `assets/cg/<人物>/`、登錄 `CG_REGISTRY` 就會出現，程式不用改。
+事件在那一刻有 `{cg:id}`（`ADV.cg`）：下表前五張 **2026-10-20 已登錄 `CG_REGISTRY`**（企劃分支 `cg_approved/` 原檔，`assets/cg/<人物>/`）；1B-24 和以安交往的版本加 CG-19 `cg_first_to_ask_heroine01`（「……第一個問我的人是你。這也是理由之一。」那一句）。
 
 | CG id | 編號 | 哪一刻 | 現在的背景 |
 |---|---|---|---|

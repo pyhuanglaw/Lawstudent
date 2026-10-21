@@ -11,7 +11,8 @@
      要夠平、夠接近底色才算背景（白襯衫的陰影不會被挖掉）。飄出來的細髮絲和頭髮本體圍起來的灰底（芷若、語彤、子晴頭髮外側的淺灰楔形）：
      把 4 px 以下的細線當成穿得過去，還是和邊緣連得到、色差中位數 < 5 的也算背景（2026-10-20 加；--debug 的 <名字>_holes.png 紅色＝挖掉的）。
   2. 邊緣（輪廓內外各 3 px）：用附近確定是人物的顏色 F 和底色 B 估透明度 α＝(C−B)·(F−B)/|F−B|²，再把灰色從邊緣扣掉
-     （C＝B＋(C−B)/α）——頭髮邊緣不留灰邊、不是硬邊。
+     （C＝B＋(C−B)/α）——頭髮邊緣不留灰邊、不是硬邊。髮絲之間離背景 6 px 以內、顏色剛好在底色和頭髮之間的縫：
+     用附近的頭髮顏色分解透明度、顏色直接用頭髮的（2026-10-21 加，子晴頭髮外側原本有一層淡灰霧）。
   3. 桌子：原圖 y 以下拿掉（3 px 漸層）；阿凱照桌緣斜切，冰飲、咖啡杯、右邊椅背拿掉，冰飲擋住的襯衫用上面的襯衫鏡射、
      前臂照杯子右邊看得到的那一段前臂的明暗往手腕延伸（fix_kai）。
   4. 調暖 → 預乘 α 縮放（Lanczos）→ 貼到基底圖。
@@ -210,8 +211,8 @@ def cutout(rgb, name, debug=None):
         sub[ys - y0, xs - x0] = True
         ring = dilate(sub, 2) & ~sub
         dsub = d[y0:y1, x0:x1][sub]
-        if float(reach[y0:y1, x0:x1][sub].mean()) > 0.5 and float(np.median(dsub)) < 5:
-            ok = True                                    # a. 細髮絲圍起來的
+        if float(reach[y0:y1, x0:x1][sub].mean()) > 0.5 and float(np.median(dsub)) < 7:
+            ok = True                                    # a. 細髮絲圍起來的（縫很窄時混到一點頭髮，色差中位數到 5～6；毛衣的亮面 8 以上）
         elif sizes2[i] <= 3000:
             ok = float(np.median(dsub)) < 5 and float(np.median(L[y0:y1, x0:x1][ring])) < 50
         else:
@@ -234,11 +235,25 @@ def cutout(rgb, name, debug=None):
     a_band = np.where(weak, a_d, a_est)
     a_band = np.where(fg, np.maximum(a_band, 0.0), np.minimum(a_band, a_d))   # 背景那一側不可能比色差說的還不透明
     alpha = np.where(band, a_band, fg.astype(np.float32))
+    # 3b. 髮絲之間的縫（2026-10-21 加）：被髮絲圍住、離背景 6 px 以內、色差 < 14（大部分是底色、混了一點頭髮）的像素，原本是實心
+    #     （透明度 1）＝合成後一層淡淡的灰霧（子晴頭髮外側最明顯）。用附近「確定是頭髮」的顏色 Fh（色差 ≥ 20、亮度 < 170）做顏色分解：
+    #     α＝(C−B)·(Fh−B)/|Fh−B|²，顏色直接用 Fh（不放大雜訊）。只動「顏色剛好在底色和頭髮之間」的（分解的殘差 < 12）：
+    #     毛衣、襯衫的亮面（比底色亮、偏暖）殘差大，不動。
+    hair = fg & (d >= 20) & ((rgb @ np.array([0.299, 0.587, 0.114], np.float32)) < 170)
+    hw = gauss(hair.astype(np.float32), 3.0)
+    Fh = gauss(rgb * hair[..., None], 3.0) / np.maximum(hw, 1e-3)[..., None]
+    FhB = Fh - bg_rgb
+    denh = (FhB * FhB).sum(2)
+    a_h = np.clip((CB * FhB).sum(2) / np.maximum(denh, 1.0), 0, 1)
+    resid = np.linalg.norm(CB - a_h[..., None] * FhB, axis=2)
+    seam = fg & (d < 14) & dilate(bgmask, 6) & (hw > 0.08) & (np.sqrt(denh) > 40) & (resid < 12)
+    alpha = np.where(seam, np.minimum(alpha, a_h), alpha)
     alpha[alpha < 0.04] = 0
-    # 4. 扣掉灰色：C＝B＋(C−B)/α（只在半透明的邊緣）
+    # 4. 扣掉灰色：C＝B＋(C−B)/α（只在半透明的邊緣）；髮絲之間的縫用 Fh
     a3 = alpha[..., None]
     semi = (alpha > 0) & (alpha < 0.999)
     col = np.where(semi[..., None], bg_rgb + CB / np.maximum(a3, 0.04), rgb)
+    col = np.where(seam[..., None], Fh, col)
     col = np.clip(col, 0, 255)
     if debug:
         Image.fromarray((alpha * 255).astype(np.uint8)).save(os.path.join(debug, name + '_alpha.png'))
