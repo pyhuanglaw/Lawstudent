@@ -3,7 +3,8 @@
    CLS.IN_CLASS（債各第 6 週那一堂的劇情段）掛進去；法服 5/22 包住 STORY.fafuShift、沛珊放榜後第一次的回覆包住 MSG.send（不改那兩個檔）。
    1B-11 只做了訊息（8/7、第一次回覆）：沛珊大三起在台南（presence、臺北作息、邀約去台南、期末心意邀約、閒聊階梯 context:'date'）屬 AA_282 第 5 節，見 S.PS_TAINAN 的說明。
    AA_349（2026-10-21）：K1 第一次回覆分台中／台南兩句；K9 大三上第 6 週 10/15 21:00 二手書店那兩則；K3 她主動約「台南・美術館」的手機規則（HV.museumPhone）也從這裡叫。
-   測試：node tests/y2b_events_unit.js */
+   AA_350 P1（2026-10-21）：第一次回覆照她那天在哪（STORY.presence）——寒暑假在台中＝台中那一句，學期中＝台南那一句（S.psTaichung）。
+   測試：node tests/y2b_events_unit.js、tests/peishan_tainan_unit.js（第 8 節）*/
 'use strict';
 const Y2B=(function(){
   const S={};
@@ -80,12 +81,13 @@ const Y2B=(function(){
   };
 
   /* ===================== 1B-11 沛珊：放榜以後，玩家第一次傳訊息給她（沒交往）＝「好久不見。……我現在在台南。」「你要來的話，跟我說。」（包住 MSG.send）=====================
-     AA_349 K1：分開寫——8/7～她回台南以前（開學前 2 天＝2027-09-04）「好久不見。……我現在在台中，開學以後在台南。」；之後照原文。兩種都接「你要來的話，跟我說。」（看她回的那一天）*/
-  S.PS_BACK_TN='2027-09-04';
+     AA_349 K1：分開寫——她在台中＝「好久不見。……我現在在台中，開學以後在台南。」；在台南＝原文。兩種都接「你要來的話，跟我說。」（看她回的那一天）
+     AA_350 P1（2026-10-21）：不只 8/7～9/3——之後的寒暑假（她在台中）第一次回也是台中那一句；學期中照原文。在哪照 STORY.presence（手機「現在大概在」、去找她同一套：city／home 是台中）*/
+  S.psTaichung=(G,day)=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence('classmate_peishan',Object.assign({},G,{day}))||{}; return (p.city||p.home)==='台中'; };
   S.psFirstDue=G=>!!G&&!!G.flags&&law(G)&&!G.flags.PS_BACK_FIRST&&D('2027-08-07')!=null&&G.day>=D('2027-08-07')&&!dating(G,'classmate_peishan');
   S.psFirst=function(G,id,topic,sub){ if(typeof MSG==='undefined'||typeof PHONE==='undefined') return null; if(!MSG.canSend(G,id)||!MSG.topics(G,id).some(q=>q.k===topic)) return null;
     const text=MSG.playerText(G,id,topic,sub), th='p:'+id; PHONE.post(G,{th,from:'player',who:null,text}); const Rc=MSG.rec(G); Rc.sent[id]=G.day;
-    const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tn=D(S.PS_BACK_TN), tc=tn!=null&&at.day<tn;
+    const at=MSG.replyAt?MSG.replyAt(G,id):{day:G.day,h:G.hour%24+0.25}, tc=S.psTaichung(G,at.day);
     PHONE.at(G,at.day,at.h,[P(tc?'好久不見。……我現在在台中，開學以後在台南。':'好久不見。……我現在在台南。'),P('你要來的話，跟我說。')],'ps_back_first'); G.flags.PS_BACK_FIRST=G.day; return {ok:true,text,at}; };
   /* 去台南的那一天（AA_282 3-1，原文）：presence 改台南、邀約目的地台南要一起做（AA_282 第 5 節），這一批還沒接（LAWWW）。資料先放這裡，接的時候照 hometown3d.js 的結構演 */
   S.PS_TAINAN={ first:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。',{scene:'台南・她的學校'},'這是我們學校。很小吧？走一圈十分鐘。','欸，你覺得我有沒有哪裡不一樣？'],
