@@ -790,5 +790,34 @@
    "ack": "DELIVERED",
    "note": "11 月～8 月每月 5,000 ✔、2/14 重考班與 6/8 衝刺班不扣錢 ✔、9/1 法律系 30,000 ✔"
   }
+ ],
+ "items": [
+  {
+   "id": "RELEASE-9103-BB-VERDICT",
+   "to": "LAWWW",
+   "at": "2026-10-21T18:3xZ",
+   "status": "DELIVERED",
+   "verdict": "GO",
+   "candidate": "b23483dd",
+   "seen": [
+    "LAWWW 五支 ALL PASS（LAWWW 回報）",
+    "qa_play sleep PASS（807b650a）",
+    "qa_play nophone PASS（b23483dd）",
+    "qa_play decline 經濟系段 PASS（到 9/1；9/1 之後是腳本選法繞圈，BB 停掉）"
+   ],
+   "not_seen": [
+    "iPhone 實機",
+    "aa300 ff（本候選沒重跑；10-18 版做過）",
+    "flow_v0_home ?lowres",
+    "寒暑假／C16～C18／美國交換"
+   ],
+   "known_not_blocking": [
+    "BUG-ECON-OCT-ALLOWANCE-1021（P2）",
+    "KX-EXPR（v7 起，發布後修）",
+    "BUG-BG-CARDAY-1021（P2）",
+    "深色底 70 段＋兩張 CG 沒接（P2）"
+   ],
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md 最後一節"
+  }
  ]
 }
