@@ -25905,11 +25905,11 @@
    "id": "GYM-GLOW-COPLANAR-1021",
    "title": "體育館 1F／B1 燈的光暈接上（一個網格、離鏡頭 3 m 淡出；B1 健身房線型燈不放）＋疊面（1F 5.41→0.95、B1 2.23→0 m²）",
    "owner": "LAWWW2",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "source": "LAWWW2-C 清查 A1、A2（focused-cray 09324bda）",
    "sha": "09324bda",
-   "evidence": "patch gym_glow_batch.diff 套進 src/gym3d.js、src/zones3d.js（glowBatch 加 nearFade，溫州街、公館預設 0 不變）＋gym_interior／gym_b1.glb；gym_unit 17（GLOW 節點 50／45、接線）；LAWWW2 的 Playwright 截圖與 draw call 表：docs/art-rebuild/second_ai/test_shots/gym_glow_1021/README.md（LAWWW2 分支）",
+   "evidence": "BB 2026-10-21 16:09（BB_218）：1F／B1 燈與光暈畫面通過（白天晚上、靜態沒看到閃；真機沒測）——deliveries DL-LAWWW2-09324bda 早就記已驗收，總表沒同步（LAWWW 帳號 A 17:5x 補，發布說明子代理發現）",
    "first": {
     "term": "Y1S1",
     "week": 1,
