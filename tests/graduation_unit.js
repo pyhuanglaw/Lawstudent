@@ -70,6 +70,8 @@ const sayIdx=t=>H.said.findIndex(s=>s.t===t);
     H.at('2029-06-02',17.5); H.said=[]; H.picks=['（先不說）','「好。」'];
     await TERMEND.dinner(GM,OUT.get(G,'te_Y4S2'));
     check('9. 飯桌一句「拍照拍到臉僵了。……你也是。」；她說畢業傍晚限定版「我以前把喜歡的東西都排在計畫後面。」「這次計畫做完了。……後面排你。」；交往',H.has('拍照拍到臉僵了。……你也是。')&&H.has('我以前把喜歡的東西都排在計畫後面。')&&H.has('這次計畫做完了。……後面排你。')&&G.flags.dating_heroine_05===true,JSON.stringify(H.lines()));
+    { const i=t=>H.said.findIndex(s=>s.t===t), n1='（她手上拿著一張摺過的小便條。從吃飯的時候就一直拿著。）', n2='（便條上寫了三行。她一行都沒有照著念。）';
+      check('9. AA_350 M7：畢業那天她說的那一版也有便條那一拍：「（她手上拿著一張摺過的小便條……）」在「我以前把喜歡的東西……」前面（旁白）、「（便條上寫了三行……）」在「……後面排你。」後面；BCG-44 有放',i(n1)>=0&&H.said[i(n1)].who==null&&i(n1)<i('我以前把喜歡的東西都排在計畫後面。')&&i(n2)>i('這次計畫做完了。……後面排你。')&&H.cgs.includes('cg_three_things_heroine05'),JSON.stringify(H.lines())+' cgs='+JSON.stringify(H.cgs)); }
     H.at('2029-06-02',19.5); PG.rules(GM); check('9. GRAD_EVENING＝date:heroine_05',G.flags.GRAD_EVENING==='date:heroine_05');
     const s=PG.due(G); check('9. 飯後直接走回研究室（不用選）',s&&s.id==='bday_walk'); H.said=[]; H.picks=[2]; await PG.runStep(GM,s);
     check('9. 20:30 戀人版：Kevin「我們先走了！學弟，蛋糕交給你。」→「……不說。這次不排。」；SIS_BDAY_Y4＝lover',H.has('我們先走了！學弟，蛋糕交給你。')&&H.has('……不說。這次不排。')&&G.flags.SIS_BDAY_Y4==='lover'&&G.hour>=20.5,JSON.stringify(H.lines())); }

@@ -237,7 +237,12 @@ const answer=(id,k)=>PHONE.answer(G,id,k);
   check('R1. 消失期傳過訊息：8/7 21:00「……這半年我都沒看手機。對不起。」「我現在很好。」', mine('p:classmate_peishan','classmate_peishan:……這半年我都沒看手機。對不起。').slice(0,2).join('|')==='classmate_peishan:……這半年我都沒看手機。對不起。|classmate_peishan:我現在很好。'&&G.flags.PS_BACK_READ===D('2027-08-07'));
   fresh('2027-08-07',21.2,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); rules(); check('R1. 沒傳過：8/7 沒有那則', !txt('p:classmate_peishan').includes('classmate_peishan:……這半年我都沒看手機。對不起。')&&G.flags.PS_BACK_READ===false);
   at('2027-08-20',20); const tp=MSG.topics(G,'classmate_peishan'); const r=tp.length?MSG.send(G,'classmate_peishan',tp[0].k):null; PHONE.tick(G); at('2027-08-21',12); PHONE.tick(G);
-  check('R2. 放榜以後第一次傳訊息：「好久不見。……我現在在台南。」「你要來的話，跟我說。」', !!r&&r.ok&&txt('p:classmate_peishan').includes('classmate_peishan:好久不見。……我現在在台南。')&&txt('p:classmate_peishan').includes('classmate_peishan:你要來的話，跟我說。')&&G.flags.PS_BACK_FIRST===D('2027-08-20'), JSON.stringify(txt('p:classmate_peishan')));
+  check('R2. 放榜以後第一次傳訊息（8/20，她回台南以前；AA_349 K1）：「好久不見。……我現在在台中，開學以後在台南。」「你要來的話，跟我說。」', !!r&&r.ok&&txt('p:classmate_peishan').includes('classmate_peishan:好久不見。……我現在在台中，開學以後在台南。')&&!txt('p:classmate_peishan').includes('classmate_peishan:好久不見。……我現在在台南。')&&txt('p:classmate_peishan').includes('classmate_peishan:你要來的話，跟我說。')&&G.flags.PS_BACK_FIRST===D('2027-08-20'), JSON.stringify(txt('p:classmate_peishan')));
+  // AA_349 K9：大三上第 6 週 10/15（五）21:00「我在學校附近的二手書店打工了。週末都在。」「……你不用特地來，我只是說一聲。」（已經重新聯絡上的玩家）
+  at('2027-10-15',20.9); rules(); const k9a=txt('p:classmate_peishan').includes('classmate_peishan:我在學校附近的二手書店打工了。週末都在。'); at('2027-10-15',21.1); rules();
+  check('R3. K9 重新聯絡上：10/15 21:00 兩則（20:54 還沒有）', !k9a&&mine('p:classmate_peishan','classmate_peishan:我在學校附近的二手書店打工了。週末都在。').slice(0,2).join('|')==='classmate_peishan:我在學校附近的二手書店打工了。週末都在。|classmate_peishan:……你不用特地來，我只是說一聲。', JSON.stringify(txt('p:classmate_peishan')));
+  fresh('2027-10-15',21.1,'dorm'); R('classmate_peishan','FRI'); ct('classmate_peishan'); rules(); check('R3. K9 還沒重新聯絡上：沒有', !txt('p:classmate_peishan').some(t=>/二手書店打工了/.test(t)));
+  fresh('2027-10-15',21.1,'dorm',{dating_classmate_peishan:true}); R('classmate_peishan','FRI'); ct('classmate_peishan'); rules(); check('R3. K9 交往中也有', txt('p:classmate_peishan').includes('classmate_peishan:我在學校附近的二手書店打工了。週末都在。'));
 
   // ---------- 接線 ----------
   { const h=fs.readFileSync(path.join(ROOT,'index.html'),'utf8'), c=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8');

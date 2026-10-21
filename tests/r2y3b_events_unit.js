@@ -443,7 +443,7 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   { const P=HOME.breakPts(G).map(p=>fmt(Tm(p.day,p.h))+' '+p.k); check('BP3. 大三暑假（Y3S）表上：7/9 語彤生日、7/15 抽籤、9/3 08:30 主線 10', P.join('|')==='7/9 12 ytbday|7/15 10 lottery4|9/3 8.5 room', JSON.stringify(P)); }
   { const L=seq('2028-06-12','2028-09-03'); check('BP3. 台灣路線：6/19 21:00 三選一、6/26、7/24、8/21 18:30 摘要日、7/9、7/15、9/3 08:30；沒有 7/25、7/31、8/5', ['6/19 21','6/26 18.5','7/9 12','7/15 10','7/24 18.5','8/21 18.5','9/3 8.5'].every(x=>L.includes(x))&&!['7/25 14','7/31 18.5','8/5 21'].some(x=>L.includes(x)), JSON.stringify(L)); }
   G.flags.EXCHANGE_ROUTE='US'; { const L=seq('2028-06-12','2028-08-01'); check('BP3. 美國路線：7/25 14:00 退宿、7/31 18:30 第三個摘要日', ['6/19 21','6/26 18.5','7/24 18.5','7/25 14','7/31 18.5'].every(x=>L.includes(x)), JSON.stringify(L)); }
-  G.flags.EXCHANGE_ROUTE='JP'; { const L=seq('2028-06-12','2028-09-03'); check('BP3. 日本路線：三選一 8/5 21:00、只有 8/21 一個摘要日', L.includes('8/5 21')&&L.includes('8/21 18.5')&&!L.includes('6/19 21')&&!L.includes('6/26 18.5')&&!L.includes('7/24 18.5'), JSON.stringify(L)); }
+  G.flags.EXCHANGE_ROUTE='JP'; { const L=seq('2028-06-12','2028-09-03'); check('BP3. 日本路線（AA_349 L2）：沒有三選一（6/19、8/5 都沒有）、這裡沒有摘要日（8/21 那一句在 jp3d.js 的 JP.SCH）', !L.includes('8/5 21')&&!L.includes('8/21 18.5')&&!L.includes('6/19 21')&&!L.includes('6/26 18.5')&&!L.includes('7/24 18.5'), JSON.stringify(L)); }
 
   // ---------- 2-Y3-54 大三暑假 ----------
   fresh('2028-06-19',21.05,'dorm'); rules();
@@ -470,10 +470,13 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   check('S2. 美國路線：第三個摘要日在 7/31（「姊姊回家，看到你的筆記：『這是你寫的？字變小了。』」）', has('姊姊回家，看到你的筆記：『這是你寫的？字變小了。』'));
   at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM); check('S2. 美國路線 8/21 沒有摘要的那一句', !has('姊姊回家，看到你的筆記：『這是你寫的？字變小了。』'));
   fresh('2028-06-19',21.5,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); check('S3. 日本路線：6/19 沒有三選一', !PHONE.sent(G,'y3_summer_plan'));
-  at('2028-08-05',21.1); rules(); answer('y3_summer_plan',1); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
-  check('S3. D5 日本路線：三選一在 8/5 晚上；8/21 日本路線專用那一句（家教：「學生問你，日本的考試是不是比較難。你說：『我只考了日文。』」），不是第三句', G.flags.SUMMER_Y3==='work'&&has('學生問你，日本的考試是不是比較難。你說：『我只考了日文。』')&&!has('最後一班，老闆多給了一個便當。')&&!has('最後一堂課，學生的媽媽塞了一盒水果給你。'), JSON.stringify(said.map(x=>x.t)));
-  for(const [k,i,w] of [['intern',0,'實習兩個禮拜。你第一次自己寫完一份初談紀錄。律師只改了兩個字。'],['study',2,'八月。時差調回來了，你讀完第一本。']]){ fresh('2028-08-05',21.1,'dorm',{EXCHANGE_ROUTE:'JP'}); date('heroine_01'); rules(); answer('y3_summer_plan',i); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
-    check('S3. D5 日本路線 8/21（'+k+'）：「'+w+'」', G.flags.SUMMER_Y3===k&&JSON.stringify(said.map(x=>x.t))===JSON.stringify([w]), JSON.stringify(said.map(x=>x.t))); }
+  /* AA_349 L2（2026-10-21）：AA_343 D5 日本路線作廢——日本路線沒有三選一（8/5 也沒有）、8/21 只有一句不看三選一（在 jp3d.js 的 JP.SCH，這裡不播）；9/3 的房間沒有三選一的物件 */
+  at('2028-08-05',21.1); rules(); at('2028-08-08',12); rules(); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
+  check('S3. L2 日本路線：8/5 晚上也沒有三選一、過了也不設預設；r2y3b 的 8/21 不播（日本那一句在 jp3d.js）', !PHONE.sent(G,'y3_summer_plan')&&!G.flags.SUMMER_Y3&&said.length===0, JSON.stringify([G.flags.SUMMER_Y3,said.map(x=>x.t)]));
+  check('S3. L2 日本路線：快轉不停在 8/5 21:00、8/21 18:30（R2Y3B.stops）', (()=>{ const st=(R2Y3B.stops(G)||[]).map(x=>x-Tm(D('2028-08-05'),0)); return !st.includes(21)&&!st.includes(16*24+18.5); })(), JSON.stringify(R2Y3B.stops(G)));
+  { fresh('2028-07-24',18.5,'dorm',{SUMMER_Y3:'work'}); const jk=R2Y3B.jobKind; R2Y3B.jobKind=()=>'cafe'; const l=R2Y3B.sumLine(G,1); R2Y3B.jobKind=()=>'tutor'; const t=R2Y3B.sumLine(G,1); R2Y3B.jobKind=jk;
+    check('S2b. AA_350 M5：家教以外的打工 7/24 有那一句（原本 null 不播）；家教照舊',l==='七月最熱的那個禮拜，店裡的冷氣壞了三天。你學會一邊流汗，一邊說『歡迎光臨』。'&&t==='學生問你，法律系是不是都在背。你說：『背完以後才開始。』',JSON.stringify([l,t])); }
+  for(const k of ['intern','work']){ fresh('2028-09-04',9,'dorm',{EXCHANGE_ROUTE:'JP',SUMMER_Y3:k,ROOM_Y4:D('2028-09-03')}); check('S3. L2 日本路線（舊存檔有 SUMMER_Y3＝'+k+'）：9/3 的房間沒有三選一的物件', R2Y3B.roomSummer(G)===null&&!STORY.roomY4Items(G).some(x=>/^sum_/.test(x[0])), JSON.stringify(STORY.roomY4Items(G).map(x=>x[0]))); }
   /* AA_343 D8：三選一沒回（台灣、美國 6/21 21:00 以前）＝預設：有打工 'work'、沒有 'study'；不傳訊息，摘要日照預設那一套 */
   fresh('2028-06-19',21.05,'dorm'); rules(); at('2028-06-21',20.9); rules(); check('S4. D8 三選一 6/21 21:00 以前還可以回', !G.flags.SUMMER_Y3&&PHONE.askOpen(G,PHONE.byAsk(G,'y3_summer_plan')));
   { const n0=(G.msgs||[]).length; at('2028-06-21',21.1); rules(); check('S4. D8 沒回（沒有打工）＝預設 study；不傳訊息', G.flags.SUMMER_Y3==='study'&&(G.msgs||[]).length===n0); }

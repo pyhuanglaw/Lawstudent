@@ -1,4 +1,5 @@
-/* ===== 日本那一學期的補稿 G0～G9（AA_341 第 3 節，AA-C 2026-10-20 定稿，企劃線 c2c5a66e；第①級，台詞照抄不改字）＋入境大廳（AA_253 9-2）＋挽回第 4、5 步（AA_253 第 5 節、AA_254 第 10 節）=====
+/* ===== 日本那一學期的補稿 G0～G9（AA_341 第 3 節，AA-C 2026-10-20 定稿，企劃線 c2c5a66e；第①級，台詞照抄不改字）＋入境大廳（AA_253 9-2）＋挽回第 4、5 步（AA_253 第 5 節、AA_254 第 10 節）
+   ＋大四下補修班的第一堂（AA_349 L8）。挽回中交換生群組每週那一則、便利商店點頭（AA_349 L1、L3）是手機與據點的一句，在 src/jp3d.js =====
    什麼時候演、誰演在 src/jp3d.js（JP.SCH 的表、JP.phone 的私訊）；這裡只有台詞（STORY_EVENTS，EVENTS.run 照一般事件演）。
    - 交往中＝和以安交往中（dating_heroine_01）；挽回中＝日本路線、不是交往中（AA_253 第 5 節：日本路線的玩家只有這兩種）。
    - AA 稿裡「以安：……」寫在旁白後面同一行的，拆成旁白一句、以安一句（字不改）；寫成一整句描述的（G7 偷看、G6 挽回中）照原樣當旁白一句。
@@ -114,6 +115,16 @@ const JP_EVENTS=(function(){
     {if:C(dating),speaker:null,text:'（她媽媽在出口等。她跑過去，又回頭跟你揮手。）'},
     {if:C(repair),speaker:null,text:'（你們同一班飛機回來。她坐在前面幾排，下飛機的時候，你看見她先走了。）'},
     {set:{JP_HALL:true}} ];
+  /* 大四下補修班的第一堂（AA_349 L8，AA-C 2026-10-21 新寫；AA_144 X4）：classes3d.js 的 beforeClass（第一次去上那一門、開始以前；之後的補修課照一般上課）。
+     民訴甲下＝週一上午；保險法＝AA_144 寫週三上午（會撞選修海商法，courses.js 換到沒撞課的週四上午），第一堂照樣是這一句。以安不延畢（AA_285），補修班裡沒有她 */
+  const REDO_CIVPRO=[
+    {speaker:null,text:'（補修班。教室裡都是大三的學弟妹。你坐在最後一排，旁邊的學弟看了你兩次。）'},
+    {speaker:'學弟',text:'學長，你也來補這門喔？'},
+    {choice:[{text:'「交換回來補的。」',goto:'re_a'},{text:'「嗯。」',goto:'re_b'}]},
+    {label:'re_a'},{speaker:'學弟',text:'喔，日本！那邊的民訴也這樣上嗎？'},{speaker:null,text:'（你想了一下，說不出一樣還是不一樣。）'},{goto:'re_end'},
+    {label:'re_b'},{speaker:null,text:'（他沒有再問，把講義往你這邊推了一點。）'},
+    {label:'re_end'},{set:{JP_REDO_CIVPRO:true}} ];
+  const REDO_INS=[ {speaker:null,text:'（保險法。老師點名點到你，停了一下：「交換回來的？」你點頭。他在名單上打了一個勾。）'},{set:{JP_REDO_INS:true}} ];
   const ev=(id,title,dialogue,o)=>Object.assign({id,title,participants:[],location:'any',trigger:'manual',once:true,background:'dark',dialogue},o||{});
   const EV=[
     ev('ev_jp_suitcase','行李箱',SUITCASE,{participants:['heroine_01'],trigger:'outing',hours:1.5}),
@@ -128,7 +139,9 @@ const JP_EVENTS=(function(){
     ev('ev_jp_sea','海之日',SEA,{participants:['heroine_01']}),
     ev('ev_jp_lastnight','最後一個晚上',LAST,{participants:['heroine_01']}),
     ev('ev_jp_lastnight_alone','最後一個晚上',LAST_ALONE),
-    ev('ev_jp_return_hall','入境大廳',HALL) ];
+    ev('ev_jp_return_hall','入境大廳',HALL),
+    ev('ev_jp_redo_civpro','補修班',REDO_CIVPRO,{trigger:'class',beforeClass:'civpro_2_re',term:['Y4S2'],background:'blur'}),
+    ev('ev_jp_redo_insurance','補修班',REDO_INS,{trigger:'class',beforeClass:'insurance_re',term:['Y4S2'],background:'blur'}) ];
   for(const e of EV){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }
   return EV.map(e=>e.id);
 })();
