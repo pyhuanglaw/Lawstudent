@@ -21451,7 +21451,7 @@
    },
    "source": "使用者 2026-10-20 直接對 LAWWW2-C：「從學校去看公館或者外面的建筑都超級丑的完全沒有那種三d游戲的感覺公館的店面」＋4 張照片（LAWWW2-C 17:38 轉 LAWWW-C）；和 X16（10-18 公館店面從外面看都很醜）同一件事的延伸",
    "authorized": "使用者直接指示（10-20）",
-   "next": "【LAWWW-C 20:0x】第一階段（LAWWW2 2c09476d）接進開發分支：校園西側看出去的羅斯福路兩排換成 Blender 模型（騎樓店面、直立看板、橫招牌、水源市場、天橋、GONGGUAN；店名虛構），方盒留作載入前備用；draw call −1、三角形 +1 萬、不投影。READY_FOR_ART_REVIEW（使用者看）；BB 實玩看載入、晚上燈；第二階段公館區域裡面 LAWWW2 排後面 ｜ 【LAWWW2-C 17:38】B10 店面翻修原本暫停，使用者直接點名公館＝開工（溫州街不動；店名 D77 諧音，照片不進 repo）；做「羅斯福路街廓」GLB（校園背景用、走不到）換掉 zones3d.js campusBackdrop 的 TK.bgCity 公館那一段（x=-189 第一排 z -88～152、轉角；公館 (gx,gz)→校園 (x=-170-gz, z=gx)）。LAWWW 接：放進 campusBackdrop、拿掉那幾筆 city；不投影、合併材質（X79 校園 draw call）",
+   "next": "【LAWWW-C 2026-10-20 20:5x UTC】第二階段 LAWWW2 c491405c 接進 0582af9f（店面街加高、gongguan_far 遠景、水源市場、天橋、GONGGUAN 花台）；決定七樓以上不投影（LAWWW2 做） ｜ 【LAWWW-C 20:0x】第一階段（LAWWW2 2c09476d）接進開發分支：校園西側看出去的羅斯福路兩排換成 Blender 模型（騎樓店面、直立看板、橫招牌、水源市場、天橋、GONGGUAN；店名虛構），方盒留作載入前備用；draw call −1、三角形 +1 萬、不投影。READY_FOR_ART_REVIEW（使用者看）；BB 實玩看載入、晚上燈；第二階段公館區域裡面 LAWWW2 排後面 ｜ 【LAWWW2-C 17:38】B10 店面翻修原本暫停，使用者直接點名公館＝開工（溫州街不動；店名 D77 諧音，照片不進 repo）；做「羅斯福路街廓」GLB（校園背景用、走不到）換掉 zones3d.js campusBackdrop 的 TK.bgCity 公館那一段（x=-189 第一排 z -88～152、轉角；公館 (gx,gz)→校園 (x=-170-gz, z=gx)）。LAWWW 接：放進 campusBackdrop、拿掉那幾筆 city；不投影、合併材質（X79 校園 draw call）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/focused-cray-c9uwvw",
@@ -21507,8 +21507,9 @@
    },
    "id": "ART-L118-LANE-1020",
    "title": "118 巷街道像「巷」不像大馬路：兩側停機車（instancing、顏色不同）、店門口盆栽保麗龍箱、二樓以上冷氣機＋直立招牌＋鐵窗、電線、腳踏車、垃圾桶；路面的大白框淡化、可走的路看起來窄一點；晚上店裡的光灑到人行道",
-   "status": "待開工",
-   "next": "截圖 06、07（巷口往裡看：很寬、很空，像大馬路）；名牌疊在一起 LAWWW-C 已修（a9b14d1c）"
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-20 20:5x UTC】LAWWW2 7d61872e 接進 18da74d6（機車 55 台、店門口道具、電線、招牌、光圈）；效能決定：小道具不投影＋機車近 LOD 距離改小（LAWWW2 做）；reachability_all 略過隱藏按鈕（LAWWW2 改測試） ｜ 截圖 06、07（巷口往裡看：很寬、很空，像大馬路）；名牌疊在一起 LAWWW-C 已修（a9b14d1c）",
+   "sha": "18da74d6"
   },
   {
    "area": "V1",
@@ -21584,6 +21585,91 @@
    },
    "next": "【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
    "src": "docs/story_planning/cg_approved/README.md（企劃線 558ccff8）"
+  },
+  {
+   "id": "US-LIFE-AA340-1020",
+   "title": "美國交換那一學期（大四上 8/2～12/23）每一週玩家能做什麼：AA_340 的系統缺口 S1～S12（美國學期日曆、一鍵上課、9/4 以後快轉與摘要日、台灣選課提示與缺考不出、時差、不能約台灣朋友、回程時間…）＋空白週補稿 G1～G7＋學姊在美國的作息",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "美國路線 8/2 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工（建在 e1879b4a 的 US1～US4 事件上）；做完合併、交 BB AA_340 第 7 節 US-A～US-I",
+   "src": "AA_340（企劃線 90f8faf9）；使用者 D99 第三優先"
+  },
+  {
+   "id": "HOL-FF-AA340-1020",
+   "title": "寒暑假快轉（AA_340 第 6 節）：H2 有要回的訊息就停、打開手機（邀約不被跳掉）；H1 大四寒假停點＋事件登記的日子一定停、除夕初一一定停（大三寒暑假的表由 AA_326 第 3 節那個子代理填，主線 9 ev_family_land_y3 1/26）；H3 大二以後朋友回老家、回臺北訊息；6-3 空白週摘要日旁白與群組",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "first": {
+    "term": "Y1S1",
+    "week": 18,
+    "earliest": "大一寒假（快轉）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工；大三的停點另轉給 R2Y3 後半的子代理",
+   "src": "AA_340 第 6 節（企劃線 171b62fb）；使用者 D99 第二優先"
+  },
+  {
+   "id": "AA-JP-SEM-AA341-1020",
+   "title": "日本路線大三下（3/25～8/5）逐週盤點與補稿（照 AA_340 做法；日本 3D 場景清單給 LAWWW2）",
+   "owner": "AA",
+   "status": "已驗收",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本路線 3/25 出發",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 20:4x】派給 AA-C（AA_341）",
+   "src": "AA-C 20:42 提醒：日本路線開發分支只有手機",
+   "xai": {
+    "spec": "AA_340 的做法",
+    "owner": "AA",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA_341 交 LAWWW：逐週表、補稿、系統缺口、場景清單",
+    "receiver": "LAWWW-C",
+    "ack": "ACTIONED"
+   },
+   "evidence": "AA-C c2c5a66e 交付 AA_341"
+  },
+  {
+   "id": "JP-SEM-AA341-1020",
+   "title": "日本路線大三下（3/25～8/5）整學期能玩：進日本（2D hub）、日本學期日曆、一鍵上課、快轉／摘要日、以安作息、臺灣的區域／邀約／打工在日本期間關掉、8/5 回程（AA_341 J-S1～S19）＋補稿 G0～G9",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本路線 3/25 出發",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-20 21:0x UTC】子代理開工（2D hub；AA_326 的日本事件由 R2Y3 後半的子代理做，合併時對上「人在日本」的判斷）；3D 場景排給 LAWWW2 佇列 ⑤；2D 背景 BB 準備提示詞",
+   "src": "AA_341（企劃線 c2c5a66e）"
   }
  ]
 }

@@ -7,10 +7,12 @@
    1B-14 芷若 Z11：2/21 起第一次在 Café 跟她點餐（她在班，interact；日本路線 3/25～8/5 在日本不算、8/26 以前都算）。唸回寄的明信片（1B-10 的 ZR_CARDS_SENT）。
    1B-15 子晴 Q12：5/19 21:00 私訊 → 5/20 14:00 出遊（資工系館展示廳，沒有背景＝社科院大講堂的圖＋字幕）；製作名單照旗標；阿凱 K4；沒去＝21:00 製作名單照片；
          收不到子晴那則的（和阿凱 FAMILIAR 以上、認識子晴但不到 FAMILIAR）：5/18（四）21:00 阿凱私訊 → 去＝出遊 5/20 13:45；不了＝16:30 阿凱的照片（AA_337 第 5 節）；
+         回了「去。」卻沒到＝16:30 阿凱三則「你說要來的。」「……我幫你拍了。」＋照片（AA_337 第 7 節）；
          日本路線＝當晚電話＋阿凱一則。ZQ_Q12（nine／cat，畢業後篇讀這個；ZQ_SHOW 是大一下成發的，不覆蓋）、ATTENDED_SHOW、WATCHED_SHOW_ONLINE。
    1B-16 可昕 K19：5/1 21:00 邀約 → 5/3 15:00 政大（開車約 40 分鐘）；沒去、日本路線＝照片。KX_PRESENT。
    1B-17 學姊生日 6/2：白天家族群組（「收到。」後面不掛選項）；玩家在她的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js），2028 的回覆照三版（AA_337 第 6 節）；
-         交往中 18:00 Café（17:45～18:30），沒去＝21:00。SIS_BDAY_Y3。
+         交往中 18:00 Café（17:45～18:30），沒去＝21:00；17:05 以後才傳＝22:30「……明天下午，Café？」→「好。」＝隔天 15:00 Café／「明天不行。」；
+         日本路線＝台灣 18:00（當地 19:00）視訊（AA_337 第 7 節）。SIS_BDAY_Y3（msg／invited／late_ask／next_cafe／video_set → cafe／video／missed）。
    1B-18＋22 學姊出發 8/2：7/26 21:00 家族群組（台灣路線才有按鈕）→ 家族共乘／兩個人 → 8/2 08:00 出遊（車上＋機場）；沒說要送＝8/2 09:00 客運照片、之後麵店語彤轉交便條；
          美國路線＝一起出發（exchange3d.js 的 3D 機場：進到機場演前三列，「登機」時演登機口那一列）；8/3 09:00 US0（台灣、日本路線）；
          M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
@@ -132,7 +134,9 @@ const Y34B=(function(){
       at(G,k,G.day===k?Math.max(21,G.hour):G.hour,L,'y3_zq_kai_ask'); return; }
     if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_zq_q12_kai')&&NOW(G)<T(d20,14.75))
       OUT.plan(G,{id:'y3_zq_q12_kai',ev:'ev_ziqing_q12',day:d20,h:13.75,late:1,place:'資工系館一樓展示廳',title:'子晴的發表會',travel:'走路 約 10 分鐘',travelH:1/6,hours:2});   /* 占位子＝13:45；晚到的窗口和子晴那一版一樣到 14:45 */
-    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai','📷（投影幕上一隻在找插座的貓）')],'y3_zq_kai_photo'); };
+    if(F.ZQ_KAI_GO===false) at(G,d20,16.5,[DM('kai','📷（投影幕上一隻在找插座的貓）')],'y3_zq_kai_photo');
+    if(F.ZQ_KAI_GO===true&&F.ZQ_Q12_SEEN!=='came'){ const q=typeof OUT!=='undefined'?OUT.get(G,'y3_zq_q12_kai'):null;   /* 回了「去。」卻沒到（出遊過了時間、說了不去了，或根本沒排到）：16:30 阿凱三則（AA_337 第 7 節）*/
+      if((q&&q.state==='missed')||NOW(G)>=T(d20,16.5)) at(G,d20,16.5,[DM('kai','你說要來的。'),DM('kai','……我幫你拍了。'),DM('kai','📷（投影幕上一隻在找插座的貓）')],'y3_zq_kai_noshow'); } };
   /* ================= 1B-16 可昕 K19 ================= */
   S.kx19Phone=function(G){ const F=G.flags, a=D('kx19ask'), d=D('kx19'); if(a==null||G.day<a||G.day>d+1||!dating(G,'kexin')) return; const K=t=>DM('kexin',t);
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];
@@ -142,24 +146,63 @@ const Y34B=(function(){
   /* ================= 1B-17 學姊的生日 ================= */
   /* 群組：Kevin「學姊今天生日！」學姊「收到。」，後面不掛選項。私訊改成玩家自己在學姊的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js；AA_337 第 6 節）：
      2028 的回覆照 AA_322 1B-17 三版——交往中＝蛋糕＋六點 Café、前任＝「謝謝。」、朋友＝研究室的小蛋糕；不到 FRIEND（也不是交往、前任）＝這一年沒有這個話題。
-     回覆時間照 MSG（學姊 12:10／17:05／22:30）：交往中的那一版到了才排 Café；17:05 以後才傳（22:30 才回，六點已經過了）＝回她「沒去」的那一句（AA 稿沒寫這個情況，問 AA）*/
+     回覆時間照 MSG（學姊 12:10／17:05／22:30）。交往中的三種（台詞照 AA 稿，一字不改）：
+     - 她的回覆在六點以前到（12:10／17:05）＝蛋糕＋六點 Café（AA_322）：回覆到了才排 Café（SIS_BDAY_Y3 invited → 去了＝cafe；沒去＝21:00「蛋糕我吃了一半。……」記 missed——這一句只給約了六點沒去的）；
+     - 17:05 以後才傳（22:30 才回，六點已經過了；AA_337 第 7 節）＝「謝謝。今天研究室比較晚。」「蛋糕留了一半。……明天下午，Café？」＋「好。」／「明天不行。」（SIS_BDAY_Y3 late_ask）：
+       「好。」→「三點。」→ 隔天 6/3（六）15:00 Café（next_cafe，SIS_BDAY_Y3_NEXT＝那一天），照「去了」那一場演、記 cafe；「明天不行。」→「好。那蛋糕歸我。」記 missed；
+     - 日本路線、人在日本（AA_337 第 7 節）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（日本當地 19:00）視訊（video_set → 演完 video；不排 Café）。
+     AA 稿沒寫、暫定（問 AA）：日本路線 17:05 以後才傳（她回的時候視訊的時間已經過了）＝只回第一句、記 missed；22:30 那則一直沒回、答應了 15:00 卻沒到、視訊那天沒演到＝不另外傳，記 missed；
+     22:30 以後才傳（隔天 12:10 才回；AA_337 第 7 節 AA-C 20:57 改字）＝「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）
+       ＋「好。」→ 當天（6/3）15:00 Café、照「去了」那一場、記 cafe；「今天不行。」→「好。那蛋糕歸我。」記 missed */
   S.bdayVer=function(G){ const d=D('bday'); if(d==null||G.day!==d||!law(G)||!met('heroine_05')) return null; if(dating(G,'heroine_05')) return 'dating'; if(exOf(G,'heroine_05')) return 'ex'; return fri('heroine_05')?'friend':false; };
-  const BDAY_REPLY={dating:['蛋糕我買了。……一個人吃很奇怪。','六點，兩點半 Café。你點什麼都可以。'],ex:['謝謝。'],friend:['謝謝。研究室的人買了一個小蛋糕。'],late:['蛋糕我吃了一半。另一半在冰箱，明天還算生日。']};
+  const BDAY_REPLY={dating:['蛋糕我買了。……一個人吃很奇怪。','六點，兩點半 Café。你點什麼都可以。'],ex:['謝謝。'],friend:['謝謝。研究室的人買了一個小蛋糕。'],
+    late:['謝謝。今天研究室比較晚。','蛋糕留了一半。……明天下午，Café？'],   /* AA_337 第 7 節：17:05 以後才傳（22:30 回）*/
+    nextDay:['謝謝。昨天十點半就睡了，剛看到。','蛋糕還在冰箱。……今天下午三點，Café？'],   /* AA_337 第 7 節（AA-C 20:57）：22:30 以後才傳（隔天 12:10 回）*/
+    jp:['蛋糕我買了。……一個人吃很奇怪。','你那邊七點吧。視訊，十分鐘。'],   /* AA_337 第 7 節：日本路線、人在日本 */
+    jpLate:['蛋糕我買了。……一個人吃很奇怪。'],   /* 暫定（AA 稿沒寫）：日本路線、她回的時候視訊的時間已經過了 */
+    missed:['蛋糕我吃了一半。另一半在冰箱，明天還算生日。'] };   /* 約了六點、沒去（21:00，S.bdayPhone）*/
   S.BDAY_REPLY=BDAY_REPLY;
-  const bdayLate=G=>{ const a=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,'heroine_05'):null; return !!a&&T(a.day,a.h)>=T(D('bday'),18); };
+  const LATE_ASK=BDAY_REPLY.late[1];
+  const inJP=G=>JP(G)&&!!(STORY.abroad&&STORY.abroad(G));   /* 人在日本（3/25～8/5）：手機的時間是當地時間（台灣＋1）*/
+  const bdayCut=G=>{ const d=D('bday'); return T(d,inJP(G)?tzH(G,d,18):18); };   /* 六點的 Café／台灣 18:00 的視訊（人在日本＝當地 19:00）*/
+  const bdayLate=G=>{ const a=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,'heroine_05'):null; return !!a&&T(a.day,a.h)>=bdayCut(G); };
+  const bdayNext=G=>{ const a=typeof MSG!=='undefined'&&MSG.replyAt?MSG.replyAt(G,'heroine_05'):null, d=D('bday'); return !!a&&d!=null&&a.day>d; };   /* 她隔天才回（22:30 以後才傳）*/
+  S.bdayKey=G=>inJP(G)?(bdayLate(G)?'jpLate':'jp'):(bdayNext(G)?'nextDay':bdayLate(G)?'late':'dating');   /* 交往中的哪一版（BDAY_REPLY 的鍵）*/
+  /* 22:30 那一版的選項：掛在 MSG 剛排進手機佇列的最後一則（MSG-2 的回問選項沒有 set、until，這裡自己掛）*/
+  const lateAsk=(G,nd,ver)=>{ const P=P_(); if(!P||!P.rec) return false; const Q=P.rec(G).q||[], nx=ver==='next', txt=nx?BDAY_REPLY.nextDay[1]:LATE_ASK;
+    for(let i=Q.length-1;i>=0;i--){ const it=(Q[i].items||[]).find(x=>x&&x.th==='p:heroine_05'&&x.text===txt&&!x.ask); if(!it) continue;
+      it.ask={id:'y3_sis_bday_late',until:T(nd,15),opts:nx?[{t:'好。',set:{SIS_BDAY_Y3:'next_cafe'}},{t:'今天不行。',set:{SIS_BDAY_Y3:'missed'},say:[{from:'heroine_05',text:'好。那蛋糕歸我。'}]}]
+        :[{t:'好。',set:{SIS_BDAY_Y3:'next_cafe'},say:[{from:'heroine_05',text:'三點。'}]},{t:'明天不行。',set:{SIS_BDAY_Y3:'missed'},say:[{from:'heroine_05',text:'好。那蛋糕歸我。'}]}]}; return true; }
+    return false; };
   if(typeof MSG!=='undefined'&&MSG.pick2&&MSG.send){ const pick0=MSG.pick2, send0=MSG.send;
-    MSG.pick2=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null; if(v==null) return pick0.apply(this,arguments); if(!v) return null;
-      return {e:{topic:'bday',tier:v,msgs:BDAY_REPLY[v==='dating'&&bdayLate(G)?'late':v].slice(),tags:[],src:'AA_322 1B-17'},act:null}; };
-    MSG.send=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null, late=v==='dating'&&bdayLate(G); const r=send0.apply(this,arguments);
-      if(v&&r&&r.ok&&G.flags.SIS_BDAY_Y3==null){ if(v!=='dating') G.flags.SIS_BDAY_Y3='msg'; else if(late) G.flags.SIS_BDAY_Y3='missed'; else { G.flags.SIS_BDAY_Y3='invited'; G.flags.SIS_BDAY_Y3_AT=T(r.at.day,r.at.h); } }
+    MSG.pick2=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null; if(v==null) return pick0.apply(this,arguments); if(!v) return null; const k=v==='dating'?S.bdayKey(G):v;
+      return {e:{topic:'bday',tier:v,msgs:BDAY_REPLY[k].slice(),tags:[],src:k==='late'||k==='jp'||k==='nextDay'?'AA_337 第 7 節':'AA_322 1B-17',noWake:k==='nextDay'},act:null}; };   /* noWake：她自己那一句已經說了睡了，MSG 不另外加 wakeLine */
+    MSG.send=function(G,id,topic){ const v=id==='heroine_05'&&topic==='bday'?S.bdayVer(G):null, k=v==='dating'?S.bdayKey(G):null; const r=send0.apply(this,arguments);
+      if(v&&r&&r.ok&&G.flags.SIS_BDAY_Y3==null){ const F=G.flags;
+        if(v!=='dating') F.SIS_BDAY_Y3='msg';
+        else if(k==='dating'){ F.SIS_BDAY_Y3='invited'; F.SIS_BDAY_Y3_AT=T(r.at.day,r.at.h); }
+        else if(k==='jp'){ F.SIS_BDAY_Y3='video_set'; F.SIS_BDAY_Y3_AT=T(r.at.day,r.at.h); }
+        else if(k==='late'){ F.SIS_BDAY_Y3='late_ask'; F.SIS_BDAY_Y3_NEXT=r.at.day+1; lateAsk(G,F.SIS_BDAY_Y3_NEXT); }
+        else if(k==='nextDay'){ F.SIS_BDAY_Y3='late_ask'; F.SIS_BDAY_Y3_NEXT=r.at.day; lateAsk(G,F.SIS_BDAY_Y3_NEXT,'next'); }   /* 她 6/3 12:10 回：當天 15:00 */
+        else F.SIS_BDAY_Y3='missed'; }   /* jpLate */
       return r; }; }
-  S.bdayPhone=function(G){ const F=G.flags, d=D('bday'); if(d==null||G.day<d||G.day>d+1||!law(G)||!met('heroine_05')) return;
+  S.bdayPhone=function(G){ const F=G.flags, d=D('bday'); if(d==null) return; const nd=F.SIS_BDAY_Y3_NEXT;
+    if(F.SIS_BDAY_Y3==='late_ask'&&nd!=null&&NOW(G)>T(nd,15)) F.SIS_BDAY_Y3='missed';   /* 22:30 那則一直沒回（暫定：不另外傳）*/
+    if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&NOW(G)>=T(nd,15.5)) F.SIS_BDAY_Y3='missed';   /* 答應了 15:00 卻沒到（暫定：不另外傳）*/
+    if(F.SIS_BDAY_Y3==='video_set'&&G.day>d) F.SIS_BDAY_Y3='missed';   /* 視訊那天沒演到（暫定）*/
+    if(G.day<d||G.day>d+2||!law(G)||!met('heroine_05')) return;   /* d＋2：22:30 以後才傳的，Café 在 6/4 */
     const ok=dating(G,'heroine_05')||exOf(G,'heroine_05')||fri('heroine_05'); if(!ok) return;
     if(inGrp(G,'family_law')&&NOW(G)>=T(d,12)&&NOW(G)<T(d+1,0)) at(G,d,G.day===d?Math.max(12,G.hour):12,[GKEV('學姊今天生日！'),GSIS('收到。')],'y3_sis_bday');
     if(F.SIS_BDAY_Y3==='invited'&&(F.SIS_BDAY_Y3_AT==null||NOW(G)>=F.SIS_BDAY_Y3_AT)&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday')&&NOW(G)<T(d,18.5)&&G.zone!=='cafe'&&!(STORY.abroad&&STORY.abroad(G)))
       OUT.plan(G,{id:'y3_sis_bday',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:d,h:18,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6});   /* 她的回覆到了才排（人在日本的不排；舊存檔的群組選項是馬上回的，沒有 SIS_BDAY_Y3_AT）*/
-    if(F.SIS_BDAY_Y3==='invited'&&NOW(G)>=T(d,21)){ F.SIS_BDAY_Y3='missed'; at(G,d,21,[DM('heroine_05','蛋糕我吃了一半。另一半在冰箱，明天還算生日。')],'y3_sis_bday_miss'); } };
-  S.bdayCafeDue=G=>{ const d=D('bday'); return d!=null&&G.day===d&&G.zone==='cafe'&&G.hour>=17.75&&G.hour<18.5&&G.flags.SIS_BDAY_Y3==='invited'; };
+    if(F.SIS_BDAY_Y3==='invited'&&NOW(G)>=T(d,21)){ F.SIS_BDAY_Y3='missed'; at(G,d,21,[DM('heroine_05',BDAY_REPLY.missed[0])],'y3_sis_bday_miss'); }
+    if(F.SIS_BDAY_Y3==='next_cafe'&&nd!=null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_sis_bday_next')&&NOW(G)<T(nd,15.5)&&G.zone!=='cafe')
+      OUT.plan(G,{id:'y3_sis_bday_next',goto:{zone:'cafe',x:0,z:5,yaw:Math.PI},day:nd,h:15,late:0.5,place:'溫州街',title:'兩點半 Café',travelH:1/6}); };   /* 回了「好。」：隔天 15:00（AA_337 第 7 節）*/
+  S.bdayCafeDue=G=>{ const d=D('bday'), F=G.flags; if(d==null||G.zone!=='cafe') return false;
+    if(F.SIS_BDAY_Y3==='invited') return G.day===d&&G.hour>=17.75&&G.hour<18.5;
+    if(F.SIS_BDAY_Y3==='next_cafe'&&F.SIS_BDAY_Y3_NEXT!=null) return G.day===F.SIS_BDAY_Y3_NEXT&&G.hour>=14.75&&G.hour<15.5;   /* 22:30 那一版回了「好。」：隔天 15:00 */
+    return false; };
+  S.bdayVideoDue=G=>{ const d=D('bday'), F=G.flags; return law(G)&&d!=null&&G.day===d&&F.SIS_BDAY_Y3==='video_set'&&inJP(G)&&(F.SIS_BDAY_Y3_AT==null||NOW(G)>=F.SIS_BDAY_Y3_AT)&&NOW(G)>=T(d,tzH(G,d,18))&&G.hour<24; };   /* 日本路線：台灣 18:00（當地 19:00）以後第一個空檔，當天以內 */
   /* ================= 1B-18＋22 學姊出發、US0、M6 ================= */
   S.sisRideKind=G=>(datingAny(G)||!fri('heroine_05')||exOf(G,'heroine_05'))?'family':'two';   /* 家族共乘＝祐廷交往中、或和她不到 FRIEND（前任也是）；兩個人＝雙方都單身、FRIEND 以上 */
   S.sisPhone=function(G){ const F=G.flags, a=D('sisAsk'), go=D('sisGo'), u0=D('us0'), end=D('m6End'); if(a==null||G.day<a||G.day>end+1||!law(G)||!inGrp(G,'family_law')) return;
@@ -277,7 +320,8 @@ const Y34B=(function(){
       [()=>S.t1FirstDue(G,E),'ev_yt_thursday_first',()=>play('ev_yt_thursday_first')(GM)],
       [()=>S.t1WeekDue(G,E),'ev_yt_thursday',()=>S.t1Week(GM)],
       [()=>S.zqCallDue(G),'ev_ziqing_q12_call',()=>play('ev_ziqing_q12_call')(GM)],
-      [()=>S.bdayCafeDue(G),'ev_sis_birthday_y3',()=>{ if(typeof OUT!=='undefined'){ const q=OUT.get(G,'y3_sis_bday'); if(q&&q.state==='planned') q.state='done'; } return play('ev_sis_birthday_y3')(GM); }],
+      [()=>S.bdayCafeDue(G),'ev_sis_birthday_y3',()=>{ if(typeof OUT!=='undefined') for(const id of ['y3_sis_bday','y3_sis_bday_next']){ const q=OUT.get(G,id); if(q&&q.state==='planned') q.state='done'; } return play('ev_sis_birthday_y3')(GM); }],
+      [()=>S.bdayVideoDue(G),'ev_sis_birthday_video_y3',()=>play('ev_sis_birthday_video_y3')(GM)],
       [()=>S.usDepartDue(G),'ev_sis_depart_us',()=>play('ev_sis_depart_us')(GM)],
       [()=>S.an18Due(G),'ev_an_her_choice',()=>play('ev_an_her_choice')(GM)],
       [()=>S.a23Due(G),'ev_noodle_23rd',()=>S.a23Run(GM)],
@@ -300,8 +344,8 @@ const Y34B=(function(){
     GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(!cafe&&GM.toast) GM.toast('手機響了。',2400); await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 麵店版：阿哲打電話（AA 沒有寫電話裡的話：只有提示）*/
     G.flags.AN20_LATE=cafe; const ev=evOf(cafe?'ev_an_your_turn':'ev_an_your_turn_noodle'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ---------------- 在家（home3d.js 的 loop 已經在問 STORY.y4HomeDue）---------------- */
-  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
-  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(S.zqCallDue(G)) return play('ev_ziqing_q12_call')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
+  S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
+  S.homeScene=async function(GM){ const G=GM.G; if(S.sendoffJPDue(G)) return S.departJP(GM); if(S.zqCallDue(G)) return play('ev_ziqing_q12_call')(GM); if(S.bdayVideoDue(G)) return play('ev_sis_birthday_video_y3')(GM); if(S.kx23CallDue(G)) return play('ev_kexin_own_paths_call')(GM); return false; };
   { const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;
     STORY.y4HomeDue=function(G){ const r=hd0?hd0.apply(this,arguments):null; return r||S.homeDue(G); };
     STORY.y4HomeScene=function(GM){ const k=S.homeDue(GM.G); if(k==='stay'&&!(hd0&&hd0(GM.G))) return S.homeScene(GM); return hs0?hs0.apply(this,arguments):null; };
@@ -479,7 +523,8 @@ const Y34B=(function(){
     {label:'k_b'},{speaker:'kexin',text:'……你有看到喔。'},{speaker:'kexin',text:'因為你真的坐最後一排。'},
     {label:'k_end'},{set:{KX_PRESENT:'came'}} ];
   /* 1B-17 */
-  const BDAY=[ {speaker:null,text:'（Café 窗邊，一小塊蛋糕，兩支叉子。）'},{speaker:'heroine_05',text:'……你先吃。我看你吃。'},{set:{SIS_BDAY_Y3:'cafe'}} ];
+  const BDAY=[ {speaker:null,text:'（Café 窗邊，一小塊蛋糕，兩支叉子。）'},{speaker:'heroine_05',text:'……你先吃。我看你吃。'},{set:{SIS_BDAY_Y3:'cafe'}} ];   /* 6/2 18:00；22:30 那一版回了「好。」＝隔天 15:00 同一場（AA_337 第 7 節）*/
+  const BDAY_VIDEO=[ {scene:'視訊',bg:'video'},{speaker:null,text:'（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）'},{speaker:'heroine_05',text:'……你看到了。這樣算一起吃過。'},{set:{SIS_BDAY_Y3:'video'}} ];   /* 日本路線（AA_337 第 7 節）*/
   /* 1B-18 */
   const fam2=G=>G.flags.SIS_RIDE==='two', famV=G=>G.flags.SIS_RIDE!=='two';
   const AIRPORT=[ {scene:'車上',bg:'car_morning'},   /* AA_323 1B-18 素材表：2D car_morning */
@@ -637,6 +682,7 @@ const Y34B=(function(){
     { id:'ev_kexin_presentation', title:'最後一排', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5, dialogue:K19,
       outingMissed:G=>{ G.flags.KX19_GO=false; } },
     { id:'ev_sis_birthday_y3', title:'學姊的生日', participants:['heroine_05'], location:'cafe', trigger:'manual', once:true, background:'blur', dialogue:BDAY },
+    { id:'ev_sis_birthday_video_y3', title:'學姊的生日（視訊）', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'dark', dialogue:BDAY_VIDEO },
     { id:'ev_sis_airport', title:'送機', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:3, dialogue:AIRPORT,
       outingMissed:G=>{ if(G.flags.SIS_SENDOFF==null) G.flags.SIS_RIDE=null; } },   /* 答應了沒去＝照「沒說要送」：她搭客運 */
     { id:'ev_sis_depart_us', title:'一起出發', participants:['heroine_05'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:DEPART_US },

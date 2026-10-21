@@ -37,7 +37,7 @@ const GAME = (function(){
      hPrev：從那時起一直是這個狀態（座位上「坐一下」「讀書」跳過的時間＝一直坐在那裡）*/
   function actTrack(hPrev){ if(typeof ACTIVITIES==='undefined'||!ACTIVITIES.track||!ACTIVITIES.list.length||!E||!E.player||!G) return; const P=E.player, z=E.zone; const room=(P.seat&&P.seat.room)||(z&&z.roomAt?z.roomAt(P.obj.position.x,P.obj.position.z,P.lv|0):null); ACTIVITIES.track(G,G.zone,room,!!P.seat,hPrev); }
   GM.actTrack=actTrack;
-  function advance(hours){ const h0=G.hour; actTrack(); G.hour+=hours; E.hour=G.hour; E.applyTime(G.hour); updateHUD(); A3.setScene(G.zone,G.hour,G.weather); actTrack(h0); }
+  function advance(hours){ const h0=G.hour; actTrack(); G.hour+=hours; E.hour=G.hour; if(typeof STORY!=='undefined'&&STORY.routeWatch) STORY.routeWatch(G); E.applyTime(G.hour); updateHUD(); A3.setScene(G.zone,G.hour,G.weather); actTrack(h0); }   /* routeWatch：跳時間跨過交換志願表截止（2027-11-18 12:00）就照那一刻的交往狀態定（1A-02；上課坐著的時候 S.tick 不跑）*/
   /* 習慣記憶（AA_110 5-4）：玩家自己重複做的事，一天最多算一次（G.habits，存法在 src/events3d.js 的 X.habit）。事件條件 habit:{key,min,withinDays}（src/events3d.js；鍵的寫法見 docs/STORY_EVENT_SCHEMA.md）：
        place:區域:時段（morning／noon／afternoon／evening／night）、place:區域:with:人物（走進去時帶著的同伴）——走進一個區域時記（讀檔不算）；
        seat:區域:那一間或那一區（教室 101、窗邊 window…）、table:區域:桌子、seat:區域:with:人物（坐下時 2.5 m 內、同一層）——坐下時記；
@@ -298,6 +298,7 @@ const GAME = (function(){
     if(typeof STORY!=='undefined'&&STORY.lifeLineMigrate&&s.flags&&typeof s.flags==='object'){ try{ STORY.lifeLineMigrate(s); }catch(e){ console.warn('STORY.lifeLineMigrate',e); } }   /* LIFE-LINE（BB_188 A9-2）：舊的 E19／E21／E25 → KX_CAR；過了 10/17 車上的當作演過（先做，ROM.rec 接著補交往紀錄）*/
     if(typeof ROM!=='undefined'&&s.flags&&typeof s.flags==='object'){ try{ ROM.rec(s); }catch(e){ console.warn('ROM.rec',e); } }
     if(typeof DATE!=='undefined'){ try{ DATE.rec(s); }catch(e){ console.warn('DATE.rec',e); } }   /* 校外單獨約會（DATE-S1）：補 dateLog、trips、groupTrips（空的，不追溯以前的出遊，AA_128 1-3）*/   /* 多段感情（v6 S7）：補 ROMANCE_HISTORY、CLEANUP_DONE（有 dating_kexin 的補一筆）*/
+    if(typeof STORY!=='undefined'&&STORY.routeWatch&&s.flags&&typeof s.flags==='object'){ try{ STORY.routeWatch(s); }catch(e){ console.warn('STORY.routeWatch',e); } }   /* 交換路線（1A-02，BB-C 10-20）：宿舍舊選單選過、還沒截止的（EXCH_APPLIED_DAY、沒有 EXCH_RULE）讀檔就清掉——讀進來坐著、在劇情裡 S.tick 不跑；已經過了截止、還沒有路線的照同一個規則補（在 ROM.rec 之後：routeFor 讀交往紀錄）*/
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
@@ -419,6 +420,7 @@ const GAME = (function(){
   function frame(now){ requestAnimationFrame(frame); if(!GM.running) return; const realDt=(now-last)/1000||0.016; let dt=Math.min(GM.turbo?0.3:0.1,realDt); last=now; if(E.paused||document.hidden) return; E.update(dt); if(typeof BIKE!=='undefined') BIKE.tick(GM,dt); updateWalks(dt); dlgTick(dt); staleCheck(realDt); if((GM._upT=(GM._upT||0)-realDt)<0){ GM._upT=1.5; GM.upgradeModels(); GM.dedupAnon(false); }
     // 時間流動（自由行動時）
     if(!E.player.busy&&!D.active){ G.hour+=dt*GM.hourRate; E.hour=G.hour; if(E.frame%3===0) actTrack(); }
+    if(!GM.titleIdle&&STORY.routeWatch) STORY.routeWatch(G);   /* 交換路線（1A-02）：每一格都看，不管忙不忙——上課坐著、劇情裡、睡覺時 S.tick 不跑，時間跨過截止以後的第一格就照那一刻定（BB-C 10-20）*/
     // 腳步聲
     const P=E.player; if(P.pose==='walk'||P.pose==='run'){ stepAcc+=dt*(P.pose==='run'?3.2:1.9); if(stepAcc>=1){ stepAcc=0; A3.step(P.pose==='run',E.indoor); G.stats.steps++; } if(G.stats.steps%400===0&&G.stats.steps>0) {} }
     if(E.frame%3===0&&$('mdbg').style.display!=='none') movementTelemetry(realDt*3);

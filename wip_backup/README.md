@@ -41,3 +41,7 @@ git worktree add <資料夾> wip/dorm-hall
 - `v97-rc17.bundle`（2026-10-14 11:58 UTC）：v9.7 發布候選 17 `402f2b5`＝候選 16＋flow_clubs A 段換日子（10/13 在 v9.7 是颱風假，改用 10/15 週三；只改測試），本機分支 `rel/v97-rc17`。前置 `52f288e`（候選 16）。還原：`git fetch wip_backup/v97-rc17.bundle rel/v97-rc17:rel/v97-rc17`
 - `v97-rc18.bundle`（2026-10-14 12:04 UTC）：v9.7 發布候選 18 `9c057a4`＝候選 17＋flow_clubs A 段子晴初遇的檢查跟上 v1 定稿（沒有 guitar_invite 的存檔第一句是「新人？……法律系的？」；只改測試），本機分支 `rel/v97-rc18`。前置 `402f2b5`（候選 17）。還原：`git fetch wip_backup/v97-rc18.bundle rel/v97-rc18:rel/v97-rc18`
 - `v97-rc19.bundle`（2026-10-14 12:16 UTC）：v9.7 發布候選 19 `313d620`＝候選 18＋遊戲修正（game3d.js choose：選單墊高到對話框上面時 max-height 一起扣掉；手機橫向時社團博覽會 6 個選項第一個被推出畫面），本機分支 `rel/v97-rc19`。前置 `9c057a4`（候選 18）。還原：`git fetch wip_backup/v97-rc19.bundle rel/v97-rc19:rel/v97-rc19`（先依序 fetch rc17、rc18 的包）
+
+## wip_subagents_1020_2035.bundle（LAWWW-C 2026-10-20 20:35 UTC，容器重啟以後）
+子代理在 worktree 分支上的半成品（還沒合併進開發分支）：第 2 輪大三前後半（AA_326）、大四前後半（AA_327，含美國路線 US1～US4 c2ba77f3）、第 3 輪（AA_328）、CG 第二批腳本、多功能教室／202 美術、507／409 拆箱小道具。
+還原：`git fetch wip_backup/wip_subagents_1020_2035.bundle 'refs/heads/*:refs/remotes/wip/*'`，再 `git log wip/worktree-agent-<id>`。這些都已經交給新的子代理接著做；合併進開發分支以後這個檔可以刪。

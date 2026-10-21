@@ -1,7 +1,9 @@
 // 1A-02 交換路線依交往狀態分流（AA_315；BB_204 第 1、5 節、AA_253 第 2 節；使用者 2026-10-17 經 BB-C）——不需要瀏覽器。
 //   志願表截止 2027-11-18（四）12:00 那一刻照「交往中」定：學姊＝US、以安＝JP、都沒有（只和可昕交往也算）＝TW；之後任何事都不改；
 //   宿舍的舊選單選過、還沒截止的清掉重來；截止以後已經有路線的照原本的；2028-02-20 以後補的一律 TW；經濟系那一年不定。
-//   對 AA_315 的驗收情境 E1、E2、E3、E6、E7、E8。修改前 1～6 FAIL。用法：node tests/route_decide_unit.js
+//   對 AA_315 的驗收情境 E1、E2、E3、E6、E7、E8。修改前 1～6 FAIL。
+//   BB-C 10-20 回報的兩個 bug（7～10，修改前 FAIL）：(a) 截止那一刻坐著上課、在劇情裡（S.tick 不跑），空下來以前開始交往＝定錯；(b) 舊選單的 US 讀檔後坐著沒清。
+//   改成 STORY.routeWatch：主迴圈每一格、GM.advance、讀檔 migrate、ROM.start／ROM.end 之前都跑；routeFor 不算截止以後才開始的那一段（ROM 的 sinceDay＋sinceH）。用法：node tests/route_decide_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -57,7 +59,51 @@ GM.money=function(n){ G.money+=n; };
   at(D('2028-02-20'),15); date('heroine_05'); STORY.routeDecide(G); check('5. 2028-02-20（日本路線退宿日）以後才補：一律 TW（來不及準備）', G.flags.EXCHANGE_ROUTE==='TW');
   at(dl,12.5); G.stage='econ'; check('5. 經濟系那一年：不定路線', STORY.routeDecide(G)===null&&!G.flags.EXCHANGE_ROUTE);
   { const s=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), x=fs.readFileSync(path.join(ROOT,'src/exchange3d.js'),'utf8');
-    check('6. S.tick：每一格先 routeMigrate、沒有路線就 routeDecide', /S\.routeMigrate\(G\); if\(!F\.EXCHANGE_ROUTE&&G\.day>=0\) S\.routeDecide\(G\);/.test(s));
+    const tk=s.indexOf('S.tick=function(GM,dt)');
+    check('6. S.tick：每一格先 routeWatch（routeMigrate＋沒有路線就 routeDecide）', tk>0&&/S\.routeWatch\(G\);/.test(s.slice(tk,tk+4000))&&/S\.routeWatch=function\(G\)\{[^\n]*S\.routeMigrate\(G\);[^\n]*S\.routeDecide\(G\)/.test(s));
     check("6. 宿舍沒有「交換申請（志願表）」：exchange3d.js 沒有 APPLY_OPTS、不推 exchApply、applyOpen 永遠是 false", !/APPLY_OPTS/.test(x)&&!/exchApply:true/.test(x)&&/S\.applyOpen=\(\)=>false;/.test(x)); }
+  /* ===== BB-C 10-20 回報的兩個 bug（修改前 7～10 FAIL）：
+     (a) 路線照「12:00 以後第一次 S.tick」定——上課坐著（E.player.busy）、劇情裡、睡覺時 S.tick 第一行就 return，空下來以前交往狀態變了就定錯；
+     (b) 舊存檔（舊宿舍選單選過 US、沒有 EXCH_RULE）讀檔後玩家坐著或在劇情裡，routeMigrate 沒跑、舊的 US 沒清（過了截止就永遠留著）。
+     改成：STORY.routeWatch 在主迴圈每一格（不管忙不忙）、GM.advance、讀檔（migrate）、ROM.start／ROM.end 改狀態之前都跑 ===== */
+  const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8'), grab=re=>{ const m=g3.match(re); return m?m[0]:null; };
+  const frameTick=()=>{ if(STORY.routeWatch) STORY.routeWatch(G); };   // game3d.js frame()：每一格都叫（不管 busy／D.active）
+  const runIn=(src,name,ctx)=>{ if(!src) return null; vm.createContext(ctx); vm.runInContext(src+'\nthis.'+name+'='+name+';',ctx); return ctx[name]; };
+  const busySeat=b=>{ E.player.busy=b; };   // 上課坐著＝E.player.busy（S.tick 第一行 return）
+  // 7. (a) BB 的重現步驟：11/17 沒交往 → 11/18 11:54 上課坐到 13:13 → 13:15 開始和以安交往 → 下一次 tick
+  { at(D('2027-11-17'),20); busySeat(false); STORY.tick(GM,0.6); const r17=G.flags.EXCHANGE_ROUTE||null;
+    G.day=dl; G.weekday=wdOf(dl); G.hour=11.9; busySeat(true); STORY.tick(GM,0.6); frameTick();   // 11:54 坐下：S.tick 不跑、還沒到截止
+    const r1154=G.flags.EXCHANGE_ROUTE||null; G.hour=13+13/60; frameTick();   // 上課的跳時間（坐著）：13:13，主迴圈那一格
+    const r1313=G.flags.EXCHANGE_ROUTE||null; busySeat(false); G.hour=13.25; ROM.start(G,'heroine_01'); STORY.tick(GM,0.6);
+    check('7. (a) 11/17 沒交往 → 11/18 11:54 上課坐到 13:13（坐著：S.tick 不跑）→ 13:15 和以安開始交往 → 下一次 tick：TW（截止那一刻沒有交往；修改前 JP）',
+      r17===null&&r1154===null&&r1313==='TW'&&G.flags.EXCHANGE_ROUTE==='TW'&&G.flags.EXCH_APPLIED_DAY===dl&&G.flags.dating_heroine_01===true, JSON.stringify({r17,r1154,r1313,r:G.flags.EXCHANGE_ROUTE})); busySeat(false); }
+  { at(dl,11.9); busySeat(true); STORY.tick(GM,0.6); G.hour=13.25; ROM.start(G,'heroine_01'); busySeat(false); STORY.tick(GM,0.6);   // 中間一格都沒有（同一段劇情裡跳時間、接著告白）
+    check('7. (a) 最壞的情況：坐著跨過截止、中間一格都沒有就開始交往——ROM.start 改狀態之前先照改之前的定：TW（修改前 JP）', G.flags.EXCHANGE_ROUTE==='TW'&&G.flags.dating_heroine_01===true, G.flags.EXCHANGE_ROUTE); busySeat(false); }
+  { at(dl,11.9); date('heroine_05'); busySeat(true); G.hour=13.25; ROM.end(G,'heroine_05','apart_talk'); busySeat(false); STORY.tick(GM,0.6);
+    check('7. (a) 反過來：截止那一刻和學姊交往中、坐著跨過 12:00 以後才分手：US（ROM.end 改狀態之前先定；修改前 TW）', G.flags.EXCHANGE_ROUTE==='US', G.flags.EXCHANGE_ROUTE); busySeat(false); }
+  { const adv=runIn(grab(/function advance\(hours\)\{[\s\S]*?actTrack\(h0\); \}/),'advance',{get G(){ return G; },E:{hour:0,applyTime(){}},STORY,actTrack(){},updateHUD(){},A3:{setScene(){}}});
+    at(dl,11.9); busySeat(true); let r=null; if(adv){ adv(13+13/60-11.9); r=G.flags.EXCHANGE_ROUTE||null; }   // game3d.js 的 GM.advance（上課的跳時間 classes3d.js 用它）
+    check('7. (a) game3d.js 的 GM.advance 跨過截止就定（坐著上課 11:54 → 13:13，還沒有下一格）：TW', !!adv&&r==='TW'&&G.flags.EXCH_APPLIED_DAY===dl, String(r)); busySeat(false); }
+  // 8. (b) 舊存檔 11/1：舊宿舍選單選了「美國」（EXCHANGE_ROUTE US、EXCH_APPLIED_DAY、沒有 EXCH_RULE）
+  const mig=runIn(grab(/function migrate\(s\)\{[\s\S]*?\n    s\.v=SAVE_VER; return s; \}/),'migrate',{CALENDAR,STORY,ROM,console:{warn(){}},SAVE_VER:99,defaults:()=>({rel:{}}),DATE:undefined});
+  for(const [who,want] of [['heroine_01','JP'],[null,'TW'],['heroine_05','US']]){
+    at(D('2027-11-01'),15,{EXCHANGE_ROUTE:'US',EXCH_APPLIED_DAY:D('2027-10-20')}); if(who) date(who); let cleared=false;
+    if(mig){ mig(G); cleared=!G.flags.EXCHANGE_ROUTE&&G.flags.EXCH_APPLIED_DAY==null; }   // 讀檔（applySave → migrate）
+    busySeat(true); STORY.tick(GM,0.6);   // 讀進來就坐著：S.tick 不跑
+    G.day=D('2027-11-17'); G.hour=20; frameTick(); const r17=G.flags.EXCHANGE_ROUTE||null; G.day=dl; G.hour=12; frameTick(); busySeat(false);
+    check('8. (b) 舊存檔 11/1（舊選單選了美國）'+(who?'、和'+(who==='heroine_01'?'以安':'學姊')+'交往中':'、沒有交往')+'：讀檔（migrate）就清掉，玩家一直坐著；11/17 還沒有路線；11/18 12:00 照那一刻定＝'+want,
+      !!mig&&cleared&&r17===null&&G.flags.EXCHANGE_ROUTE===want&&G.flags.EXCH_RULE===1, JSON.stringify({cleared,r17,r:G.flags.EXCHANGE_ROUTE})); }
+  { at(D('2027-12-01'),15,{EXCHANGE_ROUTE:'US',EXCH_APPLIED_DAY:D('2027-10-20')}); if(mig) mig(G); check('8. (b) 截止以後讀檔：舊選單的路線照原本的（不清）', !!mig&&G.flags.EXCHANGE_ROUTE==='US'); }
+  // 9. 補舊存檔也照截止那一刻：ROM 記得是截止以後才開始的那一段不算（sinceDay＋sinceH；舊紀錄只有 sinceDay＝那一天以後才算）
+  { const back=(sinceDay,sinceH)=>{ at(D('2027-12-01'),15); G.flags.dating_heroine_05=true; ROM.rec(G); const r=ROM.get(G,'heroine_05'); r.status='dating'; r.sinceDay=sinceDay; if(sinceH!=null) r.sinceH=sinceH; else delete r.sinceH; return STORY.routeDecide(G); };
+    const a=back(D('2027-11-25'),15), b=back(dl,13.25), c=back(dl,11.5), d=back(D('2027-11-25'),null), e=back(dl,null), f=back(D('2027-10-01'),20);
+    check('9. 補舊存檔：11/25 才和學姊交往＝TW、11/18 13:15＝TW、11/18 11:30＝US；舊紀錄沒有 sinceH：11/25＝TW、11/18（不知道幾點）＝US；10/1＝US', a==='TW'&&b==='TW'&&c==='US'&&d==='TW'&&e==='US'&&f==='US', JSON.stringify([a,b,c,d,e,f])); }
+  // 10. ROM.start 記 sinceH、ROM.BEFORE、routeDue 用絕對時間、game3d.js 的接線
+  { at(dl,11.5); ROM.start(G,'heroine_05'); const rs=ROM.get(G,'heroine_05'); G.hour=12; frameTick();
+    check('10. ROM.start 記開始的時刻（sinceDay＋sinceH）；ROM.BEFORE 有 STORY.routeWatch；11:30 開始和學姊交往、12:00＝US', rs.sinceDay===dl&&rs.sinceH===11.5&&Array.isArray(ROM.BEFORE)&&ROM.BEFORE.includes(STORY.routeWatch)&&G.flags.EXCHANGE_ROUTE==='US', JSON.stringify({sd:rs.sinceDay,sh:rs.sinceH,r:G.flags.EXCHANGE_ROUTE})); }
+  { at(dl-1,25); const a=STORY.routeDue(G); G.day=dl; const b=STORY.routeDue(G);
+    check('10. routeDue 用絕對時間：11/17 的 G.hour 25（11/18 凌晨 1 點）還沒到；11/18 的 G.hour 25（11/19 凌晨）算過了', !a&&b, JSON.stringify([a,b])); }
+  check('10. game3d.js：主迴圈每一格（在「自由行動才走時間」那一段外面）、GM.advance、讀檔 migrate（ROM.rec 之後）都叫 STORY.routeWatch',
+    /if\(!E\.player\.busy&&!D\.active\)\{ G\.hour\+=dt\*GM\.hourRate;[^\n]*\n\s*if\(!GM\.titleIdle&&STORY\.routeWatch\) STORY\.routeWatch\(G\);/.test(g3)&&/function advance\(hours\)\{[^\n]*STORY\.routeWatch\(G\)/.test(g3)&&/ROM\.rec\(s\)[\s\S]*?STORY\.routeWatch\(s\)[\s\S]*?\n    s\.v=SAVE_VER; return s; \}/.test(g3));
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

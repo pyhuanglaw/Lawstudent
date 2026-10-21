@@ -67,4 +67,12 @@ if(typeof STORY.refreshSchedule==='function'){ at(23); const GM=mkGM(); let k=0;
   for(const i of w19) seated(GM,i); GM.E.player.obj.position={x:0,y:0,z:4.6};
   try{ STORY.refreshSchedule(GM); }catch(e){} const m1=cust(GM).length; try{ STORY.refreshSchedule(GM); }catch(e){} const m2=cust(GM).length;
   check('8. 要走的兩位疊在玩家身上（離玩家 0.6 m 內、門口 3.5 m 內）：下一輪就出門，店裡剩一位', m1===3&&m2===1, [m1,m2].join('→')); }
+// 9. 每一幀就檢查（BB-C 7f61112f：refreshSchedule 一輪在低幀率要十幾秒，客人疊在玩家身上 19 秒）：S.tick 一開始就叫 S.leaveTouch，碰到玩家（0.6 m 內、門口 3.5 m 內）當下出門
+if(typeof STORY.refreshSchedule==='function'){ const LT=STORY.leaveTouch||(()=>-1); at(23); const GM=mkGM(); GM.E.moveTo=(n,x,z,cb)=>{ n.obj.position.x=3; n.obj.position.z=1; return true; };   /* 起身以後還在店中間 */
+  for(const i of w19) seated(GM,i); GM.E.player.obj.position={x:0,y:0,z:4.6};
+  try{ STORY.refreshSchedule(GM); }catch(e){} const lv=cust(GM).filter(n=>n.leaving); const k0=LT(GM);
+  for(const n of lv){ n.obj.position.x=0.1; n.obj.position.z=4.3; }   /* 下一幀走到玩家身上（離出口 1.3 m）*/
+  const k1=LT(GM), left=cust(GM).length;
+  const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8');
+  check('9. 每一幀（S.tick）檢查：還在店中間＝不出門；走到玩家身上的那一幀就出門，店裡剩一位；S.tick 一開始就叫 leaveTouch', lv.length===2&&k0===0&&k1===2&&left===1&&/S\._sleeping\) return; S\.leaveTouch\(GM\);/.test(src), [lv.length,k0,k1,left].join('/')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
