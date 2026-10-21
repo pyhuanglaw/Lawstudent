@@ -296,7 +296,7 @@ SCENS = [
        steps=[('sleep',), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
   # US-H 回台灣：12/15 22:00（交往中）睡覺 → 12/16 離開、舊金山一週 → 12/21 23:55「飛回臺灣」→ 抵達 05:40 → 入境大廳（不是黑底）
   dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
-       steps=[('sleep',), ('ffloop', '2028-12-23', 5.8)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40'], cflags=['US_TRIP_DONE']),
+       steps=[('sleep',), ('ffloop', '2028-12-23', 5.8)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05'], cflags=['US_TRIP_DONE']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
 ]
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)

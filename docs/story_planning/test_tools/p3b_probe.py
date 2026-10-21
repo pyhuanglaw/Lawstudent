@@ -54,6 +54,11 @@ async def main():
             run.check('%s ② 沒開手機時通知條照舊在上面' % orient, r0['toastVis'] and r0['toast'][1] < r0['vh'] / 2, json.dumps(r0))
             if r2: run.check('%s ② 筆記本開著時通知條在下面' % orient, r2['menuOpen'] and r2['toast'][1] > r2['vh'] / 2, json.dumps(r2))
             run.check('%s ⑤ 超過 14 天的舊訊息不掛未讀（要回的另外算）' % orient, not old_unread, json.dumps(old_unread, ensure_ascii=False))
+            if orient == 'landscape':   # CG-APPROVED-MISSING-1021（4df34170）：兩張補接的 CG 登記了、圖讀得到（I：整合檢查；真的在劇情裡出現看 us_life 的 USH_home、尾聲另外跑）
+                cg = await pg.evaluate("""(async()=>{ const out={}; for(const k of ['cg_sf_bridge_fog_heroine05','cg_reunion_window_table']){ const r=(typeof CG_REGISTRY!=='undefined')&&CG_REGISTRY[k]; if(!r){ out[k]=null; continue; }
+                  const ok=await new Promise(res=>{ const im=new Image(); im.onload=()=>res([im.naturalWidth,im.naturalHeight]); im.onerror=()=>res(null); im.src=r.file; }); out[k]={file:r.file,title:r.title,size:ok}; } return out; })()""")
+                print('CG 登記：%s' % json.dumps(cg, ensure_ascii=False), flush=True)
+                run.check('CG-APPROVED-MISSING：BCG-48 與尾聲共通圖都登記、圖讀得到（I）', all(v and v.get('size') for v in cg.values()), json.dumps(cg, ensure_ascii=False))
             run.check('%s 沒有 JS 例外' % orient, not errs, json.dumps(errs[:3], ensure_ascii=False))
             try: await asyncio.wait_for(b.close(), 30)
             except Exception: pass
