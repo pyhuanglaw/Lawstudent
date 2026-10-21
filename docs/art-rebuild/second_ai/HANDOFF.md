@@ -595,7 +595,37 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 18:0x 進度（帳號 A LAWWW2；最新，蓋過下面 16:4x 那一節）
+### ▶▶ 10-21 20:0x 進度（帳號 A LAWWW2；最新，蓋過下面 18:0x、16:4x 那兩節）
+- **v9.10.3 已發布**（LAWWW 18:39，main `5b3f1023`），凍結結束。開發分支現在是 `a9da472a`；之後的 patch 都對它做。
+- **已整合進開發分支**（在 `a9da472a` 用 `git apply -R --check` 確認）：
+  - 黃昏調色預設開 `723d49a4` → 開發分支 `6d49e79c`；
+  - 203 鏡頭 `58fb6115` → `6313c019`；
+  - 校園停著的腳踏車 `49b26ecb` → `51740da7`。
+- **已交件、等整合**：下面的 patch 都對 `a9da472a` git apply 乾淨，單元測試在 `a9da472a` 上 ALL PASS。
+  - ART-Y1-BOX-MIRROR-1021：`86dd6d54`（只換 GLB `37884326`）。
+  - ART-02-GONGTONG-1021：`8b38e054`（patch `art02_gongtong_doors.diff`）。
+  - BUG-CAM-C208-1021：`76b3a0d5`（patch 第二版；`engine3d.js` 一行是 LAWWW 的檔）。78 號 PARTIAL。
+  - 以上三項 19:5x 傳給 LAWWW，狀態 DELIVERED，還沒收到 ACK。
+  - BACKLOG A7 小公園疊面：`1effaa35`（只換 `wz_park.glb`、`c53c3c6d`）。還沒傳訊息，和 3F 主球場一起傳。
+- **WIP：ART-GYM2-INT 第二輪**（遊戲內截圖抓到四個問題，都修了）：
+  - patch v3 `dec70791`；GLB：`gym_arena.glb` 三角形 51,926，`gym_interior.glb` 是拿掉紅龍那一版（已放到正式路徑）。
+  - `tests/gym_arena_unit.js` 第 11～15 項：修改前 FAIL、修改後 ALL PASS。
+  - 第一次重建時，門片被南看台後牆包在裡面，看不到。後牆已經開門洞，第 14 項加了「看得到門片」的檢查。
+  - 遊戲內重拍跑在背景：`$SP/arena3/after2`；修改前那組在 `$SP/arena3/before`。
+- **WIP：ART-ECON-3D-GAP-1021**：
+  - 四棟大門 `89655410`、博雅東側一樓 `0343b994`、椰林大道路燈 `fa34a418`。
+  - `campus_avenue_lamps.diff`：腳踏車已經整合，所以現在可以直接套在 `a9da472a` 上。
+  - 遊戲內前後對照跑在背景：`$SP/econfix/econ_fix_check.py`。
+  - 第一輪經濟系巡場景**作廢**：33 張全部被「新生座談」的對話蓋住。改過的腳本先把對話點完：`$SP/econ2/econ_patrol2.py`，排在 `$SP/econfix/run_all.sh` 最後。
+- **接下來**：
+  1. 交 ART-GYM2-INT、ART-ECON 三項修正；
+  2. 用重拍的巡場景寫 ART-ECON 缺口清單，接著修；
+  3. ART-WZ0；
+  4. US-MARKET-STREET（D99 美國）；
+  5. PERF-ZONE-ENTER-1018。
+- **磁碟**：剩 5.5 GB，scratchpad 用了 5.9 GB。
+
+### ▶▶ 10-21 18:0x 進度（帳號 A LAWWW2；被上面 20:0x 那一節取代）
 - **BB／LAWWW 已驗收或已整合**：
   - ART-BALCONY-POTS：BB PASS。
   - 203 膠帶＋壓平紙箱：BB FIXED。
