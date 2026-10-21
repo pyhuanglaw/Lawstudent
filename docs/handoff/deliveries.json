@@ -12775,6 +12775,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:3x：hometown_lines.js、r2y3a_events.js 照改；peishan_tainan_unit 加第 9 項（新句在、舊句不在）、r2y3a_events_unit 第 14 項改成那句不在；兩支 ALL PASS"
+  },
+  {
+   "id": "DL-LAWWW2-bf3ed802",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "bf3ed802",
+   "what": "SOC-COURT-1021 社科院中庭夜間光＋院系公告欄（ART-DIRECTOR-LAWWW2）：campus_socsci.glb 重新匯出（738341a8：14,140 三角形、15 材質、1.05 MB；門洞兩側重疊白牆拿掉、只剩加法光圈互相疊）＋zones3d.js ck_bell_wash 加 mt.fog=false（patches/soc_court_wire.diff）；前後截圖 test_shots/soc_court_1021_wip/（Playwright 手機橫向）",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）15:5x 換 GLB＋json、套 patch（git apply 乾淨）；socsci_place、nav_soclib、campus_public 單元全過；柱廊 wz_pillar_soc（8e8d130e）還在。BB 畫面驗收（中庭 15:00／20:00 三個位置、公告欄看得清楚、光圈不閃）。美術 READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [
