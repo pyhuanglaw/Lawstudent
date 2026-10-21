@@ -111,7 +111,9 @@ async def main():
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, base.get('G', base)); await pg.wait_for_timeout(6000); run.setup('讀 9/25 存檔')
+        ONLY = os.environ.get('ONLY', '')   # 2026-10-21：ONLY=dorm 只重拍 203（LAWWW2 膠帶字＋壓平紙箱 6437fcf6）；ONLY=gym 只拍體育館
         for nm, f in (('膠帶', dorm), ('體育館', gym)):
+            if ONLY and (('dorm' if f is dorm else 'gym') not in ONLY): continue
             try: await f(pg, run)
             except Exception as e: print('  ! 失敗：', e, flush=True); run.check('%s跑完' % nm, False, str(e)[:200])
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
