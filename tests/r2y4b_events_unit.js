@@ -200,9 +200,9 @@ const date=id=>H.date(id);
   { fresh('2029-05-28',15,'classroom',{CRIMPRO_HW:'done'}); memos.length=0; const it={c:{id:'legal_research'},exam:null};
     const r1=await S.journal(GM,it);
     check('J1 大三交過旁聽作業：5/28（第 15 週）那堂上完，日誌「法律專題研究的報告交了。你寫的是大三那次旁聽之後一直想的事。」；只寫一次', r1===true&&memos.includes('法律專題研究的報告交了。你寫的是大三那次旁聽之後一直想的事。')&&(await S.journal(GM,it))===false);
-    fresh('2029-05-28',15,'classroom'); memos.length=0; await S.journal(GM,it); const lr=COURSES.list?null:null;
-    const C=(COURSES.Y4S2||[]).concat(COURSES.list||[]).concat(Object.values(COURSES).filter(Array.isArray).flat()).find(c=>c&&c.id==='legal_research');
-    check('J2 沒交過：「法律專題研究的報告交了。」；大四下第 6 週沒有法院旁聽（courses.js 的 specials 拿掉 w6）', memos.includes('法律專題研究的報告交了。')&&!!C&&!(C.specials||[]).some(s=>s.w===6)&&(C.specials||[]).some(s=>s.w===7)); }
+    fresh('2029-05-28',15,'classroom'); memos.length=0; await S.journal(GM,it);
+    const C=COURSES.list.find(c=>c&&c.id==='legal_research'), itW=k=>(CLS.dayItems(H.G,D(k))||[]).find(x=>x.c.id==='legal_research'), b6=CLS.content(itW('2029-03-26')), b7=CLS.content(itW('2029-04-02')), b10=CLS.content(itW('2029-04-23'));
+    check('J2 沒交過：「法律專題研究的報告交了。」；AA_342 C1：大四下第 6、7 週都是一般的週（courses.js 的 specials 只剩 w10；syllabus 沒有那兩週；課堂沒有「法院旁聽」「旁聽之後」），第 10 週照舊回顧大一', memos.includes('法律專題研究的報告交了。')&&!!C&&JSON.stringify((C.specials||[]).map(s=>s.w))==='[10]'&&!SYLLABUS.courses.legal_research.some(w=>w.w===6||w.w===7)&&!/旁聽/.test(b6.board.join('')+b6.line)&&!/旁聽/.test(b7.board.join('')+b7.line)&&b10.board[0]==='回顧：大一的第一堂', JSON.stringify([b6.board,b7.board,b10.board[0]])); }
   /* ===== 2-Y4-42 學姊的生日（已在 AA_319 1A-14＝postgrad3d.js；這裡查 AA_327 的驗收點）===== */
   { fresh('2029-06-02',20.5,'dorm'); H.FRIEND('heroine_05'); H.said=[]; H.picks=[0]; await PG.bdayScene(GM,'outing');
     check('S1 朋友：「祐廷也來了。」；沒有「學弟也來了」；沒有條列；SIS_BDAY_Y4 there', has('祐廷也來了。')&&!H.said.some(s=>/學弟也來了/.test(s.t))&&!H.said.some(s=>/^(一|二|三)，/.test(s.t))&&H.G.flags.SIS_BDAY_Y4==='there');
