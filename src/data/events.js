@@ -2427,7 +2427,7 @@ const STORY_EVENTS=[
     const play=(id,title,bg,hours,dialogue,after)=>({ id, stage:'econ', title, participants:['kexin'], location:'any', trigger:'outing', once:id!=='ev_y0_rp', background:'dark', hours, dialogue,
       after:(G,GM)=>{ if(typeof EVENTS!=='undefined'&&EVENTS.habit) EVENTS.habit('retake:play'); if(after) after(G,GM); } });
     const rsLines=[]; [['「你又比我早起。……今天早餐我請。」'],['（她放下包包）','「你讀到哪了？……三章？我才讀到第二章。」'],['「你的螢光筆快沒水了。我這支先借你。」'],['「我帶了兩杯飲料。你那杯是賄賂：等一下讓我先問問題。」'],['（她把包包放下，先趴在桌上一下。）','「……好，我可以了。」']]
-      .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',text:narr?t:t.replace(/^「|」$/g,'')}); } });
+      .forEach((L,i)=>{ for(const t of L){ const narr=/^（/.test(t); rsLines.push({if:{custom:G=>{ const S=ST(); return !!S&&S.rsPick(G)===i; }},speaker:narr?null:'kexin',...(narr?{}:{expression:'smile'}),text:narr?t:t.replace(/^「|」$/g,'')}); } });
     const rpLines=[{if:{custom:G=>!!G.flags.RP_TXT},speaker:null,text:'{flag:RP_TXT}'}];   /* 出門前（beforeOuting）選好那一句 */
     return [
       study('ev_y0_r1','互相出題的第一天','r1',[ {speaker:null,text:'（她搬來的第一天。你媽端了一盤水果出來，放下就回廚房了。）'},{scene:'祐廷家・你的房間',bg:'home_room_day'},{speaker:'kexin',expression:'teasing',text:'如果憲法是一間餐廳，第七條是什麼菜？'},

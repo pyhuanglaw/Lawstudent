@@ -31,7 +31,7 @@ const R2Y3A_EVENTS=(function(){
      去過高雄（HV_N.kexin，含這一趟以前的一般「去她的縣市」）用 pickAgain。first／again 輪流那一套這一次不用（AA_326 第 6 節第 1 點）*/
   const KHL=(typeof HOMETOWN_LINES!=='undefined'&&HOMETOWN_LINES.kexin)||null;
   const khAgain=G=>!!(G.flags&&G.flags.HV_N&&(G.flags.HV_N.kexin|0)>0);
-  const pickLines=(P,cond)=>((P&&P.lines)||[]).map(x=>typeof x==='string'?{if:cond,speaker:'kexin',text:x}:{if:cond,speaker:null,text:x.narr});
+  const pickLines=(P,cond)=>((P&&P.lines)||[]).map(x=>typeof x==='string'?{if:cond,speaker:'kexin',expression:'neutral',text:x}:{if:cond,speaker:null,text:x.narr});
   const KH_A={ id:'ev_kexin_trip_summer_y2', title:'高雄的兩天', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5, kxAway:true,   /* hours：回程的高鐵；kxAway：最後她在閘門外，不接她的閒聊階梯 */
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) r.khPay(G,GM); },   /* 高鐵（2980）、旅館一晚 */
     dialogue:[ {scene:'左營站',bg:'kh_station'},
