@@ -52,7 +52,8 @@ const W=[5,6,7,10,11,12,13,14,15];   /* 16 週制：第 16 週期末，社課停
   fresh(dayOf('2026-02-10'),19.1); await CLS.roomDoor(GM,'wancai','multi',{look:LOOK});
   check('寒假（不是吉他社的學期）：照舊是門鎖著',!chose.length&&caps[0]===LOOK,caps[0]);
   fresh(monOK+1,19.1); await CLS.roomDoor(GM,'wancai','seminarA',{door:'wancai_seminar'});
-  check('週二按研討室 A 的門：先寫法服讀書會的時間＋今天沒有社課，後面照舊是研討室的說明和今天的課',!chose.length&&/^法服讀書會：每週三 19:00–21:00，萬才館 研討室 A（第 5 週起）。今天沒有社課。研討室 A：/.test(caps[0]||''),caps[0]);
+  check('週二按研討室 A 的門：法服讀書會已經停用（AA_218 17-4），不寫它的時間（AA_372 第 1 項：原本「法服讀書會：每週三 19:00–21:00，萬才館 研討室 A（第 5 週起）。今天沒有社課。」）；同一間別的讀書會（公法讀書會，週四）照寫，後面照舊是研討室的說明和今天的課',!chose.length&&/研討室 A：萬才館二樓的小教室/.test(caps[0]||'')&&!/法服|每週三/.test(caps[0]||''),caps[0]);
+  { const l0=ACTIVITIES.list.find(a=>a.id==='lawclub_study'); check('AA_372 第 1 項：博覽會選單、填表後那句的法服時間是「隔週週六上午，萬才館一樓（法律服務）」，不是停用的週三讀書會',CLS.clubWhen(l0)==='隔週週六上午，萬才館一樓（法律服務）'&&CLS.clubWhen(ACTIVITIES.list.find(a=>a.id==='club_guitar'))!=='隔週週六上午，萬才館一樓（法律服務）',CLS.clubWhen(l0)); }
   { const ev=STORY_EVENTS.find(e=>e.id==='ev_kai_mentions_ziqing'), g=ev&&ev.dialogue.find(d=>d.choice).choice[0].consequences.goal;
     check('阿凱轉述子晴、問「什麼時候？」的目標：「吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室」（AA P2；原本「萬才館」沒寫哪一間、沒寫第 5 週起）',g==='吉他社：第 5 週起，週一、週三 19:00，萬才館一樓多功能教室',g);
     const i=ev.dialogue.findIndex(d=>d.label==='when'), line=ev.dialogue[i+1]&&ev.dialogue[i+1].text;   /* f99f664 只改了目標、阿凱這句沒改到（還寫「萬才館旁邊的社辦」），2026-10-14 補上 */

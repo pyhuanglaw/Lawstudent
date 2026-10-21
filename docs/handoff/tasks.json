@@ -27577,6 +27577,27 @@
    "source": "BB（帳號 A）2026-10-21 19:27 回報（BB 分支 92b09097 BB_218，P3 只記錄）",
    "authorized": "D110（LAWWW 自己領域）",
    "next": "查提示和 2D 對話的層級／時間：對話進行中的錢的提示延到對話結束、或放進對話框上方；不影響流程"
+  },
+  {
+   "id": "AA372-Y1S1-FIX-1021",
+   "title": "AA_372 法律系大一上「知道太早／重複／作廢設定」修正（企劃線 da456892）：高 3 項（1 社團博覽會法服小字是作廢的週三讀書會時間、2 Kevin 9/4 家族群組又自我介紹、3 芯慈／柏翰／明軒三個事件沒有 once 每 2～3 天重演）、中 8 項（4～11）、低（12～）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "2025-08-31 法律系開學（社團博覽會、9/4 家族群組）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 19:32 交（企劃線 da456892，BACKLOG-SWEEP-AA-1021；子代理盤點 b72960bf、AA 核過）",
+   "authorized": "D109（AA 劇情自己定）、D110",
+   "next": "第 1 項 LAWWW 先做；其餘照 AA_368～AA_370 的做法開子代理整份做（AA_370 子代理在跑，CPU 空出來再開）"
   }
  ]
 }

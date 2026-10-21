@@ -375,7 +375,8 @@ const CLS=(function(){
   /* 社團博覽會（AA_110 6-8 (b)，AA 暫定）：椰林大道上的公告欄，選單列五個社團，選了就加入（CLUB_<id>；法服另外記 lawclub）；已經加入的寫「已加入」。
      開放時間（11:00–17:00）以外按：寫幾點開始／今天收了。沒去博覽會的玩家，第一次去社課也算加入（6-3）*/
   const WDN=['日','一','二','三','四','五','六'];
-  S.clubWhen=function(c,termId){ const wds=c.weekdays||(c.weekday?[c.weekday]:[]); const w0=((termId&&c.termWeeks&&c.termWeeks[termId])||c.weeks||[])[0]; return (wds.length?'每週'+wds.map(d=>WDN[d]).join('、')+' ':'')+hhmm(c.t0)+'–'+hhmm(c.t1)+(c.roomName?'，'+c.roomName:'')+(w0>1?'（第 '+w0+' 週起）':''); };
+  S.clubWhen=function(c,termId){ if(c&&c.whenText) return c.whenText;   /* whenText：時間地點不照課表寫（法服，AA_372 第 1 項）*/
+    const wds=c.weekdays||(c.weekday?[c.weekday]:[]); const w0=((termId&&c.termWeeks&&c.termWeeks[termId])||c.weeks||[])[0]; return (wds.length?'每週'+wds.map(d=>WDN[d]).join('、')+' ':'')+hhmm(c.t0)+'–'+hhmm(c.t1)+(c.roomName?'，'+c.roomName:'')+(w0>1?'（第 '+w0+' 週起）':''); };
   S.fairMenu=async function(GM,a){ const G=GM.G, h=hr(G), F=G.flags||(G.flags={});
     if(!ACTIVITIES.on(a,G.day,G)||h<a.t0||h>=a.t1){ GM.caption('',a.title+'：'+(!ACTIVITIES.on(a,G.day,G)?'':h<a.t0?'今天 '+hhmm(a.t0)+' 開始。':'今天的攤位收了。')+(a.desc||''),4200); return 0; }
     if(!ACTIVITIES.attendedAny(G,a.id,G.day)) ACTIVITIES.markAttended(G,a);   /* 去過博覽會（出席紀錄：之後的事件可以用 attended）*/
@@ -422,7 +423,7 @@ const CLS=(function(){
     const later=acts.find(q=>h<q.t0-0.25&&!ACTIVITIES.attended(G,q.id,G.day)), went=acts.find(q=>ACTIVITIES.attended(G,q.id,G.day));
     if(later||went){ GM.caption('',later?later.title+'：今天 '+hhmm(later.t0)+' 在這裡（開始前 15 分鐘可以進去）。':'今天的「'+went.title+'」你參加過了。',3600); return; }
     /* 這學期這一間有社課、今天沒有（AA 2026-10-13 P2：吉他社在多功能教室，週二去門口只看到「門鎖著」，不知道什麼時候來）：寫社課的時間＋「今天沒有社課。」；研討室 A 的課照舊接在後面 */
-    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, club=T&&typeof ACTIVITIES!=='undefined'?ACTIVITIES.list.find(q=>q.zone===zone&&q.room===room&&q.kind==='club'&&(!q.term||q.term.includes(T.id))):null;
+    const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, club=T&&typeof ACTIVITIES!=='undefined'?ACTIVITIES.list.find(q=>q.zone===zone&&q.room===room&&q.kind==='club'&&!(typeof q.skip==='function'&&q.skip(G))&&(!q.term||q.term.includes(T.id))):null;   /* 停用的社團（skip：法服讀書會，AA_372 第 1 項）不寫時間 */
     const td=acts.find(q=>h>=(q.t0+q.t1)/2);   /* 今天有、但已經過了一半（canJoin 到一半為止）或結束了：不能說「今天沒有社課」*/
     const note=club?club.title+'：'+S.clubWhen(club,T&&T.id)+'。'+(td?(h<td.t1?'今天的社課已經過了一半，下次再來。':'今天的社課已經結束了。'):'今天沒有社課。'):'';
     if(o.door) return S.doorInteract(GM,o.door,note?{pre:note}:undefined);
