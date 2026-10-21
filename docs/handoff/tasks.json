@@ -21348,9 +21348,9 @@
    "authorized": "AA 定稿（D100）；使用者 10-20 15:4x B 線",
    "id": "EVPKG-R2Y4-1020",
    "title": "第 2 輪之三：大四到尾聲 61 件（2-Y4-01～55＋AA 補的 56～61：美國路線大峽谷、學姊在美國的訊息視訊與大峽谷告白、律師讀書小組、可昕 K27、學姊放榜那句、沛珊大四下期末飯）",
-   "status": "進行中",
+   "status": "已整合待測試",
    "source": "AA_327（b6757852；AA-C；使用者 10-20 15:4x B 線）",
-   "next": "【LAWWW-C 2026-10-20 20:1x UTC】01～29（美國 US1～US4 先做）、31～61 兩個子代理（r2y4a／r2y4b）20:0x 開工 ｜ 第 1 輪之後；2-Y4-47 後半芷若「延後的回答」是 PROPOSAL 等使用者，不做；AA_319 三處更正已轉給做 1A-13～20 的那一批",
+   "next": "【LAWWW-C 2026-10-21 08:3x UTC】前半 01～29 合併 2de80e7f（af355cc1，fcfa0bd4；r2y4a 155 項）、後半 31～61 合併 6bfc6598（a920c0ef，bd49257b；r2y4b 192 項＋J3）；30 作廢；BB 清單 bb_checklists/BB_R2Y4_1021.md；待問 AA 見 AA_QUESTIONS_1021.md F、G 節；美國的三門課、秋假以外的美國學期由 US-LIFE-AA340 子代理做 ｜ 【LAWWW-C 2026-10-20 20:1x UTC】01～29（美國 US1～US4 先做）、31～61 兩個子代理（r2y4a／r2y4b）20:0x 開工 ｜ 第 1 輪之後；2-Y4-47 後半芷若「延後的回答」是 PROPOSAL 等使用者，不做；AA_319 三處更正已轉給做 1A-13～20 的那一批",
    "first": {
     "term": "Y4S1",
     "week": null,
@@ -21536,8 +21536,8 @@
    },
    "id": "ART-ROOM-MULTI-1020",
    "title": "萬才館多功能教室和霖澤館 202 長得一樣：照 AA_330 旁白「椅子是可以移動的那種，大家坐得比在 201 鬆」改成可移動的單人課桌椅或分組桌、木地板或方塊地毯、投影幕、牆邊疊起來的椅子；座位數不少於現在、layout.json 格式照舊（room multi）",
-   "status": "待開工",
-   "next": "截圖 00（202）、01（多功能教室）幾乎一樣"
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 08:3x UTC】合併 76cf1bd8（a4861712，d4512b7e）：202 長桌版生活感、多功能教室單人桌＋塑膠椅；seatcheck 修掉 reachability 陷阱；READY_FOR_ART_REVIEW；BB 清單 bb_checklists/BB_HOLFF_ROOMS_1021.md 第二節；201 沒動 ｜ 截圖 00（202）、01（多功能教室）幾乎一樣"
   },
   {
    "area": "V1",
@@ -21564,14 +21564,14 @@
    },
    "id": "ART-ROOM-LIFE-1020",
    "title": "霖澤館 202、萬才館多功能教室（和 201）的生活感：幾張椅子上有書包、桌上筆記本或講義、牆上時鐘、公告欄（傳單虛構）、窗簾、冷氣、投影機；地板材質有一點變化",
-   "status": "待開工",
-   "next": "截圖 00、01：桌椅乾淨但太空"
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 08:3x UTC】合併 76cf1bd8（a4861712，d4512b7e）：202 長桌版生活感、多功能教室單人桌＋塑膠椅；seatcheck 修掉 reachability 陷阱；READY_FOR_ART_REVIEW；BB 清單 bb_checklists/BB_HOLFF_ROOMS_1021.md 第二節；201 沒動 ｜ 截圖 00、01：桌椅乾淨但太空"
   },
   {
    "id": "CG-BATCH2-1020",
    "title": "CG 第二批：cg_approved/ 裡 BB 通過、還沒登錄的約 45 張全部登錄（事件已在遊戲裡的插在 README 寫的那一拍）＋尾聲 CG-10 窗邊長桌照 BB 試合成參數合成 8 張（kai、以安、芷若、語彤、子晴、學姊、可昕、沛珊）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y2S1",
@@ -21583,7 +21583,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
+   "next": "【LAWWW-C 2026-10-21 08:0x UTC】合併 5e675a33（子代理 ab24dd21，9426940b）：40 張登錄＋CG-10 八張合成；新插 CG-19、BCG-30、CG-21；BB 看圖清單 bb_checklists/BB_CG_BATCH2_1021.md；問 AA 4 題（AA_QUESTIONS_1021.md E 節）；跟使用者要 BCG-31 夏天版、CG-10b 語彤的傘圖層（BB）｜ 【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
    "src": "docs/story_planning/cg_approved/README.md（企劃線 558ccff8）"
   },
   {
@@ -21609,7 +21609,7 @@
    "id": "HOL-FF-AA340-1020",
    "title": "寒暑假快轉（AA_340 第 6 節）：H2 有要回的訊息就停、打開手機（邀約不被跳掉）；H1 大四寒假停點＋事件登記的日子一定停、除夕初一一定停（大三寒暑假的表由 AA_326 第 3 節那個子代理填，主線 9 ev_family_land_y3 1/26）；H3 大二以後朋友回老家、回臺北訊息；6-3 空白週摘要日旁白與群組",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P0",
    "first": {
     "term": "Y1S1",
@@ -21621,7 +21621,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-20 20:4x UTC】子代理開工；大三的停點另轉給 R2Y3 後半的子代理",
+   "next": "【LAWWW-C 2026-10-21 08:3x UTC】合併 92030b76（a1201e34，3dba18b5；holiday_ff_unit 48 項，舊程式 42 項失敗）：H2、H1、H3、6-3；BB 清單 bb_checklists/BB_HOLFF_ROOMS_1021.md；待問 AA 見 AA_QUESTIONS_1021.md H 節；6-2 開發分支還缺的清單在子代理回報（大一暑假 KH、七夕、C09…；多數已由 R2Y3、R2Y4 補上，下一輪對一次） ｜ 【LAWWW-C 2026-10-20 20:4x UTC】子代理開工；大三的停點另轉給 R2Y3 後半的子代理",
    "src": "AA_340 第 6 節（企劃線 171b62fb）；使用者 D99 第二優先"
   },
   {
@@ -21696,6 +21696,25 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "PS-TAINAN-AA282",
+   "title": "沛珊大三起在台南（AA_282 第 5 節＋AA_342 C2）：presence 台南／台中、拿掉大三起的臺北作息與 D08（Y3S2、Y4S2）／D20 偶遇、放榜後的重新聯絡訊息、邀約目的地台南／台中（沒交往不開視訊）、閒聊階梯 context:date、學期末心意邀約改台南（大四下不來畢業典禮、7/14 在台中）、缺的台南背景",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "企劃線 AA_282（第 5 節）、AA_342 C2（c56d4241）、AA_314 §4-5",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "2027-08-06 放榜以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
   }
  ]
 }

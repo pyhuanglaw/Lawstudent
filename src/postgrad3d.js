@@ -188,8 +188,10 @@ const PG=(function(){
     if(partner){ await S.play(GM,M.partner); const k=await GM.choose(M.opts.map(o=>({t:o.t}))); await S.play(GM,(M.opts[k]||M.opts[0]).say); }
     if(A&&A.setBg) A.setBg(BG('graduation_avenue'));   /* 離開 CG-9 那一拍 */
     if(typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('heroine_01',M.mem.tag,M.mem.note); };
-  S.yt17=async function(GM){ const G=GM.G, Y17=L().YT17; await S.play(GM,Y17.lines); const d=S.dating(G,'heroine_03'), other=!d&&S.partners(G).length>0;
-    await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?Y17.other:Y17.friend)); };
+  S.yt17=async function(GM){ const G=GM.G, Y17=L().YT17, A=adv(); await S.play(GM,Y17.lines); const d=S.dating(G,'heroine_03'), other=!d&&S.partners(G).length>0;
+    const cg=!!(d&&Y17.cgDating&&A&&A.cg&&A.cg(Y17.cgDating));   /* CG-21 一把傘（交往中那一句；沒登錄的圖＝不顯示）*/
+    await GM.say(S.who(G,'heroine_03'),d?Y17.dating:(other?Y17.other:Y17.friend));
+    if(cg&&A.setBg) A.setBg(BG('graduation_avenue')); };   /* 離開 CG-21 那一拍 */
   S.zrVideo=async function(GM){ const G=GM.G, F=G.flags; if(!S.dating(G,'heroine_02')||F.PG_ZR_VIDEO) return false; F.PG_ZR_VIDEO=true; await S.play(GM,L().PARTNER.heroine_02.video); return true; };   /* 芷若（在英國）：典禮開始前視訊（BB_99 第 6 節）*/
   S.beforeLawCeremony=async function(GM,bg){ const G=GM.G, A=adv(); if(!S.dating(G,'heroine_02')||G.flags.PG_ZR_VIDEO) return false; toAtLeast(GM,S.gradDay()*24+10.5);   /* 1A-12 家人那一段裡：校級典禮完、法律學院典禮（11:00）以前，這裡 10:30＝英國凌晨三點多 */
     if(A) A.begin({background:BG('video'),right:{charId:'heroine_02',expression:'smile'}}); await S.zrVideo(GM); if(A&&bg) A.begin({background:bg}); return true; };   /* 演完換回家人那一段的背景 */
@@ -220,10 +222,11 @@ const PG=(function(){
       if(A) A.begin({background:BG('graduation_avenue')}); await GM.fade(false);
       await S.play(GM,Lx.PHOTO.open); if(S.at(G,'heroine_03','FAMILIAR')) await S.play(GM,Lx.PHOTO.yt); await S.play(GM,Lx.PHOTO.hat);   /* ① 大合照 */
       F.GRAD_PHOTO=S.CLASS.filter(id=>S.at(G,id,'FAMILIAR')).concat(S.at(G,'heroine_03','FAMILIAR')?['heroine_03']:[]);
-      const shown=new Set(); for(const id of S.PARTNER_ORDER) if(partners.includes(id)){ await S.partnerBeat(GM,id); shown.add(id); }   /* ② 伴侶永遠是大合照之後的第一個 */
+      const ps=S.PARTNER_ORDER.filter(id=>partners.includes(id)), shown=new Set(ps); if(ps[0]) await S.partnerBeat(GM,ps[0]);   /* ② 伴侶永遠是大合照之後的第一個；兩位以上（AA_327 2-Y4-54，U5）：分開演，第二位起在 ⑥ 其他人之前，不演被發現 */
       if(!shown.has('heroine_01')&&!S.isEx(G,'heroine_01')&&S.at(G,'heroine_01','FRIEND')) await S.mother(GM,false);   /* ③ 新 21 */
       if(!shown.has('heroine_05')&&S.sisOk(G)) await S.thermos(GM);   /* ④ W15 */
       if(!shown.has('heroine_03')&&!S.isEx(G,'heroine_03')&&S.at(G,'heroine_03','FRIEND')) await S.yt17(GM);   /* ⑤ 事件 17 */
+      for(const id of ps.slice(1)) await S.partnerBeat(GM,id);
       if(!shown.has('heroine_04')&&!S.isEx(G,'heroine_04')&&S.at(G,'heroine_04','FRIEND')) await S.play(GM,Lx.OTHERS.heroine_04);   /* ⑥ */
       if(!S.isEx(G,'classmate_mingxuan')&&S.at(G,'classmate_mingxuan','FAMILIAR')){ await S.play(GM,Lx.OTHERS.mingxuan); if(has('classmate_mingxuan','SAW_HIM_STUDY')) await S.play(GM,Lx.OTHERS.mingxuanSaw); }
       await S.play(GM,Lx.OTHERS.kai);
@@ -371,9 +374,11 @@ const PG=(function(){
       const ec=S.econLine(G); if(ec) await GM.say(S.who(G,'econ_zhengxun'),ec.line);   /* 經濟系那桌 */
       for(const id of S.EX_ORDER) if(S.isEx(G,id)){ const ln=S.exLines(G,id,!!(ec&&ec.far)); if(ln) await S.play(GM,ln); }   /* 前任：店的另一頭，起身經過時 */
       if(A&&A.cg) A.cg(S.epiCg(G));   /* ③ CG-10 */
+      for(const f of S.EPI_AFTER_CG) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-54：空著的座位那一句；src/r2y4b3d.js）*/
       const al=S.epiAlways(G); if(al) await GM.say(S.who(G,al.id),al.t);   /* ④ */
       await GM.say(S.who(G,'me'),E.last[S.path(G)]);   /* ⑤ */
       for(const t of S.epiItems(G)) await GM.say(null,t);   /* ⑥ */
+      for(const f of S.EPI_AFTER_ITEMS) await f(GM);   /* 事件包的掛勾（AA_327 2-Y4-55：美國路線何俊朗的訊息；src/r2y4b3d.js）*/
       await GM.say(null,E.end);   /* ⑦ */
       ok=true;
     } finally { if(A&&A.active) A.end(); if(ok){ await GM.fade(true); if(GM.titleCard) await GM.titleCard(E.title,'',3200); } GM.sceneEnd(); }
@@ -414,6 +419,7 @@ const PG=(function(){
   /* ---------- 跳到下一件事 ---------- */
   S.SOFT=[['2029-06-02',22],['2029-06-28',10]];   /* 別一批的固定時間（1A-12 晚上大伯的信封、1A-15 宿舍期滿）：停一下，讓那邊的程式有機會演 */
   S.stops=[];   /* 其他模組可以加：G=>絕對時間（小時）或 null */
+  S.EPI_AFTER_CG=[]; S.EPI_AFTER_ITEMS=[];   /* 尾聲的掛勾（async GM=>…）：③ CG-10 之後、⑥ 桌上的東西之後（⑦ 最後畫面之前）*/
   S.nextStop=function(G){ const now=NOW(G); let best=Infinity; const cand=t=>{ if(t!=null&&t>now+1e-6&&t<best) best=t; };
     for(const {t} of S.pending(G)) cand(t);
     if(typeof PHONE!=='undefined'){ for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const t=T(m.at[0],m.at[1]); if(t<=now+1e-6||t>=best) continue; let ok=false; try{ ok=!!m.cond(G); }catch(e){} if(ok) cand(t); }
