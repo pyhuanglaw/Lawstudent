@@ -21,7 +21,7 @@ const R2Y4B_EVENTS=(function(){
   const SAW={any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY'}]}]};
   return [
   /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝小語拍；交往中＝兩個人入鏡（CG-18）---------- */
-  { id:'ev_azalea_y4', title:'四年，四張', participants:['heroine_01'], location:'campus', trigger:'auto', once:true, background:'blur',
+  { id:'ev_azalea_y4', title:'杜鵑花第四張', participants:['heroine_01'], location:'campus', trigger:'auto', once:true, background:'blur',
     prereq:{custom:(G,GM)=>{ const r=R(); return !!r&&r.azaleaDue(G,GM); }},
     dialogue:[ {if:{custom:G=>R().azaleaNow(G)==='two'},goto:'two'},
       {if:{custom:G=>R().azaleaNow(G)==='yu'},goto:'yu'},
