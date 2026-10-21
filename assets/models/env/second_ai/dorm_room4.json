@@ -1,10 +1,10 @@
 {
- "objects": 125,
- "unique_meshes": 125,
- "tris": 18308,
- "tris_drawn": 18308,
- "materials": 40,
- "out": "assets/models/env/second_ai/dorm_room4.glb",
- "bytes": 1219652,
+ "objects": 124,
+ "unique_meshes": 124,
+ "tris": 18296,
+ "tris_drawn": 18296,
+ "materials": 39,
+ "out": "../../../tmp/claude-0/-home-user-Lawstudent/2ec5981f-0474-5329-8b76-bb65d93e5c0b/scratchpad/dormroom/dorm_room4.glb",
+ "bytes": 1218300,
  "texres": 512
 }

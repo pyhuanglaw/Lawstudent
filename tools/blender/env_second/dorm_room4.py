@@ -238,9 +238,6 @@ bd = wm('bath_w', 'bdoor'); bd.box(bx0 - 0.02, bx0 + 0.02, 0.01, bdh - 0.01, d0 
 for y0, y1 in ((0.3, 0.95), (1.15, 1.85)): bd.box(xo - 0.008, bx0 - 0.02, y0, y1, d0 + 0.12, d1 - 0.12)
 for i in range(6): wm('bath_w', 'black').box(xo - 0.008, bx0 - 0.02, 0.06 + i * 0.03, 0.075 + i * 0.03, d0 + 0.2, d1 - 0.2)
 bch = wm('bath_w', 'chrome'); bch.cyl((bx0 - 0.02, 1.0, d0 + 0.1), (xo - 0.05, 1.0, d0 + 0.1), 0.025, seg=10); bch.cyl((xo - 0.05, 1.0, d0 + 0.1), (xo - 0.065, 1.0, d0 + 0.23), 0.011, seg=6)
-# 頂板（ART-ECON-3D-GAP-1021，LAWWW2 2026-10-21）：原本隔間沒有頂，跟隨鏡頭在牆上面往下看，一進房間畫面右邊四成是洗手間的灰磁磚地板、
-# 浴簾桿（經濟系 412 每天早上的第一個畫面，巡場景）。蓋一片白色頂板在隔間牆上面（材質 seethru_：玩家走進洗手間、頂板擋住人時網點透空）
-Mesh('BATH_LID', L.flat('seethru_dorm_bath_lid', '#f1f0eb', rough=0.6)).box(bx0 - bt / 2, X1 - 0.05, H + 0.012, H + 0.03, bz0 - bt / 2, Z1 - 0.05).finish(root, uv=False)
 # 裡面（鏡頭進到洗手間時看得到）
 bi0, bi1, bj0, bj1 = bx0 + bt / 2, IX1, bz0 + bt / 2, IZ1
 Mesh('dorm_bath_floor', M['tile_f']).box(bi0, bi1, 0.0, 0.015, bj0, bj1).finish(root)
