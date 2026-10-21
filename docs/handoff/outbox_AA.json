@@ -1099,6 +1099,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "AA_368 實作後五題（維持 1、延期 1、改字 3）＋新體育館主球場兩個「看」"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "da456892",
+   "files": [
+    "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 整份做（程式＋改字）",
+   "next": "LAWWW 開 AA372-Y1S1-FIX-1021（第 1 項可先做）／BB 驗（檔內第 5 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系大一上：高 3、中 8、低 7；法服週三讀書會的時間還顯示在博覽會選單"
   }
  ],
  "items": [
