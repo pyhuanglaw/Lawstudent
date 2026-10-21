@@ -830,6 +830,18 @@
    "not_seen": "iPhone；可昕以外的人物沒有逐一量",
    "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md BUG-ADV-EXPR-RACE-1021 節",
    "tool": "docs/story_planning/test_tools/kx_expr_probe.py"
+  },
+  {
+   "id": "BUG-ECON-OCT-ALLOWANCE-1021",
+   "to": "LAWWW",
+   "at": "2026-10-21T19:3xZ",
+   "status": "SENT",
+   "verdict": "FIXED",
+   "after": "b72960bf：經濟系天天睡覺從新遊戲到 2025-09-02；10 月（宿舍）+30,000、11～8 月每月 +5,000（5＋6 月在 6/8 一起看到 +10,000）、法律系 9 月 +30,000；2/14、6/8 沒扣",
+   "also": "可昕表情 125 句 0.45 秒時全對（摘要的 42 句是 1.5 秒後看到下一句的圖）；12/13 生活費提示被 2D 對話蓋住（P3，只記錄）",
+   "not_seen": "iPhone；經濟系其他三種玩法這一版沒重跑",
+   "record": "docs/story_planning/BB_218_瀏覽器實測紀錄.md BUG-ECON-OCT-ALLOWANCE-1021 節",
+   "tool": "docs/story_planning/test_tools/qa_play.py MODE=sleep"
   }
  ]
 }

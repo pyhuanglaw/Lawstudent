@@ -123,6 +123,10 @@ async def main():
         print('床的選單 %d 次：' % len(beds)); [print('   %s %5.2f %s' % (k, h, ' / '.join(o))) for k, h, o in beds]
         print('手機自己打開 %d 次' % phone_auto)
         print('問題：'); [print('   -', x) for x in problems]
+        # 2026-10-21 BB（帳號 A）：AA_368 H3（2/8 23:00 可昕「我把高三的講義翻出來了。」、沒有選項）、H4／M7（7/10～7/26）——收到的訊息全部存 msgs.json，可昕那兩段印出來
+        msgs = await pg.evaluate("(GAME.G.msgs||[]).map(m=>({d:CALENDAR.dateOf(m.day).key, h:m.h!=null?m.h:(m.hour!=null?m.hour:null), from:m.from||'', text:String(m.text||''), ask:!!m.ask, tag:m.tag||''}))")
+        json.dump(msgs, open(os.path.join(OUT, 'msgs.json'), 'w'), ensure_ascii=False, indent=1)
+        print('可昕的訊息（2/1～2/14、7/10～7/26）：'); [print('   %s %s %s%s' % (m['d'], m['h'], m['text'][:60], '（有選項）' if m['ask'] else '')) for m in msgs if m['from'] == 'kexin' and ('2025-02-01' <= m['d'] <= '2025-02-14' or '2025-07-10' <= m['d'] <= '2025-07-26')]
         run.check('玩到 8/30 第一次去政大（E37 演完）', g['e37'], json.dumps(g, ensure_ascii=False))
         run.check('沒有卡住超過 4 分鐘', stuck == 0, str(stuck))
         run.check('沒有用到卡住保險', g['fb'] == 0, str(g['fb']))
