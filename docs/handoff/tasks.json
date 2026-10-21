@@ -28132,7 +28132,7 @@
    },
    "source": "企劃線 AA_378（f2de8d1c）；AA（帳號 A）10-21 22:53 訊息；使用者 22:5x「學姊才是真正的女主角」（USER_WANTS C25）",
    "authorized": "D109 AA 劇情自主；D110",
-   "next": "【LAWWW（帳號 A）2026-10-21 23:1x UTC】第 1 節 S1～S4 做好（r2y4b3d.js saWeekly／saChecks／SA_X、r2y4b_events.js ev_sis_video、r2y4a3d.js y4_push_note、r3_events.js／r3_3d.js「同上。」、termend3d.js dinnerDay＋eveningBusy）：「到了。」8/3 07:00、T1／T2 兩週一則不輪播、X0～X5（過期＝最早那天後兩週，AI 解讀、已問 AA）、T3 視訊臺灣週日 10:00（她那邊週六晚上）、三組用完只剩旁白、「你去吃早餐。」；tests/aa378_sis_unit.js 20 項（修改前 16 項 FAIL）、r2y4b_events_unit 改新排法；相關 32 支全過。剩 S5、第 2～4 節（等 y3／Y2 子代理交回）。BB：照 AA_378 第 7 節測（T1、T2、T3 跑 8/3～12/18；週日 10:00 視訊；2/3 同上；12/20 答應接機期末飯不在 12/23） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
+   "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】AA 23:11 確認過期規則（兩週內），X0 放寬四週（到 10/8，T2 的玩家 10/2 收得到）；X0「臺灣」（8f138c5b）；測試讀稿改 8f138c5b ｜ 【LAWWW（帳號 A）2026-10-21 23:1x UTC】第 1 節 S1～S4 做好（r2y4b3d.js saWeekly／saChecks／SA_X、r2y4b_events.js ev_sis_video、r2y4a3d.js y4_push_note、r3_events.js／r3_3d.js「同上。」、termend3d.js dinnerDay＋eveningBusy）：「到了。」8/3 07:00、T1／T2 兩週一則不輪播、X0～X5（過期＝最早那天後兩週，AI 解讀、已問 AA）、T3 視訊臺灣週日 10:00（她那邊週六晚上）、三組用完只剩旁白、「你去吃早餐。」；tests/aa378_sis_unit.js 20 項（修改前 16 項 FAIL）、r2y4b_events_unit 改新排法；相關 32 支全過。剩 S5、第 2～4 節（等 y3／Y2 子代理交回）。BB：照 AA_378 第 7 節測（T1、T2、T3 跑 8/3～12/18；週日 10:00 視訊；2/3 同上；12/20 答應接機期末飯不在 12/23） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
   },
   {
    "id": "SIS-LEAD-1021",
@@ -28266,6 +28266,27 @@
    "source": "使用者 2026-10-21 23:2x 直接對 LAWWW（UA-LAWWW-1021-10；USER_WANTS D55）",
    "authorized": "使用者直接定",
    "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】invites3d.js：S.autoStart（INV.tick）——約好的時間（前 15 分鐘～後 30 分鐘）、你在約定的區域、她也在（含舊的 sis 別名）＝直接開始；S.startTogether：有座位的地方（總圖、Café、麵店、茶館、早午餐）兩個人一起坐下（淡出淡入）再演 S.meet、演完你站起來；S.flow：已經在那個地方當面約「現在一起過去」＝直接開始，不變成跟著走；S.arrive：一起走到了直接開始（取代 10-16 的「她先坐下、你坐到旁邊或說話才開始」）；同行時走進宿舍（dorm、dorm_*、fdorm）或回臺北的家＝作罷。tests/inv_both_present_unit.js（修改前 6 項 FAIL；照使用者存檔 fatiao3d_save_day8_1.json 的 iv6 重現）、invites_unit 舊流程那 5 項改新規則；約會相關 234 支全過。BB：用使用者的存檔（第 7 天晚上總圖）重走一次；flow_invite_phone.py 第 94～96 行「自己走到阿哲旁邊」會被自動開始搶先，要照新規則改 ｜ invites3d.js：約好的時間、兩人都在約定的區域＝自動開始；當面約在約定地點不變成同行；同行到不相干的地方（宿舍、回家）結束（BUG-SIS-STUDY-COMPANION-1021）"
+  },
+  {
+   "id": "AA380-RENAME-ALISON-1021",
+   "title": "小語改名 Alison（使用者 10-21 23:2x 對 AA：「不要有小語這個角色吧 我一直以為是陳語彤」「改成Alison」）：所有人叫她 Alison；中文全名李語晴、id yu、劇情、和阿哲交往不變；Alison 和中文字之間半形空格、挨標點不空；開發分支 src／tests／tools 一次改；匯入工具共用處加換字；回歸測試：會顯示的字串沒有「小語」；立繪、模型檔名 yu_* 不改",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次見到小語（Alison）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "企劃線 AA_380（eb0ccfec）；AA（帳號 A）10-21 23:20 訊息；使用者 23:1x～23:2x（經 AA）；USER_WANTS C26",
+   "authorized": "使用者直接定（人物設定）",
+   "next": "等四個子代理（y1b、aa374、y3、date2）交回合併完一次改（它們正在改同一批檔案）；改完全部單元測試＋一支掃「小語」的回歸測試"
   }
  ]
 }
