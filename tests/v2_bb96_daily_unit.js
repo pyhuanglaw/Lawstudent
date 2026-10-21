@@ -44,7 +44,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('芷若（單身）：「今天有客人點熱可可加濃縮欸」「我還以為只有我會這樣喝」（AA_209）；拉花照片沒有字',T('p:heroine_02').includes('今天有客人點熱可可加濃縮欸')&&T('p:heroine_02').includes('我還以為只有我會這樣喝')&&T('p:heroine_02').includes('📷（拉花）')&&!T('p:heroine_02').includes('今天的拉花。老闆說及格。'),JSON.stringify(T('p:heroine_02')));
     check('子晴（PLAYTESTED、FIRST_BUG）：「📎 cat_v0.3」→ 三分鐘後「插座修好了」',JSON.stringify(T('p:heroine_04').slice(-2))==='["📎 cat_v0.3","插座修好了"]',JSON.stringify(T('p:heroine_04')));
     check('阿凱：「你的黃金葛長新葉了」「我幫你澆了」「不用謝」「我只是順手」',JSON.stringify(T('p:kai').filter(t=>/黃金葛|澆|不用謝|順手/.test(t)))==='["你的黃金葛長新葉了","我幫你澆了","不用謝","我只是順手"]',JSON.stringify(T('p:kai')));
-    check('明軒（家教）：兩則（AA_209 附錄B §2、2-1 第 2 列）',JSON.stringify(T('p:classmate_mingxuan').slice(-2))==='["今天家教的學生段考考完了 終於可以喘一下 哈哈","你們期中考也快了吧 加油"]',JSON.stringify(T('p:classmate_mingxuan')));
+    check('明軒（家教）：兩則（AA_209 附錄B §2、2-1 第 2 列）',JSON.stringify(T('p:classmate_mingxuan').slice(-2))==='["今天家教的學生段考考完了 終於可以喘一下 哈哈","你們考試也快了吧 加油"]'/* AA_373 #13 */,JSON.stringify(T('p:classmate_mingxuan')));
     check('沛珊（SAW_HER_TEACH）：白板照片＋「他們叫我老師。好奇怪。」',JSON.stringify(T('p:classmate_peishan').slice(-2))==='["📷（課輔班白板上歪歪的「謝謝沛珊老師」）","他們叫我老師。好奇怪。"]',JSON.stringify(T('p:classmate_peishan')));
     check('方奕廷：「黃金葛可以剪一段下來水耕」「週末我拿瓶子過去 隔壁而已」（AA_209）',JSON.stringify(T('p:npc_fangyt').slice(-2))==='["黃金葛可以剪一段下來水耕","週末我拿瓶子過去 隔壁而已"]',JSON.stringify(T('p:npc_fangyt'))); }
   { all({flags:{dating_kexin:true,FIRST_BUG:false}}); const T=th=>(G.msgs||[]).filter(m=>m.th===th);

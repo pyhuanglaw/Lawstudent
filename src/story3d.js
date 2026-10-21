@@ -371,7 +371,7 @@ const STORY = (function(){
     const tp=!!(c&&c.presence&&S.presence(c.id,G).kind==='taipei');   /* 在臺北、不在台大（BB_163）：只用標了 taipei 的那幾筆作息（taipei:'both'＝兩種時候都用）、不跟課表 */
     if(!tp){ const cc=S.classmateClass(c,G); if(cc) return cc; }   /* 同班同學：必修課的時間在那間教室（使用者 2026-10-15：以安也是大一，課要跟我一樣） */
     const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
-    const hit=ent=>{ if(!ent.days.includes(wd)) return false; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; }   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; if(ent.weeks&&(!T||!ent.weeks.includes(T.week))) return false; if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.to;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
+    const hit=ent=>{ if(!ent.days.includes(wd)) return false; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; }   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：小語烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.to;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
     const L=(c.daily_schedule||[]).filter(ent=>tp?!!ent.taipei:ent.taipei!==true); for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
   S.schedEnt=schedEnt;
   /* 兩點半的客人（X71，使用者 2026-10-20：「咖啡店以前很常有NPC現在都沒有」——學姊改照作息以後，店裡常常只剩一位客人）：
@@ -1228,6 +1228,13 @@ const STORY = (function(){
   S.sk02W8Due=function(G){ const F=G.flags; if(G.zone!=='dorm_hall'||F.SK02_DM_DAY==null||F.ECON_JACKET||typeof CALENDAR==='undefined') return false; const t=CALENDAR.termOf(G.day); return !!t&&t.id==='Y1S1'&&t.week>=8; };
   S.sk02W8=async function(GM){ const G=GM.G, F=G.flags; F.ECON_JACKET='closet'; F.SK02_W8=G.day; GM.sceneBegin(); try{ await GM.say(null,'宿舍櫃台叫住你：『有你的東西。一個經濟系的學生放的。』'); await GM.say({name:'阿勳的紙條'},'你的過去，我幫你領了。'); } finally { GM.sceneEnd(); } GM.memo('阿勳替你去系辦領了經濟系的系外套'); };
   S.termDay=termDay;
+  /* AA_373 #1（企劃線 a48fe1b7）：學期裡的第 N 週星期 wd——超過學期（16 週制的第 17、18 週＝已經放假）不回傳日子（null）。
+     每週固定格（可昕「我們的日子」、明軒的家教）用這個；termDay 本身照舊往後推（上面那段：舊的寫法、舊存檔只有週次的紀錄還在用）。termWeeks＝這學期有幾週 */
+  S.termDayIn=function(term,week,wd){ const d=termDay(term,week,wd); if(d==null||typeof CALENDAR==='undefined') return d; const t=CALENDAR.termOf(d); return t&&t.id===term?d:null; };
+  S.termWeeks=function(term){ const R=typeof CALENDAR!=='undefined'&&CALENDAR.termDays?CALENDAR.termDays(term):null; return R?Math.round((R.to-R.from+1)/7):16; };
+  /* AA_373 #17：5/7（大一下第 11 週週四，V2-C13 kx_b4_ask）手機上回過可昕「講者最後問：『…』」那一句（聽完 B4 才有這個選項）。
+     看回覆的紀錄（ans），舊存檔回過的也算；期末河堤「那場演講。」只給這些玩家（events.js REVISIT_Y1_OPTS）*/
+  S.kxB4Told=function(G){ return ((G&&G.msgs)||[]).some(m=>m&&m.tag==='kx_b4_ask'&&m.ask&&m.ans!=null&&Array.isArray(m.ask.opts)&&!!m.ask.opts[m.ans]&&/^講者最後問/.test(m.ask.opts[m.ans].t||'')); };
   /* 芷若 Z3「妳自己都喝什麼」（BB_96 3-1）：還沒發生、大一下第 3 週起的平日（她 19–22 晚班）、和她有點熟以上——這一天 21:40～22:00「店裡只剩祐廷」：
      之前進來的客人 21:40 起身走出去（until：refreshSchedule 讓他們走到門口才離開，不在眼前消失）、21:40～22:00 不生成客人（populate）；
      事件本身要等店裡沒有別的客人（S.cafeOthers：還沒在離開的人、跟著你的人）。吧檯的店員（clerk、芷若自己）是員工，不算客人 */
@@ -1746,7 +1753,7 @@ const STORY = (function(){
     { const m2=termDay('Y1S2',2,1); if(m2&&F.dating_kexin&&G.day>=m2-1&&G.day<=m2+13){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
         const MODE=[{t:'我開車去政大。',set:{_kxOM:'nccu'},say:[K('好。我負責選宵夜。')]},{t:'妳來台大。',set:{_kxOM:'ntu'},say:[K('好。我順便看品妤。')]},{t:'約在中間。',set:{_kxOM:'mid'},say:[K('公館、溫州街、河濱，輪流。')]},{t:'視訊也算。',set:{_kxOM:'video'},say:[K('算。可是一個月至少見一次面。')]}];
         const DAYS=[['週五晚上。','fri','好，週五。我那天下午沒課。']/* AA_209 附錄B §2 */,['週六。','sat','整天？……好，我不會整天都要。'],['週日下午。','sun','週日下午很好。隔天要上課，我們不會玩太晚。']].map(([t,k,r])=>({t,set:{_kxOD:k},say:[Object.assign(K(r),{ask:{opts:MODE}})]}));
-        const L=[K('我們選一天。不是約會日，是「我們的日子」。'),K('名字很重要。')]; if(F.KX_VDAY_SEE) L.push(K('你情人節說想見我。開學第一個週末我已經空下來了。'));/* AA_209 附錄B §2 */ Object.assign(L[L.length-1],{ask:{opts:DAYS}});   /* BB_161 ⑰：「我想見妳」多的那一句在「名字很重要。」之後（選項掛在最後一則）*/
+        const L=[K('我們選一天。不是約會日，是「我們的日子」。'),K('名字很重要。')]; if(F.KX_VDAY_SEE) L.push(K('你情人節說想見我。這個週末我已經空下來了。'));/* AA_209 附錄B §2；AA_373 #10（3/2 傳：第一個週末已經過了） */ Object.assign(L[L.length-1],{ask:{opts:DAYS}});   /* BB_161 ⑰：「我想見妳」多的那一句在「名字很重要。」之後（選項掛在最後一則）*/
         if(!PHONE.sent(G,'kx_our_day')) PHONE.at(G,m2,21,L,'kx_our_day');
         if(F._kxOD&&F._kxOM&&!F.KX_OUR_DAY){ F.KX_OUR_DAY={day:F._kxOD,mode:F._kxOM}; delete F._kxOD; delete F._kxOM; }
         const OD=F.KX_OUR_DAY; if(OD&&typeof OUT!=='undefined'&&!OUT.get(G,'kx_our_day1')){ const wd={fri:5,sat:6,sun:7}[OD.day], hh={fri:19,sat:14,sun:14}[OD.day]; let d=termDay('Y1S2',2,wd); if(d!=null&&(G.day>d||(G.day===d&&G.hour>hh))) d=termDay('Y1S2',3,wd);
@@ -1760,8 +1767,9 @@ const STORY = (function(){
         /* BB_161 ⑭：那一週有她自己的事件就不排固定格、也不傳「換一天」——K8 春假旅行（第 6 週，選了和她開車旅行）、K6 互考（第 8 週）、生日（第 9 週 4/24）。
            已經排好的那一格（例：第 6 週的固定格排好以後才選了春假旅行）改成 skipped，不會過期、不會傳訊息 */
         const herWeek=w=>w===8||w===9||(w===6&&!!OUT.get(G,'kx_trip_y1s2'));   /* K7 週年改到 10/17（大一上），第 4 週不再是她的那一週 */
-        for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(t&&t.id==='Y1S2'&&herWeek(t.week)) q.state='skipped'; }
-        for(let w=(T1?T1.week:2)+1;w<=18;w++){ if(herWeek(w)) continue; const d=termDay('Y1S2',w,wd); if(d==null||d*24+hh<G.day*24+G.hour) continue; const id='kx_od_'+d; if(OUT.get(G,id)) break;
+        for(const q of OUT.rec(G)) if(/^kx_od_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2'||herWeek(t.week)) q.state='skipped'; }   /* AA_373 #1：舊存檔已經排在學期以後（6/15 起她在高雄）的那一格也拿掉 */
+        /* AA_373 #1（企劃線 a48fe1b7）：只排到學期的最後一週（第 16 週）；超過學期的日子不排（原本 w<=18，6/15～6/28 還有兩格，可昕那時候在高雄）*/
+        for(let w=(T1?T1.week:2)+1,LW=S.termWeeks('Y1S2');w<=LW;w++){ if(herWeek(w)) continue; const d=S.termDayIn('Y1S2',w,wd); if(d==null||d*24+hh<G.day*24+G.hour) continue; const id='kx_od_'+d; if(OUT.get(G,id)) break;
           const mon=CALENDAR.dateOf(d).m, firstOfMonth=!OUT.rec(G).some(q=>/^kx_od_/.test(q.id)&&CALENDAR.dateOf(q.day).m===mon);
           let mode=OD.mode; if(mode==='video'&&firstOfMonth) mode='mid';
           let P; if(mode==='mid'){ const n=F.KX_OD_MID_N==null?(OD.mode==='mid'?1:0):F.KX_OD_MID_N; P=[['gongguan','公館','我們的日子：約在公館','騎車約 10 分鐘',1/6],['wenzhou','溫州街','我們的日子：溫州街','走過去約 10 分鐘',1/6],['river','河濱','我們的日子：河濱','騎車約 15 分鐘',0.25]][n%3]; F.KX_OD_MID_N=n+1; }
@@ -1771,7 +1779,7 @@ const STORY = (function(){
     /* K6 她第一次因為自己的事改期（BB_96 9-6）：第 7 週週三 21:00 她提兩校互考（回「好」或「視訊可以嗎」，KX_QUIZ_MODE）；第 8 週週四 21:00 改期（三種回應記 K6_RESPONSE）；
        週日 14:00 互考（出遊；時間是 AA-B 確認前的提案值）。沒去：考古題的照片「下次你逃不掉。」（ev_kexin_reschedule 的 outingMissed）。之後改「我們的日子」的回聲等每週固定格（AA-B）*/
     { const w7=termDay('Y1S2',7,3), w8=termDay('Y1S2',8,4), sun=termDay('Y1S2',8,7); if(w7&&w8&&sun&&F.dating_kexin&&G.day>=w7-1&&G.day<=sun+1){ const th='p:kexin', K=t=>({th,from:'kexin',text:t});
-        if(!PHONE.sent(G,'kx_quiz_ask')) PHONE.at(G,w7,21,[K('期中前，兩校互考。'),K('只能出老師上課講過的。冷門學說算犯規。'),Object.assign(K('輸的請山下那攤。週六下午可以嗎？'),/* AA_209 附錄B §2 */{ask:{opts:[{t:'好。',set:{KX_QUIZ_MODE:'meet'}},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE:'video'}}]}})],'kx_quiz_ask');
+        if(!PHONE.sent(G,'kx_quiz_ask')) PHONE.at(G,w7,21,[K('期中前，兩校互考。'),K('只能出老師上課講過的。冷門學說算犯規。'),Object.assign(K('考完去吃山下那攤，我請。下週六下午可以嗎？'),/* AA_209 附錄B §2；AA_373 #25、#26（使用者 10-18：她沒有在跟祐廷比，不寫輸贏；4/8 傳＝下週六 4/18）*/{ask:{opts:[{t:'好。',set:{KX_QUIZ_MODE:'meet'}},{t:'視訊可以嗎？',set:{KX_QUIZ_MODE:'video'}}]}})],'kx_quiz_ask');
         if(!PHONE.sent(G,'kx_k6')) PHONE.at(G,w8,21,[K('對不起，週六可以改週日嗎？'),Object.assign(K('我們讀書會的報告被退回來，週六要重做。'),{ask:{opts:[
           {t:'好，週日。報告加油。',set:{K6_RESPONSE:'understand'},say:[K('好。週日我請一攤，當改期費。')]},{t:'為什麼被退？',set:{K6_RESPONSE:'ask'},say:[K('老師說我們的理由跳太快。……我也覺得。週日跟你說。')]},
           {t:'我週六都空下來了。',set:{K6_RESPONSE:'sulk'},say:[K('……我知道。對不起。週日你多出一題。')]}]}})],'kx_k6');
@@ -1999,7 +2007,9 @@ const STORY = (function(){
       const yes=wd=>({t:wd===2?'週二。':'週四。',set:{TUTOR_WD:wd},say:[M('很好。第一堂我陪你去認門。')]});
       if(!PHONE.sent(G,'mx_tutor_ask2')) PHONE.at(G,ask,21,[Object.assign(M('家教的事，想好了嗎？'),{ask:{until:(mEnd+1)*24,opts:[{t:'好。',set:{JOB_TUTOR:true,tutorFromDay:ask},say:[Object.assign(M('你哪天方便？'),{ask:{opts:[yes(2),yes(4)]}})]}]}})],'mx_tutor_ask2');
       if(G.day>mEnd&&!PHONE.sent(G,'mx_tutor_gone')){ F.TUTOR_GONE=true; PHONE.at(G,mEnd+1,12,[M('名額給別人了。下次有，我再跟你說。')],'mx_tutor_gone'); } }
-    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week;w<=18;w++){ const d=termDay('Y1S2',w,F.TUTOR_WD===4?4:2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
+    /* AA_373 #1（企劃線 a48fe1b7）：家教同樣只排到學期的最後一週（第 16 週），超過學期的日子不排（暑假家教另外排）；舊存檔已經排在學期以後的那一次拿掉 */
+    if(F.JOB_TUTOR&&typeof OUT!=='undefined'){ for(const q of OUT.rec(G)) if(/^tutor_/.test(q.id)&&q.state==='planned'){ const t=CALENDAR.termOf(q.day); if(!t||t.id!=='Y1S2') q.state='skipped'; }
+      const T=CALENDAR.termOf(G.day); if(T&&T.id==='Y1S2'){ for(let w=T.week,LW=S.termWeeks('Y1S2');w<=LW;w++){ const d=S.termDayIn('Y1S2',w,F.TUTOR_WD===4?4:2); if(d==null||d<=(F.tutorFromDay|0)||d*24+19<G.day*24+G.hour) continue; if(CALENDAR.holiday(d)||(CALENDAR.typhoon&&CALENDAR.typhoon(d))) continue;   /* 颱風假不能打工（AA_160 3-4 D）*/ const id='tutor_'+d; if(OUT.get(G,id)) break;
           OUT.plan(G,{id,ev:'ev_tutor_lesson',day:d,h:19,place:'學生家（公館附近）',title:'家教',travel:'騎車約 10 分鐘',travelH:1/6,no:'這週不去',back:'家教結束。'}); break; } } }
     /* 颱風假 T2（2026-10-19）：前一晚 20:30 新聞（照大一 T1b 的做法：真的停課是前一晚市政府宣布，沒有群組的玩家也收得到）*/
     { const ty=S.dayOfKey('2026-10-19'); if(ty!=null&&typeof CALENDAR!=='undefined'&&CALENDAR.typhoon(ty)&&G.day>=ty-1&&G.day<=ty&&!PHONE.sent(G,'ty2_news')&&(G.day>ty-1||h(G)>=20.5)) PHONE.at(G,ty-1,20.5,[{th:'sys',name:'新聞',text:'明天停止上班上課。'}],'ty2_news'); }
@@ -2494,7 +2504,7 @@ const STORY = (function(){
     {id:'kai_pothos_y1s2',term:t=>t.id==='Y1S2',h:()=>16.5,ok:G=>!!G.flags.POTHOS,live:G=>G.zone!=='dorm',
       items:()=>seq('kai',['你的黃金葛長新葉了','我幫你澆了','不用謝','我只是順手'])},
     {id:'mx_tutor_y1s2',term:t=>t.id==='Y1S2',h:()=>21.5,ok:G=>!!G.flags.JOB_TUTOR&&gotBefore(G,'classmate_mingxuan'),
-      items:()=>seq('classmate_mingxuan',['今天家教的學生段考考完了 終於可以喘一下 哈哈','你們期中考也快了吧 加油'])},   /* AA_209 附錄B §2（第二則照 AA_209 2-1 第 2 列）*/
+      items:()=>seq('classmate_mingxuan',['今天家教的學生段考考完了 終於可以喘一下 哈哈','你們考試也快了吧 加油'])},   /* AA_209 附錄B §2（第二則照 AA_209 2-1 第 2 列）；AA_373 #13：沒限週次，期中、期末都通 */
     {id:'ps_teacher_y1s2',term:t=>t.id==='Y1S2',h:()=>19,ok:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('classmate_peishan','SAW_HER_TEACH')&&gotBefore(G,'classmate_peishan'),
       items:()=>seq('classmate_peishan',['📷（課輔班白板上歪歪的「謝謝沛珊老師」）','他們叫我老師。好奇怪。'])},
     {id:'fy_water_y1s2',term:t=>t.id==='Y1S2',h:()=>20.5,ok:G=>!!G.flags.POTHOS&&gotBefore(G,'npc_fangyt'),
@@ -3700,13 +3710,16 @@ const STORY = (function(){
   /* 現在的學期在不在 {from, until} 裡（例：人物有伴侶的那幾個學期，invites3d.js 的 partnerBlock）*/
   /* 伴侶期間（AA 2026-10-14：照劇情事件，不照整學期；事件還沒發生、或玩家沒看到時，照日期當保底）：
      {from, until}＝學期（舊格式照舊）；fromWeek／untilWeek＝{term, week}（untilWeek 那一週結束算分開）；startEvent／endEvent＝事件 id（演過就開始／結束；那些事件做好時填）*/
+  /* from 可以是學期（'Y1S2'）或日期（'YYYY-MM-DD'，那一天起；AA_373 #3：沛珊 2026-04-06＝大一下第 7 週週一，4/15 期中晚餐柏翰「上禮拜的事。」）*/
+  const isDayKey=s=>typeof s==='string'&&/^\d{4}-\d\d-\d\d$/.test(s);
+  const fromOk=(G,from,ti0)=>{ if(isDayKey(from)){ const d=S.dayOfKey(from); return d!=null&&G.day>=d; } return ti0>=TERM_ORDER.indexOf(from); };
   S.partnerOn=function(G,p){ if(!p) return false; const T=typeof CALENDAR!=='undefined'&&CALENDAR.termOf?CALENDAR.termOf(G.day):null; if(!T) return false;
     const done=id=>!!(id&&G.events&&G.events.done&&G.events.done[id]); const ti=id=>TERM_ORDER.indexOf(id), cur=[ti(T.id),T.week|0];
     const ge=(a,b)=>a[0]>b[0]||(a[0]===b[0]&&a[1]>=b[1]), gt=(a,b)=>a[0]>b[0]||(a[0]===b[0]&&a[1]>b[1]);
-    const started=done(p.startEvent)||(p.fromWeek?ge(cur,[ti(p.fromWeek.term),p.fromWeek.week]):(p.startEvent&&!p.from?false:(!p.from||cur[0]>=ti(p.from))));
+    const started=done(p.startEvent)||(p.fromWeek?ge(cur,[ti(p.fromWeek.term),p.fromWeek.week]):(p.startEvent&&!p.from?false:(!p.from||fromOk(G,p.from,cur[0]))));
     const ended=done(p.endEvent)||(p.untilWeek?gt(cur,[ti(p.untilWeek.term),p.untilWeek.week]):(!!p.until&&cur[0]>ti(p.until)));
     return started&&!ended; };
-  S.inTerms=function(G,r){ if(!r) return false; const t=S.termAt(G.day); if(!t) return false; const i=TERM_ORDER.indexOf(t); return i>=0&&(!r.from||i>=TERM_ORDER.indexOf(r.from))&&(!r.until||i<=TERM_ORDER.indexOf(r.until)); };
+  S.inTerms=function(G,r){ if(!r) return false; const t=S.termAt(G.day); if(!t) return false; const i=TERM_ORDER.indexOf(t); return i>=0&&(!r.from||fromOk(G,r.from,i))&&(!r.until||i<=TERM_ORDER.indexOf(r.until)); };
   /* 寒暑假回老家的期間（AA_276 第 1 節）：期末考最後一天（第 16 週週五）的第 3 天＝放假第一天起，到下學期開學前 2 天（不含）。法律系大一起；經濟系那年照 AA_272 */
   S.homeAway=function(G){ if(typeof HOME==='undefined'||!HOME.breakOf) return false; const d0=S.dayOfKey('2025-08-29'); if(d0!=null&&G.day<d0) return false; const B=HOME.breakOf(G.day);   /* 經濟系那一年的寒暑假不算（呼叫端有時只帶 {day}）*/ return !!B&&G.day>=B.from&&G.day<=B.to-2; };
   /* AA_276 第 1 節例外：已經排在臺北的活動照常，活動結束的隔天才回老家（presence.homeAfter＝那個寒暑假留在臺北到哪一天；例：沛珊大一暑假 C02 營隊隊輔 7/1～7/5，7/6 才回台中）*/
