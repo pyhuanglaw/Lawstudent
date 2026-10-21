@@ -271,6 +271,18 @@ SCENS = [
   # US-J 10/16 21:00 學姊「改過的報告拿了 A。」（交往中、US2 有值）；10/15 還沒有
   dict(id='USJ_report', key='2028-10-16', h=20.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, US2='keep'), js=USJS + DATE + PLAT,
        steps=[('until', 21.4)], wantMsg=['改過的報告拿了 A。'], cflags=['US2']),
+  # US-F 萬聖節（AA_340 G4＋AA_345 I2；BB 2026-10-21 18:4x 補）：10/31 17:57 公寓 → 18:00 門鈴「（開門）」＝蘋果（沒去過亞洲超市三個不同的日子）；
+  #   [捷徑] 跳到 18:59 → 19:00 第二次門鈴「（開門）」＝戴皇冠的小女孩、剩下的都給她
+  dict(id='USF_apple', key='2028-10-31', h=17.95, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE + PLAT,
+       steps=[('until', 18.4), ('set', 18.98, '第二次門鈴前（19:00）'), ('until', 19.4)], pref=['（開門）'],
+       want=['你把冰箱裡的蘋果給了他們。', '一個戴著皇冠的小女孩'], none=['小饅頭餅乾'], eqflags={'USL_HALLOWEEN': 'open', 'USL_HALLOWEEN2': 'open'}, cflags=['USL_HALLOWEEN', 'USL_HALLOWEEN2']),
+  # 去過亞洲超市三個不同的日子（[前置] USL_ASIA_N＝3）＝小饅頭餅乾
+  dict(id='USF_cookie', key='2028-10-31', h=17.95, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, USL_ASIA_N=3), js=USJS + ALONE + PLAT,
+       steps=[('until', 18.4)], pref=['（開門）'], want=['你把亞洲超市買的小饅頭餅乾給了他們。'], none=['冰箱裡的蘋果'], cflags=[]),
+  # 交往中：門鈴照樣響；[捷徑] 跳到 20:27 → 20:30 學姊兩則
+  dict(id='USF_dating', key='2028-10-31', h=17.95, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
+       steps=[('until', 18.4), ('set', 20.45, '20:30 學姊訊息前'), ('until', 20.7)], pref=['（開門）'],
+       wantMsg=['我們這戶買了兩包糖。室友說不夠。', '……她說對了。七點半就發完了。'], cflags=[]),
   # US-D 時差：交往中可昕（dating_kexin）、10/16 22:00 睡覺 → 10/17 08:45「可昕的視訊：週年」（09:00）第一句「你那邊是早上吧。」
   dict(id='USD_kexin', key='2028-10-16', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + BED,
        steps=[('sleep',), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
