@@ -1298,6 +1298,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "巡場景第 1 區校園的 P1：社科院一樓柱廊柱子擋住玩家 → wz_pillar_soc 網點透空。READY_FOR_ART_REVIEW"
+  },
+  {
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/campus_socsci.glb",
+    "assets/models/env/second_ai/campus_socsci.json",
+    "tools/blender/env_second/campus_socsci.py",
+    "docs/art-rebuild/second_ai/patches/soc_court_wire.diff",
+    "docs/art-rebuild/second_ai/test_shots/soc_court_1021_wip/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "公告欄晚上沒有自己的燈、光之間的地面偏暗、牆上大字晚上照不到（巡場景清單）",
+   "next": "LAWWW 換 GLB＋json、套 soc_court_wire.diff（ck_bell_wash 加 fog=false），跑 socsci_place_unit、nav_soclib_unit（LAWWW2 在 5845667e 跑過 ALL PASS）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "SOC-COURT-1021 社科院中庭夜間光＋院系公告欄（巡場景第 1 區校園；C 交班的 WIP，帳號 A 收尾）。疊面：門洞兩側重疊白牆拿掉、洗牆光離牆 3 cm；剩下的只有加法光圈互相疊。READY_FOR_ART_REVIEW"
   }
  ]
 }
