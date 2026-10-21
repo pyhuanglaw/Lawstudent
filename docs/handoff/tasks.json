@@ -24388,8 +24388,8 @@
    "title": "經濟系那一年的錢只進不出（BB-C：使用者 day-18 存檔身上 $349,910）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "待開工",
-   "priority": "P2",
+   "status": "等待其他AI／素材",
+   "priority": "P1",
    "first": {
     "term": "Y0S1",
     "week": null,
@@ -24402,7 +24402,7 @@
    },
    "source": "BB-C QA-REPRO-1020 第一批（78cf2e1f）新發現",
    "authorized": "衍生待辦（只記錄）",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】查到原因：10/31 搬回家以後 home3d.js 每月照樣叫 STORY.monthlyFunds（家裡匯 30,000），在家幾乎沒支出；startLawWeek1 對經濟系玩家「錢照舊」→ 進法律系時約 35 萬（新遊戲預設就是經濟系開局＝每個玩家都這樣）。已問 AA 定數字（搬回家後零用錢、補習班／衝刺班學費、進法律系那天帳戶上限）；收到就實作（monthlyFunds 看 Y0_MOVED_OUT、startLawWeek1 的 econ 分支）＋單元測試 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：查經濟系那一年（G.stage econ）的生活費、零用錢（allowanceMonth）、打工收入與花費：哪裡每月加錢、哪些花費沒扣；照 AA 的生活費規格補支出 ｜ 查經濟系那一年生活費、打工、花費的收支；沒查",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -24410,7 +24410,14 @@
      "evidence": "tasks.json next「沒查」；10-20 以後和錢有關的提交（e0e80168 X67 吃東西、4560f8fd 118 巷點餐）沒有處理經濟系那一年的收支；使用者 day-18 存檔身上 $349,910",
      "note": "經濟系那年錢只進不出還沒查"
     }
-   ]
+   ],
+   "xai": {
+    "spec": "AA 回覆（待）",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 給：搬回家後每月零用錢、旁白、補習班／衝刺班學費、進法律系帳戶規則",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "AA313-FIXES-1020",
