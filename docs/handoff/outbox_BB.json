@@ -739,6 +739,23 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "課堂提問瀏覽器實玩（不用 turbo）＝PASS：10/2 民總第 5 週橫向、10/15 刑總第 7 週直向；題庫原文、不洗牌、答案考點、期末考那句只有學期第一次、不計分（開發分支 47adae82）"
+  },
+  {
+   "task": "BUG-GYM-LIGHT-LOAD-1021",
+   "branch": "claude/story-planning",
+   "sha": "(本筆 commit)",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/gym_haze_reshoot_1021/",
+    "docs/story_planning/test_tools/gym_reshoot_probe.py"
+   ],
+   "state": "已交付",
+   "remaining": "20:30 光柱那一塊量測仍 +9.0（肉眼看不出光柱）；B1、3F 沒拍",
+   "next": "LAWWW 改已驗收；ENGINE-FILL-SPEC-1021 照 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "體育館 1F 白色光柱重拍＝FIXED（開發分支 807b650a，含 6a47ff46）：①20:30 +43.8→+9.0 ②13:00 +27.7→+3.9 ③直接讀檔進體育館 +3.3；也傳 LAWWW2"
   }
  ]
 }

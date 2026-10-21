@@ -1,0 +1,13 @@
+  [前置／捷徑] 讀 9/25 存檔
+  [前置／捷徑] [捷徑] gym 20.5（讀檔後直接 GAME.enter，和 artrev2 同順序）
+  [前置／捷徑] [捷徑] 玩家搬到 1F 中間 [0, 0]
+  [前置／捷徑] [捷徑] gym 13.0（讀檔後直接 GAME.enter，和 artrev2 同順序）
+  [前置／捷徑] [捷徑] 玩家搬到 1F 中間 [0, 0]
+  [前置／捷徑] [前置] 存檔的 zone 改成 gym、20:30、(0,0)：直接讀檔進體育館（不先經過別區）
+PASS ③ 讀檔後就在體育館  gym
+   gym_20_like_artrev2：光柱那一塊比右邊亮 +9.0（修之前 artrev4 同角度 +43.8）
+   gym_13_like_artrev2：光柱那一塊比右邊亮 +3.9（修之前 artrev4 同角度 +27.7）
+   gym_20_direct_load_entry：光柱那一塊比右邊亮 +3.3（修之前 artrev4 同角度 —）
+   gym_20_direct_load_locked：光柱那一塊比右邊亮 +3.3（修之前 artrev4 同角度 —）
+PASS 沒有 JS 例外  []
+ALL PASS
