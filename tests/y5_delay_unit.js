@@ -95,6 +95,65 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const jan=r4({EXCHANGE_ROUTE:'JP'},'2030-01-21','2030-02-02'), cny=r4({EXCHANGE_ROUTE:'JP'},'2030-02-01','2030-02-11'), feb=r4({EXCHANGE_ROUTE:'JP'},'2030-02-16','2030-03-15');
     check('G5. 2030 年初：證書、過年、二月底；「報名」那兩列 5/10 以前照 Y4_PATH（bar＝報名），問過的照回答',
       jan==='（證書放在書桌上。你媽買了一個框，還沒裝進去。）'&&cny==='（過年。親戚問你什麼時候畢業。你說上個月。）'&&feb==='（二月底。學弟妹開學了。你第一次在開學那天沒有課。）'&&bar==='（四月。你每天早上九點到總圖。這次是為了國考。）'&&gr==='（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'&&m1==='（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'&&m2==='（五月。國考報名的表格，你檢查了兩次才送出去。）',JSON.stringify([jan,cny,feb,bar,gr,m1,m2])); }
+  // ===== G5 1-2 接家教的錢、3-3 最後一次實習 =====
+  { const m0=GM.money; GM.money=n=>{ H.G.money+=n; };
+    const G=grad('2029-09-03',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'}); const a=G.money; H.at('2029-09-24',10); STORY.phoneRules(GM); const b=G.money; H.at('2029-12-30',10); STORY.phoneRules(GM); STORY.phoneRules(GM); const c=G.money;
+    const G2=grad('2029-09-03',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}); const a2=G2.money; H.at('2029-12-30',10); STORY.phoneRules(GM); const c2=G2.money; GM.money=m0;
+    check('G5. 1-2 接家教：大五上每週 +1,200（三週後 +3,600、學期結束共 16 週 19,200；重複跑不重複入帳）；去總圖的沒有',b-a===3600&&c-a===19200&&G.flags.Y5_PAY_WEEKS===16&&c2===a2,[b-a,c-a,G.flags.Y5_PAY_WEEKS,c2-a2].join(',')); }
+  { const G=grad('2029-12-18',9.9,{EXCHANGE_ROUTE:'US',Y5_INTERN:[1,2,3]}); H.at('2029-12-18',10); const s=PG.due(G); H.said=[]; H.opts=[]; H.picks=['讀懂一半']; if(s) await PG.runStep(GM,s);
+    const L=H.said.map(x=>(x.who?x.who+'：':'')+x.t);
+    check('G5. 3-3 12/18 10:00 最後一次實習（延畢、不能錯過）：照 AA 稿；選「讀懂一半。」＝「一半，可以了。」；Y5_INTERN 加 4',!!s&&s.id==='y5_intern4'&&JSON.stringify(L)===JSON.stringify(['（最後一次實習。律師把你九月影印的第一份卷宗拿出來，還放在櫃子最下面。）','律師：這份你影的。第一頁，現在讀得懂嗎？','律師：一半，可以了。','（出去的時候，走廊的塑膠椅上坐著一個沒見過的阿伯。他在等。）'])&&JSON.stringify(H.opts[0])==='["「讀得懂。」","「讀懂一半。」"]'&&G.flags.Y5_INTERN.includes(4),(s&&s.id)+JSON.stringify(L)); }
+  // ===== G5 3-1 2029 中秋（畢業後篇所有玩家、麵店團）=====
+  const moonSetup=(fl,ppl)=>{ const G=grad('2029-09-20',20.9,fl); PHONE.join(G,'noodle_team','麵店團'); for(const id of ppl||[]) H.FRIEND(id); H.at('2029-09-20',21.05); H.tick(); return G; };
+  { const G=moonSetup({EXCHANGE_ROUTE:'TW'},['classmate_bohan','heroine_03','heroine_01','yu','classmate_mingxuan']); const M=H.msgs('g:noodle_team'), m=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='pg_moon29');
+    if(m) PHONE.answer(G,'pg_moon29',0); STORY.phoneRules(GM); const q=OUT.get(G,'pg_moon29'); H.at('2029-09-22',17.5); H.said=[]; H.opts=[]; H.picks=['不知道']; if(q) await OUT.go(GM,q);
+    const L=H.said.map(x=>(x.who?x.who+'：':'')+x.t), nm=id=>SOCIAL.displayName(id);
+    const want=['（河濱。烤肉架是阿哲借的，和大一那年同一個。）',nm('classmate_bohan')+'：（手上拿著一本書）我只待一個小時。研究所的報告。',nm('heroine_03')+'：（拿出一顆柚子）……今年蛋糕店有開。我還是買柚子。',nm('heroine_01')+'：（到了以後先看一下手機，然後收進包包）……今天不讀。',
+      nm('zhe')+'：（手機舉高）明軒，看。月亮。……他說德國現在是中午。','（螢幕裡，明軒那邊天很亮。他揮了一下手。）',nm('yu')+'：明年中秋，我們還湊得到這麼多人嗎？',nm('yu')+'：……我也不知道。所以今年要吃多一點。','（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）'];
+    check('G5. 3-1 9/20 21:00 麵店團阿哲三則＋「去。」／「這次不行。」；回「去。」＝9/22 18:00 河濱，照 AA 稿（認識的人各一句、明軒的視訊、小語的選擇），MIDAUTUMN_2029＝went',
+      JSON.stringify(M)===JSON.stringify(['禮拜六中秋','河濱 六點 一樣','明軒那邊我開視訊 讓他看月亮'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["去。","這次不行。"]'&&!!q&&q.day===D('2029-09-22')&&q.h===18&&JSON.stringify(L)===JSON.stringify(want)&&JSON.stringify(H.opts[0])==='["「湊得到。」","「不知道。」"]'&&G.flags.MIDAUTUMN_2029==='went',JSON.stringify(M)+JSON.stringify(L)); }
+  { const G=moonSetup({EXCHANGE_ROUTE:'JP'},[]); PHONE.answer(G,'pg_moon29',1); STORY.phoneRules(GM); H.at('2029-09-22',22.1); H.tick(); const ph=H.msgs('g:noodle_team').includes('📷（河濱，烤肉架，螢幕裡的明軒在揮手）');
+    const G2=moonSetup({EXCHANGE_ROUTE:'US'},[]); PHONE.answer(G2,'pg_moon29',0); STORY.phoneRules(GM); const q=OUT.get(G2,'pg_moon29'); H.at('2029-09-22',17.5); H.said=[]; H.picks=[]; if(q) await OUT.go(GM,q); const L=H.said.map(x=>x.t);
+    const G3=grad('2029-09-20',20.9,{EXCHANGE_ROUTE:'TW'}); H.at('2029-09-20',21.05); H.tick(); const none=!(G3.msgs||[]).some(x=>x.ask&&x.ask.id==='pg_moon29');
+    check('G5. 3-1「這次不行。」＝9/22 22:00 群組照片（不扣關係）；延畢的也可以去；沒見過的人那一句不出、明軒不熟＝「（阿哲對著手機講了一下話。）」、沒有小語的選擇；不在麵店團＝沒有',
+      G.flags.MIDAUTUMN_2029==='no'&&ph&&JSON.stringify(L)===JSON.stringify(['（河濱。烤肉架是阿哲借的，和大一那年同一個。）','（阿哲對著手機講了一下話。）','（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）'])&&G2.flags.MIDAUTUMN_2029==='went'&&none,[G.flags.MIDAUTUMN_2029,ph,JSON.stringify(L),none].join('｜')); }
+  // ===== G5 3-2 可昕交往第五年（2029-10-17）=====
+  const kx5=async(fl)=>{ const G=grad('2029-10-10',20.9,fl); H.FRIEND('kexin'); H.date('kexin'); H.at('2029-10-10',21.05); STORY.phoneRules(GM); PHONE.tick(G); const K=(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask5'||(m.th==='p:kexin'&&/第五年|下午有空/.test(m.text)));
+    const ask=K.find(m=>m.ask); if(ask) PHONE.answer(G,ask.ask.id,2); STORY.phoneRules(GM); const q=OUT.get(G,'kx_anniv5'); H.at('2029-10-17',18); H.said=[]; H.picks=[]; if(q) await OUT.go(GM,q); return {G,K:K.map(m=>m.text),q,L:H.said.map(x=>x.t)}; };
+  { const a=await kx5({EXCHANGE_ROUTE:'TW'}), b=await kx5({EXCHANGE_ROUTE:'JP'});
+    check('G5. 3-2 可昕第五年：10/10 21:00「下禮拜三。第五年。」「……地點你選。我那天下午有空。」（地點選單照第 2～4 年）；10/17 地點之後兩句，延畢「……你一月拿證書。……」、不延畢「我十二月放榜。你八月考。……」',
+      JSON.stringify(a.K)===JSON.stringify(['下禮拜三。第五年。','……地點你選。我那天下午有空。'])&&!!a.q&&a.q.day===D('2029-10-17')&&a.L.includes('五年。我們認識的時候，你還在經濟系。')&&a.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&!a.L.includes('……你一月拿證書。我們兩個，同一年開始。')
+      &&b.L.includes('……你一月拿證書。我們兩個，同一年開始。')&&!b.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.L.indexOf('五年。我們認識的時候，你還在經濟系。')<a.L.indexOf('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.G.flags.KX_ANNIV&&a.G.flags.KX_ANNIV[5]==='river',JSON.stringify([a.K,a.L,b.L])); }
+  // ===== G5 3-4 大五上女朋友的學期末約會（延畢、交往中，12/19～12/23）=====
+  const INV5={heroine_01:'你實習結束了吧。……今天我訂位子。',heroine_02:'禮拜五九點，等我下班。',heroine_03:'打烊以後。我煮。',heroine_04:'你實習完了吧 宵夜 我想吃兩份',heroine_05:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。',classmate_peishan:'學期結束了吧！你下來，我們吃熱的。'};
+  const TB5={heroine_01:['碩一的課，每一堂都要先讀一整本。','……我讀得完。只是睡得少。'],heroine_02:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。'],heroine_03:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。'],heroine_04:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。'],heroine_05:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。'],classmate_peishan:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']};
+  { const bad=[]; for(const id in INV5){ const G=grad('2029-12-19',20,{EXCHANGE_ROUTE:'JP'}); H.FRIEND(id); H.date(id); H.at('2029-12-19',20.6); STORY.phoneRules(GM); PHONE.tick(G); const got=H.msgs('p:'+id);
+      if(!got.includes(INV5[id])) bad.push(id+' 邀約='+JSON.stringify(got)); const P=TERMEND.rec(G,'Y5S1').plan||{}; if((P.heart||[]).length||(P.friend||[]).length||P.fallback) bad.push(id+' 只能有女朋友的約');
+      PHONE.answer(G,'te_gf_Y5S1_'+id,0); STORY.phoneRules(GM); const q=OUT.get(G,'te_gf_Y5S1_'+id); if(!q||q.day<D('2029-12-19')||q.day>D('2029-12-23')) bad.push(id+' 出遊='+JSON.stringify(q&&q.day));
+      H.said=[]; await TERMEND.dinner(GM,{te:{term:'Y5S1',who:id,kind:'gf'}}); const L=H.said.map(x=>x.t); if(!(L.indexOf(TB5[id][0])>=0&&L.indexOf(TB5[id][1])===L.indexOf(TB5[id][0])+1)) bad.push(id+' 飯桌='+JSON.stringify(L)); }
+    const G=grad('2029-12-19',20,{EXCHANGE_ROUTE:'US'}); H.FRIEND('kexin'); H.date('kexin'); H.at('2029-12-19',20.9); STORY.phoneRules(GM); PHONE.tick(G); const kx=H.msgs('p:kexin'); const qk=OUT.get(G,'te_kx_Y5S1');
+    H.said=[]; await TERMEND.dinner(GM,{te:{term:'Y5S1',who:'kexin',kind:'kexin'}}); const LK=H.said.map(x=>x.t);
+    const Gt=grad('2029-12-20',20,{EXCHANGE_ROUTE:'TW'}); H.date('heroine_01'); const wt=TERMEND.window(Gt);
+    check('G5. 3-4 大五上女朋友的學期末約會：六位邀約照 AA 稿（芷若、語彤照原本）、只有女朋友的約、出遊在 12/19～12/23、飯桌是 Y5S1 那一句；可昕「學期結束了吧」三則、河堤、飯桌兩句；臺灣路線沒有大五上',
+      !bad.length&&JSON.stringify(kx.slice(-3))===JSON.stringify(['學期結束了吧','你沒有期末考 我知道','河堤 五點半'])&&!!qk&&LK.includes('十四號以後，我就是律師了。……還要受訓。')&&LK.includes('受訓的時候不能看手機。……你週末再打給我。')&&!wt,bad.join('｜')+JSON.stringify([kx,LK,wt])); }
+  // ===== G5 2-2 人在哪裡（七處矛盾＋過時的閒聊）=====
+  { const ent=(id,key,h)=>{ const G=grad(key,h,{EXCHANGE_ROUTE:'TW'}); return STORY.schedEnt(CHARACTERS[id],G); }, z=e=>e?e.zone:null;
+    const kai0=z(ent('kai','2029-06-20',20)), kai1=z(ent('kai','2029-07-02',20)), kai2=z(ent('kai','2029-07-06',22.5));
+    grad('2029-07-02',20,{}); const kp=STORY.presence('kai',H.G), kAway=STORY.awayOnDate('kai',H.G);
+    const sis0=z(ent('heroine_05','2029-06-20',10)), sis1=z(ent('heroine_05','2029-07-03',10)), sis2=z(ent('heroine_05','2029-07-04',20)), sis3=z(ent('heroine_05','2029-07-02',20)), sis4=z(ent('heroine_05','2029-07-07',11));
+    const zr1=z(ent('heroine_02','2029-09-04',11)), zr2=z(ent('heroine_02','2029-09-07',15)), zr3=z(ent('heroine_02','2029-09-05',20)), xc0=z(ent('classmate_xinci','2029-05-22',16)), xc1=z(ent('classmate_xinci','2029-06-05',16));
+    grad('2028-08-01',10,{}); delete H.G.flags.GRADUATED; const fy=STORY.presence('npc_fangyt',H.G), fyR=STORY.reachable('npc_fangyt',H.G); grad('2028-07-10',10,{}); const fyT=STORY.presence('npc_fangyt',H.G).kind;
+    grad('2029-07-01',10,{}); const p1=STORY.presence('pool_1',H.G), p4=STORY.presence('pool_4',H.G); grad('2029-06-20',10,{}); const p1b=STORY.presence('pool_1',H.G).here;
+    const okAll=kai0==='dorm'&&kai1==null&&kai2==='gongguan'&&kp.kind==='taipei'&&kAway&&sis0==='library'&&sis1==null&&sis2!=='lawlib'&&sis3==='cafe'&&sis4==='library'&&zr1!=='campus'&&zr2!=='campus'&&zr3==='cafe'&&xc0==='library'&&xc1!=='library'
+      &&fy.here===false&&fy.city==='嘉義'&&!fyR&&fyT==='trip'&&p1.here===false&&p1.kind==='after'&&p1b===true;
+    check('G5. 2-2 作息、presence：阿凱 6/28 起不在宿舍（臺北上班、只留週五晚上公館）；學姊 7 月起平日白天、週三法圖拿掉（一二四晚上 Café、週六上午總圖）；芷若 9 月起校園兩筆拿掉；心慈 6 月起平日下午總圖拿掉；方奕廷 2028-07 起在嘉義；同屆不熟的同學 6/28 起畢業不在學校',
+      okAll,JSON.stringify({kai0,kai1,kai2,kp,kAway,sis0,sis1,sis2,sis3,sis4,zr1,zr2,zr3,xc0,xc1,fy,fyR,fyT,p1,p4,p1b})); }
+  { const okIf=(id,t)=>{ const e=(SMALLTALK[id]||[]).find(x=>typeof x==='object'&&x.t===t); return !!e&&(!e.if||EVENTS.cond(e.if)); };
+    grad('2029-07-02',20,{}); const k1=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z1=okIf('zhe','「系籃週五練球，來坐也可以。」'), z2=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
+    H.fresh('2029-03-01',10,'dorm',{}); const k0=okIf('kai','「宿舍網路又斷了。你們有教這個嗎？」'), z0=okIf('zhe','「系籃週五練球，來坐也可以。」'), z3=okIf('zhe','「總圖 B1 的冷氣，比去年冷。」');
+    H.fresh('2028-05-01',10,'dorm',{}); const f0=okIf('npc_fangyt','「森林系的野外實習，下週去溪頭。」'); H.fresh('2028-09-01',10,'dorm',{}); const f1=okIf('npc_fangyt','「森林系的野外實習，下週去溪頭。」');
+    check('G5. 2-2 過時的閒聊：畢業以後阿凱不說「宿舍網路又斷了」、阿哲「系籃週五練球」換成「總圖 B1 的冷氣，比去年冷。」；方奕廷 2028 畢業以後不說「森林系的野外實習」',
+      !k1&&!z1&&z2&&k0&&z0&&!z3&&f0&&!f1,[k1,z1,z2,k0,z0,z3,f0,f1].join(',')); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
 // 修改前（開發分支 f0dcc337）：G1 8 項全部 FAIL；G2 3 項全部 FAIL；G3 4 項全部 FAIL；G4 6 項全部 FAIL；G5-4 4 項全部 FAIL。
