@@ -1208,6 +1208,22 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "回 LAWWW 22:23 的 25 題：AA_366 第 4 節（A5～A7）、AA_367 第 10 節（A1～A4、A8～A12）、AA_359 第 5 節（B1～B13＋5-2 九句）；AA_373 6-1 羊那句更正（匯入格式兩欄各兩句）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_378_法律系大四上_學姊在美國那半年與作息_修正稿.md",
+    "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 整份做（程式＋改字）",
+   "next": "LAWWW 開 AA378-Y4S1-FIX-1021（第 1 節學姊 S1～S4 先做）／BB 審 X0～X5 口氣＋第 7 節測試",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "法律系大四上：學姊在美國的訊息輪播重複、視訊撞必修強執（會讓大峽谷告白拿不到）、便條演兩次、期末飯撞接機；以安生日不看日期、語彤週四作息、交往中期末約會的「今天」（各學期）等；使用者 22:5x「學姊才是真正的女主角」，學姊排最前面"
   }
  ],
  "items": [
