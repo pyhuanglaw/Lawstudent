@@ -1,0 +1,10 @@
+  [前置／捷徑] 讀 9/25 存檔
+  [前置／捷徑] [捷徑] gym 20:30
+   網頁元素 (95, 120) [{"tag": "CANVAS", "id": "c", "cls": "", "op": "1", "bg": "rgba(0, 0, 0, 0)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "BODY", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "HTML", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}]
+   網頁元素 (110, 180) [{"tag": "CANVAS", "id": "c", "cls": "", "op": "1", "bg": "rgba(0, 0, 0, 0)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "BODY", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "HTML", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}]
+   網頁元素 (90, 240) [{"tag": "DIV", "id": "joy", "cls": "", "op": "1", "bg": "rgba(255, 255, 255, 0.07)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "CANVAS", "id": "c", "cls": "", "op": "1", "bg": "rgba(0, 0, 0, 0)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "BODY", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}, {"tag": "HTML", "id": "", "cls": "", "op": "1", "bg": "rgb(13, 16, 22)", "vis": "visible", "disp": "block", "z": "auto"}]
+   場景最上層 [{"i": 0, "n": "(無名)", "t": "HemisphereLight", "vis": true, "kids": 0}, {"i": 1, "n": "(無名)", "t": "DirectionalLight", "vis": true, "kids": 0}, {"i": 2, "n": "(無名)", "t": "Object3D", "vis": true, "kids": 0}, {"i": 3, "n": "(無名)", "t": "DirectionalLight", "vis": true, "kids": 0}, {"i": 4, "n": "(無名)", "t": "Mesh", "vis": true, "kids": 0}, {"i": 5, "n": "skyline", "t": "Group", "vis": false, "kids": 3}, {"i": 6, "n": "human", "t": "Group", "vis": true, "kids": 2}, {"i": 7, "n": "(無名)", "t": "Group", "vis": true, "kids": 14}]
+  [前置／捷徑] [捷徑] dorm 20.5
+  [前置／捷徑] [捷徑] library_hall 20.5
+PASS 沒有 JS 例外  []
+ALL PASS
