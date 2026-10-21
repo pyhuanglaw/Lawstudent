@@ -53,7 +53,8 @@
    "kind": "選擇題答案",
    "status": "已取消",
    "wants": "X40",
-   "task": "JP-3D-ASK"
+   "task": "JP-3D-ASK",
+   "note": "2026-10-21 13:0x 使用者對 LAWWW2 說已經做的 3D 保留（UA-LAWWW2-1021-03、USER_WANTS X91）：「全 2D」只對還沒做的"
   },
   {
    "id": "UA-LAWWW-1018-07",

@@ -22852,7 +22852,7 @@
    },
    "source": "LAWWW2 HANDOFF 365 行；USER_WANTS F09（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "要問使用者",
-   "next": "使用者 14:0x 選「全 2D（建議）」：日本篇照 F09 用 2D 背景加對話，LAWWW2 不做日本 3D；背景由 BB 寫提示詞向使用者要（使用者 2026-10-18 14:0x 選擇題）；日本篇的其他任務：V4-R-JP、SCN-JP-2D",
+   "next": "【LAWWW-C 2026-10-21 13:1x UTC】使用者 10-21 13:0x 對 LAWWW2：已經做的 3D 保留、還沒做的 2D（X91）→ jp_room 改由 JP-ROOM-3D-1021 做；其餘照 2D ｜ 使用者 14:0x 選「全 2D（建議）」：日本篇照 F09 用 2D 背景加對話，LAWWW2 不做日本 3D；背景由 BB 寫提示詞向使用者要（使用者 2026-10-18 14:0x 選擇題）；日本篇的其他任務：V4-R-JP、SCN-JP-2D",
    "replacedBy": "VAC-X2",
    "reason": "使用者 2026-10-18 14:0x 選擇題選「全 2D（建議）」：日本篇不做 3D"
   },
@@ -25862,6 +25862,32 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 13:1x UTC】BB 照 AA_356 第 4 節四條路線各跑一次（補的那一兩句接得自然不自然）＋總圖還書"
+  },
+  {
+   "id": "JP-ROOM-3D-1021",
+   "title": "日本宿舍「你的房間」jp_room 3D 保留：LAWWW2 修可達性「窗外」那一項、交 GLB＋patch；LAWWW 從日本據點選單「在房間休息一下」進、走出房門回選單",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P2",
+   "source": "使用者 10-21 13:0x 對 LAWWW2-C（UA-LAWWW2-1021-03；focused-cray d641dcad）；USER_WANTS X91；WIP 25c6c76d",
+   "first": {
+    "term": "Y3S2",
+    "week": 5,
+    "earliest": "日本路線 3/25 到日本以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "wip_jp/README.md（LAWWW2 分支）；WIP 25c6c76d",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "jp_room 走得進走得出、可達性全過、BB 畫面驗收；從 jp3d.js 選單進出",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:1x UTC】LAWWW2：美國 C 棟 208 收尾以後修 jp_room 交件；LAWWW 接線（在房間休息一下→jp_room；房門→回選單）"
   }
  ]
 }
