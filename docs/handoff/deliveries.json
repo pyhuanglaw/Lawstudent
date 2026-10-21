@@ -12788,6 +12788,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）15:5x 換 GLB＋json、套 patch（git apply 乾淨）；socsci_place、nav_soclib、campus_public 單元全過；柱廊 wz_pillar_soc（8e8d130e）還在。BB 畫面驗收（中庭 15:00／20:00 三個位置、公告欄看得清楚、光圈不閃）。美術 READY_FOR_ART_REVIEW"
+  },
+  {
+   "id": "DL-LAWWW2-46d20af9",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "46d20af9",
+   "what": "C208 門上的外套、掛勾、白板、門牌跟著牆淡出（BB_218 退回的那一項）＋臥室 C 門板誤歸南牆修正：us_shared.glb、patches/c208_plate_fade.diff",
+   "task": "ART-US2-FIX-1018",
+   "msg": "DELIVERED",
+   "integration": "未整合",
+   "note": "LAWWW（帳號 A）16:2x 從分支上看到（outbox 寫「（本 commit）」incr 對不到）；508ac343 是同一個 patch 的修正（門牌頂點是世界座標，改用網格中心判斷在哪面牆）；等 LAWWW2 通知交件後合併、派 BB 重拍"
   }
  ],
  "ignored": [
@@ -15990,6 +16003,27 @@
    "branch": "origin/claude/second-ai-env-art",
    "kind": "handoff_record",
    "reason": "LAWWW2（帳號 A）接班登記（duty_LAWWW2.json、HANDOFF.md 最上面；上一任 LAWWW2-C 2b4f2028，B 的成果都在 C 裡）；LAWWW（帳號 A）15:5x 分類"
+  },
+  {
+   "sha": "efc1730d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-BALCONY-POTS",
+   "reason": "溫州街陽台盆栽 WIP（wenzhou_street.glb 重建：鐵花架、葉子調亮）；LAWWW2 說交件前重拍；LAWWW（帳號 A）16:2x 分類"
+  },
+  {
+   "sha": "508ac343",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-US2-FIX-1018",
+   "reason": "WIP patches：c208_plate_fade.diff 修正（屬 DL-LAWWW2-46d20af9）＋grade_golden WIP（GRADE-GOLDEN-DEFAULT 還沒交件）；LAWWW（帳號 A）16:2x 分類"
+  },
+  {
+   "sha": "c53c3c6d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-WZ0",
+   "reason": "溫州街收尾①（BACKLOG A7 小公園疊面：涼亭樑、土地公廟神龕背板、步道、公布欄）——ART-WZ0 收尾中，整批交件時再登記交付；LAWWW（帳號 A）16:2x 分類"
   }
  ]
 }
