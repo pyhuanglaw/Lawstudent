@@ -16,7 +16,7 @@ PATCH = """(()=>{ if(window.__KXP) return; window.__KXP=1; const sp=ADV.speaker;
   ADV.speaker=function(c,e,o){ const now=performance.now(); if(e===undefined&&c&&last&&last.c===c&&now-last.t<80) return; last={c,t:now}; return sp.apply(this,arguments); }; })()"""
 READ = """(()=>{ const out={}; for(const s of ['left','right']){ const box=s==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); const sl=(ADV.slots||{})[s];
   out[s]={char:sl?sl.charId:null, slotExpr:sl?sl.expression:null, img:im?(im.src.split('/portraits/')[1]||im.src).replace(/\\?.*$/,''):'', show:!!box&&box.classList.contains('show'), dim:!!box&&box.classList.contains('dim'), op:im?im.style.opacity:''}; }
-  return {name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:((document.getElementById('dlgText')||{}).textContent||'').trim(), slots:out, adv:!!ADV.active}; })()"""
+  return {name:((document.getElementById('dlgName')||{}).textContent||'').trim(), text:((document.getElementById('dlgText')||{}).textContent||'').trim(), slots:out, adv:!!ADV.active, ev:EVENTS.running||null}; })()"""
 
 
 def script_map(root):
@@ -28,9 +28,30 @@ def script_map(root):
     return m
 
 
+async def settle(pg, cdp, secs=90):
+    """遊戲同時只演一個劇情（EVENTS.running）：先把畫面上別的劇情點完、等空下來（2026-10-21 第一次跑：宿舍的日常劇情佔著，EVENTS.run 直接被忽略）"""
+    t0 = time.time()
+    while time.time() - t0 < secs:
+        st = await pg.evaluate("({ev:EVENTS.running||null, adv:!!(typeof ADV!=='undefined'&&ADV.active)})")
+        s = await L.state(pg)
+        if not st['ev'] and not st['adv'] and not s['dlg'] and not s['choices']: return True
+        if s['choices']:
+            c = await pg.evaluate("(()=>{ const e=document.querySelectorAll('#choices button')[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+            await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(800); continue
+        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); continue
+        await pg.wait_for_timeout(800)
+    return False
+
+
 async def play(pg, cdp, run, evid, pick, tag):
     rows = []
-    await pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id===%s))" % json.dumps(evid))
+    for k in range(3):
+        ok = await settle(pg, cdp); await pg.evaluate("(()=>{ try{ STORY.phoneAuto=()=>{}; }catch(e){} })()")
+        await pg.evaluate("void EVENTS.run(STORY_EVENTS.find(e=>e.id===%s))" % json.dumps(evid)); await pg.wait_for_timeout(1500)
+        if await pg.evaluate("EVENTS.running===%s" % json.dumps(evid)): break
+        print('   %s 沒開始（EVENTS.running=%s，空下來=%s），再試一次' % (evid, await pg.evaluate("EVENTS.running||null"), ok), flush=True)
+    else:
+        print('   ⚠ %s 三次都沒開始' % evid, flush=True); return rows
     t0 = time.time(); idle = 0; last = None
     while time.time() - t0 < 600:
         s = await L.state(pg)
@@ -42,11 +63,11 @@ async def play(pg, cdp, run, evid, pick, tag):
         if s['dlg']:
             cur = s['dtext']
             if cur != last:
-                last = cur; await pg.wait_for_timeout(WAIT); r = await pg.evaluate(READ); rows.append(r)
+                last = cur; await pg.wait_for_timeout(WAIT); r = await pg.evaluate(READ); r['want_ev'] = evid; rows.append(r)
                 if len(rows) % 6 == 0: await run.shot(pg, '%s_%s_%02d' % (tag, evid, len(rows)))
             await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(500); idle = 0; continue
         idle += 1
-        if idle > 8 and not await pg.evaluate("!!(typeof ADV!=='undefined'&&ADV.active)"): break
+        if idle > 4 and not await pg.evaluate("EVENTS.running===%s" % json.dumps(evid)): break   # 這一場演完了（不等別的劇情）
         await pg.wait_for_timeout(700)
     return rows
 
@@ -54,7 +75,7 @@ async def play(pg, cdp, run, evid, pick, tag):
 def judge(rows, sm):
     ok = bad = unk = 0; out = []
     for r in rows:
-        if 'slots' not in r or r['name'] not in ('可昕', '杜可昕'): continue
+        if 'slots' not in r or r['name'] not in ('可昕', '杜可昕') or r.get('ev') != r.get('want_ev'): continue   # 只算這一場（ev＝當時 EVENTS.running）
         box = next((v for v in r['slots'].values() if v['char'] == 'kexin'), None)
         if not box or not box['img']: unk += 1; continue
         sc = sm.get(r['text']); shown = box['img'].split('/')[-1][:-5]
