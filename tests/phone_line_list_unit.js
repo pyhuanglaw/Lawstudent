@@ -33,5 +33,9 @@ check('列表的最後一句是那一串最新的一則', kx&&kx.last.text==='�
 PHONE.markSeen(G,'p:kexin');
 const kx2=PHONE.threads(G,{sys:true}).find(t=>t.th==='p:kexin');
 check('4b 點進去看過（markSeen）：未讀歸零', kx2&&kx2.unread===0, JSON.stringify(kx2&&kx2.unread));
+{ const H={day:72,hour:9,flags:{},msgs:[]}; PHONE.postAt(H,{th:'p:mom',from:'mom',text:'到宿舍了嗎？'},10,20); PHONE.postAt(H,{th:'p:heroine_01',from:'heroine_01',text:'明天要考試嗎？',ask:{opts:[{t:'要'}]}},11,21); PHONE.postAt(H,{th:'p:kexin',from:'kexin',text:'晚安。'},70,23);
+  const t=th=>PHONE.threads(H).find(r=>r.th===th)||{};
+  check('5 BB218-P3 ⑤：兩個月前沒看的訊息不算未讀（快轉到 11/11 不再掛 9/1 的紅點）；兩天前的照算；要回的照舊算 pending', t('p:mom').unread===0&&t('p:kexin').unread===1&&t('p:heroine_01').unread===0&&t('p:heroine_01').pending===1&&PHONE.unread(H)===1, JSON.stringify(['p:mom','p:kexin','p:heroine_01'].map(th=>[t(th).unread,t(th).pending])));
+  H.day=12; check('5b 同一則在一兩天後照舊算未讀', t('p:mom').unread===1, JSON.stringify(t('p:mom').unread)); }
 console.log(fails?`結果：${fails} 項 FAIL`:'結果：ALL PASS');
 process.exit(fails?1:0);

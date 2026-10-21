@@ -53,6 +53,7 @@ button{font-family:var(--font);cursor:pointer}
 /* panels */
 .panel{position:absolute;inset:0;background:rgba(10,12,16,.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:8}
 #fade{z-index:9}#title3{z-index:10}#toast{z-index:10}#loading{z-index:11}#rotate{z-index:12}#menu{z-index:9}#ui #letterT,#ui #letterB{z-index:5;pointer-events:none}#caption{z-index:6}
+#ui:has(#phone:not(.hide)) #toast,#ui:has(#menu:not(.hide)) #toast{top:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 6px)}   /* 手機、筆記本打開時通知條改到下面：原本在上面蓋住分頁列（BB218-P3 ②）*/
 .card{width:min(720px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:#161a22;border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:#f4efe6;-webkit-user-select:text;user-select:text}
 .card h2{font-family:var(--serif);font-size:18px;margin:0 0 10px;color:var(--accent);letter-spacing:.1em}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}

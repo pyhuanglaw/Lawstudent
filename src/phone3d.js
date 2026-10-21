@@ -62,10 +62,11 @@ const PHONE=(function(){
     if(o.contact&&typeof INV!=='undefined') for(const c of [].concat(o.contact)) INV.addContact(G,c);
     if(o.need&&typeof STORY!=='undefined'&&STORY.neededAnswered) STORY.neededAnswered(G,m,o);   /* 主線 4：回了的那個人信任 +1、記次數 */
     return {m,o,out}; };
-  /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後 */
-  S.threads=function(G,o){ const P=S.rec(G); const by=new Map();   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/
+  /* 對話串：最新的排前面；unread＝別人說的、在上次看過之後、而且是最近 UNREAD_DAYS 天的（BB218-P3 ⑤：快轉到 11/11 時列表還掛著 9/1 媽媽、8/25 第三小隊的紅點——兩個月前的舊訊息不算未讀；要回的照舊算 pending）*/
+  S.UNREAD_DAYS=14;
+  S.threads=function(G,o){ const P=S.rec(G); const by=new Map(), old=G.day!=null?abs(G.day,G.hour||0)-S.UNREAD_DAYS*24:-1e9;   /* o.sys：通知（sys）也算一串（手機訊息頁的 LINE 式列表，PHONE-LINE-UI-1018）*/
     for(const m of G.msgs){ const th=S.th(m); if(th==='sys'&&!(o&&o.sys)) continue; let r=by.get(th); if(!r){ r={th,title:S.title(G,th),last:null,n:0,unread:0,pending:0}; by.set(th,r); } r.last=m; r.n++;
-      if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&!m.pin) r.unread++; if(m.ask&&m.ans==null) r.pending++; }
+      if(m.from!=='player'&&abs(m.day,m.h)>(P.seen[th]!=null?P.seen[th]:-1e9)&&abs(m.day,m.h)>old&&!m.pin) r.unread++; if(m.ask&&m.ans==null) r.pending++; }
     return [...by.values()].sort((a,b)=>abs(b.last.day,b.last.h)-abs(a.last.day,a.last.h)); };
   S.thread=(G,th)=>{ S.rec(G); return G.msgs.filter(m=>S.th(m)===th); };
   S.markSeen=function(G,th){ const P=S.rec(G); const L=S.thread(G,th); if(L.length){ const m=L[L.length-1]; P.seen[th]=abs(m.day,m.h); } };
