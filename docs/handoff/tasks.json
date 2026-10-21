@@ -26947,9 +26947,9 @@
    "status": "待開工",
    "priority": "P2",
    "first": {
-    "term": "Y5S1",
+    "term": "Y4S2",
     "week": null,
-    "earliest": "2029-06-03 畢業以後和可昕交往中",
+    "earliest": "2029-06-03 畢業以後（大四下之後）和可昕交往中",
     "mainline": false,
     "blocks": false,
     "prereq": false,
