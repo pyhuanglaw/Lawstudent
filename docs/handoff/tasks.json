@@ -25675,6 +25675,32 @@
     "ack": "ACTIONED"
    },
    "next": "【LAWWW-C 2026-10-21 12:5x UTC】BB 瀏覽器：白天／晚上各看 1F 大廳、球場、B1 泳池、健身房（光暈、天花板、疊面閃爍）"
+  },
+  {
+   "id": "ART-DIRECTOR-LAWWW2",
+   "title": "LAWWW2 當 3D 美術總監：照玩家路線巡場景、自訂品質標準（ART_SOP 第 10 節）、交付前自我驗收、BB 獨立畫面驗收（使用者 10-21 12:0x，長期）",
+   "owner": "LAWWW2",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 12:0x 直接對 LAWWW2-C（UA-LAWWW2-1021-02；focused-cray edfe5a2c）；USER_WANTS X90",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "全遊戲",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/art-rebuild/second_ai/ART_SOP.md 第 10 節、ART_DIRECTOR_PATROL.md（LAWWW2 分支）",
+    "branch": "claude/focused-cray-c9uwvw",
+    "acceptance": "每批：玩家鏡頭截圖前後對照、BB 畫面驗收、LAWWW 整合",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:0x UTC】長期工作方式；溫州街暫停（使用者 10-17）、人物凍結（D99）照舊；交付照舊給 LAWWW 整合"
   }
  ]
 }
