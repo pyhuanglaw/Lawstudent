@@ -50,6 +50,7 @@ def build():
     root = B.group('campus_socsci', props={'kind': 'campus_socsci'})
     M = {
         'conc': L.pbr('soc_concrete', 'socsci_formwork', tile=1.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.82),
+        'pillar': L.pbr('wz_pillar_soc', 'socsci_formwork', tile=1.8, normal=0.6, maps=('diff', 'nor'), rough_value=0.82),   # 一樓柱廊的柱子：和 conc 同一組貼圖，另一個材質——遊戲端 wz_pillar_* 擋住玩家時網點透空（巡場景 2026-10-21：鏡頭在柱廊裡，柱子把人整個擋住）
         'white': L.flat('soc_white', '#eeede8', rough=0.55),                 # 圖書館屋簷、雨遮、女兒牆壓頂（白色烤漆）
         'gclear': L.flat('soc_glass_clear', '#9fb5bd', rough=0.06, alpha=0.3),
         'frame': L.flat('ck_frame', '#4b5056', rough=0.42, metal=0.3),       # 大樓的深灰鋁框、門框
@@ -233,7 +234,7 @@ def build():
     # 外側的柱子（0.6 × 0.6）
     cols = [(95.3, -57.7)] + [(95.3, z) for z in (-54.5, -51.5, -48.5, -45.5)] + [(x, -57.7) for x in (98.0, 101.0, 104.0, 107.0, 110.0, 113.0, 116.0, 119.0, 122.0)]
     for (x, z) in cols:
-        kit.box('conc', x - 0.3, x + 0.3, 0.0, GF, z - 0.3, z + 0.3, skip=('bottom', 'top'))
+        kit.box('pillar', x - 0.3, x + 0.3, 0.0, GF, z - 0.3, z + 0.3, skip=('bottom', 'top'))
         info_blocks['rects'].append({'what': '大樓一樓的柱子', 'x': x, 'z': z, 'w': 0.6, 'd': 0.6})
     # 懸挑的底面、轉角的實牆
     hquad(A('ceil'), BX0, BX1 - 1.0, BZ0, RECN, GF - 0.001, up=False)

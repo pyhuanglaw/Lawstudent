@@ -1,5 +1,19 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 💾 保存點（LAWWW2-C，2026-10-21 14:3x UTC）：使用者「每週使用量快要到了 還不是真的交班 但請先檢查手上的任務 待辦 做好的東西 先放上GitHub」，之後「之後可以繼續原本在做的事情 直到我真的請你交班」
+- **不是交班**：同一個工作階段 `session_015BuNi47yLUt5PviELapMNj` 繼續做；分支 `claude/focused-cray-c9uwvw`。這一節是萬一額度突然用完時的接手點。
+- RULE_SOURCE：LAWWW-C `origin/claude/adoring-meitner-mqzst8`（看過 `96af1e54`）。
+- 現在的身分與指示：3D 美術總監（使用者 10-21 12:0x，UA-LAWWW2-1021-02／X90；標準 `ART_SOP.md` 第 10 節）；照 D99 先做經濟系 → 寒暑假 → 美國需要的場景（LAWWW-C 13:51Z）。角色美術由 LAWWW-C 驗收（D100）。
+- **今天（10-21）做好、已整合進開發分支的**：體育館光暈＋疊面（7baa4587 起）、LICENSES／原始檔清單（A3／A4）、大一 203 紙箱＋阿凱的膠帶（36c07603 → 開發分支 7ef4ff56）、美國 C208（13707c1f → fc645c8b）、日本 jp_room 保留（c8c810e1 → 90680fc6）、沛珊手穿裙子（cfd0e566，LAWWW-C 13:51Z 已套、接受）。
+- **WIP（保存了、沒有交）**：
+  1. **社科院柱廊柱子擋住玩家（P1）**：`campus_socsci.py` 14 根柱子換 `wz_pillar_soc` 材質＋GLB 重建（三角形不變、+1 材質）。**還沒在遊戲裡拍前後對照**。下一步：`$S/devwt13`（開發分支 96af1e54＋新 GLB）跑 `test_shots/patrol_campus_1021/patrol_campus.py <工作樹> <URL> <輸出> 15.0 soc_lib,soc_court_s`，和 `$S/devwt12`（沒改）比；看得到網點透空就交（patch 不用，只換 GLB＋json）。
+  2. **巡場景第 1 區校園**：白天、黃昏看完，夜晚拍了沒看；毛病列在 `ART_DIRECTOR_PATROL.md` 第 1 節。
+  3. **榕樹氣根黑線（P2）**：查到一半，探針結果在 `test_shots/patrol_campus_1021/README.md`；`street_trees.glb` 共用（含溫州街），修之前問 LAWWW-C。
+  4. **PS-SKIRT-LEG**（27618d8d）：停成 WIP，排在 D99 場景後面。
+- **待辦**（照順序）：柱子交件 → 校園夜晚看完 → 社科院中庭那面實牆（P2）→ 文學院／校史館黑門（P2）→ 寒暑假要用的 3D（機場等）→ 美國（A9 超市之間的街）→ 其他區域照 ART_DIRECTOR_PATROL.md 的順序；ART-BALCONY-POTS（P3）；outbox_LAWWW2.json 格式修正（P3，LAWWW-C 13:36Z，跟下一次交付一起改）。
+- **沒有遠端備份的**：只有 scratchpad 的測試工作樹（`devwt12`＝開發分支 96af1e54 乾淨；`devwt13`＝96af1e54＋新社科院 GLB；`chk382` 乾淨；`l118wt`、`wzwt` 是 10-20 的舊沙盒，裡面的修改都已被我的分支和開發分支更新的版本取代）和截圖原檔（挑過的合成圖已放進 repo）。沒有獨有的成果。
+- 沒在 iPhone 實機測過；全部是 Playwright 手機模擬。
+
 ## ▶ 值班登記（LAWWW2-C，2026-10-20T13:04Z）：使用者「我回來了，請同步 GitHub 最新進度，接續工作」＋「你的部分沒有別的AI接班 直接從你沒做完的開始」——同一個工作階段接續，基準 `7ed82687`（沒有別人接過 LAWWW2）。照下面「🔁 交班」的 B／C 接著做：BUG-WZFLICKER-2 → US-CAMPUS-WIRE 對 main 重做 → ART-BALCONY-POTS。
 
 ### 本班進度（2026-10-20，隨時更新）
