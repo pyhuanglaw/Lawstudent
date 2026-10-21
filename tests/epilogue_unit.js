@@ -17,7 +17,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   { const G=await first(Object.assign({},leanA,LAWYER),()=>{ ['zhe','yu','classmate_bohan','heroine_01','heroine_03'].forEach(H.FAMILIAR); });
     const M=H.msgs('g:noodle_team');
     check('J1. 傾向 A、律師：祐廷的照片「法律扶助基金會的櫃台」（第一張，自己傳的）',M[0]==='📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）'&&G.msgs.find(m=>m.text===M[0]).from==='player',JSON.stringify(M.slice(0,2)));
-    check('J1. 阿哲、小語、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('還在等放榜。先顧店。'));
+    check('J1. 阿哲、小語、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('二試還沒考。在店裡讀。'));
     check('J2. 芯慈不認識＝沒有她的照片',!M.includes('📷（照片：會計師事務所的電腦螢幕，一排 Excel）')&&!M.includes('法遵。四色筆還是要帶。'));
     check('J1. 旁白「（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）」；FIRST_DAY_SEEN；沒有延畢那一句',H.has('（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）')&&G.flags.FIRST_DAY_SEEN===true&&!H.has('（你的第一天，還在後面。）')); }
   { const G=await first({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true});   /* AA_357 1-6：延畢的 2030 報名看 BAR_REG_2030 */
