@@ -27396,7 +27396,7 @@
    "title": "深色底 70 段改用現成的圖（BB_220★，BB 逐張看過）：經濟系 kh_bus 早餐店→soymilk_shop（16 句）、10/15 桌遊→boardgame_gg、除夕電話加 {scene:電話}、8/13 放榜 home_room 移到最前面；美國 會所自習室→us_club_study（19 句）、鳳凰城機場→us_airport；寒暑假 左營站→kh_station、跨年視訊 5 個→video、跨年電話 3 個→{scene:電話}；日本線、萬才館二樓、台南車站等照表；颱風線上讀書會、峽谷 24 句維持深色（BB 決定）",
    "area": "BG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -27410,9 +27410,9 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:24：企劃線 9f514f00，BB_220 最上面★節（表格有檔案:列）",
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
-   "next": "照 BB_220★ 的表逐列改（events.js 等資料檔的 bg／scene），改完派 BB 用同一張表驗",
-   "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）19:46 UTC】404e33ab：BB_220★ ① 經濟系、寒暑假、其他列都接了（black_bg_audit 70 段 351 句 → 43 段 219 句；bg_dark70_unit）；剩美國兩列（會所自習室 us_club_study 兩場、鳳凰城機場 us_airport）等 AA_370 子代理合併 r3_events.js 後接；接完派 BB 照同一張表驗 ｜ 照 BB_220★ 的表逐列改（events.js 等資料檔的 bg／scene），改完派 BB 用同一張表驗",
+   "recheckOn": "2026-10-22",
+   "sha": "404e33ab"
   },
   {
    "id": "BUG-BG-CARDAY-1021",
