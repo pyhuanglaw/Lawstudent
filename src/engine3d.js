@@ -390,7 +390,7 @@ const E3 = (function(){
         else dist=hd-0.35>=0.7?hd-0.35:Math.max(0.12,hd-0.15);   /* 隔間牆：人可以貼著牆站（離牆中線 0.42 m），最近 0.7 m 的規則會把鏡頭放到牆後面——貼牆時鏡頭留在牆前、拉高從上面看 */
         out.copy(target).addScaledVector(fcDir,dist);
         if(inner){ out.y+=Math.min(0.9,(1-dist/dist0)*1.0);   /* 抬高之後再看一次頭 → 鏡頭：抬高可能抬進門楣（鏡頭剛好在門洞的平面上）、或從門洞看出去時被門楣擋住——擋到就沿著新的線拉近 */
-          fcDir.copy(out).sub(target); const l2=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=l2; const h3=E.ray.intersectObjects(LC,false); if(h3.length){ out.copy(target).addScaledVector(fcDir,Math.max(0.12,h3[0].distance-0.15)); } } } }
+          fcDir.copy(out).sub(target); const l2=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=l2; const h3=E.ray.intersectObjects(LC,false); if(h3.length){ const d3=Math.max(0.12,h3[0].distance-0.15); out.copy(target).addScaledVector(fcDir,d3); dist=Math.min(dist,d3); } } } }   /* 回傳的 dist 也要是拉近以後的（BUG-CAM-C208-1021：抬高撞到門楣、又拉近到 0.8 m，回傳的還是 2.2 m——autoSwing 以為不貼牆、不轉開，往前看也沒作用）*/
     return {dist,inner}; }
   E.followCam=followCam;
   /* 鏡頭貼牆時自動轉開（2026-10-13 LAWWW2 CAMERA_WALLS §1(1)；使用者轉達「鏡頭穿牆是最優先的共用技術問題」）：被隔間牆拉近到 1.5 m 以內、

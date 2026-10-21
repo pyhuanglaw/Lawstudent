@@ -76,6 +76,25 @@ const US3=(function(){
       else if(t==='balconyChairs'){ for(const [cx,cz] of f.chairs) nav.blockCircle(cx,cz,0.22); nav.blockCircle(f.table.x,f.table.z,0.3); } }
     nav._cm=null; return nav; }
   /* 備用模型：地板（木紋／地毯／磁磚的顏色）、1.1 m 高的矮牆（剖面看得到格局，不擋鏡頭）、家具方塊 */
+  /* 跟隨鏡頭的牆（BUG-CAM-C208-1021，BB_218：樓梯平台上鏡頭在北跑進屋裡、屋頂下，在西被平台西端的牆擋住；一進門鏡頭在東、廚房裡鏡頭在南／東，整個畫面是一面牆）——
+     和教學館同一套：engine3d.js 的 followCam 查 zone.camCols[lv]，擋到就拉近到牆前、拉近時抬高，autoSwing 轉向空的那一邊。
+     配置的每一面牆扣掉鏡頭看得過去的開口：開著的大門、沒有門板的廚房門、陽台門（玩家走得過去）、吧台窗口（窗台到窗楣之間）；
+     關著的門、窗照樣擋。門楣以上到天花板也擋。樓梯平台西端的牆（207 的門，關著）一起擋，高到平台的屋頂。測試：node tests/us_cam_walls_unit.js */
+  function aptCamCols(L,g,H){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], T=0.24;
+    const box=(axis,at,a,b,y0,y1)=>{ a-=0.06; b+=0.06; if(b-a<0.05||y1-y0<0.05) return; const ax=axis==='x';   /* 兩端各多 6 cm：視線擦過牆的端點也擋得到（教學館同一個做法）*/
+      const m=new THREE.Mesh(new THREE.BoxGeometry(ax?b-a:T,y1-y0,ax?T:b-a),inv); m.position.set(ax?(a+b)/2:at,(y0+y1)/2,ax?at:(a+b)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
+    const doorIn=(w,a,b)=>L.doors.find(d=>{ const u=w.axis==='x'?d.x:d.z, c=w.axis==='x'?d.z:d.x; return Math.abs(c-w.at)<0.15&&u>a-0.05&&u<b+0.05; });
+    /* 外牆（N、S、E、W）外面還有一層壁板，高到 H+0.4（tools/blender/env_second/us_apartment.py 的 OUTER）：鏡頭比天花板高時，視線從 2.6～3.0 m 穿過去也算擋住
+       （遊戲內 BB 57：平台上鏡頭轉開以後，停在屋裡貼著南牆、比牆頂高一點，畫面整個是牆頂）*/
+    for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), pass=[], Hw=/^[NSEW]$/.test(w.id||'')?H+0.4:H;
+      for(const o of (w.open||[])){ const a=Math.min(o[0],o[1]), b=Math.max(o[0],o[1]), kind=o[2]||'', d=doorIn(w,a,b);
+        if(kind==='passThrough') pass.push({a,b,y0:w.sill||0,y1:w.head||2.05});
+        else if(d?!d.closed:!/window/i.test(kind)) pass.push({a,b,y0:0,y1:w.head||2.05}); }
+      pass.sort((p,q)=>p.a-q.a); let a=lo;
+      for(const p of pass){ box(w.axis,w.at,a,p.a,0,Hw); box(w.axis,w.at,p.a,p.b,0,p.y0); box(w.axis,w.at,p.a,p.b,p.y1,Hw); a=p.b; }
+      box(w.axis,w.at,a,hi,0,Hw); }
+    const BW=L.breezeway; if(BW) box('z',BW.x0,BW.z0,BW.z1,0,2.85);
+    return out; }
   function aptFallback(L,fb){ const H=1.1; const col={wood:'#9a6a46',carpet:'#b7ada0',tile:'#d9d6cf'};
     for(const r of L.rooms){ const m=plane(fb,r.x1-r.x0,r.z1-r.z0,M(col[r.floor]||'#b8a48a'),(r.x0+r.x1)/2,(r.z0+r.z1)/2,0.005); m.userData.dyn=true; }
     for(const a of [L.balcony,L.breezeway]) plane(fb,a.x1-a.x0,a.z1-a.z0,M('#a8a49c'),(a.x0+a.x1)/2,(a.z0+a.z1)/2,0.005);
@@ -123,6 +142,7 @@ const US3=(function(){
     const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
     for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
     z.nav=aptNav(L); aptFallback(L,fb);
+    z.camCols=[aptCamCols(L,g0,H)];   /* 跟隨鏡頭撞到牆就拉近、轉開（BUG-CAM-C208-1021）*/
     // 燈：客廳吊扇的燈、臥室吸頂燈、廚房（白天弱、晚上亮）
     const lamps=[]; for(const [x,zz] of [[-1.6,-1.0],[3.2,-1.0],[-3.2,2.0],[-1.0,2.0],[0,4.0]]){ const l=new THREE.PointLight(0xffe2bc,2,7,2); l.position.set(x,H-0.35,zz); l.userData.on=9; l.userData.off=2; g0.add(l); lamps.push(l); }
     let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
