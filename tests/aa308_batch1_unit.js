@@ -28,9 +28,10 @@ if(j){ check('2. 1/8 18:00 還不演', !j.prereq.custom(G('2025-01-08',18)));
   check('2. 1/8 18:30 在家：演', !!j.prereq.custom(G('2025-01-08',18.5)));
   check('2. 1/9 不演（只有那天）', !j.prereq.custom(G('2025-01-09',19)));
   check('2. 演過（Y0_JAN8）另一個版本不再演', !jo.prereq.custom(G('2025-01-08',19,{Y0_JAN8:true}))&&!j.prereq.custom(G('2025-01-08',19,{Y0_JAN8:true})));
-  const T=texts(j); check('2. 句子照 AA_308 第 2 節（國文報告記錯時間、不能補交、簡章還在我桌上、先吃麵）', T[0]==='（一月八日。期末考考完兩個禮拜了。她還沒回高雄，約你在公館吃麵。）'&&T.includes('……國文那份報告，我記錯時間了。')&&T.includes('老師回信說，不能補交。')&&T.includes('我十二月去問的那個重考班，簡章還在我桌上。')&&T.includes('先吃麵。麵要糊了。')&&T[T.length-1]==='（那天晚上，誰都沒有說要怎樣。）', JSON.stringify(T));
-  const ch=j.dialogue.find(l=>l.choice); check('2. 選項「整科就那一份？」「（等她說下去）」', !!ch&&ch.choice.map(c=>c.text).join('|')==='「整科就那一份？」|（等她說下去）');
-  const ex=t=>(j.dialogue.find(l=>l.text===t)||{}).expression; check('2. 表情照 AA_308 第 9 節（報告 sad、開玩笑 surprised、先吃麵 smile）', ex('……國文那份報告，我記錯時間了。')==='sad'&&ex('……你那天傳訊息，我以為你在開玩笑。')==='surprised'&&ex('先吃麵。麵要糊了。')==='smile');
+  const T=texts(j); check('2. 句子照 AA_308 第 2 節＋AA_368 M4（1/3、1/6 的私訊已經講過「整科就這一份」「不能補交」，這裡不重講；12/20 到 1/8 是 19 天）：「期末考考完快三個禮拜了」「……葉老師那封信，我又看了一次。」「還是不能補交。」、簡章還在我桌上、先吃麵', T[0]==='（一月八日。期末考考完快三個禮拜了。她還沒回高雄，約你在公館吃麵。）'&&T[1]==='……葉老師那封信，我又看了一次。'&&T[2]==='還是不能補交。'&&!T.includes('……國文那份報告，我記錯時間了。')&&!T.includes('老師回信說，不能補交。')&&T.includes('我十二月去問的那個重考班，簡章還在我桌上。')&&T.includes('先吃麵。麵要糊了。')&&T[T.length-1]==='（那天晚上，誰都沒有說要怎樣。）', JSON.stringify(T));
+  const ch=j.dialogue.find(l=>l.choice); check('2. AA_368 M4：選項「妳打算怎麼辦？」「（等她說下去）」（原本「整科就那一份？」）', !!ch&&ch.choice.map(c=>c.text).join('|')==='「妳打算怎麼辦？」|（等她說下去）');
+  { const D=j.dialogue, at=lb=>{ const i=D.findIndex(l=>l.label===lb); return D[i+1]&&D[i+1].text; }; check('2. AA_368 M4：j8a →「……還不知道。」；j8b →「整科就那一份。……我一直在想這件事。」；之後 j8c 不改（「我十二月去問的那個重考班……」）', at('j8a')==='……還不知道。'&&at('j8b')==='整科就那一份。……我一直在想這件事。'&&at('j8c')==='我十二月去問的那個重考班，簡章還在我桌上。', JSON.stringify([at('j8a'),at('j8b'),at('j8c')])); }
+  const ex=t=>(j.dialogue.find(l=>l.text===t)||{}).expression; check('2. 表情照 AA_308 第 9 節（國文 sad、開玩笑 surprised、先吃麵 smile）', ex('……葉老師那封信，我又看了一次。')==='sad'&&ex('還是不能補交。')==='sad'&&ex('……你那天傳訊息，我以為你在開玩笑。')==='surprised'&&ex('先吃麵。麵要糊了。')==='smile');
   check('2. 背景是麵店（noodle_table）', (j.dialogue[0]||{}).bg==='noodle_table'); }
 // 4
 { const T=texts(ev('ev_y0_exam2')); check('4. 7/12 對答案（ev_y0_exam2）：沒有「……你數學一百？」「好像是。」；「數學我錯一題。」', !T.includes('……你數學一百？')&&!T.includes('好像是。')&&T.includes('數學我錯一題。'), JSON.stringify(T.slice(-6))); }

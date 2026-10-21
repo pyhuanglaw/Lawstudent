@@ -3,7 +3,7 @@
 //      記 KX_FIRST_MSG（8/30 早上不再演舊的「第一則訊息」）；回不回都排 8/30「臺北的家（載可昕上山）14:00」（捷運約 30 分鐘）
 //   2. 經濟系轉過來的（PLAYED_Y0）、沒交往、舊開局（9/17）都不會收到這一版
 //   3. 鬧鐘：8/29 晚上睡覺，「睡到明天下午、晚上」被 13:00 的鬧鐘叫醒；8/30 白天小睡、跳過時間在 13:20 停（出發前 10 分鐘）
-//   4. 出發 → 到家直接演 ev_y0_e37（字一字不改）→ 最後多一句「（你把車開回家，再搭捷運回宿舍。）」→ 回到宿舍 19:00 左右；經濟系那一版沒有這一句、時間不變
+//   4. 出發 → 到家直接演 ev_y0_e37（字一字不改）→ 最後多一句「（你把車開回家，再搭捷運回宿舍。）」→ 回到宿舍 19:00 左右；AA_368 M8：經濟系路線 8/29 也搬進宿舍了，8/30 住宿舍的一樣有這一句、多 1 小時；8/30 還住在家裡（舊開局 8/31 才轉）的沒有
 //   5. 14:15 還沒出發：可昕打電話（S.E37_CALL）→ 直接出遊
 // 修改前：第 1 項 FAIL（法律系開局沒有 E37）。用法：node tests/x81_law_e37_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -52,11 +52,16 @@ const lawStart=(day,hour,flags)=>{ fresh(day,hour,'dorm',Object.assign({KX_FIRST
   // 4
   back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=13.5; said=[]; picks=['我也以為']; const qq=OUT.get(G,'y0_e37'); await OUT.go(GM,qq); const L=said.map(x=>x.t);
   check('4a. 演 E37（字照 AA_303「法律系 8/30」）：開家裡的車、搬三趟、「這是我的床」、湯餃、「我也以為我會在經濟系。」那一支、一個人開車下山',L.includes('（八月三十日。你開家裡的車，載她和兩個行李箱上山。）')&&L.includes('（擦汗）……好。這是我的床。')&&L.includes('結果兩個人都繞了一圈。')&&L.includes('（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'),JSON.stringify(L.slice(-4)));
+  check('4a. AA_368 L7：小吃街「（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查政大附近的店，就想吃這家了。）」（原本「說上次來看宿舍的時候就想吃了」）',L.includes('（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查政大附近的店，就想吃這家了。）')&&!L.some(t=>/上次來看宿舍/.test(t)),JSON.stringify(L.filter(t=>/湯餃/.test(t))));
   check('4b. 最後多一句「（你把車開回家，再搭捷運回宿舍。）」',L[L.length-1]==='（你把車開回家，再搭捷運回宿舍。）',L[L.length-1]);
   check('4c. 回到宿舍 19:00 左右（14:00 到、演完開車回家、捷運回宿舍）、人還在宿舍、E37 演過',Math.abs(G.hour-19)<0.01&&G.zone==='dorm'&&!!G.events.done.ev_y0_e37&&qq.state==='done',G.hour+' '+G.zone);
-  // 經濟系那一版：沒有這一句、時間不變
+  // AA_368 M8：經濟系路線（8/29 已經轉法律系、搬進宿舍）8/30 住在宿舍＝一樣有這一句、多 1 小時；出發地點照舊（臺北的家樓下、開車）
   { fresh(D30,13.5,'dorm',{dating_kexin:true,PLAYED_Y0:true}); G.stage='law'; OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:D30,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3,alarm:true}); said=[]; picks=['我也以為']; await OUT.go(GM,OUT.get(G,'y0_e37')); const L2=said.map(x=>x.t);
-    check('4d. 經濟系那一版：沒有「（你把車開回家，再搭捷運回宿舍。）」、時間照舊（13:30 出發開車 40 分鐘＝14:10 到，演 4 小時＝18:10）',!L2.includes('（你把車開回家，再搭捷運回宿舍。）')&&Math.abs(G.hour-(13.5+2/3+4))<0.01,G.hour+' '+L2[L2.length-1]); }
+    check('4d. AA_368 M8：經濟系那一版住在宿舍：最後一樣是「（你把車開回家，再搭捷運回宿舍。）」、多 1 小時（13:30 出發開車 40 分鐘＝14:10 到，演 4 小時＋開車回家、捷運回宿舍 1 小時＝19:10；原本沒有這一句、18:10）',L2[L2.length-1]==='（你把車開回家，再搭捷運回宿舍。）'&&Math.abs(G.hour-(13.5+2/3+4+1))<0.01&&!G.flags.E37_LAW,G.hour+' '+L2[L2.length-1]); }
+  { fresh(D30,13.5,'home',{dating_kexin:true,Y0_MOVED_OUT:true,E01_MORNING:true}); G.stage='econ'; const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day;
+    OUT.plan(G,{id:'y0_e37',ev:'ev_y0_e37',day:D30,h:14,late:0.25,place:'臺北的家樓下',title:'臺北的家樓下 14:00',travel:'開車',travelH:2/3,alarm:true}); said=[]; picks=['我也以為']; await OUT.go(GM,OUT.get(G,'y0_e37'),{fromHome:true}); const L4=said.map(x=>x.t);
+    check('4e. AA_368 M8：8/30 還住在家裡的（舊開局經濟系 8/31 才轉法律系）：沒有這一句、不多 1 小時',!L4.includes('（你把車開回家，再搭捷運回宿舍。）')&&L4.includes('（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）')&&G.hour<19-1e-6,G.hour+' '+L4[L4.length-1]); }
+  { const g=(st,f,home)=>({stage:st,flags:f,day:D30,hour:15,home}); check('4f. STORY.e37Dorm：法律系開局（E37_LAW）、經濟系轉過來住宿舍（law）＝是；經濟系還住在家裡（econ＋Y0_MOVED_OUT）＝不是',STORY.e37Dorm(g('law',{E37_LAW:true}))&&STORY.e37Dorm(g('law',{PLAYED_Y0:true}))&&!STORY.e37Dorm(g('econ',{PLAYED_Y0:false,Y0_MOVED_OUT:true},{at:true,base:true}))); }
   // 5
   back(); G.day=D30; G.weekday=CALENDAR.dateOf(D30).wd%7; G.hour=14.3; said=[]; picks=['現在呢']; check('5a. 14:15 以後還沒出發：S.e37CallDue',STORY.e37CallDue(G));
   run(14.3,14.3); await new Promise(r=>setTimeout(r,50)); const L3=said.map(x=>x.t);

@@ -42,7 +42,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* 4-2 */
   { const d=DK('2024-12-13'); econ(d,13.9,'campus',{}); const a=EVENTS.check(ev('ev_y0_cram')); G.hour=14.2; const b=EVENTS.check(ev('ev_y0_cram'));
     picks=['只是來問問']; await EVENTS.run(ev('ev_y0_cram')); const L=lines();
-    check('4-2 12/13 14:00 以後（以前不會）：「高三那年，指考前兩天的晚上……」…工作人員「主任走之前交代過，說你會來。」「……你這樣可以免費。」（AA_272 8-4）→「好。這是簡章。」→ 兩句動作旁白、CRAM_FREE_KNOWN',!a&&b&&L.includes('高三那年，指考前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。')&&L.includes('工作人員：主任走之前交代過，說你會來。')&&L.includes('工作人員：你要問重考班對吧。我看一下你上次的成績。……你這樣可以免費。')&&L.includes('工作人員：好。這是簡章。')&&L.slice(-2).join('｜')==='（回去的捷運上，你把簡章翻了兩遍。）｜（然後你查了今年台大法律的錄取分數，看了很久。）'&&G.flags.CRAM_FREE_KNOWN===true,J(L.slice(-5)));
+    check('4-2 12/13 14:00 以後（以前不會）：「高三那年，分科測驗前兩天的晚上……」（AA_368 L4：原本「指考」）…工作人員「……你是{name}嗎？」（AA_368 L5：原本寫死「祐廷」）「主任走之前交代過，說你會來。」「……你這樣可以免費。」（AA_272 8-4）→「好。這是簡章。」→ 兩句動作旁白、CRAM_FREE_KNOWN',!a&&b&&L.includes('高三那年，分科測驗前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。')&&!L.some(t=>/指考/.test(t))&&L.includes('工作人員：……你是'+G.name+'嗎？')&&JSON.stringify(STORY_EVENTS.find(x=>x.id==='ev_y0_cram').dialogue).includes('……你是{name}嗎？')&&L.includes('工作人員：主任走之前交代過，說你會來。')&&L.includes('工作人員：你要問重考班對吧。我看一下你上次的成績。……你這樣可以免費。')&&L.includes('工作人員：好。這是簡章。')&&L.slice(-2).join('｜')==='（回去的捷運上，你把簡章翻了兩遍。）｜（然後你查了今年台大法律的錄取分數，看了很久。）'&&G.flags.CRAM_FREE_KNOWN===true,J(L.slice(-5)));
     check('4-2 沒有「你發現自己一直在想去年台大法律的分數」「還沒決定」；演過以後不再演',!L.join('').includes('去年台大法律')&&!L.join('').includes('還沒決定')&&!EVENTS.check(ev('ev_y0_cram'))&&!EVENTS.check(ev('ev_y0_cram_h')));
     G.hour=20.9; run(20.9,21.1); const m=txt('p:kexin');
     check('4-2 當晚 21:00：祐廷「我今天去以前的補習班。等主任走了才進去。」「然後櫃台說，主任交代過我會來。」→「哈哈哈哈哈哈」「……那你要去嗎？」→「還不知道。」→「好。」',J(m)===J(['player:我今天去以前的補習班。等主任走了才進去。','player:然後櫃台說，主任交代過我會來。','kexin:哈哈哈哈哈哈','kexin:……那你要去嗎？','player:還不知道。','kexin:好。']),J(m)); }
@@ -50,6 +50,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   /* 4-3 */
   { econ(DK('2025-01-03'),20.9,'home',{}); run(20.9,21.1); const m=(G.msgs||[]).filter(x=>x.th==='p:kexin'), q=m.find(x=>x.ask);
     check('4-3 1/3 21:00：截圖、「國文的期末報告。整科就這一份，一百分。」（AA_272 第 9 節 ae4806a9）、「我以為是下週五。」「是上週五。」＋三個選項；第三個「我在社科院一樓。」（他不能進總圖）',m.length===4&&m[1].text==='國文的期末報告。整科就這一份，一百分。'&&m[2].text==='我以為是下週五。'&&q&&J(q.ask.opts.map(o=>o.t))===J(['寄信問葉老師？','妳先不要慌。','要不要我現在過去？'])&&J(q.ask.opts[2].say).includes('我在社科院一樓。'),J(m.map(x=>x.text)));
+    check('4-3 AA_368 L8：第三個選項「要不要我現在過去？」→「你又沒事。……好啦，來。我在社科院一樓。」（原本「你又沒課。」）',!!q&&q.ask.opts[2].say[0].text==='你又沒事。……好啦，來。我在社科院一樓。'&&!J(q.ask.opts).includes('你又沒課'),q&&q.ask.opts[2].say[0].text);
     G.day=DK('2025-01-06'); run(20.9,21.1); check('4-3 1/6 21:00：葉老師回了（沒有選項）',txt('p:kexin').includes('kexin:很客氣。說不能補交，對每個人都一樣。'));
     G.day=DK('2025-01-11'); run(21.9,22.1); const q3=(G.msgs||[]).find(x=>x.tag==='y0_kx_essay3'&&x.ask);
     check('4-3 1/11 22:00：「沒交就是零分。整科零分。」「這科一定會被當。」「我不想要成績單上有一個不及格。」→「我在想要不要休學。」＋三個選項、記 KX_THINK_LEAVE；沒有「可能會被當」',(()=>{ const z=(G.msgs||[]).filter(x=>x.tag==='y0_kx_essay3').map(x=>x.text); return J(z.slice(0,4))===J(['沒交就是零分。整科零分。','這科一定會被當。','我不想要成績單上有一個不及格。','我在想要不要休學。']); })()&&!txt('p:kexin').join('').includes('可能會被當')&&!!q3&&q3.text==='我在想要不要休學。'&&q3.ask.opts.length===3&&!!G.flags.KX_THINK_LEAVE);

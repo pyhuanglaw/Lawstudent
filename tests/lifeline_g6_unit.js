@@ -85,16 +85,22 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     const q=(G.msgs||[]).find(x=>x.tag==='y0_kh_ask'&&x.ask); const K=txt('p:kexin');
     check('4-1 7/24 21:00：「明天公布成績。」「你要不要來高雄？我不想一個人查。」＋「好。我搭早上的客運。」／「我在家查就好。」',K.includes('kexin:明天公布成績。')&&!!q&&q.text==='你要不要來高雄？我不想一個人查。'&&J(q.ask.opts.map(o=>o.t))===J(['好。我搭早上的客運。','我在家查就好。']),J(K.slice(-2)));
     check('4-1 快轉停在 7/24 21:15',HOME.y0FixedNext(G,Tm(d24,20))===Tm(d24,21.25));
+    check('4-1 AA_368 M7：回覆期限＝7/25 02:30（夜班客運出發；原本 07:00）',!!q&&q.ask.until===d25*24+2.5,q&&q.ask.until-d25*24);
     const snap=JSON.stringify(G);
     PHONE.answer(G,'y0_kh_ask',0); check('4-1 選客運：KH_GO bus',G.flags.KH_GO==='bus');
-    G.day=d25; G.hour=8.5; const bh=EVENTS.check(ev('ev_y0_kh_bus_h')), hh=EVENTS.check(ev('ev_y0_kh_home_h'));
+    { const s1=JSON.stringify(G); G.hour=21.25; const H=HOME.rec(G); H.at=true; H.base=true; H.day=G.day; const tc=[], tc0=GM.titleCard; GM.titleCard=async(a,b)=>{ tc.push([a,b]); }; let w=null;
+      try{ for(let k=0;k<20;k++){ w=await HOME.y0Jump(GM,Tm(d25,8.5)); if(w!=='msg') break; } } finally { GM.titleCard=tc0; }
+      check('4-1 AA_368 M7：選了客運，在家快轉停在 7/25（五）02:30（日期卡「7/25（五）02:30」「臺北的家」），接著演客運版',w==='event'&&G.day===d25&&Math.abs(G.hour-2.5)<1e-6&&tc.some(([a,b])=>a==='7/25（五）02:30'&&b==='臺北的家')&&HOME.homeEvent(G)===ev('ev_y0_kh_bus_h'),J([w,G.day-d25,G.hour,tc]));
+      G=JSON.parse(s1); SOCIAL.bind(G); EVENTS.bind(GM); }
+    G.day=d25; G.hour=2.4; const b0=EVENTS.check(ev('ev_y0_kh_bus_h')); G.hour=2.5; const bh=EVENTS.check(ev('ev_y0_kh_bus_h')), hh=EVENTS.check(ev('ev_y0_kh_home_h'));
+    check('4-2 AA_368 M7：客運版 7/25 02:30 才開始（夜班客運；02:30 以前不演，原本 06:00）；在家快轉停在 02:30（HOME.y0Stop 看得到這個事件）',!b0&&bh&&!hh&&HOME.homeEvent(G)===ev('ev_y0_kh_bus_h'));
     said=[]; picks=['先不要講分數','以後我們不在同一個學校']; await EVENTS.run(ev('ev_y0_kh_bus_h')); const L=lines();
     const iB=L.indexOf('（早上七點半，國道上。成績八點公布，你算好八點到高雄。）'), iA=L.indexOf('（早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。）'), iT=L.indexOf('（十點，手機震了一下。補習班傳來今年的落點預估表。）'), iS=L.indexOf('杜可昕：你從看到表到現在，都沒有看我。'), iM=L.indexOf('（她把一袋東西塞給你。是她家巷口的肉粽，還是熱的。）');
-    check('4-2 7/25 早上在家：客運版（在家版不演）；AA_303 第 2 節 26 的開頭「（早上七點半，國道上。……）」「（手機震了一下。成績的簡訊提早到了。）」「（你查了自己的。比你想的高。）」…「（又震了一下。是她。她也收到了。）」；車上還沒有落點表（AA_308 第 7 節：到站以前沒有「落點」「差了一大截」「考上的話」「十點」「還有兩個小時」）',bh&&!hh&&iB===0&&L[1]==='（手機震了一下。成績的簡訊提早到了。）'&&L[2]==='（你查了自己的。比你想的高。）'&&L.includes('（又震了一下。是她。她也收到了。）')&&iA>iB&&!L.slice(0,iA).some(t=>/落點|差了一大截|考上的話|十點|還有兩個小時/.test(t))&&G.flags.SCORE_REPLY==='later',J(L.slice(0,iA)));
+    check('4-2 7/25 在家：客運版（在家版不演）；AA_368 M7 第一句「（凌晨兩點半，你搭上南下的夜班客運。）」，接 AA_303 第 2 節 26 的「（早上七點半，國道上。……）」（不改）「（手機震了一下。成績的簡訊提早到了。）」「（你查了自己的。比你想的高。）」…「（又震了一下。是她。她也收到了。）」；車上還沒有落點表（AA_308 第 7 節：到站以前沒有「落點」「差了一大截」「考上的話」「十點」「還有兩個小時」）',bh&&!hh&&L[0]==='（凌晨兩點半，你搭上南下的夜班客運。）'&&iB===1&&L[2]==='（手機震了一下。成績的簡訊提早到了。）'&&L[3]==='（你查了自己的。比你想的高。）'&&L.includes('（又震了一下。是她。她也收到了。）')&&iA>iB&&!L.slice(0,iA).some(t=>/落點|差了一大截|考上的話|十點|還有兩個小時/.test(t))&&G.flags.SCORE_REPLY==='later',J(L.slice(0,iA)));
     check('4-3 見面以後才看到落點表（AA_308 第 7 節）：早餐店 →「（十點，手機震了一下。補習班傳來今年的落點預估表。）」「（你那個分數，在臺大法律那一格。她那個分數，在政大法律那一格。）」「（她也在看同一張表。兩個人都沒有說話。）」→「……恭喜你。」…「你從看到表到現在，都沒有看我。」→ 三選一（KH_FIGHT）→「……我知道我考不好。我不用你幫我難過。」「我先回家。你自己逛一下。」',iT>iA&&L[iT+1]==='（你那個分數，在臺大法律那一格。她那個分數，在政大法律那一格。）'&&L[iT+2]==='（她也在看同一張表。兩個人都沒有說話。）'&&L[iT+3]==='杜可昕：……恭喜你。'&&iS>iT&&!L.includes('杜可昕：你從下車到現在，都沒有看我。')&&G.flags.KH_FIGHT==='school'&&L.includes('杜可昕：我先回家。你自己逛一下。')&&L.includes('（她走了。你在早餐店外面站了很久。）'),J(L.slice(iA,iS+1)));
     const P=TH('p:kexin').map(m=>m.from+':'+m.text);
     check('4-3 18:30 的私訊收進手機：「你回臺北的車幾點。」→「九點。」→「我八點去車站。」；手機也有 07:30 那三則',P.includes('kexin:你回臺北的車幾點。')&&P.includes('player:九點。')&&P.includes('kexin:我八點去車站。')&&P.includes('kexin:查到了。'),J(P.slice(-4)));
-    check('4-3 20:00 和好：「早上那樣，對不起。」「我也是。我不知道要講什麼。」→ 肉粽（AA_303：「政大也是法律……」「……捷運不用一個小時……」拿掉）→「車上吃。不要在車上難過。」→「（九點的客運開了。你在車上把肉粽吃完。）」、KH_MADEUP；演完 00:10 到家',iM>iS&&L[iM-2]==='杜可昕：早上那樣，對不起。'&&L[iM-1]==='祐廷：我也是。我不知道要講什麼。'&&!L.some(t=>/政大也是法律|捷運不用一個小時/.test(t))&&L.includes('杜可昕：車上吃。不要在車上難過。')&&L[L.length-1]==='（九點的客運開了。你在車上把肉粽吃完。）'&&G.flags.KH_MADEUP===true&&Math.abs(G.hour-(24+10/60))<1e-6,J([L.slice(-1),G.hour]));
+    check('4-3 20:00 和好：「早上那樣，對不起。」「我也是。我不知道要講什麼。」→ 肉粽（AA_303：「政大也是法律……」「……捷運不用一個小時……」拿掉）→「車上吃。不要在車上難過。」→「（九點的客運開了。你在車上把肉粽吃完。）」、KH_MADEUP；演完 7/26 02:10 到家（AA_368 M7：九點的客運開了以後約五小時；原本 00:10）',iM>iS&&L[iM-2]==='杜可昕：早上那樣，對不起。'&&L[iM-1]==='祐廷：我也是。我不知道要講什麼。'&&!L.some(t=>/政大也是法律|捷運不用一個小時/.test(t))&&L.includes('杜可昕：車上吃。不要在車上難過。')&&L[L.length-1]==='（九點的客運開了。你在車上把肉粽吃完。）'&&G.flags.KH_MADEUP===true&&G.day===d25&&Math.abs(G.hour-(26+10/60))<1e-6,J([L.slice(-1),G.hour]));
     check('4 演過以後不再演（兩個版本都不演）',!EVENTS.check(ev('ev_y0_kh_bus_h'))&&!EVENTS.check(ev('ev_y0_kh_home_h')));
     G=JSON.parse(snap); SOCIAL.bind(G); EVENTS.bind(GM); PHONE.answer(G,'y0_kh_ask',1); const K2=txt('p:kexin');
     check('4-1 選在家：她回「好。」、KH_GO home',K2[K2.length-1]==='kexin:好。'&&G.flags.KH_GO==='home');

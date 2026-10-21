@@ -2101,14 +2101,14 @@ const STORY_EVENTS=[
       {set:{KX_FIGHT_1212:true}} ];
     const cram=[ {scene:'以前的補習班',bg:'cram_street'},
       {speaker:null,text:'十二月十三日下午，你在外面晃，晃到以前的補習班那條街。'},   /* AA_308 第 1 節：30 分鐘版也演（前一天的電話小吵架不演，所以不說「隔天」）*/
-      {speaker:null,text:'高三那年，指考前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。'},
+      {speaker:null,text:'高三那年，分科測驗前兩天的晚上，你在這裡傳紙條、鬧了一整節，被主任請出去。隔天去看考場，再隔天考試。'},   /* AA_368 L4（企劃線 e55fda50）：遊戲裡是 2024 年，已經沒有指考，別處都叫分科測驗 */
       {speaker:null,text:'你本來就有想過，要不要再考一次。……問問看而已。'},
       {speaker:null,text:'（騎樓下。玻璃門裡，主任站在櫃台旁邊講電話。）'},
       {speaker:null,text:'你走到對面的飲料店，點了一杯最便宜的，站在門口等。'},
       {speaker:null,text:'二十分鐘後，主任拿著外套出來，往捷運站的方向走，轉過街角。'},
       {speaker:null,text:'你又等了五分鐘。'},
       {speaker:null,text:'（你推門進去。櫃台的工作人員抬頭看你。）'},
-      {speaker:'工作人員',text:'……你是祐廷嗎？'},{speaker:'player',text:'……對。'},
+      {speaker:'工作人員',text:'……你是{name}嗎？'},{speaker:'player',text:'……對。'},   /* AA_368 L5：玩家可以自己取名（原本寫死「祐廷」）*/
       {speaker:'工作人員',text:'主任走之前交代過，說你會來。'},{speaker:'player',text:'……'},
       {speaker:'工作人員',text:'你要問重考班對吧。我看一下你上次的成績。……你這樣可以免費。'},
       {choice:[{text:'「……他怎麼知道我會來？」',goto:'a'},{text:'「我只是來問問。」',goto:'b'},{text:'「主任還有說什麼嗎？」',goto:'c'}]},
@@ -2130,13 +2130,13 @@ const STORY_EVENTS=[
   ...(()=>{ const D=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
     const due=G=>{ const d=D('2025-01-08'); return d!=null&&G.day===d&&G.hour>=18.5&&!G.flags.Y0_JAN8; };
     const jan8=[ {scene:'公館・麵店',bg:'noodle_table'},
-      {speaker:null,text:'（一月八日。期末考考完兩個禮拜了。她還沒回高雄，約你在公館吃麵。）'},
-      {speaker:'kexin',expression:'sad',text:'……國文那份報告，我記錯時間了。'},
-      {speaker:'kexin',expression:'sad',text:'老師回信說，不能補交。'},
+      {speaker:null,text:'（一月八日。期末考考完快三個禮拜了。她還沒回高雄，約你在公館吃麵。）'},   /* AA_368 M4（企劃線 e55fda50）：1/3、1/6 的私訊（一定收到）已經講過「整科就這一份」「不能補交」；12/20 到 1/8 是 19 天——不重講國文的事 */
+      {speaker:'kexin',expression:'sad',text:'……葉老師那封信，我又看了一次。'},
+      {speaker:'kexin',expression:'sad',text:'還是不能補交。'},
       {speaker:null,text:'（她用筷子把麵捲起來，又放下。）'},
-      {choice:[{text:'「整科就那一份？」',goto:'j8a'},{text:'（等她說下去）',goto:'j8b'}]},
-      {label:'j8a'},{speaker:'kexin',expression:'sad',text:'……嗯。'},{goto:'j8c'},
-      {label:'j8b'},{speaker:'kexin',expression:'sad',text:'整科就那一份。'},
+      {choice:[{text:'「妳打算怎麼辦？」',goto:'j8a'},{text:'（等她說下去）',goto:'j8b'}]},
+      {label:'j8a'},{speaker:'kexin',expression:'sad',text:'……還不知道。'},{goto:'j8c'},
+      {label:'j8b'},{speaker:'kexin',expression:'sad',text:'整科就那一份。……我一直在想這件事。'},
       {label:'j8c'},{speaker:'player',text:'我十二月去問的那個重考班，簡章還在我桌上。'},
       {speaker:'kexin',expression:'surprised',text:'……你那天傳訊息，我以為你在開玩笑。'},
       {speaker:'player',text:'我也不知道是不是。'},
@@ -2288,7 +2288,7 @@ const STORY_EVENTS=[
       {speaker:null,text:'（下午，新崛江的巷子裡全是人。她拉著你的袖子往前擠，手上已經拿著一杯。）'},
       {speaker:'kexin',expression:'smile',text:'這家一定要喝。我高中每天下課都來。'},
       {scene:'高雄・駁二、大港橋',bg:'kh_pier2'},{speaker:null,text:'（駁二。舊倉庫改的展場，一間一間逛過去。）'},{speaker:null,text:'（三點，大港橋開始轉。白色的橋慢慢轉開，讓船過去。）'},
-      {speaker:'kexin',expression:'smile',text:'一天只轉一次。我高中的時候，還沒有這座橋。'},
+      {speaker:'kexin',expression:'smile',text:'它下午會轉。我高一那年，第一次跟同學來看。'},   /* AA_368 L6（企劃線 e55fda50）：她 2021 年上高中，橋已經在了；轉幾次不寫死 */
       {choice:[{text:'「轉得好慢。」',goto:'k1'},{text:'（拍她的照片）',goto:'k2'}]},
       {label:'k1'},{speaker:'kexin',expression:'smile',text:'慢才好看。'},{goto:'k3'},
       {label:'k2'},{speaker:'kexin',expression:'embarrassed',text:'……拍好看一點。'},
@@ -2489,7 +2489,7 @@ const STORY_EVENTS=[
       {choice:[{text:'「海邊。」',set:{E35_PLAN:'sea'},goto:'a'},{text:'「睡一整天。」',set:{E35_PLAN:'sleep'},goto:'b'},{text:'「妳選一家。」',set:{E35_PLAN:'shop'},goto:'c'}]},
       {label:'a'},{speaker:'kexin',expression:'laugh',text:'海邊喔。那我帶一顆西瓜。'},{goto:'end'},
       {label:'b'},{speaker:'kexin',expression:'laugh',text:'我也要睡。那天誰都不要叫我。'},{goto:'end'},
-      {label:'c'},{speaker:'kexin',expression:'thinking',text:'我選？……那公館巷子裡那家。我經過好幾次，每次都在排隊。'},
+      {label:'c'},{speaker:'kexin',expression:'thinking',text:'我選？……那我家巷子裡那家。我從國中吃到現在，每次都在排隊。'},   /* AA_368 H4（企劃線 e55fda50）：7/12 起她在高雄、日期卡寫他搭客運南下——原本「公館巷子裡那家」 */
       {label:'end'},{speaker:'kexin',expression:'smile',text:'好。去睡。明天要早起。'},
       {set:{E35_MET:true}},{set:{E35_DONE:true}} ];
     return [
@@ -2529,8 +2529,8 @@ const STORY_EVENTS=[
       { id:'ev_y0_exam2', stage:'econ', title:'對答案', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:due2}, dialogue:lines2 } ]; })(),
   /* ★成績公布那天（AA_272 第 4 節 4-2、4-3，c8baae2b；使用者 21:4x：她家在高雄、那天是公布分數、他在客運上心情不好、後來和好）：7/25（五），不能快轉。
      AA_303 第 2 節 26：成績八點公布、簡訊提早到（07:30），兩個人都收到；晚上和好拿掉「政大也是法律……」「……捷運不用一個小時……」兩句（在家版的 22:30 私訊同樣拿掉，story3d.js）。
-     KH_GO＝'bus'（7/24 選「好。我搭早上的客運。」）：早上在家（或在外面）就出發，一整天一段演完——07:30 客運上收到成績簡訊（SCORE_REPLY）→ 08:00 高雄客運站小吵架（KH_FIGHT）
-       → 18:30 她的私訊 → 20:00 客運站外面的便利商店和好（KH_MADEUP）→ 21:00 的客運回臺北，00:10 到家。
+     KH_GO＝'bus'（7/24 選「好。我搭早上的客運。」）：凌晨 02:30 在家（或在外面）就出發（AA_368 M7：夜班客運），一整天一段演完——07:30 客運上收到成績簡訊（SCORE_REPLY）→ 08:00 高雄客運站小吵架（KH_FIGHT）
+       → 18:30 她的私訊 → 20:00 客運站外面的便利商店和好（KH_MADEUP）→ 21:00 的客運回臺北，約五小時，7/26 02:10 到家（AA_368 M7；原本 00:10）。
      KH_GO 不是 'bus'（在家查、沒回）：07:30 手機版（4-2 的訊息照用，客運的旁白拿掉；第三個選項「先不要講分數。晚上打給妳。」AA-C 0cc64ec7）；
        21:00 電話（AA_272 第 12 節 c0ee2822，KH_FIGHT；睡著＝21:00 叫醒）→ 22:30 她的私訊（story3d.js，KH_MADEUP）。肉粽、問車、九點客運只在客運版。
      底圖：客運車廂、高雄客運站（白天、晚上）還沒有，先用深色底＋地點字幕（LAWWW2 的任務）*/
@@ -2552,7 +2552,8 @@ const STORY_EVENTS=[
       bus?{speaker:null,text:'（你把手機蓋在腿上。窗外是一片一片的田。）'}:null,
       bus?{speaker:null,text:'（還有半個小時。）'}:null,   /* AA_304 第 14 列 */
       ].filter(Boolean);   /* 「（還有兩個小時。）」拿掉：七點半上車、八點到（AA_303 第 2 節 26）*/
-    const busLines=[ to(7.5),{scene:'客運上',bg:'kh_bus_day'},...score(true),
+    const busLines=[ {speaker:null,text:'（凌晨兩點半，你搭上南下的夜班客運。）'},   /* AA_368 M7（企劃線 e55fda50）：這一場原本 06:00 從家裡開始，客運不可能兩小時到高雄（1/31 他自己開車都要四個多小時）——改搭凌晨的夜班客運：02:30 停在家裡（快轉的日期卡「7/25（五）02:30 臺北的家」）、這一行旁白；7:30「國道上」那句不改 */
+      to(7.5),{scene:'客運上',bg:'kh_bus_day'},...score(true),
       to(8),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
       {scene:'高雄・客運站附近的早餐店'},{speaker:null,text:'（早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。）'},   /* AA_308 第 7 節：見面以後才看到落點表 */
       to(10),{speaker:null,text:'（十點，手機震了一下。補習班傳來今年的落點預估表。）'},{speaker:null,text:'（你那個分數，在臺大法律那一格。她那個分數，在政大法律那一格。）'},{speaker:null,text:'（她也在看同一張表。兩個人都沒有說話。）'},
@@ -2567,7 +2568,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'車上吃。不要在車上難過。'},
       to(21),{speaker:null,text:'（九點的客運開了。你在車上把肉粽吃完。）'},
       {set:{KH_MADEUP:true,KH_DAY:'bus'}} ];
-    const busAfter=(G,GM)=>{ if(G.hour<24+10/60) GM.advance(24+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* 三小時的客運，00:10 到臺北的家 */
+    const busAfter=(G,GM)=>{ if(G.hour<26+10/60) GM.advance(26+10/60-G.hour); if(!atHome(G)&&typeof HOME!=='undefined'&&HOME.go) void HOME.go(GM); };   /* AA_368 M7：九點的客運開了以後約五小時，7/26 02:10 到臺北的家（原本「三小時的客運，00:10」）*/
     const homeLines=[ to(7.5),{scene:'臺北的家'},...score(false),
       to(10),{speaker:null,text:'（十點，補習班傳來今年的落點預估表。你那個分數，在臺大法律那一格。）'},{speaker:null,text:'（她傳來一張截圖：同一張表，她把自己那一格圈起來。政大法律。）'},{speaker:null,text:'（考上的話，你在臺大，她在政大。以後不會每天坐在同一張桌子了。）'},   /* AA_308 第 7 節在家版：落點 10:00 才出來 */
       {set:{KH_DAY:'home'}} ];
@@ -2582,7 +2583,7 @@ const STORY_EVENTS=[
       {speaker:'kexin',expression:'smile',text:'……早點睡。不要躺在床上難過。'},{speaker:'player',text:'妳也是。'},{set:{KH_MADEUP:true}} ];
     const madeDue=G=>{ const d=DK('2025-07-25'); return d!=null&&(G.day>d||(G.day===d&&G.hour>=22.5))&&G.day<=d+1&&!!G.flags.KH_CALL_DONE&&!G.flags.KH_MADEUP; };
     const d25=G=>{ const d=DK('2025-07-25'); return d!=null&&G.day===d&&!!G.flags.dating_kexin&&!G.flags.KH_DAY; };
-    const busDue=G=>d25(G)&&G.hour>=6&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';
+    const busDue=G=>d25(G)&&G.hour>=2.5&&G.flags.KH_GO==='bus', homeDue=G=>d25(G)&&G.hour>=7.5&&G.flags.KH_GO!=='bus';   /* AA_368 M7：客運版 02:30 開始（原本 06:00）*/
     return [
       { id:'ev_y0_kh_bus_h', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:busDue}, dialogue:busLines, after:busAfter },
       { id:'ev_y0_kh_bus', stage:'econ', title:'成績公布', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>busDue(G)&&!atHome(G)}, dialogue:busLines, after:busAfter },
@@ -2625,15 +2626,15 @@ const STORY_EVENTS=[
      邀約、出發選單、14:15 的電話在 story3d.js；從家裡出發的演完回臺北的家（home3d.js）*/
   { id:'ev_y0_e37', stage:'any', kxAway:true,   /* kxAway：結尾「你一個人開車下山」（AA_309 第 3 列）*/   /* 選 1：8/29 轉進法律系以後的 8/30 也演（只由出遊觸發，once）*/ title:'第一次一起去政大', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:4,
     dialogue:[ {scene:'政大・宿舍',bg:'nccu_dorm_day'},{speaker:null,text:'（八月三十日。你開家裡的車，載她和兩個行李箱上山。）'},{speaker:null,text:'（政大的宿舍在山上。電梯很小，你們搬了三趟。）'},{speaker:'kexin',expression:'tired',text:'（擦汗）……好。這是我的床。'},
-      {scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說上次來看宿舍的時候就想吃了。）'},{speaker:'kexin',expression:'smile',text:'以後你開車來找我。我負責選宵夜。'},
+      {scene:'政大・山下的小吃街',bg:'nccu_food'},{speaker:null,text:'（山下的小吃街。她點了兩碗酸辣湯餃，說放榜那天晚上查政大附近的店，就想吃這家了。）'},{speaker:'kexin',expression:'smile',text:'以後你開車來找我。我負責選宵夜。'},   /* AA_368 L7（企劃線 e55fda50）：原本「說上次來看宿舍的時候就想吃了」；開頭「山下的小吃街。」保留 */
       {speaker:'kexin',expression:'thinking',text:'去年這個時候，我以為我九月會在臺大念大二。'},
       {choice:[{text:'「我也以為我會在經濟系。」',goto:'g1'},{text:'（等她說下去）',goto:'g2'},{text:'「現在呢？」',goto:'g3'}]},
       {label:'g1'},{speaker:'kexin',expression:'smile',text:'結果兩個人都繞了一圈。'},{speaker:null,text:'（她說完，往山上的宿舍走。你陪她走上去。）'},{goto:'h'},
       {label:'g2'},{speaker:'kexin',expression:'serious',text:'沒有後悔喔。只是有時候會想一下。'},{goto:'h'},
       {label:'g3'},{speaker:'kexin',expression:'teasing',text:'現在在想，湯餃要不要再買一份帶回去。'},
       {label:'h'},{speaker:null,text:'（到了宿舍門口，她回頭揮了一下手。你一個人開車下山。）'},
-      {if:{flags:['E37_LAW']},speaker:null,text:'（你把車開回家，再搭捷運回宿舍。）'} ],   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）*/
-    afterOuting:(G,GM)=>{ if((G.flags||{}).E37_LAW&&GM.advance) GM.advance(1); } },   /* 從法律系開局：開車回家、再搭捷運回宿舍——比經濟系那一版多 1 小時（14:00 到、回到宿舍 19:00 左右）*/
+      {if:{custom:G=>typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):!!(G.flags||{}).E37_LAW},speaker:null,text:'（你把車開回家，再搭捷運回宿舍。）'} ],   /* AA_307 第 6 列；最後一句＝從法律系開局的版本（X81，AA_303「法律系開局的 8/30」，AA-C bcb678e0）；AA_368 M8：改成 8/30 住在宿舍的人都有（經濟系路線 8/29 也搬進宿舍了，STORY.e37Dorm）*/
+    afterOuting:(G,GM)=>{ if((typeof STORY!=='undefined'&&STORY.e37Dorm?STORY.e37Dorm(G):(G.flags||{}).E37_LAW)&&GM.advance) GM.advance(1); } },   /* 住在宿舍的（AA_368 M8；原本只有法律系開局）：開車回家、再搭捷運回宿舍——多 1 小時（14:00 到、回到宿舍 19:00 左右）；出發地點照舊（他先回家開車）*/
   /* E35 考完以後：7/19（六）摘要日（AA_154 A47；旁白 AA 寫）：E35_PLAN 有值才演；字卡「7/19（六）」＋一句旁白，接她考前一晚的回應；那一天用摘要帶過（演完到 20:00）。
      ev_y0_e35s＝人不在家；ev_y0_e35sh＝在臺北的家（home3d.js 選單那一輪）*/
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-07-19'):null; return d!=null&&G.day===d&&!!G.flags.E35_PLAN&&!G.flags.E35_SUM; };
@@ -2726,7 +2727,7 @@ const STORY_EVENTS=[
      不重演 P2（地點固定公館）；先桌遊（19:00～22:00）後夜市（到 22:20），BB-B 審稿後的順序（AA_154 92e541a9）。寫 E10_EVE:'went'（E10 第一句讀它）；兩個選項都只有可昕熟悉度 +1；夜市 −100（桌遊錢唐睿出）*/
   { id:'ev_y0_gather', stage:'econ', title:'經濟系的聚會', participants:['econ_zhengxun','econ_pinyu'], location:'any', trigger:'outing', once:true, background:'dark', hours:3+1/3,
     dialogue:[ {scene:'公館',bg:'gongguan'},
-      {speaker:null,text:'（公館。期中考前的最後一個晚上。）'},
+      {speaker:null,text:'（公館。下禮拜就是期中考。）'},   /* AA_368 L1（企劃線 e55fda50）：10/15 演，原本「期中考前的最後一個晚上」*/
       {speaker:'韋綸',text:'今天不准聊期中喔。誰聊到，今晚的桌遊錢他出。'},
       {scene:'公館・桌遊店',bg:'boardgame_gg'},{speaker:null,text:'（六個人擠進一家桌遊店。一個人一小時五十元。）'},
       {speaker:'econ_pinyu',text:'（看了一下錢包）三個小時的話，剛好。'},

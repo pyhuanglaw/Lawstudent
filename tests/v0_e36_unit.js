@@ -57,7 +57,8 @@ const grp=()=>(G.msgs||[]).filter(m=>/^g:econ/.test(m.th)).map(m=>m.text);
   check('3. 安靜了一下以後，她說回去經濟系要一個人從大一開始（AA_298 第 10 節、d744bf3d）；E36_REPLY 不再記；E36_PACT weekly 照用；最後一句「月底我就上去了。……」',L.includes('（電話那頭安靜了一下。）')&&L.includes('回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。')&&L.includes('（你想再說什麼，最後沒有說。之後，你也沒有再問過。）')&&L.indexOf('九月以後，就不是同一張桌子了。')>L.indexOf('回去經濟系，要一個人從大一開始。那時候的朋友都大二了，你也不在。')&&!G.flags.E36_REPLY&&L.includes('是哪一天，等我們都摸熟自己的課表再說。不准忘記。')&&G.flags.E36_PACT==='weekly'&&L[L.length-1]==='月底我就上去了。行李很多，你要載我。',J(L));
   check('3. 演完不接宵夜（E36n 不再演）、一次',!EVENTS.check(en)&&!EVENTS.check(e)&&!EVENTS.check(eh));
   run(21.9,21.95); check('4. 22:00 以前群組沒有',!grp().includes('祐廷！！看到了！！'));
-  run(22,22.1); const P=grp(); check('4. 22:00 經濟系群組四則：阿勳「祐廷！！看到了！！」品妤「0.1 也是分數。恭喜。」韋綸「走啦！！回來請吃宵夜！！」品妤「可昕也恭喜。」；沒有宵夜攤照片',J(P.slice(-4))===J(['祐廷！！看到了！！','0.1 也是分數。恭喜。','走啦！！回來請吃宵夜！！','可昕也恭喜。'])&&!P.some(t=>t.includes('宵夜攤')),J(P.slice(-4)));
+  run(22,22.1); const P=grp(); check('4. 22:00 經濟系群組四則：阿勳「祐廷！！看到了！！」品妤「恭喜。」（AA_368 M2：原本「0.1 也是分數。恭喜。」，只高 0.1 只有電話裡講過）韋綸「走啦！！回來請吃宵夜！！」品妤「可昕也恭喜。」；沒有宵夜攤照片',J(P.slice(-4))===J(['祐廷！！看到了！！','恭喜。','走啦！！回來請吃宵夜！！','可昕也恭喜。'])&&!P.some(t=>t.includes('宵夜攤')||t.includes('0.1')),J(P.slice(-4)));
+  { const s4=JSON.stringify(G); back(); G.name='阿明'; run(22,22.1); const P2=grp(); check('4. AA_368 L5：阿勳那則照玩家取的名字（「{name}！！看到了！！」；手機訊息不換 {name}，送出時就換好）——名字「阿明」＝「阿明！！看到了！！」',P2.includes('阿明！！看到了！！')&&!P2.some(t=>t.includes('祐廷')||t.includes('{name}')),J(P2.slice(-4))); G=JSON.parse(s4); SOCIAL.bind(G); EVENTS.bind(GM); }
   // 5. 在外面接；睡著被叫醒
   back(); G.hour=20.2; HOME.rec(G).at=false; G.zone='gongguan'; check('5. 20:00 以後人在外面：外面那一個演（家裡那一個只在家裡的選單那一輪演）',EVENTS.check(e));
   check('5. coreCallAt：8/13 19:00 睡著＝20:00 手機響',(()=>{ back(); G.hour=19; return STORY.coreCallAt(G)===20; })());
