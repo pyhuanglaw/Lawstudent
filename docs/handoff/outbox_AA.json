@@ -819,6 +819,66 @@
    "receiver": "LAWWW",
    "ack": "ACTIONED",
    "note": "原 task：AA 開發分支直接推的字串（10-18 下午）；原 ack：LAWWW-C 回報已發布"
+  },
+  {
+   "task": "AA-Q-1021-AA360",
+   "branch": "claude/story-planning",
+   "sha": "e39f0d6b",
+   "files": [
+    "docs/story_planning/AA_363_回LAWWW_AA_QUESTIONS_1021_R_S_T.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 AA_363 改程式",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "R 節：AA_360 實作的 8 題（R1 照片、R3 時鐘、R4 改字、R5 回憶名稱、R7 選項 c、R8 名單；R2、R6 照現在）"
+  },
+  {
+   "task": "AA-Q-1021-TE",
+   "branch": "claude/story-planning",
+   "sha": "e39f0d6b",
+   "files": [
+    "docs/story_planning/AA_363_回LAWWW_AA_QUESTIONS_1021_R_S_T.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 AA_363 改程式",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "S1：學姊 12/24 邀約改「我昨天回來的」"
+  },
+  {
+   "task": "BUG-ECON-MONEY-1020",
+   "branch": "claude/story-planning",
+   "sha": "e39f0d6b",
+   "files": [
+    "docs/story_planning/AA_363_回LAWWW_AA_QUESTIONS_1021_R_S_T.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 AA_363 改程式",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "S2：搬回家後每月 5,000、學費不從帳戶扣、回宿舍恢復 30,000、不設上限、舊存檔不扣回"
+  },
+  {
+   "task": "AA-Q-1021-Y5",
+   "branch": "claude/story-planning",
+   "sha": "e39f0d6b",
+   "files": [
+    "docs/story_planning/AA_363_回LAWWW_AA_QUESTIONS_1021_R_S_T.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照 AA_363 改程式",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "T 節：AA_357 實作的 9 題（T1 第五年卡片、T2 阿哲、T3 一跳一句規則、T4 畢業後資料頁、T7 三件、T9 一行；T5、T6、T8 照現在）"
   }
  ],
  "items": [
