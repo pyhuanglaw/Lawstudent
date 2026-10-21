@@ -1,6 +1,6 @@
 # 大一 203：阿凱的膠帶寫大字、壓平的紙箱搬到看得到的地方（BB_218 兩項不通過）——已交件
 
-帳號 A 的 LAWWW2，2026-10-21 17:1x UTC。狀態：**已交件**，交給 LAWWW 整合；請 BB 用同一支腳本重拍。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
+帳號 A 的 LAWWW2，2026-10-21 16:5x UTC。狀態：**已交件**，交給 LAWWW 整合；請 BB 用同一支腳本重拍。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
 
 ## 問題（BB_218，`claude/story-planning`）
 

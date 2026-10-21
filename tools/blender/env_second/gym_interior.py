@@ -33,7 +33,7 @@ def img_mat(name, fn, rough=0.6, emit=0.0):
 
 P = 'gym_'
 M = {
-    'floor': img_mat(P + 'court_floor', 'gym_floor.jpg', rough=0.5),   # 0.32→0.5（BB_218 2026-10-21：亮面地板上平行光的高光在畫面上成一道白霧，跟著鏡頭轉、不跟著平移；球場木地板保留一點光澤）
+    'floor': img_mat(P + 'court_floor', 'gym_floor.jpg', rough=0.6),   # 0.32→0.6（BB_218 2026-10-21 的白霧：引擎的補光 E.fill（固定方向的平行光）在亮面地板上的高光，跟著鏡頭轉、不跟著平移；逐盞關燈量到只有關掉 E.fill 會消失。0.5 還剩四成，0.6 看不出來；球場的光澤由頂燈的點光源保留）
     'lobby_floor': L.pbr(P + 'lobby_floor', 'granite_tile', tile=1.2, target='#a9a7a2', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.35),
     'concrete': L.pbr(P + 'plaster', 'white_plaster_02', tile=2.5, target='#dedbd3', normal=0.5, maps=('diff', 'nor'), rough_value=0.85),   # v2：清水混凝土的水漬太髒（像停車場）→ 白色粉刷牆
     'pad': L.flat(P + 'wall_pad', '#2f5a8a', rough=0.7), 'pad_trim': L.flat(P + 'pad_trim', '#d9dde2', rough=0.5),

@@ -1,6 +1,6 @@
 # ART-BALCONY-POTS：陽台盆栽從街上看得到（溫州街＋公館）
 
-帳號 A 的 LAWWW2，2026-10-21 17:0x UTC。狀態：**已交件**（溫州街、公館都做完，遊戲內前後對照都拍了）。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
+帳號 A 的 LAWWW2，2026-10-21 16:4x UTC。狀態：**已交件**（溫州街、公館都做完，遊戲內前後對照都拍了）。READY_FOR_ART_REVIEW（不標 ART_APPROVED）。
 
 ## 問題
 
