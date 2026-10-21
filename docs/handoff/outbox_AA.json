@@ -879,6 +879,36 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "T 節：AA_357 實作的 9 題（T1 第五年卡片、T2 阿哲、T3 一跳一句規則、T4 畢業後資料頁、T7 三件、T9 一行；T5、T6、T8 照現在）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "43a8c17a",
+   "files": [
+    "src/y2b3d.js"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "BB 測芷若英國明信片時照新句",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_362 第 4 節：芷若明信片 2027-10-22 改句（AA 直接推開發分支，合併 738cecaf）；沛珊、柏翰兩句 LAWWW-C bc7c8823 已改"
+  },
+  {
+   "task": "KX-EXPR-1018",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "de616dbc",
+   "files": [
+    "src/data/events.js"
+   ],
+   "state": "已整合",
+   "remaining": "法律系四年的可昕台詞約 150 句還沒標表情（下一批）",
+   "next": "AA 補法律系四年；BB 測經濟系可昕表情",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "可昕經濟系 35 句補表情（ev_y0_e07 26、ev_y0_r7 3、ev_y0_e37 6）；AA 直接推開發分支"
   }
  ],
  "items": [
