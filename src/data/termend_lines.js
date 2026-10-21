@@ -254,7 +254,7 @@ const TERMEND_LINES=(function(){
   const C14={msg:['{日期}早上十點，我爸說可以。','穿平常的衣服就好，他們不看。'],bg:null,place:'芯慈爸爸的事務所',
     open:[{narr:'（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）'},{who:'classmate_xinci',text:'這是我爸。'},{who:'xinci_dad',name:'芯慈爸爸',text:'你們法律系現在都教什麼？'}],
     opts:[{t:'「民法、刑法、憲法……還有很多考試。」',say:[{who:'xinci_dad',name:'芯慈爸爸',text:'考試沒變。'},{narr:'（他笑了一下。）'}]},
-          {t:'「上學期我去旁聽了一場開庭。」',if:G=>!!(G.flags&&G.flags.COURT_VISITED),say:[{who:'xinci_dad',name:'芯慈爸爸',text:'那你看過了。這裡大部分的時間，都在寫東西。'}]}],
+          {t:'「我去法院旁聽過一場開庭。」',if:G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_crimpro_court_visit),say:[{who:'xinci_dad',name:'芯慈爸爸',text:'那你看過了。這裡大部分的時間，都在寫東西。'}]}],   /* AA_344 ①（569621e0）：原本讀的 COURT_VISITED 沒有地方設、選項永遠不出現；改成演過大三上刑訴的法院旁聽（ev_crimpro_court_visit），字改「我去法院旁聽過一場開庭。」*/
     close:[{narr:'（會議室的白板上，寫著一張很長的時間表。芯慈看了一眼，沒說話。）'},{who:'classmate_xinci',text:'……我以前來這裡，都只坐櫃台。'}],
     miss:['我自己去了。我爸問你怎麼沒來。']};
   /* C15 朋友約的單日小事（AA_251 第 2 節）：日子 LAWWW 暫排；msg＝傳日子（AA_270 第 2 節）；photo＝沒去的那天晚上 21:00 私訊（第 3 節）*/
