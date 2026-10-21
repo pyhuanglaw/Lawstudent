@@ -28,8 +28,8 @@ LAWWW2-C，2026-10-21。
 |---|---|---|---|
 | 1 | 體育館的光暈沒接（ART-GYM1） | `gym_interior` 50、`gym_b1` 69 個 GLOW_；`gym3d.js` 用 `attachRoomGLB`，不處理光暈。溫州街、公館已經有 `wzGlowBatch`（114a69fa） | **已交件**（`test_shots/gym_glow_1021/`）：patch＋重匯兩個 GLB（光暈大小改在腳本裡） |
 | 2 | 體育館疊面（新發現，表上沒有） | 掃描：`gym_interior` 不同材質疊在一起 56 m²。<br>- 看台踢面 × 後牆墊 33.8 m²（4.68, 1.2, −19.0）；<br>- 鋼構 × 石牆 14.1 m²；<br>- 鋼構 × 燈 5.3 m²。<br>`gym_b1` 8.45 m² | **已交件**（同上）：一定會閃的 1F 5.41 → 0.95 m²、B1 2.23 → 0；56 m² 是連背對背（看不到）一起算的 |
-| 3 | `LICENSES.md` 缺列 | 27 個已整合的 GLB 沒有列，`ntu_gym_ceremony.webp` 也沒有（清單在下面） | 寫補列 patch 交 LAWWW-C |
-| 4 | 原始檔沒進開發分支（D88） | manifest 的 source 指到 13 支腳本，開發分支沒有（美國篇 7、機場、道具 2…）；`wancai_seminar.py`；新版 `campus_male1.py`／`linze_upper.py`；`ART_SOP` 等 6 份文件；`us_*.layout.json` | 列「檔案＋blob」清單，請 LAWWW-C 一次挑（不影響遊戲） |
+| 3 | `LICENSES.md` 缺列 | 27 個已整合的 GLB 沒有列，`ntu_gym_ceremony.webp` 也沒有（清單在下面） | **已交件**：`patches/licenses_1021.diff`（13 列涵蓋 27 個檔，套在開發分支 382236a5） |
+| 4 | 原始檔沒進開發分支（D88） | manifest 的 source 指到 13 支腳本，開發分支沒有（美國篇 7、機場、道具 2…）；`wancai_seminar.py`；新版 `campus_male1.py`／`linze_upper.py`；`ART_SOP` 等 6 份文件；`us_*.layout.json` | **已交件**：`SOURCE_FILES_1021.md`（A 建議拿 54、B 體育館 3、C 不要拿 48、D 文件 12、E 其他 68） |
 | 5 | ART-BALCONY-POTS 公館那一半 | 沒有任何 commit | 照舊在佇列 |
 | 6 | 社科院夜景（蓮花柱發白、窗戶單調；10-18 稽核 B9） | 沒有人查過，沒有任務 | 先拍遊戲內 19:30 截圖確認 |
 | 7 | 小公園疊面 | `wz_park` 草地 × 石材 12.4 m²（16.23, 0, 27.31） | 確認會不會閃（修閃爍＝修 bug） |

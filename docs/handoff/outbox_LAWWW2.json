@@ -1044,6 +1044,18 @@
    "state": "已整合：博雅、普通教學館室內 GLB 在 v9.10.1（55b67ccf）接進遊戲，兩個 GLB 各有 L0_door ×2、L1_door ×2、tb_door 節點；teach3d.js 開頭寫「關著的房間有門、互動寫清楚（不用隱形牆）」；5a6990dd 換掉博雅→普通空橋的木門。原本 ART-02 要的「教室門模組」已由正式室內 GLB 取代",
    "remaining": "無",
    "next": "LAWWW-C 改任務表 ART-02 為結案（被正式室內 GLB 取代）"
+  },
+  {
+   "task": "SWEEP-A3／A4：LICENSES 補列 patch＋原始檔清單（清查 A3、A4）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/licenses_1021.diff",
+    "docs/art-rebuild/second_ai/SOURCE_FILES_1021.md"
+   ],
+   "state": "LICENSES：補 13 列（27 個 GLB＋ntu_gym_ceremony.webp），每列寫腳本、Poly Haven id、D77 說明；patch 在開發分支 382236a5 的 LICENSES.md 上 dry-run 套得起來。原始檔：分 A 建議拿（已整合的 GLB／背景的腳本、配置 54）、B 體育館這次（3）、C 不要拿（日本 3D、未整合、2D 歸 BB、草稿 48）、D 文件（12）、E 其他（68）",
+   "remaining": "無（不影響遊戲執行）",
+   "next": "LAWWW-C 套 LICENSES patch、挑原始檔"
   }
  ]
 }
