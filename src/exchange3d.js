@@ -35,7 +35,7 @@ const EXCH=(function(){
     finally{ GM.sceneEnd(); }
     if(typeof S.onArrive==='function'){ let r=false; try{ r=await S.onArrive(GM); }catch(e){ console.warn('EXCH.onArrive',e); } if(r){ if(GM.autosave) GM.autosave(); return true; } }   /* AA_327 2-Y4-16 US1（src/r2y4a3d.js）：巴士站 → 超市 → 公寓 */
     await GM.enter('us_outside',S.SPAWN.us_outside); if(GM.toast) GM.toast('公寓在社區的另一頭。',3000); if(GM.autosave) GM.autosave(); return true; };
-  /* ---------- 返台（美國路線 2028-12-23；AA_318 1A-09、AA_144 X3、AA_291 第 5 節）：當地 12/22 06:00 以後、人在美國 → 字卡 → 臺灣 12/23 清晨 05:40 落地 → 回家 → 傍晚去宿舍 409 ---------- */
+  /* ---------- 返台（美國路線 2028-12-23；AA_318 1A-09、AA_144 X3、AA_291 第 5 節、AA_340 S10）：當地 12/21 23:55 以後、人在美國 → 字卡 → 臺灣 12/23 清晨 05:40 落地 → 回家 → 傍晚去宿舍 409 ---------- */
   S.returnAt=function(G){ if(!G||!G.flags||!G.flags.US_ARRIVED||G.flags.US_RETURNED!=null||typeof STORY==='undefined'||STORY.route(G)!=='US') return null; const d=DK(STORY.ROUTE_DATES.US.ret); return d==null?null:T(d-2,23+55/60); };   /* AA_340 S10：12/21 23:55 起飛（舊金山；沒交往的 17:00 印第安納波利斯起飛、轉同一班）。平常由 r2y4a3d.js 的 12/16 離開那一週帶過來（force），這裡是保底 */
   S.returnDue=function(G){ const t=S.returnAt(G); return t!=null&&S.inUS(G)&&T(G.day,G.hour)>=t; };
   S.returnHome=async function(GM,o){ const G=GM.G, F=G.flags; if(!(o&&o.force&&S.returnAt(G)!=null)&&!S.returnDue(G)) return false;   /* force：AA_327 2-Y4-22 舊金山／布魯明頓那一週演完、12/21 起飛（src/r2y4a3d.js）*/ const d=DK(STORY.ROUTE_DATES.US.ret); F.US_RETURNED=d; GM.sceneBegin();
