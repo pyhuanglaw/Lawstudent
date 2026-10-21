@@ -925,7 +925,7 @@
    "next": "無（實機秒數沒量過）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "DELIVERED",
    "note": "修正後（2469df7f）ALL PASS：讀檔後第一次進門橫／直向開場 ev.shot、地上「法律系免簽」、沒被蓋；模型載不到照原本鏡頭演完不卡；走回房間照舊 PASS；進門到開演 20.9 秒（模擬器，模型已載）、載不到 115.8 秒（?turbo 每格 0.1 秒，實機約 12 秒）。第一輪（2eba2fab）讀檔後第一次進門 FAIL 已修"
   },
   {
@@ -941,7 +941,7 @@
    "next": "無（畫面 READY_FOR_ART_REVIEW，美術由使用者判定）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "DELIVERED",
    "note": "FIXED（825e8a2b）：修正前（只換回那一行）13:00／17:50／20:30 套件 7 個光暈都看得到（白天亮度 0.55）；修正後 0；正式外觀 14 個光暈照常；對照圖 test_shots/cafeglow_1021/"
   },
   {
@@ -956,7 +956,7 @@
    "next": "無",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "DELIVERED",
    "note": "PASS（a18ae441）：2026-12-21 08:30 讀檔在 201、從霖澤館一樓走進 201 兩種，還沒坐下黑板就是「行政法：期末考／不可以翻書／鈴響請停筆」"
   }
  ],
