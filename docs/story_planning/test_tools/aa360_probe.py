@@ -3,7 +3,7 @@
 這一版做：①子晴 Q12 三種 ZQ_Q10（nameless／cat／both）都是《九點以後》＋爸爸那一幕＋CG ②日本路線 5/20 的電話「他打了五次……」
 ⑥芷若 Z7 家裡那一版（時差那幾句）⑦子晴 Q4 錯過版（第 9 週第一次說話多一句、第二次沒有；第 9 週週六公館不演 Q4）。
 ③學姊寒假快轉停在 1/31 21:00、1/26 沒有學姊私訊 ⑤2/2「考完了」→ 2/3 回「好。」→ 2/4 文具店「二月四日　買計畫本。」。
-④1/25 路過總圖（走進總圖、上二樓坐下讀書一小時、走出大門）要走樓梯和座位，下一版加。
+④1/25 路過總圖：[前置] 讀檔在總圖大廳 19:30，待到 20:00 以後走出大門（真的走）→ 演 → 再進出一次不再演（清單原本是上二樓坐下讀書一小時；這版只在大廳待，讀書那一條沒走）。
 不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
 用法：LW_TESTS=<開發分支>/tests SHA=<sha> python3 aa360_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>   （SCEN=id1,id2 只跑某幾個）"""
 import os, sys, json, asyncio, time
@@ -168,6 +168,17 @@ async def nomsg(pg, who, key):
     m = await pg.evaluate("(([w,k])=>{ const d=STORY.dayOfKey(k); return (GAME.G.msgs||[]).filter(m=>m.from===w&&m.day===d).map(m=>m.text); })(%s)" % json.dumps([who, key]))
     say('   %s 的 %s 私訊：%s' % (key, who, json.dumps(m, ensure_ascii=False)))
     if m: bad.append('%s 不應該有 %s 的私訊，有 %d 則：%s' % (key, who, len(m), m[0][:20]))
+async def use(pg, cdp, run, pat):
+    """走到最近、名字符合 pat 的互動點，按下去（真的操作），演完"""
+    it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
+    if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
+    if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
+    for k in range(4):
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        if lab: break
+        await pg.wait_for_timeout(800)
+    say('   互動：%s（按鈕「%s」）' % (it[2], lab)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+    await drain(pg, cdp, pref=['「我陪妳走到捷運站。」', '進去', '離開'], secs=200); return True
 SIS = "LV('heroine_05',50,40,35); PHONE.join(G,'family_law','法律系家族');"
 SISF = {'EXCHANGE_ROUTE': 'TW', 'SIS_W1': True, 'SIS_STUDY': True}
 TW = {'EXCHANGE_ROUTE': 'TW'}
@@ -194,6 +205,11 @@ SCENS = [
        none=['我在這裡喝第三罐咖啡。', '今天是那個比賽。']),
   # ③ 學姊快轉：1/21 10:00 宿舍，SIS_W1、SIS_STUDY、學姊朋友以上、在家族群組 → 床的快轉直接停在 1/31 21:00；1/26 沒有學姊私訊（AA_360 2-1）
   dict(id='SIS_ff_0131', key='2026-01-21', h=10.0, zone='dorm', flags=SISF, js=SIS, steps=[('ff', '2026-01-31', 21.0), ('nomsg', 'heroine_05', '2026-01-26')]),
+  # ④ 學姊路過總圖：1/25 19:30 在總圖大廳，待到 20:00 以後，走出大門 → 兩行旁白 → BCG-42 →「學弟。你怎麼在這裡。」→ 選項 c「我陪妳走到捷運站。」；再進出總圖不再演
+  dict(id='SIS_lib_pass', key='2026-01-25', h=19.5, zone='library_hall', flags=SISF, js=SIS,
+       steps=[('until', 20.15), ('use', '離開總圖'), ('use', '進入總圖'), ('until', 20.6), ('use', '離開總圖')],
+       pref=['「我陪妳走到捷運站。」'], want=['學弟。你怎麼在這裡。', '……好。走到那裡就好。', 'CG:cg_planner_four_years_heroine05'], once=['學弟。你怎麼在這裡。'],
+       none=['學弟。你來了。'], cflags=['SISG_LOW_NIGHT', 'SIS_PREEXAM_NIGHT'], eqflags={'SIS_PREEXAM_NIGHT': True}),
   # ⑤ 2/2 17:30「考完了」→ 2/3 21:00 回「好。」→ 2/4 14:00 文具店 → 第一頁「二月四日　買計畫本。」＋三個反應選項
   dict(id='SIS_planner', key='2026-02-02', h=17.0, zone='dorm', flags=SISF, js=SIS,
        steps=[('until', 17.8), ('sleep',), ('set', 20.9, '2/3 白天沒有學姊的事'), ('until', 21.4), ('sleep',), ('set', 13.6, '2/4 早上到中午沒有事，撥到出遊前'), ('until', 15.4)],
@@ -228,6 +244,7 @@ async def main():
                     elif st[0] == 'talk': await talk(pg, cdp, run, st[1])
                     elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
                     elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
+                    elif st[0] == 'use': await use(pg, cdp, run, st[1])
                     elif st[0] == 'grp':
                         g = await pg.evaluate("((PHONE.rec(GAME.G).groups||{}).noodle_team||{}).name||null"); say('   群組名稱（17:00 以後）：%s' % g)
                         if g != st[1]: bad.append('%s：群組名稱「%s」（應該「%s」）' % (sc['id'], g, st[1]))
