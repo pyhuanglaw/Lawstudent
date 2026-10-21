@@ -45,7 +45,13 @@ const OUT=(function(){
   S.rec=G=>{ if(!Array.isArray(G.outings)) G.outings=[]; return G.outings; };
   S.get=(G,id)=>S.rec(G).find(q=>q.id===id)||null;
   /* 排一個出遊；同一個 id 只排一次（讀檔、重進區域不會重複）*/
-  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); return true; };
+  S.plan=function(G,o){ const L=S.rec(G); if(L.some(q=>q.id===o.id)) return false; if(typeof ECONFF!=='undefined'&&ECONFF.cutId&&ECONFF.cutId(G,o.ev)) return false;   /* AA_300：經濟系那一年不在 29 場裡的出遊不排 */ L.push(Object.assign({state:'planned',ask:null,travelH:0.5},o)); S.planToast(G,o); return true; };
+  /* 排進行程的提示（UX-GROUP-NOTICE-1018，使用者：「河濱烤肉有看到通知但不知道怎麼去」）：答應了群組、私訊的活動以後，說一次「時間到會跳出『出發』」；之後只說排進了什麼。
+     經濟系 30 分鐘版不說（事件接事件，時間到直接帶過去）；說過幾次記在 G.flags._planHint */
+  S.planToast=function(G,o){ if(!G||typeof GAME==='undefined'||!GAME.toast||GAME.titleIdle||o.silent) return; if(typeof ECONFF!=='undefined'&&ECONFF.short&&ECONFF.short(G)) return;
+    const now=G.day*24+(G.hour||0); if(o.day==null||o.h==null||(o.day*24+o.h)<=now) return; const F=G.flags||(G.flags={}); if(S._planToastAt===now&&F._planHint) return; S._planToastAt=now;   /* 同一個時間點一次排好幾個（寒暑假活動的幾個重點日）：只說第一個，不一直蓋掉 */
+    const d=typeof CALENDAR!=='undefined'&&CALENDAR.dateOf?CALENDAR.dateOf(o.day):null, when=(o.day===G.day?'今天':(d?d.m+'/'+d.d+'（'+'日一二三四五六'[d.wd%7]+'）':''))+' '+hm(o.h), what=o.title||o.place||'出遊';
+    GAME.toast(F._planHint?'排進行程：'+when+'　'+what:'排進行程：'+when+'　'+what+'。時間到會跳出「出發」，手機的「今天」也看得到。',F._planHint?3200:5200); F._planHint=(F._planHint|0)+1; };
   const t=(day,h)=>day*24+h;
   /* 該問了：該出發的時間（約好的時間減車程）前 15 分鐘起、約好的時間後 45 分鐘內；「晚一點」之後等到 ask 那個時間 */
   const lateEnd=q=>t(q.day,q.h)+(q.late!=null?q.late:0.75);   /* late：開始後多久還能出發（小時；預設 45 分鐘。AA_154 2-1b 的聚會是 15 分鐘）*/
