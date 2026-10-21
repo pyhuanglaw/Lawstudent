@@ -13107,9 +13107,9 @@
    "title": "大一下 AA 人物口語改寫",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：AA_209 完成、BB 口氣審過 ｜ AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13129,7 +13129,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_209（企劃線）＋BB 口氣審過；AA-C 2026-10-21 08:05 對總表確認"
   },
   {
    "id": "VAC-S1",
@@ -13874,9 +13875,9 @@
    "title": "AA：大一下～大四每學期 AA＋BB 人物（招呼 → 閒聊 → 好感升級 → 手機 → 事件）（AB-65 第 3 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "照學期順序",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：大一下～尾聲每學期口語改稿都交了（AA_209、211、255、259、260、262、263、267） ｜ 照學期順序",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13896,16 +13897,17 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_209、211、255、259、260、262、263、267（企劃線）；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "AB65-4",
    "title": "AA：重訪日群體對話（AA 骨架＋BB 人物句子；大一 6/12 18:00 麵店不統一題目，AA_193 第 4 節）（AB-65 第 4 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "跟各學期一起",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：重訪日使用者 10-17 取消（REVISIT_OFF）；重訪日 1 已在 AA_209；作廢（replacedBy 無，授權：使用者 10-17 取消重訪日） ｜ 跟各學期一起",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13925,7 +13927,11 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "cancelReason": "使用者 2026-10-17 取消重訪日（REVISIT_OFF）",
+   "reason": "使用者 2026-10-17 取消重訪日（REVISIT_OFF）；重訪日 1 已在 AA_209",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-17（REVISIT_OFF）"
   },
   {
    "id": "AB65-5",
@@ -13965,9 +13971,9 @@
    "title": "AA：零星（lad/y3s1:556、BB_170 剩下的項目）（AB-65 第 6 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
-   "next": "AA-B",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：10-17 完成（AA 交接紀錄 633 行） ｜ AA-B",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -13987,7 +13993,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA 交接紀錄 633 行（10-17）；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "V2-SIS-BF",
@@ -14573,9 +14580,9 @@
    "title": "美國交換改期（使用者 2026-10-17）：祐廷大四上 2028-08-02 出發、12-23 返台；學姊同學期（碩二上）07-19 出發；大三下美國路線改照台灣路線；大四上 US 玩家不在台灣（AA_213）",
    "area": "V4",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）；使用者 05:0x：交往中的話兩人 12/16 先飛舊金山待一週、12/23 一起回（沒交往的學姊 12/16 自己回），舊金山是新事件（BB-C 寫），之後可能要舊金山 2D 背景（等 BB 規格再派 LAWWW2）；BB_98／99 已改（BB 分支 23cd428d）等 AA 核對",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：AA_213 → AA_253 第 9 節、AA_327、AA_340 都照新時間線寫完 ｜ AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）；使用者 05:0x：交往中的話兩人 12/16 先飛舊金山待一週、12/23 一起回（沒交往的學姊 12/16 自己回），舊金山是新事件（BB-C 寫），之後可能要舊金山 2D 背景（等 BB 規格再派 LAWWW2）；BB_98／99 已改（BB 分支 23cd428d）等 AA 核對",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -14592,7 +14599,8 @@
     "spec": "AA_213（b3a21b20，WIP）",
     "acceptance": "新時間線逐檔改完、--check ok、結構化交付（檔案、SHA）",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_253 第 9 節、AA_327、AA_340（企劃線 c2c5a66e 以前）；開發分支 dd049047 照新時間線實作；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "ART-US-SEASON",
@@ -19394,7 +19402,7 @@
    "title": "法律系四年的可昕、其他人物劇情也用選擇題逐場確認（經濟系那一年已做完 AA_303/305/306）；韋綸大一下 L5～L8 還沒問",
    "area": "story",
    "owner": "AA",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -19415,7 +19423,9 @@
     "spec": "使用者 10-18 原話；AA_303 的格式",
     "acceptance": "每一場都有使用者選過的答案，寫進企劃",
     "ack": "未派"
-   }
+   },
+   "pausedReason": "使用者 10-20 說不要再問選擇題；這一項是用選擇題逐場確認法律系四年的劇情（AA-C 10-21 08:0x 改暫停，UA-AA-1018-03）",
+   "resumeWhen": "使用者回來後說要不要照樣用選擇題確認（USER_WANTS X33）；下次檢查 2026-10-22"
   },
   {
    "id": "YT-ENDING-LAWYER",
