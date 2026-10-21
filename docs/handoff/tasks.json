@@ -27364,7 +27364,7 @@
    "title": "立繪表情被舊表情蓋掉（BB KX-EXPR：0.45 秒時 125 句裡 27 句圖不對）：events3d.js 先 ADV.speaker(id, 表情)，GM.say 又 ADV.speaker(id, 沒帶表情)＝拿 ADV.slots 的舊表情；adv3d.js render 是 async、載完圖才更新 slots，兩次 120 ms 換圖照順序套用＝舊的蓋掉新的；影響所有有表情的人物（從 v7 就有）",
    "area": "UI",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27378,7 +27378,8 @@
    },
    "source": "BB（帳號 A）2026-10-21 18:18 qa_play nophone（BB_218 最後兩節，story-planning 43079efc）；BB 的 kx_expr_probe.py A／B 約 19:0x 證實",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:4x】本機 post9103：adv3d.js render 同步記下要的那一張＋每框序號、speaker 看「要的」、hide 作廢載圖中的；tests/adv_expr_race_unit.js 7 項修改前 5 FAIL、修改後 ALL PASS（遊戲裡同一場戲第二次用到的表情＝已快取，最容易撞到）；載 adv3d 的 14 支單元測試全過 ｜ 不擋 v9.10.3（不是這版新增）；修法：render 一進來就同步記下要的表情＋每框一個序號，舊的 render 回來不換圖；speaker 找框也看「要的」那一個；單元測試；發布後放進開發分支、BB 重跑 probe"
+   "next": "【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）18:4x】本機 post9103：adv3d.js render 同步記下要的那一張＋每框序號、speaker 看「要的」、hide 作廢載圖中的；tests/adv_expr_race_unit.js 7 項修改前 5 FAIL、修改後 ALL PASS（遊戲裡同一場戲第二次用到的表情＝已快取，最容易撞到）；載 adv3d 的 14 支單元測試全過 ｜ 不擋 v9.10.3（不是這版新增）；修法：render 一進來就同步記下要的表情＋每框一個序號，舊的 render 回來不換圖；speaker 找框也看「要的」那一個；單元測試；發布後放進開發分支、BB 重跑 probe",
+   "evidence": "BB（帳號 A）19:04 FIXED（企劃線 f896da17，BB_218＋outbox_BB；Playwright 手機模擬，不是 iPhone）：修改前 b23483dd 重現（e14「（甩了一下太長的袖子）剛好。」劇本 smile、畫面 teasing、slots 卡在 teasing）；修改後 a9da472a 可昕四場 e14／e26／kh3／kh_madeup 34 對、0 不對、slots 跟著變、JS 例外 0；可昕以外的人物沒逐一量（同一段程式）"
   },
   {
    "id": "BG-DARK-70-1021",
