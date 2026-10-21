@@ -160,7 +160,7 @@ git log -1 --format='%h %ci' origin/<RULE_SOURCE> -- docs/AI_SESSION_HANDOFF.md 
 
 ## 1. 值班表（閱讀版；**以 `docs/handoff/duty.json` 為準**，兩邊不一致時 `duty verify` 第 9 項會報；換班時由值班的 LAWWW 更新）
 
-**現在：帳號 C 四個職位都已交班（AA-C、BB-C、LAWWW2-C 2026-10-21 14:30；LAWWW-C 14:5x，使用者「現在正式交班」）；下一班照第 4 節接班，第一件見 HANDOFF_GAP_MATRIX 第 1 節**（以下是 10-19 重新值班時的紀錄）：使用者 02:0x 要一份以 v9.10.2 為基準的玩家功能清單（FEATURE-LIST-9102-1019）——同一個工作階段重新值班；01:5x 交班到重新值班之間沒有人值班、沒有別的 commit。v9.10.2 已上線（main `9335763d`）；發布後檢查 REL-9102-POSTCHECK-1019 還沒跑。LAWWW2-C、AA-C、BB-C 照舊交班狀態（使用者 21:4x）；帳號 A、B 休班，D 未啟用。
+**現在：帳號 A 的 LAWWW 值班中（`session_01Eds6msqpsuzNEw98sdw8JX`，`claude/confident-ritchie-8rwh7t`，2026-10-21 15:2x 接 LAWWW-C 的班；使用者「我回來了，請同步 GitHub 最新進度，接續工作。」）。帳號 C 四個職位都已交班（AA-C、BB-C、LAWWW2-C 2026-10-21 14:30；LAWWW-C 14:5x）；帳號 A 的 LAWWW2、AA、BB 等使用者各自叫回來**（以下是 10-19 重新值班時的紀錄）：使用者 02:0x 要一份以 v9.10.2 為基準的玩家功能清單（FEATURE-LIST-9102-1019）——同一個工作階段重新值班；01:5x 交班到重新值班之間沒有人值班、沒有別的 commit。v9.10.2 已上線（main `9335763d`）；發布後檢查 REL-9102-POSTCHECK-1019 還沒跑。LAWWW2-C、AA-C、BB-C 照舊交班狀態（使用者 21:4x）；帳號 A、B 休班，D 未啟用。
 
 | 職位 | 職責 | 帳號 A | 帳號 B | 帳號 C | 有效分支（現在值班的） | 進度檔（在各自的分支上） |
 |---|---|---|---|---|---|---|
@@ -680,6 +680,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 從 → 到 | 職位 | 接班基準 commit | 備註 |
 |---|---|---|---|---|
+| 2026-10-21 15:2x | LAWWW-C（帳號 C）14:5x 交班 → **LAWWW（帳號 A）接班** | LAWWW | `5335c494`（`claude/adoring-meitner-mqzst8`，快轉合併進 `claude/confident-ritchie-8rwh7t`） | 使用者「我回來了」；A 上次交班（10-14 17:40）之後是 B、C 兩班。接班時除了上一份快照，另外把離開後的 10 份 LAWWW 交班快照（A 1、B 3、C 5、C 最後一份）逐一和總表比對：未完成的任務 0 項不見、期間取消 36 項（逐項查授權中） |
 | 2026-10-19 02:0x | LAWWW-C（帳號 C）01:5x 交班 → **LAWWW-C 重新值班**（同一個工作階段） | LAWWW | `8462e078`（不用合併） | 使用者 02:0x 要玩家功能清單（FEATURE-LIST-9102-1019）；交班後沒有別的 commit |
 | 2026-10-19 01:5x | LAWWW-C（帳號 C）交班 | LAWWW | 本次交班 commit（`claude/adoring-meitner-mqzst8`） | 使用者 01:4x 要先發布：v9.10.2 上線（main `9335763d`、PR #8、Pages run 39187157610 成功）。剩下的測試照使用者說的留給下一班：REL-9102-POSTCHECK-1019（docs/handoff/TEST_RESULTS_1018.md 第 0 節「下一班第一件事」） |
 | 2026-10-19 01:4x | LAWWW-C（帳號 C）01:36 交班 → **LAWWW-C 重新值班**（同一個工作階段） | LAWWW | `fd40b186`（`claude/adoring-meitner-mqzst8`，不用合併） | 使用者 01:4x「你先發佈然後剩下的測試留在等一下的交班，你現在先值班」：先發布 v9.10.2（REL-9102-1019）；交班後到重新值班之間沒有別的 commit |

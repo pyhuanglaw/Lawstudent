@@ -1,10 +1,10 @@
 {
  "role": "LAWWW",
- "account": "C",
- "session": "session_01Me1thu8Zn934H58kWKNfuF",
- "branch": "claude/adoring-meitner-mqzst8",
- "state": "handed-off",
- "handedOffAt": "2026-10-21T14:59Z",
- "sha": "7c58b598",
- "snapshot": "docs/handoff/snapshots/2026-10-21T1459Z_C_LAWWW.json"
+ "account": "A",
+ "session": "session_01Eds6msqpsuzNEw98sdw8JX",
+ "branch": "claude/confident-ritchie-8rwh7t",
+ "since": "2026-10-21T15:24Z",
+ "state": "on",
+ "sinceSha": "5335c494",
+ "userOk": false
 }
