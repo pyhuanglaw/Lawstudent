@@ -1,0 +1,238 @@
+diff --git a/src/assets3d.js b/src/assets3d.js
+index e38c92cc..3fdd3364 100644
+--- a/src/assets3d.js
++++ b/src/assets3d.js
+@@ -232,11 +232,20 @@ const ASSETS = (function(){
+   /* 縮好的 canvas 換成 ImageBitmap、canvas 釋放：iOS Safari 的 2D canvas 有總量上限（超過整個 canvas 會變黑，懷疑和 BUG-MAPBLACK「按地圖變黑」有關）；ImageBitmap 不算在內。
+      先用 canvas 上傳（第一次畫就是縮過的），bitmap 好了再換一次；context 掉了恢復時 bitmap 還在，可以重新上傳。 */
+   function toBitmap(c){ if(c._bm||typeof createImageBitmap!=='function') return; c._bm=true; createImageBitmap(c).then(bm=>{ c._bmResult=bm; for(const t of (c._capTex||[])){ if(t.image===c){ t.image=bm; t.needsUpdate=true; } } c._capTex=null; c.width=1; c.height=1; }).catch(()=>{}); }
++  /* 路人底模的遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：anon 底模同一個資料夾的 lod/<檔名>.lod.glb（tools/lod/npc_lod.py：同一副骨架；
++     臉的皮膚＋身體＋衣服一個網格、顏色烘成頂點色，頭髮一個網格；約 6,400 三角形）。manifest 寫 lod:null 可以關掉單一個、lod:'網址' 可以指定。
++     character3d.js 的 attachFar 把它綁到每個人自己的骨頭上，engine3d.js 決定遠近（30 m）*/
++  A.lodUrl=function(key){ const m=A.manifest[key]; if(!m) return null; if(m.lod!==undefined) return m.lod; return m.anon&&/\/bl_npc_[^/]+\.vrm$/.test(m.url)?m.url.replace(/\/(bl_npc_[^/]+)\.vrm$/,'/lod/$1.lod.glb'):null; };
++  function loadLOD(url){ const buf64=d=>{ const bin=atob(d); const u8=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return u8.buffer; };
++    return new Promise((res,rej)=>{ const done=g=>{ const parts=[]; let sk=null; g.scene.traverse(o=>{ if(o.isSkinnedMesh){ parts.push({geo:o.geometry,mat:o.material}); if(!sk) sk=o.skeleton; } }); if(!sk||!parts.length){ rej(new Error('no skinned mesh')); return; } res({names:sk.bones.map(b=>b.name),ibm:sk.boneInverses.map(m=>m.clone()),parts}); };
++      const data=window.ASSET_DATA&&window.ASSET_DATA[url]; if(data){ loader().parse(buf64(data),'',done,rej); return; }
++      fetchBuf(url).then(buf=>loader().parse(buf,'',done,rej)).catch(()=>{ fetch(url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>loader().parse(buf64(j.b64),'',done,rej)).catch(rej); }); }); }
+   A.loadOne=function(key){ const m=A.manifest[key]; if(!m) return Promise.reject(new Error('unknown asset '+key)); if(A.cache[key]) return Promise.resolve(A.cache[key]); if(A.status[key]) return A.status[key];
+     const b64ToBuf=(data)=>{ const bin=atob(data); const buf=new ArrayBuffer(bin.length); const u8=new Uint8Array(buf); for(let i=0;i<bin.length;i++) u8[i]=bin.charCodeAt(i); return buf; };
+     A.status[key]=new Promise((res,rej)=>{ const done=(gltf)=>{ try{ A.capTextures(gltf.scene); if(m.type==='character'||m.type==='clips'||m.type==='building'){ A.cache[key]={gltf,scene:gltf.scene,animations:gltf.animations}; }   /* building：建築正式模型（遊戲座標、不縮放）*/ else { A.cache[key]=normalize(key,gltf); } res(A.cache[key]); }catch(e){ rej(e); } }; const fail=(e)=>{ A.errors.push(key+': '+(e&&e.message||e)); rej(e); };
+       if(m.type==='vrm'){ // VRM：只 parse 一次。第一個實例用原本的 VRM（表情、彈簧骨、視線）；之後的實例用骨架 clone（共用幾何與貼圖，手機記憶體才夠）
+-        const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); A.cache[key]={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; res(A.cache[key]); });
++        const lu=A.lodUrl(key), lodP=lu?loadLOD(lu).catch(e=>{ console.warn('npc far LOD',key,e&&e.message); return null; }):Promise.resolve(null);   /* 路人底模的遠距離版本：和 VRM 一起下載（小檔）；沒有或失敗＝照舊畫原本的人 */
++        const setup=(buf)=>A.parseVRM(buf).then(x=>{ A.capTextures(x.vrm.scene); const rest=THREE_JSM.SkeletonUtils.clone(x.vrm.scene); copyColliderShapes(x.vrm.scene,rest); const rig=rest.getObjectByName('VRMHumanoidRig'); if(rig&&rig.parent) rig.parent.remove(rig); const ent={vrm:true,tpl:{vrm:x.vrm,gltf:x.gltf,inUse:false,full:true},rest,clones:[]}; return lodP.then(lod=>{ ent.lod=lod; A.cache[key]=ent; res(ent); }); });
+         const dataV=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(dataV){ setup(b64ToBuf(dataV)).catch(fail); return; }
+         fetchBuf(m.url).then(setup).catch(()=>{ fetch(m.url+'.json').then(r=>{ if(!r.ok) throw new Error('http '+r.status); return r.json(); }).then(j=>setup(b64ToBuf(j.b64))).catch(fail); }); return; }
+       const data=window.ASSET_DATA&&window.ASSET_DATA[m.url]; if(data){ loader().parse((m.url.endsWith('.glb')||m.url.endsWith('.vrm'))?b64ToBuf(data):data,'',done,fail); return; }
+@@ -277,7 +286,7 @@ const ASSETS = (function(){
+     /* 貼圖要從 uniforms 找：VRM 的 MToon 是 ShaderMaterial，貼圖放在 uniforms（for…in 一張都找不到——2026-10-17 batch 16 zone_memory：換區域回校園貼圖 659→801→980→1101，幾何沒有長）*/
+     const tex=v=>{ if(v&&v.isTexture&&!seen.has(v)){ seen.add(v); v.dispose(); } };
+     const disp=o=>{ if(o.geometry&&!seen.has(o.geometry)){ seen.add(o.geometry); o.geometry.dispose(); } for(const m of [].concat(o.material||[])){ if(!m||seen.has(m)) continue; seen.add(m); for(const k of Object.getOwnPropertyNames(m)) tex(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) tex(u.value); } if(m.dispose) m.dispose(); } if(o.isSkinnedMesh&&o.skeleton&&o.skeleton.boneTexture) o.skeleton.dispose(); };
+-    try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); }catch(e){ console.warn('VRM unload',key,e); }
++    try{ c.tpl.vrm.scene.traverse(disp); if(c.rest&&c.rest!==c.tpl.vrm.scene) c.rest.traverse(disp); if(c.lod) for(const p of c.lod.parts) disp({geometry:p.geo,material:[p.mat].concat(p.toon||[])}); }catch(e){ console.warn('VRM unload',key,e); }   /* 遠距離版本（p.toon＝character3d.js 做的卡通材質）一起放掉 */
+     delete A.cache[key]; delete A.status[key]; A.unloaded=(A.unloaded|0)+1; return true; };
+   A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
+   A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
+diff --git a/src/character3d.js b/src/character3d.js
+index fc26e72c..492f77ac 100644
+--- a/src/character3d.js
++++ b/src/character3d.js
+@@ -93,6 +93,26 @@ const CHAR = (function(){
+   function collectRim(model){ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||C.rimMats.has(mt)) continue; if(/FACE|EYE|Face|Eye|MOUTH|BROW|Outline/.test(mt.name||'')) continue; const rw=/HAIR/i.test(mt.name||'')?1:(/Tops/.test(mt.name||'')?0.45:0); if(!rw) continue;   /* 頭髮全強度、上衣一半；褲子、鞋子、皮膚不加（深色褲子加了會變成偏棕的塑膠光澤）*/ /* 原始值：路人換色時 clone 會連 userData 一起複製，所以黃昏時才 clone 的材質也拿得到「改之前」的值 */ if(!mt.userData.rim0){ const c=mt.parametricRimColorFactor; mt.userData.rim0={c:{r:c.r,g:c.g,b:c.b},p:mt.parametricRimFresnelPowerFactor,l:mt.parametricRimLiftFactor,w:rw}; } C.rimMats.add(mt); } }); }
+   /* 臉上的小零件（眼白、虹膜、高光、睫毛、眼線、眉毛、嘴）：包在頭裡，影子被頭和頭髮蓋住；不投影＝每個 VRM 人物陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
+   const FACE_PART=/(FaceMouth|FaceBrow|FaceEyelash|FaceEyeline|EyeIris|EyeHighlight|EyeWhite|EyeExtra)/;
++  /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 30 m 外換成 tools/lod/npc_lod.py 做的低面數網格
++     （2 個網格、約 6,400 三角形；原本 13～14 個網格＋描邊、約 3 萬）。綁在這個人自己的骨頭上（照骨頭名字；反向綁定矩陣用他自己 skeleton 的），
++     動作、位置、朝向完全跟著原本的模型走；30 m 內完全是原本的模型。材質用兩階卡通明暗（MeshToonMaterial）接近 MToon；
++     衣服的頂點和 MToon 的衣服一樣乘 CLOTH_K。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）*/
++  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_SHADE=0.82; C.FAR_K=1.0; C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
++  let farGrad=null;
++  function farMats(L){ if(L.toonReady) return; L.toonReady=true;
++    if(!farGrad){ farGrad=new THREE.DataTexture(new Uint8Array([Math.round(255*C.FAR_SHADE),255]),2,1,THREE.RedFormat); farGrad.minFilter=farGrad.magFilter=THREE.NearestFilter; farGrad.generateMipmaps=false; farGrad.needsUpdate=true; }
++    for(const p of L.parts){ const g=p.geo, cl=g.attributes._cloth, col=g.attributes.color;
++      if(cl&&col&&!g.userData.clothK){ g.userData.clothK=C.CLOTH_K; for(let i=0;i<col.count;i++) if(cl.getX(i)>0.5) col.setXYZ(i,col.getX(i)*C.CLOTH_K,col.getY(i)*C.CLOTH_K,col.getZ(i)*C.CLOTH_K); col.needsUpdate=true; }
++      const s=p.mat; p.toon=new THREE.MeshToonMaterial({name:'npc_far',color:new THREE.Color(C.FAR_K,C.FAR_K,C.FAR_K),vertexColors:!!col,map:s.map||null,alphaTest:s.alphaTest||0,side:s.side,gradientMap:farGrad}); } }
++  function attachFar(key,model){ const c=typeof ASSETS!=='undefined'&&ASSETS.cache&&ASSETS.cache[key], L=c&&c.lod; if(!L) return null;
++    const bones={}, inv={}; let ref=null; model.traverse(o=>{ if(o.isBone&&!bones[o.name]) bones[o.name]=o; if(o.isSkinnedMesh&&o.skeleton){ if(!ref) ref=o; o.skeleton.bones.forEach((b,i)=>{ if(!inv[b.name]) inv[b.name]=o.skeleton.boneInverses[i]; }); } });
++    if(!ref||!ref.parent||L.names.some(n=>!bones[n])) return null; farMats(L);
++    const near=[]; model.traverse(o=>{ if(o.isSkinnedMesh&&o.visible) near.push(o); });   /* 原本的網格（配件是一般網格，不在這裡：遠處照樣看得到）*/
++    const parts=L.parts.map(p=>{ const sm=new THREE.SkinnedMesh(p.geo,p.toon); sm.name='npc_far'; sm.frustumCulled=false; sm.castShadow=false; sm.receiveShadow=false; sm.visible=false;
++      sm.position.copy(ref.position); sm.quaternion.copy(ref.quaternion); sm.scale.copy(ref.scale);   /* 和原本的網格同一個父節點、同一個變換＝同一個綁定空間 */
++      sm.bind(new THREE.Skeleton(L.names.map(n=>bones[n]),L.names.map((n,i)=>(inv[n]||L.ibm[i]).clone())),ref.bindMatrix.clone()); sm.bindMode=ref.bindMode; ref.parent.add(sm); return sm; });
++    return {parts,near}; }
++  C.setFar=function(h,far){ const u=h&&h.userData, f=u&&u.farLOD; if(!f) return false; far=!!far&&!C.farOff; if(!!u.isFar===far) return true; u.isFar=far; for(const o of f.near) o.visible=!far; for(const p of f.parts) p.visible=far; return true; };
+   function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
+     applyLook(model);
+     const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
+@@ -114,12 +134,13 @@ const CHAR = (function(){
+     root.userData={driver:'vrm',spec,k:H/1.75,parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
+     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
+     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
++    root.userData.farLOD=attachFar(key,model);   /* 無名路人的遠距離版本（有的話；預設藏著）*/
+     return root; }
+   C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
+     'char.yuting':['backpack'],'char.heroine_01':['tote'],'char.heroine_02':['glasses','earrings','apron'],'char.heroine_03':[{name:'backpack',drop:-0.07,flat:[0.04,0.008],strap:[[0.075,0.05,0.086],[0.092,0.096,0.05],[0.1,0.117,0.0],[0.103,0.097,-0.03],[0.106,0.072,-0.062],[0.11,0.04,-0.086],[0.118,0.0,-0.112],[0.13,-0.045,-0.1],[0.145,-0.085,-0.055],[0.142,-0.115,0.0],[0.13,-0.2,0.06],[0.12,-0.27,0.09]]}],'char.heroine_04':[{name:'guitar',x:0.0,z:0.235,tilt:-0.05,flat:[0.042,0.008],straps:[[0.07,0.06,0.15],[0.1,0.128,0.075],[0.105,0.146,0.03],[0.105,0.136,0.0],[0.105,0.126,-0.03],[0.105,0.094,-0.062],[0.107,0.06,-0.088],[0.108,0.02,-0.12],[0.112,-0.04,-0.132],[0.13,-0.09,-0.127],[0.155,-0.13,-0.085],[0.172,-0.17,-0.02],[0.162,-0.25,0.07],[0.12,-0.33,0.15]]}],'char.heroine_05':['folder','hairtie']};
+   // 切換配件（例：林芷若在 Café 工作時才穿圍裙）
+   C.setProp=function(h,name,on){ const u=h&&h.userData; const o=u&&u.props&&u.props[name]; if(!o) return false; o.visible=!!on; (u.propOn=u.propOn||{})[name]=!!on; return true; };
+-  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
++  C.release=function(h){ const u=h&&h.userData; if(!u||u.driver!=='vrm') return; try{ if(u.farLOD){ for(const p of u.farLOD.parts){ if(p.parent) p.parent.remove(p); p.skeleton.dispose(); } if(u.isFar) for(const o of u.farLOD.near) o.visible=true; u.farLOD=null; u.isFar=false; }   /* 遠距離版本：拿掉、骨架貼圖放掉；原本的網格恢復顯示（第一個實例會被下一個人重用）*/ if(u.props&&typeof PROPS!=='undefined') PROPS.detach(u.props); u.props=null; const sbm=u.vrm.springBoneManager; if(sbm) sbm.joints.forEach(j=>{ j.center=null; }); }catch(e){} try{ for(const n in u.anim.actions) u.anim.actions[n].stop(); u.anim.mixer.stopAllAction(); u.vrm.humanoid.resetNormalizedPose(); if(u.vrm.expressionManager) u.vrm.expressionManager.expressions.forEach(ex=>u.vrm.expressionManager.setValue(ex.expressionName,0)); for(const t of (u.tinted||[])){ const cur=Array.isArray(t.mesh.material)?t.mesh.material:[t.mesh.material]; const orig=Array.isArray(t.orig)?t.orig:[t.orig]; cur.forEach((mt,i)=>{ if(mt!==orig[i]){ C.rimMats.delete(mt); if(mt.dispose) mt.dispose(); } }); t.mesh.material=t.orig; } u.tinted=[]; }catch(e){} ASSETS.releaseVRM(u.key,u.vrm); };
+   // 走樓梯、台階時的腳步貼合（v9.4，D36；使用者：「人物在樓梯上不能滑動、漂浮或腳穿進階梯」）。
+   // 走路動畫是平地做的：腳底永遠在「身體所在那一階」的高度。這裡依每隻腳底下那一階的實際高度把腳移上去／移下來：
+   // 兩段式 IK（大腿轉向目標、膝蓋彎曲角用餘弦定理），腳掌維持動畫原本的方向；比身體低的那隻腳搆不到時，整個身體先往下沉。
+diff --git a/src/engine3d.js b/src/engine3d.js
+index 6913a214..720a35da 100644
+--- a/src/engine3d.js
++++ b/src/engine3d.js
+@@ -242,7 +242,7 @@ const E3 = (function(){
+     CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
+     // NPC
+     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
+-    for(const x of E.extras){ if(x.update) x.update(dt); }
++    for(const x of E.extras){ if(x.update) x.update(dt); const rd=x.rider; if(rd&&rd.userData&&rd.userData.farLOD&&x.obj){ const cd=Math.hypot(camera.position.x-x.obj.position.x,camera.position.z-x.obj.position.z); CHAR.setFar(rd,rd.userData.isFar?cd>CHAR.FAR_IN:cd>CHAR.FAR_OUT); } }   /* 騎腳踏車的路人：同一套遠距離版本 */
+     // 鏡頭
+     updateCamera(dt); if(E.sky){ E.sky.position.copy(camera.position); E.sky.material.uniforms.time.value=E.time; }   /* 室內也畫天空：從玻璃帷幕、窗戶看出去是天空（2026-10-11 試過室內不畫天空、改深灰背景：萬才館東窗、霖澤館玻璃底下的縫會變成深灰色，反而更假）。上下樓梯看到大片天空的問題由 updateLevelVis 解決 */ if(E.skyline){ E.skyline.position.set(camera.position.x,0,camera.position.z); E.skyline.visible=!E.indoor&&!(E.zone&&E.zone.def&&E.zone.def.noSkyline); }   /* noSkyline：區域不要遠景剪影（美國篇：台北的山和城市大樓不該出現在印第安納；US-CAMPUS-WIRE-1018）*/
+     // 雨
+@@ -358,7 +358,7 @@ const E3 = (function(){
+     if(n.greet&&E.player){ n.greetCd=(n.greetCd||0)-dt; if(n.beh==='follow'||n.beh==='passenger') n.greetCd=Math.max(n.greetCd,90);   /* 和你一起走、坐你後座的人不跟你揮手；到了以後 90 秒內也不揮（使用者 2026-10-16「一起到達地點的人為什麼要跟我揮手」）*/ const pp=E.player.obj.position; const d=Math.hypot(pp.x-o.position.x,pp.z-o.position.z); if(!n.frozen&&!E.player.busy&&n.greetCd<=0&&d<3.4&&!n.waveT){ if(n.path&&d>2.2){} else { n.waveT=1.9; n.greetCd=50; n.lookAt=pp; CHAR.setExpr(o,'smile'); if(E.onGreet) E.onGreet(n); } } if(n.waveT>0){ n.waveT-=dt; if(!moving) n.pose='wave'; if(n.waveT<=0){ n.waveT=0; n.pose=n.idlePose||'idle'; n.lookAt=null; CHAR.setExpr(o,'normal'); } } }
+     if(!moving&&n.faceYaw!=null&&!n.frozen){ flatYaw(o); let d=n.faceYaw-o.rotation.y; d=Math.atan2(Math.sin(d),Math.cos(d)); o.rotation.y+=d*Math.min(1,dt*6); }
+     // 距離 LOD：遠處路人不畫、動畫降頻
+-    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
++    const cd=Math.hypot(camera.position.x-o.position.x,camera.position.z-o.position.z); const lim=E.q.level==='low'?34:(E.q.level==='high'?95:60); _frS.center.set(o.position.x,o.position.y+0.9,o.position.z); _frS.radius=1.3; const vis=!n.hidden&&(cd<lim||!n.isExtra)&&_fr.intersectsSphere(_frS)&&!(E.zone&&E.zone.hideAbove!==undefined&&o.position.y>E.zone.hideAbove-0.5);   /* 多樓層剖面視角：被藏起來的樓層上的人也不畫 */ /* 畫面外的人不畫也不更新骨架（VRM 人物 frustumCulled 關掉，所以在這裡做）*/ if(o.visible!==vis) o.visible=vis; if(n.isExtra&&o.userData.farLOD) CHAR.setFar(o,o.userData.isFar?cd>CHAR.FAR_IN:cd>CHAR.FAR_OUT);   /* 30 m 外的路人換遠距離版本（PERF-CROWD-LOD-1021；回到 28 m 內才換回來，不會在邊界閃）*/ if(!vis&&cd>16) return;   /* 16 m 內的人畫面外也更新骨架：鏡頭一切過去（劇情運鏡、轉身）的那一格，視錐用的是上一格的鏡頭，沒更新過的人會露出模型原始的 T 字手臂（BB-C 2026-10-17：沛珊上樓梯第一段手臂往前平舉）*/ if(cd>28&&(E.frame+(n.lodPhase||0))%2) { n._skipDt=(n._skipDt||0)+dt; return; } const adt=dt+(n._skipDt||0); n._skipDt=0;
+     CHAR.animate(o,adt,{pose:n.pose,speed:n.speed,handsPockets:n.pockets&&n.pose==='idle',lookAt:n.lookAt,ground:groundFn(n)}); }
+   // ---------- 樹幹透視 ----------
+   // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
+diff --git a/tests/npc_far_unit.js b/tests/npc_far_unit.js
+new file mode 100644
+index 00000000..728a788a
+--- /dev/null
++++ b/tests/npc_far_unit.js
+@@ -0,0 +1,62 @@
++// 路人的遠距離版本（PERF-CROWD-LOD-1021，LAWWW2 2026-10-21）：在 Node 裡載入遊戲的 three.js／three-vrm／ASSETS／CHAR（不算圖），檢查
++//   ① 無名路人底模載入時一起載到 lod/<檔名>.lod.glb；
++//   ② CHAR.build 出來的每個人（第一個實例＝原本的 VRM、之後＝骨架複製品）都綁上遠距離版本，預設藏著；
++//   ③ 綁對骨頭：走路動畫走一段以後，遠距離版本的每個頂點（CPU 算蒙皮）都貼在原本模型的頂點上（減面只拿掉頂點、不搬動，綁錯骨頭或反向綁定矩陣會差幾公分到幾十公分）；
++//   ④ CHAR.setFar 切換：遠＝原本的網格藏起來、遠距離版本顯示，近＝反過來；CHAR.farOff（網址 ?nofar）時一律近；
++//   ⑤ CHAR.release：遠距離版本拿掉、原本的網格恢復顯示；同一個 VRM 再借出去時不會留下舊的遠距離網格；
++//   ⑥ engine3d.js 的 NPC 迴圈（路人 isExtra）和騎車的路人（E.extras）照距離切換、28／30 m 兩個門檻；
++//   ⑦ 每個 anon 底模都有遠距離版本的檔案，網格 2 個、三角形 ≤ 原本的 30%。
++// 用法：node tests/npc_far_unit.js [char.npc_nf1 char.npc_nm3 …]
++const {ROOT,preload}=require('../tools/dev_scratch/spring_sim/harness.js');
++const fs=require('fs'), path=require('path');
++let fails=0; const check=(n,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+n+(info?'　'+info:'')); if(!ok) fails++; };
++const keys=process.argv.slice(2).length?process.argv.slice(2):['char.npc_nf1','char.npc_nm3'];
++const scene=new THREE.Scene();
++function skinned(meshes){ const out=[]; const v=new THREE.Vector3(); for(const m of meshes){ m.updateMatrixWorld(true); m.skeleton.update(); const n=m.geometry.attributes.position.count; for(let i=0;i<n;i++){ m.getVertexPosition(i,v); v.applyMatrix4(m.matrixWorld); out.push(v.x,v.y,v.z); } } return new Float32Array(out); }
++function nearestStats(A,B){ // A 的每個點到 B 最近的點（格子加速）
++  const cell=0.02, grid=new Map(), key=(x,y,z)=>x+','+y+','+z; for(let j=0;j<B.length;j+=3){ const k=key(Math.floor(B[j]/cell),Math.floor(B[j+1]/cell),Math.floor(B[j+2]/cell)); let a=grid.get(k); if(!a) grid.set(k,a=[]); a.push(j); }
++  let max=0, sum=0, n=0; for(let i=0;i<A.length;i+=3){ const cx=Math.floor(A[i]/cell), cy=Math.floor(A[i+1]/cell), cz=Math.floor(A[i+2]/cell); let best=1e9;
++    for(let r=1;r<=6&&best>(r-1)*cell;r++){ best=1e9; for(let dx=-r;dx<=r;dx++) for(let dy=-r;dy<=r;dy++) for(let dz=-r;dz<=r;dz++){ const a=grid.get(key(cx+dx,cy+dy,cz+dz)); if(!a) continue; for(const j of a){ const d=Math.hypot(A[i]-B[j],A[i+1]-B[j+1],A[i+2]-B[j+2]); if(d<best) best=d; } } }
++    if(best>=1e9) best=1; max=Math.max(max,best); sum+=best; n++; }
++  return {max,mean:sum/Math.max(1,n)}; }
++(async()=>{
++  // ⑦ 每個 anon 底模都有遠距離版本
++  const anon=Object.keys(ASSETS.manifest).filter(k=>ASSETS.manifest[k].anon); let miss=[], bad=[];
++  for(const k of anon){ const u=ASSETS.lodUrl&&ASSETS.lodUrl(k); const f=u&&path.join(ROOT,u); if(!f||!fs.existsSync(f)){ miss.push(k); continue; }
++    const b=fs.readFileSync(f), n=b.readUInt32LE(12), J=JSON.parse(b.slice(20,20+n).toString()); const prims=J.meshes.reduce((s,m)=>s+m.primitives.length,0); const tris=J.meshes.reduce((s,m)=>s+m.primitives.reduce((t,p)=>t+J.accessors[p.indices].count/3,0),0);
++    const vb=fs.readFileSync(path.join(ROOT,ASSETS.manifest[k].url)), vn=vb.readUInt32LE(12), VJ=JSON.parse(vb.slice(20,20+vn).toString()); const vt=VJ.meshes.reduce((s,m)=>s+m.primitives.reduce((t,p)=>t+VJ.accessors[p.indices].count/3,0),0);
++    if(prims!==2||tris>0.3*vt) bad.push(`${k} ${prims} 個網格 ${tris}/${vt} 三角形`); }
++  check(`每個 anon 底模（${anon.length} 個）都有遠距離版本的檔案`,anon.length>0&&!miss.length,miss.slice(0,4).join('、'));
++  check('遠距離版本都是 2 個網格、三角形 ≤ 原本的 30%',!bad.length,bad.slice(0,3).join('；'));
++  // ① 載入
++  window.ASSET_DATA=window.ASSET_DATA||{}; for(const k of keys){ const u=ASSETS.lodUrl&&ASSETS.lodUrl(k); if(u&&fs.existsSync(path.join(ROOT,u))) window.ASSET_DATA[u]=fs.readFileSync(path.join(ROOT,u)).toString('base64'); }
++  await preload(keys);
++  for(const k of keys){
++    const c=ASSETS.cache[k]; check(`${k}：載入時一起載到遠距離版本`,!!(c&&c.lod),c&&c.lod?`${c.lod.parts.length} 個網格、${c.lod.names.length} 根骨頭`:'沒有');
++    const hs=[CHAR.build({id:'x901',model:k,height:1.65,sex:'f'}),CHAR.build({id:'x902',model:k,height:1.65,sex:'f'})];
++    for(const [i,h] of hs.entries()){ const who=`${k} 第 ${i+1} 個（${h.userData.full?'原本的 VRM':'骨架複製品'}）`; const u=h.userData, f=u.farLOD;
++      check(`${who}：綁上遠距離版本、預設藏著`,!!f&&f.parts.length===2&&f.near.length>=10&&f.parts.every(p=>!p.visible)&&f.near.every(o=>o.visible),f?`遠 ${f.parts.length}、原本 ${f.near.length} 個網格`:'沒有');
++      if(!f) continue;
++      // ③ 綁對骨頭：走一段路（走路動畫）再比頂點
++      h.position.set(i*3,0,0); h.rotation.y=0.7; scene.add(h); for(let t=0;t<1.35;t+=1/30) CHAR.animate(h,1/30,{pose:'walk',speed:1.4}); scene.updateMatrixWorld(true);
++      const far=skinned(f.parts), near=skinned(f.near); const st=nearestStats(far,near);
++      check(`${who}：走路時遠距離版本貼在原本模型上（每個頂點離原本的頂點 < 1 cm）`,st.max<0.01,`最遠 ${(st.max*100).toFixed(2)} cm、平均 ${(st.mean*1000).toFixed(2)} mm、${far.length/3} 個頂點`);
++      // ④ 切換
++      if(!CHAR.setFar){ check(`${who}：CHAR.setFar 存在`,false); continue; }
++      CHAR.setFar(h,true); const okFar=u.isFar&&f.near.every(o=>!o.visible)&&f.parts.every(p=>p.visible); CHAR.setFar(h,false); const okNear=!u.isFar&&f.near.every(o=>o.visible)&&f.parts.every(p=>!p.visible);
++      CHAR.farOff=true; CHAR.setFar(h,true); const okOff=!u.isFar&&f.near.every(o=>o.visible); CHAR.farOff=false;
++      check(`${who}：setFar 遠／近切換；farOff（?nofar）時一律近`,okFar&&okNear&&okOff);
++    }
++    // ⑤ 放掉：遠距離網格拿掉、原本的網格恢復顯示；同一個 VRM 再借出去不會留下舊的遠距離網格
++    if(!CHAR.setFar||hs.some(h=>!h.userData.farLOD)){ check(`${k}：release／再借出去（沒有遠距離版本，不能檢查）`,false); hs.forEach(h=>{ scene.remove(h); CHAR.release(h); }); continue; }
++    const kept=hs.map(h=>{ CHAR.setFar(h,true); return {parts:h.userData.farLOD.parts,near:h.userData.farLOD.near}; }); hs.forEach(h=>{ scene.remove(h); CHAR.release(h); });
++    check(`${k}：release 以後遠距離網格拿掉、原本的網格恢復顯示`,kept.every(x=>x.parts.every(p=>!p.parent)&&x.near.every(o=>o.visible)));
++    const h3=CHAR.build({id:'x903',model:k,height:1.65,sex:'f'}); let nFar=0; h3.traverse(o=>{ if(o.name==='npc_far') nFar++; });
++    check(`${k}：同一個 VRM 再借出去，遠距離網格剛好 2 個（沒有留下上一個人的）`,nFar===2&&!!h3.userData.farLOD,`${nFar} 個`); CHAR.release(h3);
++  }
++  // ⑥ engine3d.js 的接法（原始碼）：路人 isExtra、騎車的路人都照距離切換，兩個門檻
++  const e=fs.readFileSync(path.join(ROOT,'src/engine3d.js'),'utf8');
++  check('engine3d.js：NPC 迴圈的路人照鏡頭距離切換（遠 30 m、回到 28 m 才換回來）',/if\(n\.isExtra&&o\.userData\.farLOD\) CHAR\.setFar\(o,o\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e)&&CHAR.FAR_OUT===30&&CHAR.FAR_IN===28);
++  check('engine3d.js：騎腳踏車的路人（E.extras）同一套',/const rd=x\.rider; if\(rd&&rd\.userData&&rd\.userData\.farLOD&&x\.obj\)\{[^}]*CHAR\.setFar\(rd,rd\.userData\.isFar\?cd>CHAR\.FAR_IN:cd>CHAR\.FAR_OUT\)/.test(e));
++  console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.error(e); process.exit(1); });
+diff --git a/tools/shots/crowd_lod_audit.py b/tools/shots/crowd_lod_audit.py
+new file mode 100644
+index 00000000..808d9966
+--- /dev/null
++++ b/tools/shots/crowd_lod_audit.py
+@@ -0,0 +1,61 @@
++"""PERF-CROWD-LOD-1021（LAWWW2 2026-10-21）：校園路人的距離分布、draw call、三角形；遠距離版本開／關的同一格畫面。
++[前置] 讀 9/25 存檔（tests/repro_1020/user_save_day9.json）；[捷徑] 設時間、GAME.enter('campus')、搬玩家到椰林大道（兩個位置）。
++每個位置等路人底模下載完，每隔 2.5 秒取一次樣（路人會走動），每一次在「同一格」（同步、中間不跑遊戲迴圈）量：
++  now＝現在的畫面（修改後：30 m 外的路人是遠距離版本）、off＝遠距離版本全部關掉（＝修改前的畫法）、none＝路人全部藏起來（路人自己佔多少）。
++renderer.info 含陰影那一輪。修改前的版本沒有 CHAR.setFar：只量 now、none。
++最後一次取樣另外存：整張畫面（now／off）＋每個 30 m 外路人的放大對照（左＝原本的模型、右＝遠距離版本）。
++用法：python3 tools/shots/crowd_lod_audit.py <工作樹> <URL> <輸出資料夾> [時間，預設 15]"""
++import os, sys, json, asyncio, base64
++WT, URL, OUT = sys.argv[1], sys.argv[2], sys.argv[3]; HOUR = float(sys.argv[4]) if len(sys.argv) > 4 else 15.0
++sys.path.insert(0, os.path.join(WT, 'tests')); import playlib as L
++from playwright.async_api import async_playwright
++SPOTS = {'avenue_mid': (-40, 0, 1.5708), 'avenue_gate': (-104, 0, 1.5708)}   # 椰林大道中段（傅鐘旁）、大門口往東看整條大道
++SAMPLES = 6
++WAIT_MODELS = """(async()=>{ const wait=ms=>new Promise(r=>setTimeout(r,ms)); const t0=performance.now();
++  for(;;){ const P=CHAR.anonPool, cur=(P&&P.cur)||[]; const ok=cur.every(k=>ASSETS.has(k)); const hid=GAME.E.npcs.filter(n=>n.isExtra&&n.obj&&n.obj.userData.degradedHidden).length;
++    if((ok&&!hid)||performance.now()-t0>90000) return {ok,cur:cur.length,hid,sec:Math.round((performance.now()-t0)/1000)}; await wait(1000); if(GAME.upgradeModels) GAME.upgradeModels(); } })()"""
++AUDIT = """((shots)=>{ const E=GAME.E, R=E.renderer, cam=E.camera, C=CHAR;
++  const ex=[]; for(const n of E.npcs){ if(n.isExtra&&n.obj) ex.push({o:n.obj,top:n.obj,kind:n.beh==='route'?'walk':'stand'}); } for(const x of E.extras){ if(x.rider&&x.obj) ex.push({o:x.rider,top:x.obj,kind:'ride'}); }
++  const pos=e=>e.top.position; const dist=e=>Math.hypot(cam.position.x-pos(e).x,cam.position.z-pos(e).z);
++  const shown=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };
++  const fr=new THREE.Frustum().setFromProjectionMatrix(new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix,cam.matrixWorldInverse)); const sp=new THREE.Sphere();
++  const inView=e=>{ sp.center.set(pos(e).x,pos(e).y+0.9,pos(e).z); sp.radius=1.3; return fr.intersectsSphere(sp); };
++  const snap=()=>{ E.render(); return {calls:R.info.render.calls,tris:R.info.render.triangles}; };
++  const grab=()=>R.domElement.toDataURL('image/png');
++  const rows=ex.map(e=>({kind:e.kind,d:+dist(e).toFixed(1),view:inView(e),shown:shown(e.o),far:!!e.o.userData.isFar,lod:!!e.o.userData.farLOD}));
++  const out={rows,hasLOD:!!C.setFar}; out.now=snap(); if(shots) out.imgNow=grab();
++  if(C.setFar){ const prev=C.farOff; C.farOff=true; for(const e of ex) C.setFar(e.o,false); out.off=snap(); if(shots) out.imgOff=grab(); C.farOff=prev; for(const e of ex) if(e.o.userData.farLOD) C.setFar(e.o,dist(e)>C.FAR_OUT); }
++  const v0=ex.map(e=>e.top.visible); ex.forEach(e=>e.top.visible=false); out.none=snap(); ex.forEach((e,i)=>e.top.visible=v0[i]);
++  if(shots){ const w=R.domElement.width, h=R.domElement.height, v=new THREE.Vector3(); out.boxes=ex.map(e=>{ if(!e.o.userData.isFar||!shown(e.o)||!inView(e)) return null; const p=pos(e);
++      v.set(p.x,p.y+1.85,p.z).project(cam); const top=[(v.x+1)/2*w,(1-v.y)/2*h]; v.set(p.x,p.y,p.z).project(cam); const bot=[(v.x+1)/2*w,(1-v.y)/2*h];
++      return {d:+dist(e).toFixed(1),kind:e.kind,x:Math.round(bot[0]),y0:Math.round(top[1]),y1:Math.round(bot[1])}; }).filter(Boolean); out.size=[w,h]; }
++  return out; })"""
++async def main():
++    os.makedirs(OUT, exist_ok=True); run = L.Run('crowd_lod_audit', OUT); res = {}
++    base = json.load(open(os.path.join(WT, 'tests/repro_1020/user_save_day9.json'), encoding='utf-8'))
++    async with async_playwright() as p:
++        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
++        await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
++        await L.load_state(pg, base.get('G', base)); await pg.wait_for_timeout(6000); run.setup('[前置] 讀 9/25 存檔')
++        await pg.evaluate("(async()=>{ GAME.G.hour=%s; GAME.E.hour=%s; await GAME.enter('campus'); })()" % (HOUR, HOUR)); await pg.wait_for_timeout(12000)
++        for _ in range(3):
++            n = await L.phone_away(pg, cdp, tries=4); shut = await L.close_panels(pg, cdp)
++            if not (n or shut): break
++            await pg.wait_for_timeout(1500)
++        wm = await pg.evaluate(WAIT_MODELS); print('models', wm, flush=True); run.setup('[捷徑] 時間 %s、進校園；路人底模 %s' % (HOUR, json.dumps(wm, ensure_ascii=False)))
++        for name, (x, z, yaw) in SPOTS.items():
++            await pg.evaluate("(([x,z,y])=>{ const P=GAME.E.player; P.path=null; P.target=null; P.obj.position.set(x,P.obj.position.y,z); P.obj.rotation.y=y; GAME.E.cam.yaw=y+Math.PI; GAME.E.cam.manualT=0; })(%s)" % json.dumps([x, z, yaw]))
++            await pg.wait_for_timeout(6000); samples = []
++            for i in range(SAMPLES):
++                r = await pg.evaluate(AUDIT + "(%s)" % ('true' if i == SAMPLES - 1 else 'false'))
++                for k in ('imgNow', 'imgOff'):
++                    if r.get(k):
++                        open(os.path.join(OUT, '%s_%s.png' % (name, 'now' if k == 'imgNow' else 'off')), 'wb').write(base64.b64decode(r[k].split(',', 1)[1])); del r[k]
++                samples.append(r); print(name, i, 'extras', len(r['rows']), 'now', r['now'], 'off', r.get('off'), 'none', r['none'], flush=True)
++                await pg.wait_for_timeout(2500)
++            res[name] = samples
++        json.dump(res, open(os.path.join(OUT, 'audit.json'), 'w'), ensure_ascii=False, indent=1)
++        run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
++        await b.close()
++    return run.finish()
++sys.exit(asyncio.run(main()))
