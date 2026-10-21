@@ -24,6 +24,17 @@
    "task": "CG-NOPERSON-1018",
    "src": "BB_00 311 行",
    "note": "使用者 14:0x 問過：選「只有這三張（建議）」，這個擴大解讀不成立"
+  },
+  {
+   "id": "UA-BB-1021-03",
+   "at": "2026-10-21T1x:xx",
+   "quote": "遊戲有 3D 的地方，2D 背景要附遊戲截圖當構圖參考；BB 之後另外出（含 us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby）",
+   "kind": "轉述",
+   "status": "進行中",
+   "wants": "X93",
+   "task": "BG-3DSHOT-1021",
+   "src": "BB-C 10-21 給 LAWWW-C 的訊息",
+   "note": "LAWWW-C 2026-10-21 13:2x 代登在 RULE_SOURCE 種子（BB 分支還沒有自己的 user_asks_BB.json）；BB 建自己的檔時把原話時間補上"
   }
  ]
 }

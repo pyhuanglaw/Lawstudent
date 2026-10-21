@@ -25937,6 +25937,32 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt"
+  },
+  {
+   "id": "BG-3DSHOT-1021",
+   "title": "有 3D 的地方，2D 背景附遊戲截圖當構圖參考：us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby 重新出提示詞（附截圖）向使用者要圖",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 對 BB-C（BB-C 訊息轉述）；USER_WANTS X93",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系、法律系各處 3D 場景的 2D 背景（咖啡廳、萬才館大廳、體育館、美國社區會所草地）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "使用者 10-21 指示（BB-C 轉述）＋D97 提示詞規則",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "每張提示詞附同位置的遊戲截圖；使用者給圖後 LAWWW 接進 OUT.BG／場景",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:2x UTC】BB 截圖＋出提示詞向使用者要；收到圖 LAWWW 接"
   }
  ]
 }
