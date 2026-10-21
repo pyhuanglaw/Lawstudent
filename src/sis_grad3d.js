@@ -227,8 +227,8 @@ const SISG=(function(){
   S.LIB_ZONES=['library_hall','library'];
   const nightOf=G=>{ const now=T(G.day,G.hour), d=Math.floor((now-20)/24); return now-T(d,20)<9?d:null; };   /* 20:00～隔天 05:00 算那一晚（G.hour 過了 24 也一樣）*/
   S.lowOk=G=>{ const F=(G&&G.flags)||{}; return law(G)&&!!F.SIS_STUDY&&!evDone(G,'ev_sis_low_night')&&!sent(G,'sisg_low_msg')&&!(typeof EVENTS!=='undefined'&&EVENTS.failed&&EVENTS.failed.ev_sis_low_night); };   /* 演到一半出錯的（EVENTS.failed）這次遊戲不再試 */
-  S.lowMark=function(G){ if(!S.lowOk(G)||!S.LIB_ZONES.includes(G.zone)) return false; const d=nightOf(G), a=D('lowFrom'), b=D('lowTo'); if(d==null||a==null||b==null||d<a||d>b) return false; G.flags.SISG_LOW_NIGHT=d; return true; };
-  S.lowDue=function(G){ if(!S.lowOk(G)||S.LIB_ZONES.includes(G.zone)) return false; const m=G.flags.SISG_LOW_NIGHT; return m!=null&&nightOf(G)===m; };
+  S.lowMark=function(G){ if(!G||!S.LIB_ZONES.includes(G.zone)) return false; const d=nightOf(G), a=D('lowFrom'), b=D('lowTo'); if(d==null||a==null||b==null||d<a||d>b||!S.lowOk(G)) return false; G.flags.SISG_LOW_NIGHT=d; return true; };   /* 便宜的先看（每 0.5 秒叫一次）*/
+  S.lowDue=function(G){ const m=G&&G.flags&&G.flags.SISG_LOW_NIGHT; if(m==null||S.LIB_ZONES.includes(G.zone)||nightOf(G)!==m) return false; return S.lowOk(G); };
   S.lowPlay=async function(GM){ const G=GM.G; if(!S.lowDue(G)||typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined') return false; const e=STORY_EVENTS.find(x=>x.id==='ev_sis_low_night'); if(!e) return false;
     await EVENTS.run(e); return evDone(G,'ev_sis_low_night'); };   /* EVENTS 正在演別的（EVENTS.run 直接回來）＝下一次 tick 再試 */
 
