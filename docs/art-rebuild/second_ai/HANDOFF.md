@@ -595,7 +595,23 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 19:0x 進度（帳號 A LAWWW2；最新，蓋過下面 18:0x、16:4x 那兩節）
+### ▶▶ 10-21 19:4x 進度（帳號 A LAWWW2；最新，蓋過下面 19:0x 那一節）
+- 開發分支照舊是 `a9da472a`（v9.10.3 發布後）；所有 patch 都對它做。
+- **已交件、等整合**（都對 `a9da472a` git apply 乾淨）：BOX-MIRROR `86dd6d54`、ART-02 `8b38e054`、C208 `76b3a0d5`（18:5x 傳，DELIVERED、沒 ACK）、A7 小公園 `1effaa35`、ART-GYM2-INT `c1e65c33`（19:1x 傳，DELIVERED、沒 ACK）。
+- **WIP：ART-ECON-3D-GAP-1021**（經濟系那一年；都已 commit＋push，遊戲內前後對照排隊中，看完才交）：
+  1. 四棟拱廊大門 `89655410`（總圖、行政、文學院、校史館；只換 GLB）；
+  2. 博雅東側一樓玻璃帶 `0343b994`（只換 GLB）；
+  3. 椰林大道路燈 `campus_avenue_lamps.diff` **第三版**（`5f03d748`；要接在 `lamppost_nav.diff` 後面套）＋傅鐘前那一盞移到鐘亭兩側；
+  4. 榕樹氣根 `f858b47c`（貼圖＋`street_trees.glb`）；
+  5. 宿舍四人房洗手間頂板 `2bc9992d`＋`dorm_seethru.diff`（`b47d499b`：宿舍的網點透空從來沒作用過）；
+  6. Café 吊燈電線透空＋光暈 `71ca706a`（GLB＋`cafe_seethru.diff`）。
+  - 巡場景清單（`$SP/econ2`，33 張，對話都點完）：上面 6 項＋燈柱導航；博雅門口鏡頭貼在人頭後面＝巡場腳本把鏡頭手動轉向牆（manualT 60 秒），引擎的範圍、不處理；公館出生點的機車在人後面 2 m，不是穿模。
+- **WIP：BUG-NAV-LAMPPOST-1021**（P1，`5f03d748`）：路燈的燈柱擋不住人（blockCircle 0.25 在 0.5 m 格角一格都沒擋）。`patches/lamppost_nav.diff`：校園、公館、118 巷、小公園的燈柱改 0.5。`tests/lamppost_nav_unit.js` 修改前 4 區都 FAIL、修改後 ALL PASS；0.1 m 取樣找孤島前後都 0；16 支 Node 測試前後相同。瀏覽器回歸排隊中。
+- **背景佇列**（`$SP`＝scratchpad；一個接一個，避免搶 CPU）：`econfix2/run.sh`（四棟大門、博雅、傅鐘、大道 20:00）→ `banyan/run.sh` → `dorm412/run2.sh` → `cafepend/run.sh`（含 `cafe_glb_integration.py`）→ `lampnav/run.sh`（reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement；修改前後各一次）。輸出都在各自資料夾的 `run.out`、`*.log`。
+- 七份待整合 patch（gym_arena_int、art02、c208、lamppost_nav、campus_avenue_lamps v3、dorm_seethru、cafe_seethru）在 `a9da472a` 上一起套乾淨（`dorm_cam_203.diff` 已整合）。
+- **接下來**：看完對照 → ART-ECON 七項＋燈柱導航交件（README、outbox、傳 LAWWW）→ ART-WZ0 盤點（溫州街每一間店白天／晚上，列出缺哪幾層；10-16 那批已經把八間店都做成立體淺店內）→ US-MARKET-STREET → PERF-ZONE-ENTER-1018。
+
+### ▶▶ 10-21 19:0x 進度（帳號 A LAWWW2；被上面 19:4x 那一節取代）
 - **v9.10.3 已發布**（LAWWW 18:39，main `5b3f1023`），凍結結束。開發分支現在是 `a9da472a`；之後的 patch 都對它做。
 - **已整合進開發分支**（在 `a9da472a` 用 `git apply -R --check` 確認）：
   - 黃昏調色預設開 `723d49a4` → 開發分支 `6d49e79c`；
