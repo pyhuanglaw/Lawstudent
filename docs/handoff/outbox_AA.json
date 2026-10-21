@@ -1133,7 +1133,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "6fc64130",
    "files": [
     "docs/story_planning/AA_374_法律系大二上_重演與人在哪_修正稿.md"
    ],
