@@ -5,6 +5,7 @@
 之後都是玩家的操作：走到床邊按「睡覺」→ 選單；「快轉」→「到下一個有事的日子」；平台「去上課」；手機要回的照 asks 回；社區「去湖邊」。
 「場景完成≠系統完成」：這支只看系統（時間、停點、事件、手機、課），場景的美術另外看。
 不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
+US-G（2026-10-21 19:1x 加）：出發日出境大廳不能搭車回臺北、一小時後自動登機（AA_370 H2）。
 用法：LW_TESTS=<開發分支>/tests SHA=<sha> python3 us_life_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>   （SCEN=id1,id2 只跑某幾個）"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
@@ -190,6 +191,7 @@ async def use(pg, cdp, run, pat):
     await drain(pg, cdp, pref=['「我陪妳走到捷運站。」', '進去', '離開'], secs=200); return True
 
 USF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'Y4_PATH': 'bar'}
+USF_PRE = {k: v for k, v in USF.items() if k not in ('US_DEPARTED', 'US_ARRIVED')}   # 還沒出發（US-G）
 USJS = "G.flags.US_ARRIVED_DAY=D('2028-08-02'); G.flags.Y4_PATH_DAY=D('2028-06-08');"
 DATE = "G.flags.dating_heroine_05=true; G.flags.US1='together'; LV('heroine_05',70,60,60);"
 ALONE = "G.flags.US1='alone'; LV('heroine_05',50,40,35);"
@@ -249,6 +251,12 @@ def check_stops(sc, want):
     if j < len(want): bad.append('%s：停點少了 %s %.2f（實際 %s）' % (sc['id'], want[j][0], want[j][1], ['%s %.2f' % x for x in got][:30]))
     say('   停點：%s' % ['%s %.2f' % x for x in got][:40])
 SCENS = [
+  # US-G 出發日（AA_370 H2，LAWWW 2026-10-21 19:06 要加；開發分支 3a4c01cf）：8/2 05:50 宿舍（沒交往＝挽回中）→ 遊戲時間照走、06:00 自動出發 → 出境大廳 13:00：
+  #   沒有「搭車離開（回台北）」、有「登機：飛往美國」→ 不按登機、站著等 → 13:30 還在出境大廳、沒抵達 → 14:00（進來一小時）自動登機 →「飛往美國」字卡 → 抵達、US_ARRIVED
+  dict(id='USG_depart', key='2028-08-02', h=5.83, zone='dorm', flags=dict(USF_PRE), js="G.flags.Y4_PATH_DAY=D('2028-06-08');",
+       steps=[('until', 13.0, 600), ('airport',), ('until', 13.5, 600), ('notyet',), ('until', 14.3, 900)], pref=['出發'],
+       want=['出發｜桃園機場第二航廈', 'CARD:飛往美國'], eqflags={'US_DEPARTED': True, 'US_ARRIVED': True}, wantZone='us_outside',
+       cflags=['US_DEPARTED', 'US_AIRPORT_AT', 'US_ARRIVED', 'US_ARRIVED_DAY', 'US1']),
   # US-A 交往中：8/2 21:40 床尾 → 睡覺（04:30，只有這一個睡法）→ 時差旁白、05:10 學姊兩則（回「醒了。」）→ 一路快轉到 9/4 17:00 會所烤肉
   dict(id='USA_dating', key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF), js=USJS + DATE + BED,
        steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-09-04', 17.0)], asks={'sis0803': '醒了。'}, pref=['出發', '去', '「好。」'],
@@ -312,7 +320,18 @@ async def main():
             try:
                 await load_at(pg, base, sc, run)
                 for st in sc['steps']:
-                    if st[0] == 'until': await play_until(pg, cdp, run, st[1], sc)
+                    if st[0] == 'until': await play_until(pg, cdp, run, st[1], sc, *st[2:3])
+                    elif st[0] == 'airport':   # US-G：出境大廳的互動點（不按，只看）
+                        z = await pg.evaluate("GAME.G.zone"); labs = await pg.evaluate("(GAME.E.interactables||[]).filter(i=>!i.hidden).map(i=>i.label||'')")
+                        aat = await pg.evaluate("GAME.G.flags.US_AIRPORT_AT===undefined?null:GAME.G.flags.US_AIRPORT_AT"); sn = await pg.evaluate(SNAP)
+                        say('   出境大廳 %s %s %.2f：互動點 %s｜US_AIRPORT_AT=%s' % (z, sn['key'], sn['h'], ' / '.join(labs), aat)); await run.shot(pg, 'airport_' + sc['id'])
+                        if z != 'airport_dep': bad.append('%s：13:00 應該在出境大廳（實際 %s）' % (sc['id'], z))
+                        if any('搭車離開' in x for x in labs): bad.append('%s：出境大廳還有「搭車離開（回台北）」' % sc['id'])
+                        if not any(x.startswith('登機：飛往美國') for x in labs): bad.append('%s：出境大廳沒有「登機：飛往美國」（%s）' % (sc['id'], labs))
+                        if aat is None: bad.append('%s：沒記進出境大廳的時間 US_AIRPORT_AT' % sc['id'])
+                    elif st[0] == 'notyet':   # US-G：還沒滿一小時＝人還在出境大廳、沒抵達
+                        o = await pg.evaluate("({z:GAME.G.zone, arr:!!GAME.G.flags.US_ARRIVED, h:+GAME.G.hour.toFixed(2)})"); say('   不按登機、等著：%s' % json.dumps(o, ensure_ascii=False))
+                        if o['z'] != 'airport_dep' or o['arr']: bad.append('%s：還沒滿一小時就離開出境大廳或抵達了（%s）' % (sc['id'], json.dumps(o, ensure_ascii=False)))
                     elif st[0] == 'set': await set_h(pg, run, st[1], st[2])
                     elif st[0] == 'sleep': await sleep_bed(pg, cdp, run)
                     elif st[0] == 'talk': await talk(pg, cdp, run, st[1])
