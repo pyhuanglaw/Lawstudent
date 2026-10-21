@@ -56,6 +56,12 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
 { const G=mkG('2024-09-09',11); const a=ECONFF.lineFor(G,dayOf('2024-09-09'),dayOf('2024-09-18')); check('⑤ 9/9 → 9/18：「三棟樓之間的路……」',/三棟樓之間的路/.test(a||''),a);
   check('⑤ 只隔一天：沒有',ECONFF.lineFor(G,dayOf('2024-09-18'),dayOf('2024-09-19'))===null);
   ECONFF.rec(G).lines.push(a); const b=ECONFF.lineFor(G,dayOf('2024-09-09'),dayOf('2024-09-18')); check('⑤ 用過的不重複（同一段改用備用句）',b!==a&&!!b,b); }
+// BUG-ECON-OCT-ALLOWANCE-1021（BB 10-21 17:50）：住宿舍的月份跳日子也照月匯——9/30 跳到 10/2，10/1 匯一次（家裡匯錢的規則照 STORY.monthlyFunds，這裡用同樣的「換月才匯」）；修改前 jumpTo 沒叫，10/1 那筆一直沒匯
+{ const G=mkG('2024-09-30',21,{allowanceMonth:9}); G.money=1000; let toast=null; const S0=global.STORY.monthlyFunds, P0=global.STORY.phoneRules; global.STORY.phoneRules=()=>{}; pend=0;
+  global.STORY.monthlyFunds=g=>{ const m=CALENDAR.dateOf(g.day).m; if(g.flags.allowanceMonth===m) return null; g.flags.allowanceMonth=m; return {amount:30000,text:'家裡匯來這個月的生活費：30,000 元'}; };
+  const GM={G,E:null,money(n){ G.money+=n; },toast(t){ toast=t; }}; const r=ECONFF.jumpTo(GM,dayOf('2024-10-02'),8);
+  check('BUG-ECON-OCT-ALLOWANCE：9/30 跳到 10/2，10/1 照月匯一次（+30,000）、跳完提示一次',r==='ok'&&G.money===31000&&G.flags.allowanceMonth===10&&toast==='家裡匯來這個月的生活費：30,000 元',r+' money='+G.money+' toast='+toast);
+  global.STORY.monthlyFunds=S0; global.STORY.phoneRules=P0; }
 { const G=mkG('2024-10-15',22.6); const r=ECONFF.jumpTo({G,E:null},dayOf('2024-10-15'),24.5); check('⑥ 10/15 24:30：日子還是 10/15、時間 24.5（凌晨兩點的微積分的條件）',r==='ok'&&G.day===dayOf('2024-10-15')&&Math.abs(G.hour-24.5)<1e-6,G.day+' '+G.hour);
   const r2=ECONFF.jumpTo({G,E:null},dayOf('2024-10-16'),19); check('⑥ 接著跳到 10/16 19:00',r2==='ok'&&G.day===dayOf('2024-10-16')&&Math.abs(G.hour-19)<1e-6,G.day+' '+G.hour); }
 // ⑦ 睡覺、快轉＝到下一個事件（2026-10-18 使用者：「我每天睡覺到休學，還可以跟可昕告白，中間我們根本沒遇到」）
