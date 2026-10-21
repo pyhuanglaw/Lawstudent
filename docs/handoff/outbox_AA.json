@@ -1190,6 +1190,24 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "法律系大三下三條路線：高 2、中 7、低 11；民訴課的模擬法庭（作廢設定）；AA_342 補稿兩處 AA 自己改"
+  },
+  {
+   "task": "AA366-KX-POSTGRAD-1021／AA367-PG-DATES-1021／DATE-OVERNIGHT-1021 回問題",
+   "branch": "claude/story-planning",
+   "sha": "PENDING",
+   "files": [
+    "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md",
+    "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md",
+    "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
+    "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "LAWWW 照新的節改程式＋重新匯入（白名單換這個 commit）",
+   "next": "LAWWW：延畢大五上要排六位、K26 改字、8/5 第二句、兩天一夜三個有時間的點、D28 底圖、DATE_OVERNIGHT 照人物、D26～D32 九句改字、羊那句／BB：兩天一夜第 3 節口氣＋5-2 九句",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "回 LAWWW 22:23 的 25 題：AA_366 第 4 節（A5～A7）、AA_367 第 10 節（A1～A4、A8～A12）、AA_359 第 5 節（B1～B13＋5-2 九句）；AA_373 6-1 羊那句更正（匯入格式兩欄各兩句）"
   }
  ],
  "items": [
