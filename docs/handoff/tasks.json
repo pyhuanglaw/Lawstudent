@@ -27469,7 +27469,7 @@
    "id": "PERF-CROWD-LOD-1021",
    "title": "校園路人是現在最大的一項（一個 VRM 約 1.7～2.5 萬三角形、10 個網格；椰林大道 15:00 路人 151 個 draw call／25.2 萬三角形）：遠的換低面數或藏起來（現在中畫質 60 m 才不畫）、手機少放幾個；低面數路人模型可以派 LAWWW2",
    "area": "PERF",
-   "owner": "LAWWW",
+   "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P2",
    "first": {
@@ -27484,9 +27484,15 @@
    },
    "source": "LAWWW2（帳號 A）2026-10-21 18:28 PERF-CAMPUS-SHADOW-1020 交件時量的（Playwright SwiftShader，不是 iPhone）",
    "authorized": "效能（D85；D99 經濟系每天走的校園）",
-   "next": "發布後：先量路人的距離分布，決定遠距離藏起來還是換低面數；要模型就派 LAWWW2",
-   "resumeWhen": "v9.10.3 合併 main 以後",
-   "recheckOn": "2026-10-22"
+   "next": "【LAWWW（帳號 A）20:10 UTC】D108／D110：場景效能歸 LAWWW2——低面數路人模型＋距離切換都由 LAWWW2 做（改 engine3d／character3d 先告訴 LAWWW）；排在 ART-ECON-3D-GAP-1021 之後 ｜ 發布後：先量路人的距離分布，決定遠距離藏起來還是換低面數；要模型就派 LAWWW2",
+   "recheckOn": "2026-10-22",
+   "xai": {
+    "spec": "LAWWW2 18:28 自己量的（椰林大道 15:00 路人 151 個 draw call／25.2 萬三角形；一個路人 VRM 1.7～2.5 萬三角形、10 個網格）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "先量路人的距離分布；遠的換低面數（或合併網格）或藏起來，椰林大道 15:00 路人的 draw call、三角形明顯下降；近景（30 m 內）的路人樣子不變；nav、crowd、follow_buddy 單元測試全過；遊戲內前後對照",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   },
   {
    "id": "AA369-HOL-FIX-1021",
