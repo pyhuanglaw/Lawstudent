@@ -112,9 +112,9 @@ const ENCOUNTERS={
   /* 第一次在這裡打招呼以後，她（他）下一次正常聊天時說一次（AA_162 第 4 節、BB_144 第 4 節；R7：劇情事件不讀 ENC_）。
      place：只在那個區域說（芷若在 Café）；phone：改成手機小事（語彤傳照片、可昕不在台大）。 */
   school:{
-    ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次在西門町，你看完是什麼表情？……我從後面看到了。']},
-    ENC_D12_ZQ:{who:'heroine_04',lines:['上次大稻埕那個第三關，我改簡單了。因為你。']},
-    ENC_D06_SIS:{who:'heroine_05',lines:['上次在美術館，你在那幅畫前面站好久。']},
+    ENC_D04_ZR:{who:'heroine_02',place:['cafe'],lines:['上次在西門町，那部你後來有去看嗎？']},
+    ENC_D12_ZQ:{who:'heroine_04',lines:['大稻埕那天我在改的那關，後來改簡單了。']},
+    ENC_D06_SIS:{who:'heroine_05',lines:['上次在美術館遇到你。那個展下個月就撤了。']},
     ENC_D12_PS:{who:'classmate_peishan',lines:['上次你選的那本繪本，課輔班的小孩很喜歡。'],linesIfNot:{memory:'SAW_HER_TEACH',lines:['上次那本繪本，我送給鄰居的小孩了。']}},
     ENC_D13_KX:{who:'kexin',phone:['淡水那天，邵鈞回去一直問你是誰。']},
     ENC_D06_AN:{who:'heroine_01',lines:['上次在美術館。……你後來有看完那一區嗎？']},
@@ -131,7 +131,7 @@ const ENCOUNTERS={
     ENC_D02_XC:{who:'classmate_xinci',lines:['松菸那個特展下禮拜就撤了。我又去了一次，這次只買一樣。']},
     ENC_D29_ZHE:{who:'zhe',lines:['上次在駁二，我同學說你很好聊。下次回高雄再約。']},
     /* BB_213 第三批（bb_walk_v1.json batch:3 的 followUp；b0c20f70）*/
-    ENC_D01_ZQ:{who:'heroine_04',lines:['華山那隻貓，我後來畫進去了。在第二關的角落。']},
+    ENC_D01_ZQ:{who:'heroine_04',lines:['華山市集那個像素鑰匙圈，我後來畫進遊戲裡了。']},
     ENC_D02_ZR:{who:'heroine_02',place:['cafe'],lines:['松菸那天四點那場，我後來看了。你要我講給你聽嗎？']},
     ENC_D11_SIS:{who:'heroine_05',lines:['北投那天你走得很早。下次可以待到中午。']},
     ENC_D08_PS:{who:'classmate_peishan',lines:['動物園那天，小孩回去一直問我你是誰。']},
