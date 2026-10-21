@@ -218,7 +218,7 @@ RECT = """(()=>{ const r=e=>{ if(!e) return null; const b=e.getBoundingClientRec
 
 async def main():
     run = L.Run('groupnotice', OUT); base = json.load(open(SAVE, encoding='utf-8')); MID['run'] = run
-    sc = dict(id='GN_bbq', key='TERMDAY:Y1S1:5:3', h=20.8, zone='dorm', flags={}, js='', pref=['出發'])
+    sc = dict(id='GN_bbq', key='TERMDAY:Y1S1:5:3', h=20.8, zone='dorm', flags={}, js='', pref=['出發', '直接去上課', '直接去下一堂', '坐中間的位子', '老位子'])   # 上課照玩家：直接去、坐中間（2026-10-21 第一輪選了「自己找位子」沒有走去坐，時間停在 10/2 上課）
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[0] = cdp
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
