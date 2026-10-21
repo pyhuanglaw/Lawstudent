@@ -317,13 +317,13 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-54 多段感情：畢業前（5/21）、畢業後一年內（2030-05-25）、尾聲的座位（U5）===================== */
   S.TELL={
-    heroine_01:{loc:'萬才館研討室外的走廊',loc30:'麵店，兩人桌',lines:['……謝謝你說實話。','我們先當朋友。']},
-    heroine_03:{loc:'麵店打烊以後，她在櫃台後面剝蒜頭',lines:['……嗯。',{narr:'（很久以後）'},'謝謝你說。','我們……先不要了。']},
-    heroine_02:{loc:'約好的視訊（她在英國，那邊下午）',loc30:'打烊後的 Café',lines:['……謝謝你自己說。不是讓我從別人那裡知道。','我先掛了。……我會寫一張明信片給你。寫完才寄。'],last30:'……今天先這樣。我收店了。'},
-    heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','謝謝你自己來講。','我不要這樣。我們先當朋友。']},
-    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究單位樓下',lines:['……謝謝你在我口試前說。口試以後才知道的話，我會很生氣。','我們先當朋友。我需要時間。'],first30:'……謝謝你自己來說。'},
-    classmate_peishan:{loc:'電話（她在台南）',lines:['……你特地打來說這個。','謝謝你自己說。……可是我想要的不是這樣。','我會想一下。想完，我們還是朋友。']},
-    kexin:{loc:'政大山下的小吃店',loc30:'她家樓下',lines:['……你說完了？',{narr:'（她把筷子放下。）'},'……謝謝你自己來講。我們先回到朋友。','今天你先走。']} };   /* C 表（以安、語彤照 AA_127 5-4；BB 的五位照 BB_164 第 2 節，裁定 #31、#33、#48）*/
+    heroine_01:{loc:'萬才館研討室外的走廊',loc30:'麵店，兩人桌',lines:['……多久了？',{narr:'（你回答以後，她點了一下頭，沒有再問。）'},'我們先當朋友。']},
+    heroine_03:{loc:'麵店打烊以後，她在櫃台後面剝蒜頭',lines:['……嗯。',{narr:'（很久以後）'},'蒜頭剝完了。','我們……先不要了。']},
+    heroine_02:{loc:'約好的視訊（她在英國，那邊下午）',loc30:'打烊後的 Café',lines:['……嗯。','我先掛了。……我會寫一張明信片給你。寫完才寄。'],last30:'……今天先這樣。我收店了。'},
+    heroine_04:{loc:'吉他社辦外面的樓梯（她晚上回來看社課）',loc30:'工作室樓下',lines:['……你是來跟我說，你還有別人。','……我還以為你要問社課的事。','我不要這樣。我們先當朋友。']},
+    heroine_05:{loc:'研究室走廊（5/29 口試前）',loc30:'她上班的研究單位樓下',lines:['……口試前一週。','口試以後才知道的話，我會很生氣。……現在也有一點。','我們先當朋友。我需要時間。'],first30:'……你特地在樓下等我，就是要講這個。',first30n:2},   /* 2030：first30 換掉講口試的前兩句（原本是一整句）*/
+    classmate_peishan:{loc:'電話（她在台南）',lines:['……你特地打來說這個。','……我想要的不是這樣。','我會想一下。想完，我們還是朋友。']},
+    kexin:{loc:'政大山下的小吃店',loc30:'她家樓下',lines:['……你說完了？',{narr:'（她把筷子放下。）'},'……我們先回到朋友。','今天你先走。']} };   /* AA_350 R0b（企劃線 cae5cc76）：「謝謝你（自己）說／講」七位換句，結果不變 */   /* C 表（以安、語彤照 AA_127 5-4；BB 的五位照 BB_164 第 2 節，裁定 #31、#33、#48）*/
   S.multiPreDue=G=>{ const P=partners(G); if(P.length<2||G.flags.MULTI_PRE!=null) return false; if(typeof ROM==='undefined'||!ROM.knowsOf) return true; return P.some(x=>P.some(y=>y!==x&&!(y==='kexin'?ROM.knowsGF(G,x):ROM.knowsOf(G,x,y)))); };   /* 至少一位還不知道 */
   /* 坦白＝她們退回朋友（acceptsOpen 都是 false），重新開始的等待減半：2 週，學姊 3 週（AA_185 0b）。不是前任 */
   S.toFriend=function(G,id){ const F=G.flags; if(F['dating_'+id]!==true&&!dating(G,id)) return false; F['dating_'+id]=false; if(typeof ROM==='undefined') return true; const R=ROM.get(G,id); R.status='friend_after_catch'; R.restartDay=G.day+(id==='heroine_05'?21:14);
@@ -346,7 +346,7 @@ const R2Y4B=(function(){
       else { F.MULTI_Y5='none'; F.EPI_SEAT_EMPTY=true; } });   /* 不選：不演被發現、不扣數值；尾聲祐廷旁邊空著 */
     return true; };
   S.tellScene=async function(GM,id,y30){ const G=GM.G, C=S.TELL[id]; if(!C||!dating(G,id)) return false; const A=adv();
-    let L=C.lines.slice(); if(y30&&C.first30) L[0]=C.first30; if(y30&&C.last30) L[L.length-1]=C.last30;
+    let L=C.lines.slice(); if(y30&&C.first30) L.splice(0,C.first30n||1,C.first30); if(y30&&C.last30) L[L.length-1]=C.last30;
     await scene(GM,async()=>{ if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('',(y30&&C.loc30)||C.loc,2600); await play(GM,id,L); });
     S.toFriend(G,id); return true; };
   const tellSteps=(tag,key)=>[0,1,2,3,4,5,6].map(i=>({id:'r2y4b_'+tag+'_'+i,at:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i,21):Infinity; },until:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i+7,24):Infinity; },

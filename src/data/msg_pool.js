@@ -192,7 +192,7 @@ const MSG_POOL={
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["（照片：宿舍窗外的路燈）", "要睡了。你那邊早安。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 2", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["今天下雨。我沒帶傘，走回來的。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 3", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["同學問我台灣的咖啡。我講了很久。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 4", "tierMin": true},
-   {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["今天的課講小津。我有舉手。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 5", "tierMin": true},
+   {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["今天的課講一個日本的老導演。他的鏡頭幾乎都不動。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 5", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["（照片：一張還沒寫的明信片）", "這張明天寄。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 6", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["好累。晚安。"], "tags": ["交往中"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 7", "tierMin": true},
    {"topic": "daily", "tier": "L", "variant": "在英國", "msgs": ["今天沒什麼事。只是想跟你說晚安。"], "tags": ["交往中", "一個月最多一次"], "ask": null, "src": "BB_178 1-E 交往中 每天一則 8", "tierMin": true, "affection": true},
