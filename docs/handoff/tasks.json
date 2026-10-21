@@ -20124,7 +20124,7 @@
    "title": "可昕不管什麼對話表情都一樣：重考期在家 71 句、閒聊階梯、事件 164 句沒有標表情（立繪其實有 11 種）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -20138,7 +20138,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我發現可昕不管什麼對話的表情都一樣」",
    "authorized": "使用者回報",
-   "next": "AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
+   "next": "【LAWWW-C 2026-10-21 08:5x UTC】retake_home 重匯 86ffcd9a（白名單換版本；可昕 71 句都有表情，含 D4／D10 拿掉跟祐廷比較、姊姊的房間）；閒聊階梯 y0 的 32 句已在 49ed7e6a；events.js 39 句 AA 直接改在開發分支；tests/kx_expr_unit.js（改之前 2 項失敗）｜ AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",

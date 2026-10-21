@@ -859,11 +859,17 @@
   },
   {
    "path": "docs/story_planning/retake_home/retake_home_v1.json",
-   "sha": "93f356cc",
+   "sha": "86ffcd9a",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18 07:1x「完全沒有可昕跟我一起在家讀書的感覺」＋選擇題：睡姊姊的房間、只寫讀書和默契；10-18 AA_298：衝刺班每天去、另一間補習班、看考場 7/10、爸爸在上海）",
-   "task": "RT-TOGETHER-1018",
-   "kind": "data"
+   "approvedBy": "AA-C 定稿（KX-EXPR 86ffcd9a：可昕 71 句全部標表情、D4／D10 兩句拿掉跟祐廷比較；含 e544b4f4 AA_308：姊姊的房間等；D100 台詞歸 AA）",
+   "task": "KX-EXPR-1018",
+   "kind": "data",
+   "history": [
+    {
+     "sha": "93f356cc",
+     "approvedBy": "AA-C 定稿（D100 台詞歸 AA；使用者 10-18 07:1x「完全沒有可昕跟我一起在家讀書的感覺」＋選擇題：睡姊姊的房間、只寫讀書和默契；10-18 AA_298：衝刺班每天去、另一間補習班、看考場 7/10、爸爸在上海）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_301_經濟系那一年_主動傳訊息給可昕的回覆.md",
