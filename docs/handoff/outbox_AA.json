@@ -1243,7 +1243,7 @@
   {
    "task": "AA380-RENAME-ALISON-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "eb0ccfec",
    "files": [
     "docs/story_planning/AA_380_小語改名Alison.md",
     "docs/story_planning/00_人物口氣表.md",
