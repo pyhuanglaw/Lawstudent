@@ -28,7 +28,8 @@ HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, la
       setTimeout(()=>{ try{ const r=t.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2; const pe=t.style.pointerEvents; t.style.pointerEvents='auto'; const top=document.elementFromPoint(cx,cy); t.style.pointerEvents=pe; rec.rect=[r.left|0,r.top|0,r.width|0,r.height|0]; rec.inView=r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight; rec.onTop=!!top&&(top===t||t.contains(top)); rec.topEl=top?String(top.id||top.className||top.tagName).slice(0,30):''; rec.hidden=t.classList.contains('hide'); }catch(e){} },600); } if(x) lastToast=x; lastVis=vis; }).observe(t,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
     const d=document.getElementById('dlgText'); if(d) new MutationObserver(()=>{ try{ const nm=((document.getElementById('dlgName')||{}).textContent||'').trim(); const full=(GAME.D&&GAME.D.full)||''; if(!/可昕/.test(nm)||!full) return; const k=nm+'|'+full; if(k===lastKx) return; lastKx=k;
       setTimeout(()=>{ try{ const sl=(typeof ADV!=='undefined'&&ADV.slots)||{}; const pick=w=>{ const s=sl[w]; if(!s||s.charId!=='kexin') return null; const box=w==='left'?ADV.L:ADV.R; const im=box&&box.querySelector('img'); return {want:s.expression, outfit:s.outfit||'', shown:im?(im.src.split('/portraits/')[1]||im.src).replace(/\?.*$/,''):'', compact:!!s.compact}; };
-        window.__bb.kx.push(Object.assign({t:full.slice(0,40), slot:pick('left')||pick('right')}, meta())); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
+        const rec=Object.assign({t:full.slice(0,40), slot:pick('left')||pick('right')}, meta()); window.__bb.kx.push(rec);
+        setTimeout(()=>{ try{ const p2=pick('left')||pick('right'); rec.shown2=p2?p2.shown:''; }catch(e){} },1500); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
 })();"""
 async def pick(pg, cdp):
     c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
@@ -127,7 +128,7 @@ async def main():
         print('2 月、6 月的扣款（重考班 2/14、衝刺班 6/8 不該扣）：'); [print('   ', m['d'], m['h'], m['delta'], m['toast'] or m['lastToast']) for m in neg]
         tb = [x for x in bb.get('toasts', []) if 'rect' in x and (not x.get('inView') or not x.get('onTop'))]
         print('提示字被擋或超出畫面：%d／%d' % (len(tb), len(bb.get('toasts', [])))); [print('   ', x['d'], x['h'], x['t'][:30], x.get('rect'), '最上層：', x.get('topEl')) for x in tb[:10]]
-        kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not x['slot']['shown'].endswith('/' + str(x['slot']['want']) + '.webp')]
+        kx = bb.get('kx', []); fb = [x for x in kx if x.get('slot') and x['slot']['shown'] and not (x.get('shown2') or x['slot']['shown']).endswith('/' + str(x['slot']['want']) + '.webp')]   # 2026-10-21：看 1.5 秒後的圖（0.45 秒時常常還是上一句的圖）
         print('可昕的句子：%d 句；有立繪 %d 句；要的表情和顯示的圖不一樣（退回別的圖）%d 句' % (len(kx), len([x for x in kx if x.get('slot') and x['slot']['shown']]), len(fb)))
         byday = {}
         for x in kx:
