@@ -42,7 +42,7 @@ index f603723a..9c31d991 100644
    S.inUS=G=>!!G&&US_ZONES.includes(G.zone);
    /* ---------- 申請：沒有選單了（1A-02；路線在 STORY.routeDecide）---------- */
 diff --git a/src/us3d.js b/src/us3d.js
-index d9ab980b..9da96d9b 100644
+index d9ab980b..4491dab7 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
 @@ -186,6 +186,7 @@ const US3=(function(){
@@ -53,6 +53,15 @@ index d9ab980b..9da96d9b 100644
    /* 戶外區域：配置的 bounds、blocks（長方形，why）、cars；正式模型 glb＋bldg.us_cars（車照配置停）。
       o.interact(E,L,IT)：這一區自己的互動點。建築本體（why 開頭是 building）＝鏡頭碰撞（加高到屋簷 6 m）＋備用模型的方塊 */
    function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, noSkyline:o.noSkyline!==false, build(E){   /* noSkyline：不畫引擎的遠景剪影（台北的山和城市大樓；US-CAMPUS-WIRE-1018）*/ const L=o.layout(), B=L.bounds;
+@@ -212,7 +213,7 @@ const US3=(function(){
+     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
+       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
+       for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
+-        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; }); r.material=Array.isArray(r.material)?ms:ms[0]; });
++        q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
+         cg.add(q); n++; }
+       if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
+     return zone; } }; }
 @@ -221,7 +222,7 @@ const US3=(function(){
        IT.push({x:H_.x,z:H_.z,radius:H_.r,lv:0,label:'回公寓',exit:{to:'us_apartment',spawn:Object.assign({},APT().spawns.fromOutside)}});   /* 配置寫「上樓（213）」：公寓那份的門牌是自己 214、隔壁 213（兩份不一致，先不寫號碼）；字照 LAWWW-C 的最小流程 */
        /* 「出門」（LAWWW-C 的最小可玩流程：外出 → 回公寓睡覺）：usGoOut＝交換系統可以攔下來換成自己的外出；現在去超市（BB_215：超市一定要、主街不需要；
