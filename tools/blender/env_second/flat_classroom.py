@@ -44,7 +44,8 @@ ROOMS = {
     'linze_202': dict(name='霖澤館 202 教室', plate='202 教室', W=13.6, D=9.6, H=3.4, door_x=5.9, wins=[-4.0, -0.4, 3.2], rows=[-3.4, -1.5, 0.4, 2.3, 4.2], tables=[(-3.6, -0.8), (0.8, 3.6)],
                       style='lecture', floor=('large_floor_tiles_02', '#c2c1bb', 1.8), wall='#ece6da', wain=('walnut_veneer', '#5f4a3a'), back='lockers',
                       src='LAWWW-C 10-20 15:51 回覆 Q1（B：開成第二間平面教室）', door_id='c202', host='linze', host_lv=1, view='linze_201'),   # 窗景用 201 的（同一層樓；往北拍到的是很近的背景大樓牆）
-    'wancai_multi': dict(name='萬才館 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.1, -0.15, 1.8, 3.75],
+    # rows：排距 1.9；最後一排往西一點（3.55）：進門的出生點 (4.8, −3.05) 離最近的椅子 0.7 m 以上，一進來不會就貼著椅背、出現「坐下」（原本長桌版也是這樣）
+    'wancai_multi': dict(name='萬才館 多功能教室', plate='多功能教室', W=11.6, D=9.0, H=3.4, door_x=4.8, wins=[-3.2, 0.0, 3.2], rows=[-2.15, -0.25, 1.65, 3.55],
                          style='multi', floor=('laminate_floor_02', '#c4a47e', 2.4), wall='#f0eee9', wain=('painted_plaster_wall', '#d5d3cb'), back='shelf', blinds=[0.45, 0.0, 0.7],
                          src='LAWWW-C 10-20 15:51 回覆 Q2（多功能教室走進去：吉他社）', door_id='multi', host='wancai', host_lv=0),
 }
@@ -750,6 +751,7 @@ def seatcheck(lay, cell=0.4):
         for nm, x, z in cand:
             if clear(x, z, 0.3) and not ok(x, z): P.append(f'座位 ({s["x"]}, {s["z"]}) 的走近點候選 {nm} ({x:.2f}, {z:.2f}) 站得住、但走不過去（遊戲可能選到它、走到一半卡住）')
         if s.get('ap') and not (clear(*s['ap'], 0.3) and ok(*s['ap'])): P.append(f'座位 ({s["x"]}, {s["z"]}) 的 ap 站不住或走不到')
+        if math.hypot(s['x'] - sp['x'], s['z'] - sp['z']) < 0.75: P.append(f'出生點離座位 ({s["x"]}, {s["z"]}) 不到 0.75 m（座位的互動範圍 0.7：一進門就出現「坐下」、貼著椅子）')
     return P
 
 

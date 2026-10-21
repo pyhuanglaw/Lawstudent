@@ -5,7 +5,7 @@
  "tris_drawn": 17670,
  "materials": 17,
  "out": "assets/models/env/second_ai/wancai_multi.glb",
- "bytes": 1754444,
+ "bytes": 1754372,
  "texres": 512,
  "tris_total": 17670,
  "layout": "wancai_multi.layout.json",
