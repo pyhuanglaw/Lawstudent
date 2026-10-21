@@ -12697,6 +12697,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:1x 照原檔複製、OUT.BG 登記（kh 三張原本 image:null、瑞豐旗津原本暫用夜市港邊）；日本路線共用廚房（S.PLACES.kitchen、ev_jp_kitchen）、七夕宿舍門口（jp_events TANABATA）用新圖；bg_images_unit 2j（改之前 FAIL）、aa308_batch3_unit 第 2 項照新圖改"
+  },
+  {
+   "id": "DL-AA-c7af5599",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c7af5599",
+   "what": "AA_361 朋友的學期末邀約每學期一句：九位 × 大二上～大四上 FRIEND[id].genByTerm（42 句）；termend3d.js 送邀約先讀 genByTerm",
+   "task": "AA361-TE-FRIEND-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:2x 照原文 41 句接進 termend_lines.js、termend3d.js 一行；學姊大四上「我回來三個禮拜了」先不用（她 12/23 回來、12/24 就約），問 AA；termend_unit 16（改之前 FAIL 2）"
   }
  ],
  "ignored": [

@@ -26294,6 +26294,51 @@
    "next": "【LAWWW-C 2026-10-21 14:1x UTC】做完：①開發分支全部推上（b0ceecef）②AA／BB／LAWWW2 已通知各自推 ③三個子代理先 commit、打包 wip_backup/wip_subagents_1021_1415.bundle＋兩份 patch ④v9.10.3 發布前狀態寫進 CANDIDATE_9103.md ⑤wip.json 四項 WIP ⑥玩家功能清單半成品 PLAYER_FEATURES_v9.10.3_WIP.md ⑦今天的稽核原始結果 docs/handoff/audit_1021/。接著繼續原本的工作（v9.10.3 發布前測試、子代理合併）",
    "sha": "b0ceecef",
    "evidence": "git ls-remote origin claude/adoring-meitner-mqzst8＝b0ceecef（本機 git status 乾淨）；wip_backup/wip_subagents_1021_1415.bundle git bundle verify 通過；check_handoff incr 的 WIP 項目 0 異常"
+  },
+  {
+   "id": "AA361-TE-FRIEND-1021",
+   "title": "AA_361 朋友的學期末邀約每學期一句（genByTerm；九位 × 大二上～大四上）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "企劃線 AA_361（c7af5599）；AA-C 10-21 14:13 訊息",
+   "first": {
+    "term": "Y2S1",
+    "week": 18,
+    "earliest": "大二上學期末的朋友邀約",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】41 句照原文接進 termend_lines.js FRIEND.genByTerm、termend3d.js 送邀約先讀 genByTerm[學期]；termend_unit 16（改之前 FAIL 2）全過。BB：大二上、大三下各跑一次學期末，看收到的幾則邀約都不一樣、和女朋友那一句、話題池不重複。學姊大四上那句等 AA（AA-Q-1021-TE）"
+  },
+  {
+   "id": "AA-Q-1021-TE",
+   "title": "AA_361 學姊大四上那句「期末考完了嗎？我回來三個禮拜了。法圖旁邊那家，還在。」和日期對不上：她 2028-12-23 從美國回來，學期末邀約 12/24 20:30 就送出（termend_unit 9f）",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "source": "LAWWW-C 實作 AA_361 時發現",
+   "first": {
+    "term": "Y4S1",
+    "week": 18,
+    "earliest": "大四上學期末（學姊從美國回來隔天）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_361 第 1 節、AA_352",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 改句子（或確認邀約日子要往後）給 commit",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:2x UTC】現在學姊大四上照原本的 gen「期末考完了嗎？法圖旁邊那家，我請你。」"
   }
  ]
 }
