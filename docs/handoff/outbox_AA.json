@@ -1084,6 +1084,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "美國交換：高 3、中 9、低 10；D99 三項（經濟系、寒暑假、美國交換）盤點都交了"
+  },
+  {
+   "task": "AA368-Y0-FIX-1021",
+   "branch": "claude/story-planning",
+   "sha": "7eb45d69",
+   "files": [
+    "docs/story_planning/AA_371_回AA368實作五題_新體育館主球場的看.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 照第 1 節改三句、學期中延到 12/20；第 2 節接 ART-GYM2-INT",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_368 實作後五題（維持 1、延期 1、改字 3）＋新體育館主球場兩個「看」"
   }
  ],
  "items": [
