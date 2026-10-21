@@ -454,7 +454,7 @@
    "title": "考試中直向畫面露出「離開教室」",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已驗收",
    "next": "【LAWWW-C 2026-10-21 稽核 B1】做了一部分：BB 跑 TEST-01 考試真實流程（tests/flow_exam_terms.py）直向截圖；重現不了就結案 ｜ 【LAWWW-C 18:5x 程式盤點：考試在 CLS.attend 裡跑，兩條路都在 sceneBegin 之內（門口上課：attend 自己 sceneBegin；座位上課：seatMenu 已經 sceneBegin，inScene:true），E.player.busy＝true 時 updateInteract 會把互動鈕藏起來——程式看不出漏洞，要在瀏覽器重現（TEST-01 的考試流程直向截圖）；重現不了就請回報者給畫面】確認考試中按不到、看不到",
    "priority": "P1",
    "first": {
@@ -476,7 +476,8 @@
      "evidence": "程式盤點：src/game3d.js:208 updateInteract 在 E.player.busy／D.active／menuOpen 時隱藏互動鈕；src/game3d.js:108 sceneBegin 設 busy 並隱藏 #interact；考試在 CLS.attend 的 sceneBegin 之內",
      "note": "程式看不出漏洞，只差瀏覽器確認"
     }
-   ]
+   ],
+   "evidence": "BB（帳號 A）16:51：BB_218 最後一節（38dc2bd5）——直向三場考試題目顯示中都沒有「離開教室」，只在開考前、考完恢復控制時看得到（正常）；重現不了，照任務建議結案"
   },
   {
    "id": "BUG-09",
@@ -525,8 +526,8 @@
    "title": "考試真實上課→交卷流程，直向橫向截圖進 repo",
    "area": "TEST",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 用 flow_exam_terms.py 在直向（390×844）再跑一次並截圖進 repo，同時確認 BUG-08（考試中直向露出「離開教室」，tasks 仍待開工） ｜ 重跑 exam_real_flow.py、截圖 commit、連 BUG-08",
+   "status": "已驗收",
+   "next": "【LAWWW（帳號 A）16:5x】BB 直向實測通過（38dc2bd5）；BB 指出 flow_exam_terms「交卷有答對幾題」讀到打字到一半的句子，已改成讀 GAME.D.full ｜ 【LAWWW-C 2026-10-21 稽核 C】做了一部分：BB 用 flow_exam_terms.py 在直向（390×844）再跑一次並截圖進 repo，同時確認 BUG-08（考試中直向露出「離開教室」，tasks 仍待開工） ｜ 重跑 exam_real_flow.py、截圖 commit、連 BUG-08",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -550,7 +551,8 @@
      "evidence": "tests/flow_exam_terms.py（a050c1e9，10-18 第 2 層 PASS，RELEASES v9.10 第 16 項：大一上憲法、大二上行政法、大三上民訴甲上真的開考、交卷有分數）；直向／橫向截圖 docs/art-rebuild/screenshots/exam_2026-10-14/（exam_q1_port.webp 等 6 張，10-16 0d5f35ef 進 repo，16 週改版以前）",
      "note": "橫向真實流程已過；直向截圖是 16 週改版前的，BUG-08 仍沒人重現"
     }
-   ]
+   ],
+   "evidence": "BB（帳號 A）16:51：BB_218 最後一節（claude/story-planning 38dc2bd5）——開發分支 5e297de9，Playwright 直向 390×844、不用 turbo（不是 iPhone）：Y1S1 憲法、Y2S1 行政法、Y3S1 民訴都真的開考，1／5～5／5 都出現，交卷有分數；直向題目最多 4 行、A～D 完整點得到；沒有內部字、沒有 JS 例外；截圖 test_shots/exam_port_1021/"
   },
   {
    "id": "TEST-02",
@@ -27028,6 +27030,27 @@
     "e36faad7"
    ],
    "next": "e36faad7：長跳對齊在每天 05／11／17／23 點、每一步跑整點規則；tests/pg_longjump_phone_unit.js（修改前 2 項失敗），畢業後相關 18 支單元測試全過；83 天 0.66 秒。更窄的時段長跳會錯過：AA 寫畢業後節奏（AA_366 改版／AA_367）時要準時的訊息做成停點。BB 驗：台灣路線沒報國考那一跳，10/10、10/17 的可昕訊息有出現"
+  },
+  {
+   "id": "BUG-EXAM-BOARD-1021",
+   "title": "期末考那天進教室、還沒坐下時黑板寫的是別的課（「憲法：基本權的限制」），坐下後才換成該科的期末考（Y2S1、Y3S1）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y2S1",
+    "week": 16,
+    "earliest": "大二上期末考進教室",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）16:51：BB_218 最後一節（38dc2bd5；test_shots/exam_port_1021/ 截圖 11、20）",
+   "authorized": "bug 修正",
+   "next": "黑板字在進教室時就照當天那一堂（考試日＝期末考）；不在三個優先項目裡，排 v9.10.3 後"
   }
  ]
 }

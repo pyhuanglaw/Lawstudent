@@ -39,7 +39,7 @@ async def run_term(pg, cdp, run, tid, want):
                 if len([t for t in texts if t.startswith('▶')]) == 1 or '1／5' in ''.join(texts[-3:]): await run.shot(pg, tid + '_choice')
                 await L.touch_tap(cdp, c[0], c[1])
         elif s['dlg']:
-            t = s['dtext'] or ''
+            t = await pg.evaluate("(GAME.D&&GAME.D.full)||''") or s['dtext'] or ''   # 讀完整的句子：打字到一半的 dtext 會少字（BB 10-21 直向讀到「交卷。」「交卷。答對 」，答對幾題那項誤判）
             if not texts or texts[-1] != t[:60]:
                 texts.append(t[:60])
                 if '1／5' in t: await run.shot(pg, tid + '_q1')
