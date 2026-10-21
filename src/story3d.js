@@ -1971,7 +1971,7 @@ const STORY = (function(){
       const sum1=CALENDAR.gradeDay('Y1S2');   /* 6/29（一）成績公布那天（AA-B 02:28 確認：一起看、best_one 都在 6/29）*/
       if(sum1&&F.dating_kexin&&F.KX_GRADES_Y1S2==='best_one'&&F.KX_P4E!=='sent'&&G.day>=sum1&&G.day<=sum1+1&&!PHONE.sent(G,'kx_best_one')){
         const cs=CLS.termCourses(G,'Y1S2').filter(c=>c.kind!=='service'), short=c=>c.name.replace(/（.*?）/g,'');
-        PHONE.at(G,sum1,21,[K('說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'),Object.assign(K('換你。'),{ask:{until:(sum1+1)*24+24,opts:cs.map(c=>({t:short(c),set:{KX_BEST_ONE_Y1S2:c.id},say:[K(c.id==='econ_principles_2'?'經原？……那一科，我們以前坐在同一間教室。它也替你高興。':'「'+short(c)+'」。好，我記下來了。……明年再比一次。')]}))}})],'kx_best_one'); } }
+        PHONE.at(G,sum1,21,[K('說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'),Object.assign(K('換你。'),{ask:{until:(sum1+1)*24+24,opts:cs.map(c=>({t:short(c),set:{KX_BEST_ONE_Y1S2:c.id},say:[K(c.id==='econ_principles_2'?'經原？……那一科，我們以前坐在同一間教室。它也替你高興。':'「'+short(c)+'」。好，我記下來了。……明年再各說一科。')]}))}})],'kx_best_one'); } }   /* AA_373 第 6-1 節（企劃線 bdab2f42）：「……明年再比一次。」改「……明年再各說一科。」（她沒有在跟你比）*/
     /* 方奕廷「學弟好。明天寒流。」（BB_120 1-7c、BB 2026-10-14）：第一波寒流（S.firstColdDay，AA_71 十二月第一波；遊戲還沒有寒流的天氣，先放大一上第 15 週週一）的前一晚 20:30；
        「有點熟」以前、有黃金葛、有他的聯絡方式（前一天以前拿到）*/
     { const cold=S.firstColdDay(); if(cold&&G.day>=cold-2&&G.day<=cold-1&&!PHONE.sent(G,'fy_cold')&&fyEarly(G)&&F.POTHOS) PHONE.at(G,cold-1,20.5,[P1('npc_fangyt','學弟好。明天寒流。黃金葛不要放窗邊。'),P1('npc_fangyt','它怕冷。我也是。',1/60)].map(x=>{ const y=Object.assign({},x); delete y.dt; return y; }),'fy_cold'); }

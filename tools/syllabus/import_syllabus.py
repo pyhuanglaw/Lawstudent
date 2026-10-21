@@ -7,8 +7,8 @@
 用法：python3 tools/syllabus/import_syllabus.py [企劃分支的 ref，預設 origin/claude/story-planning] [檔名=ref …（個別檔案用別的 ref）]
      ref 可以寫「分支@commit」：從那個 commit 讀、來源寫分支名（分支已經往前走、要重產同一版時用；例：claude/magical-albattani-bk7b4n@57b2a7b3）
 （2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）
-AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉
-（旁白「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過"""
+AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
+（旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -63,7 +63,19 @@ if A373:
             if 'prompt' in hits[0] and hits[0].get('prompt') == old: hits[0]['prompt'] = new
             else: hits[0]['text'] = new
         elif not (len(hits) == 0 and len(news) == 1): sys.exit(f'AA_373 第 9 項：ge_y1s2 第 6 週「{old}」有 {len(hits)} 處（應該是 1 處；或已經是新句）')
-    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（通識第 6 週 2 句）'
+    # 第 6-2 節第 3 題（bdab2f42）：黑板「（本週晚上在操場）」→「（本週在天文館）」、觀察「看旁邊的人」的結果「宥辰躺在跑道上，沒有說話。」→「宥辰仰著頭，一直到燈亮都沒有說話。」（開頭旁白「（這堂課移到天文館。）」在 classes3d.js 的 SPECIAL_PRE）
+    for old, new, quote in [('（本週晚上在操場）', '（本週在天文館）', '「（本週在天文館）」'), ('宥辰躺在跑道上，沒有說話。', '宥辰仰著頭，一直到燈亮都沒有說話。', '「宥辰仰著頭，一直到燈亮都沒有說話。」')]:
+        if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到第 6-2 節第 3 題的「改成」：{quote}')
+        board = w6.get('board') or []
+        opts = [o for o in ((w6.get('obs') or {}).get('options') or []) if isinstance(o, dict)]
+        hits = [('board', i) for i, b in enumerate(board) if b == old] + [('obs', o) for o in opts if o.get('result') == old]
+        news = [b for b in board if b == new] + [o for o in opts if o.get('result') == new]
+        if len(hits) == 1:
+            k, x = hits[0]
+            if k == 'board': board[x] = new
+            else: x['result'] = new
+        elif not (len(hits) == 0 and len(news) == 1): sys.exit(f'AA_373 第 6-2 節第 3 題：ge_y1s2 第 6 週「{old}」有 {len(hits)} 處（應該是 1 處；或已經是新句）')
+    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（通識第 6 週 4 句）'
 # 法律審查：一週一週開
 rv = json.loads(show('docs/story_planning/BB_115_法律審查清單.json'))
 items = {}   # '課程|週' → [通過嗎]

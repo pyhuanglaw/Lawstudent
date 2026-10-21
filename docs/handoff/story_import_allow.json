@@ -950,11 +950,17 @@
   },
   {
    "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",
-   "sha": "a48fe1b7",
+   "sha": "bdab2f42",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿）；bdab2f42 加第 6 節（AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題：6-1 可昕四句、6-2 第 3、4、7、8、10、11、12 題要改）。大一下閒聊階梯六句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（第 6、8、14、25 項五句＋第 6-2 節第 4 題「上學期期中那個空的保溫瓶，你看到了。」）；通識第 6 週（第 9 項兩句＋第 6-2 節第 3 題黑板「（本週在天文館）」、觀察「宥辰仰著頭，一直到燈亮都沒有說話。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js",
    "task": "AA373-Y1S2-FIX-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "a48fe1b7",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",

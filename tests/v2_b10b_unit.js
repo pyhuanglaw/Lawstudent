@@ -126,7 +126,7 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
     const m1=bo({}); const q=m1.find(m=>m.ask), ko=q?q.ask.opts.map(o=>o.t):[];
     check('7. best_one 6/29 21:00：「說好的，各說一科。我先：憲法。…」「換你。」、選這學期的一科（短名）',m1.length===2&&m1[0].text==='說好的，各說一科。我先：憲法。老師說我的答案像在寫信。'&&ko.includes('經濟學原理')&&ko.includes('刑法總則')&&!ko.some(t=>t.includes('（')),JSON.stringify(ko));
     PHONE.answer(G,q.ask.id,ko.indexOf('經濟學原理')); const e1=KM().slice(-1)[0]; bo({}); const q2=G.msgs.find(m=>m.ask&&m.th==='p:kexin'&&m.text==='換你。'); PHONE.answer(G,q2.ask.id,ko.indexOf('刑法總則')); const e2=KM().slice(-1)[0];
-    check('7. 選經原＝「經原？……那一科，我們以前坐在同一間教室。它也替你高興。」；其他＝「「刑法總則」。好，我記下來了。……明年再比一次。」',e1==='經原？……那一科，我們以前坐在同一間教室。它也替你高興。'&&e2==='「刑法總則」。好，我記下來了。……明年再比一次。',JSON.stringify([e1,e2]));
+    check('7. 選經原＝「經原？……那一科，我們以前坐在同一間教室。它也替你高興。」；其他＝「「刑法總則」。好，我記下來了。……明年再各說一科。」（AA_373 第 6-1 節：不比）',e1==='經原？……那一科，我們以前坐在同一間教室。它也替你高興。'&&e2==='「刑法總則」。好，我記下來了。……明年再各說一科。',JSON.stringify([e1,e2]));
     check('7. P4e 已經傳給她的 best_one：6/29 不問',bo({KX_P4E:'sent'}).length===0);
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'together'}); picks=['等到晚上']; let held=await STORY.holdGrades(GM,'Y1S2'); const plan=(G.outings||[]).find(o=>o.id==='kx_grades2');
     fresh(sum1,8,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); const held2=await STORY.holdGrades(GM,'Y1S2');

@@ -3,7 +3,7 @@
 不再把企劃線分支上所有階梯檔一次匯入——AA 分支的大一下階梯可昕被改 17 處還沒審）。每個檔從名單上寫的 commit 讀，不從分支最新讀。
 要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
 AA_372 第 13、18 項以安的兩句：企劃線 ladder_aa.json@7fca0df5 已經改好（AA_372 第 6 節），原本疊在這裡的那段拿掉了。
-AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句同樣疊在大一下的階梯上（byTerm.Y1S2）。
+AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句、第 6 節第 4 題一句同樣疊在大一下的階梯上（byTerm.Y1S2）。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -88,7 +88,7 @@ def _walk(o, old, new=None):   # 數（new 是 None）或換掉整句相同的�
                 if new is not None: o[k] = new
         else: n += _walk(v, old, new)
     return n
-# ---- AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）：大一下的五句疊在大一下的階梯上（byTerm.Y1S2）——第 6 項沛珊 P2-L3「一週兩天。」（作息改週二、四）、
+# ---- AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）：大一下的六句疊在大一下的階梯上（byTerm.Y1S2）——第 6 節第 4 題學姊「上學期期中那個空的保溫瓶」、第 6 項沛珊 P2-L3「一週兩天。」（作息改週二、四）、
 #      第 8 項學姊 S2-L6 兩句（空保溫瓶在大一上）、第 14 項以安第 10～15 週的招呼（交換是大三的伏筆）、第 25 項可昕 K2-L1 選項回覆（使用者 10-18：她沒有在跟祐廷比）。
 #      整句相同才換；企劃線的階梯檔下一版自己改好了（舊句沒有、新句已經在）就跳過，那時候這段可以拿掉 ----
 A373 = G.approved_files(ALLOW, 'docs/story_planning/AA_373_')
@@ -102,12 +102,13 @@ if A373:
                                        ('第 8 項', 'heroine_05', '期中的時候，我對著空的保溫瓶喝了好幾次。', '上學期期中的時候，我對著空的保溫瓶喝了好幾次。', '「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」'),
                                        ('第 8 項', 'heroine_05', '上次那杯黑咖啡，謝謝。', '那杯黑咖啡，謝謝。', '「那杯黑咖啡，謝謝。」'),
                                        ('第 14 項', 'heroine_01', '日文課下禮拜小考。……我國中就想去日本交換了。', '日文課下禮拜小考。……片假名我還是會看錯。', '「日文課下禮拜小考。……片假名我還是會看錯。」'),
-                                       ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」')]:
+                                       ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」'),
+                                       ('第 6-2 節第 4 題', 'heroine_05', '期中那個空的保溫瓶，你看到了。', '上學期期中那個空的保溫瓶，你看到了。', '「上學期期中那個空的保溫瓶，你看到了。」')]:   # 第 6 節（bdab2f42）：看過空保溫瓶那一套（linesIf ev_sis_empty_flask）也是上學期的事
         if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到{item}的「改成」：{quote}')
         ch = y1s2.get(cid) or {}
         n = _walk(ch, old, new)
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'AA_373 {item}：大一下 {cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
-    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（大一下 5 句）'
+    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（大一下 6 句）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')

@@ -8,7 +8,10 @@
 //   10 3/2「這個週末我已經空下來了」、2/14「開學第二個週末」、第一次「我們的日子」在第 2 週的週末　11 春假車上「第三頁寫的，今天不算」、看星星「你們這禮拜上了什麼課？」
 //   12 方奕廷大一下「七月我就要上山了」　13 明軒「你們考試也快了吧 加油」　14 以安「片假名我還是會看錯」　15 期中晚餐「一個沒見過的女生」　16 沒去的群組「柏翰幫沛珊切的。」「……他們在一起了。」
 //   17 期末河堤「那場演講。」只給 5/7 回過她「講者最後問…」的玩家　18 芷若大一下期末飯 22:00　19 總圖十點關、22:10　23 阿勳、品妤「在活大吃午餐」　24 大一下「這半年」　25、26 可昕不比輸贏
-// 修改前（開發分支 73ce13de）：上面每一項都會失敗（標「對照」的照樣通過）。用法：node tests/aa373_y1s2_unit.js
+//   第 6 節（企劃線 bdab2f42，AA 22:0x 答比輸贏清單＋十二題）：6-1 可昕不比（互考「兩個都對。……走，山下那攤。」、6/29「明年再各說一科」、經濟系 r7「上次是我請的」、p2b「好，聽你的」）；
+//   6-2 第 3 題天文館（黑板、觀察、開頭旁白）、第 4 題「上學期期中那個空的保溫瓶」、第 7 題語彤「禮拜五。打烊以後」、第 8 題視訊互考「……下次見面，山下那攤。」、第 10 題大二上「這一年多」、
+//   第 11 題麵店團春假旅行（人物線索）、第 12 題小福（對照：第一輪 #23 已改）
+// 修改前（開發分支 73ce13de）：上面每一項都會失敗（標「對照」的照樣通過）；第 6 節的檢查在 y1b c27e8ad8 上失敗（對照照樣通過）。用法：node tests/aa373_y1s2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -123,10 +126,10 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const A=(LADDER.byTerm.Y1S2.heroine_01.greet.when||[]).find(x=>J(x.week)===J([10,15]));
     check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。……片假名我還是會看錯。」（交換是大三的伏筆）',!!A&&A.t==='日文課下禮拜小考。……片假名我還是會看錯。',A&&A.t);
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_373_/.test(e.path));
-    check('6／8／9／14／25. 匯入白名單有 AA_373@a48fe1b7（approved、AA373-Y1S2-FIX-1021）；ladder.js、syllabus.js 的來源寫著它',allow.length===1&&allow[0].sha==='a48fe1b7'&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&/AA_373@a48fe1b7/.test(LADDER.source)&&/AA_373@a48fe1b7/.test(SYLLABUS.source),J(allow.map(e=>e.sha))); }
+    check('6／8／9／14／25. 匯入白名單有 AA_373@bdab2f42（approved、AA373-Y1S2-FIX-1021；第 6 節加進來以後換版，a48fe1b7 留在 history）；ladder.js、syllabus.js 的來源寫著它',allow.length===1&&allow[0].sha==='bdab2f42'&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&(allow[0].history||[]).some(h=>h.sha==='a48fe1b7')&&/AA_373@bdab2f42/.test(LADDER.source)&&/AA_373@bdab2f42/.test(SYLLABUS.source),J(allow.map(e=>e.sha))); }
   // ===== 第 9 項：通識第 6 週天文館的圓頂 =====
   { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, rc=(w6.react||[]).map(r=>r.who+':'+r.text), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6'];
-    check('9. 旁白「（天文館的圓頂關了燈。）」（黑板之後、老師那句之前）',J(pre)===J([[null,'（天文館的圓頂關了燈。）']]),J(pre));
+    check('9／第 6-2 節第 3 題. 旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」（黑板之後、老師那句之前）',J(pre)===J([[null,'（這堂課移到天文館。）'],[null,'（天文館的圓頂關了燈。）']]),J(pre));
     check('9. 宥辰「關了燈的課，我最清醒。」；「圓頂裡很暗。你……」',rc.includes('classmate_youchen:關了燈的課，我最清醒。')&&!rc.some(t=>/晚上的課/.test(t))&&!!w6.obs&&w6.obs.prompt==='圓頂裡很暗。你……',J([rc,w6.obs&&w6.obs.prompt]));
     check('9. 對照：老師那句「先讓眼睛習慣黑暗。至少十分鐘。」不改；「連假的時候，我要去山上看星星。」照留（春假看星星靠這一堂）',w6.line==='先讓眼睛習慣黑暗。至少十分鐘。'&&rc.includes('class:連假的時候，我要去山上看星星。')); }
   // ===== 第 10 項：3/2、2/14、第一次「我們的日子」=====
@@ -189,9 +192,38 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const bad=t=>/你贏|你請|她判你輸|輸的請|我會比/.test(t);
     check('25／BB-4. 4/19 互考選「中等的」：「……一半。回去我再讀一次。」「走，山下那攤。」（沒有「你贏」「我請」）',m.includes('……一半。回去我再讀一次。')&&m.includes('走，山下那攤。')&&!m.some(bad)&&!m.includes('……好，你贏。我請。'),J(m));
     check('25／BB-4. 選「冷門的」：「犯規。冷門學說是犯規。」「（她把那一題劃掉。）」「……下一題。」（沒有「她判你輸。」「你請。」）',J(h.slice(-3))===J(['犯規。冷門學說是犯規。','（她把那一題劃掉。）','……下一題。'])&&!h.some(bad),J(h));
-    check('25. 視訊互考選「中等的」：沒有「走，山下那攤。」（人不在政大）',v.includes('……一半。回去我再讀一次。')&&!v.includes('走，山下那攤。'),J(v));
+    check('25／第 6-2 節第 8 題. 視訊互考選「中等的」：沒有「走，山下那攤。」（人不在政大），換成「……下次見面，山下那攤。」',v.includes('……一半。回去我再讀一次。')&&!v.includes('走，山下那攤。')&&v.includes('……下次見面，山下那攤。'),J(v));
     const K2=LADDER.byTerm.Y1S2.kexin.steps.find(s=>s.id==='K2-L1'), r=K2&&K2.choices.find(c=>/我也有記/.test(c.t));
     check('25. K2-L1 選「我也有記。」：「騙人。……你記幾次？算了，不准說。」（沒有「我會比」）',!!r&&r.reply==='騙人。……你記幾次？算了，不准說。',r&&r.reply);
     check('25. 對照：互考照留（4/8 的邀約、4/19 的事件、KX_QUIZ 照記）',!!ev('ev_kexin_reschedule')&&L.includes('期中前，兩校互考。')&&(()=>{ const Q=G.flags.KX_QUIZ; return !!Q&&(Q.win|0)+(Q.lose|0)+(Q.draw|0)===1; })(),J(G.flags.KX_QUIZ)); }
+  // ===== 第 6 節（企劃線 bdab2f42；AA 22:0x 答 LAWWW 21:44 的比輸贏清單＋十二題）=====
+  { const quiz=async(mode,pick)=>{ fresh(termDay('Y1S2',8,7),14,'gongguan',{dating_kexin:true,KX_QUIZ_MODE:mode}); picks=[pick]; said=[]; await EVENTS.run(ev('ev_kexin_reschedule')); return lines(); };
+    const e=await quiz('meet','簡單'), ev2=await quiz('video','簡單');
+    check('第 6-1 節. 互考選「簡單的」：「兩個都對。……走，山下那攤。」（不是「平手。各付各的。」）',e.includes('兩個都對。……走，山下那攤。')&&!e.some(t=>/平手|各付各的/.test(t)),J(e));
+    check('第 6-1 節／第 6-2 節第 8 題. 視訊互考選「簡單的」：「兩個都對。……下次見面，山下那攤。」（人不在政大）',ev2.includes('兩個都對。……下次見面，山下那攤。')&&!ev2.includes('兩個都對。……走，山下那攤。')&&!ev2.some(t=>/平手/.test(t)),J(ev2));
+    const sum1=CALENDAR.gradeDay('Y1S2'); fresh(sum1,20.9,'dorm',{dating_kexin:true,KX_GRADES_Y1S2:'best_one'}); run(20.9,21.1);
+    const m=(G.msgs||[]).find(x=>x.tag==='kx_best_one'&&x.ask), k=m?m.ask.opts.findIndex(o=>o.set&&o.set.KX_BEST_ONE_Y1S2!=='econ_principles_2'):-1; if(m&&k>=0) PHONE.answer(G,m.ask.id,k); const last=txt('p:kexin').slice(-1)[0]||'';
+    check('第 6-1 節. 6/29 各說一科（kx_best_one）：「「…」。好，我記下來了。……明年再各說一科。」（不是「明年再比一次」）',!!m&&/。好，我記下來了。……明年再各說一科。$/.test(last)&&!txt('p:kexin').some(t=>/再比一次/.test(t)),last);
+    const r7=evText('ev_y0_r7'), p2b=evText('ev_y0_p2b');
+    check('第 6-1 節. 經濟系 ev_y0_r7：「宵夜你請。……上次是我請的。」（不比分數）',r7.includes('宵夜你請。……上次是我請的。')&&!r7.some(t=>/分數比較低/.test(t)),J(r7.filter(t=>/宵夜/.test(t))));
+    check('第 6-1 節. 經濟系 ev_y0_p2b：「那是我的第一次，不是你的。……好，聽你的。」（不是「算你贏」）',p2b.includes('那是我的第一次，不是你的。……好，聽你的。')&&!p2b.some(t=>/算你贏/.test(t)),J(p2b.filter(t=>/第一次，不是你的/.test(t))));
+    const src=f=>fs.readFileSync(path.join(ROOT,f),'utf8');
+    check('第 6-1 節. 對照（照留）：大二成績打賭「你輸了。」「我輸了。」「上次你請。這次你也會請。」「成績那一攤，你請。說好的。」；休學在家比早起；「那今天宵夜誰請？」「好，那下週換你請。」',
+      ['你輸了。','我輸了。','上次你請。這次你也會請。','成績那一攤，你請。說好的。'].every(t=>src('src/y2r2_3d.js').includes(t))&&/今天算你贏/.test(src('src/data/retake_home.js'))&&src('src/data/r2y4a_events.js').includes('那今天宵夜誰請？')&&src('src/story3d.js').includes('好，那下週換你請。')); }
+  { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, ob=((w6.obs||{}).options||[]).find(o=>o.text==='看旁邊的人'), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6']||[];
+    check('第 6-2 節第 3 題. 通識第 6 週：黑板「（本週在天文館）」（不是「（本週晚上在操場）」）；觀察「看旁邊的人」＝「宥辰仰著頭，一直到燈亮都沒有說話。」；開頭旁白「（這堂課移到天文館。）」',
+      (w6.board||[])[1]==='（本週在天文館）'&&!(w6.board||[]).some(t=>/操場/.test(t))&&!!ob&&ob.result==='宥辰仰著頭，一直到燈亮都沒有說話。'&&!!pre[0]&&pre[0][1]==='（這堂課移到天文館。）',J([w6.board,ob,pre]));
+    const S6=LADDER.byTerm.Y1S2.heroine_05.steps.find(s=>s.id==='S2-L6'), fl=S6&&(S6.linesIf||[]).find(x=>x.if&&J(x.if).includes('ev_sis_empty_flask'));
+    check('第 6-2 節第 4 題. 學姊 S2-L6 看過空保溫瓶那一套：「上學期期中那個空的保溫瓶，你看到了。」',!!fl&&fl.lines[0]==='上學期期中那個空的保溫瓶，你看到了。',fl&&fl.lines[0]);
+    const h2=TERMEND.heart('heroine_03','Y1S2'), h3=TERMEND.heart('heroine_03','Y2S1');
+    check('第 6-2 節第 7 題. 語彤大一下心意第二次：「禮拜五。打烊以後。……你上次說要想，想好了嗎。」（對照：大二上照舊「禮拜四」）',!!h2&&h2.invite2==='禮拜五。打烊以後。……你上次說要想，想好了嗎。'&&!!h3&&h3.invite2==='禮拜四。打烊以後。……你上次說要想，想好了嗎。',J([h2&&h2.invite2,h3&&h3.invite2]));
+    const dbt=async day=>{ fresh(day,15,'library',{}); R('classmate_peishan','FAM'); picks=['妳呢']; said=[]; await EVENTS.run(ev('ev_peishan_doubt')); return lines().filter(t=>/霖澤館/.test(t)); };
+    const y2=await dbt(termDay('Y2S1',3,3));
+    check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在霖澤館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一年多都自在。']),J(y2));
+    const at=(key,h,id)=>{ fresh(D(key),h,'campus',{}); const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.away; };
+    check('第 6-2 節第 11 題. 4/3 08:00 出發～4/4 16:30 回來：小語、阿哲、以安的人物線索「麵店團春假旅行」；4/2、4/4 晚上不是',['yu','zhe','heroine_01'].every(id=>at('2026-04-03',12,id)==='麵店團春假旅行'&&at('2026-04-04',10,id)==='麵店團春假旅行'&&at('2026-04-04',18,id)!=='麵店團春假旅行'&&at('2026-04-02',12,id)!=='麵店團春假旅行'),J(['yu','zhe','heroine_01'].map(id=>[at('2026-04-03',12,id),at('2026-04-04',10,id),at('2026-04-04',18,id)])));
+    const badEv=STORY_EVENTS.filter(e=>(e.stage||'law')!=='econ'&&!e.retired&&!(e.term&&e.term.every(t=>/^Y0|^Y1S1$/.test(t)))&&J(e.dialogue||[]).includes('小福'));
+    const badSch=Object.keys(CHARACTERS).filter(id=>(CHARACTERS[id].daily_schedule||[]).some(x=>/小福/.test(x.away||x.label||'')&&!(x.terms&&x.terms.every(t=>/^Y0|^Y1S1$/.test(t)))));
+    check('第 6-2 節第 12 題（對照：第一輪 #23 已經改好，這裡確認沒有漏的）. 大一下以後玩家看得到的「小福」都改成「活大」（大一上照舊）：法律系的事件、作息的人物線索都沒有大一下以後的「小福」',!badEv.length&&!badSch.length,J({badEv:badEv.map(e=>e.id),badSch})); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });
