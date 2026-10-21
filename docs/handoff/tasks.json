@@ -26831,7 +26831,7 @@
    "title": "體育館 1F 亮面地板上的白色光柱：讀檔直接進體育館才有，從宿舍走進去（13:00）沒有——最像室內的平行光（太陽／月光）高光，讀檔路徑的光源設定和進區域不同",
    "area": "BUG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -26845,7 +26845,11 @@
    },
    "source": "BB（帳號 A）16:09（BB_218 最後兩節，claude/story-planning df352cb5）；LAWWW2 77e990dc 體育館光暈畫面通過、白霧另案",
    "authorized": "bug 修正",
-   "next": "比對讀檔進 gym 和走進 gym 時 E 的平行光、環境光、陰影設定（applyTime／區域 indoor 旗標）；不在三個優先項目裡，排在 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）17:1x】LAWWW2 查明：不是讀檔路徑，是引擎補光 E.fill（engine3d.js，固定方向平行光 0.35）在亮面地板的鏡面高光；13:00 太陽照滿地板把它蓋淡，所以看起來時有時無。e920fa7e 把球場地板粗糙度 0.32→0.6（20:30 左右亮度差 25.5→1.7），整合 1cd80a95；BB 重拍 ｜ 比對讀檔進 gym 和走進 gym 時 E 的平行光、環境光、陰影設定（applyTime／區域 indoor 旗標）；不在三個優先項目裡，排在 v9.10.3 後",
+   "sha": [
+    "e920fa7e",
+    "1cd80a95"
+   ]
   },
   {
    "id": "BUG-CAM-203-R2-1021",
@@ -27125,6 +27129,27 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "ENGINE-FILL-SPEC-1021",
+   "title": "引擎補光 E.fill（固定方向平行光）在每個區域的亮面地板都會產生鏡面高光（體育館球場已用粗糙度壓掉；體育館大廳花崗石 0.35 等還在）：補光不產生鏡面高光、或室內降低",
+   "area": "ENGINE",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y0S1",
+    "week": 0,
+    "earliest": "所有室內亮面地板",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2 17:14（e920fa7e 查明，test_shots/gym_floor_haze_1021/）",
+   "authorized": "技術修正（共用核心 engine3d.js，LAWWW 做）",
+   "next": "會動到所有室內光線：先量各室內區域前後亮度，再決定（例：fill 光的 specular 關掉——three.js 平行光無法單獨關高光，可改成 HemisphereLight／AmbientLight 補光，或室內 fill 強度降低）；BB 全區域截圖比對；排 v9.10.3 後"
   }
  ]
 }

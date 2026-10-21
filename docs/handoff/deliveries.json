@@ -12827,6 +12827,19 @@
    "msg": "ACK",
    "integration": "已驗收",
    "note": "LAWWW（帳號 A）16:5x 整合 0e8f585b（模型、腳本、貼圖從 6437fcf6）；LAWWW2 誠實寫：一般鏡頭看不清楚地上的字，要劇情鏡頭貼近（另開 UX-KAI-TAPE-CAM-1021）；BB 重拍 ｜ BB 17:10 同角度重拍 FIXED（BB_218 最後一節，story-planning 6ec20030；test_shots/tape_box_reshoot_1021/）：「國界」／「法律系免簽」照 ev_kai_tape2 只顯示一個、近拍清楚；紙箱在衣櫃門前、預設鏡頭看得到。新 P3：壓平紙箱上「冬天的衣服」左右鏡像 → ART-Y1-BOX-MIRROR-1021"
+  },
+  {
+   "id": "DL-LAWWW2-e920fa7e",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "e920fa7e",
+   "what": "體育館 1F 白色光柱（BB_218）：gym_court_floor 粗糙度 0.32→0.6（gym_interior.glb 只差 14 bytes）；查明是引擎補光 E.fill 的鏡面高光；對照 test_shots/gym_floor_haze_1021/",
+   "task": "BUG-GYM-LIGHT-LOAD-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）17:1x 整合 1cd80a95（GLB＋gym_interior.py）；gym_unit ALL PASS；BB 重拍（20:30、13:00、讀檔直接進）；引擎端（補光不產生鏡面高光）另開 ENGINE-FILL-SPEC-1021"
   }
  ],
  "ignored": [
