@@ -5,7 +5,8 @@
   ② 1F 預設鏡頭（玩家在中間、進場時的鏡頭方向）畫面左邊那道白霧是哪一個光暈：把光暈網格（userData.glowBatch.items）的每一個投影到畫面，
      列出在畫面裡的（離鏡頭多遠、在畫面上多大、現在的亮度）。
   ③ 203 膠帶中間寫字的那段：玩家站在旁邊（不是紙箱互動點：紙箱在房間西邊、膠帶在東邊 R2 床桌組，站在紙箱旁邊鏡頭朝紙箱時膠帶在鏡頭後面），
-     預設鏡頭／拉到最近／最大俯角，看「國界」兩個字認不認得出。
+     預設鏡頭／拉到最近／最大俯角，看字認不認得出（腳本 dorm_y1_items.py：字是「法律系可以無條件入境」）。
+  ④ 壓平的紙箱：artrev2 的近拍被書桌擋住，這次低角度＋玩家站在書桌前的預設／最近鏡頭。
 [捷徑] GAME.enter、設時間、搬玩家、藏玩家、劇情鏡頭。不是 iPhone：只看畫面。
 用法：LW_TESTS=<開發分支>/tests python3 artrev3_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>"""
 import os, sys, json, asyncio
@@ -88,6 +89,20 @@ async def dorm(pg, run):
                 y = 1.5708 + k * 1.5708
                 await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([y, d, pt]))
                 await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'tape_%s_%s_%.1f_%d' % (tag, 'a' if x == 1.0 else 'b', d, k))
+    # ④ 壓平的紙箱（Y1_BOX_FOLDED，約 (-2.83, 0.3, -0.1)，0.08×0.6×0.78，靠在書桌底下的牆邊）：artrev2 的近拍被書桌擋住——這次從房間這邊低低地看、玩家站在書桌前的預設鏡頭
+    await pg.evaluate("(()=>{ const G=GAME.G; G.flags.BOX_WINTER_OPEN=true; })()")
+    await enter(pg, 'dorm', 15); run.setup('[捷徑] dorm 15:00，BOX_WINTER_OPEN（紙箱拆了、壓平）')
+    box = await pg.evaluate("(()=>{ let m=null; GAME.E.scene.traverse(o=>{ if(o.name==='Y1_BOX_FOLDED') m=o; }); if(!m) return null; const b=new THREE.Box3().setFromObject(m), c=b.getCenter(new THREE.Vector3()), s=b.getSize(new THREE.Vector3()); return {vis:m.visible, c:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], s:[+s.x.toFixed(2),+s.y.toFixed(2),+s.z.toFixed(2)]}; })()")
+    print('   壓平的紙箱', box, flush=True)
+    if box:
+        c = box['c']
+        await cine(pg, run, 'folded_low', [c[0] + 1.1, 0.45, c[2]], [c[0], c[1], c[2]])
+        await cine(pg, run, 'folded_low_side', [c[0] + 1.0, 0.55, c[2] + 0.7], [c[0], c[1], c[2]])
+        await cine(pg, run, 'folded_high', [c[0] + 1.2, 1.5, c[2] + 0.4], [c[0], c[1], c[2]])
+        at = await put(pg, c[0] + 1.3, c[2]); print('   玩家放到書桌前', at, flush=True); await closephone(pg)
+        for tag, d, pt in (('default', d0, p0), ('closest', 2.2, p0)):
+            await pg.evaluate("(([y,d,p])=>{ const C=GAME.E.cam; C.yaw=y; C.distTarget=d; C.pitch=p; C.manualT=60; })(%s)" % json.dumps([1.5708, d, pt]))
+            await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, 'folded_player_%s' % tag)
 
 
 async def main():
