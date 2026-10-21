@@ -2,6 +2,7 @@
 **只匯入 docs/handoff/story_import_allow.json 逐檔列出、status approved 的版本**（使用者 2026-10-17 P0：未批准、WIP、來源版本不明預設拒絕；
 不再把企劃線分支上所有階梯檔一次匯入——AA 分支的大一下階梯可昕被改 17 處還沒審）。每個檔從名單上寫的 commit 讀，不從分支最新讀。
 要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
+AA_372（大一上「知道太早、重複」修正稿，白名單上的 commit）第 13、18 項以安的兩句疊在 ladder_aa.json 上（整句相同才換；ladder_aa.json 自己改好了就跳過）。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -76,6 +77,31 @@ out['labels'] = {m: lab[m] for c in out['byTerm'].values() for m in mems(c) if m
 for m, v in ((OLD.get('labels') or {}).items()):
     if m not in out['labels'] and any(m in set(mems(out['byTerm'][t])) for t in kept): out['labels'][m] = v
 if skipped: print('先不匯入新版（記憶沒有中文名稱，請企劃在階梯文件補「| `代號` | 名稱 |」表）：', skipped, '；保留上一次匯入的：', kept)
+# ---- AA_372（企劃線修正稿，白名單 AA372-Y1S1-FIX-1021；AA 定稿）：大一上以安的兩句疊在 ladder_aa.json 上——第 13 項第 16 週週五的招呼（1/20 才回台中）、
+#      第 18 項 A-L9（她三科都在第 8 週）。整句相同才換；ladder_aa.json 下一版自己改好了（舊句沒有、新句已經在）就跳過，那時候這段可以拿掉 ----
+A372 = G.approved_files(ALLOW, 'docs/story_planning/AA_372_')
+if A372:
+    P372, S372 = next(iter(A372.items()))
+    ok, why = G.allowed(P372, S372, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md372 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S372}:{P372}'], text=True)
+    def _walk(o, old, new=None):   # 數（new 是 None）或換掉整句相同的字串，回傳幾句
+        n = 0
+        items = o.items() if isinstance(o, dict) else (enumerate(o) if isinstance(o, list) else [])
+        for k, v in list(items):
+            if isinstance(v, str):
+                if v == old:
+                    n += 1
+                    if new is not None: o[k] = new
+            else: n += _walk(v, old, new)
+        return n
+    an = out['characters'].get('heroine_01') or {}
+    for item, old, new, quote in [('第 13 項', '考完我還會留在臺北三個禮拜。', '考完我還會留在臺北一個月。', '「考完我還會留在臺北一個月。」'),
+                                  ('第 18 項', '你期中哪一週最多？我十月最後那週有三科。', '你期中哪一週最多？期中考那週我有三科。', '「期中考那週我有三科。」')]:
+        if quote not in md372: sys.exit(f'AA_372@{S372} 裡找不到{item}的「改成」：{quote}')
+        n = _walk(an, old, new)
+        if n != 1 and not (n == 0 and _walk(an, new) == 1): sys.exit(f'AA_372 {item}：大一上以安的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
+    out['source'] += f'＋{os.path.basename(P372)[:6]}@{S372}（以安 2 句）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')

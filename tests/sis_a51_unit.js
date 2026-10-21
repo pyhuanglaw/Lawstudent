@@ -45,7 +45,7 @@ GM.money=function(n){ G.money+=n; };
   STORY.lawClassJoinY1(G); check('1. 開學典禮和班群一起加入「法律系新生（自介版）」',PHONE.inGroup(G,'law_class')&&PHONE.inGroup(G,'law_board'));
   G.day=d1; G.weekday=1; run(20.5,20.9); check('1. 9/1 21:00 以前沒有自我介紹',!PHONE.sent(G,'sis_b_intro'));
   run(21,21.1); let B=txt('g:law_board');
-  check('1. 9/1 21:00 祐廷的自我介紹（原文，○○高中＝澄嶼高中），前後有不具名同學的自介',B.includes('player:大家好，我是祐廷，財經法學組，澄嶼高中畢業，重考一年。興趣是數學跟睡覺。請多指教。')&&B.length>=4&&TH('g:law_board').filter(m=>m.from!=='player').every(m=>!m.from&&m.name&&m.text.includes(m.name)),JSON.stringify(B));
+  check('1. 9/1 21:00 祐廷的自我介紹（原文，○○高中＝澄嶼高中；AA_372 第 10 項拿掉「重考一年」），前後有不具名同學的自介',B.includes('player:大家好，我是祐廷，財經法學組，澄嶼高中畢業。興趣是數學跟睡覺。請多指教。')&&B.length>=4&&TH('g:law_board').filter(m=>m.from!=='player').every(m=>!m.from&&m.name&&m.text.includes(m.name)),JSON.stringify(B));
   G.day=d2; G.weekday=2; run(11,12.4); check('1. 9/2 12:30 以前沒有她的留言',!PHONE.sent(G,'sis_b_comment'));
   said=[]; check('1. 留言還沒出現：關手機不演旁白',!(await STORY.afterPhoneClose(GM))&&!said.length);
   run(12.5,12.6); B=txt('g:law_board'); check('1. 9/2 12:30 她的留言「歡迎學弟～選課或宿舍有問題可以私訊問我。」',B.includes('heroine_05:歡迎學弟～選課或宿舍有問題可以私訊問我。'),JSON.stringify(B));
@@ -57,7 +57,7 @@ GM.money=function(n){ G.money+=n; };
   run(20.9,21.1); const S=txt('p:heroine_05');
   check('1. 9/3 21:00 祐廷先私訊（五則原文）',JSON.stringify(S.slice(-5))===JSON.stringify(['player:學姊好，謝謝妳的留言。想問一下，民總要先買哪一本嗎？','heroine_05:先不要買。第一堂課老師會說用哪一本。','heroine_05:真的想先看的話，系圖有，二樓。','player:好，謝謝學姊。','heroine_05:不會。']),JSON.stringify(S));
   G.flags.FAM_GROUP_SENT=true; PHONE.join(G,'family_law','法律系直屬家族'); G.day=d4; G.weekday=4; run(20.9,21.1); const FM=txt('g:family_law');
-  check('2. 9/4 21:00 家族群組：Kevin 點到她、她兩句、Kevin「你們認識？」',JSON.stringify(FM.slice(-4))===JSON.stringify(['kevin:歡迎學弟！我是 Kevin，你的家族學長。上面那位是你的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),JSON.stringify(FM));
+  check('2. 9/4 21:00 家族群組：Kevin 點到她、她兩句、Kevin「你們認識？」（AA_372 第 2 項：不再自我介紹；這裡沒有宿營＝只留「上面那位是你的直屬學姊。」，宿營版在 aa372_y1s1_unit）',JSON.stringify(FM.slice(-4))===JSON.stringify(['kevin:上面那位是你的直屬學姊。','heroine_05:學弟好。我們留言區見過了。','kevin:你們認識？','heroine_05:他自介我有留言。']),JSON.stringify(FM));
   // 9/17 開局（舊的）：沒有 B
   fresh(D('2025-09-17'),21.2,'dorm',{LAW_START_DAY:1}); G.stage='law'; STORY.lawClassJoinY1(G); run(21.2,21.4); check('1. 9/1 以後才開始的局：不補自我介紹',!PHONE.sent(G,'sis_b_intro'));
   // 放榜

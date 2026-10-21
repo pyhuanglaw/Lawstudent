@@ -73,9 +73,9 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     check('校門口：開場六句（BB_95 9-1 原文，舞台說明改旁白）',JSON.stringify(L.slice(0,6))===JSON.stringify(K1),JSON.stringify(L.slice(0,6)));
     check('BCG-27「我是今天的導遊」：旁白之後、「我是今天的導遊」那一句之前換成 CG（圖檔在、有登錄）',cgs.includes('cg_tour_guide_kexin')&&(()=>{ const D=STORY_EVENTS.find(e=>e.id==='ev_kexin_tour_nccu').dialogue, i=D.findIndex(l=>l.cg==='cg_tour_guide_kexin'); return i>0&&/我是今天的導遊/.test(D[i+1].text)&&/長頸鹿/.test(D[i-1].text); })()&&fs.existsSync(path.join(ROOT,'assets/cg/kexin/cg_tour_guide.webp'))&&ADV_CG_FILE('cg_tour_guide_kexin')==='assets/cg/kexin/cg_tour_guide.webp',JSON.stringify(cgs));
     check('山下那條街三個選項（AA_295）',JSON.stringify(opts[1])===JSON.stringify(['「跟妳點一樣的。」','「妳推薦哪一家？」','「妳先點，我請。」']),JSON.stringify(opts[1]));
-    check('選「妳推薦哪一家？」：「山下那家酸辣湯餃。我吃了一學期，還沒膩。」',L.includes('山下那家酸辣湯餃。我吃了一學期，還沒膩。'));
+    check('選「妳推薦哪一家？」：「山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。」（AA_372 第 7 項：她才開學兩個禮拜）',L.includes('山下那家酸辣湯餃。開學到現在，我已經吃到老闆認得我了。'));
     check('小吃街三個選項；選她推薦的：「好，信任導遊。」＋「她點了兩碗酸辣湯餃。」、K1_ORDER=hers',JSON.stringify(opts[2])===JSON.stringify(['（吃她推薦的）','（自己挑一家）','「妳幫我點。」'])&&L.includes('好，信任導遊。')&&L.includes('她點了兩碗酸辣湯餃。')&&G.flags.K1_ORDER==='hers',JSON.stringify(opts[2]));
-    check('停車場結尾：「以後你開車來找我，我負責選宵夜。」「……這是分工，不是命令。」',L.slice(-2).join('|')==='以後你開車來找我，我負責選宵夜。|……這是分工，不是命令。',JSON.stringify(L.slice(-2)));
+    check('停車場結尾：「下次你來，我們吃山上那家。」（AA_372 第 7 項：「選宵夜」8/30 講過）「……這是分工，不是命令。」',L.slice(-2).join('|')==='下次你來，我們吃山上那家。|……這是分工，不是命令。',JSON.stringify(L.slice(-2)));
     check('影響：NCCU_VISITED、可昕的記憶 OUR_SHOP_FIRST；影子的回答不記（沒有別的旗標）',G.flags.NCCU_VISITED===true&&SOCIAL.has('kexin','OUR_SHOP_FIRST')&&!Object.keys(G.flags).some(k=>/SHADOW|K1_SHADOW/.test(k)));
     check('時間：13:30 出發、14:00 抵達、演 3 小時 → 17:00；「回到台大。」',Math.abs(G.hour-17)<0.01&&caps[caps.length-1]==='回到台大。',JSON.stringify({h:G.hour,last:caps[caps.length-1]}));
     check('只一次（出遊 done、事件演過）',OUT.get(G,'kx_tour').state==='done'&&G.events.done.ev_kexin_tour_nccu===1);

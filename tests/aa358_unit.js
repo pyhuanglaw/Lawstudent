@@ -29,7 +29,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
 (async()=>{
   /* ===== 2-1 第二天傍晚的阿鳳麵店（story3d.js noodleScene，經 STORY.interact 的 it.eat）===== */
   const noodle=async flags=>{ fresh(2,18.6,'noodle',flags); meet('heroine_01'); GM.npc.zhe={name:'阿哲',charId:'zhe',obj:{position:{x:0,y:0,z:0}},seat:{x:0,z:0}}; picks=[0,0]; await STORY.interact({eat:'noodle',seat:{x:0,z:0}},GM); return lines(); };
-  const ASK='阿哲：所以下午你跟小安去哪了？我在球場看到你們往校門走。', NO='阿哲：下午沒看到你，我還以為你先回宿舍了。', FAFU='阿哲：對了，法服在招人。學長說一年級去會被操，但真的學得到東西。';
+  const ASK='阿哲：所以下午你跟小安去哪了？我在球場看到你們兩個一起走。'   /* AA_372 第 15 項：原本「往校門走」（總圖那條路不是往校門）*/, NO='阿哲：下午沒看到你，我還以為你先回宿舍了。', FAFU='阿哲：對了，法服在招人。學長說一年級去會被操，但真的學得到東西。';
   for(const [k,flags] of [['拒絕小安（anSkipped）',{anSkipped:true}],['沒等到小安（anMissed）',{anMissed:true,anAfter:true}]]){ const L=await noodle(flags), i=L.indexOf(NO);
     check('2-1 '+k+'：阿哲不問「下午你跟小安去哪了」、沒有那組選項，改說「下午沒看到你，我還以為你先回宿舍了。」，接著法服那句照舊',
       !L.includes(ASK)&&i>0&&L[i-1]==='阿哲：來了。我點了滷蛋，你要不要？'&&L[i+1]===FAFU&&opts.length===1&&!opts.some(o=>o.some(t=>/剛好同路/.test(t)))&&G.flags.zheNoodleDone===true,JSON.stringify([L,opts])); }

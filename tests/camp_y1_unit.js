@@ -91,7 +91,7 @@ const day=k=>STORY.dayOfKey(k);
     G.day=day('2025-08-31'); G.weekday=0; G.hour=14.05; said=[]; cards=[]; await STORY.ceremonyY1(GM);
     check('H2. 典禮：日期卡「8 月 31 日（日）｜14:00 · 綜合體育館」、三句旁白照順序、演完 15:30',cards.includes('8 月 31 日（日）｜14:00 · 綜合體育館')&&said.join('|')==='四千多個新生，每個人都穿著同一件新生上衣。|法律系的位置在二樓看台的右邊。旁邊的人在對手冊上的流程，前面的人在傳訊息問晚上要不要一起吃飯。|校長致詞講到一半，手機震了一下。你被加進一個群組。'&&Math.abs(G.hour-15.5)<1e-6&&G.flags.CEREMONY_Y1===true,cards.join('/')+' '+said.join('|'));
     PHONE.tick(G); const lc=G.msgs.filter(m=>m.th==='g:law_class').map(m=>(m.name||'')+':'+m.text);
-    check('H3. 班群：加入的系統字、系學會「新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。」「不用報名，來就好。」、不具名的同學問系服',PHONE.inGroup(G,'law_class')&&lc.join('|')===':你被加進「法律系（全班）」。|系學會:新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。|系學會:不用報名，來就好。|同學:請問要穿系服嗎|同學:我們還沒有系服吧',lc.join(' | '));
+    check('H3. 班群：加入的系統字、系學會「新生茶會：9/2（二）18:30，萬才館一樓大廳。會說家族怎麼分，有點心。」（AA_372 第 12 項：原本「會公布直屬」）「不用報名，來就好。」、不具名的同學問系服',PHONE.inGroup(G,'law_class')&&lc.join('|')===':你被加進「法律系（全班）」。|系學會:新生茶會：9/2（二）18:30，萬才館一樓大廳。會說家族怎麼分，有點心。|系學會:不用報名，來就好。|同學:請問要穿系服嗎|同學:我們還沒有系服吧',lc.join(' | '));
     const n0=said.length; await STORY.ceremonyY1(GM); check('H4. 典禮只演一次',said.length===n0);
     G.hour=22.2; PHONE.tick(G); const kx=G.msgs.filter(m=>m.th==='p:kexin'), last=kx[kx.length-1];
     check('H5. 22:10 可昕：「明天開學了。」「你課表都排好了嗎？」（沒玩過經濟系：沒有「第二次的大一欸。」）、三個回覆',kx.map(m=>m.text).join('|')==='明天開學了。|你課表都排好了嗎？'&&last.ask&&last.ask.opts.map(o=>o.t).join('/')==='排好了，週四有民總。/還在等加選。/有點緊張。',kx.map(m=>m.text).join(' | '));
@@ -140,7 +140,7 @@ const day=k=>STORY.dayOfKey(k);
   const wel=ACTIVITIES.list.find(a=>a.id==='welcome_y1s1'), d831=day('2025-08-31');   /* AA_310：備用的迎新改到開學前 8/31 上午（原本 9/27）*/
   check('E5. 有宿營（CAMP_Y1）的局 8/31 備用迎新不排；沒有宿營的（開發起點）照排',ACTIVITIES.on(wel,d831,G)===false&&ACTIVITIES.on(wel,d831,{flags:{}})===true);
   { fresh(); G.flags.introDone=true; G.flags.DORM_FOUR=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_typhoon_noodles_y1'));
-    check('E10. 四人房的颱風夜（AA_208 2-3）：柏翰「（在讀張教授寄來的講義）……第十二頁了。」、阿哲「（拿走一包泡麵）我出熱水。」',said.some(t=>/柏翰：（在讀張教授寄來的講義）……第十二頁了。$/.test(t))&&said.includes('阿哲：（拿走一包泡麵）我出熱水。'),said.slice(0,4).join(' / '));
+    check('E10. 四人房的颱風夜（AA_208 2-3）：柏翰「（在讀張教授寄來的講義）……第二十頁了。」（AA_372 第 17 項：10/12 群組說第十二頁）、阿哲「（拿走一包泡麵）我出熱水。」',said.some(t=>/柏翰：（在讀張教授寄來的講義）……第二十頁了。$/.test(t))&&said.includes('阿哲：（拿走一包泡麵）我出熱水。'),said.slice(0,4).join(' / '));
     said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
     check('E11. 四人房的阿凱深夜（AA_208 2-4）：「（阿哲已經睡了，柏翰戴著耳塞。）」',said[0]==='（阿哲已經睡了，柏翰戴著耳塞。）',said.slice(0,2).join(' / '));
     fresh(); G.flags.introDone=true; said=[]; await EVENTS.run(STORY_EVENTS.find(e=>e.id==='ev_dorm_late_kai'));
