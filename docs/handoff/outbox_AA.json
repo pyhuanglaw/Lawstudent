@@ -1103,7 +1103,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "da456892",
    "files": [
     "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md"
    ],
