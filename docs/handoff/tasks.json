@@ -759,7 +759,10 @@
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "aliases": [
+    "ART-02-GONGTONG-1021"
+   ]
   },
   {
    "id": "ART-03",
