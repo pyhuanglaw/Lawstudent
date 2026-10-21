@@ -1,13 +1,13 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 03d6f215..d282fa34 100644
+index e16a6847..b659480e 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -157,7 +157,7 @@ const Z3 = (function(){
      // 兩側草地小徑與長椅、腳踏車
      for(let x0=-100;x0<=50;x0+=25){ for(const s of [-1,1]){ const x=(x0===25&&s<0)?17:x0;   /* 南側 x=25 那張貼著小椰林道的椰子樹（24.2,-14，樹幹在椅背後 1.3 m）：移到 x=17（使用者 2026-10-16：這張椅子位子有夠奇怪）*/ const b=BENCH(); place(g,b,x,s*13,s>0?Math.PI:0); nav.blockRect(x,s*13,1.4,0.7,0); seats.push({x,z:s*13+(s>0?-0.06:0.06),yaw:s>0?Math.PI:0,label:'坐在椰林大道的長椅上'}); } }
      for(let x=-90;x<=40;x+=32){ const r=parkedRack(7); place(g,r,x+8,-16,0); nav.blockRect(x+8,-16,5,1.4,0); }
--    for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]){ const l=W3.lampPost(); place(g,l,x,s*11,s>0?0:Math.PI); lamps.push(l); nav.blockCircle(x,s*11,0.25); } }
-+    for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.25); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
+-    for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]){ const l=W3.lampPost(); place(g,l,x,s*11,s>0?0:Math.PI); lamps.push(l); nav.blockCircle(x,s*11,0.5); } }
++    for(let x=-105;x<=55;x+=22){ for(const s of [-1,1]) for(const lx of (s>0&&x===-39)?[-46.25,-31.25]:[x]){ const l=W3.lampPost(); place(g,l,lx,s*11,s>0?Math.PI:0); l.userData.roadPool=true; lamps.push(l); nav.blockCircle(lx,s*11,0.5); } }   /* 傅鐘那一側：原本 (-39, 11) 那一盞正好擋在鐘亭正前方（巡場景 P3）——改成鐘亭兩側各一盞（都在兩棵椰子中間、鐘亭前廣場的範圍裡，那一段本來就不放植栽）*/   /* 燈臂朝大道（2026-10-21 LAWWW2：原本背對大道，晚上 12 m 寬的路面完全照不到、整條是黑的——經濟系、法律系晚上都走這條；燈頭位置照 W3.lampPost 的約定，只是轉向）*/
      // ---- 傅鐘（大道南側小廣場，行政大樓正前方）----
      const plaza=ground(g,28,12,W3.stoneTex('#e3d9c6'),[7,3],-38,17,0.015); const bell=CK.bell(); place(g,bell,-38,16.5,Math.PI); placeBlocks(nav,bell,-38,16.5,Math.PI);   /* v9.3 第十六批：校園套件的鐘亭，石碑朝北對著大道 */
      const bellGLB=typeof ASSETS!=='undefined'&&!!ASSETS.manifest['bldg.campus_bell']; bell.userData.ckTag='bell'; if(bellGLB) bell.userData.dyn=true;   /* 傅鐘的 Blender 正式模型（第二個 AI：campus_bell.py → bldg.campus_bell）：和總圖同一套接法；導航阻擋照舊是套件的（placeBlocks） */ for(const [x,z] of [[-51,21.5],[-25,21.5]]){ const b=TREE(1.3); place(g,b,x,z,0); nav.blockCircle(x,z,0.9); }
@@ -23,7 +23,7 @@ index 03d6f215..d282fa34 100644
        for(const [y,dz,r,op] of [[0.112,0,1.7,0.85],[0.035,-2.4,2.8,0.6]]){ const pool=new THREE.Mesh(new THREE.CircleGeometry(r,20),new THREE.MeshBasicMaterial({map:glowTex(),color:0xffe0a8,transparent:true,opacity:op,depthWrite:false,blending:THREE.AdditiveBlending})); pool.rotation.x=-Math.PI/2; pool.position.set(px,y,pz+dz); g.add(pool); pool.visible=false; E.lampGlows.push(pool); } }   /* 門廊地坪（高 10 cm）上一圈、門口地上一圈 */
 diff --git a/tests/campus_lamps_unit.js b/tests/campus_lamps_unit.js
 new file mode 100644
-index 00000000..21aafa95
+index 00000000..f0fdaa51
 --- /dev/null
 +++ b/tests/campus_lamps_unit.js
 @@ -0,0 +1,36 @@
@@ -61,5 +61,5 @@ index 00000000..21aafa95
 +/* 傅鐘（-38, 16.5）：鐘亭前廣場（x −52～−24、z 11～23）正前方 ±4 m 沒有路燈；原本那一盞的位置站得住 */
 +const front=made.filter(l=>l.parent&&(l.getWorldPosition(v),Math.abs(v.x+38)<4&&v.z>8&&v.z<14)).map(l=>{ const p=post(l); return [+p.x.toFixed(2),+p.z.toFixed(2)]; });
 +check('3. 傅鐘正前方（x −42～−34）沒有路燈；原本那一盞的位置 (−39, 11) 站得住',!front.length&&E.canStand(-39,11,0.32,0),JSON.stringify(front));
-+/* 註：大道路燈的導航阻擋（blockCircle 半徑 0.25 m）落在 0.5 m 格子的角上時一格都沒擋到——玩家走得過燈桿。修改前就這樣，不是這次的範圍（另外記 BUG-NAV-LAMPPOST-1021）；這裡不檢查 */
++/* 燈柱擋不擋得住人在 tests/lamppost_nav_unit.js（BUG-NAV-LAMPPOST-1021，這份 patch 要接在 lamppost_nav.diff 後面套）*/
 +console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
