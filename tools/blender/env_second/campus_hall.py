@@ -296,6 +296,11 @@ def build(c, out=None):
         if abs(i - (NB - 1) / 2) < 0.6:   # 中央：大門（雙開木門＋石材門框＋門楣）
             holes.append(window(ARC_BACK, x, 0.0, 1.8, 2.9, 0.15, False, rect_=True, dep=0.15, door=True))
             door_leaves(ARC_BACK, x, 1.8, 2.9, -0.15)
+            # 遊戲內對照（econfix2，總圖門 15:00／20:00）：兩扇門中間的對開縫、門底下看得到一條綠線＝空的建築裡面、底下的草地。
+            # 縫後面放一條深色木作（門廳裡面的暗處），門洞底放一道石材門檻（從窗框正面到門後面），都不加材質
+            rect(acc('frame'), ARC_BACK, x - 0.06, x + 0.06, 0.0, 2.9, -0.18)
+            face(acc('trimw'), [ARC_BACK.p(x - 0.9, 0.02, 0.06), ARC_BACK.p(x + 0.9, 0.02, 0.06), ARC_BACK.p(x + 0.9, 0.02, -0.17), ARC_BACK.p(x - 0.9, 0.02, -0.17)], ARC_BACK.dirv(0, 1, 0))
+            rect(acc('trimw'), ARC_BACK, x - 0.9, x + 0.9, 0.0, 0.02, 0.06)
             box(acc('trimw'), x - 1.2, x + 1.2, 3.05, 3.25, D / 2 - AD, D / 2 - AD + 0.18, skip=('back',))          # 門楣
         else:
             holes.append(window(ARC_BACK, x, 0.9, IWW, IWH, 0.12, lit_hash(5, i)))
