@@ -28067,6 +28067,27 @@
    "source": "畢業後子代理 2026-10-21 22:2x 順手發現",
    "authorized": "bug 修正（D87）",
    "next": "照 PG 的回程，住家裡的寫回家"
+  },
+  {
+   "id": "US-MARKET-CROWD-1021",
+   "title": "美國超市街（us_market_street）的車會動、有路人：現在車停著不動、街上沒有人（LAWWW2 交件時列的「還不到」，美國篇人流是 LAWWW 的範圍）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "US",
+   "first": {
+    "term": "Y4S1",
+    "week": 1,
+    "earliest": "2028-08 美國交換第一次去超市",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2（帳號 A）2026-10-21 22:18 交件 US-MARKET-STREET 的「還不到」",
+   "authorized": "D99 第三項美國交換；一般開發（D87）",
+   "next": "照現有 US 人流（us_life3d／us3d 的路人）加超市街的路人與車流；LAWWW2 補停車場路燈光圈"
   }
  ]
 }
