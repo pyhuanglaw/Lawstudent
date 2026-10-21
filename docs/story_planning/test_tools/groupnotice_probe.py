@@ -218,7 +218,7 @@ RECT = """(()=>{ const r=e=>{ if(!e) return null; const b=e.getBoundingClientRec
 
 async def main():
     run = L.Run('groupnotice', OUT); base = json.load(open(SAVE, encoding='utf-8')); MID['run'] = run
-    sc = dict(id='GN_bbq', key='TERMDAY:Y1S1:5:3', h=20.8, zone='dorm', flags={}, js='', pref=['出發'])
+    sc = dict(id='GN_bbq', key='TERMDAY:Y1S1:5:3', h=20.8, zone='dorm', flags={}, js='', pref=['出發', '直接去上課', '直接去下一堂', '坐中間的位子', '老位子'])   # 上課照玩家：直接去、坐中間（2026-10-21 第一輪選了「自己找位子」沒有走去坐，時間停在 10/2 上課）
     async with async_playwright() as p:
         b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[0] = cdp
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
@@ -247,7 +247,17 @@ async def main():
             r = await pg.evaluate(RECT); await run.shot(pg, 'answered_phone_open'); say('   提示（手機開著）：%s' % json.dumps(r, ensure_ascii=False))
             if not r['toastVis'] or '排進行程' not in (r['toastText'] or ''): bad.append('答應以後沒看到「排進行程」的提示（%s）' % r['toastText'])
             if r['toastVis'] and (r['overlap'] or not all(r['tabsClickable']) or r['toast'][1] < r['vh'] / 2): bad.append('BB218-P3 ②：手機開著時提示條蓋住分頁列或不在下面（%s）' % json.dumps(r))
+            yes = await pg.evaluate("!!(GAME.G.flags||{}).BBQ_YES"); say('   按完：BBQ_YES=%s' % yes)
+            if not yes: bad.append('按了「去。」但 BBQ_YES 沒有設（答案沒記到）')
             await close_phone(pg); await pg.wait_for_timeout(600); r2 = await pg.evaluate(RECT); await run.shot(pg, 'answered_phone_closed'); say('   收起手機以後：%s' % json.dumps(r2, ensure_ascii=False))
+            # 收起手機以後最多再等 15 秒（遊戲每 0.5 秒的 S.tick 才排行程、才跳提示；手機開著的時候劇情的 tick 可能停著）
+            t1 = time.time(); seen = None
+            while time.time() - t1 < 15:
+                T = await pg.evaluate("window.__TOASTS||[]"); pt = [x for x in T if '排進行程' in x['t']]
+                if pt: seen = round(time.time() - t1, 1); break
+                await pg.wait_for_timeout(500)
+            say('   收起手機以後 %s 秒看到「排進行程」' % seen)
+            if seen is not None: r3 = await pg.evaluate(RECT); await run.shot(pg, 'plan_toast_after_close'); say('   那時候的提示：%s' % json.dumps(r3, ensure_ascii=False))
         T = await pg.evaluate("window.__TOASTS||[]"); pt = [x for x in T if '排進行程' in x['t']]
         say('   排進行程的提示：%s' % json.dumps(pt, ensure_ascii=False))
         want = sat['md'] + ' 15:00　中秋烤肉'
@@ -256,7 +266,8 @@ async def main():
         elif plan0 == 0 and not any('時間到會跳出「出發」' in x['t'] for x in pt): bad.append('第一次答應，提示沒說「時間到會跳出『出發』」：%s' % pt[0]['t'])
         plan = await pg.evaluate("(()=>{ const o=typeof OUT!=='undefined'&&OUT.get?OUT.get(GAME.G,'bbq'):null; return o?{day:CALENDAR.dateOf(o.day).key,h:o.h,place:o.place,title:o.title}:null; })()"); say('   行程：%s' % json.dumps(plan, ensure_ascii=False))
         # 手機「今天」看得到嗎（10/1 看的是今天，烤肉在 10/4——提示說「手機的『今天』也看得到」：當天才看）；照玩家過三天
-        ok = await untilkd(pg, cdp, run, sat['key'], 14.5, sc, secs=2400)
+        # ONLY_TOAST=1：只看答應以後的提示（不過三天、不出發）
+        ok = False if os.environ.get('ONLY_TOAST') else await untilkd(pg, cdp, run, sat['key'], 14.5, sc, secs=2400)
         if ok:
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
             await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(800)
@@ -264,12 +275,13 @@ async def main():
             say('   %s 手機「今天」：%s' % (sat['key'], today[:300]))
             if '烤肉' not in today and '河濱' not in today: bad.append('%s 手機「今天」沒有中秋烤肉（%s）' % (sat['key'], today[:120]))
         # 等「出發」、出發、演完
-        await play_until(pg, cdp, run, 18.5, sc, secs=900)
+        if not os.environ.get('ONLY_TOAST'): await play_until(pg, cdp, run, 18.5, sc, secs=900)
         lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.d+' '+x.h+' '+(x.n?x.n+'：':'')+x.t)")
         bbq = [l for l in lines if '中秋節前的河濱' in l]; say('   烤肉那一場：%s' % json.dumps(bbq[:2], ensure_ascii=False))
         done = await pg.evaluate("!!((GAME.G.events||{}).done||{}).ev_mid_autumn_bbq")
-        if not done: bad.append('%s 中秋烤肉沒有演（出發沒跳出來或沒出發）' % sat['key'])
+        if not done and not os.environ.get('ONLY_TOAST'): bad.append('%s 中秋烤肉沒有演（出發沒跳出來或沒出發）' % sat['key'])
         if errs: bad.append('JS 例外 %s' % json.dumps(errs[:2], ensure_ascii=False)[:200])
+        T = await pg.evaluate("window.__TOASTS||[]")
         json.dump({'toasts': T, 'plan': plan, 'bad': bad, 'rep': rep, 'lines': lines[-60:]}, open(os.path.join(OUT, 'groupnotice.json'), 'w'), ensure_ascii=False, indent=1)
         try: await asyncio.wait_for(b.close(), 30)
         except Exception: pass

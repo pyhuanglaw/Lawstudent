@@ -863,8 +863,8 @@
    "next": "觀察 a～c（P3）：校門口黑底、宿營 21:30 白天背景、劇情按鈕浮在筆記本上",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D"
+   "ack": "ACK",
+   "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D；LAWWW 21:04 標已驗收"
   },
   {
    "task": "BUG-E37-DORM-SLEEP-1021",
@@ -878,8 +878,39 @@
    "next": "無",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "DELIVERED",
    "note": "PASS（72560881）：選項寫 14:00 的約、13:20 會叫醒（LAWWW 訊息寫 13:10，遊戲字和實際都是 13:20）；13:21 醒來 → 出發 → E37 有演"
+  },
+  {
+   "task": "UI-MONEY-TOAST-ADV-1021",
+   "branch": "claude/story-planning",
+   "sha": "e638625d",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/qa_play.py"
+   ],
+   "state": "已測試",
+   "next": "P3 觀察：跨兩個月的跳日期一次入帳 10,000、提示寫 5,000",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "PASS（73ce13de）：生活費提示 11 則都在最上層、在畫面裡、1.5～4.3 秒；27 則提示 0 則被擋"
+  },
+  {
+   "task": "UX-GROUP-NOTICE-1018",
+   "branch": "claude/story-planning",
+   "sha": "c8520ac8",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/groupnotice_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "② 10/4 出發 → 中秋烤肉（groupnotice3 排隊）",
+   "next": "groupnotice3 跑完記 ②",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "① PASS（78f4c813）：按「去。」BBQ_YES 記到；收起手機 5.1 秒後「排進行程：10/4（六） 15:00　中秋烤肉。時間到會跳出「出發」…」5.2 秒、上方、沒擋；P3：手機開著時不出現（遊戲暫停）"
   }
  ],
  "items": [

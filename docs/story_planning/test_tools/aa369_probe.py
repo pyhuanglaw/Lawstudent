@@ -184,7 +184,7 @@ async def sendmsg(pg, cdp, run, sc, pid, topic, sub=None):
     sn = await pg.evaluate(SNAP); SENT.append({'sc': sc['id'], 'pid': pid, 'n0': n0, 'at': '%s %.2f' % (sn['key'], sn['h'])})
     say('   傳給 %s（%s）：話題 %s；對話串標題「%s」' % (pid, topic, tops, head)); await close_phone(pg)
 async def extra_checks(pg, sc):
-    msgs = await pg.evaluate("(GAME.G.msgs||[]).map((m,i)=>({i, d:CALENDAR.dateOf(m.day).key, from:m.from||'', text:String(m.text||''), th:PHONE.th(m)}))")
+    msgs = await pg.evaluate("(GAME.G.msgs||[]).map((m,i)=>({i, d:CALENDAR.dateOf(m.day).key, h:+(+m.h||0).toFixed(2), from:m.from||m.who||'', text:String(m.text||''), th:PHONE.th(m), opts:m.ask?m.ask.opts.map(o=>o.t):null}))")
     for t, who in sc.get('msgFrom', []):
         got = [m['from'] for m in msgs if m['text'] == t]
         say('   「%s」是誰傳的：%s' % (t[:14], got))
@@ -194,14 +194,38 @@ async def extra_checks(pg, sc):
         x = [m for m in msgs if m['from'] in nm['from'] and nm['d0'] <= m['d'] <= nm['d1']]
         say('   %s～%s 同行的人傳的訊息：%s' % (nm['d0'], nm['d1'], json.dumps([(m['d'], m['from'], m['text'][:16]) for m in x], ensure_ascii=False)))
         if x: bad.append('%s：出國那幾天同行的人還傳訊息（%d 則，例：%s「%s」）' % (sc['id'], len(x), x[0]['from'], x[0]['text'][:16]))
-    for pid, nope, want in sc.get('replies', []):
-        for r in [r for r in SENT if r['sc'] == sc['id'] and r['pid'] == pid]:
-            rep = [m['text'] for m in msgs[r['n0']:] if m['from'] == pid][:4]
+    for rp in sc.get('replies', []):
+        pid, nope, want = rp[:3]; dk = rp[3] if len(rp) > 3 else None
+        mine = [r for r in SENT if r['sc'] == sc['id'] and r['pid'] == pid]
+        for j, r in enumerate(mine):
+            if dk and not r['at'].startswith(dk): continue
+            n1 = mine[j + 1]['n0'] if j + 1 < len(mine) else len(msgs)   # 只看到下一次傳給同一個人以前
+            rep = [m['text'] for m in msgs[r['n0']:n1] if m['from'] == pid and m['th'] == 'p:' + pid][:6]
             say('   %s 回（%s 傳的）：%s' % (pid, r['at'], json.dumps(rep, ensure_ascii=False)))
             if not rep: bad.append('%s：%s 沒有回' % (sc['id'], pid))
             for t in rep:
                 if any(n in t for n in nope): bad.append('%s：%s 回「%s」（不該有 %s）' % (sc['id'], pid, t[:20], nope))
             if want and rep and not any(any(w in t for w in want) for t in rep): bad.append('%s：%s 的回覆沒有 %s（%s）' % (sc['id'], pid, want, rep))
+    for t, dk, h0, h1 in sc.get('msgAt', []):   # 這一則在那一天的 h0～h1 之間收到
+        got = [(m['d'], m['h']) for m in msgs if m['text'] == t]
+        say('   「%s」收到：%s' % (t[:16], got))
+        if not any(d == dk and h0 <= h <= h1 for d, h in got): bad.append('%s：「%s」應該 %s %.2f～%.2f 收到（實際 %s）' % (sc['id'], t[:16], dk, h0, h1, got))
+    for t in sc.get('onceMsg', []):
+        n = sum(1 for m in msgs if m['text'] == t)
+        if n != 1: bad.append('%s：「%s」收到 %d 次（應該一次）' % (sc['id'], t[:16], n))
+    for th, d0, d1, texts in sc.get('noneBetween', []):
+        x = [(m['d'], m['h'], m['text']) for m in msgs if m['th'] == th and d0 <= m['d'] <= d1 and any(m['text'] == t for t in texts)]
+        if x: bad.append('%s：%s～%s %s 不應該有 %s' % (sc['id'], d0, d1, th, json.dumps(x[:3], ensure_ascii=False)))
+    if sc.get('dumpTh'):
+        th, d0, d1 = sc['dumpTh']
+        say('   %s %s～%s：' % (th, d0, d1)); [say('     %s %05.2f %s%s' % (m['d'], m['h'], m['text'][:40], '　［' + '／'.join(m['opts']) + '］' if m['opts'] else '')) for m in msgs if m['th'] == th and d0 <= m['d'] <= d1]
+    for oid, dk, h in sc.get('outing', []):
+        o = await pg.evaluate("(id=>{ const q=OUT.get(GAME.G,id); return q?{d:CALENDAR.dateOf(q.day).key,h:q.h,title:q.title,place:q.place,state:q.state}:null; })(%s)" % json.dumps(oid))
+        say('   行程 %s：%s' % (oid, json.dumps(o, ensure_ascii=False)))
+        if not o or o['d'] != dk or abs(o['h'] - h) > 0.01: bad.append('%s：行程 %s 應該 %s %.2f（實際 %s）' % (sc['id'], oid, dk, h, json.dumps(o, ensure_ascii=False)))
+    for oid in sc.get('noOuting', []):
+        o = await pg.evaluate("(id=>{ const q=OUT.get(GAME.G,id); return q?{d:CALENDAR.dateOf(q.day).key,h:q.h,title:q.title}:null; })(%s)" % json.dumps(oid))
+        if o: bad.append('%s：不應該有行程 %s（%s）' % (sc['id'], oid, json.dumps(o, ensure_ascii=False)))
 SCENS = [
   # H1＋H4：2027 香港行（VA10）
   dict(id='H1_va10', key='2027-07-20', h=20.8, zone='dorm', flags={'EXCHANGE_ROUTE': 'TW'}, js=GRP + "LV('heroine_01',70,60,60); G.flags.dating_heroine_01=true;",
@@ -223,6 +247,47 @@ SCENS = [
        steps=[('until', 21.0), ('untilkd', 'TE_TO', 22.0)], asks={'*': ['好', '可以', '「好', '走', '']}, pref=['出發', '去', '好'],
        want=['九月二號出發。……行李還沒開始收。', '八月底回台中。店裡的班已經交給學妹了。'], none=['九月三號出發', '暑假在台中，店裡的班先排給學妹'], cflags=[]),
 ]
+# ---- AA_369 第 8 節（73ce13de；LAWWW 21:04 第 5 項「跑寒暑假的時候一起看」）。opt＝只在 SCEN 指定時跑。條件、日期照子代理對程式（BB 21:3x）----
+ZR_SHIFT = ['下班了。今天放的是一部老片的原聲帶。', '有個客人點了你都點的那杯。……我差點以為是你。', '📷（Café 打烊後的吧台）', '店裡很安靜。……我有點不習慣。', '今天店裡放的歌，你應該會喜歡。……回來放給你聽。', '你回來那天我早班。下班去找你。']
+YT_SHOP = ['今天店裡很忙', '阿姨問你什麼時候回來', '📷（一碗加蛋的乾麵）', '不是你的 是客人的', '今天店裡來了一個修鞋的阿伯', '他講了四十分鐘', '阿姨說你不在 店裡的蛋用得比較少', '收店了', '好累', '今天下雨 沒什麼客人', '📷（麵店的鍋子）', '今天也有開']
+YT_CLOSE = ['店休第一天，我睡到十點。……阿姨說我很難得。', '店休。阿姨叫我去迪化街買年貨。人好多。', '今天在家幫阿姨包餃子。我包的都站不起來。']
+AN_OLD = ['明天見。……我是說，明天有空的話。', '明天下午三點，總圖門口。', '時差調不過來的話，四點也可以。', '📷（高鐵窗外的田）', '回台中了。8 號回去。']
+SIGN = "G.flags.VAC_%s_APP=true; VAC.signup(G,'%s','yes');"
+SCENS += [
+  # 1 小語在營隊（2026-07-06～07-18）／對照 7/25 在家
+  dict(id='S8_yu', opt=True, key='2026-07-10', h=14.8, zone='dorm', js="LV('yu',45,35,35); INV.addContact(G,'yu'); { const R=MSG.rec(G); (R.rot||(R.rot={}))['say:chat']=0; }",
+       steps=[('until', 15.0), ('sendmsg', 'yu', 'chat'), ('until', 15.25), ('jump', '2026-07-25', 14.9), ('until', 15.0), ('sendmsg', 'yu', 'chat'), ('until', 15.25)],
+       replies=[('yu', ['在家耍廢'], ['在營隊', '小朋友好吵', '我好累'], '2026-07-10'), ('yu', ['在營隊', '小朋友好吵'], ['在家耍廢'], '2026-07-25')], cflags=[]),
+  # 1 方奕廷在山上（07-06～07-19）：7/20 15:00 才回
+  dict(id='S8_fy', opt=True, key='2027-07-10', h=14.8, zone='dorm', js="LV('npc_fangyt',45,35,35); INV.addContact(G,'npc_fangyt'); { const R=MSG.rec(G); (R.rot||(R.rot={}))['say:chat']=0; }",
+       steps=[('until', 15.0), ('sendmsg', 'npc_fangyt', 'chat'), ('until', 15.5), ('noreply', 'npc_fangyt'), ('jump', '2027-07-19', 22.0), ('wait', 8), ('noreply', 'npc_fangyt'), ('jump', '2027-07-20', 14.9), ('until', 15.25)],
+       replies=[('npc_fangyt', ['在宿舍，剛洗完衣服。', '在吃飯。'], ['下山了，剛看到。'], '2027-07-10')],
+       msgAt=[('下山了，剛看到。', '2027-07-20', 15.0, 15.2), ('這是山上的苔。', '2027-07-20', 15.0, 15.2)], cflags=[]),
+  # 2 以安：交往中、玩家去首爾（C08@Y1 真的出發、回來）→ 7/25 15:00 一則；7/24 晚上沒有舊的約
+  dict(id='S8_an_d', opt=True, key='2026-07-13', h=6.6, zone='dorm', js="LV('heroine_01',70,60,60); G.flags.dating_heroine_01=true; " + SIGN % ('C08', 'C08@Y1'),
+       steps=[('untilkd', '2026-07-25', 15.3)], pref=['出發'],
+       msgAt=[('你回來了。我今天回台中，八號回臺北。……到時候再約。', '2026-07-25', 15.0, 15.1)], noneBetween=[('p:heroine_01', '2026-07-24', '2026-07-25', AN_OLD)],
+       noOuting=['vac_C08@Y1_re_heroine_01'], dumpTh=('p:heroine_01', '2026-07-13', '2026-07-25'), cflags=['dating_heroine_01']),
+  # 2 以安：沒交往（熟）→ 7/25 15:00 高鐵照片兩則、沒有交往版那一句
+  dict(id='S8_an_f', opt=True, key='2026-07-25', h=14.8, zone='dorm', js="LV('heroine_01',25,15,15);",
+       steps=[('until', 15.3)], msgAt=[('📷（高鐵窗外的田）', '2026-07-25', 15.0, 15.1), ('回台中了。8 號回去。', '2026-07-25', 15.0, 15.1)],
+       noneMsg=['你回來了。我今天回台中，八號回臺北。……到時候再約。'], cflags=[]),
+  # 3a 語彤：交往中、玩家去東京（C11@Y3：2028-01-17～01-30）→ 店休三句各一次、店休那幾天沒有店裡的話、1/29 乾麵照片、1/30 留一碗
+  dict(id='S8_yt28', opt=True, key='2028-01-17', h=6.6, zone='dorm', js="LV('heroine_03',70,60,60); G.flags.dating_heroine_03=true; " + SIGN % ('C11', 'C11@Y3'),
+       steps=[('untilkd', '2028-01-30', 18.6)], pref=['出發'],
+       msgAt=[(YT_CLOSE[0], '2028-01-19', 22.45, 22.55), (YT_CLOSE[1], '2028-01-20', 22.95, 23.05), (YT_CLOSE[2], '2028-01-21', 22.45, 22.55), ('📷（一碗加蛋的乾麵）', '2028-01-29', 22.45, 22.55), ('阿姨說幫你留一碗', '2028-01-30', 14.95, 15.05)],
+       onceMsg=YT_CLOSE, noneBetween=[('p:heroine_03', '2028-01-19', '2028-01-28', YT_SHOP)], dumpTh=('p:heroine_03', '2028-01-17', '2028-01-30'), cflags=['dating_heroine_03']),
+  # 3b 語彤 2027 對照（C11@Y2：沒有店休那三句；1/23 鍋子照片；1/30「店休。阿姨說等開店，第一碗留給你。」、沒有「阿姨說幫你留一碗」）
+  dict(id='S8_yt27', opt=True, key='2027-01-17', h=6.6, zone='dorm', js="LV('heroine_03',70,60,60); G.flags.dating_heroine_03=true; " + SIGN % ('C11', 'C11@Y2'),
+       steps=[('untilkd', '2027-01-30', 18.6)], pref=['出發'],
+       msgAt=[('📷（麵店的鍋子）', '2027-01-23', 22.45, 22.55), ('店休。阿姨說等開店，第一碗留給你。', '2027-01-30', 14.95, 15.05)],
+       noneMsg=YT_CLOSE + ['阿姨說幫你留一碗'], dumpTh=('p:heroine_03', '2027-01-17', '2027-01-30'), cflags=['dating_heroine_03']),
+  # 4a 芷若：交往中、玩家去首爾（C08@Y2：2027-07-13～07-24）→ 出國那幾天沒有 Café 上班的句子；7/24 21:00「……這次是當客人。來嗎？」、7/25 15:00 行程
+  dict(id='S8_zr', opt=True, key='2027-07-13', h=6.6, zone='dorm', js="LV('heroine_02',70,60,60); G.flags.dating_heroine_02=true; " + SIGN % ('C08', 'C08@Y2'),
+       steps=[('untilkd', '2027-07-24', 21.3)], pref=['出發'],
+       msgAt=[('回來了喔？明天下午我在 Café。……這次是當客人。來嗎？', '2027-07-24', 20.95, 21.05)], noneMsg=['明天我九點下班。', '……你來的話，我晚一點關燈。'],
+       noneBetween=[('p:heroine_02', '2027-07-13', '2027-07-24', ZR_SHIFT)], outing=[('vac_C08@Y2_re_heroine_02', '2027-07-25', 15.0)], dumpTh=('p:heroine_02', '2027-07-13', '2027-07-24'), cflags=['dating_heroine_02']),
+]
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
     if sn['h'] < 21: await set_h(pg, run, 22.0, '晚上才能睡整晚')
@@ -239,6 +304,7 @@ async def main():
         sha = os.environ.get('SHA', '?')
         for sc in SCENS:
             if SCEN and sc['id'] not in SCEN: continue
+            if not SCEN and sc.get('opt'): continue
             say('== %s（%s）' % (sc['id'], sha)); t0 = time.time()
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[0] = cdp
             MID.update({'n': 0, 'run': run, 'keys': [w[:8] for w in sc.get('want', [])], 'id': sc['id']})
@@ -251,6 +317,13 @@ async def main():
                     elif st[0] == 'jump': await jump(pg, run, st[1], st[2])
                     elif st[0] == 'untilkd': await untilkd(pg, cdp, run, sc.get('_te_to') if st[1] == 'TE_TO' else st[1], st[2], sc)
                     elif st[0] == 'sendmsg': await sendmsg(pg, cdp, run, sc, st[1], st[2], *st[3:4])
+                    elif st[0] == 'wait': await pg.wait_for_timeout(int(st[1] * 1000))
+                    elif st[0] == 'noreply':   # 最後一次傳給他以後，他還沒有回（例：方奕廷在山上）
+                        r = [r for r in SENT if r['sc'] == sc['id'] and r['pid'] == st[1]][-1:]
+                        if r:
+                            got = await pg.evaluate("(([n0,pid])=>(GAME.G.msgs||[]).slice(n0).filter(m=>PHONE.th(m)==='p:'+pid&&(m.from||m.who)===pid).map(m=>CALENDAR.dateOf(m.day).key+' '+m.h+' '+m.text))(%s)" % json.dumps([r[0]['n0'], st[1]]))
+                            sn = await pg.evaluate(SNAP); say('   %s %.2f：%s 還沒回？%s' % (sn['key'], sn['h'], st[1], json.dumps(got, ensure_ascii=False)))
+                            if got: bad.append('%s：%s %.2f %s 已經回了（應該 7/20 15:00 才回）：%s' % (sc['id'], sn['key'], sn['h'], st[1], json.dumps(got, ensure_ascii=False)[:120]))
                 await drain(pg, cdp, pref=sc.get('pref', []) + ['出發'], secs=120)
                 await extra_checks(pg, sc)
                 await verify(pg, run, sc)
@@ -264,6 +337,7 @@ async def main():
             except Exception: pass
         json.dump({'results': results, 'bad': bad, 'rep': rep, 'sent': SENT}, open(os.path.join(OUT, 'aa369.json'), 'w'), ensure_ascii=False, indent=1)
         print('問題：'); [print('   -', x) for x in bad]
-        run.check('AA369-HOL-FIX：H1／H4 香港、H2 白色情人節、H5 暑假訊息、M2 期末飯', not bad, json.dumps(bad[:10], ensure_ascii=False))
+        ran = [r['id'] for r in results]
+        run.check('AA369-HOL-FIX：%s' % '、'.join(ran or ['（沒有跑完的情境）']), not bad and bool(ran), json.dumps(bad[:10], ensure_ascii=False))
     run.finish()
 asyncio.run(main())
