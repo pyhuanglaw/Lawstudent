@@ -154,6 +154,16 @@
    "task": "ART-DIRECTOR-LAWWW2",
    "src": "使用者直接對 LAWWW2-C 工作階段說（兩則）",
    "note": "不是交班（D45 保存點，不是 P0 換班）：盤點工作樹、commit＋push 自己的成果、HANDOFF.md 最上面寫保存點——8e8d130e（遠端 SHA 核對一致）。之後照原本的美術總監工作繼續，直到使用者說「現在換班」"
+  },
+  {
+   "id": "UA-LAWWW2-1021-05",
+   "at": "2026-10-21T14:5x",
+   "quote": "交班",
+   "kind": "原話",
+   "status": "進行中",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "src": "使用者直接對 LAWWW2-C 工作階段說（中止了正在做的工具呼叫）",
+   "note": "P0 換班（CLAUDE.md 最上面那一節）：停止一般開發；SOC-COURT-1021 存成 WIP（GLB 還原成已交件的柱子版）；HANDOFF.md 最上面寫交班紀錄；commit＋push 後停止寫入，等使用者說「我回來了」"
   }
  ]
 }

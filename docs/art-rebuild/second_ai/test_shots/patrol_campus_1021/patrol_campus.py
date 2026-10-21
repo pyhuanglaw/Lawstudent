@@ -14,7 +14,7 @@ SPOTS = [('m1_out', 20, 55, N), ('m1_back', 20, 46, S_), ('gt_front', 2, 18, S_)
          ('bell', -38, 8, S_), ('arts', -38, -12, N), ('hist', -77, -12, N),
          ('boya', -20, -80, W_), ('lake', -36, -96, N),
          ('linze', 34, -90, N), ('lawplaza', 60, -92, N), ('wancai', 88, -88, N), ('socsci', 92, -70, E_),
-         ('soc_appr', 30, -80, W_), ('soc_main', 23, -85, W_), ('soc_lib', 11, -73, S_), ('soc_court_n', 2, -70, N), ('soc_court_s', -2, -75, S_)]
+         ('soc_appr', 30, -80, W_), ('soc_main', 23, -85, W_), ('soc_lib', 11, -73, S_), ('soc_court_n', 2, -70, N), ('soc_court_s', -2, -75, S_), ('soc_board', -0.5, -70.5, S_), ('soc_court_e', -8, -71, E_)]
 async def main():
     run = L.Run('patrol_campus', OUT)
     async with async_playwright() as p:

@@ -1,5 +1,15 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
+## 🔁 交班（LAWWW2-C，2026-10-21 14:5x UTC；使用者直接說「交班」）
+- 工作階段 `session_015BuNi47yLUt5PviELapMNj`；分支 **`claude/focused-cray-c9uwvw`**；最後 commit＝這份檔所在的那個 commit（交班回報裡有 SHA）。RULE_SOURCE：LAWWW-C `origin/claude/adoring-meitner-mqzst8`（看過 `96af1e54`）。
+- **這一班（10-21）已交件**：體育館光暈＋疊面、LICENSES／原始檔清單、大一 203 紙箱＋膠帶、美國 C208、日本 jp_room、沛珊手穿裙子（這六件 LAWWW-C 都已整合）；**社科院柱廊柱子透空 `75080217`**（GLB `8e8d130e`；DELIVERED，LAWWW-C 還沒回 ACK）；outbox 格式修正 `18bd8e26`（模擬 0 項，等 LAWWW-C 跑 incr）。
+- **正在做、停在 WIP**：SOC-COURT-1021 社科院中庭夜間光＋公告欄——腳本改了、**GLB 沒換**（repo 裡還是柱子版），下一步見 `test_shots/soc_court_1021_wip/README.md`「還沒做完」1～3。
+- **其他 WIP**：PS-SKIRT-LEG（`27618d8d`）；榕樹氣根黑線（查到一半，`test_shots/patrol_campus_1021/README.md`；`street_trees.glb` 共用、含溫州街，改之前問 LAWWW-C）。
+- **沒測**：SOC-COURT 洗牆光移到 3 cm 以後的版本（沒匯出、沒截圖）；所有東西都沒在 iPhone 實機測過。
+- **沒整合、沒發布**：SOC-COURT（WIP）；社科院柱子等 LAWWW-C 整合。LAWWW2 不碰 main、不發布。
+- **沒有遠端備份的**：只有 scratchpad 的測試工作樹（`devwt12` 乾淨的開發分支、`devwt13`＝開發分支＋SOC-COURT 交班前一版 GLB＋fog patch）和截圖原檔；成果都能從 repo 的腳本重做。
+- **下一班第一步**：照 AI_SESSION_HANDOFF.md 第 4 節接班（fetch、讀 LAWWW-C 總表和我的 outbox 有沒有新的回覆）→ 接 SOC-COURT-1021「還沒做完」第 1 步（重新匯出＋疊面檢查）→ 之後照下面「全部待辦」10-21 最新那一節。
+
 ## 💾 保存點（LAWWW2-C，2026-10-21 14:3x UTC）：使用者「每週使用量快要到了 還不是真的交班 但請先檢查手上的任務 待辦 做好的東西 先放上GitHub」，之後「之後可以繼續原本在做的事情 直到我真的請你交班」
 - **不是交班**：同一個工作階段 `session_015BuNi47yLUt5PviELapMNj` 繼續做；分支 `claude/focused-cray-c9uwvw`。這一節是萬一額度突然用完時的接手點。
 - RULE_SOURCE：LAWWW-C `origin/claude/adoring-meitner-mqzst8`（看過 `96af1e54`）。
