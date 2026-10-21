@@ -445,8 +445,8 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
   fresh('2028-07-09',12.1,'dorm'); grpJoin(); R('heroine_03','FAM'); R('yu','FAM'); rules(); answer('yt_bday_y3',0);
   check('YT. 7/9 12:00 麵店團小語「今天語彤生日！」→「傳一句生日快樂」→ 語彤「……謝謝。今年的田野，訪問到第二十三個了。」', txt('g:noodle_team').includes('yu:今天語彤生日！')&&txt('g:noodle_team').includes('player:生日快樂。')&&txt('g:noodle_team').includes('heroine_03:……謝謝。今年的田野，訪問到第二十三個了。')&&G.flags.YT_BDAY_Y3===true, JSON.stringify(txt('g:noodle_team')));
   fresh('2028-07-09',12.1,'dorm'); R('heroine_03','FAM'); rules(); check('YT. 不在群組、和語彤 FAMILIAR 以上：她的私訊放同一個按鈕', !!PHONE.byAsk(G,'yt_bday_y3')&&txt('p:heroine_03').includes(':今天是語彤的生日。'));
-  fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const sq=OUT.get(G,'y3_zr_slips');
-  check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「兩點半（店休）」', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!sq&&sq.day===D('2028-08-05')&&sq.h===14&&sq.place==='兩點半（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));
+  fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); const zsq=OUT.get(G,'y3_zr_slips');
+  check('ZS0. 和芷若交往中（台灣路線）：8/4 21:00 兩則（不用回）；排 8/5 14:00「兩點半（店休）」', txt('p:heroine_02').join('|')==='heroine_02:明天店休。下午兩點，來店裡。|heroine_02:門會鎖著。敲三下。……我跟老闆借了一個下午。'&&!!zsq&&zsq.day===D('2028-08-05')&&zsq.h===14&&zsq.place==='兩點半（店休）'&&!PHONE.pending(G).some(m=>m.th==='p:heroine_02'), JSON.stringify(txt('p:heroine_02')));
   picks=[1]; await run('ev_zhiruo_twelve_slips');
   check('ZS1. 去了：「你敲了四下。」…「第十二張是空的。」「那一部，等我回來，一起寫。」；ZR_TWELVE_SLIPS', has('（開門）你敲了四下。……算了，進來。')&&has('那一部，等我回來，一起寫。')&&has('……好，寫長一點也可以。')&&G.flags.ZR_TWELVE_SLIPS===true);
   fresh('2028-08-04',21.1,'dorm'); date('heroine_02'); ct('heroine_02'); rules(); at('2028-08-05',14.6); OUT.tick(GM); at('2028-08-21',18.5); said=[]; await HOME.breakArrive(GM);
