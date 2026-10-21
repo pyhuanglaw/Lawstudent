@@ -7,7 +7,7 @@
 - ap_ads.png（2048×1024）：四張燈箱廣告（風景插畫＋一行字，沒有品牌）。
 - ap_ceiling.png、ap_ceiling_nor.png（256×256 無縫）：金屬格柵天花板（一條一條的鋁格柵＋縫的陰影）。
 字型：WenQuanYi Zen Hei（GPL-2.0＋字型嵌入例外；只畫成點陣圖，不附字型檔）、DejaVu Sans。"""
-import math, os, random
+import math, os, random, sys
 from PIL import Image, ImageDraw, ImageFont
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -193,5 +193,8 @@ def tex_ads(path):
 if __name__ == '__main__':
     tex_signs(os.path.join(GEN, 'ap_signs.png')); tex_shops(os.path.join(GEN, 'ap_shops.png')); tex_airlines(os.path.join(GEN, 'ap_airlines.png'))
     tex_fids(os.path.join(GEN, 'ap_fids_dep.png')); tex_fids(os.path.join(GEN, 'ap_fids_arr.png'), True)
-    tex_ceiling(os.path.join(GEN, 'ap_ceiling.png'), os.path.join(GEN, 'ap_ceiling_nor.png')); tex_outside(os.path.join(GEN, 'ap_outside.png')); tex_ads(os.path.join(GEN, 'ap_ads.png'))
+    tex_ceiling(os.path.join(GEN, 'ap_ceiling.png'), os.path.join(GEN, 'ap_ceiling_nor.png')); tex_ads(os.path.join(GEN, 'ap_ads.png'))
+    # 窗外遠景 ap_outside.png／ap_outside_night.png 改由 airport_backdrop.py（Blender 3D 場景渲染）產生（ART-VAC-AIRPORT-1021）；
+    # 舊的平面畫法（tex_outside：綠色圓球樹、灰方塊）只在加 --legacy-outside 時才重畫，免得蓋掉渲染的圖
+    if '--legacy-outside' in sys.argv: tex_outside(os.path.join(GEN, 'ap_outside.png'))
     print('ok')

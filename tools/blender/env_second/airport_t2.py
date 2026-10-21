@@ -50,6 +50,15 @@ def uv_quad(mesh, pts, uvs):
     return f
 
 
+def outside_night(x0, x1, y0, y1, z, eye=(0.0, 4.0, 0.0), back=0.5):
+    """窗外遠景的夜景平面（airport_backdrop.py --night：停車場樓層、路燈、窗戶亮著）：放在白天那塊後面 back 公尺，從大廳中間 eye 看出去和白天那塊蓋住同一個範圍
+    （照距離比例放大）；遊戲晚上才藏起白天那塊、露出這塊（us3d.js apOutside）。沒有接 us3d.js 的版本，白天那塊在前面擋住，看不到這塊"""
+    k = (z + back - eye[2]) / (z - eye[2]); X = lambda x: eye[0] + (x - eye[0]) * k; Y = lambda y: eye[1] + (y - eye[1]) * k
+    on = Mesh('GLOW_ap_outside_night', img_mat('GLOW_ap_outside_night_m', 'ap_outside_night.png', rough=0.9, emit=1.0))
+    uv_quad(on, [(X(x0), Y(y0), z + back), (X(x1), Y(y0), z + back), (X(x1), Y(y1), z + back), (X(x0), Y(y1), z + back)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1])
+    on.finish(root, uv=False)
+
+
 def sign_board(mesh, frame, cx, cy, cz, w, h, face, uvr, depth=0.12, back=None):
     """招牌燈箱：深灰外框盒＋正面（face：'S'＝朝 +z、'N'＝朝 −z、'E'＝朝 +x、'W'＝朝 −x）貼圖集的 uvr＝(u0, v0, u1, v1)；back＝背面也貼（兩面招牌）"""
     u0, v0, u1, v1 = uvr; hw, hh = w / 2, h / 2
@@ -410,6 +419,7 @@ if AREA == 'dep':
     ov = Mesh('GLOW_ap_outside', img_mat('GLOW_ap_outside_m', 'ap_outside.png', rough=0.9, emit=1.0))
     uv_quad(ov, [(-90, -2.0, 60), (90, -2.0, 60), (90, 34, 60), (-90, 34, 60)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1])
     ov.finish(root, uv=False)
+    outside_night(-90, 90, -2.0, 34.0, 60.0)
     sg_t = Mesh('GLOW_ap_signs_out', M['signs'])
     sign_board(sg_t, pn, 0.0, EAVE + 1.3, Z1 + 0.3, 14.0, 1.4, 'S', row_uv(SIGN['t2dep'], 8, 0.0, 0.62), depth=0.2)   # 帷幕上方的大字
     sg_t.finish(root, uv=False)
@@ -492,6 +502,7 @@ else:
         sign_board(sg, pn, (a + b) / 2, 3.5, Z1 - 0.4, 3.0, 0.1875 * 2, 'N', row_uv(SIGN['exit'], 8, 0.0, 0.55), depth=0.1)
     ov = Mesh('GLOW_ap_outside', img_mat('GLOW_ap_outside_m', 'ap_outside.png', rough=0.9, emit=1.0))
     uv_quad(ov, [(-70, -2.0, Z1 + 30), (70, -2.0, Z1 + 30), (70, 26, Z1 + 30), (-70, 26, Z1 + 30)][::-1], [(1, 0), (0, 0), (0, 1), (1, 1)][::-1]); ov.finish(root, uv=False)
+    outside_night(-70, 70, -2.0, 26.0, Z1 + 30)
     og = Mesh('ap_outside_walk', M['conc'], tile=2.0); og.box(-70, 70, -0.06, -0.02, Z1, Z1 + 30); og.finish(root)
     for (px, pz) in ((-8.0, 10.6), (8.0, 10.6), (-26.6, -10.6), (26.6, -10.6)): potted_plant(px, pz)
     for (cx, cz) in ((-18.0, -6.0), (18.0, -6.0), (-18.0, 6.0), (18.0, 6.0)): co.cyl((cx, 0.0, cz), (cx, HH, cz), 0.4, seg=18)

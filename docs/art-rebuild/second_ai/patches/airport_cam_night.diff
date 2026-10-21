@@ -1,8 +1,8 @@
 diff --git a/src/us3d.js b/src/us3d.js
-index 1a0dd7dd..d3db8a8b 100644
+index 1a0dd7dd..bb40ba06 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
-@@ -345,8 +345,29 @@ const US3=(function(){
+@@ -345,8 +345,31 @@ const US3=(function(){
    const AP=()=>AIRPORT_T2_LAYOUT;
    const TAIPEI={to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0}};   /* 搭車離開機場 → 回到台北（公館，校門口那一側；和校園「走出校門」的落點一樣）*/
    const LOOK_AP={checkin:'報到櫃台。排隊的人推著兩三個行李箱。',info:'服務台。可以問航班、借推車。',fids:'航班看板。東京、舊金山、香港……一排一排往上跳。',mart:'便利商店。賣的東西和外面一樣，貴一點。',cafe:'咖啡店。坐滿了在等登機的人。',fx:'外幣兌換。看板上是今天的匯率。',info_arr:'旅客服務台。可以問怎麼搭車進市區。',cafe_arr:'咖啡店。有人拖著行李，在等接機的人。',fids_arr:'抵達看板。剛落地的班次一個一個變成「已抵達」。'};
@@ -21,9 +21,11 @@ index 1a0dd7dd..d3db8a8b 100644
 +  function apSeeThru(root,E){ root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!AP_SEE.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }
 +  function apMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)) if(m&&re.test(m.name||'')&&!out.includes(m)) out.push(m); }); return out; }
 +  /* 窗外的遠景（GLOW_ap_outside：白天的天空、停車大樓）原本跟著其他燈箱，晚上反而更亮——20:00 從大廳看出去還是白天。
-+     白天 7～17 點照原本；17～19 點、5～7 點慢慢變；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗 */
++     白天 7～17 點照原本；17～19 點、5～7 點慢慢變；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗。
++     模型有夜景平面（GLOW_ap_outside_night：airport_backdrop.py --night，停車場樓層、路燈、窗戶亮著；在白天那塊後面 0.5 m）時，18:18 以後、5:42 以前藏起白天那塊、露出夜景 */
 +  const AP_NIGHT=[0.13,0.16,0.26];
-+  function apOutside(mats,h){ h=((h%24)+24)%24; const d=h>=7&&h<=17?1:(h>=19||h<5?0:(h<7?(h-5)/2:(19-h)/2));
++  function apOutside(mats,h,planes){ h=((h%24)+24)%24; const d=h>=7&&h<=17?1:(h>=19||h<5?0:(h<7?(h-5)/2:(19-h)/2));
++    if(planes&&planes.night.length){ const nt=d<0.35; for(const o of planes.night) o.visible=nt; for(const o of planes.day) o.visible=!nt; }
 +    for(const m of mats){ const u=m.userData; if(!u.apC0){ u.apC0=m.color.clone(); u.apE0=m.emissive?m.emissive.clone():null; }
 +      const k=[0,1,2].map(i=>AP_NIGHT[i]+(1-AP_NIGHT[i])*d); m.color.setRGB(u.apC0.r*k[0],u.apC0.g*k[1],u.apC0.b*k[2]); if(u.apE0) m.emissive.setRGB(u.apE0.r*k[0],u.apE0.g*k[1],u.apE0.b*k[2]);
 +      if(u.usBase!=null) m.emissiveIntensity=u.usBase*0.75; } }   /* 白天的亮度和原本一樣（原本跟著燈箱乘 0.75）*/
@@ -33,7 +35,7 @@ index 1a0dd7dd..d3db8a8b 100644
        const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;   /* room() 以原點為中心：框要蓋住整個範圍（出境的下車處到 z 30）；室內鏡頭照 bounds 夾住 */
        const sp=isDep?L.spawn_curb:L.spawn_customs;
        const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#e9e7e2',floorTex:W3.stoneTex('#d8d6d0'),spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}});
-@@ -361,13 +382,14 @@ const US3=(function(){
+@@ -361,13 +384,14 @@ const US3=(function(){
        if(!isDep) for(const d of L.exits) nav.freeRect(d.x-d.w/2+0.2,Bd.z1-1.2,d.x+d.w/2-0.2,Bd.z1-0.5);   /* 入境：正面那一整片是一個阻擋，出口的門由遊戲打開（配置的說明）*/
        if(isDep){ const C=L.curb; nav.blockRect((Bd.x0+Bd.x1)/2,(C.road_z0+Bd.z1)/2,Bd.x1-Bd.x0,Bd.z1-C.road_z0,0,0); }   /* 車道（下車處以外）：人站在人行道 */
        nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
@@ -45,27 +47,28 @@ index 1a0dd7dd..d3db8a8b 100644
        const lamps=[]; for(let i=-2;i<=2;i++) for(const zz of (isDep?[-10,2]:[-6,4])){ const l=new THREE.PointLight(0xf6f1e8,3,26,2); l.position.set(i*14,H-1.2,zz); l.userData.on=9; l.userData.off=4; g0.add(l); lamps.push(l); }
 -      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
 -      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點 */
-+      let glow=[], outside=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
-+      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); apOutside(outside,h); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點；窗外的遠景（和入境門外的地面）照時間變暗 */
++      let glow=[], outside=[], outPlanes=null; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); apOutside(outside,h,outPlanes); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點；窗外的遠景（和入境門外的地面）照時間變暗 */
        // 座位、互動點
        const IT=E.interactables; z.seats=[];
        for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-0.45)>0.02) st.lift=s.y-0.45; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
-@@ -387,7 +409,8 @@ const US3=(function(){
+@@ -387,7 +411,9 @@ const US3=(function(){
        // 正式模型
        z.formal=false; const KEY='bldg.airport_'+key; if(has(KEY)) ASSETS.loadOne(KEY).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
          root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
 -        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
-+        glow=glowMats(root,/^GLOW_(?!ap_outside)/); outside=glowMats(root,/^GLOW_ap_outside/).concat(isDep?[]:apMats(root,/^ap_concrete$/)); apSeeThru(root,E);
++        glow=glowMats(root,/^GLOW_(?!ap_outside)/); outside=glowMats(root,/^GLOW_ap_outside_m$/).concat(isDep?[]:apMats(root,/^ap_concrete$/)); apSeeThru(root,E);
++        outPlanes={day:[],night:[]}; root.traverse(o=>{ if(!o.isMesh) return; if(o.name==='GLOW_ap_outside') outPlanes.day.push(o); else if(/^GLOW_ap_outside_night/.test(o.name)){ outPlanes.night.push(o); for(const m of [].concat(o.material)) if(m&&!m.userData.apNight){ m.userData.apNight=true; m.color.multiplyScalar(0.15); } } });   /* 夜景平面：顯示的是圖本身的自發光，基本色壓低，不被大廳的燈照亮 */
 +        const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
        return z; } }; }
    const airport_dep=apZone('dep'), airport_arr=apZone('arr');
  
 diff --git a/tests/airport_cam_unit.js b/tests/airport_cam_unit.js
 new file mode 100644
-index 00000000..700f2c62
+index 00000000..287ebfae
 --- /dev/null
 +++ b/tests/airport_cam_unit.js
-@@ -0,0 +1,76 @@
+@@ -0,0 +1,87 @@
 +// 桃園機場出境／入境大廳：跟隨鏡頭不會退到正門帷幕外、出關門外、報到島背牆後面；擋住玩家的框、背牆、柱子、霧面玻璃網點透空；晚上窗外不再是白天（ART-VAC-AIRPORT-1021）——不需要瀏覽器。
 +// LAWWW2 機場巡場景（2026-10-21）看到的：出境大廳 (0, 10) 鏡頭在南，退到帷幕外面，中間那支門框貼在鏡頭前，整個畫面一根黑柱、看不到人；
 +// 報到櫃台 B (−4.1, −2) 鏡頭在西，在報到島 3.2 m 的背牆後面，只看得到腳；入境出關 (0, −10.8) 鏡頭在北，退到霧面自動門外面，畫面整片霧白（一出關往前走就是這個角度）；
@@ -86,8 +89,10 @@ index 00000000..700f2c62
 +for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
 +let fails=0, tag=''; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+tag+name+(info?'　'+info:'')); if(!ok) fails++; };
 +/* 正式模型：假的（每一種材質一個小網格，名字照 airport_t2.py）——只用來檢查材質的處理；牆、導航和配置是同一份 */
-+const MATS=['ap_mullion','ap_wall_panel','ap_column','ap_steel','ap_floor','ap_wall','ap_concrete','ck_glass','GLOW_ap_frosted','GLOW_ap_airlines','GLOW_ap_signs','GLOW_ap_outside_m'];
-+function fakeModel(){ const g=new THREE.Group(); for(const n of MATS){ const m=new THREE.MeshStandardMaterial({name:n,color:0xb0b4b8}); if(/^GLOW_/.test(n)){ m.emissive.setRGB(1,1,1); m.emissiveIntensity=1; } g.add(new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),m)); } return g; }
++const MATS=['ap_mullion','ap_wall_panel','ap_column','ap_steel','ap_floor','ap_wall','ap_concrete','ck_glass','GLOW_ap_frosted','GLOW_ap_airlines','GLOW_ap_signs','GLOW_ap_outside_m','GLOW_ap_outside_night_m'];
++/* 網格的名字照 GLB：窗外白天那塊叫 GLOW_ap_outside、夜景那塊叫 GLOW_ap_outside_night；NO_NIGHT＝舊的模型（沒有夜景平面）*/
++let NO_NIGHT=false;
++function fakeModel(){ const g=new THREE.Group(); for(const n of MATS){ if(NO_NIGHT&&/night/.test(n)) continue; const m=new THREE.MeshStandardMaterial({name:n,color:0xb0b4b8}); if(/^GLOW_/.test(n)){ m.emissive.setRGB(1,1,1); m.emissiveIntensity=1; } const me=new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),m); me.name=/^GLOW_ap_outside/.test(n)?n.replace(/_m$/,''):n; g.add(me); } return g; }
 +let pend=[]; ASSETS.loadOne=k=>{ if(/^bldg\.airport_(dep|arr)$/.test(k)){ const p=Promise.resolve({scene:fakeModel()}); pend.push(p); return p; } return new Promise(()=>{}); };
 +const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
 +global.GAME={G:{hour:15,weather:'clear',flags:{},zone:'airport_dep'}};
@@ -139,6 +144,15 @@ index 00000000..700f2c62
 +    `基本色 ${d.c.toFixed(3)}→${nt.c.toFixed(3)}（18:00 ${du.c.toFixed(3)}）、自發光 ${d.e.toFixed(3)}→${nt.e.toFixed(3)}`);
 +  check('招牌、燈箱照舊：白天 0.75、晚上 1',Math.abs(d.s-0.75)<0.01&&Math.abs(nt.s-1)<0.01);
 +  check(isDep?'出境的混凝土（雨遮底下）晚上不變暗':'入境門外的地面（ap_concrete）晚上變暗',isDep?Math.abs(nt.k-d.k)<1e-6:nt.k<0.3*d.k,`${d.k.toFixed(3)}→${nt.k.toFixed(3)}`);
++  /* 夜景平面：18:18 以後、5:42 以前藏起白天那塊、露出夜景；基本色壓低（不被大廳的燈照亮）*/
++  const pl={}; z.group.traverse(o=>{ if(o.isMesh&&/^GLOW_ap_outside/.test(o.name)) pl[o.name]=o; }); const dp=pl.GLOW_ap_outside, np=pl.GLOW_ap_outside_night;
++  const vis=h=>{ z.applyTime(h,'clear'); return [dp.visible,np.visible]; }; const V={12:vis(12),17.5:vis(17.5),18.5:vis(18.5),21:vis(21),4:vis(4),6:vis(6)};
++  check('夜景平面：12、17:30、6 點白天那塊；18:30、21、4 點夜景那塊',!!dp&&!!np&&[12,17.5,6].every(h=>V[h][0]&&!V[h][1])&&[18.5,21,4].every(h=>!V[h][0]&&V[h][1])&&np.material.color.r<0.2*0.7,JSON.stringify(V));
++  z.applyTime(12,'clear');
 +}
++/* 舊的模型（沒有夜景平面）：照舊用調暗的做法，不會出錯 */
++{ NO_NIGHT=true; pend=[]; tag='[airport_dep 沒有夜景平面] '; const z=loadZone('airport_dep'); await Promise.all(pend); await new Promise(r=>setTimeout(r,0)); let ok=true, dv=null;
++  try{ z.applyTime(21,'clear'); z.group.traverse(o=>{ if(o.isMesh&&o.name==='GLOW_ap_outside') dv=o; }); ok=!!dv&&dv.visible&&dv.material.color.r<0.2*0.7; }catch(e){ ok=false; }
++  check('21:00 白天那塊照舊顯示、調暗',ok); }
 +console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
 +})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
