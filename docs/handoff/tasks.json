@@ -27484,6 +27484,29 @@
    "next": "發布後：先量路人的距離分布，決定遠距離藏起來還是換低面數；要模型就派 LAWWW2",
    "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22"
+  },
+  {
+   "id": "AA369-HOL-FIX-1021",
+   "title": "AA_369 法律系四年寒暑假「人在哪／時間矛盾」修正（企劃線 4042e078）：兩條規則 H4 出國活動期間的訊息與回國重逢排除同行的人（不只 C13 的 I.with）、H5 S.sitOk 的「放假在…／過年回…／寒假留…」看 presence；高 H1 以安 2027-08-09～27 在京都卻去香港 VA10、H2 白色情人節 2028「我在臺中」＋理由欄、H3 阿哲說暑假不回高雄；中 M1 芷若 presence 2027-01-17 起、M3 重逢人在老家走 reunionHome、M4 C03／C11／C12 以安只在真的去的那年、M6 過年照片標籤；作廢設定 fair_y2_call、沛珊讀書會那句",
+   "area": "VAC",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一寒假",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-21 18:34 企劃線 4042e078（子代理盤點開發分支 860a101b，AA 核過原句）",
+   "authorized": "D109／D110；D99 第二優先（寒暑假）",
+   "next": "發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
+   "resumeWhen": "v9.10.3 合併 main 以後",
+   "recheckOn": "2026-10-22"
   }
  ]
 }
