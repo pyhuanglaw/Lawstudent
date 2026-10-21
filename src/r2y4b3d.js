@@ -3,11 +3,12 @@
    掛勾：STORY.PHONE_RULES（大四下的手機）、STORY.TICKS（大四下要開演的場面）、ACTIVITIES.list（國考讀書會 act_bar_study）、CLS.IN_CLASS（法律專題研究第 15 週的日誌）、
      PG.MSGS／PG.STEPS／PG.stops（畢業後篇：照 PG 的時間表、跳到下一件事會停）、PG.EPI_AFTER_CG／EPI_AFTER_ITEMS（尾聲：空著的座位、何俊朗）、
      PG.epiPartner／epiCg／epiLine／epiPresent（2-Y4-54 不選的玩家：尾聲照朋友版）、NOODLE_CLOSED.door（2029-04-19～25 阿姨出國）。
-   沒做的（見各段註解）：2-Y4-47 後半「延後的回答」（PROPOSAL 等使用者）、2-Y4-54「選一個人」以後其他人的談話（AA 寫成 AA_346 事件包，寫好以前照尾聲的「前任」那一版）、
+   2-Y4-54「選一個人」以後其他人的談話＝AA_346（AA-C 2026-10-21）：一位一場的出遊（OUT.plan；事件 ev_choice_apart_<id> 在 src/data/r2y4b_events.js）＋第三次沒到的電話版（PG.STEPS），見 2-Y4-54 那一段。
+   沒做的（見各段註解）：2-Y4-47 後半「延後的回答」（PROPOSAL 等使用者）、
      2-Y4-52 calendar.js 的 Y5S1、LUNAR 2030（畢業後篇本來就是摘要日，照 PG 的場景表排）。
    已在 AA_319／AA_331 那一批（src/postgrad3d.js）、這裡不重做：45 七月最後衝刺、49 以安的兩通電話、42 學姊生日（友情／戀人／前任；友情版的「送禮物」四選一照 AA_345 G9 加在 postgrad3d.js S.bdayGift）、51 的 9/7 學姊與 2030 便條、53 尾聲每人一句的表、60 學姊律師錄取那句。
      53 方奕廷「那一年你在考試」照 AA_327 定稿表與 AA_331 第 1 節 b：只看台灣路線 BAR_YEAR===2030（交換路線 2031 那半句 AA 劃掉了，沒有加回去）。
-   測試：node tests/r2y4b_events_unit.js */
+   測試：node tests/r2y4b_events_unit.js、tests/aa346_apart_unit.js */
 'use strict';
 const R2Y4B=(function(){
   const S={};
@@ -327,19 +328,19 @@ const R2Y4B=(function(){
   S.toFriend=function(G,id){ const F=G.flags; if(F['dating_'+id]!==true&&!dating(G,id)) return false; F['dating_'+id]=false; if(typeof ROM==='undefined') return true; const R=ROM.get(G,id); R.status='friend_after_catch'; R.restartDay=G.day+(id==='heroine_05'?21:14);
     R.history.push({ev:'end',at:ROM.when(G),day:G.day,how:'told'}); const H=ROM.rec(G); for(let i=H.length-1;i>=0;i--) if(H[i].id===id&&H[i].to==null){ H[i].to=ROM.when(G); H[i].how='told'; break; }
     for(const p of partners(G)) ROM.learn(G,id,p,'yt_told'); return true; };
-  S.pickOne=async function(GM){ const G=GM.G, P=partners(G); const k=await GM.choose(P.map(id=>({t:nm(id)}))); const keep=P[k]||P[0];
-    for(const id of P) if(id!==keep&&typeof ROM!=='undefined'&&ROM.end) ROM.end(G,id,'apart_talk');   /* 其他人「好好分開」（談話事件 AA_123／BB_119 第 2 節開發分支還沒有：只記分開）*/
+  S.pickOne=async function(GM,y){ const G=GM.G, P=partners(G); const k=await GM.choose(P.map(id=>({t:nm(id)}))); const keep=P[k]||P[0];
+    S.apartSchedule(G,y||2029,keep,P.filter(id=>id!==keep));   /* AA_346：選的當下不結束其他人；從隔天起一位一場分開的談話（ev_choice_apart_<id>），談完才分開。舊存檔（已經 apart_talk 分開的）不受影響 */
     return keep; };
   S.multiPre=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（典禮那天，她們都會來。）');
       const k=await GM.choose([{t:'「先跟她們說清楚。」'},{t:'「選一個人。」'},{t:'「先不想。」'}]);
       if(k===0){ F.MULTI_PRE='tell'; F.MULTI_TELL29={list:partners(G),from:G.day+1}; }
-      else if(k===1){ const id=await S.pickOne(GM); F.MULTI_PRE='pick:'+id; }
+      else if(k===1){ const id=await S.pickOne(GM,2029); F.MULTI_PRE='pick:'+id; }
       else F.MULTI_PRE='later'; });   /* 先不想：不演被發現（U5）；典禮兩段伴侶戲分開演（postgrad3d.js gradScene）*/
     return true; };
   S.multiY5Due=G=>partners(G).length>=2&&G.flags.MULTI_Y5==null;
   S.multiY5=async function(GM){ const G=GM.G, F=G.flags; await scene(GM,async()=>{ await GM.say(null,'（畢業快一年了。手機裡，兩個對話框都停在「晚安」。）');
       const k=await GM.choose([{t:'「選一個人。」'},{t:'「跟她們說實話。」'},{t:'（不選）'}]);
-      if(k===0){ const id=await S.pickOne(GM); F.MULTI_Y5='pick:'+id; }
+      if(k===0){ const id=await S.pickOne(GM,2030); F.MULTI_Y5='pick:'+id; }
       else if(k===1){ F.MULTI_Y5='tell'; F.MULTI_TELL30={list:partners(G),from:G.day+1}; }
       else { F.MULTI_Y5='none'; F.EPI_SEAT_EMPTY=true; } });   /* 不選：不演被發現、不扣數值；尾聲祐廷旁邊空著 */
     return true; };
@@ -349,6 +350,122 @@ const R2Y4B=(function(){
     S.toFriend(G,id); return true; };
   const tellSteps=(tag,key)=>[0,1,2,3,4,5,6].map(i=>({id:'r2y4b_'+tag+'_'+i,at:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i,21):Infinity; },until:G=>{ const M=G.flags[key]; return M&&typeof M.from==='number'?T(M.from+i+7,24):Infinity; },
     cond:G=>{ const M=G.flags[key]; return !!M&&Array.isArray(M.list)&&!!M.list[i]&&dating(G,M.list[i]); },run:GM=>S.tellScene(GM,GM.G.flags[key].list[i],tag==='tell30')}));   /* 當週一位一場（每天晚上 21:00 一位）*/
+
+  /* ===================== AA_346「選一個人」之後，和其他人的分開談話（ev_choice_apart_<id>；AA-C 2026-10-21，第②級，台詞照原文、不改字）=====================
+     - 選的當下不結束其他人（S.pickOne → S.apartSchedule）：照 AA_346 第 1 節的表，從選的隔天起一晚一位（照表的順序：以安、語彤、芷若、子晴、學姊、沛珊、可昕）；
+       2029 都排在 6/2（畢業典禮）以前，學姊固定 5/30（三）17:00（口試 5/29 的隔天）；2030 從 5/26 起。一場＝一個出遊（OUT.plan，id apart<29|30>_<人>_<第幾次>，who＝她）。
+     - 沒到（「不去了」、或過了約好的時間 30 分鐘還沒出發）：延到隔天同一時間，最多延兩次；第三次還沒到＝那一晚 22:00（過了 22:00 才算沒到的＝當下）她私訊
+       「你是不是有話要跟我說。」，接著演電話版（PG 的場景 r2y4b_apart<29|30>_call_<人>：時間到了、玩家空下來就演；地點的旁白換成「（電話。）」）。
+     - 知不知道（第 1 節）：她知道祐廷同時在和別人交往（knowsRel，BB_194；選的那一刻的伴侶、現在的伴侶，任何一位）＝「知道」那一版，沒有二選一。
+       被選的那一位不因為這幾場知道別人；「我喜歡上別人了。」沒有說是誰，也不寫 knowsRel。
+     - 談完：ROM.end(G,id,'apart_choice')（romance 的 status 'ex'、EX_<id>、收拾的時刻照一般分開），ROMANCE_HISTORY 那一筆加 said（knew／told／quiet）、day；F.CHOICE_APART_DONE 加她。
+       前任版：apart_choice 當成 apart_talk 的一種（encounter3d.js 讀 apart_talk 的地方一起讀）；尾聲照「前任經過時那一句」（PG.exLines 讀 EX_）。不扣數值、不演吵架。
+     - 選了以後、談話以前：她照舊是交往中（dating）；這段時間她因為別的原因分開了（不再交往）＝她那一場取消（apartRules）。
+     - 存檔：F.CHOICE_APART29／F.CHOICE_APART30＝{y, keep, day（選的那一天）, list:[…], at:{人:{d（第一場的日子）, h, n（沒到幾次）, st:'plan'|'call'|'done'|'void', call（電話版的時間，絕對小時）, said, end}}}。
+       舊存檔沒有這兩個旗標＝沒有這幾場；已經用 apart_talk 分開的不受影響。
+     - 地點的 2D 背景：萬才館＝研討室（wancai_seminar，沒有走廊那一張）、研究室走廊（linze_prof_hall）、麵店（noodle_table）、視訊（video）、政大山下（nccu_food）；
+       沒有圖的（Café 打烊後、吉他社辦外面的樓梯、2030 的工作室樓下、研究單位樓下、她家樓下）＝dark＋地點字幕；電話照 events3d.js 的 {scene:'電話'}。測試：node tests/aa346_apart_unit.js */
+  S.APART_ORDER=['heroine_01','heroine_03','heroine_02','heroine_04','heroine_05','classmate_peishan','kexin'];
+  const NEAR={travel:'走過去約 10 分鐘',travelH:1/6}, NOODLE={travel:'走過去約 15 分鐘',travelH:0.25}, Y30={travel:'捷運＋公車 約 30 分鐘',travelH:0.5};   /* 照現有的出遊（萬才館、研究室、吉他社 10 分鐘；麵店 15 分鐘；2030 照 y6_an_col）*/
+  /* 每個人：h＝[2029, 2030] 幾點；at29／at30＝地點（place 也是出遊的地點、字幕）；open29／open30＝地點的旁白；knew／ask／told／quiet／last＝台詞
+     （字串＝她說；{narr}＝旁白，n30＝2030 的那一句；{t, t30}＝她說、2030 換成 t30）*/
+  S.APART={
+    heroine_01:{h:[18,19],at29:Object.assign({place:'萬才館研討室外的走廊',bg:'wancai_seminar'},NEAR),at30:Object.assign({place:'麵店，兩人桌',bg:'noodle_table'},Y30),
+      open29:'（讀書會散了。萬才館研討室外的走廊，只剩你們兩個。她手上還拿著白板筆。）',open30:'（麵店，兩人桌。她先到，點了兩碗，一碗推到你面前。）',
+      knew:['……我知道是誰。不用說名字。','你選了。這個理由我收下。'],ask:['理由呢？'],
+      told:[{narr:'（她沒有馬上說話。）'},'……謝謝你說實話。我要一點時間，把它寫成理由。'],quiet:['……好。這一格我先空著。'],
+      last:[{narr:'（她翻開手帳，在理由欄寫了一行，沒有給你看。）'},'好了。……你先走。我把這頁寫完。']},
+    heroine_03:{h:[21.5,21.5],at29:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},NOODLE),at30:Object.assign({place:'麵店打烊以後',bg:'noodle_table'},Y30),
+      open29:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',open30:'（麵店打烊以後。她在櫃台後面剝蒜頭，沒有抬頭。）',
+      knew:[{narr:'（蒜頭一顆一顆放進碗裡。）'},'……嗯。我知道會有這一天。'],
+      told:['……嗯。',{narr:'（很久以後。）'},'謝謝你自己來說。'],quiet:['……嗯。',{narr:'（她沒有問為什麼。蒜頭剝完了，她又拿了一顆。）'}],
+      last:['那我把這段時間，還給我自己。……謝謝你教我分時間。']},
+    heroine_02:{h:[22,21.5],at29:{place:'約好的視訊',bg:'video',video:true},at30:Object.assign({place:'打烊後的 Café',bg:'dark'},Y30),
+      open29:'（視訊。她那邊是下午，窗外是英國灰灰的天。）',open30:'（打烊後的 Café。只開了吧檯一盞燈。）',
+      knew:['……我猜到了。你最近話都很短。'],told:['……謝謝你自己說。不是讓我從別人那裡知道。'],
+      quiet:['……好。',{narr:'（她低頭，看著鏡頭外面的什麼。）',n30:'（她低頭，擦了一下已經乾淨的杯子。）'},'我不問。問了，我會想記住答案。'],
+      last:[{t:'回去以後，我還是在吧檯後面。你點什麼，我都記得。',t30:'我還是在吧檯後面。你點什麼，我都記得。'}]},
+    heroine_04:{h:[21,20],at29:Object.assign({place:'吉他社辦外面的樓梯',bg:'dark'},NEAR),at30:Object.assign({place:'工作室樓下',bg:'dark'},Y30),
+      open29:'（吉他社辦外面的樓梯。裡面在上社課，有人一直彈錯同一個和弦。）',open30:'（工作室樓下。她外套的帽子拉起來一半，手上拿著一杯便利商店的咖啡。）',
+      knew:['……喔。你選好了。','我早就知道會是這樣。……也沒有很早啦。'],told:['……你喜歡上別人了。','謝謝你自己來講。'],
+      quiet:['……好。',{narr:'（她把帽子拉起來，蓋住半張臉。）'},'你不說原因，我就不問了。'],last:['之後還是朋友。……我說真的。']},
+    heroine_05:{h:[17,18.5],fix29:'2029-05-30',at29:Object.assign({place:'研究室走廊',bg:'linze_prof_hall'},NEAR),at30:Object.assign({place:'她上班的研究單位樓下',bg:'dark'},Y30),
+      open29:'（研究室的走廊。口試的資料還堆在她桌上，一疊一疊用夾子夾好。）',open30:'（她上班的研究單位樓下。她剛下班，識別證還掛在脖子上。）',
+      knew:['……我知道。我一直在等你自己來說。'],told:['……謝謝你自己來說。','我需要一點時間。'],quiet:['好。',{narr:'（她把計畫本闔上，沒有寫任何東西。）'}],
+      last:[{t:'謝謝你。……畢業快樂，先說了。',t30:'謝謝你。……你也要好好吃飯。'}]},
+    classmate_peishan:{h:[21,21],at29:{place:'電話',call:true},at30:{place:'電話',call:true},
+      open29:'（電話。她那邊有小孩子的聲音，她走到外面才講。）',open30:'（電話。她那邊有小孩子的聲音，她走到外面才講。）',
+      knew:['……我知道你要說什麼。','你特地打來說這個。'],told:['……你特地打來說這個。','謝謝你自己說。'],quiet:['……嗯。',{narr:'（電話那頭很久沒有聲音。）'},'好。我不問。'],
+      last:['謝謝你在我重考那年陪我。那一年，我不會忘。']},
+    kexin:{h:[18.5,20],at29:{place:'政大山下的小吃店',bg:'nccu_food',travel:'開車約 40 分鐘',travelH:2/3},at30:Object.assign({place:'她家樓下',bg:'dark'},Y30),
+      open29:'（政大山下的小吃店。她點好了兩碗，筷子還沒拆。）',open30:'（她家樓下。她穿著拖鞋下來，手上還拿著鑰匙。）',
+      knew:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'我知道。我只是在等你哪一天自己講。'],
+      told:['……你說完了？',{narr:'（她把筷子放下。）',n30:'（她把鑰匙握在手裡。）'},'謝謝你自己來講。'],quiet:['……就這樣？','好。我不問。'],
+      last:['我累的時候傳的那隻長頸鹿，先不傳了。','……累了，我自己會去睡。']} };
+  S.APART_ME='……我想跟妳分開。'; S.APART_DM='你是不是有話要跟我說。'; S.APART_PHONE='（電話。）';
+  S.APART_OPTS=['「我喜歡上別人了。」','（不說原因）'];   /* 她不知道的時候，祐廷二選一（第 2 節）；以安先問「理由呢？」*/
+  const AK=y=>'CHOICE_APART'+(y%100);
+  S.apartRound=(G,y)=>{ const R=G&&G.flags&&G.flags[AK(y)]; return R&&typeof R==='object'&&R.at&&typeof R.at==='object'?R:null; };
+  S.apartOf=(G,id)=>{ for(const y of [2030,2029]){ const R=S.apartRound(G,y), P=R&&R.at[id]; if(P&&P.st!=='done'&&P.st!=='void') return R; } return null; };   /* 她還沒談的那一輪 */
+  S.apartOutId=(y,id,n)=>'apart'+(y%100)+'_'+id+'_'+n;
+  S.apartSchedule=function(G,y,keep,others){ const F=G.flags; if(S.apartRound(G,y)) return S.apartRound(G,y);   /* 同一年只排一次 */
+    const list=S.APART_ORDER.filter(id=>(others||[]).includes(id)); if(!list.length) return null;
+    const R={y,keep,day:G.day,list,at:{}}, used=new Set(), fix={}, gd=DK('2029-06-02');
+    for(const id of list){ const f=y===2029&&S.APART[id].fix29?DK(S.APART[id].fix29):null; if(f!=null&&f>G.day){ fix[id]=f; used.add(f); } }   /* 學姊固定 5/30（口試 5/29 之後，不排在口試前）*/
+    let d=G.day+1; if(y===2030){ const d0=DK('2030-05-26'); if(d0!=null) d=Math.max(d,d0); }
+    for(const id of list){ let day=fix[id]; if(day==null){ while(used.has(d)||(y===2029&&d===gd)) d++; day=d; used.add(d); d++; }   /* 一晚一位；6/2 畢業典禮當天不排（5/28 才選、人又多到排不下的，接到典禮以後）*/
+      R.at[id]={d:day,h:S.APART[id].h[y===2029?0:1],n:0,st:'plan'}; }
+    F[AK(y)]=R; for(const id of list) S.apartPlan(G,R,id); return R; };
+  S.apartPlan=function(G,R,id){ const P=R.at[id], C=S.APART[id]; if(!P||!C) return false; const at=R.y===2029?C.at29:C.at30, nm0=nm(id);
+    const o={id:S.apartOutId(R.y,id,P.n),ev:'ev_choice_apart_'+id,day:P.d+P.n,h:P.h,late:0.5,place:at.place,who:id,apart:{y:R.y,id,n:P.n}};   /* who：那一天不會在外面偶遇她（encounter3d.js）*/
+    if(at.call) Object.assign(o,{title:'打給'+nm0,verb:'打給她',no:'今天先不要',call:true,travel:'',travelH:0,back:'電話結束。'});
+    else if(at.video) Object.assign(o,{title:at.place+'（'+nm0+'）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'});
+    else Object.assign(o,{title:at.place+'（'+nm0+'）',travel:at.travel,travelH:at.travelH});
+    return plan(G,o); };
+  /* 沒到（出遊的 outingMissed）：延到隔天同一時間；第三次＝那一晚 22:00 她私訊，接著演電話版 */
+  S.apartMissed=function(G,q){ const a=q&&q.apart; if(!a) return false; const R=S.apartRound(G,a.y), P=R&&R.at[a.id]; if(!P||P.st!=='plan'||P.n!==a.n) return false;
+    if(!dating(G,a.id)){ P.st='void'; return false; }
+    if(P.n<2){ P.n++; S.apartPlan(G,R,a.id); return 'later'; }
+    const t=Math.max(T(q.day,22),now(G)), d=Math.floor(t/24); P.st='call'; P.call=t;
+    if(typeof PHONE!=='undefined') PHONE.at(G,d,t-d*24,[P_(a.id,S.APART_DM)],'apart'+(a.y%100)+'_call_'+a.id);
+    return 'call'; };
+  /* 她知道祐廷同時和別人交往嗎（BB_194 的 knowsRel；不看 OPEN_OK，同意過的也是知道）*/
+  S.apartKnew=function(G,id,R){ if(typeof ROM==='undefined'||!ROM.knowsOf) return false; const set=new Set([].concat(R&&R.keep?[R.keep]:[],(R&&R.list)||[],partners(G))); set.delete(id);
+    for(const p of set) if(ROM.knowsOf(G,id,p)) return true; return false; };
+  const phoneBg=G=>{ if(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)&&HOME.bgNow) return HOME.bgNow(); if(typeof JP!=='undefined'&&JP.inJapan&&JP.inJapan(G)&&JP.bgNow) return JP.bgNow(G); return bg('phone_street_night'); };   /* 同 events3d.js 的 {scene:'電話'}：人在家＝家裡，不在家＝晚上的路邊 */
+  /* 演一場（出遊的 beforeOuting、電話版共用；第 2 節的流程）：回傳 said（knew／told／quiet）；已經談過、她不在交往＝false */
+  S.apartScene=async function(GM,id,o){ o=o||{}; const G=GM.G, C=S.APART[id], R=o.y?S.apartRound(G,o.y):S.apartOf(G,id), P=R&&R.at[id]; if(!C||!P||P.st==='done'||P.st==='void'||!dating(G,id)) return false;
+    const y30=R.y===2030, ph=!!o.phone, at=y30?C.at30:C.at29, A=adv();
+    const v=x=>x&&typeof x==='object'?(x.narr!=null?{narr:y30&&x.n30?x.n30:x.narr}:(y30&&x.t30!=null?x.t30:x.t)):x, L=a=>(a||[]).map(v);
+    if(A&&A.begin) A.begin({background:ph||at.call?phoneBg(G):bg(at.bg),right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('',ph?'電話':at.place,2600);
+    await GM.say(null,ph?S.APART_PHONE:(y30?C.open30:C.open29));   /* 1. 地點的旁白（電話版＝「（電話。）」）*/
+    await GM.say({name:G.name||'祐廷'},S.APART_ME);   /* 2. 祐廷先開口 */
+    let said='knew';
+    if(S.apartKnew(G,id,R)) await play(GM,id,L(C.knew));   /* 3. 她知道：直接接「知道」那一版，沒有二選一 */
+    else { await play(GM,id,L(C.ask)); const k=await GM.choose(S.APART_OPTS.map(t=>({t}))); said=k===0?'told':'quiet'; await play(GM,id,L(said==='told'?C.told:C.quiet)); }   /* 4. 她不知道：祐廷二選一 */
+    await play(GM,id,L(C.last));   /* 5. 她最後一句 */
+    S.apartEnd(G,id,said,R); return said; };
+  S.apartOuting=(GM,q)=>q&&q.apart?S.apartScene(GM,q.apart.id,{y:q.apart.y}):Promise.resolve(false);
+  /* 電話版（PG 的場景）：出遊那一條由 EVENTS.run 記 events.done，電話版不經過它，這裡記 */
+  S.apartCall=async function(GM,y,id){ const G=GM.G, R=S.apartRound(G,y), P=R&&R.at[id]; if(!P||P.st!=='call'||!dating(G,id)) return false; let r=false;
+    await scene(GM,async()=>{ r=await S.apartScene(GM,id,{y,phone:true}); });
+    if(r){ const E0=G.events||(G.events={done:{},last:{},count:0}), k='ev_choice_apart_'+id; E0.done=E0.done||{}; E0.last=E0.last||{}; E0.done[k]=(E0.done[k]||0)+1; E0.last[k]=G.day; E0.count=(E0.count|0)+1; }
+    return r; };
+  /* 談完：分開（第 5 節的旗標）。同一輪她還排著的（延期的那幾場）取消 */
+  S.apartEnd=function(G,id,said,R){ const P=R&&R.at[id]; if(P){ P.st='done'; P.said=said; P.end=G.day; }
+    if(typeof ROM!=='undefined'&&ROM.rec&&ROM.end){ const H=ROM.rec(G); let i0=-1; for(let i=H.length-1;i>=0;i--) if(H[i].id===id&&H[i].to==null){ i0=i; break; }
+      if(ROM.end(G,id,'apart_choice')){ const h=i0>=0?H[i0]:(H.push({id,from:null,to:ROM.when(G),how:'apart_choice'}),H[H.length-1]); h.said=said; h.day=G.day; } }
+    const D=Array.isArray(G.flags.CHOICE_APART_DONE)?G.flags.CHOICE_APART_DONE:(G.flags.CHOICE_APART_DONE=[]); if(!D.includes(id)) D.push(id);
+    if(typeof OUT!=='undefined'&&R) for(const q of OUT.rec(G)) if(q.state==='planned'&&q.apart&&q.apart.id===id&&q.apart.y===R.y) q.state='cancelled'; };
+  /* 每 0.5 秒（S.phone）：選了以後、談話以前，她因為別的原因已經不在交往＝她那一場取消（排著的出遊、還沒送出的私訊）*/
+  const apartRules=G=>{ for(const y of [2029,2030]){ const R=S.apartRound(G,y); if(!R) continue;
+      for(const id of (R.list||[])){ const P=R.at[id]; if(!P||(P.st!=='plan'&&P.st!=='call')||dating(G,id)) continue; P.st='void';
+        if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned'&&q.apart&&q.apart.id===id&&q.apart.y===y) q.state='cancelled';
+        if(typeof PHONE!=='undefined'){ const Q=PHONE.rec(G).q, tag='apart'+(y%100)+'_call_'+id; for(let i=Q.length-1;i>=0;i--) if(Q[i].tag===tag) Q.splice(i,1); } } } };
+  S.apartRules=apartRules;
+  const apartCallSteps=y=>S.APART_ORDER.map(id=>({id:'r2y4b_apart'+(y%100)+'_call_'+id,
+    at:G=>{ const R=S.apartRound(G,y), P=R&&R.at[id]; return P&&P.st==='call'&&typeof P.call==='number'?P.call:null; },until:()=>Infinity,
+    cond:G=>{ const R=S.apartRound(G,y), P=R&&R.at[id]; return !!P&&P.st==='call'&&dating(G,id); },run:GM=>S.apartCall(GM,y,id)}));   /* 電話版：時間到了、玩家空下來就演（不會再錯過）*/
   /* 尾聲：不選（EPI_SEAT_EMPTY）＝她們都在場、照朋友版那一句；祐廷旁邊空著；CG-10 只有共通圖；桌上不放伴侶那一樣 */
   S.seatView=function(G){ const F=Object.assign({},G.flags), Rm={}; for(const id of LOVE){ if(F['dating_'+id]===true) F['dating_'+id]=false; } const R0=G.flags.romance||{}; for(const id in R0){ Rm[id]=Object.assign({},R0[id]); if(Rm[id].status==='dating') Rm[id].status='none'; } F.romance=Rm; return Object.assign({},G,{flags:F}); };
   S.SEAT_EMPTY='（你旁邊的位子一直空著。沒有人問。）';
@@ -483,7 +600,7 @@ const R2Y4B=(function(){
     if(n<y('2029-02-20')) return;
     groupStartPhone(G); groupVideoRules(G); groupThreeRules(G);
     azaleaPhone(G); mxPhone(G); gradPhone(G); springPhone(G,GM); psOpenPhone(G); ytAuntPhone(G); kxBdayPhone(G); ballPhone(G); k25Phone(G); ps61Phone(G);
-    julyRules(G); mxDepartRules(G); anRules(G);
+    julyRules(G); mxDepartRules(G); anRules(G); apartRules(G);
     if(F.ZR_BACK==null&&n>=y('2029-08-25')&&knows('heroine_02',G)) F.ZR_BACK=G.day; };   /* 2-Y4-47 第 4 節：芷若回國（8/25）以後記一次 */
 
   /* ===================== 每 0.5 秒（STORY.TICKS）：要開演的場面 ===================== */
@@ -553,7 +670,7 @@ const R2Y4B=(function(){
     {id:'r2y4b_grad_result_2030',at:G=>T(DK('2030-03-15'),15),until:G=>T(DK('2030-03-17'),24),cond:G=>G.flags.GRAD_EXAM_2030===true,run:GM=>S.gradResult2030(GM)},
     {id:'r2y4b_grad_retry_2030',at:G=>T(DK('2030-03-15'),21),until:G=>T(DK('2030-03-22'),24),cond:G=>G.flags.GRAD_EXAM_2030===true&&G.flags.GRAD_EXAM_RESULT==='fail'&&G.flags.GRAD_RETRY2==null&&!G.flags.GRAD_QUIT,run:GM=>S.gradRetry2030(GM)},
     {id:'r2y4b_grad_exam_2031',at:G=>T(DK('2031-02-15'),9),until:G=>T(DK('2031-02-16'),12),cond:G=>G.flags.GRAD_RETRY2===true,run:GM=>S.gradExam(GM,2031)} ]
-    .concat(tellSteps('tell29','MULTI_TELL29'),tellSteps('tell30','MULTI_TELL30'));
+    .concat(tellSteps('tell29','MULTI_TELL29'),tellSteps('tell30','MULTI_TELL30'),apartCallSteps(2029),apartCallSteps(2030));   /* AA_346 的電話版（第三次沒到）*/
   S.stop=function(G){ let best=null; const c=t=>{ if(t!=null&&t>now(G)&&(best==null||t<best)) best=t; }; c(S.barStop(G)); c(S.groupStop(G)); return best; };
 
   /* ===================== 掛上去 ===================== */
