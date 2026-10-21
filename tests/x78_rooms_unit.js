@@ -33,4 +33,16 @@ if(it){ const G={day,hour:it.t0-0.6,weekday:CALENDAR.dateOf(day).wd%7,stage:'law
 check('4. 第一次在那間教室上課的旁白（AA_330 第 3 點）', CLS.ROOM_FIRST&&CLS.ROOM_FIRST.wancai_multi==='（萬才館一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）'&&CLS.ROOM_FIRST.linze_202==='（二樓的 202 是平面教室。長桌一排一排，沒有階梯。坐後面也看得到黑板。）');
 { const src=fs.readFileSync(path.join(ROOT,'src/classes3d.js'),'utf8');
   check('4. attend：不是考試、不是遲到缺席、沒演過才演，演完記 ROOM_FIRST_<區域>', /line&&!exam&&!lateAbs&&G\.flags&&!G\.flags\['ROOM_FIRST_'\+zf\]\)\{ G\.flags\['ROOM_FIRST_'\+zf\]=true;/.test(src)); }
+// 5. BB-C 10-21（36faaeec）：202 上課前 4 分鐘一個同學都沒有。GLB 教室（rooms_glb3d.js）的區域沒有 layout、座位沒有 kind，CLS.syncRooms 直接跳過＝只會有作息裡的熟人、沒有一般同學。
+//    改：座位 kind:'class'、區域 glbRoom＝true，syncRoom／syncRooms 認得。修改前這兩項失敗。
+{ const rg=fs.readFileSync(path.join(ROOT,'src/rooms_glb3d.js'),'utf8');
+  check('5. rooms_glb3d：GLB 教室的區域標 glbRoom、座位有 kind（class）', /z\.glbRoom=true/.test(rg)&&/kind:s\.kind\|\|'class'/.test(rg));
+  const zl=ROOM_GLB_LAYOUTS.linze_202, seats=zl.seats.map(s=>({x:s.x,z:s.z,yaw:s.yaw,lv:0,room:zl.host_door.id,kind:s.kind||'class'}));
+  let day=null, it=null; const T1=CALENDAR.termDays('Y3S1');
+  for(let d=T1.from;d<=T1.to&&!it;d++){ const G={day:d,hour:8,weekday:CALENDAR.dateOf(d).wd%7,stage:'law',flags:{},courses:null}; const its=CLS.dayItems(G).filter(q=>q.room&&q.room.zone==='linze_202'&&!q.exam); if(its.length){ day=d; it=its[0]; } }
+  const added=[]; const E={zone:{glbRoom:true,seats},npcs:[],addNPC(n){ added.push(n); this.npcs.push(n); },removeNPC(){}};
+  const sv={CHAR:global.CHAR,STORY:global.STORY}; global.CHAR={build:()=>({position:{set(){}},rotation:{}})}; global.STORY=Object.assign({},global.STORY||{},{extraSpec:i=>({id:'x'+i})});
+  let err=null; if(it){ const G={day,hour:it.t0-4/60,weekday:CALENDAR.dateOf(day).wd%7,stage:'law',flags:{},zone:'linze_202',courses:null}; try{ CLS.syncRooms({G,E},{full:true,instant:true}); }catch(e){ err=e; } }
+  global.CHAR=sv.CHAR; global.STORY=sv.STORY;
+  check('5. 霖澤館 202 有選修課的那一天，上課前 4 分鐘：一般同學坐進 202（CLS.syncRooms 認得 glbRoom）', !!it&&!err&&added.length>0&&added.every(n=>n.clsStudent&&n.seat&&n.seat.room==='c202'), (it?CALENDAR.dateOf(day).key+' '+it.c.name:'找不到 202 的課')+' 人數 '+added.length+(err?' '+err.message:'')); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

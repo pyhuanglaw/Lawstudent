@@ -9419,8 +9419,8 @@
    "what": "AA_343 B7 更正（翰 4 改到四樓樓梯間刷卡門前的台階）＋AA_344：AA_314 第 4 節 14 項在開發 2900fa69 的覆核（12 項已照新規則）＋五件小改 ①～⑤",
    "task": "EVPKG-1020",
    "msg": "ACK",
-   "integration": "部分整合",
-   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理"
+   "integration": "已整合待測試",
+   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理；B7 更正與 ③④⑤ 在 584d4030（AA_343 子代理）、①② 在 6026c0ce"
   },
   {
    "id": "DL-AA-57b2a7b3",
@@ -9460,6 +9460,45 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 114a69fa；溫州街 19:30 三角形 +37% LAWWW2 接著查"
+  },
+  {
+   "id": "DL-AA-83f130c0",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "83f130c0",
+   "what": "AA_347 法律系大一逐週覆蓋盤點＋補空白（第 7 節施工清單，第①級）：大一上第 9 週阿凱的國界（KAI_TAPE）、11/20 大隊接力、11/26 期末範圍群組；寒假 2/5 摘要日、2/6～2/7 語彤店休；大一下 4/24 群組、手機小事八則（term Y1S2）；暑假 7/29、8/25 摘要日、8/18 群組；主線 1「冬天的衣服」紙箱與 12/8 寒流兩版",
+   "task": "AA347-Y1-COVER-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "大一＝玩家最早遇到（D81），排在 AA_342 大二～大四補稿前面"
+  },
+  {
+   "id": "DL-LAWWW2-6620cba8",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "6620cba8",
+   "what": "ROOMS-REFINE-1021：202／多功能教室精修＋seatcheck 掃 118 巷（滇香、家常、蛋包飯修好）",
+   "task": "ART-ROOM-LIFE-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 整合；三色椅子待使用者確認（風格）；GLB 要縮可以接 meshopt（LAWWW 決定，先不接）"
+  },
+  {
+   "id": "DL-AA-f5e9acae",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "f5e9acae",
+   "what": "AA_349 回 K（沛珊台南）、L（日本學期）二十題：L1 交換生群組十四週挽回 +1、L2 日本 8/21 一句、L6 換句、K3 北部全擋＋心願改台南美術館（第②級）、K4、K5 視訊、K9 私訊…",
+   "task": "AA349-KL-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 派子代理"
   }
  ],
  "ignored": [
@@ -12154,6 +12193,12 @@
    "kind": "wip",
    "task": "ART-EXT-TEACH",
    "reason": "普通、博雅室內 WIP；正式交付是 511f6cd6（DL-LAWWW2-511f6cd6）"
+  },
+  {
+   "sha": "e53693f9",
+   "branch": "claude/focused-cray-c9uwvw",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 的 user_asks 登記（UA-LAWWW2-1021-01，使用者 10-21 08:43 全面清查，LAWWW-C 轉達）；不是交付"
   }
  ]
 }

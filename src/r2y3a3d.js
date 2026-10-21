@@ -2,18 +2,18 @@
    台詞在 data/r2y3a_events.js（R2Y3A_EVENTS，照 AA_326 不改字）。掛在 STORY.PHONE_RULES（手機：每一輪）、STORY.TICKS（日本路線退宿）、STORY.WAKE_AT（可昕的電話）、
    CLS.IN_CLASS（刑訴第 7、12、13 週）；人物的作息在載入時放進 CHARACTERS[id].daily_schedule 最前面（寫 terms＋dates／weeks，只在那幾天那幾個小時）；不改 story3d.js。
    另外包住的（只在條件成立時改結果）：STORY.roomY3Items（第三個房間多「旗津的燈塔」）、ROM.partners（2-Y3-10：10/23 起床「跟可昕說」排第一）、SYLLABUS 刑訴第 7 週（匯入新版以後自動不作用）。
-   2-Y3-01 KH：7/20 21:30 可昕邀約（交往中）→ 答應＝8/7 09:00 左營（高鐵 2980；旅館一晚先不扣，金額要問 AA）→ 8/8 七夕；不回＝7/22 21:00 再一則、還是不回＝婉拒；沒出發＝09:30 電話、18:00 照片、KX_RUB +1；
+   2-Y3-01 KH：7/20 21:30 可昕邀約（交往中）→ 答應＝8/7 09:00 左營（高鐵 2980；旅館一晚 1,800 元記「住宿」，AA_343 B1）→ 8/8 七夕；不回＝7/22 21:00 再一則、還是不回＝婉拒；沒出發＝09:30 電話、18:00 照片、KX_RUB +1；
            七夕視訊（D）：2026-08-19、2027-08-08（這一趟沒去的）、2028-08-26 21:00；房間物件「旗津的燈塔」（包住 STORY.roomY3Items）
    2-Y3-02 F2：7/20 21:00 方奕廷（說過話 3 次以上）→ 7/24 06:30；拒絕或不回＝8/16 21:00 再約 8/21；沒出發＝06:45、22:00 雲海
    2-Y3-03 迎新：9/2 21:00 系學會 → 9/4 13:00；沒去＝21:30 照片　2-Y3-04 開學第一頓：9/9 17:00 → 19:00；沒去＝21:30 照片　2-Y3-05 哲 3：9/10 12:00 群組；17:30～19:00 阿哲、明軒在籃球場
    2-Y3-06 K15：9/22 17:00 → 18:00 公館（18:10 沒到＝18:15 一則、KX_RUB +1；婉拒、不回＝18:30 空碗）　2-Y3-07 K11：9/27 21:00 → 9/29 19:00 博雅；她自己聽＝20:30～21:00 博雅一樓圓桌區、沒去＝21:00 一則
    2-Y3-08 Q8b：10/6 21:30 子晴（FAMILIAR）；10/6～10/8 22:00～23:30 公館；三天都沒去＝10/8 23:00 三則（一樣記 DAD_PLAYS、事件算演過）
    2-Y3-09 颱風假：T3a 19:30 阿凱兩則、20:00 宿舍；T3b 21:00 家族群組（回「我會上線」＝10/14 19:00 線上）
-   2-Y3-10 可昕的電話：10/18 22:00（主線 4 回得不少：G.needed.answered ≥ NEED_MIN）；轉移話題＝10/22 22:00；沒接＝一則
+   2-Y3-10 可昕的電話：10/18 22:00（主線 4 回得不少：G.needed.answered ≥ NEED_MIN＝8，AA_343 B5）；轉移話題＝10/22 22:00；沒接＝一則
    2-Y3-11 刑訴旁聽：第 7 週課堂三句（syllabus 第 7 週在這裡覆寫）、10/19 21:00 麵店團群組約人、約了的那天 13:30 出發（12:30 鬧鐘）、自己找一天＝第 7～11 週平日 13:00～14:00 的出發選單；
            第 12 週交、第 13 週發回（CLS.IN_CLASS）；第 11 週以前都沒去＝CRIMPRO_HW 'none'
    2-Y3-12 慈 4：10/19 21:30 小語三則；10/20 12:10～12:40 芯慈在霖澤館二樓走廊　2-Y3-13 以安新 14：10/21 17:30～19:40 以安在麵店；沒遇到＝22:00 群組（不在群組＝私訊）
-   2-Y3-14 翰 4：第 10 週平日 12:10～13:00 柏翰在霖澤館二樓樓梯間的門口；接讀書會的＝11/18 21:40 一則　2-Y3-15 校慶：11/12 21:00 法服群組
+   2-Y3-14 翰 4：第 10 週平日 12:10～13:00 柏翰在霖澤館 4F 樓梯間（往五樓的刷卡門前，AA_343 B7）；接讀書會的＝11/18 21:40 一則　2-Y3-15 校慶：11/12 21:00 法服群組
    2-Y3-16 C4：11/19 21:00 阿哲四則（回覆到隔天 18:00）；沒回＝隔天 18:00 一則　2-Y3-17 續約：11/23 21:00 法服群組／語彤私訊 → 11/24 14:30；都沒遇到＝12/14 21:00
    2-Y3-18 慈 5：第 13 週以安、芯慈在總圖三樓　2-Y3-19 K17：12/8 21:00 → 12/9 21:45 視訊；4/25 21:00 → 4/26 18:30 政大山下（日本路線＝視訊被看；不去＝21:00 照片）
    2-Y3-20 事件 13：12/16 17:00 語彤兩則、18:00～19:45 總圖三樓　2-Y3-21 聖誕：12/24 21:00 → 12/25 21:00 視訊（沒接＝一則）
@@ -61,7 +61,7 @@ const R2Y3A=(function(){
     ['kexin',{days:[3],from:20.5,to:21,zone:'boya',room:'round',act:'read',terms:['Y3S1'],dates:ONE('2027-09-29'),if:{custom:G=>!!(G.flags&&G.flags.KX_K11_SELF)&&G.flags.KX_K11!=='together'&&dating(G,'kexin')},note:'2-Y3-07 K11：她自己聽完講座，坐在博雅一樓的小桌子'}],
     ['classmate_xinci',{days:[3],from:12+10/60,to:12+40/60,zone:'linze',act:'linger',at:[1.2,-5.2,Math.PI/2,1],terms:['Y3S1'],dates:ONE('2027-10-20'),note:'2-Y3-12 慈 4：霖澤館二樓走廊'}],
     ['heroine_01',{days:[4],from:17.5,to:19+40/60,zone:'noodle',act:'eat',terms:['Y3S1'],dates:ONE('2027-10-21'),note:'2-Y3-13 以安新 14：麵店長桌（20:00 讀書會）'}],
-    ['classmate_bohan',{days:[1,2,3,4,5],from:12+10/60,to:13,zone:'linze',act:'linger',at:[6.2,-5.9,Math.PI,1],terms:['Y3S1'],weeks:[10],noHoliday:true,note:'2-Y3-14 翰 4：二樓往三樓的樓梯間門口'}],
+    ['classmate_bohan',{days:[1,2,3,4,5],from:12+10/60,to:13,zone:'linze_4f',act:'linger',at:[6.2,-6.3,Math.PI,0],terms:['Y3S1'],weeks:[10],noHoliday:true,note:'2-Y3-14 翰 4：4F 樓梯間的門口，面向往五樓的那扇門（AA_343 B7；3D 沒有樓梯間裡面，放在 4F 走廊的樓梯間門前）'}],
     ['heroine_01',{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S1'],weeks:[13],note:'2-Y3-18 慈 5：和芯慈在總圖三樓對刑訴期中的答案'}],
     ['heroine_01',{days:[4],from:18,to:19.75,zone:'library',act:'read',terms:['Y3S1'],weeks:[13],note:'2-Y3-18 慈 5（週四 20:00 讀書會）'}],
     ['classmate_xinci',{days:[1,2,3],from:18,to:21,zone:'library',act:'read',terms:['Y3S1'],weeks:[13],note:'2-Y3-18 慈 5'}],
@@ -86,7 +86,7 @@ const R2Y3A=(function(){
   /* ===================== 2-Y3-01 可昕 KH「高雄的兩天」＋七夕 ===================== */
   const KH={inv:'2027-07-20',re:'2027-07-22',d1:'2027-08-07',d2:'2027-08-08'};
   S.KH_FARE=(typeof HOMETOWN_LINES!=='undefined'&&HOMETOWN_LINES.kexin&&HOMETOWN_LINES.kexin.fare)||2980;   /* 高鐵照「去她的縣市」（AA_276 第 7 節）*/
-  S.KH_LODGING=()=>0;   /* 旅館一晚：AA_326「照春假兩天一夜（AA_324 1C-01）的住宿扣」——1C-01（group3d.js）沒有扣住宿、遊戲裡也沒有住宿費的先例，先不扣（金額要問 AA）*/
+  S.KH_LODGING=()=>1800;   /* 旅館一晚 1,800 元，記「住宿」（AA_343 B1：左營站旁邊的商務旅館，她幫忙找、他自己付；不寫旅館名稱）。春假 1C-01（group3d.js）維持現狀不扣 */
   /* 連續兩個假期都沒和她去（BB_97 9-1：她約了、你沒去）：大二寒假的高雄（y2r2_3d.js 的 y2r2_kh_ask；去了＝KX_TRIP.Y2W 'kaohsiung'）、大二春假（group3d.js 的 y2s2_spring_kx；去了＝KX_TRIP.Y2S2）*/
   S.khTwoMissed=G=>{ const F=G.flags||{}, T=(F.KX_TRIP&&typeof F.KX_TRIP==='object')?F.KX_TRIP:{}; return sent(G,'y2r2_kh_ask')&&T.Y2W!=='kaohsiung'&&sent(G,'y2s2_spring_kx')&&!T.Y2S2; };
   S.khPhone=function(G){ const F=G.flags, di=DK(KH.inv), dr=DK(KH.re), d1=DK(KH.d1), d2=DK(KH.d2); if(di==null||G.day<di||G.day>d2+1) return; const n=now(G);
@@ -177,12 +177,12 @@ const R2Y3A=(function(){
         {t:'明天可以休息嗎？',say:[SISr('……好。休息。')],set:{SIS_TYPHOON_Y3:'rest'}},
         {t:'我會上線。',say:[KVr('不要！'),SISr('……那就兩個人上。其他人休息。')],set:{SIS_TYPHOON_Y3:'online'}},
         {t:'（貼一張鞠躬的企鵝）',post:'（貼圖：鞠躬的企鵝）',say:[SISr('（貼圖：鞠躬的企鵝）'),KVr('學姊會用貼圖了！！')],set:{SIS_TYPHOON_Y3:'penguin'}}]}})],'y3_t3b');
-    if(F.SIS_TYPHOON_Y3==='online'&&!outGet(G,'y3_t3b_online')&&n<T(d+1,19.25))   /* 10/14（四）19:00～19:50（20:00 是公法讀書會）*/
-      plan(G,{id:'y3_t3b_online',ev:'ev_typhoon_y3_family',day:d+1,h:19,late:0.25,place:'視訊',verb:'上線',no:'今天先不要',title:'家族讀書會（線上）',travel:'',travelH:0,back:'視訊結束。'}); };
+    if(F.SIS_TYPHOON_Y3==='online'&&!outGet(G,'y3_t3b_online')&&n<T(d+1,19+1/6))   /* 10/14（四）19:00～19:50（20:00 是公法讀書會）；19:10 還沒上線＝什麼都不發生、她不追人（AA_343 B4）*/
+      plan(G,{id:'y3_t3b_online',ev:'ev_typhoon_y3_family',day:d+1,h:19,late:1/6,place:'視訊',verb:'上線',no:'今天先不要',title:'家族讀書會（線上）',travel:'',travelH:0,back:'視訊結束。'}); };
 
   /* ===================== 2-Y3-10 可昕「主線 4 的那通電話」 ===================== */
-  /* 主線 4 回得不少：AA_326 寫「照 1A-04 判斷一般版時讀的同一個 G.needed 計數」，可是 1A-04 的一般版沒有讀 G.needed（AA_315 第 2 節）——先用「回了 NEED_MIN 則以上」（要問 AA 門檻）*/
-  S.NEED_MIN=4;
+  /* 主線 4 回得不少：G.needed.answered ≥ 8（AA_343 B5：一週最多回兩則、一年最多六十幾則，8 則大約是一個月有在回；有打開過每週訊息的玩家幾乎都有）*/
+  S.NEED_MIN=8;
   S.helperOk=G=>dating(G,'kexin')&&!!G.needed&&(G.needed.answered|0)>=S.NEED_MIN;
   const CD1='2027-10-18', CD2='2027-10-22';
   S.callPhone=function(G){ const F=G.flags, d1=DK(CD1), d2=DK(CD2); if(d1==null||G.day<d1||G.day>d2+1) return;

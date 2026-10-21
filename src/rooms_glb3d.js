@@ -26,7 +26,8 @@
       let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
       const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,1); };
       const IT=E.interactables; z.seats=[];
-      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0,room:L.host_door.id}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||'坐下'}); }
+      z.glbRoom=true;   /* CLS.syncRooms 認得：上課時同學照課表坐進來（classes3d.js roomy）*/
+      for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0,room:L.host_door.id,kind:s.kind||'class'}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||'坐下'}); }
       for(const q of L.interact) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:q.note||q.label});
       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:{to:L.host_door.zone,spawn:backSpawn(id)}});
       z.teacherSpot=L.teacherSpot||L.clerk||null; if(L.spawn) z.spawn=Object.assign({},L.spawn);   /* 直接進來（「直接去上課」GM.enter 沒給落點）：站在門口裡面 */

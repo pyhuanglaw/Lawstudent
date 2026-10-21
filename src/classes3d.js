@@ -225,6 +225,8 @@ const CLS=(function(){
   // ---------- 上課（普通課堂；考試週＝考試）----------
   const ROOM_FIRST={wancai_multi:'（萬才館一樓的多功能教室。椅子是可以移動的那種，大家坐得比在 201 鬆。）',linze_202:'（二樓的 202 是平面教室。長桌一排一排，沒有階梯。坐後面也看得到黑板。）'};   /* AA_330（企劃 48845c36）第 3 點，字照抄 */
   S.ROOM_FIRST=ROOM_FIRST;
+  /* 特別週多的幾句（課程代號|週次）：AA-103-SP 大三上刑訴第 15 週強制辯護（AA_103 末節，AA-C 2026-10-17 定稿；法律審查 BB_182：§31 I 第 1～4、6 款看案件與被告狀況，只有第 5 款低收入戶、中低收入戶聲請指定和資力有關）*/
+  S.SPECIAL_PRE={'crimpro|15':[['yu','有些案子一定要有律師……那請不起的人，是國家幫他請？'],['prof','不是看請不請得起，是看案子。最輕本刑三年以上，或是被告沒辦法好好替自己說話——沒有律師，審判長就要指定公設辯護人或律師。有錢沒錢都一樣。'],['prof','那請不起、案子又不是這種的呢？低收入戶可以自己聲請指定。其他的——去找法扶。']]};
   S.IN_CLASS=[];   /* 課堂那一句後面、下課之前的劇情段（async (GM,it,prof,ct)；例：1B-02 債各第 6 週的語彤，src/y2b3d.js）*/
   S.attend=async function(GM,it,o){ o=o||{}; const G=GM.G, E=GM.E, R=S.rec(G), c=it.c; if(R.done[it.key]) return false;
     const exam=it.exam, prof=c.prof&&typeof EVENTS!=='undefined'?EVENTS.npcOf(c.prof):null; const e03=S.e03Due(G,it), p1=S.p1Due(G,it), subW=e03?2:(p1?1:0); const ct=S.content(subW&&it.week!==subW?Object.assign({},it,{week:subW}):it); const door=!!o.door;   /* E03＝BB_105 B1：經原第 2 週那一堂（機會成本）；P1＝會計第 1 週那一堂（宿舍是資產還是負債）——沒去就在之後第一次出席時上（AA_154 第 95、97 行）*/
@@ -241,7 +243,7 @@ const CLS=(function(){
         await GM.fade(true); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); R.done[it.key]=1; R.attend[c.id]=n+1; await GM.fade(false);
         GM.caption('',c.name+'：第 '+(n+1)+' 次'+(need?'（'+Math.min(n+1,need)+'／'+need+'）':'')+(need&&n+1>=need?'，時數滿了。':'。'),2800); }
       else {
-      if(!door&&E.zone&&(E.zone.layout||G.zone==='classroom')) S.syncRoom(GM,{full:true,instant:true});   /* 開始上課：同學都坐好了（2026-10-18 BB-C：開始前 30 分鐘就能坐下上課，同學 10 分鐘前才陸續進來——提早坐下的話整堂課教室只有祐廷一個人）*/
+      if(!door&&E.zone&&(roomy(E.zone)||G.zone==='classroom')) S.syncRoom(GM,{full:true,instant:true});   /* 開始上課：同學都坐好了（2026-10-18 BB-C：開始前 30 分鐘就能坐下上課，同學 10 分鐘前才陸續進來——提早坐下的話整堂課教室只有祐廷一個人）*/
       if(!door&&E.zone&&E.zone.setBoard) E.zone.setBoard(exam?c.name+'：'+(exam==='mid'?'期中考':'期末考'):ct.board[0],exam?'不可以翻書':ct.board[1],exam?'鈴響請停筆':ct.board[2]);
       if(exam&&S.isExamCourse(c)) await S.runExam(GM,it);   /* 考五題的法律課（AA_130 第 3 節）*/
       else if(exam){ const p=R.prep[c.id]||0; await GM.say(null,'考卷發下來。'+c.name+(exam==='mid'?'期中考':'期末考')+'。');
@@ -250,6 +252,7 @@ const CLS=(function(){
         if(p1&&lateAbs){ await GM.say(null,S.P1_SKIP); G.flags=G.flags||{}; G.flags.Y0_P1_DONE='skip'; }   /* 略過（BB_105 P1，AA_154 AB-09）：一句旁白，Y0_P1_SEAT 不記 */
         else {
         if(p1){ const k=await GM.choose(S.P1_SEATS.map(q=>({t:q[1]}))); G.flags=G.flags||{}; G.flags.Y0_P1_SEAT=(S.P1_SEATS[k]||S.P1_SEATS[0])[0]; }   /* 坐哪裡（法律系 P4c 的旁白讀它）*/
+        for(const [w,t] of (S.SPECIAL_PRE[c.id+'|'+it.week]||[])) await GM.say(w==='prof'?(prof||null):w,(w==='prof'&&!prof?(ct.prof||S.profName(c))+'：':'')+t);   /* 特別週：黑板第一行講完以後、原本那一句之前（AA-103-SP）*/
         await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+ct.line);
         if(c.id==='econ_principles_y0'&&!e03&&it.week===1&&!/邊際效用遞減/.test(ct.line+(ct.react||''))) await GM.say(prof||null,(prof?'':(ct.prof||S.profName(c))+'：')+S.ECON_W1_MU);   /* AA_200 7-2：魏老師第一堂順口講（可昕下午迎新用）；之後企劃的 syllabus 有這句就不重複 */
         for(const r of (ct.recall||[])) if(!r.after||r.after==='line'){ const t=S.recallText(G,r); if(t) await GM.say(null,t); }   /* 週層級的回想（v2 C15：憲法二第 12 週，聽過 B4 演講的玩家多一句旁白）；條件不到不說 */
@@ -263,7 +266,7 @@ const CLS=(function(){
         if(p1){ G.flags=G.flags||{}; G.flags.Y0_P1_DONE=true; }
         }
         if(!ct.second&&!(ct.obs&&ct.obs.disc&&S.askOf(it)&&S.askOf(it).id===ct.obs.disc.qid)) await S.classAsk(GM,it,prof,ct); }
-      if(E.zone&&E.zone.layout) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
+      if(roomy(E.zone)) S.syncRooms(GM);   /* 快轉前同學先坐好（人流每 15 分鐘才排一次；剛好在那之前坐下的話，下課時沒有人站起來走出去）*/
       await GM.fade(true); const h=hr(G); if(h<it.t1) GM.advance(it.t1-h); keepCrowd(G); R.done[it.key]=1; if(lateAbs) R.abs[it.key]=1; else if(!exam){ R.attend[c.id]=(R.attend[c.id]||0)+1; R.prep[c.id]=(R.prep[c.id]||0)+1; if(S.isLate(G,it)) R.late[it.key]=1; } await GM.fade(false);
       GM.caption('',exam?'考完了。':'下課了。'+(c.prof?S.profName(c)+'收起講義。':''),2400);
       }
@@ -352,7 +355,7 @@ const CLS=(function(){
       if(GM.E&&GM.E.zone&&GM.E.zone.setBoard) GM.E.zone.setBoard(a.title,lec?'演講':'活動',hhmm(a.t0)+'–'+hhmm(a.t1));
       if(!ev&&!(club&&a.spot)) await GM.say(null,tour?(hr(G)<a.t0?'你在集合點等「'+a.title+'」開始。':'你跟上「'+a.title+'」的隊伍。'):hr(G)<a.t0?(lec?'你找了位子坐下。台上的人在試麥克風，投影片停在第一頁：「'+a.title+'」。':'你找了位子坐下，等「'+a.title+'」開始。'):(lec?'你輕輕坐下。台上已經開始講「'+a.title+'」了。':'你輕輕坐下。「'+a.title+'」已經開始了。'));   /* 系籃（集合點的社課）：AA 6-8 (c) 選「去練球」→ 直接轉暗 */
       let narr=''; if(club&&!ev){ narr=S.clubNarr(G,a); if(narr&&a.narrAt==='start') await GM.say(null,narr); if(a.id==='lawclub_study') await S.studyQs(GM); }
-      if(GM.E&&GM.E.zone&&GM.E.zone.layout) S.syncRooms(GM);   /* 快轉前聽眾先坐好（2026-10-13 批次 3：演講開始前 5 分鐘坐下選「聽演講」，聽眾還沒排進來就快轉到結束，散場時沒有人站起來）*/
+      if(GM.E&&roomy(GM.E.zone)) S.syncRooms(GM);   /* 快轉前聽眾先坐好（2026-10-13 批次 3：演講開始前 5 分鐘坐下選「聽演講」，聽眾還沒排進來就快轉到結束，散場時沒有人站起來）*/
       await GM.fade(true); const h=hr(G); if(h<a.t1) GM.advance(a.t1-h); keepCrowd(G); await GM.fade(false);
       if(narr&&a.narrAt!=='start') await GM.say(null,narr);   /* 社課的旁白：做完以後的一句（系籃：轉暗、時間過去、播旁白）*/
       GM.caption('',club?'社課結束了。':lec?'演講結束了。台下有人舉手，有人已經在收東西。':tour?'導覽結束了。':'活動結束了。',2800);
@@ -554,7 +557,7 @@ const CLS=(function(){
   S.tick=function(GM){ const G=GM.G; if(!G||!G.flags) return; const R=S.rec(G), h=hr(G);
     if(!(typeof ECONFF!=='undefined'&&ECONFF.on(G))&&!(typeof PG!=='undefined'&&PG.on&&PG.on(G))) for(const it of S.dayItems(G)){ if(S.storyClass(G,it)) continue; const k='rem_'+it.key; if(R.note[k]) continue; if(h>=it.t0-WIN0&&h<it.t0&&!R.done[it.key]){ R.note[k]=1; if((!GM.S||GM.S.classRemind!==false)&&!R.note['plan_skip_'+it.key]) GM.toast('30 分鐘後上課：'+S.itemText(it),4200); } }
     const sig=G.day+':'+Math.floor(h*4); if(sig!==lastT){ lastT=sig; S.skipNotes(GM); S.refreshGoal(GM); }
-    { const sg=G.day+':'+Math.floor(h*30); if(sg!==lastRoomT){ lastRoomT=sg; if(G.zone==='classroom'||(GM.E.zone&&GM.E.zone.layout)) S.syncRoom(GM); } }   /* 教室的人每 2 遊戲分鐘排一次（陸續進來）；其他照舊每 15 分鐘 */
+    { const sg=G.day+':'+Math.floor(h*30); if(sg!==lastRoomT){ lastRoomT=sg; if(G.zone==='classroom'||roomy(GM.E.zone)) S.syncRoom(GM); } }   /* 教室的人每 2 遊戲分鐘排一次（陸續進來）；其他照舊每 15 分鐘 */
     S.figTick(GM); S.updateHUD(GM); S.oneTick(GM); };
   /* 霖澤館 201：上課時間座位上有同學（背景人物，坐著）；下課後離開。教授由 story3d.js 的作息（schedFor → CLS.profWhere）處理 */
   /* 建築裡的教室（共同教學館…）：正在上課的每一間坐一半左右的同學（位子照課程與日期固定：出去再進來是同一批人）；下課的那一間的人離開 */
@@ -607,6 +610,7 @@ const CLS=(function(){
   /* 教室裡的人（AA_137 第 8 節第 3 點，使用者 2026-10-15「上課前教室根本沒有人，一下課教室就坐滿」）：上課前 10 分鐘起陸續進來，開始時坐滿八成，開始後坐滿；
      原本整堂課的 30 分鐘前一次全部坐好（剛好在那之前進教室＝空的，過一下突然坐滿）。下課照舊走出去（walkOut）*/
   S.arriveFrac=function(G,it){ if(!it.t0) return 1; const h=hr(G), a=it.t0-1/6; if(h<a) return 0; if(h<it.t0) return 0.15+0.65*(h-a)/(1/6); return 1; };
+  const roomy=Z=>!!(Z&&(Z.layout||Z.glbRoom));   /* 有很多間教室的區域（霖澤館、萬才館的 layout），或一間就是一個區域的 GLB 教室（rooms_glb3d.js：霖澤館 202、萬才館多功能教室、研討室 A）——同學照課表坐進來（BB-C 10-21：202 上課前一個同學都沒有）*/
   function walkInSeat(GM,o,st,key,pose){ const E=GM.E, L=E.zone&&E.zone.layout; const from=(L&&L.entrance&&L.entrance.exit)?{x:L.entrance.exit.x,z:L.entrance.exit.z-0.7,lv:0}:(E.zone&&E.zone.spawn); if(!from||!E.moveTo||!GM.sitAt) return false;
     const ap=(typeof CROWD!=='undefined'&&CROWD.seatSide&&CROWD.seatSide(E,st))||(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; o.position.set(from.x,0,from.z);
     const n=E.addNPC({obj:o,name:'',beh:'idle',pose:'walk',idlePose:'idle',isExtra:true,lv:from.lv|0,clsStudent:true,clsKey:key,seatTarget:st});
@@ -616,7 +620,7 @@ const CLS=(function(){
   function seatBusy(E,st){ const near=q=>q&&Math.hypot(q.x-st.x,q.z-st.z)<0.35&&((q.lv|0)===(st.lv|0)||q.lv==null||st.lv==null); return E.npcs.some(n=>near(n.seat||n.seatTarget))||!!(E.player&&near(E.player.seat)); }
   /* 每 2 遊戲分鐘排一次：照 arriveFrac 補到這個時間該有的人數（陸續進來）。2026-10-16 修：原本這一堂只要已經有一個同學就整堂跳過，
      第一次排進來的 2～3 人之後就不再增加（AA_137 第 8 節：上課時大約坐滿一半的位子）——霖澤館 201（syncRoom）沒有這個問題 */
-  S.syncRooms=function(GM,opt){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.seats||!E.zone.layout) return; const live=S.liveIn(G,G.zone).filter(it=>it.room.room);
+  S.syncRooms=function(GM,opt){ const G=GM.G, E=GM.E; if(!E.zone||!E.zone.seats||!roomy(E.zone)) return; const live=S.liveIn(G,G.zone).filter(it=>it.room.room);
     const instant=(opt&&opt.instant)||!lastSync||lastSync.zone!==G.zone||Math.abs(G.hour-lastSync.h)>0.6; lastSync={zone:G.zone,h:G.hour};
     if(typeof ACTIVITIES!=='undefined') for(const a of ACTIVITIES.active(G,{before:0.25})) if(a.zone===G.zone&&a.room) live.push({key:'act:'+a.id+':'+G.day,room:{room:a.room},n:a.crowd&&a.crowd.n});
     const keys=new Set(live.map(it=>it.key));
@@ -630,7 +634,7 @@ const CLS=(function(){
         o.position.set(st.x,st.y||0,st.z); o.rotation.y=st.yaw;   /* 階梯教室：座位的高度（addNPC 也照 seat.y 放）*/
         E.addNPC({obj:o,name:'',beh:'idle',pose:'sit',idlePose:'sit',frozen:true,isExtra:true,seat:st,lv:st.lv|0,clsStudent:true,clsKey:it.key}); have++; }
       const want=Math.min(seats.length,it.n||Math.round(seats.length*0.5)); if(seats.length>=40&&want>16) S.figPlace(GM,it.key,idx.slice(16,want).map(i=>seats[i]));   /* 其餘的位子：替身 */ } };
-  S.syncRoom=function(GM,opt){ const G=GM.G, E=GM.E; if(E.zone&&E.zone.layout) return S.syncRooms(GM,opt); if(!E.zone||!E.zone.seats) return; const live=S.liveIn(G,'classroom'); const key=live.length?live[0].key:null;
+  S.syncRoom=function(GM,opt){ const G=GM.G, E=GM.E; if(roomy(E.zone)) return S.syncRooms(GM,opt); if(!E.zone||!E.zone.seats) return; const live=S.liveIn(G,'classroom'); const key=live.length?live[0].key:null;
     const mine=E.npcs.filter(n=>n.clsStudent); if(mine.length&&mine[0].clsKey!==key){ for(const n of mine){ if(n.obj&&n.obj.parent) n.obj.parent.remove(n.obj); } E.npcs=E.npcs.filter(n=>!n.clsStudent); }
     if(!key) return; const seats=E.zone.seats; let i=0; const cells=[[0,0],[0,2],[0,5],[1,1],[1,6],[2,0],[2,2],[2,4],[2,7],[3,1],[3,3],[3,6],[4,0],[4,5],[5,2],[5,7]];
     const instant=(opt&&opt.instant)||!lastSync||lastSync.zone!==G.zone||Math.abs(G.hour-lastSync.h)>0.6; lastSync={zone:G.zone,h:G.hour}; const tgt=Math.round(cells.length*(opt&&opt.full?1:S.arriveFrac(G,live[0]))); let have=E.npcs.filter(n=>n.clsStudent).length;   /* 上課前 10 分鐘起陸續進來（AA_137 第 8 節）*/
@@ -782,7 +786,7 @@ const CLS=(function(){
       const nb=free.filter(q=>!used.has(q)&&Math.hypot(q.seat.x-n.seat.x,q.seat.z-n.seat.z)<1.3&&(q.seat.lv|0)===(n.seat.lv|0)).sort((a,b)=>Math.hypot(a.seat.x-n.seat.x,a.seat.z-n.seat.z)-Math.hypot(b.seat.x-n.seat.x,b.seat.z-n.seat.z))[0];
       if(nb){ used.add(nb); out.push({t:'坐在'+(SOCIAL.displayName?SOCIAL.displayName(id):(CHARACTERS[id].name||id))+'旁邊',it:nb,who:id}); } }
     return out; };
-  S.seatPick=async function(GM,it){ const G=GM.G, E=GM.E; if(E.zone&&(E.zone.layout||G.zone==='classroom')){ try{ S.syncRoom(GM); }catch(e){} }
+  S.seatPick=async function(GM,it){ const G=GM.G, E=GM.E; if(E.zone&&(roomy(E.zone)||G.zone==='classroom')){ try{ S.syncRoom(GM); }catch(e){} }
     const ch=S.seatChoices(GM,it); if(!ch.length||!GM.seatMenu){ GM.toast('上課的教室：'+(it.room.name||'')+'（找個位子坐下）',4200); return false; }
     let k=ch.length; GM.sceneBegin(); try{ k=await GM.choose(ch.map(q=>({t:q.t,hint:q.hint})).concat([{t:'自己找位子',hint:'走過去坐下就可以上課'}])); } finally { GM.sceneEnd(); }
     if(k>=ch.length){ GM.toast('教室是 '+(it.room.name||'')+'，找個位子坐下就可以上課（'+hhmm(it.t0)+' 開始）',4200); return false; }
