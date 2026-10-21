@@ -34,6 +34,9 @@ const ENC=(function(){
   const kxRoute=how=>/kx_b|_b$|route_b/i.test(String(how||''))?'kx_b':'kx_c';
   /* 「選一個人」以後的分開談話（AA_346，how 'apart_choice'）＝apart_talk 的一種：這一列沒有寫 apart_choice 的前任版，就讀 apart_talk 那一句（AA_346 第 5 節）*/
   const exKey=(ex,how)=>how==='apart_choice'&&!(ex&&(ex.apart_choice||ex.apart_choiceNarr))?'apart_talk':how; S.exKey=exKey;
+  /* 回老家（presence kind 'home'）的人在不在這個景點的城市：景點的 area（「臺中市」）和 presence 的 home（「台中」）比，臺／台、市／縣不分 */
+  const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
+  S.atHome=(pr,spot)=>!!(pr&&pr.kind==='home'&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);
   /* 這一列現在成立嗎：回傳 {row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
     if(G.stage==='econ') return no('econ');
@@ -46,7 +49,7 @@ const ENC=(function(){
     if(row.dates&&!(typeof STORY!=='undefined'&&STORY.inDates&&STORY.inDates(G,row.dates))) return no('日期');   /* AA_271：日期區間（含頭尾），以安回台中、阿哲回高雄的日子 */
     if(row.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return no('不是寒暑假');   /* AA_271：語彤 D14 寒暑假的週日 */
     if(row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence('kexin',G); if(pr&&pr.here===false&&pr.kind==='home') return no('可昕：寒暑假在'+(pr.home||'老家')); }   /* 寒暑假她在高雄，西門町、淡水不會遇到（AA_278 第 2 節第 2 點）*/
-    if(!row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei') return no('不在（'+(pr.away||pr.kind)+'）'); }   /* 交換、出國的日子（以安 2028-03-25～08-05 在日本）不出現；在臺北不在台大的照常（AA_271 第 0 節）*/
+    if(!row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence(row.who,G); if(pr&&pr.here===false&&pr.kind!=='taipei'&&!S.atHome(pr,spot)) return no('不在（'+(pr.away||pr.kind)+'）'); }   /* atHome：回老家（kind home）的日子，在她／他老家那個城市的偶遇照常（以安 D26 臺中、阿哲 D29 高雄，AA_271；HOLIDAY-PRESENCE-1021）*/   /* 交換、出國的日子（以安 2028-03-25～08-05 在日本）不出現；在臺北不在台大的照常（AA_271 第 0 節）*/
     const tr=S.tier(G,row.who);
     if(row.kexin){ if(tr.t!=='dating'&&tr.t!=='ex') return no('可昕：交往中或分開了才有'); if(tr.t==='ex'){ const k=kxRoute(tr.how); if(!(row.ex&&row.ex[k])) return no('可昕：這個走向在這裡沒有台詞'); } }
     else { if(tr.t==='stranger') return no('還不認識'); if((tr.t==='ex'||tr.t==='catch')&&row.noEx) return no('前任不來這裡');
