@@ -29,10 +29,10 @@ const HOMETOWN_LINES={
       /* 消失期玩家傳訊息她回什麼（AA_276 第 6-1 節，4fbabbee；只有交往中＝L）：23:00 以後才回、輪流；問課不開；謝謝、生日、還好嗎、新年照 AA_257 的 L（msg3d.js）*/
       replies:{chat:['在念地理。','剛吃完飯，要繼續了。','在寫考古題，第三回。'],share_cat:['好可愛。……我先念書。'],share_food:['看起來好好吃。考完你帶我去。'],share_notes:['你們的講義還是好多字。'],night:['晚安。我再念一小時。','嗯，晚安。']}} },
   /* 沛珊大三、大四的學期中在台南（AA_328 3-09，AA-C 5ae6a133；第一次＝AA_321 1B-11／AA_282 3-1 原文，第二次以後的接人＝3-09 第 2 節新寫，裁定 9）。
-     presence 的 city（或 home）是 '台南' 的時候用（hometown3d.js 的 S.key）。yes／yesDating 照台中那一組；沒有 keep（消失期已經過了）。
+     presence 的 city（或 home）是 '台南' 的時候用（hometown3d.js 的 S.key；presence 已改台南，AA_282 第 5 節第 1、3 點）。yes／yesDating 照台中那一組；沒有 keep（消失期已經過了）。
      skipDays＝BB_165 5-1、5-2、P6 公開課那三天（本身就是那一場）；extra＝沒交往、去過台南的玩家，2027-12-10 以後下一次去時當面看孩子的作業（AA_328 3-19 裁定 25）。
      背景 tn_*：台南車站、她的學校、二手書店、老街、運河邊都還沒有圖（AA_282 第 5 節第 6 點）＝深色底＋地點字幕 */
-  'classmate_peishan@台南':{ city:'台南', travel:'高鐵約一小時四十分鐘', travelH:1.75, fare:2700, ask:'我去台南找妳？',
+  'classmate_peishan@台南':{ city:'台南', travel:'高鐵約一小時四十分鐘', travelH:1.75, fare:2700, ask:'我去台南找妳？', ev:'ev_hv_ps_tn',   /* ev：出遊事件（回程的高鐵一小時四十五分，events.js）*/
     yes:'好啊！！我帶你去吃我家附近那間。……你不能嫌遠喔。', yesDating:'真的嗎！！那我去車站等你。我會提早到。',
     skipDays:['2027-11-19','2028-11-17','2029-04-14'], visitsFlag:'PS_TAINAN_VISITS', lastFlag:'PS_AGAIN_LAST',
     pick:{bg:'tn_station',lines:[{narr:'（台南車站。她站在出口，兩手各拿一杯飲料。）'},'{name}！這杯你的。這邊的紅茶很甜喔，你先喝一口。']},

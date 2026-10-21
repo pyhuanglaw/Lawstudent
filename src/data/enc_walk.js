@@ -557,25 +557,6 @@ const ENC_WALK={
    }
   },
   {
-   "who": "classmate_peishan",
-   "spot": "D06",
-   "act": "D06.cafe",
-   "friend": [
-    "十一點半以前，我得去書店顧童書區。"
-   ],
-   "dating": [
-    "你下午來書店嗎？……不來也沒關係，我挑一本書等你。"
-   ],
-   "cond": {
-    "terms": [
-     "Y3S1",
-     "Y3S2",
-     "Y4S1",
-     "Y4S2"
-    ]
-   }
-  },
-  {
    "who": "kexin",
    "spot": "D13",
    "act": "walk",
