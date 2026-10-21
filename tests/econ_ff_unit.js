@@ -44,6 +44,12 @@ const mkG=(k,h,f)=>({stage:'econ',day:dayOf(k),hour:h,weekday:CALENDAR.dateOf(da
 { const G=mkG('2024-09-02',12.3); const n=ECONFF.attendBetween(G,dayOf('2024-09-05')*24+13); const R=CLS.rec(G);
   const keys=Object.keys(R.done); check('③ 9/2 下午～9/5 13:00 的課自動算出席、不發翹課訊息',n>=3&&keys.every(k=>R.note['skip_'+k]===1)&&Object.values(R.attend).every(v=>v>=1),n+' 堂 '+JSON.stringify(Object.keys(R.attend)));
   check('③ 9/5 13:20 的會計（還沒到）不算',!keys.some(k=>/acct_y0/.test(k)&&k.startsWith(String(dayOf('2024-09-05'))+':')),JSON.stringify(keys.filter(k=>/acct/.test(k)))); }
+{ // 真正的呼叫順序（S.advance）：先 jumpTo 跳過去、再 attendBetween——要從跳之前那一天算起（v9.10.3 發布前 flow_v0_start 查到：9/2→9/13 只記到 9/12 一堂會計）
+  const G=mkG('2024-09-02',12.3); const d0=G.day; pend=0; global.STORY.phoneRules=()=>{}; ECONFF.jumpTo({G,E:null},dayOf('2024-09-13'),19);
+  ECONFF.attendBetween(G,G.day*24+G.hour,d0); const keys=Object.keys(CLS.rec(G).done);
+  const days=[...new Set(keys.map(k=>+k.split(':')[0]))];
+  check('③ 跳完再算（傳跳之前的那一天）：9/2～9/13 經原、會計都記到、不只最後一天',keys.some(k=>/:acct_y0:/.test(k))&&keys.some(k=>/:econ_principles_y0:/.test(k))&&days.length>=5,days.length+' 天 '+JSON.stringify(keys.slice(0,6)));
+  const src=fs.readFileSync(path.join(ROOT,'src/econff3d.js'),'utf8'); check('③ S.advance 呼叫 attendBetween 時傳跳之前的那一天（d0）',/S\.attendBetween\(G,G\.day\*24\+G\.hour,d0\)/.test(src)); }
 { const G=mkG('2024-09-02',13); pend=0; let calls=0; global.STORY.phoneRules=()=>{ calls++; if(G.hour>=22.4) pend=1; };
   const r=ECONFF.jumpTo({G,E:null},dayOf('2024-09-05'),13.25); check('④ 跳的途中收到要回的訊息：停在那一刻（9/2 23:00 左右）',r==='msg'&&G.day===dayOf('2024-09-02')&&G.hour>=22.4&&G.hour<=23.01,r+' '+G.day+' '+G.hour);
   pend=0; global.STORY.phoneRules=()=>{}; const r2=ECONFF.jumpTo({G,E:null},dayOf('2024-09-05'),13.25); check('④ 沒有要回的：跳到 9/5 13:15',r2==='ok'&&G.day===dayOf('2024-09-05')&&Math.abs(G.hour-13.25)<1e-6&&G.weekday===CALENDAR.dateOf(G.day).wd,r2+' '+G.hour); }
