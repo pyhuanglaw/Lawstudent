@@ -26027,7 +26027,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 13:3x UTC】BB 瀏覽器（日本路線存檔）：選單「在房間休息一下」進 3D 房間、走動、床「睡覺」回據點睡到隔天、房門「走出房間」回選單；AA 寫窗外、小冰箱、行李箱「看」的字",
+   "next": "【LAWWW（帳號 A）15:5x】B 組：日本宿舍「你的房間」三個「看」（AA_341 檔尾附加）合併進 32148711 ｜ 【LAWWW-C 2026-10-21 13:3x UTC】BB 瀏覽器（日本路線存檔）：選單「在房間休息一下」進 3D 房間、走動、床「睡覺」回據點睡到隔天、房門「走出房間」回選單；AA 寫窗外、小冰箱、行李箱「看」的字",
    "sha": "c8c810e1",
    "evidence": "LAWWW2 c8c810e1（patch jp_room_1021.diff：index.html、src/jp_dorm3d.js、src/data/jp_dorm_layouts.js；jp_room.glb、窗景兩張；LAWWW2 Playwright reachability jp_room ALL PASS）＋LAWWW-C 接線：jp3d.js 選單「在房間休息一下」走進 jp_room、JP.tick 人在房間不拉回、床＝回據點睡覺（S.bedFromRoom）；窗外／小冰箱／行李箱等 AA 的字（note 空的不開）；jp_semester_unit 3 項"
   },
@@ -26106,7 +26106,7 @@
    "id": "AA-VAC-C16-C18-Q-1021",
    "title": "C16～C18 實作留下的 AA 裁定 7 項＋缺字 5 項（語彤 C16 哪一年、C18W 大一寒假開不開、面試／結果／說明會日期、C16 名額機制、C17 第二次免面試、沒錄取信寄信人、津貼金額；非關鍵日日誌句、第二次以後日誌句、寒假團沒錄取阿哲句、C18 說明會台詞、思穎回國訊息）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
    "first": {
@@ -26126,7 +26126,7 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 14:5x UTC 交班】子代理 a73c8f28（AA 回覆小修 A～E）被停在 8a9a5e5a：A 組 AA_242 第 12 節 d5d7e526、B 組日本房間三個「看」16e97be8、C 組 AA_355 第 5 節 cb29c54f、D 組 AA_358 第 2 節 8a9a5e5a 已 commit；E 組（AA_350 第 9 節）沒做。**沒合併進開發分支、LAWWW 沒驗過**；備份 wip_backup/wip_subagents_1021_1500.bundle（WIP-LAWWW-AAFIX-1021）｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA 回了（企劃線 56a36a4d，AA_242 第 12 節）：語彤大三（大二去過的大三照演、第一句「……你又來了。」）、C18W 大一寒假不開、C16 上學期有被當＝沒錄取、C17 第二次大三第 4 週「寄信給馮律師」第 14 週直接錄取、C16 午餐每天 −100、其餘照暫排；補字 a～e 都在第 12 節 → LAWWW 照改（下一批小修子代理）"
+   "next": "【LAWWW（帳號 A）15:5x】A 組（AA_242 第 12 節 C16～C18 七項裁定＋補字 a～e）：子代理 8a9a5e5a 以前的成果合併進開發分支 32148711，單元測試過；AA 核對字、BB 瀏覽器驗收 ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班】子代理 a73c8f28（AA 回覆小修 A～E）被停在 8a9a5e5a：A 組 AA_242 第 12 節 d5d7e526、B 組日本房間三個「看」16e97be8、C 組 AA_355 第 5 節 cb29c54f、D 組 AA_358 第 2 節 8a9a5e5a 已 commit；E 組（AA_350 第 9 節）沒做。**沒合併進開發分支、LAWWW 沒驗過**；備份 wip_backup/wip_subagents_1021_1500.bundle（WIP-LAWWW-AAFIX-1021）｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA 回了（企劃線 56a36a4d，AA_242 第 12 節）：語彤大三（大二去過的大三照演、第一句「……你又來了。」）、C18W 大一寒假不開、C16 上學期有被當＝沒錄取、C17 第二次大三第 4 週「寄信給馮律師」第 14 週直接錄取、C16 午餐每天 −100、其餘照暫排；補字 a～e 都在第 12 節 → LAWWW 照改（下一批小修子代理）"
   },
   {
    "id": "BG-VAC-C16-C18-1021",
@@ -26210,7 +26210,7 @@
    "id": "AA-Q-1021-PG",
    "title": "AA_350 P1／AA_353／AA_355 實作留下要 AA 定的 7 項（P1 標點、cardLine 一跳一句吃掉中間句、交換延畢 2029／364 天解讀、1-1 三點、1-2 與 3F 微波爐沒換、運動會停課少三堂第 11 週的課、y34b3d.js:346）＋還沒有字的物件 9 個",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "子代理 a37b47f4 回報（合併 f27df6dd）",
    "first": {
@@ -26230,13 +26230,13 @@
     "receiver": "LAWWW",
     "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA 回了（企劃線 2f1aaa22，AA_355 第 5 節、AA_353 第 3 節）：1、5 照現在；2 cardLine 改出最後一句、3 延畢 2029 夏天三句 → 已轉給大五子代理；4(b) 今天→昨天、4(c) 挽回中冷靜中不約、6 運動會大二起不停課（大一照舊）、7 y34b3d.js:346 加以安電話一句、1-1 走路 10 分鐘、十個物件旁白 5-1 → 下一批小修子代理"
+   "next": "【LAWWW（帳號 A）15:5x】C 組（AA_355 第 5 節七題＋十個物件的旁白）：子代理 8a9a5e5a 以前的成果合併進開發分支 32148711，單元測試過；AA 核對字、BB 瀏覽器驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA 回了（企劃線 2f1aaa22，AA_355 第 5 節、AA_353 第 3 節）：1、5 照現在；2 cardLine 改出最後一句、3 延畢 2029 夏天三句 → 已轉給大五子代理；4(b) 今天→昨天、4(c) 挽回中冷靜中不約、6 運動會大二起不停課（大一照舊）、7 y34b3d.js:346 加以安電話一句、1-1 走路 10 分鐘、十個物件旁白 5-1 → 下一批小修子代理"
   },
   {
    "id": "AA358-KNOW-FIX-1021",
    "title": "AA_358 第 2 節：可以錯過的事被說成發生過——2-1 阿哲麵店問「下午你跟小安去哪了」看 F.plan、2-2 小安「不能賠十倍」else 只給 cafeView A、2-3 E26 沒去中秋系烤換兩句、2-4「謝謝你那天陪我」看 cafeView、2-5 博覽會法服攤位語彤改柏翰、2-6 測試寫死的 8 句；閒聊階梯 4 句（ladder_aa.json、ladder_bb_y3s2／y4s1／y4s2.json）重新匯入",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_358（659d9d81）；AA-C 10-21 13:33 訊息",
    "first": {
@@ -26249,7 +26249,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】和 AA 回覆的小修（AA_355 第 5 節、AA_242 第 12 節、AA_341 檔尾）同一批派子代理；階梯四檔要先改 story_import_allow.json 再匯入"
+   "next": "【LAWWW（帳號 A）15:5x】D 組（AA_358 第 2 節：人物知道不該知道的事）：子代理 8a9a5e5a 以前的成果合併進開發分支 32148711，單元測試過；AA 核對字、BB 瀏覽器驗收 ｜ 【LAWWW-C 2026-10-21 13:4x UTC】和 AA 回覆的小修（AA_355 第 5 節、AA_242 第 12 節、AA_341 檔尾）同一批派子代理；階梯四檔要先改 story_import_allow.json 再匯入"
   },
   {
    "id": "DATE-OVERNIGHT-1021",

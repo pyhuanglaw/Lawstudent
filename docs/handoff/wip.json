@@ -564,11 +564,13 @@
     "tests/aa355_unit.js",
     "tests/aa358_unit.js"
    ],
-   "state": "WIP",
+   "state": "merged",
    "remaining": "子代理被停在 8a9a5e5a：A（AA_242 第 12 節）、B（日本房間三個看）、C（AA_355 第 5 節）、D（AA_358 第 2 節）已 commit；E（AA_350 第 9 節）沒做；沒合併、LAWWW 沒驗",
    "next": "從 wip_backup/wip_subagents_1021_1500.bundle 還原分支（README 有指令），跑它改過的單元測試，沒問題再合併；E 組另外做",
    "noDirectIntegrate": true,
-   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "mergedIn": "32148711",
+   "note": "LAWWW（帳號 A）10-21 15:5x 從 bundle 還原（refs/wip/aafix-1021＝bcbc0c82）合併進 claude/confident-ritchie-8rwh7t 32148711：calendar.js 衝突——農曆照開發分支（多 2030，AA_357）、SCHOOL 照 AA_355 第 5 節第 6 題（大二起運動會不停課，只標字）。全部 Node 單元測試合併前後比對：沒有新失敗（390 個，原本就失敗的 2 個是測試過時，b109524d 已修）。E 組（AA_350 第 9 節）沒做，另開任務"
   },
   {
    "id": "WIP-LAWWW-AA360-1021",
