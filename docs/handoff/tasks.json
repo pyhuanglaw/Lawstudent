@@ -21879,6 +21879,25 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA347-Y1-COVER-1021",
+   "title": "AA_347 法律系大一空白週補稿（第 7 節）：阿凱的國界、大隊接力、期末範圍群組、寒假摘要日與語彤店休、大一下群組、手機小事八則（Y1S2）、暑假摘要日與群組、冬天的衣服紙箱＋寒流兩版",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_347（83f130c0）",
+   "first": {
+    "term": "Y1S1",
+    "week": 9,
+    "earliest": "大一上第 9 週",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）"
   }
  ]
 }
