@@ -89,12 +89,15 @@ const ROM=(function(){
      已經有別的伴侶不擋（X1）；她答不答應（個性、她知道什麼、告白條件 AA_128 3-2）由告白事件判斷 */
   S.canStart=function(G,id){ const R=S.get(G,id); if(R.status==='dating'||R.status==='paused') return false;
     if(R.status==='friend_after_catch'&&R.restartDay!=null&&G.day<R.restartDay) return false;
-    return G.flags.CLEANUP_DONE!==false; };
+    return G.flags.CLEANUP_DONE!==false||S.cleanupLate(G); };
+  /* 收拾的時刻一週內沒做（AA_123 2-3「一週後補一句旁白，也設 CLEANUP_DONE=true。不卡劇情」）：過了 cleanupDue 就算收拾過了——旁白由 STORY.cleanupTick 補（人在日本、在家、睡著時晚一點補也不擋）。
+     舊存檔 CLEANUP_DONE false、沒有 cleanupDue（V6-S4 以前：S.cleanup 沒有人叫，分開一次以後永遠不能再交往）＝當作已經過了一週 */
+  S.cleanupLate=G=>{ const F=G.flags||{}; return F.CLEANUP_DONE===false&&(F.cleanupDue==null||G.day>=F.cleanupDue); };
   /* 改交往狀態之前先叫的（ROM.BEFORE.push(fn)；fn(G)）：story3d.js 的 STORY.routeWatch——交換路線照 2027-11-18 12:00 那一刻的交往狀態定，
      截止已經過了、還沒定的（玩家一直坐著、在劇情裡），先照改之前的狀態定（1A-02，BB-C 10-20）。丟例外不影響交往 */
   S.BEFORE=[];
   const before=G=>{ for(const f of S.BEFORE){ try{ f(G); }catch(e){ console.warn('ROM.BEFORE',e); } } };
-  S.start=function(G,id){ if(!S.canStart(G,id)) return false; before(G); const F=G.flags, R=S.get(G,id); F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.sinceH=+(+G.hour||0).toFixed(2); R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});   /* sinceH：開始的時刻（G.hour；過了 24＝隔天凌晨），STORY.routeFor 判斷是不是截止以後才開始的 */
+  S.start=function(G,id){ if(!S.canStart(G,id)) return false; before(G); const F=G.flags, R=S.get(G,id); if(S.cleanupLate(G)) S.cleanup(G);   /* 過了一週、旁白還沒補就開始新的一段：直接算收拾過（不在新的交往裡補那一句）*/ F['dating_'+id]=true; R.status='dating'; R.since=S.when(G); R.sinceDay=G.day; R.sinceH=+(+G.hour||0).toFixed(2); R.suspicion=0; R.history.push({ev:'start',at:S.when(G)});   /* sinceH：開始的時刻（G.hour；過了 24＝隔天凌晨），STORY.routeFor 判斷是不是截止以後才開始的 */
     S.rec(G).push({id,from:S.when(G),to:null,how:null}); if(S.CRACK[id]) F[S.CRACK[id]]=0; return true; };
   /* 修補：歷史不變、裂縫歸零 */
   S.mend=function(G,id){ if(S.CRACK[id]) G.flags[S.CRACK[id]]=0; };
