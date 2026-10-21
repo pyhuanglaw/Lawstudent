@@ -4,7 +4,7 @@
 //      明信片＝芷若 POSTCARDS；製作名單＝ATTENDED_SHOW＋PLAYTESTED；田野筆記＝台灣路線＋YT_T1）；
 //   3. 拆箱三步：「（這是最後一次拆箱。）」→ 前兩年的一次拿出來（H4 大三丟掉的那一件不出現）→ 新的一件一件 → 黃金葛 → 選一件留在紙箱裡（黃金葛不列）或「（全部拿出來。）」→ 收尾；
 //   4. H1 台灣 9/3 在家：旁白 → 字卡「回宿舍」→「搬到新的房間／四樓 409 號房」；H2 日本多「（抽籤是姊姊幫你填的表。）」；
-//   5. H3 美國：當地 12/22 06:00 以後在美國 → 飛回臺灣 → 12/23 清晨 05:40 落地、上午回家 → 傍晚兩句（「409 的床位七月就抽好了。」）→ 字卡「四樓 409 號房」→ 直接進 409 拆箱；
+//   5. H3 美國：當地 12/21 23:55 以後在美國（AA_340 S10；原本 12/22 06:00）→ 飛回臺灣 → 12/23 清晨 05:40 落地（桃園入境大廳 airport_arr）、上午回家 → 傍晚兩句（「409 的床位七月就抽好了。」）→ 字卡「四樓 409 號房」→ 直接進 409 拆箱；
 //   6. 409：房號（搬的途中也是）、窗景、照舊擺大二的東西、留在紙箱的那一件不拿出來、收拾好了全部收起來（zones3d.js）；
 //   7. 收拾：B1 BOX_KEPT_Y4 第一件；一件一件（舊《民法》、黃金葛、民總、泡麵、志願表多一句）；B2「剩下的一起裝」；最後一定是「冬天的衣服」；B3 6/1 20:00 人在公館＝旁白 → 回宿舍。
 // 修改前全部 FAIL。用法：node tests/room_y4_unit.js
@@ -66,12 +66,12 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   fresh(d3,15,'dorm'); picks=[0,'全部']; await STORY.roomY4InDorm(GM); T=lines();
   check('4. 人在宿舍：同一句 → 字卡「搬到新的房間／四樓 409 號房」→ 拆箱', T[0]==='（明天開學。最後一次搬進宿舍。）'&&cards.includes('搬到新的房間／四樓 409 號房')&&G.flags.ROOM_Y4===d3);
   // 5. 美國返台
-  const d22=ret-1; fresh(d22,5.5,'us_apartment',{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:D('2028-08-02')});
-  check('5. 美國：當地 12/22 05:30 還不到', !EXCH.returnDue(G)); G.hour=6; check('5. 當地 12/22 06:00 以後、人在美國：返台到期', EXCH.returnDue(G)&&EXCH.returnAt(G)===(ret-1)*24+6);
+  const d21=ret-2; fresh(d21,23,'us_apartment',{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_ARRIVED:true,US_ARRIVED_DAY:D('2028-08-02')});   /* AA_340 S10：12/21 23:55 起飛（原本 12/22 06:00）*/
+  check('5. 美國：當地 12/21 23:00 還不到', !EXCH.returnDue(G)); G.hour=23+55/60; check('5. 當地 12/21 23:55 以後、人在美國：返台到期（AA_340 S10）', EXCH.returnDue(G)&&Math.abs(EXCH.returnAt(G)-((ret-2)*24+23+55/60))<1e-6);
   G.zone='dorm'; check('5. 不在美國的區域：不演', !EXCH.returnDue(G)); G.zone='us_apartment';
   picks=[0,'全部']; await EXCH.returnHome(GM); T=lines();
   check('5. H3 飛回臺灣（舊金山起飛約 14 小時）→ 12/23 清晨 05:40 落地（日期、星期；AA-C bf349b96）', cards[0]==='飛回臺灣／舊金山起飛　約 14 小時'&&cards[1]==='抵達／桃園機場　清晨 05:40'&&G.day===ret&&G.weekday===6&&G.flags.US_RETURNED===ret, JSON.stringify(cards));
-  check('5. H3 兩句（e75ebc69：床位七月就抽好了，不是姊姊填的）→ 字卡「四樓 409 號房」→ 直接進 409、拆箱', T[0]==='（傍晚，你從家裡出發，回宿舍。）'&&T[1]==='（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'&&!T.some(t=>/姊姊幫你填/.test(t))&&cards[2]==='四樓 409 號房／'&&entered[0]==='dorm'&&G.flags.ROOM_Y4===ret&&T[2]==='（這是最後一次拆箱。）', JSON.stringify({T:T.slice(0,3),cards}));
+  check('5. H3 兩句（e75ebc69：床位七月就抽好了，不是姊姊填的）→ 字卡「四樓 409 號房」→ 直接進 409、拆箱', T[0]==='（傍晚，你從家裡出發，回宿舍。）'&&T[1]==='（409 的床位七月就抽好了。鑰匙在舍監那裡等你。）'&&!T.some(t=>/姊姊幫你填/.test(t))&&cards[2]==='四樓 409 號房／'&&entered[0]==='airport_arr'&&entered[1]==='dorm'&&G.flags.ROOM_Y4===ret&&T[2]==='（這是最後一次拆箱。）', JSON.stringify({T:T.slice(0,3),cards,entered}));
   check('5. 美國路線的志願表是影本；返台以後不在國外、不再返台', T.includes('志願表的影本。系辦蓋的章，有一點歪。')&&!STORY.abroad(G)&&!EXCH.returnDue(G)&&G.hour>=19);
   { const src=fs.readFileSync(path.join(ROOT,'src/exchange3d.js'),'utf8'); check('5. EXCH.tick：出發之後也問返台', /if\(S\.returnDue\(G\)\)\{ void S\.returnHome\(GM\); return true; \}/.test(src)); }
   // 6. 409（zones3d.js）
