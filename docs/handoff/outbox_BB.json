@@ -865,6 +865,21 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "PASS：經濟系 22 張、法律系 94 張宿營開頭全是 2D（72560881）；自動判定修好重跑經濟系 0 格、法律系 3 格是校門口深色底（缺圖），不是 3D"
+  },
+  {
+   "task": "BUG-E37-DORM-SLEEP-1021",
+   "branch": "claude/story-planning",
+   "sha": "e638625d",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/oversleep_probe.py"
+   ],
+   "state": "已測試",
+   "next": "無",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "PASS（72560881）：選項寫 14:00 的約、13:20 會叫醒（LAWWW 訊息寫 13:10，遊戲字和實際都是 13:20）；13:21 醒來 → 出發 → E37 有演"
   }
  ],
  "items": [
