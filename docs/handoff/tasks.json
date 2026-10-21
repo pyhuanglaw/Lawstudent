@@ -21730,7 +21730,7 @@
    "id": "AA343-ANSWERS-1021",
    "title": "照 AA_343（e7dbfd14）改 40 題裡標「改」的：大二第 2 輪 A1～A4、大三前半 B1～B10、第 3 輪 C2～C8、大三後半 D1～D13、CG 第二批 E1／E2／E4（K10 改 10/23 18:30）、面板名稱 13 個定稿",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_343（e7dbfd14）",
    "first": {
@@ -21743,7 +21743,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 08:5x UTC】一般子代理施工中（worktree），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單"
+   "next": "【LAWWW-C 2026-10-21 09:1x UTC】合併 584d4030（a6faa266，1ba89307）：A1～A4、B1～B10（B7 四樓）、C2～C8、D1～D13、E1、E2、E4、AA_344 ③④⑤ 都改；新檢查改之前約 90 項失敗；待問 AA 見 AA_QUESTIONS_1021.md M 節；BB 清單 bb_checklists/BB_AA343_1021.md ｜ 【LAWWW-C 2026-10-21 08:5x UTC】一般子代理施工中（worktree），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單"
   },
   {
    "id": "AA345-ANSWERS-1021",
@@ -21884,7 +21884,7 @@
    "id": "AA347-Y1-COVER-1021",
    "title": "AA_347 法律系大一空白週補稿（第 7 節）：阿凱的國界、大隊接力、期末範圍群組、寒假摘要日與語彤店休、大一下群組、手機小事八則（Y1S2）、暑假摘要日與群組、冬天的衣服紙箱＋寒流兩版",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P1",
    "source": "企劃線 AA_347（83f130c0）",
    "first": {
@@ -21897,7 +21897,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）"
+   "next": "【LAWWW-C 2026-10-21 09:1x UTC】一般子代理施工中（worktree；tests/aa347_y1_unit.js）｜ 【LAWWW-C 2026-10-21 09:0x UTC】派子代理（等 AA343／AA345 其中一個合併以後，避免同時改 story3d.js）"
   }
  ]
 }
