@@ -1,6 +1,6 @@
 # 椰林大道晚上的路燈＋路燈柱擋不住人（ART-ECON-3D-GAP-1021／BUG-NAV-LAMPPOST-1021）
 
-帳號 A 的 LAWWW2，2026-10-21 20:2x UTC。狀態：**WIP**——遊戲內畫面已確認；燈柱導航的瀏覽器回歸（reachability_all、campus_layout_nav、gongguan_layout_nav、p0_movement）還在排隊，跑完才交件。
+帳號 A 的 LAWWW2，2026-10-21 20:2x UTC 起，21:3x 補上瀏覽器回歸。狀態：路燈畫面 **READY_FOR_ART_REVIEW**；燈柱導航 **FUNCTIONAL_VERIFIED**（Node 單元測試＋四支瀏覽器回歸，修改前後都 ALL PASS）。
 
 ## 問題
 
@@ -20,7 +20,7 @@
 
 ## 改法
 
-兩份 patch，**先套 `lamppost_nav.diff`，再套 `campus_avenue_lamps.diff`**（第二份動到同一行）。都對開發分支 `a9da472a` 乾淨；和其他待整合的 patch 一起套也乾淨。
+兩份 patch，**先套 `lamppost_nav.diff`，再套 `campus_avenue_lamps.diff`**（第二份動到同一行）。照這個順序對開發分支 `80af0168`（21:19 最新）套是乾淨的；和其他待整合的 patch 一起套也乾淨。
 
 ### `patches/lamppost_nav.diff`（BUG-NAV-LAMPPOST-1021）
 
@@ -53,9 +53,20 @@
 - 會建這四區的 16 支 Node 測試，修改前後結果相同（`bike`、`campus_bikes`、`campus_public`、`crowd`、`follow_buddy`、`lane118_walkers`、`nav_buildings`、`quick_travel`、`seat_reach`、`socsci_place`、`street_trees`、`wz_cat`、`wz_park`、`wz_shops`、`zone_dispose`、`v0_a6`）。
 - 燈柱離人物最近站得住的距離：修改前大多是 0（站在燈柱正中間）；修改後 0.52～0.72 m。
 
-### 瀏覽器回歸（排隊中）
+### 瀏覽器回歸
 
-`reachability_all.py --zones campus,gongguan,wenzhou,lane118`、`campus_layout_nav.py`、`gongguan_layout_nav.py`、`p0_movement.py`，修改前後各跑一次。結果出來再補。
+- 環境：Playwright＋SwiftShader，iPhone 390×844 模擬（`p0_movement` 用 CDP 觸控按搖桿），**不是 iPhone 實機**。
+- 修改前：開發分支 `a9da472a`；修改後：同一個工作樹套上 `lamppost_nav.diff`＋`campus_avenue_lamps.diff`。一次只跑一支，沒有和其他瀏覽器工作同時跑。
+- 跑的時間：2026-10-21 21:10～21:30 UTC。
+
+| 測試 | 修改前 | 修改後 |
+|---|---|---|
+| `reachability_all.py --zones campus,gongguan,wenzhou,lane118`（四區 86 個互動點、28 個出入口到達點，用引擎真正的移動模擬走一遍） | 17 項 ALL PASS | 17 項 ALL PASS（紀錄一字不差） |
+| `campus_layout_nav.py` | 81 項 ALL PASS | 81 項 ALL PASS |
+| `gongguan_layout_nav.py` | 51 項 ALL PASS | 51 項 ALL PASS |
+| `p0_movement.py` | 34 項 ALL PASS | 34 項 ALL PASS |
+
+- 四支的項目、結果修改前後完全相同：燈柱擋住以後，沒有任何互動點、出入口、出生點變得走不到。
 
 ### 遊戲內前後對照
 
@@ -83,7 +94,6 @@
 ## 還不到的地方（誠實寫）
 
 - 路中間（離兩邊的燈各 6 m）比邊緣暗；要再亮得加燈，或讓光圈更寬。這一版先不加。
-- 燈柱導航的瀏覽器回歸還沒跑完。
 - 真機沒看過。
 
 ## 接法（LAWWW）
