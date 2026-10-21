@@ -123,6 +123,8 @@ const DM3=(function(){
      經濟系那一年住 412（AA_168 第 5 節；故事上是另一棟樓），門的位置用大一的。房號只是門牌：換到的那一扇原本的寢室門（rep）不放，203 搬走以後變成一般關著的門。
      房間裡面（dorm 區域）沿用同一個；窗外照樓層（zones3d.js dormView、tools/blender/env_second/dorm_back_view.py）。 */
   const HOMES={y1:{plate:'203',x:5.5,lv:1,rep:null},y2:{plate:'312',x:11.15,lv:1,rep:'r204'},y3:{plate:'507',x:-10.9,lv:1,rep:'r201'},y4:{plate:'409',x:-5.25,lv:1,rep:'r202'}};
+  /* 大三 507（五樓）：走廊模型只有兩層，從一樓走上樓梯、換到樓上那一層的時候接一句轉場旁白（AA_345 J1 新寫；房號不改，外觀加到五層是 LAWWW2 的事）*/
+  const Y3_UP='（爬了四層樓梯。五樓的走廊比樓下暗一點。）';
   /* 自己住的那一樓（中文數字）：樓上那一層的門牌第一個數字（203→二、312→三、507→五、409→四、經濟系 412→四）；住一樓（lv 0）＝一 */
   const FLOOR_ZH=['','一','二','三','四','五','六','七','八','九'];
   function homeFloor(h){ const d=h&&h.lv?+String(h.plate||'2')[0]:1; return d>=1&&d<=9?d:2; }
@@ -168,7 +170,10 @@ const DM3=(function(){
     const zone={group:g,nav:nav0,levels:[nav0,nav1],levelGroups:[{group:lv0,y:0},{group:lv1,y:Y1}],walkMeshes,walls,spawn:Object.assign({},L.entrance.spawn),bounds:{w:W,d:D},camMaxY:3.0,
       fadeWalls(cam,pp){ for(const w of walls){ const toCam=new THREE.Vector3().subVectors(cam.position,w.userData.center||w.position); const facing=toCam.dot(w.userData.dir)>0; w.material.opacity=facing?1:0.12; w.material.depthWrite=facing; } },
       applyTime(h,weather){ const night=(h%24<6||h%24>=18.6); for(const o of outs){ const v=viewOf(o.userData.view,night), want=v||outsideTex(night); if(o.material.map!==want){ o.material.map=want; o.material.toneMapped=!v; o.material.needsUpdate=true; } } },
-      onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; } };
+      onLamps(on){ for(const l of lights) l.intensity=on?l.userData.on:l.userData.off; },
+      /* 每一幀（engine3d.js）：玩家從一樓（第 0 層）換到樓上那一層（第 1 層）、大三住 507 ＝ Y3_UP（每次從一樓上去都說；從房間出來就在樓上的不說；對話、劇情進行中不說）*/
+      update(dt,E){ const lv=E&&E.player?(E.player.lv|0):0, prev=this._plv; this._plv=lv; if(prev!==0||lv!==1) return;
+        const GA=typeof GAME!=='undefined'?GAME:null, G=GA&&GA.G; if(!G||homeOf(G).key!=='y3'||(GA.D&&GA.D.active)||(typeof EVENTS!=='undefined'&&EVENTS.running)) return; if(GA.caption) GA.caption('',Y3_UP,4200); } };
     buildFallback(L,lv0,lv1,fb0,fb1,walls,walkMeshes,outs,cols); buildDoors(E,L,lv0,lv1,fb0,fb1); buildFurniture(E,L,lv0,lv1,fb0,fb1,nav0,nav1,zone);
     // 走廊兩側的牆是鏡頭碰撞：放在樓層群組外面（正式模型載入後備用模型藏起來，碰撞還在）
     for(const c of cols){ g.add(c); E.colliders.push(c); }
@@ -187,6 +192,6 @@ const DM3=(function(){
     zone.formal=false; if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.dorm_hall']){ ASSETS.loadOne('bldg.dorm_hall').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; B3.attachFormal(zone,c.scene.clone(true),fb0,fb1,lv0,lv1,walls,walkMeshes); for(const o of outs){ if(o.userData.fpos){ o.position.copy(o.userData.fpos); o.scale.setScalar(1.7); } } }).catch(e=>console.warn('宿舍走廊正式模型載入失敗，用程序化備用模型',e)); }
     return zone; } };
 
-  return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf,homeOf,fixRoomExit,HOMES};
+  return {dorm_hall,stairSurfs,buildNav,CAMPUS,ROOM,riseOf,homeOf,fixRoomExit,HOMES,Y3_UP};
 })();
 Z3.ZONES.dorm_hall=DM3.dorm_hall;
