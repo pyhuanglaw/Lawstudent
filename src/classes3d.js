@@ -102,7 +102,12 @@ const CLS=(function(){
   S.profWhere=function(G,profId){ for(const it of S.dayItems(G)){ if(it.c.prof!==profId) continue; const h=hr(G); if(S.live(G,it)) return it.room.zone?{zone:it.room.zone,act:'class',room:it.room.room}:null; if(h>=it.t1&&h<it.t1+1.5&&!(typeof CHARACTERS!=='undefined'&&CHARACTERS[profId]&&CHARACTERS[profId].office===false)) return {zone:'wancai',act:'office'}; } return null; };   /* office:false＝下課後不去萬才館（經濟系的魏教授）*/
   // ---------- 文字 ----------
   S.itemText=it=>hhmm(it.t0)+' '+it.c.name+'（'+(it.room.name||'')+'）';
+  /* AA_363 T7-1：畢業生（GRADUATED）已經不是學生——沒延畢的 2029-09-03 起、交換延畢的領證書那天（2030-01-21，AA_357 1-1「1/21 以後照畢業後篇」）起，
+     日期標籤只寫日期和星期（例：「10/17 週三」），不寫學期、不寫寒暑假。之前照原本（沒延畢的 6/2～9/2「暑假」；延畢的大五上 y5s1_3d.js、12/24～1/20「寒假」）*/
+  S.PG_PLAIN={plain:'2029-09-03',delayed:'2030-01-21'};
+  S.pgPlain=function(G,key){ const F=G&&G.flags; if(!F||!F.GRADUATED||(G.stage||'law')!=='law'||!key) return false; const del=typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&!!STORY.routeAbroadRoute(G); return key>=S.PG_PLAIN[del?'delayed':'plain']; };
   S.dayLabel=function(G,day){ if(day==null) day=G.day; const d=CALENDAR.dateOf(day), t=CALENDAR.termOf(day), hol=CALENDAR.holiday(day), mk=!hol&&CALENDAR.mark?CALENDAR.mark(day):null; let s=d.m+'/'+d.d+' '+WD[d.wd];
+    if(S.pgPlain(G,d.key)) return s;   /* AA_363 T7-1：只寫日期和星期 */
     if(hol) s+='・'+hol; else if(mk) s+='・'+mk;   /* mark：日曆只標字、照常上課（大二起的全校運動會，AA_355 第 5 節第 6 題）*/ if(G&&G.flags&&G.flags.Y0_LEFT&&(G.stage||'law')==='econ') return s+'・休學中';   /* 經濟系那一年休學以後（E30）不寫經濟系的學期週次（AA-C 10-18）*/
     if(t) s+='・'+S.termName(t.id)+' 第 '+t.week+' 週'+(t.exam==='mid'?'（期中考週）':t.exam==='final'?'（期末考週）':''); else s+='・'+(d.m>=6&&d.m<=9?'暑假':'寒假'); return s; };   /* 9 月開學前還是暑假（2026-10-13 審查：原本寫成寒假）*/
   S.todayLine=function(G){ const its=S.dayItems(G).filter(it=>!S.storyClass(G,it)); if(!its.length){ const hol=CALENDAR.holiday(G.day), t=CALENDAR.termOf(G.day); return hol?'今天放假（'+hol+'），沒有課':(t?'今天沒有課':'放假中，沒有課'); }
