@@ -5,7 +5,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
 global.document={ getElementById:()=>null, addEventListener(){} }; global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.location={search:''};
-const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|LANE118_LAYOUT)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
+const load=f=>{ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(HOMETOWN_LINES|HV|CHARACTERS|UNFAMILIAR_POOL|SOCIAL_GRAPH|PORTRAITS|STORY_EVENTS|STORY_EVENTS_V11|SMALLTALK|SOCIAL|EVENTS|STORY|CALENDAR|PLACES|INVITE_DATA|INV|PHONE|COURSES|CLS|ACTIVITIES|REL_LINES|OUT|LADDER|HOME|HOME_LINES|NEEDED_MSGS|ROM|MSG|MSG_POOL|MSG2_POOL|VAC|VAC_DATA|L118|LANE118_SHOPS|LANE118_LAYOUT|SISG)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };
 global.THREE={Vector3:class{ constructor(x,y,z){ this.x=x||0; this.y=y||0; this.z=z||0; } }};
 for(const f of ['src/data/calendar.js','src/data/places.js','src/data/characters.js','src/data/rel_lines.js','src/data/courses.js','src/data/activities.js','src/data/events.js','src/data/ladder.js','src/data/home_lines.js','src/data/needed_msgs.js','src/romance3d.js','src/social3d.js','src/events3d.js','src/data/invites.js','src/invites3d.js','src/phone3d.js','src/outings3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/home3d.js','src/story3d.js','src/classes3d.js','src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/vac_activities.js','src/vac3d.js','src/data/lane118_layout.js','src/data/lane118_shops.js','src/lane118.js']) if(fs.existsSync(path.join(ROOT,f))) load(f);
 let fails=0; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+name+(info?'　'+info:'')); if(!ok) fails++; };
@@ -90,5 +90,20 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2025-09-08',11.9); run(11.95,12.1); check('5. 不在群組、和阿哲不熟：沒有',!(G.msgs||[]).some(m=>/118/.test(m.text||'')));
     law('2025-12-15',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 第 16 週沒有',!(G.msgs||[]).some(m=>(m.tag||'').startsWith('l118_')));
     law('2027-03-01',11.9); PHONE.join(G,'noodle_team','麵店團'); G.flags.L118_FIRST_SENT=true; run(11.95,12.1); check('5. 2027-03-01（大二下、阿哲小語交往以後）：多小語「我們在巷口等你」',txt('g:noodle_team').includes('yu:我們在巷口等你'),J(txt('g:noodle_team'))); }
+  // 6. AA_311 H1：一一八茶飲 × 學姊「她的老樣子」——記 SIS_TEA_ORDER（學姊備考那一年「一起念書的日常」⑤ 才排得到）
+  { const H1L=['剛剛那個學姊，你認識喔？','她每天這個時間來。無糖綠茶，去冰。從來沒換過。'], R1='對啊。我都在她走到窗口以前就做好了。', R2='（店員笑了一下，沒有再說。）';
+    const tea=async(day,h,o)=>{ o=o||{}; fresh(day,h,'l118_tea',Object.assign({},o.flags||{})); G.stage='law'; if(o.met!==false) SOCIAL.remember('heroine_05','FIRST_MET',''); picks=(o.picks||[2,0]).slice(); said=[]; opts=[]; await L118.order(GM,o.shop||'tea'); return said.map(x=>x.t); };
+    const has1=T=>H1L.every(t=>T.includes(t)), none=T=>!H1L.some(t=>T.includes(t));
+    const w3=DK('2025-09-15'), T1=await tea(w3,12.5);
+    check('6. H1 大一上第 3 週週一 12:30 在一一八茶飲點飲料、認識學姊：點了以後店員兩句 → 兩選一 →「她很固定。」→「對啊。我都在她走到窗口以前就做好了。」→ 走回巷口；記 SIS_TEA_ORDER',
+      T1.indexOf('（你點了無糖綠茶。）')>=0&&T1.indexOf(H1L[0])>T1.indexOf('（你點了無糖綠茶。）')&&T1.indexOf(H1L[1])===T1.indexOf(H1L[0])+1&&J(opts.slice(-1)[0])===J(['「她很固定。」','「……謝謝。」'])&&T1.indexOf(R1)===T1.indexOf(H1L[1])+1&&T1.indexOf('（你拿著飲料走回巷口。）')>T1.indexOf(R1)&&G.flags.SIS_TEA_ORDER===true&&said.find(x=>x.t===H1L[0]).who==='店員',J(lines()));
+    picks=[0]; said=[]; G.hour=12.6; await L118.order(GM,'tea'); check('6. H1 只一次（同一天再點、之後都沒有）',none(said.map(x=>x.t)));
+    const T2=await tea(DK('2025-10-08'),12.7,{picks:[0,1]}); check('6. 選「……謝謝。」→（店員笑了一下，沒有再說。）；12:42 點（她 12:40 走了）也算',has1(T2)&&T2.indexOf(R2)===T2.indexOf(H1L[1])+1&&!T2.includes(R1)&&G.flags.SIS_TEA_ORDER===true,J(T2));
+    const neg={notMet:none(await tea(w3,12.5,{met:false})),late:none(await tea(w3,12.8)),early:none(await tea(w3,12.35)),sat:none(await tea(DK('2025-09-20'),12.5)),w2:none(await tea(DK('2025-09-08'),12.5)),
+      w16:none(await tea(termDay('Y1S2',16,2),12.5)),y2:none(await tea(DK('2026-09-15'),12.5)),shop:none(await tea(w3,12.5,{shop:'noodle2',picks:[0]})),done:none(await tea(w3,12.5,{flags:{SIS_TEA_ORDER:true}}))};
+    const y1s2=has1(await tea(termDay('Y1S2',15,4),12.5));
+    check('6. H1 不演：不認識學姊、12:48 點、12:21 點（飲料做好她還沒來）、週六、第 2 週、大一下第 16 週（她不在茶飲）、大二、別間店、記過了；大一下第 15 週週四照演',Object.values(neg).every(x=>x)&&y1s2,J(Object.assign({y1s2},neg)));
+    load('src/sis_grad3d.js'); fresh(w3,21,'lawlib',{SIS_STUDY:true,SISG_SEG:4}); G.stage='law'; const s0=SISG.nextSeg(G); G.flags.SIS_TEA_ORDER=true; const s1=SISG.nextSeg(G);
+    check('6. 記了 SIS_TEA_ORDER 以後，學姊「一起念書的日常」⑤ 自動開（④之後輪到⑤；沒記的時候跳回①）',s0===1&&s1===5,J([s0,s1])); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });

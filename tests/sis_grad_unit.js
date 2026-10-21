@@ -88,7 +88,11 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     fresh(td('Y1S1',10,2),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null);
     const s10=txts().slice(); fresh(td('Y1S1',9,2),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了','算了']; await DATE.menu(GM,ID,null); const s9=txts().slice();
     fresh(K('2026-01-14'),15,'dorm',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了','算了']; await DATE.menu(GM,ID,null); const sj=txts().slice();
-    check('2-1. 校外約會：第 10 週起到筆試她說「等我考完。」；第 9 週照一般條件（不說）',s10.includes('等我考完。')&&sj.includes('等我考完。')&&!s9.includes('等我考完。'),JSON.stringify([s10,s9.slice(0,2),sj]));
+    fresh(td('Y1S1',13,4),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null); const s13=txts().slice();
+    fresh(td('Y1S1',14,2),15,'campus',{SIS_W1:true}); dateOk(); said=[]; picks=['算了','算了']; await DATE.menu(GM,ID,null); const s14=txts().slice();
+    const FAR='校外的話，等我考完。……考完我想去很遠的地方。';
+    check('2-1. 校外約會：第 10～13 週她說「等我考完。」；第 9 週照一般條件（不說）',s10.includes('等我考完。')&&s13.includes('等我考完。')&&!s10.includes(FAR)&&!s9.includes('等我考完。')&&!s9.includes(FAR),JSON.stringify([s10,s9.slice(0,2),s13]));
+    check('2-1. AA_339 第 4 題：第 14 週～筆試（1 月寒假也是）換一句「校外的話，等我考完。……考完我想去很遠的地方。」',s14.includes(FAR)&&sj.includes(FAR)&&!s14.includes('等我考完。')&&!sj.includes('等我考完。'),JSON.stringify([s14,sj]));
   });
   /* ---------- 2-2 十月的法圖 ---------- */
   await sec('2-2',async()=>{
@@ -113,15 +117,26 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     /* 她邀：週日 21:30「這週三晚上，法圖。」（一週最多一次） */
     { fresh(tue,20,'dorm',{SIS_W1:true}); FRI(); span(Tm(tue,21.4),Tm(tue,21.6)); const sun=tue+5; span(Tm(sun,21),Tm(sun,22)); span(Tm(sun,22),Tm(sun+1,10),0.5);
       const inv=her().filter(x=>x.text==='這週三晚上，法圖。'); check('2-3. 解鎖後的星期日 21:30「這週三晚上，法圖。」一則（一週最多一次）',inv.length===1&&inv[0].day===sun&&Math.abs(inv[0].h-21.5)<0.02,JSON.stringify(inv.map(x=>[x.day,x.h])));
-      const s16=td('Y1S1',16,7)-0; setT(s16,21.6); tick(); const sB=td('Y1S1',16,7)+7; setT(sB,21.6); tick();
+      const s16=td('Y1S1',16,7)-0; setT(s16,21.6); tick(); const sB=td('Y1S1',16,7)+7; G.flags.SISG_SAT_DAY=sB-1; setT(sB,21.6); tick();   /* 這一週有和她坐過：只剩「那個星期三」的條件 */
       check('2-3. 寒假的星期日（那個星期三法圖晚上沒開）不邀',her().filter(x=>x.text==='這週三晚上，法圖。'&&x.day>=sB).length===0); }
+    /* AA_339 第 5 題：她不追人——上一個週三有來（或剛解鎖）才傳；連兩週沒來不傳；玩家自己再去法圖坐一次，下一個星期日恢復 */
+    { fresh(tue,20,'dorm',{SIS_W1:true}); FRI(); span(Tm(tue,21.4),Tm(tue,21.6)); const invOn=d=>her().some(x=>x.text==='這週三晚上，法圖。'&&x.day===d), sunAt=d=>span(Tm(d,21.4),Tm(d,21.7));
+      const sit=async d=>{ setT(d,21); G.zone='lawlib'; herHere(); STORY.onStudy(GM,2); if(SISG.tick(GM)) await SISG._p; G.zone='dorm'; E.npcs=[]; GM.npc={}; };
+      const S1=tue+5, S2=tue+12, S3=tue+19, S4=tue+26, S5=tue+33;
+      sunAt(S1); const a1=invOn(S1); sunAt(S2); const a2=invOn(S2); sunAt(S3); const a3=invOn(S3);
+      await sit(tue+22); const sat=G.flags.SISG_SAT_DAY; sunAt(S4); const a4=invOn(S4);
+      await sit(tue+29); sunAt(S5); const a5=invOn(S5);
+      check('2-3. 剛解鎖的星期日傳；上一個週三沒來不傳；連兩週沒來也不傳；自己去法圖坐一次（她在）以後，下一個星期日恢復；那個週三有來，下一個星期日也傳',a1&&!a2&&!a3&&sat===tue+22&&a4&&a5,JSON.stringify({a1,a2,a3,sat,a4,a5})); }
+    { fresh(tue,20,'dorm',{SIS_W1:true}); FRI(); span(Tm(tue,21.4),Tm(tue,21.6)); setT(tue+8,21); G.zone='lawlib'; E.npcs=[]; GM.npc={}; G.weekday=wdOf(tue+8);
+      const sch=STORY.schedEnt; STORY.schedEnt=()=>null; try{ STORY.onStudy(GM,2); } finally { STORY.schedEnt=sch; }
+      check('2-3. 她不在法圖的時候坐下來讀，不算「和她坐」',G.flags.SISG_SAT_DAY==null); }
     /* 熱水的條件改讀 SIS_STUDY（AA_284 2-3 最後一行）*/
     { const HW=ev('ev_sis_hot_water'); const at=(flag,lv)=>{ fresh(td('Y1S1',14,2),21.6,'lawlib',flag?{SIS_W1:true,SIS_STUDY:true}:{SIS_W1:true}); R(...lv); herHere(); return EVENTS.check(HW); };
       check('2-3. 熱水（ev_sis_hot_water）的條件＝有 SIS_STUDY，不用數值門檻',at(true,[25,10,5])&&!at(false,[65,50,40]),[at(true,[25,10,5]),at(false,[65,50,40])].join()); }
     /* 一起念書的日常：讀完一段輪到一段；③是那天晚上的家族群組；⑤要 SIS_TEA_ORDER */
     { fresh(td('Y1S1',8,3),19,'lawlib',{SIS_W1:true,SIS_STUDY:true}); FRI(); joinFam(); herHere(); const seen=[];
       for(let w=8;w<=13;w++){ const d=td('Y1S1',w,3); setT(d,21); said=[]; STORY.onStudy(GM,2); const r=SISG.tick(GM); if(r) await SISG._p; const s=said.slice(); span(Tm(d,21.05),Tm(d,22.1)); G.zone='lawlib'; const g=fam().filter(x=>x.tag==='sisg_seg3_'+d); seen.push(s.length?s.map(q=>q.t).join('/'):(g.length?'G:'+g.map(x=>x.text).join('/'):'—')); }
-      check('2-3／G2. 第 8～13 週的星期三在法圖讀完：①②③④輪流、⑤沒有 SIS_TEA_ORDER 不排、接著回到①',/^（她和兩個同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）$/.test(seen[0])&&seen[1]==='（她把字卡遞給你。）/念給我聽。/（你念錯一個字，她直接說出正確答案和條號。）/……你念錯了。不過我答對了。'&&seen[2]==='G:學姊今天有吃飯嗎/有。三件事。一，飯糰。二，飯糰。三，飯糰。'&&seen[3]==='（你卡在一題民總，她看了一眼。）/先看題目問誰。你在幫錯的人想。/（說完就回去讀自己的。）'&&seen[4]===seen[0],JSON.stringify(seen));
+      check('2-3／G2. 第 8～13 週的星期三在法圖讀完：①（AA_339 第 7 題：不放同學名字「她和兩個也要考研究所的同學」）②③④輪流、⑤沒有 SIS_TEA_ORDER 不排、接著回到①',/^（她和兩個也要考研究所的同學在走廊對答案，吵一個爭點吵到笑出來。看到你，揮一下手，繼續吵。）$/.test(seen[0])&&seen[1]==='（她把字卡遞給你。）/念給我聽。/（你念錯一個字，她直接說出正確答案和條號。）/……你念錯了。不過我答對了。'&&seen[2]==='G:學姊今天有吃飯嗎/有。三件事。一，飯糰。二，飯糰。三，飯糰。'&&seen[3]==='（你卡在一題民總，她看了一眼。）/先看題目問誰。你在幫錯的人想。/（說完就回去讀自己的。）'&&seen[4]===seen[0],JSON.stringify(seen));
       const g3=fam().filter(x=>/^sisg_seg3_/.test(x.tag)); check('2-3. ③家族群組：Kevin 先問、她才回（那天晚上 22:00）',g3.length===2&&g3[0].from==='kevin'&&g3[1].from===ID&&Math.abs(g3[0].h-22)<0.06,JSON.stringify(g3.map(x=>[x.from,x.h])));
       G.flags.SIS_TEA_ORDER=true; G.flags.SISG_SEG=4; const d=td('Y1S1',13,3)+7; setT(td('Y1S1',14,3),21); said=[]; STORY.onStudy(GM,2); if(SISG.tick(GM)) await SISG._p; picks=[];
       check('2-3. ⑤有 SIS_TEA_ORDER 才排（④之後）：無糖綠茶去冰「……誰跟你說的。」',txts()[0]==='（你把一杯無糖綠茶去冰放在她的書旁邊。她看了杯子一眼。）'&&txts()[1]==='……誰跟你說的。'&&opts.slice(-1)[0].join('|')==='「一一八的店員。」|（不說）'&&txts()[2]==='……她記性比我好。謝謝。',JSON.stringify(txts())); }
@@ -154,7 +169,7 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
   await sec('2-6',async()=>{
     const d31=K('2026-01-31'), d2=K('2026-02-02');
     fresh(d31,20,'dorm',{SIS_W1:true}); FAM(); joinFam(); span(Tm(d31,20.9),Tm(d31,21.1)); const g=fam().filter(x=>x.tag==='sisg_fam_0131');
-    check('2-6. 1/31（六）21:00 家族群組：Kevin 起頭、兩個學弟妹貼圖、她「謝謝。睡了。」',g.length===4&&g[0].from==='kevin'&&g[0].text==='學姊後天考試！！大家幫學姊集氣'&&g[1].text==='（貼圖）'&&g[2].text==='（貼圖）'&&g[3].from===ID&&g[3].text==='謝謝。睡了。'&&Math.abs(g[0].h-21)<0.05,JSON.stringify(g.map(x=>[x.from,x.name,x.text])));
+    check('2-6. 1/31（六）21:00 家族群組：Kevin 起頭、兩個學弟妹貼圖（AA_339 第 1 題：學弟「致遠」、學妹「怡萱」）、她「謝謝。睡了。」',g.length===4&&g[0].from==='kevin'&&g[0].text==='學姊後天考試！！大家幫學姊集氣'&&g[1].text==='（貼圖）'&&g[2].text==='（貼圖）'&&PHONE.who(g[1])==='致遠'&&PHONE.who(g[2])==='怡萱'&&g[3].from===ID&&g[3].text==='謝謝。睡了。'&&Math.abs(g[0].h-21)<0.05,JSON.stringify(g.map(x=>[x.from,x.name,x.text])));
     fresh(d2,17,'dorm',{SIS_W1:true,SIS_STUDY:true,SIS_PREEXAM_NIGHT:true}); FRI(); span(Tm(d2,17.4),Tm(d2,17.6)); const m=her();
     check('2-6. 2/2（一）17:30 私訊「考完了」「我想吃一碗很燙的東西，然後睡十二個小時」＋兩個選項',m.length===2&&m[0].text==='考完了'&&m[1].text==='我想吃一碗很燙的東西，然後睡十二個小時'&&Math.abs(m[0].h-17.5)<0.02&&m[1].ask.opts.map(o=>o.t).join('|')==='去吃。|辛苦了。',JSON.stringify(m.map(x=>x.text)));
     answer(m[1].ask.id,0); const a1=her().slice(-1)[0].text; fresh(d2,17,'dorm',{SIS_PREEXAM_NIGHT:true}); span(Tm(d2,17.4),Tm(d2,17.6)); answer(her()[1].ask.id,1); const a2=her().slice(-1)[0].text;
@@ -220,12 +235,13 @@ const DECL=['「這學期我在準備研究所，晚上大多在圖書館。…�
     const a=await play({SIS_RESULT_TOLD:true,SIS_NEW_PLANNER:true}), b=await play({SIS_NEW_PLANNER:true}), c=await play({});
     check('2-9. 聚餐台詞；有 SIS_RESULT_TOLD：「那天你傳的時候，我還在睡。」；沒有、但有 SIS_NEW_PLANNER：「計畫本今天這一格，我寫了『吃飯』。」',JSON.stringify(a)===JSON.stringify(head.concat(['（她小聲對你說。）','那天你傳的時候，我還在睡。']))&&JSON.stringify(b)===JSON.stringify(head.concat(['計畫本今天這一格，我寫了『吃飯』。']))&&JSON.stringify(c)===JSON.stringify(head),JSON.stringify([a,b,c]));
     { fresh(d,20.5,'dorm',{}); FAM(); joinFam(); span(Tm(d,20.9),Tm(d,21.1)); span(Tm(d27,21.4),Tm(d27,21.6)); const p=fam().filter(x=>x.tag==='sisg_rank_dinner_photo');
-      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
+      check('2-9. 沒去的：3/27 21:30 Kevin 貼合照（AA_339 第 2 題「📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）」）「沒來的人錯過請學姊吃飯。千載難逢」',p.length===2&&p[0].from==='kevin'&&p[0].text==='📷（定食店的長桌，學姊坐中間，面前是全桌最貴的那一份）'&&p[1].text==='沒來的人錯過請學姊吃飯。千載難逢'&&Math.abs(p[0].h-21.5)<0.05,JSON.stringify(p.map(x=>x.text))); }
   });
   /* ---------- 2-10 舊教科書 ---------- */
   await sec('2-10',async()=>{
     const e=ev('ev_sis_books_y1s2'), d=K('2026-02-22'); const at=(day,zone,dinner)=>{ fresh(day,18,zone,{}); if(dinner){ G.events.done.ev_sis_family_dinner=1; } return EVENTS.check(e); };
     check('2-10. 去過 12/5 家族聚餐的玩家，2/22（日）在宿舍；沒去過、2/21、在校園都不演',at(d,'dorm',true)&&at(d,'dorm_hall',true)&&!at(d,'dorm',false)&&!at(d-1,'dorm',true)&&!at(d,'campus',true));
+    { const end=CALENDAR.termDays('Y1S2').to; check('2-10. AA_339 第 10 題：2/22～2/28 在宿舍補演；2/22 沒回宿舍的，第一次回宿舍那天演（3/10 也演，到大一下結束；暑假不演）',at(d+6,'dorm_hall',true)&&at(K('2026-03-10'),'dorm',true)&&at(end,'dorm',true)&&!at(end+1,'dorm',true)); }
     at(d,'dorm',true); await EVENTS.run(e);
     check('2-10. 旁白「（管理室有你的一箱書。上面貼著一張便利貼。）」、便利貼「民總、刑總、憲法。紅筆是我的，藍筆是我學姊的。」；記 SIS_OLD_BOOKS',JSON.stringify(txts())===JSON.stringify(['（管理室有你的一箱書。上面貼著一張便利貼。）','（便利貼：「民總、刑總、憲法。紅筆是我的，藍筆是我學姊的。」）'])&&G.flags.SIS_OLD_BOOKS===true,JSON.stringify(txts()));
     check('2-10. 手機話題「謝謝（舊教科書）」綁這一場',MSG.conds2(G,ID,'thanks').some(x=>x.key==='old_books'));

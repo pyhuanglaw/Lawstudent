@@ -6,6 +6,8 @@
 //   AA_337（回 1B-12～25 實作八題＋補字）：1B-13 每週的選項「走吧。」「今天不行。」、2/24 沒去之後的週四演第一次（17:00～17:30）、日本路線每週四的照片；1B-15 阿凱 5/18 私訊；
 //   1B-17 改成 MSG-2 私訊；1B-18 機場旁白改早上；1B-12／1B-18 可昕送機的動作；1B-19 小語兩句＋「知道。」、「今天跟你說」「然後是你」；1B-20 最後一碗給阿哲、群組倒數、可昕事後照片、
 //   芷若的明信片；1B-21「改天」的回覆；U_COPYRIGHT（智財法第 4 週的討論課）→ Q14「三件事」；RA_WORK 不設。
+//   AA_337 第 7 節（6d344677；修改前 FAIL）：1B-17 交往中 17:05 以後才傳＝22:30「明天下午，Café？」＋「好。」（6/3 15:00 Café）／「明天不行。」；日本路線＝台灣 18:00 視訊；
+//   1B-15 阿凱私訊回了「去。」卻沒到＝16:30 阿凱三則。
 // 修改前：沒有 src/y34b3d.js（第 0 項 FAIL）。用法：node tests/y34b_events_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -130,9 +132,17 @@ const date=id=>H.date(id);
     at('2028-05-19',21); phone(); check('AA_337 第 5 節 和子晴不到 FAMILIAR：收不到子晴 5/19 那則', !th('p:heroine_04').length);
     answer('y3_zq_kai',0); phone(); const q=OUT.get(H.G,'y3_zq_q12_kai');
     check('AA_337 第 5 節 「去。」＝排出遊 5/20 13:45（資工系館展示廳）', !!q&&q.day===D('2028-05-20')&&Math.abs(q.h-13.75)<1e-6&&q.place==='資工系館一樓展示廳'&&q.ev==='ev_ziqing_q12');
-    at('2028-05-20',13.6); await goOut('y3_zq_q12_kai'); check('AA_337 第 5 節 去了＝同一場發表會（製作名單、阿凱 K4）；ATTENDED_SHOW', has('製作：高子晴')&&has('……她把我放在第二行。')&&H.G.flags.ATTENDED_SHOW===true); }
+    at('2028-05-20',13.6); await goOut('y3_zq_q12_kai'); check('AA_337 第 5 節 去了＝同一場發表會（製作名單、阿凱 K4）；ATTENDED_SHOW', has('製作：高子晴')&&has('……她把我放在第二行。')&&H.G.flags.ATTENDED_SHOW===true);
+    at('2028-05-20',16.6); phone(); check('AA_337 第 7 節 「去。」而且去了：16:30 沒有「你說要來的。」', !th('p:kai').includes('你說要來的。')&&!th('p:kai').includes('📷（投影幕上一隻在找插座的貓）'), JSON.stringify(th('p:kai'))); }
+  /* AA_337 第 7 節（修改前 FAIL）：回了「去。」卻沒到發表會＝16:30 阿凱三則 */
+  { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); const q=OUT.get(H.G,'y3_zq_q12_kai');
+    at('2028-05-20',15); OUT.tick(GM); phone(); const a=th('p:kai').length; at('2028-05-20',16.4); phone(); const b=th('p:kai').length; at('2028-05-20',16.5); phone(); const L=th('p:kai');
+    check('AA_337 第 7 節 「去。」卻沒到（出遊過了時間＝missed）：16:30 阿凱「你說要來的。」「……我幫你拍了。」「📷（投影幕上一隻在找插座的貓）」；16:30 以前沒有；沒有「好。我幫你拍。」',
+      !!q&&q.state==='missed'&&a===b&&L.length===b+3&&JSON.stringify(L.slice(-3))===JSON.stringify(['你說要來的。','……我幫你拍了。','📷（投影幕上一隻在找插座的貓）'])&&!L.includes('好。我幫你拍。'), JSON.stringify(L)); }
+  { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',0); phone(); at('2028-05-20',13.75); H.picks=[2]; await OUT.prompt(GM,OUT.get(H.G,'y3_zq_q12_kai')); at('2028-05-20',16.5); phone();
+    check('AA_337 第 7 節 「去。」到了出發又選「不去了」：16:30 同樣是阿凱三則', JSON.stringify(th('p:kai').slice(-3))===JSON.stringify(['你說要來的。','……我幫你拍了。','📷（投影幕上一隻在找插座的貓）']), JSON.stringify(th('p:kai'))); }
   { fresh('2028-05-18',21,'dorm'); H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); phone(); answer('y3_zq_kai',1); phone(); const n=th('p:kai').length; at('2028-05-20',16.4); phone(); const b=th('p:kai').length; at('2028-05-20',16.5); phone();
-    check('AA_337 第 5 節 「不了。」→ 阿凱「好。我幫你拍。」→ 5/20 16:30「📷（投影幕上一隻在找插座的貓）」；不排出遊', th('p:kai').includes('好。我幫你拍。')&&b===n&&th('p:kai').slice(-1)[0]==='📷（投影幕上一隻在找插座的貓）'&&!OUT.get(H.G,'y3_zq_q12_kai')); }
+    check('AA_337 第 5 節 「不了。」→ 阿凱「好。我幫你拍。」→ 5/20 16:30「📷（投影幕上一隻在找插座的貓）」；不排出遊', th('p:kai').includes('好。我幫你拍。')&&b===n&&th('p:kai').slice(-1)[0]==='📷（投影幕上一隻在找插座的貓）'&&!OUT.get(H.G,'y3_zq_q12_kai')&&!th('p:kai').includes('你說要來的。')); }
   { const none=(fl,route,setup)=>{ fresh('2028-05-18',21,'dorm',fl,route); setup(); phone(); return !th('p:kai').length; };
     check('AA_337 第 5 節 跟阿凱不熟、和子晴 FAMILIAR 以上、日本路線：都沒有阿凱那則', none({},null,()=>{ H.rel('heroine_04',10,0,0); })&&none({},null,()=>{ H.FAMILIAR('kai'); H.FAMILIAR('heroine_04'); })&&none({},'JP',()=>{ H.FAMILIAR('kai'); H.rel('heroine_04',10,0,0); })); }
   /* ===== 1B-16 ===== */
@@ -154,8 +164,38 @@ const date=id=>H.date(id);
   check('S2 交往中、去 Café：兩支叉子；SIS_BDAY_Y3 cafe', has('（Café 窗邊，一小塊蛋糕，兩支叉子。）')&&has('……你先吃。我看你吃。')&&H.G.flags.SIS_BDAY_Y3==='cafe');
   { fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone(); at('2028-06-02',21); phone();
     check('S3 交往中、沒去：21:00「另一半在冰箱，明天還算生日。」', th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。')&&H.G.flags.SIS_BDAY_Y3==='missed'); }
-  { fresh('2028-06-02',17.5,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',21); phone(); const n21=th('p:heroine_05').length; at('2028-06-02',22.5); phone();
-    check('1B-17 交往中、17:05 以後才傳（22:30 才回，六點已經過了）：不排 Café、回「蛋糕我吃了一半。……」（AA 稿沒有這個情況，暫用「沒去」那一句）', n21===1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我吃了一半。另一半在冰箱，明天還算生日。'&&!OUT.get(H.G,'y3_sis_bday')&&H.G.flags.SIS_BDAY_Y3==='missed'); }
+  /* AA_337 第 7 節（修改前 FAIL：原本暫用「蛋糕我吃了一半。……」記 missed）：交往中、17:05 以後才傳＝22:30「謝謝。今天研究室比較晚。」「蛋糕留了一半。……明天下午，Café？」＋「好。」／「明天不行。」 */
+  const late22=()=>{ fresh('2028-06-02',17.5,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',21); phone(); const n21=th('p:heroine_05').length; at('2028-06-02',22.5); phone();
+    return {n21,m:(H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_sis_bday_late')}; };
+  { const {n21,m}=late22();
+    check('AA_337 第 7 節 交往中、17:05 以後才傳：21:00 還沒回、不排六點的 Café；22:30「謝謝。今天研究室比較晚。」「蛋糕留了一半。……明天下午，Café？」＋「好。」「明天不行。」；沒有「蛋糕我吃了一半。……」',
+      n21===1&&th('p:heroine_05').join('|')==='生日快樂|謝謝。今天研究室比較晚。|蛋糕留了一半。……明天下午，Café？'&&!!m&&m.text==='蛋糕留了一半。……明天下午，Café？'&&m.ask.opts.map(o=>o.t).join('|')==='好。|明天不行。'&&!OUT.get(H.G,'y3_sis_bday')&&H.G.flags.SIS_BDAY_Y3==='late_ask', JSON.stringify(th('p:heroine_05')));
+    answer('y3_sis_bday_late',0); phone(); const q=OUT.get(H.G,'y3_sis_bday_next'), d3=D('2028-06-03');
+    check('AA_337 第 7 節 「好。」→ 學姊「三點。」→ 排 6/3（六）15:00 兩點半 Café', th('p:heroine_05').slice(-2).join('|')==='好。|三點。'&&!!q&&q.day===d3&&q.h===15&&q.goto&&q.goto.zone==='cafe'&&CALENDAR.dateOf(d3).wd===6&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(q));
+    at('2028-06-03',14.8); H.G.zone='dorm'; await goOut('y3_sis_bday_next'); const due=S.bdayCafeDue(H.G); await run('ev_sis_birthday_y3');
+    check('AA_337 第 7 節 6/3 15:00 到 Café＝「去了」那一場（窗邊、一小塊蛋糕、兩支叉子、「……你先吃。我看你吃。」）；記 cafe；整段沒有「蛋糕我吃了一半。……」', due&&has('（Café 窗邊，一小塊蛋糕，兩支叉子。）')&&has('……你先吃。我看你吃。')&&H.G.flags.SIS_BDAY_Y3==='cafe'&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。')); }
+  { late22(); answer('y3_sis_bday_late',1); phone(); at('2028-06-03',15); phone();
+    check('AA_337 第 7 節 「明天不行。」→ 學姊「好。那蛋糕歸我。」；記 missed；不排 Café、沒有「蛋糕我吃了一半。……」', th('p:heroine_05').slice(-2).join('|')==='明天不行。|好。那蛋糕歸我。'&&H.G.flags.SIS_BDAY_Y3==='missed'&&!OUT.get(H.G,'y3_sis_bday_next')&&!S.bdayCafeDue(Object.assign({},H.G,{zone:'cafe'}))&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。'), JSON.stringify(th('p:heroine_05'))); }
+  { late22(); at('2028-06-03',15.1); phone(); const m=(H.G.msgs||[]).find(x=>x.ask&&x.ask.id==='y3_sis_bday_late');
+    check('AA_337 第 7 節 22:30 那則一直沒回：6/3 15:00 以後不能回（until）、記 missed（暫定：不另外傳）', !!m&&!PHONE.askOpen(H.G,m)&&H.G.flags.SIS_BDAY_Y3==='missed'&&th('p:heroine_05').slice(-1)[0]==='蛋糕留了一半。……明天下午，Café？'); }
+  /* AA_337 第 7 節（AA-C 20:57 改字）：22:30 以後才傳＝隔天 12:10「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」（MSG 不另外加「抱歉，昨天十點半就睡了。」）＋「好。」／「今天不行。」 */
+  const late23=()=>{ fresh('2028-06-02',22.7,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-03',12.2); phone();
+    return (H.G.msgs||[]).find(m=>m.ask&&m.ask.id==='y3_sis_bday_late'); };
+  { const m=late23(), d3=D('2028-06-03');
+    check('AA_337 第 7 節 22:30 以後才傳：6/3 12:10「謝謝。昨天十點半就睡了，剛看到。」「蛋糕還在冰箱。……今天下午三點，Café？」＋「好。」「今天不行。」；沒有「抱歉，昨天十點半就睡了。」',
+      th('p:heroine_05').join('|')==='生日快樂|謝謝。昨天十點半就睡了，剛看到。|蛋糕還在冰箱。……今天下午三點，Café？'&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='好。|今天不行。'&&H.G.flags.SIS_BDAY_Y3==='late_ask'&&H.G.flags.SIS_BDAY_Y3_NEXT===d3, JSON.stringify(th('p:heroine_05')));
+    answer('y3_sis_bday_late',0); phone(); const q=OUT.get(H.G,'y3_sis_bday_next');
+    check('AA_337 第 7 節 22:30 以後才傳「好。」→ 當天 6/3 15:00 兩點半 Café（她不再說「三點。」）', th('p:heroine_05').slice(-1)[0]==='好。'&&!!q&&q.day===d3&&q.h===15&&H.G.flags.SIS_BDAY_Y3==='next_cafe', JSON.stringify(th('p:heroine_05').slice(-2))); }
+  { late23(); answer('y3_sis_bday_late',1); phone();
+    check('AA_337 第 7 節 22:30 以後才傳「今天不行。」→「好。那蛋糕歸我。」記 missed、不排 Café', th('p:heroine_05').slice(-2).join('|')==='今天不行。|好。那蛋糕歸我。'&&H.G.flags.SIS_BDAY_Y3==='missed'&&!OUT.get(H.G,'y3_sis_bday_next')); }
+  /* AA_337 第 7 節：日本路線、和學姊交往中（人在日本、手機是當地時間）＝「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」→ 台灣 18:00（當地 19:00）視訊 */
+  { fresh('2028-06-02',12,'dorm',{},'JP'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone();
+    const t=th('p:heroine_05').join('|'); at('2028-06-02',18.9); const d0=S.bdayVideoDue(H.G); at('2028-06-02',19); const d1=S.bdayVideoDue(H.G), hd=S.homeDue(H.G);
+    check('AA_337 第 7 節 日本路線＋交往中：回「蛋糕我買了。……一個人吃很奇怪。」「你那邊七點吧。視訊，十分鐘。」；不排 Café；當地 18:54 還沒、19:00（台灣 18:00）視訊到期（在家也演）', t==='生日快樂|蛋糕我買了。……一個人吃很奇怪。|你那邊七點吧。視訊，十分鐘。'&&!OUT.get(H.G,'y3_sis_bday')&&!d0&&d1&&hd==='stay'&&H.G.flags.SIS_BDAY_Y3==='video_set', JSON.stringify({t,d0,d1,hd}));
+    await run('ev_sis_birthday_video_y3'); at('2028-06-02',21.5); phone();
+    check('AA_337 第 7 節 日本路線 視訊：旁白「（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）」＋「……你看到了。這樣算一起吃過。」；記 video；21:00 沒有「蛋糕我吃了一半。……」', has('（她把一小塊蛋糕舉到鏡頭前，用叉子切了一口。）')&&has('……你看到了。這樣算一起吃過。')&&H.G.flags.SIS_BDAY_Y3==='video'&&!S.bdayVideoDue(H.G)&&!th('p:heroine_05').includes('蛋糕我吃了一半。另一半在冰箱，明天還算生日。'), JSON.stringify(H.said.map(s=>s.t))); }
+  { fresh('2028-06-02',17.5,'dorm',{},'JP'); H.FRIEND('heroine_05'); date('heroine_05'); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',19); const d1=S.bdayVideoDue(H.G); at('2028-06-02',22.5); phone();
+    check('1B-17 日本路線、17:05 以後才傳（她回的時候視訊的時間已經過了；AA 稿沒寫，暫定）：只回「蛋糕我買了。……一個人吃很奇怪。」、沒有視訊、記 missed', !d1&&th('p:heroine_05').join('|')==='生日快樂|蛋糕我買了。……一個人吃很奇怪。'&&H.G.flags.SIS_BDAY_Y3==='missed', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FRIEND('heroine_05'); date('heroine_05'); ROM.end(H.G,'heroine_05','test'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); MSG.send(H.G,'heroine_05','bday'); at('2028-06-02',12.2); phone();
     check('1B-17 前任：只回「謝謝。」', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['生日快樂','謝謝。'])&&H.G.flags.SIS_BDAY_Y3==='msg', JSON.stringify(th('p:heroine_05'))); }
   { fresh('2028-06-02',12,'dorm'); H.FAMILIAR('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); phone(); const a=bdayTp(); at('2028-06-03',12); const b=bdayTp();

@@ -767,6 +767,14 @@
    "confirmed": false,
    "status": "進行中",
    "wants": "X87"
+  },
+  {
+   "id": "UA-LAWWW-1021-01",
+   "at": "2026-10-21T07:0x",
+   "quote": "繼續",
+   "kind": "原話",
+   "status": "進行中",
+   "wants": "X87"
   }
  ]
 }
