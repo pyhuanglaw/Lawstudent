@@ -8000,7 +8000,7 @@
    "area": "D14",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：game3d.js renderPeople／social3d.js describe：女主角顯示 AA_126 4-1 六階名稱＋進度條（到下一階差哪一種，不顯示數字）、男生朋友只到第 4 階、交往中另外顯示 ｜ SYS-01",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -8233,7 +8233,7 @@
    "area": "SYS",
    "owner": "LAWWW",
    "status": "已整合待測試",
-   "next": "【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】進度條三句 AA 10-21 22:3x 定（企劃線 0b057075）：自在「相處再自在一點」、祐廷的戀愛「你還沒有那樣看她」、第 6 階要先是好朋友「先成為好朋友」；date3d.js PROG_HINT、tests/rel_progress_unit.js 釘住 ｜ 【LAWWW（帳號 A）22:3x】進度條做了（稽核 D：階段有、進度條沒有）：DATE.progress＋人物頁 progHTML——友情往第 4 階、戀愛（七位）往第 5、6 階、第 6 階以後是告白條件（AA_128 3-2）；不顯示數字；三句提示暫代、已問 AA（自在、祐廷的戀愛、先成為好朋友）；tests/rel_progress_unit.js；BB 看人物頁 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：同 D14-T8：人物頁換六階名稱＋進度條（AA_126 4-1） ｜ M 階段對照照 AA_140 3-5：事件條件照用舊 8 階名稱；約會、告白、人物頁另用 AA_126 4-1 公式算 6 階（5＝朋友以上＋她的戀愛≥30；6＝好朋友＋她≥55＋祐廷≥30）；POSSIBLE_ROMANTIC_INTEREST、ROMANTIC_TENSION 不當門檻",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -28109,6 +28109,55 @@
    "source": "LAWWW（帳號 A）2026-10-21 做 AA354 時發現（tests/kxod_unit.js 第 9 項：修改前 pg＝skipped）",
    "authorized": "bug 修正（D85）",
    "next": "【LAWWW（帳號 A）2026-10-21 23:2x UTC】只管大二上開學以前的格子（y2＝Y2S1 第 1 週週一）；AA_373 #1（舊存檔排在大一下暑假的那一格拿掉）照舊。BB：畢業以後交往中的存檔，在 3D 裡走一下再看可昕的格子還在"
+  },
+  {
+   "id": "AA378-Y4S1-FIX-1021",
+   "title": "AA_378 法律系大四上修正稿（企劃線 f2de8d1c）：第 1 節學姊 S1～S5 最優先（S1 美國每週訊息、視訊不輪播＋X0～X5；S2 視訊改臺灣週日 10:00；S3 2/3 便條「同上。」；S4 期末飯跳過已有出遊的晚上；S5 子晴「你們系上那個社團」）；第 2～4 節 15 項（以安生日只在 9/15、語彤週四總圖三樓、交往中期末約會當天 12:00 傳、日本路線 9/4 Café 換版本等）",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v4",
+   "first": {
+    "term": "Y4S1",
+    "week": 0,
+    "earliest": "2028-08-03 學姊落地（臺灣、日本路線）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "企劃線 AA_378（f2de8d1c）；AA（帳號 A）10-21 22:53 訊息；使用者 22:5x「學姊才是真正的女主角」（USER_WANTS C25）",
+   "authorized": "D109 AA 劇情自主；D110",
+   "next": "【LAWWW（帳號 A）2026-10-21 23:3x UTC】先做第 1 節 S1～S4（LAWWW 自己做）；S5 和第 2～4 節等 y3／Y2 子代理交回後一起做（y34b3d.js、termend 有人在改）"
+  },
+  {
+   "id": "SIS-LEAD-1021",
+   "title": "學姊是真正的女主角（使用者 10-21 22:5x 對 AA：「為什麼都只寫可昕　學姊才是真正的女主角!!!!!!」）：AA 做學姊四年＋畢業後總檢查（七位戲份比較、斷層、交往線缺口）、寫補強場景；LAWWW 佇列裡學姊相關項目優先",
+   "owner": "AA",
+   "status": "進行中",
+   "priority": "P1",
+   "area": "v6",
+   "first": {
+    "term": "Y1S1",
+    "week": 0,
+    "earliest": "大一上第一次見到學姊",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "使用者 2026-10-21 22:5x 直接對 AA；AA 22:50 轉 LAWWW（AA_交接紀錄 f032523b）；USER_WANTS C25",
+   "authorized": "D109（AA 劇情自主）；其他女主角的路線、結局不動（使用者的決定）",
+   "next": "AA：總檢查交 LAWWW；LAWWW：AA378-Y4S1-FIX-1021 第 1 節先做；之後學姊的補強場景交件就排最前；下次檢查 10-22",
+   "xai": {
+    "spec": "使用者 10-21 22:5x 原話；AA_378 第 1 節",
+    "branch": "claude/story-planning",
+    "acceptance": "學姊四年＋畢業後總檢查交件、補強場景交 LAWWW",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   }
   }
  ]
 }

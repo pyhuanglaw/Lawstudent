@@ -41,8 +41,8 @@ const DATE=(function(){
     if(fr>=4&&n(r.npcRom)>=55&&n(r.rom)>=30) return 6; if(fr>=3&&n(r.npcRom)>=30) return 5; return fr; };
 
   /* 人物頁的進度條（D36；AA_126 4-1、AA_128 3-2）：友情（往第 4 階好朋友）、戀愛（七位，往第 5、6 階；第 6 階以後是告白的條件），不顯示數字，
-     下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 有三句是暫代（自在、祐廷的戀愛、先成為好朋友：等 AA 給字）*/
-  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你這邊還沒想清楚',close:'先成為好朋友',
+     下面一句寫還差哪一種。交往中＝{dating:true}（人物頁只寫「交往中」）；男生朋友只有友情那一條。PROG_HINT 的自在、祐廷的戀愛、先成為好朋友三句：AA 10-21 22:3x 定（企劃線 0b057075，AA_126 4-1；「你還沒有那樣看她」和「她還沒有那樣看你」對著寫）*/
+  S.PROG_HINT={fam:'再熟一點',trust:'再多信任一點',comf:'相處再自在一點',npcRom:'她還沒有那樣看你',rom:'你還沒有那樣看她',close:'先成為好朋友',
     count:'再多一些兩個人出去的時間',wishUnknown:'她好像有一個很想去的地方',wishPlace:'她提過想去{place}'};
   S.progress=function(G,id){ if(typeof SOCIAL==='undefined'||!SOCIAL.rel) return null; const F=(G&&G.flags)||{}; if(F['dating_'+id]) return {dating:true};
     const r=SOCIAL.rel(id), n=v=>+v||0, v={fam:n(r.fam),trust:n(r.trust),comf:n(r.comf),npcRom:n(r.npcRom),rom:n(r.rom)};
