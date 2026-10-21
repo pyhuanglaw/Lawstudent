@@ -27,7 +27,7 @@
    "origin/claude/cool-heisenberg-o8kuqx",
    "origin/claude/elegant-brown-fcos7n"
   ],
-  "updated": "2026-10-17 02:4x UTC LAWWW-B 交班",
+  "updated": "2026-10-21T15:5xZ LAWWW（帳號 A）接班：roles 36 項（AA-C 交接）——子項／規則版本／使用者要求編號寫進 reconcileIgnore，C 節【表外】10 項對到 20 個既有任務（offList）",
   "note": "機器讀的任務索引；docs/HANDOFF_GAP_MATRIX.md 是閱讀版，兩邊的 ID 要一致（check_handoff.py 會比對）",
   "aaRef": "企劃線 docs/story_planning/AA_140_v0到v6_交付實作驗收對照表.md：第 0 節＝戀愛現行規則；第 3 節＝企劃缺漏 G01～；本檔管施工與測試，兩邊互指",
   "firstSource": "AA_146（9d994120）＋AA_146 第 1b 節 13 項對齊（510eea1c，人物事件照 BB-B）",
@@ -64,7 +64,42 @@
    "SIS-176": "學姊家聚事件編號（SIS 系列子項，LAWWW 1a52e81c 已做）",
    "Y2-L7": "閒聊階梯層編號（語彤 Y2，SYS-15 子項）",
    "Y8-L0": "閒聊階梯層編號（語彤大四下，SYS-15 子項）",
-   "BUG-E37-TOLAW": "＝BUG-E37-TOLAW-1018（BB 交接檔的簡寫）"
+   "BUG-E37-TOLAW": "＝BUG-E37-TOLAW-1018（BB 交接檔的簡寫）",
+   "AB65-1": "AB-65 的子項編號（AB-65 任務；AA-C 交接 A 節：AB65-1、3、4、6 已交）",
+   "C-1": "AA-C 交接「人物事件、感情線」段落的子項編號：分開談話（EVPKG-AA346-APART）",
+   "C-4": "AA-C 交接「寒暑假」段落的子項編號：所在地的漏洞（HOLIDAY-PRESENCE-1021）",
+   "F-K1": "AA_347 補空白的子項編號：阿凱的國界 KAI_TAPE（AA347-Y1-COVER-1021）",
+   "CG-16": "CG 編號（BB 判斷的可選 CG；CG 由 BB 跟使用者要、LAWWW 接，D100）",
+   "BB-LOGIC-13": "BB 的邏輯檢查編號（BB_194；使用者 10-17 已回覆、記在 UA-AA-1017-38～41；STORY-AUDIT-1017）",
+   "HV-17": "規則版本編號（AI_SESSION_HANDOFF 第 13 節），不是任務",
+   "HV-18": "規則版本編號（AI_SESSION_HANDOFF 第 13 節），不是任務",
+   "UA-AA-1017-38": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1017-39": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1017-40": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1017-41": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1018-03": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1020-31": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-AA-1021-37": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "UA-LAWWW-1021-02": "使用者要求編號（在 docs/handoff/user_asks_<職位>.json，用 check_handoff.py asks 核對；10-21 LAWWW（帳號 A）接班時逐一確認都在），不是任務",
+   "J-S1": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S2": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S3": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S4": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S5": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S6": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S7": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S8": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S9": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S10": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S11": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S12": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S13": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S14": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S15": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S16": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S17": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S18": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）",
+   "J-S19": "AA_341 日本路線大三下逐週盤點的補稿子項編號（JP-SEM-AA341-1020 的子項）"
   },
   "offList": [
    {
@@ -116,6 +151,106 @@
     "role": "LAWWW2",
     "match": "ART-GG-SIGNS-2",
     "task": "ART-GG-SIGNS-2"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "EVPKG-AA346-APART"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA347-Y1-COVER-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "EVPKG-1020"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "HOLIDAY-PRESENCE-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA348-ECON-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA296-PHONE-LIVE-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA350-ANSWERS-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA351-KX-DRIFT-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA352-GF-TABLE-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA353-PG-CARD-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA354-KX-OURDAYS-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA355-WAITS-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA356-DEBTS-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "Y5-DELAY-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA358-KNOW-FIX-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "DATE-OVERNIGHT-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA-VAC-C16-C18-Q-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "STORY-AUDIT-1017"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "AA283-PARK-1021"
+   },
+   {
+    "role": "AA",
+    "match": "C.【表外】沒有對應任務",
+    "task": "JP-ROOM-3D-1021"
    }
   ]
  },
