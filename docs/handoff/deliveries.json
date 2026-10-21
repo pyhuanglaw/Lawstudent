@@ -12632,6 +12632,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg、OUT.BG 登記；camp_y1.js 兩處早就是 bg:'tour_bus'；bg_images_unit 2i（改之前 FAIL）、6 改成四張都到了；legal_aid_office 還沒交"
+  },
+  {
+   "id": "DL-AA-ff6f5923",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "ff6f5923",
+   "what": "AA_360 STORY-AUDIT-1017 逐條回覆（BB-LOGIC-13～18）：使用者 10-17 已回的四題漏登（補 UA-AA-1017-38～41）；13 子晴 Q12 她自己決定、14 學姊考試前後（2-1、2-2）、15 第②級三處、16 子晴 Q4、17／18 殘句",
+   "task": "STORY-AUDIT-1017",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 13:5x：USER_WANTS X95；派子代理照第 6 節做"
   }
  ],
  "ignored": [

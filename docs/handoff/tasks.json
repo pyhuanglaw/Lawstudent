@@ -26051,9 +26051,9 @@
   {
    "id": "STORY-AUDIT-1017",
    "title": "全劇情合理性與人物真實感審查的後續（使用者 10-17 P0；AA_219 第一批報告已標歷史，處理見 AA_224、AA_225、AA_227、AA_230、AA_218 17-12a）：BB_190 第四節 BB-LOGIC-13～18（女主角人生是否圍繞祐廷、低潮→陪伴→轉變→告白模板）指的既有事件（Q8、Q12、Q15、筆試前一晚、Z13、沛珊的教學）還沒改",
-   "owner": "AA",
+   "owner": "LAWWW",
    "status": "待開工",
-   "priority": "P2",
+   "priority": "P1",
    "source": "使用者 10-17 P0「全劇情合理性與人物真實感審查」；AA_219（企劃線）；BB_190 第四節（BB 分支 df8fc8df，BB outbox 第 37 筆）；INCR-CLEANUP-1021 子代理建議",
    "first": {
     "term": "Y1S1",
@@ -26070,9 +26070,9 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 逐條回：已處理（寫處理檔、節）／要改（出定稿交 LAWWW）／作廢（寫原因）；13、14、16、18 BB 寫「待使用者」的，先查有沒有已定案",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】開任務、送 AA-C；AA 回了再照定稿排進事件包"
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】AA 回了 AA_360（企劃線 ff6f5923；USER_WANTS X95）：使用者 10-17 已回的四題漏登四天。要改：13 y34b3d.js S.zqGame 一律 nine（不看 Q10／PLAYTESTED），日本路線電話照現在固定版，AA_341 J-S18 作廢；14 2-1 拿掉 1/26 學姊私訊→1/24～1/27 晚上離開總圖時演（SIS_STUDY，一次；「學弟。你怎麼在這裡。」、前面兩行旁白、選項 c「我陪妳走到捷運站。」、寒假快轉不為她停），2/2、2/3 前置放寬 SIS_STUDY||SIS_PREEXAM_NIGHT，2-2 計畫本第一頁她自己寫（兩行旁白＋三個反應選項，數值照舊）；15（第②級）沛珊尾聲 mirror 換新句、q15Ready 的 TOLD_HER_CHANGE 不必要、芷若 Z7 家裡版換三句（BB_167 E1）；16 子晴 Q4 只留第 8 週、錯過第 9～11 週第一次說話多一句（CONTEST_HEARD）；17、18 只剩 confess_lines.js 過時註解。第 6 節有總表、舊存檔、測試 → 派子代理"
   },
   {
    "id": "AA-Q-1021-PG",
