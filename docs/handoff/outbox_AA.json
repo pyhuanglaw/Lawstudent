@@ -1118,7 +1118,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "a48fe1b7",
    "files": [
     "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md"
    ],
