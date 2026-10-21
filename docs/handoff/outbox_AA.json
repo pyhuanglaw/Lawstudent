@@ -1228,7 +1228,7 @@
   {
    "task": "SIS-LEAD-1021（AA379-SIS-W1-LIB-1021）",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "e865aa5f",
    "files": [
     "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"
    ],
