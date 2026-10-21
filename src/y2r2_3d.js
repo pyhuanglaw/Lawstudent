@@ -283,7 +283,7 @@ const Y2R2=(function(){
       {if:{custom:G=>knows('yu',G)&&!!G.flags.Y2_BALL_SEEN},speaker:null,text:'（小語的加油板換了一面：「17 號，可以犯規一次。」）'},
       {if:{custom:G=>knows('yu',G)&&!G.flags.Y2_BALL_SEEN},speaker:null,text:'（小語坐在你旁邊，舉著一塊加油板。）'},
       {if:KN('heroine_01'),speaker:null,text:'（以安坐在最後一排，膝蓋上攤著讀書會的講義。）'},
-      {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'大二下的系籃：你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'大二下的系籃：你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'大二下的系籃：你送水'}]},goto:'water'}]},
+      {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你送水'}]},goto:'water'}]},
       {label:'clap'},{if:KN('heroine_01'),speaker:null,text:'（你拍手。旁邊的以安看了你一眼，也跟著拍了兩下，拍得很整齊。）'},{unless:KN('heroine_01'),speaker:null,text:'（你拍到手掌發紅。）'},{goto:'end'},
       {label:'score'},{speaker:null,text:'（你坐到記分台。最後一節，只差一分。）'},{speaker:'classmate_mingxuan',text:'（跑過記分台）「你翻慢一點，我緊張。」'},{goto:'end'},
       {label:'water'},{speaker:null,text:'（中場你把水搬到場邊。阿哲拿了一瓶，自己先喝。）'},{speaker:'classmate_mingxuan',text:'「……我的呢？」'},
@@ -468,7 +468,7 @@ const Y2R2=(function(){
       {speaker:null,text:'（打烊後，她遞給你一碗麵。）'},
       {speaker:'heroine_03',expression:'neutral',text:'……你洗得很爛。'},
       {speaker:'heroine_03',expression:'smile',text:'下次不用幫我。陪我吃麵就好。'},
-      {set:{YT_EV11:'dishes'}},{mem:[{npc:'heroine_03',tag:'APOLOGIZED',note:'語彤事件 11：洗了兩個小時的碗'}]} ],
+      {set:{YT_EV11:'dishes'}},{mem:[{npc:'heroine_03',tag:'APOLOGIZED',note:'洗了兩個小時的碗'}]} ],
     after:G=>{ G.flags.YT_EV11_SEEN=G.day; } });
 
   /* ==================== 手機規則（STORY.PHONE_RULES）==================== */
