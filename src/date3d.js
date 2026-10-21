@@ -153,7 +153,7 @@ const DATE=(function(){
   S.prefOf=(id,locId)=>(((LN().prefs||{})[id]||{})[locId]||{}).transport||null;   /* 她指定的交通（DATE_PREFS）：預約時預設選她的，玩家改了她說一句（不扣分）*/
   /* 玩家約她（手機或當面；入口在 INV.flow 的地點清單「去校外…」）*/
   S.menu=async function(GM,id,n){ const G=GM.G; S.rec(G); const ca=S.canAsk(G,id); if(!ca.ok){ await GM.say(null,ca.why+'。'); return null; }
-    if(id==='heroine_05'&&typeof SISG!=='undefined'&&SISG.dateDecline&&SISG.dateDecline(G)){ await SISG.dateNo(GM,n); return null; }   /* 學姊：大一上第 10 週起到筆試婉拒校外約會「等我考完。」（AA_284 2-1；src/sis_grad3d.js）*/
+    if(id==='heroine_05'&&typeof SISG!=='undefined'&&SISG.dateDecline&&SISG.dateDecline(G)){ await SISG.dateNo(GM,n); return null; }   /* 學姊：大一上第 10 週起到筆試婉拒校外約會：第 10～13 週「等我考完。」、第 14 週～筆試「校外的話，等我考完。……考完我想去很遠的地方。」（AA_284 2-1、AA_339 第 4 題；句子在 src/sis_grad3d.js 的 SISG.DATE_NO）*/
     const locs=Object.keys(D().locations).filter(k=>S.listable(k)&&S.kindAt(k,10)); if(!locs.length){ await GM.say(null,'（還沒有可以約的校外地點。）'); return null; }
     for(;;){ const lo=locs.map(k=>{ const L=S.loc(k), tr=S.travel(k); return {t:L.name,hint:L.area+(tr?'　'+tr.label+' 約 '+tr.minutes+' 分':'')}; }); lo.push({t:'算了'});
       const li=await GM.choose(lo); if(li>=locs.length) return null; const loc=locs[li], L=S.loc(loc); let mode=((L.transport||[])[0]||{}).mode;

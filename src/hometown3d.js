@@ -35,15 +35,16 @@ const HV=(function(){
   const play=async(GM,id,arr)=>{ const G=GM.G, me={name:nm(id),charId:id}; for(const x of arr||[]){ if(typeof x==='string') await GM.say(me,sub(G,x)); else if(x.narr) await GM.say(null,x.narr); } };
   const place=async(GM,P)=>{ if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark'); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',P.scene); if(GM.caption) GM.caption('',P.scene,2400); if(GM.sleep) await GM.sleep(700); };
   const toEvening=GM=>{ const G=GM.G; if(G.hour<17) GM.advance(17-G.hour); };   /* 傍晚送上車：17:00；回程的車程是事件的 hours */
+  const beforeSend=async(GM,q)=>{ if(typeof OUT!=='undefined'&&OUT.runAfter) await OUT.runAfter(GM,q,null); };   /* 出遊的結尾、分開以前（OUT.AFTER；例：AA_338 第 3 題打賭的宵夜那句）＝送上車以前 */
   S.pickVariant=function(G,id,keep){ const C=L(id); if(keep) return 'keep'; const N=G.flags.HV_N||(G.flags.HV_N={}), n=N[id]|0; return n===0?'first':C.again[(n-1)%C.again.length].key; };
   S.play=async function(GM,q){ const G=GM.G, hv=q&&q.hv, id=hv&&hv.id, C=L(id); if(!C) return false; const dt=dating(G,id), v=S.pickVariant(G,id,hv.keep&&!!C.keep);
     if(C.fare&&GM.money) GM.money(-C.fare,'交通');   /* 高鐵來回（出發的時候付）*/
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg((v==='keep'?C.keep.pick:C.pick).bg):'dark'});
-    if(v==='keep'){ await play(GM,id,C.keep.pick.lines); await place(GM,C.keep.place); await play(GM,id,C.keep.place.lines); toEvening(GM); await play(GM,id,C.keep.send); G.flags.HV_KEEP_LAST=G.day; return true; }
+    if(v==='keep'){ await play(GM,id,C.keep.pick.lines); await place(GM,C.keep.place); await play(GM,id,C.keep.place.lines); toEvening(GM); await beforeSend(GM,q); await play(GM,id,C.keep.send); G.flags.HV_KEEP_LAST=G.day; return true; }
     await play(GM,id,(v!=='first'&&C.pickAgain?C.pickAgain:C.pick).lines);   /* 第二次以後的接人換句（第 7 節第 1 點）*/
     const P=v==='first'?C.first:C.again.find(a=>a.key===v); await place(GM,P); await play(GM,id,P.lines); if(dt&&P.dating) await play(GM,id,P.dating);
     const O=(P.opts||[]).filter(o=>!o.dating||dt); if(O.length){ const k=await GM.choose(O.map(o=>({t:'「'+o.t+'」'}))); await GM.say({name:G.name||'祐廷'},O[k].t); await play(GM,id,O[k].say); }
-    toEvening(GM); if(C.send.narr) await GM.say(null,C.send.narr); await play(GM,id,dt?C.send.dating:C.send.other);
+    toEvening(GM); await beforeSend(GM,q); if(C.send.narr) await GM.say(null,C.send.narr); await play(GM,id,dt?C.send.dating:C.send.other);
     const N=G.flags.HV_N||(G.flags.HV_N={}); N[id]=(N[id]|0)+1; (G.flags.HV_LAST||(G.flags.HV_LAST={}))[id]=G.day; return true; };
   return S;
 })();
