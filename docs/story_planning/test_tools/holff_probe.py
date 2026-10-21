@@ -38,8 +38,8 @@ async def step(pg, cdp, run, stops, tag):
             if any(c.startswith('快轉') for c in cs):
                 await tap_choice(pg, cdp, '快轉'); continue
             sn = await pg.evaluate(SNAP); stops.append({'at': sn['key'] + ' %.2f' % sn['h'], 'what': '選項：' + ' / '.join(x[:16] for x in cs)})
-            say('   ▶ %s %.2f 選項 %s → 選第一個' % (sn['key'], sn['h'], [x[:18] for x in cs]))
-            c = await pg.evaluate("(()=>{ const e=document.querySelector('#choices button'); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
+            say('   ▶ %s %.2f 選項 %s → 選睡到明天早上／傍晚／第一個' % (sn['key'], sn['h'], [x[:18] for x in cs]))
+            c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; const e=bs.find(b=>b.textContent.trim().startsWith('睡到明天早上'))||bs.find(b=>b.textContent.trim().startsWith('睡到傍晚'))||bs.find(b=>b.textContent.trim().startsWith('睡覺'))||bs.find(b=>!/存檔/.test(b.textContent))||bs[0]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })()")
             await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(400); continue
         if s['busy']: await pg.wait_for_timeout(700); continue
@@ -49,10 +49,13 @@ async def step(pg, cdp, run, stops, tag):
 async def press_bed(pg, cdp, run):
     bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not bed: return False
+    await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(600)
     if not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): return False
     for k in range(4):
+        await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(600)
         await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
-        if (await L.state(pg))['choices']: return True
+        st = await L.state(pg)
+        if st['choices'] or st['dlg'] or st['busy']: return True   # 除夕 17:00 以後按床＝直接回家吃年夜飯（5c637033），不出床的選單
     return False
 async def main():
     run = L.Run('holff', OUT); base = json.load(open(SAVE, encoding='utf-8')); allres = {}
@@ -88,6 +91,7 @@ async def main():
                     stops.append({'at': sn2['key'] + ' %.2f' % sn2['h'], 'what': ('家' if sn2['home'] else sn2['zone']), 'lines': lg[:6]})
                     say('   ⏩ 停在 %s %.2f %s｜右上角「%s」｜台詞 %s' % (sn2['key'], sn2['h'], '臺北的家' if sn2['home'] else sn2['zone'], sn2['hud'], json.dumps(lg[:4], ensure_ascii=False)))
                     if i % 4 == 0: await run.shot(pg, '%s_%02d' % (bk, i))
+                    await pg.wait_for_timeout(int(os.environ.get('TICKWAIT', '40000')))   # 等 S.tick 跑一次（實機約 0.5 秒；SwiftShader 約 35 秒），停點上該演的（例：除夕 17:00 回家）才有機會演
                     continue
                 if r == 'idle':
                     if sn['home']:
