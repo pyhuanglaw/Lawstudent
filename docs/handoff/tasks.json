@@ -25690,7 +25690,7 @@
    "id": "VAC-C16-C18-1021",
    "title": "寒暑假第二批活動 C16 法扶實習、C17 律所暑期實習、C18 海外見習團（報名、門檻、不能報的期間、四到六場、新 NPC、旗標、沒錄取）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "企劃線 AA_199 第 7-7 節（7915ac9d）＋AA_242 第 9～11 節（ede67b34）；AA-C 10-21 12:10 訊息",
    "first": {
@@ -25703,7 +25703,8 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:5x UTC】v9.10.3 發布前測試跑完（CPU 空出來）派子代理照 vac_activities.js 現有寫法實作；C17 門檻要 C04 托福／多益；交換重疊、日本路線大三暑假 8/5 回台、美國路線大三暑假排不下 C17、大四下以後沒有"
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】子代理 ecbf3328 實作、合併 b57717dd：C16／C17／C18／C18W 四張卡（AA_242 逐字）、平日 9:00 上班（S.work*，有關鍵事件那天才演）、C17 要 C04 成績（S.gate）、申請表／面試只算當次、沒錄取信、交換與人在國外擋報名、C17 津貼 196×8×天數、可昕視訊、旗標 INTERN_LEGALAID／INTERN_FIRM／STUDYTOUR_SG；tests/vac_c16_c18_unit.js 91 項（舊程式 70 項失敗）＋vac／holiday_ff／law_break／exch_min／jp_semester／termend 等相關單元全過。沒做：非關鍵上班日日誌句、第二次參加內容、平日白天實習和約會不互斥、C16 午餐不扣錢 → 等 AA（AA-VAC-C16-C18-Q-1021）；7 張背景深色底 → BB（BG-VAC-C16-C18-1021）；瀏覽器驗收 → BB（BB-TEST-VAC-C16-C18-1021）",
+   "sha": "b57717dd"
   },
   {
    "id": "GYM-GLOW-COPLANAR-1021",
@@ -25937,6 +25938,110 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 13:2x UTC】和 AA351-KX-DRIFT-1021、AA354-KX-OURDAYS-1021、V6-S5 同一批（都讀 ROM.knowsOf、裂縫計數）派子代理；先做明確曖昧（3-2、4-2、6-2）和發現（3-4、4-4、5-2、6-4…），挽回第二批；YT 旗標機制已有（1b85137e），選項標 yt"
+  },
+  {
+   "id": "BG-3DSHOT-1021",
+   "title": "有 3D 的地方，2D 背景附遊戲截圖當構圖參考：us_club_lawn、cafe_window、cafe_closed、gym_court、wancai_lobby 重新出提示詞（附截圖）向使用者要圖",
+   "owner": "BB",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "使用者 10-21 對 BB-C（BB-C 訊息轉述）；USER_WANTS X93",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系、法律系各處 3D 場景的 2D 背景（咖啡廳、萬才館大廳、體育館、美國社區會所草地）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "使用者 10-21 指示（BB-C 轉述）＋D97 提示詞規則",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "每張提示詞附同位置的遊戲截圖；使用者給圖後 LAWWW 接進 OUT.BG／場景",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:2x UTC】BB 截圖＋出提示詞向使用者要；收到圖 LAWWW 接"
+  },
+  {
+   "id": "AA-VAC-C16-C18-Q-1021",
+   "title": "C16～C18 實作留下的 AA 裁定 7 項＋缺字 5 項（語彤 C16 哪一年、C18W 大一寒假開不開、面試／結果／說明會日期、C16 名額機制、C17 第二次免面試、沒錄取信寄信人、津貼金額；非關鍵日日誌句、第二次以後日誌句、寒假團沒錄取阿哲句、C18 說明會台詞、思穎回國訊息）",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒假（C18W）／大二暑假（C16、C17）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "AA_199 7-7、AA_242 第 9～11 節；子代理暫排值見 vac_activities.js C16／C17／C18／C18W",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 回覆 7 項裁定（照暫排或改哪個值）＋5 項缺字的定稿與 commit",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】已送 AA-C；收到改 vac_activities.js 資料（都是改資料，不動機制）"
+  },
+  {
+   "id": "BG-VAC-C16-C18-1021",
+   "title": "C16～C18 七張 2D 背景（legal_aid_office、law_firm_office、law_firm_meeting、court_gallery、intl_sg_court、intl_sg_campus、intl_sg_hawker）向使用者要圖",
+   "owner": "BB",
+   "status": "等待其他AI／素材",
+   "priority": "P2",
+   "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒假 C18W 新加坡見習團",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "D97 純場景提示詞一次四份；遊戲裡有 3D 的地方附截圖（X93）——這七張都是遊戲裡沒有 3D 的地方",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "webp 交 LAWWW 接進 OUT.BG／vac 卡的 bg",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】已送 BB-C；現在演出是深色底"
+  },
+  {
+   "id": "BB-TEST-VAC-C16-C18-1021",
+   "title": "瀏覽器驗收 C16 法扶實習、C17 律所暑期實習、C18／C18W 海外見習團（子代理回報附步驟）",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
+   "first": {
+    "term": "Y1S2",
+    "week": 18,
+    "earliest": "大一寒假 C18W",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "LAWWW-C 訊息附的驗收步驟（公告→報名→申請表／面試→錄取→平日上班→關鍵場→津貼）",
+    "branch": "claude/wonderful-mayer-7fm9g6",
+    "acceptance": "BB_300 格式回報，跳日期用存檔／playlib 並標【前置／捷徑】",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   },
+   "next": "【LAWWW-C 2026-10-21 13:4x UTC】v9.10.3 驗收以後排"
   }
  ]
 }

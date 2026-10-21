@@ -14,7 +14,7 @@ const CAMP_Y1_EVENTS=[
     dialogue:[ {scene:'臺大校門口',bg:'dark'},
       {speaker:null,text:'放榜以後，系學會建了一個新生群組。宿營的通知是一個禮拜前貼的，新生都要去。'},
       {speaker:null,text:'（早上八點半，校門口停了兩台遊覽車。小隊名單前一天晚上貼出來了，你那一隊有七個人。）'},
-      {scene:'遊覽車上',bg:'car'},
+      {scene:'遊覽車上',bg:'tour_bus'},
       {choice:[{text:'坐阿哲旁邊',goto:'zhe'},{text:'坐明軒旁邊',goto:'mx'},{text:'自己坐窗邊',goto:'win'}]},
       {label:'zhe'},
       {speaker:'zhe',text:'欸，你也法律系的？'},
@@ -302,7 +302,7 @@ const CAMP_Y1_EVENTS=[
   { id:'ev_camp_d3_end', stage:'any', title:'迎新宿營：結業式', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地的空地',bg:'camp_yard_day'},
       {speaker:null,text:'（結業式很短。系學會會長說了一句「開學見」，大家就去搬行李了。）'},
-      {scene:'遊覽車上',bg:'car'},
+      {scene:'遊覽車上',bg:'tour_bus'},
       {speaker:null,text:'（回程的車上，大部分的人都睡著了。阿哲睡得最早。）'},
       {advance:2},{scene:'臺大校門口',bg:'dark'},   /* 10:30 結業式 → 12:30 回到校門（6-14 程式 4）*/
       {speaker:null,text:'（十二點半，遊覽車停在校門口。大家拖著行李，往不同的方向走。）'},

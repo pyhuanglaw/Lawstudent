@@ -9,6 +9,9 @@
      keys：關鍵事件 [{day:'MM-DD', h, place, bg, lines:[…], choice}]（其他日子寫進日誌）、
      trip：連續好幾天人不在（整段當一趟出遊：出發 → 中間的關鍵事件 → 回來）、
      miss：沒參加的那一則（時間、誰、訊息）。
+   第二批（C16～C18，AA_242 第 9～11 節 ede67b34）多的欄位：work（連續數週的平日上班：{h0,h1,travel,travelH}，每個平日一趟）、pay（實習津貼：{hourly,hours}，照去了的天數）、
+     gate（報名的門檻：engScore＝要有英文檢定成績，narr＝沒有的那句旁白）、select.needI／pre[].setI（這一次報名自己的「寫了申請表」「去了面試」，不跨年份）、
+     select.fam（錄取時家人群組換的句子）、select.reject（沒錄取的通知：sys 換的信、noGroup＝不傳阿哲那句）、blockPre（面試那天人在國外也不能報）、kx（交往中的可昕那一場）。
    行的寫法同 termend_lines.js：字串＝說話的人；{narr:'（…）'}＝旁白；{who, text}＝別人說；choice＝[{t, say:[行…], set:{旗標}, rel:{id:{…}}}]。 */
 const VAC_DATA=(function(){
   const Y=G=>G&&G.flags||{};
@@ -27,6 +30,49 @@ const VAC_DATA=(function(){
     {day:dm,h:19,title:'模擬考',bg:'cram_class',lines:[{narr:'第一次模擬考。聽力的速度比你想的快很多。'}]},
     {day:dt,h:19,title:'累到不行的一天',bg:null,lines:[G=>({narr:typeof HOME!=='undefined'&&HOME.rec&&HOME.rec(G).at?'回到家，單字本攤在胸口就睡著了。':'補完習回宿舍，單字本攤在胸口就睡著了。'})]},   /* 住家裡的玩家換一句 */
     {day:de,h:9,title:'正式考試',bg:null,place:'考場（別的學校）',travel:'捷運約 30 分鐘',travelH:0.5,lines:[{narr:'考場在別的學校。你提早半小時到，還是找了一下教室。'}]} ];
+  /* ===== 第二批（AA_199 7-7 7915ac9d；台詞 AA_242 第 9～11 節 ede67b34 照抄；AA-C 10-21 12:10；任務 VAC-C16-C18-1021）：C16 法扶實習、C17 律所暑期實習、C18 海外見習團 =====
+     單位、團名、事務所、新 NPC（韓律師、馮律師、團長姚思穎、同期的實習生、面試的律師、帶隊老師、當地學生）全部虛構，不做 3D、不取名的照稿寫職稱；不寫真實案件、不給法律意見（台詞只寫看得到的）。
+     C16、C17 是「連續數週、平日白天」（AA_199 3-4、7-7「平日白天不行，晚上、週末可以」）：work＝每個平日 h0～h1 是一趟上班（OUT 出遊，src/vac3d.js S.workDay），
+       關鍵事件在它那一天的那個時間演，其他平日只過時間（日誌的句子 AA 還沒寫：不寫字）；晚上、週末照常。
+     日子照 7-7 的模板換算（16 週制，暑假從第 16 週後的週一算第 1 週）：C16＝暑假第 2 週起兩週（週一～五）、C17＝暑假第 2 週起 8 週、C18 暑假團＝暑假第 6 週起 9 天、寒假團＝寒假第 2 週起 7 天。
+     關鍵事件的日子 AA 只寫到「第一週週四」「第二週」「第四週」：LAWWW 暫排——C16 第一天（週一 9:00）、陪同晤談（第一週週四 14:00）、整理卷宗（第二週週二 15:00）、最後一天（第二週週五 17:00）；
+       C17 第一天（週一 9:00）、第一次被改（第一週週五 17:00）、跟開庭（第四週週三 11:00）、最後一天（第八週週五 17:00）；C18 參訪法院（第二天 10:00）、座談（第四天 14:00）、最後一晚（回來前一天 20:00）。 */
+  const HAN=t=>({who:'npc_lawyer_han',name:'韓律師',text:t}), FENG=t=>({who:'npc_lawyer_feng',name:'馮律師',text:t}), SY=t=>({who:'npc_siying',name:'思穎',text:t});
+  const LAW=t=>({who:'npc_firm_lawyer',name:'律師',text:t}), SGT=t=>({who:'npc_sg_teacher',name:'帶隊老師',text:t});
+  const YT_KNOWN=G=>typeof STORY!=='undefined'&&STORY.knows?STORY.knows('heroine_03',G):!!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_03','FIRST_MET'));   /* 「你認識的名字」：認識語彤才有她那幾句 */
+  /* C16 四場（AA_242 9-3～9-6）；yt＝語彤那年也報了（9-3、9-6「語彤也報了／也在的」）*/
+  const C16_KEYS=([d1,d2,d3,d4],yt)=>{ const YT=G=>!!yt&&YT_KNOWN(G); return [
+    {day:d1,h:9,title:'第一天',bg:'legal_aid_office',lines:[{narr:'（櫃台後面一整排檔案櫃。帶實習的韓律師三十出頭，桌上三個馬克杯，兩個是空的。）'},HAN('先簽這個。保密約定。'),HAN('在這裡聽到的事，就留在這裡。')],
+      choice:[{t:'「好。」',say:[HAN('卷宗在那邊，從最上面那疊開始。')]},{t:'「連家人也不能講？」',say:[HAN('不能。你可以跟他們說，今天很累。')]}],
+      after:[G=>YT(G)?[{narr:'（同期的名單上有一個你認識的名字。她坐在你斜對面，抬頭看了你一眼。）'},{who:'heroine_03',text:'……你也來了。'}]:null]},
+    {day:d2,h:14,title:'陪同晤談',bg:'legal_aid_office',lines:[{narr:'（會議室很小。當事人是一位中年的女士，手上一直捏著一張收據。）'},{narr:'（韓律師問，你記。她講到一半停下來，看了你一眼。）'},HAN('他是實習生，在做筆記。妳慢慢講。'),
+      {narr:'（你把她說的每一個日期都寫下來。走出會議室，筆記寫了四頁。）'},HAN('日期寫得很好。她講到一半停下來的時候，你不用抬頭。')]},   /* 沒有選項（9-4）*/
+    {day:d3,h:15,title:'整理卷宗',bg:'legal_aid_office',lines:[{narr:'（影印機第三次卡紙。同期的實習生把手伸進去，拉出一張皺掉的紙。）'},{who:'npc_intern',name:'實習生',text:'這台每年都這樣吧。'},
+      {narr:'（韓律師經過，拿走你整理好的那疊，翻了兩頁，放回來，沒有說話。）'},{narr:'（隔天早上，那疊最上面貼了一張便利貼：「OK」。）'}]},
+    {day:d4,h:17,title:'最後一天',bg:'legal_aid_office',lines:[HAN('兩個禮拜，你最常看到的是什麼？')],
+      choice:[{t:'「收據。」',say:[HAN('對。大家都把收據留得很好。……常常留錯張。')]},{t:'「不太確定。」',say:[HAN('那就明年再來看一次。')]}],
+      after:[{narr:'（她把你的筆記還給你，旁邊有幾行她用鉛筆補的字。）'},G=>YT(G)?[{narr:'（走出大樓，語彤停下來。）'},{who:'heroine_03',text:'我明年還要來。'}]:null],
+      set:{INTERN_LEGALAID:true}} ]; };   /* INTERN_LEGALAID：BB_202 職涯傾向 A＋5 只記錄（STORY.careerLean 讀 C16 去過的次數）*/
+  /* C17 四場（AA_242 10-3～10-6）；面試 10-2 在 pre */
+  const C17_KEYS=([d1,d2,d3,d4])=>[
+    {day:d1,h:9,title:'第一天',bg:'law_firm_office',lines:[{narr:'（一張門禁卡、一個靠走道的位子、一台筆電，還有一份資料夾：研究備忘錄，週五交。）'},FENG('題目不難，你先查。'),FENG('查不到的地方寫「查不到」，不要猜。')]},
+    {day:d2,h:17,title:'第一次被改',bg:'law_firm_office',lines:[{narr:'（備忘錄發回來，紅字比黑字多。第一頁最上面寫著：「結論放第一段。」）'}],
+      choice:[{t:'「好，我重寫。」',say:[FENG('週一給我。')]},{t:'「每一頁都要改嗎？」',say:[FENG('第三頁不用。第三頁是對的。')]}]},
+    {day:d3,h:11,title:'跟開庭',place:'法院（旁聽席）',bg:'court_gallery',lines:[{narr:'（旁聽席第二排。馮律師在前面講話，比在辦公室慢很多。）'},{narr:'（散庭以後，電梯裡。）'},FENG('剛剛法官問到一半，停了五秒。你有注意到嗎？')],
+      choice:[{t:'「有。你那時候沒講話。」',say:[FENG('對。那五秒不要講話。')]},{t:'「沒有。」',say:[FENG('下次看一下。')]}]},   /* 法庭裡講了什麼不寫（10-5）*/
+    {day:d4,h:17,title:'最後一天',bg:'law_firm_office',lines:[FENG('後來那幾份備忘錄，結論都放第一段了。'),FENG('明年想再來，直接寄信給我。')],set:{INTERN_FIRM:true}} ];
+  /* C18：公告（11-1，暑假團、寒假團同一則）、面試（11-2）、三場（11-3～11-5）。「團長姚思穎〔地理系大三，新 NPC〕」的〔〕是稿上的註，不是旁白 */
+  const C18_MSG=[{from:'sysoffice',name:'系辦',text:'【見習團】法律與社會海外見習團（新加坡），暑假 9 天（寒假團 7 天），有獎學金名額。需面試，第 10 週（寒假團第 9 週）截止。'}];
+  const C18_INT=(term,week)=>({term,week,wd:3,h:19,title:'面試',place:'霖澤館的研討室',bg:'classroom_small',setI:'INT',lines:[SGT('英文不用很好。去了敢問就好。'),SGT('你會問嗎？')],
+    choice:[{t:'「會。」',say:[SGT('好。到時候我會看。')]},{t:'「我會試試看。」',say:[SGT('試試看也可以。')]}]});   /* 面試的日子 AA 沒寫：LAWWW 暫排截止後一週的週三 19:00（同 C09 的面試）*/
+  const C18_TRIP=(d0,d1)=>({ start:{day:d0,h:8}, end:{day:d1,h:18}, placeName:'新加坡', home:'auto' });
+  const C18_KEYS=([d2,d4,dl])=>[
+    {day:d2,h:10,title:'參訪法院',bg:'intl_sg_court',lines:[{narr:'（法庭比你想的小。法官、律師都講英文，講得很快。）'},{narr:'（團長姚思穎在你旁邊小聲翻了兩句，後來也跟不上了。）'},SY('……我只聽懂 adjourned。')],
+      choice:[{t:'「休庭。」',say:[SY('對，休庭。我就聽懂這個。')]},{t:'「我也是。」',say:[{narr:'（出來以後，兩個人坐在法院外面的長椅上，把剛剛記下來的單字對了一遍。）'}]}]},
+    {day:d4,h:14,title:'座談',bg:'intl_sg_campus',lines:[{narr:'（當地法律系的學生問你們：上課要不要點名？）'}],
+      choice:[{t:'「要，而且要坐前面。」',say:[{narr:'（對面三個人一起笑了。）'}]},{t:'「看老師。」',say:[{who:'npc_sg_student',name:'當地學生',text:'我們也是。'}]}]},
+    {day:dl,h:20,title:'最後一晚',bg:'intl_sg_hawker',lines:[{narr:'（旅館樓下的小吃中心，桌上一堆盤子。）'},SY('回去以後，報告誰寫？')],
+      choice:[{t:'「我寫法院那一段。」',say:[SY('好。那我寫吃的。')]},{t:'「抽籤。」',say:[{narr:'（抽到你。）'}]}], set:{STUDYTOUR_SG:true}} ];
   const A={
     /* VAC-C02 法律生活營隊輔（系學會高中生營隊，虛構名稱）：AA_241 第 1 節。每年 7/1～7/5（大二起可以當小隊長，台詞下一批）*/
     C02:{ id:'C02', title:'法律生活營隊輔', cat:'社團志工', season:'summer', years:['Y1','Y2','Y3'], days:['07-01','07-05'],
@@ -236,7 +282,65 @@ const VAC_DATA=(function(){
         {day:'08-10',h:9,title:'第一堂',bg:'intl_kyoto_school',lines:[G=>AN_IN(G)?[{narr:'（休息時間，走廊另一頭有人叫你的名字。是以安，她在中級班。）'},{who:'heroine_01',text:'你也來了？'},{who:'heroine_01',text:'我七月考完日檢，想說趁暑假多練口說。'}]:[{narr:'（教室裡有十二個人，來自八個國家。老師用日文說了一句話，大家都笑了，你沒聽懂。）'}]],
           choiceIf:G=>AN_IN(G), choice:[{t:'「妳是中級喔。」',say:[{who:'heroine_01',text:'分班考分的。……你不要叫我老師。'}]},{t:'「下課一起吃飯？」',say:[{who:'heroine_01',text:'好。我知道一間便宜的，我查過了。'}]}]},
         {day:'08-19',h:14,title:'文化課：茶道',bg:'intl_kyoto_tearoom',lines:[{narr:'（跪坐十分鐘以後，你的腳麻了。老師說，茶碗要轉兩次。）'},{narr:'（你轉了三次。老師看了一眼，沒說話，笑了一下。）'}]},
-        {day:'08-27',h:15,title:'最後一天',bg:'intl_kyoto_school',lines:[{narr:'（老師發了結業證書，上面的名字用片假名寫，你念了兩次才念對。）'},G=>AN_IN(G)?[{who:'heroine_01',text:'你的名字片假名好長。'},{who:'heroine_01',text:'……我幫你念一次。'}]:null]} ] } };
+        {day:'08-27',h:15,title:'最後一天',bg:'intl_kyoto_school',lines:[{narr:'（老師發了結業證書，上面的名字用片假名寫，你念了兩次才念對。）'},G=>AN_IN(G)?[{who:'heroine_01',text:'你的名字片假名好長。'},{who:'heroine_01',text:'……我幫你念一次。'}]:null]} ] },
+    /* VAC-C16 法扶實習（法律扶助的基金會台北分會，辦公室和人物虛構）：AA_242 第 9 節。大二暑假起（大一不能報）、大四下以後沒有；暑假第 2 週起兩週、週一～五 9:00～18:00（80 小時），沒有薪水。
+       報名：下學期第 10 週週一 12:00 全班群組系辦公告（行事曆也報得到）→ 第 12 週週五截止 → 第 14 週週一 12:00 結果。
+       名額有限（「超過時看成績」）：遊戲照 C08、C11 的做法（BB-C 13:03「限制玩家的是時間」），報名隔天 20:00 要用掉一個時段寫申請表，沒寫＝系辦的信「名額已滿，明年可以再報。」（9-2：不用 0-1 的群組那句）。
+       錄取：0-1 的通知，家人群組換成媽媽一句（9-2）。語彤（社會系、雙主修法律）「她那年也報了才在」：LAWWW 暫排大三暑假（她大二暑假說「田野＋店裡」；最後一天她說「我明年還要來」＝她延畢的那一年；等 AA 定）*/
+    C16:{ id:'C16', title:'法扶實習（台北分會）', cat:'打工實習', season:'summer', years:['Y2','Y3'], days:['06-21','07-02'], wd:[1,2,3,4,5], slot:'day',
+      place:{kind:'taipei',name:'法律扶助基金會台北分會'}, cost:{payer:'none',note:'沒有薪水'}, free:'partial', work:{h0:9,h1:18,travel:'捷運約 20 分鐘',travelH:1/3},
+      signup:{kind:'group', th:'g:law_class', term:'S2', week:10, wd:1, h:12, until:{term:'S2',week:12,wd:5}, flag:'VAC_C16', board:true,
+        msgs:[{from:'sysoffice',name:'系辦',text:'【暑期實習】法律扶助基金會台北分會，暑假兩週（80 小時），名額有限。第 12 週週五前交申請表。'}],
+        yes:{t:'（交申請表）',say:[]} },
+      pre:[{afterSignup:1,h:20,title:'寫申請表',place:'宿舍書桌',bg:'dorm',lines:[],advance:2,setI:'APP'}],
+      select:{term:'S2',week:14,wd:1,h:12,name:'法律扶助基金會台北分會暑期實習',needI:'APP',fam:['兩個禮拜都要穿正式一點嗎'],reject:{sys:[{name:'系辦（信）',text:'名額已滿，明年可以再報。'}],noGroup:true}},
+      keys:C16_KEYS(['06-21','06-24','06-29','07-02']),
+      byYear:{ Y3:{ days:['06-19','06-30'], keys:C16_KEYS(['06-19','06-22','06-27','06-30'],true) } } },   /* 大三暑假：日本路線人在日本（到 8/5）不能報；美國路線 7/25 才退宿，可以 */
+    /* VAC-C17 律所暑期實習（虛構的青嶺法律事務所，8 週）：AA_242 第 10 節。只有大二、大三暑假；要有英文檢定成績（C04 托福或多益考過、成績出來了）才報得了：沒有＝公告後一句旁白（10-1），行事曆沒有報名鈕。
+       甄選：下學期第 4 週週一 12:00 公告 → 第 9 週週五截止 → 第 12 週面試（LAWWW 暫排週三 19:00，事務所的會議室）→ 第 14 週週一 12:00 結果（沒去面試＝事務所的信「謝謝您的申請」，不用 0-1 的群組那句）。
+       有薪（實習津貼記進生活費）：金額 AA 沒寫，LAWWW 暫照 2026 基本工資時薪 196 元（研究表二）× 每天 8 小時 × 去了的天數，8 週結束那天 18:00 以後一次入帳（等 BB 定）。
+       大三暑假：日本路線 8/5 才回台、美國路線 7/25 退宿 8/2 出發，8 週都排不下（S.blocked）。大二暑假跨過 8/6 沛珊放榜、8/7～8 可昕 KH、8/8 七夕：都是晚上或週末，照演（上班到 18:00、週末不上班）。
+       可昕（交往中、大二暑假她也在別的事務所實習，BB_97 K14）：最後一天 22:00 視訊（10-6）*/
+    C17:{ id:'C17', title:'律所暑期實習（青嶺）', cat:'打工實習', season:'summer', years:['Y2','Y3'], days:['06-21','08-13'], wd:[1,2,3,4,5], slot:'day',
+      place:{kind:'taipei',name:'青嶺法律事務所'}, cost:{payer:'none',note:'有實習津貼'}, free:'partial', work:{h0:9,h1:18,travel:'捷運約 30 分鐘',travelH:0.5}, pay:{hourly:196,hours:8},
+      gate:{engScore:true,narr:'（你翻了一下，你還沒有英文檢定的成績。）'},
+      signup:{kind:'group', th:'g:law_class', term:'S2', week:4, wd:1, h:12, until:{term:'S2',week:9,wd:5}, flag:'VAC_C17', board:true,
+        msgs:[{from:'sysoffice',name:'系辦',text:'【暑期實習】青嶺法律事務所，暑假 8 週，有實習津貼。需附英文檢定成績。第 9 週週五前交履歷。'}],
+        yes:{t:'（交履歷）',say:[]} },
+      pre:[{term:'S2',week:12,wd:3,h:19,title:'面試',place:'青嶺法律事務所',bg:'law_firm_meeting',travel:'捷運約 30 分鐘',travelH:0.5,setI:'INT',
+        lines:[{narr:'（會議室的窗戶看得到整條忠孝東路。對面坐著兩位律師。）'},LAW('你為什麼想來事務所？')],
+        choice:[{t:'「想看真的案子怎麼做。」',say:[LAW('好。真的案子，很多時間是在等。')]},{t:'「想知道自己適不適合。」',say:[LAW('這個很誠實。……我們也想知道。')]}]}],
+      select:{term:'S2',week:14,wd:1,h:12,name:'青嶺法律事務所暑期實習',needI:'INT',fam:['有錢可以領喔？'],reject:{sys:[{name:'青嶺法律事務所（信）',text:'謝謝您的申請'}],noGroup:true}},
+      keys:C17_KEYS(['06-21','06-25','07-14','08-13']),
+      kx:{yk:'Y2',h:22,title:'可昕的視訊',bg:'video',lines:[{who:'kexin',text:'你們那邊也是週五交東西喔？'},{who:'kexin',text:'我們律師一直說，結論放第一段。'}],
+        choice:[{t:'「我們律師也這樣講。」',say:[{who:'kexin',text:'……全台北的律師都在講這句吧。'}]},{t:'「妳寫幾份了？」',say:[{who:'kexin',text:'六份。你呢？……不要說比我多。'}]}]},
+      byYear:{ Y3:{ days:['06-19','08-11'], keys:C17_KEYS(['06-19','06-23','07-12','08-11']) } } },
+    /* VAC-C18 海外見習團【虛構：法律與社會見習團，新加坡；時差 0】：AA_242 第 11 節。暑假團 C18、寒假團 C18W，同一系列（第幾次照兩團合計）；不限年級（AA_199 7-5），大四下以後沒有。
+       甄選＋獎學金一起審：暑假團下學期第 6 週週一 12:00 公告、第 10 週週五截止、第 11 週面試、第 13 週週一 12:00 結果、行前說明會第 15 週週三 12:20（只寫在錄取通知裡，AA 沒有寫說明會的台詞）；
+       寒假團上學期第 6 週公告、第 9 週截止、第 10 週面試、第 12 週結果、說明會第 14 週週三 12:20（面試、結果、說明會的日子 LAWWW 暫排）。面試人要到：美國路線大四上人在美國＝寒假團不能報（blockPre）。
+       團費、機票家裡出（獎學金補一部分；不扣生活費，AA_199 3-7），當地零用自己出。出國期間的訊息、回來重逢、回來後的招呼照 AA_242 第 6、8 節（和 C08～C12 同一套）；出發那天麵店團 0-2、回來 0-3。
+       沒錄取照 0-1；寒假團的阿哲那句「暑假還很長」季節不對，先不傳（等 AA 補寒假版）*/
+    C18:{ id:'C18', series:'C18', title:'海外見習團（新加坡）・暑假團', cat:'海外交流', season:'summer', years:['Y1','Y2','Y3'], days:['07-20','07-28'], slot:'night',
+      place:{kind:'abroad',name:'新加坡',tz:0}, cost:{payer:'family',local:'self',note:'獎學金補一部分'}, free:'partial', blockPre:true,
+      rep:{keys2:[null,null,null]},   /* 第二次以後不重演（AA_264 第 0 節第 1 點）；第二次的日誌句 AA 還沒寫＝只有日期卡 */
+      signup:{kind:'group', th:'g:law_class', term:'S2', week:6, wd:1, h:12, until:{term:'S2',week:10,wd:5}, flag:'VAC_C18', board:true, msgs:C18_MSG, yes:{t:'（報名）',say:[]} },
+      pre:[C18_INT('S2',11)],
+      select:{term:'S2',week:13,wd:1,h:12,name:'法律與社會海外見習團（新加坡）',briefAt:{term:'S2',week:15,wd:3,h:12+20/60},needI:'INT'},
+      depart:{zhe:'新加坡很熱喔',yu:'聽說口香糖不能帶'}, back:{},
+      trip:C18_TRIP('07-20','07-28'), keys:C18_KEYS(['07-21','07-23','07-27']),
+      byYear:{ Y2:{ days:['07-19','07-27'], trip:C18_TRIP('07-19','07-27'), keys:C18_KEYS(['07-20','07-22','07-26']) },
+               Y3:{ days:['07-17','07-25'], trip:C18_TRIP('07-17','07-25'), keys:C18_KEYS(['07-18','07-20','07-24']) } } },   /* 大三暑假：日本路線人在日本、美國路線 7/25 退宿＝都不能報 */
+    C18W:{ id:'C18W', series:'C18', title:'海外見習團（新加坡）・寒假團', cat:'海外交流', season:'winter', years:['Y1','Y2','Y3','Y4'], days:['12-29','01-04'], slot:'night',
+      place:{kind:'abroad',name:'新加坡',tz:0}, cost:{payer:'family',local:'self',note:'獎學金補一部分'}, free:'partial', blockPre:true,
+      rep:{keys2:[null,null,null]},
+      signup:{kind:'group', th:'g:law_class', term:'S1', week:6, wd:1, h:12, until:{term:'S1',week:9,wd:5}, flag:'VAC_C18W', board:true, msgs:C18_MSG, yes:{t:'（報名）',say:[]} },
+      pre:[C18_INT('S1',10)],
+      select:{term:'S1',week:12,wd:1,h:12,name:'法律與社會海外見習團（新加坡）',briefAt:{term:'S1',week:14,wd:3,h:12+20/60},needI:'INT',reject:{noGroup:true}},
+      depart:{zhe:'新加坡很熱喔',yu:'聽說口香糖不能帶'}, back:{},
+      trip:C18_TRIP('12-29','01-04'), keys:C18_KEYS(['12-30','01-01','01-03']),   /* 大一寒假那一團跨過跨年（12/31）、麵店團海邊（12/29），座談是元旦：照 7-5「每個寒暑假都開」先開，等 AA 定 */
+      byYear:{ Y2:{ days:['01-04','01-10'], trip:C18_TRIP('01-04','01-10'), keys:C18_KEYS(['01-05','01-07','01-09']) },
+               Y3:{ days:['01-03','01-09'], trip:C18_TRIP('01-03','01-09'), keys:C18_KEYS(['01-04','01-06','01-08']) },
+               Y4:{ days:['01-01','01-07'], trip:C18_TRIP('01-01','01-07'), keys:C18_KEYS(['01-02','01-04','01-06']) } } } };
   /* ===== 出國期間的訊息（台詞 AA_242 第 6、8 節 18fe1b6a；頻率、時差、柬埔寨只有晚上有訊號、停電、加州第 3 週、可昕週末視訊照 BB_200 第 2～3 節）=====
      陣列裡一個元素＝一則訊息；「（照片：…）」寫成 📷（…）（手機的寫法）。dep 出發那天、mid 中間一則、back 回來那天；pool 每天輪播（8 則，用完第二圈只用前半）；rep 兩個回覆（她不再回）。
      freq：h＝她那邊的時間（她在臺灣＝遊戲時間）；every＝幾天一則；tt＝週二、週四那天的時間（語彤顧店晚一點）；nextDay＝凌晨（隔天 0:40）。 */
@@ -370,5 +474,5 @@ const VAC_DATA=(function(){
     {tag:'va11_exam_yt',day:'2026-06-19',h:12,th:'p:heroine_03',dating:'heroine_03',ms:[{from:'heroine_03',text:'考完了'},{from:'heroine_03',text:'憲法最後一題我寫不完'},{from:'heroine_03',text:'……不要問我分數 7/3 才知道'}]},
     {tag:'va11_idle_an',day:'2026-07-31',h:21,th:'p:heroine_01',dating:'heroine_01',idle:true,ms:[{from:'heroine_01',text:'你這個暑假在做什麼？'},{from:'heroine_01',text:'我不是在檢查。我在想要不要排一天一起去哪裡。'}]},
     {tag:'va11_idle_yt',day:'2026-07-31',h:21,th:'p:heroine_03',dating:'heroine_03',idle:true,ms:[{from:'heroine_03',text:'你暑假是不是很閒'},{from:'heroine_03',text:'那明天下午陪我去進貨'}]} ];
-  return {A,MSGS,TRIP_MSG,TRAVEL,C01,VA09,VA10,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12）'};
+  return {A,MSGS,TRIP_MSG,TRAVEL,C01,VA09,VA10,src:'AA_241（企劃線 c524b61e 以前的版本；第 1～7 節）＋AA_242（AA 分支 18fe1b6a：C08～C12；ede67b34 第 9～11 節：C16～C18）'};
 })();
