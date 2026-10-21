@@ -22,8 +22,8 @@ if(fW&&fS){ const ctx={CALENDAR,console:{warn(){}},G:null}; vm.createContext(ctx
   const ok={day:9,weekday:4}; ctx.setG(ok); ctx.syncWeekday(); check('3. 本來就對的不動', ok.weekday===4); }
 { const m=grab(/function migrate\(s\)\{[\s\S]*?\n    s\.v=SAVE_VER; return s; \}/); let wd=null; if(m){ try{ const ctx={CALENDAR,console:{warn(){}},SAVE_VER:9,defaults:()=>({rel:{}}),ROM:undefined,DATE:undefined}; vm.createContext(ctx); vm.runInContext(m+'\nthis.migrate=migrate;',ctx); wd=ctx.migrate({v:2,day:9,weekday:5,rel:{},flags:{}}).weekday; }catch(e){ wd='例外 '+e.message; } }
   check('2. 讀檔（migrate）照行事曆重算星期：使用者的存檔（第 9 天記成週五）讀進來是週四（migrate 自己算，不靠外面的函式）', wd===4, String(wd)); }
-check('3. 每次更新 HUD（主迴圈每 30 格、跳時間）先 syncWeekday', /function updateHUD\(\)\{ if\(!G\) return; syncWeekday\(\);/.test(g)&&/if\(E\.frame%30===0\)\{ updateHUD\(\);/.test(g)&&/GM\.syncWeekday=syncWeekday;/.test(g));
+check('3. 每次更新 HUD（主迴圈每 30 格、跳時間）先 syncWeekday（前面可以先記 hudDay／hudHr：跳時間後右上角日期要更新，LAWWW-C 10-21）', /function updateHUD\(\)\{ if\(!G\) return; (hudDay=G\.day; hudHr=G\.hour; )?syncWeekday\(\);/.test(g)&&/if\(E\.frame%30===0\)\{ updateHUD\(\);/.test(g)&&/GM\.syncWeekday=syncWeekday;/.test(g));
 const o=fs.readFileSync(path.join(ROOT,'src/outings3d.js'),'utf8'), n=(o.match(/G\.day=Math\.floor\(arrive\/24\); G\.hour=arrive-G\.day\*24; if\(GM\.syncWeekday\) GM\.syncWeekday\(\);/g)||[]).length;
 check('3. outings3d.js 出遊跨日（兩處）改完日期馬上對星期', n===2&&!/G\.day=Math\.floor\(arrive\/24\); G\.hour=arrive-G\.day\*24;(?! if\(GM\.syncWeekday\))/.test(o), 'n='+n);
-{ const m=grab(/function updateHUD\(\)\{ if\(!G\) return; syncWeekday\(\); \{[^}]*\}/); check('4. HUD 的星期照顯示的那一天（過了午夜跟著日期換）', !!m&&/WEEK\[dd&&typeof dd\.wd==='number'\?\(\(dd\.wd%7\)\+7\)%7:G\.weekday\]/.test(m), m&&m.slice(0,200)); }
+{ const m=grab(/function updateHUD\(\)\{ if\(!G\) return; (?:hudDay=G\.day; hudHr=G\.hour; )?syncWeekday\(\); \{[^}]*\}/); check('4. HUD 的星期照顯示的那一天（過了午夜跟著日期換）', !!m&&/WEEK\[dd&&typeof dd\.wd==='number'\?\(\(dd\.wd%7\)\+7\)%7:G\.weekday\]/.test(m), m&&m.slice(0,200)); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
