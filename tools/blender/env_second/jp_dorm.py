@@ -324,7 +324,7 @@ def build(rid):
     c.door = dict(x=dx, w=dw, z=Z1, note='南牆靠西，往走廊（jp_dorm 的走廊、樓梯）；衣櫃在門的東邊，留 1.4 m 的走道（10-21 reachability_all）')
     c.spawn = dict(x=dx, z=round(Z1 - 1.2, 3), yaw=round(PI, 4), note='進門（玄關上來一步），面向窗')
     c.exits = [dict(x=dx, z=round(Z1 - 0.4, 3), r=0.6, label='走出房間', to='jp_dorm', spawn_note='到宿舍的走廊（jp_dorm，下一階段）；這一階段先回 2D 的據點')]
-    c.look('window', 0.05, Z0 + 0.45, 0.6, '窗外', dev='AA_341 3/28 摘要日：「宿舍的房間比想像的小。窗外是一片田，遠一點的地方有一座山。」——遊戲裡顯示的字等 AA 寫')
+    c.look('window', -0.05, Z0 + 0.7, 0.6, '窗外', dev='AA_341 3/28 摘要日：「宿舍的房間比想像的小。窗外是一片田，遠一點的地方有一座山。」——遊戲裡顯示的字等 AA 寫')
     c.look('bed', bx0 - 0.25, bz1_ - 0.45, 0.6, '床', dev='給 JP.loop 的「睡覺」「在房間休息一下」（LAWWW-C 接）')
     c.look('fridge', X1 - 0.85, (fz0 + fz1) / 2, 0.6, '小冰箱', dev='遊戲裡顯示的字等 AA 寫')
     c.look('suitcase', cl0 + 0.3, Z1 - 1.45, 0.55, '行李箱', dev='遊戲裡顯示的字等 AA 寫')

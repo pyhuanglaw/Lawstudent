@@ -19,7 +19,9 @@
       const z=Z3.room(E,{w:W,d:D,h:H,winWall:WIN.wall,winXs:WIN.xs.map(x=>WIN.wall==='front'?-x:x),winY:WIN.y,view:L.view||id,viewDepth:30,wallColor:'#e6e0d4',floorTex:W3.stoneTex('#8f6442'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
       const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; if(z.winParts&&z.winParts.some(p=>p.obj===o)) continue; g0.remove(o); fb.add(o); } g0.add(fb);
       for(const w of z.walls) w.visible=false; z.walls.length=0;
-      const nav=new E3.NavGrid(W,D,0.4,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
+      /* 導航格往西偏 0.2 m（多一欄）：書桌（離牆 0.61）和床（寬 1.0）中間的走道 1.19 m，格子照房間邊界排的話，走道正中間沒有一欄格子，
+         兩側的格子都貼著家具，「站得住」（離擋住的格子 0.33 m）的一格都沒有，窗前走不到（reachability_all 2026-10-21 FAIL）*/
+      const nav=new E3.NavGrid(W+0.4,D,0.4,Bd.x0-0.2,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
       for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.4),Math.max(b.z1-b.z0,0.4),0,0);
       nav._cm=null; z.nav=nav; z.bounds={w:W+3,d:D+3};
       /* 備用模型（D38 ③）：正式模型載入前、失敗時——地板＋家具的方塊（不是看不見的牆）*/

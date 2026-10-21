@@ -1091,6 +1091,25 @@
    "state": "§7-1 泡麵袋、§7-2 廚房吸頂燈、§7-3 版畫＋拍立得、§7-4 外套門；§7-5、§7-6 開發分支已經是對的。MODEL_READY＋patch（只有 us_layouts.js 的 US_SHARED_LAYOUT 一行）；測試工作樹 INTEGRATED：nav_us_unit、reachability_all --zones us_shared ALL PASS（Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW",
    "remaining": "US2 演出的光照舊是遊戲時段；iPhone 實機沒測",
    "next": "LAWWW-C 換 GLB＋套 patch；BB-C 畫面驗收"
+  },
+  {
+   "task": "JP-ROOM-3D-KEEP-1021：日本宿舍「你的房間」jp_room 保留、修完交件（使用者 10-21 13:0x UA-LAWWW2-1021-03）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/jp_room_1021.diff",
+    "assets/models/env/second_ai/jp_room.glb",
+    "assets/models/env/second_ai/jp_room.layout.json",
+    "assets/models/env/views/jp_room_day.webp",
+    "assets/models/env/views/jp_room_night.webp",
+    "tools/blender/env_second/jp_dorm.py",
+    "tools/blender/env_second/jp_view.py",
+    "tools/blender/env_second/gen_jp_layouts.py",
+    "docs/art-rebuild/second_ai/wip_jp/README.md"
+   ],
+   "state": "MODEL_READY＋patch（index.html 兩行、src/jp_dorm3d.js、src/data/jp_dorm_layouts.js 新檔）；測試工作樹 INTEGRATED：reachability_all --zones jp_room ALL PASS（改之前窗外 FAIL；Playwright 手機模擬，不是 iPhone）；READY_FOR_ART_REVIEW",
+   "remaining": "2D 據點從哪裡進 3D 房間（LAWWW-C 決定）；看的字等 AA；共用廚房、大廳、宿舍門口照使用者指示維持 2D",
+   "next": "LAWWW-C 決定接法、套 patch；BB-C 畫面驗收"
   }
  ]
 }
