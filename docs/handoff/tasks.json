@@ -7140,8 +7140,8 @@
    "title": "第三個房間（主線 5）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
    "priority": "P2",
    "first": {
     "term": "Y3S1",
@@ -7233,8 +7233,8 @@
    "title": "第四個房間（主線 10）",
    "area": "SCN",
    "owner": "LAWWW2",
-   "status": "待開工",
-   "next": "【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
+   "status": "已整合待測試",
+   "next": "【LAWWW-C 2026-10-21 10:0x UTC】合併 18967267（美術子代理 a314094d，82f45a8b）：窗景照樓層（dorm_back_view.py＋Cycles）、走廊門牌 507／409、拆箱 23 件模型；READY_FOR_ART_REVIEW；男一舍 4 層 vs 五樓 507 問 AA（AA_QUESTIONS_1021 J1）；BB 清單 BB_HOLFF_ROOMS_1021 第三節 ｜ 【LAWWW-C 2026-10-20 19:2x】1A-03（507，2027-09-05）、1A-09（409，2028-09-03／美國 12/23）已經在開發分支；現在 507、409 和 312 同一組家具、看起來一樣（截圖 10、11）。要：每一年看得出不同（窗外 5F／4F 的景、門牌）、拆箱拿出來的東西有模型（story3d.js ROOM_Y3_TEXT 11 件：大二筆記、空白筆錄紙、學姊研究計畫第二段、那篇文章、測試版隨身碟、阿哲的筆記＋便利貼、系籃節目單、交換說明會手冊、小隊輔名牌、營隊名牌、日語單字卡、首爾交通卡、服務隊隊服、加州結業證書、東京講義、京都明信片），照 dorm_y2_items.glb 的做法（setY2Items）交 prop id → 位置的 JSON，LAWWW-C 接 ｜ SYS-06",
    "priority": "P2",
    "first": {
     "term": "Y4S1",
@@ -13107,9 +13107,9 @@
    "title": "大一下 AA 人物口語改寫",
    "area": "STORY",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：AA_209 完成、BB 口氣審過 ｜ AA-B 00:0x 全部待辦交接補登；細節見 AA_交接紀錄（a2621bfa）",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13129,7 +13129,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_209（企劃線）＋BB 口氣審過；AA-C 2026-10-21 08:05 對總表確認"
   },
   {
    "id": "VAC-S1",
@@ -13874,9 +13875,9 @@
    "title": "AA：大一下～大四每學期 AA＋BB 人物（招呼 → 閒聊 → 好感升級 → 手機 → 事件）（AB-65 第 3 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
-   "next": "照學期順序",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：大一下～尾聲每學期口語改稿都交了（AA_209、211、255、259、260、262、263、267） ｜ 照學期順序",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13896,16 +13897,17 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_209、211、255、259、260、262、263、267（企劃線）；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "AB65-4",
    "title": "AA：重訪日群體對話（AA 骨架＋BB 人物句子；大一 6/12 18:00 麵店不統一題目，AA_193 第 4 節）（AB-65 第 4 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
-   "next": "跟各學期一起",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：重訪日使用者 10-17 取消（REVISIT_OFF）；重訪日 1 已在 AA_209；作廢（replacedBy 無，授權：使用者 10-17 取消重訪日） ｜ 跟各學期一起",
    "first": {
     "term": "Y1S2",
     "week": null,
@@ -13925,7 +13927,11 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "cancelReason": "使用者 2026-10-17 取消重訪日（REVISIT_OFF）",
+   "reason": "使用者 2026-10-17 取消重訪日（REVISIT_OFF）；重訪日 1 已在 AA_209",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者 2026-10-17（REVISIT_OFF）"
   },
   {
    "id": "AB65-5",
@@ -13965,9 +13971,9 @@
    "title": "AA：零星（lad/y3s1:556、BB_170 剩下的項目）（AB-65 第 6 項）",
    "area": "STORY",
    "owner": "AA",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P3",
-   "next": "AA-B",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：10-17 完成（AA 交接紀錄 633 行） ｜ AA-B",
    "first": {
     "term": "Y3S1",
     "week": null,
@@ -13987,7 +13993,8 @@
     "acceptance": "照規格交付、互審紀錄",
     "receiver": "LAWWW-B",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA 交接紀錄 633 行（10-17）；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "V2-SIS-BF",
@@ -14573,9 +14580,9 @@
    "title": "美國交換改期（使用者 2026-10-17）：祐廷大四上 2028-08-02 出發、12-23 返台；學姊同學期（碩二上）07-19 出發；大三下美國路線改照台灣路線；大四上 US 玩家不在台灣（AA_213）",
    "area": "V4",
    "owner": "AA",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
-   "next": "AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）；使用者 05:0x：交往中的話兩人 12/16 先飛舊金山待一週、12/23 一起回（沒交往的學姊 12/16 自己回），舊金山是新事件（BB-C 寫），之後可能要舊金山 2D 背景（等 BB 規格再派 LAWWW2）；BB_98／99 已改（BB 分支 23cd428d）等 AA 核對",
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】AA-C 08:05 對總表：AA_213 → AA_253 第 9 節、AA_327、AA_340 都照新時間線寫完 ｜ AA-C 改 AA 檔（AA_158、144、12、180、181、v4、v5）、BB-C 改 BB_98／99、CG；AA_213（b3a21b20）定稿後結構化交付 LAWWW；之後恢復 V4-R-US、SCN-US-EV、SYS-10 美國日期與美國美術（季節改夏末）；使用者 05:0x：交往中的話兩人 12/16 先飛舊金山待一週、12/23 一起回（沒交往的學姊 12/16 自己回），舊金山是新事件（BB-C 寫），之後可能要舊金山 2D 背景（等 BB 規格再派 LAWWW2）；BB_98／99 已改（BB 分支 23cd428d）等 AA 核對",
    "first": {
     "term": "Y4S1",
     "week": 1,
@@ -14592,7 +14599,8 @@
     "spec": "AA_213（b3a21b20，WIP）",
     "acceptance": "新時間線逐檔改完、--check ok、結構化交付（檔案、SHA）",
     "ack": "ACK"
-   }
+   },
+   "evidence": "AA_253 第 9 節、AA_327、AA_340（企劃線 c2c5a66e 以前）；開發分支 dd049047 照新時間線實作；AA-C 2026-10-21 08:05 確認"
   },
   {
    "id": "ART-US-SEASON",
@@ -19394,7 +19402,7 @@
    "title": "法律系四年的可昕、其他人物劇情也用選擇題逐場確認（經濟系那一年已做完 AA_303/305/306）；韋綸大一下 L5～L8 還沒問",
    "area": "story",
    "owner": "AA",
-   "status": "待開工",
+   "status": "暫停",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -19415,7 +19423,9 @@
     "spec": "使用者 10-18 原話；AA_303 的格式",
     "acceptance": "每一場都有使用者選過的答案，寫進企劃",
     "ack": "未派"
-   }
+   },
+   "pausedReason": "使用者 10-20 說不要再問選擇題；這一項是用選擇題逐場確認法律系四年的劇情（AA-C 10-21 08:0x 改暫停，UA-AA-1018-03）",
+   "resumeWhen": "使用者回來後說要不要照樣用選擇題確認（USER_WANTS X33）；下次檢查 2026-10-22"
   },
   {
    "id": "YT-ENDING-LAWYER",
@@ -21243,7 +21253,7 @@
    },
    "source": "使用者 10-20 16:0x 對 AA（AA user_asks UA-AA-1020-30）",
    "authorized": "使用者直接指示",
-   "next": "AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
+   "next": "【LAWWW-C 2026-10-21 09:3x UTC】AA_344（569621e0）覆核 AA_314 第 4 節 14 項：12 項已照新規則、沛珊台南在 PS-TAINAN-AA282；五件小改 ①② 已改（6026c0ce），③④⑤ 和 AA_343 B7 更正在 AA343 子代理 ｜ AA_314 第 1、2、3 輪都交齊（AA_315～328）；AA 接著查第 4 節衝突清單、抽查開發分支 1A-04、1A-05 的台詞 ｜ 第 1 輪 52 件都有事件包（AA_315～324）；AA 接著寫第 2 輪、第 3 輪小事件 ｜ 已交：AA_315（1A-01～05）、AA_316（1B-01～07）、AA_317（1A-06～08）、AA_318（1A-09～12、15）、AA_319（1A-13、14、16～20）、AA_321（1B-08～11）；AA 接著 1B-12 起、1C。實作照各 EVPKG 任務",
    "xai": {
     "spec": "AA_314（施工順序）",
     "owner": "AA",
@@ -21688,7 +21698,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
+   "next": "【LAWWW-C 2026-10-21 10:1x UTC】C2 已改（沛珊台南合併）；C1、C4、C5 已改；C3 等 AA 字；C6 在日本學期子代理；補稿待派工 ｜ 【LAWWW-C 2026-10-21 07:5x UTC】收到；C1～C6 先修（LAWWW 自己的程式），補稿等 R2Y4 子代理合併後再派子代理施工；驗收 T1～T7 給 BB",
    "xai": {
     "spec": "AA_342（c56d4241）",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -21701,7 +21711,7 @@
    "id": "PS-TAINAN-AA282",
    "title": "沛珊大三起在台南（AA_282 第 5 節＋AA_342 C2）：presence 台南／台中、拿掉大三起的臺北作息與 D08（Y3S2、Y4S2）／D20 偶遇、放榜後的重新聯絡訊息、邀約目的地台南／台中（沒交往不開視訊）、閒聊階梯 context:date、學期末心意邀約改台南（大四下不來畢業典禮、7/14 在台中）、缺的台南背景",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_282（第 5 節）、AA_342 C2（c56d4241）、AA_314 §4-5",
    "first": {
@@ -21714,7 +21724,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
+   "next": "【LAWWW-C 2026-10-21 10:1x UTC】合併（a659521d，a4218065；peishan_tainan_unit 50 項，舊程式 40 項失敗）：五項都做；校外約會臺北市地點擋（子代理照第 6 節第 1 點加的）；待問 AA 見 AA_QUESTIONS_1021.md K 節；缺的台南背景 8 張（BB 跟使用者要）；BB 清單 bb_checklists/BB_PS_TAINAN_1021.md ｜ 【LAWWW-C 2026-10-21 08:4x UTC】一般子代理施工中（worktree；tests/peishan_tainan_unit.js），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單；R3 3-09（沛珊台南「再去」三版）跟著會出現"
   },
   {
    "id": "AA343-ANSWERS-1021",
@@ -21734,6 +21744,44 @@
     "confirmed": true
    },
    "next": "【LAWWW-C 2026-10-21 08:5x UTC】一般子代理施工中（worktree），做完由 LAWWW-C 合併、跑全部單元測試、交 BB 清單"
+  },
+  {
+   "id": "AA345-ANSWERS-1021",
+   "title": "照 AA_345（57b2a7b3）改 F／G／H 標「改」的：大四前半（BCG-34 冬天不放改旁白、海報、US2 10/16 18:00…）、大四後半到尾聲（送禮四選一、46 旁白、明軒作息、春假開場回程…）、寒暑假快轉（大三寒假那一頓 2/20、大四寒假柏翰阿哲、8/12、1/17）、面板名稱 5 個",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "source": "企劃線 AA_345（57b2a7b3）",
+   "first": {
+    "term": "Y3S1",
+    "week": 1,
+    "earliest": "大三寒假",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】一般子代理施工中（worktree）"
+  },
+  {
+   "id": "EVPKG-AA346-APART",
+   "title": "AA_346 選一個人之後的分開談話：ev_choice_apart_<id> 七位（祐廷先說、她知道／不知道兩版、最後一句沿用各人的分開句、學姊那句新寫），排法照 C 表「說清楚」（2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起），三次沒到 22:00 轉電話版，記 apart_choice（讀 apart_talk 的前任版一起讀）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_346（c6b698a9）；AA_327 2-Y4-54；U5 使用者已定",
+   "first": {
+    "term": "Y4S2",
+    "week": 13,
+    "earliest": "2029-05 選一個人的隔天",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工"
   }
  ]
 }

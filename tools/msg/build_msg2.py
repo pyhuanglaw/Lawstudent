@@ -5,7 +5,7 @@
 這支腳本只是資料：所有中文字串都是從來源文件逐字複製的字面值，不解析來源、不改寫。
 來源（唯讀 git show）：
   AA_202 @65239add  docs/story_planning/AA_202_玩家主動傳訊息_規格.md   第 7 節（AA 六位）
-  AA_257 @558ccff8  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆；659af025 只改沛珊新年句「我在台中」，AA_276 第 3 節；558ccff8 Kevin 生日 R 拿掉「你是第一個」模板句，AA_335；同一段之前可昕生日 L 改「你晚上要上山來，還是我下山」）
+  AA_257 @5f9957a2  docs/story_planning/AA_257_MSG2_BB九位回覆池.md       全文（BB 九位回覆；659af025 只改沛珊新年句「我在台中」，AA_276 第 3 節；558ccff8 Kevin 生日 R 拿掉「你是第一個」模板句，AA_335；5f9957a2 沛珊 P3「還好嗎」R 拿掉「你先不要跟別人說」模板句，口氣表 0-3；同一段之前可昕生日 L 改「你晚上要上山來，還是我下山」）
   BB_178 @b61e4f55  docs/story_planning/BB_178_玩家主動傳訊息_BB回覆池.md 第 10 節（BB 九位條件）
 抄錄時只拿掉 markdown 粗體記號 `**`，並把表格裡的 <br> 拆成清單項；其他字元（含全形標點、emoji、反引號）照抄。
 輸出：同資料夾的 msg2_pool.json（UTF-8、ensure_ascii=False、indent=1）。
@@ -396,7 +396,7 @@ PEOPLE["classmate_peishan"] = person(
         E("bday", "R", [], S, cond="y2027_gone", rowLabel="生日快樂（2027 重考消失期）", noReply=True, ref=PS_NOREPLY, copiedFrom="A", cellText="同左"),
         E("bday", "L", [], S, cond="y2027_gone", rowLabel="生日快樂（2027 重考消失期）", noReply=True, ref=PS_NOREPLY, copiedFrom="A", cellText="同左"),
         E("ok", "A", ["還好。謝謝。"], S, cond="p3_retake", rowLabel="還好嗎（P3 我要重考）"),
-        E("ok", "R", ["還好。……我還沒跟我媽說。你先不要跟別人說。"], S, cond="p3_retake", rowLabel="還好嗎（P3 我要重考）",
+        E("ok", "R", ["還好。……我還沒跟我媽說。"], S, cond="p3_retake", rowLabel="還好嗎（P3 我要重考）",
           notes=["接 `BB_113` 她之後跟媽媽說的那一則"]),
         E("ok", "L", ["不太好。可是我想好了。……你可以聽我講嗎？很長。"], S, cond="p3_retake", rowLabel="還好嗎（P3 我要重考）",
           ask={"q": '你可以聽我講嗎？很長。', "src": 'AA_257 §4 郭沛珊「回問」（2026-10-17 AA-C，b61e4f55）',
@@ -664,7 +664,7 @@ AA257_REVIEW = [
 ]
 
 DATA = {
-    "source": {"AA_202": "65239add", "AA_257": "558ccff8", "BB_178": "741e94f1"},
+    "source": {"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1"},
     "conventions": CONVENTIONS,
     "topics": TOPICS,
     "aa202Notes": AA202_NOTES,

@@ -24,12 +24,10 @@ const ENCOUNTERS={
       lines:{acq:['欸！{name}？你也來逛？','對了，我在幫社團學姊挑外套，你覺得哪件——你一定說都一樣。'],friend:['欸你來評評理，這兩件明明不一樣，她們說一樣。','……對，是一樣。我只是想要有人跟我說不一樣。']},src:'AA_162 1、2-4'},
     {who:'classmate_xinci',spot:'D04',why:'她在一家賣偶像周邊的小店門口排隊。',days:[6],from:20,to:23,terms:null,stageMin:'ACQUAINTANCE',busy:'short',join:false,memo:'ENC_D04_XC',away:'在西門町',
       lines:{acq:['……{name}？','我在排一張小卡。這是一件很重要的事。'],friend:['我在排一張小卡，排四十分鐘了。','前面還有十幾個人，你不要笑喔。']},src:'AA_162 1、2-4'},   /* friend：AA_209 附錄A §2 */
-    // ---- D06 臺北市立美術館 ----
+    // ---- D06 臺北市立美術館 ----（沛珊大三起的美術館那一列拿掉：AA_282 第 5 節第 1 點，她在台南、不來臺北；D20 烏來、D08 大三下／大四下同，AA_342 C2）
     {who:'heroine_05',spot:'D06',why:'她站在一幅畫前面，手上拿著展覽的說明。',days:[0],from:13,to:16,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_SIS',away:'在美術館',
       lines:{acq:['學弟。……你也看展？','我排了兩個小時。還剩四十分鐘。'],friend:['這一區的說明牌，我每一塊都讀完了。','……你不用。看你想看的就好。'],dating:['你來了。……我沒有約你。','我剛剛還在想，你在就好了。']},
       ex:{apart_talk:['學弟。……我先走了。']},src:'BB_144 1、3-3'},
-    {who:'classmate_peishan',spot:'D06',why:'她在兒童區，看小孩畫畫。',days:[0],from:9.5,to:12,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],stageMin:'FAMILIAR',flags:['WISH_DONE_classmate_peishan'],busy:'no',join:true,memo:null,away:'在美術館',
-      lines:{all:['你看那個小孩，畫了一隻綠色的狗。……我好喜歡。']},src:'BB_144 1、3-6（心願事件以後）'},
     {who:'heroine_01',spot:'D06',why:'她站在一張城市地圖的作品前面，手上拿著小筆記本。',days:[0],from:10,to:13,terms:['Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y4S1','Y4S2'],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D06_AN',away:'在美術館',
       lines:{acq:['……你也來？','我十二點半要走。下午有排。'],friend:['這一區我看完了。旁邊那一區，你要一起看嗎？不用勉強。','我有一張表，十二點半要走。……表是我自己排的，可以改十分鐘。'],dating:['你怎麼知道我在這裡？……你不知道。好，那是巧合。','巧合我接受。十二點半以前都是你的。']},
       ex:{apart_life:['嗨。這一區很好，你慢慢看。'],apart_lifeNarr:'（她先走了。）',apart_drift:['……{name}。','我十二點半要走。']},src:'AA_162 1、2-1、3'},
@@ -81,7 +79,7 @@ const ENCOUNTERS={
     {who:'heroine_05',spot:'D11',why:'她坐在北投圖書館的木頭陽台上，桌上攤著一本書和計畫本。',days:[6],from:10,to:15,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S2'],weeks:[6],stageMin:'ACQUAINTANCE',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_SIS',away:'在北投圖書館',
       lines:{acq:['學弟。你也來北投？','我每個月來這裡讀一次書。這裡比法圖安靜。'],friend:['這裡的位子要早點來，我九點就到了。','你要坐的話，我旁邊還有一個。'],dating:['你怎麼也在北投？','我還要讀一個小時。讀完一起去泡腳。']},
       ex:{apart_talk:['學弟。我讀完這一章就走。']},src:'BB_213 1、2（大四上在美國，BB_204 4c）'},
-    {who:'classmate_peishan',spot:'D08',why:'她在企鵝館門口，數著一排戴黃帽子的小孩。',days:[6],from:9,to:13,terms:['Y1S2','Y3S2','Y4S2'],weeks:[9],stageMin:'ACQUAINTANCE',busy:'short',join:true,exAsAcq:true,memo:'ENC_D08_PS',away:'帶課輔班去動物園',
+    {who:'classmate_peishan',spot:'D08',why:'她在企鵝館門口，數著一排戴黃帽子的小孩。',days:[6],from:9,to:13,terms:['Y1S2'],weeks:[9],stageMin:'ACQUAINTANCE',busy:'short',join:true,exAsAcq:true,memo:'ENC_D08_PS',away:'帶課輔班去動物園',
       lines:{acq:['{name}！我們課輔班來校外教學。','他們一直問企鵝會不會冷。我也不知道。'],friend:['你可以幫我數一下嗎？應該是十二個。','我數了三次，每次都不一樣。'],dating:['你怎麼也在動物園？','那你今天幫我帶後面那半排。']},
       extra:{if:'WZ_PS_KIDS',name:'綁馬尾的小女生',text:'法律系的哥哥！你也來動物園嗎？'},src:'BB_213 1、2（下雨課輔班不出遊：D08 是戶外，照規則沒有偶遇；沒有前任版＝照認識那兩句、不一起走）'},
     {who:'kexin',spot:'D10',why:'她和予樂坐在河邊的台階上，一人一根烤玉米。',days:[0],from:16,to:19,terms:null,weeks:[10],stageMin:null,kexin:true,rainOk:true,busy:'short',join:'dating',memo:'ENC_D10_KX',memoIf:'dating',
@@ -108,9 +106,6 @@ const ENCOUNTERS={
       lines:{acq:['你怎麼也在九份。','我在畫燈籠。……畫好玩的。'],friend:['你來得剛好。站到那個燈籠下面，我要比一下大小。','好。燈籠比我想的還小。'],dating:['欸不是……你怎麼知道我在這？','好啦，我畫累了。陪我去吃芋圓。']},src:'BB_150 1、2-2'},
     {who:'heroine_05',spot:'D24',why:'她和爸媽坐在泡腳池邊，褲管捲到膝蓋。',days:[0],from:10,to:17,terms:['Y3S1','Y3S2','Y4S2'],weeks:[3],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D24_SIS',away:'和家人在礁溪',
       lines:{acq:['學弟。我陪爸媽來泡腳。（溫爸爸點了一下頭。）','今天不用我排。爸媽排好了。'],friend:['你也來礁溪？我爸問你是誰，我說是學弟。','他說那就坐下來一起泡。你要嗎？'],dating:['你怎麼在這裡？','我爸媽在那邊。今天我是女兒。（她看了你一眼，回去坐好。）']},src:'BB_150 1、2-3（交往中不一起泡：同行台詞 cond notDating）'},
-    {who:'classmate_peishan',spot:'D20',why:'她在老街口，幫一群小孩一個一個把帽子戴好。',days:[6],from:10,to:16,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[11],stageMin:'ACQUAINTANCE',busy:'short',join:true,memo:'ENC_D20_PS',away:'帶課輔班去烏來',
-      lines:{acq:['啊，{name}！我們課輔班出遊。','你可以幫我顧最後面那一個嗎？他每次都走到別的地方。'],friend:['{name}，我現在需要一個大人。','另一個大人。你幫我顧橋那一頭。'],dating:['你怎麼也在烏來？好，那你今天當助教。','中午請你吃一根香腸。']},
-      extra:{if:'WZ_PS_KIDS',name:'綁馬尾的小女生',text:'法律系的哥哥！你也來校外教學嗎？'},src:'BB_150 1、2-4'},
     {who:'heroine_02',spot:'D25',why:'她坐在堤防上，手上一台底片相機，等著一道浪。',days:[6],from:14,to:18.5,terms:['Y1S1','Y2S1','Y3S2'],weeks:[4],stageMin:'ACQUAINTANCE',busy:'short',join:'friend',memo:'ENC_D25_ZR',away:'在外澳拍照',
       lines:{acq:['你也來看海？','我在拍照。底片的，一卷只有三十六張。'],friend:['別動。你站在那裡，風就小了。','這一張我想拍很久了。浪剛好要碎掉的那一秒。'],dating:['你怎麼會在這裡？','我還剩最後一張。拍你好了。']},src:'BB_150 1、2-5'}
   ],

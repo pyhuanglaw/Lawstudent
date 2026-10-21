@@ -35,7 +35,7 @@ const Y2B_EVENTS=(function(){
       {label:'end'},{advance:toH(21.5)},
       {speaker:null,text:'（九點半。她把課本收進包包，站起來。）'},
       {speaker:'kexin',text:'好了。你回去開車小心。'},
-      {speaker:'kexin',text:'……謝謝你沒有安慰我。'} ],
+      {speaker:'kexin',text:'……今天這樣剛好。'} ],   /* AA_316（2026-10-21 AA-C）：原「……謝謝你沒有安慰我。」是口氣表 0-3 的模板句 */
     consequences:{mem:[{npc:'kexin',tag:'HELPED',note:'物權考壞那晚'}]},
     /* 答應了但沒到：20:50 兩則、記 'self'（之後不追問，不扣分）；11/22 那則由 y2b3d.js 照 'self' 發 */
     outingMissed:(G)=>{ if(!G.flags.KX_BAD_EXAM) G.flags.KX_BAD_EXAM='self'; const d=D('2026-11-19'); if(typeof PHONE!=='undefined'&&d!=null) PHONE.at(G,d,20+50/60,[{th:'p:kexin',from:'kexin',text:'……你沒來。'},{th:'p:kexin',from:'kexin',text:'沒關係。我自己讀。'}],'y2_kx_bad_missed'); } };
@@ -240,7 +240,7 @@ const Y2B_EVENTS=(function(){
       {label:'q2'},{speaker:'heroine_04',text:'對吧。'},{speaker:null,text:'（她點頭。然後很小聲：）'},{speaker:'heroine_04',text:'……可是你剛剛停了一下。'},{goto:'music'},
       {label:'q3'},{speaker:null,text:'（她看著你，很久。）'},{speaker:'heroine_04',text:'好。'},{speaker:null,text:'（她把兩個資料夾都拖進「畢業專題」裡。）'},{speaker:'heroine_04',text:'我兩個都交。看誰先做完。'},{goto:'music'},
       {label:'q4'},{speaker:'heroine_04',text:'……你換過？'},{speaker:'player',text:'嗯。'},{speaker:'heroine_04',text:'你家裡說什麼？'},{speaker:'player',text:'一開始不太懂。後來就懂了。'},
-        {speaker:null,text:'（她看著那個沒有名字的資料夾，很久。）'},{speaker:'heroine_04',text:'……好。我記住了。這不是問句。'},{goto:'music'},
+        {speaker:null,text:'（她看著那個沒有名字的資料夾，很久。）'},{speaker:'heroine_04',text:'……好。'},{speaker:null,text:'（她把沒有名字的那個資料夾拖到桌面正中間。）'},{goto:'music'},   /* AA_321（2026-10-21 AA-C）：原「……好。我記住了。這不是問句。」是口氣表 0-3 的模板句 */
       {label:'q5'},{speaker:'heroine_04',text:'……你這樣講，我比較不怕了。'},
       {label:'music'},
       {speaker:'heroine_04',text:'還有一件事。我要請吉他社的學妹做配樂。'},

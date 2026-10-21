@@ -9408,6 +9408,58 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 2fb01ed0 套 patch"
+  },
+  {
+   "id": "DL-AA-569621e0",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "569621e0",
+   "what": "AA_343 B7 更正（翰 4 改到四樓樓梯間刷卡門前的台階）＋AA_344：AA_314 第 4 節 14 項在開發 2900fa69 的覆核（12 項已照新規則）＋五件小改 ①～⑤",
+   "task": "EVPKG-1020",
+   "msg": "ACK",
+   "integration": "部分整合",
+   "note": "①②LAWWW-C 6026c0ce；B7 更正、③④⑤ 轉給 AA343 子代理"
+  },
+  {
+   "id": "DL-AA-57b2a7b3",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "57b2a7b3",
+   "what": "AA_345 回 AA_QUESTIONS_1021 F／G／H 二十八題（大四前半、大四後半到尾聲、寒暑假快轉）：BCG-34 冬天不放改旁白、大三寒假那一頓改 2/20、明軒作息到 2029-08-28、US2 10/16 18:00、面板名稱 5 個…",
+   "task": "AA345-ANSWERS-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW-C 09:4x 派子代理"
+  },
+  {
+   "id": "DL-AA-c6b698a9",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c6b698a9",
+   "what": "AA_346 多段感情：選一個人之後的分開談話（ev_choice_apart_<id> 七位、2029 選的隔天起一晚一位、學姊 5/30、2030 從 5/26 起、三次沒到轉電話、記 apart_choice）",
+   "task": "EVPKG-AA346-APART",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "等 AA343／AA345 子代理合併後派工（同一段 postgrad 程式）"
+  },
+  {
+   "id": "DL-LAWWW2-a33d85b5",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a33d85b5",
+   "what": "#47 公館校門口 draw call：光暈合批 wzGlowBatch、店內景深卡 atlas、捷運出口 GLB 23→14 網格（校門口 1.53→1.03 倍）",
+   "task": "ART-L118-LANE-1020",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 114a69fa；溫州街 19:30 三角形 +37% LAWWW2 接著查"
   }
  ],
  "ignored": [

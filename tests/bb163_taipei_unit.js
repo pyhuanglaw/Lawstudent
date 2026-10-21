@@ -1,5 +1,6 @@
 // BB_163：沛珊（大二下重考、大三起在別的學校）、子晴（大四在工作室）人在臺北、不在台大（presence kind taipei）——不需要瀏覽器。
-// 檢查（BB_163 第 3 節的測試）：作息換成她們那一份（總圖週末、小公園週日一小時、課輔班、書店、美術館；子晴平日工作、晚上 Café）；邀約不先擋、照各地點接受／改時間／婉拒＋句子；芷若、學姊照舊約不到；手機「約」照常。用法：node tests/bb163_taipei_unit.js
+// 檢查（BB_163 第 3 節的測試）：作息換成她們那一份（子晴平日工作、晚上 Café）；邀約不先擋、照各地點接受／改時間／婉拒＋句子；芷若、學姊照舊約不到；手機「約」照常。
+// 2026-10-21（PS-TAINAN-AA282）：沛珊大三起的臺北作息（BB_163 1-2：溫州街課輔班、公館書店、美術館）作廢——AA_282 第 1 節她放榜以後在台南、不回臺北（kind city）；第 3～5 項改成檢查新的規則。用法：node tests/bb163_taipei_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -48,17 +49,18 @@ GM.money=function(n){ G.money+=n; };
   setup(Y2S2SUN,9,{dating_classmate_peishan:true}); at(Y2S2SUN,14.5); e=ent(PS);
   check('3. 交往中也一樣：週日下午不在小公園',!e);
   setup(D('2027-08-07'),9); at(D('2027-08-07'),10); check('3. 8/7 放榜以後：暑假還在台中老家（AA_276 第 1 節，使用者 23:4x：寒暑假沛珊回台中）',STORY.presence(PS,G).kind==='home');
-  setup(D('2027-09-08'),9); at(D('2027-09-08'),10); check('3. 開學以後（9/8）：回到「在臺北、不在台大」',STORY.presence(PS,G).kind==='taipei');
-  // 4. 大三：課輔班、書店、總圖
-  setup(Y3TUE,9); at(Y3TUE,17); e=ent(PS); const r4=ask(PS,'wenzhou',Y3TUE,17), r4b=ask(PS,'library',Y3TUE,14), r4c=ask(PS,'cafe',Y3TUE,17), r4d=ask(PS,'cafe',Y3TUE,13);
-  check('4. 大三週二 17:00：沛珊在溫州街（課輔班）；約散步改到 19:00「課輔班下課，剛好在溫州街。……七點，門口等我。」',e&&e.zone==='wenzhou'&&r4.res==='resched'&&r4.alt&&Math.abs(r4.alt.h-19)<1e-6&&r4.alt.day===Y3TUE&&L(r4)==='「課輔班下課，剛好在溫州街。……七點，門口等我。」',JSON.stringify([e&&e.zone,r4]));
-  check('4. 約總圖：婉拒「我現在進不去總圖了。……Café 好不好？我帶作業去改。」；課輔班時間約 Café 改到 19:30；有空的時候 Café 接受',r4b.res==='decline'&&L(r4b)==='「我現在進不去總圖了。……Café 好不好？我帶作業去改。」'&&r4c.res==='resched'&&Math.abs(r4c.alt.h-19.5)<1e-6&&L(r4c)==='「七點下課。……七點半，我走過去。」'&&r4d.res==='accept'&&L(r4d)==='「好。我帶作業去改，你念你的。」',JSON.stringify([r4b,r4c,r4d].map(x=>x.res+L(x))));
-  setup(Y3SAT,9); at(Y3SAT,15); e=ent(PS); const r4e=ask(PS,'cafe',Y3SAT,15);
-  check('4. 大三週六 15:00：沛珊在公館的書店（打工）；約 Café 改到 18:10「書店六點打烊。……六點十分，兩點半。」',e&&e.zone==='bookstore'&&r4e.res==='resched'&&Math.abs(r4e.alt.h-(18+10/60))<1e-6&&L(r4e)==='「書店六點打烊。……六點十分，兩點半。」',JSON.stringify([e&&e.zone,r4e]));
-  const r4f=ask(PS,'noodle',Y3SAT,19); check('4. 大三起第一次約麵店：「好。阿鳳阿姨一定會問我現在念什麼。……我要講很久。」',r4f.res==='accept'&&L(r4f)==='「好。阿鳳阿姨一定會問我現在念什麼。……我要講很久。」',JSON.stringify(r4f));
-  // 5. 大三起週日 10:00 美術館照舊
-  setup(Y3SUN,9,{WISH_DONE_classmate_peishan:true}); at(Y3SUN,10); e=ent(PS);
-  check('5. 大三起週日 10:00：美術館（D06 偶遇）照舊',e&&e.enc==='D06'&&e.away==='在美術館',JSON.stringify(e));
+  setup(D('2027-09-08'),9); at(D('2027-09-08'),10); check('3. 開學以後（9/8）：在台南（AA_282 第 1 節，kind city；不是「在臺北、不在台大」）',STORY.presence(PS,G).kind==='city'&&STORY.presence(PS,G).city==='台南');
+  // 4. 大三：沒有溫州街課輔班、書店的作息；約臺北的地點一律「在台南，不在臺北」（AA_282 第 1、6 節：她不來臺北）
+  const K={PS_BACK_FIRST:D('2027-08-12')};   /* 放榜後重新聯絡上（AA_282 第 2 節） */
+  setup(Y3TUE,9,K); at(Y3TUE,17); e=ent(PS); const r4=ask(PS,'wenzhou',Y3TUE,17), r4b=ask(PS,'library',Y3TUE,14), r4c=ask(PS,'cafe',Y3TUE,17), r4d=ask(PS,'cafe',Y3TUE,13);
+  { const w=STORY.whereIs({G,E:{}},PS); check('4. 大三週二 17:00：不在溫州街（課輔班）、不會照作息生出來（reachable false）；人物線索「在台南」',!STORY.reachable(PS,G)&&!!w&&w.zone==null&&w.away==='在台南',JSON.stringify([e&&e.zone,w])); }
+  check('4. 約溫州街、總圖、Café：都不行（away）、「郭沛珊在台南，不在臺北。」',[r4,r4b,r4c,r4d].every(x=>x.res==='decline'&&x.why==='away')&&INV.reply(G,PS,'cafe',r4c)==='郭沛珊在台南，不在臺北。',JSON.stringify([r4,r4b,r4c,r4d].map(x=>x.res+(x.why||''))));
+  setup(Y3SAT,9,K); at(Y3SAT,15); const r4e=ask(PS,'cafe',Y3SAT,15), w4=STORY.whereIs({G,E:{}},PS);
+  check('4. 大三週六 15:00：不在公館的書店（她在台南學校附近的二手書店打工，AA_282 第 1 節，不排作息）',!STORY.reachable(PS,G)&&r4e.res==='decline'&&!!w4&&w4.zone==null&&w4.away==='在台南',JSON.stringify([r4e,w4]));
+  const r4f=ask(PS,'noodle',Y3SAT,19); check('4. 大三起約麵店：也不行',r4f.res==='decline'&&r4f.why==='away',JSON.stringify(r4f));
+  // 5. 大三起週日 10:00：沒有美術館（D06 偶遇拿掉，AA_282 第 5 節第 1 點）
+  setup(Y3SUN,9,Object.assign({WISH_DONE_classmate_peishan:true},K)); at(Y3SUN,10); e=ent(PS);
+  check('5. 大三起週日 10:00：沒有美術館（D06）的作息',!e||e.enc!=='D06',JSON.stringify(e));
   // 6. 子晴大四
   setup(Y4TUE,9); at(Y4TUE,18); e=ent(ZQ); const z1=ask(ZQ,'cafe',Y4TUE,18), z2=ask(ZQ,'library',Y4TUE,14); at(Y4TUE,21); const e2b=ent(ZQ);
   check('6. 子晴大四平日 18:00：在工作室；約 Café 改到 20:10「欸不是，我八點才下班。……八點十分，兩點半。」；21:00 在 Café',e&&e.away==='在工作室上班'&&z1.res==='resched'&&Math.abs(z1.alt.h-(20+10/60))<1e-6&&L(z1)==='「欸不是，我八點才下班。……八點十分，兩點半。」'&&e2b&&e2b.zone==='cafe',JSON.stringify([e,z1,e2b&&e2b.zone]));

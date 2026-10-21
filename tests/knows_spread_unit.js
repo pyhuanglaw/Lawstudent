@@ -69,7 +69,7 @@ GM.money=function(n){ G.money+=n; };
   { const wd3=STORY.termDay('Y1S2',4,3); law(wd3,17.5); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 週三（子晴下午不在校園）：不問',G.flags.ZQ_ASK_KAI_D==null); G.day=wd3+1; G.hour=17; ROM.zqAskTick(G); check('2. 隔天週四 17:00：問',G.flags.ZQ_ASK_KAI_D===wd3+1); }
   { const gone=STORY.dayOfKey('2027-01-07'); law(k3,15); ROM.learn(G,'heroine_01','kexin','ev_mid_autumn_bbq'); G.flags.knowsRel.heroine_01.kexin.day=STORY.dayOfKey('2026-12-20'); G.flags.knowsRel.heroine_01.kexin.h=10;
     G.day=STORY.dayOfKey('2027-08-01'); G.hour=12; ROM.spreadTick(G); check('1. 沛珊聯絡不到的那段（2026-12-18～2027-08-06）：讀書會她不在，不傳',!ROM.knowsGF(G,'classmate_peishan'));
-    G.day=STORY.termDay('Y2S2',12,4)+400; G.hour=12; ROM.spreadTick(G); K=(G.flags.knowsRel.classmate_peishan||{}).kexin; check('1. 她回來以後的第一次讀書會照常傳',!!K&&K.day>=STORY.dayOfKey('2027-08-06'),JSON.stringify(K)); }
+    G.day=STORY.termDay('Y2S2',12,4)+400; G.hour=12; ROM.spreadTick(G); K=(G.flags.knowsRel.classmate_peishan||{}).kexin; check('1. 放榜以後她在台南、不回臺北，不來讀書會（AA_282 第 1 節；原本「回來以後的第一次讀書會照常傳」作廢）：讀書會不傳',!K,JSON.stringify(K)); }
   { const sat=STORY.termDay('Y1S2',4,6); law(sat,18); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 週六：不問（等上課日）',G.flags.ZQ_ASK_KAI_D==null); }
   { const brk=STORY.dayOfKey('2026-07-15'); law(brk,18); G.weekday=wdOf(brk); setZq(45,30,20,35); ROM.zqAskTick(G); check('2. 暑假：不問',G.flags.ZQ_ASK_KAI_D==null); }
   law(wed,17); setZq(45,30,20,35); ROM.learn(G,'heroine_04','kexin','ev_mid_autumn_bbq'); ROM.zqAskTick(G); check('2. 已經知道：不問',G.flags.ZQ_ASK_KAI_D==null);

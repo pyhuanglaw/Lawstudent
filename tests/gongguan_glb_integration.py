@@ -5,7 +5,7 @@
   1. 16 棟套件店面都有棟號、都接上正式模型、套件外觀全部藏起來；沒有標記的東西（捷運出口、校門、路燈、立牌、校園那一側的背景）沒有多藏任何一個。
   2. 導航格、鏡頭碰撞方塊、互動點（進麵店、買飲料、進書房、進便利商店、往溫州街、回到校園、捷運）和 ?nobldg（程序化套件）完全相同。
   3. 招牌：ART-GG-SIGNS-2 起全部是設計稿（字在貼圖裡，wz_signs／wz_signs_lit），沒有 canvas 字的 SIGN_FACE／VSIGN_FACE；設計稿網格看得到、三角形數夠；
-     店內景深卡 16 張有貼圖。（之前：canvas 招牌合成一張 atlas、檢查貼圖比例＝板面比例。）
+     店內景深卡 15 面合成一張 atlas（2026-10-21）；光暈合成一個網格。（之前：canvas 招牌合成一張 atlas、檢查貼圖比例＝板面比例。）
   4. 夜間：招牌、騎樓日光燈、亮燈的窗晚上發光、白天不發光；20:30 招牌是亮的；騎樓柱子有樹幹透視（擋住玩家時網點透空）。
   5. 太陽方向：中午太陽在南邊（公館的區域座標 +x＝南，sunYaw＝π/2）。
   6. 效能：同一個鏡頭（藏起路人；含陰影那一輪、含玩家）draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬。
@@ -98,7 +98,17 @@ async def check(pg, run, formal):
         dsg = await pg.evaluate("(([ids,vids,tids,f2,rf])=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); let tris=0, vis=0; r.traverse(o=>{ if(o.isMesh&&/^wz_signs(_lit)?$/.test(o.material.name)){ let v=true; for(let p=o;p&&v;p=p.parent) v=p.visible; if(v){ vis++; tris+=(o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3; } } }); return {faces:ids.filter(i=>r.getObjectByName('SIGN_FACE_'+i)).concat(vids.filter(i=>r.getObjectByName('VSIGN_FACE_'+i+'_a')), tids.filter(i=>r.getObjectByName('VSIGN_FACE_'+i+'_t_a')), f2.filter(i=>r.getObjectByName('SIGN_FACE_'+i+'_2F')), rf.filter(i=>r.getObjectByName('SIGN_FACE_'+i+'_roof'))), meshes:vis, tris}; })" % GLB, [DESIGNED, VDESIGNED, TENANT, SIGN2F, ROOF])
         run.check('設計稿招牌（橫 %d 家；店的直立 %d 塊；樓上住戶直立 %d 塊；二樓 %d；屋頂 %d）沒有 canvas 字、設計稿網格看得到' % (len(DESIGNED), len(VDESIGNED), len(TENANT), len(SIGN2F), len(ROOF)),
                   not dsg['faces'] and dsg['meshes'] >= 1 and dsg['tris'] >= 2 * (len(DESIGNED) + 2 * len(VDESIGNED) + 2 * len(TENANT) + len(SIGN2F) + len(ROOF)), json.dumps(dsg))
-        run.check('15 棟的店內景深卡都有貼圖（G01 茶行是立體櫃台）', sorted(k[14:] for k in ints) == INT_IDS and all(v['canvas'] for v in ints.values()), json.dumps(sorted(ints)))
+        # 店內景深卡（LAWWW2-C 2026-10-21 效能）：15 面合成一張 atlas、一個網格（wz_interior_atlas）；同一種店共用 atlas 的一格；重複兩次的板面切成兩塊（atlas 裡不能重複貼圖）
+        ia = await pg.evaluate("""(()=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'), at=r&&r.getObjectByName('wz_interior_atlas'); if(!at) return null; const m=at.material.map, img=m&&m.image, A=at.userData.atlas;
+            const left=[]; r.traverse(o=>{ if(o.isMesh&&/^INTERIOR_FACE_/.test(o.name)) left.push(o.name); });
+            return {names:A.items.map(i=>i.name).sort(), cells:A.cells, w:A.w, h:A.h, canvas:!!(img&&img.getContext), visible:at.visible, tris:at.geometry.index.count/3, left, night:+at.material.emissiveIntensity.toFixed(2), wrap:!!(m&&m.wrapS===THREE.ClampToEdgeWrapping)}; })()""" % GLB)
+        run.check('15 棟的店內景深卡（G01 茶行是立體櫃台）合成一張 atlas、一個網格，原本的板面拿掉；同一種店共用一格；重複兩次的 4 面切成兩塊（三角形 2×(15+4)）',
+                  ia is not None and [n[14:] for n in ia['names']] == INT_IDS and ia['canvas'] and ia['visible'] and not ia['left'] and ia['cells'] < len(INT_IDS) and ia['tris'] == 2 * (len(INT_IDS) + 4) and ia['w'] <= 2048 and ia['h'] <= 2048, json.dumps(ia))
+        # 光暈（LAWWW2-C 2026-10-21 效能）：GLOW_* 86 個原本各自一個 Sprite、天快黑就 86 次 draw call → 一個網格；白天整個不畫、晚上畫
+        gl = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, b=z.group.children.find(o=>o.name==='%s_glows'); if(!b) return null; const sp=z.group.children.filter(o=>o.isSprite&&o.userData.formalGlow&&o.visible).length;
+            z.applyTimeOutdoor(11,E); const day=b.visible; z.applyTimeOutdoor(20.5,E); const night=b.visible, k=+b.material.emissiveIntensity.toFixed(2); z.applyTimeOutdoor(17.5,E);
+            return {n:b.userData.glowBatch.items.length, day, night, k, sprites:sp, shadow:b.castShadow, additive:b.material.blending===THREE.AdditiveBlending&&!b.material.depthWrite}; })()""" % GLB)
+        run.check('店面的光暈（86 個）合成一個網格（沒有個別的光暈 Sprite）：11:00 不畫、20:30 畫；加法混合、不寫深度、不投影', gl is not None and gl['n'] == 86 and not gl['day'] and gl['night'] and gl['k'] > 0.9 and gl['sprites'] == 0 and not gl['shadow'] and gl['additive'], json.dumps(gl))
         night = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, root=z.group.children.find(o=>o.name==='%s'); const mats={};
             root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; }); 
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});   /* ART-GG-SIGNS-2：canvas 招牌 atlas 不在了，量燈箱招牌的設計稿材質 */

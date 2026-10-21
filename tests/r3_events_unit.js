@@ -462,12 +462,12 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     fresh(o24,20.5,'us_apartment',{EXCHANGE_ROUTE:'US'}); run(o24,20.5,21.5); check('15. 沒見過他：沒有 10/24 的私訊', !PHONE.sent(G,'r3_long_5'));
     fresh(u14-3,9,'dorm',{EXCHANGE_ROUTE:'TW'}); run(u14-3,9,9.25); check('15. 台灣、日本路線：都沒有', !OUT.get(G,'r3_long_1')); }
 
-  // ===== 16. 3-09 沛珊在台南的「再去」三版（hometown_lines.js 的台南那一組；presence 改台南是 AA_282 第 5 節、還沒做：這裡先假裝她在台南）=====
+  // ===== 16. 3-09 沛珊在台南的「再去」三版（hometown_lines.js 的台南那一組；presence 改台南是 AA_282 第 5 節——2026-10-21 已做（PS-TAINAN-AA282），下面多數項目照舊用假裝的 presence，第一項改成檢查真的 presence）=====
   { const ID='classmate_peishan', P0=STORY.presence; let tainan=false;
     STORY.presence=function(id,G1){ if(id===ID&&tainan) return {here:false,away:'在台南',kind:'after',city:'台南'}; return P0.apply(this,arguments); };
     try{
       fresh(D('2027-10-13'),12,'dorm',{PS_BACK_FIRST:500}); R(ID,'FRI'); C(ID);
-      check('16. 現在（presence 還沒改台南）：學期中沒有「我去台南找妳？」', HV.offer(G,ID)===null);
+      check('16. 真的 presence（AA_282 第 5 節已做）：大三學期中、重新聯絡上＝「我去台南找妳？」（原本這一項檢查「還沒改＝沒有」）', HV.key(G,ID)===ID+'@台南'&&!!HV.offer(G,ID)&&HV.offer(G,ID).ok===true&&STORY.presence(ID,G).kind==='city');
       tainan=true;
       check('16. 她在台南（presence city）：用台南那一組「我去台南找妳？」、高鐵約一小時四十分鐘、2700 元', HV.key(G,ID)===ID+'@台南'&&!!HV.offer(G,ID)&&HV.offer(G,ID).ok===true&&HOMETOWN_LINES[HV.key(G,ID)].ask==='我去台南找妳？'&&HOMETOWN_LINES[HV.key(G,ID)].fare===2700);
       G.day=D('2027-11-16'); check('16. BB_165 5-1（11/19）那天不能選', !HV.days(G,ID).includes(D('2027-11-19'))&&HV.days(G,ID).length===3, JSON.stringify(HV.days(G,ID)));

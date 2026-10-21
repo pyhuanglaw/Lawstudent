@@ -458,6 +458,7 @@ const R2Y4B=(function(){
   /* ===================== 2-Y4-61 沛珊大四下的學期末（6/8（五）台南；AA_254 第 6 節的心意邀約、女朋友的約會、第二次）===================== */
   const PSD='2029-06-08';
   S.ps61Kind=function(G){ if(typeof TERMEND==='undefined'||!law(G)) return null; const id='classmate_peishan'; if(dating(G,id)) return TERMEND_LINES.GF&&TERMEND_LINES.GF[id]?'gf':null;
+    if(typeof STORY!=='undefined'&&STORY.presence&&STORY.presence(id,G).lost) return null;   /* 放榜後還沒重新聯絡上的玩家：她不先找人（AA_282 第 2 節；presence 的 lost）*/
     try{ return TERMEND.heartWhy(G,id,TERMEND.windowOf?TERMEND.windowOf('Y4S2'):null)===true?'heart':null; }catch(e){ return null; } };
   const ps61Phone=G=>{ const d=DK(PSD), F=G.flags, id='classmate_peishan'; if(d==null||G.day!==d||typeof TERMEND==='undefined') return;
     if(at(G,PSD,15)&&hh(G)<16.5&&!PHONE.sent(G,'y4_ps_te')){ const kind=S.ps61Kind(G); if(!kind) return; F.PS_TE_KIND=kind; const Lx=TERMEND_LINES;
@@ -471,7 +472,7 @@ const R2Y4B=(function(){
     if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('','台南・她學校附近的簡餐',2400);   /* 台南的底圖沒有：dark＋字幕（AA_282 第 5 節第 6 點）*/
     if(P.open) await GM.say(null,P.open); const tbl=typeof spec.table==='function'?spec.table(G):spec.table; if(tbl) await play(GM,id,[tbl]); if(P.close) await GM.say(null,P.close);
     G.flags.PS_TE_Y4S2={kind,day:G.day};
-    if(kind==='heart'){ if(GM.caption) GM.caption('','台南・走回她租的地方',2400); const r=await TERMEND.walkHome(GM,id,'Y4S2'); G.flags.PS_TE_Y4S2.result=r; }   /* 讓我想想＝7/14 台中那一次（2-Y4-46）*/
+    if(kind==='heart'){ if(GM.caption) GM.caption('','台南・往她租的地方',2400); const r=await TERMEND.walkHome(GM,id,'Y4S2'); G.flags.PS_TE_Y4S2.result=r; }   /* 讓我想想＝7/14 台中那一次（2-Y4-46）*/
     return true; };
 
   /* ===================== 手機（STORY.PHONE_RULES，每 0.5 秒）===================== */

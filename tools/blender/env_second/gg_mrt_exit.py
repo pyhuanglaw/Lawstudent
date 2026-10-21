@@ -151,6 +151,11 @@ def build():
     for z in (-1.6, -4.0):
         lp = Mesh('mrt_lamp', M['lamp']); lp.box(-0.5, 0.5, top - 0.32, top - 0.28, z - 0.08, z + 0.08); lp.finish(root, uv=False)
         glow(root, f'GLOW_mrt_in{int(-z)}', 0.0, top - 0.5, z, 'rgba(250,250,255,1)', 1.8, 0.0, 0.8)
+    # 純色、不透明的零件改成兩個頂點色材質，同材質合成一個網格（10-21 效能：公館校門口 draw call 是 ?nobldg 的 1.53 倍，這座出口原本 23 個 primitive）。
+    # 地面以下的 PIT_* 另外合（名字留 PIT_ 開頭：遊戲靠名字設 renderOrder）；燈（wz_lamp_lens 晚上亮）、發光的地板牆、玻璃、字牌、遮罩不動
+    VCM, VCT = L.vc_metal('mrt_vc_metal', rough=0.35, metal=0.4), L.vc_material('mrt_vc_matte', rough=0.65)
+    L.vc_consolidate(root, {'mrt_steel': VCM, 'mrt_alu': VCM, 'mrt_alu_dark': VCM, 'mrt_granite_dark': VCT, 'mrt_tactile': VCT, 'mrt_black': VCT})
+    L.merge_by_material(root, keep=lambda ob: ob.name.startswith(('SIGN_FACE', 'PITMASK')), key=lambda ob: 'PIT' if ob.name.startswith('PIT_') else '')
     st_ = L.export(out, gpu_instances=False)
     L.write_json(out.replace('.glb', '.json'), {'glb': os.path.relpath(out, L.ROOT), 'bytes': st_['bytes'], 'tris': st_['tris'], 'size': [W, Lg, H],
         'origin': '入口在 z=0、朝 +z；和 TK.mrtExit 同一個座標', 'pit': {'opening': OP, 'depth': DEPTH, 'mask_y': FY, 'note': '遊戲端：PIT_* renderOrder −2；PITMASK colorWrite=false、renderOrder −1'},

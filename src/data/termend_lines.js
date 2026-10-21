@@ -10,6 +10,8 @@ const TERMEND_LINES=(function(){
   const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);
   const TM=G=>{ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; return w?w.id:null; };   /* 現在是哪一學期的期末時段 */
   const US4=G=>TM(G)==='Y4S1'&&typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';   /* 美國路線的大四上：12/23 才回來（AA_254 第 0 節 BB-C 16:45 規則：「你考完了沒」換成「你回來了」那一類）*/   /* 子晴做遊戲是秘密，大一下 Q6 才揭露（BB_166 1-1；AA-C 375b91dd）*/
+  /* 沛珊大三起在台南（AA_282 第 5 節第 5 點）：期末飯的地點、交通（高鐵去、搭最後一班高鐵回臺北；票錢照 hometown_lines.js 台南那一組 2700）——系統字，不是台詞 */
+  const PS_TN={place:'eatery_tn',placeName:'台南・她學校附近的簡餐',travel:'高鐵（去台南）約兩小時',travelH:2,back:'搭最後一班高鐵回到臺北。',fare:2700};
   /* 地點：AA_250 10-1 一對一的開場、收尾（AA-C c524b61e）；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
   const PLACE={
     noodle:{name:'阿鳳麵店',open:'（靠牆的兩人桌。阿姨端了兩碗過來，沒有問要什麼。）',close:'（阿姨來收碗，順手多放了一顆滷蛋在你碗裡。）',bg:'noodle_table'},
@@ -17,7 +19,7 @@ const TERMEND_LINES=(function(){
     cafe:{name:'兩點半 Café 打烊以後',open:'（店裡的燈關了一半。她把「準備中」的牌子翻過去，在你對面坐下。）',close:'（她把兩個杯子收回吧台，關掉最後一盞燈。）',bg:null},
     yexiao:{name:'公館宵夜',open:'（騎樓下的塑膠椅，兩個人點了三盤。）',close:'（老闆開始收隔壁桌的椅子。）',bg:'gongguan_luwei'},
     eatery:{name:'系館附近的簡餐',open:'（簡餐店的電視在播新聞。靠窗的兩人座。）',close:'（餐盤疊好，拿去回收。外面的路燈已經亮了。）',bg:'xiaofu'},
-    eatery_wz:{name:'舊路書房旁邊的簡餐',open:'（簡餐店的電視在播新聞。靠窗的兩人座。）',close:'（餐盤疊好，拿去回收。外面的路燈已經亮了。）',bg:'xiaofu'},   /* 沛珊大三起（AA_254 第 6 節：舊路書房旁的簡餐；開場收尾照一對一的簡餐）*/
+    eatery_tn:{name:'台南・她學校附近的簡餐',open:'（簡餐店的電視在播新聞。靠窗的兩人座。）',close:'（餐盤疊好，拿去回收。外面的路燈已經亮了。）',bg:null,caption:'台南・她學校附近的簡餐'},   /* 沛珊大三起（AA_282 第 5 節第 5 點：期末飯在台南她學校附近；台詞照 AA_254、開場收尾照一對一的簡餐不變，只換地點）。底圖還沒有（AA_282 第 5 節第 6 點）＝深色底＋地點字幕。原本的「舊路書房旁邊的簡餐」（eatery_wz）作廢 */
     eatery_lib:{name:'法圖旁邊的簡餐',open:'（下午的人散了，店裡只剩你們這一桌。）',close:'（她看了一下錶，把計畫本收進包包。）',closeGf:'（她看了一下錶，沒有要起身的意思。）',bg:'xiaofu'} };   /* closeGf：女朋友的學期末約會的收尾（AA_250 10-1，S14）*/
   /* 心意的邀約（AA_254）：place＝飯的地點（開場、收尾旁白用 PLACE）；wd＝約的星期（0＝日；沒寫＝時段第三天）；h＝幾點；walkBg＝回家路上的 2D；
      opts＝說出來的三句（沒寫＝第 0 節的通用三句，buddy＝「○○」）；yes＝答應（沒寫＝confess_lines.js 的 yes）*/
@@ -88,7 +90,7 @@ const TERMEND_LINES=(function(){
       invite2:'期末考完了！吃飯？……上次那題，還放著。',
       she2:['那我問最後一個問題。','上次那題，我的答案沒變。……你的呢？'],
       yes2:['……你終於回答了。','好。'],
-      over:[{terms:['Y3S1','Y3S2','Y4S1'],place:'eatery_wz',placeName:'舊路書房旁邊的簡餐',walkPlace:'溫州街・小公園'},   /* 大三起（她在別的學校）：舊路書房旁的簡餐，回家走溫州街到小公園（AA_254 第 6 節，AA-C 裁定統一）*/
+      over:[{terms:['Y3S1','Y3S2','Y4S1'],...PS_TN,walkPlace:'台南・往她租的地方',walkCaption:'台南・往她租的地方'},   /* 大三起她在台南（AA_282 第 5 節第 5 點；AA_254 第 6 節 10-18 改）：期末飯在台南她學校附近，飯後走回她租的地方，祐廷搭最後一班高鐵回臺北；台詞不變。大四下（6/8 台南）、七月（台中）在 r2y4b3d.js */
         {terms:['Y4S1'],she:['我可以問一個奇怪的問題嗎？','如果我們兩個都不是當年的樣子了，還可以重新認識嗎？'],answer:['「從今天開始認識。」','「……讓我想一下。」']}] } };   /* 大四上「先不說」＝BB_119 3-1 兩句（這學期唯一一次奇怪的問題）*/
   /* 說出來的通用三句＋先不說（AA_254 第 0 節）；回答她說的兩個選項 */
   const OPTS=b=>['「我喜歡妳。」','「我們可以不只是'+(b||'朋友')+'嗎？」','「我喜歡妳。妳不用現在回答。」'];
@@ -121,7 +123,7 @@ const TERMEND_LINES=(function(){
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。'},
     heroine_04:{invite:G=>TM(G)==='Y4S1'?'你考完了吧 宵夜 我想吃兩份':'考完了 宵夜 我想吃兩份',place:'yexiao',placeName:'公館宵夜',h:22,table:G=>Q6(G)?'我做的那個關卡，最後一關的名字是你。……不要問。':'這學期熬了很多夜。有幾個晚上是在想你。'},
     classmate_peishan:{invite:'期末考完了！今天吃飯，我想吃熱的。',place:'eatery',placeName:'系館附近的簡餐',h:18.5,table:'這學期有幾次我想打給你，後來沒打。怕你在讀書。',
-      over:[{terms:['Y3S1','Y3S2','Y4S1'],place:'eatery_wz',placeName:'舊路書房旁邊的簡餐'}]} };   /* 大三起她在別的學校：舊路書房（溫州街）旁邊的簡餐（AA_250 10-3）*/
+      over:[{terms:['Y3S1','Y3S2','Y4S1'],...PS_TN}]} };   /* 大三起她在台南（AA_282 第 5 節第 5 點、AA_250 第 5 節）：女朋友的學期末約會也在台南她學校附近 */
   /* 她不發心意邀約時的手機一句（AA_254 第 9 節）：時段第一天 20:00，只一次；preexam＝學姊筆試前、knows＝她知道你有別人、low＝低潮期；沛珊重考期、她自己有伴侶＝不傳 */
   const NOPE={
     /* 學姊筆試前那一句刪（5-3 第一欄，照 BB 不傳；AA_254 第 9 節 8c76052b）。C5 她自己有交往對象：只有芷若、子晴、沛珊（BB_203 5-1）*/
@@ -254,7 +256,7 @@ const TERMEND_LINES=(function(){
   const C14={msg:['{日期}早上十點，我爸說可以。','穿平常的衣服就好，他們不看。'],bg:null,place:'芯慈爸爸的事務所',
     open:[{narr:'（事務所在一棟舊大樓的七樓。電梯門打開，正對著一排深色的檔案櫃。）'},{who:'classmate_xinci',text:'這是我爸。'},{who:'xinci_dad',name:'芯慈爸爸',text:'你們法律系現在都教什麼？'}],
     opts:[{t:'「民法、刑法、憲法……還有很多考試。」',say:[{who:'xinci_dad',name:'芯慈爸爸',text:'考試沒變。'},{narr:'（他笑了一下。）'}]},
-          {t:'「上學期我去旁聽了一場開庭。」',if:G=>!!(G.flags&&G.flags.COURT_VISITED),say:[{who:'xinci_dad',name:'芯慈爸爸',text:'那你看過了。這裡大部分的時間，都在寫東西。'}]}],
+          {t:'「我去法院旁聽過一場開庭。」',if:G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_crimpro_court_visit),say:[{who:'xinci_dad',name:'芯慈爸爸',text:'那你看過了。這裡大部分的時間，都在寫東西。'}]}],   /* AA_344 ①（569621e0）：原本讀的 COURT_VISITED 沒有地方設、選項永遠不出現；改成演過大三上刑訴的法院旁聽（ev_crimpro_court_visit），字改「我去法院旁聽過一場開庭。」*/
     close:[{narr:'（會議室的白板上，寫著一張很長的時間表。芯慈看了一眼，沒說話。）'},{who:'classmate_xinci',text:'……我以前來這裡，都只坐櫃台。'}],
     miss:['我自己去了。我爸問你怎麼沒來。']};
   /* C15 朋友約的單日小事（AA_251 第 2 節）：日子 LAWWW 暫排；msg＝傳日子（AA_270 第 2 節）；photo＝沒去的那天晚上 21:00 私訊（第 3 節）*/
