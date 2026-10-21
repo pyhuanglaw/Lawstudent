@@ -595,7 +595,19 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 20:5x 進度（帳號 A LAWWW2；最新，蓋過下面 19:4x 那一節）
+### ▶▶ 10-21 21:5x 進度（帳號 A LAWWW2；最新，蓋過下面 20:5x 那一節）
+- 開發分支最新 `80af0168`（21:19；LAWWW 已整合 BUG-CAFE-KIT-GLOW-1021）。待交的 patch（lamppost_nav→campus_avenue_lamps、dorm_seethru、cafe_seethru、us_market_street、crowd_far_lod、airport_cam_night）在 `80af0168` 上一起套都乾淨。
+- **21:3x 已交件（DELIVERED、沒 ACK）**：榕樹氣根（`f858b47c`／說明 `c36c2dbe`）、燈柱導航＋椰林大道路燈（`5f03d748`／說明 `fb8546f3`；Node＋四支瀏覽器回歸修改前後都 ALL PASS）。
+- **WIP：PERF-CROWD-LOD-1021**（`21ada28c`）：遠距離路人的明暗改成照 MToon 公式（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮）；`npc_far_unit` 第 8 項最大差 0.002；18 支相關單元測試 ALL PASS。j10 會用新版（`$SP/crowdlod/crowd_lod_src.diff` 已更新）。遠距離 GLB 等 j10 看過再放進 assets＋LICENSES。
+- **WIP：ART-VAC-AIRPORT-1021**（D99 寒暑假；j6 機場巡場景 20 張）：
+  - `patches/airport_cam_night.diff`（`1997dc31`）：鏡頭牆（帷幕、出關門、出口、報到島背牆）、網點透空、晚上窗外變暗；`tests/airport_cam_unit.js` 修改前 13 FAIL→ALL PASS；11 支美國／機場 Node 測試前後相同。
+  - `airport_t2.py`（`ab8544f6`）：背牆烤漆深灰＋鋁收邊、帷幕框鋁灰、輸送帶；新 GLB 在 `$SP/airport/glb/new_*.glb`（還沒換進 assets）。
+  - 說明草稿 `test_shots/airport_1021/README.md`（`25da22cb`）。遊戲內前後對照排在佇列 j15（master10，等 ALLQ9）。
+  - 測試用的稀疏工作樹：`$SP/devwt_ap`（`80af0168`，只有 lib／src／tests／tools／機場模型，26 MB）。
+- **背景佇列**：j7 美國超市街拍照中 → j8 博雅 → j9 三棟大門 → j10 路人量測 → j11 溫州街巡場景（ART-WZ0）→ j12 宿舍 412 → j13 Café（含 cafe_glb_integration）→ j14 美國巡場景 → j15 機場前後對照。監看到 ALLQ10。
+- **接下來**：照佇列輸出交件（博雅＋三棟大門 → 超市街 → 路人 LOD → 宿舍 412＋Café 地板 → 機場）；ART-WZ0 盤點（j11）。
+
+### ▶▶ 10-21 20:5x 進度（帳號 A LAWWW2；被上面 21:5x 那一節取代）
 - 開發分支最新 `d22748f5`（20:5x fetch；19:4x 那一節寫的 `a9da472a` 已經舊了）。交件前所有 patch 要重新對 `d22748f5`（或當時最新）確認乾淨。
 - **已整合**（LAWWW 18:58／19:14／19:27 ACK）：BOX-MIRROR、ART-02、C208、ART-GYM2-INT、A7、arena look 文字。
 - **WIP：ART-ECON-3D-GAP-1021**（六項，19:4x 那一節的 1～6）＋**BUG-NAV-LAMPPOST-1021**（`lamppost_nav.diff`）：
