@@ -14,6 +14,7 @@ from playwright.async_api import async_playwright
 URL, OUT, SAVE, ECON = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 SCEN = os.environ.get('SCEN', '').split(',') if os.environ.get('SCEN') else None
 bad = []; results = {}
+BUY_NAR = ('（書比想像中重。你把它塞進背包，拉鍊差一點拉不起來。）', '（新書的味道。你翻了兩頁，又闔上，留到上課再看。）')   # LAWWW 21:04：買《民法總則》以外的教科書，兩句旁白輪流（AA_370 第 6 節後段）
 def say(*a): print(' '.join(str(x) for x in a), flush=True)
 SNAP = """(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); return {key:d.key, h:+(+G.hour).toFixed(2), zone:G.zone, money:G.money|0, stage:G.stage}; })()"""
 HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; const k=()=>{ try{ const G=GAME.G; return CALENDAR.dateOf(G.day).key+' '+(+G.hour).toFixed(2); }catch(e){ return ''; } };
@@ -96,6 +97,7 @@ async def s_econ_list(pg, cdp, run, base, econ):
     await pick(pg, cdp, '《經濟學原理》'); await pg.wait_for_timeout(1500); await drain(pg, cdp)
     lg = await pg.evaluate("window.__LOG||[]"); sn = await pg.evaluate(SNAP); F = await pg.evaluate("GAME.G.flags.books||{}")
     chk('econList', any('買了《經濟學原理》教科書' in l for l in lg) and sn['money'] == 8000 - 650 and F.get('經濟學原理'), '買《經濟學原理》：錢 −650、提示「買了《經濟學原理》教科書」', '錢 %d、書 %s' % (sn['money'], json.dumps(F, ensure_ascii=False)))
+    chk('econList', any(n in l for l in lg for n in BUY_NAR), '買書的旁白（兩句輪流其中一句，LAWWW 21:04）', json.dumps([l for l in lg if '書比想像中重' in l or '新書的味道' in l][:2], ensure_ascii=False))
 
 
 async def s_law(pg, cdp, run, base, with_book):
@@ -111,7 +113,7 @@ async def s_law(pg, cdp, run, base, with_book):
         lg = await pg.evaluate("window.__LOG||[]"); sn = await pg.evaluate(SNAP); F = await pg.evaluate("GAME.G.flags.books||{}")
         chk(tag, any('買了《憲法》教科書' in l for l in lg) and sn['money'] == m0 - 650 and F.get('憲法'), '買《憲法》：錢 −650、提示「買了《憲法》教科書」', '錢 %d→%d、書 %s' % (m0, sn['money'], json.dumps(F, ensure_ascii=False)))
         nar = [l for l in lg if '書比想像中重' in l or '新書的味道' in l]
-        say('   買書的旁白（AA_370 第 6 節後段，子代理讀碼：還沒做）：%s' % (nar or '（沒有）'))
+        chk(tag, any(n in l for l in nar for n in BUY_NAR), '買《憲法》的旁白（兩句輪流其中一句）', json.dumps(nar[:2], ensure_ascii=False))
         # 宿舍書桌讀 1 小時憲法
         st = json.loads(await pg.evaluate("JSON.stringify(GAME.snapshot())")); G2 = st.get('G', st); G2.update({'zone': 'dorm', 'pos': None, 'hour': 15.0})
         await load(pg, run, G2, '[前置] %s：同一份狀態（買了憲法）搬到宿舍 15:00' % tag)
@@ -182,7 +184,8 @@ async def s_law(pg, cdp, run, base, with_book):
         chk(tag, retried['toast'], '有課本：第一題選錯出現「課本上讀過這一題——再想一次。」')
         chk(tag, retried['n2'] == len(first_opts) - 1 and retried['wrongGone'] and retried['still_q1'], '選錯的那個拿掉、同一題再選一次（剩 %d 個）' % retried['n2'], json.dumps(retried, ensure_ascii=False))
         chk(tag, rec == 1, 'examRecall 記第 1 題', str(rec))
-        nar = [l for l in lg if '你想起課本上那一段' in l]; say('   再想一次的旁白（AA_370 第 6 節後段，還沒做）：%s' % (nar or '（沒有）'))
+        nar = [l for l in lg if '你想起課本上那一段' in l]
+        chk(tag, any('（你想起課本上那一段。旁邊還有你自己畫的線。）' in l for l in nar), '再想一次的旁白「（你想起課本上那一段。旁邊還有你自己畫的線。）」', json.dumps(nar[:1], ensure_ascii=False))
     else:
         chk(tag, not retried['toast'] and not retried['still_q1'], '沒課本：第一題選錯直接下一題（沒有提示、不再選）', json.dumps(retried, ensure_ascii=False))
 

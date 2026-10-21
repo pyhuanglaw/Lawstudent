@@ -880,6 +880,21 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "PASS（72560881）：選項寫 14:00 的約、13:20 會叫醒（LAWWW 訊息寫 13:10，遊戲字和實際都是 13:20）；13:21 醒來 → 出發 → E37 有演"
+  },
+  {
+   "task": "UI-MONEY-TOAST-ADV-1021",
+   "branch": "claude/story-planning",
+   "sha": "e638625d",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/qa_play.py"
+   ],
+   "state": "已測試",
+   "next": "P3 觀察：跨兩個月的跳日期一次入帳 10,000、提示寫 5,000",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "PASS（73ce13de）：生活費提示 11 則都在最上層、在畫面裡、1.5～4.3 秒；27 則提示 0 則被擋"
   }
  ],
  "items": [
