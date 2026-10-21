@@ -167,8 +167,8 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('M1. 大二中秋去過：「又來了。」；以安「……我贊成。」；「明年還是要回來烤。」二選一', has('又來了。')&&has('……我贊成。')&&!has('我贊成。理由：公平。')&&has('明年還是要回來烤。')&&opts[0].length===2&&has('說好了喔。')&&G.flags.MIDAUTUMN_Y4==='went');
   fresh('2028-10-03',17.8,'dorm',TWF({KX_MET_NOODLE_TEAM:true})); date('kexin'); said=[]; await run('ev_y4_midautumn');
   check('M2. 和可昕交往、見過麵店團：「……今年我認輸。我只想吃。」', has('……今年我認輸。我只想吃。')&&has('可昕認輸了！大家記下來！'));
-  fresh('2028-10-02',21.1,'us_apartment',US()); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
-  check('M3. 美國路線：19:30（當地 07:30）照片；可昕沒見過麵店團＝「阿哲今年贏了。」改私訊（AA_370 M7，句子不改）', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('p:kexin').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('g:noodle_team').some(t=>/阿哲今年贏了/.test(t))&&!PHONE.sent(G,'y4_ma_ask'));
+  fresh('2028-10-02',21.1,'us_apartment',US()); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules(); at('2028-10-03',10.1); rules();
+  check('M3. 美國路線：19:30（當地 07:30）照片；可昕沒見過麵店團＝「阿哲今年贏了。」改私訊（AA_370 M7，句子不改；第 6 節第 5 題：照臺灣版 22:00＝當地 10:00）', txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')&&txt('p:kexin').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('g:noodle_team').some(t=>/阿哲今年贏了/.test(t))&&!PHONE.sent(G,'y4_ma_ask'));
   fresh('2028-10-02',21.1,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); join('noodle_team','麵店團'); date('kexin'); rules(); at('2028-10-03',7.6); rules();
   check('M3. 美國路線、可昕見過麵店團：在群組說「阿哲今年贏了。」', txt('g:noodle_team').includes('kexin:阿哲今年贏了。……你不在，我沒力氣講冷笑話。')&&!txt('p:kexin').some(t=>/阿哲今年贏了/.test(t)));
   // ---------- 2-Y4-07 校慶 ----------
@@ -189,8 +189,8 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 麵店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 麵店 一百五以內'&&!!qx&&qx.h===19);
   at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
   check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；小語「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
-  fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',8.6); rules();
-  check('X2. 美國路線：沒有邀約；21:30（當地 08:30）照片', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
+  fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',21.6); rules();
+  check('X2. 美國路線：沒有邀約；21:30 照片（AA_370 第 6 節第 8 題：照臺灣時間；那時人在回臺灣的路上，12/21 23:55 起飛）', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
 
   // ================= 美國路線的 CG（登錄了才放；BCG-32 要重畫的照 redrawn）=================
   { const ids=['cg_chicago_heroine05','cg_snow_steps_heroine05','cg_last_dinner_heroine05','cg_sf_bridge_fog_heroine05','cg_us_kitchen_heroine05']; for(const id of ids) CG_REGISTRY[id]={file:'x.webp',title:'t'};

@@ -923,9 +923,9 @@
   },
   {
    "path": "docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md",
-   "sha": "a1dc3e61",
+   "sha": "9eaf4e98",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，D99 第三項美國交換）；第 1 節 H2 已在 3a4c01cf 做；H1、H3、M1～M5、M7～M10、L1～L10 照稿手動放進 y34b3d.js、us_life_events.js、us_life3d.js、r2y4a_events.js、r2y4a3d.js、r3_3d.js、exchange3d.js、holff3d.js、msg3d.js、places.js、r2y3b_events.js、story3d.js（tests/aa370_us_unit.js）",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，D99 第三項美國交換）；第 1 節 H2 已在 3a4c01cf 做；H1、H3、M1～M5、M7～M10、L1～L10 照稿手動放進 y34b3d.js、us_life_events.js、us_life3d.js、r2y4a_events.js、r2y4a3d.js、r3_3d.js、exchange3d.js、holff3d.js、msg3d.js、places.js、r2y3b_events.js、story3d.js（tests/aa370_us_unit.js）；9eaf4e98 末尾加第 6 節（AA 2026-10-21 20:3x 答 LAWWW 實作後十題；第 0～5 節和 a1dc3e61 相同）：第 1、2、3、5、8、9 題照答改（L7 選項、超市 10:00、學姊事務版「在圖書館。有事嗎？」由 tools/msg/build_pool.py 產生進 msg_pool.js、M7 臺灣 22:00、y4_xmas_photo 臺灣時間、刪 R3 版何俊朗事件資料）",
    "task": "AA370-US-FIX-1021",
    "kind": "text"
   },

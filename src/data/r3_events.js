@@ -201,80 +201,8 @@ const R3_EVENTS=(function(){
       {label:'end'},...DAYOFF_END ],
     outingMissed:G=>{ if(typeof R3!=='undefined') R3.dayOffMissed(G,'tea'); } };
 
-  /* ---------- 3-12 何俊朗 1～5（美國路線；AA_80 5-3、AA_185 1-1、1-6；AA_291 第 2 節）：美東當地時間，出遊（可以錯過）在 r3_3d.js。人物 npc_long＝只登錄名字（compact）---------- */
-  const L_=t=>({speaker:'npc_long',text:t}), ME_=t=>({speaker:'player',text:t}), N_=t=>({speaker:null,text:t});
-  const LMET={custom:()=>has('npc_long','MET_LONG')};
-  const metLong=[{unless:LMET,mem:[{npc:'npc_long',tag:'MET_LONG',note:''}]}];
-  /* 1 國際學生迎新（8/14 10:00～12:00）：US1 已經見過（MET_LONG）＝「B 棟的。又見面了。」；還沒見過＝茶點的時間對看 */
-  const LONG1={ id:'ev_long_orientation', title:'國際學生迎新', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {scene:'法學院',bg:'us_classroom'},
-      {if:LMET,goto:'met'},
-      N_('（國際學生迎新。台上在講保險和簽證，台下坐了一百多個人。）'),
-      N_('（茶點的時間。旁邊一個戴圓框眼鏡的男生，用中文小聲問他身邊的人：）'),
-      L_('這裡的超市幾點關？'),
-      N_('（被問的是一個德國來的交換生。對方看著他，沒聽懂。）'),
-      N_('（你們兩個對看一眼，同時笑出來。）'),
-      L_('……你聽得懂。'),
-      L_('香港來的。何俊朗。叫我 Long 就好。'),
-      ME_('{name}。臺灣。'),
-      {choice:[{text:'「亞洲超市九點關。」',goto:'a'},{text:'「我也不知道。」',goto:'b'}]},
-      {label:'a'},L_('你來幾天就知道了？'),N_('（他笑，只笑一邊。）'),{goto:'new'},
-      {label:'b'},L_('那下次一起去找。'),
-      {label:'new'},...metLong,{goto:'end'},
-      {label:'met'},L_('B 棟的。又見面了。'),L_('……那天那家亞洲超市，幾點關？我忘了問。'),ME_('九點。'),L_('你記得？'),ME_('書瑀說了三次。'),N_('（他笑，只笑一邊。）'),   /* 裁定 13、27 */
-      {label:'end'} ] };
-  /* 2a Legal Writing 下課（9/8 12:00）：都沒見過的先自我介紹 */
-  const LONG2A={ id:'ev_long_class', title:'Legal Writing 下課', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
-    dialogue:[ {scene:'法學院走廊',bg:'us_classroom'},
-      Object.assign(L_('我叫何俊朗。叫我 Long 就好。'),{unless:LMET}),
-      N_('（Legal Writing 下課。第一次小考的成績剛發回來。）'),
-      L_('你考得怎麼樣？'),ME_('還好。'),L_('真的？那要慶祝。'),L_('下週五，新開的那家。我請。'),
-      {choice:[{text:'「不用啦。」',goto:'a'},{text:'「……好。」',goto:'b'}]},
-      {label:'a'},L_('要。第一次小考就考好，一定要請。'),{goto:'end'},
-      {label:'b'},N_('（他已經在查餐廳的地址了。）'),
-      {label:'end'},N_('（你沒有說，其實你只是剛好及格。）'),...metLong ] };
-  /* 2b 新開的餐廳（9/15 18:30）：LONG_HAIHAO（會所的招呼讀它，AA_291 3-1）*/
-  const LONG2B={ id:'ev_long_dinner', title:'新開的餐廳', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'新開的餐廳',bg:'us_restaurant'},
-      N_('（新開的餐廳。他點了兩份今日特餐。）'),
-      L_('這家怎樣？'),ME_('還好。'),
-      N_('（他放下叉子，看了盤子一眼，又看了你一眼。）'),
-      L_('……那我們以後不來了。'),
-      L_('等一下。上禮拜你說還好，我請你吃飯。今天你說還好，我們以後不來了。'),
-      L_('你們台灣人的「還好」，到底是好還是不好？'),
-      ME_('……看情況。'),L_('這不是答案。'),
-      {choice:[{text:'「要看你問的是什麼。」',goto:'a'},{text:'「其實上次是剛好及格。」',goto:'b'}]},
-      {label:'a'},L_('所以你們的『還好』，是一個要先知道題目的答案。'),N_('（他把這句寫在餐巾紙上。）'),{goto:'end'},
-      {label:'b'},L_('……那這頓應該你請。'),N_('（他把帳單推過來，又拉回去。）'),L_('算了。下次。'),
-      {label:'end'},{mem:[{npc:'npc_long',tag:'LONG_HAIHAO',note:''}]} ] };
-  /* 3 會所自習室（10/4 20:00）：兩個選項都會去聚餐；LONG_BBQ（id 照 AA_185，內容是聚餐）。回公寓的筆記（4）在 r3_3d.js 照時間演 ev_long_note */
-  const LONG3={ id:'ev_long_bbq', title:'會所自習室', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
-    dialogue:[ {scene:'會所・自習室',bg:'dark'},   /* 會所裡面不做 3D、2D 沒有（us3d.js:225）*/
-      N_('（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）'),   /* 裁定 14 */
-      L_('週五那個聚餐，你去嗎？'),ME_('我們那棟，誰都不想去。'),L_('誰都不想去……'),N_('（他在紙上寫下來。）'),
-      L_('那「誰也不想去」呢？'),ME_('……一樣吧。'),
-      L_('不一樣。「誰都」，像大家一起決定不去。'),L_('「誰也」，像每個人自己決定不去。'),
-      ME_('你這樣一說，我也聽不出來了。'),L_('我們廣東話……算了，廣東話更麻煩。'),
-      {choice:[{text:'「那我們兩個去。」',goto:'a'},{text:'「那就都不要去。」',goto:'b'}]},
-      {label:'a'},L_('好。兩個人，就不是誰都，也不是誰也了。'),{goto:'end'},
-      {label:'b'},L_('那我們就變成『誰都』裡面的人了。'),ME_('……去吧。'),
-      {label:'end'},{mem:[{npc:'npc_long',tag:'LONG_BBQ',note:''}]} ] };
-  const LONG4={ id:'ev_long_note', title:'回公寓', participants:[], location:'us_apartment', trigger:'manual', once:true, background:'blur',
-    dialogue:[ N_('（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）'),{set:{LONG_NOTE:true}} ] };
-  const LONG_PARTY={ id:'ev_long_party', title:'秋假前的聚餐', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
-    dialogue:[ N_('（秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）'),{set:{LONG_PARTY:true}} ] };
-  /* 5 中餐館（10/25 19:00；前一晚說「明天不行」＝11/1）：LONG_MENU */
-  const LONG5={ id:'ev_long_menu', title:'中餐館', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
-    dialogue:[ {scene:'中餐館',bg:'us_restaurant'},
-      N_('（菜單上的字，兩個人都認得。）'),
-      L_('我要這個，西蘭花牛肉。'),ME_('這是花椰菜。'),L_('西蘭花。'),ME_('……綠色的那種花椰菜。'),
-      L_('綠色的就是西蘭花。白色的才是椰菜花。'),ME_('白色的才是白花椰。'),
-      N_('（服務生看著你們兩個，等了很久。）'),
-      L_('同一盤菜，兩個名字。'),ME_('……條文也是。'),L_('你們法律系，什麼都能扯到條文。'),
-      N_('（那天的帳單，你們用英文對了半天。）'),
-      {mem:[{npc:'npc_long',tag:'LONG_MENU',note:''}]} ] };
-
-  return [FANG_6AM,LATTE,SK12,SK12_HINT,ZQ_CALL,SIS_PLAN_US,SIS_PLAN_LAB,SIS_NOTE,CHIAYI,DESKS,FATHER,DAYOFF_RIVER,DAYOFF_TEA,LONG1,LONG2A,LONG2B,LONG3,LONG4,LONG_PARTY,LONG5];
+  /* 3-12 何俊朗 1～5 的 R3 版（ev_long_orientation、ev_long_class、ev_long_dinner、ev_long_bbq、ev_long_note、ev_long_party、ev_long_menu）：AA_370 M3 停用、第 6 節第 9 題刪掉（演不到的舊稿留著會被誤認成現行內容）；美國路線只跑 us_life3d.js 的 USL 版，舊存檔演過的紀錄（G.events.done）照舊在 USL.longMerge 互相認 */
+  return [FANG_6AM,LATTE,SK12,SK12_HINT,ZQ_CALL,SIS_PLAN_US,SIS_PLAN_LAB,SIS_NOTE,CHIAYI,DESKS,FATHER,DAYOFF_RIVER,DAYOFF_TEA];
 })();
 Array.prototype.push.apply(STORY_EVENTS,R3_EVENTS);
 

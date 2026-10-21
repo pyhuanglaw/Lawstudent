@@ -451,7 +451,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     const who=t=>{ const s=said.find(x=>x.t===t); return s?s.who:null; };
     check('15. 何俊朗只登錄名字（PORTRAIT_ONLY，compact）：對話框、手機都是「何俊朗」', typeof PORTRAIT_ONLY!=='undefined'&&PORTRAIT_ONLY.npc_long&&!CHARACTERS.npc_long&&(fresh(u14,9,'us_apartment',{EXCHANGE_ROUTE:'US'}),SOCIAL.displayName('npc_long')==='何俊朗'&&PHONE.title(G,'p:npc_long')==='何俊朗'));
     /* AA_370 M3（企劃線 a1dc3e61）：這一版停用——美國路線只跑 us_life3d.js 的 USL 版（AA_340 第 2 節裁定 1；tests/us_life_unit.js、tests/aa370_us_unit.js 測）。
-       這裡改測「不排、不傳、舊存檔排了的取消、回公寓的筆記和聚餐的旁白不再由這一版演」；事件資料還在（舊存檔演過的紀錄讀得到），台詞照舊逐句測。
+       這裡改測「不排、不傳、舊存檔排了的取消」；第 6 節第 9 題（企劃線 9eaf4e98）：事件資料刪掉，原本逐句測這一版台詞的「15. 資料」拿掉（USL 版的台詞在 tests/us_life_unit.js 測）。
        原本測的「15. L1 交往中、US1 已經見過：『B 棟的。又見面了。』」拿掉：那一支作廢（裁定 1、AA_370 第 4 節），這一版停用以後演不到 */
     fresh(u14-3,9,'us_apartment',{EXCHANGE_ROUTE:'US'}); run(u14-3,9,9.25);
     check('15. AA_370 M3：8/11 起 R3 版不排迎新（r3_long_1）', !OUT.get(G,'r3_long_1'));
@@ -459,19 +459,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('15. AA_370 M3：見過他也不排 2a、3（r3_long_2a、r3_long_3），10/24 不傳 r3_long_5', !OUT.get(G,'r3_long_2a')&&!OUT.get(G,'r3_long_3')&&!PHONE.sent(G,'r3_long_5'));
     fresh(s15-3,9,'us_apartment',{EXCHANGE_ROUTE:'US'}); G.outings=[{id:'r3_long_2b',ev:'ev_long_dinner',day:s15,h:18.5,late:0.5,place:'新開的餐廳',title:'新開的餐廳',travel:'',travelH:1/6,state:'planned',ask:null}]; run(s15-3,9,9.25);
     check('15. AA_370 M3：舊存檔排了還沒去的（r3_long_2b）取消', OUT.get(G,'r3_long_2b').state==='cancelled');
-    fresh(o4,21.2,'us_apartment',{EXCHANGE_ROUTE:'US'}); G.events.done.ev_long_bbq=1; SOCIAL.remember('npc_long','LONG_BBQ','');
-    check('15. AA_370 M3：回公寓的筆記、聚餐的旁白不再由這一版演（USL 的 ev_usl_long4、ev_usl_party）', !R3.longNoteDue(G)&&(G.day=o6,G.hour=20.5,G.zone='us_outside',!R3.longPartyDue(G)));
-    fresh(u14,10,'us_apartment',{EXCHANGE_ROUTE:'US'}); let L1=await play('ev_long_orientation',['亞洲超市']);
-    check('15. 資料：L2 還沒見過：迎新、茶點的時間；「這裡的超市幾點關？」；對看笑出來；「香港來的。何俊朗。叫我 Long 就好。」「祐廷。臺灣。」；MET_LONG', L1[0]==='（國際學生迎新。台上在講保險和簽證，台下坐了一百多個人。）'&&has('（你們兩個對看一眼，同時笑出來。）')&&who('香港來的。何俊朗。叫我 Long 就好。')==='何俊朗'&&has('祐廷。臺灣。')&&JSON.stringify(opts[0])===JSON.stringify(['「亞洲超市九點關。」','「我也不知道。」'])&&has('你來幾天就知道了？')&&has('（他笑，只笑一邊。）')&&SOCIAL.has('npc_long','MET_LONG')&&scenes.some(b=>b&&b.image==='assets/bg/us_classroom.webp'), JSON.stringify(L1));   /* 迎新的場景 bg us_classroom：原本沒有圖＝dark；2026-10-21 接上 bg_approved/us_classroom.webp */
-    fresh(s8,12,'us_apartment',{EXCHANGE_ROUTE:'US'}); L1=await play('ev_long_class',['……好']);
-    check('15. 資料：2a 都沒見過：開頭「我叫何俊朗。叫我 Long 就好。」；「真的？那要慶祝。」；「……好。」→（他已經在查餐廳的地址了。）；兩個都接「（你沒有說，其實你只是剛好及格。）」；MET_LONG', L1[0]==='何俊朗：我叫何俊朗。叫我 Long 就好。'&&L1[1]==='（Legal Writing 下課。第一次小考的成績剛發回來。）'&&has('下週五，新開的那家。我請。')&&has('（他已經在查餐廳的地址了。）')&&L1[L1.length-1]==='（你沒有說，其實你只是剛好及格。）'&&SOCIAL.has('npc_long','MET_LONG'), JSON.stringify(L1));
-    G.day=s15; G.hour=18.5; L1=await play('ev_long_dinner',['要看你問']);
-    check('15. 資料：L3 9/15「你們台灣人的「還好」，到底是好還是不好？」；選「要看你問的是什麼。」→「所以你們的『還好』，是一個要先知道題目的答案。」；LONG_HAIHAO', has('你們台灣人的「還好」，到底是好還是不好？')&&has('……看情況。')&&has('所以你們的『還好』，是一個要先知道題目的答案。')&&has('（他把這句寫在餐巾紙上。）')&&SOCIAL.has('npc_long','LONG_HAIHAO'));
-    fresh(s8,12,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); L1=await play('ev_long_class',['不用']); check('15. 資料：見過的：沒有自我介紹；「不用啦。」→「要。第一次小考就考好，一定要請。」', !has('我叫何俊朗。叫我 Long 就好。')&&has('要。第一次小考就考好，一定要請。'));
-    fresh(o4,20,'us_apartment',{EXCHANGE_ROUTE:'US'}); SOCIAL.remember('npc_long','MET_LONG',''); L1=await play('ev_long_bbq',['都不要']);
-    check('15. 資料：L4 10/4 公布欄是「週五晚上，國際學生會的秋假前聚餐」（不是週六烤肉）；「誰都」「誰也」；「那就都不要去。」→「那我們就變成『誰都』裡面的人了。」「……去吧。」；LONG_BBQ', L1[0]==='（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）'&&!L1.some(t=>/烤肉/.test(t))&&has('「誰也」，像每個人自己決定不去。')&&has('那我們就變成『誰都』裡面的人了。')&&has('……去吧。')&&SOCIAL.has('npc_long','LONG_BBQ'), JSON.stringify(L1));
-    G.day=o24+1; G.hour=19; L1=await play('ev_long_menu');
-    check('15. 資料：L5 中餐館：西蘭花、花椰菜、椰菜花、白花椰；「……條文也是。」；帳單用英文對；LONG_MENU', has('我要這個，西蘭花牛肉。')&&has('這是花椰菜。')&&has('綠色的就是西蘭花。白色的才是椰菜花。')&&has('白色的才是白花椰。')&&has('……條文也是。')&&L1[L1.length-1]==='（那天的帳單，你們用英文對了半天。）'&&SOCIAL.has('npc_long','LONG_MENU'), JSON.stringify(L1));
+    check('15. AA_370 第 6 節第 9 題：R3 版的事件資料刪掉（演不到的舊稿）；回公寓的筆記、聚餐的旁白只由 USL 版演（ev_usl_long4、ev_usl_party，tests/us_life_unit.js）', !STORY_EVENTS.some(e=>/^ev_long_/.test(e.id))&&typeof R3.longNoteDue==='undefined'&&typeof R3.longPartyDue==='undefined', STORY_EVENTS.filter(e=>/^ev_long_/.test(e.id)).map(e=>e.id).join(','));
     fresh(u14-3,9,'dorm',{EXCHANGE_ROUTE:'TW'}); run(u14-3,9,9.25); check('15. 台灣、日本路線：都沒有', !OUT.get(G,'r3_long_1')); }
 
   { const M=SOCIAL.MEMORY_LABEL, W={MET_LONG:'在美國認識了香港來的 Long',LONG_HAIHAO:'被他問：台灣人的「還好」到底是好還是不好',LONG_BBQ:'「誰都」和「誰也」，最後兩個人一起去了聚餐',LONG_MENU:'中餐館的西蘭花：同一盤菜，兩個名字'};

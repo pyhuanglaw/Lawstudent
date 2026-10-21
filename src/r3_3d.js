@@ -14,7 +14,7 @@
    3-11 學姊的讀書計畫和便條（10/21 家族群組；美國路線 10/18 會所；1/9 或 2/21 研究室；2/3 08:30 考場門口（在家的時候包住 STORY.y4HomeDue／y4HomeScene）或 2/2 21:00 照片）
    3-13 方奕廷 F4（1/24 21:00；1/27 07:00 開車去嘉義：出遊＋鬧鐘；在家睡覺的叫醒包住 HOME.wakeFor）
    3-14 學姊交往中的大四（2/26 起每週三研究室、3/14 她爸爸的晚餐（3/17）、4/27 她自己放的一天假（4/28））
-   3-12 何俊朗 1～5（美國路線：8/14、9/8、9/15、10/4、10/24→10/25；人物 npc_long 只在 characters.js 的 PORTRAIT_ONLY 登錄名字）——AA_370 M3：停用，美國路線只跑 us_life3d.js 的 USL 版（舊存檔排了的取消）
+   3-12 何俊朗 1～5（美國路線：8/14、9/8、9/15、10/4、10/24→10/25；人物 npc_long 只在 characters.js 的 PORTRAIT_ONLY 登錄名字）——AA_370 M3：停用，美國路線只跑 us_life3d.js 的 USL 版（舊存檔排了的取消）；第 6 節第 9 題：R3 版的事件資料刪掉
    3-19 摘要日的手機小事（池＝加進 STORY.DAILY_PHONE；定時＝PHONE.at；子晴的爸爸＝包住 INV.walkPick）
    3-09 沛珊在台南的「再去」三版：不在這個檔——資料是 src/data/hometown_lines.js 的 'classmate_peishan@台南'，hometown3d.js 的 S.key 照 presence 的城市選那一組
         （presence 改台南、學期中的邀約是 AA_282 第 5 節第 1、3 點，還沒做＝現在遊戲裡不會出現）
@@ -268,11 +268,10 @@ const R3=(function(){
      3、5 要先見過他（MET_LONG）。4＝3 的當晚回到公寓（3D）的筆記；10/6 20:00 人在社區＝聚餐的旁白，不在＝隔天早上補一句。出遊都在三天前排進行事曆。 */
   S.longMet=G=>has('npc_long','MET_LONG')||!!(G&&G.flags&&G.flags.MET_LONG);   /* 兩邊互相認（AA_370 M3）*/
   /* AA_370 M3：美國路線只跑 us_life3d.js 的 USL 版何俊朗 1～5（AA_340 第 2 節裁定 1 已經取代這一版、拿掉「B 棟的。又見面了。」）——這一版停用：不再排、不再傳；
-     舊存檔（v9.10.3 兩版都排了）排了還沒去的取消。記憶 MET_LONG 等和 USL 的旗標互相認（USL.longMerge）；下面的事件資料留著（舊存檔演過的紀錄還讀得到）*/
+     舊存檔（v9.10.3 兩版都排了）排了還沒去的取消。記憶 MET_LONG 等和 USL 的旗標互相認（USL.longMerge）；這一版的事件資料（r3_events.js）AA_370 第 6 節第 9 題刪掉，舊存檔演過的紀錄（G.events.done）照舊在 USL.longMerge 認 */
   S.LONG_OUTS=['r3_long_1','r3_long_2a','r3_long_2b','r3_long_3','r3_long_5'];
   S.long=function(G){ if(route(G)!=='US'||typeof OUT==='undefined') return; for(const id of S.LONG_OUTS){ const q=OUT.get(G,id); if(q&&q.state==='planned') q.state='cancelled'; } };
-  S.longNoteDue=()=>false;   /* 10/4 回公寓的筆記、10/6 聚餐的旁白：USL 版（ev_usl_long4、ev_usl_party）*/
-  S.longPartyDue=()=>false;
+  /* 10/4 回公寓的筆記、10/6 聚餐的旁白：USL 版（ev_usl_long4、ev_usl_party）*/
 
   /* ===================== 3-19 摘要日的手機小事（BB_97 第 5 節、BB_98 第 6 節、BB_99 9-20；AA_118；BB_70 2-6 F-Q4）=====================
      「池」＝加進 STORY.DAILY_PHONE（每天的手機小事：一天最多一則、輪流、每學期第 4 週起）；「定時」＝固定日子的 PHONE.at（S.DP3_AT）。
@@ -360,7 +359,6 @@ const R3=(function(){
     const free=typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active);
     if(S.zqCallDue(G)&&free){ const ev=STORY_EVENTS.find(e=>e.id==='ev_ziqing_3am_call'); if(ev){ void EVENTS.run(ev); return true; } }   /* 3-15 選了「（直接打電話給她）」：手機關掉以後演電話 */
     if(S.noteDue(G)&&free&&!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G))){ void S.noteRun(GM); return true; }   /* 3-11 D：2/3 08:30 考場門口（在家的時候是 home3d.js 的選單問 STORY.y4HomeDue）*/
-    for(const [due,id] of [[S.longNoteDue,'ev_long_note'],[S.longPartyDue,'ev_long_party']]) if(free&&due(G)){ const ev=STORY_EVENTS.find(e=>e.id===id); if(ev){ void EVENTS.run(ev); return true; } }   /* 3-12 4：10/4 回到公寓的筆記；10/6 聚餐的旁白 */
     return false; };
   /* 在家（寒假）：home3d.js 的 loop 問 STORY.y4HomeDue；'stay'＝在家的選單裡演（3-11 D 的便條）。接在 y34b3d.js 那一層外面 */
   S.homeDue=G=>S.noteDue(G)?'stay':null;

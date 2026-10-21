@@ -1045,11 +1045,12 @@ const STORY = (function(){
   async function counter(GM,shop,items){ const G=GM.G; GM.sceneBegin(); const opts=items.map(([n,p])=>({t:n+'　'+p+' 元',dim:G.money<p}));   /* 只寫價錢（DL-02：體力拿掉了）*/ opts.push({t:'不用了'}); const ek=typeof EAT!=='undefined'?({'兩點半 Café':'兩點半 Café','便利商店':'公館的便利商店'})[shop]:null, food=items.filter(x=>typeof x[3]!=='function');   /* 吃東西（src/eat3d.js，AA_329）：貓罐頭、開學用品不算 */ const i=ek?await EAT.choose(GM,ek,opts,food.map(x=>x[0]),food.map(x=>x[1])):await GM.choose(opts); if(i<items.length){ const [n,p]=items[i]; if(G.money<p){ GM.toast('錢不夠'); } else { GM.money(-p); GM.advance(0.15); if(typeof items[i][3]==='function') items[i][3](G); await GM.say(null,'你買了'+n+'。'+(shop==='兩點半 Café'?'店員把杯子放在你面前的時候，杯底和木桌碰出一聲很小的響。':'')); if(ek&&typeof items[i][3]!=='function') await EAT.after(GM,ek,n); } } GM.sceneEnd(); }
   /* 書店（SYS-BOOKS-1018；使用者 10-18 選擇題 D102、USER_WANTS X15）：這學期（放假＝下一學期）每一門課的教科書（CLS.bookList：經濟系那一年賣經濟系的書，不再只賣《民法總則》）、螢光筆、只是看看。
      買了只影響讀那一科（自學多一分準備、期末多一次想起答案；不做書架、同學注意）；《民法總則》照舊那一句旁白，其他書只出提示 */
+  const BOOK_BUY=['（書比想像中重。你把它塞進背包，拉鍊差一點拉不起來。）','（新書的味道。你翻了兩頁，又闔上，留到上課再看。）'];   /* 買教科書的旁白，兩句輪流（AA 2026-10-21 20:23）；民法總則照舊那一句 */
   async function bookshop(GM){ const G=GM.G, F=G.flags; GM.sceneBegin(); const BK=typeof CLS!=='undefined'&&CLS.bookList?CLS.bookList(G):[];
     const opts=BK.map(b=>{ const own=CLS.hasBook(G,b.c); return {t:'《'+b.title+'》教科書　'+b.price+' 元',hint:own?'已經有了':'讀這一科時準備多一些；期末多一次想起答案',dim:own||G.money<b.price}; });
     opts.push({t:'螢光筆一組　80 元',hint:'讓筆記好看一點',dim:G.money<80},{t:'只是看看'}); const i=await GM.choose(opts);
     if(i<BK.length){ const b=BK[i]; if(!CLS.hasBook(G,b.c)&&G.money>=b.price){ GM.money(-b.price); (F.books||(F.books={}))[b.title]=true; if(b.title==='民法總則') F.textbook=true; GM.memo('買了'+b.title+'教科書');
-        if(b.title==='民法總則') await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); else GM.toast('買了《'+b.title+'》教科書',2600); } }
+        if(b.title==='民法總則') await GM.say(null,'很厚。老闆說一年級都會買，然後大部分人到期末都只翻到第三章。'); else { GM.toast('買了《'+b.title+'》教科書',2600); const n=F.bookBuyN=(F.bookBuyN||0)+1; await GM.say(null,BOOK_BUY[(n-1)%BOOK_BUY.length]); } } }
     else if(i===BK.length&&G.money>=80){ GM.money(-80); GM.toast('買了螢光筆'); } else if(i===BK.length+1){ await GM.say(null,'架上有一整排判決彙編。有人在角落翻著《法律人的第一堂課》。'); } GM.sceneEnd(); }
   S.bookshop=bookshop;   /* 測試用（tests/books_unit.js）*/
   // ---------- 第一天：宿舍 ----------

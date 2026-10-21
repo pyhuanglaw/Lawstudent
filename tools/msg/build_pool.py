@@ -442,6 +442,9 @@ p.add('chat', 'A', ['在研究室。有事嗎？'], ['祐廷大二起（她碩�
       ask=copy.deepcopy(ASK_TW), src='BB_178 3 事務版 在幹嘛')
 p.add('chat', 'A', ['在這邊的圖書館。有事嗎？'], ['在美國'], variant=SW, version=SW, ask=ASK_US,
       src='BB_178 3 事務版 在幹嘛')
+# AA_370 第 6 節第 3 題（9eaf4e98）：祐廷也在布魯明頓時上面那則不用（L6），補這一句；沒有後面的追問
+p.add('chat', 'A', ['在圖書館。有事嗎？'], ['祐廷也在美國'], variant=SW, version=SW,
+      src='AA_370 6-3 事務版 在幹嘛（祐廷也在布魯明頓）')
 p.add('share_cat', 'A', ['看到了。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
 p.add('share_food', 'A', ['吃完記得喝水。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
 p.add('share_notes', 'A', ['哪裡看不懂再問。'], variant=SW, version=SW, src='BB_178 3 事務版 分享')
@@ -766,7 +769,7 @@ people.append(p)
 # ───────────────────────── assemble ─────────────────────────
 TOPIC_ORDER = ['chat', 'course', 'share_cat', 'share_food', 'share_notes', 'share', 'night', 'daily']
 TIER_ORDER = {'A': 0, 'R': 1, 'L': 2}
-data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf'}, 'people': {}, 'tagsSeen': []}
+data = {'source': {'AA_202': 'b61e4f55', 'BB_178': 'bb6baddf', 'AA_370': '9eaf4e98'}, 'people': {}, 'tagsSeen': []}
 seen = []
 
 

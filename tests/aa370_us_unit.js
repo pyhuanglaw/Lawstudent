@@ -106,14 +106,14 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   fresh('2028-09-06',9,'us_apartment',US()); G.events.done.ev_long_class=1; SOCIAL.remember('npc_long','MET_LONG',''); rules(); at('2028-09-12',9); rules();
   check('M3. 舊存檔：R3 版 2a 演過＝USL 的 2a 不排、2b（9/15 新開的餐廳）照排', !OUT.get(G,'usl_long2a')&&!!OUT.get(G,'usl_long2b'), JSON.stringify(OUT.rec(G).map(q=>q.id+':'+q.state)));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true})); G.events.done.ev_long_bbq=1;
-  check('M3. R3 版回公寓的筆記（ev_long_note）不再演', !R3.longNoteDue(G));
+  check('M3. R3 版回公寓的筆記（ev_long_note）不再演（第 6 節第 9 題：資料刪掉）', !STORY_EVENTS.some(e=>e.id==='ev_long_note'));
   said=[]; await uslTick(); const note='（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）';
   check('M3. 舊存檔：R3 版會所自習室演過＝當晚回公寓演 USL 的筆記（一次）', has(note)&&G.flags.LONG_NOTE===true&&(said=[],0)===0, JSON.stringify(lines()));
   await uslTick(); check('M3. 筆記不重複', !has(note));
   fresh('2028-10-04',21,'us_apartment',US({MET_LONG:true,LONG_NOTE:true})); G.events.done.ev_usl_long3=1; said=[]; await uslTick();
   check('M3. 舊存檔：R3 版的筆記已經寫過（LONG_NOTE）＝USL 的筆記不再演', !has(note));
   fresh('2028-10-06',20.5,'us_outside',US({MET_LONG:true,LONG_PARTY:true})); said=[]; await uslTick();
-  check('M3. 舊存檔：R3 版聚餐的旁白演過（LONG_PARTY）＝USL 的不再演', !said.some(s=>/秋假前的聚餐/.test(s.t))&&!R3.longPartyDue(G), JSON.stringify(lines()));
+  check('M3. 舊存檔：R3 版聚餐的旁白演過（LONG_PARTY）＝USL 的不再演', !said.some(s=>/秋假前的聚餐/.test(s.t))&&!STORY_EVENTS.some(e=>e.id==='ev_long_party'), JSON.stringify(lines()));
   fresh('2028-10-24',20.5,'us_apartment',US({MET_LONG:true})); G.msgs.push({day:D('2028-10-24'),h:21,th:'p:npc_long',who:'npc_long',from:'npc_long',text:'明天晚上去中餐館？我想吃白飯。',tag:'r3_long_5',ask:{id:'r3_long_5',opts:[{t:'好。'},{t:'明天不行。'}]}}); runRules('2028-10-24',20.5,21.5);
   check('M3. 舊存檔：R3 版 10/24 的約已經傳了＝USL 的不再傳（不會收到兩次「明天晚上去中餐館？」）', !PHONE.sent(G,'usl_long_1024')&&txt('p:npc_long').filter(t=>/中餐館/.test(t)).length===1);
   fresh('2028-10-25',9,'us_apartment',US({MET_LONG:true,LONG_MENU_DAY:'2028-10-25'})); G.outings.push({id:'r3_long_5',ev:'ev_long_menu',day:D('2028-10-25'),h:19,late:0.5,place:'中餐館',title:'中餐館',travel:'',travelH:1/6,state:'planned',ask:null}); rules();
@@ -137,10 +137,14 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
 
   // ======================= M7 中秋（10/3）美國路線：沒見過麵店團的可昕不在群組說話 =======================
   const KXL='阿哲今年贏了。……你不在，我沒力氣講冷笑話。';
-  fresh('2028-10-03',7,'us_apartment',US()); PHONE.join(G,'noodle_team','麵店團'); date('kexin'); runRules('2028-10-03',7,8);
+  fresh('2028-10-03',7,'us_apartment',US()); PHONE.join(G,'noodle_team','麵店團'); date('kexin'); runRules('2028-10-03',7,10.5);
+  { const m=msgOf('y4_ma_us_kx'), d=D('2028-10-03'), want=d*24+22+STORY.tzOffset(G,d);
+    check('第 6 節第 5 題. 私訊照臺灣版：臺灣 22:00（當地 '+((want%24+24)%24)+':00），不是跟著照片的臺灣 19:30', !!m&&Math.abs(m.day*24+m.h-want)<0.02&&!(G.msgs||[]).some(x=>x.tag==='y4_ma_us'&&x.from==='kexin'), m?JSON.stringify({day:m.day-d,h:m.h}):'沒有'); }
   check('M7. 和可昕交往、她沒見過麵店團：她那句改私訊（句子不改）；群組只有阿哲的照片', txt('p:kexin').includes('kexin:'+KXL)&&!txt('g:noodle_team').some(t=>t.indexOf(KXL)>=0)&&txt('g:noodle_team').includes('zhe:📷（河濱，兩個烤肉架，一支夾子插在玉米上。）'), JSON.stringify({p:txt('p:kexin'),g:txt('g:noodle_team')}));
   fresh('2028-10-03',7,'us_apartment',US({KX_MET_NOODLE_TEAM:true})); PHONE.join(G,'noodle_team','麵店團'); date('kexin'); runRules('2028-10-03',7,8);
   check('M7. 見過麵店團（KX_MET_NOODLE_TEAM）：照舊在群組說', txt('g:noodle_team').includes('kexin:'+KXL)&&!txt('p:kexin').some(t=>t.indexOf(KXL)>=0));
+  fresh('2028-10-03',7,'us_apartment',US()); date('kexin'); runRules('2028-10-03',7,10.5);
+  check('第 6 節第 5 題. 祐廷不在麵店團群組：沒見過麵店團的可昕照樣私訊（不看群組）', txt('p:kexin').includes('kexin:'+KXL)&&!msgOf('y4_ma_us'), JSON.stringify(txt('p:kexin')));
 
   // ======================= M8 子晴 Q14（10/11）× 和學姊的大峽谷（10/7～10/14）=======================
   const canyonDone=()=>{ G.flags.US_CANYON=true; G.outings.push({id:'y4_us_canyon',ev:'ev_us_canyon',day:D('2028-10-07'),h:6,late:1,must:true,place:'社區門口',title:'秋假：大峽谷',travel:'',travelH:0,state:'done',ask:null}); };
@@ -187,6 +191,8 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   // ======================= L3 可昕 12/22（回臺灣的路上）照臺灣時間 =======================
   fresh('2028-12-23',6,'airport_arr',US({US_TRIP_MODE:'sf',US_TRIP_DONE:true,US_RETURNED:D('2028-12-23')})); date('kexin'); rules();
   { const m=msgOf('y4_kx_grades0'); check('L3. 美國路線（舊金山那一週回來）：可昕「成績出來那天，各說一科這學期最滿意的。」照臺灣 12/22 21:00 顯示', !!m&&m.day===D('2028-12-22')&&Math.abs(m.h-21)<0.02, m?JSON.stringify({d:m.day-D('2028-12-22'),h:m.h}):'沒有'); }
+  fresh('2028-12-23',6,'airport_arr',US({US_TRIP_MODE:'sf',US_TRIP_DONE:true,US_RETURNED:D('2028-12-23')})); PHONE.join(G,'noodle_team','麵店團'); rules();
+  { const m=msgOf('y4_xmas_photo'); check('第 6 節第 8 題. 阿哲 12/22 聖誕交換禮物的照片也照臺灣 12/22 21:30 顯示（原本換算成 12/22 早上）', !!m&&m.day===D('2028-12-22')&&Math.abs(m.h-21.5)<0.02, m?JSON.stringify({d:m.day-D('2028-12-22'),h:m.h}):'沒有'); }
 
   // ======================= L4 秋假（10/9～10/13）何俊朗在芝加哥：自習室沒有招呼 =======================
   fresh('2028-10-10',19.5,'us_outside',US({MET_LONG:true}));
@@ -199,20 +205,25 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   { const pickBiz=()=>{ const o=MSG.open(G,'heroine_05'); const e=MSG.pick(G,'heroine_05','chat',null,{}); return {mode:o.mode,e}; };
     fresh('2028-09-20',12.2,'us_apartment',US({US1:'alone'})); R('heroine_05','FAM'); G.contacts.heroine_05=1; let r=pickBiz();
     check('L6. 美國路線、人在布魯明頓（事務版）：不用「在這邊的圖書館。有事嗎？」', r.mode==='business'&&!(r.e&&r.e.msgs.includes('在這邊的圖書館。有事嗎？')), JSON.stringify({mode:r.mode,e:r.e&&r.e.msgs}));
+    check('第 6 節第 3 題. 同一個情況改回「在圖書館。有事嗎？」，沒有後面的追問（原本沒有句子、只能回貼圖）', r.mode==='business'&&!!r.e&&JSON.stringify(r.e.msgs)==='["在圖書館。有事嗎？"]'&&!r.e.ask, JSON.stringify({mode:r.mode,e:r.e&&r.e.msgs,ask:r.e&&r.e.ask}));
     fresh('2028-09-20',12.2,'dorm',TWF()); R('heroine_05','FAM'); G.contacts.heroine_05=1; r=pickBiz();
-    check('L6. 臺灣路線（她在美國、你在臺灣）照舊用', r.mode==='business'&&!!r.e&&r.e.msgs.includes('在這邊的圖書館。有事嗎？'), JSON.stringify({mode:r.mode,e:r.e&&r.e.msgs})); }
+    check('L6. 臺灣路線（她在美國、你在臺灣）照舊用', r.mode==='business'&&!!r.e&&r.e.msgs.includes('在這邊的圖書館。有事嗎？'), JSON.stringify({mode:r.mode,e:r.e&&r.e.msgs}));
+    check('第 6 節第 3 題. 臺灣路線不用「在圖書館。有事嗎？」', !MSG_POOL.people.heroine_05.replies.filter(x=>x.msgs.includes('在圖書館。有事嗎？')).some(x=>MSG.tagOk(G,'heroine_05',x.tags[0]))); }
 
   // ======================= L7 8/3 05:10 學姊（交往中）=======================
   fresh('2028-08-03',4.5,'us_apartment',US()); date('heroine_05'); runRules('2028-08-03',4.5,5.5);
   check('L7. 8/3 05:10：「你也醒了吧。」「睡不著。外面還是黑的。……我的身體以為現在是下午。」（當地 05:10 天還黑）', JSON.stringify(txt('p:heroine_05').slice(0,2))===JSON.stringify(['heroine_05:你也醒了吧。','heroine_05:睡不著。外面還是黑的。……我的身體以為現在是下午。']), JSON.stringify(txt('p:heroine_05')));
 
+  { const m=(G.msgs||[]).filter(x=>x.tag==='usl_sis_0803'&&x.ask).pop(), o=m?m.ask.opts:[];
+    check('第 6 節第 1 題. 8/3 回覆選項「醒了。」「我也還醒著。」（原本「鳥在叫什麼？」，前面已經沒提到鳥）；選「我也還醒著。」→ 學姊「……那就一起醒著。」', JSON.stringify(o.map(x=>x.t))==='["醒了。","我也還醒著。"]'&&o[1].say[0].text==='……那就一起醒著。', JSON.stringify(o.map(x=>[x.t,(x.say||[]).map(y=>y.text)]))); }
+
   // ======================= L8 8/2 機場（一起出發）=======================
   fresh('2028-08-02',7,'airport_dep',{EXCHANGE_ROUTE:'US',EXCH_RULE:1,US_DEPARTED:true}); date('heroine_05'); await run('ev_sis_depart_us');
   check('L8. 學姊「護照、簽證、學校的文件。……你的拿出來，我看一次。」（不寫死 I-20）', has('護照、簽證、學校的文件。……你的拿出來，我看一次。')&&!said.some(s=>/I-20|入學許可/.test(s.t)), JSON.stringify(lines().slice(0,2)));
 
-  // ======================= L9 竹葉亞洲超市：09:00～21:00，週日公休 =======================
+  // ======================= L9 竹葉亞洲超市：10:00～21:00（第 6 節第 2 題：照 AA_291，原本 09:00），週日公休 =======================
   const toAsia={label:'過馬路（對面的亞洲超市）',exit:{to:'us_asian_market',spawn:{x:0,z:0,yaw:0}}};
-  check('L9. 營業時間：週一～六 09:00～21:00、週日公休', !PLACES.isOpen('us_asian_market',10,D('2028-08-06'))&&PLACES.isOpen('us_asian_market',9,D('2028-08-07'))&&PLACES.isOpen('us_asian_market',20.9,D('2028-08-12'))&&!PLACES.isOpen('us_asian_market',21,D('2028-08-07'))&&!PLACES.isOpen('us_asian_market',8.9,D('2028-08-07')));
+  check('L9. 營業時間：週一～六 10:00～21:00（第 6 節第 2 題：週一 09:30 還沒開）、週日公休', !PLACES.isOpen('us_asian_market',10,D('2028-08-06'))&&PLACES.isOpen('us_asian_market',10,D('2028-08-07'))&&!PLACES.isOpen('us_asian_market',9.5,D('2028-08-07'))&&PLACES.isOpen('us_asian_market',20.9,D('2028-08-12'))&&!PLACES.isOpen('us_asian_market',21,D('2028-08-07'))&&!PLACES.isOpen('us_asian_market',8.9,D('2028-08-07')));
   fresh('2028-08-06',10,'us_market',US()); let r9=await interact(toAsia);
   check('L9. 8/6（日）10:00 在草原超市「過馬路（對面的亞洲超市）」：公休，過不去', r9===true&&toasts.some(t=>/公休/.test(t))&&G.zone==='us_market', JSON.stringify(toasts));
   at('2028-08-07',21.5); r9=await interact(toAsia); check('L9. 週一 21:30：關門了', r9===true&&toasts.some(t=>/沒有開|公休/.test(t)), JSON.stringify(toasts));

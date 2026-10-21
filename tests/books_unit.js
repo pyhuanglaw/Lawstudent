@@ -26,14 +26,19 @@ if(typeof CLS.bookList!=='function'){ check('1. 有 CLS.bookList',false); consol
     await STORY.bookshop(GM); const m1=g.money; pick='《憲法》'; await STORY.bookshop(GM);
     check('4. 買《憲法》：扣 650 元、記在 books、出提示；再買一次不扣錢（已經有了）',m1===4350&&g.flags.books&&g.flags.books['憲法']===true&&g.money===4350&&toasts.some(t=>/《憲法》/.test(t)),JSON.stringify({m1,m:g.money,books:g.flags.books,toasts}));
     pick='《民法總則》'; await STORY.bookshop(GM);
-    check('4b. 買《民法總則》：照舊那一句旁白、也記 textbook（開學待辦照舊打勾）',g.flags.textbook===true&&said.some(t=>/大部分人到期末都只翻到第三章/.test(t))); }
+    check('4b. 買《民法總則》：照舊那一句旁白、也記 textbook（開學待辦照舊打勾）',g.flags.textbook===true&&said.some(t=>/大部分人到期末都只翻到第三章/.test(t)));
+    pick='《刑法總則》'; await STORY.bookshop(GM); pick='《經濟學原理》'; await STORY.bookshop(GM);
+    const B1='（書比想像中重。你把它塞進背包，拉鍊差一點拉不起來。）', B2='（新書的味道。你翻了兩頁，又闔上，留到上課再看。）', got=said.filter(t=>t===B1||t===B2);
+    check('4c. 買民法總則以外的書：AA 的兩句旁白輪流（憲法＝第一句、第二本＝第二句、第三本又是第一句）；民法總則不算',JSON.stringify(got)===JSON.stringify([B1,B2,B1]),JSON.stringify({got,books:g.flags.books})); }
   { const g=mkG('2025-09-15','law',{books:{'憲法':true}}), GM={G:g,choose:async o=>o.findIndex(x=>/^憲法/.test(x.t))}; await CLS.studyPick(GM); const a=CLS.rec(g).prep.const_1;
     const g2=mkG('2025-09-15','law'), GM2={G:g2,choose:async o=>o.findIndex(x=>/^憲法/.test(x.t))}; await CLS.studyPick(GM2); const b=CLS.rec(g2).prep.const_1;
     check('5. 自學憲法：有教科書多一分準備（2 對 1）',a===2&&b===1,JSON.stringify({a,b})); }
   { const q={id:'t1',q:'測試題',options:{A:'甲',B:'乙',C:'丙',D:'丁'},answer:'C'}, qs=[q,q,q,q,q]; const orig=CLS.drawExam; CLS.drawExam=G=>{ const R=CLS.rec(G); R.exam=R.exam||{}; return {ok:true,qs,key:'k_const_final'}; };   /* 真的 drawExam 會建 R.exam */
-    const run=async books=>{ const g=mkG('2026-01-05','law',books?{books:{'憲法':true}}:{}); let n=0; const toasts=[]; const GM={G:g,say:async()=>{},toast:t=>toasts.push(t),choose:async o=>{ n++; const w=o.findIndex(x=>/（A）/.test(x.t)), r=o.findIndex(x=>/（C）/.test(x.t)); return n===1?w:r; }};
-      const res=await CLS.runExam(GM,{c:COURSES.list.find(c=>c.id==='const_1'),exam:'final',term:'Y1S1'}); return {res,toasts}; };
+    const run=async books=>{ const g=mkG('2026-01-05','law',books?{books:{'憲法':true}}:{}); let n=0; const toasts=[], said=[]; const GM={G:g,say:async(w,t)=>{ said.push(t); },toast:t=>toasts.push(t),choose:async o=>{ n++; const w=o.findIndex(x=>/（A）/.test(x.t)), r=o.findIndex(x=>/（C）/.test(x.t)); return n===1?w:r; }};
+      const res=await CLS.runExam(GM,{c:COURSES.list.find(c=>c.id==='const_1'),exam:'final',term:'Y1S1'}); return {res,toasts,said}; };
     const a=await run(true), b=await run(false); CLS.drawExam=orig;
-    check('6. 期末考：有《憲法》的第一次選錯（A）可以再選一次＝第 1 題算對、之後照常；沒買的第 1 題就是錯的',a.res.correct===5&&a.toasts.some(t=>/再想一次/.test(t))&&b.res.correct===4,JSON.stringify({a:a.res,b:b.res})); }
+    check('6. 期末考：有《憲法》的第一次選錯（A）可以再選一次＝第 1 題算對、之後照常；沒買的第 1 題就是錯的',a.res.correct===5&&b.res.correct===4,JSON.stringify({a:a.res,b:b.res}));
+    const R1='（你想起課本上那一段。旁邊還有你自己畫的線。）';
+    check('6b. 再選一次那一刻：AA 的旁白「（你想起課本上那一段。旁邊還有你自己畫的線。）」一次（原本只有提示）；沒買書的沒有',a.said.filter(t=>t===R1).length===1&&!b.said.includes(R1),JSON.stringify({a:a.said.filter(t=>/課本/.test(t)),toasts:a.toasts})); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

@@ -186,7 +186,8 @@ const R2Y4A=(function(){
         if(!us&&ok&&past(G,di,21)&&now(G)<T(d,18.25)&&!PHONE.sent(G,'y4_ma_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[Z('明天中秋 河濱 六點'),Z('烤肉架我借好了')],'y4_ma_ask');
           plan(G,{id:'y4_midautumn',ev:'ev_y4_midautumn',day:d,h:18,late:0.25,place:'公館的河濱',title:'中秋烤肉（大四）',travel:'走過去約 15 分鐘',travelH:0.25}); }
         if(!us&&gone(G,'y4_midautumn',d,18)&&!done(G,'ev_y4_midautumn')&&past(G,d,21.5)&&!PHONE.sent(G,'y4_ma_photo')){ PHONE.at(G,d,21.5,[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')],'y4_ma_photo'); F.MIDAUTUMN_Y4='missed'; }
-        if(us&&inG&&pastTW(G,d,19.5)&&!PHONE.sent(G,'y4_ma_us')){ const L=[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')]; if(dating(G,'kexin')) L.push({th:F.KX_MET_NOODLE_TEAM?'g:noodle_team':'p:kexin',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}); atTW(G,d,19.5,L,'y4_ma_us'); F.MIDAUTUMN_Y4='missed'; }   /* 可昕沒見過麵店團＝那句改私訊（句子不改；照臺灣版，AA_370 M7）*/
+        if(us&&inG&&pastTW(G,d,19.5)&&!PHONE.sent(G,'y4_ma_us')){ const L=[Z('📷（河濱，兩個烤肉架，一支夾子插在玉米上。）')]; if(dating(G,'kexin')&&F.KX_MET_NOODLE_TEAM) L.push({th:'g:noodle_team',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}); atTW(G,d,19.5,L,'y4_ma_us'); F.MIDAUTUMN_Y4='missed'; }   /* 可昕見過麵店團：跟著照片在群組說 */
+        if(us&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_ma_us_kx')&&!(G.msgs||[]).some(m=>m.tag==='y4_ma_us'&&m.from==='kexin')) atTW(G,d,22,[{th:'p:kexin',from:'kexin',text:'阿哲今年贏了。……你不在，我沒力氣講冷笑話。'}],'y4_ma_us_kx');   /* 可昕沒見過麵店團＝那句改私訊（句子不改），照臺灣版：臺灣 22:00、不看群組（AA_370 M7、第 6 節第 5 題）；舊存檔 19:30 已經跟著照片發過的不再發 */
         if(!us&&dating(G,'kexin')&&!F.KX_MET_NOODLE_TEAM&&past(G,d,22)&&!PHONE.sent(G,'y4_ma_kx')) PHONE.at(G,d,22,[{th:'p:kexin',from:'kexin',text:'中秋快樂。……我們這邊也在烤。'}],'y4_ma_kx'); } }
     /* ---- 2-Y4-07 校慶：11/10 21:00 法服群組（法服成員）---- */
     { const d=D('2028-11-10'); if(d!=null&&!us&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&typeof STORY!=='undefined'&&STORY.fafuMember&&STORY.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'y4_fair_ask')){ const J=t=>({th:'g:lawclub_study',from:'fafu_jr',name:'學妹',text:t});   /* 這一屆的社長（學妹），不給名字 */
@@ -198,7 +199,7 @@ const R2Y4A=(function(){
     { const d=D('2028-12-22'), di=d!=null?d-1:null; if(d!=null&&G.day>=di&&G.day<=d+1&&PHONE.inGroup(G,'noodle_team')){ const Z=t=>({th:'g:noodle_team',from:'zhe',text:t});
         if(!us&&past(G,di,21)&&now(G)<T(d,19.25)&&!PHONE.sent(G,'y4_xmas_ask')){ PHONE.at(G,di,G.day===di?Math.max(21,G.hour):21,[Z('明天考完 聖誕交換禮物'),Z('七點 麵店 一百五以內')],'y4_xmas_ask');
           plan(G,{id:'y4_xmas',ev:'ev_y4_xmas',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'聖誕交換禮物（大四）',travel:'走過去約 15 分鐘',travelH:0.25}); }
-        if((us||gone(G,'y4_xmas',d,19))&&!done(G,'ev_y4_xmas')&&pastTW(G,d,21.5)&&!PHONE.sent(G,'y4_xmas_photo')){ atTW(G,d,21.5,[Z('📷（每個人手上的禮物，都很眼熟。）')],'y4_xmas_photo'); F.XMAS_Y4='missed'; } } }
+        if((us||gone(G,'y4_xmas',d,19))&&!done(G,'ev_y4_xmas')&&past(G,d,21.5)&&!PHONE.sent(G,'y4_xmas_photo')){ PHONE.at(G,d,21.5,[Z('📷（每個人手上的禮物，都很眼熟。）')],'y4_xmas_photo'); F.XMAS_Y4='missed'; } } }   /* 美國路線那時在回臺灣的路上：照臺灣時間（AA_370 第 6 節第 8 題，同 L3 的 y4_kx_grades0；原本 atTW 換算成 12/22 早上）*/
   };
 
   /* ===================== 推甄（2-Y4-06）：成績三級（AA_185 0b 第 2 件）＋推薦信 ===================== */
