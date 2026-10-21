@@ -198,7 +198,7 @@ const Y2R2=(function(){
       {if:BV('gg'),speaker:'kexin',expression:'smile',text:'予樂她們先幫我過了一次。……這是第二次。'},
       {speaker:'kexin',expression:'smile',text:'明年也這樣。你跟予樂先講好，我假裝不知道。'} ],
     after:G=>{ const F=G.flags, v=F._y2BdV; delete F._y2BdV; const rec={class:'class',shop:'shop',two:'two',drive:'two',gg:'two'}[v]||'class'; merge(G,'KX_BDAY',{2:rec});
-      if(v==='class') remember('kexin','KX_BDAY2_CAKE','大二的生日：系上小教室的蛋糕'); } });
+      if(v==='class'){ remember('kexin','KX_BDAY2_CAKE','大二的生日：系上小教室的蛋糕'); F.KX_NCCU_FRIENDS=true; } } });   /* 小教室生日在場＝可昕正式介紹過邵鈞、詹靖，之後只讀 KX_NCCU_FRIENDS（AA_343 C7）*/
   EV.push({ id:'ev_kexin_birthday_y2_call', title:'她的生日（電話）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, kxAway:true,   /* 電話版：她不在面前，後面不接見面的閒聊階梯 */
     outingMissed:(G,GM,q)=>{ G.flags.Y2R2_BD_CALL_MISSED=true;
       if(q&&q.id==='y2r2_bd_call') at(G,q.day,G.day===q.day?Math.max(22.5,G.hour):22.5,[K('電話呢。……好啦，訊息也算。')],'y2r2_bd_call_skip'); },   /* 沒回予樂、傳了生日快樂、電話跳過：22:30 她私訊（AA_338 第 2 節；22:30 以後才跳過的＝當下）*/

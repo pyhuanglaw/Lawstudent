@@ -249,6 +249,9 @@ const K=t=>'kexin:'+t;
   fresh('2027-04-17',20,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',0); { const q=OUT.get(G,'y2r2_bd'); check('13. 「我載蛋糕。」→ 4/24 19:00 政大小教室',!!q&&q.day===D('2027-04-24')&&q.h===19&&q.bdV==='class'); }
   await go('y2r2_bd',18.2);
   check('13. B1 教室燈亮、「……你們。」；去過電影夜＝「邵鈞、詹靖你都見過了。今天他們是共犯。」；記 KX_BDAY2_CAKE、KX_BDAY[2] class',has('（系上小教室的燈關著。予樂、邵鈞、詹靖躲在桌子後面。可昕推門進來，燈亮。）')&&has('……你們。')&&has('邵鈞、詹靖你都見過了。今天他們是共犯。')&&!has('都躲在一起了，我還是正式介紹一次。這是邵鈞，考古題有目錄的那個。')&&SOCIAL.has('kexin','KX_BDAY2_CAKE')&&G.flags.KX_BDAY[2]==='class'&&!('_y2BdV' in G.flags));
+  { fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',0); await go('y2r2_bd',18.2);
+    check('13. C7 小教室生日在場（沒去過電影夜：可昕正式介紹邵鈞、詹靖）＝之後記 KX_NCCU_FRIENDS（AA_343 C7）',has('都躲在一起了，我還是正式介紹一次。這是邵鈞，考古題有目錄的那個。')&&G.flags.KX_NCCU_FRIENDS===true&&G.flags.KX_BDAY[2]==='class'); }
+  fresh('2027-04-17',20,'dorm',{KX_NCCU_FRIENDS:true}); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',0); await go('y2r2_bd',18.2);
   check('13. B3 最後一句「明年也這樣。你跟予樂先講好，我假裝不知道。」',(()=>{ const i=idx('明年也這樣。你跟予樂先講好，我假裝不知道。'); return i>=0&&i===said.findIndex(s=>/明年也這樣/.test(s.t)); })());
   fresh('2027-04-17',20,'dorm'); date('kexin'); run('2027-04-17',20.75,21.25); ans('y2r2_bd_ask',3); { const q=OUT.get(G,'y2r2_bd'); check('13. 「那天我只能打電話。」＝4/24 22:00 打給她（電話；電話版事件、後面不接見面的閒聊）',!!q&&q.call&&q.h===22&&q.ev==='ev_kexin_birthday_y2_call'&&!!ev(q.ev).kxAway); }
   await go('y2r2_bd'); check('13. 電話版：「予樂說你只能打電話。……電話也算。」；最後一句同；KX_BDAY[2] message',has('予樂說你只能打電話。……電話也算。')&&has('明年也這樣。你跟予樂先講好，我假裝不知道。')&&G.flags.KX_BDAY[2]==='message');
