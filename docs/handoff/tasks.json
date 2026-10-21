@@ -20814,7 +20814,7 @@
    "title": "去宿營前一秒還在椰林大道（轉場太突然，X09）",
    "area": "P0",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -20828,7 +20828,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
+   "next": "【LAWWW（帳號 A）20:4x】2cd8cf5a：經濟系新遊戲回顧完 2D 不關、宿營字卡疊黑底、遊覽車段換 tour_bus；法律系宿營字卡前黑底、隔天字卡之間留黑底；BB 從新遊戲（經濟系、直接法律系各一次）看到宿營第一段 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -20836,7 +20836,8 @@
      "evidence": "src/story3d.js:117 宿營開頭只有一張日期字卡（titleCard「2025 年 8 月 22 日（五）迎新宿營」），沒有集合、上車的過場；10-18 以後沒有修這個的提交；docs/handoff/USER_WANTS.md:85 X09 仍「還沒修」",
      "note": "宿營轉場仍然太突然"
     }
-   ]
+   ],
+   "sha": "2cd8cf5a"
   },
   {
    "id": "Q-ECON-CEREMONY-1018",
