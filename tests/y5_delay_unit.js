@@ -82,8 +82,8 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G4. 日期標籤：延畢 9/4「大五上 第 1 週」、10/16「大五上 第 7 週」、12/23「大五上 第 16 週」（沒有期末考週）；12/24 起「寒假」；臺灣路線沒有大五',/・大五上 第 1 週$/.test(a)&&/・大五上 第 7 週$/.test(b)&&/・大五上 第 16 週$/.test(e)&&/寒假$/.test(c)&&!/大五/.test(d),[a,b,e,c,d].join('｜'));
     const tw=lab('2029-10-17',{EXCHANGE_ROUTE:'TW'}), twHol=lab('2029-10-10',{EXCHANGE_ROUTE:'TW'}), twSep=lab('2029-09-03',{EXCHANGE_ROUTE:'TW'}), twAug=lab('2029-09-02',{EXCHANGE_ROUTE:'TW'}), twLate=lab('2030-02-20',{EXCHANGE_ROUTE:'TW'}),
       jpJan20=lab('2030-01-20',{EXCHANGE_ROUTE:'JP'}), jpCert=lab('2030-01-21',{EXCHANGE_ROUTE:'JP'}), usMar=lab('2030-03-05',{EXCHANGE_ROUTE:'US'}), noGrad=(()=>{ H.fresh('2029-10-17',10,'dorm',{EXCHANGE_ROUTE:'TW'}); return CLS.dayLabel(H.G); })();
-    check('G4. AA_363 T7-1 沒延畢的畢業生 2029-09-03 起：日期標籤只寫日期和星期（「10/17 週三」），不寫學期、不寫寒假（修改前「10/17 週三・寒假」）；9/2 以前照原本「暑假」；交換延畢的領證書（2030-01-21）起也一樣、1/20 以前照原本「寒假」',
-      tw==='10/17 週三'&&twHol==='10/10 週三'&&twSep==='9/3 週一'&&/・暑假$/.test(twAug)&&twLate==='2/20 週三'&&/・寒假$/.test(jpJan20)&&jpCert==='1/21 週一'&&usMar==='3/5 週二'&&/・寒假$/.test(noGrad),[tw,twHol,twSep,twAug,twLate,jpJan20,jpCert,usMar,noGrad].join('｜')); }
+    check('G4. AA_363 T7-1 沒延畢的畢業生 2029-09-03 起：日期標籤只寫日期和星期（「10/17 週三」；國定假日照寫「10/10 週三・國慶日」，AA_363 第 4 節），不寫學期、不寫寒假（修改前「10/17 週三・寒假」）；9/2 以前照原本「暑假」；交換延畢的領證書（2030-01-21）起也一樣、1/20 以前照原本「寒假」',
+      tw==='10/17 週三'&&twHol==='10/10 週三・國慶日'&&twSep==='9/3 週一'&&/・暑假$/.test(twAug)&&twLate==='2/20 週三'&&/・寒假$/.test(jpJan20)&&jpCert==='1/21 週一'&&usMar==='3/5 週二'&&/・寒假$/.test(noGrad),[tw,twHol,twSep,twAug,twLate,jpJan20,jpCert,usMar,noGrad].join('｜')); }
   { const line=(key,fl)=>{ grad(key,10,fl); return CLS.todayLine(H.G); };
     const tue=line('2029-09-04',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), usMon=line('2029-09-10',{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}), usWed=line('2029-09-12',{EXCHANGE_ROUTE:'US'}),
       jpMon=line('2029-09-10',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'}), jpThu=line('2029-09-13',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), jpFri=line('2029-09-14',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}), hol=line('2029-10-10',{EXCHANGE_ROUTE:'US'});

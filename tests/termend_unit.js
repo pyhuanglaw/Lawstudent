@@ -137,6 +137,10 @@ GM.money=function(n){ G.money+=n; };
     said=[]; await TERMEND.dinner(GM,q2); const L2=lines(); check('9e. 大二上飯桌「我們期末考完，你寒假來高雄。」（AA_313 第 38 列、AA_325 2-Y2-10）',L2.some(t=>t.includes('我們期末考完，你寒假來高雄。'))&&L2.some(t=>t.includes('我家附近那個夜市，你還沒去過。'))&&L2.includes('（她送你到停車場，站著等你倒車出去。）'));
     TERMEND.missed(GM,q2); PHONE.tick(G); G.hour=23; PHONE.tick(G); check('9e. 沒去：「我在正門等了一下」「你還好嗎」',txt('p:kexin').includes('kexin:我在正門等了一下')&&txt('p:kexin').includes('kexin:你還好嗎'));
     fresh(D('2026-06-11'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; G.events.done.ev_revisit_y1_kexin=1; run(20.9,21); check('9e. 舊存檔演過重訪日＝大一下不再約',!OUT.get(G,'te_kx_Y1S2')); }
+  // 9g. BUG-SIS-Y4S1-DATEINV-1021：交往中的學姊，大四上女朋友的學期末約會也是 12/24 起才約（原本 12/21 20:15 她還在美國就約）
+  { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',70,60,50); G.flags.dating_heroine_05=true; G.termend={contact:{Y4S1:{}},think:{}};
+    run(20,21); const a=PHONE.sent(G,'te_gf_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y4S1_heroine_05');
+    check('9g. 交往中的學姊大四上：12/21 不約、12/24 20:15 起約（她 12/23 回國；修改前 12/21 就約）',!a&&!!m&&m.day===D('2028-12-24'),JSON.stringify([a,m&&[m.day,m.h]])); }
   // 9f. 學姊大四上 12/24 起才約（美國 8/2～12/23）
   { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',30,0,0); G.termend={contact:{Y4S1:{heroine_05:{pts:9,k:{}}}},think:{}};
     run(20,21); const a=PHONE.sent(G,'te_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21);
@@ -264,7 +268,7 @@ GM.money=function(n){ G.money+=n; };
     const y=await gfDin('heroine_03','Y2S2',T('2027-06-17')), y1=await gfDin('heroine_03','Y2S1',T('2027-01-14'));
     check('15. 語彤大二下「（她把兩碗麵推過來。她那碗多了一把蔥。）」（旁白）「……今天想吃蔥。」；大二上照寒假那句',has(y,['（她把兩碗麵推過來。她那碗多了一把蔥。）','……今天想吃蔥。'])&&y1.includes('我媽問你寒假要不要來吃年菜。……我說我問問看。'),JSON.stringify(y));
     const s5=await gfDin('heroine_05','Y4S1',T('2029-01-12'));
-    check('15. 學姊大四上「回來三個禮拜，時差還沒調好。」「……我今天下午睡了一覺才來的。」；沒有「今天我沒帶計畫本出門。」',has(s5,['回來三個禮拜，時差還沒調好。','……我今天下午睡了一覺才來的。'])&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
+    check('15. 學姊大四上（12/23 才回國）「時差還沒調好。我現在很想睡。」「……可是這頓我不想錯過。」（AA_363 第 4 節，原本「回來三個禮拜……」）；沒有「今天我沒帶計畫本出門。」',has(s5,['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'])&&!s5.includes('回來三個禮拜，時差還沒調好。')&&!s5.includes('今天我沒帶計畫本出門。'),JSON.stringify(s5));
     const z=await gfDin('heroine_02','Y3S2',T('2028-06-15'));
     check('15. 芷若大三下「九月又要走，這次一年。」「……八月以前的週五，你先全部給我。」',has(z,['九月又要走，這次一年。','……八月以前的週五，你先全部給我。'])&&!z.includes('店長最近都讓我早一點下班。她什麼都沒問。'),JSON.stringify(z));
     const c=await gfDin('heroine_04','Y3S1',T('2028-01-13'));
