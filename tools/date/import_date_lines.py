@@ -5,6 +5,8 @@
   - date_prefs_bb.json＋date_prefs_aa.json 合併（why 欄不進遊戲）；
   - 各地點的台詞 date_system/lines/Dxx.json（白名單逐檔列的才讀；BB_128 2-9 的格式，原樣放進 DATE_LINES.loc）；BB 五位 3-6 的出發、差不多了、一個都沒做就走、合照還不行。
 格子裡「／」分開的是輪流用的幾句；同一句裡有好幾個「」＝連發幾則訊息（例：「好。」「我跟阿姨說那天不顧店。」）。「」以外的說明不進遊戲。
+  - 疊在上面的改句：AA_373 6-1「`date_lines.js`」那一列（可昕不跟祐廷比輸贏，使用者 10-18）——「現在」欄的第 n 句換成「AA 定」欄的第 n 句；
+    只換一字不差的 text；「……」開頭、沒有一字不差的那一句＝「……」是前面照舊（只換後面那一段）。找不到的印出來、不換。每次都從白名單的原檔重算，重跑結果一樣。
 用法：python3 tools/date/import_date_lines.py [--check 企劃線ref]"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -13,7 +15,8 @@ import import_guard as G
 ALLOW = G.load(ROOT)
 SP = 'docs/story_planning/'
 FILES = {'bb': SP + 'BB_128_校外單獨約會_心願地點與淡水示範規格.md', 'aa': SP + 'AA_127_以安語彤_心願約會與邀約變化.md',
-         'pbb': SP + 'date_system/date_prefs_bb.json', 'paa': SP + 'date_system/date_prefs_aa.json'}
+         'pbb': SP + 'date_system/date_prefs_bb.json', 'paa': SP + 'date_system/date_prefs_aa.json',
+         'fix373': SP + 'AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md'}   # 6-1 date_lines.js 那一列（AA373-Y1S2-FIX-1021）
 APPROVED = G.approved_files(ALLOW, SP)
 for p in FILES.values():
     ok, why = G.allowed(p, APPROVED.get(p, ''), ALLOW)
@@ -107,6 +110,46 @@ for p in sorted(APPROVED):
         sys.exit('拒絕匯入：' + why)
     d = json.loads(show(p)); LOC[m.group(1)] = {k: d[k] for k in ('points', 'likes', 'dislikeLine', 'lines') if k in d}
     FILES['loc_' + m.group(1)] = p
+# AA_373 6-1「date_lines.js」那一列：疊在地點台詞上的改句（現在 → AA 定，一句對一句）
+md = show(FILES['fix373']); head = next((l for l in md.splitlines() if l.startswith('### 6-1. ')), None)
+if not head:
+    sys.exit('拆不出來：' + FILES['fix373'] + '@' + APPROVED[FILES['fix373']] + ' 沒有 6-1 節')
+FIX = []
+for r in rows(section(md, head)):
+    if len(r) >= 3 and 'date_lines.js' in r[0]:
+        old, new = re.findall(r'「([^「」]*)」', r[1]), re.findall(r'「([^「」]*)」', r[2])
+        if len(old) != len(new) or not old:
+            sys.exit('拆不出來（6-1 date_lines.js 那一列「現在」和「AA 定」句數不同）：' + json.dumps([old, new], ensure_ascii=False))
+        FIX += list(zip(old, new))
+if not FIX:
+    sys.exit('拆不出來：AA_373 6-1 沒有 date_lines.js 那一列')
+
+
+def texts(x):
+    """地點台詞裡每一個 {text} 的物件（who／narr 都算；選項的 t 不算）"""
+    if isinstance(x, dict):
+        if isinstance(x.get('text'), str):
+            yield x
+        for v in x.values():
+            yield from texts(v)
+    elif isinstance(x, list):
+        for v in x:
+            yield from texts(v)
+
+
+FIXED = []
+for old, new in FIX:
+    hit = [o for o in texts(LOC) if o['text'] == old]
+    for o in hit:
+        o['text'] = new
+    if not hit and old.startswith('……'):   # 「……」＝前面照舊：只換後面那一段
+        tail, nt = old[2:], (new[2:] if new.startswith('……') else new)
+        hit = [o for o in texts(LOC) if o['text'].endswith(tail)]
+        for o in hit:
+            o['text'] = o['text'][:-len(tail)] + nt
+    FIXED.append((old, new, len(hit)))
+    if not hit:
+        print('AA_373 6-1：找不到「' + old + '」，沒換')
 bad = [(w, k) for w in NAME.values() for k in KEYS + ['cancel', 'flaked'] if not (L.get(w) or {}).get(k)]
 if bad:
     sys.exit('拆不出來（表格格式變了？）：' + json.dumps(bad, ensure_ascii=False))
@@ -117,3 +160,4 @@ with open(dst, 'w', encoding='utf8') as fo:
              '產生器：tools/date/import_date_lines.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst DATE_LINES=" + json.dumps(out, ensure_ascii=False) + ';\n')
 print('wrote', dst, {w: {k: len(v) for k, v in m.items()} for w, m in L.items()}, '偏好', {w: len(m) for w, m in prefs.items()}, '地點', sorted(LOC))
+print('AA_373 6-1 改句：' + '；'.join(f'「{o}」→「{n}」{c} 處' for o, n, c in FIXED))

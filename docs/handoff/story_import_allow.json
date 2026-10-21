@@ -732,6 +732,15 @@
    "kind": "art"
   },
   {
+   "path": "docs/story_planning/date_system/art/d32_base_afternoon.webp",
+   "sha": "abad2fa0",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-17 06:3x（AA_218 第 15 節，29ff65cb）：約會底圖 33 張核准（使用者生成＋BB 檢查）",
+   "task": "DATE-OVERNIGHT-1021",
+   "kind": "art",
+   "note": "DL-06C 當時沒複製的那一張（稽核 A 2026-10-21：「D32 清境 d32_base_afternoon.webp 沒進 assets/bg（企劃線有、已核准）：加白名單複製」）；照原檔複製到 assets/bg（blob 4f9e17e7），登錄 src/outings3d.js 的 OUT.BG：兩天一夜 D31＋D32 的第二天"
+  },
+  {
    "path": "docs/story_planning/free_trip/spots_v3.json",
    "sha": "3b599624",
    "status": "approved",
@@ -939,11 +948,17 @@
   },
   {
    "path": "docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md",
-   "sha": "a48fe1b7",
+   "sha": "bdab2f42",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 6、8、14、25 項大一下閒聊階梯的五句由 tools/ladder/import_ladder.py 疊在大一下的階梯上匯入（「一週兩天。」「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」「那杯黑咖啡，謝謝。」「日文課下禮拜小考。……片假名我還是會看錯。」「騙人。……你記幾次？算了，不准說。」）；第 9 項通識第 6 週（宥辰「關了燈的課，我最清醒。」、「圓頂裡很暗。」）由 tools/syllabus/import_syllabus.py 疊在課堂內容上匯入；其他項照稿手動放進 story3d.js、events.js、characters.js、encounters.js、termend_lines.js、y1fill_events.js、classes3d.js；bdab2f42（第 0～5 節和 a48fe1b7 相同，加第 6 節）：AA（帳號 A）2026-10-21 22:0x 定稿（D100、D109：AA 的稿就是定稿）：第 6-1 節「date_lines.js」那一列（可昕不跟祐廷比輸贏，使用者 10-18：「她沒有在跟我比」）由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入；LAWWW 2026-10-21 交 DATE-OVERNIGHT-1021 子代理（aadate）。bdab2f42 只比 a48fe1b7 多第 6 節（git diff 0 行刪除），第 1～5 節和 a48fe1b7 一字不差",
    "task": "AA373-Y1S2-FIX-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "a48fe1b7",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿（開發分支 172696ca 用的那一版；aadate 分支開自 80af0168，沒有這一筆）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
@@ -1280,6 +1295,15 @@
    "status": "approved",
    "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
    "task": "DATE-L32"
+  },
+  {
+   "path": "docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md",
+   "sha": "c7dd0000",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 定稿（D100、D109：AA 的稿就是定稿；回 LAWWW-C 13:01「D28～D32 兩天一夜……要開的話需要住宿那一段的規格」）：第 1～4 節（流程、第一天晚上旁白四句、第二天早上旁白＋七位一句＋住自己家／租的地方三句、給 LAWWW 的條件）",
+   "task": "DATE-OVERNIGHT-1021",
+   "kind": "text",
+   "note": "句子手抄進 src/date3d.js 的 DATE.NIGHT、DATE.MORNING_NARR、DATE.MORNING、DATE.MORNING_OWN；tests/date_overnight_unit.js 從這個 commit 讀稿逐字對"
   }
  ]
 }
