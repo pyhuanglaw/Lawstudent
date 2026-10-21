@@ -96,7 +96,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('4. C4 學姊回覆「……知道了。今天先睡。」', txt('p:heroine_05').includes('heroine_05:……知道了。今天先睡。'));
   { const C=STORY.coldWeekCast(G); check('4. C4 學姊親自來、沒有 CG、她問', C.partner==='heroine_05'&&!C.cg&&C.asker==='heroine_05'&&!C.drop, JSON.stringify(C)); }
   picks=[0]; await night(); const L4=lines();
-  check('4. C4 學姊交往版（被告知）逐字、她分兩句問、回答後「……好。先吃，要冷了。」', L4.includes('溫書瑀：粥。還是熱的。你先吃，我坐一下就走。')&&L4.includes('（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）')&&L4.includes('溫書瑀：明天早上我傳訊息給你。有回就好。')&&!L4.includes('溫書瑀：語彤說你兩天沒出門。')&&L4.includes('溫書瑀：你每次都在幫別人查。你自己呢？')&&L4.includes('溫書瑀：你想用法律做什麼？')&&L4.includes('溫書瑀：……好。先吃，要冷了。')&&cgs.length===0, JSON.stringify(L4));
+  check('4. C4 學姊交往版（被告知）逐字（名字框照交往中的叫法「書瑀」，CALLED_SHUYU）、她分兩句問、回答後「……好。先吃，要冷了。」', L4.includes('書瑀：粥。還是熱的。你先吃，我坐一下就走。')&&L4.includes('（你吃粥的時候，她把你帶下來的講義疊好，沒有翻開。）')&&L4.includes('書瑀：明天早上我傳訊息給你。有回就好。')&&!L4.includes('書瑀：語彤說你兩天沒出門。')&&L4.includes('書瑀：你每次都在幫別人查。你自己呢？')&&L4.includes('書瑀：你想用法律做什麼？')&&L4.includes('書瑀：……好。先吃，要冷了。')&&cgs.length===0, JSON.stringify(L4));
   check('4. C4 選第 1 個：COLD_WEEK_ANSWER help', G.flags.COLD_WEEK_ANSWER==='help');
 
   // 5. C5

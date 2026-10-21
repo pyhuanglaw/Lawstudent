@@ -66,7 +66,9 @@ const TBL={heroine_01:[18,19,'萬才館研討室外的走廊','麵店，兩人�
   heroine_02:[22,21.5,'約好的視訊','打烊後的 Café','video',null],heroine_04:[21,20,'吉他社辦外面的樓梯','工作室樓下',null,null],heroine_05:[17,18.5,'研究室走廊','她上班的研究單位樓下','linze_prof_hall',null],
   classmate_peishan:[21,21,'電話','電話','phone','phone'],kexin:[18.5,20,'政大山下的小吃店','她家樓下','nccu_food',null]};
 const want=(id,y,br,phone)=>{ const X=EXP[id], L=[N(phone?PH:X.o(y)),{me:ME}]; if(br==='knew') L.push(...X.knew(y)); else { L.push(...(X.ask||[])); L.push(...X[br](y)); } L.push(...X.last(y)); return L; };
-const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return g.who===nm(id)&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
+/* 談的時候還在交往：學姊的名字框是交往中的叫法「書瑀」（CALLED_SHUYU，never_set_flags_unit 第 5 節）；談完分開以後 nm() 才回到「溫書瑀」*/
+const dn=id=>{ const C=typeof REL_LINES!=='undefined'&&REL_LINES[id]&&REL_LINES[id].contact; return C&&C.DATING||null; };
+const same=(id,L)=>H.said.length===L.length&&L.every((x,i)=>{ const g=H.said[i]; if(typeof x==='string') return (g.who===nm(id)||(!!dn(id)&&g.who===dn(id)))&&g.t===x; if(x.n) return g.who===null&&g.t===x.n; if(x.me) return g.who===H.G.name&&g.t===x.me; return false; });
 /* 背景照 OUT.bg（圖還沒到的＝dark）；'phone'＝events3d.js 的 {scene:'電話'} 那一套（不在家＝OUT.bg('phone_street_night')）*/
 const bgKey=b=>b&&typeof b==='object'?b.image:b;
 const bgOk=(want0)=>{ const k=bgKey(want0==='phone'?OUT.bg('phone_street_night'):(want0?OUT.bg(want0):'dark')); if(k==='dark') return H.bgs.length>0&&H.bgs.every(b=>bgKey(b)==='dark'); return H.bgs.some(b=>bgKey(b)===k); };
