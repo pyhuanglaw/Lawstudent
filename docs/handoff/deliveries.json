@@ -11401,8 +11401,8 @@
    "what": "AA_320 118 巷作息表（X68）：118 巷 11 列＋霖澤館 3F、4F 期中期末週 5 列",
    "task": "LANE118-ENC-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 17:3x 寫進 characters.js；以安週二撞課 38 天回報 AA"
+   "integration": "已驗收",
+   "note": "LAWWW-C 17:3x 寫進 characters.js；以安週二撞課 38 天回報 AA；LAWWW（帳號 A）10-21 20:5x：任務 LANE118-ENC-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-a10e64be",
@@ -11479,8 +11479,8 @@
    "what": "AA_320 第 5 節：以安 L3 撞課改時段、霖澤館 3F／4F 看東西的旁白",
    "task": "LANE118-ENC-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 17:5x 接進開發分支"
+   "integration": "已驗收",
+   "note": "LAWWW-C 17:5x 接進開發分支；LAWWW（帳號 A）10-21 20:5x：任務 LANE118-ENC-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-35933478",
@@ -11654,8 +11654,8 @@
    "what": "AA_303「法律系開局的 8/30（X81）」：8/29 21:30 可昕兩則＋回覆、8/30 從宿舍出發「臺北的家（載可昕上山）14:00」、現場照 ev_y0_e37、演完一句旁白回宿舍 19:00",
    "task": "BUG-E37-MOVEIN-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理"
+   "integration": "已驗收",
+   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理；LAWWW（帳號 A）10-21 20:5x：任務 BUG-E37-MOVEIN-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-LAWWW2-c77e68a2",
@@ -11748,8 +11748,8 @@
    "what": "AA_330 X78 法律系的課搬教室：萬才館多功能教室五門必修（物權、身分法、公司法、保險法、強制執行法）、霖澤館 202 八門選修（原 LINZE）；不搬的列表；第一次在那間教室上課各一句旁白",
    "task": "LAW-CLASS-WANCAI-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js"
+   "integration": "已驗收",
+   "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js；LAWWW（帳號 A）10-21 20:5x：任務 LAW-CLASS-WANCAI-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-a642f518",
