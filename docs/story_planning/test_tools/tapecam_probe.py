@@ -17,6 +17,7 @@ def say(*a): print(' '.join(str(x) for x in a), flush=True)
 
 HOOK = """(()=>{ if(window.__TC) return; window.__TC=1; window.__CINE=[];
   const oc=GAME.cine; GAME.cine=function(kind,A,B,opt){ try{ const o=opt||{}; window.__CINE.push({kind, pos:o.pos?o.pos.toArray().map(v=>+v.toFixed(3)):null, look:o.look?o.look.toArray().map(v=>+v.toFixed(3)):null, ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, t:Date.now()}); }catch(e){} return oc.apply(this,arguments); };
+  window.__TZ={}; setInterval(()=>{ try{ const T=window.__TZ, now=performance.now(), h=+GAME.G.hour; if(T.dormAt==null&&GAME.G.zone==='dorm'){ T.dormAt=now; T.dormH=h; } if(T.evAt==null&&typeof EVENTS!=='undefined'&&EVENTS.running==='ev_kai_tape2'){ T.evAt=now; T.evH=h; T.txtAtEv=!!GAME.E.scene.getObjectByName('Y1_KAI_TAPE_TEXT'); } }catch(e){} },100);
   const E=GAME.E, ocm=E.cinematic; E.cinematic=function(p,l){ try{ window.__CINE.push({kind:'E.cinematic', pos:p?[+p.x.toFixed(3),+p.y.toFixed(3),+p.z.toFixed(3)]:null, look:l?[+l.x.toFixed(3),+l.y.toFixed(3),+l.z.toFixed(3)]:null, ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, t:Date.now()}); }catch(e){} return ocm.apply(this,arguments); }; })()"""
 
 MEAS = """(()=>{ const E=GAME.E, cam=E.camera, sc=E.scene; const t=sc.getObjectByName('Y1_KAI_TAPE_TEXT'), m=sc.getObjectByName('Y1_KAI_TAPE_MID');
@@ -72,12 +73,15 @@ async def crop(pg, run, tag, px):
 async def one(p, base, sid, run):
     land = not sid.endswith('_P'); mode = sid.split('_')[0]
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=land)
+    if mode == 'F':   # 模型載不到（載入失敗）：擋掉 dorm_y1_items 的下載，看 12 秒保底會不會照原本的鏡頭演（LAWWW 2469df7f）
+        async def _abort(route): await route.abort()
+        await ctx.route('**/*dorm_y1_items*', _abort)
     res = {'id': sid, 'bad': [], 'notes': []}; bad = res['bad']
     try:
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         st = json.loads(json.dumps(base)); G = st.get('G', st)
         d = await pg.evaluate("STORY.dayOfKey('2025-10-30')")
-        h0, zone = {'W': (17.83, 'dorm'), 'S': (17.95, 'dorm'), 'C': (18.08, 'dorm_hall')}[mode]
+        h0, zone = {'W': (17.83, 'dorm'), 'S': (17.95, 'dorm'), 'C': (18.08, 'dorm_hall'), 'F': (18.08, 'dorm_hall')}[mode]
         G.update({'day': d, 'hour': h0, 'zone': zone, 'pos': None, 'weekday': 4})
         G['flags'].update({'KAI_TAPE': True}); ev = G.setdefault('events', {}); ev.setdefault('done', {})['ev_kai_tape'] = 1; ev['done'].pop('ev_kai_tape2', None)
         await L.load_state(pg, G); await pg.wait_for_timeout(4000); await pg.evaluate(HOOK)
@@ -93,8 +97,9 @@ async def one(p, base, sid, run):
             await settle(pg, cdp, "GAME.G.zone!=='dorm'&&!GAME.E.player.busy", secs=60)
             say('   出房門：%s %.2f' % tuple(await pg.evaluate("[GAME.G.zone, +GAME.G.hour]")))
             await settle(pg, cdp, "+GAME.G.hour>=18.02", secs=420)   # 在走廊等到 18:01 以後（時間照走）
+            await pg.evaluate("window.__TZ={}")   # 從走廊再進房間才開始算
             say('   走廊等到：%.2f' % await pg.evaluate("+GAME.G.hour"))
-        if mode in ('W', 'C'):
+        if mode in ('W', 'C', 'F'):
             d203 = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>!i.hidden&&i.exit&&i.exit.to==='dorm'); return it?[it.x,it.z,it.label||'',it.lv|0]:null; })()")
             say('   房門（走廊那一側）：%s；玩家 lv=%s' % (d203, await pg.evaluate("GAME.E.player.lv|0")))
             if not d203: bad.append('走廊找不到 203 的門'); raise RuntimeError('no 203 door')
@@ -106,6 +111,9 @@ async def one(p, base, sid, run):
         # 等 ev_kai_tape2 開始（時間到／進門）
         got = await settle(pg, cdp, "(typeof EVENTS!=='undefined'&&EVENTS.running)==='ev_kai_tape2'", secs=240)
         if not got: bad.append('ev_kai_tape2 沒有開始（%s）' % json.dumps(await pg.evaluate(MEAS), ensure_ascii=False)[:200]); raise RuntimeError('no event')
+        tz = await pg.evaluate("window.__TZ||{}"); res['tz'] = tz
+        if tz.get('dormAt') is not None and tz.get('evAt') is not None:
+            say('   進 203 → 開演：%.1f 秒（遊戲時間 %.1f 分鐘）；開演時膠帶模型 %s' % ((tz['evAt'] - tz['dormAt']) / 1000, (tz['evH'] - tz['dormH']) * 60, '在' if tz.get('txtAtEv') else '還沒載到'))
         # 第一句（旁白）出現
         t0 = time.time(); m1 = None
         while time.time() - t0 < 30:
@@ -124,12 +132,15 @@ async def one(p, base, sid, run):
         say('   這個事件的鏡頭呼叫：%s' % json.dumps(cines, ensure_ascii=False))
         last = shots[-1]; res['line1'] = shots
         used = any(c['kind'] == 'close' and c['pos'] for c in cines)
-        if not used: bad.append('開場沒有用 ev.shot（%s）——模型沒載到？' % json.dumps(cines, ensure_ascii=False)[:160])
-        if not last['txtVis'] or last['midVis']: bad.append('第一句時地上不是寫字的那段（TEXT %s、MID %s）' % (last['txtVis'], last['midVis']))
-        if not last['inView']: bad.append('第一句時字不在畫面裡（%s，畫面 %d×%d）' % (last['px'], last['vw'], last['vh']))
-        cover = [h for h in last['hits'] if h not in ('fade',)]
-        if cover: bad.append('第一句時字被蓋住：%s（字 %s；%s）' % (cover, last['px'], json.dumps({k: last['ui'][k] for k in cover})))
-        if last['px'] and min(last['px'][2] - last['px'][0], last['px'][3] - last['px'][1]) < 14: bad.append('字太小（範圍 %s）' % last['px'])
+        if mode == 'F':
+            res['notes'].append('F：模型載不到，照原本的鏡頭演（%s）' % ('ev.shot' if used else 'talk'))
+        elif not used: bad.append('開場沒有用 ev.shot（%s）——模型沒載到？' % json.dumps(cines, ensure_ascii=False)[:160])
+        if mode != 'F':
+            if not last['txtVis'] or last['midVis']: bad.append('第一句時地上不是寫字的那段（TEXT %s、MID %s）' % (last['txtVis'], last['midVis']))
+            if not last['inView']: bad.append('第一句時字不在畫面裡（%s，畫面 %d×%d）' % (last['px'], last['vw'], last['vh']))
+            cover = [h for h in last['hits'] if h not in ('fade',)]
+            if cover: bad.append('第一句時字被蓋住：%s（字 %s；%s）' % (cover, last['px'], json.dumps({k: last['ui'][k] for k in cover})))
+            if last['px'] and min(last['px'][2] - last['px'][0], last['px'][3] - last['px'][1]) < 14: bad.append('字太小（範圍 %s）' % last['px'])
         if any(s in last['ui'] for s in ('advL', 'advR')): bad.append('第一句（旁白）就出現立繪（portraitLater 沒生效）')
         if last['fade'] > 0.3: bad.append('第一句時畫面還在淡出入（fade %.2f）' % last['fade'])
         # 第二句（阿凱）
@@ -156,7 +167,7 @@ async def one(p, base, sid, run):
             m3 = m4
         say('   演完：%s' % json.dumps({k: m3[k] for k in ('ev', 'done', 'txtVis', 'midVis', 'cam', 'cine', 'zone')}, ensure_ascii=False))
         if not m3['done']: bad.append('演完沒有記 ev_kai_tape2 done')
-        if not m3['txtVis'] or m3['midVis']: bad.append('演完以後地上不是寫字的那段（TEXT %s、MID %s）' % (m3['txtVis'], m3['midVis']))
+        if mode != 'F' and (not m3['txtVis'] or m3['midVis']): bad.append('演完以後地上不是寫字的那段（TEXT %s、MID %s）' % (m3['txtVis'], m3['midVis']))
     except RuntimeError as e: say('   ⚠ %s 中止：%s' % (sid, e))
     except Exception as e: bad.append('腳本例外：%s' % str(e)[:200]); say('   ! 例外', e)
     if errs: bad.append('JS 例外 %s' % json.dumps(errs[:2], ensure_ascii=False)[:200])
