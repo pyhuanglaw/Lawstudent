@@ -49,6 +49,7 @@ async def run_term(pg, cdp, run, tid, want):
         elif not went:
             # 沒有劇情的時候：打開手機「今天」，按那一科的「直接去上課」
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
+            await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(800)   # 手機記得上一次的分頁：自己跳出來的訊息（D103）收起來以後再打開會停在「訊息」，找不到「直接去上課」（2026-10-21 候選第二版：大一上、大二上各卡 15 分鐘）
             b = await pg.evaluate("(k=>{ const e=document.querySelector('[data-go=\"'+k+'\"]'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })(" + json.dumps(f['key']) + ")")
             if b: texts.append('📱' + b[2]); await L.touch_tap(cdp, b[0], b[1]); went = True
             else: await L.close_panels(pg, cdp)
