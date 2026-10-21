@@ -20082,7 +20082,7 @@
    "title": "新體育館 3F 主球場接成區域（gym_arena.glb；樓梯口紅龍拿掉；LICENSES 補）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -20115,7 +20115,9 @@
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "sha": "a3837c1c",
+   "note": "LAWWW（帳號 A）2026-10-21 19:3x 整合 c1e65c33（patch v3 dec70791、gym_arena.glb dec70791、gym_interior.glb＋py 5d6c715f／bee24087 拿掉紅龍）進開發分支 a3837c1c；gym_arena 11～15 項、gym、group_events、v0_c2、nav_buildings 單元測試全過；剩：「看主球場」「大螢幕」的字（AA）、上層看台走不上去、布置打開時的導航阻擋（LAWWW2 下一步）；BB 看畫面"
   },
   {
    "id": "SCN-US-IU-1018",
@@ -27322,7 +27324,7 @@
    "title": "AA_368 經濟系那一年「知道太早／時間矛盾」修正（企劃線 e55fda50）：高 5 項（H1 颱風假日期卡 9/24 就出現、H2 四月二日卡 3/16 就出現——拆範圍；H3 2/8 又問重選科系——換一則、拿掉 ask；H4 7/10 公館巷子→她家巷子；H5 msg_kx_y0 分期改日子＋寒假在臺北 12/21～1/13）、中 8 項（M3 資料頁休學日期照日期換、M6 y0_xu_seat 10/23 起、M7 7/25 夜班客運 02:30→7/26 02:10、M8 E37 經濟系路線也開車回家再搭捷運…）、低（可昕假設題兩則、{name} 寫死兩處、指考→分科測驗、y0_py_notes2 週次）",
    "area": "v0",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -27336,7 +27338,9 @@
    },
    "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
    "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
-   "next": "【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做"
+   "next": "【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
+   "sha": "eb2bc150",
+   "note": "子代理 d0cce657 合併進開發分支 eb2bc150（H1～H5、M1～M8、L1～L9 全 FIXED；42 句逐字比對 AA_368；15 支相關單元測試修改前 FAIL、修改後 PASS）；5 個問題轉 AA（L7 開頭、H5 期末週補位、H5 新句時段、M7 選項字、L9b 下雨）；M7 回覆期限 07:00→02:30 是 LAWWW 自己加的（AA 沒寫）；BB 瀏覽器照 AA_368 第 6 節"
   },
   {
    "id": "BUG-SIS-Y4S1-DATEINV-1021",
@@ -27519,6 +27523,33 @@
    "source": "AA（帳號 A）2026-10-21 19:03 企劃線 a1dc3e61（子代理盤點 860a101b，AA 在 7677ede3 核過）",
    "authorized": "D109／D110；D99 第三優先（美國交換）",
    "next": "【LAWWW（帳號 A）19:1x】H2 先修好（出境大廳不能搭車回去、一小時後自動登機、舊存檔直接登機；exch_min_unit 2b 修改前 4 FAIL）；其餘等 AA_368、AA_369 子代理回來後開子代理整份做"
+  },
+  {
+   "id": "BACKLOG-A7-WZPARK-COPLANAR",
+   "title": "溫州街小公園疊面（BACKLOG A7）：涼亭樑、神龕背板、環狀步道、公布欄軟木板各移 3～5 mm（check_coplanar 一定會閃 11→0、遠處才閃 18→1）",
+   "owner": "LAWWW2",
+   "status": "已整合待測試",
+   "priority": "P3",
+   "sha": "a3837c1c",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "溫州街小公園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "BACKLOG A7（LAWWW2 溫州街收尾①）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "check_coplanar 一定會閃 0；遊戲內樣子沒改壞",
+    "receiver": "LAWWW",
+    "ack": "ACK"
+   },
+   "note": "LAWWW2 1effaa35 交件（wz_park.glb＋wz_park.py c53c3c6d，不用改程式）；LAWWW（帳號 A）19:3x 整合進開發分支 a3837c1c；閃爍消失只靠 check_coplanar 的數字，BB 有空時動態看一眼",
+   "next": "BB 有空時在溫州街小公園走一圈看有沒有閃（動態）；沒問題就驗收"
   }
  ]
 }
