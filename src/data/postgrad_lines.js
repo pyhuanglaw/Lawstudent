@@ -40,7 +40,7 @@ const POSTGRAD_LINES=(function(){
     ex:'畢業快樂。' },
   /* ⑤ 語彤事件 17「一起畢業」（和她 FRIEND 以上）*/
   YT17:{
-    lines:[[null,'（語彤穿著學士服，手上拿著一把折傘。外面在飄雨。）'],['heroine_03','阿姨說今天不開店。她要來拍照。']],
+    lines:[[null,'（語彤穿著學士服，手上拿著一把深藍色的長柄傘。外面在飄雨。）'],['heroine_03','阿姨說今天不開店。她要來拍照。']],
     friend:'恭喜。……我還要一年，今天先穿一次學士服。',
     dating:'恭喜。……四年，我們都在總圖三樓。你都坐我斜對面。',
     cgDating:'cg_one_umbrella_heroine03',   /* CG-21 一把傘：交往中那一句（企劃線 cg_approved/ README；AA_121 第 6 節）*/
