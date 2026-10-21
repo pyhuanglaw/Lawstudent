@@ -595,7 +595,20 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-21 22:5x 進度（帳號 A LAWWW2；最新，蓋過下面 22:2x 那一節）
+### ▶▶ 10-21 23:3x 進度（帳號 A LAWWW2；最新，蓋過下面 22:5x 那一節）
+- 開發分支照舊 `34e488e4`。我的分支最新 `bc5b08a8`。
+- **ART-WZ0（使用者 15:2x「舊店面翻修繼續」）第二、三批**（WIP，`test_shots/wz0_1021/README.md`）：
+  - 靜態盤點（店面表對 AA_164 7b-2）：溫州街 B2 洗衣、C1 鐵捲門、C2 公寓缺層 → 補（`0aa92195`）；**公館騎樓 15 間門口雜物全部是 0** → 14 間補 2～4 樣、G10 自動門、G06 玻璃櫥窗（`5cdc70b4`）。
+  - 門口雜物會讓人穿過去（貼牆走）：`wz_street.py` 建模時寫出 `<模型>.props.json`；新測試 `tests/street_props_nav_unit.js`；`patches/wz0_prop_nav.diff`（zones3d.js 的 `WZ_PROP_BLOCKS` 6、`GG_PROP_BLOCKS` 39，**模型接上時才擋**）：修改前 4 FAIL→ALL PASS；兩區沒孤島、互動點都走得到。和 `zone_prewarm.diff` 兩種順序都套得上。
+  - 118 巷用現在的腳本重建（`e6c2669a`）：ART-BALCONY-POTS 那次漏了，補上陽台鐵花架。
+  - 遊戲內前後（溫州街 7、公館 7、118 巷 2）＋瀏覽器回歸排在佇列 **j19**（j11 之後）。
+- **PERF-ZONE-ENTER-1018**：`zone_prewarm.diff` 第四版（prewarm 期間主迴圈先不畫；第一版在遊戲裡丟例外已修），佇列 **j16c** 量測（prewarm、路人池不輪換對照、電腦模擬＋預先載入）在 j9 之後。
+- **PERF-CROWD-LOD-1021**：40 個遠距離 GLB 放進 assets＋LICENSES（`6134c0af`），j10 照舊。
+- **ART-VAC-AIRPORT-1021**：新的機場 GLB 放進 assets（`bc5b08a8`，原本只在 scratchpad）。
+- **ART-ECON-3D-GAP-1021**：j9（三棟大門正面）跑到最後；文學院、行政 15:00／20:00 已看過（白天看得出雙開玻璃門，晚上玻璃透暖光）→ 看完校史館、總圖就交「四棟大門＋博雅」。
+- **背景佇列**：j9（快完）→ j16c → j10 → j11 → **j19** → j12 → j13 → j14 → j15 →（j16b 空）→ j17 → j18。
+
+### ▶▶ 10-21 22:5x 進度（帳號 A LAWWW2；被上面 23:3x 那一節取代）
 - **開發分支最新 `34e488e4`**（22:3x fetch）。LAWWW 已整合：榕樹氣根＋燈柱導航＋椰林大道路燈（`ae968ffb`）、US-MARKET-STREET（`d2252a05`）。outbox 已改（`41043fec`）。
 - 待交的 patch 在 `34e488e4` 上都乾淨：`us_lamp_pools.diff`（現在不用先套超市街）、`airport_cam_night.diff`、`crowd_far_lod.diff`、`zone_prewarm.diff`。
 - **WIP：PERF-ZONE-ENTER-1018**（使用者 X14；最新 `03d91e7a`）：
