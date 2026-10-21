@@ -26,9 +26,14 @@ async def phase(pg, zone, label, rec_s=30):
       const top=rows.slice().sort((a,b)=>b.ms-a.ms).slice(0,12); const mk=P.marks.filter(m=>m.t0>=t0).map(m=>({what:m.what,ms:Math.round(m.ms),merge:Math.round(m.merge),merged:m.merged}));
       const lds=P.loads.filter(l=>l.t0>=t0).map(l=>({k:l.k,cached:l.cached,start:+((l.t0-t0)/1000).toFixed(2),done:l.t1==null?null:(l.t1<0?'失敗':+((l.t1-t0)/1000).toFixed(2))}));
       const med=(a=>{ const s=a.slice().sort((x,y)=>x-y); return s.length?s[Math.floor(s.length/2)]:0; })(rows.slice(-60).map(r=>r.ms));
-      return {frames:rows.length,steadyMs:med,over100:rows.filter(r=>r.ms>100).length,over250:rows.filter(r=>r.ms>250).length,top,marks:mk,loads:lds,progEnd:i.programs?i.programs.length:0,tex:i.memory.textures,geo:i.memory.geometries,zone:GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id}; })(%s)""" % json.dumps(t0))
+      const lp=GAME.E.lastPrewarm&&GAME.E.lastPrewarm.ms!=null?GAME.E.lastPrewarm:null; if(GAME.E.lastPrewarm) GAME.E.lastPrewarm=null;
+      return {frames:rows.length,steadyMs:med,over100:rows.filter(r=>r.ms>100).length,over250:rows.filter(r=>r.ms>250).length,top,rows,marks:mk,loads:lds,progEnd:i.programs?i.programs.length:0,tex:i.memory.textures,geo:i.memory.geometries,zone:GAME.E.zone&&GAME.E.zone.def&&GAME.E.zone.def.id,prewarm:lp}; })(%s)""" % json.dumps(t0))
     r.update({'label': label, 'enterMs': round(ms), 'progStart': info0['prog'], 'texStart': info0['tex'], 'geoStart': info0['geo']})
-    print(json.dumps({k: r[k] for k in ('label', 'zone', 'enterMs', 'marks', 'progStart', 'progEnd', 'texStart', 'tex', 'steadyMs', 'over100', 'over250')}, ensure_ascii=False), flush=True)
+    # 玩家看得到的部分：淡入（GAME.enter 結束前 0.5 秒）開始以後 10 秒內，最長的一格、超過 100 ms 的格子加起來多久（黑畫面時的卡不算：玩家只看到黑畫面多停一下）
+    fin = r['enterMs'] / 1000.0; vis = [x for x in r['rows'] if fin - 0.55 <= x['t'] <= fin + 10]
+    r['visibleMaxMs'] = max([x['ms'] for x in vis] or [0]); r['visibleStallMs'] = sum(x['ms'] for x in vis if x['ms'] > 100); r['blackMs'] = round(max(0.0, fin - 0.5) * 1000)
+    del r['rows']
+    print(json.dumps({k: r[k] for k in ('label', 'zone', 'enterMs', 'blackMs', 'visibleMaxMs', 'visibleStallMs', 'marks', 'prewarm', 'progStart', 'progEnd', 'texStart', 'tex', 'steadyMs', 'over100', 'over250')}, ensure_ascii=False), flush=True)
     print('  最長的幾格：' + json.dumps(r['top'][:8], ensure_ascii=False), flush=True)
     print('  正式模型：' + json.dumps(r['loads'], ensure_ascii=False)[:1500], flush=True)
     return r
