@@ -956,6 +956,19 @@
    "remaining": "實機；公館景深卡 atlas 多約 3 MB（要不要縮 0.75 倍由 LAWWW-C 決定）；campus_glb_integration 過時",
    "next": "LAWWW-C 套 patch＋換捷運出口 GLB；LAWWW2 接著查溫州街 19:30 三角形 +37%（BB-C 量的）",
    "sent": "2026-10-21T08:1xZ send_message DELIVERED（LAWWW-C 說不用回 ACK）"
+  },
+  {
+   "task": "PERF-WZ-NIGHT-1021：溫州街 19:30 變重（BB-C 1a76148e→43d0836f +37% 三角形）查原因（LAWWW-C 08:02Z P1）",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "（本 commit）",
+   "files": [
+    "docs/art-rebuild/second_ai/test_shots/wz_night_1021/README.md",
+    "docs/art-rebuild/second_ai/test_shots/wz_night_1021/wz_night_env.py",
+    "docs/art-rebuild/second_ai/test_shots/wz_night_1021/wz_night_cats.py"
+   ],
+   "state": "沒有晚上才多出來的場景物件：人藏起來、陰影強制重畫時兩版 draw call 完全一樣、三角形差 0.4% 內；BB 的差別來自路人位置＋X79 陰影 2 秒才重畫（取樣那一格有沒有陰影那一輪）",
+   "remaining": "無場景要修；#47 光暈合批讓溫州街晚上再少最多 50 次 draw call",
+   "next": "LAWWW-C 轉 BB：比場景時把人藏起來、陰影固定算進去"
   }
  ]
 }

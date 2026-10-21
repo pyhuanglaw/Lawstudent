@@ -54,6 +54,7 @@
   - 主要原因是光暈（一個 GLOW_ 一個 Sprite，17:24 以後 90 次）→ 一個模型一個網格；店內景深卡 15 面 → 一張 atlas；捷運出口 23 → 14 個網格。
   - 校門口 1.53 → 1.03 倍，`gongguan_glb_integration.py` ALL PASS（修改前 3 項 FAIL）。
   - `campus_glb_integration.py` 修改前、後一樣跑不完（過時：campus_modern_glb）；傅鐘光暈另外驗 PASS。
+- 10-21 PERF-WZ-NIGHT（LAWWW-C 08:02Z P1，BB-C 量溫州街 19:30 +37%）：查完，沒有晚上才多的場景物件（人藏起來、陰影強制重畫兩版一樣）；差別是路人位置＋X79 陰影取樣。`test_shots/wz_night_1021/README.md`（本 commit）。
 - 接下來（LAWWW-C 21:00 排的順序）：~~公館店面材質合併~~（交了）→ 日本學期場景優先 1（AA_341 第 5 節）→ ART-BALCONY-POTS；子代理交多功能教室／202 時驗收。
 - （舊）接下來：
   3. 118 巷：滇香掛毯、家常電視的「看」按鈕被座位搶、韓式座位卡店面，重建；驗收 README；
