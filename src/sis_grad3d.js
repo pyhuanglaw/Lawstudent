@@ -210,7 +210,7 @@ const SISG=(function(){
     return null; };
 
   /* ---------- 2-3 一起念書的日常（AA_284 2-3 ①～⑤）：解鎖以後、筆試以前，玩家在法圖坐下來讀、她那時候照作息在法圖 → 讀完輪到一段（一天最多一段）。
-     ③是那天晚上的家族群組（Kevin 問、她回；不在群組就跳過）；⑤要 SIS_TEA_ORDER（AA_311 H1）。輪到哪一段記在 G.flags.SISG_SEG ----------*/
+     ③是那天晚上的家族群組（Kevin 問、她回；不在群組就跳過）；⑤要 SIS_TEA_ORDER（AA_311 H1：在一一八茶飲點飲料時記，src/lane118.js 的 L118.h1Due／playH1）。輪到哪一段記在 G.flags.SISG_SEG ----------*/
   S.segOk=(G,k)=>k===3?inFam(G):(k===5?!!(G.flags&&G.flags.SIS_TEA_ORDER):true);
   S.nextSeg=function(G){ const last=(G.flags&&G.flags.SISG_SEG)|0; for(let i=1;i<=5;i++){ const k=(last-1+i)%5+1; if(S.segOk(G,k)) return k; } return null; };
   S.herAt=function(GM,h0){ const G=GM.G; if(typeof STORY!=='undefined'&&STORY.schedEnt&&typeof CHARACTERS!=='undefined'){ const e=STORY.schedEnt(CHARACTERS[ID],Object.assign({},G,{hour:h0})); if(e&&e.zone==='lawlib') return true; }
