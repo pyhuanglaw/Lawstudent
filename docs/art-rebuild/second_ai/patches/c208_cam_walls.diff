@@ -12,10 +12,10 @@ index 50895934..df167f36 100644
    E.followCam=followCam;
    /* 鏡頭貼牆時自動轉開（2026-10-13 LAWWW2 CAMERA_WALLS §1(1)；使用者轉達「鏡頭穿牆是最優先的共用技術問題」）：被隔間牆拉近到 1.5 m 以內、
 diff --git a/src/us3d.js b/src/us3d.js
-index d9ab980b..4cedb592 100644
+index d9ab980b..a6cb32d5 100644
 --- a/src/us3d.js
 +++ b/src/us3d.js
-@@ -76,6 +76,23 @@ const US3=(function(){
+@@ -76,6 +76,25 @@ const US3=(function(){
        else if(t==='balconyChairs'){ for(const [cx,cz] of f.chairs) nav.blockCircle(cx,cz,0.22); nav.blockCircle(f.table.x,f.table.z,0.3); } }
      nav._cm=null; return nav; }
    /* 備用模型：地板（木紋／地毯／磁磚的顏色）、1.1 m 高的矮牆（剖面看得到格局，不擋鏡頭）、家具方塊 */
@@ -27,19 +27,21 @@ index d9ab980b..4cedb592 100644
 +    const box=(axis,at,a,b,y0,y1)=>{ a-=0.06; b+=0.06; if(b-a<0.05||y1-y0<0.05) return; const ax=axis==='x';   /* 兩端各多 6 cm：視線擦過牆的端點也擋得到（教學館同一個做法）*/
 +      const m=new THREE.Mesh(new THREE.BoxGeometry(ax?b-a:T,y1-y0,ax?T:b-a),inv); m.position.set(ax?(a+b)/2:at,(y0+y1)/2,ax?at:(a+b)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
 +    const doorIn=(w,a,b)=>L.doors.find(d=>{ const u=w.axis==='x'?d.x:d.z, c=w.axis==='x'?d.z:d.x; return Math.abs(c-w.at)<0.15&&u>a-0.05&&u<b+0.05; });
-+    for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), pass=[];
++    /* 外牆（N、S、E、W）外面還有一層壁板，高到 H+0.4（tools/blender/env_second/us_apartment.py 的 OUTER）：鏡頭比天花板高時，視線從 2.6～3.0 m 穿過去也算擋住
++       （遊戲內 BB 57：平台上鏡頭轉開以後，停在屋裡貼著南牆、比牆頂高一點，畫面整個是牆頂）*/
++    for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), pass=[], Hw=/^[NSEW]$/.test(w.id||'')?H+0.4:H;
 +      for(const o of (w.open||[])){ const a=Math.min(o[0],o[1]), b=Math.max(o[0],o[1]), kind=o[2]||'', d=doorIn(w,a,b);
 +        if(kind==='passThrough') pass.push({a,b,y0:w.sill||0,y1:w.head||2.05});
 +        else if(d?!d.closed:!/window/i.test(kind)) pass.push({a,b,y0:0,y1:w.head||2.05}); }
 +      pass.sort((p,q)=>p.a-q.a); let a=lo;
-+      for(const p of pass){ box(w.axis,w.at,a,p.a,0,H); box(w.axis,w.at,p.a,p.b,0,p.y0); box(w.axis,w.at,p.a,p.b,p.y1,H); a=p.b; }
-+      box(w.axis,w.at,a,hi,0,H); }
++      for(const p of pass){ box(w.axis,w.at,a,p.a,0,Hw); box(w.axis,w.at,p.a,p.b,0,p.y0); box(w.axis,w.at,p.a,p.b,p.y1,Hw); a=p.b; }
++      box(w.axis,w.at,a,hi,0,Hw); }
 +    const BW=L.breezeway; if(BW) box('z',BW.x0,BW.z0,BW.z1,0,2.85);
 +    return out; }
    function aptFallback(L,fb){ const H=1.1; const col={wood:'#9a6a46',carpet:'#b7ada0',tile:'#d9d6cf'};
      for(const r of L.rooms){ const m=plane(fb,r.x1-r.x0,r.z1-r.z0,M(col[r.floor]||'#b8a48a'),(r.x0+r.x1)/2,(r.z0+r.z1)/2,0.005); m.userData.dyn=true; }
      for(const a of [L.balcony,L.breezeway]) plane(fb,a.x1-a.x0,a.z1-a.z0,M('#a8a49c'),(a.x0+a.x1)/2,(a.z0+a.z1)/2,0.005);
-@@ -123,6 +140,7 @@ const US3=(function(){
+@@ -123,6 +142,7 @@ const US3=(function(){
      const g0=z.group; const fb=new THREE.Group(); fb.name='fallback'; fb.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); fb.add(o); } g0.add(fb);
      for(const w of z.walls) w.visible=false; z.walls.length=0;   /* room() 的四面大牆不是這間的形狀：備用模型用配置的矮牆 */
      z.nav=aptNav(L); aptFallback(L,fb);
@@ -49,12 +51,12 @@ index d9ab980b..4cedb592 100644
      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
 diff --git a/tests/us_cam_walls_unit.js b/tests/us_cam_walls_unit.js
 new file mode 100644
-index 00000000..817ea665
+index 00000000..99df4002
 --- /dev/null
 +++ b/tests/us_cam_walls_unit.js
-@@ -0,0 +1,65 @@
+@@ -0,0 +1,66 @@
 +// 美國公寓、C 棟 208 的跟隨鏡頭不會跑到牆後面（BUG-CAM-C208-1021，BB_218 artrev2 57／58／62／77／78）——不需要瀏覽器。
-+// BB 量到的：樓梯平台 (0.4, 4) 鏡頭在北跑進屋裡（隔著南牆）、鏡頭在西被平台西端的牆擋住；一進門 (−1, 2.2) 鏡頭在東、廚房 (−2.6, 1.9) 鏡頭在南／東，整個畫面是一面牆。
++// BB 量到的：樓梯平台 (0.4, 4) 鏡頭在北跑進屋裡（隔著南牆；第一版修好以後遊戲內 57 還是轉到屋裡、貼著南牆比牆頂高一點——外牆的壁板高到 3.0 m，牆只算到 2.6 m 抓不到）、鏡頭在西被平台西端的牆擋住；一進門 (−1, 2.2) 鏡頭在東、廚房 (−2.6, 1.9) 鏡頭在南／東，整個畫面是一面牆。
 +// 做法（src/us3d.js 的 aptCamCols）：和教學館同一套——zone.camCols 交給 engine3d.js 的 followCam（擋到就拉近、抬高）、autoSwing（轉向空的那一邊）。
 +// 這裡在 Node 建出遊戲真正的兩戶（程序化備用模型＝和正式模型同一份配置），每 0.4 m 一點（人站得住）、8 個方向，照引擎的跟隨鏡頭（camDist 3.6、俯角 0.38）算鏡頭位置，
 +// 看「頭 → 鏡頭」有沒有穿過牆：牆照配置自己算（不是拿 camCols 來量），關著的門、窗算牆；開著的大門、廚房門、陽台門、吧台窗口（窗台到窗楣之間）不算；門楣以上算。
@@ -76,12 +78,13 @@ index 00000000..817ea665
 +  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true); return z; }
 +/* 配置的牆 → 會擋鏡頭的部分：{p:[x0,z0,x1,z1], y0, y1}（照 us_shared_layout.js 的寫法；和 us3d.js 的 aptCamCols 分開寫，才算獨立的量法）*/
 +function solidParts(L,H){ const out=[]; const seg=(w,a,b,y0,y1)=>{ if(b-a<0.01||y1-y0<0.01) return; out.push({p:w.axis==='x'?[a,w.at,b,w.at]:[w.at,a,w.at,b],y0,y1}); };
-+  for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), open=[];
++  /* 外牆（N、S、E、W）外面的壁板高到 H+0.4（us_apartment.py 的 OUTER；整面一片，從外面看得到）——鏡頭在屋裡比牆頂高的時候，視線照樣被它和牆頂擋住 */
++  for(const w of L.walls[0].list){ const lo=Math.min(w.from,w.to), hi=Math.max(w.from,w.to), open=[], Hw=/^[NSEW]$/.test(w.id||'')?H+0.4:H;
 +    for(const o of (w.open||[])){ const a=Math.min(o[0],o[1]), b=Math.max(o[0],o[1]), kind=o[2]||'';
 +      const d=L.doors.find(q=>{ const u=w.axis==='x'?q.x:q.z, c=w.axis==='x'?q.z:q.x; return Math.abs(c-w.at)<0.15&&u>a-0.05&&u<b+0.05; });
 +      const thru=kind==='passThrough'||(d?!d.closed:!/window/i.test(kind));   /* 關著的門、窗：牆 */
 +      if(thru) open.push({a,b,y0:kind==='passThrough'?(w.sill||0):0,y1:w.head||2.05}); }
-+    open.sort((p,q)=>p.a-q.a); let a=lo; for(const p of open){ seg(w,a,p.a,0,H); seg(w,p.a,p.b,0,p.y0); seg(w,p.a,p.b,p.y1,H); a=p.b; } seg(w,a,hi,0,H); }
++    open.sort((p,q)=>p.a-q.a); let a=lo; for(const p of open){ seg(w,a,p.a,0,Hw); seg(w,p.a,p.b,0,p.y0); seg(w,p.a,p.b,p.y1,Hw); a=p.b; } seg(w,a,hi,0,Hw); }
 +  const BW=L.breezeway; if(BW) out.push({p:[BW.x0,BW.z0,BW.x0,BW.z1],y0:0,y1:2.85});
 +  return out; }
 +/* 頭 → 鏡頭穿過擋鏡頭的牆：水平線段相交（牆的兩端各縮 3 cm：擦過端點不算），交點的高度在那一段牆的範圍內 */
