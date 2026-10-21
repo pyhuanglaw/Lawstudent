@@ -742,6 +742,7 @@ git log --oneline <自己上次的 commit>..origin/<那條分支>               
 
 | 時間（UTC） | 職位 | 帳號 | 規則版本／RULE_SOURCE commit | 已讀 D90 | 沒處理的使用者指示 | 正在跑的長工作 | turn_check | 來源 |
 |---|---|---|---|---|---|---|---|---|
+| 2026-10-21 15:2x | AA | A | HV-18＠7c58b598（duty_AA.json `3d93b337`，`claude/story-planning` 快轉到 AA-C 的 `8d32ed63`；AA-C 沒跑 duty handoff，用 --user-ok） | 是 | （AA 自己的交接紀錄） | （未提） | （未提） | AA 15:25 send_message，LAWWW 代登記 |
 | 2026-10-21 15:4x | LAWWW | A | HV-18（規則 SHA 8462e078）／RULE_SOURCE `claude/confident-ritchie-8rwh7t`（duty register `de21dbee`，seq 20）；已讀 D92 十四步 | 是 | 沒有：使用者這一班的訊息都已回覆（「我回來了」、B、C 兩班、要不要改交班規則＝已提 HV-19 等使用者回答） | 沒有 | 接班回合 27 次工具、約 9 分鐘（接近上限，接班確認後分回合） | 本人 |
 | 2026-10-18 23:0x | LAWWW-C | C | HV-18／RULE_SOURCE ee0338e7（同一個工作階段重新值班；duty register fb2098fe） | 是 | 沒有（「做完才交班」＝這一班的工作；UA-LAWWW-1018-46） | 背景流程測試（跑完會通知） | 交班時：回合 406 個、超過上限 66 個（這一班一個：10-19 00:4x 接續摘要後 7 分鐘 68 次工具） | LAWWW-C 自己登記 |
 | 2026-10-18 21:3x | LAWWW-C | C | HV-18／RULE_SOURCE 3468c35c（已讀 D92 十四步、HV-15～HV-18；duty register 見本 commit） | 是 | 沒有（交班前的都在 USER_WANTS／tasks.json；user_asks_LAWWW 40 筆） | 沒有 | 回合 385 個，超過上限 62 個（多半是 10-17～10-18 長回合；之後照 D90 拆短） | LAWWW-C 自己登記 |
