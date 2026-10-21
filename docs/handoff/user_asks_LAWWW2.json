@@ -140,9 +140,10 @@
    "quote": "你之前日本如果有3D的部分就保留 還沒做的才2D 有那些已經做得?",
    "kind": "原話",
    "status": "進行中",
-   "task": "JP-ROOM-3D-KEEP-1021",
+   "task": "JP-ROOM-3D-1021",
    "src": "使用者直接對 LAWWW2-C 工作階段說",
-   "note": "部分取代 UA-LAWWW-1018-06（日本場景全 2D）：已經做成 3D 的保留，還沒做的照舊 2D。已做的 3D 只有日本宿舍「你的房間」jp_room（WIP 25c6c76d：模型、窗景、區域程式、?jpdemo，可達性 1 項 FAIL「窗外」）；共用廚房、大廳、宿舍門口沒做→2D。下一步：修 FAIL、交 LAWWW-C 整合；2D 據點選單從哪一項進 3D 房間由 LAWWW-C 決定"
+   "note": "部分取代 UA-LAWWW-1018-06（日本場景全 2D）：已經做成 3D 的保留，還沒做的照舊 2D。已做的 3D 只有日本宿舍「你的房間」jp_room（WIP 25c6c76d：模型、窗景、區域程式、?jpdemo，可達性 1 項 FAIL「窗外」）；共用廚房、大廳、宿舍門口沒做→2D。下一步：修 FAIL、交 LAWWW-C 整合；2D 據點選單從哪一項進 3D 房間由 LAWWW-C 決定；c8c810e1 交件（reachability ALL PASS），LAWWW-C 13:09Z：據點「在房間休息一下」進 jp_room、走出房門回選單",
+   "wants": "X91"
   }
  ]
 }
