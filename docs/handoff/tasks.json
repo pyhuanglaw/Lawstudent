@@ -25841,6 +25841,27 @@
     "ack": "ACTIONED"
    },
    "next": "不用瀏覽器驗（遊戲不讀）"
+  },
+  {
+   "id": "AA356-DEBTS-1021",
+   "title": "AA_356 懸著的承諾：四句「你欠我一次」的下文＋總圖「我明天拿來。」",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "source": "企劃線 AA_356（6b8d5e1f）；AA-C 10-21 12:58 訊息",
+   "sha": "4ab8110f",
+   "evidence": "4ab8110f：r2y3a_events_unit 4 項、r2y4b_events_unit 3 項（舊程式失敗／中斷）",
+   "first": {
+    "term": "Y1S1",
+    "week": 16,
+    "earliest": "大一上第 16 週可昕視訊沒到",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 13:1x UTC】BB 照 AA_356 第 4 節四條路線各跑一次（補的那一兩句接得自然不自然）＋總圖還書"
   }
  ]
 }
