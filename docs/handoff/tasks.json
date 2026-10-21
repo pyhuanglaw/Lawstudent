@@ -20095,7 +20095,7 @@
     "confirmed": true
    },
    "src": "使用者 10-18 02:3x 回答「開」（USER_WANTS A16）",
-   "next": "【LAWWW（帳號 A）20:2x】「看主球場」「大螢幕」接上 AA_371 第 2 節（8a9b05f2；平常／典禮，典禮那句等 z.ceremonyOn）；LAWWW2 下一步：開學典禮 2025-08-31、畢業典禮 2029-06-02 打開 SET_CEREMONY＋導航阻擋時設 z.ceremonyOn=true；BB 看畫面 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】gym_arena.glb＋layout v3 接成 gym 3F 區域、樓梯接上、closed_3f 紅龍拿掉、LICENSES 補 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
+   "next": "【LAWWW（帳號 A）19:2x】「看主球場」「大螢幕」接上 AA_371 第 2 節（8a9b05f2；平常／典禮，典禮那句等 z.ceremonyOn）；LAWWW2 下一步：開學典禮 2025-08-31、畢業典禮 2029-06-02 打開 SET_CEREMONY＋導航阻擋時設 z.ceremonyOn=true；BB 看畫面 ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】gym_arena.glb＋layout v3 接成 gym 3F 區域、樓梯接上、closed_3f 紅龍拿掉、LICENSES 補 ｜ 【LAWWW-C 2026-10-21 稽核 C】沒做：LAWWW 把 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4）接成 gym 3F 區域、樓梯接上、拿掉 closed_3f、LICENSES 補 ｜ LAWWW2 已交 gym_arena.glb＋layout v3（3effc0e0、f1e732f8、f1d23fd4，在 claude/focused-cray-c9uwvw）；gym3d.js 加 3F 區域、樓梯接上、closed_3f 紅龍拿掉；LIC-GAPS-1017 一起補 gym_arena.glb",
    "pausedReason": "v9.10 範圍是經濟系＋寒暑假＋16 週（D99）；典禮已有 2D 底圖，3D 主球場不擋流程",
    "resumeWhen": "v9.10 發布後",
    "pausedBy": "LAWWW-C（D99；USER_WANTS A16 排「v9.10 後」）",
@@ -20117,7 +20117,7 @@
     "ack": "ACK"
    },
    "sha": "a3837c1c",
-   "note": "LAWWW（帳號 A）2026-10-21 19:3x 整合 c1e65c33（patch v3 dec70791、gym_arena.glb dec70791、gym_interior.glb＋py 5d6c715f／bee24087 拿掉紅龍）進開發分支 a3837c1c；gym_arena 11～15 項、gym、group_events、v0_c2、nav_buildings 單元測試全過；剩：「看主球場」「大螢幕」的字（AA）、上層看台走不上去、布置打開時的導航阻擋（LAWWW2 下一步）；BB 看畫面"
+   "note": "LAWWW（帳號 A）2026-10-21 19:1x 整合 c1e65c33（patch v3 dec70791、gym_arena.glb dec70791、gym_interior.glb＋py 5d6c715f／bee24087 拿掉紅龍）進開發分支 a3837c1c；gym_arena 11～15 項、gym、group_events、v0_c2、nav_buildings 單元測試全過；剩：「看主球場」「大螢幕」的字（AA）、上層看台走不上去、布置打開時的導航阻擋（LAWWW2 下一步）；BB 看畫面"
   },
   {
    "id": "SCN-US-IU-1018",
@@ -20828,7 +20828,7 @@
    },
    "source": "使用者 2026-10-18 05:3x 玩 v9.10（USER_WANTS X07～X14）",
    "authorized": "使用者直接要求",
-   "next": "【LAWWW（帳號 A）20:4x】2cd8cf5a：經濟系新遊戲回顧完 2D 不關、宿營字卡疊黑底、遊覽車段換 tour_bus；法律系宿營字卡前黑底、隔天字卡之間留黑底；BB 從新遊戲（經濟系、直接法律系各一次）看到宿營第一段 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
+   "next": "【LAWWW（帳號 A）19:3x】2cd8cf5a：經濟系新遊戲回顧完 2D 不關、宿營字卡疊黑底、遊覽車段換 tour_bus；法律系宿營字卡前黑底、隔天字卡之間留黑底；BB 從新遊戲（經濟系、直接法律系各一次）看到宿營第一段 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：story3d.js S.campY1 開頭加過場（校門集合／遊覽車 2D，bus 背景已有 assets/bg）再進第一個活動；請 BB 從新遊戲實際看一次 ｜ v9.10.1",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -23928,7 +23928,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「幫語昕搬進宿舍的功能也沒有」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照 CANDIDATE_9103 B 線「法律系開局」那列實玩驗收（8/29 晚上兩則 → 8/30 出發 → 19:00 回宿舍；睡到隔天 13:00 被叫醒））｜ 【LAWWW-C 18:2x】②法律系開局的 8/30 做好（AA-C bcb678e0）：8/29 21:30 可昕兩則（回覆「好。兩點。」）、8/30「臺北的家（載可昕上山）14:00」從宿舍出發（捷運約 30 分鐘）、14:15 電話、ev_y0_e37 一字不改＋最後「（你把車開回家，再搭捷運回宿舍。）」、19:00 回宿舍（E37_LAW）；出遊加鬧鐘（alarm：8/29 晚上睡到明天下午、晚上會在 13:00 叫醒；8/30 小睡、跳過時間 13:20 停；經濟系那一版也加）。tests/x81_law_e37_unit.js（修改前 7 項 FAIL，修改後 ALL PASS）、v0_e37_unit 照舊 ALL PASS。待 AA：法律系開局 8/30 早上的 kexinFirstMsg（「去上課吧」）要不要拿掉或移到 9/1。｜BB 驗：從法律系開局新遊戲 → 8/29 晚上收到可昕兩則 → 8/30 13:20 前後出發 → 演完 19:00 在宿舍；另一局 8/29 晚上選睡到明天晚上，13:00 被叫醒 ｜ 【LAWWW-C 2026-10-20 18:1x UTC】查清楚兩件事：①卡住＝使用者 v9.10.2 的 _stuck（8/30 18:01 宿舍、劇情鎖 1 層、bedScene 開的、畫面上沒有選單）：只有 choose() 選完會收起選單——床邊選單還在等的時候被另一段的選單蓋掉、選完收起來，床邊那一段永遠等不到。修法（game3d.js）：被蓋掉的選單先收起來，蓋上去的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho、卡住紀錄多一欄 cover；讀檔、新遊戲清掉。tests/choose_cover_unit.js（v9.10.2 的 choose 第 1b、3a 項 FAIL＝床邊那一段等不到，修改後 ALL PASS）。是誰蓋的還沒找到（靜態查過：所有 tick 都有劇情鎖保護、手機的按鈕都檢查 busy），之後有 cover 欄就看得到。②沒有 8/30 載可昕：使用者那一局是「從法律系開始」（存檔 PLAYED_Y0 沒有、dating_kexin true），E37 只排經濟系路線（S.isEcon||PLAYED_Y0）；經濟系路線有演（BB 驗過）。法律系開局要不要有 8/30、邀約時間地點台詞＝新內容，已問 AA-C（18:1x send_message）。｜BB 驗：8/30 宿舍按床的選單＋同時跳出的另一段（例：手機、出發選單）選完床邊選單會回來，不卡",
+   "next": "【LAWWW（帳號 A）19:3x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW-C 2026-10-21 稽核 C】程式已在開發分支（BB 照 CANDIDATE_9103 B 線「法律系開局」那列實玩驗收（8/29 晚上兩則 → 8/30 出發 → 19:00 回宿舍；睡到隔天 13:00 被叫醒））｜ 【LAWWW-C 18:2x】②法律系開局的 8/30 做好（AA-C bcb678e0）：8/29 21:30 可昕兩則（回覆「好。兩點。」）、8/30「臺北的家（載可昕上山）14:00」從宿舍出發（捷運約 30 分鐘）、14:15 電話、ev_y0_e37 一字不改＋最後「（你把車開回家，再搭捷運回宿舍。）」、19:00 回宿舍（E37_LAW）；出遊加鬧鐘（alarm：8/29 晚上睡到明天下午、晚上會在 13:00 叫醒；8/30 小睡、跳過時間 13:20 停；經濟系那一版也加）。tests/x81_law_e37_unit.js（修改前 7 項 FAIL，修改後 ALL PASS）、v0_e37_unit 照舊 ALL PASS。待 AA：法律系開局 8/30 早上的 kexinFirstMsg（「去上課吧」）要不要拿掉或移到 9/1。｜BB 驗：從法律系開局新遊戲 → 8/29 晚上收到可昕兩則 → 8/30 13:20 前後出發 → 演完 19:00 在宿舍；另一局 8/29 晚上選睡到明天晚上，13:00 被叫醒 ｜ 【LAWWW-C 2026-10-20 18:1x UTC】查清楚兩件事：①卡住＝使用者 v9.10.2 的 _stuck（8/30 18:01 宿舍、劇情鎖 1 層、bedScene 開的、畫面上沒有選單）：只有 choose() 選完會收起選單——床邊選單還在等的時候被另一段的選單蓋掉、選完收起來，床邊那一段永遠等不到。修法（game3d.js）：被蓋掉的選單先收起來，蓋上去的那一段演完（劇情層數回到舊選單那一層）再放回去；誰蓋的記在 D.coverWho、卡住紀錄多一欄 cover；讀檔、新遊戲清掉。tests/choose_cover_unit.js（v9.10.2 的 choose 第 1b、3a 項 FAIL＝床邊那一段等不到，修改後 ALL PASS）。是誰蓋的還沒找到（靜態查過：所有 tick 都有劇情鎖保護、手機的按鈕都檢查 busy），之後有 cover 欄就看得到。②沒有 8/30 載可昕：使用者那一局是「從法律系開始」（存檔 PLAYED_Y0 沒有、dating_kexin true），E37 只排經濟系路線（S.isEcon||PLAYED_Y0）；經濟系路線有演（BB 驗過）。法律系開局要不要有 8/30、邀約時間地點台詞＝新內容，已問 AA-C（18:1x send_message）。｜BB 驗：8/30 宿舍按床的選單＋同時跳出的另一段（例：手機、出發選單）選完床邊選單會回來，不卡",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -24156,7 +24156,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「可以遇到人的地方除了公館 溫州街 學校裡 建築裡 也要有118巷阿」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 FIXED → 已驗收 ｜ 【17:5x】AA_320 5-1：以安週二點大二上、大四上改 11:45～12:30，大四下不排（8:55～15:10 的課，上課優先）；5-2：霖澤館 3F、4F 看東西的字換 AA 的正式旁白 ｜ 【10-20 17:3x 開發分支】AA_320（03985a6c）18 筆作息寫進 characters.js（118 巷 11 列：阿哲週日家常菜、小語週五巷子裡走、以安週二點、芯慈週三小慕、明軒週一巷子裡看價錢、沛珊週一點、語彤週三家常菜、學姊週二自助餐／週六點、芷若週日小慕、子晴週二韓式；霖澤館 3F、4F 期中期末週 5 列，樓層寫成區域 linze_3f／linze_4f）；畢業以後用 if:{notFlags:[GRADUATED]}。tests/lane118_sched_unit.js：每一列每一天的開頭、中間、結尾都是那一列（不被一般作息蓋掉）、蓋掉的不是家教顧店社課讀書會。撞課：以安週二 12:15–13:00 在大二上、大四上、大四下有 38 天撞到同班同學的課（13:05 的課前要先去教室、大四下早上的長課）——遊戲裡上課優先，那幾天她不來 118 巷（回報 AA）。路人（一般偶遇）先前已做（lane118 的兩條路線、用餐時段五位）。下一步：BB 實玩 ｜ 【10-20 16:0x 開發分支 2be7254e】118 巷有路人（walkRoutes.lane118、吃飯時間多一點；tests/lane118_walkers_unit.js）。熟人照作息出現在 118 巷（巷子 lane118／店裡 l118_<店>）等 AA-C 給表（15:5x 已問：who、days、from、to、zone、act、terms）。偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA",
+   "next": "【LAWWW（帳號 A）19:3x】BB 驗收 FIXED → 已驗收 ｜ 【17:5x】AA_320 5-1：以安週二點大二上、大四上改 11:45～12:30，大四下不排（8:55～15:10 的課，上課優先）；5-2：霖澤館 3F、4F 看東西的字換 AA 的正式旁白 ｜ 【10-20 17:3x 開發分支】AA_320（03985a6c）18 筆作息寫進 characters.js（118 巷 11 列：阿哲週日家常菜、小語週五巷子裡走、以安週二點、芯慈週三小慕、明軒週一巷子裡看價錢、沛珊週一點、語彤週三家常菜、學姊週二自助餐／週六點、芷若週日小慕、子晴週二韓式；霖澤館 3F、4F 期中期末週 5 列，樓層寫成區域 linze_3f／linze_4f）；畢業以後用 if:{notFlags:[GRADUATED]}。tests/lane118_sched_unit.js：每一列每一天的開頭、中間、結尾都是那一列（不被一般作息蓋掉）、蓋掉的不是家教顧店社課讀書會。撞課：以安週二 12:15–13:00 在大二上、大四上、大四下有 38 天撞到同班同學的課（13:05 的課前要先去教室、大四下早上的長課）——遊戲裡上課優先，那幾天她不來 118 巷（回報 AA）。路人（一般偶遇）先前已做（lane118 的兩條路線、用餐時段五位）。下一步：BB 實玩 ｜ 【10-20 16:0x 開發分支 2be7254e】118 巷有路人（walkRoutes.lane118、吃飯時間多一點；tests/lane118_walkers_unit.js）。熟人照作息出現在 118 巷（巷子 lane118／店裡 l118_<店>）等 AA-C 給表（15:5x 已問：who、days、from、to、zone、act、terms）。偶遇（encounters／enc_walk）加 118 巷；要新台詞的問 AA",
    "evidence": "BB-C 瀏覽器實測 FIXED：企劃線 BB_218「X68 118 巷熟人照作息（AA_320）＝FIXED」（開發分支 dffd55f2；x68_probe.py；test_shots/x68_1021/）；Playwright 手機模擬，不是 iPhone"
   },
   {
@@ -24350,7 +24350,7 @@
    },
    "source": "使用者 2026-10-20 13:0x 試玩 v9.10.2 回報：「為什麼法律系的課都在霖澤館 萬才呢?」",
    "authorized": "使用者直接指示（10-20 試玩回報）",
-   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW-C 20:1x】照 AA_330（48845c36）做了：萬才館多功能教室——大二上民法物權、大二下身分法、大三上公司法、大三下保險法、大四上強制執行法；霖澤館 202——法學英文、證交法、票據、勞動法、智財、勞動社會法、財稅法、海商法；第一次在那間上課一句旁白；tests/x78_rooms_unit.js。BB 驗：大二上物權那天「直接去上課」→ 萬才館多功能教室坐下上課、第一次的旁白、教室裡有同學 ｜ 【LAWWW-C 19:5x】教室有了（0a5cc70a 已接）；哪幾門法律系的課搬到萬才館多功能教室／霖澤館 202 已問 AA（避開台詞寫死霖澤館 201 的課）；AA 給了以後 LAWWW 改 courses.js＋classes3d.js 座位上課 ｜ 等萬才教室（LINZE-WANCAI-FLOORS-1020）；之後把部分課排到萬才（courses.js 的教室）",
+   "next": "【LAWWW（帳號 A）19:3x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW-C 20:1x】照 AA_330（48845c36）做了：萬才館多功能教室——大二上民法物權、大二下身分法、大三上公司法、大三下保險法、大四上強制執行法；霖澤館 202——法學英文、證交法、票據、勞動法、智財、勞動社會法、財稅法、海商法；第一次在那間上課一句旁白；tests/x78_rooms_unit.js。BB 驗：大二上物權那天「直接去上課」→ 萬才館多功能教室坐下上課、第一次的旁白、教室裡有同學 ｜ 【LAWWW-C 19:5x】教室有了（0a5cc70a 已接）；哪幾門法律系的課搬到萬才館多功能教室／霖澤館 202 已問 AA（避開台詞寫死霖澤館 201 的課）；AA 給了以後 LAWWW 改 courses.js＋classes3d.js 座位上課 ｜ 等萬才教室（LINZE-WANCAI-FLOORS-1020）；之後把部分課排到萬才（courses.js 的教室）",
    "evidence": "BB-C 瀏覽器實測 FIXED：企劃線 BB_218「X78 法律系的課搬教室＝FIXED」（開發分支 dffd55f2，含 0dc0460d；x78_probe.py；test_shots/x78_1021/）；Playwright 手機模擬"
   },
   {
@@ -26477,7 +26477,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）2026-10-21 20:0x】①②④⑤ 81acfd1f（①12/20、7/19 日期卡；②通知條在手機打開時改到下面；④出遊小字不重複地點時間；⑤未讀只算 14 天）；③⑥ 是 LAWWW-C 的 a6441e98、cbf820a3——六項都在開發分支，BB 瀏覽器看（② 只有畫面能驗）｜ 【LAWWW-C 2026-10-21 14:5x UTC】⑥ 右上角日期跟上跳時間 cbf820a3（tests/hud_jump_unit.js）、③ 經濟系手機小事也和別的訊息隔 3 天 a6441e98（v0_kxphone_unit 6b；commit 訊息寫「30 支」是錯的，實際跑了經濟系相關 62 支 ALL PASS）——都只有單元測試、沒瀏覽器驗收、不在 v9.10.3 候選裡；剩 ①②④⑤ ｜ 【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）",
+   "next": "【LAWWW（帳號 A）2026-10-21 19:2x】①②④⑤ 81acfd1f（①12/20、7/19 日期卡；②通知條在手機打開時改到下面；④出遊小字不重複地點時間；⑤未讀只算 14 天）；③⑥ 是 LAWWW-C 的 a6441e98、cbf820a3——六項都在開發分支，BB 瀏覽器看（② 只有畫面能驗）｜ 【LAWWW-C 2026-10-21 14:5x UTC】⑥ 右上角日期跟上跳時間 cbf820a3（tests/hud_jump_unit.js）、③ 經濟系手機小事也和別的訊息隔 3 天 a6441e98（v0_kxphone_unit 6b；commit 訊息寫「30 支」是錯的，實際跑了經濟系相關 62 支 ALL PASS）——都只有單元測試、沒瀏覽器驗收、不在 v9.10.3 候選裡；剩 ①②④⑤ ｜ 【LAWWW-C 2026-10-21 14:2x UTC】⑥（HUD 日期沒跟上）和③（手機小事 9/29→9/30 只隔一天）優先，使用者對日期不同步很敏感（X76）；v9.10.3 發布後做 ｜ 【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）",
    "sha": "81acfd1f"
   },
   {
@@ -27321,7 +27321,7 @@
    },
    "source": "BB（帳號 A）2026-10-21 17:50 QA-PLAYTHROUGH-1018「天天睡覺」（807b650a＝候選 b23483dd 的遊戲程式；BB_218 最後一節 story-planning d4b05752，test_shots/qa_sleep_1021/）",
    "authorized": "bug 修正（D85）",
-   "next": "【LAWWW（帳號 A）20:5x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW（帳號 A）20:0x】546e19e2 在開發分支（post9103 合併，單元測試全過）；BB qa_play 天天睡覺看 10/1 有沒有 30,000 ｜ 【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去",
+   "next": "【LAWWW（帳號 A）19:3x】BB 驗收 FIXED → 已驗收 ｜ 【LAWWW（帳號 A）19:2x】546e19e2 在開發分支（post9103 合併，單元測試全過）；BB qa_play 天天睡覺看 10/1 有沒有 30,000 ｜ 【LAWWW（帳號 A）18:4x】v9.10.3 發布後 post9103 合進開發分支（40a8ddc3；e32034d5 單元測試 397 支全過）；BB 驗收排在 BB 佇列 ｜ 【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去",
    "evidence": "BB（帳號 A）瀏覽器實測 FIXED：BB 分支 92b09097 BB_218（qa_play MODE=sleep，開發分支 b72960bf，新遊戲玩到 2025-09-02：10 月住宿舍 +30,000、11 月～8 月每月 +5,000、法律系 9 月 +30,000；沒卡、沒 JS 例外）；Playwright 手機模擬"
   },
   {
@@ -27343,7 +27343,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 17:50 企劃線 e55fda50（子代理盤點開發分支 860a101b，AA 逐條核過程式）",
    "authorized": "D109／D110（AA 劇情自主、各自按領域決定）；D99 第一優先",
-   "next": "【LAWWW（帳號 A）20:2x】AA_371（7eb45d69，AA 回五題）8a9b05f2：L7 維持、學期中延到 12/20、「不要問我現在幾點」、7/24「好。我搭半夜的客運下去。」、品妤等公車那句；BB 瀏覽器照 AA_368 第 6 節 ｜ 【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
+   "next": "【LAWWW（帳號 A）19:2x】AA_371（7eb45d69，AA 回五題）8a9b05f2：L7 維持、學期中延到 12/20、「不要問我現在幾點」、7/24「好。我搭半夜的客運下去。」、品妤等公車那句；BB 瀏覽器照 AA_368 第 6 節 ｜ 【LAWWW（帳號 A）18:3x】子代理照 AA_368 整份做（程式＋改字），接在本機 post9103（51740da7）上、不 push；AA 不用自己推改字（已告訴 AA） ｜ v9.10.3 合併 main 以後：先合 post9103（BUG-ECON-OCT-ALLOWANCE）、AA_363 子代理，再做這一包；只改引號的字 AA 可以自己推（LAWWW 說可以的時候，避免同時改 story3d.js／events.js），程式的（H1、H2 拆範圍、H3 拿掉 ask、H5 分期、M3、M6、M7、M8）LAWWW 做",
    "sha": "eb2bc150",
    "note": "子代理 d0cce657 合併進開發分支 eb2bc150（H1～H5、M1～M8、L1～L9 全 FIXED；42 句逐字比對 AA_368；15 支相關單元測試修改前 FAIL、修改後 PASS）；5 個問題轉 AA（L7 開頭、H5 期末週補位、H5 新句時段、M7 選項字、L9b 下雨）；M7 回覆期限 07:00→02:30 是 LAWWW 自己加的（AA 沒寫）；BB 瀏覽器照 AA_368 第 6 節"
   },
@@ -27504,7 +27504,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 18:34 企劃線 4042e078（子代理盤點開發分支 860a101b，AA 核過原句）",
    "authorized": "D109／D110；D99 第二優先（寒暑假）",
-   "next": "【LAWWW（帳號 A）21:0x】子代理 6e4b9739 合併進開發分支 8202e9b0：H1～H5、M1、M2、M4～M6、L1～L9、第 4 節 FIXED，M3 PARTIAL（芷若、以安在家那天的重逢沒有句子）；aa369_hol_unit 54 項（修改前 49 FAIL）；12 個問題轉 AA（最要緊：方奕廷老家嘉義／台中）；BB 瀏覽器：寒暑假（holff、vac）時一起看 ｜ 【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
+   "next": "【LAWWW（帳號 A）19:3x】子代理 6e4b9739 合併進開發分支 8202e9b0：H1～H5、M1、M2、M4～M6、L1～L9、第 4 節 FIXED，M3 PARTIAL（芷若、以安在家那天的重逢沒有句子）；aa369_hol_unit 54 項（修改前 49 FAIL）；12 個問題轉 AA（最要緊：方奕廷老家嘉義／台中）；BB 瀏覽器：寒暑假（holff、vac）時一起看 ｜ 【LAWWW（帳號 A）18:4x】子代理照 AA_369 整份做（程式＋改字），接在開發分支 6844b669 上、不 push；和 AA_368 子代理並行（避開經濟系那一年的程式） ｜ 發布後、AA368 之後：程式的（H4、H5 規則、H1～H3、M1、M3、M4、M6）LAWWW 做；只動引號的 AA 等 LAWWW 說可以再推",
    "resumeWhen": "v9.10.3 合併 main 以後",
    "recheckOn": "2026-10-22",
    "sha": "8202e9b0"
@@ -27554,7 +27554,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "note": "LAWWW2 1effaa35 交件（wz_park.glb＋wz_park.py c53c3c6d，不用改程式）；LAWWW（帳號 A）19:3x 整合進開發分支 a3837c1c；閃爍消失只靠 check_coplanar 的數字，BB 有空時動態看一眼",
+   "note": "LAWWW2 1effaa35 交件（wz_park.glb＋wz_park.py c53c3c6d，不用改程式）；LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；閃爍消失只靠 check_coplanar 的數字，BB 有空時動態看一眼",
    "next": "BB 有空時在溫州街小公園走一圈看有沒有閃（動態）；沒問題就驗收"
   },
   {
