@@ -766,9 +766,9 @@
     "docs/story_planning/test_shots/qa_sleep_1021/",
     "docs/story_planning/test_tools/qa_play.py"
    ],
-   "state": "部分交付",
-   "remaining": "nophone、decline、一直快轉三種玩法（佇列 17，釘在候選 b23483dd）",
-   "next": "三種跑完再交",
+   "state": "已交付",
+   "remaining": "無：四種玩法都跑過（天天睡覺 807b650a／b72960bf、不開手機 b23483dd、全部拒絕 b23483dd 到 9/1、一直快轉 94eba942）",
+   "next": "完成（全部拒絕在 9/1 以後是腳本選法繞圈，已改 qa_play）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
@@ -789,6 +789,71 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "11 月～8 月每月 5,000 ✔、2/14 重考班與 6/8 衝刺班不扣錢 ✔、9/1 法律系 30,000 ✔"
+  },
+  {
+   "task": "BUG-ECON-OCT-ALLOWANCE-1021",
+   "branch": "claude/story-planning",
+   "sha": "92b09097",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/qa_play.py"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 登記已驗收（已做）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "FIXED：b72960bf 經濟系天天睡覺，10 月宿舍 +30,000、11～8 月每月 +5,000、法律系 9 月 +30,000"
+  },
+  {
+   "task": "AA368-Y0-FIX-1021",
+   "branch": "claude/story-planning",
+   "sha": "8069189a",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/aa300_check.py",
+    "docs/story_planning/test_tools/aa300_probe.py",
+    "docs/story_planning/test_tools/aa368_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "aa368（N 新遊戲到 10/25、W 寒假、S 夏天到 8/30）跑中：L9b、M6、H5、M3、M4、H4、M7、M8",
+   "next": "跑完寫 BB_218、告訴 LAWWW",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "aa300 ff（94eba942）：H1、H2、H3、附 PASS"
+  },
+  {
+   "task": "BB218-P3-1021",
+   "branch": "claude/story-planning",
+   "sha": "8069189a",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/p3b_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "② 通知條、⑤ 舊訊息紅點（p3b 排隊）；④ 8/30 那張等 aa368 S 段",
+   "next": "跑完寫 BB_218",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "①③⑥ PASS（aa300 ff 94eba942）"
+  },
+  {
+   "task": "BB-TEST-0830-ECONHOME-1021",
+   "branch": "claude/story-planning",
+   "sha": "8069189a",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md"
+   ],
+   "state": "WIP",
+   "remaining": "② flow_v0_home 重拍五格（排隊）",
+   "next": "跑完對 econ_home_1018 的五格",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "① PASS：8/29 05:00 轉法律系、晚上直接睡到 8/30 07:30"
   }
  ],
  "items": [
