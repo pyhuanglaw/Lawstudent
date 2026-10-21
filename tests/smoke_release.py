@@ -78,8 +78,15 @@ async def main():
         await run.shot(pg, 'new_game_dorm')
         run.check('新遊戲：宿舍開場演完、恢復控制', intro and s['zone'] == 'dorm' and not s['busy'], json.dumps(s, ensure_ascii=False))
         await close_auto_phone(pg, cdp, run, '新遊戲開場演完')
-        moved, pushes, s2 = await L.push_until(pg, cdp, 0, -40, 0.5)
-        run.check('新遊戲：搖桿走得動', moved > 0.5, f'走了 {moved:.2f} m（推 {pushes} 次）')
+        # 開場演完鏡頭朝門口（yaw −2.74），往前推 0.37 m 就碰到門內側的東西（(0.07,2.77)；v9.10.2 9335763d 同一點一樣，
+        # 出生點本來就在「走出房間」範圍內）＝推的方向問題，不是搖桿壞：和讀檔那段一樣四個方向都試，全部走不動才算卡住（BUG-SMOKE-JOY-1021）
+        best, tried = 0, []
+        for dx, dy in ((0, -40), (0, 40), (40, 0), (-40, 0)):
+            moved, pushes, s2 = await L.push_until(pg, cdp, dx, dy, 0.5)
+            tried.append(f'({dx},{dy}) {moved:.2f} m')
+            best = max(best, moved)
+            if moved > 0.5: break
+        run.check('新遊戲：搖桿走得動（四個方向裡至少一個）', best > 0.5, '、'.join(tried))
         # ---------- 2. 手機 ----------
         run.check('打開手機', await L.tap(pg, cdp, '#btnPhone'))
         await pg.wait_for_timeout(1200)
