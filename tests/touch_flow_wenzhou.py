@@ -106,7 +106,8 @@ async def main():
             if await pg.evaluate("document.getElementById('loading').classList.contains('hide')&&(typeof GAME==='undefined'||!GAME.charsAllP||!!GAME.charsAll)"): break
             await pg.wait_for_timeout(500)
         # 前置：放一個自動存檔（週六 14:50，溫州街東口），然後重新整理，從標題畫面點「繼續」
-        st0 = {'v': 2, 'name': '祐廷', 'day': 8, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
+        # 第 11 天＝2025-09-27（六）。原本寫第 8 天＋weekday 6，但第 8 天其實是 9/24（三）：X76（765ac675）起讀檔照行事曆重算星期，週三 14:48 小安不在 Café（平日 16–18 才在），這一項就失敗（2026-10-21 v9.10.3 發布前）
+        st0 = {'v': 2, 'name': '祐廷', 'day': 11, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
                'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True},
                'visited': {'dorm': True, 'campus': True, 'gongguan': True, 'wenzhou': True, 'cafe': True}, 'savedAt': 1}
         await pg.evaluate("s=>localStorage.setItem('fatiao3d_auto',JSON.stringify(s))", st0)
