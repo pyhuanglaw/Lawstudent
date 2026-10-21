@@ -5,6 +5,8 @@
      PG.epiPartner／epiCg／epiLine／epiPresent（2-Y4-54 不選的玩家：尾聲照朋友版）、NOODLE_CLOSED.door（2029-04-19～25 阿姨出國）。
    沒做的（見各段註解）：2-Y4-42 送禮物（沒有準備禮物的系統）、2-Y4-47 後半「延後的回答」（PROPOSAL 等使用者）、2-Y4-54「選一個人」以後其他人的談話（AA_123／BB_119 第 2 節的談話事件開發分支還沒有）、
      2-Y4-52 calendar.js 的 Y5S1、LUNAR 2030（畢業後篇本來就是摘要日，照 PG 的場景表排）。
+   已在 AA_319／AA_331 那一批（src/postgrad3d.js）、這裡不重做：45 七月最後衝刺、49 以安的兩通電話、42 學姊生日（友情／戀人／前任）、51 的 9/7 學姊與 2030 便條、53 尾聲每人一句的表、60 學姊律師錄取那句。
+     53 方奕廷「那一年你在考試」照 AA_327 定稿表與 AA_331 第 1 節 b：只看台灣路線 BAR_YEAR===2030（交換路線 2031 那半句 AA 劃掉了，沒有加回去）。
    測試：node tests/r2y4b_events_unit.js */
 'use strict';
 const R2Y4B=(function(){
