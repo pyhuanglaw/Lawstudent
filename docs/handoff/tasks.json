@@ -25330,7 +25330,7 @@
    "id": "AA349-KL-1021",
    "title": "照 AA_349（f5e9acae）改 K（沛珊台南）、L（日本學期）：L1 交換生群組十四週（4/2～7/2 週日 20:00，回群組 REPAIR +1，一週最多 +1）、L2 日本 8/21 一句、L3 便利商店點頭三次、L5 共用廚房只給交往中、L6「下一個做完，你來測。」（1B-15 與 5/20 電話）、L8 補修班第一週、L9 抵免標示；K3 北部全擋＋去台南台中算正式約會＋心願改台南美術館、K4 見面都推進一層、K5 交往中視訊、K6 日子照台大學期表、K7、K9 私訊、K11",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_349（f5e9acae）",
    "first": {
@@ -25343,7 +25343,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:2x UTC】一般子代理施工中"
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】BB 清單 bb_checklists/BB_AA349_1021.md；問 AA 的在 AA_QUESTIONS_1021 P 節；BB_165 5-1、5-2 沒做（K4 接不上）；M4（AA_350：D5 作廢、SUMMER_JP 換 1-2 那句）L2 已做 ｜ 【LAWWW-C 2026-10-21 09:2x UTC】一般子代理施工中",
+   "sha": "9e14bed7",
+   "evidence": "合併 9e14bed7（子代理 570e0110）：jp_semester +21、peishan_tainan +38、r2y3b_events 5、y2b_events +3、vac_abroad +1（舊程式都失敗）；全套 377 ALL PASS"
   },
   {
    "id": "HOLIDAY-PRESENCE-1021",
@@ -25526,6 +25528,44 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "AA351-KX-DRIFT-1021",
+   "title": "AA_351 可昕「個性磨合不了，慢慢分手」事件包：D0「跟可昕說一聲」到 D6 變回朋友七段（重要的當面或她打來的電話）；KX_CRACK（ROM.crack／mend／end(…,'drift')）；只在學期末分手，交換、寒暑假、大四下不演 D4、D5；分開後 ROM.canStart(kexin) 一律 false、尾聲朋友版",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "企劃線 AA_351（c29c49eb；f1472f22）；取代 AA_288 第 3～6 節；USER_WANTS C23",
+   "first": {
+    "term": "Y1S1",
+    "week": 8,
+    "earliest": "和可昕交往中的任一學期",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
+  },
+  {
+   "id": "AA283-PARK-1021",
+   "title": "AA_283 溫州街小公園誰幾點在：平日九個時段的路人＋週末、寒暑假、下雨、大三上第 9 週貓不見；走進公園一天第一次的一句；點路人一人一天一句（貓取名麻糬換一句）",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "企劃線 AA_283（8b312c12）；DL-13 剩下的；USER_WANTS B08",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "大一溫州街",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 12:3x UTC】派子代理：crowd3d.js 加公園時段表、wenzhou 區域互動、tests 照 AA_283 第 4 節四項；接好以後 DL-13、B08 結案"
   }
  ]
 }
