@@ -2,23 +2,29 @@
 SCN-V4-01／SCN-V5-01（LAWWW-C 2026-10-20 19:2x：507、409 和 312 看起來一樣，要「每一年看得出不同（窗外 5F／4F 的景）」），LAWWW-C 的美術子代理 2026-10-20。
 Blender 5.2（bpy，無介面）蓋一個真的 3D 場景、Cycles 從三個樓層的窗口高度渲染 → 窗景照片（取代 tools/shots/window_views.py 在遊戲校園拍的那三組：
 校園邊界外的背景是一排一排比五樓還高的方盒公寓，三個樓層看出去都是「一棵樹＋一面牆」，五樓也看不到屋頂）：
-  /opt/blenv/bin/python tools/blender/env_second/dorm_back_view.py [-- --only 507,409] [--day|--night] [--samples 64] [--threads 4] [--res 1024x512] [--png 資料夾]
-輸出 assets/models/env/views/dorm_room{312,409,507}_{day,night}.webp（1024×512、水平視角 90°、鏡頭水平＝照片中間是地平線；W3.windowMat 的視差照這個比例）。
---png：另外存一份 PNG（驗收用，不進 repo）。
+  /opt/blenv/bin/python tools/blender/env_second/dorm_back_view.py [-- --only 507,409] [--day|--night] [--samples 96] [--threads 4] [--res 1024x512] [--png 資料夾]
+  （調光用：--sun 方位,仰角（預設 60,45）、--sun-e 3.6、--sky 1.3、--expo 0.9、--turb 3.2、--view AgX、--look 'AgX - Punchy'、--pitch 11）
+輸出 assets/models/env/views/dorm_room{312,409,507}_{day,night}.webp（1024×512、水平視角 90°；W3.windowMat 的視差照這個比例）。--png：另外存一份 PNG（驗收用，不進 repo）。
+一次全部重算約 6～8 分鐘（4 核、每張 96 取樣＋降噪；場景建好約 1 分鐘）。
 
 場景（座標＝遊戲的校園座標：x 東、y 上、z 南；男一舍 x 2～38、z 61～75，背面在 z 75，往 +z 看）：
-  z 75～104   宿舍後面的草地、一條水泥小路、兩盞路燈（晚上照亮樹的這一面）
-  z  99       一排樟樹（street_trees.glb 的 camphor_a／b，LAWWW2-C 在遊戲裡量的位置 x −6、6.6、20.5、33.5，左右再補），高 8.6～10 m
+  z 75～104   宿舍後面的草地、一條水泥小路、兩盞路燈（晚上照亮樹靠宿舍這一面）
+  z  99       一排樟樹（street_trees.glb 的 camphor_a／b，LAWWW2-C 在遊戲裡量的位置 x −6、6.6、20.5、33.5，左右約 12 m 一棵），高 11.8～13.2 m；507 窗前那一棵 14.6 m
   z 104       校園的圍牆：矮牆＋鐵欄杆、人行道
-  z 106～113  巷子（淺灰柏油 D30、白色邊線、紅線）、路燈、停在對面的機車（scooter.glb）
-  z 114～130  對面一排三～五層的老公寓：一樓鐵捲門、小店（店名虛構，D77）、鐵皮雨遮；樓上照公館背景的立面貼圖（gg_bd_facade.png：鐵窗、冷氣、陽台）；
-              屋頂＝這張圖的重點：女兒牆、頂樓加蓋的鐵皮屋、不鏽鋼水塔、樓梯間、天線、太陽能熱水器、盆栽、曬衣架
-  z 140～165  第二排六～八層的公寓大樓（屋頂機房、水塔）
-  z 210～330  第三排十二～十八層的大樓
-  z 1700～    遠山（蟾蜍山、更遠的山）
+  z 106～113  巷子（淺灰柏油 D30、白色邊線、紅線、人孔蓋）、路燈、斜停在對面的機車（scooter.glb，每一款一個顏色）
+  z 114～130  對面一排三～五層的老公寓：一樓鐵捲門、小店（店面貼圖，店名虛構 D77）、住家鐵門、鐵皮雨遮；樓上照公館背景的立面貼圖（gg_bd_facade.png：鐵窗、冷氣、陽台）；
+              屋頂：女兒牆、頂樓加蓋的鐵皮屋（窗晚上有的亮）、不鏽鋼水塔（鋼架）、樓梯間、天線、太陽能熱水器、盆栽、曬衣架、冷氣
+  z 134～210  再後面四排四～六層的老公寓（同一個做法）＝五樓看出去「遠一點的屋頂」
+  z 240～300  八～十二層的公寓大樓（屋頂機房、水塔）；z 430～700 十四～二十層的大樓
+  z 1700～    遠山兩層
 三個鏡頭：312（三樓 8.4 m，x 20）、409（四樓 11.5 m，x 33）、507（五樓 14.6 m，x 8）＝tools/shots/window_views.py 原本的位置（窗中心高度＝地板＋1.675 m）。
-房間的窗只露出照片地平線以下的那一半（上半被捲簾蓋住）：三樓看到樹冠和對面一、二樓的店面，四樓看到樹梢和對面頂樓那一層、
-五樓看到樹梢底下、對面一整片屋頂（水塔、鐵皮屋）——三年一眼看得出高度不同。
+
+為什麼鏡頭往上抬 9°（--pitch）：W3.windowMat 把照片當成窗外 25 m 的一面牆，照片中心對齊窗的中心高度；房間的鏡頭是跟隨鏡頭（高 2.99 m、在玩家後面 3.6 m），
+永遠比窗高、往下看，窗的上半又被捲簾蓋住，所以房間裡看得到的只有「照片中心往下 8°～25°」那一段（2026-10-20 用校正圖在遊戲裡量的：
+進門那個位置 8°～14°、房間中間 11°～19°、窗前 16°～25°）。照片水平拍的話，三個樓層在窗裡都只看得到樹幹、草地（原本那三張就是這樣，
+而且還往下壓了 10°～13°）。往上抬 9°＝窗裡看到的大約是「站在窗前往外平視、稍微往下」的那一段：三樓在樹冠裡（滿滿的葉子，縫裡是對面的二、三樓）、
+四樓和樹梢差不多高（樹冠上半＋對面公寓的頂樓）、五樓高過樹梢（底下一排樹梢、上面一片屋頂：水塔、鐵皮屋一路排到遠處）。照片上半多了天空，被捲簾蓋住。
+（11° 試過：五樓在房間中間看出去只剩屋頂、看不到樹梢；9° 三個樓層都對得上 AA_208 的那三句）
 素材：樹 street_trees.glb、機車 scooter.glb、路燈 street_props.glb（都是本作的 Blender 模型）；Poly Haven CC0（草、水泥、柏油、地磚、鐵皮、鐵捲門）；
 立面、店面貼圖 gg_bd_facade.png／gg_bd_shopfront.png（本作程式畫的，店名虛構）。這是渲染成照片的背景，不進遊戲的 3D 場景，三角形數不影響手機效能。"""
 import json, math, os, random, sys
@@ -35,14 +41,14 @@ ROOMS = {'312': (20.0, 8.4), '409': (33.0, 11.5), '507': (8.0, 14.6)}   # 鏡頭
 ONLY = [r for r in opt('--only', '312,409,507').split(',') if r]
 TIMES = ['day', 'night'] if not ('--day' in ARGS or '--night' in ARGS) else (['day'] if '--day' in ARGS else ['night'])
 RW, RH = map(int, opt('--res', '1024x512').split('x'))
-SAMPLES = int(opt('--samples', '64')); THREADS = int(opt('--threads', '0'))
+SAMPLES = int(opt('--samples', '96')); THREADS = int(opt('--threads', '0'))
 OUTDIR = os.path.join(L.ROOT, opt('--out', 'assets/models/env/views')); PNG = opt('--png')
 GEN = os.path.join(HERE, 'textures', 'gen'); MODELS = os.path.join(L.ROOT, 'assets', 'models', 'env', 'second_ai')
 CAM_Z = 75.6
-SUN = tuple(map(float, opt('--sun', '105,52').split(','))); SUN_E = float(opt('--sun-e', '3.6')); SKY_S = float(opt('--sky', '1.0')); EXPO = float(opt('--expo', '0.0'))
-TURB = float(opt('--turb', '4.0'))
+SUN = tuple(map(float, opt('--sun', '60,45').split(','))); SUN_E = float(opt('--sun-e', '3.6')); SKY_S = float(opt('--sky', '1.3')); EXPO = float(opt('--expo', '0.9'))
+TURB = float(opt('--turb', '3.2'))
 VIEW = opt('--view', 'AgX'); LOOK = opt('--look', 'AgX - Punchy')
-PITCH = float(opt('--pitch', '11'))   # 鏡頭往上抬幾度（見檔頭「為什麼往上抬」）
+PITCH = float(opt('--pitch', '9'))   # 鏡頭往上抬幾度（見檔頭「為什麼往上抬」）
 PI = math.pi
 
 B.reset(texres=1024)
@@ -75,9 +81,11 @@ def img_mat(name, png, rough=0.8, emit_png=None, emit=0.0, alpha=False):
     tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(png); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
     bs.inputs['Roughness'].default_value = rough
     if alpha: tx.image.alpha_mode = 'STRAIGHT'; nt.links.new(tx.outputs['Alpha'], bs.inputs['Alpha'])
-    if emit > 0:
-        te = N.new('ShaderNodeTexImage'); te.image = bpy.data.images.load(emit_png) if emit_png else tx.image
-        nt.links.new(te.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = emit
+    # 自發光一律接貼圖（白天強度 0；set_time 晚上才調強度）。沒接的話晚上整面牆用預設的白色發光（第一次夜景測試就是這樣）
+    te = N.new('ShaderNodeTexImage'); te.image = bpy.data.images.load(emit_png) if emit_png else tx.image
+    at = N.new('ShaderNodeAttribute'); at.attribute_name = 'lit'; mul = N.new('ShaderNodeMix'); mul.data_type = 'RGBA'; mul.blend_type = 'MULTIPLY'; mul.inputs['Factor'].default_value = 1.0
+    nt.links.new(te.outputs['Color'], mul.inputs[6]); nt.links.new(at.outputs['Color'], mul.inputs[7]); nt.links.new(mul.outputs[2], bs.inputs['Emission Color'])   # 每一塊乘上 lit（UVMesh.rect）
+    bs.inputs['Emission Strength'].default_value = emit
     return m
 
 
@@ -138,13 +146,14 @@ def acc(key, mat=None):
 class UVMesh(Mesh):
     """自己給 UV 的網格（貼圖集：立面、店面）"""
     def __init__(self, name, mat):
-        super().__init__(name, mat); self.uv = self.bm.loops.layers.uv.new('UVMap')
+        super().__init__(name, mat); self.uv = self.bm.loops.layers.uv.new('UVMap'); self.lit = self.bm.loops.layers.float_color.new('lit')
 
-    def rect(self, bl, R, U, w, h, uv):
-        """bl＝左下角（從看的人那一邊）、R＝往右、U＝往上（法線＝R×U，朝看的人）；uv＝(u0, v0, u1, v1)"""
+    def rect(self, bl, R, U, w, h, uv, lit=1.0):
+        """bl＝左下角（從看的人那一邊）、R＝往右、U＝往上（法線＝R×U，朝看的人）；uv＝(u0, v0, u1, v1)；
+        lit＝晚上這一塊的燈要亮多少（乘在自發光上：同一張貼圖集的窗，每一層樓亮的不一樣）"""
         P = [bl, tuple(bl[i] + R[i] * w for i in range(3)), tuple(bl[i] + R[i] * w + U[i] * h for i in range(3)), tuple(bl[i] + U[i] * h for i in range(3))]
         f = self.bm.faces.new([self.bm.verts.new(g2b(*p)) for p in P]); u0, v0, u1, v1 = uv
-        for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[self.uv].uv = t
+        for lp, t in zip(f.loops, ((u0, v0), (u1, v0), (u1, v1), (u0, v1))): lp[self.uv].uv = t; lp[self.lit] = (lit, lit, lit, 1.0)
         return f
 
     def finish(self, parent=None, props=None, uv=False, smooth=False, merge=False):
@@ -241,6 +250,7 @@ def shed(x0, x1, y, z0, z1, rng):
 
 # ---------------- 公寓 ----------------
 GH, FH = 3.3, 3.0   # 一樓、樓上的樓層高
+LIT = [0.0, 0.0, 0.3, 0.7, 1.0, 1.0]   # 晚上每一層樓（每一塊立面）的燈：有的整層暗、有的只開一盞
 WALKUP_CELLS = [(0, 0), (1, 0), (2, 0), (3, 0), (0, 1), (1, 1)]   # 老公寓的立面（磁磚＋鐵窗、洗石子、陽台曬衣服、淺藍磁磚、紅磚、米色）
 SIDE_KEYS = ['side_a', 'side_b', 'side_c', 'conc']
 
@@ -253,7 +263,7 @@ def walkup(x0, x1, zf, depth, floors, rng, row=1):
     # 正面：樓上每一層一條（照貼圖集的樓層順序：二樓＝最下面那一條）
     for i in range(1, floors):
         k = 3 - ((i - 1) % 4); y0 = GH + (i - 1) * FH
-        FACADE.rect((x1, y0, zf - 0.006), NORTH_R, UP, W, FH, cell_uv(c, r, k, k + 1))   # 往外 6 mm：不和側牆的前緣疊在同一個平面
+        FACADE.rect((x1, y0, zf - 0.006), NORTH_R, UP, W, FH, cell_uv(c, r, k, k + 1), lit=rng.choice(LIT))   # 往外 6 mm：不和側牆的前緣疊在同一個平面
         box(side, x0, x1, y0 - 0.12, y0 + 0.04, zf - 0.14, zf)   # 樓板的邊（凸出一點點，立面有前後）
     # 一樓：鐵捲門、小店、住家大門（三選一，寬的分兩格）
     bays = 2 if W > 6.8 else 1; bw = W / bays
@@ -264,7 +274,7 @@ def walkup(x0, x1, zf, depth, floors, rng, row=1):
             box('shutter' if rng.random() < 0.6 else 'shutter_b', bx0 + 0.25, bx1 - 0.25, 0, GH - 0.45, zf - 0.02, zf - 0.01)
             box('conc_d', bx0 + 0.2, bx1 - 0.2, GH - 0.62, GH - 0.42, zf - 0.32, zf - 0.02)
         elif t < 0.72:   # 小店（店面貼圖；晚上亮）
-            SHOP.rect((bx1 - 0.25, 0.0, zf - 0.03), NORTH_R, UP, bw - 0.5, GH - 0.45, shop_uv(rng.randint(0, 7)))
+            SHOP.rect((bx1 - 0.25, 0.0, zf - 0.03), NORTH_R, UP, bw - 0.5, GH - 0.45, shop_uv(rng.randint(0, 7)), lit=1.0 if rng.random() < 0.65 else 0.08)   # 晚上：大部分還開著、有的打烊
             box('conc_d', bx0 + 0.25, bx1 - 0.25, 0, 0.12, zf - 0.6, zf - 0.03)
         else:   # 住家大門：深色鐵門＋旁邊停一台腳踏車的空間
             dm = bx0 + bw / 2; box('door', dm - 0.55, dm + 0.55, 0, 2.3, zf - 0.03, zf - 0.01); box(side, bx0 + 0.25, dm - 0.55, 0, GH - 0.45, zf - 0.03, zf)
@@ -310,7 +320,7 @@ def apartment_block(x0, x1, zf, depth, floors, rng, tower=False):
     c, r = rng.choice(cells); n = max(1, round(W / 6.0)); cw = W / n
     for f in range(floors):
         k = 3 - (f % 4); y0 = f * 3.1
-        for i in range(n): FACADE.rect((x1 - i * cw, y0, zf - 0.006), NORTH_R, UP, cw, 3.1, cell_uv(c, r, k, k + 1))
+        for i in range(n): FACADE.rect((x1 - i * cw, y0, zf - 0.006), NORTH_R, UP, cw, 3.1, cell_uv(c, r, k, k + 1), lit=rng.choice(LIT))
     side = rng.choice(SIDE_KEYS)
     box(side, x0, x0 + 0.3, 0, H, zf, zb); box(side, x1 - 0.3, x1, 0, H, zf, zb); box('roof', x0, x1, H - 0.3, H, zf, zb)
     box(side, x0, x1, H, H + 1.1, zf, zf + 0.2); box(side, x0, x0 + 0.2, H, H + 1.1, zf, zb); box(side, x1 - 0.2, x1, H, H + 1.1, zf, zb)
@@ -397,13 +407,24 @@ TREES = import_glb('street_trees.glb', {'camphor_a': ['camphor_a_bark', 'camphor
 for m in bpy.data.materials:
     if m.name.startswith('tree_'):   # 葉片貼圖的透明：渲染用 Cycles（HASHED 的設定只影響 EEVEE）
         m.use_backface_culling = False
-tx_ = [-6, 6.6, 20.5, 33.5] + [x for x in range(-66, 106, 10) if all(abs(x - a) > 5 for a in (-6, 6.6, 20.5, 33.5))]   # LAWWW2-C 量的四棵＋左右、中間補（約 10 m 一棵）
+tx_ = [-6, 6.6, 20.5, 33.5] + [x for x in range(-66, 110, 12) if all(abs(x - a) > 6 for a in (-6, 6.6, 20.5, 33.5))]   # LAWWW2-C 量的四棵＋左右補（約 12 m 一棵，樹冠中間留縫）
 trng = random.Random(99)
 for i, tx in enumerate(sorted(tx_)):
-    place(TREES['camphor_a' if i % 3 != 1 else 'camphor_b'], tx + trng.uniform(-1.2, 1.2), 0, 99.0 + trng.uniform(-0.9, 0.9), trng.uniform(0, 2 * PI), trng.uniform(0.8, 0.94))
+    s_ = trng.uniform(0.98, 1.1)   # 高 11.8～13.2 m：三樓在樹冠裡、四樓平樹梢、五樓看得到樹梢底下
+    if tx == 6.6: s_ = 1.22         # 507 窗前那一棵是老樟樹（14.6 m，樹梢和五樓的窗差不多高）：房間裡看出去窗的下半是樹梢、上半是屋頂（AA_208「樹梢和遠一點的屋頂」）
+    place(TREES['camphor_a' if i % 3 != 1 else 'camphor_b'], tx + trng.uniform(-1.2, 1.2), 0, 99.0 + trng.uniform(-0.9, 0.9), trng.uniform(0, 2 * PI), s_)
 SCOOT = import_glb('scooter.glb', {k: ['scooter_' + k] for k in ('S1A', 'S1B', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S9')})
-for k, col in SCOOT.items():
-    for o in col.objects: o.location = (0, 0, 0)
+SCOOT_COL = {'S1A': '#b8322c', 'S1B': '#2f5f9e', 'S2': '#2a2c30', 'S3': '#eeeeea', 'S4': '#9ea4aa', 'S5': '#8fc7b8', 'S6': '#3f6a4a', 'S7': '#d98fa0', 'S9': '#6c6f73'}
+for k, col in SCOOT.items():   # 車殼 scooter_paint 是白色：遊戲裡每一台乘上自己的顏色（zones3d.js 的 instanceColor）；這裡每一款給一個顏色
+    for o in col.objects:
+        o.location = (0, 0, 0)
+        for i, mt in enumerate(o.data.materials):
+            if mt and mt.name.startswith('scooter_paint'):
+                cp = mt.copy(); cp.name = 'scooter_paint_' + k; bs = cp.node_tree.nodes.get('Principled BSDF')
+                if bs:
+                    for lk in list(bs.inputs['Base Color'].links): cp.node_tree.links.remove(lk)
+                    bs.inputs['Base Color'].default_value = (*lin(SCOOT_COL[k]), 1.0)
+                o.data.materials[i] = cp
 srng = random.Random(7); x = -55.0
 while x < 100:
     if srng.random() < 0.7: place(SCOOT[srng.choice(list(SCOOT))], x, 0, 113.0 + srng.uniform(-0.1, 0.2), PI / 2 + srng.uniform(-0.35, 0.35))   # 斜斜地停在對面房子前面
@@ -452,7 +473,6 @@ try: sc.view_settings.view_transform = VIEW
 except Exception as e: print('view transform', e)
 try: sc.view_settings.look = LOOK
 except Exception as e: print('look', e)
-tmp = os.path.join(OUTDIR if not PNG else PNG, '_tmp_render.png') if not PNG else None
 
 
 def set_time(t):
@@ -472,11 +492,11 @@ def set_time(t):
     for m in bpy.data.materials:   # 晚上才亮：立面的窗、店面、路燈燈罩、鐵皮屋的窗
         bs = m.node_tree.nodes.get('Principled BSDF') if m.use_nodes else None
         if not bs: continue
-        if m.name == 'bv_facade': bs.inputs['Emission Strength'].default_value = 2.6 if night else 0.0
+        if m.name == 'bv_facade': bs.inputs['Emission Strength'].default_value = 1.5 if night else 0.0
         elif m.name == 'bv_shop':
             if not bs.inputs['Emission Color'].links:
                 tx = next(n for n in m.node_tree.nodes if n.type == 'TEX_IMAGE'); m.node_tree.links.new(tx.outputs['Color'], bs.inputs['Emission Color'])
-            bs.inputs['Emission Strength'].default_value = 1.5 if night else 0.0
+            bs.inputs['Emission Strength'].default_value = 0.9 if night else 0.0
         elif m.name in NIGHT_MATS:
             col, s = NIGHT_MATS[m.name]; bs.inputs['Emission Color'].default_value = (*lin(col), 1); bs.inputs['Emission Strength'].default_value = s if night else 0.0
 
@@ -494,4 +514,4 @@ for t in TIMES:
         if not PNG: os.remove(png)
         info['%s_%s' % (room, t)] = {'webp': os.path.relpath(out, L.ROOT), 'bytes': os.path.getsize(out), 'cam': [cx, cy, CAM_Z]}
         print('wrote', os.path.relpath(out, L.ROOT), os.path.getsize(out), flush=True)
-print(json.dumps({'samples': SAMPLES, 'res': [RW, RH], 'lots_row1': len(lots), 'out': info}, ensure_ascii=False))
+print(json.dumps({'samples': SAMPLES, 'res': [RW, RH], 'pitch': PITCH, 'sun': SUN, 'lots_row1': len(lots), 'out': info}, ensure_ascii=False))

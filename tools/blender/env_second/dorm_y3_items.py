@@ -390,15 +390,21 @@ def collar():   # 領口的羅紋（深一點的一圈，貼著下緣、往房�
     for (xa, ya, za, na), (xb, yb, zb, nb) in zip(hem[:-1], hem[1:]):
         if na or nb: t.quad([(xa + 0.0008, ya, za), (xb + 0.0008, yb, zb), (xb + 0.0008, yb + 0.012, zb), (xa + 0.0008, ya + 0.012, za)])
 solid(t, 'c_collar', collar)
-def sleeves():   # 袖子：根部在身體兩側（肩點 1.68 到腋下 1.86），往外、往下垂；袖口那一段是淡掉的字（c_cuff）
+def sleeve_pts(s_, z0_):
+    """袖子（倒掛：肩線在下面）：根部在身體兩側（肩點 1.68 到腋下 1.86），整隻往下垂、只往外一點點（2026-10-20 第二版：第一版斜斜往外張開像翅膀）；
+    中段往房間鼓 1 cm（布有厚度，不是貼在床欄上的一張紙）；袖口那一段是淡掉的字（c_cuff）"""
+    root_lo, root_hi = (-1.937, 1.68, z0_), (-1.937, 1.86, z0_)
+    cuff_lo, cuff_hi = (-1.931, 1.505, z0_ + s_ * 0.055), (-1.931, 1.655, z0_ + s_ * 0.105)
+    mid_lo = tuple(root_lo[k] + (cuff_lo[k] - root_lo[k]) * 0.8 for k in range(3)); mid_hi = tuple(root_hi[k] + (cuff_hi[k] - root_hi[k]) * 0.8 for k in range(3))
+    mid_lo = (mid_lo[0] + 0.009, mid_lo[1], mid_lo[2]); mid_hi = (mid_hi[0] + 0.009, mid_hi[1], mid_hi[2])
+    return root_lo, root_hi, mid_lo, mid_hi, cuff_lo, cuff_hi
+def sleeves():
     for s_, z0_ in ((1, SZ1), (-1, SZ0)):
-        root_lo, root_hi, cuff_lo, cuff_hi = (-1.937, 1.68, z0_), (-1.937, 1.86, z0_), (-1.936, 1.60, z0_ + s_ * 0.085), (-1.936, 1.735, z0_ + s_ * 0.12)
-        mid_lo = tuple(root_lo[k] + (cuff_lo[k] - root_lo[k]) * 0.8 for k in range(3)); mid_hi = tuple(root_hi[k] + (cuff_hi[k] - root_hi[k]) * 0.8 for k in range(3))
+        root_lo, root_hi, mid_lo, mid_hi, cuff_lo, cuff_hi = sleeve_pts(s_, z0_)
         t.quad([root_lo, mid_lo, mid_hi, root_hi] if s_ > 0 else [root_hi, mid_hi, mid_lo, root_lo])
 def cuffs():
     for s_, z0_ in ((1, SZ1), (-1, SZ0)):
-        root_lo, root_hi, cuff_lo, cuff_hi = (-1.937, 1.68, z0_), (-1.937, 1.86, z0_), (-1.936, 1.60, z0_ + s_ * 0.085), (-1.936, 1.735, z0_ + s_ * 0.12)
-        mid_lo = tuple(root_lo[k] + (cuff_lo[k] - root_lo[k]) * 0.8 for k in range(3)); mid_hi = tuple(root_hi[k] + (cuff_hi[k] - root_hi[k]) * 0.8 for k in range(3))
+        root_lo, root_hi, mid_lo, mid_hi, cuff_lo, cuff_hi = sleeve_pts(s_, z0_)
         t.quad([mid_lo, cuff_lo, cuff_hi, mid_hi] if s_ > 0 else [mid_hi, cuff_hi, cuff_lo, mid_lo])
 solid(t, 'c_shirt', sleeves); solid(t, 'c_cuff', cuffs)
 t.finish(g, smooth=True)
@@ -465,10 +471,20 @@ for ob in bpy.data.objects:
         key = p.name if p is not None else ''
         tris[key] = tris.get(key, 0) + sum(len(q.vertices) - 2 for q in ob.data.polygons)
 print('dorm_y3 tris', tris, 'total', sum(tris.values()), 'meshes', sum(1 for ob in bpy.data.objects if ob.type == 'MESH'))
+pos = {}   # 每一件在遊戲裡的位置（遊戲座標 x 東、y 上、z 南；外框的最小、最大、中心）：給 LAWWW 接互動點、運鏡用
+for ob in bpy.data.objects:
+    if ob.type != 'MESH': continue
+    p = ob.parent
+    while p is not None and not p.name.startswith('ITEM_') and p.name != 'FORM_STAMP': p = p.parent
+    if p is None: continue
+    ws = [ob.matrix_world @ v.co for v in ob.data.vertices]; gs = [(w.x, w.z, -w.y) for w in ws]
+    mn = [min(g[i] for g in gs) for i in range(3)]; mx = [max(g[i] for g in gs) for i in range(3)]
+    if p.name in pos: mn = [min(a_, b_) for a_, b_ in zip(mn, pos[p.name]['min'])]; mx = [max(a_, b_) for a_, b_ in zip(mx, pos[p.name]['max'])]
+    pos[p.name] = {'min': [round(v, 3) for v in mn], 'max': [round(v, 3) for v in mx], 'center': [round((a_ + b_) / 2, 3) for a_, b_ in zip(mn, mx)]}
 st = L.export(OUT, gpu_instances=False)
 L.write_json(OUT.replace('.glb', '.json'), {
     'glb': os.path.relpath(OUT, L.ROOT), 'zone': 'dorm（大三 507、大四 409：同一個四人房模型 dorm_room4，祐廷 L2；大二的 dorm_y2_items.glb 照舊一起載）', 'layout': 'loft4-v2',
-    'tris': tris, 'tris_total': sum(tris.values()), 'bytes': st['bytes'], 'meshes': st['objects'],
+    'tris': tris, 'tris_total': sum(tris.values()), 'bytes': st['bytes'], 'meshes': st['objects'], 'pos': dict(sorted(pos.items())),
     'nodes': {
         'ITEM_notes_y2': 'S.ROOM_Y3_TEXT.notes_y2（書桌左前，三本 B5）', 'ITEM_sis_plan': 'sis_plan（疊在筆記上）', 'ITEM_article': 'article（書桌前緣那一疊最下面）',
         'ITEM_vac_C11': 'vac_C11（前緣那一疊第二張）', 'ITEM_zq_usb': 'zq_usb（筆電前）', 'ITEM_vac_C08': 'vac_C08（筆電前）', 'ITEM_vac_C03': 'vac_C03（書桌右後）',
