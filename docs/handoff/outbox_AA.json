@@ -932,6 +932,66 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "可昕法律系四年＋重考期補表情：d511ec27（61）、5bc5f09a（38）、f1d76f65（111）；連同 de616dbc（35）共 245 句；Node 390 支全過"
+  },
+  {
+   "task": "SIS-SHUYU-1017",
+   "branch": "claude/story-planning",
+   "sha": "8c8708ab",
+   "files": [
+    "docs/story_planning/AA_365_學姊交往後叫書瑀_逐句核對.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排施工／BB 驗",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "LAWWW-C 列的八處逐句核對：AA 不用改句子（交往前、已停用、已分兩版、教授面前照叫學姊）；稱呼規則"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "1b4bbdac",
+   "files": [
+    "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排施工／BB 驗",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "可昕「我們的日子」畢業以後五段（接 AA_354／AA354-KX-OURDAYS-1021）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "2160cd36",
+   "files": [
+    "src/us3d.js"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "LAWWW 排施工／BB 驗",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "美國校園、法學院圖書館「看」新寫＋機場十處補套用（AA 直接推開發分支）；對照 AA_287 第 8 節"
+  },
+  {
+   "task": "AA-Q-1021-AA360",
+   "branch": "claude/confident-ritchie-8rwh7t",
+   "sha": "10f7692b",
+   "files": [
+    "src/data/r2y3a_events.js"
+   ],
+   "state": "已整合",
+   "remaining": "",
+   "next": "LAWWW 排施工／BB 驗",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "可昕兩句表情照 BB 建議（KX-EXPR 補正）"
   }
  ],
  "items": [
