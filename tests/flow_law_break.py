@@ -26,6 +26,9 @@ async def drive(pg, cdp, until_js, prefer, max_s=240):
     """點對話、照 prefer 點選項，直到 until_js 成立；回傳 (成功, 看過的選項)"""
     seen = []; was_dlg = False
     for _ in range(int(max_s * 2)):
+        if await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())&&!document.querySelector('#choices button')"):
+            n = await L.phone_away(pg, cdp, tries=1)   # 快轉途中停在要回的訊息（AA_340 6-1 H2）：手機自己打開、右上角「跳過」→ 接著跳；在家的選單前也會自動打開一次
+            if n: seen.append(['<手機：跳過>']); await pg.wait_for_timeout(500); continue
         if await pg.evaluate(until_js): return True, seen
         s = await L.state(pg)
         fade = await pg.evaluate("(()=>{ const f=document.getElementById('fade'); return !!f&&getComputedStyle(f).opacity>0.5&&getComputedStyle(f).pointerEvents!=='none'; })()")

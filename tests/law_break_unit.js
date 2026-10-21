@@ -89,7 +89,7 @@ GM.money=function(n){ G.money+=n; };
     await HOME.go(GM); GM.choose=ch0; const L=lines();
     check('7. 放假中回家＝住家裡；家裡的選單有「快轉」「睡覺」「回宿舍住」，沒有「過幾天」',JSON.stringify(cards[0])===JSON.stringify(['回臺北的家','捷運＋公車 約 40 分鐘'])&&opts[0].includes('快轉')&&opts[0].includes('睡覺')&&opts[0].includes('回宿舍住')&&!opts.some(x=>x.some(t=>/^過幾天/.test(t))),JSON.stringify(opts[0]));
     const cs=cards.slice(1).map(c=>c[0]);
-    check('7. 字卡依序：12/24 聖誕（麵店，出遊前停）→ 12/31 跨年 → 1/5 成績公布 → 1/20 → 2/5 → 2/16 除夕 → 2/17 初一 → 2/22 12:00（快轉的上限）',JSON.stringify(cs.slice(0,8))===JSON.stringify(['12/24（三）17:45','12/31（三）22:55','1/5（一）08:30','1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）12:00']),JSON.stringify(cs));
+    check('7. 字卡依序：12/24 聖誕（麵店，出遊前停）→ 12/26 21:45 麵店團揪海邊（要回的訊息，AA_340 6-1 H2：原本一路跳到 12/31，邀約 12/29 08:30 過期）→ 12/31 跨年 → 1/5 成績公布 → 1/20 → 2/5 → 2/16 除夕 → 2/17 初一 → 2/22 12:00（快轉的上限）',JSON.stringify(cs.slice(0,9))===JSON.stringify(['12/24（三）17:45','12/26（五）21:45','12/31（三）22:55','1/5（一）08:30','1/20（二）18:30','2/5（四）18:30','2/16（一）12:00','2/17（二）11:00','2/22（日）12:00']),JSON.stringify(cs));
     check('7. 家裡的旁白（AA_183 第 4 節）照放假的時候挑、每句最多一次',L.includes('寒假的早上，家裡比宿舍安靜。')&&L.includes('過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。')&&L.includes('寒假的最後一週，你把下學期的課表抄進手帳。')&&['寒假的早上，家裡比宿舍安靜。','年前，媽媽把你的房間也算進大掃除。','過年的幾天，親戚來來去去。每個人都問你，法律系是不是都在背條文。','寒假的最後一週，你把下學期的課表抄進手帳。'].every(t=>L.filter(x=>x===t).length<=1),JSON.stringify(L.filter(t=>/寒假|年前|過年/.test(t))));
     check('7. 除夕：主線 2 在家演（FAMILY_LAND_Y1）；人在家＝沒有「幾點回來？」',!!G.flags.FAMILY_LAND_Y1&&!!G.events.done.ev_chiayi_land_y1&&!PHONE.sent(G,'eve_ask_'+D('2026-02-16')));
     check('7. 初一：麵店團的拜年收進來（11:00）',PHONE.sent(G,'cny_noodle'));
