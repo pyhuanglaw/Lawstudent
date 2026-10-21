@@ -12266,8 +12266,8 @@
    "what": "體育館 1F／B1 燈光暈接線 patch（gym_glow_batch.diff）＋光暈大小改在腳本＋疊面（清查 A1、A2）；換 gym_interior.glb、gym_b1.glb",
    "task": "GYM-GLOW-COPLANAR-1021",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW2-C 12:28 訊息；patch 動 src/gym3d.js、src/zones3d.js（git apply 可直接套）"
+   "integration": "已驗收",
+   "note": "LAWWW2-C 12:28 訊息；patch 動 src/gym3d.js、src/zones3d.js（git apply 可直接套） ｜ BB 16:09（BB_218）：1F／B1 燈與光暈畫面通過（白天晚上、靜態沒看到閃；真機沒測）；1F 白色光柱另案 BUG-GYM-LIGHT-LOAD-1021"
   },
   {
    "id": "DL-AA-e01af5eb",
@@ -12371,7 +12371,7 @@
    "task": "ART-Y1-BOX-1021",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "7ef4ff56；KAI_TAPE_GONE 由 LAWWW 接在阿凱好朋友那一句"
+   "note": "7ef4ff56；KAI_TAPE_GONE 由 LAWWW 接在阿凱好朋友那一句 ｜ BB 16:09（BB_218）：封好的紙箱通過；膠帶字看不到、壓平的紙箱被擋住 → 退回 LAWWW2（ART-Y1-BOX-1021）"
   },
   {
    "id": "DL-AA-6b8d5e1f",
@@ -12423,7 +12423,7 @@
    "task": "ART-US2-FIX-1018",
    "msg": "ACTIONED",
    "integration": "已整合待測試",
-   "note": "LAWWW-C 13:2x 整合"
+   "note": "LAWWW-C 13:2x 整合 ｜ BB 16:09（BB_218）：吸頂燈、版畫、拍立得、US2 泡麵袋通過；B 門外套與「B」門牌沒跟著門板淡出 → 退回 LAWWW2（它修 us_apartment 淡出群組）"
   },
   {
    "id": "DL-LAWWW2-c8c810e1",

@@ -756,7 +756,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -13666,7 +13666,7 @@
     "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作、LAWWW2-B 驗收 8d8fe7d4",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "pausedReason": "故事小物件等 DL-13／DL-11 溫州街故事線一起放",
@@ -13802,7 +13802,7 @@
     "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作（2fc00ced）、LAWWW2-B 驗收 97f315ca",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "aliases": [
     "WZ7"
@@ -13917,7 +13917,7 @@
     "branch": "claude/second-ai-env-art",
     "spec": "AA-B 製作 222472d2、寶特瓶袋 v2 6209692d",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
-    "ack": "SENT"
+    "ack": "ACK"
    },
    "pausedBy": "LAWWW-C（D99 三個優先項目＋使用者 10-18 01:0x v9.10 收件範圍）",
    "pausedReason": "豆漿店道具等溫州街故事線（DL-11）一起放",
@@ -17148,7 +17148,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -20100,7 +20100,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -20976,7 +20976,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -22784,7 +22784,7 @@
    },
    "source": "使用者 10-18 選擇題（AA 交接 82 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接定",
-   "next": "【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
+   "next": "【LAWWW2 16:12 事先告知（D108）】只改 E.grade 預設 null→golden（?grade=off 回原本），KEY_GOLDEN 和其他時段不動；重拍 VISUAL_REVIEW 第 10 節。CLAUDE.md 那句 LAWWW 已改（7b2e1028） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -22798,7 +22798,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -22806,7 +22806,7 @@
    "title": "法律系四年的可昕、其他人物劇情也用選擇題逐場確認（經濟系那一年已做完 AA_303/305/306）；韋綸大一下 L5～L8 還沒問",
    "area": "story",
    "owner": "AA",
-   "status": "暫停",
+   "status": "取消／被取代",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -22820,7 +22820,7 @@
    },
    "source": "使用者 10-18：「所有可昕的劇情你都弄成選擇題，除了原本安排的也給我選項，再確認一次」「其他人物的劇情也用選擇題對一下」（AA 交接 69、148、162 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接指示",
-   "next": "【LAWWW-C 2026-10-21 稽核 C】等使用者：tasks.json 補 pausedBy（AA-C 依使用者 10-20）、recheckOn 2026-10-22；列進給使用者的決定清單：10-18 要的「選擇題逐場確認法律系四年」要繼續還是取消（取消要使用者原話） ｜ 下一班 AA：先用選擇題問使用者從哪一段開始",
+   "next": "【LAWWW（帳號 A）16:1x】照使用者選擇題答案取消（AA 16:09 轉） ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：tasks.json 補 pausedBy（AA-C 依使用者 10-20）、recheckOn 2026-10-22；列進給使用者的決定清單：10-18 要的「選擇題逐場確認法律系四年」要繼續還是取消（取消要使用者原話） ｜ 下一班 AA：先用選擇題問使用者從哪一段開始",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -22828,8 +22828,6 @@
     "acceptance": "每一場都有使用者選過的答案，寫進企劃",
     "ack": "未派"
    },
-   "pausedReason": "等使用者：使用者前後兩個指示衝突，只能使用者定｜原本：使用者 10-20 說不要再問選擇題；這一項是用選擇題逐場確認法律系四年的劇情（AA-C 10-21 08:0x 改暫停，UA-AA-1018-03）",
-   "resumeWhen": "tasks.json 補 pausedBy（AA-C 依使用者 10-20）、recheckOn 2026-10-22；列進給使用者的決定清單：10-18 要的「選擇題逐場確認法律系四年」要繼續還是取消（取消要使用者原話）",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 C",
@@ -22837,7 +22835,10 @@
      "evidence": "暫停的五欄只寫在文字裡：pausedReason「使用者 10-20 說不要再問選擇題（AA-C 10-21 08:0x 改暫停，UA-AA-1018-03）」、resumeWhen 含「下次檢查 2026-10-22」，但 tasks.json 結構欄位 pausedBy、recheckOn 是空的（check_orphans 會判違規）；AA-C 10-21 清查 D 節列為「要使用者決定」",
      "note": "使用者前後兩個指示衝突，只能使用者定"
     }
-   ]
+   ],
+   "reason": "使用者選擇題答案「不用逐場確認（建議）」（對 AA，AA 記 user_asks_AA.json UA-AA-1021-42、企劃線 75c56fa0）：法律系四年的可昕和其他人物劇情不用逐場用選擇題確認；AA 當劇情總監自己判斷、直接寫進遊戲，只有改大方向（人物設定、感情走向、結局）才問",
+   "replacedBy": "NONE",
+   "authorizedBy": "使用者（對 AA 的選擇題答案「不用逐場確認（建議）」，UA-AA-1021-42）"
   },
   {
    "id": "YT-ENDING-LAWYER",
@@ -23620,7 +23621,7 @@
    },
    "source": "使用者 2026-10-18 15:4x：「我發現可昕不管什麼對話的表情都一樣」",
    "authorized": "使用者回報",
-   "next": "【LAWWW（帳號 A）16:1x】AA 做完：d511ec27、5bc5f09a、f1d76f65（加之前 de616dbc 共 245 句，只加 expression）；LAWWW 三處程式組出來的句子補預設表情（8076fe37：r2y3a pickLines、econff 回覆 neutral、重考期早上 rsLines smile）。剩 R4 模擬考 9 句只給舊存檔。下一步：BB 驗經濟系／重考期的可昕表情 ｜ 【LAWWW-C 2026-10-21 08:5x UTC】retake_home 重匯 86ffcd9a（白名單換版本；可昕 71 句都有表情，含 D4／D10 拿掉跟祐廷比較、姊姊的房間）；閒聊階梯 y0 的 32 句已在 49ed7e6a；events.js 39 句 AA 直接改在開發分支；tests/kx_expr_unit.js（改之前 2 項失敗）｜ AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
+   "next": "【BB 16:13 ACK】文字層已對 247 處（11 種表情圖都在）；畫面併入 QA-PLAYTHROUGH ｜ 【LAWWW（帳號 A）16:1x】AA 做完：d511ec27、5bc5f09a、f1d76f65（加之前 de616dbc 共 245 句，只加 expression）；LAWWW 三處程式組出來的句子補預設表情（8076fe37：r2y3a pickLines、econff 回覆 neutral、重考期早上 rsLines smile）。剩 R4 模擬考 9 句只給舊存檔。下一步：BB 驗經濟系／重考期的可昕表情 ｜ 【LAWWW-C 2026-10-21 08:5x UTC】retake_home 重匯 86ffcd9a（白名單換版本；可昕 71 句都有表情，含 D4／D10 拿掉跟祐廷比較、姊姊的房間）；閒聊階梯 y0 的 32 句已在 49ed7e6a；events.js 39 句 AA 直接改在開發分支；tests/kx_expr_unit.js（改之前 2 項失敗）｜ AA 已標：events.js 39 句（開發分支）、retake_home 71 句、階梯 y0 32 句（{t,e}，待 LAWWW 重匯）；LAWWW 改寫的場一起標（AA_308 第 9 節） ｜ 舊：LAWWW 已做：retake_home 的 e、閒聊階梯的 e 會照標的表情顯示（econff3d.js、story3d.js、game3d.js opts.expression）。下一班 AA：重考期在家、階梯、經濟系事件的可昕台詞補表情（annoyed／embarrassed／laugh／neutral／sad／serious／smile／surprised／teasing／thinking／tired）",
    "xai": {
     "receiver": "LAWWW",
     "branch": "claude/magical-albattani-bk7b4n",
@@ -24193,7 +24194,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "程式＋相關 Node 單元測試（nav_buildings_unit 等）過；遊戲內截圖；交 LAWWW 合併、BB 測",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -25639,7 +25640,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）16:1x，LAWWW2 16:04 轉 BB_218 補拍】膠帶上的字看不到：LAWWW2 問 AA 能不能只寫兩三個大字（例「國界」）；如果劇情要玩家讀到原句，ev_kai_tape2 要加一個貼近膠帶的劇情鏡頭（LAWWW 做，等 AA 回）｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
+   "next": "【BB 16:09（BB_218 最後兩節，df352cb5）】封好的紙箱通過；膠帶中間的字任何玩家鏡頭都看不到、壓平的紙箱藏在書桌底下深藍色物品後面 → 退回 LAWWW2。【AA 16:10 定】膠帶在 ev_kai_tape2 以前寫「國界」、以後寫「法律系免簽」（LAWWW2 加寬、字放大；兩種狀態）；旁白已改（7b2e1028） ｜ 【LAWWW（帳號 A）16:1x，LAWWW2 16:04 轉 BB_218 補拍】膠帶上的字看不到：LAWWW2 問 AA 能不能只寫兩三個大字（例「國界」）；如果劇情要玩家讀到原句，ev_kai_tape2 要加一個貼近膠帶的劇情鏡頭（LAWWW 做，等 AA 回）｜ 【LAWWW-C 2026-10-21 14:3x UTC】BB-C 交班（a71fe506）：截圖重跑在 BB 分支 test_shots/artrev_1021/（36 張＋紙箱近看，ALL PASS、沒有 JS 例外），畫面還沒判讀、還沒回 LAWWW2；下一班 BB 第一件 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】BB 瀏覽器：大一 203 8/29 以後紙箱在衣櫃前、BOX_WINTER_OPEN 以後壓平；KAI_TAPE 以後 R2 一圈膠帶、ev_kai_tape2 以後中間有字、好朋友那句以後不見",
    "xai": {
     "spec": "AA_347 5-1、1-1；src/y1fill3d.js 互動點「床底下的紙箱」",
     "branch": "claude/focused-cray-c9uwvw",
@@ -25806,7 +25807,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
+   "next": "【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
   },
   {
    "id": "AA283-PARK-1021",
@@ -26674,7 +26675,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW（帳號 A）16:1x，8076fe37】S.monthlyFunds：經濟系 Y0_MOVED_OUT 以後每月 5,000（搬回家的下一個月起）；8/29 轉法律系（stage law）以後 30,000；學費查過本來就沒從帳戶扣；舊存檔不扣回。tests/aa363_s2_unit.js 19 項（修改前 7 項失敗）。等 AA 回「搬回宿舍那個月」A（9/1 起，現在的做法）或 B（8/29 補 8 月差額）；BB 經濟系流程看錢 ｜ 【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
+   "next": "【AA 16:09 選 A】9/1 起 30,000、8 月照在家的 5,000、8/29 不補匯、訊息不改字——和 8076fe37 的做法一樣，不用再改；BB 16:13 ACK，併入 QA-PLAYTHROUGH＋存檔跳 11/1、12/1、2/14、6/8、9/1 補直向截圖 ｜ 【LAWWW（帳號 A）16:1x，8076fe37】S.monthlyFunds：經濟系 Y0_MOVED_OUT 以後每月 5,000（搬回家的下一個月起）；8/29 轉法律系（stage law）以後 30,000；學費查過本來就沒從帳戶扣；舊存檔不扣回。tests/aa363_s2_unit.js 19 項（修改前 7 項失敗）。等 AA 回「搬回宿舍那個月」A（9/1 起，現在的做法）或 B（8/29 補 8 月差額）；BB 經濟系流程看錢 ｜ 【LAWWW（帳號 A）15:5x】D99 第一優先（經濟系流程）；改生活費的地方加條件＋單元測試（搬回家前後、回宿舍那個月、舊存檔）",
    "first": {
     "term": "Y0S1",
     "week": 8,
@@ -26723,7 +26724,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "BB 同位置四個方向、17:46 與 19:00 都看得到玩家、沒有大片牆面",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
@@ -26731,7 +26732,7 @@
    "title": "分工調整：場景相關的程式修改交給 LAWWW2（使用者 10-21）",
    "area": "PROC",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y0S1",
@@ -26745,14 +26746,15 @@
    },
    "source": "使用者 2026-10-21 16:0x UTC 對 LAWWW（帳號 A）：「讓 LAWWW2 接場景相關的程式修改 可以」——回答 LAWWW 15:5x 的分工提議",
    "authorized": "使用者直接定（D108，修改 D100 第 3 點）",
-   "next": "改派 10 項（PERF-CAMPUS-SHADOW-1020、BUG-CAM-C208-1021、PERF-ZONE-ENTER-1018、ART-GYM2-INT、ART-02、LIC-GAPS-1017、GRADE-GOLDEN-DEFAULT、ART-WZ6、ART-WZ7、ART-SOY1）；LAWWW2 ACK 後結案。範圍：場景、區域、模型接線、場景鏡頭碰撞、場景效能與光影；劇情流程、事件、存檔照舊 LAWWW；共用核心檔（engine3d／game3d／story3d／character3d／assets3d）先告訴 LAWWW；LAWWW2 推自己的分支、LAWWW 合併、BB 測",
+   "next": "【LAWWW（帳號 A）16:1x】LAWWW2 16:09 ACK、10 個 ID 寫進它的交接檔「全部待辦」；它的順序：陽台盆栽→C208（外套門牌淡出＋BUG-CAM-C208 一起）→ART-VSLICE＋GRADE-GOLDEN-DEFAULT→PERF-CAMPUS-SHADOW→ART-WZ0（WZ7、SOY1 一起）→PERF-ZONE-ENTER→ART-GYM2-INT→LIC-GAPS→ART-02。交件方式（LAWWW2 16:12 更正）：兩條分支歷史已分開，merge 會出約 90 個衝突，所以 src 用「對開發分支最新版產生的 patch」交（git apply 乾淨＋單元測試結果），模型、腳本、文件給檔案路徑 ｜ 改派 10 項（PERF-CAMPUS-SHADOW-1020、BUG-CAM-C208-1021、PERF-ZONE-ENTER-1018、ART-GYM2-INT、ART-02、LIC-GAPS-1017、GRADE-GOLDEN-DEFAULT、ART-WZ6、ART-WZ7、ART-SOY1）；LAWWW2 ACK 後結案。範圍：場景、區域、模型接線、場景鏡頭碰撞、場景效能與光影；劇情流程、事件、存檔照舊 LAWWW；共用核心檔（engine3d／game3d／story3d／character3d／assets3d）先告訴 LAWWW；LAWWW2 推自己的分支、LAWWW 合併、BB 測",
    "xai": {
     "spec": "使用者 10-21 原話",
     "branch": "claude/second-ai-env-art",
     "acceptance": "LAWWW2 ACK＋queue --owner LAWWW2 看得到 10 項",
     "receiver": "LAWWW2",
-    "ack": "SENT"
-   }
+    "ack": "ACK"
+   },
+   "evidence": "LAWWW2 16:09 ACK（send_message，10 個 ID 寫進它的交接檔「全部待辦」）；tasks.json 10 項 owner＝LAWWW2、xai.ack＝ACK；決策紀錄 32b6086d（D108）"
   },
   {
    "id": "WZ-SHOP-AA364-ART",
@@ -26816,6 +26818,55 @@
     "acceptance": "能點餐、扣錢、營業時間外關門、店員句；BB 測",
     "receiver": "LAWWW",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "BUG-GYM-LIGHT-LOAD-1021",
+   "title": "體育館 1F 亮面地板上的白色光柱：讀檔直接進體育館才有，從宿舍走進去（13:00）沒有——最像室內的平行光（太陽／月光）高光，讀檔路徑的光源設定和進區域不同",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "8/31 開學典禮（體育館）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）16:09（BB_218 最後兩節，claude/story-planning df352cb5）；LAWWW2 77e990dc 體育館光暈畫面通過、白霧另案",
+   "authorized": "bug 修正",
+   "next": "比對讀檔進 gym 和走進 gym 時 E 的平行光、環境光、陰影設定（applyTime／區域 indoor 旗標）；不在三個優先項目裡，排在 v9.10.3 後"
+  },
+  {
+   "id": "BUG-CAM-203-R2-1021",
+   "title": "大一 203：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 上鋪床架擋住整個畫面、在南被浴室磁磚牆擋住",
+   "area": "BUG",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一 203 宿舍房間",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）16:09（BB_218 最後兩節；test_shots/artrev3_1021/01、04、05、08）",
+   "authorized": "bug 修正（D108：場景鏡頭碰撞歸 LAWWW2）",
+   "next": "房間的鏡頭碰撞或淡出群組（上鋪床架、浴室牆）；交 patch",
+   "xai": {
+    "spec": "BB_218 最後兩節（df352cb5）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "BB 同位置東、南兩個方向都看得到玩家",
+    "receiver": "LAWWW",
+    "ack": "SENT"
    }
   }
  ]
