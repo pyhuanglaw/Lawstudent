@@ -221,7 +221,7 @@ async def run_s(pg, cdp, run):
     bus = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]
     say('   夜班客運那句：%s' % bus[:2])
     home = [l for l in lines if l.startswith('2025-07-26')][:6]; say('   7/26 的台詞：%s' % json.dumps(home, ensure_ascii=False))
-    ok_dep = bool(bus) and bus[0][:16] >= '2025-07-25 02.0' and bus[0][:16] <= '2025-07-25 03.5'
+    ok_dep = bool(bus) and bus[0][:10] == '2025-07-25' and 2.0 <= float(bus[0][11:].split(' ')[0]) <= 3.5   # 小時沒有補零（'2.50'）：10-21 第一輪用字串比，02:30 被判成不對
     sn = await pg.evaluate(SNAP)
     verdict('M7 7/25 夜班客運', F.get('KH_GO') == 'bus' and ok_dep, 'KH_GO=%s；夜班客運那句在 %s；結束在 %s %.2f %s' % (F.get('KH_GO'), bus[0][:16] if bus else '（沒有）', sn['key'], sn['h'], sn['zone']))
 
@@ -253,12 +253,25 @@ async def run_s3(pg, cdp, run):
     verdict('M3 可昕資料頁 2/14 以後', '休學中' in (tag0 or ''), '6/7 手機「朋友」→ 可昕「資料」：%s' % tag0)
 
 
+async def run_s7(pg, cdp, run):
+    """M7 回程（AA_368：九點的客運開了以後約五小時，7/26 02:10 到臺北的家）：S 那一輪 7/25 21:00 以後直接快轉到 8/13，沒看到回到家的時間——這裡從 6/7 狀態一路玩，
+    7/24 起一天一天過，記下 7/25 那一場結束以後第一次停下來的時間和地點"""
+    await load_snap(pg, SNAP_S); run.setup('[前置] 讀 qa_play 存的經濟系狀態 %s' % os.path.basename(SNAP_S))
+    await drive(pg, cdp, '2025-07-26 00.00', lambda k: 'day' if k >= '2025-07-24' else 'ff', ['「妳選一家。」', '好。我搭', '出發：'], ['好。我搭'], max_s=2400)
+    sn = await pg.evaluate(SNAP); await run.shot(pg, 's7_after_bus')
+    lines = await pg.evaluate("(window.__LOG||[]).map(x=>x.at+' '+(x.n?x.n+'：':'')+x.t)")
+    dep = [l for l in lines if '凌晨兩點半，你搭上南下的夜班客運。' in l]; ret = [l for l in lines if '九點的客運開了。' in l]
+    say('   7/25 那一場：出發 %s；回程 %s；之後第一次停下來 %s' % (dep[:1], ret[:1], json.dumps(sn, ensure_ascii=False)))
+    ok = sn['key'] == '2025-07-26' and 2.1 <= sn['h'] <= 2.4 and sn['home']
+    verdict('M7 回程 7/26 02:10 到臺北的家', bool(dep) and bool(ret) and ok, '出發那句 %s；回程那句 %s；之後第一次停下來 %s %.2f 在家=%s' % (dep[0][:16] if dep else '（沒有）', ret[0][:16] if ret else '（沒有）', sn['key'], sn['h'], sn['home']))
+
+
 async def main():
     global RUN
     run = L.Run('aa368', OUT); RUN = run; allerrs = []
     async with async_playwright() as p:
-        for name, fn in (('N', run_n), ('W', run_w), ('S', run_s), ('S3', run_s3)):
-            if (ONLY and name not in ONLY) or (not ONLY and name == 'S3'): continue
+        for name, fn in (('N', run_n), ('W', run_w), ('S', run_s), ('S3', run_s3), ('S7', run_s7)):
+            if (ONLY and name not in ONLY) or (not ONLY and name in ('S3', 'S7')): continue
             say('== %s' % name); t0 = time.time()
             b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
             try:
