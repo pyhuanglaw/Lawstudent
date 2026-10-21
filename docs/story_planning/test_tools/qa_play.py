@@ -17,7 +17,7 @@ URL = sys.argv[1]; OUT = sys.argv[2]; MODE = os.environ.get('MODE', 'sleep'); MA
 PENDING = "(()=>{ const G=GAME.G; const a=(typeof PHONE!=='undefined'&&PHONE.pending)?PHONE.pending(G).map(m=>PHONE.th(m)):[]; const b=(G.invites||[]).filter(v=>v.state==='offered'||v.state==='changed').map(v=>{ const m=(G.msgs||[]).find(q=>q.iv===v.id); return m?PHONE.th(m):null; }).filter(Boolean); return a.concat(b); })()"
 PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'nophone': ['出發', '直接去'],
-        'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],
+        'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],   # 2026-10-21：床的「照樣跳過會錯過的課？」是系統確認不是邀約，pick() 一律選「照樣跳過」（原本 decline 在 9/1 一直選「先不要」繞圈）
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
 SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、重考班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
@@ -32,7 +32,7 @@ HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, la
         setTimeout(()=>{ try{ const p2=pick('left')||pick('right'); rec.shown2=p2?p2.shown:''; }catch(e){} },1500); }catch(e){} },450); }catch(e){} }).observe(d,{childList:true,characterData:true,subtree:true}); });
 })();"""
 async def pick(pg, cdp):
-    c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
+    c = await pg.evaluate("((w,last)=>{ const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled); if(!bs.length) return null; let e=bs.find(x=>/^照樣跳過/.test(x.textContent.trim()))||null; if(!e) for(const t of w){ e=bs.find(x=>x.textContent.trim().replace(/^「/,'').startsWith(t)); if(e) break; } e=e||(last?bs[bs.length-1]:bs[0]); e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,28),bs.map(x=>x.textContent.trim().slice(0,12))]; })(%s,%s)" % (json.dumps(PREF), 'true' if DECLINE_LAST else 'false'))
     if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900)
     return c
 async def phone_open(pg):
