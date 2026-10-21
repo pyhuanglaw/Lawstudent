@@ -25897,9 +25897,9 @@
    "priority": "P1",
    "source": "使用者 10-21 下午對 AA-C（UA-AA-1021-37）；USER_WANTS X92",
    "first": {
-    "term": "Y5S1",
-    "week": 1,
-    "earliest": "交換延畢的玩家 2029-09-03",
+    "term": "Y4S2",
+    "week": 18,
+    "earliest": "交換延畢的玩家：大四下結束以後的大五上（2029-09-03～12-23；工具的 term 只到 Y4S2，記在 Y4S2 第 18 週之後）",
     "mainline": false,
     "blocks": false,
     "prereq": false,
