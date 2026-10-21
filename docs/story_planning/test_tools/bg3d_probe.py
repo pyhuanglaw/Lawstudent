@@ -8,7 +8,12 @@ URL, OUT, SAVE = sys.argv[1], sys.argv[2], sys.argv[3]
 SHOTS = [('cafe_window', 'cafe', 15.0, (3.2, -2.5), {}), ('cafe_closed', 'cafe', 22.5, (0.0, 0.0), {}),
          ('us_shared_kitchen', 'us_shared', 18.0, None, {'US_DEPARTED': True, 'US_ARRIVED': True}),
          ('us_club_lawn', 'us_outside', 17.5, (-28.0, 10.6), {'US_DEPARTED': True, 'US_ARRIVED': True}),
-         ('wenzhou', 'wenzhou', 16.0, None, {}), ('gym_court', 'gym', 19.5, None, {}), ('wancai_lobby', 'wancai', 15.0, None, {})]
+         ('wenzhou', 'wenzhou', 16.0, None, {}), ('gym_court', 'gym', 19.5, None, {}), ('wancai_lobby', 'wancai', 15.0, None, {}),
+         # 2026-10-21 BB（帳號 A）加：ntu_gate（LAWWW 17:4x，BUG-ECON-HOME-SHOTS n255；camp_y1.js 8/22 08:30 集合上遊覽車、8/24 12:30 回到校門）＝公館那一側看校門＋校園裡往外看；
+         # 黑畫面盤點（black_bg_audit 18:09）：法學院圖書館（ev_an_sis_meet_lawlib 16 句）、霖澤館一樓（ev_y2_xmas 10 句）
+         ('ntu_gate_gg', 'gongguan', 8.5, (0.0, -38.0), {}), ('ntu_gate_campus', 'campus', 8.5, (-112.0, 0.0), {}),
+         ('lawlib_night', 'lawlib', 20.0, None, {}), ('linze_1f', 'linze', 15.0, None, {})]
+ONLY = [x for x in os.environ.get('ONLY', '').split(',') if x]
 CLEAN = """(on=>{ for(const el of document.body.children){ if(el.tagName==='CANVAS'||el.querySelector('canvas')) continue; if(on){ el.dataset.bbHide=el.style.visibility||'-'; el.style.visibility='hidden'; } else if(el.dataset.bbHide){ el.style.visibility=el.dataset.bbHide==='-'?'':el.dataset.bbHide; delete el.dataset.bbHide; } } const p=GAME.E.player&&GAME.E.player.obj; if(p) p.visible=!on; })"""
 async def closephone(pg):
     await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b&&b.offsetParent) b.click(); })()"); await pg.wait_for_timeout(600)
@@ -20,6 +25,7 @@ async def main():
         await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
         await L.load_state(pg, base.get('G', base)); await pg.wait_for_timeout(6000); run.setup('讀 9/25 存檔')
         for tag, z, h, pos, fl in SHOTS:
+            if ONLY and tag not in ONLY: continue
             await pg.evaluate("(fl=>Object.assign(GAME.G.flags,fl))(%s)" % json.dumps(fl))
             await pg.evaluate("(async(z,h)=>{ GAME.G.hour=h; GAME.E.hour=h; await GAME.enter(z); })(%s,%s)" % (json.dumps(z), h))
             await pg.wait_for_timeout(15000); await closephone(pg)
@@ -29,7 +35,9 @@ async def main():
             y0 = await pg.evaluate("GAME.E.cam.yaw")
             for k in range(4):
                 await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })(%s)" % (y0 + k * 3.14159 / 2)); await pg.wait_for_timeout(2500); await closephone(pg)
+                await pg.evaluate("GAME.E.player.obj.visible=false")   # 2026-10-21：構圖參考不要人物
                 await pg.evaluate(CLEAN + "(true)"); await pg.wait_for_timeout(600); await run.shot(pg, '%s_y%d' % (tag, k)); await pg.evaluate(CLEAN + "(false)")
+                await pg.evaluate("GAME.E.player.obj.visible=true")
             run.check('%s 進得去' % tag, zz == z, zz)
         run.check('沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
     run.finish()
