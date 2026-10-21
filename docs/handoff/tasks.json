@@ -27416,7 +27416,7 @@
    "title": "可昕春假開車白天是深色底：outings3d.js:43 carVariant() 白天回 car_day，S.BG 只有 car_morning／night／rain（三年 16 句）——兩個 car_day 改 car_morning",
    "area": "BG",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "取消／被取代",
    "priority": "P2",
    "first": {
     "term": "Y1S2",
@@ -27432,7 +27432,10 @@
    "authorized": "D110（BB 決定背景圖怎麼用）；D99 三個優先項目",
    "next": "一行修正，放 post9103",
    "resumeWhen": "v9.10.3 合併 main 以後（發布凍結）",
-   "recheckOn": "2026-10-22"
+   "recheckOn": "2026-10-22",
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW（帳號 A）核對程式（D110 LAWWW 的領域）",
+   "reason": "候選 b23483dd 已經有 S.BG.car_day＝assets/bg/car.webp（28afd003，BB-C 第 92 組使用者生成的車內圖）；events3d 用 OUT.bg('car')→carVariant 白天 car_day→car.webp；tests/bg_images_unit.js 第 3 項（白天 car.webp、晚上 car_night、下雨 car_rain）PASS——BB 看到的是 28afd003 以前的 outings3d.js"
   },
   {
    "id": "CG-APPROVED-MISSING-1021",
