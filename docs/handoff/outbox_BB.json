@@ -1020,6 +1020,21 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "Node 對照已先報：AA_366 第 4 節、AA_367 第 10 節四項還沒做"
+  },
+  {
+   "task": "CAMP-PORTRAITS-1018",
+   "branch": "claude/story-planning",
+   "sha": "739c879a",
+   "files": [
+    "docs/story_planning/BB_219_2D立繪與表情_向使用者要的清單.md"
+   ],
+   "state": "WIP",
+   "remaining": "等使用者生成第一輪 neutral → BB 檢查 → LAWWW 去背接進 assets/portraits/npc_kevin/campus/ → 第二輪 smile、laugh、surprised",
+   "next": "等使用者的圖",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "Kevin 第一輪提示詞已給使用者（BB_219 第 4 節；附阿哲 neutral 只照畫風比例，SendUserFile）"
   }
  ],
  "items": [
