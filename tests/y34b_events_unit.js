@@ -251,7 +251,7 @@ const date=id=>H.date(id);
     check('M6 11/5 起 20:00（她那邊早上七點）', b===a+1); }
   /* 美國路線一起出發 */
   { fresh('2028-08-02',13,'airport_dep',{US_DEPARTED:true},'US'); date('heroine_05'); check('W3 美國路線：在機場（3D）＝一起出發到期', S.usDepartDue(H.G));
-    await run('ev_sis_depart_us'); check('W3 「護照、入學許可、I-20。……你的拿出來，我看一次。」、媽媽塞鳳梨酥、「走了。」；SIS_SENDOFF together', has('護照、入學許可、I-20。……你的拿出來，我看一次。')&&has('（你媽媽塞了一袋鳳梨酥給學姊。）')&&has('走了。')&&H.G.flags.SIS_SENDOFF==='together'&&!S.usDepartDue(H.G));
+    await run('ev_sis_depart_us'); check('W3 「護照、簽證、學校的文件。……你的拿出來，我看一次。」（AA_370 L8：不寫死 I-20）、媽媽塞鳳梨酥、「走了。」；SIS_SENDOFF together', has('護照、簽證、學校的文件。……你的拿出來，我看一次。')&&has('（你媽媽塞了一袋鳳梨酥給學姊。）')&&has('走了。')&&H.G.flags.SIS_SENDOFF==='together'&&!S.usDepartDue(H.G));
     H.said=[]; H.cards=[]; await EXCH.fly(GM); check('W3 登機：先演登機口「（她在看一本論文。飛機起飛的時候，她把書闔上了。）」再飛', has('（她在看一本論文。飛機起飛的時候，她把書闔上了。）')&&H.G.flags.US_ARRIVED===true&&H.cards.some(c=>c[0]==='飛往美國')); }
   { fresh('2028-08-02',13,'airport_dep',{US_DEPARTED:true},'US'); date('heroine_05'); date('kexin'); await run('ev_sis_depart_us');
     check('1B-18 9-1b 美國、和可昕也在交往、她不知道：兩袋鳳梨酥、可昕「十二個小時，我算過了。」', has('（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）')&&has('到了傳訊息。十二個小時，我算過了。'));

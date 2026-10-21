@@ -145,7 +145,10 @@ const MSG=(function(){
     if(p==='認識小語才有') return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('yu')!=='STRANGER':false;
     return false; };
   S.tagOk=function(G,id,tag){ const s=String(tag).replace(/（[^）]*）|\([^)]*\)|〔[^〕]*〕/g,'').trim(); if(!s) return true;
-    const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); return parts.every(p=>S.tok(G,id,p)); };
+    const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); if(id==='heroine_05'&&parts.includes('在美國')&&S.usWithHer(G)) return false; return parts.every(p=>S.tok(G,id,p)); };
+  /* 學姊標「在美國」的那一則（事務版「在這邊的圖書館。有事嗎？」，照時差寫的）：祐廷也在布魯明頓（美國路線、人在美國）時不用（BB_178 第 3 節「美國路線：照時差寫的句子不用」；AA_370 L6）。
+     情況版「在美國」（閒聊版四則：每條路線都一樣）走 sitOk，不受影響 */
+  S.usWithHer=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&!!STORY.abroad&&STORY.abroad(G);
   /* 情況版（3-1 第 2 點；BB_178 0-3）：認得的才用；其他的（祐廷在國外、在山上…）先不用 */
   S.sitOk=function(G,id,v,ctx){ if(!v||v==='閒聊版'||v==='事務版') return null; const t=T(G), h=G.hour%24;
     if(v==='考試週') return !!(t&&t.exam); if(v==='深夜') return h>=23||h<5; if(v==='00:30 以後傳的') return h>=0.5&&h<5;

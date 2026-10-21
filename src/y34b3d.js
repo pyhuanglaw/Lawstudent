@@ -22,7 +22,8 @@
          美國路線＝群組照片、可昕私訊，12/23 回來以後第一次去麵店阿姨那一句。12/17 以後第一次進麵店＝牆上芷若的明信片（FAMILIAR 以上）。ANNIVERSARY_23。
    1B-21 可昕 K23：10/18 21:00 私訊（去／改天）→ 10/20 19:00 政大（改天、沒到＝10/21 15:00；再沒到＝21:00 電話）；美國路線＝視訊。KX_PATHS。
          「改天」＝「好。那週六下午三點，同一個地方。」；「這次我等你」只給答應了卻沒到的（AA_337 第 5 題）。
-   1B-23 子晴 Q14：10/11 21:00 私訊四選一（美國路線、交往中的開頭照 AA_323、BB_165 4-3）。ZQ_CONTRACT。
+         美國路線（AA_370 H1）：三句換「週五晚上七點，你那邊是早上。我們視訊，各自說。」「好。那週六晚上九點，你那邊早上九點。」「週六晚上九點。這次我等你。」；改天那一場臺灣 21:00（當地 09:00）。
+   1B-23 子晴 Q14：10/11 21:00 私訊四選一（美國路線、交往中的開頭照 AA_323、BB_165 4-3）。ZQ_CONTRACT。美國路線和學姊去大峽谷（10/7～10/14）＝期限延到回到印第安納的隔天中午（AA_370 M8，S.q14Until）。
    1B-24 以安新 20：5/2 21:00 私訊 → 5/3 16:00 Café（15:45～16:15；16:30「我在窗邊。」延到 17:00；17:15 帶到場）；和別人交往中＝18:00 麵店長桌（18:30 帶到場）。
    1B-25 學姊 M9：5/28 21:00 家族群組（交往中多一則私訊）→ 5/29 16:00～18:00 研究室走廊（出遊）；沒到＝18:30 群組（交往中私訊）。SIS_DEFENSE。
    掛勾：STORY.TICKS、PHONE_RULES、WAKE_AT、ALARMS（story3d.js）；在家的時候借 STORY.y4HomeDue／y4HomeScene／y4FromHome（home3d.js 的 loop 已經在問）；美國路線的登機借 EXCH.fly；
@@ -277,19 +278,24 @@ const Y34B=(function(){
       if(dating(G,'kexin')) at(G,d,tzH(G,d,19.5),[DM('kexin','你說了四年的麵。……今天少你一碗。'),DM('kexin','23 號回來，第一碗我請。')],'y4_a23_us_kx'); } };
   S.a23AuntDue=G=>{ const r=D('usRet'); return law(G)&&US(G)&&G.flags.ANNIV23==='remote'&&!G.flags.ANNIV23_AUNT&&r!=null&&G.day>=r&&G.zone==='noodle'; };
   /* ================= 1B-21 可昕 K23 ================= */
-  S.kx23Phone=function(G){ const F=G.flags, a=D('kx23ask'), d=D('kx23'), d2=D('kx23b'); if(a==null||G.day<a||G.day>d2+1||!dating(G,'kexin')||!law(G)) return; const K=t=>DM('kexin',t), us=US(G);
-    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('大四要走哪條路，你決定了嗎？不用現在說。'),K('可是我想第一批知道。'),K('週五晚上七點，政大。我們走一段路，各自說。')];
-      L[2].ask={id:'y4_kx23',until:T(d,tzH(G,d,18)),opts:[{t:'去。',set:{KX23_GO:true}},{t:'改天。',set:{KX23_GO:'later'},say:[{from:'kexin',text:'好。那週六下午三點，同一個地方。'}]}]};   /* AA_337 第 5 題：「這次我等你」只給答應了卻沒到的（下面 y4_kx23_miss）*/
+  /* 美國路線（AA_370 H1）：人在美國，不約政大——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
+  S.KX23_US={ask:'週五晚上七點，你那邊是早上。我們視訊，各自說。',later:'好。那週六晚上九點，你那邊早上九點。',miss:'週六晚上九點。這次我等你。',h2:21};
+  S.kx23Phone=function(G){ const F=G.flags, a=D('kx23ask'), d=D('kx23'), d2=D('kx23b'); if(a==null||G.day<a||G.day>d2+1||!dating(G,'kexin')||!law(G)) return; const K=t=>DM('kexin',t), us=US(G), h2=us?S.KX23_US.h2:15;   /* h2：改天那一場（臺灣時間）*/
+    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('大四要走哪條路，你決定了嗎？不用現在說。'),K('可是我想第一批知道。'),K(us?S.KX23_US.ask:'週五晚上七點，政大。我們走一段路，各自說。')];
+      L[2].ask={id:'y4_kx23',until:T(d,tzH(G,d,18)),opts:[{t:'去。',set:{KX23_GO:true}},{t:'改天。',set:{KX23_GO:'later'},say:[{from:'kexin',text:us?S.KX23_US.later:'好。那週六下午三點，同一個地方。'}]}]};   /* AA_337 第 5 題：「這次我等你」只給答應了卻沒到的（下面 y4_kx23_miss）*/
       at(G,a,G.day===a?Math.max(tzH(G,a,21),G.hour):G.hour,L,'y4_kx23_ask'); }   /* BB_99 第 10 節第 15 項；ask「去／改天」*/
     if(F.KX_PATHS!=null||typeof OUT==='undefined') return;
     const plan=(id,day,h)=>{ if(!OUT.get(G,id)) OUT.plan(G,us?{id,ev:'ev_kexin_own_paths',day,h:tzH(G,day,h),late:0.5,place:'視訊',title:'和可昕視訊',verb:'接起來',travelH:0,hours:1}:{id,ev:'ev_kexin_own_paths',day,h,late:0.5,place:'政大',title:'政大：走一段路',travel:'開車 約 40 分鐘',travelH:2/3,hours:1.5}); };
     if(F.KX23_GO===true&&NOW(G)<T(d,tzH(G,d,19.5))) plan('y4_kx23',d,19);
-    const q1=OUT.get(G,'y4_kx23'); if(F.KX23_GO===true&&q1&&q1.state==='missed'&&!sent(G,'y4_kx23_miss')){ at(G,G.day,G.hour,[K('我想好了。我們找一天，各自說。'),K('週六下午三點。這次我等你。')],'y4_kx23_miss'); F.KX23_GO='later'; }
-    if(F.KX23_GO==='later'&&NOW(G)<T(d2,tzH(G,d2,15.5))) plan('y4_kx23b',d2,15);
-    const q2=OUT.get(G,'y4_kx23b'); if(q2&&q2.state==='missed'&&NOW(G)>=T(d2,tzH(G,d2,21))&&!F.KX23_CALL) F.KX23_CALL=true; };   /* 第二次也沒到：21:00 電話（S.tick 接）*/
+    const q1=OUT.get(G,'y4_kx23'); if(F.KX23_GO===true&&q1&&q1.state==='missed'&&!sent(G,'y4_kx23_miss')){ at(G,G.day,G.hour,[K('我想好了。我們找一天，各自說。'),K(us?S.KX23_US.miss:'週六下午三點。這次我等你。')],'y4_kx23_miss'); F.KX23_GO='later'; }
+    if(F.KX23_GO==='later'&&NOW(G)<T(d2,tzH(G,d2,h2+0.5))) plan('y4_kx23b',d2,h2);
+    { const q=OUT.get(G,'y4_kx23b'); if(us&&q&&q.state==='planned'&&Math.abs(q.h-tzH(G,d2,15))<1e-6) q.h=tzH(G,d2,h2); }   /* 舊存檔：已經排在當地 03:00（臺灣 15:00）的改到當地 09:00 */
+    const q2=OUT.get(G,'y4_kx23b'); if(q2&&q2.state==='missed'&&NOW(G)>=T(d2,tzH(G,d2,21))&&!F.KX23_CALL) F.KX23_CALL=true; };   /* 第二次也沒到：21:00 電話（S.tick 接；美國路線改天那一場就是臺灣 21:00，沒接到＝接著打電話）*/
   S.kx23CallDue=G=>!!G.flags.KX23_CALL&&G.flags.KX_PATHS==null&&dating(G,'kexin');
   /* ================= 1B-23 子晴 Q14 ================= */
-  S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||G.day>d+2||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
+  /* AA_370 M8：美國路線、和學姊去大峽谷（10/7～10/14 不能用手機，USL.canyonBack）＝期限延到回到印第安納的隔天中午（大峽谷那段不算）；Q14 的時間照亞利桑那（USL 的 tzOffset −15）*/
+  S.q14Until=function(G){ const d=D('q14'); if(d==null) return null; const u=T(d+2,tzH(G,d+2,0)), b=US(G)&&typeof USL!=='undefined'&&USL.canyonBack?USL.canyonBack(G):null; return b!=null?Math.max(u,T(Math.floor(b/24)+1,12)):u; };
+  S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
     const fafu=(+F.LAWCLUB_SAT_VISITS||0)>0||(+F.FAFU_SHIFT_N||0)>0, three=!!F.U_COPYRIGHT&&!!F.U_CONTRACT, R=t=>({from:'heroine_04',text:t});
@@ -297,7 +303,7 @@ const Y34B=(function(){
     if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？那個學姊的法服？……好。')]});
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
     if(three) o.push({t:'先看三件事：遊戲的權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('三件事。……你講話越來越像你們那個學姊。')]});   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
-    open[open.length-1].ask={id:'y4_q14',until:T(d+2,tzH(G,d+2,0)),opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
+    open[open.length-1].ask={id:'y4_q14',until,opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
   /* ================= 1B-24 以安新 20 ================= */
   S.an20Mode=G=>datingOther(G,'heroine_01')?'noodle':'cafe';
   S.an20Phone=function(G){ const F=G.flags, a=D('an20ask'), d=D('an20'); if(a==null||G.day<a||G.day>d||!law(G)||!fri('heroine_01')||F.AN_YOUR_TURN!=null) return;
@@ -553,7 +559,7 @@ const Y34B=(function(){
     {mem:[{npc:'heroine_05',tag:'DROVE_HER',note:''}]},
     {if:C(famV),set:{SIS_SENDOFF:'family'}},{if:C(fam2),set:{SIS_SENDOFF:'two'}} ];
   const dSis=G=>dating(G,'heroine_05'), xSis=G=>exOf(G,'heroine_05'), kxUn=G=>kxIn(G)&&!kxKnows(G,'heroine_05');
-  const DEPART_US=[ {if:C(dSis),speaker:'heroine_05',text:'護照、入學許可、I-20。……你的拿出來，我看一次。'},
+  const DEPART_US=[ {if:C(dSis),speaker:'heroine_05',text:'護照、簽證、學校的文件。……你的拿出來，我看一次。'},   /* AA_370 L8：交換生多半是 J-1，文件不是 I-20，不寫死（原「護照、入學許可、I-20。」）*/
     {if:C(G=>dSis(G)&&!kxUn(G)),speaker:null,text:'（你媽媽塞了一袋鳳梨酥給學姊。）'},
     {if:C(G=>dSis(G)&&kxUn(G)),speaker:null,text:'（你媽媽塞了兩袋鳳梨酥，一袋給學姊。）'},
     {if:C(dSis),speaker:'heroine_05',text:'……謝謝阿姨。'},

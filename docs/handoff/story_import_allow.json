@@ -922,6 +922,14 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_370_美國交換_時差與人在哪_修正稿.md",
+   "sha": "a1dc3e61",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，D99 第三項美國交換）；第 1 節 H2 已在 3a4c01cf 做；H1、H3、M1～M5、M7～M10、L1～L10 照稿手動放進 y34b3d.js、us_life_events.js、us_life3d.js、r2y4a_events.js、r2y4a3d.js、r3_3d.js、exchange3d.js、holff3d.js、msg3d.js、places.js、r2y3b_events.js、story3d.js（tests/aa370_us_unit.js）",
+   "task": "AA370-US-FIX-1021",
+   "kind": "text"
+  },
+  {
    "path": "docs/story_planning/AA_329_吃東西_一起吃_吃過的_店員認得你.md",
    "sha": "724d7703",
    "status": "approved",

@@ -99,10 +99,11 @@ const HOLFF=(function(){
     {tag:'hol_y4w_zhe_back',day:'2029-02-17',h:19,th:NT,ms:[['zhe','我回來了！高雄帶了吃的'],['zhe','禮拜一開學 拿去給你們']]},
     {tag:'hol_y4w_an_back',day:'2029-02-18',h:18,an:['回臺北了。','放榜前，我不想一直看信箱。']} ];
   S.msgDay=m=>m.c01?(typeof VAC!=='undefined'&&VAC.c01Day?VAC.c01Day(m.c01):null):DK(m.day);
-  /* 日本路線人在日本（3/25～8/5，例：大三暑假 6/27 柏翰、6/30 阿哲）：臺灣傳來的訊息換成當地時間（遊戲時鐘是日本時間；AA_341 J-S13、AA_342 C6）*/
-  const jpTz=(G,d)=>typeof STORY!=='undefined'&&STORY.route&&STORY.route(G)==='JP'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
+  /* 人在國外（日本路線 3/25～8/5，例：大三暑假 6/27 柏翰、6/30 阿哲；美國路線 8/2～12/23，例：8/21 阿哲「我回來了」）：臺灣傳來的訊息換成當地時間
+     （遊戲時鐘是當地時間；AA_341 J-S13、AA_342 C6；美國路線 AA_370 L2——原本只換日本路線，美國當地 19:00 才收到＝臺灣隔天 07:00）。不在國外＝0 */
+  const abTz=(G,d)=>typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,d)||0):0;
   S.homeMsgs=function(G){ const now=T(G.day,G.hour), F=G.flags||{};
-    for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m), h=d==null?m.h:m.h+jpTz(G,d); if(d==null||now<T(d,h)||G.day>d+(m.c01?1:3)) continue;
+    for(const m of S.HOME_MSGS){ if(PHONE.sent(G,m.tag)) continue; const d=S.msgDay(m), h=d==null?m.h:m.h+abTz(G,d); if(d==null||now<T(d,h)||G.day>d+(m.c01?1:3)) continue;
       if(m.an){ const th='p:heroine_01'; if(atLeast('heroine_01','FAMILIAR')) PHONE.at(G,d,h,m.an.map(t=>({th,from:'heroine_01',text:t})),m.tag); else if(inGrp(G,'noodle_team')&&met('heroine_01')) PHONE.at(G,d,h,[{th:NT,from:'heroine_01',text:m.an[0]}],m.tag); continue; }   /* 大一寒假的寫法（story3d.js an_home_y1）*/
       if(m.anS){ if(!atLeast('heroine_01','FAMILIAR')||F.dating_heroine_01) continue; PHONE.at(G,d,h,m.anS.map(([w,t])=>({th:'p:heroine_01',from:w,text:t})),m.tag); continue; }   /* 大一暑假的寫法（va02_3、va02_4：交往中的另外補）*/
       if(!inGrp(G,m.th.slice(2))) continue; PHONE.at(G,d,h,m.ms.map(([w,t])=>({th:m.th,from:w,text:t})),m.tag); } };
