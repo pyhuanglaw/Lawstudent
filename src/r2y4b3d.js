@@ -472,7 +472,7 @@ const R2Y4B=(function(){
     if(A&&A.begin) A.begin({background:'dark',right:{charId:id,expression:'neutral'}}); if(GM.caption) GM.caption('','台南・她學校附近的簡餐',2400);   /* 台南的底圖沒有：dark＋字幕（AA_282 第 5 節第 6 點）*/
     if(P.open) await GM.say(null,P.open); const tbl=typeof spec.table==='function'?spec.table(G):spec.table; if(tbl) await play(GM,id,[tbl]); if(P.close) await GM.say(null,P.close);
     G.flags.PS_TE_Y4S2={kind,day:G.day};
-    if(kind==='heart'){ if(GM.caption) GM.caption('','台南・走回她租的地方',2400); const r=await TERMEND.walkHome(GM,id,'Y4S2'); G.flags.PS_TE_Y4S2.result=r; }   /* 讓我想想＝7/14 台中那一次（2-Y4-46）*/
+    if(kind==='heart'){ if(GM.caption) GM.caption('','台南・往她租的地方',2400); const r=await TERMEND.walkHome(GM,id,'Y4S2'); G.flags.PS_TE_Y4S2.result=r; }   /* 讓我想想＝7/14 台中那一次（2-Y4-46）*/
     return true; };
 
   /* ===================== 手機（STORY.PHONE_RULES，每 0.5 秒）===================== */

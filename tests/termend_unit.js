@@ -222,7 +222,7 @@ GM.money=function(n){ G.money+=n; };
     let w=setup('Y3S1','classmate_peishan',PSK); run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_Y3S1_classmate_peishan'); check('13. 沛珊大三上（放榜後重新聯絡上）：心意邀約照發',!!m,JSON.stringify((G.msgs||[]).filter(x=>/^te_/.test(x.tag||'')).map(x=>x.tag)));
     PHONE.answer(G,'te_Y3S1_classmate_peishan',0); STORY.phoneRules(GM); let q=OUT.get(G,'te_Y3S1');
     check('13. 沛珊大三起：地點＝台南・她學校附近的簡餐（AA_282 第 5 節第 5 點；原本的舊路書房旁邊的簡餐作廢）',!!q&&q.place==='台南・她學校附近的簡餐',JSON.stringify(q&&q.place));
-    check('13. 沛珊大三起：回家走回她在台南租的地方；大一還是新生南路',TERMEND.heart('classmate_peishan','Y3S1').walkPlace==='台南・走回她租的地方'&&TERMEND.heart('classmate_peishan','Y1S2').walkPlace==='新生南路・往捷運站');
+    check('13. 沛珊大三起：回家走回她在台南租的地方；大一還是新生南路',TERMEND.heart('classmate_peishan','Y3S1').walkPlace==='台南・往她租的地方'&&TERMEND.heart('classmate_peishan','Y1S2').walkPlace==='新生南路・往捷運站');
     w=setup('Y4S1','classmate_peishan',PSK); run(20,21); PHONE.answer(G,'te_Y4S1_classmate_peishan',0); STORY.phoneRules(GM); q=OUT.get(G,'te_Y4S1'); said=[]; opts=[]; picks=[3,0]; await TERMEND.dinner(GM,q); let L=lines();
     check('13. 沛珊大四上先不說：BB_119 3-1「我可以問一個奇怪的問題嗎？」「如果我們兩個都不是當年的樣子了，還可以重新認識嗎？」→「從今天開始認識。」＝交往',L.some(x=>x.endsWith('我可以問一個奇怪的問題嗎？'))&&L.some(x=>x.endsWith('如果我們兩個都不是當年的樣子了，還可以重新認識嗎？'))&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「從今天開始認識。」','「……讓我想一下。」'])&&G.flags.dating_classmate_peishan===true,JSON.stringify(opts[opts.length-1]));
     w=setup('Y4S1','heroine_04'); run(20,21); let a=(G.msgs||[]).filter(x=>x.th==='p:heroine_04').map(x=>x.text);

@@ -231,7 +231,7 @@ const TERMEND=(function(){
   /* ---- 回家的路上（AA_254 第 0 節）---- */
   S.walkHome=async function(GM,who,term){ const G=GM.G, Lx=L(), h=S.heart(who,term), R=S.rec(G,term), Rt=S.rec(G); if(!h) return null;
     if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:h.walkBg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(h.walkBg):'dark',right:{charId:who,expression:'neutral'}});
-    if(h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・走回她租的地方）*/
+    if(h.walkCaption&&GM.caption) GM.caption('',h.walkCaption,2400);   /* 沒有底圖的那一段路：深色底＋字幕（沛珊大三起：台南・往她租的地方）*/
     await run(GM,who,h.walk);
     const D=typeof CONFESS_LINES!=='undefined'?CONFESS_LINES[who]:null;
     const say3=h.optsFrom==='confess'&&D&&D.choice?resolve(D.choice,G).map(q=>q.t):Lx.OPTS(h.buddy);

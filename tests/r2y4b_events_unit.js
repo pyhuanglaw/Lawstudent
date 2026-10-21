@@ -476,10 +476,10 @@ const date=id=>H.date(id);
     answer('y4_ps_te',0); phone(); const q=OUT.get(H.G,'y4_ps_te');
     check('2-Y4-61「好。」→ 18:30 台南・她學校附近的簡餐（高鐵、末班車回臺北）；不排 6/9（可昕的畢業典禮）', !!q&&q.day===D('2029-06-08')&&q.h===18.5&&/台南/.test(q.place)&&/最後一班高鐵/.test(q.back));
     at('2029-06-08',16.4); await goOut('y4_ps_te',[3,1]);
-    check('PS1 台南的期末飯（地點字幕台南）→ 走回她租的地方 → 先不說 → 她說 →「讓我想想。」＝7/14 的那一位；票錢照扣', caps.includes('台南・她學校附近的簡餐')&&caps.includes('台南・走回她租的地方')&&has(TERMEND.heart('classmate_peishan','Y4S2').she[0])&&TERMEND.rec(H.G).think.classmate_peishan==='Y4S2'&&S.julyWho(H.G)==='classmate_peishan'&&paid.some(p=>p[0]<0)&&!caps.some(c=>/系館附近|舊路書房|新生南路/.test(c||''))); }
+    check('PS1 台南的期末飯（地點字幕台南）→ 走回她租的地方 → 先不說 → 她說 →「讓我想想。」＝7/14 的那一位；票錢照扣', caps.includes('台南・她學校附近的簡餐')&&caps.includes('台南・往她租的地方')&&has(TERMEND.heart('classmate_peishan','Y4S2').she[0])&&TERMEND.rec(H.G).think.classmate_peishan==='Y4S2'&&S.julyWho(H.G)==='classmate_peishan'&&paid.some(p=>p[0]<0)&&!caps.some(c=>/系館附近|舊路書房|新生南路/.test(c||''))); }
   { fresh('2029-06-08',14,'dorm',GD); H.FRIEND('classmate_peishan'); date('classmate_peishan'); date('kexin'); at('2029-06-08',15); phone(); const gfInv=TERMEND.gf('classmate_peishan','Y4S2').invite;
     check('PS2 同時和沛珊、可昕交往：6/8 是沛珊（女朋友的約會：「期末考完了！今天吃飯，我想吃熱的。」）、6/9 是可昕的典禮，不撞', th('p:classmate_peishan').includes(gfInv)&&(answer('y4_ps_te',0),phone(),OUT.get(H.G,'y4_ps_te').day===D('2029-06-08'))&&POSTGRAD_LINES.KX&&PG.MSGS.some(m=>m.tag&&/kx/.test(m.tag)));
     at('2029-06-08',16.4); await goOut('y4_ps_te');
-    check('PS2 女朋友的約會：飯桌一句（「這學期有幾次我想打給你，後來沒打。怕你在讀書。」），沒有回家路上的告白', has('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&H.G.flags.PS_TE_Y4S2&&H.G.flags.PS_TE_Y4S2.kind==='gf'&&!caps.includes('台南・走回她租的地方')); }
+    check('PS2 女朋友的約會：飯桌一句（「這學期有幾次我想打給你，後來沒打。怕你在讀書。」），沒有回家路上的告白', has('這學期有幾次我想打給你，後來沒打。怕你在讀書。')&&H.G.flags.PS_TE_Y4S2&&H.G.flags.PS_TE_Y4S2.kind==='gf'&&!caps.includes('台南・往她租的地方')); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

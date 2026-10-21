@@ -148,7 +148,7 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('6. 日子：期末考最後一天（週五）起、她回台中以前（第 16 週週日以前）', !!q&&q.day>=w.from+1&&q.day<=w.termTo&&STORY.presence(ID,Object.assign({},G,{day:q.day})).kind==='city', JSON.stringify(q&&[q.day,w.from,w.termTo]));
     G.day=q.day; G.hour=18.5; said=[]; caps=[]; picks=[3,0]; const m0=G.money; await TERMEND.dinner(GM,q);
     check('6. 飯：深色底＋地點字幕「台南・她學校附近的簡餐」、開場收尾照一對一的簡餐、飯桌一句不變；高鐵 2700', caps.includes('台南・她學校附近的簡餐')&&has('（簡餐店的電視在播新聞。靠窗的兩人座。）')&&has('我這學期問了你幾個問題？……我有數，你猜。')&&G.money===m0-2700, JSON.stringify(caps));
-    check('6. 回家的路：字幕「台南・走回她租的地方」、第一句「今天謝謝你來。……你要講什麼嗎？」、先不說→她說→「好。」交往', caps.includes('台南・走回她租的地方')&&has('今天謝謝你來。……你要講什麼嗎？')&&has('你喜歡我嗎？……因為我喜歡你。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
+    check('6. 回家的路：字幕「台南・往她租的地方」（AA_262 第 5 點、AA_260 第 17 項）、第一句「今天謝謝你來。……你要講什麼嗎？」、先不說→她說→「好。」交往', caps.includes('台南・往她租的地方')&&has('今天謝謝你來。……你要講什麼嗎？')&&has('你喜歡我嗎？……因為我喜歡你。')&&G.flags.dating_classmate_peishan===true, JSON.stringify(caps));
     check('6. 舊的地點不再出現（舊路書房旁邊的簡餐、溫州街・小公園）', !JSON.stringify(TERMEND.heart(ID,'Y3S1')).includes('舊路書房')&&!JSON.stringify(TERMEND.gf(ID,'Y4S1')).includes('舊路書房')&&TERMEND.heart(ID,'Y4S1').placeName==='台南・她學校附近的簡餐'&&TERMEND.heart(ID,'Y1S2').placeName==='系館附近的簡餐');
     w=setup('Y3S1',{}); run(w.from,20,21,0.05);
     check('6. 還沒重新聯絡上：不發心意邀約（她不先找人）', !(G.msgs||[]).some(x=>(x.tag||'').indexOf(ID)>=0&&/^te_/.test(x.tag||'')));
