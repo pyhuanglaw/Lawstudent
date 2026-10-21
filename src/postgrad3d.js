@@ -12,6 +12,7 @@
    - 存檔：G.flags.PG＝{done:{場景 id:1|'missed'}, exam:{年:{qs,ans}}, lines:[日期卡用過的句子]（舊存檔沒有 lines＝空）}；旗標照 AA_319 第 4 節（BAR_REG、BAR_REG_2030（交換延畢 2030 的報名，AA_357 1-6）、BAR_SCORE_<年>、BAR_SIT_<年>、BAR_STAGE_<年>、BAR_YEAR、
      GRADUATED、GRAD_PHOTO、SIS_THERMOS、GRAD_EVENING、GRAD_CAFE_HEARD、SIS_BDAY_Y4、PS_GRAD_CARD、KX_TERMEND_Y4S2、KX_GRAD、FIRST_DAY_SEEN、EPILOGUE_DONE）。
    - 開發分支還沒有的旗標（Y4_PATH、GRAD_ADMIT、ZQ_CONTRACT、KAI_STAYED_UP…）一律當作沒有。
+   - 掛勾：S.MSGS／S.STEPS／S.stops／S.RULES（別的模組加訊息、場景、停點、每一次的規則；訊息的 win＝過了幾小時不補）。交往中的固定格（可昕「我們的日子」AA_366、六位每月一格 AA_367）在 src/pgdates3d.js。
    測試：node tests/graduation_unit.js、tests/bar_exam_unit.js、tests/epilogue_unit.js、tests/postgrad_days_unit.js、tests/pg_cardline_unit.js */
 'use strict';
 const PG=(function(){
@@ -165,7 +166,7 @@ const PG=(function(){
   /* ---------- 手機規則（story3d.js 的 S.tick、跳的途中照時間）---------- */
   S.rules=function(GM){ const G=GM&&GM.G?GM.G:GM; if(!G||!G.flags||!law(G)) return; const now=NOW(G); if(now<T('2029-05-10',0)) return; const F=G.flags;
     if(F.Y4_PATH==='bar'&&F.BAR_REG==null&&now>=T('2029-05-10',21)&&!S.delayed(G)) F.BAR_REG=true;   /* 已經報名的：沒有提醒（X1）。交換延畢的 2029 不考、不設（AA_357 1-6：7/14 照「沒報名」那一版）*/
-    if(typeof PHONE!=='undefined') for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const t=T(m.at[0],m.at[1]); if(now<t-0.5||now>t+48) continue; let ok=false; try{ ok=!!m.cond(G); }catch(e){ ok=false; } if(!ok) continue;
+    if(typeof PHONE!=='undefined') for(const m of S.MSGS){ if(PHONE.sent(G,m.tag)) continue; const t=T(m.at[0],m.at[1]); if(now<t-0.5||now>t+(m.win!=null?m.win:48)) continue; let ok=false; try{ ok=!!m.cond(G); }catch(e){ ok=false; } if(!ok) continue;   /* win：過了幾小時就不補（沒寫＝48；例：可昕畢業以後「我們的日子」的開頭那一則＝那一段的第一週內，src/pgdates3d.js）*/
       const d=Math.floor(t/24); let items=[]; try{ items=m.items(G)||[]; }catch(e){ console.warn('PG msg '+m.tag,e); continue; } if(items.length&&PHONE.at(G,d,t-d*24,items,m.tag)&&m.after) m.after(G); }
     if(typeof F.PG_TE_PICK==='string'){ const [who,kind]=F.PG_TE_PICK.split('|'); delete F.PG_TE_PICK; if(!S.tePicked(G)) S.planTe(G,who,kind); }   /* 子晴 16:30 的邀約回了「好。」*/
     if(F.PG_SIS_EX_BDAY==='send'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_sis_ex_bday_reply')){ const B=L().BDAY; PHONE.post(G,{th:'p:heroine_05',from:'player',text:B.exSend,tag:'pg_sis_ex_bday_reply'}); for(const t of B.exReply) PHONE.post(G,Object.assign(P_('heroine_05',t),{tag:'pg_sis_ex_bday_reply'})); F.SIS_BDAY_Y4='msg'; }
@@ -173,7 +174,8 @@ const PG=(function(){
     const done=S.teDone(G); if(done&&!F.GRAD_EVENING) F.GRAD_EVENING='date:'+done;
     if(graduated(G)&&!F.GRAD_EVENING&&now>=(S.gradDay()+1)*24) F.GRAD_EVENING='none';
     if(!F.GRADUATED&&now>=T('2029-06-04',0)){ F.GRADUATED=S.gradDay(); if(!S.rec(G).done.grad) S.rec(G).done.grad='missed'; }
-    if(F.GRADUATED&&!F.GRAD_DONE) F.GRAD_DONE=true; };   /* 閒聊階梯的 skipIf GRAD_DONE（story3d.js 撥穗那一句設；讀檔、跳過、舊存檔在這裡補）*/   /* 6/2 那一段沒演到（讀檔、跳過）也算畢業了：不卡在學生的作息裡 */
+    if(F.GRADUATED&&!F.GRAD_DONE) F.GRAD_DONE=true;   /* 閒聊階梯的 skipIf GRAD_DONE（story3d.js 撥穗那一句設；讀檔、跳過、舊存檔在這裡補）*/   /* 6/2 那一段沒演到（讀檔、跳過）也算畢業了：不卡在學生的作息裡 */
+    for(const f of S.RULES){ try{ f(G,GM&&GM.G?GM:null); }catch(e){ console.warn('PG.RULES',e); } } };   /* 別的模組的規則（S.RULES.push(fn)，fn(G, GM)）：每 0.5 秒、跳的每一步都跑（例：畢業以後的固定格到了該問的時間＝排成出遊，src/pgdates3d.js）*/
   /* ---------- 場景（時間到了、玩家空下來就演）---------- */
   async function regScene(GM){ const G=GM.G, F=G.flags, R=L().REG; if(F.BAR_REG!=null) return; if(typeof PHONE!=='undefined'&&!PHONE.sent(G,'pg_reg_sys')) PHONE.post(G,{th:'sys',text:R.text,tag:'pg_reg_sys'});
     GM.sceneBegin(); try{ await GM.say(null,R.text); const k=await GM.choose(R.opts.map(t=>({t}))); F.BAR_REG=k===0; } finally { GM.sceneEnd(); } }
@@ -435,6 +437,7 @@ const PG=(function(){
   /* ---------- 跳到下一件事 ---------- */
   S.SOFT=[['2029-06-02',22],['2029-06-28',10]];   /* 別一批的固定時間（1A-12 晚上大伯的信封、1A-15 宿舍期滿）：停一下，讓那邊的程式有機會演 */
   S.stops=[];   /* 其他模組可以加：G=>絕對時間（小時）或 null */
+  S.RULES=[];   /* 其他模組可以加：(G, GM)=>{}，S.rules 每一次最後跑（src/pgdates3d.js：固定格到了就排成出遊、不再交往就改 skipped）*/
   S.EPI_AFTER_CG=[]; S.EPI_AFTER_ITEMS=[];   /* 尾聲的掛勾（async GM=>…）：③ CG-10 之後、⑥ 桌上的東西之後（⑦ 最後畫面之前）*/
   S.nextStop=function(G){ const now=NOW(G); let best=Infinity; const cand=t=>{ if(t!=null&&t>now+1e-6&&t<best) best=t; };
     for(const {t} of S.pending(G)) cand(t);
