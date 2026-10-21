@@ -17,7 +17,7 @@ def say(*a): print(' '.join(str(x) for x in a), flush=True)
 
 HOOK = """(()=>{ if(window.__TC) return; window.__TC=1; window.__CINE=[];
   const oc=GAME.cine; GAME.cine=function(kind,A,B,opt){ try{ const o=opt||{}; window.__CINE.push({kind, pos:o.pos?o.pos.toArray().map(v=>+v.toFixed(3)):null, look:o.look?o.look.toArray().map(v=>+v.toFixed(3)):null, ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, t:Date.now()}); }catch(e){} return oc.apply(this,arguments); };
-  window.__TZ={}; setInterval(()=>{ try{ const T=window.__TZ, now=performance.now(), h=+GAME.G.hour; if(T.dormAt==null&&GAME.G.zone==='dorm'){ T.dormAt=now; T.dormH=h; } if(T.evAt==null&&typeof EVENTS!=='undefined'&&EVENTS.running==='ev_kai_tape2'){ T.evAt=now; T.evH=h; T.txtAtEv=!!GAME.E.scene.getObjectByName('Y1_KAI_TAPE_TEXT'); } }catch(e){} },100);
+  window.__TZ={}; setInterval(()=>{ try{ const T=window.__TZ, now=Date.now(), h=+GAME.G.hour; if(T.dormAt==null&&GAME.G.zone==='dorm'){ T.dormAt=now; T.dormH=h; } if(T.evAt==null&&typeof EVENTS!=='undefined'&&EVENTS.running==='ev_kai_tape2'){ T.evAt=now; T.evH=h; T.txtAtEv=!!GAME.E.scene.getObjectByName('Y1_KAI_TAPE_TEXT'); } }catch(e){} },100);
   const E=GAME.E, ocm=E.cinematic; E.cinematic=function(p,l){ try{ window.__CINE.push({kind:'E.cinematic', pos:p?[+p.x.toFixed(3),+p.y.toFixed(3),+p.z.toFixed(3)]:null, look:l?[+l.x.toFixed(3),+l.y.toFixed(3),+l.z.toFixed(3)]:null, ev:(typeof EVENTS!=='undefined'&&EVENTS.running)||null, t:Date.now()}); }catch(e){} return ocm.apply(this,arguments); }; })()"""
 
 MEAS = """(()=>{ const E=GAME.E, cam=E.camera, sc=E.scene; const t=sc.getObjectByName('Y1_KAI_TAPE_TEXT'), m=sc.getObjectByName('Y1_KAI_TAPE_MID');
@@ -111,9 +111,11 @@ async def one(p, base, sid, run):
         # 等 ev_kai_tape2 開始（時間到／進門）
         got = await settle(pg, cdp, "(typeof EVENTS!=='undefined'&&EVENTS.running)==='ev_kai_tape2'", secs=240)
         if not got: bad.append('ev_kai_tape2 沒有開始（%s）' % json.dumps(await pg.evaluate(MEAS), ensure_ascii=False)[:200]); raise RuntimeError('no event')
-        tz = await pg.evaluate("window.__TZ||{}"); res['tz'] = tz
-        if tz.get('dormAt') is not None and tz.get('evAt') is not None:
-            say('   進 203 → 開演：%.1f 秒（遊戲時間 %.1f 分鐘）；開演時膠帶模型 %s' % ((tz['evAt'] - tz['dormAt']) / 1000, (tz['evH'] - tz['dormH']) * 60, '在' if tz.get('txtAtEv') else '還沒載到'))
+        await pg.wait_for_timeout(400)   # 頁面裡每 100 ms 記一次：剛偵測到開演時可能還沒記到
+        tz = await pg.evaluate("(()=>{ const T=Object.assign({},window.__TZ||{}); const c=(window.__CINE||[]).find(x=>x.ev==='ev_kai_tape2'); if(c) T.cineAt=c.t; return T; })()"); res['tz'] = tz
+        ev_at = tz.get('evAt') or tz.get('cineAt')
+        if tz.get('dormAt') is not None and ev_at is not None:
+            say('   進 203 → 開演：%.1f 秒%s；開演時膠帶模型 %s' % ((ev_at - tz['dormAt']) / 1000, '（遊戲時間 %.1f 分鐘）' % ((tz['evH'] - tz['dormH']) * 60) if tz.get('evH') is not None else '', '在' if tz.get('txtAtEv') else ('還沒載到' if 'txtAtEv' in tz else '?')))
         # 第一句（旁白）出現
         t0 = time.time(); m1 = None
         while time.time() - t0 < 30:
