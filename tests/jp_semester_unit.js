@@ -348,5 +348,29 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     } finally { global.Z3=Z0; global.JP_DORM_LAYOUTS=L0; }
     const G2=inJapan('2028-04-12',20.5); H.picks=[]; const O=[]; const ch0=GM.choose; GM.choose=async(o)=>{ O.push(o.map(x=>x.t+'｜'+(x.hint||''))); return o.length-1; }; try{ await JP.round(GM); } finally { GM.choose=ch0; }
     check('jp_room 3：沒有 3D 房間（jp_dorm3d.js 沒載入）＝「在房間休息一下」照舊是過一小時', O[0].some(x=>/^在房間休息一下｜一小時/.test(x)), JSON.stringify(O[0])); }
+  /* jp_room 4～5：「你的房間」三個「看」（AA_341 檔尾附加，AA-C 2026-10-21 56a36a4d）：窗外分兩段日子（4/30 以前田是乾的、5/1 以後灌水）、小冰箱、行李箱各一句；床已經接成「睡覺」不用字。
+     字在 src/jp3d.js 的 JP.roomLook（產生的配置檔 jp_dorm_layouts.js 不改）；jp_dorm3d.js 只在有字的時候加「看」。修改前：沒有 JP.roomLook、三個「看」都沒有加（note 是空的）*/
+  { const W1='（窗外的田還是乾的，土是深褐色。有人在田埂上騎腳踏車。）', W2='（窗外的田灌了水。傍晚的時候，整片田會反光。）', FR='（小冰箱裡有一瓶麥茶、兩顆便利商店的飯糰。其中一顆明天到期。）', SU='（行李箱還攤在地上，一直沒收進櫃子。最底下有一包從台北帶來的泡麵。）';
+    const lk=(id,k)=>typeof JP.roomLook==='function'?JP.roomLook(id,{day:D(k)}):undefined;
+    check('jp_room 4：JP.roomLook——窗外 4/30 以前「（窗外的田還是乾的……）」、5/1 以後「（窗外的田灌了水……）」；小冰箱、行李箱各一句；床沒有字',
+      lk('window','2028-03-27')===W1&&lk('window','2028-04-30')===W1&&lk('window','2028-05-01')===W2&&lk('window','2028-08-04')===W2&&lk('fridge','2028-04-12')===FR&&lk('suitcase','2028-07-20')===SU&&!lk('bed','2028-04-12'),
+      JSON.stringify([lk('window','2028-04-30'),lk('window','2028-05-01'),lk('fridge','2028-04-12'),lk('suitcase','2028-07-20')]));
+    const keep={}; for(const k of ['Z3','THREE','E3','W3','P3','ASSETS','GAME','JP_DORM_LAYOUTS']) keep[k]=global[k];
+    const grp=()=>({name:'',userData:{},children:[],add(o){ this.children.push(o); },remove(o){ const i=this.children.indexOf(o); if(i>=0) this.children.splice(i,1); },traverse(){}}), vec=()=>({x:0,y:0,z:0,set(){}});
+    let IT=[], err='', w1=null, w2=null;
+    try{
+      global.THREE={Group:function(){ return grp(); },Mesh:function(){ return {rotation:{x:0},position:vec(),receiveShadow:false}; },PlaneGeometry:function(){},BoxGeometry:function(){},PointLight:function(){ return {position:vec(),intensity:0,isLight:true}; },Vector3:keep.THREE&&keep.THREE.Vector3};
+      global.Z3={ZONES:{},room:()=>({group:grp(),walls:[],winParts:[],onLamps(){},applyTime(){}}),attachRoomGLB(){}}; global.E3={NavGrid:function(){ return {blockOutside(){},blockRect(){},_cm:null}; }};
+      global.W3={stoneTex:()=>({})}; global.P3=Object.assign({},keep.P3,{M:()=>({})}); global.ASSETS={manifest:{},loadOne:()=>Promise.resolve(null)};
+      const G=inJapan('2028-04-30',20.5); global.GAME={G};
+      vm.runInThisContext(src('src/data/jp_dorm_layouts.js').replace(/^const JP_DORM_LAYOUTS\s*=/m,'globalThis.JP_DORM_LAYOUTS='),{filename:'src/data/jp_dorm_layouts.js'});
+      vm.runInThisContext(src('src/jp_dorm3d.js'),{filename:'src/jp_dorm3d.js'});
+      const E={interactables:[],zone:null}; E.zone=Z3.ZONES.jp_room.build(E); IT=E.interactables;
+      const win=IT.find(x=>x.jpLook==='window'); w1=win?win.look:null; G.day=D('2028-05-01'); w2=win?win.look:null;
+    }catch(e){ err=String(e&&e.stack||e).slice(0,300); } finally{ for(const k in keep) global[k]=keep[k]; }
+    const it=k=>IT.find(x=>x.jpLook===k);
+    check('jp_room 5：3D 房間（jp_dorm3d.js）三個「看」都加上：窗外（4/30 是乾的田、同一個房間到了 5/1 是灌了水的田）、小冰箱、行李箱；床照舊是「睡覺」',
+      !err&&w1===W1&&w2===W2&&!!it('fridge')&&it('fridge').look===FR&&it('fridge').label==='小冰箱'&&!!it('suitcase')&&it('suitcase').look===SU&&!!it('bed')&&it('bed').label==='睡覺'&&!it('bed').look,
+      err||JSON.stringify(IT.filter(x=>x.jpLook).map(x=>[x.jpLook,x.label,x.look]))); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

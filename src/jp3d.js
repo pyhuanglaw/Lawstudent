@@ -62,6 +62,11 @@ const JP=(function(){
   S.room3d=G=>!!G&&G.zone==='jp_room'&&S.hasRoom3d();   /* 人在 3D 的「你的房間」 */
   /* 3D 房間的床（jp_dorm3d.js）：回據點、接著照選單的「睡覺」（錯過約的確認照舊）*/
   S.bedFromRoom=async function(GM){ const G=GM.G; if(!S.inJapan(G)) return false; S.rec(G).pendingSleep=true; if(GM.enter) await GM.enter('jp_hub',Object.assign({},S.SPAWN)); return true; };
+  /* 3D 房間按「看」的旁白（AA_341 檔尾附加，AA-C 2026-10-21 56a36a4d；台詞照抄）：窗外分兩段日子（田五月才灌水：4/30 以前、5/1 以後）；小冰箱、行李箱各一句。
+     3/28 摘要日已經講過「窗外是一片田，遠一點的地方有一座山」，這裡是別的細節。床接成「睡覺」，不用字。jp_dorm3d.js 讀 JP.roomLook（配置檔 note 是空的，產生的檔不改）*/
+  S.ROOM_LOOK={ window:['（窗外的田還是乾的，土是深褐色。有人在田埂上騎腳踏車。）','（窗外的田灌了水。傍晚的時候，整片田會反光。）'],
+    fridge:'（小冰箱裡有一瓶麥茶、兩顆便利商店的飯糰。其中一顆明天到期。）', suitcase:'（行李箱還攤在地上，一直沒收進櫃子。最底下有一包從台北帶來的泡麵。）' };
+  S.roomLook=function(id,G){ const L=S.ROOM_LOOK[id]; if(!L) return null; if(typeof L==='string') return L; const m=G&&G.day!=null&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).m:4; return m>=5?L[1]:L[0]; };   /* 日本那一學期 3/25～8/5：5 月以後＝灌了水 */
   S.skipTerm=(G,termId)=>termId==='Y3S2'&&isJP(G);   /* J-S6：日本路線不修台灣的大三下（classes3d.js：不排課、不跳開學和期中期末的提示；成績單換日本的兩門）*/
   STORY.inJapan=G=>S.inJapan(G);
   /* ---------------- 據點：3D 的空區域（畫面是 2D）、背景 ---------------- */
