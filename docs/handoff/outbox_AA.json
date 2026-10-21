@@ -1037,6 +1037,23 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "AA_365 §2 更正：學姊朋友以上叫祐廷名字（口氣表 1-5）；程式不用改"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "e55fda50",
+   "files": [
+    "docs/story_planning/AA_368_經濟系那一年_知道太早與時間矛盾_修正稿.md",
+    "docs/story_planning/00_現行設定總表.md",
+    "docs/story_planning/AA_276_寒暑假的人在哪_芷若英國聯絡.md"
+   ],
+   "state": "已交付",
+   "remaining": "發布凍結中：改字（AA）與條件、日期（LAWWW）都等 v9.10.3 發布以後",
+   "next": "LAWWW 開 AA368-Y0-FIX-1021（發布後）／BB 驗（檔內第 6 節）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "經濟系那一年知道太早與時間矛盾：高 5、中 8、低 9；可昕回高雄 7/12 文件對齊"
   }
  ],
  "items": [
