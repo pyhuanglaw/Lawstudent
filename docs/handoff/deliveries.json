@@ -12528,6 +12528,71 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:1x 照原檔複製到 assets/bg、OUT.BG 登記（cram_counter、mrt_night、seaside_town 原本 image:null）；tests/bg_images_unit.js 2g（改之前 FAIL）；jp_dorm_lobby 等 jp_lounge 交件"
+  },
+  {
+   "id": "DL-AA-d07eb988",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "d07eb988",
+   "what": "AA_357 大五上（交換延畢）逐週盤點與補空白：Y5S1、資料頁 200 天懸崖、退宿後出門、2029／2030 國考報名、七處矛盾、四個新場景、跳日期句子",
+   "task": "Y5-DELAY-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 14:1x】子代理實作中（14:1x 派）"
+  },
+  {
+   "id": "DL-AA-659d9d81",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "659d9d81",
+   "what": "AA_358 人物知道不該知道的事：清查 24 筆；開發分支已改 13 句（db572d57）；第 2 節 2-1～2-6 給 LAWWW；閒聊階梯 4 句改在企劃源檔",
+   "task": "AA358-KNOW-FIX-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 14:1x】第 2 節和階梯四檔排下一批"
+  },
+  {
+   "id": "DL-AA-c7dd0000",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "c7dd0000",
+   "what": "AA_359 兩天一夜的約會：住宿那一段（D26～D32）",
+   "task": "DATE-OVERNIGHT-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 14:1x】CPU 空出來派子代理"
+  },
+  {
+   "id": "DL-AA-56a36a4d",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "56a36a4d",
+   "what": "AA_242 第 12 節 C16～C18 七項裁定＋缺字（上班日日誌 C16 6 句、C17 12 句；第二次以後日誌；阿哲寒假版；C18 行前說明會；思穎回國）；AA_341 檔尾日本宿舍房間三個「看」（窗外分 4/30 前後、小冰箱、行李箱）",
+   "task": "AA-VAC-C16-C18-Q-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 14:1x】d1a9fe2b 檔名寫錯、56a36a4d 已搬回刪掉——以 56a36a4d 為準"
+  },
+  {
+   "id": "DL-AA-2f1aaa22",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "2f1aaa22",
+   "what": "AA_355 第 5 節、AA_353 第 3 節：回 LAWWW 13:42 七題（cardLine 出最後一句、延畢 2029 夏天三句、1-1 今天→昨天、挽回中冷靜中不約、運動會大二起不停課、y34b3d.js:346 加以安電話一句、十個物件旁白 5-1）",
+   "task": "AA-Q-1021-PG",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "【LAWWW-C 14:1x】cardLine 兩項已轉給大五子代理；其餘排下一批小修"
   }
  ],
  "ignored": [
@@ -15690,6 +15755,14 @@
    "branch": "claude/magical-albattani-bk7b4n",
    "kind": "handoff_record",
    "reason": "只改 docs/handoff/user_asks_AA.json（HV-18：照開發分支 7baa4587 核對，10 筆改「在開發分支」、5 筆加核對結果），不是交付"
+  },
+  {
+   "sha": "d1a9fe2b",
+   "branch": "origin/claude/magical-albattani-bk7b4n",
+   "kind": "covered",
+   "coveredBy": "DL-AA-56a36a4d",
+   "reason": "AA_242 第 12 節第一次寫錯檔名（多建一個怪名字的檔），56a36a4d 搬回、刪掉",
+   "why": "AA-C 10-21 13:39 訊息"
   }
  ]
 }

@@ -7495,7 +7495,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋底圖 d28a／d28b 沒登錄進 OUT.BG",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋底圖 d28a／d28b 沒登錄進 OUT.BG",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7528,7 +7528,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7561,7 +7561,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7594,7 +7594,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -7627,7 +7627,7 @@
    "area": "DATE",
    "owner": "LAWWW",
    "status": "暫停",
-   "next": "【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋沒有底圖",
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA_359（c7dd0000）交了住宿那一段的規格 → DATE-OVERNIGHT-1021 做完就解除暫停 ｜ 【LAWWW-C 2026-10-21 13:0x UTC】台詞已匯入（7ef4ff56，57de1709）；不在清單：兩天一夜（這一版不開放）＋沒有底圖",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -25973,8 +25973,8 @@
   {
    "id": "AA-VAC-C16-C18-Q-1021",
    "title": "C16～C18 實作留下的 AA 裁定 7 項＋缺字 5 項（語彤 C16 哪一年、C18W 大一寒假開不開、面試／結果／說明會日期、C16 名額機制、C17 第二次免面試、沒錄取信寄信人、津貼金額；非關鍵日日誌句、第二次以後日誌句、寒假團沒錄取阿哲句、C18 說明會台詞、思穎回國訊息）",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "待開工",
    "priority": "P2",
    "source": "VAC-C16-C18-1021 子代理回報（b57717dd）",
    "first": {
@@ -25992,9 +25992,9 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 回覆 7 項裁定（照暫排或改哪個值）＋5 項缺字的定稿與 commit",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】已送 AA-C；收到改 vac_activities.js 資料（都是改資料，不動機制）"
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA 回了（企劃線 56a36a4d，AA_242 第 12 節）：語彤大三（大二去過的大三照演、第一句「……你又來了。」）、C18W 大一寒假不開、C16 上學期有被當＝沒錄取、C17 第二次大三第 4 週「寄信給馮律師」第 14 週直接錄取、C16 午餐每天 −100、其餘照暫排；補字 a～e 都在第 12 節 → LAWWW 照改（下一批小修子代理）"
   },
   {
    "id": "BG-VAC-C16-C18-1021",
@@ -26077,8 +26077,8 @@
   {
    "id": "AA-Q-1021-PG",
    "title": "AA_350 P1／AA_353／AA_355 實作留下要 AA 定的 7 項（P1 標點、cardLine 一跳一句吃掉中間句、交換延畢 2029／364 天解讀、1-1 三點、1-2 與 3F 微波爐沒換、運動會停課少三堂第 11 週的課、y34b3d.js:346）＋還沒有字的物件 9 個",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "待開工",
    "priority": "P2",
    "source": "子代理 a37b47f4 回報（合併 f27df6dd）",
    "first": {
@@ -26096,9 +26096,47 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 逐項回：照現在／改成什麼（附定稿 commit）",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC】已送 AA-C；回了改資料"
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】AA 回了（企劃線 2f1aaa22，AA_355 第 5 節、AA_353 第 3 節）：1、5 照現在；2 cardLine 改出最後一句、3 延畢 2029 夏天三句 → 已轉給大五子代理；4(b) 今天→昨天、4(c) 挽回中冷靜中不約、6 運動會大二起不停課（大一照舊）、7 y34b3d.js:346 加以安電話一句、1-1 走路 10 分鐘、十個物件旁白 5-1 → 下一批小修子代理"
+  },
+  {
+   "id": "AA358-KNOW-FIX-1021",
+   "title": "AA_358 第 2 節：可以錯過的事被說成發生過——2-1 阿哲麵店問「下午你跟小安去哪了」看 F.plan、2-2 小安「不能賠十倍」else 只給 cafeView A、2-3 E26 沒去中秋系烤換兩句、2-4「謝謝你那天陪我」看 cafeView、2-5 博覽會法服攤位語彤改柏翰、2-6 測試寫死的 8 句；閒聊階梯 4 句（ladder_aa.json、ladder_bb_y3s2／y4s1／y4s2.json）重新匯入",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P1",
+   "source": "企劃線 AA_358（659d9d81）；AA-C 10-21 13:33 訊息",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "法律系大一第二天（小安）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】和 AA 回覆的小修（AA_355 第 5 節、AA_242 第 12 節、AA_341 檔尾）同一批派子代理；階梯四檔要先改 story_import_allow.json 再匯入"
+  },
+  {
+   "id": "DATE-OVERNIGHT-1021",
+   "title": "兩天一夜的約會（D26～D32）照 AA_359：住宿 +2,500、第 6 階或交往中、沒交往兩間房一句旁白；第一天到達＋最多 2 點＋晚上旁白、第二天早上旁白＋她一句＋最多 2 點；D31＋D32 同一趟；D28 d28a／d28b 兩天各一張；DATE_OVERNIGHT 只記；解除 DATE-L28～L32 的暫停",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "企劃線 AA_359（c7dd0000）；AA-C 10-21 13:35 訊息",
+   "first": {
+    "term": "Y1S2",
+    "week": 1,
+    "earliest": "第一次能排兩天一夜的約會（第 6 階或交往中、兩天都空）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:1x UTC】發布前測試跑完（CPU 空出來）派子代理；date3d.js S.STAY 加 overnight"
   }
  ]
 }
