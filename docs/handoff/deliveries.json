@@ -12606,6 +12606,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 13:5x 套 patch（ps_skirt_hand_1021.diff）；stairs_feet、sit_feet、nav_levels、vrm_release、v0_econ_chars 單元全過；LAWWW 角色美術驗收（D100a）：看了 motion_before_after 前後對照，手的部分改善、膝蓋穿出裙子還在 → LAWWW2 接著改 long_skirt_weights、重建 VRM"
+  },
+  {
+   "id": "DL-BB-fdd8383c",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "fdd8383c",
+   "what": "bg_approved 第 92 組另外五張：jp_station、trip_sea、trip_oldtown、car（家用小客車白天，只給可昕開車那幾場）、tn_station",
+   "task": "ART-17",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:5x 照原檔複製到 assets/bg；OUT.BG 加 jp_station、tn_station，trip_sea、trip_oldtown 原本 image:null；bg 'car' 白天改 car_day＝car.webp（寫死 car_morning 的事件照舊），宿營遊覽車 tour_bus 照舊深色底；bg_images_unit 2h（改之前 FAIL）、3 照新規則改"
   }
  ],
  "ignored": [

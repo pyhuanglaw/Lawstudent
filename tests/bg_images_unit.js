@@ -15,10 +15,13 @@ check('2. riverside、xiaofu、soc_hall、soc_classroom、girls_dorm_gate、bowl
 check('2f. 自由出行第一批四個景點的底圖（DL-06，LAWWW2-B）：d04_base_night、d06_base_day、d12_base_sunset、d13_base_sunset',['d04_base_night','d06_base_day','d12_base_sunset','d13_base_sunset'].every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'));
 { const K=['tn_school','tn_oldstreet','tn_museum','tn_canal','tn_bookstore','cram_counter','us_club_study','seaside_town','mrt_night','gongguan_cake'];
   check('2g. BB-C 第 93 組十張接上（台南五張、補習班櫃台、會所自習室、海邊小鎮、捷運車廂、公館甜點店；55ece8db）',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image))),K.filter(k=>!(B[k]&&B[k].image)).join('、')); }
+{ const K=['jp_station','trip_sea','trip_oldtown','tn_station'];
+  const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
+  check('2h. BB-C 第 92 組另外五張（fdd8383c）：jp_station、trip_sea、trip_oldtown、tn_station 接上；可昕開車那幾場（bg car）白天用新的 car.webp、晚上和下雨照舊；宿營遊覽車（tour_bus）照舊深色底',K.every(k=>B[k]&&B[k].image==='assets/bg/'+k+'.webp'&&fs.existsSync(path.join(ROOT,B[k].image)))&&v.join()==='assets/bg/car.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp'&&fs.existsSync(path.join(ROOT,'assets/bg/car.webp'))&&OUT.bg('tour_bus')==='dark'&&OUT.bg('car_morning').image==='assets/bg/car_morning.webp',K.filter(k=>!(B[k]&&B[k].image)).join('、')+' car='+v.join()); }
 { const noImg=Object.keys(B).find(k=>!B[k].image&&k!=='car')||'zzz_not_registered';   // nccu_dorm 10-17 有圖了（3d4d1969）：改挑一個登記了、還沒有圖的背景
   check('3. OUT.bg(id)：有圖＝{image:路徑}、沒有圖＝深色底（'+noImg+'）',OUT.bg('riverside').image==='assets/bg/riverside.webp'&&OUT.bg(noImg)==='dark'&&OUT.bg('nccu_dorm').image==='assets/bg/nccu_dorm.webp',JSON.stringify([OUT.bg('riverside'),OUT.bg(noImg),OUT.bg('nccu_dorm')])); }
 { const v=[]; for(const [h,w] of [[10,'clear'],[20,'clear'],[10,'rain']]){ global.GAME={G:{hour:h,weather:w}}; v.push(OUT.bg('car').image); } delete global.GAME;
-  check('3. 車上（BG-08）：照天氣、時間挑——早上 car_morning、晚上 car_night、下雨 car_rain',v.join()==='assets/bg/car_morning.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp',v.join()); }
+  check('3. 車上（BG-08）：照天氣、時間挑——白天 car_day（2026-10-21 起是 BB 第 92 組的 car.webp；寫死 car_morning 的事件照舊）、晚上 car_night、下雨 car_rain',v.join()==='assets/bg/car.webp,assets/bg/car_night.webp,assets/bg/car_rain.webp',v.join()); }
 // CG（adv3d.js 的 CG_REGISTRY）：每一張的檔案都在；BCG-04、BCG-11 接在 BB_117 寫的那一拍
 { const src=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const m=src.match(/const CG_REGISTRY=\{[\s\S]*?\};/); const reg=m?vm.runInThisContext('('+m[0].slice('const CG_REGISTRY='.length,-1)+')'):{};
   check('4. CG_REGISTRY 每一張的檔案都在',Object.keys(reg).length>0&&Object.values(reg).every(r=>fs.existsSync(path.join(ROOT,r.file))),Object.entries(reg).filter(([k,r])=>!fs.existsSync(path.join(ROOT,r.file))).map(([k])=>k).join(' '));
