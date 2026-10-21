@@ -12901,10 +12901,10 @@
    "branch": "claude/second-ai-env-art",
    "sha": "8b38e054",
    "what": "共同教學館三扇關著的門換門模組：patches/art02_gongtong_doors.diff（teach3d.js＋tests/teach_doors_unit.js）",
-   "task": "ART-02-GONGTONG-1021",
+   "task": "ART-02",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面（LAWWW2 交件寫 ART-02-GONGTONG-1021＝ART-02 的別名）"
   },
   {
    "id": "DL-LAWWW2-76b3a0d5",
