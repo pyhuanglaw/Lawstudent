@@ -11543,7 +11543,7 @@
    "note": "驗收紀錄；卡門口另修（S.leaveStuck）"
   },
   {
-   "id": "DL-LAWWW2-0a5cc70a",
+   "id": "DL-LAWWW2-0a5cc70a-WIP",
    "date": "2026-10-20",
    "from": "LAWWW2-C",
    "account": "C",
@@ -11552,8 +11552,8 @@
    "what": "研討室 A、霖澤館 202、萬才館多功能教室：模型＋配置（MODEL_READY；流程測試在 LAWWW2 測試工作樹 ALL PASS）、窗景、臨時接線 patch；README、截圖還在拍（WIP）",
    "task": "LINZE-WANCAI-FLOORS-1020",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
+   "integration": "取消／被取代",
+   "note": "【LAWWW-C 2026-10-21 13:5x UTC】同一個 SHA 的 WIP 看見紀錄，被正式交付 DL-LAWWW2-0a5cc70a（已整合待測試）取代；改 id 避免重複（INCR-CLEANUP-1021 發現） ｜ LAWWW-C 18:3x 看到；等 LAWWW2 正式交付（README、outbox）再接；接好以後把一部分法律系的課排到萬才館（X78）；18:3x 回 ACK"
   },
   {
    "id": "DL-AA-b6757852",

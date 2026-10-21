@@ -16313,12 +16313,12 @@
    "aliases": [
     "ART-SHOP1"
    ],
-   "title": "AA_185 第 8 節的 2D 背景四張：公館機車行（BB-B ART-SHOP1 v2 道具＋升降台上的新機車）、老國小操場、視訊的國外住處、日本教室",
+   "title": "AA_185 第 8 節的 2D 背景：老國小操場、視訊的國外住處、日本教室（公館機車行那張已依 AA_252 刪，89c856f8）",
    "area": "ART",
    "owner": "BB",
    "status": "待開工",
    "priority": "P2",
-   "next": "【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 5d5bb8aa 驗收通過，bb_support/scooter_shop_props.*）好了；4 張 2D 背景還沒開工｜LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 分支上已有 video_far_us（9442e59b）、video_far_jp、old_school_playground（23456747，DL-LAWWW2-23456747 讀過不接：現在沒有戲用到）；有戲要用時 BB 先看這幾張能不能用 ｜ 舊：【2026-10-18 02:3x LAWWW-C】負責人 LAWWW2 → BB（D100：2D 背景、CG 由 BB 跟使用者要；LAWWW2 02:23 依 D101 第 4 條提出）。LAWWW2 分支上已經做的（USER_WANTS 第 4 節第 7 點：AA185 三張、戲院與咖哩店第五版等）保留在 claude/focused-cray-c9uwvw，BB 接手時先看能不能用。｜機車行道具組 v2（BB-B d9388b2a，LAWWW2-B 5d5bb8aa 驗收通過，bb_support/scooter_shop_props.*）好了；4 張 2D 背景還沒開工｜LAWWW2-B 照遊戲出現順序排（機車行最早）；用到的事件問 AA-B 確認日期",
    "first": {
     "term": "Y2S1",
     "week": null,
@@ -19217,7 +19217,7 @@
    "owner": "LAWWW",
    "status": "已整合待測試",
    "priority": "P2",
-   "next": "LAWWW2-C 在做第七版（耳朵縮小、膚色對齊臉，BB-C 要求；同檔名）：v7 SHA 來了換檔，再和家豪一起拍白天站著、走路（含保溫瓶）給 BB-C",
+   "next": "【LAWWW-C 2026-10-21 13:5x UTC】第六版 05c57da1 已接；第七版（耳朵縮小、膚色對齊臉）照使用者 10-17 20:5x「停人物細修」沒交、不等（LAWWW2 交接檔記 v7 不交）；BB 畫面驗收用第六版 ｜ 舊：LAWWW2-C 在做第七版（耳朵縮小、膚色對齊臉，BB-C 要求；同檔名）：v7 SHA 來了換檔，再和家豪一起拍白天站著、走路（含保溫瓶）給 BB-C",
    "first": {
     "term": "Y0S1",
     "week": 0,
