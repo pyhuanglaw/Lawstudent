@@ -1,4 +1,5 @@
 // V4-E2：舊的刑訴課堂事件 ev_class_crimpro（「上週我們談了刑事訴訟的目的。」）大三上第 1 週不演（交接包_v4 E2；BACKLOG-SWEEP 稽核 B1）——不需要瀏覽器。
+//   AA_376 #2（企劃線 69aa3b0c，2026-10-21）：這件和 ev_quiz_crimpro 整個停用（retired：沒有 once、和課表系統的刑訴同時跑、每週二重演），第 2、3 項改成「也不演」。
 //   修改前：沒有週次限制，第 1 週週二走進教室照樣演「上週我們談了……」（第 1 週的內容在 syllabus.js crimpro w:1）。
 //   1. 大三上第 1 週週二 10:00 在教室：不演（修改前 FAIL）；2. 第 2 週週二：照常演；3. 其他學期不受影響（term 本來就只有 Y3S1）。
 // 用法：node tests/crimpro_week1_unit.js
@@ -20,5 +21,6 @@ const w1=tueOf('Y3S1',1), w2=tueOf('Y3S1',2);
 at(w1); const c1=EVENTS.check(ev);
 at(w2); const c2=EVENTS.check(ev);
 check('1. 大三上第 1 週週二：不演「上週我們談了刑事訴訟的目的。」（修改前會演）',c1===false,JSON.stringify({w1,c1}));
-check('2. 第 2 週週二：照常演',c2===true,JSON.stringify({w2,c2}));
+check('2. 第 2 週週二也不演：AA_376 #2 兩件舊課堂停用（retired；課表系統的刑訴照常，原本這裡測「照常演」）',c2===false&&!!ev.retired,JSON.stringify({w2,c2}));
+{ const q=STORY_EVENTS.find(e=>e.id==='ev_quiz_crimpro'); at(w2+7); G.flags.crimpro_attended=true; check('3. 刑訴小考 ev_quiz_crimpro 也停用（AA_376 #2）：大三上任何一週週二都不演',!!q&&!!q.retired&&EVENTS.check(q)===false,JSON.stringify({retired:q&&q.retired})); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

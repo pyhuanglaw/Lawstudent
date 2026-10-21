@@ -28,6 +28,15 @@ for(const [w,h,nm] of [[844,390,'橫向'],[390,844,'直向']]){ const {s,cam}=sh
   const P=v=>v.clone().project(cam), a=P(new THREE.Vector3(C.x,0.0022,-0.1082)), b=P(new THREE.Vector3(C.x,0.0022,0.5340)), head=P(new THREE.Vector3(C.x+0.024,0.0022,C.z)), foot=P(new THREE.Vector3(C.x-0.024,0.0022,C.z));
   const inside=[a,b].every(p=>Math.abs(p.x)<0.98&&Math.abs(p.y)<0.98), px=(head.y-foot.y)/2*h;
   check('3. '+nm+'（'+w+'×'+h+'）：五個字整段在畫面裡、字頭在上、從左往右讀，字高 '+px.toFixed(1)+' px（至少 12）',inside&&head.y>foot.y&&b.x>a.x&&px>=12,JSON.stringify({a:[a.x,a.y],b:[b.x,b.y],px})); }
+/* 5. 讀檔後第一次進 203：膠帶的模型還沒載到就不演（BB 10-21 21:4x C_L／C_P FAIL），載到了才演；載不到待滿 12 秒照原本的鏡頭演 */
+{ const had=typeof ASSETS!=='undefined', A0=had?ASSETS:undefined; global.ASSETS={manifest:{'bldg.dorm_y1_items':{url:'x.glb'}}};
+  const empty=new THREE.Scene(); global.GAME={E:{scene:empty}}; const G0={flags:{},zone:'dorm',stage:'law',day:1,hour:20};
+  const tk=s=>{ for(let i=0;i<Math.ceil(s);i++) Y1FILL.tick({G:G0,E:{zone:{},player:{busy:true}},D:{active:false}},1); };   /* player busy＝不跑事件、只算時間 */
+  const a=Y1FILL.tapeReady&&Y1FILL.tapeReady(); tk(5); const b=Y1FILL.tapeReady&&Y1FILL.tapeReady(); global.GAME={E:{scene}}; const c=Y1FILL.tapeReady&&Y1FILL.tapeReady();
+  global.GAME={E:{scene:empty}}; tk(9); const d=Y1FILL.tapeReady&&Y1FILL.tapeReady(); G0.zone='dorm_hall'; tk(1); G0.zone='dorm'; const e=Y1FILL.tapeReady&&Y1FILL.tapeReady();
+  const pre=ev&&ev.prereq&&ev.prereq.custom&&String(ev.prereq.custom);
+  check('5. 膠帶模型還沒載到：不演（剛進門、待 5 秒都是 false）；載到了＝可以演；一直載不到待滿 12 秒＝照原本的鏡頭演；出去再進來重新算；事件條件有 tapeReady',typeof Y1FILL.tapeReady==='function'&&a===false&&b===false&&c===true&&d===true&&e===false&&/tapeReady/.test(pre||''),JSON.stringify({a,b,c,d,e}));
+  delete global.GAME; if(had) global.ASSETS=A0; else delete global.ASSETS; }
 /* EVENTS.run：用 shot 的鏡頭、開場沒有立繪 */
 { let G={v:3,day:STORY.dayOfKey('2025-10-30'),hour:19,zone:'dorm',stage:'law',weekday:4,weather:'clear',energy:70,money:5000,flags:{KAI_TAPE:true},choices:{},events:{done:{},last:{},count:0},name:'祐廷',rel:{},social:null,stats:{classes:0},contacts:{}};
   const cines=[], begins=[], said=[]; const cam=new THREE.PerspectiveCamera(46,844/390,0.1,200);

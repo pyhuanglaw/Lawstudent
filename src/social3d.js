@@ -134,7 +134,7 @@ const SOCIAL = (function(){
     return (s==='CLOSE_FRIEND'&&(C.CLOSE_FRIEND||C.FRIEND))||((s==='FRIEND'||s==='CLOSE_FRIEND')&&C.FRIEND)||(typeof C.base==='function'?C.base(G):C.base)||null; };   /* base 可以是函式（照日期換：學姊 9/4 21:00 以後才加「（直屬）」，AA_372 第 12 項）*/
   /* 任一方有伴侶（祐廷和別人交往中，或對方這學期有伴侶 CHARACTERS[id].partner）：{solo:true} 的旁白拿掉（BB_120 1-0） */
   S.partnered=function(id){ const F=G.flags||{}; if(Object.keys(F).some(k=>k.indexOf('dating_')===0&&k!=='dating_'+id&&F[k])) return true;
-    const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&STORY.inTerms&&STORY.inTerms(G,c.partner)); };
+    const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };   /* partnerOn：BUG-INTERMS-PARTNER-1021 */
   /* 播一串台詞：（開頭＝旁白、其他＝那個人說（who）；{n,solo}；{name}＝玩家的名字 */
   S.playSteps=async function(GM,who,id,steps){ for(const st of steps||[]){ const o=typeof st==='string'?{t:st}:(st||{}); if(o.solo&&S.partnered(id)) continue;
       const t=String(o.t||o.n||o.s||'').replace('{name}',G.name||'祐廷'); if(!t) continue; if(o.n||/^（/.test(t)) await GM.say(null,t); else await GM.say(who,t); } };

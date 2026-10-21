@@ -108,7 +108,10 @@ const Y1FILL=(function(){
   S.tapeDue=function(G){ if(!law(G)||G.zone!=='dorm'||home(G)||typeof EVENTS==='undefined'||!EVENTS.check||typeof STORY_EVENTS==='undefined') return null;
     for(const id of ['ev_kai_tape','ev_kai_tape2']){ const ev=STORY_EVENTS.find(e=>e.id===id); if(!ev||(G.events&&G.events.done&&G.events.done[id])) continue; let ok=false; try{ ok=EVENTS.check(ev); }catch(e){ ok=false; } if(ok) return ev; }
     return null; };
-  let tapeT=0, busy=false;
+  let tapeT=0, busy=false, dormT=0;
+  /* ev_kai_tape2 等膠帶的模型載好才演（BB 10-21 21:4x：讀檔後第一次進 203，進門那一刻 dorm_y1_items.glb 還沒載到——鏡頭拿不到膠帶、地上照「還沒演」顯示「國界」，旁白卻說「法律系免簽」）：
+     進門那一刻的 enter 不演，交給下面 S.tick 的「進房間 2.5 秒」；模型一直載不到（沒有這個檔、載入失敗）待滿 12 秒就照原本的鏡頭演 */
+  S.tapeReady=function(){ const E=typeof GAME!=='undefined'&&GAME?GAME.E:null, sc=E&&E.scene; if(sc&&sc.getObjectByName&&sc.getObjectByName('Y1_KAI_TAPE_TEXT')) return true; if(typeof ASSETS==='undefined'||!ASSETS.manifest||!ASSETS.manifest['bldg.dorm_y1_items']) return true; return dormT>12; };
   /* ev_kai_tape2 開場的鏡頭（UX-KAI-TAPE-CAM-1021；BB_218、LAWWW2 6437fcf6：一般鏡頭看不清楚地上的「法律系免簽」）：走道那一條中間那段先換成寫字的版本
      （演完以後 zones3d.js 的 setY1Items 照 done 也是這一版，狀態不會跳回去），鏡頭從房間那一側往下看——字頭朝牆（+x，dorm_y1_items.py 的 n），站在 −x 那側讀起來是正的。模型還沒載到＝null（照原本的鏡頭）*/
   S.tapeShot=function(GM){ const sc=GM&&GM.E&&GM.E.scene; if(!sc||typeof THREE==='undefined'||!THREE.Box3) return null; const t=sc.getObjectByName('Y1_KAI_TAPE_TEXT'), m=sc.getObjectByName('Y1_KAI_TAPE_MID'); if(!t) return null;
@@ -116,6 +119,7 @@ const Y1FILL=(function(){
     const cam=GM.E.camera, half=Math.tan(((cam&&cam.fov)||46)*Math.PI/360), asp=(cam&&cam.aspect)||1.6, dist=Math.max(0.8,0.37/(half*asp));   /* 五個字 64 cm 要整段在畫面裡（左右各留一點）：橫向 0.8 m；手機直向畫面窄，退到 1.9 m 左右 */
     return {pos:c.clone().add(new THREE.Vector3(-0.546,0.837,0).multiplyScalar(dist).applyQuaternion(q)),look:c}; };
   S.tick=function(GM,dt){ const G=GM&&GM.G; if(!G||!G.flags||!law(G)) return false;
+    dormT=G.zone==='dorm'?dormT+Math.min(dt||0,1):0;
     try{ S.boxPlace(GM); }catch(e){ console.warn('Y1FILL 紙箱',e); }
     if(GM.E&&GM.E.zone&&GM.E.zone.setY1Items) GM.E.zone.setY1Items(G);   /* 紙箱、膠帶的模型（zones3d.js 的 loadY1Items，dorm_y1_items.glb）*/
     const free=!busy&&typeof EVENTS!=='undefined'&&!EVENTS.running&&!(GM.D&&GM.D.active)&&!(GM.E&&GM.E.player&&GM.E.player.busy);

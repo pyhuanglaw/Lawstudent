@@ -27112,7 +27112,7 @@
    },
    "source": "LAWWW2 16:56（BB_218 退回的膠帶字）；AA 16:10 旁白已改「麥克筆的大字」",
    "authorized": "演出鏡頭（不改台詞）",
-   "next": "【LAWWW（帳號 A）21:1x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
+   "next": "【LAWWW（帳號 A）21:5x】BB 21:4x：走廊進門、待在房間等到 18:00 PASS（字 376×24／342×22 px）；讀檔後第一次進門 FAIL（模型還沒載到）→ 修：ev_kai_tape2 條件加 Y1FILL.tapeReady（膠帶模型載到才演，交給「進房間 2.5 秒」；載不到待滿 12 秒照原本鏡頭）；kai_tape_cam 第 5 項；請 BB 重跑 C_L、C_P ｜ 【LAWWW（帳號 A）21:1x】ev_kai_tape2 開場：ev.shot＝Y1FILL.tapeShot（中間那段先換寫字版、鏡頭從房間那側往下看，橫向 0.8 m、直向退到約 1.9 m 讓五個字整段進畫面）、background freeze、portraitLater（阿凱說話才出立繪）；events3d.js 支援 ev.shot／portraitLater；tests/kai_tape_cam_unit.js（修改前 5 項 FAIL；字高橫向 23 px、直向 21 px）；BB 10/30 晚上回 203 看字讀不讀得到 ｜ GM.cine 或劇情鏡頭在旁白那一句貼近 Y1_KAI_TAPE_TEXT；不在三個優先項目裡，排 v9.10.3 後"
   },
   {
    "id": "AA367-PG-DATES-1021",
@@ -27898,7 +27898,7 @@
    "id": "BUG-INTERMS-PARTNER-1021",
    "title": "STORY.inTerms 不看 fromWeek／untilWeek／startEvent／endEvent：msg3d.js herPartner（手機聊天能不能進 L 檔）、social3d.js partnered（拿不拿掉 solo 旁白）把小語從開局就當成有伴侶、沛珊大二上第 7 週分手後還當成有伴侶",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "v1",
    "first": {
@@ -27913,7 +27913,7 @@
    },
    "source": "AA_373 子代理 2026-10-21 21:4x 順手發現（scratchpad aa373_interms.js 驗證）",
    "authorized": "bug 修正（D87）",
-   "next": "兩處改用 STORY.partnerOn＋單元測試（修改前 FAIL）；全部單元測試跑完再改"
+   "next": "【LAWWW（帳號 A）21:5x】msg3d.js herPartner、social3d.js partnered 改用 STORY.partnerOn（同 date3d／invites3d／termend3d）；tests/interms_partner_unit.js（修改前：小語、沛珊 161 天不一樣，沛珊分手後聊天到不了 L）｜ 兩處改用 STORY.partnerOn＋單元測試（修改前 FAIL）；全部單元測試跑完再改"
   },
   {
    "id": "AA376-Y3S1-FIX-1021",
@@ -27934,7 +27934,7 @@
    },
    "source": "AA（帳號 A）2026-10-21 21:43 交（企劃線 69aa3b0c；子代理盤點 89008abd）",
    "authorized": "D109、D110",
-   "next": "#2 LAWWW 先做（停用兩件 v7 舊課堂）；其他等大二子代理（aa374）或畢業後子代理（aapg）做完接著做"
+   "next": "【LAWWW（帳號 A）21:5x】#2 做了：ev_class_crimpro、ev_quiz_crimpro 加 retired（tests/crimpro_week1_unit.js 第 2、3 項改成也不演）；其他項等子代理 ｜ #2 LAWWW 先做（停用兩件 v7 舊課堂）；其他等大二子代理（aa374）或畢業後子代理（aapg）做完接著做"
   }
  ]
 }

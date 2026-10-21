@@ -61,7 +61,7 @@ const Y1FILL_EVENTS=(function(){
       consequences:{flags:{KAI_TAPE:true}} },
     { id:'ev_kai_tape2', title:'阿凱的國界', participants:['kai'], location:'dorm', trigger:'enter', once:true, background:'freeze', portraitLater:true,   /* 開場鏡頭貼近地上的膠帶、不模糊、不擺立繪，讀得到「法律系免簽」（UX-KAI-TAPE-CAM-1021）*/
       shot:GM=>typeof Y1FILL!=='undefined'&&Y1FILL.tapeShot?Y1FILL.tapeShot(GM):null,
-      prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)},
+      prereq:{custom:G=>roommate(G)&&tapeDone(G)&&tape2Win(G)&&(typeof Y1FILL==='undefined'||!Y1FILL.tapeReady||Y1FILL.tapeReady())},   /* 膠帶的模型載好才演（讀檔後第一次進門：交給 Y1FILL.tick，最多等 12 秒）*/
       dialogue:[ {speaker:null,text:'（膠帶上多了一行麥克筆的大字：「法律系免簽」。）'},
         {speaker:'kai',text:'（沒有回頭）期中考完了。國界放寬。'} ] },
     /* ---------- 1-2 運動會：11/21 10:00 田徑場（2D：校園一般背景＋字幕「田徑場」）---------- */
