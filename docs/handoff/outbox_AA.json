@@ -992,6 +992,51 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "可昕兩句表情照 BB 建議（KX-EXPR 補正）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "a7bd9741",
+   "files": [
+    "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排施工（三個優先項目之後）／BB 驗",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_367：畢業後篇六位女主角每月一格（102 句、共通規格第 0 節、盤點表第 8 節）；第 9 節請 LAWWW 改語彤 2030-10-01 那一句並改 tests/epilogue_unit.js"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "a7bd9741",
+   "files": [
+    "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 排施工（三個優先項目之後）／BB 驗",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_366 第二版：可昕畢業後 P1～P4 隔週、P5 每月；每格指定一句；和 AA354-KX-OURDAYS-1021 同一套"
+  },
+  {
+   "task": "SIS-SHUYU-1017",
+   "branch": "claude/story-planning",
+   "sha": "a7bd9741",
+   "files": [
+    "docs/story_planning/AA_365_學姊交往後叫書瑀_逐句核對.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "無（只影響之後新寫的台詞）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "AA_365 §2 更正：學姊朋友以上叫祐廷名字（口氣表 1-5）；程式不用改"
   }
  ],
  "items": [
