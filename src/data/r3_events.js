@@ -224,7 +224,7 @@ const R3_EVENTS=(function(){
       {label:'met'},L_('B 棟的。又見面了。'),L_('……那天那家亞洲超市，幾點關？我忘了問。'),ME_('九點。'),L_('你記得？'),ME_('書瑀說了三次。'),N_('（他笑，只笑一邊。）'),   /* 裁定 13、27 */
       {label:'end'} ] };
   /* 2a Legal Writing 下課（9/8 12:00）：都沒見過的先自我介紹 */
-  const LONG2A={ id:'ev_long_class', title:'第一次小考', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+  const LONG2A={ id:'ev_long_class', title:'Legal Writing 下課', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'法學院走廊',bg:'us_classroom'},
       Object.assign(L_('我叫何俊朗。叫我 Long 就好。'),{unless:LMET}),
       N_('（Legal Writing 下課。第一次小考的成績剛發回來。）'),
@@ -234,7 +234,7 @@ const R3_EVENTS=(function(){
       {label:'b'},N_('（他已經在查餐廳的地址了。）'),
       {label:'end'},N_('（你沒有說，其實你只是剛好及格。）'),...metLong ] };
   /* 2b 新開的餐廳（9/15 18:30）：LONG_HAIHAO（會所的招呼讀它，AA_291 3-1）*/
-  const LONG2B={ id:'ev_long_dinner', title:'還好', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  const LONG2B={ id:'ev_long_dinner', title:'新開的餐廳', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'新開的餐廳',bg:'us_restaurant'},
       N_('（新開的餐廳。他點了兩份今日特餐。）'),
       L_('這家怎樣？'),ME_('還好。'),
@@ -248,7 +248,7 @@ const R3_EVENTS=(function(){
       {label:'b'},L_('……那這頓應該你請。'),N_('（他把帳單推過來，又拉回去。）'),L_('算了。下次。'),
       {label:'end'},{mem:[{npc:'npc_long',tag:'LONG_HAIHAO',note:''}]} ] };
   /* 3 會所自習室（10/4 20:00）：兩個選項都會去聚餐；LONG_BBQ（id 照 AA_185，內容是聚餐）。回公寓的筆記（4）在 r3_3d.js 照時間演 ev_long_note */
-  const LONG3={ id:'ev_long_bbq', title:'誰都、誰也', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+  const LONG3={ id:'ev_long_bbq', title:'會所自習室', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
     dialogue:[ {scene:'會所・自習室',bg:'dark'},   /* 會所裡面不做 3D、2D 沒有（us3d.js:225）*/
       N_('（公布欄貼著一張單子：週五晚上，國際學生會的秋假前聚餐。）'),   /* 裁定 14 */
       L_('週五那個聚餐，你去嗎？'),ME_('我們那棟，誰都不想去。'),L_('誰都不想去……'),N_('（他在紙上寫下來。）'),
@@ -259,12 +259,12 @@ const R3_EVENTS=(function(){
       {label:'a'},L_('好。兩個人，就不是誰都，也不是誰也了。'),{goto:'end'},
       {label:'b'},L_('那我們就變成『誰都』裡面的人了。'),ME_('……去吧。'),
       {label:'end'},{mem:[{npc:'npc_long',tag:'LONG_BBQ',note:''}]} ] };
-  const LONG4={ id:'ev_long_note', title:'筆記本', participants:[], location:'us_apartment', trigger:'manual', once:true, background:'blur',
+  const LONG4={ id:'ev_long_note', title:'回公寓', participants:[], location:'us_apartment', trigger:'manual', once:true, background:'blur',
     dialogue:[ N_('（回到公寓，你在筆記本寫了一行：同一句話，在不同的地方，意思不一樣。條文也是。）'),{set:{LONG_NOTE:true}} ] };
   const LONG_PARTY={ id:'ev_long_party', title:'秋假前的聚餐', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ N_('（秋假前的聚餐。何俊朗拿著盤子，一桌一桌問人「誰都」和「誰也」哪裡不一樣。沒有人答得出來。）'),{set:{LONG_PARTY:true}} ] };
   /* 5 中餐館（10/25 19:00；前一晚說「明天不行」＝11/1）：LONG_MENU */
-  const LONG5={ id:'ev_long_menu', title:'西蘭花', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  const LONG5={ id:'ev_long_menu', title:'中餐館', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
     dialogue:[ {scene:'中餐館',bg:'us_restaurant'},
       N_('（菜單上的字，兩個人都認得。）'),
       L_('我要這個，西蘭花牛肉。'),ME_('這是花椰菜。'),L_('西蘭花。'),ME_('……綠色的那種花椰菜。'),
