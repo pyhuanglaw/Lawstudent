@@ -90,7 +90,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2026-07-27'),7,'dorm',{dating_heroine_01:true,VAC_C09_INT:true}); G.stage='law'; meet('heroine_01'); meet('heroine_03'); R('heroine_03',25,0,0); VAC.signup(G,'C09@Y1','yes');
     said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C09@Y1')); PHONE.tick(G);
     const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01');
-    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則、回來那天「明天見。……」',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊幾點？我算了一下，你吃飯了沒？')&&A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));
+    check('10. 柬埔寨＋和以安交往：出發那天「到了傳一張照片。一張就好。」、輪播池、中間那則；回來那天（8/5）她在台中＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北；重逢走 AA_350 S5 那兩則）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&A1.some(m=>m.text==='你那邊現在幾點？……吃飯了沒？')&&!A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));   /* AA_369 第 7 節第 6 題：中間那則整句換 */
     const pool=A1.filter(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')[0]; check('10. 柬埔寨只有晚上有訊號：她 21:30 傳的，22:00 才收到；兩個回覆「好。」「我也想妳。」',!!pool&&Math.abs(pool.h-22)<0.01&&JSON.stringify(pool.ask.opts.map(o=>o.t))===JSON.stringify(['好。','我也想妳。']),JSON.stringify(pool));
     const dk=A1.find(m=>m.text==='今天沒有回。……你那邊還好嗎？'); check('10. 停電那晚（8/2）她「今天沒有回。……」隔天 8/3 早上 8:00 才收到；回「昨天停電，整晚沒電。」→「好。……下次停電，也先跟我說。」',!!dk&&dk.day===D('2026-08-03')&&dk.h===8&&dk.ask.opts[0].t==='昨天停電，整晚沒電。'&&dk.ask.opts[0].say[0].text==='好。……下次停電，也先跟我說。',JSON.stringify(dk));
     check('10. 7/30 VA-11「我媽在後面」人在柬埔寨不傳；停電那晚其他訊息也是隔天早上才到（8/2 沒有收到任何一則）',!A1.some(m=>m.text.includes('我媽在後面'))&&!(G.msgs||[]).some(m=>m.day===D('2026-08-02')&&m.h>=21));
@@ -98,7 +98,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(D('2027-06-21'),7,'dorm',{dating_kexin:true,dating_classmate_peishan:true}); G.stage='law'; VAC.signup(G,'C10@Y2','yes'); said=[]; picks=[0,0]; await VAC.outing(GM,OUT.get(G,'vac_C10@Y2')); PHONE.tick(G); const L=lines();
     check('10. 加州＋可昕：第一個週日 10:00 視訊三句（「你那邊亮亮的。」…「下禮拜同一個時間。」）',L.includes('杜可昕：你那邊亮亮的。')&&L.includes('杜可昕：好，我要去睡了。下禮拜同一個時間。'),JSON.stringify(L.filter(t=>t.startsWith('杜可昕'))));
     const K=(G.msgs||[]).filter(m=>m.th==='p:kexin').map(m=>m.text); check('10. 加州第 3 週可昕「我算了一下 還有二十一天」「不是在算 是剛好看到」（一次）',K.filter(t=>t==='我算了一下 還有二十一天').length===1&&K.includes('不是在算 是剛好看到'));
-    check('10. 加州六週：池子用完第二圈只用前半（第 9 天起只會出現前四則）',K.filter(t=>t==='晚安 我先睡').length===1&&K.filter(t=>t==='我算了一下 你那邊現在幾點').length>=3,JSON.stringify([K.filter(t=>t==='晚安 我先睡').length,K.filter(t=>t==='我算了一下 你那邊現在幾點').length]));   /* AA_369 L3 改字 */
+    check('10. 加州六週：池子用完第二圈只用前半（第 9 天起只會出現前四則）',K.filter(t=>t==='晚安 我先睡').length===1&&K.filter(t=>t==='你那邊現在幾點').length>=3,JSON.stringify([K.filter(t=>t==='晚安 我先睡').length,K.filter(t=>t==='你那邊現在幾點').length]));   /* AA_369 L3 改字；第 7 節第 6 題整句換「你那邊現在幾點」*/
     check('10. 沛珊重考消失期（2027-06）：出國的訊息池不傳；交往中只有她每晚那一則（AA_276 第 4 節，使用者 23:5x 取代原本的「交往中也不傳」）',(G.msgs||[]).filter(m=>m.th==='p:classmate_peishan').every(m=>STORY.PS_KEEP_NIGHT.includes(m.text)),JSON.stringify((G.msgs||[]).filter(m=>m.th==='p:classmate_peishan').map(m=>m.text).slice(0,4))); }
   { fresh(D('2026-07-13'),8,'dorm',{dating_heroine_05:true}); G.stage='law'; VAC.signup(G,'C08@Y1','yes'); said=[]; picks=[0,0,0,0]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); PHONE.tick(G);
     const S5=(G.msgs||[]).filter(m=>m.th==='p:heroine_05'&&m.ask); check('10. 學姊兩天一則（首爾 12 天：池子 4～5 則）',S5.length>=4&&S5.length<=5,String(S5.length));
@@ -115,7 +115,7 @@ GM.money=function(n){ G.money+=n; };
   // 11. 重逢（AA_242 8-6 79adc9f2）、子晴第二則、C10 成績、Priya
   { fresh(D('2026-07-24'),17.9,'dorm',{dating_heroine_01:true,dating_heroine_02:true}); G.stage='law'; meet('heroine_01'); meet('heroine_02'); VAC.rec(G).reg['C08@Y1']='done'; run(17.9,21.2);
     const A=txt('p:heroine_01'), Z=txt('p:heroine_02'), q0=OUT.get(G,'vac_C08@Y1_re_heroine_01');
-    check('11. AA_369 M3：以安 7/25 起回台中（重逢那天人在老家）＝不約總圖、不排重逢（reunionHome 沒有她的句子＝不傳）',!A.includes('heroine_01:明天下午三點，總圖門口。')&&!q0,JSON.stringify([A,q0]));
+    check('11. AA_369 M3：以安 7/25 起回台中（重逢那天人在老家）＝不約總圖、不排重逢（7/24 當天不傳；第 7 節第 2 題那句 7/25 她回台中那天才傳，見 tests/aa369_hol_unit.js）',!A.includes('heroine_01:明天下午三點，總圖門口。')&&!q0,JSON.stringify([A,q0]));
     check('11. 芷若大一暑假在台中：回國當天「回來了？……我 26 號回臺北。」，還沒約',Z.includes('heroine_02:回來了？……我 26 號回臺北。')&&!OUT.get(G,'vac_C08@Y1_re_heroine_02'),JSON.stringify(Z));
     G.day=D('2026-08-25'); run(20.9,21.2); const q2=OUT.get(G,'vac_C08@Y1_re_heroine_02'); check('11. 芷若 8/25 21:00「明天我九點下班。」→ 8/26 21:00 Café 重逢',txt('p:heroine_02').includes('heroine_02:明天我九點下班。')&&!!q2&&q2.day===D('2026-08-26')&&q2.h===21);
     VAC.missed(GM,q2); G.day=D('2026-08-27'); run(11.9,12.2); check('11. 重逢沒到：隔天 12:00 芷若「昨天的那杯，我自己喝了。」',txt('p:heroine_02').includes('heroine_02:昨天的那杯，我自己喝了。'));

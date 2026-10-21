@@ -173,6 +173,13 @@ const MSG=(function(){
     if(v==='大二下在家重考') return yearNow(G)===2&&semNow(G)==='S2';
     if(v==='芷若在英國') return S.inUK(G,'heroine_02')&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','FIRST_MET')&&!S.rec(G).once[id+':zr_uk:'+S.zrUkKey(G)];   /* 子晴（BB_178 第 2 節）：祐廷認識芷若；一段期間只播一次 */
     return false; };
+  /* 旅行、出國的日子（AA_369 第 7 節第 5 題，AA 2026-10-21 19:5x；句子照原文）：H5 讓放假那幾版退回一般版，一般版裡有「在總圖。」——旅行、出國的日子改回
+     「在」＋presence 的地名（「在京都。」「在日本。」「在東京。」「在曼谷。」）＋每人一句。旅行、出國＝presence 不在、kind 是 trip（有訊號；方奕廷上山沒訊號不算）、abroad、absent；
+     地名＝away 去掉開頭的「在」。只有 AA 列的這六位；有自己版本的照原本的（芷若在英國＝mode uk、學姊「在美國」、日本路線的以安＝jp3d.js G9）；沒列到的人照舊（一般版）*/
+  const TRAVEL_LINE={heroine_01:'……晚一點回你。',heroine_02:'……晚點傳照片給你啦。',kai:'……這邊網路很慢。',npc_fangyt:'……回去再說。',heroine_04:'……不要問我在幹嘛，在玩。',classmate_mingxuan:'……時差。我等一下回。'};
+  S.travelPlace=function(G,id){ const pr=presence(G,id); if(!pr||pr.here!==false||!((pr.kind==='trip'&&pr.signal)||pr.kind==='abroad'||pr.kind==='absent')) return null;
+    const nm=String(pr.away||'').replace(/^在/,'').trim(); return nm&&!/[（(]/.test(nm)?nm:null; };
+  S.travelEntry=function(G,id){ const L=TRAVEL_LINE[id], nm=L&&!S.inUK(G,id)?S.travelPlace(G,id):null; return nm?{topic:'chat',tier:'A',tierMin:true,variant:'旅行、出國',travel:true,msgs:['在'+nm+'。',L],tags:[],ask:null,src:'AA_369 第 7 節第 5 題'}:null; };
   const RANK={A:0,R:1,L:2};
   const tierFits=(e,tr)=>e.tier===tr||(!!e.tierMin&&RANK[e.tier]<=RANK[tr]);
   const versionOk=(e,mode)=>{ const v=e.version||(e.variant==='事務版'||e.variant==='閒聊版'?e.variant:null); if(!v) return true; if(/都/.test(v)) return true; return mode==='business'?v==='事務版':v==='閒聊版'; };
@@ -181,6 +188,7 @@ const MSG=(function(){
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
     if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
+    if(topic==='chat'){ const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
       const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
@@ -323,7 +331,7 @@ const MSG=(function(){
     if(t2&&e&&(e.tags||[]).some(g=>/初三 15:00 以後才回/.test(g))){ const c3=chuSan(G); if(c3!=null&&(at.day<c3||(at.day===c3&&at.h<15))) Object.assign(at,{day:c3,h:15+seedMin(G,id,0,30)/60,late:false,after:true,immediate:false}); }   /* 方奕廷過年在山上（AA_257 §8）*/
     if(topic==='course'&&e&&e.msgs.some(t=>/^（照片/.test(t))) R.help[id]={k:'notes',day:at.day};   /* 問課附筆記照片（BB_178 10-3 的「通則」）→ 7 天內有「謝謝」*/
     const items=[]; const nm=id==='kevin'?'Kevin':undefined;
-    const pre=topic==='night'?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));
+    const pre=topic==='night'||(e&&e.travel)?null:S.prefix(G,id,topic,Object.assign({late:at.late},ctx));   /* 旅行、出國那一版（AA_369 第 7 節第 5 題）不接開頭句：明軒在德國不說「剛家教完」 */
     if(pre) for(const t of pre.msgs) items.push({th,from:id,name:nm,text:t});
     else if(at.late&&!(e&&e.noWake)){ const wl=at.ukWake?['我剛起床。']:S.timing(id).wakeLine; if(wl&&wl.length) for(const t of wl) items.push({th,from:id,name:nm,text:t}); }   /* 芷若在英國：她那邊半夜傳的，起床先回「我剛起床。」（BB_178 1-E）*/
     if(e&&!(at.late&&topic==='night')){ const L=e.msgs.concat(S.addMsgs(G,id,e)); const ask=S.askOpts(G,id,e,nm,ctx);
