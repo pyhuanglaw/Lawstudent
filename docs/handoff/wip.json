@@ -543,11 +543,12 @@
     "src/home3d.js",
     "tests/y5_delay_unit.js"
    ],
-   "state": "WIP",
-   "remaining": "AA_357：1-4 資料頁 200 天懸崖、1-5 退宿後出門已 commit；1-6 國考報名 WIP；Y5S1 學期、9/3 後果、停點、presence、新場景、日期卡（含 AA 2f1aaa22 cardLine 出最後一句）還沒做",
+   "state": "已整合",
+   "remaining": "（已整合）AA_357 合併 dd578e81；BB 驗收 BB-TEST-Y5-1021",
    "next": "子代理做完由 LAWWW-C 合併；工作階段斷了：從 wip_backup/wip_subagents_1021_1415.bundle 還原分支（README 有指令）接著做",
    "noDirectIntegrate": true,
-   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）"
+   "source": "使用者 10-21 14:1x 先存檔（SAVE-CHECK-1021）",
+   "closedBy": "dd578e81"
   },
   {
    "id": "WIP-LAWWW-AAFIX-1021",

@@ -25910,8 +25910,8 @@
   {
    "id": "Y5-DELAY-1021",
    "title": "交換延畢的大五：Y5S1（2029-09-03～12-23）逐週內容與 2030 國考前（AA_357 盤點＋補空白，LAWWW 實作）",
-   "owner": "AA",
-   "status": "進行中",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "使用者 10-21 下午對 AA-C（UA-AA-1021-37）；USER_WANTS X92",
    "first": {
@@ -25931,7 +25931,7 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 13:4x UTC】AA_357 交了（企劃 d07eb988）：派子代理照第 1～4、6 節做，先做影響畢業後篇所有玩家的三項（1-4 資料頁 2029-12-20 起變回大一的 200 天懸崖、1-5 退宿後家裡選單還有「回宿舍」、1-6 延畢的人 2029 被自動報名國考／2030 沒問就算報名），再做 Y5S1 學期、9/3 選擇的後果、跳日期停點、presence 七處矛盾、四個新場景、日期卡句子 ｜ 【LAWWW-C 2026-10-21 13:1x UTC】等 AA_357 交規格；交了 LAWWW 派子代理實作（延畢路線：日本、美國交換回來）"
+   "next": "【LAWWW-C 2026-10-21 14:5x UTC】AA_357 第 1～4、6 節實作合併 dd578e81（子代理 ca9116ce，10 個 commit；tests/y5_delay_unit.js 37 項，改之前 37 項全部 FAIL；五支舊測試照新規則改）；衝突兩處（characters.js 阿凱 presence、presence_unit 對照字串）兩邊都留。BB 驗收 BB-TEST-Y5-1021（bb_checklists/BB_Y5_1021.md 八項）；問 AA 的在 AA_QUESTIONS_1021 T 節（AA-Q-1021-Y5）。負責人改 LAWWW（企劃 AA_357 已交）｜ 【LAWWW-C 2026-10-21 13:4x UTC】AA_357 交了（企劃 d07eb988）：派子代理照第 1～4、6 節做，先做影響畢業後篇所有玩家的三項（1-4 資料頁 2029-12-20 起變回大一的 200 天懸崖、1-5 退宿後家裡選單還有「回宿舍」、1-6 延畢的人 2029 被自動報名國考／2030 沒問就算報名），再做 Y5S1 學期、9/3 選擇的後果、跳日期停點、presence 七處矛盾、四個新場景、日期卡句子 ｜ 【LAWWW-C 2026-10-21 13:1x UTC】等 AA_357 交規格；交了 LAWWW 派子代理實作（延畢路線：日本、美國交換回來）"
   },
   {
    "id": "EVPKG-AA227-228-KNOW",
@@ -26420,6 +26420,60 @@
     "ack": "未派"
    },
    "next": "【LAWWW-C 2026-10-21 14:3x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照括號裡的暫定做法"
+  },
+  {
+   "id": "BB-TEST-Y5-1021",
+   "title": "瀏覽器驗收 AA_357 大五上（退宿後的家、資料頁年級、美國補修、大五上跳日期、2029 中秋、可昕第五年、2030 報名、女朋友期末約會）",
+   "area": "v5",
+   "owner": "BB",
+   "status": "待開工",
+   "priority": "P3",
+   "source": "AA_357 子代理回報（ca9116ce，合併 dd578e81）",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後（2029-06 起）、交換延畢的大五上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/handoff/bb_checklists/BB_Y5_1021.md 八項",
+    "branch": "claude/adoring-meitner-mqzst8",
+    "acceptance": "BB_300 格式回報，load_state 標【前置／捷徑】",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:5x UTC】BB-C 已交班；下一班 BB 在 v9.10.3 驗收、三個優先項目以後排"
+  },
+  {
+   "id": "AA-Q-1021-Y5",
+   "title": "AA_357 實作時遇到的（卡片第一頁、中秋照片誰傳、一跳只出最後一句的兩段、2-1 表空白、舊存檔報名規則、子代理自己定的作息日期、沒處理的三件、介面字）",
+   "area": "v5",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "source": "AA_357 子代理回報（ca9116ce）",
+   "first": {
+    "term": "Y4S2",
+    "week": 16,
+    "earliest": "畢業以後（2029-06 起）、交換延畢的大五上",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "xai": {
+    "spec": "docs/handoff/AA_QUESTIONS_1021.md T 節",
+    "branch": "claude/magical-albattani-bk7b4n",
+    "acceptance": "AA 逐題回給 commit",
+    "receiver": "LAWWW",
+    "ack": "未派"
+   },
+   "next": "【LAWWW-C 2026-10-21 14:5x UTC】AA-C 已交班，不傳訊息；下一個 AA 接班後回。在那之前照子代理的暫定做法"
   }
  ]
 }
