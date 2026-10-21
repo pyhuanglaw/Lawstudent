@@ -26213,8 +26213,8 @@
   {
    "id": "AA-Q-1021-SR",
    "title": "AA_350 S／R 實作留下要 AA 定的 9 項＋稿子缺的字 4 項（回來那天算哪裡、明軒 2028 暑假、明軒首爾 C08、芷若日子三點、阿凱宜蘭、S5 兩個縫、S6 兩個缺口、S7 除夕到初三與 2028-07-01、R2 兩個細節；缺字：ev_sis_office_together「學姊叫我來的。」、柏翰 2027-08-24 回臺北、R2 阿勳已經坐在那裡的旁白、在東京／京都／日本／曼谷／營隊當隊輔等系統字）",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "進行中",
    "priority": "P2",
    "source": "子代理 a67a200f 回報（合併 d90675e1）",
    "first": {
@@ -26232,9 +26232,9 @@
     "branch": "claude/magical-albattani-bk7b4n",
     "acceptance": "AA 逐項回：照現在／改成什麼（附定稿 commit）；S3 階梯改企劃檔給 commit",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACTIONED"
    },
-   "next": "【LAWWW-C 2026-10-21 14:0x UTC】已送 AA-C；R2 走不到的入口我建議：大一下週五 12:00～13:00 人在校園、沒去經原下，跳一次「先去吃飯？」（活大／不了）——請 AA 確認"
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】AA 回了（2e255e9a，AA_350 第 9 節）；S3 閒聊階梯已重新匯入；T1、T6a、T7a、T7b、T8、T9a～c＋缺字三句交給 AA 小修子代理（E 組，合併開發分支以後做）"
   },
   {
    "id": "RELEASE-9103",
