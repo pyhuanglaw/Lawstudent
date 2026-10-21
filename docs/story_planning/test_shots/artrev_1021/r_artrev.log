@@ -1,0 +1,35 @@
+  [前置／捷徑] 讀 9/25 存檔
+  [前置／捷徑] [捷徑] gym 13.0
+   gym 13 {"n": "gym_glows", "vis": true, "k": 0, "cnt": 200}
+PASS gym 13.0 有光暈網格  {"n": "gym_glows", "vis": true, "k": 0, "cnt": 200}
+PASS gym 13.0 白天／晚上亮度切換  0
+  [前置／捷徑] [捷徑] gym 20.5
+   gym 20.5 {"n": "gym_glows", "vis": true, "k": 1, "cnt": 200}
+PASS gym 20.5 有光暈網格  {"n": "gym_glows", "vis": true, "k": 1, "cnt": 200}
+PASS gym 20.5 白天／晚上亮度切換  1
+  [前置／捷徑] [捷徑] gym_b1 13.0
+   gym_b1 13 {"n": "gym_b1_glows", "vis": true, "k": 0, "cnt": 180}
+PASS gym_b1 13.0 有光暈網格  {"n": "gym_b1_glows", "vis": true, "k": 0, "cnt": 180}
+PASS gym_b1 13.0 白天／晚上亮度切換  0
+  [前置／捷徑] [捷徑] gym_b1 20.5
+   gym_b1 20.5 {"n": "gym_b1_glows", "vis": true, "k": 1, "cnt": 180}
+PASS gym_b1 20.5 有光暈網格  {"n": "gym_b1_glows", "vis": true, "k": 1, "cnt": 180}
+PASS gym_b1 20.5 白天／晚上亮度切換  1
+  [前置／捷徑] [捷徑] dorm closed
+   dorm closed ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:false', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
+PASS 203 closed 顯示對  ["Y1_BOX_FOLDED:false", "Y1_box_folded:true", "Y1_BOX_WINTER:true", "Y1_box_winter:true", "Y1_KAI_TAPE:false", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:false", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:false", "Y1_KAI_TAPE_TEXT_m:true"]
+   紙箱互動點 None
+  [前置／捷徑] [捷徑] dorm tape_text
+   dorm tape_text ['Y1_BOX_FOLDED:false', 'Y1_box_folded:true', 'Y1_BOX_WINTER:true', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:false', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:true', 'Y1_KAI_TAPE_TEXT_m:true']
+PASS 203 tape_text 顯示對  ["Y1_BOX_FOLDED:false", "Y1_box_folded:true", "Y1_BOX_WINTER:true", "Y1_box_winter:true", "Y1_KAI_TAPE:true", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:false", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:true", "Y1_KAI_TAPE_TEXT_m:true"]
+   紙箱互動點 None
+  [前置／捷徑] [捷徑] dorm folded_tape
+   dorm folded_tape ['Y1_BOX_FOLDED:true', 'Y1_box_folded:true', 'Y1_BOX_WINTER:false', 'Y1_box_winter:true', 'Y1_KAI_TAPE:true', 'Y1_kai_tape:true', 'Y1_KAI_TAPE_MID:true', 'Y1_KAI_TAPE_MID_m:true', 'Y1_KAI_TAPE_TEXT:false', 'Y1_KAI_TAPE_TEXT_m:true']
+PASS 203 folded_tape 顯示對  ["Y1_BOX_FOLDED:true", "Y1_box_folded:true", "Y1_BOX_WINTER:false", "Y1_box_winter:true", "Y1_KAI_TAPE:true", "Y1_kai_tape:true", "Y1_KAI_TAPE_MID:true", "Y1_KAI_TAPE_MID_m:true", "Y1_KAI_TAPE_TEXT:false", "Y1_KAI_TAPE_TEXT_m:true"]
+   紙箱互動點 None
+  [前置／捷徑] [捷徑] us_shared 17.75（旗標 US_DEPARTED、US_ARRIVED；日期仍是 9/25 存檔那天）
+   us_shared 17.75 us_shared
+  [前置／捷徑] [捷徑] us_shared 19.00（旗標 US_DEPARTED、US_ARRIVED；日期仍是 9/25 存檔那天）
+   us_shared 19.0 us_shared
+PASS 沒有 JS 例外  []
+ALL PASS
