@@ -228,7 +228,7 @@ const US3=(function(){
   /* 公車站（從社區搭公車來）→ 法學院前的人行道 → 台階下「進教室」「進圖書館」；校門「往活動中心」這一版關著。
      老校區、樹林、對面的房子都是背景（走不到，配置的 blocks 擋住）。正式模型 bldg.us_campus（tools/blender/env_second/us_campus.py，配置同一份；四季照 usSeason）。
      進教室：usClass＝交換系統接（美國的課是 2D 課堂，下課回到 spawn_class_out）；沒有接的時候只說一句 */
-  const LOOK_CAMPUS={class:'教室在台階上去的走廊裡。',gate:'往活動中心的路。這一版還沒開放。'};
+  const LOOK_CAMPUS={class:'法學院的台階。上去的走廊兩邊都是教室，門上貼著課號和上課時間。',gate:'往學生活動中心的路，兩旁是一排老橡樹。（這一版還沒開放。）'};
   const us_campus=outdoorZone({ id:'us_campus', name:'校園（美國）', size:[180,86], glb:'bldg.us_campus', layout:()=>US_CAMPUS_LAYOUT, spawn:L=>L.spawn_bus,
     interact(E,L,IT){ for(const q of L.interact){ const it={x:q.x,z:q.z,radius:q.r,lv:0,label:q.label};
         if(q.id==='bus') it.exit={to:'us_outside',spawn:Object.assign({},US_LINK)};                                         /* 回社區的入口（和登機抵達、從超市回來同一個點）*/
@@ -240,7 +240,7 @@ const US3=(function(){
   // =================== 法學院圖書館 us_lawlib（SCN-US-LIB；US-CAMPUS-WIRE-1018）===================
   /* 一樓：大門、服務台、中庭長桌（坐下可以讀書）、窗前短桌、圓桌、軟椅；樓上書庫這一版關著（樓梯口紅絨繩）。
      正式模型 bldg.us_lawlib（tools/blender/env_second/us_lawlib.py，配置同一份）。一樓走廊的天花板（樓板底）4.2 m：鏡頭在這下面（camDist 5）；四面牆各自淡出（WALL_<面>_*）*/
-  const LOOK_LIB={desk:'服務台。',stair_rope:'樓梯口拉著紅絨繩，上不去。',window:'彩色玻璃窗。',stacks:'書架。',catalog:'查詢電腦。'};
+  const LOOK_LIB={desk:'服務台。館員在蓋還書章，旁邊一盒鉛筆，寫著可以自己拿。',stair_rope:'樓梯口拉著紅絨繩，掛著一張牌子：樓上書庫整理中，暫停開放。',window:'彩色玻璃窗，拼的是一架天平和幾本書。有幾片玻璃的顏色比較淡。',stacks:'書架。一整排深紅色書背的判例彙編，編號一路排到最裡面。',catalog:'查詢電腦。螢幕還停在前一個人查的那一頁：一本英國的契約法。'};
   const us_lawlib={ id:'us_lawlib', name:'法學院圖書館（美國）', indoor:true, camDist:US_LAWLIB_LAYOUT.cam_dist||5.0, build(E){ const L=US_LAWLIB_LAYOUT, Bd=L.bounds, H=4.2;
     const W=Math.max(-Bd.x0,Bd.x1)*2+3, D=Math.max(-Bd.z0,Bd.z1)*2+3;   /* 鏡頭可以退到牆外 1.5 m（牆淡出），不會卡在牆面上 */
     const z=Z3.room(E,{w:W,d:D,h:H,windows:false,warm:true,wallColor:'#e9e3d4',floorTex:W3.stoneTex('#5f7f93'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
@@ -319,7 +319,7 @@ const US3=(function(){
   // =================== 桃園機場第二航廈 airport_dep／airport_arr ===================
   const AP=()=>AIRPORT_T2_LAYOUT;
   const TAIPEI={to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0}};   /* 搭車離開機場 → 回到台北（公館，校門口那一側；和校園「走出校門」的落點一樣）*/
-  const LOOK_AP={checkin:'報到櫃台。',info:'服務台。',fids:'航班看板。',mart:'便利商店。',cafe:'咖啡店。',fx:'外幣兌換。',info_arr:'旅客服務台。',cafe_arr:'咖啡店。',fids_arr:'抵達看板。'};
+  const LOOK_AP={checkin:'報到櫃台。排隊的人推著兩三個行李箱。',info:'服務台。可以問航班、借推車。',fids:'航班看板。東京、舊金山、香港……一排一排往上跳。',mart:'便利商店。賣的東西和外面一樣，貴一點。',cafe:'咖啡店。坐滿了在等登機的人。',fx:'外幣兌換。看板上是今天的匯率。',info_arr:'旅客服務台。可以問怎麼搭車進市區。',cafe_arr:'咖啡店。有人拖著行李，在等接機的人。',fids_arr:'抵達看板。剛落地的班次一個一個變成「已抵達」。'};
   function apZone(key){ const isDep=key==='dep';
     return { id:'airport_'+key, name:isDep?'桃園機場 第二航廈 出境大廳':'桃園機場 第二航廈 入境大廳', indoor:true, camDist:isDep?6.0:5.2, build(E){ const L=AP()[key], Bd=L.bounds, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6);
       const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;   /* room() 以原點為中心：框要蓋住整個範圍（出境的下車處到 z 30）；室內鏡頭照 bounds 夾住 */
@@ -358,7 +358,7 @@ const US3=(function(){
         else IT.push({x:F.x,z:F.z,radius:F.r,lv:0,label:'出境（前往美國）',usLink:true,exit:{to:'us_outside',spawn:Object.assign({},US_LINK)}});
         IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:'搭車離開（回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})}); }
       else { const X=L.exit; IT.push({x:X.x,z:X.z-0.4,radius:X.r,lv:0,label:'出口（搭車回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})});
-        IT.push({x:L.meet.x,z:L.meet.z,radius:L.meet.r,lv:0,label:L.meet.label,look:lookText('接機處。')}); }
+        IT.push({x:L.meet.x,z:L.meet.z,radius:L.meet.r,lv:0,label:L.meet.label,look:lookText('接機處。欄杆外面有人舉著寫了名字的紙板。')}); }
       // 正式模型
       z.formal=false; const KEY='bldg.airport_'+key; if(has(KEY)) ASSETS.loadOne(KEY).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
