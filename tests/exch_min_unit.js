@@ -48,6 +48,15 @@ const at=(k,h,zone,flags)=>{ fresh(D(k),h,zone,Object.assign({fundsV2:1,ROOM_Y2:
   check('2. 家裡的快轉：停在出發那天早上（8/2 06:00 以前一定會停）',nx!=null&&nx<=T(D('2028-08-02'),6),JSON.stringify({nx,dep:T(D('2028-08-02'),6)}));
   at('2028-08-02',8,'campus',{EXCHANGE_ROUTE:'US'}); const H=HOME.rec(G); H.at=true; H.day=G.day; await HOME.loop(GM);
   check('2. 人在家（家裡選單）：也會出發',entered.includes('airport_dep')&&!HOME.at(G),JSON.stringify(entered));
+  // 2b. AA_370 H2：出發以後一定飛美國（原本出境大廳有「搭車離開（回台北）」，搭了就永遠不會 US_ARRIVED）
+  check('2b. 出發進出境大廳：記下進來的時間 US_AIRPORT_AT',G.flags.US_AIRPORT_AT!=null,String(G.flags.US_AIRPORT_AT));
+  { at('2028-08-02',13,'airport_dep',{EXCHANGE_ROUTE:'US',US_DEPARTED:true,US_AIRPORT_AT:T(D('2028-08-02'),13)}); G.hour=13.5; EXCH.tick(GM); await new Promise(res=>setTimeout(res,20)); const a=!!G.flags.US_ARRIVED;
+    G.hour=14; EXCH.tick(GM); await new Promise(res=>setTimeout(res,20));
+    check('2b. 出境大廳待著：13:30 還沒登機，14:00（進來一小時）自動登機、抵達美國',!a&&G.flags.US_ARRIVED===true&&G.zone==='us_outside',JSON.stringify({a,arr:G.flags.US_ARRIVED,z:G.zone})); }
+  { at('2028-08-03',10,'gongguan',{EXCHANGE_ROUTE:'US',US_DEPARTED:true}); EXCH.tick(GM); await new Promise(res=>setTimeout(res,20));
+    check('2b. 舊存檔：出發以後搭車回了臺北（人在公館、沒抵達）→ 直接登機飛美國',G.flags.US_ARRIVED===true&&G.zone==='us_outside',JSON.stringify({arr:G.flags.US_ARRIVED,z:G.zone,entered})); }
+  { const src=fs.readFileSync(path.join(ROOT,'src/us3d.js'),'utf8'); check('2b. us3d.js：交換出發中（US_DEPARTED、沒 US_ARRIVED）出境大廳不放「搭車離開（回台北）」',/if\(!\(typeof EXCH!=='undefined'&&fl\.US_DEPARTED&&!fl\.US_ARRIVED\)\) IT\.push\(\{x:X\.x,z:X\.z,radius:X\.r,lv:0,label:'搭車離開（回台北）'/.test(src)); }
+  at('2028-08-02',13,'airport_dep',{EXCHANGE_ROUTE:'US',US_DEPARTED:true});
   // 3
   G.hour=13; await EXCH.fly(GM);
   check('3. 登機：同一天 17:00 抵達、進公寓社區、US_ARRIVED',G.flags.US_ARRIVED===true&&G.zone==='us_outside'&&Math.abs(G.hour-17)<1e-6&&G.day===D('2028-08-02'),JSON.stringify({z:G.zone,h:G.hour}));

@@ -381,7 +381,7 @@ const US3=(function(){
         if(typeof EXCH!=='undefined'&&fl.US_DEPARTED&&!fl.US_ARRIVED) IT.push({x:F.x,z:F.z,radius:F.r,lv:0,label:'登機：飛往美國',exchFly:true});
         else if(typeof EXCH!=='undefined') IT.push({x:F.x,z:F.z,radius:F.r,lv:0,label:'登機',airportBoard:true,look:'今天沒有要搭的飛機。'});
         else IT.push({x:F.x,z:F.z,radius:F.r,lv:0,label:'出境（前往美國）',usLink:true,exit:{to:'us_outside',spawn:Object.assign({},US_LINK)}});
-        IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:'搭車離開（回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})}); }
+        if(!(typeof EXCH!=='undefined'&&fl.US_DEPARTED&&!fl.US_ARRIVED)) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:'搭車離開（回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})}); }   /* AA_370 H2：交換出發那天進了出境大廳就不能搭車回去，只剩登機（時間到自動登機，exchange3d.js S.tick）*/
       else { const X=L.exit; IT.push({x:X.x,z:X.z-0.4,radius:X.r,lv:0,label:'出口（搭車回台北）',exit:Object.assign({},TAIPEI,{spawn:Object.assign({},TAIPEI.spawn)})});
         IT.push({x:L.meet.x,z:L.meet.z,radius:L.meet.r,lv:0,label:L.meet.label,look:lookText('接機處。欄杆外面有人舉著寫了名字的紙板。')}); }
       // 正式模型
