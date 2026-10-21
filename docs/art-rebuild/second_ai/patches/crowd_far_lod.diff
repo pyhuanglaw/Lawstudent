@@ -34,27 +34,34 @@ index e38c92cc..3fdd3364 100644
    A.releaseVRM=function(key,vrm){ const c=A.cache[key]; if(!c) return; if(c.tpl.vrm===vrm){ c.tpl.inUse=false; } else { const had=c.clones.some(e=>e.vrm===vrm); c.clones=c.clones.filter(e=>e.vrm!==vrm); if(had) disposeClone(vrm); } if(vrm.scene.parent) vrm.scene.parent.remove(vrm.scene); };
    A.vrmFree=function(key){ const c=A.cache[key]; return c&&c.tpl?99:0; };
 diff --git a/src/character3d.js b/src/character3d.js
-index fc26e72c..492f77ac 100644
+index fc26e72c..bc1e1f77 100644
 --- a/src/character3d.js
 +++ b/src/character3d.js
-@@ -93,6 +93,26 @@ const CHAR = (function(){
+@@ -93,6 +93,33 @@ const CHAR = (function(){
    function collectRim(model){ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||C.rimMats.has(mt)) continue; if(/FACE|EYE|Face|Eye|MOUTH|BROW|Outline/.test(mt.name||'')) continue; const rw=/HAIR/i.test(mt.name||'')?1:(/Tops/.test(mt.name||'')?0.45:0); if(!rw) continue;   /* 頭髮全強度、上衣一半；褲子、鞋子、皮膚不加（深色褲子加了會變成偏棕的塑膠光澤）*/ /* 原始值：路人換色時 clone 會連 userData 一起複製，所以黃昏時才 clone 的材質也拿得到「改之前」的值 */ if(!mt.userData.rim0){ const c=mt.parametricRimColorFactor; mt.userData.rim0={c:{r:c.r,g:c.g,b:c.b},p:mt.parametricRimFresnelPowerFactor,l:mt.parametricRimLiftFactor,w:rw}; } C.rimMats.add(mt); } }); }
    /* 臉上的小零件（眼白、虹膜、高光、睫毛、眼線、眉毛、嘴）：包在頭裡，影子被頭和頭髮蓋住；不投影＝每個 VRM 人物陰影那一輪少 8 次 draw call（2026-10-16 溫州街效能）*/
    const FACE_PART=/(FaceMouth|FaceBrow|FaceEyelash|FaceEyeline|EyeIris|EyeHighlight|EyeWhite|EyeExtra)/;
 +  /* 遠距離版本（PERF-CROWD-LOD-1021，LAWWW2）：無名路人離鏡頭 30 m 外換成 tools/lod/npc_lod.py 做的低面數網格
 +     （2 個網格、約 6,400 三角形；原本 13～14 個網格＋描邊、約 3 萬）。綁在這個人自己的骨頭上（照骨頭名字；反向綁定矩陣用他自己 skeleton 的），
-+     動作、位置、朝向完全跟著原本的模型走；30 m 內完全是原本的模型。材質用兩階卡通明暗（MeshToonMaterial）接近 MToon；
-+     衣服的頂點和 MToon 的衣服一樣乘 CLOTH_K。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）*/
-+  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_SHADE=0.82; C.FAR_K=1.0; C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
-+  let farGrad=null;
-+  function farMats(L){ if(L.toonReady) return; L.toonReady=true;
-+    if(!farGrad){ farGrad=new THREE.DataTexture(new Uint8Array([Math.round(255*C.FAR_SHADE),255]),2,1,THREE.RedFormat); farGrad.minFilter=farGrad.magFilter=THREE.NearestFilter; farGrad.generateMipmaps=false; farGrad.needsUpdate=true; }
++     動作、位置、朝向完全跟著原本的模型走；30 m 內完全是原本的模型。遠近由 engine3d.js 的 NPC 迴圈決定（C.setFar）；網址加 ?nofar 整個關掉（比較用）。
++     明暗照 MToon 算：MToon 的直射光是 mix(陰影色, 受光色, linearstep(-1+toony, 1-toony, dotNL+shift))，陰影色＝受光色×r 時，就是 MeshToonMaterial 的漸層 r+(1-r)·linearstep(…)
++     （環境光兩邊都是 irradiance×受光色）。r、toony、shift 從這個人自己的 MToon 材質讀（已經套過 C.LOOK）：身體用衣服的平均、頭髮用頭髮的。
++     頂點顏色是貼圖原本的顏色：衣服和 MToon 的衣服一樣乘 CLOTH_K，皮膚乘 C.LOOK 的膚色（從皮膚材質讀）*/
++  C.FAR_OUT=30; C.FAR_IN=28; C.FAR_K=1.0; C.farOff=typeof location!=='undefined'&&/[?&]nofar\b/.test(location.search||'');
++  function farRamp(sh){ const N=32, a=new Uint8Array(N), lo=-1+sh.toony, w=Math.max(1e-3,2-2*sh.toony); for(let i=0;i<N;i++){ const s=Math.min(1,Math.max(0,((i+0.5)/N*2-1+sh.shift-lo)/w)); a[i]=Math.round(255*(sh.r+(1-sh.r)*s)); }
++    const t=new THREE.DataTexture(a,N,1,THREE.RedFormat); t.minFilter=t.magFilter=THREE.LinearFilter; t.generateMipmaps=false; t.needsUpdate=true; return t; }
++  function farShade(model,re){ let n=0,r=0,toony=0,shift=0, col=null; const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;
++    model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.isMToonMaterial||mt.isOutline||!re.test(mt.name||'')) continue;
++      r+=Math.min(1,lum(mt.shadeColorFactor)/Math.max(1e-3,lum(mt.color))); toony+=mt.shadingToonyFactor; shift+=mt.shadingShiftFactor; if(!col) col=mt.color.clone(); n++; } });
++    return n?{r:r/n,toony:toony/n,shift:shift/n,col}:{r:0.55,toony:0.2,shift:-0.2,col:null}; }
++  function farMats(L,model){ if(L.toonReady) return; L.toonReady=true;
++    const body=farShade(model,/_CLOTH/), hair=farShade(model,/HAIR/), skin=farShade(model,/_SKIN/).col; L.shade={body,hair};
 +    for(const p of L.parts){ const g=p.geo, cl=g.attributes._cloth, col=g.attributes.color;
-+      if(cl&&col&&!g.userData.clothK){ g.userData.clothK=C.CLOTH_K; for(let i=0;i<col.count;i++) if(cl.getX(i)>0.5) col.setXYZ(i,col.getX(i)*C.CLOTH_K,col.getY(i)*C.CLOTH_K,col.getZ(i)*C.CLOTH_K); col.needsUpdate=true; }
-+      const s=p.mat; p.toon=new THREE.MeshToonMaterial({name:'npc_far',color:new THREE.Color(C.FAR_K,C.FAR_K,C.FAR_K),vertexColors:!!col,map:s.map||null,alphaTest:s.alphaTest||0,side:s.side,gradientMap:farGrad}); } }
++      if(cl&&col&&!g.userData.clothK){ g.userData.clothK=C.CLOTH_K; g.userData.skinK=skin?[skin.r,skin.g,skin.b]:null; for(let i=0;i<col.count;i++){ const c=cl.getX(i)>0.5, kr=c?C.CLOTH_K:(skin?skin.r:1), kg=c?C.CLOTH_K:(skin?skin.g:1), kb=c?C.CLOTH_K:(skin?skin.b:1); col.setXYZ(i,col.getX(i)*kr,col.getY(i)*kg,col.getZ(i)*kb); } col.needsUpdate=true; }
++      const s=p.mat; p.toon=new THREE.MeshToonMaterial({name:'npc_far',color:s.color.clone().multiplyScalar(C.FAR_K),vertexColors:!!col,map:s.map||null,alphaTest:s.alphaTest||0,side:s.side,gradientMap:farRamp(col?body:hair)}); } }
 +  function attachFar(key,model){ const c=typeof ASSETS!=='undefined'&&ASSETS.cache&&ASSETS.cache[key], L=c&&c.lod; if(!L) return null;
 +    const bones={}, inv={}; let ref=null; model.traverse(o=>{ if(o.isBone&&!bones[o.name]) bones[o.name]=o; if(o.isSkinnedMesh&&o.skeleton){ if(!ref) ref=o; o.skeleton.bones.forEach((b,i)=>{ if(!inv[b.name]) inv[b.name]=o.skeleton.boneInverses[i]; }); } });
-+    if(!ref||!ref.parent||L.names.some(n=>!bones[n])) return null; farMats(L);
++    if(!ref||!ref.parent||L.names.some(n=>!bones[n])) return null; farMats(L,model);
 +    const near=[]; model.traverse(o=>{ if(o.isSkinnedMesh&&o.visible) near.push(o); });   /* 原本的網格（配件是一般網格，不在這裡：遠處照樣看得到）*/
 +    const parts=L.parts.map(p=>{ const sm=new THREE.SkinnedMesh(p.geo,p.toon); sm.name='npc_far'; sm.frustumCulled=false; sm.castShadow=false; sm.receiveShadow=false; sm.visible=false;
 +      sm.position.copy(ref.position); sm.quaternion.copy(ref.quaternion); sm.scale.copy(ref.scale);   /* 和原本的網格同一個父節點、同一個變換＝同一個綁定空間 */
@@ -64,7 +71,7 @@ index fc26e72c..492f77ac 100644
    function buildVRM(spec){ const key=spec.model; const m=ASSETS.manifest[key]; const e=ASSETS.acquireVRM(key); if(!e) throw new Error('no free VRM instance'); const vrm=e.vrm; const model=vrm.scene; const hide=m.hide||[]; const realShadow=!m.ambient; model.traverse(o=>{ if(o.isMesh||o.isSkinnedMesh){ o.castShadow=realShadow&&!FACE_PART.test((o.material&&o.material.name)||''); o.receiveShadow=false; o.frustumCulled=false; if(hide.some(h=>o.name===h||o.name.startsWith(h))) o.visible=false; } }); /* 衣服材質整體壓暗一點：MToon 的卡通明暗讓受光面拿到整個太陽亮度（不乘入射角），中午的淺色衣服（米白、淺灰）會曝成全白、看不出顏色。只動 _CLOTH 材質（皮膚、臉、頭髮、眼睛不動）；材質在 pool 裡共用，用 userData 記號避免重複壓暗 */ model.traverse(o=>{ if(!o.isMesh) return; for(const mt of (Array.isArray(o.material)?o.material:[o.material])){ if(!mt||!mt.name||mt.userData.clothK||!/_CLOTH/.test(mt.name)) continue; mt.userData.clothK=C.CLOTH_K; if(mt.color) mt.color.multiplyScalar(C.CLOTH_K); if(mt.shadeColorFactor) mt.shadeColorFactor.multiplyScalar(C.CLOTH_K); } });
      applyLook(model);
      const v0=!!(vrm.meta&&vrm.meta.metaVersion==='0'); const sx=v0?-1:1;
-@@ -114,12 +134,13 @@ const CHAR = (function(){
+@@ -114,12 +141,13 @@ const CHAR = (function(){
      root.userData={driver:'vrm',spec,k:H/1.75,parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
      // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
      const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
@@ -103,10 +110,10 @@ index 6913a214..720a35da 100644
    // 跟隨鏡頭時，擋在鏡頭和玩家之間的樹幹、電線桿，在玩家周圍（直立的橢圓，高約玩家身高的 1.2 倍）變成網點透空（鏡頭本身不動、碰撞不變）；離鏡頭 1.7 m 內的部分也透空。
 diff --git a/tests/npc_far_unit.js b/tests/npc_far_unit.js
 new file mode 100644
-index 00000000..728a788a
+index 00000000..be72df6e
 --- /dev/null
 +++ b/tests/npc_far_unit.js
-@@ -0,0 +1,62 @@
+@@ -0,0 +1,73 @@
 +// 路人的遠距離版本（PERF-CROWD-LOD-1021，LAWWW2 2026-10-21）：在 Node 裡載入遊戲的 three.js／three-vrm／ASSETS／CHAR（不算圖），檢查
 +//   ① 無名路人底模載入時一起載到 lod/<檔名>.lod.glb；
 +//   ② CHAR.build 出來的每個人（第一個實例＝原本的 VRM、之後＝骨架複製品）都綁上遠距離版本，預設藏著；
@@ -115,6 +122,8 @@ index 00000000..728a788a
 +//   ⑤ CHAR.release：遠距離版本拿掉、原本的網格恢復顯示；同一個 VRM 再借出去時不會留下舊的遠距離網格；
 +//   ⑥ engine3d.js 的 NPC 迴圈（路人 isExtra）和騎車的路人（E.extras）照距離切換、28／30 m 兩個門檻；
 +//   ⑦ 每個 anon 底模都有遠距離版本的檔案，網格 2 個、三角形 ≤ 原本的 30%。
++//   ⑧ 明暗照 MToon：遠距離版本的明暗漸層（MeshToonMaterial 的 gradientMap）每一格＝用這個人自己的 MToon 材質（套過 C.LOOK）在同一個入射角算的 mix(陰影色, 受光色, shading)÷受光色；
++//      皮膚的頂點乘皮膚材質的顏色（C.LOOK 的膚色）。
 +// 用法：node tests/npc_far_unit.js [char.npc_nf1 char.npc_nm3 …]
 +const {ROOT,preload}=require('../tools/dev_scratch/spring_sim/harness.js');
 +const fs=require('fs'), path=require('path');
@@ -143,6 +152,15 @@ index 00000000..728a788a
 +  for(const k of keys){
 +    const c=ASSETS.cache[k]; check(`${k}：載入時一起載到遠距離版本`,!!(c&&c.lod),c&&c.lod?`${c.lod.parts.length} 個網格、${c.lod.names.length} 根骨頭`:'沒有');
 +    const hs=[CHAR.build({id:'x901',model:k,height:1.65,sex:'f'}),CHAR.build({id:'x902',model:k,height:1.65,sex:'f'})];
++    // ⑧ 明暗照 MToon（用另一套算法：每個材質各算一條再平均）
++    if(c&&c.lod){ const mats=[]; hs[0].traverse(o=>{ if(o.isMesh) for(const mt of [].concat(o.material)) if(mt&&mt.isMToonMaterial&&!mt.isOutline) mats.push(mt); });
++      const lum=x=>0.2126*x.r+0.7152*x.g+0.0722*x.b, ls=(a,b,t)=>Math.min(1,Math.max(0,(t-a)/(b-a)));
++      const want=(re,d)=>{ const ms=mats.filter(mt=>re.test(mt.name)); let v=0; for(const mt of ms){ const s=ls(-1+mt.shadingToonyFactor,1-mt.shadingToonyFactor,d+mt.shadingShiftFactor), r=lum(mt.shadeColorFactor)/lum(mt.color); v+=r+(1-r)*s; } return ms.length?v/ms.length:NaN; };
++      let worst=0; const info=[]; for(const p of c.lod.parts){ const g=p.toon&&p.toon.gradientMap; if(!g){ worst=9; continue; } const a=g.image.data, N=g.image.width, body=!!p.geo.attributes.color, re=body?/_CLOTH/:/HAIR/;
++        for(let i=0;i<N;i++){ const d=(i+0.5)/N*2-1, w=want(re,d); worst=Math.max(worst,isNaN(w)?9:Math.abs(a[i]/255-w)); } info.push(`${body?'身體':'頭髮'}陰影面 ${(a[0]/255).toFixed(2)}`); }
++      const skinMat=mats.find(mt=>/_SKIN/.test(mt.name)), sk=c.lod.parts[0].geo.userData.skinK;
++      const okSkin=!!skinMat&&!!sk&&Math.abs(sk[0]-skinMat.color.r)<1e-6&&Math.abs(sk[1]-skinMat.color.g)<1e-6&&Math.abs(sk[2]-skinMat.color.b)<1e-6;
++      check(`${k}：遠距離版本的明暗＝這個人 MToon 材質算出來的（每一格差 ≤ 0.02）、皮膚乘 C.LOOK 的膚色`,worst<=0.02&&okSkin,`最大差 ${worst.toFixed(3)}；${info.join('、')}；皮膚 ${sk?sk.map(x=>x.toFixed(3)).join(','):'沒有'}`); }
 +    for(const [i,h] of hs.entries()){ const who=`${k} 第 ${i+1} 個（${h.userData.full?'原本的 VRM':'骨架複製品'}）`; const u=h.userData, f=u.farLOD;
 +      check(`${who}：綁上遠距離版本、預設藏著`,!!f&&f.parts.length===2&&f.near.length>=10&&f.parts.every(p=>!p.visible)&&f.near.every(o=>o.visible),f?`遠 ${f.parts.length}、原本 ${f.near.length} 個網格`:'沒有');
 +      if(!f) continue;
