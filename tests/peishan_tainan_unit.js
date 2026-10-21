@@ -54,6 +54,8 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
     check('1. 大三上、大四下的學期中：台南（不是 taipei、不在台大、約不到臺北）', e.here===false&&e.kind==='city'&&e.city==='台南'&&e.away==='在台南'&&f.kind==='city'&&f.city==='台南'
       &&!STORY.present(ID,{day:termDay('Y3S1',5,3),flags:K})&&!STORY.reachable(ID,{day:termDay('Y3S1',5,3),flags:K}), JSON.stringify([e,f]));
     check('1. 消失期（2027-05-01）照舊聯絡不到', g.kind==='unreachable', JSON.stringify(g));
+    const pg1=P(D('2029-06-20'),K), pg2=P(D('2030-03-04'),K);
+    check('1. 祐廷畢業以後（2029-06-20、2030-03-04：日曆沒有學期了）照樣在台南、不會變回在台大', pg1.kind==='city'&&pg1.city==='台南'&&pg2.here===false&&pg2.kind==='city'&&pg2.city==='台南', JSON.stringify([pg1,pg2]));
     // 寒暑假：期末考最後一天（第 16 週週五）的第 3 天回台中、開學前 2 天回台南
     const r=CALENDAR.termDays('Y3S1'), sun=P(r.to,K), mon=P(r.to+1,K), mid=P(D('2028-01-10'),K), pre=P(D('2028-02-19'),K), pre1=P(D('2028-02-18'),K);
     check('1. 大三寒假：12/26（第 16 週週日）還在台南、12/27 回台中「在台中」、2/18 還在台中、2/19（開學前 2 天）回台南', sun.kind==='city'&&mon.kind==='home'&&mon.home==='台中'&&mon.away==='在台中'&&mid.kind==='home'&&pre1.kind==='home'&&pre.kind==='city', JSON.stringify([sun.kind,mon,mid.kind,pre1.kind,pre.kind]));
