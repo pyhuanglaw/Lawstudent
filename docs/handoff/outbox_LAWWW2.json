@@ -940,6 +940,22 @@
    "state": "patch 套 1475d312：118 巷每個鏡頭 −3 draw call、−1.8～2.4 萬三角形；reachability_all lane118 FAIL→PASS；gongguan_glb_integration 景深卡、群組兩項 FAIL→PASS，只剩 draw call 預算（下一輪材質合併）",
    "remaining": "公館店面材質合併（atlas）；實機",
    "next": "LAWWW-C 套 patches/l118_perf_and_test_fixes.diff（zones3d.js、tests/reachability_all.py、tests/gongguan_glb_integration.py；模型不用換）"
+  },
+  {
+   "task": "#47 公館校門口 draw call（LAWWW-C 10-20 21:00 排：店面材質 atlas）：光暈合成一個網格、店內景深卡 atlas、捷運出口合併材質",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "a33d85b5",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/gg_drawcall_atlas_glow.diff",
+    "docs/art-rebuild/second_ai/test_shots/gg_drawcall_1021/README.md",
+    "assets/models/env/second_ai/gongguan_mrt_exit.glb",
+    "assets/models/env/second_ai/gongguan_mrt_exit.json",
+    "tools/blender/env_second/gg_mrt_exit.py"
+   ],
+   "state": "patch 套 0e7a5efa：校門口 1.53→1.03 倍；gongguan_glb_integration ALL PASS（1475d312 三項 FAIL）；wz_street_integration、map_canvas_leak、night_forget_unit ALL PASS；campus_glb_integration 修改前後一樣過時跑不完，傅鐘光暈另驗 PASS",
+   "remaining": "實機；公館景深卡 atlas 多約 3 MB（要不要縮 0.75 倍由 LAWWW-C 決定）；campus_glb_integration 過時",
+   "next": "LAWWW-C 套 patch＋換捷運出口 GLB；LAWWW2 接著查溫州街 19:30 三角形 +37%（BB-C 量的）",
+   "sent": "2026-10-21T08:1xZ send_message DELIVERED（LAWWW-C 說不用回 ACK）"
   }
  ]
 }
