@@ -389,7 +389,7 @@ const R2Y4A_EVENTS=(function(){
     dialogue:[ {if:{flags:['PUSH_RAN']},speaker:null,text:'（你一路跑上二樓。）'},
       IF(BH4,{speaker:BH,text:'他們問我為什麼。……我說，我是真的想知道。'}),
       UN(BH4,{speaker:BH,text:'答完了。最後我多說了一句：我喜歡這一科。'}),
-      {scene:'萬才館二樓',bg:'dark'},
+      {scene:'萬才館二樓',bg:'wancai_seminar'},
       nar('（十五分鐘。最後一題是：你為什麼想研究這個？）'),
       {set:{PUSH_INTERVIEW:true}} ] });
   const PASS=G=>G.flags.Y4_PUSH==='pass', bh=t=>({speaker:BH,text:t});
@@ -521,7 +521,7 @@ const R2Y4A_EVENTS=(function(){
   EV.push({ id:'ev_kexin_trip_winter_y4', title:'最後一個寒假的旅行', participants:[KX], location:'any', trigger:'outing', once:true, background:'dark', hours:1.6, kxAway:true,
     beforeOuting:(G,GM)=>{ const C=typeof HOMETOWN_LINES!=='undefined'?HOMETOWN_LINES.kexin:null, fare=(C&&C.fare)||2980; if(GM&&GM.money) GM.money(-fare,'交通'); },   /* 高鐵來回照 AA_276 扣（同大二 2-Y2-10）*/
     outingMissed:(G,GM,q)=>{ if(typeof R2Y4A!=='undefined') R2Y4A.khMissed(G); },
-    dialogue:[ {scene:'高雄・左營站',bg:'dark'},
+    dialogue:[ {scene:'高雄・左營站',bg:'kh_station'},
       nar('（她靠在一台舊舊的家用車旁邊。）'),
       kx('上車。……音樂你管。'),
       {scene:'車上',bg:'car_morning'},

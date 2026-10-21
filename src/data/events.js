@@ -1289,7 +1289,7 @@ const STORY_EVENTS=[
     consequences:{memo:'跨年：麵店'} },
   /* 和語彤交往中、跨年不在頂樓（AA_204 2-5）：00:01 她打電話來（「在頂樓」那一句不說）*/
   { id:'ev_yt_nye_call_y1', title:'語彤的電話', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
-    dialogue:[ {speaker:null,text:'（零點過一分，手機響了。是語彤。）'},
+    dialogue:[ {scene:'電話'}, {speaker:null,text:'（零點過一分，手機響了。是語彤。）'},
       {speaker:'heroine_03',text:'新年快樂。'},
       {speaker:null,text:'（她那邊很安靜，只聽得到電視的聲音。）'},
       {choice:[{text:'「幫我跟阿姨說新年快樂。」',goto:'a'},{text:'「妳們在看什麼？」',goto:'b'}]},
@@ -2150,7 +2150,7 @@ const STORY_EVENTS=[
      她在外婆家、他在臺北的家（不在家＝在外面接，ev_y0_e21o）。記 E21_CALLED（兩個只演一個）。原本的 E21_ANSWER 不再寫。
      AA_303 第 2 節 14 整段換：她約你大年初三開車去高雄（兩個選項都記 KH_TRIP，高雄三天兩夜讀它）；阿嬤那段和 KX_THINK_LEAVE 的第三個選項拿掉 */
   ...(()=>{ const due=G=>{ const d=typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey('2025-01-28'):null; return d!=null&&G.day===d&&G.hour>=22&&!G.flags.E21_CALLED; }, atHome=G=>typeof HOME!=='undefined'&&HOME.at&&HOME.at(G);
-  const lines=[ {scene:'臺北的家',bg:'home_living'},
+  const lines=[ {scene:'臺北的家',bg:'home_living_cny'},   /* BG-DARK-70-1021（BB_220★）：除夕＝年夜飯的客廳（home_living_cny 只用在除夕）*/
       {speaker:null,text:'（電話。很吵。）'},
       {speaker:'kexin',expression:'neutral',text:'你等一下，我走到陽台。'},
       {speaker:'kexin',expression:'smile',text:'好了。……新年快樂。'},
@@ -2160,7 +2160,7 @@ const STORY_EVENTS=[
       {label:'b'},{speaker:'kexin',expression:'teasing',text:'說去找女朋友。……初三，不准遲到。'},
       {label:'end'},{set:{E21_CALLED:true}} ];
   return [ { id:'ev_y0_e21', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'home', once:true, background:'dark', prereq:{custom:G=>due(G)}, dialogue:lines },
-    { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:lines.slice(1) } ]; })(),   /* AA_307 第 12 列：人在外面接，不出「臺北的家」字幕 */   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
+    { id:'ev_y0_e21o', stage:'econ', title:'除夕的電話', participants:['kexin'], location:'any', trigger:'auto', once:true, background:'dark', prereq:{custom:G=>due(G)&&!atHome(G)}, dialogue:[{scene:'電話'}].concat(lines.slice(1)) } ]; })(),   /* AA_307 第 12 列：人在外面接，不出「臺北的家」字幕 */   /* 不在家（休學後可以出門）也會接到：在外面自動演 */
   /* ★E23 家裡的房間：看不懂的民法（BB_104 8b-15；AA_154 A15；AA_224 5-1 @31708531）：2/12（三）20:00，臺北的家，沒有選項（隔天 2/13 18:00 以前回到家也會演）；他住家裡了，沒有行李箱、不回宿舍。
      記 Y0_WINTER_DONE（舊流程的寒假模式用）。
      那本《民法》之後跟著搬到法律系的房間（房間物件「書架上的舊《民法》」已經有）*/
@@ -2555,7 +2555,7 @@ const STORY_EVENTS=[
     const busLines=[ {speaker:null,text:'（凌晨兩點半，你搭上南下的夜班客運。）'},   /* AA_368 M7（企劃線 e55fda50）：這一場原本 06:00 從家裡開始，客運不可能兩小時到高雄（1/31 他自己開車都要四個多小時）——改搭凌晨的夜班客運：02:30 停在家裡（快轉的日期卡「7/25（五）02:30 臺北的家」）、這一行旁白；7:30「國道上」那句不改 */
       to(7.5),{scene:'客運上',bg:'kh_bus_day'},...score(true),
       to(8),{scene:'高雄・客運站出口',bg:'kh_bus_station'},
-      {scene:'高雄・客運站附近的早餐店'},{speaker:null,text:'（早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。）'},   /* AA_308 第 7 節：見面以後才看到落點表 */
+      {scene:'高雄・客運站附近的早餐店',bg:'soymilk_shop'},{speaker:null,text:'（早餐店。她點了兩份蛋餅，說今天要慶祝，先吃再說。）'},   /* AA_308 第 7 節：見面以後才看到落點表 */
       to(10),{speaker:null,text:'（十點，手機震了一下。補習班傳來今年的落點預估表。）'},{speaker:null,text:'（你那個分數，在臺大法律那一格。她那個分數，在政大法律那一格。）'},{speaker:null,text:'（她也在看同一張表。兩個人都沒有說話。）'},
       {speaker:'kexin',expression:'sad',text:'……恭喜你。'},{speaker:'player',text:'……嗯。'},{speaker:'kexin',expression:'annoyed',text:'你可以高興一點。我又不會怎樣。'},{speaker:'player',text:'我沒有不高興。'},{speaker:'kexin',expression:'annoyed',text:'你從看到表到現在，都沒有看我。'},
       {choice:[{text:'「我只是在想，以後我們不在同一個學校了。」',set:{KH_FIGHT:'school'}},{text:'「妳那幾題，我們明明一起寫過。」',set:{KH_FIGHT:'questions'}},{text:'（沒有說話。）',set:{KH_FIGHT:'silent'}}]},
@@ -3241,7 +3241,7 @@ const STORY_EVENTS=[
   /* 學姊上榜的家族聚餐（BB_97 2-7b；大二下第 5 週週五 3/26 19:00；家族群組 Kevin 揪、「去。」才排出遊，story3d.js）：有 FAMILY_DINNER 記憶＝永康街那家咖哩，沒有＝公館。
      她的三件事：第三件看 ASKED_TELL_ME（BB_108 第 1 節）*/
   { id:'ev_sis_results_dinner', title:'學姊上榜聚餐', participants:['heroine_05'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
-    dialogue:[ {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'永康街・咖哩店',bg:'yongkang_curry'},{unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館'},
+    dialogue:[ {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'永康街・咖哩店',bg:'yongkang_curry'},{unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')},scene:'公館',bg:'gongguan'},
       {speaker:'heroine_05',expression:'smile',text:'一，謝謝大家。二，這次的題目，是我自己選的。三……'},
       {if:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'smile',text:'有人叫我考得怎樣都要說。我說了。下次換他。'},
       {unless:{custom:G=>typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','ASKED_TELL_ME')},speaker:'heroine_05',expression:'neutral',text:'三，今天我請。不要跟我搶。'} ],
@@ -3415,13 +3415,13 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:null,text:'（凌晨一點，加開的那班高鐵。）'},{set:{KX_NYE_DONE:4}} ],
     consequences:{memo:'跨年：高雄・愛河邊（大四）'} },
   { id:'ev_kx_nye_video_y2', title:'可昕的視訊（大二跨年）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
-    dialogue:[ {speaker:null,text:'（十一點五十九分，手機響了。可昕打視訊來。）'},{speaker:'kexin',expression:'smile',text:'你在房間喔？……那我們一起看電視的倒數。'},
+    dialogue:[ {scene:'視訊',bg:'video'}, {speaker:null,text:'（十一點五十九分，手機響了。可昕打視訊來。）'},{speaker:'kexin',expression:'smile',text:'你在房間喔？……那我們一起看電視的倒數。'},
       {speaker:null,text:'（零點。她那邊的煙火聲，比畫面慢了一秒。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。……好，去睡。我掛了。'} ] },
   { id:'ev_kx_nye_video_y3', title:'可昕的視訊（大三跨年）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
-    dialogue:[ {speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{speaker:'kexin',expression:'teasing',text:'我數到零就掛。你們繼續。'},
+    dialogue:[ {scene:'視訊',bg:'video'}, {speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{speaker:'kexin',expression:'teasing',text:'我數到零就掛。你們繼續。'},
       {speaker:null,text:'（她那邊的倒數，晚了一秒。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'} ] },
   { id:'ev_kx_nye_video_y4', title:'可昕的視訊（大四跨年）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.1,
-    dialogue:[ {speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{speaker:'kexin',expression:'smile',text:'你那邊好冷的樣子。……外套拉起來。'},
+    dialogue:[ {scene:'視訊',bg:'video'}, {speaker:null,text:'（十一點五十九分，可昕打視訊來。）'},{speaker:'kexin',expression:'smile',text:'你那邊好冷的樣子。……外套拉起來。'},
       {speaker:null,text:'（零點。兩邊的煙火，一大一小。）'},{speaker:'kexin',expression:'smile',text:'新年快樂。'} ] },
   /* 跨年大三（AA_210 第 2 節＋第 5 節：刪美國路線那句、學姊那行；2027-12-31 寒假第 5 天）：出國前最後一次，大家都不提；以安、芯慈都來（芯慈第一次上頂樓）；
      倒數照大一（小語起頭）；00:10 散；和以安交往中＝她留下來「你排一下。」；可昕交往中選視訊＝23:59 視訊接在這一場（5-2 大三）。NYE_Y3＝'roof' */
@@ -3506,7 +3506,7 @@ const STORY_EVENTS=[
     consequences:{memo:'跨年：宿舍頂樓（大四）'} },
   /* 和語彤交往中（AA_210 3-6）：00:01 她打電話來（在家陪媽媽）*/
   { id:'ev_yt_nye_call_y4', title:'語彤的電話（大四跨年）', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
-    dialogue:[ {speaker:'heroine_03',text:'新年快樂。'},{speaker:'heroine_03',text:'我媽在旁邊。她說新年快樂。'},{speaker:null,text:'（電話那頭，電視的倒數還沒播完。）'},
+    dialogue:[ {scene:'電話'}, {speaker:'heroine_03',text:'新年快樂。'},{speaker:'heroine_03',text:'我媽在旁邊。她說新年快樂。'},{speaker:null,text:'（電話那頭，電視的倒數還沒播完。）'},
       {choice:[{text:'「幫我跟阿姨說新年快樂。」',goto:'a'},{text:'「妳們在看什麼？」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_03',text:'好。'},{goto:'end'},
       {label:'b'},{speaker:'heroine_03',text:'不知道。她轉到哪台就看哪台。'},
@@ -3515,7 +3515,7 @@ const STORY_EVENTS=[
      朋友、好朋友（含曖昧）＝1/1 08:00 私訊；認識、有點熟不收（5-7 第 2 點）。S.zrNye 排 */
   { id:'ev_zr_nye_video_y3', title:'芷若的視訊（大三跨年）', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.at(G,q.day,8.5,[{th:'p:heroine_02',from:'heroine_02',text:'沒關係。你那邊早上了，可能還在睡。新年快樂。'}],'zr_nye_miss_y3'); },
-    dialogue:[ {speaker:'heroine_02',text:'你那邊已經是早上了。'},{speaker:'heroine_02',text:'我這邊剛好跨年。外面在放煙火，你聽得到嗎？'},
+    dialogue:[ {scene:'視訊',bg:'video'}, {speaker:'heroine_02',text:'你那邊已經是早上了。'},{speaker:'heroine_02',text:'我這邊剛好跨年。外面在放煙火，你聽得到嗎？'},
       {speaker:null,text:'（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「妳那邊冷嗎？」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_02',text:'新年快樂。……你那邊八個小時以前就說過了吧。'},{goto:'end'},
@@ -3523,7 +3523,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'heroine_02',text:'我要去睡了。你去吃早餐。'},{speaker:null,text:'（畫面停在她揮手的那一格，才斷掉。）'},{set:{ZR_NYE_VIDEO_Y3:true}} ] },
   { id:'ev_zr_nye_video_y4', title:'芷若的視訊（大四跨年）', participants:['heroine_02'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     outingMissed:(G,GM,q)=>{ if(typeof PHONE!=='undefined') PHONE.at(G,q.day,8.5,[{th:'p:heroine_02',from:'heroine_02',text:'沒關係。你那邊早上了，可能還在睡。新年快樂。'}],'zr_nye_miss_y4'); },
-    dialogue:[ {speaker:'heroine_02',text:'臺灣的年你跨完了。換我。'},
+    dialogue:[ {scene:'視訊',bg:'video'}, {speaker:'heroine_02',text:'臺灣的年你跨完了。換我。'},
       {speaker:null,text:'（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）'},
       {choice:[{text:'「新年快樂。」',goto:'a'},{text:'「妳那邊冷嗎？」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_02',text:'新年快樂。……你那邊八個小時以前就說過了吧。'},{goto:'end'},
@@ -3531,7 +3531,7 @@ const STORY_EVENTS=[
       {label:'end'},{speaker:'heroine_02',text:'我要去睡了。你去吃早餐。'},{speaker:null,text:'（畫面停在她揮手的那一格，才斷掉。）'},{set:{ZR_NYE_VIDEO_Y4:true}} ] },
   /* 和語彤交往中（AA_210 1-6）：00:01 她打電話來（收完店回家陪媽媽；在頂樓也可以接）*/
   { id:'ev_yt_nye_call_y2', title:'語彤的電話（大二跨年）', participants:['heroine_03'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.15,
-    dialogue:[ {speaker:null,text:'（零點過一分，手機響了。是語彤。）'},{speaker:'heroine_03',text:'新年快樂。'},{speaker:'heroine_03',text:'我媽十點就睡了。我一個人看倒數。'},
+    dialogue:[ {scene:'電話'}, {speaker:null,text:'（零點過一分，手機響了。是語彤。）'},{speaker:'heroine_03',text:'新年快樂。'},{speaker:'heroine_03',text:'我媽十點就睡了。我一個人看倒數。'},
       {speaker:null,text:'（電話那頭，電視的聲音開得很小。）'},
       {choice:[{text:'「妳一個人看？」',goto:'a'},{text:'「下次一起看。」',goto:'b'}]},
       {label:'a'},{speaker:'heroine_03',text:'現在沒有了。'},{goto:'end'},

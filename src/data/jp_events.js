@@ -15,7 +15,7 @@ const JP_EVENTS=(function(){
   const j2=G=>{ const v=G&&G.flags&&G.flags.AN_TOWN_NOTICE; return v==='there'||v==='photo'; };   /* 5/6 町公所那張通知（AA_326 2-Y3-43 的旗標：去了、或收到她的照片）*/
   const repairOk=G=>{ const R=G&&G.flags&&G.flags.REPAIR; return !!R&&typeof R==='object'&&(R.heroine_01|0)>=3; };   /* AA_254 第 10 節：REPAIR ≥ 3（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；說謊歸零：日本這學期沒有說謊的事件）*/
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
-  const SUITCASE=[ {scene:'公館'},
+  const SUITCASE=[ {scene:'公館',bg:'gongguan'},
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
     {speaker:'heroine_01',text:'這個比較安靜。理由：宿舍的走廊晚上會有回音。'},
     {choice:[{text:'「那我也買這個。」',goto:'g0_a'},{text:'「妳連這個都查了？」',goto:'g0_b'}]},
@@ -39,7 +39,7 @@ const JP_EVENTS=(function(){
     {label:'g3_b'},{speaker:'heroine_01',text:'我媽的比較鹹。……我的比較對。'},{speaker:null,text:'（她自己笑了一下。）'},
     {label:'g3_end'},{set:{AN_JP_KITCHEN:true}},{advance:1.5} ];
   /* G4 5/3（三）14:00 河邊（交往中；5/2 21:00 她私訊）*/
-  const RIVER=[ {scene:'河邊'},
+  const RIVER=[ {scene:'河邊',bg:'jp_riverbank'},
     {speaker:null,text:'（河邊的草地上坐滿了野餐的人。你們找到一棵樹的影子，她拿出一本書。）'},
     {speaker:'heroine_01',text:'你讀你的。我讀我的。'},
     {advance:1},{speaker:null,text:'（一個小時以後，她把書闔上。）'},
@@ -66,7 +66,7 @@ const JP_EVENTS=(function(){
     {speaker:'heroine_01',text:'八月五號那班，我跟你一起訂好了。'},
     {set:{AN_JP_DINNER:true}} ];
   /* G7 6/24（六）16:00 挽回第 4 步：河邊（AA_253 第 5 節第 4 步；REPAIR 照 AA_254 第 10 節）*/
-  const REPAIR4=[ {scene:'河邊'},
+  const REPAIR4=[ {scene:'河邊',bg:'jp_riverbank'},
     {speaker:'heroine_01',text:'那時候我很生氣，生氣到不想聽你講。'},
     {speaker:'heroine_01',text:'……現在可以聽了。你說。'},
     {choice:[{text:'「對不起。我那時候不知道怎麼說。」',goto:'r4_a'},{text:'「我知道。我不會再這樣。」',goto:'r4_b'}]},
@@ -84,7 +84,7 @@ const JP_EVENTS=(function(){
     {label:'t7_c'},{speaker:null,text:'她把短冊按住：「說了不要看。」（過了一下，她把手移開。）短冊上寫著：「明年的七夕，在臺灣。」'},
     {label:'t7_end'},{set:{AN_TANABATA_JP:true}} ];
   /* G7 7/7 挽回中（AA_253 第 5 節第 5 步）：REPAIR 到了＝短冊「再一次。理由：我想。」→ 重新交往（jp3d.js 的 after）；沒到＝只演前兩句（她把短冊掛上去，沒有給你看）*/
-  const TANABATA_R=[ {scene:'宿舍門口'},
+  const TANABATA_R=[ {scene:'宿舍門口',bg:'jp_dorm_gate'},
     {speaker:null,text:'（宿舍門口的竹子上掛滿了短冊。以安拿著一張，寫了很久。）'},
     {speaker:'heroine_01',text:'你要看嗎？'},
     {unless:C(repairOk),set:{AN_TANABATA_JP_REPAIR:'hung'}},{unless:C(repairOk),end:true},
@@ -110,7 +110,7 @@ const JP_EVENTS=(function(){
     {speaker:null,text:'（最後一個晚上。你一個人去了便利商店。冷藏櫃的燈，和第一個晚上一樣亮。）'},
     {set:{AN_JP_LASTNIGHT:'alone'}} ];
   /* 8/5 入境大廳（AA_253 9-2 日本欄；AA_341 裁定 3：「……好熱。」）。挽回不成的：旁白一句 */
-  const HALL=[ {scene:'桃園機場・入境大廳'},
+  const HALL=[ {scene:'桃園機場・入境大廳',bg:'airport_arrival'},
     {if:C(dating),speaker:null,text:'（自動門一打開，臺灣的熱氣撲過來。）'},
     {if:C(dating),speaker:'heroine_01',text:'……好熱。'},
     {if:C(dating),speaker:'heroine_01',text:'明天有空的話，打給我。'},

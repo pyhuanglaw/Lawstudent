@@ -61,7 +61,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）'},
       {speaker:'kexin',expression:'teasing',text:'上車。……音樂你管。'},
       {advance:toH(19.5)},
-      {scene:'高雄・港邊的山上',bg:'dark'},   /* 背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
+      {scene:'高雄・港邊的山上',bg:'kh_river_night'},   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
       {speaker:null,text:'（天黑以後，整個港口的燈都亮了。船慢慢開進來。）'},
       {speaker:'kexin',expression:'thinking',text:'牛郎織女要等一年。'},
       {speaker:'kexin',expression:'smile',text:'……我們有車。'},
@@ -207,7 +207,7 @@ const R2Y3A_EVENTS=(function(){
 
   /* ---------- 2-Y3-07 可昕 K11「她來台大聽講座」（裁定 #30）：9/29（三）19:00～20:30 博雅的大教室。一起聽＝出遊；她自己聽＝20:30～21:00 在博雅一樓的小桌子（作息在 r2y3a3d.js）---------- */
   const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來台大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'博雅教學館',bg:'dark'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
+    dialogue:[ {scene:'博雅教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
       {speaker:null,text:'（博雅的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
       {speaker:null,text:'（講者一直說「彈性」。）'},
       {advance:toH(20.5)},
@@ -312,7 +312,7 @@ const R2Y3A_EVENTS=(function(){
   const CW=v=>({custom:G=>!!G.flags&&G.flags._CR_WITH===v});
   const COURT={ id:'ev_crimpro_court_visit', title:'旁聽作業', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     beforeOuting:async(G,GM,q)=>{ G.flags._CR_WITH=(q&&q.crWith)||'self'; },
-    dialogue:[ {scene:'地方法院',bg:'dark'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
+    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
       {speaker:null,text:'（法院的走廊很長，椅子上坐滿了等開庭的人。有一個阿姨一直在看手上的通知單。）'},
       {speaker:null,text:'（法庭比你想的小。旁聽席三排，坐了不到一半。）'},
       {speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
