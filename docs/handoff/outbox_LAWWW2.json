@@ -1548,11 +1548,49 @@
   {
    "task": "PERF-CROWD-LOD-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "—",
-   "files": [],
-   "state": "自領／ACK（排在 ART-ECON-3D-GAP-1021、BUG-NAV-LAMPPOST-1021、US-MARKET-STREET 之後）",
-   "remaining": "還沒開工：先量路人距離分布 → 遠的換低面數或藏起來 → 椰林大道 15:00 draw call／三角形前後對照；改 engine3d／character3d 先告訴 LAWWW",
+   "sha": "1fd9547a",
+   "files": [
+    "tools/lod/npc_lod.py",
+    "docs/art-rebuild/second_ai/patches/crowd_far_lod.diff"
+   ],
+   "state": "WIP（20:4x 開工通知已送 LAWWW，DELIVERED、沒 ACK）：工具＋patch（assets3d／character3d／engine3d）＋tests/npc_far_unit.js 修改前 FAIL、修改後 ALL PASS；18 支相關單元測試前後都 ALL PASS",
+   "remaining": "遊戲內量測（tools/shots/crowd_lod_audit.py，修改前後；佇列 j10）→ 卡通材質亮度對齊 MToon → 遠距離 GLB 放進 assets/models/char/second_ai/lod/ → README＋交件",
    "ack": "LAWWW 20:11Z 派工（P2）；xai.ack 由 LAWWW 改（tasks.json 是 LAWWW 的檔），這裡記自領"
+  },
+  {
+   "task": "BUG-CAFE-KIT-GLOW-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "75d40a9e",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/cafe_kit_glow.diff"
+   ],
+   "state": "WIP（P1 已通知 LAWWW 21:2x，DELIVERED、沒 ACK）：溫州街 Café 套件的 7 個光暈疊在正式外觀上（白天晚上都有）；patch 對 d22748f5 乾淨；tests/cafe_kit_glow_unit.js 修改前 7、7、7、7、修改後 0",
+   "remaining": "瀏覽器 cafe_glb_integration 修改前後（佇列 j13）→ 正式交件",
+   "ack": "—"
+  },
+  {
+   "task": "BUG-CAFE-FLOOR-MIRROR-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "2a682738",
+   "files": [
+    "tools/blender/env_second/cafe_layout.py",
+    "assets/models/env/second_ai/cafe_interior.glb",
+    "assets/models/env/second_ai/cafe_interior.json"
+   ],
+   "state": "WIP：Café 自流坪地板粗糙度貼圖匯出成 0.004（鏡面，吊燈下面反光成白點）→ 0.78；只換 GLB",
+   "remaining": "遊戲內重拍（佇列 j13）→ 正式交件",
+   "ack": "—"
+  },
+  {
+   "task": "ART-ECON-3D-GAP-1021（宿舍 412）",
+   "branch": "claude/second-ai-env-art",
+   "sha": "396adcbb",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/dorm_seethru.diff"
+   ],
+   "state": "WIP：洗手間頂板（2bc9992d）沒有用、已撤回；改成洗手間牆磚、地磚加進 DORM_BOUNCE（併進 dorm_seethru.diff 第二版，對 d22748f5 乾淨；tests/dorm_seethru_unit.js 修改前 2 FAIL、修改後 ALL PASS）",
+   "remaining": "遊戲內重拍（佇列 j12）→ 正式交件",
+   "ack": "—"
   }
  ]
 }
