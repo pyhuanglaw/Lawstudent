@@ -16347,9 +16347,9 @@
    "title": "垂直切片：溫州街 Café 前黃昏做到商業水準（後製、黃昏光、街道 AO＋路面、人物光影）（ART-POLISH 的一部分）",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "取消／被取代",
    "priority": "P1",
-   "next": "【LAWWW（帳號 A）15:4x】收尾：使用者 2026-10-21 15:3x 對 LAWWW2（帳號 A）：「黃昏收尾」（UA-LAWWW2-1021-09）——做到一半的做完就結案，不再擴大範圍（LAWWW2 以美術總監身分自己決定做到哪裡算收尾，UA-LAWWW2-1021-10） ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：溫州街美術暫停要不要解除（含本項、ART-WZ0）；在那之前 recheckOn 改到下一次發布或 10-28 ｜ LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
+   "next": "【LAWWW（帳號 A）17:5x】LAWWW2 17:58 收尾：路面早就整合；後製 src/post3d.js 不接（從來沒在遊戲裡掛上去過：用 window.GAME 判斷、GAME 是 const；每一幀多一張全解析度半浮點畫面＋MSAA、8 個模糊 pass，校園已經卡；會改人物的樣子、人物凍結中）；人物光影、街道 AO 不做。黃昏調色另見 GRADE-GOLDEN-DEFAULT ｜ 【LAWWW（帳號 A）15:4x】收尾：使用者 2026-10-21 15:3x 對 LAWWW2（帳號 A）：「黃昏收尾」（UA-LAWWW2-1021-09）——做到一半的做完就結案，不再擴大範圍（LAWWW2 以美術總監身分自己決定做到哪裡算收尾，UA-LAWWW2-1021-10） ｜ 【LAWWW-C 2026-10-21 稽核 C】等使用者：列進給使用者的「必須由你決定」：溫州街美術暫停要不要解除（含本項、ART-WZ0）；在那之前 recheckOn 改到下一次發布或 10-28 ｜ LAWWW2-B：照 ART_SOP 做同鏡頭前後比較；src/ 共用程式做 patch 給 LAWWW-B",
    "first": {
     "term": "Y1S1",
     "week": 1,
@@ -16377,7 +16377,9 @@
      "evidence": "五欄齊（pausedBy 使用者 10-17 05:0x「溫州街修改也暫停」、原因、負責 LAWWW2、恢復條件「使用者另行指示」、recheckOn v9.10 發布前）；v9.10 已在 10-18 發布＝下次檢查日已過；之後使用者只解凍公館（GG-STREETVIEW-1020「溫州街不動」），10-21 全面補完指示沒有明說溫州街",
      "note": "只有使用者能解除；檢查日已過要更新"
     }
-   ]
+   ],
+   "replacedBy": "NONE",
+   "authorizedBy": "LAWWW2 美術總監自己決定收尾範圍（使用者 10-21 15:3x「黃昏收尾」UA-LAWWW2-1021-09、10；D110 各自按領域決定）"
   },
   {
    "id": "ART-WZ0",
@@ -22778,7 +22780,7 @@
    "title": "黃昏調色預設就開（使用者選「預設就開（建議）」）：用現在的版本重拍比較圖、跑回歸，把預設換成 golden",
    "area": "ART",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -22792,7 +22794,7 @@
    },
    "source": "使用者 10-18 選擇題（AA 交接 82 行）（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "使用者直接定",
-   "next": "【LAWWW2 16:12 事先告知（D108）】只改 E.grade 預設 null→golden（?grade=off 回原本），KEY_GOLDEN 和其他時段不動；重拍 VISUAL_REVIEW 第 10 節。CLAUDE.md 那句 LAWWW 已改（7b2e1028） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
+   "next": "【LAWWW（帳號 A）17:5x】LAWWW2 交件 723d49a4：docs/art-rebuild/second_ai/patches/grade_golden_default.diff（engine3d.js 兩行：E.grade 預設 golden、?grade=off 回原本；tools/shots/golden_compare.sh）、nav 兩支單元測試 ALL PASS、遊戲內六組對照 test_shots/grade_golden_1021/（白天、夜晚、室內差 1～2%；黃昏溫州街 62%、校園 70%、Café 門口 38%）；READY_FOR_ART_REVIEW。v9.10.3 合併 main 以後整合，順手改 CLAUDE.md 那句、USER_WANTS X32 ｜ 【LAWWW2 16:12 事先告知（D108）】只改 E.grade 預設 null→golden（?grade=off 回原本），KEY_GOLDEN 和其他時段不動；重拍 VISUAL_REVIEW 第 10 節。CLAUDE.md 那句 LAWWW 已改（7b2e1028） ｜ 【LAWWW（帳號 A）2026-10-21 16:0x UTC：使用者「讓 LAWWW2 接場景相關的程式修改 可以」（UA-LAWWW-1021-06、D108）→ 改派 LAWWW2】黃昏調色預設開：重拍 VISUAL_REVIEW 第 10 節對照、engine3d.js 預設改 golden（保留 ?grade=off）；CLAUDE.md「等使用者決定」那句由 LAWWW 改 ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：重拍 VISUAL_REVIEW 第 10 節對照（白天、黃昏、夜間、室內）、跑回歸，engine3d.js:141 預設改 'golden'（保留 ?grade=off），改 CLAUDE.md 那句 ｜ v9.10.2 之後：重拍 VISUAL_REVIEW 第 10 節的對照（白天、黃昏、夜間、室內），改 engine3d.js 的預設，CLAUDE.md「等使用者決定」那句改掉",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
