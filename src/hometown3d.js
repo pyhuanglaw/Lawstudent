@@ -25,15 +25,16 @@ const HV=(function(){
     if(S.planned(G,id)) return {ok:false,why:'已經約好了'};
     if(C.fare&&(G.money|0)<C.fare) return {ok:false,why:'高鐵票錢不夠'};   /* AA_276 第 7 節第 2 點：來回 2980／1400 元，消失期例外也一樣 */
     if(p.keep&&(G.flags.HV_KEEP_M||{})[ym(G.day)]) return {ok:false,why:'這個月已經去過了（她說一個月一次）'};
-    if(S.days(G,id).length) return {ok:true}; const to=S.backTo(G,id); return {ok:false,why:to==='台南'?(S.beenIn(G,id,to)?'她這幾天就要回台南了':'她這幾天就要去台南了'):'她這幾天就要回臺北了'}; };
+    if(S.days(G,id).length) return {ok:true}; if(S.days(G,id,true).length) return {ok:false,why:'那幾天你已經約了校外約會'};   /* 她在的那幾天都撞到已經約好的校外約會 */ const to=S.backTo(G,id); return {ok:false,why:to==='台南'?(S.beenIn(G,id,to)?'她這幾天就要回台南了':'她這幾天就要去台南了'):'她這幾天就要回臺北了'}; };
   /* 寒暑假結束她回哪裡（AA_369 L9）：老家那一段結束後的 presence——沛珊大三起在台南念書（city 台南）＝回台南；其他＝回臺北 */
   S.backTo=function(G,id){ for(let d=G.day+1;d<=G.day+21;d++){ const p=pres(G,id,d); if(p&&p.here===false&&p.kind==='home') continue; return p&&p.here===false&&p.city?p.city:'臺北'; } return '臺北'; };
   /* 這一段老家以前她在不在那個城市待過（AA_369 第 7 節第 11 題：2027 暑假尾是她第一次去台南的學校＝「去台南」，之後＝「回台南」）：往回找到這一段老家的第一天，看前一天在哪 */
   S.beenIn=function(G,id,city){ for(let d=G.day;d>G.day-400;d--){ const p=pres(G,id,d-1); if(p&&p.here===false&&p.kind==='home') continue; return !!(p&&p.here===false&&p.city===city); } return false; };
   S.planned=(G,id)=>typeof OUT!=='undefined'&&OUT.rec(G).some(q=>q.hv&&q.hv.id===id&&q.state==='planned');
   /* 可以去的日子：明天起七天內她還在老家的（重考消失期：同一個月沒去過），最多三個；城市要和今天一樣（skipDays＝那幾天本身是別的事件，例：台南 BB_165 5-1／5-2）*/
-  S.days=function(G,id){ const out=[]; const p0=pres(G,id), k0=S.key(G,id), C=L(k0)||{}, skip=(C.skipDays||[]).map(k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null);
-    for(let d=G.day+1; d<=G.day+7&&out.length<3; d++){ const p=pres(G,id,d); if(!away(G,id,p,d)||S.key(G,id,d)!==k0||skip.includes(d)) continue; if(p0.keep&&(G.flags.HV_KEEP_M||{})[ym(d)]) continue; out.push(d); } return out; };
+  S.days=function(G,id,anyDate){ const out=[]; const p0=pres(G,id), k0=S.key(G,id), C=L(k0)||{}, skip=(C.skipDays||[]).map(k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null);
+    for(let d=G.day+1; d<=G.day+7&&out.length<3; d++){ const p=pres(G,id,d); if(!away(G,id,p,d)||S.key(G,id,d)!==k0||skip.includes(d)) continue; if(p0.keep&&(G.flags.HV_KEEP_M||{})[ym(d)]) continue;
+      if(!anyDate&&typeof DATE!=='undefined'&&DATE.tripOn&&DATE.tripOn(G,d)) continue;   /* 那一天已經約了校外約會（兩天一夜佔兩天，BUG-DATE-OVERLAP-1021）：和 skipDays 一樣跳過 */ out.push(d); } return out; };
   const msg=(G,id,from,text)=>{ if(typeof PHONE!=='undefined'&&PHONE.post) PHONE.post(G,{th:'p:'+id,from,text}); };
   /* 約（invites3d.js 的 S.flow 選了這一項）*/
   S.ask=async function(GM,id){ const G=GM.G, key=S.key(G,id), C=L(key), o=S.offer(G,id); if(!C||!o) return null; if(!o.ok){ await GM.say(null,o.why+'。'); return null; }

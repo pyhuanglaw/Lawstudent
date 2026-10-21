@@ -117,6 +117,15 @@ const DATE=(function(){
     const travelH=go.minutes/60+pick, backH=bk.minutes/60+pick, depart=o.depart!=null?o.depart:O.depart, leave=Math.min(O.leave,23.5-backH);
     return {ok:true,locs,kind:'overnight',nights:1,transport:go.mode,travelLabel:go.label,fare:Math.round((go.fare+bk.fare)/2),lodging:S.lodging(),travelH,backH,depart,leave,back:leave+backH}; };
   S.onDay=(t,day)=>t.day===day||(t.kind==='overnight'&&t.day+(t.nights||1)===day);   /* 這一趟佔不佔這一天（兩天一夜佔兩天）*/
+  /* 校外約會佔掉的時間（給別的排程看，BUG-DATE-OVERLAP-1021：校園邀約 INV、對方約你 INV.answer、去她的縣市 HV、畢業後每月一格 PG、寒暑假報名 VAC、118 巷午餐）：
+     約好了、在路上的那幾趟；當天來回＝出發到回來，兩天一夜＝第一天出發到第二天回來。tripAt(G,day,h,stay)＝撞到的那一趟或 null；tripOn＝那一天有沒有；tripDays＝佔掉的日子 */
+  const liveTrip=t=>!!t&&(t.status==='booked'||t.status==='going');
+  S.spanOf=t=>[t.day*24+(+t.depart||0),(t.day+(t.kind==='overnight'?(t.nights||1):0))*24+(+t.back||0)];
+  S.tripAt=function(G,day,h,stay){ if(!G||!Array.isArray(G.trips)) return null; const a=day*24+(+h||0), b=a+Math.max(0,+stay||0);
+    return G.trips.find(t=>{ if(!liveTrip(t)) return false; const [x,y]=S.spanOf(t); return b>a?(a<y&&x<b):(a>=x&&a<y); })||null; };
+  S.tripOn=(G,day)=>S.tripAt(G,day,0,24);
+  S.tripDays=G=>{ const out=new Set(); for(const t of (G&&G.trips)||[]) if(liveTrip(t)) for(let d=t.day;d<=t.day+(t.kind==='overnight'?(t.nights||1):0);d++) out.add(d); return out; };
+  S.tripTitle=t=>'和'+nameOf(t.who)+'去'+(t.locs||[]).map(l=>(S.loc(l)||{}).name||l).join('、')+(t.kind==='overnight'?'（兩天一夜）':'');
   S.book=function(G,o){ const P=S.plan(G,o); if(!P.ok) return P; if(P.kind==='overnight'&&!S.canOvernight(G,o.who)) return {ok:false,why:'兩天一夜要第 6 階或交往中'}; S.rec(G); const id=S.newTripId(G);
     const trip={trip:id,who:o.who,locs:P.locs,day:o.day,depart:P.depart,back:P.back,kind:P.kind,transport:P.transport,fare:P.fare,fareV:2,by:o.by||'player',status:'booked',spots:[],departed:false,moves:0};   /* fareV 2＝車資照表（來回）*/
     if(P.kind==='overnight') Object.assign(trip,{nights:1,lodging:P.lodging,leave:P.leave});

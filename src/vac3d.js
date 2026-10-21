@@ -83,6 +83,8 @@ const VAC=(function(){
   S.conflicts=function(G,I){ const mine=new Set(S.daysOf(I)), away=I.A.trip||I.A.place.kind!=='taipei', out=[];
     for(const J of S.all()){ if(J.key===I.key||!['yes','done'].includes(S.state(G,J.key))) continue; const awayJ=J.A.trip||J.A.place.kind!=='taipei';
       for(const d of S.daysOf(J)) if(mine.has(d)&&(away||awayJ||J.A.slot===I.A.slot)){ out.push({key:J.key,title:J.A.title,day:d}); } }
+    if(typeof DATE!=='undefined'&&DATE.tripTitle) for(const t of (G.trips||[])){ if(t.status!=='booked'&&t.status!=='going') continue;   /* 已經約好的校外約會（大多在外縣市＝人不在臺北；兩天一夜兩天都算）：照樣寫出來、不擋（AA_199 3-2，BUG-DATE-OVERLAP-1021）*/
+      for(let d=t.day;d<=t.day+(t.kind==='overnight'?(t.nights||1):0);d++) if(mine.has(d)) out.push({key:'date_'+t.trip,title:DATE.tripTitle(t),day:d}); }
     return out; };
   const dl=d=>{ if(typeof CALENDAR==='undefined') return String(d); const x=CALENDAR.dateOf(d); return x.m+'/'+x.d; };
   /* 報名：記下來、家裡出錢的家人群組一句、排關鍵事件（出遊）*/
