@@ -1,0 +1,337 @@
+"""BB（帳號 A）2026-10-21：BB-TEST-US-LIFE-1021（docs/handoff/bb_checklists/BB_US_LIFE_1021.md US-A～US-J；AA_340 S1～S12、G1～G7；src/us_life3d.js）瀏覽器實玩。
+框架照 aa356／aa360（[前置] 用使用者 9/25 存檔改日期、旗標、區域、站的位置 → 遊戲時間照走 → 台詞、日期卡、手機、旗標記下來 → 檢查）。
+[前置] 旗標：EXCHANGE_ROUTE US、EXCH_RULE 1、US_DEPARTED／US_ARRIVED、US_ARRIVED_DAY＝2028-08-02、Y4_PATH bar、Y4_PATH_DAY＝2028-06-08；交往中再加 dating_heroine_05、US1 together；挽回中 US1 alone。
+站的位置：床尾＝US3.SPAWN.us_apartment_bed、平台＝US_APARTMENT_LAYOUT.spawns.fromOutside（E.placeAt）。
+之後都是玩家的操作：走到床邊按「睡覺」→ 選單；「快轉」→「到下一個有事的日子」；平台「去上課」；手機要回的照 asks 回；社區「去湖邊」。
+「場景完成≠系統完成」：這支只看系統（時間、停點、事件、手機、課），場景的美術另外看。
+不是 iPhone 實機：Playwright Chromium（SwiftShader）手機橫向模擬、?turbo。
+用法：LW_TESTS=<開發分支>/tests SHA=<sha> python3 us_life_probe.py '<URL>/index.html?turbo' <輸出資料夾> <存檔.json>   （SCEN=id1,id2 只跑某幾個）"""
+import os, sys, json, asyncio, time
+sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
+from playwright.async_api import async_playwright
+URL, OUT, SAVE = sys.argv[1], sys.argv[2], sys.argv[3]
+SCEN = os.environ.get('SCEN', '').split(',') if os.environ.get('SCEN') else None
+SNAP = """(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); return {key:d.key, h:+G.hour.toFixed(2), zone:G.zone, hud:(document.getElementById('clockT')||{}).textContent||''}; })()"""
+bad = []; rep = []; results = []
+def say(*a):
+    s = ' '.join(str(x) for x in a); print(s, flush=True); rep.append(s)
+HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[]; if(GAME.titleCard&&!GAME.titleCard.__bb){ const tc=GAME.titleCard; const f=function(t,s){ try{ window.__LOG.push({n:'CARD',t:'CARD:'+t+(s?'｜'+s:''), h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return tc.apply(this,arguments); }; f.__bb=1; GAME.titleCard=f; } const o=ADV.log; ADV.log=function(n,t){ try{ window.__LOG.push({n:n||'',t:String(t), h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return o.apply(this,arguments); };
+  const oc=ADV.cg; ADV.cg=function(id){ try{ window.__LOG.push({n:'CG',t:'CG:'+id, h:+GAME.G.hour.toFixed(2), d:CALENDAR.dateOf(GAME.G.day).key}); }catch(e){} return oc.apply(this,arguments); }; })()"""
+async def drain(pg, cdp, pref=None, secs=120):
+    t0 = time.time()
+    while time.time() - t0 < secs:
+        s = await L.state(pg)
+        if s['choices']:
+            c = await pg.evaluate("(w=>{ const bs=[...document.querySelectorAll('#choices button')]; let e=null; for(const t of w){ e=bs.find(x=>x.textContent.trim().includes(t)); if(e) break; } e=e||bs.find(x=>/不|晚一點|之後/.test(x.textContent))||bs[bs.length-1]; const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim().slice(0,30),bs.map(b=>b.textContent.trim().slice(0,20))]; })(%s)" % json.dumps(pref or []))
+            await L.touch_tap(cdp, c[0], c[1]); say('   ▶', c[2], '（選項：%s）' % ' / '.join(c[3]))
+            await pg.wait_for_timeout(900); continue
+        if s['dlg']:
+            if MID['n'] < 3 and MID['run'] and any(k in (s.get('dtext') or '') for k in MID['keys']):
+                MID['n'] += 1; await MID['run'].shot(pg, 'mid_%s_%d' % (MID['id'], MID['n']))
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(450); continue
+        if s['busy']: await pg.wait_for_timeout(600); continue
+        if await phone_open(pg): await close_phone(pg); continue
+        await pg.wait_for_timeout(1000); s = await L.state(pg)
+        if not (s['dlg'] or s['choices'] or s['busy']): return True
+    return False
+async def phone_open(pg):
+    return await pg.evaluate("(()=>{ const p=document.getElementById('phone'); return !!p&&!p.classList.contains('hide')&&getComputedStyle(p).display!=='none'; })()")
+async def close_phone(pg):
+    await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(500)
+async def answer(pg, cdp, rules):
+    """要回覆的訊息：打開手機 → 訊息 → 點那個對話串 → 點選項（照玩家）。rules：{ask id 前綴: 選項開頭}"""
+    pend = await pg.evaluate("(()=>PHONE.pending(GAME.G).map(m=>({id:m.ask.id, th:PHONE.th(m), text:m.text, opts:m.ask.opts.map(o=>o.t)})))()")
+    done = False
+    for m in pend:
+        want = next((v for k, v in rules.items() if m['id'].startswith(k)), None)
+        if want is None: continue
+        k = next((i for i, t in enumerate(m['opts']) if t.startswith(want)), None)
+        if k is None: say('   手機：%s 沒有「%s」選項（%s）' % (m['id'], want, m['opts'])); bad.append('%s 沒有選項「%s」' % (m['id'], want)); rules.pop(next(kk for kk in rules if m['id'].startswith(kk))); continue
+        if not await phone_open(pg): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"msg\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+        c = await pg.evaluate("(th=>{ const e=[...document.querySelectorAll('#phoneBody [data-th]')].find(b=>b.dataset.th===th); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(m['th']))
+        if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(900)
+        c = await pg.evaluate("(a=>{ const e=[...document.querySelectorAll('#phoneBody [data-ask]')].find(b=>b.dataset.ask===a); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })(%s)" % json.dumps('%s|%d' % (m['id'], k)))
+        if not c: say('   手機：找不到 %s 的按鈕' % m['id']); bad.append('手機介面找不到 %s「%s」的按鈕' % (m['id'], want)); continue
+        await L.touch_tap(cdp, c[0], c[1]); say('   手機回覆 %s：「%s」（訊息「%s」）' % (m['id'], c[2], m['text'][:20])); await pg.wait_for_timeout(1200)
+        rules.pop(next(kk for kk in rules if m['id'].startswith(kk)), None); done = True
+    if await phone_open(pg): await close_phone(pg)
+    return done
+async def set_h(pg, run, h, why):
+    await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; if(GAME.updateHUD) GAME.updateHUD(); })(%s)" % h); run.setup('[捷徑] 時鐘撥到 %.2f（%s）' % (h, why)); await pg.wait_for_timeout(1500)
+async def play_until(pg, cdp, run, h, sc, secs=420):
+    """遊戲時間照走到 h；中間有對話照選項偏好、有要回的訊息照 rules、出遊「出發」"""
+    t0 = time.time(); last = None
+    while time.time() - t0 < secs:
+        sn = await pg.evaluate(SNAP)
+        if sn['h'] >= h: return True
+        s = await L.state(pg)
+        if s['dlg'] or s['choices'] or s['busy']: await drain(pg, cdp, pref=sc.get('pref', []) + ['出發', '接起來'], secs=180); continue
+        if sc.get('asks') and await answer(pg, cdp, sc['asks']): continue
+        if await phone_open(pg): await close_phone(pg)
+        if last and sn['h'] == last['h'] and time.time() - t0 > 30: pass
+        last = sn; await pg.wait_for_timeout(2500)
+    say('   ⚠ 等不到 %.2f（現在 %s）' % (h, json.dumps(await pg.evaluate(SNAP), ensure_ascii=False))); return False
+async def load_at(pg, base, sc, run):
+    st = json.loads(json.dumps(base)); G = st.get('G', st)
+    if sc['key'].startswith('TERMDAY:'):
+        _, tid, wk, wd = sc['key'].split(':'); d = await pg.evaluate("STORY.termDay(%s,%s,%s)" % (json.dumps(tid), wk, wd))
+        sc['key'] = await pg.evaluate("CALENDAR.dateOf(%d).key" % d)
+    else: d = await pg.evaluate("STORY.dayOfKey(%s)" % json.dumps(sc['key']))
+    G.update({'day': d, 'hour': sc['h'], 'zone': sc.get('zone', 'dorm'), 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d)})
+    fl = {}
+    for k, key in (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03')):
+        dd = await pg.evaluate("STORY.dayOfKey('%s')" % key)
+        if dd <= d: fl[k] = dd
+    if 'ROOM_Y4' in fl: fl.update({'ROOM_Y4_ITEMS': [], 'BOX_KEPT_Y4': None})
+    fl.update(sc.get('flags', {})); G['flags'].update(fl)
+    for k, v in sc.get('gset', {}).items(): G[k] = (d if v == '$DAY' else v) if not isinstance(v, dict) else {kk: (d if vv == '$DAY' else vv) for kk, vv in v.items()}
+    await L.load_state(pg, G); await pg.wait_for_timeout(5000)
+    await pg.evaluate(HOOK); await pg.evaluate('window.__LOG=[]; window.__M0=GAME.G.money')
+    if sc.get('js'): await pg.evaluate("(()=>{ const G=GAME.G, D=k=>STORY.dayOfKey(k), LV=(id,f,t,c)=>{ const r=SOCIAL.rel(id); r.fam=f; r.trust=t; r.comf=c; SOCIAL.remember(id,'FIRST_MET',''); }; %s })()" % sc['js'])
+    run.setup('[前置] %s：使用者 9/25 存檔改到 %s %.2f %s；旗標 %s；console：%s' % (sc['id'], sc['key'], sc['h'], sc.get('zone', 'dorm'), json.dumps(sc.get('flags', {}), ensure_ascii=False), sc.get('js', '')))
+    await drain(pg, cdp_g[0], secs=60)   # 讀檔後的補演（照實記）
+cdp_g = [None]
+MID = {'n': 0, 'run': None, 'keys': [], 'id': ''}
+CHK = """(a=>{ const G=GAME.G, F=G.flags, LOG=window.__LOG||[]; const msgs=(G.msgs||[]).map(m=>({th:PHONE.th(m), from:m.from||'', text:m.text, tag:m.tag||'', d:m.day})); const o={};
+  o.lines=LOG.map(x=>x.t); o.speakers=[...new Set(LOG.map(x=>x.n).filter(Boolean))]; o.msgTexts=msgs.map(m=>m.text);
+  o.flags={}; for(const k of a.flags) o.flags[k]=F[k]===undefined?'(undefined)':F[k];
+  o.mem={}; for(const [id,t] of a.mem){ const M=(G.social&&G.social.mem&&G.social.mem[id])||[]; o.mem[id+'/'+t]=M.filter(m=>m.tag===t).map(m=>m.note||'(空)'); }
+  o.grp=(PHONE.rec(G).groups||{}).noodle_team||null; o.npcs=GAME.E.npcs.filter(n=>n&&n.obj&&n.charId&&a.npcs.includes(n.charId)).map(n=>({id:n.charId,x:+n.obj.position.x.toFixed(1),z:+n.obj.position.z.toFixed(1),vis:n.obj.visible!==false&&!n.hidden}));
+  o.pl={x:+GAME.E.player.obj.position.x.toFixed(1),z:+GAME.E.player.obj.position.z.toFixed(1)}; o.zone=G.zone; o.dup={}; const seen={}; let prev=null; for(const x of LOG){ if(prev&&prev.t===x.t&&prev.n===x.n){ prev=null; continue; } seen[x.t]=(seen[x.t]||0)+1; prev=x; }   /* 同一句 events3d 和 GM.say 各記一次（相鄰），不算重演 */ for(const t of a.once) o.dup[t]=seen[t]||0;
+  o.money=(GAME.G.money|0)-(window.__M0|0); o.fade=(()=>{ const f=document.getElementById('fade'); return f?getComputedStyle(f).opacity:'?'; })(); return o; })(%s)"""
+async def verify(pg, run, sc):
+    a = {'flags': sc.get('cflags', []), 'mem': sc.get('cmem', []), 'npcs': sc.get('cnpcs', []), 'once': sc.get('once', sc.get('want', []))}
+    o = await pg.evaluate(CHK % json.dumps(a)); txt = o['lines'] + o['msgTexts']; probs = []
+    for w in sc.get('want', []):
+        if not any(w in t for t in txt): probs.append('應該有「%s」，沒有' % w)
+    for w in sc.get('wantMsg', []):
+        if not any(w in t for t in o['msgTexts']): probs.append('手機應該有「%s」，沒有' % w)
+    for w in sc.get('none', []):
+        if any(w in t for t in txt): probs.append('不應該有「%s」，出現了' % w)
+    for w in sc.get('noneMsg', []):
+        if any(w == t for t in o['msgTexts']): probs.append('手機不應該有「%s」，出現了' % w)
+    for k, v in sc.get('eqflags', {}).items():
+        if o['flags'].get(k) != v: probs.append('旗標 %s=%s（應該 %s）' % (k, json.dumps(o['flags'].get(k), ensure_ascii=False), json.dumps(v, ensure_ascii=False)))
+    for key, want in sc.get('eqmem', {}).items():
+        got = o['mem'].get(key, [])
+        if want is None and got: probs.append('沒參加卻有記憶 %s %s' % (key, got))
+        if want is not None and want not in got: probs.append('記憶 %s 應該有「%s」，實際 %s' % (key, want, got))
+    for t, n in o['dup'].items():
+        if n > 1: probs.append('「%s」演了 %d 次' % (t[:20], n))
+    if sc.get('speakers'):
+        for sp in sc['speakers']:
+            if not any(sp in x for x in o['speakers']): probs.append('說話的人沒有「%s」（實際：%s）' % (sp, o['speakers']))
+    if sc.get('grpname') and (o['grp'] or {}).get('name') != sc['grpname']: probs.append('群組名稱「%s」（應該「%s」）' % ((o['grp'] or {}).get('name'), sc['grpname']))
+    if str(o['fade']) not in ('0', '?'): probs.append('黑幕 opacity=%s 還蓋著' % o['fade'])
+    if 'dmoney' in sc and o['money'] != sc['dmoney']: probs.append('錢變了 %+d（應該 %+d）' % (o['money'], sc['dmoney']))
+    for seq in sc.get('seq', []):   # 這幾句要連著出現（中間不夾別句）
+        L0 = o['lines']; ok = any(L0[i:i + len(seq)] == seq for i in range(len(L0)))
+        if not ok: probs.append('沒有連著出現：%s' % ' → '.join(s[:12] for s in seq))
+    ctx = sc.get('ctx')   # 補的句子前後各兩句一起列出來（看接得順不順）
+    if ctx:
+        L0 = o['lines']; i = next((k for k, t in enumerate(L0) if ctx in t), None)
+        say('   前後文：%s' % (json.dumps(L0[max(0, i - 2):i + 4], ensure_ascii=False) if i is not None else '（沒有出現）'))
+    say('   台詞（%d 句，最後 10）：%s' % (len(o['lines']), json.dumps(o['lines'][-10:], ensure_ascii=False)))
+    say('   說話的人：%s｜手機最後 6：%s' % (o['speakers'], json.dumps(o['msgTexts'][-6:], ensure_ascii=False)))
+    say('   旗標 %s｜記憶 %s｜群組 %s｜人物 %s｜玩家 %s %s' % (json.dumps(o['flags'], ensure_ascii=False), json.dumps(o['mem'], ensure_ascii=False), json.dumps(o['grp'], ensure_ascii=False), json.dumps(o['npcs'], ensure_ascii=False), o['zone'], o['pl']))
+    await run.shot(pg, 'ev_' + sc['id'])
+    st = 'PASS' if not probs else 'FAIL'; say('[%s] %s %s' % (st, sc['id'], '；'.join(probs)))
+    results.append({'id': sc['id'], 'ok': not probs, 'probs': probs, 'o': {k: o[k] for k in ('flags', 'mem', 'grp', 'npcs', 'speakers', 'zone', 'money')}, 'lines': o['lines'], 'msgs': o['msgTexts'][-12:]})
+    if probs: bad.extend('%s：%s' % (sc['id'], p) for p in probs)
+TW = {'EXCHANGE_ROUTE': 'TW'}
+AN_FAM = "LV('heroine_01',25,10,10);"
+GRP = "PHONE.join(G,'noodle_team','麵店團');"
+ATT3 = "G.acts=G.acts||{}; G.acts.att=G.acts.att||{}; for(const k of ['2028-09-21','2028-09-28','2028-10-05']) G.acts.att['public_law_group@'+D(k)]=1;"
+async def talk(pg, cdp, run, who):
+    """走到那個人旁邊、按「和○○說話」（真的操作），演完"""
+    p = await pg.evaluate("(id=>{ const n=GAME.E.npcs.find(n=>n&&n.charId===id&&n.obj&&n.obj.visible!==false&&!n.hidden); return n?[n.obj.position.x,n.obj.position.z]:null; })(%s)" % json.dumps(who))
+    if not p: say('   ⚠ 這裡沒有 %s' % who); bad.append('找不到 %s（不在這個區域）' % who); return False
+    if not await L.go_to(pg, cdp, run, p[0], p[1], 1.4, who, max_s=120): say('   ⚠ 走不到 %s' % who); bad.append('走不到 %s' % who); return False
+    for k in range(4):
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        if '說話' in lab: break
+        await pg.wait_for_timeout(800)
+    say('   互動鈕：%s' % lab); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1200)
+    await drain(pg, cdp, pref=['聊', '說'], secs=150); return True
+async def ff_bed(pg, cdp, run, want_key, want_h):
+    """床 →「快轉」→「到下一個有事的日子」（真的操作），停下來的日期時間要是 want_key want_h（±0.75 小時）"""
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('快轉：走不到床'); return False
+    for k in range(4):
+        await close_phone(pg); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        if (await L.state(pg))['choices']: break
+    for k in range(6):
+        cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+        t = next((c for c in cs if c.startswith('到下一個有事的日子')), None) or next((c for c in cs if c.startswith('快轉')), None)
+        if not t: break
+        c = await pg.evaluate("(t=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.trim()===t); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(t))
+        await L.touch_tap(cdp, c[0], c[1]); say('   ▶ 床：%s' % t[:20]); await pg.wait_for_timeout(1500)
+        if t.startswith('到下一個有事的日子'): break
+    await drain(pg, cdp, pref=['睡到明天早上'], secs=300)
+    sn = await pg.evaluate(SNAP); say('   快轉停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
+    if sn['key'] != want_key or abs(sn['h'] - want_h) > 0.75: bad.append('快轉停在 %s %.2f（應該 %s %.2f）' % (sn['key'], sn['h'], want_key, want_h))
+    return True
+async def nomsg(pg, who, key):
+    """那一天不應該有 who 的私訊"""
+    m = await pg.evaluate("(([w,k])=>{ const d=STORY.dayOfKey(k); return (GAME.G.msgs||[]).filter(m=>m.from===w&&m.day===d).map(m=>m.text); })(%s)" % json.dumps([who, key]))
+    say('   %s 的 %s 私訊：%s' % (key, who, json.dumps(m, ensure_ascii=False)))
+    if m: bad.append('%s 不應該有 %s 的私訊，有 %d 則：%s' % (key, who, len(m), m[0][:20]))
+async def use(pg, cdp, run, pat):
+    """走到最近、名字符合 pat 的互動點，按下去（真的操作），演完"""
+    it = await pg.evaluate("(p=>{ const R=new RegExp(p), P=GAME.E.player.obj.position; const its=(GAME.E.interactables||[]).filter(i=>!i.hidden&&R.test(i.label||'')); its.sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z)); const i=its[0]; return i?[i.x,i.z,i.label]:null; })(%s)" % json.dumps(pat))
+    if not it: say('   ⚠ 找不到互動點 /%s/' % pat); bad.append('找不到互動點 /%s/' % pat); return False
+    if not await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[2], max_s=150): say('   ⚠ 走不到 %s' % it[2]); bad.append('走不到 %s' % it[2]); return False
+    for k in range(4):
+        lab = await pg.evaluate("(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()")
+        if lab: break
+        await pg.wait_for_timeout(800)
+    say('   互動：%s（按鈕「%s」）' % (it[2], lab)); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(2500)
+    await drain(pg, cdp, pref=['「我陪妳走到捷運站。」', '進去', '離開'], secs=200); return True
+
+USF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'Y4_PATH': 'bar'}
+USJS = "G.flags.US_ARRIVED_DAY=D('2028-08-02'); G.flags.Y4_PATH_DAY=D('2028-06-08');"
+DATE = "G.flags.dating_heroine_05=true; G.flags.US1='together'; LV('heroine_05',70,60,60);"
+ALONE = "G.flags.US1='alone'; LV('heroine_05',50,40,35);"
+BED = "(()=>{ const s=US3.SPAWN.us_apartment_bed; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
+PLAT = "(()=>{ const s=US_APARTMENT_LAYOUT.spawns.fromOutside; GAME.E.placeAt?GAME.E.placeAt(GAME.E.player,s.x,s.z,0):GAME.E.player.obj.position.set(s.x,0,s.z); })();"
+STOPS = []
+async def bed_menu(pg, cdp, run):
+    """走到床邊、按「睡覺」，回傳床的選單（每個選項的字）"""
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); bad.append('走不到床'); return []
+    for k in range(4):
+        await close_phone(pg); await pg.wait_for_timeout(600); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        if (await L.state(pg))['choices']: break
+    cs = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())")
+    sn = await pg.evaluate(SNAP); say('   床的選單 %s %.2f：%s' % (sn['key'], sn['h'], ' / '.join(x[:22] for x in cs))); return cs
+async def tap_start(pg, cdp, start):
+    c = await pg.evaluate("(w=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.trim().startsWith(w)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })(%s)" % json.dumps(start))
+    if not c: return None
+    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); return c[2]
+async def bedpick(pg, cdp, run, start, sc, want_only=None):
+    cs = await bed_menu(pg, cdp, run)
+    if want_only is not None:
+        got = [x for x in cs]
+        if any(not any(x.startswith(w) for w in want_only) for x in got): bad.append('%s：床的選單應該只有 %s，實際 %s' % (sc['id'], want_only, got))
+    t = await tap_start(pg, cdp, start)
+    if not t: bad.append('%s：床的選單沒有「%s」（%s）' % (sc['id'], start, cs)); return False
+    say('   ▶ 床：%s' % t[:24]); await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+    if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+    return True
+async def ff_once(pg, cdp, run, sc):
+    """床 →「快轉」→「到下一個有事的日子」；回傳停下來的 SNAP"""
+    cs = await bed_menu(pg, cdp, run)
+    if not await tap_start(pg, cdp, '快轉'): bad.append('%s：床的選單沒有「快轉」（%s）' % (sc['id'], cs)); return None
+    t = await tap_start(pg, cdp, '到下一個有事的日子')
+    if not t: cs2 = await pg.evaluate("[...document.querySelectorAll('#choices button')].map(b=>b.textContent.trim())"); bad.append('%s：快轉沒有「到下一個有事的日子」（%s）' % (sc['id'], cs2)); return None
+    await pg.wait_for_timeout(2500); sn = await pg.evaluate(SNAP); STOPS.append((sc['id'], sn['key'], sn['h'])); say('   ⏩ 停在 %s %.2f %s' % (sn['key'], sn['h'], sn['zone']))
+    await drain(pg, cdp, pref=sc.get('pref', []), secs=240)
+    if sc.get('asks'): await answer(pg, cdp, sc['asks']); await drain(pg, cdp, pref=sc.get('pref', []), secs=120)
+    return sn
+async def go_class(pg, cdp, run, sc):
+    """平台「去上課：…」（從房間走到平台）"""
+    ok = await use(pg, cdp, run, '^去上課'); return ok
+async def ffloop(pg, cdp, run, sc, until_key, until_h, n=30):
+    """一直快轉到 until；中間有「去上課」就去上課（玩家會去）"""
+    for i in range(n):
+        sn = await pg.evaluate(SNAP)
+        if (sn['key'], sn['h']) >= (until_key, until_h): return True
+        cls = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.uslClass&&!i.hidden); return it?it.label:null; })()")
+        if cls and sc.get('takeClass', True): say('   去上課：%s' % cls); await go_class(pg, cdp, run, sc); continue
+        if not await ff_once(pg, cdp, run, sc): return False
+    say('   ⚠ 快轉 %d 次還沒到 %s %.2f' % (n, until_key, until_h)); bad.append('%s：快轉 %d 次還沒到 %s %.2f' % (sc['id'], n, until_key, until_h)); return False
+def check_stops(sc, want):
+    """want：[(key,h)] 要依序出現在這一段的停點裡（±0.35 小時）"""
+    got = [(k, h) for i, k, h in STOPS if i == sc['id']]; j = 0
+    for k, h in got:
+        if j < len(want) and k == want[j][0] and abs(h - want[j][1]) <= 0.35: j += 1
+    if j < len(want): bad.append('%s：停點少了 %s %.2f（實際 %s）' % (sc['id'], want[j][0], want[j][1], ['%s %.2f' % x for x in got][:30]))
+    say('   停點：%s' % ['%s %.2f' % x for x in got][:40])
+SCENS = [
+  # US-A 交往中：8/2 21:40 床尾 → 睡覺（04:30，只有這一個睡法）→ 時差旁白、05:10 學姊兩則（回「醒了。」）→ 一路快轉到 9/4 17:00 會所烤肉
+  dict(id='USA_dating', key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF), js=USJS + DATE + BED,
+       steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-09-04', 17.0)], asks={'sis0803': '醒了。'}, pref=['出發', '去', '「好。」'],
+       stops=[('2028-08-04', 9.75), ('2028-08-05', 17.5), ('2028-08-14', 9.75), ('2028-08-21', 9.0), ('2028-09-04', 17.0)], gapmax=7,
+       want=['醒了。'], cflags=['USL_JETLAG', 'US_LAKE_FIRST']),
+  # US-B 挽回中：8/3 旁白多一句 C 棟窗戶、沒有學姊訊息；8/5 沒有邀約
+  dict(id='USB_alone', key='2028-08-02', h=21.67, zone='us_apartment', flags=dict(USF), js=USJS + ALONE + BED,
+       steps=[('bedpick', '睡覺', ['睡覺', '再撐一下']), ('ffloop', '2028-08-06', 9.0)], pref=['出發', '去'],
+       want=['C 棟有一扇窗的燈也亮著'], noneMsg=['傍晚去湖邊走走。……走路十五分鐘。'], cflags=['USL_JETLAG']),
+  # US-C 一鍵上課：9/11（一）09:30 平台 → 去上課：字卡、2D 教室、一句旁白；之後站在校園台階下
+  dict(id='USC_class', key='2028-09-11', h=9.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT,
+       steps=[('use', '^去上課')], pref=['出發'], wantZone='us_campus', cflags=[]),
+  # US-E 台灣的課務不出現：9/2 23:00 睡到 9/3、9/4 → 沒有選課結果、沒有開學提示
+  dict(id='USE_notw', key='2028-09-02', h=23.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
+       steps=[('sleep',), ('set', 22.5, '9/3 白天'), ('sleep',)], pref=['睡到明天', '睡覺'],
+       none=['選課結果', '開學了', '加退選'], cflags=[]),
+  # US-I 不能約臺灣朋友：9/20 15:00 公寓，阿哲 FRIEND＋有聯絡方式 → 手機「人」阿哲那一列沒有「約」、寫「你人在美國。」
+  dict(id='USI_noinvite', key='2028-09-20', h=15.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + PLAT + "LV('zhe',60,50,50);",
+       steps=[('phoneppl', 'zhe')], cflags=[]),
+  # US-J 10/16 21:00 學姊「改過的報告拿了 A。」（交往中、US2 有值）；10/15 還沒有
+  dict(id='USJ_report', key='2028-10-16', h=20.5, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, US2='keep'), js=USJS + DATE + PLAT,
+       steps=[('until', 21.4)], wantMsg=['改過的報告拿了 A。'], cflags=['US2']),
+  # US-D 時差：交往中可昕（dating_kexin）、10/16 22:00 睡覺 → 10/17 08:45「可昕的視訊：週年」（09:00）第一句「你那邊是早上吧。」
+  dict(id='USD_kexin', key='2028-10-16', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + BED,
+       steps=[('sleep',), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
+  # US-H 回台灣：12/15 22:00（交往中）睡覺 → 12/16 離開、舊金山一週 → 12/21 23:55「飛回臺灣」→ 抵達 05:40 → 入境大廳（不是黑底）
+  dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
+       steps=[('sleep',), ('ffloop', '2028-12-23', 5.8)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40'], cflags=['US_TRIP_DONE']),
+]
+async def sleep_bed(pg, cdp, run):
+    sn = await pg.evaluate(SNAP)
+    if sn['h'] < 21: await set_h(pg, run, 22.0, '晚上才能睡整晚')
+    bed = await pg.evaluate("(()=>{ const it=GAME.E.interactables.find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
+    if not bed or not await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床'): say('   ⚠ 走不到床'); return False
+    for k in range(4):
+        await close_phone(pg); await pg.wait_for_timeout(800); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+        if (await L.state(pg))['choices']: break
+    await drain(pg, cdp, pref=['睡到明天早上', '睡到明天', '睡覺'], secs=240); say('   睡醒：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False)); return True
+async def main():
+    run = L.Run('us_life', OUT); base = json.load(open(SAVE, encoding='utf-8'))
+    async with async_playwright() as p:
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True); cdp_g[0] = cdp
+        await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
+        sha = os.environ.get('SHA', '?')
+        for sc in SCENS:
+            if SCEN and sc['id'] not in SCEN: continue
+            say('== %s（%s）' % (sc['id'], sha)); t0 = time.time()
+            MID.update({'n': 0, 'run': run, 'keys': [w[:8] for w in sc.get('want', [])], 'id': sc['id']})
+            try:
+                await load_at(pg, base, sc, run)
+                for st in sc['steps']:
+                    if st[0] == 'until': await play_until(pg, cdp, run, st[1], sc)
+                    elif st[0] == 'set': await set_h(pg, run, st[1], st[2])
+                    elif st[0] == 'sleep': await sleep_bed(pg, cdp, run)
+                    elif st[0] == 'talk': await talk(pg, cdp, run, st[1])
+                    elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
+                    elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
+                    elif st[0] == 'use': await use(pg, cdp, run, st[1])
+                    elif st[0] == 'bedpick': await bedpick(pg, cdp, run, st[1], sc, st[2] if len(st) > 2 else None)
+                    elif st[0] == 'ffloop': await ffloop(pg, cdp, run, sc, st[1], st[2])
+                    elif st[0] == 'phoneppl':
+                        r = await pg.evaluate("(id=>{ const b=document.getElementById('btnPhone'); if(b) b.click(); return 1; })(%s)" % json.dumps(st[1])); await pg.wait_for_timeout(1500)
+                        await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"ppl\"]')||[...document.querySelectorAll('#phoneTabs button')].find(x=>/人/.test(x.textContent)); if(b) b.click(); })()"); await pg.wait_for_timeout(1500)
+                        txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).innerText||''"); await run.shot(pg, 'phone_ppl_' + sc['id'])
+                        say('   手機「人」：%s' % txt[:400].replace('\n', '｜'))
+                        if '你人在美國。' not in txt: bad.append('%s：手機「人」沒有「你人在美國。」' % sc['id'])
+                        await close_phone(pg)
+                    elif st[0] == 'grp':
+                        g = await pg.evaluate("((PHONE.rec(GAME.G).groups||{}).noodle_team||{}).name||null"); say('   群組名稱（17:00 以後）：%s' % g)
+                        if g != st[1]: bad.append('%s：群組名稱「%s」（應該「%s」）' % (sc['id'], g, st[1]))
+                await drain(pg, cdp, pref=sc.get('pref', []) + ['出發'], secs=120)
+                if sc.get('stops'): check_stops(sc, sc['stops'])
+                if sc.get('wantZone'):
+                    z = await pg.evaluate("GAME.G.zone"); say('   最後在：%s' % z)
+                    if z != sc['wantZone']: bad.append('%s：最後在 %s（應該 %s）' % (sc['id'], z, sc['wantZone']))
+                await verify(pg, run, sc)
+            except Exception as e:
+                say('   例外：%r' % e); bad.append('%s 例外 %r' % (sc['id'], e)); await run.shot(pg, 'ev_err_' + sc['id'])
+            say('   （%.0f 秒）' % (time.time() - t0))
+        json.dump({'results': results, 'bad': bad, 'rep': rep, 'stops': STOPS}, open(os.path.join(OUT, 'us_life.json'), 'w'), ensure_ascii=False, indent=1)
+        print('問題：'); [print('   -', x) for x in bad]
+        run.check('US-LIFE：美國交換一學期（系統）', not bad, json.dumps(bad[:10], ensure_ascii=False))
+        run.check('沒有 JS 例外', not errs, json.dumps(errs[:3]))
+    run.finish()
+asyncio.run(main())
+
