@@ -26445,7 +26445,7 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）17:4x】f27c36e9 的 flow_exam_terms2 ALL PASS（14 分鐘；大一上憲法、大二上行政法、大三上民訴都真的開考五題、有分數，JS 例外 0）——測試修正有效；新候選 b23483dd 的五支 17:46 起跑 ｜ 【LAWWW（帳號 A）17:5x】候選改成開發分支本身、凍結在 b23483dd：原本的 f27c36e9（f72a2a21＋手機＋出席兩個修正）只在本機，f72a2a21 埋在開發分支歷史裡（後面還有 140＋筆），遠端沒有分支指著它；GitHub 工具只能從分支名開分支，要做出指著它的分支只能在開發分支推一個「把內容換回候選」的快照 commit 再推回來——main 的歷史會帶進沒有發布的 commit（看歷史會以為已發布），不做。f27c36e9 的測試：smoke2、flow_v0_start2 ALL PASS、flow_exam_terms2 跑中（打開手機先切「今天」修好以後大一上 PASS）。新候選的五支（deploy_check、smoke_release、flow_v0_start、touch_flow_wenzhou、flow_exam_terms）在乾淨 worktree wt_rc6 排在 exam2 後面；凍結：發布前不 push 會改遊戲的檔案（已告訴 AA）；BB 的經濟系 qa_play 在開發分支上跑＝直接算這一版 ｜ 【LAWWW（帳號 A）17:3x】flow_v0_start2（f27c36e9）ALL PASS：跳過的 9/2～9/13 經濟系的課自動算出席（會計、經原各兩次）、卡住保險 0、JS 例外 0；剩 flow_exam_terms2（17:32 起跑） ｜ 【LAWWW（帳號 A）17:3x】smoke_release2（f27c36e9）ALL PASS：新遊戲推搖桿 (0,40) 2.61 m、讀檔到 201 上課存讀檔、JS 例外 0；接著 flow_v0_start2、flow_exam_terms2 ｜ 【LAWWW（帳號 A）17:3x】rc5（ea69e5ed→f27c36e9）：touch_flow_wenzhou ALL PASS；flow_exam_terms 大一上、大二上各卡 15 分鐘＝測試問題：手機記得上一次的分頁，D103 自己跳出來的訊息收起來以後再打開停在「訊息」，找不到「直接去上課」（截圖兩張都在宿舍 08:4x、HUD「現在可以上課」）→ 測試打開手機先切「今天」（tests/flow_exam_terms.py），排在 smoke2、flow_v0_start2 之後重跑（f27c36e9） ｜ 【LAWWW（帳號 A）16:5x】候選第三版 f27c36e9＝f72a2a21＋手機修正 4c90c913＋經濟系跳過的課算出席 ca50db33（只在 LAWWW 暫存區）。ea69e5ed 上：touch_flow_wenzhou ALL PASS；smoke_release 失敗＝推搖桿中途 D103 手機打開（測試改了，排隊重跑）；flow_v0_start 失敗＝BUG-ECON-ATTEND-SKIP-1021（已修，排隊在第三版重跑）；flow_exam_terms 跑中。出席修正只動經濟系事件接事件，smoke／溫州街／考試三支的結果在第三版照樣算 ｜ 【LAWWW（帳號 A）16:4x】候選改 ea69e5ed（＝bcbd4b65 的重做：f72a2a21＋手機修正；開發分支的新東西照 README 第 5 節放下一版）；四支背景跑中，全過 → 把候選推成 GitHub 上的分支（只能 push 指定分支：用 GitHub 工具建分支＋PR）→ merge main → RELEASES.md、CANDIDATE_9103.md → 驗 Pages ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班】使用者「現在正式交班……不要再繼續調查搖桿問題、執行測試或嘗試發布 v9.10.3」→ 沒發布。候選 bcbd4b65（f72a2a21＋手機修正；只在暫存區，重做方法 docs/handoff/release_9103/README.md 第 5 節）。擋發布：BUG-SMOKE-JOY-1021（smoke_release 新遊戲搖桿 0.33 m）。bcbd4b65 上還沒跑：flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms。f72a2a21 上 ALL PASS：14 支＋reachability_all＋save_compat_start1_v991 ｜ 【LAWWW-C 2026-10-21 14:4x UTC】f72a2a21 不發布（BUG-PHONE-REOPEN-1021）；候選改 bcbd4b65（f72a2a21＋手機修正，只在 LAWWW-C 暫存區，重做方法在 CANDIDATE_9103.md 發布前狀態）。f72a2a21 上 save_compat_start1_v991、reachability_all ALL PASS；bcbd4b65 上排著 probe→smoke_release→flow_v0_start（再改一次：AA_300 短版不演 9/2 開學典禮、9/5 會計）→touch_flow_wenzhou→flow_exam_terms；全過才 snapshot→PR→merge ｜ 【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+   "next": "【LAWWW（帳號 A）17:5x】BB 經濟系「天天睡覺」PASS（807b650a＝候選遊戲程式；新遊戲→2025-09-02 法律系、E37 演完、卡住保險 0、JS 例外 0）；新 bug BUG-ECON-OCT-ALLOWANCE-1021（P2）不擋發布，發布紀錄寫明 ｜ 【LAWWW（帳號 A）17:4x】f27c36e9 的 flow_exam_terms2 ALL PASS（14 分鐘；大一上憲法、大二上行政法、大三上民訴都真的開考五題、有分數，JS 例外 0）——測試修正有效；新候選 b23483dd 的五支 17:46 起跑 ｜ 【LAWWW（帳號 A）17:5x】候選改成開發分支本身、凍結在 b23483dd：原本的 f27c36e9（f72a2a21＋手機＋出席兩個修正）只在本機，f72a2a21 埋在開發分支歷史裡（後面還有 140＋筆），遠端沒有分支指著它；GitHub 工具只能從分支名開分支，要做出指著它的分支只能在開發分支推一個「把內容換回候選」的快照 commit 再推回來——main 的歷史會帶進沒有發布的 commit（看歷史會以為已發布），不做。f27c36e9 的測試：smoke2、flow_v0_start2 ALL PASS、flow_exam_terms2 跑中（打開手機先切「今天」修好以後大一上 PASS）。新候選的五支（deploy_check、smoke_release、flow_v0_start、touch_flow_wenzhou、flow_exam_terms）在乾淨 worktree wt_rc6 排在 exam2 後面；凍結：發布前不 push 會改遊戲的檔案（已告訴 AA）；BB 的經濟系 qa_play 在開發分支上跑＝直接算這一版 ｜ 【LAWWW（帳號 A）17:3x】flow_v0_start2（f27c36e9）ALL PASS：跳過的 9/2～9/13 經濟系的課自動算出席（會計、經原各兩次）、卡住保險 0、JS 例外 0；剩 flow_exam_terms2（17:32 起跑） ｜ 【LAWWW（帳號 A）17:3x】smoke_release2（f27c36e9）ALL PASS：新遊戲推搖桿 (0,40) 2.61 m、讀檔到 201 上課存讀檔、JS 例外 0；接著 flow_v0_start2、flow_exam_terms2 ｜ 【LAWWW（帳號 A）17:3x】rc5（ea69e5ed→f27c36e9）：touch_flow_wenzhou ALL PASS；flow_exam_terms 大一上、大二上各卡 15 分鐘＝測試問題：手機記得上一次的分頁，D103 自己跳出來的訊息收起來以後再打開停在「訊息」，找不到「直接去上課」（截圖兩張都在宿舍 08:4x、HUD「現在可以上課」）→ 測試打開手機先切「今天」（tests/flow_exam_terms.py），排在 smoke2、flow_v0_start2 之後重跑（f27c36e9） ｜ 【LAWWW（帳號 A）16:5x】候選第三版 f27c36e9＝f72a2a21＋手機修正 4c90c913＋經濟系跳過的課算出席 ca50db33（只在 LAWWW 暫存區）。ea69e5ed 上：touch_flow_wenzhou ALL PASS；smoke_release 失敗＝推搖桿中途 D103 手機打開（測試改了，排隊重跑）；flow_v0_start 失敗＝BUG-ECON-ATTEND-SKIP-1021（已修，排隊在第三版重跑）；flow_exam_terms 跑中。出席修正只動經濟系事件接事件，smoke／溫州街／考試三支的結果在第三版照樣算 ｜ 【LAWWW（帳號 A）16:4x】候選改 ea69e5ed（＝bcbd4b65 的重做：f72a2a21＋手機修正；開發分支的新東西照 README 第 5 節放下一版）；四支背景跑中，全過 → 把候選推成 GitHub 上的分支（只能 push 指定分支：用 GitHub 工具建分支＋PR）→ merge main → RELEASES.md、CANDIDATE_9103.md → 驗 Pages ｜ 【LAWWW-C 2026-10-21 14:5x UTC 交班】使用者「現在正式交班……不要再繼續調查搖桿問題、執行測試或嘗試發布 v9.10.3」→ 沒發布。候選 bcbd4b65（f72a2a21＋手機修正；只在暫存區，重做方法 docs/handoff/release_9103/README.md 第 5 節）。擋發布：BUG-SMOKE-JOY-1021（smoke_release 新遊戲搖桿 0.33 m）。bcbd4b65 上還沒跑：flow_v0_start（新版）、touch_flow_wenzhou、flow_exam_terms。f72a2a21 上 ALL PASS：14 支＋reachability_all＋save_compat_start1_v991 ｜ 【LAWWW-C 2026-10-21 14:4x UTC】f72a2a21 不發布（BUG-PHONE-REOPEN-1021）；候選改 bcbd4b65（f72a2a21＋手機修正，只在 LAWWW-C 暫存區，重做方法在 CANDIDATE_9103.md 發布前狀態）。f72a2a21 上 save_compat_start1_v991、reachability_all ALL PASS；bcbd4b65 上排著 probe→smoke_release→flow_v0_start（再改一次：AA_300 短版不演 9/2 開學典禮、9/5 會計）→touch_flow_wenzhou→flow_exam_terms；全過才 snapshot→PR→merge ｜ 【LAWWW-C 2026-10-21 14:2x UTC】BB 經濟系新遊戲完整一輪也 ALL PASS（145d6a74，96 分鐘到 8/31）；等我的 reachability_all＋五支重跑（smoke_release_v2、flow_v0_start_v2、save_compat_start1_v991、touch_flow_wenzhou_v2、flow_exam_terms_v2） ｜ 【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
   },
   {
    "id": "BB218-P3-1021",
@@ -27286,6 +27286,27 @@
     "receiver": "LAWWW",
     "ack": "DELIVERED"
    }
+  },
+  {
+   "id": "BUG-ECON-OCT-ALLOWANCE-1021",
+   "title": "經濟系住宿舍的 10 月沒匯生活費：10/1 沒有 30,000，10/31 搬回家那晚才匯 5,000（econff3d.js 的 S.jumpTo 事件接事件跳日子沒叫 STORY.monthlyFunds；home3d.js 的 y0Jump 有叫）——AA363-S2 以後玩家 10 月少 25,000",
+   "area": "v0",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P2",
+   "first": {
+    "term": "Y0S1",
+    "week": 5,
+    "earliest": "2024-10-01 經濟系住宿舍",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）2026-10-21 17:50 QA-PLAYTHROUGH-1018「天天睡覺」（807b650a＝候選 b23483dd 的遊戲程式；BB_218 最後一節 story-planning d4b05752，test_shots/qa_sleep_1021/）",
+   "authorized": "bug 修正（D85）",
+   "next": "【LAWWW（帳號 A）17:5x】不擋 v9.10.3（P2：少 25,000、不卡流程；v9.10.2 是 10/31 才晚匯 30,000）；修正在發布後放進開發分支（S.jumpTo 整點照月匯＋econ_ff_unit 一項），下一版帶出去"
   }
  ]
 }
