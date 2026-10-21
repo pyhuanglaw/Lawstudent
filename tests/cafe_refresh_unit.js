@@ -75,4 +75,8 @@ if(typeof STORY.refreshSchedule==='function'){ const LT=STORY.leaveTouch||(()=>-
   const k1=LT(GM), left=cust(GM).length;
   const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8');
   check('9. 每一幀（S.tick）檢查：還在店中間＝不出門；走到玩家身上的那一幀就出門，店裡剩一位；S.tick 一開始就叫 leaveTouch', lv.length===2&&k0===0&&k1===2&&left===1&&/S\._sleeping\) return; S\.leaveTouch\(GM\);/.test(src), [lv.length,k0,k1,left].join('/')); }
+// 10. BB-C 10-21（b5fcf536）：S.tick 是主迴圈每 30 格才叫一次（game3d.js E.frame%30），SwiftShader 0.8 fps 時要 37 秒，客人照樣疊在玩家身上 24 秒。
+//     leaveTouch 要在主迴圈每一格叫（不放在 frame%30 那一段裡）。修改前失敗。
+{ const g=require('fs').readFileSync(require('path').join(__dirname,'..','src','game3d.js'),'utf8'); const ln=g.split('\n').filter(l=>/STORY\.leaveTouch\(GM\)/.test(l));
+  check('10. 主迴圈每一格叫 STORY.leaveTouch（不在 E.frame%30 那一段；劇情、忙碌、睡覺、換區時不叫）', ln.length===1&&!/frame%30/.test(ln[0])&&/!E\.player\.busy/.test(ln[0])&&/!D\.active/.test(ln[0])&&/!entering/.test(ln[0]), ln.length+' 行'); }
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -421,6 +421,7 @@ const GAME = (function(){
     // 時間流動（自由行動時）
     if(!E.player.busy&&!D.active){ G.hour+=dt*GM.hourRate; E.hour=G.hour; if(E.frame%3===0) actTrack(); }
     if(!GM.titleIdle&&STORY.routeWatch) STORY.routeWatch(G);   /* 交換路線（1A-02）：每一格都看，不管忙不忙——上課坐著、劇情裡、睡覺時 S.tick 不跑，時間跨過截止以後的第一格就照那一刻定（BB-C 10-20）*/
+    if(!GM.titleIdle&&!entering&&!E.player.busy&&!D.active&&!STORY._sleeping&&STORY.leaveTouch) STORY.leaveTouch(GM);   /* 要走的人走到玩家身上（離出口 3.5 m 內、0.6 m 內）就先移除：每一格都看（BB-C 10-21：放在 S.tick 只有每 30 格一次，SwiftShader 0.8 fps 時要 37 秒，客人疊在玩家身上 24 秒）*/
     // 腳步聲
     const P=E.player; if(P.pose==='walk'||P.pose==='run'){ stepAcc+=dt*(P.pose==='run'?3.2:1.9); if(stepAcc>=1){ stepAcc=0; A3.step(P.pose==='run',E.indoor); G.stats.steps++; } if(G.stats.steps%400===0&&G.stats.steps>0) {} }
     if(E.frame%3===0&&$('mdbg').style.display!=='none') movementTelemetry(realDt*3);
