@@ -114,13 +114,14 @@ const STORY = (function(){
     const econ=S.isEcon(G); if(econ) F.PLAYED_Y0=true;   /* 經濟系路線（AA_205 2-3）：營地旁白「這個營地你去年來過」看 PLAYED_Y0（轉進法律系時本來也會記）*/
     F.CAMP_Y1_ON=true; const from=F.campStep|0; S.campGroups(G,d0); if(typeof PHONE!=='undefined'&&!PHONE.inGroup(G,'camp_squad_y1')) PHONE.join(G,'camp_squad_y1','第七小隊');
     if(GM.sceneBegin) GM.sceneBegin(); try{
+      if(typeof ADV!=='undefined'&&!ADV.active) ADV.begin({background:'dark'});   /* X09（BUG-CAMP-CUT-1018）：字卡疊在黑底上，不露出出發前的 3D（椰林大道、家裡）*/
       if(from===0&&GM.titleCard){ G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=8.5; if(E) E.hour=G.hour; await GM.titleCard('2025 年 8 月 22 日（五）','迎新宿營',2200); }
       for(let i=from;i<S.CAMP_SEQ.length;i++){ const [id,off,hr]=S.CAMP_SEQ[i], ev=STORY_EVENTS.find(e=>e.id===id); if(!ev) continue;
         const day=d0+off; if(day!==G.day){ G.day=day; G.weekday=CALENDAR.dateOf(day).wd%7; if(GM.titleCard){ const dt=S.dateOf(day); await GM.titleCard('8 月 '+dt.d+' 日（'+'日一二三四五六'[G.weekday]+'）','迎新宿營 第 '+(off+1)+' 天',1600); } }
         G.hour=hr; if(E) E.hour=hr; if(GM.updateHUD) GM.updateHUD();
         if(typeof ev.before==='function') ev.before(G);
         if(typeof ADV!=='undefined') ADV.begin({background:ev.background||'dark'});
-        await EVENTS.run(ev); if(typeof ADV!=='undefined'&&ADV.active) ADV.end();
+        await EVENTS.run(ev); if(typeof ADV!=='undefined'){ if(ADV.active) ADV.end(); ADV.begin({background:'dark'}); }   /* X09：兩段之間（隔天的字卡）留在黑底，不露出 3D */
         if(econ&&F.dating_kexin&&id==='ev_camp_d2_talk'&&typeof PHONE!=='undefined'&&!PHONE.sent(G,'camp_kx_823')){ G.hour=23+40/60; if(E) E.hour=G.hour;   /* BB_177 第 14 節：8/23 22:00 可昕傳、營地訊號差，熄燈前（23:40）才收到；不用回 */
           PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'山上冷嗎',tag:'camp_kx_823'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'訊號不好就不用回'},G.day,22); PHONE.postAt(G,{th:'p:kexin',from:'kexin',text:'明天十二點半到校門對吧，到了跟我說一聲'},G.day,22);
           if(typeof ADV!=='undefined') ADV.begin({background:'dark'}); await GM.say(null,'（手機到熄燈前才收到訊息。）'); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
@@ -139,7 +140,7 @@ const STORY = (function(){
   S.LAW_START_TEST=()=>typeof location!=='undefined'&&/[?&](start0|start1)\b/.test(location.search||'');
   S.newGame=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; if(GM.chooseReset) GM.chooseReset(); GM.hideHUD(false);
     if(!o.law&&!S.LAW_START_TEST()&&S.y0Day1()!=null) return S.newGameEcon(GM,{camp:true});   /* o.law：標題「直接從法律系大一開始」（2026-10-18 使用者）*/
-    if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1); await S.campY1(GM); return; }   /* 新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍（預設；?start0 走下面舊的 9/17 開局）*/
+    if(S.START1()){ await S.recap(GM,S.LAW_START_RECAP_W1,{keep:true}); await S.campY1(GM); return; }   /* recap keep：回顧完不關 2D，直接接宿營的字卡（X09）*/   /* 新遊戲＝回顧 → 8/22～24 宿營（CAMP-L1）→ 8/29 搬宿舍（預設；?start0 走下面舊的 9/17 開局）*/
     G.day=1; G.weekday=3; G.hour=21.2; G.flags.fundsV2=1; G.flags.allowanceMonth=S.dateOf(1).m; G.zone='dorm'; G.stage='law'; E.hour=G.hour; G.weather='clear'; E.setWeather('clear'); G.flags.LAW_RECAP_SEEN=true; await S.recap(GM,S.LAW_START_RECAP.concat(S.LAW_WEEK12)); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI},{}); };   /* 法律系開局：④＋③ → 現有的第一天（AA_106 3b）*/
   /* 經濟系開局（交接包 v0；v0 做好以前藏在網址 ?y0 後面，標題畫面照舊只有法律系開局——D81）：2024-09-01（日）晚上，男宿；E01 宿舍第一晚已接（AA_154 A24）*/
   S.newGameEcon=async function(GM,o){ o=o||{}; const E=GM.E, G=GM.G; E.player.busy=false; E.endCinematic(); GM.titleIdle=false; GM.D.busyDepth=0; if(GM.chooseReset) GM.chooseReset(); GM.hideHUD(false); const d=S.y0Day1(); if(d==null) return null;
@@ -149,11 +150,11 @@ const STORY = (function(){
     await GM.enter('dorm',{x:-0.5,z:0.5,yaw:Math.PI},{}); await y0FirstNight(GM); };
   /* 第 7 組 7-2：經濟系迎新宿營 2024-08-23～25（AA_224 第 7 組 @4e3a7c2b，AA 定稿）。回顧前三句 → 字卡 → 遊覽車上第一次見到可昕（二選一，E15_BUS）→ CG＋E15 的三句旁白 → 8/25 回家 → 21:00 小隊群組三則 → 開學前那一週一句旁白（接 9/1 E01）*/
   S.econCampPrologue=async function(GM){ const G=GM.G, F=G.flags, E=GM.E; const d0=S.dayOfKey('2024-08-23'); if(d0==null) return false;
-    await S.recap(GM,S.LAW_START_RECAP.slice(0,3));
+    await S.recap(GM,S.LAW_START_RECAP.slice(0,3),{keep:true});   /* X09（BUG-CAMP-CUT-1018，使用者 10-18「去宿營前一秒還在椰林大道」）：回顧完不關 2D，字卡疊在黑底上，不露出 3D */
     G.day=d0; G.weekday=CALENDAR.dateOf(d0).wd%7; G.hour=9; if(E) E.hour=G.hour;
     if(GM.titleCard) await GM.titleCard('2024 年 8 月 23 日（五）','經濟系迎新宿營',2000);
     GM.sceneBegin(); try{
-      if(typeof ADV!=='undefined') ADV.begin({background:'dark'});
+      if(typeof ADV!=='undefined') ADV.begin({background:typeof OUT!=='undefined'&&OUT.bg?OUT.bg('tour_bus'):'dark'});   /* X09：遊覽車上（tour_bus，和法律系宿營同一張）*/
       const K={name:'可昕',charId:'kexin'};
       await GM.say(null,'（遊覽車上，你從上車就開始睡。）'); await GM.say(null,'（醒來的時候，旁邊的位子坐著一個女生，手上拿著小隊名單。）');
       await GM.say(K,'你醒了？你是第三小隊的吧。我也是。'); await GM.say(K,'我叫杜可昕。……你睡了一個小時，車子轉彎你都沒醒。');

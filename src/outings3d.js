@@ -71,7 +71,7 @@ const OUT=(function(){
     const q=S.due(G); if(!q) return null; busy=true; return S.prompt(GM,q).finally(()=>{ busy=false; }); };
   const hm=h=>typeof INV!=='undefined'&&INV.hhmm?INV.hhmm(h):String(h);
   S.prompt=async function(GM,q){ const G=GM.G; let k=1; if(q.dateTrip&&typeof DATE!=='undefined') return DATE.prompt(GM,q);   /* 校外單獨約會（date3d.js）：出發／改時間／今天不去了（AA_128 4-2）*/ GM.sceneBegin();
-    try{ const O=[{t:(q.verb||'出發')+'：'+q.title,hint:q.place+'　'+hm(q.h)+(q.travel?'　'+q.travel:'')}]; if(!q.must) O.push({t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}); k=await GM.choose(O); } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
+    try{ const tl=String(q.title||''), hh=hm(q.h), O=[{t:(q.verb||'出發')+'：'+q.title,hint:[q.place&&!tl.includes(q.place)?q.place:'',tl.includes(hh)?'':hh,q.travel||''].filter(Boolean).join('　')}];   /* 小字不重複標題已經寫的地點、時間（BB218-P3 ④，和 home3d.js outHint 同一個做法）*/ if(!q.must) O.push({t:'晚一點（20 分鐘後再提醒）'},{t:q.no||'不去了'}); k=await GM.choose(O); } finally { GM.sceneEnd(); }   /* must：一定會去的（法律系迎新宿營，AA_205 2-3）只有「出發」*/   /* verb：視訊是「接起來」；no：「不去了」以外的說法 */
     if(k===1){ q.ask=t(G.day,G.hour)+1/3; return 'later'; }
     if(k!==0){ q.state='missed'; S.onMissed(GM,q); return 'no'; }
     await S.go(GM,q); return 'go'; };
