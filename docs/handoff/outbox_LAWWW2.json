@@ -1356,6 +1356,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "陽台盆栽放到鐵花架上、葉子調亮，從街上看得到（溫州街 A3／C2／W0、公館 G04／G07／G10 遊戲內前後對照）；物件、材質數不變，三角形 +288（溫州街）、+480（公館）"
+  },
+  {
+   "task": "BB218-Y1-TAPE-BOX",
+   "branch": "claude/second-ai-env-art",
+   "sha": "（本 commit）",
+   "files": [
+    "assets/models/env/second_ai/dorm_y1_items.glb",
+    "assets/models/env/second_ai/dorm_y1_items.json",
+    "tools/blender/env_second/dorm_y1_items.py",
+    "tools/blender/env_second/textures/gen/dorm_y1_print.png",
+    "docs/art-rebuild/second_ai/test_shots/dorm203_tape_box_1021/"
+   ],
+   "state": "已交付",
+   "remaining": "玩家一般的鏡頭看不清楚地上的字（要靠 ev_kai_tape2 的劇情鏡頭貼近，LAWWW／AA 決定）；只拍了白天",
+   "next": "LAWWW 換 dorm_y1_items.glb＋json（不用改程式）；BB 用 y1_check.py 重拍",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "BB_218：膠帶 4.8 cm、中間「國界」（ev_kai_tape2 以前）／「法律系免簽」（以後，AA 16:10 定的字）、字距平均；壓平的紙箱從書桌底下搬到衣櫃門前（原本封好的紙箱那裡）"
   }
  ]
 }
