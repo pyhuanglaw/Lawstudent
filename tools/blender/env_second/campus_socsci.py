@@ -226,7 +226,7 @@ def build():
     zi = LZ1 - 0.2; dx0, dx1 = DOOR_LIB - 1.25, DOOR_LIB + 1.25   # 南牆內側（門的地方挖空：從門外看得到裡面）
     for (a0, a1, y0, y1) in ((LX0 + 0.05, dx0, 0.0, HIN), (dx1, LX1 - 0.2, 0.0, HIN), (dx0, dx1, 2.9, HIN)):
         kit.cface(A('misc'), [(a0, y0, zi), (a1, y0, zi), (a1, y1, zi), (a0, y1, zi)], (0, 0, -1), PLASTER)
-    for s_ in (dx0, dx1): kit.cface(A('misc'), [(s_, 0.0, LZ1), (s_, 0.0, zi), (s_, 2.9, zi), (s_, 2.9, LZ1)], (1 if s_ == dx0 else -1, 0, 0), PLASTER)
+    # 門洞兩側不另外放白牆：南牆的清水混凝土門洞內側（kit.strip，深 0.35 m）已經蓋住同一個平面（原本兩片重疊、會閃；SOC-COURT-1021）
     kit.cface(A('misc'), [(LX1 - 0.2, 0, LZ0 + 0.05), (LX1 - 0.2, 0, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ1 - 0.2), (LX1 - 0.2, HIN, LZ0 + 0.05)], (-1, 0, 0), PLASTER)
     for c in J['columns']:
         x, z, r, cap, cy = LCX + c['x'], LCZ + c['z'], c['r'], c['cap'], c['capY']
