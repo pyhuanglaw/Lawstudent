@@ -187,8 +187,8 @@ const termDay=(t,w,wd)=>STORY.termDay(t,w,wd);
   // K3 她主動約（手機）→ 下一次去台南＝美術館（BB_128 3-4 照抄）
   { const d=termDay('Y3S1',3,3); fresh(d,20,'dorm',{PS_BACK_FIRST:1}); R(ID,'CLO'); C(ID); SOCIAL.rel(ID).npcRom=60; SOCIAL.rel(ID).rom=35; run(d,20.5,21.2);
     const M=TH(TH_PS).filter(m=>m.from===ID).map(m=>m.text), m=PHONE.byAsk(G,'ps_museum_Y3S1');
-    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「美術館。我想要一天，沒有標準答案。」「你可以說不。不是叫你說不，是問你。」；選項「答應」「這週不行」',
-      JSON.stringify(M)===JSON.stringify(['你下次來台南，我們去美術館。','美術館。我想要一天，沒有標準答案。','你可以說不。不是叫你說不，是問你。'])&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='答應|這週不行', JSON.stringify(M));
+    check('7. K3 她主動約（第 5 階以上、雙方單身；學期中第 3 週起的晚上 21:00）：「你下次來台南，我們去美術館。」「美術館。我想要一天，沒有標準答案。」「你可以說不。我只是問問看。」；選項「答應」「這週不行」',
+      JSON.stringify(M)===JSON.stringify(['你下次來台南，我們去美術館。','美術館。我想要一天，沒有標準答案。','你可以說不。我只是問問看。'])&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='答應|這週不行', JSON.stringify(M));
     PHONE.answer(G,'ps_museum_Y3S1',0);
     check('7. K3 答應：「好。……我會準備。不對，我什麼都不準備。」', txt(TH_PS).includes(ID+':好。……我會準備。不對，我什麼都不準備。')&&G.flags.PS_MUSEUM==='yes');
     G.day=d+3; G.weekday=wdOf(G.day); G.hour=10.5; said=[]; caps=[]; opts=[]; picks=[0,0,0,0,0,0]; const m0=G.money, c0=DATE.log(G,ID).count|0; await HV.play(GM,tn);

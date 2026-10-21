@@ -637,7 +637,7 @@ Array.prototype.push.apply(STORY_EVENTS,R2Y4A_EVENTS);
       {text:'「先不考。去實習，或做別的事。」',set:{Y4_PATH:'other'},goto:'p_other'},{text:'「還沒決定。」',set:{Y4_PATH:'other',Y4_PATH_TWICE:true},goto:'p_und'}]},
     {label:'p_bar'},nar('（你在桌曆上，把每個禮拜二、四的晚上圈起來。）'),{goto:'p_end'},
     {label:'p_grad'},{unless:{custom:ABR},speaker:null,text:'（你打開系上的網頁。推甄的面試在十月底。）'},{if:{custom:ABR},speaker:null,text:'（你查了一下。交換回來要多念一學期，推甄趕不上。筆試在後年二月。）'},{goto:'p_end'},
-    {label:'p_other'},nar('（你把國考的簡章收進抽屜最下面。不是丟掉，是收起來。）'),{goto:'p_end'},
+    {label:'p_other'},nar('（你把國考的簡章收進抽屜最下面，沒有丟。）'),{goto:'p_end'},
     {label:'p_und'},nar('（你決定先不決定。）'),
     {label:'p_end'} ];
   e.consequences={stamp:['Y4_PATH_DAY']}; e.r2y4a=true; })();

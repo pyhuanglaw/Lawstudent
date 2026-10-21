@@ -12749,6 +12749,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:3x 合併；沒有測試寫死舊句子"
+  },
+  {
+   "id": "DL-AA-bde0df0a",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "bde0df0a",
+   "what": "AA_362 禁用句型第三輪（「不是 X，是 Y」日常不用）：約會 D01、D05 五句、ladder_bb_y2s1 學姊一句（企劃源檔）；要 LAWWW 改的四處（一個人吃飯、國考簡章兩處、沛珊台南「你可以說不」、溫州街公園貓）",
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 14:3x：白名單 D01、D05、ladder_bb_y2s1 換 bde0df0a 重新匯入；四處照第 3 節改字、四支測試寫死的舊句照改（改之前 src 一改 4 支 FAIL）"
   }
  ],
  "ignored": [

@@ -203,11 +203,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y2s1.json",
-   "sha": "49ed7e6a",
+   "sha": "bde0df0a",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）",
    "task": "AB65-3-Y2S1-L",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "8cac8eaa",
      "approvedBy": "BB-C（2026-10-17 13:27 已審表）；2026-10-18 AA-C：AA_281 沛珊消失前什麼都不說（使用者 10-18 回答三題）"
@@ -1015,10 +1019,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D01.json",
-   "sha": "57de1709",
+   "sha": "bde0df0a",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
-   "task": "DATE-L01"
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）",
+   "task": "DATE-L01",
+   "history": [
+    {
+     "sha": "57de1709",
+     "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D02.json",
@@ -1036,10 +1046,16 @@
   },
   {
    "path": "docs/story_planning/date_system/lines/D05.json",
-   "sha": "57de1709",
+   "sha": "bde0df0a",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入",
-   "task": "DATE-L05"
+   "approvedBy": "AA-C 定稿（2026-10-21 AA_362 禁用句型第三輪「不是 X，是 Y」，企劃分支 bde0df0a；D100 台詞歸 AA）",
+   "task": "DATE-L05",
+   "history": [
+    {
+     "sha": "57de1709",
+     "approvedBy": "AA-C 2026-10-21 12:57Z 約會台詞 32 個地點全部口語審完＋跨地點去重（send_message 12:57Z）：同一人跨地點同一句 0 組、綁選項的「記得上次」0 句；只改引號裡的字，key／tier／likes／選項數／互動點不變；請以 57de1709 整批重新匯入"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/date_system/lines/D07.json",
