@@ -2048,7 +2048,7 @@ const STORY = (function(){
         if((G.day>d||(G.day===d&&G.hour>=21))&&G.day<=d+3&&!PHONE.sent(G,'sis_m2')){ const opts=[];
           if(typeof SOCIAL!=='undefined'&&SOCIAL.has('heroine_05','FAMILY_DINNER')) opts.push({t:'三，考完全家族去吃永康街那家咖哩。',say:[W('……好。考完那天我請。你們不要跟我搶。')],set:{SIS_M2:'curry'}});
           opts.push({t:'三，考前一天不要熬夜。',say:[W('你在用我的句型管我。'),W('……好。收到。')],set:{SIS_M2:'sleep'}});
-          opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:'M2：不管考得怎樣都要跟我說'}]});
+          opts.push({t:'三，不管考得怎樣，都要跟我說。',say:[W('好。放榜那天就說。')],set:{SIS_M2:'tell'},mem:[{npc:'heroine_05',tag:'ASKED_TELL_ME',note:''}]});
           PHONE.at(G,d,21,[W('📷（一張讀書計畫）'),W('三件事。'),W('一，這次的題目是我自己選的。法律扶助制度。'),W('二，Kevin 幫我看第一段，學弟看第二段。'),W('三……第三件你們來想。',{ask:{id:'sis_m2',until:(d+1)*24+9,opts}})],'sis_m2'); }
         if(PHONE.sent(G,'sis_m2')&&!F.SIS_M2&&G.day*24+G.hour>=(d+1)*24+9&&!PHONE.sent(G,'sis_m2_kevin')){ F.SIS_M2='none'; PHONE.at(G,d+1,9,[{th:'g:family_law',from:'kevin',name:'Kevin',text:'三，考完請吃飯！'},W('……好。')],'sis_m2_kevin'); } } }
     /* 沛珊 P4 沒去（BB_97 4-3）：大二下第 1 週週四那晚 21:30，公法讀書會群組她的最後一則（題目整理交給柏翰）（BB_191 §8-7：原本週三法服讀書會群組）。
@@ -2217,7 +2217,7 @@ const STORY = (function(){
           if(n<3){ const open=n===0&&W3B_OPEN[F.W3_STANCE]?[W(W3B_OPEN[F.W3_STANCE])]:[W('這篇。三個論點。')];   /* BB_161 ⑧：第一次依立場的那一句「取代」開頭（沒有立場＝照舊）*/
             items=open.concat([W('📄 校刊投書〈'+A.title+'〉'),W('一，'+A.pts[0]),W('二，'+A.pts[1]),
               W('三，'+A.pts[2],{ask:{id:'w3b_q_'+n,opts:A.cx.map((c,i)=>({t:c[0],post:'第二點有反例。'+c[0],say:[W(W3B_RESP[i]),ME('哪裡。'),W(A.long[0],{fold:A.long}),ME('那我換一個反例。'),W('……你的論點比上週好。')],
-                mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'W3b〈'+A.title+'〉'}]}))}})]); }
+                mem:[{npc:'heroine_05',tag:'ARGUED_GOOD',note:'〈'+A.title+'〉'}]}))}})]); }
           else items=[W('📄 校刊投書〈'+A.title+'〉'),W('這篇你讀過了。這次換你先說三個論點。',{ask:{id:'w3b_q_'+n,opts:['第一點','第二點','第三點'].map((t,i)=>({t:t+'有問題。',say:[W(i===1?'對。':'再讀一次。')]}))}})];
           /* 原本第 3、6、9…篇後面讀書會成員的回話（柏翰、沛珊）：改私訊以後拿掉（AA_284 1-5）*/
           items.forEach((m,i)=>{ m.dt=i/60; }); PHONE.at(G,d,20.5,items,tg); F.W3B_N=n+1; } } }
@@ -3041,7 +3041,7 @@ const STORY = (function(){
   /* 在宿舍時（S.tick）：K-D3 早上的鍵盤聲、K-D5 和解的飲料；吵架第 4 天自己和好（不在宿舍也算）*/
   let kdBusy=false;
   S.kaiDormTick=function(GM){ const G=GM.G, F=G.flags, R=kdRec(G); if(kdBusy||typeof LADDER==='undefined'||!LADDER.kaiDorm) return;
-    if(F.KAI_FIGHT&&G.day-(R.fightDay|0)>=4){ F.KAI_FIGHT=false; SOCIAL.remember('kai','KAI_ROOM_RULES','K-D5'); R.sorryPending=true; return; }   /* 沒回宿舍：第 4 天自己和好（BB_130 fallback）*/
+    if(F.KAI_FIGHT&&G.day-(R.fightDay|0)>=4){ F.KAI_FIGHT=false; SOCIAL.remember('kai','KAI_ROOM_RULES',''); R.sorryPending=true; return; }   /* 沒回宿舍：第 4 天自己和好（BB_130 fallback）*/
     if(G.zone!=='dorm') return; const run=f=>{ kdBusy=true; (async()=>{ GM.sceneBegin({adv:'kai'}); try{ await f(); } finally { GM.sceneEnd(); kdBusy=false; } })().catch(e=>{ console.warn('kaiDorm',e); kdBusy=false; }); };
     const d5=KD('K-D5'), dd=G.day-(R.fightDay|0); if(d5&&F.KAI_FIGHT&&dd>=d5.daysAfter[0]&&dd<=d5.daysAfter[1]&&R.d5!==R.fightDay){ R.d5=R.fightDay; run(async()=>{ const n=kaiWho(GM); if(d5.narr) await GM.say(null,d5.narr); await kdChoice(GM,n,d5); }); return; }
     const d3=KD('K-D3'), t3=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(d3&&kdIn(G,d3)&&!(t3&&t3.id==='Y1S1'&&t3.week<2)&&R.d3Roll!==G.day&&GM.npc.kai&&!F.KAI_FIGHT&&!SOCIAL.has('kai','KAI_QUIET_KEYBOARD')&&!SOCIAL.has('kai','KAI_ROOM_RULES')&&R.lastGameDay!==G.day-1){

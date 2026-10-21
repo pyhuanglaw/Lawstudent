@@ -112,7 +112,7 @@ const R2Y4A_EVENTS=(function(){
       sis('（看了一眼後面還有二十塊）……好。我跳過一塊。'),
       IF(G=>dating(G,S5),nar('（回程的巴士上，她睡著了。行程表還在她的外套口袋裡。）')),
       UN(G=>dating(G,S5),nar('（晚上回程的巴士上，兩個人隔一排坐。）')),
-      {mem:[{npc:S5,tag:'CHICAGO_TRIP',note:'芝加哥的週末'}]} ] });
+      {mem:[{npc:S5,tag:'CHICAGO_TRIP',note:''}]} ] });
 
   /* ---- 2-Y4-19 US3 感恩節的湖邊（溫書瑀_角色企劃 US3；AA_253 §6 第 3 步）：11/23 09:00 會所門口 → 湖邊（出遊）---- */
   EV.push({ id:'ev_us3_lake', title:'感恩節的湖邊', participants:[S5], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
@@ -342,7 +342,7 @@ const R2Y4A_EVENTS=(function(){
       IF(here('yu'),{speaker:'yu',text:'妳以前有十條。'}),
       {speaker:'heroine_01',text:'留一條就好，其他的他們自己會加。'},
       {speaker:'heroine_01',text:'（對學弟妹）規則只有一條。例外，要說理由。'},   /* 以安大四上唯一一次說出口的「理由」（AA_262 2-4）*/
-      {choice:[{text:'（拍一張白板的照片）',mem:[{npc:'heroine_01',tag:'PLG_LAST_RULE',note:'白板上只剩「說理由。」'}],goto:'e'},{text:'（什麼都不說，鼓掌）',goto:'b'}]},
+      {choice:[{text:'（拍一張白板的照片）',mem:[{npc:'heroine_01',tag:'PLG_LAST_RULE',note:''}],goto:'e'},{text:'（什麼都不說，鼓掌）',goto:'b'}]},
       {label:'b'},nar('（學弟妹跟著鼓掌。以安轉過去看白板，沒有回頭。）'),
       {label:'e'},{set:{PLG_HANDOVER:'there'}} ] });
 
@@ -585,7 +585,7 @@ const R2Y4A_EVENTS=(function(){
       {label:'a'},nar('（交流道下面的小店，十點還開著。她吃得很快，一句話都沒說。）'),{goto:'e'},
       {label:'b'},sis('……好。明天。明天一定。'),{set:{SIS_PICKUP_TMR:true}},{goto:'e'},   /* 隔天她傳「滷肉飯。今天。這不是三件事。」（r2y4a3d.js）*/
       {label:'c'},sis('對。就那家。'),nar('（你們開回公館。店快打烊了，老闆多給了一碗湯。）'),
-      {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:'接機'}]} ],
+      {label:'e'},{mem:[{npc:S5,tag:'PICKED_HER_UP',note:''}]} ],
     after:G=>{ G.flags.SIS_PICKUP=G.flags.SIS_PICKUP_V||'family'; } });
 
   /* ---- 2-Y4-27 研究所筆試（AA_181 2-4；AA_185 0-3：沒有題目，看準備）：2/3（六）09:00 教學館（3D 校園的共同教學館門口；08:50 還沒到＝帶到場，r2y4a3d.js）---- */
