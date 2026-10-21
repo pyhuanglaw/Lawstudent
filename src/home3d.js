@@ -14,7 +14,13 @@ const HOME=(function(){
   /* 回得了家的時間：週五 17:00 以後、週六、週日 21:30 以前 */
   /* 經濟系大一下休學以後（AA_154 1-3b；A3 3/29 搬出宿舍）：住在臺北的家，每天從家裡出發（H.base）。法律系的存檔不受影響 */
   S.baseMode=G=>(G.stage||'law')==='econ'&&!!(G.flags&&G.flags.Y0_MOVED_OUT);
-  S.canGo=G=>{ if(S.baseMode(G)||S.breakMode(G)) return true;   /* 放假模式（AA_183）：出門赴約以後隨時可以回家 */ { const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)) return true; }   /* 16 週制寒暑假（AA_197 1-3）：隨時可以回家住、再回宿舍 */ const h=G.hour; if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return false;   /* 颱風假不能回家（AA_160 3-4 D）*/ if(typeof STORY!=='undefined'&&STORY.homeHold&&STORY.homeHold(G)) return false;   /* 經濟系 9/20 E05 演完以前（story3d.js）*/ return (G.weekday===5&&h>=17)||G.weekday===6||(G.weekday===0&&h<21.5); };
+  /* 畢業後宿舍期滿退宿（1A-15 的 MOVED_OUT，2029-06-28）以後（AA_357 1-5，AA-C 2026-10-21）：沒有宿舍了——家裡的選單沒有「回宿舍」、換成「出門」（校門口／公館／溫州街）。
+     住臺北的家的（HOME_AFTER 不是公館的套房）：隨時可以回家、出遊從家裡出發、演完回家、凌晨回家（不回宿舍）——照日本路線退宿後住家裡的做法（jp3d.js J-S11）*/
+  S.movedOut=G=>!!G&&(G.stage||'law')==='law'&&!!G.flags&&G.flags.MOVED_OUT!=null&&G.flags.MOVED_OUT!==false;
+  S.pgHome=G=>S.movedOut(G)&&G.flags.HOME_AFTER!=='gongguan';
+  S.GO_OUT=['校門口','公館商圈','溫州街'];   /* 照手機「地點」的名字（PLACES.quickList）*/
+  S.goList=()=>{ const L=typeof PLACES!=='undefined'&&PLACES.quickList?PLACES.quickList():[]; return S.GO_OUT.map(n=>L.find(p=>p&&p[1]===n)).filter(Boolean); };
+  S.canGo=G=>{ if(S.baseMode(G)||S.breakMode(G)||S.pgHome(G)) return true;   /* 放假模式（AA_183）：出門赴約以後隨時可以回家 */ { const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)) return true; }   /* 16 週制寒暑假（AA_197 1-3）：隨時可以回家住、再回宿舍 */ const h=G.hour; if(typeof CALENDAR!=='undefined'&&CALENDAR.typhoon&&CALENDAR.typhoon(G.day)) return false;   /* 颱風假不能回家（AA_160 3-4 D）*/ if(typeof STORY!=='undefined'&&STORY.homeHold&&STORY.homeHold(G)) return false;   /* 經濟系 9/20 E05 演完以前（story3d.js）*/ return (G.weekday===5&&h>=17)||G.weekday===6||(G.weekday===0&&h<21.5); };
   S.at=G=>!!(G.home&&G.home.at);
   const MOM={name:'媽媽'}, DAD={name:'爸爸'}, SIS={name:'宜蓁'};
   /* 池裡挑一句：不連續重複（最近用過的 2 句不選）*/
@@ -217,7 +223,7 @@ const HOME=(function(){
   S.breakEnd=function(G,B){ B=B||S.lawBreak(G); if(!B) return null; const p=S.breakPts(G,B).find(q=>q.k==='room'); return p?T(p.day,p.h):T(B.to,21.5); };   /* AA_197 1-3：開學前一天不再強制回宿舍；21:30 以後在家照週日晚上（「明天有課吧」＋住家裡隔天直接去學校）*/
   /* 正在放假模式：回過家了、還沒到回宿舍的時間（人可能暫時出門赴約）*/
   S.breakMode=function(G){ const H=G&&G.home; if(!H||!H.lbreak) return false; const B=S.lawBreak(G); return !!B&&B.key===H.lbreak&&T(G.day,G.hour)<S.breakEnd(G,B); };
-  S.livesHome=G=>S.baseMode(G)||S.breakMode(G);   /* 從家裡出發、出遊演完回家的（休學以後、放假模式）*/
+  S.livesHome=G=>S.baseMode(G)||S.breakMode(G)||S.pgHome(G);   /* 從家裡出發、出遊演完回家的（休學以後、放假模式）*/
   /* 下一個要停的時間：表上的日子、出遊該出發的時間（出發選單出現的時候）、當面約前 1 小時 */
   S.breakNext=function(G,now){ now=now!=null?now:T(G.day,G.hour); let best=null; const c=x=>{ if(x>now+1e-6&&(best==null||x<best)) best=x; };
     for(const p of S.breakPts(G)) c(T(p.day,p.h));
@@ -446,8 +452,8 @@ const HOME=(function(){
         if(H.lbreak&&!H.winter&&!H.base){ if(S.breakMode(G)){ if(!(await breakRound(GM))) break; continue; } H.lbreak=null; H.bskip=null; }   /* AA_197 1-3：過了放假最後一天 21:30＝接著照週日晚上那一套（不再強制回宿舍）。舊註解：法律系的寒暑假（AA_183）；過了回宿舍的時間＝回宿舍 */
         if(!H.winter&&!H.base&&S.breakStartDue(G)){ await S.breakStart(GM); continue; }   /* 週末回家住到放假第一天的早上：就地開始放假模式 */
         if(!H.winter&&!H.base&&!H.lbreak){ const B=S.lawBreak(G); if(B&&T(G.day,G.hour)<S.breakEnd(G,B)){ H.lbreak=B.key; H.brk=B.key; if(!H.bskip||H.bskip.key!==B.key) H.bskip={key:B.key,n:0,last:-1}; continue; } }   /* 放假中人在家（週末回家住到放假、讀檔）＝住家裡（AA_197 1-3）*/
-        if(H.winter){ if(!(await winterRound(GM))) break; continue; } if(H.base&&S.baseMode(G)){ if(!(await baseRound(GM))) break; continue; } if(H.wakeAsk===G.day){ if(await S.homeWake(GM)) break; continue; } const h=G.hour, pgOn=typeof PG!=='undefined'&&!!PG.on&&PG.on(G), late=!pgOn&&G.weekday===0&&h>=21.5, ateToday=H.eat&&H.eat.day===G.day;   /* 畢業後篇（src/postgrad3d.js）：沒有「明天有課」、週日晚上不用回宿舍 */
-        const sun=!pgOn&&G.weekday===0, wk=S.wakeFor(G,G.day+1,sun?1.5:50/60), monExam=sun&&typeof CLS!=='undefined'&&CLS.dayItems&&CLS.dayItems(Object.assign({},G,{day:G.day+1}),G.day+1).some((q,i)=>i===0&&q.exam==='final');
+        if(H.winter){ if(!(await winterRound(GM))) break; continue; } if(H.base&&S.baseMode(G)){ if(!(await baseRound(GM))) break; continue; } if(H.wakeAsk===G.day){ if(await S.homeWake(GM)) break; continue; } const h=G.hour, mo=S.movedOut(G), pgOn=typeof PG!=='undefined'&&!!PG.on&&PG.on(G), late=!pgOn&&!mo&&G.weekday===0&&h>=21.5, ateToday=H.eat&&H.eat.day===G.day;   /* mo：畢業後退宿（AA_357 1-5）：沒有宿舍可以回 */   /* 畢業後篇（src/postgrad3d.js）：沒有「明天有課」、週日晚上不用回宿舍 */
+        const sun=!pgOn&&!mo&&G.weekday===0, wk=S.wakeFor(G,G.day+1,sun?1.5:50/60), monExam=sun&&typeof CLS!=='undefined'&&CLS.dayItems&&CLS.dayItems(Object.assign({},G,{day:G.day+1}),G.day+1).some((q,i)=>i===0&&q.exam==='final');
         if(late){ await GM.say(MOM,'明天有課吧。早點回去。'); if(!monExam&&(await GM.choose([{t:'回宿舍',hint:'捷運＋公車 約 40 分鐘'},{t:'今晚住家裡，明天一早直接去學校',hint:'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來'}]))===1){ H.stayMon=G.day+1; await S.sleep(GM,wk); continue; } await S.back(GM); break; }   /* 週日 21:30 以後：該回宿舍了（DL-05：也可以住家裡，週一直接去學校；週一早上期末考就不行）*/
         const O=[], q=S.dueOuting(G);
         if(q) O.push({t:(q.verb||'出發')+'：'+q.title,hint:'從家裡出發　'+(q.place||'')+'　'+hm(q.h)+(q.travel?'　'+q.travel:''),k:'out',q});   /* G48：出遊從家裡出發（不加取車時間）*/
@@ -455,10 +461,12 @@ const HOME=(function(){
         if(!ateToday&&h>=18.5&&h<20) O.push({t:'吃晚餐',k:'eat'}); else if(!ateToday&&h>=16&&h<18.5) O.push({t:'等吃晚餐',hint:'到 18:30',k:'wait'});
         O.push({t:'存檔',hint:'存到存檔欄位',k:'save'});   /* 在家也能存檔（2026-10-18 使用者：「在家也不能存檔很麻煩」）*/ 
         O.push({t:'睡覺',hint:sun?'明天有課：先回宿舍再睡':(wk!=null?'明天 '+hm(wk)+' 在家醒來（學校有事）':'隔天早上在家醒來'),k:'sleep'});
-        if(sun) O.push({t:'今晚住家裡，明天一早直接去學校',hint:monExam?'明天早上期末考，回宿舍睡吧':'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來，坐捷運＋公車約 40 分鐘',dim:monExam,k:'stay'});   /* DL-05（AA_160 1-6）：週日晚上可以住家裡 */ if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});
+        if(sun) O.push({t:'今晚住家裡，明天一早直接去學校',hint:monExam?'明天早上期末考，回宿舍睡吧':'明天 '+hm(wk!=null?wk:8.5)+' 在家醒來，坐捷運＋公車約 40 分鐘',dim:monExam,k:'stay'});   /* DL-05（AA_160 1-6）：週日晚上可以住家裡 */ if(!G.flags.carWithMe) O.push({t:'去玄關拿車鑰匙（取車）',k:'car'}); O.push({t:'在家休息一下',hint:'一小時',k:'rest'}); if(mo) O.push({t:'出門',hint:'校門口、公館、溫州街　捷運＋公車 約 30 分鐘',k:'go'}); else O.push({t:'回宿舍',hint:'捷運＋公車 約 40 分鐘',k:'back'});   /* AA_357 1-5：退宿以後「回宿舍」換成「出門」三選一 */
         const o=O[await GM.choose(O,{menu:true})]||O[O.length-1];
         if(o.k==='save'){ if(GM.saveMenu) await GM.saveMenu(); continue; }
+        if(o.k==='out'&&S.pgHome(G)){ if(await S.pgOut(GM,o.q)) continue; break; }   /* 退宿以後住家裡：出遊從家裡出發、演完回家（同放假模式的 breakRound）*/
         if(o.k==='out'){ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await OUT.go(GM,o.q); break; }
+        if(o.k==='go'){ const L=S.goList(), k=await GM.choose(L.map(p=>({t:p[1]})).concat([{t:'不用了'}]),{menu:true}), p=L[k]; if(!p) continue; await S.leaveTo(GM,{name:p[1],zone:p[0],spawn:p[2]?Object.assign({},p[2]):undefined}); break; }   /* AA_357 1-5：校門口／公館／溫州街，進 3D 世界 */
         else if(o.k==='inv'){ await S.leaveTo(GM,o.P); break; }
         else if(o.k==='eat') await S.dinner(GM); else if(o.k==='wait'){ if(await confirmMiss(GM,18.5)) GM.advance(Math.max(0,18.5-G.hour)); }
         else if(o.k==='sleep'){ if(sun){ await S.back(GM); await S.sleepAtDorm(GM); break; } if(await confirmMiss(GM,24+(wk!=null?wk:8.5))) await S.sleep(GM,wk); }
@@ -481,6 +489,11 @@ const HOME=(function(){
   /* 回宿舍：媽媽一句 → 轉場 → 宿舍房間 */
   S.back=async function(GM){ const G=GM.G, H=S.rec(G); await say(GM,S.pick(G,'back'),MOM); await GM.fade(true); GM.advance(0.7); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
     if(GM.caption) GM.caption('','回到宿舍。',2200); await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); };
+  /* 退宿以後住家裡（AA_357 1-5）：出遊從家裡出發、演完回家（照 breakRound；視訊、電話不用出門）。回傳 true＝回到家的選單，false＝人留在外面（goto 的出遊）*/
+  S.pgOut=async function(GM,q){ const G=GM.G, H=S.rec(G); H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); const video=q.verb==='接起來'||q.place==='視訊'||!!q.call; const ok=await OUT.go(GM,q,{fromHome:true});
+    if(ok&&!q.goto){ if(!video){ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回臺北的家','捷運＋公車 約 30 分鐘',2000); GM.advance(0.5); } H.at=true; H.day=G.day; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); if(!video) await GM.fade(false); return true; }
+    if(!ok){ H.at=true; if(typeof ADV!=='undefined') ADV.begin({background:bg()}); return true; }
+    if(GM.toast) GM.toast('要回家：手機「地點」→ 回臺北的家（或走到校門口）。',5200); return false; };
   /* 從家裡去當面約的地方（G48）：轉場（捷運＋公車）→ 那個地方；見面照 INV 原本的流程 */
   S.leaveTo=async function(GM,P){ const G=GM.G, H=S.rec(G), base=S.livesHome(G); await GM.fade(true); if(GM.titleCard) await GM.titleCard(P.name||'出發',base?'捷運＋公車 約 30 分鐘':'捷運＋公車 約 40 分鐘',2000); GM.advance(base?0.5:0.7);   /* 休學以後住家裡＝30 分鐘（AA_154 1-3b、A46 ②）*/ H.at=false; if(typeof ADV!=='undefined'&&ADV.end) ADV.end();
     await GM.enter(P.zone||'campus',P.spawn||undefined); };
