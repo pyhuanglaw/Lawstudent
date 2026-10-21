@@ -26868,7 +26868,7 @@
    "title": "大一 203：站在 R2 書桌旁 (1.0, 0.25)，鏡頭在東被 R2 上鋪床架擋住整個畫面、在南被浴室磁磚牆擋住",
    "area": "BUG",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已實作待整合",
    "priority": "P3",
    "first": {
     "term": "Y1S1",
@@ -26882,7 +26882,7 @@
    },
    "source": "BB（帳號 A）16:09（BB_218 最後兩節；test_shots/artrev3_1021/01、04、05、08）",
    "authorized": "bug 修正（D108：場景鏡頭碰撞歸 LAWWW2）",
-   "next": "房間的鏡頭碰撞或淡出群組（上鋪床架、浴室牆）；交 patch",
+   "next": "【LAWWW（帳號 A）18:1x】LAWWW2 交件 58fb6115，已套在本機 post9103（dorm_cam_unit ALL PASS）；v9.10.3 合併 main 以後放進開發分支、派 BB 看畫面 ｜ 房間的鏡頭碰撞或淡出群組（上鋪床架、浴室牆）；交 patch",
    "xai": {
     "spec": "BB_218 最後兩節（df352cb5）",
     "branch": "claude/second-ai-env-art",
