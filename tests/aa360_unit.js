@@ -6,7 +6,8 @@
 //   第 3 組（15）沛珊尾聲 mirror 換句；子晴 Q15 前置不要 TOLD_HER_CHANGE；芷若 Z7 家裡那版三句（BB_167 E1）、記憶備註。
 //   第 4 組（16）子晴 Q4 只有第 8 週；錯過的玩家第 9～11 週第一次和她說話，開頭多一句（CONTEST_HEARD，一次）。
 //   第 5 組（17、18）confess_lines.js 沛珊那一段的過時註解。
-// 台詞照 AA_360 逐字比對。修改前（開發分支 04f65f59）：FAIL 22 項。用法：node tests/aa360_unit.js
+// 台詞照 AA_360 逐字比對。修改前（開發分支 04f65f59）：35 項裡 FAIL 30 項（沒 FAIL 的 5 項是「照舊」的保護：Q10 選 nameless、舊存檔兩項、兩個都沒有的 2/2、計畫本的數值）。
+// 用法：node tests/aa360_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const NM=/^(EXCH|Y34B|MSG|MSG_POOL|MSG2_POOL|MSG_KX_Y0|NEEDED_MSGS|HOMETOWN_LINES|SISG|R2Y3B|R2Y3B_EVENTS)$/;
