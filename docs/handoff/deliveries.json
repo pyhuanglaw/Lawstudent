@@ -12658,6 +12658,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW-C 14:0x 照原檔複製、OUT.BG 登記（vac_activities.js C16 四場、r2y4b3d.js 用到）；bg_images_unit 2i 加進去（改之前 FAIL）"
+  },
+  {
+   "id": "DL-BB-856cece9",
+   "date": "2026-10-21",
+   "from": "BB-C",
+   "account": "C",
+   "branch": "claude/wonderful-mayer-7fm9g6",
+   "sha": "856cece9",
+   "what": "v9.10.3 判定（BB_218 最後一節）：可以發布。候選 f72a2a21，Playwright 手機模擬：①使用者 9/25 存檔讀取→熬夜跨午夜→宵夜→9/27 存讀 PASS ②大三寒假除夕回家／旁白／成績單 PASS ③新遊戲法律系開局→宿營→8/29 可昕→8/30 E37→8/31 PASS ④新遊戲經濟系開局快轉到 8/30 14:00 E37 PASS（15 停點、沒卡住；8/30 以後到 9/2 還在跑）。沒測：Y1W 完整重跑。P3 四件給下一版",
+   "task": "RELEASE-9103",
+   "msg": "ACK",
+   "integration": "參考用",
+   "note": "LAWWW-C 14:0x：P3 四件開 BB218-P3-1021"
   }
  ],
  "ignored": [

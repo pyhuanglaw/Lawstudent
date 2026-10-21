@@ -26235,6 +26235,44 @@
     "ack": "SENT"
    },
    "next": "【LAWWW-C 2026-10-21 14:0x UTC】已送 AA-C；R2 走不到的入口我建議：大一下週五 12:00～13:00 人在校園、沒去經原下，跳一次「先去吃飯？」（活大／不了）——請 AA 確認"
+  },
+  {
+   "id": "RELEASE-9103",
+   "title": "發布 v9.10.3（候選 f72a2a21）：發布前清單＋BB 判定＋PR 合併 main＋Pages 驗證",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P0",
+   "source": "D85；使用者 10-21 12:0x（自主發布、不帶已知 P0、保留可回復版本）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "所有玩家（線上版）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": false,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】BB 判定可以發布（856cece9）；LAWWW 發布前清單剩 flow_exam_terms、reachability_all＋重跑 smoke_release_v2、flow_v0_start_v2、save_compat_start1（舊版 v9.9.1）、touch_flow_wenzhou_v2（存檔改 9/27 週六）；全過就 snapshot→PR→merge→RELEASES、CANDIDATE_9103→驗 Pages；回退目標 v9.10.2 main 9335763d"
+  },
+  {
+   "id": "BB218-P3-1021",
+   "title": "BB_218 v9.10.3 判定留下的 P3 四件（下一版）：①econff3d 日期卡句子比它講的日子早出（12/19 出「十二月二十日，期末考考完了」、3/16 出「四月二日，倒數撕到一百」、7/24 出「星期六…那天的海很藍」才收到可昕訊息）→ 視窗起點改成那一天 ②手機打開時黃色通知條蓋住分頁列 ③快轉中手機自動打開但待回 0 則（約每 3 天一次；AA_348 B8 PARTIAL）④床邊「出發：臺北的家樓下 14:00」hint 重複地點時間",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "source": "BB-C 856cece9（BB_218 最後一節）",
+   "first": {
+    "term": "Y0S1",
+    "week": 1,
+    "earliest": "經濟系那一年快轉（12/19 起）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "next": "【LAWWW-C 2026-10-21 14:0x UTC】v9.10.3 發布後先做③（手機空開，玩家每三天被打斷一次）和①（日期卡早出）"
   }
  ]
 }
