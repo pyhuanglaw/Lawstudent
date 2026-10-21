@@ -23,6 +23,7 @@ import playlib as PL
 URL = sys.argv[1] if len(sys.argv) > 1 else 'http://127.0.0.1:8765/index.html'
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'docs', 'art-rebuild', 'second_ai', 'test_shots', 'gongguan_glb_integration')
 IDS = ['G%02d' % i for i in range(16)]
+INT_IDS = [i for i in IDS if i != 'G01']   # 店內景深卡：G01 清葉茶行 10-18 起是臨騎樓的立體櫃台（開口看得到裡面，ART-GG-SHOPS-1018），沒有景深卡
 DESIGNED = list(IDS)   # ART-GG-SIGNS-2（LAWWW2-B）：16 家的橫招牌全部是使用者生成、BB-B 通過的設計稿（gg_signs_atlas）；之前 G00／G02／G03／G04／G06／G10／G11 七家   # G00／G02／G04／G06／G10／G11：使用者生成、BB-B 通過的設計稿（gg_signs_atlas，LAWWW2-B ART-GG-SIGNS）    # 招牌用設計稿（日日便利 riri_mart_h，和溫州街同一張；LAWWW2-B b7a091b8 拿掉 SIGN_FACE_G03）：沒有 canvas 字的橫招牌，改檢查設計稿招牌 sk_sign_G03 在
 IDS_CANVAS = [i for i in IDS if i not in DESIGNED]
 VERT = []                                                              # 店的直立招牌：六塊都換成設計稿了（VDESIGNED）
@@ -48,7 +49,7 @@ STATE = """(()=>{ const E=GAME.E; const r=v=>Math.round(v*100)/100;
 # 機車（userData.ggScooter；有正式模型時在 gg_kit_scooters 裡）另外檢查（第 8 項）：?nobldg 的套件機車直接放在區域裡、合併後是空的群組，兩邊的數法不同
 # 路燈的光暈與地面光圈（E.lampGlows）不算：遊戲時鐘在跑，兩輪量的時候一個還沒開燈、一個已經開燈（第一次跑就因為這樣差了 18 個＝18 盞路燈）
 OTHERS = """(()=>{ const z=GAME.E.zone; let n=0, empty=0; const skip=new Set(GAME.E.lampGlows||[]); const shown=m=>{ for(let p=m;p&&p!==z.group;p=p.parent) if(!p.visible) return false; return true; };
-    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter))||/_glb$/.test(o.name)||o.name==='gg_kit_scooters') continue; n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
+    for(const o of z.group.children){ if(!o.isGroup||(o.userData&&(o.userData.ggShop||o.userData.ggScooter||o.userData.ckTag||o.userData.ggMrt))||/_glb$|Fallback$/.test(o.name)||o.name==='gg_kit_scooters') continue;   /* ckTag 校門、ggMrt 捷運出口、*Fallback（公館遠景的方盒）：被正式模型取代的套件，藏起來是對的 */ n++; let vis=false; o.traverse(m=>{ if(!vis&&(m.isMesh||m.isSprite)&&!skip.has(m)&&shown(m)) vis=true; }); if(!vis) empty++; }
     return {n, empty}; })()"""
 DRAW = """(async(e,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...e),new THREE.Vector3(...l)); E.camera.position.set(...e); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look);
     const hid=E.npcs.map(n=>[n.obj,n.obj.parent]).filter(a=>a[1]); hid.forEach(a=>a[1].remove(a[0]));   /* 路人每次的位置不同（量測雜訊）：量的時候暫時移出場景，只比場景 */
@@ -97,7 +98,7 @@ async def check(pg, run, formal):
         dsg = await pg.evaluate("(([ids,vids,tids,f2,rf])=>{ const r=GAME.E.zone.group.children.find(o=>o.name==='%s'); let tris=0, vis=0; r.traverse(o=>{ if(o.isMesh&&/^wz_signs(_lit)?$/.test(o.material.name)){ let v=true; for(let p=o;p&&v;p=p.parent) v=p.visible; if(v){ vis++; tris+=(o.geometry.index?o.geometry.index.count:o.geometry.attributes.position.count)/3; } } }); return {faces:ids.filter(i=>r.getObjectByName('SIGN_FACE_'+i)).concat(vids.filter(i=>r.getObjectByName('VSIGN_FACE_'+i+'_a')), tids.filter(i=>r.getObjectByName('VSIGN_FACE_'+i+'_t_a')), f2.filter(i=>r.getObjectByName('SIGN_FACE_'+i+'_2F')), rf.filter(i=>r.getObjectByName('SIGN_FACE_'+i+'_roof'))), meshes:vis, tris}; })" % GLB, [DESIGNED, VDESIGNED, TENANT, SIGN2F, ROOF])
         run.check('設計稿招牌（橫 %d 家；店的直立 %d 塊；樓上住戶直立 %d 塊；二樓 %d；屋頂 %d）沒有 canvas 字、設計稿網格看得到' % (len(DESIGNED), len(VDESIGNED), len(TENANT), len(SIGN2F), len(ROOF)),
                   not dsg['faces'] and dsg['meshes'] >= 1 and dsg['tris'] >= 2 * (len(DESIGNED) + 2 * len(VDESIGNED) + 2 * len(TENANT) + len(SIGN2F) + len(ROOF)), json.dumps(dsg))
-        run.check('16 棟的店內景深卡都有貼圖', sorted(k[14:] for k in ints) == IDS and all(v['canvas'] for v in ints.values()), json.dumps(sorted(ints)))
+        run.check('15 棟的店內景深卡都有貼圖（G01 茶行是立體櫃台）', sorted(k[14:] for k in ints) == INT_IDS and all(v['canvas'] for v in ints.values()), json.dumps(sorted(ints)))
         night = await pg.evaluate("""(()=>{ const E=GAME.E, z=E.zone, root=z.group.children.find(o=>o.name==='%s'); const mats={};
             root.traverse(o=>{ if(o.isMesh) mats[o.material.name]=o.material; }); 
             const read=()=>({lit:+(mats.wz_room_lit?mats.wz_room_lit.emissiveIntensity:-1).toFixed(2), tube:+(mats.wz_tube?mats.wz_tube.emissiveIntensity:-1).toFixed(2), sign:+(mats.wz_signs_lit?mats.wz_signs_lit.emissiveIntensity:-1).toFixed(2)});   /* ART-GG-SIGNS-2：canvas 招牌 atlas 不在了，量燈箱招牌的設計稿材質 */
@@ -176,7 +177,7 @@ async def main():
     run.check('導航格：正式模型和程序化版完全相同', res[True][0] == res[False][0], json.dumps([res[True][0], res[False][0]]))
     run.check('鏡頭碰撞方塊：完全相同', res[True][1]['col'] == res[False][1]['col'], '%d vs %d 個' % (len(res[True][1]['col']), len(res[False][1]['col'])))
     run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
-    run.check('沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個', res[True][2] == res[False][2], json.dumps([res[True][2], res[False][2]]))
+    run.check('沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個', res[True][2]['empty'] == res[False][2]['empty'], json.dumps([res[True][2], res[False][2]]))   # 只比藏起來的數量：正式模型自己會多出群組（例：公館遠景），被取代的套件在一般網址略過，總數本來就不一樣
     f, n = res[True][3], res[False][3]
     run.check('效能：每個鏡頭的 draw call ≤ ?nobldg 的 1.3 倍、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 21:21Z 的條件）',
               all(f[k]['calls'] <= 1.3 * n[k]['calls'] and f[k]['tris'] <= 420000 for k in f), json.dumps({k: [n[k]['calls'], f[k]['calls'], round(f[k]['calls'] / n[k]['calls'], 3), n[k]['tris'], f[k]['tris']] for k in f}))
