@@ -16,8 +16,12 @@ const L118S=(function(){
   function setView(mats,h){ const k=viewK(h); for(const m of mats){ const b=m.userData.l118View; if(!b) continue; if(b.c) m.color.copy(b.c).multiplyScalar(k); if(b.e!=null) m.emissiveIntensity=b.e*k; } }
   function plane(g,w,d,mat,x,z,y){ const m=new THREE.Mesh(new THREE.PlaneGeometry(w,d),mat); m.rotation.x=-Math.PI/2; m.position.set(x,y||0,z); m.receiveShadow=true; g.add(m); return m; }
   /* 看東西的字：配置檔的 note 有字就用（例：家常菜的電視，AA_280 原句）；dev 那一欄是 LAWWW2 給開發組的話（產生的檔，不改；不會出現在遊戲裡）。
-     AA_355 1-3（AA-C 2026-10-21）給了滇香小館牆上的織布；其他還沒有 AA 字的（自取的湯、書架、小菜櫃）照舊顯示名稱 */
-  const LOOK={ dian:{ tapestry:'（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）' } };
+     AA_355 1-3（AA-C 2026-10-21）給了滇香小館牆上的織布；5-1（2f1aaa22）給了自取的湯（第一間＝好家自助餐、第二間＝巷口家常菜）、書架（慢讀咖啡）、
+     小菜櫃（第一間＝韓食小廚、第二間＝六張犁麵舖）——「第一間、第二間」照配置檔的順序對。台詞照抄 */
+  const LOOK={ dian:{ tapestry:'（牆上掛著一塊條紋織布，紅色和深藍色，顏色洗得有點淡了。）' },
+    self:{ soup:'（自取的湯，今天是蘿蔔湯。鍋邊貼著「請自取，不要浪費」。）' }, home:{ soup:'（湯桶上寫著「紫菜蛋花」。湯勺掛在桶邊。）' },
+    cafe2:{ books:'（書架上大多是舊漫畫，有幾套缺了第一集。）' },
+    korea:{ banchan:'（小菜櫃裡有海帶、豆干、滷蛋。豆干只剩兩塊。）' }, noodle2:{ sides:'（小菜櫃的玻璃起霧了，看得到裡面的燙青菜。）' } };
   const lookText=(id,q)=>(LOOK[id]&&LOOK[id][q.id])||q.note||q.label;
   function zoneFor(id){ const L=L118_SHOP_LAYOUTS[id];
     return { id:'l118_'+id, name:L.name+'（118 巷）', indoor:true, camDist:L.cam_dist||4.2, build(E){ const Bd=L.bounds, H=L.h||3.2;

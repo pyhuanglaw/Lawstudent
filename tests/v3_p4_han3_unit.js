@@ -71,7 +71,7 @@ GM.money=function(n){ G.money+=n; };
   check('4. 祐廷接：第 2 週沒有翰 3',!e||e.id!=='ev_bohan_scores');
   r=await play('ev_bohan_scores',0,{day:w2});
   check('4. 白板的分數表、「這樣比較有效率。」；兩個選項',r.L.slice(0,2).join('｜')==='（白板上多了一張表：每個人上週小考的分數。）｜柏翰：這樣比較有效率。'&&r.O.length===2);
-  check('4. 「沛珊說不要變成比分數的地方。」→「她不來了。這樣大家比較知道自己差多少。」（AA_255／AA_281）',r.L.slice(-1)[0]==='柏翰：她不來了。這樣大家比較知道自己差多少。'&&G.flags.HAN3_TALKED===true);
+  check('4. 「讀書會不是比分數的地方吧。」（AA_358 2-6：原本「沛珊說…」，沒參加交接那場的玩家不能引用她的話）→「她不來了。這樣大家比較知道自己差多少。」（AA_255／AA_281）',r.O[0]==='「讀書會不是比分數的地方吧。」'&&r.L.slice(-1)[0]==='柏翰：她不來了。這樣大家比較知道自己差多少。'&&G.flags.HAN3_TALKED===true,JSON.stringify(r.O));
   r=await play('ev_bohan_scores',1,{day:w2});
   check('4. 什麼都不做：沒有柏翰那句',!r.L.includes('柏翰：她不來了。這樣大家比較知道自己差多少。'));
   base(w6); e=CLS.clubEvent(G,A);

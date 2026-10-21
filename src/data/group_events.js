@@ -44,7 +44,7 @@ const GROUP_EVENTS=(function(){
   { id:'ev_kexin_trip_spring_y2', title:'春假：開車旅行（大二）', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:13.5,
     dialogue:[ {scene:'政大・校門口',bg:'nccu_gate'},{scene:'車上',bg:'car'},
       {if:kxAll,goto:'lost'},
-      {speaker:'kexin',expression:'smile',text:'規則照去年。我管音樂，你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
+      {speaker:'kexin',expression:'smile',text:'我管音樂。你管方向。'},   /* 車上開場、回程：大二版（AA_336 C8），不沿用大一 */
       {speaker:'kexin',expression:'teasing',text:'……目的地，現在決定。'},
       {choice:[{text:'海邊',if:kxNot('sea'),set:{KX_TRIP_Y2S2:'sea'},goto:'d_sea'},{text:'別的城市的老街',if:kxNot('oldtown'),set:{KX_TRIP_Y2S2:'oldtown'},goto:'d_old'},{text:'山上看星星',set:{KX_TRIP_Y2S2:'stars'},goto:'d_star'}]},
       {label:'d_sea'},{scene:'海邊',bg:'y0_sea_blue'},{speaker:'kexin',text:'水比我想的冷。……你先下去。'},{goto:'back'},

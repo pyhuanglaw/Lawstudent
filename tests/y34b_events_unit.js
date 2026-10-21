@@ -340,6 +340,10 @@ const date=id=>H.date(id);
   { fresh('2029-05-03',14,'dorm'); H.FRIEND('heroine_01'); check('1B-24 睡著也會在 17:15 醒來', S.wakeAt(H.G)===17.25); at('2029-05-03',17.3); H.G.zone='campus';
     check('1B-24 17:15 還沒到＝帶到場', S.an20BringDue(H.G)); H.said=[]; H.entered=[]; H.picks=[0]; await S.an20Bring(GM);
     check('1B-24 「（你走進兩點半的時候，她已經點了第二杯。）」', H.entered.includes('cafe')&&has('（你走進兩點半的時候，她已經點了第二杯。）')&&H.G.flags.AN_YOUR_TURN===true); }
+  /* AA_355 第 5 節第 7 題（AA-C 2026-10-21 2f1aaa22）：麵店版只有「手機響了。」→ 帶到麵店之前加一句以安（電話）「我在麵店。……你來了再說。」（修改前 FAIL：沒有這一句）*/
+  { fresh('2029-05-03',18,'dorm'); H.FRIEND('heroine_01'); date('kexin'); at('2029-05-03',18.6); H.G.zone='campus';
+    const due=S.an20Mode(H.G)==='noodle'&&S.an20BringDue(H.G); H.said=[]; H.entered=[]; await S.an20Bring(GM); const i=H.said.findIndex(s=>s.t==='我在麵店。……你來了再說。'), w=i>=0?H.said[i].who:'';
+    check('1B-24 麵店版（和可昕交往）18:30 還沒到＝帶到場：先以安（電話）「我在麵店。……你來了再說。」，再到麵店演', due&&i===0&&/以安/.test(w||'')&&/（電話）$/.test(w||'')&&H.entered.includes('noodle')&&has('以安，妳為什麼念法律？'), JSON.stringify(H.said.slice(0,2))); }
   /* ===== 1B-25 ===== */
   fresh('2029-05-28',20,'dorm'); H.FRIEND('heroine_05'); PHONE.join(H.G,'family_law','法律系直屬家族'); at('2029-05-28',21); phone();
   check('1B-25 5/28 21:00 家族群組 Kevin「學姊明天下午四點口試！……」學姊「……不用來。」→ 出遊 16:00～18:00', th('g:family_law').join('|')==='學姊明天下午四點口試！大家去門口等！|……不用來。'&&!!OUT.get(H.G,'y4_m9')&&OUT.get(H.G,'y4_m9').late===2);

@@ -93,7 +93,7 @@ GM.money=function(n){ G.money+=n; };
     check('芷若好朋友（大四）：1/1 08:00「新年快樂。這邊剛剛才倒數完。」＋「臺灣的煙火我在網路上看了。比這邊大。」',f4.includes('heroine_02:新年快樂。這邊剛剛才倒數完。')&&f4.includes('heroine_02:臺灣的煙火我在網路上看了。比這邊大。'),JSON.stringify(f4));
     fresh(d4+1,7.5,'dorm'); meet(zr); run(7.5,8.2); check('芷若只是認識：什麼都不收（5-7 第 2 點）',!txt('p:'+zr).length); }
   const N=ev('ev_y2_newyear'); fresh(d31,23.5,'dorm',{dating_heroine_01:true}); meet('heroine_01'); said=[]; await EVENTS.run(N); L=lines();
-  check('3. 頂樓：「今年頂樓的人少了兩個」；以安在場（交往中）；沒有期末考週的句子；交往中下樓「……手給我。」',L.includes('（十一點半。今年頂樓的人少了兩個。）')&&L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&!L.some(t=>/回去念|宵夜/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
+  check('3. 頂樓：「頂樓只有幾個人」；以安在場（交往中）；沒有期末考週的句子；交往中下樓「……手給我。」',L.includes('（十一點半。頂樓只有幾個人。）')&&L.includes('沈以安：去年這時候還在捷運上。')&&L.includes('沈以安：……手給我。')&&!L.some(t=>/回去念|宵夜/.test(t))&&G.flags.NYE_Y2==='roof',JSON.stringify(L));
   const e=CLS.lastExamEnd({flags:{},day:1},'Y2S1','final'); check('4. 大二上最後一科考完的時間算得出來（第 18 週）',!!e&&CALENDAR.termOf(e.day).id==='Y2S1',JSON.stringify(e));
   if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了。七點，麵店。」',txt('g:noodle_team').includes('zhe:考完了。七點，麵店。'),JSON.stringify(txt('g:noodle_team')));
     run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));

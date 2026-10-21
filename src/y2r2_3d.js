@@ -443,7 +443,7 @@ const Y2R2=(function(){
       {speaker:null,text:'（第二首唱完。她對著麥克風。）'},
       {speaker:'heroine_04',expression:'laugh',text:'去年那個 bug 修好了。'},
       {speaker:null,text:'（她看向觀眾席，找到你，比了一個拍手的手勢。）'},
-      {if:{custom:G=>dating(G,'heroine_04')},speaker:null,text:'（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上，去年那一張旁邊。）'},   /* AA_338 第 3 節「看過 Q5」*/
+      {if:{custom:G=>dating(G,'heroine_04')},speaker:null,text:'（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）'},   /* AA_338 第 3 節「看過 Q5」*/
       {if:{custom:G=>dating(G,'heroine_04')},speaker:'heroine_04',expression:'smile',text:'第二張。明年還有第三張。'},
       {label:'end'} ],
     after:G=>{ G.flags.ZQ_SHOW2='came'; } });

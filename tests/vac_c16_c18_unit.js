@@ -1,6 +1,9 @@
 // 寒暑假第二批：C16 法扶實習、C17 律所暑期實習、C18／C18W 海外見習團（AA_199 7-7 7915ac9d；台詞 AA_242 第 9～11 節 ede67b34；任務 VAC-C16-C18-1021）——不需要瀏覽器。
 // 用法：node tests/vac_c16_c18_unit.js（VAC_TEST_ROOT＝別的目錄：拿那裡的 src 跑，驗證改之前的程式會失敗）
 // 修改前：沒有 C16／C17／C18／C18W 的卡、沒有上班日、沒有門檻（幾乎全部失敗）
+// AA_242 第 12 節（AA-C 2026-10-21 56a36a4d；任務 AA-VAC-C16-C18-Q-1021）加的（第 1、3、9、10、12、14 項跟著改，第 15～20 項新加；修改前都 FAIL，見各段）：
+//   15 七項裁定（語彤那一版大三＋第二次「……你又來了。」、C18W 大一寒假不開、C16 上學期被當＝沒錄取、C17 第二次「寄信給馮律師」免面試、C16 午餐每天 −100）
+//   16 沒有關鍵事件的上班日的日誌（C16 六句、C17 十二句）；17 第二次以後的日誌（C16、C17、C18 第二次、C18 第三次）；18 阿哲寒假版（C18W、C11）；19 C18 行前說明會；20 思穎回國後的訊息
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=process.env.VAC_TEST_ROOT?path.resolve(process.env.VAC_TEST_ROOT):path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -41,10 +44,10 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
   // ===== 1. 開哪幾年、日子（AA_199 7-7、7-5；AA-C 10-21：C16 大二暑假起、C17 只有大二大三暑假、C18 寒暑假團、大四下以後沒有）=====
   check('1. C16：大二暑假起（大一不能報）、大四下以後沒有＝Y2、Y3 有，Y1、Y4 沒有',!inst('C16','Y1')&&!!inst('C16','Y2')&&!!inst('C16','Y3')&&!inst('C16','Y4'));
   check('1. C17：只有大二、大三暑假',!inst('C17','Y1')&&!!inst('C17','Y2')&&!!inst('C17','Y3')&&!inst('C17','Y4'));
-  check('1. C18 暑假團大一～大三（大四下以後沒有）、寒假團 C18W 大一～大四',['Y1','Y2','Y3'].every(y=>!!inst('C18',y))&&!inst('C18','Y4')&&['Y1','Y2','Y3','Y4'].every(y=>!!inst('C18W',y)));
+  check('1. C18 暑假團大一～大三（大四下以後沒有）、寒假團 C18W 大二～大四（AA_242 12-1 第 2 點：大一寒假不開）',['Y1','Y2','Y3'].every(y=>!!inst('C18',y))&&!inst('C18','Y4')&&!inst('C18W','Y1')&&['Y2','Y3','Y4'].every(y=>!!inst('C18W',y)));
   await sec(async()=>{ const R=(id,yk,a,b)=>{ const I=inst(id,yk); return !!I&&I.from===D(a)&&I.to===D(b); };
     check('1. 日子：C16 暑假第 2 週起兩週（2027-06-21～07-02、2028-06-19～06-30）；C17 暑假第 2 週起 8 週（2027-06-21～08-13、2028-06-19～08-11）',R('C16','Y2','2027-06-21','2027-07-02')&&R('C16','Y3','2028-06-19','2028-06-30')&&R('C17','Y2','2027-06-21','2027-08-13')&&R('C17','Y3','2028-06-19','2028-08-11'));
-    check('1. 日子：C18 暑假第 6 週起 9 天（2026-07-20～28、2027-07-19～27、2028-07-17～25）；寒假團寒假第 2 週起 7 天（2025-12-29～2026-01-04、2027-01-04～10、2028-01-03～09、2029-01-01～07）',R('C18','Y1','2026-07-20','2026-07-28')&&R('C18','Y2','2027-07-19','2027-07-27')&&R('C18','Y3','2028-07-17','2028-07-25')&&R('C18W','Y1','2025-12-29','2026-01-04')&&R('C18W','Y2','2027-01-04','2027-01-10')&&R('C18W','Y3','2028-01-03','2028-01-09')&&R('C18W','Y4','2029-01-01','2029-01-07')); });
+    check('1. 日子：C18 暑假第 6 週起 9 天（2026-07-20～28、2027-07-19～27、2028-07-17～25）；寒假團寒假第 2 週起 7 天（2027-01-04～10、2028-01-03～09、2029-01-01～07）',R('C18','Y1','2026-07-20','2026-07-28')&&R('C18','Y2','2027-07-19','2027-07-27')&&R('C18','Y3','2028-07-17','2028-07-25')&&R('C18W','Y2','2027-01-04','2027-01-10')&&R('C18W','Y3','2028-01-03','2028-01-09')&&R('C18W','Y4','2029-01-01','2029-01-07')); });
   await sec(async()=>{ const W16=safe(()=>VAC.workDays(inst('C16','Y2')))||[], W17=safe(()=>VAC.workDays(inst('C17','Y2')))||[];
     check('1. 上班日（平日白天）：C16 10 天、C17 40 天，都是週一～五；C17 跨過的 8/6（五）上班、8/7、8/8（週末）不上班',W16.length===10&&W17.length===40&&W16.concat(W17).every(d=>[1,2,3,4,5].includes(wdOf(d)))&&W17.includes(D('2027-08-06'))&&!W17.includes(D('2027-08-07'))&&!W17.includes(D('2027-08-08')),W16.length+'／'+W17.length); });
 
@@ -68,14 +71,14 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
 
   // ===== 3. C16 四場（AA_242 9-3～9-6）、平日白天、快轉、旗標 =====
   await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; reg('C16@Y2'); const q0=onDay('C16@Y2','2027-06-21');
-    check('3. 快轉：第一次參加、有關鍵事件的上班日要停（repSkip null）；沒有的平日不停（\'\'）',!!q0&&safe(()=>VAC.repSkip(G,q0))===null&&safe(()=>VAC.repSkip(G,onDay('C16@Y2','2027-06-22')))==='');
+    check('3. 快轉：第一次參加、有關鍵事件的上班日要停（repSkip null）；沒有的平日不停、旁白是那一天的日誌（AA_242 12-2 a 第 1 句）',!!q0&&safe(()=>VAC.repSkip(G,q0))===null&&safe(()=>VAC.repSkip(G,onDay('C16@Y2','2027-06-22')))==='（影印、分類、再影印。中午在樓下的便當店吃。）');
     G.day=D('2027-06-21'); G.weekday=1; G.hour=9; said=[]; opts=[]; picks=[1]; await VAC.outing(GM,q0); let L=lines();
     check('3. 第一天：「（櫃台後面一整排檔案櫃。帶實習的韓律師三十出頭，桌上三個馬克杯，兩個是空的。）」韓律師「先簽這個。保密約定。」「在這裡聽到的事，就留在這裡。」',L[0]==='（櫃台後面一整排檔案櫃。帶實習的韓律師三十出頭，桌上三個馬克杯，兩個是空的。）'&&L[1]==='韓律師：先簽這個。保密約定。'&&L[2]==='韓律師：在這裡聽到的事，就留在這裡。',JSON.stringify(L));
     check('3. 選項「好。」「連家人也不能講？」→「不能。你可以跟他們說，今天很累。」',JSON.stringify(opts[0])===JSON.stringify(['「好。」','「連家人也不能講？」'])&&L.includes('韓律師：不能。你可以跟他們說，今天很累。'));
     check('3. 平日白天：演完過到 18:00 下班（同一天），晚上照常',G.day===D('2027-06-21')&&G.hour===18&&VAC.rec(G).work&&(VAC.rec(G).work['C16@Y2']||[]).length===1);
     check('3. 大二暑假那一版沒有語彤',!L.some(t=>t.includes('你認識的名字')||t.includes('語彤')));
     G.day=D('2027-06-22'); G.weekday=2; G.hour=9; said=[]; await VAC.outing(GM,onDay('C16@Y2','2027-06-22'));
-    check('3. 沒有關鍵事件的平日：不演、不寫字，過到 18:00',said.length===0&&G.hour===18);
+    check('3. 沒有關鍵事件的平日：日誌一行（第 1 句「（影印、分類、再影印。中午在樓下的便當店吃。）」），過到 18:00',JSON.stringify(lines())===JSON.stringify(['（影印、分類、再影印。中午在樓下的便當店吃。）'])&&G.hour===18,JSON.stringify(lines()));
     VAC.repDone(G,onDay('C16@Y2','2027-06-23'));
     G.day=D('2027-06-24'); G.weekday=4; G.hour=9; said=[]; opts=[]; cards=[]; await VAC.outing(GM,onDay('C16@Y2','2027-06-24')); L=lines();
     check('3. 陪同晤談（第一週週四 14:00）：收據、「韓律師：他是實習生，在做筆記。妳慢慢講。」「韓律師：日期寫得很好。她講到一半停下來的時候，你不用抬頭。」，沒有選項',L[0]==='（會議室很小。當事人是一位中年的女士，手上一直捏著一張收據。）'&&L.includes('韓律師：他是實習生，在做筆記。妳慢慢講。')&&L.includes('（你把她說的每一個日期都寫下來。走出會議室，筆記寫了四頁。）')&&L[L.length-1]==='韓律師：日期寫得很好。她講到一半停下來的時候，你不用抬頭。'&&!opts.length&&cards.some(c=>c[0].startsWith('6/24')&&c[1]==='法律扶助基金會台北分會'),JSON.stringify(L));
@@ -178,24 +181,26 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     check('8. 回來後第一次在 3D 遇到小語：「你回來了！伴手禮咧！」',g===true&&lines().join('|')==='小語：你回來了！伴手禮咧！'); });
 
   // ===== 9. C18W 寒假團 =====
-  await sec(async()=>{ const w6=termDay('Y1S1',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; LAWC(); run(11.9,12.2); const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='vac_ask_C18W@Y1');
-    check('9. 寒假團：大一上第 6 週週一 12:00 同一則公告、選項「（報名）」到第 9 週週五',txt('g:law_class').includes('sysoffice:【見習團】法律與社會海外見習團（新加坡），暑假 9 天（寒假團 7 天），有獎學金名額。需面試，第 10 週（寒假團第 9 週）截止。')&&!!m&&m.ask.until===Tm(termDay('Y1S1',9,5),24)); });
-  await sec(async()=>{ const w6=termDay('Y2S1',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; LAWC(); run(11.9,12.2);
-    check('9. 大二上（第二年起）：同一則公告、行事曆報名（AA_264 第 3 節）',txt('g:law_class').filter(t=>t.includes('【見習團】')).length===1&&VAC.html(G).includes('data-vac="C18W@Y2"'));
-    VAC.signup(G,'C18W@Y2','yes'); const iv=OUT.get(G,'vac_C18W@Y2_pre0');   // 行事曆報名（沒去面試＝下面測沒錄取） check('9. 面試：大二上第 10 週週三 19:00；出發 2027-01-04 08:00',!!iv&&iv.day===termDay('Y2S1',10,3)&&iv.h===19&&OUT.get(G,'vac_C18W@Y2').day===D('2027-01-04'));
+  await sec(async()=>{ const w6=termDay('Y1S1',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; LAWC(); run(11.9,12.2);
+    check('9. 寒假團大一不開（AA_242 12-1 第 2 點）：大一上第 6 週週一沒有見習團的公告、沒有報名的選項，行事曆也沒有',!txt('g:law_class').some(t=>t.includes('【見習團】'))&&!(G.msgs||[]).some(x=>x.ask&&/^vac_ask_C18W/.test(x.ask.id))&&!VAC.html(G).includes('C18W'),JSON.stringify(txt('g:law_class').slice(-1))); });
+  await sec(async()=>{ const w6=termDay('Y2S1',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; LAWC(); run(11.9,12.2); const m=(G.msgs||[]).find(x=>x.ask&&x.ask.id==='vac_ask_C18W@Y2');
+    check('9. 大二上（寒假團第一次開）：第 6 週週一 12:00 同一則公告、選項「（報名）」到第 9 週週五；行事曆也報得到',txt('g:law_class').filter(t=>t.includes('【見習團】法律與社會海外見習團（新加坡），暑假 9 天（寒假團 7 天），有獎學金名額。需面試，第 10 週（寒假團第 9 週）截止。')).length===1&&!!m&&m.ask.opts[0].t==='（報名）'&&m.ask.until===Tm(termDay('Y2S1',9,5),24)&&VAC.html(G).includes('data-vac="C18W@Y2"'));
+    VAC.signup(G,'C18W@Y2','yes'); const iv=OUT.get(G,'vac_C18W@Y2_pre0');   // 行事曆報名（沒去面試＝下面測沒錄取）
+    check('9. 面試：大二上第 10 週週三 19:00；出發 2027-01-04 08:00',!!iv&&iv.day===termDay('Y2S1',10,3)&&iv.h===19&&OUT.get(G,'vac_C18W@Y2').day===D('2027-01-04'));
     G.day=termDay('Y2S1',12,1); G.weekday=1; run(11.9,12.2); const R=tagged('vac_sel_C18W@Y2');
-    check('9. 寒假團沒錄取：「【通知】很遺憾，本次未能錄取。」，不傳「沒差啦 暑假還很長」（季節不對）',R.length===1&&R[0].text==='【通知】很遺憾，本次未能錄取。'&&!txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text))); });
+    check('9. 寒假團沒錄取：「【通知】很遺憾，本次未能錄取。」＋阿哲寒假版「沒差啦 過年比較重要」（AA_242 12-4），不是「暑假還很長」',R.length===2&&R[0].text==='【通知】很遺憾，本次未能錄取。'&&R[1].th==='g:noodle_team'&&R[1].from==='zhe'&&R[1].text==='沒差啦 過年比較重要'&&!txt('g:noodle_team').includes('zhe:沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text)));
+    check('9. 沒錄取：不排行前說明會',!OUT.get(G,'vac_C18W@Y2_brief')); });
   await sec(async()=>{ fresh(D('2027-01-04'),8,'dorm',{}); G.stage='law'; reg('C18W@Y2'); said=[]; cards=[]; await VAC.outing(GM,OUT.get(G,'vac_C18W@Y2'));
     check('9. 寒假團 7 天：1/5 法院、1/7 座談、1/9 最後一晚；1/10 18:00 回來、BACK_FROM_C18W',cards.some(c=>c[0].startsWith('1/5'))&&cards.some(c=>c[0].startsWith('1/7'))&&cards.some(c=>c[0].startsWith('1/9'))&&G.day===D('2027-01-10')&&G.hour===18&&G.flags.STUDYTOUR_SG===true&&G.flags.BACK_FROM_C18W===D('2027-01-10'));
     G.day=D('2027-01-12'); meet('yu'); Object.assign(SOCIAL.rel('yu'),{fam:30,trust:10,comf:5}); said=[]; const g=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu');
     check('9. 寒假團回來也有 3D 的招呼（BACK_FROM_C18W）',g===true&&lines().join('|')==='小語：你回來了！伴手禮咧！'); });
 
-  // ===== 10. 第二次參加（AA_264 第 0 節第 1 點：不重演；第二次的日誌句還沒有）=====
-  await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{}); G.stage='law'; meet('heroine_03'); VAC.rec(G).reg['C16@Y2']='done'; reg('C16@Y3'); const q=onDay('C16@Y3','2028-06-19');
-    check('10. C16 第二次：nth＝2、標題不寫「第一天」、快轉不停（\'\'）',VAC.nth(G,inst('C16','Y3'))===2&&!!q&&q.title==='法扶實習（台北分會）'&&safe(()=>VAC.repSkip(G,q))==='');
-    G.day=D('2028-06-19'); G.hour=9; said=[]; await VAC.outing(GM,q); check('10. 第二次的第一天：不演（連語彤那版也不演）、過到 18:00',said.length===0&&G.hour===18);
-    fresh(D('2027-07-19'),8,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C18@Y1']='done'; reg('C18@Y2'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y2'));
-    check('10. C18 第二次：三場不重演、照樣 7/27 回來',said.length===0&&G.day===D('2027-07-27')&&VAC.state(G,'C18@Y2')==='done'); });
+  // ===== 10. 第二次參加（AA_264 第 0 節第 1 點：不重演，關鍵事件那幾天換成日誌一句；第二次的日誌句 AA_242 12-3）=====
+  await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C16@Y2']='done'; reg('C16@Y3'); const q=onDay('C16@Y3','2028-06-19');
+    check('10. C16 第二次：nth＝2、標題不寫「第一天」、快轉不停（旁白換成第二次的日誌一句）',VAC.nth(G,inst('C16','Y3'))===2&&!!q&&q.title==='法扶實習（台北分會）'&&safe(()=>VAC.repSkip(G,q))==='（韓律師看到你：「又來了。」保密約定，這次你自己找到簽名的地方。）');
+    G.day=D('2028-06-19'); G.hour=9; said=[]; opts=[]; await VAC.outing(GM,q); check('10. 第二次的第一天：不重演（沒有保密約定那段、沒有選項），只有那一句日誌，過到 18:00',JSON.stringify(lines())===JSON.stringify(['（韓律師看到你：「又來了。」保密約定，這次你自己找到簽名的地方。）'])&&!opts.length&&G.hour===18,JSON.stringify(lines()));
+    fresh(D('2027-07-19'),8,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C18@Y1']='done'; reg('C18@Y2'); said=[]; cards=[]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y2'));
+    check('10. C18 第二次：三場換成日誌一句（字卡照日期 7/20、7/22、7/26）、思穎不在；照樣 7/27 回來',JSON.stringify(lines())===JSON.stringify(['（法院裡還是講得很快。這次你多聽懂了幾個字。）','（當地學生又問要不要點名。這次你先問他們。）','（小吃中心。報告這次你先說要寫法院那段。）'])&&['7/20','7/22','7/26'].every(x=>cards.some(c=>c[0].startsWith(x)))&&G.day===D('2027-07-27')&&VAC.state(G,'C18@Y2')==='done',JSON.stringify(lines())); });
 
   // ===== 11. 行事曆（平日白天、會撞到、費用）=====
   await sec(async()=>{ const w10=termDay('Y2S2',10,1); fresh(w10,12.5,'dorm',{}); G.stage='law'; VAC.rec(G).score={'C04@Y1':{test:'toefl',n:84,day:D('2026-09-01')}}; VAC.rec(G).reg['C04@Y2']='yes'; reg('C17@Y2');
@@ -209,16 +214,113 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     VAC.repDone(G,onDay('C16@Y2','2027-06-21')); const nx=HOME.breakNext(G);
     check('12. 快轉的下一站：6/22、6/23 不停，停在 6/24 陪同晤談出發前',nx!=null&&Math.floor(nx/24)===D('2027-06-24'),nx!=null?CALENDAR.dateOf(Math.floor(nx/24)).key+' '+(nx%24).toFixed(2):'null');
     let ok=true; try{ await HOME.breakJump(GM,Tm(D('2027-06-24'),7),{}); }catch(e){ ok=false; console.log(e); }
-    check('12. 快轉跳過 6/22、6/23：記成去過（上班 3 天），沒有旁白',ok&&onDay('C16@Y2','2027-06-22').state==='done'&&onDay('C16@Y2','2027-06-23').state==='done'&&(VAC.rec(G).work['C16@Y2']||[]).length===3&&!G.flags._repSkipLine&&onDay('C16@Y2','2027-06-24').state==='planned',JSON.stringify(VAC.rec(G).work)); });
+    check('12. 快轉跳過 6/22、6/23：記成去過（上班 3 天）；跳過一次只放一句旁白＝最後跳過的那一天的日誌（6/23 第 2 句，AA_275 第 1 節）',ok&&onDay('C16@Y2','2027-06-22').state==='done'&&onDay('C16@Y2','2027-06-23').state==='done'&&(VAC.rec(G).work['C16@Y2']||[]).length===3&&G.flags._repSkipLine==='（電話一直響。櫃台的姐姐把聽筒夾在肩膀上，繼續寫字。）'&&onDay('C16@Y2','2027-06-24').state==='planned',JSON.stringify([VAC.rec(G).work,G.flags._repSkipLine])); });
 
   // ===== 14. 真的走出遊的流程（OUT.tick 的出發提示 → OUT.go → ev_vac_key → VAC.outing），不是直接叫 VAC.outing =====
   await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; reg('C16@Y2'); G.day=D('2027-06-21'); G.weekday=1; G.hour=8.45; said=[]; opts=[]; picks=[0,0]; cards=[];
     const r=await OUT.tick(GM), q=onDay('C16@Y2','2027-06-21');
     check('14. 6/21 早上的出發提示「出發：法扶實習（台北分會）：第一天」→ 出發 → 第一天演完；18:00 下班＋0.5 小時回來、這一趟記成 done',r==='go'&&!!opts[0]&&opts[0][0]==='出發：法扶實習（台北分會）：第一天'&&lines().includes('韓律師：先簽這個。保密約定。')&&q.state==='done'&&G.day===D('2027-06-21')&&Math.abs(G.hour-18.5)<1e-6,JSON.stringify([r,opts[0],G.hour]));
     G.day=D('2027-06-22'); G.weekday=2; G.hour=8.45; said=[]; opts=[]; picks=[0]; const r2=await OUT.tick(GM), q2=onDay('C16@Y2','2027-06-22');
-    check('14. 6/22（沒有關鍵事件）：出發提示「出發：法扶實習（台北分會）」→ 沒有台詞、18:30 回來',r2==='go'&&opts[0][0]==='出發：法扶實習（台北分會）'&&said.length===0&&q2.state==='done'&&Math.abs(G.hour-18.5)<1e-6&&(VAC.rec(G).work['C16@Y2']||[]).length===2,JSON.stringify([r2,opts[0],G.hour]));
+    check('14. 6/22（沒有關鍵事件）：出發提示「出發：法扶實習（台北分會）」→ 日誌一行（第 1 句）、18:30 回來',r2==='go'&&opts[0][0]==='出發：法扶實習（台北分會）'&&JSON.stringify(lines())===JSON.stringify(['（影印、分類、再影印。中午在樓下的便當店吃。）'])&&q2.state==='done'&&Math.abs(G.hour-18.5)<1e-6&&(VAC.rec(G).work['C16@Y2']||[]).length===2,JSON.stringify([r2,opts[0],G.hour,lines()]));
     G.day=D('2027-06-23'); G.weekday=3; G.hour=8.45; opts=[]; picks=[2]; const r3=await OUT.tick(GM), q3=onDay('C16@Y2','2027-06-23');
     check('14. 「不去了」：這一天沒去（missed），報名照舊',r3==='no'&&q3.state==='missed'&&VAC.state(G,'C16@Y2')==='yes'&&(VAC.rec(G).work['C16@Y2']||[]).length===2); });
+
+  // ===== 15. AA_242 12-1 七項裁定（AA-C 2026-10-21 56a36a4d）=====
+  // 15-1 語彤那一版在大三暑假；大二去過的，大三語彤那兩段照演，第一句換「……你又來了。」，9-6「我明年還要來。」照舊
+  await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{}); G.stage='law'; meet('heroine_03'); VAC.rec(G).reg['C16@Y2']='done'; reg('C16@Y3');
+    const q1=onDay('C16@Y3','2028-06-19'), q4=onDay('C16@Y3','2028-06-30'), sk=k=>safe(()=>VAC.repSkip(G,onDay('C16@Y3',k)));
+    check('15-1. 大二去過、大三第二次、認識語彤：第一天、最後一天快轉要停（語彤那兩段照演）；陪同晤談、整理卷宗不停（旁白＝第二次的日誌）；其他平日不停、沒有旁白',
+      sk('2028-06-19')===null&&sk('2028-06-30')===null&&sk('2028-06-22')==='（陪同晤談。她講到一半停下來的時候，你沒有抬頭。）'&&sk('2028-06-27')==='（影印機還是會卡紙。你先拍兩下。）'&&sk('2028-06-20')==='',JSON.stringify(['2028-06-19','2028-06-22','2028-06-27','2028-06-30','2028-06-20'].map(sk)));
+    G.day=D('2028-06-19'); G.weekday=1; G.hour=9; said=[]; opts=[]; if(q1) await VAC.outing(GM,q1); let L=lines();
+    check('15-1. 第一天：「（韓律師看到你：「又來了。」保密約定，這次你自己找到簽名的地方。）」→「（同期的名單上有一個你認識的名字。她坐在你斜對面，抬頭看了你一眼。）」→ 語彤「……你又來了。」（不是「……你也來了。」）；沒有選項',
+      L.length===3&&L[0]==='（韓律師看到你：「又來了。」保密約定，這次你自己找到簽名的地方。）'&&L[1]==='（同期的名單上有一個你認識的名字。她坐在你斜對面，抬頭看了你一眼。）'&&/語彤：……你又來了。$/.test(L[2])&&!opts.length&&G.hour===18,JSON.stringify(L));
+    for(const k of ['2028-06-20','2028-06-21','2028-06-22','2028-06-23','2028-06-26','2028-06-27','2028-06-28','2028-06-29']) VAC.repDone(G,onDay('C16@Y3',k));
+    G.day=D('2028-06-30'); G.weekday=5; G.hour=9; said=[]; opts=[]; if(q4) await VAC.outing(GM,q4); L=lines();
+    check('15-1. 最後一天：「（最後一天。韓律師把筆記還給你，這次鉛筆補的字比較少。）」→「（走出大樓，語彤停下來。）」→ 語彤「我明年還要來。」（照舊）；參加過',
+      L.length===3&&L[0]==='（最後一天。韓律師把筆記還給你，這次鉛筆補的字比較少。）'&&L[1]==='（走出大樓，語彤停下來。）'&&/語彤：我明年還要來。$/.test(L[2])&&!opts.length&&VAC.state(G,'C16@Y3')==='done',JSON.stringify(L)); });
+  await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C16@Y2']='done'; reg('C16@Y3'); const sk=['2028-06-19','2028-06-22','2028-06-27','2028-06-30'].map(k=>safe(()=>VAC.repSkip(G,onDay('C16@Y3',k))));
+    check('15-1. 不認識語彤的第二次：四個關鍵日都是第二次的日誌一句（快轉不停、旁白換成那一句；AA_242 12-3）',JSON.stringify(sk)===JSON.stringify(['（韓律師看到你：「又來了。」保密約定，這次你自己找到簽名的地方。）','（陪同晤談。她講到一半停下來的時候，你沒有抬頭。）','（影印機還是會卡紙。你先拍兩下。）','（最後一天。韓律師把筆記還給你，這次鉛筆補的字比較少。）']),JSON.stringify(sk)); });
+  // 15-4 C16 照暫排＋上學期有被當的科目＝沒錄取（用「看成績」的字面意思，不另設分數門檻）；沒錄取照 9-2 的 email
+  await sec(async()=>{ const mk=ex=>{ fresh(termDay('Y2S2',12,1),12.5,'dorm',{}); G.stage='law'; LAWC(); if(ex) G.courses={exam:ex}; reg('C16@Y2'); G.day=termDay('Y2S2',14,1); G.weekday=1; toasts=[]; run(11.9,12.2); return tagged('vac_sel_C16@Y2'); };
+    const R0=mk({'Y2S1:crim_spec:final':{qs:[],ans:[],correct:0,score:0,status:'done'},'Y2S1:property:final':{qs:[],ans:[],correct:4,score:90,status:'done'}});
+    check('15-4. C16：上學期（大二上）有一科期末考 0 分（被當）＝沒錄取：系辦的信「名額已滿，明年可以再報。」、（沒上。）、上班日取消（AA_242 12-1 第 4 點）',R0.length===1&&R0[0].name==='系辦（信）'&&R0[0].text==='名額已滿，明年可以再報。'&&VAC.state(G,'C16@Y2')==='rejected'&&toasts.includes('（沒上。）')&&workQ('C16@Y2').every(q=>q.state==='cancelled'),JSON.stringify(R0.map(m=>m.text)));
+    const R1=mk({'Y2S1:crim_spec:final':{qs:[],ans:[],correct:1,score:60,status:'done'},'Y1S2:crim_general_2:final':{qs:[],ans:[],correct:0,score:0,status:'done'}});
+    check('15-4. 大二上都過了（最低 60 分；被當的是大一下＝不是上學期）：照常錄取',R1.length===2&&R1[0].text==='【通知】恭喜錄取法律扶助基金會台北分會暑期實習。'&&VAC.state(G,'C16@Y2')==='yes',JSON.stringify(R1.map(m=>m.text)));
+    const R2=mk({'Y2S1:crim_spec:final':{status:'insufficient',n:3}});
+    check('15-4. 未開考（題庫不足）不算被當：照常錄取',R2.length===2&&VAC.state(G,'C16@Y2')==='yes',JSON.stringify(R2.map(m=>m.text))); });
+  // 15-5 C17 第二次免面試：大二去過的，大三第 4 週公告時多一個選項「寄信給馮律師」；選了不用交履歷、不面試，第 14 週直接錄取
+  await sec(async()=>{ const w4=termDay('Y3S2',4,1), setup=done=>{ fresh(w4,11.9,'dorm',{EXCHANGE_ROUTE:'TW'}); G.stage='law'; LAWC(); const V=VAC.rec(G); if(done) V.reg['C17@Y2']='done'; V.score={'C04W@Y2':{test:'toefl',n:80,day:D('2027-02-02')}}; run(11.9,12.2); return (G.msgs||[]).find(x=>x.ask&&x.ask.id==='vac_ask_C17@Y3'); };
+    let m=setup(true);
+    check('15-5. 大二去過 C17：大三下第 4 週週一 12:00 同一則公告，多一個選項「寄信給馮律師」（到第 9 週週五）；行事曆照樣有報名鈕（交履歷）',txt('g:law_class').includes('sysoffice:【暑期實習】青嶺法律事務所，暑假 8 週，有實習津貼。需附英文檢定成績。第 9 週週五前交履歷。')&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['寄信給馮律師'])&&m.ask.until===Tm(termDay('Y3S2',9,5),24)&&VAC.html(G).includes('data-vac="C17@Y3"'),JSON.stringify(m&&m.ask));
+    if(m) PHONE.answer(G,'vac_ask_C17@Y3',0); STORY.phoneRules(GM); const I3=inst('C17','Y3');
+    check('15-5. 選「寄信給馮律師」：報名了、不用交履歷、不排面試；群組裡不會多出玩家的一句（不是對全班說的）',VAC.state(G,'C17@Y3')==='yes'&&!OUT.get(G,'vac_C17@Y3_pre0')&&!!safe(()=>VAC.okI(G,I3,'INT'))&&workQ('C17@Y3').length===40&&!TH('g:law_class').some(x=>x.from==='player'));
+    G.day=termDay('Y3S2',14,1); G.weekday=1; run(11.9,12.2); const R=tagged('vac_sel_C17@Y3');
+    check('15-5. 第 14 週週一 12:00 直接錄取：「【通知】恭喜錄取青嶺法律事務所暑期實習。」＋媽媽「有錢可以領喔？」',R.length===2&&R[0].text==='【通知】恭喜錄取青嶺法律事務所暑期實習。'&&R[1].text==='有錢可以領喔？'&&VAC.state(G,'C17@Y3')==='yes',JSON.stringify(R.map(x=>x.text)));
+    m=setup(true); VAC.signup(G,'C17@Y3','yes'); const iv=OUT.get(G,'vac_C17@Y3_pre0'); if(m) PHONE.answer(G,'vac_ask_C17@Y3',0); STORY.phoneRules(GM);
+    check('15-5. 先在行事曆報名（交履歷、排了第 12 週的面試）以後才選「寄信給馮律師」：那一場面試取消、直接算數',!!m&&!!iv&&iv.state==='cancelled'&&!!safe(()=>VAC.okI(G,inst('C17','Y3'),'INT'))&&VAC.state(G,'C17@Y3')==='yes');
+    m=setup(false); check('15-5. 大二沒去過：大三的公告沒有「寄信給馮律師」（照舊在行事曆報名）',!m); });
+  // 15-6 C16 午餐每天 −100（兩週 −1,000），上班日扣
+  await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; reg('C16@Y2'); const m0=G.money; G.day=D('2027-06-22'); G.weekday=2; G.hour=9; await VAC.outing(GM,onDay('C16@Y2','2027-06-22'));
+    check('15-6. C16 午餐：走去上班的那一天扣 100（AA_242 12-1）',G.money===m0-100,String(G.money-m0));
+    for(const q of workQ('C16@Y2')) if(q.state==='planned') VAC.repDone(G,q);
+    check('15-6. 兩週十天＝−1,000（快轉記成去過的也扣）',G.money===m0-1000,String(G.money-m0));
+    VAC.repDone(G,onDay('C16@Y2','2027-06-22')); check('15-6. 同一天不重扣',G.money===m0-1000,String(G.money-m0));
+    fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; VAC.rec(G).score={'C04W@Y2':{test:'toefl',n:80,day:D('2027-02-02')}}; reg('C17@Y2'); const m1=G.money; for(const q of workQ('C17@Y2').slice(0,5)) VAC.repDone(G,q);
+    check('15-6. C17 不扣午餐（只有 C16）',G.money===m1,String(G.money-m1)); });
+
+  // ===== 16. AA_242 12-2 (a)：沒有關鍵事件的上班日，一天一行照順序用，用完以後只有日期卡；C17 第 12 句固定在最後一週的第一個上班日 =====
+  const C16D=['（影印、分類、再影印。中午在樓下的便當店吃。）','（電話一直響。櫃台的姐姐把聽筒夾在肩膀上，繼續寫字。）','（下午有人來問能不能申請。韓律師請他先填表，表格比他想的長。）','（你學會怎麼用那台影印機。它只是需要先拍兩下。）','（整理卷宗，把收據照日期排好。有幾張日期寫錯了。）','（下班的時候，等候區還有兩個人在等。）'];
+  const C17D=['（門禁卡要刷兩次，第一次總是紅燈。）','（中午大家一起訂便當。你還不知道每個人愛吃什麼。）','（你查了一整天的資料，寫了半頁。查不到的地方寫「查不到」。）','（馮律師經過你的位子，把一本書放在你桌上：「這本找得到。」）','（晚上九點，辦公室還有一半的燈亮著。）','（影印室的紙用完了。你知道要去哪裡拿了。）','（這週的備忘錄，結論寫在第一段。）','（另一個實習生問你期末考考得怎樣。你們都不太想講。）','（下雨。你在捷運站等到雨小一點才出來。）','（週五下午，有人帶了一盒蛋糕。沒有人說是誰生日。）','（你的位子旁邊多了一小盆植物。不知道是誰放的。）','（最後一週。你把桌上的東西收進一個紙箱，比來的時候多。）'];
+  await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; reg('C16@Y2'); const seq=[];
+    for(const q of workQ('C16@Y2')){ const l=safe(()=>VAC.repSkip(G,q)); if(l) seq.push([CALENDAR.dateOf(q.day).key,l]); VAC.repDone(G,q); }
+    check('16. C16 第一次：沒有關鍵事件的六天（6/22、6/23、6/25、6/28、6/30、7/1）快轉的旁白照順序是六句日誌',JSON.stringify(seq)===JSON.stringify([['2027-06-22',C16D[0]],['2027-06-23',C16D[1]],['2027-06-25',C16D[2]],['2027-06-28',C16D[3]],['2027-06-30',C16D[4]],['2027-07-01',C16D[5]]]),JSON.stringify(seq)); });
+  await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; reg('C16@Y2'); VAC.repDone(G,onDay('C16@Y2','2027-06-21')); onDay('C16@Y2','2027-06-22').state='missed';
+    G.day=D('2027-06-23'); G.weekday=3; G.hour=9; said=[]; await VAC.outing(GM,onDay('C16@Y2','2027-06-23'));
+    check('16. 6/22 沒去：6/23 走去上班的日誌是第 1 句（沒去的那天不用掉句子）',JSON.stringify(lines())===JSON.stringify([C16D[0]])&&G.hour===18,JSON.stringify(lines())); });
+  await sec(async()=>{ fresh(D('2027-06-20'),20,'dorm',{}); G.stage='law'; VAC.rec(G).score={'C04W@Y2':{test:'toefl',n:80,day:D('2027-02-02')}}; reg('C17@Y2'); const got={};
+    for(const q of workQ('C17@Y2')){ got[CALENDAR.dateOf(q.day).key]=safe(()=>VAC.repSkip(G,q)); VAC.repDone(G,q); }
+    const key4=['2027-06-21','2027-06-25','2027-07-14','2027-08-13'], seq=Object.keys(got).filter(k=>!key4.includes(k)).map(k=>got[k]).filter(Boolean);
+    check('16. C17 第一次：前 11 個沒有關鍵事件的上班日照順序第 1～11 句（6/22～7/7），之後只有日期卡；第 12 句固定在最後一週的第一個上班日（8/9 週一）；關鍵日要停',
+      JSON.stringify(seq)===JSON.stringify(C17D)&&got['2027-06-22']===C17D[0]&&got['2027-07-07']===C17D[10]&&got['2027-07-08']===''&&got['2027-08-06']===''&&got['2027-08-09']===C17D[11]&&got['2027-08-10']===''&&key4.every(k=>got[k]===null),JSON.stringify([seq.length,got['2027-07-07'],got['2027-08-09']])); });
+
+  // ===== 17. AA_242 12-3 (b)：第二次以後的日誌（C16、C17 只有大二、大三兩次；C18 第二次、第三次以後）=====
+  await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{EXCHANGE_ROUTE:'TW'}); G.stage='law'; const V=VAC.rec(G); V.reg['C17@Y2']='done'; V.score={'C04W@Y2':{test:'toefl',n:80,day:D('2027-02-02')}}; reg('C17@Y3');
+    const sk=['2028-06-19','2028-06-23','2028-07-12','2028-08-11','2028-06-20'].map(k=>safe(()=>VAC.repSkip(G,onDay('C17@Y3',k))));
+    check('17. C17 第二次（大三）：第一天、第一次被改、跟開庭＝日誌一句（快轉不停）；最後一天是馮律師說話＝要停；其他平日沒有旁白',JSON.stringify(sk)===JSON.stringify(['（門禁卡還是同一張。位子換到靠窗了。）','（第一份備忘錄發回來。紅字比去年少，結論在第一段。）','（跟開庭。法官停下來的時候，你在心裡數到五。）',null,'']),JSON.stringify(sk));
+    for(const q of workQ('C17@Y3')) if(q.day<D('2028-08-11')) VAC.repDone(G,q);
+    G.day=D('2028-08-11'); G.weekday=5; G.hour=9; said=[]; await VAC.outing(GM,onDay('C17@Y3','2028-08-11'));
+    check('17. C17 第二次的最後一天：馮律師「畢業以後，履歷寄給我。」；參加過',JSON.stringify(lines())===JSON.stringify(['馮律師：畢業以後，履歷寄給我。'])&&VAC.state(G,'C17@Y3')==='done',JSON.stringify(lines())); });
+  await sec(async()=>{ fresh(D('2028-07-17'),8,'dorm',{EXCHANGE_ROUTE:'TW'}); G.stage='law'; VAC.rec(G).reg['C18@Y1']='done'; VAC.rec(G).reg['C18W@Y2']='done'; reg('C18@Y3'); said=[]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y3'));
+    check('17. C18 第三次（暑假團、寒假團合計）：「（旁聽席，你坐到第一排。）」「（座談。對面有一個人，你上次就見過。）」「（小吃中心。你點菜的時候，團員說你很熟。）」',VAC.nth(G,inst('C18','Y3'))===3&&JSON.stringify(lines())===JSON.stringify(['（旁聽席，你坐到第一排。）','（座談。對面有一個人，你上次就見過。）','（小吃中心。你點菜的時候，團員說你很熟。）']),JSON.stringify(lines())); });
+
+  // ===== 18. AA_242 12-4 (c)：沒錄取時阿哲那一句寒假版（C18W 在第 9 項；C11 東京一起用）=====
+  await sec(async()=>{ fresh(termDay('Y2S1',5,1),9.5,'dorm',{}); G.stage='law'; LAWC(); VAC.signup(G,'C11@Y2','yes'); G.day=termDay('Y2S1',8,1); G.weekday=1; toasts=[]; run(11.9,12.2); const R=tagged('vac_sel_C11@Y2');
+    check('18. C11 東京（寒假）沒錄取：「【通知】很遺憾，本次未能錄取。」＋阿哲「沒差啦 過年比較重要」（不是「暑假還很長」）',R.some(x=>x.th==='sys'&&x.text==='【通知】很遺憾，本次未能錄取。')&&R.some(x=>x.th==='g:noodle_team'&&x.from==='zhe'&&x.text==='沒差啦 過年比較重要')&&!R.some(x=>x.text==='沒差啦 暑假還很長'),JSON.stringify(R.map(x=>x.text))); });
+
+  // ===== 19. AA_242 12-5 (d)：C18 行前說明會（暑假團第 15 週週三 12:20、寒假團第 14 週週三 12:20；系館的小教室，2D）=====
+  const BR=['（系館的小教室。桌上一疊行程表，第一頁是新加坡的地圖。）','帶隊老師：護照、轉接頭、一件薄外套。法院裡冷氣很強。','帶隊老師：每個人選一天寫紀錄。不用寫得很好，寫你看到的。'], BR1=['（坐你旁邊的人把名牌轉過來給你看：姚思穎，地理系。）','思穎：我是團長。','思穎：……其實是因為沒人要當。'];
+  await sec(async()=>{ fresh(termDay('Y1S2',12,1),12,'dorm',{}); G.stage='law'; LAWC(); reg('C18@Y1'); G.day=termDay('Y1S2',13,1); G.weekday=1; run(11.9,12.2); const b=OUT.get(G,'vac_C18@Y1_brief');
+    check('19. 錄取以後排行前說明會：暑假團第 15 週週三 12:20（6/3）、系館的小教室',!!b&&b.state==='planned'&&b.day===termDay('Y1S2',15,3)&&Math.abs(b.h-(12+20/60))<1e-6&&b.place==='系館的小教室'&&b.title==='海外見習團（新加坡）・暑假團：行前說明會',JSON.stringify(b));
+    G.day=b?b.day:G.day; G.hour=12.4; said=[]; opts=[]; if(b) await VAC.outing(GM,b);
+    check('19. 第一次參加：三行＋思穎第一次出現的三行，沒有選項',JSON.stringify(lines())===JSON.stringify(BR.concat(BR1))&&!opts.length,JSON.stringify(lines())); });
+  await sec(async()=>{ fresh(termDay('Y2S2',12,1),12,'dorm',{}); G.stage='law'; LAWC(); VAC.rec(G).reg['C18@Y1']='done'; reg('C18@Y2'); G.day=termDay('Y2S2',13,1); G.weekday=1; run(11.9,12.2); const b=OUT.get(G,'vac_C18@Y2_brief');
+    G.day=b?b.day:G.day; G.hour=12.4; said=[]; if(b) await VAC.outing(GM,b);
+    check('19. 第二次以後：只有前三行（思穎只在第一次的那一團）',!!b&&JSON.stringify(lines())===JSON.stringify(BR),JSON.stringify(lines())); });
+  await sec(async()=>{ fresh(termDay('Y2S1',11,1),12,'dorm',{}); G.stage='law'; LAWC(); reg('C18W@Y2'); G.day=termDay('Y2S1',12,1); G.weekday=1; run(11.9,12.2); const b=OUT.get(G,'vac_C18W@Y2_brief');
+    check('19. 寒假團：第 14 週週三 12:20',!!b&&b.day===termDay('Y2S1',14,3)&&Math.abs(b.h-(12+20/60))<1e-6,JSON.stringify(b));
+    if(b){ VAC.missed(GM,b); b.state='missed'; }
+    check('19. 沒去說明會：照樣出發（報名狀態、出發的那一趟都還在）',!!b&&VAC.state(G,'C18W@Y2')==='yes'&&OUT.get(G,'vac_C18W@Y2').state==='planned'); });
+
+  // ===== 20. AA_242 12-6 (e)：思穎回國後的訊息（第一次參加的那一團才有；回國一週後 20:00）=====
+  await sec(async()=>{ fresh(D('2026-07-20'),8,'dorm',{}); G.stage='law'; reg('C18@Y1'); await VAC.outing(GM,OUT.get(G,'vac_C18@Y1')); G.day=D('2026-08-03'); G.weekday=1; run(19.5,23.9); const n0=TH('p:npc_siying').length;
+    G.day=D('2026-08-04'); G.weekday=2; run(19.8,20.2); const M=TH('p:npc_siying');
+    check('20. 回國一週後（7/28 回來 → 8/4）20:00 思穎一則「報告我那段寫完了。三頁，都是吃的。」，選項「我的也寫完了。」「還沒。」（8/3 還沒有）',n0===0&&M.length===1&&M[0].text==='報告我那段寫完了。三頁，都是吃的。'&&M[0].name==='思穎'&&!!M[0].ask&&JSON.stringify(M[0].ask.opts.map(o=>o.t))===JSON.stringify(['我的也寫完了。','還沒。'])&&M[0].day===D('2026-08-04')&&M[0].h===20,JSON.stringify(M.map(m=>[m.text,m.day,m.h])));
+    if(M[0]&&M[0].ask) PHONE.answer(G,M[0].ask.id,1); const M2=TH('p:npc_siying').map(m=>m.text);
+    check('20. 回「還沒。」→「禮拜五以前喔。團長會催你。」「……我就是團長。」',JSON.stringify(M2.slice(-2))===JSON.stringify(['禮拜五以前喔。團長會催你。','……我就是團長。']),JSON.stringify(M2));
+    fresh(D('2026-07-20'),8,'dorm',{}); G.stage='law'; reg('C18@Y1'); await VAC.outing(GM,OUT.get(G,'vac_C18@Y1')); G.day=D('2026-08-04'); G.weekday=2; run(19.8,20.2); const M3=TH('p:npc_siying'); if(M3[0]&&M3[0].ask) PHONE.answer(G,M3[0].ask.id,0);
+    check('20. 回「我的也寫完了。」→「好。那我交出去了。」',TH('p:npc_siying').map(m=>m.text).slice(-1)[0]==='好。那我交出去了。');
+    fresh(D('2027-07-19'),8,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C18@Y1']='done'; reg('C18@Y2'); await VAC.outing(GM,OUT.get(G,'vac_C18@Y2')); G.day=D('2027-08-03'); G.weekday=2; run(19.8,20.2);
+    check('20. 第二次參加的那一團沒有思穎的訊息',!TH('p:npc_siying').length); });
 
   // ===== 13. 舊存檔 =====
   await sec(async()=>{ fresh(termDay('Y2S2',14,1),11.9,'dorm',{}); G.stage='law'; LAWC(); G.vac={reg:{'C08@Y1':'done','C04@Y1':'done'},seen:{C08:true},log:[]}; let ok=true;

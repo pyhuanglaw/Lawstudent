@@ -4,6 +4,7 @@
      窗外的景 assets/models/env/views/jp_room_{day,night}.webp（jp_view.py：田、遠一點的一座山、電線、瓦屋頂）。
    出口「走出房間」→ jp_dorm（下一階段：走廊、共用廚房、大廳）；還沒有那個區域的時候回到 2D 的據點 jp_hub。
    和 jp3d.js 的據點怎麼接（選單「在房間休息一下」「睡覺」走進這裡、床的「睡覺」、書桌「坐下」讀書）由 LAWWW-C 決定；這裡只提供區域＋互動點（look 的 id：window、bed、fridge、suitcase）。
+   「看」的字：窗外、小冰箱、行李箱照 AA_341 檔尾附加（JP.roomLook，src/jp3d.js；窗外 4/30 以前、5/1 以後兩句）。
    試玩（開發用）：網址加 ?jpdemo，左上角多一顆「日本宿舍（測試）」按鈕。 */
 (function(){
   if(typeof JP_DORM_LAYOUTS==='undefined'||typeof Z3==='undefined') return;
@@ -32,7 +33,8 @@
       const IT=E.interactables; z.seats=[];
       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0,kind:s.kind||'study'}; if(s.ap) st.ap=s.ap; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,prio:0.3,seat:st,label:s.label||'坐下'}); }
       for(const q of L.interact){ if(q.id==='bed'&&typeof JP!=='undefined'&&JP.bedFromRoom){ IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:'睡覺',jpLook:q.id,onInteract:()=>{ if(typeof GAME!=='undefined') JP.bedFromRoom(GAME); }}); continue; }   /* 床＝回據點睡覺（LAWWW-C 接，jp3d.js S.bedFromRoom）*/
-        if(q.note) IT.push({x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,look:q.note,jpLook:q.id}); }   /* 看的字等 AA 寫：note 還是空的不開（不要顯示標籤當內容）*/
+        const lookOf=()=>(typeof JP!=='undefined'&&JP.roomLook?JP.roomLook(q.id,G_()):null)||q.note;   /* 看的字：AA_341 檔尾附加（JP.roomLook，窗外照日子換）；配置檔的 note 有字也可以 */
+        if(lookOf()){ const it={x:q.x,z:q.z,radius:q.r,lv:0,prio:-0.3,label:q.label,jpLook:q.id}; Object.defineProperty(it,'look',{enumerable:true,get:lookOf}); IT.push(it); } }   /* 沒有字的不開（不要顯示標籤當內容）；look 每次按的時候才讀（同一個房間跨過 5/1，窗外就換）*/
       for(const X of L.exits) IT.push({x:X.x,z:X.z,radius:X.r,lv:0,label:X.label,exit:exitTo(X)});
       if(L.spawn) z.spawn=Object.assign({},L.spawn);
       z.formal=false; const key='bldg.'+id; if(has(key)) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);

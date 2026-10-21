@@ -62,6 +62,11 @@ const JP=(function(){
   S.room3d=G=>!!G&&G.zone==='jp_room'&&S.hasRoom3d();   /* 人在 3D 的「你的房間」 */
   /* 3D 房間的床（jp_dorm3d.js）：回據點、接著照選單的「睡覺」（錯過約的確認照舊）*/
   S.bedFromRoom=async function(GM){ const G=GM.G; if(!S.inJapan(G)) return false; S.rec(G).pendingSleep=true; if(GM.enter) await GM.enter('jp_hub',Object.assign({},S.SPAWN)); return true; };
+  /* 3D 房間按「看」的旁白（AA_341 檔尾附加，AA-C 2026-10-21 56a36a4d；台詞照抄）：窗外分兩段日子（田五月才灌水：4/30 以前、5/1 以後）；小冰箱、行李箱各一句。
+     3/28 摘要日已經講過「窗外是一片田，遠一點的地方有一座山」，這裡是別的細節。床接成「睡覺」，不用字。jp_dorm3d.js 讀 JP.roomLook（配置檔 note 是空的，產生的檔不改）*/
+  S.ROOM_LOOK={ window:['（窗外的田還是乾的，土是深褐色。有人在田埂上騎腳踏車。）','（窗外的田灌了水。傍晚的時候，整片田會反光。）'],
+    fridge:'（小冰箱裡有一瓶麥茶、兩顆便利商店的飯糰。其中一顆明天到期。）', suitcase:'（行李箱還攤在地上，一直沒收進櫃子。最底下有一包從台北帶來的泡麵。）' };
+  S.roomLook=function(id,G){ const L=S.ROOM_LOOK[id]; if(!L) return null; if(typeof L==='string') return L; const m=G&&G.day!=null&&typeof CALENDAR!=='undefined'?CALENDAR.dateOf(G.day).m:4; return m>=5?L[1]:L[0]; };   /* 日本那一學期 3/25～8/5：5 月以後＝灌了水 */
   S.skipTerm=(G,termId)=>termId==='Y3S2'&&isJP(G);   /* J-S6：日本路線不修台灣的大三下（classes3d.js：不排課、不跳開學和期中期末的提示；成績單換日本的兩門）*/
   STORY.inJapan=G=>S.inJapan(G);
   /* ---------------- 據點：3D 的空區域（畫面是 2D）、背景 ---------------- */
@@ -207,15 +212,18 @@ const JP=(function(){
     S.grpPhone(G); };   /* 挽回中：交換生群組每週那一則（AA_349 L1）*/
   /* 以安約的那一頓（AA_355 1-1，AA-C 2026-10-21；台詞照抄，三句在 data/jp_events.js 的 ev_jp_dinner＝AA_250 6-2）：
      6/9（五）21:00（日本時間：人在日本時遊戲的時鐘就是日本時間）她私訊兩則，交往中或和她 FRIEND 以上；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底）；
-     「那天不行。」＝她回「好。」，不補（6/16 也不演）。不算學期末的飯（AA_250 6-2：不佔名額、沒有告白）。回覆期限 6/10 18:00；AN_JP_DINNER_ASK＝'yes'／'no' */
+     「那天不行。」＝她回「好。」，不補（6/16 也不演）。不算學期末的飯（AA_250 6-2：不佔名額、沒有告白）。回覆期限 6/10 18:00；AN_JP_DINNER_ASK＝'yes'／'no'。
+     AA_355 第 5 節（AA-C 2026-10-21 2f1aaa22）：4c 挽回中、冷靜中的不約（她在冷靜的時候不會先約兩個人吃飯、訂同一班飛機）——交往過、分開了（ROM 的 ex）、對質後「等你說清楚」（paused）、
+     被發現後退回朋友（friend_after_catch）都不約；交往中、沒交往過的 FRIEND 以上照舊。1-1 走路約 10 分鐘（字幕「走路約 10 分鐘」）*/
   S.DINNER_ASK=['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'];
+  const strained=G=>{ const R=(G.flags&&G.flags.romance&&G.flags.romance.heroine_01)||null; return !dat(G)&&!!R&&['ex','paused','friend_after_catch'].includes(R.status); };   /* 挽回中、冷靜中（和以安）*/
   S.dinnerPhone=function(G,P){ const d9=DK('2028-06-09'), d10=DK('2028-06-10'), F=G.flags; if(!P||d9==null||d10==null||!S.inJapan(G)) return;
-    if(G.day>=d9&&G.day<=d9+1&&NOW(G)>=T(d9,21)&&NOW(G)<T(d10,18)&&!P.sent(G,'jp_g7_dinner_ask')&&(dat(G)||lv('heroine_01','FRIEND'))){
+    if(G.day>=d9&&G.day<=d9+1&&NOW(G)>=T(d9,21)&&NOW(G)<T(d10,18)&&!P.sent(G,'jp_g7_dinner_ask')&&(dat(G)||(lv('heroine_01','FRIEND')&&!strained(G)))){
       const L=S.DINNER_ASK.map(t=>({th:'p:heroine_01',from:'heroine_01',text:t}));
       L[L.length-1].ask={id:'jp_g7_dinner_ask',until:T(d10,18),opts:[{t:'好。',set:{AN_JP_DINNER_ASK:'yes'}},{t:'那天不行。',set:{AN_JP_DINNER_ASK:'no'},say:[{from:'heroine_01',text:'好。'}]}]};
       P.at(G,d9,G.day===d9?Math.max(21,G.hour):21,L,'jp_g7_dinner_ask'); }
     if(F.AN_JP_DINNER_ASK==='yes'&&typeof OUT!=='undefined'&&!OUT.get(G,'jp_g7_dinner')&&NOW(G)<T(d10,19))
-      OUT.plan(G,{id:'jp_g7_dinner',ev:'ev_jp_dinner',day:d10,h:18.5,late:0.5,place:'日本・學校後面的小餐館',title:'和以安：學校後面的小餐館（日本 18:30）',travel:'',travelH:0}); };
+      OUT.plan(G,{id:'jp_g7_dinner',ev:'ev_jp_dinner',day:d10,h:18.5,late:0.5,place:'日本・學校後面的小餐館',title:'和以安：學校後面的小餐館（日本 18:30）',travel:'走路約 10 分鐘',travelH:1/6}); };
   /* ---------------- 快轉、睡覺（J-S3）---------------- */
   S.homeFfEnd=G=>S.returned(G)?T(D('room'),8.5):T(D('dep'),8);   /* 出發前：到 3/25 早上（出發）；回來以後：到 9/3 早上（搬進 409）*/
   S.t1Stops=function(G){ const out=[]; if(typeof Y34B==='undefined'||!Y34B.t1On||!Y34B.t1On(G)) return out; const a=DK('2028-02-24'), dep=D('dep'); if(a==null||dep==null) return out;

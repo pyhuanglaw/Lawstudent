@@ -60,6 +60,12 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     check('1-3（AA_303 第 2 節 9）：保齡球演過＝「我喜歡的是你。」後面接「保齡球那天，我挑你的制服。……你都沒發現。」再接「你今天說你休學……」；保齡球沒演過（舊存檔）不說',i>0&&L[i+1]==='杜可昕：保齡球那天，我挑你的制服。……你都沒發現。'&&L[i+2]==='杜可昕：你今天說你休學，我第一個想到的是：完了，他要跑了。'&&!L0.some(t=>t.includes('保齡球那天')),JSON.stringify(L.slice(i,i+3))); }
   { econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L=lines().join('｜');
     check('1-3（e6c064a3）：沒有「我要記一輩子」「我想在最高的地方說」；摩天輪的約是「你晚上有事嗎？」「那去坐摩天輪。」',!L.includes('記一輩子')&&!L.includes('最高的地方說')&&L.includes('你晚上有事嗎？')&&L.includes('那去坐摩天輪。')); }
+  /* AA_358 2-3（AA-C 2026-10-21 659d9d81）：有去中秋系烤（ev_y0_e08 演過）照原句；沒去的換「妳那陣子一直跟他講話。」「他在問我會計作業。他每次都問。」（修改前 FAIL：沒去也說「中秋系烤那天」）*/
+  { econ(d30,17+40/60,'campus',{}); G.events.done.ev_y0_e08=1; picks=['是現在']; await EVENTS.run(car); const L=lines();
+    econ(d30,17+40/60,'campus',{}); picks=['是現在']; await EVENTS.run(car); const L0=lines(), i0=L0.indexOf('祐廷：妳那陣子一直跟他講話。');
+    check('AA_358 2-3 車上：去過中秋系烤＝「中秋系烤那天，妳一直跟他講話。」「他在問我會計作業。他問了一個晚上。」；沒去＝「妳那陣子一直跟他講話。」「他在問我會計作業。他每次都問。」（接「……你是不是很笨。」）',
+      L.includes('祐廷：中秋系烤那天，妳一直跟他講話。')&&L.includes('杜可昕：他在問我會計作業。他問了一個晚上。')&&!L.includes('祐廷：妳那陣子一直跟他講話。')
+      &&i0>0&&L0[i0+1]==='杜可昕：他在問我會計作業。他每次都問。'&&L0[i0+2]==='杜可昕：……你是不是很笨。'&&!L0.some(t=>t.includes('中秋系烤那天')),JSON.stringify(L0.slice(Math.max(0,i0-1),i0+3))); }
   /* ---------- 舊的不再發生 ---------- */
   { const d25=DK('2025-03-19'); econ(d25,17,'campus',{Y0_DATING:true,dating_kexin:true}); run(17,21);
     check('E25 拿掉：3/19 17:30 沒有「今天晚上有空嗎？」、沒有醉月湖的出遊；事件 retired',!PHONE.sent(G,'y0_e25_ask')&&!OUT.get(G,'y0_e25')&&!!ev('ev_y0_e25').retired); }

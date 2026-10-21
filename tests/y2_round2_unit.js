@@ -370,8 +370,8 @@ const K=t=>'kexin:'+t;
   await play('ev_ziqing_show2'); check('17. S2 Q5 沒去、雙方單身、FRIEND：「去年的份。」、貼紙直接貼在手機殼上；CLAPPED',has('（發到你的時候）去年的份。')&&has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）')&&SOCIAL.has('heroine_04','CLAPPED'));
   fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('kexin'); await play('ev_ziqing_show2'); check('17. 祐廷有交往對象：貼紙用遞的',has('（她把貼紙遞給你。）')&&!has('（她不是遞給你，是直接貼在你的手機殼上，什麼都沒說。）'));
   fresh('2027-05-28',19,'wancai',{ZQ_SHOW:'came'}); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('heroine_04'); G.needed={batches:[{d:1,ans:['zq_song']}]}; await play('ev_ziqing_show2');
-  { const N='（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上，去年那一張旁邊。）';
-    check('17. 交往中、看過 Q5、回過 zq_song：「重來」那句；AA_338 第 3 節的旁白「（下台後，她沒有發貼紙給你。……去年那一張旁邊。）」→「第二張。明年還有第三張。」',has('（第四句唱到「重來」兩個字的時候，她看了觀眾席一眼。）')&&idx(N)>=0&&idx('第二張。明年還有第三張。')===idx(N)+1&&!any(/^（下台後她不發貼紙給你/),JSON.stringify(said.map(s=>s.t))); }
+  { const N='（下台後，她沒有發貼紙給你。她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）';
+    check('17. 交往中、看過 Q5、回過 zq_song：「重來」那句；AA_338 第 3 節的旁白「（下台後，她沒有發貼紙給你。……直接貼在你的手機殼上。）」→「第二張。明年還有第三張。」',has('（第四句唱到「重來」兩個字的時候，她看了觀眾席一眼。）')&&idx(N)>=0&&idx('第二張。明年還有第三張。')===idx(N)+1&&!any(/^（下台後她不發貼紙給你/),JSON.stringify(said.map(s=>s.t))); }
   fresh('2027-05-28',19,'wancai'); R('heroine_04','FRI'); SOCIAL.remember('heroine_04','INVITED_CLUB',''); date('heroine_04'); await play('ev_ziqing_show2');
   { const N='（下台後，她走過來，把一張插座貓貼紙直接貼在你的手機殼上。）', L='……今年你有來。我看到了。不要換位子。', S0='（你坐在第一排。她上台看到你，愣了一下。這次沒有按錯和弦。）';
     /* AA_343 A3（改了這一項的期待值）：取代「下台後，她走到第一排……」，但 BB_189 1-3 的「去年的份。」要留 */

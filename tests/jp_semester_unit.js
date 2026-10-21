@@ -202,11 +202,13 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   /* ===================== G7 ===================== */
   /* AA_355 1-1（2026-10-21）：以安約的那一頓＝6/9（五）21:00（日本時間）她私訊；「好。」＝6/10（六）18:30 出遊（地點字幕「日本・學校後面的小餐館」、深色底），接 AA_250 6-2 那三句；
      「那天不行。」＝她回「好。」、不補；交往中或和她 FRIEND 以上。原本 AA_341 G7 的 6/16（五）19:00 自動演那一場拿掉（修改前：6/9 沒有私訊、6/16 自動演）*/
-  const DINNER3=['臺大今天考完了。小語在群組說她要睡三天。','我們這邊七月底才考，還有一個多月。','八月五號那班，我跟你一起訂好了。'];
+  /* AA_355 第 5 節（AA-C 2026-10-21 2f1aaa22）：4b「臺大今天考完了」差一天＝「今天」改「昨天」（台大 6/9 考完，她 6/10 說）；4c 挽回中、冷靜中不約；1-1 走路約 10 分鐘 */
+  const DINNER3=['臺大昨天考完了。小語在群組說她要睡三天。','我們這邊七月底才考，還有一個多月。','八月五號那班，我跟你一起訂好了。'];
   { const G=inJapan('2028-06-09',20.5); phone(); const n0=th('p:heroine_01').length; at('2028-06-09',21); phone(); const L=th('p:heroine_01').slice(n0), m=(G.msgs||[]).filter(x=>x.th==='p:heroine_01').slice(-1)[0];
     check('G7／AA_355 1-1 6/9（五）21:00（日本時間）以安私訊：「週六晚上有空嗎。」「學校後面那家小餐館，六點半。我訂了兩個人。」；回「好。」／「那天不行。」（20:30 還沒有）', n0===0&&JSON.stringify(L)===JSON.stringify(['週六晚上有空嗎。','學校後面那家小餐館，六點半。我訂了兩個人。'])&&!!m&&!!m.ask&&JSON.stringify(m.ask.opts.map(o=>o.t))===JSON.stringify(['好。','那天不行。']), JSON.stringify(L));
     PHONE.answer(G,'jp_g7_dinner_ask',0); phone(); const q=OUT.get(G,'jp_g7_dinner');
     check('G7／AA_355 1-1 回「好。」：排出遊 6/10（六）18:30「日本・學校後面的小餐館」（ev_jp_dinner）', !!q&&q.state==='planned'&&q.day===D('2028-06-10')&&q.h===18.5&&q.ev==='ev_jp_dinner'&&q.place==='日本・學校後面的小餐館', JSON.stringify(q));
+    check('G7／AA_355 第 5 節 1-1：學校後面的小餐館走路約 10 分鐘（字幕「走路約 10 分鐘」）', !!q&&q.travel==='走路約 10 分鐘'&&Math.abs(q.travelH-1/6)<1e-9, JSON.stringify(q&&[q.travel,q.travelH]));
     at('2028-06-10',18.25); H.said=[]; H.bgs=[]; const logs=[], log0=ADV.log; ADV.log=(a,b)=>{ logs.push(b); }; if(q) await OUT.go(GM,q); ADV.log=log0;
     check('G7／AA_355 1-1 6/10 那一頓：地點字幕「日本・學校後面的小餐館」、深色底（不是商店街 jp_street_night）；AA_250 6-2 三句照抄；AN_JP_DINNER', DINNER3.every(has)&&logs.includes('日本・學校後面的小餐館')&&H.bgs.length>0&&H.bgs.every(b=>b==='dark')&&G.flags.AN_JP_DINNER===true&&!!q&&q.state==='done', JSON.stringify([logs,H.bgs]));
     at('2028-06-16',19); H.said=[]; const st=S.dueStop(G,'jp'); if(st) await S.playStop(GM,st,'jp');
@@ -215,7 +217,9 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     check('G7／AA_355 1-1 回「那天不行。」：她回「好。」、不排出遊、之後不補（6/16 也沒有）', JSON.stringify(th('p:heroine_01').slice(-3))===JSON.stringify(['學校後面那家小餐館，六點半。我訂了兩個人。','那天不行。','好。'])&&G.flags.AN_JP_DINNER_ASK==='no'&&!OUT.get(G,'jp_g7_dinner')&&!DINNER3.some(has), JSON.stringify(th('p:heroine_01').slice(-3))); }
   { const G=inJapan('2028-06-09',21,{},false); H.FRIEND('heroine_01'); phone(); const a=th('p:heroine_01').includes('週六晚上有空嗎。');
     const G2=inJapan('2028-06-09',21,{},false); phone(); const b=th('p:heroine_01').includes('週六晚上有空嗎。');
-    check('G7／AA_355 1-1 挽回中、和以安 FRIEND 以上：一樣收到；只有 FAMILIAR（沒交往）：沒有', a&&!b, [a,b].join()); }
+    const G3=fresh('2028-06-09',21,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),AN_SENDOFF:'together'}); H.FRIEND('heroine_01'); date('heroine_01'); ROM.get(G3,'heroine_01').status='paused'; G3.flags.dating_heroine_01=false; phone(); const c=th('p:heroine_01').includes('週六晚上有空嗎。');
+    const G4=fresh('2028-06-09',21,'jp_hub','JP',{X1_JP:D('2028-02-20'),JP_DEPARTED:D('2028-03-25'),AN_SENDOFF:'together'}); H.FRIEND('heroine_01'); phone(); const d=th('p:heroine_01').includes('週六晚上有空嗎。');
+    check('G7／AA_355 第 5 節 4c：挽回中（分手以後，和以安 FRIEND 以上）、冷靜中（對質後「等你說清楚」paused）都不約；沒交往過、FRIEND 以上照舊收到；只有 FAMILIAR（挽回中）：沒有', !a&&!b&&!c&&d, [a,b,c,d].join()); }
   { const G=inJapan('2028-06-24',16,{REPAIR:{heroine_01:2}},false); H.picks=['對不起']; H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp');
     check('G7 6/24 16:00 挽回第 4 步（河邊）：「那時候我很生氣……」「……現在可以聽了。你說。」；「對不起。……」→「……嗯。你那時候應該要說的。」REPAIR +1', has('那時候我很生氣，生氣到不想聽你講。')&&has('……現在可以聽了。你說。')&&has('……嗯。你那時候應該要說的。')&&G.flags.REPAIR.heroine_01===3);
     at('2028-06-24',16); G.jp.done={}; S.repair(G); check('挽回：一週最多 +1（AA_254 第 10 節）', G.flags.REPAIR.heroine_01===3); }
@@ -348,5 +352,29 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     } finally { global.Z3=Z0; global.JP_DORM_LAYOUTS=L0; }
     const G2=inJapan('2028-04-12',20.5); H.picks=[]; const O=[]; const ch0=GM.choose; GM.choose=async(o)=>{ O.push(o.map(x=>x.t+'｜'+(x.hint||''))); return o.length-1; }; try{ await JP.round(GM); } finally { GM.choose=ch0; }
     check('jp_room 3：沒有 3D 房間（jp_dorm3d.js 沒載入）＝「在房間休息一下」照舊是過一小時', O[0].some(x=>/^在房間休息一下｜一小時/.test(x)), JSON.stringify(O[0])); }
+  /* jp_room 4～5：「你的房間」三個「看」（AA_341 檔尾附加，AA-C 2026-10-21 56a36a4d）：窗外分兩段日子（4/30 以前田是乾的、5/1 以後灌水）、小冰箱、行李箱各一句；床已經接成「睡覺」不用字。
+     字在 src/jp3d.js 的 JP.roomLook（產生的配置檔 jp_dorm_layouts.js 不改）；jp_dorm3d.js 只在有字的時候加「看」。修改前：沒有 JP.roomLook、三個「看」都沒有加（note 是空的）*/
+  { const W1='（窗外的田還是乾的，土是深褐色。有人在田埂上騎腳踏車。）', W2='（窗外的田灌了水。傍晚的時候，整片田會反光。）', FR='（小冰箱裡有一瓶麥茶、兩顆便利商店的飯糰。其中一顆明天到期。）', SU='（行李箱還攤在地上，一直沒收進櫃子。最底下有一包從台北帶來的泡麵。）';
+    const lk=(id,k)=>typeof JP.roomLook==='function'?JP.roomLook(id,{day:D(k)}):undefined;
+    check('jp_room 4：JP.roomLook——窗外 4/30 以前「（窗外的田還是乾的……）」、5/1 以後「（窗外的田灌了水……）」；小冰箱、行李箱各一句；床沒有字',
+      lk('window','2028-03-27')===W1&&lk('window','2028-04-30')===W1&&lk('window','2028-05-01')===W2&&lk('window','2028-08-04')===W2&&lk('fridge','2028-04-12')===FR&&lk('suitcase','2028-07-20')===SU&&!lk('bed','2028-04-12'),
+      JSON.stringify([lk('window','2028-04-30'),lk('window','2028-05-01'),lk('fridge','2028-04-12'),lk('suitcase','2028-07-20')]));
+    const keep={}; for(const k of ['Z3','THREE','E3','W3','P3','ASSETS','GAME','JP_DORM_LAYOUTS']) keep[k]=global[k];
+    const grp=()=>({name:'',userData:{},children:[],add(o){ this.children.push(o); },remove(o){ const i=this.children.indexOf(o); if(i>=0) this.children.splice(i,1); },traverse(){}}), vec=()=>({x:0,y:0,z:0,set(){}});
+    let IT=[], err='', w1=null, w2=null;
+    try{
+      global.THREE={Group:function(){ return grp(); },Mesh:function(){ return {rotation:{x:0},position:vec(),receiveShadow:false}; },PlaneGeometry:function(){},BoxGeometry:function(){},PointLight:function(){ return {position:vec(),intensity:0,isLight:true}; },Vector3:keep.THREE&&keep.THREE.Vector3};
+      global.Z3={ZONES:{},room:()=>({group:grp(),walls:[],winParts:[],onLamps(){},applyTime(){}}),attachRoomGLB(){}}; global.E3={NavGrid:function(){ return {blockOutside(){},blockRect(){},_cm:null}; }};
+      global.W3={stoneTex:()=>({})}; global.P3=Object.assign({},keep.P3,{M:()=>({})}); global.ASSETS={manifest:{},loadOne:()=>Promise.resolve(null)};
+      const G=inJapan('2028-04-30',20.5); global.GAME={G};
+      vm.runInThisContext(src('src/data/jp_dorm_layouts.js').replace(/^const JP_DORM_LAYOUTS\s*=/m,'globalThis.JP_DORM_LAYOUTS='),{filename:'src/data/jp_dorm_layouts.js'});
+      vm.runInThisContext(src('src/jp_dorm3d.js'),{filename:'src/jp_dorm3d.js'});
+      const E={interactables:[],zone:null}; E.zone=Z3.ZONES.jp_room.build(E); IT=E.interactables;
+      const win=IT.find(x=>x.jpLook==='window'); w1=win?win.look:null; G.day=D('2028-05-01'); w2=win?win.look:null;
+    }catch(e){ err=String(e&&e.stack||e).slice(0,300); } finally{ for(const k in keep) global[k]=keep[k]; }
+    const it=k=>IT.find(x=>x.jpLook===k);
+    check('jp_room 5：3D 房間（jp_dorm3d.js）三個「看」都加上：窗外（4/30 是乾的田、同一個房間到了 5/1 是灌了水的田）、小冰箱、行李箱；床照舊是「睡覺」',
+      !err&&w1===W1&&w2===W2&&!!it('fridge')&&it('fridge').look===FR&&it('fridge').label==='小冰箱'&&!!it('suitcase')&&it('suitcase').look===SU&&!!it('bed')&&it('bed').label==='睡覺'&&!it('bed').look,
+      err||JSON.stringify(IT.filter(x=>x.jpLook).map(x=>[x.jpLook,x.label,x.look]))); }
   H.done();
 })().catch(e=>{ console.error(e); process.exit(1); });

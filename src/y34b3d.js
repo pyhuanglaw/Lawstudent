@@ -344,7 +344,9 @@ const Y34B=(function(){
       await GM.fade(true); if(G.hour<19.75){ G.hour=19.75; if(GM.E) GM.E.hour=G.hour; } if(GM.enter) await GM.enter('noodle',{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 黑幕轉場到長桌 */
     return S.a23Run(GM); };
   S.an20Bring=async function(GM,o){ const G=GM.G; if(G.flags.AN_YOUR_TURN!=null) return false; const cafe=S.an20Mode(G)==='cafe';
-    GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G); if(!cafe&&GM.toast) GM.toast('手機響了。',2400); await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }   /* 麵店版：阿哲打電話（電話裡的話不另寫，只有提示「手機響了。」；AA_355 第 2 節照用）*/
+    GM.sceneBegin(); try{ if(o&&o.fromHome) leaveHome(G);
+      if(!cafe){ if(GM.toast) GM.toast('手機響了。',2400); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:o&&o.fromHome&&HOME.bgNow?HOME.bgNow():'blur'}); await GM.say({name:SOCIAL.displayName('heroine_01')+'（電話）',charId:'heroine_01'},'我在麵店。……你來了再說。'); if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); }   /* 麵店版：以安打來（AA_355 第 5 節第 7 題，2f1aaa22；寫法同 a23Bring）*/
+      await GM.fade(true); if(GM.enter) await GM.enter(cafe?'cafe':'noodle',cafe?{x:0,z:5,yaw:Math.PI,lv:0}:{x:0,z:3.4,yaw:Math.PI}); await GM.fade(false); } finally { GM.sceneEnd(); }
     G.flags.AN20_LATE=cafe; const ev=evOf(cafe?'ev_an_your_turn':'ev_an_your_turn_noodle'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); return true; };
   /* ---------------- 在家（home3d.js 的 loop 已經在問 STORY.y4HomeDue）---------------- */
   S.homeDue=G=>{ if(!law(G)) return null; if(S.sendoffJPDue(G)) return 'stay'; if(S.zqCallDue(G)) return 'stay'; if(S.bdayVideoDue(G)) return 'stay'; if(S.kx23CallDue(G)) return 'stay'; if(S.a23CallDue(G)) return 'y34b_a23'; if(S.an20BringDue(G)) return 'y34b_an20'; return null; };
