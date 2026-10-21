@@ -444,8 +444,10 @@ const PG=(function(){
     for(const f of S.stops){ try{ cand(f(G)); }catch(e){} }
     return best===Infinity?null:best; };
   S.newestTh=G=>{ if(typeof PHONE==='undefined') return null; const P=PHONE.pending?PHONE.pending(G):[]; const m=P.length?P[P.length-1]:((G.msgs||[]).filter(x=>x.from!=='player').slice(-1)[0]); return m&&PHONE.th?PHONE.th(m):null; };
-  S.jumpTo=function(GM,target){ const G=GM.G, E=GM.E; let t=NOW(G), got=0; const step=target-t>24*60?6:0.25;   /* 60 天以上：每 6 小時看一次 */
+  S.jumpTo=function(GM,target){ const G=GM.G, E=GM.E; let t=NOW(G), got=0; const step=target-t>24*60?6:0.25;   /* 60 天以上：每 6 小時看一次，對齊在每天 05、11、17、23 點（整點才跑 STORY.phoneRules；原本起點不在整點時一步都不在整點，整段都不跑——「那一天幾點以後」的訊息整段不見，AA 10-21 盤點發現）。
+     每天 23 點那一次保證「那一天、幾點以後」「那一天、幾點以前（5 點以後）」的規則都跑得到；更窄的時段（例：18:00～19:45）長跳會錯過，畢業以後要準時的訊息請做成停點（S.MSGS／S.SOFT）。每個整點都跑太慢（83 天約 2.3 秒，STORY.phoneRules 一次約 1.3 ms）；tests/pg_longjump_phone_unit.js */
     const look=hourly=>{ try{ S.rules(GM); if(hourly&&typeof STORY!=='undefined'&&STORY.phoneRules) STORY.phoneRules(GM); if(typeof PHONE!=='undefined') PHONE.tick(G,o=>{ got+=(o&&o.length)|0; }); }catch(e){ console.warn('PG jump',e); } };
+    if(step===6){ const a=Math.ceil((t-5)/6+1e-9)*6+5; if(a<target) t=a-6; }   /* 長跳先對齊：下一步落在 05／11／17／23 點，之後每一步都是 */
     while(t+step<=target+1e-6){ t=Math.round((t+step)*4)/4; const d=Math.floor(t/24); setT(G,E,d,t-d*24); look(Math.abs(t-Math.round(t))<1e-6);
       if(got>0) return 'msg'; if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)) return 'out'; if(S.due(G)) return 'step'; }
     if(t<target-1e-6){ const d=Math.floor(target/24); setT(G,E,d,target-d*24); look(true); }
