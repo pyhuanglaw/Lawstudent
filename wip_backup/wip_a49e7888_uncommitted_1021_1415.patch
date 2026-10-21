@@ -1,0 +1,36 @@
+diff --git a/tests/bar_exam_unit.js b/tests/bar_exam_unit.js
+index 704863e3..b8b407e6 100644
+--- a/tests/bar_exam_unit.js
++++ b/tests/bar_exam_unit.js
+@@ -81,7 +81,8 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
+     const s=PG.due(G); if(s) await PG.runStep(GM,s);
+     check('11. X3：8/4 群組＋旁白「（明年八月，換你。）」；可昕多「你明年考。我先去探路。」',H.msgs('g:noodle_team').includes('晚上燒肉 誰要')&&H.has('（明年八月，換你。）')&&H.msgs('p:kexin').includes('你明年考。我先去探路。'));
+     H.at('2029-12-14',14.6); PG.rules(GM); H.at('2029-12-14',15.2); H.tick(); check('11. Z4：2029 是阿哲那則私訊「我沒上。……明年跟你同一場。」',H.msgs('p:zhe').includes('我沒上。……明年跟你同一場。'));
+-    // 2030 全演
++    // 2030 全演（AA_357 1-6：延畢的 2030 要先在 5/10 21:00 報名，原本沒問就算報名）
++    H.at('2030-05-10',21); H.picks=['報名']; await PG.runStep(GM,PG.byId('reg_2030')); check('11. 延畢 2030-05-10 報名（AA_357 1-6）',G.flags.BAR_REG_2030===true);
+     H.at('2030-08-03',8); const e=PG.due(G); check('11. Z4：2030-08-03 一試',e&&e.id==='exam_2030'); const qs30=PG.draw(G,2030); H.picks=answerK(qs30,9); await PG.runStep(GM,e);
+     H.at('2030-09-06',15.1); await H.run('r1_2030'); check('11. 第二年不到 12 題也進律師二試（「律師一試：通過。司法官一試：未通過。」）',H.has('律師一試：通過。司法官一試：未通過。')&&G.flags.BAR_STAGE_2030==='lawyer');
+     H.at('2030-10-19',8.5); await H.run('e2a_2030'); H.at('2030-10-20',17.5); await H.run('e2b_2030'); H.at('2030-12-13',15.1); await H.run('r2_2030');
+diff --git a/tests/epilogue_unit.js b/tests/epilogue_unit.js
+index 3f0b4707..e9d6c48f 100644
+--- a/tests/epilogue_unit.js
++++ b/tests/epilogue_unit.js
+@@ -20,7 +20,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
+     check('J1. 阿哲、小語、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('還在等放榜。先顧店。'));
+     check('J2. 芯慈不認識＝沒有她的照片',!M.includes('📷（照片：會計師事務所的電腦螢幕，一排 Excel）')&&!M.includes('法遵。四色筆還是要帶。'));
+     check('J1. 旁白「（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）」；FIRST_DAY_SEEN；沒有延畢那一句',H.has('（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）')&&G.flags.FIRST_DAY_SEEN===true&&!H.has('（你的第一天，還在後面。）')); }
+-  { const G=await first({EXCHANGE_ROUTE:'JP'});
++  { const G=await first({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true});   /* AA_357 1-6：延畢的 2030 報名看 BAR_REG_2030 */
+     check('J3. 交換延畢（還在準備 2030 年的律師二試，b6757852）：「（照片：補習班的自習室。）」＋「（你的第一天，還在後面。）」',H.msgs('g:noodle_team')[0]==='📷（照片：補習班的自習室。）'&&H.has('（你的第一天，還在後面。）')&&!H.msgs('g:noodle_team').some(t=>/職前訓練/.test(t))); }
+   { const G=await first({EXCHANGE_ROUTE:'JP',BAR_YEAR:2030});
+     check('J3. 交換延畢、已經放榜（BAR_YEAR 有值）＝照落點，不是自習室',H.msgs('g:noodle_team')[0]!=='📷（照片：補習班的自習室。）'&&!H.has('（你的第一天，還在後面。）')); }
+@@ -105,7 +105,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
+   { const G=H.fresh('2034-06-03',19,'dorm',{}); graduated(G);
+     check('W1. 第一份工作還沒演（FIRST_DAY_SEEN 沒有）：先演 2030-10-01 那一段，不是尾聲',PG.due(G)&&PG.due(G).id==='first');
+     await H.run('first'); check('W1. 演完第一份工作就是尾聲',PG.due(G)&&PG.due(G).id==='epi'); }
+-  { const G=H.fresh('2030-12-13',10,'dorm',{EXCHANGE_ROUTE:'US',BAR_SIT_2030:true,BAR_SCORE_2030:8,BAR_STAGE_2030:'lawyer'}); graduated(G); G.flags.FIRST_DAY_SEEN=true;
++  { const G=H.fresh('2030-12-13',10,'dorm',{EXCHANGE_ROUTE:'US',BAR_REG_2030:true,BAR_SIT_2030:true,BAR_SCORE_2030:8,BAR_STAGE_2030:'lawyer'}); graduated(G); G.flags.FIRST_DAY_SEEN=true;
+     check('W2. 交換延畢、2030 那一輪還沒演完：尾聲的條件不成立',PG.pendingExam(G)&&!PG.byId('epi').cond(G));
+     PG.rec(G).done.r2_2030=1; G.flags.BAR_YEAR=2030; check('W2. 2030 放榜以後成立',!PG.pendingExam(G)&&PG.byId('epi').cond(G)); }
+   H.done();
