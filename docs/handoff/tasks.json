@@ -21571,7 +21571,7 @@
    "id": "CG-BATCH2-1020",
    "title": "CG 第二批：cg_approved/ 裡 BB 通過、還沒登錄的約 45 張全部登錄（事件已在遊戲裡的插在 README 寫的那一拍）＋尾聲 CG-10 窗邊長桌照 BB 試合成參數合成 8 張（kai、以安、芷若、語彤、子晴、學姊、可昕、沛珊）",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "first": {
     "term": "Y2S1",
@@ -21583,7 +21583,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
+   "next": "【LAWWW-C 2026-10-21 08:0x UTC】合併 5e675a33（子代理 ab24dd21，9426940b）：40 張登錄＋CG-10 八張合成；新插 CG-19、BCG-30、CG-21；BB 看圖清單 bb_checklists/BB_CG_BATCH2_1021.md；問 AA 4 題（AA_QUESTIONS_1021.md E 節）；跟使用者要 BCG-31 夏天版、CG-10b 語彤的傘圖層（BB）｜ 【LAWWW-C 2026-10-20 20:1x UTC】一般子代理在做（20:0x 開工）；做完 LAWWW-C 合併、看 8 格對照圖、交 BB 看圖（D100：CG 由 BB 驗）；之前已登錄 6 張：1e257b9d、160ac498",
    "src": "docs/story_planning/cg_approved/README.md（企劃線 558ccff8）"
   },
   {
