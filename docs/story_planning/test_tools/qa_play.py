@@ -20,7 +20,7 @@ PREF = {'sleep': ['睡到明天早上', '睡覺', '睡', '出發', '直接去'],
         'decline': ['不去', '今天不行', '先不要', '不了', '下次', '不用了', '先走'],
         'ff': ['快轉', '到下一個有事的日子', '跳過', '出發', '直接去']}[MODE]
 DECLINE_LAST = MODE == 'decline'
-SNAP_KEYS = {'2024-10-30', '2024-11-29', '2025-02-12', '2025-06-06', '2025-08-31'}   # 11/1、12/1 匯款前、2/14 重考班、6/8 衝刺班前、9/1 法律系前
+SNAP_BEFORE = ['2024-11-01', '2024-12-01', '2025-02-14', '2025-06-08', '2025-09-01']   # 匯款、重考班、衝刺班、法律系的前一刻：存「跨過這一天之前最後看到的狀態」（事件接事件會跳日子，不能等剛好那一天）
 HOOK = r"""(()=>{ window.__bb={money:[],toasts:[],kx:[]}; let lastMoney=null, lastToast='', lastKx='';
   const meta=()=>{ try{ const G=GAME.G; return {d:CALENDAR.dateOf(G.day).key, h:Math.round(G.hour*100)/100, z:G.zone}; }catch(e){ return {}; } };
   setInterval(()=>{ try{ if(typeof GAME==='undefined'||!GAME.G) return; const m=GAME.G.money; if(lastMoney!==null&&m!==lastMoney){ const t=document.getElementById('toast'); window.__bb.money.push(Object.assign({from:lastMoney,to:m,delta:m-lastMoney,toast:t&&!t.classList.contains('hide')?t.textContent:'',lastToast},meta())); } lastMoney=m; }catch(e){} },200);
@@ -52,7 +52,7 @@ async def main():
         await pg.add_init_script(HOOK)
         await pg.goto(URL); run.check('遊戲載入', await L.wait_loaded(pg)); await pg.evaluate("localStorage.clear()")
         await L.tap(pg, cdp, '#btnNew'); print('MODE', MODE, '：標題「從經濟系前傳開始」', flush=True)
-        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; snapped = set()
+        t0 = time.time(); last_key = None; last_sig = None; stuck_t = time.time(); stuck = 0; idle = 0; was_dlg = False; last_opts = None; months = set(); answered = 0; phone_closed = 0; snapped = set(); pre = {}
         while time.time() - t0 < MAXH * 3600:
             if not await pg.evaluate("!!GAME.G&&GAME.running"): await pg.wait_for_timeout(800); continue
             g = await pg.evaluate("({stage:GAME.G.stage,key:CALENDAR.dateOf(GAME.G.day).key,h:+GAME.G.hour.toFixed(2),zone:GAME.G.zone,home:typeof HOME!=='undefined'&&HOME.at(GAME.G),e37:!!(GAME.G.events.done||{}).ev_y0_e37})")
@@ -60,10 +60,16 @@ async def main():
             if g['key'] != last_key:
                 last_key = g['key']; print('  [%6.1f 分] %s' % ((time.time()-t0)/60, json.dumps(g, ensure_ascii=False)), flush=True)
                 if g['key'][:7] not in months: months.add(g['key'][:7]); await run.shot(pg, 'month_' + g['key'])
-                if g['key'] in SNAP_KEYS and g['key'] not in snapped:   # 2026-10-21：存一份狀態（GAME.snapshot），直向補拍「生活費」提示字從這裡讀檔
-                    snapped.add(g['key'])
-                    try: open(os.path.join(OUT, 'snap_%s.json' % g['key']), 'w', encoding='utf-8').write(await pg.evaluate("JSON.stringify(GAME.snapshot())")); print('   存狀態 snap_%s.json' % g['key'], flush=True)
-                    except Exception as e: print('   存狀態失敗', g['key'], e, flush=True)
+                snap = None
+                for T in SNAP_BEFORE:   # 2026-10-21：跨過 T 之前最後一個狀態（GAME.snapshot）寫成 snap_before_T.json，直向補拍「生活費」提示字從這裡讀檔
+                    if T in snapped: continue
+                    if g['key'] < T:
+                        if snap is None:
+                            try: snap = await pg.evaluate("JSON.stringify(GAME.snapshot())")
+                            except Exception as e: print('   存狀態失敗', T, e, flush=True); snap = ''
+                        if snap: pre[T] = (g['key'], snap)
+                    elif T in pre:
+                        snapped.add(T); open(os.path.join(OUT, 'snap_before_%s.json' % T), 'w', encoding='utf-8').write(pre[T][1]); print('   存狀態 snap_before_%s.json（%s 的狀態）' % (T, pre[T][0]), flush=True)
             s = await L.state(pg)
             sig = (s['dtext'], s['choices'], g['zone'], g['h'], g['key'])
             if sig != last_sig: last_sig = sig; stuck_t = time.time()
