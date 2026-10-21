@@ -21762,7 +21762,7 @@
    "id": "AA345-ANSWERS-1021",
    "title": "照 AA_345（57b2a7b3）改 F／G／H 標「改」的：大四前半（BCG-34 冬天不放改旁白、海報、US2 10/16 18:00…）、大四後半到尾聲（送禮四選一、46 旁白、明軒作息、春假開場回程…）、寒暑假快轉（大三寒假那一頓 2/20、大四寒假柏翰阿哲、8/12、1/17）、面板名稱 5 個",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
    "source": "企劃線 AA_345（57b2a7b3）",
    "first": {
@@ -21775,7 +21775,9 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:4x UTC】一般子代理施工中（worktree）"
+   "next": "【LAWWW-C 2026-10-21 10:2x UTC】合併 a0772635；BB 瀏覽器清單 bb_checklists/BB_AA345_1021.md；問 AA 的在 AA_QUESTIONS_1021.md N 節；G9-47 等使用者（2-Y4-47 芷若延後的回答，PROPOSAL）、G9-54 併入 EVPKG-AA346-APART ｜ 【LAWWW-C 2026-10-21 09:4x UTC】一般子代理施工中（worktree）",
+   "sha": "a0772635",
+   "evidence": "合併 a0772635（子代理 034bf1c8）；node r2y4a_events／r2y4b_events／holiday_ff／us_life／aa336／nav_buildings 新檢查舊程式各失敗 16／12／12／18／3／1 項、新程式 ALL PASS；全套只剩既有 bg_images_unit"
   },
   {
    "id": "EVPKG-AA346-APART",
@@ -21794,7 +21796,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工"
+   "next": "【LAWWW-C 2026-10-21 10:2x UTC】AA343（584d4030）、AA345（a0772635）都合併了，可以派工 ｜ 【LAWWW-C 2026-10-21 09:4x UTC】等 AA343／AA345 子代理合併（同一段 postgrad／r2y4b 程式）再派工"
   },
   {
    "id": "BACKLOG-SWEEP-1021",
