@@ -3058,7 +3058,12 @@ const STORY = (function(){
      學期照日曆（寒暑假算前一個學期）；不在的時候不生人物、人物線索寫 away 的文字、課堂沒有她的反應句、事件的 npcHere 不成立。
      沒有 presence 的人物照舊（現在的資料都還沒填：內容要 AA 確認、使用者批准，見 docs/STORY_EVENT_SCHEMA.md）。 */
   const TERM_ORDER=['Y0S1','Y0S2','Y1S1','Y1S2','Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'];
-  S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
+  /* 這一天算哪一學期（寒暑假算前一個學期）：找開學日在這一天以前的最後一個學期。AA_357 1-4（AA-C 2026-10-21）：原本只往回找 200 天，大四下（2029-06-03 結束）以後 200 天（2029-12-20 起）
+     找不到＝null，資料頁、年級全部退回大一、人物的 presence 全部變成「在」——畢業後篇所有玩家都會遇到。現在畢業以後一直算大四下；第一個學期以前照舊 null。
+     CALENDAR 沒有 TERMS（測試的假日曆）照舊往回找 200 天 */
+  S.termAt=function(day){ if(typeof CALENDAR==='undefined') return null; { const t=CALENDAR.termOf(day); if(t) return t.id; }
+    if(Array.isArray(CALENDAR.TERMS)&&CALENDAR.tOf){ const x=CALENDAR.tOf(day); let best=null; for(const T of CALENDAR.TERMS) if(typeof T.t0==='number'&&T.t0<=x&&(!best||T.t0>best.t0)) best=T; return best?best.id:null; }
+    for(let d=day; d>day-200; d--){ const t=CALENDAR.termOf(d); if(t) return t.id; } return null; };
   S.presence=function(id,G){ const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; const P=c&&c.presence; if(!P) return {here:true}; const r=presCore(id,P,G);
     if(P.lost&&!r.here&&S.dayOfKey){ const d=S.dayOfKey(P.lost.from), F=(G&&G.flags)||{}; if(d!=null&&G.day>=d&&!(P.lost.known||[]).some(k=>F[k]!=null&&F[k]!==false)) return Object.assign({},r,{away:P.lost.away||r.away,lost:true}); }   /* lost（AA_282 第 1、2 節，沛珊）：那天以後、玩家還沒重新聯絡上（known 的旗標一個都沒有）＝手機寫「很久沒聯絡」、不能去找她（hometown3d.js 看 lost）；kind、city 照舊 */
     return r; };
