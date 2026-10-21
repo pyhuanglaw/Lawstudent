@@ -116,13 +116,14 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
       check('6. 出發：選單是「出發：我們的日子：約在公館／晚一點／不去了」→ 地點字幕「公館」→ 她說「書桌上那疊考古題……」；沒有別的台詞、沒有選項',!!q&&(H.opts[0]||[])[0]==='出發：我們的日子：約在公館'&&caps.includes('公館')&&H.said.length===1&&H.said[0].t===DOC_SLOT[0].line&&H.opts.length===1&&q.state==='done',JSON.stringify(H.opts)+JSON.stringify(caps)+JSON.stringify(H.said)); }
     /* 一路跳：6/10 晚上到 2030-12-13（沒報國考、只和可昕交往、KX_OUR_DAY 週日）*/
     { const G=fresh('2029-06-10',22,{},{day:'sun',mode:'nccu'}); PHONE.join(G,'noodle_team','麵店團');
-      const seen=[], bad=[]; let it=0, err=null; const end=T(D('2030-12-13'),24);
+      const seen=[], bad=[], warns=[], ow=console.warn; let it=0, err=null; const end=T(D('2030-12-13'),24); console.warn=(...a)=>{ warns.push(a.map(x=>x&&x.stack?x.stack.split('\n')[0]:String(x)).join(' ')); };
       try{ for(it=0;it<400&&G.day*24+G.hour<end;it++){ const before=G.day*24+G.hour;
           const y=await y4(GM); if(y) continue;
           const q=OUT.due(G); if(q){ H.said=[]; H.picks=[0]; await OUT.tick(GM); if(/^kx_od_/.test(q.id)) seen.push({id:q.id,at:before,slot:T(q.day,q.h),t:(H.said[0]||{}).t,cap:caps[caps.length-2]}); continue; }
           const s=PG.due(G); if(s){ H.picks=[]; await PG.runStep(GM,s); continue; }
           E.player.busy=false; if(!await PG.advance(GM)) break;
-          if(G.day*24+G.hour<before-1e-6) bad.push('倒退 '+lab(G.day,G.hour)); } }catch(e){ err=e; }
+          if(G.day*24+G.hour<before-1e-6) bad.push('倒退 '+lab(G.day,G.hour)); } }catch(e){ err=e; } finally { console.warn=ow; }
+      check('6. 一路跳的途中不丟例外、沒有警告（被吞掉的錯誤）',!err&&!warns.length,(err&&err.stack||'')+warns.slice(0,3).join('｜'));
       const want=DOC_SLOT.map(s=>{ const d=D(iso(s.seg,s.md))+(s.week?6:0); return 'kx_od_'+d; });   /* P3：週日（那一週的週一＋6）*/
       const TRAVEL={'公館':1/6,'河濱':0.25,'政大・山下的小吃街':2/3,'電話':0};
       for(const x of seen){ const tr=TRAVEL[x.cap]; if(tr==null||Math.abs(x.at-(x.slot-tr-0.25))>1e-6) bad.push(x.id+' 停在 '+lab(Math.floor(x.at/24),x.at%24)+'（'+x.cap+'）'); }
