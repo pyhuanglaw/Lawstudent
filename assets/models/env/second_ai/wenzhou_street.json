@@ -4,7 +4,7 @@
  "tris": 81757,
  "tris_drawn": 133143,
  "materials": 132,
- "out": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/wz0/new_wenzhou.glb",
+ "out": "assets/models/env/second_ai/wenzhou_street.glb",
  "bytes": 7794720,
  "texres": 512,
  "buildings": [
