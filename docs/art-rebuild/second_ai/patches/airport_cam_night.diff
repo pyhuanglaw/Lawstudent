@@ -1,0 +1,144 @@
+diff --git a/src/us3d.js b/src/us3d.js
+index 1a0dd7dd..d3db8a8b 100644
+--- a/src/us3d.js
++++ b/src/us3d.js
+@@ -345,8 +345,29 @@ const US3=(function(){
+   const AP=()=>AIRPORT_T2_LAYOUT;
+   const TAIPEI={to:'gongguan',spawn:{x:-2.5,z:-29,yaw:0}};   /* 搭車離開機場 → 回到台北（公館，校門口那一側；和校園「走出校門」的落點一樣）*/
+   const LOOK_AP={checkin:'報到櫃台。排隊的人推著兩三個行李箱。',info:'服務台。可以問航班、借推車。',fids:'航班看板。東京、舊金山、香港……一排一排往上跳。',mart:'便利商店。賣的東西和外面一樣，貴一點。',cafe:'咖啡店。坐滿了在等登機的人。',fx:'外幣兌換。看板上是今天的匯率。',info_arr:'旅客服務台。可以問怎麼搭車進市區。',cafe_arr:'咖啡店。有人拖著行李，在等接機的人。',fids_arr:'抵達看板。剛落地的班次一個一個變成「已抵達」。'};
++  /* 跟隨鏡頭的牆（ART-VAC-AIRPORT-1021，LAWWW2 機場巡場景）：鏡頭退到正門玻璃帷幕外面（中間那支門框貼在鏡頭前，整個畫面一根黑柱）、
++     入境出關的霧面自動門外面（一出關往前走，鏡頭跟在後面，畫面整片霧白）、報到島 3.2 m 背牆後面（看不到人）。和公寓、教學館同一套 zone.camCols：
++     engine3d.js 的 followCam 擋到就拉近、抬高，autoSwing 轉向空的那一邊。出境：帷幕（facade_z，扣掉五個入口，門洞高 2.6 m 以上照樣擋）、報到島背牆；
++     入境：出關門那一面（範圍的 z0，整面）、出口那一面（z1，扣掉三個出口）。測試：node tests/airport_cam_unit.js */
++  function apCamCols(L,isDep,g,H){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], T=0.24, DOOR=2.6, Bd=L.bounds;
++    const box=(x0,x1,z0,z1,y0,y1)=>{ if(x1-x0<0.05||z1-z0<0.05||y1-y0<0.05) return; const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,y1-y0,z1-z0),inv); m.position.set((x0+x1)/2,(y0+y1)/2,(z0+z1)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
++    const wall=(z,gaps)=>{ let a=Bd.x0; for(const d of gaps.slice().sort((p,q)=>p.x-q.x)){ const g0=d.x-d.w/2, g1=d.x+d.w/2; box(a,g0+0.06,z-T/2,z+T/2,0,H); box(g0,g1,z-T/2,z+T/2,DOOR,H); a=g1-0.06; } box(a,Bd.x1,z-T/2,z+T/2,0,H); };   /* 門洞兩邊各多 6 cm：視線擦過門框也擋得到 */
++    if(isDep){ wall(L.facade_z,L.entrances); for(const isl of L.islands) box(isl.x-isl.spine/2-0.06,isl.x+isl.spine/2+0.06,isl.z0-0.06,isl.z1+0.06,0,3.2); }
++    else { wall(Bd.z0,[]); wall(Bd.z1,L.exits); }
++    return out; }
++  /* 擋住玩家時網點透空（engine3d.js 的 updateSeeThrough；區域有 seeThru 才在室內作用）：帷幕和門的框、報到島背牆和燈箱框、柱子、不鏽鋼（護樁、欄杆柱、雨遮柱）、出關的霧面玻璃、航空公司燈箱 */
++  const AP_SEE=/^(ap_mullion|ap_wall_panel|ap_column|ap_steel|GLOW_ap_frosted|GLOW_ap_airlines)$/;
++  function apSeeThru(root,E){ root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!AP_SEE.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); }
++  function apMats(root,re){ const out=[]; root.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)) if(m&&re.test(m.name||'')&&!out.includes(m)) out.push(m); }); return out; }
++  /* 窗外的遠景（GLOW_ap_outside：白天的天空、停車大樓）原本跟著其他燈箱，晚上反而更亮——20:00 從大廳看出去還是白天。
++     白天 7～17 點照原本；17～19 點、5～7 點慢慢變；晚上基本色和自發光都乘深藍（剩一成多的亮度）。入境的門外地面（ap_concrete）晚上一起變暗 */
++  const AP_NIGHT=[0.13,0.16,0.26];
++  function apOutside(mats,h){ h=((h%24)+24)%24; const d=h>=7&&h<=17?1:(h>=19||h<5?0:(h<7?(h-5)/2:(19-h)/2));
++    for(const m of mats){ const u=m.userData; if(!u.apC0){ u.apC0=m.color.clone(); u.apE0=m.emissive?m.emissive.clone():null; }
++      const k=[0,1,2].map(i=>AP_NIGHT[i]+(1-AP_NIGHT[i])*d); m.color.setRGB(u.apC0.r*k[0],u.apC0.g*k[1],u.apC0.b*k[2]); if(u.apE0) m.emissive.setRGB(u.apE0.r*k[0],u.apE0.g*k[1],u.apE0.b*k[2]);
++      if(u.usBase!=null) m.emissiveIntensity=u.usBase*0.75; } }   /* 白天的亮度和原本一樣（原本跟著燈箱乘 0.75）*/
+   function apZone(key){ const isDep=key==='dep';
+-    return { id:'airport_'+key, name:isDep?'桃園機場 第二航廈 出境大廳':'桃園機場 第二航廈 入境大廳', indoor:true, camDist:isDep?6.0:5.2, build(E){ const L=AP()[key], Bd=L.bounds, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6);
++    return { id:'airport_'+key, name:isDep?'桃園機場 第二航廈 出境大廳':'桃園機場 第二航廈 入境大廳', indoor:true, seeThru:true, camDist:isDep?6.0:5.2, build(E){ const L=AP()[key], Bd=L.bounds, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6);
+       const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;   /* room() 以原點為中心：框要蓋住整個範圍（出境的下車處到 z 30）；室內鏡頭照 bounds 夾住 */
+       const sp=isDep?L.spawn_curb:L.spawn_customs;
+       const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#e9e7e2',floorTex:W3.stoneTex('#d8d6d0'),spawn:{x:sp.x,z:sp.z,yaw:sp.yaw}});
+@@ -361,13 +382,14 @@ const US3=(function(){
+       if(!isDep) for(const d of L.exits) nav.freeRect(d.x-d.w/2+0.2,Bd.z1-1.2,d.x+d.w/2-0.2,Bd.z1-0.5);   /* 入境：正面那一整片是一個阻擋，出口的門由遊戲打開（配置的說明）*/
+       if(isDep){ const C=L.curb; nav.blockRect((Bd.x0+Bd.x1)/2,(C.road_z0+Bd.z1)/2,Bd.x1-Bd.x0,Bd.z1-C.road_z0,0,0); }   /* 車道（下車處以外）：人站在人行道 */
+       nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
++      z.camCols=[apCamCols(L,isDep,g0,H)];   /* 跟隨鏡頭撞到帷幕、出關門那面牆、報到島背牆就拉近（ART-VAC-AIRPORT-1021）*/
+       // 備用模型：地板、櫃台島、店面的方塊
+       const fl=M('#cfccc4'); plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,fl,(Bd.x0+Bd.x1)/2,(Bd.z0+Bd.z1)/2,0.005);
+       const bm=M('#8c8e92'); for(const b of L.blocks){ if(/^(curb|canopy column)/.test(b.why)) continue; const h=/wall|facade|shop/.test(b.why)?3.0:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
+       // 燈：挑高大廳多幾盞（白天弱、晚上亮）
+       const lamps=[]; for(let i=-2;i<=2;i++) for(const zz of (isDep?[-10,2]:[-6,4])){ const l=new THREE.PointLight(0xf6f1e8,3,26,2); l.position.set(i*14,H-1.2,zz); l.userData.on=9; l.userData.off=4; g0.add(l); lamps.push(l); }
+-      let glow=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
+-      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點 */
++      let glow=[], outside=[]; const onLamps0=z.onLamps; z.onLamps=function(on){ onLamps0.call(z,on); for(const l of lamps) l.intensity=on?l.userData.on:l.userData.off; };
++      const applyTime0=z.applyTime; z.applyTime=function(h,weather){ applyTime0.call(z,h,weather); setGlow(glow,night(h)?1:0.75); apOutside(outside,h); };   /* 看板、招牌、燈箱白天也亮（室內），晚上再亮一點；窗外的遠景（和入境門外的地面）照時間變暗 */
+       // 座位、互動點
+       const IT=E.interactables; z.seats=[];
+       for(const s of L.seats){ const st={x:s.x,z:s.z,yaw:s.yaw,lv:0}; if(s.y!=null&&Math.abs(s.y-0.45)>0.02) st.lift=s.y-0.45; z.seats.push(st); IT.push({x:s.x,z:s.z,radius:0.7,lv:0,label:'坐在長椅上',seat:st}); }
+@@ -387,7 +409,8 @@ const US3=(function(){
+       // 正式模型
+       z.formal=false; const KEY='bldg.airport_'+key; if(has(KEY)) ASSETS.loadOne(KEY).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true);
+         root.traverse(o=>{ if(o.isMesh){ o.castShadow=false; o.receiveShadow=true; } }); g0.add(root); fb.visible=false; z.formal=true;
+-        glow=glowMats(root,/^GLOW_/); const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
++        glow=glowMats(root,/^GLOW_(?!ap_outside)/); outside=glowMats(root,/^GLOW_ap_outside/).concat(isDep?[]:apMats(root,/^ap_concrete$/)); apSeeThru(root,E);
++        const G=G_(); if(G) z.applyTime(G.hour,G.weather); }).catch(e=>console.warn('桃園機場正式模型載入失敗，用程序化備用模型',e));
+       return z; } }; }
+   const airport_dep=apZone('dep'), airport_arr=apZone('arr');
+ 
+diff --git a/tests/airport_cam_unit.js b/tests/airport_cam_unit.js
+new file mode 100644
+index 00000000..700f2c62
+--- /dev/null
++++ b/tests/airport_cam_unit.js
+@@ -0,0 +1,76 @@
++// 桃園機場出境／入境大廳：跟隨鏡頭不會退到正門帷幕外、出關門外、報到島背牆後面；擋住玩家的框、背牆、柱子、霧面玻璃網點透空；晚上窗外不再是白天（ART-VAC-AIRPORT-1021）——不需要瀏覽器。
++// LAWWW2 機場巡場景（2026-10-21）看到的：出境大廳 (0, 10) 鏡頭在南，退到帷幕外面，中間那支門框貼在鏡頭前，整個畫面一根黑柱、看不到人；
++// 報到櫃台 B (−4.1, −2) 鏡頭在西，在報到島 3.2 m 的背牆後面，只看得到腳；入境出關 (0, −10.8) 鏡頭在北，退到霧面自動門外面，畫面整片霧白（一出關往前走就是這個角度）；
++// 20:00、21:00 從大廳看出去還是白天（窗外的遠景是自發光，原本跟著燈箱晚上反而更亮）。
++// 做法（src/us3d.js）：apCamCols（和公寓、教學館同一套 zone.camCols：followCam 擋到就拉近、抬高）、apSeeThru（材質標 seeThrough＋E.patchSeeThrough；區域 seeThru:true）、apOutside（窗外遠景照時間變暗）。
++// 這裡在 Node 建出遊戲真正的兩個區域，每 1 m 一點（人站得住）、8 個方向，照引擎的跟隨鏡頭（camDist 出境 6.0、入境 5.2，俯角 0.38）算鏡頭位置，
++// 看「頭 → 鏡頭」有沒有穿過會擋鏡頭的牆：牆照配置自己算（不是拿 camCols 來量）——出境：帷幕（入口門洞 2.6 m 以下可以過）、報到島背牆（3.2 m 高）；入境：出關門那一面、出口那一面（出口門洞可以過）。
++// 同一個測試也用修改前的公式（沒有牆的碰撞）跑一次：一定要量得到被擋住的方向（證明這個測試抓得到這個 bug）。
++// 用法：node tests/airport_cam_unit.js
++const fs=require('fs'), vm=require('vm'), path=require('path');
++const ROOT=path.resolve(__dirname,'..');
++global.window=global; global.self=global;
++const ctx2d=new Proxy({}, {get:(o,k)=>k==='createRadialGradient'||k==='createLinearGradient'||k==='createPattern'?()=>({addColorStop(){}}):(k==='getImageData'?()=>({data:new Uint8ClampedArray(16)}):(k==='measureText'?()=>({width:10}):(()=>{})))});
++global.document={ createElementNS:()=>({getContext:()=>ctx2d,style:{}}), createElement:()=>({width:1,height:1,getContext:()=>ctx2d,style:{}}), getElementById:()=>null, addEventListener(){} };
++global.navigator={userAgent:'node'}; global.addEventListener=()=>{}; global.innerWidth=844; global.innerHeight=390; global.location={search:''};
++process.on('unhandledRejection',()=>{}); global.fetch=()=>Promise.reject(new Error('no fetch in node'));
++const files=['lib/three.bundle.js','lib/three.jsm.bundle.js','src/people3d.js','src/assets3d.js','src/world3d.js','src/engine3d.js','src/townkit3d.js','src/campuskit3d.js','src/zones3d.js','src/data/us_layouts.js','src/us3d.js'];
++for(const f of files){ let src=fs.readFileSync(path.join(ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/m,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); }
++let fails=0, tag=''; const check=(name,ok,info)=>{ console.log((ok?'PASS ':'FAIL ')+tag+name+(info?'　'+info:'')); if(!ok) fails++; };
++/* 正式模型：假的（每一種材質一個小網格，名字照 airport_t2.py）——只用來檢查材質的處理；牆、導航和配置是同一份 */
++const MATS=['ap_mullion','ap_wall_panel','ap_column','ap_steel','ap_floor','ap_wall','ap_concrete','ck_glass','GLOW_ap_frosted','GLOW_ap_airlines','GLOW_ap_signs','GLOW_ap_outside_m'];
++function fakeModel(){ const g=new THREE.Group(); for(const n of MATS){ const m=new THREE.MeshStandardMaterial({name:n,color:0xb0b4b8}); if(/^GLOW_/.test(n)){ m.emissive.setRGB(1,1,1); m.emissiveIntensity=1; } g.add(new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1),m)); } return g; }
++let pend=[]; ASSETS.loadOne=k=>{ if(/^bldg\.airport_(dep|arr)$/.test(k)){ const p=Promise.resolve({scene:fakeModel()}); pend.push(p); return p; } return new Promise(()=>{}); };
++const E=E3; E.scene=new THREE.Scene(); E.q={level:'medium'}; E.ray=E.ray||new THREE.Raycaster();
++global.GAME={G:{hour:15,weather:'clear',flags:{},zone:'airport_dep'}};
++function loadZone(id){ E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null; const z=Z3.ZONES[id].build(E); z.def=Z3.ZONES[id]; E.zone=z; E.levels=z.levels||null; E.nav=z.nav;
++  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0}; z.group.updateMatrixWorld(true); return z; }
++/* 配置 → 會擋鏡頭的牆：{p:[x0,z0,x1,z1], y0, y1}（和 us3d.js 的 apCamCols 分開寫，才算獨立的量法）*/
++function solidParts(L,isDep,H){ const out=[], Bd=L.bounds, DOOR=2.6;
++  const seg=(x0,z0,x1,z1,y0,y1)=>{ if(Math.hypot(x1-x0,z1-z0)<0.01||y1-y0<0.01) return; out.push({p:[x0,z0,x1,z1],y0,y1}); };
++  const wall=(z,gaps)=>{ let a=Bd.x0; for(const d of gaps.slice().sort((p,q)=>p.x-q.x)){ seg(a,z,d.x-d.w/2,z,0,H); seg(d.x-d.w/2,z,d.x+d.w/2,z,DOOR,H); a=d.x+d.w/2; } seg(a,z,Bd.x1,z,0,H); };
++  if(isDep){ wall(L.facade_z,L.entrances); for(const isl of L.islands){ const x0=isl.x-isl.spine/2, x1=isl.x+isl.spine/2; seg(x0,isl.z0,x1,isl.z0,0,3.2); seg(x0,isl.z1,x1,isl.z1,0,3.2); seg(x0,isl.z0,x0,isl.z1,0,3.2); seg(x1,isl.z0,x1,isl.z1,0,3.2); } }
++  else { wall(Bd.z0,[]); wall(Bd.z1,L.exits); }
++  return out; }
++function crossT(ax,az,bx,bz,s){ const [cx,cz,dx,dz]=s; const r=[bx-ax,bz-az], q=[dx-cx,dz-cz]; const den=r[0]*q[1]-r[1]*q[0]; if(Math.abs(den)<1e-9) return -1;
++  const t=((cx-ax)*q[1]-(cz-az)*q[0])/den, u=((cx-ax)*r[1]-(cz-az)*r[0])/den, e=0.03/Math.max(1e-6,Math.hypot(q[0],q[1])); return (t>0&&t<1&&u>e&&u<1-e)?t:-1; }
++function blocked(head,cam,parts){ for(const s of parts){ const t=crossT(head.x,head.z,cam.x,cam.z,s.p); if(t<0) continue; const y=head.y+(cam.y-head.y)*t; if(y>s.y0+0.02&&y<s.y1-0.02) return s; } return null; }
++const oldCam=(tgt,yaw,pitch,dist)=>new THREE.Vector3(Math.sin(yaw)*dist*Math.cos(pitch),Math.sin(pitch)*dist+0.2,Math.cos(yaw)*dist*Math.cos(pitch)).add(tgt);
++check('引擎有 E.followCam、E.patchSeeThrough',typeof E.followCam==='function'&&typeof E.patchSeeThrough==='function');
++const PITCH=0.38, PI=Math.PI;
++/* 巡場景看到的三個位置（04、07、15）：修改前的公式被擋住（重現得到），修改後不擋 */
++const CASES={airport_dep:[['報到櫃台 B (−4.1, −2)・鏡頭在西（07）',-4.1,-2,-PI/2]],airport_arr:[['入境出關 (0, −10.8)・鏡頭在北（15）',0,-10.8,PI]]};
++/* 04（出境大廳 (0, 10)、鏡頭在南）：視線從正中間的入口門洞穿出去——玩家走得過的門洞，鏡頭也可以過（和公寓、教學館的規則一樣），擋住的是自動門中間那支門框：網點透空處理（下面的材質檢查）*/
++(async()=>{
++for(const id of ['airport_dep','airport_arr']){ const isDep=id==='airport_dep'; tag='['+id+'] '; const def=Z3.ZONES[id]; const z=loadZone(id); await Promise.all(pend); await new Promise(r=>setTimeout(r,0));
++  const L=isDep?AIRPORT_T2_LAYOUT.dep:AIRPORT_T2_LAYOUT.arr, H=isDep?(L.roof?L.roof.eave:10.5):(L.h||5.6), parts=solidParts(L,isDep,H), dist=def.camDist||3.8;
++  check('區域開了室內網點透空（seeThru）',def.seeThru===true);
++  check('鏡頭碰撞用的牆（zone.camCols[0]）',Array.isArray(z.camCols)&&z.camCols[0]&&z.camCols[0].length>=(isDep?10:4),z.camCols&&z.camCols[0]?z.camCols[0].length+' 塊':'沒有');
++  let n=0, bad=0, badOld=0, ex=null; const Bd=L.bounds;
++  for(let x=Bd.x0+0.5;x<=Bd.x1-0.5;x+=1.0) for(let zz=Bd.z0+0.5;zz<=Bd.z1-0.5;zz+=1.0){ if(!E.canStand(x,zz,0.32,0)) continue; const tgt=new THREE.Vector3(x,1.45,zz);
++    for(let k=0;k<8;k++){ const yaw=k*PI/4; n++; if(blocked(tgt,oldCam(tgt,yaw,PITCH,dist),parts)) badOld++;
++      const cam=new THREE.Vector3(); E.followCam(tgt,yaw,PITCH,dist,0,cam); const hit=blocked(tgt,cam,parts); if(hit){ bad++; if(!ex) ex={x:+x.toFixed(1),z:+zz.toFixed(1),yaw:+yaw.toFixed(2),cam:cam.toArray().map(v=>+v.toFixed(2)),wall:hit.p.map(v=>+v.toFixed(2))}; } } }
++  check('修改前的公式量得到被擋住的方向（測試抓得到這個 bug）',badOld>0,`${(100*badOld/Math.max(1,n)).toFixed(1)}%（${badOld}/${n}）`);
++  check('跟隨鏡頭不會退到帷幕、出關門、報到島背牆後面',bad===0,`${(100*bad/Math.max(1,n)).toFixed(1)}%（${bad}/${n}）`+(ex?' 例：'+JSON.stringify(ex):''));
++  for(const [name,x,zz,yaw] of CASES[id]){ const tgt=new THREE.Vector3(x,1.45,zz), cam=new THREE.Vector3(); const was=!!blocked(tgt,oldCam(tgt,yaw,PITCH,dist),parts); const r=E.followCam(tgt,yaw,PITCH,dist,0,cam);
++    check(`${name}：修改前被擋住、修改後鏡頭在牆前`,was&&!blocked(tgt,cam,parts),`修改前${was?'被擋住':'沒擋住'}；鏡頭離頭 ${r.dist.toFixed(2)} m`); }
++  if(isDep){ const tgt=new THREE.Vector3(0,1.45,10), cam=new THREE.Vector3(); E.followCam(tgt,0,PITCH,dist,0,cam); const tz=(L.facade_z-tgt.z)/(cam.z-tgt.z), y=tgt.y+(cam.y-tgt.y)*tz, x=tgt.x+(cam.x-tgt.x)*tz;
++    const door=L.entrances.find(d=>Math.abs(x-d.x)<d.w/2); check('出境大廳 (0, 10)・鏡頭在南（04）：視線走正中間的入口門洞（門洞可以過），擋住的是門片中間的框',cam.z>L.facade_z&&!!door&&y<2.6,`穿過帷幕的點 x ${x.toFixed(2)}、高 ${y.toFixed(2)} m`); }
++  /* 材質：擋住玩家時網點透空；窗外照時間變暗 */
++  const mats={}; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name) mats[o.material.name]=o.material; });
++  check('正式模型接上了（假的模型）',z.formal===true&&Object.keys(mats).length>=MATS.length,Object.keys(mats).length+' 種材質');
++  const seeOk=['ap_mullion','ap_wall_panel','ap_column','ap_steel','GLOW_ap_frosted','GLOW_ap_airlines'].every(n=>mats[n]&&mats[n].userData.seeThrough&&mats[n].userData._st);
++  const seeNot=['ap_floor','ap_wall','ck_glass','GLOW_ap_signs','GLOW_ap_outside_m'].every(n=>mats[n]&&!mats[n].userData.seeThrough);
++  check('帷幕框、背牆、柱子、不鏽鋼、霧面玻璃、航空公司燈箱網點透空；地板、牆、玻璃、招牌、窗外不透空',seeOk&&seeNot);
++  const out=mats.GLOW_ap_outside_m, sign=mats.GLOW_ap_signs, conc=mats.ap_concrete; const lum=c=>0.2126*c.r+0.7152*c.g+0.0722*c.b;
++  z.applyTime(12,'clear'); const d={c:lum(out.color),e:lum(out.emissive)*out.emissiveIntensity,s:sign.emissiveIntensity,k:lum(conc.color)};
++  z.applyTime(21,'clear'); const nt={c:lum(out.color),e:lum(out.emissive)*out.emissiveIntensity,s:sign.emissiveIntensity,k:lum(conc.color)};
++  z.applyTime(18,'clear'); const du={c:lum(out.color)};
++  z.applyTime(12,'clear'); const d2={c:lum(out.color),e:lum(out.emissive)*out.emissiveIntensity};
++  check('窗外的遠景：中午和原本一樣（自發光乘 0.75），21:00 剩兩成以下，18:00 在中間，回到中午會還原',Math.abs(d.e-0.75)<0.01&&nt.c<0.2*d.c&&nt.e<0.2*d.e&&du.c<d.c&&du.c>nt.c&&Math.abs(d2.c-d.c)<1e-6&&Math.abs(d2.e-d.e)<1e-6,
++    `基本色 ${d.c.toFixed(3)}→${nt.c.toFixed(3)}（18:00 ${du.c.toFixed(3)}）、自發光 ${d.e.toFixed(3)}→${nt.e.toFixed(3)}`);
++  check('招牌、燈箱照舊：白天 0.75、晚上 1',Math.abs(d.s-0.75)<0.01&&Math.abs(nt.s-1)<0.01);
++  check(isDep?'出境的混凝土（雨遮底下）晚上不變暗':'入境門外的地面（ap_concrete）晚上變暗',isDep?Math.abs(nt.k-d.k)<1e-6:nt.k<0.3*d.k,`${d.k.toFixed(3)}→${nt.k.toFixed(3)}`);
++}
++console.log(fails?`${fails} FAIL`:'ALL PASS'); process.exit(fails?1:0);
++})().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
