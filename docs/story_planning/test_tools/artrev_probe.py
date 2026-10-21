@@ -9,10 +9,14 @@ Y1 = """(()=>{ const r=[]; GAME.E.scene.traverse(o=>{ if(/^Y1_/.test(o.name)) r.
 async def enter(pg, z, h):
     await pg.evaluate("(async(z,h)=>{ GAME.G.hour=h; GAME.E.hour=h; await GAME.enter(z); })(%s,%s)" % (json.dumps(z), h))
     await pg.wait_for_timeout(15000); await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.hour=h; })(%s)" % h); await pg.wait_for_timeout(5000)
+async def closephone(pg):
+    await pg.evaluate("(()=>{ try{ if(typeof PHONE!=='undefined'&&PHONE.pending) for(const k of (PHONE.pending()||[])){ try{ PHONE.answer&&PHONE.answer(k,0); }catch(e){} } }catch(e){} const b=document.getElementById('btnPhoneClose'); if(b&&b.offsetParent) b.click(); })()")
+    await pg.wait_for_timeout(800)
 async def yaws(pg, run, tag, n=4):
+    await closephone(pg)
     y0 = await pg.evaluate("GAME.E.cam.yaw")
     for k in range(n):
-        await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })(%s)" % (y0 + k * 3.14159 / 2)); await pg.wait_for_timeout(2500); await run.shot(pg, '%s_y%d' % (tag, k))
+        await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })(%s)" % (y0 + k * 3.14159 / 2)); await pg.wait_for_timeout(2500); await closephone(pg); await run.shot(pg, '%s_y%d' % (tag, k))
     await pg.evaluate("(y=>{ GAME.E.cam.yaw=y; })(%s)" % y0)
 async def main():
     run = L.Run('artrev', OUT); base = json.load(open(SAVE, encoding='utf-8'))
@@ -34,10 +38,10 @@ async def main():
             exp = {'closed': ('Y1_BOX_WINTER:true', 'Y1_KAI_TAPE:false'), 'tape_text': ('Y1_KAI_TAPE_TEXT:true', 'Y1_KAI_TAPE_MID:false'), 'folded_tape': ('Y1_BOX_FOLDED:true', 'Y1_KAI_TAPE_MID:true')}[tag]
             run.check('203 %s 顯示對' % tag, all(e in st for e in exp), json.dumps(st))
             await yaws(pg, run, 'dorm_%s' % tag)
-            it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(i=>/紙箱|箱/.test(i.label||'')); return i?[i.x,i.z,i.label]:null; })()")
+            it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(i=>i.y1WinterBox); return i?[i.x,i.z,i.label]:null; })()")
             print('   紙箱互動點', it, flush=True)
             if it:
-                await pg.evaluate("(([x,z])=>{ const p=GAME.E.player.obj; p.position.x=x; p.position.z=z+0.6; })(%s)" % json.dumps(it[:2])); await pg.wait_for_timeout(3000); await yaws(pg, run, 'dorm_%s_box' % tag)
+                await pg.evaluate("(([x,z])=>{ const p=GAME.E.player.obj; p.position.x=x; p.position.x=x+0.55; })(%s)" % json.dumps(it[:2])); await pg.wait_for_timeout(3000); await yaws(pg, run, 'dorm_%s_box' % tag)
         await pg.evaluate("(()=>{ Object.assign(GAME.G.flags,{US_DEPARTED:true,US_ARRIVED:true}); })()")
         for h in (17.75, 19.0):
             await enter(pg, 'us_shared', h); run.setup('[捷徑] us_shared %.2f（旗標 US_DEPARTED、US_ARRIVED；日期仍是 9/25 存檔那天）' % h)
