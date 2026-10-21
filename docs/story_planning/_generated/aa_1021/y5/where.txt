@@ -1,0 +1,144 @@
+=== 2029-10-16（二）10:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 library read｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 campus wander 〔外文系的課後在傅鐘附近〕｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 library read｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
+  kai｜presence here｜作息 —｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・四年級
+  yu｜presence here｜作息 campus sit｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系
+  npc_huangxh｜presence here｜作息 campus wander｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 —｜tag 法研所（刑事法組）
+=== 2029-10-16（二）15:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 —｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 —｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 —｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
+  kai｜presence here｜作息 —｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・四年級
+  yu｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 library read｜tag 法研所（刑事法組）
+=== 2029-10-16（二）19:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 campus wander｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 cafe barista｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 noodle help｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 cafe read｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 noodle eat｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 library read｜tag 法律系・四年級
+  kai｜presence here｜作息 dorm desk｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 gongguan wander｜tag 法律系・四年級
+  yu｜presence here｜作息 wenzhou sit｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 —｜tag 法研所（刑事法組）
+=== 2029-10-19（五）14.5:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 —｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 cafe barista｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 —｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
+  kai｜presence here｜作息 —｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・四年級
+  yu｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系
+  npc_huangxh｜presence here｜作息 library read｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 library read｜tag 法研所（刑事法組）
+=== 2029-10-20（六）10:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 —｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 —｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 —｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 —｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 campus wander｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
+  kai｜presence here｜作息 —｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・四年級
+  yu｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 campus wander｜tag 森林系
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 —｜tag 法研所（刑事法組）
+=== 2029-12-18（二）15:00　termAt=Y4S2 playerYear=4
+  heroine_01｜presence here｜作息 —｜tag 法律系・四年級
+  heroine_02｜presence here｜作息 —｜tag 英國・電影研究所
+  heroine_03｜presence here｜作息 —｜tag 社會系・四年級（雙主修法律）
+  heroine_04｜presence 不在:taipei:在工作室上班｜作息 (場景外) out 在工作室上班 〔BB_163 第 2 節：大四畢業，平日白天在臺北的獨立遊戲〕｜tag 獨立遊戲工作室
+  heroine_05｜presence here｜作息 library read｜tag 法研所（財經法學組）・碩三
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・二年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・四年級
+  zhe｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・四年級
+  kai｜presence here｜作息 —｜tag 資工系・四年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・四年級
+  yu｜presence here｜作息 —｜tag 法律系・四年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・四年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・四年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・四年級
+  npc_ta_chen｜presence here｜作息 library read｜tag 法研所（刑事法組）
+=== 2029-12-20（四）15:00　termAt=null playerYear=1
+  heroine_01｜presence here｜作息 —｜tag 法律系・一年級
+  heroine_02｜presence here｜作息 —｜tag 外文系・二年級
+  heroine_03｜presence here｜作息 —｜tag 社會系・一年級
+  heroine_04｜presence here｜作息 campus wander｜tag 資工系・二年級
+  heroine_05｜presence here｜作息 library read｜tag 法律系・四年級
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・一年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・一年級
+  zhe｜presence here｜作息 —｜tag 法律系・一年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・一年級
+  kai｜presence here｜作息 —｜tag 資工系・一年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・一年級
+  yu｜presence here｜作息 —｜tag 法律系・一年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・一年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系・二年級
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・一年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・一年級
+  npc_ta_chen｜presence here｜作息 library read｜tag 法研所（刑事法組）・碩二
+=== 2030-01-08（二）15:00　termAt=null playerYear=1
+  heroine_01｜presence here｜作息 —｜tag 法律系・一年級
+  heroine_02｜presence here｜作息 —｜tag 外文系・二年級
+  heroine_03｜presence here｜作息 —｜tag 社會系・一年級
+  heroine_04｜presence here｜作息 campus wander｜tag 資工系・二年級
+  heroine_05｜presence here｜作息 library read｜tag 法律系・四年級
+  classmate_peishan｜presence 不在:city:很久沒聯絡｜作息 —｜tag 法律系・一年級
+  kexin｜presence here｜作息 —｜tag 政大法律系・一年級
+  zhe｜presence here｜作息 —｜tag 法律系・一年級
+  classmate_bohan｜presence here｜作息 —｜tag 法律系・一年級
+  kai｜presence here｜作息 —｜tag 資工系・一年級
+  classmate_mingxuan｜presence 不在:abroad:德國｜作息 —｜tag 法律系・一年級
+  yu｜presence here｜作息 —｜tag 法律系・一年級
+  classmate_xinci｜presence here｜作息 —｜tag 法律系・一年級
+  npc_fangyt｜presence here｜作息 —｜tag 森林系・二年級
+  npc_huangxh｜presence here｜作息 —｜tag 心理系・一年級
+  classmate_youchen｜presence here｜作息 —｜tag 法律系・一年級
+  npc_ta_chen｜presence here｜作息 library read｜tag 法研所（刑事法組）・碩二

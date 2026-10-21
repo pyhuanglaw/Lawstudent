@@ -1,0 +1,5858 @@
+{
+ "v": 2,
+ "stage": "law",
+ "name": "祐廷",
+ "day": -15,
+ "weekday": 1,
+ "hour": 12.208,
+ "energy": 100,
+ "money": 379800,
+ "zone": "classroom",
+ "pos": {
+  "x": -0.75,
+  "z": 1,
+  "yaw": 3.142,
+  "lv": 0,
+  "y": 0.9
+ },
+ "weather": "clear",
+ "flags": {
+  "dating_kexin": true,
+  "KX_DEC3_MIGRATED": true,
+  "LIFELINE_V": 1,
+  "fundsV2": 1,
+  "allowanceMonth": 9,
+  "KX_FIRST_MSG": true,
+  "ECON_CAMP_OPEN": true,
+  "clsGoal": "今天的課：09:10 憲法（上）、15:30 體育。上課、讀書或自由活動都可以",
+  "knowsRel": {},
+  "spreadScan": {},
+  "ROMANCE_HISTORY": [],
+  "CLEANUP_DONE": true,
+  "romance": {
+   "kexin": {
+    "status": "dating",
+    "since": "Y0",
+    "knows": [],
+    "suspicion": 0,
+    "history": []
+   }
+  },
+  "knowsRel_V": 1,
+  "ytKnows": {},
+  "dpDay": -15,
+  "kaiDorm": {},
+  "amb": {
+   "lawPlaza-379": true,
+   "mrt-379": true,
+   "mrt-359": true,
+   "mrt-311": true
+  },
+  "E15_BUS": "watching",
+  "met_kexin": true,
+  "met_econ_zhengxun": true,
+  "E15_WENT": true,
+  "ECON_CAMP_DONE": true,
+  "E01_NIGHT": "unpack",
+  "E01_DONE": true,
+  "companion": null,
+  "nightKai": false,
+  "morningLine": false,
+  "E01_MORNING": true,
+  "E02_WORD": "externality",
+  "met_econ_pinyu": true,
+  "BIKE_TIP": true,
+  "met_yu": true,
+  "metYuDay": -379,
+  "lawclub": true,
+  "E01_BOXES": true,
+  "E412_MOVEIN": true,
+  "Y0_B1_ANSWER": "早餐。",
+  "met_prof_wei": true,
+  "E04_DONE": true,
+  "E05_OPEN": "steady",
+  "E05_DAY": -361,
+  "E05_END": 19.500311333333336,
+  "E06_DONE": "e06",
+  "Y0_CLUB": "guitar",
+  "dpN": {
+   "kai_sheet": 4,
+   "y0_tr_meeting": 1,
+   "y0_tr_office": 1,
+   "y0_py_app": 1,
+   "y0_py_rain": 1,
+   "y0_xu_alarm": 1,
+   "y0_wl_go": 1,
+   "y0_wl_chain": 1,
+   "y0_kx_luroufan": 1,
+   "y0_kx_obvious": 1,
+   "y0_kx_laugh": 1,
+   "y0_xu_calc": 1,
+   "y0_xu_lamp": 1,
+   "y0_xu_seat": 1,
+   "y0_py_notes": 1,
+   "y0_wl_wait": 1,
+   "y0_tr_group": 1,
+   "y0_tr_voice": 1,
+   "y0_py_beef": 1,
+   "y0_kx_table": 1,
+   "y0_kx_eight": 1,
+   "y0_kx_prof": 1,
+   "y0_kx_drink": 1
+  },
+  "dpPick": null,
+  "dpLast": "y0_kx_drink",
+  "dpDayOf": {
+   "kai_sheet": -273,
+   "y0_tr_meeting": -357,
+   "y0_tr_office": -356,
+   "y0_py_app": -355,
+   "y0_py_rain": -354,
+   "y0_xu_alarm": -353,
+   "y0_wl_go": -351,
+   "y0_wl_chain": -350,
+   "y0_kx_luroufan": -349,
+   "y0_kx_obvious": -348,
+   "y0_kx_laugh": -347,
+   "y0_xu_calc": -344,
+   "y0_xu_lamp": -331,
+   "y0_xu_seat": -330,
+   "y0_py_notes": -323,
+   "y0_wl_wait": -322,
+   "y0_tr_group": -190,
+   "y0_tr_voice": -189,
+   "y0_py_beef": -188,
+   "y0_kx_table": -176,
+   "y0_kx_eight": -175,
+   "y0_kx_prof": -174,
+   "y0_kx_drink": -173
+  },
+  "Y0_SAUCE": true,
+  "Y0_GATHER_TH": "g:econ_class",
+  "E10_ASKED": true,
+  "Y0_LEFT": true,
+  "LEAVE_WEEK": 6,
+  "E30_WAITED": false,
+  "KX_CAR": "only_me",
+  "Y0_DATING": true,
+  "KX_DATING_SINCE": "2024-10-17",
+  "E26_DAY": -334,
+  "Y0_STICKY": true,
+  "A3_TREAT": true,
+  "Y0_MOVED_OUT": true,
+  "Y0_STICKY_HOME": true,
+  "E12_ASKED": true,
+  "E12_ANSWER": "cat",
+  "KX_FIGHT_1212": true,
+  "CRAM_FREE_KNOWN": true,
+  "_e20g": null,
+  "GIRAFFE_KEYCHAIN": true,
+  "E21A_WENT": true,
+  "KX_THINK_LEAVE": true,
+  "E21_CALLED": true,
+  "Y0_WINTER_DONE": true,
+  "E27B_PLAN": true,
+  "RETAKE_TOGETHER": true,
+  "E27_DAY": -215,
+  "E24C_REASON": "honest",
+  "CRAM_ASKED_TOGETHER": true,
+  "RP_LAST": 5,
+  "RP_TXT": "（熱到柏油路都在發亮。你們分一碗芒果冰，最大塊的芒果她推到你那邊。）",
+  "RP_USED": [
+   0,
+   3,
+   5
+  ],
+  "E18B_GIFT": "notebook",
+  "R6_MISSED": true,
+  "Y0_CRAM_PLANNED": true,
+  "CRAM_CLASS_SEEN": true,
+  "RT_DAY": {
+   "day": -70,
+   "type": "study"
+  },
+  "R1_LINE": true,
+  "RS_USED": [
+   0
+  ],
+  "RT_KX": -70,
+  "E35_ASKED": true,
+  "E35_PLAN": "sea",
+  "E35_MET": true,
+  "E35_DONE": true,
+  "EXAM1_DONE": true,
+  "MATH_100": true,
+  "EXAM2_DONE": true,
+  "E35_SUM": true,
+  "SCORE_REPLY": "fine",
+  "KH_DAY": "home",
+  "KH_FIGHT": "school",
+  "KH_CALL_DONE": true,
+  "KH_MADEUP": true,
+  "E36_RESULT": true,
+  "E36_ASKED": true,
+  "E36_REPLY": "climb",
+  "E36_PACT": "ask",
+  "PLAYED_Y0": true,
+  "CAMP_Y1_ON": false,
+  "CAMP_BUS": "mx",
+  "CAMP_CLUE0": true,
+  "CAMP_SEEN": [
+   "yu"
+  ],
+  "CAMP_MOLE_CLUE": 3,
+  "CAMP_CLUE1": true,
+  "MET_ZHE": true,
+  "CAMP_KEVIN": true,
+  "met_kevin": true,
+  "met_zhe": true,
+  "met_classmate_xinci": true,
+  "met_classmate_peishan": true,
+  "met_classmate_mingxuan": true,
+  "met_classmate_bohan": true,
+  "CAMP_F1_WIN": true,
+  "CAMP_F3": true,
+  "CAMP_FIELD_N": 2,
+  "CAMP_F2": true,
+  "CAMP_PS_P0": true,
+  "CAMP_CLUE2": true,
+  "CAMP_MOLE_REVEALED": true,
+  "ZHE_CALLS_GE": true,
+  "ECON_PAST_SHARED": "full",
+  "WHY_RETAKE_ASKED": true,
+  "CAMP_Y1": true,
+  "MET_XUN": true,
+  "MET_PINYU": true,
+  "KNOWS_TANG": true,
+  "LAW_RECAP_SEEN": true,
+  "LAW_START_DAY": -18,
+  "MAIN_D1": -13,
+  "LAW_MOVEIN_DAY": -18,
+  "met_kai": true,
+  "MET_KAI": true,
+  "DORM_FOUR": true,
+  "DAY1_NARR_SEEN": true,
+  "DORM_AC": 27,
+  "KAI_MOVEIN": true,
+  "FAM_GROUP_SENT": true,
+  "KX_EVE_MSG": true,
+  "CEREMONY_Y1": true,
+  "FAM_GROUP_REPLIED": true,
+  "ZHE_W1_NOODLE": true,
+  "ZHE_W1_CAMP": true,
+  "ZHE_W1_DORM": true
+ },
+ "rel": {
+  "an": 6,
+  "zhe": 12,
+  "sis": 2,
+  "kai": 8,
+  "yu": 5
+ },
+ "notes": [
+  {
+   "id": "club_law",
+   "title": "法律服務社",
+   "body": "隔週週六上午 萬才館一樓（民眾法律諮詢）。新社員先旁聽、做紀錄。",
+   "day": -379
+  }
+ ],
+ "memo": [
+  {
+   "day": -379,
+   "t": "開學典禮與迎新"
+  },
+  {
+   "day": -379,
+   "t": "看了法律服務社的招募公告"
+  },
+  {
+   "day": -361,
+   "t": "要我載妳嗎？"
+  },
+  {
+   "day": -351,
+   "t": "颱風假：宿舍的泡麵之夜（經濟系那一年）"
+  },
+  {
+   "day": -351,
+   "t": "泡麵之夜"
+  },
+  {
+   "day": -334,
+   "t": "辦休學的那天"
+  },
+  {
+   "day": -334,
+   "t": "車上"
+  },
+  {
+   "day": -334,
+   "t": "便利貼"
+  },
+  {
+   "day": -332,
+   "t": "搬出宿舍那天"
+  },
+  {
+   "day": -314,
+   "t": "長頸鹿的尾巴"
+  },
+  {
+   "day": -305,
+   "t": "保齡球館"
+  },
+  {
+   "day": -278,
+   "t": "電話"
+  },
+  {
+   "day": -277,
+   "t": "以前的補習班"
+  },
+  {
+   "day": -265,
+   "t": "聖誕交換禮物"
+  },
+  {
+   "day": -259,
+   "t": "跨年"
+  },
+  {
+   "day": -231,
+   "t": "除夕的電話"
+  },
+  {
+   "day": -216,
+   "t": "看不懂的民法"
+  },
+  {
+   "day": -215,
+   "t": "一起重考吧"
+  },
+  {
+   "day": -214,
+   "t": "一起去問補習班"
+  },
+  {
+   "day": -207,
+   "t": "和可昕出門"
+  },
+  {
+   "day": -145,
+   "t": "可昕的生日"
+  },
+  {
+   "day": -115,
+   "t": "保齡球再戰"
+  },
+  {
+   "day": -99,
+   "t": "衝刺班"
+  },
+  {
+   "day": -97,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -97,
+   "t": "衝刺班"
+  },
+  {
+   "day": -95,
+   "t": "衝刺班"
+  },
+  {
+   "day": -90,
+   "t": "衝刺班"
+  },
+  {
+   "day": -88,
+   "t": "衝刺班"
+  },
+  {
+   "day": -85,
+   "t": "衝刺班"
+  },
+  {
+   "day": -83,
+   "t": "衝刺班"
+  },
+  {
+   "day": -82,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -81,
+   "t": "衝刺班"
+  },
+  {
+   "day": -80,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -78,
+   "t": "和可昕出門"
+  },
+  {
+   "day": -78,
+   "t": "衝刺班"
+  },
+  {
+   "day": -76,
+   "t": "衝刺班"
+  },
+  {
+   "day": -74,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -74,
+   "t": "衝刺班"
+  },
+  {
+   "day": -72,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -71,
+   "t": "和可昕出門"
+  },
+  {
+   "day": -71,
+   "t": "衝刺班"
+  },
+  {
+   "day": -70,
+   "t": "同一張桌子"
+  },
+  {
+   "day": -69,
+   "t": "衝刺班"
+  },
+  {
+   "day": -68,
+   "t": "考試的前一晚"
+  },
+  {
+   "day": -67,
+   "t": "考場"
+  },
+  {
+   "day": -66,
+   "t": "對答案"
+  },
+  {
+   "day": -59,
+   "t": "考完了"
+  },
+  {
+   "day": -53,
+   "t": "成績公布"
+  },
+  {
+   "day": -53,
+   "t": "電話"
+  },
+  {
+   "day": -34,
+   "t": "八月放榜"
+  },
+  {
+   "day": -34,
+   "t": "放榜的電話"
+  },
+  {
+   "day": -25,
+   "t": "迎新宿營：遊覽車"
+  },
+  {
+   "day": -25,
+   "t": "迎新宿營：破冰"
+  },
+  {
+   "day": -25,
+   "t": "迎新宿營：大地遊戲"
+  },
+  {
+   "day": -25,
+   "t": "迎新宿營：迎新晚會"
+  },
+  {
+   "day": -25,
+   "t": "迎新宿營：夜遊"
+  },
+  {
+   "day": -24,
+   "t": "迎新宿營：法律闖關"
+  },
+  {
+   "day": -24,
+   "t": "迎新宿營：水大地"
+  },
+  {
+   "day": -24,
+   "t": "迎新宿營：烤肉"
+  },
+  {
+   "day": -24,
+   "t": "迎新宿營：營火晚會"
+  },
+  {
+   "day": -24,
+   "t": "迎新宿營：夜談"
+  },
+  {
+   "day": -23,
+   "t": "迎新宿營：金頭腦"
+  },
+  {
+   "day": -23,
+   "t": "迎新宿營：結業式"
+  },
+  {
+   "day": -15,
+   "t": "第一堂課的早上"
+  }
+ ],
+ "visited": {
+  "dorm": true,
+  "boya": true,
+  "campus": true,
+  "wancai": true,
+  "wenzhou": true,
+  "wz_print": true,
+  "cafe": true,
+  "gongguan": true,
+  "bookstore": true,
+  "dorm_hall": true,
+  "library_hall": true,
+  "lane118": true,
+  "gongtong": true,
+  "soclib": true,
+  "wz_teahouse": true,
+  "cvs": true,
+  "classroom": true
+ },
+ "stats": {
+  "steps": 1652,
+  "classes": 0,
+  "study": 0
+ },
+ "choices": {},
+ "social": {
+  "rel": {
+   "heroine_01": {
+    "fam": 6,
+    "trust": 4,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "zhe": {
+    "fam": 15,
+    "trust": 7,
+    "aff": 0,
+    "resp": 0,
+    "comf": 1,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 3,
+    "talked": 3,
+    "_migrated": true
+   },
+   "heroine_05": {
+    "fam": 2,
+    "trust": 1,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0,
+    "_migrated": true
+   },
+   "kai": {
+    "fam": 8,
+    "trust": 5,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 2,
+    "_migrated": true
+   },
+   "yu": {
+    "fam": 7,
+    "trust": 3,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 2,
+    "_migrated": true
+   },
+   "kexin": {
+    "fam": 15,
+    "trust": 1,
+    "aff": 0,
+    "resp": 0,
+    "comf": 20,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 30
+   },
+   "econ_zhengxun": {
+    "fam": 19,
+    "trust": 4,
+    "aff": 0,
+    "resp": 0,
+    "comf": 6,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 61,
+    "talked": 11
+   },
+   "prof_wei": {
+    "fam": 8,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 2
+   },
+   "econ_pinyu": {
+    "fam": 6,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 1,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 4
+   },
+   "heroine_02": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 0
+   },
+   "prof_zhou": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "npc_fangyt": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "heroine_04": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "econ_tangrui": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "econ_weilun": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 0
+   },
+   "kevin": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 0,
+    "talked": 1
+   },
+   "classmate_xinci": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 1
+   },
+   "classmate_peishan": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 1
+   },
+   "classmate_mingxuan": {
+    "fam": 5,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 1
+   },
+   "classmate_bohan": {
+    "fam": 7,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 1,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 2,
+    "talked": 2
+   },
+   "classmate_youchen": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "prof_zhang": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "pool_2": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "pool_7": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   },
+   "pool_12": {
+    "fam": 0,
+    "trust": 0,
+    "aff": 0,
+    "resp": 0,
+    "comf": 0,
+    "rom": 0,
+    "npcRom": 0,
+    "seen": 1,
+    "talked": 0
+   }
+  },
+  "mem": {
+   "kexin": [
+    {
+     "tag": "FIRST_MET",
+     "day": -389,
+     "note": "camp"
+    },
+    {
+     "tag": "KX0D_TIMETABLE",
+     "day": -334,
+     "note": "K0-Lx1"
+    },
+    {
+     "tag": "KX0D_COMMUTE",
+     "day": -314,
+     "note": "K0-Lx2"
+    },
+    {
+     "tag": "KX0B_BORDER",
+     "day": -207,
+     "note": "K0b-L1"
+    },
+    {
+     "tag": "KX0B_SHORT_NECK",
+     "day": -145,
+     "note": "K0b-L2"
+    },
+    {
+     "tag": "KX0B_TALK_TO_BOOK",
+     "day": -115,
+     "note": "K0b-L3"
+    }
+   ],
+   "econ_zhengxun": [
+    {
+     "tag": "FIRST_MET",
+     "day": -389,
+     "note": "camp"
+    },
+    {
+     "tag": "XN0_RULE_ONE",
+     "day": -373,
+     "note": "XN0-L1"
+    },
+    {
+     "tag": "STUDIED_TOGETHER",
+     "day": -373,
+     "note": "總圖"
+    },
+    {
+     "tag": "XN0_FRIDGE_JOKE",
+     "day": -310,
+     "note": "XN0-L2"
+    }
+   ],
+   "econ_pinyu": [
+    {
+     "tag": "FIRST_MET",
+     "day": -379,
+     "note": "boya"
+    }
+   ],
+   "prof_wei": [
+    {
+     "tag": "FIRST_MET",
+     "day": -372,
+     "note": "boya"
+    }
+   ],
+   "kevin": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "zhe": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "classmate_xinci": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "classmate_peishan": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "classmate_mingxuan": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "classmate_bohan": [
+    {
+     "tag": "FIRST_MET",
+     "day": -25,
+     "note": "camp"
+    }
+   ],
+   "kai": [
+    {
+     "tag": "FIRST_MET",
+     "day": -18,
+     "note": "dorm"
+    }
+   ]
+  },
+  "reveal": {
+   "kexin": "ACQUAINTANCE",
+   "econ_zhengxun": "ACQUAINTANCE",
+   "econ_pinyu": "ACQUAINTANCE",
+   "yu": "ACQUAINTANCE",
+   "prof_wei": "ACQUAINTANCE",
+   "kevin": "ACQUAINTANCE",
+   "zhe": "ACQUAINTANCE",
+   "classmate_xinci": "ACQUAINTANCE",
+   "classmate_peishan": "ACQUAINTANCE",
+   "classmate_mingxuan": "ACQUAINTANCE",
+   "classmate_bohan": "ACQUAINTANCE",
+   "kai": "ACQUAINTANCE"
+  },
+  "prof": {},
+  "grad": {
+   "interest": "NONE",
+   "field": null,
+   "prep": 0
+  },
+  "_relSync": 1,
+  "ladder": {
+   "econ_zhengxun@Y0S1": 2,
+   "kexin@Y0S1": 10,
+   "kexin@Y0S2": 3
+  },
+  "ladderDay": {
+   "econ_zhengxun": -310,
+   "kexin": -115
+  },
+  "greetUsed": {
+   "econ_zhengxun": {
+    "day": -373,
+    "list": [
+     "（他點了一下頭）嗯。"
+    ],
+    "last": "（他點了一下頭）嗯。"
+   },
+   "kexin": {
+    "day": -314,
+    "list": [
+     "品妤叫我早點回宿舍。我說好，然後沒有。",
+     "（她把牛仔外套的袖子捲起來）你也在這裡喔。"
+    ],
+    "last": "（她把牛仔外套的袖子捲起來）你也在這裡喔。"
+   }
+  },
+  "daily": {
+   "day": -18,
+   "p": {
+    "zhe": {
+     "acts": {
+      "chat": 1,
+      "chatNew": 1
+     },
+     "fam": 2,
+     "trust": 0,
+     "comf": 1,
+     "cap": 0
+    },
+    "classmate_bohan": {
+     "acts": {
+      "chat": 1,
+      "chatNew": 1
+     },
+     "fam": 2,
+     "trust": 0,
+     "comf": 1,
+     "cap": 0
+    }
+   }
+  },
+  "fm120": true,
+  "small": {
+   "zhe": {
+    "day": -18,
+    "used": [
+     "「系籃週五練球，來坐也可以。」"
+    ],
+    "last": "「系籃週五練球，來坐也可以。」"
+   },
+   "classmate_bohan": {
+    "day": -18,
+    "used": [
+     "「我在寫考古題，第二題卡住了。」"
+    ],
+    "last": "「我在寫考古題，第二題卡住了。」"
+   }
+  }
+ },
+ "events": {
+  "done": {
+   "ev_y0_e02": 1,
+   "ev_y0_e05": 1,
+   "ev_y0_t0a": 1,
+   "ev_y0_e30": 1,
+   "ev_y0_e26": 1,
+   "ev_y0_e30_note": 1,
+   "ev_y0_a3": 1,
+   "ev_y0_e12": 1,
+   "ev_y0_e14": 1,
+   "ev_y0_fight_h": 1,
+   "ev_y0_cram_h": 1,
+   "ev_y0_e20": 1,
+   "ev_y0_e21a": 1,
+   "ev_y0_e21": 1,
+   "ev_y0_e23": 1,
+   "ev_y0_e27": 1,
+   "ev_y0_e28": -215,
+   "ev_y0_e24c": -215,
+   "ev_y0_e27b": 1,
+   "ev_y0_rp": 3,
+   "ev_y0_e18b": 1,
+   "ev_y0_r7": 1,
+   "ev_y0_cram_class": 13,
+   "ev_y0_rs": 6,
+   "ev_y0_e35h": 1,
+   "ev_y0_exam1h": 1,
+   "ev_y0_exam2": 1,
+   "ev_y0_e35sh": 1,
+   "ev_y0_kh_home_h": 1,
+   "ev_y0_kh_call_h": 1,
+   "ev_y0_e36rh": 1,
+   "ev_y0_e36h": 1,
+   "ev_camp_d1_bus": 1,
+   "ev_camp_d1_ice": 1,
+   "ev_camp_d1_field": 1,
+   "ev_camp_d1_party": 1,
+   "ev_camp_d1_walk": 1,
+   "ev_camp_d2_quiz": 1,
+   "ev_camp_d2_water": 1,
+   "ev_camp_d2_bbq": 1,
+   "ev_camp_d2_fire": 1,
+   "ev_camp_d2_talk": 1,
+   "ev_camp_d3_quiz": 1,
+   "ev_camp_d3_end": 1,
+   "ev_zhe_w1_dorm": 1
+  },
+  "last": {
+   "ev_y0_e02": -379,
+   "ev_y0_e05": -361,
+   "ev_y0_t0a": -351,
+   "ev_y0_e30": -334,
+   "ev_y0_e26": -334,
+   "ev_y0_e30_note": -334,
+   "ev_y0_a3": -332,
+   "ev_y0_e12": -314,
+   "ev_y0_e14": -305,
+   "ev_y0_fight_h": -278,
+   "ev_y0_cram_h": -277,
+   "ev_y0_e20": -265,
+   "ev_y0_e21a": -259,
+   "ev_y0_e21": -231,
+   "ev_y0_e23": -216,
+   "ev_y0_e27": -215,
+   "ev_y0_e27b": -214,
+   "ev_y0_rp": -71,
+   "ev_y0_e18b": -145,
+   "ev_y0_r7": -115,
+   "ev_y0_cram_class": -69,
+   "ev_y0_rs": -70,
+   "ev_y0_e35h": -68,
+   "ev_y0_exam1h": -67,
+   "ev_y0_exam2": -66,
+   "ev_y0_e35sh": -59,
+   "ev_y0_kh_home_h": -53,
+   "ev_y0_kh_call_h": -53,
+   "ev_y0_e36rh": -34,
+   "ev_y0_e36h": -34,
+   "ev_camp_d1_bus": -25,
+   "ev_camp_d1_ice": -25,
+   "ev_camp_d1_field": -25,
+   "ev_camp_d1_party": -25,
+   "ev_camp_d1_walk": -25,
+   "ev_camp_d2_quiz": -24,
+   "ev_camp_d2_water": -24,
+   "ev_camp_d2_bbq": -24,
+   "ev_camp_d2_fire": -24,
+   "ev_camp_d2_talk": -24,
+   "ev_camp_d3_quiz": -23,
+   "ev_camp_d3_end": -23,
+   "ev_zhe_w1_dorm": -15
+  },
+  "count": 62
+ },
+ "legal": {
+  "q": {
+   "Q001": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q002": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q003": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q004": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q005": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q006": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q007": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q008": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q009": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q010": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q011": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q012": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q013": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q014": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q015": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q016": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q017": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q018": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q019": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q020": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q021": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q022": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q023": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q024": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q025": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q026": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q027": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q028": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q029": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q030": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q031": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q032": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q033": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q034": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q035": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q036": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q037": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q038": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q039": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q040": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q041": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q042": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q043": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q044": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q045": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q046": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q047": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q048": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q049": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q050": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q051": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q052": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q053": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q054": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q055": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q056": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q057": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q058": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q059": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q060": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q061": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q062": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q063": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q064": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q065": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q066": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q067": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q068": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q069": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q070": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q071": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q072": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q073": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q074": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q075": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q076": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q077": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q078": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q079": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q080": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q081": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q082": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q083": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   },
+   "Q084": {
+    "state": "unseen",
+    "seen": 0,
+    "ok": 0,
+    "bad": 0,
+    "last": -99,
+    "ctx": []
+   }
+  },
+  "misc": {},
+  "log": []
+ },
+ "cg": {
+  "unlocked": []
+ },
+ "savedAt": 1792310196586,
+ "bike": {
+  "riding": false,
+  "zone": "campus",
+  "x": 25,
+  "z": 57.9,
+  "yaw": 1.5707963267948966
+ },
+ "courses": {
+  "done": {
+   "-379:econ_principles_y0:am": 1,
+   "-378:chinese_y0:am": 1,
+   "-372:econ_principles_y0:am": 1,
+   "-370:calc_y0s1:am": 1,
+   "-370:pe_y0s1:pm2": 1,
+   "-15:const_1:am": 1
+  },
+  "attend": {
+   "econ_principles_y0": 2,
+   "chinese_y0": 1,
+   "calc_y0s1": 1,
+   "pe_y0s1": 1,
+   "const_1": 1
+  },
+  "prep": {
+   "econ_principles_y0": 2,
+   "chinese_y0": 1,
+   "calc_y0s1": 1,
+   "pe_y0s1": 1,
+   "const_1": 1
+  },
+  "electives": {},
+  "grades": {},
+  "note": {
+   "sel_Y0S1": 1,
+   "termStart": "Y1S1",
+   "rem_-379:econ_principles_y0:am": 1,
+   "rem_-378:ge_y0s1:pm1": 1,
+   "skip_-378:ge_y0s1:pm1": 1,
+   "skipn_ge_y0s1_Y0S1": 6,
+   "skip_-377:calc_y0s1:am": 1,
+   "skipn_calc_y0s1_Y0S1": 6,
+   "skip_-377:pe_y0s1:pm2": 1,
+   "skipn_pe_y0s1_Y0S1": 6,
+   "skip_-376:english_y0:am": 1,
+   "skipn_english_y0_Y0S1": 6,
+   "skip_-376:acct_y0:pm1": 1,
+   "skipn_acct_y0_Y0S1": 6,
+   "skip_-371:chinese_y0:am": 1,
+   "skipn_chinese_y0_Y0S1": 5,
+   "skip_-371:ge_y0s1:pm1": 1,
+   "skip_-369:english_y0:am": 1,
+   "skip_-369:acct_y0:pm1": 1,
+   "skip_-365:econ_principles_y0:am": 1,
+   "skipn_econ_principles_y0_Y0S1": 4,
+   "skip_-363:calc_y0s1:am": 1,
+   "skip_-363:pe_y0s1:pm2": 1,
+   "skip_-362:english_y0:am": 1,
+   "skip_-362:acct_y0:pm1": 1,
+   "skip_-358:econ_principles_y0:am": 1,
+   "skip_-357:chinese_y0:am": 1,
+   "skip_-357:ge_y0s1:pm1": 1,
+   "skip_-356:calc_y0s1:am": 1,
+   "skip_-356:pe_y0s1:pm2": 1,
+   "skip_-355:english_y0:am": 1,
+   "skip_-355:acct_y0:pm1": 1,
+   "skip_-350:chinese_y0:am": 1,
+   "skip_-350:ge_y0s1:pm1": 1,
+   "skip_-349:calc_y0s1:am": 1,
+   "skip_-349:pe_y0s1:pm2": 1,
+   "skip_-348:english_y0:am": 1,
+   "skip_-348:acct_y0:pm1": 1,
+   "skip_-344:econ_principles_y0:am": 1,
+   "skip_-343:chinese_y0:am": 1,
+   "skip_-343:ge_y0s1:pm1": 1,
+   "skip_-342:calc_y0s1:am": 1,
+   "skip_-342:pe_y0s1:pm2": 1,
+   "skip_-337:econ_principles_y0:am": 1,
+   "skip_-336:chinese_y0:am": 1,
+   "skip_-336:ge_y0s1:pm1": 1,
+   "skip_-335:calc_y0s1:am": 1,
+   "skip_-335:pe_y0s1:pm2": 1,
+   "skip_-334:english_y0:am": 1,
+   "skip_-334:acct_y0:pm1": 1,
+   "sel_Y1S1": 1
+  },
+  "disc": {},
+  "ask": {},
+  "late": {},
+  "abs": {},
+  "idv": 3,
+  "seat": {
+   "econ_principles_y0": {
+    "zone": "boya",
+    "room": "101",
+    "x": -8.65,
+    "z": 3.15,
+    "lv": 0
+   },
+   "chinese_y0": {
+    "zone": "boya",
+    "room": "101",
+    "x": -11.45,
+    "z": -0.85,
+    "lv": 0
+   },
+   "calc_y0s1": {
+    "zone": "gongtong",
+    "room": "102",
+    "x": -7.6,
+    "z": -5,
+    "lv": 0
+   },
+   "const_1": {
+    "zone": "classroom",
+    "room": null,
+    "x": -0.75,
+    "z": 0.4,
+    "lv": 0
+   }
+  }
+ },
+ "goal": "今天的課：09:10 憲法（上）、15:30 體育。上課、讀書或自由活動都可以",
+ "goalDest": {
+  "zone": "campus",
+  "label": "體育館",
+  "name": "體育館"
+ },
+ "invites": [
+  {
+   "id": "iv1",
+   "who": "econ_zhengxun",
+   "place": "library",
+   "zone": "library_hall",
+   "day": -373,
+   "h": 18.235,
+   "state": "done",
+   "accepted": true,
+   "by": "player",
+   "now": true,
+   "label": "和盧正勳約在總圖",
+   "waitSeat": {
+    "x": -7.024999999999999,
+    "z": 5.8,
+    "lv": 1
+   }
+  }
+ ],
+ "msgs": [
+  {
+   "day": -348,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "微積分老師今天說了九次『顯然』。我一次都沒有顯然。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_obvious_0_0"
+  },
+  {
+   "day": -347,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "劇社的學長說我笑場的時間太長。我說那是在醞釀。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_laugh_0_0"
+  },
+  {
+   "day": -344,
+   "h": 22,
+   "who": "econ_zhengxun",
+   "text": "微積分第五題，我用三種方法算出三個答案。我要去睡了，明天再選一個。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "dp_y0_xu_calc_0_0"
+  },
+  {
+   "day": -340,
+   "h": 21,
+   "who": null,
+   "text": "溫州街有一間 Café，聽說拉花會畫長頸鹿。……我沒看過。我們去驗證。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "kexin",
+   "tag": "y0_l5a_ask"
+  },
+  {
+   "day": -339,
+   "h": 16,
+   "who": null,
+   "text": "📷（短脖子的長頸鹿）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_l5a_miss"
+  },
+  {
+   "day": -339,
+   "h": 16.01,
+   "who": null,
+   "text": "驗證結果：是馬。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_l5a_miss"
+  },
+  {
+   "day": -339,
+   "h": 16.02,
+   "who": null,
+   "text": "是很努力的長頸鹿。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "kexin",
+   "tag": "y0_l5a_miss"
+  },
+  {
+   "day": -337,
+   "h": 12.32,
+   "who": null,
+   "text": "（群組：經濟系那群）品妤：魏教授今天點名。我說你去洗手間。他說洗手間在三樓。",
+   "iv": null
+  },
+  {
+   "day": -336,
+   "h": 17.5,
+   "who": null,
+   "text": "今晚七點，公館！期中考前最後一次放風。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_gather_grp"
+  },
+  {
+   "day": -336,
+   "h": 17.51,
+   "who": null,
+   "text": "我跟同事換了班，可以去。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_gather_grp"
+  },
+  {
+   "day": -336,
+   "h": 21.67,
+   "who": null,
+   "text": "唐睿聊到期中了。今天他請。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_gather_miss"
+  },
+  {
+   "day": -336,
+   "h": 22.5,
+   "who": "kexin",
+   "text": "你今天沒來。我們玩了一整晚。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e10_ask"
+  },
+  {
+   "day": -336,
+   "h": 22.51,
+   "who": "kexin",
+   "text": "明天去總圖念書吧。期中考快到了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e10_ask",
+   "ask": {
+    "until": -8021,
+    "opts": [
+     {
+      "t": "好。",
+      "set": {
+       "E10_GO": "yes"
+      }
+     },
+     {
+      "t": "明天不行。",
+      "set": {
+       "E10_GO": "no"
+      }
+     }
+    ],
+    "id": "a4"
+   }
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "我在裡面舉筆了。你有看到嗎？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e30_grp",
+   "ask": {
+    "id": "y0_e30",
+    "opts": [
+     {
+      "t": "有。",
+      "say": [
+       {
+        "th": "g:econ_class",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "好。那就算數。"
+       }
+      ]
+     }
+    ]
+   },
+   "ans": 0
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "我今天去辦休學了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": "kexin",
+   "text": "？？？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": "kexin",
+   "text": "今天？快期中考了耶。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "就是因為快期中考了。我還是不想念書。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "我覺得很完蛋。所以就去辦了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": "kexin",
+   "text": "你現在在哪。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "捷運上。要回家。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": "kexin",
+   "text": "你現在回來學校找我。我還有一堂，五點下課。社科院門口。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": null,
+   "text": "……我才剛休學。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -334,
+   "h": 18,
+   "who": "kexin",
+   "text": "休學又不是不能進校門。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_leave"
+  },
+  {
+   "day": -333,
+   "h": 18.03,
+   "who": null,
+   "text": "有。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "player"
+  },
+  {
+   "day": -333,
+   "h": 18.03,
+   "who": null,
+   "text": "好。那就算數。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳"
+  },
+  {
+   "day": -331,
+   "h": 22,
+   "who": "econ_zhengxun",
+   "text": "你搬走以後，宿舍變暗了。因為你把檯燈帶走了。我只是陳述事實。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "dp_y0_xu_lamp_0_0"
+  },
+  {
+   "day": -330,
+   "h": 21.5,
+   "who": "econ_zhengxun",
+   "text": "微積分老師問我，常坐我旁邊的那個人呢。我說他去念更難的東西了。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "dp_y0_xu_seat_0_0"
+  },
+  {
+   "day": -329,
+   "h": 22,
+   "who": "kai",
+   "text": "表更新了",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_1_0"
+  },
+  {
+   "day": -329,
+   "h": 22.02,
+   "who": "kai",
+   "text": "📷（泡麵評鑑表）",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_1_1"
+  },
+  {
+   "day": -323,
+   "h": 21.17,
+   "who": "econ_pinyu",
+   "text": "我高中的筆記還在，掃描放雲端了。你要的話自己拿。不是同情，是效率。",
+   "iv": null,
+   "th": "p:econ_pinyu",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "dp_y0_py_notes_0_0"
+  },
+  {
+   "day": -322,
+   "h": 21,
+   "who": null,
+   "text": "走啦！……喔你在念書。那念完再走！我等！",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "dp_y0_wl_wait_0_0"
+  },
+  {
+   "day": -314,
+   "h": 17.5,
+   "who": "kexin",
+   "text": "今天晚上八點，醉月湖。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e12_ask"
+  },
+  {
+   "day": -314,
+   "h": 17.51,
+   "who": "kexin",
+   "text": "我有一個問題，一定要在湖邊問。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e12_ask"
+  },
+  {
+   "day": -313,
+   "h": 17.5,
+   "who": null,
+   "text": "我的車被認走了。有沒有人懂法律？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_bike_ask",
+   "ask": {
+    "id": "y0_bike",
+    "until": -7494,
+    "opts": [
+     {
+      "t": "（查完再回）",
+      "post": false,
+      "set": {
+       "WL_BIKE_ASK": "look"
+      }
+     },
+     {
+      "t": "（不回）",
+      "post": false,
+      "set": {
+       "WL_BIKE_ASK": "none"
+      }
+     }
+    ]
+   }
+  },
+  {
+   "day": -313,
+   "h": 18,
+   "who": null,
+   "text": "去派出所。留著對話紀錄。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_bike_xun"
+  },
+  {
+   "day": -306,
+   "h": 21,
+   "who": null,
+   "text": "明天晚上七點，保齡球。高中制服記得帶，要抽籤交換。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_e14_ask"
+  },
+  {
+   "day": -301,
+   "h": 22,
+   "who": "kai",
+   "text": "表更新了",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_2_0"
+  },
+  {
+   "day": -301,
+   "h": 22.02,
+   "who": "kai",
+   "text": "📷（泡麵評鑑表）",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_2_1"
+  },
+  {
+   "day": -299,
+   "h": 21,
+   "who": null,
+   "text": "賣車的人找到了。錢拿回一半。另一半當學費。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_bike_after"
+  },
+  {
+   "day": -299,
+   "h": 21,
+   "who": null,
+   "text": "拿回一半很好了啦。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "kexin",
+   "tag": "y0_bike_after"
+  },
+  {
+   "day": -292,
+   "h": 21,
+   "who": "kexin",
+   "text": "明天晚上七點，博雅。我們有小公演。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e18_ask"
+  },
+  {
+   "day": -292,
+   "h": 21,
+   "who": "kexin",
+   "text": "你來的話，我幫你留前面的位子。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e18_ask"
+  },
+  {
+   "day": -290,
+   "h": 12,
+   "who": "econ_tangrui",
+   "text": "🎬（一段影片）",
+   "iv": null,
+   "th": "p:econ_tangrui",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_e18_missed"
+  },
+  {
+   "day": -290,
+   "h": 12,
+   "who": "econ_tangrui",
+   "text": "可昕昨天公演，接了一句很像你會說的話。",
+   "iv": null,
+   "th": "p:econ_tangrui",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_e18_missed"
+  },
+  {
+   "day": -287,
+   "h": 22,
+   "who": "kexin",
+   "text": "我在總圖讀到十點。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e18a_ask"
+  },
+  {
+   "day": -287,
+   "h": 22,
+   "who": "kexin",
+   "text": "豆花店還開著。……我只是餓了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e18a_ask"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": null,
+   "text": "我今天去以前的補習班。等主任走了才進去。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": null,
+   "text": "然後櫃台說，主任交代過我會來。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": "kexin",
+   "text": "哈哈哈哈哈哈",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": "kexin",
+   "text": "……那你要去嗎？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": null,
+   "text": "還不知道。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -277,
+   "h": 21,
+   "who": "kexin",
+   "text": "好。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_cram_msg"
+  },
+  {
+   "day": -273,
+   "h": 22,
+   "who": "kai",
+   "text": "表更新了",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_3_0"
+  },
+  {
+   "day": -273,
+   "h": 22.02,
+   "who": "kai",
+   "text": "📷（泡麵評鑑表）",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "tag": "dp_kai_sheet_3_1"
+  },
+  {
+   "day": -267,
+   "h": 21,
+   "who": null,
+   "text": "12/25 晚上七點，公館火鍋。禮物兩百以內。地址等一下傳。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_e20_ask"
+  },
+  {
+   "day": -265,
+   "h": 17,
+   "who": null,
+   "text": "今晚火鍋！我中午沒吃，留肚子。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e20_day"
+  },
+  {
+   "day": -265,
+   "h": 17,
+   "who": null,
+   "text": "我六點下班直接過去。遲到的自己付湯底。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_e20_day"
+  },
+  {
+   "day": -259,
+   "h": 19,
+   "who": null,
+   "text": "放假才一個禮拜就跨年了！今晚走啦！",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e21a_ask"
+  },
+  {
+   "day": -259,
+   "h": 19,
+   "who": null,
+   "text": "讀到幾點？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "tag": "y0_e21a_ask"
+  },
+  {
+   "day": -259,
+   "h": 19,
+   "who": null,
+   "text": "我們先去總圖讀一下，讀到……我說停為止。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e21a_ask"
+  },
+  {
+   "day": -259,
+   "h": 19,
+   "who": null,
+   "text": "祐廷你在家讀你的。十一點來總圖門口接我們。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e21a_ask"
+  },
+  {
+   "day": -258,
+   "h": 0.08,
+   "who": null,
+   "text": "📷（信義區的人潮）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e21a_missed"
+  },
+  {
+   "day": -258,
+   "h": 0.09,
+   "who": "kexin",
+   "text": "新年快樂。你錯過了一場人潮。……下次你要來。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e21a_missed"
+  },
+  {
+   "day": -256,
+   "h": 21,
+   "who": "kexin",
+   "text": "📷（課程網站的截圖。大一國文的期末作業那一格是紅字。）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay1"
+  },
+  {
+   "day": -256,
+   "h": 21,
+   "who": "kexin",
+   "text": "國文的期末報告。整科就這一份，一百分。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay1"
+  },
+  {
+   "day": -256,
+   "h": 21,
+   "who": "kexin",
+   "text": "我以為是下週五。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay1"
+  },
+  {
+   "day": -256,
+   "h": 21,
+   "who": "kexin",
+   "text": "是上週五。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay1",
+   "ask": {
+    "id": "y0_kx_essay1",
+    "until": -6102,
+    "opts": [
+     {
+      "t": "寄信問葉老師？",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "正在寫。……寫第三版了。第一版太像在哭，第二版太像律師函。"
+       }
+      ]
+     },
+     {
+      "t": "妳先不要慌。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "我沒有慌。我在把截圖放大，看紅字是不是會變黑。"
+       },
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "……好啦。我寫信問葉老師。"
+       }
+      ]
+     },
+     {
+      "t": "要不要我現在過去？",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "你又沒課。……好啦，來。我在社科院一樓。"
+       },
+       {
+        "who": null,
+        "text": "（你過去了。她把信給你看，你改了一個錯字。）"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -253,
+   "h": 21,
+   "who": "kexin",
+   "text": "葉老師回了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay2"
+  },
+  {
+   "day": -253,
+   "h": 21,
+   "who": "kexin",
+   "text": "很客氣。說不能補交，對每個人都一樣。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay2"
+  },
+  {
+   "day": -253,
+   "h": 21,
+   "who": "kexin",
+   "text": "……他說得沒錯。第一頁我有看。我只是記錯日子。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay2"
+  },
+  {
+   "day": -249,
+   "h": 22.5,
+   "who": "kexin",
+   "text": "放假第三週，我已經不知道今天星期幾了",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e24a"
+  },
+  {
+   "day": -248,
+   "h": 22,
+   "who": "kexin",
+   "text": "沒交就是零分。整科零分。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay3"
+  },
+  {
+   "day": -248,
+   "h": 22,
+   "who": "kexin",
+   "text": "這科一定會被當。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay3"
+  },
+  {
+   "day": -248,
+   "h": 22,
+   "who": "kexin",
+   "text": "我不想要成績單上有一個不及格。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay3"
+  },
+  {
+   "day": -248,
+   "h": 22,
+   "who": "kexin",
+   "text": "我在想要不要休學。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kx_essay3",
+   "ask": {
+    "id": "y0_kx_essay3",
+    "until": -5910,
+    "opts": [
+     {
+      "t": "妳想好了再跟我說。",
+      "set": {
+       "KX_THINK_LEAVE": "wait"
+      },
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "嗯。我會。"
+       }
+      ]
+     },
+     {
+      "t": "休學的生活還可以。我可以教妳怎麼睡到十點。",
+      "set": {
+       "KX_THINK_LEAVE": "sleep"
+      },
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "……你是在安慰我還是在炫耀。"
+       },
+       {
+        "th": "p:kexin",
+        "from": "player",
+        "who": null,
+        "text": "都有。"
+       }
+      ]
+     },
+     {
+      "t": "先吃飯。",
+      "set": {
+       "KX_THINK_LEAVE": "eat"
+      },
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "……好。鹽酥雞。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -241,
+   "h": 22.5,
+   "who": "kexin",
+   "text": "如果你是一碗湯，你會是什麼湯？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e24c",
+   "ask": {
+    "id": "y0_e24c",
+    "until": -5742,
+    "opts": [
+     {
+      "t": "玉米濃湯。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "好甜。我是味噌湯。"
+       }
+      ]
+     },
+     {
+      "t": "貢丸湯。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "很台欸。我是味噌湯。"
+       }
+      ]
+     },
+     {
+      "t": "……白開水算湯嗎？",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "不算。……好啦算。我是味噌湯。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "📷（一張表格）各縣市年菜價格比較。台北最貴。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "妳為什麼要做這個？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "我媽叫我去買。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "我家今年三個阿姨、兩個舅舅，還有一個不知道為什麼會來的表叔。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "📷（一張照片：海邊、一台腳踏車）我騎到墾丁了！",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "從哪裡騎？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "枋寮。……好啦，坐火車到枋寮。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "（貼圖：拍手）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_f1"
+  },
+  {
+   "day": -232,
+   "h": 21,
+   "who": null,
+   "text": "明天年夜飯你們家幾個人？我家十二個",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "kexin",
+   "tag": "y0_f1",
+   "ask": {
+    "id": "y0_f1",
+    "until": -5526,
+    "opts": [
+     {
+      "t": "加阿勳的表叔，十三個。",
+      "set": {
+       "Y0_UNCLE": true
+      },
+      "say": [
+       {
+        "th": "g:econ_class",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "……他應該會很困惑。"
+       }
+      ]
+     },
+     {
+      "t": "四個。",
+      "say": [
+       {
+        "th": "g:econ_class",
+        "from": "econ_pinyu",
+        "name": "品妤",
+        "text": "跟我家一樣。"
+       }
+      ]
+     },
+     {
+      "t": "（已讀，不回）",
+      "post": false,
+      "set": {
+       "Y0_F1_SEEN": true
+      },
+      "say": [
+       {
+        "th": "g:econ_class",
+        "from": "kexin",
+        "text": "祐廷已讀不回喔。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -226,
+   "h": 22.5,
+   "who": "kexin",
+   "text": "我媽說我寒假胖了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e24b"
+  },
+  {
+   "day": -220,
+   "h": 23,
+   "who": "kexin",
+   "text": "如果可以重來一次選科系，你會選什麼？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e24n",
+   "ask": {
+    "id": "y0_e24n",
+    "until": -5238,
+    "opts": [
+     {
+      "t": "法律。"
+     },
+     {
+      "t": "我不知道。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "我也不知道。……晚安。"
+       }
+      ]
+     },
+     {
+      "t": "妳呢？",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "我先問的。……算了，晚安。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -215,
+   "h": 22.5,
+   "who": null,
+   "text": "我跟可昕要重考。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "player",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.51,
+   "who": null,
+   "text": "喔。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.52,
+   "who": null,
+   "text": "……那保齡球還打嗎。你欠我一場。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.53,
+   "who": null,
+   "text": "（貼圖：加油）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.54,
+   "who": null,
+   "text": "可昕也休學了？那下學期分組誰要跟我。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.55,
+   "who": null,
+   "text": "妳可以跟唐睿。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "kexin",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.56,
+   "who": null,
+   "text": "（貼圖：沉默）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 22.57,
+   "who": null,
+   "text": "考完要說。我請你們吃飯。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e28_grp"
+  },
+  {
+   "day": -215,
+   "h": 23,
+   "who": "econ_zhengxun",
+   "text": "欸。群組不好問。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e24c_why"
+  },
+  {
+   "day": -215,
+   "h": 23,
+   "who": "econ_zhengxun",
+   "text": "你為什麼要重考？我是認真問。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e24c_why",
+   "ask": {
+    "id": "y0_e24c_why",
+    "until": -5118,
+    "opts": [
+     {
+      "t": "我從小就想念台大法律。第一次社會考壞了，總分差四分。經濟系很好，我只是放不下。",
+      "set": {
+       "E24C_REASON": "honest"
+      },
+      "say": [
+       {
+        "th": "p:econ_zhengxun",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "……差四分喔。那很煩。"
+       },
+       {
+        "th": "p:econ_zhengxun",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "考上要請保齡球。"
+       }
+      ]
+     },
+     {
+      "t": "本來就想念法律。第一次沒考上。",
+      "set": {
+       "E24C_REASON": "short"
+      },
+      "say": [
+       {
+        "th": "p:econ_zhengxun",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "好。懂了。"
+       }
+      ]
+     },
+     {
+      "t": "說來話長。考完跟你說。",
+      "set": {
+       "E24C_REASON": "later"
+      },
+      "say": [
+       {
+        "th": "p:econ_zhengxun",
+        "from": "econ_zhengxun",
+        "name": "阿勳",
+        "text": "好。考完。我記著。"
+       }
+      ]
+     }
+    ]
+   },
+   "ans": 0
+  },
+  {
+   "day": -214,
+   "h": 8.5,
+   "who": null,
+   "text": "我從小就想念台大法律。第一次社會考壞了，總分差四分。經濟系很好，我只是放不下。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "player"
+  },
+  {
+   "day": -214,
+   "h": 8.5,
+   "who": "econ_zhengxun",
+   "text": "……差四分喔。那很煩。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳"
+  },
+  {
+   "day": -214,
+   "h": 8.5,
+   "who": "econ_zhengxun",
+   "text": "考上要請保齡球。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳"
+  },
+  {
+   "day": -207,
+   "h": 21,
+   "who": null,
+   "text": "今天收到一台計算機。很實用。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_t3_miss"
+  },
+  {
+   "day": -207,
+   "h": 21,
+   "who": null,
+   "text": "……全系都在笑。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_t3_miss"
+  },
+  {
+   "day": -207,
+   "h": 22,
+   "who": "econ_tangrui",
+   "text": "她說很實用。",
+   "iv": null,
+   "th": "p:econ_tangrui",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_t3_tr"
+  },
+  {
+   "day": -207,
+   "h": 22,
+   "who": "econ_tangrui",
+   "text": "……這樣算成功嗎。",
+   "iv": null,
+   "th": "p:econ_tangrui",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "y0_t3_tr",
+   "ask": {
+    "id": "y0_t3_tr",
+    "until": -4926,
+    "opts": [
+     {
+      "t": "算。",
+      "say": [
+       {
+        "th": "p:econ_tangrui",
+        "from": "econ_tangrui",
+        "name": "唐睿",
+        "text": "好。"
+       }
+      ]
+     },
+     {
+      "t": "下次送花。",
+      "say": [
+       {
+        "th": "p:econ_tangrui",
+        "from": "econ_tangrui",
+        "name": "唐睿",
+        "text": "花不能按。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -190,
+   "h": 20.67,
+   "who": null,
+   "text": "這學期的分組報告，題目我想好了。組員還沒想好。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "dp_y0_tr_group_0_0"
+  },
+  {
+   "day": -189,
+   "h": 21.5,
+   "who": "econ_tangrui",
+   "text": "（語音）我在練長劇的台詞，對著鏡子。室友問我在跟誰講話。",
+   "iv": null,
+   "th": "p:econ_tangrui",
+   "from": "econ_tangrui",
+   "name": "唐睿",
+   "tag": "dp_y0_tr_voice_0_0"
+  },
+  {
+   "day": -188,
+   "h": 21.67,
+   "who": "econ_pinyu",
+   "text": "今天唐睿請我吃飯，說是謝謝筆記。我說折現。……我們吃了牛肉麵。",
+   "iv": null,
+   "th": "p:econ_pinyu",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "dp_y0_py_beef_0_0"
+  },
+  {
+   "day": -176,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "同一張桌子，我把你的位子擦了。不是因為想你，是有咖啡漬。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_table_0_0"
+  },
+  {
+   "day": -175,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "品妤問我們幾點起床。我說八點。她說那是我的鬧鐘，不是我起床。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_eight_0_0"
+  },
+  {
+   "day": -174,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "在博雅門口遇到經原的老師。他問我還好嗎。我說我在學新的語言。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_prof_0_0"
+  },
+  {
+   "day": -173,
+   "h": 21.17,
+   "who": "kexin",
+   "text": "晚安。明天的桌子，我比你早到的話，你買飲料。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "dp_y0_kx_drink_0_0"
+  },
+  {
+   "day": -168,
+   "h": 21,
+   "who": "kexin",
+   "text": "📷（杜鵑花）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r3_miss"
+  },
+  {
+   "day": -168,
+   "h": 21,
+   "who": "kexin",
+   "text": "椰林大道的杜鵑。今天一個人走了一圈。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r3_miss"
+  },
+  {
+   "day": -167,
+   "h": 21,
+   "who": "kexin",
+   "text": "📷（牆上的倒數：100）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r5_miss"
+  },
+  {
+   "day": -167,
+   "h": 21,
+   "who": "kexin",
+   "text": "倒數一百天。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r5_miss"
+  },
+  {
+   "day": -156,
+   "h": 21,
+   "who": "kexin",
+   "text": "📷（四碗豆花）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r2_miss"
+  },
+  {
+   "day": -156,
+   "h": 21,
+   "who": "kexin",
+   "text": "以後互相出題，錯一題請一碗豆花。帳先記著。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r2_miss"
+  },
+  {
+   "day": -150,
+   "h": 16,
+   "who": "kexin",
+   "text": "模擬考考完了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r4_ask"
+  },
+  {
+   "day": -150,
+   "h": 16,
+   "who": "kexin",
+   "text": "我在總圖外面的台階。……不用特地過來，我只是在曬太陽。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r4_ask"
+  },
+  {
+   "day": -150,
+   "h": 21,
+   "who": "kexin",
+   "text": "今天考爛了。明天再說。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r4_miss"
+  },
+  {
+   "day": -146,
+   "h": 21,
+   "who": null,
+   "text": "4/24 可昕生日。公館豆花店，七點。我那天請假了。重考生也要來，一碗豆花的時間而已。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_e18b_ask"
+  },
+  {
+   "day": -129,
+   "h": 21,
+   "who": "kexin",
+   "text": "📷（河濱的夕陽）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r6_miss"
+  },
+  {
+   "day": -129,
+   "h": 21,
+   "who": "kexin",
+   "text": "讀不下去，自己騎來河濱了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_r6_miss"
+  },
+  {
+   "day": -116,
+   "h": 21,
+   "who": null,
+   "text": "那張便利貼，你還留著嗎？",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_r7_ask"
+  },
+  {
+   "day": -116,
+   "h": 21,
+   "who": null,
+   "text": "📷（臺北的家，檯燈上的便利貼）",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "player",
+   "tag": "y0_r7_ask"
+  },
+  {
+   "day": -116,
+   "h": 21,
+   "who": null,
+   "text": "還在喔。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_r7_ask"
+  },
+  {
+   "day": -116,
+   "h": 21,
+   "who": null,
+   "text": "明天兩點，保齡球館。欠我的那場。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_r7_ask"
+  },
+  {
+   "day": -114,
+   "h": 21,
+   "who": "econ_zhengxun",
+   "text": "明天經原最後一堂。十二點十分下課。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e34_ask"
+  },
+  {
+   "day": -113,
+   "h": 12.25,
+   "who": "econ_zhengxun",
+   "text": "經原上完了。老師最後一句說：選了要付什麼。",
+   "iv": null,
+   "th": "p:econ_zhengxun",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e34_miss"
+  },
+  {
+   "day": -100,
+   "h": 21,
+   "who": "kexin",
+   "text": "衝刺班你報了沒。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_crm_ask"
+  },
+  {
+   "day": -100,
+   "h": 21,
+   "who": null,
+   "text": "報了。兩個。明天七點。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_crm_ask"
+  },
+  {
+   "day": -100,
+   "h": 21,
+   "who": "kexin",
+   "text": "好。這次我付我自己的。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_crm_ask"
+  },
+  {
+   "day": -100,
+   "h": 21,
+   "who": "kexin",
+   "text": "不准幫我付。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_crm_ask"
+  },
+  {
+   "day": -64,
+   "h": 20,
+   "who": "kexin",
+   "text": "你說考完要去海邊。我查好了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e35_after"
+  },
+  {
+   "day": -64,
+   "h": 20,
+   "who": "kexin",
+   "text": "星期六，客運早上八點。西瓜我負責。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e35_after"
+  },
+  {
+   "day": -54,
+   "h": 21,
+   "who": "kexin",
+   "text": "明天公布成績。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_ask"
+  },
+  {
+   "day": -54,
+   "h": 21,
+   "who": "kexin",
+   "text": "你要不要來高雄？我不想一個人查。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_ask",
+   "ask": {
+    "id": "y0_kh_ask",
+    "until": -1265,
+    "opts": [
+     {
+      "t": "好。我搭早上的客運。",
+      "set": {
+       "KH_GO": "bus"
+      }
+     },
+     {
+      "t": "我在家查就好。",
+      "set": {
+       "KH_GO": "home"
+      },
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "好。"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "day": -53,
+   "h": 10,
+   "who": "kexin",
+   "text": "查到了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -53,
+   "h": 10,
+   "who": "kexin",
+   "text": "（截圖：她的成績）",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -53,
+   "h": 10,
+   "who": "kexin",
+   "text": "……你呢。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -53,
+   "h": 10,
+   "who": "kexin",
+   "text": "你騙人。我看得到表。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -53,
+   "h": 22.5,
+   "who": "kexin",
+   "text": "剛剛那樣，對不起。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -53,
+   "h": 22.51,
+   "who": null,
+   "text": "我也是。我不知道要講什麼。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -53,
+   "h": 22.52,
+   "who": "kexin",
+   "text": "政大也是法律。四年以後，我們考同一個考試。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -53,
+   "h": 22.53,
+   "who": "kexin",
+   "text": "而且政大到臺大，捷運不用一個小時。比高雄近多了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -53,
+   "h": 22.54,
+   "who": null,
+   "text": "嗯。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -53,
+   "h": 22.55,
+   "who": "kexin",
+   "text": "早點睡。不要躺在床上難過。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_kh_madeup"
+  },
+  {
+   "day": -34,
+   "h": 10.08,
+   "who": "kexin",
+   "text": "政大法律。跟表上一樣。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e36_ask"
+  },
+  {
+   "day": -34,
+   "h": 10.09,
+   "who": "kexin",
+   "text": "你的也是吧。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e36_ask"
+  },
+  {
+   "day": -34,
+   "h": 10.1,
+   "who": null,
+   "text": "嗯。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "y0_e36_ask"
+  },
+  {
+   "day": -34,
+   "h": 22,
+   "who": null,
+   "text": "祐廷！！看到了！！",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_zhengxun",
+   "name": "阿勳",
+   "tag": "y0_e36_grp"
+  },
+  {
+   "day": -34,
+   "h": 22,
+   "who": null,
+   "text": "0.1 也是分數。恭喜。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_e36_grp"
+  },
+  {
+   "day": -34,
+   "h": 22,
+   "who": null,
+   "text": "走啦！！回來請吃宵夜！！",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "y0_e36_grp"
+  },
+  {
+   "day": -34,
+   "h": 22,
+   "who": null,
+   "text": "可昕也恭喜。",
+   "iv": null,
+   "th": "g:econ_class",
+   "from": "econ_pinyu",
+   "name": "品妤",
+   "tag": "y0_e36_grp"
+  },
+  {
+   "day": -34,
+   "h": 23.5,
+   "who": null,
+   "text": "📷（公館的宵夜攤，六個人和準備收攤的老闆）",
+   "iv": null,
+   "th": "g:econ_friends",
+   "from": "econ_weilun",
+   "name": "韋綸",
+   "tag": "econ_photo_0813"
+  },
+  {
+   "day": -32,
+   "h": 20,
+   "who": null,
+   "text": "迎新宿營 8/22～8/24，三天兩夜，山上的青年活動中心。新生都要參加，車子、住宿、吃的系學會處理。8/22 早上八點半校門集合。",
+   "iv": null,
+   "th": "g:law_new",
+   "from": "law_assoc",
+   "name": "系學會"
+  },
+  {
+   "day": -26,
+   "h": 21,
+   "who": null,
+   "text": "小隊名單｜第七小隊：祐廷、張哲維、吳芯慈、郭沛珊、江明軒、許柏翰、凱文",
+   "iv": null,
+   "th": "g:law_new",
+   "from": "law_assoc",
+   "name": "系學會"
+  },
+  {
+   "day": -25,
+   "h": 13.5,
+   "who": "classmate_peishan",
+   "text": "加了郭沛珊的聯絡方式。",
+   "iv": null
+  },
+  {
+   "day": -24,
+   "h": 22,
+   "who": "kexin",
+   "text": "山上冷嗎",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "camp_kx_823"
+  },
+  {
+   "day": -24,
+   "h": 22,
+   "who": "kexin",
+   "text": "訊號不好就不用回",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -24,
+   "h": 22,
+   "who": "kexin",
+   "text": "明天十二點半到校門對吧，到了跟我說一聲",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -23,
+   "h": 12.5,
+   "who": null,
+   "text": "到了",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player",
+   "tag": "camp_kx_824"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "（小隊輔傳了一張照片：營地門口，七個人，Kevin 拿著翻到背面的名牌。）",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "照片都在相簿了 自己存",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "camp_leader",
+   "name": "小隊輔",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "（群組裡「凱文」變成「Kevin 大二」）",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "改名了 以後叫學長",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "kevin",
+   "name": "Kevin 大二",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "民總考古題我有 開學再說",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "kevin",
+   "name": "Kevin 大二",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "（一張他睡在車上的照片，不知道誰拍的）",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "classmate_mingxuan",
+   "name": "明軒",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "這張誰拍的 哈哈",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "classmate_mingxuan",
+   "name": "明軒",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -23,
+   "h": 21,
+   "who": null,
+   "text": "29 號見",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "zhe",
+   "name": "阿哲",
+   "tag": "camp_squad_photo"
+  },
+  {
+   "day": -19,
+   "h": 21,
+   "who": "kexin",
+   "text": "週六下午兩點，政大校門。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e37_ask"
+  },
+  {
+   "day": -19,
+   "h": 21,
+   "who": "kexin",
+   "text": "我九月要去的地方，想先給你看。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "y0_e37_ask"
+  },
+  {
+   "day": -18,
+   "h": 17.5,
+   "who": null,
+   "text": "我在高鐵上了",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "zhe",
+   "name": "阿哲",
+   "tag": "camp_squad_829"
+  },
+  {
+   "day": -18,
+   "h": 17.51,
+   "who": null,
+   "text": "七點到宿舍",
+   "iv": null,
+   "th": "g:camp_squad_y1",
+   "from": "zhe",
+   "name": "阿哲",
+   "tag": "camp_squad_829"
+  },
+  {
+   "day": -18,
+   "h": 22.67,
+   "who": "kai",
+   "text": "你的冷氣遙控器在我這",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai",
+   "ask": {
+    "id": "scene_p:kai_-18_2267",
+    "opts": [
+     {
+      "t": "你可以直接講啊",
+      "say": [
+       {
+        "from": "kai",
+        "text": "我耳機戴著 懶得拿下來"
+       },
+       {
+        "from": "kai",
+        "text": "幾度"
+       }
+      ]
+     },
+     {
+      "t": "好 開幾度",
+      "say": [
+       {
+        "from": "kai",
+        "text": "27 可以嗎 我怕冷"
+       }
+      ]
+     }
+    ]
+   },
+   "ans": 1
+  },
+  {
+   "day": -18,
+   "h": 22.67,
+   "who": null,
+   "text": "好 開幾度",
+   "iv": null,
+   "th": "p:kai",
+   "from": "player"
+  },
+  {
+   "day": -18,
+   "h": 22.67,
+   "who": "kai",
+   "text": "27 可以嗎 我怕冷",
+   "iv": null,
+   "th": "p:kai",
+   "from": "kai"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "早安。今天的假設題。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "假設你在台大讀的案例，和我在政大讀的是同一個。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "兩邊的老師講出兩個答案。考試的時候，我們要寫哪一個？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "……不用回答。我只是想知道你讀到哪了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "ask": {
+    "id": "scene_p:kexin_-17_1802",
+    "opts": [
+     {
+      "t": "讀到一半。案例比想像的長。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "我也是。讀到一半去泡麵，回來就忘了誰告誰。"
+       },
+       {
+        "from": "kexin",
+        "text": "去上課吧。下課再跟我說你讀到哪了。"
+       }
+      ]
+     },
+     {
+      "t": "寫自己老師的。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "好現實。……但是對的。"
+       },
+       {
+        "from": "kexin",
+        "text": "去上課吧。下課再跟我說你讀到哪了。"
+       }
+      ]
+     },
+     {
+      "t": "讀到一半，在想妳。",
+      "say": [
+       {
+        "from": "kexin",
+        "text": "那就是沒在讀。回去讀，讀完再想。"
+       },
+       {
+        "from": "kexin",
+        "text": "去上課吧。下課再跟我說你讀到哪了。"
+       }
+      ]
+     }
+    ]
+   },
+   "ans": 2
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": null,
+   "text": "讀到一半，在想妳。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "player"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "那就是沒在讀。回去讀，讀完再想。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -17,
+   "h": 18.02,
+   "who": "kexin",
+   "text": "去上課吧。下課再跟我說你讀到哪了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin"
+  },
+  {
+   "day": -17,
+   "h": 21,
+   "who": null,
+   "text": "學弟妹好～我是 Kevin，大二。先講幾件事：開學前先不要買二手書，等學長姐的；民總很重要；有問題就問，先自己查一下也可以。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "pin": true,
+   "tag": "fam_w0"
+  },
+  {
+   "day": -17,
+   "h": 21.01,
+   "who": null,
+   "text": "新的家族學弟妹都進群了嗎？",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "tag": "fam_w0"
+  },
+  {
+   "day": -17,
+   "h": 21.02,
+   "who": null,
+   "text": "欸 祐廷？我當臥底那一隊的？原來你是我們家族的",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "tag": "fam_w0"
+  },
+  {
+   "day": -17,
+   "h": 21.03,
+   "who": null,
+   "text": "所以我宿營騙了自己家的學弟三天 好啦對不起",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "tag": "fam_w0"
+  },
+  {
+   "day": -17,
+   "h": 21.04,
+   "who": null,
+   "text": "考古題茶會那天給你們。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin",
+   "tag": "fam_w0",
+   "ask": {
+    "opts": [
+     {
+      "t": "是我。",
+      "set": {
+       "FAM_GROUP_REPLIED": true
+      },
+      "say": [
+       {
+        "th": "g:family_law",
+        "from": "kevin",
+        "name": "Kevin",
+        "text": "好，收到一個。"
+       }
+      ]
+     },
+     {
+      "t": "（貼圖）",
+      "set": {
+       "FAM_GROUP_REPLIED": true
+      },
+      "say": [
+       {
+        "th": "g:family_law",
+        "from": "kevin",
+        "name": "Kevin",
+        "text": "好，收到一個。"
+       }
+      ]
+     }
+    ],
+    "id": "a15"
+   },
+   "ans": 0
+  },
+  {
+   "day": -16,
+   "h": 18,
+   "who": null,
+   "text": "你被加進「法律系（全班）」。",
+   "iv": null,
+   "th": "g:law_class",
+   "tag": "law_class_join"
+  },
+  {
+   "day": -16,
+   "h": 18,
+   "who": null,
+   "text": "新生茶會：9/2（二）18:30，萬才館一樓大廳。會公布直屬，有點心。",
+   "iv": null,
+   "th": "g:law_class",
+   "from": "law_assoc",
+   "name": "系學會",
+   "tag": "law_class_join"
+  },
+  {
+   "day": -16,
+   "h": 18,
+   "who": null,
+   "text": "不用報名，來就好。",
+   "iv": null,
+   "th": "g:law_class",
+   "from": "law_assoc",
+   "name": "系學會",
+   "tag": "law_class_join"
+  },
+  {
+   "day": -16,
+   "h": 18.01,
+   "who": null,
+   "text": "是我。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "player"
+  },
+  {
+   "day": -16,
+   "h": 18.01,
+   "who": null,
+   "text": "好，收到一個。",
+   "iv": null,
+   "th": "g:family_law",
+   "from": "kevin",
+   "name": "Kevin"
+  },
+  {
+   "day": -16,
+   "h": 18.25,
+   "who": null,
+   "text": "請問要穿系服嗎",
+   "iv": null,
+   "th": "g:law_class",
+   "name": "同學",
+   "tag": "law_class_q"
+  },
+  {
+   "day": -16,
+   "h": 18.26,
+   "who": null,
+   "text": "我們還沒有系服吧",
+   "iv": null,
+   "th": "g:law_class",
+   "name": "同學",
+   "tag": "law_class_q"
+  },
+  {
+   "day": -16,
+   "h": 22.17,
+   "who": "kexin",
+   "text": "明天開學了。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_eve"
+  },
+  {
+   "day": -16,
+   "h": 22.18,
+   "who": "kexin",
+   "text": "第二次的大一欸。",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_eve"
+  },
+  {
+   "day": -16,
+   "h": 22.19,
+   "who": "kexin",
+   "text": "你課表都排好了嗎？",
+   "iv": null,
+   "th": "p:kexin",
+   "from": "kexin",
+   "tag": "kx_eve",
+   "ask": {
+    "opts": [
+     {
+      "t": "排好了，週四有民總。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "好。我週四也是滿堂。"
+       },
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "早點睡，明天不要遲到。"
+       }
+      ]
+     },
+     {
+      "t": "還在等加選。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "我也是，有一堂候補排第十二個。"
+       },
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "應該沒救了。早點睡。"
+       }
+      ]
+     },
+     {
+      "t": "有點緊張。",
+      "say": [
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "我也是。明明是第二次了。"
+       },
+       {
+        "th": "p:kexin",
+        "from": "kexin",
+        "text": "早點睡。"
+       }
+      ]
+     }
+    ],
+    "id": "a16"
+   }
+  }
+ ],
+ "contacts": {
+  "kexin": 0,
+  "classmate_peishan": -25,
+  "kai": -18
+ },
+ "phone": {
+  "groups": {
+   "econ_squad3": {
+    "name": "經濟系第三小隊",
+    "day": -387
+   },
+   "econ_class": {
+    "name": "經濟系 大一（全班）",
+    "day": -379
+   },
+   "lawclub_study": {
+    "name": "法服",
+    "day": -379
+   },
+   "y0_guitar": {
+    "name": "吉他社",
+    "day": -360
+   },
+   "law_new": {
+    "name": "法律系 114 新生（系學會）",
+    "day": -32
+   },
+   "camp_squad_y1": {
+    "name": "第七小隊",
+    "day": -25
+   },
+   "econ_friends": {
+    "name": "走啦",
+    "day": -34
+   },
+   "family_law": {
+    "name": "法律系直屬家族",
+    "day": -18
+   },
+   "law_class": {
+    "name": "法律系（全班）",
+    "day": -16
+   },
+   "law_board": {
+    "name": "法律系新生（自介版）",
+    "day": -16
+   }
+  },
+  "seen": {
+   "p:mom": -9098.97,
+   "g:econ_squad3": -9267,
+   "g:econ_class": -794,
+   "p:kexin": -389.98,
+   "p:kai": -409.33,
+   "p:econ_tangrui": -4514.5,
+   "p:econ_zhengxun": -2699.75,
+   "p:econ_weilun": -8379.33,
+   "p:econ_pinyu": -4490.33,
+   "g:camp_squad_y1": -414.49,
+   "g:law_new": -603,
+   "p:classmate_peishan": -586.5,
+   "g:econ_friends": -792.5,
+   "g:family_law": -365.99,
+   "g:law_class": -366
+  },
+  "q": [
+   {
+    "day": 15,
+    "h": 21,
+    "items": [
+     {
+      "th": "p:zhe",
+      "from": "zhe",
+      "text": "週六中秋烤肉。河濱，下午三點。",
+      "ask": {
+       "opts": [
+        {
+         "t": "去。",
+         "set": {
+          "BBQ_YES": true
+         }
+        },
+        {
+         "t": "這次不行。",
+         "set": {
+          "BBQ_NO": true
+         }
+        }
+       ]
+      }
+     }
+    ],
+    "tag": "bbq_ask"
+   },
+   {
+    "day": 3,
+    "h": 19.5,
+    "items": [
+     {
+      "th": "p:kexin",
+      "from": "kexin",
+      "text": "週末來政大？我當導遊。",
+      "ask": {
+       "opts": [
+        {
+         "t": "好，週六下午過去。",
+         "set": {
+          "KX_TOUR_YES": true
+         },
+         "say": [
+          {
+           "from": "kexin",
+           "text": "好。導遊在校門口等。"
+          }
+         ]
+        },
+        {
+         "t": "這週末不行。",
+         "set": {
+          "KX_TOUR_NO": true
+         },
+         "say": [
+          {
+           "from": "kexin",
+           "text": "好。導遊的位子幫你留著。"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "tag": "kx_tour_ask"
+   },
+   {
+    "day": -11,
+    "h": 20,
+    "items": [
+     {
+      "th": "g:family_law",
+      "from": "kevin",
+      "name": "Kevin",
+      "text": "周老師說的那本，我有舊的。"
+     },
+     {
+      "th": "g:family_law",
+      "from": "kevin",
+      "name": "Kevin",
+      "text": "📷（一本書的封面，邊角捲起來）"
+     },
+     {
+      "th": "g:family_law",
+      "from": "kevin",
+      "name": "Kevin",
+      "text": "要的說，先說先拿。",
+      "ask": {
+       "opts": [
+        {
+         "t": "我要。",
+         "set": {
+          "KEVIN_OLD_BOOK": true
+         },
+         "say": [
+          {
+           "th": "g:family_law",
+           "from": "kevin",
+           "name": "Kevin",
+           "text": "好，下禮拜一放系學會辦公室，寫你名字。"
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ],
+    "tag": "kevin_old_book"
+   },
+   {
+    "day": -7,
+    "h": 22,
+    "items": [
+     {
+      "th": "g:law_class",
+      "from": "classmate_peishan",
+      "name": "沛珊",
+      "text": "請問有人知道民總的指定教科書要買哪一本嗎"
+     },
+     {
+      "th": "g:law_class",
+      "from": "classmate_peishan",
+      "name": "沛珊",
+      "text": "老師說了兩本 我只抄到一本"
+     },
+     {
+      "th": "g:law_class",
+      "from": "zhe",
+      "name": "阿哲",
+      "text": "我有學長的舊版 你要的話我拍給你"
+     },
+     {
+      "th": "g:law_class",
+      "from": "classmate_peishan",
+      "name": "沛珊",
+      "text": "好 謝謝！"
+     }
+    ],
+    "tag": "ps_w2_msg"
+   }
+  ],
+  "n": 16
+ },
+ "outings": [
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.25,
+   "id": "y0_gather",
+   "ev": "ev_y0_gather",
+   "day": -336,
+   "h": 19,
+   "late": 0.25,
+   "place": "公館",
+   "title": "公館 19:00：經濟系的聚會",
+   "travel": "走過去約 15 分鐘",
+   "back": "在公館的路口散了。"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 1.5,
+   "id": "y0_e26",
+   "ev": "ev_y0_e26",
+   "day": -334,
+   "h": 17.666666666666668,
+   "must": true,
+   "late": 0.25,
+   "place": "社科院門口",
+   "title": "社科院門口 17:40",
+   "travel": "回家拿車鑰匙，再開回學校",
+   "back": "回到宿舍。"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "y0_e12",
+   "goto": {
+    "zone": "campus",
+    "x": -34.5,
+    "z": -97.2,
+    "yaw": 3.141592653589793
+   },
+   "early": 0.08333333333333333,
+   "day": -314,
+   "h": 20,
+   "late": 0.25,
+   "place": "醉月湖",
+   "title": "醉月湖 20:00",
+   "travel": "走過去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.3333333333333333,
+   "id": "y0_e14",
+   "ev": "ev_y0_e14",
+   "day": -305,
+   "h": 19,
+   "late": 0.25,
+   "place": "保齡球館",
+   "title": "保齡球館 19:00",
+   "travel": "搭公車約 20 分鐘"
+  },
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "y0_e18",
+   "ev": "ev_y0_e18",
+   "day": -291,
+   "h": 19,
+   "late": 0.25,
+   "place": "博雅教學館",
+   "title": "博雅 19:00：即興劇小公演",
+   "travel": "走過去約 10 分鐘"
+  },
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_e18a",
+   "ev": "ev_y0_e18a",
+   "day": -287,
+   "h": 22,
+   "late": 0.25,
+   "place": "總圖門口",
+   "title": "總圖門口 22:00",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_e22b",
+   "ev": "ev_y0_e22b",
+   "day": -270,
+   "h": 17,
+   "late": 0.25,
+   "place": "公館的咖啡店",
+   "title": "公館 17:00：等可昕下課",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.25,
+   "id": "y0_e20",
+   "ev": "ev_y0_e20",
+   "day": -265,
+   "h": 19,
+   "late": 0.25,
+   "place": "公館",
+   "title": "公館 19:00：聖誕交換禮物（火鍋）",
+   "travel": "走過去約 15 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_e21a",
+   "ev": "ev_y0_e21a",
+   "day": -259,
+   "h": 23,
+   "late": 0.25,
+   "place": "總圖門口",
+   "title": "總圖門口 23:00：跨年",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_e27",
+   "ev": "ev_y0_e27",
+   "day": -215,
+   "h": 19,
+   "must": true,
+   "late": 0.25,
+   "place": "公館的水餃店",
+   "title": "公館 19:00：水餃店",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_e27b",
+   "ev": "ev_y0_e27b",
+   "day": -214,
+   "h": 15,
+   "must": true,
+   "late": 0.25,
+   "place": "以前的補習班",
+   "title": "以前的補習班 15:00",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "rt_play_-207",
+   "ev": "ev_y0_rp",
+   "day": -207,
+   "h": 10,
+   "late": 0.75,
+   "place": "和可昕出門",
+   "title": "和可昕出門 10:00",
+   "travel": "走過去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.25,
+   "id": "y0_e18b",
+   "ev": "ev_y0_e18b",
+   "day": -145,
+   "h": 19,
+   "late": 0.25,
+   "place": "公館豆花店",
+   "title": "公館豆花店 19:00：可昕的生日",
+   "travel": "走過去約 15 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_r7",
+   "ev": "ev_y0_r7",
+   "day": -115,
+   "h": 14,
+   "late": 0.75,
+   "place": "保齡球館",
+   "title": "保齡球館 14:00",
+   "travel": "捷運＋公車 約 30 分鐘"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-99",
+   "ev": "ev_y0_cram_class",
+   "day": -99,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-97",
+   "ev": "ev_y0_cram_class",
+   "day": -97,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-95",
+   "ev": "ev_y0_cram_class",
+   "day": -95,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-92",
+   "ev": "ev_y0_cram_class",
+   "day": -92,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-90",
+   "ev": "ev_y0_cram_class",
+   "day": -90,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-88",
+   "ev": "ev_y0_cram_class",
+   "day": -88,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-85",
+   "ev": "ev_y0_cram_class",
+   "day": -85,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-83",
+   "ev": "ev_y0_cram_class",
+   "day": -83,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-81",
+   "ev": "ev_y0_cram_class",
+   "day": -81,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-78",
+   "ev": "ev_y0_cram_class",
+   "day": -78,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-76",
+   "ev": "ev_y0_cram_class",
+   "day": -76,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-74",
+   "ev": "ev_y0_cram_class",
+   "day": -74,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-71",
+   "ev": "ev_y0_cram_class",
+   "day": -71,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y0_crm_-69",
+   "ev": "ev_y0_cram_class",
+   "day": -69,
+   "h": 19,
+   "late": 0.25,
+   "place": "衝刺班",
+   "title": "衝刺班 19:00～22:00",
+   "travel": "捷運 約 30 分鐘",
+   "no": "這次不去"
+  },
+  {
+   "state": "missed",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "rt_play_-98",
+   "ev": "ev_y0_rp",
+   "day": -98,
+   "h": 10,
+   "late": 0.75,
+   "place": "和可昕出門",
+   "title": "和可昕出門 10:00",
+   "travel": "走過去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "rt_play_-78",
+   "ev": "ev_y0_rp",
+   "day": -78,
+   "h": 10,
+   "late": 0.75,
+   "place": "和可昕出門",
+   "title": "和可昕出門 10:00",
+   "travel": "走過去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.16666666666666666,
+   "id": "rt_play_-71",
+   "ev": "ev_y0_rp",
+   "day": -71,
+   "h": 10,
+   "late": 0.75,
+   "place": "和可昕出門",
+   "title": "和可昕出門 10:00",
+   "travel": "走過去"
+  },
+  {
+   "state": "done",
+   "ask": null,
+   "travelH": 0.5,
+   "id": "y1_camp",
+   "camp": true,
+   "must": true,
+   "ev": null,
+   "day": -25,
+   "h": 8.5,
+   "late": 0.5,
+   "place": "校門",
+   "title": "校門 08:30：迎新宿營（三天兩夜）",
+   "travel": "捷運＋公車 約 30 分鐘"
+  }
+ ],
+ "dateLog": {
+  "_daily": -15
+ },
+ "trips": [],
+ "groupTrips": [],
+ "dateMemory": {},
+ "habits": {
+  "place:dorm:night": {
+   "n": 8,
+   "first": -380,
+   "last": -18,
+   "days": [
+    -380,
+    -379,
+    -373,
+    -359,
+    -334,
+    -314,
+    -311,
+    -18
+   ]
+  },
+  "place:dorm:morning": {
+   "n": 5,
+   "first": -379,
+   "last": -15,
+   "days": [
+    -379,
+    -378,
+    -372,
+    -370,
+    -15
+   ]
+  },
+  "place:boya:morning": {
+   "n": 3,
+   "first": -379,
+   "last": -372,
+   "days": [
+    -379,
+    -378,
+    -372
+   ]
+  },
+  "seat:boya:102": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "seat:boya:101": {
+   "n": 3,
+   "first": -379,
+   "last": -372,
+   "days": [
+    -379,
+    -378,
+    -372
+   ]
+  },
+  "place:campus:afternoon": {
+   "n": 2,
+   "first": -379,
+   "last": -370,
+   "days": [
+    -379,
+    -370
+   ]
+  },
+  "place:wancai:afternoon": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "place:wenzhou:evening": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "place:wz_print:evening": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "seat:wenzhou:@24,9": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "place:cafe:evening": {
+   "n": 3,
+   "first": -379,
+   "last": -359,
+   "days": [
+    -379,
+    -370,
+    -359
+   ]
+  },
+  "place:wenzhou:night": {
+   "n": 2,
+   "first": -379,
+   "last": -359,
+   "days": [
+    -379,
+    -359
+   ]
+  },
+  "place:gongguan:night": {
+   "n": 2,
+   "first": -379,
+   "last": -359,
+   "days": [
+    -379,
+    -359
+   ]
+  },
+  "place:bookstore:night": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "place:campus:night": {
+   "n": 4,
+   "first": -379,
+   "last": -18,
+   "days": [
+    -379,
+    -373,
+    -314,
+    -18
+   ]
+  },
+  "seat:campus:@-25,13": {
+   "n": 1,
+   "first": -379,
+   "last": -379,
+   "days": [
+    -379
+   ]
+  },
+  "seat:boya:study": {
+   "n": 1,
+   "first": -378,
+   "last": -378,
+   "days": [
+    -378
+   ]
+  },
+  "table:boya:d5": {
+   "n": 1,
+   "first": -378,
+   "last": -378,
+   "days": [
+    -378
+   ]
+  },
+  "place:dorm:noon": {
+   "n": 2,
+   "first": -378,
+   "last": -372,
+   "days": [
+    -378,
+    -372
+   ]
+  },
+  "place:dorm:evening": {
+   "n": 51,
+   "first": -377,
+   "last": -16,
+   "days": [
+    -377,
+    -376,
+    -375,
+    -374,
+    -373,
+    -371,
+    -370,
+    -369,
+    -368,
+    -367,
+    -366,
+    -365,
+    -364,
+    -363,
+    -362,
+    -361,
+    -360,
+    -359,
+    -358,
+    -357,
+    -356,
+    -355,
+    -354,
+    -353,
+    -352,
+    -351,
+    -350,
+    -349,
+    -348,
+    -347,
+    -346,
+    -345,
+    -344,
+    -343,
+    -342,
+    -341,
+    -340,
+    -339,
+    -338,
+    -337,
+    -336,
+    -335,
+    -334,
+    -333,
+    -332,
+    -313,
+    -312,
+    -311,
+    -310,
+    -17,
+    -16
+   ]
+  },
+  "place:dorm_hall:evening": {
+   "n": 3,
+   "first": -377,
+   "last": -357,
+   "days": [
+    -377,
+    -365,
+    -357
+   ]
+  },
+  "place:library_hall:evening": {
+   "n": 1,
+   "first": -373,
+   "last": -373,
+   "days": [
+    -373
+   ]
+  },
+  "seat:library_hall:@-8,2": {
+   "n": 1,
+   "first": -373,
+   "last": -373,
+   "days": [
+    -373
+   ]
+  },
+  "seat:library_hall:with:econ_zhengxun": {
+   "n": 1,
+   "first": -373,
+   "last": -373,
+   "days": [
+    -373
+   ]
+  },
+  "place:library_hall:with:econ_zhengxun": {
+   "n": 1,
+   "first": -373,
+   "last": -373,
+   "days": [
+    -373
+   ]
+  },
+  "place:lane118:night": {
+   "n": 1,
+   "first": -373,
+   "last": -373,
+   "days": [
+    -373
+   ]
+  },
+  "place:campus:noon": {
+   "n": 1,
+   "first": -372,
+   "last": -372,
+   "days": [
+    -372
+   ]
+  },
+  "place:cafe:noon": {
+   "n": 1,
+   "first": -372,
+   "last": -372,
+   "days": [
+    -372
+   ]
+  },
+  "place:wenzhou:noon": {
+   "n": 1,
+   "first": -372,
+   "last": -372,
+   "days": [
+    -372
+   ]
+  },
+  "place:gongtong:morning": {
+   "n": 1,
+   "first": -370,
+   "last": -370,
+   "days": [
+    -370
+   ]
+  },
+  "seat:gongtong:102": {
+   "n": 1,
+   "first": -370,
+   "last": -370,
+   "days": [
+    -370
+   ]
+  },
+  "place:soclib:evening": {
+   "n": 1,
+   "first": -370,
+   "last": -370,
+   "days": [
+    -370
+   ]
+  },
+  "place:campus:evening": {
+   "n": 3,
+   "first": -370,
+   "last": -310,
+   "days": [
+    -370,
+    -359,
+    -310
+   ]
+  },
+  "place:wancai:evening": {
+   "n": 1,
+   "first": -359,
+   "last": -359,
+   "days": [
+    -359
+   ]
+  },
+  "place:wz_teahouse:night": {
+   "n": 1,
+   "first": -359,
+   "last": -359,
+   "days": [
+    -359
+   ]
+  },
+  "seat:wz_teahouse:@-1,2": {
+   "n": 1,
+   "first": -359,
+   "last": -359,
+   "days": [
+    -359
+   ]
+  },
+  "place:cvs:night": {
+   "n": 1,
+   "first": -359,
+   "last": -359,
+   "days": [
+    -359
+   ]
+  },
+  "place:gongguan:evening": {
+   "n": 1,
+   "first": -311,
+   "last": -311,
+   "days": [
+    -311
+   ]
+  },
+  "retake:study": {
+   "n": 130,
+   "first": -212,
+   "last": -68,
+   "days": [
+    -142,
+    -141,
+    -140,
+    -139,
+    -138,
+    -137,
+    -136,
+    -135,
+    -134,
+    -133,
+    -132,
+    -131,
+    -130,
+    -129,
+    -128,
+    -127,
+    -126,
+    -125,
+    -124,
+    -123,
+    -122,
+    -121,
+    -120,
+    -119,
+    -118,
+    -117,
+    -116,
+    -115,
+    -114,
+    -113,
+    -112,
+    -111,
+    -110,
+    -109,
+    -108,
+    -107,
+    -106,
+    -105,
+    -104,
+    -103,
+    -102,
+    -101,
+    -100,
+    -99,
+    -96,
+    -95,
+    -94,
+    -93,
+    -92,
+    -90,
+    -89,
+    -88,
+    -85,
+    -84,
+    -83,
+    -81,
+    -77,
+    -76,
+    -69,
+    -68
+   ]
+  },
+  "place:campus:morning": {
+   "n": 2,
+   "first": -207,
+   "last": -79,
+   "days": [
+    -207,
+    -79
+   ]
+  },
+  "place:gongguan:morning": {
+   "n": 1,
+   "first": -207,
+   "last": -207,
+   "days": [
+    -207
+   ]
+  },
+  "retake:play": {
+   "n": 3,
+   "first": -207,
+   "last": -71,
+   "days": [
+    -207,
+    -78,
+    -71
+   ]
+  },
+  "place:dorm:afternoon": {
+   "n": 1,
+   "first": -18,
+   "last": -18,
+   "days": [
+    -18
+   ]
+  },
+  "place:dorm_hall:night": {
+   "n": 1,
+   "first": -18,
+   "last": -18,
+   "days": [
+    -18
+   ]
+  },
+  "place:cafe:night": {
+   "n": 1,
+   "first": -18,
+   "last": -18,
+   "days": [
+    -18
+   ]
+  },
+  "place:classroom:morning": {
+   "n": 1,
+   "first": -15,
+   "last": -15,
+   "days": [
+    -15
+   ]
+  },
+  "seat:classroom:@-1,0": {
+   "n": 1,
+   "first": -15,
+   "last": -15,
+   "days": [
+    -15
+   ]
+  }
+ },
+ "daily": {
+  "lateNight": -379,
+  "park": {
+   "treeUsed": []
+  },
+  "wzs": {
+   "printUsed": [
+    "你印了一份{科目}的整理。紙還是熱的。"
+   ],
+   "printWk": "Y0S1:1"
+  },
+  "enc": {},
+  "encMet": {
+   "day": -311,
+   "who": []
+  },
+  "encLog": [],
+  "encRev": {}
+ },
+ "home": {
+  "at": false,
+  "used": {
+   "arrive": [
+    0,
+    1,
+    null
+   ],
+   "morning": [
+    0,
+    1,
+    2,
+    null,
+    0,
+    1
+   ]
+  },
+  "ate": {},
+  "base": false,
+  "day": -23,
+  "wakeAsk": null,
+  "winter": false
+ },
+ "slots": {
+  "day": -15,
+  "used": {
+   "am": 0,
+   "pm": 0,
+   "ev": 0
+  }
+ },
+ "termend": {
+  "think": {},
+  "contact": {
+   "Y0S1": {
+    "kexin": {
+     "pts": 12,
+     "k": {
+      "together": -278,
+      "talk": -314
+     },
+     "last": -278
+    },
+    "econ_zhengxun": {
+     "pts": 12,
+     "k": {
+      "talk": -310,
+      "meet": -373,
+      "together": -305
+     },
+     "last": -305
+    },
+    "econ_pinyu": {
+     "pts": 2,
+     "k": {
+      "together": -305
+     },
+     "last": -305
+    }
+   },
+   "Y0S2": {
+    "kexin": {
+     "pts": 9,
+     "k": {
+      "together": -115,
+      "talk": -115
+     },
+     "last": -115
+    },
+    "econ_pinyu": {
+     "pts": 2,
+     "k": {
+      "together": -145
+     },
+     "last": -145
+    },
+    "econ_zhengxun": {
+     "pts": 2,
+     "k": {
+      "together": -115
+     },
+     "last": -115
+    }
+   },
+   "Y1S1": {
+    "zhe": {
+     "pts": 2,
+     "k": {
+      "together": -15
+     },
+     "last": -15
+    }
+   }
+  }
+ },
+ "invSeq": 1,
+ "vac": {
+  "reg": {},
+  "seen": {},
+  "log": []
+ },
+ "trip": null,
+ "places": {
+  "free": {
+   "D04": 1,
+   "D10": 1
+  },
+  "soloSaid": {},
+  "photos": [
+   {
+    "spot": "D04",
+    "day": -359,
+    "h": 22.59
+   },
+   {
+    "spot": "D10",
+    "day": -311,
+    "h": 19.48
+   }
+  ]
+ },
+ "msgChat": {
+  "sent": {},
+  "wk": {},
+  "rot": {},
+  "says": {},
+  "help": {},
+  "thx": {},
+  "bday": {}
+ }
+}
