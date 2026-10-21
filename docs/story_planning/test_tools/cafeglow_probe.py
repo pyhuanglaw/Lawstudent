@@ -12,10 +12,10 @@ def say(*a): print(' '.join(str(x) for x in a), flush=True)
 
 CAFE = """(()=>{ const z=GAME.E.zone; if(!z||!z.group) return null; const cafe=z.group.children.find(o=>{ const f=o.userData&&o.userData.footprint; return f&&f.w===14&&f.d===13&&Math.abs(o.position.x-55.4)<0.05; }); if(!cafe) return null;
   const eff=o=>{ for(let p=o;p;p=p.parent) if(!p.visible) return false; return true; };
-  const sp=cafe.children.filter(o=>o.isSprite), vis=sp.filter(o=>eff(o)&&(o.material?o.material.opacity:1)>0.02);
+  const all=cafe.children.filter(o=>o.isSprite), sp=all.filter(o=>!o.userData.formalGlow), vis=sp.filter(o=>eff(o)&&(o.material?o.material.opacity:1)>0.02), fv=all.filter(o=>o.userData.formalGlow&&eff(o)&&(o.material?o.material.opacity:1)>0.02);   /* 套件的光暈＝不是 formalGlow 的（正式外觀自己的光暈另外數，同 tests/cafe_kit_glow_unit.js）*/
   const kitMesh=cafe.children.filter(o=>o.isMesh&&eff(o)&&!o.userData.formalGlow).length;
   const c=new THREE.Box3().setFromObject(cafe).getCenter(new THREE.Vector3());
-  return {formal:!!cafe.userData.formal, sprites:sp.length, visible:vis.length, vis:vis.map(o=>({p:o.getWorldPosition(new THREE.Vector3()).toArray().map(v=>+v.toFixed(1)), op:+(o.material?o.material.opacity:1).toFixed(2), dayO:o.userData.dayO, nightO:o.userData.nightO})),
+  return {formal:!!cafe.userData.formal, sprites:sp.length, visible:vis.length, formalSprites:all.length-sp.length, formalVisible:fv.length, vis:vis.map(o=>({p:o.getWorldPosition(new THREE.Vector3()).toArray().map(v=>+v.toFixed(1)), op:+(o.material?o.material.opacity:1).toFixed(2), dayO:o.userData.dayO, nightO:o.userData.nightO})),
     kitMeshVisible:kitMesh, pos:[+cafe.position.x.toFixed(2),+cafe.position.z.toFixed(2)], rotY:+cafe.rotation.y.toFixed(3), c:c.toArray().map(v=>+v.toFixed(2)), h:+(+GAME.G.hour).toFixed(2)}; })()"""
 
 

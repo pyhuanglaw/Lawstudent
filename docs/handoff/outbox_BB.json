@@ -911,6 +911,38 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "① PASS（78f4c813）：按「去。」BBQ_YES 記到；收起手機 5.1 秒後「排進行程：10/4（六） 15:00　中秋烤肉。時間到會跳出「出發」…」5.2 秒、上方、沒擋；P3：手機開著時不出現（遊戲暫停）"
+  },
+  {
+   "task": "UX-KAI-TAPE-CAM-1021",
+   "branch": "claude/story-planning",
+   "sha": "6b4b86bd",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/tapecam_probe.py",
+    "docs/story_planning/test_shots/tapecam_1021/"
+   ],
+   "state": "已測試",
+   "next": "等 LAWWW 修讀檔後第一次進門（C_L、C_P）再重跑 SCEN=C_L,C_P",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "走回房間（橫／直）、待在房間＝PASS：1.8 秒後「法律系免簽」整段在畫面正中（橫 376×24、直 342×22 px）、沒被蓋、開場沒立繪、演完是寫字那段；讀檔後第一次進門（203 模型還沒載過）＝FAIL：開場時模型沒載到→talk 鏡頭＋地上顯示「國界」、旁白說「法律系免簽」；演完 18 秒以後地上才變對"
+  },
+  {
+   "task": "BUG-CAFE-KIT-GLOW-1021",
+   "branch": "claude/story-planning",
+   "sha": "7b841416",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/cafeglow_probe.py",
+    "docs/story_planning/test_shots/cafeglow_1021/"
+   ],
+   "state": "已測試",
+   "next": "無（畫面 READY_FOR_ART_REVIEW，美術由使用者判定）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "FIXED（825e8a2b）：修正前（只換回那一行）13:00／17:50／20:30 套件 7 個光暈都看得到（白天亮度 0.55）；修正後 0；正式外觀 14 個光暈照常；對照圖 test_shots/cafeglow_1021/"
   }
  ],
  "items": [
