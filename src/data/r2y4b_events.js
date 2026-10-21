@@ -148,7 +148,7 @@ const R2Y4B_EVENTS=(function(){
       {speaker:null,text:'（開了一個多小時，轉錯三次彎。路的盡頭是一片田，一間沒有招牌的雜貨店，門口一台舊的投幣販賣機。）'},
       {speaker:'kexin',text:'這間店沒有招牌欸。'},{speaker:'kexin',text:'……我們到底在哪。'},
       {choice:[{text:'「買兩罐汽水。」',goto:'l1'},{text:'「下次再來？」',goto:'l2'},{text:'（坐在店門口的長椅）',goto:'l3'}]},
-      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',text:'……十塊。我要記在行程表上。'},{goto:'lb'},
+      {label:'l1'},{speaker:null,text:'（販賣機吃了你的硬幣。）'},{speaker:'kexin',text:'……十塊。回去再記。'},{goto:'lb'},   /* AA_350 R0：大四版開場說「沒有行程表」，這一拍不再說記在行程表上 */
       {label:'l2'},{speaker:'kexin',text:'你記得路嗎？我完全不知道我們在哪。'},{goto:'lb'},
       {label:'l3'},{speaker:null,text:'（田裡的風吹過來。她拍了一張照片，照片裡只有路。）'},
       {label:'lb'},{goto:'back'},

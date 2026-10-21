@@ -12398,6 +12398,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "bc7c64e3 合併；holiday_ff_unit、holiday_presence_unit ALL PASS"
+  },
+  {
+   "id": "DL-AA-cae5cc76",
+   "date": "2026-10-21",
+   "from": "AA-C",
+   "account": "C",
+   "branch": "claude/magical-albattani-bk7b4n",
+   "sha": "cae5cc76",
+   "what": "AA_350 第 7 節（R：翹課旗標 7 題＋N3＋S.TELL）、第 8 節（S：回老家 8 題）補答",
+   "task": "AA350-ANSWERS-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "R0、R0b、R6＝10dc79b1；R2、R5、R7、S1～S8 子代理中；R1＝EVPKG-AA227-228-KNOW"
+  },
+  {
+   "id": "DL-LAWWW2-13707c1f",
+   "date": "2026-10-21",
+   "from": "LAWWW2-C",
+   "account": "C",
+   "branch": "claude/focused-cray-c9uwvw",
+   "sha": "13707c1f",
+   "what": "ART-US2-FIX-1018 美術那一半：C 棟 208（BB_217 §7 四點）us_shared.glb＋US_SHARED_LAYOUT patch",
+   "task": "ART-US2-FIX-1018",
+   "msg": "ACTIONED",
+   "integration": "已整合待測試",
+   "note": "LAWWW-C 13:2x 整合"
   }
  ],
  "ignored": [
