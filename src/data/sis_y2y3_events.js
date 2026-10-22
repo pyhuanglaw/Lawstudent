@@ -5,6 +5,7 @@
    2-4 她的生日 6/2（2026、2027）：ev_sis_bday_y1／ev_sis_bday_y2（當天晚上在她讀書的地方找她說話）、ev_sis_bday_date_y1／y2（交往中：前一天約、法圖旁邊那家）
    2-5 ev_sis_interview（大三上 10/15 私訊 → 10/16 09:00 法扶）　2-6 明年夏天（11/1～11/9 第一次找她說話時接在前面演；都沒遇到 11/11 私訊 → ev_sis_us_told_steps 11/12 12:20 總圖門口的台階）
    2-7 ev_sis_us_result（大三下 3/15 21:30 她打電話來）
+   3-2 ev_sis_predepart（臺灣路線，2028-07-28 21:00 私訊 → 7/29 15:00 公館買行李箱的鎖；AA_379 3-2，企劃線 d037c668）
    每一場都分「一般」「交往中」；沒有熟悉（FAMILIAR）以上就不演（2-3、2-5、2-7 是朋友以上），不加門檻、不鎖線；錯過都不扣關係。
    測試：node tests/aa379_sis_y2y3_unit.js */
 'use strict';
@@ -23,7 +24,10 @@ const SISY23_LINES={
   ivAsk:['明天早上九點，我要去訪談一位法扶的律師。','需要一個人幫我做筆記。你打字比我快。'], ivYes:'好。', ivNoT:'明天早上不行。', ivNo:'好。我錄音。',
   ivMissed:'訪談完了。錄音有雜音，我自己聽了兩遍。',
   /* 2-6 明年夏天：11/1～11/9 都沒遇到＝11/11（四）21:00 私訊 */
-  usAsk:'明天中午，總圖門口的台階。' };
+  usAsk:'明天中午，總圖門口的台階。',
+  /* 3-2 出國前最後一個週六（2028-07-29；AA_379 3-2，企劃線 d037c668）：7/28（五）21:00 私訊 */
+  preAsk:['明天下午有空嗎。','我要去買行李箱的鎖。……順便走一走。'], preYes:'好。', preNoT:'明天下午不行。', preNo:'好。我自己去。',
+  preMissed:['📷（一個普通的行李箱鎖）','買好了。'] };
 const SISY23_EVENTS=(function(){
   const L=SISY23_LINES, ID='heroine_05';
   const dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+ID]===true||!!(R[ID]&&R[ID].status==='dating'); };
@@ -126,6 +130,21 @@ const SISY23_EVENTS=(function(){
     { id:'ev_sis_us_told_steps', title:'明年夏天', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
       dialogue:[ {scene:'總圖門口的台階'} ].concat(US,[{set:{SIS_US_TOLD:'steps'}}]) },
     /* ---------- 2-7 3/15（三）21:30 她打電話來（朋友以上；臺灣、美國路線，日本路線 3/25 才出發）---------- */
+    /* 3-2 出國前最後一個週六：7/29（六）15:00 公館（AA_379 3-2）；結尾照 7/26 群組那則有沒有按「我送妳。我有車。」（SIS_RIDE_ASK）*/
+    { id:'ev_sis_predepart', title:'出國前最後一個週六', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+      dialogue:[ {scene:'公館・騎樓',bg:'gongguan'},
+        N('（騎樓下。她挑鎖挑了很久，最後買了最普通的那一個。）'),
+        SIS('那邊沒有騎樓。下雨要自己撐傘。'), SIS('……我傘帶了兩把。一把會忘在某個地方。'),
+        {choice:[{text:'「四個多月很快。」',goto:'pa'},{text:'「會想回來嗎？」',goto:'pb'}]},
+        {label:'pa'}, SIS('嗯。……計畫本排到十二月了，排完就覺得很快。'), {goto:'pc'},
+        {label:'pb'}, SIS('會想 Café 的熱水。……那邊的飲水機要按很久。'),
+        {label:'pc'},
+        {if:dt,speaker:ID,text:'四個多月。……視訊我排好了，每個禮拜一次。'}, {if:dt,speaker:ID,text:'時差你不要算，我來算。'},   /* 交往中（臺灣路線，2027-11-18 以後才在一起的）*/
+        {if:{custom:G=>!!G.flags&&G.flags.SIS_RIDE_ASK==='yes'},goto:'ride'},
+        SIS('群組那則，是寫給大家的。'), N('（她看了你一眼，沒有再說。）'), {goto:'pe'},
+        {label:'ride'}, SIS('你說要載我。……早上八點，我家樓下。不要遲到。'),
+        {label:'pe'}, {set:{SIS_PREDEPART:'went'}} ],
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'pre'); } },
     { id:'ev_sis_us_result', title:'結果', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
       dialogue:[ {scene:'電話'},
         SIS('……上了。'),

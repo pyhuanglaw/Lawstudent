@@ -1,9 +1,9 @@
 // AA_378 第 1 節學姊 S1、S2（企劃線 f2de8d1c；任務 AA378-Y4S1-FIX-1021；使用者 10-21 22:5x「學姊才是真正的女主角」）：她在美國那半年（臺灣、日本路線）——不需要瀏覽器。
 //   1  逐字對稿：「到了。」、T1 三則、X0～X5 的照片和那一句、T3 用完的旁白、「你去吃早餐。」都和稿一字不差
-//   2  T1（第 4 階以下）整學期：8/3 07:00「到了。」；週一 09:00（11/5 起 10:00）兩週一則：花生醬、圖書館、（9/4 沒有：楓樹 9/25 以前不出、X0 還沒到）、X0、楓樹、X1～X5；沒有任何一則重複
-//   3  T2（第 4～5 階）整學期：「到了。」、T2 四則、X0（10/2：X0 四週內，AA 23:11）、X1～X5；沒有重複
+//   2  T1（第 4 階以下）整學期：（「到了。」不另外傳，AA_378 S1 更正 5cd35678）週一 09:00（11/5 起 10:00）兩週一則：花生醬、圖書館、（9/4 沒有：楓樹 9/25 以前不出、X0 還沒到）、X0、楓樹、X1～X5；沒有任何一則重複
+//   3  T2（第 4～5 階）整學期：T2 四則、X0（10/2：X0 四週內，AA 23:11）、X1～X5；沒有重複
 //   4  T3（第 5 階以上）：每週臺灣週日 10:00 視訊（「和學姊視訊（她那邊週六晚上）」），不在週一（不撞強制執行法）；三組各一次，第四次起只有旁白
-//   5  日本路線（8/3 人還在日本）：「到了。」在當地 08:00（臺灣 07:00）；美國路線沒有
+//   5  日本路線（8/3 人還在日本）：也不另外傳「到了。」；美國路線沒有
 //   6  舊存檔（AA_378 以前，T1 已經傳了「到了」「花生醬」i1＝2）：下一則是「圖書館」，不跳過；讀檔晚兩天以上不補「到了」
 //   7  S3：10/25 推甄前的便條只給 6 月就選了路的（10/16 才選的不傳）；收過那一張的，2/3 考場門口「（便條只有兩個字：「同上。」）」「……同上。」「對。」、照片版「📷（一張手寫的便條：同上。）」選項「同上。」
 //   8  S4：期末飯（termend3d.js dinnerDay）不排在那天晚上已經有出遊的日子（12/23 20:30 接學姊的飛機）
@@ -40,23 +40,24 @@ await sec(1,()=>{ check('1. 讀得到稿（企劃線 8f138c5b 的 AA_378）',!!d
   check('1. T3 用完的旁白和稿一樣、事件裡有那一句',!!narr&&narr===S.SA_V_NARR&&txt.includes(narr),narr);
   const bk=(doc.match(/都改「(好，我去睡了。你去吃早餐。)」/)||[])[1];
   check('1. 「好，我去睡了。你去上課。」兩句都改「好，我去睡了。你去吃早餐。」',!!bk&&txt.filter(t=>t===bk).length===2&&!txt.includes('好，我去睡了。你去上課。'),JSON.stringify(txt.filter(t=>/睡了/.test(t))));
-  check('1. 「到了。」拿出每週那一套（SA_T1 沒有「到了。」）、8/3 07:00',!!S.SA_ARRIVE&&S.SA_ARRIVE.day==='2028-08-03'&&S.SA_ARRIVE.h===7&&JSON.stringify(S.SA_ARRIVE.L)===JSON.stringify(['（照片：機場的行李轉盤）','到了。'])&&!(S.SA_T1||[]).some(x=>x.includes('到了。'))); });
+  let fix=''; try{ fix=cp.execSync('git show 5cd35678:"docs/story_planning/AA_378_法律系大四上_學姊在美國那半年與作息_修正稿.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ fix=''; }
+  check('1. 「到了。」拿出每週那一套、不另外傳（AA_378 S1 更正 5cd35678：8/3 09:00 家族群組已經有 US0）',/「到了。」拿出每週那一套，\*\*不另外傳\*\*/.test(fix)&&!S.SA_ARRIVE&&!(S.SA_T1||[]).some(x=>x.includes('到了。'))); });
 
 /* 2 T1 整學期 */
 await sec(2,()=>{ fresh('2028-08-02',20,'TW'); H.FAMILIAR('heroine_05'); walk(D('2028-08-03'),D('2028-12-20'));
   const L=seq(), first=L.map(x=>x.L[x.L.length-1]);
-  const want=['到了。','我買了一罐太大的花生醬。','這邊的圖書館開到半夜兩點。','找到臺灣的烏龍茶了。很貴。我還是買了。','九月底，葉子先紅了一棵。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
-  check('2. T1：到了、花生醬、圖書館、X0、楓樹、X1～X5（AA_378 S1 那一列），一則都沒有重複',JSON.stringify(first)===JSON.stringify(want)&&new Set(th().filter(m=>WEEKLY.test(m.tag||'')).map(m=>m.text)).size===th().filter(m=>WEEKLY.test(m.tag||'')).length,JSON.stringify(first));
+  const want=['我買了一罐太大的花生醬。','這邊的圖書館開到半夜兩點。','找到臺灣的烏龍茶了。很貴。我還是買了。','九月底，葉子先紅了一棵。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
+  check('2. T1：花生醬、圖書館、X0、楓樹、X1～X5（AA_378 S1 那一列），一則都沒有重複',JSON.stringify(first)===JSON.stringify(want)&&new Set(th().filter(m=>WEEKLY.test(m.tag||'')).map(m=>m.text)).size===th().filter(m=>WEEKLY.test(m.tag||'')).length,JSON.stringify(first));
   const dk=L.map(x=>CALENDAR.dateOf(x.day).key+' '+x.h);
-  check('2. T1 的日子：8/3 07:00；之後週一 09:00 兩週一則（9/4 那一格沒有）；11/5 起 10:00',JSON.stringify(dk)===JSON.stringify(['2028-08-03 7','2028-08-07 9','2028-08-21 9','2028-09-18 9','2028-10-02 9','2028-10-16 9','2028-10-30 9','2028-11-13 10','2028-11-27 10','2028-12-11 10']),JSON.stringify(dk));
+  check('2. T1 的日子：週一 09:00 兩週一則（9/4 那一格沒有）；11/5 起 10:00（8/3 不另外傳「到了。」）',JSON.stringify(dk)===JSON.stringify(['2028-08-07 9','2028-08-21 9','2028-09-18 9','2028-10-02 9','2028-10-16 9','2028-10-30 9','2028-11-13 10','2028-11-27 10','2028-12-11 10']),JSON.stringify(dk));
   const maple=L.find(x=>x.L.includes('九月底，葉子先紅了一棵。'));
   check('2. 楓樹那則 9/25 以後',!!maple&&maple.day>=D('2028-09-25')); });
 
 /* 3 T2 整學期 */
 await sec(3,()=>{ fresh('2028-08-02',20,'TW'); H.rel('heroine_05',60,45,40); walk(D('2028-08-03'),D('2028-12-20'));
   const L=seq(), last=L.map(x=>x.L[x.L.length-1]);
-  const want=['到了。','你大四上的課排得怎樣？','你最近有在開車嗎？','你研究所的事，決定了嗎？不用現在回答。','……你那邊呢？','找到臺灣的烏龍茶了。很貴。我還是買了。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
-  check('3. T2：到了、T2 四則、X0（10/2，四週內）、X1～X5；「今天第一次在這邊開車」只有一次',JSON.stringify(last)===JSON.stringify(want)&&th().filter(m=>/今天第一次在這邊開車/.test(m.text)).length===1&&new Set(th().filter(m=>WEEKLY.test(m.tag||'')).map(m=>m.text)).size===th().filter(m=>WEEKLY.test(m.tag||'')).length,JSON.stringify(last)); });
+  const want=['你大四上的課排得怎樣？','你最近有在開車嗎？','你研究所的事，決定了嗎？不用現在回答。','……你那邊呢？','找到臺灣的烏龍茶了。很貴。我還是買了。','我在吃三明治。牠在等。……我沒有分。','室友刻的。她說刻的是我。……不像。','冬令時間開始了。五點就天黑。','感恩節。同學的媽媽聽說我是臺灣來的，多煮了一碗飯。','最後一格寫的是回臺灣。'];
+  check('3. T2：T2 四則、X0（10/2，四週內）、X1～X5；「今天第一次在這邊開車」只有一次',JSON.stringify(last)===JSON.stringify(want)&&th().filter(m=>/今天第一次在這邊開車/.test(m.text)).length===1&&new Set(th().filter(m=>WEEKLY.test(m.tag||'')).map(m=>m.text)).size===th().filter(m=>WEEKLY.test(m.tag||'')).length,JSON.stringify(last)); });
 
 /* 4 T3 視訊 */
 await sec(4,async()=>{ fresh('2028-08-02',20,'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35;
@@ -69,8 +70,7 @@ await sec(4,async()=>{ fresh('2028-08-02',20,'TW'); H.rel('heroine_05',60,45,40)
 
 /* 5 日本、美國路線 */
 await sec(5,()=>{ fresh('2028-08-02',20,'JP'); H.G.flags.JP_DEPARTED=D('2028-03-25'); H.FAMILIAR('heroine_05'); walk(D('2028-08-03'),D('2028-08-03'));
-  const a=seq()[0];
-  check('5. 日本路線（8/3 人還在日本）：「到了。」在當地 08:00（臺灣 07:00）',!!a&&a.L.includes('到了。')&&a.h===8&&STORY.tzOffset(H.G,D('2028-08-03'))===1,JSON.stringify(a));
+  check('5. 日本路線（8/3 人還在日本）：也不另外傳「到了。」（AA_378 S1 更正）',!th().some(m=>m.text==='到了。'),JSON.stringify(th().map(m=>m.text)));
   fresh('2028-08-02',20,'US'); H.FAMILIAR('heroine_05'); walk(D('2028-08-03'),D('2028-08-08'));
   check('5. 美國路線：沒有這一套（她和你都在美國）',!th().length); });
 

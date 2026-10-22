@@ -682,8 +682,10 @@ const Y34B=(function(){
     {speaker:'heroine_05',text:'……你們怎麼都還在？'},
     {speaker:'player',text:'等妳。大家都是。'},
     {unless:C(dSis),speaker:'heroine_05',text:'……好。我請大家喝飲料。販賣機的。'},
-    {if:C(G=>!dSis(G)&&!!G.flags.RA_WORK),speaker:'heroine_05',text:'致謝裡有你。寫的是研究助理。'},   /* RA_WORK 不設：學姊 M8（研究助理）作廢（AA_327 第 1 節、AA_337 第 6 題）＝這一句不出 */
+    {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'致謝裡有你。'},
+    {if:C(G=>!dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'那一句『他講到這裡，停了很久』，我用在第四章了。'},   /* AA_379 3-4（企劃線 d037c668）：接 2-5 訪談去過（SIS_INTERVIEW went）；研究助理（M8、RA_WORK）作廢、不恢復 */
     {if:C(dSis),speaker:null,text:'（她在你旁邊坐下。）'},{if:C(dSis),speaker:'heroine_05',text:'你坐這裡就好。'},
+    {if:C(G=>dSis(G)&&G.flags.SIS_INTERVIEW==='went'),speaker:'heroine_05',text:'第四章那一句，是你記的。'},
     {set:{SIS_DEFENSE:'there'}},{rel:{heroine_05:{fam:2}}} ];
   const EV=[
     { id:'ev_an_farewell_dinner', title:'餞行', participants:['heroine_01'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:FAREWELL },

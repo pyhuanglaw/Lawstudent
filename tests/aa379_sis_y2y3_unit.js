@@ -13,7 +13,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 const ok1=load('src/data/sis_y2y3_events.js'), ok2=load('src/sis_y2y3_3d.js');
-let doc=''; try{ doc=cp.execSync('git show 30ab5142:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show d037c668:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISY23!=='undefined'?SISY23:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -25,13 +25,13 @@ const play=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice();
 const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating'; };
 (async()=>{
   /* ---- 0 ---- */
-  check('0. 讀稿（企劃線 30ab5142 AA_379 第 2 節）',doc.length>5000&&inDoc('## 2. 第二批：大二到大三的空窗'));
-  check('0. 新檔載得到：SISY23、SISY23_EVENTS（八場 12 筆：說話前接演的兩段、台階兩版、生日四筆）',ok1&&ok2&&!!X()&&Array.isArray(SISY23_EVENTS)&&SISY23_EVENTS.length===12,J({ok1,ok2,n:typeof SISY23_EVENTS!=='undefined'&&SISY23_EVENTS.length}));
+  check('0. 讀稿（企劃線 d037c668 AA_379：30ab5142 的第 2 節沒動，多了 2-9、第 3 節）',doc.length>5000&&inDoc('## 2. 第二批：大二到大三的空窗'));
+  check('0. 新檔載得到：SISY23、SISY23_EVENTS（八場 12 筆：說話前接演的兩段、台階兩版、生日四筆；3-2 公館 1 筆＝13）',ok1&&ok2&&!!X()&&Array.isArray(SISY23_EVENTS)&&SISY23_EVENTS.length===13,J({ok1,ok2,n:typeof SISY23_EVENTS!=='undefined'&&SISY23_EVENTS.length}));
   if(!X()){ H.done(); return; }
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
   check('0. index.html 接在 y3fill3d.js 後面；talkSis、talkCharacter 都先問 SISY23.preTalk',/y3fill3d\.js[^\n]*\n<script src="src\/data\/sis_y2y3_events\.js[^\n]*\n<script src="src\/sis_y2y3_3d\.js/.test(html)&&(st.match(/SISY23\.preTalk\) await SISY23\.preTalk\(GM\)/g)||[]).length===2);
   const allTxt=J(SISY23_LINES)+J(SISY23_EVENTS), quoted=[...allTxt.matchAll(/text":"([^"]+)"/g)].map(m=>m[1]).concat(Object.values(SISY23_LINES).flat().filter(x=>typeof x==='string'));
-  const notIn=quoted.filter(t=>!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子'].includes(t));
+  const notIn=quoted.filter(t=>!inDoc(t.replace('{name}','{name}'))&&!['法圖・討論室','法圖外面的台階','總圖門口的台階','法圖旁邊的簡餐','電話','霖澤館・研究室','法扶・臺北的辦公室','便利商店門口的桌子','公館・騎樓'].includes(t));
   check('0. 每一句台詞都在稿裡（一字不差；地點字幕除外）',!notIn.length,J(notIn));
   /* ---- 1 2-1 研究室 ---- */
   { setup('2026-09-21',20,'dorm','FAMILIAR'); rules(); const a=dms().length; at('2026-09-21',21.05); rules(); const m=PHONE.byAsk(H.G,'sisy23_lab_ask');

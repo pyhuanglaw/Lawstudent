@@ -47,7 +47,7 @@ const inMD=t=>MD.indexOf(t)>=0;
   await sec('0',async()=>{
     check('0. 讀得到稿（企劃線 eab1eba3 AA_377，含第 6 節）',MD.length>3000&&inMD('AA_377')&&inMD('## 6. 回 LAWWW'));
     const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(f=>f.path===PDOC);
-    check('0. 匯入白名單：AA_377@eab1eba3（approved，一個版本；b7c437a1 在 history）',A.length===1&&A[0].sha==='eab1eba3'&&A[0].status==='approved'&&(A[0].history||[]).some(h=>h.sha==='b7c437a1'),J(A.map(a=>a.sha))); });
+    check('0. 匯入白名單：AA_377@d037c668（approved，一個版本；第 7 節回 LAWWW 02:50 七題；eab1eba3、b7c437a1 在 history）',A.length===1&&A[0].sha==='d037c668'&&A[0].status==='approved'&&['eab1eba3','b7c437a1'].every(s=>(A[0].history||[]).some(h=>h.sha===s)),J(A.map(a=>a.sha))); });
   /* ---- 1 日本路線比較行政法 ---- */
   await sec('1',async()=>{
     const L1='（教授的日文很快。你只抓得到一半，筆記上一半是問號。）', L2='（旁邊的日本同學把筆記推過來給你看。字很小，很整齊。）', TOWN='今天講行政指導。你想起以安說的町公所。';

@@ -28,7 +28,7 @@ const SISY23=(function(){
   S.ok=(G,min)=>law(G)&&!!(G.flags&&G.flags.met_sis)&&!isEx(G)&&stageOk(min)&&here(G)&&!abroad(G);
   const dm=t=>({th:'p:'+ID,from:ID,text:t});
   const sent=(G,tag)=>typeof PHONE!=='undefined'&&PHONE.sent(G,tag);
-  const plan=(G,o)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,o.id)) return null; return OUT.plan(G,o); };
+  const plan=(G,o)=>{ if(typeof OUT==='undefined'||!OUT.plan||OUT.get(G,o.id)) return null; return OUT.plan(G,Object.assign({alarm:true},o)); };   /* alarm：跳過時間、睡覺都停在出發前（BB 10-22 03:01 讀碼提醒：沒有 alarm 會直接跳過研究室、討論室、訪談、台階、電話）*/
   const inGrp=(G,g)=>typeof PHONE!=='undefined'&&!!PHONE.inGroup&&PHONE.inGroup(G,g);
 
   /* ---------------- 2-1、2-2、2-5：她私訊約隔天 ---------------- */
@@ -41,10 +41,14 @@ const SISY23=(function(){
       miss:{day:'2026-11-18',h:22,lines:[L.semMissed]}},
     {k:'iv',ask:'2027-10-15',h:21,min:'FRIEND',lines:L.ivAsk,yes:L.ivYes,noT:L.ivNoT,no:L.ivNo,flag:'SIS_INTERVIEW',go:'SIS_IV_GO',
       out:{id:'sisy23_iv',ev:'ev_sis_interview',day:'2027-10-16',h:9,late:0.25,place:'法扶・臺北的辦公室',title:'陪學姊去訪談（法扶）',travel:'捷運 約 25 分鐘',travelH:25/60},
-      miss:{day:'2027-10-16',h:12.5,lines:[L.ivMissed]}} ];
+      miss:{day:'2027-10-16',h:12.5,lines:[L.ivMissed]}},
+    /* AA_379 3-2（企劃線 d037c668）：出國前最後一個週六——臺灣路線、熟悉以上（日本路線那時在日本、美國路線和她同一班飛機，都不演）*/
+    {k:'pre',ask:'2028-07-28',h:21,min:'FAMILIAR',cond:G=>!(typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)),lines:L.preAsk,yes:L.preYes,noT:L.preNoT,no:L.preNo,flag:'SIS_PREDEPART',go:'SIS_PRE_GO',
+      out:{id:'sisy23_pre',ev:'ev_sis_predepart',day:'2028-07-29',h:15,late:0.25,place:'公館',title:'公館（陪學姊買行李箱的鎖）',travel:'走路 約 15 分鐘',travelH:0.25},
+      miss:{day:'2028-07-29',h:18,lines:L.preMissed}} ];
   S.asks=function(G){ const F=G.flags;
     for(const a of S.ASKS){ const d=D(a.ask), od=D(a.out.day), md=D(a.miss.day); if(d==null||od==null||md==null) continue; const tag='sisy23_'+a.k+'_ask';
-      if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,a.out.h)&&S.ok(G,a.min)&&contact(G,d)){   /* 那一天一開始就排好（21:00 才送到；快轉會停在要回的訊息）*/
+      if(!sent(G,tag)&&F[a.flag]==null&&G.day>=d&&G.day<=d+1&&now(G)<T(od,a.out.h)&&S.ok(G,a.min)&&(!a.cond||a.cond(G))&&contact(G,d)){   /* 那一天一開始就排好（21:00 才送到；快轉會停在要回的訊息）*/
         const M=a.lines.map(dm); M[M.length-1].ask={id:tag,until:T(od,a.out.h),opts:[{t:a.yes,set:{[a.go]:true}},{t:a.noT,set:{[a.go]:false},say:[{from:ID,text:a.no}]}]};
         PHONE.at(G,d,a.h,M,tag); }
       if(F[a.go]===true&&F[a.flag]==null&&now(G)<T(od,a.out.h+a.out.late)) plan(G,Object.assign({},a.out,{day:od}));

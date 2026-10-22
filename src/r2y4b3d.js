@@ -509,7 +509,7 @@ const R2Y4B=(function(){
   /* AA_378 第 1 節 S1（企劃線 f2de8d1c；使用者 10-21 22:5x「學姊才是真正的女主角」）：不輪播——每一則、每一組最多一次。「到了。」拿出每週那一套，她落地那天 8/3（四）07:00 傳（臺灣時間）；
      T1、T2 都兩週一則（8/7、8/21……12/11，十格）、T3 視訊每週；T1 照順序，楓樹那則 9/25 以前不出（輪到它還沒到 9/25，先出下表的一則）；
      那一段用完、或輪到的不能出，就用 SA_X（照順序、「最早」那天以後才出、各一次；最早那天起兩週內才能出，X0 四週——AA 23:11 確認）；表也用完那一格就不傳 */
-  S.SA_ARRIVE={day:'2028-08-03',h:7,L:['（照片：機場的行李轉盤）','到了。']};
+  /* 「到了。」不另外傳（AA_378 S1 更正，企劃線 5cd35678）：8/3 09:00 家族群組已經有 US0「到了。三件事。……算了，一件：這裡的天空很大。」（y34b3d.js），原本 8/3 07:00 那則會重複 */
   S.SA_T1=[['（照片：超市的花生醬貨架）','我買了一罐太大的花生醬。'],['（照片：圖書館的長桌）','這邊的圖書館開到半夜兩點。'],['（照片：校園裡一棵開始變紅的楓樹）','九月底，葉子先紅了一棵。']];
   S.SA_T1_FROM=[null,null,'2028-09-25'];
   S.SA_X=[{from:'2028-09-11',days:28,L:['（照片：超市架上的一盒烏龍茶）','找到臺灣的烏龍茶了。很貴。我還是買了。']},   /* X0 不分季節：四週內（到 10/8），T2 的玩家 10/2 那一格收得到（AA 23:11，企劃線 c0734889；「臺灣」8f138c5b）*/
@@ -542,7 +542,6 @@ const R2Y4B=(function(){
     while((R.ix|0)<S.SA_X.length&&day>saFrom(S.SA_X[R.ix|0].from)+(S.SA_X[R.ix|0].days||S.SA_X_DAYS)-1) R.ix=(R.ix|0)+1;   /* 過期的不出（之後也不出）*/
     const x=S.SA_X[R.ix|0]; return x&&day>=saFrom(x.from)?{x:R.ix|0}:null; };
   const saWeekly=G=>{ if(!S.saOn(G)) return; const R=S.saRec(G), C=S.saChecks(), n=now(G);
-    { const A=S.SA_ARRIVE, d=DK(A.day); if(d!=null&&!PHONE.sent(G,'y4_sa_arrive')&&n>=T(d,A.h)&&n-T(d,A.h)<=48){ const tz=typeof STORY!=='undefined'&&STORY.tzOffset?(+STORY.tzOffset(G,d)||0):0; PHONE.at(G,d,A.h+tz,A.L.map(t=>SISP(t)),'y4_sa_arrive'); } }   /* 8/3 07:00 落地（日本路線那天還在日本：當地 08:00）；讀檔晚兩天以上不補 */
     for(let k=R.k+1;k<C.length;k++){ const c=C[k]; if(T(c.day,c.h)>n) break; R.k=k; if(n-T(c.day,c.h)>48) continue;   /* 讀檔跳過很久的不補 */
       const tgt=S.saTarget(G); if(!R.tier) R.tier=tgt; else if(tgt<R.tier) R.tier=tgt; else if(tgt>R.tier){ const last=R.log.slice(-3); if(last.filter(e=>saReplied(G,e)).length>=2) R.tier=Math.min(tgt,R.tier+1); }   /* 最近三則回兩則以上才升 */
       G.flags.SIS_ABROAD_TIER=R.tier;   /* 每週的段（AA_327 2-Y4-57 第 4 節）*/
