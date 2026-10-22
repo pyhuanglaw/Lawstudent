@@ -1,6 +1,6 @@
 """BB（帳號 A）2026-10-22：RELEASE-9106-TEST 第 13 項（LAWWW 13:3x 加派）——溫州街四家店（WZ-SHOP-AA364-SYS，開發分支 a3d3845e；規格 AA_364 第 2～4 節）。
   LIN       林家乾麵：溫州街走到門口進去、點餐（老闆「內用外帶？」）、乾麵（小）扣 40、「（你點了乾麵（小）。）」、坐下吃約 40 分鐘、吃完站起來；看菜單
-  TEI       巷子裡定食：18:00 進去、店員「幾位？這邊坐。」、薑汁燒肉定食扣 180、坐下；味噌湯續一碗免費
+  TEI       巷子裡定食：18:00 進去、店員「幾位？這邊坐。」、薑汁燒肉定食扣 180、坐下；點餐選單沒有「味噌湯續一碗」（AA_364 5-5：吃定食就有，吃完那句「你續了一碗味噌湯」接在定食後面）
   TEA       巷口茶飲：騎樓窗口「買一杯飲料」連買五杯——前四杯「甜度冰塊？」、第五杯「半糖少冰？」＋「老樣子」；外帶不坐下、約 5 分鐘
   ICE_JUN／ICE_MAY／ICE_OCT  夏日冰菓室：6 月有芒果冰 140（老闆娘「冰要大碗小碗？」）、5 月開但沒有芒果冰、10 月只有「看夏日冰菓室」＝「（鐵捲門拉著。上面貼了一張紙：「五月見」。）」
   TEI_LATE／LIN_MON／TEI_TUE  定食 20:45、林家週一、定食週二：門口進不去、提示寫開放時間
@@ -402,10 +402,9 @@ async def s_tei(p, run, base, sid, out):
         if not inside: return
         await settle(pg, cdp, run, sid)
         o = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '薑汁燒肉定食')
-        run.check('%s：店員「幾位？這邊坐。」→ 薑汁燒肉定食扣 180 元、坐下吃' % sid, bool(o) and said_has(o, '店員', '幾位？這邊坐。') and o['money'][2] == 180 and o['seat'] and opt_has(o, '味噌湯續一碗'), J(o, 600))
+        run.check('%s：店員「幾位？這邊坐。」→ 薑汁燒肉定食扣 180 元、坐下吃' % sid, bool(o) and said_has(o, '店員', '幾位？這邊坐。') and o['money'][2] == 180 and o['seat'], J(o, 600))
+        run.check('%s：點餐選單沒有「味噌湯續一碗」（AA_364 第 5 節第 5 點，企劃線 5ae04087：吃定食就有，不是單點）' % sid, bool(o) and not opt_has(o, '味噌湯'), J(o and o.get('ch'), 400))
         run.check('%s：第一次的旁白、吃完的旁白（AA_364 第 5 節）' % sid, bool(o) and seq_in(o['said'], ['（你點了薑汁燒肉定食。）', FIRST['tei'], AFTER['tei']]), J(o and o['said'], 500))
-        o2 = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '味噌湯續一碗')
-        run.check('%s：味噌湯續一碗＝免費（不扣錢）' % sid, bool(o2) and o2['money'][2] == 0 and opt_has(o2, '免費'), J(o2, 400))
     finally: await finish_page(run, sid, res, errs, b)
 
 

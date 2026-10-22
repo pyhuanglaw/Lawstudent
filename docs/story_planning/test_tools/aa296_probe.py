@@ -707,8 +707,12 @@ async def counter_talk(pg, cdp, run, label):
     """芷若在吧檯後面上班：照玩家走到吧檯的點餐點（店員在班時那一點的按鈕＝和店員說話，engine3d.js「店員擋住了吧檯的點餐點」）按互動，點完對話"""
     it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.counter==='cafe'&&!i.hidden); return it?[it.x,it.z]:null; })()")
     if not it: return [], ''
-    await L.go_to(pg, cdp, run, it[0], it[1] + 0.9, 1.2, '吧檯點餐點', max_s=180); await pg.wait_for_timeout(1200)
-    lab = await pg.evaluate(LAB); say('   %s 吧檯前的按鈕：「%s」' % (label, lab))
+    # 店員要在 2.2 m 以內按鈕才是「和她說話」（engine3d.js nearestInteractable；她站在吧檯後面 z≈-5.15）：走到點餐點本身（第一次 v6_aa296d 停在 1.7 m 外，按鈕是空的）
+    lab = ''
+    for dz, tol in ((0.0, 0.3), (-0.2, 0.2), (0.2, 0.25)):
+        await L.go_to(pg, cdp, run, it[0], it[1] + dz, tol, '吧檯點餐點', max_s=180); await pg.wait_for_timeout(1500)
+        lab = await pg.evaluate(LAB); say('   %s 吧檯前的按鈕：「%s」' % (label, lab))
+        if '說話' in lab or '點餐' in lab: break
     await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
     ch = await drive(pg, cdp, run, picks=['不用了'], max_s=150, label=label)
     return ch, lab
