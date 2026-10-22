@@ -1582,11 +1582,17 @@
   },
   {
    "path": "docs/story_planning/AA_385_芷若子晴_實作後七題.md",
-   "sha": "028dc128",
+   "sha": "946b1b72",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（回 LAWWW 09:25 七題；D100、D109）；第 1、2、4、5、7 項台詞手動放進 src/data/zrzq_events.js（SERIOUS.HELD、END.C_FY、TOLD、UK 第 1 則、F3_TOLD_JP），接線 src/zrzq3d.js、story3d.js talkCharacter；第 3 項是閒聊階梯源檔（ladder_bb.json、ladder_bb_y1s2.json@088556ed）；第 6 項 invites3d.js partnerBlock 的 soloOk；第 9 節（028dc128，子晴「芷若在英國」那三種說法）LAWWW 在開發分支做；tests/aa385_zz_unit.js 讀 028dc128 逐句對稿",
+   "approvedBy": "AA（帳號 A）2026-10-22 10:49 定稿（AA_385 第 10 節：人物頁 ZQ_ZR_FILM_DAY「她說室友跟系上的人去看了電影」、ZZ_TOLD_YT 照暫定；日本路線方奕廷三則改在芷若當面說完那天 21:00，沒說就不送；兩個人都認識才講＝可以；D100、D109）",
    "task": "AA290-INTAKE",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "028dc128",
+     "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（回 LAWWW 09:25 七題；D100、D109）；第 1、2、4、5、7 項台詞手動放進 src/data/zrzq_events.js（SERIOUS.HELD、END.C_FY、TOLD、UK 第 1 則、F3_TOLD_JP），接線 src/zrzq3d.js、story3d.js talkCharacter；第 3 項是閒聊階梯源檔（ladder_bb.json、ladder_bb_y1s2.json@088556ed）；第 6 項 invites3d.js partnerBlock 的 soloOk；第 9 節（028dc128，子晴「芷若在英國」那三種說法）LAWWW 在開發分支做；tests/aa385_zz_unit.js 讀 028dc128 逐句對稿"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md",

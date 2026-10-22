@@ -1,5 +1,5 @@
 // AA_385（企劃線 028dc128，AA 2026-10-22 09:31 回 LAWWW 09:25）：芷若×子晴（AA_232）實作後七題——不需要瀏覽器。
-//   0 讀稿逐字（每一句新台詞都在 AA_385 裡）、白名單（AA_385@028dc128、AA_232@088556ed、兩個階梯檔@088556ed，舊版本在 history）
+//   0 讀稿逐字（每一句新台詞都在 AA_385 裡）、白名單（AA_385@946b1b72（第 10 節：人物頁名稱、日本路線方奕廷三則的時間）、AA_232@088556ed、兩個階梯檔@088556ed，舊版本在 history）
 //   1 4-4 結局 C 那一句「……可是我九月要去英國了。」（後兩句照舊）
 //   2 結局 C、芷若選了方奕廷：尾聲子晴那一句後面多一句旁白；芷若、奕廷照 zr.fy、fy.zr；CG 以後不加；英國版、非方奕廷版照舊；奕廷不在那一桌＝不加旁白
 //   3 閒聊階梯：大一下子晴 Q2-L3 的 4-1 第 5 句（認識芷若／「我室友」、4-2 以後、還沒在一起、沒和祐廷交往過、只說一次、記 ZQ_ZR_FILM_DAY）；
@@ -7,7 +7,8 @@
 //   4 其中一人自己告訴祐廷（ZZ_TOLD_YT）：找她說話時先演、演完照常閒聊；芷若在吧檯上班也一樣（演完照常點餐）；誰先遇到誰講、只講一次；條件
 //   5 4-6 祐廷在場的那一則改到公館宵夜（22:00～24:00；原本臺灣凌晨四點）
 //   6 互斥：她們交往中只擋 L2／L3（校外約會、告白），吃飯、散步、一盞照常；婉拒用系統現成的句子；別人的伴侶照舊擋
-//   7 日本路線：芷若婉拒方奕廷改回國以後在 Café 當面說（8/5～9/1，同 AA_296 ⑤），第一句加「你不在的時候，」；訊息版拿掉（舊存檔收到的照算、排著的收回）
+//   7 日本路線：芷若婉拒方奕廷改回國以後在 Café 當面說（8/5～9/1，同 AA_296 ⑤），第一句加「你不在的時候，」；訊息版拿掉（舊存檔收到的照算、排著的收回）；
+//     方奕廷那三則（AA_385 第 10 節）改成她當面說完那天 21:00 才送，沒說就不送
 // 修改前（開發分支 3740c127）：30 項 FAILED 24（通過的 6 項是對照：讀得到稿、英國版／非方奕廷版／B 的尾聲、旁白不加的兩種、4-1 第 5 句不說的四種、校外約會照擋、別人的伴侶照擋）。用法：node tests/aa385_zz_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
@@ -46,7 +47,7 @@ const L=typeof ZRZQ_LINES!=='undefined'?ZRZQ_LINES:null;
 const exp=arr=>ZRZQ_TOLINES(arr).map(l=>l.text.replace(/\{name\}/g,'祐廷'));
 const seq=arr=>{ const want=exp(arr), got=txt(); for(let i=0;i+want.length<=got.length;i++) if(want.every((w,k)=>got[i+k]===w)) return true; return false; };   /* 一整段照順序連著出現 */
 const show=(refs,p)=>{ for(const r of refs){ try{ return cp.execSync('git show "'+r+':'+p+'"',{cwd:ROOT,encoding:'utf8',stdio:['ignore','pipe','ignore'],maxBuffer:1<<26}); }catch(e){} } return null; };
-const A385=show(['028dc128'],'docs/story_planning/AA_385_芷若子晴_實作後七題.md');
+const A385=show(['946b1b72','028dc128'],'docs/story_planning/AA_385_芷若子晴_實作後七題.md');
 const A232=show(['088556ed'],'docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md');
 const LJ=p=>{ const s=show(['088556ed'],'docs/story_planning/ladder/'+p); return s?JSON.parse(s):null; };
 const ZR='heroine_02', ZQ='heroine_04', FY='npc_fangyt';
@@ -57,7 +58,7 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
 
 (async()=>{
   /* ===================== 0 讀稿、白名單 ===================== */
-  await chk('0. 稿讀得到：AA_385@028dc128（第 1～8 項＋第 9 節）、AA_232@088556ed（跟著改的版本）',()=>[!!A385&&/## 7\. 日本路線/.test(A385)&&/## 9\./.test(A385)&&!!A232&&A232.includes('……可是我九月要去英國了。'),'']);
+  await chk('0. 稿讀得到：AA_385@946b1b72（第 1～8 項＋第 9、10 節）、AA_232@088556ed（跟著改的版本）',()=>[!!A385&&/## 7\. 日本路線/.test(A385)&&/## 9\./.test(A385)&&/## 10\./.test(A385)&&!!A232&&A232.includes('……可是我九月要去英國了。'),'']);
   await chk('0. 新台詞每一句都在 AA_385 裡（4-4 那一句、選奕廷的旁白、自己告訴祐廷的兩組＋選項＋回答、4-6 宵夜那五句、日本路線那四句）',()=>{
     if(!A385||!L) return [false,'讀不到稿']; const bad=[]; const say=(w,t)=>{ const lab=WHO[w.slice(0,2)]; const ok=lab?A385.includes(lab+'「'+t+'」'):(A385.includes('旁白「'+t+'」')||A385.includes('「'+t+'」')); if(!ok) bad.push(w+' '+t); };
     if(!A385.includes('改：「'+L.SERIOUS.HELD[0][1]+'」')) bad.push('HELD[0]'); for(const [w,t] of L.SERIOUS.HELD.slice(1)) if(!A385.includes('「'+t+'」')) bad.push('HELD '+t);
@@ -69,11 +70,11 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     return [!bad.length&&!!L.F3_TOLD_JP&&L.F3_TOLD_JP.length===4,bad.join('；')]; });
   await chk('0. 不重複另寫：日本路線那四句只有第一句不同（「你不在的時候，」＋臺灣那一版），其他三句和第三節一字不差；訊息版（F3_TOLD_MSG）拿掉了',()=>{
     const P=L.F3_TOLD_JP||[], T=L.F3_TOLD; return [P.length===4&&P[0][1]==='你不在的時候，'+T[0][1]&&J(P.slice(1))===J(T.slice(1))&&L.F3_TOLD_MSG===undefined,''] });
-  await chk('0. 白名單：AA_385@028dc128（kind text）、AA_232@088556ed（afebee54 在 history）、ladder_bb.json@088556ed（49ed7e6a 在 history）、ladder_bb_y1s2.json@088556ed（2e255e9a 在 history）',()=>{
+  await chk('0. 白名單：AA_385@946b1b72（kind text，028dc128 在 history）、AA_232@088556ed（afebee54 在 history）、ladder_bb.json@088556ed（49ed7e6a 在 history）、ladder_bb_y1s2.json@088556ed（2e255e9a 在 history）',()=>{
     const A=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files, f=p=>A.filter(e=>e.path===p);
     const a385=f('docs/story_planning/AA_385_芷若子晴_實作後七題.md'), a232=f('docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md'), lb=f('docs/story_planning/ladder/ladder_bb.json'), l2=f('docs/story_planning/ladder/ladder_bb_y1s2.json');
     const hist=(e,s)=>!!e&&(e.history||[]).some(h=>h.sha===s);
-    const ok=a385.length===1&&a385[0].sha==='028dc128'&&a385[0].status==='approved'&&a385[0].kind==='text'&&!!a385[0].approvedBy
+    const ok=a385.length===1&&a385[0].sha==='946b1b72'&&(a385[0].history||[]).some(h=>h.sha==='028dc128')&&a385[0].status==='approved'&&a385[0].kind==='text'&&!!a385[0].approvedBy
       &&a232.length===1&&a232[0].sha==='088556ed'&&hist(a232[0],'afebee54')&&lb.length===1&&lb[0].sha==='088556ed'&&hist(lb[0],'49ed7e6a')&&l2.length===1&&l2[0].sha==='088556ed'&&hist(l2[0],'2e255e9a');
     return [ok,J({a385:a385.map(e=>e.sha),a232:a232.map(e=>e.sha),lb:lb.map(e=>e.sha),l2:l2.map(e=>e.sha)})]; });
   await chk('0. tests/zrzq_line_unit.js 對 AA_232@088556ed（不是 afebee54）',()=>{ const t=fs.readFileSync(path.join(ROOT,'tests/zrzq_line_unit.js'),'utf8'); return [/const SPEC=show\(\['088556ed'/.test(t)&&!/afebee54/.test(t),'']; });
@@ -202,6 +203,12 @@ const stepOf=(term,who,id)=>((LADDER.byTerm[term]||{})[who]||{steps:[]}).steps.f
     said=[]; await EVENTS.run(told());
     const want=['你不在的時候，奕廷約我去看《秋天的晚飯》。','我說不行。……我跟子晴在一起。','他說「好」，然後跟我講了十分鐘那部電影的導演。','他人很好。'];
     return [!m.length&&!q&&a&&b&&J(txt())===J(want)&&G.flags.ZZ.yt==='confirmed',J({m:m.length,q,a,b,t:txt()})]; });
+  const fangN=()=>({got:(G.msgs||[]).filter(x=>x.tag==='zz_f3_fang').length,q:PHONE.rec(G).q.filter(x=>x.tag==='zz_f3_fang').map(x=>[x.day,x.h])});
+  await chk('7. 日本路線方奕廷那三則（AA_385 第 10 節，946b1b72）：5/30 不送；8/5 15:00 芷若當面說完＝那天 21:00 才送',async()=>{
+    jp(); const a=fangN(); at('2028-08-05',15); G.zone='cafe'; rules(); await EVENTS.run(told()); rules(); const b=fangN(); at('2028-08-05',21.1); rules(); const c=fangN();
+    return [a.got===0&&a.q.length===0&&b.got===0&&b.q.length===1&&b.q[0][0]===D('2028-08-05')&&b.q[0][1]===21&&c.got===3,J({a,b,c})]; });
+  await chk('7. 日本路線：當面那場一直沒演到（9/2）＝方奕廷那三則也不送',()=>{ jp(); at('2028-09-02',21.5); rules(); const n=fangN(); return [n.got===0&&n.q.length===0,J(n)]; });
+  await chk('7. 對照：臺灣路線＝F3 隔天 21:00 送（照舊）',()=>{ fresh('2028-05-29',21.2,'dorm',{EXCHANGE_ROUTE:'TW'}); both('FAM'); R(FY,'FAM'); datingZZ(); R2Y3B.f3Go(G,G.day); rules(); at('2028-05-30',21.1); rules(); const n=fangN(); return [n.got===3,J(n)]; });
   await chk('7. 日本路線：9/1 以前都沒在 Café 找她＝就沒有這一段（9/2 不說、不補訊息）',()=>{ jp(); at('2028-09-02',15); G.zone='cafe'; rules(); return [!ZRZQ.f3ToldDue(G)&&!EVENTS.check(told())&&!(G.msgs||[]).some(x=>x.th==='p:heroine_02'),'']; });
   await chk('7. 對照：臺灣路線（F3 那天在臺灣）＝臺灣那一版（沒有「你不在的時候，」）',async()=>{
     fresh('2028-05-30',15,'cafe'); both('FAM'); datingZZ(); Object.assign(G.flags,{FANG_F3_DAY:D('2028-05-29'),FANG_F3:'bought'}); rules(); said=[]; await EVENTS.run(told());

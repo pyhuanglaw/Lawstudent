@@ -178,7 +178,9 @@ const ZRZQ=(function(){
   S.f3MsgSync=function(G){ const F=G.flags, R=S.rec(G); if(R.fy!=='declined'||F.FANG_F3_DAY==null||typeof PHONE==='undefined') return; const d=F.FANG_F3_DAY;
     S.cutMsg(G,'y3_zr_f3_jp');   /* r2y3b3d.js f3Go 日本路線那則「……我說好。」：婉拒的存檔不傳 */
     S.cutMsg(G,'zz_f3_jp');   /* AA_385 第 7 項：日本路線改回國以後當面說（上面 f3ToldDue）；舊存檔排著還沒收到的那四則收回（已經收到的不收回）*/
-    if(R.f3==='dating'&&met(G,'npc_fangyt','FAMILIAR')) PHONE.at(G,d+1,lt(G,d+1,21),L.F3_FANG.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),'zz_f3_fang');
+    if(R.f3==='dating'&&met(G,'npc_fangyt','FAMILIAR')){ const fang=day=>PHONE.at(G,day,Math.max(21,day===G.day?(+G.hour||0)%24+1/12:0),L.F3_FANG.map(t=>({th:'p:npc_fangyt',from:'npc_fangyt',text:t})),'zz_f3_fang');
+      if(!S.f3Away(G)) fang(d+1);   /* 臺灣：F3 隔天 21:00 */
+      else { const td=evs(G).last.ev_zz_f3_told; if(td!=null) fang(td); } }   /* 日本路線（AA_385 第 10 節，企劃線 946b1b72）：芷若在 Café 當面說完的那天 21:00 才送；當面那場沒演到（9/1 以前）＝不送（祐廷沒聽她說過，「她跟我說了」接不上）*/
     if(R.yt!=='confirmed'&&(G.msgs||[]).some(m=>m&&m.tag==='zz_f3_jp')){ S.raise(R,'confirmed'); S.coupleMem(G); } };   /* 舊存檔已經收到那四則＝她說了，祐廷知道 */
 
   /* ---------- 4-7 祐廷得知（只在她們真的交往以後；23-3）----------

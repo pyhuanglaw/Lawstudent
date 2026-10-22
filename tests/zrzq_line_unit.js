@@ -5,7 +5,7 @@
 //   5 4-3 朋友版／一般版、{課名}　6 4-4 A／B、甲（那學期在追其中一人＝只有 4-4 順延）　7 條件不成立＝順延到下學期同週同星期同時間（交往中、分手那學期、路線 B）
 //   8 她們畢業以後的版本（地點、入場旁白一起換）　9 祐廷在國外（交換）：世界照樣發生、沒有畫面；芷若在英國的學期跳過
 //   10 狀態推進到 dating、4-4「先這樣」（大二下）、交換回來以後的 4-4　11 4-7 祐廷得知只在 dating 以後（兩版、聽過 4-4 的第一句、畢業典禮那天）
-//   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線回國以後當面說、方奕廷三則；r2y3b 的「我說好」不演）
+//   12 4-2b 四種狀態（F3 那一晚；6/21 小公園版）　13 F3 婉拒（Café 那四句、日本路線回國以後當面說、方奕廷三則〔日本路線：當面說完那天才送〕；r2y3b 的「我說好」不演）
 //   14 互斥（她們交往中＝她有交往的對象；曖昧期照常）　15 舊存檔　16 結局（尾聲那一行）　17 4-5、4-6　18 手機子晴「芷若在英國」三則的標籤（AA_385 第 9 節）、在家、跳過時間的停點
 // 修改前（開發分支 b857600c）：ZRZQ 不存在，除了「稿上有」以外全部 FAIL。用法：node tests/zrzq_line_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -255,13 +255,13 @@ const ZR='heroine_02', ZQ='heroine_04';
   await chk('13. 對照：芷若接受（曖昧期去看了）＝r2y3b 那一場照演',()=>{
     fresh('2028-05-30',15,'cafe'); both('FAM'); zz({state:'feelings_emerging',since:0,lastDay:D('2028-03-08')}); Object.assign(G.flags,{FANG_F3_DAY:D('2028-05-29'),FANG_F3:'bought'}); rules();
     return [R2Y3B.f3CafeDue(G)===true&&!EVENTS.check(STORY_EVENTS.find(e=>e.id==='ev_zz_f3_told')),'']; });
-  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」不會出現（AA_296 ⑤ 起日本路線本來就不排；排了也會收回）；芷若不傳訊息（七-6 的訊息版 AA_385 第 7 項拿掉），8/5 回國以後在 Café 當面說（「你不在的時候，」那一版，tests/aa385_zz_unit.js）；方奕廷熟悉以上＝隔天 21:00 三則',async()=>{
+  await chk('13. 日本路線（人在國外）：原本那則「……我說好。」不會出現（AA_296 ⑤ 起日本路線本來就不排；排了也會收回）；芷若不傳訊息（七-6 的訊息版 AA_385 第 7 項拿掉），8/5 回國以後在 Café 當面說（「你不在的時候，」那一版，tests/aa385_zz_unit.js）；方奕廷那三則 5/30 不送（AA_385 第 10 節：她當面說完那天 21:00 才送，同上）',async()=>{
     fresh('2028-05-29',21.2,'dorm',{EXCHANGE_ROUTE:'JP'}); both('FAM'); R('npc_fangyt','FAM'); G.contacts[ZR]=1; zz({state:'dating',since:0,lastDay:D('2026-06-05'),datingDay:D('2026-06-05'),datingTerm:'Y1S2'});
     R2Y3B.f3Go(G,G.day); const q0=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp'); rules(); const q1=PHONE.rec(G).q.some(q=>q.tag==='y3_zr_f3_jp');
     at('2028-05-29',23.5); rules(); at('2028-05-30',22.5); rules();
     const zr=(G.msgs||[]).filter(m=>m.th==='p:heroine_02').map(m=>m.text), fy=(G.msgs||[]).filter(m=>m.tag==='zz_f3_fang'||m.th==='p:npc_fangyt').map(m=>m.text);
     const ev=STORY_EVENTS.find(e=>e.id==='ev_zz_f3_told'), d0=!EVENTS.check(ev); at('2028-08-05',15); G.zone='cafe'; rules(); const d1=EVENTS.check(ev);
-    return [!q1&&!zr.length&&L.F3_FANG.every(t=>fy.includes(t))&&G.flags.ZZ.yt!=='confirmed'&&d0&&d1,J({q0,q1,zr,fy,yt:G.flags.ZZ.yt,d0,d1})]; });
+    return [!q1&&!zr.length&&!fy.length&&G.flags.ZZ.yt!=='confirmed'&&d0&&d1,J({q0,q1,zr,fy,yt:G.flags.ZZ.yt,d0,d1})]; });
 
   /* ===================== 14 互斥 ===================== */
   await chk('14. 她們交往中（dating）＝「她有交往的對象」：校外約會、告白不出現（DATE）；互相喜歡（mutual_interest）時照常',()=>{
