@@ -7,6 +7,8 @@
   NOW：接著（她還在大廳）走過去說話 →「約她去…」→「去總圖一起念書」→「現在一起過去」→ 直接開始（不跟著走、不是 going）。
   WALK_DORM：第 8 天（9/24 週三）10:00 閱覽室（她平日白天在這裡）→ 當面「現在一起過去」總圖 → 她跟著（going）→ 手機快速前往宿舍 → 作罷（訊息「…後來作罷了。」）、她沒有跟進宿舍。
   WALK_ARRIVE：同上，改成快速前往總圖（大廳）→ 一到就開始（不用說話、一起坐下）。
+  WALK_CAFE_DORM（LAWWW 01:48 ③）：閱覽室約「現在一起過去」Café → 她跟著 → 手機回宿舍 → 作罷。
+  MISS（LAWWW 01:48 ④）：手機約好 19:00 總圖、人一直待在宿舍 → 不開始；過了 19:30 記沒赴約、訊息「你沒有赴約：…」。
 【前置】讀使用者存檔改日期、地點；學姊「已經認識」（met_sis、ev_sis_w1 記成演過、FIRST_MET）、FAMILIAR（fam 25）；去過宿舍、校園、總圖；quiet_events（不測劇情）。
 沒有 ?turbo 也能跑（URL 自己決定）。Playwright 手機橫向模擬，不是 iPhone。
 用法：LW_TESTS=<開發分支>/tests SCEN=SCHED,WALK_DORM,WALK_ARRIVE python3 bothpresent_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>（NOW 跟在 SCHED 裡）"""
@@ -121,7 +123,7 @@ async def enter_reading_room(pg, cdp, run):
     return (await pg.evaluate("GAME.G.zone")) == 'library', it[3]
 
 
-async def talk_invite_now(pg, cdp, run, tag):
+async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
     """當面：走到她旁邊 →「和學姊說話」→ 聊完的選單「約她去…」→「去總圖一起念書」→「現在一起過去」。回傳 (選到了沒, 過程)"""
     trace = {}
     st = await pg.evaluate(ST); her = st['her']; trace['her0'] = her
@@ -140,7 +142,7 @@ async def talk_invite_now(pg, cdp, run, tag):
         st2 = await pg.evaluate(ST)
         if st2['her']: await L.go_to(pg, cdp, run, st2['her']['x'], st2['her']['z'], 1.2, '學姊', max_s=60, lv=await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"))
     if not got: return False, trace
-    got, ops = await pick(pg, cdp, '去總圖一起念書', wait=20); trace['places'] = ops
+    got, ops = await pick(pg, cdp, place, wait=20); trace['places'] = ops
     if not got: return False, trace
     got, ops = await pick(pg, cdp, '現在一起過去', wait=20); trace['times'] = ops
     trace['log'] = [(x['n'], x['t']) for x in (await pg.evaluate("window.__LOG||[]"))[-12:]]
@@ -258,7 +260,8 @@ async def sched(p, run, base, out):
 
 
 async def walk(p, run, base, sid, out):
-    res = out.setdefault(sid, {}); dest = 'dorm' if sid == 'WALK_DORM' else 'library_hall'
+    res = out.setdefault(sid, {}); dest = 'dorm' if sid in ('WALK_DORM', 'WALK_CAFE_DORM') else 'library_hall'
+    place = '去兩點半 Café 坐坐' if sid == 'WALK_CAFE_DORM' else '去總圖一起念書'
     b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218）')
     try:
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
@@ -267,7 +270,7 @@ async def walk(p, run, base, sid, out):
         st = await pg.evaluate(ST); res['start'] = st
         if not (st['her'] and st['her']['vis']):
             run.check('%s：9/24 10:00 閱覽室有學姊（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
-        got, trace = await talk_invite_now(pg, cdp, run, sid); res['trace'] = trace
+        got, trace = await talk_invite_now(pg, cdp, run, sid, place); res['trace'] = trace
         say('   %s 過程：%s' % (sid, json.dumps(trace, ensure_ascii=False)[:800]))
         if not got: run.check('%s：當面約走到「現在一起過去」' % sid, False, json.dumps(trace, ensure_ascii=False)[:400]); raise RuntimeError('沒約成')
         n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False); await pg.wait_for_timeout(2500)
@@ -275,15 +278,15 @@ async def walk(p, run, base, sid, out):
         st = await pg.evaluate(ST); res['after_book'] = st; say('   %s 約完：%s；%s' % (sid, json.dumps(st['inv'], ensure_ascii=False), [x['t'] for x in res['book_lines']]))
         going = any(v['state'] == 'going' for v in st['inv'])
         if not going: run.note('%s：她沒答應或沒有跟（%s）' % (sid, json.dumps([x['t'] for x in res['book_lines']], ensure_ascii=False)[:300]))
-        run.check('%s：閱覽室（不是總圖大廳）約「現在一起過去」＝她跟著走（going、follow）' % sid, going and bool(st['her']) and st['her']['beh'] == 'follow', json.dumps(st, ensure_ascii=False)[:400])
+        run.check('%s：閱覽室約「現在一起過去」%s＝她跟著走（going、follow）' % (sid, '去 Café' if sid == 'WALK_CAFE_DORM' else '去總圖大廳'), going and bool(st['her']) and st['her']['beh'] == 'follow', json.dumps(st, ensure_ascii=False)[:400])
         await run.shot(pg, '%s_following' % sid)
         ok, info = await quick_go(pg, cdp, dest); res['go'] = info
         run.check('%s：手機快速前往 %s' % (sid, dest), ok, json.dumps(info, ensure_ascii=False))
         if dest == 'dorm':
-            await pg.wait_for_timeout(4000); st = await pg.evaluate(ST); res['in_dorm'] = st; await run.shot(pg, 'WALK_DORM_in')
+            await pg.wait_for_timeout(4000); st = await pg.evaluate(ST); res['in_dorm'] = st; await run.shot(pg, '%s_in' % sid)
             ms = await pg.evaluate(MSGS); res['msgs'] = ms[-4:]
-            run.check('WALK_DORM：走進宿舍＝作罷（邀約 cancelled、訊息「…後來作罷了。」）', any(v['state'] == 'cancelled' for v in st['inv']) and any('作罷' in m['text'] for m in ms), json.dumps({'inv': st['inv'], 'msgs': ms[-3:]}, ensure_ascii=False)[:400])
-            run.check('WALK_DORM：她沒有跟進宿舍', not (st['her'] and st['her']['vis'] and st['zone'] == 'dorm' and (st['her']['d'] or 99) < 15), json.dumps(st['her'], ensure_ascii=False))
+            run.check('%s：走進宿舍＝作罷（邀約 cancelled、訊息「…後來作罷了。」）' % sid, any(v['state'] == 'cancelled' for v in st['inv']) and any('作罷' in m['text'] for m in ms), json.dumps({'inv': st['inv'], 'msgs': ms[-3:]}, ensure_ascii=False)[:400])
+            run.check('%s：她沒有跟進宿舍' % sid, not (st['her'] and st['her']['vis'] and st['zone'] == 'dorm' and (st['her']['d'] or 99) < 15), json.dumps(st['her'], ensure_ascii=False))
             # 再出宿舍、去總圖看她會不會又出現跟著
         else:
             first, last = await watch_auto(pg, cdp, run, sid, secs=60); res['first'] = first; res['last'] = last
@@ -301,6 +304,42 @@ async def walk(p, run, base, sid, out):
     await close(b)
 
 
+async def miss(p, run, base, out):
+    """④ 你不在約定的地方：不開始；過了約好的時間（19:00＋30 分鐘）記沒赴約、訊息「你沒有赴約：…」"""
+    res = out.setdefault('MISS', {})
+    b, pg, cdp, errs, rel = await launch_load(p, run, base, 7, 17.5, 'dorm', 'MISS')
+    try:
+        await L.phone_away(pg, cdp)
+        await phone(pg, cdp, 'friends')
+        await tap_q(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
+        ok1, o1 = await pick(pg, cdp, '去總圖一起念書'); ok2 = False
+        if ok1: ok2, o2 = await pick(pg, cdp, '今天 19:00')
+        await drain(pg, cdp, choose_first=False); await L.phone_away(pg, cdp)
+        st = await pg.evaluate(ST); res['booked'] = st['inv']
+        run.check('MISS：手機約好 19:00 總圖', any(v['state'] == 'accepted' for v in st['inv']), json.dumps(st['inv'], ensure_ascii=False))
+        t0 = time.time(); started = False
+        while time.time() - t0 < 600:   # 一直待在宿舍：手機「跳過時間」到晚上，遇到約好的會停；停了就再跳
+            st = await pg.evaluate(ST)
+            if st['dlg'] and any(v['state'] == 'done' for v in st['inv']): started = True
+            if st['h'] >= 19.75 or any(v['state'] == 'missed' for v in st['inv']): break
+            s = await L.state(pg)
+            if s['choices']: await drain(pg, cdp, max_steps=1); continue
+            if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+            await phone(pg, cdp, 'today')
+            got = await tap_q(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-skip]')].pop()")
+            if not got: await L.phone_away(pg, cdp); await pg.wait_for_timeout(3000)
+            else: await pg.wait_for_timeout(2500)
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
+        st = await pg.evaluate(ST); res['after'] = st; ms = await pg.evaluate(MSGS); res['msgs'] = ms[-4:]
+        await run.shot(pg, 'MISS_after')
+        say('   MISS：%s；訊息 %s' % (json.dumps(st, ensure_ascii=False)[:300], json.dumps(ms[-3:], ensure_ascii=False)))
+        run.check('MISS：人在宿舍＝沒有開始（邀約沒有變成 done、沒有演見面）', not started and not any(v['state'] == 'done' for v in st['inv']), json.dumps(st['inv'], ensure_ascii=False))
+        run.check('MISS：過了 19:30 記沒赴約（missed）、訊息「你沒有赴約：…」', any(v['state'] == 'missed' for v in st['inv']) and any('沒有赴約' in m['text'] for m in ms), json.dumps({'inv': st['inv'], 'h': st['h'], 'msgs': ms[-3:]}, ensure_ascii=False)[:400])
+        res['errs'] = errs[:3]; run.check('MISS：沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('MISS：測試跑完', False, str(e)[:300])
+    await close(b)
+
+
 async def main():
     run = L.Run('bothpresent', OUT); base = json.load(open(SAVE, encoding='utf-8')); out = {}
     scen = os.environ.get('SCEN', 'SCHED,WALK_DORM,WALK_ARRIVE').split(',')
@@ -308,6 +347,7 @@ async def main():
         for sid in scen:
             say('== %s' % sid)
             if sid == 'SCHED': await sched(p, run, base, out)
+            elif sid == 'MISS': await miss(p, run, base, out)
             else: await walk(p, run, base, sid, out)
             json.dump(out, open(os.path.join(OUT, 'bothpresent.json'), 'w'), ensure_ascii=False, indent=1)
     run.finish()
