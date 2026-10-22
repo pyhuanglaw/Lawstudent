@@ -1303,6 +1303,23 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "回 LAWWW 02:50 七題：AA_377 第 7 節（228 兩句都換＝對；床墊三處＝對；芷若大三下心意第二次照 LAWWW 補的；交往中「禮拜五九點」→「禮拜四十點，等我下班。」）；AA_379 2-9（分手過八場不演＝對，Kevin 群組照發；2-3、2-6 當面版＝對；茶葉不是道具＝對）"
+  },
+  {
+   "task": "BACKLOG-SWEEP-AA-1021",
+   "branch": "claude/story-planning",
+   "sha": "e6d4a198",
+   "files": [
+    "docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md",
+    "docs/story_planning/AA_366_可昕我們的日子_畢業以後.md",
+    "docs/story_planning/AA_367_畢業以後的交往節奏_六位.md"
+   ],
+   "state": "已交付",
+   "remaining": "清查九段都查完；之後看 LAWWW、BB 的結果補",
+   "next": "LAWWW 開 AA382-PG-FIX-1022；重新匯入 AA_366、AA_367（白名單改這一個 commit）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "DELIVERED",
+   "note": "畢業以後：美國路線還差一門實習和兩門課（3 處）、補修的同學是大四、週二去法扶不是事務所、開學那句；可昕週日「今天開庭」4 句；六位每月一句被擠到別的週六會錯的 10 句；學姊 2030 生日看海（新增）；明軒放榜那天下午三點下班"
   }
  ],
  "items": [
