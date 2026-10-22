@@ -1929,6 +1929,26 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "US-PATROL-1021（巡場景 j14 看到的）：①草原超市、亞洲超市一進門鏡頭在店外隔著黑色門框（P1）→草原超市四面外牆當鏡頭牆、亞洲超市正面的玻璃／框／門歸南牆一起淡出；②超市街下公車站牌柱擋住人（P2）→usms_vc_metal 網點透空。單元測試修改前 6＋1 FAIL、修改後 ALL PASS；遊戲內前後 j29"
+  },
+  {
+   "task": "ART-DORM-LOUNGE-1021",
+   "branch": "claude/second-ai-env-art",
+   "sha": "e6512c87",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/dorm_lounge.diff",
+    "assets/models/env/dorm_hall.glb",
+    "tools/blender/dorm_hall.py",
+    "tools/blender/env_second/dorm_lounge_tex.py",
+    "LICENSES.md",
+    "docs/art-rebuild/second_ai/test_shots/dorm_lounge_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "吊扇不轉、時鐘不跟遊戲時間、電視關著（看電視時要亮得由程式換材質）；從大門看進來西牆窗簾在畫面左邊緣比較大；真機沒看過",
+   "next": "LAWWW 套 dorm_lounge.diff（src/data/dorm_layout.js、src/dorm3d.js 一行、tests/dorm_lounge_unit.js；對 27de6170 乾淨）＋換 assets/models/env/dorm_hall.glb（3588cc8c），跑 dorm_lounge_unit、nav_buildings_unit、flow_dorm_hall；沙發、矮桌、電視櫃、販賣機、飲水機、長桌的導航阻擋一格都沒變",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "B16 男宿交誼廳家具（P3）：方塊家具換成正式模型（皮沙發、地毯、販賣機售完那一排、飲水機、吊扇、冷氣、公告欄、窗簾、回收桶、盆栽）；三角形 12,116→18,490、draw call 上限 60→67；j25：5 支單元測試、flow_dorm_hall 27 項、reachability 32 個互動點 ALL PASS；場景美術由使用者驗收"
   }
  ]
 }
