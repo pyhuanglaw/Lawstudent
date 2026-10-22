@@ -29020,7 +29020,7 @@
    },
    "source": "LAWWW2 08:34（docs/art-rebuild/second_ai/test_shots/l118_arcade_1022/README.md 其他 26 個室內的盤點）",
    "authorized": "D100、D108（3D 美術與場景歸 LAWWW2）；D110",
-   "next": "【LAWWW 帳號 A 10-22 09:3x】LAWWW2 63d4a3e3 交件、開發分支整合（四份 GLB 單面、201 T 型骨架只留底面；room_ceiling_unit 修改前 FAIL 8 → ALL PASS）；放 v9.10.6；BB 瀏覽器看：四間拉到最遠最陡看得進房間、預設鏡頭不變 ｜ LAWWW2 改 tools/blender/classroom_201.py、dorm_hall.py、linze_interior.py、wancai_interior.py 的天花板（單面朝下＋cull）、重新匯出 GLB；交件附遊戲內前後；放 v9.10.6",
+   "next": "【LAWWW 帳號 A 10-22 10:4x】第二版（LAWWW2 5262e88a）整合：取代第一版（骨架只留底面＝從下面平視遠處格子不見）——方盒照舊、WALL_ dir 朝下淡出；燈板單面；男宿大門鋁框跟前牆淡出；room_ceiling_unit 新測試＋舊模型 FAIL 8 → ALL PASS；放 v9.10.6，BB 瀏覽器看（最遠最陡看得進房間、從下面看格子還在、一進男宿看得到整個人）｜ 【LAWWW 帳號 A 10-22 09:3x】LAWWW2 63d4a3e3 交件、開發分支整合（四份 GLB 單面、201 T 型骨架只留底面；room_ceiling_unit 修改前 FAIL 8 → ALL PASS）；放 v9.10.6；BB 瀏覽器看：四間拉到最遠最陡看得進房間、預設鏡頭不變 ｜ LAWWW2 改 tools/blender/classroom_201.py、dorm_hall.py、linze_interior.py、wancai_interior.py 的天花板（單面朝下＋cull）、重新匯出 GLB；交件附遊戲內前後；放 v9.10.6",
    "xai": {
     "spec": "l118_arcade_1022/README.md 的天花板盤點；同 room_ceiling_unit 的檢查",
     "branch": "claude/second-ai-env-art",

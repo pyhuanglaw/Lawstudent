@@ -35,7 +35,7 @@ for (tx, tz) in TABLES:
     for i in range(3):
         for s in (-1, 1): SEATS.append((tx - 1.6 + i * 1.6, tz + s * 0.9, math.pi if s > 0 else 0.0))
 CASES = [('back', -10.9, -4.0, 0.95, 0.45, 2, 'low'), ('back', 4.0, 10.9, 0.95, 0.45, 2, 'low'), ('left', -6.0, 6.0, 2.4, 0.4, 5, 'tall')]
-DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0]}
+DIRS = {'front': [0, 0, -1], 'back': [0, 0, 1], 'left': [1, 0, 0], 'right': [-1, 0, 0], 'ceil': [0, -1, 0]}   # ceil：天花板的輕鋼架、燈框（往室內＝往下：鏡頭比它高時和牆一樣藏起來）
 random.seed(311)
 B.reset(texres=512)
 root = B.group('library_3f', props={'kind': 'library_3f', 'w': W, 'd': D, 'h': H})
@@ -56,8 +56,8 @@ M = {
     'chairwood': L.pbr('l3_chair_wood', 'walnut_veneer', tile=0.8, target='#9c7552', maps=('diff',), res=256, rough_value=0.55),   # fine_grained_wood 在椅子上像軟木塞（第一版的渲染）
     'ceil': L.pbr('l3_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
     'seat': L.flat('l3_seat_fabric', '#34493d', rough=0.9),
-    'tbar': L.flat('l3_ceiling_grid', '#dcdcd8', rough=0.5),
-    'light': L.flat('l3_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
+    'tbar': L.flat('l3_ceiling_grid', '#dcdcd8', rough=0.5),   # 輕鋼架、燈框：方盒照舊，整組放在 WALL_ceil_tbar（dir 朝下）：鏡頭拉到最遠最陡、比天花板高時藏起來（LAWWW2 10-22 第二版：只留底面的話從下面平視看遠處會不見）
+    'light': L.flat('l3_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc'), cull=True),
     'cornice': L.flat('l3_cornice', '#e9e2d3', rough=0.8),
     'base': L.flat('l3_baseboard', '#3a2a1e', rough=0.6),
     'frame': L.flat('l3_window_frame', '#3a3d40', rough=0.45, metal=0.3),
@@ -145,15 +145,15 @@ mk('floor').box(XI0, XI1, -0.03, 0.0, ZI0, ZI1)
 hquad(mk('ceil'), XI0, XI1, ZI0, ZI1, H)
 gx = XI0 + 0.25
 while gx < XI1 - 0.1:                                                          # 輕鋼架（60 cm）
-    mk('tbar').box(gx - 0.012, gx + 0.012, H - 0.012, H, ZI0, ZI1); gx += 0.6
+    wm('ceil', 'tbar').box(gx - 0.012, gx + 0.012, H - 0.012, H, ZI0, ZI1); gx += 0.6
 gz = ZI0 + 0.1
 while gz < ZI1 - 0.1:
-    mk('tbar').box(XI0, XI1, H - 0.012, H, gz - 0.012, gz + 0.012); gz += 0.6
+    wm('ceil', 'tbar').box(XI0, XI1, H - 0.012, H, gz - 0.012, gz + 0.012); gz += 0.6
 for (tx, tz) in TABLES:                                                        # 長桌正上方一條長燈（沿桌子長邊）
-    mk('tbar').box(tx - 2.24, tx + 2.24, H - 0.03, H - 0.006, tz - 0.16, tz + 0.16)
+    wm('ceil', 'tbar').box(tx - 2.24, tx + 2.24, H - 0.03, H - 0.006, tz - 0.16, tz + 0.16)
     hquad(mk('light'), tx - 2.2, tx + 2.2, tz - 0.12, tz + 0.12, H - 0.031)
 for (cx, cz) in [(0.0, -5.4), (0.0, -1.2), (0.0, 2.4), (0.0, 6.2), (-8.6, 6.4), (8.6, 6.4), (-8.4, -5.8), (8.4, -5.8), (-8.4, 0.6), (-8.4, 3.0), (7.6, 3.6), (7.6, -4.2)]:   # 走道的方燈
-    mk('tbar').box(cx - 0.64, cx + 0.64, H - 0.02, H - 0.004, cz - 0.34, cz + 0.34)
+    wm('ceil', 'tbar').box(cx - 0.64, cx + 0.64, H - 0.02, H - 0.004, cz - 0.34, cz + 0.34)
     hquad(mk('light'), cx - 0.6, cx + 0.6, cz - 0.3, cz + 0.3, H - 0.021)
 for (cx, cz) in [(-4.0, -5.2), (4.0, -5.2), (-4.0, 6.4), (4.0, 6.4), (0.0, 0.6)]:   # 冷氣出風口（方形、四方向的格柵）
     g = mk('grille'); g.box(cx - 0.3, cx + 0.3, H - 0.025, H - 0.005, cz - 0.3, cz + 0.3)
