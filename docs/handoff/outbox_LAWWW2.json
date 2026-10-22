@@ -1548,18 +1548,21 @@
   {
    "task": "PERF-CROWD-LOD-1021",
    "branch": "claude/second-ai-env-art",
-   "sha": "1fd9547a",
+   "sha": "8fe6ba52",
    "files": [
+    "docs/art-rebuild/second_ai/patches/crowd_far_lod.diff",
+    "assets/models/char/second_ai/lod/",
     "tools/lod/npc_lod.py",
-    "docs/art-rebuild/second_ai/patches/crowd_far_lod.diff"
+    "tools/shots/crowd_mem_probe.py",
+    "docs/art-rebuild/second_ai/test_shots/crowd_far_lod_1021/"
    ],
-   "state": "WIP",
-   "remaining": "j10 遊戲內量測整理；LAWWW 20:55Z 加的兩項（zone_dispose_unit、renderer.info.memory 換區前後）；README；交件",
-   "ack": "ACK",
-   "note": "原本 state：WIP（20:4x 開工通知已送 LAWWW，DELIVERED、沒 ACK）：工具＋patch（assets3d／character3d／engine3d）＋tests/npc_far_unit.js 修改前 FAIL、修改後 ALL PASS；21:4x 材質改成照 MToon 公式算明暗（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮），新檢查最大差 0.002；18 支相關單元測試前後都 ALL PASS；patch 對 80af0168 乾淨；原本 ack：LAWWW 20:11Z 派工（P2）；xai.ack 由 LAWWW 改（tasks.json 是 LAWWW 的檔），這裡記自領；LAWWW 20:55Z ACK 做法（只換 isExtra 無名路人和 GM.extras、換區域釋放網格貼圖＋zone_dispose_unit、遠的不跑彈簧骨、patch 對最新開發分支）",
-   "next": "LAWWW2：j10 量測看完＋補 zone_dispose_unit、換區前後 renderer.info.memory → README → 交 crowd_far_lod.diff＋lod GLB",
+   "state": "已交付",
+   "remaining": "真機沒看過；遠距離版本只作用在 30～60 m（61 m 外原本就藏起來），省下的是路人的兩到四成；要更多得從 20 m 開始（LAWWW 決定）",
+   "ack": "SENT",
+   "note": "原本 state：WIP（20:4x 開工通知已送 LAWWW，DELIVERED、沒 ACK）：工具＋patch（assets3d／character3d／engine3d）＋tests/npc_far_unit.js 修改前 FAIL、修改後 ALL PASS；21:4x 材質改成照 MToon 公式算明暗（身體陰影面 0.53、頭髮 0.47，第一版估的 0.82 太亮），新檢查最大差 0.002；18 支相關單元測試前後都 ALL PASS；patch 對 80af0168 乾淨；原本 ack：LAWWW 20:11Z 派工（P2）；xai.ack 由 LAWWW 改（tasks.json 是 LAWWW 的檔），這裡記自領；LAWWW 20:55Z ACK 做法（只換 isExtra 無名路人和 GM.extras、換區域釋放網格貼圖＋zone_dispose_unit、遠的不跑彈簧骨、patch 對最新開發分支）；原本 sha：1fd9547a（WIP）",
+   "next": "LAWWW：套 crowd_far_lod.diff 第二版（對 be8c1b0e 乾淨）＋拿 40 個 .lod.glb，跑 npc_far_unit 和 18 支相關單元測試",
    "receiver": "LAWWW",
-   "noDirectIntegrate": true
+   "noDirectIntegrate": false
   },
   {
    "task": "BUG-CAFE-KIT-GLOW-1021",
