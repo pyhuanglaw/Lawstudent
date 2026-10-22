@@ -1907,8 +1907,8 @@
    "next": "LAWWW 套 wz0_prop_nav.diff 第二版（對 be8c1b0e、7e00ad05 乾淨）＋換 wenzhou_street／gongguan_shops（.glb、.json、.props.json，7be8b62f）、lane118_street（e6c2669a），跑 street_props_nav_unit、wz_street_integration、gongguan_layout_nav、reachability_all --zones wenzhou,gongguan；GLB 和 patch 一起接。ART-WZ7 三件已在溫州街模型裡（README 4b），請改總表",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "溫州街舊店面翻修第二、三批：照 AA_164 7b 補缺的層、公館騎樓 39 樣門口雜物、販賣機展示窗；門口雜物導航阻擋（正式模型接上才擋）。j19c 回歸 ALL PASS、j19d 遊戲內前後 12 張"
+   "ack": "SENT",
+   "note": "溫州街舊店面翻修第二、三批：照 AA_164 7b 補缺的層、公館騎樓 39 樣門口雜物、販賣機展示窗；門口雜物導航阻擋（正式模型接上才擋）。j19c 回歸 ALL PASS、j19d 遊戲內前後 12 張｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",
@@ -1927,8 +1927,8 @@
    "next": "LAWWW 套 us_market_cam.diff、us_ms_seethru.diff（只動 src/us3d.js＋兩支新測試；對 7e00ad05 乾淨，和 airport_cam_night.diff、us_lamp_pools.diff 任何順序一起套都乾淨）＋換 us_asian_market.glb／.json（47eb0d5a、baf53ffd），跑 us_market_cam_unit、us_ms_seethru_unit 和美國其他 8 支單元測試",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "US-PATROL-1021（巡場景 j14 看到的）：①草原超市、亞洲超市一進門鏡頭在店外隔著黑色門框（P1）→草原超市四面外牆當鏡頭牆、亞洲超市正面的玻璃／框／門歸南牆一起淡出；②超市街下公車站牌柱擋住人（P2）→usms_vc_metal 網點透空。單元測試修改前 6＋1 FAIL、修改後 ALL PASS；遊戲內前後 j29"
+   "ack": "SENT",
+   "note": "US-PATROL-1021（巡場景 j14 看到的）：①草原超市、亞洲超市一進門鏡頭在店外隔著黑色門框（P1）→草原超市四面外牆當鏡頭牆、亞洲超市正面的玻璃／框／門歸南牆一起淡出；②超市街下公車站牌柱擋住人（P2）→usms_vc_metal 網點透空。單元測試修改前 6＋1 FAIL、修改後 ALL PASS；遊戲內前後 j29｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   },
   {
    "task": "ART-DORM-LOUNGE-1021",
@@ -1947,8 +1947,8 @@
    "next": "LAWWW 套 dorm_lounge.diff（src/data/dorm_layout.js、src/dorm3d.js 一行、tests/dorm_lounge_unit.js；對 27de6170 乾淨）＋換 assets/models/env/dorm_hall.glb（3588cc8c），跑 dorm_lounge_unit、nav_buildings_unit、flow_dorm_hall；沙發、矮桌、電視櫃、販賣機、飲水機、長桌的導航阻擋一格都沒變",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "B16 男宿交誼廳家具（P3）：方塊家具換成正式模型（皮沙發、地毯、販賣機售完那一排、飲水機、吊扇、冷氣、公告欄、窗簾、回收桶、盆栽）；三角形 12,116→18,490、draw call 上限 60→67；j25：5 支單元測試、flow_dorm_hall 27 項、reachability 32 個互動點 ALL PASS；場景美術由使用者驗收"
+   "ack": "SENT",
+   "note": "B16 男宿交誼廳家具（P3）：方塊家具換成正式模型（皮沙發、地毯、販賣機售完那一排、飲水機、吊扇、冷氣、公告欄、窗簾、回收桶、盆栽）；三角形 12,116→18,490、draw call 上限 60→67；j25：5 支單元測試、flow_dorm_hall 27 項、reachability 32 個互動點 ALL PASS；場景美術由使用者驗收｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   },
   {
    "task": "WZ-SHOP-AA364-ART",
@@ -1973,8 +1973,8 @@
    "next": "LAWWW 套 wz_shops2.diff 第四版（對 27de6170 乾淨；和 wz0_prop_nav.diff 兩種順序都乾淨）＋換林家、定食的 GLB 和四張窗景；溫州街 B5 菜單在 wenzhou_street.glb（和 ART-WZ0 同一份檔，7be8b62f 已包含）；半熟的 GLB 以鏡頭遮擋那一件為準；跑 wz_shops2_unit、wz_shops_unit、street_props_nav_unit、reachability_all --zones wz_lin,wz_teishoku、seats_on_furniture",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "AA_364：林家乾麵（A4）、巷子裡定食（B3）走得進去內用（10、18 個位子），118 巷店面做法的 Blender 正式模型；茶飲／冰菓室菜單、五月見。第三版：林家第一張桌子兩張椅子「坐下」按鈕的座位帶 ap（j23c reachability ALL PASS）；第四版：定食燈籠網點透空。j30：單元測試 ALL PASS、座位 0 問題"
+   "ack": "SENT",
+   "note": "AA_364：林家乾麵（A4）、巷子裡定食（B3）走得進去內用（10、18 個位子），118 巷店面做法的 Blender 正式模型；茶飲／冰菓室菜單、五月見。第三版：林家第一張桌子兩張椅子「坐下」按鈕的座位帶 ap（j23c reachability ALL PASS）；第四版：定食燈籠網點透空。j30：單元測試 ALL PASS、座位 0 問題｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   },
   {
    "task": "ART-DIRECTOR-LAWWW2",
@@ -1995,8 +1995,8 @@
    "next": "LAWWW 先套 wz_shops2.diff 第四版、再套 wz_shops_cam.diff（對 27de6170 乾淨，和 wz0_prop_nav 疊著也乾淨）＋換半熟、一盞 GLB（38c4b821），跑 wz_shops_cam_unit、wz_shops2_unit、wz_shops_unit、seats_on_furniture（wz_brunch、wz_teahouse）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "溫州街店家室內鏡頭遮擋（盤點工具 room_cam_audit.py）：一盞 29.3%→2.4%（隔間當鏡頭牆、正面那一排歸 WALL_engawa、燈籠網點透空）、半熟 11.4%→5.2%（排煙罩歸後牆、吊燈網點透空；也帶著 612028f6 的椅子方向）；wz_shops_cam_unit 修改前 12 FAIL、修改後 ALL PASS；j30 遊戲內前後、座位 0 問題"
+   "ack": "SENT",
+   "note": "溫州街店家室內鏡頭遮擋（盤點工具 room_cam_audit.py）：一盞 29.3%→2.4%（隔間當鏡頭牆、正面那一排歸 WALL_engawa、燈籠網點透空）、半熟 11.4%→5.2%（排煙罩歸後牆、吊燈網點透空；也帶著 612028f6 的椅子方向）；wz_shops_cam_unit 修改前 12 FAIL、修改後 ALL PASS；j30 遊戲內前後、座位 0 問題｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   },
   {
    "task": "LANE118-SHOPS-1020",
@@ -2012,8 +2012,8 @@
    "next": "LAWWW 套 l118_bar_lift.diff（src/l118_shops3d.js 一行、src/data/l118_shop_layouts.js、四份 l118_*.layout.json 只多 lift、tests/l118_bar_lift_unit.js；對 4660ca57 乾淨），跑 l118_bar_lift_unit、l118_shops_unit、seats_on_furniture（l118_cafe2、l118_pasta、l118_omu、l118_tea）；GLB 不用換",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
-   "note": "118 巷四家店吧台高腳椅（座面 0.76 m）17 個座位帶 lift 0.31：原本人坐進凳子裡（凳面在腰上）。l118_bar_lift_unit 修改前 8 FAIL、修改後 ALL PASS；j24 遊戲內側面前後；j24b seats_on_furniture 四家店 47 個座位有問題 0"
+   "ack": "SENT",
+   "note": "118 巷四家店吧台高腳椅（座面 0.76 m）17 個座位帶 lift 0.31：原本人坐進凳子裡（凳面在腰上）。l118_bar_lift_unit 修改前 8 FAIL、修改後 ALL PASS；j24 遊戲內側面前後；j24b seats_on_furniture 四家店 47 個座位有問題 0｜10-22 06:4x 一則訊息通知 LAWWW（DELIVERED），等 ACK"
   }
  ]
 }
