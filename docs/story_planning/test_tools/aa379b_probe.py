@@ -377,7 +377,7 @@ async def s_result_sleep(p, run, base, sid, out):
         await drive(pg, cdp, run, max_s=40, label=sid); res['ch'] = ch
         fl = await pg.evaluate(FLAGS); res['flags'] = fl; q1 = await pg.evaluate(OUTQ); res['out1'] = q1
         rang = any(any(o.startswith('接起來：') for o in c['opts']) for c in ch)
-        run.check('%s：21:00 上床「睡到明天」——21:30 的電話會響（S.result 註解「快轉、睡覺會停在電話」）' % sid, rang or fl.get('SIS_US_RESULT') == 'call',
+        run.check('%s：21:00 上床（選「睡一下」，沒有就「睡到明天」）——21:30 的電話會響（S.result 註解「快轉、睡覺會停在電話」）' % sid, rang or fl.get('SIS_US_RESULT') == 'call',
                   json.dumps({'床的選項': ops, '選單': ch[:4], 'SIS_US_RESULT': fl.get('SIS_US_RESULT'), '出遊': q1}, ensure_ascii=False)[:700])
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
