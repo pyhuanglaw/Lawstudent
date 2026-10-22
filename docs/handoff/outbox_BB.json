@@ -1084,7 +1084,7 @@
   {
    "task": "INV-BOTH-PRESENT-1021",
    "branch": "claude/story-planning",
-   "sha": "9b67d2d5",
+   "sha": "4d174f0d",
    "files": [
     "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
     "docs/story_planning/test_shots/inv_menu_1022/",
@@ -1092,12 +1092,12 @@
     "docs/story_planning/test_tools/flow_invite_phone_bp.py"
    ],
    "state": "WIP",
-   "remaining": "②當場再約、③一起走去 Café 回宿舍：卡在當面約的地點選單（橫向第一排點不到，P1 已報）；④不在約定的地方：排隊中；麵店重跑（87ca6aba 以後）排隊中",
-   "next": "畫面問題修好後重跑 bothpresent",
+   "remaining": "②當場再約「現在一起過去」、③一起走去 Café 路上回宿舍：卡在當面約的地點選單（手機橫向第一排點不到，P1 已報；直向正常）",
+   "next": "橫向選單修好後重跑 bothpresent NOW／WALK_*（或先改用直向跑）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
    "ack": "DELIVERED",
-   "note": "①PASS（19:00 總圖不說話自己開始、兩人坐下、演完站起來）；麵店沒一起坐 FAIL（已修 87ca6aba）；新 P1：手機橫向 ADV 當面約的地點選單第一排（Café、總圖）點不到"
+   "note": "①PASS（19:00 總圖不說話自己開始、兩人坐下、演完站起來）；麵店：87ca6aba 修正後重跑 PASS（對面 1.6 m）；④不在約定的地方 PASS（沒有開始、20:01 記沒赴約＋訊息）；新 P1：手機橫向 ADV 當面約的地點選單第一排（Café、總圖）點不到"
   },
   {
    "task": "BUG-SIS-STUDY-COMPANION-1021",
