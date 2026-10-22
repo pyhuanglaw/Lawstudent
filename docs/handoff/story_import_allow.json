@@ -945,12 +945,17 @@
   },
   {
    "path": "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md",
-   "sha": "da55ec2b",
+   "sha": "965815f5",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 7 節（週末回台中也照 T7a、S6；沛珊兩句新寫）手動放進 date3d.js、invites3d.js；tests/aa372_s7_unit.js 逐句對稿；前面各節照舊版",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿；965815f5 只改第 7 節沛珊婉拒句的說明「只用在週末回台中」（寒暑假照 hometown3d，AA 03:41「不要」）；句子和 da55ec2b 一樣",
    "task": "AA372-S7-TAICHUNG-WEEKEND-1022",
    "kind": "text",
    "history": [
+    {
+     "sha": "da55ec2b",
+     "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 7 節（週末回台中也照 T7a、S6；沛珊兩句新寫）手動放進 date3d.js、invites3d.js；tests/aa372_s7_unit.js 逐句對稿；前面各節照舊版",
+     "task": "AA372-S7-TAICHUNG-WEEKEND-1022"
+    },
     {
      "sha": "7fca0df5",
      "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；7fca0df5 加第 6 節（AA 20:5x 答實作後十題，2、3、7、8、9、10 要改）。第 13、18 項以安閒聊階梯的兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（tools/ladder/import_ladder.py 不再疊）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js、encounters.js、phone3d.js、social3d.js",

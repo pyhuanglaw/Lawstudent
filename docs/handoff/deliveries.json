@@ -13035,6 +13035,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）02:4x 整合進開發分支 e8c4ce7a（patch 對 c51e4b72 乾淨；441 支全過）；engine3d.js 讀定義上的 seeThru（參考建議）沒收；BUG-CAFE-FLOOR-MIRROR-1021 一起；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-8fe6ba52",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8fe6ba52",
+   "what": "PERF-CROWD-LOD-1021 第二版：遠距離（30～60 m）路人換低面數版本＋遠的不跑彈簧骨（patches/crowd_far_lod.diff：assets3d／character3d／engine3d＋tests/npc_far_unit.js＋tools/shots/crowd_lod_audit.py；assets/models/char/second_ai/lod/ 40 個 .lod.glb 10.8 MB）；大道中段 −34 draw call、−9.6 萬三角形；記憶體三趟沒有變多",
+   "task": "PERF-CROWD-LOD-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）"
   }
  ],
  "ignored": [
