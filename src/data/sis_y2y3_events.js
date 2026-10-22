@@ -46,10 +46,17 @@ const SISY23_EVENTS=(function(){
     {label:'tp_b'},SIS('……我不知道。那天以後，就沒再見過她。'),
     {label:'tp_end'},{if:dt,speaker:ID,text:'我爸媽還不知道。……他們會問，寫這個以後要做什麼。'},
     {mem:[{npc:ID,tag:'SIS_TOPIC',note:''}]},{set:{SIS_TOPIC_Y2:true}} ];
+  /* AA_386 第 2 節（企劃線 e848154a；AA_379 2-6 已加註）：聽過她提美國的——大二下閒聊階梯學姊的進度已經過了 S4-Lx（「碩三上，我想去美國交換一學期。」）、
+     或有記憶 SIS5_EXCHANGE_APP（大三上 S5-L1「我在寫交換的申請。」）、或 AA_386 1-2 選了「學姊現在還可以去啊。」（SIS_ADV_EXCH go）——一般版那一句換成兩句；都沒聽過的照原句 */
+  const heardUS=G=>{ const F=(G&&G.flags)||{}; if(F.SIS_ADV_EXCH==='go') return true; if(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(ID,'SIS5_EXCHANGE_APP')) return true;
+    const St=typeof LADDER!=='undefined'&&LADDER.byTerm&&LADDER.byTerm.Y2S2&&LADDER.byTerm.Y2S2[ID]&&LADDER.byTerm.Y2S2[ID].steps, i=Array.isArray(St)?St.findIndex(s=>s&&s.id==='S4-Lx'):-1, P=G&&G.social&&G.social.ladder;
+    return i>=0&&!!P&&(P[ID+'@Y2S2']|0)>i; };   /* 階梯的進度＝G.social.ladder['heroine_05@Y2S2']（下一層的位置；story3d.js ladData 的 key）*/
   /* 2-6 的台詞（說話前接演、台階那一版共用）*/
   const US=[ SIS('明年夏天，我想去美國待一個學期。研究交換。'),
     SIS('八月走，十二月回來。論文的第三章，要在那邊寫。'),
-    {unless:dt,speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
+    {unless:{custom:G=>dating(G)||heardUS(G)},speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
+    {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'之前跟你提過。'},
+    {if:{custom:G=>!dating(G)&&heardUS(G)},speaker:ID,text:'……申請送出去了。今天才覺得是真的。'},
     {unless:dt,choice:[{text:'「去啊。」',goto:'us_a'},{text:'「那妳會回來吧？」',goto:'us_b'}]},
     {if:dt,speaker:ID,text:'你們系的交換名單，美國那間我查過了。跟我同一個學期。'},
     {if:dt,speaker:ID,text:'你如果去，我們同一班飛機。'},

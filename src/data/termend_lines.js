@@ -10,6 +10,9 @@ const TERMEND_LINES=(function(){
   const Q6=G=>!!(G&&G.events&&G.events.done&&G.events.done.ev_ziqing_secret_game);
   const TM=G=>{ const w=typeof TERMEND!=='undefined'&&TERMEND.window?TERMEND.window(G):null; return w?w.id:null; };   /* 現在是哪一學期的期末時段 */
   const US4=G=>TM(G)==='Y4S1'&&typeof STORY!=='undefined'&&STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';   /* 美國路線的大四上：12/23 才回來（AA_254 第 0 節 BB-C 16:45 規則：「你考完了沒」換成「你回來了」那一類）*/   /* 子晴做遊戲是秘密，大一下 Q6 才揭露（BB_166 1-1；AA-C 375b91dd）*/
+  /* AA_386 3-3（企劃線 e848154a）：學姊大四上的學期末那頓（交往版）剛好在 2028-12-24、而且 3-2 研究室那晚有來（SIS_XMAS_Y3 there）＝多兩句；美國路線「……我們做到了。」*/
+  const XM3=G=>!!G&&!!G.flags&&G.flags.SIS_XMAS_Y3==='there'&&typeof STORY!=='undefined'&&!!STORY.dayOfKey&&G.day===STORY.dayOfKey('2028-12-24');
+  const XM3US=G=>typeof STORY!=='undefined'&&!!STORY.routeAbroadRoute&&STORY.routeAbroadRoute(G)==='US';
   /* 沛珊大三起在台南（AA_282 第 5 節第 5 點）：期末飯的地點、交通（高鐵去、搭最後一班高鐵回臺北；票錢照 hometown_lines.js 台南那一組 2700）——系統字，不是台詞 */
   const PS_TN={place:'eatery_tn',placeName:'台南・她學校附近的簡餐',travel:'高鐵（去台南）約兩小時',travelH:2,back:'搭最後一班高鐵回到臺北。',fare:2700};
   /* 地點：AA_250 10-1 一對一的開場、收尾（AA-C c524b61e）；bg＝2D 底圖（沒有的先用相近的，正式圖等 LAWWW2） */
@@ -133,7 +136,7 @@ const TERMEND_LINES=(function(){
     heroine_03:{invite:'打烊以後。我煮。',place:'noodle_closed',placeName:'麵店打烊後',h:21,wd:4,table:G=>{ const T=typeof CALENDAR!=='undefined'?(CALENDAR.termOf(G.day)||CALENDAR.termOf(G.day-10)):null, w=T&&/S1$/.test(T.id); return w?'我媽問你寒假要不要來吃年菜。……我說我問問看。':'我媽問你暑假要不要來吃飯。……我說我問問看。'; },
       tableByTerm:{Y2S2:[{narr:'（她把兩碗麵推過來。她那碗多了一把蔥。）'},'……今天想吃蔥。'],Y3S1:['阿姨續約那天，買了一瓶汽水，倒了三杯。','……一杯是你的。我幫你喝了。'],Y3S2:['暑假田野要出去兩個禮拜。','……那兩個禮拜，阿姨會一直問你我在哪。'],Y4S1:['你國考前那幾個月，晚上來店裡讀。','……長桌最裡面那個位子，我幫你留。'],Y5S1:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。']}},
     heroine_05:{invite:'考完了吧？今天晚上我空著。法圖旁邊那家。',place:'eatery_lib',placeName:'法圖旁邊的簡餐',h:18.5,table:'今天我沒帶計畫本出門。',
-      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。','……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'],Y5S1:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。']},
+      tableByTerm:{Y2S1:['碩一的報告，教授退了兩次。','……第三次他說可以。這一頓我請。'],Y2S2:['這學期我待在研究室的時間，比在家還長。','……今天不回研究室了。'],Y3S1:['美國那邊的結果三月出來。','……收到信那天，我打給你。'],Y3S2:[{narr:'（她把一張紙推過來。是行李清單。）'},'你幫我看。……我總覺得少了什麼。'],Y4S1:['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。',G=>XM3(G)?'去年在研究室說的。剛回來一天。':null,G=>XM3(G)?(XM3US(G)?'……我們做到了。':'……我做到了。'):null],Y5S1:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。']},
       over:[{terms:['Y5S1'],invite:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。'}]},
     heroine_02:{invite:'禮拜五九點，等我下班。',place:'cafe',placeName:'兩點半 Café 打烊後',h:21,wd:5,table:'店長最近都讓我早一點下班。她什麼都沒問。',
       tableByTerm:{Y2S1:['寒假我排了很多班。','……週五下班以後的時間，我沒排。'],Y2S2:['英國那邊，我一個人都不認識。','……你不准趁我不在，去別家喝咖啡。'],Y3S2:['九月又要走，這次一年。','……六月的週五，你先全部給我。']/* AA_377 第 11 項：她 7/1～8/1 在台中 */,Y5S1:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。']},
