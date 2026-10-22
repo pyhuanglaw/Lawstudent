@@ -1,6 +1,10 @@
 # 溫州街店面（AA_364）：林家乾麵、巷子裡定食走得進去內用；巷口茶飲、夏日冰菓室的外帶窗口（WZ-SHOP-AA364-ART）
 
-帳號 A 的 LAWWW2，2026-10-21 23:0x～10-22 UTC。狀態：**WIP**——模型、配置、patch（第二版）、遊戲內截圖、單元測試好了；林家乾麵兩張椅子的走近點已修，瀏覽器重驗排在佇列 j23b（過了才交件）。
+帳號 A 的 LAWWW2，2026-10-21 23:0x～10-22 06:3x UTC。
+
+- **狀態**：模型、配置、patch（**第四版**）、遊戲內截圖、單元測試、瀏覽器 reachability 都好了；`seats_on_furniture`（佇列 j30）拿到結果就交件。
+- 第三版：林家乾麵兩張椅子的走近點，「坐下」按鈕的座位也帶著（第二版只寫進區域的座位表，j23b 照樣卡住）；j23c 瀏覽器 reachability ALL PASS。
+- 第四版：巷子裡定食的和紙燈籠網點透空（配置 `seeThru`、區域 `seeThru`）。
 
 - 規格：AA_364 第 1、2 節（企劃線 `2b0429cd`）、店名虛構（D77）。
 - 排程：tasks.json 這一項寫「v9.10.3 發布後」整合（D99 三個優先項目先做）。這次先交，**什麼時候接由 LAWWW 決定**；不用插在 D99 前面。
@@ -76,8 +80,17 @@
   - 候選全滅時，seatApproach 退回椅子前面 0.5 m，那裡在桌子裡面，走過去卡住。
   - **patch 第二版**：這兩張椅子的配置加 `ap`（從中間走道走近：(−1.3, 1.05)、(−1.3, 2.2)），`wzShop` 把 `ap` 帶進座位。
   - `wz_shops2_unit` 加一項「每張椅子走近的點至少一個站得住、從門口走得到」：沒修 1 FAIL（正好是這兩張椅子）、修好 ALL PASS。
-  - 瀏覽器重驗排在佇列 j23b。
-- `seats_on_furniture`（j23）沒跑成：測試用 `p.chromium.launch()` 沒給 `executable_path`，這個沙盒沒有 Playwright 預設的瀏覽器。j23b 用包一層的方式（`pwwrap.py` 補上預裝的 Chromium）重跑。
+  - j23b 瀏覽器重驗：**照樣 FAIL**。`ap` 只寫進區域的座位表（`z.seats`），「坐下」按鈕的座位是另一份（`GAME.seatMenu` → `freeSeat` 沒人坐就原樣回傳 → `seatApproach`），沒有 `ap`。
+  - **patch 第三版**：按鈕的座位也帶 `ap`。`wz_shops2_unit` 改量按鈕的座位、加一項「配置寫了 `ap` 的座位，按鈕和區域的座位表都帶著」：第二版 2 FAIL、第三版 ALL PASS。
+  - j23c（開發分支 `c08889bf`＋第三版）：`reachability_all --zones wz_lin,wz_teishoku` **ALL PASS**（林家乾麵 11 個互動點、「坐下」都走得到）。
+- `seats_on_furniture`（j23）沒跑成：測試用 `p.chromium.launch()` 沒給 `executable_path`，這個沙盒沒有 Playwright 預設的瀏覽器。
+  - j23b 用包一層的方式（`pwwrap.py` 補上預裝的 Chromium）重跑：林家乾麵 10、定食 18、半熟 12 個座位，有問題 0（第二版）。
+  - 第四版在 j30 再跑一次（拿到結果補上）。
+- **第四版：巷子裡定食的和紙燈籠**（j23 晚上坐四人桌，燈籠吊在鏡頭前面）：
+  - 配置 `seeThru: ['GLOW_wz_teishoku_washi']`，`wzShop` 把區域的 `seeThru` 打開、模型接上以後標材質。
+  - 燈籠擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空（`engine3d.js` 的樹幹透視）。
+  - `wz_shops2_unit` 第 5 項：第三版 3 FAIL、第四版 ALL PASS。
+  - j30（第四版，完整工作目錄）：`wz_shops2_unit`、`wz_shops_unit`、`street_props_nav_unit` ALL PASS。鏡頭在人前面的角度排 j33 補拍。
 
 ## 外帶窗口：給 LAWWW 的座標（溫州街世界座標，都在人行道上、走得到）
 
@@ -99,12 +112,14 @@
 2. 換模型（我的分支）：`assets/models/env/second_ai/` 的 `wz_lin_interior.glb`＋`.json`、`wz_teishoku_interior.glb`＋`.json`（新）、`wz_brunch_interior.glb`＋`.json`（椅子方向）、`wenzhou_street.glb`＋`.json`（B5 菜單、紙條）。
 3. 窗外的街景照片（我的分支）：`assets/models/env/views/wz_lin_day.webp`、`wz_lin_night.webp`、`wz_teishoku_day.webp`、`wz_teishoku_night.webp`。
 4. `wz0_prop_nav.diff`（溫州街雜物導航，另一件交件）可以一起套：兩種順序都套得上。
+5. 半熟的 `wz_brunch_interior.glb` 後來又改了兩次（排煙罩歸後牆、吊燈自己的材質），以 `test_shots/wz_shops_cam_1022/` 那一件為準（`38c4b821`）。
 
 ## 還不到的地方（誠實寫）
 
 - 點餐、店員、營業時間還沒有（LAWWW 的部分）：這一版走進去只能坐下、離開。
 - 店外是照片（`room()` 的窗景），不是 3D 街景。
 - 林家乾麵往廚房的布簾不能進去（照設計）。
-- 巷子裡定食晚上坐四人桌時，紙燈籠吊在鏡頭前面，擋住一部分畫面（`teishoku_table_20`）。可以讓燈籠在鏡頭比它高時藏起來，或標網點透空；下一輪做。
-- 半熟早午餐（`wz_brunch`）j23 拍的「坐下」那一張，鏡頭被一根灰色的柱子擋住大半（修改前、修改後都一樣，和這一件的椅子方向無關）；要查是哪一根、鏡頭怎麼到柱子後面。
+- 巷子裡定食的燈籠：第四版網點透空了；鏡頭在人前面的角度還沒在遊戲裡拍到（j33）。
+- 半熟早午餐（`wz_brunch`）j23 拍的「坐下」那一張，鏡頭被一大塊灰色擋住：查到是排煙罩的煙囪（掛在後牆上，後牆淡出了它還在）。已修，另一件交件（`test_shots/wz_shops_cam_1022/`）。
+- 巷子裡定食吧台上方的橫樑、木札（菜單牌）：鏡頭在廚房那一側時，橫在畫面中間一條（人看得到）。
 - 真機沒看過；遊戲內截圖是 Playwright＋SwiftShader 手機模擬。
