@@ -431,10 +431,10 @@ for i, f in enumerate(L['furniture']):
         g = group(pre, P); g.location = g2b(f['x'], y, f['z']); g.rotation_euler = (0, 0, ry)
         rr = random.Random(77 + i)
         rbox(pre + '_base', MAT['fabric'], (0, 0.2, -0.02), (2.2, 0.2, 0.84), g, bevel=0.03, seg=2)
-        rbox(pre + '_backframe', MAT['fabric'], (0, 0.52, -0.37), (2.2, 0.48, 0.14), g, bevel=0.04, seg=2)
+        rbox(pre + '_backframe', MAT['fabric'], (0, 0.55, -0.37), (2.2, 0.58, 0.16), g, bevel=0.06, seg=3)   # 椅背框比靠墊高：從後面看是一整片圓邊的椅背，不是一堆方塊
         for k, sx in enumerate((-0.62, 0.0, 0.62)):
             rbox(f'{pre}_cush_{k}', MAT['fabric'], (sx, 0.375 + rr.uniform(-0.01, 0.003), 0.06), (0.61, 0.15, 0.68), g, rot=(0, 0, rr.uniform(-0.012, 0.012)), bevel=0.055, seg=3)
-            rbox(f'{pre}_bcush_{k}', MAT['fabric'], (sx, 0.6, -0.235), (0.6, 0.42, 0.16), g, rot=(math.radians(-10) + rr.uniform(-0.03, 0.03), 0, 0), bevel=0.06, seg=3)
+            rbox(f'{pre}_bcush_{k}', MAT['fabric'], (sx, 0.6, -0.2), (0.6, 0.4, 0.15), g, rot=(math.radians(-8) + rr.uniform(-0.025, 0.025), 0, 0), bevel=0.06, seg=3)
         for sx in (-1, 1): rbox(f'{pre}_arm_{sx}', MAT['fabric'], (sx * 1.02, 0.45, -0.02), (0.16, 0.34, 0.86), g, bevel=0.07, seg=3)
         for (lx, lz) in ((-1, -1), (1, -1), (-1, 1), (1, 1)): cyl(f'{pre}_leg_{lx}_{lz}', MAT['frame'], (lx * 1.0, 0.0, lz * 0.36), (lx * 1.0, 0.1, lz * 0.36), 0.022, g, seg=8, r2=0.03)
     elif t == 'coffeeTable':   # 矮桌：木桌面（深色收邊）、下層層板放雜誌；桌上折起來的報紙、遙控器、面紙盒、馬克杯
