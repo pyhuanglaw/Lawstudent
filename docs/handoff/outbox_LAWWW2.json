@@ -1686,21 +1686,22 @@
   {
    "task": "PERF-ZONE-ENTER-1018",
    "branch": "claude/second-ai-env-art",
-   "sha": "10ec4b7a",
+   "sha": "3d6f2cee",
    "files": [
     "docs/art-rebuild/second_ai/patches/zone_prewarm.diff",
     "tools/shots/zone_enter_probe.py",
     "tools/blender/env_second/wz_jphouse.py",
     "assets/models/env/second_ai/wz_jphouse.glb",
-    "assets/models/env/second_ai/wz_jphouse.json"
+    "assets/models/env/second_ai/wz_jphouse.json",
+    "docs/art-rebuild/second_ai/test_shots/zone_enter_1021/"
    ],
-   "state": "WIP",
-   "remaining": "遊戲內換區域量測修改前（j16）、修改後（j16a）跑完才交件；game3d.js 是 LAWWW 的檔，交件前先通知",
-   "ack": "未派",
-   "note": "原本 state：WIP：zone_prewarm.diff（zones3d.js 的 Z3.prewarm＋game3d.js 的 enter 淡入前等它；tests/zone_prewarm_unit.js 修改前 2 FAIL、修改後 ALL PASS；對 34e488e4、80af0168 都乾淨）；wz_jphouse.glb 不再帶整張 2048² 招牌圖集（63d3bc5e）",
-   "next": "LAWWW2：j16c 量測整理 → README → 交 zone_prewarm.diff（game3d.js 一行是 LAWWW 的檔，交件時說明）",
+   "state": "已交付",
+   "remaining": "預熱本身的效果要真的電腦確認；路人輪換（LAWWW 的範圍）是最大的卡；手機照舊",
+   "ack": "DELIVERED",
+   "note": "原本 state：WIP：zone_prewarm.diff（zones3d.js 的 Z3.prewarm＋game3d.js 的 enter 淡入前等它；tests/zone_prewarm_unit.js 修改前 2 FAIL、修改後 ALL PASS；對 34e488e4、80af0168 都乾淨）；wz_jphouse.glb 不再帶整張 2048² 招牌圖集（63d3bc5e）；10-22 01:4x 交件：第五版只在電腦上預熱（手機模擬一次黑畫面 13.6 秒）；j16c 量測整理在 README",
+   "next": "LAWWW git apply zone_prewarm.diff（第五版；對 77554430 乾淨；game3d.js 的 enter 一行是 LAWWW 的檔）＋換 wz_jphouse.glb／.json；跑 tests/zone_prewarm_unit.js；路人輪換的建議見 README",
    "receiver": "LAWWW",
-   "noDirectIntegrate": true
+   "noDirectIntegrate": false
   },
   {
    "task": "ART-ECON-3D-GAP-1021",
