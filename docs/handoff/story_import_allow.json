@@ -141,11 +141,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "49ed7e6a",
+   "sha": "088556ed",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：大一上 NO_DATE_ZZ 加 ZZ_DATING、4-2 以後不說（notEvents ev_zz_home_together）；D100、D109）；49ed7e6a→088556ed 只差這一處（build_ladder_bb.py 一行、JSON 六格），tools/ladder/import_ladder.py 匯入",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "9fecc202",
      "approvedBy": "AA-C 定稿（DL-AA-8fcc2c7e：AA_304「星期三體育課，五點二十才下課」；225ac957 記憶名稱補 KX0_SHOP／KX0_EGG；之前 9fecc202 AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
@@ -187,11 +191,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "2e255e9a",
+   "sha": "088556ed",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_350 第 9 節 S3：「九月初回來」→「八月底回來」，企劃分支 2e255e9a；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：NO_ZZ_YET 加 ZZ_DATING、4-1 第 5 句放子晴 Q2-L3 extraIf；D100、D109）；2e255e9a→088556ed 只差這兩處（記憶 ZQ_ZR_FILM_DAY 的人物頁名稱 AA 沒寫，social3d.js 暫定），tools/ladder/import_ladder.py 匯入",
    "task": "ROM-1017",
    "history": [
+    {
+     "sha": "2e255e9a",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_350 第 9 節 S3：「九月初回來」→「八月底回來」，企劃分支 2e255e9a；D100 台詞歸 AA）"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -1560,9 +1568,23 @@
   },
   {
    "path": "docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md",
-   "sha": "afebee54",
+   "sha": "088556ed",
    "status": "approved",
-   "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；台詞手動放進 src/data/zrzq_events.js（子代理，LAWWW 帳號 A 10-22 合併 1ecb7124）；tests/zrzq_line_unit.js 逐句對稿",
+   "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；AA（帳號 A）2026-10-22 09:31 跟著 AA_385 改第二節互斥（只擋 L2／L3、婉拒用系統現成的句子）、4-1 第 5 句、4-4 結局 C「九月」、七-3 改宵夜、七-6 訊息版拿掉（D100、D109）；台詞手動放進 src/data/zrzq_events.js；tests/zrzq_line_unit.js 讀 088556ed 逐句對稿",
+   "task": "AA290-INTAKE",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "afebee54",
+     "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；台詞手動放進 src/data/zrzq_events.js（子代理，LAWWW 帳號 A 10-22 合併 1ecb7124）；tests/zrzq_line_unit.js 逐句對稿"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_385_芷若子晴_實作後七題.md",
+   "sha": "028dc128",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（回 LAWWW 09:25 七題；D100、D109）；第 1、2、4、5、7 項台詞手動放進 src/data/zrzq_events.js（SERIOUS.HELD、END.C_FY、TOLD、UK 第 1 則、F3_TOLD_JP），接線 src/zrzq3d.js、story3d.js talkCharacter；第 3 項是閒聊階梯源檔（ladder_bb.json、ladder_bb_y1s2.json@088556ed）；第 6 項 invites3d.js partnerBlock 的 soloOk；第 9 節（028dc128，子晴「芷若在英國」那三種說法）LAWWW 在開發分支做；tests/aa385_zz_unit.js 讀 028dc128 逐句對稿",
    "task": "AA290-INTAKE",
    "kind": "text"
   },

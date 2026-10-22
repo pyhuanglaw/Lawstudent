@@ -1,5 +1,6 @@
 /* ===== 林芷若 × 高子晴：從摯友到戀人（條件式 NPC 感情線）——台詞與事件 =====
-   台詞：企劃線 AA_232（afebee54；使用者 2026-10-18 核准「照 AA_232 做，v9.10 以後」；D109 AA 定稿），使用者給的示範對話逐字照用、這裡一字不改。
+   台詞：企劃線 AA_232（088556ed；使用者 2026-10-18 核准「照 AA_232 做，v9.10 以後」；D109 AA 定稿），使用者給的示範對話逐字照用、這裡一字不改。
+   AA_385（企劃線 028dc128，AA 2026-10-22 回 LAWWW 09:25 的七題）：4-4 結局 C 那一句、選了方奕廷的尾聲旁白、其中一人自己告訴祐廷（ZZ_TOLD_YT）、4-6 改宵夜、日本路線婉拒改當面（F3_TOLD_JP），逐字照用。
    機制（狀態、觸發、順延、存檔）：BB_194 §23（a90e8569）；4-4 的甲：AA_243 第 2 節（20d5734f）。接線在 src/zrzq3d.js（ZRZQ）。任務：USER_WANTS C22、AA243-P02、AA290-INTAKE（AA_232 部分）。
    - 每一句寫成 [誰, 原文]：zr 芷若（heroine_02）、zq 子晴（heroine_04）、yt 祐廷（玩家）、n 旁白、th 祐廷的心裡話（稿上寫「祐廷心想：「…」」，照原文當旁白顯示）。
      稿裡的「祐廷」在遊戲裡換成玩家的名字（{name}，同其他事件；預設就是祐廷）。
@@ -9,7 +10,7 @@
    測試：node tests/zrzq_line_unit.js */
 'use strict';
 const ZRZQ_LINES={
-  src:'AA_232 afebee54／BB_194 §23 a90e8569／AA_243 第 2 節 20d5734f',
+  src:'AA_232 088556ed／AA_385 028dc128／BB_194 §23 a90e8569／AA_243 第 2 節 20d5734f',
   FILM:[['小津的電影','《秋天的晚飯》'],['小津','《秋天的晚飯》']],   /* 照順序換（「小津的電影」整個換成片名）*/
   /* 第九節：入場旁白（畫面帶到現場前的第一句，依祐廷那時在哪裡挑；{課名}＝他那天實際上的最後一堂課）＋4-0 第二張表（她們畢業以後的場次）*/
   IN:{
@@ -65,7 +66,7 @@ const ZRZQ_LINES={
       ['zr','那……要不要試試看？'],['zq','試什麼試。在一起啦。'],['zr','好。']],
     cutA:14, cutB:13,   /* A 到「就是……我也是。」、B 到「我也喜歡妳啊。」 */
     END:[['n','（你站在轉角，忽然明白她們剛才在說什麼。）'],['th','祐廷心想：「……真的假的？」'],['n','（你沒有走過去。）']],
-    HELD:[['zr','……可是我下個月就要走了。'],['zq','我知道。'],['zq','那就先這樣。妳回來再說。']],
+    HELD:[['zr','……可是我九月要去英國了。'],['zq','我知道。'],['zq','那就先這樣。妳回來再說。']],   /* AA_385 第 1 項：原本「……可是我下個月就要走了。」（那時離出國還有三個月）；後兩句照舊 */
     /* 七-4：芷若交換回來以後才播的 4-4（ev_zz_serious_again）的開頭；接 B 的「妳有沒有想過…」，或子晴「……我也是。」接 A 的「我們現在這樣，算什麼啊？」*/
     AGAIN:[['zq','妳回來了。'],['zr','回來了。'],['zq','……倫敦怎樣？'],['zr','下雨。很多電影。'],['zr','還有，一直想到妳。']],
     AGAIN_A:[['zq','……我也是。']], fromA:2, fromB:2,
@@ -79,10 +80,11 @@ const ZRZQ_LINES={
     [['zq','傘。'],['zr','妳自己呢？'],['zq','我跑的。'],['zr','高子晴。'],['zq','好啦，一起撐。']],
     [['zr','妳剛剛輸了偷偷按重來，我看到了。'],['zq','……那叫重新挑戰。'],['zr','喔。']],
     [['zq','這週我要閉關做遊戲。'],['zr','好。我去看三場早場。']] ],
-  /* 4-6 英國遠距（祐廷和子晴一起熬夜時；芷若那邊照子晴念出來或給他看）：第 1 則＝第七節第 3 點的祐廷在場版（「想妳」「我也是」不在他面前出現）；
+  /* 4-6 英國遠距（祐廷和子晴一起熬夜時；芷若那邊照子晴念出來或給他看）：第 1 則＝第七節第 3 點的祐廷在場版（「想妳」「我也是」不在他面前出現）——
+     AA_385 第 5 項改到公館宵夜（23:00 前後，倫敦是下午；原本要臺灣凌晨四點，子晴的作息演不到）；
      第 2～4 則＝AA 補的三則，照「給他看」的呈現（她把手機、明信片給他看；說話的人標「（手機）」「（明信片）」）*/
   UK:[
-    [['zq','（看手機）她說那邊晚上九點。……靠，好亮。'],['zq','（打字，念出來）「凌晨四點啦。快好了。」'],['n','（手機亮了一下。她看了很久。）'],['zq','……她叫我全名。'],['zq','好啦，我回去睡了。你也是。']],
+    [['zq','（看手機）她說那邊才下午。……我這邊都在吃宵夜了。'],['zq','（打字，念出來）「在吃宵夜。第二份。」'],['n','（手機亮了一下。她看了很久。）'],['zq','……她叫我全名。'],['zq','好啦，我不吃了。你也是。']],
     [['zq@','第三關。妳不在，沒人卡關，我不知道難不難。'],['zr@','我回去卡給妳看。']],
     [['zr@','今天跟同學去看一部默片，一個義大利人看到哭。'],['zq@','妳呢？'],['zr@','我沒哭。……好啦，有一點。']],
     [['zr#','這裡的雨比台北小。可是下比較久。']] ],
@@ -90,19 +92,29 @@ const ZRZQ_LINES={
   LEARN:{hurt:[['yt','妳們……在一起了？'],['zq','對啊。'],['yt','什麼時候的事？'],['zq','干你屁事。'],['zr','子晴。'],['zq','好啦。'],['n','（她看向祐廷。）'],['zq','反正我們現在很好。']],
     friend:[['yt','妳們在一起了？'],['zq','對啊。'],['zr','嗯。'],['yt','恭喜。'],['zq','謝啦。'],['zr','謝謝。']],
     heard:'妳們……真的在一起了？'},
-  /* 第三節：F3 芷若婉拒（已經和子晴在交往；和祐廷熟才有）——在 Café 告訴祐廷；祐廷人在國外＝第七節第 6 點的訊息版；之後方奕廷傳給祐廷三則（FAMILIAR 以上）*/
+  /* 第三節：F3 芷若婉拒（已經和子晴在交往；和祐廷熟才有）——在 Café 告訴祐廷；之後方奕廷傳給祐廷三則（FAMILIAR 以上）。
+     日本路線（F3 那天祐廷在日本）＝AA_385 第 7 項：回國以後第一次在 Café 找她說話（同 AA_296 ⑤ 的時段、地點），第一句前面加「你不在的時候，」（F3_TOLD_JP）；
+     原本第七節第 6 點的訊息版（F3_TOLD_MSG，祐廷在國外收到）拿掉 */
   F3_TOLD:[['zr','奕廷約我去看小津。'],['zr','我說不行。……我跟子晴在一起。'],['zr','他說「好」，然後跟我講了十分鐘那部電影的導演。'],['zr','他人很好。']],
-  F3_TOLD_MSG:['奕廷約我去看小津。','我說不行。我跟子晴在一起。','他回「好」，然後傳了一大段那個導演的事。','他人很好。'],
+  F3_TOLD_JP:[['zr','你不在的時候，奕廷約我去看小津。'],['zr','我說不行。……我跟子晴在一起。'],['zr','他說「好」，然後跟我講了十分鐘那部電影的導演。'],['zr','他人很好。']],
   F3_FANG:['她跟我說了。','……我還是會記得她看過什麼。這個改不掉。','下次爬山，你來。'],
+  /* AA_385 第 4 節：她們交往中、祐廷還不知道——其中一人自己告訴他（ZZ_TOLD_YT）。找她說話時先演、演完照常閒聊（src/zrzq3d.js S.preTalk）；
+     opts＝[選項, 她的回答]（選項照稿加「」，同其他事件的選項）*/
+  TOLD:{zr:{lines:[['zr','跟你說一件事。'],['zr','我跟子晴在一起了。……她說要自己講，我想說，我先講好了。']],
+      opts:[['「恭喜。」',[['zr','謝謝。……她知道我先講，一定會生氣。']]],['「我好像早就知道了。」',[['zr','（笑）她也說你一定知道。']]]]},
+    zq:{lines:[['zq','欸，跟你講一件事。'],['zq','我跟芷若在一起了。……幹嘛，那什麼表情。']],
+      opts:[['「恭喜。」',[['zq','謝啦。……先不要跟阿凱講，我要自己講。']]],['「真的假的？」',[['zq','真的啦。你很煩耶。']]]]}},
   /* 大三暑假子晴揪的曼谷（vac_activities.js T03，7/3～7/7）：她們交往中＝芷若也去（企劃線 AA_244 2d3a0735「大三暑假：子晴，曼谷」；BB_194 23-4）。
      6/10 那一則私訊多一句；夜市那天她們分一杯椰子汁——祐廷第一次看到（4-7 還沒演）＝這一場算 4-7，照 4-7 那一版接 */
   BKK:{dm:'芷若也去',coconut:'（芷若和子晴走在前面，兩個人分一杯椰子汁。）'},
   /* 事件標題（開場的字幕、筆記本的日誌）：三場用 AA 的《》標題；4-2b、4-7 沒有《》標題＝用 AA 寫的地點；4-6 用 AA 的小節名 */
   TITLE:{wancai:'萬才館門口',park:'溫州街的小公園',lake:'醉月湖',grad:'畢業典禮',uk:'英國遠距'},
-  /* 第五節：結局（尾聲加一行）；C 分英國版（「她回來再說」）和第七節第 5 點的非英國版 */
+  /* 第五節：結局（尾聲加一行）；C 分英國版（「她回來再說」）和第七節第 5 點的非英國版；
+     C_FY＝芷若選了方奕廷的 C（AA_385 第 2 節）：接在子晴那一句後面（不是 CG 以後那一行），芷若、奕廷照他們自己那一版（postgrad_lines.js 的 zr.fy、fy.zr）*/
   END:{B:'（芷若的明信片，最後一張寫：『我回去那天，妳來接我。不准說順路。』）',
     C_UK:'（子晴說，她回來再說。芷若說，好。）',
-    C:'（子晴進了工作室，芷若準備研究所。兩個人還是每個禮拜五下午見面。有一次你在溫州街遇到她們，子晴說：「我們還沒想好。」芷若說：「嗯。不急。」）'} };
+    C:'（子晴進了工作室，芷若準備研究所。兩個人還是每個禮拜五下午見面。有一次你在溫州街遇到她們，子晴說：「我們還沒想好。」芷若說：「嗯。不急。」）',
+    C_FY:'（芷若和奕廷坐在一起。子晴坐在芷若的另一邊，一直偷吃她盤子裡的蛋糕。芷若沒有阻止她。）'} };
 
 /* [誰, 原文] → 事件的台詞（events3d.js runLines 的格式）：芷若、子晴用人物 id（立繪、名字照 SOCIAL.displayName：還沒認識＝「不認識的女生」）；
    祐廷 speaker:'player'；旁白、心裡話 speaker:null；zr@／zq@＝她給祐廷看的手機訊息、zr#＝明信片（名字後面標「（手機）」「（明信片）」，不進祐廷自己的手機）。
@@ -129,13 +141,21 @@ const ZRZQ_EVENTS=(function(){
     {id:'ev_zz_serious_again',title:'妳是認真的嗎？',participants:[],location:'any',trigger:'manual',once:true,background:'blur',dialogue:lines(L.SERIOUS.AGAIN.concat(L.SERIOUS.B.slice(L.SERIOUS.fromB),L.SERIOUS.END))},
     {id:'ev_zz_zq_mind',title:L.TITLE.wancai,participants:[],location:'any',trigger:'manual',once:true,background:'blur',dialogue:lines(L.MIND.first)},
     {id:'ev_zz_yt_learns',title:L.TITLE.lake,participants:[],location:'any',trigger:'manual',once:true,background:'blur',dialogue:lines(L.LEARN.friend)},
-    /* 第三節：已經和子晴在交往、F3 婉拒——之後第一次在 Café 找芷若說話（priority 10：比 ev_zhiruo_f3_cafe 的 9 先；婉拒的存檔那一場本來就不演，ZRZQ 包住 R2Y3B.f3CafeDue）*/
+    /* 第三節：已經和子晴在交往、F3 婉拒——之後第一次在 Café 找芷若說話（priority 10：比 ev_zhiruo_f3_cafe 的 9 先；婉拒的存檔那一場本來就不演，ZRZQ 包住 R2Y3B.f3CafeDue）。
+       日本路線（F3 那天祐廷在日本，ZRZQ.f3Away）＝回國以後 8/5～9/1 第一次在 Café 找她（同 AA_296 ⑤），說 F3_TOLD_JP 那一版（AA_385 第 7 項）*/
     {id:'ev_zz_f3_told',title:'很老的那部',participants:['heroine_02'],location:'cafe',trigger:'interact',priority:10,once:true,background:'blur',
-      prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:ok('f3ToldDue')},dialogue:lines(L.F3_TOLD),after:G=>{ const x=X(); if(x) x.f3Told(G); }} ];
+      prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:ok('f3ToldDue')},
+      dialogue:lines(L.F3_TOLD_JP).map(l=>Object.assign(l,{if:{custom:ok('f3Away')}})).concat(lines(L.F3_TOLD).map(l=>Object.assign(l,{unless:{custom:ok('f3Away')}}))),
+      after:G=>{ const x=X(); if(x) x.f3Told(G); }} ];
+  /* AA_385 第 4 節：其中一人自己告訴祐廷（ZZ_TOLD_YT）。不是 interact 事件：src/zrzq3d.js 的 S.preTalk 在說話前面接演（EVENTS.runLines，同 AA_379 2-3），演完照常閒聊 */
+  const told=k=>{ const T=L.TOLD[k]; return lines(T.lines).concat([{choice:T.opts.map(([t],i)=>({text:t,goto:'o'+i}))}],
+      ...T.opts.map(([,say],i)=>[{label:'o'+i}].concat(lines(say),[{goto:'end'}])),[{label:'end'}]); };
+  out.push({id:'ev_zz_told_zr',participants:['heroine_02'],location:'any',trigger:'manual',once:true,background:'blur',dialogue:told('zr')},
+    {id:'ev_zz_told_zq',participants:['heroine_04'],location:'any',trigger:'manual',once:true,background:'blur',dialogue:told('zq')});
   /* 4-5：祐廷在 Café、芷若在班上；一個月最多一則（和 4-6 合算），照順序、條件不到的先跳過 */
   L.DAILY.forEach((d,i)=>out.push({id:'ev_zz_daily_'+(i+1),title:'兩點半 Café',participants:[],location:'cafe',trigger:'auto',npcPresent:'heroine_02',once:true,background:'blur',
     prereq:{custom:ok('dailyOk',i+1)},dialogue:lines(d),after:G=>{ const x=X(); if(x) x.dailyDone(G,i+1); }}));
-  /* 4-6：芷若在英國、找子晴說話（晚上；第 1 則在臺灣的凌晨）；一個月最多一則（和 4-5 合算）*/
+  /* 4-6：芷若在英國、找子晴說話（晚上；第 1 則在公館宵夜 22:00～24:00，AA_385 第 5 項）；一個月最多一則（和 4-5 合算）*/
   L.UK.forEach((d,i)=>out.push({id:'ev_zz_uk_'+(i+1),title:L.TITLE.uk,participants:['heroine_04'],location:'any',trigger:'interact',once:true,background:'blur',
     prereq:{custom:ok('ukOk',i+1)},dialogue:lines(d),after:G=>{ const x=X(); if(x) x.dailyDone(G,'uk'+(i+1)); }}));
   return out; })();
