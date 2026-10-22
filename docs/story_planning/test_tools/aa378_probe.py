@@ -20,7 +20,8 @@ def say(*a): print(' '.join(str(x) for x in a), flush=True)
 SIS = 'heroine_05'
 HOOK = """(()=>{ if(window.__LOGH) return; window.__LOGH=1; window.__LOG=[];
   const at=()=>{ try{ return CALENDAR.dateOf(GAME.G.day).key+' '+(+GAME.G.hour).toFixed(2); }catch(e){ return ''; } };
-  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__LOG.push({n:(w&&w.name)||(typeof w==='string'?w:''), t:String(t||''), at:at()}); }catch(e){} return s0.apply(this,arguments); }; })()"""
+  const s0=GAME.say; GAME.say=function(w,t){ try{ window.__LOG.push({n:(w&&w.name)||(typeof w==='string'?w:''), t:String(t||''), at:at()}); }catch(e){} return s0.apply(this,arguments); };
+  const c0=GAME.choose; GAME.choose=function(o){ try{ window.__LOG.push({n:'［選項］', t:JSON.stringify((o||[]).map(x=>x.t)), at:at()}); }catch(e){} return c0.apply(this,arguments); }; })()"""
 STATE = """(()=>{ const G=GAME.G; const d=CALENDAR.dateOf(G.day); return {day:G.day, key:d.key, wd:d.wd%7, h:+(+G.hour).toFixed(3), zone:G.zone}; })()"""
 SISMSG = """(()=>(GAME.G.msgs||[]).filter(m=>m.th==='p:heroine_05').map(m=>({d:CALENDAR.dateOf(m.day).key, wd:CALENDAR.dateOf(m.day).wd%7, h:+(+m.h||0).toFixed(2), from:m.from||m.who||'', tag:m.tag||'', text:String(m.text||''), ask:m.ask?m.ask.opts.map(o=>o.t):null, ans:m.ans})))()"""
 OUTS = """(()=>(typeof OUT==='undefined'?[]:OUT.rec(GAME.G)).filter(q=>/^y4_sa_|^y4_sis_|^te_/.test(q.id||'')).map(q=>({id:q.id, d:CALENDAR.dateOf(q.day).key, wd:CALENDAR.dateOf(q.day).wd%7, h:q.h, state:q.state, set:q.sa?q.sa.set:null, title:q.title||''})))()"""
@@ -167,12 +168,15 @@ async def close(b):
 
 
 async def meet(p, run, base, sid, out):
-    key, h, zone, known = {'MEET_LIB': ('2025-09-05', 10.0, 'library', False), 'MEET_HALL': ('2025-09-05', 10.0, 'library_hall', False),
-                           'MEET_PRE': ('2025-09-03', 10.0, 'library', False), 'MEET_KNOWN': ('2025-09-05', 10.0, 'library', True)}[sid]
+    # 新局（AA_195：8/29 搬進宿舍、主線第一天 9/3）＝LAW_START_DAY −18、MAIN_D1 −13；使用者的存檔是舊局（主線第一天 9/17），9/3、9/5 在它的第一天以前、學姊不出現（不算錯）
+    NEW = {'LAW_START_DAY': -18, 'MAIN_D1': -13}
+    key, h, zone, known, xf = {'MEET_LIB': ('2025-09-05', 10.0, 'library', False, NEW), 'MEET_HALL': ('2025-09-05', 10.0, 'library_hall', False, NEW),
+                               'MEET_PRE': ('2025-09-03', 10.0, 'library', False, NEW), 'MEET_KNOWN': ('2025-09-24', 10.0, 'library', True, None),
+                               'MEET_USER': ('2025-09-24', 10.0, 'library', False, None)}[sid]
     res = out.setdefault(sid, {})
     js = None if not known else "(()=>{ const G=GAME.G; G.flags.met_sis=G.day-1; G.flags.SIS_W1=G.day-1; G.events=G.events||{}; (G.events.done||(G.events.done={})).ev_sis_w1=G.day-1; SOCIAL.remember('heroine_05','FIRST_MET',''); })()"
-    b, pg, cdp, errs = await launch_load(p, run, base, key, h, 'library_hall', quiet=False, extra_js=js,
-                                         label=sid + ('（前置：已經認識＝met_sis、ev_sis_w1 記成演過）' if known else '（還沒認識：存檔原本的狀態）') + '；讀檔在總圖大廳' + ('，自己走樓梯間進 3F 閱覽室（直接讀檔進閱覽室她不會出現）' if zone == 'library' else ''))
+    b, pg, cdp, errs = await launch_load(p, run, base, key, h, 'library_hall', flags=xf, quiet=False, extra_js=js,
+                                         label=sid + ('（前置：已經認識＝met_sis、ev_sis_w1 記成演過）' if known else '（還沒認識：存檔原本的狀態）') + ('；新局的開學（LAW_START_DAY −18、MAIN_D1 −13）' if xf else '；使用者自己的舊局') + '；讀檔在總圖大廳' + ('，自己走樓梯間進 3F 閱覽室（直接讀檔進閱覽室她不會出現）' if zone == 'library' else ''))
     try:
         await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
         if zone == 'library':
@@ -212,7 +216,7 @@ async def meet(p, run, base, sid, out):
             fl = await pg.evaluate("(()=>{ const G=GAME.G, F=G.flags; return {met_sis:F.met_sis, SIS_W1:F.SIS_W1, w1:!!((G.events||{}).done||{}).ev_sis_w1, contact:!!INV.hasContact(G,'heroine_05'), known:!!STORY.knows('heroine_05',G)}; })()")
             res['flags'] = fl; say('   %s 台詞：%s' % (sid, json.dumps(T[:14], ensure_ascii=False))); say('   %s 記號：%s' % (sid, fl))
             spot = '靠窗的位子讀書' if zone == 'library' else '長桌的一角'
-            if sid in ('MEET_LIB', 'MEET_HALL'):
+            if sid in ('MEET_LIB', 'MEET_HALL', 'MEET_USER'):
                 op = [t for t in T if KNOWN in t]
                 run.check('%s：找她說話＝直接演第一次見面（開頭「…%s…%s」、最後「%s」）' % (sid, spot, KNOWN[:10], END), bool(op) and spot in op[0] and END in T, json.dumps(T[:14], ensure_ascii=False)[:600])
                 run.check('%s：演完就認識了（met_sis、ev_sis_w1、STORY.knows）' % sid, fl.get('met_sis') is not None and fl.get('w1') and fl.get('known'), json.dumps(fl, ensure_ascii=False))
@@ -221,8 +225,25 @@ async def meet(p, run, base, sid, out):
                 run.check('MEET_PRE：9/3（9/4 以前）照舊「%s」、不演第一次見面' % PRE, PRE in T and not any(KNOWN in t for t in T) and not fl.get('w1'), json.dumps(T[:6], ensure_ascii=False))
             else:
                 run.check('MEET_KNOWN：已經認識的，閱覽室照一般閒聊（不再演第一次見面）', not any(KNOWN in t for t in T) and END not in T and len(T) > 0, json.dumps(T[:8], ensure_ascii=False))
+                inv = any(x['n'] == '［選項］' and '約她去' in x['t'] for x in log)
+                if not inv:   # 第一次可能是升階那一段（便條），照玩家再說一次話
+                    n2 = await pg.evaluate("(()=>{ const n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.lv|0]:null; })()")
+                    if n2:
+                        await L.go_to(pg, cdp, run, n2[0], n2[1], 1.2, '學姊', max_s=90, lv=n2[2]); m0 = len(await pg.evaluate("window.__LOG||[]"))
+                        await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+                        for k in range(40):
+                            s2 = await L.state(pg)
+                            if s2['choices']:
+                                ops = await opts(pg)
+                                if any(o.startswith('約她去') for o in ops): inv = True; await tap_idx(pg, cdp, len(ops) - 1); await pg.wait_for_timeout(1000); break
+                                await tap_idx(pg, cdp, 0); await pg.wait_for_timeout(1000); continue
+                            if s2['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+                            if k > 3: break
+                            await pg.wait_for_timeout(800)
+                        res['talk2'] = [x['t'] for x in (await pg.evaluate("window.__LOG||[]"))[m0:]]
+                run.check('MEET_KNOWN：閱覽室說話以後有「約她去…」（第一次是升階那段的話，第二次說話）', inv, json.dumps(res.get('talk2') or T[:8], ensure_ascii=False)[:400])
             await run.shot(pg, '%s_after' % sid)
-            if sid in ('MEET_LIB', 'MEET_HALL'):
+            if sid in ('MEET_LIB', 'MEET_HALL', 'MEET_USER'):
                 await L.close_panels(pg, cdp); await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
                 await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"friends\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(900)
                 txt = await pg.evaluate("((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\n/g,'｜').slice(0,800)")
