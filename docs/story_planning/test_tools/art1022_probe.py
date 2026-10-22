@@ -24,7 +24,7 @@ PST = """(()=>{ const E=GAME.E, P=E.player, c=E.camera.position, n=E.nav; return
   seat:P.seat?{x:+P.seat.x.toFixed(2), z:+P.seat.z.toFixed(2), lift:P.seat.lift||0}:null, px:+P.obj.position.x.toFixed(2), py:+P.obj.position.y.toFixed(3), pz:+P.obj.position.z.toFixed(2),
   pose:P.pose||'', busy:!!P.busy, cam:[+c.x.toFixed(2), +c.y.toFixed(2), +c.z.toFixed(2)], nav:n?[n.ox, n.oz, n.w, n.h]:null,
   btn:(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()}; })()"""
-OCC = """(pts=>pts.map(([x,z])=>{ const n=(GAME.E.npcs||[]).find(q=>q&&q.obj&&q.obj.visible!==false&&!q.hidden&&Math.hypot(q.obj.position.x-x,q.obj.position.z-z)<0.6); return n?(n.charId||n.id||'路人'):null; }))"""
+OCC = """(pts=>pts.map(([x,z])=>{ const n=(GAME.E.npcs||[]).find(q=>q&&q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.35); return n?(n.charId||n.id||'路人'):null; }))"""   # 照遊戲自己的判斷（game3d.js E.nearestInteractable 的 occupied：NPC 的 seat 離座位 < 0.35 m）
 SEE = """(names=>{ const found={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!names.includes(m.name)) continue;
   const f=found[m.name]||(found[m.name]={n:0, see:0}); f.n++; if(m.userData&&m.userData.seeThrough) f.see++; } }); return found; })"""
 NPC = """(id=>{ const n=(GAME.E.npcs||[]).find(x=>x&&x.charId===id&&x.obj&&x.obj.visible!==false&&!x.hidden); if(!n) return null; const P=GAME.E.player.obj.position;
@@ -250,14 +250,15 @@ async def s_lounge(p, run, base, sid):
             if pat.startswith('坐'):
                 cands = [i for i in its if pat in i['label']]
                 occ = await pg.evaluate(OCC + "(%s)" % json.dumps([[i['seat']['x'], i['seat']['z']] for i in cands]))
-                free = [i for i, o in zip(cands, occ) if not o]; res[pat + '_occupied'] = occ
-                if free: it = free[0]
+                free = [i for i, o in zip(cands, occ) if not o] or cands; res[pat + '_occupied'] = occ
                 say('   %s：%d 個，有人坐的 %s（2026-10-22 第一輪：沙發被住宿生坐走、按鈕不出現）' % (pat, len(cands), occ))
-                s1 = None
-                for tr in range(3):
-                    s1 = await sit(pg, cdp, run, it, pat + ('' if not tr else '（第 %d 次）' % (tr + 1)))
+                s1 = None; tr = 0
+                for it in free:   # 沒人坐的一個一個試（座位不同）
+                    for k2 in range(2):
+                        tr += 1; s1 = await sit(pg, cdp, run, it, pat + ('' if tr == 1 else '（第 %d 次）' % tr))
+                        if s1['seat']: break
+                        await pg.wait_for_timeout(15000)   # 二樓走廊窄，路人站在長椅前面就過不去：等他走開
                     if s1['seat']: break
-                    await pg.wait_for_timeout(15000)   # 二樓走廊窄，路人站在長椅前面就過不去：等他走開
                 res[pat] = s1; await run.shot(pg, '%s_%s' % (sid, pat))
                 chk(run, sid, '「%s」坐得下' % pat, bool(s1['seat']), s1); await stand(pg, cdp)
             else:
