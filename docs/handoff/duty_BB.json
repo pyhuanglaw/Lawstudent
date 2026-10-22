@@ -4,6 +4,7 @@
  "session": "session_01XVHYLaK9Vcnae3U1aAJoZv",
  "branch": "claude/story-planning",
  "state": "handed-off",
- "handedOffAt": "2026-10-22T15:05Z",
- "sha": "0de86552"
+ "handedOffAt": "2026-10-22T15:08Z",
+ "sha": "7e03e3b9",
+ "snapshot": "2026-10-22T1508Z_A_BB.json"
 }
