@@ -9,5 +9,9 @@ LIN = dict(D_CHIN=0.007, BROW_DROP=0.0045, EYE_SX=1.02, EYE_SZ=0.66, EYE_TILT=0.
            LIP_OUT=(0.86, 0.56, 0.56), LIP_IN=(0.76, 0.40, 0.44), LIP_HI=(0.94, 0.74, 0.74), LIP_A=0.85)
 
 
+# 試參數（使用者 10-22「好憨」，LAWWW2）：環境變數 FACE_OVERRIDE='{"BROW_DROP":0.006}' 蓋過上面的值，不改檔案就能一次只改一樣、同鏡頭比較
+import json as _json, os as _os
+LIN.update(_json.loads(_os.environ.get('FACE_OVERRIDE') or '{}'))
+
 def apply(m):
     PF.run(m, LIN, {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2})     # 女性樣本：和沈以安一樣的基本眼型（vrm_finish 的 FEMALE_EYES）

@@ -9,5 +9,9 @@ PEISHAN = dict(D_CHIN=0.008, BROW_DROP=0.0042, EYE_SX=1.00, EYE_SZ=0.70, EYE_TIL
                LIP_OUT=(0.84, 0.60, 0.58), LIP_IN=(0.74, 0.46, 0.46), LIP_HI=(0.92, 0.76, 0.74), LIP_A=0.75)
 
 
+# 試參數（使用者 10-22「好憨」，LAWWW2）：環境變數 FACE_OVERRIDE='{"BROW_DROP":0.006}' 蓋過上面的值，不改檔案就能一次只改一樣、同鏡頭比較
+import json as _json, os as _os
+PEISHAN.update(_json.loads(_os.environ.get('FACE_OVERRIDE') or '{}'))
+
 def apply(m):
     PF.run(m, PEISHAN, {'Fcl_EYE_Natural': 0.5, 'Fcl_EYE_Close': 0.2})
