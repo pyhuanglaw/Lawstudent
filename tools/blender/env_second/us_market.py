@@ -46,7 +46,7 @@ def img_mat(name, fn, rough=0.6, clip=False, emit=0.0):
 M = {'floor': L.pbr('usm_floor', 'large_floor_tiles_02', tile=1.2, target='#d4d2cb', contrast=0.5, normal=0.2, maps=('diff', 'nor'), res=512, rough_value=0.26),
      'wall': L.pbr('usm_wall', 'white_plaster_02', tile=2.0, target='#e9e5da', contrast=0.25, normal=0.08, maps=('diff', 'nor'), res=256, rough_value=0.85),
      'band': L.flat('usm_wall_green', '#2f5a3e', rough=0.7),
-     'deck': L.flat('usm_deck', '#e4e4e0', rough=0.85),
+     'deck': L.flat('usm_deck', '#e4e4e0', rough=0.85, cull=True),   # 10-22：單面朝下（鏡頭拉遠最高 6.85 m，頂板 6.4 m；原本雙面＝畫面整片白）
      'steel': L.flat('usm_joist', '#eeeeea', rough=0.6, metal=0.2),
      'duct': L.flat('usm_duct', '#b8bcc0', rough=0.35, metal=0.45),
      'col': L.flat('usm_column', '#d9d9d4', rough=0.5),
@@ -150,7 +150,7 @@ skirt = Mesh('usm_skirt', M['kick'])
 skirt.box(X0, X1, 0.0, 0.12, Z0, Z0 + 0.03); skirt.box(X0, X0 + 0.03, 0.0, 0.12, Z0, Z1); skirt.box(X1 - 0.03, X1, 0.0, 0.12, Z0, Z1)   # 踢腳線
 skirt.finish(root, uv=False)
 # 天花板：鋼承板（白）＋桁架（每 1.8 m 一支，跨 z）＋主梁（z＝±8）＋圓形風管＋長條 LED（沿 z，在每條走道上方）
-dk = Mesh('usm_deck', M['deck']); dk.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); dk.finish(root, uv=False)
+dk = Mesh('usm_deck', M['deck']); dk.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); dk.finish(root, uv=False)   # 朝下
 st = Mesh('usm_joists', M['steel'])
 x = X0 + 0.9
 while x < X1:

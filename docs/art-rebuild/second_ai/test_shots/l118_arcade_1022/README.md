@@ -124,19 +124,29 @@
 | 情況 | 區域 | 正式模型是誰的 |
 |---|---|---|
 | **整個畫面一大片**（和 118 巷原本一樣） | 霖澤館 201 教室（`classroom`）、男宿門廳（`dorm_hall`）、霖澤館二樓（`linze_L1`）、萬才館二樓（`wancai_L1`） | LAWWW（`assets/models/env/` 的 `classroom_201`、`dorm_hall`、`linze_interior`、`wancai_interior`） |
-| **整個畫面一大片** | 機場入境（`airport_arr`：天花板的格柵條從上面看）、美國大超市（`us_market`） | LAWWW2（下一件就修） |
+| **整個畫面一大片** | 機場入境（`airport_arr`：天花板的格柵條從上面看）、美國大超市（`us_market`） | LAWWW2：**10-22 09:0x 已修**（下一節） |
 | 天花板的格子、燈具從上面看是浮著的白線 | 博雅、普通、總圖 3F（`library`）、法律學院圖書館一樓 | LAWWW2（和 118 巷的燈箱一樣；看得進房間，不急） |
 | 看得進房間 | 其他（書店、Café、便利商店、體育館、總圖大廳、麵店、社科圖、亞洲超市、萬才館一樓、霖澤館一樓……） | — |
 
 - 改法和這一次一樣：天花板單面朝下（`cull=True`、四邊形朝下），重新匯出就好；遊戲的程式不用改。
 - LAWWW 的四份我沒有動（是 LAWWW 的 Blender 腳本）；要我改的話說一聲。
 
+## 追加（10-22 09:0x）：機場出境／入境、美國大超市
+
+- `airport_t2.py`：天花板材質 `ap_ceiling` 單面；入境的平頂（5.6 m）、出境的弧形格柵都改成朝下。
+- `us_market.py`：頂板 `usm_deck`（6.4 m）單面、朝下。
+- 重新匯出 `airport_arr`、`airport_dep`、`us_market`：三角形一樣（17,478／77,108／98,732），只少了天花板材質的雙面。
+  - 改之前先用原本的腳本重匯一次比對：`airport_arr` 逐位元組相同；`us_market` 只有一份頂點資料不同（水果堆的隨機起伏），其他相同。
+- `tests/room_ceiling_unit.js`（`l118_arcade.diff` 第三版）多驗這三份，`_deck` 也算天花板：舊的三份 FAIL 5、新的 ALL PASS（29 份）。
+- 遊戲裡的程式沒有用到這兩個材質（`us3d.js` 藏的是亞洲超市的天花板，不是這個）。
+
 ## 接法（LAWWW）
 
 1. `git apply docs/art-rebuild/second_ai/patches/l118_arcade.diff`（`src/zones3d.js` 兩行＋兩支新測試）。
-2. 換 15 份 GLB（＋`.json`），同檔名：
+2. 換 18 份 GLB（＋`.json`），同檔名：
    - `assets/models/env/second_ai/l118_{dian,self,tea,home,cafe2,pasta,korea,omu,noodle2}.glb`
    - `assets/models/env/second_ai/{jp_room,linze_202,linze_3f,linze_4f,wancai_multi,wancai_sema}.glb`
+   - `assets/models/env/second_ai/{airport_arr,airport_dep,us_market}.glb`（10-22 09:0x 追加）
 3. 跑 `node tests/l118_arcade_unit.js`、`node tests/room_ceiling_unit.js`、`l118_shops_unit`、`l118_bar_lift_unit`。
 4. 腳本、圖：`tools/blender/env_second/lane118_neighbors.py`（新）、`lane118_shops.py`、`jp_dorm.py`、`flat_classroom.py`、`linze_upper.py`、`wancai_seminar.py`，`tools/blender/env_second/textures/gen/l118_nb_*.jpg`（18 張）。
 

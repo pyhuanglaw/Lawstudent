@@ -2027,15 +2027,16 @@
     "tools/blender/env_second/{jp_dorm,flat_classroom,linze_upper,wancai_seminar}.py",
     "assets/models/env/second_ai/{jp_room,linze_202,linze_3f,linze_4f,wancai_multi,wancai_sema}.glb／.json",
     "docs/art-rebuild/second_ai/patches/l118_arcade.diff（src/zones3d.js、tests/l118_arcade_unit.js、tests/room_ceiling_unit.js）",
-    "docs/art-rebuild/second_ai/test_shots/l118_arcade_1022/（README、entry_before_after、camera_before_after、rooms_before_after、ceiling_audit）"
+    "docs/art-rebuild/second_ai/test_shots/l118_arcade_1022/（README、entry_before_after、camera_before_after、rooms_before_after、ceiling_audit）",
+    "（10-22 09:0x 追加）tools/blender/env_second/airport_t2.py、us_market.py；assets/models/env/second_ai/{airport_arr,airport_dep,us_market}.glb／.json；l118_arcade.diff 第三版（room_ceiling_unit 多驗這三份）"
    ],
    "state": "已交付",
-   "remaining": "鄰居店面是一張平的圖（很斜的角度凸出的東西會錯位）；鏡頭繞到側牆外，鄰居店面跟著淡出；拉遠以後燈具從上面看是浮著的；真機沒看過；其他室內：LAWWW 的四份（201 教室、男宿門廳、霖澤館二樓、萬才館二樓）和我的機場入境、美國大超市還是雙面的一大片（盤點在 README）",
-   "next": "LAWWW：git apply patches/l118_arcade.diff（對 b857600c 乾淨）＋換 15 份 GLB（l118_*×9、jp_room、linze_202、linze_3f、linze_4f、wancai_multi、wancai_sema），跑 l118_arcade_unit、room_ceiling_unit、l118_shops_unit、l118_bar_lift_unit；GLB 和 patch 一起接（只換 GLB 鄰居店面會擋人）",
+   "remaining": "鄰居店面是一張平的圖（很斜的角度凸出的東西會錯位）；鏡頭繞到側牆外，鄰居店面跟著淡出；拉遠以後燈具從上面看是浮著的；真機沒看過；其他室內：LAWWW 的四份（201 教室、男宿門廳、霖澤館二樓、萬才館二樓）還是雙面的一大片（我的機場入境、美國大超市 09:0x 已修）（盤點在 README）",
+   "next": "LAWWW：git apply patches/l118_arcade.diff（對 b857600c 乾淨）＋換 18 份 GLB（l118_*×9、jp_room、linze_202、linze_3f、linze_4f、wancai_multi、wancai_sema、airport_arr、airport_dep、us_market），跑 l118_arcade_unit、room_ceiling_unit、l118_shops_unit、l118_bar_lift_unit；GLB 和 patch 一起接（只換 GLB 鄰居店面會擋人）",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "118 巷九間店：天花板雙面朝上（鏡頭 3.21 m、天花板 3.2 m，拉遠／往上拖一大片白）→ 單面朝下；進門時畫面一側是店外的空白（15～33%）→ 兩側貼 118 巷街景拍的鄰居店面（歸左右牆、at＝牆線）。同樣的天花板：日本宿舍房間（2.5 m，預設鏡頭就在上面）、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A。l118_arcade_unit 774f49c7 FAIL 54 → ALL PASS；room_ceiling_unit FAIL 30 → ALL PASS｜10-22 08:4x 交件：遊戲內前後 j35c（鄰居店面曝光 1.8）、六個房間 j36b、其他室內盤點 j36c 都在 README；在 809ea58b 上 5 支單元測試 ALL PASS（j35b）"
+   "note": "118 巷九間店：天花板雙面朝上（鏡頭 3.21 m、天花板 3.2 m，拉遠／往上拖一大片白）→ 單面朝下；進門時畫面一側是店外的空白（15～33%）→ 兩側貼 118 巷街景拍的鄰居店面（歸左右牆、at＝牆線）。同樣的天花板：日本宿舍房間（2.5 m，預設鏡頭就在上面）、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A。l118_arcade_unit 774f49c7 FAIL 54 → ALL PASS；room_ceiling_unit FAIL 30 → ALL PASS｜10-22 08:4x 交件：遊戲內前後 j35c（鄰居店面曝光 1.8）、六個房間 j36b、其他室內盤點 j36c 都在 README；在 809ea58b 上 5 支單元測試 ALL PASS（j35b）｜09:0x 追加機場出境／入境、美國大超市的天花板（單面朝下；三角形不變；room_ceiling_unit 舊的 FAIL 5 → 新的 ALL PASS），patch 改第三版（只有測試多三份）"
   }
  ]
 }

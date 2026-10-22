@@ -114,6 +114,7 @@ M = {'floor': L.pbr('ap_floor', 'granite_tile', tile=1.6, target='#cfcdc7', cont
      'paint': L.flat('ap_road_paint', '#ecebe6', rough=0.6),
      'wood': L.pbr('ap_wood', 'walnut_veneer', tile=0.8, target='#9a7450', normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.45),
      'vc': L.vc_material('ap_vc', rough=0.5)}
+M['ceil'].use_backface_culling = True   # 10-22：天花板單面（出境的弧形格柵、入境的平頂都朝下）
 try:
     import plants as PL
     PM = PL.materials('ap_')
@@ -273,7 +274,7 @@ if AREA == 'dep':
     for xa in range(int(X0), int(X1), 6):
         xb = xa + 6
         for za, zb in zip(zs, zs[1:]):
-            q = [(xa, roof_y(za), za), (xa, roof_y(zb), zb), (xb, roof_y(zb), zb), (xb, roof_y(za), za)]
+            q = [(xb, roof_y(za), za), (xb, roof_y(zb), zb), (xa, roof_y(zb), zb), (xa, roof_y(za), za)]   # 朝下（10-22：天花板單面，鏡頭拉到上面時看得穿）
             f = bm.faces.new([bm.verts.new(g2b(*p)) for p in q])
             for lp, (px, py, pz) in zip(f.loops, q): lp[uvl].uv = (pz / 2.0, px / 2.0)
     ce.finish(root, uv=False)
@@ -433,7 +434,7 @@ else:
     for x in range(-27, 28, 9): fb.box(x - 0.15, x + 0.15, 0.0, 0.002, Z0, Z1)
     fb.finish(root)
     ce = Mesh('ap_ceiling', M['ceil']); bm = ce.bm; uvl = bm.loops.layers.uv.verify()
-    q = [(X0, HH, Z1), (X1, HH, Z1), (X1, HH, Z0), (X0, HH, Z0)]
+    q = [(X0, HH, Z0), (X1, HH, Z0), (X1, HH, Z1), (X0, HH, Z1)]   # 朝下（10-22：入境 5.6 m，鏡頭拉遠最高 6.85 m；原本雙面朝上＝畫面整片格柵）
     f = bm.faces.new([bm.verts.new(g2b(*p)) for p in q])
     for lp, (px, py, pz) in zip(f.loops, q): lp[uvl].uv = (pz / 2.0, px / 2.0)
     ce.finish(root, uv=False)
