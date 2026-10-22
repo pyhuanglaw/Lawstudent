@@ -1529,6 +1529,14 @@
    "approvedBy": "AA-C 2026-10-17 定稿（D98、D100）；第 1 節柏翰三句手動放進 events.js ev_midterm_supper_y1s2（PS_NOBH），第 3 節 ev_peishan_bohan_w4 notFlags；tests/aa245_psbh_unit.js 逐句對稿",
    "task": "AA245-PSBH",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md",
+   "sha": "3f406dbc",
+   "status": "approved",
+   "approvedBy": "AA-C／AA 定稿（D100、D109）；第 2-3-1 節五項手動放進 y34b3d.js（以安視訊）、r2y3b3d.js／r2y3b_events.js（子晴回答.exe、芷若日本路線）、postgrad3d.js／postgrad_lines.js（可昕考上律師）、y2b3d.js／y2b_events.js（沛珊回來）；tests/aa296_phone_live_unit.js 逐句對稿（「小語」照 rename_alison 換 Alison）",
+   "task": "AA296-PHONE-LIVE-1021",
+   "kind": "text"
   }
  ]
 }
