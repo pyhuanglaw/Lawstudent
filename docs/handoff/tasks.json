@@ -27307,7 +27307,7 @@
    "title": "瀏覽器驗收寒暑假快轉（D99 第二優先）：docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md 第一節（每個假期成績公布那天起：到下一個有事的日子／過三天／過一週、中途收到要回的訊息停下打開手機、除夕回家、摘要日一句）",
    "area": "TEST",
    "owner": "BB",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P1",
    "first": {
     "term": "Y1S1",
@@ -27321,14 +27321,15 @@
    },
    "source": "LAWWW（帳號 A）2026-10-21 17:4x：D99 第二優先的瀏覽器驗收還沒有 BB 任務（清單 LAWWW-C 寫好、瀏覽器沒跑過）",
    "authorized": "D100（測試歸 BB）；D99 第二、第三優先",
-   "next": "【LAWWW（帳號 A）2026-10-22 12:0x】BB 10-21 問的三個清單差異（大一寒假 1/20 vs 1/31、大三寒假 1/19 旁白卡沒停、1/10 21:30 姊姊訊息沒自動打開）＋阿哲 10/1 ask 沒期限：LAWWW 一直沒回（漏了一天）→ 子代理對照程式查中，查完回 BB 更正後的清單；BB 先做大一、大三寒假除夕以後到開學的完整補跑（D99 第二優先排在 v9.10.6 清單前面） ｜ 照清單順序走；有問題列重現步驟給 LAWWW",
+   "next": "【LAWWW（帳號 A）13:4x】BB 完整補跑 ALL PASS → 已驗收；另開 BUG-PHONE-LIST-SCROLL-1022（列表捲動，6d7b8ff6）；阿哲 10/1 舊存檔那則（522dbf6a）BB 另外驗 ｜ 【LAWWW（帳號 A）2026-10-22 12:0x】BB 10-21 問的三個清單差異（大一寒假 1/20 vs 1/31、大三寒假 1/19 旁白卡沒停、1/10 21:30 姊姊訊息沒自動打開）＋阿哲 10/1 ask 沒期限：LAWWW 一直沒回（漏了一天）→ 子代理對照程式查中，查完回 BB 更正後的清單；BB 先做大一、大三寒假除夕以後到開學的完整補跑（D99 第二優先排在 v9.10.6 清單前面） ｜ 照清單順序走；有問題列重現步驟給 LAWWW",
    "xai": {
     "spec": "docs/handoff/bb_checklists/BB_HOLFF_ROOMS_1021.md；src/holff3d.js、src/home3d.js（合併 92030b76）；tests/holiday_ff_unit.js",
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
     "acceptance": "每一項判 PASS／FAIL＋截圖；不能一鍵跳過兩個月、有事會停、停下來看得懂為什麼",
     "receiver": "LAWWW",
     "ack": "ACK"
-   }
+   },
+   "evidence": "BB（帳號 A）10-22 13:4x 開發分支 e0a48b60 完整補跑（企劃線 BB_218 寒暑假那一節 7576aa6d；Playwright 手機模擬，不是 iPhone）：七個假期一路快轉到開學、不卡、沒有 JS 例外；四個寒假和更正清單 86d82b32 逐站對得上；暑假多停的都是有選項的訊息／摘要日（照規則）"
   },
   {
    "id": "BB-TEST-US-LIFE-1021",
