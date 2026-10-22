@@ -1416,6 +1416,14 @@
      "task": "AA379-SIS-W1-LIB-1021"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_381_法律系大四下_交換延畢的畢業典禮那天_修正稿.md",
+   "sha": "d14a0388",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節 15 句照稿手動放進 src/data/postgrad_lines.js（DELAYED）、src/data/termend_lines.js（AUTO_NO_GRAD_DELAYED），第 2 節是作息（characters.js）；tests/aa381_y4s2_unit.js 逐句對稿",
+   "task": "AA381-Y4S2-FIX-1021",
+   "kind": "text"
   }
  ]
 }

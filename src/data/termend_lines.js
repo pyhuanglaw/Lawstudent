@@ -303,7 +303,8 @@ const TERMEND_LINES=(function(){
   const AUTO_NO={zhe:'好啦 下次',classmate_xinci:'好。那開學見。',classmate_bohan:'好。',heroine_04:'好啦 那下次',classmate_mingxuan:'OK 下次',
     heroine_01:'好。開學見。',heroine_03:'嗯。下次。',yu:'好吧！！那開學見！',heroine_02:'好。那下次來店裡。',heroine_05:'好。那下學期再約。',classmate_peishan:'好喔！那我下次再問。',npc_fangyt:'好，下次。',kai:'好。',kexin:'好。那下次。'};
   const AUTO_NO_GRAD={heroine_01:'好。畢業快樂。',classmate_xinci:'好。畢業快樂。',yu:'好吧！！畢業快樂！',heroine_05:'好。畢業快樂。'};   /* 大四下畢業傍晚：沒有開學、下學期 */
+  const AUTO_NO_GRAD_DELAYED={heroine_01:'好。今天恭喜。',classmate_xinci:'好。今天恭喜。',yu:'好吧！！今天恭喜！',heroine_05:'好。今天恭喜。'};   /* 交換延畢的玩家（日本、美國路線，PG.delayed）：典禮那天不說「畢業快樂」（AA_381 第 1 節，企劃線 d14a0388）*/
   const ENDED={heroine_01:'這學期不了。謝謝你約我。',heroine_03:'這次先不要。',heroine_05:'這學期我排不出來。你自己保重。',heroine_02:'謝謝。這次我想自己過。',heroine_04:'這次先不要啦。',classmate_peishan:'謝謝你問。……這次我先不去。',kexin:'現在還不行。謝謝你還會約我。'};
   const REPLY=['嗯。','真的假的。','我也是。'];   /* 祐廷回的一句（AA_250 10-1：池子以外，輪流）*/
-  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
+  return {PLACE,HEART,OPTS,NOT_YET_OPT,ANSWER,FRIEND,FALLBACK,GF,NOPE,POOL,REPLY,Q6,KX,KX_PLACE,HOOK,HOOK_NO,C14,C15,SYS_TE,SYS_GF,AUTO_ME,AUTO_ME_GRAD,AUTO_NO,AUTO_NO_GRAD,AUTO_NO_GRAD_DELAYED,ENDED,src:'AA_254 8fdcc961（7fa1aad4、a9daffbb 更正）／AA_250 acf92ff0、375b91dd、c524b61e、ae841bba'};
 })();

@@ -28398,7 +28398,7 @@
    "id": "AA381-Y4S2-FIX-1021",
    "title": "AA_381 法律系大四下修正稿第一部分（企劃線 d14a0388）：1 交換延畢（日本、美國路線）6/2 典禮那天被說「畢業快樂」——15 句換交換延畢的版本（GRADUATED 不動）；2 語彤週四作息一次定完（大三上 12/16 起總圖三樓、大三下 2/24 起田野、大四上起總圖三樓到她畢業）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P1",
    "area": "v5",
    "first": {
@@ -28413,7 +28413,7 @@
    },
    "source": "AA（帳號 A）2026-10-22 01:49 訊息；企劃線 AA_381 d14a0388",
    "authorized": "D109、D110",
-   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】學姊大二到大三八場（AA379-SIS-Y2Y3-1021）之後；AA 還在查第二部分"
+   "next": "【LAWWW（帳號 A）2026-10-22 03:0x】第 1 節 15 句（POSTGRAD_LINES.DELAYED、TERMEND_LINES.AUTO_NO_GRAD_DELAYED；postgrad3d.js S.dly、termend3d.js playerPicked）、第 2 節語彤週四（田野到 2028-09-03、2028-09-04～2030-06-30 總圖三樓）；tests/aa381_y4s2_unit.js。BB 測：美國路線和學姊交往的存檔跳到 6/2（保溫瓶那句、阿凱、晚上生日）；臺灣路線照舊；大四下週四 17～20 語彤在總圖三樓"
   },
   {
    "id": "BUG-ADV-CHOICES-LANDSCAPE-1022",

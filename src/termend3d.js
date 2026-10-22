@@ -187,7 +187,8 @@ const TERMEND=(function(){
   S.playerPicked=function(G,iv){ const t=iv&&iv.te; if(!t||t.kind==='gf') return; const R=S.rec(G,t.term), Lx=L(); R.picked={who:iv.who,kind:t.kind,day:G.day,by:'player'}; if(typeof PHONE==='undefined') return;
     const grad=t.term==='Y4S2', me=grad?Lx.AUTO_ME_GRAD:Lx.AUTO_ME, heart=(R.plan&&R.plan.heart)||[];
     for(const id in (R.asks||{})){ if(id===iv.who) continue; const tag=R.asks[id], m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(!m||!PHONE.askOpen(G,m)) continue;
-      const reply=heart.includes(id)?(Lx.HEART[id]&&Lx.HEART[id].decline):((grad&&Lx.AUTO_NO_GRAD[id])||Lx.AUTO_NO[id]);
+      const dly=grad&&typeof PG!=='undefined'&&PG.delayed&&PG.delayed(G)&&Lx.AUTO_NO_GRAD_DELAYED;   /* 交換延畢：「好。今天恭喜。」（AA_381 第 1 節）*/
+      const reply=heart.includes(id)?(Lx.HEART[id]&&Lx.HEART[id].decline):((grad&&((dly&&dly[id])||Lx.AUTO_NO_GRAD[id]))||Lx.AUTO_NO[id]);
       m.ask.opts.push({t:me,say:reply?[{from:id,text:resolve(reply,G)}]:[],set:{TE_NO:t.term+'|'+id}}); PHONE.answer(G,tag,m.ask.opts.length-1); } };
   /* ---- 邀約鉤子（AA_250 各學期 x-2、10-1）：飯裡她提一件假期的事，玩家接了就進行事曆；C14 事務所參觀、C15 朋友約的單日小事（AA_251）---- */
   const Dk=k=>typeof STORY!=='undefined'&&STORY.dayOfKey?STORY.dayOfKey(k):null;
