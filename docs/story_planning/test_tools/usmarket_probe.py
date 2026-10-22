@@ -183,6 +183,10 @@ async def cam(p, base, run):
 
 
 # ---------------------------------------------------------------- CROWD（US-MARKET-CROWD-1021，LAWWW 07:00 派；開發分支 4fb93ba4 起）
+PHONEOPEN = "!document.getElementById('phone').classList.contains('hide')"
+async def unpause(pg, cdp):
+    """存檔有要回的訊息＝手機會自己打開、遊戲暫停（號誌、車都停）：等的時候先收起來（2026-10-22 候選 364dabe0 除錯時看到）"""
+    if await pg.evaluate(PHONEOPEN): await L.phone_away(pg, cdp)
 TRAF = """(()=>{ const T=typeof US_TRAFFIC!=='undefined'?US_TRAFFIC:null; if(!T||!T.cars) return null; const t=T.clock?T.clock.t:null;
   return {n:T.cars.length, t:t==null?null:+t.toFixed(1), light:t==null?null:T.light(t), cars:T.cars.map(c=>({lane:c.lane, x:+c.x.toFixed(1), z:+c.z.toFixed(1), v:+c.v.toFixed(2), dir:c.dir}))}; })()"""
 PEOPLE = """(()=>{ const xs=(GAME.E.npcs||[]).filter(n=>n&&n.isExtra&&n.obj&&n.obj.visible!==false); const col=new Set();
@@ -197,6 +201,7 @@ async def crowd(p, base, run):
     ok, dt, z = await use(pg, cdp, run, '出門（去超市）', 'us_market_street')
     t0 = None; w0 = time.time()
     for _ in range(120):   # 車的模型（bldg.us_cars）載完才有 US_TRAFFIC.cars；2026-10-22 候選第一輪只等 10 秒（每秒約 1 格）
+        await unpause(pg, cdp)
         t0 = await pg.evaluate(TRAF)
         if t0: break
         await pg.wait_for_timeout(500)
@@ -205,6 +210,7 @@ async def crowd(p, base, run):
     chk(run, 'CROWD', '一進超市街＝紅燈、車都停著（%s 台）' % ((t0 or {}).get('n')), bool(t0) and t0['light'] == 'red' and all(c['v'] < 0.05 for c in t0['cars']), json.dumps(t0, ensure_ascii=False)[:500])
     t1 = None; moved = []; w1 = time.time()
     while time.time() - w1 < 180:   # 號誌照遊戲時間走（每格最多 0.1 秒）：紅燈剩 5 秒，每秒 1 格要 50 秒以上；綠燈以後再等車開出 2 m
+        await unpause(pg, cdp)
         t1 = await pg.evaluate(TRAF)
         moved = [c for c, c0 in zip((t1 or {}).get('cars', []), (t0 or {}).get('cars', [])) if abs(c['x'] - c0['x']) > 2]
         if t1 and t1['light'] == 'green' and moved: break
@@ -227,6 +233,7 @@ async def crowd(p, base, run):
     await L.go_to(pg, cdp, run, px, lz, 0.5, '往東車道上', max_s=120); await pg.wait_for_timeout(500)
     P = await pg.evaluate(SNAP); gaps = []; t_end = time.time() + 90
     while time.time() < t_end:
+        await unpause(pg, cdp)
         tr = await pg.evaluate(TRAF); me = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [P.x,P.z]; })()")
         if not tr: await pg.wait_for_timeout(700); continue
         beh = [c for c in tr['cars'] if c['lane'] == 'e1' and 0 < (me[0] - c['x']) < 20]
@@ -249,6 +256,7 @@ async def crowd(p, base, run):
     run.setup('[前置] CROWD 深夜：2028-09-20 22:30 直接在超市街')
     tn = None
     for _ in range(120):
+        await unpause(pg, cdp)
         tn = await pg.evaluate(TRAF)
         if tn: break
         await pg.wait_for_timeout(500)
