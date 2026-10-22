@@ -18,6 +18,8 @@
   LAB_NO     回「明天中午有課。」→ 她回「好。我自己搬兩趟。」、沒有出遊；9/22 傍晚 18:00「📷（排好的書架）」「搬完了。」、記 missed
   SEM_NO     回「明天晚上不行。」→「好。那我對著牆講。」；睡到隔天，11/18 22:00 那則「講完了。牆沒有意見。」
   IV_NOREPLY 不回 → 隔天下午看得到 10/16 12:30「訪談完了。錄音有雜音，我自己聽了兩遍。」、記 missed
+  EX         分手過（EX_heroine_05，LAWWW 02:50 加的）：熟悉以上但前任＝9/21 晚上沒有私訊、2027-11-03 法圖說話不演 2-6、2028-03-15 沒有電話
+             （「她在美國的時候也不出現」：八場的日子都在她 2028-08 出發以前、玩家出國以前，沒有重疊的日子可以測，NOT TESTED）
   NONE       只認識（ACQUAINTANCE）：9/21 晚上沒有私訊、2027-03-24 法圖說話不演 2-3、2027-11-03 不演 2-6、2026-06-02 群組有 Kevin（認識就收得到）但找她說話不演生日、2028-03-15 沒有電話
   LAB_DATE   交往中：研究室選「照顏色排？」；多便條那一段＋「……你的。」
   TOPIC_CAFE 交往中、沒問過：第 5 週週一（2027-03-22）Café → 沒有「你上次問我」、最後多「我爸媽還不知道…」；選「那個阿姨後來呢？」
@@ -565,14 +567,19 @@ async def s_result(p, run, base, sid, out):
 
 
 async def s_none(p, run, base, sid, out):
-    """只認識：五個時間點，各開一次"""
+    """NONE＝只認識：五個時間點；EX＝分手過（熟悉＋朋友數值，但 EX_heroine_05）：三個時間點。各開一次"""
     res = out.setdefault(sid, {})
-    for part, key, h, extra in (('a', '2026-09-21', 20.9, None), ('b', '2027-03-24', 19.1, 'lawlib'), ('c', '2027-11-03', 19.1, 'lawlib'), ('d', '2026-06-02', 11.9, 'cafe'), ('e', '2028-03-15', 21.05, None)):
+    parts = (('a', '2026-09-21', 20.9, None), ('b', '2027-03-24', 19.1, 'lawlib'), ('c', '2027-11-03', 19.1, 'lawlib'), ('d', '2026-06-02', 11.9, 'cafe'), ('e', '2028-03-15', 21.05, None))
+    if sid == 'EX': parts = tuple(x for x in parts if x[0] in ('a', 'c', 'e'))
+    for part, key, h, extra in parts:
         tag = '%s-%s' % (sid, part); r0 = res.setdefault(part, {})
-        b, pg, cdp, errs, r, name = await launch(p, run, base, key, h, 'dorm', 'ACQ', flags=({'EXCHANGE_ROUTE': 'TW'} if part == 'e' else {}), label=tag)
+        fl = {'EXCHANGE_ROUTE': 'TW'} if part == 'e' else {}
+        if sid == 'EX': fl['EX_heroine_05'] = True
+        b, pg, cdp, errs, r, name = await launch(p, run, base, key, h, 'dorm', 'ACQ' if sid == 'NONE' else 'FRIEND', flags=fl, label=tag + ('（前置：分手過＝EX_heroine_05）' if sid == 'EX' else ''))
         try:
             await drive(pg, cdp, run, max_s=30, label=tag)
-            run.check('%s：只認識＝ACQUAINTANCE、SISY23.ok 熟悉／朋友都是 false' % tag, r.get('stage') == 'ACQUAINTANCE' and r.get('ok') == {'FAMILIAR': False, 'FRIEND': False}, json.dumps(r, ensure_ascii=False))
+            if sid == 'NONE': run.check('%s：只認識＝ACQUAINTANCE、SISY23.ok 熟悉／朋友都是 false' % tag, r.get('stage') == 'ACQUAINTANCE' and r.get('ok') == {'FAMILIAR': False, 'FRIEND': False}, json.dumps(r, ensure_ascii=False))
+            else: run.check('%s：分手過＝SISY23.ok 熟悉／朋友都是 false（數值是朋友）' % tag, r.get('ok') == {'FAMILIAR': False, 'FRIEND': False}, json.dumps(r, ensure_ascii=False))
             if part in ('a', 'e'):
                 ok, ch = await wait_for(pg, cdp, run, "GAME.G.hour>=%s" % (21.3 if part == 'a' else 21.75), max_s=420, go=True, label=tag)
                 M = await msgs(pg); q = await pg.evaluate(OUTQ); r0['msgs'] = M[-3:]; r0['out'] = q; r0['ch'] = ch
@@ -596,10 +603,10 @@ async def s_none(p, run, base, sid, out):
 
 
 ORDER = ['LAB_SKIP', 'RESULT_SLEEP', 'LAB_GO', 'SEM_ASK', 'TOPIC_LIB', 'BDAY1', 'IV', 'US_LIB', 'RESULT', 'US_STEPS', 'TOPIC_STEPS', 'BDAY_DATE', 'US_DATE', 'RESULT_US',
-         'LAB_NO', 'SEM_NO', 'IV_NOREPLY', 'NONE', 'LAB_DATE', 'TOPIC_CAFE', 'BDAY2', 'RESULT_TW']
+         'LAB_NO', 'SEM_NO', 'IV_NOREPLY', 'NONE', 'EX', 'LAB_DATE', 'TOPIC_CAFE', 'BDAY2', 'RESULT_TW']
 FN = {'LAB_SKIP': s_lab_skip, 'RESULT_SLEEP': s_result_sleep, 'LAB_GO': s_ask, 'LAB_DATE': s_ask, 'LAB_NO': s_ask, 'SEM_ASK': s_ask, 'SEM_NO': s_ask, 'IV': s_ask, 'IV_NOREPLY': s_ask,
       'TOPIC_LIB': s_pretalk, 'TOPIC_CAFE': s_pretalk, 'US_LIB': s_pretalk, 'US_DATE': s_pretalk, 'TOPIC_STEPS': s_steps, 'US_STEPS': s_steps,
-      'BDAY1': s_bday, 'BDAY2': s_bday, 'BDAY_DATE': s_bday, 'RESULT': s_result, 'RESULT_US': s_result, 'RESULT_TW': s_result, 'NONE': s_none}
+      'BDAY1': s_bday, 'BDAY2': s_bday, 'BDAY_DATE': s_bday, 'RESULT': s_result, 'RESULT_US': s_result, 'RESULT_TW': s_result, 'NONE': s_none, 'EX': s_none}
 
 
 async def main():
