@@ -28503,7 +28503,7 @@
    "id": "ART-ZR-PS-3D-1022",
    "title": "芷若、沛珊的 3D 人物看起來憨（使用者 10-22 04:0x 對 LAWWW2：「林芷若3d好憨 沛珊也是」）：在遊戲裡拍臉部近景找具體原因，一次改一樣、同鏡頭比；名字、身高、髮型、服裝識別照通過的參考圖",
    "owner": "LAWWW2",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "ART",
    "first": {
@@ -28518,13 +28518,41 @@
    },
    "source": "使用者 2026-10-22 04:0x 直接對 LAWWW2；LAWWW2 04:01 訊息（user_asks_LAWWW2.json UA-LAWWW2-1022-01）",
    "authorized": "使用者直接交代（10-17「修改人物的事情暫停」對這兩位解除）；D100 第 6 點角色美術由 LAWWW 驗收",
-   "next": "【LAWWW（帳號 A）2026-10-22 04:1x】LAWWW2 拍臉部近景找原因 → 改 → 交件；LAWWW 看遊戲內截圖驗收（D100 第 6 點），換 VRM（盡量同檔名、manifest 不改）。不能動的：character3d.js MODEL_PROPS——芷若的 glasses、earrings、apron 三個節點名字（Café 當班才穿圍裙）；沛珊的 glasses 是另外的 GLB（prop.glasses_peishan）掛在 glasses 那個名字上；VRM 表情（CHAR.setExpr）；身高 1.61／1.63；沛珊 manifest 的 armOut 9、armBack 0.45、armFwd 0.15；芷若 blUrl（?blchar）",
+   "next": "【LAWWW（帳號 A）2026-10-22 04:4x】LAWWW2 交件 1598a47d（沛珊第二十七版）、888831c4（芷若改 Blender 版）。LAWWW 驗收（D100 第 6 點）：沛珊通過；芷若的臉通過、頭髮另開 ART-ZR-HAIR-1022；已接進開發分支（同檔名＋assets3d.js 一行）。等 v9.10.4 發布測試跑完：瀏覽器看 Café 圍裙、吧台座位、區域與劇情鏡頭的截圖 ｜ 【LAWWW（帳號 A）2026-10-22 04:1x】LAWWW2 拍臉部近景找原因 → 改 → 交件；LAWWW 看遊戲內截圖驗收（D100 第 6 點），換 VRM（盡量同檔名、manifest 不改）。不能動的：character3d.js MODEL_PROPS——芷若的 glasses、earrings、apron 三個節點名字（Café 當班才穿圍裙）；沛珊的 glasses 是另外的 GLB（prop.glasses_peishan）掛在 glasses 那個名字上；VRM 表情（CHAR.setExpr）；身高 1.61／1.63；沛珊 manifest 的 armOut 9、armBack 0.45、armFwd 0.15；芷若 blUrl（?blchar）",
    "xai": {
     "spec": "使用者原話＋BB 通過的參考圖",
     "branch": "claude/second-ai-env-art",
     "acceptance": "遊戲內同鏡頭前後對照；LAWWW 判定和參考圖一致、不憨",
     "receiver": "LAWWW",
     "ack": "ACK"
+   }
+  },
+  {
+   "id": "ART-ZR-HAIR-1022",
+   "title": "芷若 Blender 版的頭髮照參考圖：頭頂有一點蓬度、側分的瀏海一大片蓋過額頭、長度到肩下的微捲（現在頭頂平、像戴頭盔、到下巴）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "area": "ART",
+   "first": {
+    "term": "Y0S1",
+    "week": null,
+    "earliest": "經濟系那一年第一次進兩點半 Café",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW 驗收 888831c4（2026-10-22 04:4x）；LAWWW2 README「還不到的地方」第一點",
+   "authorized": "使用者 10-22 04:0x「林芷若3d好憨」（同一件的下一輪）；D100 第 6 點",
+   "next": "照參考圖（assets/portraits/heroine_02/campus/neutral.png、BB 通過的參考圖 06）；遊戲渲染器同鏡頭前後；交件附截圖，LAWWW 驗收",
+   "xai": {
+    "spec": "參考圖 06＋2D 立繪",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "頭頂不再像頭盔、側分瀏海、到肩下；Café 圍裙、眼鏡照舊對得上",
+    "receiver": "LAWWW",
+    "ack": "未派"
    }
   },
   {
