@@ -11,6 +11,7 @@
 //   R1 r2y3b 的日本事件在據點：當地時間、must 只有「出發」；R2 裁定 10（8/5 沒有三選一）；R3 8/12 摘要日兩版（AA_345 H3）；R4 家人群組在日本不問；R5 臺灣朋友回訊息的時間；
 //   R6 每天的手機小事；R7 holff 朋友回老家的訊息；R8 子晴遊戲展的照片；R9 可昕 K19、學姊 M6 的照片；R10 REPAIR 和 r2y3b 町公所那一步同一個；J-S3／H2 快轉停在要回的訊息、打開手機再接著跳；D103 選單前先開手機。
 // AA_355 1-1（2026-10-21）：G7 以安約的那一頓改成 6/9 私訊、6/10 出遊（6 項；修改前 6 項都 FAIL：6/9 沒有私訊、6/16 自動演）。
+// jp_room 6（2026-10-22，BB 12:5x）：人在 3D 房間時必接的電話到了要回據點；修改前（開發分支 522dbf6a）FAIL。
 // 用法：node tests/jp_semester_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -349,6 +350,16 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
       const d0=G.day; H.entered=[]; await JP.bedFromRoom(GM); const pend=!!JP.rec(G).pendingSleep, e1=H.entered.slice();
       H.picks=['在房間休息一下']; await JP.loop(GM);
       check('jp_room 2：房間的床「睡覺」＝回據點、接著睡到隔天（照選單的睡覺）；睡完選「在房間休息一下」又走進房間', pend&&e1[0]==='jp_hub'&&G.day===d0+1&&!JP.rec(G).pendingSleep&&H.entered[H.entered.length-1]==='jp_room', JSON.stringify({pend,e1,day:G.day-d0,ent:H.entered}));
+      /* jp_room 6（BB 10-22 12:5x：在房間待著，22:00 奕廷的電話沒響）：必接的電話到了＝回據點（由據點的迴圈問「接起來」）；還沒到、正在忙＝留在房間 */
+      { const G6=inJapan('2028-05-29',21.5); G6.zone='jp_room'; H.entered=[]; const t0=JP.tick(GM); const e0=H.entered.slice(); await Promise.resolve();
+        OUT.plan(G6,{id:'t_room_call',ev:'ev_fangyt_tickets',day:G6.day,h:22,late:1,must:true,place:'電話',title:'方奕廷打電話來',verb:'接起來',travel:'',travelH:0});
+        G6.hour=21.9; H.entered=[]; JP.tick(GM); const e1=H.entered.slice(); await Promise.resolve(); await Promise.resolve();
+        G6.zone='jp_room'; G6.hour=22.05; E.player.busy=true; H.entered=[]; JP.tick(GM); const e2=H.entered.slice(); E.player.busy=false; await Promise.resolve(); await Promise.resolve();
+        H.entered=[]; JP.tick(GM); const e3=H.entered.slice(); await Promise.resolve(); await Promise.resolve();
+        check('jp_room 6：人在房間、必接的電話到了（22:00 方奕廷）＝回據點（GM.enter jp_hub）；21:30 沒事＝留在房間；正在忙（坐著、對話）先不打斷，忙完才回',
+          t0===true&&!e0.includes('jp_hub')&&!e2.includes('jp_hub')&&e3.includes('jp_hub'), JSON.stringify({t0,e0,e1,e2,e3}));
+        check('jp_room 6：電話前 15 分鐘（21:54）就回據點（OUT.due 的規則，和據點的選單提早出現「接起來」一樣）', e1.includes('jp_hub'), JSON.stringify(e1));
+        OUT.rec(G6).splice(0); }
     } finally { global.Z3=Z0; global.JP_DORM_LAYOUTS=L0; }
     const G2=inJapan('2028-04-12',20.5); H.picks=[]; const O=[]; const ch0=GM.choose; GM.choose=async(o)=>{ O.push(o.map(x=>x.t+'｜'+(x.hint||''))); return o.length-1; }; try{ await JP.round(GM); } finally { GM.choose=ch0; }
     check('jp_room 3：沒有 3D 房間（jp_dorm3d.js 沒載入）＝「在房間休息一下」照舊是過一小時', O[0].some(x=>/^在房間休息一下｜一小時/.test(x)), JSON.stringify(O[0])); }

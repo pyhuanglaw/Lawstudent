@@ -29246,7 +29246,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
    "authorized": "D100（測試歸 BB）、D110",
-   "next": "排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "next": "【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
    "xai": {
     "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
     "branch": "claude/story-planning（BB_219）",
@@ -29276,6 +29276,28 @@
    "authorized": "D109（AA 劇情自主）、D110；C25",
    "next": "【LAWWW（帳號 A）12:4x】白名單加 AA_386@e848154a、階梯兩份 JSON@5ef4e291；子代理在獨立 worktree 照第 1～5 節實作＋單元測試（修改前 FAIL）→ LAWWW 合併、全部單元測試 → 派 BB（第 5 節的測試清單）；放 v9.10.6",
    "wants": "C25"
+  },
+  {
+   "id": "BUG-JP-ROOM-NOCALL-1022",
+   "title": "日本路線人在 3D 的「你的房間」：必接的電話／視訊／出遊、日本的停點、事件、回程、凌晨都不會跳出來（JP.tick 人在房間直接回傳 true，據點的迴圈不跑）",
+   "area": "BUG",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y3S2",
+    "week": null,
+    "earliest": "大三下日本路線、在 3D 房間待到電話時間（例：2028-05-29 日本 22:00 方奕廷）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 12:5x RELEASE-9106-TEST（AA296 ⑤，固定副本 9f9e13cc，Playwright）：日本 21:30 讀檔在 jp_room、待到 01:36，沒有「接起來：方奕廷打電話來」、FANG_F3 一直是 null",
+   "authorized": "D85（一般 bug）",
+   "next": "【LAWWW（帳號 A）12:5x】jp3d.js S.roomDue：人在房間時這幾件事到了＝S.toHub 回據點，由據點的迴圈照常問「接起來」、演出、睡覺；正在對話、坐著做事先不打斷。tests/jp_semester_unit.js jp_room 6（修改前 2 項 FAIL、修改後 ALL PASS）；日本相關 9 支 ALL PASS。下一步：BB 在瀏覽器用同一個前置重跑（房間裡待到 22:00 → 回據點 → 接起來）",
+   "sha": null
   }
  ]
 }
