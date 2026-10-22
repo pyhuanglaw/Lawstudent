@@ -272,17 +272,23 @@ async def sched(p, run, base, out):
 async def walk(p, run, base, sid, out):
     # 02:5x 改：閱覽室（總圖 3F）約「去總圖一起念書」她回「我就在總圖…」（她已經在總圖）＝不會跟著走；一起走的三項改約總圖以外的地方（半熟 08:00 開、Café 11:00 開），
     # 在閱覽室當面約總圖另外測（LIB_HERE：LAWWW 01:48 ②「已經在總圖當面再約＝直接開始」）
+    # 03:2x 再改：她白天在閱覽室讀書，約「現在」她會說「五點以後好不好？我要先把這段寫完。」（作息 read＝有事，設計如此）——一起走的三項改到 9/26（五）19:10 公館（她 19～21 在公館散步＝有空）
     res = out.setdefault(sid, {}); dest = {'WALK_DORM': 'dorm', 'WALK_CAFE_DORM': 'dorm', 'WALK_ARRIVE': 'cafe', 'LIB_HERE': None}[sid]
-    place = {'WALK_DORM': '去半熟吃早午餐', 'WALK_CAFE_DORM': '去兩點半 Café 坐坐', 'WALK_ARRIVE': '去兩點半 Café 坐坐', 'LIB_HERE': '去總圖一起念書'}[sid]
-    hour = 11.0 if place.startswith('去兩點半') else 10.0
-    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, hour, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218；約「%s」）' % place)
+    place = {'WALK_DORM': '去公館吃飯（阿鳳麵店）', 'WALK_CAFE_DORM': '去兩點半 Café 坐坐', 'WALK_ARRIVE': '去兩點半 Café 坐坐', 'LIB_HERE': '去總圖一起念書'}[sid]
+    if sid == 'LIB_HERE':
+        b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218；約「%s」）' % place)
+    else:
+        b, pg, cdp, errs, rel = await launch_load(p, run, base, 10, 19.15, 'gongguan', sid + '（9/26 週五 19:10 公館：她 19～21 在公館散步；約「%s」）' % place)
     try:
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
-        ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
-        run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
-        st = await pg.evaluate(ST); res['start'] = st
+        if sid == 'LIB_HERE':
+            ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
+            run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
+        st = await pg.evaluate(ST); t0 = time.time()
+        while not (st['her'] and st['her']['vis']) and time.time() - t0 < 90: await pg.wait_for_timeout(3000); st = await pg.evaluate(ST)
+        res['start'] = st
         if not (st['her'] and st['her']['vis']):
-            run.check('%s：9/24 10:00 閱覽室有學姊（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
+            run.check('%s：她在（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
         got, trace = await talk_invite_now(pg, cdp, run, sid, place); res['trace'] = trace
         say('   %s 過程：%s' % (sid, json.dumps(trace, ensure_ascii=False)[:800]))
         if not got: run.check('%s：當面約走到「現在一起過去」' % sid, False, json.dumps(trace, ensure_ascii=False)[:400]); raise RuntimeError('沒約成')
