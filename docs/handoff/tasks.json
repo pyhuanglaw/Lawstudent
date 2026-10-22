@@ -27326,7 +27326,7 @@
     "branch": "claude/confident-ritchie-8rwh7t（最新）",
     "acceptance": "每一項判 PASS／FAIL＋截圖；不能一鍵跳過兩個月、有事會停、停下來看得懂為什麼",
     "receiver": "LAWWW",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    }
   },
   {
@@ -29251,7 +29251,7 @@
     "branch": "claude/story-planning（BB_219）",
     "acceptance": "每項 PASS／FAIL＋重現步驟＋截圖；Playwright 不是 iPhone",
     "receiver": "LAWWW",
-    "ack": "DELIVERED"
+    "ack": "ACK"
    }
   }
  ]
