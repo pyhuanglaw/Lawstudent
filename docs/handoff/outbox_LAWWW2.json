@@ -2136,7 +2136,7 @@
   {
    "task": "ART-DIRECTOR-LAWWW2",
    "branch": "claude/second-ai-env-art",
-   "sha": "8de84f34",
+   "sha": "e481eaee",
    "files": [
     "assets/models/env/second_ai/gongguan_shops.glb（＋gongguan_shops.json，同檔名；props.json 不變）",
     "tools/blender/env_second/wz_street.py（一行：七樓樓板；我的分支另有 ART-WZ0 的 prop_fp 一段）",
@@ -2149,7 +2149,7 @@
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
    "ack": "SENT",
-   "note": "巡場景第 4 區公館（j51 16 張＋j54 2 張，開發分支 f9941cfd）找到：15:00 人行道一排等距、斜的亮條（P2，一走出捷運就看到）。原因：10-20 為了拿掉馬路上切齊的長影子，公館店面七樓以上不投影（1475d312，LAWWW2-C）；店面是空心盒子，陰影計算裡等於沒有屋頂，下午的太陽從頂上照進去、從二到六樓的窗洞照到 6～10 m 外的人行道。探測（j52、j55，eece763b）：店面整組不投影→亮條和影子都沒了；七樓以上改回投影→亮條沒了但馬路的長影子回來（不能這樣改）。改法：14 棟七樓以上的店面在七樓樓板的位置加一塊會投影的樓板（20 cm 厚、內縮 20～25 cm，在樓裡面看不到；用那棟的牆材質、和牆同一個網格），+168 三角形、draw call 不變；其他 28 個材質世界座標三角形完全相同。遊戲內 j56（eece763b 前後，Playwright 手機橫向，不是 iPhone）：15:00 五張亮條都不見、校門口／11:00／17:00 和原本一樣、draw call 八張相同、三角形 +300～336；nav_buildings_unit ALL PASS。j57 gongguan_glb_integration 前後同一個結果：34 PASS、1 FAIL（導航格完全相同：正式模型多擋 95 格＝propBlocks(GG_PROP_BLOCKS)，2a67b144 整合的 wz0_prop_nav；street_props_nav_unit 量到 40807→40712），效能那一項前後都 PASS。同一輪：BB-C 量到的公館三角形 +15～19%（1a76148e→dffd55f2）＝X86 第二階段 0582af9f（店面加高、gongguan_far），照設計；A5 陽台盆栽＝ART-BALCONY-POTS 早就整合（e8b82e4a）、BB 驗收 PASS。READY_FOR_ART_REVIEW（場景美術由使用者驗收）｜sha：GLB、json、腳本在 8de84f34（WIP 檢查點）；說明、圖、巡場景紀錄在下一個 commit"
+   "note": "巡場景第 4 區公館（j51 16 張＋j54 2 張，開發分支 f9941cfd）找到：15:00 人行道一排等距、斜的亮條（P2，一走出捷運就看到）。原因：10-20 為了拿掉馬路上切齊的長影子，公館店面七樓以上不投影（1475d312，LAWWW2-C）；店面是空心盒子，陰影計算裡等於沒有屋頂，下午的太陽從頂上照進去、從二到六樓的窗洞照到 6～10 m 外的人行道。探測（j52、j55，eece763b）：店面整組不投影→亮條和影子都沒了；七樓以上改回投影→亮條沒了但馬路的長影子回來（不能這樣改）。改法：14 棟七樓以上的店面在七樓樓板的位置加一塊會投影的樓板（20 cm 厚、內縮 20～25 cm，在樓裡面看不到；用那棟的牆材質、和牆同一個網格），+168 三角形、draw call 不變；其他 28 個材質世界座標三角形完全相同。遊戲內 j56（eece763b 前後，Playwright 手機橫向，不是 iPhone）：15:00 五張亮條都不見、校門口／11:00／17:00 和原本一樣、draw call 八張相同、三角形 +300～336；nav_buildings_unit ALL PASS。j57 gongguan_glb_integration 前後同一個結果：34 PASS、1 FAIL（導航格完全相同：正式模型多擋 95 格＝propBlocks(GG_PROP_BLOCKS)，2a67b144 整合的 wz0_prop_nav；street_props_nav_unit 量到 40807→40712），效能那一項前後都 PASS。同一輪：BB-C 量到的公館三角形 +15～19%（1a76148e→dffd55f2）＝X86 第二階段 0582af9f（店面加高、gongguan_far），照設計；A5 陽台盆栽＝ART-BALCONY-POTS 早就整合（e8b82e4a）、BB 驗收 PASS。READY_FOR_ART_REVIEW（場景美術由使用者驗收）｜sha：說明、圖、巡場景紀錄在 e481eaee；GLB、json、腳本在前面的 8de84f34（WIP 檢查點），e481eaee 包含全部"
   }
  ]
 }
