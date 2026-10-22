@@ -14,7 +14,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 const ok1=load('src/data/sis_y2y3_events.js'), ok2=load('src/sis_y2y3_3d.js');
-let doc=''; try{ doc=cp.execSync('git show d037c668:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show 5ef4e291:"docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* 白名單上的 AA_379 是 5ef4e291：d037c668 加 2-6 更正（指到 AA_386 第 2 節：聽過她提美國的，那一句換成兩句），前面各節沒動 */
 const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISY23!=='undefined'?SISY23:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -26,7 +26,7 @@ const play=async(id,picks)=>{ H.said=[]; H.opts=[]; H.picks=(picks||[]).slice();
 const dateSis=()=>{ H.G.flags['dating_'+ID]=true; ROM.get(H.G,ID).status='dating'; };
 (async()=>{
   /* ---- 0 ---- */
-  check('0. 讀稿（企劃線 d037c668 AA_379：30ab5142 的第 2 節沒動，多了 2-9、第 3 節）',doc.length>5000&&inDoc('## 2. 第二批：大二到大三的空窗'));
+  check('0. 讀稿（企劃線 5ef4e291 AA_379：30ab5142 的第 2 節沒動，多了 2-9、第 3 節、2-6 更正）',doc.length>5000&&inDoc('## 2. 第二批：大二到大三的空窗'));
   check('0. 新檔載得到：SISY23、SISY23_EVENTS（八場 12 筆：說話前接演的兩段、台階兩版、生日四筆；3-2 公館 1 筆＝13）',ok1&&ok2&&!!X()&&Array.isArray(SISY23_EVENTS)&&SISY23_EVENTS.length===13,J({ok1,ok2,n:typeof SISY23_EVENTS!=='undefined'&&SISY23_EVENTS.length}));
   if(!X()){ H.done(); return; }
   const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
