@@ -169,9 +169,10 @@ async def close(b):
 
 async def meet(p, run, base, sid, out):
     # 新局（AA_195：8/29 搬進宿舍、主線第一天 9/3）＝LAW_START_DAY −18、MAIN_D1 −13；使用者的存檔是舊局（主線第一天 9/17），9/3、9/5 在它的第一天以前、學姊不出現（不算錯）
+    # MEET_PRE 改 9/2：9/3、9/4 是主線第 1、2 天（STORY.opening＝開場劇情，閱覽室不生成她；2026-10-22 02:5x 第一輪 9/3 找不到她）；9/2 是開場以前的一般日子（開局 B：8/31 起是一般的日子）
     NEW = {'LAW_START_DAY': -18, 'MAIN_D1': -13}
     key, h, zone, known, xf = {'MEET_LIB': ('2025-09-05', 10.0, 'library', False, NEW), 'MEET_HALL': ('2025-09-05', 10.0, 'library_hall', False, NEW),
-                               'MEET_PRE': ('2025-09-03', 10.0, 'library', False, NEW), 'MEET_KNOWN': ('2025-09-24', 10.0, 'library', True, None),
+                               'MEET_PRE': ('2025-09-02', 10.0, 'library', False, NEW), 'MEET_KNOWN': ('2025-09-24', 10.0, 'library', True, None),
                                'MEET_USER': ('2025-09-24', 10.0, 'library', False, None)}[sid]
     res = out.setdefault(sid, {})
     js = None if not known else "(()=>{ const G=GAME.G; G.flags.met_sis=G.day-1; G.flags.SIS_W1=G.day-1; G.events=G.events||{}; (G.events.done||(G.events.done={})).ev_sis_w1=G.day-1; SOCIAL.remember('heroine_05','FIRST_MET',''); })()"
@@ -222,7 +223,7 @@ async def meet(p, run, base, sid, out):
                 run.check('%s：演完就認識了（met_sis、ev_sis_w1、STORY.knows）' % sid, fl.get('met_sis') is not None and fl.get('w1') and fl.get('known'), json.dumps(fl, ensure_ascii=False))
                 run.check('%s：沒有「%s」（9/4 以前那一句）' % (sid, PRE), PRE not in T, json.dumps(T[:4], ensure_ascii=False))
             elif sid == 'MEET_PRE':
-                run.check('MEET_PRE：9/3（9/4 以前）照舊「%s」、不演第一次見面' % PRE, PRE in T and not any(KNOWN in t for t in T) and not fl.get('w1'), json.dumps(T[:6], ensure_ascii=False))
+                run.check('MEET_PRE：9/2（9/4 以前）照舊「%s」、不演第一次見面' % PRE, PRE in T and not any(KNOWN in t for t in T) and not fl.get('w1'), json.dumps(T[:6], ensure_ascii=False))
             else:
                 run.check('MEET_KNOWN：已經認識的，閱覽室照一般閒聊（不再演第一次見面）', not any(KNOWN in t for t in T) and END not in T and len(T) > 0, json.dumps(T[:8], ensure_ascii=False))
                 inv = any(x['n'] == '［選項］' and '約她去' in x['t'] for x in log)
