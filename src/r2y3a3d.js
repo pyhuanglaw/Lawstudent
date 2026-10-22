@@ -329,7 +329,7 @@ const R2Y3A=(function(){
     GM.sceneBegin(); try{ if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:'blur'});
       await GM.say(null,'（寒假最後一天。紙箱攤在地上。）');
       for(const it of S.x1Items(G)) await GM.say(null,'（'+it.name+'。放進去。）');
-      await GM.say(null,'（宿舍的床墊翻起來的時候，下面有一張大一的課表。）');
+      await GM.say(null,'（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）');   /* AA_377 第 18 項：507 是大三才搬進去的 */
       await GM.say(null,'（507 你那半邊空了。檯燈原本的位置，桌上留下一圈比較白的印子。）');
       if(typeof ADV!=='undefined'&&ADV.active&&ADV.end) ADV.end();
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('搬回臺北的家','計程車　約 30 分鐘',2400); GM.advance(0.5);

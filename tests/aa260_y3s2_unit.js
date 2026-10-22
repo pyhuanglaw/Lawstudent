@@ -1,4 +1,4 @@
-// 大三下（AA_260 第 4 節第 3～5 點，2026-10-17；第 1 項照 AA_376 第 1 項更新）：語彤事件 13 以後週四不顧店、公法讀書會大三下第 1～5 週、Y6-L1／L5／L7 和招呼③等事件 13、14。用法：node tests/aa260_y3s2_unit.js
+// 大三下（AA_260 第 4 節第 3～5 點，2026-10-17；第 1 項照 AA_376 第 1 項更新）：語彤事件 13 以後週四不顧店、公法讀書會大三下（第 2 項照 AA_377 第 3 項更新：整學期）、Y6-L1／L5／L7 和招呼③等事件 13、14。用法：node tests/aa260_y3s2_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -35,7 +35,7 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   G.day=termDay('Y3S2',3,2); G.weekday=2; const w3=STORY.whereIs(GM,YT); G.day=sat; G.weekday=6; G.hour=10; const w4=STORY.whereIs(GM,YT);
   check('1. 週二照舊顧店；週六早上在麵店',w3&&w3.zone==='noodle'&&w4&&w4.zone==='noodle',JSON.stringify([w3,w4]));
   const PG=ACTIVITIES.list?ACTIVITIES.list.find(a=>a.id==='public_law_group'):null;
-  check('2. 公法讀書會大三下第 1～5 週（AA_260 第 4 節第 4 點）',!!PG&&PG.term.includes('Y3S2')&&JSON.stringify(PG.termWeeks.Y3S2)==='[1,2,3,4,5]',JSON.stringify(PG&&PG.termWeeks));
+  check('2. 公法讀書會大三下整學期（第 1～7、10～15 週；AA_377 第 3 項，原本 AA_260 第 4 節第 4 點只開第 1～5 週）',!!PG&&PG.term.includes('Y3S2')&&JSON.stringify(PG.termWeeks.Y3S2)==='[1,2,3,4,5,6,7,10,11,12,13,14,15]',JSON.stringify(PG&&PG.termWeeks));
   fresh(termDay('Y3S2',10,3),12,'campus',{}); 
   check('3. Y6-L1、Y6-L7 等事件 13（YT_EV13）；Y6-L5 等事件 14（RENT_RENEWED）',!STORY.LADDER_HOLD['Y6-L1'](G)&&!STORY.LADDER_HOLD['Y6-L7'](G)&&!STORY.LADDER_HOLD['Y6-L5'](G)&&(G.flags.YT_EV13=true,STORY.LADDER_HOLD['Y6-L1'](G)&&STORY.LADDER_HOLD['Y6-L7'](G))&&(G.flags.RENT_RENEWED=true,STORY.LADDER_HOLD['Y6-L5'](G)));
   delete G.flags.YT_EV13; delete G.flags.RENT_RENEWED; SOCIAL.remember(YT,'FIRST_MET',''); R(YT,...LV.FRI);

@@ -15,6 +15,8 @@ const R2Y3B_EVENTS=(function(){
   const fam=(id,st)=>({custom:G=>stAt(G,id,st||'FAMILIAR')});
   const dating=(G,id)=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
   const dt=id=>({custom:G=>dating(G,id)});
+  const strainedAn=G=>{ const R=(G&&G.flags&&G.flags.romance&&G.flags.romance.heroine_01)||null; return !dating(G,'heroine_01')&&!!R&&['ex','paused','friend_after_catch'].includes(R.status); };   /* 和以安挽回中、冷靜中（同 jp3d.js 的 strained；AA_377 第 7 項）*/
+  const plg=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group');   /* 參加過公法讀書會（AA_377 第 3 項）*/
   const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
   const JP={custom:G=>route(G)==='JP'};
   const hasCG=id=>typeof CG_REGISTRY!=='undefined'&&!!CG_REGISTRY[id];
@@ -50,7 +52,8 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'三個半。今天放假，不算。'},
       {choice:[{text:'「我來放。」',goto:'k'},{text:'（坐到以安旁邊）',if:kn('heroine_01'),goto:'a'},{text:'（躺到阿哲旁邊）',if:kn('zhe'),goto:'z'}]},
       {label:'k'},{if:kn('yu'),speaker:null,text:'（風箏飛起來了。小語把線搶過去：「看吧！是風的問題！」）'},{goto:'end'},
-      {label:'a'},{speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手帳轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
+      {label:'a'},{if:{custom:G=>strainedAn(G)},speaker:null,text:'（以安看了你一眼，又低頭寫。）'},{if:{custom:G=>strainedAn(G)},goto:'end'},   /* AA_377 第 7 項：挽回中（和以安分手、冷靜中）不接話 */
+      {speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手帳轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
       {label:'z'},{speaker:'zhe',text:'這就對了。放假就是要躺。'},
       {label:'end'} ],
     consequences:{flags:{Y3S2_228:true},memo:'228 的河濱（風箏）'},
@@ -228,8 +231,8 @@ const R2Y3B_EVENTS=(function(){
       {speaker:null,text:'（祐廷舉起一個便利商店的飯糰。）'},
       {speaker:'zhe',text:'就這樣？'},
       {if:gk('yu'),speaker:'yu',text:'你瘦了！……不對，是鏡頭。'},
-      {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'這週的筆記我留了。回來再給你。'},
-      {if:gk('classmate_xinci'),speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},
+      {if:gk('classmate_bohan'),speaker:'classmate_bohan',text:'你那邊的課跟得上嗎？跟不上的話，筆記拍給我，我幫你對。'},   /* AA_377 第 14 項：日本路線（原「這週的筆記我留了。回來再給你。」是臺灣的說法）*/
+      {if:{custom:G=>gk('classmate_xinci').custom(G)&&plg(G)},speaker:'classmate_xinci',text:'讀書會你的位子，我們沒有人坐。'},   /* AA_377 第 3 項：玩家參加過讀書會才說 */
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_03','FAMILIAR')},speaker:'heroine_03',text:'（她從廚房探出頭，舉起田野筆記，沒說話。）'},
       {if:inG,speaker:'阿姨',name:'阿姨（畫面外）',text:'滷蛋要不要！隔著螢幕也要問！'},
       {if:{custom:G=>typeof PHONE!=='undefined'&&PHONE.inGroup(G,'noodle_team')&&stAt(G,'heroine_01','FRIEND')},speaker:null,text:'（手機亮了一下，以安傳來：「他吃飯糰。便利商店比較近。」）'},   /* 原稿「理由：」拿掉（檔尾裁定 #19）*/
@@ -372,16 +375,16 @@ const R2Y3B_EVENTS=(function(){
   /* ---------- 2-Y3-51 美國路線 X1 退宿：2028-07-25（二）14:00 宿舍 507（暑假續住的；回家住的接在學期結束搬家那一段，r2y3b3d.js）---------- */
   const X1US={ id:'ev_x1_moveout_us', title:'退宿', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
     dialogue:[ {speaker:null,text:'（七月底。507 只剩你這半邊還有東西。柏翰白天在補習班，他的桌上堆滿了講義。）'},   /* 新寫的開頭；AA_370 M10：柏翰大三暑假只在新竹待 6/28～7/2，7/3 起回臺北補習（原「柏翰暑假回新竹了，他的桌子空著。」）*/
-      {speaker:null,text:'（宿舍的床墊翻起來的時候，下面有一張大一的課表。）'} ] };   /* AA_144 X1 原文 */
+      {speaker:null,text:'（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）'} ] };   /* AA_144 X1 原文；AA_377 第 18 項：507 是大三才搬進去的（「大一的」改「不知道誰的」，和日本路線 2/20 退宿同一句）*/
 
   /* ---------- 2-Y3-52 台灣、美國路線：以安在日本（3/25～8/5）——訊息、視訊、七夕告白（AA_253 10-1、10-3 原句；AA 審稿補）。每週的段、邀約、行程在 r2y3b3d.js ---------- */
   const AB={
-    t1:[['（照片：大學的櫻花）','四月。這邊的櫻花開得比較晚。'],['（照片：便利商店的飯糰架）','飯糰的海苔要自己拉開。我研究了三天。'],['（照片：宿舍的洗衣機）','一次一百圓。我記在手帳了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。']],
+    t1:[['（照片：大學的櫻花）','四月。這邊的櫻花開得比較晚。'],['（照片：便利商店的飯糰架）','飯糰的海苔要自己拉開。我研究了三天。'],['（照片：公寓的投幣洗衣機）','一次一百圓。我記在手帳了。'],['（照片：町公所的排隊號碼牌）','排了一個小時。']],
     t1O:[[['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],
         [['一百圓是多少？','二十幾塊。我記了匯率。'],['手帳記幾頁了？','十一頁。']],[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句 */
-    t2:[{L:['上課聽懂七成了。剩下三成，我回宿舍查字典。','你那邊的行政法，期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
+    t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
         {L:['讀書會小語有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
-    t3:[ [ {speaker:null,text:'（畫面裡是她宿舍的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
+    t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'（她把手帳翻到這一週）這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'（畫面晃了一下，她把手機靠在字典上）你那邊幾點？'},{speaker:'heroine_01',text:'……我只是想看一下你。好，可以了。'},{speaker:'heroine_01',text:'你先掛。'} ] ],
     invite:[ {speaker:'heroine_01',text:'七月七號，這邊是七夕。商店街會掛很多竹子。'},{speaker:'heroine_01',text:'……你要不要來看？'},

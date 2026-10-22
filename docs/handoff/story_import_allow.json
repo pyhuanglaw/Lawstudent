@@ -1386,6 +1386,21 @@
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 7 項語彤 Y4-L7、第 11 項可昕 K4-L2 週次、第 12 項芷若 Z4-L4 週次由 tools/ladder/import_ladder.py 疊在 ladder_aa_y2s2.json、ladder_bb_y2s2.json 上匯入；其他項照稿手動放進 characters.js、encounters.js、termend_lines.js、termend3d.js、invites.js、eat3d.js、msg3d.js、vac_activities.js、vac3d.js、y2r2_3d.js、y2b_events.js、y2b3d.js、needed_msgs.js、group_events.js、group3d.js、events.js、story3d.js（tests/aa375_y2s2_unit.js）；第 4 節提醒的 AA_255 兩件（說明會散場三句、6/4 子晴四則）照 AA_255@f218a3e0；LAWWW 補充 AA_373 第 6 節第 9 題（企劃線 bdab2f42）芷若 6/3 以前「九點」改「十點」、22:00 一起做",
    "task": "AA375-Y2S2-FIX-1021",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_377_法律系大三下_三條路線_修正稿.md",
+   "sha": "eab1eba3",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿＋2026-10-22 第 6 節回 LAWWW 三題（9cfbd6fd 民訴第 14 週、哲 4 片段；eab1eba3 語彤 Y6-L3 杜鵑花、第 4／17 項片段）（D100、D109：AA 的稿就是定稿）；第 4 項以安 A6-L2、第 6 項語彤 Y6-L3、第 15、16 項語彤 Y6-L1／Y6-L4 由 tools/ladder/import_ladder.py 疊在 ladder_*_y3s2.json 上匯入；第 9 項民訴 civpro_2 第 14、15 週由 tools/syllabus/import_syllabus.py 疊在 BB_102 的 JSON 上匯入；第 1 項在 jp3d.js（014a38bc），其他項照稿手動放進 r2y3b_events.js、r2y3b3d.js、jp3d.js、jp_events.js、r2y3a3d.js、y34b3d.js、group_events.js、termend_lines.js、characters.js、activities.js、story3d.js（tests/aa377_y3s2_unit.js）",
+   "task": "AA377-Y3S2-FIX-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "b7c437a1",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 4 項以安 A6-L2 一句、第 15、16 項語彤 Y6-L1／Y6-L4 由 tools/ladder/import_ladder.py 疊在 ladder_*_y3s2.json 上匯入；第 1 項在 jp3d.js（014a38bc），其他項照稿手動放進 r2y3b_events.js、r2y3b3d.js、jp3d.js、jp_events.js、r2y3a3d.js、y34b3d.js、group_events.js、termend_lines.js、characters.js、activities.js、story3d.js（tests/aa377_y3s2_unit.js）；第 2、6、9 項有問 AA（片段／整句、杜鵑花的選項、民訴模擬法庭其他句子），第 9 項還沒做",
+     "task": "AA377-Y3S2-FIX-1021"
+    }
+   ]
   }
  ]
 }

@@ -255,7 +255,7 @@ const R2Y3B=(function(){
         PHONE.at(G,d,10,L,'dorm_lottery_y4'); F.DORM_Y4='self'; } } };
 
   /* ===================== 2-Y3-51 美國路線 X1 退宿：7/25（二）14:00 宿舍 507（暑假續住的）；暑假回家住的＝學期一結束搬家那一段多床墊那一句 ===================== */
-  const X1_LINE='（宿舍的床墊翻起來的時候，下面有一張大一的課表。）';
+  const X1_LINE='（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）';   /* AA_377 第 18 項：507 是大三才搬進去的 */
   S.x1Due=G=>{ const F=G.flags||{}, d=D('2028-07-25'), d2=D('2028-08-02'); if(!isUS(G)||F.X1_US!=null||d==null||now(G)<T(d,14)||(d2!=null&&G.day>=d2)) return false; const H=typeof HOME!=='undefined'&&HOME.rec?HOME.rec(G):{}; return !(H.stay&&H.stay.Y3S==='home'); };
   S.x1Go=async function(GM){ const G=GM.G, F=G.flags; if(!S.x1Due(G)) return false; const ev=evOf('ev_x1_moveout_us');
     if(G.zone!=='dorm'){ GM.sceneBegin(); try{ await GM.fade(true); if(GM.titleCard) await GM.titleCard('回宿舍','',1800); if(GM.enter) await GM.enter('dorm',{x:0,z:2.4,yaw:Math.PI}); await GM.fade(false); } finally{ GM.sceneEnd(); } }   /* 人在外面：先帶回宿舍 */
@@ -282,9 +282,9 @@ const R2Y3B=(function(){
   S.whitePhone=function(G){ const d13=D('2028-03-13'), d14=D('2028-03-14'); if(d13==null||G.day<d13||G.day>d14||isJP(G)||!dating(G,'heroine_01')||!dmOk(G,'heroine_01')) return;
     if(now(G)>=T(d13,21)&&now(G)<T(d14,18)&&!PHONE.sent(G,'y3_an_white')) PHONE.at(G,d13,21,[{th:'p:heroine_01',from:'heroine_01',text:'明天傍晚六點，公館。'}],'y3_an_white');
     if(PHONE.sent(G,'y3_an_white')&&!outGet(G,'y3_an_white')&&now(G)<T(d14,18.25)) plan(G,{id:'y3_an_white',ev:'ev_an_white_day',day:d14,h:18,late:0.25,place:'公館',title:'和以安：公館（白色情人節）',travel:'走過去約 10 分鐘',travelH:1/6}); };
-  /* 4/13（四）22:30 視訊（日本 23:30）：10 分鐘沒接＝沒接，沒有後續。選了哪一個記 AN_FAR_VIDEO（5/6 的群組照片多一則私訊，S.noticePhone）*/
-  S.farVideoPhone=function(G){ const d=D('2028-04-13'); if(d==null||G.day!==d||isJP(G)||!dating(G,'heroine_01')||outGet(G,'y3_an_far_video')||hh(G)>=22.5) return;
-    plan(G,{id:'y3_an_far_video',ev:'ev_an_far_video',day:d,h:22.5,late:1/6,place:'視訊',title:'以安打視訊來（日本 23:30）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
+  /* 4/13（四）21:00 視訊（日本 22:00；AA_377 第 19 項：原本日本 23:30，她 22:30 以後不回——口氣表 1-1）：10 分鐘沒接＝沒接，沒有後續。選了哪一個記 AN_FAR_VIDEO（5/6 的群組照片多一則私訊，S.noticePhone）*/
+  S.farVideoPhone=function(G){ const d=D('2028-04-13'); if(d==null||G.day!==d||isJP(G)||!dating(G,'heroine_01')||outGet(G,'y3_an_far_video')||hh(G)>=21) return;
+    plan(G,{id:'y3_an_far_video',ev:'ev_an_far_video',day:d,h:21,late:1/6,place:'視訊',title:'以安打視訊來（日本 22:00）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。'}); };
 
   /* ===================== 2-Y3-52 台灣、美國路線：以安在日本（3/25～8/5），還沒交往（AA_253 10-1、10-3；BB_204 9-1）=====================
      每週日 21:00（她那邊＝時鐘 20:00，S.jp）看一次段：T1 第 4 階以下＝兩週一則（第 1、3、5…週；3/26 是第 1 週）；T2 第 4 階、最近三則回了兩則以上＝每週一則（兩個回覆按鈕）；
@@ -308,15 +308,27 @@ const R2Y3B=(function(){
     return ok?elig:Math.max(1,Math.min(elig,(R.tier|0||1)-1)); };   /* 回不到兩則：退一段（不會因為這樣升）*/
   S.abDatesBefore=G=>{ const d0=D(AB_K.dep); return d0==null?0:(G.trips||[]).filter(t=>t&&t.counted&&t.who==='heroine_01'&&t.day!=null&&t.day<d0).length; };
   S.abRate=G=>{ const L=S.abRec(G).log.filter(e=>e.replied!=null); return L.length?L.filter(e=>e.replied).length/L.length:0; };
+  /* AA_377 第 5 項：訊息池不看日期——3/26 就傳四月的櫻花、問大二上的行政法期中、7/30 還說「這禮拜的課很難」（她的課 7/21 結束）。照日子挑：
+     櫻花那則只在 4 月；「你那邊期中考了嗎？」只在臺灣的第 8～9 週；「這禮拜的課很難。」那段視訊只在 7/21 以前；讀書會小語那則只給參加過讀書會的（第 3 項）。
+     挑法：先出還沒出過、今天可以出的（照原本的順序）；都出過了照輪到的順序找今天可以出的。R.n1／n2／n3＝下一個輪到第幾則、n1s／n2s／n3s＝出過的（舊存檔照原本的輪流補）*/
+  const plgAny=G=>typeof ACTIVITIES!=='undefined'&&!!ACTIVITIES.attendedAny&&ACTIVITIES.attendedAny(G,'public_law_group');
+  S.AB_WHEN={t1:{0:(G,d)=>typeof CALENDAR!=='undefined'&&CALENDAR.dateOf(d).m===4},
+    t2:{0:(G,d)=>{ const t=typeof CALENDAR!=='undefined'?CALENDAR.termOf(d):null; return !!t&&(t.week===8||t.week===9); },2:G=>plgAny(G)},
+    t3:{0:(G,d)=>{ const e=D('2028-07-21'); return e==null||d<e; }}};
+  S.abPick=function(G,R,key,n,pool,day){ const W=S.AB_WHEN[pool]||{}, ok=i=>!W[i]||!!W[i](G,day), sk=key+'s';
+    if(!Array.isArray(R[sk])) R[sk]=Array.from({length:Math.min(R[key]|0,n)},(_,k)=>k);
+    let i=-1; for(let k=0;k<n;k++) if(ok(k)&&!R[sk].includes(k)){ i=k; break; }
+    if(i<0) for(let k=0;k<n;k++){ const j=((R[key]|0)+k)%n; if(ok(j)){ i=j; break; } }
+    if(i<0) return -1; R[key]=i+1; if(!R[sk].includes(i)) R[sk].push(i); return i; };
   S.abPhone=function(G){ if(!S.abOn(G)) return; const R=S.abRec(G), X=ABE(), AB=X&&X.AB; if(!AB) return; const F=G.flags, A=M('p:heroine_01','heroine_01'); S.abSettle(G);
     for(const w of S.abSundays()){ if(w.wk<=(R.wk|0)) continue; const t=T(w.day,S.jp(21)); if(now(G)<t) break; R.wk=w.wk;
       if(now(G)>T(w.day+1,18)) continue;   /* 隔天 18:00 以後才跑到這一週（很久沒跑手機規則、讀檔）：不補 */
       const tier=S.abTier(G), tag='y3_ab_w'+w.wk; R.tier=tier; F.AN_ABROAD_TIER=tier;
-      if(tier===1){ if(w.wk%2!==1) continue; const i=(R.n1++)%AB.t1.length, L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）*/
+      if(tier===1){ if(w.wk%2!==1) continue; const i=S.abPick(G,R,'n1',AB.t1.length,'t1',w.day); if(i<0) continue; const L=AB.t1[i].map(A), O=(AB.t1O||[])[i];   /* T1 也有兩個回覆按鈕，她回一句（AA_343 D3）；哪一則照日子挑（S.abPick，AA_377 第 5 項）*/
         if(O) L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:O.map(([t,r])=>({t,say:[{from:'heroine_01',text:r}]}))};
         PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }
-      else if(tier===2){ const x=AB.t2[(R.n2++)%AB.t2.length], L=x.L.map(A); L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:x.O.map(o=>({t:o,say:[]}))}; PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }   /* 她不再回（一來一回就停）*/
-      else { const grp=(R.n3++)%AB.t3.length, e={day:w.day,h:S.jp(21),kind:'video',wk:w.wk,tier,replied:null}; R.log.push(e);
+      else if(tier===2){ const i2=S.abPick(G,R,'n2',AB.t2.length,'t2',w.day); if(i2<0) continue; const x=AB.t2[i2], L=x.L.map(A); L[L.length-1].ask={id:tag,until:T(w.day+1,18),opts:x.O.map(o=>({t:o,say:[]}))}; PHONE.at(G,w.day,S.jp(21),L,tag); R.log.push({day:w.day,h:S.jp(21),kind:'msg',wk:w.wk,tier}); }   /* 她不再回（一來一回就停）*/
+      else { const grp=S.abPick(G,R,'n3',AB.t3.length,'t3',w.day); if(grp<0) continue; const e={day:w.day,h:S.jp(21),kind:'video',wk:w.wk,tier,replied:null}; R.log.push(e);
         if(now(G)<T(w.day,S.jp(21)+0.5)) plan(G,{id:'y3_ab_v'+w.wk,ev:'ev_an_abroad_video',day:w.day,h:S.jp(21),late:0.5,place:'視訊',title:'以安打視訊來（日本 21:00）',verb:'接起來',no:'先不接',travel:'',travelH:0,back:'視訊結束。',abv:{wk:w.wk,grp,day:w.day}});
         else e.replied=false; } }
     /* 「我再看看」：6/30（五）20:30（她那邊 21:30）再問一次（AA_343 D2）：「六月最後一天。」「七月七號。……你要不要來看？」；
@@ -461,7 +473,7 @@ const R2Y3B=(function(){
       if(typeof x==='string') await GM.say(me,x); else if(x.cg!==undefined){ if(typeof ADV!=='undefined'&&ADV.cg) ADV.cg(x.cg); } else if(x.narr) await GM.say(null,x.narr); else if(x.who==='player') await GM.say({name:G.name||'祐廷'},x.text); else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text); } };
   /* 台詞表：邀約、飯桌一句照學期換（over，Y3S2；條件不到＝原本那一句）*/
   if(typeof TERMEND_LINES!=='undefined'&&TERMEND_LINES.HEART&&!TERMEND_LINES._r2y3b){ const H=TERMEND_LINES.HEART, rs=(x,G)=>typeof x==='function'?x(G):x;
-    if(H.heroine_02){ const b={invite:H.heroine_02.invite,invite2:H.heroine_02.invite2}, z=G=>S.special(G,'heroine_02')==='z13'&&XT();
+    if(H.heroine_02){ const y3=(H.heroine_02.over||[]).find(v=>v&&v.terms&&v.terms.includes('Y3S2')), b={invite:(y3&&y3.invite)||H.heroine_02.invite,invite2:(y3&&y3.invite2)||H.heroine_02.invite2}, z=G=>S.special(G,'heroine_02')==='z13'&&XT();   /* 一般版：台詞表大三下那一版（AA_377 第 8 項：週四十點；沒有才用原本的）*/
       (H.heroine_02.over||(H.heroine_02.over=[])).push({terms:['Y3S2'],invite:G=>z(G)?XT().Z13_TXT.invite:rs(b.invite,G),invite2:G=>z(G)?(XT().Z13_TXT.invite2||XT().Z13_TXT.invite):rs(b.invite2,G)}); }   /* invite2：上學期「讓我想想」的第二次（AA_343 D10）*/
     if(H.heroine_04){ const b={invite:H.heroine_04.invite,invite2:H.heroine_04.invite2,table:H.heroine_04.table}, q=G=>S.special(G,'heroine_04')==='q15'&&XT();
       (H.heroine_04.over||(H.heroine_04.over=[])).push({terms:['Y3S2'],invite:G=>q(G)?XT().Q15.invite:rs(b.invite,G),invite2:G=>q(G)?(XT().Q15.invite2||XT().Q15.invite):rs(b.invite2,G),table:G=>q(G)?XT().Q15.table:rs(b.table,G)}); }

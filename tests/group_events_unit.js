@@ -190,7 +190,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('4. 前置：日本路線 4/28 人在日本', STORY.abroad(G));
   run(f28,20,24.25); { const q=OUT.get(G,'y3_zhe4');
     check('4. Z3 日本路線：沒有冠軍賽的出遊；台灣 23:00＝當地 0:00（AA_341 J-S13）阿哲打視訊（接起來）', !OUT.get(G,'y3_final')&&!!q&&q.verb==='接起來'&&q.place==='視訊'&&G.flags.ZHE4_REPLY==='jp'&&!PHONE.sent(G,'y3_zhe4')); }
-  G.hour=24.1; Z1=await play('ev_zhe_said_it',[2]); check('4. 日本路線視訊選坐著（AA_336 C10）：「（他也沒說話。十二點，他把手機拿起來。）」「走啦。謝了。明天記得看直播。」、沒有「明天你要來喔」、開頭是視訊那句', !Z1.some(t=>/明天你要來喔/.test(t))&&has('（他也沒說話。十二點，他把手機拿起來。）')&&!has('（他也沒說話。十二點的時候他站起來。）')&&Z1.includes(NAME('zhe')+'：走啦。謝了。明天記得看直播。')&&Z1[0]==='（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）', JSON.stringify(Z1));
+  G.hour=24.1; Z1=await play('ev_zhe_said_it',[2]); check('4. 日本路線視訊選坐著（AA_336 C10；時間照 AA_377 第 2 項）：「（他也沒說話。臺灣十二點，你這邊一點。他把手機拿起來。）」「走啦。謝了。明天記得看直播。」、沒有「明天你要來喔」、開頭是視訊那句', !Z1.some(t=>/明天你要來喔/.test(t))&&has('（他也沒說話。臺灣十二點，你這邊一點。他把手機拿起來。）')&&!has('（他也沒說話。十二點的時候他站起來。）')&&Z1.includes(NAME('zhe')+'：走啦。謝了。明天記得看直播。')&&Z1[0]==='（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）', JSON.stringify(Z1));
   run(f29,18,21.75);
   check('4. Z3 直播：FINAL_GAME_Y3 stream；賽後明軒兩則（台灣 20:40＝當地 21:40，AA_341 J-S13）＋「恭喜！」「那出國呢？」', G.flags.FINAL_GAME_Y3==='stream'&&JSON.stringify(txt('p:classmate_mingxuan').slice(-2))===JSON.stringify(['classmate_mingxuan:冠軍。我九點家教，先走了。','classmate_mingxuan:……你看到了喔。我今天很用力。'])&&JSON.stringify((PHONE.byAsk(G,'y3_mx_stream')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))==='["恭喜！","那出國呢？"]');
   { said=[]; G.hour=21; const st=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r)); const n1=said.length; const st2=GROUP.tick(GM);

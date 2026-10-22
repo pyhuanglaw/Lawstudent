@@ -96,7 +96,7 @@ const lad=(term,cid,sid)=>(((LADDER.byTerm[term]||{})[cid]||{}).steps||[]).find(
     const Fr=TERMEND_LINES.FRIEND.heroine_02;
     check('補充. 朋友的邀約：大一上「這禮拜五我十點下班。要不要吃宵夜？」；大一上～大二上「下班以後」都是 22:00',Fr.y1s1==='這禮拜五我十點下班。要不要吃宵夜？'&&['Y1S1','Y1S2','Y2S1'].every(t=>Fr.hByTerm&&Fr.hByTerm[t]===22),J([Fr.y1s1,Fr.hByTerm]));
     const H3=TERMEND.heart('heroine_02','Y3S2');
-    check('補充. 對照（範圍外，給 AA 的問題）：大三下回來以後照現有設定「這禮拜五我九點下班。……」',H3.invite==='這禮拜五我九點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。',H3.invite); }
+    check('補充. 大三下回來以後（當時給 AA 的問題，AA_377 第 8 項答了：她只排週三、四）：「這禮拜四我十點下班。……」',H3.invite==='這禮拜四我十點下班。……你要不要等我？我想吃飯，不想吃店裡的東西。'&&H3.wd===4&&H3.h===22,H3.invite); }
   { fresh('2025-12-18',21,'dorm'); const w=TERMEND.windowOf('Y1S1'); R('heroine_02','FAM'); const ok=TERMEND.planDinner(G,w,'heroine_02','friend'); const q=OUT.get(G,'te_Y1S1');
     check('補充. 大一上和芷若的期末飯排在 22:00（她下班以後）',!!ok&&!!q&&q.h===22,J(q&&[q.h,K(q.day)])); }
   { const reNS=(r,d)=>typeof VAC.reNS==='function'?VAC.reNS(r,d):null, Rz=VAC_DATA.TRIP_MSG.reunion.heroine_02, a=reNS(Rz,D('2026-08-26')), b=reNS(Rz,D('2027-01-11')), c=reNS(Rz,D('2027-07-28'));

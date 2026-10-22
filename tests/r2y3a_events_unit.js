@@ -539,8 +539,8 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   X1('JP'); to('2028-02-20',13.9); check('25. 日本路線 13:54 還沒（14:00 才演）',!R2Y3A.x1Due(G));
   to('2028-02-20',14.2); check('25. 日本路線 14:00 以後、人在宿舍房間：演（TICKS）',R2Y3A.x1Due(G)&&STORY.TICKS.some(f=>/S\.tick\(GM,dt\)/.test(String(f))));
   { const HL=HOME.loop; let looped=false; HOME.loop=async()=>{ looped=true; }; said=[]; await R2Y3A.x1Jp(GM); HOME.loop=HL;
-    const W=['（寒假最後一天。紙箱攤在地上。）','（阿哲還回來的民法筆記。放進去。）','（一疊大二的筆記。放進去。）','（一張《進城的那一週》的電影票根。放進去。）','（宿舍的床墊翻起來的時候，下面有一張大一的課表。）','（507 你那半邊空了。檯燈原本的位置，桌上留下一圈比較白的印子。）'];
-    check('25. J1、J2 裝箱（最近的優先、最多三件、丟掉的那件不在）、「床墊下面有一張大一的課表」、507 空了（逐字）',JSON.stringify(all())===JSON.stringify(W),JSON.stringify(all()));
+    const W=['（寒假最後一天。紙箱攤在地上。）','（阿哲還回來的民法筆記。放進去。）','（一疊大二的筆記。放進去。）','（一張《進城的那一週》的電影票根。放進去。）','（宿舍的床墊翻起來的時候，下面有一張不知道誰的課表。）','（507 你那半邊空了。檯燈原本的位置，桌上留下一圈比較白的印子。）'];
+    check('25. J1、J2 裝箱（最近的優先、最多三件、丟掉的那件不在）、「床墊下面有一張不知道誰的課表」（AA_377 第 18 項）、507 空了（逐字）',JSON.stringify(all())===JSON.stringify(W),JSON.stringify(all()));
     check('25. 字卡「搬回臺北的家」「計程車　約 30 分鐘」；搬回家（HOME 在家）；X1_JP、ev_x1_moveout_jp 演過',JSON.stringify(cards.slice(-1)[0])===JSON.stringify(['搬回臺北的家','計程車　約 30 分鐘'])&&HOME.at(G)&&looped&&G.flags.X1_JP===D('2028-02-20')&&!!G.events.done.ev_x1_moveout_jp&&!R2Y3A.x1Due(G)); }
   meet('classmate_bohan'); run('2028-02-20',20.75,21.25);
   check('25. 認識柏翰：當晚 21:00 兩則＋「拿走了。」',JSON.stringify(txt('p:classmate_bohan').slice(-2))===JSON.stringify(['classmate_bohan:你的床，下學期學弟要來住。','classmate_bohan:東西都拿走了嗎。'])&&JSON.stringify(PHONE.byAsk(G,'y3_x1_bohan').ask.opts.map(o=>o.t))===JSON.stringify(['拿走了。']));

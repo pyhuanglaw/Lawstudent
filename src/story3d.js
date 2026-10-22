@@ -506,6 +506,10 @@ const STORY = (function(){
   S.LADDER_SKIP={'Q2-L4':G=>!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_04','PLAYTESTED'))};
   /* AA_374 第 11 項：柏翰×沛珊那一段只在玩家沒有和沛珊交往時——講那一段的兩層（大一下 P2-L4、大二上 P3-L5），交往中的玩家跳過 */
   S.LADDER_SKIP['P2-L4']=G=>!!(G.flags&&G.flags.dating_classmate_peishan); S.LADDER_SKIP['P3-L5']=S.LADDER_SKIP['P2-L4'];
+  /* AA_377 第 7 項：和以安挽回中、冷靜中、分手了（REL_STATE strained／ended＝romance 的 ex、paused、friend_after_catch，而且沒在交往）：大三下 A6 整層略過——
+     3/25「到了再說。」是她出發前對他說的唯一一句（AA_260 第 2 節第 3 點；同 jp3d.js 的 strained）*/
+  { const anStrained=G=>{ const F=(G&&G.flags)||{}, R=(F.romance||{}).heroine_01; return !(F.dating_heroine_01===true||(R&&R.status==='dating'))&&!!R&&['ex','paused','friend_after_catch'].includes(R.status); };
+    for(const id of ['A6-L1','A6-L2','A6-L3','A6-L4']){ const f0=S.LADDER_SKIP[id]; S.LADDER_SKIP[id]=G=>anStrained(G)||(!!f0&&f0(G)); } }
   S.ladNext=function(G,id,mode){ const D=S.ladData(G,id); if(!D) return null; const L=D.L, K=D.key;
     const so=ladRec(G); if(so.ladderDay[id]===G.day) return null; let st=L.steps[so.ladder[K]|0];
     const wkNow=(()=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return T?T.week|0:0; })();
@@ -531,7 +535,8 @@ const STORY = (function(){
   /* AA_186 第 6 節 C（條件類，AA-B 19:1x 照做）：「妳們和好了？」只給看過吵架那一場的玩家（以安 A2-L6：ev_an_yu_argument；A5-L6 芯慈：慈 3）；linesIf 指到不存在的 ev_an_study_group 改讀公法讀書會 */
   /* 學姊 M2 換題目、M3 放榜、上榜聚餐：照新年級是 2026 年＝祐廷大一下的事，大二不播（BB_205 第 4 節、BB_97 第 2 節 2026-10-17）；大一下的版本在 src/sis_grad3d.js（AA_218 17-12 第 4 點；AA_355 第 3 節）*/
   S.SIS_Y2_EXAM=false;
-  S.LADDER_CHOICE_IF={'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
+  S.LADDER_CHOICE_IF={'Y6-L3':{'「妳也有拍嗎？」':{custom:G=>!(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has('heroine_01','AN3_AZALEA'))},'（給她看手機裡的另一張）':{memory:[{npc:'heroine_01',tag:'AN3_AZALEA'}]}},   /* AA_377 6-3：杜鵑花那張是祐廷拍的（AN3_AZALEA），「妳也有拍嗎？」換成給她看另一張（字在 ladder.js，tools/ladder/import_ladder.py）*/
+    'A2-L6':{'「妳們和好了？」':{events:['ev_an_yu_argument']}},'A-L11':{'「我可以去嗎？」':{notEvents:['ev_public_law_group']}},
     'A3-L3':{'「三條是哪三條？」':{notFlags:['PLG_RULES_SEEN']}},'A5-L5':{'「妳那天講的，我聽過了。」':{flags:['AN15_SEEN']}}};   /* A5-L5 選項②：11/17 在 Café 演過 1A-05 才有（AA_315 1A-02 第 6 節第 5 點）*/   /* AA_238 5-5（25e89f6e）：讀書會改到大一上，「我可以去嗎？」改掛以安 A-L11（去過公法讀書會的不出現），A2-L6 只留「妳們和好了？」（看過吵架的才有）；AA_259：A5-L6 改稿後沒有「妳們和好了？」；AA_211（0ba8d336）：A3-L3「三條是哪三條？」看過規則（PLG_RULES_SEEN）的不出現 */
   /* 選項的回覆依條件換（AA_211 第 4 節，0ba8d336）：可昕 K3-L7 選項①——沒去系上的電影夜（ev_kexin_film_night，BB_97 9-6，大二還沒做）＝「真的嗎？那下次我坐你旁邊看。」*/
   S.LADDER_REPLY_IF={'K3-L7':{'「我看電影很認真。」':[{unless:{events:['ev_kexin_film_night']},reply:'真的嗎？那下次我坐你旁邊看。'}]},
@@ -683,7 +688,7 @@ const STORY = (function(){
   S.ladLines=function(st,g,id){ const G=g||(typeof GAME!=='undefined'&&GAME.G)||null; const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); const L=(alt?alt.lines:st.lines||[]).slice(); for(const x of (st.extraIf||[])) if(ladAlt(G,x,id)) L.push(...(x.lines||[])); return L; };   /* linesIf：第一個成立的那一套取代 lines；extraIf：成立就在後面多說（AA 2026-10-16）*/
   S.ladPlay=async function(GM,who,id,st){ const G=GM.G, so=ladRec(G), D=S.ladData(G,id), K=D?D.key:id; const preMem=[]; { const alt=(st.linesIf||[]).find(x=>ladAlt(G,x,id)); if(alt&&alt.mem) preMem.push(alt.mem); for(const x of (st.extraIf||[])) if(x.mem&&ladAlt(G,x,id)) preMem.push(x.mem); }   /* 播之前先決定（extraIf 的 notMemory 就是自己的記憶）*/
     for(const l of S.ladLines(st,G,id)) await GM.say(who,typeof l==='string'?l:l.t,{expression:typeof l==='object'&&l?l.e:undefined});
-    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch); if(rp) await GM.say(who,rp); }
+    let ch=null; const CH=S.ladChoices(st); if(CH.length){ const k=await GM.choose(CH.map(c=>({t:c.t}))); ch=CH[k]||CH[0]; const rp=S.ladReply(st,ch); for(const t of [].concat(rp||[])) await GM.say(who,t); }   /* reply 可以是好幾句（AA_377 6-3：語彤「……這張她眨眼了。」「你沒傳這張，是對的。」）*/
     /* 沛珊的聯絡方式（AA_310 第 7 節，AA-C 10-20 14:40）：沒有宿營、也沒去 8/31 迎新的局（9/17 開局的舊存檔）拿不到——第一次聊到她（P-L1）還沒有聯絡方式就加 */
     if(id==='classmate_peishan'&&st.id==='P-L1'&&typeof INV!=='undefined'&&INV.hasContact&&INV.addContact&&!INV.hasContact(G,'classmate_peishan')){ await GM.say(who,'……我加你好不好？上課的筆記可以互傳。'); INV.addContact(G,'classmate_peishan'); if(SOCIAL.has&&SOCIAL.meet&&!SOCIAL.has(id,'FIRST_MET')) SOCIAL.meet(id,G.zone); }
     const rel=Object.assign({},st.rel||{}); if(ch&&ch.rel) for(const k in ch.rel) rel[k]=(rel[k]||0)+ch.rel[k]; if(Object.keys(rel).length&&SOCIAL.adjust) SOCIAL.adjust(id,rel);

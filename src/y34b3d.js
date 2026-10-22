@@ -153,7 +153,7 @@ const Y34B=(function(){
     if(!JP(G)&&NOW(G)>=T(a,21)&&NOW(G)<T(d,15)){ const L=[K('我的期末報告被選去發表。禮拜三下午三點。'),K('你要來的話，坐最後一排。')];
       L[1].ask={id:'y3_kx19',until:T(d,14),opts:[{t:'去。',set:{KX19_GO:true}},{t:'那天不行。',set:{KX19_GO:false},say:[{from:'kexin',text:'好。'}]}]}; at(G,a,G.day===a?Math.max(21,G.hour):G.hour,L,'y3_kx19_ask'); }   /* 新寫（AA_322 1B-16 第 1 節）*/
     if(F.KX19_GO===true&&F.KX_PRESENT==null&&typeof OUT!=='undefined'&&!OUT.get(G,'y3_kx19')&&NOW(G)<T(d,15.5)) OUT.plan(G,{id:'y3_kx19',ev:'ev_kexin_presentation',day:d,h:15,late:0.5,place:'政大',title:'可昕的期末報告',travel:'開車 約 40 分鐘',travelH:2/3,hours:1.5});
-    { const h17=tzH(G,d,17); if(F.KX_PRESENT==null&&NOW(G)>=T(d,h17)){ F.KX_PRESENT='photo'; at(G,d,h17,[K('（照片：台上，詹靖拍的）'),K('期末報告講完了。最後一排空著。')],'y3_kx19_photo'); } } };   /* 日本路線人在日本＝當地 18:00（臺灣 17:00；AA_341 J-S13）*/
+    { const h17=tzH(G,d,17); if(F.KX_PRESENT==null&&NOW(G)>=T(d,h17)){ F.KX_PRESENT='photo'; at(G,d,h17,[K('（照片：台上，詹靖拍的）'),K(JP(G)?'報告講完了。……好累。':'期末報告講完了。最後一排空著。')],'y3_kx19_photo'); } } };   /* AA_377 第 13 項：日本路線沒收到「坐最後一排」的邀約，不說最後一排 */   /* 日本路線人在日本＝當地 18:00（臺灣 17:00；AA_341 J-S13）*/
   /* ================= 1B-17 學姊的生日 ================= */
   /* 群組：Kevin「學姊今天生日！」學姊「收到。」，後面不掛選項。私訊改成玩家自己在學姊的私訊用 MSG-2 的「生日快樂」話題（src/msg3d.js；AA_337 第 6 節）：
      2028 的回覆照 AA_322 1B-17 三版——交往中＝蛋糕＋六點 Café、前任＝「謝謝。」、朋友＝研究室的小蛋糕；不到 FRIEND（也不是交往、前任）＝這一年沒有這個話題。
@@ -398,7 +398,7 @@ const Y34B=(function(){
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
     {label:'fw_a'},{speaker:'heroine_01',text:'嗯。……八月見。'},{goto:'fw_end'},
     {label:'fw_b'},{speaker:'heroine_01',text:'好。我要加滷蛋。'},{goto:'fw_end'},
-    {label:'fw_c'},{speaker:'heroine_01',text:'……你顧你自己的。'},{goto:'fw_end'},
+    {label:'fw_c'},{if:C(G=>!dating(G,'heroine_01')),speaker:null,text:'（以安點了一下頭，沒有說話。）'},{unless:C(G=>!dating(G,'heroine_01')),speaker:'heroine_01',text:'……你顧你自己的。'},{goto:'fw_end'},   /* AA_377 第 7 項：日本路線挽回中（沒有在交往）＝旁白，3/25「到了再說。」是她出發前對他說的唯一一句（AA_260 第 2 節第 3 點）*/
     {label:'fw_d'},{speaker:null,text:'（她也舉了一下，沒說話。）'},
     {label:'fw_end'},
     {advance:G=>Math.max(0,21-(G.hour%24))},

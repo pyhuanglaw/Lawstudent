@@ -8,7 +8,8 @@
      ref 可以寫「分支@commit」：從那個 commit 讀、來源寫分支名（分支已經往前走、要重產同一版時用；例：claude/magical-albattani-bk7b4n@57b2a7b3）
 （2026-10-14 起企劃分支是 claude/story-planning；舊的企劃分支已經移除，不要再用那個名字——D66）
 AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）第 9 項：大一下通識第 6 週（ge_y1s2，週一 13:20）改成天文館的圓頂——宥辰那句、觀察的開頭兩處整句換掉；第 6-2 節第 3 題（bdab2f42）再換黑板「（本週在天文館）」、觀察的結果「宥辰仰著頭，一直到燈亮都沒有說話。」
-（旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過"""
+（旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」在 src/classes3d.js 的 SPECIAL_PRE）。只讀匯入白名單上的版本；企劃線的 JSON 下一版自己改好了就跳過
+AA_377（大三下修正稿，白名單 AA377-Y3S2-FIX-1021）第 9 項：民訴 civpro_2 第 14 週拿掉作廢的模擬法庭（改成言詞辯論的練習）、第 15 週板書第 2 行"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
@@ -76,6 +77,34 @@ if A373:
             else: x['result'] = new
         elif not (len(hits) == 0 and len(news) == 1): sys.exit(f'AA_373 第 6-2 節第 3 題：ge_y1s2 第 6 週「{old}」有 {len(hits)} 處（應該是 1 處；或已經是新句）')
     out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（通識第 6 週 4 句）'
+# AA_377 第 9 項（白名單 AA377-Y3S2-FIX-1021；第 6-1 節，AA 回 LAWWW 01:45）：大三下民訴 civpro_2 第 14 週（BB_102）整週是作廢的「模擬法庭」（使用者 10-17 刪除，AA_252）——
+#   換成「言詞辯論的練習」：沒有法官、沒有判決、不叫模擬法庭；第 15 週板書第 2 行跟著改。整個欄位相同才換；企劃線的 JSON 下一版自己改好了（已經是新的）就跳過，舊的、新的都不是＝停下來
+A377 = GUARD.approved_files(ALLOW, 'docs/story_planning/AA_377_')
+if A377:
+    P377, S377 = next(iter(A377.items()))
+    ok, why = GUARD.allowed(P377, S377, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md377 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S377}:{P377}'], text=True)
+    cw = {w.get('w'): w for w in out['courses'].get('civpro_2', [])}
+    if 14 not in cw or 15 not in cw: sys.exit('AA_377 第 9 項：找不到 civpro_2 第 14、15 週')
+    OPT_P = {'text': '原告', 'result': '你發現說清楚「我要什麼」比想像中難。'}
+    OPT_D = {'text': '被告', 'result': '你發現被告的第一句話，最重要。'}
+    for wk, field, old, new, quotes in [
+        (14, 'board', ['模擬法庭：法官、原告、被告', '最後由法官寫判決', '判決書最重要的是「理由」'], ['言詞辯論的順序：原告、被告', '先講要什麼，再講為什麼', '一個人一分鐘'],
+         ['「言詞辯論的順序：原告、被告」', '「先講要什麼，再講為什麼」', '「一個人一分鐘」']),
+        (14, 'line', '一個人當法官，一個人當原告，一個人當被告。最後，法官要寫理由。', '左邊這半當原告，右邊這半當被告。一個人一分鐘，先講你要什麼。', ['「左邊這半當原告，右邊這半當被告。一個人一分鐘，先講你要什麼。」']),
+        (14, 'react', [{'who': 'yu', 'text': '我要當法官！……欸，法官不能先說他覺得誰可憐喔？'}, {'who': 'classmate_bohan', 'text': '我當書記官。我要記錄。'}],
+         [{'who': 'yu', 'text': '沒有法官喔？……那我當原告。我要先講。'}, {'who': 'classmate_bohan', 'text': '我計時。一分鐘，我幫大家按碼表。'}], ['「沒有法官喔？……那我當原告。我要先講。」', '「我計時。一分鐘，我幫大家按碼表。」']),
+        (14, 'obs', {'prompt': '蔡教授讓你自己選角色。你選……', 'options': [{'text': '法官', 'result': '你坐上去才發現，法官最難的是不說話。寫理由的時候更難。'}, OPT_P, OPT_D]},
+         {'prompt': '蔡教授讓大家分成兩邊。你在……', 'options': [OPT_P, OPT_D]}, ['「蔡教授讓大家分成兩邊。你在……」', '法官那個選項拿掉']),
+        (15, 'board', ['（端午補假）', '判決書併到第 14 週的模擬法庭', '下次見面：期末考'], ['（端午補假）', '上週的練習：講義在課程網', '下次見面：期末考'], ['「上週的練習：講義在課程網」'])]:
+        for q in quotes:
+            if q not in md377: sys.exit(f'AA_377@{S377} 裡找不到第 9 項的「改成」：{q}')
+        cur = cw[wk].get(field)
+        if cur == new: continue
+        if cur != old: sys.exit(f'AA_377 第 9 項：civpro_2 第 {wk} 週的 {field} 是 {cur!r}（應該是舊的，或已經是新的）')
+        cw[wk][field] = new
+    out['source'] += f'＋{os.path.basename(P377)[:6]}@{S377}（民訴第 14、15 週）'
 # 法律審查：一週一週開
 rv = json.loads(show('docs/story_planning/BB_115_法律審查清單.json'))
 items = {}   # '課程|週' → [通過嗎]

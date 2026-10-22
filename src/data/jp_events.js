@@ -17,12 +17,12 @@ const JP_EVENTS=(function(){
   /* G0 3/11（六）14:00 公館：行李箱（交往中；3/10 21:00 她私訊、排出遊在 jp3d.js）*/
   const SUITCASE=[ {scene:'公館',bg:'gongguan'},
     {speaker:null,text:'（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）'},
-    {speaker:'heroine_01',text:'這個比較安靜。理由：宿舍的走廊晚上會有回音。'},
+    {speaker:'heroine_01',text:'這個比較安靜。理由：公寓的走廊晚上會有回音。'},   /* AA_377 第 4 項：以安在大學城隔壁的小鎮租公寓（AA_341 裁定 1）*/
     {choice:[{text:'「那我也買這個。」',goto:'g0_a'},{text:'「妳連這個都查了？」',goto:'g0_b'}]},
     {label:'g0_a'},{speaker:'heroine_01',text:'好。……兩個一樣的，在機場不要拿錯。'},{goto:'g0_end'},
     {label:'g0_b'},{speaker:'heroine_01',text:'交換生的論壇有寫。'},
     {label:'g0_end'},{set:{AN_JP_SUITCASE:true}} ];
-  /* G1 3/27（一）10:00 國際學生辦公室＋宿舍入住（一鍵，地點字幕）*/
+  /* G1 3/27（一）10:00 國際學生辦公室報到（一鍵，地點字幕；入住是 3/25 抵達那天，AA_377 第 17 項）*/
   const OFFICE=[ {scene:'國際學生辦公室'},
     {speaker:null,text:'（國際學生辦公室。你們排在一列交換生的最後面。輪到你的時候，職員用很慢的日文說了一句話，你只聽懂「宿舍」。）'},
     {if:C(dating),speaker:null,text:'（以安在旁邊小聲翻譯。翻完她說：「我也只聽懂一半。剩下一半是猜的。」）'},
