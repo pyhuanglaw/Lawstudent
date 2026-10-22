@@ -232,7 +232,7 @@ def build_brunch():
             xf = Xf(t['x'], t['z']); xf.rbox(acc('wood_lt'), -0.4, 0.4, 0.72, 0.76, -0.65, 0.65, r=0.015)
             for sx in (-0.33, 0.33):
                 for sz in (-0.58, 0.58): xf.cyl(acc('wood_dk'), (sx, 0.0, sz), (sx, 0.72, sz), 0.025, seg=8)
-    for s in LAY['seats']: chair(s['x'], s['z'], s['yaw'] + math.pi)
+    for s in LAY['seats']: chair(s['x'], s['z'], s['yaw'])   # 椅子正面＝坐的人面向的方向（遊戲 sitAt：rotation.y＝seat.yaw）；v2 加了 π，整排椅背卡在人和桌子中間（LAWWW2 10-22）
     for s in LAY['seats'][::2]:                                                                              # 桌上的東西：水杯、餐巾
         tb = next(t for t in LAY['items'] if t['kind'] in ('table2', 'table4') and abs(t['x'] - s['x']) < 1.0 and abs(t['z'] - s['z']) < 1.0)
         Xf(tb['x'] + 0.12, tb['z'] - 0.1).lathe(acc('glass'), [(0.0, 0.0), (0.035, 0.0), (0.04, 0.11), (0.0, 0.11)], 0, 0.76, 0, seg=10)

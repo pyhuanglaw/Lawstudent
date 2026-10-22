@@ -1,21 +1,22 @@
 diff --git a/src/data/wz_shops_layout.js b/src/data/wz_shops_layout.js
-index 0b6b66c3..993aa05f 100644
+index 0b6b66c3..f81818d9 100644
 --- a/src/data/wz_shops_layout.js
 +++ b/src/data/wz_shops_layout.js
-@@ -130,6 +130,90 @@ const WZ_SHOPS_LAYOUT = {
+@@ -130,6 +130,91 @@ const WZ_SHOPS_LAYOUT = {
        {x: -3.0, z: -1.2, kind: 'tokonoma', label: '看床之間的掛軸'}
      ],
      wallsFade: {back: [0, 0, 1], left: [1, 0, 0], right: [-1, 0, 0]}
 +  },
 +  /* ===== 林家乾麵、巷子裡定食（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364：能進去內用）=====
 +     店名、菜單、營業時間照 AA_364 第 2 節（企劃線 2b0429cd）；點餐、店員台詞、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。這裡只放空間：走得進去、坐下、離開。
-+     front.windows 是窗外街景的照片平面（room() 的窗；正式模型接上以後放到玻璃外面）：一整片蓋住店面那一面，viewW／viewH／viewY 是大小和中心高度（room() 預設 2.2×1.6、高 2.1）。
++     front.windows 是建築的窗洞（Blender 開窗、裝玻璃）；front.views 是窗外街景的照片平面（遊戲 room() 的窗；正式模型接上以後放到玻璃外面）：一整片蓋住店面那一面，
++     viewW／viewH／viewY 是大小和中心高度（room() 預設 2.2×1.6、高 2.1）；view＝照片名稱（assets/models/env/views/<view>_day|night.webp，tools/shots/shop_views.py）。
 +     clerk：店員站的位置（story3d.js 的 clerk 由 LAWWW 接）。 */
 +  lin: {
 +    id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/wz_lin_interior.glb',
 +    w: 6.4, d: 8.0, h: 3.0, wallColor: '#eef0e8', floor: 'mosaic',
 +    note: '約 6×8 m 的老麵店（A4，一樓整面開著）。店門口左邊是煮麵攤車（湯鍋三格、玻璃櫥裡生麵和青菜、滷味盤），右邊是入口；五張方桌、紅藍塑膠凳；左牆紅紙菜單，右牆電視和壁扇；後面是不鏽鋼工作檯（水槽、碗盤）、飲料冰箱、往後面廚房的布簾。',
-+    front: {door: {x: 1.0, w: 2.2, style: 'open'}, windows: [[-3.0, 2.1]], viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面）：左邊是攤車，右邊 2.2 m 是入口'},
++    front: {door: {x: 1.0, w: 2.2, style: 'open'}, windows: [], open: [-3.0, 2.1], views: [[-3.0, 2.1]], view: 'wz_lin', viewDepth: 10, viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面，open＝開口的範圍）：左邊是攤車，右邊 2.2 m 是入口'},
 +    spawn: {x: 1.0, z: 3.05, yaw: Math.PI},
 +    exit: {at: {x: 1.0, z: 3.55}, label: '離開林家乾麵', to: 'wenzhou', spawn: {x: 35.0, z: 4.1, yaw: Math.PI}},
 +    enterAt: {x: 35.0, z: 4.6, label: '進去林家乾麵', note: 'A4 店面中間偏西（A 側建築朝 −z，室內 x＝−(世界 x − 36)；攤車在世界 x 37.6、室內 x −1.6）'},
@@ -27,7 +28,7 @@ index 0b6b66c3..993aa05f 100644
 +      {kind: 'condiments', x: 2.97, z: -1.9, w: 0.4, d: 0.8, h: 0.85, note: '自取：筷子、湯匙、餐巾紙、辣椒醬、醋'},
 +      {kind: 'table_sq', x: -2.2, z: 1.6}, {kind: 'table_sq', x: -2.2, z: -0.1}, {kind: 'table_sq', x: -2.2, z: -1.8},
 +      {kind: 'table_sq', x: 1.9, z: 1.0}, {kind: 'table_sq', x: 1.9, z: -0.7},
-+      {kind: 'menu_strips', x: -3.17, y: 2.1, z: -0.3, ry: Math.PI / 2, w: 2.8, h: 0.8, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／燙青菜 35／滷蛋 15（AA_364）'},
++      {kind: 'menu_strips', x: -3.17, y: 2.07, z: -0.3, ry: Math.PI / 2, w: 1.6, h: 0.9, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／燙青菜 35／滷蛋 15（AA_364）'},
 +      {kind: 'tv', x: 3.12, y: 2.35, z: 1.9, ry: -Math.PI / 2},
 +      {kind: 'wall_fan', x: 3.12, y: 2.45, z: -0.9, ry: -Math.PI / 2},
 +      {kind: 'calendar', x: -3.17, y: 1.55, z: 2.15, ry: Math.PI / 2}
@@ -53,7 +54,7 @@ index 0b6b66c3..993aa05f 100644
 +    id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
 +    w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_dark',
 +    note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
-+    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, 3.7]], viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小高窗'},
++    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
 +    spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
 +    exit: {at: {x: -2.0, z: 3.55}, label: '離開巷子裡定食', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
 +    enterAt: {x: -4.8, z: -4.6, label: '進去巷子裡定食', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
@@ -71,7 +72,7 @@ index 0b6b66c3..993aa05f 100644
 +      {kind: 'plant_big', x: 3.55, z: 3.55}
 +    ],
 +    blocks: [[-3.4, 2.55, 0.6, 0.9], [-0.9, -2.0, 6.2, 0.55], [0.0, -3.15, 8.0, 1.7], [3.1, -2.0, 1.8, 0.55],
-+             [0.0, 2.55, 0.7, 0.7], [2.4, 2.55, 0.7, 0.7], [0.6, 0.35, 1.2, 0.75], [2.9, 0.35, 0.7, 0.7], [-3.4, 0.2, 0.7, 0.7], [3.55, 3.55, 0.5, 0.5]],
++             [0.0, 2.55, 0.7, 0.7], [2.4, 2.55, 0.7, 0.7], [0.6, 0.35, 1.2, 0.75], [2.9, 0.35, 0.7, 0.7], [-3.4, 0.2, 0.7, 0.7], [3.55, 3.55, 0.5, 0.5], [-0.75, 3.62, 0.3, 0.3]],
 +    walkNote: '門口 x −2.9～−1.1；主走道 x −2.6～−1.4 從門口直到吧台前；吧台和半門從左牆一直到右牆（後面整排是廚房，不能進去）',
 +    seats: [
 +      {x: -0.55, z: 2.55, yaw: Math.PI / 2, table: 1, label: '坐下'}, {x: 0.55, z: 2.55, yaw: -Math.PI / 2, table: 1, label: '坐下'},
@@ -80,9 +81,9 @@ index 0b6b66c3..993aa05f 100644
 +      {x: 0.3, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'}, {x: 0.9, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'},
 +      {x: 2.9, z: -0.2, yaw: 0, table: 4, label: '坐下'}, {x: 2.9, z: 0.9, yaw: Math.PI, table: 4, label: '坐下'},
 +      {x: -3.4, z: -0.35, yaw: 0, table: 5, label: '坐下'}, {x: -3.4, z: 0.75, yaw: Math.PI, table: 5, label: '坐下'},
-+      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'},
-+      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'},
-+      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}
++      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
++      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
++      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}
 +    ],
 +    interact: [
 +      {x: -2.75, z: 2.55, kind: 'cashier', label: '結帳'},
@@ -94,7 +95,7 @@ index 0b6b66c3..993aa05f 100644
  };
  if (typeof module !== 'undefined') module.exports = WZ_SHOPS_LAYOUT;
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 90411992..ad0f28eb 100644
+index cd667466..33c52839 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
 @@ -791,7 +791,7 @@ const Z3 = (function(){
@@ -130,45 +131,54 @@ index 90411992..ad0f28eb 100644
          if(o.curtains){ const ct=W3.canvasTex('curtain',64,128,(x,w,h)=>{ x.fillStyle='#d9c9a8'; x.fillRect(0,0,w,h); for(let i=0;i<w;i+=8){ const gg=x.createLinearGradient(i,0,i+8,0); gg.addColorStop(0,'rgba(0,0,0,0.10)'); gg.addColorStop(0.5,'rgba(255,255,255,0.10)'); gg.addColorStop(1,'rgba(0,0,0,0.12)'); x.fillStyle=gg; x.fillRect(i,0,8,h); } }); for(const sx of [-1,1]){ const c=new THREE.Mesh(new THREE.PlaneGeometry(0.38,2.0),new THREE.MeshStandardMaterial({map:ct,color:o.curtains,roughness:0.95,side:THREE.DoubleSide})); const q=at(wx+sx*1.3,0.24); c.position.set(q[0],WY-0.1,q[1]); c.rotation.y=ry; part.add(c); } const rod=new THREE.Mesh(new THREE.BoxGeometry(3.2,0.03,0.03),M('#8f9399')); { const q=at(wx,0.24); rod.position.set(q[0],Math.min(WY+0.88,H-0.08),q[1]); } rod.rotation.y=ry; part.add(rod); }
          // 窗光落在地板上的光斑（下午暖光／清晨冷光，夜晚消失）
          const sp=new THREE.Mesh(new THREE.PlaneGeometry(2.6,2.2),new THREE.MeshBasicMaterial({color:0xffd9a0,transparent:true,opacity:0,depthWrite:false,blending:THREE.AdditiveBlending})); sp.rotation.x=-Math.PI/2; { const q=at(wx+0.4,1.6); sp.position.set(q[0],0.012,q[1]); } sp.rotation.z=ry; sp.userData.dyn=true; g.add(sp); zone.sunPatches.push(sp); } }
-@@ -1597,11 +1597,11 @@ const Z3 = (function(){
+@@ -1597,17 +1597,17 @@ const Z3 = (function(){
       做法照麵店：room() 的空房間＋家具色塊是備用（D38 ③），正式模型 bldg.wz_*_interior 載入後整組藏起來（attachRoomGLB：WALL_ 淡出牆）。
       一盞的前面沒有牆：房子 z −5～5、緣側 5～6.2、前院 6.2～9.6（layout 的 block 擋住，看得到、走不到）——room() 以原點為中心，建好後整個往 +z 移 2.3（導航格的原點一起移）。
       這一版：走得進去、選位子坐下、離開；點餐、印東西、喝茶的文字照 AA_172（src/wzshops3d.js；AA_355 第 3 節），打工是 DL-10。測試：node tests/wz_shops_unit.js */
 -  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#7d5c40'};
 +  const WZ_FLOOR={wood_light:'#cdb08a',tile_grey:'#c9c9c4',wood_dark:'#7d5c40',mosaic:'#a7aeaa'};
    function wzShop(key){ return { id:'wz_'+key, name:(typeof WZ_SHOPS_LAYOUT!=='undefined'&&WZ_SHOPS_LAYOUT[key])?WZ_SHOPS_LAYOUT[key].name:key, indoor:true, camDist:4.0, build(E){ const L=WZ_SHOPS_LAYOUT[key], tea=!!(L.front&&L.front.openFront);
-       const winXs=(L.front&&L.front.windows||[]).map(w=>-(w[0]+w[1])/2);   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
+-      const winXs=(L.front&&L.front.windows||[]).map(w=>-(w[0]+w[1])/2);   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
++      const winXs=(L.front&&(L.front.views||L.front.windows)||[]).map(w=>-(w[0]+w[1])/2);   /* views：窗外街景的照片平面（林家、定食店整面一片）；沒有的照建築的窗 */   /* 店面那一面的窗（room() 的 front：沿牆位置 t＝−x）*/
        const sp=Object.assign({},L.spawn); if(!tea) sp.z=Math.min(sp.z,L.d/2-0.95);   /* room() 的牆內 0.4 m 不能站（阿德影印的出生點 3.9 太靠門）*/
 -      const z=room(E,{w:L.w,d:L.d,h:L.h,warm:key!=='print',cool:key==='print',wallColor:L.wallColor,floorTex:W3.stoneTex(WZ_FLOOR[L.floor]||'#d9cbb0'),spawn:sp,windows:tea||!winXs.length?false:undefined,winWall:'front',winXs})   /* 阿德影印是日光燈：warm:false（LAWWW2-B 10-16 建議，截圖 wz_shops_ingame/print_entry_night.webp）*/;
 +      const z=room(E,{w:L.w,d:L.d,h:L.h,warm:key!=='print',cool:key==='print',wallColor:L.wallColor,floorTex:W3.stoneTex(WZ_FLOOR[L.floor]||'#d9cbb0'),spawn:sp,windows:tea||!winXs.length?false:undefined,winWall:'front',winXs,winW:L.front&&L.front.viewW,winH:L.front&&L.front.viewH,winY:L.front&&L.front.viewY,view:L.front&&L.front.view,viewDepth:L.front&&L.front.viewDepth})   /* 阿德影印是日光燈：warm:false（LAWWW2-B 10-16 建議，截圖 wz_shops_ingame/print_entry_night.webp）*/;
        const g0=z.group, nav=z.nav, cz=tea?(9.6-L.d/2):0;   /* 一盞：房間 z −5～9.6 */
        if(cz){ g0.position.z+=cz; nav.oz+=cz; for(const w of z.walls) w.userData.center=new THREE.Vector3(w.position.x,w.position.y,w.position.z+cz); }
        const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
+       const fbM=M('#a88b6a',{rough:0.8});
+       for(const b of L.blocks){ nav.blockRect(b[0],b[1],b[2],b[3],0,0.05); const m=new THREE.Mesh(new THREE.BoxGeometry(b[2],0.85,b[3]),fbM); m.position.set(b[0],0.425,b[1]-cz); g.add(m); }   /* 備用的家具色塊（模型載入後藏起來）*/
+-      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:{}; z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）*/
++      z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:(st.lift?{lift:st.lift}:{}); z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）；lift＝吧台高腳凳（巷子裡定食的吧台，座面 0.72 m：坐姿抬高 0.27，和 Café 的吧台一樣）*/
+         E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl),shop:key}); }
+       const ex=L.exit; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},ex.spawn)}});
+       /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10 */
 @@ -1617,6 +1617,10 @@ const Z3 = (function(){
        const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root); }).catch(e=>console.warn(L.name+' 室內正式模型載入失敗，用備用模型',e));
        return z; } }; }
    const wz_brunch=wzShop('brunch'), wz_print=wzShop('print'), wz_teahouse=wzShop('teahouse');
-+  /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_shops_interior.py --shop lin|teishoku。
++  /* 林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）：同一套 wzShop，配置在 WZ_SHOPS_LAYOUT.lin／teishoku；正式模型 tools/blender/env_second/wz_aa364_shops.py --shop lin|teishoku（118 巷店面的零件）。
 +     這一版：走得進去、選位子坐下、離開；點餐、店員、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。資產登錄放這裡（和 118 巷店面 l118_shops3d.js 一樣），不動 assets3d.js */
 +  const wz_lin=wzShop('lin'), wz_teishoku=wzShop('teishoku');
-+  if(typeof ASSETS!=='undefined') for(const k of ['lin','teishoku']){ const mk='bldg.wz_'+k+'_interior'; if(!ASSETS.manifest[mk]) ASSETS.manifest[mk]={url:'assets/models/env/second_ai/wz_'+k+'_interior.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/wz_shops_interior.py --shop '+k+'（溫州街'+(k==='lin'?'「林家乾麵」':'「巷子裡定食」')+'室內，配置 src/data/wz_shops_layout.js；LAWWW2 WZ-SHOP-AA364-ART）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
++  if(typeof ASSETS!=='undefined') for(const k of ['lin','teishoku']){ const mk='bldg.wz_'+k+'_interior'; if(!ASSETS.manifest[mk]) ASSETS.manifest[mk]={url:'assets/models/env/second_ai/wz_'+k+'_interior.glb',type:'building',lazy:true,source:'本作 Blender 腳本 tools/blender/env_second/wz_aa364_shops.py --shop '+k+'（溫州街'+(k==='lin'?'「林家乾麵」':'「巷子裡定食」')+'室內，配置 src/data/wz_shops_layout.js；LAWWW2 WZ-SHOP-AA364-ART）',license:'本作；貼圖 Poly Haven CC0＋本作程式產生'}; }
    // ---------- 和平東路二段 118 巷（D46；使用者 2026-10-18 02:2x「118巷如果已經做好了，現在就放進這個發佈版本」）----------
    /* 配置 src/data/lane118_layout.js（Blender 的 lane118_street.glb 讀同一份，座標相同：x 往東、z 往南）；店家、點餐、常客、阿哲週一揪人在 src/lane118.js（AA_280）。
       可走：巷子＋兩側人行道（x −5～5、z −41.5～33.8）、南端過辛亥路到台大後門（x −2～2、z 33.8～49.5）；兩條小巷、和平東路是背景。店先不做室內：店門口點餐。
-@@ -1686,6 +1690,6 @@ const Z3 = (function(){
+@@ -1686,7 +1690,7 @@ const Z3 = (function(){
      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.lane118_street']) ASSETS.loadOne('bldg.lane118_street').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; attachWenzhouModel(E,g,c.scene.clone(true),'l118','lane118_street_glb'); }).catch(e=>console.warn('118 巷正式模型載入失敗，用方塊立面',e));
      return zone; }
    const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
 -  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
 +  const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse,wz_lin,wz_teishoku};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-   return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
- })();
+   /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
+      原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
+      淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
 diff --git a/tests/wz_shops2_unit.js b/tests/wz_shops2_unit.js
 new file mode 100644
-index 00000000..da5e02a2
+index 00000000..e4b3acba
 --- /dev/null
 +++ b/tests/wz_shops2_unit.js
-@@ -0,0 +1,64 @@
+@@ -0,0 +1,66 @@
 +// 溫州街林家乾麵（A4）、巷子裡定食（B3）能進去內用（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364）——不需要瀏覽器。
 +// 建出真正的區域：出生點、每個座位、出口、點餐／看菜單的位置走得到；沒有小孤島；店面窗外的景大小；溫州街的兩個店門從主巷走得到、原本的「看」拿掉、出來的落點站得住。
 +// 修改前：沒有 wz_lin 區域（第 1 項就失敗）。用法：node tests/wz_shops2_unit.js
@@ -205,6 +215,8 @@ index 00000000..da5e02a2
 +  check('2. '+L.name+'：出生點 ('+sp.map(v=>+v.toFixed(2))+') 站得住',E.canStand(sp[0],sp[1],0.32,0));
 +  const seats=E.interactables.filter(i=>i.seat&&i.shop===k);
 +  check('2. '+L.name+'：座位 '+L.seats.length+' 個都在',seats.length===L.seats.length,seats.length+'/'+L.seats.length);
++  { const hi=L.seats.filter(s=>s.lift); const zs=hi.map(s=>(E.zone.seats||[]).find(q=>Math.abs(q.x-s.x)<1e-6&&Math.abs(q.z-s.z)<1e-6)), is=hi.map(s=>seats.find(i=>Math.abs(i.seat.x-s.x)<1e-6&&Math.abs(i.seat.z-s.z)<1e-6));
++    if(hi.length||k==='teishoku') check('2. '+L.name+'：吧台高腳凳的座位帶 lift 0.27（座面 0.72 m；沒有的話人坐進凳子裡）',hi.length===(k==='teishoku'?6:0)&&zs.every(q=>q&&q.lift===0.27)&&is.every(i=>i&&i.seat.lift===0.27),hi.length+' 個；區域 '+zs.map(q=>q&&q.lift).join(',')+'；按鈕 '+is.map(i=>i&&i.seat.lift).join(',')); }
 +  const bad=seats.filter(i=>!reachI(i,sp)).map(i=>'('+i.x+','+i.z+')');
 +  check('2. '+L.name+'：每個座位旁邊站得住、從門口走得到',!bad.length,bad.join('、'));
 +  const ex=E.interactables.find(i=>i.exit&&i.exit.to==='wenzhou');

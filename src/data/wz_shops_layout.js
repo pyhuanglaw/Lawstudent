@@ -133,13 +133,14 @@ const WZ_SHOPS_LAYOUT = {
   },
   /* ===== 林家乾麵、巷子裡定食（WZ-SHOP-AA364-ART，LAWWW2 2026-10-22；AA_364：能進去內用）=====
      店名、菜單、營業時間照 AA_364 第 2 節（企劃線 2b0429cd）；點餐、店員台詞、營業時間由 LAWWW 接（AA_364 第 4 節 #2）。這裡只放空間：走得進去、坐下、離開。
-     front.windows 是窗外街景的照片平面（room() 的窗；正式模型接上以後放到玻璃外面）：一整片蓋住店面那一面，viewW／viewH／viewY 是大小和中心高度（room() 預設 2.2×1.6、高 2.1）。
+     front.windows 是建築的窗洞（Blender 開窗、裝玻璃）；front.views 是窗外街景的照片平面（遊戲 room() 的窗；正式模型接上以後放到玻璃外面）：一整片蓋住店面那一面，
+     viewW／viewH／viewY 是大小和中心高度（room() 預設 2.2×1.6、高 2.1）；view＝照片名稱（assets/models/env/views/<view>_day|night.webp，tools/shots/shop_views.py）。
      clerk：店員站的位置（story3d.js 的 clerk 由 LAWWW 接）。 */
   lin: {
     id: 'wz_lin', name: '林家乾麵', glb: 'assets/models/env/second_ai/wz_lin_interior.glb',
     w: 6.4, d: 8.0, h: 3.0, wallColor: '#eef0e8', floor: 'mosaic',
     note: '約 6×8 m 的老麵店（A4，一樓整面開著）。店門口左邊是煮麵攤車（湯鍋三格、玻璃櫥裡生麵和青菜、滷味盤），右邊是入口；五張方桌、紅藍塑膠凳；左牆紅紙菜單，右牆電視和壁扇；後面是不鏽鋼工作檯（水槽、碗盤）、飲料冰箱、往後面廚房的布簾。',
-    front: {door: {x: 1.0, w: 2.2, style: 'open'}, windows: [[-3.0, 2.1]], viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面）：左邊是攤車，右邊 2.2 m 是入口'},
+    front: {door: {x: 1.0, w: 2.2, style: 'open'}, windows: [], open: [-3.0, 2.1], views: [[-3.0, 2.1]], view: 'wz_lin', viewDepth: 10, viewW: 3.8, viewH: 1.9, viewY: 1.3, note: '整面開著（鐵捲門捲在上面，open＝開口的範圍）：左邊是攤車，右邊 2.2 m 是入口'},
     spawn: {x: 1.0, z: 3.05, yaw: Math.PI},
     exit: {at: {x: 1.0, z: 3.55}, label: '離開林家乾麵', to: 'wenzhou', spawn: {x: 35.0, z: 4.1, yaw: Math.PI}},
     enterAt: {x: 35.0, z: 4.6, label: '進去林家乾麵', note: 'A4 店面中間偏西（A 側建築朝 −z，室內 x＝−(世界 x − 36)；攤車在世界 x 37.6、室內 x −1.6）'},
@@ -151,7 +152,7 @@ const WZ_SHOPS_LAYOUT = {
       {kind: 'condiments', x: 2.97, z: -1.9, w: 0.4, d: 0.8, h: 0.85, note: '自取：筷子、湯匙、餐巾紙、辣椒醬、醋'},
       {kind: 'table_sq', x: -2.2, z: 1.6}, {kind: 'table_sq', x: -2.2, z: -0.1}, {kind: 'table_sq', x: -2.2, z: -1.8},
       {kind: 'table_sq', x: 1.9, z: 1.0}, {kind: 'table_sq', x: 1.9, z: -0.7},
-      {kind: 'menu_strips', x: -3.17, y: 2.1, z: -0.3, ry: Math.PI / 2, w: 2.8, h: 0.8, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／燙青菜 35／滷蛋 15（AA_364）'},
+      {kind: 'menu_strips', x: -3.17, y: 2.07, z: -0.3, ry: Math.PI / 2, w: 1.6, h: 0.9, note: '紅紙菜單：乾麵（小）40／乾麵（大）55／餛飩湯 40／燙青菜 35／滷蛋 15（AA_364）'},
       {kind: 'tv', x: 3.12, y: 2.35, z: 1.9, ry: -Math.PI / 2},
       {kind: 'wall_fan', x: 3.12, y: 2.45, z: -0.9, ry: -Math.PI / 2},
       {kind: 'calendar', x: -3.17, y: 1.55, z: 2.15, ry: Math.PI / 2}
@@ -177,7 +178,7 @@ const WZ_SHOPS_LAYOUT = {
     id: 'wz_teishoku', name: '巷子裡定食', glb: 'assets/models/env/second_ai/wz_teishoku_interior.glb',
     w: 8.0, d: 8.0, h: 2.9, wallColor: '#ece2cc', floor: 'wood_dark',
     note: '約 8×8 m 的日式家庭料理（B3）。格子拉門進來左手邊是結帳台；後面一整排木吧台（六張高腳凳），吧台後面是開放廚房和碗盤架，吧台上方的橫樑掛木札菜單；前面靠窗兩張兩人桌，中間一張四人桌、兩張兩人桌；紙燈籠吊燈。',
-    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, 3.7]], viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小高窗'},
+    front: {door: {x: -2.0, w: 1.8, style: 'lattice'}, windows: [[-3.7, -3.1], [-0.6, 3.4]], sill: 0.85, head: 2.3, views: [[-3.7, 3.7]], view: 'wz_teishoku', viewDepth: 10, viewW: 5.5, viewH: 1.8, viewY: 1.25, note: '格子拉門（玻璃格）＋右邊一大片窗（窗台 0.85 m）＋左邊一扇小窗'},
     spawn: {x: -2.0, z: 3.05, yaw: Math.PI},
     exit: {at: {x: -2.0, z: 3.55}, label: '離開巷子裡定食', to: 'wenzhou', spawn: {x: -4.8, z: -4.1, yaw: 0}},
     enterAt: {x: -4.8, z: -4.6, label: '進去巷子裡定食', note: 'B3 店門（SF.B3 door_x −2.0；B 側建築朝 +z，室內 x＝世界 x + 2.8）'},
@@ -195,7 +196,7 @@ const WZ_SHOPS_LAYOUT = {
       {kind: 'plant_big', x: 3.55, z: 3.55}
     ],
     blocks: [[-3.4, 2.55, 0.6, 0.9], [-0.9, -2.0, 6.2, 0.55], [0.0, -3.15, 8.0, 1.7], [3.1, -2.0, 1.8, 0.55],
-             [0.0, 2.55, 0.7, 0.7], [2.4, 2.55, 0.7, 0.7], [0.6, 0.35, 1.2, 0.75], [2.9, 0.35, 0.7, 0.7], [-3.4, 0.2, 0.7, 0.7], [3.55, 3.55, 0.5, 0.5]],
+             [0.0, 2.55, 0.7, 0.7], [2.4, 2.55, 0.7, 0.7], [0.6, 0.35, 1.2, 0.75], [2.9, 0.35, 0.7, 0.7], [-3.4, 0.2, 0.7, 0.7], [3.55, 3.55, 0.5, 0.5], [-0.75, 3.62, 0.3, 0.3]],
     walkNote: '門口 x −2.9～−1.1；主走道 x −2.6～−1.4 從門口直到吧台前；吧台和半門從左牆一直到右牆（後面整排是廚房，不能進去）',
     seats: [
       {x: -0.55, z: 2.55, yaw: Math.PI / 2, table: 1, label: '坐下'}, {x: 0.55, z: 2.55, yaw: -Math.PI / 2, table: 1, label: '坐下'},
@@ -204,9 +205,9 @@ const WZ_SHOPS_LAYOUT = {
       {x: 0.3, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'}, {x: 0.9, z: 0.95, yaw: Math.PI, table: 3, label: '坐下'},
       {x: 2.9, z: -0.2, yaw: 0, table: 4, label: '坐下'}, {x: 2.9, z: 0.9, yaw: Math.PI, table: 4, label: '坐下'},
       {x: -3.4, z: -0.35, yaw: 0, table: 5, label: '坐下'}, {x: -3.4, z: 0.75, yaw: Math.PI, table: 5, label: '坐下'},
-      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'},
-      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'},
-      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', label: '坐吧台'}
+      {x: -3.0, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -2.05, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
+      {x: -1.1, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: -0.15, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'},
+      {x: 0.8, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}, {x: 1.75, z: -1.35, yaw: Math.PI, kind: 'stool', lift: 0.27, label: '坐吧台'}
     ],
     interact: [
       {x: -2.75, z: 2.55, kind: 'cashier', label: '結帳'},
