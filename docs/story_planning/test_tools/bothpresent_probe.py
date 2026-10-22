@@ -141,12 +141,16 @@ MENU_GEOM = """(()=>{ const box=document.getElementById('choices'), bs=box?[...b
     hit:el===b||b.contains(el), scrollTop:box.scrollTop, sh:box.scrollHeight, ch:box.clientHeight, disp:getComputedStyle(box).display, adv:document.body.classList.contains('adv-on')}; })()"""
 
 
-async def menu_geom(pg, run, tag, place):
-    """be8c1b0e（手機橫向：ADV 裡的選單太長時第一排點得到）：當面約的地點選單一出來、還沒捲動前，量第一個按鈕在不在畫面裡、點不點得到"""
+async def menu_geom(pg, cdp, run, tag, place):
+    """be8c1b0e（手機橫向：ADV 裡的選單太長時第一排點得到）：當面約的地點選單一出來、還沒捲動前，量第一個按鈕在不在畫面裡、點不點得到
+    （選單前面可能先有一句對話：照玩家點掉；10-22 04:2x golib2 第一版沒點、等不到選單＝沒量到）"""
     g = None
-    for _ in range(30):
-        ops = await opts(pg)
-        if any(o.startswith(place) for o in ops): g = await pg.evaluate(MENU_GEOM); break
+    for _ in range(40):
+        s = await L.state(pg)
+        if s['choices']:
+            ops = await opts(pg)
+            if any(o.startswith(place) for o in ops): await pg.wait_for_timeout(800); g = await pg.evaluate(MENU_GEOM); break
+        elif s['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(600)
     if g and g['vw'] > g['vh']:
         ok = g['hit'] and g['top'] >= 0 and g['bottom'] <= g['vh']
@@ -175,7 +179,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
         st2 = await pg.evaluate(ST)
         if st2['her']: await L.go_to(pg, cdp, run, st2['her']['x'], st2['her']['z'], 1.2, '學姊', max_s=60, lv=await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"))
     if not got: return False, trace
-    trace['menu_geom'] = await menu_geom(pg, run, tag, place)
+    trace['menu_geom'] = await menu_geom(pg, cdp, run, tag, place)
     got, ops = await pick(pg, cdp, place, wait=20); trace['places'] = ops
     if not got: return False, trace
     got, ops = await pick(pg, cdp, '現在一起過去', wait=20); trace['times'] = ops
@@ -407,6 +411,13 @@ async def tea(p, run, base, out):
     b, pg, cdp, errs, rel = await launch_load(p, run, base, 11, 13.5, 'dorm', 'TEA（9/27 週六；讀檔後學姊設成朋友：熟 48、信任 32、自在 20——一盞要朋友以上；去過一盞）')
     try:
         await pg.evaluate("(()=>{ const R=SOCIAL.rel('heroine_05'); R.fam=Math.max(R.fam||0,48); R.trust=Math.max(R.trust||0,32); R.comf=Math.max(R.comf||0,20); const V=GAME.G.visited||(GAME.G.visited={}); for(const z of ['wz_teahouse','wenzhou']) V[z]=true; })()")
+        await L.phone_away(pg, cdp)
+        # 使用者存檔的 9/27 本來就排了 14:00「去政大找可昕」（開車 30 分鐘＝13:30 一讀檔就跳「出發」，蓋住手機；10-22 04:12 候選第一輪停在這裡）：照玩家按「不去了」
+        for _ in range(8):
+            ops = await opts(pg)
+            if ops and any(o.startswith('出發：') for o in ops):
+                run.setup('TEA：存檔裡 9/27 本來排了別的出遊（%s）→ 照玩家按「不去了」' % ops[0][:24]); await pick(pg, cdp, '不去了', wait=10); await pg.wait_for_timeout(1500); continue
+            if not ops: await pg.wait_for_timeout(1500)
         await L.phone_away(pg, cdp)
         await phone(pg, cdp, 'friends')
         await tap_q(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")

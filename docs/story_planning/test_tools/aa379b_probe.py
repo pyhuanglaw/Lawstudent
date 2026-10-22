@@ -202,6 +202,19 @@ async def skip(pg, cdp, label_prefix, label=''):
     await pg.wait_for_timeout(2500); say('   %s 跳過時間「%s」→ %s' % (label, got, await pg.evaluate(STATE))); return got
 
 
+async def skip_retry(pg, cdp, run, label_prefix, label='', tries=3):
+    """睡醒以後的起床選單（直接去上課／翹這堂課／先起床再說）在雲端 1 fps 會晚十幾秒才跳出來，把剛按的「跳過時間」吃掉（10-22 04:0x goaa379 US_STEPS 停在 8:13）：
+    時間沒有往前走就先把選單點完，再按一次（玩家會再按一次）"""
+    got = None
+    for _ in range(tries):
+        s0 = await pg.evaluate(STATE)
+        got = await skip(pg, cdp, label_prefix, label)
+        s1 = await pg.evaluate(STATE)
+        if s1['day'] > s0['day'] or s1['h'] - s0['h'] > 0.5: return got
+        await drive(pg, cdp, run, max_s=60, label=label)
+    return got
+
+
 async def bed(pg, cdp, run, prefix, label=''):
     """走到床邊按睡覺，選開頭是 prefix 的選項。回傳床的選項（沒有床＝None）"""
     if (await pg.evaluate("GAME.G.zone")) != 'dorm': await quick_go(pg, cdp, 'dorm')
@@ -401,8 +414,8 @@ async def s_ask(p, run, base, sid, out):
         run.check('%s：上床「睡到明天」→ %s 早上' % (sid, A['od']), st['key'] == A['od'], json.dumps({'床': ops, 'now': st}, ensure_ascii=False)[:300])
         if mode in ('GO', 'DATE', 'ASK'):
             picks = {'LAB': ['照顏色排'] if dating else ['幫她把最重的'], 'SEM': ['妳為什麼選這個題目'], 'IV': ['他停下來的時候']}[k]
-            if A['oh'] >= 13: await skip(pg, cdp, '等到傍晚', sid)
-            elif A['oh'] >= 12: await skip(pg, cdp, '等到中午', sid)
+            if A['oh'] >= 13: await skip_retry(pg, cdp, run, '等到傍晚', sid)
+            elif A['oh'] >= 12: await skip_retry(pg, cdp, run, '等到中午', sid)
             n0 = len(await pg.evaluate("window.__LOG||[]"))
             first = {'LAB': LAB[0], 'SEM': SEM[0], 'IV': IV[0]}[k]
             ok, ch = await wait_for(pg, cdp, run, "GAME.G.flags[%s]!=null&&!(typeof ADV!=='undefined'&&ADV.active)" % json.dumps(A['flag']), max_s=900, picks=picks, label=sid, shot_at=first[:8])
@@ -489,7 +502,7 @@ async def s_steps(p, run, base, sid, out):
         if sid == 'US_STEPS':   # 隔天中午的約：先等私訊、睡覺、等到中午
             ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th==='p:heroine_05'&&m.text===%s)" % json.dumps(dm), max_s=360, go=False, label=sid)
             await pg.wait_for_timeout(2000); res['out0'] = await pg.evaluate(OUTQ)
-            ops, slept = await sleep_night(pg, cdp, run, sid); await skip(pg, cdp, '等到中午', sid)
+            ops, slept = await sleep_night(pg, cdp, run, sid); await skip_retry(pg, cdp, run, '等到中午', sid)
         ok, ch = await wait_for(pg, cdp, run, "GAME.G.flags[%s]!=null&&!(typeof ADV!=='undefined'&&ADV.active)" % json.dumps(flag), max_s=600, picks=picks, label=sid, shot_at=(TOPIC0[0] if sid == 'TOPIC_STEPS' else US0[0])[:8])
         await drive(pg, cdp, run, max_s=40, label=sid)
         log = (await pg.evaluate("window.__LOG||[]"))[n0:]; res['log'] = log; res['ch'] = ch; fl = await pg.evaluate(FLAGS); res['flags'] = fl
@@ -526,7 +539,7 @@ async def s_bday(p, run, base, sid, out):
             run.check('%s：6/1 21:00 她私訊「%s」' % (sid, '」「'.join(ask)), [m['text'] for m in mine] == ask and all(m['h'] >= 21.0 and m['d'] == '2027-06-01' for m in mine), json.dumps(M[-3:], ensure_ascii=False))
             await pg.wait_for_timeout(2000); q = await pg.evaluate(OUTQ); res['out'] = q
             run.check('%s：排好 6/2 19:00 法圖旁邊那家' % sid, any(x['id'] == 'sisy23_bday_y2' and x['d'] == '2027-06-02' and abs(x['h'] - 19) < 0.01 for x in q), json.dumps(q, ensure_ascii=False))
-            ops, slept = await sleep_night(pg, cdp, run, sid); await skip(pg, cdp, '等到中午', sid)
+            ops, slept = await sleep_night(pg, cdp, run, sid); await skip_retry(pg, cdp, run, '等到中午', sid)
         ok, _ = await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th==='g:family_law'&&m.text===%s)" % json.dumps(kevin), max_s=300, go=False, label=sid)
         G = await msgs(pg, FAM); kv = [m for m in G if m['text'] == kevin]; res['kevin'] = kv
         run.check('%s：12:10 家族群組 Kevin「%s」' % (sid, kevin), ok and len(kv) == 1 and kv[0]['from'] == 'kevin' and abs(kv[0]['h'] - 12.17) < 0.05, json.dumps(kv or G[-2:], ensure_ascii=False))
