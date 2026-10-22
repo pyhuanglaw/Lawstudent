@@ -207,7 +207,12 @@ async def crowd(p, base, run):
         await pg.wait_for_timeout(500)
     say('   等車的模型 %.0f 秒' % (time.time() - w0))
     await run.shot(pg, 'crowd_01_arrive'); out['CROWD_t0'] = t0; say('   一到：%s' % json.dumps(t0, ensure_ascii=False)[:500])
-    chk(run, 'CROWD', '一進超市街＝紅燈、車都停著（%s 台）' % ((t0 or {}).get('n')), bool(t0) and t0['light'] == 'red' and all(c['v'] < 0.05 for c in t0['cars']), json.dumps(t0, ensure_ascii=False)[:500])
+    # 每條車道最前面那台停著；後面那台照「跟車」把間距收到 6 m（配置的間距 6.3 m＝以 0.2～0.3 m/s 往前補 0.3 m 再停），不算開走（2026-10-22 rc2 9c74f08d）
+    front = {}
+    for c in (t0 or {}).get('cars', []):
+        k = c['lane']
+        if k not in front or (c['x'] - front[k]['x']) * c['dir'] > 0: front[k] = c
+    chk(run, 'CROWD', '一進超市街＝紅燈、每條車道最前面的車停著、後面的最多往前補一點（%s 台）' % ((t0 or {}).get('n')), bool(t0) and t0['light'] == 'red' and all(c['v'] < 0.05 for c in front.values()) and all(c['v'] < 0.5 for c in t0['cars']), json.dumps(t0, ensure_ascii=False)[:500])
     t1 = None; moved = []; w1 = time.time()
     while time.time() - w1 < 180:   # 號誌照遊戲時間走（每格最多 0.1 秒）：紅燈剩 5 秒，每秒 1 格要 50 秒以上；綠燈以後再等車開出 2 m
         await unpause(pg, cdp)
