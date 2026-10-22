@@ -5,7 +5,7 @@
 - **狀態**：
   - 第一版（`63d4a3e3`）：201 教室、男宿門廳、霖澤館、萬才館的天花板。LAWWW 已接進開發分支 `4d3a305d`。
   - **第二版交件**：`READY_FOR_ART_REVIEW`（場景美術由使用者驗收）。
-    - `patches/ceiling_lights.diff` 只改 `tests/room_ceiling_unit.js`，對開發分支 `4d3a305d`、`0bb6e8c0` 都乾淨。
+    - `patches/ceiling_lights.diff` 只改 `tests/room_ceiling_unit.js`，對開發分支 `4d3a305d`、`0bb6e8c0`、`cc4528be` 都乾淨。
     - 八份 GLB 同檔名替換，遊戲的程式不用改。
 - **派工**：LAWWW 08:34（P2）——四個房間的天花板，照 118 巷那次的做法改，交件附鏡頭拉到最遠、最陡的前後。
   - 第二版是同一件事做完整：天花板上掛的骨架、燈也處理。
@@ -93,7 +93,8 @@
 | **新測試＋第二版的模型** | **ALL PASS**（37 份 GLB、74 項） |
 | 開發分支的舊測試＋第二版的模型 | FAIL 1：201 的骨架改回方盒，舊測試只認「單面朝下」。**patch 和模型要一起接** |
 
-- `node tests/nav_buildings_unit.js`：ALL PASS（j45；導航不讀 GLB，只是確認）。
+- `node tests/nav_buildings_unit.js`：ALL PASS（j45；j49 換最後的 `dorm_hall.glb` 再跑一次也是；導航不讀 GLB，只是確認）。
+- 10-22 10:5x 在開發分支 `cc4528be` 重跑上面三列和 `nav_buildings`：結果一樣（FAIL 8／ALL PASS／FAIL 1；ALL PASS）。
 
 ## 遊戲內前後
 
@@ -101,7 +102,8 @@
 - 鏡頭：
   - 「最遠最陡」：距離 6 m、俯角 1.05（雙指能拉到的最遠、往上拖到最陡）。
   - 「從下面看」：距離 6 m、俯角 0.06（最低，幾乎平視，看得到遠處的天花板）。
-- 修改後：j48，開發分支 `4d3a305d`＋第二版的八份模型。
+- 修改後：j48、j48b，開發分支 `4d3a305d`＋第二版的八份模型。
+  - j48 在背景跑到時間上限、停在一半（拍了 8 張），剩下的在 j48b 補拍；男宿門廳兩張在 j48b 用最後的版本（含大門鋁框）重拍。
 - 修改前：
   - 最遠最陡：j42（`5aa16a70`，LAWWW 的四間）、j45（`2181fe4d`，我的四間）。這些模型在這幾個版本之間沒有變。
   - 從下面看：j46（`4d3a305d`）。201、男宿門廳用原本的模型補拍（j48）。霖澤館、萬才館是第一版，從下面看和原本一樣（第一版只改天花板的雙面）。
@@ -126,6 +128,9 @@
 
 ![](low_before_after.webp)
 
+- 七間左右一樣：骨架、燈框、燈箱從下面看和原本同一組三角形。
+- 男宿門廳那一列不一樣，是大門鋁框的修正（下一節）：這個鏡頭在大門外面，鋁框跟著前牆淡出；玻璃照舊。
+
 ### 男宿門廳一進門（順便修，同一份 `dorm_hall.glb`）
 
 - 巡場景第 3 區（j47）看到的，P1（遮擋）：從校園走進男宿的第一個畫面，鏡頭在大門外（人後面 3.6 m）。
@@ -134,6 +139,10 @@
   - 玻璃不動：`B3.attachFormal` 會把 `WALL_` 的透明度設回 1，玻璃會變成不透明的板子；前面那排窗的玻璃也是照舊留著。
 
 ![](dorm_gate_before_after.webp)
+
+- j49：修改前＝開發分支 `4d3a305d`，修改後＝換這一份 `dorm_hall.glb`。15:00、20:00，鏡頭在人後面（預設）。
+- 修改後的路人（駝色針織衫）是遊戲生成的，兩次不一樣。
+- 同一次跑的 `node tests/nav_buildings_unit.js`：ALL PASS。
 
 ### 機場出境／入境、美國大超市（第三版，LAWWW 已接進 `2181fe4d`）
 
@@ -144,7 +153,7 @@
 
 ## 接法（LAWWW，第二版）
 
-1. `git apply docs/art-rebuild/second_ai/patches/ceiling_lights.diff`（只有 `tests/room_ceiling_unit.js`），對開發分支 `4d3a305d`、`0bb6e8c0` 乾淨。第一版的 `ceiling_more.diff` 已經接了，不要再套。
+1. `git apply docs/art-rebuild/second_ai/patches/ceiling_lights.diff`（只有 `tests/room_ceiling_unit.js`），對開發分支 `4d3a305d`、`0bb6e8c0`、`cc4528be` 乾淨。第一版的 `ceiling_more.diff` 已經接了，不要再套。
 2. 換八份 GLB（同檔名），**和 patch 一起接**：
    - `assets/models/env/{classroom_201,dorm_hall,linze_interior,wancai_interior,lawlib_interior}.glb`
    - `assets/models/env/second_ai/{boya_interior,putong_interior,library_3f}.glb`
