@@ -1,6 +1,31 @@
 # LAWWW2 交接紀錄（隨時更新；工作階段中斷時從這裡接）
 
-## ✅ 接班（最新）：2026-10-21 15:2x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
+## 🔁 交班（最新）：2026-10-22 15:06 UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`（使用者 15:0x 直接說「現在交班」）
+- **最後的工作 commit**：`d724b106`（已 push，`ls-remote` 核對過）。這一節所在的交班紀錄 commit 在它後面，SHA 寫在交班回報裡。`docs/handoff/duty_LAWWW2.json` 已改成 `handed-off`。
+- **交班紀錄不代表下一班已經接班**。帳號 A 的 LAWWW 同一帳號；跨帳號只看 GitHub 文件（D75），我沒有傳訊息給任何人。
+- **正在做（P0）**：沛珊第三十一版（UA-LAWWW2-1022-02；LAWWW 13:5x 退回第三十版正面兩項）。
+  - **WIP，沒交件**：`assets/models/char/second_ai/bl_classmate_peishan.vrm` 還是第三十版（`80a39166`）。
+  - 腳本 `peishan_hair.py`：WIP 檢查點 `c8a7a953`，第三十一版是預設；`PS_HAIR_V=30／29／28` 重做和舊版位元組相同（15:02 驗過）。
+  - 比較圖、下一步：`docs/art-rebuild/second_ai/char_review/peishan_v31/README.md`（`d724b106`）。
+  - 已完成：頭頂兩側尖刺（限寬＋補窄髮片＋後腦補髮殼）、窄長倒 V、髮尾到眉頭和顴骨、臉旁長碎髮正面看得到；遊戲內 j66（`11707a19`）拍過。
+  - 沒做完：試做 s（`HAIR_CUR_AHS=2.0`，三分之四側耳朵前面太陽穴那一條皮膚）**做好還沒看**；正式重做後的眨眼檢查沒做。
+- **P2，LAWWW 13:59 派工（我 14:38 ACK）**：林家乾麵牆上菜單加「貢丸湯 30」（WZ-SHOP-AA364-ART）。
+  - **WIP**：貼圖六張紙、GLB 重匯、layout 註解都在 `d724b106`。
+  - **遊戲內新版截圖沒拍完**（交班停掉），沒驗收、沒交件。
+  - 開發分支 `d3df1cf3` 的 `shops_tex.py` 沒有 aa364 那幾個函式（`d37cf28c` 拿回的是舊版），整合要用我這一版。
+- **沒整合、沒發布**：上面兩件都是 WIP。LAWWW2 不碰 `main`、不發布；commit、push 只是保存。
+- **沒有遠端備份的**（都可以從 repo 的腳本重做）：
+  - 第三十一版 VRM（md5 `d8ff855e`）、試做 s（md5 `105e8353`）；
+  - j66／j67 的遊戲內截圖原檔、遊戲渲染器的試做圖；
+  - 暫存的測試工作樹 `devwt_c`（`11707a19`）、`devwt_m`（`d3df1cf3`）。
+- **沒測**：所有東西都沒在 iPhone 實機看過（只有 Playwright＋SwiftShader）。
+- **下一班第一步**：
+  1. 照 `AI_SESSION_HANDOFF.md` 第 4 節接班：fetch、讀 LAWWW 的回覆、outbox、交接板。
+  2. 照 `char_review/peishan_v31/README.md`「下一步」1～3：看試做 s → 正式重做＋遊戲內重拍＋眨眼 → 交件給 LAWWW。
+  3. 林家菜單遊戲內前後截圖 → 交件。
+  4. 巡場景第 5 區溫州街（暫停中，`$SP/patrol5/shots.json` 要重寫）。
+
+## ✅ 接班：2026-10-21 15:2x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `2b4f2028`｜2026-10-21 15:26 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」＋「你上次交班之後 有兩個帳號接過你的班 B C」）
 上一班：帳號 C｜LAWWW2-C｜session_015BuNi47yLUt5PviELapMNj｜最後 commit `2b4f2028`（2026-10-21 14:30 UTC）｜交班紀錄在下面「🔁 交班（LAWWW2-C，2026-10-21 14:5x）」；**但 `docs/handoff/duty_LAWWW2.json` 和 RULE_SOURCE 的 `duty.json` 還寫 C「on」**（沒跑 `duty handoff`），所以 `duty register` 用 `--user-ok` 登記（記一筆 no-handoff；實際上 C 有交班紀錄、交班後沒有再寫）。
 - **兩個帳號接過我的班**（使用者提醒）：帳號 B LAWWW2-B（10-15～10-17，`claude/funny-albattani-iawshm` 停在 `2d88db5f`）→ 帳號 C LAWWW2-C（10-17～10-21，`claude/focused-cray-c9uwvw` 停在 `2b4f2028`）。核對：`8e1061a`（我 10-14 交班）⊂ B ⊂ C；**B 有、C 沒有的 commit：0 個**（B 的成果全部經由 C 接回來）。這個分支 fast-forward 到 `2b4f2028`。

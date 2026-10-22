@@ -3,8 +3,8 @@
  "account": "A",
  "session": "session_01AC1WVgJSmoJK1uRsPK2Zn1",
  "branch": "claude/second-ai-env-art",
- "since": "2026-10-21T15:26Z",
- "state": "on",
- "sinceSha": "2b4f2028",
- "userOk": true
+ "state": "handed-off",
+ "handedOffAt": "2026-10-22T15:06Z",
+ "sha": "d724b106",
+ "snapshot": null
 }
