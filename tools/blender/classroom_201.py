@@ -32,7 +32,7 @@ MAT = {
     'deskTop': B.pbr('cls_desk', 'fine_grained_wood', tile=1.2, target='#4d3f38'),         # 照片：深色長桌
     'seat':    B.pbr('cls_seat', 'wood_table_001', tile=0.8, target='#b98a5c'),            # 照片：木翻椅
     'woodL':   B.pbr('cls_lectern', 'fine_grained_wood', tile=1.0, target='#a87d55'),      # 照片：木講桌
-    'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, sat=0.2, target='#f2f1ee', normal=0.25),
+    'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, sat=0.2, target='#f2f1ee', normal=0.25, cull=True),   # 單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
     'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6),
     'metal':   B.pbr('cls_metal', None, tint=B.srgb('#3d4146'), rough=0.4, metal=0.7),
     'steel':   B.pbr('cls_steel', None, tint=B.srgb('#c9ccd0'), rough=0.3, metal=1.0),
