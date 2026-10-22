@@ -8,6 +8,7 @@
       睡到排的那一天、12:00 她傳「考完了吧？今天晚上我空著。法圖旁邊那家。」、回「好。」、排了 18:30 的學期末的飯　TE_AVOID_Y2 大二上：只讀資料
   3-3（AA_386@d0468be4，LAWWW 的 A）：學姊交往版大四上那一頓固定 2028-12-24 18:30（兩條路線）；3-2 有來＝桌上多「去年在研究室說的。剛回來一天。」「……我做到了。」（美國「……我們做到了。」）
     C33_TW、C33_US（12/24 08:45 起：12:00 邀約 →「好。」→ 18:30 那頓 → 多兩句 → 21:00 沒有備援私訊）、C33_TW_NOX（3-2 沒來：不加）
+    C33_BUSY_LATE（12/24 08:45 那頓已經排好，才在 19:00 排別的約：12:00 那一刻重排，12/24 沒有邀約、21:00 三則；LAWWW 45576fe7 所有女朋友版都適用）
     C33_BUSY（【前置】12/24 19:00 先有別的約：那頓往後讓 → 21:00 她私訊「今天是二十四號。」「去年在研究室說的。……剛回來一天。」「我做到了。」）、C33_BUSY_NOX（3-2 沒來：沒有私訊）
   4-2 重新告白：
     REB_DATES 分開 7 週、第 6 階、分開前四次約會含心願地點：找她說話演 4-1 → 手機「約」兩次正式校外約會（第一個能選的一日遊地點、日子、時間）→
@@ -743,20 +744,28 @@ async def s_c33(p, run, base, sid, out):
     res = out.setdefault(sid, {}); us = 'US' in sid; nox = sid.endswith('_NOX'); busy = 'BUSY' in sid
     fl0 = {'Y4_PATH': 'other', 'EXCHANGE_ROUTE': 'US' if us else 'TW', 'EXCH_RULE': 1, 'SIS_XMAS_Y3': 'missed' if nox else 'there'}
     key = '2028-12-24'; last = '……我們做到了。' if us else '……我做到了。'; dmlast = '我們做到了。' if us else '我做到了。'
-    lk, lh = ('2028-12-23', 21.0) if busy else (key, 8.75)
+    lk, lh = ('2028-12-23', 21.0) if (busy and sid != 'C33_BUSY_LATE') else (key, 8.75)
     b, pg, cdp, errs, r, name = await launch(p, run, base, lk, lh, 'dorm', 'FRIEND', dating=True, flags=fl0,
                                              label=sid + '（交往中、%s路線；%s %s 宿舍；【前置】3-2 研究室那晚 %s%s）' % ('美國' if us else '臺灣', lk, hm(lh), '沒來（missed）' if nox else '有來（there）', '；12/24 19:00 已經有別的約' if busy else ''))
     try:
         await drive(pg, cdp, run, max_s=20, label=sid)
-        if busy:
+        late = sid == 'C33_BUSY_LATE'
+        if busy and not late:
             bz = await pg.evaluate(BUSY + "(%s)" % json.dumps([key, 19.0])); res['busy'] = bz
             run.setup('[前置] %s：12/24 19:00 排一個別的出遊（OUT.plan，「（測試前置）別的約」）→ %s' % (sid, json.dumps(bz, ensure_ascii=False)))
             await sleep_night(pg, cdp, run, sid)
+        if late:
+            td0 = await pg.evaluate(TEDATA + "(%s)" % json.dumps(['Y4S1', key])); res['data0'] = td0
+            run.check('%s：12/24 08:45 學姊那一頓已經排在 %s' % (sid, td0.get('gfDay')), td0.get('gfDay') == key, json.dumps(td0, ensure_ascii=False))
+            bz = await pg.evaluate(BUSY + "(%s)" % json.dumps([key, 19.0])); res['busy'] = bz
+            run.setup('[前置] %s：日子排好以後（08:45）才在 12/24 19:00 排一個別的出遊 → %s' % (sid, json.dumps(bz, ensure_ascii=False)))
+            await wait_for(pg, cdp, run, "GAME.G.hour>=12.4", max_s=400, label=sid)
         td = await pg.evaluate(TEDATA + "(%s)" % json.dumps(['Y4S1', key])); res['data'] = td; gd = td.get('gfDay') or td.get('nowGF')
         say('   %s 學期末：%s' % (sid, json.dumps(td, ensure_ascii=False)))
         if busy:
-            run.check('%s：12/24 晚上先有別的約＝學姊那頓往後讓（排在 %s）' % (sid, gd), bool(gd) and gd > key, json.dumps(td, ensure_ascii=False))
+            run.check('%s：12/24 晚上%s有別的約＝學姊那頓往後讓（排在 %s）' % (sid, '在 12:00 以前才' if late else '先', gd), bool(gd) and gd > key, json.dumps(td, ensure_ascii=False))
             await skip(pg, cdp, '等到晚上', sid)
+            M0 = await msgs(pg); run.check('%s：那一頓往後讓＝%s 12:00 沒有學期末邀約' % (sid, key), not any(m['text'] == TEINV and m['d'] == key for m in M0), json.dumps(M0[-3:], ensure_ascii=False)[:300])
             await wait_for(pg, cdp, run, "(GAME.G.msgs||[]).some(m=>m.th===%s&&m.text===%s)||GAME.G.hour>=21.6" % (json.dumps(TH), json.dumps(dmlast)), max_s=600, label=sid)
             await pg.wait_for_timeout(2500); M = await msgs(pg); got = [m for m in M if m['text'] in C33_DM + ['我做到了。', '我們做到了。']]; res['dm'] = got
             if nox: run.check('%s：3-2 沒來＝21:00 沒有那三則' % sid, not got, json.dumps(M[-3:], ensure_ascii=False)[:300])
@@ -916,8 +925,8 @@ async def s_reb_dates(p, run, base, sid, out):
     await close(b)
 
 
-ORDER = ['LAD_S58_DATE', 'LAD_S58_FR', 'LAD_S61_WENT', 'LAD_S61_NO', 'TE_AVOID_Y3', 'TE_AVOID_Y2', 'C33_TW', 'C33_US', 'C33_TW_NOX', 'C33_BUSY', 'C33_BUSY_NOX', 'REB_DATES', 'REB_NO41']
-FN = dict({k: s_lad for k in LAD}, TE_AVOID_Y3=s_te_avoid, TE_AVOID_Y2=s_te_avoid, C33_TW=s_c33, C33_US=s_c33, C33_TW_NOX=s_c33, C33_BUSY=s_c33, C33_BUSY_NOX=s_c33, REB_DATES=s_reb_dates, REB_NO41=s_reb_dates)
+ORDER = ['LAD_S58_DATE', 'LAD_S58_FR', 'LAD_S61_WENT', 'LAD_S61_NO', 'TE_AVOID_Y3', 'TE_AVOID_Y2', 'C33_TW', 'C33_US', 'C33_TW_NOX', 'C33_BUSY', 'C33_BUSY_NOX', 'C33_BUSY_LATE', 'REB_DATES', 'REB_NO41']
+FN = dict({k: s_lad for k in LAD}, TE_AVOID_Y3=s_te_avoid, TE_AVOID_Y2=s_te_avoid, C33_TW=s_c33, C33_US=s_c33, C33_TW_NOX=s_c33, C33_BUSY=s_c33, C33_BUSY_NOX=s_c33, C33_BUSY_LATE=s_c33, REB_DATES=s_reb_dates, REB_NO41=s_reb_dates)
 
 
 async def main():
