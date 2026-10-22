@@ -206,11 +206,72 @@ async def one(p, run, sid):
     return res
 
 
+# ---------------------------------------------------------------- PG-ASKAT-HOME-1021（LAWWW 6cfc73fd；06:46 派）
+# 畢業以後住家裡（MOVED_OUT＋HOME_AFTER home，人在家裡的選單）：可昕的固定格 6/17（日）19:00 公館——
+#   18:10 家裡的選單還沒有「出發」；18:16 有「出發：我們的日子…」（從家裡出發算 30 分鐘：19:00 − 30 − 15＝18:15 就問）；按出發 → 照家裡 30 分鐘到 → 不算遲到（KX_CRACK 1 → 0）
+HOMEQ = "(()=>{ const G=GAME.G; return {home:!!(HOME.at&&HOME.at(G)), pgHome:!!(HOME.pgHome&&HOME.pgHome(G)), h:+(+G.hour).toFixed(3), label:(PG.dateLabel?PG.dateLabel(G.day,G.hour):''), zone:G.zone, crack:G.flags.KX_CRACK, out:OUT.rec(G).filter(q=>q.pgWho==='kexin').map(q=>({id:q.id, state:q.state, h:q.h, arrH:q.arrH||null})), late:G.flags.KX_LATE_N||null}; })()"
+
+
+async def home_case(p, run, sid):
+    res = {'sid': sid, 'note': 'PG-ASKAT-HOME-1021：畢業後住家裡，可昕 6/17 19:00 的固定格照家裡 30 分鐘問出發、不遲到'}
+    for h, tag in ((18.1, 'early'), (18.27, 'due')):
+        b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+        try:
+            await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
+            keys = ['2029-06-01', '2029-06-02', '2029-06-28', '2029-06-17']
+            dk = await pg.evaluate("(ks=>{ const o={}; for(const k of ks) o[k]=STORY.dayOfKey(k); return o; })(%s)" % json.dumps(keys))
+            st = base_state(dk, '2029-06-17', h, [KX], None); st['flags']['KX_CRACK'] = 1; st['home'] = {'at': True}
+            st['weekday'] = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % st['day'])
+            await L.load_state(pg, st); await pg.wait_for_timeout(5000); await pg.evaluate(HOOK)
+            await pg.evaluate("(()=>{ const r=SOCIAL.rel('kexin'); r.fam=45; r.trust=30; SOCIAL.remember('kexin','FIRST_MET',''); })()")
+            run.setup('[前置] %s-%s：最小存檔（畢業後篇、住家裡 HOME_AFTER home、讀檔時人在家 home.at）讀 2029-06-17 %05.2f；和可昕交往、KX_CRACK 1' % (sid, tag, h))
+            ops = []
+            for _ in range(25):
+                ops = await choices(pg)
+                if ops: break
+                s = await L.state(pg)
+                if s['dlg']: await L.tap(pg, cdp, '#dlg')
+                await pg.wait_for_timeout(800)
+            q0 = await pg.evaluate(HOMEQ); res[tag] = {'ops': ops, 'q0': q0}; await run.shot(pg, '%s_%s_menu' % (sid, tag))
+            say('   %s %s 家裡的選單：%s｜%s' % (sid, tag, ops, json.dumps(q0, ensure_ascii=False)))
+            go = next((i for i, o in enumerate(ops) if o.startswith('出發：') and '我們的日子' in o), None)
+            if tag == 'early':
+                run.check('%s：18:10 人在家（home.at、pgHome）、家裡的選單還沒有「出發：我們的日子」（從家裡出發 18:15 才問）' % sid, q0['home'] and q0['pgHome'] and go is None, json.dumps({'ops': ops, 'q': q0}, ensure_ascii=False)[:500])
+            else:
+                run.check('%s：18:16 家裡的選單有「出發：我們的日子」（小字寫從家裡出發）' % sid, go is not None and '家' in ops[go], json.dumps({'ops': ops, 'q': q0}, ensure_ascii=False)[:500])
+                if go is not None:
+                    await tap_choice(pg, cdp, go); arr = None; t0 = time.time(); lines = []
+                    while time.time() - t0 < 300:
+                        s = await L.state(pg); q = await pg.evaluate(HOMEQ)
+                        if arr is None and q['zone'] != 'campus' and not q['home']: arr = q
+                        log = await pg.evaluate("window.__LOG||[]")
+                        if any('書桌上那疊考古題' in x['t'] for x in log) and arr is None: arr = q
+                        if s['choices']:
+                            o2 = await choices(pg)
+                            if q['home'] and o2 and not any(o.startswith('出發：') for o in o2): break   # 回到家的選單＝演完回家了
+                            await tap_choice(pg, cdp, 0); await pg.wait_for_timeout(1200); continue
+                        if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
+                        await pg.wait_for_timeout(1200)
+                    q1 = await pg.evaluate(HOMEQ); log = await pg.evaluate("window.__LOG||[]"); cap = await pg.evaluate("window.__CAP||[]")
+                    res['due'].update({'arrive': arr, 'after': q1, 'lines': [x['t'] for x in log][-10:], 'cap': [x['t'] for x in cap][-10:]}); await run.shot(pg, '%s_after' % sid)
+                    say('   %s 到了：%s｜之後：%s' % (sid, json.dumps(arr, ensure_ascii=False), json.dumps(q1, ensure_ascii=False)))
+                    say('   字卡／字幕：%s' % json.dumps([x['t'] for x in cap][-8:], ensure_ascii=False))
+                    run.check('%s：按出發以後演了公館那一句「書桌上那疊考古題…」' % sid, any('書桌上那疊考古題' in x['t'] for x in log), json.dumps([x['t'] for x in log][-6:], ensure_ascii=False))
+                    run.check('%s：沒有記遲到（KX_CRACK 1 → 0：準時 −1；遲到 15 分鐘以上才 +1）' % sid, q1['crack'] == 0, json.dumps({'before': 1, 'after': q1['crack'], 'arrive': arr}, ensure_ascii=False))
+            res[tag]['errs'] = errs[:3]; run.check('%s-%s：沒有 JS 例外' % (sid, tag), not errs, json.dumps(errs[:3], ensure_ascii=False))
+        except Exception as e:
+            res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s-%s：測試跑完' % (sid, tag), False, str(e)[:300])
+        try: await asyncio.wait_for(b.close(), 30)
+        except Exception: pass
+    return res
+
+
 async def main():
     run = L.Run('pgdate', OUT); out = []
     scen = [s for s in os.environ.get('SCEN', ','.join(SCENS)).split(',') if s]
     async with async_playwright() as p:
         for sid in scen:
+            if sid == 'KX_HOME': say('== KX_HOME：畢業後住家裡，可昕固定格照家裡車程問出發（PG-ASKAT-HOME-1021）'); out.append(await home_case(p, run, sid)); continue
             say('== %s：%s' % (sid, SCENS[sid]['note'])); out.append(await one(p, run, sid))
             json.dump(out, open(os.path.join(OUT, 'pgdate.json'), 'w'), ensure_ascii=False, indent=1)
     run.finish()

@@ -144,10 +144,35 @@ async def look(p, base, run):
         except Exception: pass
 
 
+# ---------------------------------------------------------------- CAM（US-PATROL-1021，LAWWW2 us_market_cam／us_ms_seethru；LAWWW 10-22 06:46 派）
+CAMIN = """(()=>{ const E=GAME.E, c=E.camera.position, n=E.nav, P=E.player.obj.position; const inside=!!n&&c.x>=n.ox&&c.x<=n.ox+n.w&&c.z>=n.oz&&c.z<=n.oz+n.h;
+  return {zone:GAME.G.zone, cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], nav:n?[n.ox,n.oz,+(n.ox+n.w).toFixed(2),+(n.oz+n.h).toFixed(2)]:null, inside}; })()"""
+POLE = """(()=>{ const out=[], v=new THREE.Vector3(); GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=[].concat(o.material); if(!ms.some(m=>m&&m.userData&&m.userData.seeThrough)) return;
+  o.getWorldPosition(v); out.push({name:o.name||'', mats:ms.map(m=>m&&m.name||''), x:+v.x.toFixed(1), z:+v.z.toFixed(1)}); });
+  return {n:out.length, near:out.filter(q=>Math.hypot(q.x+22.6,q.z-14.9)<3).slice(0,6), mats:[...new Set(out.flatMap(q=>q.mats))].slice(0,20)}; })()"""
+
+
+async def cam(p, base, run):
+    b, pg, cdp, errs = await load(p, base, '2028-09-20', 14.0, 'us_outside')
+    run.setup('[前置] CAM：美國路線（自己一個人）2028-09-20（三）14:00 社區；照玩家搭公車到超市街、走進兩間超市')
+    ok, dt, z = await use(pg, cdp, run, '出門（去超市）', 'us_market_street'); await pg.wait_for_timeout(4000)
+    sn = await pg.evaluate(SNAP); po = await pg.evaluate(POLE); c0 = await pg.evaluate(CAMIN); await run.shot(pg, 'cam_01_bus_stop')
+    out['CAM_pole'] = {'snap': sn, 'pole': po, 'cam': c0}; say('   下公車：%s；網點透空：%s' % (json.dumps(sn, ensure_ascii=False), json.dumps(po, ensure_ascii=False)[:400]))
+    chk(run, 'CAM', '下公車（%s）：超市街的金屬桿有網點透空（%d 個網格；站牌柱附近 %d 個）' % (sn['zone'], po['n'], len(po['near'])), sn['zone'] == 'us_market_street' and po['n'] > 0, json.dumps(po, ensure_ascii=False)[:500])
+    for pat, zid, back in (('進草原超市', 'us_market', '離開超市'), ('進竹葉亞洲超市', 'us_asian_market', '出門')):
+        ok, dt, z = await use(pg, cdp, run, pat, zid, max_s=420); await pg.wait_for_timeout(2500)
+        c = await pg.evaluate(CAMIN); out['CAM_' + zid] = c; await run.shot(pg, 'cam_%s_enter' % zid)
+        chk(run, 'CAM', '%s：一進門，鏡頭在店裡（鏡頭 %s、店的範圍 %s）' % (zid, c['cam'], c['nav']), c['zone'] == zid and c['inside'], json.dumps(c, ensure_ascii=False))
+        await use(pg, cdp, run, back, 'us_market_street')
+    chk(run, 'CAM', '沒有 JS 例外', not errs, json.dumps(errs[:2], ensure_ascii=False))
+    try: await asyncio.wait_for(b.close(), 30)
+    except Exception: pass
+
+
 async def main():
     run = L.Run('usmarket', OUT); base = json.load(open(SAVE, encoding='utf-8'))
     async with async_playwright() as p:
-        for sid, f in (('WALK', walk), ('SUN', sun), ('LOOK', look)):
+        for sid, f in (('WALK', walk), ('SUN', sun), ('LOOK', look), ('CAM', cam)):
             if sid not in SCEN: continue
             say('== %s' % sid); t0 = time.time()
             try: await f(p, base, run)
