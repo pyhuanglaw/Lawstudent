@@ -40,22 +40,22 @@
    "at": "2026-10-20T15:1x",
    "quote": "霖澤館長椅都是靠窗的靠牆的",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X74",
    "task": "LINZE-34F-TABLES-1020",
    "src": "LAWWW2-C 對話",
-   "note": "更正：桌子不擺中間；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支"
+   "note": "更正：桌子不擺中間；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支｜10-22 07:3x：v9.10.4 已發布（總表 USER_WANTS X74 改成在遊戲裡；LAWWW 07:19 HV-18 asks 檢查）"
   },
   {
    "id": "UA-LAWWW2-1020-02",
    "at": "2026-10-20T15:3x",
    "quote": "請同步 GitHub 最新進度，接續 LAWWW2 目前尚未完成的環境美術工作。第一：完成霖澤館 3、4 樓……（原則：優先完成已開工的成果……須分開標示 MODEL_READY、INTEGRATED、FUNCTIONAL_VERIFIED 和等待我美術審核的狀態。）",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X74",
    "task": "LINZE-34F-TABLES-1020",
    "src": "LAWWW2-C 對話",
-   "note": "同一則訊息拆三筆（第一項）；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支；長椅離牆、4F 長凳的走近點還要重建（reachability）"
+   "note": "同一則訊息拆三筆（第一項）；LAWWW2-C 5566a0c5、LAWWW-C 156430a2 接進開發分支；長椅離牆、4F 長凳的走近點還要重建（reachability）｜10-22 07:3x：v9.10.4 已發布（總表 USER_WANTS X74 改成在遊戲裡；LAWWW 07:19 HV-18 asks 檢查）"
   },
   {
    "id": "UA-LAWWW2-1020-02b",
@@ -84,33 +84,33 @@
    "at": "2026-10-20T17:1x",
    "quote": "有一件事我覺得從學校去看公館或者外面的建筑都超級丑的完全沒有那種三d游戲的感覺公館的店面",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X86",
    "task": "GG-STREETVIEW-1020",
    "src": "LAWWW2-C 對話（附 4 張照片：羅斯福路的直立招牌、捷運出口 GONGGUAN 字樣、水源市場；照片不進 repo）",
-   "note": "B10 店面翻修原本暫停：使用者直接點名公館，公館這部分恢復；溫州街照舊；2026-10-21 LAWWW2-C：GG-STREETVIEW 兩階段都已整合（0582af9f、1475d312、114a69fa，BACKLOG_SWEEP_1021 D 節），照總表 X86 改「在開發分支」；美術還沒經使用者確認"
+   "note": "B10 店面翻修原本暫停：使用者直接點名公館，公館這部分恢復；溫州街照舊；2026-10-21 LAWWW2-C：GG-STREETVIEW 兩階段都已整合（0582af9f、1475d312、114a69fa，BACKLOG_SWEEP_1021 D 節），照總表 X86 改「在開發分支」；美術還沒經使用者確認｜10-22 07:3x：v9.10.4 已發布（總表 USER_WANTS X86 改成在遊戲裡；LAWWW 07:19 HV-18 asks 檢查）"
   },
   {
    "id": "UA-LAWWW2-1020-04",
    "at": "2026-10-20T17:1x",
    "quote": "博雅走到普通的連通道還是有一個很醜的門欸不應該吧 而且走到普通之後被擋住無法到一樓或二樓其他地方",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X85",
    "task": "SKYBRIDGE-DOOR-1020",
    "src": "LAWWW2-C 對話",
-   "note": "LAWWW2-C c77e68a2 接進開發分支 5a6990dd"
+   "note": "LAWWW2-C c77e68a2 接進開發分支 5a6990dd｜10-22 07:3x：v9.10.4 已發布（總表 USER_WANTS X85 改成在遊戲裡；LAWWW 07:19 HV-18 asks 檢查）"
   },
   {
    "id": "UA-LAWWW2-1020-05",
    "at": "2026-10-20T17:2x",
    "quote": "連通道可以走 只是要經過一個門 跟現實不符",
    "kind": "原話",
-   "status": "在開發分支",
+   "status": "在遊戲裡",
    "wants": "X85",
    "task": "SKYBRIDGE-DOOR-1020",
    "src": "LAWWW2-C 對話",
-   "note": "補充上一則：問題是門，不是路；LAWWW2-C c77e68a2 接進開發分支 5a6990dd"
+   "note": "補充上一則：問題是門，不是路；LAWWW2-C c77e68a2 接進開發分支 5a6990dd｜10-22 07:3x：v9.10.4 已發布（總表 USER_WANTS X85 改成在遊戲裡；LAWWW 07:19 HV-18 asks 檢查）"
   },
   {
    "id": "UA-LAWWW2-1021-01",
