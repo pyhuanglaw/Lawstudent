@@ -1,1 +1,28 @@
-{"objects": 1081, "unique_meshes": 54, "tris": 47891, "tris_drawn": 93297, "materials": 115, "out": "assets/models/env/second_ai/gongguan_shops.glb", "bytes": 4916792, "texres": 512, "buildings": ["G00", "G01", "G02", "G03", "G04", "G05", "G06", "G07", "G08", "G09", "G10", "G11", "G12", "G13", "G14", "G15"]}
+{
+ "objects": 1081,
+ "unique_meshes": 54,
+ "tris": 47891,
+ "tris_drawn": 93297,
+ "materials": 115,
+ "out": "assets/models/env/second_ai/gongguan_shops.glb",
+ "bytes": 4916792,
+ "texres": 512,
+ "buildings": [
+  "G00",
+  "G01",
+  "G02",
+  "G03",
+  "G04",
+  "G05",
+  "G06",
+  "G07",
+  "G08",
+  "G09",
+  "G10",
+  "G11",
+  "G12",
+  "G13",
+  "G14",
+  "G15"
+ ]
+}
