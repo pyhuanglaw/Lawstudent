@@ -28341,7 +28341,7 @@
    "id": "AA379-SIS-Y2Y3-1021",
    "title": "AA_379 第 2 節：學姊大二到大三空窗補八場（2-1 研究室靠門的位子 9/21 私訊→9/22、2-2 第一次 seminar 11/17 私訊→11/18、2-3 想寫的東西大二下第 5～10 週、2-4 6/2 生日 2026／2027、2-5 訪談 10/15→10/16、2-6 明年夏天 11/1～11/9、2-7 結果 3/15 電話）；熟悉以上才演、錯過不扣關係",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P1",
    "area": "v3",
    "first": {
@@ -28356,7 +28356,8 @@
    },
    "source": "企劃線 AA_379 第 2 節（30ab5142；AA 2026-10-22 01:23 訊息）",
    "authorized": "使用者 10-21 22:5x（經 AA）「學姊才是真正的女主角」；D109",
-   "next": "【BB 07:46（BB_218 341c116d，開發分支 5c2a173f）】第二批八種 ALL PASS（seminar 答應／不行、研究室搬書、題目法圖台階、大二生日、美國交換法圖版／Café 約會版、交換結果美國路線來電：順序、舊句沒有、旗標記憶、出發提示時間、不重演、沒有 JS 例外）；第三批（IV_NOREPLY、NONE、EX、LAB_DATE、TOPIC_CAFE、BDAY2、RESULT_TW）跑中 ｜ 【LAWWW（帳號 A）2026-10-22 03:1x】八場的出遊都加 alarm（BB 03:01 讀碼：跳過時間、睡覺原本不停）；AA 02:39～02:54（企劃線 d037c668）：2-9 分手過照收 Kevin 6/2 群組（原本就收得到，補測試）、3-1 學姊大一寒假 2/4～2/13 平日 14～17 在 Café「在看小說」、3-2 7/29 公館買鎖（臺灣路線、熟悉以上；ev_sis_predepart、SIS_PREDEPART）、3-4 口試那天接 2-5 訪談的三句（研究助理那句拿掉）；tests/aa379_sec3_unit.js；白名單 AA_379@d037c668。BB 測：aa379b_probe 的八場＋7/29；【LAWWW（帳號 A）2026-10-22 03:0x】八場都做了：src/data/sis_y2y3_events.js（台詞照 30ab5142 一字不改）＋src/sis_y2y3_3d.js（私訊、出遊、說話前接演、生日說話事件、3/15 電話）；story3d.js 的 talkSis、talkCharacter 先問 SISY23.preTalk（2-3、2-6 接在說話前面演，演完照常閒聊）；tests/aa379_sis_y2y3_unit.js 38 項（修改前 FAIL）。給 AA 的問題：前任（和學姊分手過）這八場現在都不演；2-4 茶葉沒有道具（只是選項）。BB 照 AA_379 第 2-8 節測 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】AA_377 做完接著做；台詞一字照稿（D100）；法扶會議室、便利商店門口沒有背景用深色底＋地點字幕"
+   "next": "【BB 07:46（BB_218 341c116d，開發分支 5c2a173f）】第二批八種 ALL PASS（seminar 答應／不行、研究室搬書、題目法圖台階、大二生日、美國交換法圖版／Café 約會版、交換結果美國路線來電：順序、舊句沒有、旗標記憶、出發提示時間、不重演、沒有 JS 例外）；第三批（IV_NOREPLY、NONE、EX、LAB_DATE、TOPIC_CAFE、BDAY2、RESULT_TW）跑中 ｜ 【LAWWW（帳號 A）2026-10-22 03:1x】八場的出遊都加 alarm（BB 03:01 讀碼：跳過時間、睡覺原本不停）；AA 02:39～02:54（企劃線 d037c668）：2-9 分手過照收 Kevin 6/2 群組（原本就收得到，補測試）、3-1 學姊大一寒假 2/4～2/13 平日 14～17 在 Café「在看小說」、3-2 7/29 公館買鎖（臺灣路線、熟悉以上；ev_sis_predepart、SIS_PREDEPART）、3-4 口試那天接 2-5 訪談的三句（研究助理那句拿掉）；tests/aa379_sec3_unit.js；白名單 AA_379@d037c668。BB 測：aa379b_probe 的八場＋7/29；【LAWWW（帳號 A）2026-10-22 03:0x】八場都做了：src/data/sis_y2y3_events.js（台詞照 30ab5142 一字不改）＋src/sis_y2y3_3d.js（私訊、出遊、說話前接演、生日說話事件、3/15 電話）；story3d.js 的 talkSis、talkCharacter 先問 SISY23.preTalk（2-3、2-6 接在說話前面演，演完照常閒聊）；tests/aa379_sis_y2y3_unit.js 38 項（修改前 FAIL）。給 AA 的問題：前任（和學姊分手過）這八場現在都不演；2-4 茶葉沒有道具（只是選項）。BB 照 AA_379 第 2-8 節測 ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】AA_377 做完接著做；台詞一字照稿（D100）；法扶會議室、便利商店門口沒有背景用深色底＋地點字幕",
+   "evidence": "BB（帳號 A）10-22（BB_218）三批都 PASS，Playwright 手機橫向、不是 iPhone：第一批台詞對照＋八場試跑（開發分支 e41dd8c0）；第二批八種 ALL PASS（341c116d，開發分支 5c2a173f：seminar 答應／不行、研究室搬書、題目法圖台階、大二生日、美國交換法圖版／Café 約會版、交換結果美國路線來電）；第三批七種 61 項 0 FAIL（企劃線 a54ce912，開發分支 aaa84bbc＝候選 364dabe0 程式相同：IV_NOREPLY、NONE、EX、LAB_DATE、TOPIC_CAFE、BDAY2、RESULT_TW）；沒有 JS 例外"
   },
   {
    "id": "PERF-NPC-POOL-1022",
@@ -28993,7 +28994,7 @@
    },
    "source": "D85；v9.10.4（10-22 05:59）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
-   "next": "【LAWWW（帳號 A）10-22 07:5x】候選固定在開發分支 364dabe0（同 v9.10.4 的做法：BB 對候選測，要修的修在候選上、給新的候選 SHA；子代理三件合併進開發分支，放 v9.10.6）。BB 07:53 排程約 4～5 小時：aa379s2 → lwart 四支 → art1022 → uscam → uscrowd → pghome → aa378x → perfpool → pre94 → aa382sea2（含 PG 回到家）→ alison → tone；psbh、aa382b／c 排最後、不擋 GO（來不及就在發布說明寫「單元測試過、瀏覽器還沒測」）；BB 全部測完給 GO／NO-GO ｜ 【LAWWW（帳號 A）10-22 07:4x】這版已驗收：BUG-BED-TONIGHT-ALARM-1022、BUG-SIS-CAFE-NOSEAT-1022、BUG-WALK-DORM-FOLLOW-1022、BUG-SIS-ORAL-SCHED-1022、BUG-KAI-Y2-SCHED-1022、AA383-S6-SIS-FRIEND-1022、ART-ZR-HAIR-1022、ART-ZR-PS-3D-1022；等 BB：AA380-RENAME-ALISON-1021、PG-ASKAT-HOME-1021、US-MARKET-CROWD-1021、AA378-Y4S1-FIX-1021、BUG-PG-RETURN-TEXT-1021、PERF-NPC-POOL-1022、BUG-SIS-PRE94-PRESENCE-1022、AA382-PG-FIX-1022（看海重測＋第 1～3 節）、AA245-PSBH、AA379-SIS-Y2Y3-1021（第三批）、ART-TONE-NEUTRAL-1022、LAWWW2 六件（DL-LAWWW2 2a67b144／f2336295 那批）。子代理在做的三件（AA351 可昕慢慢分手、AA296 五件改當面、AA_232 芷若×子晴）合併、測過才放；來不及就放下一版。發布時告訴使用者：色調改 Neutral（?tone=aces 回到舊的）、「這版還沒有的」清單"
+   "next": "【BB 08:07】AA379-SIS-Y2Y3-1021 三批 PASS（已驗收，算進這次）；v9.10.5 那 14 支 08:06 開始對候選 364dabe0 跑 ｜ 【LAWWW（帳號 A）10-22 07:5x】候選固定在開發分支 364dabe0（同 v9.10.4 的做法：BB 對候選測，要修的修在候選上、給新的候選 SHA；子代理三件合併進開發分支，放 v9.10.6）。BB 07:53 排程約 4～5 小時：aa379s2 → lwart 四支 → art1022 → uscam → uscrowd → pghome → aa378x → perfpool → pre94 → aa382sea2（含 PG 回到家）→ alison → tone；psbh、aa382b／c 排最後、不擋 GO（來不及就在發布說明寫「單元測試過、瀏覽器還沒測」）；BB 全部測完給 GO／NO-GO ｜ 【LAWWW（帳號 A）10-22 07:4x】這版已驗收：BUG-BED-TONIGHT-ALARM-1022、BUG-SIS-CAFE-NOSEAT-1022、BUG-WALK-DORM-FOLLOW-1022、BUG-SIS-ORAL-SCHED-1022、BUG-KAI-Y2-SCHED-1022、AA383-S6-SIS-FRIEND-1022、ART-ZR-HAIR-1022、ART-ZR-PS-3D-1022；等 BB：AA380-RENAME-ALISON-1021、PG-ASKAT-HOME-1021、US-MARKET-CROWD-1021、AA378-Y4S1-FIX-1021、BUG-PG-RETURN-TEXT-1021、PERF-NPC-POOL-1022、BUG-SIS-PRE94-PRESENCE-1022、AA382-PG-FIX-1022（看海重測＋第 1～3 節）、AA245-PSBH、AA379-SIS-Y2Y3-1021（第三批）、ART-TONE-NEUTRAL-1022、LAWWW2 六件（DL-LAWWW2 2a67b144／f2336295 那批）。子代理在做的三件（AA351 可昕慢慢分手、AA296 五件改當面、AA_232 芷若×子晴）合併、測過才放；來不及就放下一版。發布時告訴使用者：色調改 Neutral（?tone=aces 回到舊的）、「這版還沒有的」清單"
   }
  ]
 }
