@@ -1,6 +1,6 @@
 // BUG-BED-TONIGHT-ALARM-1022：晚上上床，床的選項只算明天的鬧鐘（S.wakeAlarms(G,day+1)），今天晚上還沒到、答應了的約沒算——
 //   3/15 21:00 上床「睡到明天早上」，21:30 學姊的電話睡過去就記 SIS_US_RESULT missed（學姊 21:10 台階、19:00 生日同一個情況）。不需要瀏覽器。
-//   1 2028-03-15 21:00（朋友，學姊 21:30 打電話來已經排好）：床的選項沒有睡到明天的；「睡一下」鬧鐘 21:00（出發前 30 分鐘），提示寫打電話來
+//   1 2028-03-15 20:30 上床（朋友，學姊 21:30 打電話來已經排好）：床的選項沒有睡到明天的；「睡一下」鬧鐘 21:00（出發前 30 分鐘），提示寫打電話來
 //   2 照選項真的睡（CLS.skipTo nap，和遊戲同一條）：醒來還是 3/15、21:00，電話還排著（planned）
 //   3 21:15 上床（30 分鐘前的鬧鐘已經過了）：出發前 10 分鐘 21:20 叫醒（和跳過時間同一個停點）
 //   4 一般的出遊：今天 19:00 標 alarm 的，17:45 上床＝18:30 叫醒；答應了的約（invites）20:00＝19:30 叫醒
@@ -16,9 +16,9 @@ const J=JSON.stringify, ID='heroine_05';
 const kinds=G=>STORY.bedOptions(G).map(o=>o.kind+(o.to!=null?':'+(+o.to.toFixed(3)):'')+(o.wake!=null?'@'+(+o.wake.toFixed(2)):''));
 const sisDay=h=>{ const G=H.fresh('2028-03-15',h,'dorm',{met_sis:true,SIS_W1:true}); H.FRIEND(ID); G.contacts=G.contacts||{}; G.contacts[ID]=G.day-30; SISY23.phone(G); PHONE.tick(G); return G; };
 (async()=>{
-  { const G=sisDay(21); const q=OUT.get(G,'sisy23_result'); const o=STORY.bedOptions(G), sl=o.filter(x=>x.kind==='sleep'||x.kind==='nap');
-    check('0. 前置：3/15 21:00 朋友，學姊 21:30 的電話排好了（出遊 sisy23_result，alarm）',!!q&&q.state==='planned'&&q.alarm&&q.h===21.5,J(q&&{state:q.state,h:q.h,alarm:q.alarm}));
-    check('1. 21:00 上床：沒有睡到明天的選項，只有「睡一下」鬧鐘 21:00、提示寫打電話來',sl.length===1&&sl[0].kind==='nap'&&Math.abs(sl[0].to-21)<1e-6&&/打電話來/.test(sl[0].hint)&&/21:00/.test(sl[0].t+sl[0].hint),J(o.map(x=>[x.t,x.hint])));
+  { const G=sisDay(20.5); const q=OUT.get(G,'sisy23_result'); const o=STORY.bedOptions(G), sl=o.filter(x=>x.kind==='sleep'||x.kind==='nap');
+    check('0. 前置：3/15 20:30 朋友，學姊 21:30 的電話排好了（出遊 sisy23_result，alarm）',!!q&&q.state==='planned'&&q.alarm&&q.h===21.5,J(q&&{state:q.state,h:q.h,alarm:q.alarm}));
+    check('1. 20:30 上床：沒有睡到明天的選項，只有「睡一下」鬧鐘 21:00、提示寫打電話來',sl.length===1&&sl[0].kind==='nap'&&Math.abs(sl[0].to-21)<1e-6&&/打電話來/.test(sl[0].hint)&&/21:00/.test(sl[0].t+sl[0].hint),J(o.map(x=>[x.t,x.hint])));
     check('1. 「再撐一下」還在',o.some(x=>x.kind==='stay'),J(kinds(G)));
     if(sl[0]&&sl[0].kind==='nap'){ const ok=await CLS.skipTo(H.GM,sl[0].to,{nap:true}); const q2=OUT.get(H.G,'sisy23_result');
       check('2. 照選項睡：醒來還是 3/15 21:00，電話還排著、沒有記 missed',ok!==false&&H.G.day===H.D('2028-03-15')&&Math.abs(H.G.hour-21)<0.02&&q2&&q2.state==='planned'&&H.G.flags.SIS_US_RESULT==null,J({ok,day:H.G.day,hour:H.G.hour,state:q2&&q2.state,res:H.G.flags.SIS_US_RESULT})); }

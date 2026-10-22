@@ -28701,7 +28701,7 @@
    "id": "BUG-BED-TONIGHT-ALARM-1022",
    "title": "晚上上床不會被今天晚上約好的事叫醒：3/15 21:00 上床，床的選項沒寫 21:30 學姊的電話，睡過去就記 SIS_US_RESULT missed（story3d.js bedOptions 晚上只算明天的 S.wakeAlarms；今天晚上標 alarm 的出遊沒算）；學姊 21:10 台階、19:00 生日同一個情況",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "v3",
    "first": {
@@ -28716,7 +28716,8 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "晚上的床也把 S.outStopsToday(G,hh) 放進鬧鐘（叫醒時間在今天晚上，同白天的小睡）；tests 先重現"
+   "next": "BB 瀏覽器：3/15 20:30 宿舍上床 → 選「睡一下（21:00 叫醒你）」→ 21:30 學姊的電話照演（不在 v9.10.4，下一版 v9.10.5）",
+   "done": "開發分支（LAWWW 10-22 05:5x）：story3d.js S.tonightAlarm＋bedOptions——晚上（17:30～午夜）上床，今天晚上還有沒到的鬧鐘（S.wakeAlarms 今天：標 alarm 的出遊出發前 30 分鐘、答應的約前 30 分鐘、事件包的 ALARMS；那個過了就 S.outStopsToday 出發前 10 分鐘）＝只給「睡一下（hh:mm 叫醒你）」＋「再撐一下」，不給睡到明天；沒有今晚的約照舊。tests/bed_tonight_alarm_unit.js（修改前 a9a1a172：5 項 FAIL；修改後 ALL PASS）；bed_nap、date_book、sleep_resume、aa379_sis_y2y3、postgrad_days、law_break、grad_family、graduation、r3_events 照過"
   },
   {
    "id": "BUG-KAI-Y2-SCHED-1022",
