@@ -195,20 +195,32 @@ async def crowd(p, base, run):
     b, pg, cdp, errs = await load(p, base, '2028-09-20', 14.0, 'us_outside')
     run.setup('[前置] CROWD：美國路線（自己一個人）2028-09-20（三）14:00 社區；照玩家搭公車到超市街')
     ok, dt, z = await use(pg, cdp, run, '出門（去超市）', 'us_market_street')
-    t0 = None
-    for _ in range(20):
+    t0 = None; w0 = time.time()
+    for _ in range(120):   # 車的模型（bldg.us_cars）載完才有 US_TRAFFIC.cars；2026-10-22 候選第一輪只等 10 秒（每秒約 1 格）
         t0 = await pg.evaluate(TRAF)
         if t0: break
         await pg.wait_for_timeout(500)
+    say('   等車的模型 %.0f 秒' % (time.time() - w0))
     await run.shot(pg, 'crowd_01_arrive'); out['CROWD_t0'] = t0; say('   一到：%s' % json.dumps(t0, ensure_ascii=False)[:500])
     chk(run, 'CROWD', '一進超市街＝紅燈、車都停著（%s 台）' % ((t0 or {}).get('n')), bool(t0) and t0['light'] == 'red' and all(c['v'] < 0.05 for c in t0['cars']), json.dumps(t0, ensure_ascii=False)[:500])
-    await pg.wait_for_timeout(9000); t1 = await pg.evaluate(TRAF); out['CROWD_t1'] = t1; await run.shot(pg, 'crowd_02_green')
-    moved = [c for c, c0 in zip((t1 or {}).get('cars', []), (t0 or {}).get('cars', [])) if abs(c['x'] - c0['x']) > 2]
+    t1 = None; moved = []; w1 = time.time()
+    while time.time() - w1 < 180:   # 號誌照遊戲時間走（每格最多 0.1 秒）：紅燈剩 5 秒，每秒 1 格要 50 秒以上；綠燈以後再等車開出 2 m
+        t1 = await pg.evaluate(TRAF)
+        moved = [c for c, c0 in zip((t1 or {}).get('cars', []), (t0 or {}).get('cars', [])) if abs(c['x'] - c0['x']) > 2]
+        if t1 and t1['light'] == 'green' and moved: break
+        await pg.wait_for_timeout(1500)
+    say('   等綠燈、車開走 %.0f 秒：%s' % (time.time() - w1, json.dumps(t1, ensure_ascii=False)[:300]))
+    out['CROWD_t1'] = t1; await run.shot(pg, 'crowd_02_green')
     chk(run, 'CROWD', '約 5 秒後綠燈、車開走（%d 台動了）' % len(moved), bool(t1) and t1['light'] == 'green' and len(moved) >= 1, json.dumps(t1, ensure_ascii=False)[:500])
     ln = await pg.evaluate(LANES); out['CROWD_lanes'] = ln
     dirs = {c['lane']: c['dir'] for c in (t1 or {}).get('cars', [])}
     chk(run, 'CROWD', '往西的車道在北邊、往東的在南邊（w1 w2 往西、e1 e2 往東）', all(dirs.get(k, d) == d for k, d in (('w1', -1), ('w2', -1), ('e1', 1), ('e2', 1))) and ln['lane']['w1'] < ln['lane']['e1'], json.dumps({'dirs': dirs, 'lane': ln['lane']}, ensure_ascii=False))
-    pe = await pg.evaluate(PEOPLE); out['CROWD_people'] = pe; say('   路人：%s' % json.dumps(pe, ensure_ascii=False))
+    pe = None; w2 = time.time()
+    for _ in range(40):   # 路人的模型下載完才現身（PERF-NPC-POOL：在那之前先藏起來，不露出方塊人）
+        pe = await pg.evaluate(PEOPLE)
+        if pe['n'] >= 3: break
+        await pg.wait_for_timeout(1500)
+    out['CROWD_people'] = pe; say('   路人（等了 %.0f 秒）：%s' % (time.time() - w2, json.dumps(pe, ensure_ascii=False)))
     chk(run, 'CROWD', '白天街上有路人（%d 個；看得到的膚色材質 %d 種）' % (pe['n'], len(pe['skins'])), pe['n'] >= 3, json.dumps(pe, ensure_ascii=False))
     # 讓人：站到往東外側車道（e1）上、停止線東邊 12 m（綠燈時車會開過來），等車；量停下來時和你的距離
     lz = ln['lane']['e1']; px = ln['stop_e'] + 12
@@ -216,6 +228,7 @@ async def crowd(p, base, run):
     P = await pg.evaluate(SNAP); gaps = []; t_end = time.time() + 90
     while time.time() < t_end:
         tr = await pg.evaluate(TRAF); me = await pg.evaluate("(()=>{ const P=GAME.E.player.obj.position; return [P.x,P.z]; })()")
+        if not tr: await pg.wait_for_timeout(700); continue
         beh = [c for c in tr['cars'] if c['lane'] == 'e1' and 0 < (me[0] - c['x']) < 20]
         if beh:
             c = min(beh, key=lambda c: me[0] - c['x']); gaps.append((round(me[0] - c['x'], 2), c['v']))
@@ -226,8 +239,8 @@ async def crowd(p, base, run):
     chk(run, 'CROWD', '你站在車道上：車停在你前面約 4 m（停下來時的距離 %s）' % (stopped[-1][0] if stopped else '—'), bool(stopped) and 3.4 <= stopped[-1][0] <= 5.5, json.dumps(gaps[-6:], ensure_ascii=False))
     await L.go_to(pg, cdp, run, px, ln['road']['z1'] + 2.0, 0.6, '走回人行道', max_s=90); await pg.wait_for_timeout(5000)
     tr = await pg.evaluate(TRAF); out['CROWD_resume'] = tr
-    lane_cars = [c for c in tr['cars'] if c['lane'] == 'e1']
-    chk(run, 'CROWD', '你走開以後，那條車道的車又開了', any(c['v'] > 0.5 for c in lane_cars) or tr['light'] != 'green', json.dumps(lane_cars, ensure_ascii=False))
+    lane_cars = [c for c in (tr or {}).get('cars', []) if c['lane'] == 'e1']
+    chk(run, 'CROWD', '你走開以後，那條車道的車又開了', bool(tr) and (any(c['v'] > 0.5 for c in lane_cars) or tr['light'] != 'green'), json.dumps(lane_cars, ensure_ascii=False))
     chk(run, 'CROWD', '沒有 JS 例外（白天）', not errs, json.dumps(errs[:2], ensure_ascii=False))
     try: await asyncio.wait_for(b.close(), 30)
     except Exception: pass
@@ -235,7 +248,7 @@ async def crowd(p, base, run):
     b, pg, cdp, errs = await load(p, base, '2028-09-20', 22.5, 'us_market_street')
     run.setup('[前置] CROWD 深夜：2028-09-20 22:30 直接在超市街')
     tn = None
-    for _ in range(20):
+    for _ in range(120):
         tn = await pg.evaluate(TRAF)
         if tn: break
         await pg.wait_for_timeout(500)
