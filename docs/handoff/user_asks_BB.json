@@ -66,10 +66,20 @@
    "at": "2026-10-21T15:2x",
    "quote": "我回來了，請同步 GitHub 最新進度，接續工作。",
    "kind": "原話",
-   "status": "進行中",
+   "status": "已完成",
    "task": "BACKLOG-SWEEP-BB-1021",
    "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
-   "note": "同步、接班（D92 十四步）15:24 做完（BB_00 接班紀錄 a54ec2b4、37b00ec0）；接續 BB-C 的待辦：#132 LAWWW2 三件補拍（artrev2_probe.py 96ed5238，背景跑）→ LAWWW 指定的 TEST-01、BUG-08、DONE-B01 → BG-3DSHOT-1021 → AA-C 10-21 劇情驗證。同一段對話使用者另說「你上次交班之後有兩個帳號接過你的班 B C」「它們都已經回來了」（資訊，不是要求，不另立一筆）"
+   "note": "同步、接班（D92 十四步）15:24 做完（BB_00 接班紀錄 a54ec2b4、37b00ec0）；接續 BB-C 的待辦：#132 LAWWW2 三件補拍（artrev2_probe.py 96ed5238，背景跑）→ LAWWW 指定的 TEST-01、BUG-08、DONE-B01 → BG-3DSHOT-1021 → AA-C 10-21 劇情驗證。同一段對話使用者另說「你上次交班之後有兩個帳號接過你的班 B C」「它們都已經回來了」（資訊，不是要求，不另立一筆）。2026-10-22 15:05 交班時結束（UA-BB-1022-01）；沒做完的待辦寫在 BB_00 第 3 節交班紀錄的「全部待辦」"
+  },
+  {
+   "id": "UA-BB-1022-01",
+   "at": "2026-10-22T15:0x",
+   "quote": "現在交班",
+   "kind": "原話",
+   "status": "已完成",
+   "task": "RELEASE-9106-TEST",
+   "src": "BB（帳號 A，session_01XVHYLaK9Vcnae3U1aAJoZv）對話",
+   "note": "P0 換班口令（CLAUDE.md）：兩條測試線停止、結果寫 BB_218、BB_00 交班紀錄＋全部待辦、duty_BB.json handed-off＋快照、commit＋push。未完成的 RELEASE-9106-TEST 第 4～14 項、BB119-Y4-1017、USD_kexin 重跑、AA283-PARK-1021 見 BB_00"
   }
  ]
 }
