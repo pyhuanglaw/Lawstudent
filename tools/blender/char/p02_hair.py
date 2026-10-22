@@ -10,10 +10,12 @@
 第九版（LAWWW2 2026-10-22，使用者「林芷若3d好憨」的下一輪，ART-ZR-HAIR-1022；LAWWW 驗收：頭頂平得像頭盔、只到下巴）：
  1. 分線改到人物的左邊（PART +12°）：參考圖 06 的臉部特寫、campus 立繪，分線都在畫面右邊＝人物的左手邊，頭髮多、往外撥的那一邊在人物的右邊；
     第八版之前左右做反了（−4°＝人物的右邊）。瀏海兩邊不對稱：右邊一大片從分線往外撥、蓋住額角，左邊短、沿著太陽穴垂下。
- 2. 長度到肩下：前面兩側沿著胸前垂到鎖骨下，正側面從肩膀後面繞過去，後面到肩胛骨上緣（做法同杜可昕 kexin_hair.py）；
+ 2. 長度到肩下：前面兩側沿著胸前垂到鎖骨，正側面從肩膀後面繞過去，後面到肩膀下（做法同杜可昕 kexin_hair.py）；
     長髮的下段改綁上胸（脖子以上綁頭、往下漸漸換成上胸：轉頭時髮尾跟著身體，不會甩進胸口或背）。
- 3. 頭頂蓬一點（第八版服貼、側面看像頭盔），分線旁頭髮多的那一邊再往上蓬。
+ 3. 頭頂、太陽穴旁蓬一點（第八版服貼、側面看像頭盔），分線旁頭髮多的那一邊再往上蓬一點。
  4. 髮色改深棕、受光處暖棕（第八版接近純黑；參考圖 06 是深棕）。characters.js 的 hair.color 照舊。
+ 5. 微捲：下段的波浪照高度對齊（鄰近的髮束一起起伏）、內外和左右一起動，髮尾鈍一點、往外翻（第八版每片各自亂動，整頭看起來是直髮）。
+ 6. 額頭露出的形狀照參考圖 06：上面窄、到眉毛變寬（第八版是窄的倒 V，臉看起來長）。
  參數可以用環境變數 HAIR_OVERRIDE（JSON）試，見下面的 HP。
 座標：Blender Z 朝上、人物面向 -Y、+X＝人物的左手邊（同 h01_hair）。"""
 import math, os, json
@@ -27,21 +29,20 @@ from h01_hair import _unit, sph, slerp, sstep, tangents, catmull, resample
 SEED = 20261012
 POLE = (180.0, 70.0)      # 髮旋：頭頂稍偏後
 # 第九版的參數（HAIR_OVERRIDE 環境變數可以覆蓋，試參數用；長度是模型單位：Victoria Rubin 身高 1.715，遊戲裡縮成 161 cm）
+# 預設值＝10-22 試的第六個版本 h9f（h9a 長直、h9b／h9c 加蓬、h9d／h9e 波浪對齊、h9f 額頭寬一點＋太陽穴蓬；char_review/zhiruo_hair_1022）
 HP = dict(PART=12.0,                      # 分線（方位角，+＝人物的左邊）；第八版 −4（左右做反）
-          TOP0=0.010, TOP1=0.014,         # 頭頂的厚度：髮際線旁 1.0 cm、頭頂最厚 2.4 cm（第八版 0.8、1.8）
-          LIFT=0.007,                     # 分線旁頭髮多的那一邊（人物的右邊）再蓬多少
-          LEN_F=0.090, LEN_B=0.110,       # 髮尾比脖子根部低多少：前面兩側（鎖骨下）、後面（肩胛骨上緣）
-          WAVE=0.010,                     # 下段波浪的幅度（第八版 0.006–0.010）
-          BIG_A1=12.0, BIG_A2=20.0, BIG_Z2=0.010,   # 右邊（大片）瀏海：越過髮際線離分線幾度、內緣在額頭外側的方位、比眉毛上緣高多少
-          SMALL_A1=3.0, SMALL_A2=27.0, SMALL_Z2=0.012,  # 左邊（小片）瀏海：越過髮際線離分線幾度、內緣
-          SIDE_K=0.45,                    # 兩側（55–95°）頭頂厚度打幾折（第八版 0.45：頭不要太寬）
-          BANG_OFF=0.008,                 # 大片瀏海髮根的蓬度（第八版 0.005）
-          BUL=0.010,                      # 兩側從髮際線往下蓬出多少（第八版 0.010）
-          FLARE=1.0,                      # 髮尾往外張的倍數（第八版 1.0：前側 1.2、兩側 0.9、後面 1.4 cm）
-          WAVE_R=0.0,                     # 波浪也往內外起伏（佔 WAVE 的比例；第八版只有左右）
-          WAVE_LEN=0.0,                   # 波浪的波長（公尺；0＝照第八版：每片 1.1 個週期、各自隨機相位）。>0 時波峰照高度對齊，整頭的波浪一致
-          WAVE_PH=0.0,                    # 波浪的起始相位（WAVE_LEN>0 時用）
-          FRONT_SPREAD=0.006)             # 前面的頭髮沿胸前垂下時，最多比耳下那一點再往外幾公分（杜可昕的直髮 0.6 cm）
+          TOP0=0.010, TOP1=0.012,         # 頭頂的厚度：髮際線旁 1.0 cm、頭頂最厚 2.2 cm（第八版 0.8、1.8）
+          SIDE_K=0.15,                    # 兩側（55–95°）頭頂厚度打幾折（第八版 0.45：頭窄、太陽穴貼著頭；參考圖 06 太陽穴旁有蓬度）
+          LIFT=0.003,                     # 分線旁頭髮多的那一邊（人物的右邊）再蓬多少（h9a 0.007：斜看頭頂翹起一道）
+          LEN_F=0.050, LEN_B=0.085,       # 髮尾比脖子根部低多少：前面兩側（鎖骨）、後面（肩膀下）；h9a 0.090／0.110 太長、像長直髮
+          BUL=0.022,                      # 兩側從髮際線往下蓬出多少（第八版 0.010）
+          FLARE=1.8,                      # 髮尾往外張的倍數（第八版 1.0：前側 1.2、兩側 0.9、後面 1.4 cm）
+          WAVE=0.012, WAVE_R=1.0,         # 下段波浪的幅度（第八版 0.006–0.010、只有左右）；WAVE_R：內外起伏佔左右的比例（內外和左右差 90°，像一圈一圈的捲）
+          WAVE_LEN=0.075, WAVE_PH=0.0,    # 波長 7.5 cm、起始相位：波峰照高度對齊，鄰近的髮束一起起伏（第八版每片各自隨機相位，整頭看不出波浪；h9e 6 cm 太捲）
+          FRONT_SPREAD=0.018,             # 前面的頭髮沿胸前垂下時，最多比耳下那一點再往外幾公分（杜可昕的直髮 0.6 cm）
+          BIG_A1=14.0, BIG_A2=26.0, BIG_Z2=0.024,   # 右邊（大片）瀏海：越過髮際線離分線幾度、內緣在額頭外側的方位、比眉毛上緣高多少（h9a～h9e 12°、20°、1.0 cm：額頭露出一個窄的倒 V）
+          SMALL_A1=6.0, SMALL_A2=30.0, SMALL_Z2=0.022,  # 左邊（小片）瀏海：越過髮際線離分線幾度、內緣（h9a～h9e 3°、27°、1.2 cm）
+          BANG_OFF=0.005)                 # 大片瀏海髮根的蓬度（h9a 0.008：和 LIFT 一起在斜看時翹起一道）
 HP.update(json.loads(os.environ.get('HAIR_OVERRIDE') or '{}'))
 PART = HP['PART']         # 第八版之前 -4.0（略偏人物的右邊：參考圖 06 看反了；第六版 -9° 的側分瀏海在近看時像一排齊瀏海）
 # 顏色（sRGB）：參考圖 06 的深棕髮（受光處暖棕）；比純黑亮一級：遊戲（MToon）裡太黑會看不出髮絲（祐廷第十一版的經驗）
@@ -66,10 +67,8 @@ def make_atlas(seed=SEED):
     h, w = reg('bang')       # 瀏海：長片、髮尾分成 3 束（不是一排尖角）
     put('bang', HB._strand_color(rng, h, w, 0.84, sheen=(0.18, 0.30), tip_light=0.05, base=BASE), HB._clumps(rng, h, w, 3, 0.62, 0.80, 1.0, hw_k=(1.2, 1.6), lean=0.1, power=0.9, full=3.2, minw=5.0))
     h, w = reg('lock')       # 垂落的髮束：長、髮尾 18% 分束、彼此重疊（遠看不會變成點狀）
-    if HP.get('BLUNT', 0):   # 第九版：髮尾鈍一點、成束（第八版的髮尾分得細，長了以後像一根一根的細線）
-        put('lock', HB._strand_color(rng, h, w, 0.72, sheen=(0.10, 0.22), tip_light=0.08, base=BASE), HB._clumps(rng, h, w, 5, 0.86, 0.95, 1.0, edge_taper=0.03, hw_k=(1.2, 1.55), lean=0.06, power=0.75, full=3.2, minw=4.0))
-    else:
-        put('lock', HB._strand_color(rng, h, w, 0.72, sheen=(0.10, 0.22), tip_light=0.08, base=BASE), HB._clumps(rng, h, w, 5, 0.82, 0.92, 1.0, edge_taper=0.04, hw_k=(1.2, 1.55), lean=0.08, power=1.0, full=2.4, minw=4.0))
+    # 第九版：髮尾鈍一點、成束（第八版 0.82, 0.92, edge_taper=0.04, lean=0.08, power=1.0, full=2.4：髮尾分得細，長了以後像一根一根的細線）
+    put('lock', HB._strand_color(rng, h, w, 0.72, sheen=(0.10, 0.22), tip_light=0.08, base=BASE), HB._clumps(rng, h, w, 5, 0.86, 0.95, 1.0, edge_taper=0.03, hw_k=(1.2, 1.55), lean=0.06, power=0.75, full=3.2, minw=4.0))
     h, w = reg('shell')
     put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
@@ -171,13 +170,10 @@ def apply(m):
             low = []
             for k in range(1, n2 + 1):
                 t = k / n2
-                env = float(sstep(0.20, 0.5, t))
-                if HP['WAVE_LEN'] > 0:      # 第九版：波峰照高度對齊（鄰近的髮束一起起伏）、內外和左右差 90°（像一圈一圈的捲）
-                    ph = 2 * math.pi * L2 * t / HP['WAVE_LEN'] + wph
-                    q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3 + HP['WAVE_R'] * wave * math.sin(ph) * env) + tan * wave * math.cos(ph) * env
-                else:
-                    wv_ = wave * math.sin(math.pi * 2.2 * t + wph) * env   # 長一點、波浪 1.1 個週期（第八版 0.8）
-                    q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3 + HP['WAVE_R'] * abs(wv_)) + tan * wv_
+                # 第九版：波峰照高度對齊（鄰近的髮束一起起伏）、內外和左右差 90°（像一圈一圈的捲）。
+                # 第八版：tan * wave * sin(1.6πt + wph)，每片隨機相位、只有左右——整頭看起來是直髮
+                env = float(sstep(0.20, 0.5, t)); ph = 2 * math.pi * L2 * t / HP['WAVE_LEN'] + wph
+                q = p0 + rad * (fv * float(sstep(0.15, 1.0, t)) ** 1.3 + HP['WAVE_R'] * wave * math.sin(ph) * env) + tan * wave * math.cos(ph) * env
                 q[2] = p0[2] - L2 * t + 0.25 * fv * float(sstep(0.80, 1.0, t))   # 髮尾外翻時微微往上
                 # 第九版（同杜可昕）：背後往兩邊散開一點（蓋住肩胛骨上緣）、正側面往後，從肩膀後面垂下
                 q[0] += math.copysign(1.0, p0[0] - c[0]) * float(np.interp(az(a), [100, 115, 140, 165, 180], [0.0, 0.018, 0.020, 0.010, 0.0])) * float(sstep(0.05, 0.7, t))
@@ -229,7 +225,7 @@ def apply(m):
         a = -180 + 360 * (k + rng.uniform(0.25, 0.75)) / 54
         if az(a) < 36: continue
         hang_card(a, 0.90 - rng.uniform(0, 0.06), 0.0040 + 0.001 * rng.random(), rng.uniform(1.5, 1.8), 'lock',
-                  curl=rng.uniform(-4, 4), wave=HP['WAVE'] * (0.8 + 0.4 * rng.random()), wph=(HP['WAVE_PH'] + rng.uniform(-0.6, 0.6)) if HP['WAVE_LEN'] > 0 else rng.uniform(0, 6.28), flip=0.008 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.014, 0.010))
+                  curl=rng.uniform(-4, 4), wave=HP['WAVE'] * (0.8 + 0.4 * rng.random()), wph=HP['WAVE_PH'] + rng.uniform(-0.6, 0.6), flip=0.008 + 0.006 * rng.random(), tip_dz=rng.uniform(-0.014, 0.010))
     GR.append(('main', f0, len(mb.F))); f0 = len(mb.F)
     DBG['layer'] = 'outer'
     for k in range(38):        # 外層：碎一點、長短不一（第九版 38 片；第八版 34）
@@ -237,7 +233,7 @@ def apply(m):
         if az(a) < 38: continue
         vr = 0.86 - rng.uniform(0, 0.12); of = 0.0070 + 0.002 * rng.random(); wf = rng.uniform(1.2, 1.5); rg = 'cardB' if rng.random() < 0.4 else 'lock'
         cu = rng.uniform(-6, 6); wv = HP['WAVE'] * (1.0 + 0.5 * rng.random()); ph = rng.uniform(0, 6.28); fl = 0.010 + 0.008 * rng.random(); td = rng.uniform(-0.025, 0.020)
-        if HP['WAVE_LEN'] > 0: ph = HP['WAVE_PH'] + 0.8 + rng.uniform(-0.8, 0.8)     # 外層：和主層差一點（不會整片一樣）
+        ph = HP['WAVE_PH'] + 0.8 + rng.uniform(-0.8, 0.8)     # 第九版：外層的波浪和主層差一點（不會整片一樣）
         # 第八版：兩側（55–130°）的外層收進主層裡面（正面看，正側面的髮片是側著的，比主層突出就是一條往外飄的細線）
         sk = float(sstep(55, 70, az(a)) * (1 - sstep(115, 130, az(a))))
         hang_card(a, vr, of - 0.0040 * sk, wf, rg, curl=cu * (1 - 0.7 * sk), wave=wv, wph=ph, flip=fl, tip_dz=td, tight=sk)
