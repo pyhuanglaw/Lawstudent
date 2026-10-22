@@ -46,6 +46,9 @@ LAB = "(()=>{ const b=document.getElementById('interact'); return b&&!b.classLis
 ROOMS = (('ROOM_Y2', '2026-09-06'), ('ROOM_Y3', '2027-09-05'), ('ROOM_Y4', '2028-09-03'))
 TWF = {'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}
 JPF = {'EXCHANGE_ROUTE': 'JP', 'EXCH_RULE': 1, 'X1_JP': {'$day': '2028-02-20'}, 'JP_DEPARTED': {'$day': '2028-03-25'}, 'JP_RETURNED': {'$day': '2028-08-05'}, 'AN_SENDOFF': 'together'}
+# 2026-10-22 08:3x（候選 364dabe0 第一輪 17 個 FAIL 全是前置不足）：使用者存檔停在 9/3（主線第一天），沒有 afternoonDone——以安（LEGACY_IDS）要 afternoonDone 才照作息出現；
+# 也沒有 Y4_PATH——日本路線讀檔後先演「大四要怎麼過？」（8/5 返台那晚，在家），腳本在它演到一半時開手機，走不進 Café。大四的情境一律補上「早就過了的主線」：
+BASEF = {'introDone': True, 'campusIntro': True, 'classDone': True, 'afternoonDone': True, 'metAn': True, 'met_an': True, 'Y4_PATH': 'bar'}
 USF = {'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1, 'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': {'$day': '2028-08-02'}, 'US_RETURNED': {'$day': '2028-12-23'}}
 
 
@@ -291,7 +294,7 @@ AN_KEY = {'AN_0912': '2028-09-12', 'AN_0915': '2028-09-15', 'AN_0920': '2028-09-
 @guard
 async def s_an(p, run, base, sid, out):
     res = out.setdefault(sid, {}); key = AN_KEY[sid]
-    b, pg, cdp, errs, r = await launch(p, run, base, key, 16.1, 'campus', preflags=TWF, rels={'heroine_01': 'FRIEND'}, label=sid + '（臺灣路線、以安朋友；%s 16:06 校園）' % key)
+    b, pg, cdp, errs, r = await launch(p, run, base, key, 16.1, 'campus', preflags=dict(TWF, **BASEF, Y4_PATH_DAY={'$day': '2028-06-20'}), rels={'heroine_01': 'FRIEND'}, label=sid + '（臺灣路線、以安朋友；%s 16:06 校園）' % key)
     try:
         lad = await pg.evaluate(LADSET + "('A7-L2')"); res['lad0'] = lad
         run.setup('[前置] %s：以安大四上的閒聊階梯放在 A7-L2（今天還沒推進）→ %s' % (sid, J(lad, 300)))
@@ -387,11 +390,30 @@ CAFEQ = """(()=>{ const G=GAME.G, H=G.habits||{}, a=STORY.dayOfKey('2028-08-06')
   return {keys:k, aug:days.length>0, augDays:days.map(d=>CALENDAR.dateOf(d).key), visits:+G.flags.CAFE_VISITS||0, z11:!!(G.events&&G.events.done&&G.events.done.ev_zhiruo_no_sugar), back:!!G.flags.BACK_HOME, route:STORY.route(G), inJapan:!!(STORY.inJapan&&STORY.inJapan(G))}; })()"""
 
 
+async def settle(pg, cdp, run, label, rounds=3):
+    """讀檔後如果有事件在演（換場景、淡入淡出中間 drive 會以為沒事），多等幾輪，直到連續一輪什麼都沒有"""
+    for _ in range(rounds):
+        ch = await drive(pg, cdp, run, max_s=90, label=label); await pg.wait_for_timeout(2500)
+        s = await L.state(pg)
+        if not ch and not s['dlg'] and not s['choices'] and not s.get('busy'): break
+
+
+async def go_cafe(pg, cdp, run, label):
+    """手機「地點」進 Café；沒去成（事件還在演、手機被收走）就先演完再按，最多三次；回傳（到了沒, 第幾次）"""
+    for k in range(3):
+        if await quick_go(pg, cdp, 'cafe'): return True, k + 1
+        st = await pg.evaluate(STATE); say('   %s 第 %d 次手機「地點」沒進 Café（%s）' % (label, k + 1, J(st)))
+        await settle(pg, cdp, run, label)
+    return False, 3
+
+
 async def cafe_back(pg, cdp, run, sid, res):
     """9/4 16:00 校園 → 手機「地點」進 Café → 演完；回傳說了什麼"""
+    await settle(pg, cdp, run, sid)
     q0 = await pg.evaluate(CAFEQ); res['q0'] = q0; say('   %s 進 Café 前：%s' % (sid, J(q0)))
     n0 = await log_len(pg)
-    ok = await quick_go(pg, cdp, 'cafe'); await pg.wait_for_timeout(1500)
+    ok, tries = await go_cafe(pg, cdp, run, sid); res['go'] = [ok, tries]; await pg.wait_for_timeout(1500)
+    run.check('%s：9/4 用手機「地點」走進 Café（第 %d 次按）' % (sid, tries), ok, J(await pg.evaluate(STATE)))
     shot = False
     for _ in range(3):
         s = await L.state(pg)
@@ -405,19 +427,18 @@ async def cafe_back(pg, cdp, run, sid, res):
 @guard
 async def s_cafe_aug(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-08-20', 14.0, 'campus', preflags=JPF, quiet=False, label=sid + '（日本路線，8/5 已經回國；2028-08-20（日）14:00 校園）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-08-20', 14.0, 'campus', preflags=dict(JPF, **BASEF, Y4_PATH_DAY={'$day': '2028-08-05'}), quiet=False, label=sid + '（日本路線，8/5 已經回國；2028-08-20（日）14:00 校園）')
     try:
-        n0 = await log_len(pg); await drive(pg, cdp, run, max_s=60, label=sid)
-        ok = await quick_go(pg, cdp, 'cafe'); await pg.wait_for_timeout(1500)
+        n0 = await log_len(pg); await settle(pg, cdp, run, sid)
+        ok, tries = await go_cafe(pg, cdp, run, sid); await pg.wait_for_timeout(1500)
         for _ in range(2): await drive(pg, cdp, run, max_s=90, label=sid); await pg.wait_for_timeout(1500)
         qa = await pg.evaluate(CAFEQ); res['aug'] = qa; res['aug_said'] = texts(await log_since(pg, n0)); await run.shot(pg, '%s_0820' % sid)
-        run.check('%s：8/20 用手機「地點」走進 Café＝記到「8/6～9/2 進過 Café」（%s）' % (sid, qa['augDays']), ok and qa['aug'] and '2028-08-20' in qa['augDays'], J(qa))
+        run.check('%s：8/20 用手機「地點」走進 Café（第 %d 次按）＝記到「8/6～9/2 進過 Café」（%s）' % (sid, tries, qa['augDays']), ok and qa['aug'] and '2028-08-20' in qa['augDays'], J(qa))
         snap = await pg.evaluate("JSON.parse(JSON.stringify(GAME.snapshot?GAME.snapshot():GAME.G))")
         d4 = await dayk(pg, '2028-09-04'); snap.update({'day': d4, 'hour': 16.0, 'zone': 'campus', 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d4)})
         snap['flags']['ROOM_Y4'] = await dayk(pg, '2028-09-03')
         await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(5000)   # 同一頁、同一個 GAME：台詞的記錄（HOOK）還在，不重掛（重掛會記兩次）
         run.setup('[前置] %s：同一份遊戲狀態（含 8/20 進 Café 的紀錄）跳到 2028-09-04（一）16:00 校園' % sid)
-        await drive(pg, cdp, run, max_s=60, label=sid)
         ok, T, q0, q1 = await cafe_back(pg, cdp, run, sid, res)
         run.check('%s：9/4 走進 Café＝新店員「%s」' % (sid, AUG1), AUG1 in T, J(T, 600))
         run.check('%s：旁白「%s」，沒有「%s」' % (sid, AUGN, OLD_NAR), AUGN in T and OLD_NAR not in T, J(T, 600))
@@ -430,9 +451,8 @@ async def s_cafe_aug(p, run, base, sid, out):
 @guard
 async def s_cafe_noaug(p, run, base, sid, out):
     res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2028-09-04', 16.0, 'campus', preflags=JPF, quiet=False, label=sid + '（日本路線，8 月沒進過 Café；2028-09-04（一）16:00 校園）')
+    b, pg, cdp, errs, r = await launch(p, run, base, '2028-09-04', 16.0, 'campus', preflags=dict(JPF, **BASEF, Y4_PATH_DAY={'$day': '2028-08-05'}), quiet=False, label=sid + '（日本路線，8 月沒進過 Café；2028-09-04（一）16:00 校園）')
     try:
-        await drive(pg, cdp, run, max_s=60, label=sid)
         ok, T, q0, q1 = await cafe_back(pg, cdp, run, sid, res)
         run.check('%s：前置——8/6～9/2 沒進過 Café' % sid, not q0['aug'], J(q0))
         reg = q0['visits'] >= 3
