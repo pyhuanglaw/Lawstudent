@@ -98,7 +98,9 @@ if V29:
 
 # 第三十版（LAWWW 13:0x 驗收第二十九版沒通過：瀏海太短像一頂安全帽、太陽穴是硬的一條邊、臉旁沒有長碎髮、頭頂太蓬、三分之四側有梳痕、馬尾太高太緊）：
 # 髮色照第二十九版（LAWWW：對，不要動）。PS_HAIR_V=29 做回第二十九版、=28 做回第二十八版（位元組相同）。
-V30 = os.environ.get('PS_HAIR_V', '30') not in ('28', '29')
+V30 = os.environ.get('PS_HAIR_V', '31') not in ('28', '29')
+# 第三十一版（LAWWW 13:5x 驗收第三十版：膚色、三分之四側、馬尾過了；正面還不對——頭頂往上翹的尖刺、額頭中間大的倒 V、髮尾停在眉毛上；臉旁長碎髮正面看不到）。PS_HAIR_V=30 做回第三十版。
+V31 = os.environ.get('PS_HAIR_V', '31') not in ('28', '29', '30')
 if V30: TIE_ELEV = float(os.environ.get('HAIR_TIE_ELEV', '-48'))      # 馬尾綁低一點（−44° → −48°：參考圖背面綁在後頸、耳垂下面；試做 −52°：耳朵後上方往後梳的髮片尾端交叉、翹出一根黑色的棍子）
 
 
@@ -108,7 +110,7 @@ def _json_env(name, default):
     s = os.environ.get(name); return json.loads(s) if s else default
 
 
-CUR_LIFT = _json_env('HAIR_CUR_LIFT', [0.0110, 0.0095, 0.0065] if V30 else [0.0150, 0.0115, 0.0065])   # 第三十版：頭頂貼一點（LAWWW：參考圖頭頂是貼著的）   # 八字瀏海離皮膚多遠（m）：越過髮際線、中段、髮尾
+CUR_LIFT = _json_env('HAIR_CUR_LIFT', [0.0075, 0.0070, 0.0060] if V31 else ([0.0110, 0.0095, 0.0065] if V30 else [0.0150, 0.0115, 0.0065]))   # 第三十一版：貼著額頭垂（LAWWW：從分線就往下、往外貼著額頭）   # 第三十版：頭頂貼一點（LAWWW：參考圖頭頂是貼著的）   # 八字瀏海離皮膚多遠（m）：越過髮際線、中段、髮尾
 
 
 def reg_uv(name, pad=4):
@@ -414,19 +416,58 @@ def apply(m):
         U = u0 + (u1 - u0) * np.linspace(0, 1, PAN + 1); Vv = v1 - (v1 - v0) * (1 - vs / vmax)
         UV = np.stack(np.broadcast_arrays(U[None, :], Vv[:, None]), -1)
         mb.grid(G, UV, Nn, 'head', np.zeros(Nv + 1))
+    if V31:   # 第三十一版：後腦補一片髮殼（照頭的形狀，方位角 95°～265°、從後頸髮際線到頭頂）。原本的髮殼沿著往後梳的路徑，
+        # 前面、兩側的路徑在後腦交會的地方拉得很開、摺到背面，後腦有一個洞；以前靠幾片寬到 6～13 cm 的往後梳髮片蓋住，
+        # 那幾片髮片正面看就是頭頂兩側翹起的大三角形（LAWWW 13:5x「頭頂往上翹的尖刺」）。補了這一片，髮片的寬度才能設上限（SW_WMAX）
+        A2 = np.linspace(95, 265, 49); B_TOP = 72.0
+        CP = np.zeros((len(A2), Nv + 1, 3)); CN = np.zeros_like(CP)
+        for i, a in enumerate(A2):
+            b0 = hairline_beta(a) + 1.5
+            for j, t in enumerate(np.linspace(0, 1, Nv + 1)):
+                b = b0 + (B_TOP - b0) * t; d = sph(a, b); CP[i, j] = c + d * (H.R(d) + 0.0022 + 0.75 * vol(a) * float(sstep(0.0, 0.25, t))); CN[i, j] = d
+        for p in range((len(A2) - 1) // PAN):
+            G = CP[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2); Nn = CN[p * PAN:p * PAN + PAN + 1].transpose(1, 0, 2)
+            U = u0 + (u1 - u0) * np.linspace(0, 1, PAN + 1); Vv = v1 - (v1 - v0) * (1 - np.linspace(0, 1, Nv + 1))
+            UV = np.stack(np.broadcast_arrays(U[None, :], Vv[:, None]), -1)
+            mb.grid(G, UV, Nn, 'head', np.zeros(Nv + 1))
     n_shell = len(mb.F)
 
     # ---- 2. 往後梳的髮片（兩層）----
-    def swept(a, vstart, vstop, layer_off, wfac, reg, nseg=14, bulge=0.0, arch=0.1):
+    SW_WMAX = float(os.environ.get('HAIR_SW_WMAX', '0.022'))      # 第三十一版：髮片寬度上限（m）
+    SW_LEAD, SW_DL = _json_env('HAIR_SW_FILL', [0.06, 0.0002])    # 補的窄髮片：比寬度超過上限的地方提早多少開始（v）、每片往外疊多少（m）
+    sw_stat = [0, 0]
+
+    def sw_geom(a, vstart, vstop, layer_off, nseg, bulge, da):
         vv = np.linspace(vstart, vstop, nseg + 1); P = []; D = []; Wd = []
-        da = 360.0 / 52
         for v in vv:
             p, d = surf(a, v, layer_off + bulge * math.sin(math.pi * (v - vstart) / max(1e-3, vstop - vstart)))
             q, _ = surf(a + da, v, layer_off); P.append(p); D.append(d); Wd.append(np.linalg.norm(q - p))
-        P = np.array(P); D = np.array(D); Tn = tangents(P)
-        side = _unit(np.cross(D, Tn)); width = np.maximum(np.array(Wd) * wfac, 0.005)
+        return vv, np.array(P), np.array(D), np.array(Wd)
+
+    def sw_draw(vv, P, D, width, reg, arch, vstart, vstop):
+        side = _unit(np.cross(D, tangents(P)))
         tt = 0.965 * (1 - (vv - vstart) / (vstop - vstart))       # 綁點那端＝髮根（貼圖上緣）；第八版：髮際線那端不用到貼圖最尖的 3.5%（第七版髮際線一排白點）
         mb.ribbon(P, side, D, width, reg, 'head', np.zeros(len(P)), arch=arch, tt=tt, tilt=0.08 if V30 else 0.25)   # 第三十版：髮片橫向的法線少偏一點（0.25：一片一條明暗＝LAWWW 說的梳痕）
+
+    def swept(a, vstart, vstop, layer_off, wfac, reg, nseg=14, bulge=0.0, arch=0.1):
+        da = 360.0 / 52
+        vv, P, D, Wd = sw_geom(a, vstart, vstop, layer_off, nseg, bulge, da)
+        width = np.maximum(Wd * wfac, 0.005)
+        if V31 and float(np.max(width[3:])) > SW_WMAX:
+            # 第三十一版（LAWWW 13:5x「頭頂往上翹的尖刺」）：分線兩側 33～57° 這一段，路徑從「越過頭頂」換成「繞過側面」，
+            # 中段和隔壁那片的路徑離 3～8 cm，髮片照這個距離寬到 6～13 cm：一整片平板翹出頭形，正面看就是頭頂兩側的尖刺。
+            # 改成限寬（SW_WMAX），中間補幾片窄的：照各自方位角的路徑貼著頭形，從寬度超過上限的地方前面一點開始（那一端是細的髮尾）。
+            # 其他髮片（髮際線那一端比較寬的，在耳後）照第三十版。
+            Qn = np.array([surf(a + da, t, layer_off)[0] for t in np.linspace(max(0.0, vstart - 0.2), min(1.0, vstop + 0.2), 161)])
+            Wp = np.array([float(np.min(np.linalg.norm(Qn - p, axis=1))) for p in P]) * wfac   # 到隔壁那條路徑的距離（不是同一個 v 的點）
+            n = int(math.ceil(float(np.max(Wp[3:])) / SW_WMAX)) | 1
+            k1 = int(np.argmax(width > SW_WMAX)); vs1 = max(vstart, float(vv[k1]) - SW_LEAD)   # 試做 v31p 從 k≥3 才補：左邊太陽穴（髮際線後面 k 1～2 也超過上限）露出一條皮膚
+            for i in range(n):
+                if i == n // 2: continue
+                vv_, P_, D_, Wd_ = sw_geom(a + (i - n // 2) * wfac * da / n, vs1, vstop, layer_off + SW_DL * abs(i - n // 2), nseg, bulge, wfac * da / n)
+                sw_draw(vv_, P_, D_, np.clip(Wd_ * 1.5, 0.005, SW_WMAX), reg, arch, vs1, vstop)
+            width = np.minimum(width, SW_WMAX); sw_stat[0] += 1; sw_stat[1] += n - 1
+        sw_draw(vv, P, D, width, reg, arch, vstart, vstop)
 
     for k in range(72):            # 第十一版：52 → 72（髮際線前緣的鋸齒）
         a = -180 + 360 * (k + 0.5) / 72 + rng.uniform(-1.2, 1.2)
@@ -448,6 +489,7 @@ def apply(m):
         mb.ribbon(Q, _unit(np.cross(Dq, Tq)), Dq, 0.010, 'wisp', 'head', np.zeros(len(Q)), arch=0.0, both=True)
     # （試過頭頂另外加拱起的細碎髮：遊戲裡在頭的剪影上變成一條條暗色的「電線」，拿掉）
     n_swept = len(mb.F) - n_shell
+    if V31: print('  hair: swept v31 capped %d, narrow fill %d' % tuple(sw_stat))
 
     # ---- 3. 空氣瀏海 ----
     # 每一束：從頭頂的瀏海區（根部）往前越過髮際線（離額頭約 1.2 cm 的「空氣感」），沿額頭往下、往外撥，髮尾到眉毛；兩側較長、到顴骨。
@@ -509,13 +551,19 @@ def apply(m):
             # 試做 g2（裡面兩片髮尾 16°、22°）：額頭露出的倒 V 比參考圖寬 → 裡面幾片的髮尾往分線收 3～5°（g6、g7）
             CUR = [(1, 11, 0.014, 0.017), (3, 17, 0.006, 0.020), (6, 24, -0.002, 0.022), (10, 31, -0.010, 0.024), (15, 39, -0.020, 0.025),
                    (20, 47, -0.033, 0.025), (26, 55, -0.046, 0.023), (32, 61, -0.058, 0.021)]
+        if V31:   # 第三十一版：髮尾的方位角從臉的中線量（兩邊對稱；分線還是偏右 10°）——裡面兩片停在眉頭（額頭露出窄長的倒 V），往外一路垂過眉尾、眼睛外側到顴骨
+            # （LAWWW 13:5x：第三十版正面中間一個大的倒 V、髮尾停在眉毛上面；參考圖額頭只露出一條窄長、往上收到髮際線的倒 V）
+            CUR = [(1, 10, 0.000, 0.016), (3, 15, -0.005, 0.019), (6, 21, -0.012, 0.021), (10, 28, -0.020, 0.023), (15, 37, -0.030, 0.024),
+                   (20, 47, -0.040, 0.024), (26, 58, -0.050, 0.022), (32, 70, -0.060, 0.020)]   # 最外面兩片的髮尾到 58°、70°：蓋住太陽穴（試做 v31a 左邊太陽穴露出一條皮膚）；越過髮際線的地方不往外移（試做 v31b 移到 28°、35°：正面看頭頂兩側翹出髮片的邊）
         CUR = _json_env('HAIR_CUR', CUR)
-        CUR_SYM = float(os.environ.get('HAIR_CUR_SYM', '1.0' if V30 else '0'))
+        CUR_SYM = float(os.environ.get('HAIR_CUR_SYM', '1.0' if V30 and not V31 else '0'))
+        CUR_AHS = float(os.environ.get('HAIR_CUR_AHS', '1.0'))
         for sgn_c in (1.0, -1.0):
             for k, (dh_, dt_a, zt, w0) in enumerate(CUR):
-                ah = PART + sgn_c * dh_; at = PART + sgn_c * dt_a
+                ah = PART + sgn_c * dh_; at = sgn_c * dt_a if V31 else PART + sgn_c * dt_a
                 if sgn_c * PART < 0:   # 第三十版：分線偏人物右邊，左邊那一片簾子窄——外面幾片的髮尾往外移到和右邊對臉的中線對稱（遊戲內斜前方看：左邊太陽穴露出一條皮膚、髮際線一階一階的硬邊）
                     w_ = CUR_SYM * sstep(1.0, 7.0, k); at += sgn_c * 2 * abs(PART) * w_; ah += sgn_c * abs(PART) * w_
+                    if V31: ah += sgn_c * abs(PART) * CUR_AHS * sstep(1.0, 7.0, k)   # 第三十一版：髮尾已經對臉的中線對稱；越過髮際線的地方照第三十版往外移（試做 v31q：左邊太陽穴、額角露出一條皮膚）
                 ar = PART + sgn_c * (0.8 + 0.15 * dh_); vr = 0.20 + 0.012 * k
                 dr = line_dir(ar, vr); p_root = c + dr * (H.R(dr) + off_shell(ar, vr) + 0.0040)
                 bh = hairline_beta(ah) + 3.0; dh = sph(ah, bh); p_h = c + dh * (H.R(dh, True) + CUR_LIFT[0])
@@ -547,12 +595,14 @@ def apply(m):
     side_chains = {}
     for sgn, grp in ((1, 'sideL'), (-1, 'sideR')):
         ctrl = []
-        d = sph(sgn * 52, 30); ctrl.append(c + d * (H.R(d) + 0.0035))     # 髮根藏在往後梳的髮片底下
-        d = sph(sgn * 58, 15); ctrl.append(c + d * (H.R(d) + 0.0055))
-        d = sph(sgn * 64, -4); ctrl.append(c + d * (H.R(d, True) + 0.008))
-        d = sph(sgn * 62, -28); ctrl.append(c + d * (H.R(d, True) + 0.009))
+        SC = _json_env('HAIR_SIDE_CTRL', [[52, 30, 0.0035], [58, 14, 0.006], [63, -6, 0.009], [60, -27, 0.011]] if V31 else [[52, 30, 0.0035], [58, 15, 0.0055], [64, -4, 0.008], [62, -28, 0.009]])
+        SJ = _json_env('HAIR_SIDE_JAW', [[0.030, 0.066, -0.042], [0.004, 0.066, -0.044], [-0.028, 0.062, -0.040]] if V31 else [[0.030, 0.069, -0.034], [0.008, 0.072, -0.037], [-0.012, 0.070, -0.035]])
+        # 第三十一版（LAWWW 13:5x：臉旁長碎髮正面看不到，只有下巴旁邊一點黑點）：從太陽穴經過眼鏡外側（鏡腳外面，試做 v31a 從鏡腳前面過、和鏡腳纏成一圈）垂到下巴下面 2.8 cm
+        for k_, (az_, el_, of_) in enumerate(SC):
+            d = sph(sgn * az_, el_); ctrl.append(c + d * (H.R(d, k_ >= 2) + of_))     # 第一點：髮根藏在往後梳的髮片底下
         jaw = H.c[2] - 0.098
-        for z, dx, dy in ((jaw + 0.030, 0.069, -0.034), (jaw + 0.008, 0.072, -0.037), (jaw - 0.012, 0.070, -0.035)):   # 第十一版：中段往外彎一點（BB-C：軟、有一點彎）   # 第七版：到下巴就停（BB-C v5：3～4 綹細的直碎髮到下巴）   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
+        for dz_, dx, dy in SJ:
+            z = jaw + dz_   # 第十一版：中段往外彎一點（BB-C：軟、有一點彎）   # 第七版：到下巴就停（BB-C v5：3～4 綹細的直碎髮到下巴）   # 沛珊：臉旁的長碎髮到下巴下面（參考圖鬆散垂在臉旁）     # 溫書瑀：臉旁碎髮只到下巴（其他頭髮都綁到後面），髮尾沿著下顎線往前收
             ctrl.append(np.array([sgn * dx, min(H.front_y(sgn * dx, z) - 0.024, dy), z]))
         P = catmull(np.array(ctrl), 16)
         P, s = resample(P, 25)
@@ -569,7 +619,8 @@ def apply(m):
         out = _unit(np.column_stack([P[:, 0], -0.5 + 0.6 * P[:, 1], np.zeros(len(P))]))   # 髮片正面朝外、略朝前
         SIDE_SET = ((0.0, 0.26, 'lock', 0.0), (0.35 * sgn, 0.20, 'lock', 0.005)) if sgn * PART > 0 else ((0.0, 0.22, 'lock', 0.0),)
         if V30: SIDE_SET = ((0.0, 0.30, 'lock', 0.0), (0.40 * sgn, 0.22, 'lock', 0.006), (-0.35 * sgn, 0.20, 'lock', -0.005))   # 第三十版：兩邊都 3 綹、寬一點（LAWWW：臉兩側各兩三綹長的碎髮垂到下巴）
-        SPREAD = _json_env('HAIR_SIDE_SPREAD', [0.0, -0.004, 0.014] if V30 else [0.0, 0.0, 0.0])   # 第三十版：下段往前後散開（m，正＝往後；試做 g7 側面看是三條平行的線）
+        SPREAD = _json_env('HAIR_SIDE_SPREAD', [0.0, -0.004, 0.014] if V30 else [0.0, 0.0, 0.0])
+        SIDE_WK, SIDE_TAPER = _json_env('HAIR_SIDE_W', [1.15, 0.50] if V31 else [1.0, 0.70])   # 第三十一版：寬一點、下段不要收那麼細（正面看得到）   # 第三十版：下段往前後散開（m，正＝往後；試做 g7 側面看是三條平行的線）
         back = np.array([0.0, 1.0, 0.0])
         for i_, (rot, wfac, reg, dx) in enumerate(SIDE_SET):   # 第八版再細（第七版遊戲裡像黑色的棒子）   # 第七版：分線那邊兩綹、另一邊一綹（其他塞到耳後），都細一點   # 第二版：兩束、細（立繪的臉旁碎髮是細的）   # 沛珊：多一束    # 溫書瑀：臉旁一束細的（第一版三束：正面看像鮑伯頭的兩塊）   # 主髮束＋兩旁各一小束（轉個角度，側面看有厚度、正面看比較蓬）
             nrm = _unit(out - Tn * np.sum(out * Tn, 1)[:, None])
@@ -577,7 +628,7 @@ def apply(m):
             twist = np.linspace(0, 0.15 * sgn, len(P))[:, None]   # 第八版：少扭一點（0.5：下端轉過來，正面看往內勾）
             sd2 = _unit(sd * np.cos(twist + rot) + nrm * np.sin(twist + rot)); n2 = _unit(np.cross(Tn, sd2))
             if np.mean(np.sum(n2 * nrm, 1)) < 0: n2 = -n2
-            width = 0.010 * (wfac / 0.26) * (1 - 0.70 * sstep(0.15, 1.0, s / L)) * (0.6 + 0.4 * sstep(0.0, 0.08, s / L))   # 第十一版（BB-C：根部約 1 cm、往下變細、末端半透明；第十版到下巴還是一樣寬，像黑鐵絲）
+            width = 0.010 * SIDE_WK * (wfac / 0.26) * (1 - SIDE_TAPER * sstep(0.15, 1.0, s / L)) * (0.6 + 0.4 * sstep(0.0, 0.08, s / L))   # 第十一版（BB-C：根部約 1 cm、往下變細、末端半透明；第十版到下巴還是一樣寬，像黑鐵絲）
             bk = _unit(back - Tn * np.sum(back * Tn, 1)[:, None]) * (SPREAD[i_] * sstep(0.25, 1.0, s / L))[:, None]
             mb.ribbon(P + nrm * dx + bk, sd2, _unit(n2 * 0.5 + nrm * 0.3 + np.array([0, -0.45, 0.15])), width, reg, grp, s, arch=0.14, both=True)   # 法線偏向前方：亮度和瀏海接近
         side_chains[grp] = (P, s, jaw)
