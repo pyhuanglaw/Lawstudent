@@ -47,8 +47,10 @@ def cell(name):
     elif name == 'rent':
         d.rectangle([30, 30, 226, 226], fill=(200, 34, 32)); d.text((52, 50), '招', font=f(76), fill=(250, 226, 120)); d.text((132, 50), '租', font=f(76), fill=(250, 226, 120))
         d.text((56, 150), '店面 一樓', font=f(26), fill=(250, 236, 200)); d.text((56, 186), '洽 樓上', font=f(24), fill=(250, 236, 200))
-    elif name == 'winter':
-        paper(d, 30, 40, 196, 170, (250, 248, 240)); hand(d, (50, 70), '冬天休息', 40, (40, 90, 160)); hand(d, (56, 130), '明年五月見', 28, (40, 40, 46)); hand(d, (150, 172), '老闆', 20)
+    elif name == 'winter':   # 冰菓室冬天拉下的鐵捲門上的紙條：AA_364 第 3 節「上面貼了一張紙：『五月見』」（原本「冬天休息／明年五月見／老闆」）
+        paper(d, 30, 40, 196, 170, (250, 248, 240)); global rnd
+        keep = rnd; rnd = random.Random(364); hand(d, (46, 92), '五月見', 50, (40, 90, 160)); rnd = keep
+        for _ in range(33): rnd.random()                                                     # 原本三行字用掉的亂數：後面的紙條、木紋照舊
     elif name in ('copyprice', 'copyprice2'):
         paper(d, 22, 18, 212, 222, (252, 252, 250), tape=False)
         rows = [('黑白 A4', '1.0'), ('雙面', '1.5'), ('彩色 A4', '5'), ('膠裝', '40'), ('海報 A1', '180')] if name == 'copyprice' else [('論文輸出', '洽'), ('騎馬釘', '20'), ('護貝', '15'), ('掃描', '3'), ('傳真', '10')]
@@ -117,14 +119,43 @@ def menus():
     # 冰菓室：深色木板上掛一排米色長條木牌，直書紅字，下面是價錢
     W, H = 1024, 320; im = Image.new('RGB', (W, H), (92, 60, 38)); d = ImageDraw.Draw(im)
     for y in range(0, H, 3): d.line([0, y, W, y], fill=(92 + rnd.randint(-8, 8), 60 + rnd.randint(-6, 6), 38 + rnd.randint(-5, 5)))
-    items = [('紅豆牛奶冰', 60), ('綜合剉冰', 55), ('四果冰', 55), ('花生豆花', 45), ('愛玉檸檬', 40), ('粉圓冰', 50), ('八寶冰', 65), ('芋圓冰', 60), ('杏仁豆腐', 45), ('芒果冰', '時價')]
-    n = len(items); sw = W / n
-    for i, (nm, pr) in enumerate(items):
-        x0 = int(i * sw + 8); x1 = int((i + 1) * sw - 8); d.rectangle([x0, 14, x1, H - 14], fill=(236, 222, 190)); d.rectangle([x0, 14, x1, H - 14], outline=(70, 46, 30), width=2)
-        fs = min(40, int((H - 100) / len(nm)) - 2); yy = 26
+    # 品項、價錢照 AA_364 第 2 節（2026-10-22）：芒果冰 140（6～8 月才有）／紅豆牛奶冰 70／綜合剉冰 60；左邊店名＋一碗剉冰的圖
+    d.rectangle([24, 22, 420, H - 22], fill=(244, 236, 214)); d.rectangle([24, 22, 420, H - 22], outline=(70, 46, 30), width=3)
+    d.text((52, 40), '夏日冰菓室', font=f(64), fill=(176, 38, 32))
+    bx, by = 222, 238                                                                                 # 一碗芒果剉冰：碗、雪白的冰山、上面的芒果丁、紅豆、煉乳
+    d.ellipse([bx - 100, by - 112, bx + 100, by + 34], fill=(250, 251, 253), outline=(200, 210, 216), width=2)          # 冰山（橢圓，下半被碗蓋住）
+    for k in range(9):                                                                               # 芒果丁
+        ox, oy = (-58, -60, -20, -78, 20, -66, 58, -52, -38, -32, 2, -40, 40, -30, -6, -92, 28, -96)[2 * k:2 * k + 2]
+        d.rounded_rectangle([bx + ox - 13, by + oy - 11, bx + ox + 13, by + oy + 11], radius=5, fill=(242, 168, 46), outline=(214, 132, 30))
+    for (ox, oy) in ((-74, -8), (-50, 2), (60, -4), (78, -14), (34, 6)): d.ellipse([bx + ox - 8, by + oy - 6, bx + ox + 8, by + oy + 6], fill=(124, 40, 34))   # 紅豆
+    d.arc([bx - 70, by - 100, bx + 50, by - 40], 200, 340, fill=(246, 236, 206), width=6)            # 煉乳
+    d.pieslice([bx - 118, by - 30, bx + 118, by + 70], 0, 180, fill=(232, 238, 240), outline=(120, 130, 136), width=3)   # 碗（蓋住冰山下半）
+    d.line([(bx - 112, by + 20), (bx + 112, by + 20)], fill=(150, 176, 200), width=4)               # 碗口的藍線
+    items = [('芒果冰', '140', '6～8月'), ('紅豆牛奶冰', '70', ''), ('綜合剉冰', '60', '')]
+    for i, (nm, pr, tag) in enumerate(items):
+        x0 = 470 + i * 182; x1 = x0 + 150; d.rectangle([x0, 14, x1, H - 14], fill=(236, 222, 190)); d.rectangle([x0, 14, x1, H - 14], outline=(70, 46, 30), width=2)
+        fs = min(44, int((H - 120) / len(nm)) - 2); yy = 26
         for ch in nm: d.text(((x0 + x1) / 2 - fs / 2, yy), ch, font=f(fs), fill=(178, 36, 30)); yy += fs + 1
-        pt = str(pr); d.text(((x0 + x1) / 2 - len(pt) * 9, H - 56), pt, font=f(30 if isinstance(pr, int) else 22), fill=(40, 30, 24))
+        if tag: d.rectangle([x0 + 18, H - 96, x1 - 18, H - 64], fill=(178, 36, 30)); d.text((x0 + 30, H - 94), tag, font=f(24), fill=(255, 244, 220))
+        d.text(((x0 + x1) / 2 - len(pr) * 13, H - 58), pr, font=f(40), fill=(40, 30, 24))
     im.save(os.path.join(GEN, 'shop_menu_ice.png')); print('saved menus')
+
+
+def menu_tea_wz():
+    """溫州街巷口茶飲的燈箱菜單（AA_364 第 2 節：紅茶 30／青茶 30／珍珠奶茶 55／冬瓜檸檬 45；一個價錢）。公館的手搖飲照舊用 shop_menu_tea.png"""
+    W, H = 1024, 384; im = Image.new('RGB', (W, H), (250, 248, 240)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 70], fill=(122, 154, 90)); d.text((28, 10), '巷口茶飲', font=f(48), fill=(255, 255, 255))
+    items = [('紅茶', '30', (176, 96, 56), None), ('青茶', '30', (200, 186, 96), None), ('珍珠奶茶', '55', (206, 170, 128), (40, 30, 26)), ('冬瓜檸檬', '45', (236, 214, 120), (250, 236, 120))]
+    for i, (nm, pr, col, dot) in enumerate(items):
+        cx0 = (i % 2) * 512 + 30; cy0 = 92 + (i // 2) * 144
+        x0, x1, y0, y1 = cx0 + 10, cx0 + 64, cy0 + 22, cy0 + 118                                   # 杯子：杯身、杯蓋、吸管
+        d.polygon([(x0, y0), (x1, y0), (x1 - 8, y1), (x0 + 8, y1)], fill=col, outline=(120, 110, 100)); d.chord([x0 - 2, y0 - 16, x1 + 2, y0 + 12], 180, 360, fill=(240, 240, 236), outline=(150, 150, 146))
+        d.line([(x0 + 34, y0 - 12), (x0 + 44, y0 - 40)], fill=(60, 60, 64), width=6)
+        if dot:
+            for k in range(7): d.ellipse([x0 + 10 + (k % 4) * 10, y1 - 22 + (k // 4) * 9, x0 + 17 + (k % 4) * 10, y1 - 15 + (k // 4) * 9], fill=dot)
+        d.text((cx0 + 96, cy0 + 34), nm, font=f(52), fill=(50, 44, 40)); d.text((cx0 + 380, cy0 + 34), pr, font=f(56), fill=(160, 70, 50))
+    d.line([W // 2, 86, W // 2, H - 14], fill=(210, 204, 190), width=2); d.line([24, 236, W - 24, 236], fill=(210, 204, 190), width=2)
+    im.save(os.path.join(GEN, 'shop_menu_tea_wz.png')); print('saved menu_tea_wz')
 
 
 def noren():
@@ -140,4 +171,4 @@ def noren():
 
 
 if __name__ == '__main__':
-    os.makedirs(GEN, exist_ok=True); atlas(); awnings(); menus(); noren()
+    os.makedirs(GEN, exist_ok=True); atlas(); awnings(); menus(); noren(); menu_tea_wz()

@@ -24,6 +24,7 @@ GEN = TX.GEN
 LAY = json.loads((lambda s: s[s.index('{', s.index('const LANE118_LAYOUT=')):s.rindex('}') + 1])(open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf-8').read()))
 H = 3.2
 PI = math.pi
+NB_W, NB_H = 4.6, 4.2   # 店門外兩側鄰居店面卡的寬、高（m；lane118_neighbors.py 照這個大小拍）
 BAR_LIFT = 0.31   # 吧檯高腳椅（chair 的 'bar'）座面 0.76 m、一般椅子 0.45 m：坐姿抬高 0.31（10-22 LAWWW2：原本沒寫，人坐在 0.45 m、凳子穿過大腿）
 
 # 每間店：室內寬（店面寬減兩側壁柱）、深度、地板、牆、腰牆、木頭、門的位置（x）、照明
@@ -81,7 +82,8 @@ class Shop:
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')),
             'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'fridge': L.flat('GLOW_l118_fridge', '#f4f8ff', rough=0.3, emit=B.srgb('#cfe0f4')),
-            'ceil': L.flat(f'l118_{sid}_ceiling', s.get('ceil', '#f2efe8'), rough=0.9),
+            'ceil': L.flat(f'l118_{sid}_ceiling', s.get('ceil', '#f2efe8'), rough=0.9, cull=True),   # 單面朝下：鏡頭在天花板上面（雙指拉遠、往上拖）時看得穿（10-22 LAWWW2；原本雙面，拉遠是一大片白）
+            'kceil': L.flat(f'l118_{sid}_kceiling', '#cfcbc3', rough=0.9, cull=True),          # 廚房的天花板（暗一點），同上
             'print': img_mat(f'l118_{sid}_print', f'l118_{sid}_print.png', rough=0.55),
             'screen': img_mat('GLOW_l118_screens', 'l118_screens.png', rough=0.3, emit=0.9),
         }
@@ -93,6 +95,7 @@ class Shop:
         self.tube = Mesh(f'l118_{sid}_tubes', M['tube']); self.warm = Mesh(f'l118_{sid}_warm', M['warm']); self.fridgel = Mesh(f'l118_{sid}_fridgelight', M['fridge'])
         self.prt = Mesh(f'l118_{sid}_prints', M['print']); self.scr = Mesh(f'l118_{sid}_screens', M['screen'])
         self.WG = {k: {} for k in 'NWES'}     # 每一面牆的網格：WG['N']['wall'] …
+        self.WGP = {}                           # 牆的網格另外帶的 props：(side, key) → dict（鄰居店面卡的 at）
 
     # ---------- 配置 ----------
     def block(self, x0, x1, z0, z1, why):
@@ -399,12 +402,31 @@ def shell(c, light='tube'):
     vz = Z1 + 2.4; vw = (X1 - X0) * 1.9; vh = vw * 0.5; vy0 = 1.6 - vh / 2                              # 景的中間（拍的時候的地平線）在眼睛的高度
     vm = c.wg('S', 'view', M['view'] if 'view' in M else L.flat(f'l118_{c.sid}_viewflat', '#c9cbc6', rough=0.9))
     uvquad(vm, [(vw / 2, vy0, vz), (-vw / 2, vy0, vz), (-vw / 2, vy0 + vh, vz), (vw / 2, vy0 + vh, vz)], (0.0, 0.0, 1.0, 1.0))
-    c.vc.cbox(X0 - 0.4, X1 + 0.4, -0.05, 0.0, Z1, vz, '#9a9893')                                       # 門口的騎樓地（往外到巷子那張景）
+    c.vc.cbox(X0 - NB_W, X1 + NB_W, -0.05, 0.0, Z1, vz, '#9a9893')                                     # 門口的騎樓地（往外到巷子那張景；兩側到鄰居店面卡的外緣）
+    neighbors(c)
     # 天花板
-    ce = Mesh(f'l118_{c.sid}_ceiling', M['ceil']); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(c.root, uv=False)
+    ce = Mesh(f'l118_{c.sid}_ceiling', M['ceil']); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root, uv=False)   # 朝下（和溫州街店家、便利商店一樣）
     c.door = dict(x=dx, w=dw, z=Z1)
     c.spawn = dict(x=dx, z=round(Z1 - 1.5, 3), yaw=PI, note='從門進來、面向店裡')
     c.exits = [dict(x=dx, z=round(Z1 - 0.45, 3), r=0.7, label='離開' + c.T['name'], to='lane118')]
+
+
+
+def neighbors(c):
+    """店門外騎樓兩側的鄰居店面（10-22 LAWWW2）：進門時鏡頭在騎樓（店面外 2 m 多），門靠側牆的店（蛋包飯、自助餐、家常菜、慢讀咖啡）
+    原本畫面一側三分之一是店外的空白（天空的下半）。改成 118 巷街景 GLB 真的鄰居店面（lane118_neighbors.py 正面拍的圖，和門外那張巷子同一種做法：
+    遊戲讓它自己發光、晚上調暗，l118_shops3d.js 的 viewMats 認 _view），貼在店面那一條線上（z＝Z1），左右各 NB_W 寬、NB_H 高。
+    歸左右牆的組（WALL_W_nb_view／WALL_E_nb_view）：鏡頭繞到側牆外面時一起淡出，不會擋住人。
+    淡出判斷點 at＝牆線上（x＝X0／X1）：外框中心在牆線外 2.3 m，用外框中心判斷的話，鏡頭在牆線外 2.3 m 以內不會淡出、會擋住人
+    （zones3d.js attachRoomGLB 讀 userData.at：patches/l118_arcade.diff）。單面、朝騎樓。"""
+    X0, X1, Z1 = c.X0, c.X1, c.Z1
+    for side, xa, xb, xat in (('W', X0 - NB_W, X0, X0), ('E', X1, X1 + NB_W, X1)):
+        fn = f'l118_nb_{c.sid}_{side}.jpg'
+        if os.path.exists(os.path.join(GEN, fn)): mat = img_mat(f'l118_{c.sid}_nb{side}_view', fn, rough=0.9)
+        else: mat = L.flat(f'l118_{c.sid}_nb{side}_view', '#b9b4aa', rough=0.9); print('沒有鄰居店面圖（先跑 lane118_neighbors.py）：', fn)
+        mat.use_backface_culling = True
+        uvquad(c.wg(side, 'nb_view', mat), [(xa, 0.0, Z1), (xb, 0.0, Z1), (xb, NB_H, Z1), (xa, NB_H, Z1)], (0.0, 0.0, 1.0, 1.0))
+        c.WGP[(side, 'nb_view')] = {'at': [round(xat, 3), 1.6, round(Z1, 3)]}
 
 
 def kitchen(c, x0, x1, depth=1.8, win=(0.95, 1.55), door=None):
@@ -426,7 +448,7 @@ def kitchen(c, x0, x1, depth=1.8, win=(0.95, 1.55), door=None):
     # 廚房：地板、三面牆、天花板（暗一點）、爐台、抽油煙機、架子
     kt.cbox(X0, X1, -0.05, 0.0, zk, Z0, '#8f8c86'); kt.poly([(X0, 0, zk), (X1, 0, zk), (X1, H, zk), (X0, H, zk)], '#dcd8cf')
     kt.poly([(X0, 0, Z0), (X0, 0, zk), (X0, H, zk), (X0, H, Z0)], '#d6d2c9'); kt.poly([(X1, 0, zk), (X1, 0, Z0), (X1, H, Z0), (X1, H, zk)], '#d6d2c9')
-    kt.poly([(X0, H, Z0), (X1, H, Z0), (X1, H, zk), (X0, H, zk)], '#cfcbc3')
+    c.wg('N', 'kceil', M['kceil']).quad([(X0, H, zk), (X1, H, zk), (X1, H, Z0), (X0, H, Z0)])          # 天花板：單面朝下（原本在頂點色網格裡、雙面）
     ks.box(X0 + 0.1, X1 - 0.1, 0.0, 0.86, zk, zk + 0.65); ks.box(X0 + 0.1, X1 - 0.1, 0.86, 0.9, zk, zk + 0.68)   # 爐台
     for k in range(int((X1 - X0 - 0.4) / 0.7)):
         bx = X0 + 0.5 + k * 0.7; ccyl(kt, (bx, 0.9, zk + 0.35), (bx, 0.93, zk + 0.35), 0.16, '#202020', seg=14)
@@ -457,7 +479,7 @@ def finish(c):
     for k, ms in c.WG.items():
         for key, m in ms.items():
             uv = key in ('wall', 'wain'); mg = key not in ('print', 'screen', 'view')
-            m.finish(c.root, props={'dir': D[k]}, uv=uv, merge=mg)
+            m.finish(c.root, props=dict({'dir': D[k]}, **c.WGP.get((k, key), {})), uv=uv, merge=mg)
     for m in (c.vc, c.vm, c.tube, c.warm, c.fridgel, c.steel): m.finish(c.root, uv=False)
     c.wood.finish(c.root)
     for m in (c.prt, c.scr): m.finish(c.root, uv=False, merge=False)

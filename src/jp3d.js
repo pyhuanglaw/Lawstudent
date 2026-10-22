@@ -449,7 +449,7 @@ const JP=(function(){
   /* 臺灣的朋友回訊息的時間（MSG.replyAt）：照臺灣時間算他們醒著、在忙，再換回日本時間；以安在日本，照當地（AA_341 J-S7；同 us_life3d.js 的美國版）*/
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ if(!S.inJapan(G)||id==='heroine_01') return r0.apply(this,arguments); const tz=STORY.tzOffset?(STORY.tzOffset(G)||0):0; if(!tz) return r0.apply(this,arguments);
       const t=NOW(G)-tz, tw=Object.assign({},G); tw.day=Math.floor(t/24); tw.hour=t-tw.day*24; tw.weekday=wdOf(tw.day); const r=r0.call(this,tw,id); if(!r) return r;
-      const x=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(x/24); out.h=x-out.day*24; return out; }; }
+      const x=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(x/24); out.h=x-out.day*24; out.tz=tz; return out;   /* tz：她照臺灣時間（msg3d.js S.herG 換回她那邊挑句子，MSG-ABROAD-SIT-TZ-1022）*/ }; }
   /* 每天的手機小事（STORY.DAILY_PHONE，例：阿凱的泡麵評鑑表 21:48）：臺灣的朋友傳的，人在日本＝當地時間（AA_341 J-S13）*/
   for(const d of (STORY.DAILY_PHONE||[])){ if(!d||d.jpTz||typeof d.h!=='function') continue; const h0=d.h; d.h=function(G){ const v=h0.apply(this,arguments); return G&&S.inJapan(G)&&STORY.tzOffset?v+(STORY.tzOffset(G)||0):v; }; d.jpTz=true; }
   /* AA_326 2-Y3-54 大三暑假的三選一（src/r2y3b3d.js）：日本路線不演（AA_341 裁定 10：8/5 晚上只演 1A-08；三選一是給留在臺灣的玩家 6/19 選的），快轉也不停在 8/5 21:00。

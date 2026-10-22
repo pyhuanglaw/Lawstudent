@@ -100,6 +100,8 @@ MAT = {
     'llwhite': pbr('wc_lawlib_white', None, tint=srgb('#f2f1ec'), rough=0.4),
     'llglow':  pbr('wc_lawlib_glow', None, tint=srgb('#f6f1e6'), rough=0.9, emit=srgb('#efe6d4')),
 }
+MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
+MAT['light'].use_backface_culling = True     # 嵌在天花板的燈板、崁燈也單面（四邊形本來就朝下）：鏡頭在天花板上面時不會浮著一塊塊亮的（LAWWW2 10-22 第二版）
 
 # ---------------- 幾何（和霖澤館室內同一套小工具）----------------
 PM = PL.materials('wc_')   # 盆栽的材質（樹皮、土、葉子）
