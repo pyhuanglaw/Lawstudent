@@ -41,6 +41,7 @@
 | `src/assets3d.js` | anon 底模載入時，一起載同一個資料夾的 `lod/<檔名>.lod.glb`（沒有或失敗＝照舊畫原本的人）；`unloadVRM` 一起放掉 |
 | `src/character3d.js` | `attachFar`：建無名路人時，照骨頭名字把遠距離版本綁到這個人自己的骨頭上（反向綁定矩陣用他自己 skeleton 的），預設藏著；材質照 MToon 的公式算明暗（見下面）。`CHAR.setFar(h, far)` 切換顯示哪一個。`release` 時拿掉、骨架貼圖放掉。網址加 `?nofar` 整個關掉 |
 | `src/engine3d.js` | NPC 迴圈：路人（`isExtra`）離鏡頭超過 30 m 用遠距離版本，回到 28 m 內才換回來，免得在邊界閃。騎腳踏車的路人（`E.extras`）用同一套 |
+| `src/character3d.js`（第二版，10-22 03:3x） | **遠的不跑彈簧骨**（LAWWW 10-21 20:55 同意的做法，第一版漏了）：`updateVRM` 多一個 `far`，遠距離版本顯示的時候只更新骨架，不跑彈簧骨、表情、視線；切回近的時候 `setFar` 把彈簧骨重設成靜止的樣子（不然留著舊的狀態，頭髮會甩一下）。只有每個底模的第一個人（原本的 VRM）有彈簧骨，骨架複製品本來就沒有 |
 
 - 30 m 內完全是原本的模型，程式上沒有任何不同。
 - 動作、位置、朝向跟著原本的骨頭走：減面只拿掉頂點、不搬動，所以兩個版本的動作完全一樣。
@@ -60,7 +61,7 @@
 
 ### 單元測試（Node）
 
-- 新測試 `tests/npc_far_unit.js`：修改前 FAIL，修改後 ALL PASS。
+- 新測試 `tests/npc_far_unit.js`：修改前 FAIL，修改後 ALL PASS。第二版多一項「遠的時候不跑彈簧骨、近的時候照跑」：第一版的 patch 2 FAIL（遠的 10 格跑了 10 次），第二版 ALL PASS（遠 0 次、近 10 次）。
   - 40 個 anon 底模都有遠距離版本：2 個網格、三角形 ≤ 原本的 30%；
   - 載入時一起載到；
   - 第一個實例（原本的 VRM）和骨架複製品都綁上、預設藏著；
@@ -69,7 +70,7 @@
   - `setFar` 切換、`?nofar`；
   - `release` 以後遠距離網格拿掉、原本的網格恢復顯示；同一個 VRM 再借出去，不會留下上一個人的遠距離網格；
   - engine3d 的兩個接點（路人、騎車的人）。
-- 18 支相關單元測試，修改前、修改後（兩版材質）都 ALL PASS：
+- 18 支相關單元測試，修改前、修改後（兩版材質）都 ALL PASS；第二版（彈簧骨）在 `be8c1b0e` 上重跑也都 ALL PASS：
   - `anon_dedup`、`anon_pool`、`ride_pose`、`seated_look`、`stairs_feet`、`v0_econ_chars`、`walkdir`、`crowd`、`follow_buddy`、`npc_ambient`、`indoor_crowd`、`ios_memory`、`bike`、`quick_travel`、`zone_dispose`、`nav_buildings`、`sit_feet`、`sit_floor`。
 
 ### Blender 檢查
@@ -142,7 +143,7 @@
 
 ## 接法（LAWWW）
 
-1. `git apply docs/art-rebuild/second_ai/patches/crowd_far_lod.diff`（`src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`tests/npc_far_unit.js`、`tools/shots/crowd_lod_audit.py`；對 `be8c1b0e` 乾淨）。`character3d.js`、`engine3d.js` 是 LAWWW 的檔，開工前（10-21 20:4x）通知過。
+1. `git apply docs/art-rebuild/second_ai/patches/crowd_far_lod.diff`（**第二版**；`src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`tests/npc_far_unit.js`、`tools/shots/crowd_lod_audit.py`；對 `be8c1b0e` 乾淨）。遊戲內量測（j10、j22b）是第一版；第二版只差遠的時候不跑彈簧骨（畫面一樣，CPU 少一點），沒有重拍。`character3d.js`、`engine3d.js` 是 LAWWW 的檔，開工前（10-21 20:4x）通知過。
 2. 從我的分支拿 `assets/models/char/second_ai/lod/`（40 個 `.lod.glb`，共 10.8 MB）；產生的工具 `tools/lod/npc_lod.py`（離線，遊戲不載入）。
 3. 記憶體量測工具 `tools/shots/crowd_mem_probe.py`（我的分支；不在 patch 裡，要用再拿）。
 4. 跑 `node tests/npc_far_unit.js` 和上面 18 支相關單元測試。
