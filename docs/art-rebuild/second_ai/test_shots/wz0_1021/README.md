@@ -1,6 +1,6 @@
 # 溫州街舊店面翻修（ART-WZ0）第二、三批：照 7b 準則補缺的層（溫州街、公館騎樓）＋門口雜物不讓人穿過去
 
-帳號 A 的 LAWWW2，2026-10-21 23:0x～23:3x UTC。狀態：**WIP**——模型、導航、單元測試好了；遊戲內前後截圖（溫州街 7 張、公館 7 張）、瀏覽器回歸（`reachability_all --zones wenzhou,gongguan`、`gongguan_layout_nav`、`wz_street_integration`）排在佇列 j19（在溫州街巡場景 j11 之後）。
+帳號 A 的 LAWWW2，2026-10-21 23:0x～10-22 05:3x UTC。狀態：**已交件**（`READY_FOR_ART_REVIEW`；建築／場景美術由使用者驗收）。模型、導航、單元測試、瀏覽器回歸、遊戲內前後（第 4 節）都好了。
 
 使用者 10-21 15:2x：「溫州街修改直接收尾　舊店面翻修繼續」。準則：AA_164 第 7b 節（店面的層次、每間店至少要有的東西、相鄰兩間不能同一種組合）。
 
@@ -76,7 +76,47 @@
     - 第二版的瀏覽器測試排在 j19c（修改後跑 `wz_street_integration`、`gongguan_layout_nav`）。
   - `street_props_nav_unit`（Node）：修改後 ALL PASS。
 
-（對照圖：j19c 跑完一起放）
+- **patch 第二版的瀏覽器回歸（佇列 j19c，開發分支 `be8c1b0e`＋`wz0_prop_nav.diff` 第二版＋新的三份街景 GLB）**：
+  - `wz_street_integration` **ALL PASS**：正式模型的導航格＝`?nobldg` 的＋門口雜物的阻擋，其他完全相同（21,789 對 21,773＋16 格）；鏡頭碰撞方塊 28＝28；互動點 26＝26。
+  - `gongguan_layout_nav` ALL PASS；`street_props_nav_unit` ALL PASS。
+- 遊戲內前後補拍：j19c 兩次都在第一張 `Target crashed`（當時同時在建人物模型、記憶體不夠），j19d 重拍 12 張，修改前＝開發分支 `be8c1b0e` 原本的 GLB。
+
+### 街上的販賣機（2c）
+
+左：修改前（米色大方塊，或那一版還沒有販賣機）；右：展示窗凹進去、看得到飲料。
+
+![](cmp_vend.webp)
+
+### 溫州街（第 2 節）
+
+自助洗衣門口多了販賣機和盆栽；巷口冰菓室的騎樓換成冰菓室招牌；空店的鐵捲門貼招租。
+
+![](cmp_wz.webp)
+
+### 公館騎樓（2b）
+
+![](cmp_gg.webp)
+
+### 118 巷陽台（`lane118_street.glb` 用現在的腳本重建，補上鐵花架）
+
+![](cmp_l118.webp)
+
+## 接法（LAWWW）
+
+1. `git apply docs/art-rebuild/second_ai/patches/wz0_prop_nav.diff`（第二版）
+   - 動到 `src/zones3d.js`（`WZ_PROP_BLOCKS`、`GG_PROP_BLOCKS`、匯出 `PROP_BLOCKS`／`propBlocks`）、`tests/street_props_nav_unit.js`（新）、`tests/wz_street_integration.py`。
+   - 對開發分支 `be8c1b0e`、`7e00ad05` 都乾淨；和 `wz_shops2.diff`、`l118_bar_lift.diff`、`dorm_lounge.diff` 一起套也乾淨。
+2. 換檔（我的分支）：
+   - `assets/models/env/second_ai/wenzhou_street.glb`、`.json`、`.props.json`（新）
+   - `assets/models/env/second_ai/gongguan_shops.glb`、`.json`、`.props.json`（新）
+   - 上面兩組在 `7be8b62f`。
+   - `assets/models/env/second_ai/lane118_street.glb`、`.json`（`e6c2669a`；`.json` 的 out 路徑在 `bc5b08a8` 改回 assets）
+3. 測試：
+   - `node tests/street_props_nav_unit.js`
+   - `tests/wz_street_integration.py`
+   - `tests/gongguan_layout_nav.py`
+   - `tests/reachability_all.py --zones wenzhou,gongguan`
+4. GLB 和 patch 要一起接：只換 GLB，門口雜物擋不到（人穿過盆栽）；只套 patch，導航會擋住舊模型上沒有的雜物（看不見的牆）。`street_props_nav_unit` 讀新的 `.props.json`，沒換檔時會失敗。
 
 ## 4b. ART-WZ7 路邊小物（總表寫「待開工」，其實三件已經在模型裡）
 
@@ -89,7 +129,7 @@
 
 ## 5. 還不到的地方（誠實寫）
 
-- 公館騎樓的雜物在遊戲裡還沒看過（j19）：會不會太擠、晚上的燈色。
+- 公館騎樓的雜物在遊戲裡看過了（j19、j19d），不擠；晚上的燈色和溫州街一樣是暖白。
 - 只看了店面表的資料，溫州街巡場景（j11，24 張）還沒看；看完可能還有要補的（二樓以上的生活痕跡、晚上的燈色）。
 - `lane118_street.glb` 沒有跟著陽台盆栽那次的腳本修改重建：已用現在的腳本重建（`e6c2669a`，補上陽台盆栽的鐵花架），和這一件一起交；遊戲內前後在 j19c（118 巷兩張陽台）。
 - 真機沒看過。
