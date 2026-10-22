@@ -154,7 +154,7 @@ const INV=(function(){
   /* 作息的覆寫（story3d.js 的 schedEnt 先問這裡）：約好的那段時間人在那個地方；正在一起走過去的人跟著玩家 */
   S.entryFor=function(G,id){ if(!G||!Array.isArray(G.invites)||G.noInvite) return null; const h=G.hour%24;
     for(const iv of G.invites){ if(iv.who!==id) continue; const P=S.place(iv.place); if(!P) continue;
-      if(iv.state==='going') return {zone:G.zone,act:'follow',invite:iv,days:[G.weekday],from:0,to:24};
+      if(iv.state==='going'){ if(iv.zone!==G.zone&&(S.privateZone(G.zone)||(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)))) continue; return {zone:G.zone,act:'follow',invite:iv,days:[G.weekday],from:0,to:24}; }   /* 一起走的路上走進宿舍、回臺北的家＝作罷（S.arrive、tick 的 dropGoing）：作息不再把她生在你旁邊（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x：手機快速前往宿舍，她被帶進男生宿舍的房間）*/
       if(iv.state==='accepted'&&iv.day===G.day&&h>=iv.h-0.25&&h<iv.h+S.WAIT_H) return {zone:P.zone,act:P.sitAct||'wait',invite:iv,days:[G.weekday],from:iv.h-0.25,to:iv.h+S.WAIT_H}; }
     return null; };
   /* 現在可以「見面」：約好的時間、人在那裡（talkCharacter 先問這裡）*/

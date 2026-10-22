@@ -28725,7 +28725,7 @@
    "id": "BUG-BED-TONIGHT-ALARM-1022",
    "title": "晚上上床不會被今天晚上約好的事叫醒：3/15 21:00 上床，床的選項沒寫 21:30 學姊的電話，睡過去就記 SIS_US_RESULT missed（story3d.js bedOptions 晚上只算明天的 S.wakeAlarms；今天晚上標 alarm 的出遊沒算）；學姊 21:10 台階、19:00 生日同一個情況",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "area": "v3",
    "first": {
@@ -28741,7 +28741,8 @@
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
    "next": "BB 瀏覽器：3/15 20:30 宿舍上床 → 選「睡一下（21:00 叫醒你）」→ 21:30 學姊的電話照演（不在 v9.10.4，下一版 v9.10.5）",
-   "done": "開發分支（LAWWW 10-22 05:5x）：story3d.js S.tonightAlarm＋bedOptions——晚上（17:30～午夜）上床，今天晚上還有沒到的鬧鐘（S.wakeAlarms 今天：標 alarm 的出遊出發前 30 分鐘、答應的約前 30 分鐘、事件包的 ALARMS；那個過了就 S.outStopsToday 出發前 10 分鐘）＝只給「睡一下（hh:mm 叫醒你）」＋「再撐一下」，不給睡到明天；沒有今晚的約照舊。tests/bed_tonight_alarm_unit.js（修改前 a9a1a172：5 項 FAIL；修改後 ALL PASS）；bed_nap、date_book、sleep_resume、aa379_sis_y2y3、postgrad_days、law_break、grad_family、graduation、r3_events 照過"
+   "done": "開發分支（LAWWW 10-22 05:5x）：story3d.js S.tonightAlarm＋bedOptions——晚上（17:30～午夜）上床，今天晚上還有沒到的鬧鐘（S.wakeAlarms 今天：標 alarm 的出遊出發前 30 分鐘、答應的約前 30 分鐘、事件包的 ALARMS；那個過了就 S.outStopsToday 出發前 10 分鐘）＝只給「睡一下（hh:mm 叫醒你）」＋「再撐一下」，不給睡到明天；沒有今晚的約照舊。tests/bed_tonight_alarm_unit.js（修改前 a9a1a172：5 項 FAIL；修改後 ALL PASS）；bed_nap、date_book、sleep_resume、aa379_sis_y2y3、postgrad_days、law_break、grad_family、graduation、r3_events 照過",
+   "evidence": "BB（帳號 A）10-22 06:1x RESULT_SLEEP（BB_218 ede0b294）：開發分支 27de6170，Playwright 橫向、turbo——3/15 20:50 宿舍上床只有「睡一下（21:00 叫醒你）」「再撐一下」→ 21:15 跳「接起來：溫書瑀打電話來 21:30」→ 電話照演；JS 例外 0"
   },
   {
    "id": "BUG-KAI-Y2-SCHED-1022",
@@ -28860,7 +28861,7 @@
    "id": "BUG-SIS-CAFE-NOSEAT-1022",
    "title": "和學姊一起走到 Café：自己開始，但兩個人沒坐下（Café 的學姊照作息是舊代號 sis 生成，invites3d.js 的 S.arrive、作罷、坐到她旁邊只找 GM.npc.heroine_05）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P2",
    "area": "v1",
    "first": {
@@ -28876,7 +28877,8 @@
    "source": "BB（帳號 A）10-22 05:4x 讀碼（企劃線 27568bc9，BB_00 狀態；BB_218）",
    "authorized": "D110；BB 測試回報",
    "done": "開發分支（LAWWW 10-22 06:0x）：invites3d.js 五處 GM.npc[iv.who] 改成 S.npcOf（先找 heroine_05、再找別名 sis，EVENTS.npcOf）；tests/inv_both_present_unit.js 第 9 項（修改前 b7c250b0 FAIL、修改後 ALL PASS）；invites、invite_people、invite_whynot、aa379_sis_y2y3 照過",
-   "next": "BB 瀏覽器重跑 bothwalk2（一起走到 Café 坐下）；不在 v9.10.4（已知問題寫進發布紀錄），下一版 v9.10.5"
+   "next": "BB 瀏覽器重跑 bothwalk2（一起走到 Café 坐下）；不在 v9.10.4（已知問題寫進發布紀錄），下一版 v9.10.5",
+   "evidence": "BB（帳號 A）10-22 06:1x bothwalk4（企劃線 971cb0cf，BB_218「INV-BOTH-PRESENT」）：開發分支 f9d60c63，Playwright 手機橫向、不用 turbo——9/26 公館當面約學姊「現在一起過去」Café → 快速前往 → 19:40 一到就開始、兩個人一起坐下（1.17 m）、坐著演完、done；JS 例外 0；修正前 67ef327a（bothwalk3）FAIL"
   },
   {
    "id": "RELEASE-9104",
@@ -28897,6 +28899,28 @@
    },
    "next": "【LAWWW（帳號 A）06:0x】GitHub Pages run 39731006425 成功（build、report-build-status、deploy；05:59:27），head＝4a8d17f9；沙盒連不到 github.io，以部署工作結果為準（請使用者看標題版本字樣 v9.10.4（2026-10-22））；RELEASES.md 部署驗證已寫 ｜ 【LAWWW（帳號 A）06:0x】PR #10 合併 main＝4a8d17f9（expectedHeadSha 6dad28e5；main 的遊戲檔案＝f1c226c7，git diff 為空）；開發分支 b371901e 換回開發中的檔案、002c4e19 把 main 合回；GitHub Pages run 39731006425 部署中；RELEASES.md v9.10.4 已寫 ｜ 【05:5x】發布前：五支瀏覽器流程測試 ALL PASS（touch_flow_wenzhou 第四輪：Café 雙人桌只有靠窗那一側有「坐」，測試挑錯位子）；發布樹 Node 單元測試 445 支全部通過；題目漏收 0（企劃線 27568bc9，399 題逐題相同）；check_lines 144 筆提醒；check_orphans 補 8 項恢復條件 ｜ BB 判定 GO（10-22 05:02）",
    "evidence": "main 4a8d17f9（PR #10）的遊戲檔案＝發布樹 f1c226c7（git diff 為空）；Pages run 39731006425 build／report-build-status／deploy 成功 05:59:27 UTC；發布前：deploy_check、smoke_release、flow_v0_start、touch_flow_wenzhou、flow_exam_terms（＋K-D3 固定版）ALL PASS（Playwright 手機模擬，不是 iPhone）；發布樹 Node 單元測試 445 支全部通過；題目漏收 0（企劃線 27568bc9）；BB 判定 GO（10-22 05:02）；docs/RELEASES.md v9.10.4"
+  },
+  {
+   "id": "BUG-WALK-DORM-FOLLOW-1022",
+   "title": "一起走的路上手機快速前往宿舍：約作罷了，學姊卻被帶進男生宿舍的房間、站在你旁邊（invites3d.js S.entryFor 的 going 沒排除宿舍、家；宿舍建好時先照作息把她生在你旁邊，dropGoing 才取消）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": null,
+    "earliest": "大一上當面約「現在一起過去」、路上改回宿舍",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 06:1x（企劃線 971cb0cf；畫面 docs/story_planning/test_shots/inv_walk_1022/一起走改回宿舍_學姊跟進男生宿舍_f9d60c63.webp）；使用者 10-21 23:1x「回宿舍學姊還跟著」",
+   "authorized": "D110；使用者原話（D55 那一列）",
+   "done": "開發分支（LAWWW 10-22 06:2x）：S.entryFor 的 going——人在宿舍（走廊、房間、女舍，S.privateZone）或臺北的家（HOME.at）、又不是約定的地方＝不回 follow（作息照原本的，她不在宿舍）；S.arrive／tick 的 dropGoing 照舊作罷。tests/inv_both_present_unit.js 第 10 項（修改前 c045438d FAIL、修改後 ALL PASS）；invites、invite_people、invite_whynot、aa379_sis_y2y3、schedule_refresh、presence、home 照過",
+   "next": "BB 瀏覽器重跑 WALK_DORM、WALK_CAFE_DORM（麵店、Café 兩條）"
   }
  ]
 }
