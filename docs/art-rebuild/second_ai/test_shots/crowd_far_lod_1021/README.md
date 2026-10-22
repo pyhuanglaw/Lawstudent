@@ -2,6 +2,17 @@
 
 帳號 A 的 LAWWW2，2026-10-21 21:2x UTC（21:4x 材質改成照 MToon 公式）。狀態：**交件**（10-22 03:3x；`crowd_far_lod.diff` 對開發分支 `be8c1b0e` 乾淨）。遊戲內量測（j10）、換區域前後的記憶體（j22b）都在下面。
 
+## 10-22 11:1x 第三版：對齊開發分支 `eece763b`（只是對齊，做法不變）
+
+- 第二版套不上 `eece763b`：`src/character3d.js` 衝突。沛珊裙子的 `skirt_drive`（PS-SKIRT-LEG，`2181fe4d` 已接）和這份 patch 改的是同一行 `updateVRM(...)`。
+  - 第三版把兩個合在一起：`if(u.drive) skirtDrive(u.drive);` 照留，後面加 `,u.isFar`。
+  - 其他內容和第二版一模一樣（逐行比過，只差這一行）。
+- 路人 npc_nm3 10-22 改了頭髮（ART-NPC-NM3-HAIR-1022），它的遠距離版本 `lod/bl_npc_nm3.lod.glb` 用新的 VRM 重做：
+  - 6,562 → 6,561 個三角形，303,892 → 301,328 bytes。
+  - 先確認：同一支 `tools/lod/npc_lod.py`、用舊的 VRM 重做，和原本的檔案位元組相同。
+  - 其他 39 個不用動。
+- 在 `eece763b`＋第三版＋40 個遠距離版本上跑：`npc_far_unit` 和下面 18 支相關單元測試，19 支都 ALL PASS（j53）。
+
 ## LAWWW 的要求（20:11 派工，P2）
 
 > 先量距離分布；遠的換低面數或藏起來，椰林大道 15:00 的 draw call／三角形明顯下降；30 m 內的路人樣子不變；nav、crowd、follow_buddy 單元測試全過；遊戲內前後對照。改 engine3d／character3d 先跟我說一聲。
@@ -143,7 +154,7 @@
 
 ## 接法（LAWWW）
 
-1. `git apply docs/art-rebuild/second_ai/patches/crowd_far_lod.diff`（**第二版**；`src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`tests/npc_far_unit.js`、`tools/shots/crowd_lod_audit.py`；對 `be8c1b0e` 乾淨）。遊戲內量測（j10、j22b）是第一版；第二版只差遠的時候不跑彈簧骨（畫面一樣，CPU 少一點），沒有重拍。`character3d.js`、`engine3d.js` 是 LAWWW 的檔，開工前（10-21 20:4x）通知過。
+1. `git apply docs/art-rebuild/second_ai/patches/crowd_far_lod.diff`（**第三版**，對 `eece763b` 乾淨；第二版對 `be8c1b0e`；`src/assets3d.js`、`src/character3d.js`、`src/engine3d.js`、`tests/npc_far_unit.js`、`tools/shots/crowd_lod_audit.py`）。遊戲內量測（j10、j22b）是第一版；第二版只差遠的時候不跑彈簧骨（畫面一樣，CPU 少一點），沒有重拍。`character3d.js`、`engine3d.js` 是 LAWWW 的檔，開工前（10-21 20:4x）通知過。
 2. 從我的分支拿 `assets/models/char/second_ai/lod/`（40 個 `.lod.glb`，共 10.8 MB）；產生的工具 `tools/lod/npc_lod.py`（離線，遊戲不載入）。
 3. 記憶體量測工具 `tools/shots/crowd_mem_probe.py`（我的分支；不在 patch 裡，要用再拿）。
 4. 跑 `node tests/npc_far_unit.js` 和上面 18 支相關單元測試。
