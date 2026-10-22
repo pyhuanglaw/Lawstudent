@@ -5,6 +5,7 @@
 AA_372 第 13、18 項以安的兩句：企劃線 ladder_aa.json@7fca0df5 已經改好（AA_372 第 6 節），原本疊在這裡的那段拿掉了。
 AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句、第 6 節第 4 題一句同樣疊在大一下的階梯上（byTerm.Y1S2）。
 AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（週次、句子、選項）用 _fix 疊在 ladder_*_y2s1／y2s2.json 上。
+AA_376（大三上修正稿）第 9 項以安三句、第 18 項日本路線兩個選項疊在大三上的階梯上（byTerm.Y3S1）；條件、週次在 src/y3fill3d.js。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -110,6 +111,52 @@ if A373:
         n = _walk(ch, old, new)
         if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'AA_373 {item}：大一下 {cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
     out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（大一下 6 句）'
+def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(路徑, commit, 內容)；名單上沒有＝None
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return None
+    P, S = next(iter(A.items()))
+    ok, why = G.allowed(P, S, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    return P, S, subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{P}'], text=True)
+def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
+    for item, cid, old, new, quote in rows:
+        if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        ch = chars.get(cid) or {}
+        n = _walk(ch, old, new)
+        if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'{tag} {item}：{cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
+def _step(chars, cid, sid, tag):
+    st = next((x for x in (chars.get(cid) or {}).get('steps', []) if x.get('id') == sid), None)
+    if st is None: sys.exit(f'{tag}：找不到 {cid} 的 {sid}')
+    return st
+def _add_choice(tag, md, chars, rows):   # 多一個選項（加在原本那個後面；複製原本的回覆、rel，再蓋上新的字）：哪一個玩家看得到由 src/y3fill3d.js 的 LADDER_CHOICE_IF 決定
+    for item, cid, sid, base_t, over, quotes in rows:
+        for q in quotes:
+            if q not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{q}')
+        st = _step(chars, cid, sid, tag); C = st.get('choices') or []
+        if any(c.get('t') == over['t'] for c in C): continue   # 企劃線自己加好了
+        i = next((k for k, c in enumerate(C) if c.get('t') == base_t), None)
+        if i is None: sys.exit(f'{tag} {item}：{cid} {sid} 找不到選項「{base_t}」')
+        nc = dict(C[i]); nc.update(over); C.insert(i + 1, nc)
+def _add_lines_if(tag, md, chars, rows):   # 多一套 linesIf（放在最前面＝先比）：rows＝[(第幾項, 人物, 層, 條件, 台詞, 稿裡的「改成」)]
+    for item, cid, sid, cond, lines, quote in rows:
+        if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        st = _step(chars, cid, sid, tag); L = st.setdefault('linesIf', [])
+        if any(x.get('lines') == lines for x in L): continue
+        L.insert(0, {'if': cond, 'lines': lines})
+# ---- AA_376（企劃線修正稿，白名單 AA376-Y3S1-FIX-1021；AA 定稿）：大三上的階梯（byTerm.Y3S1）——第 9 項以安 A5-L2 三句（柚子照中秋那場；交往中那句不管有沒有傳都通）、
+#      第 18 項日本路線的兩個選項（以安 A5-L8「那我們在日本找一家麵店。」、語彤 Y5-L8「我們同一班。」→「……那我十點去機場。送兩個。」）。
+#      其他項（K5-L2／L3 跳過、Y5-L1 等事件 12、Y5-L6／L7、A5-L1 第 2 週起）是條件，在 src/y3fill3d.js（程式這邊的表，匯入的 ladder.js 不手改）。企劃線下一版自己改好了就跳過 ----
+X376 = _approved_md('docs/story_planning/AA_376_')
+if X376:
+    P376, S376, md376 = X376; y3s1 = out['byTerm'].get('Y3S1') or {}
+    _swap(f'AA_376@{S376}', md376, y3s1, [
+        ('第 9 項', 'heroine_01', '柚子我跟室友分著吃完了。', '那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。', '「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」'),
+        ('第 9 項', 'heroine_01', '很甜。我室友一個人吃了一半。', '很甜。那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。', '「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」'),   # 引號裡的是後半句；「很甜。」不在引號裡、不動
+        ('第 9 項', 'heroine_01', '你那天晚上傳的訊息，我看了好幾次。', '那天晚上，我看了手機好幾次。', '「那天晚上，我看了手機好幾次。」')])
+    _add_choice(f'AA_376@{S376}', md376, y3s1, [
+        ('第 18 項', 'heroine_01', 'A5-L8', '「我們幫妳把位子占著。」', {'t': '「那我們在日本找一家麵店。」'}, ['「那我們在日本找一家麵店。」']),
+        ('第 18 項', 'heroine_03', 'Y5-L8', '「一起去。」', {'t': '「我們同一班。」', 'reply': '……那我十點去機場。送兩個。'}, ['「我們同一班。」', '「……那我十點去機場。送兩個。」'])])
+    out['source'] += f'＋{os.path.basename(P376)[:6]}@{S376}（大三上 3 句＋日本路線 2 個選項）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
 # ---- 大二的修正稿（企劃線，白名單上的 commit；AA 定稿）：一層的一個欄位疊在 ladder_*_y2s1／y2s2.json 上——整個欄位相同才換（週次、句子、選項）；
 #      那個檔下一版自己改好了（已經是新值）就跳過，舊值、新值都不是＝停下來（企劃改過了，要重看）。每一項先確認修正稿裡有那一句「改成」。

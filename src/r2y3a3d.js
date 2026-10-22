@@ -145,7 +145,7 @@ const R2Y3A=(function(){
 
   /* ===================== 2-Y3-06 可昕 K15「三十分鐘的晚餐」 ===================== */
   S.k15Phone=function(G){ const F=G.flags, d=DK('2027-09-22'); if(d==null||G.day<d||G.day>d+1||!dating(G,'kexin')) return; const n=now(G);
-    if(n>=T(d,17)&&n<T(d,18)&&!sent(G,'y3_k15')) PHONE.at(G,d,atH(G,d,17),[Object.assign(K('我七點有課。六點公館，吃三十分鐘，夠嗎？'),{ask:{id:'y3_k15',until:T(d,18),opts:[{t:'夠。',say:[Kr('好。六點，不要遲到。')],set:{KX_K15_GO:true}},{t:'今天不行。',set:{KX_K15:'declined'}}]}})],'y3_k15');
+    if(n>=T(d,17)&&n<T(d,18)&&!sent(G,'y3_k15')) PHONE.at(G,d,atH(G,d,17),[Object.assign(K('我七點要回學校。六點公館，吃三十分鐘，夠嗎？'),{ask:{id:'y3_k15',until:T(d,18),opts:[{t:'夠。',say:[Kr('好。六點，不要遲到。')],set:{KX_K15_GO:true}},{t:'今天不行。',set:{KX_K15:'declined'}}]}})],'y3_k15');   /* AA_376 #13：「我七點有課。」→「我七點要回學校。」（下一個週三 9/29 她 19:00 在台大聽講座）*/
     if(F.KX_K15_GO===true&&!F.KX_K15&&!outGet(G,'y3_k15')&&n<T(d,18+1/6)) plan(G,{id:'y3_k15',ev:'ev_kexin_30min',day:d,h:18,late:1/6,place:'公館',title:'公館 18:00（三十分鐘）',travel:'走過去約 10 分鐘',travelH:1/6});
     { const m=PHONE.byAsk(G,'y3_k15'); if(m&&m.ans==null&&n>=T(d,18)&&F.KX_K15==null) F.KX_K15='declined'; }   /* 不回＝婉拒那一版（AA 只寫了婉拒：要問 AA）*/
     if(F.KX_K15==='declined'&&n>=T(d,18.5)&&!sent(G,'y3_k15_photo')) PHONE.at(G,d,18.5,[K('（照片：一個空碗）'),K('吃完了。下次換你挑。')],'y3_k15_photo'); };   /* 她吃完傳（18:30）*/
@@ -274,7 +274,7 @@ const R2Y3A=(function(){
       else if(dating(G,'heroine_03')&&!sent(G,'y3_lease_yt')) PHONE.at(G,di,atH(G,di,21),[Yt('明天下午兩點半 阿姨要談續約'),Object.assign(Yt('……你坐我旁邊就好'),{ask:{id:'y3_lease_yt',until:T(d,14.5),opts:[{t:'好。',say:[Ytr('嗯')],set:{YT_EV14_GO:true}},{t:'那天我不行。',say:[Ytr('嗯 沒關係')]}]}})],'y3_lease_yt'); }
     if(F.YT_EV14_GO===true&&!F.YT_EV14&&!outGet(G,'y3_lease')&&n<T(d,14.75)) plan(G,{id:'y3_lease',ev:'ev_yt_lease_renew',day:d,h:14.5,late:0.25,place:'阿鳳麵店',title:'續約（阿鳳麵店 14:30）',travel:'走過去約 15 分鐘',travelH:0.25,alarm:true});
     const dm=DK('2027-12-14'); if(dm!=null&&G.day>=dm&&G.day<=dm+1&&n>=T(dm,21)&&!F.YT_EV14&&!done(G,'ev_yt_lease_renew')&&met(G,'heroine_03','FAMILIAR')&&!sent(G,'y3_lease_msg')){   /* 轉述的窗口都沒遇到：她私訊前兩句 */
-      PHONE.at(G,dm,atH(G,dm,21),[Yt('阿姨續約了。五年，寫成書面的。'),Yt('……新屋主說，他小時候也來這裡吃過麵。')],'y3_lease_msg'); F.YT_EV14='heard'; } };
+      PHONE.at(G,dm,atH(G,dm,21),[Yt('阿姨續約了。五年，寫成書面的。'),Yt('……新屋主說，他高中的時候也來這裡吃過麵。')],'y3_lease_msg'); F.YT_EV14='heard'; } };   /* AA_376 #10：轉述和現場一致（「我高中的時候來過。」）*/
 
   /* ===================== 2-Y3-19 可昕 K17 ===================== */
   S.k17Phone=function(G){ const F=G.flags; if(!dating(G,'kexin')) return; const n=now(G), d8=DK('2027-12-08');

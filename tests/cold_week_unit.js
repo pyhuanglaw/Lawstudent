@@ -71,7 +71,7 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
 
   // 2. C2
   fresh(d23,8,'dorm'); date('kexin'); picks=['跟可昕']; await STORY.coldWeekSneeze(GM);
-  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我這週也期中，二十六號考第一科。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
+  check('2. C2 選項有「（傳訊息跟可昕說：我好像感冒了。）」、可昕三則回覆（逐字；第三則照 AA_376 第 14 項「下週」）', opts[0][0]==='（傳訊息跟可昕說：我好像感冒了。）'&&JSON.stringify(txt('p:kexin').slice(-4))===JSON.stringify(['player:我好像感冒了。','kexin:幾度？','kexin:量了再跟我說。','kexin:……我下週也期中，二十六號考第一科。'])&&G.flags.KX_COLD_WEEK==='told', JSON.stringify(txt('p:kexin')));
   check('2. C2 10/24 21:00 沒有要打電話的人（被告知的可昕不打）', STORY.coldCallList(Object.assign({},G,{day:d24}))&&STORY.coldCallList(G).length===0);
   await night(); const L2=lines();
   check('2. C2 21:30 外送粥＋「我考完就過去。你先活著。」（手機）', L2.includes('（外送的粥送到宿舍門口。）')&&L2.includes('可昕（手機）：我考完就過去。你先活著。'), JSON.stringify(L2.slice(0,4)));

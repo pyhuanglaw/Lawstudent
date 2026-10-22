@@ -22,7 +22,7 @@
      快轉、睡覺要停的時間：JP.STOPS.push((G,now,where)=>時間或陣列)。出遊（OUT.plan）照舊：據點的選單出現「出發：…」（must＝只有「出發」），演完回到據點（q.back 沒寫＝「回到宿舍。」）；
      人在日本時 OUT.plan 擋掉 goto 臺灣區域的出遊。挽回的分數：JP.repair(G)（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；一週最多 +1；AA_254 第 10 節）。
    挽回中（AA_349 L1、L3）：交換生群組每週日 20:00 以安一則（4/2～7/2 共 14 週；在群組回＝REPAIR +1，私訊她＝已讀不回、不加；JP.grpPhone）；4 月平日 07:30～08:00 便利商店點頭三次（JP.nod，不加分）。
-  存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9, grp:{第幾週:在群組回、加過分的那天}, nod:[點頭的那幾天]}；
+  存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, once:{課:只出一次的那句出在哪一天}, look:{}, g9, grp:{第幾週:在群組回、加過分的那天}, nod:[點頭的那幾天]}；
     旗標 JP_RETURNED（回來的那天）、REPAIR／REPAIR_WK（挽回，同 r2y3b3d.js、r2y4a3d.js）、JP_GRP_1～14（群組那一則選了 'group'／'dm'）、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
    測試：node tests/jp_semester_unit.js */
 'use strict';
@@ -45,13 +45,13 @@ const JP=(function(){
   const A_=()=>typeof ADV!=='undefined'?ADV:null;
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   /* ---------------- 日子（J-S1）---------------- */
-  const K={out:'2028-02-20',dep:'2028-03-25',office:'2028-03-27',term0:'2028-04-10',g5:'2028-05-18',term1:'2028-07-21',fin0:'2028-07-24',fin1:'2028-07-28',last:'2028-08-04',ret:'2028-08-05',room:'2028-09-03'};
+  const K={out:'2028-02-20',dep:'2028-03-25',office:'2028-03-27',term0:'2028-04-10',town:'2028-05-06',g5:'2028-05-18',term1:'2028-07-21',fin0:'2028-07-24',fin1:'2028-07-28',last:'2028-08-04',ret:'2028-08-05',room:'2028-09-03'};
   S.K=K; const D=k=>DK(K[k]); S.D=D;
   S.HOLIDAYS=['2028-04-29','2028-05-03','2028-05-04','2028-05-05','2028-07-17'];   /* 黃金週（4/29、5/3～5/5）、海之日（7/17）：沒有課 */
   S.holiday=day=>S.HOLIDAYS.some(k=>DK(k)===day);
   S.classDay=day=>{ const a=D('term0'), b=D('term1'); return a!=null&&b!=null&&day>=a&&day<=b&&!S.holiday(day)&&wdOf(day)>=1&&wdOf(day)<=5; };
   /* ---------------- 狀態 ---------------- */
-  S.rec=G=>{ if(!G.jp||typeof G.jp!=='object') G.jp={}; const R=G.jp; for(const k of ['done','att','n','rot','look']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+  S.rec=G=>{ if(!G.jp||typeof G.jp!=='object') G.jp={}; const R=G.jp; for(const k of ['done','att','n','rot','look','once']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
   S.departed=G=>isJP(G)&&!!G.flags&&G.flags.JP_DEPARTED!=null;
   S.inJapan=G=>S.departed(G)&&G.flags.JP_RETURNED==null;   /* 人在日本：出發以後、回程以前 */
   S.returned=G=>isJP(G)&&!!G.flags&&G.flags.JP_RETURNED!=null;
@@ -81,7 +81,8 @@ const JP=(function(){
   S.CLASSES=[
     {id:'jp_nihongo',name:'日本語（中級）',wds:[1,3,5],t0:9,t1:10.5,credit:null,lines:['老師說你的敬語很有禮貌，只是用錯了對象。','今天學了『よろしく』的十種用法。']},   /* 不抵學分 */
     {id:'jp_law_intro',name:'日本法入門（英語授課）',wds:[2],t0:10+40/60,t1:12+10/60,credit:'外國法導論',lines:['老師畫了一張圖：同一條規定，兩國的法院怎麼讀。','同學問台灣的民法從哪裡來。你答了很久。']},
-    {id:'jp_comp_admin',name:'比較行政法',wds:[4],t0:13,t1:14.5,credit:'行政法專題',lines:['今天講行政指導。你想起以安說的町公所。','期末報告的題目，你寫了三次才寫定。']} ];
+    {id:'jp_comp_admin',name:'比較行政法',wds:[4],t0:13,t1:14.5,credit:'行政法專題',lines:['（教授的日文很快。你只抓得到一半，筆記上一半是問號。）','（旁邊的日本同學把筆記推過來給你看。字很小，很整齊。）'],
+      once:{from:'town',line:'今天講行政指導。你想起以安說的町公所。'}} ];   /* AA_377 第 1 項：町公所那張通知 5/6 才看到——5/6 以後的第一堂出一次「想起以安說的町公所」，之後回到兩句輪流；「期末報告的題目，你寫了三次才寫定。」拿掉（6/28 摘要已經講）*/
   S.FIRST_LINE={dating:'（日本語的第一堂課。老師請每個人用日文自我介紹。你講到一半忘了「法律」怎麼說，以安在後面小聲說：ほうりつ。）',
     repair:'（日本語的第一堂課。老師請每個人用日文自我介紹。你講到一半忘了「法律」怎麼說，自己想了起來。）'};   /* G2：4/10 第一堂（挽回中：後半換）*/
   S.classesOn=(G,day)=>{ if(!S.classDay(day)) return []; const wd=wdOf(day); return S.CLASSES.filter(c=>c.wds.includes(wd)).map(c=>({c,day,t0:c.t0,t1:c.t1,key:day+':'+c.id})); };
@@ -94,7 +95,9 @@ const JP=(function(){
     const sp=S.special(G,it);
     if(sp==='g5'){ const ev=evOf('ev_jp_admin_report'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); S.adv(G); }   /* G5 5/18：以安的報告 */
     else { if(A&&A.setBg&&typeof OUT!=='undefined') A.setBg(OUT.bg('classroom_small')); if(GM.caption) GM.caption('',it.c.name,2400);
-      let line; if(sp==='first') line=S.FIRST_LINE[dat(G)?'dating':'repair']; else { const i=(R.rot[it.c.id]|0)%it.c.lines.length; R.rot[it.c.id]=i+1; line=it.c.lines[i]; }
+      let line; if(sp==='first') line=S.FIRST_LINE[dat(G)?'dating':'repair'];
+      else if(it.c.once&&!R.once[it.c.id]&&D(it.c.once.from)!=null&&it.day>=D(it.c.once.from)){ R.once[it.c.id]=it.day; line=it.c.once.line; }   /* 那一句只出一次（不佔輪流的順序）*/
+      else { const i=(R.rot[it.c.id]|0)%it.c.lines.length; R.rot[it.c.id]=i+1; line=it.c.lines[i]; }
       await GM.say(null,line); }
     if(G.hour<it.t1) GM.advance(it.t1-G.hour);
     if(A&&A.active&&A.setBg) A.setBg(S.bgNow(G)); return true; };

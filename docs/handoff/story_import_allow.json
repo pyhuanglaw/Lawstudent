@@ -1056,6 +1056,29 @@
    "kind": "text"
   },
   {
+   "path": "docs/story_planning/AA_376_法律系大三上_作息與重複_修正稿.md",
+   "sha": "69aa3b0c",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「也可以整份由 LAWWW 做」）；第 9 項以安 A5-L2 三句（「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」「那天晚上，我看了手機好幾次。」）、第 18 項日本路線兩個選項（「那我們在日本找一家麵店。」「我們同一班。」→「……那我十點去機場。送兩個。」）由 tools/ladder/import_ladder.py 疊在大三上的階梯上匯入；第 2 項不做（v7 舊刑訴課堂 LAWWW 已在 2469df7f 停用）；其他項照稿手動放進 characters.js、y2b_events.js、r2y3a_events.js、r2y3a3d.js、story3d.js、events.js、src/y3fill3d.js（tests/aa376_y3s1_unit.js）",
+   "task": "AA376-Y3S1-FIX-1021",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md",
+   "sha": "f2de8d1c",
+   "status": "approved",
+   "approvedBy": "AA-C／AA（帳號 A）2026-10-21 定稿（D100、D109；全部第①級補稿；第一版 c56d4241；b7c437a1 改 3-2 的兩處：端午 5/28 是第 14 週、阿凱「那我們暑假又在同一棟了」，AA_377 第 20 項；f2de8d1c 改第 4 節大四上兩處：11/3 摘要日「六週」、柏翰 11/2 那兩則，AA_378 第 5 節）。已進遊戲：第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱；src/y2r2_3d.js，tests/aa375_y2s2_unit.js）、第 3-1 節大三上的補稿（src/data/y3fill_events.js、src/y3fill3d.js，tests/aa376_y3s1_unit.js）；第 3-1 節在 b7c437a1 和 f2de8d1c 一字不差。其他學期的補稿還沒做",
+   "task": "AA342-COVERAGE-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "b7c437a1",
+     "approvedBy": "AA-C 2026-10-21 定稿（全部第①級；第一版 c56d4241，b7c437a1 是 AA（帳號 A）改 3-2 的兩處：端午 5/28 是第 14 週、阿凱「那我們暑假又在同一棟了」，AA_377 第 20 項）；第 3-1 節大三上的補稿照稿手動放進 src/data/y3fill_events.js、src/y3fill3d.js（tests/aa376_y3s1_unit.js）；第 2、4 節（大二、大四）不在這一批",
+     "task": "AA342-COVERAGE-1021"
+    }
+   ]
+  },
+  {
    "path": "docs/story_planning/AA_333_HOL-VA_VA08_語彤_麵店過年店休.md",
    "sha": "56b6f64e",
    "status": "approved",
@@ -1361,14 +1384,6 @@
    "sha": "45121a97",
    "status": "approved",
    "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；第 7 項語彤 Y4-L7、第 11 項可昕 K4-L2 週次、第 12 項芷若 Z4-L4 週次由 tools/ladder/import_ladder.py 疊在 ladder_aa_y2s2.json、ladder_bb_y2s2.json 上匯入；其他項照稿手動放進 characters.js、encounters.js、termend_lines.js、termend3d.js、invites.js、eat3d.js、msg3d.js、vac_activities.js、vac3d.js、y2r2_3d.js、y2b_events.js、y2b3d.js、needed_msgs.js、group_events.js、group3d.js、events.js、story3d.js（tests/aa375_y2s2_unit.js）；第 4 節提醒的 AA_255 兩件（說明會散場三句、6/4 子晴四則）照 AA_255@f218a3e0；LAWWW 補充 AA_373 第 6 節第 9 題（企劃線 bdab2f42）芷若 6/3 以前「九點」改「十點」、22:00 一起做",
-   "task": "AA375-Y2S2-FIX-1021",
-   "kind": "text"
-  },
-  {
-   "path": "docs/story_planning/AA_342_臺灣路線六學期_每一週能做什麼_覆蓋盤點與補空白.md",
-   "sha": "f2de8d1c",
-   "status": "approved",
-   "approvedBy": "AA-C／AA（帳號 A）定稿（D100、D109；第①級補稿）；這次只用第 2-2 節大二下的七則（2/25 週四麵店、3/6 摘要日、3/12 柏翰、4/8 週四麵店、4/21 群組、5/20 摘要日、5/21 阿凱），AA_375 第 4 節提醒還沒進遊戲；照稿手動放進 src/y2r2_3d.js（tests/aa375_y2s2_unit.js）。其他學期的補稿還沒做",
    "task": "AA375-Y2S2-FIX-1021",
    "kind": "text"
   }
