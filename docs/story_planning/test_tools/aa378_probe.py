@@ -312,6 +312,11 @@ async def pickup(p, run, base, out):
         pk = [q for q in v if q['id'] == 'y4_sis_pickup']
         run.check('PICKUP：12/20 用手機答應以後，排了 12/23 20:30 接機', bool(pk) and pk[0]['d'] == '2028-12-23' and abs(pk[0]['h'] - 20.5) < 0.01, json.dumps(pk, ensure_ascii=False))
         run.check('PICKUP：接機那天真的去了（出遊 done）', bool(pk) and pk[0]['state'] == 'done', json.dumps(pk, ensure_ascii=False))
+        # BUG-KAI-PICKUP-1022（開發分支 1ad1a710）：12/23 晚上有接機＝阿凱不問「宵夜？」；接機有鬧鐘＝跳過時間停在出發前、跳「出發：接機」
+        kai23 = [c for c in ch if c['at'].startswith('2028-12-23') and c['opts'] == ['「好。」', '「那天有約了。」']]
+        go23 = [c for c in ch if c['at'].startswith('2028-12-23') and any(o.startswith('出發：接機') for o in c['opts'])]
+        run.check('PICKUP：12/23 晚上阿凱不問「宵夜？」（那晚有接機）', not kai23, json.dumps(kai23, ensure_ascii=False))
+        run.check('PICKUP：12/23 跳出「出發：接機」（%s）' % (go23[0]['at'] if go23 else '—'), bool(go23) and float(go23[0]['at'].split()[1]) < 20.5, json.dumps(go23, ensure_ascii=False)[:300])
         te = [q for q in v if q['id'].startswith('te_')]
         run.check('PICKUP：期末飯（te_）不在 12/23 晚上', not any(q['d'] == '2028-12-23' and q['h'] >= 17 for q in te), json.dumps(te, ensure_ascii=False)[:300])
         if not te: run.note('PICKUP：到 2029-01-12 都沒有排期末飯（te_），這一項只能說「沒有撞到」，沒看到期末飯排去哪一天')
