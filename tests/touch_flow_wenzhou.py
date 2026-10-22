@@ -156,9 +156,11 @@ async def main():
             check('和沈以安的對話有內容並結束', len(seen) > 0, len(seen))
             st = await state(pg); check('對話結束後可以操作', not st['busy'], st)
         # 5. 坐下（窗邊雙人桌；那個位子有人坐了就找最近的空位——2026-10-22 v9.10.4 發布前：改成第 18 天（10/4 週六）以後，14:56 窗邊那張已經有客人，遊戲照規則不給「坐」）
-        seat = await pg.evaluate("""(()=>{ const E=GAME.E, used=new Set(); for(const n of E.npcs){ const q=n.seat||n.seatTarget; if(q) used.add(q.x.toFixed(1)+','+q.z.toFixed(1)); }
-            let best=null, bd=1e9; for(const q of (E.zone.seats||[])){ if(q.taken||q.bar||q.sofa||used.has(q.x.toFixed(1)+','+q.z.toFixed(1))) continue; const d=Math.hypot(q.x-4.5,q.z-2.5); if(d<bd){ bd=d; best=q; } }
-            if(!best) return null; const ap=GAME.seatApproach?GAME.seatApproach(best):null; return [best.x,best.z].concat(ap?[ap[0],ap[1]]:[]); })()""")
+        # 只從遊戲真的有「坐」按鈕的位子挑（E.interactables 裡有 seat 的；和 E.nearestInteractable 同一套「有人坐」的判斷）：Café 一張雙人桌只有一個按鈕（靠窗那一側的椅子），
+        # 對面那張椅子在 E.zone.seats 裡、但沒有自己的按鈕——第四輪挑到窗邊桌對面 (4.5, 0.7)，走到了也不會出「坐」
+        seat = await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player, occ=q=>E.npcs.some(n=>(n.seat&&Math.hypot(n.seat.x-q.x,n.seat.z-q.z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-q.x,n.seatTarget.z-q.z)<0.4));
+            let best=null, bd=1e9; for(const it of E.interactables){ const q=it.seat; if(!q||it.hidden||q.taken||occ(q)) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==(P.lv|0)) continue; const d=Math.hypot(q.x-4.5,q.z-2.5); if(d<bd){ bd=d; best=it; } }
+            if(!best) return null; const ap=GAME.seatApproach?GAME.seatApproach(best.seat):null; return [best.seat.x,best.seat.z].concat(ap?[ap[0],ap[1]]:[]); })()""")
         if seat and math.hypot(seat[0] - 4.5, seat[1] - 2.35) > 0.3:
             # 換到別的位子：走到遊戲自己算的「走近這個座位」那一點（GAME.seatApproach，坐下時就是從那裡坐的），不然可能停在桌子另一邊、離座位 0.8 m 就不出「坐」
             print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(seat[0], 2), round(seat[1], 2)))
