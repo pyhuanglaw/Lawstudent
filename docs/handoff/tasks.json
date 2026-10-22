@@ -28748,7 +28748,7 @@
    "id": "BUG-KAI-Y2-SCHED-1022",
    "title": "阿凱大二以後的作息還是每晚在宿舍書桌（characters.js 130 行附近）：手機「朋友」可能顯示他「就在這裡」，人卻不在 312",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v3",
    "first": {
@@ -28763,7 +28763,8 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "讀碼確認大二以後宿舍房號、阿凱住哪；作息照住的地方"
+   "next": "BB 瀏覽器：大二上晚上在 312，手機「朋友」阿凱寫「在他那棟宿舍」、沒有「就在這裡」；大一 203 晚上照舊在書桌",
+   "done": "開發分支（LAWWW 10-22 06:4x）：characters.js 阿凱的晚上作息拆成兩筆——大一同房到 9/6 搬家為止（宿舍書桌，if notFlags ROOM_Y2，和 S.kaiRoommate 一致）；9/6 搬了以後到 2029-06-27＝「在他那棟宿舍」（zone null，手機不會寫「就在這裡」）。tests/kai_y2_sched_unit.js（修改前 a3d2185d 兩項 FAIL、修改後 ALL PASS）；kai_dorm、dorm 五支、aa376_y3s1、presence、schedule_refresh、lane118_sched、holiday_presence 照過"
   },
   {
    "id": "BB106-L389-1022",

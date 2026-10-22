@@ -136,7 +136,8 @@ const CHARACTERS = {
     ['2028-07-03','2028-07-08','在曼谷','trip',{signal:true}],   /* 大三暑假曼谷（子晴揪，BB_200 第 8 節）*/
     ['2029-02-09','2029-02-17','回宜蘭過年','home',{home:'宜蘭'}],
     ['2029-06-28','2031-09-01','在上班','taipei']]},   /* AA_357 2-2 第 2 點：2029-06-28 宿舍期滿起不在宿舍——在臺北上班（taipei：只用標了 taipei 的作息＝週五晚上公館的宵夜；宿舍晚上的阿凱不生）*/ name:'阿凱', fullname:'王凱翔', age:19, gender:'m', department:'資工系', year:1, social_layer:'C', visual_tier:2, personality:'室友；不是打遊戲就是寫程式；對法律的理解停留在「所以可以告嗎」', career_goal:'想進遊戲公司', social_style:'宅但真誠', char3d:{spec:'kai'}, portrait:'kai',
-    daily_schedule:[{days:[0,1,2,3,4,5,6],from:18,to:32,zone:'dorm',act:'desk',dates:[['2024-08-01','2029-06-27']]},
+    daily_schedule:[{days:[0,1,2,3,4,5,6],from:18,to:32,zone:'dorm',act:'desk',dates:[['2024-08-01','2026-09-06']],if:{notFlags:['ROOM_Y2']}},   /* 大一同房（203）：到 9/6 搬進 312 為止（story3d.js S.kaiRoommate）*/
+      {days:[0,1,2,3,4,5,6],from:18,to:32,zone:null,act:'out',away:'在他那棟宿舍',dates:[['2026-09-06','2029-06-27']],note:'BUG-KAI-Y2-SCHED-1022（BB 10-22 05:02）：大二起他住別棟（S.kaiRoommate、AA_376 #8「我們那棟」）——原本 2024～2029 整段都寫在宿舍書桌，手機「朋友」寫「就在這裡」人卻不在 312'},
       {days:[5],from:22,to:24,zone:'gongguan',act:'wander',taipei:true,dates:[['2029-06-28','2031-09-01']],note:'AA_357 2-2 第 2 點：畢業以後只留週五晚上公館（宵夜）；時間照公館宵夜（阿哲 22:00），AA 沒寫幾點'}] },
   /* 經濟系的朋友（法律系大一下第一次露面：P4d；BB_104 2-2、BB_112 第 1 節、AA_114 第 4 列；BB-B 2026-10-16 02:00 的人物資料；id 照企劃 syllabus 的 econ_*，AA_140 G40）。
      alias：BB 台詞寫的稱呼（'阿勳'、'品妤'）＝這個人（立繪照 id、對話框名字照原文）。阿勳的作息照 AA_155（AA-REQ-02）；其他人只在事件裡出現；3D 先用路人 */
