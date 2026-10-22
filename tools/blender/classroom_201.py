@@ -33,7 +33,7 @@ MAT = {
     'seat':    B.pbr('cls_seat', 'wood_table_001', tile=0.8, target='#b98a5c'),            # 照片：木翻椅
     'woodL':   B.pbr('cls_lectern', 'fine_grained_wood', tile=1.0, target='#a87d55'),      # 照片：木講桌
     'ceiling': B.pbr('cls_ceiling', 'ceiling_interior', tile=1.2, sat=0.2, target='#f2f1ee', normal=0.25, cull=True),   # 單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
-    'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6),
+    'grid':    B.pbr('cls_grid', None, tint=B.srgb('#e4e2dc'), rough=0.6, cull=True),   # T 型骨架只做底面、單面朝下：鏡頭在天花板上面時不會看到一整片白格子（LAWWW2 10-22）
     'metal':   B.pbr('cls_metal', None, tint=B.srgb('#3d4146'), rough=0.4, metal=0.7),
     'steel':   B.pbr('cls_steel', None, tint=B.srgb('#c9ccd0'), rough=0.3, metal=1.0),
     'board':   B.pbr('cls_board', None, tint=B.srgb('#25403a'), rough=0.6),
@@ -121,12 +121,14 @@ B.box('WALL_S_doorleaf', MAT['woodL'], C['door']['x'] - 0.75, C['door']['x'] + 0
 
 # ---------------- 天花板：白色方格天花板（T 型骨架）＋日光燈 ----------------
 B.quad('ceiling', MAT['ceiling'], [(-W / 2, H, -D / 2), (W / 2, H, -D / 2), (W / 2, H, D / 2), (-W / 2, H, D / 2)], root)
+# T 型骨架：原本是 2.4 cm × 1.9 cm 的方盒，鏡頭在天花板上面時看到方盒的頂面＝整間教室蓋著白格子。
+# 改成只有底面（原本方盒底面的位置）、單面朝下：從下面看一樣，從上面看不到。z 向的低 1 mm，交叉的地方不疊面。
 gx = -W / 2
 while gx <= W / 2 + 1e-6:
-    B.box(f'grid_x_{gx:.1f}', MAT['grid'], gx - 0.012, gx + 0.012, H - 0.02, H - 0.001, -D / 2, D / 2, root); gx += 0.6
+    B.quad(f'grid_x_{gx:.1f}', MAT['grid'], [(gx - 0.012, H - 0.02, -D / 2), (gx + 0.012, H - 0.02, -D / 2), (gx + 0.012, H - 0.02, D / 2), (gx - 0.012, H - 0.02, D / 2)], root); gx += 0.6
 gz = -D / 2
 while gz <= D / 2 + 1e-6:
-    B.box(f'grid_z_{gz:.1f}', MAT['grid'], -W / 2, W / 2, H - 0.02, H - 0.001, gz - 0.012, gz + 0.012, root); gz += 0.6
+    B.quad(f'grid_z_{gz:.1f}', MAT['grid'], [(-W / 2, H - 0.021, gz - 0.012), (W / 2, H - 0.021, gz - 0.012), (W / 2, H - 0.021, gz + 0.012), (-W / 2, H - 0.021, gz + 0.012)], root); gz += 0.6
 for i in range(4):
     for j in range(6):
         cx, cz = -5.4 + i * 3.6, -7.0 + j * 2.8
