@@ -28117,7 +28117,7 @@
    "id": "US-MARKET-CROWD-1021",
    "title": "美國超市街（us_market_street）的車會動、有路人：現在車停著不動、街上沒有人（LAWWW2 交件時列的「還不到」，美國篇人流是 LAWWW 的範圍）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "US",
    "first": {
@@ -28132,7 +28132,8 @@
    },
    "source": "LAWWW2（帳號 A）2026-10-21 22:18 交件 US-MARKET-STREET 的「還不到」",
    "authorized": "D99 第三項美國交換；一般開發（D87）",
-   "next": "【LAWWW（帳號 A）10-22 06:4x】LAWWW2 超市一進門鏡頭、站牌柱透空已整合（b874f99a）；車流、路人照舊是 LAWWW 的 ｜ 照現有 US 人流（us_life3d／us3d 的路人）加超市街的路人與車流；LAWWW2 補停車場路燈光圈"
+   "next": "BB 瀏覽器：進超市街（公車、超市出來都可以）——一開始紅燈車停著，幾秒後綠燈開走；人行道上有路人；站到馬路上車會停；LAWWW2 的停車場路燈光圈照舊",
+   "done": "開發分支（LAWWW 10-22 07:0x）：新 src/us_traffic3d.js（US_TRAFFIC）——車道照配置 lane_c（往西 w1、w2、往東 e2、e1），號誌綠 24／黃 3／紅 16 秒（一進來紅燈剩 5 秒，配置馬路上等紅燈的 6 台照原位置停著，綠燈開走），紅燈停在停止線前、黃燈 6 m 內照過，讓玩家（前 14 m 內同車道＝停在 4 m 外）、跟車（中心距 6 m），開出 ±44 從另一頭回來；台數照時間（白天每條 2、早晚 1、深夜外側各 1）。us3d.js 三處（導航、備用方塊、正式模型）跳過歸車流的車；story3d.js 進超市街生成路人（美國版外型 S.extraSpecUS，路線 S.usStreetRoutes：北側人行道、超市門口、南側人行道、亞洲超市門口，不過馬路）＋開車。tests/us_traffic_unit.js（修改前沒有 US_TRAFFIC＝FAIL，修改後 ALL PASS）；美國、人流、index.html 相關 24 支照過"
   },
   {
    "id": "BUG-KX-OD-SKIPALL-1021",

@@ -218,7 +218,8 @@ const US3=(function(){
     const g=new THREE.Group(); const nav=new E3.NavGrid(B.x1-B.x0,B.z1-B.z0,0.5,B.x0,B.z0);
     nav.blockOutside(B.x0+0.5,B.z0+0.5,B.x1-0.5,B.z1-0.5);
     for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.5),Math.max(b.z1-b.z0,0.5),0,0);
-    for(const c of (L.cars||[])){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; nav.blockRect(c.x,c.z,d[1]+0.1,d[0]+0.1,-c.yaw,0); }
+    const OWN=c=>typeof US_TRAFFIC!=='undefined'&&US_TRAFFIC.owns&&US_TRAFFIC.owns(L,c);   /* 超市街馬路上等紅燈的車歸 src/us_traffic3d.js 開（US-MARKET-CROWD-1021，LAWWW）：這裡不畫、不擋導航 */
+    for(const c of (L.cars||[])){ if(OWN(c)) continue; const d=CAR_DIMS[c.kind]||[4.8,1.9]; nav.blockRect(c.x,c.z,d[1]+0.1,d[0]+0.1,-c.yaw,0); }
     nav._cm=null;
     const bld=L.blocks.filter(b=>/^building/.test(b.why));
     for(const b of bld){ const m=new THREE.Mesh(new THREE.BoxGeometry(b.x1-b.x0,6.0,b.z1-b.z0),new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide})); m.position.set((b.x0+b.x1)/2,3.0,(b.z0+b.z1)/2); g.add(m); E.colliders.push(m); }
@@ -228,7 +229,7 @@ const US3=(function(){
     const asph=(x0,x1,z0,z1)=>{ const t=tiled(W3.asphaltTex(),(x1-x0)/4,(z1-z0)/4); t.userData.asphalt=true; plane(fb,x1-x0,z1-z0,new THREE.MeshStandardMaterial({map:t,roughness:0.9}),(x0+x1)/2,(z0+z1)/2,0.01); };
     if(L.lot) asph(L.lot.x0,L.lot.x1,L.lot.z0,L.lot.z1); if(L.road) asph(B.x0,B.x1,L.road.z0,L.road.z1);
     const sid=M('#8a8272'); for(const b of bld){ const m=new THREE.Mesh(new THREE.BoxGeometry(b.x1-b.x0,6.0,b.z1-b.z0),sid); m.position.set((b.x0+b.x1)/2,3.0,(b.z0+b.z1)/2); fb.add(m); }
-    const carFb=new THREE.Group(); fb.add(carFb); for(const c of (L.cars||[])){ const d=CAR_DIMS[c.kind]||[4.8,1.9]; const m=new THREE.Mesh(new THREE.BoxGeometry(d[1],1.4,d[0]),M(c.color,{rough:0.4})); m.position.set(c.x,0.7,c.z); m.rotation.y=c.yaw; carFb.add(m); }
+    const carFb=new THREE.Group(); fb.add(carFb); for(const c of (L.cars||[])){ if(OWN(c)) continue; const d=CAR_DIMS[c.kind]||[4.8,1.9]; const m=new THREE.Mesh(new THREE.BoxGeometry(d[1],1.4,d[0]),M(c.color,{rough:0.4})); m.position.set(c.x,0.7,c.z); m.rotation.y=c.yaw; carFb.add(m); }
     o.interact(E,L,E.interactables);
     /* 路燈的地面光圈（US-MS-NIGHT-1021，LAWWW2：20:00 超市街停車場只有燈頭亮、地上一片黑）：和溫州街、校園同一套 E.lampGlows——入夜才開；
        區域定義的 lampPools(L) 給每個燈頭的位置、光圈半徑。放在自己的 dyn 群組（引擎合併靜態網格時不動它）*/
@@ -243,7 +244,7 @@ const US3=(function(){
       { const sm=SEE_MATS[o.id]; if(sm) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||!sm.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); } const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
-      for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
+      for(const car of L.cars){ if(OWN(car)) continue; const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
         q.traverse(r=>{ if(!r.isMesh) return; r.castShadow=true; const ms=[].concat(r.material).map(m=>{ if(m&&m.name==='car_paint'){ return paint[car.color]||(paint[car.color]=Object.assign(m.clone(),{color:new THREE.Color(car.color)})); } if(m&&/^GLOW_car/.test(m.name||'')){ if(car.waiting) return m; const k='off_'+m.name; return paint[k]||(paint[k]=Object.assign(m.clone(),{emissiveIntensity:0})); } return m; });   /* 停著的車燈關著；等紅燈的車（waiting，超市街路口）頭燈、煞車燈亮著 */ r.material=Array.isArray(r.material)?ms:ms[0]; });
         cg.add(q); n++; }
       if(n){ g.add(cg); carFb.visible=false; } }).catch(e=>console.warn('美式汽車正式模型載入失敗，用方塊',e));
