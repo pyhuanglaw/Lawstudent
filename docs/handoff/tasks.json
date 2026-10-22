@@ -28414,6 +28414,27 @@
    "source": "AA（帳號 A）2026-10-22 01:49 訊息；企劃線 AA_381 d14a0388",
    "authorized": "D109、D110",
    "next": "【LAWWW（帳號 A）2026-10-22 02:4x】學姊大二到大三八場（AA379-SIS-Y2Y3-1021）之後；AA 還在查第二部分"
+  },
+  {
+   "id": "BUG-ADV-CHOICES-LANDSCAPE-1022",
+   "title": "手機橫向、ADV 對話裡的選單十項以上（當面約的地點選單）：兩欄 grid 用 align-content:end，太長時往上溢出，第一排在選單上緣外面、捲不到也點不到",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次當面約人（橫向）",
+    "mainline": true,
+    "blocks": true,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 10-22 02:23 第 1 點（BB_218 最後一節 9b67d2d5；圖 docs/story_planning/test_shots/inv_menu_1022/當面約學姊_地點選單_橫向_第一排被切掉.jpg）",
+   "authorized": "D110",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:5x】src/adv3d.js 橫向兩欄改 align-content:start（從上往下排，放不下就在選單裡往下捲，底部淡出提示）；tests/choices_landscape_css.py（不開遊戲，抄 CSS 量第一個按鈕：修之前 3 項 FAIL、修之後 16 項全過）。BB 重測當面約學姊（橫向）②③"
   }
  ]
 }
