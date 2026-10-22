@@ -1486,6 +1486,14 @@
    "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節六句、第 4 節學姊 2030 年的生日（看海）、第 5 節明軒照稿手動放進 src/story3d.js、src/postgrad3d.js（CARDS_DELAY、SEA_Y5 的流程）、src/data/postgrad_lines.js（SEA_Y5、mx.bar2030）、src/r2y4b3d.js（K26）；第 2、3 節是 AA_366、AA_367 的新版本（import_pg_dates.py）；tests/aa382_pg_unit.js 逐句對稿",
    "task": "AA382-PG-FIX-1022",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md",
+   "sha": "98516b51",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 2 節（以安第 8 週不給約 D26、偶遇拿掉 10/25）照稿寫進 date3d.js、encounters.js、characters.js；第 4-1 節三句旁白（events.js ev_b106_42_game）、第 4-2 節三則私訊（story3d.js）手動放進遊戲；tests/aa383_unit.js 逐句對稿",
+   "task": "AA383-BB0400-1022",
+   "kind": "text"
   }
  ]
 }

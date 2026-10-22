@@ -155,8 +155,13 @@ async def main():
             seen = await advance_dialogue(pg, t, shots=SHOTS+'/flow_04_an')
             check('和沈以安的對話有內容並結束', len(seen) > 0, len(seen))
             st = await state(pg); check('對話結束後可以操作', not st['busy'], st)
-        # 5. 坐下（窗邊雙人桌）
-        st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
+        # 5. 坐下（窗邊雙人桌；那個位子有人坐了就找最近的空位——2026-10-22 v9.10.4 發布前：改成第 18 天（10/4 週六）以後，14:56 窗邊那張已經有客人，遊戲照規則不給「坐」）
+        seat = await pg.evaluate("""(()=>{ const E=GAME.E, used=new Set(); for(const n of E.npcs){ const q=n.seat||n.seatTarget; if(q) used.add(q.x.toFixed(1)+','+q.z.toFixed(1)); }
+            let best=null, bd=1e9; for(const q of (E.zone.seats||[])){ if(q.taken||q.bar||q.sofa||used.has(q.x.toFixed(1)+','+q.z.toFixed(1))) continue; const d=Math.hypot(q.x-4.5,q.z-2.5); if(d<bd){ bd=d; best=q; } }
+            return best?[best.x,best.z]:null; })()""")
+        sx, sz = seat if seat else (4.5, 2.5)
+        if seat and math.hypot(sx - 4.5, sz - 2.35) > 0.3: print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(sx, 2), round(sz, 2)))
+        st = await walk_to(pg, t, sx, sz, 'seat', tol=0.9)
         await pg.wait_for_timeout(600); st = await state(pg)
         check('靠近座位出現「坐」的按鈕', '坐' in st['interact'], st['interact'])
         await t.tap_el('#interact'); await pg.wait_for_timeout(3000)
