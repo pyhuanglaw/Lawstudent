@@ -1466,6 +1466,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "回 LAWWW 14:2x：3-3 選 A＋備援私訊；c6a290fe 只改私訊的版本作廢"
+  },
+  {
+   "task": "BB119-Y4-1017",
+   "branch": "claude/story-planning",
+   "sha": "021ffe76",
+   "files": [
+    "docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：AA_387 第 10 節（A1 回國後第一次進 Café 的票根那一場、A2 祐廷單身、A3 ZZ mutual／held 不演、A4 方奕廷兩則、A5 美國路線 F3 照現在）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "回 LAWWW 14:5x 六題；第 1 節加第 5、6 點，第 8 節加第 4 條"
   }
  ],
  "items": [
