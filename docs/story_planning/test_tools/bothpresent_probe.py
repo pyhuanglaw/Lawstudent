@@ -110,6 +110,24 @@ async def watch_auto(pg, cdp, run, tag, secs=90):
     return first, last
 
 
+async def enter_by_exit(pg, cdp, run, zone, tag, tap=True):
+    """在現在的區域找「進 zone」的門（interactables 的 exit.to），像玩家一樣走過去按；走不到（雲端 1 fps）就標示捷徑放到門口，再照玩家按門"""
+    it = await pg.evaluate("(z=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to===z&&!q.hidden); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })(%s)" % json.dumps(zone))
+    if not it: return False, 'no door to %s' % zone
+    ok = await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or zone, max_s=240, lv=it[2]); lab = it[3]
+    if not ok:
+        run.setup('%s：雲端 1 fps 走不到「%s」門口 → 把玩家放到門口（E.placeAt），再照玩家按門' % (tag, it[3]))
+        await pg.evaluate("(([x,z,l])=>{ const E=GAME.E,P=E.player; P.path=null; P.target=null; E.placeAt(P,x,z,l); try{ E.unstick&&E.unstick(P,8); }catch(e){} })(%s)" % json.dumps(it[:3]))
+        await pg.wait_for_timeout(3000); lab = '%s（走不到，捷徑放到門口）' % it[3]
+    if not tap: return True, lab   # tap=False：只走到門口
+    await L.tap(pg, cdp, '#interact')
+    for _ in range(40):
+        await pg.wait_for_timeout(1000)
+        if (await pg.evaluate("GAME.G.zone")) == zone: break
+    await pg.wait_for_timeout(3000)
+    return (await pg.evaluate("GAME.G.zone")) == zone, lab
+
+
 async def enter_reading_room(pg, cdp, run):
     """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
     it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
@@ -430,6 +448,12 @@ async def tea(p, run, base, out):
         run.check('TEA：手機約好今天 15:30 一盞（accepted）', bool(iv), json.dumps({'選單': res['menus'], 'inv': st['inv'], '她說': [x['t'] for x in res['book_lines']]}, ensure_ascii=False)[:500])
         if not iv: raise RuntimeError('沒約成')
         zone = iv[0]['zone']; await L.phone_away(pg, cdp)
+        # 一盞不在手機「地點」（10-22 04:2x 候選第二輪）：照玩家先快速前往溫州街、走到一盞門口；在門口跳過時間（停在 15:20），再按門進去（她 15:15 起在店裡）
+        ok, info = await quick_go(pg, cdp, 'wenzhou'); res['go_wz'] = info
+        if ok: ok, info = await enter_by_exit(pg, cdp, run, zone, 'TEA', tap=False)
+        res['door'] = info
+        run.check('TEA：手機快速前往溫州街、走到一盞門口', ok, json.dumps(info, ensure_ascii=False)[:300])
+        if not ok: raise RuntimeError('沒到一盞門口')
         await phone(pg, cdp, 'today')
         got = await tap_q(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-skip]')].find(b=>b.textContent.trim().startsWith('等到傍晚'))")
         t0 = time.time()
@@ -439,8 +463,8 @@ async def tea(p, run, base, out):
             if not s['busy'] and not s['dlg'] and not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
         st = await pg.evaluate(ST); res['skip'] = [got, st['h']]
         run.check('TEA：手機「等到傍晚」停在約好的時間前 10 分鐘（15:20）', bool(got) and abs(st['h'] - (15.5 - 1 / 6)) < 0.06, '%s h=%.3f' % (got, st['h']))
-        ok, info = await quick_go(pg, cdp, zone); res['go'] = info
-        run.check('TEA：手機快速前往一盞（%s）' % zone, ok, json.dumps(info, ensure_ascii=False))
+        ok, info = await enter_by_exit(pg, cdp, run, zone, 'TEA'); res['go'] = info
+        run.check('TEA：按門走進一盞（%s）' % zone, ok, json.dumps(info, ensure_ascii=False)[:300])
         await run.shot(pg, 'TEA_arrive')
         first, last = await watch_auto(pg, cdp, run, 'TEA', secs=120); res['first'] = first; res['last'] = last
         run.check('TEA：她在、你在＝不用說話就自己開始', bool(first), json.dumps(last, ensure_ascii=False)[:400])
