@@ -28378,7 +28378,7 @@
    },
    "source": "LAWWW2 PERF-ZONE-ENTER-1018 交件（3d6f2cee；docs/art-rebuild/second_ai/test_shots/zone_enter_1021/README.md）",
    "authorized": "D110（LAWWW 開發整合自己決定）；使用者 X14「電腦換畫面卡一兩秒」",
-   "next": "BB 瀏覽器：公館 → 溫州街 → 咖啡廳 → 溫州街來回，換區域以後路人都會出現（晚到的一個一個冒出來、不露出方塊人）、沒有兩個一模一樣的站在旁邊；LAWWW2 可以用 tools/shots/zone_enter_probe.py 重量一次（咖啡廳 → 溫州街第二次：原本 8.5 秒那一格） ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】登記；排在 D99 三項之後（不影響遊玩流程）",
+   "next": "【LAWWW2 08:34 重量（21d3d597，zone_enter_1021/README 新的一節；SwiftShader，真機沒量）】換上一批新路人那一格不見了：淡入以後新編 shader 4→0；咖啡廳→溫州街（第二次）最長一格手機 11.0→7.2 秒、電腦 12.3→9.2 秒，多出來的時間少約四成；還剩一格 7～9 秒的長卡（沒有新編 shader，原因還沒查出來） ｜ BB 瀏覽器：公館 → 溫州街 → 咖啡廳 → 溫州街來回，換區域以後路人都會出現（晚到的一個一個冒出來、不露出方塊人）、沒有兩個一模一樣的站在旁邊；LAWWW2 可以用 tools/shots/zone_enter_probe.py 重量一次（咖啡廳 → 溫州街第二次：原本 8.5 秒那一格） ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】登記；排在 D99 三項之後（不影響遊玩流程）",
    "done": "開發分支 e63ba5d2（LAWWW 帳號 A 10-22 07:2x）：LAWWW2 的建議 1、2 做了——①character3d.js CHAR.anonPool.refresh 每次換區域只往後移一格（女、男各換 1 個新的、其他 6 個留著；原本 8 個全部換新），走四個區域全部輪過；②game3d.js GM.upgradeModels 路人（isExtra、騎士）一次最多換 GM.UPG_EXTRA＝1 個（每 1.5 秒），主角、有名字的人照舊馬上換。建議 3（換上之前 compileAsync）沒做：要真的 GPU 才量得出差別。測試：tests/perf_npc_pool_unit.js（修改前 5c2a173f 2 FAIL、修改後 ALL PASS）、tests/anon_pool_unit.js 第 4 段改成新的輪替（修改前 3 FAIL）；anon_dedup_unit、zone_prewarm_unit、zone_dispose_unit ALL PASS"
   },
   {
@@ -28995,6 +28995,34 @@
    "source": "D85；v9.10.4（10-22 05:59）以後開發分支的修正",
    "authorized": "D85、D110（發布 LAWWW 自己決定；判定由 BB）",
    "next": "【BB 08:07】AA379-SIS-Y2Y3-1021 三批 PASS（已驗收，算進這次）；v9.10.5 那 14 支 08:06 開始對候選 364dabe0 跑 ｜ 【LAWWW（帳號 A）10-22 07:5x】候選固定在開發分支 364dabe0（同 v9.10.4 的做法：BB 對候選測，要修的修在候選上、給新的候選 SHA；子代理三件合併進開發分支，放 v9.10.6）。BB 07:53 排程約 4～5 小時：aa379s2 → lwart 四支 → art1022 → uscam → uscrowd → pghome → aa378x → perfpool → pre94 → aa382sea2（含 PG 回到家）→ alison → tone；psbh、aa382b／c 排最後、不擋 GO（來不及就在發布說明寫「單元測試過、瀏覽器還沒測」）；BB 全部測完給 GO／NO-GO ｜ 【LAWWW（帳號 A）10-22 07:4x】這版已驗收：BUG-BED-TONIGHT-ALARM-1022、BUG-SIS-CAFE-NOSEAT-1022、BUG-WALK-DORM-FOLLOW-1022、BUG-SIS-ORAL-SCHED-1022、BUG-KAI-Y2-SCHED-1022、AA383-S6-SIS-FRIEND-1022、ART-ZR-HAIR-1022、ART-ZR-PS-3D-1022；等 BB：AA380-RENAME-ALISON-1021、PG-ASKAT-HOME-1021、US-MARKET-CROWD-1021、AA378-Y4S1-FIX-1021、BUG-PG-RETURN-TEXT-1021、PERF-NPC-POOL-1022、BUG-SIS-PRE94-PRESENCE-1022、AA382-PG-FIX-1022（看海重測＋第 1～3 節）、AA245-PSBH、AA379-SIS-Y2Y3-1021（第三批）、ART-TONE-NEUTRAL-1022、LAWWW2 六件（DL-LAWWW2 2a67b144／f2336295 那批）。子代理在做的三件（AA351 可昕慢慢分手、AA296 五件改當面、AA_232 芷若×子晴）合併、測過才放；來不及就放下一版。發布時告訴使用者：色調改 Neutral（?tone=aces 回到舊的）、「這版還沒有的」清單"
+  },
+  {
+   "id": "ART-CEIL-LAWWW-ROOMS-1022",
+   "title": "201 教室（classroom_201）、男宿門廳（dorm_hall）、霖澤館二樓（linze_interior）、萬才館二樓（wancai_interior）：鏡頭拉到最遠最陡時天花板整片白——天花板 cull＋朝下、重新匯出（程式不用改；同 l118_arcade 的做法）",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P2",
+   "area": "art",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一堂課走進霖澤館、201",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW2 08:34（docs/art-rebuild/second_ai/test_shots/l118_arcade_1022/README.md 其他 26 個室內的盤點）",
+   "authorized": "D100、D108（3D 美術與場景歸 LAWWW2）；D110",
+   "next": "LAWWW2 改 tools/blender/classroom_201.py、dorm_hall.py、linze_interior.py、wancai_interior.py 的天花板（單面朝下＋cull）、重新匯出 GLB；交件附遊戲內前後；放 v9.10.6",
+   "xai": {
+    "spec": "l118_arcade_1022/README.md 的天花板盤點；同 room_ceiling_unit 的檢查",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "room_ceiling_unit 類的檢查涵蓋這四份 GLB 且 ALL PASS；nav_buildings、flow_dorm_hall、flow_library 類照過；遊戲內鏡頭拉到最遠最陡的前後截圖",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
