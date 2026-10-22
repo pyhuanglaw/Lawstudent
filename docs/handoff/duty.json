@@ -13,10 +13,10 @@
   "C",
   "D"
  ],
- "onDuty": "A",
- "previous": "C",
+ "onDuty": null,
+ "previous": "A",
  "accountState": {
-  "A": "on",
+  "A": "off",
   "B": "off",
   "C": "off",
   "D": "unused"
@@ -26,16 +26,18 @@
    "account": "A",
    "session": "session_01Eds6msqpsuzNEw98sdw8JX",
    "branch": "claude/confident-ritchie-8rwh7t",
-   "sha": "5335c494",
+   "sha": "1fec8d9f",
    "sinceSha": "5335c494",
    "since": "2026-10-21T15:24Z",
-   "state": "on",
+   "state": "handed-off",
    "prev": {
     "account": "C",
     "session": "session_01Me1thu8Zn934H58kWKNfuF",
     "branch": "claude/adoring-meitner-mqzst8",
     "sha": "7c58b598"
-   }
+   },
+   "handedOffAt": "2026-10-22T15:11Z",
+   "handoffSnapshot": "2026-10-22T1511Z_A_LAWWW.json"
   },
   "LAWWW2": {
    "account": "A",
@@ -90,8 +92,10 @@
    "BB": {
     "file": "2026-10-22T1508Z_A_BB.json",
     "ref": "origin/claude/story-planning"
-   }
-  }
+   },
+   "LAWWW": "2026-10-22T1511Z_A_LAWWW.json"
+  },
+  "closed": true
  },
  "history": [
   {
@@ -246,14 +250,7 @@
    "until": "2026-10-21T15:28Z"
   }
  ],
- "pending": {
-  "from": "A",
-  "rolesHandedOff": [
-   "AA",
-   "BB",
-   "LAWWW2"
-  ]
- },
+ "pending": null,
  "anomalies": [
   {
    "kind": "post-handoff-writes",
@@ -359,7 +356,7 @@
    "note": "duty verify 第 6 項：duty.json 記的 e089132e 是 BB-C 10-20 13:0x 接班時的 SHA（它交班時沒有用 duty handoff 更新），之後的 57 個 commit 是它值班期間的正常工作，最後一個 a71fe506 就是它自己的交班 commit（10-21 14:30，HANDOFF_GAP_MATRIX 第 1 節）。帳號 A 的 BB 已從這個分支接班（duty sync 15:3x）。LAWWW（帳號 A）查核"
   }
  ],
- "seq": 22,
+ "seq": 23,
  "chain": [
   {
    "seq": 1,
@@ -514,6 +511,13 @@
    "account": "A",
    "role": "LAWWW2,AA,BB",
    "event": "sync"
+  },
+  {
+   "seq": 23,
+   "at": "2026-10-22T15:11Z",
+   "account": "A",
+   "role": "LAWWW",
+   "event": "handoff"
   }
  ]
 }

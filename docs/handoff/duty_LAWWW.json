@@ -3,8 +3,8 @@
  "account": "A",
  "session": "session_01Eds6msqpsuzNEw98sdw8JX",
  "branch": "claude/confident-ritchie-8rwh7t",
- "since": "2026-10-21T15:24Z",
- "state": "on",
- "sinceSha": "5335c494",
- "userOk": false
+ "state": "handed-off",
+ "handedOffAt": "2026-10-22T15:11Z",
+ "sha": "1fec8d9f",
+ "snapshot": "2026-10-22T1511Z_A_LAWWW.json"
 }
