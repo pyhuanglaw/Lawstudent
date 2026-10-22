@@ -1,15 +1,16 @@
-// AA_367（企劃線 a7bd9741；任務 AA367-PG-DATES-1021）畢業以後交往中的六位每月一格（以安、芷若、語彤、子晴、學姊、沛珊）——不需要瀏覽器。
+// AA_367（企劃線 a7bd9741，AA_382 改十句以後 e6d4a198；任務 AA367-PG-DATES-1021）畢業以後交往中的六位每月一格（以安、芷若、語彤、子晴、學姊、沛珊）——不需要瀏覽器。
 //   0  載入：src/data/pg_dates.js、src/pgdates3d.js；102 個事件（每一格一個）
-//   1  逐字對稿：從 git 讀 a7bd9741 的稿（第 1～6 節的月份表），和資料、事件裡她說的那一句比；句子後面的（視訊）（打烊後）（電影）（台南）＝程式的方式
+//   1  逐字對稿：從 git 讀 e6d4a198 的稿（第 1～6 節的月份表），和資料、事件裡她說的那一句比；句子後面的（視訊）（打烊後）（電影）（台南）＝程式的方式
 //   2  時間、地點照各節：以安週六 15:00 總圖 B1、紐約＝臺灣週日 08:00 視訊；芷若雙月週六 22:00 打烊後、單月週日 10:00 早場電影；語彤 21:30 麵店打烊；子晴 23:00 公館宵夜；
 //      學姊 18:30 法圖旁邊那家；沛珊週六 22:00 視訊、四個月去台南（當天來回、高鐵）
 //   3  日子：每月第一個週六；撞到別的停點（稿上舉的四天、PG 的場景、別的出遊、可昕的格子、排在前面的另一位）往後找同月的下一個週六；整個月排不到就跳過；2030-12 只有 12/7
-//   4  不排：表上沒有的月份；語彤、學姊照路線的那幾條；交換延畢的大五上（2029-09～2030-01）
+//   4  不排：表上沒有的月份；語彤、學姊照路線的那幾條；交換延畢的 2029-12（大五上其他月份照排，AA_367 第 10 節 A4）
 //   5  長跳停在格子上；出發＝地點字幕＋她那一句；一路跳到 2030-12-13（以安、芷若、沛珊同時交往）每一格都停、一句不差；PG_DATE_<id>
 //   6  分手（ROM.end）、AA_346 選了另一位：排好的改 skipped、之後不排；被選的那一位照排
 //   7  舊存檔：讀檔那個月開始（那個月的第一個週六過了＝同月下一個週六），過去的月份不補、讀檔當下不一次排一堆
 //   8  沒交往：沒有格子
 // 修改前（開發分支 2eba2fab）：沒有 pg_dates.js、pgdates3d.js——每一節照樣跑（用空的替身），全部 FAIL（第 1 節讀稿那兩項除外）。用法：node tests/aa367_pg_dates_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H;
@@ -25,7 +26,7 @@ const caps=[]; GM.caption=(a,b)=>{ caps.push(b); };
 let paid=[]; GM.money=(n,why)=>{ paid.push([n,why]); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h, lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='a7bd9741';
+const SRC='docs/story_planning/AA_367_畢業以後的交往節奏_六位.md', SHA='e6d4a198';   /* AA_382 第 3 節：AA 改了十句（哪一個週六都說得通），白名單改成 e6d4a198 */
 const SIX=['heroine_01','heroine_02','heroine_03','heroine_04','heroine_05','classmate_peishan'];
 check('0. 載入 pg_dates.js、pgdates3d.js；102 個事件（每一格一個）、PG.stops／PG.RULES 有掛',ok0&&STORY_EVENTS.filter(e=>/^ev_pg_date_/.test(e.id)).length===102&&PG.stops.includes(PGDATE.stopFn)&&Array.isArray(PG.RULES)&&PG.RULES.includes(PGDATE.rulesFn));
 /* ---------- 稿（從 git 讀；測試自己的讀法）---------- */
@@ -65,7 +66,9 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
     check('2. 語彤「週六 21:30，麵店打烊以後」；子晴「週六 23:00，公館宵夜」；學姊「週六 18:30，法圖旁邊那家」（稿上的地點字幕例子）',/週六 21:30，\*\*麵店打烊以後\*\*/.test(S('heroine_03'))&&h('heroine_03','2029-06')===21.5&&pl('heroine_03','2029-06')==='麵店打烊以後'
       &&/週六 23:00，\*\*公館宵夜\*\*/.test(S('heroine_04'))&&h('heroine_04','2029-06')===23&&pl('heroine_04','2029-06')==='公館宵夜'&&/週六 18:30，\*\*法圖旁邊那家\*\*/.test(S('heroine_05'))&&h('heroine_05','2029-06')===18.5&&pl('heroine_05','2029-06')==='法圖旁邊那家'&&/「法圖旁邊那家」/.test(doc));
     check('2. 沛珊：平常「週六 22:00 視訊」；2029-10、2030-03、2030-06、2030-10 去台南（週六當天來回、高鐵）',/週六 22:00 \*\*視訊\*\*/.test(S('classmate_peishan'))&&/（2029-10、2030-03、2030-06、2030-10）：週六當天來回，坐高鐵/.test(S('classmate_peishan'))&&h('classmate_peishan','2029-08')===22&&pl('classmate_peishan','2029-08')==='視訊'
-      &&['2029-10','2030-03','2030-06','2030-10'].every(ym=>M('classmate_peishan',ym).m==='tn')&&(PGDATE.MODE.tn||{}).travel==='高鐵約一小時四十分鐘'&&(PGDATE.MODE.tn||{}).fare===2700); });
+      &&['2029-10','2030-03','2030-06','2030-10'].every(ym=>M('classmate_peishan',ym).m==='tn')&&(PGDATE.MODE.tn||{}).travel==='高鐵約一小時四十分鐘'&&(PGDATE.MODE.tn||{}).fare===2700);
+    { const G=fresh('2029-06-03',10,{},'classmate_peishan'), sp=ym=>(PGDATE.sixSlot(G,'classmate_peishan',ym,D(ym+'-06'),M('classmate_peishan',ym))||{}).place;
+      check('2. 沛珊去台南的地點字幕（AA_367 第 10 節 A3）：2029-10、2030-03、2030-06「台南・她的學校」；2030-10「台南・她實習的國小」',['2029-10','2030-03','2030-06'].every(ym=>sp(ym)==='台南・她的學校')&&sp('2030-10')==='台南・她實習的國小',JSON.stringify(['2029-10','2030-03','2030-06','2030-10'].map(sp))); } });
   /* ---------- 3 日子 ---------- */
   await sec('3',async()=>{
     { const P=plan(fresh('2029-06-03',10,{},'heroine_01')).heroine_01;
@@ -99,9 +102,13 @@ const untilOut=async(G,n)=>{ for(let i=0;i<(n||30)&&!OUT.due(G);i++){ const s=PG
       const none=sis({}), reg=sis({BAR_REG:true}), fail=sis({BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:9}), pass=sis({BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14}), d30=sis({EXCHANGE_ROUTE:'US',BAR_REG_2030:true});
       check('4. 學姊：沒報國考＝19 個月都排；2029 年報了國考＝沒有 2029-08；沒考上要重考＝也沒有 2029-09、2030-08、2030-12；上榜＝沒有 2029-08、2029-12；2030 年才考（交換延畢）＝沒有 2030-08、12（還有大五上）',
         none.length===19&&!reg.includes('2029-08')&&reg.length===18&&!fail.includes('2029-09')&&!fail.includes('2030-08')&&!fail.includes('2030-12')&&fail.includes('2029-12')&&!pass.includes('2029-12')&&!pass.includes('2029-08')&&pass.includes('2029-09')&&!d30.includes('2030-08')&&!d30.includes('2030-12')&&d30.includes('2029-08'),JSON.stringify({reg,fail,pass,d30})); }
-    { const P=plan(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},SIX)); const bad=SIX.filter(id=>Object.keys(P[id]||{}).some(m=>m>='2029-09'&&m<='2030-01'));
-      const Z=months(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},'heroine_04'),'heroine_04');
-      check('4. 交換延畢（日本、美國路線）：大五上 2029-09～2030-01 六位都不排（照一般遊戲）；之前、之後照排（子晴 19-5＝14 個月）',Object.keys(P).length>0&&!bad.length&&Z.length===14&&Z.includes('2029-08')&&Z.includes('2030-02'),bad.join(',')+' '+JSON.stringify(Z)); } });
+    { const P=plan(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},SIX)); const bad=SIX.filter(id=>Object.keys(P[id]||{}).includes('2029-12'));
+      const Z=months(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'JP'},'heroine_04'),'heroine_04'), Zu=months(fresh('2029-06-03',10,{EXCHANGE_ROUTE:'US'},'heroine_04'),'heroine_04');
+      check('4. 交換延畢（日本、美國路線）：大五上 2029-09～2030-01 照排，只有 2029-12 不排（12/21 延畢的期末約會；AA_367 第 10 節 A4，e6d4a198——原本「大五上都不排」作廢）；子晴 19-1＝18 個月',
+        Object.keys(P).length>0&&!bad.length&&Z.length===18&&!Z.includes('2029-12')&&['2029-08','2029-09','2029-10','2029-11','2030-01','2030-02'].every(m=>Z.includes(m))&&JSON.stringify(Zu)===JSON.stringify(Z),bad.join(',')+' '+JSON.stringify(Z)); }
+    { const yt={BAR_STUDY_GROUP:['heroine_03']}, Y1=months(fresh('2029-06-03',10,Object.assign({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true},yt),'heroine_03'),'heroine_03'), Y2=months(fresh('2029-06-03',10,Object.assign({EXCHANGE_ROUTE:'JP',BAR_REG_2030:false},yt),'heroine_03'),'heroine_03');
+      check('4. 語彤：交換延畢 2030 第一次考、讀書小組有她＝沒有 2030-07、12（7/11 總圖 B1、12/13 麵店會演；AA_367 第 10 節 A4）；2030 不考＝照排',
+        !Y1.includes('2030-07')&&!Y1.includes('2030-12')&&Y2.includes('2030-07')&&Y2.includes('2030-12'),JSON.stringify({Y1,Y2})); } });
   /* ---------- 5 長跳停在格子上 ---------- */
   await sec('5',async()=>{
     { const G=fresh('2029-06-03',10,{},'heroine_05'); H.tick(); STORY.phoneRules(GM); PHONE.tick(G);   /* [前置] 測試存檔缺的舊訊息先送完 */

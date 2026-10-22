@@ -143,7 +143,7 @@ const D2=STORY._day2||{};
     check('18. 以安 A-L9：「你期中哪一週最多？期中考那週我有三科。」（三科都在第 8 週）',!!L9&&J(L9.lines)===J(['你期中哪一週最多？期中考那週我有三科。']),J(L9&&L9.lines));
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_372_/.test(e.path));
     const lad=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/ladder/ladder_aa.json');
-    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；ladder.js 的來源寫 7fca0df5、不再寫 AA_372@ 疊句）；AA_372 本身的白名單換到 7fca0df5（第 6 節）',lad.length===1&&lad[0].sha==='7fca0df5'&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='7fca0df5'&&allow[0].status==='approved'&&allow[0].task==='AA372-Y1S1-FIX-1021'&&/7fca0df5（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
+    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；ladder.js 的來源寫 7fca0df5、不再寫 AA_372@ 疊句）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='7fca0df5'&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/7fca0df5（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
   // ===== 第 8 項：以安、沛珊說回台中的週末 =====
   { const pr=(id,k)=>STORY.presence(id,Object.assign({},G,{day:D(k)}));
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); R('classmate_peishan','FAM');
@@ -205,7 +205,7 @@ const D2=STORY._day2||{};
     const arow=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D26'); const aenc=k=>{ G.day=D(k); G.weekday=wdOf(G.day); G.hour=15; G.zone='taichung'; const why=[]; return {ok:!!ENC.eligible(G,arow,why),why}; };
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM');
     const A=[aenc('2025-09-27'),aenc('2025-10-25'),aenc('2025-11-22'),aenc('2025-10-04')];
-    check('第 6 節第 8 題. 以安在台中的偶遇（D26 審計新村）：大一上第 4、8、12 週的週六 9/27、10/25、11/22 照排；第 5 週 10/4（她在臺北）不排',A[0].ok&&A[1].ok&&A[2].ok&&!A[3].ok,J(A.map(x=>x.why)));
+    check('第 6 節第 8 題. 以安在台中的偶遇（D26 審計新村）：大一上第 4、12 週的週六 9/27、11/22 照排；第 5 週 10/4（她在臺北）不排；第 8 週 10/25 是期中考週，AA_383 第 2 節拿掉（她照樣回台中、不給約）',A[0].ok&&!A[1].ok&&A[2].ok&&!A[3].ok,J(A.map(x=>x.why)));
     const ax=pr('heroine_01','2025-09-27'); check('第 6 節第 8 題. 對照：那幾個週末手機照舊「回台中」、邀約「回台中，不在臺北。」（不開寒暑假的「我去台中找妳？」）',ax.away==='回台中'&&ax.kind==='trip'&&INV.whyNot(Object.assign(G,{day:D('2025-09-27'),weekday:6}),'heroine_01')==='回台中，不在臺北。'&&(typeof HV==='undefined'||!HV.offer||HV.offer(G,'heroine_01')==null),J([ax,INV.whyNot(G,'heroine_01')]));
   }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

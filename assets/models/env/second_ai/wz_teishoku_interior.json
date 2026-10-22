@@ -1,0 +1,15 @@
+{
+ "objects": 37,
+ "unique_meshes": 37,
+ "tris": 19488,
+ "tris_drawn": 19488,
+ "materials": 24,
+ "out": "assets/models/env/second_ai/wz_teishoku_interior.glb",
+ "bytes": 1575400,
+ "texres": 512,
+ "shop": "teishoku",
+ "layout": 1,
+ "tris_total": 19488,
+ "seats": 18,
+ "block_problems": []
+}

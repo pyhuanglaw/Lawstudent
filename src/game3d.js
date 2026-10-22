@@ -35,7 +35,7 @@ const GAME = (function(){
      （2026-10-13 批次 3：第一天和阿哲吃麵 +3，第三天約他吃飯還是「認識」）→ 兩邊一起加（熟悉度 d、信任 0.6d，和搬家的換算一樣）*/
   function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&G.social&&d){ SOCIAL.adjust(CID[id]||id,{fam:d,trust:Math.round(d*0.6)}); if(SOCIAL.feel) delete SOCIAL.feel[CID[id]||id]; }   /* 這裡自己有提示：對話結束的「熟了一點」不再重複 */ if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
   GM.rel=rel;
-  const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'小語',prof:'周教授'}; GM.NPCNAME=NPCNAME;
+  const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'Alison',prof:'周教授'}; GM.NPCNAME=NPCNAME;
   function energy(d){ if(G) G.energy=100; }   /* DL-02（AA_160 2-8，使用者 10-16「體力的設計都刪掉」）：體力拿掉了；保留函式名稱、不做事，G.energy 固定 100（存檔欄位留著，舊存檔照讀）*/
   GM.energy=energy;
   function money(d){ G.money+=d; updateHUD(); if(d<0) toast('💸 '+(-d)+' 元'); }
@@ -183,10 +183,12 @@ const GAME = (function(){
     const show=()=>{ const n=g.filter(k=>ASSETS.has(k)).length; bar.style.width=Math.round(100*n/Math.max(1,g.length))+'%'; msg.textContent='載入人物 '+n+'／'+g.length+'（已下載 '+(ASSETS.bytes.done/1048576).toFixed(1)+' MB）'+(ASSETS.lastErr?'・網路不穩，重新下載中':(performance.now()-t0>20000?'・網路比較慢，還在下載':'')); };
     show(); L.classList.remove('hide'); const iv=setInterval(show,300); try{ await GM.charsAllP; } finally { clearInterval(iv); L.classList.add('hide'); } }
   GM.waitChars=waitChars;
+  GM.UPG_EXTRA=1;
   GM.upgradeModels=function(){ if(!E||!E.player) return 0; let n=0;
     if(CHAR.needsUpgrade(E.player.obj)){ const old=E.player.obj, nh=CHAR.upgrade(old); if(nh){ E.player.obj=nh; GM.heroDriver=nh.userData.driver; for(const m of E.npcs) if(m.lookAt===old.position) m.lookAt=nh.position; n++; if(E.prePose) E.prePose(E.player); } }
-    for(const m of E.npcs){ if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; if(E.prePose) E.prePose(m); } } }   /* 新的骨架先套好姿勢（坐著的人不會先站一幀）*/
-    for(const x of (GM.extras||[])){ if(x.rider&&CHAR.needsUpgrade(x.rider)){ const nh=CHAR.upgrade(x.rider); if(nh){ x.rider=nh; n++; } } }
+    let ex=0;   /* 路人（isExtra、騎士）一次最多換 GM.UPG_EXTRA 個（每 1.5 秒叫一次）：新的路人底模到了，不要同一格全部換上（PERF-NPC-POOL-1022：那一格要建 VRM、傳貼圖、編 shader）；主角、有名字的人照舊馬上換 */
+    for(const m of E.npcs){ if(m.isExtra&&ex>=GM.UPG_EXTRA) continue; if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; if(m.isExtra) ex++; if(E.prePose) E.prePose(m); } } }   /* 新的骨架先套好姿勢（坐著的人不會先站一幀）*/
+    for(const x of (GM.extras||[])){ if(ex>=GM.UPG_EXTRA) break; if(x.rider&&CHAR.needsUpgrade(x.rider)){ const nh=CHAR.upgrade(x.rider); if(nh){ x.rider=nh; n++; ex++; } } }
     if(n) console.info('upgraded character models:',n); return n; };
   /* 一模一樣的路人站在旁邊（BUG-NPC-DUP-1018）：4 m 內同一層有人用同一個路人底模，換成附近沒人用的（CHAR.reAnon）。換模型會閃一下：平常只換不在畫面裡的人，換區域的黑幕裡（all）全部換 */
   GM.dedupAnon=function(all){ if(!E||!CHAR.anonKeyOf||typeof THREE==='undefined') return 0; const L=E.npcs.filter(n=>n.isExtra&&n.obj&&CHAR.anonKeyOf(n.obj)); if(L.length<2) return 0;
@@ -313,6 +315,7 @@ const GAME = (function(){
     if(typeof STORY!=='undefined'&&STORY.routeWatch&&s.flags&&typeof s.flags==='object'){ try{ STORY.routeWatch(s); }catch(e){ console.warn('STORY.routeWatch',e); } }   /* 交換路線（1A-02，BB-C 10-20）：宿舍舊選單選過、還沒截止的（EXCH_APPLIED_DAY、沒有 EXCH_RULE）讀檔就清掉——讀進來坐著、在劇情裡 S.tick 不跑；已經過了截止、還沒有路線的照同一個規則補（在 ROM.rec 之後：routeFor 讀交往紀錄）*/
     if(typeof PG!=='undefined'&&PG.migrate&&s.flags&&typeof s.flags==='object'){ try{ PG.migrate(s); }catch(e){ console.warn('PG.migrate',e); } }   /* 交換延畢的國考報名（AA_357 1-6）：2029-05-10 被自動設成報名的清掉，2030-05-10 再問（src/postgrad3d.js）*/
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
@@ -539,7 +542,7 @@ const GAME = (function(){
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>{ const blk=typeof PHONE!=='undefined'&&PHONE.optBlocked&&PHONE.optBlocked(G,o); return '<button class="btn'+(k===0&&!blk?' pri':'')+'"'+(blk?' disabled style="opacity:.5"':'')+' data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+(blk&&o.need.why?'（'+escH(o.need.why)+'）':'')+'</button>'; }).join('')+'</div>';
-  /* 訊息帶的照片是一張 CG（m.cg，phone3d.js；例：CG-2b 小語在公法讀書會群組傳的白板，AA_343 E2）：在文字下面顯示，白邊像手機照片 */
+  /* 訊息帶的照片是一張 CG（m.cg，phone3d.js；例：CG-2b Alison 在公法讀書會群組傳的白板，AA_343 E2）：在文字下面顯示，白邊像手機照片 */
   const msgPhoto=m=>m&&m.cg&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[m.cg]?'<div style="margin-top:6px"><img src="'+escH(CG_REGISTRY[m.cg].file)+'" alt="" style="display:block;width:100%;max-width:300px;border:4px solid #fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.35)"></div>':'';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */

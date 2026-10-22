@@ -46,7 +46,7 @@ GM.money=function(n){ G.money+=n; };
   const sys=(G.msgs||[]).filter(m=>m.th==='sys').map(m=>m.text), mom=txt('g:home');
   check('2. 第 12 週週一 12:00：【通知】恭喜錄取…行前說明會；媽媽「機票多少？我轉給你」「護照記得看效期」',sys.includes('【通知】恭喜錄取姊妹校暑期交流（首爾）。行前說明會：'+x14.m+'/'+x14.d+'（三）12:20。')&&mom.includes('mom:機票多少？我轉給你')&&mom.includes('mom:護照記得看效期'),JSON.stringify([sys,mom]));
   // 3. 出發 → 整段（歡迎晚會、市場、報告、最後一晚選炸雞）→ 回來；出發那天麵店團、回來阿哲「伴手禮咧」、智恩 7/31
-  G.day=D('2026-07-13'); G.weekday=wdOf(G.day); G.hour=7.9; run(7.9,8.1); check('3. 出發那天麵店團：阿哲「記得吃炸雞」、小語「幫我看有沒有好看的筆」',txt('g:noodle_team').includes('zhe:記得吃炸雞')&&txt('g:noodle_team').includes('yu:幫我看有沒有好看的筆'));
+  G.day=D('2026-07-13'); G.weekday=wdOf(G.day); G.hour=7.9; run(7.9,8.1); check('3. 出發那天麵店團：阿哲「記得吃炸雞」、Alison「幫我看有沒有好看的筆」',txt('g:noodle_team').includes('zhe:記得吃炸雞')&&txt('g:noodle_team').includes('yu:幫我看有沒有好看的筆'));
   said=[]; cards=[]; picks=[1,0,0,1]; await VAC.outing(GM,OUT.get(G,'vac_C08@Y1')); let L=lines();
   check('3. 首爾整段：報到櫃台、智恩「這個，不辣。我試過。」→「妳中文好好。」、市場、分組報告、最後一晚「寫你們的炸雞。」；7/24 18:00、參加過',L.some(t=>t.includes('每個人的行李都比你小'))&&L.includes('智恩：這個，不辣。我試過。')&&L.includes('智恩：我學三年了。……可是你們說話太快。')&&L.some(t=>t.includes('賣了四十年'))&&L.includes('智恩：（笑）老師會生氣。')&&G.flags.C08_CHICKEN&&G.day===D('2026-07-24')&&G.hour===18&&VAC.state(G,'C08@Y1')==='done',JSON.stringify(L.slice(-4)));
   check('3. 字卡「首爾」',cards.some(c=>c[1]==='首爾'&&c[0].startsWith('7/18')),JSON.stringify(cards));
@@ -139,9 +139,9 @@ GM.money=function(n){ G.money+=n; };
     fresh(D('2027-08-10'),8.9,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C10@Y2']='done'; run(8.9,9.2); check('11. B＋版：旁白一門 A−、一門 B＋，不傳群組',(G.msgs||[]).some(m=>m.th==='sys'&&m.text.startsWith('（一門 A−，一門 B＋。'))&&!txt('g:home').length); }
   // 12. 回來後第一次在 3D 遇到朋友（AA_242 8-7）
   { fresh(D('2026-07-26'),12,'campus',{BACK_FROM_C08:D('2026-07-24')}); G.stage='law'; meet('yu'); R('yu',30,10,5); meet('heroine_01'); R('heroine_01',30,10,5); G.flags.dating_heroine_01=true;
-    said=[]; const a=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu'); const b=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu'); const c=await VAC.backGreet(GM,{name:'以安',charId:'heroine_01'},'heroine_01');
-    check('12. 小語（FAMILIAR）第一次遇到「你回來了！伴手禮咧！」、只一次；交往中的以安沒有（她有重逢）',a&&!b&&!c&&lines().join('|')==='小語：你回來了！伴手禮咧！',JSON.stringify(lines()));
-    G.day=D('2026-08-30'); delete VAC.rec(G).backSeen; check('12. 超過 30 天不說',!(await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu')));
+    said=[]; const a=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu'); const b=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu'); const c=await VAC.backGreet(GM,{name:'以安',charId:'heroine_01'},'heroine_01');
+    check('12. Alison（FAMILIAR）第一次遇到「你回來了！伴手禮咧！」、只一次；交往中的以安沒有（她有重逢）',a&&!b&&!c&&lines().join('|')==='Alison：你回來了！伴手禮咧！',JSON.stringify(lines()));
+    G.day=D('2026-08-30'); delete VAC.rec(G).backSeen; check('12. 超過 30 天不說',!(await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu')));
     check('12. talkCharacter 在閒聊前呼叫 VAC.backGreet',/VAC\.backGreet\(GM,who,id\)/.test(require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'))); }
   // 13. 朋友揪團（AA_244 3-2、BB_200 第 8 節）：大二方奕廷日本的山、大三子晴曼谷
   { fresh(D('2027-07-10'),20.9,'dorm',{}); G.stage='law'; meet('npc_fangyt'); R('npc_fangyt',30,10,5); PHONE.join(G,'noodle_team','麵店團'); run(20.9,21.2);
@@ -214,7 +214,7 @@ GM.money=function(n){ G.money+=n; };
     { G.day=d; const E1=STORY_EVENTS.find(e=>e.id==='ev_va03_beach'), first=E1.dialogue.filter(l=>l.text&&/風很大/.test(l.text)&&(!l.if||EVENTS.cond(l.if))&&(!l.unless||!EVENTS.cond(l.unless))).map(l=>l.text);
       check('17b. 第一句旁白每年都是「（放寒假的第二個禮拜。……）」（AA_264 第 5 節第 4 點）',JSON.stringify(first)==='["（放寒假的第二個禮拜。下火車的時候，天陰陰的，風很大。）"]',JSON.stringify(first)); }
     G.flags.VA03_BEACH='went'; G.hour=20.1; STORY.phoneRules(GM); PHONE.tick(G);
-    check('17b. 去了：當晚小語「📷（海邊的合照）」「五張裡最好的一張」',txt('g:noodle_team').includes('yu:五張裡最好的一張'));
+    check('17b. 去了：當晚 Alison「📷（海邊的合照）」「五張裡最好的一張」',txt('g:noodle_team').includes('yu:五張裡最好的一張'));
     { const d3=VAC.c01Day('Y3'); G.day=VAC.c01Ask(d3); G.hour=21; run(21,21.2); check('17b. 隔年算第二次：「今年還去海邊嗎」',txt('g:noodle_team').includes('zhe:今年還去海邊嗎')); }
     { const d4=VAC.c01Day('Y4'); fresh(VAC.c01Ask(d4),21,'dorm',{}); G.stage='law'; PHONE.join(G,'noodle_team','麵店團'); run(21,21.8);
       check('17b. 大四才第一次去：阿哲「禮拜二去海邊？過幾天我就回高雄了」',txt('g:noodle_team').includes('zhe:禮拜二去海邊？過幾天我就回高雄了')); }

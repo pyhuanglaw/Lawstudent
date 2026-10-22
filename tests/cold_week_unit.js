@@ -1,6 +1,6 @@
 // 1A-04 主線 6　感冒的那一週（AA_315；台詞照 AA_315 第 3 節）——不需要瀏覽器。照 AA_315 第 8 節給 BB 的驗收情境 C1～C10 寫：
 //   0. 第 2 節：一般版／很少交會版的判斷；
-//   1. C1 單身、在群組、阿哲小語柏翰好朋友以上、選「在群組說」：群組三則回覆；10/24 交誼廳 語彤＋三人、CG、最熟的人問「那一句」；旗標與記憶；
+//   1. C1 單身、在群組、阿哲 Alison 柏翰好朋友以上、選「在群組說」：群組三則回覆；10/24 交誼廳 語彤＋三人、CG、最熟的人問「那一句」；旗標與記憶；
 //   2. C2 和可昕交往、跟她說：21:30 外送粥＋「我考完就過去。你先活著。」；沒人來＝3-5、睡到隔天中午；10/26 她來、由她問；
 //   3. C3 和可昕交往、誰都不說：21:00 電話三句；10/26 只說「下次要說。我想在。」、不問；
 //   4. C4 和學姊交往、跟她說：學姊在交誼廳、沒有 CG、她分兩句問、回答後「……好。先吃，要冷了。」；
@@ -48,8 +48,8 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   fresh(d23,8,'dorm'); date('kexin'); check('0. 和可昕交往：一般版（可昕也算）', STORY.coldWeekGeneral(G)===true);
   fresh(d23,8,'dorm'); R('kai','CLO'); check('0. 阿凱好朋友以上、沒有 SUNDAY_SUPPER：不算', STORY.coldWeekGeneral(G)===false);
   SOCIAL.remember('kai','SUNDAY_SUPPER',''); check('0. 阿凱好朋友以上＋SUNDAY_SUPPER：一般版', STORY.coldWeekGeneral(G)===true);
-  fresh(d23,8,'dorm'); R('yu','CLO'); check('0. 小語好朋友以上、不在麵店團：不算', STORY.coldWeekGeneral(G)===false);
-  PHONE.join(G,'noodle_team','麵店團'); check('0. 小語好朋友以上＋在麵店團：一般版', STORY.coldWeekGeneral(G)===true);
+  fresh(d23,8,'dorm'); R('yu','CLO'); check('0. Alison 好朋友以上、不在麵店團：不算', STORY.coldWeekGeneral(G)===false);
+  PHONE.join(G,'noodle_team','麵店團'); check('0. Alison 好朋友以上＋在麵店團：一般版', STORY.coldWeekGeneral(G)===true);
   fresh(d23,8,'dorm'); R('heroine_03','FRI'); check('0. 語彤只是朋友（FRIEND）：不算', STORY.coldWeekGeneral(G)===false);
 
   // 1. C1
@@ -57,11 +57,11 @@ const night=async()=>{ G.day=d24; G.hour=21.5; G.zone='dorm'; said=[]; cgs=[]; r
   check('1. C1 10/23 早上在房間：打噴嚏到期（起床選單之前，S.tick）', STORY.coldSneezeDue(G)===true);
   picks=['在麵店團群組']; await STORY.coldWeekSneeze(GM);
   check('1. C1 打噴嚏兩句（逐字）、選項（群組、誰都不說）', said[0]&&said[0].t==='（起床的時候，你打了三個噴嚏。）'&&said[1]&&said[1].t==='（頭有點重。）'&&opts[0].join('|')==='（在麵店團群組說一聲。）|（誰都不說。睡一下就好了。）', JSON.stringify(opts[0]));
-  check('1. C1 群組：你傳「我好像感冒了。」、阿哲「收到。」小語「多喝水。」柏翰「刑訴筆記我有。」', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['player:我好像感冒了。','zhe:收到。','yu:多喝水。','classmate_bohan:刑訴筆記我有。'])&&G.flags.COLD_WEEK==='night'&&G.flags.COLD_WEEK_TOLD==='group', JSON.stringify(txt('g:noodle_team')));
-  { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、小語、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
+  check('1. C1 群組：你傳「我好像感冒了。」、阿哲「收到。」Alison「多喝水。」柏翰「刑訴筆記我有。」', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['player:我好像感冒了。','zhe:收到。','yu:多喝水。','classmate_bohan:刑訴筆記我有。'])&&G.flags.COLD_WEEK==='night'&&G.flags.COLD_WEEK_TOLD==='group', JSON.stringify(txt('g:noodle_team')));
+  { const C=STORY.coldWeekCast(G); check('1. C1 名單：語彤、阿哲、Alison、柏翰（3-2 的順序）；CG；最熟的人問（阿哲）', JSON.stringify(C.visitors)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&C.cg===true&&C.asker==='zhe'&&!C.partner, JSON.stringify(C)); }
   G.money=5000; G.energy=70; picks=[1]; await night(); const L1=lines();
   check('1. C1 21:30 房間一句 → 手機響了 → 下樓到交誼廳（3D dorm_hall）', said[0].t==='（晚上九點半。你躺在床上，額頭燙得不像自己的。）'&&said[1].t==='（手機響了。你披了一件外套，下樓到交誼廳。）'&&entered.includes('dorm_hall'), JSON.stringify(entered));
-  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('小語：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('許柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('小語：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
+  check('1. C1 出場順序與台詞（逐字）', L1.includes('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')>L1.indexOf('陳語彤：嗯。阿姨煮的粥。不要問我怎麼知道的。')&&L1.indexOf('Alison：面紙。你鼻子好紅。')>L1.indexOf('阿哲：滷味。我跟老闆說是病人吃的，他多給一顆蛋。')&&L1.indexOf('許柏翰：刑訴的筆記。我多印了一份。')>L1.indexOf('Alison：面紙。你鼻子好紅。'), JSON.stringify(L1.slice(2,7)));
   check('1. C1 CG cg_cold_week_friends 在「那一句」之前', cgs[0]==='cg_cold_week_friends');
   check('1. C1 阿哲問（通用一句）、選第 2 個、回答後「好。考完再跟我講一次。」、結尾（逐字）', L1.includes('阿哲：你每次都在幫別人查。你自己呢？你想用法律做什麼？')&&L1.includes('阿哲：好。考完再跟我講一次。')&&L1[L1.length-1]==='（十點半。交誼廳的燈關了一半。你上樓的時候，手上還提著一個塑膠袋。）', JSON.stringify(L1.slice(-3)));
   check('1. C1 旗標：COLD_WEEK_PRESENT、COLD_WEEK_ANSWER why、BEING_HEARD（阿哲）、HELPED（四位）', JSON.stringify(G.flags.COLD_WEEK_PRESENT)===JSON.stringify(['heroine_03','zhe','yu','classmate_bohan'])&&G.flags.COLD_WEEK_ANSWER==='why'&&SOCIAL.has('zhe','BEING_HEARD')&&['heroine_03','zhe','yu','classmate_bohan'].every(id=>SOCIAL.has(id,'HELPED'))&&!SOCIAL.has('yu','BEING_HEARD'));

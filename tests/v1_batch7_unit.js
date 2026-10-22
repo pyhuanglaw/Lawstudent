@@ -133,7 +133,7 @@ const tickOut=async()=>{ const p=OUT.tick(GM); if(p) return await p; return null
     let L=await playBBQ({},null,[]);
     check('烤肉（只認識阿哲）：河濱、「阿哲負責烤。」，以安、語彤、柏翰、方奕廷、可昕都不在',caps.includes('河濱')&&L.includes('阿哲負責烤。')&&!L.some(t=>/以安|語彤|柏翰|方奕廷|可昕來了|菜單/.test(t)),JSON.stringify(L));
     L=await playBBQ({met_yu:true},()=>{ for(const id of ['heroine_01','heroine_03','classmate_bohan','npc_fangyt']) SOCIAL.remember(id,'FIRST_MET',''); },[]);
-    check('烤肉（大家都認識）：小語負責吃、以安的烤肉時間表、語彤阿姨醃的肉、柏翰的考古題被沒收、方奕廷講植物；阿哲「可以叫阿姨開一個烤肉的菜單嗎？」語彤「不行。她會真的開。」',['阿哲負責烤，小語負責吃。','以安帶了一張「烤肉時間表」。','語彤帶了阿姨醃的肉。全場最好吃。','柏翰帶了考古題，被沒收了。','可以叫阿姨開一個烤肉的菜單嗎？','不行。她會真的開。'].every(t=>L.includes(t))&&L.some(t=>/方奕廷/.test(t)),JSON.stringify(L));
+    check('烤肉（大家都認識）：Alison 負責吃、以安的烤肉時間表、語彤阿姨醃的肉、柏翰的考古題被沒收、方奕廷講植物；阿哲「可以叫阿姨開一個烤肉的菜單嗎？」語彤「不行。她會真的開。」',['阿哲負責烤，Alison 負責吃。','以安帶了一張「烤肉時間表」。','語彤帶了阿姨醃的肉。全場最好吃。','柏翰帶了考古題，被沒收了。','可以叫阿姨開一個烤肉的菜單嗎？','不行。她會真的開。'].every(t=>L.includes(t))&&L.some(t=>/方奕廷/.test(t)),JSON.stringify(L));
     L=await playBBQ({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);
     check('K3 介紹「這是可昕，我女朋友。」：阿哲「哪間學校的？」可昕「政大的。考古題可以交換。」；之後比冷笑話、阿哲贏→「好，我回去練。」；不透露經濟系',L.includes('哪間學校的？')&&L.includes('政大的。考古題可以交換。')&&L.includes('好，我回去練。')&&G.flags.ECON_PAST_SHARED===undefined&&G.flags.KX_MET_NOODLE_TEAM===true,JSON.stringify(L.slice(-6)));
     L=await playBBQ({KX_BBQ_COME:true},null,['出題','可昕贏']);

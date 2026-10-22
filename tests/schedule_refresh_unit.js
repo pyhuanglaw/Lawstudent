@@ -35,12 +35,12 @@ const fmt=h=>String(Math.floor(h)).padStart(2,'0')+':'+String(Math.round((h%1)*6
 { GM=newGM('campus',3,5,14.5,F0); STORY.populate('campus',GM); flow(15.52);
   const due=Object.keys(CHARACTERS).filter(id=>{ const w=where(id); return w&&w.zone==='campus'; });
   const miss=due.filter(id=>!here(id)); check('週五 14:30 進校園、待到 '+fmt(GM.G.hour)+'：行程說在校園的人都在（'+due.map(id=>CHARACTERS[id].name).join('、')+'）',due.length>0&&miss.length===0,miss.length?'沒出現：'+miss.map(id=>CHARACTERS[id].name).join('、'):''); }
-// 2) 11:50 進校園，小語坐在傅鐘的長椅（行程到 12:00）；12:01 以後玩家離很遠：她離開
+// 2) 11:50 進校園，Alison 坐在傅鐘的長椅（行程到 12:00）；12:01 以後玩家離很遠：她離開
 { GM=newGM('campus',3,5,11.8333,F0,null,400); STORY.populate('campus',GM); const was=here('yu'); flow(12.05);
-  check('11:50 小語在傅鐘長椅；12:00 時段結束、玩家在 12 m 外：她離開（人物線索也不再寫她在校園）',was&&!here('yu')&&!(where('yu')&&where('yu').zone==='campus'),'一開始 '+was+'、之後 '+here('yu')); }
+  check('11:50 Alison 在傅鐘長椅；12:00 時段結束、玩家在 12 m 外：她離開（人物線索也不再寫她在校園）',was&&!here('yu')&&!(where('yu')&&where('yu').zone==='campus'),'一開始 '+was+'、之後 '+here('yu')); }
 // 3) 同上，但玩家就在旁邊、看得到：不在眼前消失（測試裡沒有鏡頭＝一律算看得到）
 { GM=newGM('campus',3,5,11.8333,F0,null,0); STORY.populate('campus',GM); const n=EVENTS.npcOf('yu'); if(n) GM.E.player.obj.position={x:n.obj.position.x+2,y:0,z:n.obj.position.z}; flow(12.05);
-  check('時段結束、玩家在旁邊看著：小語不會憑空消失',!!n&&here('yu')); }
+  check('時段結束、玩家在旁邊看著：Alison 不會憑空消失',!!n&&here('yu')); }
 // 4) 18:40 進 Café，待到 19:01：林芷若 19:00 開始打工，要出現
 { const seats=Array.from({length:12},(_,i)=>({x:i,z:0,yaw:0,row:0,col:i})); GM=newGM('cafe',3,5,18.6667,F0,seats); STORY.populate('cafe',GM); const was=here('heroine_02'); flow(19.1);
   const w=where('heroine_02'); check('18:40 進 Café、待到 '+fmt(GM.G.hour)+'：林芷若（行程：'+(w?w.zone+' '+(w.act||''):'—')+'）在店裡',!was&&!!w&&w.zone==='cafe'&&here('heroine_02'),'一開始 '+was+'、之後 '+here('heroine_02')); }

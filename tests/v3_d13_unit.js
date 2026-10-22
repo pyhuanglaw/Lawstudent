@@ -1,5 +1,5 @@
 // 大二過年（V3-D13；AA_143 2-1 新的字，AA-B 9035ede0）——不需要瀏覽器。
-// 檢查：初一 2027-02-06 11:00 麵店團群組：阿哲三則、以安三則、小語兩則、阿哲、小語；三個回覆；不在麵店團沒有；大一的原句不重用；大一的拜年照舊只在大一。用法：node tests/v3_d13_unit.js
+// 檢查：初一 2027-02-06 11:00 麵店團群組：阿哲三則、以安三則、Alison 兩則、阿哲、Alison；三個回覆；不在麵店團沒有；大一的原句不重用；大一的拜年照舊只在大一。用法：node tests/v3_d13_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -43,11 +43,11 @@ GM.money=function(n){ G.money+=n; };
   check('1. 11:00 十則照 AA_143 2-1',JSON.stringify(t)===JSON.stringify(want),JSON.stringify(t));
   check('1. 大一的原句沒有出現（高雄沒有冬天、第三個路口）',!t.some(x=>/高雄沒有冬天|第三個路口/.test(x)));
   const m=TH(NG).find(x=>x.ask&&x.ask.id==='cny_noodle_y2_reply');
-  check('2. 三個回覆',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（傳家裡的年夜飯照片）","新年快樂。小語，醜的水餃比較好吃。","（傳一張貼圖）"]');
+  check('2. 三個回覆',!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["（傳家裡的年夜飯照片）","新年快樂。Alison，醜的水餃比較好吃。","（傳一張貼圖）"]');
   PHONE.answer(G,'cny_noodle_y2_reply',0);
   check('2. 年夜飯照片 → 阿哲「哥，你家也太多菜！」以安「左下角那盤是什麼？……記下來了。」',txt(NG).slice(-3).join('｜')==='player:📷（家裡的年夜飯，滿桌的菜）｜zhe:哥，你家也太多菜！｜heroine_01:左下角那盤是什麼？……記下來了。',JSON.stringify(txt(NG).slice(-3)));
   setup(ny,10.9); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',1);
-  check('2. 醜的水餃 → 小語「連你也！」阿哲「哥懂我。」',txt(NG).slice(-2).join('｜')==='yu:連你也！｜zhe:哥懂我。');
+  check('2. 醜的水餃 → Alison「連你也！」阿哲「哥懂我。」',txt(NG).slice(-2).join('｜')==='yu:連你也！｜zhe:哥懂我。');
   setup(ny,10.9); run(10.9,11.2); PHONE.answer(G,'cny_noodle_y2_reply',2);
   check('2. 貼圖 → 阿哲回一樣的貼圖',txt(NG).slice(-2).join('｜')==='player:（貼圖：新年快樂）｜zhe:（貼圖：新年快樂）');
   fresh(ny,10.9,'home'); run(10.9,11.5);

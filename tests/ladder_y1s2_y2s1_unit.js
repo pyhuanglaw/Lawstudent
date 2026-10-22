@@ -47,7 +47,7 @@ const stepOf=(term,who,id)=>{ const L=LADDER.byTerm[term][who]; return [L.steps.
   check('3. K3-L7 選項①去過電影夜：原本的回覆（「我知道。你哭的時候也很認真。」）',STORY.ladReply(st,c1)===c1.reply&&/哭的時候/.test(c1.reply),STORY.ladReply(st,c1));
   const c2=st.choices.find(c=>c.t!=='「我看電影很認真。」'); check('3. K3-L7 選項②不受影響',STORY.ladReply(st,c2)===c2.reply);
   // A4-L5、A4-L7（大二下以安）和她交往中的回覆（ROM-1017，AA-C b39f0bb9 的 note）
-  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給小語。」','嗯。家教比較難，學生才剛習慣我。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
+  for(const [id,ct,def,dat] of [['A4-L5','「妳跟我講話好像也是。」','真的？我自己沒發現。','真的？……跟你講話本來就不用敬語啊。'],['A4-L7','「讀書會可以先交給 Alison。」','嗯。家教比較難，學生才剛習慣我。','嗯。……還有你，半年見不到。']]){   /* AA_255 改稿（25e89f6e）*/
     fresh(termDay('Y2S2',6,2),12,'campus',{}); const [s4]=stepOf('Y2S2','heroine_01',id); const ch=s4.choices.find(c=>c.t===ct);
     check('3b. '+id+' '+ct+'：沒交往＝原本的回覆',STORY.ladReply(s4,ch)===def,STORY.ladReply(s4,ch));
     G.flags.dating_heroine_01=true; check('3b. '+id+' '+ct+'：和以安交往中＝交往版「……還有你。」',STORY.ladReply(s4,ch)===dat,STORY.ladReply(s4,ch));

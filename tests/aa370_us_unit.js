@@ -60,7 +60,7 @@ const msgOf=tag=>(G.msgs||[]).find(m=>m.tag===tag)||null;
   // ======================= H1 可昕 K23（美國路線＋交往中）：視訊、改天那一場在當地早上 =======================
   fresh('2028-10-18',8.5,'us_apartment',US({Y4_PATH:'grad'})); date('kexin'); runRules('2028-10-18',8.5,9.25);
   { const k=(G.msgs||[]).filter(x=>x.tag==='y4_kx23_ask').map(x=>x.text), m=PHONE.byAsk(G,'y4_kx23');
-    check('H1. 美國路線 10/18 當地 09:00（臺灣 21:00）：第三則「週五晚上七點，你那邊是早上。我們視訊，各自說。」（不約政大）', JSON.stringify(k)===JSON.stringify(['大四要走哪條路，你決定了嗎？不用現在說。','可是我想第一批知道。','週五晚上七點，你那邊是早上。我們視訊，各自說。'])&&!!m&&Math.abs(m.h-9)<0.1, JSON.stringify(k)); }
+    check('H1. 美國路線 10/18 當地 09:00（臺灣 21:00）：第三則「週五晚上七點，你那邊是早上。我們視訊，各自說。」（不約政大）', JSON.stringify(k)===JSON.stringify(['你的那條路，現在走到哪了？不用現在說。','我的也想跟你說。','週五晚上七點，你那邊是早上。我們視訊，各自說。'])&&!!m&&Math.abs(m.h-9)<0.1, JSON.stringify(k)); }
   PHONE.answer(G,'y4_kx23',1); rules();
   { const q=OUT.get(G,'y4_kx23b');
     check('H1. 「改天。」→「好。那週六晚上九點，你那邊早上九點。」', txt('p:kexin').slice(-1)[0]==='kexin:好。那週六晚上九點，你那邊早上九點。', JSON.stringify(txt('p:kexin').slice(-2)));

@@ -9,6 +9,8 @@
 //       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
 //       8. 在 3F 閱覽室（或大廳）當面約學姊「現在一起過去」總圖：直接開始，不念手機那句（BB 10-22 03:01；修改前 3F 那一項 FAIL）。
 //       7. 一盞的緣側（並排、相距 1.8 m）：你坐她旁邊；2 m 外的隔壁桌、前後排、背對背不配對（BB 10-22 02:23；修改前第一項 FAIL）。
+//       9. Café 的學姊是舊代號 sis 生成的（GM.npc.sis）：一起走到照樣一起坐下（BB 10-22 05:4x；修改前開發分支 b7c250b0 FAIL）。
+//      10. 一起走的路上改去宿舍、回家：作息不再把她生在你旁邊（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x；修改前開發分支 c045438d FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
@@ -68,4 +70,16 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   for(const zone of ['library','library_hall']){ const G=setup('2025-09-24',10,zone); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; E.zone.seats[0]=n.seat;
     H.picks=['去總圖一起念書','現在一起過去']; let iv=null; iv=await INV.flow(GM,'heroine_05',n,true);
     check('8. '+(zone==='library'?'3F 閱覽室':'總圖大廳')+'（9/24 週三 10:00）當面約學姊「去總圖一起念書」「現在一起過去」：直接開始（done、她不跟著走），沒有「我就在總圖。三樓。不要講話，傳訊息。」',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!H.said.some(x=>/傳訊息/.test(x.t)),JSON.stringify({st:iv&&iv.state,beh:n.beh,said:H.said.map(x=>x.t).slice(0,4)})); }
+  /* 9 Café 的學姊是舊代號 sis 生成的（story3d.js 照作息生成 GM.npc.sis，沒有 GM.npc.heroine_05）：一起走到 Café 照樣一起坐下（BB 10-22 05:4x 讀碼：S.arrive 只找 GM.npc[iv.who]，找不到就沒安排座位）*/
+  { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('sis'); n.charId='heroine_05'; n.beh='follow';
+    G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
+    check('9. Café 的學姊是 GM.npc.sis：一起走到＝直接開始、她坐下（修改前沒坐下）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
+  /* 10 一起走的路上改去宿舍、回臺北的家（BUG-WALK-DORM-FOLLOW-1022，BB 10-22 06:1x：手機快速前往宿舍，約作罷了、她卻被帶進男生宿舍的房間）：作息不再把她生在你旁邊；公館、校園、目的地照樣跟著 */
+  { const G=setup('2025-09-26',19.5,'gongguan'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,19.5,{now:true,by:'player'});
+    const at=z=>{ G.zone=z; const e=INV.entryFor(G,'heroine_05'); return e?e.act:null; };
+    const r={gongguan:at('gongguan'),campus:at('campus'),cafe:at('cafe'),dorm_hall:at('dorm_hall'),dorm:at('dorm'),fdorm:at('fdorm')};
+    G.zone='home'; G.home={at:true}; const hm=INV.entryFor(G,'heroine_05'); G.home=null;
+    check('10. 一起走的路上：公館、校園、Café 照樣跟著（follow）；走進宿舍（走廊、房間、女舍）、回臺北的家＝不再把她生在你旁邊（修改前 FAIL）',r.gongguan==='follow'&&r.campus==='follow'&&r.cafe==='follow'&&r.dorm_hall===null&&r.dorm===null&&r.fdorm===null&&!hm,JSON.stringify([r,hm&&hm.act]));
+    G.zone='dorm'; await INV.arrive(GM,'dorm');
+    check('10. 進宿舍：約作罷（cancelled、手機「……後來作罷了。」）',iv.state==='cancelled'&&(G.msgs||[]).some(m=>/後來作罷了。$/.test(m.text||'')),JSON.stringify({st:iv.state})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

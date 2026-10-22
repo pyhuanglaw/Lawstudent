@@ -45,6 +45,7 @@ M = {
     'wood_lt': L.pbr(P + 'wood_light', 'walnut_veneer', tile=0.9, target='#b48a5e', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.55),
     'wood_dk': L.pbr(P + 'wood_dark', 'dark_wood', tile=0.8, target='#5a3c28', normal=0.4, maps=('diff', 'nor'), res=256, rough_value=0.6),
     'steel': L.flat(P + 'steel', '#b9bdc0', rough=0.28, metal=0.45), 'black': L.flat(P + 'black_metal', '#2a2a2c', rough=0.45, metal=0.3),
+    'pendant': L.flat(P + 'pendant', '#2a2a2c', rough=0.45, metal=0.3),   # 吊燈的燈罩、吊線：和黑鐵同一個顏色、分開的材質（遊戲裡擋住人時網點透空：配置的 seeThru）
     'white': L.flat(P + 'white', '#f1efe9', rough=0.4), 'ceramic': L.flat(P + 'ceramic', '#f4f1ea', rough=0.25),
     'glass': base['glass'], 'frame_alu': L.flat(P + 'alu', '#c9ccce', rough=0.35, metal=0.4),
     'bulb': L.flat(P + 'bulb', '#fff4dc', rough=0.3, emit=B.srgb('#ffdcaa')), 'tube': L.flat(P + 'tube', '#ffffff', rough=0.3, emit=B.srgb('#f4f8ff')),
@@ -86,6 +87,13 @@ def wm(side, key):
     for m in walls[side]:
         if m.mat == M[key]: return m
     m = Mesh(f'{side}_{key}', M[key]); walls[side].append(m); return m
+
+
+def wvc(side):
+    """牆的組裡的頂點色零件（掛在牆上的小東西：罐子）"""
+    for m in walls[side]:
+        if isinstance(m, L.CMesh): return m
+    m = L.CMesh(f'{side}_vc', M['vc']); walls[side].append(m); return m
 
 
 def wall_box(side, key, a0, a1, y0, y1, t0=0.0, t1=0.12):
@@ -169,8 +177,8 @@ def g2bp(x, y, z): return (x, y, z)
 
 
 def pendant(x, z, y=2.3, shade='black', bulb_r=0.06, glow=True, kind='cone'):
-    acc('black').cyl((x, H, z), (x, y + 0.2, z), 0.005, seg=4)
-    if kind == 'cone': Xf(x, z).lathe(acc(shade), [(0.03, 0.2), (0.05, 0.18), (0.16, 0.02), (0.17, 0.0), (0.16, 0.0)], 0, y, 0, seg=16)
+    acc('pendant').cyl((x, H, z), (x, y + 0.2, z), 0.005, seg=4)
+    if kind == 'cone': Xf(x, z).lathe(acc('pendant' if shade == 'black' else shade), [(0.03, 0.2), (0.05, 0.18), (0.16, 0.02), (0.17, 0.0), (0.16, 0.0)], 0, y, 0, seg=16)
     elif kind == 'washi': Xf(x, z).lathe(acc(shade), [(0.0, 0.0), (0.14, 0.0), (0.2, 0.12), (0.2, 0.3), (0.14, 0.42), (0.0, 0.42)], 0, y - 0.1, 0, seg=16)
     acc('bulb').sphere((x, y + 0.02, z), bulb_r, seg=10, rings=6)
     if glow: CL.glow(root, 'pendant', x, y - 0.05, z, color='rgba(255,214,160,1)', size=1.5, day=0.2, night=1.0)
@@ -199,11 +207,12 @@ def build_brunch():
     cx = x0 + 3.6; xf.rbox(acc('steel'), cx - 0.35, cx + 0.35, 0.92, 1.38, z0 + 0.05, z0 + 0.5, r=0.03); xf.rbox(acc('black'), cx - 0.3, cx + 0.3, 1.0, 1.08, z0 + 0.45, z0 + 0.55, r=0.01)
     for j in (-0.15, 0.15): acc('black').cyl((cx + j, 1.2, z0 + 0.5), (cx + j, 1.1, z0 + 0.58), 0.03, seg=8)                           # 咖啡機的沖煮頭
     for j in range(3): Xf(x0 + 4.4, z0 + 0.3).lathe(acc('ceramic'), [(0.0, 0.0), (0.12, 0.0), (0.13, 0.015), (0.0, 0.015)], 0, 0.92 + j * 0.02, 0)   # 盤子疊
-    xf.rbox(acc('steel'), x0 + 0.05, x0 + 1.3, 2.05, 2.15, z0, z0 + 0.7, r=0.01); xf.rbox(acc('steel'), x0 + 0.35, x0 + 1.0, 2.15, H, z0, z0 + 0.35, r=0.01)   # 排煙罩
-    for j in range(2): xf.rbox(acc('wood_lt'), x0 + 1.6, x1 - 0.2, 1.55 + j * 0.4, 1.58 + j * 0.4, Z0 + 0.12, Z0 + 0.36, r=0.008)          # 開放層架
-    for j in range(8): Xf(x0 + 1.75 + j * 0.3, Z0 + 0.24).lathe(acc('ceramic'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.09), (0.045, 0.09)], 0, 1.98, 0, seg=10)   # 杯子
+    # 排煙罩、開放層架、杯子、罐子掛在後牆上：放進後牆的組（鏡頭退到後牆外面、後牆淡出時一起藏；原本留著，坐第一張桌子時排煙罩的煙囪擋住整個畫面，LAWWW2 10-22 j23）
+    xf.rbox(wm('back', 'steel'), x0 + 0.05, x0 + 1.3, 2.05, 2.15, z0, z0 + 0.7, r=0.01); xf.rbox(wm('back', 'steel'), x0 + 0.35, x0 + 1.0, 2.15, H, z0, z0 + 0.35, r=0.01)   # 排煙罩
+    for j in range(2): xf.rbox(wm('back', 'wood_lt'), x0 + 1.6, x1 - 0.2, 1.55 + j * 0.4, 1.58 + j * 0.4, Z0 + 0.12, Z0 + 0.36, r=0.008)          # 開放層架
+    for j in range(8): Xf(x0 + 1.75 + j * 0.3, Z0 + 0.24).lathe(wm('back', 'ceramic'), [(0.0, 0.0), (0.045, 0.0), (0.05, 0.09), (0.045, 0.09)], 0, 1.98, 0, seg=10)   # 杯子
     for j in range(5):
-        col = ['#c8a26a', '#e3d6b0', '#7a5a3a', '#d9c7a0', '#9a6a3a'][j]; Xf(x0 + 1.8 + j * 0.45, Z0 + 0.24).vbox(-0.06, 0.06, 1.58, 1.8, -0.06, 0.06, col)   # 罐子
+        col = ['#c8a26a', '#e3d6b0', '#7a5a3a', '#d9c7a0', '#9a6a3a'][j]; cx_ = x0 + 1.8 + j * 0.45; wvc('back').crbox(cx_ - 0.06, cx_ + 0.06, 1.58, 1.8, Z0 + 0.18, Z0 + 0.30, col, r=0.012)   # 罐子
     f_ = it['fridge']; Xf(f_['x'], f_['z']).rbox(acc('steel'), -f_['w'] / 2, f_['w'] / 2, 0.0, f_['h'], -f_['d'] / 2, f_['d'] / 2, r=0.03)
     for y0_, y1_ in ((1.1, 1.75), (0.15, 0.95)): acc('black').box(f_['x'] - 0.3, f_['x'] - 0.27, y0_ + 0.2, y1_ - 0.2, f_['z'] + f_['d'] / 2, f_['z'] + f_['d'] / 2 + 0.04)
     # 出餐檯：木頭檯身、檯面、上面一層出餐板（兩根柱）、保溫燈；右端是蛋計時器
@@ -213,7 +222,7 @@ def build_brunch():
     for xx in (x0 + 0.1, x1 - 0.1): acc('black').cyl((xx, pc['h'], pc['z']), (xx, 1.48, pc['z']), 0.018, seg=8)
     xf.rbox(acc('steel'), x0, x1, 1.45, 1.49, z0 + 0.04, z1 - 0.04, r=0.008)
     for xx in (pc['x'] - 1.0, pc['x'] + 1.0):
-        acc('black').cyl((xx, H, pc['z']), (xx, 1.95, pc['z']), 0.006, seg=4); Xf(xx, pc['z']).lathe(acc('black'), [(0.02, 0.18), (0.04, 0.16), (0.12, 0.0), (0.13, 0.0)], 0, 1.77, 0, seg=14)
+        acc('pendant').cyl((xx, H, pc['z']), (xx, 1.95, pc['z']), 0.006, seg=4); Xf(xx, pc['z']).lathe(acc('pendant'), [(0.02, 0.18), (0.04, 0.16), (0.12, 0.0), (0.13, 0.0)], 0, 1.77, 0, seg=14)   # 保溫燈：吊燈的材質
         acc('bulb').sphere((xx, 1.8, pc['z']), 0.05, seg=8, rings=5); CL.glow(root, 'heatlamp', xx, 1.7, pc['z'], color='rgba(255,170,100,1)', size=1.0, day=0.3, night=0.8)
     tx = x1 - 0.25; Xf(tx, pc['z']).lathe(acc('white'), [(0.0, 0.0), (0.035, 0.0), (0.04, 0.03), (0.032, 0.07), (0.0, 0.075)], 0, pc['h'], 0, seg=12)   # 蛋計時器
     for j in range(2): Xf(pc['x'] - 0.4 + j * 0.6, pc['z']).lathe(acc('ceramic'), [(0.0, 0.0), (0.12, 0.0), (0.13, 0.02), (0.0, 0.02)], 0, 1.49, 0)   # 出餐板上的盤子
@@ -232,7 +241,7 @@ def build_brunch():
             xf = Xf(t['x'], t['z']); xf.rbox(acc('wood_lt'), -0.4, 0.4, 0.72, 0.76, -0.65, 0.65, r=0.015)
             for sx in (-0.33, 0.33):
                 for sz in (-0.58, 0.58): xf.cyl(acc('wood_dk'), (sx, 0.0, sz), (sx, 0.72, sz), 0.025, seg=8)
-    for s in LAY['seats']: chair(s['x'], s['z'], s['yaw'] + math.pi)
+    for s in LAY['seats']: chair(s['x'], s['z'], s['yaw'])   # 椅子正面＝坐的人面向的方向（遊戲 sitAt：rotation.y＝seat.yaw）；v2 加了 π，整排椅背卡在人和桌子中間（LAWWW2 10-22）
     for s in LAY['seats'][::2]:                                                                              # 桌上的東西：水杯、餐巾
         tb = next(t for t in LAY['items'] if t['kind'] in ('table2', 'table4') and abs(t['x'] - s['x']) < 1.0 and abs(t['z'] - s['z']) < 1.0)
         Xf(tb['x'] + 0.12, tb['z'] - 0.1).lathe(acc('glass'), [(0.0, 0.0), (0.035, 0.0), (0.04, 0.11), (0.0, 0.11)], 0, 0.76, 0, seg=10)
@@ -419,22 +428,24 @@ def build_teahouse():
             elif side == 'left': wm(side, 'post').box(X0, X0 + 0.18, 0.0, H, c - 0.06, c + 0.06)
             else: wm(side, 'post').box(X1 - 0.18, X1, 0.0, H, c - 0.06, c + 0.06)
     # 玄關的前牆、鞋櫃；緣側和室內之間的紙拉門（拉開收兩端）；簷下的柱子、屋簷
-    for x in (X0, -2.2): acc('post').box(x - 0.06, x + 0.06, 0.0, H, Z1 - 0.06, Z1 + 0.06)
+    # v3（LAWWW2 10-22 鏡頭遮擋盤點）：正面的柱子、格子門、拉開收在兩端的紙拉門、簷下的柱子都放進緣側那一組（鏡頭在前院上方時一起淡出；原本從玄關走進來，鏡頭在後面，紙拉門和柱子擋在人前面）
+    for x in (X0, -2.2): wm('engawa', 'post').box(x - 0.06, x + 0.06, 0.0, H, Z1 - 0.06, Z1 + 0.06)
     wm('engawa', 'post').box(X0, X1, H - 0.12, H, Z1 - 0.06, Z1 + 0.06)   # v2：緣側的橫樑放進會淡出的一組（跟隨鏡頭在庭院上方時，原本整條擋在玩家前面）
-    for k, (a, b) in enumerate(((-4.15, -3.55), (-2.85, -2.25))): acc('shoji').box(a, b, 0.05, 2.05, Z1 - 0.03, Z1 + 0.03)   # 玄關的格子門（開著）
+    for k, (a, b) in enumerate(((-4.15, -3.55), (-2.85, -2.25))): wm('engawa', 'shoji').box(a, b, 0.05, 2.05, Z1 - 0.03, Z1 + 0.03)   # 玄關的格子門（開著）
     sk = Xf(-3.95, 4.4); sk.rbox(acc('post'), -0.22, 0.22, 0.0, 0.85, -0.55, 0.55, r=0.015)
     for j in range(3): sk.vbox(-0.05, 0.12, 0.0, 0.08, -0.35 + j * 0.3, -0.2 + j * 0.3, ['#2a2a2c', '#6a4a30', '#3a4a6a'][j], r=0.02)   # 脫在門口的鞋
     sh = next(i for i in it if i['kind'] == 'shoji_wall')
-    for (a, b) in ((-2.15, -1.25), (3.25, 4.15)): acc('shoji').box(a, b, 0.03, 2.0, Z1 - 0.02, Z1 + 0.02); acc('post').box(a, b, 1.98, 2.06, Z1 - 0.04, Z1 + 0.04)
-    for x in (-2.2 + k * 1.6 for k in range(5)): acc('post').cyl((x, 0.0, Z1 + 1.15), (x, H + 0.1, Z1 + 1.15), 0.06, seg=8)   # 簷下的柱
+    for (a, b) in ((-2.15, -1.25), (3.25, 4.15)): wm('engawa', 'shoji').box(a, b, 0.03, 2.0, Z1 - 0.02, Z1 + 0.02); wm('engawa', 'post').box(a, b, 1.98, 2.06, Z1 - 0.04, Z1 + 0.04)
+    for x in (-2.2 + k * 1.6 for k in range(5)): wm('engawa', 'post').cyl((x, 0.0, Z1 + 1.15), (x, H + 0.1, Z1 + 1.15), 0.06, seg=8)   # 簷下的柱
     eb = Mesh(P + 'eave_soffit', M['ceil']); eb.quad([(-2.3, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 - 0.1), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)]); eb.finish(root, uv=True)   # 屋簷下的板：v2 改成朝下的單面（跟隨鏡頭在上面時看得穿；v1 的實心板擋住整個畫面）
-    fz = Mesh(P + 'eave_fascia', M['batten']); fz.quad([(-2.3, H - 0.1, Z1 + 1.9), (X1 + 0.1, H - 0.1, Z1 + 1.9), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)]); fz.finish(root, uv=False)   # 簷口的封板（朝外的單面）
+    wm('engawa', 'batten').quad([(-2.3, H - 0.1, Z1 + 1.9), (X1 + 0.1, H - 0.1, Z1 + 1.9), (X1 + 0.1, H + 0.05, Z1 + 1.9), (-2.3, H + 0.05, Z1 + 1.9)])   # 簷口的封板（朝外的單面；v3 歸緣側的組：鏡頭在前院上方往屋裡看時，原本一條橫帶擋在人前面）
     # 和室前面的紙拉門（中間各開一段）、兩間和室之間的襖
     zz = sh['z']; xs_ = [sh['x0']] + [v for o in sh['open'] for v in o] + [sh['x1']]
     for i in range(0, len(xs_), 2):
         a, b = xs_[i], xs_[i + 1]; acc('shoji').box(a, b, 0.03, 2.0, zz - 0.03, zz + 0.03); acc('post').box(a, b, 1.98, H, zz - 0.06, zz + 0.06)
     for (a, b) in sh['open']: acc('post').box(a, b, 1.98, H, zz - 0.06, zz + 0.06)
-    for x in (sh['x0'], -1.0, 0.0, 1.0, sh['x1']): acc('post').box(x - 0.06, x + 0.06, 0.0, H, zz - 0.07, zz + 0.07)
+    for x in (sh['x0'], -1.0, 0.0, 1.0, sh['x1']):   # 兩端貼著左右牆的柱子歸左右牆的組（鏡頭在牆外、牆淡出時一起藏）
+        (wm('left', 'post') if x <= X0 + 0.01 else wm('right', 'post') if x >= X1 - 0.01 else acc('post')).box(x - 0.06, x + 0.06, 0.0, H, zz - 0.07, zz + 0.07)
     fu = next(i for i in it if i['kind'] == 'fusuma')
     acc('fusuma').box(-0.05, 0.05, 0.03, 2.0, fu['z'] - fu['d'] / 2, fu['z'] + fu['d'] / 2); acc('post').box(-0.06, 0.06, 1.98, H, fu['z'] - fu['d'] / 2, fu['z'] + fu['d'] / 2)
     for zc in (fu['z'] - 1.1, fu['z'] + 1.1):
@@ -459,7 +470,7 @@ def build_teahouse():
         elif k == 'zabuton': xf.rbox(acc('cushion' if t['z'] < 0 else 'cushion2'), -0.27, 0.27, 0.0, 0.08, -0.3, 0.3, r=0.035)
         elif k == 'tokonoma':
             xf.rbox(acc('post'), -t['w'] / 2, t['w'] / 2, 0.0, 0.12, -t['d'] / 2, t['d'] / 2, r=0.01)
-            acc('post').box(t['x'] + t['w'] / 2 - 0.06, t['x'] + t['w'] / 2 + 0.06, 0.0, H, t['z'] - t['d'] / 2, t['z'] - t['d'] / 2 + 0.12)   # 床柱
+            wm('back', 'post').box(t['x'] + t['w'] / 2 - 0.06, t['x'] + t['w'] / 2 + 0.06, 0.0, H, t['z'] - t['d'] / 2, t['z'] - t['d'] / 2 + 0.12)   # 床柱（貼著後牆：歸後牆的組，鏡頭在後牆外時一起藏）
             wall_img('back', 'scroll', M['scroll'], t['x'], 1.35, 0.42, 1.4, off=0.17)
             Xf(t['x'] + 0.35, t['z'] + 0.05).lathe(acc('ceramic'), [(0.0, 0.0), (0.05, 0.0), (0.08, 0.06), (0.05, 0.22), (0.035, 0.26), (0.0, 0.26)], 0, 0.12, 0, seg=12)
             for j in range(3): a = j * 2.1; acc('post').cyl((t['x'] + 0.35, 0.36, t['z'] + 0.05), (t['x'] + 0.35 + math.sin(a) * 0.18, 0.75 + j * 0.06, t['z'] + 0.05 + math.cos(a) * 0.1), 0.008, seg=4)
@@ -520,7 +531,7 @@ def build_teahouse():
 for k, m in _acc.items(): m.finish(root, uv=True, smooth=True)
 for side, ms in walls.items():
     for m in ms:
-        m.name = f'WALL_{side}_{m.name}'; ob = m.finish(root, uv=True, props={'dir': DIRS[side]})
+        m.name = f'WALL_{side}_{m.name}'; ob = m.finish(root, uv=not isinstance(m, L.CMesh), props={'dir': DIRS[side]})
 finish_wall_imgs()
 VC.finish(root, uv=False)
 if NOTE_Q:

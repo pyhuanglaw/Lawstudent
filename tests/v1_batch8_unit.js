@@ -1,8 +1,8 @@
 // 交接包 v1（大一上）第 8 批：A14 以安新 3（轉述）、A15 G1 考完試走出教室——不需要瀏覽器。
 // 檢查（修改前都會失敗：事件、群組訊息、考完的事件都不存在）：
-//   A14：第 7 週週二晚上麵店團群組：小語兩則（「報告！……」）、阿哲「……她說得對耶。」、以安隔一陣子才回「三頁是因為字很大。」；只給那天以前就在群組裡的玩家；
+//   A14：第 7 週週二晚上麵店團群組：Alison 兩則（「報告！……」）、阿哲「……她說得對耶。」、以安隔一陣子才回「三頁是因為字很大。」；只給那天以前就在群組裡的玩家；
 //     沒有群組（或之後才加入）的玩家：第 7 週起找沛珊說話，她當面說同樣的內容；只一次；旗標 AN_DORM_RULES（group／peishan），不寫成玩家在場的記憶。
-//   A15 G1：民總期中考考完接著演（一般的課、別科的考試、翹課都不會）；只有認識的人在場（柏翰沒見過＝第一句變成旁白；芯慈和柏翰那段兩個都認識才有；小語、明軒、以安各自）；
+//   A15 G1：民總期中考考完接著演（一般的課、別科的考試、翹課都不會）；只有認識的人在場（柏翰沒見過＝第一句變成旁白；芯慈和柏翰那段兩個都認識才有；Alison、明軒、以安各自）；
 //     第一個選項要第一天讀過案例；三個選項的反應；SHARED_CLASS 只記認識的人；只一次。
 // 用法：node tests/v1_batch8_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -37,7 +37,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* ---------- A14 以安新 3 宿舍的規則 ---------- */
   { fresh(W7TUE,8,'campus'); PHONE.join(G,'noodle_team','麵店團'); G.phone.groups.noodle_team.day=10; run(8,23);
     const gm=G.msgs.filter(m=>m.tag==='an_rules_grp'||m.tag==='an_rules_an');
-    check('A14：第 7 週週二晚上麵店團群組：小語兩則、阿哲一則、以安隔一陣子才回（交接包_v1 第 3 節原文）',JSON.stringify(gm.map(m=>[m.from,m.text]))===JSON.stringify([['yu','報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'],['yu','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'],['zhe','……她說得對耶。'],['heroine_01','三頁是因為字很大。']])&&gm.every(m=>m.th==='g:noodle_team')&&gm[3].h-gm[2].h>0.5,JSON.stringify(gm.map(m=>[m.from,m.h])));
+    check('A14：第 7 週週二晚上麵店團群組：Alison 兩則、阿哲一則、以安隔一陣子才回（交接包_v1 第 3 節原文）',JSON.stringify(gm.map(m=>[m.from,m.text]))===JSON.stringify([['yu','報告！聽說以安為了樓層會議，把整本宿舍規則讀完了，還寫了三頁意見。'],['yu','大家笑她，她說：「規則是我們要住的，總要有人讀完。」'],['zhe','……她說得對耶。'],['heroine_01','三頁是因為字很大。']])&&gm.every(m=>m.th==='g:noodle_team')&&gm[3].h-gm[2].h>0.5,JSON.stringify(gm.map(m=>[m.from,m.h])));
     check('A14：旗標 AN_DORM_RULES=group；不寫成玩家在場的記憶（以安沒有新的記憶）',G.flags.AN_DORM_RULES==='group'&&SOCIAL.memories('heroine_01').length===0);
     fresh(W7TUE,8,'campus'); meet('classmate_peishan'); run(8,23); check('A14：沒有麵店團群組：群組沒有訊息',!G.msgs||!G.msgs.some(m=>m.tag==='an_rules_grp'));
     const e=ev('ev_an_dorm_rules_peishan'); fresh(W7TUE,13,'campus'); meet('classmate_peishan'); const a=EVENTS.check(e);
@@ -56,14 +56,14 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('G1：民總期中考在第 8～9 週（第 '+midDay+' 天）',!!midDay);
     const exam=async(flags,setup,pk)=>{ fresh(midDay,13.2,'classroom',Object.assign({readCase:'full'},flags||{})); PHONE.join(G,'noodle_team','麵店團'); /* 有麵店團群組：G1 最後不當面問宵夜（第 9 批 A15，v1_batch9_unit 檢查沒有群組的）*/ if(setup) setup(); picks=pk||[]; const it=CLS.dayItems(G,midDay).find(x=>x.c.id==='civ_general'); await CLS.attend(GM,it); return lines(); };
     let L=await exam({},null,['引誘']);
-    check('G1：考完接著演：走廊的旁白；柏翰沒見過＝「有人在問：第二題，……」旁白；阿哲「……有第二題？」；小語、芯慈、明軒、以安沒見過都不在',L.includes('走廊上一群人。有人在翻課本，有人已經在滑手機。')&&L.includes('有人在問：第二題，是寫要約之引誘還是要約？')&&L.includes('……有第二題？')&&!L.some(t=>/我寫要約。我覺得|反對意見|不要對了啦|對答案沒有用/.test(t)),JSON.stringify(L.slice(-8)));
+    check('G1：考完接著演：走廊的旁白；柏翰沒見過＝「有人在問：第二題，……」旁白；阿哲「……有第二題？」；Alison、芯慈、明軒、以安沒見過都不在',L.includes('走廊上一群人。有人在翻課本，有人已經在滑手機。')&&L.includes('有人在問：第二題，是寫要約之引誘還是要約？')&&L.includes('……有第二題？')&&!L.some(t=>/我寫要約。我覺得|反對意見|不要對了啦|對答案沒有用/.test(t)),JSON.stringify(L.slice(-8)));
     check('G1：讀過案例：三個選項都在',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫引誘，第二天那個案子就是這個。」','「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
     L=await exam({readCase:'none'},null,['要約']);
     check('G1：第一天沒讀案例：沒有「第二天那個案子就是這個」',JSON.stringify(opts[opts.length-1])===JSON.stringify(['「我寫要約。」','「去吃飯。」']),JSON.stringify(opts[opts.length-1]));
     L=await exam({met_yu:true},()=>{ for(const id of ['classmate_bohan','classmate_xinci','classmate_mingxuan','heroine_01']) meet(id); },['要約']);
     const want=['第二題，你們是寫要約之引誘還是要約？','……有第二題？','我寫要約。我覺得是要約。（停）完了，我寫要約。','（小聲）我寫引誘，然後補了一段反對意見。','反對意見誰的？','我自己的。','……可以這樣寫嗎？','不要對了啦，去吃飯。','（從教室出來，把筆收進筆袋）對答案沒有用。考完了就是考完了。','……我寫引誘。','同一國的！'];
-    check('G1：大家都認識：AA_13 G1 原文照順序；選「我寫要約。」→ 小語「同一國的！」',want.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(want[i-1]))),JSON.stringify(L.slice(-12)));
-    check('G1：SHARED_CLASS 記在認識的同學（阿哲、柏翰、小語、芯慈、明軒、以安）',['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01'].every(id=>SOCIAL.has(id,'SHARED_CLASS')));
+    check('G1：大家都認識：AA_13 G1 原文照順序；選「我寫要約。」→ Alison「同一國的！」',want.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(want[i-1]))),JSON.stringify(L.slice(-12)));
+    check('G1：SHARED_CLASS 記在認識的同學（阿哲、柏翰、Alison、芯慈、明軒、以安）',['zhe','classmate_bohan','yu','classmate_xinci','classmate_mingxuan','heroine_01'].every(id=>SOCIAL.has(id,'SHARED_CLASS')));
     L=await exam({},()=>meet('classmate_xinci'),['吃飯']);
     check('G1：只認識芯慈（不認識柏翰）：她和柏翰那段沒有；「去吃飯。」→ 阿哲「走！」（明軒不認識）',!L.includes('我自己的。')&&L[L.length-1]==='走！'&&said[said.length-1].who!=='阿哲、明軒'&&!SOCIAL.has('classmate_bohan','SHARED_CLASS'),JSON.stringify(said.slice(-1)));
     L=await exam({},()=>{ meet('classmate_mingxuan'); meet('classmate_bohan'); },['引誘']);

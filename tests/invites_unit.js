@@ -51,7 +51,7 @@ const D2=fri('Y1S2',5);   // 大一下第 5 週的週五（芷若週五 11–15 
   const iv=INV.accept(G,'zhe','noodle',D2,19);
   check('約好：G.invites 一筆（accepted、給「跳過時間」停的 accepted:true）、訊息一則',iv&&iv.state==='accepted'&&iv.accepted===true&&G.invites.length===1&&/約好了/.test(G.msgs[G.msgs.length-1].text));
   const r4=INV.decide(G,'zhe','cafe',D2,19.25); check('阿哲 19:15 已經跟你約了麵店＝改天（你那個時間有約）',r4.res==='resched'&&(r4.why==='mine'||r4.why==='booked')&&r4.alt&&r4.alt.h>=19.75,JSON.stringify(r4));
-  const r5=INV.decide(G,'yu','cafe',D2,19); check('你 19:00 已經約了阿哲，再約小語同一個時間＝你那個時間有約',r5.res==='resched'&&r5.why==='mine',JSON.stringify(r5));
+  const r5=INV.decide(G,'yu','cafe',D2,19); check('你 19:00 已經約了阿哲，再約 Alison 同一個時間＝你那個時間有約',r5.res==='resched'&&r5.why==='mine',JSON.stringify(r5));
   G.weather='rain'; const r6=INV.decide(G,'yu','wenzhou',D2,16); G.weather='sunny';
   check('今天下雨：散步改成 Café（同一個時間）',r6.res==='resched'&&r6.why==='weather'&&r6.alt&&r6.alt.place==='cafe'&&r6.alt.h===16,JSON.stringify(r6));
   const r7=INV.decide(G,'yu','library',D2,23); check('總圖 23:00 沒開＝改天、附一個開著的時間',r7.res==='resched'&&r7.why==='closed'&&r7.alt&&(r7.alt.day>D2||r7.alt.h<22),JSON.stringify(r7)); }

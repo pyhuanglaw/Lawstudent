@@ -167,7 +167,7 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     G.day=termDay('Y1S2',13,1); G.weekday=1; run(11.9,12.2); const R2=tagged('vac_sel_C18@Y1');
     check('8. 錄取：「【通知】恭喜錄取法律與社會海外見習團（新加坡）。行前說明會：6/3（三）12:20。」＋媽媽「機票多少？我轉給你」「護照記得看效期」',R2.length===3&&R2[0].text==='【通知】恭喜錄取法律與社會海外見習團（新加坡）。行前說明會：6/3（三）12:20。'&&R2[1].text==='機票多少？我轉給你'&&R2[2].text==='護照記得看效期',JSON.stringify(R2.map(x=>x.text)));
     G.day=D('2026-07-20'); G.weekday=1; G.hour=7.9; run(7.9,8.1);
-    check('8. 出發那天麵店團（0-2）：阿哲「新加坡很熱喔」、小語「聽說口香糖不能帶」',txt('g:noodle_team').includes('zhe:新加坡很熱喔')&&txt('g:noodle_team').includes('yu:聽說口香糖不能帶'));
+    check('8. 出發那天麵店團（0-2）：阿哲「新加坡很熱喔」、Alison「聽說口香糖不能帶」',txt('g:noodle_team').includes('zhe:新加坡很熱喔')&&txt('g:noodle_team').includes('yu:聽說口香糖不能帶'));
     said=[]; opts=[]; cards=[]; picks=[0,1,0]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y1')); L=lines();
     check('8. 參訪法院（第二天）：「（法庭比你想的小。…）」「（團長姚思穎在你旁邊小聲翻了兩句，後來也跟不上了。）」思穎「……我只聽懂 adjourned。」→「休庭。」「對，休庭。我就聽懂這個。」',L[0]==='（法庭比你想的小。法官、律師都講英文，講得很快。）'&&L[1]==='（團長姚思穎在你旁邊小聲翻了兩句，後來也跟不上了。）'&&L[2]==='思穎：……我只聽懂 adjourned。'&&L[3]==='思穎：對，休庭。我就聽懂這個。'&&cards.some(c=>c[0].startsWith('7/21')&&c[1]==='新加坡'),JSON.stringify(L));
     check('8. 座談（第四天）：「（當地法律系的學生問你們：上課要不要點名？）」→「看老師。」當地學生「我們也是。」',L.includes('（當地法律系的學生問你們：上課要不要點名？）')&&L.includes('當地學生：我們也是。')&&cards.some(c=>c[0].startsWith('7/23')));
@@ -177,8 +177,8 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
   await sec(async()=>{ fresh(D('2026-07-20'),8,'dorm',{dating_heroine_01:true}); G.stage='law'; meet('heroine_01'); reg('C18@Y1'); said=[]; picks=[1,0,1]; await VAC.outing(GM,OUT.get(G,'vac_C18@Y1')); PHONE.tick(G); const L=lines();
     check('8. 「我也是。」→ 長椅上對單字；「要，而且要坐前面。」→ 對面三個人一起笑了；「抽籤。」→（抽到你。）',L.includes('（出來以後，兩個人坐在法院外面的長椅上，把剛剛記下來的單字對了一遍。）')&&L.includes('（對面三個人一起笑了。）')&&L[L.length-1]==='（抽到你。）',JSON.stringify(L));
     const A1=(G.msgs||[]).filter(m=>m.th==='p:heroine_01'); check('8. 出國期間的訊息照第 8 節（交往中的以安：出發那天、輪播）；回來那天（7/28）她在台中（7/25～8/7）＝沒有「明天見。……」（AA_369 第 7 節第 7 題：限臺北）',A1.some(m=>m.text==='到了傳一張照片。一張就好。')&&A1.some(m=>m.text==='今天讀了四十頁。你那邊天氣好嗎？')&&!A1.some(m=>m.text==='明天見。……我是說，明天有空的話。'),JSON.stringify(A1.map(m=>m.text)));
-    G.day=D('2026-07-30'); G.zone='campus'; meet('yu'); Object.assign(SOCIAL.rel('yu'),{fam:30,trust:10,comf:5}); said=[]; const g=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu');
-    check('8. 回來後第一次在 3D 遇到小語：「你回來了！伴手禮咧！」',g===true&&lines().join('|')==='小語：你回來了！伴手禮咧！'); });
+    G.day=D('2026-07-30'); G.zone='campus'; meet('yu'); Object.assign(SOCIAL.rel('yu'),{fam:30,trust:10,comf:5}); said=[]; const g=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu');
+    check('8. 回來後第一次在 3D 遇到 Alison：「你回來了！伴手禮咧！」',g===true&&lines().join('|')==='Alison：你回來了！伴手禮咧！'); });
 
   // ===== 9. C18W 寒假團 =====
   await sec(async()=>{ const w6=termDay('Y1S1',6,1); fresh(w6,11.9,'dorm',{}); G.stage='law'; LAWC(); run(11.9,12.2);
@@ -192,8 +192,8 @@ const reg=key=>{ const ok=VAC.signup(G,key,'yes'); const [id,yk]=key.split('@'),
     check('9. 沒錄取：不排行前說明會',!OUT.get(G,'vac_C18W@Y2_brief')); });
   await sec(async()=>{ fresh(D('2027-01-04'),8,'dorm',{}); G.stage='law'; reg('C18W@Y2'); said=[]; cards=[]; await VAC.outing(GM,OUT.get(G,'vac_C18W@Y2'));
     check('9. 寒假團 7 天：1/5 法院、1/7 座談、1/9 最後一晚；1/10 18:00 回來、BACK_FROM_C18W',cards.some(c=>c[0].startsWith('1/5'))&&cards.some(c=>c[0].startsWith('1/7'))&&cards.some(c=>c[0].startsWith('1/9'))&&G.day===D('2027-01-10')&&G.hour===18&&G.flags.STUDYTOUR_SG===true&&G.flags.BACK_FROM_C18W===D('2027-01-10'));
-    G.day=D('2027-01-12'); meet('yu'); Object.assign(SOCIAL.rel('yu'),{fam:30,trust:10,comf:5}); said=[]; const g=await VAC.backGreet(GM,{name:'小語',charId:'yu'},'yu');
-    check('9. 寒假團回來也有 3D 的招呼（BACK_FROM_C18W）',g===true&&lines().join('|')==='小語：你回來了！伴手禮咧！'); });
+    G.day=D('2027-01-12'); meet('yu'); Object.assign(SOCIAL.rel('yu'),{fam:30,trust:10,comf:5}); said=[]; const g=await VAC.backGreet(GM,{name:'Alison',charId:'yu'},'yu');
+    check('9. 寒假團回來也有 3D 的招呼（BACK_FROM_C18W）',g===true&&lines().join('|')==='Alison：你回來了！伴手禮咧！'); });
 
   // ===== 10. 第二次參加（AA_264 第 0 節第 1 點：不重演，關鍵事件那幾天換成日誌一句；第二次的日誌句 AA_242 12-3）=====
   await sec(async()=>{ fresh(D('2028-06-18'),20,'dorm',{}); G.stage='law'; VAC.rec(G).reg['C16@Y2']='done'; reg('C16@Y3'); const q=onDay('C16@Y3','2028-06-19');

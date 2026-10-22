@@ -31,7 +31,7 @@ const PHONE=(function(){
     const m={day:dd,h:+hh.toFixed(2),who:it.who!==undefined?it.who:(th.startsWith('p:')&&it.from!=='player'?th.slice(2):null),text:it.text,iv:null,th};
     if(it.from) m.from=it.from; if(it.name) m.name=it.name; if(it.pin) m.pin=true; if(it.tag) m.tag=it.tag; if(Array.isArray(it.fold)) m.fold=it.fold.slice();   /* fold：折起來的長訊息（手機上點開看全文；W3b）*/
     if(it.ask){ const P=S.rec(G); P.n++; m.ask=Object.assign({},it.ask,{id:it.ask.id||('a'+P.n)}); }
-    if(it.cg){ m.cg=it.cg; G.cg=G.cg||{unlocked:[]}; G.cg.unlocked=G.cg.unlocked||[]; if(!G.cg.unlocked.includes(it.cg)) G.cg.unlocked.push(it.cg); }   /* 照片是一張 CG（例：CG-2b 小語傳的讀書會白板，AA_343 E2）：訊息下面顯示那張圖（game3d.js threadHTML），送出就收進相簿 */
+    if(it.cg){ m.cg=it.cg; G.cg=G.cg||{unlocked:[]}; G.cg.unlocked=G.cg.unlocked||[]; if(!G.cg.unlocked.includes(it.cg)) G.cg.unlocked.push(it.cg); }   /* 照片是一張 CG（例：CG-2b Alison 傳的讀書會白板，AA_343 E2）：訊息下面顯示那張圖（game3d.js threadHTML），送出就收進相簿 */
     return m; };
   const put=(G,m)=>{ let i=G.msgs.length; while(i>0&&abs(G.msgs[i-1].day,G.msgs[i-1].h)>abs(m.day,m.h)) i--; G.msgs.splice(i,0,m); if(G.msgs.length>200) G.msgs.splice(0,G.msgs.length-200); return m; };
   /* 現在送出（時間＝現在）；postAt：補在過去的時間（照時間排進去）*/

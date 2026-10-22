@@ -41,9 +41,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('1. 開場兩句',L[0]==='去年，你站在這一排攤位前面填表。'&&L[1]==='今年，你站在攤位後面。',JSON.stringify(L.slice(0,2)));
   check('1. 選單只列加入過的兩攤',JSON.stringify(opts[0])===JSON.stringify(['（在法服的攤位站一個小時）','（在吉他社的攤位站一個小時）']),JSON.stringify(opts));
   const gt=['yu：欸祐廷你負責發傳單！對了你會彈哪首？……好啦我知道，三個和弦。','新生：學長，完全沒碰過可以嗎？','祐廷：可以。我去年也是。','heroine_04：欸不是，新手最好。我到現在，還在新手村。','一個小時，有人叫了你四次「學長」。','第一次，你回頭找是誰在叫別人。'];
-  const norm=a=>a.map(t=>t.replace(/^小語：/,'yu：').replace(/^高子晴：|^子晴：/,'heroine_04：'));
-  check('1. 吉他社的台詞（逐字；小語、子晴認識才說）',JSON.stringify(norm(L.slice(2)))===JSON.stringify(gt),JSON.stringify(L.slice(2)));
-  check('1. 站一個小時、Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、小語和子晴熟悉 +1',Math.abs(G.hour-13)<1e-6&&G.flags.Y2_EXPO_BOOTH==='club_guitar'&&G.flags.Y2_EXPO_SENIOR===true&&SOCIAL.rel('yu').fam===f0+1&&SOCIAL.rel('heroine_04').fam===f4+1,JSON.stringify([G.hour,SOCIAL.rel('yu').fam,f0]));
+  const norm=a=>a.map(t=>t.replace(/^Alison：/,'yu：').replace(/^高子晴：|^子晴：/,'heroine_04：'));
+  check('1. 吉他社的台詞（逐字；Alison、子晴認識才說）',JSON.stringify(norm(L.slice(2)))===JSON.stringify(gt),JSON.stringify(L.slice(2)));
+  check('1. 站一個小時、Y2_EXPO_BOOTH、Y2_EXPO_SENIOR、Alison 和子晴熟悉 +1',Math.abs(G.hour-13)<1e-6&&G.flags.Y2_EXPO_BOOTH==='club_guitar'&&G.flags.Y2_EXPO_SENIOR===true&&SOCIAL.rel('yu').fam===f0+1&&SOCIAL.rel('heroine_04').fam===f4+1,JSON.stringify([G.hour,SOCIAL.rel('yu').fam,f0]));
   check('1. 只有一次',!tick());
   // 法服＋「先問事實，再找條文。」
   /* AA_358 2-5（AA-C 2026-10-21 659d9d81）：語彤不進法服（AA_255），博覽會法服攤位的三處換成柏翰（法服社員、同一學期接社長）——修改前 FAIL */
@@ -72,7 +72,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(16,16.95); check('6. 17:00 以前沒有邀約',!txt('g:noodle_team').some(t=>/開學第一頓/.test(t)));
   run(17,17.1); check('6. 17:00 阿哲在麵店團群組「開學第一頓。七點，長桌。」＋出發選單 19:00',txt('g:noodle_team').some(t=>t==='zhe:開學第一頓。七點，長桌。')&&!!OUT.get(G,'y2_first_meal')&&OUT.get(G,'y2_first_meal').h===19,JSON.stringify(txt('g:noodle_team')));
   picks=['這學期要一起修']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
-  check('6. 台詞（逐字）：阿哲兩句、小語、以安、語彤；選「這學期要一起修行政法嗎？」→ 以安「已經寫在表上了。」',/大二了，要有學長的樣子。$/.test(L[0])&&/（三秒後）老闆娘，大碗。$/.test(L[1])&&/學長的樣子是大碗嗎？$/.test(L[2])&&/（翻開手帳）這學期的課表/.test(L[3])&&/（端麵過來）……今天的滷蛋，阿姨說多一顆。開學。$/.test(L[4])&&/已經寫在表上了。$/.test(L[5])&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
+  check('6. 台詞（逐字）：阿哲兩句、Alison、以安、語彤；選「這學期要一起修行政法嗎？」→ 以安「已經寫在表上了。」',/大二了，要有學長的樣子。$/.test(L[0])&&/（三秒後）老闆娘，大碗。$/.test(L[1])&&/學長的樣子是大碗嗎？$/.test(L[2])&&/（翻開手帳）這學期的課表/.test(L[3])&&/（端麵過來）……今天的滷蛋，阿姨說多一顆。開學。$/.test(L[4])&&/已經寫在表上了。$/.test(L[5])&&G.flags.Y2_FIRST_MEAL,JSON.stringify(L));
   fresh(d17,16,'campus',{}); G.stage='law'; picks=['先吃']; said=[]; await EVENTS.run(ev('ev_y2_first_meal')); L=lines();
   check('6. 只認識阿哲：阿哲兩句、選項只有「先吃。」→「這才是學長的樣子。」',L.length===3&&/這才是學長的樣子。$/.test(L[2])&&JSON.stringify(opts[opts.length-1])===JSON.stringify(['「先吃。」']),JSON.stringify([L,opts]));
   // 沒去 → 21:30 照片；不在群組＝阿哲私訊
@@ -85,10 +85,10 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   run(21,21.1); check('8. 9/24 21:00「明天中秋，河濱，晚上六點。烤肉架今年你負責。」＋出發選單 9/25 18:00',txt('g:noodle_team').some(t=>t==='zhe:明天中秋，河濱，晚上六點。烤肉架今年你負責。')&&OUT.get(G,'y2_midautumn').day===d25&&OUT.get(G,'y2_midautumn').h===18);
   G.day=d25; picks=['便利商店']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
   const want=['zhe：夾子呢？','祐廷：……兩個架子，一支夾子。','classmate_bohan：那排班。一人夾十分鐘。','heroine_01：我贊成。這樣公平。','yu：（已經用筷子在夾）我先違規。','classmate_xinci：（看著兩個架子）左邊的火比較旺。肉放左邊。','heroine_03：……我帶了阿姨的醬。不用烤肉醬。','回來時，大家已經用筷子烤完第一輪。','zhe：你的夾子是第二輪的英雄。'];
-  const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^小語：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));
+  const nm=a=>a.map(t=>t.replace(/^阿哲：/,'zhe：').replace(/^(許)?柏翰：/,'classmate_bohan：').replace(/^(沈)?以安：|^小安：/,'heroine_01：').replace(/^Alison：/,'yu：').replace(/^[^：]*芯慈：/,'classmate_xinci：').replace(/^(陳)?語彤：/,'heroine_03：'));
   check('8. 台詞（逐字；認識的人都在）＋買夾子',JSON.stringify(nm(L))===JSON.stringify(want)&&G.flags.MIDAUTUMN_Y2,JSON.stringify(L));
   fresh(d25,17,'campus',{}); G.stage='law'; picks=['用筷子']; said=[]; await EVENTS.run(ev('ev_y2_midautumn')); L=lines();
-  check('8. 只認識阿哲＋「用筷子就好。」：沒有其他人的台詞、小語不在就沒有「對嘛。」',L.length===2,JSON.stringify(L));
+  check('8. 只認識阿哲＋「用筷子就好。」：沒有其他人的台詞、Alison 不在就沒有「對嘛。」',L.length===2,JSON.stringify(L));
   fresh(d25-1,20,'dorm',{}); G.stage='law'; run(20,21.1); G.day=d25; G.hour=18.3; OUT.expire(G); run(18.3,21.6);
   check('8. 沒去：21:30 照片「（兩個烤肉架，少一支夾子。）」',txt('p:zhe').some(t=>t==='zhe:📷（兩個烤肉架，少一支夾子。）'));
   const s0=JSON.stringify(G); G=JSON.parse(s0); SOCIAL.bind(G); EVENTS.bind(GM); run(21.6,23); check('9. 存讀檔後不重發',(G.msgs||[]).filter(m=>/少一支夾子/.test(m.text)).length===1);

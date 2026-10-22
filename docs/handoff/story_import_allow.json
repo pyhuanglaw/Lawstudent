@@ -141,11 +141,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb.json",
-   "sha": "49ed7e6a",
+   "sha": "088556ed",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：大一上 NO_DATE_ZZ 加 ZZ_DATING、4-2 以後不說（notEvents ev_zz_home_together）；D100、D109）；49ed7e6a→088556ed 只差這一處（build_ladder_bb.py 一行、JSON 六格），tools/ladder/import_ladder.py 匯入",
    "task": "AB65-3-Y1S1／K-D5",
    "history": [
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
+    },
     {
      "sha": "9fecc202",
      "approvedBy": "AA-C 定稿（DL-AA-8fcc2c7e：AA_304「星期三體育課，五點二十才下課」；225ac957 記憶名稱補 KX0_SHOP／KX0_EGG；之前 9fecc202 AA_293 劇社拿掉、AA_295 可昕不出假設題；使用者 10-18 選擇題；D100）"
@@ -187,11 +191,15 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_bb_y1s2.json",
-   "sha": "2e255e9a",
+   "sha": "088556ed",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-21 AA_350 第 9 節 S3：「九月初回來」→「八月底回來」，企劃分支 2e255e9a；D100 台詞歸 AA）",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（AA_385 第 3 節：NO_ZZ_YET 加 ZZ_DATING、4-1 第 5 句放子晴 Q2-L3 extraIf；D100、D109）；2e255e9a→088556ed 只差這兩處（記憶 ZQ_ZR_FILM_DAY 的人物頁名稱 AA 沒寫，social3d.js 暫定），tools/ladder/import_ladder.py 匯入",
    "task": "ROM-1017",
    "history": [
+    {
+     "sha": "2e255e9a",
+     "approvedBy": "AA-C 定稿（2026-10-21 AA_350 第 9 節 S3：「九月初回來」→「八月底回來」，企劃分支 2e255e9a；D100 台詞歸 AA）"
+    },
     {
      "sha": "49ed7e6a",
      "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）"
@@ -525,10 +533,17 @@
   },
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
-   "sha": "b667820f",
+   "sha": "2d3a0735",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改"
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C） ｜ 2d3a0735（曼谷 T03 芷若也去、椰子汁接 4-7；LAWWW 帳號 A 10-22 合併 AA_232 子代理）",
+   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改",
+   "history": [
+    {
+     "sha": "b667820f",
+     "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+     "task": null
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
@@ -1486,19 +1501,128 @@
   },
   {
    "path": "docs/story_planning/AA_382_畢業以後_時間人在哪_修正稿_學姊2030生日.md",
-   "sha": "e6d4a198",
+   "sha": "116d5c72",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節六句、第 4 節學姊 2030 年的生日（看海）、第 5 節明軒照稿手動放進 src/story3d.js、src/postgrad3d.js（CARDS_DELAY、SEA_Y5 的流程）、src/data/postgrad_lines.js（SEA_Y5、mx.bar2030）、src/r2y4b3d.js（K26）；第 2、3 節是 AA_366、AA_367 的新版本（import_pg_dates.py）；tests/aa382_pg_unit.js 逐句對稿",
+   "approvedBy": "AA（帳號 A）2026-10-22 07:29 改第 4 節三處（BB 07:28 瀏覽器觀察）：6/1 21:00 兩則私訊換字（「明天」放在有選項的那一則）、答應了沒到 6/2 09:30 多一則「九點半了。我先去。」、「明天不行。」照舊；手動放進 postgrad_lines.js SEA_Y5、postgrad3d.js pg_sis_sea_late；tests/aa382_pg_unit.js 讀 116d5c72 逐句對稿（D100、D109）",
    "task": "AA382-PG-FIX-1022",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "e6d4a198",
+     "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 1 節六句、第 4 節學姊 2030 年的生日（看海）、第 5 節明軒照稿手動放進 src/story3d.js、src/postgrad3d.js（CARDS_DELAY、SEA_Y5 的流程）、src/data/postgrad_lines.js（SEA_Y5、mx.bar2030）、src/r2y4b3d.js（K26）；第 2、3 節是 AA_366、AA_367 的新版本（import_pg_dates.py）；tests/aa382_pg_unit.js 逐句對稿",
+     "task": "AA382-PG-FIX-1022"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_383_回BB_0400_五題_台詞與企劃對不上.md",
-   "sha": "98516b51",
+   "sha": "67b7b2ca",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 2 節（以安第 8 週不給約 D26、偶遇拿掉 10/25）照稿寫進 date3d.js、encounters.js、characters.js；第 4-1 節三句旁白（events.js ev_b106_42_game）、第 4-2 節三則私訊（story3d.js）手動放進遊戲；tests/aa383_unit.js 逐句對稿",
-   "task": "AA383-BB0400-1022",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 6 節（學姊升到朋友那三句：約出去、地點不是她讀書的地方換一版）手動放進 rel_lines.js（invites3d.js 的見面傳地點）；第 2、4 節照 98516b51 那一次（見 history）；tests/aa383_s6_unit.js 逐句對稿",
+   "task": "AA383-S6-SIS-FRIEND-1022",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "98516b51",
+     "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 2 節（以安第 8 週不給約 D26、偶遇拿掉 10/25）照稿寫進 date3d.js、encounters.js、characters.js；第 4-1 節三句旁白（events.js ev_b106_42_game）、第 4-2 節三則私訊（story3d.js）手動放進遊戲；tests/aa383_unit.js 逐句對稿",
+     "task": "AA383-BB0400-1022"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md",
+   "sha": "b6588bf5",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（AA_384 跟著改 AA_351：D1 拿掉 118 巷、D6 拿掉祐廷生日等；D100、D109）；子代理 3c0a0ea9 逐句對稿（tests/aa351_kx_drift_unit.js 讀 b6588bf5），LAWWW 帳號 A 合併 5d5adbad",
+   "task": "AA351-KX-DRIFT-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "c29c49eb",
+     "approvedBy": "AA-C 2026-10-21 定稿（D100、D109；使用者 10-18 選的四題＋第⑤題照 AA 建議大二上起）；D0～D6 台詞手動放進遊戲（子代理實作，LAWWW 帳號 A 合併時逐句對稿）"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md",
+   "sha": "2af03a63",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-17 定稿（D98、D100）；第 1 節柏翰三句手動放進 events.js ev_midterm_supper_y1s2（PS_NOBH），第 3 節 ev_peishan_bohan_w4 notFlags；tests/aa245_psbh_unit.js 逐句對稿",
+   "task": "AA245-PSBH",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_296_只用手機演的重要劇情_盤點.md",
+   "sha": "ed0daea9",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 08:41 改 ④ 沛珊 8/7 電話台中版兩句（「台中。在家。」「開學以後，我在台南。你要來的話，跟我說。」，同 AA_350 P1），其餘照 3f406dbc；手動放進 y2b_events.js；tests/aa296_phone_live_unit.js 讀 ed0daea9 逐句對稿（D100、D109）",
+   "task": "AA296-PHONE-LIVE-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "3f406dbc",
+     "approvedBy": "AA-C／AA 定稿（D100、D109）；第 2-3-1 節五項手動放進 y34b3d.js（以安視訊）、r2y3b3d.js／r2y3b_events.js（子晴回答.exe、芷若日本路線）、postgrad3d.js／postgrad_lines.js（可昕考上律師）、y2b3d.js／y2b_events.js（沛珊回來）；tests/aa296_phone_live_unit.js 逐句對稿（「小語」照 rename_alison 換 Alison）",
+     "task": "AA296-PHONE-LIVE-1021"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md",
+   "sha": "088556ed",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；AA（帳號 A）2026-10-22 09:31 跟著 AA_385 改第二節互斥（只擋 L2／L3、婉拒用系統現成的句子）、4-1 第 5 句、4-4 結局 C「九月」、七-3 改宵夜、七-6 訊息版拿掉（D100、D109）；台詞手動放進 src/data/zrzq_events.js；tests/zrzq_line_unit.js 讀 088556ed 逐句對稿",
+   "task": "AA290-INTAKE",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "afebee54",
+     "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；台詞手動放進 src/data/zrzq_events.js（子代理，LAWWW 帳號 A 10-22 合併 1ecb7124）；tests/zrzq_line_unit.js 逐句對稿"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/AA_385_芷若子晴_實作後七題.md",
+   "sha": "946b1b72",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 10:49 定稿（AA_385 第 10 節：人物頁 ZQ_ZR_FILM_DAY「她說室友跟系上的人去看了電影」、ZZ_TOLD_YT 照暫定；日本路線方奕廷三則改在芷若當面說完那天 21:00，沒說就不送；兩個人都認識才講＝可以；D100、D109）",
+   "task": "AA290-INTAKE",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "028dc128",
+     "approvedBy": "AA（帳號 A）2026-10-22 09:31 定稿（回 LAWWW 09:25 七題；D100、D109）；第 1、2、4、5、7 項台詞手動放進 src/data/zrzq_events.js（SERIOUS.HELD、END.C_FY、TOLD、UK 第 1 則、F3_TOLD_JP），接線 src/zrzq3d.js、story3d.js talkCharacter；第 3 項是閒聊階梯源檔（ladder_bb.json、ladder_bb_y1s2.json@088556ed）；第 6 項 invites3d.js partnerBlock 的 soloOk；第 9 節（028dc128，子晴「芷若在英國」那三種說法）LAWWW 在開發分支做；tests/aa385_zz_unit.js 讀 028dc128 逐句對稿"
+    }
+   ]
+  },
+  {
+   "path": "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md",
+   "sha": "a90e8569",
+   "status": "approved",
+   "approvedBy": "BB 機制（§23 芷若×子晴的狀態、觸發、入場旁白；使用者 10-17 回答 23-9）；src/zrzq3d.js 照用（子代理，LAWWW 帳號 A 10-22 合併）",
+   "task": "AA243-P02",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_243_16週可行性_AA裁定.md",
+   "sha": "20d5734f",
+   "status": "approved",
+   "approvedBy": "AA-C 裁定；第 2 節 P0-2 使用者選甲（4-4 追其中一人時順延）；src/zrzq3d.js 照做",
+   "task": "AA243-P02",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_384_可昕慢慢分手_實作後十四題.md",
+   "sha": "1a4f2eb3",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:45 定稿（AA_384 E 節：D6 午餐碰到暑假＝順延到開學後第一個週六，週四 21:00 她傳「週六中午，公館。吃個飯。」；D100、D109）；LAWWW 帳號 A 實作 kxdrift3d.js S.r6Thu（tests/aa384e_kx_d6_summer_unit.js）",
+   "task": "AA351-KX-DRIFT-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "b6588bf5",
+     "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（回 LAWWW 08:49 十四題；D100、D109）；台詞手動放進 src/kxdrift3d.js 的 KXDRIFT.LF（子代理 3c0a0ea9，LAWWW 帳號 A 合併 5d5adbad）；tests/aa384_kx_friend_unit.js 逐句對稿"
+    }
+   ]
   }
  ]
 }

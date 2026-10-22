@@ -1,6 +1,6 @@
 // LIFE-LINE 補（AA_224 2-c，AA-C ff3f2a4b＋2026-10-17 Q3 回覆）——不需要瀏覽器。
 // Q3 法律系時期「為什麼重考？」：宿營夜談選「我念過經濟系，一個多月，重考的。」→ 明軒問；honest＝長句＋阿哲「差四分喔……那真的很煩。」，其他和只玩法律系＝短句＋明軒「好，懂了。」；
-//    夜談沒說的，迎新選「我二十歲。念過經濟系，一個多月。」→ 小語補問（「好，懂了。」是小語）；兩處合計只問一次；「大一歲」不問。
+//    夜談沒說的，迎新選「我二十歲。念過經濟系，一個多月。」→ Alison 補問（「好，懂了。」是 Alison）；兩處合計只問一次；「大一歲」不問。
 // Q4 K7 第二～四年：第二年 2026-10-17（六）「下禮拜六週年。這次我選地方。」＝政大山下；第三年 2027-10-17（日）、第四年 2028-10-17（二）三個地點照第一年；
 //    前一晚 21:00 起選準備的東西（四樣）、當天 18:30 出遊；卡片換句（第一年那句「那天在最高的地方，你說在一起吧。我說好。」不再出現；AA_303 第 2 節 9）；沒選地點＝卡片照片；
 //    第四年那天在美國＝視訊（照 AA_158 的日期不會發生，測試暫時把美國的日期改到包含那一天）；沒在交往＝沒有。
@@ -46,7 +46,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { const L=await talk({},'大一歲'); check('Q3 夜談選「大一歲」：不問、不記',!L.some(t=>t.includes('為什麼重考'))&&!G.flags.WHY_RETAKE_ASKED); }
   const welcome=async(flags,pick)=>{ fresh(D('2025-09-03'),15,'campus',Object.assign({introDone:true},flags)); picks=[pick,0]; await EVENTS.run(ev('ev_welcome_y1s1')); return lines(); };
   { const L=await welcome({},'念過經濟系'); const i=L.findIndex(t=>/：欸，為什麼重考？$/.test(t));
-    check('Q3 迎新 econ（夜談沒問過）：小語「欸，為什麼重考？」→ 短句 →「好，懂了。」（小語）→ 大地遊戲',i>0&&L[i].split('：')[0]===L[i+2].split('：')[0]&&L[i+1]===SHORT&&/：好，懂了。$/.test(L[i+2])&&L[i+3].startsWith('大地遊戲')&&G.flags.WHY_RETAKE_ASKED===true,J(L.slice(i-1,i+4))); }
+    check('Q3 迎新 econ（夜談沒問過）：Alison「欸，為什麼重考？」→ 短句 →「好，懂了。」（Alison）→ 大地遊戲',i>0&&L[i].split('：')[0]===L[i+2].split('：')[0]&&L[i+1]===SHORT&&/：好，懂了。$/.test(L[i+2])&&L[i+3].startsWith('大地遊戲')&&G.flags.WHY_RETAKE_ASKED===true,J(L.slice(i-1,i+4))); }
   { const L=await welcome({E24C_REASON:'honest'},'念過經濟系'); const i=L.findIndex(t=>/：欸，為什麼重考？$/.test(t));
     check('Q3 迎新 econ＋honest：長句 → 阿哲「差四分喔……那真的很煩。」',i>0&&L[i+1]===LONG&&L[i+2]==='阿哲：差四分喔……那真的很煩。',J(L.slice(i,i+3))); }
   { const L=await welcome({WHY_RETAKE_ASKED:true},'念過經濟系'); check('Q3 夜談問過：迎新選 econ 不再問',!L.some(t=>t.includes('為什麼重考'))&&L.some(t=>t.startsWith('大地遊戲'))); }
@@ -78,7 +78,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     const P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask4');
     check('Q4 第四年（台灣路線）：「下禮拜二。第四年。……平日也要過。」三個地點；不是視訊',P.length===1&&P[0].text==='下禮拜二。第四年。……平日也要過。'&&P[0].ask.opts.length===3&&!OUT.get(G,'kx_anniv4v')&&!STORY.kxAnnivVideo(G,4),J(P));
     PHONE.answer(G,P[0].ask.id,0); run(21.1,21.2); const r=await playYear(4,'湯餃','不說話');
-    check('Q4 第四年：卡片「第四年。」、選項同第三年 →「……幹嘛一直看。」；KX_ANNIV {4:wheel}',r.L.includes('杜可昕：……這是我收過最燙的禮物。')&&r.L.some(t=>t.endsWith('第四年。'))&&r.L.includes('杜可昕：……幹嘛一直看。')&&G.flags.KX_ANNIV[4]==='wheel',J(r.L)); }
+    check('Q4 第四年：卡片「第四年。……明年這一天，我們都畢業了。」、自己一組選項（AA_378 #10，照 BB_209 第 4 節：「明年也一起過。」「時間好快。」不說話）→「……幹嘛一直看。」；KX_ANNIV {4:wheel}',r.L.includes('杜可昕：……這是我收過最燙的禮物。')&&r.L.includes('杜可昕：（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。')&&r.o.some(o=>J(o)===J(['「明年也一起過。」','「時間好快。」','（不說話，看著她）']))&&!r.o.some(o=>o.includes('「轉到頭暈怎麼辦？」'))&&r.L.includes('杜可昕：……幹嘛一直看。')&&G.flags.KX_ANNIV[4]==='wheel',J([r.L,r.o])); }
   { /* 美國路線 2028-08-02～12-23（AA_260 第 4 節第 1 點）：第四年（2028-10-17）那天人在美國 */
     { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1); const q=OUT.get(G,'kx_anniv4v');
       G.day=A(4)-1; G.hour=21.1; const gift=EVENTS.check(ev('ev_k7_gift_prep_n'));

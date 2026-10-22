@@ -45,7 +45,7 @@ const ENC=(function(){
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain'&&!row.rainOk) return no('下雨');   /* rainOk：戶外景點但有遮（BB_213 可昕 D10 河邊的台階）*/
     if(!row.days.includes(G.weekday)) return no('星期'); if(!(h>=row.from&&h<row.to)) return no('時段');
     if((row.terms||row.weeks)&&!T) return no('不在學期裡'); if(row.terms&&!row.terms.includes(T.id)) return no('學期');
-    { const wk=(row.termWeeks&&T&&row.termWeeks[T.id])||row.weeks;   /* termWeeks＝某一學期改用別的週次（AA_373 #5：小語烏來大一下改第 8 週 4/18；和 characters.js 的作息一起改）*/
+    { const wk=(row.termWeeks&&T&&row.termWeeks[T.id])||row.weeks;   /* termWeeks＝某一學期改用別的週次（AA_373 #5：Alison 烏來大一下改第 8 週 4/18；和 characters.js 的作息一起改）*/
       if(wk&&(Array.isArray(wk)?!wk.includes(T.week):((T.week%2===1)!==(wk==='odd')))) return no('週次'); }   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/
     if(row.dates&&!(typeof STORY!=='undefined'&&STORY.inDates&&STORY.inDates(G,row.dates))) return no('日期');   /* AA_271：日期區間（含頭尾），以安回台中、阿哲回高雄的日子 */
     if(row.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return no('不是寒暑假');   /* AA_271：語彤 D14 寒暑假的週日 */
@@ -116,7 +116,7 @@ const ENC=(function(){
   const W=()=>typeof ENC_WALK!=='undefined'?ENC_WALK:{walk:[],leave:[],intro:[],revisit:[],side:[]};
   const weekKey=G=>{ const T=term(G); return T?T.id+'W'+T.week:'D'+Math.floor(G.day/7); };
   const JOIN={heroine_01:{min:'FRIEND',not:['D06.frame']},heroine_03:{min:'FRIEND'},zhe:{},yu:{spots:['D04','D01']},classmate_bohan:{minBy:{D06:'FRIEND',D09:'FAMILIAR',D11:'FRIEND'}},classmate_xinci:{no:true},
-    heroine_02:{min:'FRIEND',fromAt:{D04:19.5}},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join（第三批 AA_271 rules.join.batch3：以安 D26、語彤 D14、柏翰 D11 朋友以上；小語 D01、阿哲 D29 不限關係；芯慈 D02 不一起走）*/
+    heroine_02:{min:'FRIEND',fromAt:{D04:19.5}},heroine_04:{},heroine_05:{min:'FRIEND'},classmate_peishan:{not:['D06.frame']},kexin:{dating:true}};   /* aa_walk_v1／bb_walk_v1 的 rules.join（第三批 AA_271 rules.join.batch3：以安 D26、語彤 D14、柏翰 D11 朋友以上；Alison D01、阿哲 D29 不限關係；芯慈 D02 不一起走）*/
   S.JOIN=JOIN;
   const SPEAKER={wen_mother:'溫媽媽',wen_father:'溫爸爸'};   /* 同行台詞裡不是主要人物的說話者 */
   S.busyNow=function(G,row,tr){ const b=row.busy; if(!b||typeof b==='string') return b||'no'; if(b.until!=null) return G.hour<b.until?b.before:b.then; if(b.acq) return tr.t==='acq'?b.acq:b.friend;
@@ -126,7 +126,7 @@ const ENC=(function(){
   S.walkLine=function(G,who,spot,act,tr){ const e=(W().walk||[]).find(q=>q.who===who&&q.spot===spot&&q.act===act&&condOk(G,q.cond,tr)); if(!e) return null; const L=tr.t==='dating'&&e.dating&&e.dating.length?e.dating:e.friend; return L&&L.length?L:null; };
   S.canJoin=function(G,row,tr){ if(!G.trip||tr.t==='ex'||tr.t==='catch'||row.join===false) return false; const J=JOIN[row.who]; if(!J||J.no) return false; if(J.dating&&tr.t!=='dating') return false;
     if(J.spots&&!J.spots.includes(row.spot)) return false; const mn=J.minBy?J.minBy[row.spot]:J.min; if(mn&&tr.t!=='dating'&&ST().indexOf(tr.st)<ST().indexOf(mn)) return false; { const fr=J.fromAt?J.fromAt[row.spot]:J.from; if(fr!=null&&G.hour<fr) return false; }   /* 芷若「19:30 以後」只在西門町（打工下班才去看電影）；松菸、外澳照朋友以上（BB_213、BB_150）*/
-    if(S.busyNow(G,row,tr)==='yes') return false;   /* 「short」不擋：同行規則（aa_walk_v1／bb_walk_v1 的 rules.join）比偶遇表的 busy 新，小語、子晴、沛珊、可昕「short」也有同行台詞 */ return (W().walk||[]).some(q=>q.who===row.who&&q.spot===row.spot&&condOk(G,q.cond,tr)); };
+    if(S.busyNow(G,row,tr)==='yes') return false;   /* 「short」不擋：同行規則（aa_walk_v1／bb_walk_v1 的 rules.join）比偶遇表的 busy 新，Alison、子晴、沛珊、可昕「short」也有同行台詞 */ return (W().walk||[]).some(q=>q.who===row.who&&q.spot===row.spot&&condOk(G,q.cond,tr)); };
   S.leave=async function(GM,s){ const G=GM.G, T=G.trip; if(!T||!T.with) return false; const c=T.with; T.with=null; const e=(W().leave||[]).find(q=>q.who===c.who&&q.spot===s.id); const t=e?(c.tier==='dating'&&e.dating?e.dating:e.friend):'';
     if(t) await ESAY(GM,{name:nameOf(c.who),charId:c.who},t); return true; };
   /* 景點的下一件事之前：她有沒有這件事的台詞——沒有就先走 */

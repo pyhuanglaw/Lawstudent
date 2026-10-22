@@ -10,9 +10,11 @@ AI 草稿（exam_bank_封存_AI草稿/、qbank_封存_AI草稿/）不讀。
 用法：python3 tools/exam/import_exam_bank.py [企劃分支的 ref，預設 origin/claude/story-planning]"""
 import json, os, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(ROOT, 'tools', 'story'))
+from import_guard import alison
 REF = sys.argv[1] if len(sys.argv) > 1 else 'origin/claude/story-planning'
 sha = subprocess.check_output(['git', '-C', ROOT, 'rev-parse', '--short', REF], text=True).strip()
-show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True)
+show = lambda p: alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
 ls = lambda d: [l for l in subprocess.check_output(['git', '-C', ROOT, 'ls-tree', '--name-only', f'{REF}:{d}'], text=True).split('\n') if l]
 KEEP = ('id', 'course', 'term', 'scopeWeek', 'type', 'q', 'options', 'answer', 'core', 'explanation', 'status', 'askedIn', 'source', 'lang')   # lang：法學英文 'en'（題幹、選項英文；BB-B 796319d）
 KEEP_Y4 = KEEP + ('basis',)
