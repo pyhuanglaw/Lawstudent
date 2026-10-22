@@ -595,7 +595,31 @@ D81 遊戲出現順序：v0～v2 先，美國篇是第二條線。總表：`tool
 
 ## 📋 LAWWW2 全部待辦（最新：2026-10-21 14:4x UTC，LAWWW2-C；下面「10-21 最新」那一小節優先，再下面是 10-17 以來的舊清單，留作紀錄；原標題：2026-10-17 02:4x 交班時更新；使用者 00:2x：「代辦事項全部都要交接」；順序＝遊戲出現順序，使用者 00:1x；D93）
 
-### ▶▶ 10-22 08:5x 進度（帳號 A LAWWW2；最新，蓋過下面 07:4x 那一節）
+### ▶▶ 10-22 09:3x 進度（帳號 A LAWWW2；最新，蓋過下面 08:5x 那一節）
+- **LAWWW 08:34、09:00 兩則已讀、已 ACK**：
+  - 118 巷第二版接進 `249ae526`，第三版（機場、大超市）接進 `2181fe4d`。
+  - PS-SKIRT-LEG（第二十八版 VRM＋`skirt_drive.diff`）接進 `2181fe4d`，**角色美術 LAWWW 驗收通過**。
+  - outbox 兩筆改成已整合／已驗收。
+- **交件三件（`63d4a3e3`，outbox SHA `61435288`；09:3x 一則訊息通知 LAWWW，DELIVERED，還沒 ACK）**：
+  - ART-CEIL-LAWWW-ROOMS-1022：
+    - 四份 GLB＋腳本＋`ceiling_more.diff`（對 `2181fe4d` 的增量）。
+    - 201 的 T 型骨架也改成只留底面：只改天花板時，整間教室蓋著白格子。
+    - room_ceiling：開發分支的四份 FAIL 8 → ALL PASS。
+    - 說明：`test_shots/ceil_more_1022/`。
+  - #129 美國校園候車亭：
+    - 屋頂淺灰烤漆；`SEE_MATS` 加 `us_campus`。
+    - `us_campus_shelter.diff`＋`us_campus.glb`；測試 FAILED 3 → ALL PASS。
+    - 說明：`test_shots/us_campus_shelter_1022/`。
+  - LIC-GAPS-1017 第二次：
+    - `licenses_gaps_1022.diff`：`dorm_room4.glb`、四張 Poly Haven（作者用 API 核對）、機車行道具組。
+    - 取代 10-21 的 `lic_gaps_dorm_room4.diff`。
+- **下一步**：
+  1. 我的 GLB 天花板格子從上面看浮著白線（博雅、普通、總圖 3F、法圖一樓，P3）。
+  2. 巡場景第 2 區法律系館。
+- 不碰：ART-13、ART-CH-PINYU（使用者 10-17「修改人物的事情暫停」，等使用者或 LAWWW 派工）。
+- 只在 scratchpad 的：截圖原檔（`$SP/lawc/shots/`）、試算的 GLB；都可以照 repo 裡的腳本、shot json 重做。
+
+### ▶▶ 10-22 08:5x 進度（帳號 A LAWWW2；被上面 09:3x 那一節取代）
 - **118 巷天花板＋鄰居店面、六個房間天花板：已交件**（`4af2ff35`；outbox 已交付／SENT；08:4x 一則訊息通知 LAWWW，DELIVERED，還沒 ACK）。README `test_shots/l118_arcade_1022/`：遊戲內前後（j35c、j36b）、其他 26 個室內的天花板盤點（j36c）。`l118_arcade.diff` 對 `b857600c` 乾淨。
   - 盤點結果：LAWWW 的 201 教室、男宿門廳、霖澤館二樓、萬才館二樓也是一大片（已告訴 LAWWW，要我改再派）；我的機場入境、美國大超市（#128，下一件）。
 - **PERF-NPC-POOL-1022 重量完成**（`21d3d597`，`zone_enter_1021/README` 新的一節）：換上新路人那一格不見了；咖啡廳→溫州街（第二次）最長一格 手機 11.0→7.2 秒、電腦 12.3→9.2 秒。
