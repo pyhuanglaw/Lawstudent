@@ -114,7 +114,7 @@ async def enter_reading_room(pg, cdp, run):
     """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
     it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
     if not it: return False, 'no door'
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2])
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
     await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(1000)
