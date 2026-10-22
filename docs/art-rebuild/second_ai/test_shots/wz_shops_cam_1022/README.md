@@ -2,7 +2,8 @@
 
 帳號 A 的 LAWWW2，2026-10-22 05:4x～06:3x UTC。
 
-- **狀態**：WIP。模型、patch、單元測試、遊戲內前後都做好了；`seats_on_furniture` 在 j30 跑中，鏡頭在人前面的兩個角度（定食燈籠、半熟吊燈）在 j33 補拍。
+- **狀態**：已交件；`READY_FOR_ART_REVIEW`（場景美術由使用者驗收）。
+- 模型、patch、單元測試、遊戲內前後、座位檢查都做完了。鏡頭在人前面的兩個角度（定食燈籠、半熟吊燈）在 j33 補拍，拍完補在這份說明。
 - **起因**：
   - j23（AA364 兩家新店）拍到半熟早午餐「坐下」那一張，鏡頭被一大塊灰色擋住（修改前、修改後都一樣）。
   - 查下去是排煙罩。為了確認還有沒有別的，寫了一支盤點工具，把溫州街五家店掃了一遍。
@@ -58,7 +59,7 @@
   - **修改前 12 FAIL**：鏡頭有 24.9% 的方向穿過隔間。**修改後 ALL PASS**：0%。
 - `wz_shops2_unit`：套了這個 patch 以後照樣 ALL PASS。
 - j30（開發分支 `27de6170`＋`wz0_prop_nav`＋`wz_shops2` 第四版＋`wz_shops_cam`＋新的 GLB，完整工作目錄）：`wz_shops_unit`、`wz_shops2_unit`、`wz_shops_cam_unit`、`street_props_nav_unit` ALL PASS。
-- `seats_on_furniture`（半熟、定食、一盞）：j30 跑中（拿到結果補上）。
+- `seats_on_furniture`（j30）：半熟 12、定食 18、一盞 12 個座位，有問題 0。
 
 ## 遊戲內前後（佇列 j30；Playwright＋SwiftShader 手機橫向模擬，不是 iPhone）
 

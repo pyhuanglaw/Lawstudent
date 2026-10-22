@@ -2,7 +2,7 @@
 
 帳號 A 的 LAWWW2，2026-10-21 23:0x～10-22 06:3x UTC。
 
-- **狀態**：模型、配置、patch（**第四版**）、遊戲內截圖、單元測試、瀏覽器 reachability 都好了；`seats_on_furniture`（佇列 j30）拿到結果就交件。
+- **狀態**：已交件；`READY_FOR_ART_REVIEW`（場景美術由使用者驗收）。模型、配置、patch（**第四版**）、遊戲內截圖、單元測試、瀏覽器 reachability、座位檢查都做完了。
 - 第三版：林家乾麵兩張椅子的走近點，「坐下」按鈕的座位也帶著（第二版只寫進區域的座位表，j23b 照樣卡住）；j23c 瀏覽器 reachability ALL PASS。
 - 第四版：巷子裡定食的和紙燈籠網點透空（配置 `seeThru`、區域 `seeThru`）。
 
@@ -85,7 +85,7 @@
   - j23c（開發分支 `c08889bf`＋第三版）：`reachability_all --zones wz_lin,wz_teishoku` **ALL PASS**（林家乾麵 11 個互動點、「坐下」都走得到）。
 - `seats_on_furniture`（j23）沒跑成：測試用 `p.chromium.launch()` 沒給 `executable_path`，這個沙盒沒有 Playwright 預設的瀏覽器。
   - j23b 用包一層的方式（`pwwrap.py` 補上預裝的 Chromium）重跑：林家乾麵 10、定食 18、半熟 12 個座位，有問題 0（第二版）。
-  - 第四版在 j30 再跑一次（拿到結果補上）。
+  - 第四版在 j30 再跑一次：林家乾麵沒排進這一輪；定食 18、半熟 12、一盞 12 個座位，有問題 0。
 - **第四版：巷子裡定食的和紙燈籠**（j23 晚上坐四人桌，燈籠吊在鏡頭前面）：
   - 配置 `seeThru: ['GLOW_wz_teishoku_washi']`，`wzShop` 把區域的 `seeThru` 打開、模型接上以後標材質。
   - 燈籠擋在人前面、或在鏡頭旁邊 1.7 m 內時網點透空（`engine3d.js` 的樹幹透視）。
