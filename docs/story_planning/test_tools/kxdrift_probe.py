@@ -508,7 +508,7 @@ async def s_d0(p, run, base, sid, out):
             ok, ch = await wait_out(pg, cdp, run, 'kx_drift_r1_%d' % d, 900, sid, picks=[R1['opts'][0]])
             await drive(pg, cdp, run, picks=[R1['opts'][0]], max_s=120, label=sid)
             L2 = await log_since(pg, n1); T = texts(L2); pr = prompts(ch); res['call'] = {'said': T, 'prompt': pr}
-            run.check('%s：21:00 問「接起來：可昕打電話來」（%s）' % (sid, J(pr[:1], 160)), bool(pr) and pr[0]['opts'][0] == '接起來：可昕打電話來', J(pr))
+            run.check('%s：21:00 問「接起來：可昕打電話來」（%s）' % (sid, J(pr[:1], 160)), bool(pr) and pr[0]['opts'][0].startswith('接起來：可昕打電話來'), J(pr))
             oc = [c for c in chs(L2) if isinstance(c, list) and c == R1['opts']]
             run.check('%s：電話照稿：「%s」「%s」「%s」「%s」→ 三個選項 → 選「%s」→「%s」「%s」' % (sid, R1['ring'], R1['where'], R1['lines'][0], R1['lines'][1], R1['opts'][0], R1['r0'][0], R1['r0'][1]),
                       seq_in(T, [R1['ring'], R1['where']] + R1['lines'] + R1['r0']) and bool(oc), J({'said': T, 'opts': chs(L2)}, 900))

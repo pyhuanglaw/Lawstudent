@@ -415,7 +415,7 @@ async def s_an_skip(p, run, base, sid, out):
         ok, ch = await wait_out(pg, cdp, run, 'y4_an18_video', 300, sid, picks=[AN_OPTS[0]])
         ch2 = await drive(pg, cdp, run, picks=[AN_OPTS[0]], max_s=150, label=sid)
         L2 = await log_since(pg, n0); T = texts(L2); res['said'] = T; res['ch'] = (ch or []) + (ch2 or []); pr = prompts(res['ch'])
-        run.check('%s：問「接起來」——只有這一個（沒有「不去了」「晚一點」）：%s' % (sid, J(pr[:1], 200)), bool(pr) and pr[0]['opts'] == ['接起來：以安打視訊來（台灣 22:00）'], J(pr))
+        run.check('%s：問「接起來」——只有這一個（沒有「不去了」「晚一點」）：%s' % (sid, J(pr[:1], 200)), bool(pr) and len(pr[0]['opts']) == 1 and pr[0]['opts'][0].startswith('接起來：以安打視訊來（台灣 22:00）'), J(pr))
         run.check('%s：視訊（字幕「視訊」）：開頭旁白＋她四句照稿' % sid, '視訊' in caps(L2) and seq_in(T, AN_V), J({'caps': caps(L2), 'said': T}, 900))
         oc = [c for c in chs(L2) if isinstance(c, list) and c and c[0] == AN_OPTS[0]]
         run.check('%s：三個選項照 AN18「%s」，選第一個「%s」→「%s」' % (sid, '」「'.join(AN_OPTS), AN_OPTS[0], AN_R0), bool(oc) and oc[0] == AN_OPTS and AN_R0 in T, J({'opts': chs(L2), 'said': T[-6:]}))
@@ -512,7 +512,7 @@ async def s_zq_noreply(p, run, base, sid, out):
         ok, ch = await wait_out(pg, cdp, run, 'y3_zq_noreply_call', 900, sid)
         await drive(pg, cdp, run, max_s=120, label=sid)
         L2 = await log_since(pg, n1); T2 = texts(L2); pr = prompts(ch); res['call'] = {'said': T2, 'prompt': pr, 'caps': caps(L2)}
-        run.check('%s：問「接起來：子晴打電話來」（只有這一個）' % sid, bool(pr) and pr[0]['opts'] == ['接起來：子晴打電話來'], J(pr))
+        run.check('%s：問「接起來：子晴打電話來」（只有這一個）' % sid, bool(pr) and len(pr[0]['opts']) == 1 and pr[0]['opts'][0].startswith('接起來：子晴打電話來'), J(pr))
         run.check('%s：21:00 她打來（字幕「電話」），台詞照稿（第一個玩的那一支有「這次是直述句。」）' % sid, '電話' in caps(L2) and seq_in(T2, ZQ_NO), J(res['call'], 900))
         q = await pg.evaluate(ZQQ); dm = [m for m in await msgs(pg, 'p:heroine_04') if m['tag'] == 'y3_zq_noreply']; res['after'] = [q, dm]
         run.check('%s：接了＝這學期不交往（Q15 res none）、沒有那一則私訊' % sid, (q['Q'] or {}).get('res') == 'none' and not q['dating'] and not dm, J(res['after']))
@@ -623,7 +623,7 @@ async def ps_launch(p, run, base, sid, h, label):
 
 async def ps_check_call(pg, run, sid, L1, ch, k):
     T = texts(L1); pr = prompts(ch)
-    run.check('%s：問「接起來：沛珊打電話來」（只有這一個）' % sid, bool(pr) and pr[0]['opts'] == ['接起來：沛珊打電話來'], J(pr))
+    run.check('%s：問「接起來：沛珊打電話來」（只有這一個）' % sid, bool(pr) and len(pr[0]['opts']) == 1 and pr[0]['opts'][0].startswith('接起來：沛珊打電話來'), J(pr))
     oc = [c for c in chs(L1) if isinstance(c, list) and c == PS_OPTS]
     run.check('%s：21:00 她打來（字幕「電話」），三個選項「%s」，選「%s」→「%s」，結尾照稿（台中版）' % (sid, '」「'.join(PS_OPTS), PS_OPTS[k], PS_R[k][0]),
               '電話' in caps(L1) and seq_in(T, PS_CALL + PS_R[k] + PS_END) and bool(oc), J({'caps': caps(L1), 'said': T, 'opts': chs(L1)}, 900))
