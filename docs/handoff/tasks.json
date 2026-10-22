@@ -29254,6 +29254,28 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    }
+  },
+  {
+   "id": "AA386-SIS-BATCH4-1022",
+   "title": "AA_386 學姊第四批：直屬學姊替你看路四場（大一下 W6～12、大二上 W12～15、大三上 11/13～17、大三下 W10～14）、AA_379 2-6 和階梯的矛盾、交往中的節日六場（三個聖誕、三個情人節）＋期末飯避開 12/24、分開以後的三件事→兩次正式約會→告白（BB_122 9-2）、階梯 S5-L8／S6-L1",
+   "area": "STORY",
+   "owner": "LAWWW",
+   "status": "進行中",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S2",
+    "week": 6,
+    "earliest": "大一下第 6 週找學姊說話（熟悉以上）",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）2026-10-22 12:38 交付（企劃線 5ef4e291、3-4 改植物園 e848154a；outbox 34e0623a）；USER_WANTS C25（使用者 10-21「學姊才是真正的女主角」）",
+   "authorized": "D109（AA 劇情自主）、D110；C25",
+   "next": "【LAWWW（帳號 A）12:4x】白名單加 AA_386@e848154a、階梯兩份 JSON@5ef4e291；子代理在獨立 worktree 照第 1～5 節實作＋單元測試（修改前 FAIL）→ LAWWW 合併、全部單元測試 → 派 BB（第 5 節的測試清單）；放 v9.10.6",
+   "wants": "C25"
   }
  ]
 }

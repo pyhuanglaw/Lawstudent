@@ -13399,6 +13399,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "開發分支整合（LAWWW 帳號 A 12:0x）：patch 乾淨套上、40 個 lod GLB 和 LAWWW2 分支的 blob 逐檔相同、tools/lod/npc_lod.py、LICENSES 一列；npc_far_unit 修改前 11 項 FAIL、修改後＋18 支相關（anon_dedup、anon_pool、ride_pose、seated_look、stairs_feet、v0_econ_chars、walkdir、crowd、follow_buddy、npc_ambient、indoor_crowd、ios_memory、bike、quick_travel、zone_dispose、nav_buildings、sit_feet、sit_floor）ALL PASS；瀏覽器由 BB 在 v9.10.6 測（30 m 邊界不閃、近景樣子不變、?nofar 對照）；放 v9.10.6"
+  },
+  {
+   "id": "DL-AA-5ef4e291",
+   "date": "2026-10-22",
+   "from": "AA",
+   "account": "A",
+   "branch": "claude/story-planning",
+   "sha": "5ef4e291",
+   "what": "AA_386 學姊第四批（直屬學姊替你看路四場、修 2-6 矛盾、交往中的節日六場、重新開始、階梯 S5-L8／S6-L1）；3-4 改臺北植物園 e848154a",
+   "task": "AA386-SIS-BATCH4-1022",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "LAWWW 12:4x ACK；白名單 AA_386@e848154a、ladder_bb_y3s1／y3s2@5ef4e291；子代理實作中"
   }
  ],
  "ignored": [
