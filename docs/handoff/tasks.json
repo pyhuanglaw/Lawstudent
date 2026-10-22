@@ -28790,7 +28790,7 @@
    "id": "BUG-SIS-ORAL-SCHED-1022",
    "title": "5/29 學姊口試那天，她的 3D 作息還是平日 9～17 點在總圖 3F（characters.js 75 行附近）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v3",
    "first": {
@@ -28805,7 +28805,8 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "那天作息改成不在總圖（口試）；照 AA 的口試那一場"
+   "next": "BB 瀏覽器：2029-05-29 10:00 進總圖 3F，學姊不在；手機「朋友」寫「口試（霖澤館的研究室）」；16:00 口試那一場照演",
+   "done": "開發分支（LAWWW 10-22 06:3x）：characters.js 學姊作息最前面加一筆 2029-05-29 08:00～18:00「口試（霖澤館的研究室）」（zone null，不在任何 3D 區域；蓋過平日 9～17 點的總圖 3F）；口試那一場照舊是 y34b3d.js M9 的出遊（16:00 研究室走廊）。tests/sis_oral_sched_unit.js（修改前 c816b8de FAIL、修改後 ALL PASS）；lane118_sched、presence、schedule_refresh、學姊相關 13 支、y34b_events 照過"
   },
   {
    "id": "AA383-S6-SIS-FRIEND-1022",
