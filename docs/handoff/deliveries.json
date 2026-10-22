@@ -13046,8 +13046,8 @@
    "what": "PERF-CROWD-LOD-1021 第二版：遠距離（30～60 m）路人換低面數版本＋遠的不跑彈簧骨（patches/crowd_far_lod.diff：assets3d／character3d／engine3d＋tests/npc_far_unit.js＋tools/shots/crowd_lod_audit.py；assets/models/char/second_ai/lod/ 40 個 .lod.glb 10.8 MB）；大道中段 −34 draw call、−9.6 萬三角形；記憶體三趟沒有變多",
    "task": "PERF-CROWD-LOD-1021",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）"
+   "integration": "取消／被取代",
+   "note": "第三版 DL-LAWWW2-583cf89d 取代（只差 character3d.js updateVRM 那一行和 skirt_drive 合在一起、nm3 遠距離版本重做）｜v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）"
   },
   {
    "id": "DL-LAWWW2-1598a47d",
@@ -13386,6 +13386,19 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "開發分支整合（LAWWW 帳號 A 11:5x）；street_props_nav_unit ALL PASS；tests/gongguan_glb_integration.py 第 2 項期待過時（正式模型多擋 GG_PROP_BLOCKS 95 格）已改成 ?nobldg 補上同一份再比，瀏覽器等 v9.10.5 發布前測試跑完再跑；放 v9.10.6；READY_FOR_ART_REVIEW"
+  },
+  {
+   "id": "DL-LAWWW2-583cf89d",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "583cf89d",
+   "what": "PERF-CROWD-LOD-1021 第三版：crowd_far_lod.diff 對齊開發分支 eece763b（updateVRM 那一行和沛珊 skirt_drive 合在一起；其他和第二版相同）＋40 個 lod GLB（nm3 用 10-22 新頭髮的 VRM 重做）；說明 7ccab572",
+   "task": "PERF-CROWD-LOD-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "開發分支整合（LAWWW 帳號 A 12:0x）：patch 乾淨套上、40 個 lod GLB 和 LAWWW2 分支的 blob 逐檔相同、tools/lod/npc_lod.py、LICENSES 一列；npc_far_unit 修改前 11 項 FAIL、修改後＋18 支相關（anon_dedup、anon_pool、ride_pose、seated_look、stairs_feet、v0_econ_chars、walkdir、crowd、follow_buddy、npc_ambient、indoor_crowd、ios_memory、bike、quick_travel、zone_dispose、nav_buildings、sit_feet、sit_floor）ALL PASS；瀏覽器由 BB 在 v9.10.6 測（30 m 邊界不閃、近景樣子不變、?nofar 對照）；放 v9.10.6"
   }
  ],
  "ignored": [
