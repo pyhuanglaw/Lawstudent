@@ -426,6 +426,11 @@ def apply(m):
     bangs = [(PART + sg * 2, PART + sg * 26, 0.014, 0.012, 'lock'), (PART + sg * 7, PART + sg * 32, 0.004, 0.013, 'lock'),
              (PART + sg * 12, PART + sg * 37, -0.006, 0.013, 'lock'), (PART + sg * 17, PART + sg * 42, -0.016, 0.012, 'lock'),
              (PART + sg * 22, PART + sg * 47, -0.026, 0.011, 'lock')]
+    # 使用者 10-22「好憨」（LAWWW2）：額頭太大——參考圖是中分、兩邊都往外撥，露出的額頭是中間一個倒 V；3D 只有分線那一邊有瀏海、另一邊塞到耳後，
+    # 額頭（髮際線到眉毛）是「眉毛到下巴」的 0.76 倍（參考圖約 0.5）。環境變數 HAIR_BANGS2=1：另一邊也加四綹往外撥的瀏海（比分線那邊短一點）
+    if os.environ.get('HAIR_BANGS2'):
+        bangs += [(PART - sg * 3, PART - sg * 27, 0.012, 0.012, 'lock'), (PART - sg * 9, PART - sg * 33, 0.002, 0.013, 'lock'),
+                  (PART - sg * 15, PART - sg * 39, -0.008, 0.012, 'lock'), (PART - sg * 21, PART - sg * 45, -0.018, 0.011, 'lock')]
 
     def beta_at_z(a, z_tip):
         bt = 0.0

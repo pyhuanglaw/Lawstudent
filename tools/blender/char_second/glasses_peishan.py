@@ -13,6 +13,7 @@ from lib2 import B, Mesh, g2b, bpy, bmesh, Vector   # noqa: E402
 ARGS = sys.argv[sys.argv.index('--') + 1:] if '--' in sys.argv else []
 OUT = os.path.join(L.ROOT, ARGS[ARGS.index('--out') + 1] if '--out' in ARGS else 'assets/models/char/second_ai/glasses_peishan.glb')
 SEP, R_RIM, WIRE = 0.084, 0.023, 0.00085          # 鏡片中心距、鏡框半徑（中心線）、金屬線半徑
+SEP = float(os.environ.get('GLASSES_SEP') or SEP); R_RIM = float(os.environ.get('GLASSES_R') or R_RIM)   # 使用者 10-22「好憨」：臉的眼距改了，鏡片中心距跟著改（環境變數試尺寸，不改檔）
 B.reset(texres=256)
 M = {'frame': L.flat('glasses_frame', '#2e2826', rough=0.35, metal=0.30),
      'lens': L.flat('glasses_lens', '#dfe8ee', rough=0.05, alpha=0.12)}
