@@ -1853,6 +1853,41 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "US-MS-NIGHT-1021：超市街停車場燈桿、眼鏡蛇頭路燈、公寓社區路燈的地面光圈（E.lampGlows，入夜才開）；遊戲內 20:00 前後 4 張"
+  },
+  {
+   "task": "ART-POLISH",
+   "branch": "claude/second-ai-env-art",
+   "sha": "fdd9b3f5",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/tone_neutral_default.diff",
+    "docs/art-rebuild/second_ai/patches/tone_neutral.diff",
+    "docs/art-rebuild/second_ai/test_shots/tone_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "iPhone 實機顏色、雨天陰天沒拍",
+   "next": "LAWWW 挑一個 patch 套（建議 tone_neutral_default.diff：預設 Neutral 曝光 ×1.3，?tone=aces 回到舊的；對 7e00ad05、c617b2e0 乾淨，src/engine3d.js 3 行），跑 nav_levels_unit、nav_buildings_unit，發布前畫面測試照平常",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "第 2 批全域光影：21 個同鏡頭 A/B（Playwright＋SwiftShader）：亮度差 ±0.03、沒有變白，彩度高 20～50%（陽光下的臉 0.30→0.37、椰林大道晚上 0.43→0.65）；美術總監決定建議改預設。人物材質 C.LOOK、燈光表沒動"
+  },
+  {
+   "task": "ART-ZR-HAIR-1022",
+   "branch": "claude/second-ai-env-art",
+   "sha": "0198f820",
+   "files": [
+    "assets/models/char/bl_heroine_02.vrm",
+    "tools/blender/char/p02_hair.py",
+    "tools/blender/char/heroine_02.py",
+    "docs/art-rebuild/second_ai/char_review/zhiruo_hair_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "波浪比參考圖規則；斜看遠的那一邊有一兩條側著的髮片反光；轉頭時頭和上胸之間的頭髮會拉伸（沒有彈簧骨）；劇情鏡頭、真機沒看過",
+   "next": "LAWWW 驗收（D100 第 6 點）後換一個檔 assets/models/char/bl_heroine_02.vrm（同檔名，manifest、程式、眼鏡都不用改；7e00ad05 已經用 Blender 版當預設），人物回歸照平常（Café 吧台、座位、圍裙）",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "使用者 10-22「林芷若3d好憨」的下一輪（LAWWW 04:4x 驗收 888831c4：臉通過、頭髮像頭盔到下巴；BB_221 同意見）。分線 −4°→+12°（人物的左邊，第八版左右做反）、及肩到肩下、頭頂 2.2 cm＋太陽穴蓬、波浪波長 7.5 cm 照高度對齊、深棕；六個版本 h9a～h9f 遊戲渲染器同鏡頭比，採用 h9f"
   }
  ]
 }
