@@ -1,11 +1,11 @@
 {
- "objects": 40,
- "unique_meshes": 40,
+ "objects": 41,
+ "unique_meshes": 41,
  "tris": 17958,
  "tris_drawn": 17958,
- "materials": 77,
+ "materials": 78,
  "out": "assets/models/env/second_ai/wz_brunch_interior.glb",
- "bytes": 1011072,
+ "bytes": 1012152,
  "texres": 512,
  "shop": "brunch",
  "layout": 1
