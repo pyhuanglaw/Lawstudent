@@ -126,7 +126,7 @@ const GROUP_EVENTS=(function(){
       {label:'a'},{if:isDown,speaker:null,text:'（他點頭，把紅茶喝完，再去買兩瓶。兩個人坐到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},
       {unless:isDown,if:notJP,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
       {if:isJP,speaker:null,text:'（他把紅茶喝完。你們講到臺灣十二點半。你這邊已經一點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* AA_377 第 2 項：日本版照當地時間（臺灣 4/28 23:00＝日本 4/29 0:00）*/
-      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>jpNow(G)?Math.max(0.25,1.5-G.hour):24.5-G.hour},{goto:'end'},   /* 講一個半小時：臺灣到 0:30；日本版 G.hour 是當地 0 點＝到當地 1:30（原本 24.5-G.hour 一口氣跳到 4/30，冠軍賽直播演不到）*/
+      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>jpNow(G)?Math.max(0.25,(G.hour>=12?25.5:1.5)-G.hour):24.5-G.hour},{goto:'end'},   /* 講一個半小時：臺灣到 0:30；日本版 G.hour 是當地 0 點＝到當地 1:30（原本 24.5-G.hour 一口氣跳到 4/30，冠軍賽直播演不到）；沒換日的 24.x 也是到 25.5（BUG-JP-SLEEP-MIDNIGHT-1022：原本只過 15 分鐘）*/
       {label:'b'},{speaker:'zhe',text:'……跟我爸？'},
       {speaker:null,text:'（他想了很久，拿出手機，打了一行字，刪掉，又打。按出去。三十秒後手機震了：「我也是。」他盯著螢幕看了很久，然後笑出來。）'},
       {speaker:'zhe',text:'……他也是。'},{advance:0.25},{goto:'end'},

@@ -282,8 +282,8 @@ const JP=(function(){
     const nx=S.nextStop(G,now,where), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };   /* 同 home3d.js 的快轉選單 */
   S.wakeH=function(G,day){ if(day===D('ret')) return 8; const it=S.firstClass(G,day); return it?Math.max(6.5,it.t0-1):8.5; };   /* 有課＝第一堂前 1 小時 */
-  S.sleep=async function(GM){ const G=GM.G, nd=G.day+1; let to=T(nd,S.wakeH(G,nd)); const lw=STORY.lawWakeAt?STORY.lawWakeAt(G):null; if(lw!=null&&T(G.day,lw)>NOW(G)) to=Math.min(to,T(G.day,lw));   /* 事件包的「睡著也會醒來」（STORY.WAKE_AT）*/
-    if(G.hour>=25) (G.daily||(G.daily={})).lateNight=G.day+1; await S.jump(GM,to,'jp'); return true; };
+  S.sleep=async function(GM){ const G=GM.G, early=G.hour<5, nd=early?G.day:G.day+1; let to=T(nd,S.wakeH(G,nd));   /* early：快轉過半夜（setTime 換日、G.hour 0.x）以後才睡＝醒來是同一天（原本一律 G.day+1，多睡一整天；BUG-JP-SLEEP-MIDNIGHT-1022）*/ const lw=STORY.lawWakeAt?STORY.lawWakeAt(G):null; if(lw!=null&&T(G.day,lw)>NOW(G)) to=Math.min(to,T(G.day,lw));   /* 事件包的「睡著也會醒來」（STORY.WAKE_AT）*/
+    if(G.hour>=25||(early&&G.hour>=1)) (G.daily||(G.daily={})).lateNight=nd; await S.jump(GM,to,'jp'); return true; };
   S.confirmMiss=async function(GM,toH){ const M=typeof HOME!=='undefined'&&HOME.wouldMiss?HOME.wouldMiss(GM.G,toH):[]; if(!M.length) return true; await GM.say(null,'會錯過：'+M.join('、')+'。'); return (await GM.choose([{t:'照樣'},{t:'先不要'}]))===0; };   /* 同 home3d.js */
   /* ---------------- 據點的選單（J-S5）---------------- */
   S.callLike=q=>!!q&&(q.verb==='接起來'||q.place==='視訊'||!!q.call);

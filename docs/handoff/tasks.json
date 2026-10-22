@@ -28573,7 +28573,7 @@
    "id": "BUG-JP-SLEEP-MIDNIGHT-1022",
    "title": "日本路線凌晨睡覺可能多睡一天（jp3d.js S.sleep 醒來日＝G.day+1，快轉跨午夜後已換日）；哲 4 日本版 Math.max(0.25,1.5-G.hour) 在 G.hour 24.x 時只過 15 分鐘",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v4",
    "first": {
@@ -28588,7 +28588,7 @@
    },
    "source": "BB 10-22 03:16 讀碼（瀏覽器還沒驗證）",
    "authorized": "D110",
-   "next": "Node 先重現再修"
+   "next": "【LAWWW（帳號 A）2026-10-22 04:2x】jp3d.js S.sleep：G.hour<5（快轉過半夜已換日）醒來用當天、lateNight 記醒來那一天；group_events.js 哲 4 日本版 G.hour≥12 到 25.5（當地 1:30）；tests/jp_sleep_midnight_unit.js（修改前 3 項 FAIL：週末 4/15 00:30 睡到 4/16、lateNight、24.x 只過 15 分鐘）。BB 測：日本路線週末快轉過半夜再睡覺 ｜ Node 先重現再修"
   },
   {
    "id": "ART-ZR-CAFE-PORTRAIT-1022",
