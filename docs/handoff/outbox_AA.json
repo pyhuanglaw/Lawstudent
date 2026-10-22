@@ -1356,6 +1356,26 @@
    "receiver": "LAWWW",
    "ack": "DELIVERED",
    "note": "畢業以後：美國路線還差一門實習和兩門課（3 處）、補修的同學是大四、週二去法扶不是事務所、開學那句；可昕週日「今天開庭」4 句；六位每月一句被擠到別的週六會錯的 10 句；學姊 2030 生日看海（新增）；明軒放榜那天下午三點下班"
+  },
+  {
+   "task": "AA386-SIS-BATCH4-1022",
+   "branch": "claude/story-planning",
+   "sha": "5ef4e291",
+   "files": [
+    "docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md",
+    "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md",
+    "docs/story_planning/ladder/build_ladder_bb_y3s1.py",
+    "docs/story_planning/ladder/ladder_bb_y3s1.json",
+    "docs/story_planning/ladder/build_ladder_bb_y3s2.py",
+    "docs/story_planning/ladder/ladder_bb_y3s2.json"
+   ],
+   "state": "已交付",
+   "remaining": "學姊之後看 BB 測試結果再補；BB_122 9-1 對質等多段感情那邊一起做",
+   "next": "LAWWW 開 AA386-SIS-BATCH4-1022；階梯白名單加 5ef4e291 的 ladder_bb_y3s1.json、ladder_bb_y3s2.json",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "#101（C25）學姊第四批：直屬學姊替你看路四場（大一下、大二上、大三上志願表、大三下）；2-6 那一句和階梯 S4-Lx／S5-L1 矛盾改兩句；交往中聖誕夜 2026、2027＋2028-12-24 那頓接回來，情人節 2027、2028（她寒假那一天的假）、2029（電話）；分開以後的三件事＋再告白答應台詞（BB_122 9-2）"
   }
  ],
  "items": [
