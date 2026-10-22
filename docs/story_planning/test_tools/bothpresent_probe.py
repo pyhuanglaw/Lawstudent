@@ -329,12 +329,18 @@ async def miss(p, run, base, out):
             got = await tap_q(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-skip]')].pop()")
             if not got: await L.phone_away(pg, cdp); await pg.wait_for_timeout(3000)
             else: await pg.wait_for_timeout(2500)
-        await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
+        await L.phone_away(pg, cdp)
+        t1 = time.time(); flip = None   # 跳完時間以後在房間裡待著（時間照走），最多看 90 秒：什麼時候記成沒赴約
+        while time.time() - t1 < 90:
+            st = await pg.evaluate(ST)
+            if any(v['state'] == 'missed' for v in st['inv']): flip = st['h']; break
+            await pg.wait_for_timeout(3000)
+        res['flip_h'] = flip; res['tick'] = await pg.evaluate("(()=>({stBusy:!!(GAME.E.player&&GAME.E.player.busy), adv:!!(typeof ADV!=='undefined'&&ADV.active), paused:!!GAME.E.paused, zone:GAME.G.zone, h:GAME.G.hour}))()")
         st = await pg.evaluate(ST); res['after'] = st; ms = await pg.evaluate(MSGS); res['msgs'] = ms[-4:]
         await run.shot(pg, 'MISS_after')
         say('   MISS：%s；訊息 %s' % (json.dumps(st, ensure_ascii=False)[:300], json.dumps(ms[-3:], ensure_ascii=False)))
         run.check('MISS：人在宿舍＝沒有開始（邀約沒有變成 done、沒有演見面）', not started and not any(v['state'] == 'done' for v in st['inv']), json.dumps(st['inv'], ensure_ascii=False))
-        run.check('MISS：過了 19:30 記沒赴約（missed）、訊息「你沒有赴約：…」', any(v['state'] == 'missed' for v in st['inv']) and any('沒有赴約' in m['text'] for m in ms), json.dumps({'inv': st['inv'], 'h': st['h'], 'msgs': ms[-3:]}, ensure_ascii=False)[:400])
+        run.check('MISS：過了 19:30 記沒赴約（missed）、訊息「你沒有赴約：…」', any(v['state'] == 'missed' for v in st['inv']) and any('沒有赴約' in m['text'] for m in ms), json.dumps({'inv': st['inv'], 'h': st['h'], 'flip_h': res.get('flip_h'), 'tick': res.get('tick'), 'msgs': ms[-3:]}, ensure_ascii=False)[:500])
         res['errs'] = errs[:3]; run.check('MISS：沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('MISS：測試跑完', False, str(e)[:300])
     await close(b)
