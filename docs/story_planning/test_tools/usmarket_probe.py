@@ -147,6 +147,13 @@ async def look(p, base, run):
 # ---------------------------------------------------------------- CAM（US-PATROL-1021，LAWWW2 us_market_cam／us_ms_seethru；LAWWW 10-22 06:46 派）
 CAMIN = """(()=>{ const E=GAME.E, c=E.camera.position, n=E.nav, P=E.player.obj.position; const inside=!!n&&c.x>=n.ox&&c.x<=n.ox+n.w&&c.z>=n.oz&&c.z<=n.oz+n.h;
   return {zone:GAME.G.zone, cam:[+c.x.toFixed(2),+c.y.toFixed(2),+c.z.toFixed(2)], player:[+P.x.toFixed(2),+P.z.toFixed(2)], nav:n?[n.ox,n.oz,+(n.ox+n.w).toFixed(2),+(n.oz+n.h).toFixed(2)]:null, inside}; })()"""
+# 亞洲超市照 LAWWW2 的設計（tests/us_market_cam_unit.js）：鏡頭可以退到牆外 1.5 m，四面牆各自淡出；正面玻璃、框、門（WALL_S_*）跟南牆一起淡出——
+# 「鏡頭在店的範圍內」不是它的條件（2026-10-22 候選 364dabe0 第一輪照這個條件記了 FAIL，畫面其實看得到店裡）。改看：鏡頭和人之間的 WALL_ 節點都淡出了
+WALLFADE = """(()=>{ const E=GAME.E, c=E.camera.position, P=E.player.obj.position, v=new THREE.Vector3(), out=[];
+  E.scene.traverse(o=>{ if(!/^WALL_/.test(o.name||'')) return; let vis=true, op=1; for(let q=o;q;q=q.parent){ if(q.visible===false){ vis=false; break; } }
+    o.traverse(m=>{ if(m.isMesh) for(const mm of [].concat(m.material)) if(mm&&mm.transparent) op=Math.min(op,mm.opacity); });
+    out.push({name:o.name, vis, op:+op.toFixed(2)}); });
+  return {n:out.length, south:out.filter(w=>/^WALL_S/.test(w.name)), shown:out.filter(w=>w.vis&&w.op>0.5).map(w=>w.name)}; })()"""
 POLE = """(()=>{ const out=[], v=new THREE.Vector3(); GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; const ms=[].concat(o.material); if(!ms.some(m=>m&&m.userData&&m.userData.seeThrough)) return;
   o.getWorldPosition(v); out.push({name:o.name||'', mats:ms.map(m=>m&&m.name||''), x:+v.x.toFixed(1), z:+v.z.toFixed(1)}); });
   return {n:out.length, near:out.filter(q=>Math.hypot(q.x+22.6,q.z-14.9)<3).slice(0,6), mats:[...new Set(out.flatMap(q=>q.mats))].slice(0,20)}; })()"""
@@ -162,7 +169,13 @@ async def cam(p, base, run):
     for pat, zid, back in (('進草原超市', 'us_market', '離開超市'), ('進竹葉亞洲超市', 'us_asian_market', '出門')):
         ok, dt, z = await use(pg, cdp, run, pat, zid, max_s=420); await pg.wait_for_timeout(2500)
         c = await pg.evaluate(CAMIN); out['CAM_' + zid] = c; await run.shot(pg, 'cam_%s_enter' % zid)
-        chk(run, 'CAM', '%s：一進門，鏡頭在店裡（鏡頭 %s、店的範圍 %s）' % (zid, c['cam'], c['nav']), c['zone'] == zid and c['inside'], json.dumps(c, ensure_ascii=False))
+        if zid == 'us_asian_market':
+            wf = await pg.evaluate(WALLFADE); c['walls'] = wf
+            behind = c['cam'][2] > c['player'][1]   # 鏡頭在人的南邊（門那一側）
+            chk(run, 'CAM', '%s：一進門，鏡頭和人之間的南牆、正面玻璃／框／門（WALL_S_*）都淡出（鏡頭 %s、店的範圍 %s；設計上鏡頭可以在牆外）' % (zid, c['cam'], c['nav']),
+                c['zone'] == zid and (c['inside'] or (behind and wf['south'] and all((not w['vis']) or w['op'] <= 0.5 for w in wf['south']))), json.dumps(c, ensure_ascii=False)[:700])
+        else:
+            chk(run, 'CAM', '%s：一進門，鏡頭在店裡（鏡頭 %s、店的範圍 %s）' % (zid, c['cam'], c['nav']), c['zone'] == zid and c['inside'], json.dumps(c, ensure_ascii=False))
         await use(pg, cdp, run, back, 'us_market_street')
     chk(run, 'CAM', '沒有 JS 例外', not errs, json.dumps(errs[:2], ensure_ascii=False))
     try: await asyncio.wait_for(b.close(), 30)
