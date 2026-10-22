@@ -1868,7 +1868,7 @@
    "next": "LAWWW 挑一個 patch 套（建議 tone_neutral_default.diff：預設 Neutral 曝光 ×1.3，?tone=aces 回到舊的；對 7e00ad05、c617b2e0 乾淨，src/engine3d.js 3 行），跑 nav_levels_unit、nav_buildings_unit，發布前畫面測試照平常",
    "noDirectIntegrate": false,
    "receiver": "LAWWW",
-   "ack": "未派",
+   "ack": "SENT",
    "note": "第 2 批全域光影：21 個同鏡頭 A/B（Playwright＋SwiftShader）：亮度差 ±0.03、沒有變白，彩度高 20～50%（陽光下的臉 0.30→0.37、椰林大道晚上 0.43→0.65）；美術總監決定建議改預設。人物材質 C.LOOK、燈光表沒動"
   },
   {
