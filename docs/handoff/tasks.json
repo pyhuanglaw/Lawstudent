@@ -7268,7 +7268,10 @@
      "evidence": "開發分支沒有 D15 的底圖（assets/bg 無 d15_base_night；企劃線 date_system/art/d15_base_night.webp 有、白名單沒列）也沒有台詞（DATE_LINES.loc 只有 D04/D06/D12/D13）；企劃線 lines/D15.json 最後改在 10-17，未經 AA_188 口語審重交",
      "note": "D15（開車地點）底圖在企劃線、還沒進開發分支；台詞等 AA 口語審"
     }
-   ]
+   ],
+   "resumeWhen": "企劃線 date_system/art 的 D15 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "DATE-L16",
@@ -7297,7 +7300,10 @@
      "evidence": "開發分支沒有 D16 的底圖（assets/bg 無 d16_base_afternoon；企劃線 date_system/art/d16_base_afternoon.webp 有、白名單沒列）也沒有台詞（DATE_LINES.loc 只有 D04/D06/D12/D13）；企劃線 lines/D16.json 最後改在 10-17，未經 AA_188 口語審重交",
      "note": "D16（開車地點）底圖在企劃線、還沒進開發分支；台詞等 AA 口語審"
     }
-   ]
+   ],
+   "resumeWhen": "企劃線 date_system/art 的 D16 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "DATE-L17",
@@ -7481,7 +7487,10 @@
      "evidence": "開發分支沒有 D22 的底圖（assets/bg 無 d22_base_afternoon；企劃線 date_system/art/d22_base_afternoon.webp 有、白名單沒列）也沒有台詞（DATE_LINES.loc 只有 D04/D06/D12/D13）；企劃線 lines/D22.json 最後改在 10-17，未經 AA_188 口語審重交",
      "note": "D22（開車地點）底圖在企劃線、還沒進開發分支；台詞等 AA 口語審"
     }
-   ]
+   ],
+   "resumeWhen": "企劃線 date_system/art 的 D22 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "DATE-L23",
@@ -7510,7 +7519,10 @@
      "evidence": "開發分支沒有 D23 的底圖（assets/bg 無 d23_base_sunset；企劃線 date_system/art/d23_base_sunset.webp 有、白名單沒列）也沒有台詞（DATE_LINES.loc 只有 D04/D06/D12/D13）；企劃線 lines/D23.json 最後改在 10-17，未經 AA_188 口語審重交",
      "note": "D23（開車地點）底圖在企劃線、還沒進開發分支；台詞等 AA 口語審"
     }
-   ]
+   ],
+   "resumeWhen": "企劃線 date_system/art 的 D23 底圖列進白名單（AA 交「已審版本＋commit」）＋AA 口語審重交台詞（AA_188）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "DATE-L24",
@@ -22164,7 +22176,10 @@
      "evidence": "exam_hs_classroom、daan_park 已到並使用（data/events.js:2422 ev_y0_r3 大安森林公園）；bus_tour 沒有（src/data/camp_y1.js:17、305 仍是 bg:'car'）；car_night／car_morning／car_rain 仍是 Blender 版（LICENSES.md:231 BG-08 寫 LAWWW2-B Blender），D104 要換成使用者生成",
      "note": "六張到了兩張"
     }
-   ]
+   ],
+   "resumeWhen": "使用者照 BB 給的提示詞（D97）生成 bus_tour＋三張車內，BB 檢查通過放 bg_approved/ 交 LAWWW 換",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "Q-E36-CALL-1018",
@@ -22242,7 +22257,10 @@
      "evidence": "assets/bg/cram_class.webp 是 10-17 BB-B 那張（b6f471f7），使用者 10-18 07:5x 要的「隔一個位置坐、抽屜桌上都是書」新圖還沒有；BB 分支 8ddf23fa（10-18）把衝刺班改成純場景提示詞",
      "note": "等使用者生圖"
     }
-   ]
+   ],
+   "resumeWhen": "使用者照 BB 給的提示詞（D97）生成衝刺班新圖，BB 檢查通過放 bg_approved/cram_class 交 LAWWW 換",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "BUG-ECON-AWAY-LAW-1018",
@@ -23126,7 +23144,10 @@
      "evidence": "assets/cg/econ/ 只有 cg_econ_camp.webp；cg_econ_bbq_pomelo 在 src/adv3d.js、data/events.js 都沒有；使用者 10-18 14:3x「Cg先記錄需要哪些 之後的帳號再補」",
      "note": "使用者自己說之後再補"
     }
-   ]
+   ],
+   "resumeWhen": "使用者生成這張 CG（BB 照 D97 寫提示詞、向使用者要），BB 檢查通過交 LAWWW 接在品妤「（拿起手機）不要動。」那一句",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等使用者的圖"
   },
   {
    "id": "BUG-ADV-OVERLAP-1018",
@@ -24125,7 +24146,10 @@
      "evidence": "AA_311（36fd57e8）已交；店員已在店裡（src/story3d.js:325 clerk）；只做了 H1 一一八茶飲×學姊（src/lane118.js:56-81，SIS_TEA_ORDER）；lane118.js:8 註解明寫「其餘 H2～H9、熟客三段招呼還沒做」；H2b 等使用者確認",
      "note": "使用者 10-20 要的店家故事只做了一件"
     }
-   ]
+   ],
+   "resumeWhen": "AA_311 已接進遊戲的部分等 BB 瀏覽器看過就改已驗收；H2b 等使用者確認（AA 問，D109 範圍外才問）",
+   "nextCheck": "2026-10-29（或下一次發布前，先到的那個）",
+   "pausedBy": "LAWWW（帳號 A）10-22 06:0x 發布前 check_orphans 補恢復條件；等的是素材或別的職位，不是 LAWWW 決定暫停"
   },
   {
    "id": "EAT-EFFECT-1020",
