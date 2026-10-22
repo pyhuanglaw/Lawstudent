@@ -195,6 +195,8 @@ def build_boya():
         for fl in range(NF):
             v0, v1 = YF[fl], YF[fl + 1]; hs = []
             if fl: hs.append(kit.window(fr, 0.0, v0 + 0.95, 6.0, v1 - v0 - 1.4, 0.0, lit(30, fl, side), dep=0.15, proud=0.0, mull=[-2.0, 0.0, 2.0], has_sill=False))
+            elif side > 0:   # 東側一樓：大廳的玻璃帶（2026-10-21 LAWWW2 ART-ECON-3D-GAP：原本整面沒開口的牆，經濟系每天走小椰林道過來，站在東側看整個畫面是一片灰牆；資料：入口在西南與東側）
+                hs.append(kit.window(fr, 0.0, 0.6, 13.0, YF[1] - 0.55 - 0.6, 0.0, True, dep=0.15, proud=0.0, mull=[-6.5 + 1.625 * k for k in range(1, 8)], has_sill=False, transom=2.0))
             kit.wall_strip(fr, -D / 2, D / 2, v0, v1, hs)
         for k in range(1, NF + 1): kit.fbox('trim', fr, -D / 2 - 0.05, D / 2 + 0.05, YF[k] - 0.25, YF[k] + 0.05, 0.0, 0.12, skip=('in',))
         kit.fbox('base', fr, -D / 2 - 0.05, D / 2 + 0.05, 0.0, 0.6, 0.0, 0.05, skip=('in', 'bottom'))

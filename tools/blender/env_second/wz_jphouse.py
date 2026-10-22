@@ -133,10 +133,30 @@ def hip_roof(xf, W, D, y0, H, r, kawara, ridge, wood):
 import json as _json
 TEAHOUSE = arg('--teahouse', '1') == '1'
 M['noren'] = L.flat('jp_noren', '#d8ceb6', rough=0.95)   # 素面麻布（yizhan_front_ref 的暖簾）
-_ATL = _json.load(open(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.json'), encoding='utf-8'))
+_ATL0 = _json.load(open(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.json'), encoding='utf-8'))
+
+
+def _crop_atlas(keys, pad=4, align=32):
+    """燈籠、木牌只用到圖集左上角兩格：切出那一塊（含 pad 個像素的邊，邊界對齊 align，前幾層 mipmap 和整張圖集的同一塊一樣）當自己的小圖，
+    UV 換成小圖的座標。GLB 不再帶整張 2048² 圖集（PERF-ZONE-ENTER-1018：wenzhou_street.glb 已經有同一張，原本兩份都要解碼、上傳 GPU）。"""
+    src = bpy.data.images.load(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.jpg'), check_existing=True); W, H = src.size
+    bx = (min(_ATL0[k]['uv'][0] for k in keys) * W, min(_ATL0[k]['uv'][1] for k in keys) * H, max(_ATL0[k]['uv'][2] for k in keys) * W, max(_ATL0[k]['uv'][3] for k in keys) * H)
+    x0 = max(0, math.floor((bx[0] - pad) / align) * align); y0 = max(0, math.floor((bx[1] - pad) / align) * align)      # 圖的第 0 列在最下面（UV 的 v＝0）
+    x1 = min(W, math.ceil((bx[2] + pad) / align) * align); y1 = min(H, math.ceil((bx[3] + pad) / align) * align)
+    import numpy as np
+    px = np.empty(W * H * 4, dtype=np.float32); src.pixels.foreach_get(px)
+    img = bpy.data.images.new('wz_yizhan_signs', x1 - x0, y1 - y0, alpha=False)
+    img.pixels.foreach_set(np.ascontiguousarray(px.reshape(H, W, 4)[y0:y1, x0:x1]).ravel()); img.pack()
+    out = {k: dict(_ATL0[k], uv=[(_ATL0[k]['uv'][0] * W - x0) / (x1 - x0), (_ATL0[k]['uv'][1] * H - y0) / (y1 - y0),
+                                  (_ATL0[k]['uv'][2] * W - x0) / (x1 - x0), (_ATL0[k]['uv'][3] * H - y0) / (y1 - y0)]) for k in keys}
+    print(_json.dumps({'yizhan_crop': [x0, y0, x1, y1], 'from': [W, H]}))
+    return img, out
+
+
+_ATL_IMG, _ATL = _crop_atlas(('yizhan_lantern', 'yizhan_plaque'))
 def _atlas_mat(name, emit):
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bs = N['Principled BSDF']; bs.inputs['Roughness'].default_value = 0.7
-    tx = N.new('ShaderNodeTexImage'); tx.image = bpy.data.images.load(os.path.join(HERE, 'textures', 'gen', 'wz_signs_atlas.jpg'), check_existing=True); nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
+    tx = N.new('ShaderNodeTexImage'); tx.image = _ATL_IMG; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
     if emit: nt.links.new(tx.outputs['Color'], bs.inputs['Emission Color']); bs.inputs['Emission Strength'].default_value = emit
     return m
 
