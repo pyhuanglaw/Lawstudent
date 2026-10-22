@@ -41,7 +41,7 @@ async def main():
                         await pg.wait_for_timeout(500)
                     zone = st['zone']
                 pos = st.get('pos', {})
-                await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; }
+                await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; if(E.setLv) E.setLv(P,s.pos.lv|0); if(E.settleY) E.settleY(P); }   /* 樓層照 pos.lv（沒寫＝一樓）、高度照那一層的地板：原本 y＝0、樓層沿用上一張（j26：二樓那張之後的一樓陷進地板、階梯教室埋在台階裡）*/
                     if('hour' in s){ GAME.G.hour=s.hour; E.applyTime(s.hour); } })(%s)""" % json.dumps(st, ensure_ascii=False))
                 await pg.evaluate("(h=>{ GAME.E.player.obj.visible=!h; })(%s)" % ('true' if s.get('hidePlayer') else 'false'))
                 # 路人移出場景（引擎每格會依遠近重設 visible，只設 visible=false 擋不住；2026-10-10 街道道具那批截圖還看得到路人）
