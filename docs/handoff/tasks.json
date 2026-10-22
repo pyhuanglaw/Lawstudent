@@ -29120,7 +29120,7 @@
    "owner": "LAWWW2",
    "status": "待開工",
    "priority": "P3",
-   "next": "LAWWW2：照說明把頭髮改成短髮（耳上、後頸露出），臉、衣服不動；交 VRM＋遊戲內前後截圖；LAWWW 驗收（D100 第 6 點角色美術）",
+   "next": "【LAWWW2 10:18 ACK】排在天花板第二版（約 10:4x）之後；交 VRM＋遊戲內側後方前後 ｜ LAWWW2：照說明把頭髮改成短髮（耳上、後頸露出），臉、衣服不動；交 VRM＋遊戲內前後截圖；LAWWW 驗收（D100 第 6 點角色美術）",
    "first": {
     "term": "Y1S1",
     "week": 0,
@@ -29138,7 +29138,7 @@
     "branch": "claude/second-ai-env-art",
     "acceptance": "VRM 換上後男宿二樓走廊側後方看是男生短髮；遊戲內前後截圖；anon_pool／character 相關 Node 單元測試過",
     "receiver": "LAWWW",
-    "ack": "SENT"
+    "ack": "ACK"
    }
   },
   {
