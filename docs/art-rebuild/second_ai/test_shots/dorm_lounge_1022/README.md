@@ -1,6 +1,9 @@
 # 男生宿舍交誼廳：家具做細、補上生活感（ART-DORM-LOUNGE-1021）
 
-帳號 A 的 LAWWW2，2026-10-22 02:5x～UTC。狀態：**WIP**——模型、導航 patch、單元測試好了；遊戲內前後截圖、`flow_dorm_hall`、`reachability_all` 排在佇列 j25（跑完才交件）。
+帳號 A 的 LAWWW2，2026-10-22 02:5x～06:2x UTC。
+
+- **狀態**：已交件；`READY_FOR_ART_REVIEW`（場景美術由使用者驗收）。
+- 模型、導航 patch、單元測試、遊戲內前後截圖、`flow_dorm_hall`、`reachability_all` 都做完了（佇列 j25）。
 
 任務：LAWWW2-C 清查 B16「男宿交誼廳家具」（P3）。驗收（總表）：GLB＋遊戲內截圖；**交誼廳沙發、電視、販賣機、長桌的導航阻擋不變**。
 
@@ -58,12 +61,28 @@
 
 新加的材質：公告／時鐘／標籤圖集、販賣機展示窗、窗簾（Poly Haven `rough_linen`）、塑膠椅、地毯（Poly Haven `dirty_carpet`）。
 
-## 遊戲內前後（佇列 j25）
+## 遊戲內前後（佇列 j25；Playwright＋SwiftShader 手機橫向模擬，不是 iPhone）
 
-（j25）
+左：開發分支 `be8c1b0e`；右：套 `dorm_lounge.diff`、換 `dorm_hall.glb`。同一個位置、同一個時間。
+
+![](game_before_after.webp)
+
+- 從大門看進來：深咖啡色皮沙發、藍灰地毯、矮桌上的東西、吊扇、紅色和淺灰兩台販賣機、資源回收桶。
+- 晚上：販賣機展示窗亮著，最上面一排是紅色的「售完」。
+- 從走廊看窗戶那一面：窗簾、公告欄、時鐘、盆栽、塑膠椅。
+
+## 測試（j25：開發分支 `be8c1b0e`＋`dorm_lounge.diff`＋新的 `dorm_hall.glb`）
+
+- `node tests/dorm_lounge_unit.js`、`nav_buildings_unit.js`、`dorm_cam_unit.js`、`dorm_seethru_unit.js`、`dorm_moved_out_unit.js`：ALL PASS。
+- `tests/flow_dorm_hall.py`（真的走，27 項）：ALL PASS，`walkFallbacks` 0。
+  - 走過的地方：房間 → 二樓走廊 → 樓梯下一樓 → 舍監室窗口、信箱 → 大門出入 → 交誼廳沙發坐下、起身 → 上二樓回房間。
+  - 另外檢查：二樓走廊存檔、讀檔，路人上下樓梯。
+- `tests/reachability_all.py --zones dorm_hall`：出生點站得住、32 個互動點都走得到、「坐下」走得到、從別區進來的 2 個到達點站得住：ALL PASS。
+- `dorm_lounge.diff` 在開發分支 `27de6170`（v9.10.4 發布以後）也乾淨。
 
 ## 還不到的地方（誠實寫）
 
+- 從大門往裡看，西牆窗戶的窗簾在畫面左邊緣，一條綠色豎條比較近、比較大（修改後 `se_15` 左邊）。
 - 吊扇不會轉（模型是靜止的；要轉得寫程式，這一版不做）。
 - 時鐘的指針固定在 10 點 10 分，不跟遊戲時間走。
 - 電視是關著的（深色螢幕）；遊戲文字寫「在播午間新聞」，要亮起來得由程式在看電視的時候換材質。
