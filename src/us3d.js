@@ -209,6 +209,11 @@ const US3=(function(){
   const MS=()=>typeof US_MARKET_STREET_LAYOUT!=='undefined'?US_MARKET_STREET_LAYOUT:null;   /* 超市街（US-MARKET-STREET）：有這份配置就把超市、亞洲超市、社區的「出門」接過去；沒有就照舊直接進店 */
   /* 戶外區域：配置的 bounds、blocks（長方形，why）、cars；正式模型 glb＋bldg.us_cars（車照配置停）。
      o.interact(E,L,IT)：這一區自己的互動點。建築本體（why 開頭是 building）＝鏡頭碰撞（加高到屋簷 6 m）＋備用模型的方塊 */
+  /* 擋住玩家時網點透空的材質（戶外區域的正式模型，照區域 id；和台灣的電線桿、行道樹同一套 engine3d.js updateSeeThrough）。
+     超市街（US-PATROL-1021，LAWWW2 10-22 巡場景）：從社區搭公車來，下車的地方 (−22.6, 12.9) 面向北、鏡頭在後面，站牌柱剛好在鏡頭和人中間——
+     一根直的柱子把人切成兩半。模型裡的金屬桿（停車場燈桿、路燈、號誌桿、站牌柱、公車亭的框）都是 usms_vc_metal
+     （us_market_street.py 匯出時把純色材質轉成頂點色）。測試：node tests/us_ms_seethru_unit.js */
+  const SEE_MATS={us_market_street:/^usms_vc_metal$/};
   function outdoorZone(o){ return { id:o.id, name:o.name, indoor:false, cityLight:o.cityLight||0.3, size:o.size, camDist:o.camDist||6.0, noSkyline:o.noSkyline!==false, build(E){   /* noSkyline：不畫引擎的遠景剪影（台北的山和城市大樓；US-CAMPUS-WIRE-1018）*/ const L=o.layout(), B=L.bounds;
     const g=new THREE.Group(); const nav=new E3.NavGrid(B.x1-B.x0,B.z1-B.z0,0.5,B.x0,B.z0);
     nav.blockOutside(B.x0+0.5,B.z0+0.5,B.x1-0.5,B.z1-0.5);
@@ -234,7 +239,8 @@ const US3=(function(){
     let lampGlow=[], shopGlow=[], formalRoot=null; const zoneTime=(h)=>{ setGlow(lampGlow,night(h)?1:0); setGlow(shopGlow,night(h)?1:0.55); if(formalRoot) usSeason(formalRoot); };
     const zone={group:g,nav,spawn:Object.assign({},o.spawn(L)),lamps:[],buildings:[],applyTimeOutdoor:zoneTime,onLamps(on){}};
     if(has(o.glb)) ASSETS.loadOne(o.glb).then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const root=c.scene.clone(true); root.traverse(q=>{ if(q.isMesh){ q.castShadow=true; q.receiveShadow=true; if(q.material&&/asphalt/.test(q.material.name||'')&&q.material.map) q.material.map.userData.asphalt=true; } }); g.add(root);
-      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); usSeason(root); formalRoot=root; const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
+      for(const q of fb.children) if(q!==carFb) q.visible=false; lampGlow=glowMats(root,/^GLOW_.*lamp/); shopGlow=glowMats(root,/^GLOW_.*interior/); usSeason(root); formalRoot=root;
+      { const sm=SEE_MATS[o.id]; if(sm) root.traverse(q=>{ if(!q.isMesh) return; for(const m of [].concat(q.material)){ if(!m||!sm.test(m.name||'')||m.userData.seeThrough) continue; m.userData.seeThrough=true; if(E.patchSeeThrough) E.patchSeeThrough(m); } }); } const G=G_(); if(G) zoneTime(G.hour); }).catch(e=>console.warn(o.name+' 正式模型載入失敗，用程序化備用模型',e));
     if(L.cars&&L.cars.length&&has('bldg.us_cars')) ASSETS.loadOne('bldg.us_cars').then(c=>{ if(!c||!c.scene||E.zone!==zone) return; const src=c.scene, paint={};
       const cg=new THREE.Group(); cg.name='us_cars'; let n=0;
       for(const car of L.cars){ const node=src.getObjectByName(car.kind); if(!node) continue; const q=node.clone(true); q.position.set(car.x,0,car.z); q.rotation.set(0,car.yaw,0);
@@ -296,6 +302,13 @@ const US3=(function(){
     return z; } };
   // =================== 超市 us_market（草原超市 Prairie Basket；US1 抵達那天、之後的日常採買）===================
   const AISLE_ZH={cereal:'早餐穀片',snacks:'零食',drinks:'飲料',canned:'罐頭',pasta:'義大利麵、米',baking:'烘焙材料',household:'日用品',personal:'清潔、個人用品'};
+  /* 草原超市的四面外牆當跟隨鏡頭的牆（US-PATROL-1021，LAWWW2 10-22 巡場景）：一進門（入口 IN 門內 2.4 m、面向北），鏡頭在南、camDist 5 m，退到正面玻璃外面，
+     隔著門框、門楣往裡看——畫面上橫著兩條黑帶、人被擋住。正面的門洞也擋（走到門口就換區域，鏡頭不必出去）；和公寓、教學館、機場同一套 zone.camCols：
+     engine3d.js 的 followCam 擋到就拉近、抬高（最多 0.9 m，天花板 6.4 m），autoSwing 轉向空的那一邊。測試：node tests/us_market_cam_unit.js */
+  function usmCamCols(Bd,g,H){ const inv=new THREE.MeshBasicMaterial({visible:false,side:THREE.DoubleSide}), out=[], T=0.24;
+    const box=(x0,x1,z0,z1)=>{ const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,H,z1-z0),inv); m.position.set((x0+x1)/2,H/2,(z0+z1)/2); m.userData.noMerge=true; g.add(m); out.push(m); };
+    box(Bd.x0-T,Bd.x1+T,Bd.z0-T/2,Bd.z0+T/2); box(Bd.x0-T,Bd.x1+T,Bd.z1-T/2,Bd.z1+T/2); box(Bd.x0-T/2,Bd.x0+T/2,Bd.z0,Bd.z1); box(Bd.x1-T/2,Bd.x1+T/2,Bd.z0,Bd.z1);
+    return out; }
   const us_market={ id:'us_market', name:'草原超市（美國）', indoor:true, camDist:5.0, build(E){ const L=US_MARKET_LAYOUT, Bd=L.bounds, H=L.h||6.4;
     const W=Math.max(-Bd.x0,Bd.x1)*2, D=Math.max(-Bd.z0,Bd.z1)*2;
     const z=Z3.room(E,{w:W,d:D,h:H,windows:false,cool:true,wallColor:'#eceae4',floorTex:W3.stoneTex('#d9d6cc'),spawn:{x:L.spawn.x,z:L.spawn.z,yaw:L.spawn.yaw}});
@@ -304,6 +317,7 @@ const US3=(function(){
     const nav=new E3.NavGrid(Bd.x1-Bd.x0,Bd.z1-Bd.z0,0.5,Bd.x0,Bd.z0); nav.blockOutside(Bd.x0+0.25,Bd.z0+0.25,Bd.x1-0.25,Bd.z1-0.25);
     for(const b of L.blocks) nav.blockRect((b.x0+b.x1)/2,(b.z0+b.z1)/2,Math.max(b.x1-b.x0,0.5),Math.max(b.z1-b.z0,0.5),0,0);
     nav._cm=null; z.nav=nav; z.bounds={w:W,d:D};
+    z.camCols=[usmCamCols(Bd,g0,H)];   /* 跟隨鏡頭撞到外牆就拉近（一進門鏡頭不會退到正面玻璃外面）*/
     // 備用模型：地板、貨架、冷藏櫃的方塊
     plane(fb,Bd.x1-Bd.x0,Bd.z1-Bd.z0,M('#d9d6cc'),0,0,0.005); const bm=M('#c9c6be'); for(const b of L.blocks){ const h=/gondola|freezer|dairy|meat|deli|produce wall/.test(b.why)?1.9:1.0; const m=new THREE.Mesh(new THREE.BoxGeometry(Math.max(b.x1-b.x0,0.1),h,Math.max(b.z1-b.z0,0.1)),bm); m.position.set((b.x0+b.x1)/2,h/2,(b.z0+b.z1)/2); fb.add(m); }
     const lamps=[]; for(let i=-1;i<=1;i++) for(const zz of [-8,4]){ const l=new THREE.PointLight(0xf8f6ee,4,24,2); l.position.set(i*14,H-1.0,zz); l.userData.on=9; l.userData.off=6; g0.add(l); lamps.push(l); }

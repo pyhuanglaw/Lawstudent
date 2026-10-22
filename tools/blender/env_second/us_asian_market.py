@@ -135,7 +135,9 @@ for gx_ in [g['x'] + 1.7 for g in J['gondolas'][:3]] + [X0 + 1.5, X1 - 1.5]:    
 gr.finish(root, uv=False); pn.finish(root, uv=False)
 
 # ================= 正面：玻璃＋門、外面的人行道、停車場、馬路對面的草原超市 =================
-gl = Mesh('usam_storefront_glass', M['glass']); mu = Mesh('usam_mullions', M['frame']); dg = Mesh('DOOR_usam', M['gdoor'])
+# 正面的玻璃、框、門也是南面牆的一部分（WALL_S_*，props dir 同南牆）：鏡頭退到店外時跟著淡出（US-PATROL 10-22：一進門鏡頭在店外，
+# 原本合併進 usam_black 的框和門楣不會淡出，畫面上橫著兩條黑帶、人被框擋住）。玻璃、玻璃門是半透明：Z3.attachRoomGLB 當窗的零件，牆淡出時一起藏
+gl = Mesh('WALL_S_glass', M['glass']); mu = Mesh('WALL_S_mullions', M['frame']); dg = Mesh('WALL_S_door', M['gdoor'])
 xs = [sf['x0'] + k * 1.6 for k in range(int((sf['x1'] - sf['x0']) / 1.6) + 1)]
 d0, d1 = dr['x'] - dr['w'] / 2, dr['x'] + dr['w'] / 2
 for xa, xb in zip(xs, xs[1:]):
@@ -152,7 +154,7 @@ dg.quad([(d0 + 0.04, 0.02, Z1 - 0.02), (dr['x'], 0.02, Z1 - 0.02), (dr['x'], 2.1
 dg.quad([(dr['x'], 0.02, Z1 - 0.02), (d1 - 0.04, 0.02, Z1 - 0.02), (d1 - 0.04, 2.16, Z1 - 0.02), (dr['x'], 2.16, Z1 - 0.02)])
 for xx in (d0 + 0.04, dr['x'] - 0.03, dr['x'] + 0.03, d1 - 0.04): mu.box(xx - 0.035, xx + 0.035, 0.02, 2.16, Z1 - 0.06, Z1 + 0.02)
 for xx in (dr['x'] - 0.12, dr['x'] + 0.12): mu.box(xx - 0.015, xx + 0.015, 0.8, 1.4, Z1 - 0.12, Z1 - 0.07)   # 直的門把
-gl.finish(root, uv=False); mu.finish(root, uv=False); dg.finish(root, uv=False)
+for m_ in (gl, mu, dg): m_.finish(root, props={'dir': WD['S']}, uv=False)
 mt = Mesh('usam_entry_mat', L.flat('usam_mat', '#2c2d2f', rough=0.95)); mt.box(dr['x'] - 1.1, dr['x'] + 1.1, 0.0, 0.008, Z1 - 1.6, Z1 - 0.05); mt.finish(root, uv=False)
 out_w = Mesh('usam_out_walk', M['conc'], tile=2.0); out_w.box(-40, 40, -0.05, 0.12, Z1, Z1 + 2.6); out_w.box(-40, 40, -0.05, 0.0, Z1 + 2.6, Z1 + 2.8); out_w.finish(root)
 out_a = Mesh('usam_out_lot', M['asph'], tile=3.0); out_a.box(-40, 40, -0.08, -0.02, Z1 + 2.8, Z1 + 24); out_a.finish(root)

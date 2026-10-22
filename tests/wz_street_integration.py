@@ -4,7 +4,8 @@
 
 檢查正式模型接進遊戲之後，「畫面以外的東西」都沒變、或照設計變了：
   1. 29 棟套件公寓（主巷 A1–A5、B1–B7、Café 南北兩側 C1、C2、巷底 W0、遠景 F1–F4、S1–S4、N1–N4、W1、W2）都接上正式模型、套件外觀全部藏起來；沒有標記的建築不受影響。
-  2. 導航格、鏡頭碰撞方塊、互動點（看櫥窗、回公館、進 Café…）和 ?nobldg（程序化套件）完全相同。
+  2. 鏡頭碰撞方塊、互動點（看櫥窗、回公館、進 Café…）和 ?nobldg（程序化套件）完全相同；導航格＝?nobldg 的導航格＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou，
+     正式模型才有那些雜物，模型接上時才擋：ART-WZ0 10-21），其他一格都不能不同。
   3. 招牌、直立招牌、店內景深卡都有 canvas 貼圖；招牌的貼圖比例和板面相同（字不會被拉寬；
      自我檢查：套件原本的 512×128 招牌貼圖用同一個檢查必須失敗）。
   4. 夜間：亮燈的窗（wz_room_lit）、招牌晚上發光、白天不發光；騎樓柱子有「樹幹透視」（擋住玩家時網點透空）。
@@ -31,6 +32,8 @@ GLBS = ['wenzhou_street_glb', 'wz_jphouse_glb', 'wz_props_glb', 'wz_park_glb', '
 TAGS = {'wzApt': 29, 'wzJp': 2, 'wzProp': 12, 'wzPark': 28}                  # 套件物件的數量：公寓 29 棟（近景 15、遠景 14）；宿舍＋院牆；電線桿 6＋反光鏡 3＋路名牌＋紅磚道 2 片
 WAIT_FORMAL = "(async()=>{ const want=%s; for(let i=0;i<240;i++){ const z=GAME.E.zone; if(z&&want.every(n=>z.group.children.some(o=>o.name===n))) return true; await new Promise(r=>setTimeout(r,250)); } return false; })()" % json.dumps(GLBS)
 NAV_HASH = "(()=>{ const n=GAME.E.nav; let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0)]; })()"
+# ?nobldg 的導航格加上門口雜物的阻擋（和正式模型接上時同一個做法 Z3.propBlocks）以後的雜湊：正式模型的導航格要和它完全相同
+NAV_HASH_PROPS = "(()=>{ const n0=GAME.E.nav, n=new E3.NavGrid(n0.w,n0.h,n0.cell,n0.ox,n0.oz); n.b.set(n0.b); const L=(Z3.PROP_BLOCKS&&Z3.PROP_BLOCKS.wenzhou)||[]; if(Z3.propBlocks) Z3.propBlocks(n,L); let h=0; for(let i=0;i<n.b.length;i++){ h=(h*31+n.b[i]+i%7)>>>0; } return [n.cols,n.rows,h, n.b.reduce((a,v)=>a+(v?1:0),0), L.length]; })()"
 STATE = """(()=>{ const E=GAME.E, z=E.zone; const r=v=>Math.round(v*100)/100;
     const col=E.colliders.map(c=>[r(c.position.x),r(c.position.y),r(c.position.z),r(c.geometry.parameters.width),r(c.geometry.parameters.height),r(c.geometry.parameters.depth)]).sort();
     const it=E.interactables.map(i=>[i.label||'',r(i.x),r(i.z),r(i.radius||0)]).sort();
@@ -151,7 +154,7 @@ async def check(pg, run, formal):
     run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
     if formal:
         run.check('效能：三個鏡頭的 draw call ≤ 310、三角形 ≤ 42 萬（含陰影那一輪、含玩家；LAWWW 的目標）', all(d['calls'] <= 310 and d['tris'] <= 420000 for d in draws.values()), json.dumps(draws))
-    return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE)
+    return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), (None if formal else await pg.evaluate(NAV_HASH_PROPS))
 
 
 async def main():
@@ -165,7 +168,8 @@ async def main():
             res[formal] = await check(pg, run, formal)
             run.check(('一般網址' if formal else '?nobldg') + '：沒有 JS 錯誤', not errs, '; '.join(errs[:3]))
             await b.close()
-    run.check('導航格：正式模型和程序化版完全相同', res[True][0] == res[False][0], json.dumps([res[True][0], res[False][0]]))
+    want = res[False][2]   # ?nobldg 的導航格＋門口雜物的阻擋
+    run.check('導航格：正式模型＝程序化版＋門口雜物的阻擋（Z3.PROP_BLOCKS.wenzhou），其他完全相同', res[True][0] == want[:4] and want[4] > 0 and want[3] > res[False][0][3], json.dumps([res[True][0], want, res[False][0]]))
     run.check('鏡頭碰撞方塊：完全相同', res[True][1]['col'] == res[False][1]['col'], '%d vs %d 個' % (len(res[True][1]['col']), len(res[False][1]['col'])))
     run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
     sys.exit(run.finish())

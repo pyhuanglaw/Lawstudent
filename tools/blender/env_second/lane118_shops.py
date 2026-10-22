@@ -24,6 +24,7 @@ GEN = TX.GEN
 LAY = json.loads((lambda s: s[s.index('{', s.index('const LANE118_LAYOUT=')):s.rindex('}') + 1])(open(os.path.join(L.ROOT, 'src/data/lane118_layout.js'), encoding='utf-8').read()))
 H = 3.2
 PI = math.pi
+BAR_LIFT = 0.31   # 吧檯高腳椅（chair 的 'bar'）座面 0.76 m、一般椅子 0.45 m：坐姿抬高 0.31（10-22 LAWWW2：原本沒寫，人坐在 0.45 m、凳子穿過大腿）
 
 # 每間店：室內寬（店面寬減兩側壁柱）、深度、地板、牆、腰牆、木頭、門的位置（x）、照明
 SPEC = {
@@ -97,10 +98,11 @@ class Shop:
     def block(self, x0, x1, z0, z1, why):
         self.blocks.append(dict(x0=round(min(x0, x1), 3), x1=round(max(x0, x1), 3), z0=round(min(z0, z1), 3), z1=round(max(z0, z1), 3), why=why))
 
-    def seat(self, x, z, yaw, table, kind='eat', ap=None, label=None):
+    def seat(self, x, z, yaw, table, kind='eat', ap=None, label=None, lift=None):
         s = dict(x=round(x, 3), z=round(z, 3), yaw=round(yaw, 4), kind=kind, table=[round(table[0], 3), round(table[1], 3)])
         if ap: s['ap'] = [round(ap[0], 3), round(ap[1], 3)]
         if label: s['label'] = label
+        if lift: s['lift'] = lift                                                                  # 高腳椅：坐姿抬高（遊戲 GAME.sitAt 的 seat.lift）
         self.seats.append(s)
 
     def look(self, iid, x, z, r, label, note='', dev=None):
@@ -844,7 +846,7 @@ def build_tea(c):
     c.order = dict(x=-0.35, z=0.15, r=0.7, label='點餐（' + c.T['name'] + '）', note='櫃台前面；交給 LAWWW 接 AA_280（shop118:tea）')
     c.wood.rbox(X1 - 0.32, X1, 0.98, 1.02, 0.4, 1.6, r=0.006, seg=1); c.vm.cbox(X1 - 0.3, X1 - 0.28, 0.0, 0.98, 1.0, 1.04, '#2b2b2b')   # 靠牆的窄桌
     c.block(X1 - 0.34, X1, 0.38, 1.62, 'ledge')
-    for z_ in (0.7, 1.3): chair(c, X1 - 0.62, z_, PI / 2, 'bar', '#2f7d5b'); c.seat(X1 - 0.62, z_, PI / 2, (X1 - 0.16, z_), 'wait')
+    for z_ in (0.7, 1.3): chair(c, X1 - 0.62, z_, PI / 2, 'bar', '#2f7d5b'); c.seat(X1 - 0.62, z_, PI / 2, (X1 - 0.16, z_), 'wait', lift=BAR_LIFT)
     tubes(c, [(0.0, -1.6, 'x'), (0.0, 0.9, 'z')], L_=1.0)
     frame_board(c, 'N', -1.2, 1.2, 1.75, 2.65, '#2f7d5b'); printed(c, 'N', -1.2, 1.2, 1.75, 2.65, 'MENU', inset=0.014)
     printed(c, 'S', -1.0, 1.0, 2.68, 3.05, 'NAME', inset=0.016)
@@ -918,7 +920,7 @@ def build_cafe2(c):
     c.wood.rbox(X0 + 0.35, 1.45, 1.0, 1.04, Z1 - 0.42, Z1 - 0.05, r=0.006, seg=1); c.vm.cbox(X0 + 0.4, 1.4, 0.0, 1.0, Z1 - 0.12, Z1 - 0.08, '#2b2b2b')
     outlets(c, X0 + 0.5, 1.3, 0.92, Z1 - 0.42, n=4)
     c.block(X0 + 0.32, 1.48, Z1 - 0.45, Z1, 'window_bar')
-    for x_ in (-2.3, -1.4, -0.5, 0.4): chair(c, x_, Z1 - 0.78, 0.0, 'bar', '#3b2a1e'); c.seat(x_, Z1 - 0.78, 0.0, (x_, Z1 - 0.25), 'eat', label='坐窗邊（有插座）')
+    for x_ in (-2.3, -1.4, -0.5, 0.4): chair(c, x_, Z1 - 0.78, 0.0, 'bar', '#3b2a1e'); c.seat(x_, Z1 - 0.78, 0.0, (x_, Z1 - 0.25), 'eat', label='坐窗邊（有插座）', lift=BAR_LIFT)
     for (tx, tz) in ((-1.55, -1.35), (-1.55, 0.85), (0.75, -1.35), (0.75, 0.85), (2.55, -1.6)):
         table(c, tx, tz, 0.72, 0.7, top='wood'); table_seats(c, tx, tz, 0.72, 0.7, ('-z', '+z'), style='wood', col='#4a3426'); table_set(c, tx + 0.15, tz, 'cafe')
         pendant(c, tx, tz, 2.5, '#2f2a26')
@@ -947,7 +949,7 @@ def build_pasta(c):
     c.clerk = dict(x=0.0, z=-2.95, yaw=0.0, note='開放式廚房、吧檯後面，面向吧檯和店裡')
     c.order = dict(x=-2.7, z=-1.1, r=0.8, label='點餐（' + c.T['name'] + '）', note='吧檯西端；交給 LAWWW 接 AA_280（shop118:pasta）')
     register(c, -2.75, 1.05, -2.07, face='+z')
-    for x_ in (-1.8, -1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -1.4, PI, 'bar', '#2f5d50'); c.seat(x_, -1.4, PI, (x_, -2.07), 'eat', label='坐吧檯')
+    for x_ in (-1.8, -1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -1.4, PI, 'bar', '#2f5d50'); c.seat(x_, -1.4, PI, (x_, -2.07), 'eat', label='坐吧檯', lift=BAR_LIFT)
     for (tx, tz) in ((-1.0, 0.55), (1.05, 0.55), (3.0, 0.3), (-1.0, 2.6), (1.05, 2.6)):
         table(c, tx, tz, 0.72, 0.7, top='lam', col='#f4f1ea', legc='#2b2b2b'); table_seats(c, tx, tz, 0.72, 0.7, ('-z', '+z'), style='wood', col='#3d6b5c'); table_set(c, tx + 0.15, tz, 'cafe')
     for x_ in (-1.6, 0.0, 1.6): pendant(c, x_, -2.07, 2.55, '#2f5d50', r=0.16, grp='N')   # 吧檯上面：跟著後牆淡出
@@ -1000,7 +1002,7 @@ def build_omu(c):
     c.counter = dict(x0=X0 + 0.25, x1=X1 - 0.45, z0=-1.9, z1=-1.35, h=1.05, note='吧檯（後面是開放式廚房）')
     c.clerk = dict(x=0.6, z=-2.55, yaw=0.0, note='開放式廚房、吧檯後面（平底鍋前），面向客人（「蛋要全熟還是半熟？」）')
     c.order = dict(x=-2.3, z=-0.7, r=0.8, label='點餐（' + c.T['name'] + '）', note='吧檯西端的收銀；交給 LAWWW 接 AA_280（shop118:omu）')
-    for x_ in (-1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -0.95, PI, 'bar', '#e0a030'); c.seat(x_, -0.95, PI, (x_, -1.62), 'eat', label='坐吧檯')
+    for x_ in (-1.0, -0.2, 0.6, 1.4, 2.2): chair(c, x_, -0.95, PI, 'bar', '#e0a030'); c.seat(x_, -0.95, PI, (x_, -1.62), 'eat', label='坐吧檯', lift=BAR_LIFT)
     # 兩側的桌子靠牆（10-21 seatcheck：原本 −1.95、2.25，桌子和牆之間 0.45～0.75 m——站得進去、照格子卻走不出來，玩家從某些方向按「坐下」可能被帶到那裡卡住）
     for (tx, tz) in ((-2.6, 0.65), (0.2, 0.75), (2.6, 0.75), (0.2, 2.6), (2.6, 2.6)):
         table(c, tx, tz, 0.7, 0.68, top='lam', col='#fbf3df', legc='#5c3a21'); table_seats(c, tx, tz, 0.7, 0.68, ('-z', '+z'), style='wood', col='#b08a5e'); table_set(c, tx + 0.15, tz, 'cafe')

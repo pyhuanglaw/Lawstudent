@@ -1,0 +1,15 @@
+{
+ "objects": 33,
+ "unique_meshes": 33,
+ "tris": 18206,
+ "tris_drawn": 18206,
+ "materials": 18,
+ "out": "assets/models/env/second_ai/wz_lin_interior.glb",
+ "bytes": 1547588,
+ "texres": 512,
+ "shop": "lin",
+ "layout": 1,
+ "tris_total": 18206,
+ "seats": 10,
+ "block_problems": []
+}
