@@ -1687,5 +1687,48 @@ const Z3 = (function(){
     return zone; }
   const lane118={ id:'lane118', name:'118 巷', indoor:false, cityLight:0.85, size:[28,100], camDist:5.2, build(E){ return buildLane118(E); } };
   const ZONES={campus,gongguan,wenzhou,lane118,classroom,library,cafe,cvs,noodle,bookstore,dorm,wz_brunch,wz_print,wz_teahouse};   /* wancai：src/wancai3d.js；linze：src/building3d.js；wz_*：溫州街三家新店（WZ_SHOPS_LAYOUT）*/   /* wancai：src/wancai3d.js；linze：src/building3d.js */
-  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
+  /* 換區域不卡（PERF-ZONE-ENTER-1018，使用者 X14「電腦換畫面卡一兩秒（溫州街、咖啡廳）」，LAWWW2 2026-10-21）：GAME.enter 在畫面全黑、淡入之前呼叫。
+     原本：區域建好、第一格畫完，已經載過的正式模型才接上（ASSETS.loadOne().then 是 microtask，在 await fade(false) 才跑）；
+     淡入那幾格才編新材質的 shader、把貼圖傳上 GPU——淡入看到的畫面停住一兩秒。
+     現在：先等一個 macrotask 讓已載過的正式模型接上；再用 compileAsync 編整個場景的材質（有 KHR_parallel_shader_compile 時不卡主執行緒、多個 shader 同時編）；
+     最後把場景裡的貼圖傳上 GPU，每傳約 400 萬像素讓出一次主執行緒。最多等 cap 毫秒，超過就照原本的方式（剩下的第一格做）。E.lastPrewarm 記每一段的時間（測試、量測用）。
+     只做看得到的物件（traverseVisible）：被正式模型取代、藏起來的套件備用模型不編、不傳（省時間也省 GPU 記憶體；晚上才出現的東西照舊在出現那一格做）。
+     compileAsync 本身會走到藏起來的物件：先把它們的 material 暫時拿掉，編完馬上放回去——溫州街有三個藏起來的套件零件 material 是 TK 的 paint 描述（不是 THREE.Material），編下去會丟例外。
+     等的時候主迴圈照樣每一格 E.render：畫面是黑的，先不畫（E.renderSkip 暫時回 true，做完還原），不然那一格會停下來等還沒編好的 shader，平行編譯就白做了。
+     只在電腦上做（使用者回報的是電腦；ASSETS.texCap 是空的＝不是手機）。*/
+  async function prewarm(E,opts){ opts=opts||{}; const R=E.renderer; if(!R||!R.compileAsync||!E.scene||!E.camera) return null;
+    const q=(typeof location!=='undefined'&&location.search)||''; if(/[?&]noprewarm\b/.test(q)||(typeof ASSETS!=='undefined'&&ASSETS.texCap&&!/[?&]prewarm\b/.test(q))) return null;   /* 只在電腦上做（同 prefetchNext）：手機照原本的做法——SwiftShader 手機模擬量到一次黑畫面拉長到 13.6 秒（淡入的計時器被很長的格子擠到後面）；沒有真機數字以前手機不動。?prewarm 手機模擬也做（量測用）、?noprewarm 關掉 */
+    const skip0=E.renderSkip; E.renderSkip=()=>true; try{ return await prewarmRun(E,R,opts); } finally{ E.renderSkip=skip0; } }
+  async function prewarmRun(E,R,opts){
+    const t0=performance.now(), cap=opts.cap||2000, left=()=>cap-(performance.now()-t0), tick=()=>new Promise(r=>setTimeout(r,0));
+    const out={ms:0,attachMs:0,compileMs:0,texMs:0,textures:0,mpix:0,skipped:0,timedOut:false};
+    await tick(); out.attachMs=performance.now()-t0;
+    const shown=new Set(); E.scene.traverseVisible(o=>{ if(o.material) shown.add(o); });
+    const isMat=m=>Array.isArray(m)?m.every(x=>x&&x.isMaterial):!!(m&&m.isMaterial), off=[];
+    const tc=performance.now(); let job;
+    try{ E.scene.traverse(o=>{ if(o.material&&(!shown.has(o)||!isMat(o.material))){ off.push([o,o.material]); o.material=null; } }); job=R.compileAsync(E.scene,E.camera); }
+    catch(e){ console.warn('prewarm compile',e); job=Promise.resolve(); }
+    finally{ for(const [o,m] of off) o.material=m; }
+    out.skipped=off.length; let to=null; const ok=await Promise.race([job.then(()=>true,()=>true),new Promise(r=>{ to=setTimeout(()=>r(false),Math.max(0,left())); })]); clearTimeout(to);
+    out.compileMs=performance.now()-tc; if(!ok) out.timedOut=true;
+    const texs=new Set(), add=v=>{ if(v&&v.isTexture&&!v.isRenderTargetTexture) texs.add(v); };
+    for(const o of shown){ if(!o.parent||!isMat(o.material)) continue; const ms=Array.isArray(o.material)?o.material:[o.material]; for(const m of ms){ for(const k in m) add(m[k]); if(m.uniforms) for(const k in m.uniforms){ const u=m.uniforms[k]; if(u) add(u.value); } } }
+    const tt=performance.now(); let batch=0;
+    for(const t of texs){ if(left()<=0){ out.timedOut=true; break; } const im=t.image, px=im&&im.width&&im.height?im.width*im.height:0; R.initTexture(t); out.textures++; out.mpix+=px/1e6; batch+=px; if(batch>=(opts.batchPx||4e6)){ batch=0; await tick(); } }
+    out.texMs=performance.now()-tt; out.ms=performance.now()-t0; E.lastPrewarm=out; prefetchNext(E); return out; }
+  /* 下一個區域的建築模型先在背景載好（PERF-ZONE-ENTER-1018）：第一次進溫州街、咖啡廳時，正式模型淡入以後才一個一個到，每到一個畫面就停一下
+     （80af0168 量測：公館→溫州街第一次，模型 5～13 秒才到齊）。prewarm 做完 4 秒後，照 NEXT 把下一個區域的模型一個一個 ASSETS.loadOne
+     （一次一個、中間空 1.5 秒；已經載過的跳過；換了區域就停）。下次進去時模型已經在快取裡，prewarm 在黑畫面就接上、編好。
+     只在電腦上做（ASSETS.texCap 是空的＝不是手機；手機記憶體少，照舊進去才載）；網址 ?noprefetch 關掉，?prefetch 在手機模擬也做（量測用）。*/
+  const ZONE_GLBS={ wenzhou:['bldg.wenzhou_street','bldg.wz_park','bldg.wz_props','bldg.wz_jphouse','bldg.cafe_exterior','bldg.wz_scooter'], cafe:['bldg.cafe_interior'] };
+  const NEXT={ gongguan:['wenzhou'], wenzhou:['cafe'], cafe:['wenzhou'] };
+  let prefetchGen=0;
+  function prefetchNext(E,opts){ opts=opts||{}; const q=(typeof location!=='undefined'&&location.search)||'';
+    if(/[?&]noprefetch\b/.test(q)||typeof ASSETS==='undefined'||!ASSETS.loadOne||(ASSETS.texCap&&!/[?&]prefetch\b/.test(q))) return null;
+    const zone=E.zone, zid=zone&&zone.def&&zone.def.id, keys=[].concat(...(NEXT[zid]||[]).map(z=>ZONE_GLBS[z]||[])).filter(k=>ASSETS.manifest[k]&&!ASSETS.has(k));
+    const gen=++prefetchGen; if(!keys.length) return null; const out={zone:zid,keys:keys.slice(),done:[]}; E.lastPrefetch=out;
+    const gap=opts.gap!=null?opts.gap:1500, step=i=>{ if(gen!==prefetchGen||E.zone!==zone||i>=keys.length) return; const k=keys[i]; if(ASSETS.has(k)) return step(i+1);
+      ASSETS.loadOne(k).then(()=>{ out.done.push(k); },()=>{}).then(()=>setTimeout(()=>step(i+1),gap)); };
+    setTimeout(()=>step(0),opts.delay!=null?opts.delay:4000); return out; }
+  return {ZONES,room,desk,chair,glowTex,attachRoomGLB,glowBatch:wzGlowBatch,wzParkSeason,wzCatModel,v0BoxFromFlags,fairDayKey,pothosSize,prewarm,prefetchNext};   /* attachRoomGLB：社科院圖書館（src/soclib3d.js）也用這個接法 */
 })();

@@ -3,8 +3,8 @@
  "unique_meshes": 17,
  "tris": 5554,
  "tris_drawn": 9679,
- "materials": 66,
+ "materials": 67,
  "out": "assets/models/env/second_ai/wz_jphouse.glb",
- "bytes": 939908,
+ "bytes": 668576,
  "texres": 512
 }
