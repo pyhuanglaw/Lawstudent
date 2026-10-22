@@ -332,9 +332,9 @@ async def walk(p, run, base, sid, out):
             ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
             run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
         st = await pg.evaluate(ST); t0 = time.time()
-        while not (st['her'] and st['her']['vis']) and time.time() - t0 < 90: await pg.wait_for_timeout(3000); st = await pg.evaluate(ST)
+        while not st['her'] and time.time() - t0 < 90: await pg.wait_for_timeout(3000); st = await pg.evaluate(ST)   # 10-22 05:1x：她在街上但 40 m 外還沒畫出來（vis false）也算在——照玩家走過去找她（原本等 vis，WALK_DORM／WALK_CAFE_DORM 等不到）
         res['start'] = st
-        if not (st['her'] and st['her']['vis']):
+        if not st['her']:
             run.check('%s：她在（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
         got, trace = await talk_invite_now(pg, cdp, run, sid, place); res['trace'] = trace
         say('   %s 過程：%s' % (sid, json.dumps(trace, ensure_ascii=False)[:800]))
@@ -370,6 +370,12 @@ async def walk(p, run, base, sid, out):
             run.check('WALK_ARRIVE：一起走到 Café＝不用說話就開始', bool(first), json.dumps(last, ensure_ascii=False)[:400])
             if first:
                 run.check('WALK_ARRIVE：開始時兩個人一起坐下', first['pseat'] and bool(first['her']) and bool(first['her']['seat']), json.dumps(first, ensure_ascii=False)[:400])
+                if not first['pseat']:   # 診斷（10-22 05:1x 開發分支第一輪：她坐 (0,2.3)、你站 2.7 m 外）：她那個座位是不是 zone.seats 裡的、旁邊的椅子有沒有人坐
+                    res['seat_diag'] = await pg.evaluate("""(()=>{ const E=GAME.E, n=(E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')); if(!n) return null; const s=n.seat;
+                      const inList=!!(s&&(E.zone.seats||[]).includes(s)); const near=(E.zone.seats||[]).filter(q=>s&&Math.hypot(q.x-s.x,q.z-s.z)<2.3).map(q=>({x:q.x,z:q.z,yaw:+(q.yaw||0).toFixed(2),label:q.label||null,taken:!!q.taken,
+                        by:(E.npcs||[]).filter(m=>m!==n&&(m.seat||m.seatTarget)&&Math.hypot((m.seat||m.seatTarget).x-q.x,(m.seat||m.seatTarget).z-q.z)<0.35).map(m=>m.charId||m.id)}));
+                      let pr=null; try{ pr=INV.pairSeats(GAME,n,'cafe'); }catch(e){ pr='ERR '+e.message; } return {seat:s?{x:s.x,z:s.z}:null, inList, near, pair:pr&&pr.me?{me:[pr.me.x,pr.me.z]}:pr}; })()""")
+                    say('   WALK_ARRIVE 座位診斷：%s' % json.dumps(res['seat_diag'], ensure_ascii=False)[:700])
                 n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp); await pg.wait_for_timeout(2500)
                 lines = (await pg.evaluate("window.__LOG||[]"))[max(0, n0 - 1):]; res['lines'] = lines
                 st = await pg.evaluate(ST); res['after'] = st; await run.shot(pg, 'WALK_ARRIVE_after')
