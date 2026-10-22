@@ -13,7 +13,9 @@
 
 第一版（`2bc9992d`）給洗手間加了頂板，遊戲內對照修改前後一模一樣：頂板在天花板高度（3.01 m），房間裡的鏡頭一直在天花板下面，看不到它，還多一個材質、一個 draw call。已經撤回（`396adcbb`），模型回到原本那一版。
 
-## 改法（`patches/dorm_seethru.diff` 第二版，只改程式，不換模型）
+## 改法（`patches/dorm_seethru.diff` 第三版，只改程式，不換模型）
+
+第三版（10-22 01:2x）多一行 `z.seeThru=true`：引擎看的是區域實體，第二版只寫在定義上，室內網點透空從來沒開過（說明和上舖透空的前後對照在 `../indoor_seethru_1022/README.md`）。
 
 - `src/zones3d.js`：
   - 標 `seethru_` 材質的同時呼叫 `E3.patchSeeThrough`（大一到大四的房間物件都一樣）；
@@ -46,11 +48,11 @@
 
 ## 還不到的地方（誠實寫）
 
-- 上舖透空這次沒有在截圖裡出現（這 8 個鏡頭沒有被床板擋住）；透空有沒有作用是用單元測試確認的（9 個 `seethru_` 材質都 patch 了）。
+- 412 這 8 個鏡頭沒有被床板擋住；上舖透空的遊戲內前後對照用大一 203（同一份程式）拍，在 `../indoor_seethru_1022/`。
 - 洗手間白天、晚上都是同一個亮度（補光是固定的）；晚上沒開燈時應該暗一點，這一版不做。
 - 真機沒看過。
 
 ## 接法（LAWWW）
 
-- `git apply docs/art-rebuild/second_ai/patches/dorm_seethru.diff`（第二版，對 `77554430` 乾淨）。
+- `git apply docs/art-rebuild/second_ai/patches/dorm_seethru.diff`（第三版，對 `77554430` 乾淨）。
 - 不用換模型（`dorm_room4.glb` 和開發分支上的一樣；`dorm_room4.json` 只差紀錄用的 `out` 欄位，遊戲不讀）。
