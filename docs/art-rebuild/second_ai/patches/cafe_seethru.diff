@@ -1,17 +1,17 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 03d6f215..29b8196f 100644
+index 90411992..3e426022 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1320,7 +1320,7 @@ const Z3 = (function(){
+@@ -1321,7 +1321,7 @@ const Z3 = (function(){
      if(typeof ASSETS!=='undefined'&&ASSETS.manifest['bldg.library_3f']) ASSETS.loadOne('bldg.library_3f').then(c=>{ if(!c||!c.scene||E.zone!==z) return; attachRoomGLB(z,g0,g,c.scene.clone(true)); }).catch(e=>console.warn('總圖 3F 正式模型',e));
      return z; } };
    // ---------- 溫州街咖啡廳 ----------
 -  const cafe={ id:'cafe', name:'兩點半 Café', indoor:true, camDist:4.2, build(E){ const z=room(E,{view:'cafe',viewDepth:11,w:14,d:12,h:3.4,warm:true,wallColor:'#e8dcc4',floorTex:W3.canvasTex('cafe_screed',256,256,(x,w,h)=>{ x.fillStyle='#9d9b96'; x.fillRect(0,0,w,h); for(let n=0;n<70;n++){ const cx=(n*73)%w, cy=(n*151)%h, r=18+(n*37)%40, a=0.035+((n*13)%5)*0.01; const g=x.createRadialGradient(cx,cy,0,cx,cy,r); const v=n%2?255:40; g.addColorStop(0,'rgba('+v+','+v+','+v+','+a+')'); g.addColorStop(1,'rgba('+v+','+v+','+v+',0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); } for(let n=0;n<240;n++){ x.fillStyle='rgba(60,58,55,0.28)'; x.fillRect((n*97)%w,(n*61)%h,1,1); } })   /* 自流坪水泥灰（使用者 2026-10-16 23:4x「地板跟桌子顏色太近 我要自流坪那種水泥顏色」；正式模型 cafe_interior.glb 由 LAWWW2-B 改 ART-CAFE-FLOOR，這是載入前／失敗時的備用）*/,spawn:{x:0,z:5,yaw:Math.PI},winWall:'right',winXs:[2.5,-1.5],winY:1.9}); const g0=z.group, nav=z.nav;   /* 窗在右牆 z=−2.5、1.5（窗邊的雙人桌旁邊；正式模型的窗也在這裡）*/
-+  const cafe={ id:'cafe', name:'兩點半 Café', indoor:true, camDist:4.2, seeThru:true, build(E){   /* seeThru：吊燈電線（seethru_cafe_cord）擋住玩家時網點透空 */ const z=room(E,{view:'cafe',viewDepth:11,w:14,d:12,h:3.4,warm:true,wallColor:'#e8dcc4',floorTex:W3.canvasTex('cafe_screed',256,256,(x,w,h)=>{ x.fillStyle='#9d9b96'; x.fillRect(0,0,w,h); for(let n=0;n<70;n++){ const cx=(n*73)%w, cy=(n*151)%h, r=18+(n*37)%40, a=0.035+((n*13)%5)*0.01; const g=x.createRadialGradient(cx,cy,0,cx,cy,r); const v=n%2?255:40; g.addColorStop(0,'rgba('+v+','+v+','+v+','+a+')'); g.addColorStop(1,'rgba('+v+','+v+','+v+',0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); } for(let n=0;n<240;n++){ x.fillStyle='rgba(60,58,55,0.28)'; x.fillRect((n*97)%w,(n*61)%h,1,1); } })   /* 自流坪水泥灰（使用者 2026-10-16 23:4x「地板跟桌子顏色太近 我要自流坪那種水泥顏色」；正式模型 cafe_interior.glb 由 LAWWW2-B 改 ART-CAFE-FLOOR，這是載入前／失敗時的備用）*/,spawn:{x:0,z:5,yaw:Math.PI},winWall:'right',winXs:[2.5,-1.5],winY:1.9}); const g0=z.group, nav=z.nav;   /* 窗在右牆 z=−2.5、1.5（窗邊的雙人桌旁邊；正式模型的窗也在這裡）*/
++  const cafe={ id:'cafe', name:'兩點半 Café', indoor:true, camDist:4.2, seeThru:true, build(E){   /* seeThru：吊燈電線（seethru_cafe_cord）擋住玩家時網點透空 */ const z=room(E,{view:'cafe',viewDepth:11,w:14,d:12,h:3.4,warm:true,wallColor:'#e8dcc4',floorTex:W3.canvasTex('cafe_screed',256,256,(x,w,h)=>{ x.fillStyle='#9d9b96'; x.fillRect(0,0,w,h); for(let n=0;n<70;n++){ const cx=(n*73)%w, cy=(n*151)%h, r=18+(n*37)%40, a=0.035+((n*13)%5)*0.01; const g=x.createRadialGradient(cx,cy,0,cx,cy,r); const v=n%2?255:40; g.addColorStop(0,'rgba('+v+','+v+','+v+','+a+')'); g.addColorStop(1,'rgba('+v+','+v+','+v+',0)'); x.fillStyle=g; x.fillRect(cx-r,cy-r,r*2,r*2); } for(let n=0;n<240;n++){ x.fillStyle='rgba(60,58,55,0.28)'; x.fillRect((n*97)%w,(n*61)%h,1,1); } })   /* 自流坪水泥灰（使用者 2026-10-16 23:4x「地板跟桌子顏色太近 我要自流坪那種水泥顏色」；正式模型 cafe_interior.glb 由 LAWWW2-B 改 ART-CAFE-FLOOR，這是載入前／失敗時的備用）*/,spawn:{x:0,z:5,yaw:Math.PI},winWall:'right',winXs:[2.5,-1.5],winY:1.9}); const g0=z.group, nav=z.nav; z.seeThru=true;   /* 吊燈電線擋住玩家時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），寫在定義上沒有用 */   /* 窗在右牆 z=−2.5、1.5（窗邊的雙人桌旁邊；正式模型的窗也在這裡）*/
      // 程序化的畫面全部放在 g（備用模型）：Blender 正式模型（ASSETS 'bldg.cafe_interior'，第二個 AI）載入後整組藏起來；導航、座位、互動點、出口都不受影響
      const g=new THREE.Group(); g.name='fallback'; g.userData.dyn=true; for(const o of g0.children.slice()){ if(o.isLight) continue; g0.remove(o); g.add(o); } g0.add(g);
      // 吧檯
-@@ -1359,6 +1359,7 @@ const Z3 = (function(){
+@@ -1360,6 +1360,7 @@ const Z3 = (function(){
       街景平面放在店面玻璃外 0.55 m，跟著前牆淡出（winParts），依時段換白天／黃昏／夜晚三張。 */
    function attachCafeInterior(z,g0,root){
      root.traverse(o=>{ if(!o.isMesh) return; const mt=o.material, nm=mt&&mt.name;
@@ -21,7 +21,7 @@ index 03d6f215..29b8196f 100644
        if(nm==='cafe_lampglass'){ mt.emissive=new THREE.Color(0xffd49a); mt.emissiveIntensity=1.1; }
 diff --git a/tests/cafe_seethru_unit.js b/tests/cafe_seethru_unit.js
 new file mode 100644
-index 00000000..112ef754
+index 00000000..28966ce3
 --- /dev/null
 +++ b/tests/cafe_seethru_unit.js
 @@ -0,0 +1,44 @@
@@ -60,7 +60,7 @@ index 00000000..112ef754
 +  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
 +  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0,seat:null,pose:'idle'};
 +  const z=Z3.ZONES.cafe.build(E); E.zone=z; E.nav=z.nav; await pend; await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
-+  check('1. Café 區域開網點透空（zone.seeThru）、正式模型接上了',Z3.ZONES.cafe.seeThru===true&&z.formal===true);
++  check('1. Café 區域開網點透空（區域實體的 seeThru：engine3d.js 的 updateSeeThrough 看 E.zone.seeThru）、正式模型接上了',z.seeThru===true&&z.formal===true,'z.seeThru='+z.seeThru+'、定義 '+Z3.ZONES.cafe.seeThru);
 +  const cords=[]; z.group.traverse(o=>{ if(o.isMesh&&o.material&&o.material.name==='seethru_cafe_cord') cords.push(o); });
 +  check('2. 吊燈電線（seethru_cafe_cord）在、標記也 patch 過（擋住玩家時網點透空）',cords.length>0&&cords.every(o=>o.material.userData.seeThrough&&o.material.userData._st),cords.length+' 個網格');
 +  const pend_=[]; SC.traverse(o=>{ if(/^GLOW_pendant/.test(o.name)) pend_.push(o.userData); });

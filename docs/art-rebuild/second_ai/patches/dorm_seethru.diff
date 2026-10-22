@@ -1,8 +1,16 @@
 diff --git a/src/zones3d.js b/src/zones3d.js
-index 03d6f21..bf4d33c 100644
+index 90411992..fff75d37 100644
 --- a/src/zones3d.js
 +++ b/src/zones3d.js
-@@ -1547,13 +1547,13 @@ const Z3 = (function(){
+@@ -1495,6 +1495,7 @@ const Z3 = (function(){
+   function dormView(G){ const F=(G&&G.flags)||{}; if(G&&G.stage==='econ') return 'dorm_room412'; return (F.ROOM_Y4||F.ROOM_Y4_MOVING)?'dorm_room409':(F.ROOM_Y3||F.ROOM_Y3_MOVING)?'dorm_room507':(F.ROOM_Y2||F.ROOM_Y2_MOVING)?'dorm_room312':'dorm_room'; }   /* AA_208：312 三樓、507 五樓、409 四樓，都朝宿舍的背面（203 朝舟山路）——LAWWW2-C 2026-10-17 */
+   const dorm={ id:'dorm', name:'宿舍 房間', indoor:true, camDist:3.6, seeThru:true, build(E){ const G0=typeof GAME!=='undefined'?GAME.G:null, econ=!!G0&&G0.stage==='econ'; const R=DORM_ROOM, RM=R.room, WN=R.window, U={}; for(const u of R.units) U[u.id]=u; const me=U[R.player_unit||'L2'];
+     const z=room(E,{w:RM.w,d:RM.d,h:RM.h,view:dormView(G0),viewDepth:25,wallColor:'#f1ebe0',floorTex:W3.stoneTex('#e3d9c6'),spawn:{x:RM.spawn[0],z:RM.spawn[1],yaw:Math.PI},winXs:WN.winXs,winY:WN.view_center[1],curtains:'#c9b48a'}); const g0=z.group, nav=z.nav;
++    z.seeThru=true;   /* 上舖床板、被子擋住鏡頭時網點透空：engine3d.js 的 updateSeeThrough 看的是區域實體（E.zone.seeThru），只寫在上面的定義裡，室內透空從來沒開過 */
+     z.camBox={x:[-1.6,1.6]};   /* 運鏡只在中間走道：兩側是上舖床（床板 1.6～1.76 m，x ±1.9 以外），鏡頭推到那裡會卡進床板、只拍到床底（BB_218：412 第一晚和阿勳的對話只看到「天花板」）*/
+     { const camAll=dormCamCols(R,RM.h,g0), L0=camAll.slice(); z.camCols=[L0];   /* 鏡頭碰撞（BUG-CAM-203-R2-1021）：站在哪一組上鋪底下，那一組就不算 */
+       const up0=z.update; z.update=function(dt,E2){ if(up0) up0.call(z,dt,E2); const P=E2&&E2.player; if(!P) return; const p=P.obj.position; L0.length=0; for(const m of camAll){ const u=m.userData.under; if(u&&p.x>u.x0&&p.x<u.x1&&p.z>u.z0&&p.z<u.z1) continue; L0.push(m); } }; }
+@@ -1548,13 +1549,13 @@ const Z3 = (function(){
    function v0BoxFromFlags(F){ if(!F.E01_NIGHT) return 'onbed'; if(F.E01_NIGHT==='sleep'&&!F.E01_BOXES) return 'foot'; return 'none'; }
    /* 宿舍房間的正式模型（第二個 AI：tools/blender/env_second/dorm_interior.py）：日光燈管、檯燈燈泡、筆電與螢幕一直亮；
       牆、地板、木家具有燈光感（TK.bounce）；書、雜物的顏色在頂點色（自發光也照頂點色加一點） */
@@ -18,7 +26,7 @@ index 03d6f21..bf4d33c 100644
        if(nm==='dorm_items'){ mt.onBeforeCompile=sh=>{ sh.fragmentShader=sh.fragmentShader.replace('#include <emissivemap_fragment>','#include <emissivemap_fragment>\n#if defined( USE_COLOR ) || defined( USE_COLOR_ALPHA )\n totalEmissiveRadiance += vColor.rgb * 0.25;\n#endif'); }; mt.customProgramCacheKey=()=>'dormVcGlow'; mt.needsUpdate=true; } });
      dormWallItems(z,g0);   /* attachRoomGLB 換掉了 z.walls：月曆、傳單再加回去 */
      return root; }
-@@ -1588,7 +1588,7 @@ const Z3 = (function(){
+@@ -1589,7 +1590,7 @@ const Z3 = (function(){
      const load=(key,name,att,msg)=>{ if(!ASSETS.manifest[key]) return; const grp=new THREE.Group(); grp.name=name; grp.userData.dyn=true; g0.add(grp); z.itemGroups.push(grp); z.itemsLoading++;
        ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); root.traverse(m=>{ if(m.isMesh){ m.castShadow=false; m.receiveShadow=true; } }); grp.add(root); root.updateMatrixWorld(true); att(root); z.setY2Items(); }).catch(e=>console.warn(msg,e)).finally(()=>{ z.itemsLoading--; }); };
      load('bldg.dorm_y2_items','dorm_y2_items',root=>root.traverse(o=>{ if(o.isMesh&&/WALL_/.test(o.name)){ o.material=o.material.clone(); o.material.transparent=true; const d=o.userData.dir||[1,0,0]; o.userData.dir=new THREE.Vector3(d[0],d[1],d[2]); o.geometry.computeBoundingBox(); o.userData.center=o.geometry.boundingBox.getCenter(new THREE.Vector3()).applyMatrix4(o.matrixWorld); z.walls.push(o); } }),'大二房間的物件載入失敗');   /* 軟木板跟著左牆淡出 */
@@ -29,7 +37,7 @@ index 03d6f21..bf4d33c 100644
    /* ---------- 溫州街三家新店的室內（DL-09 第一步；ART-WZ3，LAWWW2-B ce586623；AA_164 第 2 節）----------
 diff --git a/tests/dorm_seethru_unit.js b/tests/dorm_seethru_unit.js
 new file mode 100644
-index 0000000..de92a5c
+index 00000000..89eabfeb
 --- /dev/null
 +++ b/tests/dorm_seethru_unit.js
 @@ -0,0 +1,46 @@
@@ -37,7 +45,7 @@ index 0000000..de92a5c
 +// 原本：attachDormInterior 只把 seethru_ 材質標成 userData.seeThrough，沒有 patch shader；正式模型是進區域以後才載入的，
 +//       引擎進區域時那一次整理（engine3d.js enter）已經過了——上舖從來沒有透空過（LAWWW2 2026-10-21 查宿舍 412 時查到）。
 +// 洗手間：牆磚 dorm_bath_tile、地磚 dorm_bath_floor 不在 DORM_BOUNCE 裡，沒有補光；鏡頭在房間正面、正面牆淡出時看進洗手間是一整片暗灰色（經濟系 412 每天早上的第一個畫面）。
-+// 做法（src/zones3d.js）：標記的同時呼叫 E3.patchSeeThrough；大三、大四的物件（dorm_y3_items）也一樣。洗手間的兩個材質加進 DORM_BOUNCE（和房間的牆、地板同一級）。
++// 做法（src/zones3d.js）：區域實體 z.seeThru＝true（引擎看的是實體，不是定義；第二版以前只寫在定義上，室內透空從來沒開過）；標記的同時呼叫 E3.patchSeeThrough；大三、大四的物件（dorm_y3_items）也一樣。洗手間的兩個材質加進 DORM_BOUNCE（和房間的牆、地板同一級）。
 +// 檢查（自己讀 dorm_room4.glb，Node 沒有 fetch）：每一個 seethru_ 材質都 patch 過（userData._st）；洗手間的牆磚、地磚有補光（TK.bounce：userData.bounce、emissiveMap＝貼圖），和房間的牆、地板一樣。
 +// 用法：node tests/dorm_seethru_unit.js
 +const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -70,7 +78,7 @@ index 0000000..de92a5c
 +  E.interactables=[]; E.colliders=[]; E.lampGlows=[]; E.seats=[]; E.npcs=[]; E.spawnHint=null;
 +  E.player={obj:{position:new THREE.Vector3(),rotation:{y:0}},radius:0.32,lv:0,seat:null,pose:'idle'};
 +  const z=Z3.ZONES.dorm.build(E); E.zone=z; E.nav=z.nav; await pend; await new Promise(r=>setTimeout(r,0)); z.group.updateMatrixWorld(true);
-+  check('1. 宿舍區域開網點透空（zone.seeThru）、正式模型接上了',Z3.ZONES.dorm.seeThru===true&&!!z.dormRoot);
++  check('1. 宿舍區域開網點透空（區域實體的 seeThru：engine3d.js 的 updateSeeThrough 看 E.zone.seeThru）、正式模型接上了',z.seeThru===true&&!!z.dormRoot,'z.seeThru='+z.seeThru+'、定義 '+Z3.ZONES.dorm.seeThru);
 +  const st=new Map(); z.group.traverse(o=>{ if(o.isMesh&&o.material&&/^seethru_/.test(o.material.name)) st.set(o.material.name,o.material); });
 +  const notPatched=[...st.values()].filter(m=>!(m.userData.seeThrough&&m.userData._st)).map(m=>m.name);
 +  check('2. seethru_ 材質（'+st.size+' 個）都標記、也 patch 過 shader（userData._st）——正式模型是進區域以後才載入的',st.size>=8&&!notPatched.length,'沒有 patch：'+notPatched.slice(0,6).join('、'));
