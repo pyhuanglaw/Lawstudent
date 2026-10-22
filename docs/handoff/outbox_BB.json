@@ -978,17 +978,18 @@
   {
    "task": "ART-ECON-3D-GAP-1021",
    "branch": "claude/story-planning",
-   "sha": "0d2ecab3",
+   "sha": "f3240b73",
    "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_shots/banyan_1021/",
     "docs/story_planning/test_tools/banyan_probe.py"
    ],
-   "state": "WIP",
-   "remaining": "榕樹氣根修正前後補拍（banyan_probe.py 排在佇列最前面）",
-   "next": "拍完判讀",
+   "state": "已測試",
+   "next": "無（第二批以後再測）",
    "noDirectIntegrate": true,
    "receiver": "LAWWW",
-   "ack": "DELIVERED",
-   "note": "lamppost 那一輪站在椰林大道，黑森林那一區沒載入、榕樹 0 棵，沒拍到"
+   "ack": "未派",
+   "note": "第一批榕樹氣根＝PASS（畫面）：修正前是藏在陰影裡的深色細線，修正後淺褐色一條一條垂下來；黑森林 11 棵兩版都在。P3：遠一點的氣根在模擬器低解析度會斷成虛線。溫州街小公園那棵 NOT TESTED（不是 TK.tree 生的）。場景美術 ART_APPROVED 只有使用者能定"
   },
   {
    "task": "DATE-OVERNIGHT-1021",
@@ -1035,6 +1036,65 @@
    "receiver": "LAWWW",
    "ack": "未派",
    "note": "Kevin 第一輪提示詞已給使用者（BB_219 第 4 節；附阿哲 neutral 只照畫風比例，SendUserFile）"
+  },
+  {
+   "task": "BUG-FUNDS-TOAST-MULTI-1021",
+   "branch": "claude/story-planning",
+   "sha": "f3240b73",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md"
+   ],
+   "state": "已測試",
+   "next": "無",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "PASS（2da36bee 經濟系天天睡覺）：6/8 15:00 +10,000、提示「家裡匯來 5、6 月的生活費：10,000 元」4.1 秒最上層；7/10 +5,000「這個月的生活費：5,000 元」；qa_sleep4 ALL PASS"
+  },
+  {
+   "task": "AA378-Y4S1-FIX-1021",
+   "branch": "claude/story-planning",
+   "sha": "f3240b73",
+   "files": [
+    "docs/story_planning/BB_218_瀏覽器實測紀錄.md",
+    "docs/story_planning/test_tools/aa378_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "S4 接機（跑的中間）；S1／S2 T3、T2、T1 從 8/2 玩到 12/18（排在兩個人都在場那支後面）",
+   "next": "跑完判讀",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "S3 便條＝PASS：收過 10/25 那張的 2/2 晚上是「同上。」→回「同上。」→她「對。」；沒收過的照三行→「三件都一樣。」→「對。」（21:04 送到，讀檔在 21:00）"
+  },
+  {
+   "task": "AA379-SIS-W1-LIB-1021",
+   "branch": "claude/story-planning",
+   "sha": "f3240b73",
+   "files": [
+    "docs/story_planning/test_tools/aa378_probe.py"
+   ],
+   "state": "WIP",
+   "remaining": "9/5、9/3 10:00 閱覽室，腳本在 NPC 清單裡找不到學姊（四段都是）：查是她沒生成還是腳本找錯（診斷排在下一支）；大廳二樓：她的作息沒有大廳那一格，正常玩遇不到",
+   "next": "診斷完重跑 MEET 四段",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
+  },
+  {
+   "task": "INV-BOTH-PRESENT-1021",
+   "branch": "claude/story-planning",
+   "sha": "f3240b73",
+   "files": [
+    "docs/story_planning/test_tools/bothpresent_probe.py",
+    "docs/story_planning/test_tools/flow_invite_phone_bp.py"
+   ],
+   "state": "WIP",
+   "remaining": "瀏覽器測試排隊（bothpresent：學姊 19:00 總圖到了自己開始＋當場再約＋一起走回宿舍作罷＋一起走到總圖；flow_invite_phone_bp：阿哲麵店到了自己開始）",
+   "next": "跑完判讀；flow_invite_phone_bp.py 是照新規則改的 tests/flow_invite_phone.py（第 94～96 行改成看自動開始），LAWWW 可以直接拿去換",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "未派"
   }
  ],
  "items": [
