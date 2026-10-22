@@ -107,7 +107,8 @@ async def main():
             await pg.wait_for_timeout(500)
         # 前置：放一個自動存檔（週六 14:50，溫州街東口），然後重新整理，從標題畫面點「繼續」
         # 第 11 天＝2025-09-27（六）。原本寫第 8 天＋weekday 6，但第 8 天其實是 9/24（三）：X76（765ac675）起讀檔照行事曆重算星期，週三 14:48 小安不在 Café（平日 16–18 才在），這一項就失敗（2026-10-21 v9.10.3 發布前）
-        st0 = {'v': 2, 'name': '祐廷', 'day': 11, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
+        # 2026-10-22（v9.10.4 發布前）：9/27 變成以安第 4 週回台中的週末（AA_372 #8，presence trip「回台中」，v9.10.3 以後才有）——她照規則不在 Café，改第 18 天＝2025-10-04（六）
+        st0 = {'v': 2, 'name': '祐廷', 'day': 18, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
                'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True},
                'visited': {'dorm': True, 'campus': True, 'gongguan': True, 'wenzhou': True, 'cafe': True}, 'savedAt': 1}
         await pg.evaluate("s=>localStorage.setItem('fatiao3d_auto',JSON.stringify(s))", st0)
@@ -173,6 +174,9 @@ async def main():
         st = await state(pg); check('回到溫州街（Café 門口）', st['zone'] == 'wenzhou' and abs(st['x'] - 51.7) < 3 and abs(st['z']) < 3, st)   # v9.2：Café 在東端路口，出口在 (51.7,0)
         await pg.screenshot(path=SHOTS+'/flow_06_back_street.png')
         p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
+        if math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) <= 0.5 and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            # 要回的訊息在推搖桿的那一下自己打開（站著超過 1.5 秒，D103），遊戲暫停：像玩家一樣收起來、再推一次（2026-10-22 v9.10.4 發布前：9/27 15:18 有一則要回的訊息）
+            await t.phone_away(); p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
         check('出來後可以繼續走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
         # 7. 存檔（選單 → 存檔 → 欄位 1）
         await t.tap_el('#btnMenu'); await pg.wait_for_timeout(700)
