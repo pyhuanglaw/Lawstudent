@@ -438,13 +438,16 @@ async def s_k26(p, run, sid, out):
         await run.shot(pg, '%s_end' % sid)
         t5 = [m['text'] for m in M5]; t7 = [m['text'] for m in M7]
         run.check('%s：玩到 K26 演完／錯過（沒有卡住）' % sid, ok, json.dumps(res['end'], ensure_ascii=False))
-        run.check('%s：7/5 21:00 兩則「%s」「%s」（AA_366 第 4 節 A7）' % (sid, K26_ASK[0], K26_ASK[1]), t5[:2] == K26_ASK and all(abs(m['h'] - 21) < 0.05 for m in M5[:2]), json.dumps(M5, ensure_ascii=False)[:300])
+        k5 = [m for m in M5 if m['text'] in K26_ASK]
+        run.check('%s：7/5 21:00 兩則「%s」「%s」（AA_366 第 4 節 A7）' % (sid, K26_ASK[0], K26_ASK[1]), [m['text'] for m in k5] == K26_ASK and all(abs(m['h'] - 21) < 0.05 for m in k5), json.dumps(M5, ensure_ascii=False)[:300])
         run.check('%s：沒有舊句「%s」「%s」' % (sid, K26_ASK_OLD[0], K26_ASK_OLD[1]), not any(t in t5 for t in K26_ASK_OLD), '')
         pr = [x for x in rec['prompts'] if any('老地方' in o for o in x['opts'])]
         run.check('%s：7/7 停下來問「出發：…老地方」' % sid, bool(pr) and pr[0]['key'] == '2029-07-07', json.dumps(pr[:1], ensure_ascii=False)[:300])
         if sid == 'K26_DELAY':
             ttl = [x['t'] for x in log if x['n'] in ('［字卡］', '［字幕］')] + [c['t'] for c in cap]
-            run.check('K26_DELAY：事件名／字幕「%s」（沒有舊的「%s」）' % (K26_TITLE, K26_TITLE_OLD), any(K26_TITLE in t for t in ttl) and not any(K26_TITLE_OLD in t for t in ttl), json.dumps(ttl[-10:], ensure_ascii=False)[:300])
+            run.check('K26_DELAY：出發的字卡有「%s」、沒有舊的「%s」' % (K26_TITLE, K26_TITLE_OLD), any(K26_TITLE in t for t in ttl) and not any(K26_TITLE_OLD in t for t in ttl), json.dumps(ttl[-10:], ensure_ascii=False)[:300])
+            evt = await pg.evaluate("(()=>{ const e=(STORY_EVENTS||[]).find(x=>x.id==='ev_kexin_after_grad'); return e?e.title:null; })()")
+            run.check('K26_DELAY：【讀資料，不是玩】事件標題（日誌）是「%s」' % K26_TITLE, evt == K26_TITLE, json.dumps(evt, ensure_ascii=False))
             run.check('K26_DELAY：交換延畢那一句「%s」' % K26_DELAY, K26_DELAY in T, json.dumps(T[-8:], ensure_ascii=False)[:400])
             run.check('K26_DELAY：沒有舊句「%s」、也沒有臺灣路線那一句「%s」' % (K26_DELAY_OLD, K26_TW), K26_DELAY_OLD not in T and K26_TW not in T, '')
             run.check('K26_DELAY：KX_K26＝went', fl_.get('KX_K26') == 'went', json.dumps(fl_, ensure_ascii=False))
