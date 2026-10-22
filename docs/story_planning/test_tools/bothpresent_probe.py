@@ -141,12 +141,16 @@ MENU_GEOM = """(()=>{ const box=document.getElementById('choices'), bs=box?[...b
     hit:el===b||b.contains(el), scrollTop:box.scrollTop, sh:box.scrollHeight, ch:box.clientHeight, disp:getComputedStyle(box).display, adv:document.body.classList.contains('adv-on')}; })()"""
 
 
-async def menu_geom(pg, run, tag, place):
-    """be8c1b0e（手機橫向：ADV 裡的選單太長時第一排點得到）：當面約的地點選單一出來、還沒捲動前，量第一個按鈕在不在畫面裡、點不點得到"""
+async def menu_geom(pg, cdp, run, tag, place):
+    """be8c1b0e（手機橫向：ADV 裡的選單太長時第一排點得到）：當面約的地點選單一出來、還沒捲動前，量第一個按鈕在不在畫面裡、點不點得到
+    （選單前面可能先有一句對話：照玩家點掉；10-22 04:2x golib2 第一版沒點、等不到選單＝沒量到）"""
     g = None
-    for _ in range(30):
-        ops = await opts(pg)
-        if any(o.startswith(place) for o in ops): g = await pg.evaluate(MENU_GEOM); break
+    for _ in range(40):
+        s = await L.state(pg)
+        if s['choices']:
+            ops = await opts(pg)
+            if any(o.startswith(place) for o in ops): await pg.wait_for_timeout(800); g = await pg.evaluate(MENU_GEOM); break
+        elif s['dlg']: await L.tap(pg, cdp, '#dlg')
         await pg.wait_for_timeout(600)
     if g and g['vw'] > g['vh']:
         ok = g['hit'] and g['top'] >= 0 and g['bottom'] <= g['vh']
@@ -175,7 +179,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
         st2 = await pg.evaluate(ST)
         if st2['her']: await L.go_to(pg, cdp, run, st2['her']['x'], st2['her']['z'], 1.2, '學姊', max_s=60, lv=await pg.evaluate("(()=>{ const n=INV.npcOf(GAME,'heroine_05'); return n?(n.lv|0):0; })()"))
     if not got: return False, trace
-    trace['menu_geom'] = await menu_geom(pg, run, tag, place)
+    trace['menu_geom'] = await menu_geom(pg, cdp, run, tag, place)
     got, ops = await pick(pg, cdp, place, wait=20); trace['places'] = ops
     if not got: return False, trace
     got, ops = await pick(pg, cdp, '現在一起過去', wait=20); trace['times'] = ops
