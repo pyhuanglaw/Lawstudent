@@ -104,15 +104,20 @@
   },
   {
    "path": "docs/story_planning/ladder/ladder_aa_y4s1.json",
-   "sha": "49ed7e6a",
+   "sha": "6e0d1313",
    "status": "approved",
-   "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
-   "task": "SYS-15",
+   "approvedBy": "AA（帳號 A）2026-10-22 04:29 交付（AA_378 #9、#11、#13、#14：以安 A7-L5 選項兩種說法（choiceVariants）、招呼兩句、A7-L1 回答；語彤 Y7-L6 牆上的紅紙）；條件（A7-L5 選項、招呼 12/18～12/21、讀書會跳過第 8～9 週）照 AA 指示放 story3d.js",
+   "task": "AA378-Y4S1-FIX-1021",
    "note": "AA-C：8 個檔已審；25e89f6e 補齊記憶名稱（JSON 和 77c7f3db 一樣）",
    "history": [
     {
      "sha": "25e89f6e",
      "approvedBy": "AA-C（2026-10-17 13:30／13:36 已審表）"
+    },
+    {
+     "sha": "49ed7e6a",
+     "approvedBy": "AA-C 定稿（2026-10-20 交付：企劃分支 49ed7e6a——AA_313 第 1 節以安不延畢（A8-L1、L3、L7、L8 換掉補修班、明年才考、證書明年）、第 4、6 節芷若、子晴、學姊、沛珊；AA_306 經濟系那一年的層；D100 台詞歸 AA）",
+     "task": "SYS-15"
     }
    ]
   },

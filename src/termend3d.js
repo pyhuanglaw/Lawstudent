@@ -120,7 +120,13 @@ const TERMEND=(function(){
       const ask={id:tag,until,opts:[{t:'好。',set:{TE_PICK:w.id+'|'+id+'|'+kind}},{t:'那天有約了。',set:{TE_NO:w.id+'|'+id},say:no?[{from:id,text:no}]:[]}]};
       PHONE.at(G,d0,h,T2.map((t,i)=>Object.assign({th:'p:'+id,from:id,text:t},i===T2.length-1?{ask}:{})),tag); R.asks[id]=tag; };
     if(P.kx){ const K=Lx.KX[w.id], tag='te_kx_'+w.id; if(now>=T(d1,20.75)&&!PHONE.sent(G,tag)){ PHONE.at(G,d1,20.75,K.invite.map(t=>({th:'p:kexin',from:'kexin',text:t})),tag); S.planKexin(G,w); } }   /* 可昕：她排好了，直接排出遊（不佔名額）*/
-    for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id, dg=Math.max(S.fromDay(w,id),d1); if(now>=T(dg,20.25)&&!PHONE.sent(G,tag)) PHONE.at(G,dg,20.25,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until,opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); }   /* 女朋友的邀約也照 S.FROM：學姊大四上 12/23 才從美國回來，原本 12/21 20:15 就約（BUG-SIS-Y4S1-DATEINV-1021）*/
+    /* 女朋友的學期末約會（AA_378 #3，企劃線 5cd35678；每個學期都一樣）：先排好日子（S.dinnerDay：玩家最後一科考完、回來以後，照她那一學期的星期），邀約在約會當天 12:00 傳、回覆期限當天 17:30；句子不改
+       （原本時段第一天 20:15 傳、飯排在兩天後——「今天不讀書」「今天晚上我空著」說的「今天」都不對）。S.FROM 照舊：學姊大四上 12/23 才從美國回來（BUG-SIS-Y4S1-DATEINV-1021）*/
+    { const RG=R.gfDay||(R.gfDay={});
+      for(const id of P.gf){ const g=S.gf(id,w.id), tag='te_gf_'+w.id+'_'+id, dg=Math.max(S.fromDay(w,id),d1); if(PHONE.sent(G,tag)||now<T(dg,0)) continue;
+        if(RG[id]==null){ const dd=S.dinnerDay(G,w,Object.assign({},g,{h:g.h||18.5}),id); RG[id]=dd==null?-1:dd; }
+        const dd=RG[id]; if(dd<0||now<T(dd,12)) continue;
+        PHONE.at(G,dd,12,[{th:'p:'+id,from:id,text:resolve(g.invite,G),ask:{id:tag,until:T(dd,17.5),opts:[{t:'好。',set:{TE_GF:w.id+'|'+id}}]}}],tag); } }
     for(const id of P.heart){ const h=S.heart(id,w.id), again=R.second&&R.second[id]!=null?R.second[id]:(S.rec(G).think[id]!=null); (R.second||(R.second={}))[id]=again; send(id,'heart',again?h.invite2:h.invite,h.decline); }
     for(const id of P.friend){ if(id==='zhe'&&w.id==='Y2S1'&&G.events&&G.events.done&&G.events.done.ev_term_last_meal_y2s1) continue;   /* AA_374 第 24 項：最後一科考完那天 17:00 阿哲約的「期末最後一頓」（麵店）演過了，20:30 他不再約期末飯（同一晚約兩次）*/
       const f=Lx.FRIEND[id], sem=String(w.id).slice(2); send(id,'friend',w.id==='Y1S1'?f.y1s1:((f.genByTerm&&f.genByTerm[w.id])||(f.genBySem&&f.genBySem[sem])||f.gen),(f.noBySem&&f.noBySem[sem])||f.no); }   /* genBySem／noBySem：上學期末（S1）、下學期末（S2）不同句（方奕廷，AA_369 L1）*/
@@ -133,7 +139,7 @@ const TERMEND=(function(){
     if(spec.wd!=null){ for(let d=lo;d<=hi;d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===spec.wd&&ok(d)) return d; } }
     for(let d=Math.max(lo,w.from+2,pb+2);d<=hi;d++) if(ok(d)) return d; for(let d=lo;d<=hi;d++) if(ok(d)) return d; return null; };
   S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:S.friend(who,w.id))); if(!spec||typeof OUT==='undefined') return false;
-    const hh=(kind==='friend'&&spec.hByTerm&&spec.hByTerm[w.id]!=null)?spec.hByTerm[w.id]:((kind==='friend'&&spec.hGen&&w.id!=='Y1S1')?spec.hGen:(spec.h||18.5)), day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who); if(day==null) return false; const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
+    const hh=(kind==='friend'&&spec.hByTerm&&spec.hByTerm[w.id]!=null)?spec.hByTerm[w.id]:((kind==='friend'&&spec.hGen&&w.id!=='Y1S1')?spec.hGen:(spec.h||18.5)), gd=kind==='gf'?(S.rec(G,w.id).gfDay||{})[who]:null, day=gd!=null&&gd>=0?gd:S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who); if(day==null) return false;   /* gd：女朋友的約會先排好的那一天（AA_378 #3）*/ const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
     return OUT.plan(G,Object.assign({id:'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:spec.travel||'走過去約 15 分鐘',travelH:spec.travelH||0.25,te:{term:w.id,who,kind}},spec.back?{back:spec.back}:{})); };   /* travel／travelH／back：外縣市的那一版（沛珊大三起在台南：高鐵去、搭最後一班高鐵回臺北，AA_282 第 5 節第 5 點）*/
   S.planKexin=function(G,w){ const Lx=L(), K=Lx.KX[w.id], PL=Lx.KX_PLACE[K.place]; if(!K||!PL||typeof OUT==='undefined') return false; const day=S.dinnerDay(G,w,{h:PL.h,wd:K.wd},'kexin'); if(day==null) return false;
     return OUT.plan(G,{id:'te_kx_'+w.id,ev:'ev_termend_dinner',day,h:PL.h,late:0.25,place:PL.name,title:'和可昕的學期末約會（'+PL.name+'）',travel:'開車約 40 分鐘',travelH:2/3,te:{term:w.id,who:'kexin',kind:'kexin'}}); };

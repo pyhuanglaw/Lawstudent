@@ -111,8 +111,10 @@ GM.money=function(n){ G.money+=n; };
   { const d=TERMEND.dinnerDay(G,TERMEND.windowOf('Y1S2'),TERMEND_LINES.HEART.heroine_03,'heroine_03'); check('7. 語彤大一下：6/18 筆試以後的週四（6/25 超出時段＝那就 6/19 以後的第一天）',d!=null&&d>=D('2026-06-19')&&d<=D('2026-06-21'),String(d-D('2026-06-19'))); }
   // 8. 交往中的女朋友：另外的學期末約會，不佔名額
   fresh(D('2025-12-18'),20,'campus',{dating_heroine_02:true}); G.stage='law';
-  { run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y1S1_heroine_02'); check('8. 芷若（交往中）：「禮拜五十點，等我下班。」（AA_373 第 6 節第 9 題：大一上～大二上她晚班到 22:00，「九點」改「十點」）',!!m&&m.text==='禮拜五十點，等我下班。');
-    PHONE.answer(G,'te_gf_Y1S1_heroine_02',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_gf_Y1S1_heroine_02'); check('8. 接了＝排在週五 22:00（她下班以後；不佔只能接一個）',!!q&&q.te.kind==='gf'&&CALENDAR.dateOf(q.day).wd%7===5&&q.h===22&&!G.termend.Y1S1.picked,JSON.stringify(q)); }
+  { run(20,21); const m0=(G.msgs||[]).find(x=>x.tag==='te_gf_Y1S1_heroine_02'), dd=((G.termend.Y1S1||{}).gfDay||{}).heroine_02;
+    if(dd!=null&&dd>=0){ G.day=dd; G.weekday=wdOf(dd); run(11.8,12.1); } const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y1S1_heroine_02');
+    check('8. 芷若（交往中）：先排好那一天（週五），當天 12:00 才傳「禮拜五十點，等我下班。」、回覆期限當天 17:30（AA_378 #3；AA_373 第 6 節第 9 題：大一上～大二上她晚班到 22:00，「九點」改「十點」）',!m0&&dd!=null&&dd>=0&&CALENDAR.dateOf(dd).wd%7===5&&!!m&&m.day===dd&&Math.abs(m.h-12)<1e-6&&m.text==='禮拜五十點，等我下班。'&&!!m.ask&&m.ask.until===dd*24+17.5,JSON.stringify([!!m0,dd,m&&[m.day,m.h,m.ask&&m.ask.until]]));
+    PHONE.answer(G,'te_gf_Y1S1_heroine_02',0); STORY.phoneRules(GM); const q=OUT.get(G,'te_gf_Y1S1_heroine_02'); check('8. 接了＝排在那一天（週五）22:00（她下班以後；不佔只能接一個）',!!q&&q.te.kind==='gf'&&q.day===dd&&q.h===22&&!G.termend.Y1S1.picked,JSON.stringify(q)); }
   // 9. 約會收尾不再有告白
   { fresh(D('2025-11-01'),18,'campus',{}); const r=await DATE.confessOffer(GM,{who:'heroine_01'}); check('9. 正式約會的收尾不再有告白（DATE.confessOffer＝false）',r===false&&!opts.length); }
   // 9b. 使用者 2026-10-17 改（BB_203 303fe766）：每個學期都一樣＝她的戀愛 ≥ 30＋4 次正式約會含心願地點＋她當時願意；第 6 階、答應線、祐廷的戀愛、大一上的例外都不用了
@@ -139,8 +141,8 @@ GM.money=function(n){ G.money+=n; };
     fresh(D('2026-06-11'),20.9,'dorm',{dating_kexin:true}); G.stage='law'; G.events.done.ev_revisit_y1_kexin=1; run(20.9,21); check('9e. 舊存檔演過重訪日＝大一下不再約',!OUT.get(G,'te_kx_Y1S2')); }
   // 9g. BUG-SIS-Y4S1-DATEINV-1021：交往中的學姊，大四上女朋友的學期末約會也是 12/24 起才約（原本 12/21 20:15 她還在美國就約）
   { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',70,60,50); G.flags.dating_heroine_05=true; G.termend={contact:{Y4S1:{}},think:{}};
-    run(20,21); const a=PHONE.sent(G,'te_gf_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y4S1_heroine_05');
-    check('9g. 交往中的學姊大四上：12/21 不約、12/24 20:15 起約（她 12/23 回國；修改前 12/21 就約）',!a&&!!m&&m.day===D('2028-12-24'),JSON.stringify([a,m&&[m.day,m.h]])); }
+    run(20,21); const a=PHONE.sent(G,'te_gf_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(11.8,12.1); const m=(G.msgs||[]).find(x=>x.tag==='te_gf_Y4S1_heroine_05');
+    check('9g. 交往中的學姊大四上：12/21 不約；12/24 起才排（她 12/23 回國；修改前 12/21 就約）——當天 12:00 傳（AA_378 #3）',!a&&!!m&&m.day===D('2028-12-24')&&Math.abs(m.h-12)<1e-6,JSON.stringify([a,m&&[m.day,m.h]])); }
   // 9f. 學姊大四上 12/24 起才約（美國 8/2～12/23）
   { fresh(D('2028-12-21'),20,'campus',{}); G.stage='law'; meet('heroine_05'); R('heroine_05',30,0,0); G.termend={contact:{Y4S1:{heroine_05:{pts:9,k:{}}}},think:{}};
     run(20,21); const a=PHONE.sent(G,'te_Y4S1_heroine_05'); G.day=D('2028-12-24'); run(20,21);

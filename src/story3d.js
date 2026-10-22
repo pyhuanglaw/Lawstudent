@@ -553,11 +553,16 @@ const STORY = (function(){
   for(const k of ['（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。']) S.LADDER_GREET_IF[k]={test:G=>!S.zrNoShift(G)};
   /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
   S.LADDER_GREET_IF['這週讀書會在萬才館，有空可以來。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y2S2'&&[8,9,16].includes(T.week)); }};
+  /* AA_378 #11（企劃線 5cd35678；源檔 6e0d1313）：以安大四上期末那句只在 12/18～12/21；讀書會那句跳過第 8～9 週（期中考週）*/
+  S.LADDER_GREET_IF['期末考週。書還有一半沒背完。']={test:G=>G.day>=S.dayOfKey('2028-12-18')&&G.day<=S.dayOfKey('2028-12-21')};
+  S.LADDER_GREET_IF['讀書會八點開始，我先來擦白板。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y4S1'&&[8,9].includes(T.week)); }};
   const ladGreetOk=(G,t)=>{ for(const k in S.LADDER_GREET_IF){ if(!t.startsWith(k)) continue; const R=S.LADDER_GREET_IF[k], so=ladRec(G); so.greetOnce=so.greetOnce||{}; if(R.once&&so.greetOnce[k]) return false; if(R.test&&!R.test(G)) return false; } return true; };
   const ladGreetUsed=(G,t)=>{ for(const k in S.LADDER_GREET_IF) if(t.startsWith(k)&&S.LADDER_GREET_IF[k].once){ const so=ladRec(G); so.greetOnce=so.greetOnce||{}; so.greetOnce[k]=G.day; } };
   /* 週次依條件放寬（AA_211 第 1 節第 3 點，0ba8d336）：A3-L6、Y3-L5 資料是 [16,18]（一定在 12/19 以後）；演過 ev_yu_together（12/19）的玩家從第 15 週就可以播 */
   S.LADDER_WEEK_IF={'A3-L6':{if:{events:['ev_yu_together']},week:[14,18]},'Y3-L5':{if:{events:['ev_yu_together']},week:[14,18]}};   /* AA_243 #59：16 週制起始改第 14 週 */
   S.LADDER_EVENT_ALIAS={ev_an_study_group:'ev_public_law_group'};
+  /* AA_378 #9（源檔 6e0d1313 的 choiceVariants）：以安 A7-L5 選項②兩種說法一次只出一個——演過新 18 當面那一場（AN_CHOICE here：萬才館走廊）＝「妳媽媽後來呢？」，沒演過（群組、美國的私訊、還沒到）＝「妳媽媽知道嗎？」*/
+  S.LADDER_CHOICE_IF['A7-L5']={'「妳媽媽後來呢？」':{flagIs:{AN_CHOICE:'here'}},'「妳媽媽知道嗎？」':{custom:G=>!(G&&G.flags&&G.flags.AN_CHOICE==='here')}};
   S.ladChoices=function(st){ const R=S.LADDER_CHOICE_IF[st.id]; if(!R||!st.choices) return st.choices||[]; const ec=typeof EVENTS!=='undefined'&&EVENTS.cond; return st.choices.filter(c=>!R[c.t]||(ec&&EVENTS.cond(R[c.t]))); };
   S.ladGreet=function(G,id){ const D=S.ladData(G,id), L=D&&D.L; if(!L||!L.greet) return null; const so=ladRec(G), u=so.greetUsed[id]&&so.greetUsed[id].day===G.day?so.greetUsed[id]:(so.greetUsed[id]={day:G.day,list:[],last:(so.greetUsed[id]||{}).last}); const g=L.greet;
     const work=S.ladWorking(G,id); for(const w of (g.when||[])){ if(w.working&&!work) continue; if(!w.working&&work) continue; if(u.list.includes(w.t)) continue; if(!ladGreetOk(G,w.t)) continue; if(ladCtxOk(G,Object.assign({},w,{t:undefined}),id)){ u.list.push(w.t); u.last=w.t; ladGreetUsed(G,w.t); return w.t; } }

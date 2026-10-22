@@ -3,7 +3,7 @@
 //   1 #1 以安 A7-L2「今年生日不是中秋。」只在 2028-09-15 當天（之前等、之後算過）
 //   10 #10 可昕週年第四年自己一組選項（BB_209 第 4 節）
 //   （#4 在 r2y4a_events_unit B3、S5／#15 在 y34b_events_unit、#12 在 termend_unit 9i）
-// 閒聊階梯 #9、#11、#13、#14 等 AA 改源檔。修改前（開發分支 8ef05e75）：每一項 FAIL。用法：node tests/aa378_rest_unit.js
+//   9／11／13／14 閒聊階梯：源檔 6e0d1313 匯入的句子＋程式的條件（A7-L5 選項、招呼的日子）修改前（開發分支 8ef05e75）：每一項 FAIL。用法：node tests/aa378_rest_unit.js
 require('./alison.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -56,6 +56,18 @@ const cp=require('child_process'), SPEC_SHA='5cd35678';
   { const at=(k)=>{ fresh(D(k),15,'campus'); SOCIAL.remember('heroine_01','FIRST_MET',''); Object.assign(SOCIAL.rel('heroine_01'),{fam:45,trust:30,comf:20}); const LD=STORY.ladData(G,'heroine_01'); const i=LD?LD.L.steps.findIndex(s=>s.id==='A7-L2'):-1; G.social=G.social||{}; G.social.ladder=Object.assign({},G.social.ladder||{},LD?{[LD.key]:i}:{}); G.social.ladderDay={}; const st=STORY.ladNext(G,'heroine_01'); return {i,id:st&&st.id}; };
     const a=at('2028-09-14'), b=at('2028-09-15'), c=at('2028-09-16');
     check('1. #1 以安 A7-L2 只在她生日 9/15：9/14 等（沒有這一層）、9/15 聊、9/16 以後算過（下一層）',a.i>=0&&a.id==null&&b.id==='A7-L2'&&!!c.id&&c.id!=='A7-L2',JSON.stringify([a,b,c])); }
+  // ---- 9、11、13、14 閒聊階梯（源檔 6e0d1313）----
+  { const LD=fs.readFileSync(path.join(ROOT,'src/data/ladder.js'),'utf8');
+    const NEWL=[['#14','謝謝。八月就回來了，一直到開學才去吃。','謝謝。八月就回來了，今天才第一次來吃。'],['#11','這學期週五早上的研討，我很期待。','這學期週五早上有公司法研討，我很期待。'],['#11','期末考週。書還有一半沒背完。','期末考週。強執禮拜一早上考，我還沒背完。'],
+      ['#13','店開二十三年了。牆上多了一張紅紙，阿姨每天都去看一下。','店開二十三年了。門口多了一張紅紙，阿姨每天都去看一下。'],['#9','她寄了一本她以前讀的保險法來。……上面的筆記比書還多。','先跟她講了。她沒說不好。']];
+    for(const [k,nw,old] of NEWL) check('0. '+k+' 閒聊階梯「'+nw+'」＝稿、匯入了（ladder.js）；舊句不在了',spec.includes(nw)&&LD.includes('"'+nw+'"')&&!LD.includes('"'+old+'"'));
+    const st=(LADDER.byTerm.Y4S1.heroine_01.steps||[]).find(x=>x.id==='A7-L5'), ch=an=>{ fresh(D('2028-10-30'),15,'campus',an?{AN_CHOICE:an}:{}); return STORY.ladChoices(st).map(c=>c.t+'→'+c.reply); };
+    const here=ch('here'), grp=ch('group'), none=ch(null), R='她寄了一本她以前讀的保險法來。……上面的筆記比書還多。';
+    check('9. #9 以安 A7-L5 選項②一次只出一個：演過新 18 當面那一場（AN_CHOICE here）＝「妳媽媽後來呢？」；群組收到的、還沒演＝「妳媽媽知道嗎？」；回答都是同一句',!!st&&here.length===2&&here[1]==='「妳媽媽後來呢？」→'+R&&grp.length===2&&grp[1]==='「妳媽媽知道嗎？」→'+R&&JSON.stringify(none)===JSON.stringify(grp),JSON.stringify({here,grp,none}));
+    const GI=STORY.LADDER_GREET_IF, at=(k)=>{ fresh(D(k),15,'campus'); return G; };
+    const fin=k=>GI['期末考週。書還有一半沒背完。'].test(at(k)), grpT=k=>GI['讀書會八點開始，我先來擦白板。'].test(at(k));
+    check('11. #11 以安招呼：「期末考週。書還有一半沒背完。」只在 12/18～12/21；「讀書會八點開始……」跳過第 8～9 週',!fin('2028-12-17')&&fin('2028-12-18')&&fin('2028-12-21')&&!fin('2028-12-22')&&grpT('2028-10-19')&&!grpT('2028-10-26')&&!grpT('2028-11-02')&&grpT('2028-11-09'),
+      JSON.stringify([fin('2028-12-17'),fin('2028-12-18'),fin('2028-12-21'),fin('2028-12-22'),CALENDAR.termOf(D('2028-10-26')).week,grpT('2028-10-19'),grpT('2028-10-26'),grpT('2028-11-02'),grpT('2028-11-09')])); }
   // ---- 10. 可昕週年第四年 ----
   { const e=STORY_EVENTS.find(x=>x.id==='ev_kexin_anniversary_yn'), L=(e&&e.dialogue)||[], i=L.findIndex(l=>l.label==='y4'), ch=i>=0?L.slice(i).find(l=>l.choice):null;
     const rep=lab=>{ const j=L.findIndex(l=>l.label===lab); return j>=0?L[j+1].text:null; };
