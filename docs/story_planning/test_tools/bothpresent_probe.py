@@ -31,7 +31,7 @@ async def opts(pg):
 
 
 async def pick(pg, cdp, prefix, wait=20):
-    """選項出現後點開頭是 prefix 的那一個（像玩家一樣滑到看得到再點）。回傳 (點到了沒, 當時的選項)"""
+    """選項出現後點開頭是 prefix 的那一個（像玩家一樣滑到看得到再點；選單剛出現先等 0.8 秒，點了選單沒變就再點，最多 3 次）。回傳 (點到了沒, 當時的選項)"""
     t0 = time.time(); ops = []
     while time.time() - t0 < wait:
         s = await L.state(pg)
@@ -40,9 +40,14 @@ async def pick(pg, cdp, prefix, wait=20):
             if any(o.startswith(prefix) for o in ops): break
         elif s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(800); continue
         await pg.wait_for_timeout(600)
-    c = await pg.evaluate("(p=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.trim().startsWith(p)); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(prefix))
-    if not c: return False, ops
-    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1400); return True, ops
+    if not any(o.startswith(prefix) for o in ops): return False, ops
+    await pg.wait_for_timeout(800)
+    for _ in range(3):
+        c = await pg.evaluate("(p=>{ const b=[...document.querySelectorAll('#choices button')].find(x=>x.textContent.trim().startsWith(p)); if(!b) return null; b.scrollIntoView({block:'center'}); const r=b.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(prefix))
+        if not c: return True, ops
+        await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1400)
+        if (await opts(pg)) != ops: return True, ops
+    return False, ops
 
 
 async def drain(pg, cdp, max_steps=80, choose_first=True):
@@ -94,6 +99,19 @@ async def watch_auto(pg, cdp, run, tag, secs=90):
             first = st; await run.shot(pg, '%s_autostart' % tag); break
         await pg.wait_for_timeout(500)
     return first, last
+
+
+async def enter_reading_room(pg, cdp, run):
+    """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
+    it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
+    if not it: return False, 'no door'
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2])
+    await L.tap(pg, cdp, '#interact')
+    for _ in range(40):
+        await pg.wait_for_timeout(1000)
+        if (await pg.evaluate("GAME.G.zone")) == 'library': break
+    await pg.wait_for_timeout(4000)
+    return (await pg.evaluate("GAME.G.zone")) == 'library', it[3]
 
 
 async def talk_invite_now(pg, cdp, run, tag):
@@ -226,9 +244,11 @@ async def sched(p, run, base, out):
 
 async def walk(p, run, base, sid, out):
     res = out.setdefault(sid, {}); dest = 'dorm' if sid == 'WALK_DORM' else 'library_hall'
-    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library', sid)
+    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218）')
     try:
-        await L.phone_away(pg, cdp); await pg.wait_for_timeout(3000)
+        await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
+        ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
+        run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
         st = await pg.evaluate(ST); res['start'] = st
         if not (st['her'] and st['her']['vis']):
             run.check('%s：9/24 10:00 閱覽室有學姊（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')

@@ -69,13 +69,13 @@ async def answer_asks(pg, cdp, pick, seen):
 
 
 def choose(ops, canyon):
-    """選項：她的視訊、接機＝接起來／出發；大峽谷＝canyon；睡覺選單＝睡到明天早上；起床的課表選單＝先起床再說；別人的出遊＝不去了；其他＝第一個"""
+    """選項：她的視訊、接機＝接起來／出發；大峽谷＝canyon；床＝睡到明天（第一個，鬧鐘照遊戲）；起床的課表選單＝先起床再說；別人的出遊＝不去了；其他＝第一個"""
     for i, o in enumerate(ops):
         if o.startswith(('接起來：和學姊', '出發：接機')): return i
     if canyon:
         for i, o in enumerate(ops):
             if o.startswith(canyon): return i
-    for pre in ('睡到明天早上', '先起床再說', '先起床'):
+    for pre in ('睡到明天', '先起床再說', '先起床'):
         for i, o in enumerate(ops):
             if o.startswith(pre): return i
     if any(o.startswith(('出發：', '接起來：')) for o in ops):
@@ -84,9 +84,32 @@ def choose(ops, canyon):
     return 0
 
 
+async def quick_go(pg, cdp, zone):
+    """手機「地點」→ 那一區的「前往」（回宿舍用）"""
+    if not await phone_open(pg): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"places\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(800)
+    c = await pg.evaluate("(z=>{ const e=[...document.querySelectorAll('#phoneBody [data-place]')].find(b=>b.dataset.place.startsWith(z+'|')); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2]; })(%s)" % json.dumps(zone))
+    if not c: await L.phone_away(pg, cdp); return False
+    await L.touch_tap(cdp, c[0], c[1])
+    for _ in range(60):
+        await pg.wait_for_timeout(1000)
+        if (await pg.evaluate("GAME.G.zone")) == zone: break
+    await pg.wait_for_timeout(2000); return True
+
+
+async def phone_skip(pg, cdp):
+    """手機「今天」的「跳過時間」最後一個（最晚）；遇到特殊課堂、約好的時間、劇情會停。沒有按鈕回傳 None"""
+    if not await phone_open(pg): await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
+    await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
+    c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; const e=bs[bs.length-1]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })()")
+    if not c: await L.phone_away(pg, cdp); return None
+    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(2000); return c[2]
+
+
 async def play_until(pg, cdp, run, until_key, until_h, pick, canyon=None, max_s=5400, label='', on_day=None):
-    """照玩家一天一天過：16 小時內有約（OUT planned）就用手機「跳過時間」（遇到約好的會停）；沒有就去床邊睡覺。on_day(st)：每換一天呼叫一次"""
-    uday = await pg.evaluate("STORY.dayOfKey('%s')" % until_key); t0 = time.time(); seen = set(); ch = []; last = None; still = time.time(); lastday = None
+    """照玩家一天一天過：白天用手機「跳過時間」（遇到課、約好的時間、劇情會停）；晚上（17:30 以後）今天還有約就繼續跳／等，沒有就去床上「睡到明天…」（鬧鐘照遊戲）；
+    不在宿舍又不是在等約＝手機「地點」回宿舍。on_day(st)：每換一天呼叫一次"""
+    uday = await pg.evaluate("STORY.dayOfKey('%s')" % until_key); t0 = time.time(); seen = set(); ch = []; last = None; still = time.time(); lastday = None; same = 0; lastops = None
     while time.time() - t0 < max_s:
         st = await pg.evaluate(STATE)
         if on_day and st['day'] != lastday: lastday = st['day']; await on_day(st)
@@ -98,23 +121,25 @@ async def play_until(pg, cdp, run, until_key, until_h, pick, canyon=None, max_s=
         s = await L.state(pg)
         if s['choices']:
             ops = await opts(pg); k = choose(ops, canyon); ch.append({'at': '%s %.2f' % (st['key'], st['h']), 'opts': ops, 'pick': ops[k] if ops else None})
+            same = same + 1 if ops == lastops else 0; lastops = ops
+            if same > 15: run.note('%s：同一個選單連續 15 次 %s' % (label, ops)); await run.shot(pg, 'loop_%s' % label); return False, ch
             say('   %s %.2f 選項 %s → %s' % (st['key'], st['h'], [o[:14] for o in ops], ops[k][:18] if ops else ''))
             await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1300); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
         if s['busy']: await pg.wait_for_timeout(800); continue
         if await answer_asks(pg, cdp, pick, seen): continue
-        soon = await pg.evaluate("(()=>{ const G=GAME.G, n=G.day*24+G.hour; return (typeof OUT==='undefined'?[]:OUT.rec(G)).some(q=>q.state==='planned'&&q.day*24+q.h>n-0.5&&q.day*24+q.h<n+16); })()")
-        if soon:   # 手機「今天」的「跳過時間」：最後一個（最晚）；遇到約好的時間會停。沒有按鈕（20:00 以後）＝去睡覺
-            await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(900)
-            await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"today\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(700)
-            c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#phoneBody [data-skip]')]; const e=bs[bs.length-1]; if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })()")
-            if c: await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(2000); continue
-            await L.phone_away(pg, cdp)
+        h = st['h']; night = h >= 17.5 or h < 5
+        today = await pg.evaluate("(()=>{ const G=GAME.G; return (typeof OUT==='undefined'?[]:OUT.rec(G)).some(q=>q.state==='planned'&&q.day===G.day&&q.h>G.hour-0.5); })()")
         bed = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z]:null; })()")
-        if bed:
-            if await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床', max_s=120): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1300)
-            continue
-        run.note('%s：找不到床（%s），等一下' % (label, json.dumps(st, ensure_ascii=False))); await pg.wait_for_timeout(3000)
+        if not night or today:
+            if await phone_skip(pg, cdp): continue
+            if not bed and not today and st['zone'] != 'dorm':
+                if await quick_go(pg, cdp, 'dorm'): continue
+            await pg.wait_for_timeout(3000); continue
+        if not bed:
+            if await quick_go(pg, cdp, 'dorm'): continue
+            run.note('%s：晚上不在宿舍、也回不去（%s）' % (label, json.dumps(st, ensure_ascii=False))); await pg.wait_for_timeout(3000); continue
+        if await L.go_to(pg, cdp, run, bed[0], bed[1], 0.8, '床', max_s=120): await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1300)
     return False, ch
 
 
@@ -146,10 +171,19 @@ async def meet(p, run, base, sid, out):
                            'MEET_PRE': ('2025-09-03', 10.0, 'library', False), 'MEET_KNOWN': ('2025-09-05', 10.0, 'library', True)}[sid]
     res = out.setdefault(sid, {})
     js = None if not known else "(()=>{ const G=GAME.G; G.flags.met_sis=G.day-1; G.flags.SIS_W1=G.day-1; G.events=G.events||{}; (G.events.done||(G.events.done={})).ev_sis_w1=G.day-1; SOCIAL.remember('heroine_05','FIRST_MET',''); })()"
-    b, pg, cdp, errs = await launch_load(p, run, base, key, h, zone, quiet=False, extra_js=js,
-                                         label=sid + ('（前置：已經認識＝met_sis、ev_sis_w1 記成演過）' if known else '（還沒認識：存檔原本的狀態）'))
+    b, pg, cdp, errs = await launch_load(p, run, base, key, h, 'library_hall', quiet=False, extra_js=js,
+                                         label=sid + ('（前置：已經認識＝met_sis、ev_sis_w1 記成演過）' if known else '（還沒認識：存檔原本的狀態）') + '；讀檔在總圖大廳' + ('，自己走樓梯間進 3F 閱覽室（直接讀檔進閱覽室她不會出現）' if zone == 'library' else ''))
     try:
         await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
+        if zone == 'library':
+            it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
+            if it:
+                await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2]); await L.tap(pg, cdp, '#interact')
+                for _ in range(40):
+                    await pg.wait_for_timeout(1000)
+                    if (await pg.evaluate("GAME.G.zone")) == 'library': break
+                await pg.wait_for_timeout(4000)
+            run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, (await pg.evaluate("GAME.G.zone")) == 'library', json.dumps(it, ensure_ascii=False))
         for _ in range(10):
             s = await L.state(pg)
             if s['dlg'] or s['choices']: await L.advance_dialogs(pg, cdp, run, lambda q: not (q['dlg'] or q['choices']), max_steps=40)
