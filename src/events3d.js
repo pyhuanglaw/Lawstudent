@@ -83,7 +83,9 @@ const EVENTS = (function(){
   /* 睡覺觸發（trigger:'sleep'，交接包 v1 第 4 批：BB_95 3-2 阿凱凌晨三點的螢幕）：src/story3d.js 的 sleepNow 在睡著之後、天亮之前問一次，有就演（畫面換成那個時間的房間）。
      條件照一般事件（location、time＝上床的時間、weekday、term、weeks、prereq…）；同時符合好幾個時 priority 高的先 */
   X.sleepEvent=function(){ if(!GM||!G) return null; const list=STORY_EVENTS.filter(ev=>ev.trigger==='sleep').sort((a,b)=>(b.priority||0)-(a.priority||0)); for(const ev of list){ if(X.check(ev)) return ev; } return null; };
-  X.onEnter=function(zoneId){ if(!GM||!G) return false; for(const ev of STORY_EVENTS){ if(ev.trigger!=='enter') continue; if(!X.check(ev)) continue; if(ev.random_weight!==undefined&&Math.random()>ev.random_weight) continue; X.run(ev); return true; } return false; };
+  /* 先劇情、再隨機（BUG-CAFE-RANDOM-ORDER-1022）：一次進場只演一件；隨機的生活小事（random_weight）排在清單前面時，會搶走劇情事件那一次進場——
+     例：大四 9/4 進 Café，「咖啡買錯」（ev_wrong_coffee，35%）先演，主線「回來」（ev_back_home_cafe）要出去再進來才演。劇情事件之間照原本的清單順序 */
+  X.onEnter=function(zoneId){ if(!GM||!G) return false; for(const rnd of [false,true]) for(const ev of STORY_EVENTS){ if(ev.trigger!=='enter') continue; if((ev.random_weight!==undefined)!==rnd) continue; if(!X.check(ev)) continue; if(rnd&&Math.random()>ev.random_weight) continue; X.run(ev); return true; } return false; };
   // 觸發：與 NPC 互動（回傳 true 表示已處理）
   X.onInteract=function(charId){ if(!GM||!G) return false; const list=STORY_EVENTS.filter(ev=>ev.trigger==='interact'&&ev.participants&&ev.participants[0]===charId); list.sort((a,b)=>(b.priority||0)-(a.priority||0)); for(const ev of list){ if(!X.check(ev)) continue; if(ev.random_weight!==undefined&&Math.random()>ev.random_weight) continue; X.run(ev); return true; } return false; };
   // ---- 執行 ----

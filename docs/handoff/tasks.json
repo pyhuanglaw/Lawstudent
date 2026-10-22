@@ -29213,9 +29213,9 @@
    "title": "Café 隨機事件「拿錯咖啡」（35%）有時比主線「回來那一段」先演（BB 帳號 A 10-22 11:07，舊有，P3）",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
-   "next": "查 Café 隨機事件和主線事件的先後（主線該先）；BB 回報時附的情境重現",
+   "next": "【LAWWW（帳號 A）14:1x】原因：events3d.js X.onEnter 照 STORY_EVENTS 清單順序挑第一件，ev_wrong_coffee（events.js）排在 ev_back_home_cafe（r2y4a_events.js）前面，骰到 35% 就搶走那次進場。改成兩輪：先劇情（沒有 random_weight，照清單順序）、再隨機（照清單順序骰）；一次進場照舊只演一件。tests/enter_order_unit.js（修改前第 1、3 項 FAIL，修改後 ALL PASS）；用到 onEnter 的 28 支＋r2y4a_events_unit ALL PASS。下一步：BB 的 aa378x_probe 第一次進 Café 就該演「回來」（不用再出去進來） ｜ 查 Café 隨機事件和主線事件的先後（主線該先）；BB 回報時附的情境重現",
    "first": {
     "term": "Y1S1",
     "week": 1,
