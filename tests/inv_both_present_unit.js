@@ -7,6 +7,7 @@
 //       4. 你不在約定的地方：不會開始；過了時間照舊記沒赴約；
 //       5. 一起走到約定的地方（S.arrive）：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）；
 //       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
+//       7. 一盞的緣側（並排、相距 1.8 m）：你坐她旁邊；2 m 外的隔壁桌、前後排、背對背不配對（BB 10-22 02:23；修改前第一項 FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
@@ -50,4 +51,16 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
     H.FRIEND('zhe'); const iv=INV.accept(G,'zhe','noodle',G.day,19,{by:'player'}); const n=npc('zhe'); n.seat=E.zone.seats[5]; E.player.obj.position.x=0; E.player.obj.position.z=3.4;
     INV.tick(GM); await W(30);
     check('6. 麵店：阿哲坐在 (3,1.3)，你坐到他對面 (3,-0.3)、演見面、站起來',iv.state==='done'&&fades.length>=2&&Math.abs(E.player.obj.position.x-3)<0.01&&Math.abs(E.player.obj.position.z+0.3)<0.01&&E.player.seat==null,JSON.stringify({st:iv.state,p:[E.player.obj.position.x,E.player.obj.position.z],fades})); }
+  /* 7 一盞的緣側（兩個坐墊並排、相距 1.8 m）：她坐著，你坐她旁邊（BB 10-22 02:23 座位量測：1.7 m 還是找不到）；隔壁桌、前後排、背對背的不算 */
+  { const L=require('../src/data/wz_shops_layout.js').teahouse; const st=L.seats.filter(q=>!q.npcOnly&&!/打工/.test(q.label||'')).map(q=>Object.assign({x:q.x,z:q.z,yaw:q.yaw,lv:0,kind:'shop'},q.kind==='floor'?{floor:0.08}:{}));
+    const G=setup('2025-09-12',14.9,'wz_teahouse'); E.zone={seats:st,roomAt:()=>null}; H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','teahouse',G.day,15,{by:'player'});
+    const n=npc('heroine_05'); n.seat=st.find(q=>q.x===2.4&&q.z===5.55); for(const q of st) if(q!==n.seat&&!(q.x===0.6&&q.z===5.55)) q.taken=true;   /* 其他位子都有人：只剩緣側另一個坐墊 */
+    E.player.obj.position.x=0; E.player.obj.position.z=-1; INV.tick(GM); await W(30);
+    check('7. 一盞：學姊坐在緣側 (2.4,5.55)，你坐到旁邊那個坐墊 (0.6,5.55)、演見面',iv.state==='done'&&Math.abs(E.player.obj.position.x-0.6)<0.01&&Math.abs(E.player.obj.position.z-5.55)<0.01,JSON.stringify({st:iv.state,p:[E.player.obj.position.x,E.player.obj.position.z]})); }
+  { const G=setup('2025-09-12',14.9,'cafe'); const n=npc('heroine_05'); const her={x:0,z:0,yaw:0,lv:0};
+    for(const [lab,q] of [['隔壁桌（2 m、朝向垂直）',{x:2,z:0,yaw:Math.PI/2,lv:0}],['前後排（朝同一邊、在她後面 2 m）',{x:0,z:-2,yaw:0,lv:0}],['背對背（2 m）',{x:0,z:-2,yaw:Math.PI,lv:0}]]){
+      E.zone={seats:[her,q],roomAt:()=>null}; n.seat=her; const pr=INV.pairSeats(GM,n,'cafe');
+      check('7. 2 m 外的'+lab+'：不算她旁邊（不配對）',pr===null,JSON.stringify(pr)); }
+    E.zone={seats:[her,{x:0,z:1.9,yaw:Math.PI,lv:0}],roomAt:()=>null}; n.seat=her; const pr=INV.pairSeats(GM,n,'cafe');
+    check('7. 隔著桌子面對面（1.9 m）：配對',!!pr&&pr.me.z===1.9,JSON.stringify(pr)); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

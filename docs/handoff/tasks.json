@@ -28369,7 +28369,7 @@
    "source": "BB 10-22 01:33 第一批結果第 2 點（flow_invite_phone_bp.py）",
    "authorized": "D110",
    "sha": "87ca6aba",
-   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】旁邊沒有就找對面（1.7 m）；tests/inv_both_present_unit.js 第 6 項。BB 重跑 flow_invite_phone_bp"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】旁邊沒有就找對面（1.7 m）；tests/inv_both_present_unit.js 第 6 項。BB 重跑 flow_invite_phone_bp；【LAWWW（帳號 A）2026-10-22 03:0x】BB 02:23 量到一盞緣側兩個坐墊相距 1.8 m 還是配不到：再加一層 2.2 m，只算「並排朝同一邊」或「隔著桌子面對面」（不坐到隔壁桌、前後排、背對背）；inv_both_present_unit 第 7 項（修改前 2 項 FAIL）"
   },
   {
    "id": "BUG-SIS-LIB-LOAD-1022",
@@ -28390,9 +28390,9 @@
    },
    "source": "BB 10-22 01:33 第一批結果第 3 點",
    "authorized": "D110",
-   "pausedReason": "LAWWW 重現不了（讀檔會照日期重算星期，schedFor／schedEnt 判斷正常）",
-   "resumeWhen": "BB 回報從大廳走進去的結果（有＝讀檔的問題；沒有＝生成的問題）",
-   "next": "【LAWWW（帳號 A）2026-10-22 02:4x】等 BB；BB 另外提：她的作息沒有大廳二樓那一格，自習區版的開頭正常玩遇不到（不算錯）"
+   "pausedReason": "LAWWW 用使用者存檔（fatiao3d_save_day8_1.json，改 10:00、library）在瀏覽器重現不了：BB 測的版本 3707596e 和現在 be8c1b0e 讀檔那一下都有 spawnNPC('sis')、8 秒後 GAME.npc 還有 sis（scratchpad sislib/probe.py）。Node 找到唯一會讓她不出現的條件：沒有 afternoonDone（舊主線第一天下午還沒過）或 companion＝sis",
+   "resumeWhen": "BB 在 be8c1b0e 以後還重現得到：把讀檔用的存檔 JSON 和腳本 commit 到企劃線，LAWWW 照那一份查",
+   "next": "【LAWWW（帳號 A）2026-10-22 02:5x】重現不了，等 BB 的存檔；BB 另外提：她的作息沒有大廳二樓那一格，自習區版的開頭正常玩遇不到（不算錯）"
   },
   {
    "id": "AA381-Y4S2-FIX-1021",
@@ -28434,7 +28434,7 @@
    },
    "source": "BB 10-22 02:23 第 1 點（BB_218 最後一節 9b67d2d5；圖 docs/story_planning/test_shots/inv_menu_1022/當面約學姊_地點選單_橫向_第一排被切掉.jpg）",
    "authorized": "D110",
-   "next": "【LAWWW（帳號 A）2026-10-22 02:5x】src/adv3d.js 橫向兩欄改 align-content:start（從上往下排，放不下就在選單裡往下捲，底部淡出提示）；tests/choices_landscape_css.py（不開遊戲，抄 CSS 量第一個按鈕：修之前 3 項 FAIL、修之後 16 項全過）。BB 重測當面約學姊（橫向）②③"
+   "next": "【LAWWW（帳號 A）2026-10-22 02:3x】src/adv3d.js 橫向兩欄改 align-content:start（從上往下排，放不下就在選單裡往下捲，底部淡出提示）；tests/choices_landscape_css.py（不開遊戲，抄 CSS 量第一個按鈕：修之前 3 項 FAIL、修之後 16 項全過）。BB 重測當面約學姊（橫向）②③"
   }
  ]
 }
