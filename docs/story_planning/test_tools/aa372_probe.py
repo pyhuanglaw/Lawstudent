@@ -230,9 +230,14 @@ async def s_ps(pg, cdp, run, base):
             t = next((c['full'] for c in cs if '迪化街' in c['full'] or '大稻埕' in c['full']), None)
             if t: await pick(pg, cdp, t)
             else: chk('ps', False, '%s 捷運沒有大稻埕／迪化街' % key, json.dumps([c['full'] for c in cs], ensure_ascii=False)); continue
-        await pg.wait_for_timeout(2500); await drain(pg, cdp, secs=120); lg = await lines(pg); await run.shot(pg, 'ps_dihua_%s' % key[5:])
-        hit = any('她在一間舊書店門口翻繪本。' in l for l in lg)
-        chk('ps', hit == want, '%s 迪化街%s遇到沛珊' % (key, '會' if want else '不會'), json.dumps([l for l in lg if '沛珊' in l or '繪本' in l][:3], ensure_ascii=False))
+        await pg.wait_for_timeout(2500)
+        cand = await pg.evaluate("(()=>{ const G=GAME.G, h0=G.hour; G.hour=16; let c=[]; try{ c=ENC.candidates(G,'D12').map(x=>x.row.who); }catch(e){ c=['ERR '+e.message]; } G.hour=h0; return c; })()")   # 迪化街偶遇是擲骰（ENC.decide 約 60%）：先看她有沒有在候選名單
+        await drain(pg, cdp, secs=120); lg = await lines(pg); await run.shot(pg, 'ps_dihua_%s' % key[5:])
+        hit = any('她在一間舊書店門口翻繪本。' in l for l in lg); inc = 'classmate_peishan' in cand
+        if want and inc and not hit:
+            say('   %s 迪化街：沛珊在候選名單、這次擲骰沒遇到＝NOT TESTED（不是 FAIL）' % key); results.setdefault('ps', []).append({'ok': None, 'what': '%s 迪化街遇到沛珊：NOT TESTED（候選有她、擲骰沒中）' % key, 'detail': json.dumps(cand, ensure_ascii=False)})
+        else:
+            chk('ps', (inc and hit) if want else (not inc and not hit), '%s 迪化街%s遇到沛珊（候選名單%s她）' % (key, '會' if want else '不會', '有' if want else '沒有'), json.dumps({'候選': cand, '台詞': [l for l in lg if '沛珊' in l or '繪本' in l][:3]}, ensure_ascii=False))
 
 
 # ---------- 7 語彤雨天 ----------
