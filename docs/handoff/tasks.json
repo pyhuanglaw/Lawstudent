@@ -29183,6 +29183,48 @@
    },
    "source": "AA_385 子代理回報",
    "authorized": "既有授權（讀了卻沒有地方設的旗標＝BUG）"
+  },
+  {
+   "id": "BUG-KAI-PICKUP-1022",
+   "title": "學姊 12/23 接機和阿凱「宵夜？」撞在一起：跳過時間到 20:00，先跳出阿凱當面問宵夜，回「好。」吃完接機已經過了＝missed（BB 帳號 A 10-22 11:28，開發分支 eece763b；v9.10.5 也有）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【LAWWW 帳號 A 10-22 11:3x】修了（BB 的兩個建議）：①termend3d.js kaiDue 那天晚上已經有別的出遊（eveningBusy，同 dinnerDay）＝那晚不問、隔天晚上再問；②r2y4a3d.js y4_sis_pickup 加 alarm（跳過時間、睡覺停在出發前）；termend_unit、r2y4a_events_unit 各加一項（修改前 HEAD FAIL）；放 v9.10.6，BB 用 aa378_probe PICKUP 情境重跑",
+   "first": {
+    "term": "Y4S1",
+    "week": 16,
+    "earliest": "大四上學期末、答應去接機的玩家",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 帳號 A 10-22 11:28 測試回報",
+   "authorized": "既有授權（BUG）"
+  },
+  {
+   "id": "BUG-CAFE-RANDOM-ORDER-1022",
+   "title": "Café 隨機事件「拿錯咖啡」（35%）有時比主線「回來那一段」先演（BB 帳號 A 10-22 11:07，舊有，P3）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "next": "查 Café 隨機事件和主線事件的先後（主線該先）；BB 回報時附的情境重現",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "Café",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": false
+   },
+   "source": "BB 帳號 A 10-22 11:07 RELEASE-9105 判定附註",
+   "authorized": "既有授權（BUG）"
   }
  ]
 }

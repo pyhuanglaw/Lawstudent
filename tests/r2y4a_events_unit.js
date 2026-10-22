@@ -366,7 +366,9 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   PK({REPLIED_US0:true}); R('heroine_05','FRI'); SOCIAL.remember('heroine_05','DROVE_HER',''); G.events.done.ev_sis_graduation=1; rules();
   const a1g=txt('g:family_law'), a1d=txt('p:heroine_05');
   check('A0. 12/20 21:00 家族群組「這週六晚上八點落地。」「……有人有空嗎。」；去過 G4＝「我畢業那天，謝謝你來。」；兩個人版＝私訊「……你有空嗎。」', JSON.stringify(a1g)===JSON.stringify(['heroine_05:這週六晚上八點落地。','heroine_05:……有人有空嗎。','heroine_05:我畢業那天，謝謝你來。'])&&JSON.stringify(a1d)===JSON.stringify(['heroine_05:……你有空嗎。'])&&!PHONE.byAsk(G,'y4_pickup'), JSON.stringify({a1g,a1d}));
-  answer('y4_pickup_two',0); rules(); const qp=OUT.get(G,'y4_sis_pickup'); at('2028-12-23',19.6); picks=[2]; said=[]; await OUT.go(GM,qp);
+  answer('y4_pickup_two',0); rules(); const qp=OUT.get(G,'y4_sis_pickup');
+  check('A0. 接機排了 alarm（跳過時間、睡覺停在出發前；BUG-KAI-PICKUP-1022）',!!qp&&qp.alarm===true,JSON.stringify(qp&&{h:qp.h,alarm:qp.alarm}));
+  at('2028-12-23',19.6); picks=[2]; said=[]; await OUT.go(GM,qp);
   check('A1. AA_345 F2：兩個人版入境大廳先一句旁白「（她推著行李推車走出來。看到你，停了一下。）」；登錄的 BCG-34 是夏天版（沒有 redrawn）＝不放', said[0]&&said[0].t==='（她推著行李推車走出來。看到你，停了一下。）'&&said[0].who===null&&!cgs.includes('cg_airport_pickup_heroine05')&&!has('（她一出來就看到你。推車停在原地，她走過來，抱住你。）'), JSON.stringify(lines().slice(0,2)));
   check('A1. 兩個人版：12/23 20:30 入境大廳；車上「我剛到美國那天，你回得很快。……謝謝。」「這次我一直講。」「三件事。一，美國的雞蛋。二，圖書館的咖啡機。」「三，我想吃滷肉飯。現在。」；「公館那家？」；PICKED_HER_UP', !!qp&&Math.abs(qp.h-20.5)<1e-6&&has('我剛到美國那天，你回得很快。……謝謝。')&&has('這次我一直講。你可以轉頭。')&&has('三件事。一，美國的雞蛋。二，圖書館的咖啡機。')&&has('三，我想吃滷肉飯。現在。')&&has('對。就那家。')&&!has('學姊妳終於講超過三句了！')&&!has('……四，我想你。我多講了一件。')&&SOCIAL.has('heroine_05','PICKED_HER_UP')&&G.flags.SIS_PICKUP==='two');
   PK(); R('heroine_05','FRI'); date('heroine_05'); rules(); const a2g=txt('g:family_law'), a2d=txt('p:heroine_05'); const qp2=OUT.get(G,'y4_sis_pickup'); at('2028-12-23',19.6); picks=[1]; said=[]; await OUT.go(GM,qp2);
