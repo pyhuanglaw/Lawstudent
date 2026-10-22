@@ -13255,8 +13255,8 @@
    "title": "溫州街小公園 NPC 時段、貓的四年",
    "area": "DL",
    "owner": "LAWWW",
-   "status": "進行中",
-   "next": "【LAWWW（帳號 A）14:0x】開工：白名單 AA_283@8b312c12；子代理在獨立 worktree 照 AA_283 第 1～3 節做公園各時段的路人（平日／週末／寒暑假／下雨／大三上第 9 週）、走進公園的一句（一天一次、和 AA_171 7b 不同一天播兩句）、點路人的一句（一人一天一次、麻糬換句）；LAWWW 合併、測試、派 BB（AA_283 第 4 節）。USER_WANTS B08 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：zones3d.js buildWzPark／crowd3d.js 照 AA_164 5-3＋AA_283 定稿排公園各時段的路人群 ｜ 【HV-15 02:1x LAWWW-C】（HV-15）AA-C 01:46：NPC 時段、貓的四年歸 AA，v9.10 後寫｜公園的導航、座位、季節已接（ART-WZ1 整合）；NPC 時段、貓的四年、5-4 互動等 AA-B 的文字（已提 D79 需求 07:5x）",
+   "status": "已整合待測試",
+   "next": "【LAWWW（帳號 A）15:0x】子代理 cfb6f492 合併進開發分支 e3cdadfd：wzpark3d.js PARK.groups（平日各時段、週末、寒暑假、週二週四 17:00～17:20 課輔班；下雨沒人、大三上第 9 週只有貓不在）、crowd3d.js 照 layout 的點放人（人數照表、同一天同時段同一批；玩家的位子空著）、PARK.entryTick 走進公園一天第一次的一句（和 AA_171 7b 互擋）、點路人一人一天一次（麻糬換句；學生情侶只有旁白；阿伯＝下象棋）；tests/wz_park_people_unit.js 65 項（修改前 FAIL）ALL PASS；相關 29 支＋nav 兩支 ALL PASS。沒做／發現：入口 B 進不了主園區（遊戲場導航阻擋擋住 B 步道，派 LAWWW2 ART-WZPARK-ENTRY-B-1022）；二手市集（WZ-P2）還沒有；沒有兒童／長者／狗模型（孩子先用路人縮小暫代）；街上路人路線會走進公園前段（story3d 現成路線，沒改）。BB 照 AA_283 第 4 節測 ｜ 【LAWWW（帳號 A）14:0x】開工：白名單 AA_283@8b312c12；子代理在獨立 worktree 照 AA_283 第 1～3 節做公園各時段的路人（平日／週末／寒暑假／下雨／大三上第 9 週）、走進公園的一句（一天一次、和 AA_171 7b 不同一天播兩句）、點路人的一句（一人一天一次、麻糬換句）；LAWWW 合併、測試、派 BB（AA_283 第 4 節）。USER_WANTS B08 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：zones3d.js buildWzPark／crowd3d.js 照 AA_164 5-3＋AA_283 定稿排公園各時段的路人群 ｜ 【HV-15 02:1x LAWWW-C】（HV-15）AA-C 01:46：NPC 時段、貓的四年歸 AA，v9.10 後寫｜公園的導航、座位、季節已接（ART-WZ1 整合）；NPC 時段、貓的四年、5-4 互動等 AA-B 的文字（已提 D79 需求 07:5x）",
    "priority": "P2",
    "first": {
     "term": "Y1S1",
@@ -25883,7 +25883,7 @@
    "id": "AA283-PARK-1021",
    "title": "AA_283 溫州街小公園誰幾點在：平日九個時段的路人＋週末、寒暑假、下雨、大三上第 9 週貓不見；走進公園一天第一次的一句；點路人一人一天一句（貓取名麻糬換一句）",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "source": "企劃線 AA_283（8b312c12）；DL-13 剩下的；USER_WANTS B08",
    "first": {
@@ -25896,7 +25896,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW-C 2026-10-21 12:3x UTC】派子代理：crowd3d.js 加公園時段表、wenzhou 區域互動、tests 照 AA_283 第 4 節四項；接好以後 DL-13、B08 結案"
+   "next": "【LAWWW（帳號 A）15:0x】子代理 cfb6f492 合併進開發分支 e3cdadfd：wzpark3d.js PARK.groups（平日各時段、週末、寒暑假、週二週四 17:00～17:20 課輔班；下雨沒人、大三上第 9 週只有貓不在）、crowd3d.js 照 layout 的點放人（人數照表、同一天同時段同一批；玩家的位子空著）、PARK.entryTick 走進公園一天第一次的一句（和 AA_171 7b 互擋）、點路人一人一天一次（麻糬換句；學生情侶只有旁白；阿伯＝下象棋）；tests/wz_park_people_unit.js 65 項（修改前 FAIL）ALL PASS；相關 29 支＋nav 兩支 ALL PASS。沒做／發現：入口 B 進不了主園區（遊戲場導航阻擋擋住 B 步道，派 LAWWW2 ART-WZPARK-ENTRY-B-1022）；二手市集（WZ-P2）還沒有；沒有兒童／長者／狗模型（孩子先用路人縮小暫代）；街上路人路線會走進公園前段（story3d 現成路線，沒改）。BB 照 AA_283 第 4 節測 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】派子代理：crowd3d.js 加公園時段表、wenzhou 區域互動、tests 照 AA_283 第 4 節四項；接好以後 DL-13、B08 結案"
   },
   {
    "id": "AA352-GF-TABLE-1021",
@@ -29419,6 +29419,34 @@
    "authorized": "D85（bug 修正）；台詞照 AA 企劃原檔（D100）",
    "cause": "重匯時沒有把白名單換到企劃原檔的最新版（AA 10-18～10-20 已同步改原檔）；沒有測試擋",
    "next": "【LAWWW（帳號 A）15:0x】白名單 BB_128→3229ad05、AA_127→10816dd5 重匯：只差 16 處（可昕 4、以安 2、語彤 1、子晴 5、學姊 3、沛珊 1），都是 AA_295／AA_313 的新字；tests/date_lines_regress_unit.js（修改前 4 FAIL、修改後 ALL PASS）擋住再被蓋回；date_book_unit 9 改看新版本；約會相關 37 支 ALL PASS。以安放鴿子兩句（AA_313 4-2「第二次了。我在手帳上記了一筆。」「……下次證明我記錯。」）AA_127 原檔第 233 行還是舊字，已問 AA 改原檔。下一步：BB 看可昕預約／出發／取消的句子（沒有「假設」）"
+  },
+  {
+   "id": "ART-WZPARK-ENTRY-B-1022",
+   "title": "溫州街小公園入口 B 進不了主園區：遊戲場的導航阻擋把整段 B 步道擋住，從 B 只能退回北巷繞到 A（AA_283 子代理發現；課輔班程式會先試 B，打通後自動改走 B）",
+   "area": "ART",
+   "owner": "LAWWW2",
+   "status": "待開工",
+   "priority": "P3",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "走進溫州街小公園",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA283-PARK-1021 子代理 cfb6f492 回報",
+   "authorized": "D108（場景導航歸 LAWWW2）",
+   "next": "【LAWWW（帳號 A）15:0x】派 LAWWW2：zones3d.js buildWzPark 遊戲場的 blockRect 讓出 B 步道（照 layout 的 B 步道寬度），跑 nav_buildings_unit、wz_park_people_unit、tools/dev_scratch/nav_islands.py；交件給 LAWWW 合併、BB 看畫面",
+   "xai": {
+    "spec": "AA_283 第 1 節（課輔班從入口 B 進來）；src/wzpark3d.js、src/crowd3d.js（試 B 路線）",
+    "branch": "claude/second-ai-env-art",
+    "acceptance": "從入口 B 走得到主園區（NavGrid 路線存在）；課輔班從 B 進來；nav、wz_park 單元測試照過",
+    "receiver": "LAWWW",
+    "ack": "SENT"
+   }
   }
  ]
 }
