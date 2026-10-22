@@ -31,39 +31,42 @@ async def main():
                 await pg.wait_for_timeout(500)
             zone = None
             for s in sorted(L, key=lambda s: s['state']['zone']):
-                st = dict(s['state']); fl = dict(FLAGS); fl.update(st.get('flags', {})); st['flags'] = fl
-                if st['zone'] != zone:
-                    await pg.evaluate("(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,%s); s.day=s.day||8; s.weekday=s.weekday||6; s.weather=s.weather||'sunny'; document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })()" % json.dumps(st, ensure_ascii=False))
-                    await pg.evaluate("document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want')")
-                    for i in range(120):
-                        ok = await pg.evaluate("(()=>{ const E=GAME.E; const all=[E.player].concat(E.npcs); return all.every(n=>{ const m=n.obj.userData&&n.obj.userData.model; return !m||!m.userData||m.userData.driver!=='pending'; }); })()")
-                        if ok: break
-                        await pg.wait_for_timeout(500)
-                    zone = st['zone']
-                pos = st.get('pos', {})
-                await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; if(E.setLv) E.setLv(P,s.pos.lv|0); if(E.settleY) E.settleY(P); }   /* 樓層照 pos.lv（沒寫＝一樓）、高度照那一層的地板：原本 y＝0、樓層沿用上一張（j26：二樓那張之後的一樓陷進地板、階梯教室埋在台階裡）*/
-                    if('hour' in s){ GAME.G.hour=s.hour; E.applyTime(s.hour); } })(%s)""" % json.dumps(st, ensure_ascii=False))
-                await pg.evaluate("(h=>{ GAME.E.player.obj.visible=!h; })(%s)" % ('true' if s.get('hidePlayer') else 'false'))
-                # 路人移出場景（引擎每格會依遠近重設 visible，只設 visible=false 擋不住；2026-10-10 街道道具那批截圖還看得到路人）
-                if s.get('hideNPCs'): await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; if(n.obj.parent) n.obj.parent.remove(n.obj); }); (GAME.E.extras||[]).forEach(x=>{ if(x.rider&&x.obj.parent) x.obj.parent.remove(x.obj); })")   # 騎腳踏車的路人（E.extras）也拿掉（總圖那批截圖看得到）
-                await pg.evaluate("(css=>{ let el=document.getElementById('fastShotsCss'); if(!el){ el=document.createElement('style'); el.id='fastShotsCss'; document.head.appendChild(el); } el.textContent=css; })(%s)" % json.dumps('' if s.get('hud') else HIDE_HUD))
-                if s.get('js'): await pg.evaluate(s['js'])
-                await pg.evaluate("[GAME.E.player].concat(GAME.E.npcs).forEach(n=>{ const u=n.obj&&n.obj.userData; if(u&&u.anim){ u.anim.blink=1e9; u.anim.blinkT=0; } })")
-                cam = s.get('cam', {})
-                if 'pos' in cam:
-                    await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (json.dumps(cam['pos']), json.dumps(cam['look'])))
-                elif cam:
-                    await pg.evaluate("(c=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=c.yaw; C.pitch=c.pitch; C.distTarget=c.dist; C.dist=c.dist; C.manualT=999; })(%s)" % json.dumps(cam))
-                if 'hour' in st: await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); })(%s)" % st['hour'])
-                await pg.wait_for_timeout(min(s.get('wait', 3000), 2500)); await frames(pg, 6)
-                # 凍結遊戲時鐘（玩家 busy 時時鐘不走）：17:30 剛好是路燈開關的那一刻，等待時多走一點點時間路燈和亮燈的窗就會打開
-                # （2026-10-11 行政大樓：和整合測試同時跑、畫面變慢，重拍的 17:30 窗都亮了，第一輪是暗的）
-                if 'hour' in st: await pg.evaluate("(h=>{ GAME.E.player.busy=true; GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); GAME.updateHUD&&GAME.updateHUD(); })(%s)" % st['hour'])   # HUD 的時鐘也要更新（不然畫面是 17:30、左上角還寫 11:00）
-                await frames(pg, 2)
-                info = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position, t=document.getElementById('clockT'); return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), hud:t?t.textContent:null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)], mode:E.cam.mode}; })()")
-                await pg.screenshot(path=s['out']); print('shot', s['out'], info, 'errors:', errs[:3], flush=True)
-                if s.get('post'): print('post', s['out'], json.dumps(await pg.evaluate(s['post']), ensure_ascii=False), flush=True)   # 拍完之後在同一個畫面量東西（例如窗景的景深），結果印成一行 JSON
-                await pg.evaluate("GAME.E.player.busy=false")
+                try:   # 一張失敗（例：機場、日本房間直接讀檔進不去）不要整批停：記下來、下一張重新讀檔
+                    st = dict(s['state']); fl = dict(FLAGS); fl.update(st.get('flags', {})); st['flags'] = fl
+                    if st['zone'] != zone:
+                        await pg.evaluate("(async()=>{ const s=GAME.defaults('祐廷'); Object.assign(s,%s); s.day=s.day||8; s.weekday=s.weekday||6; s.weather=s.weather||'sunny'; document.getElementById('titleScreen').classList.add('hide'); EVENTS.onEnter=()=>false; EVENTS.tick=()=>false; await GAME.applySave(s); })()" % json.dumps(st, ensure_ascii=False))
+                        await pg.evaluate("document.getElementById('rotate')&&document.getElementById('rotate').classList.remove('want')")
+                        for i in range(120):
+                            ok = await pg.evaluate("(()=>{ const E=GAME.E; const all=[E.player].concat(E.npcs); return all.every(n=>{ const m=n.obj.userData&&n.obj.userData.model; return !m||!m.userData||m.userData.driver!=='pending'; }); })()")
+                            if ok: break
+                            await pg.wait_for_timeout(500)
+                        zone = st['zone']
+                    pos = st.get('pos', {})
+                    await pg.evaluate("""(s=>{ const E=GAME.E, P=E.player; E.endCinematic&&E.endCinematic(); if(s.pos&&'x' in s.pos){ P.obj.position.set(s.pos.x,0,s.pos.z); P.obj.rotation.y=s.pos.yaw||0; P.path=null; if(E.setLv) E.setLv(P,s.pos.lv|0); if(E.settleY) E.settleY(P); }   /* 樓層照 pos.lv（沒寫＝一樓）、高度照那一層的地板：原本 y＝0、樓層沿用上一張（j26：二樓那張之後的一樓陷進地板、階梯教室埋在台階裡）*/
+                        if('hour' in s){ GAME.G.hour=s.hour; E.applyTime(s.hour); } })(%s)""" % json.dumps(st, ensure_ascii=False))
+                    await pg.evaluate("(h=>{ GAME.E.player.obj.visible=!h; })(%s)" % ('true' if s.get('hidePlayer') else 'false'))
+                    # 路人移出場景（引擎每格會依遠近重設 visible，只設 visible=false 擋不住；2026-10-10 街道道具那批截圖還看得到路人）
+                    if s.get('hideNPCs'): await pg.evaluate("GAME.E.npcs.slice().forEach(n=>{ n.obj.visible=false; if(n.obj.parent) n.obj.parent.remove(n.obj); }); (GAME.E.extras||[]).forEach(x=>{ if(x.rider&&x.obj.parent) x.obj.parent.remove(x.obj); })")   # 騎腳踏車的路人（E.extras）也拿掉（總圖那批截圖看得到）
+                    await pg.evaluate("(css=>{ let el=document.getElementById('fastShotsCss'); if(!el){ el=document.createElement('style'); el.id='fastShotsCss'; document.head.appendChild(el); } el.textContent=css; })(%s)" % json.dumps('' if s.get('hud') else HIDE_HUD))
+                    if s.get('js'): await pg.evaluate(s['js'])
+                    await pg.evaluate("[GAME.E.player].concat(GAME.E.npcs).forEach(n=>{ const u=n.obj&&n.obj.userData; if(u&&u.anim){ u.anim.blink=1e9; u.anim.blinkT=0; } })")
+                    cam = s.get('cam', {})
+                    if 'pos' in cam:
+                        await pg.evaluate("((p,l)=>{ const E=GAME.E; E.cinematic(new THREE.Vector3(...p),new THREE.Vector3(...l)); E.camera.position.set(...p); E.cam.look=new THREE.Vector3(...l); E.camera.lookAt(E.cam.look); })(%s,%s)" % (json.dumps(cam['pos']), json.dumps(cam['look'])))
+                    elif cam:
+                        await pg.evaluate("(c=>{ const C=GAME.E.cam; C.mode='follow'; C.yaw=c.yaw; C.pitch=c.pitch; C.distTarget=c.dist; C.dist=c.dist; C.manualT=999; })(%s)" % json.dumps(cam))
+                    if 'hour' in st: await pg.evaluate("(h=>{ GAME.G.hour=h; GAME.E.applyTime(h); })(%s)" % st['hour'])
+                    await pg.wait_for_timeout(min(s.get('wait', 3000), 2500)); await frames(pg, 6)
+                    # 凍結遊戲時鐘（玩家 busy 時時鐘不走）：17:30 剛好是路燈開關的那一刻，等待時多走一點點時間路燈和亮燈的窗就會打開
+                    # （2026-10-11 行政大樓：和整合測試同時跑、畫面變慢，重拍的 17:30 窗都亮了，第一輪是暗的）
+                    if 'hour' in st: await pg.evaluate("(h=>{ GAME.E.player.busy=true; GAME.G.hour=h; GAME.E.hour=h; GAME.E.applyTime(h); GAME.updateHUD&&GAME.updateHUD(); })(%s)" % st['hour'])   # HUD 的時鐘也要更新（不然畫面是 17:30、左上角還寫 11:00）
+                    await frames(pg, 2)
+                    info = await pg.evaluate("(()=>{ const E=GAME.E, P=E.player.obj.position, C=E.camera.position, t=document.getElementById('clockT'); return {zone:GAME.G.zone, hour:+GAME.G.hour.toFixed(2), hud:t?t.textContent:null, player:[+P.x.toFixed(2),+P.z.toFixed(2)], cam:[+C.x.toFixed(2),+C.y.toFixed(2),+C.z.toFixed(2)], mode:E.cam.mode}; })()")
+                    await pg.screenshot(path=s['out']); print('shot', s['out'], info, 'errors:', errs[:3], flush=True)
+                    if s.get('post'): print('post', s['out'], json.dumps(await pg.evaluate(s['post']), ensure_ascii=False), flush=True)   # 拍完之後在同一個畫面量東西（例如窗景的景深），結果印成一行 JSON
+                    await pg.evaluate("GAME.E.player.busy=false")
+                except Exception as ex:
+                    print('shotfail', s['out'], str(ex).split('\n')[0][:200], flush=True); zone = None
             await ctx.close()
         await b.close()
 asyncio.run(main())
