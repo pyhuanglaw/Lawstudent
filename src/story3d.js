@@ -251,7 +251,7 @@ const STORY = (function(){
   function classTime(G){ return isThu(G)&&h(G)>=13.1&&h(G)<15.2; }
   /* 路人的數量（使用者 2026-10-17 P0：「路人數量要再加倍」）：走路的路人、騎車的人、公共建築門口的人流都乘這個；畫質 low／medium 照舊再打折（qf）*/
   S.CROWD_X=2;
-  S.populate=function(zoneId,GM){ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId,GM.E&&GM.E.q&&GM.E.q.level);   /* 換區域：路人底模的池子輪一次（畫質低＝少載一點）*/ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&F.afternoonDone) n.until=to; };
+  S.populate=function(zoneId,GM){ if(typeof CHAR!=='undefined'&&CHAR.anonPool) CHAR.anonPool.refresh(zoneId,GM.E&&GM.E.q&&GM.E.q.level);   /* 換區域：路人底模的池子輪一次（畫質低＝少載一點）*/ const E=GM.E, G=GM.G; const hr=h(G); const day=hr>=6.5&&hr<23; const F=G.flags; const tm=(key,to)=>{ const n=GM.npc[key]; if(n&&(F.afternoonDone||(key==='sis'&&S.sisEarly(G)))) n.until=to; };
     /* 週末回家的第二個入口：校門口（AA_134 第 3 節「宿舍或校門口的『回家』選項」；AA-B 2026-10-16 確認，時段同宿舍：週五 17:00～週日 21:30）。
        位置在校門內側、從公館進校園的出生點 (-119,0) 旁邊（站得住、走得到、不和「走出校門」(-126,0) 半徑 3 重疊；scratchpad gate_check 用 Node 的校園導航格量過）*/
     if(zoneId==='campus'&&typeof HOME!=='undefined') E.interactables.push({x:-120.5,z:2.4,radius:1.0,lv:0,label:'回臺北的家',home:true,get hidden(){ return !HOME.canGo(GM.G); }});
@@ -410,8 +410,11 @@ const STORY = (function(){
     if(typeof CALENDAR==='undefined') return false; const T=CALENDAR.termOf(G.day); return !!T&&!CALENDAR.holiday(G.day); };
   /* AA_195 4-8：阿哲在 8/29～9/3 照常上課（9/1 憲法、9/3 刑總）；LEGACY_IDS 的「afternoonDone 以後才照作息出現」只對新局、只對上課時間放寬（已經認識他以後） */
   const zheClassOk=(id,c,G)=>{ if(id!=='zhe'||!S.week1Start(G)||!G.flags.MET_ZHE) return false; const e=schedEnt(c,G); return !!(e&&e.act==='class'); };
+  /* AA_379 1-4（企劃線 19a4414e；BUG-SIS-PRE94-PRESENCE-1022）：學姊開學（新局 9/1）起照作息出現，不等第二天下午的劇情（afternoonDone）——她的第一次見面是玩家自己去找；9/4 以前找她只有 SIS_PRE_W1 那一句。以安、阿哲、Alison、阿凱、周教授照舊（第一次見面在主線裡）*/
+  S.sisEarly=G=>!!G&&(G.stage||'law')==='law'&&!!G.flags&&!G.flags.afternoonDone&&G.day>=S.dayOfKey('2025-09-01');
+  const legacyOk=(id,c,G)=>G.flags.afternoonDone||zheClassOk(id,c,G)||(id==='heroine_05'&&S.sisEarly(G));
   function schedFor(id,zoneId,G){ const c=CHARACTERS[id], F=G.flags, hr=h(G), wd=G.weekday; if(!c) return null; if(c.presence&&!S.reachable(id,G)) return null;   /* 這學期不在學校（presence，AA_110 第 3 節）；「在臺北、不在台大」（kind taipei，BB_163）照她自己那份作息 */
-    if(LEGACY_IDS.includes(id)){ if((!F.afternoonDone&&!zheClassOk(id,c,G))||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
+    if(LEGACY_IDS.includes(id)){ if(!legacyOk(id,c,G)||F.classNow) return null; const al=LEGACY_ALIAS[id]||id; if(F.companion===al) return null; }
     if(c.social_layer==='E'&&typeof CLS!=='undefined'&&typeof CALENDAR!=='undefined'){ const w=CLS.profWhere(G,id); if(!w) return S.profLobby(c,G)&&zoneId===c.lobby?{prof:'lobby'}:null; if(w.zone==='classroom'&&zoneId==='classroom') return {prof:'class',until:null}; if(w.act==='class'&&w.room&&w.zone===zoneId) return {prof:'class',until:null,room:w.room}; if(w.zone==='wancai'&&zoneId==='wancai') return {prof:'wancai'}; return null; }   /* 課表（D52）：上課時在教室、下課後 1.5 小時在萬才館 */
     if(c.social_layer==='E'){ if(zoneId==='classroom'&&c.weekday===wd&&hr>=c.time[0]-0.3&&hr<c.time[1]) return {prof:'class'}; if(zoneId==='wancai'&&c.weekday===wd&&hr>=c.time[1]&&hr<c.time[1]+1.5) return {prof:'wancai'}; return null; }
     if(c.social_layer==='B') return null; const ent=schedEnt(c,G); return ent&&ent.zone===zoneId?ent:null; }
@@ -842,7 +845,7 @@ const STORY = (function(){
     const st=E.zone.seats[zoneId==='cafe'?5:2]; if(!st) return false; const near=q=>q&&Math.hypot(q.x-st.x,q.z-st.z)<0.35;
     if((E.player&&near(E.player.seat))||(E.npcs||[]).some(q=>q&&(near(q.seat)||near(q.seatTarget)))) return false;
     const dr=E.zone.spawn, n=GM.spawnNPC('sis',C.sis,dr.x,dr.z,{lv:dr.lv|0,talk:x=>talkSis(GM,x)}); if(!n) return false;
-    n.seatTarget=st; n.idlePose='read'; if(F.afternoonDone&&typeof se.to==='number') n.until=z3&&hr0<S.Z3_SHUT?Math.min(S.Z3_SHUT,se.to):se.to;
+    n.seatTarget=st; n.idlePose='read'; if((F.afternoonDone||S.sisEarly(G))&&typeof se.to==='number') n.until=z3&&hr0<S.Z3_SHUT?Math.min(S.Z3_SHUT,se.to):se.to;
     const sit=()=>{ n.seatTarget=null; if(GM.sitAt) GM.sitAt(n,st); n.pose=n.idlePose='read'; };
     const ap=(GM.seatApproach&&GM.seatApproach(st))||[st.x,st.z]; if(!(E.moveTo&&E.moveTo(n,ap[0],ap[1],sit,st.lv|0))) sit(); return true; }
   S.sisWalkIn=sisWalkIn;
@@ -3959,7 +3962,7 @@ const STORY = (function(){
   S.reachable=(id,G)=>{ const p=S.presence(id,G); return p.here||p.kind==='taipei'; };   /* 約得到、在這個世界上（在臺北、不在台大也算：沛珊重考那一學期起、子晴畢業以後，BB_163）；present 是「在台大」*/
   S.whereIs=function(GM,id){ const G=GM.G, F=G.flags, hr=h(G), wd=G.weekday; const c=(typeof CHARACTERS!=='undefined')&&CHARACTERS[id]; if(!c) return null;
     const pr0=S.presence(id,G); if(!pr0.here&&pr0.kind!=='taipei') return pr0.away?{zone:null,act:'',away:pr0.away}:null;
-    if(LEGACY_IDS.includes(id)&&((!F.afternoonDone&&!zheClassOk(id,c,G))||F.classNow)) return null;
+    if(LEGACY_IDS.includes(id)&&(!legacyOk(id,c,G)||F.classNow)) return null;
     const ent=schedEnt(c,G); const school=(id==='kexin'&&S.isEcon(G))?(G.day<S.dayOfKey('2025-02-01')?'台大':'家裡'):c.school;   /* 經濟系那一年可昕是台大經濟系（2025-02 起休學在家），不是政大（2026-10-18 使用者：「杜可昕顯示在政大」）*/
     if(!ent) return pr0.kind==='taipei'?(pr0.away?{zone:null,act:'',away:pr0.away}:null):(school?{zone:null,act:'',away:'在'+school}:null); const end=ent.to%24, hh=Math.floor(end), mm=Math.round((end-hh)*60), until=String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');
     if(ent.zone==null) return ent.away?{zone:null,act:ACT[ent.act]||'',away:ent.away,until}:null;   /* 不在遊戲的場景裡（例：在小福吃午餐）*/

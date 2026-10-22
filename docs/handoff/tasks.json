@@ -28527,7 +28527,7 @@
    },
    "source": "AA（帳號 A）10-22 03:08",
    "authorized": "D109、D110",
-   "next": "【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
+   "next": "【BB 07:2x（BB_218 46612bb1）】第 4 節學姊 2030 生日看海六種（去、坐旁邊、不行、不回、遲到、只是朋友對照）ALL PASS：台詞順序、旗標、15:00 照片、出遊狀態都對、沒有 JS 例外；第 1～3 節（交換延畢 6 句、可昕我們的日子 4 句、六位每月一句、sixOff）BB 還沒測 ｜ 【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
   },
   {
    "id": "ART-ZR-PS-3D-1022",
@@ -28805,7 +28805,7 @@
    "id": "BUG-SIS-ORAL-SCHED-1022",
    "title": "5/29 學姊口試那天，她的 3D 作息還是平日 9～17 點在總圖 3F（characters.js 75 行附近）",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "area": "v3",
    "first": {
@@ -28821,7 +28821,8 @@
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
    "next": "【BB 07:0x】手機那一半 PASS（2029-05-29 09:56「口試（霖澤館的研究室）」）；走上 3F 看她不在那一半重跑中（腳本改從大廳二樓樓梯間走上去） ｜ BB 瀏覽器：2029-05-29 10:00 進總圖 3F，學姊不在；手機「朋友」寫「口試（霖澤館的研究室）」；16:00 口試那一場照演",
-   "done": "開發分支（LAWWW 10-22 06:3x）：characters.js 學姊作息最前面加一筆 2029-05-29 08:00～18:00「口試（霖澤館的研究室）」（zone null，不在任何 3D 區域；蓋過平日 9～17 點的總圖 3F）；口試那一場照舊是 y34b3d.js M9 的出遊（16:00 研究室走廊）。tests/sis_oral_sched_unit.js（修改前 c816b8de FAIL、修改後 ALL PASS）；lane118_sched、presence、schedule_refresh、學姊相關 13 支、y34b_events 照過"
+   "done": "開發分支（LAWWW 10-22 06:3x）：characters.js 學姊作息最前面加一筆 2029-05-29 08:00～18:00「口試（霖澤館的研究室）」（zone null，不在任何 3D 區域；蓋過平日 9～17 點的總圖 3F）；口試那一場照舊是 y34b3d.js M9 的出遊（16:00 研究室走廊）。tests/sis_oral_sched_unit.js（修改前 c816b8de FAIL、修改後 ALL PASS）；lane118_sched、presence、schedule_refresh、學姊相關 13 支、y34b_events 照過",
+   "evidence": "BB（帳號 A）10-22 07:2x（BB_218 2983cc8e）：開發分支 a3d2185d，Playwright 手機橫向、turbo——2029-05-29 手機「朋友」學姊寫「口試（霖澤館的研究室）」；從總圖大廳二樓樓梯間走上 3F，10:29 閱覽室裡沒有她"
   },
   {
    "id": "AA383-S6-SIS-FRIEND-1022",
@@ -28943,8 +28944,8 @@
   {
    "id": "BUG-SIS-PRE94-PRESENCE-1022",
    "title": "選 1 的新局 8/31～9/4 中午學姊完全不出現（schedFor 的 LEGACY_IDS 舊規則：afternoonDone 以前不照作息），AA_279／AA_379 寫的「9/4 以前找她＝（她在看手機，沒有抬頭。）」玩家到不了",
-   "owner": "AA",
-   "status": "等待其他AI／素材",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v1",
    "first": {
@@ -28959,16 +28960,15 @@
    },
    "source": "BB（帳號 A）10-22 07:05（BB_218 P3 讀碼）",
    "authorized": "D79／D109（人物出現時間是劇情，AA 決定）；D110",
-   "next": "等 AA 回：①開放（9/1 起照作息出現，9/4 以前那一句、9/4 起閱覽室直接認識）②不開（那一句只當防呆，BB 記玩家到不了）③其他。AA 回了以後 LAWWW 改 schedFor（只放寬 heroine_05，其他五個照舊）、加單元測試、派 BB",
-   "pausedReason": "人物出現時間是劇情（D79），等 AA 決定",
-   "resumeWhen": "AA 回覆",
+   "next": "BB 瀏覽器：選 1 的新局 9/2（二）10:00 走進總圖 3F 閱覽室，學姊在靠窗讀書；找她說話只有「（她在看手機，沒有抬頭。）」、不記關係；9/5 白天找她＝AA_379 閱覽室直接認識 ｜ 【AA 07:11（AA_379 1-4，企劃線 19a4414e）選 ①】學姊新局 9/1 開學起照作息出現、不等 afternoonDone；9/4 以前找她只有 SIS_PRE_W1 那一句；9/4 起照 AA_379 1-2 閱覽室直接認識；其他五個人照舊。LAWWW 改 schedFor（只放寬 heroine_05）、加單元測試、派 BB ｜ 等 AA 回：①開放（9/1 起照作息出現，9/4 以前那一句、9/4 起閱覽室直接認識）②不開（那一句只當防呆，BB 記玩家到不了）③其他。AA 回了以後 LAWWW 改 schedFor（只放寬 heroine_05，其他五個照舊）、加單元測試、派 BB",
    "xai": {
     "spec": "AA_279（AA-C 10-18 01:46）、企劃線 AA_379 第 1-2、1-3 節（992b58da）",
     "branch": "claude/confident-ritchie-8rwh7t",
     "acceptance": "AA 選定一個；照選的改好、BB 瀏覽器測 9/2 閱覽室",
     "receiver": "AA",
-    "ack": "SENT"
-   }
+    "ack": "ACTIONED"
+   },
+   "done": "開發分支（LAWWW 帳號 A 10-22 07:3x）：story3d.js S.sisEarly＋legacyOk——學姊（heroine_05）法律系、開學 2025-09-01 起、afternoonDone 以前也照作息（schedFor、whereIs 兩處 LEGACY 判斷；閱覽室、Café 坐下的 until 兩處照作息結束）；以安、阿哲、Alison、阿凱、周教授照舊；經濟系照舊。tests/sis_pre94_presence_unit.js（修改前 809ea58b 2 FAIL、修改後 ALL PASS）；學姊、開局相關 27 支 ALL PASS"
   }
  ]
 }
