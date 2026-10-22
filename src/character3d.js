@@ -113,6 +113,13 @@ const CHAR = (function(){
     let props=null; const mf=typeof ASSETS!=='undefined'&&ASSETS.manifest[key]; const plist=spec.props||(mf&&mf.blProps&&mf.url===mf.blUrl?mf.blProps:null)||C.MODEL_PROPS[key];   /* ?blchar 用 Blender 版時可以換一組配件（blProps：溫書瑀的 Blender 頭髮自己有髮圈，不再掛遊戲的髮圈） */ if(plist&&plist.length&&typeof PROPS!=='undefined'){ try{ props=PROPS.attach(vrm,plist,{shadow:realShadow}); }catch(err){ console.warn('props failed',key,err); } }
     root.userData={driver:'vrm',spec,k:H/1.75,parts:{},model:wrap,vrm,key,v0,sx,tinted,props,full:!!e.full,armOut:(+e.armOut||0)*Math.PI/180,armBack:+e.armBack||0,armFwd:+e.armFwd||0,bones:B,look,headY,anim:{t:Math.random()*10,expr:'normal',pose:'idle',mixer,actions,cur:null,static:false,mouth:0,blink:2+Math.random()*3,blinkT:0}}; if(actions.idle){ actions.idle.play(); root.userData.anim.cur='idle'; }
     // 彈簧骨（頭髮、馬尾）在人物自己的座標系模擬：瞬移、換區域、坐下起身時頭髮不會被甩飛（要在 root.userData 設定之後：three-vrm 把反矩陣快取放在 center.userData）
+    /* 裙子的輔助骨頭（VRM 節點的 extras.drive；PS-SKIRT-LEG，LAWWW2 2026-10-22）：沛珊長裙前片中間的「第三條腿」skirt_F／skirt_F_lo＝兩條腿（真實骨架）相對靜止姿勢的旋轉做 slerp，
+       偏向往前抬的那一條：t＝0.5＋(max−0.5)·tanh(dir·(抬起角度差)／sig)；後片 skirt_BL／BR（_lo）＝同一側的腿，只在腿往後時才轉（gate；坐下、腿往前時不轉，和原本一樣）。權重在 VRM 裡（tools/blender/char_second/peishan_skirt_bones.py）；沒有這種節點的模型不受影響 */
+    { const hu=vrm.humanoid, raw=n=>hu.getRawBoneNode(n), hp=raw('hips'), drv=[]; if(hp){ model.updateMatrixWorld(true); const hq=hp.getWorldQuaternion(new THREE.Quaternion()).invert(), dn=new THREE.Vector3(0,-1,0).applyQuaternion(hq), fw=new THREE.Vector3(0,0,1).applyQuaternion(hq), i0=b=>b.quaternion.clone().invert();
+      model.traverse(o=>{ const d=o.userData&&o.userData.drive; if(!d||!d.from) return; const lf=d.lift||d.from, A=raw(d.from[0]), Bb=d.from[1]?raw(d.from[1]):null, LA=raw(lf[0]), LB=lf[1]?raw(lf[1]):null; if(!A||!LA||(d.from[1]&&!Bb)||(lf[1]&&!LB)) return;
+        const ch=d.net&&d.net.map(raw); if(d.net&&(!ch[0]||(d.from[1]&&!ch[1]))) return;
+        drv.push({o,A,B:Bb,LA,LB,A0:i0(A),B0:Bb&&i0(Bb),LA0:i0(LA),LB0:LB&&i0(LB),CA:ch&&ch[0],CB:ch&&ch[1],CA0:ch&&i0(ch[0]),CB0:ch&&ch[1]&&i0(ch[1]),dn,fw,dir:d.dir||1,max:d.max==null?0.85:+d.max,sig:+d.sig||0.3,gate:Array.isArray(d.gate)&&d.gate.length===4?d.gate.map(Number):null}); }); }
+      if(drv.length) root.userData.drive=drv; }
     const sbm=vrm.springBoneManager; if(sbm){ try{ sbm.reset(); sbm.joints.forEach(j=>{ j.center=root; }); root.updateMatrixWorld(true); sbm.setInitState(); }catch(err){ console.warn('spring bone center',err); } }
     return root; }
   C.MODEL_PROPS={'char.classmate_bohan':[{name:'glasses',glb:'prop.glasses_bohan'},'backpack'],'char.classmate_peishan':[{name:'glasses',glb:'prop.glasses_peishan'}],'char.prof_wei':[{name:'glasses',glb:'prop.glasses_wei'}],'char.econ_weilun':['backpack',{name:'helmet',hang:'side'}],'char.econ_jiahao':['foodmap'],'char.econ_pinyu':['thermos'],'char.yu':['bag_yu'],   /* 許柏翰（?blchar）：方框眼鏡＋後背包（LAWWW2 VISUAL_REVIEW 32.4 的設定）*/
@@ -156,6 +163,16 @@ const CHAR = (function(){
   const BIKE_G={saddle:[0,0.935,-0.31], grip:[0.29,1.06,0.083], bb:[0,0.285,-0.045], crank:0.165, pedalX:0.115};
   const ARMS=[['leftUpperArm','leftLowerArm','leftHand'],['rightUpperArm','rightLowerArm','rightHand']];
   const ARMQ=new THREE.Quaternion(), ARMZ=new THREE.Vector3(0,0,1), ARMX=new THREE.Vector3(1,0,0), ARMV=new THREE.Vector3();
+  /* 裙子的輔助骨頭（見建立 VRM 的地方）：在腳步貼合之後（真實骨架的腿已經是最後的角度） */
+  const SKQ=[new THREE.Quaternion(),new THREE.Quaternion(),new THREE.Quaternion()], SKV=new THREE.Vector3();
+  function skirtLift(b,q0,d){ SKQ[2].copy(b.quaternion).multiply(q0); SKV.copy(d.dn).applyQuaternion(SKQ[2]); return Math.atan2(SKV.dot(d.fw),SKV.dot(d.dn)); }
+  /* gate＝[a,b,kmin,kmax]：只跟一部分（kmin～kmax），照那條腿往 dir 抬多少（弧度，sstep(a,b,dir·抬起角度)）；例：後片只在腿往後時跟著腿 */
+  /* net＝[大腿,…]：下半段照「大腿×小腿」合起來的方向（相對臀部）算，再扣掉上半段那根骨頭已經轉的：gate 只跟一部分時，坐下（大腿往前 90°、小腿往回 90°）後片照樣垂直往下 */
+  function skirtDrive(D){ for(const d of D){ const la=skirtLift(d.LA,d.LA0,d), lb=d.LB?skirtLift(d.LB,d.LB0,d):la; SKQ[0].copy(d.A.quaternion).multiply(d.A0); if(d.CA) SKQ[0].premultiply(SKQ[2].copy(d.CA.quaternion).multiply(d.CA0));
+      if(d.B){ const t=0.5+(d.max-0.5)*Math.tanh(d.dir*(la-lb)/d.sig); SKQ[1].copy(d.B.quaternion).multiply(d.B0); if(d.CB) SKQ[1].premultiply(SKQ[2].copy(d.CB.quaternion).multiply(d.CB0)); d.o.quaternion.slerpQuaternions(SKQ[1],SKQ[0],t); } else d.o.quaternion.copy(SKQ[0]);
+      if(d.gate){ const g=d.gate, L=d.dir>0?Math.max(la,lb):Math.min(la,lb), x=Math.min(1,Math.max(0,(d.dir*L-g[0])/(g[1]-g[0]))); d.o.quaternion.slerp(SKQI,1-(g[2]+(g[3]-g[2])*x*x*(3-2*x))); }
+      if(d.CA) d.o.quaternion.premultiply(SKQ[2].copy(d.o.parent.quaternion).invert()); } }
+  const SKQI=new THREE.Quaternion(); C._skirtDrive=skirtDrive;   // 單元測試用（tests/skirt_drive_unit.js）
   const RV=[0,1,2,3,4,5,6,7].map(()=>new THREE.Vector3());
   function ik2(a,b,c,T,pole){ const A=a.getWorldPosition(RV[0]), K=b.getWorldPosition(RV[1]), C0=c.getWorldPosition(RV[2]); const la=A.distanceTo(K), lb=K.distanceTo(C0); if(la<1e-4||lb<1e-4) return false;
     const d=Math.min(la+lb-1e-4,Math.max(Math.abs(la-lb)+1e-4,A.distanceTo(T)));
@@ -235,7 +252,7 @@ const CHAR = (function(){
     if(st.lookAt){ const local=h.worldToLocal(new THREE.Vector3(st.lookAt.x,u.headY,st.lookAt.z)); u.look.position.copy(local); if(B.Head){ const dx=st.lookAt.x-h.position.x, dz=st.lookAt.z-h.position.z; let ang=Math.atan2(dx,dz)-h.rotation.y; ang=Math.atan2(Math.sin(ang),Math.cos(ang)); ang=Math.max(-0.7,Math.min(0.7,ang)); B.Head.rotation.y+=ang*0.6; if(B.Spine1) B.Spine1.rotation.y+=ang*0.15; } } else { u.look.position.set(0,u.headY,3); }
     // 表情：眨眼、嘴型
     const em=vrm.expressionManager; if(em){ a.blink-=dt; if(a.blink<=0){ a.blinkT=0.14; a.blink=2.5+Math.random()*3.5; } if(a.blinkT>0){ a.blinkT-=dt; em.setValue('blink',a.blinkT>0.07?1:(a.blinkT/0.07)); } else em.setValue('blink',0); const target=pose==='talk'?(0.08+Math.abs(Math.sin(a.t*9))*0.3):0; a.mouth+=(target-a.mouth)*Math.min(1,dt*14); em.setValue('aa',a.mouth); }
-    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); }); }
+    updateVRM(vrm,dt,()=>{ footIK(h,u,u.ikSt,dt); sitFeet(h,u); sitFloorFit(h,u); if(u.ride) rideIK(h,u); if(u.drive) skirtDrive(u.drive); }); }
   // VRM 更新：彈簧骨（頭髮、馬尾）用固定小步長。低幀率（SwiftShader 1–4 fps、手機突然卡頓）時一次積分太大，馬尾會失穩往上翹
   // 彈簧骨前先更新整個 VRM 的 world matrix：three-vrm 用「子骨頭的 matrixWorld」算骨長，人物移動／瞬移／動畫之後子骨頭還停在上一幀，
   // 低幀率時一幀差幾十公分 → 骨長算錯、頭髮被甩到耳朵高度往外翹（林芷若走路截圖；30 fps 時也會讓髮尾抖）

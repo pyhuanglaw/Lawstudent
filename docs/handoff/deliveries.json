@@ -13217,6 +13217,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "開發分支整合（LAWWW 帳號 A 10-22 08:3x）：patch 對 b857600c 乾淨；l118_arcade、room_ceiling、l118_shops、l118_bar_lift、lane118 三支、linze_upper、room_y3／y4、nav_buildings、nav_levels、zone_dispose、zone_prewarm、cafe_kit_glow、jp 兩支 ALL PASS；放 v9.10.6（不在候選 364dabe0）；鄰居店面卡是本作 118 巷街景 GLB 的算圖（原創）；瀏覽器派 BB；READY_FOR_ART_REVIEW（場景美術只有使用者能標 ART_APPROVED）"
+  },
+  {
+   "id": "DL-LAWWW2-30c74db4",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "30c74db4",
+   "what": "沛珊長裙：上樓梯膝蓋、小腿不再從裙子前面穿出來——第二十八版 VRM（同檔名，6 根裙子輔助骨頭）＋skirt_drive.diff（character3d.js：VRM 節點 extras.drive，每一幀在 footIK／sitFeet／rideIK 之後算）",
+   "task": "PS-SKIRT-LEG",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:0x，VRM 和 patch 一起接）；skirt_drive、stairs_feet、sit_feet、seated_look、anon_pool、perf_npc_pool ALL PASS；角色美術 LAWWW 看遊戲內前後（test_shots/ps_skirt_leg_1022/game_before_after.webp，SwiftShader，不是 iPhone）驗收通過：修改前平台／第二段／二樓膝蓋穿出、修改後沒有，坐下一樣；放 v9.10.6；BB 瀏覽器看走路、樓梯、坐下"
+  },
+  {
+   "id": "DL-LAWWW2-88af9e7a",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "88af9e7a",
+   "what": "天花板 patch 第三版：機場出境、入境、美國大超市天花板單面朝下（airport_arr、airport_dep、us_market 三份 GLB；room_ceiling_unit 多驗這三份）",
+   "task": "ART-DIRECTOR-LAWWW2",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "開發分支整合（LAWWW 帳號 A 10-22 09:0x：第二版反套、第三版套上，zones3d.js 不變）；room_ceiling、l118_arcade、機場／美國 10 支 ALL PASS；放 v9.10.6；READY_FOR_ART_REVIEW"
   }
  ],
  "ignored": [

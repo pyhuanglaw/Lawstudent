@@ -26416,7 +26416,7 @@
    "id": "PS-SKIRT-LEG",
    "title": "沛珊上樓梯時左小腿、膝蓋從長裙前面穿出來（ART-PS-SKIRT-HAND 量測時發現）：只改裙子權重兩全不了（v1 平台、第二段不穿，但第一段前片中線被兩腿拉開出現深色直線；v2 更差）→ 要加前片骨頭或程式布料碰撞",
    "owner": "LAWWW2",
-   "status": "待開工",
+   "status": "已驗收",
    "priority": "P2",
    "source": "LAWWW2-C 10-21 13:48 訊息（WIP 27618d8d）；ART-PS-SKIRT-HAND README",
    "first": {
@@ -26436,7 +26436,8 @@
     "receiver": "LAWWW",
     "ack": "ACK"
    },
-   "next": "【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 停成 WIP（27618d8d，tools/blender/char_second/peishan_skirt_reweight.py 兩版都不行）；排回 LAWWW2 佇列，正式 VRM 不動；LAWWW2 先照使用者 12:0x 巡場景（X90）"
+   "next": "已接開發分支（放 v9.10.6）；BB 瀏覽器順便看沛珊走路、上下樓梯、坐下沒有新問題 ｜ 【LAWWW-C 2026-10-21 13:5x UTC】LAWWW2 停成 WIP（27618d8d，tools/blender/char_second/peishan_skirt_reweight.py 兩版都不行）；排回 LAWWW2 佇列，正式 VRM 不動；LAWWW2 先照使用者 12:0x 巡場景（X90）",
+   "evidence": "LAWWW（帳號 A）10-22 09:0x 驗收（D100 第 6 點，角色美術由 LAWWW 看遊戲內截圖）：LAWWW2 30c74db4 第二十八版＋skirt_drive.diff，遊戲內前後 docs/art-rebuild/second_ai/test_shots/ps_skirt_leg_1022/game_before_after.webp（char_motion，SwiftShader 手機模擬，不是 iPhone）——修改前平台、第二段、二樓膝蓋小腿從裙子前面穿出，修改後沒有；坐下正面、側面一樣；Node 量測上樓梯看得到膝蓋以上 61/90→25/90 格、走路小腿穿出後片 31→8"
   },
   {
    "id": "AA350-SR-1021",
