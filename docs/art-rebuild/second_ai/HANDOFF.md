@@ -2,6 +2,7 @@
 
 ## 🔁 交班（最新）：2026-10-22 15:06 UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`（使用者 15:0x 直接說「現在交班」）
 - **最後的工作 commit**：`d724b106`（已 push，`ls-remote` 核對過）。這一節所在的交班紀錄 commit 在它後面，SHA 寫在交班回報裡。`docs/handoff/duty_LAWWW2.json` 已改成 `handed-off`。
+- **LAWWW 15:05（同帳號、值班中）傳來換班指示**：沛珊存 WIP、林家菜單和入口 B 導航留給下一班、寫「全部待辦」、存快照、`duty handoff`——都照做了（全部待辦在下面一節；快照、登記寫在交班回報）。
 - **交班紀錄不代表下一班已經接班**。帳號 A 的 LAWWW 同一帳號；跨帳號只看 GitHub 文件（D75），我沒有傳訊息給任何人。
 - **正在做（P0）**：沛珊第三十一版（UA-LAWWW2-1022-02；LAWWW 13:5x 退回第三十版正面兩項）。
   - **WIP，沒交件**：`assets/models/char/second_ai/bl_classmate_peishan.vrm` 還是第三十版（`80a39166`）。
@@ -24,6 +25,39 @@
   2. 照 `char_review/peishan_v31/README.md`「下一步」1～3：看試做 s → 正式重做＋遊戲內重拍＋眨眼 → 交件給 LAWWW。
   3. 林家菜單遊戲內前後截圖 → 交件。
   4. 巡場景第 5 區溫州街（暫停中，`$SP/patrol5/shots.json` 要重寫）。
+
+## 📋 LAWWW2 全部待辦（2026-10-22 15:1x 交班時；對總表 RULE_SOURCE `origin/claude/confident-ritchie-8rwh7t` `693970b6`）
+- 總表裡負責人是 LAWWW2、還沒結案的全部列在這裡（每行是任務 ID）：進行中 6、待開工 9、暫停 1、已整合待測試 93。
+- 這一班工作階段裡的待辦清單都對到下面的任務了（沛珊、林家菜單、溫州街巡場景）；沒有總表以外的項目。
+- **進行中**
+  - ART-POLISH（P1）：第 2 批色調映射已整合（Neutral 預設）；其他項目照總表的下一步
+  - PERF-CAMPUS-SHADOW-1020（P1）：停著的腳踏車分區合併已交（49b26ecb）；照總表的下一步確認
+  - BACKLOG-SWEEP-LAWWW2-1021（P0）：清查表照 10-21 那一節；剩下的項目照總表
+  - ART-ECON-3D-GAP-1021（P2）：412 洗手間牆磚地磚已交（2ccd1e60）；剩下的照總表
+  - ART-DIRECTOR-LAWWW2（P1）：巡場景：第 5 區溫州街（主巷、Café 路口、小公園、日式宿舍、118 巷口 × 15:00／17:xx／20:00）還沒拍——沛珊插隊暫停；拍照規格要照開發分支最新重寫
+  - ART-ZR-PS-3D-1022（P2）：沛珊第三十一版，WIP（腳本 c8a7a953、比較圖 d724b106）：頭頂兩側尖刺、窄長倒 V、髮尾、臉旁長碎髮正面都改好；剩三分之四側太陽穴那一條皮膚（試做 s 做好沒看）→ 正式重做、遊戲內重拍、眨眼 → 交件。步驟在 char_review/peishan_v31/README.md「下一步」
+- **待開工**
+  - ART-13（P2）：明軒、小語模型
+  - ART-WZ6（P2）：故事小物件 wz6_items.glb（半熟計時器、阿德的筆記本、茶罐、卡片、白板影印、吉他社海報、貓碗）
+  - ART-SOY1（P2）：豆漿店道具組（AA 做、驗收過 12a33672）＋寶特瓶袋 v2（wz7_street_props）：接進遊戲
+  - VAC-A1（P2）：寒暑假活動既有美術資產盤點（只盤點不製作，交給 AA）
+  - ART-SOP（P2）：美術製作 SOP（ART_SOP.md v1、SCENE_RULES.md、sop_demo 示範案例）
+  - ART-JIAHAO-JOY（P2）：家豪晚上近照嘴邊暗影（Joy 0.35 露出口腔被壓暗）：試 0.28
+  - ART-PHOTO-CMP-1021（P3）：共同教學館、女舍和參考照片比對（LAWWW2 清查 B14）
+  - ART-WZ-LIN-MENU-1022（P3）：WIP（d724b106）：菜單貼圖六張、GLB 重匯、配置註解都好了；剩遊戲內前後截圖 → 交件。開發分支的 shops_tex.py 少了林家、定食那幾個函式（d37cf28c 拿回的是舊版），整合要用我這一版
+  - ART-WZPARK-ENTRY-B-1022（P3）：LAWWW 15:0x 剛派、還沒開工：小公園遊戲場的導航阻擋擋住入口 B 整段步道
+- **暫停**
+  - CHAR-TEMPLATE（P2）：暫停：等使用者決定人物凍結要不要解除
+- **已整合待測試**
+  - 等 BB／使用者在遊戲裡看；有人回報問題 LAWWW2 再修：
+    - ART-02、ART-04、ART-05、ART-09、ART-10、ART-11、ART-12、SCN-US-01、SCN-US-03、SCN-US-02、SCN-V3-01、SCN-V4-01
+    - SCN-V5-01、ART-BG02、ART-BG05、ART-BG18、ART-BG15、ART-BG16、ART-BG17、ART-BG13、ART-BG08、ART-BG11、ART-BG14、ART-BG19
+    - ART-BG20、ART-V0-DORM、ART-WZ1、V0-ART-DORM、ART-WZ4、ART-WZ5、ART-GYM1、ART-WZ3、ART-YT1、ART-WZ7、ART-TUTOR1、ART-US1
+    - ART-US3、ART-US2、ART-BG-COURT、ART-PT-SIS-FORMAL、ART-GYM-BG1、ART-GG-SIGNS、BUG-COPLANAR-DEV、ART-CAFE-FLOOR、ART-WZ0、BUG-WZFLICKER-2、ART-BIKES2-F、ART-DORM-LOFT
+    - ART-DORM-Y34、ART-US-SEASON、ART-NPC-40、ART-HAIR-MATCAP、ART-NPC-HAIR-STREAK、ART-PS-SKIRT-HAND、SCN-US-LIB、ART-EXT-M1、ART-EXT-GATE、ART-EXT-TEACH、ART-EXT-MRT、ART-GYM2-INT
+    - SCN-US-IU-1018、ART-YU-3D-1018、PERF-ZONE-ENTER-1018、ART-GG-SHOPS-1018、ART-LIB-VIEW-1018、ART-SEATFIG-1018、US-CAMPUS-WIRE-1018、GRADE-GOLDEN-DEFAULT、US-MARKET-STREET、LANE118-SHOPS-1020、BUG-GYM-STAIRS-1020、LINZE-WANCAI-FLOORS-1020
+    - LINZE-34F-TABLES-1020、SKYBRIDGE-DOOR-1020、GG-STREETVIEW-1020、ART-L118-LANE-1020、ART-ROOM-MULTI-1020、ART-ROOM-LIFE-1020、ART-DORM-LOUNGE-1021、ART-SWEEP-A3A4-1021、JP-ROOM-3D-1021、BUG-CAM-C208-1021、WZ-SHOP-AA364-ART、BUG-CAM-203-R2-1021
+    - ART-Y1-BOX-MIRROR-1021、PERF-CROWD-LOD-1021、BACKLOG-A7-WZPARK-COPLANAR、BUG-NAV-LAMPPOST-1021、BUG-CAFE-FLOOR-MIRROR-1021、ART-VAC-AIRPORT-1021、US-MS-NIGHT-1021、ART-TONE-NEUTRAL-1022、ART-CEIL-LAWWW-ROOMS-1022
 
 ## ✅ 接班：2026-10-21 15:2x UTC｜帳號 A｜LAWWW2｜`session_01AC1WVgJSmoJK1uRsPK2Zn1`｜分支 `claude/second-ai-env-art`
 值班登記：帳號 A｜LAWWW2｜session_01AC1WVgJSmoJK1uRsPK2Zn1｜分支 claude/second-ai-env-art｜接班基準 `2b4f2028`｜2026-10-21 15:26 UTC（使用者：「我回來了，請同步 GitHub 最新進度，接續工作。」＋「你上次交班之後 有兩個帳號接過你的班 B C」）
