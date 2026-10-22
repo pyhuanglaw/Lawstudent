@@ -11,7 +11,7 @@
   MISS（LAWWW 01:48 ④）：手機約好 19:00 總圖、人一直待在宿舍 → 不開始；過了 19:30 記沒赴約、訊息「你沒有赴約：…」。
 【前置】讀使用者存檔改日期、地點；學姊「已經認識」（met_sis、ev_sis_w1 記成演過、FIRST_MET）、FAMILIAR（fam 25）；去過宿舍、校園、總圖；quiet_events（不測劇情）。
 沒有 ?turbo 也能跑（URL 自己決定）。Playwright 手機橫向模擬，不是 iPhone。
-用法：LW_TESTS=<開發分支>/tests SCEN=SCHED,WALK_DORM,WALK_ARRIVE python3 bothpresent_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>（NOW 跟在 SCHED 裡）"""
+用法：LW_TESTS=<開發分支>/tests SCEN=SCHED,WALK_DORM,WALK_ARRIVE [PORTRAIT=1] python3 bothpresent_probe.py '<URL>/index.html' <輸出資料夾> <存檔.json>（NOW 跟在 SCHED 裡）"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -150,7 +150,7 @@ async def talk_invite_now(pg, cdp, run, tag, place='去總圖一起念書'):
 
 
 async def launch_load(p, run, base, day, h, zone, label):
-    b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    b, ctx, pg, cdp, errs = await L.launch(p, landscape=os.environ.get('PORTRAIT') != '1')   # PORTRAIT=1：直向（橫向的當面約地點選單第一排點不到，P1 已報）
     await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
     st = json.loads(json.dumps(base)); G = st.get('G', st); F = G['flags']
     for k in list(F.keys()):
