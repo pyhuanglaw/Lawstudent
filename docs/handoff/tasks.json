@@ -28377,7 +28377,7 @@
    "source": "LAWWW2 PERF-ZONE-ENTER-1018 交件（3d6f2cee；docs/art-rebuild/second_ai/test_shots/zone_enter_1021/README.md）",
    "authorized": "D110（LAWWW 開發整合自己決定）；使用者 X14「電腦換畫面卡一兩秒」",
    "next": "BB 瀏覽器：公館 → 溫州街 → 咖啡廳 → 溫州街來回，換區域以後路人都會出現（晚到的一個一個冒出來、不露出方塊人）、沒有兩個一模一樣的站在旁邊；LAWWW2 可以用 tools/shots/zone_enter_probe.py 重量一次（咖啡廳 → 溫州街第二次：原本 8.5 秒那一格） ｜ 【LAWWW（帳號 A）2026-10-22 01:5x】登記；排在 D99 三項之後（不影響遊玩流程）",
-   "done": "開發分支（LAWWW 帳號 A 10-22 07:3x）：LAWWW2 的建議 1、2 做了——①character3d.js CHAR.anonPool.refresh 每次換區域只往後移一格（女、男各換 1 個新的、其他 6 個留著；原本 8 個全部換新），走四個區域全部輪過；②game3d.js GM.upgradeModels 路人（isExtra、騎士）一次最多換 GM.UPG_EXTRA＝1 個（每 1.5 秒），主角、有名字的人照舊馬上換。建議 3（換上之前 compileAsync）沒做：要真的 GPU 才量得出差別。測試：tests/perf_npc_pool_unit.js（修改前 5c2a173f 2 FAIL、修改後 ALL PASS）、tests/anon_pool_unit.js 第 4 段改成新的輪替（修改前 3 FAIL）；anon_dedup_unit、zone_prewarm_unit、zone_dispose_unit ALL PASS"
+   "done": "開發分支 e63ba5d2（LAWWW 帳號 A 10-22 07:2x）：LAWWW2 的建議 1、2 做了——①character3d.js CHAR.anonPool.refresh 每次換區域只往後移一格（女、男各換 1 個新的、其他 6 個留著；原本 8 個全部換新），走四個區域全部輪過；②game3d.js GM.upgradeModels 路人（isExtra、騎士）一次最多換 GM.UPG_EXTRA＝1 個（每 1.5 秒），主角、有名字的人照舊馬上換。建議 3（換上之前 compileAsync）沒做：要真的 GPU 才量得出差別。測試：tests/perf_npc_pool_unit.js（修改前 5c2a173f 2 FAIL、修改後 ALL PASS）、tests/anon_pool_unit.js 第 4 段改成新的輪替（修改前 3 FAIL）；anon_dedup_unit、zone_prewarm_unit、zone_dispose_unit ALL PASS"
   },
   {
    "id": "BUG-INV-NOODLE-PAIR-1022",
