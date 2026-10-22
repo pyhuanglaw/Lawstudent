@@ -204,7 +204,7 @@ const INV=(function(){
   S.pairSeats=function(GM,n,place){ const E=GM.E; if(!SEATED[place]||!n||!E||!E.zone||!Array.isArray(E.zone.seats)) return null;
     const near=(a,b,r)=>Math.hypot(a.x-b.x,a.z-b.z)<r;
     const busy=st=>st.taken||E.npcs.some(m=>m!==n&&(m.seat||m.seatTarget)&&near(m.seat||m.seatTarget,st,0.35));
-    const ok=E.zone.seats.filter(st=>!st.label&&!busy(st)), mate=st=>ok.filter(q=>q!==st&&(q.lv|0)===(st.lv|0)&&near(q,st,1.3)).sort((a,b)=>Math.hypot(a.x-st.x,a.z-st.z)-Math.hypot(b.x-st.x,b.z-st.z))[0]||null;
+    const ok=E.zone.seats.filter(st=>!st.label&&!busy(st)), mate=st=>{ for(const r of [1.3,1.7]){ const m=ok.filter(q=>q!==st&&(q.lv|0)===(st.lv|0)&&near(q,st,r)).sort((a,b)=>Math.hypot(a.x-st.x,a.z-st.z)-Math.hypot(b.x-st.x,b.z-st.z))[0]; if(m) return m; } return null; };   /* 先找旁邊（1.3 m 內），沒有再找對面（麵店一張桌子兩個位子面對面、相距 1.6 m；BB 10-22 01:3x：麵店裡阿哲坐著、你站在門口演完）*/
     if(n.seat){ const m=mate(n.seat); return m?{her:n.seat,me:m}:null; }
     const P=E.player.obj.position; const cand=ok.filter(st=>!!mate(st)).sort((a,b)=>Math.hypot(a.x-P.x,a.z-P.z)-Math.hypot(b.x-P.x,b.z-P.z));
     return cand[0]?{her:cand[0],me:mate(cand[0])}:null; };

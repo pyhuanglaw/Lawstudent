@@ -5,7 +5,8 @@
 //       2. 已經在那個地方、當面約「現在一起過去」：不變成跟著走，直接開始（兩個人坐下、演見面）；
 //       3. 一起走過去的路上走進宿舍（dorm_hall、dorm）＝作罷、她不再跟著；回臺北的家也是；
 //       4. 你不在約定的地方：不會開始；過了時間照舊記沒赴約；
-//       5. 一起走到約定的地方（S.arrive）：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）。
+//       5. 一起走到約定的地方（S.arrive）：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）；
+//       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
@@ -44,4 +45,9 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('heroine_05'); n.beh='follow';
     G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
     check('5. 一起走到 Café：直接開始、一起坐下（不再等你坐到她旁邊或跟她說話）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
+  /* 6 麵店（一張桌子兩個位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22 01:3x：原本只找 1.3 m 內的空位，麵店永遠找不到，你站在門口演完）*/
+  { const G=setup('2025-09-12',18.9,'noodle'); E.zone={seats:[{x:-3,z:-0.3,lv:0},{x:-3,z:1.3,lv:0},{x:0,z:-0.3,lv:0},{x:0,z:1.3,lv:0},{x:3,z:-0.3,lv:0},{x:3,z:1.3,lv:0}],roomAt:()=>null};
+    H.FRIEND('zhe'); const iv=INV.accept(G,'zhe','noodle',G.day,19,{by:'player'}); const n=npc('zhe'); n.seat=E.zone.seats[5]; E.player.obj.position.x=0; E.player.obj.position.z=3.4;
+    INV.tick(GM); await W(30);
+    check('6. 麵店：阿哲坐在 (3,1.3)，你坐到他對面 (3,-0.3)、演見面、站起來',iv.state==='done'&&fades.length>=2&&Math.abs(E.player.obj.position.x-3)<0.01&&Math.abs(E.player.obj.position.z+0.3)<0.01&&E.player.seat==null,JSON.stringify({st:iv.state,p:[E.player.obj.position.x,E.player.obj.position.z],fades})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

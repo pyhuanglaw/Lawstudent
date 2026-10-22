@@ -58,6 +58,7 @@ def materials():
         'wood2': M_('cafe_wood_mid', 'dark_wood', tile=1.2, target='#6b4a30', normal=0.6, maps=('diff', 'nor'), res=256, rough_value=0.7),
         'board': L.pbr('cafe_sign_face', None, tint=B.srgb('#3b2a1e'), rough=0.7),
         'metal': L.flat('cafe_iron_black', '#24221f', rough=0.45, metal=0.45),
+        'cord': L.flat('seethru_cafe_cord', '#24221f', rough=0.45, metal=0.45),   # 吊燈電線：鏡頭貼著電線經過時整根擋在畫面中間（巡場景）——遊戲裡網點透空（seethru_，zones3d.js 的 Café）
         'brass': L.flat('cafe_brass', '#9a7840', rough=0.35, metal=0.45),
         'glass': L.flat('cafe_glass', '#dfe6e6', rough=0.05, alpha=0.16),
         'lampglass': L.flat('cafe_lampglass', '#f6e2b8', rough=0.2, emit=B.srgb('#ffd49a'), alpha=0.85),
@@ -75,7 +76,7 @@ def materials():
         'roof': L.flat('cafe_roof_slab', '#8f8b84', rough=0.95),
         'tank': L.flat('cafe_tank_steel', '#c4c8cb', rough=0.3, metal=0.45),
         # 店內
-        'floor': self_leveling('cafe_int_floor', '#b3b2ad', 0.6, tile=3.2, k=0.38),   # 自流坪水泥（使用者 23:4x；原本是人字拼木地板 herringbone_parquet，和木桌顏色太近）
+        'floor': self_leveling('cafe_int_floor', '#b3b2ad', 0.78, tile=3.2, k=0.38),   # 自流坪水泥（使用者 23:4x；原本是人字拼木地板 herringbone_parquet，和木桌顏色太近）
         'plaster': soft_plaster('cafe_int_plaster', '#dcc6a4', 0.9),   # 暖米色灰泥（WZ4b：照片的深色斑對比降到 45%，原本看起來髒）
         'iwood': M_('cafe_int_wood', 'walnut_veneer', tile=1.2, target='#7a5536', maps=('diff',), res=256, rough_value=0.6),
         'shelf': M_('cafe_int_shelf', 'black_walnut_veneer_01', tile=1.0, target='#5a3d26', maps=('diff',), res=256, rough_value=0.65),
@@ -128,15 +129,18 @@ def self_leveling(name, target, rough, tile=3.0, k=0.5, res=512):
         rgb = lum[..., None] / max(float(lum.mean()), 1e-4) * t[None, None, :]
         px = np.concatenate([np.clip(rgb, 0, 1), np.ones((h, w, 1), np.float32)], 2)
         im = bpy.data.images.new(key, w, h, alpha=False); im.pixels.foreach_set(px.ravel()); im.scale(res, res)
-        rr = np.clip(rough + (lum.mean() - lum) * 0.8 + pores * 0.15, 0.35, 0.9)   # 粗糙度
-        rp = np.concatenate([np.repeat(rr[..., None], 3, 2), np.ones((h, w, 1), np.float32)], 2)
-        imr = bpy.data.images.new(key + '_rough', w, h, alpha=False); imr.pixels.foreach_set(rp.ravel()); imr.colorspace_settings.name = 'Non-Color'; imr.scale(res // 2, res // 2)
+        rr = np.clip(rough + (lum.mean() - lum) * 0.5 + pores * 0.15, 0.62, 0.92)   # 粗糙度（2026-10-21 LAWWW2：原本 0.6、最低 0.35——吊燈正下方的地板反光成一個小白點，從上面往下看像飄在地上；自流坪是半霧面，提高到 0.78、最低 0.62）
+        # 粗糙度圖直接用最後的解析度建（不用 Image.scale）、經過「分離色彩」的 G 接到粗糙度（和 lib2 一樣）：
+        # 原本貼圖的 Color 直接接 Roughness＋scale，匯出的 metallicRoughness 貼圖 G＝0.004（粗糙度≈0、整片地板是鏡面，吊燈底下反光成小白點；LAWWW2 2026-10-21 查到）
+        rs = res // 2; fy, fx = max(1, h // rs), max(1, w // rs); rr = rr[:rs * fy, :rs * fx].reshape(rs, fy, rs, fx).mean((1, 3))
+        rp = np.concatenate([np.repeat(rr[..., None], 3, 2), np.ones((rs, rs, 1), np.float32)], 2)
+        imr = bpy.data.images.new(key + '_rough', rs, rs, alpha=False); imr.colorspace_settings.name = 'Non-Color'; imr.pixels.foreach_set(rp.ravel()); imr.pack()
     else:
         imr = bpy.data.images.get(key + '_rough')
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; bs = nt.nodes['Principled BSDF']; bs.inputs['Roughness'].default_value = rough
     tx = nt.nodes.new('ShaderNodeTexImage'); tx.image = im; nt.links.new(tx.outputs['Color'], bs.inputs['Base Color'])
     if imr is not None:
-        tr = nt.nodes.new('ShaderNodeTexImage'); tr.image = imr; nt.links.new(tr.outputs['Color'], bs.inputs['Roughness'])
+        tr = nt.nodes.new('ShaderNodeTexImage'); tr.image = imr; sp_ = nt.nodes.new('ShaderNodeSeparateColor'); nt.links.new(tr.outputs['Color'], sp_.inputs['Color']); nt.links.new(sp_.outputs['Green'], bs.inputs['Roughness'])
     m['tile'] = tile
     return m
 
@@ -477,7 +481,7 @@ def interior(mat, parent, lite=False, walls=None, half_w=RW / 2):
     for k, sx in enumerate(WC_STOOLS): B.instance(stm, f'winstool_{k}', sx, 0, COUNTER_Z - 0.4, parent)
     if not lite: wz4_details(mat, parent, stm, wall_mesh, Z0)
     # 吊燈：每張桌子上方一盞玻璃球、吧檯上方三盞金屬燈罩、窗邊吧台上方四盞小燈
-    pm = Mesh('int_pendant_metal', mat['brass']); pg = Mesh('int_pendant_glass', mat['lampglass']); pb = Mesh('int_pendant_bulb', mat['bulb']); cord = Mesh('int_pendant_cord', mat['metal'])
+    pm = Mesh('int_pendant_metal', mat['brass']); pg = Mesh('int_pendant_glass', mat['lampglass']); pb = Mesh('int_pendant_bulb', mat['bulb']); cord = Mesh('int_pendant_cord', mat.get('cord', mat['metal']))
     glows = []
     def pendant(x, y, z, kind='globe'):
         cord.cyl((x, RH, z), (x, y + 0.16, z), 0.006, seg=4)
