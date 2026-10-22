@@ -5,7 +5,7 @@
  "tris_drawn": 16311,
  "materials": 18,
  "out": "assets/models/env/second_ai/linze_202.glb",
- "bytes": 1315560,
+ "bytes": 1315540,
  "texres": 512,
  "tris_total": 16311,
  "layout": "linze_202.layout.json",

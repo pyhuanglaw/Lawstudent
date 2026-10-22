@@ -162,7 +162,7 @@ class Room(K.Shop):
             'steel': L.flat('l118_steel', '#b9bec2', rough=0.28, metal=0.45), 'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')), 'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'fridge': L.flat('GLOW_l118_fridge', '#f4f8ff', rough=0.3, emit=B.srgb('#cfe0f4')),
-            'ceil': L.pbr(f'{rid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9),
+            'ceil': L.pbr(f'{rid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9, cull=True),   # 單面朝下（10-22：原本雙面朝上，拉遠、往上拖是一大片白）
             # 筆電螢幕：同一張印刷品貼圖的 SLIDE 那一塊，發光（GLOW_：遊戲整天亮；貼圖和印刷品共用一張，不多載一張圖）
             'print': img_mat(f'{rid}_print', f'{rid}_print.png', rough=0.55), 'screen': img_mat(f'GLOW_{rid}_screen', f'{rid}_print.png', rough=0.3, emit=0.9),
             'board': L.flat(f'{rid}_chalkboard', '#2f4a40', rough=0.85) if self.lec else L.flat(f'{rid}_whiteboard', '#f6f8f8', rough=0.15),
@@ -491,7 +491,7 @@ def build(rid):
     R = ROOMS[rid]; H = R['H']; K.H = H
     c = Room(rid, R); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M; lec = c.lec; rr = random.Random(7 if lec else 9)
     fl = Mesh(f'{rid}_floorm', M['floor']); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
-    ce = Mesh(f'{rid}_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(c.root)
+    ce = Mesh(f'{rid}_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)   # 朝下
     if lec:   # 講台區：深色木地板（平的）＋鋁收邊條
         fz = Mesh(f'{rid}_frontfloor', M['front']); fz.box(X0, X0 + 2.3, 0.0, 0.006, Z0, Z1); fz.finish(c.root)
         c.vm.cbox(X0 + 2.3, X0 + 2.33, 0.0, 0.009, Z0 + 0.02, Z1 - 0.02, '#b8bcc0')
