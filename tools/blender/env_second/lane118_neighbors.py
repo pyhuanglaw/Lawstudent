@@ -33,7 +33,7 @@ sc.cycles.transparent_max_bounces = 64
 try: sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
 except Exception: pass
 if arg('--threads'): sc.render.threads_mode = 'FIXED'; sc.render.threads = int(arg('--threads'))
-sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = 'Standard'; sc.view_settings.exposure = float(arg('--exposure', 0.35))
+sc.render.resolution_x, sc.render.resolution_y = RW, RH; sc.view_settings.view_transform = 'Standard'; sc.view_settings.exposure = float(arg('--exposure', 1.8))   # 1.8：騎樓下的陰影但看得清楚（0.35 平均亮度 59，深色玻璃像黑洞；門外巷子那張 161）
 sc.render.image_settings.file_format = 'JPEG'; sc.render.image_settings.quality = 88
 w = bpy.data.worlds.new('w'); sc.world = w; w.use_nodes = True; wn = w.node_tree.nodes; wl = w.node_tree.links
 bg = wn['Background']; bg.inputs['Color'].default_value = (0.78, 0.82, 0.88, 1.0); bg.inputs['Strength'].default_value = 1.0   # 陰天、騎樓下：只有天光
