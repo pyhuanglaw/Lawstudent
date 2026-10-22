@@ -1888,6 +1888,27 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 10-22「林芷若3d好憨」的下一輪（LAWWW 04:4x 驗收 888831c4：臉通過、頭髮像頭盔到下巴；BB_221 同意見）。分線 −4°→+12°（人物的左邊，第八版左右做反）、及肩到肩下、頭頂 2.2 cm＋太陽穴蓬、波浪波長 7.5 cm 照高度對齊、深棕；六個版本 h9a～h9f 遊戲渲染器同鏡頭比，採用 h9f"
+  },
+  {
+   "task": "ART-WZ0",
+   "branch": "claude/second-ai-env-art",
+   "sha": "59dfa3a8",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/wz0_prop_nav.diff",
+    "assets/models/env/second_ai/wenzhou_street.glb",
+    "assets/models/env/second_ai/wenzhou_street.props.json",
+    "assets/models/env/second_ai/gongguan_shops.glb",
+    "assets/models/env/second_ai/gongguan_shops.props.json",
+    "assets/models/env/second_ai/lane118_street.glb",
+    "docs/art-rebuild/second_ai/test_shots/wz0_1021/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "溫州街巡場景 j11（24 張）還沒看；二樓以上的生活痕跡、晚上燈色可能還要補；真機沒看過",
+   "next": "LAWWW 套 wz0_prop_nav.diff 第二版（對 be8c1b0e、7e00ad05 乾淨）＋換 wenzhou_street／gongguan_shops（.glb、.json、.props.json，7be8b62f）、lane118_street（e6c2669a），跑 street_props_nav_unit、wz_street_integration、gongguan_layout_nav、reachability_all --zones wenzhou,gongguan；GLB 和 patch 一起接。ART-WZ7 三件已在溫州街模型裡（README 4b），請改總表",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "未派",
+   "note": "溫州街舊店面翻修第二、三批：照 AA_164 7b 補缺的層、公館騎樓 39 樣門口雜物、販賣機展示窗；門口雜物導航阻擋（正式模型接上才擋）。j19c 回歸 ALL PASS、j19d 遊戲內前後 12 張"
   }
  ]
 }
