@@ -140,15 +140,18 @@ const MSG=(function(){
     m=p.match(/^(\d{1,2})～(\d{1,2}) 月$/); if(m){ const x=md(G); if(!x) return false; const lo=+m[1], hi=+m[2]; return lo<=hi?(x.m>=lo&&x.m<=hi):(x.m>=lo||x.m<=hi); }
     m=p.match(/^(\d{1,2}) 月$/); if(m){ const x=md(G); return !!x&&x.m===+m[1]; }
     m=p.match(/^(?:寒假 |暑假 )?(\d{1,2})\/(\d{1,2})～(\d{1,2})\/(\d{1,2})$/); if(m) return inMD(G,[+m[1],+m[2]],[+m[3],+m[4]]);
+    m=p.match(/^週([一二三四五六日]) (\d{1,2}):(\d\d) 以後$/); if(m) return wd==='日一二三四五六'.indexOf(m[1])&&h>=+m[2]+(+m[3])/60;   /* 子晴「剛跟芷若視訊完」〔週日 22:30 以後〕（BB_178 第 2 節）*/
     m=p.match(/^週([一二三四五六日])～([一二三四五六日]) (\d{1,2}):(\d\d) 以後$/); if(m){ const W='日一二三四五六'; const a=W.indexOf(m[1]), b=W.indexOf(m[2]); return wd>=a&&wd<=b&&h>=+m[3]+(+m[4])/60; }
     m=p.match(/^週([一二三四五六日])、週([一二三四五六日])(下午|晚上)?$/); if(m){ const W='日一二三四五六'; if(![W.indexOf(m[1]),W.indexOf(m[2])].includes(wd)) return false; return m[3]?TIME_TAGS.find(([k])=>k===m[3])[1](h):true; }
     m=p.match(/^(有|沒有) `([A-Z0-9_]+)`$/)||p.match(/^`([A-Z0-9_]+)`$/); if(m){ const f=m.length===3?m[2]:m[1], neg=m.length===3&&m[1]==='沒有'; const v=!!(G.flags&&G.flags[f])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,f)); return neg?!v:v; }
     if(p==='認識 Alison 才有') return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('yu')!=='STRANGER':false;
+    if(p==='美國路線'||p==='日本路線') return S.ytAbroad(G)===(p==='美國路線'?'US':'JP');   /* 可昕交往中 L 層「祐廷在國外」那兩則（BB_178 第 5 節）：那條路線、人在國外。原本認不得＝永遠選不到（AA_384 子代理 10-22 回報）*/
     return false; };
   S.tagOk=function(G,id,tag){ const s=String(tag).replace(/（[^）]*）|\([^)]*\)|〔[^〕]*〕/g,'').trim(); if(!s) return true;
     const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); if(id==='heroine_05'&&parts.includes('在美國')&&S.usWithHer(G)) return false; return parts.every(p=>S.tok(G,id,p)); };
   /* 學姊標「在美國」的那一則（事務版「在這邊的圖書館。有事嗎？」，照時差寫的）：祐廷也在布魯明頓（美國路線、人在美國）時不用（BB_178 第 3 節「美國路線：照時差寫的句子不用」；AA_370 L6）。
      情況版「在美國」（閒聊版四則：每條路線都一樣）走 sitOk，不受影響 */
+  S.ytAbroad=G=>{ if(typeof STORY==='undefined'||!STORY.routeAbroadRoute||!STORY.abroad) return null; const r=STORY.routeAbroadRoute(G); return r&&STORY.abroad(G)?r:null; };   /* 祐廷人在國外的路線（US／JP）；在臺灣、還沒出發、回來了＝null */
   S.usWithHer=G=>typeof STORY!=='undefined'&&!!STORY.route&&STORY.route(G)==='US'&&!!STORY.abroad&&STORY.abroad(G);
   /* 放假那幾版還要看人在哪（AA_369 H5，AA 2026-10-21；句子照原文、不改字）：①「在老家」那幾版只在 presence 是 home 的日子用——有老家的人（presence 有 home）的「放假在X／放假、在X／過年回X」，
      或句子寫了「在台中」「在宜蘭」「在新竹」「回家了」這種；②句子寫了「寒假」「過年」（或「寒假留…」那幾版）只在寒假用、寫「暑假」的只在暑假用；③人在臺北的日子用一般版（這裡回 false，S.pick 就用一般版）；
@@ -175,6 +178,7 @@ const MSG=(function(){
     if(v==='上午傳的') return !!(ctx&&ctx.late)&&yearNow(G)<=3;   /* 子晴：下午兩點才醒，前一晚到早上傳的（大一～大三；大四照上班時間）*/
     if(v==='大三起、課輔班那天'||v==='大三起、書店那天') return yearNow(G)>=3;
     if(v==='大二下在家重考') return yearNow(G)===2&&semNow(G)==='S2';
+    if(v==='祐廷在國外'){ const at=ctx&&ctx.at; if(!S.ytAbroad(G)||!at||at.late) return false; const z=typeof STORY!=='undefined'&&STORY.tzOffset?(STORY.tzOffset(G,at.day)||0):0, tw=(((at.h-z)%24)+24)%24; return tw>=23.5||tw<5; }   /* 她那邊（臺灣）23:30 以後回的那一則（variantNote）：照她回的那一刻換回臺灣時間；隔天早上才回的不用（同 kxdrift3d.js 朋友層的 S.frAbroad）*/
     if(v==='芷若在英國') return S.inUK(G,'heroine_02')&&typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_02','FIRST_MET')&&!S.rec(G).once[id+':zr_uk:'+S.zrUkKey(G)];   /* 子晴（BB_178 第 2 節）：祐廷認識芷若；一段期間只播一次 */
     return false; };
   /* 旅行、出國的日子（AA_369 第 7 節第 5 題，AA 2026-10-21 19:5x；句子照原文）：H5 讓放假那幾版退回一般版，一般版裡有「在總圖。」——旅行、出國的日子改回
@@ -203,7 +207,7 @@ const MSG=(function(){
       const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
-      const sit=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true); if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);
+      const sit0=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===true), ab=sit0.filter(e=>e.variant==='祐廷在國外'), sit=ab.length?ab:sit0; if(sit.length) return rot(R,id,topic+tr+'|'+sit[0].variant,sit);   /* 在國外先（檔頭：在國外 → 放假 → 考試週 → 深夜）：可昕「祐廷在國外」那一則蓋過同時成立的考試週、深夜 */
       const gen=inTier.filter(e=>S.sitOk(G,id,e.variant,ctx,e)===null); if(gen.length) return rot(R,id,topic+tr,gen); }
     return null; };
   /* 開頭句（thenGeneral）：先說這一句，再接一般版（明軒「剛家教完 你說什麼」、子晴「早／剛看到」；BB_178）*/
@@ -271,6 +275,7 @@ const MSG=(function(){
     'classmate_mingxuan:tutor_intro':{ev:'ev_mingxuan_tutor_intro',flag:'TUTOR_WD'},   /* 答應的那一次 */
     'classmate_mingxuan:notes_photo':{help:'notes'},
     'npc_fangyt:f1_pothos':{ev:'ev_fangyt_pothos',flag:'POTHOS'},
+    'npc_fangyt:f3_declined':{msgDay:'zz_f3_fang'},   /* AA_257 §8「還好嗎（F3 芷若婉拒）」（AA_232 第三節，ZZ.fy='declined'）：他傳「她跟我說了。」那三則（zrzq3d.js，tag zz_f3_fang）收到那天起 3 天 */
     'kevin:old_book':{flag:'KEVIN_OLD_BOOK',from:['2025-09-05',20]},
     'kevin:notes_exams':{help:'notes'} };
   const AA6_NOTES=['heroine_01','zhe','yu','classmate_bohan','classmate_xinci'];   /* AA 六位的「謝謝」沒有固定事件：先用通則（問課她回了筆記照片）；語彤沒有問課，不開 */
@@ -282,6 +287,7 @@ const MSG=(function(){
       if(m.ev){ d=evDay(G,m.ev); if(d==null) continue; if(m.flag&&(G.flags||{})[m.flag]==null) continue; if(m.flag&&G.flags[m.flag]===false) continue; }
       else if(m.help){ const h=R.help[id]; if(!h||h.k!==m.help) continue; d=h.day; if(c.date&&c.date!=='同班期間'&&!S.tagOk(G,id,c.date)) continue; }
       else if(m.flag){ if(!(G.flags||{})[m.flag]) continue; d=dayOf(m.from[0]); if(d==null||G.day<d||(G.day===d&&G.hour%24<m.from[1])) continue; }
+      if(m.msgDay){ const ms=(G.msgs||[]).find(x=>x&&x.tag===m.msgDay); if(!ms) continue; d=ms.day; }   /* 那則訊息真的收到（不是排著）的那一天起算 */
       if(m.on){ if(!inDates(G,m.on,m.on)) continue; d=G.day; }
       if(m.dates){ if(!inDates(G,m.dates[0],m.dates[1])) continue; if(d==null) d=dayOf(m.dates[0]); }
       if(m.msg&&!(typeof PHONE!=='undefined'&&PHONE.sent&&PHONE.sent(G,m.msg))) continue;
@@ -337,7 +343,7 @@ const MSG=(function(){
     if(o.mode==='keep'&&!S.isT2(topic)){ const KR=keepReplies(), L=KR&&(KR[topic==='share'?'share_'+(sub||'cat'):topic]||KR[topic])||[]; const k='keep:'+topic+(topic==='share'?'_'+(sub||'cat'):''), i=(R.rot[k]|0)%Math.max(1,L.length); R.rot[k]=i+1;
       const h0=G.hour%24, at={day:G.day+Math.floor(G.hour/24),h:h0>=23?h0+0.1:23+seedMin(G,id,0,20)/60}; if(L.length&&typeof PHONE!=='undefined') PHONE.at(G,at.day,at.h,[{th,from:id,text:L[i]}],null); return {ok:true,text,at,keep:true}; }   /* 23:00 以後才看手機：白天傳的當晚一起回（AA_276 6-1）*/
     const at=S.replyAt(G,id); if(o.mode==='keep'){ const h0=G.hour%24; if(at.day===G.day&&h0<23&&at.h<23) Object.assign(at,{h:23+seedMin(G,id,0,20)/60,immediate:false,late:false}); }   /* 謝謝、生日、新年（AA_257 的 L）也延到 23:00 */
-    const ctx={immediate:!!at.immediate,win:!!at.win,late:!!at.late};
+    const ctx={immediate:!!at.immediate,win:!!at.win,late:!!at.late,at};   /* at：她回的那一刻（「祐廷在國外」照她那邊的時間）*/
     const t2=S.isT2(topic), pk=t2?S.pick2(G,id,topic):null; const e=t2?(pk&&pk.e):S.pick(G,id,topic,sub,ctx);
     if(pk&&pk.act&&topic==='thanks') R.thx[id+':'+pk.act.key]=pk.act.day;   /* 謝謝：同一件事一次 */
     if(t2&&e&&(e.tags||[]).some(g=>/初三 15:00 以後才回/.test(g))){ const c3=chuSan(G); if(c3!=null&&(at.day<c3||(at.day===c3&&at.h<15))) Object.assign(at,{day:c3,h:15+seedMin(G,id,0,30)/60,late:false,after:true,immediate:false}); }   /* 方奕廷過年在山上（AA_257 §8）*/

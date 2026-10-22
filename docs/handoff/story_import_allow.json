@@ -1584,11 +1584,17 @@
   },
   {
    "path": "docs/story_planning/AA_384_可昕慢慢分手_實作後十四題.md",
-   "sha": "b6588bf5",
+   "sha": "1a4f2eb3",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（回 LAWWW 08:49 十四題；D100、D109）；台詞手動放進 src/kxdrift3d.js 的 KXDRIFT.LF（子代理 3c0a0ea9，LAWWW 帳號 A 合併 5d5adbad）；tests/aa384_kx_friend_unit.js 逐句對稿",
+   "approvedBy": "AA（帳號 A）2026-10-22 09:45 定稿（AA_384 E 節：D6 午餐碰到暑假＝順延到開學後第一個週六，週四 21:00 她傳「週六中午，公館。吃個飯。」；D100、D109）；LAWWW 帳號 A 實作 kxdrift3d.js S.r6Thu（tests/aa384e_kx_d6_summer_unit.js）",
    "task": "AA351-KX-DRIFT-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "b6588bf5",
+     "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（回 LAWWW 08:49 十四題；D100、D109）；台詞手動放進 src/kxdrift3d.js 的 KXDRIFT.LF（子代理 3c0a0ea9，LAWWW 帳號 A 合併 5d5adbad）；tests/aa384_kx_friend_unit.js 逐句對稿"
+    }
+   ]
   }
  ]
 }

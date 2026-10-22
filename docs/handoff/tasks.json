@@ -25874,7 +25874,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW 帳號 A 10-22 09:4x】AA_384 十四題進開發分支（子代理 3c0a0ea9、合併 5d5adbad，放 v9.10.6）：朋友層訊息 R、尾聲朋友版、「她會約」一學期一次午餐（ev_kx_drift_r7）、D6 拿掉祐廷生日、只看玩家自己約的（她約的 by:npc 不算）、D1 拿掉 118 巷、畢業那天 12:00 drift 版；aa384_kx_friend_unit 54 項（修改前 FAILED 27）、aa351 90 項、全部 476 支單元測試 ALL PASS；白名單 AA_351→b6588bf5、AA_384@b6588bf5。待 BB 瀏覽器測；兩件範圍外問 AA（D5 在春季學期末＝D6 午餐落在暑假她在高雄；交往中 L 層「祐廷在國外」兩則 sitOk 認不得→LAWWW 查） ｜ 【AA 08:52（AA_384，企劃線 b6588bf5；AA_351 跟著改）】14 題都回了：朋友層 R 的回覆、尾聲朋友版、一學期一次的午餐、D6 拿掉祐廷生日、劇情手機出遊不算單獨、D1 拿掉 118 巷、畢業那天 drift 版「恭喜。」＋一句；8、9 照舊——08:5x 派子代理接著做（worktree，基礎 8352054b） ｜ AA 回覆子代理的 15 個解讀與缺的句子（朋友層回覆、尾聲朋友版、祐廷生日、分開後她怎麼約、哪些劇情出遊算單獨、118 巷、分開後還會出現的前任口氣四處）；BB 瀏覽器（v9.10.6）照 AA_351 第 6 節：做對（數字一直 0～1）、修補成功、分開三條；交換那一學期不演 D1／D2 見面／D4／D5；寒暑假不演 D4／D5；大四下不分手；分開以後心意邀約沒有可昕 ｜ 【LAWWW（帳號 A）2026-10-22 07:1x】子代理在 worktree 照 AA_351（c29c49eb）整包做（D0～D6、第 2 節加減含「一週最多一次」、只在學期末、交換／寒暑假／大四下的限制、分開後 canStart false、心意邀約沒有可昕、尾聲朋友版；第 6 節「只看 dating_kexin false 的句子」列給 AA）；新測試 tests/aa351_kx_drift_unit.js 修改前要失敗；做完 LAWWW 合併、跑回歸、派 BB（三條路線：做對、修補成功、分開） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理",
+   "next": "【LAWWW 帳號 A 10-22 09:5x】AA_384 E 節（企劃線 1a4f2eb3，AA 選①）做了：D6 午餐那個週六她在高雄（D5 在春季學期末）＝第 61 天那一則照傳、午餐順延到開學以後第一個週六，那週週四 21:00 她傳「週六中午，公館。吃個飯。」（kxdrift3d.js S.r6Thu；tests/aa384e_kx_d6_summer_unit.js 修改前 FAILED 5）；白名單 AA_384→1a4f2eb3 ｜ 【LAWWW 帳號 A 10-22 09:4x】AA_384 十四題進開發分支（子代理 3c0a0ea9、合併 5d5adbad，放 v9.10.6）：朋友層訊息 R、尾聲朋友版、「她會約」一學期一次午餐（ev_kx_drift_r7）、D6 拿掉祐廷生日、只看玩家自己約的（她約的 by:npc 不算）、D1 拿掉 118 巷、畢業那天 12:00 drift 版；aa384_kx_friend_unit 54 項（修改前 FAILED 27）、aa351 90 項、全部 476 支單元測試 ALL PASS；白名單 AA_351→b6588bf5、AA_384@b6588bf5。待 BB 瀏覽器測；兩件範圍外問 AA（D5 在春季學期末＝D6 午餐落在暑假她在高雄；交往中 L 層「祐廷在國外」兩則 sitOk 認不得→LAWWW 查） ｜ 【AA 08:52（AA_384，企劃線 b6588bf5；AA_351 跟著改）】14 題都回了：朋友層 R 的回覆、尾聲朋友版、一學期一次的午餐、D6 拿掉祐廷生日、劇情手機出遊不算單獨、D1 拿掉 118 巷、畢業那天 drift 版「恭喜。」＋一句；8、9 照舊——08:5x 派子代理接著做（worktree，基礎 8352054b） ｜ AA 回覆子代理的 15 個解讀與缺的句子（朋友層回覆、尾聲朋友版、祐廷生日、分開後她怎麼約、哪些劇情出遊算單獨、118 巷、分開後還會出現的前任口氣四處）；BB 瀏覽器（v9.10.6）照 AA_351 第 6 節：做對（數字一直 0～1）、修補成功、分開三條；交換那一學期不演 D1／D2 見面／D4／D5；寒暑假不演 D4／D5；大四下不分手；分開以後心意邀約沒有可昕 ｜ 【LAWWW（帳號 A）2026-10-22 07:1x】子代理在 worktree 照 AA_351（c29c49eb）整包做（D0～D6、第 2 節加減含「一週最多一次」、只在學期末、交換／寒暑假／大四下的限制、分開後 canStart false、心意邀約沒有可昕、尾聲朋友版；第 6 節「只看 dating_kexin false 的句子」列給 AA）；新測試 tests/aa351_kx_drift_unit.js 修改前要失敗；做完 LAWWW 合併、跑回歸、派 BB（三條路線：做對、修補成功、分開） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理",
    "done": "開發分支 0e465ae4（合併子代理 e028fe50，LAWWW 帳號 A 10-22 08:4x）：新檔 src/kxdrift3d.js——第 2 節加減全部（準時 −1、主動約她 −1 一週一次，只在大二上～大四下；畢業以後照 PGDATE 原本）、第 1 節範圍（只和她一位、交換／寒暑假／大四下）、D1b、D2、D3、D4、修補期、D5（含電話版、文字版）FIXED；分開以後 ROM.canStart false、女朋友期末約會關掉、K5／K7／階梯照 dating_kexin 停、取消她排好的東西。PARTIAL：D0（邀約、校外約會、去她的縣市接了；劇情裡手機答應的出遊、她們主動約你沒接）、D1（118 巷沒有單獨約的地點）、D6（祐廷生日沒定；朋友層的訊息回覆、她會約、尾聲朋友版沒有台詞）。tests/aa351_kx_drift_unit.js（修改前 36 FAIL、修改後 90 項 ALL PASS）；子代理全部單元測試 469 支通過；合併後 aa351、kxod、termend、inv_both_present、alison、aa296、pg_askat_home ALL PASS"
   },
   {
@@ -29033,7 +29033,7 @@
    "id": "ZZ-MSGPOOL-LINE-1022",
    "title": "芷若×子晴交往中：回覆池收 BB_178 第 2 節那一句（標「兩人交往中」；tools/msg/build_pool.py 重產 msg_pool），程式的標籤 zrzq3d.js 已接",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v2",
    "first": {
@@ -29048,13 +29048,13 @@
    },
    "source": "AA_232 子代理回報（LAWWW 帳號 A 10-22 09:2x 合併 1ecb7124）",
    "authorized": "D109（AA 定稿的句子照放）",
-   "next": "讀 BB_178 第 2 節找那一句、build_pool.py 加標籤條件、重產、單元測試"
+   "next": "【LAWWW 帳號 A 10-22 09:5x】做了：tools/msg/build_pool.py 收 BB_178 第 2 節交往中那一句（子晴「剛跟芷若視訊完」「她那邊才下午」，標「兩人交往中」＋〔週日 22:30 以後〕），重產 msg_pool.js（421 則，其他不變）；msg3d.js S.tok 認得「週日 22:30 以後」（單一星期幾）；tests/zz_msg_lines_unit.js（修改前 FAILED 5）。放 v9.10.6，BB 測。好朋友（每月視訊）那一句還沒收：ZZ 哪一個狀態算「好朋友」問 AA ｜ 讀 BB_178 第 2 節找那一句、build_pool.py 加標籤條件、重產、單元測試"
   },
   {
    "id": "ZZ-FANG-EV2-DECLINED-1022",
    "title": "msg3d.js EV2 加 npc_fangyt:f3_declined（AA_257 §8 方奕廷「還好嗎」兩列）：芷若婉拒（ZZ.fy='declined'、ev_zz_f3_told、私訊 tag zz_f3_fang）已存在，可以接",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P3",
    "area": "v3",
    "first": {
@@ -29069,7 +29069,49 @@
    },
    "source": "AA_232 子代理回報（10-22）",
    "authorized": "D109",
-   "next": "讀 AA_257 §8 兩列；msg3d.js EV2 照現有寫法加；單元測試"
+   "next": "【LAWWW 帳號 A 10-22 09:5x】做了：msg3d.js EV2 加 npc_fangyt:f3_declined（msgDay：他傳的那三則 tag zz_f3_fang 真的收到那天起 3 天）；A「還好。謝謝。」、R「還好。她說得很清楚。……這樣比較好。」；tests/zz_msg_lines_unit.js。放 v9.10.6，BB 測 ｜ 讀 AA_257 §8 兩列；msg3d.js EV2 照現有寫法加；單元測試"
+  },
+  {
+   "id": "BUG-MSG-ABROAD-VARIANT-1022",
+   "title": "可昕交往中 L 層「祐廷在國外」那兩則（BB_178 第 5 節，美國路線／日本路線）永遠選不到：msg3d.js S.tok 認不得「美國路線」「日本路線」、S.sitOk 認不得「祐廷在國外」（AA_384 子代理 10-22 回報）",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "next": "【LAWWW 帳號 A 10-22 09:5x】修了：S.tok 認路線（那條路線、人在國外）；S.sitOk「祐廷在國外」＝她回的那一刻換回臺灣時間 23:30～05:00、不是隔天早上才回；同時成立時蓋過考試週、深夜（檔頭：在國外 → 放假 → 考試週 → 深夜）；tests/msg_kx_abroad_unit.js（修改前 3 項 FAIL）。放 v9.10.6，BB 測。另外記：S.sitOk 的「深夜」「00:30 以後傳的」用祐廷當地的時間，人在國外時不是她那邊的時間（範圍外，另開 MSG-ABROAD-SIT-TZ-1022）",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本／美國路線、和可昕交往中",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_384 子代理回報（3c0a0ea9）",
+   "authorized": "既有授權（BB_178 第 5 節定稿的句子出不來＝BUG）"
+  },
+  {
+   "id": "MSG-ABROAD-SIT-TZ-1022",
+   "title": "人在國外時，臺灣朋友回訊息的情況版（深夜、00:30 以後傳的）照祐廷當地的時間判斷：美國當地 02:00（她那邊下午兩點）會回「睡不著」那一類",
+   "area": "SYS",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "next": "msg3d.js S.sitOk 的「深夜」「00:30 以後傳的」改看她回的那一刻、她那邊的時間（臺灣的人＝ctx.at 換回臺灣時間；學姊、何俊朗在美國、以安在日本照當地，同 jp3d.js／us_life3d.js 包 MSG.replyAt 的例外）；測試照 tests/msg_kx_abroad_unit.js",
+   "first": {
+    "term": "Y3S2",
+    "week": 1,
+    "earliest": "日本／美國路線",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "LAWWW 帳號 A 10-22 修 BUG-MSG-ABROAD-VARIANT-1022 時發現",
+   "authorized": "既有授權（BUG）"
   }
  ]
 }

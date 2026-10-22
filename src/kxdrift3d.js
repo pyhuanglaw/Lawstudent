@@ -292,7 +292,14 @@ const KXDRIFT=(function(){
   S.occasions=function(G,E){ const lo=E+S.D6_QUIET+1, hi=lo+S.D6_LOOK, C=[];   /* 自然的日子：祐廷放榜、考上（AA_384 第 4 項：祐廷的生日拿掉）*/
     S.PASS.forEach((p,i)=>{ const d=DK(p.key); let on=false; try{ on=d!=null&&d>=lo&&d<=hi&&!!p.track(G); }catch(e){ on=false; } if(on) C.push({day:d,kind:'pass',i}); });
     return C.sort((a,b)=>a.day-b.day); };
-  S.r6Send=function(G,r,L,day,h){ PHONE.at(G,day,h,L.map(K),'kx_drift_r6_msg'); r.st='sent'; r.msgDay=day; S.r6Ask(G,r,day,h+1/6,1); };
+  /* AA_384 E 節（企劃線 1a4f2eb3；AA 10-22 09:45 選①）：午餐那個週六她在高雄（D5 在春季學期末＝第 61 天落在暑假；AA_276 寒暑假回高雄）——
+     第 61 天那一則照傳（手機在哪裡都收得到），午餐順延到開學以後第一個週六（她回臺北），那週週四 21:00 她傳「週六中午，公館。吃個飯。」；
+     選項、不行照 D6（S.r6No）；不在高雄另外約、不加新地點 */
+  S.herHome=(G,d)=>{ if(typeof STORY==='undefined'||!STORY.presence) return false; const p=STORY.presence(KX,Object.assign({},G,{day:d,hour:12,weekday:wdOf(d)})); return !!p&&p.here===false&&p.kind==='home'; };
+  S.r6Thu=function(G,day){ const sat=S.nextSat(G,day); if(sat==null||!S.herHome(G,sat)) return null;
+    const i=S.TERMS.indexOf(termAt(day)), nx=i>=0?S.TERMS[i+1]:null, r=nx&&CALENDAR.termDays?CALENDAR.termDays(nx):null; if(!r) return null;
+    const s2=S.nextSat(G,r.from-1,d=>!S.herHome(G,d)); return s2!=null&&s2-2>day?s2-2:null; };   /* 開學以後第一個週六（她在臺北）的週四；沒有下一個學期＝照舊 */
+  S.r6Send=function(G,r,L,day,h){ PHONE.at(G,day,h,L.map(K),'kx_drift_r6_msg'); r.st='sent'; r.msgDay=day; const thu=S.r6Thu(G,day); if(thu!=null){ r.post=thu; S.r6Ask(G,r,thu,21,1); } else S.r6Ask(G,r,day,h+1/6,1); };
   S.r6Ask=function(G,r,day,h,n){ const sat=S.nextSat(G,day), tag='kx_drift_r6_ask'+n, until=T(sat,11.5);
     PHONE.at(G,day,h,[Object.assign(K(S.L.r6.lunch),{ask:{id:tag,until,opts:[{t:S.L.r6.lunchOpts[0],set:{KXD_R6_ANS:'yes'}},{t:S.L.r6.lunchOpts[1],set:{KXD_R6_ANS:'no'}}]}})],tag);
     Object.assign(r,{st:'asked',sat,untilAsk:until,n}); };
