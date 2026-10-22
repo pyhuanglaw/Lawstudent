@@ -3,7 +3,7 @@
 // 檢查：0 讀稿（每一句台詞都在稿裡）、index.html 接線、talkSis／talkCharacter 在 SISY23.preTalk 沒演時問 SISB4.preTalk、人物頁記憶 10 個
 //   1 第 1 節四場（說話前接演；熟悉以上；一般、交往中；時段；日本路線 1-4 不演；不熟、分開過的不演；演一次；talkSis 實際接演、SISY23 那一段先演）
 //   2 第 2 節：AA_379 2-6 一般版那一句——聽過她提美國的（階梯大二下過了 S4-Lx、記憶 SIS5_EXCHANGE_APP、SIS_ADV_EXCH go）換兩句；都沒聽過照原句；交往中不動
-//   3 第 3 節（只有交往中）：3-1 聖誕 Café 門口、3-2 研究室、3-3 2028-12-24 那一頓多兩句、學姊交往版期末約會避開 12/24、3-4 植物園、3-5 公車到終點站、3-6 電話；沒來的私訊；不交往的都沒有
+//   3 第 3 節（只有交往中）：3-1 聖誕 Café 門口、3-2 研究室、3-3 2028-12-24 21:00 私訊（c6a290fe 改：原本加在那一頓的兩句拿掉）、學姊交往版期末約會避開 12/24、3-4 植物園、3-5 公車到終點站、3-6 電話；沒來的私訊；不交往的都沒有
 //   4 第 4 節：分開過的玩家滿 6 週才演三件事（前任／被發現退回朋友兩種第一句）；沒演三件事沒有告白；演過以後兩次正式校外約會、第二次結尾告白＝答應（BB_122 9-2 的台詞）；期末心意邀約不給分開過的
 //   5 閒聊階梯（白名單 5ef4e291 匯入）：大三上 S5-L8 交往中 extraIf、大三下 S6-L1 skipIf SIS_VDAY_Y3:went
 // 修改前（開發分支 8a99f2ed）：沒有 SISB4、階梯沒有那兩個欄位（第 0 項起大多 FAIL）。用法：node tests/aa386_sis_batch4_unit.js
@@ -13,7 +13,7 @@ const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('chil
 const {check,GM}=H;
 const load=f=>{ const p=path.join(H.ROOT,f); if(!fs.existsSync(p)) return false; let src=fs.readFileSync(p,'utf8'); src=src.replace(/^const ([A-Z][A-Z0-9_]*)\s*=/mg,'globalThis.$1='); vm.runInThisContext(src,{filename:f}); return true; };
 const ok0=load('src/data/sis_y2y3_events.js')&&load('src/sis_y2y3_3d.js'), ok1=load('src/data/sis_b4_events.js'), ok2=load('src/sis_b4_3d.js');
-let doc=''; try{ doc=cp.execSync('git show 9a814945:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
+let doc=''; try{ doc=cp.execSync('git show c6a290fe:"docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
 const inDoc=t=>doc.indexOf(t)>=0;
 const J=JSON.stringify, ID='heroine_05', X=()=>typeof SISB4!=='undefined'?SISB4:null;
 const ev=id=>STORY_EVENTS.find(e=>e.id===id);
@@ -32,7 +32,7 @@ const sisN={id:'sis',charId:ID,name:'溫學姊',obj:{position:{x:1,y:0,z:1}},sea
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中斷這一節）',false,String(e&&e.stack||e).slice(0,300)); } };
 (async()=>{
   /* ======================= 0 讀稿、接線 ======================= */
-  check('0. 讀稿（企劃線 9a814945 AA_386：3-4 是臺北植物園；第 6 節 AA 回十個解讀）',doc.length>5000&&inDoc('## 4. 重新開始：她的三件事')&&inDoc('2/14 14:00 臺北植物園'));
+  check('0. 讀稿（企劃線 c6a290fe AA_386：3-4 是臺北植物園；第 6 節 AA 回十個解讀；3-3 改成 12/24 21:00 的私訊）',doc.length>5000&&inDoc('## 4. 重新開始：她的三件事')&&inDoc('2/14 14:00 臺北植物園')&&inDoc('2028-12-24（日）21:00 她私訊'));
   check('0. 新檔載得到：SISB4、SISB4_LINES、SISB4_EVENTS（第 3 節五場出遊＋說話前接演五段＝10 筆）',ok0&&ok1&&ok2&&!!X()&&Array.isArray(SISB4_EVENTS)&&SISB4_EVENTS.length===10&&['ev_sis_adv_grad','ev_sis_adv_exch','ev_sis_adv_pick','ev_sis_adv_y4','ev_sis_xmas_y2','ev_sis_xmas_y3','ev_sis_vday_y2','ev_sis_vday_y3','ev_sis_vday_y4','ev_sis_three_conditions'].every(id=>!!ev(id)),J({ok0,ok1,ok2,n:typeof SISB4_EVENTS!=='undefined'&&SISB4_EVENTS.length}));
   await sec('0',async()=>{   /* 修改前沒有 SISB4：每一節照樣跑、照樣算 FAIL（不在第 0 項就停）*/
   { const html=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), st=fs.readFileSync(path.join(H.ROOT,'src/story3d.js'),'utf8');
@@ -157,13 +157,18 @@ const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（中
       L.includes('（她寫了三行，刪了兩行。）')&&L.includes('你在旁邊，我刪得比較快。')&&L.includes('如果三月的信是好消息，明年的今天，我剛回來一天。')&&!L.includes('……明年的今天，我們剛回來一天。')&&!L.includes('去年是 Café 門口。今年是研究室。'),J(L)); }
   { setup('2027-12-24',20.55,'dorm','FRIEND'); dateSis(); rules(); PHONE.answer(H.G,'sisb4_xmas_y3_ask',1); rules(); const a=dms().slice(-1)[0]; at('2027-12-24',21.6); rules();
     check('3-2. 「今天晚上不行。」→「好。」；21:30「📷（研究室門口的桌上，一棵很小的聖誕樹）」「學妹的。我幫她顧。」',a==='好。'&&J(dms().slice(-2))===J(['📷（研究室門口的桌上，一棵很小的聖誕樹）','學妹的。我幫她顧。'])&&H.G.flags.SIS_XMAS_Y3==='no',J(dms())); }
-  /* 3-3 */
-  { const din=async(key,flags)=>{ H.fresh(key,18.5,'campus',Object.assign({met_sis:true},flags||{})); H.CLOSE(ID); dateSis(); if(STORY._bindGM) STORY._bindGM(GM); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_Y4S1_'+ID,te:{term:'Y4S1',who:ID,kind:'gf'}}); return said(); };
-    const B=['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'], E1='去年在研究室說的。剛回來一天。';
-    const us=await din('2028-12-24',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'US'}), tw=await din('2028-12-24',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'TW'}), d26=await din('2028-12-26',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'US'}), no=await din('2028-12-24',{SIS_XMAS_Y3:'missed',EXCHANGE_ROUTE:'US'});
-    const after=(L,x)=>{ const i=L.indexOf(B[1]); return i>0&&L[i-1]===B[0]&&J(L.slice(i+1,i+1+x.length))===J(x); };
-    check('3-3. 2028-12-24 的學期末那頓（學姊交往版大四上）、3-2 有來：「……可是這頓我不想錯過。」後面多「去年在研究室說的。剛回來一天。」「……我們做到了。」（美國路線）；臺灣路線「……我做到了。」',after(us,[E1,'……我們做到了。'])&&after(tw,[E1,'……我做到了。']),J({us,tw}));
-    check('3-3. 不是 12/24 吃的、3-2 沒來的：照現在',after(d26,[])&&!d26.includes(E1)&&!no.includes(E1)&&!no.includes('……我們做到了。')&&no.includes(B[1]),J({d26,no})); }
+  /* 3-3（企劃線 c6a290fe，AA 14:2x：學期末那頓排不到 12/24（臺灣 12/25、美國 12/26），改成當天 21:00 的私訊；那一頓不加句子）*/
+  { const X3=['今天是二十四號。','去年在研究室說的。……剛回來一天。'];
+    for(const x of X3.concat(['我做到了。','我們做到了。'])) if(!inDoc(x)) check('3-3. 稿裡有「'+x+'」',false);
+    const dm3=(key,route,flags,dat)=>{ setup(key,8,'dorm','CLOSE',Object.assign({EXCHANGE_ROUTE:route},flags||{})); if(dat!==false) dateSis(); rules(); at(key,21.1); rules(); return dms(); };
+    const us=dm3('2028-12-24','US',{SIS_XMAS_Y3:'there'}), tw=dm3('2028-12-24','TW',{SIS_XMAS_Y3:'there'});
+    check('3-3. 2028-12-24（日）21:00 私訊（交往中、3-2 有來）：「今天是二十四號。」「去年在研究室說的。……剛回來一天。」，美國路線「我們做到了。」／臺灣路線「我做到了。」',J(us.slice(-3))===J(X3.concat(['我們做到了。']))&&J(tw.slice(-3))===J(X3.concat(['我做到了。'])),J({us,tw}));
+    const no=dm3('2028-12-24','US',{SIS_XMAS_Y3:'missed'}), nd=dm3('2028-12-24','TW',{SIS_XMAS_Y3:'there'},false), late=dm3('2028-12-25','TW',{SIS_XMAS_Y3:'there'});
+    check('3-3. 3-2 沒來、沒交往、12/24 過了才到（12/25）：都沒有這一則',![no,nd,late].some(L=>L.includes(X3[0])||L.includes(X3[1])),J({no,nd,late}));
+    const din=async(key,flags)=>{ H.fresh(key,18.5,'campus',Object.assign({met_sis:true},flags||{})); H.CLOSE(ID); dateSis(); if(STORY._bindGM) STORY._bindGM(GM); H.said=[]; H.picks=[0,0,0]; await TERMEND.dinner(GM,{id:'te_gf_Y4S1_'+ID,te:{term:'Y4S1',who:ID,kind:'gf'}}); return said(); };
+    const B=['時差還沒調好。我現在很想睡。','……可是這頓我不想錯過。'], d24=await din('2028-12-24',{SIS_XMAS_Y3:'there',EXCHANGE_ROUTE:'US'});
+    const i24=d24.indexOf(B[1]);
+    check('3-3. 學期末那頓（學姊交往版大四上）照原本兩句，就算 12/24 吃、3-2 有來也不加（原本的「剛回來一天。」「……我們做到了。」拿掉）',i24>0&&d24[i24-1]===B[0]&&!d24.some(t=>/剛回來一天|做到了/.test(t)),J(d24)); }
   { const w=TERMEND.windowOf('Y3S1'); H.fresh('2027-12-23',9,'dorm',{}); const x=H.D('2027-12-24');
     const gf=TERMEND.dinnerDay(H.G,w,{h:18.5,wd:5,gf:true},ID), plain=TERMEND.dinnerDay(H.G,w,{h:18.5,wd:5},ID), zr=TERMEND.dinnerDay(H.G,w,{h:18.5,wd:5,gf:true},'heroine_02');
     check('3. 學期末那頓（學姊交往版）挑日子避開 12/24：大三上排在週五的話跳過 12/24 改下週五；不是女朋友版、別人照舊；表上是大二上、大三上',gf!==x&&gf===x+7&&plain===x&&zr===x&&J((TERMEND.XMAS_GF||{})[ID])===J({Y2S1:'2026-12-24',Y3S1:'2027-12-24'}),J({gf,plain,zr,x})); }
