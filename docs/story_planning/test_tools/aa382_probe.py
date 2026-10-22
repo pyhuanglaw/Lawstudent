@@ -91,7 +91,7 @@ KX_WEEK = [('2030-01-04', '2030-01-05', '跨年那天我十點就睡了。受訓
            ('2030-11-30', '2030-12-01', '這禮拜有個當事人在會議室哭了。我把整包衛生紙推過去，等她哭完，再繼續問。', '今天有個當事人在會議室哭了。我把整包衛生紙推過去，等她哭完，再繼續問。')]
 MX_NEW = '你放榜那天，我在上班。在茶水間看完的。'; MX_OLD = '你放榜那天，我剛好下班。在公車上看完的。'
 DK_KEYS = ['2025-09-24', '2026-09-06', '2027-09-05', '2028-09-03', '2028-02-20', '2028-03-25', '2028-08-05', '2028-08-02', '2028-12-23', '2029-06-01', '2029-06-02', '2029-06-03',
-           '2029-06-28', '2029-06-29', '2029-07-05', '2029-07-07', '2029-07-08', '2029-09-03', '2029-12-31', '2030-01-01', '2030-03-03', '2030-06-01', '2030-06-02', '2030-06-03', '2030-12-20']
+           '2029-06-28', '2029-06-29', '2029-07-05', '2029-07-07', '2029-07-08', '2029-09-03', '2029-12-31', '2030-01-01', '2030-03-03', '2030-06-01', '2030-06-02', '2030-06-03', '2030-12-20', '2028-05-29']
 
 
 # ---------------------------------------------------------------- 共用
@@ -524,8 +524,46 @@ async def s_epi(p, run, sid, out):
     await close(b)
 
 
-ORDER = ['SEA_GO', 'SEA_NO', 'SEA_NOREPLY', 'SEA_SIT', 'SEA_LATE', 'SEA_FRIEND', 'GRAD_US', 'GRAD_JP', 'CARD_US', 'CARD_JP', 'Y5_A', 'Y5_B', 'K26_DELAY', 'K26_MISS', 'KX_WEEK', 'EPI_MX']
-FN = dict({k: s_sea for k in SEA}, GRAD_US=s_grad, GRAD_JP=s_grad, CARD_US=s_card, CARD_JP=s_card, Y5_A=s_y5, Y5_B=s_y5, K26_DELAY=s_k26, K26_MISS=s_k26, KX_WEEK=s_kxweek, EPI_MX=s_epi)
+# ---------------------------------------------------------------- 【7】芷若選了方奕廷的尾聲（RELEASE-9106-TEST 第 5 項，958c3fc1：ZR_FY）
+ZR_FYL = '（他去倒水的時候）他到現在還記得我每一部看過的電影。……連我自己忘了的都記得。'
+ZR_MAIN = ['公館那間小戲院，這個月放的都是老片。四十個座位。', '倒數第三排，我還是留給一個人來的客人。']
+FY_ZR = ['我下個月調回台北。', '她說戲院週末缺一個人顧門口。']
+FY_2030 = '那一年你在考試。……我知道。'
+
+
+async def s_epi_zr(p, run, sid, out):
+    """EPI_ZRFY：舊存檔的 F3（FANG_F3 direct、5/29）＝ZZ 建起來 fy seeing → ZR_FY；尾聲芷若 zr.fy、奕廷 fy.zr。EPI_ZR：對照（沒有 F3）"""
+    res = out.setdefault(sid, {}); fy = sid == 'EPI_ZRFY'
+    def fl(dk):
+        F = dict(route_flags('TW', dk), BAR_YEAR=2030, FIRST_DAY_SEEN=True, PG={'done': {'grad': 1, 'first': 1}})
+        if fy: F.update({'FANG_F3': 'direct', 'FANG_F3_DAY': dk['2028-05-29'], 'FANG_F3_J1': dk['2028-05-29']})
+        return F
+    b, pg, cdp, errs, dk, r = await launch(p, run, sid, '2030-12-20', 12.0, fl, {'rel': {'heroine_02': [45, 30, 10], 'npc_fangyt': [25, 10, 10]}},
+                                           label='%s（2030 年考上；芷若朋友、奕廷熟悉；%s；2030-12-20 12:00 校園）' % (sid, '2028-05-29 F3 芷若答應了奕廷（FANG_F3 direct，沒有 ZZ 紀錄＝舊存檔）' if fy else '沒有 F3'))
+    try:
+        res['pre'] = r; rec = {}
+        zz0 = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {fy:(F.ZZ||{}).fy||null, ZR_FY:F.ZR_FY===undefined?null:F.ZR_FY}; })()")
+        stop = [FY_ZR[0], FY_2030, '山上沒有訊號。所以我每次下山，都會一次收到很多訊息。']
+        ok = await drive(pg, cdp, run, sid, "!!GAME.G.flags.EPILOGUE_DONE||(window.__LOG||[]).some(x=>%s.includes(x.t))" % json.dumps(stop), 900, {'picks': [], 'stuck': 420}, rec)
+        await pg.wait_for_timeout(2000)
+        log = await pg.evaluate("window.__LOG||[]"); T = lines(log); res.update({'rec': rec, 'log': log[-40:], 'end': await pg.evaluate(STATE)})
+        zz = await pg.evaluate("(()=>{ const F=GAME.G.flags; return {fy:(F.ZZ||{}).fy||null, ZR_FY:F.ZR_FY===undefined?null:F.ZR_FY}; })()"); res['zz'] = [zz0, zz]
+        await run.shot(pg, '%s_end' % sid)
+        run.check('%s：跳到尾聲（2034-06-03 兩點半 Café），芷若、奕廷那一桌有演' % sid, ok, json.dumps(res['end'], ensure_ascii=False))
+        if fy:
+            run.check('%s：ZZ fy seeing → ZR_FY true（讀檔後遊戲自己記）' % sid, zz['fy'] == 'seeing' and zz['ZR_FY'] is True, json.dumps(res['zz'], ensure_ascii=False))
+            run.check('%s：芷若「%s」' % (sid, ZR_FYL[:18]), ZR_FYL in T and ZR_MAIN[0] not in T, json.dumps([t for t in T if '戲院' in t or '電影' in t], ensure_ascii=False)[:300])
+            run.check('%s：奕廷「%s」「%s」' % (sid, FY_ZR[0], FY_ZR[1]), all(x in T for x in FY_ZR), json.dumps(T[-8:], ensure_ascii=False)[:400])
+        else:
+            run.check('%s：對照——芷若照原本「%s」、沒有 zr.fy' % (sid, ZR_MAIN[0][:12]), ZR_MAIN[0] in T and ZR_FYL not in T, json.dumps([t for t in T if '戲院' in t or '電影' in t], ensure_ascii=False)[:300])
+            run.check('%s：對照——奕廷不是 fy.zr' % sid, FY_ZR[0] not in T, json.dumps(T[-8:], ensure_ascii=False)[:400])
+        errs_check(run, sid, res, errs)
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
+ORDER = ['SEA_GO', 'SEA_NO', 'SEA_NOREPLY', 'SEA_SIT', 'SEA_LATE', 'SEA_FRIEND', 'GRAD_US', 'GRAD_JP', 'CARD_US', 'CARD_JP', 'Y5_A', 'Y5_B', 'K26_DELAY', 'K26_MISS', 'KX_WEEK', 'EPI_MX', 'EPI_ZRFY', 'EPI_ZR']
+FN = dict({k: s_sea for k in SEA}, GRAD_US=s_grad, GRAD_JP=s_grad, CARD_US=s_card, CARD_JP=s_card, Y5_A=s_y5, Y5_B=s_y5, K26_DELAY=s_k26, K26_MISS=s_k26, KX_WEEK=s_kxweek, EPI_MX=s_epi, EPI_ZRFY=s_epi_zr, EPI_ZR=s_epi_zr)
 
 
 async def main():
