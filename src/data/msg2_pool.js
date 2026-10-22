@@ -87,7 +87,7 @@ const MSG2_POOL={
    {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "生日快樂"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["謝謝。店長幫我留了一塊蛋糕。"], "tags": ["2025、2026，Café 有班"], "src": "AA_257 §1 林芷若", "rowLabel": "生日快樂", "alt": "1/2", "split": "altByTag"},
    {"topic": "bday", "cond": null, "tier": "R", "msgs": ["（照片：一塊切得很整齊的蛋糕）", "謝謝。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "生日快樂", "alt": "2/2", "split": "altByTag"},
-   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……下班以後，你在嗎。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "生日快樂", "ask": {"q": "下班以後，你在嗎。", "src": "AA_257 §1 林芷若「回問」（2026-10-17 AA-C，b61e4f55）", "opts": [{"t": "在。", "r": ["九點，店門口。"]}, {"t": "今天不行。", "r": ["好。"]}]}},
+   {"topic": "bday", "cond": null, "tier": "L", "msgs": ["謝謝。……下班以後，你在嗎。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "生日快樂", "ask": {"q": "下班以後，你在嗎。", "src": "AA_257 §1 林芷若「回問」（2026-10-17 AA-C，b61e4f55）；「九點」改「十點」＝AA_373 第 6 節第 9 題（bdab2f42）", "opts": [{"t": "在。", "r": ["十點，店門口。"]}, {"t": "今天不行。", "r": ["好。"]}]}},
    {"topic": "ok", "cond": "z4_secret", "tier": "A", "msgs": ["還好。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "還好嗎（Z4 交換申請拖了兩個月）"},
    {"topic": "ok", "cond": "z4_secret", "tier": "R", "msgs": ["還好。……只是還沒寫。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "還好嗎（Z4 交換申請拖了兩個月）"},
    {"topic": "ok", "cond": "z4_secret", "tier": "L", "msgs": ["不太好。可是說出來以後，好一點。"], "tags": [], "src": "AA_257 §1 林芷若", "rowLabel": "還好嗎（Z4 交換申請拖了兩個月）"},

@@ -34,7 +34,9 @@ const EAT=(function(){
     if(key==='公館的便利商店'){ try{ if(typeof JOBS!=='undefined'&&JOBS.at&&JOBS.at(G,'cvs')) return null; }catch(e){} }
     return T; };
   S.count=function(G,key){ const R=S.rec(G); return (R.n[key]|0)+(key==='兩點半 Café'?(+flags(G).CAFE_VISITS||0):0); };   /* Café：芷若在班時點的（CAFE_VISITS）也算 */
-  const who=t=>({name:String(t.who||'店員').replace(/（.*?）/g,'')});
+  /* 店員的名字：表上的 who 去掉括號。兩點半 Café 2027-06-04 起芷若不在班的時候是學妹小婷（6/3 是芷若最後一個班，AA_375 第 1 項；牆上班表 B 版「晚上那幾格，換成了小婷的名字」）*/
+  S.staffName=function(G,key,t){ if(key==='兩點半 Café'&&G&&typeof STORY!=='undefined'&&STORY.dayOfKey){ const d=STORY.dayOfKey('2027-06-04'); if(d!=null&&G.day>=d) return '小婷'; } return String((t&&t.who)||'店員').replace(/（.*?）/g,''); };
+  const who=(t,G,key)=>({name:S.staffName(G,key,t)});
   /* 阿鳳麵店：語彤在顧店（作息 act:'help'）＝第 5 次那一句換她說 */
   S.yutongMinding=function(GM){ const G=GM.G, n=GM.npc&&GM.npc.heroine_03; if(!n||n.leaving||G.zone!=='noodle'||typeof STORY==='undefined'||!STORY.schedEnt||typeof CHARACTERS==='undefined') return false; const e=STORY.schedEnt(CHARACTERS.heroine_03,G); return !!(e&&e.zone==='noodle'&&e.act==='help'); };
   const HEAT=item=>/微波/.test(item);   /* 便利商店要加熱的（現在只有微波義大利麵）*/
@@ -46,11 +48,11 @@ const EAT=(function(){
      第 5 次起先說那一句（只說一次）、多一個「老樣子」（放在品項後面）；回傳原本 opts 的序號（老樣子＝上一次那一樣的序號） */
   S.choose=async function(GM,key,opts,names,prices){ const G=GM.G, R=S.rec(G), T=S.staffOn(GM,key), n=S.count(G,key); S._at={key,day:G.day,hour:G.hour};   /* 點餐那一刻（吃完時間往前走了，她的時段可能剛好結束：一起吃照點餐那一刻判斷）*/
     if(T&&n>=4&&R.l5[key]==null){ R.l5[key]=G.day; if(key==='阿鳳麵店'&&S.yutongMinding(GM)&&L().staffYutong){ const [id,t]=L().staffYutong; await GM.say(GM.npc[id]||{name:typeof SOCIAL!=='undefined'?SOCIAL.displayName(id):id,charId:id},t); }
-      else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else await GM.say(who(T),T.line5); } }
+      else { const A5=S.line5Alt(T,R.last[key]); if(A5){ await GM.say(who(T,G,key),A5.t); if(A5.reply) await GM.say({name:G.name},A5.reply); } else await GM.say(who(T,G,key),T.line5); } }
     let O=opts, same=-1; const last=R.last[key];
     if(T&&n>=4&&last!=null){ const i=names.indexOf(last); if(i>=0&&!(opts[i]&&opts[i].dim)&&!(prices&&prices[i]!=null&&(G.money|0)<prices[i])){ same=i; O=opts.slice(); O.splice(names.length,0,{t:'老樣子',hint:last}); } }
     const k=await GM.choose(O); if(same<0) return k;
-    if(k===names.length){ await GM.say(who(T),S.sameLine(T,last)); return same; }
+    if(k===names.length){ await GM.say(who(T,G,key),S.sameLine(T,last)); return same; }
     return k>names.length?k-1:k; };
   /* 點好了（扣完錢）：次數、上一次點的、吃過的；那間店第一次＝旁白 */
   S.ordered=async function(GM,key,item){ const G=GM.G, R=S.rec(G); R.n[key]=(R.n[key]|0)+1; R.last[key]=item; if(!S.isFood(key)) return false;

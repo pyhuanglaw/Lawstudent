@@ -37,7 +37,7 @@ const NEEDED_MSGS=(function(){
     {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟小語借了。……她的字比你的好看。']},
     {id:'zhe_score',who:'zhe',term:'Y2S1',w:[14,14],tie:true,   /* AA_374 第 4 項（AA_211）：12/6 發會指 12/12，系籃是 12/19 */msg:['週六系籃缺一個記分的。你會加減吧？'],reply:'會。',resp:['那就是你了。不准跑。'],miss:['你上週很忙齁。記分的我抓到別人了。你欠我一次。']},
     {id:'zhe_deposit',who:'zhe',term:'Y2S2',w:[4,4],tie:true,msg:['我學長退租，房東說押金要扣一半。','他叫我問你 押金扣一半可以嗎'],reply:'叫他找搬進去那時候拍的照片。',resp:['照片？……我問他有沒有拍。'],miss:['你上週很忙齁。我學長押金那件，他自己去問了。']},   /* AA_255：押金是學長的、只在第 4 週 */
-    {id:'zhe_final',who:'zhe',term:'Y2S2',w:[14,16],msg:['期末一起讀？我負責滷味，你負責不要讓我睡著。'],reply:'好。',resp:['成交。'],miss:['你上週很忙齁。滷味我自己吃完了。']},
+    {id:'zhe_final',who:'zhe',term:'Y2S2',w:[14,15]/* AA_375 第 22 項（AA_255 第 2 節第 5 點）：6/13（第 16 週）已經考完 */,msg:['期末一起讀？我負責滷味，你負責不要讓我睡著。'],reply:'好。',resp:['成交。'],miss:['你上週很忙齁。滷味我自己吃完了。']},
     // 小語（AA_179）
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[1,1],tie:true,   /* AA_374 第 3 項（AA_211 附錄 A 3-5）：原本最早 9/20 才發，博覽會已經過了 */msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。'],miss:['欸，博覽會那則你沒回。我自己找到你那攤了。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能判斷。叫她問法服或勞工局。',resp:['……你講話好像法服的學長。好，我叫她去。'],miss:['欸，加班費那則你沒回。我叫我同學去法服問了。']},
@@ -60,7 +60,7 @@ const NEEDED_MSGS=(function(){
     {id:'zr_beans',who:'heroine_02',term:'Y2S1',w:[14,16],tie:true,cond:G=>done(G,'ev_zhiruo_applied'),msg:['新的豆子。你想喝喝看嗎？'],reply:'想。',resp:['……你很少說『想』。週四來。'],miss:null},   /* Café 常客；Z7 之後 */
     // 子晴（BB_97 11-1；BB_205 第 5 節）
     {id:'zq_game',who:'heroine_04',term:'Y2S1',w:[1,3],msg:['測試我的遊戲。現在。','……這不是問句。'],vars:[{cond:G=>!playtested(G),msg:['幫我看一個東西。現在。','……這不是問句。']}],   /* AA_313 6-4：沒看過 Q6 的玩家，不說破她在做遊戲 */reply:'好。連結呢？',resp:['已經傳了。第三關不准跳過。'],miss:['測遊戲那則你沒回。','……第三關我自己測了。我自己都卡住。']},
-    {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[11,12],tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。'],
+    {id:'zq_dad',who:'heroine_04',term:'Y2S2',w:[12,12]/* AA_375 第 3 項：5/16 發，「下週」＝第 13 週（爸爸第 13～14 週才來；原本 [11,12] 5/9 就先發）*/,tie:true,msg:['欸跟你說','我爸下週要來台北','他說要看我做的遊戲'],vars:[{cond:G=>!playtested(G),msg:['欸跟你說','我爸下週要來台北','他說要來看我']}],reply:'他會喜歡的。',resp:['你又不認識他。……好啦。謝謝。'],
       miss:['我爸要來那則，你沒回。','……算了，沒差。'],missUnless:G=>done(G,'ev_ziqing_dad_visit')},   /* 沒看過 Q6（PLAYTESTED）的不提遊戲；沒回的那一句 Q8 之前才說 */
     {id:'zq_name',who:'heroine_04',term:'Y2S2',w:[6,8],cond:playtested,msg:['幫我的新遊戲想一個名字。','不要太好聽。'],reply:'『存檔點』。',resp:['……好爛。我要用。'],miss:['遊戲名字我自己取了。先不說。']},   /* 沒看過 Q6 的玩家會從這則知道她在做遊戲（BB_205 第 5 節）*/
     {id:'zq_song',who:'heroine_04',term:'Y2S2',w:[11,13],tie:true,cond:G=>!!F(G).INVITED_CLUB,msg:['成發那首歌的第四句寫不出來。','給我一個詞。'],reply:'『重來』。',resp:['……可以。這個可以。'],miss:['第四句歌詞，我自己寫完了。']},
@@ -75,7 +75,7 @@ const NEEDED_MSGS=(function(){
     // 明軒（BB_97 11-1）
     {id:'mx_tutor',who:'classmate_mingxuan',term:'Y2S1',w:[3,5],tie:true,cond:()=>false,   /* AA_374 第 22 項：大二上拿掉（大二沒有家教的排程，AA_211 第 6 節第 6 點）；id 留著，舊存檔收過的照舊認得 */msg:['家教那家的媽媽問你下學期還來不來 😂'],reply:'會。',resp:['好 我跟她說 👍 你教得比我好 不要傳出去'],miss:['家教媽媽那邊，我先跟她說你在考慮喔。']},
     {id:'mx_toefl',who:'classmate_mingxuan',term:'Y2S1',w:[9,11],msg:['托福作文題目：規則應該為了多數人嗎 🤔 你會怎麼開頭'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['我朋友在準備托福 叫我問你 🤔','題目是規則應該為了多數人嗎 怎麼開頭']}],   /* AA_374 第 12 項（AA_211 附錄 B P4）*/reply:'先問：哪一個少數。',resp:['這個開頭會被扣分 哈哈 可是我要用'],miss:['托福那題，我自己寫了開頭啦。']},
-    {id:'mx_seat',who:'classmate_mingxuan',term:'Y2S2',w:[3,3],tie:true,msg:['交換說明會週四中午 幫我佔第一排 我下課跑過去 🏃'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['交換說明會週四中午 你要去嗎','我只是去聽聽 順便吃便當 😂'],resp:['好 那我們第一排見 👍']}],reply:'好。',resp:['以安說她也要坐第一排 那第一排不夠了 😂'],miss:['說明會的位子我自己去佔了，第二排。']},   /* 沒有 SAW_HIM_STUDY：他不讓人看到在念書 */
+    {id:'mx_seat',who:'classmate_mingxuan',term:'Y2S2',w:[4,4],at:{day:'2027-03-15',h:21}/* AA_375 第 10 項：3/15（一）21:00 發（學校信 3/15 09:00 才公告、以安 09:20 才說坐第一排），不進 3/14 那一組（STORY.neededAt）*/,tie:true,msg:['交換說明會週四中午 幫我佔第一排 我下課跑過去 🏃'],vars:[{cond:G=>!mem(G,'classmate_mingxuan','SAW_HIM_STUDY'),msg:['交換說明會週四中午 你要去嗎','我只是去聽聽 順便吃便當 😂'],resp:['好 那我們第一排見 👍']}],reply:'好。',resp:['以安說她也要坐第一排 那第一排不夠了 😂'],miss:['說明會的位子我自己去佔了，第二排。']},   /* 沒有 SAW_HIM_STUDY：他不讓人看到在念書 */
     {id:'mx_form',who:'classmate_mingxuan',term:'Y2S2',w:[14,16],tie:true,msg:['交換的志願表 我第一志願改了三次 😂 你下學期會填嗎'],reply:'還不知道。',resp:['好 你要填的時候跟我說 我的借你參考 😂'],miss:['志願表我又改了一次。']},
     // 阿凱（BB_97 11-1）
     {id:'kai_net',who:'kai',term:'Y2S1',w:[1,3],tie:true,msg:['所以新宿舍網路爛到不行 你那邊呢'],reply:'還好。',resp:['所以週日我去你那邊打報告 我帶滷味'],miss:['所以你那邊網路到底怎樣？週日我先帶筆電過去。']},

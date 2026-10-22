@@ -47,7 +47,12 @@ const Y2B=(function(){
         PHONE.at(G,d,21,[Y('前陣子我陪阿姨去法服。'),Y('裡面的人說，租約到期以前，他不能趕我們。'),Y('阿姨出來的時候在笑。')],'y2_yt_aunt_msg'); if(SOCIAL.remember) SOCIAL.remember('heroine_03','RENT_CONSULTATION','她傳訊息說陪阿姨去法服'); } }
     /* ---- 1B-05 子晴 Q8：沒碰到、或沒看過 Q6＝6/4（五）22:00（FRIEND 以上）---- */
     { const d=D('2027-06-04'); if(d!=null&&G.day>=d&&G.day<=d+7&&past(G,'2027-06-04',22)&&!done(G,'ev_ziqing_dad_visit')&&stageAt('heroine_04','FRIEND')&&contact(G,'heroine_04')&&!PHONE.sent(G,'y2_zq_dad_msg')){
-        PHONE.at(G,d,22,[Z('欸跟你說'),Z('我爸上禮拜來過'),Z('……我跟芷若去河堤走了一圈'),Object.assign(Z('沒事'),{ask:{id:'y2_zq_dad_msg',opts:[{t:'他來看妳？',say:[Z('嗯'),Z('看完就搭計程車回去了')]},{t:'沒事就好。',say:[Z('嗯')]}]}})],'y2_zq_dad_msg'); F.ZQ_DAD_HEARD=true; } }
+        /* AA_255 第 7 節（C10，AA 定稿；AA_375 第 4 節提醒還沒進程式）：四則版——看過 Q6＝「他問我遊戲做好了沒」、沒看過（不提遊戲）＝「他問我最近在忙什麼 我說寫程式」；
+           和子晴交往中最後多一則；回覆兩個。芷若×子晴交往中照用 */
+        const q6=done(G,'ev_ziqing_secret_game')||has('heroine_04','PLAYTESTED');
+        const L=[Z('我爸上禮拜來過'),Z('搭計程車來 搭計程車回去'),Z(q6?'他問我遊戲做好了沒':'他問我最近在忙什麼 我說寫程式'),Z('……我跟芷若去河堤走了一圈 沒事')].concat(dating(G,'heroine_04')?[Z('下次他來 你要不要在')]:[]);
+        L[L.length-1]=Object.assign(L[L.length-1],{ask:{id:'y2_zq_dad_msg',opts:[{t:'沒事就好。',say:[Z('嗯'),Z('……其實有一點事 改天講')]},{t:'要不要出來走走？',say:[Z('今天不要'),Z('明天宵夜')]}]}});
+        PHONE.at(G,d,22,L,'y2_zq_dad_msg'); F.ZQ_DAD_HEARD=true; } }
     /* ---- 1B-06 芷若 Z9：錯過最後一班＝9/2 出發那天 10:00 三則（FAMILIAR 以上、有聯絡方式）；TICKET_STUB 照樣有 ---- */
     { const d=D('2027-09-02'); if(d!=null&&G.day>=d&&G.day<=d+21&&past(G,'2027-09-02',10)&&!done(G,'ev_zhiruo_last_shift')&&!F.ZR_LAST_SHIFT&&stageAt('heroine_02','FAMILIAR')&&contact(G,'heroine_02')&&!PHONE.sent(G,'y2_zr_depart')){
         const L=!dating(G,'heroine_02')&&datingAny(G)?[R('今天出發去英國了。'),R('櫃台有一疊電影票根，常客一人一張，跟老闆拿。'),R('看完寫一句話，寄到店裡。我會回。')]:[R('今天出發去英國了。'),R('櫃台有一張電影票根，給你的，跟老闆拿。'),R('我不在的時候，去看一部電影。看完寫一句話給我。')];   /* 一疊票根那一版只給和別人交往中的（AA_338 第 0 節）；和芷若交往中、單身＝給你的那一張 */

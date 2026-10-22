@@ -58,6 +58,20 @@ const GROUP=(function(){
     if(k==='kexin') plan(G,{id:'kx_trip_y2s2',ev:'ev_kexin_trip_spring_y2',day:D.d0,h:7+40/60,place:'政大校門口（先回家取車）',title:'春假：開車旅行',travel:'回家取車約 30 分鐘，再開到政大接她',travelH:40/60,back:'送她回政大，再把車開回家。'});
     if(kx&&(k==='noodle'||k==='dorm')){ if(!o.silent) KX(G.day,G.hour+0.1,['好。那暑假再去。'],'kx_spring2_reply'); KX(D.d0,21.5,['📷（她和予樂在讀書會的長桌，桌上兩疊講義）','春假。我們在讀書。'],'kx_spring2_photo'); F.KX_TRIP_DEFERRED='summer'; }
     if(k!=='noodle'&&g) S.springPhoto(G); };
+  /* 麵店團那一趟（4/4）誰去（AA_375 第 5、14 項）：祐廷去＝認識的那幾個（事件照「認識沒」）；祐廷沒去、在群組裡（邀約那則傳了）＝麵店團六個人照樣去（S.springPhoto）；沒有邀約＝沒有這一趟 */
+  S.SPRING_TEAM=['heroine_03','zhe','heroine_01','yu','classmate_bohan','classmate_xinci'];
+  S.springRiders=G=>S.SPRING_TEAM.filter(id=>knows(id,G));   /* 祐廷去的那一趟：認識的那幾個（ev_spring_y2_noodle 的「只有認識的人在場」）*/
+  S.springGoers=function(G){ const F=(G&&G.flags)||{}; if(!G||(G.stage||'law')!=='law') return []; if(F.SPRING_Y2==='noodle') return S.springRiders(G);
+    return F.SPRING_Y2!=null&&typeof PHONE!=='undefined'&&PHONE.sent(G,'y2s2_spring_grp')?S.SPRING_TEAM.slice():[]; };
+  /* 車上最多三個人（AA_375 第 5 項）：照熟悉度（fam 高的先；一樣照上面的順序）；其他人搭火車，下午會合。出發前記 SPRING_Y2_CAR（ev_spring_y2_noodle 的 beforeOuting）*/
+  S.springCarOf=function(G){ const fam=id=>typeof SOCIAL!=='undefined'&&SOCIAL.rel?(+SOCIAL.rel(id).fam||0):0;
+    return S.springRiders(G).map((id,i)=>({id,i,f:fam(id)})).sort((a,b)=>b.f-a.f||a.i-b.i).slice(0,3).map(x=>x.id); };
+  S.springSeat=G=>{ G.flags.SPRING_Y2_CAR=S.springCarOf(G); return G.flags.SPRING_Y2_CAR; };
+  S.springInCar=(G,id)=>{ const C=Array.isArray(G.flags&&G.flags.SPRING_Y2_CAR)?G.flags.SPRING_Y2_CAR:S.springCarOf(G); return C.includes(id); };
+  S.springTrain=G=>S.springRiders(G).length>3;
+  /* 麵店團出遊那天，去的人作息停掉（AA_375 第 14 項；story3d.js 的 schedEnt 先問這裡）：4/4 07:30～20:00（08:00 出發、一天來回）。柏翰的北投、以安的美術館那天不排 */
+  S.tripAway=function(G,id){ const D=S.springDays(); if(!G||D.trip==null||G.day!==D.trip||!S.SPRING_TEAM.includes(id)) return null; const hh=((G.hour%24)+24)%24; if(hh<7.5||hh>=20) return null;
+    if(!S.springGoers(G).includes(id)) return null; return {zone:null,act:'out',away:'和麵店團去市場和海邊',days:[G.weekday],from:7.5,to:20,spring:true}; };
   S.springPhoto=G=>{ const D=S.springDays(); if(D.trip!=null&&grp(G)) PHONE.at(G,D.trip,21.5,[{th:NG,from:'yu',text:'📷（海邊。一排人站在堤防上，阿哲在最後面，還是最高。）'}],'y2s2_spring_photo'); };
   S.springPhone=function(G,GM){ const F=G.flags, D=S.springDays(); if(D.inv==null||G.day<D.inv||G.day>D.trip+1) return; const now=T(G.day,G.hour);
     if(grp(G)&&G.day<=D.dl&&now>=T(D.inv,21)){ const Y=msg(NG,'yu'), W=msg(NG,'heroine_03'), B=msg(NG,'classmate_bohan');

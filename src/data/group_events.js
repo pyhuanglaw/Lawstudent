@@ -18,17 +18,20 @@ const GROUP_EVENTS=(function(){
   const kxNot=d=>({custom:G=>!kxSeen(G).includes(d)}), kxAll={custom:G=>['sea','oldtown','stars'].every(d=>kxSeen(G).includes(d))};
   const kxStarsBefore={custom:G=>((G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2)||G.flags.KX_TRIP_Y1S2)==='stars'};
   const G1=()=>typeof GROUP!=='undefined'?GROUP:null;
+  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假麵店團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
   return [
   /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多小語那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
+    beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
+      {if:{custom:G=>{ const g=G1(); return !!g&&g.springTrain(G); }},speaker:null,text:'（車子坐不下。剩下的人搭火車，下午在那邊會合。）'},   /* AA_375 第 5 項：認識的超過三個＝其他人搭火車；會合以後（海邊）照樣有他們的句子 */
       {scene:'小鎮的市場',bg:'dark'},   /* 小鎮的傳統市場背景沒有（AA_143，底圖等使用者）→ dark＋字幕 */
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},
-      {if:kn('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
-      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
-      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給小語。）'},
+      {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
+      {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
+      {if:car('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
+      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
+      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給小語。）'},
       {scene:'海邊',bg:'y0_sea_blue'},{speaker:null,text:'（第二站是海邊。四月的風還有點冷。）'},
       {if:kn('yu'),speaker:'yu',text:'我說要去海邊，真的來了。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'（把鞋子脫了，又穿回去）水太冷。'},

@@ -88,7 +88,10 @@ const TERMEND=(function(){
   S.away=function(G,w,id){ if(typeof STORY==='undefined'||!STORY.presence) return false; const d=S.fromDay(w,id), p=STORY.presence(id,Object.assign({},G,{day:d})); return !p.here&&(!!p.lost||(p.kind!=='taipei'&&p.kind!=='city')); };
   /* 玩家人在國外（交換路線；AA_250 第 6、7 節、AA_260 第 4 節第 6 點）：整段時段都在國外（日本路線大三下）＝臺灣這邊什麼都不發；中途回來（美國路線 12/23）＝回來那天起才發 */
   S.backDay=function(G,w){ if(typeof STORY==='undefined'||!STORY.abroad) return w.from; for(let d=w.from;d<=w.to;d++) if(!STORY.abroad(Object.assign({},G,{day:d}))) return d; return null; };
-  S.plan=function(G,w){ const R=S.rec(G,w.id); if(R.plan) return R.plan; const Lx=L(); const bd=S.backDay(G,w);
+  /* 期末邀約從玩家自己最後一科考完的隔天開始（AA_375 第 6 項）：時段第一天（第 16 週週四）以後還有期末考的＝最後一科的隔天（大二下：端午 6/9 停課，行政救濟補考 6/11（五）上午＝6/12 起）；
+     最後一科在時段第一天以前或當天考完＝照時段第一天（那天晚上 20:30 已經考完）。考試照 CLS.examList（這學期修的、考五題的法律課，含補考那一堂）*/
+  S.examStart=function(G,w){ if(typeof CLS==='undefined'||!CLS.examList) return w.from; let last=null; try{ for(const e of CLS.examList(G,w.id)) if(e.kind==='final'&&(last==null||e.day>last)) last=e.day; }catch(e){ return w.from; } return last!=null&&last>w.from?last+1:w.from; };
+  S.plan=function(G,w){ const R=S.rec(G,w.id); if(R.plan) return R.plan; const Lx=L(); const bd0=S.backDay(G,w), bd=bd0==null?null:Math.max(bd0,S.examStart(G,w));   /* 玩家回來那天、最後一科考完的隔天，比較晚的那一天（AA_375 第 6 項）*/
     if(bd==null){ R.plan={heart:[],friend:[],fallback:null,gf:[],nope:{},kx:false,abroad:true}; return R.plan; }   /* 日本路線的以安那一頓（AA_250 6-2）不算學期末的飯、不在這裡：6/9 她私訊約、6/10 出遊（src/jp3d.js 的 S.dinnerPhone，AA_355 1-1）*/
     const P={back:bd,heart:[],friend:[],fallback:null,gf:[],nope:{},kx:!!(G.flags&&G.flags.dating_kexin)&&!!(Lx.KX&&Lx.KX[w.id])&&!(w.id==='Y1S2'&&G.events&&G.events.done&&G.events.done.ev_revisit_y1_kexin)};   /* 可昕：舊存檔演過重訪日的算大一下已經演過（BB_202 第 6 節）*/
     for(const id of Object.keys(Lx.GF)) if(G.flags&&G.flags['dating_'+id]&&!S.away(G,w,id)) P.gf.push(id);   /* 交往中但人在國外（芷若大三上）：不發期末約會，照 BB_124 聖誕視訊（AA_259 第 5 節，等 BB）*/
@@ -104,6 +107,7 @@ const TERMEND=(function(){
   const overOf=(h,term)=>{ if(!h) return null; let o=h; for(const v of (h.over||[])) if(v.terms.includes(term)){ o=Object.assign({},o,v); delete o.terms; } return o; };
   S.heart=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.HEART[id],term); };
   S.gf=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.GF[id],term); };   /* 女朋友的學期末約會也照學期換（沛珊大三起的地點）*/
+  S.friend=function(id,term){ const Lx=L(); return overOf(Lx&&Lx.FRIEND[id],term); };   /* 朋友的一對一邀約也照學期換（芷若大二下：她 6/3 以後不上班，不在 Café 打烊以後，AA_375 第 1 項）*/
   const lines=(x,G)=>{ x=resolve(x,G); return x==null?[]:(Array.isArray(x)?x:[x]); };
   /* ---- 手機（story3d.js 的 S.phoneRules 每次呼叫）---- */
   S.phone=function(GM){ const G=GM.G; if(!S.ON||typeof PHONE==='undefined'||!L()) return; const w=S.window(G); if(!w) { S.pickCheck(GM); return; } const now=T(G.day,G.hour);
@@ -127,7 +131,7 @@ const TERMEND=(function(){
     const c=CHARACTERS[who], hi=c&&c.presence&&c.presence.home?Math.min(w.to,w.termTo):w.to;   /* 寒暑假回老家的（可昕、沛珊，AA_276 第 3 節第 2 點）：限定在期末考最後一天後第 2 天以前，第 3 天她們就回老家了 */
     if(spec.wd!=null){ for(let d=lo;d<=hi;d++){ const wd=CALENDAR.dateOf(d).wd%7; if(wd===spec.wd&&ok(d)) return d; } }
     for(let d=Math.max(lo,w.from+2,pb+2);d<=hi;d++) if(ok(d)) return d; for(let d=lo;d<=hi;d++) if(ok(d)) return d; return null; };
-  S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec||typeof OUT==='undefined') return false;
+  S.planDinner=function(G,w,who,kind){ const Lx=L(), spec=kind==='heart'?S.heart(who,w.id):(kind==='gf'?S.gf(who,w.id):(kind==='fallback'?Lx.FALLBACK[who]:S.friend(who,w.id))); if(!spec||typeof OUT==='undefined') return false;
     const hh=(kind==='friend'&&spec.hByTerm&&spec.hByTerm[w.id]!=null)?spec.hByTerm[w.id]:((kind==='friend'&&spec.hGen&&w.id!=='Y1S1')?spec.hGen:(spec.h||18.5)), day=S.dinnerDay(G,w,Object.assign({},spec,{h:hh}),who); if(day==null) return false; const P=Lx.PLACE[spec.place]||{}, pname=spec.placeName||P.name||'';
     return OUT.plan(G,Object.assign({id:'te_'+(kind==='gf'?'gf_':'')+w.id+(kind==='gf'?'_'+who:''),ev:'ev_termend_dinner',day,h:hh,late:0.25,place:pname,title:'學期末的飯：'+nm(who)+(pname?'（'+pname+'）':''),travel:spec.travel||'走過去約 15 分鐘',travelH:spec.travelH||0.25,te:{term:w.id,who,kind}},spec.back?{back:spec.back}:{})); };   /* travel／travelH／back：外縣市的那一版（沛珊大三起在台南：高鐵去、搭最後一班高鐵回臺北，AA_282 第 5 節第 5 點）*/
   S.planKexin=function(G,w){ const Lx=L(), K=Lx.KX[w.id], PL=Lx.KX_PLACE[K.place]; if(!K||!PL||typeof OUT==='undefined') return false; const day=S.dinnerDay(G,w,{h:PL.h,wd:K.wd},'kexin'); if(day==null) return false;
@@ -153,7 +157,7 @@ const TERMEND=(function(){
       else if(x.text) await GM.say(x.who&&x.who!==who?{name:nm(x.who),charId:x.who}:me,x.text,x.expr?{expr:x.expr}:undefined); } };
   S.dinner=async function(GM,q){ const G=GM.G, te=q&&q.te; if(!te) return false; const Lx=L(), who=te.who, kind=te.kind, R=S.rec(G,te.term);
     if(kind==='kexin') return S.kexinDinner(GM,te);
-    const spec=kind==='heart'?S.heart(who,te.term):(kind==='gf'?S.gf(who,te.term):(kind==='fallback'?Lx.FALLBACK[who]:Lx.FRIEND[who])); if(!spec) return false;
+    const spec=kind==='heart'?S.heart(who,te.term):(kind==='gf'?S.gf(who,te.term):(kind==='fallback'?Lx.FALLBACK[who]:S.friend(who,te.term))); if(!spec) return false;
     const INV2TE={noodle:['noodle','noodle_closed']}, other=!!te.place&&!(INV2TE[te.place]||[]).includes(spec.place);   /* 玩家自己約、選的店不是她那一家（AA_268 第 1 節）：開場收尾照選的那一家、不說飯桌一句 */
     const P=other?(Lx.PLACE[(INV2TE[te.place]||[])[0]]||{name:te.placeName||'',open:'（'+(te.placeName||'')+'。）'}):(Lx.PLACE[spec.place]||{}); if(typeof ADV!=='undefined'&&ADV.begin) ADV.begin({background:P.bg&&typeof OUT!=='undefined'&&OUT.bg?OUT.bg(P.bg):'dark',right:{charId:who,expression:'neutral'}});
     if(P.caption&&GM.caption) GM.caption('',P.caption,2400);   /* 沒有底圖的地方：深色底＋地點字幕（台南，AA_282 第 5 節第 6 點）*/

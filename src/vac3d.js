@@ -405,7 +405,9 @@ const VAC=(function(){
   S.missed=function(GM,q){ const G=GM.G, v=q&&q.vac; if(!v) return; const V=S.rec(G); if(v.k==='trip'||v.k===0) V.reg[v.key]='missed';
     if(v.k==='re'&&typeof PHONE!=='undefined'){ const R=Dt().TRIP_MSG.reunion[v.who]; if(R){ const ns=S.reNS(R,q.day); PHONE.at(G,q.day+1,12,((ns&&ns.miss)||R.miss).map(t=>({th:'p:'+v.who,from:v.who,text:t})),'vac_remiss_'+v.key+'_'+v.who); } } };   /* 重逢沒到：隔天她傳一則（AA_242 8-6）；她不上班的那段＝noShift 的那句（AA_369 第 9 節第 2 題）*/
   /* 重逢那天在她不上班的那一段（reunion 的 noShift：芷若 2027-06-04～09-02，含頭尾）＝那一段的設定（invite、h、lines、miss），不是＝null */
-  S.reNS=function(R,d){ const NS=R&&R.noShift, n0=NS&&DK(NS.from), n1=NS&&DK(NS.to); return n0!=null&&n1!=null&&d!=null&&d>=n0&&d<n1?NS:null; };
+  S.reNS=function(R,d){ const NS=R&&R.noShift, n0=NS&&DK(NS.from), n1=NS&&DK(NS.to); if(n0!=null&&n1!=null&&d!=null&&d>=n0&&d<n1) return NS;
+    for(const P of (R&&R.byDate)||[]){ const a=P.from?DK(P.from):null, b=P.to?DK(P.to):null; if(d!=null&&(!P.from||(a!=null&&d>=a))&&(!P.to||(b!=null&&d<b))) return P; }   /* byDate：{from?, to?（不含）, invite, h, lines?, miss?}——芷若 2027-06-04 以前的重逢「明天我十點下班。」22:00（AA_373 第 6 節第 9 題）*/
+    return null; };
   /* ---- 手機「活動」頁的假期行事曆（AA_199 3-2）：報名了的、還可以報名的 ---- */
   S.html=function(G){ const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]); const V=S.rec(G), rows=[];
     for(const I of S.all()){ const st=V.reg[I.key], o=S.signupOpen(G,I), open=o&&G.day>=o.from&&G.day<=o.to&&(!st||st==='later')&&(I.A.signup.board||I.A.signup.kind!=='dm'||!I.first||PHONE.sent(G,'vac_ask_'+I.key))&&!S.blocked(G,I), gt=open?S.gate(G,I):null;   /* gt：門檻不到（C17）＝那句旁白、沒有報名鈕 */

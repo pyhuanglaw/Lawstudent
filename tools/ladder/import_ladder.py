@@ -4,6 +4,7 @@
 要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
 AA_372（大一上「知道太早、重複」修正稿，白名單上的 commit）第 13、18 項以安的兩句疊在 ladder_aa.json 上（整句相同才換；ladder_aa.json 自己改好了就跳過）。
 AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句同樣疊在大一下的階梯上（byTerm.Y1S2）。
+AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（週次、句子、選項）用 _fix 疊在 ladder_*_y2s1／y2s2.json 上。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -147,6 +148,17 @@ def _fix(prefix, label, patches):
 _fix('docs/story_planning/AA_374_', '可昕 K3-L4 週次', [
     ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'week', [6, 16], [6, 6], '週次改 **[6,6]**'),
     ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'skipAfterWeek', None, 6, '週次改 **[6,6]**')])
+#      AA_375（AA375-Y2S2-FIX-1021）第 7 項：語彤 Y4-L7 大二下改「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」（助教是大三上 1B-08 的新消息；
+#      原本的兩句和兩個選項都在講已經確定的助教，整層換成這一句、選項拿掉）；第 11 項：可昕 K4-L2 第 5 週起（3/21 邀約之後；只給 3/25 去了的玩家在 story3d.js 的
+#      LADDER_HOLD／LADDER_SKIP）；第 12 項：芷若 Z4-L4 第 11 週以後跳過（同子晴 Q4-L4：週次 [3,11]＋skipAfterWeek 11；英國的信 5/11 第 12 週就到了）
+_fix('docs/story_planning/AA_375_', '語彤 Y4-L7、可昕 K4-L2、芷若 Z4-L4', [
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'lines', ['下學期我要當訪談課的助教了。老師說，教室我可以自己排。', '我想把椅子都擺成斜的。'],
+     ['下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。'], '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'choices', [{'t': '「妳會做得很好。」', 'reply': '希望啦。第一堂要自我介紹，我還沒想好要講什麼。'}, {'t': '「老師說了什麼？」', 'reply': '她說每週要改二十份作業。我還在算時間夠不夠。'}],
+     None, '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 11 項', 'Y2S2', 'kexin', 'K4-L2', 'week', [3, 16], [5, 16], '週次改**第 5 週起**'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'week', [3, 16], [3, 11], '第 11 週以後跳過（同子晴 Q4-L4）'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'skipAfterWeek', None, 11, '第 11 週以後跳過（同子晴 Q4-L4）')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

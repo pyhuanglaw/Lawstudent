@@ -368,10 +368,11 @@ const STORY = (function(){
      ・上課（act:'class'）和 noHoliday 的只在上課期間、國定假日不算（和課表一樣停課）；
      ・zone:null＝不在遊戲的場景裡（away 是人物線索的文字，例如「在小福吃午餐」）*/
   function schedEnt(c,G){ if(typeof INV!=='undefined'&&INV.entryFor&&c&&c.id){ const iv=INV.entryFor(G,c.id); if(iv) return iv; }   /* 約好的時間人在那裡、一起走過去的人跟著你（src/invites3d.js）*/
+    if(typeof GROUP!=='undefined'&&GROUP.tripAway&&c&&c.id){ const ta=GROUP.tripAway(G,c.id); if(ta) return ta; }   /* 麵店團出遊那天（大二春假 4/4），去的人作息停掉（AA_375 第 14 項；src/group3d.js）*/
     const tp=!!(c&&c.presence&&S.presence(c.id,G).kind==='taipei');   /* 在臺北、不在台大（BB_163）：只用標了 taipei 的那幾筆作息（taipei:'both'＝兩種時候都用）、不跟課表 */
     if(!tp){ const cc=S.classmateClass(c,G); if(cc) return cc; }   /* 同班同學：必修課的時間在那間教室（使用者 2026-10-15：以安也是大一，課要跟我一樣） */
     const hr=h(G), wd=G.weekday; const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, hol=!!(typeof CALENDAR!=='undefined'&&CALENDAR.holiday(G.day));
-    const hit=ent=>{ if(!ent.days.includes(wd)) return false; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; }   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：小語烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.to;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
+    const hit=ent=>{ if(!ent.days.includes(wd)) return false; if(ent.activity&&typeof ACTIVITIES!=='undefined'&&ACTIVITIES.list){ const a=ACTIVITIES.list.find(x=>x.id===ent.activity); if(!a||!ACTIVITIES.on(a,G.day,G)) return false; }   /* activity：那個活動當天有開才在（學姊的法服讀書會：第 5 週起；使用者 2026-10-15 第 3 週去，學姊站在那裡、沒有活動）*/ if((ent.act==='class'||ent.noHoliday)&&(!T||hol)) return false; { const wk=(ent.termWeeks&&T&&ent.termWeeks[T.id])||ent.weeks; if(wk&&(!T||!wk.includes(T.week))) return false; }   /* termWeeks＝某一學期改用別的週次（AA_373 #5：小語烏來大一下改第 8 週 4/18）*/ if(ent.dates&&!S.inDates(G,ent.dates)) return false; if(ent.notDates&&S.inDates(G,ent.notDates)) return false;   /* notDates：這幾段日子不在（含頭尾；芷若 2027-06-04～09-02 不上班，AA_375 第 1 項）*/ if(ent.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return false;   /* dates：日期區間（含頭尾）；vacation：只在寒暑假（AA_271 自由出行第三批的偶遇）*/ if(ent.if&&!(typeof EVENTS!=='undefined'&&EVENTS.cond&&EVENTS.cond(ent.if))) return false; const to=ent.to;   /* if：條件成立才在（AA_155：阿勳、品妤 P4d 之後才在走廊；寫法和閒聊階梯的 if 一樣）*/   /* weeks：學期的第幾週才有（子晴的吉他社：第 5～7、10～16 週）*/ return to<=24?(hr>=ent.from&&hr<to):(hr>=ent.from||hr<to-24); };
     const L=(c.daily_schedule||[]).filter(ent=>tp?!!ent.taipei:ent.taipei!==true); for(const ent of L) if(ent.terms&&T&&ent.terms.includes(T.id)&&hit(ent)) return ent; for(const ent of L) if(!ent.terms&&hit(ent)) return ent; return null; }
   S.schedEnt=schedEnt;
   /* 兩點半的客人（X71，使用者 2026-10-20：「咖啡店以前很常有NPC現在都沒有」——學姊改照作息以後，店裡常常只剩一位客人）：
@@ -496,6 +497,9 @@ const STORY = (function(){
     GM.openPhone('msg'); };   /* 使用者 22:4x 選 B：先停在對話列表（那一列看得到她最新的一句、標「待回覆」），點進去從最新的一句開始 */
   S.ladMark=function(G,ids){ const so=ladRec(G); so.ladSeen=so.ladSeen||{}; for(const id of [].concat(ids)) so.ladSeen[id]=G.day; };   /* AA_293 第 2 節：過場演完把那一層記成推進過 */
   S.ladWorking=(G,id)=>{ try{ const en=schedEnt(CHARACTERS[id],G); return !!(en&&en.act==='barista'); }catch(e){ return false; } };
+  /* 芷若 2027-06-04～09-02 不上班（6/3 Z9 是她最後一個班、9/2 出發去英國；AA_369 第 8 節第 8 題、AA_375 第 1 項；作息 characters.js 的 barista 用 notDates 2027-06-04～09-02 停掉，6/4～8/20 週一、三下午當客人）。day 不給＝今天 */
+  S.ZR_NOSHIFT=['2027-06-04','2027-09-03'];
+  S.zrNoShift=(G,day)=>{ const d=day!=null?day:(G&&G.day), a=S.dayOfKey(S.ZR_NOSHIFT[0]), b=S.dayOfKey(S.ZR_NOSHIFT[1]); return d!=null&&a!=null&&b!=null&&d>=a&&d<b; };
   /* 使用者拿掉的階梯層（直接算過、不播；企劃檔下一班 AA 刪，刪了以後這裡也可以拿掉）：K0-Lx2「搬回家以後，來學校要多久？」（2026-10-18 14:3x 使用者：「沒有必要」→ 選「整段拿掉」）*/
   S.LAD_CUT=new Set(['K0-Lx2']);
   /* 程式這邊的「條件不成立就跳過」（匯入的 ladder.js 不手改）：子晴 Q2-L4 講她的遊戲，沒看過 Q6（PLAYTESTED）的玩家跳過這一層（AA_313 6-5 第 1 點）*/
@@ -517,6 +521,10 @@ const STORY = (function(){
     'Y3-L5':G=>!!(G.events&&G.events.done&&G.events.done.ev_yu_together)||G.day>=S.dayOfKey('2026-12-19'),
     /* 語彤大三下（AA_260 第 4 節第 5 點）：Y6-L1、L7 假設事件 13（12/16 週四空出來）演過、Y6-L5 假設事件 14（請了工讀生、續約 RENT_RENEWED）演過；兩件做好以前不開 */
     'Y6-L1':G=>S.ytEv13(G),'Y6-L7':G=>S.ytEv13(G),'Y6-L5':G=>!!(G.flags&&G.flags.RENT_RENEWED)};
+  /* AA_375 第 11 項：可昕 K4-L2（兩邊的朋友見面）第 5 週起（週次在 tools/ladder/import_ladder.py 疊；3/21 邀約之後），只給 3/25 那場去了的玩家——
+     答應了（KX_CIRCLES_GO）才說（見面以前是 lines、見過是 linesIf）；回了「那天不行」、3/25 過了沒去（沒有 ev_kexin_two_circles）、沒收到邀約＝這一層直接算過 */
+  S.LADDER_HOLD['K4-L2']=G=>!!(G.flags&&G.flags.KX_CIRCLES_GO===true)||!!(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles);
+  S.LADDER_SKIP['K4-L2']=G=>{ if(G.events&&G.events.done&&G.events.done.ev_kexin_two_circles) return false; if(G.flags&&G.flags.KX_CIRCLES_GO===false) return true; const d=S.dayOfKey('2027-03-25'); return d!=null&&G.day>d; };
   /* 語彤事件 13（AA_259：2027-12-16 第 15 週）：事件做好時設 YT_EV13（暫名）。她的作息照日期換（事件演不演，週四都不再顧店）*/
   S.ytEv13=G=>!!(G&&G.flags&&G.flags.YT_EV13);
   S.ytThuFree=G=>!!(G&&G.flags&&G.flags.YT_EV13)||(G&&G.day>=S.dayOfKey('2027-12-16'));
@@ -533,6 +541,10 @@ const STORY = (function(){
   /* 招呼（greet.when）的額外條件（AA_211 附錄 B G1，0ba8d336）：學姊「值班表你看了嗎？」只說一次、只給法服成員（S.fafuMember）*/
   S.LADDER_GREET_IF={'值班表你看了嗎？':{once:true,test:G=>S.fafuMember(G)},'週四店裡現在是工讀生':{test:G=>S.ytEv13(G)&&!!(G.flags&&G.flags.RENT_RENEWED)},
     '我要去搭客運回台中了':{test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !!T&&T.week%2===1; }}};   /* 沛珊隔週回台中（AA_372 第 8 項）：週五那句只在單數週說（週末的 presence 在 characters.js）*/   /* 語彤大三下招呼③：事件 13、14 演過才說（AA_260 第 4 節第 5 點）*/
+  /* AA_375 第 1 項：芷若 6/4 起不上班——大二下的招呼只用不上班的版本（working 那幾句跟著作息自然不出）；這三句說的是她在吧檯、打烊、店裡盤點，不上班的那段也不說 */
+  for(const k of ['（她在吧檯後面抬頭）……嗨。','要打烊了。……你可以坐到我擦完這張桌子。','期末了。我還有一份報告沒寫，店裡也要盤點。']) S.LADDER_GREET_IF[k]={test:G=>!S.zrNoShift(G)};
+  /* AA_255 第 2 節第 5 點：以安讀書會的招呼避開大二下第 8、9、16 週（when 那兩句資料已經分週次；base 這一句也照做）*/
+  S.LADDER_GREET_IF['這週讀書會在萬才館，有空可以來。']={test:G=>{ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; return !(T&&T.id==='Y2S2'&&[8,9,16].includes(T.week)); }};
   const ladGreetOk=(G,t)=>{ for(const k in S.LADDER_GREET_IF){ if(!t.startsWith(k)) continue; const R=S.LADDER_GREET_IF[k], so=ladRec(G); so.greetOnce=so.greetOnce||{}; if(R.once&&so.greetOnce[k]) return false; if(R.test&&!R.test(G)) return false; } return true; };
   const ladGreetUsed=(G,t)=>{ for(const k in S.LADDER_GREET_IF) if(t.startsWith(k)&&S.LADDER_GREET_IF[k].once){ const so=ladRec(G); so.greetOnce=so.greetOnce||{}; so.greetOnce[k]=G.day; } };
   /* 週次依條件放寬（AA_211 第 1 節第 3 點，0ba8d336）：A3-L6、Y3-L5 資料是 [16,18]（一定在 12/19 以後）；演過 ev_yu_together（12/19）的玩家從第 15 週就可以播 */
@@ -1269,13 +1281,25 @@ const STORY = (function(){
     const t=CALENDAR.termOf(d); if(!t||!NEED_TERMS.includes(t.id)||!(t.week>=1&&t.week<=16)) return null; return d; };
   S.neededPick=function(G,d){ if(typeof NEEDED_MSGS==='undefined') return []; const N=S.neededRec(G), t=CALENDAR.termOf(d); if(!t) return []; const w=t.week;
     const lv=id=>typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(id):'STRANGER', known=id=>['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv(id))&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(id,'FIRST_MET')||id==='zhe'||id==='kai');
-    const ok=e=>{ if(e.term!==t.id||w<e.w[0]||w>e.w[1]) return false; const sh=N.shown[e.id]; if(sh!=null&&!(e.every&&d-sh>=e.every*7)) return false;
+    const ok=e=>{ if(e.at) return false; if(e.term!==t.id||w<e.w[0]||w>e.w[1]) return false;   /* at：指定時間的那幾則不進週日那一組（S.neededAt）*/ const sh=N.shown[e.id]; if(sh!=null&&!(e.every&&d-sh>=e.every*7)) return false;
       try{ if(e.cond&&!e.cond(G)) return false; }catch(err){ return false; } return e.anyone?true:known(e.who); };
     const C=NEEDED_MSGS.list.map((e,i)=>({e,i})).filter(x=>ok(x.e));
     const tier=x=>x.e.tie?0:(N.prev.includes(x.e.who)?2:1); C.sort((a,b)=>tier(a)-tier(b)||a.e.w[1]-b.e.w[1]||a.i-b.i);
     const out=[], who=new Set(); for(const x of C){ if(who.has(x.e.who)) continue; who.add(x.e.who); out.push(x.e); if(out.length>=4) break; } return out; };
   /* phoneRules 每次都問：該跳的那個週日還沒跳過＝挑、排進手機（時間是那個週日 21:00，晚了照原本的時間補）*/
-  S.neededRules=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; const d=S.neededSunday(G); if(d==null) return; const N=S.neededRec(G); if(N.last===d) return;
+  /* 指定時間的那幾則（at：{day:'YYYY-MM-DD', h}；AA_375 第 10 項：明軒的說明會那則 3/15（一）21:00——學校信 3/15 09:00 才公告、以安 09:20 才說坐第一排）：
+     不進週日那一組，自己一組（回得了這一則）；認識的人、條件、依條件換的版本、記 shown／asked／byWho、沒回的那一句都照週日的。晚了照原本的時間補（6 天內）*/
+  S.neededAt=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; const N=S.neededRec(G), now=needAbs(G.day,G.hour);
+    for(const e of NEEDED_MSGS.list){ if(!e.at||N.shown[e.id]!=null) continue; const d=S.dayOfKey(e.at.day); if(d==null) continue; const t0=needAbs(d,e.at.h); if(now<t0||now-t0>=6*24) continue;
+      const lv=typeof SOCIAL!=='undefined'&&SOCIAL.friendLevel?SOCIAL.friendLevel(e.who):'STRANGER', kn=['FAMILIAR','FRIEND','CLOSE_FRIEND'].includes(lv)&&(typeof SOCIAL==='undefined'||!SOCIAL.has||SOCIAL.has(e.who,'FIRST_MET')||e.who==='zhe'||e.who==='kai');
+      let ok=!!(e.anyone||kn); try{ if(ok&&e.cond&&!e.cond(G)) ok=false; }catch(err){ ok=false; } if(!ok) continue;
+      const grp='need_'+d; N.shown[e.id]=d; N.asked++; const bw=N.byWho[e.who]||(N.byWho[e.who]=[0,0]); bw[0]++;
+      if(typeof INV!=='undefined'){ INV.rec(G); if(G.contacts[e.who]==null) G.contacts[e.who]=G.day; }
+      const v=S.neededVar(G,e), msg=v.msg||e.msg, resp=v.resp||e.resp||[];
+      const items=msg.map((text,k)=>{ const it={th:'p:'+e.who,from:e.who,text}; if(k===msg.length-1) it.ask={id:grp+'_'+e.id,grp,max:1,until:needAbs(d+7,21),opts:[{t:e.reply,say:resp.map(r=>({from:e.who,text:r})),need:e.id}]}; return it; });
+      N.batches.push({d,ids:[[e.id,e.who]],ans:[],closedAt:null,said:{}}); if(N.batches.length>4) N.batches.splice(0,N.batches.length-4);
+      PHONE.at(G,d,e.at.h,items,grp); } };
+  S.neededRules=function(GM){ const G=GM.G; if(typeof NEEDED_MSGS==='undefined'||typeof PHONE==='undefined'||S.isEcon&&S.isEcon(G)) return; S.neededAt(GM); const d=S.neededSunday(G); if(d==null) return; const N=S.neededRec(G); if(N.last===d) return;
     if(needAbs(G.day,G.hour)-needAbs(d,21)>=6*24){ N.last=d; return; }   /* 跳過太久（同一週快結束了）就不補 */
     const L=S.neededPick(G,d); N.last=d; N.prev=L.map(e=>e.who); if(!L.length) return; const grp='need_'+d;
     const items=[{th:'sys',text:'這週的訊息（'+L.length+' 則）。這週你回得了兩個人。'}];
@@ -2101,7 +2125,7 @@ const STORY = (function(){
     { const w1=termDay('Y2S1',15,4); if(w1!=null&&G.day>=w1&&G.day<=w1+3&&(G.day>w1||G.hour>=21.5)&&!(G.events&&G.events.done&&G.events.done.ev_peishan_handover)&&PHONE.inGroup(G,'public_law')&&!PHONE.sent(G,'ps_p4_missed'))
         PHONE.at(G,w1,21.5,[{th:'g:public_law',from:'classmate_peishan',text:'題目整理交給柏翰了。不要變成比分數的地方。'}],'ps_p4_missed');
       const w2=termDay('Y2S2',2,4); if(w2!=null&&F.STUDYGROUP_LEADER&&G.day>=w2&&G.day<=w2+3&&(G.day>w2||G.hour>=21)&&PHONE.inGroup(G,'law_class')&&!PHONE.sent(G,'han3_chart'))
-        PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'📷（全班小考的分數分布圖。他自己那一格用紅框圈起來。）'}],'han3_chart'); }
+        PHONE.at(G,w2,21,[{th:'g:law_class',from:'classmate_bohan',text:'（照片：白板上每個人上週讀的頁數）'}],'han3_chart'); }   /* AA_375 第 23 項：第 1 週沒有小考，表是讀了幾頁 */
     /* 沛珊 P4b 換你陪我念（BB_97 4-4；大二下第 2 週起，前置 MIRROR_PEISHAN 或和她朋友以上）：第 2 週週五 21:00 她私訊（時間 LAWWW-B 排，已告訴 AA-B）。
        她知道祐廷重考過（ECON_PAST_SHARED full 或 MIRROR_PEISHAN）＝「重考的人才能回答的問題」＋第四個選項；不知道＝「有沒有很想放棄、可是撐過來的事？」。
        祐廷在和別人交往、而且她知道：之後她開小群組「陪重考生念書」（祐廷、阿哲；阿哲「我來補債各。」），便條寫「你們呢？」（invites.js 的 afterMeet）。
@@ -2570,7 +2594,7 @@ const STORY = (function(){
         ['y2_kx_superficies',Y2a(),21+10/60,kx,()=>[P1('kexin','物權的老師講了一個小時的地上權。我現在看到房子都想問地是誰的。')]],
         ['y2_kx_index',Y2a(),21+10/60,kx,G=>[P1('kexin',typeof SOCIAL!=='undefined'&&SOCIAL.has('kexin','ENC_D13_KX')?'邵鈞的考古題有目錄。目錄有索引。':'我們系有一個人，考古題有目錄。目錄有索引。')]],   /* 還沒見過邵鈞（淡水的偶遇 D13）的玩家：「我們系有一個人」*/
         ['y2_kx_hand',Y2a(6),21+10/60,G=>kx(G)&&!!G.flags.PLAYED_Y0&&G.flags.E12_ANSWER==='hand',()=>[Object.assign(P1('kexin','我還在等你的第三隻手。'),{ask:{id:'dp_y2_kx_hand',opts:[{t:'……長頸鹿的尾巴？',say:[{from:'kexin',text:'你記得。很好。尾巴還在等。'}]},{t:'我在練。',say:[{from:'kexin',text:'練到哪了？……先幫我拿書包就好。'}]}]}})]],   /* BB_104 8-4「她會記得」：三個條件都成立才有 */
-        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們的應該也會講。')]],
+        ['y2_kx_landlord',Y2b,21+10/60,kx,()=>[P1('kexin','我們債各老師講了一個房東的例子，講了一整節。你們講過了嗎？')]],   /* AA_375 第 18 項 */
         ['y2_kx_river',Y2b,21+10/60,G=>kx(G)&&G.weather==='rain',()=>[P1('kexin','今天下雨，山變成一條河。')]],
         ['y2_kx_funny',Y2b,21+10/60,kx,()=>[P1('kexin','上學期的物權報告發回來了。被說舉例太好笑，分數很高。我不知道該不該高興。')]] ];
       return L.map(([id,term,hh,ok,items])=>({id,term,h:G=>hh!=null?hh:(zrKnows(G)?15+10/60:22+7/60),ok:(G,day)=>!S.isEcon(G)&&ok(G,day==null?G.day:day),items})); })(),   /* 芷若：雙方都單身 22:07、祐廷交往中 15:10（AA_112 8-1）*/

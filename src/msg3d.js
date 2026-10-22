@@ -191,7 +191,10 @@ const MSG=(function(){
   const RANK={A:0,R:1,L:2};
   const tierFits=(e,tr)=>e.tier===tr||(!!e.tierMin&&RANK[e.tier]<=RANK[tr]);
   const versionOk=(e,mode)=>{ const v=e.version||(e.variant==='事務版'||e.variant==='閒聊版'?e.variant:null); if(!v) return true; if(/都/.test(v)) return true; return mode==='business'?v==='事務版':v==='閒聊版'; };
-  const usable=(G,id,e,ctx)=>!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
+  /* 芷若 2027-06-04～09-02 不上班（AA_375 第 1 項；STORY.zrNoShift）：回訊息不照上班作息、不說下班和店裡客人的那幾句（「下班回來都這個時間」「怎麼跟客人介紹」）*/
+  const zrOff=G=>typeof STORY!=='undefined'&&!!STORY.zrNoShift&&STORY.zrNoShift(G);
+  const zrShiftLine=(G,id,e)=>id==='heroine_02'&&zrOff(G)&&/下班|客人|吧檯/.test((e.msgs||[]).join('／'));
+  const usable=(G,id,e,ctx)=>!zrShiftLine(G,id,e)&&!e.disabled&&!(e.geFlag&&!(G.flags&&G.flags[e.geFlag]))&&!(e.immediateOnly&&!ctx.immediate)&&!(e.note&&/填|照日曆算/.test(e.note))&&!e.thenGeneral&&(e.tags||[]).every(g=>S.tagOk(G,id,g))&&versionOk(e,ctx.mode);
   S.pick=function(G,id,topic,sub,ctx){ ctx=Object.assign({},ctx||{}); const R=S.rec(G), o=S.open(G,id); ctx.mode=o.mode; const tier=S.tier(G,id);
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
@@ -217,7 +220,7 @@ const MSG=(function(){
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); if(row!=='none') return S.ukReplyAt(G,id,row); }   /* 芷若在英國（BB_178 1-E）*/
     { const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='trip'&&!pr.signal&&pr.back!=null&&pr.back>day) return {day:pr.back,h:15,late:true}; }   /* 方奕廷暑假上山沒訊號（BB_171 第 1 節「常常晚好幾天才回」）：下山那天 15:00 才回（照寒假初三 15:00 的做法）。signal＝短期出門有訊號（AA_350 S4、S8：阿凱日本／曼谷、以安東京／京都、小語營隊），照平常回 */
     if(Tm.slots){ const nx=Tm.slots.find(x=>x>h+0.01); if(nx!=null) return {day,h:nx,late:false,after:true}; return {day:day+1,h:Tm.slots[0],late:true}; }   /* 學姊 */
-    if(id==='heroine_02'&&yearNow(G)<=2&&S.takenFor(G,id)){ const s1=15+10/60; return h<s1?{day,h:s1,late:false,after:true}:{day:day+1,h:s1,late:true}; }   /* 芷若：祐廷交往中改 15:10 回（BB_70 1-2）*/
+    if(id==='heroine_02'&&yearNow(G)<=2&&S.takenFor(G,id)&&!zrOff(G)){ const s1=15+10/60; return h<s1?{day,h:s1,late:false,after:true}:{day:day+1,h:s1,late:true}; }   /* 芷若：祐廷交往中改 15:10 回（BB_70 1-2）；15:10＝她下午的班結束，6/4～9/2 她不上班＝不照上班作息（AA_375 第 1 項）*/
     const asleep=Tm.sleep!=null&&(Tm.sleep>=12?(h>=Tm.sleep||h<Tm.wake):(h>=Tm.sleep&&h<Tm.wake));
     if(asleep){ const nd=(Tm.sleep>=12&&h>=Tm.sleep)?day+1:day; return {day:nd,h:Tm.wake+seedMin(G,id,0,20)/60,late:true}; }
     for(const w of (Tm.win||[])) if(w.days.includes(wd)&&h>=w.from&&h<w.to) return {day,h:w.to,late:false,after:true,win:true};

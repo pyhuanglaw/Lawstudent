@@ -169,7 +169,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   { const din=term=>{ const w=TERMEND.windowOf(term); fresh(w.from,20,'dorm',{}); R('heroine_02','FRI'); TERMEND.planDinner(G,w,'heroine_02','friend'); const q=OUT.get(G,'te_'+term); return q?[K(q.day),q.h]:null; };
     const a=din('Y1S2'), b=din('Y1S1');
     check('18. 芷若大一下期末邀約「考完了嗎？我下班以後，吃個東西？」：22:00（她晚班到 22:00）',!!a&&a[1]===22,J(a));
-    check('18. 對照：大一上「這禮拜五我九點下班。要不要吃宵夜？」照舊 21:00',!!b&&b[1]===21,J(b)); }
+    check('18. 大一上也一樣（AA_373 第 6 節第 9 題「統一」，企劃線 bdab2f42）：「這禮拜五我十點下班。要不要吃宵夜？」22:00',!!b&&b[1]===22&&TERMEND_LINES.FRIEND.heroine_02.y1s1==='這禮拜五我十點下班。要不要吃宵夜？',J(b)); }
   // ===== 第 19 項：總圖十點關 =====
   { const dp=(STORY.DAILY_PHONE||[]).find(x=>x.id==='y1s2_bohan_closed'), T=dp?dp.items(G).map(x=>x.from+':'+x.text):[];
     check('19. 麵店團手機小事：22:10 柏翰「總圖十點關。」「我被趕出來了。」、阿哲「你根本住那裡吧」',!!dp&&Math.abs(dp.h()-(22+10/60))<1e-9&&J(T)===J(['classmate_bohan:總圖十點關。','classmate_bohan:我被趕出來了。','zhe:你根本住那裡吧']),J([dp&&dp.h(),T])); }

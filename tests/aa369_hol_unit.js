@@ -255,8 +255,8 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const t02=zrRe('T02','Y2'), c18=zrRe('C18','Y2'), w=zrRe('C18W','Y2');
     check('第 8 節第 8 題. 芷若 2027-06-04～09-02 不上班：日本的山（8/4 回來）、新加坡（7/27 回來）的重逢改「回來了喔？明天下午我在 Café。……這次是當客人。來嗎？」、隔天下午在 Café；沒有「明天我九點下班。」',
       [t02,c18].every(x=>J(x.t)===J(['回來了喔？明天下午我在 Café。……這次是當客人。來嗎？'])&&!!x.q&&x.q.day===x.I.to+1&&x.q.h===15&&x.q.place==='兩點半 Café'),J([t02.t,t02.q&&[K(t02.q.day),t02.q.h],c18.t,c18.q&&[K(c18.q.day),c18.q.h]]));
-    check('第 8 節第 8 題. 對照：2027 寒假新加坡（1/10 回來，她還在上班）照舊「明天我九點下班。」「……你來的話，我晚一點關燈。」、隔天 21:00',
-      J(w.t)===J(['明天我九點下班。','……你來的話，我晚一點關燈。'])&&!!w.q&&w.q.h===21,J([w.t,w.q&&w.q.h]));
+    check('第 8 節第 8 題. 對照：2027 寒假新加坡（1/10 回來，她還在上班）照舊在班的那一句——AA_373 第 6 節第 9 題以後是「明天我十點下班。」「……你來的話，我晚一點關燈。」、隔天 22:00（她晚班到 22:00）',
+      J(w.t)===J(['明天我十點下班。','……你來的話，我晚一點關燈。'])&&!!w.q&&w.q.h===22,J([w.t,w.q&&w.q.h]));
     const zrTrip=(id,yk)=>{ const I=VAC.inst(id,yk); fresh(I.from,7,'dorm',{dating_heroine_02:true}); R('heroine_02','CLO'); VAC.tripMsgs(G,I); return allTxt('p:heroine_02'); };
     const CAFE=/下班了。今天放的是|有個客人點了你都點的那杯|Café 打烊後的吧台|店裡很安靜|今天店裡放的歌|我早班/;
     const a=zrTrip('C18','Y2'), b=zrTrip('C08','Y2'), c=zrTrip('C18W','Y2');
@@ -283,7 +283,7 @@ const pr=(id,k)=>STORY.presence(id,Object.assign({},G||{flags:{}},{day:D(k),stag
     const t02=await play('T02','Y2'), c18=await play('C18','Y2'), w=await play('C18W','Y2');
     check('第 9 節第 2 題. 不上班那段的重逢（日本的山 8/5、新加坡 7/28 隔天 15:00 在 Café）：「（她坐在窗邊的位子，面前一杯喝了一半的冰咖啡。）」「回來了。」「……今天的咖啡不是我做的，學妹做的。你喝喝看。比我好喝的話，我會生氣。」；15:00 照舊；沒有倒扣椅子、第一杯',
       [t02,c18].every(x=>J(x.L)===J(NEW)&&x.r.q.h===15),J([t02.L,c18.L,t02.r.q&&t02.r.q.h]));
-    check('第 9 節第 2 題. 對照：2027 寒假新加坡（她還在上班）照舊 21:00「（她把最後一張椅子倒扣在桌上。）」「回來了。」「……第一杯，我還是做給你。坐。」',J(w.L)===J(OLD)&&w.r.q.h===21,J([w.L,w.r.q&&w.r.q.h]));
+    check('第 9 節第 2 題. 對照：2027 寒假新加坡（她還在上班）照舊「（她把最後一張椅子倒扣在桌上。）」「回來了。」「……第一杯，我還是做給你。坐。」，22:00（AA_373 第 6 節第 9 題：她晚班到 22:00）',J(w.L)===J(OLD)&&w.r.q.h===22,J([w.L,w.r.q&&w.r.q.h]));
     const miss=(id,yk)=>{ const r=reQ(id,yk); if(!r.q) return null; G.day=r.q.day; G.hour=r.q.h+1; VAC.missed(GM,r.q); G.day=r.q.day+1; G.hour=12.5; PHONE.tick(G); return TH('p:heroine_02').filter(m=>m.tag==='vac_remiss_'+r.I.key+'_heroine_02').map(m=>[K(m.day),m.h,m.text]); };
     const m1=miss('T02','Y2'), m0=miss('C18W','Y2');
     check('第 9 節第 2 題. 不上班那段沒去：隔天 12:00「昨天那個位子，我坐到打烊。」（不是「昨天的那杯，我自己喝了。」）；對照：寒假那次照舊',J(m1)===J([['2027-08-06',12,'昨天那個位子，我坐到打烊。']])&&J(m0&&m0.map(x=>x[2]))===J(['昨天的那杯，我自己喝了。']),J([m1,m0])); }
