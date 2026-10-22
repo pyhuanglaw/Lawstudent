@@ -61,7 +61,7 @@ def base_state(dk, key, h, who, extra):
          'MOVED_OUT': dk['2029-06-28'], 'HOME_AFTER': 'home', 'Y4_PATH': 'other', 'PACKED_Y4': dk['2029-06-01']}
     if KX in who: F['KX_OUR_DAY'] = {'day': 'sun', 'mode': 'mid'}
     F.update(extra or {})
-    return {'v': 3, 'stage': 'law', 'name': '祐廷', 'day': day, 'hour': h, 'energy': 100, 'money': 22000, 'zone': 'campus',
+    return {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': day, 'hour': h, 'energy': 100, 'money': 22000, 'zone': 'campus',
             'pos': {'x': -34, 'z': 12.5, 'yaw': 3.14159, 'lv': 0}, 'weather': 'clear', 'flags': F,
             'events': {'done': {'ev_grad_family': 1, 'ev_grad_lunch': 1, 'ev_grad_envelope': 1, 'ev_move_out_y4': 1}, 'last': {}, 'count': 0}}
 

@@ -225,10 +225,10 @@ async def launch(p, run, sid, key, h, flags, setrel, pg_mode=True, quiet=False, 
     if pg_mode:
         F.update({'GRADUATED': dk['2029-06-02'], 'GRAD_DONE': True, 'MOVED_OUT': dk['2029-06-28'], 'HOME_AFTER': 'home'})
         F.setdefault('PG', {'done': {'grad': 1}})
-        st = {'v': 3, 'stage': 'law', 'name': '祐廷', 'day': dk[key], 'hour': h, 'energy': 100, 'money': 22000, 'zone': 'campus', 'pos': {'x': -34, 'z': 12.5, 'yaw': 3.14159, 'lv': 0}, 'weather': 'clear', 'flags': F,
+        st = {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': dk[key], 'hour': h, 'energy': 100, 'money': 22000, 'zone': 'campus', 'pos': {'x': -34, 'z': 12.5, 'yaw': 3.14159, 'lv': 0}, 'weather': 'clear', 'flags': F,
               'events': {'done': {'ev_grad_family': 1, 'ev_grad_lunch': 1, 'ev_grad_envelope': 1, 'ev_move_out_y4': 1, 'ev_sis_w1': 1}, 'last': {}, 'count': 0}}
     else:
-        st = {'v': 3, 'stage': 'law', 'name': '祐廷', 'day': dk[key], 'hour': h, 'energy': 100, 'money': 30000, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'flags': F,
+        st = {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': dk[key], 'hour': h, 'energy': 100, 'money': 30000, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'flags': F,
               'events': {'done': {'ev_sis_w1': 1}, 'last': {}, 'count': 0}}
     st['weekday'] = await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % st['day'])
     await L.load_state(pg, st, quiet_events=quiet); await pg.wait_for_timeout(3000); await pg.evaluate(HOOK)

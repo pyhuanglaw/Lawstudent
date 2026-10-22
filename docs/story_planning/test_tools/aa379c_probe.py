@@ -518,7 +518,7 @@ async def s_w1_nodm(p, run, base, sid, out):
 
 ORDER = ['W1_LATE', 'W1_LATE_NODM', 'S31_CAFE', 'S31_OUT', 'S32_GO', 'S32_RIDE', 'S32_DATE', 'S32_NO', 'S32_US', 'S32_JP', 'S34_IV', 'S34_NOIV', 'S34_DATE_IV', 'ORAL_AM', 'KAI_Y1', 'KAI_Y2']
 FN = {'W1_LATE': s_w1, 'W1_LATE_NODM': s_w1_nodm, 'S31_CAFE': s31, 'S31_OUT': s31, 'S32_GO': s32, 'S32_RIDE': s32, 'S32_DATE': s32, 'S32_NO': s32, 'S32_US': s32_none, 'S32_JP': s32_none,
-      'S34_IV': s34, 'S34_NOIV': s34, 'S34_DATE_IV': s34, 'ORAL_AM': s_oral, 'KAI_Y1': s_kai, 'KAI_Y2': s_kai}
+      'S34_IV': s34, 'S34_NOIV': s34, 'S34_DATE_IV': s34}
 
 
 # ---------------------------------------------------------------- LAWWW 10-22 06:24 派的兩件作息修正（BB 05:02 回報；開發分支 1a9b5761 起）
@@ -566,6 +566,9 @@ async def s_kai(p, run, base, sid, out):
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
     await close(b)
+
+
+FN.update({'ORAL_AM': s_oral, 'KAI_Y1': s_kai, 'KAI_Y2': s_kai})
 
 
 async def main():

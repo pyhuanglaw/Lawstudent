@@ -177,7 +177,7 @@ async def launch_min(p, run, sid, sc):
     if sc['route'] == 'US': F.update({'US_DEPARTED': True, 'US_ARRIVED': True, 'US_ARRIVED_DAY': dk['2028-08-02'], 'US_RETURNED': dk['2028-12-23']})
     if sc['route'] == 'JP': F.update({'X1_JP': dk['2028-02-20'], 'JP_DEPARTED': dk['2028-03-25'], 'JP_RETURNED': dk['2028-08-05'], 'AN_SENDOFF': 'together'})
     day = dk['2029-06-02']
-    st = {'v': 3, 'stage': 'law', 'name': '祐廷', 'day': day, 'hour': 7.3, 'energy': 100, 'money': 30000, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'flags': F,
+    st = {'v': 2, 'stage': 'law', 'name': '祐廷', 'day': day, 'hour': 7.3, 'energy': 100, 'money': 30000, 'zone': 'dorm', 'pos': None, 'weather': 'clear', 'flags': F,
           'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % day), 'contacts': {'heroine_05': dk['2025-09-24'], 'heroine_03': dk['2025-09-24'], 'heroine_01': dk['2025-09-24']},
           'events': {'done': {'ev_sis_w1': 1}, 'last': {}, 'count': 0}}
     await L.load_state(pg, st, quiet_events=True)
