@@ -24,7 +24,7 @@
 | v9.10.1 | `4c0cbefc`（PR [pyhuanglaw/Lawstudent#7](https://github.com/pyhuanglaw/Lawstudent/pull/7) 的合併 commit；遊戲檔案＝開發分支 `f4b47480`） | 2026-10-18 12:14:59 UTC（run 39126382240 success） | `8c63ea53`（v9.10） |
 | v9.10.2 | `9335763d`（PR [pyhuanglaw/Lawstudent#8](https://github.com/pyhuanglaw/Lawstudent/pull/8)；遊戲檔案＝測過的 `f6351696`） | 2026-10-19 01:52:21 UTC（run 39187157610） | `4c0cbefc`（v9.10.1） |
 | v9.10.3 | `5b3f1023`（PR [pyhuanglaw/Lawstudent#9](https://github.com/pyhuanglaw/Lawstudent/pull/9)；遊戲檔案＝候選 `b23483dd`） | 2026-10-21 18:39:31 UTC（run 39654273043） | `9335763d`（v9.10.2） |
-| v9.10.4 | `4a8d17f9`（PR [pyhuanglaw/Lawstudent#10](https://github.com/pyhuanglaw/Lawstudent/pull/10)；遊戲檔案＝發布樹 `f1c226c7`，git diff 為空） | 部署中（run 39731006425） | `5b3f1023`（v9.10.3） |
+| v9.10.4 | `4a8d17f9`（PR [pyhuanglaw/Lawstudent#10](https://github.com/pyhuanglaw/Lawstudent/pull/10)；遊戲檔案＝發布樹 `f1c226c7`，git diff 為空） | 2026-10-22 05:59:27 UTC（run 39731006425） | `5b3f1023`（v9.10.3） |
 
 ---
 
@@ -38,7 +38,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 ```
 （原本要用 tag `v9.3-25` 標記回復點：本機建立了，但這個沙盒推 tag 會被代理斷線，遠端沒有這個 tag——回復點以 commit SHA 為準。）
 
-## v9.10.4（2026-10-22 05:57 UTC 發布 `4a8d17f9`，PR #10；GitHub Pages 部署 run 39731006425）——學姊是主要女主角＋約好的事兩個人都在場就開始＋大一到大四修正稿＋兩天一夜約會
+## v9.10.4（2026-10-22 05:57 UTC 發布 `4a8d17f9`，PR #10；GitHub Pages 部署 run 39731006425 05:59:27 成功）——學姊是主要女主角＋約好的事兩個人都在場就開始＋大一到大四修正稿＋兩天一夜約會
 
 **發布樹 `f1c226c7`**＝開發分支 `9cf16124`（v9.10.3 以後的候選）＋`91f1b212` 的 `src/adv3d.js` 一行（芷若 Café 當班不換很糊的圍裙版立繪，使用者 10-22 iPhone「林芷若太糊了吧」）＋發布前測試的修正。main 的遊戲檔案（src、assets、tests、tools、index.html、lib）和 `f1c226c7` 逐檔相同（git diff 為空）；docs 是開發分支 `7e94dd9c` 的交接文件。做法（不 force push）：開發分支 `6dad28e5` 把遊戲檔案換成發布樹 → PR #10 合併（merge commit）→ `b371901e` 換回開發中的檔案 → `002c4e19` 把 main 合併回開發分支。回復目標：v9.10.3 `5b3f1023`。
 
@@ -64,7 +64,7 @@ git push origin $C:main        # 快轉，不是強制推送；之後用 GitHub 
 - HV-15 第 5 點：題目漏收 0（企劃線 `27568bc9` 重新匯出：399 題逐題相同，只有來源字串不同；刑訴 84 題照舊）；check_lines 一模一樣 23,481 句、相似度 ≥0.8 的 144 筆是提醒（沒逐句看；抽看是 AA 後來改過的約會台詞、課名）；check_orphans：停住的看板項目 26 項都有恢復條件（這次補了 8 項，`7e94dd9c`）、沒用到的素材 9 張、白名單待接 24。
 - **BB 判定 GO**（10-22 05:02；候選 `9cf16124`＋芷若立繪一行；Playwright 手機模擬）。
 
-**部署驗證**：＿＿
+**部署驗證**：Pages 部署工作 build、report-build-status、deploy 都成功（05:57:35～05:59:27），head＝`4a8d17f9`；main 的遊戲檔案和發布樹 `f1c226c7` 逐檔相同（git diff 為空）。沙盒連不到 github.io（代理 403），線上頁面沒有直接打開核對，以部署工作結果為準——請使用者或下一次能連線的工作階段打開標題畫面看版本字樣「v9.10.4（2026-10-22）」。
 
 **這版還沒有的（已知；修正大多已在開發分支，下一版 v9.10.5）**：
 - 小語改名 Alison（`c617b2e0`）。
