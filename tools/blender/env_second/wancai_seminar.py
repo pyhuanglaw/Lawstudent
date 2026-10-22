@@ -81,7 +81,7 @@ class Room(K.Shop):
             'steel': L.flat('l118_steel', '#b9bec2', rough=0.28, metal=0.45), 'glass': L.flat('l118_glass', '#dfe9ec', rough=0.05, alpha=0.16),
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')), 'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'fridge': L.flat('GLOW_l118_fridge', '#f4f8ff', rough=0.3, emit=B.srgb('#cfe0f4')),
-            'ceil': L.pbr('wancai_sema_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9, cull=True),   # 單面朝下（10-22：原本雙面朝上，鏡頭比天花板高 1 cm，拉遠是一大片白）
+            'ceil': L.pbr('wancai_sema_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9),
             'print': img_mat('wancai_sema_print', 'wancai_sema_print.png', rough=0.55), 'screen': img_mat('GLOW_l118_screens', 'l118_screens.png', rough=0.3, emit=0.9),
             'board': L.flat('wancai_sema_whiteboard', '#f6f8f8', rough=0.15),
         }
@@ -182,7 +182,7 @@ def law_books(c, x0, x1, z0, z1, h=2.1):
 def build():
     c = Room(); X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M; rr = c.rng
     fl = Mesh('wancai_sema_floorm', M['floor'], tile=1.2); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
-    ce = Mesh('wancai_sema_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)   # 朝下
+    ce = Mesh('wancai_sema_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(c.root)
     wh = 0.9
     # +z（S）：一排窗（窗洞中心 2.1 m、2.2 × 1.6；和霖澤館 3F 同一套）
     WX = [-2.6, 0.0, 2.6]; wy0, wy1 = 1.3, 2.9

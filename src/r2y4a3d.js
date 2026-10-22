@@ -330,7 +330,7 @@ const R2Y4A=(function(){
             PHONE.at(G,a,h,L,'y4_pickup_ask');
             if(v==='two'){ const m=P5('……你有空嗎。'); m.ask={id:'y4_pickup_two',until:T(d,20),opts:[{t:'有。',set:{SIS_PICKUP_GO:'two'}},{t:'那天不行。',set:{SIS_PICKUP_NO:true}}]}; PHONE.at(G,a,h,[m],'y4_pickup_dm'); } } }   /* 兩個人：她私訊多一句 */
         if(!F.SIS_PICKUP_V&&F.SIS_PICKUP_GO) F.SIS_PICKUP_V=F.SIS_PICKUP_GO;
-        if(F.SIS_PICKUP_V&&!F.SIS_PICKUP) plan(G,{id:'y4_sis_pickup',ev:'ev_sis_pickup',day:d,h:20.5,late:0.25,place:'桃園機場入境大廳',title:'接機（學姊）',travel:'開車 約 50 分鐘',travelH:5/6,alarm:true});   /* alarm：跳過時間、睡覺停在出發前（BUG-KAI-PICKUP-1022；同 X81 8/30）*/
+        if(F.SIS_PICKUP_V&&!F.SIS_PICKUP) plan(G,{id:'y4_sis_pickup',ev:'ev_sis_pickup',day:d,h:20.5,late:0.25,place:'桃園機場入境大廳',title:'接機（學姊）',travel:'開車 約 50 分鐘',travelH:5/6});
         if(!F.SIS_PICKUP_V&&!F.SIS_PICKUP&&PHONE.sent(G,'y4_pickup_ask')&&past(G,d,21.5)){ F.SIS_PICKUP='mrt'; PHONE.at(G,d,21.5,[GS('到了。捷運很快。')],'y4_pickup_mrt'); }
         if(F.SIS_PICKUP_TMR&&F.SIS_PICKUP&&F.SIS_PICKUP!=='mrt'&&!PHONE.sent(G,'y4_pickup_tmr')){ const t='滷肉飯。今天。這不是三件事。'; PHONE.at(G,d+1,11,[F.SIS_PICKUP==='family'?GS(t):P5(t)],'y4_pickup_tmr'); } } }   /* 「先回家睡覺。」隔天（AA 沒寫幾點，排 11:00）：家族共乘發在群組 */
     /* ---- 2-Y4-24 聖誕：12/24 21:00 私訊（去／不去）→ 12/25（一）19:00 政大山下 ---- */

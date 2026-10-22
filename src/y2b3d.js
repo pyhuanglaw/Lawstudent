@@ -1,7 +1,7 @@
 /* ===== 1B 大二～大三上的人物事件：手機、時間窗、明信片、法服 5/22、債各第 6 週的課堂段、沛珊放榜後（AA_316 1B-01～07、AA_321 1B-08～11；AA-C 定稿，台詞照原文）=====
    事件（出遊、在場景裡碰到的、下課後）在 src/data/y2b_events.js。這裡用 STORY.PHONE_RULES（手機）、STORY.TICKS（9/14 下雨、明信片放在桌上／Café 牆上）、
    CLS.IN_CLASS（債各第 6 週那一堂的劇情段）掛進去；法服 5/22 包住 STORY.fafuShift、沛珊放榜後第一次的回覆包住 MSG.send（不改那兩個檔）。
-   1B-11 只做了訊息（8/7、第一次回覆；8/7 那一則 AA_296 2-3-1 ④ 起是她打來的電話，沒接才是訊息）：沛珊大三起在台南（presence、臺北作息、邀約去台南、期末心意邀約、閒聊階梯 context:'date'）屬 AA_282 第 5 節，見 S.PS_TAINAN 的說明。
+   1B-11 只做了訊息（8/7、第一次回覆）：沛珊大三起在台南（presence、臺北作息、邀約去台南、期末心意邀約、閒聊階梯 context:'date'）屬 AA_282 第 5 節，見 S.PS_TAINAN 的說明。
    AA_349（2026-10-21）：K1 第一次回覆分台中／台南兩句；K9 大三上第 6 週 10/15 21:00 二手書店那兩則；K3 她主動約「台南・美術館」的手機規則（HV.museumPhone）也從這裡叫。
    AA_350 P1（2026-10-21）：第一次回覆照她那天在哪（STORY.presence）——寒暑假在台中＝台中那一句，學期中＝台南那一句（S.psTaichung）。
    測試：node tests/y2b_events_unit.js、tests/peishan_tainan_unit.js（第 8 節）*/
@@ -75,29 +75,16 @@ const Y2B=(function(){
           PHONE.at(G,d8,21,[Z('我有兩個專題，只能交一個。'),Z('明天晚上七點半，兩點半。你來幫我看一下。')],'y3_zq_q10');
           if(typeof OUT!=='undefined') OUT.plan(G,{id:'y3_zq_q10',day:d9,h:19.5,late:0.5,early:0.25,place:'兩點半 Café',title:'兩點半 Café 19:30',travel:'走過去 約 10 分鐘',travelH:1/6,goto:{zone:'cafe',x:0,z:5,yaw:Math.PI}}); }
         if(past(G,'2027-11-09',20)&&!done(G,'ev_ziqing_capstone')&&!F.ZQ_Q10&&stageAt('heroine_04','FRIEND')){ F.ZQ_Q10='self'; F.ZQ_MUSIC_CREDIT=true; if(contact(G,'heroine_04')) PHONE.at(G,d9,21,[Z('我自己選了。……其實本來就差不多決定了。')],'y3_zq_q10_self'); } } }
-    /* ---- 1B-11 沛珊：消失期傳過訊息的（沒交往）＝2027-08-07 21:00 她打來（AA_296 2-3-1 ④，企劃線 3f406dbc；原本是回兩則私訊）；沒接＝原本那兩則（S.psBackPhone）---- */
-    { const d=D('2027-08-07'); if(d!=null&&G.day>=d&&G.day<=d+60&&now(G)>=T(d,S.PS_CALL.h-S.PS_CALL.lead)&&F.PS_BACK_READ==null&&!dating(G,'classmate_peishan')){
+    /* ---- 1B-11 沛珊：消失期傳過訊息的（沒交往）＝2027-08-07 21:00 回一則 ---- */
+    { const d=D('2027-08-07'); if(d!=null&&G.day>=d&&G.day<=d+60&&past(G,'2027-08-07',21)&&F.PS_BACK_READ==null&&!dating(G,'classmate_peishan')){
         const a=D('2026-12-18'), b=D('2027-08-06'); const sentAbs=(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b);
-        if(sentAbs) S.psBackPhone(G,d); else if(past(G,'2027-08-07',21)) F.PS_BACK_READ=false; } }   /* false＝看過了、她沒有要回的（不再每次掃訊息）*/
+        if(sentAbs){ PHONE.at(G,d,21,[P('……這半年我都沒看手機。對不起。'),P('我現在很好。')],'ps_back_read'); F.PS_BACK_READ=d; } else F.PS_BACK_READ=false; } }   /* false＝看過了、她沒有要回的（不再每次掃訊息）*/
     /* ---- 沛珊大三上第 6 週的私訊（AA_349 K9、AA_312 第 1 點；BB_98 第 12 點的時間 10/15（五）21:00）：已經重新聯絡上的玩家（交往中也算；presence 不是 lost）；第二句留 ---- */
     { const d=D('2027-10-15'), id='classmate_peishan'; if(d!=null&&G.day>=d&&G.day<=d+2&&past(G,'2027-10-15',21)&&!PHONE.sent(G,'ps_y3_bookstore')&&contact(G,id)&&typeof STORY!=='undefined'&&STORY.presence&&!STORY.presence(id,G).lost)
         PHONE.at(G,d,21,[P('我在學校附近的二手書店打工了。週末都在。'),P('……你不用特地來，我只是說一聲。')],'ps_y3_bookstore'); }
     if(typeof HV!=='undefined'&&HV.museumPhone) HV.museumPhone(G);   /* 沛珊大三起：她主動約「台南・美術館」（AA_349 K3，hometown3d.js）*/
   };
 
-  /* ===================== 1B-11 沛珊回來：2027-08-07 21:00 她打來（AA_296 2-3-1 ④，企劃線 3f406dbc）=====================
-     消失期（2026-12-18～2027-08-06）傳過訊息、沒交往的玩家：原本是兩則私訊「……這半年我都沒看手機。對不起。」「我現在很好。」——她消失半年以後第一次出現，改成她打來（ev_peishan_back_call）。
-     電話照 r2y3b3d.js 那幾通的寫法（OUT：接起來、沒有「不去了」）；前 2 小時才排（手機「今天」不會一早就寫著她要打來；放假在家快轉每小時跑一次規則也停得到），不跳「排進行程」。
-     沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊。接了、沒接都記 PS_BACK_READ＝那一天（放榜以後重新聯絡上：r2y4b3d.js psReconnected 讀）*/
-  S.PS_CALL={id:'y3_ps_back_call',ev:'ev_peishan_back_call',h:21,late:0.5,lead:2};
-  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：條件同上面 1B-11 那一段（消失期傳過訊息、沒交往、還沒回）*/
-  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('2027-08-07'); if(d==null||G.day!==d||F.PS_BACK_READ!=null||dating(G,'classmate_peishan')) return []; const a=D('2026-12-18'), b=D('2027-08-06'); if(!(G.msgs||[]).some(m=>m.th==='p:classmate_peishan'&&m.from==='player'&&m.day>=a&&m.day<=b)) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.PS_CALL.id):null; if(q&&q.state!=='planned') return []; return [{h:S.PS_CALL.h,why:'手機響了'}]; });
-  S.psBackPhone=function(G,d){ const C=S.PS_CALL, O=typeof OUT!=='undefined'?OUT:null, t=T(d,C.h), q=O?O.get(G,C.id):null;
-    if(!q){ if(O&&G.day===d&&now(G)>=t-C.lead&&now(G)<t+C.late) O.plan(G,{id:C.id,ev:C.ev,day:d,h:C.h,late:C.late,must:true,place:'電話',title:'沛珊打電話來',verb:'接起來',call:true,travel:'',travelH:0,back:'電話掛了。',silent:true});
-      else if(now(G)>=t+C.late) S.psBackMissed(G); return; }   /* 那一段沒跑到規則（讀檔、整段在別的劇情裡）＝照原本那兩則 */
-    if(q.state==='missed'||(q.state==='planned'&&now(G)>t+C.late)){ q.state='missed'; S.psBackMissed(G); } };   /* 人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
-  S.psBackMissed=function(G){ const F=G.flags, d=D('2027-08-07'); if(!F||F.PS_BACK_READ!=null||d==null||typeof PHONE==='undefined') return; PHONE.at(G,d,21,[P('……這半年我都沒看手機。對不起。'),P('我現在很好。')],'ps_back_read'); F.PS_BACK_READ=d; };
-  S.psBackAnswered=function(G){ const F=G.flags, d=D('2027-08-07'); if(F&&F.PS_BACK_READ==null&&d!=null) F.PS_BACK_READ=d; };
   /* ===================== 1B-11 沛珊：放榜以後，玩家第一次傳訊息給她（沒交往）＝「好久不見。……我現在在台南。」「你要來的話，跟我說。」（包住 MSG.send）=====================
      AA_349 K1：分開寫——她在台中＝「好久不見。……我現在在台中，開學以後在台南。」；在台南＝原文。兩種都接「你要來的話，跟我說。」（看她回的那一天）
      AA_350 P1（2026-10-21）：不只 8/7～9/3——之後的寒暑假（她在台中）第一次回也是台中那一句；學期中照原文。在哪照 STORY.presence（手機「現在大概在」、去找她同一套：city／home 是台中）*/

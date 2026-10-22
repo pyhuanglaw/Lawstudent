@@ -17,7 +17,6 @@
          美國路線＝一起出發（exchange3d.js 的 3D 機場：進到機場演前三列，「登機」時演登機口那一列）；8/3 09:00 US0（台灣、日本路線）；
          M6：8/3～12/23 家族群組每天一張照片（只留最近 7 張，不把手機洗掉）、週日 19:00（11/5 起 20:00）六題爭論、之後「今天不吵」。DROVE_HER、REPLIED_US0、ARGUED_GOOD、SIS_SENDOFF。
    1B-19 以安新 18：10/19（四）21:30 萬才館（讀書會散會；讀書會去過 3 次以上或那天在場）＝走廊；其他 22:00 麵店團群組；美國路線照當地時間。AN_CHOICE_TOLD。
-         美國路線、和以安交往中＝臺灣 22:00（當地 10:00）她打來的視訊（AA_296 2-3-1 ①，AN_CHOICE video，讀 AN_CHOICE 的地方當成 here 那一類）；沒接＝原本那兩則私訊（dm）。
    1B-20 二十三週年：12/11 讀書會群組、12/11～12/13 麵店團群組的倒數、12/12 語彤的班那一句、12/14 19:00 麵店（18:45～19:15；19:30 還沒到＝電話帶到場，睡著也會醒來）；CG-8；強制下雨；
          最後一碗不給你＝給阿哲（三行）；和可昕交往、她沒見過麵店團＝22:30 傳長桌的照片給她；
          美國路線＝群組照片、可昕私訊，12/23 回來以後第一次去麵店阿姨那一句。12/17 以後第一次進麵店＝牆上芷若的明信片（FAMILIAR 以上）。ANNIVERSARY_23。
@@ -261,20 +260,8 @@ const Y34B=(function(){
   /* ================= 1B-19 以安新 18 ================= */
   S.an18Due=(G)=>{ const d=D('an18'); if(!law(G)||d==null||G.day!==d||G.hour<21.5||G.hour>=22||G.flags.AN_CHOICE!=null||US(G)) return false;
     if(!['wancai','wancai_sema'].includes(G.zone)||!fam('heroine_01')) return false; const here=!!(G.acts&&G.acts.att&&G.acts.att['public_law_group@'+d]); return here||grpCount(G)>=3; };
-  /* 美國路線、和以安交往中（AA_296 2-3-1 ①，企劃線 3f406dbc）：原本只有兩則私訊，改成她打來的視訊（臺灣 22:00＝當地 10:00；ev_an_her_choice_video，AN_CHOICE video）。
-     出遊的電話照 r2y3b3d.js 那幾通的寫法（OUT：接起來、沒有「不去了」）；約好的時間前 2 小時才排（手機「今天」不會一早就寫著她要打來；快轉每小時跑一次規則也停得到），不跳「排進行程」。
-     沒接（睡著、在忙、在出遊或劇情中，過了 30 分鐘）＝原本那兩則私訊（S.an18Dm，AN_CHOICE dm）。人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
-  S.AN18_VIDEO={id:'y4_an18_video',ev:'ev_an_her_choice_video',h:22,late:0.5,lead:2};
-  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：條件同 S.an18Phone 走到 S.an18Video 的那一支 */
-  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const F=G.flags||{}, d=D('an18'); if(d==null||G.day!==d||!law(G)||F.AN_CHOICE!=null||!met('heroine_01')||!US(G)||!dating(G,'heroine_01')) return []; const q=typeof OUT!=='undefined'?OUT.get(G,S.AN18_VIDEO.id):null; if(q&&q.state!=='planned') return []; return [{h:tzH(G,d,S.AN18_VIDEO.h),why:'手機響了'}]; });
-  S.an18Dm=function(G){ const F=G.flags, d=D('an18'); if(d==null||F.AN_CHOICE!=null) return; F.AN_CHOICE='dm'; remember('heroine_01','AN_CHOICE_TOLD','第一批知道'); at(G,d,tzH(G,d,22),[DM('heroine_01','我決定了。考台大法研所，商法組。'),DM('heroine_01','先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')],'y4_an18_dm'); };   /* 新寫（AA_323 1B-19；AA_337 第 4 節改句：禁用句型「你是第 N 個」）*/
-  S.an18Video=function(G){ const V=S.AN18_VIDEO, d=D('an18'), O=typeof OUT!=='undefined'?OUT:null; if(d==null) return; const h=tzH(G,d,V.h), t=T(d,h), q=O?O.get(G,V.id):null;
-    if(!q){ if(O&&G.day===d&&NOW(G)>=t-V.lead&&NOW(G)<t+V.late) O.plan(G,{id:V.id,ev:V.ev,day:d,h,late:V.late,must:true,place:'視訊',title:'以安打視訊來（台灣 22:00）',verb:'接起來',travel:'',travelH:0,back:'視訊結束。',silent:true});
-      else if(NOW(G)>=t+V.late) S.an18Dm(G); return; }   /* 那一段沒跑到規則（讀檔、整段在別的劇情裡）＝照私訊 */
-    if(q.state==='missed'||(q.state==='planned'&&NOW(G)>t+V.late)){ q.state='missed'; S.an18Dm(G); } };
   S.an18Phone=function(G){ const F=G.flags, d=D('an18'); if(d==null||G.day<d||G.day>d+1||!law(G)||F.AN_CHOICE!=null) return; if(!met('heroine_01')) return;
-    if(US(G)&&dating(G,'heroine_01')){ S.an18Video(G); return; }
-    { const q=typeof OUT!=='undefined'?OUT.get(G,S.AN18_VIDEO.id):null; if(q&&q.state==='planned') q.state='cancelled'; }   /* 排好視訊以後不再交往：不打來，照下面的群組 */
+    if(US(G)&&dating(G,'heroine_01')){ if(NOW(G)>=T(d,tzH(G,d,22))){ F.AN_CHOICE='dm'; remember('heroine_01','AN_CHOICE_TOLD','第一批知道'); at(G,d,tzH(G,d,22),[DM('heroine_01','我決定了。考台大法研所，商法組。'),DM('heroine_01','先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')],'y4_an18_dm'); } return; }   /* 新寫（AA_323 1B-19；AA_337 第 4 節改句：禁用句型「你是第 N 個」）*/
     if(NOW(G)>=T(d,tzH(G,d,22))){ F.AN_CHOICE='group'; if(inGrp(G,'noodle_team')){ remember('heroine_01','AN_CHOICE_TOLD','聽說'); at(G,d,tzH(G,d,22),[{th:'g:noodle_team',from:'heroine_01',text:'我決定了。考台大法研所，商法組。'}],'y4_an18_grp'); } } };
   /* ================= 1B-20 二十三週年 ================= */
   S.a23Due=G=>{ const d=D('a23'); return law(G)&&!US(G)&&d!=null&&G.day===d&&G.zone==='noodle'&&G.hour>=18.75&&G.hour<21&&G.flags.ANNIV23==null; };
@@ -606,19 +593,6 @@ const Y34B=(function(){
     {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了 Alison 一眼。Alison 在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* Alison 在旁邊的這一版（AA_337 第 4 節）*/
     {speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
     {label:'n_end'},{set:{AN_CHOICE:'here'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
-  /* 美國路線、和以安交往中＝她打來的視訊（AA_296 2-3-1 ①，企劃線 3f406dbc；台詞照 AN18 交往版，只改開頭和結尾；三選一照 AN18，第三個用沒有 Alison 在旁邊的那一版）*/
-  const AN18_VIDEO=[ {scene:'視訊',bg:'video'},
-    {speaker:null,text:'（視訊。她那邊是晚上十點，你這邊是早上。她把手帳攤在鏡頭前面。）'},
-    {speaker:'heroine_01',text:'我決定了。考台大法研所，商法組。'},
-    {speaker:'heroine_01',text:'昨天先跟我媽說了。……今天跟你說。'},
-    {speaker:'heroine_01',text:'公司法、證交法、保險法。我讀這些的時候，不會一直看時間。'},
-    {speaker:'heroine_01',text:'念完以後要當司法官還是去事務所，我還沒想好。……想好了，我會先跟你說。'},
-    {choice:[{text:'「什麼時候考？」',goto:'v_a'},{text:'「妳媽怎麼說？」',goto:'v_b'},{text:'「讀書會那邊知道嗎？」',goto:'v_c'}]},
-    {label:'v_a'},{speaker:'heroine_01',text:'明年二月。還有四個月。'},{goto:'v_end'},
-    {label:'v_b'},{speaker:'heroine_01',text:'她說，先把對方的理由講得比他自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'v_end'},
-    {label:'v_c'},{speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
-    {label:'v_end'},{speaker:'heroine_01',text:'……你那邊早上十點了。先去上課。'},{speaker:null,text:'（她先掛了。）'},
-    {set:{AN_CHOICE:'video'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
   /* 1B-20 */
   const ytF=()=>fam('heroine_03'), ytDt=G=>dating(G,'heroine_03');
   const lastBowl=G=>ytDt(G)||(mem('heroine_03','SHARED_MEAL')&&fri('heroine_03'));
@@ -738,8 +712,6 @@ const Y34B=(function(){
     { id:'ev_sis_note_bus', title:'便條', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, npcPresent:'heroine_03', background:'blur',
       prereq:{custom:G=>G.flags.SIS_SENDOFF==='bus'&&TW(G)&&fam('heroine_03')}, dialogue:NOTE_BUS },
     { id:'ev_an_her_choice', title:'她的選擇', participants:['heroine_01'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:AN18 },
-    { id:'ev_an_her_choice_video', title:'她的選擇（視訊）', participants:['heroine_01'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25, dialogue:AN18_VIDEO,   /* AA_296 2-3-1 ①：S.an18Video 排的視訊 */
-      outingMissed:G=>S.an18Dm(G) },
     { id:'ev_noodle_23rd', title:'二十三週年', participants:['heroine_03'], location:'any', trigger:'manual', once:true, background:'blur', dialogue:A23 },
     { id:'ev_yt_23rd_notice', title:'二十三週年', participants:['heroine_03'], location:'noodle', trigger:'manual', once:true, background:'blur', dialogue:A23_TUE },
     { id:'ev_noodle_23rd_missed', title:'阿鳳麵店', participants:[], location:'noodle', trigger:'manual', once:true, background:'blur', dialogue:A23_AUNT },

@@ -3,7 +3,7 @@
 
 檢查正式模型接進遊戲之後，「畫面以外的東西」都沒變、或照設計變了（LAWWW 2026-10-10 21:21Z 的條件）：
   1. 16 棟套件店面都有棟號、都接上正式模型、套件外觀全部藏起來；沒有標記的東西（捷運出口、校門、路燈、立牌、校園那一側的背景）沒有多藏任何一個。
-  2. 導航格（?nobldg 補上地上雜物的腳印 GG_PROP_BLOCKS 再比：正式模型接上時 zones3d.js 會多擋那幾格）、鏡頭碰撞方塊、互動點（進麵店、買飲料、進書房、進便利商店、往溫州街、回到校園、捷運）和 ?nobldg（程序化套件）完全相同。
+  2. 導航格、鏡頭碰撞方塊、互動點（進麵店、買飲料、進書房、進便利商店、往溫州街、回到校園、捷運）和 ?nobldg（程序化套件）完全相同。
   3. 招牌：ART-GG-SIGNS-2 起全部是設計稿（字在貼圖裡，wz_signs／wz_signs_lit），沒有 canvas 字的 SIGN_FACE／VSIGN_FACE；設計稿網格看得到、三角形數夠；
      店內景深卡 15 面合成一張 atlas（2026-10-21）；光暈合成一個網格。（之前：canvas 招牌合成一張 atlas、檢查貼圖比例＝板面比例。）
   4. 夜間：招牌、騎樓日光燈、亮燈的窗晚上發光、白天不發光；20:30 招牌是亮的；騎樓柱子有樹幹透視（擋住玩家時網點透空）。
@@ -170,8 +170,6 @@ async def check(pg, run, formal):
         run.check('機車分組有用：每個鏡頭都至少有一組機車在畫面外（整組不畫）', all(v and len(v['seen']) < v['all'] for v in vis.values()), json.dumps(vis))
     await pg.evaluate("GAME.E.endCinematic()")
     run.note(('一般網址' if formal else '?nobldg') + '：同一個鏡頭（藏起路人）的 draw call／三角形 ' + json.dumps(draws))
-    if not formal:   # 正式模型接上以後多擋地上雜物的腳印（zones3d.js propBlocks(nav,GG_PROP_BLOCKS)，ART-WZ0 2a67b144）：?nobldg 這邊補上同一份再比（95 格；LAWWW2 10-22 11:49 查到原本的期待過時）
-        await pg.evaluate("Z3.propBlocks(GAME.E.nav, Z3.PROP_BLOCKS.gongguan)")
     return await pg.evaluate(NAV_HASH), await pg.evaluate(STATE), others, draws
 
 
@@ -186,7 +184,7 @@ async def main():
             res[formal] = await check(pg, run, formal)
             run.check(('一般網址' if formal else '?nobldg') + '：沒有 JS 錯誤', not errs, '; '.join(errs[:3]))
             await b.close()
-    run.check('導航格：正式模型＝程序化版＋地上雜物的腳印（GG_PROP_BLOCKS）', res[True][0] == res[False][0], json.dumps([res[True][0], res[False][0]]))
+    run.check('導航格：正式模型和程序化版完全相同', res[True][0] == res[False][0], json.dumps([res[True][0], res[False][0]]))
     run.check('鏡頭碰撞方塊：完全相同', res[True][1]['col'] == res[False][1]['col'], '%d vs %d 個' % (len(res[True][1]['col']), len(res[False][1]['col'])))
     run.check('互動點（位置、半徑、名稱）：完全相同', res[True][1]['it'] == res[False][1]['it'], '%d vs %d 個' % (len(res[True][1]['it']), len(res[False][1]['it'])))
     run.check('沒有標記的群組（捷運出口、校門、路燈、背景…）沒有多藏任何一個', res[True][2]['empty'] == res[False][2]['empty'], json.dumps([res[True][2], res[False][2]]))   # 只比藏起來的數量：正式模型自己會多出群組（例：公館遠景），被取代的套件在一般網址略過，總數本來就不一樣

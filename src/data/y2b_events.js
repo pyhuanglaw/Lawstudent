@@ -5,7 +5,6 @@
    1B-05 ev_ziqing_dad_visit（公館騎樓＋河堤）、ev_ziqing_dad_sorry（選了「一定會懂」：兩週內吉他社社課）　1B-06 ev_zhiruo_last_shift（Café 6/3）
    1B-07 ev_kexin_two_circles（出遊：麵店 3/25 18:00）　1B-08 ev_yt_ta_news／ev_yt_ta_news_lib（13b）、ev_yt_umbrella_y3（事件 12）
    1B-09 ev_ziqing_capstone（Café 11/9）　1B-10 ev_zhiruo_xmas_video（和芷若交往：12/25 視訊；明信片在 y2b3d.js）、ev_zhiruo_bday_video（9/28 她的生日，打過去的視訊；AA_336 B6）
-   1B-11 ev_peishan_back_call（沛珊回來：2027-08-07 21:00 她打來，AA_296 2-3-1 ④；排在 y2b3d.js S.psBackPhone）
    CG（BCG-02、BCG-15、CG-6）：圖在企劃分支 cg_approved/，開發分支還沒登錄（CG_REGISTRY 沒有就不放，照原背景演；MISSING_EXTERNAL_ART.md）。測試：node tests/y2b_events_unit.js */
 'use strict';
 const Y2B_EVENTS=(function(){
@@ -274,23 +273,6 @@ const Y2B_EVENTS=(function(){
       {speaker:'heroine_02',text:'……你打來了，所以不算一個人。'},
       {speaker:'heroine_02',text:'好了。去睡。你那邊很晚了。'} ] };
 
-  /* ---- 1B-11 沛珊回來（AA_296 2-3-1 ④，企劃線 3f406dbc；新寫，原本兩則私訊的兩句都在裡面）：2027-08-07 21:00 她打來（y2b3d.js S.psBackPhone 排）；沒接＝原本那兩則私訊 ---- */
-  const Y2=()=>typeof Y2B!=='undefined'?Y2B:null;
-  const PS_BACK_CALL={ id:'ev_peishan_back_call', title:'電話', participants:['classmate_peishan'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'電話'},
-      {speaker:null,text:'（晚上九點。手機響了。來電的名字，你半年沒看到了。）'},
-      {speaker:'classmate_peishan',text:'……喂。'},
-      {speaker:'classmate_peishan',text:'這半年，我都沒看手機。你傳的，我今天才一則一則看完。'},
-      {speaker:'classmate_peishan',text:'對不起。'},
-      {choice:[{text:'「妳還好嗎？」',goto:'a'},{text:'「妳現在在哪？」',goto:'b'},{text:'（先不說話）',goto:'c'}]},
-      {label:'a'},{speaker:'classmate_peishan',text:'我現在很好。真的。'},{goto:'e'},
-      {label:'b'},{speaker:'classmate_peishan',text:'台中。在家。'},{goto:'e'},   /* AA_296 ④ 台中版（企劃線 ed0daea9：8/7 她在台中老家，同 AA_350 P1）*/
-      {label:'c'},{speaker:'classmate_peishan',text:'……你可以生氣。我只是想先打給你。'},
-      {label:'e'},{speaker:'classmate_peishan',text:'開學以後，我在台南。你要來的話，跟我說。'},
-      {speaker:null,text:'（她等了一下，才掛電話。）'} ],
-    after:G=>{ const y=Y2(); if(y&&y.psBackAnswered) y.psBackAnswered(G); },
-    outingMissed:G=>{ const y=Y2(); if(y&&y.psBackMissed) y.psBackMissed(G); } };
-
-  return [BAD_EXAM,LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TWO_CIRCLES,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO,BDAY_VIDEO,PS_BACK_CALL];
+  return [BAD_EXAM,LEASE_TEXT,AUNT_RETELL,MOTHER_MAP,DAD_VISIT,DAD_SORRY,LAST_SHIFT,TWO_CIRCLES,TA_NEWS,TA_NEWS_LIB,UMBRELLA,CAPSTONE,XMAS_VIDEO,BDAY_VIDEO];
 })();
 Array.prototype.push.apply(STORY_EVENTS,Y2B_EVENTS);

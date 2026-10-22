@@ -127,7 +127,7 @@ const PG=(function(){
     {tag:'pg_r2g_'+y,at:[K.r2,15],cond:G=>inNoodle(G)&&(y===2029||S.sits(G,2030)),items:G=>grp(L().R2.group)},
     {tag:'pg_r2f_'+y,at:[K.r2,15+6/60],cond:G=>y===2029&&S.stage2(G,2029)&&inNoodle(G),items:G=>[GR('zhe',L().R2.zhe)].concat(L().R2.bohan.map(t=>GR('classmate_bohan',t)))},
     {tag:'pg_r2late_'+y,at:[K.r2,15+5/60],cond:G=>y===2029&&S.delayed(G),items:G=>[P_('zhe',L().R2.zheLate)]},
-    /* 可昕考上律師（交往中、沒報 2029 國考）：原本 15:05 兩則私訊（pg_r2kx_2029），AA_296 2-3-1 ③ 起改成她打來的電話＝場景 kx_bar_2029（S.STEPS）；沒接＝那兩則（S.kxBarMissed）*/
+    {tag:'pg_r2kx_'+y,at:[K.r2,15+5/60],cond:G=>y===2029&&S.dating(G,'kexin')&&G.flags.BAR_SIT_2029!==true,items:G=>L().R2.kexinNone.map(t=>P_('kexin',t))},
     {tag:'pg_r2sis_'+y,at:[K.r2,15+20/60],cond:G=>G.flags.BAR_YEAR===y&&S.sisOk(G)&&(y===2029||S.sits(G,2030)),items:G=>(y===2030&&S.retaker(G)?L().R2.sis2:L().R2.sis).map(t=>P_('heroine_05',t))} ]; };   /* AA_327 2-Y4-60（第二年才上：2-Y4-51）*/
   S.MSGS=[
     /* 1A-13 前一晚 */
@@ -342,18 +342,6 @@ const PG=(function(){
   async function anCall(GM,n){ const G=GM.G, A_=L().AN, me={name:nmD(G,'heroine_01')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
     GM.sceneBegin(); try{ if(n===1){ await GM.say(me,A_.call1[0]); await GM.say(me,S.dating(G,'heroine_01')?A_.call1Dating:A_.call1[1]); }
       else { for(const t of A_.call2) await GM.say(me,t); const k=await GM.choose(A_.call2Opts.map(o=>({t:o.t}))); for(const t of (A_.call2Opts[k]||A_.call2Opts[0]).say) await GM.say(me,t); } } finally { GM.sceneEnd(); } }
-  /* 可昕考上律師（AA_296 2-3-1 ③，企劃線 3f406dbc）：交往中、沒報 2029 國考＝12/14 15:05 她打來的電話（原本兩則私訊 pg_r2kx_2029；寫法照上面以安的電話）。
-     「下午三點多」：15:05～16:00 玩家空下來就演（場景 kx_bar_2029；跳到下一件事、睡覺都停在這裡）；沒接（在出遊、在劇情裡，過了 16:00）＝原本那兩則私訊（S.kxBarMissed）。
-     最後那一句旁白是那天晚上的宵夜，不另外排出遊。9/7「一試過了。二試十月。」（pg_r1kx_2029）是中途的結果，照用私訊 */
-  S.KX_BAR={at:15+5/60,until:16};
-  S.kxBarOk=G=>S.dating(G,'kexin')&&G.flags.BAR_SIT_2029!==true;
-  /* 3D 的跳過時間停在她打來的時間（AA 10-22 08:41；PG 的「跳到下一件事」本來就停在場景；睡覺照舊算沒接）*/
-  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const d=S.DK(Y[2029].r2); if(d==null||G.day!==d||!S.kxBarOk(G)||(S.rec&&S.rec(G).done&&S.rec(G).done.kx_bar_2029)) return []; return [{h:S.KX_BAR.at,why:'手機響了'}]; });
-  async function kxBarCall(GM){ const G=GM.G, K=L().R2.kexinCall, me={name:nmD(G,'kexin')+'（電話）'}; if(GM.toast) GM.toast('手機響了。',2400);
-    GM.sceneBegin(); try{ await GM.say(null,K.narr); for(const t of K.lines) await GM.say(me,t);
-      const k=await GM.choose(K.opts.map(o=>({t:o.t}))); for(const t of (K.opts[k]||K.opts[0]).say) await GM.say(me,t);
-      for(const t of K.close) await GM.say(me,t); await GM.say(null,K.after); } finally { GM.sceneEnd(); } }
-  S.kxBarMissed=function(G){ if(typeof PHONE==='undefined') return; PHONE.at(G,S.DK(Y[2029].r2),S.KX_BAR.at,L().R2.kexinNone.map(t=>P_('kexin',t)),'pg_r2kx_2029'); };
   S.firstLate=G=>S.sits(G,2030)&&G.flags.BAR_YEAR==null;   /* 2030 年還在準備律師二試（AA_319 b6757852）*/
   async function firstDay(GM){ const G=GM.G, F=G.flags, Fi=L().FIRST, late=S.firstLate(G);
     toAtLeast(GM,T('2030-10-01',21));
@@ -456,7 +444,6 @@ const PG=(function(){
     {id:'late_2029',at:G=>T('2029-08-04',17.5+5/60),until:G=>T('2029-08-05',12),cond:G=>S.delayed(G),run:lateNarr},
     {id:'an1',at:G=>T('2029-12-14',21),until:G=>T('2029-12-14',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,1)},   /* 以安的二試放榜（AA_319 c9b4f60e）*/
     {id:'an2',at:G=>T('2030-01-25',21),until:G=>T('2030-01-25',27),cond:G=>S.at(G,'heroine_01','FRIEND'),run:GM=>anCall(GM,2)},
-    {id:'kx_bar_2029',at:G=>T(Y[2029].r2,S.KX_BAR.at),until:G=>T(Y[2029].r2,S.KX_BAR.until),cond:G=>S.kxBarOk(G),run:GM=>kxBarCall(GM),onMiss:G=>S.kxBarMissed(G)},   /* AA_296 2-3-1 ③ 可昕考上律師：她打來 */
     {id:'first',at:G=>T('2030-10-01',21),until:G=>Infinity,cond:G=>true,run:firstDay},
     {id:'epi',at:G=>T('2034-06-03',19),until:G=>Infinity,cond:G=>!!G.flags.FIRST_DAY_SEEN&&!G.flags.EPILOGUE_DONE&&!S.pendingExam(G),run:epilogue} ].concat(yStep(2029),yStep(2030));
   S.byId=id=>S.STEPS.find(s=>s.id===id)||null;

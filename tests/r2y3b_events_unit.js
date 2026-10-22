@@ -1,8 +1,6 @@
 // 第 2 輪之二（大三）後半：AA_326 2-Y3-26～2-Y3-54＋第 3 節大三寒暑假的停留日（src/data/r2y3b_events.js、src/r2y3b3d.js）——不需要瀏覽器。
 //   照 AA 給 BB 的驗收情境寫（每件至少一項）；台詞不寫死全文的地方用「有沒有出現」查。最後：接線（index.html 的順序）。
 // 修改前：沒有這些事件、沒有 R2Y3B（第 0 項 FAIL）。用法：node tests/r2y3b_events_unit.js
-// 2026-10-22 AA_296 2-3-1 ②（企劃線 3f406dbc）改了期待值：Q15-Q1 回答.exe 最後多兩個場面裡的選項（這裡選「還沒想好怎麼回」，之後手機回貼紙＝她馬上打來）；
-//   Q15-Q2 收到檔案的隔天 21:00 那一則改成她打來（沒接過 30 分鐘＝原本那一則私訊）。場面裡選貼紙、逐字對稿在 tests/aa296_phone_live_unit.js。
 // 2026-10-21 日本那一學期（AA_341 J-S7／J-S13，src/jp3d.js）：日本路線人在日本＝遊戲時鐘是日本時間，日本路線的時間都改成當地（原本照臺灣時鐘：J0、G0、T2、S0、S、F0、F、Y5、Z11、B、X6、N0、N、N2、K20、L2）。
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -556,16 +554,16 @@ const IDS=['ev_y3s2_first_meal','ev_y3s2_228','ev_an_azalea_y3','ev_yu_club_mone
     check('Q15-Q1. 「欸不是……你認真的？」「……第一個玩的要負責找 bug 喔。很多。」「（她講話變快）我、我家到了。我先上去。」「（她跑進巷子。）」；還沒交往；ZQ_CONFESS_LINE first_player', has('欸不是……你認真的？')&&has('……第一個玩的要負責找 bug 喔。很多。')&&has('（她講話變快）我、我家到了。我先上去。')&&has('（她跑進巷子。）')&&!G.flags.dating_heroine_04&&G.flags.ZQ_CONFESS_LINE==='first_player');
     const d1=q.day+1; G.day=d1; G.hour=12.1; G.weekday=wdOf(d1); rules();
     check('Q15-Q1. 隔天 12:00：手機收到「（檔案：回答.exe）」（按鈕：回一張插座貓貼紙）；回答.exe 該演了（在家也演：HOME 的 stay）', txt('p:heroine_04').includes('heroine_04:（檔案：回答.exe）')&&PHONE.byAsk(G,'y3_zq_exe').ask.opts[0].t==='（回一張插座貓貼紙）'&&R2Y3B.exeDue(G)&&R2Y3B.homeDue(G)==='stay');
-    CG_REGISTRY.cg_answer_exe_heroine04={file:'x'}; cgs=[]; cards=[]; said=[]; opts=[]; picks=[1]; await R2Y3B.exeScene(GM); delete CG_REGISTRY.cg_answer_exe_heroine04;   /* AA_296 2-3-1 ②：場面裡給兩個選項；這裡選「（還沒想好怎麼回）」＝照舊用手機回（場面裡選貼紙那一支在 tests/aa296_phone_live_unit.js）*/
-    check('Q15-Q1. 回答.exe：「（《找插座的貓》的新關卡。……兩隻貓一起充電。）」＋BCG-13＋最後疊「第一個玩家：祐廷」，接著場面裡兩個選項（AA_296 ②）；只演一次', has('（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）')&&cgs.join()==='cg_answer_exe_heroine04'&&cards.some(c=>c[0]==='第一個玩家：祐廷')&&JSON.stringify(opts[0])==='["（回一張插座貓貼紙）","（還沒想好怎麼回）"]'&&!G.flags.ZQ_EXE_REPLY&&!R2Y3B.exeDue(G), JSON.stringify([cards,opts]));
-    answer('y3_zq_exe',0); rules(); check('Q15-Q1. 回插座貓貼紙＝交往；她馬上打來（AA_296 ②）', G.flags.dating_heroine_04===true&&txt('p:heroine_04').includes('player:（貼圖：插座貓）')&&TERMEND.rec(G,'Y3S2').result==='yes'&&(OUT.due(G)||{}).id==='y3_zq_exe_call'); }
+    CG_REGISTRY.cg_answer_exe_heroine04={file:'x'}; cgs=[]; cards=[]; said=[]; await R2Y3B.exeScene(GM); delete CG_REGISTRY.cg_answer_exe_heroine04;
+    check('Q15-Q1. 回答.exe：「（《找插座的貓》的新關卡。……兩隻貓一起充電。）」＋BCG-13＋最後疊「第一個玩家：祐廷」；只演一次', has('（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）')&&cgs.join()==='cg_answer_exe_heroine04'&&cards.some(c=>c[0]==='第一個玩家：祐廷')&&!R2Y3B.exeDue(G), JSON.stringify(cards));
+    answer('y3_zq_exe',0); rules(); check('Q15-Q1. 回插座貓貼紙＝交往', G.flags.dating_heroine_04===true&&txt('p:heroine_04').includes('player:（貼圖：插座貓）')&&TERMEND.rec(G,'Y3S2').result==='yes'); }
   /* AA_343 D11（改了期待值）：不回的期限是收到檔案（隔天 12:00）的隔天 21:00 */
   zqSetup(); rules(); { const q=await zqDinner(['我去','這不是問句']); G.day=q.day+1; G.hour=21.1; G.weekday=wdOf(G.day); rules();
     check('Q15-Q2. D11 收到檔案那一天的 21:00：還沒傳那一句、按鈕還在', !PHONE.sent(G,'y3_zq_noreply')&&PHONE.askOpen(G,PHONE.byAsk(G,'y3_zq_exe'))&&!G.flags.ZQ_Q15.res);
-    G.day=q.day+2; G.hour=21.1; G.weekday=wdOf(G.day); rules(); const nc=OUT.get(G,'y3_zq_noreply_call'); await goOut('y3_zq_noreply_call');   /* AA_296 2-3-1 ②：21:00 那則改成她打來（私訊是沒接的替代版）*/
-    check('Q15-Q2. 選「這不是問句」、不回：收到檔案的隔天 21:00 她打來「好，我收到你的不回答了。」「我們還是最好的朋友。」沒有「這次是直述句」、不傳私訊；這學期不交往（下學期第二次的邀約）', !!nc&&has('好，我收到你的不回答了。')&&has('我們還是最好的朋友。')&&!said.some(s=>/直述句/.test(s.t))&&!PHONE.sent(G,'y3_zq_noreply')&&!G.flags.dating_heroine_04&&TERMEND.rec(G).think.heroine_04==='Y3S2'&&G.flags.ZQ_CONFESS_LINE==='not_question', JSON.stringify(said.map(s=>s.t))); }
-  zqSetup(); rules(); { const q=await zqDinner(['我去','喜歡很久了']); G.day=q.day+2; G.hour=21.1; G.weekday=wdOf(G.day); rules(); G.hour=21.6; rules();   /* 21:00 那一通沒接（過了 30 分鐘）*/
-    check('Q15-Q2. 其他兩句不回、電話也沒接：原本那一則「……這次是直述句。」照留', txt('p:heroine_04').includes('heroine_04:好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。')&&has('……你不要現在講啦。')); }
+    G.day=q.day+2; G.hour=21.1; G.weekday=wdOf(G.day); rules();
+    check('Q15-Q2. 選「這不是問句」、不回：收到檔案的隔天 21:00「好，我收到你的不回答了。我們還是最好的朋友。」沒有「這次是直述句」；這學期不交往（下學期第二次的邀約）', txt('p:heroine_04').includes('heroine_04:好，我收到你的不回答了。我們還是最好的朋友。')&&!txt('p:heroine_04').some(t=>/直述句/.test(t))&&!G.flags.dating_heroine_04&&TERMEND.rec(G).think.heroine_04==='Y3S2'&&G.flags.ZQ_CONFESS_LINE==='not_question'); }
+  zqSetup(); rules(); { const q=await zqDinner(['我去','喜歡很久了']); G.day=q.day+2; G.hour=21.1; G.weekday=wdOf(G.day); rules();
+    check('Q15-Q2. 其他兩句不回：「……這次是直述句。」照留', txt('p:heroine_04').includes('heroine_04:好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。')&&has('……你不要現在講啦。')); }
   zqSetup(); rules(); await zqDinner(['我去','先不說','好。']);
   check('Q15-Q3. 先不說：她說「我喜歡你。講完了。」…「換你。不要讓我在這裡站太久。」；「好。」→ 交往；沒有回答.exe', has('我喜歡你。講完了。')&&has('換你。不要讓我在這裡站太久。')&&G.flags.dating_heroine_04===true&&!G.flags.ZQ_Q15);
   fresh('2028-06-08',20.6,'dorm'); R('heroine_04','CLO'); SOCIAL.rel('heroine_04').npcRom=40; ct('heroine_04'); { const L=DATE.log(G,'heroine_04'); L.count=4; L.wish=true; } rules();

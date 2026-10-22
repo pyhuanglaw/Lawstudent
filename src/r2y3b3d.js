@@ -237,14 +237,13 @@ const R2Y3B=(function(){
   S.f3Congrats=function(G,d){ const F=G.flags; F.FANG_F3='congrats'; if(knows('npc_fangyt',G)) PHONE.at(G,d,lt(G,d,21),['芷若跟我說了。','恭喜。……你要記得她喝什麼。我只會記電影。','下次爬山，你們兩個一起來。'].map(M('p:npc_fangyt','npc_fangyt')),'y3_fang_congrats'); };
   S.f3Go=function(G,d){ const F=G.flags; F.FANG_F3_DAY=d;
     if(met(G,'npc_fangyt','FAMILIAR')) plan(G,{id:'y3_fang_f3',ev:'ev_fangyt_tickets',day:d,h:Math.max(lt(G,d,21),G.day===d?hh(G):lt(G,d,21)),late:1,must:true,place:'電話',title:'方奕廷打電話來',verb:'接起來',travel:'',travelH:0,back:'電話掛了。'});
-    else F.FANG_F3='nocall'; };   /* 日本路線：原本芷若那兩句改成她 22:07 的私訊（y3_zr_f3_jp）；AA_296 2-3-1 ⑤（企劃線 3f406dbc）起不傳，8/5 回國以後第一次進 Café 當面說（S.f3CafeDue、ev_zhiruo_f3_cafe 的過去式那兩句）*/
+    else F.FANG_F3='nocall';
+    if(isJP(G)&&met(G,'heroine_02','FAMILIAR')&&contact(G,'heroine_02')) PHONE.at(G,d,lt(G,d,22+7/60),['奕廷約我去看電影。很老的那部，《秋天的晚飯》。','他連我高中看過哪幾部都記得。……我說好。'].map(M('p:heroine_02','heroine_02')),'y3_zr_f3_jp'); };   /* 日本路線：芷若那兩句改成她的訊息（22:07）*/
   S.f3Phone=function(G){ const F=G.flags, d29=D('2028-05-29'), d19=D('2028-06-19'); if(d29==null||G.day<d29||G.day>d19+1) return;
     if(F.FANG_F3_J1==null&&now(G)>=T(d29,lt(G,d29,21))&&G.day<=d29+2){ F.FANG_F3_J1=G.day;
       if(dating(G,'heroine_02')) S.f3Congrats(G,d29); else if(S.zrHeartReady(G)) F.FANG_F3_DELAY=true; else S.f3Go(G,d29); }
     if(F.FANG_F3_DELAY&&F.FANG_F3==null&&F.FANG_F3_DAY==null&&now(G)>=T(d19,lt(G,d19,21))){ if(dating(G,'heroine_02')) S.f3Congrats(G,d19); else S.f3Go(G,d19); } };   /* 6/19：學期末接了她的心意邀約、交往＝不發生；沒接、沒去、「這杯我不能喝」＝照常（AA_334 第 3 節）*/
-  S.F3_JP={from:'2028-08-05',to:'2028-09-01'};   /* AA_296 2-3-1 ⑤：日本路線 8/5 回國以後；9/1 以前都沒進 Café＝就沒有這一段（不補私訊）*/
-  S.f3CafeDue=G=>{ const F=G.flags||{}; if(!(F.FANG_F3_DAY!=null&&G.day>=F.FANG_F3_DAY&&['direct','bought','self','nocall'].includes(F.FANG_F3))) return false;
-    if(!isJP(G)) return true; const a=D(S.F3_JP.from), b=D(S.F3_JP.to); return a!=null&&b!=null&&G.day>=a&&G.day<=b; };
+  S.f3CafeDue=G=>{ const F=G.flags||{}; return F.FANG_F3_DAY!=null&&G.day>=F.FANG_F3_DAY&&['direct','bought','self','nocall'].includes(F.FANG_F3)&&!isJP(G); };
 
   /* ===================== 2-Y3-49 主線 10 宿舍抽籤（大四的房間）：2028-07-15（六）10:00；順便補 2027 那一則 ===================== */
   S.lotteryPhone=function(G){ const F=G.flags;
@@ -532,14 +531,7 @@ const R2Y3B=(function(){
     const a=await GM.choose((h.answer||Lx.ANSWER).map(t=>({t})));
     if(a===0){ if(!S.romStart(G,who)) return 'blocked'; delete Rt.think[who]; R.result='sheSaid'; return 'sheSaid'; }
     await runT(GM,who,[h.think]); Rt.think[who]=term; R.result='think'; return 'think'; };
-  /* ---- 隔天 12:00「回答.exe」：手機收到檔案（回插座貓貼紙＝交往；收到檔案的隔天 21:00 以前沒回＝她打來，AA_343 D11）＋演一次遊戲畫面（BCG-13 登錄了才放；沒有＝文字＋字卡疊那一行）。
-     AA_296 2-3-1 ②（企劃線 3f406dbc）：有沒有在一起不再只靠手機回貼紙——最後那一行字疊完，直接在場面裡給兩個選項（Q15.exeOpts，不用另外開手機）：
-       「（回一張插座貓貼紙）」＝照手機那顆按鈕（記 ZQ_EXE_REPLY、手機那段對話補上貼圖、交往），接著演她馬上打來（ev_ziqing_exe_call 的台詞；Q.call scene）；
-       「（還沒想好怎麼回）」＝手機的按鈕照留到隔天 21:00；之後在手機回了貼紙＝她馬上打來（OUT 的電話 y3_zq_exe_call；Q.call out）。
-       到期限還是沒回＝21:00 她打來（y3_zq_noreply_call：前 2 小時才排、不跳「排進行程」；回了貼紙就取消）；沒接（睡著、在忙，過了 30 分鐘）＝原本那一則私訊 y3_zq_noreply ---- */
-  S.ZQ_CALL={sticker:'y3_zq_exe_call',none:'y3_zq_noreply_call',late:0.5,lead:2};
-  /* 跳過時間停在她打來的時間（AA 10-22 08:41；睡覺照舊算沒接）：收到檔案的隔天 21:00 還沒回（Q.res 沒有值）*/
-  if(typeof CLS!=='undefined'&&CLS.STOP_FNS) CLS.STOP_FNS.push(G=>{ const Q=G.flags&&G.flags.ZQ_Q15; if(!Q||Q.res!=null||Q.day==null||G.day!==Q.day+2) return []; const q=outGet(G,S.ZQ_CALL.none); if(q&&q.state!=='planned') return []; return [{h:21,why:'手機響了'}]; });
+  /* ---- 隔天 12:00「回答.exe」：手機收到檔案（回插座貓貼紙＝交往；收到檔案的隔天 21:00 以前沒回＝她傳那一句，AA_343 D11）＋演一次遊戲畫面（BCG-13 登錄了才放；沒有＝文字＋字卡疊那一行）---- */
   S.exeDue=G=>{ const Q=G.flags&&G.flags.ZQ_Q15; return !!Q&&Q.seen==null&&now(G)>=T(Q.day+1,12)&&now(G)<T(Q.day+2,0); };
   S.exeScene=async function(GM){ const G=GM.G, Q=G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return false; Q.seen=G.day; const o=(X.Q15.opts||[]).find(x=>x.k===Q.k)||{}, home=atHome(G), A=typeof ADV!=='undefined'?ADV:null;
     const bg=home&&typeof HOME!=='undefined'&&HOME.bgNow?HOME.bgNow():'dark';
@@ -547,22 +539,13 @@ const R2Y3B=(function(){
       await GM.say(null,X.Q15.exe);
       if(hasCG('cg_answer_exe_heroine04')&&A&&A.cg) A.cg('cg_answer_exe_heroine04');   /* BCG-13（遊戲畫面）：登錄了才放 */
       const line=String(o.exe||'').replace(/\{name\}/g,G.name||'祐廷'); if(line&&GM.titleCard) await GM.titleCard(line,'',2600);   /* 最後一個畫面疊上那一行字 */
-      const EO=X.Q15.exeOpts||[]; if(EO.length&&Q.res==null){ const k=await GM.choose(EO.map(t=>({t})));   /* AA_296 ②：場面裡的兩個選項 */
-        if(k===0){ Q.call='scene'; S.exeSticker(G); const ev=evOf('ev_ziqing_exe_call'); if(ev){ await runL(ev.dialogue,ev); mark(G,ev.id); } } }   /* 回了貼紙：她馬上打來（同一段演完）*/
       if(home){ if(A&&A.begin) A.begin({background:bg}); } else if(A&&A.active&&A.end) A.end(); }   /* 在家：回到家裡的畫面（HOME 的選單接著）*/
     finally{ GM.sceneEnd(); } return true; };
-  /* 場面裡選了貼紙：照手機那顆按鈕回（手機那段對話補上「（貼圖：插座貓）」、記 ZQ_EXE_REPLY），再照 q15Phone 記交往 */
-  S.exeSticker=function(G){ if(typeof PHONE!=='undefined'){ if(!PHONE.byAsk(G,'y3_zq_exe')){ S.q15Phone(G); PHONE.tick(G); } PHONE.answer(G,'y3_zq_exe',0); } G.flags.ZQ_EXE_REPLY=true; S.q15Phone(G); };
-  S.q15Phone=function(G){ const F=G.flags, Q=F.ZQ_Q15, X=XT(); if(!Q||!X) return; const d1=Q.day+1, Z=M('p:heroine_04','heroine_04'), C=S.ZQ_CALL, dl=T(d1+1,21);
-    if(now(G)>=T(d1,12)&&!PHONE.sent(G,'y3_zq_exe')){ const m=Z('（檔案：回答.exe）'); m.ask={id:'y3_zq_exe',until:dl,opts:[{t:'（回一張插座貓貼紙）',post:'（貼圖：插座貓）',set:{ZQ_EXE_REPLY:true}}]}; PHONE.at(G,d1,12,[m],'y3_zq_exe'); }
-    if(F.ZQ_EXE_REPLY===true&&Q.res==null){ Q.res='sticker'; const R=TERMEND.rec(G,'Y3S2'), Rt=TERMEND.rec(G); if(S.romStart(G,'heroine_04')){ delete Rt.think.heroine_04; R.result='yes'; }   /* 回貼紙＝交往 */
-      { const q=outGet(G,C.none); if(q&&q.state==='planned') q.state='cancelled'; }   /* 不回的那一通不打了 */
-      if(Q.call==null){ Q.call='out'; plan(G,{id:C.sticker,ev:'ev_ziqing_exe_call',day:G.day,h:hh(G),late:C.late,must:true,place:'電話',title:'子晴打電話來',verb:'接起來',call:true,travel:'',travelH:0,back:'電話掛了。',silent:true}); } }   /* 手機回的：她馬上打來（AA_296 ②）*/
-    if(Q.res==null){ if(!outGet(G,C.none)&&now(G)>=dl-C.lead&&now(G)<dl+C.late) plan(G,{id:C.none,ev:'ev_ziqing_noreply_call',day:d1+1,h:21,late:C.late,must:true,place:'電話',title:'子晴打電話來',verb:'接起來',call:true,travel:'',travelH:0,back:'電話掛了。',silent:true});
-      if(now(G)>=dl) S.q15NoReply(G); }   /* 到期限：這學期不交往（電話接不接都一樣）*/
-    if(Q.res==='none'){ const q=outGet(G,C.none); if(!q||q.state==='missed'||(q.state==='planned'&&now(G)>T(q.day,q.h)+C.late)){ if(q&&q.state==='planned') q.state='missed'; S.q15NoReplyDm(G); } } };   /* 沒接、沒排到（那一段沒跑到規則）＝原本那一則私訊；人在家的時候 OUT.tick 不跑：過了時間這裡自己記沒接 */
-  S.q15NoReply=function(G){ const Q=G.flags&&G.flags.ZQ_Q15; if(!Q||Q.res!=null) return; Q.res='none'; if(typeof TERMEND!=='undefined'){ TERMEND.rec(G).think.heroine_04='Y3S2'; TERMEND.rec(G,'Y3S2').result='think'; } };   /* 不回＝「讓我想想」：這學期不交往，下學期她用第二次的邀約 */
-  S.q15NoReplyDm=function(G){ const Q=G.flags&&G.flags.ZQ_Q15, X=XT(); if(!Q||!X) return; S.q15NoReply(G); if(Q.res!=='none'||typeof PHONE==='undefined') return; PHONE.at(G,Q.day+2,21,[{th:'p:heroine_04',from:'heroine_04',text:Q.k==='not_question'?X.Q15.noReplyNQ:X.Q15.noReply}],'y3_zq_noreply'); };
+  S.q15Phone=function(G){ const F=G.flags, Q=F.ZQ_Q15, X=XT(); if(!Q||!X) return; const d1=Q.day+1, Z=M('p:heroine_04','heroine_04');
+    if(now(G)>=T(d1,12)&&!PHONE.sent(G,'y3_zq_exe')){ const m=Z('（檔案：回答.exe）'); m.ask={id:'y3_zq_exe',until:T(d1+1,21),opts:[{t:'（回一張插座貓貼紙）',post:'（貼圖：插座貓）',set:{ZQ_EXE_REPLY:true}}]}; PHONE.at(G,d1,12,[m],'y3_zq_exe'); }
+    if(F.ZQ_EXE_REPLY===true&&Q.res==null){ Q.res='sticker'; const R=TERMEND.rec(G,'Y3S2'), Rt=TERMEND.rec(G); if(S.romStart(G,'heroine_04')){ delete Rt.think.heroine_04; R.result='yes'; } }   /* 回貼紙＝交往 */
+    if(Q.res==null&&now(G)>=T(d1+1,21)&&!PHONE.sent(G,'y3_zq_noreply')){ Q.res='none'; PHONE.at(G,d1+1,21,[Z(Q.k==='not_question'?X.Q15.noReplyNQ:X.Q15.noReply)],'y3_zq_noreply');
+      if(typeof TERMEND!=='undefined'){ TERMEND.rec(G).think.heroine_04='Y3S2'; TERMEND.rec(G,'Y3S2').result='think'; } } };   /* 不回＝「讓我想想」：這學期不交往，下學期她用第二次的邀約 */
   /* 家裡（home3d.js 的 loop 問 STORY.y4HomeDue）：「回答.exe」在家演（stay）；Z13 帶到場＝先離開家 */
   S.homeDue=G=>{ if(!law(G)) return null; if(S.exeDue(G)) return 'stay'; if(S.z13BringDue(G)) return 'r2y3b_z13'; return null; };
   if(typeof STORY!=='undefined'&&!STORY._r2y3bHome){ const hd0=STORY.y4HomeDue, hs0=STORY.y4HomeScene, hf0=STORY.y4FromHome;

@@ -1,8 +1,7 @@
 // 1A-16～1A-18 國考（AA_319；src/postgrad3d.js）——不需要瀏覽器。
 //   7/12 總圖 B1 改 20:00（b6757852）；8/3 學姊的便條（當面／照片）；8/4 一試 20 題（題庫＋QBANK、不重複、題目答案照題庫、第二年換一組）；
 //   沒報名、交換延畢的 8/4；9/7 一試放榜三段系統字、朋友、不到 12 題；10/20～21 二試；12/14 二試放榜（16 題以上司法官那一行）、麵店、學姊那一句（AA_327 2-Y4-60）；
-//   以安的二試、三試放榜＝她打來的電話（AA_319 c9b4f60e；不到 FRIEND 只有 1/25 麵店團一則）；2030 年（交換延畢、2029 不到 12 題）；12/14 讀書小組三個版本（Z1）。
-//   2026-10-22 AA_296 2-3-1 ③（企劃線 3f406dbc）改了第 10 組的期待值：和可昕交往、沒考＝12/14 15:05 她打來（場景 kx_bar_2029），那兩則私訊是沒接的替代版。用法：node tests/bar_exam_unit.js
+//   以安的二試、三試放榜＝她打來的電話（AA_319 c9b4f60e；不到 FRIEND 只有 1/25 麵店團一則）；2030 年（交換延畢、2029 不到 12 題）；12/14 讀書小組三個版本（Z1）。用法：node tests/bar_exam_unit.js
 const H=require('./pg_harness.js'); const {check}=H;
 const graduated=G=>{ G.flags.GRADUATED=PG.gradDay(); PG.rec(G).done.grad=1; };
 const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findIndex(x=>String(x.v)===String(q.answer)); return i<k?right:(right===0?1:0); });   /* 前 k 題答對 */
@@ -75,10 +74,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     check('10. X2：沒報名＝沒有一試',!PG.due(G)); H.at('2029-08-04',17.1); PG.rules(GM); H.at('2029-08-04',17.6); H.tick();
     check('10. X2：17:30 群組「國考考完了。」「考完了」「晚上燒肉 誰要」；可昕「律師考試考完了。你今天負責聽我抱怨。」',H.msgs('g:noodle_team').join('|').includes('國考考完了。|考完了|晚上燒肉 誰要')&&H.msgs('p:kexin').includes('律師考試考完了。你今天負責聽我抱怨。'));
     H.at('2029-09-07',14.6); PG.rules(GM); H.at('2029-09-07',15.2); H.tick(); check('10. 沒報名：9/7 只有群組那三句，沒有系統字',!PG.due(G)&&!H.msgs('g:noodle_team').includes('一試沒過。明年再來。'));
-    H.at('2029-12-14',14.6); PG.rules(GM); H.at('2029-12-14',15.2); H.tick(); const kc=PG.due(G); H.said=[]; H.picks=[0]; if(kc) await PG.runStep(GM,kc);   /* AA_296 2-3-1 ③（企劃線 3f406dbc）：15:05 的兩則私訊改成她打來；私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）*/
-    check('10. 和可昕交往、祐廷沒考：12/14 15:05 她打來「……律師考試放榜了。」「我上了。」…「今天你負責宵夜。」（AA_296 ③）；不是私訊',!!kc&&kc.id==='kx_bar_2029'&&H.has('……律師考試放榜了。')&&H.has('我上了。')&&H.has('今天你負責宵夜。')&&!H.msgs('p:kexin').some(t=>/律師考試放榜了/.test(t)),JSON.stringify([kc&&kc.id,H.said.map(s=>s.t)]));
-    { const G2=H.fresh('2029-12-14',14.6,'dorm',{BAR_REG:false}); graduated(G2); H.FRIEND('kexin'); H.date('kexin'); H.tick(); H.at('2029-12-14',16.1); H.tick(); PG.due(G2); PHONE.tick(G2);
-      check('10. 那一通沒接（過了 16:00 還在別的事裡）：照原本 15:05「律師考試放榜了。我上了。」「今天你負責宵夜。」',H.msgs('p:kexin').join('|').includes('律師考試放榜了。我上了。|今天你負責宵夜。')); } }
+    H.at('2029-12-14',14.6); PG.rules(GM); H.at('2029-12-14',15.2); H.tick(); check('10. 和可昕交往、祐廷沒考：12/14 15:05「律師考試放榜了。我上了。」「今天你負責宵夜。」',H.msgs('p:kexin').join('|').includes('律師考試放榜了。我上了。|今天你負責宵夜。')); }
   // ---- X3／Z4：日本路線（交換延畢）----
   { const G=H.fresh('2029-08-04',8,'dorm',{EXCHANGE_ROUTE:'JP'}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('kexin'); H.date('kexin');
     check('11. X3：2029 不能考',!PG.due(G)); H.at('2029-08-04',17.1); PG.rules(GM); H.at('2029-08-04',17.7); H.tick();

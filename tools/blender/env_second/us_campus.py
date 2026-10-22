@@ -36,7 +36,6 @@ M = {'grass': L.pbr('usu_grass', 'grass_ground', tile=3.0, target='#5f7444', nor
      'soil': L.flat('usu_soil', '#3e3227', rough=0.95),
      'paint': L.flat('usu_line_white', '#ecebe6', rough=0.6), 'yellow': L.flat('usu_line_yellow', '#d9a82e', rough=0.6),
      'steel': L.flat('usu_steel', '#4a4e52', rough=0.4, metal=0.5), 'glass': L.flat('usu_shelter_glass', '#cfdde2', rough=0.05, alpha=0.25),
-     'roof': L.flat('usu_shelter_roof', '#b4b8bb', rough=0.45, metal=0.1),   # 候車亭屋頂：淺灰烤漆鋁板（10-22：原本和柱子同一種深灰金屬，鏡頭在上面時是一整塊黑）
      'green': L.flat('usu_lamp_green', '#26392e', rough=0.45, metal=0.4),
      'wood': L.pbr('usu_bench_wood', 'dark_wood', tile=0.6, target='#7a5638', normal=0.3, maps=('diff', 'nor'), rough_value=0.6),
      'brick_house': L.pbr('usu_house_brick', 'red_brick_03', tile=1.2, target='#8a4a3a', normal=0.4, maps=('diff', 'nor'), rough_value=0.85),
@@ -248,11 +247,11 @@ for p in J['planters']:
 pt.finish(root); ptc.finish(root, uv=False)
 
 # ================= 公車站（玻璃候車亭，開口朝馬路）=================
-bs = J['bus']; st = Mesh('usu_shelter_steel', M['steel']); sg = Mesh('usu_shelter_glass', M['glass']); wd = Mesh('usu_benches_wood', M['wood'], tile=0.6); rf = Mesh('usu_shelter_roof', M['roof'])
+bs = J['bus']; st = Mesh('usu_shelter_steel', M['steel']); sg = Mesh('usu_shelter_glass', M['glass']); wd = Mesh('usu_benches_wood', M['wood'], tile=0.6)
 x0, x1, zb, zf = bs['x'] - bs['w'] / 2, bs['x'] + bs['w'] / 2, bs['z'] - bs['d'] / 2, bs['z'] + bs['d'] / 2
 for x in (x0, x1):
     for z in (zb, zf): st.box(x - 0.05, x + 0.05, 0.0, 2.5, z - 0.05, z + 0.05)
-rf.box(x0 - 0.15, x1 + 0.15, 2.5, 2.62, zb - 0.15, zf + 0.25)
+st.box(x0 - 0.15, x1 + 0.15, 2.5, 2.62, zb - 0.15, zf + 0.25)
 sg.box(x0, x1, 0.15, 2.4, zb - 0.01, zb + 0.01)
 for x in (x0, x1): sg.box(x - 0.01, x + 0.01, 0.15, 2.4, zb, zb + bs['d'] * 0.6)
 wd.box(x0 + 0.4, x1 - 0.4, 0.44, 0.48, zb + 0.08, zb + 0.48); st.box(x0 + 0.5, x0 + 0.56, 0.0, 0.44, zb + 0.2, zb + 0.4); st.box(x1 - 0.56, x1 - 0.5, 0.0, 0.44, zb + 0.2, zb + 0.4)
@@ -306,7 +305,7 @@ for p in J['props']:
             for k in range(4):
                 b_ = rng.uniform(0, 2 * math.pi); q = r * rng.uniform(0.2, 0.7); cx_, cz_ = x + math.cos(a_) * rr + math.cos(b_) * q, z + math.sin(a_) * rr + math.sin(b_) * q
                 flower(cx_, 0.56 + r * 1.45 + (0.08 if j == 0 else 0.0), cz_, 0.03, c)
-st.finish(root, uv=False); rf.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
+st.finish(root, uv=False); sg.finish(root, uv=False); wd.finish(root); lp.finish(root, uv=False); ir.finish(root, uv=False); gn.finish(root, uv=False); sgn_.finish(root, uv=False); shrub.finish(root, uv=False); so.finish(root, uv=False)
 
 def tree(x, z, h, y0=0.0, far=False, woods=False):
     global cards

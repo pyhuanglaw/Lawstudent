@@ -111,7 +111,6 @@ MAT = {
     'white':   pbr('dm_white', None, tint=srgb('#e9e7e2'), rough=0.5),
     'rubber':  pbr('dm_rubber', None, tint=srgb('#3a3f46'), rough=0.8),
 }
-MAT['ceiling'].use_backface_culling = True   # 天花板單面（四邊形本來就朝下）：鏡頭拉遠到天花板上面時看得穿（ART-CEIL-LAWWW-ROOMS-1022，LAWWW2 10-22）
 def imgmat(name, fn, rough=0.8, emit=0.0):
     """本作畫的圖（tools/blender/env_second/textures/gen/）：交誼廳的公告、時鐘、標籤、地毯（dorm_lounge_tex.py）"""
     m = bpy.data.materials.new(name); m.use_nodes = True; nt = m.node_tree; N = nt.nodes; bsdf = N['Principled BSDF']
@@ -289,10 +288,8 @@ quad('L1_ceiling', MAT['ceiling'], [(CO['x0'], RY, CO['z0']), (CO['x1'], RY, CO[
 quad('L1_ceiling_well', MAT['ceiling'], [(WL['x0'], RY, WL['z0']), (WL['x1'], RY, WL['z0']), (WL['x1'], RY, WL['z1']), (WL['x0'], RY, WL['z1'])], L1)
 def tube(prefix, parent, x, y, z, along='x'):
     w, d = (1.25, 0.16) if along == 'x' else (0.16, 1.25)
-    # 吸頂日光燈（燈座 6 cm、燈管）：名字含 WALL_、dir 朝下——鏡頭雙指拉到最遠、往上拖到最陡、比燈高的時候和牆一樣藏起來（從上面看是浮著的白條）；
-    # 從下面看照舊（形狀不變）。下面 join_by_material 會照 dir 把它們合成一組（LAWWW2 10-22 ART-CEIL-LAWWW-ROOMS-1022 第二版）
-    box(f'{prefix}_WALL_ceilfix', MAT['fixture'], x - w / 2, x + w / 2, y - 0.06, y, z - d / 2, z + d / 2, parent, props={'dir': [0, -1, 0]})
-    box(f'{prefix}_WALL_ceiltube', MAT['tube'], x - w / 2 + 0.05, x + w / 2 - 0.05, y - 0.085, y - 0.06, z - 0.03, z + 0.03, parent, props={'dir': [0, -1, 0]}) if along == 'x' else box(f'{prefix}_WALL_ceiltube', MAT['tube'], x - 0.03, x + 0.03, y - 0.085, y - 0.06, z - d / 2 + 0.05, z + d / 2 - 0.05, parent, props={'dir': [0, -1, 0]})
+    box(f'{prefix}_fix', MAT['fixture'], x - w / 2, x + w / 2, y - 0.06, y, z - d / 2, z + d / 2, parent)
+    box(f'{prefix}_tube', MAT['tube'], x - w / 2 + 0.05, x + w / 2 - 0.05, y - 0.085, y - 0.06, z - 0.03, z + 0.03, parent) if along == 'x' else box(f'{prefix}_tube', MAT['tube'], x - 0.03, x + 0.03, y - 0.085, y - 0.06, z - d / 2 + 0.05, z + d / 2 - 0.05, parent)
 for i, x in enumerate([-12, -9, -6, -3, 0, 3, 6, 9, 12]):
     tube(f'L0_t{i}', L0, x, H0, 0.0); tube(f'L1_t{i}', L1, x, RY, 0.0)
 for i, (x, z) in enumerate([(0, 4.5), (5, 3.5), (9, 4.5), (12, 3.0), (5, 6.2), (9, 6.6)]): tube(f'L0_tl{i}', L0, x, H0, z)
@@ -332,11 +329,9 @@ window('L0_wN', L0, 'x', WL['z0'] - T / 2, -0.9, 0.9, LD['y'] + 0.9, LD['y'] + 2
 zf = LB['z1'] + T / 2
 for (a, b) in ((-1.0, 0.0), (0.0, 1.0)):
     for (xa, xb, ya, yb) in ((a, a + 0.07, 0, 2.5), (b - 0.07, b, 0, 2.5), (a, b, 0, 0.12), (a, b, 2.1, 2.18), (a, b, 2.43, 2.5)):
-        # 鋁框、門把名字含 WALL_、dir 和前牆一樣：鏡頭在大門外時（一進男宿的第一個畫面，鏡頭在人後面 3.6 m）跟著前牆淡出——
-        # 原本前牆淡出了、鋁框還在，粗黑框橫在鏡頭和人中間，人只看得到頭（LAWWW2 10-22 巡場景第 3 區）。玻璃照舊（B3.attachFormal 會把 WALL_ 設成不透明）
-        box(f'L0_gate_WALL_frame_{xa:.2f}_{ya:.1f}', MAT['frame'], xa, xb, ya, yb, zf - 0.05, zf + 0.05, L0, props={'dir': [0, 0, -1]})
+        box(f'L0_gate_frame_{xa:.2f}_{ya:.1f}', MAT['frame'], xa, xb, ya, yb, zf - 0.05, zf + 0.05, L0)
     quad(f'L0_gate_glass_{a:.0f}', MAT['glass'], [(a, 0.12, zf), (b, 0.12, zf), (b, 2.43, zf), (a, 2.43, zf)], L0, tile=1.0)
-    cyl(f'L0_gate_WALL_handle_{a:.0f}', MAT['steel'], (b - 0.14 if a < 0 else a + 0.14, 0.8, zf - 0.08), (b - 0.14 if a < 0 else a + 0.14, 1.3, zf - 0.08), 0.015, L0, seg=8, props={'dir': [0, 0, -1]})
+    cyl(f'L0_gate_handle_{a:.0f}', MAT['steel'], (b - 0.14 if a < 0 else a + 0.14, 0.8, zf - 0.08), (b - 0.14 if a < 0 else a + 0.14, 1.3, zf - 0.08), 0.015, L0, seg=8)
 box('L0_mat', MAT['rubber'], -1.0, 1.0, 0.0, 0.012, LB['z1'] - 1.2, LB['z1'] - 0.1, L0)   # 門口的腳踏墊
 
 # ================================================================ 4. 門（寢室、洗衣間、舍監室、側門、自己的房門）

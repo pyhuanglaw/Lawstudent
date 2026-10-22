@@ -141,7 +141,7 @@ const USL=(function(){
   /* 台灣的朋友回訊息的時間：照台灣時間算他們醒著、在忙（MSG.replyAt），再換回當地時間。學姊、何俊朗在美國，照當地 */
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ if(!S.here(G)||id===S5||id==='npc_long') return r0.apply(this,arguments); const tz=STORY.tzOffset(G)||0; if(!tz) return r0.apply(this,arguments);
       const t=now(G)-tz, tw=Object.assign({},G); tw.day=Math.floor(t/24); tw.hour=t-tw.day*24; tw.weekday=wdOf(tw.day); const r=r0.call(this,tw,id); if(!r) return r;
-      const lt=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(lt/24); out.h=lt-out.day*24; out.tz=tz; return out;   /* tz：她照臺灣時間（msg3d.js S.herG 換回她那邊挑句子，MSG-ABROAD-SIT-TZ-1022）*/ }; }
+      const lt=T(r.day,r.h)+tz, out=Object.assign({},r); out.day=Math.floor(lt/24); out.h=lt-out.day*24; return out; }; }
   /* 家人群組（週四 20:00「這週回來吃飯嗎」）：人在美國不問（換成媽媽每週日一則，AA_291 4-1）*/
   if(typeof HOME!=='undefined'&&HOME.phoneRules){ const h0=HOME.phoneRules; HOME.phoneRules=function(GM){ if(GM&&S.here(GM.G)) return; return h0.apply(this,arguments); }; }
   /* 阿凱的泡麵評鑑表（每天的手機小事 kai_sheet，21:48）：照台灣時間 */

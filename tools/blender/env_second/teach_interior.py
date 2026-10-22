@@ -31,7 +31,7 @@ EN = J['entrance']; BR = J.get('bridge')
 B.reset(texres=512)
 root = B.group(f'{SET}_interior', props={'kind': f'{SET}_interior', 'w': W, 'd': D})
 G = [B.group('L0_root', root), B.group('L1_root', root)]
-DIRS = {'N': [0, 0, 1], 'S': [0, 0, -1], 'W': [1, 0, 0], 'E': [-1, 0, 0], 'ceil': [0, -1, 0]}   # ceil：天花板的輕鋼架、燈框（往室內＝往下：鏡頭比它高時和牆一樣藏起來）
+DIRS = {'N': [0, 0, 1], 'S': [0, 0, -1], 'W': [1, 0, 0], 'E': [-1, 0, 0]}
 WARM = SET == 'putong'
 
 M = {
@@ -41,8 +41,8 @@ M = {
     'part': L.flat('tb_partition', '#e9e4d9' if WARM else '#ebe9e3', rough=0.9),
     'base': L.flat('tb_baseboard', '#5a5650', rough=0.6),
     'ceil': L.pbr('tb_ceiling', 'ceiling_interior', tile=0.6, target='#eeede9', sat=0.0, normal=0.25, maps=('diff', 'nor'), rough_value=0.9, cull=True),
-    'tbar': L.flat('tb_ceiling_grid', '#dcdcd8', rough=0.5),   # 輕鋼架、燈框：方盒照舊，整組放在 L{lv}_WALL_ceil_tbar（dir 朝下）：鏡頭拉到最遠最陡、比天花板高時藏起來（LAWWW2 10-22 第二版：只留底面的話從下面平視看遠處會不見）
-    'light': L.flat('tb_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc'), cull=True),
+    'tbar': L.flat('tb_ceiling_grid', '#dcdcd8', rough=0.5),
+    'light': L.flat('tb_light_panel', '#fff6e4', rough=0.9, emit=B.srgb('#fff4dc')),
     'granite': L.pbr('tb_stair_granite', 'granite_tile_03', tile=1.2, target='#8f8b85', sat=0.4, normal=0.4, maps=('diff', 'nor'), rough_value=0.4),
     'nosing': L.flat('tb_nosing', '#34363a', rough=0.7),
     'steel': L.flat('tb_steel', '#c9ccd0', rough=0.28, metal=0.45),
@@ -103,14 +103,14 @@ def ceiling(lv, y, rects):
         hquad(mk(lv, 'ceil'), x0, x1, z0, z1, y)
         k = math.ceil((x0 - XI0) / 0.6 + 1e-6)
         while XI0 + k * 0.6 < x1 - 0.05:
-            x = XI0 + k * 0.6; wm(lv, 'ceil', 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
+            x = XI0 + k * 0.6; mk(lv, 'tbar').box(x - 0.012, x + 0.012, y - 0.012, y, z0, z1); k += 1
         k = math.ceil((z0 - ZI0) / 0.6 + 1e-6)
         while ZI0 + k * 0.6 < z1 - 0.05:
-            z = ZI0 + k * 0.6; wm(lv, 'ceil', 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
+            z = ZI0 + k * 0.6; mk(lv, 'tbar').box(x0, x1, y - 0.012, y, z - 0.012, z + 0.012); k += 1
     for x in LP['xs']:
         for z in LP['zs']:
             if lv == 0 and WL['x0'] - 0.7 < x < WL['x1'] + 0.7 and WL['z0'] - 0.2 < z < WL['z1'] + 0.2: continue
-            wm(lv, 'ceil', 'tbar').box(x - 0.62, x + 0.62, y - 0.02, y - 0.004, z - 0.17, z + 0.17)
+            mk(lv, 'tbar').box(x - 0.62, x + 0.62, y - 0.02, y - 0.004, z - 0.17, z + 0.17)
             hquad(mk(lv, 'light'), x - 0.6, x + 0.6, z - 0.15, z + 0.15, y - 0.021)
 ceiling(0, C0, [(XI0, XI1, WL['z1'], ZI1), (XI0, WL['x0'], ZI0, WL['z1']), (WL['x1'], XI1, ZI0, WL['z1']), (WL['x0'], WL['x1'], ZI0, WL['z0'])])
 for (a, b, c, d) in ((WL['x0'], WL['x1'], WL['z0'] - 0.02, WL['z0']), (WL['x0'], WL['x1'], WL['z1'], WL['z1'] + 0.02)):

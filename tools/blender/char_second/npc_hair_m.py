@@ -1,10 +1,6 @@
 """路人（男）髮型產生器：從明軒的 mingxuan_hair.py（它是阿哲 zhe_hair → 祐廷 p00_hair 改的）參數化。
 npc.py 在 apply 之前設定 P：seed、part（分線）、col（底色 sRGB）、tip（10 個方位的髮尾高度：前 3 個相對眉毛、中 4 個相對眼睛、後 3 個相對耳朵上緣，公尺）、
 nape（後頸髮尾在髮際線下幾公尺）、vol（頭頂蓬度倍數）、curl（上層瀏海往兩邊撥的角度範圍）、name（名稱前綴）。
-選用：side_taper（兩側越靠髮尾越貼頭）、nape_taper（後腦、後頸越靠髮尾越貼頭；接在 side_taper 後面，0＝不變）、
-  nape_c（後頸正中間比 nape 再長多少公尺，預設 0.012）、shell_root（髮殼靠髮際線那一端的明暗，預設 0.75＝暗一點）、
-  v_min（髮尾至少超出髮際線多少，v 的單位，預設 -0.02）、shell_v0（髮殼從哪裡開始，預設 0＝髮際線）。
-  npc_nm3 10-22 改短髮時加的後五個，其他人不給＝和原本一樣。
 日劇髮型（使用者 2026-10-17：「你可以參考日劇的男女主角的髮型嗎」）：
   bang：'card'（預設：一撮一撮的髮片）、'center' 中分（センターパート：簾狀的寬髮片從中間往兩邊撥，額頭中間露出一個三角形）、
         'heavy' 蘑菇頭（マッシュ：寬髮片排滿、圓圓地蓋到眉毛）；wave：微捲燙的振幅（公尺）"""
@@ -60,7 +56,7 @@ def make_atlas(seed=SEED, regs=None, temple_col=None):
     h, w = reg('bang')
     put('bang', HB._strand_color(rng, h, w, 0.84, tip_light=0.04, base=BASE), HB._clumps(rng, h, w, 2, 0.50, 0.62, 1.0, hw_k=(1.2, 1.6), lean=0.12, power=0.9, full=3.5, minw=5.0))   # 瀏海一撮一撮寬一點（第一版像細線）；第七版每片 2 撮、長短差更多（遊戲裡一排同樣大小的尖角像鋸齒）
     h, w = reg('shell')
-    put('shell', HB._strand_color(rng, h, w, float(P.get('shell_root', 0.75)), tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))   # nm3 短髮（淺棕）：髮殼下緣的深色從髮尾的空隙露出來（耳朵上方一條、太陽穴一個三角）→ 1.0
+    put('shell', HB._strand_color(rng, h, w, 0.75, tip_light=0.0, base=BASE * 0.85), np.ones((h, w)))
     return img
 
 
@@ -78,12 +74,11 @@ def apply(m):
     def az(a): return abs(((a + 180) % 360) - 180)
 
     STP = float(P.get('side_taper', 0.0))   # 耳朵上面越靠髮尾越貼頭（韋綸第十二版的做法；魏教授第六版：男性短髮的兩側剪短）；0＝不變
-    NTP = float(P.get('nape_taper', 0.0))   # 後腦到後頸（方位 115° 以後）也一樣越靠髮尾越貼頭（nm3 10-22：耳上短髮、後頸收薄；原本後面蓬著往下，從側後方看像鮑伯頭）
 
     def side_taper(a, v):
-        if STP <= 0 and NTP <= 0: return 1.0
-        aa = az(a); s_ = float(sstep(45, 70, aa)) * (1 - float(sstep(115, 140, aa))); b_ = float(sstep(115, 140, aa))
-        return 1 - (STP * s_ + NTP * b_) * (1 - float(sstep(0.0, 0.45, v)))
+        if STP <= 0: return 1.0
+        aa = az(a); s_ = float(sstep(45, 70, aa)) * (1 - float(sstep(115, 140, aa)))
+        return 1 - STP * s_ * (1 - float(sstep(0.0, 0.45, v)))
 
     def vol(a, v):          # 髮殼／髮片離頭皮的距離：頭頂（靠髮旋）最蓬、前額蓬、兩側貼、後頸收
         aa = az(a); ca = math.cos(math.radians(aa))
@@ -126,13 +121,13 @@ def apply(m):
     def v_tip(a):           # 髮尾停在哪（v<0：超出髮際線）
         aa = az(a)
         if aa < 112:
-            v = min(float(P.get('v_min', -0.02)) if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
+            v = min(-0.02 if aa > 36 else 1.0, v_at_z(a, float(np.interp(aa, TIP_A, TIP_Z))))
             # 耳朵後面（84–112°）：往下找的髮尾會量到耳朵外緣，髮尾跑到離頭很遠的地方，遊戲裡變成一條細線或一片黑色翅膀
             # （LAWWW2-C 2026-10-17：nm5、nm10、nm12、nm14、nm15、nm20）→ 最多超出髮際線 6%
             return max(v, -0.06) if aa > 84 else v
         # 後頸：髮際線往下 1.5～2.5 cm（第二版固定 v＝-0.06～-0.10：後面的方向幾乎朝正下方，髮尾跑到頸背 10～20 cm 下面，側面看是一條細線掛到毛衣上）
         z_hl = surf(a, 0.0)[0][2]
-        return min(float(P.get('v_min', -0.02)), v_at_z(a, z_hl - P['nape'] - float(P.get('nape_c', 0.012)) * float(sstep(130, 170, aa)), lo=-0.15))   # 明軒：後頸長 1.5 cm（參考圖後面看髮尾蓋住脖子上段）   # 最多延伸 12%（正後方的方向再往下就是朝正下方，會穿進脖子）
+        return min(-0.02, v_at_z(a, z_hl - P['nape'] - 0.012 * float(sstep(130, 170, aa)), lo=-0.15))   # 明軒：後頸長 1.5 cm（參考圖後面看髮尾蓋住脖子上段）   # 最多延伸 12%（正後方的方向再往下就是朝正下方，會穿進脖子）
 
     WAVE = float(P.get('wave', 0.0))   # 微捲燙的振幅（公尺；0＝直髮）
     if os.environ.get('HAIR_DEBUG'):
@@ -141,7 +136,7 @@ def apply(m):
             print('   az %4d v_tip %+.3f tip %s (target z %.3f) hairline %s' % (a, vt, np.round(p, 3), float(np.interp(min(a, 112), TIP_A, TIP_Z)), np.round(p0, 3)))
     # ---- 1. 髮殼 ----
     Nu, Nv, PAN = 64, 12, 4
-    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(float(P.get('shell_v0', 0.0)), 1.0, Nv + 1)   # nm3 短髮：髮殼下緣停在髮際線上方一點，讓髮片蓋住（髮尾短的時候，髮殼的邊在耳朵上方露成一條深色的線）   # 到 1.0（0.97 在頭頂留一個洞，髮旋那裡露出一個白點；阿勳、品妤修過）
+    A_ = np.linspace(-180, 180, Nu + 1); vs = np.linspace(0, 1.0, Nv + 1)   # 到 1.0（0.97 在頭頂留一個洞，髮旋那裡露出一個白點；阿勳、品妤修過）
     SP = np.zeros((Nu + 1, Nv + 1, 3)); SN = np.zeros_like(SP)
     for i, a in enumerate(A_):
         for j, v in enumerate(vs):

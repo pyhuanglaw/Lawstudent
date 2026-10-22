@@ -175,13 +175,6 @@ async def main():
                 print(f'    [走向座位] 第 {k+1} 次：在 ({st["x"]:.2f}, {st["z"]:.2f})、離走近點 ({ax:.2f}, {az:.2f}) {d0:.2f} m、tap_path={ok}', flush=True)
                 if not ok: st = await walk_to(pg, t, ax, az, 'seat', tol=0.45); break
                 await pg.wait_for_timeout(2500)
-            else:
-                # 點了 8 次還沒到：改照 walk_to（點目標、點不到就推搖桿）——v9.10.5 發布前第一輪停在走近點前 1.4 m 的書架旁 (2.62,-1.16)，
-                # 那一段路線上大概沒有「點下去會落在那裡」的地板點（桌椅擋住），tap_path 一直點同一點；同一個候選重跑一次就過。檢查標準不變
-                st = await state(pg)
-                if math.hypot(st['x'] - ax, st['z'] - az) >= 0.45:
-                    print(f'    [走向座位] 點了 8 次還在 ({st["x"]:.2f}, {st["z"]:.2f})，改用 walk_to', flush=True)
-                    st = await walk_to(pg, t, ax, az, 'seat', tol=0.45)
         else:
             st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
         await pg.wait_for_timeout(600); st = await state(pg)

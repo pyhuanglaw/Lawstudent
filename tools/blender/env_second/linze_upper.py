@@ -91,7 +91,7 @@ class Floor(K.Shop):
             'tube': L.flat('GLOW_l118_tube', '#ffffff', rough=0.3, emit=B.srgb('#f2f6ff')),
             'warm': L.flat('GLOW_l118_warm', '#ffe7c2', rough=0.4, emit=B.srgb('#ffc77a')),
             'fridge': L.flat('GLOW_l118_fridge', '#f4f8ff', rough=0.3, emit=B.srgb('#cfe0f4')),
-            'ceil': L.pbr(f'{self.sid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9, cull=True),   # 單面朝下（10-22：原本雙面朝上，拉遠、往上拖是一大片白）
+            'ceil': L.pbr(f'{self.sid}_ceiling', 'ceiling_interior', tile=1.2, target='#eeeeea', contrast=0.6, normal=0.2, maps=('diff', 'nor'), res=256, rough_value=0.9),
             'print': img_mat(f'{self.sid}_print', 'linze_upper_print.png', rough=0.55),
             'screen': img_mat('GLOW_l118_screens', 'l118_screens.png', rough=0.3, emit=0.9),
         }
@@ -151,7 +151,7 @@ def shell(c):
     """地板、牆、踢腳板（花崗石）、天花板（礦纖板）＋日光燈、南牆一排窗（和遊戲 room() 的窗一樣大）、北牆的門（教室、樓梯間）、電梯井"""
     X0, X1, Z0, Z1 = c.X0, c.X1, c.Z0, c.Z1; M = c.M
     fl = Mesh(f'{c.sid}_floorm', M['floor'], tile=0.8); fl.box(X0, X1, -0.05, 0.0, Z0, Z1); fl.finish(c.root)
-    ce = Mesh(f'{c.sid}_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z0), (X1, H, Z0), (X1, H, Z1), (X0, H, Z1)]); ce.finish(c.root)   # 朝下
+    ce = Mesh(f'{c.sid}_ceiling', M['ceil'], tile=1.2); ce.quad([(X0, H, Z1), (X1, H, Z1), (X1, H, Z0), (X0, H, Z0)]); ce.finish(c.root)
     # 南牆：窗洞（中心 2.1 m、2.2 × 1.6）；窗台、鋁框、玻璃
     WX = [-5.6, -2.0, 1.6, 5.4]; wy0, wy1 = 1.3, 2.9; c.wins = dict(side='S', wall='front', z=Z1, xs=WX, y=2.1, w=2.2, h=1.6, note='遊戲 room() 的窗：winWall 照這一面、winXs、winY；窗外的景（view）用遊戲裡拍的照片')
     wl = c.wg('S', 'wall', M['wall']); wn = c.wg('S', 'wain', M['wain']); fr = c.wg('S', 'frame', M['vcm'], cm=True); gl = c.wg('S', 'glass', M['glass'])

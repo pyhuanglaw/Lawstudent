@@ -1,13 +1,13 @@
 {
- "objects": 30,
- "unique_meshes": 30,
- "tris": 15050,
- "tris_drawn": 15050,
- "materials": 18,
+ "objects": 28,
+ "unique_meshes": 28,
+ "tris": 15046,
+ "tris_drawn": 15046,
+ "materials": 15,
  "out": "assets/models/env/second_ai/l118_omu.glb",
- "bytes": 1310256,
+ "bytes": 1268432,
  "texres": 512,
- "tris_total": 15050,
+ "tris_total": 15046,
  "layout": "l118_omu.layout.json",
  "seats": 15
 }

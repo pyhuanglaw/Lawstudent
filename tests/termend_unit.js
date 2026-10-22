@@ -50,10 +50,6 @@ GM.money=function(n){ G.money+=n; };
   { said=[]; picks=[0]; await TERMEND.kaiAsk(GM); const L=lines(); const R=G.termend.Y1S1;
     check('3. 阿凱「宵夜？」→ 好 → 公館宵夜（「我點不辣的。…」、話題池、收尾「這次我請。」AA_250 10-4 01029de1）',L[0]==='阿凱：宵夜？'&&L.some(t=>t.includes('我點不辣的。你要辣的自己加。'))&&L.some(t=>t.includes('寒假我留在臺北，接了一個修電腦的打工。'))&&L[L.length-1]==='阿凱：這次我請。'&&R.picked&&R.picked.who==='kai',JSON.stringify(L));
     check('3. 一學期只問一次',!TERMEND.kaiDue(G)); }
-  { fresh(D('2025-12-20'),20.5,'dorm',{}); G.stage='law'; const w=TERMEND.window(G); TERMEND.plan(G,w);
-    OUT.plan(G,{id:'y4_sis_pickup',ev:'ev_sis_pickup',day:G.day,h:20.75,late:0.25,place:'桃園機場入境大廳',title:'接機（學姊）',travel:'開車 約 50 分鐘',travelH:5/6,alarm:true});
-    const a=TERMEND.kaiDue(G); G.day++; G.hour=20.5; const b=TERMEND.kaiDue(G);
-    check('3. BUG-KAI-PICKUP-1022：那天晚上有別的出遊（20:45 接機）＝阿凱那晚不問（讓「出發」先問）；隔天晚上照問',!a&&b,JSON.stringify({a,b})); }
   // 4. 朋友的邀約＋心意的邀約；只能接一個
   fresh(D('2025-12-18'),9,'campus',{}); G.stage='law'; meet('classmate_xinci'); meet('heroine_01'); R('classmate_xinci',25,0,0); R('heroine_01',70,50,45);
   G.termend={contact:{Y1S1:{classmate_xinci:{pts:7,k:{}},heroine_01:{pts:9,k:{}}}},think:{}};

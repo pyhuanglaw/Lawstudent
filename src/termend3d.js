@@ -150,7 +150,7 @@ const TERMEND=(function(){
       R.picked={who,kind,day:G.day}; S.planDinner(G,w,who,kind);
       for(const id in (R.asks||{})){ if(id===who) continue; const tag=R.asks[id], m=PHONE.byAsk?PHONE.byAsk(G,tag):null; if(m&&PHONE.askOpen(G,m)) PHONE.answer(G,tag,1); } } };   /* 只能接一個（BB_203 第 1 節第 3 點）*/
   /* ---- 保底：阿凱在宿舍當面「宵夜？」（時段裡、20:00 以後第一次在房間；一學期問一次）---- */
-  S.kaiDue=function(G){ if(!S.ON||G.zone!=='dorm') return false; const w=S.window(G); if(!w) return false; const P=S.plan(G,w), R=S.rec(G,w.id); return P.fallback==='kai'&&!R.picked&&!R.kaiAsked&&G.day>=(P.back||w.from)&&G.hour>=20&&G.hour<24.5&&!S.eveningBusy(G,G.day); };   /* 那天晚上已經有別的出遊（例：12/23 20:30 接學姊的飛機）＝那晚不問，讓「出發」先問；隔天晚上再問（BUG-KAI-PICKUP-1022，BB 10-22 11:28；同 dinnerDay 的 eveningBusy）*/
+  S.kaiDue=function(G){ if(!S.ON||G.zone!=='dorm') return false; const w=S.window(G); if(!w) return false; const P=S.plan(G,w), R=S.rec(G,w.id); return P.fallback==='kai'&&!R.picked&&!R.kaiAsked&&G.day>=(P.back||w.from)&&G.hour>=20&&G.hour<24.5; };
   S.kaiAsk=async function(GM){ const G=GM.G, w=S.window(G); if(!w) return false; const R=S.rec(G,w.id), Lx=L(), K=Lx.FALLBACK.kai, me={name:nm('kai'),charId:'kai'}; R.kaiAsked=G.day; let k=1; GM.sceneBegin();
     try{ await GM.say(me,K.ask); k=await GM.choose([{t:'「好。」'},{t:'「那天有約了。」'}]); if(k!==0){ await GM.say(me,K.no); return false; } R.picked={who:'kai',kind:'fallback',day:G.day};
       await GM.fade(true); if(GM.titleCard) await GM.titleCard('學期末的飯：'+nm('kai')+'（公館宵夜）','走過去約 10 分鐘',2200); GM.advance(1/6); await GM.fade(false);
