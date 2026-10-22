@@ -3,9 +3,11 @@
 // 1. 預設打開：LAWWW2 的路人底模都在 manifest（anon、lazy、ambient、有性別）；開場的預載清單（不是 lazy 的）裡沒有它們。網址加 ?npcold 回到舊的四個樣本。
 // 2. 還沒下載完：路人先建成隱藏的備用人物（degradedHidden，不露出方塊人）、不算載入失敗；池子在背景下載，到了 needsUpgrade／upgrade 換成分到的底模。
 // 3. 同一個區域：每個路人分到「目前分得最少」的底模（8 女分到 4 個底模＝每個 2 次）；有名字的人物照舊用可換色的模型＋自己的顏色，無名路人不會分到舊樣本。
-// 4. 輪替：池子比全部小時，換區域（refresh）輪到別的底模；上一輪沒挑到、也沒有人在用的放掉（ASSETS.has 變 false），還有人在用的留著。
+// 4. 輪替：池子比全部小時，換區域（refresh）往後移一格——女、男各換 1 個新的、其他留著（PERF-NPC-POOL-1022：原本全部換新，換區域以後最大的卡）；走幾個區域全部輪過一次；
+//    上一輪有、這一輪沒挑到、也沒有人在用的放掉（ASSETS.has 變 false），還有人在用的留著。
 // 5. ASSETS.unloadVRM：樣板借出或有複製品時不放；都還回去才放；放掉以後可以重新下載。
 // 修改前（?npcnew 才載入、全部一起預載、沒有輪替）：第 1 段「預設打開」、第 4、5 段失敗。用法：node tests/anon_pool_unit.js
+// 第 4 段的「每次只換 1 女 1 男」：修改前（開發分支 5c2a173f，一次 8 個全部換新）FAIL。
 const {execFileSync}=require('child_process');
 const fs=require('fs'), path=require('path');
 const OLD=['char.npc_m1','char.npc_m2','char.npc_f1','char.npc_f2'];
@@ -51,6 +53,11 @@ if(process.argv[2]==='child'){
     out.unloadFree=ASSETS.unloadVRM(k2); out.texFreed=[disp,T.size];   /* MToon 的貼圖在 uniforms（batch 16：沒放掉，換區域貼圖一直長）*/
     await ASSETS.loadOne(k2); out.reload=ASSETS.has(k2)&&CHAR.build({model:k2,height:1.6}).userData.driver;
     out.unloadedCount=ASSETS.unloaded|0;
+    // 4b. 每次換區域只換 1 女 1 男（PERF-NPC-POOL-1022）：只看挑了哪幾個，不真的下載
+    { const lo=ASSETS.loadOne, un=ASSETS.unloadVRM; ASSETS.loadOne=()=>Promise.resolve(); ASSETS.unloadVRM=()=>false; CHAR.anonPool.size={f:4,m:4};
+      let prev=CHAR.anonPool.refresh('campus').slice(); const seen=new Set(prev), news=[];
+      for(let i=0;i<24;i++){ const cur=CHAR.anonPool.refresh('z'+i).slice(); news.push(cur.filter(k=>!prev.includes(k)).map(sexOf).sort().join('')); cur.forEach(k=>seen.add(k)); prev=cur; }
+      out.rot={news,seen:seen.size,n:ANON.length}; ASSETS.loadOne=lo; ASSETS.unloadVRM=un; }
     console.log(JSON.stringify(out)); process.exit(0);
   })().catch(e=>{ console.log(JSON.stringify({error:String(e&&e.stack||e)})); process.exit(1); });
 } else {
@@ -70,8 +77,11 @@ if(process.argv[2]==='child'){
   check('3. 同一個人在同一個區域裡不會換底模',d.again===true);
   check('3. 無名路人不會分到舊樣本（npc_f1／f2／m1／m2）',(d.picks||[]).length===16&&d.picks.every(k=>!OLD.includes(k)),JSON.stringify(d.picks));
   check('3. 有名字的人物用可換色的舊模型＋自己的顏色',(d.named||[]).every(q=>OLD.includes(q.model)&&q.top==='#e0b95b'),JSON.stringify(d.named));
-  check('4. 池子比全部小（2＋2）：換區域輪到另一批（不重疊、兩輪 '+Math.min(d.nAnon||0,8)+' 個不同的）',d.Aloaded&&d.Bloaded&&d.disjoint&&d.union===Math.min(d.nAnon,8),JSON.stringify([d.A,d.B]));
-  check('4. 上一輪的、沒人在用的放掉；還有人在用的留著；這一輪沒挑到的都不在記憶體',(d.unloadedA||[]).length===3&&d.heldKept===true&&(d.notPicked||[]).length===0,JSON.stringify([d.unloadedA,d.heldKept,d.notPicked]));
+  { const A=d.A||[], B=d.B||[], nw=B.filter(k=>!A.includes(k));
+    check('4. 池子比全部小（2＋2）：換區域往後移一格——女、男各換 1 個新的，另一個留著（A 的第 2、4 個還在 B 裡）',d.Aloaded&&d.Bloaded&&A.length===4&&B.length===4&&B.includes(A[1])&&B.includes(A[3])&&nw.length===2&&nw.map(k=>(d.anon.find(a=>a.k===k)||{}).sex).sort().join('')==='fm'&&d.union===6,JSON.stringify([A,B]));
+    check('4. 上一輪有、這一輪沒挑到、沒人在用的放掉（A 的第 3 個）；還有人在用的留著（A 的第 1 個）；這一輪沒挑到的都不在記憶體',JSON.stringify(d.unloadedA)===JSON.stringify([A[2]])&&d.heldKept===true&&(d.notPicked||[]).length===0,JSON.stringify([d.unloadedA,d.heldKept,d.notPicked])); }
+  { const r=d.rot||{};
+    check('4. 池子 4＋4、換 24 次區域：每一次都只換 1 女 1 男（原本 8 個全部換新），24 次以內全部 '+(r.n||'?')+' 個底模都輪過',(r.news||[]).length===24&&r.news.every(x=>x==='fm')&&r.seen===r.n,JSON.stringify({news:(r.news||[]).slice(0,6),seen:r.seen,n:r.n})); }
   check('4. 畫質低：池子 3 女＋3 男',d.low===6,String(d.low));
   check('5. unloadVRM：樣板借出時不放、還回去才放',d.unloadWhileHeld===false&&d.unloadAfterRelease===true&&d.goneAfter===true);
   check('5. unloadVRM：有複製品時不放（樣板＋複製品都還才放）',(d.twoVrm||[]).length===2&&d.twoVrm.every(k=>k===(d.B||[])[0])&&d.unloadWithClone===false&&d.unloadTplOnly===false&&d.unloadFree===true,JSON.stringify([d.twoVrm,d.unloadWithClone,d.unloadTplOnly,d.unloadFree]));

@@ -183,10 +183,12 @@ const GAME = (function(){
     const show=()=>{ const n=g.filter(k=>ASSETS.has(k)).length; bar.style.width=Math.round(100*n/Math.max(1,g.length))+'%'; msg.textContent='載入人物 '+n+'／'+g.length+'（已下載 '+(ASSETS.bytes.done/1048576).toFixed(1)+' MB）'+(ASSETS.lastErr?'・網路不穩，重新下載中':(performance.now()-t0>20000?'・網路比較慢，還在下載':'')); };
     show(); L.classList.remove('hide'); const iv=setInterval(show,300); try{ await GM.charsAllP; } finally { clearInterval(iv); L.classList.add('hide'); } }
   GM.waitChars=waitChars;
+  GM.UPG_EXTRA=1;
   GM.upgradeModels=function(){ if(!E||!E.player) return 0; let n=0;
     if(CHAR.needsUpgrade(E.player.obj)){ const old=E.player.obj, nh=CHAR.upgrade(old); if(nh){ E.player.obj=nh; GM.heroDriver=nh.userData.driver; for(const m of E.npcs) if(m.lookAt===old.position) m.lookAt=nh.position; n++; if(E.prePose) E.prePose(E.player); } }
-    for(const m of E.npcs){ if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; if(E.prePose) E.prePose(m); } } }   /* 新的骨架先套好姿勢（坐著的人不會先站一幀）*/
-    for(const x of (GM.extras||[])){ if(x.rider&&CHAR.needsUpgrade(x.rider)){ const nh=CHAR.upgrade(x.rider); if(nh){ x.rider=nh; n++; } } }
+    let ex=0;   /* 路人（isExtra、騎士）一次最多換 GM.UPG_EXTRA 個（每 1.5 秒叫一次）：新的路人底模到了，不要同一格全部換上（PERF-NPC-POOL-1022：那一格要建 VRM、傳貼圖、編 shader）；主角、有名字的人照舊馬上換 */
+    for(const m of E.npcs){ if(m.isExtra&&ex>=GM.UPG_EXTRA) continue; if(CHAR.needsUpgrade(m.obj)){ const nh=CHAR.upgrade(m.obj); if(nh){ m.obj=nh; n++; if(m.isExtra) ex++; if(E.prePose) E.prePose(m); } } }   /* 新的骨架先套好姿勢（坐著的人不會先站一幀）*/
+    for(const x of (GM.extras||[])){ if(ex>=GM.UPG_EXTRA) break; if(x.rider&&CHAR.needsUpgrade(x.rider)){ const nh=CHAR.upgrade(x.rider); if(nh){ x.rider=nh; n++; ex++; } } }
     if(n) console.info('upgraded character models:',n); return n; };
   /* 一模一樣的路人站在旁邊（BUG-NPC-DUP-1018）：4 m 內同一層有人用同一個路人底模，換成附近沒人用的（CHAR.reAnon）。換模型會閃一下：平常只換不在畫面裡的人，換區域的黑幕裡（all）全部換 */
   GM.dedupAnon=function(all){ if(!E||!CHAR.anonKeyOf||typeof THREE==='undefined') return 0; const L=E.npcs.filter(n=>n.isExtra&&n.obj&&CHAR.anonKeyOf(n.obj)); if(L.length<2) return 0;

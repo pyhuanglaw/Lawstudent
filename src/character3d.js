@@ -257,8 +257,8 @@ const CHAR = (function(){
   /* 一個底模的貼圖約 3 MB（512² 以下 20 張）：4＋4 約 25～32 MB。畫質「低」（弱的手機；路人數量也打五折）用 3＋3（sizeLow）*/
   C.anonPool={ size:{f:4,m:4}, sizeLow:{f:3,m:3}, cur:[], rot:0, pick:{}, uses:{},
     refresh(zoneId,level){ const P=this, all=ANON_KEYS(), sz=level==='low'?P.sizeLow:P.size; P.pick={}; P.uses={}; if(!all.length){ P.cur=[]; return P.cur; }
-      const by=s=>all.filter(k=>ASSETS.manifest[k].sex===s), take=(L,n)=>{ if(L.length<=n) return L.slice(); const o=[]; for(let i=0;i<n;i++) o.push(L[(P.rot*n+i)%L.length]); return o; };
-      const next=take(by('f'),sz.f).concat(take(by('m'),sz.m)); P.rot++;
+      const by=s=>all.filter(k=>ASSETS.manifest[k].sex===s), take=(L,n)=>{ if(L.length<=n) return L.slice(); const o=[]; for(let i=0;i<n;i++) o.push(L[(P.rot+i)%L.length]); return o; };
+      const next=take(by('f'),sz.f).concat(take(by('m'),sz.m)); P.rot++;   /* 每次換區域只往後移一格（PERF-NPC-POOL-1022，LAWWW2 量測）：女、男各換 1 個新的、其他留著——原本 8 個全部換新，新的 VRM 到了同一格一起換上，是換區域以後最大的卡；走四個區域就全部換過一輪 */
       for(const k of next) if(!ASSETS.has(k)) ASSETS.loadOne(k).then(()=>{ if(!P.cur.includes(k)&&ASSETS.unloadVRM) ASSETS.unloadVRM(k); }).catch(e=>{ console.warn('anon pool load',k,e&&e.message); if(ASSETS.status) delete ASSETS.status[k]; });   /* 下載到的時候池子已經換了（換區域很快）：直接放掉；下載失敗：下次輪到再試 */
       for(const k of all) if(!next.includes(k)&&ASSETS.unloadVRM) ASSETS.unloadVRM(k);   /* 全部掃一次（不只上一輪的）：換區域太快時晚到的那幾個也會放掉；還有人在用的 unloadVRM 不會放 */
       P.cur=next; return next; },
