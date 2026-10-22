@@ -13282,6 +13282,19 @@
    "task": "LIC-GAPS-1017",
    "integration": "已驗收",
    "note": "開發分支整合（LAWWW 帳號 A 10-22 09:3x：licenses_gaps_1022.diff 套上）；ntu_gym_ceremony.webp、gym_arena.glb 開發分支本來就有列；LAWWW 核對：四項缺漏都有列了"
+  },
+  {
+   "id": "DL-AA-b6588bf5",
+   "date": "2026-10-22",
+   "from": "AA",
+   "account": "A",
+   "branch": "claude/story-planning",
+   "sha": "b6588bf5",
+   "what": "AA_384 可昕慢慢分手實作後十四題（朋友層訊息、尾聲朋友版、一學期一次午餐、D0／D1b 只看玩家自己約的、D1 拿掉 118 巷、D6 拿掉祐廷生日、畢業那天 drift 版）＋AA_351 跟著改",
+   "task": "AA351-KX-DRIFT-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "開發分支整合（子代理 3c0a0ea9，LAWWW 帳號 A 10-22 09:4x 合併 5d5adbad）；aa384 54 項、aa351 90 項、476 支單元測試 ALL PASS；放 v9.10.6"
   }
  ],
  "ignored": [

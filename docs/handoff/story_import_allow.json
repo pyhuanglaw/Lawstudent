@@ -1523,11 +1523,17 @@
   },
   {
    "path": "docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md",
-   "sha": "c29c49eb",
+   "sha": "b6588bf5",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-21 定稿（D100、D109；使用者 10-18 選的四題＋第⑤題照 AA 建議大二上起）；D0～D6 台詞手動放進遊戲（子代理實作，LAWWW 帳號 A 合併時逐句對稿）",
+   "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（AA_384 跟著改 AA_351：D1 拿掉 118 巷、D6 拿掉祐廷生日等；D100、D109）；子代理 3c0a0ea9 逐句對稿（tests/aa351_kx_drift_unit.js 讀 b6588bf5），LAWWW 帳號 A 合併 5d5adbad",
    "task": "AA351-KX-DRIFT-1021",
-   "kind": "text"
+   "kind": "text",
+   "history": [
+    {
+     "sha": "c29c49eb",
+     "approvedBy": "AA-C 2026-10-21 定稿（D100、D109；使用者 10-18 選的四題＋第⑤題照 AA 建議大二上起）；D0～D6 台詞手動放進遊戲（子代理實作，LAWWW 帳號 A 合併時逐句對稿）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_245_沛珊柏翰_沒交往的版本.md",
@@ -1574,6 +1580,14 @@
    "status": "approved",
    "approvedBy": "AA-C 裁定；第 2 節 P0-2 使用者選甲（4-4 追其中一人時順延）；src/zrzq3d.js 照做",
    "task": "AA243-P02",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_384_可昕慢慢分手_實作後十四題.md",
+   "sha": "b6588bf5",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 08:52 定稿（回 LAWWW 08:49 十四題；D100、D109）；台詞手動放進 src/kxdrift3d.js 的 KXDRIFT.LF（子代理 3c0a0ea9，LAWWW 帳號 A 合併 5d5adbad）；tests/aa384_kx_friend_unit.js 逐句對稿",
+   "task": "AA351-KX-DRIFT-1021",
    "kind": "text"
   }
  ]
