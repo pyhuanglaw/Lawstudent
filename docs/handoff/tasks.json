@@ -28750,7 +28750,7 @@
    "id": "BUG-KAI-Y2-SCHED-1022",
    "title": "阿凱大二以後的作息還是每晚在宿舍書桌（characters.js 130 行附近）：手機「朋友」可能顯示他「就在這裡」，人卻不在 312",
    "owner": "LAWWW",
-   "status": "已整合待測試",
+   "status": "已驗收",
    "priority": "P3",
    "area": "v3",
    "first": {
@@ -28766,7 +28766,8 @@
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
    "next": "BB 瀏覽器：大二上晚上在 312，手機「朋友」阿凱寫「在他那棟宿舍」、沒有「就在這裡」；大一 203 晚上照舊在書桌",
-   "done": "開發分支（LAWWW 10-22 06:4x）：characters.js 阿凱的晚上作息拆成兩筆——大一同房到 9/6 搬家為止（宿舍書桌，if notFlags ROOM_Y2，和 S.kaiRoommate 一致）；9/6 搬了以後到 2029-06-27＝「在他那棟宿舍」（zone null，手機不會寫「就在這裡」）。tests/kai_y2_sched_unit.js（修改前 a3d2185d 兩項 FAIL、修改後 ALL PASS）；kai_dorm、dorm 五支、aa376_y3s1、presence、schedule_refresh、lane118_sched、holiday_presence 照過"
+   "done": "開發分支（LAWWW 10-22 06:4x）：characters.js 阿凱的晚上作息拆成兩筆——大一同房到 9/6 搬家為止（宿舍書桌，if notFlags ROOM_Y2，和 S.kaiRoommate 一致）；9/6 搬了以後到 2029-06-27＝「在他那棟宿舍」（zone null，手機不會寫「就在這裡」）。tests/kai_y2_sched_unit.js（修改前 a3d2185d 兩項 FAIL、修改後 ALL PASS）；kai_dorm、dorm 五支、aa376_y3s1、presence、schedule_refresh、lane118_sched、holiday_presence 照過",
+   "evidence": "BB（帳號 A）10-22 07:0x（BB_218 809ab3f6）：開發分支 d606741b，Playwright 橫向、turbo——大一 2025-10-01 21:00 阿凱在 203 書桌、手機「就在這裡」（對照）；大二 2026-10-01 21:00（已搬 312）手機「在他那棟宿舍」、沒有「就在這裡」、房間裡沒有他"
   },
   {
    "id": "BB106-L389-1022",
@@ -28815,7 +28816,7 @@
    },
    "source": "BB（帳號 A）10-22 05:02（v9.10.4 GO 那則的「這版還沒有的」「其他」）",
    "authorized": "D110；BB 測試回報",
-   "next": "BB 瀏覽器：2029-05-29 10:00 進總圖 3F，學姊不在；手機「朋友」寫「口試（霖澤館的研究室）」；16:00 口試那一場照演",
+   "next": "【BB 07:0x】手機那一半 PASS（2029-05-29 09:56「口試（霖澤館的研究室）」）；走上 3F 看她不在那一半重跑中（腳本改從大廳二樓樓梯間走上去） ｜ BB 瀏覽器：2029-05-29 10:00 進總圖 3F，學姊不在；手機「朋友」寫「口試（霖澤館的研究室）」；16:00 口試那一場照演",
    "done": "開發分支（LAWWW 10-22 06:3x）：characters.js 學姊作息最前面加一筆 2029-05-29 08:00～18:00「口試（霖澤館的研究室）」（zone null，不在任何 3D 區域；蓋過平日 9～17 點的總圖 3F）；口試那一場照舊是 y34b3d.js M9 的出遊（16:00 研究室走廊）。tests/sis_oral_sched_unit.js（修改前 c816b8de FAIL、修改後 ALL PASS）；lane118_sched、presence、schedule_refresh、學姊相關 13 支、y34b_events 照過"
   },
   {
@@ -28934,6 +28935,36 @@
    "done": "開發分支（LAWWW 10-22 06:2x）：S.entryFor 的 going——人在宿舍（走廊、房間、女舍，S.privateZone）或臺北的家（HOME.at）、又不是約定的地方＝不回 follow（作息照原本的，她不在宿舍）；S.arrive／tick 的 dropGoing 照舊作罷。tests/inv_both_present_unit.js 第 10 項（修改前 c045438d FAIL、修改後 ALL PASS）；invites、invite_people、invite_whynot、aa379_sis_y2y3、schedule_refresh、presence、home 照過",
    "next": "BB 瀏覽器重跑 WALK_DORM、WALK_CAFE_DORM（麵店、Café 兩條）",
    "evidence": "BB（帳號 A）10-22 06:4x bothwalk5（BB_218 c60150ac；修正前後同時間同角度截圖在企劃線 test_shots/inv_walk_1022/）：開發分支 6cfc73fd，Playwright 橫向、不用 turbo——麵店、Café 兩條：她跟著走 → 手機快速前往宿舍 → 邀約 cancelled＋「…後來作罷了。」→ 宿舍房間裡沒有她（右下角「走出房間」）；JS 例外 0"
+  },
+  {
+   "id": "BUG-SIS-PRE94-PRESENCE-1022",
+   "title": "選 1 的新局 8/31～9/4 中午學姊完全不出現（schedFor 的 LEGACY_IDS 舊規則：afternoonDone 以前不照作息），AA_279／AA_379 寫的「9/4 以前找她＝（她在看手機，沒有抬頭。）」玩家到不了",
+   "owner": "AA",
+   "status": "等待其他AI／素材",
+   "priority": "P3",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "選 1 的新局 9/1～9/4 上午進總圖閱覽室",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB（帳號 A）10-22 07:05（BB_218 P3 讀碼）",
+   "authorized": "D79／D109（人物出現時間是劇情，AA 決定）；D110",
+   "next": "等 AA 回：①開放（9/1 起照作息出現，9/4 以前那一句、9/4 起閱覽室直接認識）②不開（那一句只當防呆，BB 記玩家到不了）③其他。AA 回了以後 LAWWW 改 schedFor（只放寬 heroine_05，其他五個照舊）、加單元測試、派 BB",
+   "pausedReason": "人物出現時間是劇情（D79），等 AA 決定",
+   "resumeWhen": "AA 回覆",
+   "xai": {
+    "spec": "AA_279（AA-C 10-18 01:46）、企劃線 AA_379 第 1-2、1-3 節（992b58da）",
+    "branch": "claude/confident-ritchie-8rwh7t",
+    "acceptance": "AA 選定一個；照選的改好、BB 瀏覽器測 9/2 閱覽室",
+    "receiver": "AA",
+    "ack": "SENT"
+   }
   }
  ]
 }
