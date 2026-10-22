@@ -15,7 +15,7 @@ const ROWS=[ // [人物, 經濟系那一年, 大一, 大二, 大三, 大四]（�
   ['heroine_02',null,'外文系・二年級','外文系・三年級','外文系・四年級（上學期在英國交換）','英國・電影研究所'],
   ['heroine_04',null,'資工系・二年級','資工系・三年級','資工系・四年級','獨立遊戲工作室'],
   ['heroine_05','法律系・三年級','法律系・四年級','法研所（財經法學組）・碩一','法研所（財經法學組）・碩二','法研所（財經法學組）・碩三'],
-  ['kexin','經濟系・一年級（2025-02 起休學）','政大法律系・一年級','政大法律系・二年級','政大法律系・三年級','政大法律系・四年級'],
+  ['kexin','經濟系・一年級','政大法律系・一年級','政大法律系・二年級','政大法律系・三年級','政大法律系・四年級'],   /* AA_368 M3：經濟系那一年照日期（2/14 起才是「休學中」，下面另外測）*/
   ['classmate_peishan',null,'法律系・一年級','法律系・二年級','法律系・二年級','法律系・二年級'],
   ['kai',null,'資工系・一年級','資工系・二年級','資工系・三年級','資工系・四年級'],
   ['npc_fangyt','森林系・一年級','森林系・二年級','森林系・三年級','森林系・四年級','森林系'],
@@ -28,6 +28,8 @@ const WHEN=[['2024-10-01','econ'],['2025-10-01'],['2026-10-01'],['2027-10-01'],[
 for(const r of ROWS){ const bad=[]; WHEN.forEach(([k,st],i)=>{ if(r[i+1]==null) return; at(k,st); const t=SOCIAL.yearTag(r[0]); if(t!==r[i+1]) bad.push(k+'：'+t+' ≠ '+r[i+1]); }); check(r[0]+' 五個學年照表', !bad.length, bad.join(' | ')); }
 at('2027-10-01','law',{dating_classmate_peishan:true}); check('沛珊大三：交往中＝教育系・一年級', SOCIAL.yearTag('classmate_peishan')==='教育系・一年級', SOCIAL.yearTag('classmate_peishan'));
 at('2028-10-01','law',{PS_RECONNECT:true}); check('沛珊大四：放榜後重新聯絡上＝教育系・二年級', SOCIAL.yearTag('classmate_peishan')==='教育系・二年級', SOCIAL.yearTag('classmate_peishan'));
+{ const bad=[]; for(const [k,want] of [['2024-08-23','經濟系・一年級'],['2024-10-17','經濟系・一年級'],['2025-02-13','經濟系・一年級'],['2025-02-14','經濟系・一年級（休學中）'],['2025-05-01','經濟系・一年級（休學中）'],['2025-08-28','經濟系・一年級（休學中）']]){ at(k,'econ'); const t=SOCIAL.yearTag('kexin'); if(t!==want) bad.push(k+'：'+t+' ≠ '+want); }
+  check('AA_368 M3：可昕經濟系那一年照日期——2025-02-14 以前「經濟系・一年級」、2/14 起「經濟系・一年級（休學中）」（原本從 2024-08 認識她起就寫「（2025-02 起休學）」）', !bad.length&&!JSON.stringify(CHARACTERS.kexin.tagByPY).includes('2025-02 起休學'), bad.join(' | ')); }
 at('2029-03-10'); check('大四下照大四', SOCIAL.yearTag('heroine_05')==='法研所（財經法學組）・碩三', SOCIAL.yearTag('heroine_05'));
 const g3=fs.readFileSync(path.join(ROOT,'src/game3d.js'),'utf8');
 check('game3d.js 的兩處都改用 SOCIAL.yearTag（朋友列表、資料頁）', (g3.match(/SOCIAL\.yearTag\(id\)/g)||[]).length===2 && !/\['','一','二','三','四'\]\[c\.year\]/.test(g3));

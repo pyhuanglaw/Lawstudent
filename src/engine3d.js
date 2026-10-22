@@ -131,14 +131,14 @@ const E3 = (function(){
     [21,'#3a4670',0.08,-10,280,'#2b3a5c','#1a1a24',0.55,'#1b2233',0.85,'#0f1a33','#243052','#3a3a4a',1],
     [24,'#3a4670',0.05,-10,280,'#232f4c','#151520',0.5,'#141a2b',0.8,'#0b1329','#1c2540','#2b2b3a',1],
   ];
-  // 黃昏調色提案（v9.3，使用者還沒決定，預設不開）：網址加 ?grade=golden 才用。目標是參考圖 07 的 17:30——
+  // 黃昏調色（v9.3 提案；使用者 2026-10-18 選「預設就開」，GRADE-GOLDEN-DEFAULT，LAWWW2 2026-10-21 改）：預設就用；網址加 ?grade=off 回到原本的黃昏（比較用）。目標是參考圖 07 的 17:30——
   // 暖金色的陽光、陰影裡也偏暖（環境光從冷灰改成暖杏色）、街道盡頭的空氣有一層暖橘色的霧、天空下緣金黃。只換 17:00–18:00 這一段。
   const KEY_GOLDEN=[
     [17,'#ffbb70',2.4,24,262,'#ffd2a4','#b8845e',1.1,'#f6c294',1.1,'#7a9acb','#f6c08a','#ffd49a',0],
     [17.5,'#ffa458',2.6,18,265,'#ffc488','#a8704e',1.18,'#ffb074',1.18,'#6f8cc2','#ffae72','#ffc480',0.5],   // 路燈：最後一欄 0.5，17:30 一過就亮（和預設一樣）
     [18,'#ff9450',2.1,13,268,'#f6b088','#8f6248',1.08,'#f4a272',1.14,'#5f7fb2','#f6a070','#ffb47c',1]];
   const KEYG=KEY0.filter(r=>r[0]<17||r[0]>18).concat(KEY_GOLDEN).sort((a,b)=>a[0]-b[0]);
-  E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||null;
+  E.grade=(typeof location!=='undefined'&&(location.search.match(/[?&]grade=(\w+)/)||[])[1])||'golden';   /* ?grade=off（或任何不是 golden 的值）＝原本的黃昏 */
   const c1=new THREE.Color(), c2=new THREE.Color();
   /* 影子不閃（X79，使用者 2026-10-20「有些建築旁邊影子也一直在閃爍」；BB-C 量到：陰影相機每 5 格跟著玩家移動、沒對齊陰影貼圖格子，1024 蓋 44 m，一格約 4.3 cm）：
      ①陰影相機的中心在光的平面上對齊到整格（texel snapping；three.js 的 DirectionalLight 用 lookAt、up＝(0,1,0)，右＝cross(up,d)、上＝cross(d,右)）——玩家走動時影子貼圖的格子固定在世界上；
@@ -238,6 +238,7 @@ const E3 = (function(){
     if(E.cam.ctl){ mv.normalize(); const ang=E.cam.yaw-(E.cam.swingAcc||0); /* 搖桿／鍵盤的方向換成世界方向（v9.3 第二十五批修正，2026-10-10 線上回報「霖澤館外面跑的方向相反」）：鏡頭在玩家的 (sin yaw, cos yaw) 那一側，畫面的「前」是 (-sin yaw,-cos yaw)、「右」是 (cos yaw,-sin yaw)；推 (x,y)（y 往下為正）＝ x·右 − y·前。原本旋轉方向寫反：只有鏡頭朝正北／正南時對，鏡頭轉 45° 時偏 90°、轉到側面時整個相反（往鏡頭這邊跑）*/ const dx=mv.x*Math.cos(ang)+mv.z*Math.sin(ang); const dz=-mv.x*Math.sin(ang)+mv.z*Math.cos(ang); const run=input.runToggle||input.joy.run||P.runHold; const sp=P.riding?E.bikeSp():(run?spdRun:spdWalk); P.path=null; P.target=null; stepEntity(P,dx,dz,sp,dt); moving=true; P.pose=P.riding?'ride':(run?'run':'walk'); P.speed=sp; }   /* P.riding：騎腳踏車（src/bike3d.js）*/
     else if(P.path) moving=pathStep(P,dt);
     if(!moving){ if(P.pose==='walk'||P.pose==='run'){ P.pose='idle'; } P.speed=0; }
+    if(moving||E.cam.ctl) P.lastMoveT=E.time;   /* 最後一次在走（搖桿、鍵盤、點地面）的時間：要回的訊息自動打開手機等玩家停下來（story3d.js S.phoneAuto，UX-PHONE-AUTO-WALK-1021）*/
     CHAR.animate(P.obj,dt,{pose:P.busy?P.pose:(P.pose),speed:P.speed,handsPockets:P.pocketsIdle&&P.pose==='idle',lookAt:P.lookAt,ground:groundFn(P),ride:P.ride});
     // NPC
     camera.updateMatrixWorld(); _frM.multiplyMatrices(camera.projectionMatrix,camera.matrixWorldInverse); _fr.setFromProjectionMatrix(_frM); for(const n of E.npcs){ updateNPC(n,dt); }
@@ -390,7 +391,7 @@ const E3 = (function(){
         else dist=hd-0.35>=0.7?hd-0.35:Math.max(0.12,hd-0.15);   /* 隔間牆：人可以貼著牆站（離牆中線 0.42 m），最近 0.7 m 的規則會把鏡頭放到牆後面——貼牆時鏡頭留在牆前、拉高從上面看 */
         out.copy(target).addScaledVector(fcDir,dist);
         if(inner){ out.y+=Math.min(0.9,(1-dist/dist0)*1.0);   /* 抬高之後再看一次頭 → 鏡頭：抬高可能抬進門楣（鏡頭剛好在門洞的平面上）、或從門洞看出去時被門楣擋住——擋到就沿著新的線拉近 */
-          fcDir.copy(out).sub(target); const l2=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=l2; const h3=E.ray.intersectObjects(LC,false); if(h3.length){ out.copy(target).addScaledVector(fcDir,Math.max(0.12,h3[0].distance-0.15)); } } } }
+          fcDir.copy(out).sub(target); const l2=fcDir.length(); fcDir.normalize(); E.ray.set(target,fcDir); E.ray.far=l2; const h3=E.ray.intersectObjects(LC,false); if(h3.length){ const d3=Math.max(0.12,h3[0].distance-0.15); out.copy(target).addScaledVector(fcDir,d3); dist=Math.min(dist,d3); } } } }   /* 回傳的 dist 也要是拉近以後的（BUG-CAM-C208-1021：抬高撞到門楣、又拉近到 0.8 m，回傳的還是 2.2 m——autoSwing 以為不貼牆、不轉開，往前看也沒作用）*/
     return {dist,inner}; }
   E.followCam=followCam;
   /* 鏡頭貼牆時自動轉開（2026-10-13 LAWWW2 CAMERA_WALLS §1(1)；使用者轉達「鏡頭穿牆是最優先的共用技術問題」）：被隔間牆拉近到 1.5 m 以內、

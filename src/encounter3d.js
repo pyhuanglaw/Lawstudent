@@ -36,7 +36,7 @@ const ENC=(function(){
   const exKey=(ex,how)=>how==='apart_choice'&&!(ex&&(ex.apart_choice||ex.apart_choiceNarr))?'apart_talk':how; S.exKey=exKey;
   /* 回老家（presence kind 'home'）的人在不在這個景點的城市：景點的 area（「臺中市」）和 presence 的 home（「台中」）比，臺／台、市／縣不分 */
   const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
-  S.atHome=(pr,spot)=>!!(pr&&pr.kind==='home'&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);
+  S.atHome=(pr,spot)=>!!(pr&&(pr.kind==='home'||pr.kind==='trip')&&pr.home&&spot&&spot.area)&&cityOf(spot.area)===cityOf(pr.home);   /* trip 帶 home：週末回老家（以安大一上第 4、8、12 週，AA_372 第 6 節第 8 題）——那個城市的偶遇照排 */
   /* 這一列現在成立嗎：回傳 {row,tier} 或 null（why 給測試看）*/
   S.eligible=function(G,row,why){ const no=w=>{ if(why) why.push(row.who+'@'+row.spot+':'+w); return null; };
     if(G.stage==='econ') return no('econ');
@@ -45,7 +45,8 @@ const ENC=(function(){
     const spot=typeof TRIP!=='undefined'&&TRIP.spot?TRIP.spot(row.spot):null; if(spot&&spot.weather==='outdoor'&&G.weather==='rain'&&!row.rainOk) return no('下雨');   /* rainOk：戶外景點但有遮（BB_213 可昕 D10 河邊的台階）*/
     if(!row.days.includes(G.weekday)) return no('星期'); if(!(h>=row.from&&h<row.to)) return no('時段');
     if((row.terms||row.weeks)&&!T) return no('不在學期裡'); if(row.terms&&!row.terms.includes(T.id)) return no('學期');
-    if(row.weeks&&(Array.isArray(row.weeks)?!row.weeks.includes(T.week):((T.week%2===1)!==(row.weeks==='odd')))) return no('週次');   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/
+    { const wk=(row.termWeeks&&T&&row.termWeeks[T.id])||row.weeks;   /* termWeeks＝某一學期改用別的週次（AA_373 #5：小語烏來大一下改第 8 週 4/18；和 characters.js 的作息一起改）*/
+      if(wk&&(Array.isArray(wk)?!wk.includes(T.week):((T.week%2===1)!==(wk==='odd')))) return no('週次'); }   /* 'odd'／'even'＝單雙週；陣列＝學期的第幾週（AA_271 柏翰 D11 第 6、7 週）*/
     if(row.dates&&!(typeof STORY!=='undefined'&&STORY.inDates&&STORY.inDates(G,row.dates))) return no('日期');   /* AA_271：日期區間（含頭尾），以安回台中、阿哲回高雄的日子 */
     if(row.vacation&&!(typeof HOME!=='undefined'&&HOME.breakOf&&HOME.breakOf(G.day))) return no('不是寒暑假');   /* AA_271：語彤 D14 寒暑假的週日 */
     if(row.kexin&&typeof STORY!=='undefined'&&STORY.presence){ const pr=STORY.presence('kexin',G); if(pr&&pr.here===false&&pr.kind==='home') return no('可昕：寒暑假在'+(pr.home||'老家')); }   /* 寒暑假她在高雄，西門町、淡水不會遇到（AA_278 第 2 節第 2 點）*/

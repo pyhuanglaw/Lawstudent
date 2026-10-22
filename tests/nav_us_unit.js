@@ -29,6 +29,7 @@ function allReach(id,from){ const bad=[]; for(const it of E.interactables){ cons
     if(it.seat){ const a=apsOf(it.seat).filter(p=>stand(p[0],p[1])); if(!a.length){ bad.push(it.label+'：坐下的走近點都站不住'); continue; } const r2=firstReach(from,a); if(!r2.ok) bad.push(it.label+'（走近點）'+fmt(r2)); } }
   check(`${id}：${E.interactables.length} 個互動點都站得到、從出生點走得到（座位的走近點也是）`,!bad.length,bad.slice(0,6).join('；')); }
 const arrivals=[];   // 出入口的到達點：之後到那一區檢查
+const MSL=typeof US_MARKET_STREET_LAYOUT!=='undefined'&&!!Z3.ZONES.us_market_street;   // 超市街（US-MARKET-STREET，LAWWW2 2026-10-21）：有的話社區、超市、亞洲超市的出入口接到超市街
 function noteExits(id){ for(const it of E.interactables) if(it.exit&&it.exit.spawn) arrivals.push({from:id,to:it.exit.to,label:it.label,sp:it.exit.spawn}); }
 
 /* ART-US2-FIX-1018（BB-C 10-18：站在冰箱前出「看爐子」）：冰箱門前（冰箱正面往東 0.36～0.62 m、冰箱寬度內）站得住的位置，最近的互動都要是冰箱；
@@ -79,7 +80,7 @@ const kitchenSplit=(name,L,frIt,stIt)=>{ const near=(x,z)=>{ let b=null,bd=1e9; 
   check('社區：出生點 3 m 內沒有車',!L.cars.some(q=>Math.hypot(q.x-S.x,q.z-S.z)<3));
   const r=both([S.x,S.z],[US3.US_LINK.x,US3.US_LINK.z]); check('社區：樓梯間門口 → 停車場 → 社區入口',r.ok,fmt(r));
   check('社區：C 棟有「上樓（C 棟 208）」→ us_shared',!!E.interactables.find(i=>i.usShared==='door'&&i.exit&&i.exit.to==='us_shared'));
-  check('社區：有「回公寓」→ us_apartment、「出門（去超市）」（usGoOut）→ us_market',!!E.interactables.find(i=>i.label==='回公寓'&&i.exit&&i.exit.to==='us_apartment')&&!!E.interactables.find(i=>i.usGoOut&&i.exit&&i.exit.to==='us_market'));
+  check('社區：有「回公寓」→ us_apartment、「出門（去超市）」（usGoOut）→ '+(MSL?'us_market_street（超市街的公車站）':'us_market'),!!E.interactables.find(i=>i.label==='回公寓'&&i.exit&&i.exit.to==='us_apartment')&&!!E.interactables.find(i=>i.usGoOut&&i.exit&&i.exit.to===(MSL?'us_market_street':'us_market')));
   { const H=L.clubhouse, it=H&&E.interactables.find(i=>i.usClub==='door');   /* 會所（BB_215「走到會所門口」）*/
     check('社區：會所門口有「會所」（usClub）、站得住，會所本體、門廊柱子站不住',!!it&&stand(it.x,it.z)&&!stand(H.cx,H.cz)&&!stand(H.cx+H.porch.w/2-0.3,H.cz-H.dep/2-H.porch.d+0.2),it?`(${it.x},${it.z})`:'沒有會所');
     check('社區：US3.SPAWN.us_clubhouse（會所門口的走道）站得住',!!US3.SPAWN.us_clubhouse&&stand(US3.SPAWN.us_clubhouse.x,US3.SPAWN.us_clubhouse.z));
@@ -89,16 +90,23 @@ const kitchenSplit=(name,L,frIt,stIt)=>{ const near=(x,z)=>{ let b=null,bd=1e9; 
 { const z=loadZone('us_market'), L=US_MARKET_LAYOUT, S=z.spawn;
   check('超市：入口的出生點站得住',stand(S.x,S.z),`(${S.x},${S.z})`);
   check('超市：貨架、冷藏櫃擋住（走道中間站得住、貨架上站不住）',!stand(L.gondolas[0].x,-2)&&stand(L.aisle_signs[0].x,-2));
-  check('超市：有「離開超市」→ us_outside、「牛奶、蛋」（US1）、八條走道',!!E.interactables.find(i=>i.exit&&i.exit.to==='us_outside')&&!!E.interactables.find(i=>i.usMarket==='dairy')&&E.interactables.filter(i=>/^aisle_/.test(i.usMarket||'')).length===8);
+  check('超市：有「離開超市」→ '+(MSL?'us_market_street（OUT 門外）':'us_outside')+'、「牛奶、蛋」（US1）、八條走道',!!E.interactables.find(i=>i.exit&&i.exit.to===(MSL?'us_market_street':'us_outside'))&&!!E.interactables.find(i=>i.usMarket==='dairy')&&E.interactables.filter(i=>/^aisle_/.test(i.usMarket||'')).length===8);
   allReach('超市',[S.x,S.z]); noteExits('us_market'); }
 // ---------- 大超市對面的小亞洲超市（使用者 2026-10-17 23:0x）----------
 { const z=loadZone('us_asian_market'), L=US_ASIAN_MARKET_LAYOUT, S=z.spawn;
   check('亞洲超市：門口的出生點站得住',stand(S.x,S.z),`(${S.x},${S.z})`);
   check('亞洲超市：貨架、米、結帳櫃台擋住（貨架上站不住、走道中間站得住）',!stand(L.gondolas[0].x,-1)&&!stand(-7.5,-1)&&!stand(-4.5,3.6)&&stand(-2.9,-1));
-  check('亞洲超市：有「泡麵」（usMarket asia_noodles：US1 的台灣泡麵）、「過馬路（回大超市）」→ us_market、「回社區（搭公車）」→ us_outside',
+  if(MSL) check('亞洲超市：有「泡麵」（usMarket asia_noodles：US1 的台灣泡麵）、只有一個「出門」→ us_market_street（回大超市、搭公車都從外面走）',
+    !!E.interactables.find(i=>i.usMarket==='asia_noodles')&&E.interactables.filter(i=>i.exit).length===1&&!!E.interactables.find(i=>i.exit&&i.exit.to==='us_market_street'));
+  else check('亞洲超市：有「泡麵」（usMarket asia_noodles：US1 的台灣泡麵）、「過馬路（回大超市）」→ us_market、「回社區（搭公車）」→ us_outside',
     !!E.interactables.find(i=>i.usMarket==='asia_noodles')&&!!E.interactables.find(i=>i.exit&&i.exit.to==='us_market')&&!!E.interactables.find(i=>i.exit&&i.exit.to==='us_outside'));
   allReach('亞洲超市',[S.x,S.z]); noteExits('us_asian_market'); }
-{ loadZone('us_market'); check('大超市：門口有「過馬路（對面的亞洲超市）」→ us_asian_market',!!E.interactables.find(i=>i.exit&&i.exit.to==='us_asian_market')); }
+{ loadZone('us_market'); if(MSL) check('大超市：有超市街以後沒有「過馬路」直接跳到亞洲超市（走停車場、斑馬線過去）',!E.interactables.find(i=>i.exit&&i.exit.to==='us_asian_market'));
+  else check('大超市：門口有「過馬路（對面的亞洲超市）」→ us_asian_market',!!E.interactables.find(i=>i.exit&&i.exit.to==='us_asian_market')); }
+// ---------- 超市街（停車場、馬路；完整的檢查在 tests/us_market_street_unit.js）----------
+if(MSL){ const z=loadZone('us_market_street'), S=z.spawn;
+  check('超市街：公車站的出生點站得住',stand(S.x,S.z),`(${S.x},${S.z})`);
+  allReach('超市街',[S.x,S.z]); noteExits('us_market_street'); }
 // ---------- 機場 ----------
 for(const k of ['dep','arr']){ const id='airport_'+k, z=loadZone(id), L=AIRPORT_T2_LAYOUT[k], S=z.spawn;
   check(`${id}：出生點站得住`,stand(S.x,S.z),`(${S.x},${S.z})`);

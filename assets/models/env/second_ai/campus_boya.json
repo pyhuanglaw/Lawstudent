@@ -1,11 +1,11 @@
 {
  "objects": 8,
  "unique_meshes": 8,
- "tris": 3354,
- "tris_drawn": 3354,
+ "tris": 3424,
+ "tris_drawn": 3424,
  "materials": 11,
  "out": "assets/models/env/second_ai/campus_boya.glb",
- "bytes": 409664,
+ "bytes": 415604,
  "texres": 512,
  "note": "博雅：五層現代建築（淺灰石材、玻璃大廳、橫向長窗＋鋁鰭）；依文字資料推測（沒有照片）"
 }

@@ -239,6 +239,28 @@ def build(c, out=None):
             face(tw, pts_, fr.dirv(*n))
         return {'u': u, 'a': ro, 'vb': vb, 'vs': vs, 'arch': not rect_, 'vt': vs + f}
 
+    def door_leaves(fr, u, w, h, d):
+        """雙開木門（2026-10-21 LAWWW2，ART-ECON-3D-GAP：原本整片深色木作，在拱廊的陰影裡是一個全黑的長方形）：
+        每一扇＝木框（邊梃、上冒頭、中冒頭、下冒頭）＋上半玻璃（和窗同一套，晚上透出室內的燈）＋下半凹進去的木板；中間對開縫、直的門把。
+        材質沿用窗框的深色木作（ck_frame）、窗玻璃（ck_glass）：不加材質、不加 draw call。d＝門的正面（立面座標的深度）"""
+        fm = acc('frame'); hw = w / 2; S, T, MR, BR = 0.11, 0.26, 0.14, 0.22   # 邊梃寬、上冒頭、中冒頭、下冒頭
+        gb, gt, pt = 1.08, h - T, 1.08 - MR                                   # 玻璃：中冒頭以上到上冒頭；木板：下冒頭到中冒頭
+        for s_ in (-1, 1):
+            a, b_ = (u - hw, u - 0.012) if s_ < 0 else (u + 0.012, u + hw)   # 這一扇（中間對開縫 2.4 cm）
+            ia, ib = a + S, b_ - S
+            rect(fm, fr, a, ia, 0.0, h, d); rect(fm, fr, ib, b_, 0.0, h, d)                                  # 邊梃
+            rect(fm, fr, ia, ib, gt, h, d); rect(fm, fr, ia, ib, pt, gb, d); rect(fm, fr, ia, ib, 0.0, BR, d)   # 上、中、下冒頭
+            rect(fm, fr, ia, ib, BR, pt, d - 0.025)                                                           # 下半木板（凹進去 2.5 cm）
+            glass_face(fr, [(ia, gb), (ib, gb), (ib, gt), (ia, gt)], d - 0.02, True, gb, gt)                  # 上半玻璃（亮燈：門廳）
+            for (v0_, v1_, dd) in ((BR, pt, 0.025), (gb, gt, 0.02)):                                          # 木板、玻璃四周的木框內側
+                strip(fm, fr, (ia, v0_), (ia, v1_), d, d - dd, (1, 0, 0)); strip(fm, fr, (ib, v0_), (ib, v1_), d, d - dd, (-1, 0, 0))
+                strip(fm, fr, (ia, v1_), (ib, v1_), d, d - dd, (0, -1, 0)); strip(fm, fr, (ia, v0_), (ib, v0_), d, d - dd, (0, 1, 0))
+            hx = b_ - 0.06 if s_ < 0 else a + 0.06                                                            # 直的門把（靠中間，外凸 4.5 cm）
+            rect(fm, fr, hx - 0.015, hx + 0.015, 0.92, 1.42, d + 0.045)
+            for (pa, pb, n_) in (((hx - 0.015, 0.92), (hx - 0.015, 1.42), (-1, 0, 0)), ((hx + 0.015, 0.92), (hx + 0.015, 1.42), (1, 0, 0)),
+                                 ((hx - 0.015, 1.42), (hx + 0.015, 1.42), (0, 1, 0)), ((hx - 0.015, 0.92), (hx + 0.015, 0.92), (0, -1, 0))):
+                strip(fm, fr, pa, pb, d, d + 0.045, n_)
+
     def lit_hash(*k):
         h = math.sin(sum((i + 1) * 12.9898 * v for i, v in enumerate(k)) + 78.233) * 43758.5453
         return h - math.floor(h) > 0.3          # 約七成的窗晚上亮（套件也是）
@@ -273,9 +295,12 @@ def build(c, out=None):
     for i, x in enumerate(bay_x):
         if abs(i - (NB - 1) / 2) < 0.6:   # 中央：大門（雙開木門＋石材門框＋門楣）
             holes.append(window(ARC_BACK, x, 0.0, 1.8, 2.9, 0.15, False, rect_=True, dep=0.15, door=True))
-            fm = acc('frame'); rect(fm, ARC_BACK, x - 0.9, x + 0.9, 0.0, 2.9, -0.15)   # 木門（和窗框同一個深色木作材質）
-            rect(fm, ARC_BACK, x - 0.025, x + 0.025, 0.0, 2.9, -0.14)
-            for sx in (-1, 1): rect(fm, ARC_BACK, x + sx * 0.12 - 0.02, x + sx * 0.12 + 0.02, 1.0, 1.35, -0.12)   # 門把
+            door_leaves(ARC_BACK, x, 1.8, 2.9, -0.15)
+            # 遊戲內對照（econfix2，總圖門 15:00／20:00）：兩扇門中間的對開縫、門底下看得到一條綠線＝空的建築裡面、底下的草地。
+            # 縫後面放一條深色木作（門廳裡面的暗處），門洞底放一道石材門檻（從窗框正面到門後面），都不加材質
+            rect(acc('frame'), ARC_BACK, x - 0.06, x + 0.06, 0.0, 2.9, -0.18)
+            face(acc('trimw'), [ARC_BACK.p(x - 0.9, 0.02, 0.06), ARC_BACK.p(x + 0.9, 0.02, 0.06), ARC_BACK.p(x + 0.9, 0.02, -0.17), ARC_BACK.p(x - 0.9, 0.02, -0.17)], ARC_BACK.dirv(0, 1, 0))
+            rect(acc('trimw'), ARC_BACK, x - 0.9, x + 0.9, 0.0, 0.02, 0.06)
             box(acc('trimw'), x - 1.2, x + 1.2, 3.05, 3.25, D / 2 - AD, D / 2 - AD + 0.18, skip=('back',))          # 門楣
         else:
             holes.append(window(ARC_BACK, x, 0.9, IWW, IWH, 0.12, lit_hash(5, i)))

@@ -11401,8 +11401,8 @@
    "what": "AA_320 118 巷作息表（X68）：118 巷 11 列＋霖澤館 3F、4F 期中期末週 5 列",
    "task": "LANE118-ENC-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 17:3x 寫進 characters.js；以安週二撞課 38 天回報 AA"
+   "integration": "已驗收",
+   "note": "LAWWW-C 17:3x 寫進 characters.js；以安週二撞課 38 天回報 AA；LAWWW（帳號 A）10-21 19:3x：任務 LANE118-ENC-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-a10e64be",
@@ -11479,8 +11479,8 @@
    "what": "AA_320 第 5 節：以安 L3 撞課改時段、霖澤館 3F／4F 看東西的旁白",
    "task": "LANE118-ENC-1020",
    "msg": "ACK",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 17:5x 接進開發分支"
+   "integration": "已驗收",
+   "note": "LAWWW-C 17:5x 接進開發分支；LAWWW（帳號 A）10-21 19:3x：任務 LANE118-ENC-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-35933478",
@@ -11654,8 +11654,8 @@
    "what": "AA_303「法律系開局的 8/30（X81）」：8/29 21:30 可昕兩則＋回覆、8/30 從宿舍出發「臺北的家（載可昕上山）14:00」、現場照 ev_y0_e37、演完一句旁白回宿舍 19:00",
    "task": "BUG-E37-MOVEIN-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理"
+   "integration": "已驗收",
+   "note": "LAWWW-C 2026-10-20 18:2x UTC：story3d.js phoneRules（S.e37LawOn、E37_LAW）、events.js ev_y0_e37 最後一句＋afterOuting（多 1 小時）；鬧鐘（wakeAlarms、CLS.skipStops 的 OUT alarm）；tests/x81_law_e37_unit.js（修改前 7 項 FAIL）。AA 說這則不用回；另問 AA：法律系開局 8/30 早上 kexinFirstMsg（「去上課吧」）撞在一起要怎麼處理；LAWWW（帳號 A）10-21 19:3x：任務 BUG-E37-MOVEIN-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-LAWWW2-c77e68a2",
@@ -11748,8 +11748,8 @@
    "what": "AA_330 X78 法律系的課搬教室：萬才館多功能教室五門必修（物權、身分法、公司法、保險法、強制執行法）、霖澤館 202 八門選修（原 LINZE）；不搬的列表；第一次在那間教室上課各一句旁白",
    "task": "LAW-CLASS-WANCAI-1020",
    "msg": "ACTIONED",
-   "integration": "已整合待測試",
-   "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js"
+   "integration": "已驗收",
+   "note": "LAWWW-C 2026-10-20 20:1x UTC：courses.js WMULTI、L202（via、whole）＋13 門改教室；classes3d.js destOf via、goalFor whole、ROOM_FIRST（attend，只演一次、考試不演）；rooms_glb3d.js 區域預設落點；guide3d.js 連結；tests/x78_rooms_unit.js；LAWWW（帳號 A）10-21 19:3x：任務 LAW-CLASS-WANCAI-1020 由 BB-C 瀏覽器實測 FIXED（企劃線 BB_218）→ 已驗收"
   },
   {
    "id": "DL-AA-a642f518",
@@ -12851,7 +12851,7 @@
    "what": "GRADE-GOLDEN-DEFAULT：黃昏調色預設開（patches/grade_golden_default.diff：engine3d.js E.grade 預設 golden、?grade=off 回原本；golden_compare.sh）；遊戲內六組對照 test_shots/grade_golden_1021/；ART-VSLICE 收尾說明（post3d.js 不接）",
    "task": "GRADE-GOLDEN-DEFAULT",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）17:5x：v9.10.3 發布凍結中，合併 main 以後整合｜18:1x 套在本機 post9103 6d49e79c（nav 兩支 ALL PASS），發布後放進開發分支；CLAUDE.md「黃昏調色」那句、USER_WANTS X32 到時一起改"
   },
   {
@@ -12864,7 +12864,7 @@
    "what": "BUG-CAM-203-R2-1021：大一 203 跟隨鏡頭不再跑到上鋪、洗手間隔間後面（patches/dorm_cam_203.diff：zones3d.js dormCamCols＋tests/dorm_cam_unit.js）；遊戲內對照 test_shots/dorm203_cam_1021/；P3 剩坐書桌前鏡頭轉北被自己的上鋪擋（修改前就這樣）",
    "task": "BUG-CAM-203-R2-1021",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）18:1x：已套在本機 post9103（dorm_cam_unit ALL PASS），v9.10.3 合併 main 以後放進開發分支"
   },
   {
@@ -12877,8 +12877,255 @@
    "what": "PERF-CAMPUS-SHADOW-1020（卡那一半）：patches/campus_parked_bikes.diff（zones3d.js 停著的腳踏車 40 m 分區合併、45 m 外不畫）＋tests/campus_bikes_unit.js；遊戲內 test_shots/perf_campus_1021/（大道主畫面 24.2 萬→12.0 萬三角形、陰影 9.7 萬→2.1 萬）",
    "task": "PERF-CAMPUS-SHADOW-1020",
    "msg": "ACK",
-   "integration": "未整合",
+   "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）18:3x：已套在本機 post9103（8 支相關單元測試全過），v9.10.3 合併 main 以後放進開發分支"
+  },
+  {
+   "id": "DL-LAWWW2-86dd6d54",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "86dd6d54",
+   "what": "大一 203 壓平紙箱的字（上下顛倒）改正：dorm_y1_items.glb／.json（37884326）",
+   "task": "ART-Y1-BOX-MIRROR-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-8b38e054",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8b38e054",
+   "what": "共同教學館三扇關著的門換門模組：patches/art02_gongtong_doors.diff（teach3d.js＋tests/teach_doors_unit.js）",
+   "task": "ART-02",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面（LAWWW2 交件寫 ART-02-GONGTONG-1021＝ART-02 的別名）"
+  },
+  {
+   "id": "DL-LAWWW2-76b3a0d5",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "76b3a0d5",
+   "what": "C208 鏡頭第二版：patches/c208_cam_walls.diff（us3d.js aptCamCols＋engine3d.js followCam 一行＋tests/us_cam_walls_unit.js）；78 號 PARTIAL",
+   "task": "BUG-CAM-C208-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:0x 整合進開發分支（相關 55 支單元測試全過）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-c1e65c33",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "c1e65c33",
+   "what": "ART-GYM2-INT 新體育館 3F 主球場：patches/gym_arena_int.diff v3（gym3d.js、gym_layout.js、assets3d.js 一行、tests/gym_arena_unit.js、gym_unit.js）＋gym_arena.glb（dec70791）＋gym_interior.glb（5d6c715f，拿掉紅龍）",
+   "task": "ART-GYM2-INT",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-1effaa35",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "1effaa35",
+   "what": "BACKLOG A7 溫州街小公園疊面：wz_park.glb＋wz_park.py（c53c3c6d）",
+   "task": "BACKLOG-A7-WZPARK-COPLANAR",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）19:1x 整合進開發分支 a3837c1c；相關單元測試全過；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-75d40a9e",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "75d40a9e",
+   "what": "BUG-CAFE-KIT-GLOW-1021：溫州街兩點半 Café 正面套件的 7 個光暈疊在正式外觀上（白天、晚上都有）：docs/art-rebuild/second_ai/patches/cafe_kit_glow.diff（zones3d.js attachCafeExterior 一行：藏起來的套件光暈日夜亮度設 0）＋tests/cafe_kit_glow_unit.js",
+   "task": "BUG-CAFE-KIT-GLOW-1021",
+   "msg": "ACK",
+   "integration": "已驗收",
+   "note": "LAWWW（帳號 A）21:1x 整合進開發分支（對 54ae1009 乾淨；新測試修改前 7、7、7、7 個，修改後 0；cafe_*、wz_*、street_trees 11 支全過）；BB 看溫州街 Café 白天、晚上；LAWWW2 瀏覽器 cafe_glb_integration 重跑結果出來再補；BB（帳號 A）22:3x 驗收 FIXED（BB_218 c73d942b）"
+  },
+  {
+   "id": "DL-LAWWW2-f858b47c",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "f858b47c",
+   "what": "ART-ECON-3D-GAP-1021 第一批：榕樹氣根不再是黑線（street_trees.glb＋street_trees.json、tree_leaves.png、tree_atlas.py --lift-roots；校園、溫州街、公館共用；說明＋前後對照 test_shots/banyan_roots_1021/README.md c36c2dbe）；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 整合進開發分支（只換 GLB／貼圖／工具；street_trees 等相關 45 支 Node 測試全過）；BB 看校園、公館的榕樹"
+  },
+  {
+   "id": "DL-LAWWW2-5f03d748",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "5f03d748",
+   "what": "BUG-NAV-LAMPPOST-1021＋椰林大道路燈：patches/lamppost_nav.diff（路燈導航阻擋半徑 0.25→0.5：校園、公館、118 巷、溫州街小公園）＋patches/campus_avenue_lamps.diff 第三版（大道與鐘亭兩側路燈、路面光圈）；tests/lamppost_nav_unit.js（修改前 4 FAIL）、tests/campus_lamps_unit.js（修改前 3 FAIL）；瀏覽器 reachability_all 四區、campus_layout_nav、gongguan_layout_nav、p0_movement 修改前後都 ALL PASS（LAWWW2 跑，SwiftShader）；說明 test_shots/avenue_lamps_1021/README.md（fb8546f3）",
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）21:3x 照順序套兩份 patch，對 78f4c813 乾淨；相關 45 支 Node 測試全過；路燈畫面 READY_FOR_ART_REVIEW、燈柱導航 FUNCTIONAL_VERIFIED（LAWWW2）；BB 晚上走椰林大道看路燈、試著穿過燈柱"
+  },
+  {
+   "id": "DL-LAWWW2-8512b3b0",
+   "date": "2026-10-21",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8512b3b0",
+   "what": "US-MARKET-STREET：新戶外區域 us_market_street（草原超市 IN／OUT、停車場 54 格、四線道＋分隔島＋兩個路口、南邊小商店＋竹葉亞洲超市、公車站，四季照 us_season）：patches/us_market_street.diff（8512b3b0：assets3d.js、us_layouts.js、exchange3d.js、us3d.js、us_life3d.js、nav_us_unit、新 us_market_street_unit）＋us_market_street.glb／.json／.layout.json＋Blender 腳本（fa7c85e2）＋LICENSES 一列；說明 test_shots/us_market_street_1021/README.md（07967c55）；READY_FOR_ART_REVIEW",
+   "task": "US-MARKET-STREET",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）22:3x 整合進開發分支（patch 對 4fd3bda0 乾淨；LICENSES 那一列照位置手動加；美國相關 24 支單元測試全過）；還不到：晚上停車場偏暗、車不會動、沒有路人（美國人流是 LAWWW 的範圍）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-3d6f2cee",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "3d6f2cee",
+   "what": "PERF-ZONE-ENTER-1018：zone_prewarm.diff 第五版（zones3d.js Z3.prewarm／prefetchNext、game3d.js enter() 一行、tests/zone_prewarm_unit.js；只在電腦上做）＋wz_jphouse.glb 招牌圖集縮小（63d3bc5e，940→669 KB）＋tools/shots/zone_enter_probe.py；量測 test_shots/zone_enter_1021/README.md",
+   "task": "PERF-ZONE-ENTER-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）01:5x 整合進開發分支 7b4fb34b（patch 對 014a38bc 乾淨；修改前 3 FAIL、修改後 ALL PASS；438 支全過）；原始檔 9f187fed。路人輪換的建議另開 PERF-NPC-POOL-1022（LAWWW）"
+  },
+  {
+   "id": "DL-LAWWW2-223252e5",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "223252e5",
+   "what": "ART-ECON-3D-GAP-1021：總圖、行政大樓、文學院、校史館拱廊大門雙開玻璃木門＋博雅東側一樓玻璃帶（campus_*.glb／.json 五棟；campus_hall.py、campus_teach.py）；遊戲內前後對照 test_shots/campus_doors_1021/README.md；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）01:5x 只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；438 支全過。還不到（LAWWW2）：門打不開、文學院門下半凹板看不出來、博雅一樓玻璃白天偏黑、真機沒看過；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-2ccd1e60",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "2ccd1e60",
+   "what": "室內網點透空（dorm_seethru.diff 第三版：宿舍上舖＋412 洗手間補光；cafe_seethru.diff 第二版：Café 吊燈電線）＋Café 地板不再是鏡面（cafe_interior.glb 2a682738、cafe_layout.py）；tests/dorm_seethru_unit.js、cafe_seethru_unit.js；說明 test_shots/indoor_seethru_1022、dorm412_1021；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）02:4x 整合進開發分支 e8c4ce7a（patch 對 c51e4b72 乾淨；441 支全過）；engine3d.js 讀定義上的 seeThru（參考建議）沒收；BUG-CAFE-FLOOR-MIRROR-1021 一起；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-8fe6ba52",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "8fe6ba52",
+   "what": "PERF-CROWD-LOD-1021 第二版：遠距離（30～60 m）路人換低面數版本＋遠的不跑彈簧骨（patches/crowd_far_lod.diff：assets3d／character3d／engine3d＋tests/npc_far_unit.js＋tools/shots/crowd_lod_audit.py；assets/models/char/second_ai/lod/ 40 個 .lod.glb 10.8 MB）；大道中段 −34 draw call、−9.6 萬三角形；記憶體三趟沒有變多",
+   "task": "PERF-CROWD-LOD-1021",
+   "msg": "ACK",
+   "integration": "未整合",
+   "note": "v9.10.4 發布以後整合（改 LAWWW 的 character3d、engine3d；要跑 npc_far_unit 和相關 18 支）"
+  },
+  {
+   "id": "DL-LAWWW2-1598a47d",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "1598a47d",
+   "what": "沛珊 3D 第二十七版（使用者 10-22「沛珊也是（好憨）」）：眼距 1.45→1.10 眼寬、眼睛放大、眉毛壓低、人中下巴縮短、臉收窄；分線另一邊也有往外撥的瀏海；眼鏡 84→72.7 mm（bl_classmate_peishan.vrm＋glasses_peishan.glb／.json，兩個一起換）",
+   "task": "ART-ZR-PS-3D-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW 驗收（D100 第 6 點，不是 BB）：通過——比第二十六版接近參考圖（中分、兩側往外撥、眼睛不分那麼開、眼鏡不那麼大）；已接進開發分支，瀏覽器裡看區域、劇情鏡頭的截圖等 v9.10.4 發布測試跑完"
+  },
+  {
+   "id": "DL-LAWWW2-888831c4",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "888831c4",
+   "what": "芷若 3D 改用 Blender 版當預設（使用者 10-22「林芷若3d好憨」）：assets3d.js 一行（patches/zhiruo_default_bl.diff）＋bl_heroine_02.vrm＋glasses_zhiruo.glb／.json；臉：眼距 1.28→1.09 眼寬、眼睛放大、嘴收窄往上、下巴縮短；八字瀏海收進來；眼鏡 84→76.6 mm",
+   "task": "ART-ZR-PS-3D-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW 驗收（D100 第 6 點）：臉通過（成人比例、不是動畫大眼睛），已接；頭髮還不到參考圖（頭頂平、比參考圖短、側分大片瀏海沒有）——另開 ART-ZR-HAIR-1022 給 LAWWW2；Café 圍裙、吧台座位等 v9.10.4 發布測試跑完再在瀏覽器看"
+  },
+  {
+   "id": "DL-LAWWW2-93967011-airport",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "what": "機場第二版：patches/airport_cam_night.diff（us3d.js＋tests/airport_cam_unit.js）＋airport_dep.glb、airport_arr.glb（bc5b08a8）；j15b 重拍 04 門框透空、07 報到櫃台看得到人、09／13／15 修好；19 換匯處背光偏暗（下一輪）",
+   "task": "ART-VAC-AIRPORT-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已套進開發分支；單元測試等 v9.10.4 發布前的瀏覽器測試跑完再跑（不同時跑，避免搶 CPU）"
+  },
+  {
+   "id": "DL-LAWWW2-93967011-lamps",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "what": "美國路燈地面光圈：patches/us_lamp_pools.diff（us3d.js＋tests/us_lamp_pools_unit.js）；20:00 前後 4 張",
+   "task": "US-MS-NIGHT-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已套進開發分支；單元測試等 v9.10.4 發布前的瀏覽器測試跑完再跑（不同時跑，避免搶 CPU）"
+  },
+  {
+   "id": "DL-LAWWW2-0198f820",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "0198f820",
+   "what": "芷若頭髮第九版：分線改到人物左邊 +12°、及肩到肩下的微捲、頭頂和太陽穴加蓬度、深棕髮；只換 bl_heroine_02.vrm",
+   "task": "ART-ZR-HAIR-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW 驗收（D100 第 6 點）：通過——比上一版接近參考圖 06（不再像頭盔、到肩下、側分）；Café 圍裙、走路、坐下截圖正常；已接開發分支"
+  },
+  {
+   "id": "DL-LAWWW2-fdd9b3f5",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "fdd9b3f5",
+   "what": "色調映射 ACES→Neutral（patches/tone_neutral_default.diff，engine3d.js 3 行；?tone=aces 回到舊的）：21 個同鏡頭 A/B，亮度差 ±0.03、彩度高 20～50%，陽光下的臉不再灰白",
+   "task": "ART-TONE-NEUTRAL-1022",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "已接開發分支（下一版）；全遊戲的畫面風格——發布時跟使用者講清楚、可以改回來"
   }
  ],
  "ignored": [
@@ -16130,6 +16377,144 @@
    "kind": "wip",
    "task": "BUG-CAM-C208-1021",
    "reason": "C 棟 208／美國公寓跟隨鏡頭 WIP：patches/c208_cam_walls.diff（含 engine3d followCam 一行，LAWWW 已看過）；交件後 LAWWW 整合；LAWWW（帳號 A）17:4x 分類（v9.10.3 發布凍結中，發布後整合）"
+  },
+  {
+   "sha": "5f03d748",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "BUG-NAV-LAMPPOST-1021",
+   "reason": "路燈燈柱導航阻擋 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "72aa3a0d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "巡場景紀錄：校園第 1 節五項改成施工中；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "71ca706a",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "兩點半 Café 吊燈 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "b47d499b",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "宿舍四人房網點透空 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "2bc9992d",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "宿舍四人房洗手間頂板 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "f858b47c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "榕樹氣根 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "30e9cb84",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "椰林大道路燈 patch 第二版 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "fa34a418",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "椰林大道晚上的路燈 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "0343b994",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "博雅教學館東側一樓 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "89655410",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "task": "ART-ECON-3D-GAP-1021",
+   "reason": "四棟拱廊大門 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）19:51 UTC 分類"
+  },
+  {
+   "sha": "88059634",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（榕樹、路燈、燈柱導航改成已交件；社科院中庭改成已整合）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "bf90b318",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "handoff_record",
+   "reason": "LAWWW2 巡場景紀錄（溫州街巡查排隊、美國超市街施工中、校園榕樹 READY_FOR_ART_REVIEW）；LAWWW（帳號 A）21:4x UTC 分類"
+  },
+  {
+   "sha": "21ada28c",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "遠距離路人明暗改照 MToon 公式 WIP；交件後 LAWWW 整合；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "6553cae4",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "路人遠距離版本交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "PERF-CROWD-LOD-1021"
+  },
+  {
+   "sha": "5f183825",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "四棟拱廊大門＋博雅東側交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "30519553",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "拱廊大門補兩個漏光的地方 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "ART-ECON-3D-GAP-1021"
+  },
+  {
+   "sha": "05bc1012",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "美國超市街交件說明草稿 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "8512b3b0",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街等紅燈的車頭燈、煞車燈 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "fa7c85e2",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "超市街接成可以走的區域 us_market_street（patch）WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
+  },
+  {
+   "sha": "d20da1e3",
+   "branch": "origin/claude/second-ai-env-art",
+   "kind": "wip",
+   "reason": "草原超市和竹葉亞洲超市之間的停車場、馬路 WIP；LAWWW（帳號 A）21:4x UTC 分類",
+   "task": "US-MARKET-STREET"
   }
  ]
 }

@@ -35,8 +35,11 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G1. 2-1 表：畢業以後 2029-10-01，十三個人照表寫「現在在做什麼」；沛珊「照現在（台南）」不換',!bad.length&&ps==='法律系・二年級',bad.map(id=>id+'='+tag(id)).join('、')+'｜沛珊='+ps); }
   { grad('2029-12-14',10); const a=tag('kexin'); grad('2030-07-02',10); const b=tag('heroine_03'); grad('2030-08-11',10); const c=tag('heroine_01'), m=tag('classmate_mingxuan');
     const G0=H.fresh('2029-08-20',10,'dorm',{}); const pre=tag('heroine_01');
-    check('G1. 2-1 表「之後」那一欄：可昕 2029-12-14 起「律師（職前訓練）」、語彤 2030-07 起「準備國考」、以安 2030-08-11 起「紐約」、明軒 8/1 回來以後照原本的規則（不是德國）；還沒畢業（沒有 GRADUATED）照原本的規則（以安「法律系・四年級」）',
-      a==='律師（職前訓練）'&&b==='準備國考'&&c==='紐約'&&m!=='德國'&&!!m&&pre==='法律系・四年級',[a,b,c,m,pre].join('｜')); }
+    check('G1. 2-1 表「之後」那一欄：可昕 2029-12-14 起「律師（職前訓練）」、語彤 2030-07 起「準備國考」、以安 2030-08-11 起「紐約」、明軒 2030-08-01 以後照樣「德國」（AA_363 T4：畢業以後不退回「法律系・四年級」；修改前 FAIL）；還沒畢業（沒有 GRADUATED）照原本的規則（以安「法律系・四年級」）',
+      a==='律師（職前訓練）'&&b==='準備國考'&&c==='紐約'&&m==='德國'&&pre==='法律系・四年級',[a,b,c,m,pre].join('｜')); }
+  { const L=SOCIAL.PG_TAG.kai, n=L.length; L.push(['2030-03-01',null]); grad('2030-04-01',10); const k=tag('kai'); L.splice(n); grad('2029-08-20',10); const s=tag('heroine_01'); grad('2031-05-01',10); const y=tag('classmate_mingxuan'), z=tag('heroine_04');
+    check('G1. AA_363 T4 通則：畢業以後表上沒有新的一列（或那一列是 null）就沿用最後一列，不回到學年的規則（所有在表上的人）；2029-06-02～08-31 表還沒開始＝照原本的年級（照現在）',
+      k==='資工系畢業・上班'&&s==='法律系・四年級'&&y==='德國'&&z==='獨立遊戲工作室',[k,s,y,z].join('｜')); }
   { grad('2029-10-01',10,{EXCHANGE_ROUTE:'JP'}); const y1=SOCIAL.playerYear(); grad('2029-08-20',10,{EXCHANGE_ROUTE:'US'}); const y0=SOCIAL.playerYear(); grad('2030-02-01',10,{EXCHANGE_ROUTE:'JP'}); const y2=SOCIAL.playerYear(); grad('2029-10-01',10,{EXCHANGE_ROUTE:'TW'}); const y3=SOCIAL.playerYear();
     check('G1. 延畢的玩家大五上（2029-09-03 起）算大五（SOCIAL.playerYear()＝5）；9/3 以前照大四；臺灣路線照大四',y1===5&&y0===4&&y2===5&&y3===4,[y1,y0,y2,y3].join(','));
     check('G1. CALENDAR：大五上 2029-09-03～12-23、16 週，只給延畢的玩家（termOf 不出現）',!!CALENDAR.termOfDelayed&&CALENDAR.termOfDelayed(D('2029-09-03')).week===1&&CALENDAR.termOfDelayed(D('2029-12-23')).week===16&&CALENDAR.termOfDelayed(D('2029-12-24'))===null&&CALENDAR.termOf(D('2029-10-01'))===null); }
@@ -50,6 +53,14 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const go0=HOME.go; let went=0; HOME.go=async()=>{ went++; return true; }; let err=null; try{ await STORY.forceHome(GM); }catch(e){ err=e; } finally{ HOME.go=go0; }
     const G2=grad('2029-10-02',14,{HOME_AFTER:'gongguan'}); const can2=!!HOME.canGo(G2); const G3=grad('2029-06-20',14,{MOVED_OUT:undefined}); const can3=!!HOME.canGo(G3);
     check('G2. 退宿以後住臺北的家：週二也可以回家（手機「回臺北的家」）、從家裡出發；凌晨＝回家，不回宿舍；公館套房、還沒退宿的照原本的規則',can&&lives&&went===1&&!H.entered.includes('dorm')&&!err&&!can2&&!can3,[can,lives,went,JSON.stringify(H.entered),can2,can3].join(',')+(err?err.stack:'')); }
+  /* AA_363 T7-2：住公館套房的（台灣路線準備國考，HOME_AFTER gongguan）已經退宿——凌晨回套房（公館），不走回宿舍；在套房醒來 */
+  { const G=grad('2029-10-02',14,{HOME_AFTER:'gongguan',Y4_PATH:'bar'}); G.zone='campus'; G.hour=26.6; H.entered=[]; H.said=[]; H.cards=[]; let err=null; try{ await STORY.forceHome(GM); }catch(e){ err=e; }
+    const L=H.said.map(x=>x.t), E1=H.entered.slice(), C1=H.cards.map(c=>c[0]);
+    const G2=grad('2029-10-02',14,{HOME_AFTER:'gongguan',Y4_PATH:'bar',EPILOGUE_DONE:true}); G2.zone='gongguan'; G2.hour=23; H.entered=[]; let err2=null; try{ await STORY.sleepNow(GM); }catch(e){ err2=e; } const E2=H.entered.slice();
+    const G3=grad('2029-06-20',14,{HOME_AFTER:undefined,MOVED_OUT:undefined}); G3.zone='campus'; G3.hour=26.6; H.entered=[]; H.said=[]; try{ await STORY.forceHome(GM); }catch(e){} const E3x=H.entered.slice(), L3=H.said.map(x=>x.t);
+    check('G2. AA_363 T7-2 公館套房：凌晨 02:36 在校園＝「已經凌晨了。」→「公館的套房」→ 回到公館（不是「你的腳自己往宿舍走。」、不進宿舍）；在套房醒來＝公館；還沒退宿的照舊走回宿舍（修改前 FAIL）',
+      !err&&typeof HOME.suite==='function'&&HOME.suite(G)&&L[0]==='已經凌晨了。'&&!L.includes('已經凌晨了。你的腳自己往宿舍走。')&&C1.includes('公館的套房')&&E1[0]==='gongguan'&&!E1.includes('dorm')&&!err2&&E2.includes('gongguan')&&!E2.includes('dorm')&&E3x.includes('dorm')&&L3.includes('已經凌晨了。你的腳自己往宿舍走。'),
+      (err?err.stack:'')+(err2?err2.stack:'')+JSON.stringify({L,E1,C1,E2,E3x,L3})); }
   // ===== G3 2029 不自動報名、2030 問報名（AA_357 1-6）=====
   { const G=H.fresh('2029-05-10',20.5,'dorm',{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); H.at('2029-05-10',22); H.tick(); const jp=G.flags.BAR_REG;
     const G2=H.fresh('2029-05-10',20.5,'dorm',{EXCHANGE_ROUTE:'TW',Y4_PATH:'bar'}); H.at('2029-05-10',22); H.tick(); const tw=G2.flags.BAR_REG;
@@ -58,17 +69,25 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     check('G3. 延畢 2030-05-10 21:00 問一次（選研究所的也問；句子、選項照 2029 那一場）；選「報名」＝BAR_REG_2030、2030 進考場；問之前不算報名',!before&&!!s&&s.id==='reg_2030'&&H.has(L_REG.text)&&JSON.stringify(H.opts[0])===JSON.stringify(L_REG.opts)&&G.flags.BAR_REG_2030===true&&PG.sits(G,2030)&&PG.byId('exam_2030').cond(G),[before,s&&s.id,G.flags.BAR_REG_2030,JSON.stringify(H.opts[0])].join('｜')); }
   { const G=grad('2030-05-10',20,{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); H.at('2030-05-12',1); const p=PG.pending(G); H.at('2030-08-03',7.9);
     const G2=grad('2030-05-10',20.9,{EXCHANGE_ROUTE:'TW',Y4_PATH:'bar',BAR_REG:true}); H.at('2030-05-10',21.5); const tw=PG.due(G2);
-    check('G3. 延畢沒回答（過了 5/12）＝不報名：8/3 不進考場；臺灣路線 2030 不問',PG.done(G,'reg_2030')&&G.flags.BAR_REG_2030==null&&!PG.sits(G,2030)&&!PG.byId('exam_2030').cond(G)&&!(tw&&tw.id==='reg_2030'),[PG.rec(G).done.reg_2030,G.flags.BAR_REG_2030,PG.sits(G,2030),tw&&tw.id].join('｜')); }
+    check('G3. 延畢沒回答（過了 5/12）＝不報名：8/3 不進考場；臺灣路線 2030 不問（錯過的當下記 BAR_REG_2030＝false，BUG-PG-REG2030-MIGRATE-1021；原本留 null、讀檔會變成有報名）',PG.done(G,'reg_2030')&&G.flags.BAR_REG_2030===false&&!PG.sits(G,2030)&&!PG.byId('exam_2030').cond(G)&&!(tw&&tw.id==='reg_2030'),[PG.rec(G).done.reg_2030,G.flags.BAR_REG_2030,PG.sits(G,2030),tw&&tw.id].join('｜')); }
   { const G=grad('2029-05-10',20.5,{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}); H.at('2029-05-10',22); H.tick(); OUT.plan(G,{id:'y4_july',ev:'ev_none',day:D('2029-07-14'),h:19,late:0.5,place:'x',title:'x'}); H.at('2029-07-14',10); const s=PG.due(G); H.said=[]; if(s) await PG.runStep(GM,s);
     check('G3. 延畢＋Y4_PATH bar：7/14 白天是「沒報名」那一版（AA_350 N2），不是「離一試還有二十一天」',!!s&&s.id==='r2y4b_july_day_nobar'&&H.has('（白天沒有排什麼事。畢業以後的第一個七月，一天變得很長。）')&&!H.has('（白天照樣在總圖。離一試還有二十一天。）'),(s&&s.id)+JSON.stringify(H.said.map(x=>x.t))); }
   { const mk=(key,fl)=>{ const s={day:D(key),hour:10,stage:'law',flags:Object.assign({EXCHANGE_ROUTE:'JP'},fl)}; if(typeof PG.migrate==='function') PG.migrate(s); return s.flags; };
     const a=mk('2029-08-01',{BAR_REG:true}), b=mk('2030-06-01',{BAR_REG:true}), c=mk('2030-06-01',{}), d=mk('2030-06-01',{BAR_REG:false}), e=(()=>{ const s={day:D('2029-08-01'),hour:10,stage:'law',flags:{EXCHANGE_ROUTE:'TW',BAR_REG:true}}; if(typeof PG.migrate==='function') PG.migrate(s); return s.flags; })();
     check('G3. 舊存檔：延畢、BAR_REG 被自動設成 true 的，2030 報名以前讀檔＝清掉（5/10 再問）；已經過了報名時間的照舊規則（報了名＝BAR_REG_2030，不讓準備中的國考消失）；臺灣路線不動',
-      typeof PG.migrate==='function'&&a.BAR_REG==null&&a.BAR_REG_2030==null&&b.BAR_REG_2030===true&&c.BAR_REG_2030===true&&d.BAR_REG_2030===false&&e.BAR_REG===true&&e.BAR_REG_2030==null,JSON.stringify([a,b,c,d,e])); }
+      typeof PG.migrate==='function'&&a.BAR_REG==null&&a.BAR_REG_2030==null&&b.BAR_REG_2030===true&&c.BAR_REG_2030===true&&d.BAR_REG_2030===false&&e.BAR_REG===true&&e.BAR_REG_2030==null,JSON.stringify([a,b,c,d,e]));
+    const f=mk('2030-06-01',{PG:{done:{reg_2030:'missed'}}}), g=mk('2030-06-01',{BAR_REG:true,PG:{done:{reg_2030:'missed'}}});
+    { const G={day:D('2030-05-13'),hour:10,stage:'law',flags:{EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'}}; PG.pending(G); const F=G.flags;
+      check('G3c. 2030 的報名問題時間過了沒演到（錯過）：當下就記 BAR_REG_2030＝false——日期卡（PG.reg2030）和考不考（PG.sits）都是不報名，不再照 Y4_PATH',F.PG&&F.PG.done&&F.PG.done.reg_2030==='missed'&&F.BAR_REG_2030===false&&PG.reg2030(G)===false&&!PG.sits(G,2030),JSON.stringify({done:F.PG&&F.PG.done,reg:F.BAR_REG_2030})); }
+    check('G3b. 這一版錯過 2030 的報名問題（PG.done.reg_2030＝missed，沒回答＝不報名）：存檔再讀檔還是不報名（BAR_REG_2030＝false），不會變成有報名（BUG-PG-REG2030-MIGRATE-1021，BB 10-21）',f.BAR_REG_2030===false&&g.BAR_REG_2030===false,JSON.stringify([f,g])); }
   // ===== G4 大五上是一個學期：日期標籤、今日頁、美國路線補修（一鍵上課）、9/3 那一句分路線（AA_357 1-1）=====
   { const lab=(key,fl)=>{ grad(key,10,fl); return CLS.dayLabel(H.G); };
     const a=lab('2029-09-04',{EXCHANGE_ROUTE:'JP'}), b=lab('2029-10-16',{EXCHANGE_ROUTE:'US'}), c=lab('2029-12-24',{EXCHANGE_ROUTE:'JP'}), d=lab('2029-10-16',{EXCHANGE_ROUTE:'TW'}), e=lab('2029-12-23',{EXCHANGE_ROUTE:'JP'});
-    check('G4. 日期標籤：延畢 9/4「大五上 第 1 週」、10/16「大五上 第 7 週」、12/23「大五上 第 16 週」（沒有期末考週）；12/24 起「寒假」；臺灣路線照原本',/・大五上 第 1 週$/.test(a)&&/・大五上 第 7 週$/.test(b)&&/・大五上 第 16 週$/.test(e)&&/寒假$/.test(c)&&!/大五/.test(d),[a,b,e,c,d].join('｜')); }
+    check('G4. 日期標籤：延畢 9/4「大五上 第 1 週」、10/16「大五上 第 7 週」、12/23「大五上 第 16 週」（沒有期末考週）；12/24 起「寒假」；臺灣路線沒有大五',/・大五上 第 1 週$/.test(a)&&/・大五上 第 7 週$/.test(b)&&/・大五上 第 16 週$/.test(e)&&/寒假$/.test(c)&&!/大五/.test(d),[a,b,e,c,d].join('｜'));
+    const tw=lab('2029-10-17',{EXCHANGE_ROUTE:'TW'}), twHol=lab('2029-10-10',{EXCHANGE_ROUTE:'TW'}), twSep=lab('2029-09-03',{EXCHANGE_ROUTE:'TW'}), twAug=lab('2029-09-02',{EXCHANGE_ROUTE:'TW'}), twLate=lab('2030-02-20',{EXCHANGE_ROUTE:'TW'}),
+      jpJan20=lab('2030-01-20',{EXCHANGE_ROUTE:'JP'}), jpCert=lab('2030-01-21',{EXCHANGE_ROUTE:'JP'}), usMar=lab('2030-03-05',{EXCHANGE_ROUTE:'US'}), noGrad=(()=>{ H.fresh('2029-10-17',10,'dorm',{EXCHANGE_ROUTE:'TW'}); return CLS.dayLabel(H.G); })();
+    check('G4. AA_363 T7-1 沒延畢的畢業生 2029-09-03 起：日期標籤只寫日期和星期（「10/17 週三」；國定假日照寫「10/10 週三・國慶日」，AA_363 第 4 節），不寫學期、不寫寒假（修改前「10/17 週三・寒假」）；9/2 以前照原本「暑假」；交換延畢的領證書（2030-01-21）起也一樣、1/20 以前照原本「寒假」',
+      tw==='10/17 週三'&&twHol==='10/10 週三・國慶日'&&twSep==='9/3 週一'&&/・暑假$/.test(twAug)&&twLate==='2/20 週三'&&/・寒假$/.test(jpJan20)&&jpCert==='1/21 週一'&&usMar==='3/5 週二'&&/・寒假$/.test(noGrad),[tw,twHol,twSep,twAug,twLate,jpJan20,jpCert,usMar,noGrad].join('｜')); }
   { const line=(key,fl)=>{ grad(key,10,fl); return CLS.todayLine(H.G); };
     const tue=line('2029-09-04',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), usMon=line('2029-09-10',{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}), usWed=line('2029-09-12',{EXCHANGE_ROUTE:'US'}),
       jpMon=line('2029-09-10',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'}), jpThu=line('2029-09-13',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'}), jpFri=line('2029-09-14',{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}), hol=line('2029-10-10',{EXCHANGE_ROUTE:'US'});
@@ -97,9 +116,17 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const G=grad('2029-09-11',10,{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}); const u1=PG.cardLine(G,D('2029-09-03'),D('2029-09-11')), u2=PG.cardLine(G,D('2029-09-11'),D('2029-09-22')), u3=PG.cardLine(G,D('2029-09-22'),D('2029-10-16'));
     check('G5. 大五上第一週：三選一各一句（總圖／家教／國考）；美國路線第一次跳先出「週一、週三補修兩門課……」，下一次跳再出那一段的句子',
       st==='（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'&&wk==='（你接了兩個家教。一個國三，一個高二。）'&&br==='（你把國考的書在書桌上排成一排。先從民法開始。）'&&u1==='（週一、週三補修兩門課。教室裡坐的，都是大三的。）'&&u2==='（國三那個學生問你，法律系是不是要背很多。你說還好。他不信。）'&&u3==='（家教的錢第一次匯進來。你沒有馬上花。）',JSON.stringify([st,wk,br,u1,u2,u3])); }
-  { const G=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const c1=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c2=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c3=PG.cardLine(G,D('2029-12-18'),D('2029-12-24')), c4=PG.cardLine(G,D('2029-12-24'),D('2030-01-21'));
-    check('G5. 同一段有共通和三選一：共通先出（「週二去事務所……」），下一次跳再出三選一（「刑法的書……」）；12/19～12/23「大五上結束了……」；寒假「跨年那天晚上……」',
-      c1==='（週二去事務所。其他的日子，一天和一天很像。）'&&c2==='（刑法的書，書邊都翻黑了。）'&&c3==='（大五上結束了。這一次，沒有期末考。）'&&c4==='（跨年那天晚上，你在家。煙火是從電視上看的。）',JSON.stringify([c1,c2,c3,c4])); }
+  { const COMMON='（週二去事務所。其他的日子，一天和一天很像。）', BAR='（刑法的書，書邊都翻黑了。）';
+    const G=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const c1=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c3=PG.cardLine(G,D('2029-12-18'),D('2029-12-24')), c4=PG.cardLine(G,D('2029-12-24'),D('2030-01-21'));
+    const Gi=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const i1=PG.cardLine(Gi,D('2029-10-16'),D('2029-11-01')), i2=PG.cardLine(Gi,D('2029-11-01'),D('2029-11-20'));
+    const Ge=grad('2029-11-19',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const e1=PG.cardLine(Ge,D('2029-10-16'),D('2029-11-19'));
+    const Gn=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP'}); const n1=PG.cardLine(Gn,D('2029-10-16'),D('2029-11-20'));
+    check('G5. AA_363 T3 同一段有共通和三選一：這一跳落在範圍最後一天以後（10/16 → 11/20，之後的跳不會再碰到 10/17～11/19）＝出三選一（「刑法的書……」），共通的不出（修改前先出共通）',
+      c1===BAR,JSON.stringify([c1]));
+    check('G5. AA_363 T3 落點還在範圍裡（10/16 → 11/01）照原本：共通先出，下一跳（11/01 → 11/20）出三選一；落在範圍最後一天（11/19）＝之後的跳碰不到這一段，也出三選一；9/3 沒有選（沒有三選一可出）照舊出共通',
+      i1===COMMON&&i2===BAR&&e1===BAR&&n1===COMMON,JSON.stringify([i1,i2,e1,n1]));
+    check('G5. 12/19～12/23「大五上結束了……」（這一段只有共通：照現在）；寒假「跨年那天晚上……」',
+      c3==='（大五上結束了。這一次，沒有期末考。）'&&c4==='（跨年那天晚上，你在家。煙火是從電視上看的。）',JSON.stringify([c3,c4])); }
   { const r4=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
     const bar=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'},'2030-03-15','2030-04-20'), gr=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'grad'},'2030-03-15','2030-04-20'), m1=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'bar',BAR_REG_2030:false},'2030-05-10','2030-05-25'), m2=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'grad',BAR_REG_2030:true},'2030-05-10','2030-05-25');
     const jan=r4({EXCHANGE_ROUTE:'JP'},'2030-01-21','2030-02-02'), cny=r4({EXCHANGE_ROUTE:'JP'},'2030-02-01','2030-02-11'), feb=r4({EXCHANGE_ROUTE:'JP'},'2030-02-16','2030-03-15');
@@ -127,13 +154,31 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const G3=grad('2029-09-20',20.9,{EXCHANGE_ROUTE:'TW'}); H.at('2029-09-20',21.05); H.tick(); const none=!(G3.msgs||[]).some(x=>x.ask&&x.ask.id==='pg_moon29');
     check('G5. 3-1「這次不行。」＝9/22 22:00 群組照片（不扣關係）；延畢的也可以去；沒見過的人那一句不出、明軒不熟＝「（阿哲對著手機講了一下話。）」、沒有小語的選擇；不在麵店團＝沒有',
       G.flags.MIDAUTUMN_2029==='no'&&ph&&JSON.stringify(L)===JSON.stringify(['（河濱。烤肉架是阿哲借的，和大一那年同一個。）','（阿哲對著手機講了一下話。）','（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）'])&&G2.flags.MIDAUTUMN_2029==='went'&&none,[G.flags.MIDAUTUMN_2029,ph,JSON.stringify(L),none].join('｜')); }
+  /* AA_363 T2：「這次不行。」那張照片是阿哲傳的（群組顯示「阿哲」）；T9：中秋出遊的交通「捷運＋走路 約 30 分鐘」（從家裡出發也是這一句）*/
+  { const G=moonSetup({EXCHANGE_ROUTE:'TW'},[]); PHONE.answer(G,'pg_moon29',1); STORY.phoneRules(GM); H.at('2029-09-22',22.1); H.tick(); const m=(G.msgs||[]).find(x=>x.text==='📷（河濱，烤肉架，螢幕裡的明軒在揮手）');
+    check('G5. AA_363 T2 中秋「這次不行。」那張照片：阿哲傳的，群組顯示「阿哲」（修改前沒有名字）',!!m&&m.th==='g:noodle_team'&&m.from==='zhe'&&PHONE.who(m)==='阿哲',JSON.stringify(m)); }
+  { const G=moonSetup({EXCHANGE_ROUTE:'TW'},[]); PHONE.answer(G,'pg_moon29',0); STORY.phoneRules(GM); const q=OUT.get(G,'pg_moon29'), home=q?OUT.trip(G,q,true):null, out=q?OUT.trip(G,q):null;
+    const G2=moonSetup({EXCHANGE_ROUTE:'TW'},[]); PHONE.answer(G2,'pg_moon29',0); OUT.plan(G2,{id:'pg_moon29',ev:'ev_pg_moon29',day:D('2029-09-22'),h:18,late:0.5,place:'河濱',title:'中秋：河濱',travel:'騎車約 15 分鐘',travelH:0.25}); STORY.phoneRules(GM); const q2=OUT.get(G2,'pg_moon29');   /* 舊版本已經排好的 */
+    const other=OUT.trip(G2,{travel:'走過去約 15 分鐘',travelH:0.25},true);
+    check('G5. AA_363 T9 中秋出遊的交通：「捷運＋走路 約 30 分鐘」（0.5 小時）——從家裡出發、在外面出發都是這一句；舊版本排好的「騎車約 15 分鐘」出發前換掉；別的出遊從家裡出發照舊「捷運＋公車 約 30 分鐘」（修改前 FAIL）',
+      !!q&&q.travel==='捷運＋走路 約 30 分鐘'&&q.travelH===0.5&&home.travel==='捷運＋走路 約 30 分鐘'&&home.travelH===0.5&&out.travel==='捷運＋走路 約 30 分鐘'&&!!q2&&q2.travel==='捷運＋走路 約 30 分鐘'&&OUT.trip(G2,q2,true).travel==='捷運＋走路 約 30 分鐘'&&other.travel==='捷運＋公車 約 30 分鐘'&&other.travelH===0.5,
+      JSON.stringify([q&&[q.travel,q.travelH],home,out,q2&&[q2.travel,q2.travelH],other])); }
   // ===== G5 3-2 可昕交往第五年（2029-10-17）=====
-  const kx5=async(fl)=>{ const G=grad('2029-10-10',20.9,fl); H.FRIEND('kexin'); H.date('kexin'); H.at('2029-10-10',21.05); STORY.phoneRules(GM); PHONE.tick(G); const K=(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask5'||(m.th==='p:kexin'&&/第五年|下午有空/.test(m.text)));
-    const ask=K.find(m=>m.ask); if(ask) PHONE.answer(G,ask.ask.id,2); STORY.phoneRules(GM); const q=OUT.get(G,'kx_anniv5'); H.at('2029-10-17',18); H.said=[]; H.picks=[]; if(q) await OUT.go(GM,q); return {G,K:K.map(m=>m.text),q,L:H.said.map(x=>x.t)}; };
+  const kx5=async(fl,picks)=>{ const G=grad('2029-10-10',20.9,fl); H.FRIEND('kexin'); H.date('kexin'); H.at('2029-10-10',21.05); STORY.phoneRules(GM); PHONE.tick(G); const K=(G.msgs||[]).filter(m=>m.tag==='kx_anniv_ask5'||(m.th==='p:kexin'&&/第五年|下午有空/.test(m.text)));
+    const ask=K.find(m=>m.ask); if(ask) PHONE.answer(G,ask.ask.id,2); STORY.phoneRules(GM); const q=OUT.get(G,'kx_anniv5'); H.at('2029-10-17',18); H.said=[]; H.opts=[]; H.picks=(picks||[]).slice(); const r0=Object.assign({},SOCIAL.rel('kexin')); if(q) await OUT.go(GM,q); return {G,K:K.map(m=>m.text),q,L:H.said.map(x=>x.t),O:H.opts.slice(),r0,r1:Object.assign({},SOCIAL.rel('kexin'))}; };
   { const a=await kx5({EXCHANGE_ROUTE:'TW'}), b=await kx5({EXCHANGE_ROUTE:'JP'});
     check('G5. 3-2 可昕第五年：10/10 21:00「下禮拜三。第五年。」「……地點你選。我那天下午有空。」（地點選單照第 2～4 年）；10/17 地點之後兩句，延畢「……你一月拿證書。……」、不延畢「我十二月放榜。你八月考。……」',
       JSON.stringify(a.K)===JSON.stringify(['下禮拜三。第五年。','……地點你選。我那天下午有空。'])&&!!a.q&&a.q.day===D('2029-10-17')&&a.L.includes('五年。我們認識的時候，你還在經濟系。')&&a.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&!a.L.includes('……你一月拿證書。我們兩個，同一年開始。')
       &&b.L.includes('……你一月拿證書。我們兩個，同一年開始。')&&!b.L.includes('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.L.indexOf('五年。我們認識的時候，你還在經濟系。')<a.L.indexOf('我十二月放榜。你八月考。……我們兩個，同一年開始。')&&a.G.flags.KX_ANNIV&&a.G.flags.KX_ANNIV[5]==='river',JSON.stringify([a.K,a.L,b.L])); }
+  /* AA_363 T1：第五年的卡片第一頁「（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。」（smile）＋自己的一組選項（不用第三、四年那一組），之後照舊「後面幾頁，她說：『回去再看。』」*/
+  { const P1='（把卡片翻到第一頁）第五年。……明年的卡片，換你寫。', END='後面幾頁，她說：『回去再看。』', R=['你說的喔。……錯字我會圈起來。','你自己想。……你想五年了吧。','（她看著你收好，嘴角動了一下。）'];
+    const runs=[]; for(const k of [0,1,2]) runs.push(await kx5({EXCHANGE_ROUTE:k===1?'JP':'TW'},[k]));
+    const ok=runs.every((r,k)=>{ const i=r.L.indexOf(P1); return i>0&&r.L[i+1]===R[k]&&r.L[i+2]===END&&r.L.length===i+3&&R.every((x,j)=>j===k||!r.L.includes(x))&&JSON.stringify(r.O[0])===JSON.stringify(['「好。」','「寫什麼？」','（把卡片收進外套口袋）'])
+      &&r.L.indexOf('你人來了就好。')<i&&r.L.indexOf('五年。我們認識的時候，你還在經濟系。')<i&&r.G.flags.KX_ANNIV[5]==='river'; });
+    const EV=STORY_EVENTS.find(e=>e.id==='ev_kexin_anniversary_yn'), ex=t=>{ const l=EV.dialogue.find(x=>x.text===t); return l?l.speaker+'/'+(l.expression||''):null; }, ch=EV.dialogue.find(x=>x.choice&&x.choice.some(c=>c.text==='「寫什麼？」'));
+    const exprOk=ex(P1)==='kexin/smile'&&ex(R[0])==='kexin/teasing'&&ex(R[1])==='kexin/laugh'&&ex(R[2])==='null/'&&!!ch&&ch.choice.every(c=>Object.keys(c).sort().join()==='goto,text');
+    check('G5. AA_363 T1 可昕第五年：卡片第一頁「第五年。……明年的卡片，換你寫。」（smile）→「好。」「寫什麼？」「（把卡片收進外套口袋）」→「你說的喔。……錯字我會圈起來。」（teasing）／「你自己想。……你想五年了吧。」（laugh）／「（她看著你收好，嘴角動了一下。）」→「後面幾頁，她說：『回去再看。』」；不出第三、四年那一組；數值、旗標照第二～四年（選項不加數值，KX_ANNIV {5}）（修改前 FAIL）',
+      ok&&exprOk,JSON.stringify(runs.map(r=>[r.L.slice(-4),r.O[0]]))+' expr='+exprOk); }
   // ===== G5 3-4 大五上女朋友的學期末約會（延畢、交往中，12/19～12/23）=====
   const INV5={heroine_01:'你實習結束了吧。……今天我訂位子。',heroine_02:'禮拜五九點，等我下班。',heroine_03:'打烊以後。我煮。',heroine_04:'你實習完了吧 宵夜 我想吃兩份',heroine_05:'你實習結束了吧？今天晚上我空著。法圖旁邊那家。',classmate_peishan:'學期結束了吧！你下來，我們吃熱的。'};
   const TB5={heroine_01:['碩一的課，每一堂都要先讀一整本。','……我讀得完。只是睡得少。'],heroine_02:['回來以後，店長把週五晚上的班排回給我。','……我沒說要。她就排了。'],heroine_03:['我們都延畢。你一學期，我一年。','……阿姨說，這樣比較划算。'],heroine_04:['工作室接了新案子。這次第一關是我做的。','……我做得很慢。他們都在等我。'],heroine_05:['上班以後，計畫本裡都是公司的事。','……今天這一格，是我自己寫的。'],classmate_peishan:['台南的冬天不太冷。','……你下來的時候，不用帶外套。']};
@@ -173,17 +218,20 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
         const s=PG.due(G); if(s){ if(s.id==='r2y4b_y5_plan') H.picks=[dayPick]; await PG.runStep(GM,s); stops.push(s.id+'@'+CALENDAR.dateOf(G.day).key); continue; }
         if(!await PG.advance(GM)) break; } }catch(e){ err=e; }
     return {G,err,stops,lines:H.cards.filter(c=>Y5LINES.has(c[1])).map(c=>c[1]),cards:H.cards.map(c=>c[0]+' '+c[1])}; };
-  { const C=PG.CARDS_DELAY||[], t=(a,cond)=>{ const r=C.find(x=>x[0]===a&&(cond?x[2]({flags:{Y5_DAYS:cond,EXCHANGE_ROUTE:'JP'},stage:'law'}):true)); return r?r[3]:'?'; };
+  { const C=PG.CARDS_DELAY||[], t=(a,cond)=>{ const r=C.find(x=>x[0]===a&&!(x[4]&&x[4].common)&&(cond?x[2]({flags:{Y5_DAYS:cond,EXCHANGE_ROUTE:'JP'},stage:'law'}):true)); return r?r[3]:'?'; };   /* 三選一那句（共通的不算）*/
     const L={us:'（週一、週三補修兩門課。教室裡坐的，都是大三的。）',common:'（週二去事務所。其他的日子，一天和一天很像。）',end:'（大五上結束了。這一次，沒有期末考。）',nye:'（跨年那天晚上，你在家。煙火是從電視上看的。）'};
-    const exp=v=>[t('2029-09-04',v),t('2029-09-12',v),t('2029-09-23',v),L.common,t('2029-11-21',v),L.nye];   /* 停在 9/7 放榜群組、9/11 實習、9/20 中秋群組、9/22 照片、10/15 明軒、10/16、11/20 實習、12/14 放榜群組、12/18 最後一次實習、2030-01-21 證書 */
+    const OCT={study:'（有一天，一個大一的跟你借延長線。他叫你學長。）',work:'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）',bar:'（刑法的書，書邊都翻黑了。）'};   /* 10/17～11/19 的三選一（AA_357 第 4 節原文）*/
+    const exp=v=>[t('2029-09-04',v),t('2029-09-12',v),t('2029-09-23',v),OCT[v],t('2029-11-21',v),L.nye];   /* 停在 9/7 放榜群組、9/11 實習、9/20 中秋群組、9/22 照片、10/15 明軒、10/16、11/20 實習、12/14 放榜群組、12/18 最後一次實習、2030-01-21 證書。10/16 → 11/20 落在 10/17～11/19 以後＝三選一（AA_363 T3）*/
     const R={}; for(const [v,pick] of [['study','去總圖讀書'],['work','接家教'],['bar','在家準備國考']]) R[v]=await simY5({EXCHANGE_ROUTE:'JP'},null,pick);
-    const bad=Object.keys(R).filter(v=>R[v].err||JSON.stringify(R[v].lines)!==JSON.stringify(exp(v))||!PG.done(R[v].G,'y5_intern4')||R[v].G.flags.Y5_DAYS!==v);
-    check('G5. 模擬 日本路線 9/2 跳到 12/23（總圖／家教／國考各一輪）：每一次跳過的那一段出那一段的一句（三選一照 9/3 的選擇、10/17～11/19 共通先出）、12/18 最後一次實習有停、不重複；一跳只出最後一句（10/17～11/19 的三選一、12/19～23 那句在這條路上被下一段蓋過）',
+    const bad=Object.keys(R).filter(v=>R[v].err||JSON.stringify(R[v].lines)!==JSON.stringify(exp(v))||!PG.done(R[v].G,'y5_intern4')||R[v].G.flags.Y5_DAYS!==v||R[v].lines.includes(L.common));
+    check('G5. 模擬 日本路線 9/2 跳到 12/23（總圖／家教／國考各一輪）：每一次跳過的那一段出那一段的一句（三選一照 9/3 的選擇）；10/16 一跳到 11/20＝出 10/17～11/19 的三選一（借延長線／橘子／刑法的書邊），共通的不出（AA_363 T3）；12/18 最後一次實習有停、不重複；12/19～23 那句在這條路上被下一段蓋過（照現在）',
       !bad.length,bad.map(v=>v+'='+(R[v].err?R[v].err.stack:JSON.stringify(R[v].lines))).join('｜'));
     const U=await simY5({EXCHANGE_ROUTE:'US'},()=>{ H.FRIEND('kexin'); H.date('kexin'); },'接家教');
-    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),L.common,t('2029-11-21','work'),L.end,L.nye];
-    check('G5. 模擬 美國路線（和可昕交往、接家教）：第一次跳先出「週一、週三補修兩門課……」，下一次跳再出第一週那一句；可昕的學期末約會（12/21）有停、出「大五上結束了……」',
+    const ue=[L.us,t('2029-09-04','work'),t('2029-09-12','work'),t('2029-09-23','work'),OCT.work,t('2029-11-21','work'),L.end,L.nye];   /* 10/16 實習 → 10/17 週年（隔一天，沒有句子）→ 11/20：落在範圍以後＝三選一（AA_363 T3）*/
+    check('G5. 模擬 美國路線（和可昕交往、接家教）：第一次跳先出「週一、週三補修兩門課……」，下一次跳再出第一週那一句；10/17 → 11/20 出橘子那句（AA_363 T3）；可昕的學期末約會（12/21）有停、出「大五上結束了……」',
       !U.err&&JSON.stringify(U.lines)===JSON.stringify(ue)&&U.stops.some(s=>/^te_kx_Y5S1@2029-12-2[123]$/.test(s))&&PG.done(U.G,'y5_intern4'),(U.err?U.err.stack:'')+JSON.stringify(U.lines)+JSON.stringify(U.stops)); }
   H.done();
 })().catch(e=>{ console.log('FAIL 例外',e&&e.stack||e); process.exit(1); });
 // 修改前（開發分支 f0dcc337，scratchpad 的乾淨副本）：37 項全部 FAIL（G1 8、G2 3、G3 5、G4 7、G5 14）。
+// AA_363 T1～T9（2026-10-21；T1 第五年卡片、T2 中秋照片阿哲、T3 一跳落在範圍以後出三選一、T4 畢業後資料頁沿用最後一列、T7 日期標籤／公館套房、T9 中秋交通）：
+//   在開發分支 6a47ff46 上 11 項 FAIL（G1 2、G2 1、G4 1、G5 7），改完全部 PASS。T7 的宿舍門口在 tests/dorm_moved_out_unit.js（要蓋校園）。

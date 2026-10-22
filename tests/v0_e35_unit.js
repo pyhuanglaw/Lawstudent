@@ -34,13 +34,14 @@ const atHome=()=>{ G.stage='econ'; G.flags.Y0_MOVED_OUT=true; G.flags.LEAVE_WEEK
   const D=STORY.dayOfKey('2025-07-10'); const ev=STORY_EVENTS.find(e=>e.id==='ev_y0_e35'), evh=STORY_EVENTS.find(e=>e.id==='ev_y0_e35h');
   check('0. E35 兩個事件都在、7/10 是週四',!!ev&&!!evh&&CALENDAR.dateOf(D).wd===4); if(!ev||!evh){ console.log('FAILED '+fails); process.exit(1); }
   { const T=evh.dialogue.filter(l=>l.text).map(l=>l.text); check('0. 見面版收尾（AA_303 第 2 節 24：在家裡、不下樓）：最後「好。去睡。明天要早起。」、背景 home_living；沒有「五分鐘到了」「上樓」、沒有「明天考場見」、沒有電話版',T[T.length-1]==='好。去睡。明天要早起。'&&evh.dialogue[0].bg==='home_living'&&!T.some(t=>/五分鐘到了|上樓|家樓下/.test(t))&&!evh.dialogue.some(l=>/明天考場見/.test(l.text||''))&&!JSON.stringify(evh.dialogue).includes('E35_PHONE'),JSON.stringify(T.slice(-2))); }
+  { const L=evh.dialogue, i=L.findIndex(l=>l.label==='c'), c=L[i+1]&&L[i+1].text; check('0. AA_368 H4：選「妳選一家。」→「我選？……那我家巷子裡那家。我從國中吃到現在，每次都在排隊。」（7/12 起她在高雄；原本「公館巷子裡那家」）',c==='我選？……那我家巷子裡那家。我從國中吃到現在，每次都在排隊。'&&!JSON.stringify(L).includes('公館巷子裡'),c); }
   let menus=[], script=[]; GM.choose=async o=>{ const t=o.map(q=>q.t||q.text); menus.push(t); const w=script.shift(); if(w==null) throw new Error('STOP'); const k=t.findIndex(x=>x.includes(w)); return k<0?0:k; };
   const loop=async()=>{ try{ await HOME.loop(GM); }catch(e){ if(e.message!=='STOP') throw e; } };
   /* 第 1～7 項（18:00「今晚九點，我宿舍樓下」、女舍門口、21:30 電話版、coreCallAt 21:30）拿掉：AA_224 6-5 改成他家樓下 21:00，新的測試在 tests/lifeline_g6_unit.js */
   // 9. 考完以後（AA_154 A47）：7/14 20:00 兩則私訊、7/19 摘要日
   for(const [plan,m1,m2,narr] of [['sea','你說考完要去海邊。我查好了。','星期六，客運早上八點。西瓜我負責。','那天的海很藍。她真的帶了一顆西瓜，可是兩個人都沒有帶刀。'],
       ['sleep','你說考完要睡一整天。我查好了。','星期六整天下雨。很適合。……我說過，我也要睡。','雨下了一整天。你睡到下午三點，醒來的時候，她剛好傳來一張窗外下雨的照片。'],
-      ['shop','巷子那家我查好了。','星期六中午有開。我訂位了，兩個人。','巷子裡那家店很小。她點了兩份一樣的，說這樣才公平。']]){
+      ['shop','巷子那家我問過了。','星期六中午有開。我訂位了，兩個人。','巷子裡那家店很小。她點了兩份一樣的，說這樣才公平。']]){   /* AA_368 H4：shop 第一則原本「巷子那家我查好了。」（店在她高雄家的巷子裡）*/
     const d14=STORY.dayOfKey('2025-07-14'), d19=STORY.dayOfKey('2025-07-19');
     fresh(d14,19.5,'campus',{E35_PLAN:plan,E35_DONE:true}); atHome(); run(19.5,19.9); const before=!PHONE.sent(G,'y0_e35_after'); run(20,20.1); const K2=TH('p:kexin').map(m=>m.text);
     check('9. '+plan+'：7/14 20:00 可昕「'+m1+'」「'+m2+'」（20:00 以前沒有）',before&&K2.includes(m1)&&K2.includes(m2),JSON.stringify(K2));

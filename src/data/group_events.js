@@ -12,23 +12,26 @@ const GROUP_EVENTS=(function(){
   const stAt=(G,id,st)=>typeof STORY!=='undefined'&&!!STORY.knows&&STORY.knows(id,G)&&typeof SOCIAL!=='undefined'&&!!SOCIAL.STAGES&&SOCIAL.STAGES.indexOf(SOCIAL.stage(id))>=SOCIAL.STAGES.indexOf(st);
   const fam=(id,st)=>({custom:G=>stAt(G,id,st||'FAMILIAR')}), nfam=(id,st)=>({custom:G=>!stAt(G,id,st||'FAMILIAR')});
   const dating=id=>G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+id]===true||!!(R[id]&&R[id].status==='dating'); };
-  const isDown={flagIs:{ZHE4_REPLY:['down','out']}}, notJP={custom:G=>(G.flags||{}).ZHE4_REPLY!=='jp'}, isJP={flagIs:{ZHE4_REPLY:'jp'}};   /* down＝在宿舍下樓、out＝在臺北的外面、二十分鐘回宿舍（當面版）；home、away（不在臺北）、jp＝視訊版（AA_336 C10）*/
+  const isDown={flagIs:{ZHE4_REPLY:['down','out']}}, notJP={custom:G=>(G.flags||{}).ZHE4_REPLY!=='jp'}, isJP={flagIs:{ZHE4_REPLY:'jp'}}, jpNow=G=>(G.flags||{}).ZHE4_REPLY==='jp';   /* down＝在宿舍下樓、out＝在臺北的外面、二十分鐘回宿舍（當面版）；home、away（不在臺北）、jp＝視訊版（AA_336 C10）*/
   /* 1C-01 和可昕那一趟：還沒去過的目的地（KX_TRIP 的每一個假期；大一春假 Y1S2）＋「山上看星星」一定在（去過的也可以再選，AA_336 C7）。三個都去過＝「迷路到的地方」（BB_97 9-12）*/
   const kxSeen=G=>{ const T=(G.flags.KX_TRIP&&typeof G.flags.KX_TRIP==='object')?G.flags.KX_TRIP:{}; return Object.keys(T).filter(k=>k!=='Y2S2').map(k=>T[k]); };
   const kxNot=d=>({custom:G=>!kxSeen(G).includes(d)}), kxAll={custom:G=>['sea','oldtown','stars'].every(d=>kxSeen(G).includes(d))};
   const kxStarsBefore={custom:G=>((G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2)||G.flags.KX_TRIP_Y1S2)==='stars'};
   const G1=()=>typeof GROUP!=='undefined'?GROUP:null;
+  const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假麵店團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
   return [
   /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多小語那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
+    beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
+      {if:{custom:G=>{ const g=G1(); return !!g&&g.springTrain(G); }},speaker:null,text:'（車子坐不下。剩下的人搭火車，下午在那邊會合。）'},   /* AA_375 第 5 項：認識的超過三個＝其他人搭火車；會合以後（海邊）照樣有他們的句子 */
       {scene:'小鎮的市場',bg:'dark'},   /* 小鎮的傳統市場背景沒有（AA_143，底圖等使用者）→ dark＋字幕 */
       {speaker:null,text:'（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）'},
-      {if:kn('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},
-      {if:kn('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
-      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
-      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給小語。）'},
+      {if:car('heroine_03'),speaker:'heroine_03',text:'這個市場，我田野課看過資料。……想自己來看一次。'},   /* 市場（早上）＝車上的人；搭火車的下午才到（AA_375 第 5 項）*/
+      {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
+      {if:car('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
+      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
+      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給小語。）'},
       {scene:'海邊',bg:'y0_sea_blue'},{speaker:null,text:'（第二站是海邊。四月的風還有點冷。）'},
       {if:kn('yu'),speaker:'yu',text:'我說要去海邊，真的來了。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'（把鞋子脫了，又穿回去）水太冷。'},
@@ -121,13 +124,14 @@ const GROUP_EVENTS=(function(){
       {mem:[{npc:'zhe',tag:'ZHE_SAID_IT',note:''}]},
       {choice:[{text:'「嗯。我在。」',goto:'a'},{text:'「你要不要跟你爸說你很緊張？」',goto:'b'},{text:'（什麼都不說，坐著）',goto:'c'}]},
       {label:'a'},{if:isDown,speaker:null,text:'（他點頭，把紅茶喝完，再去買兩瓶。兩個人坐到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},
-      {unless:isDown,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
-      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>24.5-G.hour},{goto:'end'},
+      {unless:isDown,if:notJP,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
+      {if:isJP,speaker:null,text:'（他把紅茶喝完。你們講到臺灣十二點半。你這邊已經一點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* AA_377 第 2 項：日本版照當地時間（臺灣 4/28 23:00＝日本 4/29 0:00）*/
+      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>jpNow(G)?Math.max(0.25,1.5-G.hour):24.5-G.hour},{goto:'end'},   /* 講一個半小時：臺灣到 0:30；日本版 G.hour 是當地 0 點＝到當地 1:30（原本 24.5-G.hour 一口氣跳到 4/30，冠軍賽直播演不到）*/
       {label:'b'},{speaker:'zhe',text:'……跟我爸？'},
       {speaker:null,text:'（他想了很久，拿出手機，打了一行字，刪掉，又打。按出去。三十秒後手機震了：「我也是。」他盯著螢幕看了很久，然後笑出來。）'},
       {speaker:'zhe',text:'……他也是。'},{advance:0.25},{goto:'end'},
-      {label:'c'},{unless:isJP,speaker:null,text:'（他也沒說話。十二點的時候他站起來。）'},{if:isJP,speaker:null,text:'（他也沒說話。十二點，他把手機拿起來。）'},
-      {if:notJP,speaker:'zhe',text:'走啦。謝了。明天你要來喔。坐我爸旁邊，他不認識別人。'},{if:isJP,speaker:'zhe',text:'走啦。謝了。明天記得看直播。'},{advance:G=>24-G.hour},   /* 日本路線選項③（AA_336 C10）；在家的視訊版照原句（人在臺灣，隔天會來）*/
+      {label:'c'},{unless:isJP,speaker:null,text:'（他也沒說話。十二點的時候他站起來。）'},{if:isJP,speaker:null,text:'（他也沒說話。臺灣十二點，你這邊一點。他把手機拿起來。）'},   /* AA_377 第 2 項：日本版「十二點」是臺灣時間 */
+      {if:notJP,speaker:'zhe',text:'走啦。謝了。明天你要來喔。坐我爸旁邊，他不認識別人。'},{if:isJP,speaker:'zhe',text:'走啦。謝了。明天記得看直播。'},{advance:G=>jpNow(G)?Math.max(0.25,1-G.hour):24-G.hour},   /* 一個小時：日本版到當地 1:00（AA_377 第 2 項）*/   /* 日本路線選項③（AA_336 C10）；在家的視訊版照原句（人在臺灣，隔天會來）*/
       {label:'end'} ],
     consequences:{memo:'冠軍賽前一晚，阿哲說「有事」'},
     after:G=>{ const g=G1(); if(g) g.zhe4After(G); },
@@ -176,7 +180,7 @@ const GROUP_EVENTS=(function(){
   /* 下午：芷若 Z12（6/3 14:00 以後第一次進 Café；和她 FAMILIAR 以上）。記 IMPORTANT_CONVERSATION（她的志向，放電影）*/
   { id:'ev_zhiruo_graduation_cafe', title:'芷若的畢業', participants:['heroine_02'], location:'cafe', trigger:'enter', once:true, background:'blur',
     prereq:{custom:G=>{ const g=G1(); return !!g&&g.zrCafeDue(G); }},
-    dialogue:[ {speaker:'heroine_02',text:'我七月先回台中。去影印店幫忙一個暑假。'},
+    dialogue:[ {speaker:'heroine_02',text:'我七月先回台中，去影印店幫忙一個月。'},   /* AA_377 第 11 項：她 7/1～8/1 在台中 */
       {speaker:'heroine_02',text:'九月，我去英國念電影研究。一年。'},
       {speaker:'heroine_02',text:'回來以後，我想在台灣放電影。不是拍，是放。像二輪戲院那種，小小的就好。'},
       {speaker:'heroine_02',text:'我想讓我媽知道，我走之前有回去。'},

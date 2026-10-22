@@ -39,7 +39,7 @@ GM.money=function(n){ G.money+=n; };
   check('0. 11/12 週四、11/14 週六是大二上第 10 週；11/17 週二是第 11 週',CALENDAR.termOf(d12).id==='Y2S1'&&CALENDAR.termOf(d12).week===10&&wdOf(d12)===4&&CALENDAR.termOf(d14).week===10&&wdOf(d14)===6&&wdOf(d17)===2,JSON.stringify([CALENDAR.termOf(d12),CALENDAR.termOf(d14)]));
   // 1. 11/13 群組
   fresh(d13,20,'campus',{lawclub:true}); PHONE.join(G,'lawclub_study','法服讀書會'); run(20,21.2);
-  check('1. 法服成員：11/13 21:00 語彤在法服讀書會群組「明天九點半，攤位集合。」',txt('g:lawclub_study').includes('heroine_03:明天九點半，攤位集合。'),JSON.stringify(txt('g:lawclub_study')));
+  check('1. 法服成員：11/13 21:00 柏翰在法服群組「明天九點半，攤位集合。」（AA_369 第 4 節：語彤不在法服，句子不改；第 7 節第 10 題：說話的人是柏翰）',txt('g:lawclub_study').includes('classmate_bohan:明天九點半，攤位集合。')&&!txt('g:lawclub_study').some(t=>/^heroine_03:/.test(t)),JSON.stringify(txt('g:lawclub_study')));
   fresh(d13,20,'campus',{}); PHONE.join(G,'lawclub_study','法服讀書會'); run(20,21.2); check('1. 不是法服成員：沒有',!txt('g:lawclub_study').some(t=>/攤位集合/.test(t)));
   // 2. 攤位
   const B=ev('ev_fair_booth_y2');

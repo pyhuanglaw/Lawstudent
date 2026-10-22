@@ -107,7 +107,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     const go=async(flags,events,pick)=>{ fresh(SAT,15.7,'campus',Object.assign({dating_kexin:true},flags||{})); for(const e of (events||[])) G.events.done[e]=1; PHONE.at(G,FRI,20,[{th:'p:kexin',from:'kexin',text:'x'}],'kx_ntu_ask'); run(15.7,15.8); const q2=OUT.get(G,'kx_ntu'); picks=[pick]; said=[]; opts=[]; await OUT.go(GM,q2); return {L:lines(),O:opts[0]||[]}; };
     let r=await go({},[],'「今天沒有遲到。」');
     check('K2：旁白用「你」（BB 2026-10-14）：「社科院門口，可昕和品妤已經在等你。」「品妤先回去了。你們沿著椰林大道……」；品妤第一次出現＝「曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。」；可昕「這是我的舊系館。你的新系館在對面，我知道。」',r.L[0]==='社科院門口，可昕和品妤已經在等你。'&&r.L.includes('品妤先回去了。你們沿著椰林大道，一路走到公館吃晚餐。')&&r.L.includes('曾品妤。經濟系，可昕以前的室友。……一個暑假沒見，你不會忘了吧。')&&!r.L.includes('你來了。')&&r.L.includes('這是我的舊系館。你的新系館在對面，我知道。'),JSON.stringify(r.L.slice(0,4)));
-    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('所以這就是你每天說的霖澤館。……比照片高。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
+    check('K2：霖澤館前三選一（AA_295）；「今天沒有遲到。」→「……因為我在。」她笑',JSON.stringify(r.O)===JSON.stringify(['「遲到走後門。」','「今天沒有遲到。」','「我沒有每天遲到。」'])&&r.L.includes('霖澤館。以前每天從社科院看過來。……第一次走進來。')&&r.L.includes('你每天第一堂都從這個門進去？……遲到的時候也是？')&&r.L.includes('……因為我在。')&&r.L.includes('她笑。'));
     check('K2：K1 還沒去過＝分開時「下次換你來，我當導遊。」；記 MET_PINYU',r.L.includes('下次換你來，我當導遊。')&&G.flags.MET_PINYU===true);
     r=await go({MET_PINYU:true},['ev_kexin_tour_nccu'],'「我沒有每天遲到。」');
     check('K2：之前遇過品妤＝只點頭「你來了。」；K1 去過＝沒有「下次換你來」；「我沒有每天遲到。」→「證據呢？」',r.L.includes('你來了。')&&!r.L.some(t=>t.startsWith('曾品妤。'))&&!r.L.includes('下次換你來，我當導遊。')&&r.L.includes('證據呢？'));
@@ -122,7 +122,7 @@ const runX=async(known,gift,toIdx,fromIdx,flags,setup)=>{ const WED=termDay(17,3
     check('K4：「好，九點開。」→ 她「好。我先把書排好。」、當天 21:00 排視訊（接起來）',kx().some(x=>x.text==='好。我先把書排好。')&&!!q&&q.day===D&&q.h===21&&q.verb==='接起來',JSON.stringify(q));
     const R0=JSON.parse(JSON.stringify(CLS.rec(G).prep)); G.hour=21; said=[]; picks=[0,'（回她）','（不回，繼續讀）','（回她）','（不回，繼續讀）']; const st0=(G.stats&&G.stats.study)||0;
     await OUT.go(GM,q); const L=lines(); const c=G.flags.kxVideoCourse; const R1=CLS.rec(G).prep;
-    const Q=['我的螢光筆沒水了。……你那邊的黃色借我。算了，你又遞不過來。','你們期末考第一科是幾號？我在算哪天可以見面。','這是我今天第三杯咖啡。你不要跟我媽說。','我眼睛快閉起來了。……你先不要掛。'];   /* AA_295 */
+    const Q=['我的螢光筆沒水了。……你那邊的黃色借我。算了，你又遞不過來。','你們期末考還剩幾科？我在算哪天可以見面。','這是我今天第三杯咖啡。你不要跟我媽說。','我眼睛快閉起來了。……你先不要掛。'];   /* AA_295 */
     check('K4：開始前先選讀哪一科；四題照順序（BB_95 原文）',L[0]==='今天讀哪一科？'&&!!c&&Q.every((t,i)=>L.indexOf(t)>=0&&(i===0||L.indexOf(t)>L.indexOf(Q[i-1]))),JSON.stringify(L));
     check('K4：回她＝「你分心了。很好。」、不回＝「你今天好認真。我有點寂寞。……繼續。」，各自只說第一次',L.filter(t=>t==='你分心了。很好。').length===1&&L.filter(t=>t==='你今天好認真。我有點寂寞。……繼續。').length===1&&L.indexOf('你分心了。很好。')<L.indexOf(Q[1])&&L.indexOf('你今天好認真。我有點寂寞。……繼續。')<L.indexOf(Q[2]));
     check('K4：讀書時間算進期末準備（兩個小時＝那一科 +2）、時間往後兩小時、記 VIDEO_STUDY',(R1[c]||0)-(R0[c]||0)===2&&((G.stats&&G.stats.study)||0)-st0===2&&Math.abs(G.hour-23)<0.05&&SOCIAL.has('kexin','VIDEO_STUDY'),JSON.stringify({c,before:R0[c]||0,after:R1[c],hour:G.hour}));

@@ -2,6 +2,11 @@
 **只匯入 docs/handoff/story_import_allow.json 逐檔列出、status approved 的版本**（使用者 2026-10-17 P0：未批准、WIP、來源版本不明預設拒絕；
 不再把企劃線分支上所有階梯檔一次匯入——AA 分支的大一下階梯可昕被改 17 處還沒審）。每個檔從名單上寫的 commit 讀，不從分支最新讀。
 要換新版本：AA（人物台詞先經 BB）交付「已審版本＋commit」→ 值班 LAWWW 改白名單 → 再跑這個工具。
+AA_372 第 13、18 項以安的兩句：企劃線 ladder_aa.json@7fca0df5 已經改好（AA_372 第 6 節），原本疊在這裡的那段拿掉了。
+AA_373（大一下「時間、人在哪、作廢設定」修正稿，白名單上的 commit）第 6、8、14、25 項的五句、第 6 節第 4 題一句同樣疊在大一下的階梯上（byTerm.Y1S2）。
+AA_374、AA_375（大二上、大二下修正稿）：一層的一個欄位（週次、句子、選項）用 _fix 疊在 ladder_*_y2s1／y2s2.json 上。
+AA_376（大三上修正稿）第 9 項以安三句、第 18 項日本路線兩個選項疊在大三上的階梯上（byTerm.Y3S1）；條件、週次在 src/y3fill3d.js。
+AA_377（大三下修正稿）第 4 項以安 A6-L2 一句、第 6 項語彤 Y6-L3 杜鵑花（linesIf、選項）、第 15、16 項語彤 Y6-L1、Y6-L4 的 linesIf 疊在大三下的階梯上（byTerm.Y3S2）；A6 挽回中略過在 src/story3d.js 的 LADDER_SKIP。
 用法：python3 tools/ladder/import_ladder.py [--check 企劃線ref]（--check：只列出分支上和白名單版本不同、或不在名單的檔，不寫檔）"""
 import json, os, re, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -76,7 +81,144 @@ out['labels'] = {m: lab[m] for c in out['byTerm'].values() for m in mems(c) if m
 for m, v in ((OLD.get('labels') or {}).items()):
     if m not in out['labels'] and any(m in set(mems(out['byTerm'][t])) for t in kept): out['labels'][m] = v
 if skipped: print('先不匯入新版（記憶沒有中文名稱，請企劃在階梯文件補「| `代號` | 名稱 |」表）：', skipped, '；保留上一次匯入的：', kept)
+def _walk(o, old, new=None):   # 數（new 是 None）或換掉整句相同的字串，回傳幾句（AA_373 疊句用）
+    n = 0
+    items = o.items() if isinstance(o, dict) else (enumerate(o) if isinstance(o, list) else [])
+    for k, v in list(items):
+        if isinstance(v, str):
+            if v == old:
+                n += 1
+                if new is not None: o[k] = new
+        else: n += _walk(v, old, new)
+    return n
+# ---- AA_373（企劃線修正稿，白名單 AA373-Y1S2-FIX-1021；AA 定稿）：大一下的六句疊在大一下的階梯上（byTerm.Y1S2）——第 6 節第 4 題學姊「上學期期中那個空的保溫瓶」、第 6 項沛珊 P2-L3「一週兩天。」（作息改週二、四）、
+#      第 8 項學姊 S2-L6 兩句（空保溫瓶在大一上）、第 14 項以安第 10～15 週的招呼（交換是大三的伏筆）、第 25 項可昕 K2-L1 選項回覆（使用者 10-18：她沒有在跟祐廷比）。
+#      整句相同才換；企劃線的階梯檔下一版自己改好了（舊句沒有、新句已經在）就跳過，那時候這段可以拿掉 ----
+A373 = G.approved_files(ALLOW, 'docs/story_planning/AA_373_')
+if A373:
+    P373, S373 = next(iter(A373.items()))
+    ok, why = G.allowed(P373, S373, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md373 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True)
+    y1s2 = out['byTerm'].get('Y1S2') or {}
+    for item, cid, old, new, quote in [('第 6 項', 'classmate_peishan', '我在溫州街的課輔班當志工。一週三天。', '我在溫州街的課輔班當志工。一週兩天。', '「一週兩天。」'),
+                                       ('第 8 項', 'heroine_05', '期中的時候，我對著空的保溫瓶喝了好幾次。', '上學期期中的時候，我對著空的保溫瓶喝了好幾次。', '「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」'),
+                                       ('第 8 項', 'heroine_05', '上次那杯黑咖啡，謝謝。', '那杯黑咖啡，謝謝。', '「那杯黑咖啡，謝謝。」'),
+                                       ('第 14 項', 'heroine_01', '日文課下禮拜小考。……我國中就想去日本交換了。', '日文課下禮拜小考。……片假名我還是會看錯。', '「日文課下禮拜小考。……片假名我還是會看錯。」'),
+                                       ('第 25 項', 'kexin', '騙人。……你記幾次？不准說。我會比。', '騙人。……你記幾次？算了，不准說。', '「騙人。……你記幾次？算了，不准說。」'),
+                                       ('第 6-2 節第 4 題', 'heroine_05', '期中那個空的保溫瓶，你看到了。', '上學期期中那個空的保溫瓶，你看到了。', '「上學期期中那個空的保溫瓶，你看到了。」')]:   # 第 6 節（bdab2f42）：看過空保溫瓶那一套（linesIf ev_sis_empty_flask）也是上學期的事
+        if quote not in md373: sys.exit(f'AA_373@{S373} 裡找不到{item}的「改成」：{quote}')
+        ch = y1s2.get(cid) or {}
+        n = _walk(ch, old, new)
+        if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'AA_373 {item}：大一下 {cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
+    out['source'] += f'＋{os.path.basename(P373)[:6]}@{S373}（大一下 6 句）'
+def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(路徑, commit, 內容)；名單上沒有＝None
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return None
+    P, S = next(iter(A.items()))
+    ok, why = G.allowed(P, S, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    return P, S, subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{P}'], text=True)
+def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
+    for item, cid, old, new, quote in rows:
+        if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        ch = chars.get(cid) or {}
+        n = _walk(ch, old, new)
+        if n != 1 and not (n == 0 and _walk(ch, new) == 1): sys.exit(f'{tag} {item}：{cid} 的階梯裡「{old}」有 {n} 句（應該是 1 句；或已經是新句）')
+def _step(chars, cid, sid, tag):
+    st = next((x for x in (chars.get(cid) or {}).get('steps', []) if x.get('id') == sid), None)
+    if st is None: sys.exit(f'{tag}：找不到 {cid} 的 {sid}')
+    return st
+def _add_choice(tag, md, chars, rows):   # 多一個選項（加在原本那個後面；複製原本的回覆、rel，再蓋上新的字）：哪一個玩家看得到由 src/y3fill3d.js 的 LADDER_CHOICE_IF 決定
+    for item, cid, sid, base_t, over, quotes in rows:
+        for q in quotes:
+            if q not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{q}')
+        st = _step(chars, cid, sid, tag); C = st.get('choices') or []
+        if any(c.get('t') == over['t'] for c in C): continue   # 企劃線自己加好了
+        i = next((k for k, c in enumerate(C) if c.get('t') == base_t), None)
+        if i is None: sys.exit(f'{tag} {item}：{cid} {sid} 找不到選項「{base_t}」')
+        nc = dict(C[i]); nc.update(over); C.insert(i + 1, nc)
+def _add_lines_if(tag, md, chars, rows):   # 多一套 linesIf（放在最前面＝先比）：rows＝[(第幾項, 人物, 層, 條件, 台詞, 稿裡的「改成」)]
+    for item, cid, sid, cond, lines, quote in rows:
+        if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
+        st = _step(chars, cid, sid, tag); L = st.setdefault('linesIf', [])
+        if any(x.get('lines') == lines for x in L): continue
+        L.insert(0, {'if': cond, 'lines': lines})
+# ---- AA_376（企劃線修正稿，白名單 AA376-Y3S1-FIX-1021；AA 定稿）：大三上的階梯（byTerm.Y3S1）——第 9 項以安 A5-L2 三句（柚子照中秋那場；交往中那句不管有沒有傳都通）、
+#      第 18 項日本路線的兩個選項（以安 A5-L8「那我們在日本找一家麵店。」、語彤 Y5-L8「我們同一班。」→「……那我十點去機場。送兩個。」）。
+#      其他項（K5-L2／L3 跳過、Y5-L1 等事件 12、Y5-L6／L7、A5-L1 第 2 週起）是條件，在 src/y3fill3d.js（程式這邊的表，匯入的 ladder.js 不手改）。企劃線下一版自己改好了就跳過 ----
+X376 = _approved_md('docs/story_planning/AA_376_')
+if X376:
+    P376, S376, md376 = X376; y3s1 = out['byTerm'].get('Y3S1') or {}
+    _swap(f'AA_376@{S376}', md376, y3s1, [
+        ('第 9 項', 'heroine_01', '柚子我跟室友分著吃完了。', '那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。', '「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」'),
+        ('第 9 項', 'heroine_01', '很甜。我室友一個人吃了一半。', '很甜。那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。', '「那天的柚子，阿哲剝完就沒人吃。……我帶回去了，我室友說太酸。」'),   # 引號裡的是後半句；「很甜。」不在引號裡、不動
+        ('第 9 項', 'heroine_01', '你那天晚上傳的訊息，我看了好幾次。', '那天晚上，我看了手機好幾次。', '「那天晚上，我看了手機好幾次。」')])
+    _add_choice(f'AA_376@{S376}', md376, y3s1, [
+        ('第 18 項', 'heroine_01', 'A5-L8', '「我們幫妳把位子占著。」', {'t': '「那我們在日本找一家麵店。」'}, ['「那我們在日本找一家麵店。」']),
+        ('第 18 項', 'heroine_03', 'Y5-L8', '「一起去。」', {'t': '「我們同一班。」', 'reply': '……那我十點去機場。送兩個。'}, ['「我們同一班。」', '「……那我十點去機場。送兩個。」'])])
+    out['source'] += f'＋{os.path.basename(P376)[:6]}@{S376}（大三上 3 句＋日本路線 2 個選項）'
+# ---- AA_377（企劃線修正稿，白名單 AA377-Y3S2-FIX-1021；AA 定稿）：大三下的階梯（byTerm.Y3S2）——第 4 項以安 A6-L2 選項回覆「宿舍寄來的信」→「房東寄來的信」（她在大學城隔壁的小鎮租公寓，AA_341 裁定 1）、
+#      第 15 項語彤 Y6-L1：一起做過田野（YT_T1）的玩家換成「週四我還是五點就到店門口。……只是現在不是去顧店。」、第 16 項語彤 Y6-L4：沒有田野的發現（FIELD_FINDING）的玩家第一句換「巷子裡有個修鞋的老闆」。
+#      A6 挽回中整層略過是條件，在 src/story3d.js 的 LADDER_SKIP。企劃線下一版自己改好了就跳過 ----
+X377 = _approved_md('docs/story_planning/AA_377_')
+if X377:
+    P377, S377, md377 = X377; y3s2 = out['byTerm'].get('Y3S2') or {}
+    _swap(f'AA_377@{S377}', md377, y3s2, [
+        ('第 4 項', 'heroine_01', '有一點。宿舍寄來的信，我還看不太懂。', '有一點。房東寄來的信，我還看不太懂。', '「房東寄來的信，我還看不太懂」')])
+    _add_lines_if(f'AA_377@{S377}', md377, y3s2, [
+        ('第 15 項', 'heroine_03', 'Y6-L1', {'flags': ['YT_T1']}, ['週四我還是五點就到店門口。……只是現在不是去顧店。'], '「週四我還是五點就到店門口。……只是現在不是去顧店。」'),
+        ('第 16 項', 'heroine_03', 'Y6-L4', {'notFlags': ['FIELD_FINDING']}, ['巷子裡有個修鞋的老闆，我又去找他聊了一次。', '他記得每一雙送來修的鞋，客人的臉反而記不住。'], '「巷子裡有個修鞋的老闆，我又去找他聊了一次。」')])
+    # 第 6 項（6-3 節，AA 回 LAWWW 01:50）：語彤 Y6-L3 和祐廷拍的杜鵑花（記憶 AN3_AZALEA）——沒和以安交往＋有＝只剩一句；交往中＋有＝交往中那一套（「你們去拍的那張」）；
+    #   交往中＋沒有＝原本那一套（語彤陪以安去，不用交往中那一套）；都沒有＝原本。有 AN3_AZALEA 的玩家「妳也有拍嗎？」換成「（給她看手機裡的另一張）」（誰看得到：src/story3d.js 的 LADDER_CHOICE_IF）
+    for q in ['「以安傳在群組那張杜鵑花，是你拍的吧。……拍得很好。」', '「杜鵑花節那天你們去拍的那張，以安有傳給我。」', '「（給她看手機裡的另一張）」', '「……這張她眨眼了。」「你沒傳這張，是對的。」']:
+        if q not in md377: sys.exit(f'AA_377@{S377} 裡找不到第 6 項的「改成」：{q}')
+    st = _step(y3s2, 'heroine_03', 'Y6-L3', f'AA_377@{S377}')
+    AZ = {'npc': 'heroine_01', 'tag': 'AN3_AZALEA'}
+    DL = ['杜鵑花節那天你們去拍的那張，以安有傳給我。', '她每年都站在同一棵樹前面拍一張，今年是第三張。']
+    old_li = [{'if': {'flags': ['dating_heroine_01']}, 'lines': DL}]
+    new_li = [{'if': {'flags': ['dating_heroine_01'], 'memory': [AZ]}, 'lines': DL}, {'if': {'memory': [AZ]}, 'lines': ['以安傳在群組那張杜鵑花，是你拍的吧。……拍得很好。']}]
+    if st.get('linesIf') != new_li:
+        if st.get('linesIf') != old_li: sys.exit(f'AA_377 第 6 項：語彤 Y6-L3 的 linesIf 是 {st.get("linesIf")!r}（企劃線改過了，要重看）')
+        st['linesIf'] = new_li
+    _add_choice(f'AA_377@{S377}', md377, y3s2, [
+        ('第 6 項', 'heroine_03', 'Y6-L3', '「妳也有拍嗎？」', {'t': '（給她看手機裡的另一張）', 'reply': ['……這張她眨眼了。', '你沒傳這張，是對的。']}, ['「（給她看手機裡的另一張）」'])])
+    out['source'] += f'＋{os.path.basename(P377)[:6]}@{S377}（大三下 1 句＋語彤 3 套 linesIf、1 個選項）'
 y1 = out['byTerm'].pop('Y1S1', {})   # 大一上和 characters 是同一份（下面用 JS 指過去，不重複存）
+# ---- 大二的修正稿（企劃線，白名單上的 commit；AA 定稿）：一層的一個欄位疊在 ladder_*_y2s1／y2s2.json 上——整個欄位相同才換（週次、句子、選項）；
+#      那個檔下一版自己改好了（已經是新值）就跳過，舊值、新值都不是＝停下來（企劃改過了，要重看）。每一項先確認修正稿裡有那一句「改成」。
+#      AA_374（AA374-Y2S1-FIX-1021）第 14 項：可昕 K3-L4 週次 [6,16]→[6,6]（互考 10/23 只有一次；第 6 週沒聊到就跳過，不卡住後面的層）
+def _fix(prefix, label, patches):
+    A = G.approved_files(ALLOW, prefix)
+    if not A: return
+    P, SHA = next(iter(A.items()))
+    ok, why = G.allowed(P, SHA, ALLOW)
+    if not ok: sys.exit('拒絕匯入：' + why)
+    md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True)
+    for item, term, cid, sid, field, old, new, quote in patches:
+        if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
+        st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)
+        if st is None: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} 沒有 {sid}')
+        cur = st.get(field)
+        if cur == new: continue
+        if cur != old: sys.exit(f'{os.path.basename(P)[:6]} {item}：{term} {cid} {sid} 的 {field} 是 {cur!r}（應該是 {old!r}，或已經是 {new!r}）')
+        if new is None: st.pop(field, None)
+        else: st[field] = new
+    out['source'] += f'＋{os.path.basename(P)[:6]}@{SHA}（{label}）'
+_fix('docs/story_planning/AA_374_', '可昕 K3-L4 週次', [
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'week', [6, 16], [6, 6], '週次改 **[6,6]**'),
+    ('第 14 項', 'Y2S1', 'kexin', 'K3-L4', 'skipAfterWeek', None, 6, '週次改 **[6,6]**')])
+#      AA_375（AA375-Y2S2-FIX-1021）第 7 項：語彤 Y4-L7 大二下改「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」（助教是大三上 1B-08 的新消息；
+#      原本的兩句和兩個選項都在講已經確定的助教，整層換成這一句、選項拿掉）；第 11 項：可昕 K4-L2 第 5 週起（3/21 邀約之後；只給 3/25 去了的玩家在 story3d.js 的
+#      LADDER_HOLD／LADDER_SKIP）；第 12 項：芷若 Z4-L4 第 11 週以後跳過（同子晴 Q4-L4：週次 [3,11]＋skipAfterWeek 11；英國的信 5/11 第 12 週就到了）
+_fix('docs/story_planning/AA_375_', '語彤 Y4-L7、可昕 K4-L2、芷若 Z4-L4', [
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'lines', ['下學期我要當訪談課的助教了。老師說，教室我可以自己排。', '我想把椅子都擺成斜的。'],
+     ['下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。'], '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 7 項', 'Y2S2', 'heroine_03', 'Y4-L7', 'choices', [{'t': '「妳會做得很好。」', 'reply': '希望啦。第一堂要自我介紹，我還沒想好要講什麼。'}, {'t': '「老師說了什麼？」', 'reply': '她說每週要改二十份作業。我還在算時間夠不夠。'}],
+     None, '「下學期系上可能會找我做一點事。……還沒確定，確定再跟你講。」'),
+    ('第 11 項', 'Y2S2', 'kexin', 'K4-L2', 'week', [3, 16], [5, 16], '週次改**第 5 週起**'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'week', [3, 16], [3, 11], '第 11 週以後跳過（同子晴 Q4-L4）'),
+    ('第 12 項', 'Y2S2', 'heroine_02', 'Z4-L4', 'skipAfterWeek', None, 11, '第 11 週以後跳過（同子晴 Q4-L4）')])
 with open(dst, 'w', encoding='utf8') as fo:
     fo.write('/* 閒聊階梯（大一上；AA_135、AA_136、BB_130；README 在企劃線 docs/story_planning/ladder/）。產生器：tools/ladder/import_ladder.py（不要手改）。來源：' + out['source'] + ' */\n')
     fo.write("'use strict';\nconst LADDER=" + json.dumps(out, ensure_ascii=False) + ';\nLADDER.byTerm.Y1S1=LADDER.characters;   /* 大一上：舊的 characters／terms 照留（舊程式、舊測試讀得到）*/\n')

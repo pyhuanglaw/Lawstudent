@@ -80,10 +80,10 @@ const KX={dating_kexin:true};
   const BBQ=ev('ev_mid_autumn_bbq'), SATB=termDay(5,6);
   const bbq=async(flags,setup,pk)=>{ fresh(SATB,15,'campus',Object.assign({},KX,{ZHE_CALLS_GE:true},flags||{}));   /* 已經有「哥」：不問「你幾年次的」（那段另外測）*/ if(setup) setup(); cgs=[]; picks=pk||[]; await EVENTS.run(BBQ); return {L:lines(),cg:cgs.slice()}; };
   { const g=async(f,pk)=>{ const r=await bbq(Object.assign({ZHE_CALLS_GE:false},f||{}),null,pk); return r.L; };
-    let L=await g({},['我大一歲']); check('CAMP-FIX-614 程式 7（AA_195 4-9）：中秋烤肉還沒有「哥」→ 阿哲「欸，你幾年次的？…」→「我大一歲。」→「那我們叫你哥？」…、記 ZHE_CALLS_GE',L.includes('欸，你幾年次的？感覺你比我們大一點。')&&L.includes('那我們叫你哥？')&&G.flags.ZHE_CALLS_GE===true);
+    let L=await g({},['我大一歲']); check('CAMP-FIX-614 程式 7（AA_195 4-9）：中秋烤肉還沒有「哥」→ 阿哲「欸，明軒說你比我們大一屆？」（AA_372 第 10 項：原本「欸，你幾年次的？…」，宿營時明軒問過）→「我大一歲。」→「那我們叫你哥？」…、記 ZHE_CALLS_GE',L.includes('欸，明軒說你比我們大一屆？')&&L.includes('那我們叫你哥？')&&G.flags.ZHE_CALLS_GE===true);
     L=await g({},['跟你們一樣啦']); check('　選「跟你們一樣啦。」→「好喔。」、沒有 ZHE_CALLS_GE',L.includes('好喔。')&&!G.flags.ZHE_CALLS_GE);
     L=await g({ECON_PAST_SHARED:'full'},['我不是說過了嗎']); check('　已經說過念過經濟：「我不是說過了嗎？」→「對齁。哥。」',L.includes('對齁。哥。')&&G.flags.ZHE_CALLS_GE===true);
-    L=await g({ZHE_CALLS_GE:true},[]); check('　已經有「哥」的不問',!L.includes('欸，你幾年次的？感覺你比我們大一點。')); }
+    L=await g({ZHE_CALLS_GE:true},[]); check('　已經有「哥」的不問',!L.includes('欸，明軒說你比我們大一屆？')); }
   { let r=await bbq({KX_BBQ_COME:true},null,['我女朋友','可昕贏']);
     check('K3：比冷笑話「可昕贏」→「我練過。不要問跟誰。」（BB 2026-10-14；AA_305 第 9 節改句）、沒有「好，我回去練。」',r.L.includes('我練過。不要問跟誰。')&&!r.L.includes('好，我回去練。')&&G.flags.KX_JOKE==='kexin',JSON.stringify(r.L.slice(-3)));
     r=await bbq({KX_BBQ_COME:true},null,['我女朋友','阿哲贏']);

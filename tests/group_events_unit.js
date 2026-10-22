@@ -80,7 +80,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('1. S1 市場「這個好吃。我不知道是什麼。」、以安「第一站選得很有理由。」（不是「理由很充分」）', L1.includes(NAME('zhe')+'：（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。')&&L1.includes(NAME('heroine_01')+'：第一站選得很有理由。')&&!L1.some(t=>/理由很充分/.test(t)));
   check('1. S1 海邊二選一（下去踩水／坐在堤防上）；沒有沛珊', JSON.stringify(opts[0])===JSON.stringify(['（下去踩水）','（坐在堤防上）'])&&!L1.some(t=>/沛珊/.test(t))&&has('（水真的很冷。小語在後面笑到蹲下。）'));
   check('1. 背景：車上（早上）→ 小鎮的市場（深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&scenes[1]==='dark'&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
-  fresh(SD.trip,8,'dorm'); team(); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);
+  fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要小語、語彤在車上 */
   check('1. S2 和沛珊熟：小語「……以前這種行程都是沛珊排的。」＋沒有人接話；坐堤防＝坐到語彤旁邊', L1.includes(NAME('yu')+'：（看著賣菜的阿姨）……以前這種行程都是沛珊排的。')&&has('（沒有人接話。語彤把一袋芭樂遞給小語。）')&&has('（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'));
   fresh(SD.trip,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); L1=await play('ev_spring_y2_noodle',[0]);
   check('1. 只有認識的人說話：只認識阿哲＝沒有語彤、以安、小語、柏翰、芯慈的句子', !L1.some(t=>t.startsWith(NAME('heroine_03')+'：')||t.startsWith(NAME('heroine_01')+'：')||t.startsWith(NAME('yu')+'：')||t.startsWith(NAME('classmate_bohan')+'：')||t.startsWith(NAME('classmate_xinci')+'：'))&&!has('我哪有。'), JSON.stringify(L1));
@@ -190,7 +190,7 @@ const NAME=id=>SOCIAL.displayName(id);
   check('4. 前置：日本路線 4/28 人在日本', STORY.abroad(G));
   run(f28,20,24.25); { const q=OUT.get(G,'y3_zhe4');
     check('4. Z3 日本路線：沒有冠軍賽的出遊；台灣 23:00＝當地 0:00（AA_341 J-S13）阿哲打視訊（接起來）', !OUT.get(G,'y3_final')&&!!q&&q.verb==='接起來'&&q.place==='視訊'&&G.flags.ZHE4_REPLY==='jp'&&!PHONE.sent(G,'y3_zhe4')); }
-  G.hour=24.1; Z1=await play('ev_zhe_said_it',[2]); check('4. 日本路線視訊選坐著（AA_336 C10）：「（他也沒說話。十二點，他把手機拿起來。）」「走啦。謝了。明天記得看直播。」、沒有「明天你要來喔」、開頭是視訊那句', !Z1.some(t=>/明天你要來喔/.test(t))&&has('（他也沒說話。十二點，他把手機拿起來。）')&&!has('（他也沒說話。十二點的時候他站起來。）')&&Z1.includes(NAME('zhe')+'：走啦。謝了。明天記得看直播。')&&Z1[0]==='（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）', JSON.stringify(Z1));
+  G.hour=24.1; Z1=await play('ev_zhe_said_it',[2]); check('4. 日本路線視訊選坐著（AA_336 C10；時間照 AA_377 第 2 項）：「（他也沒說話。臺灣十二點，你這邊一點。他把手機拿起來。）」「走啦。謝了。明天記得看直播。」、沒有「明天你要來喔」、開頭是視訊那句', !Z1.some(t=>/明天你要來喔/.test(t))&&has('（他也沒說話。臺灣十二點，你這邊一點。他把手機拿起來。）')&&!has('（他也沒說話。十二點的時候他站起來。）')&&Z1.includes(NAME('zhe')+'：走啦。謝了。明天記得看直播。')&&Z1[0]==='（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）', JSON.stringify(Z1));
   run(f29,18,21.75);
   check('4. Z3 直播：FINAL_GAME_Y3 stream；賽後明軒兩則（台灣 20:40＝當地 21:40，AA_341 J-S13）＋「恭喜！」「那出國呢？」', G.flags.FINAL_GAME_Y3==='stream'&&JSON.stringify(txt('p:classmate_mingxuan').slice(-2))===JSON.stringify(['classmate_mingxuan:冠軍。我九點家教，先走了。','classmate_mingxuan:……你看到了喔。我今天很用力。'])&&JSON.stringify((PHONE.byAsk(G,'y3_mx_stream')||{ask:{opts:[]}}).ask.opts.map(o=>o.t))==='["恭喜！","那出國呢？"]');
   { said=[]; G.hour=21; const st=GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r)); const n1=said.length; const st2=GROUP.tick(GM);

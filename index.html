@@ -40,7 +40,7 @@ button{font-family:var(--font);cursor:pointer}
 #dlg.static{opacity:.92;pointer-events:none}
 #choices button:active{background:rgba(233,185,106,.9);color:#1c1a17}
 #choices .hint{font-size:12px;color:#b7b0a4;margin-top:3px}
-#caption{position:absolute;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 66px);transform:translateX(-50%);max-width:min(620px,calc(100% - 40px));background:rgba(20,22,28,.7);border-radius:10px;padding:8px 14px;font-size:14px;line-height:1.5;color:#f4efe6;text-align:center;pointer-events:none;transition:opacity .3s}
+#caption{position:absolute;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 66px);transform:translateX(-50%);width:max-content;max-width:min(620px,calc(100% - 340px));background:rgba(20,22,28,.7);border-radius:10px;padding:8px 14px;font-size:14px;line-height:1.5;color:#f4efe6;text-align:center;pointer-events:none;transition:opacity .3s}
 #caption b{color:var(--accent);font-weight:500;margin-right:6px}
 #toast{position:absolute;left:50%;top:calc(max(8px,env(safe-area-inset-top)) + 56px);transform:translateX(-50%);background:rgba(233,185,106,.95);color:#1c1a17;padding:8px 16px;border-radius:16px;max-width:calc(100% - 32px);width:max-content;text-align:center;line-height:1.45;font-size:13px;pointer-events:none;transition:opacity .3s;box-shadow:0 6px 18px rgba(0,0,0,.3)}
 #letter{position:absolute;left:0;right:0;height:0;background:#000;transition:height .6s}
@@ -53,6 +53,7 @@ button{font-family:var(--font);cursor:pointer}
 /* panels */
 .panel{position:absolute;inset:0;background:rgba(10,12,16,.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);z-index:8}
 #fade{z-index:9}#title3{z-index:10}#toast{z-index:10}#loading{z-index:11}#rotate{z-index:12}#menu{z-index:9}#ui #letterT,#ui #letterB{z-index:5;pointer-events:none}#caption{z-index:6}
+#ui:has(#phone:not(.hide)) #toast,#ui:has(#menu:not(.hide)) #toast{top:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 6px)}   /* 手機、筆記本打開時通知條改到下面：原本在上面蓋住分頁列（BB218-P3 ②）*/
 .card{width:min(720px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;background:#161a22;border:1px solid var(--line);border-radius:16px;padding:16px 18px;color:#f4efe6;-webkit-user-select:text;user-select:text}
 .card h2{font-family:var(--serif);font-size:18px;margin:0 0 10px;color:var(--accent);letter-spacing:.1em}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
@@ -122,7 +123,7 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
 #bmCanvas{flex:1;width:100%;min-height:0;border-radius:12px;touch-action:none}#bigmap .bmTools{position:absolute;right:max(16px,calc(env(safe-area-inset-right) + 8px));bottom:calc(max(16px,env(safe-area-inset-bottom)) + 44px);display:flex;flex-direction:column;gap:10px}
 #bmPeople{position:absolute;left:max(16px,calc(env(safe-area-inset-left) + 8px));top:calc(max(8px,env(safe-area-inset-top)) + 60px);max-width:min(330px,calc(100% - 96px));max-height:52%;overflow:auto;background:rgba(22,26,32,.9);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:13px;line-height:1.55;color:#f4efe6}#bmPeople.hide{display:none}#bmPeople b{color:#ffd88a}
 #bmInfo{position:absolute;left:50%;transform:translateX(-50%);bottom:max(14px,env(safe-area-inset-bottom));max-width:calc(100% - 32px);background:rgba(255,200,90,.95);color:#1c1a17;border-radius:12px;padding:7px 14px;font-size:13px;text-align:center}#bmInfo.hide{display:none}
-@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw} #guide{position:absolute;left:0;top:112px;max-width:calc(100vw - 152px - env(safe-area-inset-left) - env(safe-area-inset-right));white-space:normal;line-height:1.35}}   /* 直向：導航條在「體力」那一列下面、小地圖左邊（2026-10-11 截圖：第三列會被體力那一列蓋住）*/
+@media (orientation:portrait){#rotate.want{display:flex} #hudR{top:calc(max(8px,env(safe-area-inset-top)) + 64px)} #minimap{top:calc(max(8px,env(safe-area-inset-top)) + 112px)} #goal{max-width:70vw} #guide{position:absolute;left:0;top:112px;max-width:calc(100vw - 152px - env(safe-area-inset-left) - env(safe-area-inset-right));white-space:normal;line-height:1.35} #nextClass{max-width:calc(100vw - var(--hudRw,190px) - 30px - env(safe-area-inset-left) - env(safe-area-inset-right))} #caption{bottom:calc(max(18px,env(safe-area-inset-bottom)) + 142px);max-width:calc(100% - 40px)}}   /* 直向：導航條在「體力」那一列下面、小地圖左邊（2026-10-11 截圖：第三列會被體力那一列蓋住）*/   /* 直向：「現在可以上課…」那一列和右邊的金額、手機、選單同高，寬度照右邊那一組實際的寬（--hudRw，game3d.js updateHUD 量）；字幕框移到搖桿、右下按鈕上面，橫向限制寬度不壓到搖桿和「坐下」；width:max-content＝長字幕用得到整個 max-width（原本 left:50% 只剩半個畫面寬，直向長字幕擠成四行）（BB 帳號 A 10-21 17:25 DONE-B01 實玩，UI-PORTRAIT-SIT-CAPTION／HUD-MONEY-1021）*/
 #fps{position:absolute;left:8px;bottom:4px;font:11px monospace;color:rgba(255,255,255,.5);pointer-events:none}
 #mdbg{position:absolute;left:max(10px,env(safe-area-inset-left));top:calc(max(8px,env(safe-area-inset-top)) + 150px);font:10px/1.35 monospace;color:#d8ffd8;background:rgba(0,0,0,.55);padding:6px 8px;border-radius:8px;white-space:pre;pointer-events:none;display:none;max-width:calc(100% - 20px)}
 </style></head>
@@ -188,145 +189,152 @@ select{font-family:var(--font);font-size:14px;background:#0d1016;color:#e8e2d6;b
     <div id="resumeNote" class="hide" style="margin:6px 0 8px;font-size:13px;line-height:1.5;color:#ffe9a8"></div><button class="btn" id="btnContinue">繼續（自動存檔）</button>
     <button class="btn" id="btnLoadMenu">讀取／匯入存檔</button>
     <div class="muted" style="margin-top:16px;font-size:12px">建議橫向遊玩。點地面移動、拖曳旋轉鏡頭。<br>所有人物與故事皆為虛構。</div>
-    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.10.3（2026-10-21）</div>
+    <div class="muted" id="verLabel" style="margin-top:8px;font-size:11px;opacity:.7">版本 v9.10.4（2026-10-22）</div>
   </div></div>
   <div id="rotate"><div>請把手機轉成橫向<br><span class="muted">（或直接點這裡繼續直向遊玩）</span></div></div>
   <div id="loading"><div style="font-family:var(--serif);letter-spacing:.2em;font-size:18px">法條之外</div><div id="bar"><i></i></div><div id="loadMsg">載入中…</div><button class="btn hide" id="btnRetry">重試</button></div>
 </div>
-<script src="lib/three.bundle.js?v=9.10.3"></script>
-<script src="lib/three.jsm.bundle.js?v=9.10.3"></script>
-<script src="lib/three-vrm.bundle.js?v=9.10.3"></script>
-<script src="src/people3d.js?v=9.10.3"></script>
-<script src="src/assets3d.js?v=9.10.3"></script>
-<script src="src/character3d.js?v=9.10.3"></script>
-<script src="src/props3d.js?v=9.10.3"></script>
-<script src="src/world3d.js?v=9.10.3"></script>
-<script src="src/engine3d.js?v=9.10.3"></script>
-<script src="src/townkit3d.js?v=9.10.3"></script>
-<script src="src/campuskit3d.js?v=9.10.3"></script>
-<script src="src/data/wz_park_layout.js?v=9.10.3"></script>
-<script src="src/data/wz_shops_layout.js?v=9.10.3"></script>
-<script src="src/data/lane118_layout.js?v=9.10.3"></script>
-<script src="src/data/lane118_shops.js?v=9.10.3"></script>
-<script src="src/data/lane118_props.js?v=9.10.3"></script>
-<script src="src/zones3d.js?v=9.10.3"></script>
-<script src="src/data/linze_layout.js?v=9.10.3"></script>
-<script src="src/data/classroom_layout.js?v=9.10.3"></script>
-<script src="src/building3d.js?v=9.10.3"></script>
-<script src="src/data/wancai_layout.js?v=9.10.3"></script>
-<script src="src/wancai3d.js?v=9.10.3"></script>
-<script src="src/data/library_layout.js?v=9.10.3"></script>
-<script src="src/library3d.js?v=9.10.3"></script>
-<script src="src/data/dorm_layout.js?v=9.10.3"></script>
-<script src="src/data/dorm_room_layout.js?v=9.10.3"></script>
-<script src="src/dorm3d.js?v=9.10.3"></script>
-<script src="src/data/lawlib_layout.js?v=9.10.3"></script>
-<script src="src/lawlib3d.js?v=9.10.3"></script>
-<script src="src/data/socsci_layout.js?v=9.10.3"></script>
-<script src="src/data/soclib_layout.js?v=9.10.3"></script>
-<script src="src/soclib3d.js?v=9.10.3"></script>
-<script src="src/data/gym_layout.js?v=9.10.3"></script>
-<script src="src/gym3d.js?v=9.10.3"></script>
-<script src="src/data/gongtong_layout.js?v=9.10.3"></script>
-<script src="src/data/boya_layout.js?v=9.10.3"></script>
-<script src="src/data/putong_layout.js?v=9.10.3"></script>
-<script src="src/teach3d.js?v=9.10.3"></script>
-<script src="src/audio3d.js?v=9.10.3"></script>
-<script src="src/data/characters.js?v=9.10.3"></script>
-<script src="src/data/portrait_manifest.js?v=9.10.3"></script>
-<script src="src/data/legal_qbank.js?v=9.10.3"></script>
-<script src="src/data/events.js?v=9.10.3"></script>
-<script src="src/data/camp_y1.js?v=9.10.3"></script>
-<script src="src/data/ladder.js?v=9.10.3"></script>
-<script src="src/social3d.js?v=9.10.3"></script>
-<script src="src/adv3d.js?v=9.10.3"></script>
-<script src="src/legal3d.js?v=9.10.3"></script>
-<script src="src/events3d.js?v=9.10.3"></script>
-<script src="src/data/calendar.js?v=9.10.3"></script>
-<script src="src/data/places.js?v=9.10.3"></script>
-<script src="src/data/activities.js?v=9.10.3"></script>
-<script src="src/data/invites.js?v=9.10.3"></script>
-<script src="src/data/rel_lines.js?v=9.10.3"></script>
-<script src="src/invites3d.js?v=9.10.3"></script>
-<script src="src/phone3d.js?v=9.10.3"></script>
-<script src="src/data/msg_pool.js?v=9.10.3"></script>
-<script src="src/data/msg2_pool.js?v=9.10.3"></script>
-<script src="src/data/msg_kx_y0.js?v=9.10.3"></script>
-<script src="src/msg3d.js?v=9.10.3"></script>
-<script src="src/outings3d.js?v=9.10.3"></script>
-<script src="src/data/hometown_lines.js?v=9.10.3"></script>
-<script src="src/hometown3d.js?v=9.10.3"></script>
-<script src="src/lane118.js?v=9.10.3"></script>
-<script src="src/data/l118_shop_layouts.js?v=9.10.3"></script>
-<script src="src/l118_shops3d.js?v=9.10.3"></script>
-<script src="src/data/linze_upper_layouts.js?v=9.10.3"></script>
-<script src="src/linze_upper3d.js?v=9.10.3"></script>
-<script src="src/data/room_glb_layouts.js?v=9.10.3"></script>
-<script src="src/rooms_glb3d.js?v=9.10.3"></script>
-<script src="src/exchange3d.js?v=9.10.3"></script>
-<script src="src/data/us_layouts.js?v=9.10.3"></script>
-<script src="src/us3d.js?v=9.10.3"></script>
-<script src="src/data/free_trips.js?v=9.10.3"></script>
-<script src="src/freetrip3d.js?v=9.10.3"></script>
-<script src="src/data/encounters.js?v=9.10.3"></script>
-<script src="src/data/enc_walk.js?v=9.10.3"></script>
-<script src="src/encounter3d.js?v=9.10.3"></script>
-<script src="src/wzpark3d.js?v=9.10.3"></script>
-<script src="src/wzshops3d.js?v=9.10.3"></script>
-<script src="src/data/home_lines.js?v=9.10.3"></script>
-<script src="src/data/needed_msgs.js?v=9.10.3"></script>
-<script src="src/home3d.js?v=9.10.3"></script>
-<script src="src/data/retake_home.js?v=9.10.3"></script>
-<script src="src/econff3d.js?v=9.10.3"></script>
-<script src="src/romance3d.js?v=9.10.3"></script>
-<script src="src/data/date_locations.js?v=9.10.3"></script>
-<script src="src/data/date_lines.js?v=9.10.3"></script>
-<script src="src/data/confess_lines.js?v=9.10.3"></script>
-<script src="src/date3d.js?v=9.10.3"></script>
-<script src="src/data/termend_lines.js?v=9.10.3"></script>
-<script src="src/termend3d.js?v=9.10.3"></script>
-<script src="src/data/vac_activities.js?v=9.10.3"></script>
-<script src="src/vac3d.js?v=9.10.3"></script>
-<script src="src/game3d.js?v=9.10.3"></script>
-<script src="src/guide3d.js?v=9.10.3"></script>
-<script src="src/story3d.js?v=9.10.3"></script>
-<script src="src/holff3d.js?v=9.10.3"></script>
-<script src="src/data/courses.js?v=9.10.3"></script>
-<script src="src/data/syllabus.js?v=9.10.3"></script>
-<script src="src/data/exam_bank.js?v=9.10.3"></script>
-<script src="src/classes3d.js?v=9.10.3"></script>
-<script src="src/crowd3d.js?v=9.10.3"></script>
-<script src="src/bike3d.js?v=9.10.3"></script>
-<script src="src/data/postgrad_lines.js?v=9.10.3"></script>
-<script src="src/postgrad3d.js?v=9.10.3"></script>
-<script src="src/data/eat_lines.js?v=9.10.3"></script>
-<script src="src/eat3d.js?v=9.10.3"></script>
-<script src="src/noodle_closed3d.js?v=9.10.3"></script>
-<script src="src/data/y2b_events.js?v=9.10.3"></script>
-<script src="src/y2b3d.js?v=9.10.3"></script>
-<script src="src/data/group_events.js?v=9.10.3"></script>
-<script src="src/group3d.js?v=9.10.3"></script>
-<script src="src/y34b3d.js?v=9.10.3"></script>
-<script src="src/y2r2_3d.js?v=9.10.3"></script>
-<script src="src/sis_grad3d.js?v=9.10.3"></script>
-<script src="src/data/r2y3a_events.js?v=9.10.3"></script>
-<script src="src/r2y3a3d.js?v=9.10.3"></script>
-<script src="src/data/r2y3b_events.js?v=9.10.3"></script>
-<script src="src/r2y3b3d.js?v=9.10.3"></script>
-<script src="src/data/jp_events.js?v=9.10.3"></script>
-<script src="src/jp3d.js?v=9.10.3"></script>
-<script src="src/data/jp_dorm_layouts.js?v=9.10.3"></script>
-<script src="src/jp_dorm3d.js?v=9.10.3"></script>
-<script src="src/data/r2y4a_events.js?v=9.10.3"></script>
-<script src="src/r2y4a3d.js?v=9.10.3"></script>
-<script src="src/data/r2y4b_events.js?v=9.10.3"></script>
-<script src="src/r2y4b3d.js?v=9.10.3"></script>
-<script src="src/data/r3_events.js?v=9.10.3"></script>
-<script src="src/r3_3d.js?v=9.10.3"></script>
-<script src="src/data/us_life_events.js?v=9.10.3"></script>
-<script src="src/us_life3d.js?v=9.10.3"></script>
-<script src="src/y5s1_3d.js?v=9.10.3"></script>
-<script src="src/data/y1fill_events.js?v=9.10.3"></script>
-<script src="src/y1fill3d.js?v=9.10.3"></script>
+<script src="lib/three.bundle.js?v=9.10.4"></script>
+<script src="lib/three.jsm.bundle.js?v=9.10.4"></script>
+<script src="lib/three-vrm.bundle.js?v=9.10.4"></script>
+<script src="src/people3d.js?v=9.10.4"></script>
+<script src="src/assets3d.js?v=9.10.4"></script>
+<script src="src/character3d.js?v=9.10.4"></script>
+<script src="src/props3d.js?v=9.10.4"></script>
+<script src="src/world3d.js?v=9.10.4"></script>
+<script src="src/engine3d.js?v=9.10.4"></script>
+<script src="src/townkit3d.js?v=9.10.4"></script>
+<script src="src/campuskit3d.js?v=9.10.4"></script>
+<script src="src/data/wz_park_layout.js?v=9.10.4"></script>
+<script src="src/data/wz_shops_layout.js?v=9.10.4"></script>
+<script src="src/data/lane118_layout.js?v=9.10.4"></script>
+<script src="src/data/lane118_shops.js?v=9.10.4"></script>
+<script src="src/data/lane118_props.js?v=9.10.4"></script>
+<script src="src/zones3d.js?v=9.10.4"></script>
+<script src="src/data/linze_layout.js?v=9.10.4"></script>
+<script src="src/data/classroom_layout.js?v=9.10.4"></script>
+<script src="src/building3d.js?v=9.10.4"></script>
+<script src="src/data/wancai_layout.js?v=9.10.4"></script>
+<script src="src/wancai3d.js?v=9.10.4"></script>
+<script src="src/data/library_layout.js?v=9.10.4"></script>
+<script src="src/library3d.js?v=9.10.4"></script>
+<script src="src/data/dorm_layout.js?v=9.10.4"></script>
+<script src="src/data/dorm_room_layout.js?v=9.10.4"></script>
+<script src="src/dorm3d.js?v=9.10.4"></script>
+<script src="src/data/lawlib_layout.js?v=9.10.4"></script>
+<script src="src/lawlib3d.js?v=9.10.4"></script>
+<script src="src/data/socsci_layout.js?v=9.10.4"></script>
+<script src="src/data/soclib_layout.js?v=9.10.4"></script>
+<script src="src/soclib3d.js?v=9.10.4"></script>
+<script src="src/data/gym_layout.js?v=9.10.4"></script>
+<script src="src/gym3d.js?v=9.10.4"></script>
+<script src="src/data/gongtong_layout.js?v=9.10.4"></script>
+<script src="src/data/boya_layout.js?v=9.10.4"></script>
+<script src="src/data/putong_layout.js?v=9.10.4"></script>
+<script src="src/teach3d.js?v=9.10.4"></script>
+<script src="src/audio3d.js?v=9.10.4"></script>
+<script src="src/data/characters.js?v=9.10.4"></script>
+<script src="src/data/portrait_manifest.js?v=9.10.4"></script>
+<script src="src/data/legal_qbank.js?v=9.10.4"></script>
+<script src="src/data/events.js?v=9.10.4"></script>
+<script src="src/data/camp_y1.js?v=9.10.4"></script>
+<script src="src/data/ladder.js?v=9.10.4"></script>
+<script src="src/social3d.js?v=9.10.4"></script>
+<script src="src/adv3d.js?v=9.10.4"></script>
+<script src="src/legal3d.js?v=9.10.4"></script>
+<script src="src/events3d.js?v=9.10.4"></script>
+<script src="src/data/calendar.js?v=9.10.4"></script>
+<script src="src/data/places.js?v=9.10.4"></script>
+<script src="src/data/activities.js?v=9.10.4"></script>
+<script src="src/data/invites.js?v=9.10.4"></script>
+<script src="src/data/rel_lines.js?v=9.10.4"></script>
+<script src="src/invites3d.js?v=9.10.4"></script>
+<script src="src/phone3d.js?v=9.10.4"></script>
+<script src="src/data/msg_pool.js?v=9.10.4"></script>
+<script src="src/data/msg2_pool.js?v=9.10.4"></script>
+<script src="src/data/msg_kx_y0.js?v=9.10.4"></script>
+<script src="src/msg3d.js?v=9.10.4"></script>
+<script src="src/outings3d.js?v=9.10.4"></script>
+<script src="src/data/hometown_lines.js?v=9.10.4"></script>
+<script src="src/hometown3d.js?v=9.10.4"></script>
+<script src="src/lane118.js?v=9.10.4"></script>
+<script src="src/data/l118_shop_layouts.js?v=9.10.4"></script>
+<script src="src/l118_shops3d.js?v=9.10.4"></script>
+<script src="src/data/linze_upper_layouts.js?v=9.10.4"></script>
+<script src="src/linze_upper3d.js?v=9.10.4"></script>
+<script src="src/data/room_glb_layouts.js?v=9.10.4"></script>
+<script src="src/rooms_glb3d.js?v=9.10.4"></script>
+<script src="src/exchange3d.js?v=9.10.4"></script>
+<script src="src/data/us_layouts.js?v=9.10.4"></script>
+<script src="src/us3d.js?v=9.10.4"></script>
+<script src="src/data/free_trips.js?v=9.10.4"></script>
+<script src="src/freetrip3d.js?v=9.10.4"></script>
+<script src="src/data/encounters.js?v=9.10.4"></script>
+<script src="src/data/enc_walk.js?v=9.10.4"></script>
+<script src="src/encounter3d.js?v=9.10.4"></script>
+<script src="src/wzpark3d.js?v=9.10.4"></script>
+<script src="src/wzshops3d.js?v=9.10.4"></script>
+<script src="src/data/home_lines.js?v=9.10.4"></script>
+<script src="src/data/needed_msgs.js?v=9.10.4"></script>
+<script src="src/home3d.js?v=9.10.4"></script>
+<script src="src/data/retake_home.js?v=9.10.4"></script>
+<script src="src/econff3d.js?v=9.10.4"></script>
+<script src="src/romance3d.js?v=9.10.4"></script>
+<script src="src/data/date_locations.js?v=9.10.4"></script>
+<script src="src/data/date_lines.js?v=9.10.4"></script>
+<script src="src/data/confess_lines.js?v=9.10.4"></script>
+<script src="src/date3d.js?v=9.10.4"></script>
+<script src="src/data/termend_lines.js?v=9.10.4"></script>
+<script src="src/termend3d.js?v=9.10.4"></script>
+<script src="src/data/vac_activities.js?v=9.10.4"></script>
+<script src="src/vac3d.js?v=9.10.4"></script>
+<script src="src/game3d.js?v=9.10.4"></script>
+<script src="src/guide3d.js?v=9.10.4"></script>
+<script src="src/story3d.js?v=9.10.4"></script>
+<script src="src/holff3d.js?v=9.10.4"></script>
+<script src="src/data/courses.js?v=9.10.4"></script>
+<script src="src/data/syllabus.js?v=9.10.4"></script>
+<script src="src/data/exam_bank.js?v=9.10.4"></script>
+<script src="src/classes3d.js?v=9.10.4"></script>
+<script src="src/crowd3d.js?v=9.10.4"></script>
+<script src="src/bike3d.js?v=9.10.4"></script>
+<script src="src/data/postgrad_lines.js?v=9.10.4"></script>
+<script src="src/postgrad3d.js?v=9.10.4"></script>
+<script src="src/data/eat_lines.js?v=9.10.4"></script>
+<script src="src/eat3d.js?v=9.10.4"></script>
+<script src="src/noodle_closed3d.js?v=9.10.4"></script>
+<script src="src/data/y2b_events.js?v=9.10.4"></script>
+<script src="src/y2b3d.js?v=9.10.4"></script>
+<script src="src/data/group_events.js?v=9.10.4"></script>
+<script src="src/group3d.js?v=9.10.4"></script>
+<script src="src/y34b3d.js?v=9.10.4"></script>
+<script src="src/y2r2_3d.js?v=9.10.4"></script>
+<script src="src/sis_grad3d.js?v=9.10.4"></script>
+<script src="src/data/r2y3a_events.js?v=9.10.4"></script>
+<script src="src/r2y3a3d.js?v=9.10.4"></script>
+<script src="src/data/r2y3b_events.js?v=9.10.4"></script>
+<script src="src/r2y3b3d.js?v=9.10.4"></script>
+<script src="src/data/jp_events.js?v=9.10.4"></script>
+<script src="src/jp3d.js?v=9.10.4"></script>
+<script src="src/data/jp_dorm_layouts.js?v=9.10.4"></script>
+<script src="src/jp_dorm3d.js?v=9.10.4"></script>
+<script src="src/data/r2y4a_events.js?v=9.10.4"></script>
+<script src="src/r2y4a3d.js?v=9.10.4"></script>
+<script src="src/data/r2y4b_events.js?v=9.10.4"></script>
+<script src="src/r2y4b3d.js?v=9.10.4"></script>
+<script src="src/data/r3_events.js?v=9.10.4"></script>
+<script src="src/r3_3d.js?v=9.10.4"></script>
+<script src="src/data/us_life_events.js?v=9.10.4"></script>
+<script src="src/us_life3d.js?v=9.10.4"></script>
+<script src="src/y5s1_3d.js?v=9.10.4"></script>
+<script src="src/data/pg_dates.js?v=9.10.4"></script>
+<script src="src/pgdates3d.js?v=9.10.4"></script>
+<script src="src/kxod3d.js?v=9.10.4"></script>
+<script src="src/data/y1fill_events.js?v=9.10.4"></script>
+<script src="src/y1fill3d.js?v=9.10.4"></script>
+<script src="src/data/y3fill_events.js?v=9.10.4"></script>
+<script src="src/y3fill3d.js?v=9.10.4"></script>
+<script src="src/data/sis_y2y3_events.js?v=9.10.4"></script>
+<script src="src/sis_y2y3_3d.js?v=9.10.4"></script>
 <script>GAME.boot();</script>
 </body></html>

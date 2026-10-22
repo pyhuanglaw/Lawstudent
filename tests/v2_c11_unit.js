@@ -1,6 +1,6 @@
 // 交接包 v2 C11、C21 第二個畫面（AA 2026-10-14 64ceb70）：大一下期中考完（刑總二，第 8 週週三）——G1 大一下版＋晚上 19:00 阿鳳麵店長桌——不需要瀏覽器。
 // 修改前沒有 ev_midterm_walkout_y1s2（第 1 項失敗）。檢查：G1 的兩句、沒有選項（沒有群組的玩家最後被當面問）；群組揪人的時間與排程；「去。」才排、「這次不行。」不排；
-//   晚餐的開頭（認識小語才有）、明軒的回聲（SAW_HIM_STUDY）、沛珊和柏翰（認識沛珊才有）；沒去的群組成員 20:30 收到「……喔。」＋滷蛋照片、記聽說；不去不扣分；大一上不受影響
+//   晚餐的開頭（認識小語才有）、明軒的回聲（SAW_HIM_STUDY）、沛珊和柏翰（認識沛珊才有）；沒去的群組成員 20:30 收到滷蛋照片＋「柏翰幫沛珊切的。」「……他們在一起了。」（AA_373 #16，照交接包 v2）、記聽說；不去不扣分；大一上不受影響
 // 用法：node tests/v2_c11_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -57,7 +57,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 晚餐 */
   const dinner=async(setup,pk)=>{ fresh(midDay,18.9,'campus',{}); meet('zhe'); if(setup) setup(); picks=pk||[]; await EVENTS.run(sup); return lines(); };
   L=await dinner(()=>{ meet('yu'); });
-  check('5. 開頭：旁白「（阿姨的手腕綁著護腕。今天端麵的是語彤。）」（AA_185 3-8）；認識小語：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（阿姨的手腕綁著護腕。今天端麵的是語彤。）','小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
+  check('5. 開頭：旁白（還沒認識語彤＝「（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）」，AA_373 #15；認識的照 AA_185 3-8「…今天端麵的是語彤。」，見 aa373_y1s2）；認識小語：小語「今天不講考試。誰講誰請。」阿哲「那第二題——」小語「你請。」阿哲「我還沒講完！」',JSON.stringify(L.slice(0,5))===JSON.stringify(['（阿姨的手腕綁著護腕。今天端麵的是一個沒見過的女生。）','小語：今天不講考試。誰講誰請。','阿哲：那第二題——','小語：你請。','阿哲：我還沒講完！']),JSON.stringify(L));
   L=await dinner(null); check('5. 不認識小語：沒有那四句',!L.some(l=>l.includes('誰講誰請')),JSON.stringify(L));
   L=await dinner(()=>{ meet('classmate_mingxuan'); SOCIAL.remember('classmate_mingxuan','SAW_HIM_STUDY',''); },['他有念']);
   check('6. 明軒的回聲（SAW_HIM_STUDY）：阿哲「明軒說他這次也沒念。」→「……他有念。我看到了。」→（他低頭吃了一口麵）明軒「……好啦，這次我請。」（AA_209）',L.includes('阿哲：明軒說他這次也沒念。')&&JSON.stringify(opts[0])==='["「……他有念。我看到了。」","（繼續吃麵）"]'&&L.includes('（他低頭吃了一口麵）')&&L.some(l=>l.endsWith('……好啦，這次我請。'))&&G.flags.SUPPER2_MX===true,JSON.stringify({L,opts}));
@@ -71,7 +71,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     OUT.plan(G,{id:'supper_mid2',ev:'ev_midterm_supper_y1s2',day:midDay,h:19,place:'阿鳳麵店',title:'考完的晚餐',travelH:1/6}); G.hour=20; OUT.tick(GM); run(20,21,0.1);
     return {o:OUT.get(G,'supper_mid2'),msgs:G.msgs.filter(m=>m.tag==='zhe_supper_mid2_egg'),same:JSON.stringify(G.social.rel)===r0&&G.energy===e0&&G.money===m0}; };
   let r=await miss(true,true);
-  check('8. 沒去（在群組、認識沛珊）：20:30 群組阿哲「……喔。」＋切成兩半的滷蛋照片，記「聽說」',r.o.state==='missed'&&r.msgs.length===2&&r.msgs[0].text==='……喔。'&&r.msgs[1].text.includes('滷蛋')&&r.msgs[0].h>=20.5&&SOCIAL.has('classmate_peishan','HEARD_ABOUT'),JSON.stringify({o:r.o&&r.o.state,m:r.msgs.map(m=>[m.h,m.text])}));
+  check('8. 沒去（在群組、認識沛珊）：20:30 群組阿哲切成兩半的滷蛋照片，配「柏翰幫沛珊切的。」「……他們在一起了。」（AA_373 #16，照交接包 v2），記「聽說」',r.o.state==='missed'&&r.msgs.length===3&&r.msgs[0].text.includes('滷蛋')&&r.msgs[1].text==='柏翰幫沛珊切的。'&&r.msgs[2].text==='……他們在一起了。'&&r.msgs[0].h>=20.5&&SOCIAL.has('classmate_peishan','HEARD_ABOUT'),JSON.stringify({o:r.o&&r.o.state,m:r.msgs.map(m=>[m.h,m.text])}));
   r=await miss(true,false); check('8. 沒去、不認識沛珊：沒有那兩則',r.msgs.length===0);
   r=await miss(false,true); check('8. 沒去、不在群組：沒有那兩則',r.msgs.length===0);
   check('8. 不去不扣分（關係、體力、錢都不變）',r.same);

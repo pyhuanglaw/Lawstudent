@@ -4,7 +4,8 @@
   左下 512²：樟樹葉叢 B（另一組亂數、混一點黃綠的新葉）     右下：大王椰子的羽片（256×512：一側的小葉，葉軸在左邊）、
   氣根（128×512：榕樹垂下來的細根）、葉鞘（128×128：大王椰子頂端光滑的綠色葉鞘）
 透明的像素先把顏色往外擴（避免縮圖、mipmap 時葉緣出現黑邊）。輸出 textures/gen/tree_leaves.png（本作程式產生，固定亂數種子）。
-用法：/opt/blenv/bin/python tools/blender/env_second/tree_atlas.py [--threads N] [--samples 24]"""
+用法：/opt/blenv/bin/python tools/blender/env_second/tree_atlas.py [--threads N] [--samples 24]
+      /opt/blenv/bin/python tools/blender/env_second/tree_atlas.py --lift-roots（只把現有貼圖的氣根那一格調亮，不重新渲染；之後要重建 street_trees.glb）"""
 import math, os, random, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
 import bpy, bmesh   # noqa: E402
@@ -199,6 +200,24 @@ def bleed(im, it=12):
     a[..., :3] = rgb; from PIL import Image; return Image.fromarray(a.clip(0, 255).astype('uint8'), 'RGBA')
 
 
+ROOTS_BOX = (768, 512, 896, 1024)   # 氣根那一格（x0, y0, x1, y1）
+ROOTS_TARGET = (212, 200, 184)       # 氣根的平均顏色（sRGB）
+
+
+def lift_roots(atlas):
+    """氣根那一格調亮到平均 ROOTS_TARGET（每個像素照同一個比例，明暗、分岔照舊；透明像素一起乘，擴出去的顏色跟著變）。
+    原因（ART-ECON-3D-GAP-1021，巡場景 P2「榕樹氣根是黑線」）：氣根垂在樹冠下面，遊戲裡在陰影中只吃到環境光，
+    原本 #6e6458 渲染出來平均約 (130,123,115)，乘上光以後畫面上是一條條黑線；真的榕樹氣根在樹蔭下是灰褐色。
+    照平均色縮放：已經是目標就不變（可以重複執行）"""
+    import numpy as np
+    from PIL import Image
+    reg = np.asarray(atlas.crop(ROOTS_BOX)).astype(np.float32); op = reg[..., 3] > 8
+    if not op.any(): return atlas
+    k = np.array(ROOTS_TARGET, np.float32) / np.maximum(reg[op][:, :3].mean(axis=0), 1.0)
+    reg[..., :3] = np.clip(reg[..., :3] * k, 0, 255)
+    atlas.paste(Image.fromarray(reg.round().astype('uint8'), 'RGBA'), ROOTS_BOX[:2]); return atlas
+
+
 def main():
     from PIL import Image
     cam_cols = [srgb('#5e8a36'), srgb('#6a9640'), srgb('#557f30'), srgb('#4f772e'), srgb('#729c44')]
@@ -236,10 +255,13 @@ def main():
     put('frond', (512, 512, 768, 1024), crop=(0, 0, int(2048 * 1.0 / 3.6), 2048))
     # 氣根：渲染圖 x∈[-1.5,1.5] 要中間 x∈[-0.225,0.225]
     c0 = int(2048 * (1.5 - 0.225) / 3.0); c1 = int(2048 * (1.5 + 0.225) / 3.0)
-    put('roots', (768, 512, 896, 1024), crop=(c0, 0, c1, 2048))
+    put('roots', ROOTS_BOX, crop=(c0, 0, c1, 2048)); lift_roots(atlas)
     put('crownshaft', (896, 512, 1024, 640))
     atlas = bleed(atlas); atlas.save(OUT); print('atlas', OUT, flush=True)
 
 
 if __name__ == '__main__':
-    main()
+    if '--lift-roots' in A:
+        from PIL import Image
+        im = Image.open(OUT).convert('RGBA'); lift_roots(im).save(OUT); print('lift roots', OUT, flush=True)
+    else: main()

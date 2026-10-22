@@ -135,7 +135,7 @@ const CAMP_Y1_EVENTS=[
 
   /* 8/22 21:30 夜遊、22:30 熄燈（AA_205 6-5；BB_177 第 5 節：跟 Kevin 走＝破綻 3、看過兩個以上破綻可以問他）*/
   { id:'ev_camp_d1_walk', stage:'any', title:'迎新宿營：夜遊', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
-    dialogue:[ {scene:'營地後面的步道',bg:'camp_trail'},
+    dialogue:[ {scene:'營地後面的步道',bg:'camp_trail_night'},   /* 晚上：白天的步道圖調暗（BG-CAMP-NIGHT-TRAIL-1021）*/
       {speaker:null,text:'（九點半，小隊輔帶小隊走營地後面的步道。沒有路燈，大家把手機的手電筒打開。）'},
       {choice:[{text:'走前面',goto:'front'},{text:'走後面',goto:'back'},{text:'跟凱文走在一起',goto:'kv'}]},
       {label:'front'},{speaker:null,text:'（走到一半，有人說看到星星了。真的有，很多。）'},{goto:'end'},

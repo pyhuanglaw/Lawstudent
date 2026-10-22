@@ -41,7 +41,7 @@ const ADV2=global.ADV; ADV2.active=false;
   check('3. 三個選項：出發／改時間／今天不去了',JSON.stringify(opts[0])==='["出發","改時間","今天不去了"]',JSON.stringify(opts[0]));
   check('3. 出發 → 做了三個互動點 → 算一次、心願（淡水＝語彤）成立、DATED_1',res==='go'&&t.status==='done'&&t.spots.length===3&&L.count===1&&L.wish&&G.flags.DATED_1_heroine_03===true,JSON.stringify({res,status:t.status,spots:t.spots,count:L.count}));
   check('3. 結算：第一次去這個地點＋心願（她的戀愛 +5+4、祐廷 +4、信任 +2+3 以上）',R1.npcRom-R0.npcRom>=9&&R1.rom-R0.rom>=4&&R1.trust-R0.trust>=5,JSON.stringify({npcRom:R1.npcRom-R0.npcRom,rom:R1.rom-R0.rom,trust:R1.trust-R0.trust}));
-  check('3. 扣錢：交通來回＋互動點花費（飲料 60）',money0-G.money===tr.fare*2+60,money0-G.money);
+  check('3. 扣錢：交通來回（地點資料的 fare 就是來回，BUG-DATE-FARE-DOUBLE-1021）＋互動點花費（飲料 60）',money0-G.money===tr.fare+60,money0-G.money);
   check('3. 回到台大的時間在 19:30 之前（傍晚行程）',G.day===day&&G.hour<19.6,G.hour);
   check('3. 出遊標 done（不會再問）',q.state==='done'&&!OUT.due(G));
   // 遲到超過 60 分鐘

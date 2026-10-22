@@ -43,8 +43,8 @@ const after=async(day)=>{ G.day=day; G.weekday=wdOf(day); G.hour=12.17; G.zone='
   picks=['一起去']; r=await after(F5); const L2=lines();
   check('5. 第二次＝1-2：旁白＋芯慈加入前的輪替句（第一句）',L2[1]==='週五的活大。品妤點的永遠是同一個便當，阿勳永遠在講統計。'&&L2[2]==='品妤：你們法律系的期中考，也要背那麼多嗎？',JSON.stringify(L2));
   picks=['一起去']; G.flags.ECON_PAST_SHARED='half'; r=await after(F7); const L3=lines();
-  check('6. 去過兩次以後的下一次＝1-3 芯慈走進小福：開場三句＋不是 full 只有第二、三個選項',L3[1]==='芯慈端著餐盤走進來，看見阿勳，停住了。'&&L3.includes('吳芯慈：欸，你是統計課那個……')&&JSON.stringify(opts[1])==='["「我們一起住過一年。」","（笑一笑帶過）"]',JSON.stringify({L3,o:opts[1]}));
-  check('6. 選「我們一起住過一年。」：祐廷「他保齡球打得比我好太多了。」（AA_305 第 9 節）、芯慈「那一年的事你之後要講給我聽。」（AA_209）、ECON_PAST_SHARED 變 full；收尾兩句；記 ECON_LAW_BRIDGE',L3.includes('祐廷：他保齡球打得比我好太多了。')&&L3.includes('吳芯慈：那一年的事你之後要講給我聽。')&&G.flags.ECON_PAST_SHARED==='full'&&L3.slice(-2).join('｜')==='品妤：好，多一個人。這桌要換大一點的。｜阿勳：每週五，同一桌。'&&G.flags.ECON_LAW_BRIDGE===true,JSON.stringify(L3.slice(-4)));
+  check('6. 去過兩次以後的下一次＝1-3 芯慈走進小福：開場三句＋不是 full 只有第二、三個選項',L3[1]==='芯慈端著餐盤走進來，看見阿勳，停住了。'&&L3.includes('吳芯慈：欸，你是統計課那個……')&&JSON.stringify(opts[1])==='["「我們當過室友。」","（笑一笑帶過）"]'/* AA_373 #4（原本「我們一起住過一年。」）*/,JSON.stringify({L3,o:opts[1]}));
+  check('6. 選「我們當過室友。」（AA_373 #4）：祐廷「他保齡球打得比我好太多了。」（AA_305 第 9 節）、芯慈「那一年的事你之後要講給我聽。」（AA_209）、ECON_PAST_SHARED 變 full；收尾兩句；記 ECON_LAW_BRIDGE',L3.includes('祐廷：他保齡球打得比我好太多了。')&&L3.includes('吳芯慈：那一年的事你之後要講給我聽。')&&G.flags.ECON_PAST_SHARED==='full'&&L3.slice(-2).join('｜')==='品妤：好，多一個人。這桌要換大一點的。｜阿勳：每週五，同一桌。'&&G.flags.ECON_LAW_BRIDGE===true,JSON.stringify(L3.slice(-4)));
   picks=['一起去']; r=await after(F9); const L4=lines();
   check('7. 芯慈加入以後：用加入後的輪替句（阿勳那句 AA_305 第 9 節改「今天輪你請飲料」）',['吳芯慈：統計的筆記我帶來了。誰要先吵？','品妤：芯慈，妳的雙主修還活著嗎？','阿勳：法律系的，今天輪你請飲料。'].includes(L4[2]),JSON.stringify(L4));
   // full 的玩家：只有第一個選項

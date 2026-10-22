@@ -54,8 +54,8 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   check('2. 法服「先問事實」、只認識語彤（不認識柏翰）：沒有「……這句，是學姊的。」',L.includes('新生：學長，法服是做什麼的？')&&!L.some(t=>t.endsWith('……這句，是學姊的。')),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_lawclub_study:true}); G.stage='law'; at(-13.5,13.6); picks=['法服','幫人看']; tick(); await wait(); L=lines();
   check('2. 法服「幫人看法律問題。」：新生「那你很厲害耶。」＋旁白；學姊不說話',L.includes('新生：那你很厲害耶。')&&L.includes('你想說「我只是坐在旁邊做紀錄」，最後沒說。')&&!L.some(t=>/順序對了/.test(t)),JSON.stringify(L));
-  fresh(d16,15,'campus',{CLUB_dept_basketball:true}); G.stage='law'; at(-13.5,13.6); picks=['系籃']; tick(); await wait(); L=lines();
-  check('3. 系籃：阿哲兩句、祐廷「……我們很常練。」',L.some(t=>t.endsWith('哥，你站這裡。身高夠，看起來很會打。'))&&L.includes('祐廷：……我們很常練。'),JSON.stringify(L));
+  fresh(d16,15,'campus',{CLUB_dept_basketball:true,ZHE_CALLS_GE:true}); G.stage='law'; at(-13.5,13.6); picks=['系籃']; tick(); await wait(); L=lines();   /* AA_374 第 7 項：有「哥」的玩家（ZHE_CALLS_GE）照原句 */
+  check('3. 系籃（叫你哥的玩家）：阿哲兩句、祐廷「……我們很常練。」',L.some(t=>t.endsWith('哥，你站這裡。身高夠，看起來很會打。'))&&L.includes('祐廷：……我們很常練。'),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_club_debate:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 辯論社',L.includes('社長：……這句我們寫在傳單上。'),JSON.stringify(L));
   fresh(d16,15,'campus',{CLUB_club_hiking:true}); G.stage='law'; at(-13.5,13.6); tick(); await wait(); L=lines(); check('3. 登山社',L.includes('祐廷：會。可是下山的時候，你會想再去一次。'),JSON.stringify(L));
   // 都沒加入

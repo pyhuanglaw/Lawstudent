@@ -1,11 +1,10 @@
 {
- "objects": 74,
- "unique_meshes": 54,
+ "objects": 75,
+ "unique_meshes": 55,
  "tris": 25352,
  "tris_drawn": 30544,
- "materials": 57,
+ "materials": 58,
  "out": "assets/models/env/second_ai/cafe_interior.glb",
- "bytes": 1440264,
- "texres": 512,
- "version": "wz4"
+ "bytes": 1441784,
+ "texres": 512
 }

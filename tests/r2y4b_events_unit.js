@@ -431,22 +431,25 @@ const date=id=>H.date(id);
   { fresh('2028-09-27',20,'dorm',{},'TW'); H.FRIEND('heroine_05'); date('heroine_05'); at('2028-09-27',21); phone();
     check('2-Y4-56 不是美國路線：沒有（台灣、日本路線見 2-Y4-57）', !OUT.get(H.G,'y4_us_canyon')&&!th('p:heroine_05').includes('機票我看好了，飛到鳳凰城，在那邊租車。')); }
   /* ===== 2-Y4-57 台灣、日本路線：學姊在美國——訊息、視訊、秋假大峽谷（告白）===== */
-  { fresh('2028-08-06',20,'dorm',{},'TW'); H.FAMILIAR('heroine_05'); at('2028-08-07',9); phone();
-    check('2-Y4-57 T1（第 4 階以下）：她那邊週日 21:00＝臺灣週一 09:00，「（照片：機場的行李轉盤）」「到了。」；SIS_ABROAD_TIER 1', JSON.stringify(th('p:heroine_05'))===JSON.stringify(['（照片：機場的行李轉盤）','到了。'])&&H.G.flags.SIS_ABROAD_TIER===1);
+  { fresh('2028-08-03',6,'dorm',{},'TW'); H.FAMILIAR('heroine_05'); at('2028-08-03',7); phone(); const arr=th('p:heroine_05').slice();
+    at('2028-08-07',9); phone();
+    check('2-Y4-57 T1（第 4 階以下）：8/3 不另外傳「到了。」（AA_378 S1 更正 5cd35678：8/3 09:00 家族群組已經有 US0）；臺灣週一 09:00 第一則「我買了一罐太大的花生醬。」；SIS_ABROAD_TIER 1', JSON.stringify(arr)==='[]'&&JSON.stringify(th('p:heroine_05'))===JSON.stringify(['（照片：超市的花生醬貨架）','我買了一罐太大的花生醬。'])&&H.G.flags.SIS_ABROAD_TIER===1);
     at('2028-08-14',9); phone(); const n1=th('p:heroine_05').length; at('2028-08-21',9); phone();
-    check('2-Y4-57 T1 兩週一則、照順序輪（第二則「我買了一罐太大的花生醬。」）', n1===2&&th('p:heroine_05').includes('我買了一罐太大的花生醬。')); }
+    check('2-Y4-57 T1 兩週一則、照順序（第二則「這邊的圖書館開到半夜兩點。」）', n1===2&&th('p:heroine_05').includes('這邊的圖書館開到半夜兩點。')); }
   { fresh('2028-08-06',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); at('2028-08-07',9); phone(); const m=PHONE.byAsk(H.G,'y4_sa_t2_0');
-    check('2-Y4-57 T2（第 4～5 階）：一週一則，會問你的事、要有回覆按鈕（「還好，不算太滿。」／「很滿。」）；她不再回', th('p:heroine_05').includes('論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。')&&th('p:heroine_05').includes('你大四上的課排得怎樣？')&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='還好，不算太滿。|很滿。'&&(answer('y4_sa_t2_0',0),th('p:heroine_05').slice(-1)[0]==='還好，不算太滿。')); }
-  { fresh('2028-08-06',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-08-07',9); phone(); const q=OUT.get(H.G,'y4_sa_v_0');
-    check('SA1 T3（第 5 階以上）：每週視訊（出遊「接起來」）', !!q&&q.place==='視訊'&&q.verb==='接起來'&&H.G.flags.SIS_ABROAD_TIER===3);
-    const nr=SOCIAL.rel('heroine_05').npcRom|0; await goOut('y4_sa_v_0');
-    check('SA1 第一組：「（畫面裡她的背後是一面白牆，桌上一杯咖啡。）」「你那邊是早上吧。……我這邊剛寫完報告。」；她的戀愛 +1', has('（畫面裡她的背後是一面白牆，桌上一杯咖啡。）')&&has('你那邊是早上吧。……我這邊剛寫完報告。')&&has('好，我去睡了。你去上課。')&&(SOCIAL.rel('heroine_05').npcRom|0)===nr+1);
-    at('2028-08-14',9); phone(); await goOut('y4_sa_v_1'); const g2=has('（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。'); at('2028-08-21',9); phone(); await goOut('y4_sa_v_2');
-    check('SA1 三組輪流：第二組計畫本、第三組「……我這邊剛下雨。」「好。下禮拜同一個時間。」', g2&&has('你那邊是早上吧。……我這邊剛下雨。')&&has('好。下禮拜同一個時間。')); }
+    check('2-Y4-57 T2（第 4～5 階）：兩週一則（AA_378 S1），會問你的事、要有回覆按鈕（「還好，不算太滿。」／「很滿。」）；她不再回', th('p:heroine_05').includes('論文的第三章寫完了，第四章在寫。這邊的指導教授回信很快，比我想的快。')&&th('p:heroine_05').includes('你大四上的課排得怎樣？')&&!!m&&m.ask.opts.map(o=>o.t).join('|')==='還好，不算太滿。|很滿。'&&(answer('y4_sa_t2_0',0),th('p:heroine_05').slice(-1)[0]==='還好，不算太滿。')); }
+  { fresh('2028-08-05',20,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-08-06',8); phone(); const q=OUT.get(H.G,'y4_sa_v_0');
+    check('SA1 T3（第 5 階以上）：每週視訊（出遊「接起來」）；臺灣週日 10:00、「和學姊視訊（她那邊週六晚上）」（AA_378 S2）', !!q&&q.place==='視訊'&&q.verb==='接起來'&&H.G.flags.SIS_ABROAD_TIER===3&&q.day===D('2028-08-06')&&q.h===10&&q.title==='和學姊視訊（她那邊週六晚上）');
+    const nr=SOCIAL.rel('heroine_05').npcRom|0; at('2028-08-06',10); await goOut('y4_sa_v_0');
+    check('SA1 第一組：「（畫面裡她的背後是一面白牆，桌上一杯咖啡。）」「你那邊是早上吧。……我這邊剛寫完報告。」「好，我去睡了。你去吃早餐。」；她的戀愛 +1', has('（畫面裡她的背後是一面白牆，桌上一杯咖啡。）')&&has('你那邊是早上吧。……我這邊剛寫完報告。')&&has('好，我去睡了。你去吃早餐。')&&!has('好，我去睡了。你去上課。')&&(SOCIAL.rel('heroine_05').npcRom|0)===nr+1);
+    at('2028-08-13',8); phone(); at('2028-08-13',10); await goOut('y4_sa_v_1'); const g2=has('（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。'); at('2028-08-20',8); phone(); at('2028-08-20',10); await goOut('y4_sa_v_2');
+    check('SA1 三組各一次：第二組計畫本、第三組「……我這邊剛下雨。」「好。下禮拜同一個時間。」', g2&&has('你那邊是早上吧。……我這邊剛下雨。')&&has('好。下禮拜同一個時間。'));
+    at('2028-08-27',8); phone(); at('2028-08-27',10); await goOut('y4_sa_v_3');
+    check('SA1 三組用完：第四次只有旁白「（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）」，不重播台詞（AA_378 S1 第 6 點）', has('（視訊。她那邊是週六晚上。這個禮拜的事，你們講了半個小時。）')&&!has('你那邊是早上吧。……我這邊剛寫完報告。')&&!has('（畫面裡是她的計畫本）這一格寫的是你的考試。……你考完要跟我說。')&&H.said.length===1); }
   const SAok=()=>{ H.rel('heroine_05',65,50,45); const r=SOCIAL.rel('heroine_05'); r.npcRom=60; r.rom=35; DATE.log(H.G,'heroine_05').count=2;
-    const R=S.saRec(H.G); for(const k of [5,6]){ OUT.rec(H.G).push({id:'y4_sa_v_'+k,ev:'ev_sis_video',day:D('2028-09-11')+(k-5)*7,h:9,state:'done',sa:{k,set:k%3}}); R.log.push({k,kind:'video',tag:'y4_sa_v_'+k}); } R.tier=3; R.k=6; R.i3=2; };
-  { fresh('2028-09-25',8,'dorm',{},'TW'); SAok(); at('2028-09-25',9); phone(); const q=OUT.get(H.G,'y4_sa_v_7');
-    check('2-Y4-57 9/30 以前最後一次視訊、條件都到（第 6 階、出國前 2 次正式約會、回覆率 ≥ 0.5、正在 T3）＝她約', !!q&&S.sisInviteDue(H.G));
+    const R=S.saRec(H.G); for(const k of [5,6]){ OUT.rec(H.G).push({id:'y4_sa_v_'+k,ev:'ev_sis_video',day:D('2028-09-10')+(k-5)*7,h:10,state:'done',sa:{k,set:k%3}}); R.log.push({k,kind:'video',tag:'y4_sa_v_'+k}); } R.tier=3; R.k=6; R.i3=2; };
+  { fresh('2028-09-24',7,'dorm',{},'TW'); SAok(); at('2028-09-24',8); phone(); const q=OUT.get(H.G,'y4_sa_v_7'); at('2028-09-24',10);
+    check('2-Y4-57 9/30 以前最後一次視訊（AA_378 S2 改週日以後＝9/24）、條件都到（第 6 階、出國前 2 次正式約會、回覆率 ≥ 0.5、正在 T3）＝她約', !!q&&S.sisInviteDue(H.G));
     await goOut('y4_sa_v_7',['我去']);
     check('SA2「十月有一個禮拜的秋假。我想開車去大峽谷。」「……一個人開太遠。你要不要來？」→「我去。」→「好。我去機場接你。」→ 行事曆 10/7（桃園機場，機票家裡出）', has('十月有一個禮拜的秋假。我想開車去大峽谷。')&&has('……一個人開太遠。你要不要來？')&&has('好。我去機場接你。')&&H.G.flags.SIS_CANYON_ASK==='go'&&!!OUT.get(H.G,'y4_sis_canyon')&&OUT.get(H.G,'y4_sis_canyon').day===D('2028-10-07'));
     at('2028-10-07',5.9); H.G.money=100; await goOut('y4_sis_canyon',[1]);
@@ -454,7 +457,7 @@ const date=id=>H.date(id);
     check('2-Y4-57 這一趟算 2 次正式約會、也算她的心願地點；回到臺北是 10/15 晚上', (DATE.log(H.G,'heroine_05').count|0)===4&&DATE.log(H.G,'heroine_05').wish===true&&H.G.day>=D('2028-10-15')); }
   { fresh('2028-10-07',6,'dorm',{SIS_CANYON_ASK:'go'},'TW'); SAok(); OUT.plan(H.G,{id:'y4_sis_canyon',ev:'ev_sis_canyon',day:D('2028-10-07'),h:7,place:'桃園機場',title:'t',travelH:1}); await goOut('y4_sis_canyon',[0]);
     check('2-Y4-57「學姊，我喜歡妳。」→「……我以為我要先說。」「好。」→ 交往', has('……我以為我要先說。')&&has('好。')&&H.G.flags.dating_heroine_05===true); }
-  { fresh('2028-09-25',8,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-09-25',9); phone(); at('2028-10-11',9.1); phone(); PHONE.tick(H.G);
+  { fresh('2028-09-24',7,'dorm',{},'TW'); H.rel('heroine_05',60,45,40); SOCIAL.rel('heroine_05').npcRom=35; at('2028-09-24',8); phone(); at('2028-10-11',9.1); phone(); PHONE.tick(H.G);
     check('SA3 條件沒到：她那邊 10/10 晚上（臺灣 10/11 早上）「（照片：峽谷的邊緣…）」「秋假和同學來大峽谷。風很大。」「……你以後有機會，一定要來一次。」（兩個回覆）；SIS_CANYON photo', th('p:heroine_05').includes('（照片：峽谷的邊緣，四個交換生背對鏡頭站成一排）')&&th('p:heroine_05').includes('秋假和同學來大峽谷。風很大。')&&th('p:heroine_05').includes('……你以後有機會，一定要來一次。')&&H.G.flags.SIS_CANYON==='photo'&&(answer('y4_sa_canyon_photo',0),th('p:heroine_05').includes('嗯。照片拍不出來。'))); }
   { fresh('2028-08-06',20,'dorm',{},'TW'); H.FRIEND('heroine_05'); H.G.flags.EX_heroine_05=true; at('2028-08-07',9); phone(); const ex=!th('p:heroine_05').length;
     fresh('2028-08-06',20,'dorm',{},'TW'); H.rel('heroine_05',2,0,0); at('2028-08-07',9); phone(); const low=!th('p:heroine_05').length;

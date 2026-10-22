@@ -57,17 +57,19 @@ const Y2B_EVENTS=(function(){
   /* ---- 1B-03 語彤事件 9「陪阿姨來」不在場版：之後第一次在麵店或總圖和語彤說話（5/22 中午以後～6/13）；在場版在 y2b3d.js ---- */
   const AUNT_RETELL={ id:'ev_yt_aunt_retell', title:'陪阿姨來', participants:['heroine_03'], location:['noodle','library','library_hall'], trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const a=D('2027-05-22'), b=D('2027-06-13'); return a!=null&&b!=null&&(G.day>a||(G.day===a&&G.hour>=12))&&G.day<=b&&!done(G,'ev_yt_aunt_consult')&&!has('heroine_03','RENT_CONSULTATION')&&knows('heroine_03',G); }},
-    dialogue:[ {speaker:'heroine_03',text:'禮拜六我陪阿姨去法服。'},
+    dialogue:[ {speaker:'heroine_03',text:'上次我陪阿姨去法服。'},   /* AA_375 第 9 項：三週後還說「禮拜六」不對 */
       {speaker:'heroine_03',text:'裡面的人說，租約到期以前，他不能趕我們。'},
       {speaker:'heroine_03',text:'阿姨出來的時候在笑。'},
       {if:{custom:G=>dating(G,'heroine_03')},speaker:'heroine_03',text:'那時候很想打給你。後來沒打，阿姨在旁邊。'},
       {if:{memory:[{npc:'heroine_03',tag:'LAW_MEETS_LIFE'}]},speaker:'heroine_03',text:'就是你那天傳的那一頁。'},
       {mem:[{npc:'heroine_03',tag:'RENT_CONSULTATION',note:''}]} ] };
 
+  const anAdminHeard=G=>!!(G.needed&&G.needed.shown&&G.needed.shown.an_admin!=null);   /* 大二上「這週的訊息」an_admin 發過＝聽過（story3d.js 的 S.neededRules 記 shown；AA_375 第 17 項）*/
   /* ---- 1B-04 以安新 12「媽媽的晚餐（二）」：大二下第 10～14 週，第一個週二或週四晚上的麵店（週四 20:00 她有公法讀書會：只到 19:30）---- */
   const MOTHER_MAP={ id:'ev_an_mother_map', title:'媽媽的晚餐（二）', participants:['heroine_01'], location:'noodle', trigger:'auto', once:true, term:['Y2S2'], weeks:[10,11,12,13,14], weekday:[2,4], time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_01',min:'FAMILIAR'},custom:G=>knows('heroine_01',G)&&!(G.weekday===4&&((G.hour%24)+24)%24>=19.5)},
-    dialogue:[ {unless:{flags:['AN_TUTOR_FAMILY']},speaker:'heroine_01',text:'我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'},
+    dialogue:[ {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:G=>!anAdminHeard(G)},speaker:'heroine_01',text:'我家教的學生，家裡申請的補助被駁回了。我在幫他們看那份公文。'},
+      {unless:{flags:['AN_TUTOR_FAMILY']},if:{custom:anAdminHeard},speaker:'heroine_01',text:'上次那份公文，你還記得嗎？我後來陪他們寫了申覆。'},   /* AA_375 第 17 項：大二上 an_admin 發過的（聽過）不再當新消息講 */
       {set:{AN_TUTOR_FAMILY:1}},
       {speaker:'heroine_01',text:'我寫了一頁流程，用白話寫的。拿給我媽看。'},
       {speaker:'heroine_01',text:'我媽說，我寫的是地圖，不是答案。'},
@@ -135,6 +137,7 @@ const Y2B_EVENTS=(function(){
       {label:'fin'},{set:{ZR_LAST_SHIFT:'seen'},mem:[{npc:'heroine_02',tag:'TICKET_STUB',note:'最後一個班，她給的電影票根'}]} ] };
 
   /* ---- 1B-07 可昕 K12「兩邊的朋友第一次一起吃飯」：2027-03-25（四）18:00 阿鳳麵店（出遊；3/21 21:00 的邀約答應了才有）---- */
+  const yuBh=G=>knows('yu',G)&&knows('classmate_bohan',G);   /* AA_375 第 15 項：小語拉著柏翰去讀書會（兩個都在場）*/
   const TWO_CIRCLES={ id:'ev_kexin_two_circles', title:'兩邊的朋友', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'阿鳳麵店',bg:'noodle_table'},
       {if:{flags:['KX_MET_NOODLE_TEAM']},speaker:'kexin',expression:'smile',text:'上次是烤肉，這次是麵。'},
@@ -157,9 +160,10 @@ const Y2B_EVENTS=(function(){
       {label:'n2'},{speaker:'zhe',text:'我被法律系的自己人背叛了。'},{goto:'an'},
       {label:'n3'},{if:{custom:G=>knows('yu',G)},speaker:null,text:'（兩個人的綽號貼滿整桌，小語在旁邊幫忙記。）'},   /* 小語不在場就不出這一句（AA_316 第 3 節「沒在的就不出他們的句子」）*/
       {label:'an'},
-      {if:{custom:G=>knows('heroine_01',G)},advance:toH(19+40/60)},
-      {if:{custom:G=>knows('heroine_01',G)},speaker:'heroine_01',text:'我八點讀書會。……很高興認識妳。'},
-      {if:{custom:G=>knows('heroine_01',G)},speaker:'kexin',expression:'neutral',text:'嗯。下次見。'},
+      {if:{custom:G=>knows('heroine_01',G)||yuBh(G)},advance:toH(19+40/60)},
+      {if:{custom:G=>knows('heroine_01',G)},speaker:'heroine_01',text:'我們八點讀書會。……很高興認識妳。'},   /* AA_375 第 15 項：小語、柏翰也是讀書會的 */
+      {if:{custom:yuBh},speaker:'yu',text:'（拉著柏翰站起來）可昕下次見！'},
+      {if:{custom:G=>knows('heroine_01',G)||yuBh(G)},speaker:'kexin',expression:'neutral',text:'嗯。下次見。'},
       {advance:toH(20.5)},
       {speaker:null,text:'（八點半。予樂說要開一個群組，名字她來取。）'},
       {speaker:'予樂',text:'「麵店分店」。不准改。'},
@@ -168,7 +172,7 @@ const Y2B_EVENTS=(function(){
     /* 介紹說了「女朋友」：在場的人知道（阿哲一定在；小語、柏翰、以安認識才在）；群組「麵店分店」 */
     after:(G)=>{ const here=['zhe'].concat(['yu','classmate_bohan','heroine_01'].filter(id=>knows(id,G)));
       if(G.flags.KX_CIRCLES_INTRO==='gf'&&typeof ROM!=='undefined'&&ROM.learn) for(const id of here){ ROM.learn(G,id,'kexin','ev_kexin_two_circles'); if(ROM.tellYt) ROM.tellYt(G,id,'kexin'); }
-      if(typeof PHONE!=='undefined'&&PHONE.join) PHONE.join(G,'noodle_branch','麵店分店'); G.flags.NOODLE_BRANCH_MEMBERS=['kexin','yule','zhe'].concat(here.filter(id=>id==='yu'||id==='classmate_bohan')); } };
+      if(typeof PHONE!=='undefined'&&PHONE.join) PHONE.join(G,'noodle_branch','麵店分店'); G.flags.NOODLE_BRANCH_MEMBERS=['kexin','yule','zhe']; } };   /* AA_375 第 15 項：20:30 開的群組不算小語、柏翰（19:40 去讀書會了）*/
 
   /* ---- 1B-08 語彤事件 13b「助教」：大三上第 1 週第一次在麵店遇到她（週二、四 17:30～20:30）；沒遇到＝第 2 週週一總圖 ---- */
   const TA_LINES=[ {speaker:'heroine_03',text:'系上老師叫我當助教。質性研究方法。'},
@@ -181,7 +185,7 @@ const Y2B_EVENTS=(function(){
   const TA_NEWS={ id:'ev_yt_ta_news', title:'助教', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, term:['Y3S1'], weeks:[1], weekday:[2,4], time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
   const TA_NEWS_LIB={ id:'ev_yt_ta_news_lib', title:'助教', participants:['heroine_03'], location:['library','library_hall'], trigger:'auto', once:true, term:['Y3S1'], weeks:[2], weekday:[1], npcZone:'heroine_03', background:'blur',
-    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
+    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l) };   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
 
   /* ---- 1B-08 語彤事件 12「那把傘」：2027-09-14（二）17:30～18:30 總圖門口（大一下雨的那個門口），那天傍晚一定下雨（y2b3d.js）---- */
   const RU=v=>({flagIs:{rain_umbrella:v}});
@@ -227,7 +231,8 @@ const Y2B_EVENTS=(function(){
   const TOLD=G=>has('heroine_04','TOLD_HER_CHANGE');
   const CAPSTONE={ id:'ev_ziqing_capstone', title:'畢業專題要交哪一個', participants:['heroine_04'], location:'cafe', trigger:'auto', once:true, background:'blur',
     prereq:{stage:{npc:'heroine_04',min:'FRIEND'},custom:G=>at(G,'2027-11-09',19.25,20)},
-    dialogue:[ {unless:{custom:G=>Q6(G)},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},
+    dialogue:[ {unless:{custom:G=>Q6(G)||done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},   /* AA_376 #4：Q8b（10/6～10/8 爸爸卡關，含三天都沒去的手機版）已經說過的不再當新消息（同閒聊階梯 Q5-L1 的判斷）*/
+      {if:{custom:G=>done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……上次跟你說的那個遊戲。'},
       {speaker:'heroine_04',text:'畢業專題。我要交那隻貓。'},
       {speaker:'heroine_04',text:'安全。好玩。一定會過。'},
       {speaker:null,text:'（她看著筆電上兩個資料夾，一個叫「cat」，一個沒有名字。）'},

@@ -52,7 +52,23 @@ const days=(d0,n,weather)=>{ const out=[]; for(let d=d0;d<d0+n;d++){ G.day=d; G.
       E('y0_xu_calc').term(T('2024-10-08'))&&!E('y0_xu_calc').term(T('2024-10-15'))&&E('y0_xu_lamp').term(T('2024-11-12'))&&!E('y0_xu_lamp').term(T('2024-10-20'))&&!E('y0_xu_lamp').term(T('2024-11-19'))&&E('y0_xu_lamp').ok(g({Y0_MOVED_OUT:true}),STORY.dayOfKey('2024-11-12'))&&!E('y0_xu_lamp').ok(g({}),STORY.dayOfKey('2024-11-12'))
       &&E('y0_xu_seat').term(T('2024-10-22'))&&E('y0_wl_wait').term(T('2024-10-29'))&&E('y0_py_notes').term(T('2024-10-29'))&&E('y0_py_notes').ok(g({LEAVE_WEEK:7}),STORY.dayOfKey('2024-10-29'))&&!E('y0_py_notes').term(T('2025-03-24'))); }
   { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k));
-    check('5b. AA_348 B5：品妤「我高中的筆記還在……」搬到大一下第 2 週（y0_py_notes2）',!!E('y0_py_notes2')&&E('y0_py_notes2').term(T('2025-02-25'))&&!E('y0_py_notes2').term(T('2025-03-10'))&&E('y0_py_notes2').items({})[0].text==='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。'); }
+    check('5b. AA_348 B5：品妤「我高中的筆記還在……」搬到大一下；AA_368 附：第 2 週永遠不會出現（手機小事除了法律系大一上都要第 4 週起），改第 4 週（3/10～3/16）、句子不改',!!E('y0_py_notes2')&&!E('y0_py_notes2').term(T('2025-02-25'))&&E('y0_py_notes2').term(T('2025-03-10'))&&E('y0_py_notes2').term(T('2025-03-16'))&&!E('y0_py_notes2').term(T('2025-03-17'))&&E('y0_py_notes2').items({})[0].text==='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。'); }
+  { const E=id=>STORY.DAILY_PHONE.find(d=>d.id===id), T=(k)=>CALENDAR.termOf(STORY.dayOfKey(k)), g=f=>({stage:'econ',flags:f}), dk=STORY.dayOfKey;
+    const it=E('y0_xu_seat').items({})[0].text;
+    check('5c. AA_368 M6：阿勳「星期三的微積分，老師看了一眼我旁邊的空位……」；第 8 週、10/23（三）起才發（原本 10/21 一就會發，微積分是星期三）',it==='星期三的微積分，老師看了一眼我旁邊的空位，又看了一眼可昕旁邊。什麼都沒問。我覺得他懂了。'&&E('y0_xu_seat').term(T('2024-10-21'))&&!E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-21'))&&!E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-22'))&&E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-23'))&&E('y0_xu_seat').ok(g({LEAVE_WEEK:7}),dk('2024-10-27'))&&!E('y0_xu_seat').ok(g({}),dk('2024-10-23'))&&CALENDAR.dateOf(dk('2024-10-23')).wd===3,it);
+    const pr=E('y0_py_rain').items({})[0].text;
+    check('5d. AA_368 L9b＋AA_371 第 5 題：品妤「今天在社科院門口等公車，等了半小時。……最後是用走的。」（原本「我室友今天問我：如果雨可以退貨……」＝可昕出假設題；AA_368 的「今天下大雨。……」改字、不限天氣）',pr==='今天在社科院門口等公車，等了半小時。……最後是用走的。'&&!/室友|退貨/.test(pr),pr); }
+  { const d0=STORY.dayOfKey('2025-02-17'), NT='我高中的筆記還在，掃描放雲端了。你要的話自己拿。放著也是放著。', got=[];
+    for(const fl of [{},{E01_MORNING:true}]){ fresh(d0,8,'home',Object.assign({Y0_DATING:true,LEAVE_WEEK:6,Y0_LEFT:true,Y0_MOVED_OUT:true},fl)); G.stage='econ'; days(d0,35); const m=(G.msgs||[]).find(x=>x.text===NT); got.push(m?CALENDAR.termOf(m.day).week:null); }
+    check('5e. AA_368 附：實際跑大一下 2/17～3/23，品妤那則真的收到、在第 4 週（完整版、30 分鐘版都是；修改前第 2 週永遠輪不到）',got.every(w=>w===4),JSON.stringify(got)); }
+  { const d0=STORY.dayOfKey('2024-10-21'), got=[];
+    for(const fl of [{},{E01_MORNING:true}]){ fresh(d0,8,'dorm',Object.assign({LEAVE_WEEK:7,E06_DONE:'e06',KX_CAR:true},fl)); G.stage='econ'; const N=G.flags.dpN={}; for(const d of STORY.DAILY_PHONE) if(d.id!=='y0_xu_seat') N[d.id]=9;   /* 其他手機小事都已經收過（第 4～7 週），第 8 週只剩這一則 */
+      days(d0,7); const m=(G.msgs||[]).find(x=>/看了一眼我旁邊的空位/.test(x.text)); got.push(m?CALENDAR.dateOf(m.day).key:null); }
+    check('5f. AA_368 M6：實際跑 10/21（一）～10/27，阿勳那則 10/23（三）才收到（修改前 10/21 就收到）；完整版、30 分鐘版都是',got.every(k=>k==='2024-10-23'),JSON.stringify(got)); }
+  { const d0=STORY.dayOfKey('2024-10-21'); fresh(d0,8,'dorm',{LEAVE_WEEK:7,E06_DONE:'e06',KX_CAR:true,E01_MORNING:true}); G.stage='econ'; const N=G.flags.dpN={}; for(const d of STORY.DAILY_PHONE) if(d.id!=='y0_xu_seat'&&d.id!=='y0_xu_alarm') N[d.id]=9;
+    PHONE.postAt(G,{th:'p:kai',from:'kai',text:'（測試：10/19 別的訊息）',tag:'test_1019'},STORY.dayOfKey('2024-10-19'),21); PHONE.postAt(G,{th:'p:kai',from:'kai',text:'（測試：10/22 別的訊息）',tag:'test_1022'},STORY.dayOfKey('2024-10-22'),21); days(d0,7);   /* 10/19、10/22 有別的訊息：隔 3 天，這一週只剩 10/25 一個位置（BB 那兩輪的情形）*/
+    const seat=(G.msgs||[]).find(x=>/看了一眼我旁邊的空位/.test(x.text)), alarm=(G.msgs||[]).find(x=>/鬧鐘第二次響/.test(x.text));
+    check('5g. AA_368 M6（BB 10-21：兩輪都看不到）：30 分鐘版 10/19、10/22 有別的訊息、隔 3 天這一週只剩 10/25 一個位置——快過期的阿勳「星期三的微積分」（第 8 週）先排，第 4 週起都能排的「鬧鐘」那則讓位',!!seat&&CALENDAR.dateOf(seat.day).key==='2024-10-25'&&!alarm,JSON.stringify({seat:seat&&CALENDAR.dateOf(seat.day).key,alarm:alarm&&CALENDAR.dateOf(alarm.day).key})); }
   { const d0=STORY.dayOfKey('2024-09-23'); const span=fl=>{ fresh(d0,8,'dorm',fl); G.stage='econ'; days(d0,12); return Object.values(G.flags.dpDayOf||{}).sort((a,b)=>a-b); }, gaps=a=>a.slice(1).map((x,i)=>x-a[i]);
     const S1=span({E01_MORNING:true}), S0=span({});
     check('6. AA_348 B8：經濟系 30 分鐘版（E01_MORNING）9/23～10/4 的手機小事至少隔 3 天一則；完整版（舊流程）照舊',S1.length>=2&&gaps(S1).every(g=>g>=3)&&S0.length>S1.length,JSON.stringify({short:S1,full:S0})); }

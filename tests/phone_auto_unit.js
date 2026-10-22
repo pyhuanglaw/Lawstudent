@@ -4,7 +4,7 @@ const fs=require('fs'), path=require('path'), vm=require('vm');
 const src=fs.readFileSync(path.join(__dirname,'..','src/story3d.js'),'utf8'); const m=/  S\.phoneAuto=function\(GM\)\{[\s\S]*?GM\.openPhone\('msg'\); \};/.exec(src);
 let fails=0; const check=(n,ok,i)=>{ console.log((ok?'PASS ':'FAIL ')+n+(i?'　'+i:'')); if(!ok) fails++; };
 check('story3d.js 有 S.phoneAuto（打開 msg 分頁）',!!m); if(!m){ console.log('FAILED '+fails); process.exit(1); }
-const S={}; let pend=[], opened=[], home=false, phoneOpen=false; const ctx={S,PHONE:{pending:()=>pend},EVENTS:{running:null},HOME:{at:()=>home}}; vm.runInNewContext(m[0].trim(),ctx);
+const S={PHONE_AUTO_STILL:1.5}; let pend=[], opened=[], home=false, phoneOpen=false; const ctx={S,PHONE:{pending:()=>pend},EVENTS:{running:null},HOME:{at:()=>home}}; vm.runInNewContext(m[0].trim(),ctx);
 const G={flags:{}}; const GM={G,E:{paused:false,player:{busy:false}},D:{active:false},titleIdle:false,openPhone:(tab,th)=>opened.push([tab,th]),phoneIsOpen:()=>phoneOpen};
 S.phoneAuto(GM); check('沒有要回的：不開',opened.length===0);
 pend=[{id:'y0_e10_ask',th:'p:kexin'}]; S.phoneAuto(GM); check('新的要回覆的訊息、空下來：打開手機的訊息列表（不直接進那個對話）',opened.length===1&&opened[0][0]==='msg'&&!opened[0][1],JSON.stringify(opened));
@@ -18,4 +18,10 @@ S.phoneAuto(GM); check('空下來：開第二則',opened.length===2);
 { const G2={flags:{}}, GM2=Object.assign({},GM,{G:G2}); opened.length=0; pend=[{id:'a1',th:'p:kexin'},{id:'a2',th:'g:fam'},{id:'a3',th:'p:zhe'}];
   S.phoneAuto(GM2); S.phoneAuto(GM2); S.phoneAuto(GM2); check('同時三則要回的：只自動開一次（收起來不會一則跳一次）',opened.length===1,String(opened.length));
   pend.push({id:'a4',th:'p:yu'}); S.phoneAuto(GM2); check('之後又來一則新的：再開一次',opened.length===2,String(opened.length)); }
+// UX-PHONE-AUTO-WALK-1021（v9.10.3 發布前 smoke_release：推搖桿走到一半手機跳出來、遊戲暫停）：走路中不開，停下來 1.5 秒才開
+{ const G3={flags:{}}, P3={busy:false}, E3={paused:false,player:P3,time:100,input:{joy:{active:false}}}, GM3=Object.assign({},GM,{G:G3,E:E3}); opened.length=0; pend=[{id:'w1',th:'p:kexin'}];
+  E3.input.joy.active=true; P3.lastMoveT=100; S.phoneAuto(GM3); check('推著搖桿走路中：不開',opened.length===0);
+  E3.input.joy.active=false; P3.path=[[3,4]]; S.phoneAuto(GM3); check('點地面走路中（還有路線）：不開',opened.length===0); P3.path=null;
+  E3.time=100.5; S.phoneAuto(GM3); check('剛停下來 0.5 秒：不開',opened.length===0);
+  E3.time=101.6; S.phoneAuto(GM3); check('停下來 1.5 秒以後：打開（同一則只開一次）',opened.length===1&&opened[0][0]==='msg'); S.phoneAuto(GM3); check('再一格：不重開',opened.length===1); }
 console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);

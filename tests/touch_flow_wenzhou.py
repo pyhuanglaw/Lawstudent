@@ -107,7 +107,8 @@ async def main():
             await pg.wait_for_timeout(500)
         # 前置：放一個自動存檔（週六 14:50，溫州街東口），然後重新整理，從標題畫面點「繼續」
         # 第 11 天＝2025-09-27（六）。原本寫第 8 天＋weekday 6，但第 8 天其實是 9/24（三）：X76（765ac675）起讀檔照行事曆重算星期，週三 14:48 小安不在 Café（平日 16–18 才在），這一項就失敗（2026-10-21 v9.10.3 發布前）
-        st0 = {'v': 2, 'name': '祐廷', 'day': 11, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
+        # 2026-10-22（v9.10.4 發布前）：9/27 變成以安第 4 週回台中的週末（AA_372 #8，presence trip「回台中」，v9.10.3 以後才有）——她照規則不在 Café，改第 18 天＝2025-10-04（六）
+        st0 = {'v': 2, 'name': '祐廷', 'day': 18, 'weekday': 6, 'hour': 14.8, 'energy': 80, 'money': 1500, 'zone': 'wenzhou', 'pos': {'x': 44, 'z': -1, 'yaw': -1.5708}, 'weather': 'clear',
                'flags': {'introDone': True, 'campusIntro': True, 'classDone': True, 'metAn': True, 'met_an': True, 'afternoonDone': True, 'lawclub': True},
                'visited': {'dorm': True, 'campus': True, 'gongguan': True, 'wenzhou': True, 'cafe': True}, 'savedAt': 1}
         await pg.evaluate("s=>localStorage.setItem('fatiao3d_auto',JSON.stringify(s))", st0)
@@ -154,8 +155,25 @@ async def main():
             seen = await advance_dialogue(pg, t, shots=SHOTS+'/flow_04_an')
             check('和沈以安的對話有內容並結束', len(seen) > 0, len(seen))
             st = await state(pg); check('對話結束後可以操作', not st['busy'], st)
-        # 5. 坐下（窗邊雙人桌）
-        st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
+        # 5. 坐下（窗邊雙人桌；那個位子有人坐了就找最近的空位——2026-10-22 v9.10.4 發布前：改成第 18 天（10/4 週六）以後，14:56 窗邊那張已經有客人，遊戲照規則不給「坐」）
+        # 只從遊戲真的有「坐」按鈕的位子挑（E.interactables 裡有 seat 的；和 E.nearestInteractable 同一套「有人坐」的判斷）：Café 一張雙人桌只有一個按鈕（靠窗那一側的椅子），
+        # 對面那張椅子在 E.zone.seats 裡、但沒有自己的按鈕——第四輪挑到窗邊桌對面 (4.5, 0.7)，走到了也不會出「坐」
+        seat = await pg.evaluate("""(()=>{ const E=GAME.E, P=E.player, occ=q=>E.npcs.some(n=>(n.seat&&Math.hypot(n.seat.x-q.x,n.seat.z-q.z)<0.4)||(n.seatTarget&&Math.hypot(n.seatTarget.x-q.x,n.seatTarget.z-q.z)<0.4));
+            let best=null, bd=1e9; for(const it of E.interactables){ const q=it.seat; if(!q||it.hidden||q.taken||occ(q)) continue; if(E.levels&&it.lv!==undefined&&(it.lv|0)!==(P.lv|0)) continue; const d=Math.hypot(q.x-4.5,q.z-2.5); if(d<bd){ bd=d; best=it; } }
+            if(!best) return null; const ap=GAME.seatApproach?GAME.seatApproach(best.seat):null; return [best.seat.x,best.seat.z].concat(ap?[ap[0],ap[1]]:[]); })()""")
+        if seat and math.hypot(seat[0] - 4.5, seat[1] - 2.35) > 0.3:
+            # 換到別的位子：走到遊戲自己算的「走近這個座位」那一點（GAME.seatApproach，坐下時就是從那裡坐的），不然可能停在桌子另一邊、離座位 0.8 m 就不出「坐」
+            print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(seat[0], 2), round(seat[1], 2)))
+            ax, az = (seat[2], seat[3]) if len(seat) >= 4 else (seat[0], seat[1])
+            import playlib as L   # tap_path：照遊戲自己的找路，點畫面上看得到的那一段地板（玩家的點地移動；搖桿直推會卡在中間的桌子，2026-10-22 第三輪停在 (1.89, 2.63)）
+            for _ in range(8):
+                st = await state(pg)
+                if math.hypot(st['x'] - ax, st['z'] - az) < 0.45: break
+                await t.phone_away()
+                if not await L.tap_path(pg, t.cdp, ax, az): st = await walk_to(pg, t, ax, az, 'seat', tol=0.45); break
+                await pg.wait_for_timeout(2500)
+        else:
+            st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
         await pg.wait_for_timeout(600); st = await state(pg)
         check('靠近座位出現「坐」的按鈕', '坐' in st['interact'], st['interact'])
         await t.tap_el('#interact'); await pg.wait_for_timeout(3000)
@@ -173,6 +191,9 @@ async def main():
         st = await state(pg); check('回到溫州街（Café 門口）', st['zone'] == 'wenzhou' and abs(st['x'] - 51.7) < 3 and abs(st['z']) < 3, st)   # v9.2：Café 在東端路口，出口在 (51.7,0)
         await pg.screenshot(path=SHOTS+'/flow_06_back_street.png')
         p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
+        if math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) <= 0.5 and await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"):
+            # 要回的訊息在推搖桿的那一下自己打開（站著超過 1.5 秒，D103），遊戲暫停：像玩家一樣收起來、再推一次（2026-10-22 v9.10.4 發布前：9/27 15:18 有一則要回的訊息）
+            await t.phone_away(); p0 = await state(pg); await t.joy(0, -55, 1500); p1 = await state(pg)
         check('出來後可以繼續走', math.hypot(p1['x'] - p0['x'], p1['z'] - p0['z']) > 0.5)
         # 7. 存檔（選單 → 存檔 → 欄位 1）
         await t.tap_el('#btnMenu'); await pg.wait_for_timeout(700)

@@ -27,11 +27,12 @@ async def run_term(pg, cdp, run, tid, want):
     await L.load_state(pg, {'zone': 'dorm', 'hour': 7.67, 'day': f['day'], 'weekday': f['wd'], 'weather': 'sunny', 'stage': 'law', 'flags': flags})
     await pg.wait_for_timeout(2500)
     # 起床選單或開場對話：選「直接去上課」那一類，沒有就把對話點掉
-    texts = []; t0 = time.time(); went = False
+    texts = []; t0 = time.time(); went = False; last = time.time(); tries = 0
     while time.time() - t0 < 900:
         rec = await pg.evaluate("(k=>{ const R=CLS.rec(GAME.G); const e=R.exam||{}; const hit=Object.keys(e).find(x=>x.includes(k)); return hit?e[hit]:null; })(" + json.dumps(f['cid']) + ")")
         if rec and rec.get('status') in ('done', 'insufficient') and not await pg.evaluate("GAME.D.active||GAME.E.player.busy"): break
         s = await L.state(pg)
+        if s['choices'] or s['dlg']: last = time.time()
         if s['choices']:
             c = await pg.evaluate("(()=>{ const bs=[...document.querySelectorAll('#choices button')]; if(!bs.length) return null; const e=bs.find(x=>/直接去上課|去上課|期末考/.test(x.textContent))||bs[0]; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })()")
             if c:
@@ -51,8 +52,12 @@ async def run_term(pg, cdp, run, tid, want):
             await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1200)
             await L.tap(pg, cdp, '#phoneTabs button[data-ptab="today"]'); await pg.wait_for_timeout(800)   # 手機記得上一次的分頁：自己跳出來的訊息（D103）收起來以後再打開會停在「訊息」，找不到「直接去上課」（2026-10-21 候選第二版：大一上、大二上各卡 15 分鐘）
             b = await pg.evaluate("(k=>{ const e=document.querySelector('[data-go=\"'+k+'\"]'); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.x+r.width/2,r.y+r.height/2,e.textContent]; })(" + json.dumps(f['key']) + ")")
-            if b: texts.append('📱' + b[2]); await L.touch_tap(cdp, b[0], b[1]); went = True
+            if b: texts.append('📱' + b[2]); await L.touch_tap(cdp, b[0], b[1]); went = True; last = time.time()
             else: await L.close_panels(pg, cdp)
+        elif tries < 3 and time.time() - last > 30 and await pg.evaluate("GAME.G.zone==='dorm'&&!(GAME.D&&GAME.D.active)&&!GAME.E.player.busy"):
+            # 按「直接去上課」的那一下剛好碰上劇情開始（例：阿凱早上的鍵盤聲 K-D3，有早上課的早上 30%）：遊戲擋下來、跳「先選完畫面上的選項」，劇情演完人還在宿舍——
+            # 像玩家一樣再按一次（2026-10-22 v9.10.4 發布前：大一上 12/15 07:40 卡在這裡，等了 15 分鐘遊戲裡才到 08:36，沒到 09:10 開考）。檢查標準不變：照樣要真的開考、五題、交卷
+            texts.append('［直接去上課被劇情擋下來，人還在宿舍 → 再按一次］'); went = False; tries += 1
         await pg.wait_for_timeout(600)
     rec = await pg.evaluate("(k=>{ const R=CLS.rec(GAME.G); const e=R.exam||{}; const hit=Object.keys(e).find(x=>x.includes(k)); return hit?Object.assign({key:hit},e[hit]):null; })(" + json.dumps(f['cid']) + ")")
     await run.shot(pg, tid + '_after')

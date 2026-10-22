@@ -66,7 +66,7 @@ const ADV2=global.ADV; ADV2.active=false;
   check('6. 交往中、不是第一次：抵達句用交往中那一池（「今天走慢一點好不好？」）',r.L.some(x=>/今天走慢一點好不好/.test(x)),r.L.join(' | '));
   // 7 結算、快速約會、相簿（AA_128 5-1、5-4；DATE-S6）
   fresh(day,9,'dorm',{dating_heroine_04:true}); G.money=5000; G.contacts.heroine_04=1; r=await go('heroine_04',['拍照位置',0,'差不多了']);
-  check('7. 結算：去了哪裡、做了什麼、花了多少錢（來回車資 200）、照片存進相簿',r.L.some(x=>/今天去了淡水金色水岸：拍照位置。花了 200 元（含來回車資）。照片存進相簿。/.test(x)),r.L.slice(-2).join(' | '));
+  check('7. 結算：去了哪裡、做了什麼、花了多少錢（來回車資 100＝地點資料的來回，BUG-DATE-FARE-DOUBLE-1021）、照片存進相簿',r.L.some(x=>/今天去了淡水金色水岸：拍照位置。花了 100 元（含來回車資）。照片存進相簿。/.test(x)),r.L.slice(-2).join(' | '));
   check('7. 相簿：G.album 一張（約會、子晴、D13、交往中＝合照）',Array.isArray(G.album)&&G.album.length===1&&G.album[0].who==='heroine_04'&&G.album[0].loc==='D13'&&G.album[0].both===true&&G.album[0].trip===r.t.trip,JSON.stringify(G.album));
   { const n0=G.album.length; G.day+=1; G.weekday=wdOf(G.day); r=await go('heroine_04',['河邊欄杆','差不多了','差不多了']); check('7. 沒去拍照位置：相簿不加、結算沒有「照片」',G.album.length===n0&&!r.L.some(x=>/照片存進相簿/.test(x))&&r.t.status==='done',JSON.stringify({n:G.album.length,n0,st:r.t&&r.t.status,L:r.L.slice(-2)})); }
   fresh(day,9,'dorm',{}); G.money=5000; DATE.log(G,'heroine_04').byLoc.D13=1; r=await go('heroine_04',['差不多了']);

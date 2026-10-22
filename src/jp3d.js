@@ -5,7 +5,7 @@
    - 人在日本（JP.inJapan(G)＝STORY.inJapan(G)：日本路線、出發了、還沒回來）：story3d.js S.tick 在事件包的 STORY.TICKS 之後叫 JP.tick（在家判斷之前）→ 據點的選單 JP.loop：
      出發（約好的出遊、視訊）、去上課（一鍵）、共用廚房、便利商店、河邊、看手機、在房間休息一下、快轉、存檔、睡覺。臺灣的區域、邀約、打工、偶遇、約會都進不去（手機「地點」是空的、不能約人）。
      每一輪先：手機規則、到了的事（JP.SCH：G1～G8 的事件、摘要日；trigger:'jp' 的事件）、其他事件包的 STORY.TICKS（開演了就讓出畫面，演完下一輪接回選單）。
-   - 日本的學期（J-S1）：3/27 入住、4/10（一）開學、黃金週 4/29、5/3～5/5 沒有課、海之日 7/17 沒有課、7/21 最後一堂、期末週 7/24～7/28（摘要日）、8/4 最後一天、8/5 回程。
+   - 日本的學期（J-S1）：3/25 抵達就入住（AA_377 第 17 項；3/27 是國際學生辦公室報到）、4/10（一）開學、黃金週 4/29、5/3～5/5 沒有課、海之日 7/17 沒有課、7/21 最後一堂、期末週 7/24～7/28（摘要日）、8/4 最後一天、8/5 回程。
    - 一鍵上課（J-S2，AA_185 1-5）：日本語（中級）週一、三、五 09:00；日本法入門 週二 10:40；比較行政法 週四 13:00。2D（借台灣的小教室＋字幕），每門兩句輪流；4/10 第一堂（G2）、5/18（G5）換。
    - 快轉、睡覺（J-S3）：到下一個有事的日子／過三天／過一週；停在 JP.SCH、開發分支其他事件包在日本那幾個月的時間（JP.KNOWN、JP.STOPS、STORY.WAKE_AT）、約好的出遊（AA_326 大三後半在日本的事件都是出遊）、特別的課、回程。
      日期卡寫「宿舍」，手機規則每小時跑一次。玩家選的快轉：途中收到要回的訊息就停、打開手機（「跳過」接著跳；AA_340 6-1 H2，同 home3d.js）；選單前有沒開過的要回的訊息也先打開手機（D103）。
@@ -22,7 +22,7 @@
      快轉、睡覺要停的時間：JP.STOPS.push((G,now,where)=>時間或陣列)。出遊（OUT.plan）照舊：據點的選單出現「出發：…」（must＝只有「出發」），演完回到據點（q.back 沒寫＝「回到宿舍。」）；
      人在日本時 OUT.plan 擋掉 goto 臺灣區域的出遊。挽回的分數：JP.repair(G)（G.flags.REPAIR.heroine_01，和 r2y3b3d.js 町公所那一步同一個；一週最多 +1；AA_254 第 10 節）。
    挽回中（AA_349 L1、L3）：交換生群組每週日 20:00 以安一則（4/2～7/2 共 14 週；在群組回＝REPAIR +1，私訊她＝已讀不回、不加；JP.grpPhone）；4 月平日 07:30～08:00 便利商店點頭三次（JP.nod，不加分）。
-  存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, look:{}, g9, grp:{第幾週:在群組回、加過分的那天}, nod:[點頭的那幾天]}；
+  存檔：G.jp＝{place, arr, done:{表的 key:天}, att:{'天:課':1}, n:{課:出席次數}, rot:{課:輪到第幾句}, once:{課:只出一次的那句出在哪一天}, look:{}, g9, grp:{第幾週:在群組回、加過分的那天}, nod:[點頭的那幾天]}；
     旗標 JP_RETURNED（回來的那天）、REPAIR／REPAIR_WK（挽回，同 r2y3b3d.js、r2y4a3d.js）、JP_GRP_1～14（群組那一則選了 'group'／'dm'）、AN_JP_*（各段）。舊存檔沒有＝從空的開始。
    測試：node tests/jp_semester_unit.js */
 'use strict';
@@ -45,13 +45,13 @@ const JP=(function(){
   const A_=()=>typeof ADV!=='undefined'?ADV:null;
   const esc=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   /* ---------------- 日子（J-S1）---------------- */
-  const K={out:'2028-02-20',dep:'2028-03-25',office:'2028-03-27',term0:'2028-04-10',g5:'2028-05-18',term1:'2028-07-21',fin0:'2028-07-24',fin1:'2028-07-28',last:'2028-08-04',ret:'2028-08-05',room:'2028-09-03'};
+  const K={out:'2028-02-20',dep:'2028-03-25',office:'2028-03-27',term0:'2028-04-10',town:'2028-05-06',g5:'2028-05-18',term1:'2028-07-21',fin0:'2028-07-24',fin1:'2028-07-28',last:'2028-08-04',ret:'2028-08-05',room:'2028-09-03'};
   S.K=K; const D=k=>DK(K[k]); S.D=D;
   S.HOLIDAYS=['2028-04-29','2028-05-03','2028-05-04','2028-05-05','2028-07-17'];   /* 黃金週（4/29、5/3～5/5）、海之日（7/17）：沒有課 */
   S.holiday=day=>S.HOLIDAYS.some(k=>DK(k)===day);
   S.classDay=day=>{ const a=D('term0'), b=D('term1'); return a!=null&&b!=null&&day>=a&&day<=b&&!S.holiday(day)&&wdOf(day)>=1&&wdOf(day)<=5; };
   /* ---------------- 狀態 ---------------- */
-  S.rec=G=>{ if(!G.jp||typeof G.jp!=='object') G.jp={}; const R=G.jp; for(const k of ['done','att','n','rot','look']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
+  S.rec=G=>{ if(!G.jp||typeof G.jp!=='object') G.jp={}; const R=G.jp; for(const k of ['done','att','n','rot','look','once']) if(!R[k]||typeof R[k]!=='object') R[k]={}; return R; };
   S.departed=G=>isJP(G)&&!!G.flags&&G.flags.JP_DEPARTED!=null;
   S.inJapan=G=>S.departed(G)&&G.flags.JP_RETURNED==null;   /* 人在日本：出發以後、回程以前 */
   S.returned=G=>isJP(G)&&!!G.flags&&G.flags.JP_RETURNED!=null;
@@ -81,7 +81,8 @@ const JP=(function(){
   S.CLASSES=[
     {id:'jp_nihongo',name:'日本語（中級）',wds:[1,3,5],t0:9,t1:10.5,credit:null,lines:['老師說你的敬語很有禮貌，只是用錯了對象。','今天學了『よろしく』的十種用法。']},   /* 不抵學分 */
     {id:'jp_law_intro',name:'日本法入門（英語授課）',wds:[2],t0:10+40/60,t1:12+10/60,credit:'外國法導論',lines:['老師畫了一張圖：同一條規定，兩國的法院怎麼讀。','同學問台灣的民法從哪裡來。你答了很久。']},
-    {id:'jp_comp_admin',name:'比較行政法',wds:[4],t0:13,t1:14.5,credit:'行政法專題',lines:['今天講行政指導。你想起以安說的町公所。','期末報告的題目，你寫了三次才寫定。']} ];
+    {id:'jp_comp_admin',name:'比較行政法',wds:[4],t0:13,t1:14.5,credit:'行政法專題',lines:['（教授的日文很快。你只抓得到一半，筆記上一半是問號。）','（旁邊的日本同學把筆記推過來給你看。字很小，很整齊。）'],
+      once:{from:'town',line:'今天講行政指導。你想起以安說的町公所。'}} ];   /* AA_377 第 1 項：町公所那張通知 5/6 才看到——5/6 以後的第一堂出一次「想起以安說的町公所」，之後回到兩句輪流；「期末報告的題目，你寫了三次才寫定。」拿掉（6/28 摘要已經講）*/
   S.FIRST_LINE={dating:'（日本語的第一堂課。老師請每個人用日文自我介紹。你講到一半忘了「法律」怎麼說，以安在後面小聲說：ほうりつ。）',
     repair:'（日本語的第一堂課。老師請每個人用日文自我介紹。你講到一半忘了「法律」怎麼說，自己想了起來。）'};   /* G2：4/10 第一堂（挽回中：後半換）*/
   S.classesOn=(G,day)=>{ if(!S.classDay(day)) return []; const wd=wdOf(day); return S.CLASSES.filter(c=>c.wds.includes(wd)).map(c=>({c,day,t0:c.t0,t1:c.t1,key:day+':'+c.id})); };
@@ -94,7 +95,9 @@ const JP=(function(){
     const sp=S.special(G,it);
     if(sp==='g5'){ const ev=evOf('ev_jp_admin_report'); if(ev&&typeof EVENTS!=='undefined') await EVENTS.run(ev); S.adv(G); }   /* G5 5/18：以安的報告 */
     else { if(A&&A.setBg&&typeof OUT!=='undefined') A.setBg(OUT.bg('classroom_small')); if(GM.caption) GM.caption('',it.c.name,2400);
-      let line; if(sp==='first') line=S.FIRST_LINE[dat(G)?'dating':'repair']; else { const i=(R.rot[it.c.id]|0)%it.c.lines.length; R.rot[it.c.id]=i+1; line=it.c.lines[i]; }
+      let line; if(sp==='first') line=S.FIRST_LINE[dat(G)?'dating':'repair'];
+      else if(it.c.once&&!R.once[it.c.id]&&D(it.c.once.from)!=null&&it.day>=D(it.c.once.from)){ R.once[it.c.id]=it.day; line=it.c.once.line; }   /* 那一句只出一次（不佔輪流的順序）*/
+      else { const i=(R.rot[it.c.id]|0)%it.c.lines.length; R.rot[it.c.id]=i+1; line=it.c.lines[i]; }
       await GM.say(null,line); }
     if(G.hour<it.t1) GM.advance(it.t1-G.hour);
     if(A&&A.active&&A.setBg) A.setBg(S.bgNow(G)); return true; };
@@ -105,7 +108,7 @@ const JP=(function(){
     {k:'g0_s3',d:'2028-03-13',h:18.5,w:'home',sum:'（媽媽問你日本的冬天冷不冷。你說三月底就不冷了。她還是買了一件外套。）'},
     {k:'g0_s4',d:'2028-03-20',h:18.5,w:'home',sum:'（行李箱打開在房間地上，一個禮拜都沒有闔上。）'},
     {k:'g1_office',d:'2028-03-27',h:10,w:'jp',ev:'ev_jp_office'},
-    {k:'g1_s',d:'2028-03-28',h:18.5,w:'jp',sum:'（宿舍的房間比想像的小。窗外是一片田，遠一點的地方有一座山。）'},
+    {k:'g1_s',d:'2028-03-28',h:18.5,w:'jp',sum:'（住了三天，房間還是覺得小。窗外是一片田，遠一點的地方有一座山。）'},   /* AA_377 第 17 項：3/25 抵達那天就入住（第一句換；後半照留，問 AA 中）*/
     {k:'g3_kitchen',d:'2028-04-19',h:18.5,w:'jp',if:dat,ev:'ev_jp_kitchen'},
     {k:'g4_river',d:'2028-05-03',h:14,w:'jp',if:dat,ev:'ev_jp_goldenweek'},
     {k:'g4_s',d:'2028-05-03',h:18.5,w:'jp',if:rep,sum:'（黃金週。電車上都是人。你在宿舍讀了一整天。）'},
@@ -149,13 +152,13 @@ const JP=(function(){
      交往中的玩家不收這一套（交往中走她的私訊）。[日期, 以安在群組, 祐廷回（群組）, 之後（沒有＝null；from 沒寫＝群組裡的旁白）] */
   S.GRP=[
     ['2028-04-02','國際學生辦公室週三下午不開。要交表的，請上午去。','收到。週三上午去。',null],
-    ['2028-04-09','宿舍的垃圾分六種。分類表我拍了，在相簿。','謝謝。寶特瓶的蓋子要拆嗎？',{from:'heroine_01',text:'要。蓋子是另一類。'}],
+    ['2028-04-09','公寓的垃圾分六種。分類表我拍了，在相簿。','謝謝。寶特瓶的蓋子要拆嗎？',{from:'heroine_01',text:'要。蓋子是另一類。'}],
     ['2028-04-16','學校附近的超市，晚上八點以後便當打折。','八點半去，只剩一個。',{text:'（群組裡有人回了一個笑臉。）'}],
     ['2028-04-23','日文課的作業，第三課的動詞表有一個印錯。第 12 行。','我也發現了。還以為是我抄錯。',{from:'heroine_01',text:'不是你。是講義。'}],
     ['2028-04-30','黃金週圖書館只開到下午三點。','好。那我早上去。',null],
     ['2028-05-07','町公所的窗口週六也開，只到中午。','好。週六中午以前。',null],   /* 接 5 月的町公所（第 3 步）*/
-    ['2028-05-14','比較行政法的報告，我排在第八週。要換的人跟我說。','我第十週，不用換。',null],
-    ['2028-05-21','宿舍三號洗衣機壞了。不要投錢。','……我昨天投了。',{from:'heroine_01',text:'退幣口用力按一下。'}],
+    ['2028-05-14','比較行政法的報告，我排在第六週。要換的人跟我說。','我第十週，不用換。',null],
+    ['2028-05-21','投幣洗衣機三號壞了。不要投錢。','……我昨天投了。',{from:'heroine_01',text:'退幣口用力按一下。'}],
     ['2028-05-28','下週開始梅雨。傘不要放在宿舍門口，會被拿走。','收到。傘帶進房間。',null],
     ['2028-06-04','圖書館三樓有插座的位子只有八個。早上九點以前去。','明天去試試。',null],
     ['2028-06-11','期末考的時間表出來了，在學校網站的第二頁。','找到了。謝謝。',null],
@@ -255,7 +258,7 @@ const JP=(function(){
   S.jump=async function(GM,t,where,o){ o=o||{}; const G=GM.G, E=GM.E, P=P_(); await GM.fade(true); let n=0, mo=null, why=null, tt=NOW(G); const t0=tt, d0=G.day, w0=o.ff?S.waitSnap(G):null;   /* o.ff：玩家選的快轉（要回的訊息也停）*/
     { const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
-      if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=f; } }
+      if(Math.abs(tt-Math.round(tt))<1e-6){ if(STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ if(GM.money) GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
         if(P){ try{ if(STORY.phoneRules) STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('JP.jump phone',e); } } }
       { const s=S.stopNow(G,where,w0); if(s){ why=s; break; } }
       const nx=S.nextStop(G,tt,where); if(nx!=null&&nx<t) t=nx; }

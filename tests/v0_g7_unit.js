@@ -31,7 +31,8 @@ const TH=(th)=>(G.msgs||[]).filter(m=>m.th===th);
 const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
 E.endCinematic=()=>{}; E.player.obj.position=E.player.obj.position||{x:0,y:0,z:0}; GM.hideHUD=()=>{};
 GM.spawnCharacter=(id,x,z,o)=>{ if(GM.npc[id]) return GM.npc[id]; const n={charId:id,obj:{position:{x,y:0,z}},seat:o&&o.seat||null,pose:o&&o.pose||'idle'}; GM.npc[id]=n; return n; };
-const cards=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'｜'+(b||'')); };
+const cards=[], advLog=[]; GM.titleCard=async(a,b)=>{ cards.push(a+'｜'+(b||'')); advLog.push('card:'+a+(ADV.active?'（2D）':'（3D）')); };
+const ADV0={begin:ADV.begin,end:ADV.end}; ADV.begin=function(o){ ADV.active=true; const b=o&&o.background; advLog.push('begin:'+(b&&typeof b==='object'?b.image:b)); }; ADV.end=function(){ ADV.active=false; advLog.push('end'); };   /* X09：記 2D 開關（字卡出現時 3D 有沒有露出來）*/
 const XUN='econ_zhengxun';
 (async()=>{
   const Y0=STORY.y0Day1(); const D=k=>STORY.dayOfKey(k);
@@ -40,6 +41,9 @@ const XUN='econ_zhengxun';
   check('1. 新遊戲（預設）＝經濟系開局：stage econ、ECON_CAMP_OPEN、E01 演完',G.stage==='econ'&&G.flags.ECON_CAMP_OPEN===true&&G.flags.E01_DONE===true,JSON.stringify({stage:G.stage,f:G.flags.ECON_CAMP_OPEN}));
   check('2. 回顧只有前三句（念經濟為止）',JSON.stringify(L.slice(0,3))===JSON.stringify(STORY.LAW_START_RECAP.slice(0,3))&&!L.includes(STORY.LAW_START_RECAP[3]),JSON.stringify(L.slice(0,4)));
   check('3. 字卡：「2024 年 8 月 23 日（五）｜經濟系迎新宿營」→「8 月 23 日～25 日｜經濟系宿營」→「2024 年 9 月 1 日（日）｜開學前一天」',cards[0]==='2024 年 8 月 23 日（五）｜經濟系迎新宿營'&&cards[1]==='8 月 23 日～25 日｜經濟系宿營'&&cards[2]==='2024 年 9 月 1 日（日）｜開學前一天',JSON.stringify(cards));
+  { const k=advLog.findIndex(x=>x.startsWith('card:2024 年 8 月 23 日')), nb=advLog.slice(k+1).find(x=>x.startsWith('begin:'));
+    check('3b. X09（BUG-CAMP-CUT-1018，使用者「去宿營前一秒還在椰林大道」）：回顧完 2D 不關、宿營字卡疊在黑底上（不露出 3D）；遊覽車那段的背景是遊覽車（tour_bus）',k>0&&/（2D）$/.test(advLog[k])&&!advLog.slice(0,k).includes('end')&&nb==='begin:assets/bg/tour_bus.webp',JSON.stringify(advLog.slice(0,k+3))); }
+  ADV.begin=ADV0.begin; ADV.end=ADV0.end; ADV.active=false;
   const i0=L.indexOf('（遊覽車上，你從上車就開始睡。）');
   check('4. 遊覽車：兩句旁白、可昕兩句、二選一；選「妳一直在看我睡覺喔？」→「我在看名單。你剛好在名單旁邊。」、E15_BUS',i0>0&&L[i0+2]==='可昕：你醒了？你是第三小隊的吧。我也是。'&&L[i0+3]==='可昕：我叫杜可昕。……你睡了一個小時，車子轉彎你都沒醒。'&&JSON.stringify(opts[0])==='["「……我昨天沒睡。」","「妳一直在看我睡覺喔？」"]'&&L[i0+4]==='可昕：我在看名單。你剛好在名單旁邊。'&&G.flags.E15_BUS==='watching',JSON.stringify(L.slice(i0,i0+5)));
   check('5. E15 的三句旁白、8/25 回家那句、開學前那一週那句',['（經濟系的宿營，山邊的青年活動中心。第三小隊：你、可昕、阿勳、韋綸，小隊輔是家豪學長。）','（回到家，你倒在床上，一覺睡到晚上。）','開學前那一週，你在家把要帶去宿舍的東西裝進三個紙箱。'].every(t=>L.includes(t))&&!L.some(t=>/洗衣機/.test(t)));

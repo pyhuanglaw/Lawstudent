@@ -8,6 +8,7 @@
 |---|---|---|---|---|
 | `dorm-hall.bundle` | `wip/dorm-hall` | `bf750b4` | 宿舍走廊（D44）：新區域 `dorm_hall`（src/dorm3d.js、src/data/dorm_layout.js）、Blender 正式模型（tools/blender/dorm_hall.py → assets/models/env/dorm_hall.glb）、窗景拍攝腳本（tools/shots/dorm_views.py）、測試（tests/flow_dorm_hall.py、nav_buildings_unit 宿舍段） | WIP：導航單元測試 17 項通過；**瀏覽器流程測試、窗景照片、VISUAL_REVIEW 還沒做**；不可合併進要發布的版本 |
 | `wip_subagents_1021_1415.bundle`＋`wip_a49e7888_uncommitted_1021_1415.patch`、`wip_a73c8f28_uncommitted_1021_1415.patch` | `worktree-agent-a49e7888e56ebae1c`（4786dfdd：AA_357 大五，1-4、1-5 做完、1-6 WIP）、`worktree-agent-a73c8f28082f050ca`（d4ae2af9：AA 回覆小修 A 組 WIP）、`worktree-agent-ada67c9808dea4534`（91cd3186：AA_360 WIP，剛讀完規格） | 見左 | 2026-10-21 14:1x 使用者「每週使用量快要到了……先放上 GitHub」：LAWWW-C 的三個子代理半成品（前置 commit 都在 origin 的 claude/adoring-meitner-mqzst8 上；patch＝當下還沒 commit 的改動，在那個分支上 `git apply`） | WORK_IN_PROGRESS（子代理還在做，做完會正式合併；這份只是備份） |
+| `subagents_1022.bundle` | `y1b`（b177b020：AA_372 §6／BB_105、106／AA_373 §6，5 個 commit）、`aa374`（bdb2100d：AA_369 §9／AA_374／AA_375，最後一個是 WIP）、`y3`（89d62218：AA_376／AA_377／畢業後，WIP）、`date2`（eedb94ca：校外約會四個 bug＋AA_359 第 5 節，最後一個是 WIP） | 見左 | 2026-10-22 01:1x 工作階段重新啟動，帳號 A LAWWW 的四個子代理被停掉（系統不讓自動接續）；前置 commit 都在 origin 的開發分支上（e11007d4 以前） | WORK_IN_PROGRESS：沒有跑完測試；LAWWW 接著做、跑完測試再合併 |
 
 還原（在 repo 裡，開發分支已經 fetch 過）：
 ```bash

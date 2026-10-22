@@ -60,7 +60,7 @@ GM.money=function(n){ G.money+=n; };
   let r=await play(0,['heroine_01','classmate_bohan']);
   check('4. 認識以安：「（以安坐在第一排。）」「日本。我國中就決定了。」',r.L[0]==='（以安坐在第一排。）'&&r.L[1]==='以安：日本。我國中就決定了。',JSON.stringify(r.L.slice(0,2)));
   check('4. 三個區：日本、美國、台灣；選日本＝EXPO_COUNTRY 日本',JSON.stringify(r.O)==='["（坐到日本那一區）","（坐到美國那一區）","（坐到台灣那一區）"]'&&G.flags.EXPO_COUNTRY==='日本');
-  check('4. 兩個都認識：散場三句',r.L.slice(-3).join('｜')==='柏翰：交換要成績多少？｜以安：我查過了。你夠。｜柏翰：……我是問妳。',JSON.stringify(r.L.slice(-3)));
+  check('4. 兩個都認識：散場三句（AA_255 第 4 節第 7 點的改稿）',r.L.slice(-3).join('｜')==='柏翰：交換要成績多少？｜以安：簡章第三頁有寫，我等一下傳給你。｜柏翰：好。',JSON.stringify(r.L.slice(-3)));
   r=await play(1,['heroine_01']);
   check('5. 不認識柏翰：沒有那三句；美國',!r.L.some(t=>/交換要成績/.test(t))&&G.flags.EXPO_COUNTRY==='美國');
   r=await play(2,[]);

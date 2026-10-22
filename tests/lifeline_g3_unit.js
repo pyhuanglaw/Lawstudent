@@ -63,9 +63,9 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     econ(d,17,'home',{CRAM_FREE_KNOWN:true}); picks=['先看看']; await EVENTS.run(ev('ev_y0_e22b')); const L=lines();
     check('3-7 E22b：市立圖書館借的書、公館的咖啡店、「……你上禮拜說「還不知道」。」→「先看看而已。」→「先看看的書，你拿得很緊。」、E22B_TOLD false；不在總圖',L[0].includes('家附近的市立圖書館借的')&&L.includes('杜可昕：先看看的書，你拿得很緊。')&&G.flags.E22B_TOLD===false&&ev('ev_y0_e22b').location==='any',L.join('｜')); }
   /* E24 2/8 */
-  { const d=DK('2025-02-08'); econ(d,22.9,'home',{}); run(22.9,23.1); const m=(G.msgs||[]).find(x=>x.tag==='y0_e24n'&&x.ask);
-    check('3-8 2/8 23:00 三個選項「法律。」「我不知道。」「妳呢？」',m&&J(m.ask.opts.map(o=>o.t))===J(['法律。','我不知道。','妳呢？']),J(m&&m.ask.opts.map(o=>o.t)));
-    m.ans=0; G.hour=23.2; run(23.2,23.6); const t=txt('p:kexin'); check('3-8 選「法律。」：15 分鐘後「好。」「……我是在問我自己。晚安。」',t.slice(-2).join('｜')==='kexin:好。｜kexin:……我是在問我自己。晚安。',J(t)); }
+  { const d=DK('2025-02-08'); econ(d,22.9,'home',{}); run(22.9,23.1); const N=(G.msgs||[]).filter(x=>x.tag==='y0_e24n');
+    check('3-8 AA_368 H3：2/8 23:00「我把高三的講義翻出來了。」「數學那本，每一頁都畫滿了。……我那時候到底在想什麼。」、沒有選項（原本「如果可以重來一次選科系」三選一：2/2 蓮池潭已經說好一起考法律、又是假設題）',J(N.map(x=>x.text))===J(['我把高三的講義翻出來了。','數學那本，每一頁都畫滿了。……我那時候到底在想什麼。'])&&N.every(x=>!x.ask),J(N.map(x=>x.text)));
+    G.hour=23.2; run(23.2,23.6); const t=txt('p:kexin'); check('3-8 AA_368 H3：y0_e24n_late 拿掉（之後沒有「好。」「……我是在問我自己。晚安。」）',!PHONE.sent(G,'y0_e24n_late')&&!t.includes('kexin:……我是在問我自己。晚安。'),J(t.slice(-3))); }
   check('3-9 腳踏車：「（查完再回）」（他在家查）',(()=>{ const src=require('fs').readFileSync(require('path').join(ROOT,'src/story3d.js'),'utf8'); return src.includes("{t:'（查完再回）',")&&!src.includes("{t:'（去總圖查完再回）',"); })());
   /* E21 除夕 */
   { const d=DK('2025-01-28'); econ(d,22,'home',{}); picks=['我媽會問']; await EVENTS.run(ev('ev_y0_e21')); const L=lines(), O=opts[0];

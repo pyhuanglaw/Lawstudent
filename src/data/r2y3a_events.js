@@ -61,7 +61,7 @@ const R2Y3A_EVENTS=(function(){
     dialogue:[ {speaker:null,text:'（下午四點，一台舊舊的家用車停在旅館門口。她沒有下車，按了一下喇叭。）'},
       {speaker:'kexin',expression:'teasing',text:'上車。……音樂你管。'},
       {advance:toH(19.5)},
-      {scene:'高雄・港邊的山上',bg:'dark'},   /* 背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
+      {scene:'高雄・港邊的山上',bg:'kh_river_night'},   /* BG-DARK-70-1021（BB_220★）：晚上那 7 句先用 kh_river_night 暫代（河邊步道，不是山上；之後換新圖 kh_hill_harbor_night）；原本：背景沒有：深色底＋字幕（第 5 節）；可昕七夕 CG 還沒生成（構圖要改高雄港），沒有以前不放 */
       {speaker:null,text:'（天黑以後，整個港口的燈都亮了。船慢慢開進來。）'},
       {speaker:'kexin',expression:'thinking',text:'牛郎織女要等一年。'},
       {speaker:'kexin',expression:'smile',text:'……我們有車。'},
@@ -149,19 +149,19 @@ const R2Y3A_EVENTS=(function(){
   const TA_SRC=typeof STORY_EVENTS!=='undefined'?STORY_EVENTS.find(e=>e.id==='ev_yt_ta_news'):null;
   const TA_DUE={custom:G=>!(G.flags&&G.flags.YT_TA)&&!done(G,'ev_yt_ta_news')&&!done(G,'ev_yt_ta_news_lib')&&stAt(G,'heroine_03','FRIEND')};
   const TA_LINES=((TA_SRC&&TA_SRC.dialogue)||[]).map(l=>l.label?Object.assign({},l):Object.assign({},l,{if:TA_DUE}));   /* 標籤照原本的（t1～t3），這裡的標籤用 fm_ 開頭不撞 */
-  const FIRST_MEAL={ id:'ev_y3_first_meal', title:'開學第一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+  const FIRST_MEAL={ id:'ev_y3_first_meal', title:'開學第一頓', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:50/60,
     dialogue:[ {scene:'阿鳳麵店・長桌',bg:'noodle_table'},
       {speaker:null,text:'（麵店的長桌。阿姨換了新的菜單，每一樣多五塊。）'},
       {if:kn('zhe'),speaker:'zhe',text:'五塊。……大三就是這種感覺。'},
       {if:kn('yu'),speaker:'yu',text:'欸，這學期刑訴，聽說林教授點名都點後面。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）週四的讀書會照常。八點。'},
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、小語、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天乾麵剩四碗。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
       {label:'fm_a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'fm_end'},
       {label:'fm_b'},{speaker:'classmate_bohan',text:'真的。所以我坐第一排。'},
-      {label:'fm_end'} ],
+      {label:'fm_end'},{advance:toH(19+40/60)} ],   /* AA_376 #7：19:40 以安、小語、柏翰先走（照 10/21 ev_an_admin_court 的做法）；之後只剩留下來的人，坐到 20:30（hours 照剩下的 50 分鐘）*/
     consequences:{flags:{Y3_FIRST_MEAL:true},memo:'大三的開學第一頓'},
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.firstMealPhoto(G); } };
 
@@ -195,7 +195,7 @@ const R2Y3A_EVENTS=(function(){
       {label:'t'},
       {speaker:null,text:'（她看了三次手錶。第三次：）'},
       {speaker:'kexin',expression:'serious',text:'還有九分鐘。……你說一件今天的事。只說一件。'},
-      {choice:[{text:'「刑訴老師點了後面三排。」',goto:'s1'},{text:'「阿哲當隊長了。」',if:{flags:['ZHE3']},goto:'s2'},{text:'「今天沒什麼事。」',goto:'s3'}]},
+      {choice:[{text:'「刑訴老師昨天點了後面三排。」',goto:'s1'},   /* AA_376 #12：刑訴在週二、五（K15 是週三）*/{text:'「阿哲當隊長了。」',if:{flags:['ZHE3']},goto:'s2'},{text:'「今天沒什麼事。」',goto:'s3'}]},
       {label:'s1'},{speaker:'kexin',expression:'thinking',text:'你坐第幾排？'},{speaker:'player',text:'第四排。'},{speaker:'kexin',expression:'laugh',text:'……好險。'},{goto:'end'},
       {label:'s2'},{speaker:'kexin',expression:'laugh',text:'他？……他會每場都請全隊吃麵吧。'},{goto:'end'},
       {label:'s3'},{speaker:'kexin',expression:'teasing',text:'那就說你中午吃什麼。……現在這碗不算。'},
@@ -207,7 +207,7 @@ const R2Y3A_EVENTS=(function(){
 
   /* ---------- 2-Y3-07 可昕 K11「她來台大聽講座」（裁定 #30）：9/29（三）19:00～20:30 博雅的大教室。一起聽＝出遊；她自己聽＝20:30～21:00 在博雅一樓的小桌子（作息在 r2y3a3d.js）---------- */
   const LECTURE={ id:'ev_kexin_lecture_ntu', title:'她來台大聽講座', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
-    dialogue:[ {scene:'博雅教學館',bg:'dark'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
+    dialogue:[ {scene:'博雅教學館',bg:'linze_auditorium'},   /* 講座在博雅 101（3D 區域的大教室）；出遊的 2D 沒有這張圖：深色底＋字幕 */
       {speaker:null,text:'（博雅的大教室。講座的題目是「平台、新創與新的規則」。可昕坐第三排，筆記寫了兩頁。）'},
       {speaker:null,text:'（講者一直說「彈性」。）'},
       {advance:toH(20.5)},
@@ -260,7 +260,7 @@ const R2Y3A_EVENTS=(function(){
       {if:and(ZQF,nTST),speaker:'kai',text:'（舉起泡麵）背景音需要補給。'},
       {if:ZQF,speaker:'heroine_04',text:'……好啦。我也去泡一碗。'},
       {if:ZQF,choice:[{text:'陪她修到半夜（視訊開著，各做各的）',goto:'v1'},{text:'「颱風天也要睡覺。」',goto:'v2'},{text:'吃掉阿凱的泡麵',goto:'v3'}]},
-      {if:nZQF,speaker:'kai',text:'我們那層停電了。你們這層還有電。'},
+      {if:nZQF,speaker:'kai',text:'我們那棟停電了。你們這棟還有電。'},   /* AA_376 #8：大二起他住別棟 */
       {if:nZQF,speaker:null,text:'（他拆了第一包。）'},
       {if:nZQF,choice:[{text:'「一人一包。」',goto:'k1'},{text:'「你可以待到幾點？」',goto:'k2'}]},
       {label:'v1'},{advance:toH(24)},{goto:'end'},   /* 訪客規定：同性訪客可以進房間到 24:00（AA_185 1-8）*/
@@ -312,7 +312,7 @@ const R2Y3A_EVENTS=(function(){
   const CW=v=>({custom:G=>!!G.flags&&G.flags._CR_WITH===v});
   const COURT={ id:'ev_crimpro_court_visit', title:'旁聽作業', participants:[], location:'any', trigger:'outing', background:'dark', hours:2,
     beforeOuting:async(G,GM,q)=>{ G.flags._CR_WITH=(q&&q.crWith)||'self'; },
-    dialogue:[ {scene:'地方法院',bg:'dark'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
+    dialogue:[ {scene:'地方法院',bg:'court_gallery'},   /* 法院走廊、旁聽席的 2D（AA_252 5-1）開發分支沒有：深色底＋字幕。CG-16「起立」這一版不放（AA 審稿第 1 點）*/
       {speaker:null,text:'（法院的走廊很長，椅子上坐滿了等開庭的人。有一個阿姨一直在看手上的通知單。）'},
       {speaker:null,text:'（法庭比你想的小。旁聽席三排，坐了不到一半。）'},
       {speaker:null,text:'（法官進來的時候，大家站起來。坐下的時候，有人的椅子響了一聲。）'},
@@ -441,7 +441,7 @@ const R2Y3A_EVENTS=(function(){
   const RETELL={ id:'ev_yt_lease_retell', title:'續約', participants:['heroine_03'], location:'noodle', trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{custom:G=>{ const a=D('2027-11-25'), b=D('2027-12-14'); return a!=null&&G.day>=a&&G.day<=b&&!(G.flags&&G.flags.YT_EV14)&&!done(G,'ev_yt_lease_renew')&&stAt(G,'heroine_03','FAMILIAR'); }},
     dialogue:[ {speaker:'heroine_03',text:'阿姨續約了。五年，寫成書面的。'},
-      {speaker:'heroine_03',text:'……新屋主說，他小時候也來這裡吃過麵。'},
+      {speaker:'heroine_03',text:'……新屋主說，他高中的時候也來這裡吃過麵。'},   /* AA_376 #10：和現場（「我高中的時候來過。」）一致 */
       {speaker:'heroine_03',text:'阿姨要請一個工讀生。禮拜四。'},
       {if:{memory:[{npc:'heroine_03',tag:'RENT_CONSULTATION'}]},speaker:'heroine_03',text:'法服那次說的，後來都用上了。'},
       {set:{YT_EV14:'heard'}} ] };
@@ -470,7 +470,8 @@ const R2Y3A_EVENTS=(function(){
   /* ---------- 2-Y3-19 可昕 K17「學弟妹的練習對象」（裁定 #9、#10）：12/9（四）21:45 視訊；大三下 4/26（三）18:30 政大山下（日本路線＝19:30 視訊被看）---------- */
   const TUTOR={ id:'ev_kexin_tutor_practice', title:'學弟妹的練習對象', participants:['kexin'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
     dialogue:[ {scene:'視訊',bg:'video'},
-      {speaker:'kexin',expression:'smile',text:'我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'},
+      {unless:{memory:[{npc:'kexin',tag:'KX5_HYPO_SENIOR'}]},speaker:'kexin',expression:'smile',text:'我開始帶大一的民總讀書會了。我先講一次給你聽，你當學弟妹。'},
+      {if:{memory:[{npc:'kexin',tag:'KX5_HYPO_SENIOR'}]},speaker:'kexin',expression:'smile',text:'民總讀書會，我先講一次給你聽。'},   /* AA_376 #5：視訊的閒聊階梯 K5-L3 已經宣布過「我開始帶大一的民總讀書會了」（記憶 KX5_HYPO_SENIOR）；K17 演過以後 K5-L3 直接算過（src/y3fill3d.js）*/
       {choice:[{text:'（聽懂了）',set:{KX_K17:'heard'},goto:'p1'},{text:'（假裝聽懂）',set:{KX_K17:'fake'},goto:'p2'},{text:'（故意問一個怪問題）',set:{KX_K17:'odd'},goto:'p3'}]},
       {label:'p1'},{speaker:'kexin',expression:'teasing',text:'真的？那你講一次給我聽。'},{goto:'end'},
       {label:'p2'},{speaker:'kexin',expression:'teasing',text:'你假裝聽懂的時候，會點頭點兩次。'},{goto:'end'},

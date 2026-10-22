@@ -19,7 +19,10 @@
    S10 回程：12/21 23:55 舊金山起飛 → 12/23 05:40 桃園入境大廳（airport_arr）→ 上午回家 → 19:00 409（exchange3d.js）。
    S11 何俊朗 1～5（AA_328 3-12）、自習室的招呼；何俊朗 6 是 r2y4a3d.js 的 12/16 道別。
    S12 湖邊：8/5 以後自由時間也可以去（社區出口旁「去湖邊」，2D）。
-   測試：node tests/us_life_unit.js */
+   AA_370（AA-A 2026-10-21 修正稿，企劃線 a1dc3e61）：M3 何俊朗只跑這一版（r3_3d.js 的 R3 版停用；MET_LONG 等記憶⇄旗標、舊存檔 R3 版演過的不再演，S.longMerge）；
+       M8 亞利桑那（大峽谷 10/7～10/14）慢 15 小時、Q14 期限（S.canyonBack）；M9 學姊的作息扣掉芝加哥（11/11～12）、初雪那晚的小教堂台階（12/2 20:00～21:30）；
+       L1 沒見過他＝「同一組的交換生」（上課旁白）；L4 秋假他不在自習室；L9 竹葉亞洲超市 10:00～21:00（AA_370 第 6 節第 2 題：照 AA_291）、週日公休（擋從草原超市過馬路）。
+   測試：node tests/us_life_unit.js、node tests/aa370_us_unit.js */
 'use strict';
 const USL=(function(){
   const S={};
@@ -68,7 +71,7 @@ const USL=(function(){
   /* done 上過了／open 現在去來得及（開始前 1 小時起、下課前 15 分鐘以前）／upcoming／missed */
   S.status=(G,it)=>{ const R=S.rec(G); if(R.cls[it.key]) return 'done'; if(it.day<G.day||(it.day===G.day&&G.hour>=24)) return 'missed'; if(it.day>G.day) return 'upcoming'; const h=hh(G); if(h>=it.t1-0.25) return 'missed'; return h>=it.t0-1?'open':'upcoming'; };
   S.openItem=G=>S.items(G).find(it=>S.status(G,it)==='open')||null;
-  S.classLine=(id,n)=>{ const L=X.classLines[id]||[]; return L.length?L[((n|0)%L.length+L.length)%L.length]:''; };   /* 第一次上那門課＝第一句，之後輪流（AA_340 G2）*/
+  S.classLine=(id,n,G)=>{ const L=X.classLines[id]||[]; const v=L.length?L[((n|0)%L.length+L.length)%L.length]:''; return typeof v==='function'?v(G):v; };   /* 第一次上那門課＝第一句，之後輪流（AA_340 G2）；函式＝照旗標換（AA_370 L1）*/
   S.special=(G,it)=>it.c.id==='us_comp'&&it.day===D('2028-10-26')?'ev_usl_midterm':(it.c.id==='us_writing'&&it.day===D('2028-12-08')?'ev_usl_lastclass':null);
   const SPAWN0={us_outside:{x:-35,z:0,yaw:Math.PI/2},us_apartment:{x:2.4,z:-1,yaw:Math.PI/2},us_campus_class_out:{x:0,z:9.02,yaw:0},us_clubhouse:{x:-28,z:10.6,yaw:Math.PI},us_lawlib:{x:0,z:7.8,yaw:Math.PI},us_shared:{x:0.4,z:4,yaw:-Math.PI/2}};
   const SP=k=>Object.assign({},(typeof US3!=='undefined'&&US3.SPAWN&&US3.SPAWN[k])||SPAWN0[k]||{x:0,z:2,yaw:Math.PI});
@@ -79,7 +82,7 @@ const USL=(function(){
       R.cls[it.key]=1; R.att[it.c.id]=n+1;
       if(sp){ await GM.fade(false); await run(sp,{noTitle:true}); }
       else { if(typeof ADV!=='undefined') ADV.begin({background:typeof OUT!=='undefined'?OUT.bg('us_classroom'):'dark'}); await GM.fade(false); if(typeof ADV!=='undefined'&&ADV.log) ADV.log('',it.c.name); GM.caption('',it.c.name,2400); await GM.sleep(700);
-        await GM.say(null,S.classLine(it.c.id,n)); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
+        await GM.say(null,S.classLine(it.c.id,n,G)); if(typeof ADV!=='undefined'&&ADV.active) ADV.end(); }
       await GM.fade(true); const end=T(it.day,it.t1); if(now(G)<end) GM.advance(end-now(G));
       await GM.enter('us_campus',SP('us_campus_class_out'),{noFade:true}); await GM.fade(false); }   /* 下課：法學院台階下（US3.SPAWN.us_campus_class_out）*/
     finally{ GM.sceneEnd(); }
@@ -126,7 +129,15 @@ const USL=(function(){
 
   /* ======================= S8 時差 ======================= */
   /* 舊金山（12/16～12/21，交往中那一週）慢 16 小時（AA_291 4-2）；美東照 story3d.js（−12／11/5 起 −13）*/
-  { const tz0=STORY.tzOffset; STORY.tzOffset=function(G,day){ const d=day==null?(G&&G.day):day; if(G&&isUS(G)&&G.flags.US_TRIP_MODE==='sf'&&d>=D(S.CAL.leave)&&d<=D(S.CAL.leave)+5&&STORY.abroad&&STORY.abroad(Object.assign({},G,{day:d}))) return -16; return tz0.apply(this,arguments); }; }
+  /* 亞利桑那（10/7～10/14，交往中的秋假大峽谷，r2y4b_events.js ev_us_canyon）慢 15 小時（AA_291 4-2、AA_370 M8）：去了才算（US_CANYON，或行事曆的那一趟 done）。
+     那幾天不能用手機（整趟是一個出遊，時間直接跳到 10/14 18:00），臺灣傳來的訊息回來才看到、時間照亞利桑那；子晴 Q14 的期限延到回來隔天中午（y34b3d.js S.q14Until 讀 canyonBack）*/
+  S.CANYON={from:'2028-10-07',to:'2028-10-14',backH:18,out:'y4_us_canyon'};
+  S.canyonGone=G=>{ if(!G||!G.flags||!isUS(G)) return false; if(G.flags.US_CANYON) return true; const q=typeof OUT!=='undefined'&&OUT.get?OUT.get(G,S.CANYON.out):null; return !!q&&q.state==='done'; };
+  S.canyonBack=G=>S.canyonGone(G)?T(D(S.CANYON.to),S.CANYON.backH):null;   /* 回到印第安納：10/14 18:00（ev_us_canyon 最後一段）*/
+  { const tz0=STORY.tzOffset; STORY.tzOffset=function(G,day){ const d=day==null?(G&&G.day):day; const ab=()=>!!STORY.abroad&&STORY.abroad(Object.assign({},G,{day:d}));
+      if(G&&isUS(G)&&G.flags.US_TRIP_MODE==='sf'&&d>=D(S.CAL.leave)&&d<=D(S.CAL.leave)+5&&ab()) return -16;
+      if(G&&d!=null&&d>=D(S.CANYON.from)&&d<=D(S.CANYON.to)&&S.canyonGone(G)&&ab()) return -15;
+      return tz0.apply(this,arguments); }; }
   /* 台灣的朋友回訊息的時間：照台灣時間算他們醒著、在忙（MSG.replyAt），再換回當地時間。學姊、何俊朗在美國，照當地 */
   if(typeof MSG!=='undefined'&&MSG.replyAt){ const r0=MSG.replyAt; MSG.replyAt=function(G,id){ if(!S.here(G)||id===S5||id==='npc_long') return r0.apply(this,arguments); const tz=STORY.tzOffset(G)||0; if(!tz) return r0.apply(this,arguments);
       const t=now(G)-tz, tw=Object.assign({},G); tw.day=Math.floor(t/24); tw.hour=t-tw.day*24; tw.weekday=wdOf(tw.day); const r=r0.call(this,tw,id); if(!r) return r;
@@ -140,13 +151,17 @@ const USL=(function(){
 
   /* ======================= S4 學姊在美國的作息（AA_340 4-1）======================= */
   /* 回傳 {zone, act} 在 3D 的那一區；{away} 不在 3D（「現在大概在」寫 away）；null＝沒有固定行程 */
-  S.sisAt=function(G){ if(!S.here(G)||!(G.day<D(S.CAL.leave))) return null; const w=G.weekday, h=hh(G), oct=G.day>=D('2028-10-01');
+  /* AA_370 M9：作息扣掉她不在的兩段——11/11 07:00～11/12 21:45 芝加哥（r2y4a3d.js：巴士 07:00 出發、隔天晚上回程；祐廷沒去她也去）、12/2 20:00～21:30 小教堂前的台階（初雪，等你／挽回中 20:00 自動到場）*/
+  S.SIS_AWAY=[{from:['2028-11-11',7],to:['2028-11-12',21.75],away:'芝加哥'},{from:['2028-12-02',20],to:['2028-12-02',21.5],away:'小教堂前的台階'}];
+  S.sisAwayAt=t=>{ for(const a of S.SIS_AWAY){ const t0=T(D(a.from[0]),a.from[1]), t1=T(D(a.to[0]),a.to[1]); if(t>=t0&&t<t1) return {away:a.away,to:a.to[1],toDay:D(a.to[0])}; } return null; };
+  S.sisAway=G=>S.sisAwayAt(now(G));
+  S.sisAt=function(G){ if(!S.here(G)||!(G.day<D(S.CAL.leave))) return null; { const a=S.sisAway(G); if(a) return a.toDay===G.day?{away:a.away,to:a.to}:{away:a.away}; } const w=G.weekday, h=hh(G), oct=G.day>=D('2028-10-01');
     if(w>=1&&w<=5){ if(h>=9&&h<12) return {zone:'us_lawlib',act:'read',to:12}; if(h>=12&&h<13) return null;   /* 草原超市旁的三明治店：3D 進來以前不出現 */
       if(w===3&&h>=14&&h<16+50/60) return {away:'研討課',to:16+50/60}; if(oct&&(w===2||w===4)&&h>=19&&h<21) return {away:'會所自習室',club:true,to:21}; if(h>=18&&h<21) return {zone:'us_shared',act:'sit',to:21}; return null; }
     return h>=14&&h<21?{zone:'us_shared',act:'sit',to:21}:null; };
   S.sisClub=G=>{ const a=S.sisAt(G); return !!(a&&a.club); };
   /* 手機「人」的「現在大概在」（game3d.js whereText：PLACES.names[zone]＋（看書，到 12:00））：美國的區域用 us3d.js 的區域名字 */
-  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
+  if(typeof PLACES!=='undefined'&&PLACES.names&&typeof Z3!=='undefined'&&Z3.ZONES) for(const k of ['us_campus','us_lawlib','us_apartment','us_shared','us_outside','us_market','us_asian_market','us_market_street']) if(!PLACES.names[k]&&Z3.ZONES[k]&&Z3.ZONES[k].name) PLACES.names[k]=Z3.ZONES[k].name;
   /* 「現在大概在」：法學院圖書館只在玩家人在校園或圖書館時給區域（「帶我去」指得到路：校園有往圖書館的門）；其他地方只寫地名（美國的區域沒有在 guide3d.js 的 LINKS 裡）*/
   { const wh0=STORY.whereIs; STORY.whereIs=function(GM,id){ const G=GM&&GM.G; if(id!==S5||!G||!S.here(G)) return wh0.apply(this,arguments); const a=S.sisAt(G); if(!a) return null; const until=a.to!=null?hm(a.to):null;
       if(a.away) return {zone:null,act:'',away:a.away,until}; if(a.zone==='us_shared') return {zone:null,act:'',away:'C 棟 208',until};
@@ -177,7 +192,7 @@ const USL=(function(){
 
   /* ======================= S5 會所（2D：交誼廳＋自習室）、S11 何俊朗的招呼 ======================= */
   S.clubOpen=G=>{ const h=hh(G); return h>=8&&h<23; };   /* AA_291 第 3 節：每天 08:00～23:00 */
-  S.longHere=G=>{ if(!LONG(G)||!S.here(G)) return false; const h=hh(G), w=G.weekday; if(G.day===D('2028-12-09')) return h>=19&&h<22; return w>=1&&w<=5&&h>=19&&h<22&&G.day<D(S.CAL.leave)&&!inR(G.day,S.CAL.thanks); };   /* 平日 19～22；12/9（六）在（G7）*/
+  S.longHere=G=>{ if(!LONG(G)||!S.here(G)) return false; const h=hh(G), w=G.weekday; if(G.day===D('2028-12-09')) return h>=19&&h<22; return w>=1&&w<=5&&h>=19&&h<22&&G.day<D(S.CAL.leave)&&!inR(G.day,S.CAL.thanks)&&!inR(G.day,S.CAL.fall); };   /* 平日 19～22；12/9（六）在（G7）；秋假 10/9～10/13 他在芝加哥找朋友（AA_291 2-1、AA_370 L4）*/
   /* 何俊朗的招呼（AA_291 3-1；一天一句輪流）＋G5、G7、4-1 的變化 */
   S.longGreet=function(G){ const R=S.rec(G), F=G.flags||{}; if(G.day===D('2028-12-09')) return [X.long1209];
     const ok=X.longGreet.filter(q=>(!q.haihao||F.LONG_HAIHAO)&&(!q.thu||G.weekday===4)&&(!q.beforeDST||G.day<D('2028-11-05')));
@@ -218,10 +233,11 @@ const USL=(function(){
   /* ======================= 互動（包住 STORY.interact）======================= */
   S.c208Open=function(G){ if(!S.here(G)) return true; const d13=D('2028-09-13'), h=hh(G);
     if(G.day===d13&&h>=17.9&&h<19.5&&dating(G)) return true;   /* US2（r2y4a3d.js）*/
-    if(!dating(G)||G.day<d13||!(G.flags.US2||G.day>d13)) return false; const w=G.weekday; return (w===6||w===0)&&h>=14&&h<21&&G.day<D(S.CAL.leave); };   /* AA_291 第 3 節：交往中、US2 以後，週六、日 14:00～21:00 */
+    if(!dating(G)||G.day<d13||!(G.flags.US2||G.day>d13)) return false; if(S.sisAway(G)) return false; const w=G.weekday; return (w===6||w===0)&&h>=14&&h<21&&G.day<D(S.CAL.leave); };   /* AA_291 第 3 節：交往中、US2 以後，週六、日 14:00～21:00；她在芝加哥、小教堂台階的時候門關著（AA_370 M9）*/
   /* AA_345 I7：交往中、平日晚上＝「平日晚上她在寫論文」那一句；挽回中（和其他關著的時候）＝「（208 的門關著。）」*/
   S.c208Closed=G=>dating(G)&&G.weekday>=1&&G.weekday<=5&&G.hour>=18?X.looks.c208Eve:X.looks.c208;
   S.interact=async function(it,GM){ const G=GM.G; if(!it||!G||!S.here(G)) return false;
+    if(it.exit&&it.exit.to==='us_asian_market'&&typeof PLACES!=='undefined'&&PLACES.isOpen&&!PLACES.isOpen('us_asian_market',hh(G),G.day)){ GM.toast(PLACES.closedText('us_asian_market',hh(G),G.day),4500); return true; }   /* AA_370 L9：竹葉亞洲超市照台詞（「亞洲超市九點關。」「週日公休」）09:00～21:00、週日公休（src/data/places.js）；US1 抵達那晚是劇情帶進去的，不經過這裡 */
     if(it.uslClass){ const c=S.openItem(G); if(c){ await S.attend(GM,c); return true; } return false; }
     if(it.uslLake){ await S.lake(GM); return true; }
     if(it.usBus==='campus'){ const c=S.openItem(G); if(c){ let k=1; GM.sceneBegin(); try{ k=await GM.choose([{t:'直接去上課：'+c.c.name,hint:hm(c.t0)+'–'+hm(c.t1)},{t:it.label||'搭公車（去學校）'}]); } finally { GM.sceneEnd(); } if(k===0){ await S.attend(GM,c); return true; } } return false; }
@@ -258,12 +274,12 @@ const USL=(function(){
   /* ======================= S3 快轉、摘要日 ======================= */
   S.ffEnd=()=>T(D(S.CAL.leave),7);   /* 12/16 07:00 離開（之後是 r2y4a3d.js 的那一週）*/
   const FIXED=[ ['2028-08-03',4.5,G=>!G.flags.USL_JETLAG],['2028-08-05',17.5,G=>dating(G)],['2028-08-21',9,G=>!(S.rec(G).att.us_intro|0)],['2028-09-04',17,G=>!done(G,'ev_usl_bbq')],
-    ['2028-09-13',18,G=>dating(G)],['2028-09-13',18.75,G=>!dating(G)],['2028-10-04',20.5,G=>done(G,'ev_usl_long3')&&!done(G,'ev_usl_long4')],['2028-10-16',21,()=>true],['2028-10-26',12,()=>true],['2028-10-31',18,G=>!done(G,'ev_usl_halloween')],['2028-10-31',19,G=>done(G,'ev_usl_halloween')&&!done(G,'ev_usl_halloween2')],
+    ['2028-09-13',18,G=>dating(G)],['2028-09-13',18.75,G=>!dating(G)],['2028-10-04',20.5,G=>S.long3Done(G)&&!done(G,'ev_usl_long4')&&!G.flags.LONG_NOTE],['2028-10-16',21,()=>true],['2028-10-26',12,()=>true],['2028-10-31',18,G=>!done(G,'ev_usl_halloween')],['2028-10-31',19,G=>done(G,'ev_usl_halloween')&&!done(G,'ev_usl_halloween2')],
     ['2028-11-22',21,()=>true],['2028-11-23',17,G=>!dating(G)&&!!G.flags.MET_LONG],['2028-12-02',18,()=>true],['2028-12-02',19.75,G=>!dating(G)],['2028-12-08',8,()=>true],['2028-12-16',7,()=>true] ];   /* AA_340 第 1 節的事件（出遊、要回的訊息另外停）*/
   S.nextStop=function(G,t0){ let best=null; const c=x=>{ if(x!=null&&x>t0+1e-6&&(best==null||x<best)) best=x; };
     for(const [k,h,f] of FIXED){ const d=D(k); if(d!=null&&(!f||f(G))) c(T(d,h)); }
     if(typeof OUT!=='undefined'&&OUT.rec) for(const q of OUT.rec(G)) if(q.state==='planned') c(T(q.day,q.h)-(OUT.trip?OUT.trip(G,q).travelH:(q.travelH||0))-0.25);
-    if(dating(G)&&(G.flags.US2||G.day>D('2028-09-13'))){ const d0=Math.floor(t0/24); for(let d=d0;d<=d0+7;d++){ const w=wdOf(d); if((w===6||w===0)&&d<D(S.CAL.leave)&&d>D('2028-09-13')) c(T(d,14)); } }   /* 交往中週末的 208 */
+    if(dating(G)&&(G.flags.US2||G.day>D('2028-09-13'))){ const d0=Math.floor(t0/24); for(let d=d0;d<=d0+7;d++){ const w=wdOf(d); if((w===6||w===0)&&d<D(S.CAL.leave)&&d>D('2028-09-13')&&!S.sisAwayAt(T(d,14))) c(T(d,14)); } }   /* 交往中週末的 208（她在芝加哥的週末不停，AA_370 M9）*/
     return best; };
   S.ffOpts=function(G){ if(!S.here(G)||!inUS(G)) return null; const t0=now(G), end=S.ffEnd(); if(end<=t0+0.5) return null; const nx=S.nextStop(G,t0), to=nx!=null&&nx<end?nx:end, d3=Math.min(T(G.day+3,8.5),end), d7=Math.min(T(G.day+7,8.5),end);
     return [{t:'到下一個有事的日子',hint:(nx!=null&&nx<end?'跳到 ':'沒有排定的事：到 ')+dateLabel(to),to},{t:'過三天',hint:'到 '+dateLabel(d3)+'（中間有事會先停）',to:d3},{t:'過一週',hint:'到 '+dateLabel(d7)+'（中間有事會先停）',to:d7},{t:'不用了',to:null}]; };
@@ -275,7 +291,7 @@ const USL=(function(){
   S.jump=async function(GM,t){ const G=GM.G, E=GM.E; await GM.fade(true); const tS=now(G); let tt=tS, n=0, why=null, mo=null; const P=typeof PHONE!=='undefined'?PHONE:null, p0=P&&P.pending?P.pending(G).length:0;
     { const nx=S.nextStop(G,tt); if(nx!=null&&nx<t) t=nx; }
     while(tt+0.25<=t+1e-6){ tt=Math.round((tt+0.25)*4)/4; setTime(G,E,tt);
-      if(Math.abs(tt-Math.round(tt))<1e-6&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=f; } }
+      if(Math.abs(tt-Math.round(tt))<1e-6&&STORY.monthlyFunds){ const f=STORY.monthlyFunds(G); if(f){ GM.money(f.amount); mo=typeof STORY!=='undefined'&&STORY.fundsJoin?STORY.fundsJoin(mo,f):f; } }
       if(P){ try{ STORY.phoneRules(GM); P.tick(G,out=>{ n+=out.length; }); }catch(e){ console.warn('USL jump phone',e); } }
       const nx=S.nextStop(G,tt); if(nx!=null&&nx<t) t=nx;
       if(P&&P.pending&&P.pending(G).length>p0){ why='msg'; break; } if(typeof OUT!=='undefined'&&OUT.due&&OUT.due(G)){ why='out'; break; } }   /* 要回的訊息、該出發的出遊：停在那裡 */
@@ -290,10 +306,25 @@ const USL=(function(){
       try{ const o=O[await GM.choose(O.map(x=>({t:x.t,hint:x.hint})),{menu:true})]; if(!o||o.to==null||o.to<=now(G)) return false; await S.jump(GM,o.to); return true; }
       finally{ GM.sceneEnd(); } }; }
 
+  /* ======================= AA_370 M3：何俊朗 1～5 只跑這一版（r3_3d.js 的 R3 版停用）=======================
+     MET_LONG 兩邊互相認：記憶（R3 版記的、人物面板讀的）⇄ 旗標（這一版記的）——MET_LONG、LONG_HAIHAO、LONG_BBQ、LONG_MENU；R3 版 2a 演過＝LONG_2A；R3 版答應的中餐館（LONG_MENU_DAY）＝USL_LONG5。
+     舊存檔（v9.10.3 兩版都排了）：R3 版已經演過的那一場，這一版不排（排了沒去＝取消）；R3 版 10/24 的約已經傳了，這一版不再傳；回公寓的筆記、聚餐的旁白看兩邊的旗標（tick）。*/
+  const R3_PAIRS=[['ev_long_orientation',['usl_long1']],['ev_long_class',['usl_long2a']],['ev_long_dinner',['usl_long2b']],['ev_long_bbq',['usl_long3']],['ev_long_menu',['usl_long5','usl_long5b']]];
+  const LONG_TAGS=['MET_LONG','LONG_HAIHAO','LONG_BBQ','LONG_MENU'];
+  const memHas=(id,t)=>typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has(id,t);
+  S.r3Did=(G,usl)=>R3_PAIRS.some(([r,u])=>u.includes(usl)&&done(G,r));   /* 這一場 R3 版已經演過 */
+  S.long3Done=G=>done(G,'ev_usl_long3')||done(G,'ev_long_bbq');
+  S.longMerge=function(G){ const F=G.flags; if(!F) return;
+    for(const k of LONG_TAGS){ const m=memHas('npc_long',k); if(m&&!F[k]) F[k]=true; else if(F[k]&&!m&&typeof SOCIAL!=='undefined'&&SOCIAL.remember) SOCIAL.remember('npc_long',k,''); }
+    if(done(G,'ev_long_class')&&!F.LONG_2A) F.LONG_2A=true;
+    if(F.USL_LONG5==null&&F.LONG_MENU_DAY) F.USL_LONG5=F.LONG_MENU_DAY==='2028-11-01'?'later':'go';
+    if(typeof OUT!=='undefined'&&OUT.get) for(const [r,us] of R3_PAIRS) if(done(G,r)) for(const u of us){ const q=OUT.get(G,u); if(q&&q.state==='planned') q.state='cancelled'; } };
+
   /* ======================= 手機（STORY.PHONE_RULES；時間都是當地）======================= */
   const past=(G,d,h)=>d!=null&&now(G)>=T(d,h);
   const plan=(G,o)=>typeof OUT!=='undefined'&&!OUT.get(G,o.id)&&OUT.plan(G,Object.assign({travel:'',travelH:0,late:0.75,back:'回到社區。'},o));
   S.phone=function(G){ if(!G||!G.flags||typeof PHONE==='undefined'||!isUS(G)) return; const F=G.flags, M=X.msgs, dt=dating(G);
+    S.longMerge(G);   /* AA_370 M3：美國路線都跑（回臺灣以後的尾聲 r2y4b3d.js 也讀 MET_LONG）*/
     /* G1 8/2 台灣 08:00 Kevin 家族群組（玩家還在機場：臺灣時間；學姊不回，挽回中照發）*/
     { const d=S.dep(); if(d!=null&&G.day>=d&&G.day<=d+1&&past(G,d,8)&&PHONE.inGroup(G,'family_law')&&!PHONE.sent(G,'usl_kevin_0802')) PHONE.at(G,d,8,M.kevin0802.map(t=>({th:'g:family_law',from:'kevin',name:'Kevin',text:t})),'usl_kevin_0802'); }
     if(!S.here(G)) return;
@@ -308,20 +339,20 @@ const USL=(function(){
     { const d=D('2028-08-10'), Z='heroine_02', h=21+(STORY.tzOffset(G,d)||0); if(G.day>=d&&G.day<=d+1&&past(G,d,h)&&!PHONE.sent(G,'usl_zr_0810')&&stageAt(Z,'FAMILIAR')&&(!STORY.knows||STORY.knows(Z,G))&&(typeof INV==='undefined'||!INV.hasContact||INV.hasContact(G,Z))){
         PHONE.at(G,d,h,[{th:'p:'+Z,from:Z,text:M.zr0810}],'usl_zr_0810'); F.USL_ZR_ADDR=true; } }
     /* 何俊朗 1（8/14 10:00 國際學生迎新）*/
-    plan(G,{id:'usl_long1',ev:'ev_usl_long1',day:D('2028-08-14'),h:10,late:1,place:'法學院',title:'國際學生迎新',alarm:true});
+    if(!S.r3Did(G,'usl_long1')) plan(G,{id:'usl_long1',ev:'ev_usl_long1',day:D('2028-08-14'),h:10,late:1,place:'法學院',title:'國際學生迎新',alarm:true});
     /* G2 8/26 可昕七夕（和可昕交往中；台灣 21:00＝當地 09:00，視訊）*/
     { const d=D('2028-08-26'); if(F.dating_kexin&&G.day<=d) plan(G,{id:'usl_qixi',ev:'ev_usl_qixi',day:d,h:21+(STORY.tzOffset(G,d)||0),late:0.75,place:'視訊',title:'可昕的視訊：七夕',verb:'接起來',no:'今天先不要',back:'視訊結束。'}); }
     /* 何俊朗 2a（9/8 12:00 Legal Writing 下課）、2b（9/15 18:30 新開的餐廳；2a 演過才有）*/
-    plan(G,{id:'usl_long2a',ev:'ev_usl_long2a',day:D('2028-09-08'),h:12,late:0.75,place:'法學院走廊',title:'Legal Writing 下課'});
-    if(F.LONG_2A) plan(G,{id:'usl_long2b',ev:'ev_usl_long2b',day:D('2028-09-15'),h:18.5,late:0.75,place:'新開的餐廳',title:'新開的餐廳'});
+    if(!S.r3Did(G,'usl_long2a')) plan(G,{id:'usl_long2a',ev:'ev_usl_long2a',day:D('2028-09-08'),h:12,late:0.75,place:'法學院走廊',title:'Legal Writing 下課'});
+    if(F.LONG_2A&&!S.r3Did(G,'usl_long2b')) plan(G,{id:'usl_long2b',ev:'ev_usl_long2b',day:D('2028-09-15'),h:18.5,late:0.75,place:'新開的餐廳',title:'新開的餐廳'});
     /* 9/16 學姊（交往中）：AA_340 第 1 節第 7 週；時間 AA 沒寫，排 12:10（她回訊息的時段）*/
     { const d=D('2028-09-16'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,12+10/60)&&!PHONE.sent(G,'usl_sis_0916')) PHONE.at(G,d,12+10/60,[P5(M.sis0916)],'usl_sis_0916'); }
     /* 何俊朗 3（10/4 20:00 會所自習室；有 MET_LONG）*/
-    if(F.MET_LONG) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});
+    if(F.MET_LONG&&!S.r3Did(G,'usl_long3')) plan(G,{id:'usl_long3',ev:'ev_usl_long3',day:D('2028-10-04'),h:20,late:1,place:'會所',title:'會所自習室'});
     /* 何俊朗 5：10/24 21:00 他約 → 10/25 19:00 中餐館；「明天不行。」＝11/1 同一時間 */
-    { const d=D('2028-10-24'); if(F.MET_LONG&&G.day>=d&&G.day<=d+8&&past(G,d,21)&&!PHONE.sent(G,'usl_long_1024')){ const L=[PL(M.long1024)]; L[0].ask={id:'usl_long5',until:T(d+1,19),opts:[{t:M.long1024ask[0][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[0][1]}],set:{USL_LONG5:'go'}},{t:M.long1024ask[1][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[1][1]}],set:{USL_LONG5:'later'}}]}; PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,L,'usl_long_1024'); }
-      if(F.USL_LONG5==='go') plan(G,{id:'usl_long5',ev:'ev_usl_long5',day:d+1,h:19,late:0.75,place:'中餐館',title:'中餐館'});
-      if(F.USL_LONG5==='later') plan(G,{id:'usl_long5b',ev:'ev_usl_long5',day:D('2028-11-01'),h:19,late:0.75,place:'中餐館',title:'中餐館'}); }
+    { const d=D('2028-10-24'); if(F.MET_LONG&&G.day>=d&&G.day<=d+8&&past(G,d,21)&&!PHONE.sent(G,'usl_long_1024')&&!PHONE.sent(G,'r3_long_5')){   /* r3_long_5：舊存檔 R3 版已經約過（AA_370 M3）*/ const L=[PL(M.long1024)]; L[0].ask={id:'usl_long5',until:T(d+1,19),opts:[{t:M.long1024ask[0][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[0][1]}],set:{USL_LONG5:'go'}},{t:M.long1024ask[1][0],say:[{from:'npc_long',name:'何俊朗',text:M.long1024ask[1][1]}],set:{USL_LONG5:'later'}}]}; PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,L,'usl_long_1024'); }
+      if(F.USL_LONG5==='go'&&!S.r3Did(G,'usl_long5')) plan(G,{id:'usl_long5',ev:'ev_usl_long5',day:d+1,h:19,late:0.75,place:'中餐館',title:'中餐館'});
+      if(F.USL_LONG5==='later'&&!S.r3Did(G,'usl_long5b')) plan(G,{id:'usl_long5b',ev:'ev_usl_long5',day:D('2028-11-01'),h:19,late:0.75,place:'中餐館',title:'中餐館'}); }
     /* G4 10/31 20:30 學姊（交往中）*/
     { const d=D('2028-10-31'); if(dt&&G.day>=d&&G.day<=d+1&&past(G,d,20.5)&&!PHONE.sent(G,'usl_sis_1031')) PHONE.at(G,d,20.5,M.sis1031.map(P5),'usl_sis_1031'); }
     /* G5 11/16 21:00 學姊（交往中）*/
@@ -349,9 +380,9 @@ const USL=(function(){
     /* G1 8/3 04:30 時差（公寓醒來，只演一次）*/
     if(G.day===D('2028-08-03')&&z==='us_apartment'&&h>=4.5&&h<9&&!F.USL_JETLAG) return go(()=>run('ev_usl_jetlag',{noTitle:true}));
     /* 何俊朗 4：10/4 當晚回公寓（自動）*/
-    if(z==='us_apartment'&&done(G,'ev_usl_long3')&&!done(G,'ev_usl_long4')&&(G.day===D('2028-10-04')||(G.day===D('2028-10-05')&&h<12))) return go(()=>run('ev_usl_long4',{noTitle:true}));
+    if(z==='us_apartment'&&S.long3Done(G)&&!done(G,'ev_usl_long4')&&!done(G,'ev_long_note')&&!F.LONG_NOTE&&(G.day===D('2028-10-04')||(G.day===D('2028-10-05')&&h<12))) return go(()=>run('ev_usl_long4',{noTitle:true}));   /* 舊存檔：R3 版的會所自習室也算、R3 版的筆記寫過就不再寫（AA_370 M3）*/
     /* 10/6 20:00 秋假前的聚餐（人在社區時；不在就隔天早上補一句）*/
-    { const d=D('2028-10-06'); if(F.MET_LONG&&!F.USL_PARTY&&((G.day===d&&h>=20&&z==='us_outside')||(G.day===d+1&&h>=5&&h<12&&inUS(G)))) return go(()=>run('ev_usl_party',{noTitle:true})); }
+    { const d=D('2028-10-06'); if(F.MET_LONG&&!F.USL_PARTY&&!F.LONG_PARTY&&((G.day===d&&h>=20&&z==='us_outside')||(G.day===d+1&&h>=5&&h<12&&inUS(G)))) return go(()=>run('ev_usl_party',{noTitle:true})); }
     /* G4 10/31 18:00～20:00 萬聖節（公寓）*/
     if(G.day===D('2028-10-31')&&z==='us_apartment'&&h>=18&&h<20&&!done(G,'ev_usl_halloween')){ F.USL_HW1_T=now(G); return go(()=>run('ev_usl_halloween')); }
     /* 第二次門鈴（19:00；AA_345 I2）：第一次響過、隔至少 15 分鐘 */

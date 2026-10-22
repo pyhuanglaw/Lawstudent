@@ -176,7 +176,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=fresh('2028-03-10',20,'jp_x','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); date('heroine_01'); at('2028-03-10',21); phone(); const q=OUT.get(G,'jp_g0_bag');
     check('G0 3/10 21:00 以安私訊「行李箱，明天一起去買？……我的輪子壞了一個。」→ 出遊 3/11 14:00 公館', th('p:heroine_01').includes('行李箱，明天一起去買？……我的輪子壞了一個。')&&!!q&&q.day===D('2028-03-11')&&q.h===14&&q.place==='公館');
     at('2028-03-11',13.5); H.picks=[0]; H.said=[]; H.opts=[]; await OUT.go(GM,q,{fromHome:true});
-    check('G0 3/11 行李箱：「這個比較安靜。理由：宿舍的走廊晚上會有回音。」；「那我也買這個。」→「好。……兩個一樣的，在機場不要拿錯。」', has('（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）')&&has('這個比較安靜。理由：宿舍的走廊晚上會有回音。')&&has('好。……兩個一樣的，在機場不要拿錯。')&&H.opts[0].join('|')==='「那我也買這個。」|「妳連這個都查了？」'); }
+    check('G0 3/11 行李箱：「這個比較安靜。理由：公寓的走廊晚上會有回音。」（AA_377 第 4 項：她租公寓）；「那我也買這個。」→「好。……兩個一樣的，在機場不要拿錯。」', has('（行李箱的店。她把每一個都推了一圈，聽輪子的聲音。）')&&has('這個比較安靜。理由：公寓的走廊晚上會有回音。')&&has('好。……兩個一樣的，在機場不要拿錯。')&&H.opts[0].join('|')==='「那我也買這個。」|「妳連這個都查了？」'); }
   { const G=fresh('2028-03-10',21,'jp_x','JP',{X1_JP:D('2028-02-20')}); H.FAMILIAR('heroine_01'); repairMode(); phone(); check('G0 挽回中：沒有行李箱', !th('p:heroine_01').length&&!OUT.get(G,'jp_g0_bag')); }
   { const G=fresh('2028-02-26',20,'jp_x','JP',{X1_JP:D('2028-02-20')}); HOME.rec(G).at=true; const ff=S.ffOpts(G,'home'); await S.jump(GM,ff[0].to,'home'); const st=S.dueStop(G,'home'); H.said=[]; if(st) await S.playStop(GM,st,'home');
     check('G0 摘要日（住家裡快轉）：2/27 18:30「（不用上課的第一週。你每天早上還是七點醒。）」', G.day===D('2028-02-27')&&has('（不用上課的第一週。你每天早上還是七點醒。）'), G.day+' '+G.hour);
@@ -185,7 +185,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-03-27',10); const st=S.dueStop(G,'jp'); H.said=[]; await S.playStop(GM,st,'jp');
     check('G1 3/27 10:00 國際學生辦公室（交往中）：「……你只聽懂「宿舍」。」＋「（以安在旁邊小聲翻譯。……）」；加入交換生群組', has('（國際學生辦公室。你們排在一列交換生的最後面。輪到你的時候，職員用很慢的日文說了一句話，你只聽懂「宿舍」。）')&&has('（以安在旁邊小聲翻譯。翻完她說：「我也只聽懂一半。剩下一半是猜的。」）')&&PHONE.inGroup(G,'jp_exchange')&&caps.includes('國際學生辦公室')); }
   { const G=inJapan('2028-03-27',10,{},false); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G1 挽回中：「（以安排在你前面兩個人。她辦完，沒有回頭。）」', has('（以安排在你前面兩個人。她辦完，沒有回頭。）')&&!has('（以安在旁邊小聲翻譯。翻完她說：「我也只聽懂一半。剩下一半是猜的。」）')); }
-  { const G=inJapan('2028-03-28',18.5); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G1 3/28 摘要日', has('（宿舍的房間比想像的小。窗外是一片田，遠一點的地方有一座山。）')); }
+  { const G=inJapan('2028-03-28',18.5); H.said=[]; await S.playStop(GM,S.dueStop(G,'jp'),'jp'); check('G1 3/28 摘要日（AA_377 第 17 項：3/25 就入住）', has('（住了三天，房間還是覺得小。窗外是一片田，遠一點的地方有一座山。）')); }
   /* ===================== G3 共用廚房 ===================== */
   { const G=inJapan('2028-04-19',17); phone(); const m=th('p:heroine_01').includes('今天去你那邊的廚房。我買了菜。'); at('2028-04-19',18.5); const st=S.dueStop(G,'jp'); H.picks=['跟妳媽做的比呢']; H.said=[]; await S.playStop(GM,st,'jp');
     check('G3 4/19 17:00 以安私訊、18:30 共用廚房：「寒假我媽教我的那一道。」「……第一次一個人做。」；「跟妳媽做的比呢？」→「我媽的比較鹹。……我的比較對。」＋（她自己笑了一下。）', m&&st&&st.k==='g3_kitchen'&&has('寒假我媽教我的那一道。')&&has('……第一次一個人做。')&&has('我媽的比較鹹。……我的比較對。')&&has('（她自己笑了一下。）')); }
@@ -277,8 +277,8 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
   { const G=inJapan('2028-07-05',21.5); H.FAMILIAR('heroine_04'); phone(); const a=th('p:heroine_04').includes('你不在 好可惜'); at('2028-07-05',22); phone(); const b=th('p:heroine_04').includes('你不在 好可惜');
     check('R8 7/5 子晴「你不在 好可惜」：臺灣 21:00＝日本 22:00', !a&&b, [a,b].join()); }
   /* ===================== R9 可昕 K19、學姊 M6 的照片（y34b3d.js）===================== */
-  { const G=inJapan('2028-05-03',17.5); date('kexin'); phone(); const a=th('p:kexin').includes('期末報告講完了。最後一排空著。'); at('2028-05-03',18); phone(); const b=th('p:kexin').includes('期末報告講完了。最後一排空著。');
-    check('R9 可昕 K19 的照片：臺灣 17:00＝日本 18:00', !a&&b, [a,b].join()); }
+  { const G=inJapan('2028-05-03',17.5); date('kexin'); phone(); const a=th('p:kexin').includes('報告講完了。……好累。'); at('2028-05-03',18); phone(); const b=th('p:kexin').includes('報告講完了。……好累。');
+    check('R9 可昕 K19 的照片：臺灣 17:00＝日本 18:00（日本路線那句照 AA_377 第 13 項「報告講完了。……好累。」）', !a&&b, [a,b].join()); }
   { const G=inJapan('2028-08-03',9.5); H.FRIEND('heroine_05'); PHONE.join(G,'family_law','法律系直屬家族'); phone(); const a=(G.msgs||[]).some(m=>/^y4_m6_d/.test(m.tag||'')); at('2028-08-03',10); phone(); const b=(G.msgs||[]).some(m=>/^y4_m6_d/.test(m.tag||''));
     check('R9 學姊 M6 每天的照片（8/3 還在日本）：臺灣 09:00＝日本 10:00', !a&&b, [a,b].join()); }
   /* ===================== R10 REPAIR：和 r2y3b3d.js 町公所那一步同一個 ===================== */
@@ -295,7 +295,7 @@ const inJapan=(key,h,flags,dating)=>{ const G=fresh(key,h,'jp_hub','JP',Object.a
     const r0=S.repairN(G); PHONE.answer(G,'jp_grp_1',0); phone();
     check('L1 在群組回：群組裡多「收到。週三上午去。」、REPAIR +1（G.flags.REPAIR.heroine_01）', th(GRP).includes('收到。週三上午去。')&&S.repairN(G)===r0+1&&G.flags.REPAIR.heroine_01===r0+1, JSON.stringify([r0,G.flags.REPAIR]));
     at('2028-04-09',20); phone(); PHONE.answer(G,'jp_grp_2',0); phone();
-    check('L1 第 2 週 4/9：「宿舍的垃圾分六種。……」→「謝謝。寶特瓶的蓋子要拆嗎？」→ 以安「要。蓋子是另一類。」；REPAIR 再 +1', th(GRP).join('|').includes('宿舍的垃圾分六種。分類表我拍了，在相簿。|謝謝。寶特瓶的蓋子要拆嗎？|要。蓋子是另一類。')&&S.repairN(G)===r0+2, JSON.stringify(th(GRP)));
+    check('L1 第 2 週 4/9：「公寓的垃圾分六種。……」（AA_377 第 4 項）→「謝謝。寶特瓶的蓋子要拆嗎？」→ 以安「要。蓋子是另一類。」；REPAIR 再 +1', th(GRP).join('|').includes('公寓的垃圾分六種。分類表我拍了，在相簿。|謝謝。寶特瓶的蓋子要拆嗎？|要。蓋子是另一類。')&&S.repairN(G)===r0+2, JSON.stringify(th(GRP)));
     at('2028-04-16',20); phone(); PHONE.answer(G,'jp_grp_3',0); phone();
     check('L1 第 3 週 4/16：回了以後群組裡「（群組裡有人回了一個笑臉。）」；回了三週＝REPAIR 3（一個月內就到）', th(GRP).includes('（群組裡有人回了一個笑臉。）')&&S.repairN(G)===r0+3, JSON.stringify([th(GRP).slice(-3),S.repairN(G)])); }
   { const G=inJapan('2028-04-23',20,{},false); PHONE.join(G,'jp_exchange','交換生群組'); phone(); const n0=th('p:heroine_01').length; PHONE.answer(G,'jp_grp_4',1); phone(); at('2028-04-25',22); phone();

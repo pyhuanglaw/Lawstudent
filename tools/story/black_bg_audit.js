@@ -15,7 +15,7 @@ if(fs.existsSync(path.join(ROOT,'src/data/retake_home.js'))) load('src/data/reta
 const adv=fs.readFileSync(path.join(ROOT,'src/adv3d.js'),'utf8'); const CG={}; for(const m of adv.matchAll(/(\w+):\{file:'([^']+)'/g)) CG[m[1]]=m[2];
 const BG=(typeof OUT!=='undefined'&&OUT.BG)||{}; const exists=f=>!!f&&fs.existsSync(path.join(ROOT,f));
 const args=process.argv.slice(2); const md=args.includes('--md')?args[args.indexOf('--md')+1]:null; const stage=args.includes('--stage')?args[args.indexOf('--stage')+1]:null;
-const rows=[], wrong=[]; const bgNote=k=>{ const b=BG[k]; if(!b) return '背景代號不存在'; if(!b.image) return '沒有圖（image:null）'; if(!exists(b.image)) return '檔案不在：'+b.image; return null; };
+const rows=[], wrong=[]; const bgNote=k=>{ if(k==='car') k='car_day';   /* 'car' 由 outings3d.js 的 carVariant 照時間、天氣換成 car_day／car_night／car_rain（白天＝car_day＝car.webp），不是沒圖（BB 10-21 18:46）*/ const b=BG[k]; if(!b) return '背景代號不存在'; if(!b.image) return '沒有圖（image:null）'; if(!exists(b.image)) return '檔案不在：'+b.image; return null; };
 const text=l=>(l&&l.text?String(l.text):'').replace(/\s+/g,' ').slice(0,36);
 function scan(id,title,stg,when,bg0,dlg,trig){ let cur=bg0==='dark'?{why:'事件底色 dark、還沒換背景',label:'（事件開頭）',key:'dark'}:null, n=0, first=null; const flush=()=>{ if(cur&&n) rows.push({id,title,stage:stg,when,scene:cur.label,key:cur.key,why:cur.why,lines:n,first}); n=0; first=null; };
   for(const l of dlg||[]){ if(!l||typeof l!=='object') continue;

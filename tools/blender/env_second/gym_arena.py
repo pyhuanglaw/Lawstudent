@@ -202,6 +202,7 @@ SEAT_ME = SEAT.data; bpy.data.objects.remove(SEAT)
 seats_lower = B.group('arena_seats_lower', root)
 nseat = 0
 AW = A['aisles']['w']
+DOOR_HW, DOOR_H = 1.05, 2.45                                         # 入口通道盡頭的門洞（半寬、高）
 
 
 def stand(sd):
@@ -242,15 +243,23 @@ def stand(sd):
             y = H0 + r * R; z0 = r * T
             xf.box(acc('riser'), a, b, 0.0, y - R / 2 if r else H0 * 0.75, z0, z0 + T / 2); xf.box(acc('riser'), a, b, 0.0, y, z0 + T / 2, z0 + T)
             xf.box(acc('nosing'), a, b, (y - R / 2 if r else H0 * 0.75) - 0.03, (y - R / 2 if r else H0 * 0.75) + 0.004, z0 - 0.003, z0 + 0.04)
-        xf.cyl(acc('steel'), (c, H0 / 2 + 0.9, -0.3), (c, H0 + (SR['rows'] - 1) * R + 0.9, DEPTH - 0.3), 0.025, seg=8)
-        for k in range(0, SR['rows'], 3): xf.cyl(acc('steel'), (c, H0 + k * R, k * T + 0.3), (c, H0 + k * R + 0.9, k * T + 0.3), 0.02, seg=6)
+        # 扶手（v6，ART-GYM2-INT 2026-10-21）：原本在走道正中間，遊戲裡人走在走道中線上，扶手從身體穿過去——移到走道邊（離中線 0.55 m，貼著那一排的端面），
+        # 放在不能坐的那一側：可以坐的位子在遊戲的 +u 那一側（gym3d.js 的 s.at(c+AW/2+0.25, …)）＝東看台 local −x、西南看台 local +x，坐下時不會穿過扶手
+        cr = c + (0.55 if side == 'east' else -0.55)
+        ya, yb_, da, db = H0 / 2 + 0.9, H0 + (SR['rows'] - 1) * R + 0.9, -0.3, DEPTH - 0.3
+        xf.cyl(acc('steel'), (cr, ya, da), (cr, yb_, db), 0.025, seg=8)
+        for k in range(0, SR['rows'], 3):                            # 立柱站在走道那一階上（原本從平台的高度起，比走道的前半階高 21 cm、浮在空中），頂到扶手
+            d = k * T + 0.3; ys = (H0 + k * R - R / 2) if k else H0 * 0.75
+            xf.cyl(acc('steel'), (cr, ys, d), (cr, ya + (yb_ - ya) * (d - da) / (db - da), d), 0.02, seg=6)
         xf.box(acc('door'), a + 0.05, b - 0.05, H0 + (SR['rows'] - 1) * R, H0 + (SR['rows'] - 1) * R + 2.2, DEPTH - 0.02, DEPTH + 0.05)   # 走道頂端通往走廊的門（這一版關著）
     # 最前排的前牆：玻璃欄杆（走道口留開）
     for (a, b) in cut(t0, t1):
         xf.box(acc('fascia'), a, b, 0.0, H0, -0.15, 0.0)
         xf.box(acc('glass'), a, b, H0, H0 + 1.0, -0.06, -0.04); xf.box(acc('steel'), a, b, H0 + 0.98, H0 + 1.04, -0.08, -0.02)
-    # 看台後牆（走廊在後面，這一版不做）＋上層看台（4、5F）
-    xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)   # 頂比上層看台前面的色帶低 1 cm（原本兩個頂面同一個平面）
+    # 看台後牆（走廊在後面，這一版不做）＋上層看台（4、5F）；頂比上層看台前面的色帶低 1 cm（原本兩個頂面同一個平面）
+    if side == 'south':                                              # v6：入口通道盡頭的門洞（回 1F 的樓梯門；門片、門框在下面入口通道那一段）
+        for (a_, b_, y0_) in ((t0, -DOOR_HW, 0.0), (DOOR_HW, t1, 0.0), (-DOOR_HW, DOOR_HW, DOOR_H)): xf.box(acc('plaster'), a_, b_, y0_, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)
+    else: xf.box(acc('plaster'), t0, t1, 0.0, UP['h0'] - 0.01, DEPTH, DEPTH + 0.3)
     U0 = U0L
     xf.box(acc('fascia'), t0, t1, UP['h0'] - 1.2, UP['h0'], U0 - 0.2, U0)                  # 上層看台前面的深藍色帶
     xf.box(acc('glass'), t0, t1, UP['h0'], UP['h0'] + 0.9, U0 - 0.12, U0 - 0.1)
@@ -289,7 +298,20 @@ Xf(0, 0).rbox(acc('steel_dk'), -0.42, 0.42, 3.42, 3.78, V['z0'] - 0.24, V['z0'] 
 ex = Mesh(P + 'exit_face', EXIT_M); ex.box(-0.38, 0.38, 3.46, 3.74, V['z0'] - 0.26, V['z0'] - 0.24); ex.finish(root, uv=False)
 exw = Mesh(P + 'exit_figure', M['light']); exw.box(-0.22, -0.08, 3.5, 3.7, V['z0'] - 0.265, V['z0'] - 0.26); exw.box(-0.02, 0.3, 3.57, 3.63, V['z0'] - 0.265, V['z0'] - 0.26); exw.finish(root, uv=False)
 CL.glow(root, 'exit', 0.0, 3.6, V['z0'] - 0.5, color='rgba(80,230,120,1)', size=1.2, day=0.3, night=0.8)
-acc('plaster').box(V['x0'], V['x1'], 2.8, UP['h0'], 17 + DEPTH, 17 + DEPTH + 0.3)
+# 通道盡頭（南看台後牆 z 27.2）：回 1F 的樓梯門（v6，ART-GYM2-INT 2026-10-21）——原本是一面素牆，遊戲裡通道走到 z 24.5 就被看不見的牆擋住（離畫面上的盡頭 2.7 m，D38 第 4 條）。
+# 改成整條通道都能走，盡頭的後牆開門洞（stand() 南看台那一段）＋雙開門（門框、門片、推桿）＋門上的綠色出口燈。
+# 原本這裡另外疊了一塊 2.8～7.6 m 的牆，和南看台後牆同一個面（疊面、頂面又和上層看台的色帶同高）：拿掉，後牆本來就蓋住
+ZB = 17 + DEPTH
+for (a_, b_, y0_, y1_) in ((-DOOR_HW, -0.97, 0.0, DOOR_H), (0.97, DOOR_HW, 0.0, DOOR_H), (-DOOR_HW, DOOR_HW, 2.37, DOOR_H)): acc('steel_dk').box(a_, b_, y0_, y1_, ZB - 0.03, ZB + 0.06)   # 門框（往通道凸 3 cm）
+for (a_, b_) in ((-0.97, -0.005), (0.005, 0.97)):
+    acc('door').box(a_, b_, 0.005, 2.37, ZB + 0.02, ZB + 0.06)                                   # 門片（凹進門框 2 cm）
+    acc('steel').box(a_ + 0.1, b_ - 0.1, 0.98, 1.04, ZB - 0.04, ZB - 0.005)                       # 推桿
+    for xb_ in (a_ + 0.12, b_ - 0.12): acc('steel').box(xb_ - 0.02, xb_ + 0.02, 0.96, 1.06, ZB - 0.005, ZB + 0.02)
+    acc('steel').box(a_ + 0.05, b_ - 0.05, 0.03, 0.25, ZB + 0.015, ZB + 0.02)                      # 踢腳板
+Xf(0, 0).rbox(acc('steel_dk'), -0.42, 0.42, 2.92, 3.28, ZB - 0.08, ZB, r=0.01, seg=1)
+ex2 = Mesh(P + 'exit_face_back', EXIT_M); ex2.box(-0.38, 0.38, 2.96, 3.24, ZB - 0.1, ZB - 0.08); ex2.finish(root, uv=False)
+exw2 = Mesh(P + 'exit_figure_back', M['light']); exw2.box(-0.22, -0.08, 3.0, 3.2, ZB - 0.105, ZB - 0.1); exw2.box(-0.02, 0.3, 3.07, 3.13, ZB - 0.105, ZB - 0.1); exw2.finish(root, uv=False)
+CL.glow(root, 'exit_back', 0.0, 3.1, ZB - 0.35, color='rgba(80,230,120,1)', size=1.2, day=0.3, night=0.8)
 acc('slab').quad([(V['x0'], 0.002, 17 + DEPTH), (V['x1'], 0.002, 17 + DEPTH), (V['x1'], 0.002, V['z0']), (V['x0'], 0.002, V['z0'])])
 for k in range(3): CL.glow(root, 'vomitory', 0.0, 2.6, V['z0'] + 1.5 + k * 2.6, color='rgba(255,240,220,1)', size=1.6, day=0.3, night=0.8)
 

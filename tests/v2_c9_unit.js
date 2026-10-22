@@ -69,13 +69,13 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
   /* 可昕 K8 那一趟 */
   { const trip=async(picksL,flags,extra)=>{ fresh(D.d0,8,'dorm',Object.assign({dating_kexin:true},flags||{})); if(extra) extra(); picks=picksL.slice(); await EVENTS.run(eK); return {L:lines(),O:opts}; };
     let r=await trip(['海邊','看就好']); const nm=(CHARACTERS.kexin&&CHARACTERS.kexin.name)||'杜可昕';
-    check('出發：「規則。我管音樂，你管方向。」「誰都不能管對方的。……目的地，現在決定。」；天文課沒去：目的地只有海邊、老街',r.L[0]===nm+'：規則。我管音樂，你管方向。'&&r.L[1]===nm+'：誰都不能管對方的。……目的地，現在決定。'&&JSON.stringify(r.O[0])==='["海邊","別的城市的老街"]',JSON.stringify(r.O[0]));
+    check('出發：「規則。我管音樂，你管方向。」「誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。」（AA_373 #11）；天文課沒去：目的地只有海邊、老街',r.L[0]===nm+'：規則。我管音樂，你管方向。'&&r.L[1]===nm+'：誰都不能管對方的。……第三頁寫的，今天不算。目的地，現在決定。'&&JSON.stringify(r.O[0])==='["海邊","別的城市的老街"]',JSON.stringify(r.O[0]));
     check('海邊：「好。我要把腳弄濕。」→「水好冰。你要不要下來？」→「我在這裡看就好。」→「好，那你幫我拿鞋子。」（她又往海走了兩步。）（AA_295）→ 回程「我不睡。我要陪你開車。」（過了收費站，她睡著了。音樂還是她選的。）；KX_TRIP.Y1S2＝sea',
       JSON.stringify(r.L.slice(2))===JSON.stringify([nm+'：好。我要把腳弄濕。',nm+'：水好冰。你要不要下來？',nm+'：好，那你幫我拿鞋子。','她又往海走了兩步。',nm+'：我不睡。我要陪你開車。','過了收費站，她睡著了。音樂還是她選的。'])&&G.flags.KX_TRIP&&G.flags.KX_TRIP.Y1S2==='sea',JSON.stringify(r.L.slice(2)));
     r=await trip(['老街','都吃']); check('老街：「每一家都說自己是老店。我們去查證。」→「你想先吃哪一家？」→「都吃。」→「好。那我們要多吃幾家。」（AA_295）；oldtown',r.L.includes(nm+'：每一家都說自己是老店。我們去查證。')&&r.L.includes(nm+'：你想先吃哪一家？')&&r.L.includes(nm+'：好。那我們要多吃幾家。')&&G.flags.KX_TRIP.Y1S2==='oldtown',JSON.stringify(r.L.slice(2,5)));
     const astro=()=>{ const d=termDay('Y1S2',6,1); G.courses={done:{[d+':ge_y1s2:pm1']:1},attend:{ge_y1s2:1}}; };
     r=await trip(['山上','跟妳一起看'],{},astro);
-    check('天文課第 6 週有去：多一個「山上看星星」→「你們通識課的人說的？好，我們去驗證。」→ 月亮那一題 →「跟妳一起看的時候。」→「好。那每天晚上都要一起看。」（AA_295）；stars',JSON.stringify(r.O[0])==='["海邊","別的城市的老街","山上看星星"]'&&r.L.includes(nm+'：你們通識課的人說的？好，我們去驗證。')&&r.L.includes(nm+'：今天的月亮好亮。……你上次認真看月亮，是什麼時候？')&&r.L.includes(nm+'：好。那每天晚上都要一起看。')&&G.flags.KX_TRIP.Y1S2==='stars',JSON.stringify(r.O[0])+' '+JSON.stringify(CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')));
+    check('天文課第 6 週有去：多一個「山上看星星」→「看星星？……你們這禮拜上了什麼課？好，我們去驗證。」（AA_373 #11）→ 月亮那一題 →「跟妳一起看的時候。」→「好。那每天晚上都要一起看。」（AA_295）；stars',JSON.stringify(r.O[0])==='["海邊","別的城市的老街","山上看星星"]'&&r.L.includes(nm+'：看星星？……你們這禮拜上了什麼課？好，我們去驗證。')&&r.L.includes(nm+'：今天的月亮好亮。……你上次認真看月亮，是什麼時候？')&&r.L.includes(nm+'：好。那每天晚上都要一起看。')&&G.flags.KX_TRIP.Y1S2==='stars',JSON.stringify(r.O[0])+' '+JSON.stringify(CLS.attendedWeek(G,'Y1S2:ge_y1s2:w6')));
     check('一天來回、不演住宿：出遊 13.5 小時（07:40 政大接她、08:00 出發，晚上送她回政大、車開回家，約 21:10 回到台北）；先政大校門再上車（AA_147 #1）',eK.hours===13.5&&eK.trigger==='outing'&&eK.dialogue[0].bg==='nccu_gate'&&eK.dialogue[1].bg==='car'); }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

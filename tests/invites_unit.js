@@ -77,16 +77,15 @@ const D2=fri('Y1S2',5);   // 大一下第 5 週的週五（芷若週五 11–15 
 { GM=newGM('campus',D2,16); const G=GM.G; const iv=INV.accept(G,'yu','wenzhou',D2,16,{now:true});
   const e=INV.entryFor(G,'yu'); check('一起走過去：作息被覆寫成「和你在一起」（在玩家這一區）',iv.state==='going'&&e&&e.act==='follow'&&e.zone==='campus');
   G.zone='wenzhou'; const h0=G.hour; INV.arrive(GM,'wenzhou').then(ok=>{ check('走到溫州街：見面（散步 45 分鐘、記憶「一起走過校園」）',ok&&iv.state==='done'&&Math.abs(G.hour-h0-0.75)<1e-6); }); }
-// ---------- 一起走到有座位的地點：她先坐下，你坐到旁邊才開始（使用者 2026-10-16：一進總圖大廳就念完了，根本還沒坐下）----------
+// ---------- 一起走到有座位的地點：兩個人都到了＝直接開始，一起坐下（使用者 10-21 23:2x「只要兩個都在場 就不用一起走或說話才能開始」；
+//            取代 10-16 的「她先坐下，你坐到旁邊或跟她說話才開始」——那時的問題「一進總圖大廳就念完了，根本還沒坐下」：現在先一起坐下再演）----------
 (async()=>{ const gm=GM=newGM('campus',D2,16); const G=gm.G; const iv=INV.accept(G,'yu','library',D2,16,{now:true}); const n=gm.spawnCharacter('yu',1,1,{beh:'follow'});
-  const E=gm.E; E.zone.seats=[{x:5,z:5,yaw:0,lv:1},{x:6,z:5,yaw:0,lv:1},{x:20,z:20,yaw:0,lv:1},{x:-3,z:2,yaw:0,label:'長椅'}]; let moved=null; E.moveTo=(ent,x,z,cb,lv)=>{ moved={x,z,lv}; cb&&cb(); return true; };
-  const sat=[]; gm.sitAt=(ent,st)=>{ sat.push([ent.charId||'P',st.x,st.z]); ent.seat=st; }; gm.standUp=ent=>{ ent.seat=null; ent.pose=ent.idlePose='idle'; }; gm.seatApproach=st=>[st.x,st.z+0.6]; let goal=''; gm.setGoal=t=>{ goal=t; };
+  const E=gm.E; E.zone.seats=[{x:5,z:5,yaw:0,lv:1},{x:6,z:5,yaw:0,lv:1},{x:20,z:20,yaw:0,lv:1},{x:-3,z:2,yaw:0,label:'長椅'}];
+  const sat=[]; gm.sitAt=(ent,st)=>{ sat.push([ent.charId||'P',st.x,st.z]); ent.seat=st; }; gm.standUp=ent=>{ ent.seat=null; ent.pose=ent.idlePose='idle'; }; gm.seatApproach=st=>[st.x,st.z+0.6];
   G.zone=iv.zone; G.hour=16.9; const h0=G.hour, said0=gm.said.length; const ok=await INV.arrive(gm,iv.zone);
-  check('到了總圖：不在門口直接演見面，她走去旁邊還有空位的桌邊位子坐下（不選長椅、不選旁邊沒位子的）',ok&&iv.state==='accepted'&&gm.said.length===said0&&Math.abs(G.hour-h0)<1e-6&&sat.length===1&&sat[0][1]===5&&n.pose==='read'&&!!iv.waitSeat,JSON.stringify({st:iv.state,sat,said:gm.said.slice(said0),pose:n.pose}));
-  check('約定時間改成到的時間（路上花的時間不算遲到）；目標「坐到…旁邊」',Math.abs(iv.h-16.9)<1e-6&&/旁邊/.test(goal),iv.h+' '+goal);
-  G.hour=18; INV.tick(gm); check('她坐著等、你還在同一個地方：過了 30 分鐘也不算沒赴約',iv.state==='accepted');
-  const far=await INV.seatMeet(gm,{x:20,z:20,lv:1}); check('坐到別張桌子：不開始',!far&&iv.state==='accepted');
-  const met=await INV.seatMeet(gm,{x:6,z:5,lv:1}); check('坐到她旁邊：開始見面（念書、時間過去）',met&&iv.state==='done'&&G.hour>18,iv.state+' '+G.hour);
+  check('到了總圖：直接開始，兩個人一起坐下——她坐桌邊、旁邊還有空位的位子（不選長椅、不選旁邊沒位子的），你坐她旁邊；演見面（念書、時間過去）',ok&&iv.state==='done'&&sat.length===2&&sat[0][0]==='yu'&&sat[0][1]===5&&sat[1][0]==='P'&&sat[1][1]===6&&n.pose==='read'&&gm.said.length>said0&&G.hour>h0,JSON.stringify({st:iv.state,sat,said:gm.said.slice(said0),pose:n.pose}));
+  check('約定時間改成到的時間（路上花的時間不算遲到）；演完你站起來',Math.abs(iv.h-16.9)<1e-6&&!(E.player&&E.player.seat),String(iv.h));
+  const again=await INV.seatMeet(gm,{x:6,z:5,lv:1}); check('已經開始過：之後坐到那裡不會再演一次',!again&&iv.state==='done');
 })().then(()=>{});
 // ---------- 對方約你、臨時改約 ----------
 { GM=newGM('campus',D2,12); const G=GM.G;

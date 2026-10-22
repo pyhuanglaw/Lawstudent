@@ -33,9 +33,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   global.STORY.present=()=>true; global.GAME=GM; const at=(x,z)=>{ E.player.obj.position.x=x; E.player.obj.position.z=z; E.player.lv=0; }, tick=()=>{ said=[]; return EVENTS.tick(0.1); };
   const wait=async()=>{ for(let i=0;i<50&&EVENTS.running;i++) await new Promise(r=>setTimeout(r,0)); }, norm=a=>a.map(t=>t.replace(/^(小語|沈以安|以安|小安|阿哲|許柏翰|柏翰|郭沛珊|沛珊|阿凱)：/,''));
   // 1. 沛珊和柏翰分開
-  const w6=termDay('Y2S1',6,2); fresh(w6,12.3,'linze',{}); G.stage='law'; at(0,0); check('1. P3 沒演過不演',!tick());
-  G.events.done.ev_peishan_decision=1; tick(); await wait(); let L=norm(lines());
-  check('1. 第 6 週 12～13 霖澤館：兩句、PEISHAN_BOHAN_SPLIT',JSON.stringify(L)===JSON.stringify(['柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。','我們上週分開了。我自己說的。'])&&G.flags.PEISHAN_BOHAN_SPLIT,JSON.stringify(L));
+  const w6=termDay('Y2S1',6,2); fresh(w6,12.3,'linze',{}); G.stage='law'; at(0,0); G.events.done.ev_peishan_decision=1; check('1. 她不在旁邊不演（AA_374 第 18 項：合併進 ev_peishan_split，走到她旁邊才演）',!tick());
+  { const ps={obj:{position:{x:1,y:0,z:0}},lv:0}; GM.npc.classmate_peishan=ps; E.npcs=[ps]; meet('classmate_peishan'); R('classmate_peishan',25,10,10); at(1.5,0.5); }
+  tick(); await wait(); let L=norm(lines());
+  check('1. 第 6 週中午霖澤館、看過 P3、有點熟：兩句（AA_313 6-5 第 11 點的順序：先說分開了）、PEISHAN_BOHAN_SPLIT',JSON.stringify(L)===JSON.stringify(['我們上週分開了。我自己說的。','柏翰說他不懂。……他沒有錯。我們想要的東西不一樣。'])&&G.flags.PEISHAN_BOHAN_SPLIT,JSON.stringify(L));
+  GM.npc={}; E.npcs=[];
   // 2. 翰 2
   const w7=termDay('Y2S1',7,2), bh={obj:{position:{x:1,y:0,z:0}},lv:0}; const put=()=>{ GM.npc.classmate_bohan=bh; E.npcs=[bh]; at(1.5,0.5); };
   fresh(w7,18.5,'library',{BOHAN_SCORE:'lower'}); G.stage='law'; put(); check('2. 分數比他低：不邀',!tick());

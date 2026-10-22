@@ -86,7 +86,8 @@ const SISG=(function(){
     /* 2-5 筆試前一週的晚上（BB_122 ★-3 5-2；CG BCG-42；AA_360 第 2-1 節取代 AA_284 2-5、AA_332 那一列）：不再由她約。1/24～1/27（筆試前一週）玩家第一次晚上（20:00 以後）在總圖、
        離開總圖的時候演（S.lowMark／S.lowDue，STORY.TICKS 叫；有 SIS_STUDY 才有、只一次；沒去總圖＝沒有這一場）。開頭兩行旁白新寫、「學弟。你怎麼在這裡。」、
        選項 c 換「我陪妳走到捷運站。」（熱的東西已經移到平常日），其餘照舊。「走在後面的男生」是李冠宏（BB_194 16-2），這裡不叫名字。
-       舊存檔已經收到 1/26 18:00 那則私訊、排了 20:00 出遊的：照舊演一次（LOW_OLD：舊的開頭、舊的選項 c）*/
+       舊存檔已經收到 1/26 18:00 那則私訊、排了 20:00 出遊的：照舊演一次（LOW_OLD：舊的開頭；選項 c 也是新的，AA_363 R7）。
+       路過版演完的時間（AA_363 R3）：a 到 22:00、b 不動、c 加 15 分鐘；出遊版照出遊的 1.5 小時 */
     { id:'ev_sis_low_night', title:'筆試前一週的晚上', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
       dialogue:[ {scene:'總圖門口的台階',bg:'library_gate_night'},
         {unless:LOW_OLD,speaker:null,text:'（總圖門口的台階。兩個人剛收好東西先走了，走在後面的男生回頭看了一下。）'},
@@ -98,12 +99,13 @@ const SISG=(function(){
         {speaker:ID,expression:'tired',text:'每一週都排滿了。我剛剛在找有沒有哪一週是空的。'},
         {speaker:ID,expression:'tired',text:'……沒有。'},
         {speaker:null,text:'（她把計畫本闔上。）'},
-        {speaker:ID,expression:'sad',text:'下禮拜就考試了。我有一點怕。'},
-        {choice:[{text:'「我陪妳坐一下。」',goto:'a'},{text:'「妳準備得很夠了。」',goto:'b'},{text:'「我陪妳走到捷運站。」',unless:LOW_OLD,goto:'c'},{text:'「要不要吃點熱的？」',if:LOW_OLD,goto:'c0'}]},   /* 這一場沒有告白選項 */
-        {label:'a'},{speaker:ID,expression:'neutral',text:'好。不用講話。'},{speaker:null,text:'（你們坐到圖書館熄燈。）'},{goto:'end'},
+        {speaker:ID,expression:'sad',text:'再一個禮拜就考試了。我有一點怕。'},   /* AA_369 L7：1/24 起會觸發，筆試 2/2 */
+        {choice:[{text:'「我陪妳坐一下。」',goto:'a'},{text:'「妳準備得很夠了。」',goto:'b'},{text:'「我陪妳走到捷運站。」',goto:'c'}]},   /* 這一場沒有告白選項。AA_363 R7：舊存檔（LOW_OLD）的選項 c 也用新的，舊的「要不要吃點熱的？」拿掉（熱的東西已經移到平常日）；舊開頭「學弟。你來了。」照留 */
+        /* AA_363 R3：路過版（不是出遊）演完照選項走時間——a 跳到總圖關門（places.js 22:00；已經過了就不動）、b 不動、c 加 15 分鐘（總圖走到公館站，人在原地）。
+           舊存檔照出遊系統演的（LOW_OLD，出遊本身快轉 1.5 小時）照舊，不再加 */
+        {label:'a'},{speaker:ID,expression:'neutral',text:'好。不用講話。'},{speaker:null,text:'（你們坐到圖書館熄燈。）'},{unless:LOW_OLD,advance:G=>S.lowCloseH(G)},{goto:'end'},
         {label:'b'},{speaker:ID,expression:'neutral',text:'大家都這樣說。……可是謝謝。'},{goto:'end'},
-        {label:'c'},{speaker:ID,expression:'neutral',text:'……好。走到那裡就好。'},{goto:'end'},
-        {label:'c0'},{speaker:ID,expression:'neutral',text:'現在？……好。熱的。'},
+        {label:'c'},{speaker:ID,expression:'neutral',text:'……好。走到那裡就好。'},{unless:LOW_OLD,advance:0.25},
         {label:'end'},{speaker:ID,expression:'neutral',text:'好了，我回去了。明天還是八點到。'} ],
       consequences:{flags:{SIS_PREEXAM_NIGHT:true},rel:{[ID]:{trust:3,comf:2}},memo:'筆試前一週的晚上'} },
     /* 2-7 新的計畫本（BB_122 ★-3 5-3；AA_360 第 2-2 節取代 AA_284 2-7：第一頁她自己寫）：2/3（二）21:00 她私訊（SIS_STUDY 或 SIS_PREEXAM_NIGHT）、回「好。」＝2/4（三）14:00 公館的文具店（出遊）。
@@ -220,7 +222,7 @@ const SISG=(function(){
 
   /* ---------- 2-5 筆試前一週的晚上（AA_360 第 2-1 節）：1/24～1/27 玩家晚上在總圖、離開總圖的時候演 ----------
      「晚上在總圖」＝那一晚 20:00 以後人在總圖（大廳 library_hall、3F 閱覽區 library；在裡面讀書讀到 20:00 以後也是，S.onStudy）：S.lowMark 記 SISG_LOW_NIGHT＝那一晚是哪一天。
-     離開總圖（走出大門、用手機「地點」去別的地方都算）、還是同一晚（到隔天 05:00）＝S.lowDue，S.tick 接著演 ev_sis_low_night（EVENTS.run，不快轉時間）。
+     離開總圖（走出大門、用手機「地點」去別的地方都算）、還是同一晚（到隔天 05:00）＝S.lowDue，S.tick 接著演 ev_sis_low_night（EVENTS.run，不走出遊；演完的時間照選項，AA_363 R3：a 到 22:00、c 加 15 分鐘）。
      條件照舊：一起念過書（SIS_STUDY）；只一次。沒去總圖＝沒有這一場（她不在群組起頭，1/31 Kevin 的集氣群組照舊）。
      舊存檔已經收到 1/26 那則私訊的（sisg_low_msg）照舊走 20:00 的出遊、沒去就沒有，不走這一條。
      寒假的快轉選單（HOME.ffMenu）沒有「總圖」這個選項：只有在 3D 裡走到總圖待到 20:00 以後才會碰到 */
@@ -229,6 +231,8 @@ const SISG=(function(){
   S.lowOk=G=>{ const F=(G&&G.flags)||{}; return law(G)&&!!F.SIS_STUDY&&!evDone(G,'ev_sis_low_night')&&!sent(G,'sisg_low_msg')&&!(typeof EVENTS!=='undefined'&&EVENTS.failed&&EVENTS.failed.ev_sis_low_night); };   /* 演到一半出錯的（EVENTS.failed）這次遊戲不再試 */
   S.lowMark=function(G){ if(!G||!S.LIB_ZONES.includes(G.zone)) return false; const d=nightOf(G), a=D('lowFrom'), b=D('lowTo'); if(d==null||a==null||b==null||d<a||d>b||!S.lowOk(G)) return false; G.flags.SISG_LOW_NIGHT=d; return true; };   /* 便宜的先看（每 0.5 秒叫一次）*/
   S.lowDue=function(G){ const m=G&&G.flags&&G.flags.SISG_LOW_NIGHT; if(m==null||S.LIB_ZONES.includes(G.zone)||nightOf(G)!==m) return false; return S.lowOk(G); };
+  /* AA_363 R3 選 a：跳到總圖關門（places.js 的 library_hall close，22:00）——那一晚的 22:00；已經過了（含過了午夜、G.hour 24 以上）＝0，時間只往前 */
+  S.lowCloseH=function(G){ const P=typeof PLACES!=='undefined'&&PLACES.hours&&PLACES.hours.library_hall, c=P&&P.close!=null?P.close:22, d=nightOf(G); return d==null?0:Math.max(0,T(d,c)-T(G.day,G.hour)); };
   S.lowPlay=async function(GM){ const G=GM.G; if(!S.lowDue(G)||typeof EVENTS==='undefined'||typeof STORY_EVENTS==='undefined') return false; const e=STORY_EVENTS.find(x=>x.id==='ev_sis_low_night'); if(!e) return false;
     await EVENTS.run(e); return evDone(G,'ev_sis_low_night'); };   /* EVENTS 正在演別的（EVENTS.run 直接回來）＝下一次 tick 再試 */
 

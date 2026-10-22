@@ -105,6 +105,23 @@ const POSTGRAD_LINES=(function(){
     loverOpts:[{t:'「修正本我陪妳改。」',say:[['heroine_05','今天不改了。明天再說。']]},{t:'「那我也不問。」',say:[['heroine_05','嗯。'],['heroine_05','……可是你可以猜。猜對了我不會說。']]},{t:'（陪她坐著）',say:[[null,'（她把檯燈轉暗一格。蠟燭燒完以前，你們都沒有說話。）']]}],
     exOpts:['傳一句生日快樂','不傳'], exSend:'生日快樂。', exReply:['謝謝。','今天畢業，恭喜你。'],
     thanks:'謝謝大家。' },   /* 沒去的玩家：第二天家族群組只有她一句 */
+  /* 交換延畢（日本、美國路線：2029 年 6 月不畢業，2030 年 1 月才拿證書；postgrad3d.js 的 S.delayed）：6/2 一樣去典禮、穿學士服拍照，大家不說「畢業」（AA_381 第 1 節，企劃線 d14a0388；GRADUATED 旗標照舊，只換字）。
+     沒寫的照上面原本那一句；手機「好。今天恭喜。」那幾句在 termend_lines.js 的 AUTO_NO_GRAD_DELAYED */
+  DELAYED:{
+    thermos2:'學士服借的吧。……一月還要再穿一次。',   /* THERMOS 第 2 句（學姊 W15、伴侶那一拍）*/
+    thermosEx:'今天恭喜。',   /* THERMOS ex（分手過的學姊）*/
+    kai:[['kai','恭喜一半。宵夜？'],['me','……現在才中午。'],['kai','那晚上。']],   /* OTHERS kai（後面兩句照舊）*/
+    peishan:['📷（照片：她學生畫的卡片，一頂學士帽）','我學生說要送穿學士服的人卡片。……我拍給你。','恭喜！'],   /* PHONE peishan */
+    zhiruo:['📷（照片：倒數第三排的電影票根）','恭喜。今天下午替你看了一部。'],   /* PHONE zhiruo */
+    sisDecline:'好。……今天恭喜。',   /* TE.HEART heroine_05.decline */
+    zqFirst:'欸 學士服很好看',   /* TE.HEART heroine_04 invite、invite2 第一句 */
+    zqGf:'學士服很好看 晚上吃飯 我請',   /* TE.GF heroine_04.invite */
+    bdayFriend:'今天你穿學士服，我生日。都沒排，結果還不錯。',   /* BDAY friendOpts「生日快樂。」的回答第 2 句 */
+    bdayEx:['謝謝。','今天的典禮，恭喜你。'],   /* BDAY exReply（第 2 句換）*/
+    yt17Friend:'我們兩個都還沒畢業。……今天先穿一次學士服。',   /* YT17 friend */
+    yt17Other:'恭喜。……我們兩個的證書，都還要再等。',   /* YT17 other */
+    epiThermos:'（桌上有兩個保溫瓶。一個是她的。另一個是你穿學士服那天她遞給你的，裡面還是熱水。）',   /* EPI_PARTNER heroine_05.thermos（尾聲）*/
+    psCard:'你穿學士服那天，我學生畫的那張卡片，我還夾在教案裡。' },   /* EPI ps.card 第 1 句（尾聲）*/
   /* 可昕 6/3、6/9（BB_99 9-17、AA_250 9-2 大四下那一列）*/
   KX:{
     invite:'下週六，我的畢業典禮。你要來嗎？',   /* 6/3（日）21:00 */
