@@ -18046,9 +18046,9 @@
    "title": "AA_243 P0-2：芷若×子晴 6/5 交往——使用者已選甲（BB_194 §23-2 條件 5，93ae9539）：那學期祐廷正在追其中一人時，4-4 順延到下學期同一天；不用做開關",
    "area": "V2",
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已整合待測試",
    "priority": "P1",
-   "next": "【LAWWW（帳號 A）2026-10-22 07:4x】和 AA_232 整條線一起交子代理做（worktree；新檔 src/zrzq3d.js 一類；甲規則：到 4-4 那天為止和其中一人有過正式約會或她第 4 階以上＝只有 4-4 順延到下學期同一天）；做完 LAWWW 合併、派 BB ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：先收 AA_232（AA290-INTAKE）做 4-2～4-4；4-4 加甲條件：那學期祐廷和其中一人有過正式約會或她第 4 階以上＝順延到下學期同一天（AA_243 第 2 節） ｜ AA-C 2af03a63：直接照甲做。AA_243 @91a39ebf；BB 說使用者已選甲、寫進 BB_199 §23（93ae9539）——實作前核對是否已定甲",
+   "next": "BB 瀏覽器（v9.10.6）：芷若×子晴三場自動播放與甲 ｜ 【LAWWW（帳號 A）2026-10-22 07:4x】和 AA_232 整條線一起交子代理做（worktree；新檔 src/zrzq3d.js 一類；甲規則：到 4-4 那天為止和其中一人有過正式約會或她第 4 階以上＝只有 4-4 順延到下學期同一天）；做完 LAWWW 合併、派 BB ｜ 【LAWWW-C 2026-10-21 稽核 B2】沒做：先收 AA_232（AA290-INTAKE）做 4-2～4-4；4-4 加甲條件：那學期祐廷和其中一人有過正式約會或她第 4 階以上＝順延到下學期同一天（AA_243 第 2 節） ｜ AA-C 2af03a63：直接照甲做。AA_243 @91a39ebf；BB 說使用者已選甲、寫進 BB_199 §23（93ae9539）——實作前核對是否已定甲",
    "first": {
     "term": "Y1S2",
     "week": 15,
@@ -18075,7 +18075,8 @@
      "evidence": "芷若×子晴那條線（AA_232 4-2、4-3、4-4《妳是認真的嗎？》）在 src 找不到任何事件（grep ev_zz_／妳是認真的嗎 0 筆）；AA_232 屬於還沒收件的 DL-AA-5464ade3（AA290-INTAKE）",
      "note": "芷若×子晴交往線整條還沒做"
     }
-   ]
+   ],
+   "done": "開發分支 1ecb7124（合併 AA_232 子代理 0b4db9c8＋2a14d21f，LAWWW 帳號 A 10-22 09:2x）：src/zrzq3d.js 甲規則——到 4-4 那天為止那學期和芷若或子晴有算數的正式校外約會（G.trips counted），或她現在第 4 階以上＝只有 4-4 順延到下學期同一週同一個星期幾同一個時間，4-2、4-3 照演；tests/zrzq_line_unit.js 第 4-4 那幾項（修改前 53 FAIL、修改後 55 ALL PASS）"
   },
   {
    "id": "AA243-16W",
@@ -22773,7 +22774,7 @@
    },
    "source": "AA_290 第 4 節（88e42c1c 10-18 05:41、82085e70）；稽核：deliveries.json、白名單、AA outbox 都沒登記（10-18 13:5x 稽核 USER-WANTS-AUDIT-1018）",
    "authorized": "AA 定稿（D100）；內容是使用者 10-18 選擇題",
-   "next": "【LAWWW（帳號 A）2026-10-22 07:4x】AA_232 芷若×子晴（C22）交子代理實作中；AA_288 可昕慢慢分手由 AA_351 取代、子代理實作中（AA351-KX-DRIFT-1021）；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：deliveries.json 補兩筆；照 AA_290 4-1／4-2 逐檔對開發分支，列出還沒做的（至少 AA_232 全部、AA_288 可昕慢慢分手、口氣表殘餘），排進佇列 ｜ deliveries.json 補兩筆；照 AA_290 4-1／4-2 換 story_import_allow.json、重匯；三個優先（經濟系、寒暑假、美國）用得到的先接",
+   "next": "【LAWWW（帳號 A）10-22 09:2x】AA_232 芷若×子晴整條線進開發分支（1ecb7124，放 v9.10.6；白名單 AA_232@afebee54、BB_194@a90e8569、AA_243@20d5734f、AA_244@2d3a0735）；AA_288 由 AA_351／AA_384 取代、已進開發分支；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW（帳號 A）2026-10-22 07:4x】AA_232 芷若×子晴（C22）交子代理實作中；AA_288 可昕慢慢分手由 AA_351 取代、子代理實作中（AA351-KX-DRIFT-1021）；其餘（AA_252 刑訴作業、AA_11 語彤結局、AA_281/282、AA_285/286、口氣表殘餘）還沒逐檔對 ｜ 【LAWWW-C 2026-10-21 稽核 B2】做了一部分：deliveries.json 補兩筆；照 AA_290 4-1／4-2 逐檔對開發分支，列出還沒做的（至少 AA_232 全部、AA_288 可昕慢慢分手、口氣表殘餘），排進佇列 ｜ deliveries.json 補兩筆；照 AA_290 4-1／4-2 換 story_import_allow.json、重匯；三個優先（經濟系、寒暑假、美國）用得到的先接",
    "audit": [
     {
      "by": "BACKLOG-SWEEP-1021 B2",
@@ -29026,6 +29027,48 @@
     "receiver": "LAWWW",
     "ack": "SENT"
    }
+  },
+  {
+   "id": "ZZ-MSGPOOL-LINE-1022",
+   "title": "芷若×子晴交往中：回覆池收 BB_178 第 2 節那一句（標「兩人交往中」；tools/msg/build_pool.py 重產 msg_pool），程式的標籤 zrzq3d.js 已接",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v2",
+   "first": {
+    "term": "Y1S2",
+    "week": 3,
+    "earliest": "芷若×子晴交往以後（大一下 6/5 起）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_232 子代理回報（LAWWW 帳號 A 10-22 09:2x 合併 1ecb7124）",
+   "authorized": "D109（AA 定稿的句子照放）",
+   "next": "讀 BB_178 第 2 節找那一句、build_pool.py 加標籤條件、重產、單元測試"
+  },
+  {
+   "id": "ZZ-FANG-EV2-DECLINED-1022",
+   "title": "msg3d.js EV2 加 npc_fangyt:f3_declined（AA_257 §8 方奕廷「還好嗎」兩列）：芷若婉拒（ZZ.fy='declined'、ev_zz_f3_told、私訊 tag zz_f3_fang）已存在，可以接",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v3",
+   "first": {
+    "term": "Y3S2",
+    "week": 12,
+    "earliest": "大三下 F3 那一晚以後（芷若和子晴交往中）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_232 子代理回報（10-22）",
+   "authorized": "D109",
+   "next": "讀 AA_257 §8 兩列；msg3d.js EV2 照現有寫法加；單元測試"
   }
  ]
 }

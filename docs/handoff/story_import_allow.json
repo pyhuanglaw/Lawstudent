@@ -525,10 +525,17 @@
   },
   {
    "path": "docs/story_planning/AA_244_以安假期計畫_出國旅遊台詞.md",
-   "sha": "b667820f",
+   "sha": "2d3a0735",
    "status": "approved",
-   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
-   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改"
+   "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C） ｜ 2d3a0735（曼谷 T03 芷若也去、椰子汁接 4-7；LAWWW 帳號 A 10-22 合併 AA_232 子代理）",
+   "note": "AA-C 12:45：以安假期計畫、C13 出國旅遊；芷若英國、學姊美國日期已改",
+   "history": [
+    {
+     "sha": "b667820f",
+     "approvedBy": "AA-C（2026-10-17 交付給 LAWWW-C）",
+     "task": null
+    }
+   ]
   },
   {
    "path": "docs/story_planning/AA_199_寒暑假多活動行事曆_研究企劃與分工.md",
@@ -1544,6 +1551,30 @@
      "task": "AA296-PHONE-LIVE-1021"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_232_芷若子晴_摯友到戀人_核對與台詞.md",
+   "sha": "afebee54",
+   "status": "approved",
+   "approvedBy": "使用者 2026-10-18 核准（選擇題「照 AA_232 做，v9.10 以後」）；AA 定稿；台詞手動放進 src/data/zrzq_events.js（子代理，LAWWW 帳號 A 10-22 合併 1ecb7124）；tests/zrzq_line_unit.js 逐句對稿",
+   "task": "AA290-INTAKE",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/BB_194_多線交往_知情_說謊承諾_挽回_機制總表.md",
+   "sha": "a90e8569",
+   "status": "approved",
+   "approvedBy": "BB 機制（§23 芷若×子晴的狀態、觸發、入場旁白；使用者 10-17 回答 23-9）；src/zrzq3d.js 照用（子代理，LAWWW 帳號 A 10-22 合併）",
+   "task": "AA243-P02",
+   "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_243_16週可行性_AA裁定.md",
+   "sha": "20d5734f",
+   "status": "approved",
+   "approvedBy": "AA-C 裁定；第 2 節 P0-2 使用者選甲（4-4 追其中一人時順延）；src/zrzq3d.js 照做",
+   "task": "AA243-P02",
+   "kind": "text"
   }
  ]
 }
