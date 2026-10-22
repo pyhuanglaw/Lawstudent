@@ -4,17 +4,18 @@
 //   2 日本路線、人在日本、當地 00:36（她那邊 23:36）：「我這邊十二點了。」「你那邊一點了，快去睡。」，當天回（不是隔天早上）
 //   3 對照：美國當地 02:00（她那邊下午）、在臺灣 23:40、美國路線還沒出發 23:40、日本路線的人在美國那一則不用；交往前（R 層）也不用
 //   4 S.tok：「美國路線」只在美國路線、人在美國；「日本路線」同理
-// 修改前（開發分支 ddeb53a0）：第 1、2 項 FAIL。用法：node tests/msg_kx_abroad_unit.js
+//   5 MSG-ABROAD-SIT-TZ-1022：情況版「深夜」照她那邊（臺灣）的時間——美國當地 02:00（她那邊 14:00）、日本當地 23:40（她那邊 22:40）不用「深夜」那兩則；在臺灣 23:40 照用
+// 修改前（開發分支 ddeb53a0）：第 1、2 項 FAIL；第 5 項修改前（2f040388）FAIL。用法：node tests/msg_kx_abroad_unit.js
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const {check}=H;
-const NAMES=/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5|PG_DATES|PGDATE|KXOD|KXDRIFT|MSG|MSG_POOL|MSG2_POOL|HV|HOMETOWN_LINES|JP|US_LIFE)$/;
+const NAMES=/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS|Y5|PG_DATES|PGDATE|KXOD|KXDRIFT|MSG|MSG_POOL|MSG2_POOL|HV|HOMETOWN_LINES|JP|USL|US_LIFE_EVENTS)$/;
 const load=f=>{ if(!fs.existsSync(path.join(H.ROOT,f))) return false; let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>NAMES.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); return true; };
 global.CG_REGISTRY={};
 /* index.html 的順序（同 tests/aa384_kx_friend_unit.js）＋時差：jp3d.js、us_life3d.js 包住 MSG.replyAt（臺灣的朋友照臺灣時間回） */
 for(const f of ['src/data/msg_pool.js','src/data/msg2_pool.js','src/msg3d.js','src/data/hometown_lines.js','src/hometown3d.js','src/noodle_closed3d.js','src/data/r2y4b_events.js','src/r2y4b3d.js','src/y5s1_3d.js','src/data/pg_dates.js','src/pgdates3d.js','src/kxod3d.js','src/kxdrift3d.js']) load(f);
-for(const f of ['src/jp3d.js','src/us_life3d.js']){ try{ load(f); }catch(e){ console.log('  （載入 '+f+' 失敗：'+(e&&e.message)+'）'); } }
+for(const f of ['src/jp3d.js','src/data/us_life_events.js','src/us_life3d.js']){ try{ load(f); }catch(e){ console.log('  （載入 '+f+' 失敗：'+(e&&e.message)+'）'); } }
 const T=(d,h)=>d*24+h, D=k=>STORY.dayOfKey(k), wdOf=d=>{ const w=CALENDAR.dateOf(d).wd; return w===7?0:w; };
 const setT=(G,d,h)=>{ G.day=d; G.hour=h; G.weekday=wdOf(d); };
 const eq=(a,b)=>JSON.stringify(a)===JSON.stringify(b), J=x=>JSON.stringify(x);
@@ -48,4 +49,11 @@ const tier=G=>MSG.tier?MSG.tier(G,'kexin'):'?';
   setT(G,D('2028-07-20'),12); const b=MSG.tok(G,'kexin','美國路線');
   const GJ=fresh('2028-03-01',12,{EXCHANGE_ROUTE:'JP'}); GJ.flags.JP_DEPARTED=D('2028-03-25'); setT(GJ,D('2028-04-10'),12); const c=[MSG.tok(GJ,'kexin','日本路線'),MSG.tok(GJ,'kexin','美國路線')];
   check('4. tok「美國路線」：美國路線、人在美國＝true；還沒出發＝false；「日本路線」同理',eq(a,[true,false])&&b===false&&eq(c,[true,false]),J({a,b,c})); }
+/* 5 */
+{ const NIGHT=((MSG_POOL.people.kexin||{}).replies||[]).filter(e=>e.topic==='chat'&&e.variant==='深夜').map(e=>J(e.msgs));
+  const isN=h=>NIGHT.includes(J(h));
+  const GU=fresh('2028-09-01',12,{EXCHANGE_ROUTE:'US',US_ARRIVED:true});   /* [前置] 抵達美國（us_life3d.js 的時差換算看 US_ARRIVED）*/ const u=send(GU,D('2028-10-13'),2,'chat');
+  const GJ=fresh('2028-03-01',12,{EXCHANGE_ROUTE:'JP'}); GJ.flags.JP_DEPARTED=D('2028-03-25'); const j=send(GJ,D('2028-04-11'),23.67,'chat');
+  const GT=fresh('2028-09-01',12,{EXCHANGE_ROUTE:'TW'}); const t=send(GT,D('2028-10-12'),23.67,'chat');
+  check('5. 「深夜」照她那邊的時間：美國當地 02:00（她 14:00）、日本當地 23:40（她 22:40）不用；在臺灣 23:40 照用',NIGHT.length===2&&!!u.r&&!isN(u.her)&&!!j.r&&!isN(j.her)&&isN(t.her),J({u:u.her,j:j.her,t:t.her})); }
 console.log(H.fails?('FAILED '+H.fails):'ALL PASS'); process.exit(H.fails?1:0);
