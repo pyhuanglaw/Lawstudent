@@ -62,7 +62,7 @@
   - 兩區都沒有小孤島（0.1 m 取樣、半徑 0.3）；
   - 可以走的面積：溫州街 1213.7 → 1209.0 m²（−0.4%）、公館 9914.6 → 9884 m²（−0.3%）；
   - 互動點都走得到：溫州街 11 個、公館 8 個（茶飲菜單 (23, −6.5) 就在回收桶旁邊，照樣走得到）。
-- 對開發分支 `34e488e4` 乾淨；和 `zone_prewarm.diff` 兩種先後順序都套得上。
+- 第一版對開發分支 `34e488e4` 乾淨；**第二版對 `be8c1b0e` 乾淨**（`34e488e4` 套不上：`Z3` 的匯出那一行之後改過），和 `wz_shops2.diff`、`l118_bar_lift.diff`、`dorm_lounge.diff` 一起套也乾淨。
 
 ## 4. 遊戲內前後（佇列 j19，10-22 01:52～；修改前＝開發分支 `34e488e4`，修改後＝套 `wz0_prop_nav.diff`＋新的三份街景 GLB）
 
@@ -70,7 +70,10 @@
 - 截圖：修改前、修改後各拍到 12 張（`scene_shot.py` 兩次都在 2400 秒逾時）；沒拍到的公館 G08、G12、118 巷兩張陽台，和販賣機修正以後的五台近景，在 j19c 補（`fast_shots.py`，修改前後同一支工具）。
 - 回歸（修改前／修改後）：
   - `reachability_all --zones wenzhou,gongguan`：ALL PASS／ALL PASS（2 區、34 個互動點、11 個出入口）。
-  - `gongguan_layout_nav`、`wz_street_integration`：修改前 ALL PASS；修改後（j19 還在跑）。
+  - `gongguan_layout_nav`：修改前、修改後都 ALL PASS。
+  - `wz_street_integration`：修改前 ALL PASS；修改後（patch 第一版）**1 FAIL**：「導航格：正式模型和程序化版完全相同」——正式模型多擋 16 格（21,789 對 21,773）。這是照設計的：門口雜物只有正式模型才有，接上模型才擋（不然 `?nobldg` 會有看不見的牆）。
+    - **patch 第二版**（`wz0_prop_nav.diff`，對開發分支 `be8c1b0e`）把這一項改成更嚴的檢查：**正式模型的導航格＝`?nobldg` 的導航格＋門口雜物的阻擋（同一份 `Z3.PROP_BLOCKS.wenzhou`、同一個 `Z3.propBlocks`），其他一格都不能不同**；雜物沒擋到、或 `?nobldg` 也擋了，都會 FAIL。`zones3d.js` 多匯出 `PROP_BLOCKS`、`propBlocks` 給測試用。
+    - 第二版的瀏覽器測試排在 j19c（修改後跑 `wz_street_integration`、`gongguan_layout_nav`）。
   - `street_props_nav_unit`（Node）：修改後 ALL PASS。
 
 （對照圖：j19c 跑完一起放）
