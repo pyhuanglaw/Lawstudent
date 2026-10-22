@@ -2037,6 +2037,25 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "118 巷九間店：天花板雙面朝上（鏡頭 3.21 m、天花板 3.2 m，拉遠／往上拖一大片白）→ 單面朝下；進門時畫面一側是店外的空白（15～33%）→ 兩側貼 118 巷街景拍的鄰居店面（歸左右牆、at＝牆線）。同樣的天花板：日本宿舍房間（2.5 m，預設鏡頭就在上面）、霖澤館 202／3F／4F、萬才館多功能教室、研討室 A。l118_arcade_unit 774f49c7 FAIL 54 → ALL PASS；room_ceiling_unit FAIL 30 → ALL PASS｜10-22 08:4x 交件：遊戲內前後 j35c（鄰居店面曝光 1.8）、六個房間 j36b、其他室內盤點 j36c 都在 README；在 809ea58b 上 5 支單元測試 ALL PASS（j35b）｜09:0x 追加機場出境／入境、美國大超市的天花板（單面朝下；三角形不變；room_ceiling_unit 舊的 FAIL 5 → 新的 ALL PASS），patch 改第三版（只有測試多三份）"
+  },
+  {
+   "task": "PS-SKIRT-LEG",
+   "branch": "claude/second-ai-env-art",
+   "sha": "(本 commit)",
+   "files": [
+    "assets/models/char/second_ai/bl_classmate_peishan.vrm（第二十八版，同檔名）",
+    "docs/art-rebuild/second_ai/patches/skirt_drive.diff（src/character3d.js、tests/skirt_drive_unit.js）",
+    "tools/blender/char_second/peishan_skirt_bones.py",
+    "tools/blender/char_second/skirt_vis.js",
+    "docs/art-rebuild/second_ai/test_shots/ps_skirt_leg_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "上樓梯還有 25/90 格看得到一點膝蓋內側（平均約 4 cm²）；下樓梯、走路還有一點小腿上段；骨架變形不是布料模擬（抬腳時前片跟著膝蓋鼓起來）；只做沛珊；真機沒看過",
+   "next": "LAWWW：git apply patches/skirt_drive.diff（對 b857600c 乾淨）＋換第二十八版 VRM（同檔名；VRM 和 patch 要一起接），跑 skirt_drive_unit、stairs_feet_unit classmate_peishan、sit_feet_unit classmate_peishan；角色美術 LAWWW 驗收（D100）",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "沛珊上樓梯膝蓋、小腿穿出長裙：10-21 試做左右腿接反（結論不算數）；這一版 VRM 加 6 根輔助骨頭（前片中間的第三條腿＋後片只在腿往後時跟著轉）＋character3d.js 每一幀算（約 15 行，沒有這種節點的模型不受影響）。Node 量測：上樓梯看得到膝蓋以上 61→25 格、平均 87→7 像素；走路小腿穿出後片 31→8；坐下和原本一樣。遊戲內前後 j40。skirt_drive_unit 舊 FAIL 2 → ALL PASS；stairs_feet、sit_feet ALL PASS"
   }
  ]
 }

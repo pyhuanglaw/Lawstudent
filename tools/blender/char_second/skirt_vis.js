@@ -1,4 +1,4 @@
-// 沛珊長裙：腿從裙子穿出來的量測（PS-SKIRT-LEG，LAWWW2 10-22；WIP）——Node，不需要瀏覽器。
+// 沛珊長裙：腿從裙子穿出來的量測（PS-SKIRT-LEG，LAWWW2 10-22）——Node，不需要瀏覽器。
 // 在 Node 裡載入遊戲的 three.js／three-vrm／CHAR（tools/dev_scratch/spring_sim/harness.js），讓沛珊用遊戲的動畫＋footIK 走上、走下一段霖澤館尺寸的樓梯、平地走路、坐下，
 // 每一格（1/30 秒）把裙子、身體的頂點照骨架算出來（SkinnedMesh.applyBoneTransform），從 16 個鏡頭（她的周圍每 45°、俯角 0.38 和 0.10、距離 4.2 m）用 CPU 畫一張小圖（z-buffer），
 // 數「應該被裙子蓋住的腿」露出來的像素：K＝膝蓋以上（靜止時高度 ≥ 0.47 m），S＝膝蓋下 8～19 cm（0.36～0.47 m）；裙子在 0.23～1.05 m，靜止時全部蓋住。
