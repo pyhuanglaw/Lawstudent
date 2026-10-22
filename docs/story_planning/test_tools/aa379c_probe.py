@@ -534,7 +534,17 @@ async def s_oral(p, run, base, sid, out):
         await drive(pg, cdp, run, max_s=30, label=sid)
         st = await pg.evaluate(STATE); row = await friends_row(pg, cdp, run, ID, sid); txt = (row or {}).get('text') or ''; res['row'] = txt; res['at'] = st
         run.check('%s：%s %05.2f 手機「朋友」學姊寫「%s」' % (sid, st['key'], st['h'], ORAL_AWAY), ORAL_AWAY in txt, txt[:200])
-        went = await quick_go(pg, cdp, 'library'); her = None; t0 = time.time()
+        went = await quick_go(pg, cdp, 'library_hall')   # 手機「地點」只有總圖（大廳）；3F 閱覽區照玩家從二樓樓梯間走上去（同 aa378_probe MEET）
+        if went:
+            it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'&&!q.hidden); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
+            if it:
+                await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2]); await L.tap(pg, cdp, '#interact')
+                for _ in range(40):
+                    await pg.wait_for_timeout(1000)
+                    if (await pg.evaluate("GAME.G.zone")) == 'library': break
+                await pg.wait_for_timeout(4000)
+            went = (await pg.evaluate("GAME.G.zone")) == 'library'
+        her = None; t0 = time.time()
         while went and time.time() - t0 < 30:
             her = await pg.evaluate(HER)
             if her: break
