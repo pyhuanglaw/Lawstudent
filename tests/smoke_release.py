@@ -127,6 +127,11 @@ async def main():
             await pg.wait_for_timeout(1000)
             s = await L.state(pg)
             if s['zone'] == 'classroom' and not s['busy']: break
+            if s.get('paused') and await close_auto_phone(pg, cdp, run, '按「進入 201」的時候', secs=0):
+                # D103 的手機剛好在按「進入 201」那一下自己打開（要回覆的訊息；遊戲暫停，那一下沒進去）：像玩家一樣收起來、再按一次
+                # （2026-10-22 v9.10.4 發布前第二、三輪：讀檔時手機沒開，按的時候才開，原本一直等到 40 秒）
+                s = await L.state(pg)
+                if s['zone'] != 'classroom' and s['interact'].startswith('進入 201'): await L.tap(pg, cdp, '#interact')
         run.check('進到 201', s['zone'] == 'classroom', json.dumps(s, ensure_ascii=False))
         await run.shot(pg, 'classroom')
         seat = await pg.evaluate("(()=>{ const ss=GAME.E.zone&&GAME.E.zone.seats; const s=ss&&ss.find(q=>q.row===2&&q.col===3); return s?{x:s.x,z:s.z}:null; })()")

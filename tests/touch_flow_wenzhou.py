@@ -162,7 +162,14 @@ async def main():
         if seat and math.hypot(seat[0] - 4.5, seat[1] - 2.35) > 0.3:
             # 換到別的位子：走到遊戲自己算的「走近這個座位」那一點（GAME.seatApproach，坐下時就是從那裡坐的），不然可能停在桌子另一邊、離座位 0.8 m 就不出「坐」
             print('  [前置] 窗邊那個位子有人，改坐最近的空位', (round(seat[0], 2), round(seat[1], 2)))
-            st = await walk_to(pg, t, seat[2], seat[3], 'seat', tol=0.4) if len(seat) >= 4 else await walk_to(pg, t, seat[0], seat[1], 'seat', tol=0.5)
+            ax, az = (seat[2], seat[3]) if len(seat) >= 4 else (seat[0], seat[1])
+            import playlib as L   # tap_path：照遊戲自己的找路，點畫面上看得到的那一段地板（玩家的點地移動；搖桿直推會卡在中間的桌子，2026-10-22 第三輪停在 (1.89, 2.63)）
+            for _ in range(8):
+                st = await state(pg)
+                if math.hypot(st['x'] - ax, st['z'] - az) < 0.45: break
+                await t.phone_away()
+                if not await L.tap_path(pg, t.cdp, ax, az): st = await walk_to(pg, t, ax, az, 'seat', tol=0.45); break
+                await pg.wait_for_timeout(2500)
         else:
             st = await walk_to(pg, t, 4.5, 2.5, 'seat', tol=0.9)
         await pg.wait_for_timeout(600); st = await state(pg)
