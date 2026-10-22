@@ -26886,7 +26886,7 @@
    "pausedReason": "D99 三個優先項目（經濟系、寒暑假、美國交換）先做",
    "resumeWhen": "v9.10.3 發布後",
    "recheckOn": "2026-10-28",
-   "next": "【LAWWW（帳號 A）13:1x】子代理 a3d3845e 合併進開發分支（快轉）：林家乾麵、巷子裡定食內用點餐（WZS.AA364／order364：店員招呼、選單、扣錢、坐下吃 40 分鐘、AA_329 吃過／老樣子／一起吃）、營業時間（places.js：一天兩段、週一／週二公休、冰菓室 5～9 月、颱風假不開、跳過時間停在這一段關門前 10 分鐘）、茶飲／冰菓室外帶窗口（10～4 月「看夏日冰菓室」＝「五月見」、芒果冰 6～8 月）；舊的「看手搖飲菜單」拿掉；tests/wz_aa364_shops_unit.js 64 項修改前 FAIL、修改後 ALL PASS；全部 488 支 ALL PASS（子代理）＋LAWWW 重跑相關 13 支 ALL PASS。問 AA：①「（你點了{品名}。）」借 AA_280 118 巷那一句；②明軒 MX_FM1「林家乾麵小碗乾麵＋貢丸湯 70」和 AA_364 菜單（沒有貢丸湯、小 40）對不上；③店員第一次那一句每次點餐都說、第 5 次起換認得你那一句。下一步：BB 照 AA_364 第 4 節測 ｜ 【LAWWW（帳號 A）12:5x】室內已整合（WZ-SHOP-AA364-ART，v9.10.5 上線）→ 開工：子代理在獨立 worktree 照 AA_364 第 2～4 節（白名單 AA_364@d7708ebe）：兩家內用接 wzshops3d.js／eat3d.js（菜單、店員句、坐下吃、AA_329 三種效果）、營業時間 places.js、茶飲與冰菓室外帶窗口（冰菓室 5～9 月、芒果冰 6～8 月、其他月份「五月見」）；LAWWW 合併、測試、派 BB（AA_364 第 4 節的測試） ｜ 等 WZ-SHOP-AA364-ART 的室內；菜單、營業時間、店員句照 AA_364 第 2、3 節",
+   "next": "【LAWWW（帳號 A）13:3x】子代理 a3d3845e 合併進開發分支（快轉）：林家乾麵、巷子裡定食內用點餐（WZS.AA364／order364：店員招呼、選單、扣錢、坐下吃 40 分鐘、AA_329 吃過／老樣子／一起吃）、營業時間（places.js：一天兩段、週一／週二公休、冰菓室 5～9 月、颱風假不開、跳過時間停在這一段關門前 10 分鐘）、茶飲／冰菓室外帶窗口（10～4 月「看夏日冰菓室」＝「五月見」、芒果冰 6～8 月）；舊的「看手搖飲菜單」拿掉；tests/wz_aa364_shops_unit.js 64 項修改前 FAIL、修改後 ALL PASS；全部 488 支 ALL PASS（子代理）＋LAWWW 重跑相關 13 支 ALL PASS。問 AA：①「（你點了{品名}。）」借 AA_280 118 巷那一句；②明軒 MX_FM1「林家乾麵小碗乾麵＋貢丸湯 70」和 AA_364 菜單（沒有貢丸湯、小 40）對不上；③店員第一次那一句每次點餐都說、第 5 次起換認得你那一句。下一步：BB 照 AA_364 第 4 節測 ｜ 【LAWWW（帳號 A）12:5x】室內已整合（WZ-SHOP-AA364-ART，v9.10.5 上線）→ 開工：子代理在獨立 worktree 照 AA_364 第 2～4 節（白名單 AA_364@d7708ebe）：兩家內用接 wzshops3d.js／eat3d.js（菜單、店員句、坐下吃、AA_329 三種效果）、營業時間 places.js、茶飲與冰菓室外帶窗口（冰菓室 5～9 月、芒果冰 6～8 月、其他月份「五月見」）；LAWWW 合併、測試、派 BB（AA_364 第 4 節的測試） ｜ 等 WZ-SHOP-AA364-ART 的室內；菜單、營業時間、店員句照 AA_364 第 2、3 節",
    "xai": {
     "spec": "AA_364 第 2、3 節（企劃線 2b0429cd）",
     "branch": "claude/confident-ritchie-8rwh7t",
@@ -29247,7 +29247,7 @@
    },
    "source": "LAWWW（帳號 A）2026-10-22 12:0x：BB 閒著，v9.10.5 發布前測試 LAWWW 自己在跑；v9.10.6 已單元測試、瀏覽器沒測的 12 項",
    "authorized": "D100（測試歸 BB）、D110",
-   "next": "【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
+   "next": "【LAWWW（帳號 A）13:3x】加第 13 項：溫州街四家店（WZ-SHOP-AA364-SYS a3d3845e，AA_364 第 4 節的測試） ｜ 【LAWWW（帳號 A）12:5x】BB 12:5x 先傳 FAIL：日本 3D 房間電話不響 → BUG-JP-ROOM-NOCALL-1022 修好（開發分支）；AA296 第一批其他項目 PASS、ZQ_NOREPLY 1ad1a710 蓋到 ｜ 排在 BB_HOLFF 寒暑假快轉完整補跑、BB-TEST-US-LIFE-1021 之後（D99 順序；LAWWW 12:0x 補充）；結果寫 BB_219「RELEASE-9106-TEST」，有 FAIL 先傳",
    "xai": {
     "spec": "LAWWW 12:0x send_message（12 項＋commit）；各項單元測試在開發分支 tests/",
     "branch": "claude/story-planning（BB_219）",
