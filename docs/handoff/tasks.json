@@ -29453,7 +29453,7 @@
    "title": "帳號 A 交班（使用者 15:0x「現在交班」「你要等其他AI都交班之後做最後檢查 才交班」）：LAWWW2、AA、BB 先交班，LAWWW 收齊後做最後檢查（duty sync、check、incr、roles、asks）再存快照、duty handoff",
    "area": null,
    "owner": "LAWWW",
-   "status": "進行中",
+   "status": "已驗收",
    "priority": "P0",
    "first": {
     "term": "META",
@@ -29467,7 +29467,7 @@
    },
    "source": "使用者 2026-10-22 15:0x（UA-LAWWW-1022-04、05）",
    "authorized": "P0 換班口令、AI_SESSION_HANDOFF.md 第 5 節",
-   "next": "【LAWWW（帳號 A）15:1x】已通知 LAWWW2、AA、BB 交班（15:0x），等三位回報 SHA 與快照；LAWWW 先寫六類紀錄（HANDOFF_GAP_MATRIX 第 1 節）"
+   "next": "【LAWWW（帳號 A）15:1x】三位都交班後最後檢查：check OK、incr OK（水位線前進）、roles OK、asks OK、duty sync；LAWWW 快照＋duty handoff；HANDOFF_GAP_MATRIX 第 1 節六類 ｜ 【LAWWW（帳號 A）15:1x】已通知 LAWWW2、AA、BB 交班（15:0x），等三位回報 SHA 與快照；LAWWW 先寫六類紀錄（HANDOFF_GAP_MATRIX 第 1 節）"
   },
   {
    "id": "BUG-US-BED-ALARM-1022",

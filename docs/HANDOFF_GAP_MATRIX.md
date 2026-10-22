@@ -40,7 +40,12 @@
 4. 等 AA：AA_387 解讀 A1～A6（14:5x 傳的；A1「我先收著」第二次邀約沒有地方、A2 和可昕交往中撞七夕視訊要不要只給單身）、以安放鴿子兩句（AA_127 原檔第 233 行）、AA_QUESTIONS_1021 還沒回的。
 5. LAWWW2：ART-WZ-LIN-MENU-1022（林家菜單加貢丸湯，ACK）、ART-WZPARK-ENTRY-B-1022（公園入口 B 導航，SENT）、ART-ZR-CAFE-PORTRAIT-1022 的高解析度圍裙版（BB 向使用者要）。
 6. **單元測試沒跑完**：10-22 14:33 在 `45576fe7` 全部 490 支 ALL PASS；合併 AA_387 以後（`52dbfe6f`）重跑到第 308／493 支（全過、0 失敗）時因交班停掉；之後的約會句子、公園路人只跑了相關的（37＋29＋nav 兩支 ALL PASS）。**下一班先在開發分支跑完整 Node 單元測試。**
-7. 其他照 `check_handoff.py queue --owner LAWWW`。
+7. 交班中才收到、登記給下一班的：
+   - BUG-US-BED-ALARM-1022（P1，BB 15:02：美國上課日床的選單把鬧鐘蓋掉，可昕週年視訊還是錯過；BB 附了改法）。
+   - AA387-S10-1022（AA_387 第 10 節）。
+   - US-JETLAG-BED-0803-1022（要問 AA）。
+   - TOOL-DUTY-HANDOFF-BRANCH-1022。
+8. 其他照 `check_handoff.py queue --owner LAWWW`。
 
 **C｜正在做的**：沒有。子代理三個都交件、合併了（AA_387、公園路人、AA_313 盤點），背景測試停了。
 
@@ -51,13 +56,22 @@
   - 進場事件先劇情、再隨機（events3d.js X.onEnter）。
   - 女朋友版學期末約會：邀約前那天晚上有別的出遊就往後讓（termend3d.js，所有女朋友都適用）。
 
-**E｜跨 AI 協作**（交班狀態最後檢查時補）
-- LAWWW2：__LAWWW2__
-- AA：__AA__
-- BB：__BB__
+**E｜跨 AI 協作**
+- LAWWW2：15:09 交班，最後 commit `ff339df1`（claude/second-ai-env-art），快照 `2026-10-22T1509Z_A_LAWWW2.json`，duty handoff @ `88eb607a`；全部待辦 109 個 ID。
+  - WIP：沛珊第三十一版（腳本 c8a7a953、比較圖 d724b106，VRM 沒有遠端備份、用腳本重做）、林家菜單貼圖 d724b106（開發分支的 shops_tex.py 是舊版，整合用 LAWWW2 版）。
+  - 入口 B 導航沒開工。
+- AA：15:07 交班，最後 commit `bbbf3e26`（claude/story-planning），快照 `2026-10-22T1507Z_A_AA.json`。
+  - AA_387 第 10 節 A1～A5（021ffe76）登記成 AA387-S10-1022，下一班做。
+  - AA 交接檔列的「已交給 LAWWW、AA 還沒確認做到的」四件，只有第 3 件（AA_387 第 10 節）還沒做：AA_386 3-3＝45576fe7、AA_386 第 6 節＝57bab0c0、AA_364 5-5＝732237be 都做了。
+  - AA_313 盤點的問題這一班沒給 AA，下一班從 audit_1022 那份檔拿去問。
+- BB：15:08 交班，最後 commit `d3c7951d`（分支 4a25046b），快照 `2026-10-22T1508Z_A_BB.json`。
+  - duty_BB 是手寫的（duty handoff 在企劃線跑不起來，TOOL-DUTY-HANDOFF-BRANCH-1022）。
+  - RELEASE-9106-TEST：第 1～3 項 PASS、第 6 項中斷，其他沒跑；兩條線佇列 60 項沒跑（清單在 BB_00 第 3 節）。
+  - 測試結果、截圖只在 BB 的 scratchpad（重點寫在 BB_218）。
+- 沒有待回的訊息。三位都已交班，之後不傳訊息叫醒（D75）。
 
 **F｜測試與問題**
-- 最後檢查：__CHECKS__
+- 最後檢查：`check` OK（十一項）；`incr` 83 個 commit 全部已分類（LAWWW2 交班 commit 88eb607a 補分類 handoff_record），水位線前進到 LAWWW a6bc8143、LAWWW2 ff339df1、AA／BB 4a25046b；`roles` OK（LAWWW2 109、AA 104、BB 11 個 ID 都在總表）；`asks` OK（177 筆）；`duty sync` 收了三位的交班登記。**逐職位核對沒有異常，交接完整**（未完成的都在 B 和總表）。
 - 已知：
   - 公園入口 B 進不了主園區（派 LAWWW2）。
   - 公園沒有兒童、長者、狗的模型（孩子用路人縮小暫代）。
@@ -359,7 +373,12 @@ V5-F1～F27 ★（AA；第四個房間、重訪日 4／5、R1 時差、以安讀
 4. 等 AA 回答：AA_QUESTIONS_1021（R：AA_360 八題、S：AA-Q-1021-TE＋BUG-ECON-MONEY-1020、T：AA_357 九題，以及更早的 A～Q）。
 5. 等 BB 驗收：AA_360、AA_357、C16～C18 三份清單（docs/handoff/bb_checklists/BB_AA360_1021.md、BB_Y5_1021.md；C16～C18 在任務總表）、LAWWW2 三件場景截圖判讀（GYM-GLOW-COPLANAR-1021、ART-Y1-BOX-1021、ART-US2-FIX-1018；BB 分支 test_shots/artrev_1021/）、BG-3DSHOT-1021 腳本沒跑、BB218-P3 ①②④⑤（⑥③ 已修只有單元測試）。
 6. LAWWW2 的 WIP：SOC-COURT-1021（社科院中庭夜間光＋公告欄，2b4f2028，GLB 沒換）、PS-SKIRT-LEG（27618d8d）、榕樹氣根黑線（查一半）。
-7. 其他照 `check_handoff.py queue --owner LAWWW`。
+7. 交班中才收到、登記給下一班的：
+   - BUG-US-BED-ALARM-1022（P1，BB 15:02：美國上課日床的選單把鬧鐘蓋掉，可昕週年視訊還是錯過；BB 附了改法）。
+   - AA387-S10-1022（AA_387 第 10 節）。
+   - US-JETLAG-BED-0803-1022（要問 AA）。
+   - TOOL-DUTY-HANDOFF-BRANCH-1022。
+8. 其他照 `check_handoff.py queue --owner LAWWW`。
 
 **C｜正在做的**：沒有。背景測試、子代理都停了（rc4 第二輪在 fps 量完、flow_v0_start 剛開始時停掉）。
 
