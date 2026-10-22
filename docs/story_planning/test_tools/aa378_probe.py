@@ -364,13 +364,110 @@ async def tier(p, run, base, sid, out):
     await close(b)
 
 
+# ---------------------------------------------------------------- PRE94＝BUG-SIS-PRE94-PRESENCE-1022（LAWWW 07:30 派；開發分支 367b8dfc 起；AA_379 1-4 企劃線 19a4414e，AA 選 ①）
+# 學姊從新局 9/1 開學起照作息出現，不等主線第二天下午（afternoonDone）；9/4 以前找她只有 SIS_PRE_W1 那一句、不記關係；9/5 照 AA_379 閱覽室直接認識；以安、阿凱照舊
+SISNPC = "(()=>{ const n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?{x:+n.obj.position.x.toFixed(2), z:+n.obj.position.z.toFixed(2), lv:n.lv|0, pose:n.pose||n.idlePose||null, seat:!!n.seat, id:n.id}:null; })()"
+ANYNPC = "(ids=>{ const n=(GAME.E.npcs||[]).find(x=>x&&ids.some(i=>x.charId===i||x.id===i)&&x.obj&&x.obj.visible!==false&&!x.hidden); return n?[+n.obj.position.x.toFixed(2),+n.obj.position.z.toFixed(2),n.id]:null; })"
+KNOWQ = """(()=>{ const G=GAME.G, R=SOCIAL.rel('heroine_05')||{}; return {known:(GAME.knownIds?GAME.knownIds():[]).includes('heroine_05'), firstMet:!!SOCIAL.has('heroine_05','FIRST_MET'), met_sis:G.flags.met_sis==null?null:G.flags.met_sis,
+  w1:!!((G.events||{}).done||{}).ev_sis_w1, rel:{fam:R.fam|0,trust:R.trust|0,comf:R.comf|0}, contact:!!(G.contacts&&G.contacts.heroine_05!=null), early:!!(STORY.sisEarly&&STORY.sisEarly(G)), afternoonDone:!!G.flags.afternoonDone}; })()"""
+SCHEDQ = """(ids=>Object.fromEntries(ids.map(id=>{ let e=null, w=null; try{ e=STORY.schedEnt(CHARACTERS[id],GAME.G); }catch(x){ e='ERR '+x.message; } try{ w=STORY.whereIs(GAME,id); }catch(x){ w='ERR '+x.message; }
+  return [id,{raw:e&&e.zone?e.zone+'/'+(e.act||''):e, where:w}]; })))"""
+FRIENDS = "((document.getElementById('phoneBody')||{}).innerText||'').replace(/\\n/g,'｜').slice(0,900)"
+
+
+async def to_3f(pg, cdp, run):
+    """總圖大廳 → 二樓樓梯間 → 3F 閱覽區（直接讀檔進閱覽室人物不生成，BUG-SIS-LIB-LOAD-1022）"""
+    it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
+    if it:
+        await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2]); await L.tap(pg, cdp, '#interact')
+        for _ in range(40):
+            await pg.wait_for_timeout(1000)
+            if (await pg.evaluate("GAME.G.zone")) == 'library': break
+        await pg.wait_for_timeout(4000)
+    for _ in range(10):
+        s = await L.state(pg)
+        if s['dlg'] or s['choices']: await L.advance_dialogs(pg, cdp, run, lambda q: not (q['dlg'] or q['choices']), max_steps=40)
+        else: break
+    return (await pg.evaluate("GAME.G.zone")) == 'library', it
+
+
+async def talk_sis(pg, cdp, run, npc, tag):
+    """走到學姊旁邊按說話，對話點完（選項點第一個）；回傳（按鈕的字, 台詞紀錄, 出現過的選項）"""
+    await L.go_to(pg, cdp, run, npc['x'], npc['z'], 1.2, '學姊', max_s=150, lv=npc['lv'])
+    btn = (await L.state(pg))['interact']; await run.shot(pg, '%s_before' % tag)
+    n0 = len(await pg.evaluate("window.__LOG||[]")); chs = []; shot = False
+    await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500)
+    for k in range(80):
+        s = await L.state(pg)
+        if s['choices']: ops = await opts(pg); chs.append(ops); await tap_idx(pg, cdp, 0); await pg.wait_for_timeout(1000); continue
+        if s['dlg']:
+            if not shot: await run.shot(pg, '%s_talk' % tag); shot = True
+            await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(700); continue
+        if k > 3: break
+        await pg.wait_for_timeout(800)
+    return btn, (await pg.evaluate("window.__LOG||[]"))[n0:], chs
+
+
+async def pre94(p, run, base, sid, out):
+    res = out.setdefault(sid, {}); NEW = {'LAW_START_DAY': -18, 'MAIN_D1': -13}
+    b, pg, cdp, errs = await launch_load(p, run, base, '2025-09-02', 9.9, 'library_hall', flags=NEW, quiet=False,
+                                         label=sid + '（還沒認識學姊：存檔原本的狀態；新局的開學（LAW_START_DAY −18、MAIN_D1 −13）；9/2（二）09:54 讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室）')
+    try:
+        await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
+        k0 = await pg.evaluate(KNOWQ); res['k0'] = k0; say('   %s 前置：%s' % (sid, json.dumps(k0, ensure_ascii=False)))
+        run.check('%s：前置——還沒認識學姊、主線第二天下午還沒演（沒有 afternoonDone）、新局 9/1 開學以後（sisEarly）' % sid, not k0['known'] and not k0['firstMet'] and not k0['afternoonDone'] and k0['early'], json.dumps(k0, ensure_ascii=False))
+        ok, it = await to_3f(pg, cdp, run); await pg.wait_for_timeout(2500)
+        run.check('%s：從總圖大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, json.dumps(it, ensure_ascii=False))
+        st = await pg.evaluate(STATE); npc = await pg.evaluate(SISNPC); an = await pg.evaluate(ANYNPC + "(['heroine_01','an'])")
+        sch = await pg.evaluate(SCHEDQ + "(['heroine_05','heroine_01','kai'])"); res.update({'st': st, 'npc': npc, 'an': an, 'sched': sch})
+        say('   %s %s %.2f 閱覽室：學姊 %s、以安 %s；作息 %s' % (sid, st['key'], st['h'], npc, an, json.dumps(sch, ensure_ascii=False)))
+        await run.shot(pg, '%s_0902_3F' % sid)
+        run.check('%s 1：9/2（二）%.2f 3F 閱覽室有學姊（%s；作息 %s）' % (sid, st['h'], json.dumps(npc, ensure_ascii=False), (sch.get('heroine_05') or {}).get('raw')), bool(npc), json.dumps({'npc': npc, 'sched': sch.get('heroine_05')}, ensure_ascii=False))
+        araw = (sch.get('heroine_01') or {}).get('raw')
+        run.check('%s 4（對照）：以安這時候的作息也是閱覽室（%s），她照舊沒有出現（等主線第二天下午）' % (sid, araw), an is None, json.dumps({'an': an, 'sched': sch.get('heroine_01')}, ensure_ascii=False))
+        if npc:
+            btn, log, chs = await talk_sis(pg, cdp, run, npc, '%s_0902' % sid)
+            T = [x['t'] for x in log if x['n'] not in ('［選項］', '［字幕］', '［日期卡］')]; k1 = await pg.evaluate(KNOWQ); res.update({'btn': btn, 'talk': T, 'choices': chs, 'k1': k1})
+            say('   %s 說話（按鈕「%s」）：%s；選項 %s；之後 %s' % (sid, btn, json.dumps(T, ensure_ascii=False), chs, json.dumps(k1, ensure_ascii=False)))
+            run.check('%s 2：找她說話只有「%s」（按鈕「%s」），沒有選項、沒有演第一次見面' % (sid, PRE, btn), T == [PRE] and not chs and not any(KNOWN in t for t in T), json.dumps({'T': T, 'choices': chs}, ensure_ascii=False))
+            run.check('%s 2：不記關係（沒有 FIRST_MET、met_sis、ev_sis_w1；熟悉度不變 %s → %s）' % (sid, k0['rel'], k1['rel']), not k1['firstMet'] and k1['met_sis'] is None and not k1['w1'] and k1['rel'] == k0['rel'], json.dumps(k1, ensure_ascii=False))
+            await L.close_panels(pg, cdp); await L.tap(pg, cdp, '#btnPhone'); await pg.wait_for_timeout(1000)
+            await pg.evaluate("(()=>{ const b=document.querySelector('#phoneTabs button[data-ptab=\"friends\"]'); if(b) b.click(); })()"); await pg.wait_for_timeout(900)
+            fr = await pg.evaluate(FRIENDS); res['friends'] = fr; await run.shot(pg, '%s_0902_friends' % sid); await L.phone_away(pg, cdp)
+            run.check('%s 2：人物頁（手機「朋友」）沒有她' % sid, not k1['known'] and '溫書瑀' not in fr, fr[:300])
+        kraw = (sch.get('kai') or {}).get('raw'); kz = kraw.split('/')[0] if isinstance(kraw, str) and '/' in kraw and not kraw.startswith('ERR') else None
+        if kz and kz not in ('library', 'dorm'):
+            went = await quick_go(pg, cdp, kz); await pg.wait_for_timeout(3000); kn = await pg.evaluate(ANYNPC + "(['kai'])"); st2 = await pg.evaluate(STATE); res['kai'] = {'went': went, 'npc': kn, 'st': st2}
+            await run.shot(pg, '%s_0902_kai' % sid)
+            run.check('%s 4（對照）：阿凱這時候的作息是 %s，手機「地點」過去他不在（照舊等主線第二天下午）' % (sid, kraw), went and st2['zone'] == kz and kn is None, json.dumps(res['kai'], ensure_ascii=False))
+        else: run.note('%s 4（對照）：阿凱這時候的作息 %s（手機「朋友」寫 %s）——不是一般地點，只記錄' % (sid, kraw, json.dumps((sch.get('kai') or {}).get('where'), ensure_ascii=False)))
+        snap = await pg.evaluate("JSON.parse(JSON.stringify(GAME.snapshot?GAME.snapshot():GAME.G))")
+        d5 = await pg.evaluate("STORY.dayOfKey('2025-09-05')"); snap.update({'day': d5, 'hour': 10.0, 'zone': 'library_hall', 'pos': None, 'weekday': await pg.evaluate("CALENDAR.dateOf(%d).wd%%7" % d5)})
+        await L.load_state(pg, snap, quiet_events=False); await pg.wait_for_timeout(5000); await L.phone_away(pg, cdp); await L.close_panels(pg, cdp)
+        run.setup('[前置] %s 3：同一份遊戲狀態（9/2 找她說過話）跳到 2025-09-05（五）10:00 總圖大廳（跳過 9/3、9/4 主線兩天），自己走樓梯間進 3F' % sid)
+        ok3, _ = await to_3f(pg, cdp, run); await pg.wait_for_timeout(2500); npc3 = await pg.evaluate(SISNPC); res['npc5'] = npc3
+        run.check('%s 3：9/5（五）10:00 3F 閱覽室有學姊' % sid, ok3 and bool(npc3), json.dumps(npc3, ensure_ascii=False))
+        if npc3:
+            btn3, log3, chs3 = await talk_sis(pg, cdp, run, npc3, '%s_0905' % sid)
+            T3 = [x['t'] for x in log3 if x['n'] not in ('［選項］', '［字幕］', '［日期卡］')]; k3 = await pg.evaluate(KNOWQ); res.update({'talk5': T3, 'k5': k3})
+            say('   %s 9/5 說話：%s；之後 %s' % (sid, json.dumps(T3[:14], ensure_ascii=False), json.dumps(k3, ensure_ascii=False)))
+            op = [t for t in T3 if KNOWN in t]
+            run.check('%s 3：9/5 找她說話＝閱覽室直接認識（開頭「…靠窗的位子讀書…%s」、最後「%s」）' % (sid, KNOWN[:10], END), bool(op) and '靠窗的位子讀書' in op[0] and END in T3 and PRE not in T3, json.dumps(T3[:14], ensure_ascii=False)[:600])
+            run.check('%s 3：演完就認識了（FIRST_MET、met_sis、ev_sis_w1、人物頁有她）' % sid, k3['firstMet'] and k3['met_sis'] is not None and k3['w1'] and k3['known'], json.dumps(k3, ensure_ascii=False))
+            await run.shot(pg, '%s_0905_after' % sid)
+        res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
+    await close(b)
+
+
 async def main():
     run = L.Run('aa378', OUT); base = json.load(open(SAVE, encoding='utf-8')); out = {}
     scen = os.environ.get('SCEN', 'MEET_LIB,MEET_HALL,MEET_PRE,MEET_KNOWN,NOTE23_SAME,NOTE23_NEW,PICKUP,T3,T2,T1').split(',')
     async with async_playwright() as p:
         for sid in scen:
             say('== %s' % sid)
-            if sid.startswith('MEET_'): await meet(p, run, base, sid, out)
+            if sid == 'PRE94': await pre94(p, run, base, sid, out)
+            elif sid.startswith('MEET_'): await meet(p, run, base, sid, out)
             elif sid.startswith('NOTE23_'): await note23(p, run, base, sid, out)
             elif sid == 'PICKUP': await pickup(p, run, base, out)
             else: await tier(p, run, base, sid, out)

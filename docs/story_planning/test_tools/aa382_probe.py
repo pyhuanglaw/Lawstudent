@@ -69,7 +69,9 @@ PROMPT_PRE = ('出發：', '接起來：', '打給她：')
 DATE_LABEL = re.compile(r'^\d+/\d+（.）\d\d:\d\d$')
 
 # ---------------------------------------------------------------- AA_382 原文（企劃線 e6d4a198）
-SEA_ASK = ['明天，計畫本上那一格是空的。……我故意的。', '九點，我家樓下。你開車。去看海。']; SEA_OPTS = ['好。', '明天不行。']; SEA_NO_REPLY = '好。……那我自己去。拍照給你。'
+SEA_ASK = ['生日那一格，計畫本上是空的。……我故意的。', '明天九點，我家樓下。你開車。去看海。']; SEA_OPTS = ['好。', '明天不行。']; SEA_NO_REPLY = '好。……那我自己去。拍照給你。'   # AA 07:29 改稿（企劃線 116d5c72，開發分支 b947f4eb）：「明天」在有選項的那一則
+SEA_ASK_OLD = ['明天，計畫本上那一格是空的。……我故意的。', '九點，我家樓下。你開車。去看海。']; SEA_LATE930 = '九點半了。我先去。'   # 答應了沒到（出遊錯過）的 6/2 09:30 先一句
+ASK_CARD = {}   # answer() 截圖那一刻：有回覆鈕的那一則訊息看得到的字、在不在手機畫面裡（橫向）
 SEA_OPEN = ['（北海岸。她把鞋子脫在堤防上，坐著看了很久。）', '不用很遠。看得到就好。', '以前生日那天，我也照樣讀書。', '今年第一次，什麼都沒排。']
 SEA_C1 = ['生日快樂。', '……嗯。今年這一句，聽得最清楚。']; SEA_C2 = ['（坐到她旁邊，也把鞋子脫了）', '（浪打上來一次，兩個人都往後縮了一下。她笑出聲。）']
 SEA_CLOSE = '明年這一天，計畫本上我還是空著。'; SEA_ALONE = ['📷（照片：堤防上，一雙鞋）', '看到了。']
@@ -125,6 +127,10 @@ async def answer(pg, cdp, run, ask_id, k, th, label):
         await phone_tab(pg, cdp, 'msg')
         await tap_sel_js(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-th]')].find(b=>b.dataset.th===%s)" % json.dumps(th)); await pg.wait_for_timeout(800)
     await run.shot(pg, '%s_dm' % label)
+    ASK_CARD[label] = await pg.evaluate("""(sel=>{ const b=document.querySelector(sel); if(!b) return null; let c=b; for(let i=0;i<4&&c.parentElement&&c.parentElement.id!=='phoneBody';i++) c=c.parentElement;
+      const r=c.getBoundingClientRect(), rb=document.getElementById('phoneBody').getBoundingClientRect(); const vis=(c.innerText||'').replace(/\\n/g,'｜');
+      return {text:vis, inView:r.top>=rb.top-2&&r.top<rb.bottom, top:Math.round(r.top), bottom:Math.round(r.bottom), bodyTop:Math.round(rb.top), bodyBottom:Math.round(rb.bottom)}; })(%s)""" % json.dumps(sel))
+    say('   %s 有回覆鈕的那一則：%s' % (label, json.dumps(ASK_CARD[label], ensure_ascii=False)))
     got = await tap_sel_js(pg, cdp, "document.querySelector(%s)" % json.dumps(sel))
     await pg.wait_for_timeout(1800); await run.shot(pg, '%s_dm_answered' % label)
     say('   %s 手機回 %s：「%s」' % (label, ask_id, got))
@@ -262,7 +268,7 @@ SEA = {'SEA_GO': dict(h=17.5, rel=SIS_DATE, ans=0, go=['學姊的生日', '法�
 
 async def s_sea(p, run, sid, out):
     res = out.setdefault(sid, {}); sc = SEA[sid]; dating = 'date' in sc['rel']
-    fl = lambda dk: dict(route_flags('US', dk), Y5_DAYS='work', BAR_REG_2030=False)
+    fl = lambda dk: dict(route_flags('US', dk), Y5_DAYS='work', BAR_REG_2030=False, dating_kexin=False)   # 只和學姊交往：讀檔前寫 dating_kexin false（沒寫的話舊存檔規則當成和可昕交往中，6/1 會先演「選一個人」；BB_218 46612bb1 那一輪）
     b, pg, cdp, errs, dk, r = await launch(p, run, sid, '2030-06-01', sc['h'], fl, sc['rel'],
                                            label='%s（美國路線＝交換延畢、學姊%s；2030-06-01（六）%s 校園）' % (sid, '交往中' if dating else '朋友（沒有交往）', '17:30' if sc['h'] < 18 else '20:45'))
     try:
@@ -289,6 +295,16 @@ async def s_sea(p, run, sid, out):
         ask = [m for m in M if m['text'] in SEA_ASK]
         run.check('%s：6/1（六）21:00 學姊私訊兩則「%s」「%s」，第二則可以回「好。」／「明天不行。」' % (sid, SEA_ASK[0], SEA_ASK[1]),
                   [m['text'] for m in ask] == SEA_ASK and all(m['d'] == '2030-06-01' and abs(m['h'] - 21) < 0.05 for m in ask) and ask[-1]['ask'] == SEA_OPTS, json.dumps(ask, ensure_ascii=False)[:400])
+        run.check('%s：沒有舊的兩句（「%s」「%s」）' % (sid, SEA_ASK_OLD[0], SEA_ASK_OLD[1]), not any(t_ in Mt for t_ in SEA_ASK_OLD), json.dumps(Mt[:4], ensure_ascii=False))
+        card = ASK_CARD.get(sid)
+        if card is not None or sc['ans'] is not None:
+            run.check('%s：橫向手機點進對話，有回覆鈕的那一則在畫面裡、看得到「明天」（%s）' % (sid, (card or {}).get('text')), bool(card) and card['inView'] and '明天' in card['text'], json.dumps(card, ensure_ascii=False))
+        l930 = [m for m in M if m['text'] == SEA_LATE930]
+        if sid == 'SEA_LATE':
+            ph = [i for i, m in enumerate(M) if m['text'] == SEA_ALONE[0]]
+            run.check('SEA_LATE：答應了沒到＝6/2 09:30 她先傳「%s」（在照片前面）' % SEA_LATE930, len(l930) == 1 and l930[0]['d'] == '2030-06-02' and abs(l930[0]['h'] - 9.5) < 0.05 and (not ph or M.index(l930[0]) < ph[0]), json.dumps(l930 + M[-4:], ensure_ascii=False)[:400])
+        else:
+            run.check('%s：沒有 09:30「%s」（只給答應了沒到的）' % (sid, SEA_LATE930), not l930, json.dumps(l930, ensure_ascii=False))
         if sid == 'SEA_GO':
             slot = [x for x in rec['prompts'] if any('法圖旁邊那家' in o for o in x['opts'])]
             run.check('SEA_GO：六月的固定格照排：6/1 18:05 左右「出發：和…：法圖旁邊那家」', bool(slot) and slot[0]['key'] == '2030-06-01' and 17.9 <= slot[0]['h'] <= 18.3, json.dumps(slot[:1], ensure_ascii=False)[:300])

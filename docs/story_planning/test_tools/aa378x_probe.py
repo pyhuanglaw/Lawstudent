@@ -323,7 +323,7 @@ async def s_an(p, run, base, sid, out):
 
 # ---------------------------------------------------------------- #3 女朋友的學期末約會（以安）
 GF_TAG = 'te_gf_Y4S1_heroine_01'
-TE_INFO = """(()=>{ const G=GAME.G, w=TERMEND.windowOf('Y4S1'); let fin=[]; try{ fin=CLS.examList(G,'Y4S1').filter(e=>e.kind==='final').map(e=>({d:CALENDAR.dateOf(e.day).key, day:e.day, c:e.name||e.title||e.course||e.id||''})); }catch(e){ fin=['ERR '+e.message]; }
+TE_INFO = """(()=>{ const G=GAME.G, w=TERMEND.windowOf('Y4S1'); let fin=[]; try{ fin=CLS.examList(G,'Y4S1').filter(e=>e.kind==='final').sort((a,b)=>a.day-b.day).map(e=>({d:CALENDAR.dateOf(e.day).key, day:e.day, c:e.name||e.title||e.course||e.id||''})); }catch(e){ fin=['ERR '+e.message]; }
   let es=null; try{ es=TERMEND.examStart(G,w); }catch(e){}
   let g=null; try{ const x=TERMEND.gf('heroine_01','Y4S1'); g={invite:typeof x.invite==='function'?'(函式)':x.invite, h:x.h, place:x.placeName, wd:x.wd, table:x.table}; }catch(e){ g='ERR '+e.message; }
   return {from:CALENDAR.dateOf(w.from).key, to:CALENDAR.dateOf(w.to).key, fromDay:w.from, toDay:w.to, finals:fin, examStart:es!=null?CALENDAR.dateOf(es).key:null, examStartDay:es, gf:g}; })()"""
