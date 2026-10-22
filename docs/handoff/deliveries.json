@@ -13410,8 +13410,8 @@
    "what": "AA_386 學姊第四批（直屬學姊替你看路四場、修 2-6 矛盾、交往中的節日六場、重新開始、階梯 S5-L8／S6-L1）；3-4 改臺北植物園 e848154a",
    "task": "AA386-SIS-BATCH4-1022",
    "msg": "ACK",
-   "integration": "未整合",
-   "note": "LAWWW 12:4x ACK；白名單 AA_386@e848154a、ladder_bb_y3s1／y3s2@5ef4e291；子代理實作中"
+   "integration": "已整合待測試",
+   "note": "LAWWW 13:3x：子代理 e4a2dedf 合併進開發分支 52038bda（照 e848154a 的稿）；放 v9.10.6；BB 待測｜LAWWW 12:4x ACK；白名單 AA_386@e848154a、ladder_bb_y3s1／y3s2@5ef4e291；子代理實作中"
   },
   {
    "id": "DL-LAWWW2-9b0ec2db",
