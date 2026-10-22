@@ -2,6 +2,7 @@
 //   1 遊戲會載入的檔（index.html 載入的 src/**/*.js）一處「小語」都沒有；src/data 也沒有
 //   2 人物資料：yu 的 name＝Alison、全名 fullname 照舊李語晴、id 照舊 yu（存檔不受影響）
 //   3 寫法：Alison 和中文字之間半形空格、挨標點不空（四個 AA_380 第 1 節的例子；Node 和匯入工具 Python 兩套結果一樣）
+//   3b 遊戲裡的 SOCIAL.alison（舊存檔裡已經存下的舊名，顯示時換）和匯入工具同一套結果
 //   4 匯入工具讀稿的地方都換（每一支 tools/*/import_*.py 讀 git show 的地方都包 alison）
 // 修改前：第 1、2 項 FAIL。用法：node tests/alison_unit.js
 'use strict';
@@ -21,6 +22,9 @@ check('2. yu：name Alison、fullname 李語晴、id yu',/name:'Alison'/.test(yu
 const ex=[['小語說我背叛憲法。','Alison 說我背叛憲法。'],['和小語','和 Alison'],['（小語進門。）','（Alison 進門。）'],['小語，','Alison，'],['跟小語去','跟 Alison 去'],["'小語'","'Alison'"],['認識 小語','認識 Alison']];
 const py=JSON.parse(cp.execFileSync('python3',['-c','import sys,json; sys.path.insert(0,"tools/story"); from import_guard import alison; print(json.dumps([alison(x) for x in json.load(sys.stdin)]))'],{cwd:ROOT,input:JSON.stringify(ex.map(x=>x[0])),encoding:'utf8'}));
 check('3. 寫法照 AA_380 第 1 節（Node、Python 一樣）',ex.every(([a,b],i)=>alison(a)===b&&py[i]===b),JSON.stringify({node:ex.map(([a])=>alison(a)),py}));
+/* 3b 遊戲裡的 SOCIAL.alison（舊存檔已經存下的字，顯示時換；人物備註 noteShown 用）和匯入工具同一套結果 */
+{ let ga=null; try{ global.window=global; const vm=require('vm'); vm.runInThisContext(fs.readFileSync(path.join(ROOT,'src/social3d.js'),'utf8').replace(/^const SOCIAL\s*=/m,'globalThis.SOCIAL='),{filename:'social3d.js'}); ga=SOCIAL.alison; }catch(e){ ga=null; }
+  check('3b. 遊戲的 SOCIAL.alison（舊存檔的字顯示時換）和上面一樣；沒有舊名的字原樣回傳',!!ga&&ex.every(([a,b])=>ga(a)===b)&&ga('Alison 說')==='Alison 說'&&ga('')===''&&ga(null)===null,JSON.stringify(ga?ex.map(([a])=>ga(a)):'沒有 SOCIAL.alison')); }
 /* 4 */
 const tools=fs.readdirSync(path.join(ROOT,'tools')).flatMap(d=>{ const p=path.join(ROOT,'tools',d); return fs.statSync(p).isDirectory()?fs.readdirSync(p).filter(f=>/^import_.*\.py$/.test(f)).map(f=>'tools/'+d+'/'+f):[]; });
 const bad=tools.filter(f=>{ const s=fs.readFileSync(path.join(ROOT,f),'utf8'); return s.split('\n').some(l=>/'show'/.test(l)&&/check_output|subprocess\.run/.test(l)&&!/alison\(/.test(l)); });

@@ -78,7 +78,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
     const P=TH('p:kexin').filter(m=>m.tag==='kx_anniv_ask4');
     check('Q4 第四年（台灣路線）：「下禮拜二。第四年。……平日也要過。」三個地點；不是視訊',P.length===1&&P[0].text==='下禮拜二。第四年。……平日也要過。'&&P[0].ask.opts.length===3&&!OUT.get(G,'kx_anniv4v')&&!STORY.kxAnnivVideo(G,4),J(P));
     PHONE.answer(G,P[0].ask.id,0); run(21.1,21.2); const r=await playYear(4,'湯餃','不說話');
-    check('Q4 第四年：卡片「第四年。」、選項同第三年 →「……幹嘛一直看。」；KX_ANNIV {4:wheel}',r.L.includes('杜可昕：……這是我收過最燙的禮物。')&&r.L.some(t=>t.endsWith('第四年。'))&&r.L.includes('杜可昕：……幹嘛一直看。')&&G.flags.KX_ANNIV[4]==='wheel',J(r.L)); }
+    check('Q4 第四年：卡片「第四年。……明年這一天，我們都畢業了。」、自己一組選項（AA_378 #10，照 BB_209 第 4 節：「明年也一起過。」「時間好快。」不說話）→「……幹嘛一直看。」；KX_ANNIV {4:wheel}',r.L.includes('杜可昕：……這是我收過最燙的禮物。')&&r.L.includes('杜可昕：（把卡片翻到第一頁）第四年。……明年這一天，我們都畢業了。')&&r.o.some(o=>J(o)===J(['「明年也一起過。」','「時間好快。」','（不說話，看著她）']))&&!r.o.some(o=>o.includes('「轉到頭暈怎麼辦？」'))&&r.L.includes('杜可昕：……幹嘛一直看。')&&G.flags.KX_ANNIV[4]==='wheel',J([r.L,r.o])); }
   { /* 美國路線 2028-08-02～12-23（AA_260 第 4 節第 1 點）：第四年（2028-10-17）那天人在美國 */
     { fresh(A(4)-7,20.9,'dorm',{introDone:true,classDone:true,afternoonDone:true,dating_kexin:true,EXCHANGE_ROUTE:'US'}); run(20.9,21.1); const q=OUT.get(G,'kx_anniv4v');
       G.day=A(4)-1; G.hour=21.1; const gift=EVENTS.check(ev('ev_k7_gift_prep_n'));

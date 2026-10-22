@@ -28329,7 +28329,7 @@
    },
    "source": "企劃線 AA_380（eb0ccfec）；AA（帳號 A）10-21 23:20 訊息；使用者 23:1x～23:2x（經 AA）；USER_WANTS C26",
    "authorized": "使用者直接定（人物設定）",
-   "next": "【LAWWW（帳號 A）2026-10-22 04:3x】c617b2e0：152 檔、846 處；匯入工具讀稿先換（import_guard.alison）；tests/alison_unit.js、tests/alison.js（讀舊稿的測試先換）；v9.10.4 候選 9cf16124 沒有，下一版 v9.10.5 發布；BB 測：畫面上不出現「小語」 ｜ 等四個子代理（y1b、aa374、y3、date2）交回合併完一次改（它們正在改同一批檔案）；改完全部單元測試＋一支掃「小語」的回歸測試"
+   "next": "【LAWWW（帳號 A）10-22 06:2x】開發分支全部單元測試（456 支）抓到改名的回歸：note_n9 第 4 項——舊存檔的人物備註「告訴她戲院旁邊的女生是（舊名）」對不上 N9 對照表（腳本把對照表的 key 也換成 Alison，存檔裡存的還是舊名），結果舊備註照樣顯示。修：social3d.js SOCIAL.alison（同匯入工具的規則）＋SOCIAL.alisonSave；game3d.js migrate 讀檔、匯入時把舊存檔存下的舊名換成 Alison（手機訊息含回覆選項、手機佇列、群組名、出遊標題、約的標籤、記憶備註、目標；id yu、旗標不動；同 PHONE.rec 片名改名的前例）；noteShown 顯示時也換。tests/alison_save_unit.js（修改前 27de6170 FAIL）、alison_unit 3b、note_n9 ALL PASS ｜ 【LAWWW（帳號 A）2026-10-22 04:3x】c617b2e0：152 檔、846 處；匯入工具讀稿先換（import_guard.alison）；tests/alison_unit.js、tests/alison.js（讀舊稿的測試先換）；v9.10.4 候選 9cf16124 沒有，下一版 v9.10.5 發布；BB 測：畫面上不出現「小語」 ｜ 等四個子代理（y1b、aa374、y3、date2）交回合併完一次改（它們正在改同一批檔案）；改完全部單元測試＋一支掃「小語」的回歸測試"
   },
   {
    "id": "AA379-SIS-Y2Y3-1021",

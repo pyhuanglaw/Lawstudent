@@ -100,7 +100,19 @@ const SOCIAL = (function(){
   /* 記憶的備註是地點 id 的（SOCIAL.meet 記的 where：camp、dorm、wancai…）→ 人物面板顯示中文（AA_205 6-14 程式 3）*/
   S.PLACE_LABEL={camp:'宿營',dorm:'宿舍',dorm_hall:'宿舍',wancai:'萬才館',family_group:'家族群組',campus:'校園',classroom:'教室',linze:'霖澤館',library:'總圖',library_hall:'總圖',cafe:'兩點半 Café',cvs:'便利商店',noodle:'麵店',bookstore:'書店',gongguan:'公館',wenzhou:'溫州街',boya:'博雅館',putong:'普通教學館',gongtong:'共同教學館',soclib:'社科院圖書館',lawlib:'法律學院圖書館',gym:'體育館',socsci:'社科院',home:'臺北的家'};
   S.dayLabel=function(day){ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf){ const d=CALENDAR.dateOf(day); if(d&&d.m) return d.m+'/'+d.d; } return '第 '+day+' 天'; };   /* 人物面板的記憶：日期（8/22），不是「第 -25 天」*/
-  S.noteShown=function(id,m){ if(!m||!m.note) return ''; if(!retiredNotes){ retiredNotes={}; const add=x=>{ if(x&&x.npc&&x.note) (retiredNotes[x.npc]||(retiredNotes[x.npc]=new Set())).add(x.tag+'|'+x.note); };
+  /* AA380 改名 Alison（使用者 10-21 23:2x「改成Alison」）：舊存檔裡已經存下的字還是舊名（\u5c0f\u8a9e）——顯示的時候照匯入工具同一套規則換（Alison 和中文字之間半形空格、挨標點不空；tools/story/import_guard.py 的 alison），存檔不改（同 filmRename）*/
+  const ALISON_OLD=/\u5c0f\u8a9e/g, ALISON_CJK=/[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]/;
+  S.alison=t=>typeof t==='string'&&t.indexOf('\u5c0f\u8a9e')>=0?t.replace(ALISON_OLD,(m,i)=>{ const pre=i>0?t[i-1]:'', nx=t[i+2]||''; return (pre&&ALISON_CJK.test(pre)?' ':'')+'Alison'+(nx&&ALISON_CJK.test(nx)?' ':''); }):t;
+  /* 讀檔時（game3d.js 的 migrate）：舊存檔裡存下的舊名換成 Alison——手機訊息（含回覆選項、回覆後的句子）、手機佇列、群組名、出遊的標題地點、約的標籤、記憶備註、目標；只換這些欄位的字，id yu、旗標、記號都不動。換過的沒有舊名，再讀幾次都一樣（同 PHONE.rec 片名改名那一段）*/
+  S.alisonSave=function(s){ if(!s||typeof s!=='object') return 0; let n=0; const fx=(o,k)=>{ if(!o||typeof o!=='object') return; const v=o[k]; if(typeof v==='string'&&v.indexOf('\u5c0f\u8a9e')>=0){ o[k]=S.alison(v); n++; } };
+    const msg=m=>{ if(!m||typeof m!=='object') return; fx(m,'text'); if(m.ask&&Array.isArray(m.ask.opts)) for(const o of m.ask.opts){ fx(o,'t'); if(o&&Array.isArray(o.say)) for(const y of o.say) fx(y,'text'); } };
+    if(Array.isArray(s.msgs)) s.msgs.forEach(msg);
+    const P=s.phone; if(P&&typeof P==='object'){ if(Array.isArray(P.q)) P.q.forEach(msg); if(P.groups&&typeof P.groups==='object') for(const k in P.groups) fx(P.groups[k],'name'); }
+    if(Array.isArray(s.outings)) for(const q of s.outings) for(const k of ['title','place','back','verb','no']) fx(q,k);
+    if(Array.isArray(s.invites)) for(const iv of s.invites) fx(iv,'label');
+    const mem=s.social&&s.social.mem; if(mem&&typeof mem==='object') for(const id in mem) if(Array.isArray(mem[id])) for(const m of mem[id]) fx(m,'note');
+    fx(s,'goal'); return n; };
+  S.noteShown=function(id,m){ if(!m||!m.note) return ''; m={tag:m.tag,note:S.alison(m.note)}; if(!retiredNotes){ retiredNotes={}; const add=x=>{ if(x&&x.npc&&x.note) (retiredNotes[x.npc]||(retiredNotes[x.npc]=new Set())).add(x.tag+'|'+x.note); };
       if(typeof STORY_EVENTS!=='undefined') for(const e of STORY_EVENTS){ if(!e.retired) continue; for(const x of ((e.consequences&&e.consequences.mem)||[])) add(x); for(const l of (e.dialogue||[])) for(const c of ((l&&l.choice)||[])){ for(const x of (c.mem||[])) add(x); for(const x of ((c.consequences&&c.consequences.mem)||[])) add(x); } } }
     const r=retiredNotes[id]; if(r&&r.has(m.tag+'|'+m.note)) return ''; const nk=m.tag+'|'+m.note, rn=NOTE_RENAMED[id]&&NOTE_RENAMED[id][nk]; if(rn) return rn; const r9=NOTE_RENAMED_N9[id]; if(r9&&Object.prototype.hasOwnProperty.call(r9,nk)) return r9[nk];   /* 空字串也算（in，不是真值），AA_350 N9 */ if(/^[a-z_0-9]+$/.test(m.note)){ if(S.PLACE_LABEL[m.note]) return S.PLACE_LABEL[m.note]; const zz=typeof Z3!=='undefined'&&Z3.ZONES&&Z3.ZONES[m.note]; if(zz&&zz.name) return zz.name; } return S.filmRename(m.note); };
   /* 真實片名改成虛構的（AA_313 6-2，D77）：舊存檔記憶裡的《東京物語》《晚春》顯示新片名（存檔不改）*/

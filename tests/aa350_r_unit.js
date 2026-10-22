@@ -65,7 +65,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
     check('R7-1. 兩點半 Café 選一個（ev_two_hearts_cafe，兩個都在交往中）：祐廷叫學姊「書瑀。」（不是「學姊。」）；沒和學姊交往的寫法照原句',
       JSON.stringify(a)==='["「書瑀。」>heroine_05","「以安。」>heroine_01"]'&&JSON.stringify(b)==='["「學姊。」>heroine_05","「以安。」>heroine_01"]',JSON.stringify([a,b])); }
   { /* 防回歸：祐廷說出口的「學姊」（選項、speaker player），沒有「交往中換句」的事件只能是下面這幾場（交往以前一定已經過了的；或待 AA 定的）。新加的要照 R7 換句或加進這張表並寫原因 */
-    const OK={ev_sis_w1:'大一上認識她',ev_sis_fam_hall:'大一上第 2 週',ev_sis_fam_hall2:'大一上第 2 週',ev_sis_fam_dinner:'大一上家聚',ev_sis_club_expo:'大一上社團博覽會',ev_sis_festival_booth:'大一上第 11 週',ev_sis_family_dinner:'大一上第 14 週',ev_sis_empty_flask:'大一上第 8、9 週',ev_sis_canyon:'告白那一場（還沒交往）',
+    const OK={ev_sis_w1:'大一上認識她',ev_sis_fam_hall:'大一上第 2 週',ev_sis_fam_hall2:'大一上第 2 週',ev_sis_fam_dinner:'大一上家聚',ev_sis_club_expo:'大一上社團博覽會',ev_sis_festival_booth:'大一上第 11 週',ev_sis_family_dinner:'大一上第 14 週',ev_sis_empty_flask:'大一上第 8、9 週',ev_sis_canyon:'告白那一場（還沒交往）',ev_sis_w1_late:'第一次認識她的晚到版（AA_379 §3：大一下以後才第一次在 Café、法圖遇到）',
       ev_sis_office_together:'「學姊叫我來的。」是對許教授說的，R7 沒有對第三人說的寫法：等 AA'};
     const src=v=>typeof v==='function'?String(v):JSON.stringify(v,(k,x)=>typeof x==='function'?String(x):x)||'';
     const guarded=l=>!!l.unless&&/heroine_05/.test(src(l.unless))&&/dating/.test(src(l.unless));

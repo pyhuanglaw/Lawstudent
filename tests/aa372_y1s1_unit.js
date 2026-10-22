@@ -205,7 +205,7 @@ const D2=STORY._day2||{};
     const arow=ENCOUNTERS.rows.find(r=>r.who==='heroine_01'&&r.spot==='D26'); const aenc=k=>{ G.day=D(k); G.weekday=wdOf(G.day); G.hour=15; G.zone='taichung'; const why=[]; return {ok:!!ENC.eligible(G,arow,why),why}; };
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM');
     const A=[aenc('2025-09-27'),aenc('2025-10-25'),aenc('2025-11-22'),aenc('2025-10-04')];
-    check('第 6 節第 8 題. 以安在台中的偶遇（D26 審計新村）：大一上第 4、8、12 週的週六 9/27、10/25、11/22 照排；第 5 週 10/4（她在臺北）不排',A[0].ok&&A[1].ok&&A[2].ok&&!A[3].ok,J(A.map(x=>x.why)));
+    check('第 6 節第 8 題. 以安在台中的偶遇（D26 審計新村）：大一上第 4、12 週的週六 9/27、11/22 照排；第 5 週 10/4（她在臺北）不排；第 8 週 10/25 是期中考週，AA_383 第 2 節拿掉（她照樣回台中、不給約）',A[0].ok&&!A[1].ok&&A[2].ok&&!A[3].ok,J(A.map(x=>x.why)));
     const ax=pr('heroine_01','2025-09-27'); check('第 6 節第 8 題. 對照：那幾個週末手機照舊「回台中」、邀約「回台中，不在臺北。」（不開寒暑假的「我去台中找妳？」）',ax.away==='回台中'&&ax.kind==='trip'&&INV.whyNot(Object.assign(G,{day:D('2025-09-27'),weekday:6}),'heroine_01')==='回台中，不在臺北。'&&(typeof HV==='undefined'||!HV.offer||HV.offer(G,'heroine_01')==null),J([ax,INV.whyNot(G,'heroine_01')]));
   }
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

@@ -313,6 +313,7 @@ const GAME = (function(){
     if(typeof STORY!=='undefined'&&STORY.routeWatch&&s.flags&&typeof s.flags==='object'){ try{ STORY.routeWatch(s); }catch(e){ console.warn('STORY.routeWatch',e); } }   /* 交換路線（1A-02，BB-C 10-20）：宿舍舊選單選過、還沒截止的（EXCH_APPLIED_DAY、沒有 EXCH_RULE）讀檔就清掉——讀進來坐著、在劇情裡 S.tick 不跑；已經過了截止、還沒有路線的照同一個規則補（在 ROM.rec 之後：routeFor 讀交往紀錄）*/
     if(typeof PG!=='undefined'&&PG.migrate&&s.flags&&typeof s.flags==='object'){ try{ PG.migrate(s); }catch(e){ console.warn('PG.migrate',e); } }   /* 交換延畢的國考報名（AA_357 1-6）：2029-05-10 被自動設成報名的清掉，2030-05-10 再問（src/postgrad3d.js）*/
     try{ if(typeof CALENDAR!=='undefined'&&CALENDAR.dateOf&&typeof s.day==='number'){ const w=CALENDAR.dateOf(s.day).wd; if(typeof w==='number') s.weekday=((w%7)+7)%7; } }catch(e){}   /* 星期照行事曆重算（BUG-DATE-TIMETABLE-1020：使用者 10-20 的存檔 9/25 週四記成週五，課表、作息都差一天）*/
+    if(typeof SOCIAL!=='undefined'&&SOCIAL.alisonSave){ try{ SOCIAL.alisonSave(s); }catch(e){ console.warn('SOCIAL.alisonSave',e); } }   /* AA380 改名 Alison（使用者 10-21 23:2x）：舊存檔裡存下的舊名（手機訊息、群組名、出遊標題、約的標籤、記憶備註、目標）換成 Alison；id yu 不變 */
     s.v=SAVE_VER; return s; }
   function ls(){ try{ return window.localStorage; }catch(e){ return null; } }
   function write(key,obj){ const st=ls(); if(!st) return false; try{ st.setItem(key,JSON.stringify(obj)); return true; }catch(e){ return false; } }
