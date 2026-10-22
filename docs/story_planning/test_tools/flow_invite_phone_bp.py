@@ -104,7 +104,7 @@ async def main():
         if first:
             await run.shot(pg, 'C_autostart')
             near = first['pseat'] and first['zseat'] and ((first['pseat'][0] - first['zseat'][0]) ** 2 + (first['pseat'][1] - first['zseat'][1]) ** 2) ** 0.5
-            run.check('開始時你坐到阿哲旁邊（兩個人都有座位、相距 1.3 m 以內）', bool(near) and near <= 1.31, json.dumps(first))
+            run.check('開始時你坐到阿哲旁邊或對面（兩個人都有座位、相距 1.7 m 以內；麵店一桌兩個位子面對面 1.6 m，87ca6aba）', bool(near) and near <= 1.71, json.dumps(first))
         for _ in range(14):
             q = await L.state(pg)
             if not q['busy'] and not q['dlg'] and not q['choices']: break
