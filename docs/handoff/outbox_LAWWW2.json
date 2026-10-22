@@ -2041,7 +2041,7 @@
   {
    "task": "PS-SKIRT-LEG",
    "branch": "claude/second-ai-env-art",
-   "sha": "(本 commit)",
+   "sha": "30c74db4",
    "files": [
     "assets/models/char/second_ai/bl_classmate_peishan.vrm（第二十八版，同檔名）",
     "docs/art-rebuild/second_ai/patches/skirt_drive.diff（src/character3d.js、tests/skirt_drive_unit.js）",
