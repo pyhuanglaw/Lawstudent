@@ -311,6 +311,9 @@ SCENS = [
   # US-D 時差：交往中可昕（dating_kexin）、10/16 22:00 睡覺 → 10/17 08:45「可昕的視訊：週年」（09:00）第一句「你那邊是早上吧。」
   dict(id='USD_kexin', key='2028-10-16', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + BED,
        steps=[('sleep',), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
+  # 同上，但床挑「鬧鐘 08:30」那一項（d3df1cf3 的鬧鐘本身；BB 15:0x：第一項「睡到明天中午（12:00）（第一堂 13:00…）」沒照鬧鐘）
+  dict(id='USD_kexin_alarm', key='2028-10-16', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True, dating_kexin=True), js=USJS + BED,
+       steps=[('bedhas', '鬧鐘 08:30'), ('until', 9.4)], pref=['接起來', '出發'], want=['你那邊是早上吧。'], cflags=[]),
   # US-H 回台灣：12/15 22:00（交往中）睡覺 → 12/16 離開、舊金山一週 → 12/21 23:55「飛回臺灣」→ 抵達 05:40 → 入境大廳（不是黑底）
   dict(id='USH_home', key='2028-12-15', h=22.0, zone='us_apartment', flags=dict(USF, USL_JETLAG=True), js=USJS + DATE + BED,
        steps=[('sleep',), ('ffloop', '2028-12-23', 9.3)], pref=['出發', '去', '「好。」'], want=['飛回臺灣', '05:40', 'CG:cg_sf_bridge_fog_heroine05', '阿姨好。……上次的鳳梨酥，很好吃。', '（九點。廚房裡有粥的味道。你回來了。）'], none=['伯母好。……我是書瑀。'], msgAt={'📷（每個人手上的禮物，都很眼熟。）': ('2028-12-22', 21.5, 0.1)}, cflags=['US_TRIP_DONE', 'US1']),   # CG-APPROVED-MISSING-1021：交往中舊金山第二天出 BCG-48（霧裡的大橋，4df34170）
@@ -360,6 +363,13 @@ SCENS = [
   dict(id='US370_asiaMon', key='2028-10-16', h=9.5, zone='us_market', flags=dict(USF, USL_JETLAG=True), js=USJS + ALONE,   # 週一 09:30 還沒開（10:00 才開）
        steps=[('use', '^過馬路（對面的亞洲超市）')], want=['現在沒有開（今天 10:00–21:00）。下次開門：今天 10:00'], wantZone='us_market', cflags=[]),
 ]
+async def bedhas(pg, cdp, run, sub, sc):
+    """床的選單裡挑「字裡有 sub」的那一項（兩項都叫「睡到明天中午」的時候用：BB 15:0x USD_kexin）"""
+    cs = await bed_menu(pg, cdp, run)
+    c = await pg.evaluate("(w=>{ const e=[...document.querySelectorAll('#choices button')].find(b=>b.textContent.includes(w)); if(!e) return null; e.scrollIntoView({block:'center'}); const r=e.getBoundingClientRect(); return [r.left+r.width/2,r.top+r.height/2,e.textContent.trim()]; })(%s)" % json.dumps(sub))
+    if not c: bad.append('%s：床的選單沒有含「%s」的選項（%s）' % (sc['id'], sub, cs)); return False
+    await L.touch_tap(cdp, c[0], c[1]); await pg.wait_for_timeout(1200); say('   ▶ 床：%s' % c[2][:48])
+    await drain(pg, cdp, pref=sc.get('pref', []), secs=240); say('   睡醒：%s' % json.dumps(await pg.evaluate(SNAP), ensure_ascii=False)); return True
 async def sleep_bed(pg, cdp, run):
     sn = await pg.evaluate(SNAP)
     if sn['h'] < 21: await set_h(pg, run, 22.0, '晚上才能睡整晚')
@@ -396,6 +406,7 @@ async def main():
                         if o['z'] != 'airport_dep' or o['arr']: bad.append('%s：還沒滿一小時就離開出境大廳或抵達了（%s）' % (sc['id'], json.dumps(o, ensure_ascii=False)))
                     elif st[0] == 'set': await set_h(pg, run, st[1], st[2])
                     elif st[0] == 'sleep': await sleep_bed(pg, cdp, run)
+                    elif st[0] == 'bedhas': await bedhas(pg, cdp, run, st[1], sc)
                     elif st[0] == 'talk': await talk(pg, cdp, run, st[1])
                     elif st[0] == 'ff': await ff_bed(pg, cdp, run, st[1], st[2])
                     elif st[0] == 'nomsg': await nomsg(pg, st[1], st[2])
