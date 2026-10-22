@@ -1,5 +1,6 @@
-// AA_351（企劃線 c29c49eb；任務 AA351-KX-DRIFT-1021；USER_WANTS C23）可昕「個性磨合不了，慢慢分手」——不需要瀏覽器。
-//   1  讀稿：程式裡每一句（KXDRIFT.L、八個事件的對話與選項）都逐字在稿裡（「（不說）」是程式加的選項）；稿上第 3 節的每一句程式都有
+// AA_351（企劃線 c29c49eb；AA_384 跟著改過的 b6588bf5；任務 AA351-KX-DRIFT-1021；USER_WANTS C23）可昕「個性磨合不了，慢慢分手」——不需要瀏覽器。
+//   1  讀稿：程式裡每一句（KXDRIFT.L、八個事件的對話與選項）都逐字在稿裡（「（不說）」是程式加的選項）；稿上第 3 節的每一句程式都有（劃掉的、AA_384 的改稿說明不算台詞）
+//      修改前（8352054b）讀 b6588bf5 的稿：FAIL 1 項（「你今天在 118 巷？」已經不在稿裡），其他 89 項 PASS
 //   2  D0：約另一位女主角單獨吃飯／散步（邀約、兩個人都在那裡直接開始、校外約會）多「（跟可昕說一聲）」；說了＝祐廷傳那一則（今天／明天／週○）、她照順序回、−1、那一次沒有 D1；Café、總圖不問
 //   3  D1：沒說、公館＝那天 21:00 她打來；三個選項 +0／+1／+2；溫州街換第一句；結束晚＝結束後 30 分鐘；沒接＝+1、隔天 12:00 兩則、D2；同一學期第二次不演、下學期又演；K5 不會被她的電話擋掉
 //   4  D1b：14 天內同一位單獨出去兩次（先說了也算）＝下一次見面（K5）開頭她問；「妳想太多了。」+1；一學期一次；曖昧中（第 5 階）不演
@@ -15,7 +16,8 @@
 //   14 舊存檔：沒有 KX_DRIFT、KX_CRACK＝預設、從讀檔那天開始算；掛勾、index.html 的順序
 // 修改前（開發分支 e2ae60b6，git archive 匯出的乾淨副本）：沒有 src/kxdrift3d.js——用空的替身照樣跑完：FAILED 36（大部分的節一開始就丟例外，一節算一項）、PASS 10（都是「不該發生」的對照項：
 //   2 說了就沒有電話、3 K5 照排、4 不再問／曖昧中不演、5 兩天過了照一般、10 一般分手照前任版、12 大一下沒有／另一段凍結兩項、14 20 天還沒到）。匯出的副本不是 git repo，所以第 1 節「讀得到稿」也是 FAIL。
-// 用法：node tests/aa351_kx_drift_unit.js（第 1 節要讀企劃線的 c29c49eb：git fetch 過企劃線才讀得到）
+// 用法：node tests/aa351_kx_drift_unit.js（第 1 節要讀企劃線的 b6588bf5——AA_384 跟著改過的 AA_351：git fetch 過企劃線才讀得到）
+// AA_384（AA 回 LAWWW 的十四題）改的部分（D1 拿掉 118 巷、D6 拿掉祐廷的生日、只看玩家自己約的、分開以後當朋友）在 tests/aa384_kx_friend_unit.js。
 'use strict';
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
@@ -53,11 +55,12 @@ const askOf=(G,id)=>(G.msgs||[]).find(m=>m.ask&&(id instanceof RegExp?id.test(m.
 check('0. 載入 src/kxdrift3d.js（KXDRIFT.rule、八個事件 ev_kx_drift_*）',has&&['ev_kx_drift_r1','ev_kx_drift_r1b','ev_kx_drift_r2','ev_kx_drift_r3','ev_kx_drift_r4','ev_kx_drift_r5','ev_kx_drift_r5_call','ev_kx_drift_r6'].every(id=>STORY_EVENTS.some(e=>e.id===id)),String(has));
 
 /* ---------- 1 讀稿 ---------- */
-await sec(1,async()=>{ let doc=''; try{ doc=cp.execSync('git show c29c49eb:"docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }
-  check('1. 讀得到稿（企劃線 c29c49eb 的 AA_351）',doc.length>1000,String(doc.length));
-  const s3=doc.slice(doc.indexOf('## 3.'),doc.indexOf('## 4.'));
+await sec(1,async()=>{ let doc=''; try{ doc=cp.execSync('git show b6588bf5:"docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md"',{cwd:H.ROOT,encoding:'utf8'}); }catch(e){ doc=''; }   /* AA_351 跟著 AA_384 改過的那一版（企劃線 b6588bf5：D0 那半句刪掉、D1 拿掉 118 巷、D6 拿掉祐廷的生日）*/
+  check('1. 讀得到稿（企劃線 b6588bf5 的 AA_351）',doc.length>1000,String(doc.length));
+  const s3=doc.slice(doc.indexOf('## 3.'),doc.indexOf('## 4.')).replace(/~~[^~]*~~/g,'').replace(/（[^（）]*AA_384[^（）]*）/g,'');   /* 劃掉的（祐廷的生日）、AA_384 的改稿說明（「D1b 也不算那一次」是引用刪掉的字）不是台詞 */
   const prog=[]; const walkStr=o=>{ if(typeof o==='string') prog.push(o); else if(Array.isArray(o)) o.forEach(walkStr); else if(o&&typeof o==='object') for(const k in o) walkStr(o[k]); }; walkStr(K.L);
-  for(const e of (K.EVS||[])) for(const l of (e.dialogue||[])){ if(typeof l.text==='string') prog.push(l.text.replace('{flag:KXD_HER}','{她}')); if(Array.isArray(l.choice)) for(const c of l.choice) prog.push(c.text); }
+  for(const e of (K.EVS||[])){ if(e.id==='ev_kx_drift_r7') continue;   /* 一學期一次的午餐是 AA_384 第 3 項（tests/aa384_kx_friend_unit.js 讀那一份）*/
+    for(const l of (e.dialogue||[])){ if(typeof l.text==='string') prog.push(l.text.replace('{flag:KXD_HER}','{她}')); if(Array.isArray(l.choice)) for(const c of l.choice) prog.push(c.text); } }
   const SYS=['（不說）'];   /* 程式加的系統字（D0 不說的那一個選項；回報 AA）*/
   const derived=new Set(); if(K.L.r3&&K.L.r3.first) derived.add(K.L.r3.first.replace(K.L.r3.shao,K.L.r3.noShao));   /* 稿：「邵鈞」換成「我們讀書會一個人」*/
   const bad=[...new Set(prog)].filter(t=>!SYS.includes(t)&&!derived.has(t)&&!doc.includes(t));
