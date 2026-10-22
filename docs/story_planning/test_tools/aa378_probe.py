@@ -73,6 +73,8 @@ def choose(ops, canyon):
     """選項：她的視訊、接機＝接起來／出發；大峽谷＝canyon；床＝睡到明天（第一個，鬧鐘照遊戲）；起床的課表選單＝先起床再說；別人的出遊＝不去了；其他＝第一個"""
     for i, o in enumerate(ops):
         if o.startswith(('接起來：和學姊', '出發：接機')): return i
+    # 2026-10-22（開發分支 eece763b PICKUP）：12/23 20:00 阿凱當面「宵夜？」比接機的「出發」先問——照玩家記得要去接機，回「那天有約了。」（接受＝接機變 missed，已報 LAWWW）
+    if ops == ['「好。」', '「那天有約了。」']: return 1
     if canyon:
         for i, o in enumerate(ops):
             if o.startswith(canyon): return i
@@ -123,7 +125,9 @@ async def play_until(pg, cdp, run, until_key, until_h, pick, canyon=None, max_s=
         if s['choices']:
             ops = await opts(pg); k = choose(ops, canyon); ch.append({'at': '%s %.2f' % (st['key'], st['h']), 'opts': ops, 'pick': ops[k] if ops else None})
             same = same + 1 if ops == lastops else 0; lastops = ops
-            if same > 15: run.note('%s：同一個選單連續 15 次 %s' % (label, ops)); await run.shot(pg, 'loop_%s' % label); return False, ch
+            if same > 15:
+                diag = await pg.evaluate("(()=>{ const G=GAME.G; let lw=null; try{ lw=STORY.lawWakeAt(G); }catch(e){ lw='ERR '+e.message; } return {lw, paused:!!(GAME.E&&GAME.E.paused), dlg:!!(GAME.D&&GAME.D.active), adv:!!(typeof ADV!=='undefined'&&ADV.active), evRun:!!(typeof EVENTS!=='undefined'&&EVENTS.running), busy:!!(GAME.E&&GAME.E.player&&GAME.E.player.busy), home:!!(typeof HOME!=='undefined'&&HOME.at&&HOME.at(G)), brk:!!(typeof HOME!=='undefined'&&HOME.breakMode&&HOME.breakMode(G)), out:(OUT.rec(G)||[]).filter(q=>q.state==='planned').map(q=>q.id+'@'+q.day+'/'+q.h)}; })()")
+                run.note('%s：同一個選單連續 15 次 %s；狀態 %s；console %s' % (label, ops, json.dumps(diag, ensure_ascii=False), json.dumps(CONS[-6:], ensure_ascii=False))); await run.shot(pg, 'loop_%s' % label); return False, ch
             say('   %s %.2f 選項 %s → %s' % (st['key'], st['h'], [o[:14] for o in ops], ops[k][:18] if ops else ''))
             await tap_idx(pg, cdp, k); await pg.wait_for_timeout(1300); continue
         if s['dlg']: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(600); continue
@@ -144,8 +148,12 @@ async def play_until(pg, cdp, run, until_key, until_h, pick, canyon=None, max_s=
     return False, ch
 
 
+CONS = []   # console 的 warning／error（選單一直重複時一起記下來）
+
+
 async def launch_load(p, run, base, key, h, zone, flags=None, quiet=True, extra_js=None, label=''):
     b, ctx, pg, cdp, errs = await L.launch(p, landscape=True)
+    pg.on('console', lambda m: CONS.append(('%s %s' % (m.type, m.text))[:240]) if m.type in ('warning', 'error') and 'Canvas2D' not in m.text else None)
     await pg.goto(URL); await L.wait_loaded(pg); await pg.evaluate("localStorage.clear()")
     st = json.loads(json.dumps(base)); G = st.get('G', st); F = G['flags']
     d = await pg.evaluate("STORY.dayOfKey('%s')" % key)
