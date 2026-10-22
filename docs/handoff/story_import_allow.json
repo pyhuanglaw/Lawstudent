@@ -1679,6 +1679,14 @@
    "approvedBy": "AA-C 2026-10-18 02:30 定稿（DL-13 剩下的部分：公園各時段的路人、走進公園的一句、點路人的一句；不取名、不記關係；D100、D109）",
    "task": "DL-13",
    "kind": "text"
+  },
+  {
+   "path": "docs/story_planning/AA_387_芷若出國前的最後一場_定稿.md",
+   "sha": "608b9adc",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 14:0x 定稿（回 LAWWW 六點；outbox e1cc814e；台詞照稿 D100、細節 D109）；第 8 節 F3 拒絕版一起改",
+   "task": "BB119-Y4-1017",
+   "kind": "text"
   }
  ]
 }
