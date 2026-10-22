@@ -1,7 +1,7 @@
 """BB：寒暑假快轉（BB_HOLFF_ROOMS_1021 第一節；AA_340 第 6 節）。
 [前置] 使用者 9/25 存檔改到每個假期的成績公布日 08:30、宿舍；麵店團、認識麵店團的人、以安 FAMILIAR；沒在交往、沒報名活動；大三、大四台灣路線，大四 Y4_PATH=bar。
 照玩家：宿舍的床（在家是家裡的選單）→「快轉」→「到下一個有事的日子」一直按；手機跳出來（關閉鍵寫「跳過」）就按跳過；中間的劇情對話點過去、選項選第一個。
-每一站記：日期時間、在哪（宿舍／臺北的家）、旁白／對話、手機有沒有自己打開。Playwright 手機橫向模擬、?turbo，不是 iPhone。"""
+每一站記：日期時間、在哪（宿舍／臺北的家）、旁白／對話、手機有沒有自己打開（2026-10-22 起：每一張日期卡 GAME.titleCard 都記一站——按「跳過」以後同一次快轉接著跳到的站原本記不到；手機跳出來記待回覆的 id、tag＋截圖）。Playwright 手機橫向模擬、?turbo，不是 iPhone。"""
 import os, sys, json, asyncio, time
 sys.path.insert(0, os.environ['LW_TESTS']); import playlib as L
 from playwright.async_api import async_playwright
@@ -12,7 +12,10 @@ bad = []; rep = []
 def say(*a):
     s = ' '.join(str(x) for x in a); print(s, flush=True); rep.append(s)
 SNAP = """(()=>{ const G=GAME.G, d=CALENDAR.dateOf(G.day); return {day:G.day, key:d.key, h:+G.hour.toFixed(2), zone:G.zone, home:!!(G.home&&G.home.at), term:(CALENDAR.termOf(G.day)||{}).id||null, hud:(document.getElementById('clockT')||{}).textContent||'', busy:!!GAME.E.player.busy, depth:(GAME.D&&GAME.D.busyDepth)||0}; })()"""
-HOOK = """(()=>{ if(window.__SH) return; window.__SH=1; window.__LOG=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__LOG.push(((w&&w.name)?w.name+'：':'')+String(t)); }catch(e){} return s0.apply(this,arguments); }; })()"""
+HOOK = """(()=>{ if(window.__SH) return; window.__SH=1; window.__LOG=[]; window.__CARDS=[]; const s0=GAME.say; GAME.say=function(w,t){ try{ window.__LOG.push(((w&&w.name)?w.name+'：':'')+String(t)); }catch(e){} return s0.apply(this,arguments); };
+  if(GAME.titleCard){ const t0=GAME.titleCard; GAME.titleCard=function(){ try{ const G=GAME.G, d=CALENDAR.dateOf(G.day); window.__CARDS.push({at:d.key+' '+(+G.hour).toFixed(2), where:(G.home&&G.home.at)?'臺北的家':G.zone, card:[...arguments].filter(x=>typeof x==='string').join('｜'), lines:window.__LOG.length}); }catch(e){} return t0.apply(this,arguments); }; } })()"""
+PEND = """(()=>{ try{ return PHONE.pending(GAME.G).map(m=>({th:m.th||'', tag:m.tag||null, ask:(m.ask&&m.ask.id)||null, t:String(m.text||'').slice(0,26), d:CALENDAR.dateOf(m.day).key})); }catch(e){ return 'ERR '+e; } })()"""
+CARDS = "(()=>(window.__CARDS||[]).splice(0))()"
 async def phone_state(pg):
     return await pg.evaluate("(()=>{ const p=document.getElementById('phone'); const open=!!p&&!p.classList.contains('hide')&&getComputedStyle(p).display!=='none'; const b=document.getElementById('btnPhoneClose'); return {open, btn:b?b.textContent:''}; })()")
 async def choices(pg):
@@ -28,7 +31,8 @@ async def step(pg, cdp, run, stops, tag):
         ph = await phone_state(pg)
         if ph['open']:
             sn = await pg.evaluate(SNAP); stops.append({'at': sn['key'] + ' %.2f' % sn['h'], 'what': '手機自己打開（關閉鍵「%s」）' % ph['btn']})
-            say('   📱 %s %.2f 手機自己打開，關閉鍵「%s」' % (sn['key'], sn['h'], ph['btn']))
+            pend = await pg.evaluate(PEND); stops[-1]['pending'] = pend; await run.shot(pg, '%s_phone_%s_%02d' % (tag, sn['key'], int(sn['h'])))
+            say('   📱 %s %.2f 手機自己打開，關閉鍵「%s」；待回覆 %s' % (sn['key'], sn['h'], ph['btn'], json.dumps(pend, ensure_ascii=False)[:400]))
             await pg.evaluate("(()=>{ const b=document.getElementById('btnPhoneClose'); if(b) b.click(); })()"); await pg.wait_for_timeout(1500); continue
         s = await L.state(pg)
         if s['choices']:
@@ -86,6 +90,8 @@ async def main():
                 if sn['term'] or (i > 0 and sn['term'] is None and False): pass
                 if sn['term']:
                     say('   開學了：%s' % json.dumps(sn, ensure_ascii=False)); break
+                for c in await pg.evaluate(CARDS):
+                    stops.append({'at': c['at'], 'what': '日期卡（%s）' % c['where'], 'card': c['card']}); say('   🗓 日期卡 %s %s：%s' % (c['at'], c['where'], c['card'][:80]))
                 if r == 'ff':
                     await pg.wait_for_timeout(2500); sn2 = await pg.evaluate(SNAP); lg = await pg.evaluate("window.__LOG.splice(0)")
                     stops.append({'at': sn2['key'] + ' %.2f' % sn2['h'], 'what': ('家' if sn2['home'] else sn2['zone']), 'lines': lg[:6]})
@@ -100,6 +106,8 @@ async def main():
                         say('   ⚠ 按不到床（%s）' % json.dumps(sn, ensure_ascii=False)); bad.append('%s：按不到床 %s %.2f %s' % (bk, sn['key'], sn['h'], sn['zone'])); await run.shot(pg, '%s_nobed' % bk); break
                     continue
                 say('   ⚠ 卡住：%s' % json.dumps(sn, ensure_ascii=False)); bad.append('%s：240 秒沒有結束 %s %.2f' % (bk, sn['key'], sn['h'])); await run.shot(pg, '%s_stuck' % bk); break
+            for c in await pg.evaluate(CARDS):
+                stops.append({'at': c['at'], 'what': '日期卡（%s）' % c['where'], 'card': c['card']}); say('   🗓 日期卡 %s %s：%s' % (c['at'], c['where'], c['card'][:80]))
         json.dump({'res': allres, 'bad': bad}, open(os.path.join(OUT, 'holff.json'), 'w'), ensure_ascii=False, indent=1)
         print('問題：'); [print('   -', x) for x in bad]
         run.check('寒暑假快轉：七個假期都能一路快轉到開學、不卡住', not bad, json.dumps(bad[:10], ensure_ascii=False))
