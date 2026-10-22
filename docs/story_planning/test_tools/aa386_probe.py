@@ -4,12 +4,13 @@
     ADV_GRAD 大一下 4/6 起、熟悉：1-1，選「那學姊後悔嗎？」　ADV_EXCH_A／B 大二上 12/1 起：1-2 兩個選項（記 SIS_ADV_EXCH same／go）
     ADV_PICK 大三上 11/15 起、熟悉：1-3 一般版　ADV_PICK_DATE 同一天、交往中：1-3 交往中版（志願表那一版、「本來要畫幾架？」）
     ADV_Y4_TW 大三下 5/2 起、熟悉、臺灣路線：1-4（另外【讀資料】同一天日本路線 preTalkEv＝null）　ADV_Y4_US_DATE／ADV_Y4_TW_DATE 交往中多一句（美國／臺灣那句）
+    ADV_Y4_REDATE 分開過、演過三件事、又重新交往（現在交往中）：1-4 照常演（AA_386 第 6 節第 1 點）
     ADV_ACQ 只是認識（熟 5）：4/6 找她說話，四場都不出現。每一場：記憶、再找她說話不再演；交往中對話框寫「書瑀」
   第 2 節 S26_HEARD（SIS_ADV_EXCH go）／S26_LADDER（大二下階梯過了 S4-Lx）／S26_NONE：2027-11-03 起 18:30 以後在 Café／法圖找她，2-6 一般版那一句換兩句／照原句
   第 3 節（交往中；她私訊約 → 手機回 → 時間到「出發」→ 那一場）：
     XMAS_Y2（12/23 21:00 → 12/24 22:00 Café 門口，選「收好」）、XMAS_Y2_NO（回「明天晚上不行。」→「好。」→ 12/24 22:20 那兩則、記 no、不扣關係）
     XMAS_Y3（美國路線＋去年有來：12/24 20:30 → 21:00 研究室，同一天；多「去年是 Café 門口…」、美國路線那句整句取代）
-    VDAY_Y2（大二寒假住宿舍：2/13 21:00 → 2/14 14:00 植物園）、VDAY_Y2_NO（17:00 那兩則）、VDAY_Y3_HOME（大三寒假在臺北的家：快轉停在她的私訊 → 2/14 10:00 公館捷運站，從家裡出發）
+    VDAY_Y2（大二寒假住宿舍：2/13 21:00 → 2/14 14:00 植物園，4 小時、18:00 出來）、VDAY_Y2_NO（17:00 那兩則）、VDAY_Y3_HOME（大三寒假在臺北的家：快轉停在她的私訊 → 2/14 10:00 公館捷運站，從家裡出發）
     VDAY_Y4（2029-02-14 22:30 在臺北的家接電話，3-5 去過多兩句）、VDAY_Y4_MISS（在宿舍按「先不接」→ 22:40 那兩則、記 missed）
     HOL_NODATE 朋友、沒交往：12/23 21:00、12/24 20:30 都沒有她的私訊
   第 4 節 4-1：REB_EARLY（分開 4 週：不演）、REB_OK（分開 7 週、朋友：演一般版，選「第三件，我等妳。」；【讀資料】DATE.hint＝「她在等她說好的那一天」；再找她不再演）、REB_CAUGHT（被發現退回朋友：第一件換句）
@@ -374,6 +375,12 @@ ADV = {
     'ADV_Y4_TW_DATE': dict(days=['2028-05-02', '2028-05-03', '2028-05-04'], lv='FRIEND', dating=True, flags={'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}, picks=['還在想'],
                            exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '……三，不要讓別人替你寫。', '（她說第三件的時候，看的是自己的計畫本。）', '八月以後，拍照傳給我。我在那邊也看得到。'],
                            absent=['到了那邊，拿給我看。'], mem='SIS_ADV_Y4', names=True, desc='同上、交往中、臺灣路線'),
+    'ADV_Y4_REDATE': dict(days=['2028-05-02', '2028-05-03', '2028-05-04'], lv='FRIEND', dating=True, flags={'EXCHANGE_ROUTE': 'TW', 'EXCH_RULE': 1}, picks=['還在想'],
+                          exp=['你大四要做什麼，想了嗎？', '還在想，也是一種排法。', '你的大四，你自己排。我只幫你看。', '……三，不要讓別人替你寫。', '（她說第三件的時候，看的是自己的計畫本。）', '八月以後，拍照傳給我。我在那邊也看得到。'],
+                          absent=['到了那邊，拿給我看。'], mem='SIS_ADV_Y4', names=True,
+                          pre="""(()=>{ const G=GAME.G, F=G.flags, D=k=>STORY.dayOfKey(k), R=(F.romance=F.romance||{}); R.heroine_05=Object.assign({},R.heroine_05||{},{status:'dating',history:[{ev:'start',day:D('2027-03-01')},{ev:'end',day:D('2027-08-30')},{ev:'start',day:D('2027-12-01')}]});
+  F.dating_heroine_05=true; F.SIS_REBUILD=D('2027-10-20'); F.SIS_REBUILD_N=4; return {rec:R.heroine_05, brokeUp:SISB4.brokeUp(G), ok:SISB4.ok(G,'FAMILIAR'), restartYes:SISB4.restartYes(G)}; })()""",
+                          desc='同上、交往中、臺灣路線；【前置】2027-08-30 分開過、10-20 演過三件事、12-01 重新交往（AA_386 第 6 節第 1 點：窗口還在就照常演）'),
 }
 FOUR_FIRST = ['學姊是什麼時候開始準備研究所的？', '（你的包包裡露出一張傳單：「交換學生甄選說明會」。她看到了。）', '志願表，寫了嗎？', '你大四要做什麼，想了嗎？']
 HOURS = [15.0, 16.0, 17.0, 18.5, 19.5, 20.5]
@@ -385,6 +392,8 @@ async def s_adv(p, run, base, sid, out):
     res = out.setdefault(sid, {}); C = ADV[sid]
     b, pg, cdp, errs, r, name, at = await launch_her(p, run, base, C['days'], HOURS, QUICK3, C['lv'], dating=C['dating'], flags=dict({'Y4_PATH': 'other'}, **C['flags']), label=sid + '（' + C['desc'] + '）')
     try:
+        if C.get('pre'):
+            pr = await pg.evaluate(C['pre']); res['pre'] = pr; run.setup('[前置] %s：讀檔後設學姊的交往紀錄 → %s' % (sid, json.dumps(pr, ensure_ascii=False)))
         await drive(pg, cdp, run, max_s=30, label=sid)
         if C.get('jp'):
             jc = await pg.evaluate(JPCHK); res['jp'] = jc
@@ -445,22 +454,22 @@ async def s_26(p, run, base, sid, out):
 
 # ---------------------------------------------------------------- 第 3 節：交往中的節日
 HOL = {
-    'XMAS_Y2': dict(ask='2026-12-23', askh=21.0, start=20.85, dm=['明天晚上十點，Café 門口。', '十五分鐘就好。'], opts=['好。', '明天晚上不行。'], go_day='2026-12-24', go_h=22.0, go=('聖誕夜',),
+    'XMAS_Y2': dict(end=(22.45, 23.1), ask='2026-12-23', askh=21.0, start=20.85, dm=['明天晚上十點，Café 門口。', '十五分鐘就好。'], opts=['好。', '明天晚上不行。'], go_day='2026-12-24', go_h=22.0, go=('聖誕夜',),
                     picks=['收好，回去再看'], flag='SIS_XMAS_Y2', ok='there', route={}, skip='等到晚上', no_skip='等到晚上',
                     exp=['（Café 的燈一盞一盞關掉。她站在門口，手上拿著兩個紙杯。）', '熱水。加了一點蜂蜜。', '……今天聖誕節，算特別的。', '（你把準備好的禮物給她。一盒綠色螢光筆。）', '……你怎麼知道我的用完了。',
                          '（她把螢光筆收進大衣口袋，沒有放進包包。然後拿出一個紙袋。）', '明年的計畫本。第一頁我寫了。回去再看。', '嗯。', '十五分鐘到了。', '（她說十五分鐘到了，可是沒有走。）', '（回到宿舍，你打開第一頁。只有一行：「1/1　早上不要排事情。睡飽。」）'],
                     absent=['……我說回去再看。'], miss_day='2026-12-24', miss_h=22 + 20 / 60, miss=['📷（Café 門口，兩個紙杯）', '熱水我喝完了。兩杯。'], no_reply='好。'),
-    'XMAS_Y3': dict(ask='2027-12-24', askh=20.5, start=20.35, dm=['九點，研究室。', '……今天只有我。'], opts=['好。', '今天晚上不行。'], go_day='2027-12-24', go_h=21.0, go=('聖誕夜',),
+    'XMAS_Y3': dict(end=(21.95, 22.6), ask='2027-12-24', askh=20.5, start=20.35, dm=['九點，研究室。', '……今天只有我。'], opts=['好。', '今天晚上不行。'], go_day='2027-12-24', go_h=21.0, go=('聖誕夜',),
                     picks=['坐在她旁邊'], flag='SIS_XMAS_Y3', ok='there', route={'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1}, pre={'SIS_XMAS_Y2': 'there'},
                     exp=['（研究室只剩她一個人。門口她那張桌上，放著一棵手掌大的聖誕樹，燈一閃一閃。）', '隔壁的學妹放的。她回家了，叫我幫她顧。', '……樹要怎麼顧。', '（她寫了三行，刪了兩行。）', '你在旁邊，我刪得比較快。',
                          '去年是 Café 門口。今年是研究室。', '……明年的今天，我們剛回來一天。', '十二月二十三號的飛機。……我先查好了。', '（你要走的時候，她沒有關那棵樹的燈。）'],
                     absent=['如果三月的信是好消息，明年的今天，我剛回來一天。'], miss_day='2027-12-24', miss_h=21.5, miss=['📷（研究室門口的桌上，一棵很小的聖誕樹）', '學妹的。我幫她顧。'], no_reply='好。'),
-    'VDAY_Y2': dict(ask='2027-02-13', askh=21.0, start=20.85, dm=['明天下午兩點，植物園門口。', '我想走一走。不讀書的那種。'], opts=['好。', '明天不行。'], go_day='2027-02-14', go_h=14.0, go=('情人節',),
+    'VDAY_Y2': dict(end=(17.95, 18.75), ask='2027-02-13', askh=21.0, start=20.85, dm=['明天下午兩點，植物園門口。', '我想走一走。不讀書的那種。'], opts=['好。', '明天不行。'], go_day='2027-02-14', go_h=14.0, go=('情人節',),
                     picks=['妳最喜歡哪一區'], flag='SIS_VDAY_Y2', ok='went', route={}, skip='等到下午', no_skip='等到傍晚',
                     exp=['（植物園分成很多區，每一區門口都有一塊說明牌。她每一塊都停下來讀，大概一分鐘。）', '一區一分鐘。', '……這樣才走得完。', '荷花池。', '二月沒有荷花，只有水。', '……我喜歡看什麼都還沒長出來的時候。',
                          '（出來的時候天已經暗了。她在計畫本二月十四號那一格寫了「植物園」，後面又加了三個字：「兩個人」。）'],
                     miss_day='2027-02-14', miss_h=17.0, miss=['📷（荷花池，只有水）', '走完了。荷花池，下次再看。'], no_reply='好。我自己去。'),
-    'VDAY_Y3': dict(ask='2028-02-13', askh=21.0, start=20.85, dm=['明天是我寒假那一天的假。', '早上十點，公館捷運站二號出口。其他的沒排。'], opts=['好。', '明天不行。'], go_day='2028-02-14', go_h=10.0, go=('情人節',),
+    'VDAY_Y3': dict(end=(14.95, 15.9), ask='2028-02-13', askh=21.0, start=20.85, dm=['明天是我寒假那一天的假。', '早上十點，公館捷運站二號出口。其他的沒排。'], opts=['好。', '明天不行。'], go_day='2028-02-14', go_h=10.0, go=('情人節',),
                     picks=['陪她看窗外'], flag='SIS_VDAY_Y3', ok='went', route={'EXCHANGE_ROUTE': 'US', 'EXCH_RULE': 1},
                     exp=['（她站在出口，手上沒有計畫本。）', '今天沒帶。放在家裡了。', '第一班來的公車，我們就上去。坐到最後一站。', '（她一開始看著窗外，小聲念站名。念到第七站，就不念了。）', '（過了一個隧道，她的頭靠在你肩膀上。）',
                          '（終點站在山腳下。站牌旁邊有一家賣湯圓的小店，只有兩張桌子。）', '……情人節吃湯圓。', '我記一下。明年不要再這樣排。', '（她說不要再這樣排，可是一直在笑。）', '回去以後，那一格，我要畫一個勾。'],
@@ -540,10 +549,11 @@ async def s_hol(p, run, base, sid, out):
             n0 = len(await pg.evaluate("window.__LOG||[]"))
             if home:
                 ok, ch = await home_ff(pg, cdp, run, sid, "GAME.G.flags.%s!=null" % C['flag'], C['go'], C['picks'], max_s=900)
-                await pg.wait_for_timeout(3000)
+                st_end = await pg.evaluate(STATE); await pg.wait_for_timeout(3000)
             else:
                 if C['go_day'] != C['ask']: await sleep_night(pg, cdp, run, sid); await skip(pg, cdp, C['skip'], sid)
                 ok, ch = await wait_for(pg, cdp, run, "(GAME.G.flags.%s!=null&&!(typeof ADV!=='undefined'&&ADV.active))||GAME.G.day>STORY.dayOfKey(%s)" % (C['flag'], json.dumps(C['go_day'])), max_s=900, picks=C['picks'], go_keys=C['go'], label=sid)
+                st_end = await pg.evaluate(STATE)   # 演完那一刻（3D 裡時間照走，後面 drive 會再過幾分鐘）
                 await drive(pg, cdp, run, picks=C['picks'], max_s=60, label=sid)
             log = (await pg.evaluate("window.__LOG||[]"))[n0:]; fl = await pg.evaluate(SB4F); res.update({'log': log, 'ch': ch, 'flags': fl})
             prompt = [c for c in ch if any(is_go(o, C['go']) for o in c['opts'])]
@@ -552,6 +562,9 @@ async def s_hol(p, run, base, sid, out):
             run.check('%s：人物頁記憶 %s' % (sid, C['flag']), C['flag'] in fl.get('mem', []), json.dumps(fl, ensure_ascii=False)[:300])
             nm = her_names(log, name); run.check('%s：對話框寫「書瑀」（%s）' % (sid, nm), nm == ['書瑀'], json.dumps(nm, ensure_ascii=False))
             res['rel'] = [rel0, fl['rel']]; say('   %s 關係 %s → %s' % (sid, rel0, fl['rel']))
+            st2 = st_end; res['end'] = st2
+            if C.get('end'): run.check('%s：演完那一刻是 %s %s（這一場 %s 開始；AA_386 第 6 節：時長照 LAWWW、植物園 4 小時）' % (sid, st2['key'], hm(st2['h']), hm(C['go_h'])),
+                                       st2['key'] == C['go_day'] and C['end'][0] <= st2['h'] <= C['end'][1], json.dumps(st2))
         await run.shot(pg, '%s_end' % sid)
         res['errs'] = errs[:3]; run.check('%s：沒有 JS 例外' % sid, not errs, json.dumps(errs[:3], ensure_ascii=False))
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); run.check('%s：測試跑完' % sid, False, str(e)[:300])
@@ -646,7 +659,7 @@ async def s_reb(p, run, base, sid, out):
     await close(b)
 
 
-ORDER = ['ADV_GRAD', 'ADV_EXCH_A', 'ADV_EXCH_B', 'ADV_PICK', 'ADV_PICK_DATE', 'ADV_Y4_TW', 'ADV_Y4_US_DATE', 'ADV_Y4_TW_DATE', 'ADV_ACQ', 'S26_HEARD', 'S26_LADDER', 'S26_NONE',
+ORDER = ['ADV_GRAD', 'ADV_EXCH_A', 'ADV_EXCH_B', 'ADV_PICK', 'ADV_PICK_DATE', 'ADV_Y4_TW', 'ADV_Y4_US_DATE', 'ADV_Y4_TW_DATE', 'ADV_Y4_REDATE', 'ADV_ACQ', 'S26_HEARD', 'S26_LADDER', 'S26_NONE',
          'XMAS_Y2', 'XMAS_Y2_NO', 'XMAS_Y3', 'VDAY_Y2', 'VDAY_Y2_NO', 'VDAY_Y3_HOME', 'VDAY_Y4', 'VDAY_Y4_MISS', 'HOL_NODATE', 'REB_EARLY', 'REB_OK', 'REB_CAUGHT']
 FN = dict({k: s_adv for k in ADV}, ADV_ACQ=s_adv_acq, S26_HEARD=s_26, S26_LADDER=s_26, S26_NONE=s_26, VDAY_Y4=s_v4, VDAY_Y4_MISS=s_v4, HOL_NODATE=s_hol_nodate, REB_EARLY=s_reb, REB_OK=s_reb, REB_CAUGHT=s_reb,
           **{k: s_hol for k in HOL_SC})
