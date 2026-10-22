@@ -5,7 +5,9 @@ story-planning 分支 docs/story_planning/art_reference/classmate_peishan.webp�
 酒紅色素 T（短袖、圓領）＋深藍長裙（高腰、裙擺到小腿下段）＋黑色帆布鞋（白鞋底）；黑色硬殼筆記本（道具，之後另外做）。
 做法和吳芯慈（classmate_xinci.py）相同：VRoid CC0 樣本 Darkness Shibu 的身體、臉、骨架（裙子不用裙擺彈簧骨）；臉 peishan_face、頭髮 peishan_hair、衣服 peishan_clothes。
 用法：/opt/blenv/bin/python tools/blender/char_second/peishan.py -- <輸出.vrm 或 -> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair] [--from-blend …] [--render 預覽圖前綴] [--views …]
-之後：VRM_BASE=Darkness_Shibu python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 郭沛珊 [虹膜色]"""
+之後：VRM_BASE=Darkness_Shibu python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 郭沛珊 [虹膜色]
+第二十九版起（使用者 10-22 11:5x「臉啊頭髮啊 醜死了」）vrm_finish2 要多帶 VRM_REST='{"Fcl_EYE_Close": 0.06}'（基本形的眼型，和 peishan_face.REST 一致），
+再跑 peishan_skirt_bones.py（第二十八版的裙子輔助骨頭）；完整指令見 docs/art-rebuild/second_ai/char_review/peishan_v29/README.md"""
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)
