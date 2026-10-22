@@ -181,7 +181,7 @@ const Y2B_EVENTS=(function(){
   const TA_NEWS={ id:'ev_yt_ta_news', title:'助教', participants:['heroine_03'], location:'noodle', trigger:'auto', once:true, term:['Y3S1'], weeks:[1], weekday:[2,4], time:[17.5,20.5], background:'blur',
     prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
   const TA_NEWS_LIB={ id:'ev_yt_ta_news_lib', title:'助教', participants:['heroine_03'], location:['library','library_hall'], trigger:'auto', once:true, term:['Y3S1'], weeks:[2], weekday:[1], npcZone:'heroine_03', background:'blur',
-    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES };
+    prereq:{stage:{npc:'heroine_03',min:'FRIEND'},notFlags:['YT_TA']}, dialogue:TA_LINES.map(l=>l.text==='下週二第一次上台。我要講二十分鐘。'?Object.assign({},l,{text:'明天第一次上台。我要講二十分鐘。'}):l) };   /* AA_376 #3：第 2 週週一（9/13）在總圖，隔天 9/14 就上台（麵店那一版第 1 週照舊「下週二」）*/
 
   /* ---- 1B-08 語彤事件 12「那把傘」：2027-09-14（二）17:30～18:30 總圖門口（大一下雨的那個門口），那天傍晚一定下雨（y2b3d.js）---- */
   const RU=v=>({flagIs:{rain_umbrella:v}});
@@ -227,7 +227,8 @@ const Y2B_EVENTS=(function(){
   const TOLD=G=>has('heroine_04','TOLD_HER_CHANGE');
   const CAPSTONE={ id:'ev_ziqing_capstone', title:'畢業專題要交哪一個', participants:['heroine_04'], location:'cafe', trigger:'auto', once:true, background:'blur',
     prereq:{stage:{npc:'heroine_04',min:'FRIEND'},custom:G=>at(G,'2027-11-09',19.25,20)},
-    dialogue:[ {unless:{custom:G=>Q6(G)},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},
+    dialogue:[ {unless:{custom:G=>Q6(G)||done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……你應該不知道。我在做遊戲，大一就開始了。上個月丟到網路上。'},   /* AA_376 #4：Q8b（10/6～10/8 爸爸卡關，含三天都沒去的手機版）已經說過的不再當新消息（同閒聊階梯 Q5-L1 的判斷）*/
+      {if:{custom:G=>done(G,'ev_ziqing_dad_stuck')},speaker:'heroine_04',text:'……上次跟你說的那個遊戲。'},
       {speaker:'heroine_04',text:'畢業專題。我要交那隻貓。'},
       {speaker:'heroine_04',text:'安全。好玩。一定會過。'},
       {speaker:null,text:'（她看著筆電上兩個資料夾，一個叫「cat」，一個沒有名字。）'},
