@@ -13,9 +13,10 @@
               約明天 09:00 高鐵 → 她答應的那一句照 T7a：以安「臺中？……好。我去車站接你。」、芷若「你要來臺中？……好。我帶你走。」（以安 2026-01-24、芷若 2026-07-04）
   T7A_LOW     以安在台中、熟悉（第 5 階以下）：照舊關著（手機朋友頁沒有「約」、寫她回台中了）
   T7A_TRIP／T7A_PS  AA_372 #8 新加的「回台中的週末」（以安第 4／8／12 週末、沛珊單數週末；presence kind trip「回台中」，不是 home）：
-              照 AA_372 #8 的設計（characters.js 那一段註解：trip＋signal＝週末回家、手機照常，邀約寫「回台中，不在臺北。」，不開「我去台中找妳？」）＝手機的約關著、寫「回台中，不在臺北。」。
-              （BB 原本以為也照 T7a 只列 D26——不是，T7a 只管寒暑假 kind home；要不要也套 T7a 由 AA 定，另外問。）
-  T7A_FRIBOOK 以安 9/26（五）在臺北時約她 9/27（六，她回台中的週末）去淡水 15:00：期待＝灰掉、照 S6 那一句婉拒；讀碼：DATE.check 只擋 kind home（S.homeNo），trip 週末照樣約得到——疑似 bug。
+              AA_372 第 7 節（企劃線 da55ec2b，AA 03:17 定）：週末回台中也照 T7a＝手機的約打開、只列 D26；明天 09:00 高鐵 → 以安「臺中？……好。我去車站接你。」、
+              沛珊（新寫）「你要來台中喔？好啊！我幫完早餐店就去車站接你！」（LAWWW 實作以前跑＝FAIL，等實作）
+  T7A_FRIBOOK／T7A_FRIBOOK_PS 前一天在臺北約她回台中那個週末的淡水 15:00（以安 9/26 約 9/27、沛珊 10/3 約 10/4）：AA_372 第 7 節＝要擋（S6，D26 例外），
+              婉拒：以安「那幾天我在台中。……換一天。」、沛珊（新寫）「那幾天我回台中啦！……換一天好不好？」。讀碼：DATE.check 只擋 kind home（S.homeNo）——實作以前約得到＝FAIL。
 【前置】讀使用者存檔改日期、時間、地點（每個情境寫在 run.setup）；quiet_events（條件事件不演、要回的訊息不自己打開手機）；讀檔後在頁面裡設她的關係（第 6 階：熟 60、信任 45、自在 40、她的戀愛 55、祐廷 30）、
 認識、聯絡方式、錢 30,000。之後照玩家：手機「朋友」→「約」→ 選項、睡覺、手機「跳過時間」、時間到按「出發」、約會裡選互動點。OVERLAP 的阿哲邀約是 INV.offer 放進去的（前置）。
 Playwright 手機橫向模擬、?turbo，不是 iPhone。
@@ -412,13 +413,16 @@ async def s_overlap(p, run, base, sid, out):
 
 
 T7 = {'T7A_AN': ('heroine_01', '2026-01-24', 10.5, '臺中？……好。我去車站接你。', '明天'),
-      'T7A_ZY': ('heroine_02', '2026-07-04', 10.5, '你要來臺中？……好。我帶你走。', '明天')}
+      'T7A_ZY': ('heroine_02', '2026-07-04', 10.5, '你要來臺中？……好。我帶你走。', '明天'),
+      # AA_372 第 7 節：週末回台中（presence kind trip）也照 T7a——以安第 4 週 9/27～9/28、沛珊第 5 週 10/4～10/5
+      'T7A_TRIP': ('heroine_01', '2025-09-27', 10.5, '臺中？……好。我去車站接你。', '明天'),
+      'T7A_PS': ('classmate_peishan', '2025-10-04', 10.5, '你要來台中喔？好啊！我幫完早餐店就去車站接你！', '明天')}
 
 
 async def s_t7a(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     who, key, h, yes, day = T7[sid]
-    b, pg, cdp, errs, r = await launch(p, run, base, key, h, 'dorm', {who: S6}, label=sid + '（她在台中老家：presence kind home）')
+    b, pg, cdp, errs, r = await launch(p, run, base, key, h, 'dorm', {who: S6}, label=sid + ('（週末回台中：presence kind trip，AA_372 第 7 節）' if sid in ('T7A_TRIP', 'T7A_PS') else '（她在台中老家：presence kind home）'))
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
         row = await friends_row(pg, cdp, who); res['row'] = row; await run.shot(pg, '%s_friends' % sid)
@@ -459,9 +463,7 @@ async def s_t7a(p, run, base, sid, out):
 async def s_t7a_closed(p, run, base, sid, out):
     """T7A_LOW（期待關著）／T7A_TRIP、T7A_PS（照 AA_372 #8 設計：週末回台中＝約關著、寫「回台中，不在臺北。」）"""
     res = out.setdefault(sid, {})
-    C = {'T7A_LOW': ('heroine_01', '2026-01-24', {'fam': 25, 'trust': 5, 'comf': 0}, 'closed', '以安在台中（寒假 kind home）、只有熟悉'),
-         'T7A_TRIP': ('heroine_01', '2025-09-27', S6, 'trip', '以安第 4 週週六回台中（AA_372 #8，presence kind trip）、第 6 階'),
-         'T7A_PS': ('classmate_peishan', '2025-10-04', S6, 'trip', '沛珊單數週（第 5 週）週六回台中（AA_372 #8，presence kind trip）、第 6 階')}[sid]
+    C = {'T7A_LOW': ('heroine_01', '2026-01-24', {'fam': 25, 'trust': 5, 'comf': 0}, 'closed', '以安在台中（寒假 kind home）、只有熟悉')}[sid]
     who, key, rel, expect, desc = C
     b, pg, cdp, errs, r = await launch(p, run, base, key, 10.5, 'dorm', {who: rel}, label='%s（%s）' % (sid, desc))
     try:
@@ -490,17 +492,21 @@ async def s_t7a_closed(p, run, base, sid, out):
     await close(b)
 
 
+FRI = {'T7A_FRIBOOK': ('heroine_01', '2025-09-26', '那幾天我在台中。……換一天。', '以安 9/27～9/28 回台中'),
+       'T7A_FRIBOOK_PS': ('classmate_peishan', '2025-10-03', '那幾天我回台中啦！……換一天好不好？', '沛珊 10/4～10/5 回台中')}
+
+
 async def s_t7a_fribook(p, run, base, sid, out):
-    """9/26（五）以安在臺北，約她 9/27（六，回台中的週末）"""
-    res = out.setdefault(sid, {})
-    b, pg, cdp, errs, r = await launch(p, run, base, '2025-09-26', 20.0, 'dorm', {'heroine_01': S6}, label=sid + '（以安 9/27～9/28 回台中，AA_372 #8）')
+    """前一天（她還在臺北）約她明天（回台中的週末）去淡水 15:00：AA_372 第 7 節＝要擋，照 S6 婉拒"""
+    res = out.setdefault(sid, {}); who, key, no_line, desc = FRI[sid]
+    b, pg, cdp, errs, r = await launch(p, run, base, key, 20.0, 'dorm', {who: S6}, label=sid + '（%s，AA_372 #8、第 7 節）' % desc)
     try:
         await drive(pg, cdp, run, max_s=30, label=sid)
-        rr = await date_to_when(pg, cdp, 'heroine_01', 'D13', label=sid); res['menu'] = rr
+        rr = await date_to_when(pg, cdp, who, 'D13', label=sid); res['menu'] = rr
         if not rr.get('ok'): raise RuntimeError('沒走到日期選單：%s' % json.dumps(rr, ensure_ascii=False)[:300])
         times, pk, o = await pick_day_time(pg, cdp, '明天', '15:00', sid); res['times'] = times; res['pick'] = pk; await run.shot(pg, '%s_0927_times' % sid)
         t15 = next((x for x in (times or []) if x['t'].startswith('15:00')), None)
-        run.check('%s：9/27（她在台中）約淡水 15:00 灰掉、寫她回台中（期待；讀碼 DATE.check 只擋 kind home → 疑似約得到）' % sid, bool(t15) and t15['dim'] and '台中' in t15['hint'], json.dumps(times, ensure_ascii=False)[:400])
+        run.check('%s：明天（她在台中）約淡水 15:00 灰掉、照 S6 婉拒「%s」（AA_372 第 7 節；讀碼：DATE.check 只擋 kind home，實作以前約得到）' % (sid, no_line), bool(t15) and t15['dim'] and no_line in (t15['hint'] or ''), json.dumps(times, ensure_ascii=False)[:400])
         sm = await wait_dlg(pg, '預計花費', 10); res['summary'] = sm
         if sm: await L.tap(pg, cdp, '#dlg'); await pg.wait_for_timeout(900)
         await pick(pg, cdp, '算了', sid); await close_flow(pg, cdp, sid)
@@ -509,9 +515,9 @@ async def s_t7a_fribook(p, run, base, sid, out):
     await close(b)
 
 
-ORDER = ['FARE', 'EXAMWEEK', 'OVERLAP', 'T7A_AN', 'T7A_ZY', 'T7A_LOW', 'T7A_TRIP', 'T7A_PS', 'T7A_FRIBOOK']
+ORDER = ['FARE', 'EXAMWEEK', 'OVERLAP', 'T7A_AN', 'T7A_ZY', 'T7A_LOW', 'T7A_TRIP', 'T7A_PS', 'T7A_FRIBOOK', 'T7A_FRIBOOK_PS']
 FN = {'FARE': s_fare, 'EXAMWEEK': s_examweek, 'OVERLAP': s_overlap, 'T7A_AN': s_t7a, 'T7A_ZY': s_t7a,
-      'T7A_LOW': s_t7a_closed, 'T7A_TRIP': s_t7a_closed, 'T7A_PS': s_t7a_closed, 'T7A_FRIBOOK': s_t7a_fribook}
+      'T7A_LOW': s_t7a_closed, 'T7A_TRIP': s_t7a, 'T7A_PS': s_t7a, 'T7A_FRIBOOK': s_t7a_fribook, 'T7A_FRIBOOK_PS': s_t7a_fribook}
 
 
 async def main():

@@ -114,7 +114,7 @@ async def enter_reading_room(pg, cdp, run):
     """總圖大廳二樓東側的樓梯間（exit.to＝library）走進 3F 閱覽室，像玩家一樣"""
     it = await pg.evaluate("(()=>{ const i=(GAME.E.interactables||[]).find(q=>q.exit&&q.exit.to==='library'); return i?[i.x,i.z,i.lv|0,i.label||'']:null; })()")
     if not it: return False, 'no door'
-    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=180, lv=it[2])
+    await L.go_to(pg, cdp, run, it[0], it[1], 0.9, it[3] or '樓梯間', max_s=420, lv=it[2])   # 兩個瀏覽器同時跑時每秒只有 1 格，180 秒走不到（10-22 03:3x 候選第一輪）
     await L.tap(pg, cdp, '#interact')
     for _ in range(40):
         await pg.wait_for_timeout(1000)
@@ -272,24 +272,31 @@ async def sched(p, run, base, out):
 async def walk(p, run, base, sid, out):
     # 02:5x 改：閱覽室（總圖 3F）約「去總圖一起念書」她回「我就在總圖…」（她已經在總圖）＝不會跟著走；一起走的三項改約總圖以外的地方（半熟 08:00 開、Café 11:00 開），
     # 在閱覽室當面約總圖另外測（LIB_HERE：LAWWW 01:48 ②「已經在總圖當面再約＝直接開始」）
+    # 03:2x 再改：她白天在閱覽室讀書，約「現在」她會說「五點以後好不好？我要先把這段寫完。」（作息 read＝有事，設計如此）——一起走的三項改到 9/26（五）19:10 公館（她 19～21 在公館散步＝有空）
     res = out.setdefault(sid, {}); dest = {'WALK_DORM': 'dorm', 'WALK_CAFE_DORM': 'dorm', 'WALK_ARRIVE': 'cafe', 'LIB_HERE': None}[sid]
-    place = {'WALK_DORM': '去半熟吃早午餐', 'WALK_CAFE_DORM': '去兩點半 Café 坐坐', 'WALK_ARRIVE': '去兩點半 Café 坐坐', 'LIB_HERE': '去總圖一起念書'}[sid]
-    hour = 11.0 if place.startswith('去兩點半') else 10.0
-    b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, hour, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218；約「%s」）' % place)
+    place = {'WALK_DORM': '去公館吃飯（阿鳳麵店）', 'WALK_CAFE_DORM': '去兩點半 Café 坐坐', 'WALK_ARRIVE': '去兩點半 Café 坐坐', 'LIB_HERE': '去總圖一起念書'}[sid]
+    if sid == 'LIB_HERE':
+        b, pg, cdp, errs, rel = await launch_load(p, run, base, 8, 10.0, 'library_hall', sid + '（讀檔在總圖大廳，自己走樓梯間進 3F 閱覽室：直接讀檔進閱覽室她不會出現，見 BB_218；約「%s」）' % place)
+    else:
+        b, pg, cdp, errs, rel = await launch_load(p, run, base, 10, 19.15, 'gongguan', sid + '（9/26 週五 19:10 公館：她 19～21 在公館散步；約「%s」）' % place)
     try:
         await L.phone_away(pg, cdp); await pg.wait_for_timeout(2000)
-        ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
-        run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
-        st = await pg.evaluate(ST); res['start'] = st
+        if sid == 'LIB_HERE':
+            ok, lab = await enter_reading_room(pg, cdp, run); res['enter'] = [ok, lab]
+            run.check('%s：從大廳二樓樓梯間走進 3F 閱覽室' % sid, ok, lab)
+        st = await pg.evaluate(ST); t0 = time.time()
+        while not (st['her'] and st['her']['vis']) and time.time() - t0 < 90: await pg.wait_for_timeout(3000); st = await pg.evaluate(ST)
+        res['start'] = st
         if not (st['her'] and st['her']['vis']):
-            run.check('%s：9/24 10:00 閱覽室有學姊（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
+            run.check('%s：她在（作息）' % sid, False, json.dumps(st, ensure_ascii=False)[:300]); raise RuntimeError('她不在')
         got, trace = await talk_invite_now(pg, cdp, run, sid, place); res['trace'] = trace
         say('   %s 過程：%s' % (sid, json.dumps(trace, ensure_ascii=False)[:800]))
         if not got: run.check('%s：當面約走到「現在一起過去」' % sid, False, json.dumps(trace, ensure_ascii=False)[:400]); raise RuntimeError('沒約成')
         n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False); await pg.wait_for_timeout(2500)
         res['book_lines'] = (await pg.evaluate("window.__LOG||[]"))[n0:]
         st = await pg.evaluate(ST); res['after_book'] = st; say('   %s 約完：%s；%s' % (sid, json.dumps(st['inv'], ensure_ascii=False), [x['t'] for x in res['book_lines']]))
-        T = [x['t'] for x in res['book_lines']]
+        lg = trace.get('log') or []; last_menu = max((i for i, x in enumerate(lg) if x[0] == '［選項］'), default=-1)
+        T = [x[1] for x in lg[last_menu + 1:]] + [x['t'] for x in res['book_lines']]   # 選了時間以後她說的話（talk_invite_now 的 log 尾巴＋之後的）；02:5x 第一輪只看 book_lines，漏掉了那一句
         if sid == 'LIB_HERE':   # 兩個人都已經在總圖：當面約總圖＝直接開始（不是手機那句「我就在總圖。三樓。不要講話，傳訊息。」）
             phone_line = [t for t in T if '傳訊息' in t or '不要講話' in t]
             run.check('LIB_HERE：在閱覽室當面約「去總圖一起念書」「現在一起過去」——她沒有回手機那句「…不要講話，傳訊息。」', not phone_line, json.dumps(T[:8], ensure_ascii=False)[:400])
@@ -368,6 +375,55 @@ async def miss(p, run, base, out):
     await close(b)
 
 
+async def tea(p, run, base, out):
+    """TEA（LAWWW de66f555：一盞的兩人桌相距 1.8 m 也配得到）：9/27（六）13:30 宿舍，手機約學姊「去一盞喝茶」「今天 15:30」→ 手機「等到傍晚」停在 15:20
+    → 手機快速前往一盞 → 兩個人都在＝自己開始、兩個人都坐下（2.2 m 內、並排或隔著桌子面對面）→ 演完站起來"""
+    res = out.setdefault('TEA', {})
+    b, pg, cdp, errs, rel = await launch_load(p, run, base, 11, 13.5, 'dorm', 'TEA（9/27 週六；讀檔後學姊設成朋友：熟 48、信任 32、自在 20——一盞要朋友以上；去過一盞）')
+    try:
+        await pg.evaluate("(()=>{ const R=SOCIAL.rel('heroine_05'); R.fam=Math.max(R.fam||0,48); R.trust=Math.max(R.trust||0,32); R.comf=Math.max(R.comf||0,20); const V=GAME.G.visited||(GAME.G.visited={}); for(const z of ['wz_teahouse','wenzhou']) V[z]=true; })()")
+        await L.phone_away(pg, cdp)
+        await phone(pg, cdp, 'friends')
+        await tap_q(pg, cdp, "document.querySelector('#phoneBody [data-inv=\"heroine_05\"]')")
+        ok1, o1 = await pick(pg, cdp, '去一盞喝茶'); ok2, o2 = (False, [])
+        if ok1: ok2, o2 = await pick(pg, cdp, '今天 15:30')
+        res['menus'] = [o1, o2]; n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp, choose_first=False)
+        res['book_lines'] = (await pg.evaluate("window.__LOG||[]"))[n0:]
+        st = await pg.evaluate(ST); iv = [v for v in st['inv'] if v['state'] == 'accepted']; res['inv'] = st['inv']
+        say('   TEA 約：%s；她說 %s' % (st['inv'], [x['t'] for x in res['book_lines']]))
+        run.check('TEA：手機約好今天 15:30 一盞（accepted）', bool(iv), json.dumps({'選單': res['menus'], 'inv': st['inv'], '她說': [x['t'] for x in res['book_lines']]}, ensure_ascii=False)[:500])
+        if not iv: raise RuntimeError('沒約成')
+        zone = iv[0]['zone']; await L.phone_away(pg, cdp)
+        await phone(pg, cdp, 'today')
+        got = await tap_q(pg, cdp, "[...document.querySelectorAll('#phoneBody [data-skip]')].find(b=>b.textContent.trim().startsWith('等到傍晚'))")
+        t0 = time.time()
+        while time.time() - t0 < 120:
+            await pg.wait_for_timeout(1500); s = await L.state(pg)
+            if s['choices']: await drain(pg, cdp, max_steps=1); continue
+            if not s['busy'] and not s['dlg'] and not await pg.evaluate("!!(GAME.phoneIsOpen&&GAME.phoneIsOpen())"): break
+        st = await pg.evaluate(ST); res['skip'] = [got, st['h']]
+        run.check('TEA：手機「等到傍晚」停在約好的時間前 10 分鐘（15:20）', bool(got) and abs(st['h'] - (15.5 - 1 / 6)) < 0.06, '%s h=%.3f' % (got, st['h']))
+        ok, info = await quick_go(pg, cdp, zone); res['go'] = info
+        run.check('TEA：手機快速前往一盞（%s）' % zone, ok, json.dumps(info, ensure_ascii=False))
+        await run.shot(pg, 'TEA_arrive')
+        first, last = await watch_auto(pg, cdp, run, 'TEA', secs=120); res['first'] = first; res['last'] = last
+        run.check('TEA：她在、你在＝不用說話就自己開始', bool(first), json.dumps(last, ensure_ascii=False)[:400])
+        if first:
+            seats = await pg.evaluate("(()=>{ const P=GAME.E.player, n=(GAME.E.npcs||[]).find(x=>x&&(x.charId==='heroine_05'||x.id==='sis')); const a=P.seat, c=n&&n.seat; return {me:a?[+a.x.toFixed(2),+a.z.toFixed(2),+(a.ry||a.yaw||0).toFixed(2)]:null, her:c?[+c.x.toFixed(2),+c.z.toFixed(2),+(c.ry||c.yaw||0).toFixed(2)]:null}; })()")
+            res['seats'] = seats; d = None
+            if seats['me'] and seats['her']: d = ((seats['me'][0] - seats['her'][0]) ** 2 + (seats['me'][1] - seats['her'][1]) ** 2) ** 0.5
+            run.check('TEA：開始時兩個人都坐下、相距 2.2 m 以內（de66f555：並排或隔著桌子面對面）', first['pseat'] and bool(first['her']) and bool(first['her']['seat']) and d is not None and d <= 2.21, json.dumps({'seats': seats, 'd': d, 'first': first}, ensure_ascii=False)[:500])
+            n0 = len(await pg.evaluate("window.__LOG||[]")); await drain(pg, cdp); await pg.wait_for_timeout(2500)
+            lines = (await pg.evaluate("window.__LOG||[]"))[max(0, n0 - 1):]; res['lines'] = lines
+            st = await pg.evaluate(ST); res['after'] = st; await run.shot(pg, 'TEA_after')
+            say('   TEA 台詞：%s' % json.dumps([(x['n'], x['t'], x['pseat']) for x in lines], ensure_ascii=False)[:1200])
+            run.check('TEA：演出時你是坐著的', bool(lines) and all(x['pseat'] for x in lines if x['n'] != '［選項］'), json.dumps([x['pseat'] for x in lines]))
+            run.check('TEA：演完邀約 done、你站起來', any(v['state'] == 'done' for v in st['inv']) and not st['pseat'], json.dumps(st, ensure_ascii=False)[:300])
+        res['errs'] = errs[:3]; run.check('TEA：沒有 JS 例外', not errs, json.dumps(errs[:3], ensure_ascii=False))
+    except Exception as e: res['err'] = str(e)[:300]; say('   ! 停在這裡', e)
+    await close(b)
+
+
 async def main():
     run = L.Run('bothpresent', OUT); base = json.load(open(SAVE, encoding='utf-8')); out = {}
     scen = os.environ.get('SCEN', 'SCHED,WALK_DORM,WALK_ARRIVE').split(',')
@@ -376,6 +432,7 @@ async def main():
             say('== %s' % sid)
             if sid == 'SCHED': await sched(p, run, base, out)
             elif sid == 'MISS': await miss(p, run, base, out)
+            elif sid == 'TEA': await tea(p, run, base, out)
             else: await walk(p, run, base, sid, out)
             json.dump(out, open(os.path.join(OUT, 'bothpresent.json'), 'w'), ensure_ascii=False, indent=1)
     run.finish()
