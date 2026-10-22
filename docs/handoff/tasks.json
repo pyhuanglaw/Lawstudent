@@ -28895,7 +28895,8 @@
     "parallel": false,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）06:0x】GitHub Pages run 39731006425 成功（build、report-build-status、deploy；05:59:27），head＝4a8d17f9；沙盒連不到 github.io，以部署工作結果為準（請使用者看標題版本字樣 v9.10.4（2026-10-22））；RELEASES.md 部署驗證已寫 ｜ 【LAWWW（帳號 A）06:0x】PR #10 合併 main＝4a8d17f9（expectedHeadSha 6dad28e5；main 的遊戲檔案＝f1c226c7，git diff 為空）；開發分支 b371901e 換回開發中的檔案、002c4e19 把 main 合回；GitHub Pages run 39731006425 部署中；RELEASES.md v9.10.4 已寫 ｜ 【05:5x】發布前：五支瀏覽器流程測試 ALL PASS（touch_flow_wenzhou 第四輪：Café 雙人桌只有靠窗那一側有「坐」，測試挑錯位子）；發布樹 Node 單元測試 445 支全部通過；題目漏收 0（企劃線 27568bc9，399 題逐題相同）；check_lines 144 筆提醒；check_orphans 補 8 項恢復條件 ｜ BB 判定 GO（10-22 05:02）"
+   "next": "【LAWWW（帳號 A）06:0x】GitHub Pages run 39731006425 成功（build、report-build-status、deploy；05:59:27），head＝4a8d17f9；沙盒連不到 github.io，以部署工作結果為準（請使用者看標題版本字樣 v9.10.4（2026-10-22））；RELEASES.md 部署驗證已寫 ｜ 【LAWWW（帳號 A）06:0x】PR #10 合併 main＝4a8d17f9（expectedHeadSha 6dad28e5；main 的遊戲檔案＝f1c226c7，git diff 為空）；開發分支 b371901e 換回開發中的檔案、002c4e19 把 main 合回；GitHub Pages run 39731006425 部署中；RELEASES.md v9.10.4 已寫 ｜ 【05:5x】發布前：五支瀏覽器流程測試 ALL PASS（touch_flow_wenzhou 第四輪：Café 雙人桌只有靠窗那一側有「坐」，測試挑錯位子）；發布樹 Node 單元測試 445 支全部通過；題目漏收 0（企劃線 27568bc9，399 題逐題相同）；check_lines 144 筆提醒；check_orphans 補 8 項恢復條件 ｜ BB 判定 GO（10-22 05:02）",
+   "evidence": "main 4a8d17f9（PR #10）的遊戲檔案＝發布樹 f1c226c7（git diff 為空）；Pages run 39731006425 build／report-build-status／deploy 成功 05:59:27 UTC；發布前：deploy_check、smoke_release、flow_v0_start、touch_flow_wenzhou、flow_exam_terms（＋K-D3 固定版）ALL PASS（Playwright 手機模擬，不是 iPhone）；發布樹 Node 單元測試 445 支全部通過；題目漏收 0（企劃線 27568bc9）；BB 判定 GO（10-22 05:02）；docs/RELEASES.md v9.10.4"
   }
  ]
 }
