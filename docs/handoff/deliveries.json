@@ -12996,6 +12996,32 @@
    "msg": "ACK",
    "integration": "已整合待測試",
    "note": "LAWWW（帳號 A）22:3x 整合進開發分支（patch 對 4fd3bda0 乾淨；LICENSES 那一列照位置手動加；美國相關 24 支單元測試全過）；還不到：晚上停車場偏暗、車不會動、沒有路人（美國人流是 LAWWW 的範圍）；BB 看畫面"
+  },
+  {
+   "id": "DL-LAWWW2-3d6f2cee",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "3d6f2cee",
+   "what": "PERF-ZONE-ENTER-1018：zone_prewarm.diff 第五版（zones3d.js Z3.prewarm／prefetchNext、game3d.js enter() 一行、tests/zone_prewarm_unit.js；只在電腦上做）＋wz_jphouse.glb 招牌圖集縮小（63d3bc5e，940→669 KB）＋tools/shots/zone_enter_probe.py；量測 test_shots/zone_enter_1021/README.md",
+   "task": "PERF-ZONE-ENTER-1018",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）01:5x 整合進開發分支 7b4fb34b（patch 對 014a38bc 乾淨；修改前 3 FAIL、修改後 ALL PASS；438 支全過）；原始檔 9f187fed。路人輪換的建議另開 PERF-NPC-POOL-1022（LAWWW）"
+  },
+  {
+   "id": "DL-LAWWW2-223252e5",
+   "date": "2026-10-22",
+   "from": "LAWWW2",
+   "account": "A",
+   "branch": "claude/second-ai-env-art",
+   "sha": "223252e5",
+   "what": "ART-ECON-3D-GAP-1021：總圖、行政大樓、文學院、校史館拱廊大門雙開玻璃木門＋博雅東側一樓玻璃帶（campus_*.glb／.json 五棟；campus_hall.py、campus_teach.py）；遊戲內前後對照 test_shots/campus_doors_1021/README.md；READY_FOR_ART_REVIEW",
+   "task": "ART-ECON-3D-GAP-1021",
+   "msg": "ACK",
+   "integration": "已整合待測試",
+   "note": "LAWWW（帳號 A）01:5x 只換 GLB，整合進開發分支 7b4fb34b（原始檔 9f187fed）；438 支全過。還不到（LAWWW2）：門打不開、文學院門下半凹板看不出來、博雅一樓玻璃白天偏黑、真機沒看過；BB 看畫面"
   }
  ],
  "ignored": [
