@@ -2,7 +2,7 @@
 台詞對照（讀碼）另外做過：src/data/sis_y2y3_events.js 每一句和 AA_379 第 2 節一字不差（BB_218）。這支測玩家玩得到的：私訊什麼時候來、回覆、出遊、說話前接演、生日、電話、只認識時八場都不出現。
 下面的「應該演的台詞」照 AA_379 第 2 節原文寫（不是照程式），瀏覽器裡演出來的每一句要依序出現。
   LAB_SKIP   【前置：已回「好。」】9/22 08:00 手機「等到下午（14:00）」：跳過時間會不會停在 12:20 研究室的出發前（手機寫「遇到…約好的時間…會停下來」）
-  RESULT_SLEEP 2028-03-15 21:00 上床「睡到明天」：21:30 她的電話會不會響（sis_y2y3_3d.js S.result 的註解寫「快轉、睡覺會停在電話」）
+  RESULT_SLEEP 2028-03-15 21:00 上床（有「鬧鐘」的選項就選它，沒有才選「睡到明天」；BUG-BED-TONIGHT-ALARM-1022）：床的選項有沒有寫到今晚的電話、21:30 她的電話會不會響（sis_y2y3_3d.js S.result 的註解寫「快轉、睡覺會停在電話」）
   LAB_GO     大二上 9/21 21:00 私訊兩則＋回覆「好。」「明天中午有課。」→ 回「好。」→ 9/22 睡醒、手機「等到中午」→ 研究室「出發」→ 選「（幫她把最重的那一排推進去）」；沒有交往中那兩句；傍晚 18:00 以後沒有「搬完了。」
   SEM_ASK    11/17 21:00 私訊 →「好。」→ 11/18 傍晚 → 19:00 法圖・討論室 → 選「妳為什麼選這個題目？」（記 asked）；沒有「你坐第一排」
   TOPIC_LIB  【前置：SIS_SEMINAR_Y2＝asked】大二下第 5 週週三（2027-03-24）19:06 手機「地點」到法圖，找她說話＝接在前面演 2-3（有「你上次問我為什麼…」）→ 演完照常說話；再說一次不再演
@@ -215,8 +215,8 @@ async def skip_retry(pg, cdp, run, label_prefix, label='', tries=3):
     return got
 
 
-async def bed(pg, cdp, run, prefix, label=''):
-    """走到床邊按睡覺，選開頭是 prefix 的選項。回傳床的選項（沒有床＝None）"""
+async def bed(pg, cdp, run, prefix, label='', prefer=None):
+    """走到床邊按睡覺，選開頭是 prefix 的選項（prefer：有含這個字的選項就先選它，例如「鬧鐘」）。回傳床的選項（沒有床＝None）"""
     if (await pg.evaluate("GAME.G.zone")) != 'dorm': await quick_go(pg, cdp, 'dorm')
     it = await pg.evaluate("(()=>{ const it=(GAME.E.interactables||[]).find(i=>i.sleep&&!i.hidden); return it?[it.x,it.z,it.lv|0]:null; })()")
     if not it: return None
@@ -227,8 +227,9 @@ async def bed(pg, cdp, run, prefix, label=''):
         if ops: break
         await pg.wait_for_timeout(600)
     say('   %s 床：%s' % (label, ops))
-    k = next((i for i, o in enumerate(ops) if o.startswith(prefix)), None)
-    if k is not None: await tap_idx(pg, cdp, k); await pg.wait_for_timeout(2000)
+    k = next((i for i, o in enumerate(ops) if prefer and prefer in o), None)
+    if k is None: k = next((i for i, o in enumerate(ops) if o.startswith(prefix)), None)
+    if k is not None: say('   %s 床：選「%s」' % (label, ops[k])); await tap_idx(pg, cdp, k); await pg.wait_for_timeout(2000)
     return ops
 
 
@@ -365,8 +366,9 @@ async def s_result_sleep(p, run, base, sid, out):
         hit, waited = await wait_plan(pg, 'sisy23_result'); q0 = await pg.evaluate(OUTQ); res['out0'] = q0; res['plan_wait_s'] = waited
         run.check('%s：3/15 21:30 的電話排好了（讀檔後等了 %s 秒）' % (sid, waited), any(q['id'] == 'sisy23_result' and q['state'] == 'planned' for q in q0), json.dumps(q0, ensure_ascii=False))
         st0 = await pg.evaluate(STATE)
-        ops = await bed(pg, cdp, run, '睡到明天', sid); res['bed'] = ops
-        ok, ch = await wait_for(pg, cdp, run, "GAME.G.day>%d&&!GAME.E.player.busy" % st0['day'], max_s=240, picks=['要慶祝嗎'], label=sid)
+        ops = await bed(pg, cdp, run, '睡到明天', sid, prefer='鬧鐘'); res['bed'] = ops   # BUG-BED-TONIGHT-ALARM-1022（67ef327a 起）：今晚還有約＝床給「睡一下、鬧鐘叫醒」；有就照玩家選它
+        run.check('%s：21:00 床的選項寫到今晚 21:30 的電話（約好的時間／鬧鐘；BUG-BED-TONIGHT-ALARM-1022）' % sid, any(('鬧鐘' in o or '電話' in o or '21:30' in o) for o in (ops or [])), json.dumps(ops, ensure_ascii=False))
+        ok, ch = await wait_for(pg, cdp, run, "!!GAME.G.flags.SIS_US_RESULT||(GAME.G.day>%d&&!GAME.E.player.busy)" % st0['day'], max_s=300, picks=['要慶祝嗎'], label=sid)
         await drive(pg, cdp, run, max_s=40, label=sid); res['ch'] = ch
         fl = await pg.evaluate(FLAGS); res['flags'] = fl; q1 = await pg.evaluate(OUTQ); res['out1'] = q1
         rang = any(any(o.startswith('接起來：') for o in c['opts']) for c in ch)
