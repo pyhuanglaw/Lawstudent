@@ -13450,7 +13450,7 @@
    "task": "BB119-Y4-1017",
    "msg": "ACK",
    "integration": "已整合待測試",
-   "note": "LAWWW 15:0x：子代理 fc378dfe 合併進開發分支 52dbfe6f；aa387_zr_last_unit 51 項（修改前 38 FAIL）ALL PASS；解讀問題 A1～A6 已問 AA；BB 照第 9 節測；放 v9.10.6"
+   "note": "LAWWW 14:5x：子代理 fc378dfe 合併進開發分支 52dbfe6f；aa387_zr_last_unit 51 項（修改前 38 FAIL）ALL PASS；解讀問題 A1～A6 已問 AA；BB 照第 9 節測；放 v9.10.6"
   },
   {
    "id": "DL-AA-d0468be4",
