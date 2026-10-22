@@ -14,7 +14,7 @@
   PS_ALT     沛珊大一下、大二上也隔週回台中（第 6 節第 8 題）：使用者存檔改到 2026-03-14（大一下第 3 週六）、03-21（第 4 週六）、2026-09-26（大二上第 3 週六）、10-03（第 4 週六）15:12 公館：
              朋友頁單數週「回台中」、沒有「約」；捷運到大稻埕：單數週迪化街不會遇到她；雙數週照遊戲擲的結果（ENC 的紀錄）——擲到她就要遇到（擲到沒人＝那天沒有偶遇，記 NOT TESTED，不算 FAIL）
   AN_D26     以安 D26（台中審計新村）加大一上第 4、8、12 週的週六（第 6 節第 8 題）：使用者存檔改到 9/27、10/25、11/22（對照 10/4）11:00 公館 → 捷運 → 臺中（外縣市）→ 到達時有沒有遇到她；
-             10/25 是期中考週：臺中一日遊是 noExamWeek（考試週不能去）＝玩家到不了，記下來（給 AA／LAWWW）
+             10/25 是期中考週：AA_383 第 2 點定案＝她照樣回台中、那個週末不給約 D26（偶遇名單沒有她、捷運去不了臺中＝PASS）
   BOHAN_UP   柏翰升到「有點熟」的兩句（第 6 節第 2 題）：使用者存檔 10/14 16:00 總圖大廳、柏翰有點熟（還沒播過升級句；考古題那件記成演過），手機朋友頁「帶我去」找他說話：
              「我現在每天記讀書時數。……昨天四小時二十分。」「我想調一下我的時間表。」；找不到他＝【讀資料，不是玩】REL_LINES 那兩句
 【前置】新局的情境用遊戲自己的讀檔（GAME.defaults＋新局旗標 LAW_START_DAY 8/29、MAIN_D1 9/3、CAMP_Y1、introDone、readCase）放到那一天；使用者存檔的情境改日期、時間、地點；每個情境寫在 run.setup。
@@ -505,7 +505,8 @@ async def s_an_d26(p, run, base, sid, out):
     res = out.setdefault(sid, {})
     js = "(()=>{ const G=GAME.G, R=SOCIAL.rel('heroine_01'); if((R.fam||0)<25){ R.fam=25; } SOCIAL.remember('heroine_01','FIRST_MET',''); G.contacts=G.contacts||{}; if(G.contacts.heroine_01==null) G.contacts.heroine_01=STORY.dayOfKey('2025-09-05'); return {stage:SOCIAL.stage('heroine_01'), pres:STORY.presence('heroine_01',G)}; })()"
     WHY = '她坐在審計新村一間小店門口的階梯上，手上拿著一張寫滿字的購物清單。'
-    for key, home in (('2025-09-27', True), ('2025-10-25', True), ('2025-11-22', True), ('2025-10-04', False)):
+    # AA_383 第 2 點（10-22 04:03）：10/25 照樣回台中（考完回家），期中考週規則優先、那個週末不給約 D26；D26 偶遇只留 9/27、11/22（LAWWW 做）
+    for key, home in (('2025-09-27', True), ('2025-10-25', False), ('2025-11-22', True), ('2025-10-04', False)):
         tag = '%s %s' % (sid, key); r0 = res.setdefault(key, {})
         b, pg, cdp, errs, r = await launch(p, run, base, key, 11.0, 'gongguan', fresh=False, js=js, weather='clear', money=30000, label=tag + '（以安有點熟＋聯絡方式；週六 11:00 公館）')
         try:
@@ -515,15 +516,17 @@ async def s_an_d26(p, run, base, sid, out):
             r0['cand15'] = cand; r0['trip_check'] = chk
             run.check('%s：【讀資料，不是玩】15:00 臺中偶遇名單%s以安' % (tag, '有' if home else '沒有'), ('heroine_01' in cand) == home, json.dumps(cand, ensure_ascii=False))
             tr, why = await mrt_trip(pg, cdp, run, '臺中草悟道', 'D26', tag)
-            if not tr:
+            if key == '2025-10-25':   # 期中考週：玩家去不了臺中＝對（AA_383 第 2 點）
+                T = texts(tr['log']) if tr else []; r0['trip'] = {'why': why, 'lines': T[:8]}
+                exam = '考試週' in json.dumps(chk, ensure_ascii=False)
+                stopped = (not tr and '捷運選單沒有' in (why or '')) or any('考試週' in x for x in T) or (tr and not any('臺中' in x or '草悟道' in x for x in T))
+                run.check('%s：第 8 週（期中考週）週六去不了臺中（TRIP.check 寫考試週、捷運到不了）——AA_383 第 2 點' % tag, exam and stopped, json.dumps({'check': chk, 'why': why, 'lines': T[:4]}, ensure_ascii=False)[:400])
+            elif not tr:
                 run.check('%s：搭捷運＋高鐵到臺中（外縣市）' % tag, False, why)
             else:
                 T = texts(tr['log']); met = WHY in T; r0['trip'] = {'enc': tr['enc'], 'walked': tr['walked'], 'lines': T[:20]}
                 blocked = [t for t in T if '考試週' in t]; await run.shot(pg, 'd26_%s_after' % key)
-                if key == '2025-10-25' and (blocked or not any('臺中' in t or '草悟道' in t for t in T)):
-                    run.note('%s：期中考週（第 8 週）臺中一日遊被擋（noExamWeek）＝AA_372 第 6 節第 8 題要的 10/25 偶遇玩家到不了（給 AA／LAWWW）；%s' % (tag, json.dumps(T[:4], ensure_ascii=False)))
-                    run.check('%s：第 8 週週六玩家到得了臺中、遇得到以安' % tag, False, '考試週不能去臺中（free_trips D26 noExamWeek）')
-                elif home:
+                if home:
                     who = tr['enc'].get('who') if isinstance(tr['enc'], dict) else None
                     if who == 'heroine_01': run.check('%s：到臺中、遊戲擲到以安＝遇到她（「%s」）' % (tag, WHY[:14]), met, json.dumps(tr, ensure_ascii=False)[:500])
                     else: run.note('%s：NOT TESTED——那天遊戲擲到 %s（四成沒有偶遇），不算 FAIL；名單 %s' % (tag, json.dumps(tr['enc'], ensure_ascii=False), cand))
