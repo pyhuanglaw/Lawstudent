@@ -84,7 +84,8 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -106,7 +107,8 @@
        "if": {
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -184,7 +186,8 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -205,7 +208,8 @@
        "if": {
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -612,7 +616,8 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -671,7 +676,8 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
         ],
         "notEvents": [
          "ev_zz_home_together"
@@ -735,6 +741,68 @@
        "lines": [
         "程式比賽的結果出來了。我們系拿了第二名。",
         "我沒去。……恭喜我傳了。真心的。大部分是。"
+       ]
+      }
+     ],
+     "extraIf": [
+      {
+       "if": {
+        "stage": {
+         "npc": "heroine_02",
+         "min": "ACQUAINTANCE"
+        },
+        "events": [
+         "ev_zz_home_together"
+        ],
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04",
+         "ZZ_DATING",
+         "EX_heroine_02",
+         "EX_heroine_04"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_04",
+          "tag": "ZQ_ZR_FILM_DAY"
+         }
+        ]
+       },
+       "mem": "ZQ_ZR_FILM_DAY",
+       "lines": [
+        "……芷若這禮拜跟她們系上的人去看了電影。",
+        "幹嘛，我又沒怎樣。"
+       ]
+      },
+      {
+       "if": {
+        "events": [
+         "ev_zz_home_together"
+        ],
+        "notFlags": [
+         "dating_heroine_02",
+         "dating_heroine_04",
+         "ZZ_DATING",
+         "EX_heroine_02",
+         "EX_heroine_04"
+        ],
+        "notMemory": [
+         {
+          "npc": "heroine_04",
+          "tag": "ZQ_ZR_FILM_DAY"
+         }
+        ]
+       },
+       "unless": {
+        "stage": {
+         "npc": "heroine_02",
+         "min": "ACQUAINTANCE"
+        }
+       },
+       "mem": "ZQ_ZR_FILM_DAY",
+       "lines": [
+        "……我室友這禮拜跟她們系上的人去看了電影。",
+        "幹嘛，我又沒怎樣。"
        ]
       }
      ],

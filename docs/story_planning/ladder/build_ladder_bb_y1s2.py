@@ -25,7 +25,9 @@ ZR='heroine_02'; ZQ='heroine_04'; SIS='heroine_05'; PS='classmate_peishan'; KX='
 D = {'_comment': __doc__, 'term': Y, 'characters': {}}
 FRI_DINNER = {'weekday': [5], 'time': [17, 21]}   # 學姊週五傍晚和陳助教吃飯（同大一上 S-L7）
 # 2026-10-17 BB-C（照 AA_234 b7e7d445）：AA_232 4-1 鋪陳句的備援（大一上沒聽過的玩家）：兩人都沒和祐廷交往、4-2（ev_zz_home_together，第 3 週週三）還沒發生、大一上沒聽過同一句（extraIf 的 mem）
-NO_ZZ_YET = {'notFlags': ['dating_heroine_02', 'dating_heroine_04'], 'notEvents': ['ev_zz_home_together']}
+NO_ZZ_YET = {'notFlags': ['dating_heroine_02', 'dating_heroine_04', 'ZZ_DATING'], 'notEvents': ['ev_zz_home_together']}   # 2026-10-22 AA（AA_385 第 3 項）：加 ZZ_DATING
+# AA_232 4-1 第 5 句（AA_385 第 3 項）：4-2 以後、兩人還沒在一起、從沒和祐廷交往過
+ZZ_JEALOUS = {'events': ['ev_zz_home_together'], 'notFlags': ['dating_heroine_02', 'dating_heroine_04', 'ZZ_DATING', 'EX_heroine_02', 'EX_heroine_04']}
 def unheard(npc, tag): return {'notMemory': [{'npc': npc, 'tag': tag}]}
 
 # ───────── 林芷若（外文二；兩點半 Café 平日晚班到 22:00、週六 14～18 在溫州街）─────────
@@ -112,6 +114,8 @@ D['characters'][ZQ] = {'steps': [
   'lines':['系上又在問誰要去程式比賽。','我說我考慮看看。其實就是不想去。'],
   'linesIf':[{'if':mem(ZQ,'CONTEST_DAY'),'lines':['比賽的結果出來了。我們系拿了第二名。','……我傳了恭喜。真心的。只有一點點不真心。']},
              {'week':[10,16],'lines':['程式比賽的結果出來了。我們系拿了第二名。','我沒去。……恭喜我傳了。真心的。大部分是。']}],
+  'extraIf':[{'if':{**st(ZR,'ACQUAINTANCE'),**ZZ_JEALOUS,**unheard(ZQ,'ZQ_ZR_FILM_DAY')},'mem':'ZQ_ZR_FILM_DAY','lines':['……芷若這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。']},
+             {'if':{**ZZ_JEALOUS,**unheard(ZQ,'ZQ_ZR_FILM_DAY')},'unless':st(ZR,'ACQUAINTANCE'),'mem':'ZQ_ZR_FILM_DAY','lines':['……我室友這禮拜跟她們系上的人去看了電影。','幹嘛，我又沒怎樣。']}],   # AA_232 4-1 第 5 句（AA_385 第 3 項）：接在「系上」的話題後面
   'choices':[ch('「妳還好嗎？」','還好啦。……幹嘛突然這樣問。'),
              ch('「那妳想做什麼？」','寫我自己的東西。……好啦，也有一點是在逃避。',rel={'trust':1})],'rel':{'fam':2},
   'note':'比賽在第 8～9 週（Q4）；第 10 週以後推進的玩家改說結果（linesIf）。和她在公館喝咖啡那天（CONTEST_DAY）的玩家用第一套（2026-10-16 上下文修正：沒有 CONTEST_DAY 的兩套說清楚是「程式比賽」（原本「那個比賽」）；選項②的回應原本「做我的貓」，這層在 Q2-L4 之前，沒聽過大一上 Q-L5 的玩家不知道貓是她的遊戲 → 改說「做我的遊戲。主角是一隻貓」）（2026-10-17 口語改稿照 AA_209 附錄 B：lines 第 2 句、兩個選項回覆；Q6 以前不說破遊戲，選項②改「寫我自己的東西」）'},
