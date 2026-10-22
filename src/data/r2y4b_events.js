@@ -241,7 +241,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.lastMealMissed(G); } },
   /* ---------- 2-Y4-44 可昕 K26（7/7（六）15:00「老地方」；BB_99 9-18、10-1 第 18 項；AA 審稿 #47）---------- */
   /* 地點＝約會紀錄裡次數最多的那一個（背景跟著換），所以整段在 R2Y4B.k26Scene 演（台詞在 R2Y4B.K26）*/
-  { id:'ev_kexin_after_grad', title:'重新排的一天', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:[],
+  { id:'ev_kexin_after_grad', title:'老地方', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2, dialogue:[],
     beforeOuting:async(G,GM,q)=>{ const r=R(); if(r) await r.k26Scene(GM,q); },
     outingMissed:G=>{ const r=R(); if(r) r.k26Missed(G); } },
   /* ---------- 2-Y4-46 七月最後一次的心意邀約（7/14；AA_266）：飯和回家的路在 R2Y4B.julyScene（照 AA_254 第 0 節的格式；沒有飯桌一句、不放 CG、沒有「讓我想想」）---------- */

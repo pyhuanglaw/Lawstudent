@@ -107,12 +107,12 @@ const PGDATE=(function(){
   S.used=(G,who,ym)=>{ const A=G.flags&&G.flags['PG_DATE_'+who]; return Array.isArray(A)&&A.includes(ym); };
   /* 那個月不排（第 1～6 節「不排的月份」）：表上沒有那個月的（她已經有接觸）＋有條件的那幾條；交換延畢的大五上 */
   S.sixOff=function(G,who,ym){ const F=G.flags||{}; if(!S.line(who,ym)) return true;
-    if(PG.delayed(G)&&ym>='2029-09'&&ym<='2030-01') return true;   /* 第 0、8 節：交換延畢的大五上（2029-09～2030-01）照一般遊戲，玩家自己約 */
+    if(PG.delayed(G)&&ym==='2029-12') return true;   /* 交換延畢：大五上（2029-09～2030-01）一樣排（AA_367 第 10 節 A4，企劃線 e6d4a198；原本「照一般遊戲」作廢——大五上也是跳日期），只有 2029-12 不排（12/21 延畢的期末約會，termend3d.js）*/
     const sg=PG.studyGroup(G), yt=sg==='three'||sg==='yutong', pass29=F.BAR_SIT_2029===true&&PG.stage2(G,2029);   /* 2029 年上榜＝一試過了（這一版二試都會上，12/14 放榜）*/
     if(who==='heroine_03'){
       if(yt&&ym>='2029-06'&&ym<='2029-08') return true;   /* 有讀書小組的玩家：2029-06～08 照小組 */
       if(ym==='2029-12'&&yt&&pass29) return true;   /* 2029 年上榜、有讀書小組的（放榜那天的麵店）*/
-      if((ym==='2030-07'||ym==='2030-12')&&yt&&PG.retaker(G)) return true; }   /* 重考、有讀書小組的（7/11 總圖 B1、12/13 麵店）*/
+      if((ym==='2030-07'||ym==='2030-12')&&yt&&PG.sits(G,2030)) return true; }   /* 2030 年考、有讀書小組的（7/11 總圖 B1、12/13 麵店：那兩場會演就不排）——重考的，和交換延畢 2030 第一次考的（AA_367 第 10 節 A4，企劃線 e6d4a198）*/
     if(who==='heroine_05'){
       if(ym==='2029-08'&&PG.sits(G,2029)) return true;   /* 2029 年報國考的台灣路線（8/4 考場門口當面給便條）*/
       if(ym==='2029-09'&&F.BAR_SIT_2029===true&&PG.stage(G,2029)==='none') return true;   /* 2029 年沒考上、要重考的（9/7 私訊）*/
@@ -137,6 +137,7 @@ const PGDATE=(function(){
     if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned'||q.state==='done') add(q.day);
     if(typeof DATE!=='undefined'&&DATE.tripDays) for(const d of DATE.tripDays(G)) add(d);   /* 已經約好的校外約會：兩天一夜的第二天也佔掉（出遊只記第一天，BUG-DATE-OVERLAP-1021）*/
     if(S.kxOn(G)) for(const s of S.kxList(G)) add(s.day);
+    if(typeof PG!=='undefined'&&PG.seaOk&&PG.seaOk(G)) add(DK('2030-06-02'));   /* 學姊 2030 年的生日（AA_382 第 4 節：6/2 那天算有事，還沒回 6/1 的私訊也一樣）*/
     return out; };
   /* 那個月六位的格子（照順序，後面那一位不排在前面那一位的那一天）；過了的週六不補，往後找同月的下一個 */
   S.sixMonth=function(G,ym,busy){ const out={}, taken=new Set(), n=now(G), end=DK(S.TO);

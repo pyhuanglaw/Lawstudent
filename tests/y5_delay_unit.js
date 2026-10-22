@@ -110,13 +110,13 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
   // ===== G5-4 跳日期那一句（AA_357 第 4 節、AA_353 第 3 節；AA_355 第 5 節第 2 題：一跳出最後一句）=====
   { const cl=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
     const s1=cl({EXCHANGE_ROUTE:'JP'},'2029-06-02','2029-06-28'), s2=cl({EXCHANGE_ROUTE:'JP'},'2029-06-28','2029-07-12'), s3=cl({EXCHANGE_ROUTE:'JP'},'2029-08-04','2029-09-03'), tw=cl({EXCHANGE_ROUTE:'TW',BAR_REG:false},'2029-06-02','2029-06-28');
-    check('G5. 延畢的 2029 夏天三句（AA_353 第 3 節）：6/3～、7 月、8 月；臺灣路線照原本的表',s1==='（同屆的人都畢業了。你還差一門實習，九月再回學校。）'&&s2==='（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'&&s3==='（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'&&tw==='（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）',JSON.stringify([s1,s2,s3,tw])); }
+    check('G5. 延畢的 2029 夏天三句（AA_353 第 3 節）：6/3～（美國路線「還差一門實習和兩門課」，AA_382 第 1 節第 2 項）、7 月、8 月；臺灣路線照原本的表',s1==='（同屆的人都畢業了。你還差一門實習，九月再回學校。）'&&PG.cardLine(grad('2029-06-28',10,{EXCHANGE_ROUTE:'US'}),D('2029-06-02'),D('2029-06-28'))==='（同屆的人都畢業了。你還差一門實習和兩門課，九月再回學校。）'&&s2==='（七月。退宿以後住在家裡。不用趕早八，反而醒得很早。）'&&s3==='（八月。同屆的人在考國考。你在群組裡傳了一句加油，很快就被洗下去了。）'&&tw==='（畢業以後的第一個禮拜，你每天睡到自然醒。……然後就睡不著了。）',JSON.stringify([s1,s2,s3,tw])); }
   { const one=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
     const st=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'study'},'2029-09-03','2029-09-11'), wk=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'},'2029-09-03','2029-09-11'), br=one({EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'},'2029-09-03','2029-09-11');
     const G=grad('2029-09-11',10,{EXCHANGE_ROUTE:'US',Y5_DAYS:'work'}); const u1=PG.cardLine(G,D('2029-09-03'),D('2029-09-11')), u2=PG.cardLine(G,D('2029-09-11'),D('2029-09-22')), u3=PG.cardLine(G,D('2029-09-22'),D('2029-10-16'));
-    check('G5. 大五上第一週：三選一各一句（總圖／家教／國考）；美國路線第一次跳先出「週一、週三補修兩門課……」，下一次跳再出那一段的句子',
-      st==='（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'&&wk==='（你接了兩個家教。一個國三，一個高二。）'&&br==='（你把國考的書在書桌上排成一排。先從民法開始。）'&&u1==='（週一、週三補修兩門課。教室裡坐的，都是大三的。）'&&u2==='（國三那個學生問你，法律系是不是要背很多。你說還好。他不信。）'&&u3==='（家教的錢第一次匯進來。你沒有馬上花。）',JSON.stringify([st,wk,br,u1,u2,u3])); }
-  { const COMMON='（週二去事務所。其他的日子，一天和一天很像。）', BAR='（刑法的書，書邊都翻黑了。）';
+    check('G5. 大五上第一週：三選一各一句（總圖／家教／國考）；美國路線第一次跳先出「週一、週三補修兩門課……都是大四的學弟妹。」（AA_382 第 1 節第 4 項），下一次跳再出那一段的句子',
+      st==='（開學第一週。總圖三樓的位子，坐的大多是不認識的臉。）'&&wk==='（你接了兩個家教。一個國三，一個高二。）'&&br==='（你把國考的書在書桌上排成一排。先從民法開始。）'&&u1==='（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）'&&u2==='（國三那個學生問你，法律系是不是要背很多。你說還好。他不信。）'&&u3==='（家教的錢第一次匯進來。你沒有馬上花。）',JSON.stringify([st,wk,br,u1,u2,u3])); }
+  { const COMMON='（週二去法扶。其他的日子，一天和一天很像。）', BAR='（刑法的書，書邊都翻黑了。）';
     const G=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const c1=PG.cardLine(G,D('2029-10-16'),D('2029-11-20')), c3=PG.cardLine(G,D('2029-12-18'),D('2029-12-24')), c4=PG.cardLine(G,D('2029-12-24'),D('2030-01-21'));
     const Gi=grad('2029-11-20',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const i1=PG.cardLine(Gi,D('2029-10-16'),D('2029-11-01')), i2=PG.cardLine(Gi,D('2029-11-01'),D('2029-11-20'));
     const Ge=grad('2029-11-19',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'bar'}); const e1=PG.cardLine(Ge,D('2029-10-16'),D('2029-11-19'));
@@ -130,8 +130,8 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
   { const r4=(fl,a,b)=>{ const G=grad(b,10,fl); return PG.cardLine(G,D(a),D(b)); };
     const bar=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'bar'},'2030-03-15','2030-04-20'), gr=r4({EXCHANGE_ROUTE:'JP',Y4_PATH:'grad'},'2030-03-15','2030-04-20'), m1=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'bar',BAR_REG_2030:false},'2030-05-10','2030-05-25'), m2=r4({EXCHANGE_ROUTE:'US',Y4_PATH:'grad',BAR_REG_2030:true},'2030-05-10','2030-05-25');
     const jan=r4({EXCHANGE_ROUTE:'JP'},'2030-01-21','2030-02-02'), cny=r4({EXCHANGE_ROUTE:'JP'},'2030-02-01','2030-02-11'), feb=r4({EXCHANGE_ROUTE:'JP'},'2030-02-16','2030-03-15');
-    check('G5. 2030 年初：證書、過年、二月底；「報名」那兩列 5/10 以前照 Y4_PATH（bar＝報名），問過的照回答',
-      jan==='（證書放在書桌上。你媽買了一個框，還沒裝進去。）'&&cny==='（過年。親戚問你什麼時候畢業。你說上個月。）'&&feb==='（二月底。學弟妹開學了。你第一次在開學那天沒有課。）'&&bar==='（四月。你每天早上九點到總圖。這次是為了國考。）'&&gr==='（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'&&m1==='（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'&&m2==='（五月。國考報名的表格，你檢查了兩次才送出去。）',JSON.stringify([jan,cny,feb,bar,gr,m1,m2])); }
+    check('G5. 2030 年初：證書、過年、二月（AA_382 第 1 節第 6 項）；「報名」那兩列 5/10 以前照 Y4_PATH（bar＝報名），問過的照回答',
+      jan==='（證書放在書桌上。你媽買了一個框，還沒裝進去。）'&&cny==='（過年。親戚問你什麼時候畢業。你說上個月。）'&&feb==='（二月。學弟妹開學了。這是你第一次，開學跟你沒有關係。）'&&bar==='（四月。你每天早上九點到總圖。這次是為了國考。）'&&gr==='（四月。你開始寫履歷。寫到「交換」那一欄，寫了很久。）'&&m1==='（五月。群組裡，去年畢業的人在聊上班。你看了，沒有回。）'&&m2==='（五月。國考報名的表格，你檢查了兩次才送出去。）',JSON.stringify([jan,cny,feb,bar,gr,m1,m2])); }
   // ===== G5 1-2 接家教的錢、3-3 最後一次實習 =====
   { const m0=GM.money; GM.money=n=>{ H.G.money+=n; };
     const G=grad('2029-09-03',10,{EXCHANGE_ROUTE:'JP',Y5_DAYS:'work'}); const a=G.money; H.at('2029-09-24',10); STORY.phoneRules(GM); const b=G.money; H.at('2029-12-30',10); STORY.phoneRules(GM); STORY.phoneRules(GM); const c=G.money;
@@ -219,7 +219,7 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
         if(!await PG.advance(GM)) break; } }catch(e){ err=e; }
     return {G,err,stops,lines:H.cards.filter(c=>Y5LINES.has(c[1])).map(c=>c[1]),cards:H.cards.map(c=>c[0]+' '+c[1])}; };
   { const C=PG.CARDS_DELAY||[], t=(a,cond)=>{ const r=C.find(x=>x[0]===a&&!(x[4]&&x[4].common)&&(cond?x[2]({flags:{Y5_DAYS:cond,EXCHANGE_ROUTE:'JP'},stage:'law'}):true)); return r?r[3]:'?'; };   /* 三選一那句（共通的不算）*/
-    const L={us:'（週一、週三補修兩門課。教室裡坐的，都是大三的。）',common:'（週二去事務所。其他的日子，一天和一天很像。）',end:'（大五上結束了。這一次，沒有期末考。）',nye:'（跨年那天晚上，你在家。煙火是從電視上看的。）'};
+    const L={us:'（週一、週三補修兩門課。教室裡坐的，都是大四的學弟妹。）',common:'（週二去法扶。其他的日子，一天和一天很像。）',end:'（大五上結束了。這一次，沒有期末考。）',nye:'（跨年那天晚上，你在家。煙火是從電視上看的。）'};
     const OCT={study:'（有一天，一個大一的跟你借延長線。他叫你學長。）',work:'（高二那個學生期中考進步了。他媽媽多塞了一袋橘子給你。）',bar:'（刑法的書，書邊都翻黑了。）'};   /* 10/17～11/19 的三選一（AA_357 第 4 節原文）*/
     const exp=v=>[t('2029-09-04',v),t('2029-09-12',v),t('2029-09-23',v),OCT[v],t('2029-11-21',v),L.nye];   /* 停在 9/7 放榜群組、9/11 實習、9/20 中秋群組、9/22 照片、10/15 明軒、10/16、11/20 實習、12/14 放榜群組、12/18 最後一次實習、2030-01-21 證書。10/16 → 11/20 落在 10/17～11/19 以後＝三選一（AA_363 T3）*/
     const R={}; for(const [v,pick] of [['study','去總圖讀書'],['work','接家教'],['bar','在家準備國考']]) R[v]=await simY5({EXCHANGE_ROUTE:'JP'},null,pick);

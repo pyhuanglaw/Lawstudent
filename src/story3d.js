@@ -3762,7 +3762,7 @@ const STORY = (function(){
       if(typeof PG!=='undefined'&&PG.beforeLawCeremony) await PG.beforeLawCeremony(GM,bgOf('ntu_gym_ceremony'));   /* 和芷若交往：典禮開始前的視訊（AA_319 1A-13，src/postgrad3d.js）*/
       await GM.fade(true); at(11); if(typeof ADV!=='undefined'&&ADV.setBg) ADV.setBg(bgOf('linze_auditorium')); await GM.fade(false);
       await GM.say(null,'（撥穗。帽子上的穗從右邊換到左邊，只有一秒。）'); F.GRADUATED=G.day; F.GRAD_DONE=true;   /* GRAD_DONE：閒聊階梯的 skipIf（ladder.js A8-L6、A8-L7、Y8-L1、Y8-L4、S7-L8、招呼的 unless：典禮演完，6/2 晚上、6/3 不播「典禮那天……」的未來式；BB210-Y4S2，原本沒有人設）*/   /* 11:00～12:00 法律學院典禮（霖澤館一樓大禮堂）*/
-      if(S.routeAbroadRoute(G)) await GM.say(null,'（還差一門實習，證書下學期才拿得到。）');   /* 交換延畢（AA_144 X5）*/
+      if(S.routeAbroadRoute(G)) await GM.say(null,S.routeAbroadRoute(G)==='US'?'（還差一門實習和兩門課，證書下學期才拿得到。）':'（還差一門實習，證書下學期才拿得到。）');   /* 交換延畢（AA_144 X5）；美國路線還要補修兩門課（AA_382 第 1 節）*/
       if(typeof ADV!=='undefined'&&ADV.end) ADV.end(); await GM.fade(true); at(11+55/60); if(GM.enter) await GM.enter('linze',Object.assign({},Y4_LOBBY)); await GM.fade(false);
       if(typeof ADV!=='undefined') ADV.begin({background:'blur'});   /* 11:55 大禮堂外的大廳（3D linze）*/
       await GM.say(MOM_W,'我們家第一個台大畢業的。'); await GM.say(null,'（媽媽哭了。）'); await GM.say(null,'（爸爸沒有說話，拍照拍了五十張。）');

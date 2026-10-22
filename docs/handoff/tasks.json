@@ -28482,7 +28482,7 @@
    "id": "AA382-PG-FIX-1022",
    "title": "AA_382（企劃線 e6d4a198）畢業以後清查：交換延畢 6 句（美國路線還差一門實習和兩門課、K26、9/4、10/17、2/11 字卡）、可昕我們的日子 4 句、六位每月一句 10 句（AA_366、AA_367 重新匯入）、AA_367 第 10 節 A4 sixOff、學姊 2030-06-01 私訊→6/2 北海岸（SIS_BDAY_Y5）、明軒尾聲 bar2030",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
    "area": "v5",
    "first": {
@@ -28497,7 +28497,7 @@
    },
    "source": "AA（帳號 A）10-22 03:08",
    "authorized": "D109、D110",
-   "next": "白名單 AA_366、AA_367 @e6d4a198；import_pg_dates.py 重新匯入；BB 測試照 AA_382 第 7 節"
+   "next": "【LAWWW（帳號 A）2026-10-22 04:0x】白名單 AA_366、AA_367 @e6d4a198＋AA_382；import_pg_dates.py 重新匯入（只換 AA 的 14 句）；story3d gradFamily、CARDS_DELAY 6/3 拆日本／美國、9/4、10/17、2/11；K26 交換延畢「你還差一個學期。」；mx.bar2030；sixOff A4（交換延畢只有 2029-12 不排）＋語彤 2030-07／12 照 PG.sits（交換延畢第一次考也算）；學姊 2030 看海（SEA_Y5、pg_sis_sea_ask／pg_sis_sea、ev_pg_sis_sea、SIS_BDAY_Y5、busyDays 6/2）；順便 AA_366 第 4 節 A7 K26 改字「禮拜六下午，我把行程表空出來了。」「三點，老地方。」、沒到「三點，老地方。你沒來。」、事件標題「老地方」；tests/aa382_pg_unit.js（修改前 FAIL）、aa366／aa367 讀 e6d4a198、grad_family、y5_delay、epilogue、r2y4b_events 改新句。BB 測試照 AA_382 第 7 節"
   },
   {
    "id": "AA372-S7-TAICHUNG-WEEKEND-1022",

@@ -1,6 +1,6 @@
-// AA_366（第二版，企劃線 a7bd9741；任務 AA366-KX-POSTGRAD-1021）可昕「我們的日子」畢業以後——不需要瀏覽器。
+// AA_366（第二版，企劃線 a7bd9741，AA_382 改四句以後 e6d4a198；任務 AA366-KX-POSTGRAD-1021）可昕「我們的日子」畢業以後——不需要瀏覽器。
 //   0  載入：src/data/pg_dates.js（產生器 tools/story/import_pg_dates.py）、src/pgdates3d.js；index.html 在 postgrad3d.js、r2y4b3d.js、y5s1_3d.js 後面；掛上 PG.MSGS／stops／RULES、25 個事件
-//   1  逐字對稿：從 git 讀 a7bd9741 的稿（第 1 節開頭那一則、第 2 節每一格那一句），和資料、事件、手機訊息一字一字比
+//   1  逐字對稿：從 git 讀 e6d4a198 的稿（第 1 節開頭那一則、第 2 節每一格那一句），和資料、事件、手機訊息一字一字比
 //   2  格子的日子：P1 6/17、7/1、7/15，P2 8/12～10/7 隔週日 19:00，P3 照 KX_OUR_DAY.day（週五 19:00／週六、週日 14:00），P4 三通電話（週六 21:00），P5 每月第一個週日（2 月 2/10）
 //   3  不排：一試當週、二試兩天、10/14～10/20 沒有；讀書小組有她的沒有 P1（開頭那一則也不傳）；P5 那個月有一對一接觸的四種
 //   4  地點：公館、河濱、政大小吃街輪流；P4 字幕「電話」、祐廷打給她
@@ -29,7 +29,7 @@ const toasts=[]; GM.toast=t=>{ toasts.push(t); };
 const D=k=>PG.DK(k), T=(d,h)=>d*24+h;
 const lab=(d,h)=>PG.dateLabel(d,h);
 const sec=async(n,f)=>{ try{ await f(); }catch(e){ check(n+'. 丟出例外（這一節中斷）',false,String(e&&e.stack||e).split('\n').slice(0,2).join(' / ')); } };
-const SRC='docs/story_planning/AA_366_可昕我們的日子_畢業以後.md', SHA='a7bd9741';
+const SRC='docs/story_planning/AA_366_可昕我們的日子_畢業以後.md', SHA='e6d4a198';   /* AA_382 第 2 節：AA 改了四句（受訓、週日開庭「這禮拜」），白名單改成 e6d4a198 */
 const idx=fs.readFileSync(path.join(H.ROOT,'index.html'),'utf8'), at=s=>idx.indexOf(s);
 const dataSrc=fs.existsSync(path.join(H.ROOT,'src/data/pg_dates.js'))?fs.readFileSync(path.join(H.ROOT,'src/data/pg_dates.js'),'utf8'):'';
 check('0. 載入 pg_dates.js（開頭寫「自動產生……不要手改」）、pgdates3d.js；index.html 在 postgrad3d.js、r2y4b3d.js、y5s1_3d.js 後面；PG.MSGS 有五則開頭、PG.stops／PG.RULES 有掛、25 個事件（每一格一個）',

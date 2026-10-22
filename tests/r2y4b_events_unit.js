@@ -233,13 +233,13 @@ const date=id=>H.date(id);
   const GD={GRADUATED:D('2029-06-02')};
   { fresh('2029-07-05',20,'dorm',Object.assign({NCCU_FOOD_N:3},GD)); date('kexin'); at('2029-07-05',21); pg();
     const q=OUT.get(H.G,'y4_kx_k26');
-    check('2-Y4-44 7/5 21:00「畢業了。我們的日子，重新排一天。」「週六下午三點，老地方。」；出遊 7/7 15:00', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['畢業了。我們的日子，重新排一天。','週六下午三點，老地方。'])&&!!q&&q.day===D('2029-07-07')&&q.h===15);
+    check('2-Y4-44 7/5 21:00「禮拜六下午，我把行程表空出來了。」「三點，老地方。」（AA_366 第 4 節 A7）；出遊 7/7 15:00', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['禮拜六下午，我把行程表空出來了。','三點，老地方。'])&&!!q&&q.day===D('2029-07-07')&&q.h===15);
     at('2029-07-07',14.2); await goOut('y4_kx_k26');
     check('K1 去了（「我們的店」三次以上）：老闆「畢業了喔？」；「下個月考試。今天不讀書。……考試的事，明天再說。」；KX_K26 went', has('（老闆端上兩個人的點法，只說：「畢業了喔？」）')&&has('下個月考試。今天不讀書。……考試的事，明天再說。')&&!has('畢業了。這裡也算我們的店。')&&H.G.flags.KX_K26==='went'); }
   { fresh('2029-07-07',14.2,'dorm',GD,'JP'); date('kexin'); const L=DATE.log(H.G,'kexin'); L.byLoc={D25:3,D04:1}; L.count=4; S.k26Plan(H.G); const q=OUT.get(H.G,'y4_kx_k26'); await goOut('y4_kx_k26');
-    check('K2 交換延畢、不常去山下那家：老地方＝約會紀錄裡次數最多的（外澳）；「畢業了。這裡也算我們的店。」「你還差一門實習。……那今天先慶祝我的。」', !!q&&/外澳/.test(q.place)&&has('畢業了。這裡也算我們的店。')&&has('你還差一門實習。……那今天先慶祝我的。')&&!has('下個月考試。今天不讀書。……考試的事，明天再說。')); }
+    check('K2 交換延畢、不常去山下那家：老地方＝約會紀錄裡次數最多的（外澳）；「畢業了。這裡也算我們的店。」「你還差一個學期。……那今天先慶祝我的。」（AA_382 第 1 節第 3 項）', !!q&&/外澳/.test(q.place)&&has('畢業了。這裡也算我們的店。')&&has('你還差一個學期。……那今天先慶祝我的。')&&!has('下個月考試。今天不讀書。……考試的事，明天再說。')); }
   { fresh('2029-07-05',20,'dorm',GD); date('kexin'); at('2029-07-05',21); pg(); at('2029-07-07',16.5); for(const q of OUT.expire(H.G)) OUT.onMissed(GM,q); PHONE.tick(H.G);
-    check('2-Y4-44 沒去：「重新排的第一天。你沒來。」「……我自己吃了兩份。」（AA_356 1-4：不留欠債，沒有「你欠我一次」）；KX_K26 missed', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['重新排的第一天。你沒來。','……我自己吃了兩份。'])&&!th('p:kexin').some(t=>/你欠我一次/.test(t))&&H.G.flags.KX_K26==='missed', JSON.stringify(th('p:kexin').slice(-3))); }
+    check('2-Y4-44 沒去：「三點，老地方。你沒來。」「……我自己吃了兩份。」（AA_366 第 4 節 A7；AA_356 1-4：不留欠債，沒有「你欠我一次」）；KX_K26 missed', JSON.stringify(th('p:kexin').slice(-2))===JSON.stringify(['三點，老地方。你沒來。','……我自己吃了兩份。'])&&!th('p:kexin').some(t=>/你欠我一次/.test(t))&&H.G.flags.KX_K26==='missed', JSON.stringify(th('p:kexin').slice(-3))); }
   { fresh('2029-07-07',14.2,'dorm',GD,'JP'); date('kexin'); H.G.flags.KX_GRAD='mine'; const L=DATE.log(H.G,'kexin'); L.byLoc={D25:3,D04:1}; L.count=4; S.k26Plan(H.G); await goOut('y4_kx_k26');
     const i0=iOf('畢業了。這裡也算我們的店。'), i1=iOf('（她把手機交給隔壁桌的人：「不好意思，幫我們拍一張。」）');
     check('AA_356 1-3：她的典禮沒去（KX_GRAD mine）＝7/7 第一句之後補合照兩行（旁白＋「典禮那天欠的合照。」）；記 KX_GRAD_PHOTO k26', i0>=0&&i1===i0+1&&H.said[i1].who===null&&H.said[i1+1]&&H.said[i1+1].t==='典禮那天欠的合照。'&&H.G.flags.KX_GRAD_PHOTO==='k26', JSON.stringify(H.said.map(x=>x.t).slice(0,5)));
