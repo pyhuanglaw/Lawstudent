@@ -1506,6 +1506,14 @@
      "task": "AA383-BB0400-1022"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_351_事件包_可昕慢慢分手_定稿.md",
+   "sha": "c29c49eb",
+   "status": "approved",
+   "approvedBy": "AA-C 2026-10-21 定稿（D100、D109；使用者 10-18 選的四題＋第⑤題照 AA 建議大二上起）；D0～D6 台詞手動放進遊戲（子代理實作，LAWWW 帳號 A 合併時逐句對稿）",
+   "task": "AA351-KX-DRIFT-1021",
+   "kind": "text"
   }
  ]
 }

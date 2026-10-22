@@ -25857,7 +25857,7 @@
    "id": "AA351-KX-DRIFT-1021",
    "title": "AA_351 可昕「個性磨合不了，慢慢分手」事件包：D0「跟可昕說一聲」到 D6 變回朋友七段（重要的當面或她打來的電話）；KX_CRACK（ROM.crack／mend／end(…,'drift')）；只在學期末分手，交換、寒暑假、大四下不演 D4、D5；分開後 ROM.canStart(kexin) 一律 false、尾聲朋友版",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "source": "企劃線 AA_351（c29c49eb；f1472f22）；取代 AA_288 第 3～6 節；USER_WANTS C23",
    "first": {
@@ -25870,7 +25870,7 @@
     "parallel": true,
     "confirmed": true
    },
-   "next": "【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
+   "next": "【LAWWW（帳號 A）2026-10-22 07:1x】子代理在 worktree 照 AA_351（c29c49eb）整包做（D0～D6、第 2 節加減含「一週最多一次」、只在學期末、交換／寒暑假／大四下的限制、分開後 canStart false、心意邀約沒有可昕、尾聲朋友版；第 6 節「只看 dating_kexin false 的句子」列給 AA）；新測試 tests/aa351_kx_drift_unit.js 修改前要失敗；做完 LAWWW 合併、跑回歸、派 BB（三條路線：做對、修補成功、分開） ｜ 【LAWWW（帳號 A）2026-10-21 22:5x UTC】AA_354 的固定格已接（src/kxod3d.js），大二上起準時 −1、答應了沒到／遲到 15 分鐘以上 ＋1（KX_CRACK，同畢業後篇）；剩 D0～D6 七段、只在學期末分手、分開後朋友版 ｜ 【AA 16:09】USER_WANTS C23 的第 5 題 AA-C 已在 AA_351 定了（大二上起）；C23 的下一步就是這一項 ｜ 【LAWWW-C 2026-10-21 12:3x UTC】和 V6-S5（裂縫計數→談話事件）同一套，等 AA346 子代理合併後派子代理"
   },
   {
    "id": "AA283-PARK-1021",
