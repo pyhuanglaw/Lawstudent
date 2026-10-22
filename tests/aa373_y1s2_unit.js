@@ -126,7 +126,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const A=(LADDER.byTerm.Y1S2.heroine_01.greet.when||[]).find(x=>J(x.week)===J([10,15]));
     check('14. 以安第 10～15 週的招呼：「日文課下禮拜小考。……片假名我還是會看錯。」（交換是大三的伏筆）',!!A&&A.t==='日文課下禮拜小考。……片假名我還是會看錯。',A&&A.t);
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_373_/.test(e.path));
-    check('6／8／9／14／25. 匯入白名單有 AA_373@bdab2f42（approved、AA373-Y1S2-FIX-1021；第 6 節加進來以後換版，a48fe1b7 留在 history）；ladder.js、syllabus.js 的來源寫著它',allow.length===1&&allow[0].sha==='bdab2f42'&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&(allow[0].history||[]).some(h=>h.sha==='a48fe1b7')&&/AA_373@bdab2f42/.test(LADDER.source)&&/AA_373@bdab2f42/.test(SYLLABUS.source),J(allow.map(e=>e.sha))); }
+    check('6／8／9／14／25. 匯入白名單有一筆 AA_373（approved、AA373-Y1S2-FIX-1021；a48fe1b7 → bdab2f42（加第 6 節）→ e75d1cce（6-1 那一列兩欄改整句），舊的記在 history）；ladder.js、syllabus.js 的來源寫著同一個版本',allow.length===1&&['bdab2f42','e75d1cce'].includes(allow[0].sha)&&(allow[0].history||[]).some(h=>h.sha==='a48fe1b7')&&allow[0].status==='approved'&&allow[0].task==='AA373-Y1S2-FIX-1021'&&LADDER.source.includes('AA_373@'+allow[0].sha)&&SYLLABUS.source.includes('AA_373@'+allow[0].sha),J(allow.map(e=>e.sha))); }
   // ===== 第 9 項：通識第 6 週天文館的圓頂 =====
   { const w6=(SYLLABUS.courses.ge_y1s2||[]).find(w=>w.w===6)||{}, rc=(w6.react||[]).map(r=>r.who+':'+r.text), pre=(CLS.SPECIAL_PRE||{})['ge_y1s2|6'];
     check('9／第 6-2 節第 3 題. 旁白「（這堂課移到天文館。）」「（天文館的圓頂關了燈。）」（黑板之後、老師那句之前）',J(pre)===J([[null,'（這堂課移到天文館。）'],[null,'（天文館的圓頂關了燈。）']]),J(pre));

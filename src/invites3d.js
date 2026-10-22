@@ -34,8 +34,10 @@ const INV=(function(){
   const hvOk=(G,id)=>typeof HV!=='undefined'&&typeof HOMETOWN_LINES!=='undefined'&&!!HV.offer(G,id);   /* 寒暑假在高雄／台中：可以約「我去高雄找妳？」（AA_276 第 1-1 節）*/
   const kxGF=(G,id)=>id==='kexin'&&(G.stage||'law')==='law'&&!!(G.flags&&G.flags.dating_kexin===true)&&typeof DATE!=='undefined'&&!!DATE.canAsk;   /* 遠距女友可昕：法律系那幾年交往中，手機也能約她（只有「去校外…」約會；2026-10-18 使用者：「我還是不能聯絡女朋友啊，可昕？」）*/
   S.kxGF=kxGF;
+  const t7a=(G,id)=>typeof DATE!=='undefined'&&!!DATE.homeOnly&&!!DATE.homeOnly(G,id);   /* AA_350 T7a：以安、芷若人在台中（約得到校外的程度）＝手機的約打開、只有「去校外…」→ 只列 D26（date3d.js 的 DATE.homeOnly）*/
+  S.t7a=t7a;
   S.canInvite=function(G,id){ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; if(kxGF(G,id)) return true; if(!c||(!D().layers.includes(c.social_layer)&&!hvOk(G,id))) return false;   /* 可昕（G 層，平常不用這個清單約）寒暑假在高雄時也可以約去找她 */
-    if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,G):STORY.present(id,G))&&!hvOk(G,id)) return false; return typeof SOCIAL==='undefined'||!SOCIAL.stage||SOCIAL.stage(id)!=='STRANGER'; };
+    if(typeof STORY!=='undefined'&&STORY.present&&!(STORY.reachable?STORY.reachable(id,G):STORY.present(id,G))&&!hvOk(G,id)&&!t7a(G,id)) return false; return typeof SOCIAL==='undefined'||!SOCIAL.stage||SOCIAL.stage(id)!=='STRANGER'; };
   /* 手機「朋友」裡約不了的人寫原因（2026-10-14 使用者：「為什麼手機只能約阿哲小凱」——原本約不了的人沒有「約」按鈕，也沒有說為什麼）。
      文字照 AA_125 第 1 節的表（INVITE_DATA.why）。順序：不在學校（交換＝國外、until 過了＝畢業）→ 已經約好了（約好的那一筆）→ 只打過招呼（STRANGER）
      → 沒有聯絡方式（有點熟以後：可以當面問，talkCharacter 的「交換聯絡方式」）；可以約就回傳空字串。地點各自的門檻（吃飯、散步、兩個人單獨）在 placeWhy */
@@ -48,10 +50,11 @@ const INV=(function(){
     const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
     if(!pres.here&&pres.kind==='unreachable') return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):pr)+'沒有回覆。';   /* 沛珊消失期（BB_205 第 3 節）*/
     if(!pres.here&&pres.kind==='trip') return pres.away+'，不在臺北。';   /* 方奕廷暑假上山（BB_171）*/
-    if(!pres.here&&pres.kind==='home'&&!pres.keep&&!hvOk(G,id)&&pres.home) return '回'+pres.home+'了，不在臺北。';   /* 明軒回彰化、方奕廷回台中（BB_171）；可昕、沛珊照下面（可以去找她）*/
+    const tc=!pres.here&&pres.kind==='home'&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝約打開（只列 D26）；還沒到約校外的程度照舊寫「回台中了，不在臺北。」*/
+    if(!pres.here&&pres.kind==='home'&&!pres.keep&&!hvOk(G,id)&&!tc&&pres.home) return '回'+pres.home+'了，不在臺北。';   /* 明軒回彰化、方奕廷回台中（BB_171）；可昕、沛珊照下面（可以去找她）*/
     if(!pres.here&&pres.kind==='city'&&!hvOk(G,id)) return pres.lost?pres.away:'在'+pres.city+'，不在臺北。';   /* 沛珊大三起在台南（AA_282）：還沒重新聯絡上＝「很久沒聯絡」；可以去台南找她的照下面 */
     if(!pres.here&&/^econ_/.test(id)&&(G.stage||'law')==='law'&&pres.kind!=='home'&&pres.kind!=='trip') return '在台大經濟系';   /* 經濟系的同學在法律系那幾年還在台大經濟系，不是「這學期不在學校」（2026-10-18 使用者）*/
-    if(!pres.here&&pres.kind!=='taipei'&&!((pres.kind==='home'||pres.kind==='city')&&hvOk(G,id))) return fmtWhy(pres.kind==='after'?W.graduated:((pres.kind==='absent'||pres.kind==='abroad')?W.abroad:W.away),{pr})||'這學期不在學校';   /* abroad：characters.js absentDates 的交換（以安 3/25～8/5 在日本、學姊 8/2～12/23 在美國）＝「{pr}這學期在國外。」（AA_341 J-S16）；city：沛珊大三起在台南（AA_282）*/
+    if(!pres.here&&pres.kind!=='taipei'&&!((pres.kind==='home'||pres.kind==='city')&&hvOk(G,id))&&!tc) return fmtWhy(pres.kind==='after'?W.graduated:((pres.kind==='absent'||pres.kind==='abroad')?W.abroad:W.away),{pr})||'這學期不在學校';   /* abroad：characters.js absentDates 的交換（以安 3/25～8/5 在日本、學姊 8/2～12/23 在美國）＝「{pr}這學期在國外。」（AA_341 J-S16）；city：沛珊大三起在台南（AA_282）*/
     const b=S.booked(G,id); if(b) return fmtWhy(W.booked,{when:'週'+WK[wdOf(G,b.day)]+' '+hh(b.h),place:(S.place(b.place)||{}).name||''});
     if(typeof SOCIAL!=='undefined'&&SOCIAL.stage&&SOCIAL.stage(id)==='STRANGER') return W.stranger||'還不太熟';
     if(!S.hasContact(G,id)) return fmtWhy(stageOk(id,'FAMILIAR')?W.noContactAsk:W.noContact,{pr});
@@ -80,7 +83,8 @@ const INV=(function(){
   /* 這個時間可不可以（不看關係）：開著、沒和別人約、作息沒事、不是半夜 */
   const winOk=(G,P,day,h)=>(!P.days||P.days.includes(wdOf(G,day)))&&(!P.hours||(h>=P.hours[0]-1e-6&&h+P.stay<=P.hours[1]+1e-6));   /* 只有某些星期、某段時間能約的地點（DL-12：半熟週末早上、一盞週三到週日下午）*/
   const myExam=(G,day,h,stay)=>typeof CLS!=='undefined'&&CLS.examAt?CLS.examAt(G,day,h,h+stay):null;   /* 祐廷自己的考試（D14-T3：邀約避開）*/
-  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
+  const tripAt=(G,day,h,stay)=>typeof DATE!=='undefined'&&DATE.tripAt?DATE.tripAt(G,day,h,stay):null;   /* 已經約好的校外約會那段時間（BUG-DATE-OVERLAP-1021；兩天一夜佔兩天）：和「你那個時間已經約了別人」一樣處理 */
+  const free=(G,id,P,day,h)=>h>=8&&h+P.stay<=23.5&&isOpen(P.zone,h,day)&&winOk(G,P,day,h)&&!clash(G,id,day,h,P.stay)&&!clash(G,null,day,h,P.stay)&&!tripAt(G,day,h,P.stay)&&!busyAt(G,id,day,h,P.stay)&&!myExam(G,day,h,P.stay);
   S.freeAt=(G,id,P,day,h)=>free(G,id,P,day,h);
   S.busyAt=(G,id,day,h,stay)=>busyAt(G,id,day,h,stay);   /* 校外約會的預約檢查用（date3d.js 的 DATE.check：她那時候上課、上班）*/   /* 這個時間本身可不可以（個人規則用：柏翰「九點十分」）*/
   /* 改天：從 h0 起找下一個可以的時間（同一天每 30 分鐘，之後三天的固定時間）*/
@@ -91,7 +95,7 @@ const INV=(function(){
     if(S.partnerBlock(G,id,P)) return {res:'decline',why:'partner'};
     if(!placeOk(id,P)) return {res:'decline',why:'rel'};
     if(P.rainTo&&day===G.day&&G.weather==='rain'){ const Q=S.place(P.rainTo); const ok=Q&&free(G,id,Q,day,h); return {res:'resched',why:'weather',alt:ok?{day,h,place:Q.id}:S.nextFree(G,id,P,day+1,10)}; }
-    if(clash(G,null,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人 */
+    if(clash(G,null,day,h,P.stay)||tripAt(G,day,h,P.stay)) return {res:'resched',why:'mine',alt:S.nextFree(G,id,P,day,h+0.5)};   /* 你那個時間已經約了別人（校外約會也算，BUG-DATE-OVERLAP-1021）；改天的時間跳過約會那段 */
     const other=clash(G,id,day,h,P.stay); if(other) return {res:'resched',why:'booked',alt:S.nextFree(G,id,P,day,other.h+((S.place(other.place)||{}).stay||1))};
     if(!isOpen(P.zone,h,day)||!winOk(G,P,day,h)||h+P.stay>23.5) return {res:'resched',why:'closed',alt:S.nextFree(G,id,P,day,h+0.5)};
     const b=busyAt(G,id,day,h,P.stay); if(b){ const end=b.to<=24?b.to:b.to-24; return {res:'resched',why:'busy',act:b.act,alt:S.nextFree(G,id,P,day,end>h?end:h+0.5)}; }
@@ -271,7 +275,7 @@ const INV=(function(){
     S.msg(G,who,text||(nameOf(who)+'約你'+when(G,day,h)+P.verb.replace(/^去/,'去')+'。'),iv); return iv; };
   /* 回覆對方的邀約：yes＝答應（時間衝突時照樣改天）、later＝改天（玩家另外選時間，走一般的 decide）、no＝不了（不扣分） */
   S.answer=function(G,ivId,ans){ const iv=S.byId(G,ivId); if(!iv||iv.state!=='offered') return null; const nm=nameOf(iv.who), P=S.place(iv.place);
-    if(ans==='yes'){ if(clash(G,null,iv.day,iv.h,P.stay,iv)){ S.msg(G,null,'那個時間你已經約了別人。',iv); return {res:'mine'}; } iv.state='accepted'; iv.accepted=true; S.msg(G,iv.who,'答應了：'+when(G,iv.day,iv.h)+'，'+P.name+'（'+nm+'）。',iv); return {res:'accept'}; }
+    if(ans==='yes'){ if(clash(G,null,iv.day,iv.h,P.stay,iv)||tripAt(G,iv.day,iv.h,P.stay)){ S.msg(G,null,'那個時間你已經約了別人。',iv); return {res:'mine'}; }   /* 校外約會那段時間也一樣（BUG-DATE-OVERLAP-1021）*/ iv.state='accepted'; iv.accepted=true; S.msg(G,iv.who,'答應了：'+when(G,iv.day,iv.h)+'，'+P.name+'（'+nm+'）。',iv); return {res:'accept'}; }
     iv.state='declined'; S.msg(G,iv.who,ans==='later'?'你跟'+nm+'說改天。':'你跟'+nm+'說這次不了。',iv); return {res:ans}; };
   /* 臨時改約：to＝{day,h} 新的時間；null＝這次取消 */
   S.change=function(G,ivId,to,text){ const iv=S.byId(G,ivId); if(!iv||(iv.state!=='accepted'&&iv.state!=='going')) return null; const P=S.place(iv.place);
@@ -292,7 +296,8 @@ const INV=(function(){
   S.teMark=function(GM,iv,id,P,W){ const G=GM.G, te=iv&&typeof TERMEND!=='undefined'&&TERMEND.playerInvite?TERMEND.playerInvite(G,id,P,W):null; if(!te||!te.kind) return false;
     iv.te={term:te.w.id,kind:te.kind}; TERMEND.playerPicked(G,iv); if(GM.toast) GM.toast(te.kind==='gf'?TERMEND_LINES.SYS_GF:TERMEND_LINES.SYS_TE,4200); return true; };
   S.flow=async function(GM,id,n,together){ const G=GM.G; S.rec(G); const nm=nameOf(id), c=CHARACTERS[id]||{}, her=c.gender==='f'?'她':'他';
-    const PL=kxGF(G,id)?[]:D().places; let k, P=null;   /* 可昕在政大：不約台大校園裡的地點，只有「去校外…」*/
+    const t7=!n&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝和可昕一樣只有「去校外…」（清單只列 D26，DATE.menu）*/
+    const PL=kxGF(G,id)?[]:D().places.filter(()=>!t7); let k, P=null;   /* 可昕在政大：不約台大校園裡的地點，只有「去校外…」*/
     /* 當面約（AA_134 第 4 節，AA_140 G49）：第一句是當面的版本；她回答前看一下手機的行事曆、答應時點頭（動作用字幕，不多一個要點的對話框）*/
     const act=(t,ms)=>{ if(n&&GM.caption) GM.caption('','（'+t+'）',ms||1800); };
     if(n){ const T0=S.timeOptions(G,together); await GM.say({name:G.name||'祐廷'},T0.some(q=>q.day===G.day)?'你等一下有空嗎？':'你明天有空嗎？'); }   /* 照可選的時間說（AA-B 2026-10-16 21:53 定稿，AA_134 第 50 行下；不加週末選項）*/

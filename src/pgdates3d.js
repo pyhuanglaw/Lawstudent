@@ -135,6 +135,7 @@ const PGDATE=(function(){
       const done=PG.rec(G).done; for(const s of PG.STEPS){ if(done[s.id]) continue; let t=null; try{ t=s.at(G); }catch(e){ t=null; } if(t==null||!isFinite(t)) continue; const d=Math.floor(t/24); if(d<d0||d>d1) continue;
         let ok=false; try{ ok=!!s.cond(G); }catch(e){ ok=false; } if(ok) add(d); } }
     if(typeof OUT!=='undefined') for(const q of OUT.rec(G)) if(q.state==='planned'||q.state==='done') add(q.day);
+    if(typeof DATE!=='undefined'&&DATE.tripDays) for(const d of DATE.tripDays(G)) add(d);   /* 已經約好的校外約會：兩天一夜的第二天也佔掉（出遊只記第一天，BUG-DATE-OVERLAP-1021）*/
     if(S.kxOn(G)) for(const s of S.kxList(G)) add(s.day);
     return out; };
   /* 那個月六位的格子（照順序，後面那一位不排在前面那一位的那一天）；過了的週六不補，往後找同月的下一個 */
