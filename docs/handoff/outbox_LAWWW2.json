@@ -1817,6 +1817,42 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "使用者 10-22 04:0x「林芷若3d好憨」UA-LAWWW2-1022-01：預設從 VRoid 加工版換成 Blender 版；臉眼距 1.28→1.09、嘴收窄往上、下巴縮短；八字瀏海 23°→16°；眼鏡 84→76.6 mm（魏教授那副不變）。READY_FOR_ART_REVIEW"
+  },
+  {
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/airport_cam_night.diff",
+    "assets/models/env/second_ai/airport_dep.glb",
+    "assets/models/env/second_ai/airport_arr.glb",
+    "tools/blender/env_second/airport_t2.py",
+    "tools/blender/env_second/airport_backdrop.py",
+    "docs/art-rebuild/second_ai/test_shots/airport_1021/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "19 換匯處背光面還偏暗（下一輪看要不要調淺牆色）",
+   "next": "LAWWW 套 airport_cam_night.diff 第二版（us3d.js＋tests/airport_cam_unit.js；對 6b6ecd80 乾淨）＋換 airport_dep／arr.glb（bc5b08a8），跑 airport_cam_unit 和美國區域那 11 支",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "ART-VAC-AIRPORT-1021（VAC-A2 的機場）：鏡頭牆＋網點透空（區域實體 seeThru）、晚上窗外換夜景、報到島背牆烤漆灰＋鋁收邊；j15b 04、07 修好"
+  },
+  {
+   "task": "ART-DIRECTOR-LAWWW2",
+   "branch": "claude/second-ai-env-art",
+   "sha": "93967011",
+   "files": [
+    "docs/art-rebuild/second_ai/patches/us_lamp_pools.diff",
+    "docs/art-rebuild/second_ai/test_shots/us_lamp_pools_1022/README.md"
+   ],
+   "state": "已交付",
+   "remaining": "",
+   "next": "LAWWW 套 us_lamp_pools.diff（us3d.js＋tests/us_lamp_pools_unit.js；對 6b6ecd80 乾淨、和機場 patch 一起套也乾淨），跑 us_lamp_pools_unit、nav_us_unit",
+   "noDirectIntegrate": false,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "US-MS-NIGHT-1021：超市街停車場燈桿、眼鏡蛇頭路燈、公寓社區路燈的地面光圈（E.lampGlows，入夜才開）；遊戲內 20:00 前後 4 張"
   }
  ]
 }
