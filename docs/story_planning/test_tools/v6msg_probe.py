@@ -427,7 +427,7 @@ async def s_fy_f3(p, run, base, sid, out):
 
 
 async def pc_apr(p, run, base, sid, res, from_fy):
-    pf = dict(TWF, **BASE0)
+    pf = dict(TWF, **BASEF)   # 大四下：Y4_PATH 早就選過了（不然讀檔先演「大四要怎麼過？」）
     if not from_fy: pf.update({'FANG_F3': None, 'FANG_F3_DAY': None, 'ZR_FY': None, 'ZZ': None})
     b, pg, cdp, errs, r = await launch(p, run, base, '2029-04-20', 12.6, 'dorm', preflags=pf, rels={ZR: 'FRIEND', FY: 'FAMILIAR'},
                                        label=sid + ('（FY_F3 的存檔接著：5/29 芷若接受奕廷以後；跳到 2029-04-20（五）12:36 宿舍）' if from_fy else '（對照：沒有 F3（芷若沒選奕廷）；2029-04-20（五）12:36 宿舍）'))
