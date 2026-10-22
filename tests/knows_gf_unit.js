@@ -38,7 +38,7 @@ const D=k=>STORY.dayOfKey(k), Tm=(d,h)=>d*24+h;
   { fresh(d5,15,'campus',{dating_kexin:true,KX_BBQ_COME:true,ECON_PAST_SHARED:'full'}); meet('zhe'); meet('heroine_01'); meet('classmate_bohan'); picks=['我大一歲','這是可昕']; await EVENTS.run(k3);
     const K=G.flags.knowsRel||{};
     check('A. K3 選①「這是可昕，我女朋友。」：阿哲、在場的以安、柏翰知道（source ev_mid_autumn_bbq、他也知道他們知道）',G.flags.KX_INTRO==='gf'&&['zhe','heroine_01','classmate_bohan'].every(x=>ROM.knowsGF(G,x)&&K[x].kexin.source==='ev_mid_autumn_bbq'&&ROM.ytKnows(G,x,'kexin')),JSON.stringify(K));
-    check('A. 不認識的語彤、Alison、方奕廷，不在 K3 的沛珊、芷若、子晴、學姊：不知道',['heroine_03','yu','npc_fangyt','classmate_peishan','heroine_02','heroine_04','heroine_05'].every(x=>!ROM.knowsGF(G,x)));
+    check('A. 不認識的語彤、小語、方奕廷，不在 K3 的沛珊、芷若、子晴、學姊：不知道',['heroine_03','yu','npc_fangyt','classmate_peishan','heroine_02','heroine_04','heroine_05'].every(x=>!ROM.knowsGF(G,x)));
     check('A. KX_MET_NOODLE_TEAM 照設（可昕那邊的台詞用）',G.flags.KX_MET_NOODLE_TEAM===true); }
   { fresh(d5,15,'campus',{dating_kexin:true,KX_BBQ_COME:true,ECON_PAST_SHARED:'full'}); meet('zhe'); meet('heroine_01'); meet('heroine_03'); picks=['我大一歲','她會出題']; await EVENTS.run(k3);
     check('A. K3 選②「她會出題考你們。」：誰都不知道（阿凱除外）',G.flags.KX_INTRO==='quiz'&&['zhe','heroine_01','heroine_03'].every(x=>!ROM.knowsGF(G,x))&&ROM.knowsGF(G,'kai')); }

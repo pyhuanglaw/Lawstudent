@@ -17,7 +17,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
   { const G=await first(Object.assign({},leanA,LAWYER),()=>{ ['zhe','yu','classmate_bohan','heroine_01','heroine_03'].forEach(H.FAMILIAR); });
     const M=H.msgs('g:noodle_team');
     check('J1. 傾向 A、律師：祐廷的照片「法律扶助基金會的櫃台」（第一張，自己傳的）',M[0]==='📷（照片：法律扶助基金會的櫃台。名牌上的字還是新的。）'&&G.msgs.find(m=>m.text===M[0]).from==='player',JSON.stringify(M.slice(0,2)));
-    check('J1. 阿哲、Alison、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('二試還沒考。在店裡讀。'));
+    check('J1. 阿哲、小語、柏翰、以安、語彤：照片＋一句',M.includes('📷（照片：事務所門口）')&&M.includes('第一天。領帶打了三次。')&&M.includes('明年再考司法官。今天先上班。')&&M.includes('論文第一頁。……還是空白的。')&&M.includes('LL.M. 開學了。')&&M.includes('二試還沒考。在店裡讀。'));
     check('J2. 芯慈不認識＝沒有她的照片',!M.includes('📷（照片：會計師事務所的電腦螢幕，一排 Excel）')&&!M.includes('法遵。四色筆還是要帶。'));
     check('J1. 旁白「（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）」；FIRST_DAY_SEEN；沒有延畢那一句',H.has('（那一年，群組的照片一張一張傳上來。每一張都寫著：我的第一天。）')&&G.flags.FIRST_DAY_SEEN===true&&!H.has('（你的第一天，還在後面。）')); }
   { const G=await first({EXCHANGE_ROUTE:'JP',BAR_REG_2030:true});   /* AA_357 1-6：延畢的 2030 報名看 BAR_REG_2030 */
@@ -44,7 +44,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('P1. ⑤ 祐廷「我在法扶。這禮拜開了三個庭。」',said('祐廷','我在法扶。這禮拜開了三個庭。'));
     check('P1. ⑥ 桌上的東西：法服週六最多＝值班證（伴侶沒有）',H.has('（桌上，你面前放著值班證。你不記得是誰把它拿出來的。）')&&JSON.stringify(G.flags.EPI_ITEMS)==='["值班證"]');
     check('P1. ⑦ 最後一句「（有人在講大一的事，大家笑得很大聲。窗外的溫州街，路燈亮了。）」',H.said[H.said.length-1].t==='（有人在講大一的事，大家笑得很大聲。窗外的溫州街，路燈亮了。）');
-    check('P1. 不認識的人不在（Alison、以安、學姊…）',!H.said.some(s=>['Alison','柏翰'].includes(s.who))&&!H.has('我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。'));
+    check('P1. 不認識的人不在（小語、以安、學姊…）',!H.said.some(s=>['小語','柏翰'].includes(s.who))&&!H.has('我在事務所做公司跟證券的案子。合約一份兩百頁，我每一頁都看。'));
     check('P1. EPILOGUE_DONE；沒有開始畫面的按鈕＝停下主迴圈；畢業後篇結束（PG.on false）',G.flags.EPILOGUE_DONE===true&&H.GM.running===false&&!PG.on(G)&&!PG.due(G)); }
   // 回標題（btnTitle）
   { const od=global.document; let clicked=0; global.document={ getElementById:id=>id==='btnTitle'?{onclick(){ clicked++; }}:null, addEventListener(){} };
@@ -83,7 +83,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     check('J5. 明軒（祐廷 2029 律師錄取）「你放榜那天，我在德國。早上八點，在去上課的電車上看到的。」',H.has('你放榜那天，我在德國。早上八點，在去上課的電車上看到的。'));
     check('J5. 方奕廷：2029 就考上＝「山上沒有訊號。…」',H.has('山上沒有訊號。所以我每次下山，都會一次收到很多訊息。')&&!H.has('那一年你在考試。……我知道。')); }
   { await epi({LAWCLUB_SAT_VISITS:10,BAR_YEAR:2030},()=>{ H.FAMILIAR('classmate_mingxuan'); H.FAMILIAR('npc_fangyt'); });
-    check('J5. 台灣路線 2030 才考上（多考的那一年）：方奕廷「那一年你在考試。……我知道。」；明軒「我在上班。在茶水間看完的。」（AA_382 第 5 節：2030-12-13 15:00 不是下班時間）',H.has('那一年你在考試。……我知道。')&&H.has('你放榜那天，我在上班。在茶水間看完的。')); }
+    check('J5. 台灣路線 2030 才考上（多考的那一年）：方奕廷「那一年你在考試。……我知道。」；明軒「我剛好下班。在公車上看完的。」',H.has('那一年你在考試。……我知道。')&&H.has('你放榜那天，我剛好下班。在公車上看完的。')); }
   { await epi({EXCHANGE_ROUTE:'JP',BAR_YEAR:2030},()=>{ H.FAMILIAR('npc_fangyt'); });
     check('J5. 交換路線 2030 考上（正常的那一年）＝不是「那一年你在考試」（交換路線多考的是 2031，AA_327 f252a7b5）',!H.has('那一年你在考試。……我知道。')&&H.has('山上沒有訊號。所以我每次下山，都會一次收到很多訊息。')); }
   { await epi({EXCHANGE_ROUTE:'JP',BAR_YEAR:2031},()=>{ H.FAMILIAR('npc_fangyt'); });
@@ -97,7 +97,7 @@ const first=async(flags,setup)=>{ const G=H.fresh('2030-10-01',21,'dorm',Object.
     const len=new Map(); tab.forEach(s=>{ if(s.who) len.set(s.who,(len.get(s.who)||0)+1); }); for(const [w,n] of len) if(n>2) bad.push(w+' '+n+' 句');
     check('P5. 那一桌每個人只出現一次（一列；最多兩個對話框）',!bad.length&&seen.size>=13,bad.join('、')+'　'+[...seen.keys()].join('、'));
     check('P5. 星期六：沒有人說「開會」「開庭」「上班」的當天（2034-06-03 是星期六）',CALENDAR.dateOf(G.day).wd===6&&!H.said.some(s=>/開會|開庭|開完庭|今天上班/.test(s.t)),H.said.filter(s=>/開會|開庭|上班/.test(s.t)).map(s=>s.t).join('｜'));
-    check('P5. 阿哲、Alison 同一桌＝兩人那一組（Alison「他現在每次都說『有事』。很煩。」阿哲「有事啊。我餓了。」）',said('Alison','他現在每次都說『有事』。很煩。')&&said('阿哲','有事啊。我餓了。')&&!H.has('我在事務所，每天寫狀子。'));
+    check('P5. 阿哲、小語同一桌＝兩人那一組（小語「他現在每次都說『有事』。很煩。」阿哲「有事啊。我餓了。」）',said('小語','他現在每次都說『有事』。很煩。')&&said('阿哲','有事啊。我餓了。')&&!H.has('我在事務所，每天寫狀子。'));
     check('P5. 經濟系那桌（沒講過）阿勳「好久不見」在同一桌的人之後',H.has('好久不見')&&idx('好久不見')>idx('……喔對，你現在是律師。'));
     check('P5. 學姊（不是戀人、傾向 A、律師）「我的研究，用的是你們法扶的申請統計。」',H.has('我的研究，用的是你們法扶的申請統計。'));
     check('P5. 語彤 FRIEND（結局 4）「我在事務所，租賃的案子比較多。」「阿姨說你很久沒來了。下禮拜二來吃。」',H.has('我在事務所，租賃的案子比較多。')&&H.has('阿姨說你很久沒來了。下禮拜二來吃。')); }

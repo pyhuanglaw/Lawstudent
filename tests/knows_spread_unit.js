@@ -88,7 +88,7 @@ GM.money=function(n){ G.money+=n; };
   { law(fri,15.5); ROM.learn(G,'heroine_04','kexin','told_by:kai'); G.hour=16.5; ROM.spreadTick(G); check('3. 週五 15:30 才知道：那天 14～16 不算（要下一次）',!ROM.knowsGF(G,'heroine_02')); G.day=fri+7; G.hour=16; ROM.spreadTick(G); check('3. 下一個週五才傳',(G.flags.knowsRel.heroine_02||{}).kexin&&G.flags.knowsRel.heroine_02.kexin.day===fri+7); }
   // 舊存檔（沒有 h）
   { law(k3,15); G.flags.knowsRel={heroine_01:{kexin:{state:'confirmed',source:'legacy',day:w6}}}; G.day=w6; G.hour=22; ROM.spreadTick(G); check('4. 舊存檔沒有 h、那天才知道：當成晚上才知道，那天的讀書會不算',!ROM.knowsGF(G,'classmate_peishan')); }
-  // Alison→子晴不傳
-  { law(wed,10); ROM.learn(G,'yu','kexin','ev_mid_autumn_bbq'); G.day=wed+30; G.hour=20; ROM.spreadTick(G); check('5. Alison 知道：子晴不會因此知道（BB 定以前不傳）',!ROM.knowsGF(G,'heroine_04')); }
+  // 小語→子晴不傳
+  { law(wed,10); ROM.learn(G,'yu','kexin','ev_mid_autumn_bbq'); G.day=wed+30; G.hour=20; ROM.spreadTick(G); check('5. 小語知道：子晴不會因此知道（BB 定以前不傳）',!ROM.knowsGF(G,'heroine_04')); }
   console.log(fails?'FAILED '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

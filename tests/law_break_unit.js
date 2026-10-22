@@ -109,7 +109,7 @@ GM.money=function(n){ G.money+=n; };
     const pol=o=>{ const T=o.map(q=>q.t||q.text); for(const w of ['快轉','到下一個有事的日子']){ const k=T.indexOf(w); if(k>=0) return k; } return 0; }; const ch0=GM.choose; GM.choose=async o=>pol(o); cards=[]; entered=[]; said=[];
     await HOME.loop(GM); GM.choose=ch0; const L=lines();
     const bd=(G.msgs||[]).find(m=>m.tag==='yt_bday_y1'&&m.th==='g:noodle_team'), lot=(G.msgs||[]).find(m=>m.tag==='dorm_lottery_y2'), zl=(G.msgs||[]).filter(m=>m.tag==='dorm_lottery_y2_zhe').map(m=>m.from+':'+m.text).join('|');
-    check('9. 7/9 12:00 麵店團：Alison「今天語彤生日！」＋按鈕「傳一句生日快樂」',!!bd&&bd.from==='yu'&&bd.text==='今天語彤生日！'&&bd.ask&&bd.ask.opts[0].t==='傳一句生日快樂'&&bd.day===D('2026-07-09')&&Math.abs(bd.h-12)<0.02);
+    check('9. 7/9 12:00 麵店團：小語「今天語彤生日！」＋按鈕「傳一句生日快樂」',!!bd&&bd.from==='yu'&&bd.text==='今天語彤生日！'&&bd.ask&&bd.ask.opts[0].t==='傳一句生日快樂'&&bd.day===D('2026-07-09')&&Math.abs(bd.h-12)<0.02);
     check('9. 7/15 10:00 宿舍系統抽籤＋旁白「換一層樓，換一個房間。」＋10:05 阿哲「又同一間」、柏翰 312（AA_208 第 9 節）',!!lot&&lot.text==='大二宿舍抽籤結果：已分配。請於 9/6 前完成入住。'&&L.includes('換一層樓，換一個房間。')&&zl==='zhe:抽到了！|zhe:欸我們又同一間！！|classmate_bohan:我也是。312。',zl);
     check('9. 7/20：大一下有打工＝「暑假的班照排。你從家裡搭捷運去上班。」',L.includes('暑假的班照排。你從家裡搭捷運去上班。'));
     check('9. 字卡：6/29 成績 → 7/9 → 7/15 → 7/20 → 8/25 → 9/6 → 主線 3 的「回宿舍」',JSON.stringify(cards.map(c=>c[0]).slice(0,7))===JSON.stringify(['6/29（一）08:30','7/9（四）12:00','7/15（三）10:00','7/20（一）18:30','8/25（二）18:30','9/6（日）08:30','回宿舍']),JSON.stringify(cards.map(c=>c[0])));

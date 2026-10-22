@@ -15,13 +15,13 @@ def read_allowed(path):
     if not hit: sys.exit(f'{path} 不在匯入白名單')
     sha = hit[0]['sha']; ok, why = IG.allowed(path, sha, allow)
     if not ok: sys.exit(why)
-    return sha, IG.alison(subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout)  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+    return sha, subprocess.run(['git', 'show', f'{sha}:{path}'], cwd=ROOT, capture_output=True, text=True, check=True).stdout
 SHA, src = read_allowed(PATH)
 SHA_A, src_a = read_allowed(PATH_A)
 SPK = {'以安': 'heroine_01', '芷若': 'heroine_02', '語彤': 'heroine_03', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin',
-       '阿哲': 'zhe', 'Alison': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan', '祐廷': 'me'}
+       '阿哲': 'zhe', '小語': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan', '祐廷': 'me'}
 SEC = {'沈以安': 'heroine_01', '林芷若': 'heroine_02', '陳語彤': 'heroine_03', '高子晴': 'heroine_04', '溫書瑀': 'heroine_05', '郭沛珊': 'classmate_peishan', '杜可昕': 'kexin',
-       '阿哲': 'zhe', 'Alison': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan'}
+       '阿哲': 'zhe', '小語': 'yu', '柏翰': 'classmate_bohan', '芯慈': 'classmate_xinci', '明軒': 'classmate_mingxuan'}
 GRP = {'剛認識': 'ACQ', '熟': 'FAM', '朋友以上': 'FRI', '交往中': 'dating', '分開以後、朋友以上': 'exFriend', '分開以後、不到朋友': 'exLow'}
 def quote(line):
     m = re.match(r'^\s*>\s?(.*)$', line)

@@ -183,12 +183,12 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   const ce=CLS.clubEvent(G,plg); check('H1. 去過 3 次、11/30 去讀書會：這一場就是交棒', !!ce&&ce.id==='ev_plg_handover', ce&&ce.id);
   picks=[0]; await run('ev_plg_handover'); check('H1. 白板只剩「說理由。」；「例外，要說理由。」；拍照＝PLG_LAST_RULE', has('（對學弟妹）規則只有一條。例外，要說理由。')&&has('妳以前有十條。')&&SOCIAL.has('heroine_01','PLG_LAST_RULE')&&G.flags.PLG_HANDOVER==='there');
   fresh('2028-11-30',22.1,'dorm',TWF()); join('noodle_team','麵店團'); R('yu','FAM'); R('heroine_01','FRI'); rules();
-  check('H2. 沒去：22:00 Alison 的白板照片「以安交棒了。白板只剩一條。」', txt('g:noodle_team').join('|')==='yu:📷（白板，只剩一行字）|yu:以安交棒了。白板只剩一條。'&&G.flags.PLG_HANDOVER==='heard');
+  check('H2. 沒去：22:00 小語的白板照片「以安交棒了。白板只剩一條。」', txt('g:noodle_team').join('|')==='yu:📷（白板，只剩一行字）|yu:以安交棒了。白板只剩一條。'&&G.flags.PLG_HANDOVER==='heard');
   // ---------- 2-Y4-10 聖誕 ----------
   fresh('2028-12-21',21.1,'dorm',TWF({XMAS_GIFT:'notebook'})); join('noodle_team','麵店團'); R('yu','FAM'); rules(); const qx=OUT.get(G,'y4_xmas');
   check('X0. 12/21 21:00「明天考完 聖誕交換禮物」「七點 麵店 一百五以內」；排 12/22 19:00', txt('g:noodle_team').join('|')==='zhe:明天考完 聖誕交換禮物|zhe:七點 麵店 一百五以內'&&!!qx&&qx.h===19);
   at('2028-12-22',18.8); said=[]; await OUT.go(GM,qx);
-  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；Alison「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
+  check('X1. 大一送過筆記本：抽到一本幾乎一樣的筆記本；小語「這是詛咒吧。」；阿姨「考完了，吃好一點。」', has('（你抽到的是一本小筆記本。和你三年前帶來的那一個，幾乎一樣。）')&&has('（抱著一個巨大的玩偶）這是詛咒吧。')&&has('考完了，吃好一點。')&&G.flags.XMAS_Y4==='went', JSON.stringify(lines().slice(-5)));
   fresh('2028-12-21',21.1,'us_outside',US()); join('noodle_team','麵店團'); rules(); at('2028-12-22',21.6); rules();
   check('X2. 美國路線：沒有邀約；21:30 照片（AA_370 第 6 節第 8 題：照臺灣時間；那時人在回臺灣的路上，12/21 23:55 起飛）', !PHONE.sent(G,'y4_xmas_ask')&&txt('g:noodle_team').includes('zhe:📷（每個人手上的禮物，都很眼熟。）'));
 
@@ -306,14 +306,6 @@ const sisSaid=()=>said.filter(s=>s.who&&/學姊|書瑀|溫書瑀/.test(s.who)).m
   fresh('2028-12-20',15,'cafe',US({US_RETURNED:D('2028-12-23')})); const b2a=!EVENTS.check(ev('ev_back_home_cafe')); at('2028-12-24',15); const b2b=EVENTS.check(ev('ev_back_home_cafe')); await run('ev_back_home_cafe');
   check('B2. 美國路線、不是常客：12/24 以後才有；「歡迎回來。」', b2a&&b2b&&has('芷若姊說，你回來的話要跟你說一聲：歡迎回來。')&&!has('熱拿鐵，少糖？'));
   fresh('2028-09-05',15,'cafe',TWF({CAFE_VISITS:4})); check('B. 台灣路線：沒有這一場', !EVENTS.check(ev('ev_back_home_cafe')));
-  { const aug=(fl,days,z11)=>{ fresh('2028-09-05',15,'cafe',Object.assign({EXCHANGE_ROUTE:'JP'},fl||{})); if(z11) G.events.done.ev_zhiruo_no_sugar=1; G.habits={'place:cafe:afternoon':{n:days.length,first:days[0],last:days[days.length-1],days}}; };
-    aug({CAFE_VISITS:1},[D('2028-08-20')],true); await run('ev_back_home_cafe');
-    check('B3. 日本路線、8/6～9/2 進過 Café（AA_378 #4）：「熱拿鐵，不加糖？」→「……芷若姊走以前交代的。她說你的第一杯一定要點對。」→「（她已經去英國了。店裡其他的都還在。）」；沒有「回來那天」「歡迎回來」「半年」',
-      has('熱拿鐵，不加糖？')&&has('……芷若姊走以前交代的。她說你的第一杯一定要點對。')&&has('（她已經去英國了。店裡其他的都還在。）')&&!has('……芷若姊交代的。她說你回來那天，第一杯一定要點對。')&&!has('芷若姊說，你回來的話要跟你說一聲：歡迎回來。')&&!has('（半年。大家都還在。）')&&!!G.flags.BACK_HOME);
-    aug({CAFE_VISITS:4},[D('2028-08-20')],false); await run('ev_back_home_cafe');
-    check('B3. 8 月進過、沒看過 Z11：「熱拿鐵，少糖？」（照現在的條件）', has('熱拿鐵，少糖？')&&!has('熱拿鐵，不加糖？')&&has('……芷若姊走以前交代的。她說你的第一杯一定要點對。'));
-    aug({CAFE_VISITS:4},[D('2028-03-20'),D('2028-09-03')],true); await run('ev_back_home_cafe');
-    check('B3. 8/6～9/2 沒進過（只有 3 月、9/3）＝照現在（「……芷若姊交代的。」「（半年。大家都還在。）」）', has('……芷若姊交代的。她說你回來那天，第一杯一定要點對。')&&has('（半年。大家都還在。）')&&!has('（她已經去英國了。店裡其他的都還在。）')); }
 
   // ---------- 2-Y4-13 可昕 K21 ----------
   fresh('2028-09-20',21.1,'dorm',TWF({E10_STUDY:'study'})); date('kexin'); rules();

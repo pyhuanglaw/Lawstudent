@@ -192,7 +192,7 @@ const R2Y4A=(function(){
     /* ---- 2-Y4-07 校慶：11/10 21:00 法服群組（法服成員）---- */
     { const d=D('2028-11-10'); if(d!=null&&!us&&G.day>=d&&G.day<=d+1&&past(G,d,21)&&typeof STORY!=='undefined'&&STORY.fafuMember&&STORY.fafuMember(G)&&PHONE.inGroup(G,'lawclub_study')&&!PHONE.sent(G,'y4_fair_ask')){ const J=t=>({th:'g:lawclub_study',from:'fafu_jr',name:'學妹',text:t});   /* 這一屆的社長（學妹），不給名字 */
         PHONE.at(G,d,G.day===d?Math.max(21,G.hour):21,[J('明天校慶，攤位十點開。'),J('大四的學長姊有空回來坐。')],'y4_fair_ask'); } }
-    /* ---- 2-Y4-08 交棒：不在場（沒有條件、那晚沒去、美國路線）＝22:00 Alison 在麵店團群組 ---- */
+    /* ---- 2-Y4-08 交棒：不在場（沒有條件、那晚沒去、美國路線）＝22:00 小語在麵店團群組 ---- */
     { const d=D('2028-11-30'); if(d!=null&&G.day>=d&&G.day<=d+2&&PHONE.inGroup(G,'noodle_team')&&knows('yu',G)&&knows('heroine_01',G)&&!done(G,'ev_plg_handover')&&pastTW(G,d,22)&&!PHONE.sent(G,'y4_plg_photo')){ const Y=t=>({th:'g:noodle_team',from:'yu',text:t});
         atTW(G,d,22,[Y('📷（白板，只剩一行字）'),Y('以安交棒了。白板只剩一條。')],'y4_plg_photo'); F.PLG_HANDOVER='heard'; } }
     /* ---- 2-Y4-10 聖誕交換禮物：12/21 21:00 阿哲（麵店團）→ 12/22 19:00；沒到、美國路線＝21:30 照片 ---- */

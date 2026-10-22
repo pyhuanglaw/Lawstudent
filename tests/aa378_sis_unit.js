@@ -8,7 +8,6 @@
 //   7  S3：10/25 推甄前的便條只給 6 月就選了路的（10/16 才選的不傳）；收過那一張的，2/3 考場門口「（便條只有兩個字：「同上。」）」「……同上。」「對。」、照片版「📷（一張手寫的便條：同上。）」選項「同上。」
 //   8  S4：期末飯（termend3d.js dinnerDay）不排在那天晚上已經有出遊的日子（12/23 20:30 接學姊的飛機）
 // 修改前（開發分支 676954aa）：第 1（X0～X5、旁白、早餐）、2、3、4、6 項 FAIL。用法：node tests/aa378_sis_unit.js
-require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const load=f=>{ let src=fs.readFileSync(path.join(H.ROOT,f),'utf8'); src=src.replace(/^const (\w+)\s*=/mg,(m,n)=>/^(NOODLE_CLOSED|R2Y4B|R2Y4B_EVENTS)$/.test(n)?'globalThis.'+n+'=':m); vm.runInThisContext(src,{filename:f}); };

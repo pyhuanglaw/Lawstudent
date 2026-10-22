@@ -1,12 +1,12 @@
 // AA_374（企劃線 6fc64130；AA 2026-10-21 定稿）法律系大二上：重演、人在哪、作廢設定——不需要瀏覽器。任務 AA374-Y2S1-FIX-1021。
-//   1 宿舍房間裡的人照年級（大二 312 阿哲、柏翰，阿凱不在；大三起柏翰）　2 已在 AA_372 第 3 項（對照）　3 Alison 博覽會那則第 1 週　4 阿哲記分第 14 週
+//   1 宿舍房間裡的人照年級（大二 312 阿哲、柏翰，阿凱不在；大三起柏翰）　2 已在 AA_372 第 3 項（對照）　3 小語博覽會那則第 1 週　4 阿哲記分第 14 週
 //   5 以安公文第 13～14 週、選了「理由」不發　6 博覽會法服攤位換柏翰（學姊拿掉、熟悉 +1 給柏翰）　7 系籃攤位阿哲的「哥」看 ZHE_CALLS_GE
 //   8 子晴「實驗室那封信 我回了」聊過 Q3-L3 或第 12 週以後　9 語彤兩件只在大一下、互斥　10 芯慈慈 3 沒借過筆記的那一句
 //   11 和沛珊交往中沒有柏翰那一段（partner、期中晚餐、沒去的照片、分手、群組、階梯兩層）　12 明軒托福那則（沒有 SAW_HIM_STUDY）
 //   13 許教授「颱風那天…坐前面」期中考後第一堂　14 可昕 K3-L4 週次 [6,6]（tools/ladder/import_ladder.py）　15 聖誕抽到阿哲　16 系籃送水
 //   17 沛珊 12/18 起不回、ps_notes 期限到 12/17 23:59　18 兩件分手合併、群組 BB_97 版、短的兩句　19 柏翰週三總圖、週四下午不在 201、子晴第 16 週不社課
 //   20 已在 AA_369 第 7 節第 10 題（對照）　21 翹課句照那一週的主題　22 mx_tutor 大二上拿掉　23 語彤「上禮拜第一次去上」　24 阿哲期末最後一頓和期末飯互斥
-//   BB 測試（第 5 節）：宿舍 312、博覽會柏翰、交往中沒有分手、Alison 那則 9/16 以前、12/17 晚上回筆記
+//   BB 測試（第 5 節）：宿舍 312、博覽會柏翰、交往中沒有分手、小語那則 9/16 以前、12/17 晚上回筆記
 // 修改前（開發分支 89008abd）：上面每一項都會失敗（標「對照」的照樣通過）。用法：node tests/aa374_y2s1_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -57,7 +57,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('1. 大二上 19:00 進 312：阿凱不在（他 9/6 以後住別棟）；阿哲、柏翰還沒回來（22:00、22:30）',hasNot(b,'kai','zhe','classmate_bohan'),J(b));
     check('1. 對照：大一（203 四人房）22:45 阿凱、阿哲、柏翰都在',has(c,'kai','zhe','classmate_bohan'),J(c));
     const d1=pop('dorm','2026-12-21',22.6,{ROOM_Y2:Y2}), d2=pop('dorm','2026-12-21',23.1,{ROOM_Y2:Y2}), d0=pop('dorm','2026-12-14',22.6,{ROOM_Y2:Y2});
-    check('1. 阿哲 12/19 以後比較晚回來（送 Alison 去捷運站）：12/21 22:36 柏翰在、阿哲還沒回來；23:06 兩個都在；12/14（之前）22:36 阿哲在',has(d1,'classmate_bohan')&&hasNot(d1,'zhe')&&has(d2,'zhe','classmate_bohan')&&has(d0,'zhe'),J([d1,d2,d0]));
+    check('1. 阿哲 12/19 以後比較晚回來（送小語去捷運站）：12/21 22:36 柏翰在、阿哲還沒回來；23:06 兩個都在；12/14（之前）22:36 阿哲在',has(d1,'classmate_bohan')&&hasNot(d1,'zhe')&&has(d2,'zhe','classmate_bohan')&&has(d0,'zhe'),J([d1,d2,d0]));
     const e3=pop('dorm','2027-10-06',22.75,{ROOM_Y2:Y2,ROOM_Y3:D('2027-09-05')}), e4=pop('dorm','2028-10-04',22.75,{ROOM_Y2:Y2,ROOM_Y3:D('2027-09-05'),ROOM_Y4:D('2028-09-03')});
     check('1. 大三 507、大四 409（AA_208 第 8 節）：只有柏翰（阿哲住別間、阿凱別棟）',has(e3,'classmate_bohan')&&hasNot(e3,'zhe','kai')&&has(e4,'classmate_bohan')&&hasNot(e4,'zhe','kai'),J([e3,e4]));
     const v=pop('dorm','2026-08-20',22.75,{DORM_FOUR:true});
@@ -67,7 +67,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
   // ===== 第 3、4、5、22 項：主線 4「這週的訊息」的週次 =====
   { const pick=(k,ids,flags)=>{ fresh(D(k),21.5,'dorm',flags); for(const id of ids) R(id,'FAM'); return STORY.neededPick(G,D(k)).map(e=>e.id); };
     const y1=pick('2026-09-13',['yu']), y2=pick('2026-09-20',['yu']);
-    check('3. Alison「社團博覽會你站哪一攤？」第 1 週（9/13 週日）就收到——博覽會 9/16～17 以前（BB 測試）；第 2 週不再挑',y1.includes('yu_expo')&&!y2.includes('yu_expo')&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').w)===J([1,1]),J([y1,y2]));
+    check('3. 小語「社團博覽會你站哪一攤？」第 1 週（9/13 週日）就收到——博覽會 9/16～17 以前（BB 測試）；第 2 週不再挑',y1.includes('yu_expo')&&!y2.includes('yu_expo')&&J(NEEDED_MSGS.list.find(e=>e.id==='yu_expo').w)===J([1,1]),J([y1,y2]));
     fresh(D('2026-09-13'),21,'dorm',{}); R('yu','FAM'); STORY.neededRules(GM); PHONE.tick(G); const m=TH('p:yu').find(x=>x.text==='社團博覽會你站哪一攤？我要去偷看。');
     check('3. 真的排進手機：9/13 21:00',!!m&&K(m.day)==='2026-09-13'&&m.h===21,J(m&&[K(m.day),m.h]));
     const z13=pick('2026-12-06',['zhe']), z14=pick('2026-12-13',['zhe']);
@@ -127,7 +127,7 @@ const has=(a,...ids)=>ids.every(id=>a.includes(id)), hasNot=(a,...ids)=>ids.ever
     check('14. 可昕 K3-L4「下禮拜互考，我題目出得比較難。」週次 [6,6]（互考 10/23 只有一次）；第 6 週沒聊到就跳過（skipAfterWeek 6，不卡住後面的層）',J(st.week)===J([6,6])&&st.skipAfterWeek===6&&st.lines&&st.lines[0]==='下禮拜互考，我題目出得比較難。',J([st.week,st.skipAfterWeek]));
     check('14. 匯入白名單有 AA_374@6fc64130（approved、AA374-Y2S1-FIX-1021），ladder.js 的來源寫著它',allow.length===1&&allow[0].sha==='6fc64130'&&allow[0].status==='approved'&&allow[0].task==='AA374-Y2S1-FIX-1021'&&/AA_374@6fc64130/.test(LADDER.source),J(allow.map(e=>e.sha))+' '+String(LADDER.source).slice(-40)); }
   // ===== 第 15、16 項 =====
-  check('15. 聖誕交換禮物抽到阿哲：「你抽到阿哲的：一個保溫杯。」（不認識 Alison 的也聽得懂）',evText('ev_y2_xmas').includes('你抽到阿哲的：一個保溫杯。')&&!evText('ev_y2_xmas').some(t=>/阿哲、Alison 的/.test(t)));
+  check('15. 聖誕交換禮物抽到阿哲：「你抽到阿哲的：一個保溫杯。」（不認識小語的也聽得懂）',evText('ev_y2_xmas').includes('你抽到阿哲的：一個保溫杯。')&&!evText('ev_y2_xmas').some(t=>/阿哲、小語的/.test(t)));
   { const W=ev('ev_zhe_game_y2').dialogue, i=W.findIndex(l=>l&&l.label==='water'), seg=W.slice(i,W.findIndex((l,k)=>k>i&&l&&l.label==='end')).filter(l=>l&&l.text).map(l=>(l.speaker||'')+':'+l.text);
     check('16. 系籃送水：阿哲「謝啦。」（另一瓶丟給明軒）、明軒「（接住水）謝啦。」；沒有「後勤部長」「謝謝部長」',seg.includes('zhe:謝啦。')&&seg.includes('classmate_mingxuan:（接住水）謝啦。')&&!seg.some(t=>/後勤部長|謝謝部長/.test(t)),J(seg)); }
   // ===== 第 17 項：沛珊 12/17 =====

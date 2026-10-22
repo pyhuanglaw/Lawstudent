@@ -45,7 +45,7 @@ GM.money=function(n){ G.money+=n; };
   G.day=d29; G.hour=8.5; said=[]; picks=[0]; await EVENTS.run(ev('ev_va03_beach')); let L=lines();
   check('2. 海邊：以安在場「你的鞋子。被浪捲走一隻了。」、撿鞋子「謝啦！」、合照、回程；VA03_BEACH went、VA03_SHOE',L.some(t=>t.includes('你的鞋子。被浪捲走一隻了。'))&&L.some(t=>t.includes('謝啦！'))&&L.some(t=>t.includes('拍了五張'))&&G.flags.VA03_BEACH==='went'&&G.flags.VA03_SHOE===true,JSON.stringify(L.slice(0,8)));
   G.hour=20.5; STORY.phoneRules(GM); PHONE.tick(G);
-  check('2. 當晚群組：Alison「五張裡最好的一張」、阿哲「鞋子回來了」',txt('g:noodle_team').includes('yu:五張裡最好的一張')&&txt('g:noodle_team').includes('zhe:鞋子回來了'));
+  check('2. 當晚群組：小語「五張裡最好的一張」、阿哲「鞋子回來了」',txt('g:noodle_team').includes('yu:五張裡最好的一張')&&txt('g:noodle_team').includes('zhe:鞋子回來了'));
   // 3. 跨年：我去＝19:00 麵店 → 一起去 → 管制線（不認識明軒）→ 頂樓
   G.day=nye; G.hour=12; STORY.phoneRules(GM); const q=OUT.get(G,'nye');
   check('3. 「我去」＝19:00 麵店（ev_nye_dinner）',!!q&&q.ev==='ev_nye_dinner'&&q.h===19);
@@ -53,7 +53,7 @@ GM.money=function(n){ G.money+=n; };
   check('3. 麵店→「（九點半，芯慈先站起來。）」→ 一起去 → 以安（不到 FRIEND）先回宿舍 → 管制線旁白（不認識明軒）→ 頂樓 →「……我們就說有看到。」',L.some(t=>t.includes('老闆娘把門口那張桌子也搬了進來'))&&L.includes('（九點半，芯慈先站起來。）')&&L.some(t=>t.includes('我先回宿舍了。新年快樂。'))&&L.includes('（前面的人說，再過去要排一個小時。）')&&!L.some(t=>t.includes('明軒'))&&L.some(t=>t.includes('……我們就說有看到。'))&&G.flags.NYE_Y1==='roof',JSON.stringify(L));
   check('3. 頂樓：以安不在（不到 FRIEND）＝沒有她的「新年快樂。」',!L.some(t=>/沈以安：新年快樂/.test(t)));
   G.hour=24.3; STORY.phoneRules(GM); PHONE.tick(G);
-  check('3. 00:12 群組：Alison「上半截的煙火🎆」；00:05 芯慈「新年快樂。我在家看電視倒數。」；以安沒上頂樓＝私訊「新年快樂。」',txt('g:noodle_team').includes('yu:上半截的煙火🎆')&&txt('g:noodle_team').includes('classmate_xinci:新年快樂。我在家看電視倒數。')&&txt('p:heroine_01').includes('heroine_01:新年快樂。'));
+  check('3. 00:12 群組：小語「上半截的煙火🎆」；00:05 芯慈「新年快樂。我在家看電視倒數。」；以安沒上頂樓＝私訊「新年快樂。」',txt('g:noodle_team').includes('yu:上半截的煙火🎆')&&txt('g:noodle_team').includes('classmate_xinci:新年快樂。我在家看電視倒數。')&&txt('p:heroine_01').includes('heroine_01:新年快樂。'));
   // 4. 認識明軒＋和以安交往中：管制線兩句、頂樓跑步那句
   fresh(nye,19,'campus',{dating_heroine_01:true}); G.stage='law'; meet('zhe'); meet('yu'); meet('classmate_bohan'); meet('heroine_01'); meet('classmate_mingxuan'); R('classmate_mingxuan',10,0,0);
   said=[]; picks=[0,0,0]; await EVENTS.run(ev('ev_nye_dinner')); L=lines();

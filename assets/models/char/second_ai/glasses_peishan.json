@@ -1,12 +1,12 @@
 {
- "glb": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/charfix/ps_v27/glasses_peishan.glb",
+ "glb": "assets/models/char/second_ai/glasses_peishan.glb",
  "tris": {
   "glasses_frame": 1252,
   "glasses_lens": 96
  },
- "bytes": 32444,
- "ipd": 0.0727,
- "rim_diameter": 0.042,
+ "bytes": 32448,
+ "ipd": 0.084,
+ "rim_diameter": 0.046,
  "wire_d": 0.0017,
  "origin": "兩個鏡片中心的中點；前方 −z、鏡腳往 +z（three.js 模型座標）",
  "replaces": "src/props3d.js glasses()（程式產生的版本）"

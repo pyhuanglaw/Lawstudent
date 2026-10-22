@@ -31,7 +31,7 @@ if '--check' in sys.argv:
         same = subprocess.run(['git', '-C', ROOT, 'diff', '--quiet', APPROVED[p], ref, '--', p]).returncode == 0
         print(('一樣：' if same else f'分支上的版本和白名單（{APPROVED[p]}）不同、不會匯入：') + p)
     sys.exit(0)
-show = lambda p: G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+show = lambda p: subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)
 NAME = {'芷若': 'heroine_02', '子晴': 'heroine_04', '學姊': 'heroine_05', '沛珊': 'classmate_peishan', '可昕': 'kexin', '以安': 'heroine_01', '語彤': 'heroine_03'}
 
 

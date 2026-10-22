@@ -76,7 +76,7 @@ S = "AA_202 7-3 以安"
 PEOPLE["heroine_01"] = person(
     "以安", "09-15",
     {"thanks": [],
-     "ok": [C("yu_argument", "和 Alison 吵架以後（`ev_an_yu_argument`）", src="AA_202 7-2"),
+     "ok": [C("yu_argument", "和小語吵架以後（`ev_an_yu_argument`）", src="AA_202 7-2"),
             C("tutee_rejected", "家教學生的家申請被駁回（新 10）", src="AA_202 7-2"),
             C("exchange_week", "交換出發前一週", src="AA_202 7-2")],
      "closed": []},
@@ -154,9 +154,9 @@ PEOPLE["zhe"] = person(
     ],
     birthdayText="阿哲 11/2", style="極快；「哥」要有 `ZHE_CALLS_GE`")
 
-S = "AA_202 7-3 Alison"
+S = "AA_202 7-3 小語"
 PEOPLE["yu"] = person(
-    "Alison", "01-18",
+    "小語", "01-18",
     {"thanks": [],
      "ok": [C("camp_end", "營隊結束那天", src="AA_202 7-2")],
      "closed": []},
@@ -170,7 +170,7 @@ PEOPLE["yu"] = person(
         E("newyear", "A", ["新年快樂！"], S),
         E("newyear", "R", ["新年快樂！！", "（照片：客廳坐滿人）"], S),
     ],
-    birthdayText="Alison 1/18", style="一句拆好幾則")
+    birthdayText="小語 1/18", style="一句拆好幾則")
 
 S = "AA_202 7-3 柏翰"
 PEOPLE["classmate_bohan"] = person(
@@ -668,7 +668,7 @@ AA257_REVIEW = [
     "第 11 點（短期出國的例外，生日、新年照開）：同意。綁日期、一年一次，不是刷好感的管道。",
     "第 12 點（學姊研究所筆試 2/1～2/2 的還好嗎）：同意，用日期就好；句子見第 3 節，2/1、2/2 各一句。",
     "第 15 點（可昕走向 C 的生日一句）：照 BB 的理解（她的 4/24、祐廷傳、她回一句），句子見第 5 節「謝謝。……你還記得。」（BB-C 確認是她的生日）。",
-    "第 16 點（生日相鄰）：方奕廷 8/13、柏翰 8/14，明軒 1/16、Alison 1/18，不改。他們不在同一個群組，不會同一天出現兩則生日提醒。",
+    "第 16 點（生日相鄰）：方奕廷 8/13、柏翰 8/14，明軒 1/16、小語 1/18，不改。他們不在同一個群組，不會同一天出現兩則生日提醒。",
 ]
 
 DATA = {

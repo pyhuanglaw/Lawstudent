@@ -9,7 +9,6 @@
 //       6. 麵店（位子面對面、相距 1.6 m）：她坐著，你坐她對面（BB 10-22：原本只找 1.3 m 內，站在門口演完；修改前 FAIL）。
 //       8. 在 3F 閱覽室（或大廳）當面約學姊「現在一起過去」總圖：直接開始，不念手機那句（BB 10-22 03:01；修改前 3F 那一項 FAIL）。
 //       7. 一盞的緣側（並排、相距 1.8 m）：你坐她旁邊；2 m 外的隔壁桌、前後排、背對背不配對（BB 10-22 02:23；修改前第一項 FAIL）。
-//       9. Café 的學姊是舊代號 sis 生成的（GM.npc.sis）：一起走到照樣一起坐下（BB 10-22 05:4x；修改前開發分支 b7c250b0 FAIL）。
 // 修改前：第 1、2、3、5 項 FAIL。用法：node tests/inv_both_present_unit.js
 const H=require('./pg_harness.js');
 const {check,GM,E}=H;
@@ -69,8 +68,4 @@ const npc=id=>{ const n={id,obj:{position:{x:3,z:3},rotation:{y:0}},beh:'idle',p
   for(const zone of ['library','library_hall']){ const G=setup('2025-09-24',10,zone); H.FRIEND('heroine_05'); const n=npc('heroine_05'); n.seat={x:0,z:0,lv:0}; E.zone.seats[0]=n.seat;
     H.picks=['去總圖一起念書','現在一起過去']; let iv=null; iv=await INV.flow(GM,'heroine_05',n,true);
     check('8. '+(zone==='library'?'3F 閱覽室':'總圖大廳')+'（9/24 週三 10:00）當面約學姊「去總圖一起念書」「現在一起過去」：直接開始（done、她不跟著走），沒有「我就在總圖。三樓。不要講話，傳訊息。」',!!iv&&iv.state==='done'&&n.beh!=='follow'&&!H.said.some(x=>/傳訊息/.test(x.t)),JSON.stringify({st:iv&&iv.state,beh:n.beh,said:H.said.map(x=>x.t).slice(0,4)})); }
-  /* 9 Café 的學姊是舊代號 sis 生成的（story3d.js 照作息生成 GM.npc.sis，沒有 GM.npc.heroine_05）：一起走到 Café 照樣一起坐下（BB 10-22 05:4x 讀碼：S.arrive 只找 GM.npc[iv.who]，找不到就沒安排座位）*/
-  { const G=setup('2025-09-12',15,'campus'); H.FRIEND('heroine_05'); const iv=INV.accept(G,'heroine_05','cafe',G.day,15,{now:true,by:'player'}); const n=npc('sis'); n.charId='heroine_05'; n.beh='follow';
-    G.zone='cafe'; H.at('2025-09-12',15.2); G.zone='cafe'; await INV.arrive(GM,'cafe');
-    check('9. Café 的學姊是 GM.npc.sis：一起走到＝直接開始、她坐下（修改前沒坐下）',iv.state==='done'&&!!n.seat&&!iv.waitSeat,JSON.stringify({st:iv.state,seat:!!n.seat,ws:iv.waitSeat})); }
   H.done(); })().catch(e=>{ console.log('FAIL 例外',e&&e.stack); process.exit(1); });

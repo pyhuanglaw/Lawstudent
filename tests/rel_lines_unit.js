@@ -6,7 +6,7 @@
 //   4. 見面時的旁白：地點×階段；「—」的格子照舊（null）；明軒總圖朋友以上看 SAW_HIM_STUDY；說話的那種（「開頭）是那個人說的
 //   5. 任一方有伴侶時，芷若好朋友那句的旁白拿掉
 //   6. 約好的見面（INV.meet）：門檻台詞 → 地點的旁白 → 見面結束的一句；手機聯絡人的名字跟著關係改（phone3d.js 的 nm）
-//   7. 接線：talkCharacter、舊的對話函式（以安、阿哲、學姊、阿凱、Alison）、index.html 載入 data/rel_lines.js
+//   7. 接線：talkCharacter、舊的對話函式（以安、阿哲、學姊、阿凱、小語）、index.html 載入 data/rel_lines.js
 // 修正前（沒有 data/rel_lines.js、SOCIAL.playUp）這個測試會失敗。用法：node tests/rel_lines_unit.js
 const fs=require('fs'), path=require('path'), vm=require('vm');
 const ROOT=path.resolve(__dirname,'..');
@@ -82,7 +82,7 @@ R('heroine_01',25);
   const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), tc=s3.slice(s3.indexOf('S.talkCharacter=async function'),s3.indexOf('let GM_ref=null'));
   check('7. talkCharacter：閒聊之前先看門檻台詞',/SOCIAL\.playUp&&await SOCIAL\.playUp\(GM,who,id\)/.test(tc)&&tc.indexOf('SOCIAL.playUp')<tc.indexOf('S.smallTalk(G,id)'));
   const fn=name=>s3.slice(s3.indexOf('async function '+name+'(GM,n)'),s3.indexOf('\n',s3.indexOf('async function '+name+'(GM,n)')+40)+600);
-  check('7. 舊的對話函式也先說門檻台詞：以安、阿哲、學姊、阿凱、Alison',[['talkAn','heroine_01'],['talkZhe','zhe'],['talkSis','heroine_05'],['talkKai','kai'],['talkYu','yu']].every(([f,id])=>fn(f).indexOf("relUp(GM,'"+id+"',n)")>=0));
+  check('7. 舊的對話函式也先說門檻台詞：以安、阿哲、學姊、阿凱、小語',[['talkAn','heroine_01'],['talkZhe','zhe'],['talkSis','heroine_05'],['talkKai','kai'],['talkYu','yu']].every(([f,id])=>fn(f).indexOf("relUp(GM,'"+id+"',n)")>=0));
   check('7. index.html 載入 data/rel_lines.js',/src\/data\/rel_lines\.js/.test(fs.readFileSync(path.join(ROOT,'index.html'),'utf8')));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.log('FAIL 例外 '+e.stack); process.exit(1); });

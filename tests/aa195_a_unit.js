@@ -1,6 +1,6 @@
 // AA_195 4-7 的 A 類（大一上盤點，開學改 9/1 以後的時間依賴；AA-B 2026-10-16 6fd71f3b）——不需要瀏覽器。
 // A1 閒聊階梯 dayMin 從主線第一天算；A2 termDay 找得到大一第 1、2 週；A3 法律系換日標題寫日期；A4 芷若 Z2 第 4 週週五起；A5 考前宵夜第 7～8 週；
-// A6 campusMorning 主線第 2 天 12:30 以後；A7 Alison 溫州街作息要 afternoonDone；A8 隨機句「周老師點過的那個」要 afternoonDone；A9 芯慈借筆記第 7 週起。
+// A6 campusMorning 主線第 2 天 12:30 以後；A7 小語溫州街作息要 afternoonDone；A8 隨機句「周老師點過的那個」要 afternoonDone；A9 芯慈借筆記第 7 週起。
 // 用法：node tests/aa195_a_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -19,7 +19,7 @@ check('A3 法律系換日標題寫日期：第 1 天＝9 月 17 日、9/4＝9 �
 { const e=ev('ev_zhiruo_ge_group'); check('A4 芷若 Z2：第 4 週起的週五（minWeek Y1S1 4），沒有 day_min',e&&!e.day_min&&e.minWeek&&e.minWeek.term==='Y1S1'&&e.minWeek.week===4&&JSON.stringify(e.weekday)==='[5]'); }
 { const e=ev('ev_midnight_snack'); check('A5 考前宵夜：第 7～8 週，沒有 day_min',e&&!e.day_min&&JSON.stringify(e.weeks)==='[7,8]'); }
 check('A6 campusMorning：主線第 2 天 12:30 以後才演',/S\.mainDay\(G\)===2&&!F\.classDone&&!F\.campusIntro&&h\(G\)>=12\.5/.test(st));
-check('A7 Alison 溫州街的作息要 afternoonDone',/hr>=19&&hr<21\.5&&F\.afternoonDone\)\{ GM\.spawnNPC\('yu'/.test(st));
+check('A7 小語溫州街的作息要 afternoonDone',/hr>=19&&hr<21\.5&&F\.afternoonDone\)\{ GM\.spawnNPC\('yu'/.test(st));
 check('A8 一般同學隨機句「周老師點過的那個」只在 afternoonDone 以後',/if\(F0\.afternoonDone\) L\.push\('「欸，你是周老師點過的那個。」'\)/.test(st)&&!/'「欸，你是周老師點過的那個。」'\]\[\(Math\.random\(\)\*3\)\|0\]/.test(st));
 { const e=ev('ev_xinci_notes'); check('A9 芯慈借筆記：第 7 週起',e&&e.minWeek&&e.minWeek.term==='Y1S1'&&e.minWeek.week===7); }
 check('A10 新局的錢 7,000（帳戶約 5,000＋錢包約 2,000）、allowanceMonth＝8（9/1 照常匯）；經濟系轉過來的不動',/F\.allowanceMonth=S\.dateOf\(d\)\.m; F\.LAW_RECAP_SEEN=true; if\(!o\.econ\) G\.money=7000;/.test(st)&&STORY.dateOf(D('2025-08-29')).m===8);
@@ -31,6 +31,6 @@ check('A10 新局的錢 7,000（帳戶約 5,000＋錢包約 2,000）、allowance
   check('A12 舊局照舊 9/19、9/23、9/25、9/26（舊存檔不會因為提早而錯過）',on(Gold,'2025-09-19')&&on(Gold,'2025-09-26')&&!on(Gold,'2025-09-08')); }
 { const e=ev('ev_zhe_long_table'); const W1={day:D('2025-09-11'),flags:{LAW_START_DAY:-18,MAIN_D1:-13}}, W1b={day:D('2025-09-09'),flags:{LAW_START_DAY:-18,MAIN_D1:-13}}, OLD={day:2,flags:{}}, OLD4={day:D('2025-09-25'),flags:{}};
   check('A13 阿哲長桌：新局第 2 週週四（9/11）起、9/9 還不行；舊局照舊第 4 週週四（9/25）起，主線第二天（9/18）不會撞',e.prereq.custom(W1)&&!e.prereq.custom(W1b)&&!e.prereq.custom(OLD)&&e.prereq.custom(OLD4)); }
-{ const e=ev('ev_yu_breakfast'); check('A14 Alison 早餐：大一上第 2～5 週',JSON.stringify(e.weeks)==='[2,3,4,5]'&&JSON.stringify(e.term)==='["Y1S1"]'); }
-check('A7 同理：新局 9/4 下午以前 Alison 不在傅鐘長椅（舊局照舊）',/G\.weekday>=1&&G\.weekday<=5&&\(F\.afternoonDone\|\|!S\.week1Start\(G\)\)\)\{ GM\.spawnNPC\('yu'/.test(st));
+{ const e=ev('ev_yu_breakfast'); check('A14 小語早餐：大一上第 2～5 週',JSON.stringify(e.weeks)==='[2,3,4,5]'&&JSON.stringify(e.term)==='["Y1S1"]'); }
+check('A7 同理：新局 9/4 下午以前小語不在傅鐘長椅（舊局照舊）',/G\.weekday>=1&&G\.weekday<=5&&\(F\.afternoonDone\|\|!S\.week1Start\(G\)\)\)\{ GM\.spawnNPC\('yu'/.test(st));
 console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

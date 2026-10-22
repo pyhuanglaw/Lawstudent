@@ -104,7 +104,7 @@ async function await0(){}
   pk.next(); pk=INV.walkPick(G,'heroine_01','cafe'); check('12. 下一次去 Café：輪到「任何目的地」那句（宿舍門禁）',!!pk&&/宿舍門禁是十二點/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
   G.flags.walkChatN={}; pk=INV.walkPick(G,'heroine_01','wenzhou'); check('12. 以安大一去溫州街：「這條巷子我走過一百次」是大二以後的，這次說門禁那句',!!pk&&/宿舍門禁/.test(pk.lines[0]),pk&&pk.lines.join('｜'));
   G.weather='rain'; rel('heroine_03',45,30,10); pk=INV.walkPick(G,'heroine_03','noodle'); check('12. 語彤下雨天：她撐傘偏向你那一邊（旁白＋「……沒事。我習慣了。」）',!!pk&&pk.lines.length===2&&/傘偏向你那一邊/.test(pk.lines[0])&&pk.lines[1]==='「……沒事。我習慣了。」',pk&&pk.lines.join('｜')); G.weather='clear';
-  check('12. Alison 沒有「一起走路」的台詞：不說',INV.walkPick(G,'yu','cafe')===null);
+  check('12. 小語沒有「一起走路」的台詞：不說',INV.walkPick(G,'yu','cafe')===null);
   const caps=[]; INV._later=(f)=>f(); const npcObj={position:{x:1,z:0}};
   const gmW={G,npc:{heroine_02:{obj:npcObj}},E:{player:{obj:{position:{x:0,z:0}}}},caption:(w,t)=>caps.push((w||'旁白')+'：'+t)};
   fresh(MON,10); gmW.G=G; rel('heroine_02',45,30,10); G.invites.push({id:'w1',who:'heroine_02',place:'noodle',zone:'noodle',day:MON,h:10,state:'going'});

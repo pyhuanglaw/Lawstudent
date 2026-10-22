@@ -8,7 +8,6 @@
 //   5 2-5 10/15→10/16 09:00 法扶（朋友以上）；交往中資料夾那一句；沒來 12:30 那則　6 2-6 11/1～11/9 第一次說話＝接在前面演；一般、交往中；都沒遇到 11/11→11/12 12:20 台階
 //   7 2-7 3/15 21:30 電話（朋友以上）：一般、交往中美國路線「我們同一班」、其他路線「你要來送我」　8 熟悉以下、前任：八場都不出現
 // 修改前（開發分支 e8c4ce7a）：沒有 SISY23（第 0 項起全部 FAIL）。用法：node tests/aa379_sis_y2y3_unit.js
-require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;

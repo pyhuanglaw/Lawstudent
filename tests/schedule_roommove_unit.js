@@ -1,4 +1,4 @@
-// 同一區、下一個時段換到另一間（2026-10-14 flow_b4_lecture 在瀏覽器抓到：B4 演講 20:30 結束，以安、Alison 的作息換成博雅的圓桌（room:'round'），
+// 同一區、下一個時段換到另一間（2026-10-14 flow_b4_lecture 在瀏覽器抓到：B4 演講 20:30 結束，以安、小語的作息換成博雅的圓桌（room:'round'），
 // 兩個人卻一直坐在 101——refreshSchedule 原本只處理「走到某一點站著」（linger）和「離開」，沒有「起身走到同一區的另一間坐下」）。修正：story3d.js 的 roomMove。
 // 不需要瀏覽器：載入真正的 calendar.js、characters.js、story3d.js、博雅的座位配置（boya_layout.js：101 的座位、兩張圓桌），其餘最小替身；
 // 照 GAME.enter 進入博雅（STORY.populate），再像 S.tick 那樣呼叫 STORY.refreshSchedule。
@@ -41,14 +41,14 @@ const arrive=id=>{ const n=EVENTS.npcOf(id); if(n&&n._arrive){ const cb=n._arriv
 const room=id=>{ const n=EVENTS.npcOf(id); return n&&n.seat?n.seat.room:null; };
 const info=ids=>JSON.stringify(ids.map(id=>{ const n=EVENTS.npcOf(id); return n?{id,seat:n.seat&&(n.seat.room+(n.seat.table?'/'+n.seat.table:'')),target:n.seatTarget&&(n.seatTarget.room+(n.seatTarget.table?'/'+n.seatTarget.table:'')),pose:n.pose,roomGo:!!n.roomGo}:{id,none:true}; }));
 check('0. 前提：第 11 週週四是第 '+THU+' 天；博雅有 101 的座位和兩張圓桌（8 個位子）',!!THU&&SEATS.some(s=>s.room==='101')&&ROUND.length===8);
-// 1) 20:20 走進博雅：以安、Alison、阿哲照作息坐在 101
+// 1) 20:20 走進博雅：以安、小語、阿哲照作息坐在 101
 moves=[]; GM=newGM(20+20/60,SEATS); STORY.populate('boya',GM);
-check('1. 20:20 進博雅：以安、Alison、阿哲坐在 101',room('heroine_01')==='101'&&room('yu')==='101'&&room('zhe')==='101',info(['heroine_01','yu','zhe']));
-// 2) 20:30 以後（refreshSchedule 每 3 秒）：以安、Alison 起身往圓桌走（不瞬移、不留在 101）；阿哲沒有下一個時段，不往圓桌走
+check('1. 20:20 進博雅：以安、小語、阿哲坐在 101',room('heroine_01')==='101'&&room('yu')==='101'&&room('zhe')==='101',info(['heroine_01','yu','zhe']));
+// 2) 20:30 以後（refreshSchedule 每 3 秒）：以安、小語起身往圓桌走（不瞬移、不留在 101）；阿哲沒有下一個時段，不往圓桌走
 GM.G.hour=20.5+1/60; moves=[]; STORY.refreshSchedule(GM);
 const an=EVENTS.npcOf('heroine_01'), yu=EVENTS.npcOf('yu'), zhe=EVENTS.npcOf('zhe');
 const walking=n=>!!n&&!n.seat&&!!n.seatTarget&&n.seatTarget.room==='round'&&n.roomGo===true;
-check('2. 20:31：以安、Alison 起身、正走向圓桌的空位（seatTarget 在 round、不是瞬移過去）',walking(an)&&walking(yu)&&moves.some(m=>m.id==='heroine_01')&&moves.some(m=>m.id==='yu'),info(['heroine_01','yu']));
+check('2. 20:31：以安、小語起身、正走向圓桌的空位（seatTarget 在 round、不是瞬移過去）',walking(an)&&walking(yu)&&moves.some(m=>m.id==='heroine_01')&&moves.some(m=>m.id==='yu'),info(['heroine_01','yu']));
 check('2. 走過去的終點是那個座位旁邊（seatApproach），不是座位上',[an,yu].every(n=>n&&n.seatTarget&&moves.some(m=>m.id===n.charId&&Math.abs(m.x-n.seatTarget.x)<1e-6&&Math.abs(m.z-(n.seatTarget.z+0.6))<1e-6)),JSON.stringify(moves));
 check('2. 兩個人往同一張圓桌走（朋友坐一起）',!!(an&&yu&&an.seatTarget&&yu.seatTarget)&&an.seatTarget.table===yu.seatTarget.table&&an.seatTarget!==yu.seatTarget,info(['heroine_01','yu']));
 check('2. 阿哲（作息沒有圓桌）不往圓桌走',!zhe||!(zhe.seatTarget&&zhe.seatTarget.room==='round'),info(['zhe']));
@@ -62,12 +62,12 @@ for(let i=0;i<5;i++){ GM.G.hour+=0.01; STORY.refreshSchedule(GM); }
 check('4. 走到圓桌：坐下（room round、同一張桌子、看書的姿勢）、之後不再被搬動',room('heroine_01')==='round'&&room('yu')==='round'&&an.seat.table===yu.seat.table&&an.pose==='read'&&yu.pose==='read'&&!an.roomGo&&!yu.roomGo&&!moves.some(m=>m.id==='heroine_01'||m.id==='yu'),info(['heroine_01','yu']));
 // 5) 20:31 才走進博雅（不是待在裡面）：直接坐在圓桌（populate 照舊）
 moves=[]; GM=newGM(20.5+1/60,SEATS); STORY.populate('boya',GM);
-check('5. 20:31 才走進博雅：以安、Alison 已經坐在圓桌（進區域照舊）',room('heroine_01')==='round'&&room('yu')==='round'&&!moves.some(m=>m.id==='heroine_01'||m.id==='yu'),info(['heroine_01','yu']));
+check('5. 20:31 才走進博雅：以安、小語已經坐在圓桌（進區域照舊）',room('heroine_01')==='round'&&room('yu')==='round'&&!moves.some(m=>m.id==='heroine_01'||m.id==='yu'),info(['heroine_01','yu']));
 // 6) 圓桌全被坐滿（替身 taken）：留在 101，不一直重試
 { const full=SEATS.map(s=>s.room==='round'?Object.assign({},s,{taken:true}):s);
   moves=[]; GM=newGM(20+20/60,full); STORY.populate('boya',GM); GM.G.hour=20.5+1/60;
   for(let i=0;i<4;i++){ STORY.refreshSchedule(GM); GM.G.hour+=0.01; }
-  check('6. 圓桌坐滿：以安、Alison 留在 101 的座位上，不一直重試走路',room('heroine_01')==='101'&&room('yu')==='101'&&!moves.some(m=>m.id==='heroine_01'||m.id==='yu'),info(['heroine_01','yu'])+' '+JSON.stringify(moves)); }
+  check('6. 圓桌坐滿：以安、小語留在 101 的座位上，不一直重試走路',room('heroine_01')==='101'&&room('yu')==='101'&&!moves.some(m=>m.id==='heroine_01'||m.id==='yu'),info(['heroine_01','yu'])+' '+JSON.stringify(moves)); }
 // 7) 走不到（E.moveTo 失敗）：坐回原來的位子，不會每 3 秒重試
 { moves=[]; GM=newGM(20+20/60,SEATS); STORY.populate('boya',GM); GM.G.hour=20.5+1/60; let tries=0;
   GM.E.moveTo=(n)=>{ if(n.charId==='heroine_01') tries++; return false; };

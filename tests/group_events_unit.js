@@ -63,7 +63,7 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(d330,20,'dorm'); team(); date('kexin'); run(d330,20,20.9);
   check('1. 3/30 21:00 以前沒有邀約', !PHONE.sent(G,'y2s2_spring_grp')&&!GROUP.springPending(G));
   run(d330,21,21.25);
-  check('1. 3/30 21:00 麵店團群組七則（Alison、語彤、阿哲、柏翰；阿哲 @祐廷）', JSON.stringify(txt('g:noodle_team').slice(-7))===JSON.stringify(['yu:春假那個','yu:語彤說行程她排','heroine_03:第一站是市場。','zhe:市場？','heroine_03:……田野課的。我想自己去看一次。','classmate_bohan:誰開車？','zhe:@祐廷']), JSON.stringify(txt('g:noodle_team')));
+  check('1. 3/30 21:00 麵店團群組七則（小語、語彤、阿哲、柏翰；阿哲 @祐廷）', JSON.stringify(txt('g:noodle_team').slice(-7))===JSON.stringify(['yu:春假那個','yu:語彤說行程她排','heroine_03:第一站是市場。','zhe:市場？','heroine_03:……田野課的。我想自己去看一次。','classmate_bohan:誰開車？','zhe:@祐廷']), JSON.stringify(txt('g:noodle_team')));
   check('1. 可昕的還沒到：先不問（兩則都到了才問）', !GROUP.springPending(G));
   run(d330,21.5,21.75);
   check('1. 21:30 可昕兩則（大二版，AA_336 C8）、之後才問', txt('p:kexin').slice(-2).join('|')==='kexin:春假。今年也開車？|kexin:行程表做好了。……這次吃的只有一頁。'&&GROUP.springPending(G), JSON.stringify(txt('p:kexin').slice(-2)));
@@ -78,15 +78,15 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(SD.trip,8,'dorm'); team(); R('classmate_peishan','ACQ'); let L1=await play('ev_spring_y2_noodle',[0]);
   check('1. S1 車上：「（你回家把車開出來。後座擠了三個人。）」→ 市場 → 海邊 → 回程', L1[0]==='（你回家把車開出來。後座擠了三個人。）'&&has('（市場在小鎮車站的後面。早上九點，攤販已經在收第一輪了。）')&&has('（第二站是海邊。四月的風還有點冷。）')&&L1[L1.length-1]==='（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）', JSON.stringify(L1.slice(0,3)));
   check('1. S1 市場「這個好吃。我不知道是什麼。」、以安「第一站選得很有理由。」（不是「理由很充分」）', L1.includes(NAME('zhe')+'：（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。')&&L1.includes(NAME('heroine_01')+'：第一站選得很有理由。')&&!L1.some(t=>/理由很充分/.test(t)));
-  check('1. S1 海邊二選一（下去踩水／坐在堤防上）；沒有沛珊', JSON.stringify(opts[0])===JSON.stringify(['（下去踩水）','（坐在堤防上）'])&&!L1.some(t=>/沛珊/.test(t))&&has('（水真的很冷。Alison 在後面笑到蹲下。）'));
+  check('1. S1 海邊二選一（下去踩水／坐在堤防上）；沒有沛珊', JSON.stringify(opts[0])===JSON.stringify(['（下去踩水）','（坐在堤防上）'])&&!L1.some(t=>/沛珊/.test(t))&&has('（水真的很冷。小語在後面笑到蹲下。）'));
   check('1. 背景：車上（早上）→ 小鎮的市場（深色底）→ 海邊 y0_sea_blue', JSON.stringify(scenes[0])===JSON.stringify(OUT.bg('car_morning'))&&scenes[1]==='dark'&&JSON.stringify(scenes[2])===JSON.stringify(OUT.bg('y0_sea_blue')));
-  fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要 Alison、語彤在車上 */
-  check('1. S2 和沛珊熟：Alison「……以前這種行程都是沛珊排的。」＋沒有人接話；坐堤防＝坐到語彤旁邊', L1.includes(NAME('yu')+'：（看著賣菜的阿姨）……以前這種行程都是沛珊排的。')&&has('（沒有人接話。語彤把一袋芭樂遞給 Alison。）')&&has('（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'));
+  fresh(SD.trip,8,'dorm'); team(); R('yu','FRI'); R('heroine_03','FRI'); R('classmate_peishan','FAM'); L1=await play('ev_spring_y2_noodle',[1]);   /* AA_375 第 5 項：車上最多三個人（照熟悉度），市場那兩句要小語、語彤在車上 */
+  check('1. S2 和沛珊熟：小語「……以前這種行程都是沛珊排的。」＋沒有人接話；坐堤防＝坐到語彤旁邊', L1.includes(NAME('yu')+'：（看著賣菜的阿姨）……以前這種行程都是沛珊排的。')&&has('（沒有人接話。語彤把一袋芭樂遞給小語。）')&&has('（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'));
   fresh(SD.trip,8,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('zhe','FAM'); L1=await play('ev_spring_y2_noodle',[0]);
-  check('1. 只有認識的人說話：只認識阿哲＝沒有語彤、以安、Alison、柏翰、芯慈的句子', !L1.some(t=>t.startsWith(NAME('heroine_03')+'：')||t.startsWith(NAME('heroine_01')+'：')||t.startsWith(NAME('yu')+'：')||t.startsWith(NAME('classmate_bohan')+'：')||t.startsWith(NAME('classmate_xinci')+'：'))&&!has('我哪有。'), JSON.stringify(L1));
+  check('1. 只有認識的人說話：只認識阿哲＝沒有語彤、以安、小語、柏翰、芯慈的句子', !L1.some(t=>t.startsWith(NAME('heroine_03')+'：')||t.startsWith(NAME('heroine_01')+'：')||t.startsWith(NAME('yu')+'：')||t.startsWith(NAME('classmate_bohan')+'：')||t.startsWith(NAME('classmate_xinci')+'：'))&&!has('我哪有。'), JSON.stringify(L1));
   // S3 可昕
   fresh(d330,21.9,'dorm'); team(); date('kexin'); run(d330,21,21.75); picks=['可昕']; GROUP.tick(GM); await new Promise(r=>setImmediate(r)); await new Promise(r=>setImmediate(r));
-  { const q=OUT.get(G,'kx_trip_y2s2'); check('1. 選可昕：4/3 07:40 出遊（照大一那一趟）、沒去麵店團＝4/4 21:30 群組照片（Alison）', G.flags.SPRING_Y2==='kexin'&&!!q&&q.day===SD.d0&&q.ev==='ev_kexin_trip_spring_y2'&&PHONE.sent(G,'y2s2_spring_photo')); }
+  { const q=OUT.get(G,'kx_trip_y2s2'); check('1. 選可昕：4/3 07:40 出遊（照大一那一趟）、沒去麵店團＝4/4 21:30 群組照片（小語）', G.flags.SPRING_Y2==='kexin'&&!!q&&q.day===SD.d0&&q.ev==='ev_kexin_trip_spring_y2'&&PHONE.sent(G,'y2s2_spring_photo')); }
   run(SD.trip,21.5,21.75); check('1. 4/4 21:30 群組照片', txt('g:noodle_team').slice(-1)[0]==='yu:📷（海邊。一排人站在堤防上，阿哲在最後面，還是最高。）');
   fresh(SD.d0,8,'dorm'); date('kexin'); G.flags.KX_TRIP={Y1S2:'sea'}; let K1=await play('ev_kexin_trip_spring_y2',['山上']);
   check('1. S3 可昕：去過海邊＝只有老街、山上看星星；山上沒去過＝「好安靜。手機收不到訊號，剛好。」；記 KX_TRIP.Y2S2', JSON.stringify(opts[0])===JSON.stringify(['別的城市的老街','山上看星星'])&&K1.includes(NAME('kexin')+'：好安靜。手機收不到訊號，剛好。')&&G.flags.KX_TRIP.Y2S2==='stars'&&G.flags.KX_TRIP.Y1S2==='sea', JSON.stringify(opts[0]));
@@ -127,12 +127,12 @@ const NAME=id=>SOCIAL.displayName(id);
   fresh(x25,20,'dorm'); team(); run(x25,20,21.25);
   { const q=OUT.get(G,'y3_xmas_box'); check('3. 12/25 21:00 阿哲兩則、12/26 18:30 麵店', JSON.stringify(txt('g:noodle_team').slice(-2))===JSON.stringify(['zhe:明天六點半麵店','zhe:帶一樣東西 不要超過手掌大'])&&!!q&&q.day===x26&&q.h===18.5&&q.late===0.25); }
   fresh(x26,18.5,'noodle'); team(); R('heroine_02','FAM'); let X1=await play('ev_xmas_y3_box',['杯墊']);
-  check('3. X1 和芷若熟：阿哲寫地址、Alison「每個人放一樣東西。」、三選一放東西', X1[0]==='（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
+  check('3. X1 和芷若熟：阿哲寫地址、小語「每個人放一樣東西。」、三選一放東西', X1[0]==='（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'&&X1.includes(NAME('yu')+'：每個人放一樣東西。不能超過手掌大。')&&JSON.stringify(opts[0])===JSON.stringify(['「Café 的杯墊。」','「一包乖乖。」','「一張寫了字的便條。」']), JSON.stringify(opts[0]));
   check('3. X1 杯墊＝以安「她會知道是哪一家。」；語彤封箱「阿姨說，箱子不夠大的話，店裡有。」；XMAS_Y3_BOX coaster', X1.includes(NAME('heroine_01')+'：她會知道是哪一家。')&&has('（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）')&&X1[X1.length-1]===NAME('heroine_03')+'：阿姨說，箱子不夠大的話，店裡有。'&&G.flags.XMAS_Y3_BOX==='coaster');
   fresh(x26,18.5,'noodle'); team(); date('heroine_02'); X1=await play('ev_xmas_y3_box',['只有你看得懂']);
-  check('3. 和芷若交往中：多「（放一張只有你看得懂的便條）」→ Alison「……好，我們都不看。」', opts[0].length===4&&opts[0][3]==='（放一張只有你看得懂的便條）'&&X1.includes(NAME('yu')+'：……好，我們都不看。')&&G.flags.XMAS_Y3_BOX==='note');
+  check('3. 和芷若交往中：多「（放一張只有你看得懂的便條）」→ 小語「……好，我們都不看。」', opts[0].length===4&&opts[0][3]==='（放一張只有你看得懂的便條）'&&X1.includes(NAME('yu')+'：……好，我們都不看。')&&G.flags.XMAS_Y3_BOX==='note');
   fresh(x26,18.5,'noodle'); team(); X1=await play('ev_xmas_y3_box');
-  check('3. X2 不熟芷若：沒有選項、「（Alison 說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）」、XMAS_Y3_BOX snack', opts.length===0&&has('（Alison 說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）')&&G.flags.XMAS_Y3_BOX==='snack'&&has('（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）'));
+  check('3. X2 不熟芷若：沒有選項、「（小語說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）」、XMAS_Y3_BOX snack', opts.length===0&&has('（小語說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）')&&G.flags.XMAS_Y3_BOX==='snack'&&has('（語彤從廚房拿來一卷膠帶，把箱子封了三圈。）'));
   fresh(x26,19,'dorm'); team(); ev('ev_xmas_y3_box').outingMissed(G,GM,{}); run(x26,22,22.25);
   check('3. 沒去：XMAS_Y3_BOX missed、22:00 群組照片', G.flags.XMAS_Y3_BOX==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（一個紙箱，上面寫著倫敦的地址。）');
   { fresh(x26,18.5,'noodle'); team(); const TR={}; global.TERMEND={rec:(g,id)=>TR[id]||(TR[id]={}),contact(){}}; TR.Y3S1={picked:{who:'zhe',kind:'friend',day:x26-2}}; OUT.plan(G,{id:'te_Y3S1',ev:'ev_termend_dinner',day:x26+1,h:18.5});
@@ -227,10 +227,10 @@ const NAME=id=>SOCIAL.displayName(id);
   run(l22,17,17.25);
   { const q=OUT.get(G,'y4_last_term'); check('6. L1 17:00 群組改名「最後一學期」＋系統字＋阿哲「開學第一頓。七點，長桌。」、19:00 麵店', PHONE.title(G,'g:noodle_team')==='最後一學期'&&JSON.stringify(TH('g:noodle_team').slice(-2).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改成「最後一學期」。）','zhe:開學第一頓。七點，長桌。'])&&!!q&&q.day===l22&&q.h===19&&q.late===0.25); }
   fresh(l22,19,'noodle'); team(); let T1=await play('ev_last_term_first_dinner',[1]);
-  check('6. L1 麵店：Alison「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
+  check('6. L1 麵店：小語「改回來啦。很難過耶。」、阿哲「……過幾天再改。」、二選一、「換什麼換。」', T1.includes(NAME('yu')+'：改回來啦。很難過耶。')&&T1.includes(NAME('zhe')+'：……過幾天再改。')&&JSON.stringify(opts[0])===JSON.stringify(['「一樣的。」','「今天換一個。」'])&&T1.includes('阿姨：換什麼換。')&&T1[T1.length-1]==='（大家吃完，沒有人先站起來。）'&&G.flags.LAST_TERM_DINNER==='went');
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); run(l25,20,20.75); check('6. 2/25 21:00 以前還是「最後一學期」', PHONE.title(G,'g:noodle_team')==='最後一學期');
   run(l25,21,21.25);
-  check('6. L2 2/25 21:00 改回「麵店團」＋系統字＋「改回來了」「Alison 說很難過」', PHONE.title(G,'g:noodle_team')==='麵店團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「麵店團」。）','zhe:改回來了','zhe:Alison 說很難過']));
+  check('6. L2 2/25 21:00 改回「麵店團」＋系統字＋「改回來了」「小語說很難過」', PHONE.title(G,'g:noodle_team')==='麵店團'&&JSON.stringify(TH('g:noodle_team').slice(-3).map(m=>(m.from||'')+':'+m.text))===JSON.stringify([':（阿哲把群組名稱改回「麵店團」。）','zhe:改回來了','zhe:小語說很難過']));
   fresh(l22,17,'dorm'); team(); run(l22,17,17.25); G.hour=19.5; ev('ev_last_term_first_dinner').outingMissed(G,GM,{}); run(l22,21.5,21.75);
   check('6. 沒去：LAST_TERM_DINNER missed、21:30 群組照片', G.flags.LAST_TERM_DINNER==='missed'&&txt('g:noodle_team').slice(-1)[0]==='zhe:📷（長桌上的碗，跟大一的時候一樣多。）');
   fresh(l22,17,'dorm'); run(l22,17,17.5); check('6. 不在麵店團：不改名、不揪', !PHONE.sent(G,'y4_last_term_ask'));

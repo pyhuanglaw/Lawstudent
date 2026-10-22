@@ -78,7 +78,7 @@ check('9. 手機朋友頁：有原因就寫原因、不出「約」按鈕',/cons
 const s3=fs.readFileSync(path.join(ROOT,'src/story3d.js'),'utf8'), tc=s3.slice(s3.indexOf('S.offerInvite=async function'),s3.indexOf('let GM_ref=null'));   /* 2026-10-15：當面約的選單搬到 S.offerInvite（舊的 talkAn 等也用），talkCharacter 呼叫它 */
 check('9. 聊天：有點熟以後、沒有聯絡方式才有「交換聯絡方式」，對方的一句照 INVITE_DATA.exchange，然後加聯絡方式',/!INV\.hasContact\(G,id\)&&SOCIAL\.STAGES\.indexOf\(SOCIAL\.stage\(id\)\)>=SOCIAL\.STAGES\.indexOf\('FAMILIAR'\)\) O\.push\(\{t:'交換聯絡方式'/.test(tc)&&/INVITE_DATA\.exchange/.test(tc)&&/INV\.addContact\(G,id\)/.test(tc));
 const EX=INVITE_DATA.exchange||{};
-check('9. AA 的五位都有保底的一句（AA_124 1-7 的表）：以安、語彤、Alison、柏翰、芯慈',['heroine_01','heroine_03','yu','classmate_bohan','classmate_xinci'].every(id=>Array.isArray(EX[id])&&EX[id].length&&EX[id].every(l=>l.say||l.narr)),Object.keys(EX).join(','));
+check('9. AA 的五位都有保底的一句（AA_124 1-7 的表）：以安、語彤、小語、柏翰、芯慈',['heroine_01','heroine_03','yu','classmate_bohan','classmate_xinci'].every(id=>Array.isArray(EX[id])&&EX[id].length&&EX[id].every(l=>l.say||l.narr)),Object.keys(EX).join(','));
 check('9. 交換以後就有聯絡方式、手機上可以約',(()=>{ const g={contacts:{},msgs:[],invites:[],day:20,hour:10}; const ok=I.addContact(g,'yu'); return ok&&I.hasContact(g,'yu'); })());
 { const D0=globalThis.DATE; globalThis.DATE={canAsk:()=>({ok:true}),HEROINES:['kexin']}; const gk={stage:'law',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, ge={stage:'econ',flags:{dating_kexin:true},contacts:{},day:20,hour:10}, gn={stage:'law',flags:{},contacts:{},day:20,hour:10};
   const src=fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8');

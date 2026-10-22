@@ -30,7 +30,7 @@ if '--check' in sys.argv:
 LREF = ALLOW.get('labelsRef')
 if not LREF: sys.exit('白名單沒有 labelsRef（記憶中文名稱表的來源 commit）')
 LREFS = LREF if isinstance(LREF, list) else [LREF]   # 可以列好幾個 commit（AA 分支、BB 分支各一個；先列的優先）
-show = lambda p: json.loads(G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True)))  # AA_380：讀稿先把「小語」換成 Alison（import_guard.alison）
+show = lambda p: json.loads(subprocess.check_output(['git', '-C', ROOT, 'show', f'{APPROVED[p]}:{p}'], text=True))
 srcs = sorted(set(APPROVED.values()))
 out = {'source': '白名單 ' + '＋'.join(f'{v}（{sum(1 for x in APPROVED.values() if x == v)} 檔）' for v in srcs), 'characters': {}, 'terms': {}, 'byTerm': {}, 'kaiDorm': [], 'bikeSeat': {}}
 files = sorted(os.path.basename(p)[:-5] for p in APPROVED)
@@ -51,7 +51,7 @@ lab = {}
 for REF in LREFS:
     docs = [n for n in subprocess.check_output(['git', '-C', ROOT, '-c', 'core.quotepath=off', 'ls-tree', '--name-only', f'{REF}:docs/story_planning/'], text=True).split('\n') if n.endswith('.md') and '階梯' in n]
     for n in docs:
-        for m in re.finditer(r'^\|\s*`([A-Z][A-Z0-9_]+)`\s*\|\s*([^|]+?)\s*\|', G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:docs/story_planning/{n}'], text=True)), re.M):
+        for m in re.finditer(r'^\|\s*`([A-Z][A-Z0-9_]+)`\s*\|\s*([^|]+?)\s*\|', subprocess.check_output(['git', '-C', ROOT, 'show', f'{REF}:docs/story_planning/{n}'], text=True), re.M):
             if not m.group(2).strip().startswith('`'): lab.setdefault(m.group(1), m.group(2).strip())
 soc = open(os.path.join(ROOT, 'src', 'social3d.js'), encoding='utf8').read()
 has = lambda t: bool(re.search(r'\b' + t + r":'", soc)) or t in lab
@@ -99,7 +99,7 @@ if A373:
     P373, S373 = next(iter(A373.items()))
     ok, why = G.allowed(P373, S373, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md373 = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True))
+    md373 = subprocess.check_output(['git', '-C', ROOT, 'show', f'{S373}:{P373}'], text=True)
     y1s2 = out['byTerm'].get('Y1S2') or {}
     for item, cid, old, new, quote in [('第 6 項', 'classmate_peishan', '我在溫州街的課輔班當志工。一週三天。', '我在溫州街的課輔班當志工。一週兩天。', '「一週兩天。」'),
                                        ('第 8 項', 'heroine_05', '期中的時候，我對著空的保溫瓶喝了好幾次。', '上學期期中的時候，我對著空的保溫瓶喝了好幾次。', '「上學期期中的時候，我對著空的保溫瓶喝了好幾次。」'),
@@ -118,7 +118,7 @@ def _approved_md(prefix):   # 白名單上的修正稿（AA_376、AA_377）：(�
     P, S = next(iter(A.items()))
     ok, why = G.allowed(P, S, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    return P, S, G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{P}'], text=True))
+    return P, S, subprocess.check_output(['git', '-C', ROOT, 'show', f'{S}:{P}'], text=True)
 def _swap(tag, md, chars, rows):   # 整句相同才換（同 AA_372、AA_373）：rows＝[(第幾項, 人物, 舊句, 新句, 稿裡的「改成」)]
     for item, cid, old, new, quote in rows:
         if quote not in md: sys.exit(f'{tag} 裡找不到{item}的「改成」：{quote}')
@@ -194,7 +194,7 @@ def _fix(prefix, label, patches):
     P, SHA = next(iter(A.items()))
     ok, why = G.allowed(P, SHA, ALLOW)
     if not ok: sys.exit('拒絕匯入：' + why)
-    md = G.alison(subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True))
+    md = subprocess.check_output(['git', '-C', ROOT, 'show', f'{SHA}:{P}'], text=True)
     for item, term, cid, sid, field, old, new, quote in patches:
         if quote not in md: sys.exit(f'{os.path.basename(P)[:6]}@{SHA} 裡找不到{item}的「改成」：{quote}')
         st = next((x for x in (((out['byTerm'].get(term) or {}).get(cid) or {}).get('steps') or []) if x.get('id') == sid), None)

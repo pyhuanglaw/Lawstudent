@@ -223,7 +223,7 @@ const Y2R2=(function(){
       {speaker:'予樂',text:'今天每個人都要有一個老街限定的名字。'},
       {speaker:'予樂',text:'{name}，你是「放假的司機」。'},
       {speaker:'予樂',text:'可昕是「老街考古學家」。阿哲是「試吃大使」。'},
-      {if:UGO('yu'),speaker:'予樂',text:'Alison 是『書記』。'},
+      {if:UGO('yu'),speaker:'予樂',text:'小語是『書記』。'},
       {if:UGO('nccu'),speaker:'予樂',text:'邵鈞是『拍照的那個』，詹靖是『找廁所的那個』。'},{if:UGO('nccu'),speaker:'詹靖',text:'……這個不能改嗎？'},
       {speaker:'kexin',expression:'neutral',text:'那妳呢？'},
       {speaker:'予樂',text:'我是「命名官」。這個不能投票。'},
@@ -282,15 +282,15 @@ const Y2R2=(function(){
   EV.push({ id:'ev_zhe_game_y2s2', title:'系籃比賽（大二下）', participants:['zhe'], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'新體育館'},
       {speaker:null,text:'（系籃比賽。這學期最後一場。阿哲、明軒上場。）'},
-      {if:{custom:G=>knows('yu',G)&&!!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 的加油板換了一面：「17 號，可以犯規一次。」）'},
-      {if:{custom:G=>knows('yu',G)&&!G.flags.Y2_BALL_SEEN},speaker:null,text:'（Alison 坐在你旁邊，舉著一塊加油板。）'},
+      {if:{custom:G=>knows('yu',G)&&!!G.flags.Y2_BALL_SEEN},speaker:null,text:'（小語的加油板換了一面：「17 號，可以犯規一次。」）'},
+      {if:{custom:G=>knows('yu',G)&&!G.flags.Y2_BALL_SEEN},speaker:null,text:'（小語坐在你旁邊，舉著一塊加油板。）'},
       {if:KN('heroine_01'),speaker:null,text:'（以安坐在最後一排，膝蓋上攤著讀書會的講義。）'},
       {choice:[{text:'（拍手）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你拍手'}]},goto:'clap'},{text:'（記分）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你記分'}]},goto:'score'},{text:'（送水）',consequences:{mem:[{npc:'zhe',tag:'WATCHED_GAME_Y2B',note:'你送水'}]},goto:'water'}]},
       {label:'clap'},{if:KN('heroine_01'),speaker:null,text:'（你拍手。旁邊的以安看了你一眼，也跟著拍了兩下，拍得很整齊。）'},{unless:KN('heroine_01'),speaker:null,text:'（你拍到手掌發紅。）'},{goto:'end'},
       {label:'score'},{speaker:null,text:'（你坐到記分台。最後一節，只差一分。）'},{speaker:'classmate_mingxuan',text:'（跑過記分台）「你翻慢一點，我緊張。」'},{goto:'end'},
       {label:'water'},{speaker:null,text:'（中場你把水搬到場邊。阿哲拿了一瓶，自己先喝。）'},{speaker:'classmate_mingxuan',text:'「……我的呢？」'},
       {label:'end'},
-      {if:KN('yu'),speaker:null,text:'（比賽結束。阿哲走到觀眾席，先去拿 Alison 的加油板。）'},
+      {if:KN('yu'),speaker:null,text:'（比賽結束。阿哲走到觀眾席，先去拿小語的加油板。）'},
       {if:KN('yu'),speaker:'zhe',text:'妳的板子寫錯字了。'},
       {if:KN('yu'),speaker:'yu',text:'那是故意的。'},
       {set:{Y2B_BALL_SEEN:true}} ] });
@@ -534,12 +534,12 @@ const Y2R2=(function(){
         if(!quizDone&&win(G,m,19.5,2)&&sent(G,'y2r2_q_ask')&&(!q||q.state==='missed')&&!sent(G,'y2r2_q_missed')){ F.KX_QUIZ_Y2S1='missed'; at(G,m,19.5,[K('📷（一張題目紙，三題）'),K('這三題留到期末。')],'y2r2_q_missed'); }
         if(f!=null&&win(G,f,21,2)&&!sent(G,'y2r2_q_final')) at(G,f,21,[K('期末的題目。'),K('📷（她手寫的三題）'),KASK('寫完拍照傳我。我的也傳給你了。',{id:'y2r2_q_final',opts:[{t:'好。我寫完傳妳。',say:[{from:'kexin',text:'嗯。不用急。'}]}]})],'y2r2_q_final'); } }
     /* --- AA_343 E2：CG-2b 的群組。以安新 8 的後半（大二上第 7 週週六 14:00 萬才館研討室的補讀，ev_plg_rules_after，story3d.js）那天沒去、在公法讀書會群組的玩家：
-       Alison 傳照片（CG-2b cg_study_group_rules_photo，群組照片版、沒有祐廷；AA_121「那天沒去讀書會、但在群組裡的玩家」）＋三則（AA_343 第 6 節，Alison 不打句號、以安標點完整）。
+       小語傳照片（CG-2b cg_study_group_rules_photo，群組照片版、沒有祐廷；AA_121「那天沒去讀書會、但在群組裡的玩家」）＋三則（AA_343 第 6 節，小語不打句號、以安標點完整）。
        14:30＝出發的期限（14:15）過了以後：去的人 14:25 以前就到、事件已經演了，不會兩張都看到。幾點傳 AA 沒寫（暫定，交接要問 AA）。
        照片：手機訊息帶 cg（phone3d.js 送出時收進相簿、game3d.js 在訊息下面顯示那張圖）*/
     { const m=typeof STORY!=='undefined'&&STORY.termDay?STORY.termDay('Y2S1',7,6):null;
       if(m!=null&&inGroup(G,'public_law')&&knows('yu',G)&&!done(G,'ev_plg_rules_after')&&win(G,m,14.5,1)&&!sent(G,'y2r2_plg_photo')){ const Y=(f,t)=>({th:'g:public_law',from:f,text:t});
-        at(G,m,14.5,[Object.assign(Y('yu','📷'),{cg:'cg_study_group_rules_photo'}),Y('yu','規則剩三條 另外一半是我撕的'),Y('heroine_01','Alison，刪掉。'),Y('yu','不要 這是歷史')],'y2r2_plg_photo'); } }
+        at(G,m,14.5,[Object.assign(Y('yu','📷'),{cg:'cg_study_group_rules_photo'}),Y('yu','規則剩三條 另外一半是我撕的'),Y('heroine_01','小語，刪掉。'),Y('yu','不要 這是歷史')],'y2r2_plg_photo'); } }
     /* --- 2-Y2-06 K10b 電影夜 --- */
     { const a=d('f0'), r=d('fr'), m=d('f'); if(kx(G)&&a!=null){
         if(win(G,a,21,3)&&!sent(G,'y2r2_f_ask')) at(G,a,21,[K('下週五系上電影夜。予樂說每個人要帶一個外系的朋友。'),KASK('你是我的外系。',{id:'y2r2_f_ask',until:abs(m,18.25),opts:[{t:'好。幾點？',set:{KX_FILM:'yes'},say:[{from:'kexin',text:'七點。不要遲到，予樂會點名。'}]},{t:'那天不行。',set:{KX_FILM:'no'},say:[{from:'kexin',text:'……好。我跟予樂說你在忙。'}]}]})],'y2r2_f_ask');

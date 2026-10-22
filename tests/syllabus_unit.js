@@ -33,8 +33,8 @@ const itOf=(day,cid)=>CLS.dayItems({day,hour:8,flags:{}}).find(it=>it.c.id===cid
   check('民法總則第 3 週：BB 的黑板三行、周教授一句（開學改 9/1 以後是「權利主體」，BB_170 第 31 列 d3c04223）',it.week===3&&ct.board[0]==='民法總則：權利主體'&&/不完全一樣/.test(ct.line),JSON.stringify(ct).slice(0,200));
   { const w1=(SYLLABUS.courses.civ_general||[]).find(q=>q.w===1)||{}; check('民法總則第 1 週＝課程說明＋相機暖身（special），周教授「今天不教，先問你們的直覺」',w1.special===true&&(w1.board||[]).some(b=>/網拍相機/.test(b))&&/直覺/.test(w1.line||''),JSON.stringify(w1).slice(0,200)); }
   check('民法總則第 3 週沒有同學發言（BB 2026-10-13：A 類課堂最多四成有同學發言）',ct.react==='',ct.react); }
-{ const it=itOf(dayOf('2025-10-02'),'civ_general'); const ct=CLS.content(it);   /* 第 5 週：C，Alison、阿哲各一句（顯示其中一句）*/
-  check('同學反應照人物顯示名字（阿哲／Alison／不認識的同學照揭露規則）、用引號',/^.+：「.+」$/.test(ct.react)||/^.+（.+）$/.test(ct.react),ct.react); }
+{ const it=itOf(dayOf('2025-10-02'),'civ_general'); const ct=CLS.content(it);   /* 第 5 週：C，小語、阿哲各一句（顯示其中一句）*/
+  check('同學反應照人物顯示名字（阿哲／小語／不認識的同學照揭露規則）、用引號',/^.+：「.+」$/.test(ct.react)||/^.+（.+）$/.test(ct.react),ct.react); }
 { const it=itOf(dayOf('2025-11-13'),'civ_general');   /* 第 11 週（11/10 那一週）的週四：B 觀察 */ const ct=CLS.content(it); check('民法總則第 11 週是 B：有觀察的三個選項、每個有一行結果',ct.tpl==='B'&&ct.obs.options.length===3&&ct.obs.options.every(o=>o.result),JSON.stringify(ct.obs).slice(0,160)); }
 { const it=itOf(dayOf('2025-10-02'),'civ_general');   /* 第 5 週：C 被點到 */ const ct=CLS.content(it); check('民法總則第 5 週是 C：被點到的三個選項＋共用收尾',ct.tpl==='C'&&ct.call.options.length===3&&ct.call.follow.length>=1,JSON.stringify(ct.call).slice(0,160)); }
 { const it=itOf(dayOf('2025-09-23'),'chinese_y1'); const ct=CLS.content(it); check('大一國文（上）：台詞池的一句、老師叫「國文老師」',ct.line&&SYLLABUS.pools.chinese_y1.lines.includes(ct.line)&&ct.prof==='國文老師',ct.line); }

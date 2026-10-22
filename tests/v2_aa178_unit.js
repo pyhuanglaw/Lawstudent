@@ -1,4 +1,4 @@
-// AA_178（AA-B cc40f441）大一下 AA 事件的五件修正：①阿姨的說話人、只在大一下 ②圖書館三樓 20:30～22:00 ③吵架在場版要以安、Alison 都認識 ④重訪日「每個禮拜二、四都來」＝這一年麵店 ≥ 10 天 ⑤博雅小桌的常客——不需要瀏覽器。
+// AA_178（AA-B cc40f441）大一下 AA 事件的五件修正：①阿姨的說話人、只在大一下 ②圖書館三樓 20:30～22:00 ③吵架在場版要以安、小語都認識 ④重訪日「每個禮拜二、四都來」＝這一年麵店 ≥ 10 天 ⑤博雅小桌的常客——不需要瀏覽器。
 // 修改前 ②～⑤ 失敗。用法：node tests/v2_aa178_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
@@ -45,7 +45,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('② ev_yutong_thanks：21:00～22:00 才有（麵店 21:00 打烊；20:45、22:30 沒有）',ck(21.2)&&!ck(20.75)&&!ck(22.5)); }
   // ③
   { const e=ev('ev_an_yu_argument'), d=wk('Y1S2',12,4); const ck=(an,yu)=>{ fresh(d,20,'wancai'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',an); SOCIAL.meet('yu','noodle'); R('yu',yu); return EVENTS.check(e,{chain:true}); };   /* 2026-10-17 改到第 12 週週四公法讀書會（AA_238 5-3）*/
-    check('③ 吵架在場版：以安、Alison 都 ACQUAINTANCE 以上才演（Alison 還不熟＝不演）',ck(10,10)&&!ck(10,0)&&!ck(0,10)); }
+    check('③ 吵架在場版：以安、小語都 ACQUAINTANCE 以上才演（小語還不熟＝不演）',ck(10,10)&&!ck(10,0)&&!ck(0,10)); }
   // ④
   { const e=ev('ev_revisit_y1_noodle'), line='我最意外的是，你真的每個禮拜二、四都來。', L=e.dialogue.find(l=>l.text===line);
     const ok=(days,old)=>{ fresh(wk('Y1S2',18,3),19,'cafe'); if(old){ G.flags.ndlDays=[5]; } else { G.habits={'meal:noodle':{n:days,first:1,last:days,days:Array.from({length:days},(_,i)=>i+2)}}; } return EVENTS.cond(L.if); };

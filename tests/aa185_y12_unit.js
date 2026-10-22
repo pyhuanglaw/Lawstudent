@@ -48,7 +48,7 @@ GM.money=function(n){ G.money+=n; };
   { fresh(fri,20,'campus'); G.events.done.ev_peishan_split=1; PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); check('3-2. 遇到過：群組沒有那兩則',!txt('g:noodle_team').some(t=>/分開了/.test(t))); }
   // 3-3
   { const d=D('2027-03-23'); fresh(d,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.3); const T=txt('g:noodle_team');
-    check('3-3. 大二下 3/23 21:00 麵店團排春假：八則，阿哲 @祐廷、Alison @語彤，沒有人 @ 沛珊、沛珊沒有回',T.length===8&&T[0]==='zhe:春假四天！要不要去哪裡？'&&T.includes('zhe:@祐廷')&&T.includes('yu:@語彤 妳可以嗎？')&&!T.some(t=>/沛珊/.test(t))&&!T.some(t=>/^classmate_peishan:/.test(t))&&T[7]==='zhe:那下週再排。',JSON.stringify(T)); }
+    check('3-3. 大二下 3/23 21:00 麵店團排春假：八則，阿哲 @祐廷、小語 @語彤，沒有人 @ 沛珊、沛珊沒有回',T.length===8&&T[0]==='zhe:春假四天！要不要去哪裡？'&&T.includes('zhe:@祐廷')&&T.includes('yu:@語彤 妳可以嗎？')&&!T.some(t=>/沛珊/.test(t))&&!T.some(t=>/^classmate_peishan:/.test(t))&&T[7]==='zhe:那下週再排。',JSON.stringify(T)); }
   // 3-4
   { fresh(400,10,'dorm',{EX_kexin:true,dating_kexin:false}); const L=STORY.roomItemList(G); const f=n=>L.find(x=>x[0].startsWith(n));
     check('3-4. 和可昕分開以後：票根「票根的日期，還是那一天。」、筆記「她在第一頁寫的那一句，你沒有擦掉。」、相簿「你翻到一半，又闔上了。……照片裡的河，還是一樣寬。」',f('摩天輪')[1]==='票根的日期，還是那一天。'&&f('寫滿的筆記本')[1]==='她在第一頁寫的那一句，你沒有擦掉。'&&JSON.stringify(f('手機相簿')[1])===JSON.stringify(['你翻到一半，又闔上了。','……照片裡的河，還是一樣寬。']));

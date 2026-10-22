@@ -221,7 +221,7 @@ const CAMP_Y1_EVENTS=[
       {speaker:null,text:'（隔壁小隊的烤肉架起火了，帶隊呼的那個女生在旁邊尖叫。）'},
       {speaker:null,text:'（天黑了。營火那邊有人在喊集合。）'} ] },
 
-  /* 8/23 20:00 營火晚會：小隊短劇三選一（AA_205 6-13②）、Alison 演一棵樹（AA_195 4-10）、臥底揭曉（AA_205 6-10＋BB_177 第 9 節；音響斷電照 BB 第五版不演，AA-B 同意）*/
+  /* 8/23 20:00 營火晚會：小隊短劇三選一（AA_205 6-13②）、小語演一棵樹（AA_195 4-10）、臥底揭曉（AA_205 6-10＋BB_177 第 9 節；音響斷電照 BB 第五版不演，AA-B 同意）*/
   { id:'ev_camp_d2_fire', stage:'any', title:'迎新宿營：營火晚會', participants:[], location:'any', trigger:'camp', once:true, background:'dark',
     dialogue:[ {scene:'營地・營火晚會',bg:'camp_bonfire'},
       {choice:[{text:'上台演',goto:'a'},{text:'幕後拉燈',goto:'b'},{text:'在旁邊看',goto:'c'}]},
@@ -261,7 +261,7 @@ const CAMP_Y1_EVENTS=[
       {label:'old'},{speaker:'zhe',text:'那我們叫你哥？'},{speaker:'player',text:'不要。'},{speaker:'zhe',text:'哥，晚安。'},{set:{ZHE_CALLS_GE:true}},{goto:'after'},
       {label:'econ'},{speaker:'zhe',text:'真假！那你是學長欸。'},{speaker:'zhe',text:'……不對，哥。'},{set:{ZHE_CALLS_GE:true,ECON_PAST_SHARED:'full'}},
       /* 「為什麼重考？」（AA_224 2-c、6-8；AA-C 2026-10-17 Q3）：第一次說出口，明軒問；說法照經濟系那年阿勳問的（E24C_REASON：honest＝長句、其他和只玩法律系＝短句）。
-         只問一次（WHY_RETAKE_ASKED）：夜談沒說的，迎新選「念過經濟系」時 Alison 補問（events.js ev_welcome_y1s1）*/
+         只問一次（WHY_RETAKE_ASKED）：夜談沒說的，迎新選「念過經濟系」時小語補問（events.js ev_welcome_y1s1）*/
       {if:{flags:['WHY_RETAKE_ASKED']},goto:'after'},
       {speaker:'classmate_mingxuan',text:'為什麼重考？'},{set:{WHY_RETAKE_ASKED:true}},
       {if:{flagIs:{E24C_REASON:'honest'}},goto:'why_h'},

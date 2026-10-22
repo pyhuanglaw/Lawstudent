@@ -63,7 +63,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在麵店 哥要來嗎"], "tags": [], "ask": {"opts": [{"t": "好 我過去", "r": ["快點 我快吃完了"]}, {"t": "我吃過了", "r": ["好啦 下次"]}]}, "src": "AA_202 6-4 在幹嘛", "geFlag": "ZHE_CALLS_GE"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["打球 缺一個"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["躺"], "tags": [], "ask": null, "src": "AA_202 6-4 在幹嘛"},
-   {"topic": "course", "tier": "A", "variant": null, "msgs": ["我也沒抄到", "問 Alison 她都有抄"], "tags": ["認識 Alison 才有"], "ask": null, "src": "AA_202 6-4 問課"},
+   {"topic": "course", "tier": "A", "variant": null, "msgs": ["我也沒抄到", "問小語 她都有抄"], "tags": ["認識小語才有"], "ask": null, "src": "AA_202 6-4 問課"},
    {"topic": "course", "tier": "R", "variant": null, "msgs": ["哥你問錯人了", "我那堂在睡"], "tags": [], "ask": null, "src": "AA_202 6-4 問課", "geFlag": "ZHE_CALLS_GE"},
    {"topic": "share_cat", "tier": "A", "variant": null, "msgs": ["可愛"], "tags": [], "ask": null, "src": "AA_202 6-4 分享（貓）"},
    {"topic": "share_cat", "tier": "R", "variant": null, "msgs": ["這隻我看過！溫州街那隻吧"], "tags": [], "ask": null, "src": "AA_202 6-4 分享（貓）"},
@@ -76,7 +76,7 @@ const MSG_POOL={
    {"topic": "chat", "tier": "A", "variant": "考試週", "msgs": ["在念書", "要被當了"], "tags": [], "ask": null, "src": "AA_202 6-4 情況版", "tierMin": true},
    {"topic": "chat", "tier": "A", "variant": "放假在高雄", "msgs": ["在高雄 熱死", "（照片：一桌家裡的菜）"], "tags": [], "ask": null, "src": "AA_202 6-4 情況版", "tierMin": true}
   ]},
-  "yu":{"name":"Alison","rules":{"replyFree": [1, 5], "noReplyText": "社課中", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "一句拆好幾則、「欸欸欸」、表情符號多", "wakeLine": [], "otherText": ["有空時｜1～5 分鐘，常常一次傳好幾則", "Alison：一句拆很多則、很多表情符號；"]},"replies":[
+  "yu":{"name":"小語","rules":{"replyFree": [1, 5], "noReplyText": "社課中", "openText": "第一次能用：拿到這個人的聯絡方式以後。每個人拿到的時間不同，照現有的「交換聯絡方式」條件（`BB_172`、`AA_134`）", "habitText": "一句拆好幾則、「欸欸欸」、表情符號多", "wakeLine": [], "otherText": ["有空時｜1～5 分鐘，常常一次傳好幾則", "小語：一句拆很多則、很多表情符號；"]},"replies":[
    {"topic": "chat", "tier": "A", "variant": null, "msgs": ["在社辦～", "你呢"], "tags": ["學期中"], "ask": {"opts": [{"t": "總圖", "r": ["好喔～"]}, {"t": "宿舍", "r": ["好喔～"]}, {"t": "外面", "r": ["好喔～"]}]}, "src": "AA_202 6-5 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["欸欸欸", "我剛剛在路上看到一隻狗穿雨衣", "超可愛"], "tags": ["下雨天"], "ask": null, "src": "AA_202 6-5 在幹嘛"},
    {"topic": "chat", "tier": "R", "variant": null, "msgs": ["在等社課開始", "好無聊"], "tags": ["學期中、社課那天"], "ask": null, "src": "AA_202 6-5 在幹嘛"},

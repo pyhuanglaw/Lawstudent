@@ -35,7 +35,7 @@ const GAME = (function(){
      （2026-10-13 批次 3：第一天和阿哲吃麵 +3，第三天約他吃飯還是「認識」）→ 兩邊一起加（熟悉度 d、信任 0.6d，和搬家的換算一樣）*/
   function rel(id,d){ G.rel[id]=Math.max(0,Math.min(100,(G.rel[id]||0)+d)); if(typeof SOCIAL!=='undefined'&&SOCIAL.adjust&&G.social&&d){ SOCIAL.adjust(CID[id]||id,{fam:d,trust:Math.round(d*0.6)}); if(SOCIAL.feel) delete SOCIAL.feel[CID[id]||id]; }   /* 這裡自己有提示：對話結束的「熟了一點」不再重複 */ if(d>0) toast('❤ 和'+(NPCNAME[id]||id)+'的關係 +'+d); }
   GM.rel=rel;
-  const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'Alison',prof:'周教授'}; GM.NPCNAME=NPCNAME;
+  const NPCNAME={an:'小安',zhe:'阿哲',sis:'溫學姊',kai:'阿凱',yu:'小語',prof:'周教授'}; GM.NPCNAME=NPCNAME;
   function energy(d){ if(G) G.energy=100; }   /* DL-02（AA_160 2-8，使用者 10-16「體力的設計都刪掉」）：體力拿掉了；保留函式名稱、不做事，G.energy 固定 100（存檔欄位留著，舊存檔照讀）*/
   GM.energy=energy;
   function money(d){ G.money+=d; updateHUD(); if(d<0) toast('💸 '+(-d)+' 元'); }
@@ -539,7 +539,7 @@ const GAME = (function(){
   const escH=s=>String(s).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch]);
   const msgWhen=m=>(m.day===G.day?'今天':(m.day===G.day-1?'昨天':(CALENDAR.dateOf(m.day).m+'/'+CALENDAR.dateOf(m.day).d)))+' '+INV.hhmm(m.h);
   const askBtns=m=>'<div class="row2" style="gap:6px;margin-top:6px;flex-wrap:wrap">'+m.ask.opts.map((o,k)=>{ const blk=typeof PHONE!=='undefined'&&PHONE.optBlocked&&PHONE.optBlocked(G,o); return '<button class="btn'+(k===0&&!blk?' pri':'')+'"'+(blk?' disabled style="opacity:.5"':'')+' data-ask="'+escH(m.ask.id+'|'+k)+'">'+escH(o.t)+(blk&&o.need.why?'（'+escH(o.need.why)+'）':'')+'</button>'; }).join('')+'</div>';
-  /* 訊息帶的照片是一張 CG（m.cg，phone3d.js；例：CG-2b Alison 在公法讀書會群組傳的白板，AA_343 E2）：在文字下面顯示，白邊像手機照片 */
+  /* 訊息帶的照片是一張 CG（m.cg，phone3d.js；例：CG-2b 小語在公法讀書會群組傳的白板，AA_343 E2）：在文字下面顯示，白邊像手機照片 */
   const msgPhoto=m=>m&&m.cg&&typeof CG_REGISTRY!=='undefined'&&CG_REGISTRY[m.cg]?'<div style="margin-top:6px"><img src="'+escH(CG_REGISTRY[m.cg].file)+'" alt="" style="display:block;width:100%;max-width:300px;border:4px solid #fff;border-radius:6px;box-shadow:0 1px 4px rgba(0,0,0,.35)"></div>':'';
   const msgLine=m=>{ if(typeof PHONE==='undefined'||!m.th) return escH(m.text); const g=m.th.startsWith('g:'), w=PHONE.who(m); return (g?'<span class="muted">【'+escH(PHONE.title(G,m.th))+'】</span>':'')+(w?'<b>'+escH(w)+'</b>：':'')+escH(m.text); };
   function threadHTML(th){ PHONE.markSeen(G,th); const L=PHONE.thread(G,th), g=th.startsWith('g:')||th==='sys';   /* 通知（sys）也寫是誰傳的：新聞、張教授（信）（颱風假 T1b）；沒有寄件人的系統訊息照舊只有內容 */

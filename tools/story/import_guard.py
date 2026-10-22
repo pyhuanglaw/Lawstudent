@@ -45,20 +45,3 @@ def approved_files(allow, prefix=''):
                 raise SystemExit(f'{e["path"]}：白名單有兩個 approved 版本（{out[e["path"]]}、{e["sha"]}），只能留一個')
             out[e['path']] = e['sha']
     return out
-
-# AA_380（企劃線 eb0ccfec；使用者 2026-10-21 23:2x「改成Alison」）：「小語」改名 Alison。企劃線的舊稿還寫「小語」，
-# 匯入工具讀稿的地方一律先換（用舊 commit 重新匯入也不會把「小語」帶回遊戲；「整句相同才換」的疊句兩邊都在 Alison 這一邊比）。
-# 寫法：Alison 和中文字（含假名）之間空一個半形空格；挨著標點、行頭行尾、已經有空格的不再空。
-import re as _re
-_CJK = _re.compile('[\u3400-\u4dbf\u4e00-\u9fff\u3040-\u30ff\uf900-\ufaff]')
-
-
-def alison(s):
-    if not isinstance(s, str) or '小語' not in s:
-        return s
-    def rep(m):
-        a, b = m.start(), m.end()
-        pre = s[a - 1] if a > 0 else ''
-        nxt = s[b] if b < len(s) else ''
-        return (' ' if pre and _CJK.match(pre) else '') + 'Alison' + (' ' if nxt and _CJK.match(nxt) else '')
-    return _re.sub('小語', rep, s)

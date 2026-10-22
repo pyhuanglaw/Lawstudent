@@ -117,7 +117,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-07-14',20,{C14_VISITED:DK('2026-12-30')}); R(xc,30,20,20); SOCIAL.remember(xc,'FIRST_MET'); G.contacts[xc]=G.day-300; step('2027-07-05',18.5); step('2027-07-14',22);
     check('8. 去過 C14 的玩家：第二句換「就是你上次來，白板上那種。現在是我排的。」',txt('p:'+xc).includes(xc+':就是你上次來，白板上那種。現在是我排的。'));
     law('2027-07-05',17); step('2027-07-05',18.5); check('8. 不熟（沒有 FAMILIAR）：收不到',!txt('p:'+xc).length); }
-  // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外 Alison 的照片、最後「欠一次」
+  // 9. VA-10 麵店團出國：香港（AA_256 第 2 節）：7/20 21:00 群組揪 → 我也去 → 8/25 出發的行程；三場（以安交往中最後一晚多一句）；8/28 21:00 群組四則。沒去：阿哲一句、地鐵門外小語的照片、最後「欠一次」
   { const step=(k,h)=>{ G.day=DK(k); G.weekday=wdOf(G.day); G.hour=h; STORY.phoneRules(GM); PHONE.tick(G); }, g='g:noodle_team';
     law('2027-07-20',20,{dating_heroine_01:true}); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2);
     const L=TH(g).filter(m=>!/^dorm_lottery/.test(m.tag||'')), last=L.slice(-1)[0]; check('9. 7/20 21:00 群組十則（阿哲揪…語彤「你們拍麵給我看」），最後一則可以回「我也去。／我那幾天不行。」',L.length===10&&/拍麵給我看/.test(last.text)&&last.ask&&last.ask.opts.map(o=>o.t).join('|')==='我也去。|我那幾天不行。',J(L.map(m=>m.text)));
@@ -127,7 +127,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     PHONE.answer(G,'va10_ask',0); G.hour=21.4; STORY.phoneRules(GM); const q=OUT.get(G,'vac_va10');
     check('9. 回「我也去。」→ 行事曆 8/25 出發（香港）',G.flags.VA10==='yes'&&!!q&&q.day===DK('2027-08-25'),J(q));
     said=[]; G.day=DK('2027-08-25'); G.hour=8; await VAC.outing(GM,q); const S0=said.map(x=>x.t), W0=said.map(x=>x.who+'：'+x.t);
-    check('9. 三場：地鐵門外的 Alison、茶餐廳的奶茶、海邊步道；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
+    check('9. 三場：地鐵門外的小語、茶餐廳的奶茶、海邊步道；回到 8/28',S0.includes('（在門外）欸——！')&&S0.includes('你喝個奶茶也要分析喔')&&G.day===DK('2027-08-28'),J(S0.slice(0,12)));
     check('9. AA_369 H1：8/25、8/27 那兩句是柏翰說；以安不在香港（三場沒有她）、交往版「……下次只有我們兩個的時候，我再排。」拿掉',W0.includes('許柏翰：……下一站等她。我第一天的行程有寫「走散的話在下一站等」。')&&W0.includes('許柏翰：（看著對岸）……第二天以後都沒排，結果也走完了。')&&!said.some(x=>x.who==='沈以安')&&!S0.includes('……下次只有我們兩個的時候，我再排。'),J(W0));
     const AN=TH('p:heroine_01').find(m=>m.tag==='va10_dm_heroine_01');
     check('9. AA_369 H1：和以安交往中，8/27 21:00 她私訊「📷（京都車站的月台）」「明天回去。……香港好玩嗎？」',!!AN&&AN.day===DK('2027-08-27')&&AN.h===21&&J(TH('p:heroine_01').filter(m=>m.tag==='va10_dm_heroine_01').map(m=>m.text))===J(['📷（京都車站的月台）','明天回去。……香港好玩嗎？']),J(TH('p:heroine_01').map(m=>[m.day,m.h,m.text,m.tag])));
@@ -135,7 +135,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); PHONE.answer(G,'va10_ask',1);
     check('9. 回「我那幾天不行。」→ 阿哲「靠 好啦 下次」、沒有行程',txt(g).includes('zhe:靠 好啦 下次')&&!OUT.get(G,'vac_va10'));
     step('2027-08-25',16.5); step('2027-08-28',21.5); const B2=txt(g);
-    check('9. 沒去：8/25 阿哲傳 Alison 在月台上的照片＋「第一天就丟一個」、Alison「是門自己關的！！」（AA_256@247198e8）；8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/隔著地鐵的車門玻璃/.test(t))&&B2.includes('zhe:第一天就丟一個')&&B2.includes('yu:是門自己關的！！')&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
+    check('9. 沒去：8/25 阿哲傳小語在月台上的照片＋「第一天就丟一個」、小語「是門自己關的！！」（AA_256@247198e8）；8/28 四則最後阿哲「下次你一定要來 欠一次」',B2.some(t=>/隔著地鐵的車門玻璃/.test(t))&&B2.includes('zhe:第一天就丟一個')&&B2.includes('yu:是門自己關的！！')&&B2[B2.length-1]==='zhe:下次你一定要來 欠一次',J(B2.slice(-3)));
     law('2027-07-20',20); PHONE.join(G,'noodle_team','麵店團'); step('2027-07-20',21.2); step('2027-08-01',20.5); const N=txt('p:zhe');
     step('2027-08-04',10); check('9. 不回：8/1 阿哲私訊「香港 你到底要不要」；8/3 以後還沒回＝不去',N.includes('zhe:香港 你到底要不要')&&G.flags.VA10==='no'&&!OUT.get(G,'vac_va10'),J([N,G.flags.VA10])); }
   // 10. AA_275 第 1 節：快轉跳過的日子裡，第二次以後、只有一行的活動不停（C03 日語課第二年），跳過的旁白換成 AA_264 那一句；第一次參加的照常停

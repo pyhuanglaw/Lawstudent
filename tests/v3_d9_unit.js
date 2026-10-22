@@ -1,5 +1,5 @@
 // 交接包 v3 D9：以安新 10「家教學生的家（一）」（交接包 v3 第 3b 節、AA_177 4-8）——不需要瀏覽器。
-// 檢查：只在 12/1（二）17:30～20:30 的麵店、認識以安；認識語彤＝社工那一句＋選項多「法服週六有值班。」；不認識語彤＝Alison 說法服；三個選項的回應；AN_TUTOR_FAMILY:1；沒到＝沒有。用法：node tests/v3_d9_unit.js
+// 檢查：只在 12/1（二）17:30～20:30 的麵店、認識以安；認識語彤＝社工那一句＋選項多「法服週六有值班。」；不認識語彤＝小語說法服；三個選項的回應；AN_TUTOR_FAMILY:1；沒到＝沒有。用法：node tests/v3_d9_unit.js
 const fs=require('fs'), vm=require('vm'), path=require('path');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -34,16 +34,16 @@ GM.titleCard=async(a,b)=>{ cards.push([a,b]); }; GM.enter=async(z)=>{ entered.pu
 GM.money=function(n){ G.money+=n; };
 
 (async()=>{
-  const NM={'沈以安':'以安','陳語彤':'語彤','Alison':'Alison','不認識的女生':'?'}; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
+  const NM={'沈以安':'以安','陳語彤':'語彤','小語':'小語','不認識的女生':'?'}; const L0=()=>lines().map(t=>t.replace(/^([^：]+)：/,(m,n)=>(NM[n]||n)+'：'));
   const A=ev('ev_an_tutor_family_1'), d=D('2026-12-01');
   check('0. 12/1 是大二上第 13 週週二',CALENDAR.termOf(d).id==='Y2S1'&&CALENDAR.termOf(d).week===13&&wdOf(d)===2);
   const at=(day,hh,know)=>{ fresh(day,hh,'noodle'); const k0=STORY.knows; STORY.knows=(id)=>know.includes(id); try{ return EVENTS.check(A); } finally { STORY.knows=k0; } };
   check('1. 12/1 18:00 麵店、認識以安：會演；12/3、17:00、不認識以安：不演',at(d,18,['heroine_01'])&&!at(d+2,18,['heroine_01'])&&!at(d,17,['heroine_01'])&&!at(d,18,[]));
   const play=async(know,pick)=>{ fresh(d,18,'noodle'); for(const id of know) meet(id); const k0=STORY.knows; STORY.knows=(id)=>id==='zhe'||know.includes(id); said=[]; opts=[]; picks=[pick]; try{ await EVENTS.run(A); } finally { STORY.knows=k0; } return {L:L0(),O:opts[0]||[]}; };
   let r=await play(['heroine_01','heroine_03','yu'],'理由');
-  check('2. 認識語彤：社工那一句、「以安在手帳寫下來：「好。」」；三個選項；「看理由。……」＋畫框；AN_TUTOR_FAMILY:1',r.L.includes('以安：社會系的人，申請被駁回的家庭，通常第一個找誰？')&&r.L.includes('語彤：社工。……然後才是你們。')&&r.L.includes('以安在手帳寫下來：「好。」')&&r.O.length===3&&r.L.includes('以安：看理由。……對，先看理由。還有寫期限的那一段。')&&r.L.includes('她在理由欄畫了一個框。')&&G.flags.AN_TUTOR_FAMILY===1&&!r.L.some(t=>/^Alison：/.test(t)),JSON.stringify(r));
+  check('2. 認識語彤：社工那一句、「以安在手帳寫下來：「好。」」；三個選項；「看理由。……」＋畫框；AN_TUTOR_FAMILY:1',r.L.includes('以安：社會系的人，申請被駁回的家庭，通常第一個找誰？')&&r.L.includes('語彤：社工。……然後才是你們。')&&r.L.includes('以安在手帳寫下來：「好。」')&&r.O.length===3&&r.L.includes('以安：看理由。……對，先看理由。還有寫期限的那一段。')&&r.L.includes('她在理由欄畫了一個框。')&&G.flags.AN_TUTOR_FAMILY===1&&!r.L.some(t=>/^小語：/.test(t)),JSON.stringify(r));
   r=await play(['heroine_01','yu'],'已經在幫');
-  check('3. 不認識語彤：Alison「法服週六有值班啊。」以安「我知道。我想先知道我不該說什麼。」；兩個選項；「這不算。」「她停了一下。」「……好，算一點。」',r.L.includes('Alison：法服週六有值班啊。')&&r.L.includes('以安：我知道。我想先知道我不該說什麼。')&&r.O.length===2&&r.L.slice(-3).join('｜')==='以安：這不算。｜她停了一下。｜以安：……好，算一點。',JSON.stringify(r));
+  check('3. 不認識語彤：小語「法服週六有值班啊。」以安「我知道。我想先知道我不該說什麼。」；兩個選項；「這不算。」「她停了一下。」「……好，算一點。」',r.L.includes('小語：法服週六有值班啊。')&&r.L.includes('以安：我知道。我想先知道我不該說什麼。')&&r.O.length===2&&r.L.slice(-3).join('｜')==='以安：這不算。｜她停了一下。｜以安：……好，算一點。',JSON.stringify(r));
   check('4. 法律：不說哪一種補助、救濟程序（沒有「訴願」「行政法院」「期限是」）',!A.dialogue.some(l=>/訴願|行政法院|期限是|天內/.test(l.text||'')));
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

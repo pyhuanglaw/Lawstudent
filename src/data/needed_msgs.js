@@ -17,7 +17,7 @@ const NEEDED_MSGS=(function(){
       miss:['讀書會的規則，你上週沒回。……沒關係，先照十二條。'],missDating:['讀書會的規則你沒回。週四以前跟我說，我想聽你的。']},
     {id:'an_admin',who:'heroine_01',term:'Y2S1',w:[13,14],tie:true,cond:G=>F(G).AN10_PICK!=='reason',msg:['我家教學生家的補助被駁回了，公文我拿到了。','……先看哪一段？我想先自己看懂。'],reply:'先看理由，再看最後寫期限的那一段。',resp:['理由、期限。好，我寫進理由欄。'],
       miss:['家教學生家那份公文，我自己先看了。……看懂一半。'],missDating:['公文那則你沒回。我自己看懂一半了。另一半，今天陪我看。']},   /* AA_374 第 5 項（AA_211、AA_313）：原本 w[12,14]——11/29 私訊說了，12/1 麵店（ev_an_tutor_family_1）又當新消息講；麵店選了「理由」（AN10_PICK）的玩家同一句建議講過了 */
-    {id:'an_topics',who:'heroine_01',term:'Y2S2',w:[3,6],cond:G=>att(G,'public_law_group'),msg:['這週讀書會的題目，我排了一版。','📷（一張表，八題）'],reply:'題目好難。',resp:['第三題是 Alison 挑的，我也還沒寫出來。'],   /* 原 an_moot（模擬法庭刪除，AA_252 第 4 節）*/
+    {id:'an_topics',who:'heroine_01',term:'Y2S2',w:[3,6],cond:G=>att(G,'public_law_group'),msg:['這週讀書會的題目，我排了一版。','📷（一張表，八題）'],reply:'題目好難。',resp:['第三題是小語挑的，我也還沒寫出來。'],   /* 原 an_moot（模擬法庭刪除，AA_252 第 4 節）*/
       miss:['讀書會的題目你沒回。沒關係，我先照那一版。'],missDating:['題目你沒回。……那這週第三題你來講。']},
     {id:'an_lead',who:'heroine_01',term:'Y2S2',w:[10,14],cond:G=>att(G,'public_law_group'),msg:['這週讀書會換你帶，可以嗎？'],reply:'好。',resp:['謝謝。我想試試看坐在下面。'],
       miss:['讀書會換人帶那則，你沒回。……這週我繼續帶。沒關係。'],missDating:['讀書會換人帶那則，你沒回。這週我繼續帶。下週換你，不准躲。']},
@@ -34,11 +34,11 @@ const NEEDED_MSGS=(function(){
      msg:['阿姨說你上次洗的碗還有油。'],reply:'下次我洗兩次。',resp:['……嗯。'],miss:null},
     // 阿哲（AA_179；沒回的那一句都用「你上週很忙齁。」開頭）
     {id:'zhe_book',who:'zhe',term:'Y2S1',w:[1,4],msg:['債總課本借我 我的還在學長那'],reply:'拿去。',resp:['讚。我請你一碗大的。'],miss:['你上週很忙齁。債總我跟學長拿到了。']},
-    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟 Alison 借了。……她的字比你的好看。']},
+    {id:'zhe_notes',who:'zhe',term:'Y2S1',w:[9,10],tie:true,msg:['民法借我。筆記。全部。'],reply:'好。週四麵店拿。',resp:['你是神。'],miss:['你上週很忙齁。民法筆記我跟小語借了。……她的字比你的好看。']},
     {id:'zhe_score',who:'zhe',term:'Y2S1',w:[14,14],tie:true,   /* AA_374 第 4 項（AA_211）：12/6 發會指 12/12，系籃是 12/19 */msg:['週六系籃缺一個記分的。你會加減吧？'],reply:'會。',resp:['那就是你了。不准跑。'],miss:['你上週很忙齁。記分的我抓到別人了。你欠我一次。']},
     {id:'zhe_deposit',who:'zhe',term:'Y2S2',w:[4,4],tie:true,msg:['我學長退租，房東說押金要扣一半。','他叫我問你 押金扣一半可以嗎'],reply:'叫他找搬進去那時候拍的照片。',resp:['照片？……我問他有沒有拍。'],miss:['你上週很忙齁。我學長押金那件，他自己去問了。']},   /* AA_255：押金是學長的、只在第 4 週 */
     {id:'zhe_final',who:'zhe',term:'Y2S2',w:[14,15]/* AA_375 第 22 項（AA_255 第 2 節第 5 點）：6/13（第 16 週）已經考完 */,msg:['期末一起讀？我負責滷味，你負責不要讓我睡著。'],reply:'好。',resp:['成交。'],miss:['你上週很忙齁。滷味我自己吃完了。']},
-    // Alison（AA_179）
+    // 小語（AA_179）
     {id:'yu_expo',who:'yu',term:'Y2S1',w:[1,1],tie:true,   /* AA_374 第 3 項（AA_211 附錄 A 3-5）：原本最早 9/20 才發，博覽會已經過了 */msg:['社團博覽會你站哪一攤？我要去偷看。'],reply:'妳來就知道。',resp:['好神秘。我帶阿哲去。'],miss:['欸，博覽會那則你沒回。我自己找到你那攤了。']},
     {id:'yu_overtime',who:'yu',term:'Y2S1',w:[6,8],msg:['欸，打工的地方不給加班費，這樣可以嗎？我同學問的。'],reply:'我不能判斷。叫她問法服或勞工局。',resp:['……你講話好像法服的學長。好，我叫她去。'],miss:['欸，加班費那則你沒回。我叫我同學去法服問了。']},
     {id:'yu_gift',who:'yu',term:'Y2S1',w:[16,16],tie:true,cond:G=>done(G,'ev_yu_together')||!!F(G).YU_ZHE_TOLD,msg:['聖誕禮物，阿哲跟我買了一樣的。你不准笑。'],reply:'我沒笑。',resp:['你一定在笑。'],miss:['欸，你沒回我。所以你一定在笑。']},

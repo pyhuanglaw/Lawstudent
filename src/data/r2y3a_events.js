@@ -155,13 +155,13 @@ const R2Y3A_EVENTS=(function(){
       {if:kn('zhe'),speaker:'zhe',text:'五塊。……大三就是這種感覺。'},
       {if:kn('yu'),speaker:'yu',text:'欸，這學期刑訴，聽說林教授點名都點後面。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'後面三排。我問過學長了。'},
-      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、Alison、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
+      {if:kn('heroine_01'),speaker:'heroine_01',text:'（翻開手帳）讀書會八點。……我們先走。'},   /* AA_376 #7：讀書會當晚 20:00 就開；19:40 以安、小語、柏翰一起先走（下面 fm_end 以後，同 10/21 那一場）*/
       ...TA_LINES,
       {if:kn('heroine_03'),speaker:'heroine_03',text:'（端麵過來）……今天乾麵剩四碗。'},
       {choice:[{text:'「先吃。」',goto:'fm_a'},{text:'「真的點後面三排？」',if:kn('classmate_bohan'),goto:'fm_b'}]},
       {label:'fm_a'},{if:kn('zhe'),speaker:'zhe',text:'對。先吃。'},{goto:'fm_end'},
       {label:'fm_b'},{speaker:'classmate_bohan',text:'真的。所以我坐第一排。'},
-      {label:'fm_end'},{advance:toH(19+40/60)} ],   /* AA_376 #7：19:40 以安、Alison、柏翰先走（照 10/21 ev_an_admin_court 的做法）；之後只剩留下來的人，坐到 20:30（hours 照剩下的 50 分鐘）*/
+      {label:'fm_end'},{advance:toH(19+40/60)} ],   /* AA_376 #7：19:40 以安、小語、柏翰先走（照 10/21 ev_an_admin_court 的做法）；之後只剩留下來的人，坐到 20:30（hours 照剩下的 50 分鐘）*/
     consequences:{flags:{Y3_FIRST_MEAL:true},memo:'大三的開學第一頓'},
     outingMissed:(G,GM,q)=>{ const r=R(); if(r) r.firstMealPhoto(G); } };
 

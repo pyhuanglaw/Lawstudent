@@ -143,7 +143,7 @@ const D2=STORY._day2||{};
     check('18. 以安 A-L9：「你期中哪一週最多？期中考那週我有三科。」（三科都在第 8 週）',!!L9&&J(L9.lines)===J(['你期中哪一週最多？期中考那週我有三科。']),J(L9&&L9.lines));
     const allow=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>/AA_372_/.test(e.path));
     const lad=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path==='docs/story_planning/ladder/ladder_aa.json');
-    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；ladder.js 的來源寫 7fca0df5、不再寫 AA_372@ 疊句）；AA_372 本身的白名單換到 7fca0df5（第 6 節），之後第 7 節週末回台中（da55ec2b→965815f5，7fca0df5 在 history）',lad.length===1&&lad[0].sha==='7fca0df5'&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='965815f5'&&allow[0].status==='approved'&&(allow[0].history||[]).some(h=>h.sha==='7fca0df5'&&h.task==='AA372-Y1S1-FIX-1021')&&/7fca0df5（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
+    check('13/18／第 6 節. 那兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（白名單 approved；ladder.js 的來源寫 7fca0df5、不再寫 AA_372@ 疊句）；AA_372 本身的白名單換到 7fca0df5（第 6 節）',lad.length===1&&lad[0].sha==='7fca0df5'&&lad[0].status==='approved'&&allow.length===1&&allow[0].sha==='7fca0df5'&&allow[0].status==='approved'&&allow[0].task==='AA372-Y1S1-FIX-1021'&&/7fca0df5（1 檔）/.test(LADDER.source)&&!/AA_372@/.test(LADDER.source),J([lad.map(e=>e.sha),allow.map(e=>e.sha)])+' '+LADDER.source.slice(-60)); }
   // ===== 第 8 項：以安、沛珊說回台中的週末 =====
   { const pr=(id,k)=>STORY.presence(id,Object.assign({},G,{day:D(k)}));
     fresh(D('2025-09-26'),18,'campus',{introDone:true,classDone:true,afternoonDone:true}); R('heroine_01','FAM'); R('classmate_peishan','FAM');

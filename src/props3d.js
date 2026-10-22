@@ -115,7 +115,7 @@ const PROPS = (function(){
   const calc=heldGlb('prop.calc_engineering','calc_engineering',0.055,-0.024,[0,Math.PI/2,0]);
   const thermos=heldGlb('prop.thermos_black','thermos_black',0.21,-0.022,[0,0,Math.PI/2]);
   // ---- 掛在骨頭上的整組 GLB（模型檔的座標＝那根骨頭底下：x 人物右邊、y 上、z 後面；LAWWW2-C 2026-10-18）----
-  //      Alison 的側背包（tools/blender/char_second/prop_yu.py：右肩側背、背帶照她的身體量過；坐下時藏起來，同後背包）
+  //      小語的側背包（tools/blender/char_second/prop_yu.py：右肩側背、背帶照她的身體量過；坐下時藏起來，同後背包）
   function boneGlb(key,name){ return function(o){ const g=new THREE.Group(); g.name=name;
     if(typeof ASSETS!=='undefined'&&ASSETS.manifest[key]) ASSETS.loadOne(key).then(c=>{ if(!c||!c.scene) return; const n=c.scene.clone(true);
       n.traverse(m=>{ if(!m.isMesh) return; const s=m.material; m.material=new THREE.MeshToonMaterial({color:s.color.clone(), map:s.map||null, vertexColors:!!s.vertexColors, side:THREE.DoubleSide}); m.castShadow=true; m.frustumCulled=false; });   // 和人物一樣的卡通明暗（遊戲沒有環境貼圖）

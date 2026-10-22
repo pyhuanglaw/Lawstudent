@@ -2,7 +2,7 @@
 //   第 2 項（沛珊「讀書會週三，萬才館。」）在 AA_369 第 4 節做了，這裡不測。這裡測第 1、3～19、23～26 項＋第 5 節 BB 的五項：
 //   1 可昕「我們的日子」每週固定格只排到第 16 週（6/15 起她在高雄）、家教同樣；STORY.termDayIn 超過學期不回傳日子；舊存檔排在學期以後的拿掉
 //   3 沛珊的伴侶期間 2026-04-06（第 7 週週一）起：第 1～6 週約吃飯、約會選單不出現「兩個人單獨去吃飯不太好…」「她現在有交往的對象」
-//   4 芯慈那段「我們當過室友。」　5 Alison 烏來改 4/18（4/4 她在麵店團的春假旅行：作息、手機朋友頁、偶遇）
+//   4 芯慈那段「我們當過室友。」　5 小語烏來改 4/18（4/4 她在麵店團的春假旅行：作息、手機朋友頁、偶遇）
 //   6 沛珊第 5～15 週週二、四 16～18 在溫州街課輔班（週一、五照舊總圖）、「一週兩天。」（事件、閒聊階梯）　7 語彤大一下期末邀約「禮拜五」（一般、心意）
 //   8 學姊 S2-L6「上學期期中的時候…」「那杯黑咖啡，謝謝。」　9 通識第 6 週天文館的圓頂（旁白、宥辰、圓頂裡很暗）
 //   10 3/2「這個週末我已經空下來了」、2/14「開學第二個週末」、第一次「我們的日子」在第 2 週的週末　11 春假車上「第三頁寫的，今天不算」、看星星「你們這禮拜上了什麼課？」
@@ -91,10 +91,10 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
   // ===== 第 4 項：芯慈那段 =====
   { const T=evText('ev_sk03_lunch');
     check('4. SK03 芯慈「你們認識？」的選項：「我們當過室友。」（沒有「我們一起住過一年。」）',T.includes('「我們當過室友。」')&&!T.some(t=>/住過一年/.test(t)),J(T.filter(t=>/室友|住過/.test(t)))); }
-  // ===== 第 5 項：Alison 烏來 4/18 =====
+  // ===== 第 5 項：小語烏來 4/18 =====
   { const at=(k,h)=>{ fresh(D(k),h,'gongguan',{}); R('yu','FAM'); return {e:STORY.schedEnt(CHARACTERS.yu,G),w:STORY.whereIs(GM,'yu')}; };
     const a=at('2026-04-04',12), b=at('2026-04-18',12), c=at(K(termDay('Y1S1',6,6)),12), d=at(K(termDay('Y2S1',6,6)),12);
-    check('5／BB-3. 4/4（六）12:00 Alison 在麵店團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
+    check('5／BB-3. 4/4（六）12:00 小語在麵店團的春假旅行：作息不是「和社團在烏來」，手機朋友頁不寫烏來',!(a.e&&a.e.enc==='D20')&&!(a.w&&/烏來/.test(a.w.away||'')),J([a.e&&(a.e.away||a.e.zone),a.w]));
     check('5. 4/18（六，期中考完那個週六）12:00：「和社團在烏來」',!!b.e&&b.e.enc==='D20'&&!!b.w&&b.w.away==='和社團在烏來',J([b.e&&b.e.away,b.w]));
     check('5. 對照：大一上、大二上第 6 週週六照舊在烏來',!!c.e&&c.e.enc==='D20'&&!!d.e&&d.e.enc==='D20');
     const row=ENCOUNTERS.rows.find(r=>r.who==='yu'&&r.spot==='D20'); const enc=k=>{ fresh(D(k),12,'gongguan',{}); R('yu','FAM'); const why=[]; return {ok:!!ENC.eligible(G,row,why),why}; };
@@ -221,7 +221,7 @@ const kxOD=()=>OUT.rec(G).filter(q=>/^kx_od_/.test(q.id));
     const y2=await dbt(termDay('Y2S1',3,3));
     check('第 6-2 節第 10 題. 大二上才第一次演沛珊 P2：「…比坐在霖澤館這一年多都自在。」（不是「這半年」「這一個多月」）',J(y2)===J(['我在旁聽哲學系的課。上禮拜坐在那間教室，比坐在霖澤館這一年多都自在。']),J(y2));
     const at=(key,h,id)=>{ fresh(D(key),h,'campus',{}); const e=STORY.schedEnt(CHARACTERS[id],G); return e&&e.away; };
-    check('第 6-2 節第 11 題. 4/3 08:00 出發～4/4 16:30 回來：Alison、阿哲、以安的人物線索「麵店團春假旅行」；4/2、4/4 晚上不是',['yu','zhe','heroine_01'].every(id=>at('2026-04-03',12,id)==='麵店團春假旅行'&&at('2026-04-04',10,id)==='麵店團春假旅行'&&at('2026-04-04',18,id)!=='麵店團春假旅行'&&at('2026-04-02',12,id)!=='麵店團春假旅行'),J(['yu','zhe','heroine_01'].map(id=>[at('2026-04-03',12,id),at('2026-04-04',10,id),at('2026-04-04',18,id)])));
+    check('第 6-2 節第 11 題. 4/3 08:00 出發～4/4 16:30 回來：小語、阿哲、以安的人物線索「麵店團春假旅行」；4/2、4/4 晚上不是',['yu','zhe','heroine_01'].every(id=>at('2026-04-03',12,id)==='麵店團春假旅行'&&at('2026-04-04',10,id)==='麵店團春假旅行'&&at('2026-04-04',18,id)!=='麵店團春假旅行'&&at('2026-04-02',12,id)!=='麵店團春假旅行'),J(['yu','zhe','heroine_01'].map(id=>[at('2026-04-03',12,id),at('2026-04-04',10,id),at('2026-04-04',18,id)])));
     const badEv=STORY_EVENTS.filter(e=>(e.stage||'law')!=='econ'&&!e.retired&&!(e.term&&e.term.every(t=>/^Y0|^Y1S1$/.test(t)))&&J(e.dialogue||[]).includes('小福'));
     const badSch=Object.keys(CHARACTERS).filter(id=>(CHARACTERS[id].daily_schedule||[]).some(x=>/小福/.test(x.away||x.label||'')&&!(x.terms&&x.terms.every(t=>/^Y0|^Y1S1$/.test(t)))));
     check('第 6-2 節第 12 題（對照：第一輪 #23 已經改好，這裡確認沒有漏的）. 大一下以後玩家看得到的「小福」都改成「活大」（大一上照舊）：法律系的事件、作息的人物線索都沒有大一下以後的「小福」',!badEv.length&&!badSch.length,J({badEv:badEv.map(e=>e.id),badSch})); }

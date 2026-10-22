@@ -2,7 +2,7 @@
 // 已經有聯絡方式的不再說。不需要瀏覽器：
 //   1. 芯慈「借筆記」：借給她（兩個分支）→「筆記還你的時候要找你。」＋聯絡方式；不借＝沒有；
 //   2. 柏翰「你考幾分」（期中放榜）：結尾「考古題我晚上傳給你。」＋聯絡方式（三個分支都有）；
-//   3. Alison「傅鐘旁邊的早餐」：坐下來一起吃＝「欸你有沒有群組？沒有？我拉你。」＋聯絡方式；趕上課＝沒有；
+//   3. 小語「傅鐘旁邊的早餐」：坐下來一起吃＝「欸你有沒有群組？沒有？我拉你。」＋聯絡方式；趕上課＝沒有；
 //   4. 已經有聯絡方式：那一句不說。修正前（事件裡沒有這幾句）這個測試會失敗。
 //   5. 語彤「雨天之後在麵店」：她把手機推過來「傘的事。……你的聯絡方式。」＋傘給她「我還你傘的時候要找你。」／其他「下次下雨的時候找你。」；沒有雨天、已經有的不說。用法：node tests/contact_moments_unit.js
 // 用法：node tests/v1_batch6_unit.js
@@ -38,11 +38,11 @@ async function play(id,pickList,pre){ fresh(30,10,'campus',{met_yu:true}); if(pr
   // 2 柏翰
   for(const k of [0,1,2]){ L=await play('ev_bohan_score',[k]);
     check('2. 柏翰「你考幾分」第 '+(k+1)+' 個選項：結尾「考古題我晚上傳給你。」（AA_372 第 16 項，原本「你的聯絡方式。考古題要傳給你。」）＋聯絡方式',L[L.length-1]==='考古題我晚上傳給你。'&&INV.hasContact(G,'classmate_bohan'),L.slice(-2).join('｜')); }
-  // 3 Alison
+  // 3 小語
   L=await play('ev_yu_breakfast',[0]);
-  check('3. Alison：坐下來一起吃 →「欸你有沒有群組？沒有？我拉你。」＋聯絡方式',L.includes('欸你有沒有群組？沒有？我拉你。')&&INV.hasContact(G,'yu'),L.join('｜'));
+  check('3. 小語：坐下來一起吃 →「欸你有沒有群組？沒有？我拉你。」＋聯絡方式',L.includes('欸你有沒有群組？沒有？我拉你。')&&INV.hasContact(G,'yu'),L.join('｜'));
   L=await play('ev_yu_breakfast',[1]);
-  check('3. Alison：趕上課 → 沒有那一句、沒有聯絡方式',!L.includes('欸你有沒有群組？沒有？我拉你。')&&!INV.hasContact(G,'yu'),L.join('｜'));
+  check('3. 小語：趕上課 → 沒有那一句、沒有聯絡方式',!L.includes('欸你有沒有群組？沒有？我拉你。')&&!INV.hasContact(G,'yu'),L.join('｜'));
   // 5 語彤（AA_70 第 2 節）：雨天之後在麵店
   const rain=(tag)=>()=>{ G.events.done.ev_rain_library_door=1; SOCIAL.remember('heroine_03','FIRST_MET','雨天'); if(tag) SOCIAL.remember('heroine_03',tag,'雨天總圖門口'); };
   L=await play('ev_noodle_yutong',[0],rain('HELPED'));

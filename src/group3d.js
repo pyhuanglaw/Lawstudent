@@ -1,6 +1,6 @@
 /* ===== 1C 群戲（AA_324，AA-C 2026-10-20 定稿 c41f4305；AA_314 第 1 輪的最後一組）：邀約、出發、沒去的群組照片、旗標 =====
    台詞在 data/group_events.js（GROUP_EVENTS，照 AA_324 不改字）。掛在 STORY.PHONE_RULES（手機規則：每一輪）、STORY.TICKS（春假三選一的選單）。
-   1C-01 春假（大二版）2027-03-30 21:00 麵店團群組（Alison、語彤、阿哲、柏翰）＋交往中 21:30 可昕（大二版的兩則，AA_336 C8；流程照大一 kx_spring_y1）→ 兩則都到了才問三選一（期限 4/1）：
+   1C-01 春假（大二版）2027-03-30 21:00 麵店團群組（小語、語彤、阿哲、柏翰）＋交往中 21:30 可昕（大二版的兩則，AA_336 C8；流程照大一 kx_spring_y1）→ 兩則都到了才問三選一（期限 4/1）：
          麵店團（4/4 一天，回家取車）／和可昕（4/3，BB_97 9-12）／留在宿舍；4/1 以前沒回＝'none'。沒去麵店團的群組成員 4/4 21:30 群組照片。記 SPRING_Y2
    1C-02 中秋＝以安的生日：2027-09-14 21:00 阿哲在群組、9/15 18:00 公館的河濱；沒去＝以安的照片兩則
    1C-03 寄到英國的那一箱：2027-12-25 21:00 阿哲在群組（兩則）、12/26 18:30 麵店；沒去＝22:00 群組照片、XMAS_Y3_BOX 'missed'；
@@ -159,7 +159,7 @@ const GROUP=(function(){
       PHONE.at(G,d,atH(G,d,17),[{th:NG,text:'（阿哲把群組名稱改成「最後一學期」。）'},Z('開學第一頓。七點，長桌。')],'y4_last_term_ask');
       if(G.hour<19.25) plan(G,{id:'y4_last_term',ev:'ev_last_term_first_dinner',day:d,h:19,late:0.25,place:'阿鳳麵店',title:'最後一學期的開學第一頓',travel:'走過去約 15 分鐘',travelH:0.25}); }
     if(F.LAST_TERM_RENAMED&&now>=T(b,21)&&!PHONE.sent(G,'y4_last_term_back')){ rename(G,'麵店團'); F.LAST_TERM_RENAMED=false;
-      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「麵店團」。）'},Z('改回來了'),Z('Alison 說很難過')],'y4_last_term_back'); } };
+      PHONE.at(G,b,atH(G,b,21),[{th:NG,text:'（阿哲把群組名稱改回「麵店團」。）'},Z('改回來了'),Z('小語說很難過')],'y4_last_term_back'); } };
   S.lastTermPhoto=G=>{ const d=DK(LT.d); if(G.flags.LAST_TERM_DINNER==null) G.flags.LAST_TERM_DINNER='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[Z('📷（長桌上的碗，跟大一的時候一樣多。）')],'y4_last_term_photo'); };
 
   /* ---------- 掛勾 ---------- */

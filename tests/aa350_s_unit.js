@@ -2,7 +2,7 @@
 //   S1 柏翰大二暑假 6/28～8/24 新竹、大三暑假 6/28～7/2 新竹（7/3 起臺北）；S2 大二寒假整段新竹、週四不上來，大三寒假只回去過年 1/25～1/28；
 //   S3 芷若大一暑假 8/26 回臺北（防回歸）；S4 芷若、阿凱、明軒照 BB_198（明軒 AA_350 N8 的寒假作廢，只留 2029 暑假；首爾 C08 沒有報名、錄取的狀態＝不算）；
 //   S5 和以安交往中、回國那天她在台中＝那天晚上兩則、不約見面；S6 校外約會撞到以安、芷若回台中的日子要擋（D26 臺中不擋）；
-//   S7 D29 偶遇阿哲的日子（回高雄的隔天～回臺北的前一天）；S8 以安東京 C11、京都 C12、Alison 營隊進 presence（短期出門有訊號：kind trip＋signal，回覆不延到回來那天）。
+//   S7 D29 偶遇阿哲的日子（回高雄的隔天～回臺北的前一天）；S8 以安東京 C11、京都 C12、小語營隊進 presence（短期出門有訊號：kind trip＋signal，回覆不延到回來那天）。
 // 柏翰的群組訊息（大三寒假 1/24、1/28；大三暑假 6/27、7/2）在 tests/holiday_ff_unit.js 的 H3-4、H3-5。
 // 修改前（開發分支 10dc79b1）33 項 FAIL 27；修改前就 PASS 的 6 項是防回歸／前提：日子在日曆裡、presence 不帶 exceptWd、S3 芷若 8/26、C08 大一那一次照原本的重逢、
 //   沒交往沒有那兩則、D26／回來那天照常約（不是被 S6 那一句擋）。
@@ -123,13 +123,13 @@ const txt=th=>(G.msgs||[]).filter(m=>m.th===th).map(m=>(m.from||'')+':'+m.text);
   { const z=(ENCOUNTERS.rows||[]).find(x=>x.spot==='D29'&&x.who==='zhe'), s=(CHARACTERS.zhe.daily_schedule||[]).find(x=>x.enc==='D29');
     check('S7. encounters.js 和 characters.js 的 D29 日子一樣（三個寒假照 S7、除夕～初三照 AA_271 不排）',!!z&&!!s&&JSON.stringify(z.dates)===JSON.stringify(s.dates)&&JSON.stringify(z.dates.filter(x=>x[0]>='2027')).includes('["2027-01-06","2027-02-04"]')&&JSON.stringify(z.dates).includes('["2028-01-05","2028-01-24"]')&&JSON.stringify(z.dates).includes('["2029-01-04","2029-02-11"]'),JSON.stringify(z&&z.dates)); }
 
-  /* ===== S8 以安東京、京都；Alison 營隊 ===== */
+  /* ===== S8 以安東京、京都；小語營隊 ===== */
   rowCheck('S8. 以安東京 C11 2027-01-17～01-30、京都 C12 2027-08-09～08-27（kind trip、有訊號）；1/31、8/28 在臺北；2/1 起照舊回台中','heroine_01',
     [['2027-01-16',here],['2027-01-17',p=>isTrip(p,'在東京')],['2027-01-30',p=>isTrip(p,'在東京')],['2027-01-31',here],['2027-02-01',p=>isHome(p,'台中')],
      ['2027-08-08',here],['2027-08-09',p=>isTrip(p,'在京都')],['2027-08-27',p=>isTrip(p,'在京都')],['2027-08-28',here]]);
-  rowCheck('S8. Alison 營隊 2026-07-06～07-18（va05：7/6「隊輔第一天」、7/18「回來了」）','yu',[['2026-07-05',here],['2026-07-06',p=>isTrip(p,'在營隊當隊輔')],['2026-07-18',p=>isTrip(p,'在營隊當隊輔')],['2026-07-19',here]]);
+  rowCheck('S8. 小語營隊 2026-07-06～07-18（va05：7/6「隊輔第一天」、7/18「回來了」）','yu',[['2026-07-05',here],['2026-07-06',p=>isTrip(p,'在營隊當隊輔')],['2026-07-18',p=>isTrip(p,'在營隊當隊輔')],['2026-07-19',here]]);
   { fresh(D('2026-07-08'),20,'campus'); know('yu'); know('npc_fangyt'); const w=INV.whyNot(G,'yu'), r1=MSG.replyAt(G,'yu'), r2=MSG.replyAt(G,'npc_fangyt');
-    check('S8. Alison 在營隊：朋友頁「在營隊當隊輔，不在臺北。」；她有訊號（群組天天發），回訊息不延到 7/19；方奕廷上山沒訊號照舊延到下山那天（防回歸）',w==='在營隊當隊輔，不在臺北。'&&!!r1&&r1.day<D('2026-07-19')&&!!r2&&r2.day===D('2026-07-20'),JSON.stringify([w,r1&&K(r1.day),r2&&K(r2.day)])); }
+    check('S8. 小語在營隊：朋友頁「在營隊當隊輔，不在臺北。」；她有訊號（群組天天發），回訊息不延到 7/19；方奕廷上山沒訊號照舊延到下山那天（防回歸）',w==='在營隊當隊輔，不在臺北。'&&!!r1&&r1.day<D('2026-07-19')&&!!r2&&r2.day===D('2026-07-20'),JSON.stringify([w,r1&&K(r1.day),r2&&K(r2.day)])); }
   { fresh(D('2027-01-20'),14,'campus'); know('heroine_01'); const w=INV.whyNot(G,'heroine_01'); check('S8. 以安在東京：朋友頁「在東京，不在臺北。」',w==='在東京，不在臺北。',w); }
 
   console.log(fails?('FAILED '+fails):'ALL PASS'); process.exit(fails?1:0);

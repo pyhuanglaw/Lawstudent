@@ -42,16 +42,16 @@ const R2Y3B_EVENTS=(function(){
     consequences:{flags:{Y3S2_FIRST_MEAL:true},memo:'大三下的開學第一頓（麵店）'},
     outingMissed:G=>{ const x=X(); if(x) x.firstMealPhoto(G); } };
 
-  /* ---------- 2-Y3-27 228 河濱：2028-02-28（一）14:00～17:00 公館河濱（2/27 21:00 阿哲揪；沒去＝17:30 Alison 在群組）---------- */
+  /* ---------- 2-Y3-27 228 河濱：2028-02-28（一）14:00～17:00 公館河濱（2/27 21:00 阿哲揪；沒去＝17:30 小語在群組）---------- */
   const R228={ id:'ev_y3s2_228', title:'228 河濱', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:3,
     dialogue:[ {scene:'河濱',bg:'riverside'},
-      {speaker:null,text:'（新店溪的河濱。Alison 的風箏飛了三次，掉了三次。）'},
+      {speaker:null,text:'（新店溪的河濱。小語的風箏飛了三次，掉了三次。）'},
       {if:kn('yu'),speaker:'yu',text:'風不對！不是我的問題！'},
       {if:kn('zhe','yu'),speaker:'zhe',text:'（躺在草地上）妳的問題。'},
       {if:kn('heroine_01'),speaker:'heroine_01',text:'（坐在階梯上，手帳攤開）三月二十五號以前，還有四個週末。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'三個半。今天放假，不算。'},
       {choice:[{text:'「我來放。」',goto:'k'},{text:'（坐到以安旁邊）',if:kn('heroine_01'),goto:'a'},{text:'（躺到阿哲旁邊）',if:kn('zhe'),goto:'z'}]},
-      {label:'k'},{if:kn('yu'),speaker:null,text:'（風箏飛起來了。Alison 把線搶過去：「看吧！是風的問題！」）'},{goto:'end'},
+      {label:'k'},{if:kn('yu'),speaker:null,text:'（風箏飛起來了。小語把線搶過去：「看吧！是風的問題！」）'},{goto:'end'},
       {label:'a'},{if:{custom:G=>strainedAn(G)},speaker:null,text:'（以安看了你一眼，又低頭寫。）'},{if:{custom:G=>strainedAn(G)},goto:'end'},   /* AA_377 第 7 項：挽回中（和以安分手、冷靜中）不接話 */
       {speaker:'heroine_01',text:'……你也要算嗎？'},{speaker:null,text:'（她把手帳轉過來：四個週末，每一格都還空著。）'},{goto:'end'},
       {label:'z'},{speaker:'zhe',text:'這就對了。放假就是要躺。'},
@@ -69,7 +69,7 @@ const R2Y3B_EVENTS=(function(){
       {if:dt('heroine_01'),speaker:'heroine_01',text:'出發前我把這三張印出來帶走。'},   /* AA_71 2-9 原文 */
       {mem:[{npc:'heroine_01',tag:'AN3_AZALEA',note:''}]} ] };
 
-  /* ---------- 2-Y3-29 C6 Alison 的社團經費：3/16（四）12:30～13:00 霖澤館一樓（3/15 21:00 她私訊、回「有。」才約；手機版在 r2y3b3d.js）---------- */
+  /* ---------- 2-Y3-29 C6 小語的社團經費：3/16（四）12:30～13:00 霖澤館一樓（3/15 21:00 她私訊、回「有。」才約；手機版在 r2y3b3d.js）---------- */
   const C6_OPTS=[{text:'「要學弟賠。」',set:{YU_C6:'pay'},goto:'p'},{text:'「把帳攤開，請大家補單據。」',set:{YU_C6:'open'},goto:'o'},
     {text:'「社團的錢是大家的。先照社團的規則，把收支表和單據放在一起。」',if:{flags:['U_ASSOC']},set:{YU_C6:'rule'},goto:'r'}];   /* U_ASSOC（民總的法人、社團；AA_117 第 2 節）才有第三個 */
   const C6={ id:'ev_yu_club_money', title:'社團的錢', participants:['yu'], location:'linze', trigger:'auto', once:true, npcPresent:'yu', background:'blur',
@@ -146,8 +146,8 @@ const R2Y3B_EVENTS=(function(){
       {choice:[{text:'「他很怕妳無聊。」',set:{YU4:'worry'},goto:'w'},{text:'「妳一個人的晚上要做什麼？」',set:{YU4:'what'},goto:'q'},{text:'（坐下來，一起吃，不說話）',set:{YU4:'sat',YU4_ALONE:true},mem:[{npc:'yu',tag:'YU4_SAT',note:'她練習一個人吃早餐，你坐下來一起吃'}],goto:'s'}]}],
       YU4_W,[
       {label:'s'},{speaker:null,text:'（兩個人把早餐吃完。她站起來。）'},{speaker:'yu',text:'欸，你剛剛都沒講話。'},{speaker:'yu',text:'……我也沒有。'},{speaker:null,text:'（她把早餐的紙袋摺成一小塊。）'},   /* 檔尾裁定 #17 */
-      {label:'end'} ]) };   /* YU4_ALONE：尾聲 Alison 那一句「語 4 坐下來一起吃」（postgrad3d.js 讀，AA_319 1A-20）*/
-  const YU4_CALL={ id:'ev_yu_alone_call', title:'Alison', participants:['yu'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+      {label:'end'} ]) };   /* YU4_ALONE：尾聲小語那一句「語 4 坐下來一起吃」（postgrad3d.js 讀，AA_319 1A-20）*/
+  const YU4_CALL={ id:'ev_yu_alone_call', title:'小語', participants:['yu'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {if:JP,scene:'視訊',bg:'video'},{unless:JP,scene:'電話'},
       {speaker:'yu',text:'欸，我在練習。今天早上一個人吃早餐。'} ].concat(YU4_TAIL,[
       {choice:[{text:'「他很怕妳無聊。」',goto:'w'},{text:'「妳一個人的晚上要做什麼？」',goto:'q'},{text:'（聽她講完）',goto:'l'}]}],
@@ -198,7 +198,7 @@ const R2Y3B_EVENTS=(function(){
       {if:kn('zhe'),speaker:'zhe',text:'期中考版的春假。只有兩個小時。'},
       {if:kn('yu','heroine_01'),speaker:'yu',text:'（把吐司排好）欸，以安在日本有沒有吃早餐。'},
       {if:kn('classmate_bohan','heroine_01'),speaker:'classmate_bohan',text:'她傳了照片。日本的吐司比較厚。'},
-      {if:kn('yu','heroine_01'),speaker:null,text:'（Alison 把手機拿給大家看：一片很厚的吐司，旁邊攤著一本手帳。）'},
+      {if:kn('yu','heroine_01'),speaker:null,text:'（小語把手機拿給大家看：一片很厚的吐司，旁邊攤著一本手帳。）'},
       {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'……我們的比較薄。可是我們有四種果醬。'},
       {choice:[{text:'「我來烤。」',goto:'a'},{text:'（拍一張傳給以安）',if:fam('heroine_01','FRIEND'),goto:'b'},{text:'「期中考完再來一次？」',goto:'c'}]},
       {label:'a'},{speaker:null,text:'（第一片烤焦了。阿哲：「焦的給我。」）'},{goto:'end'},
@@ -269,8 +269,8 @@ const R2Y3B_EVENTS=(function(){
       {speaker:'heroine_02',text:'我說，我練了六年了。'},
       {speaker:'heroine_02',text:'……她問我練好了沒。我說，練好了。所以最近想換一種：兩個人看。'},
       {speaker:null,text:'（她把杯子推過來，轉身去洗杯子。）'},
-      {choice:[{text:'「那個女生是 Alison。」',if:{memory:[{npc:'yu',tag:'YU_ALONE'}]},set:{ZR_Z11B:'yu'},consequences:{stamp:['ZR_Z11B_DAY']},goto:'y'},{text:'「那妳想跟誰看？」',set:{ZR_Z11B:'who'},goto:'w'},{text:'「下次我陪妳。」',set:{ZR_Z11B:'with'},goto:'c'}]},
-      {label:'y'},{speaker:null,text:'（她愣住。）'},{speaker:'heroine_02',text:'……阿哲的那個 Alison？'},{speaker:'player',text:'嗯。'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_02',text:'那下次遇到她，我請她一杯。'},
+      {choice:[{text:'「那個女生是小語。」',if:{memory:[{npc:'yu',tag:'YU_ALONE'}]},set:{ZR_Z11B:'yu'},consequences:{stamp:['ZR_Z11B_DAY']},goto:'y'},{text:'「那妳想跟誰看？」',set:{ZR_Z11B:'who'},goto:'w'},{text:'「下次我陪妳。」',set:{ZR_Z11B:'with'},goto:'c'}]},
+      {label:'y'},{speaker:null,text:'（她愣住。）'},{speaker:'heroine_02',text:'……阿哲的那個小語？'},{speaker:'player',text:'嗯。'},{speaker:null,text:'（她想了一下。）'},{speaker:'heroine_02',text:'那下次遇到她，我請她一杯。'},
         {mem:[{npc:'heroine_02',tag:'ZHIRUO_MET_YU',note:''}]},{goto:'end'},
       {label:'w'},{speaker:'heroine_02',text:'……還在想。'},{speaker:null,text:'（她看著門口，笑了一下。）'},{speaker:'heroine_02',text:'想好了再跟你說。'},{goto:'end'},
       {label:'c'},{speaker:'heroine_02',text:'好啊。'},{speaker:null,text:'（她說得很快，然後自己愣了一下。）'},{speaker:'heroine_02',text:'……那你要坐倒數第三排喔。我習慣那裡。'},
@@ -383,7 +383,7 @@ const R2Y3B_EVENTS=(function(){
     t1O:[[['臺北的已經謝了。','嗯。這邊才剛開。'],['好看。','嗯。']],[['照 1、2、3 的順序拉。','……你早點說。'],['拉破了也能吃。','我知道。我吃了三個破的。']],
         [['一百圓是多少？','二十幾塊。我記了匯率。'],['手帳記幾頁了？','十一頁。']],[['辛苦了。','嗯。'],['排到了嗎？','排到了。辦完只要五分鐘。']]],   /* T1 也有回覆按鈕（AA_343 D3）：每則兩個，她回一句 */
     t2:[{L:['上課聽懂七成了。剩下三成，我回房間查字典。','你那邊期中考了嗎？'],O:['考了。','下禮拜。']},{L:['町公所前面的阿伯一直跟我講話，我只聽懂『學生』兩個字。','你最近都去哪裡讀書？'],O:['總圖。','麵店。']},
-        {L:['讀書會 Alison 有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
+        {L:['讀書會小語有沒有好好排題目？……你不要幫她排。讓她自己排。','你那邊還好嗎？'],O:['她排得很好。','還好。']},{L:['這邊下了一整天的雨。','你那邊在下雨嗎？'],O:['也在下。','晴天。']}],   /* 回覆按鈕新寫，每則兩個 */
     t3:[ [ {speaker:null,text:'（畫面裡是她房間的書桌，手帳攤在旁邊。）'},{speaker:'heroine_01',text:'你那邊幾點？……我算了一下，你應該剛吃完晚餐。'},{speaker:'heroine_01',text:'這禮拜的課很難。先不講課了，你那邊最近怎樣？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'（她把手帳翻到這一週）這禮拜好滿，日文小考考了兩次。'},{speaker:'heroine_01',text:'你那邊呢？'},{speaker:'heroine_01',text:'好，我要去睡了。下禮拜同一個時間。'} ],
       [ {speaker:'heroine_01',text:'（畫面晃了一下，她把手機靠在字典上）你那邊幾點？'},{speaker:'heroine_01',text:'……我只是想看一下你。好，可以了。'},{speaker:'heroine_01',text:'你先掛。'} ] ],

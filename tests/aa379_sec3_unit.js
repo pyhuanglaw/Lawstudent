@@ -6,7 +6,6 @@
 //   5 3-4：口試那天（M9）2-5 訪談去過：沒交往「致謝裡有你。」「那一句『他講到這裡，停了很久』，我用在第四章了。」；交往中「第四章那一句，是你記的。」；沒去過都沒有；研究助理那句拿掉
 //   6 AA_377 第 7 節：芷若大三下交往中的期末約會「禮拜四十點，等我下班。」（週四 22:00）
 // 台詞從企劃檔讀（git show d037c668）逐句對。用法：node tests/aa379_sec3_unit.js
-require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;

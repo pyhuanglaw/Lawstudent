@@ -233,7 +233,7 @@ const CLS=(function(){
      沒去的課下課以後，手機「訊息」多一行——討論週：那一週的 skip_line（那堂課發生了什麼，每次都有）；其他週：那門課的 skip 句子，偶爾（這學期第 1、4、7…次沒去那門課）。
      今天的課下課後才發；睡過一整天的，前一天的照那堂課下課的時間補進訊息。考試、服務學習、劇情的課、第一二天不發。R.note 記發過了（skip_<key>）和沒去的次數（skipn_<課>_<學期>）*/
   /* 翹課那一句照那一週的課程主題選（AA_374 第 21 項，大二上）：原本第 1、4、7 次照順序發，講到的主題（行政處分第 5 週、竊盜第 10 週、給付遲延第 3 週、相鄰關係第 6 週）常常不是那一週。
-     表裡的課＝那一週有對應的句子才發那一句；那週沒有對應的＝同學私訊「今天的筆記我拍給你。」（傳的人：認識的人裡，照芯慈、以安、柏翰、Alison、阿哲的順序；都不認識寫「同學」——給 AA 的問題）。
+     表裡的課＝那一週有對應的句子才發那一句；那週沒有對應的＝同學私訊「今天的筆記我拍給你。」（傳的人：認識的人裡，照芯慈、以安、柏翰、小語、阿哲的順序；都不認識寫「同學」——給 AA 的問題）。
      句子照 syllabus.js 的原文比對（syllabus 改了字、對不到＝那一週當作沒有對應的；tests/aa374_y2s1_unit.js 會抓到）；表裡沒有的課照舊（第 1、4、7…次照順序）*/
   S.SKIP_TOPIC={admin_law:{5:'（群組）以安：許教授今天講行政處分。筆記在雲端。第三頁很重要。'},crim_spec:{10:'（群組）阿哲：吳教授今天講竊盜，舉例舉到他自己的雨傘。'},
     oblig_gen2:{3:'（群組）芯慈：周教授今天講給付遲延。他點了你的座位。'},property:{6:'（群組）阿哲：今天講相鄰關係，我想到我們宿舍。'}};
@@ -316,7 +316,7 @@ const CLS=(function(){
       { const p4=ev('ev_peishan_handover'); if(p4&&(typeof STORY==='undefined'||!STORY.reachable||STORY.reachable('classmate_peishan',G))&&EVENTS.check(p4,{chain:true})) return p4; }   /* 她這學期休學、人在臺北＝reachable 不是 present，作息那一晚在萬才館 */
       for(const id of ['ev_bohan_scores','ev_bohan_scores_month']){ const e=ev(id); if(e&&(id!=='ev_bohan_scores'||here('classmate_bohan'))&&EVENTS.check(e,{chain:true})) return e; }
       if(!(G.events&&G.events.done&&G.events.done.ev_public_law_group)&&!/^Y2/.test((typeof CALENDAR!=='undefined'&&CALENDAR.termOf(G.day)||{}).id||'')) return ev('ev_public_law_group');   /* 公法讀書會第一次：白板（交接包 v2 C14）；門口參加＝2D 畫面，不看人在不在 */
-      { const ay=ev('ev_an_yu_argument'); if(ay&&here('heroine_01')&&EVENTS.check(ay,{chain:true})) return ay; }   /* 大一下第 12 週週四：以安和 Alison 吵架（AA_238 5-3，原本麵店）*/
+      { const ay=ev('ev_an_yu_argument'); if(ay&&here('heroine_01')&&EVENTS.check(ay,{chain:true})) return ay; }   /* 大一下第 12 週週四：以安和小語吵架（AA_238 5-3，原本麵店）*/
       if(here('classmate_peishan')&&here('heroine_01')) for(const id of ['ev_peishan_why_answer_plg','ev_peishan_why_plg']){ const e=ev(id); if(e&&EVENTS.check(e,{chain:true})) return e; }   /* P1b（下一次，以安回答）優先於 P1 */
       return null; }
     if(a.id==='club_guitar'){ const met=typeof SOCIAL!=='undefined'&&!!SOCIAL.has&&SOCIAL.has('heroine_04','FIRST_MET'); if(!met) return here('heroine_04')?ev('ev_ziqing_club'):null;

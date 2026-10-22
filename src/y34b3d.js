@@ -281,7 +281,7 @@ const Y34B=(function(){
   /* 美國路線（AA_370 H1）：人在美國，不約政大——「週五晚上七點，你那邊是早上。我們視訊，各自說。」；改天那一場＝週六臺灣 21:00（當地 09:00，AA_323 1B-21：臺灣晚上、美東早上；原本臺灣 15:00＝當地 03:00）*/
   S.KX23_US={ask:'週五晚上七點，你那邊是早上。我們視訊，各自說。',later:'好。那週六晚上九點，你那邊早上九點。',miss:'週六晚上九點。這次我等你。',h2:21};
   S.kx23Phone=function(G){ const F=G.flags, a=D('kx23ask'), d=D('kx23'), d2=D('kx23b'); if(a==null||G.day<a||G.day>d2+1||!dating(G,'kexin')||!law(G)) return; const K=t=>DM('kexin',t), us=US(G), h2=us?S.KX23_US.h2:15;   /* h2：改天那一場（臺灣時間）*/
-    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('你的那條路，現在走到哪了？不用現在說。'),K('我的也想跟你說。'),K(us?S.KX23_US.ask:'週五晚上七點，政大。我們走一段路，各自說。')];   /* AA_378 #5（企劃線 5cd35678）：6 月就選好了路，她第一批就知道；美國版第三句照舊 */
+    if(NOW(G)>=T(a,tzH(G,a,21))){ const L=[K('大四要走哪條路，你決定了嗎？不用現在說。'),K('可是我想第一批知道。'),K(us?S.KX23_US.ask:'週五晚上七點，政大。我們走一段路，各自說。')];
       L[2].ask={id:'y4_kx23',until:T(d,tzH(G,d,18)),opts:[{t:'去。',set:{KX23_GO:true}},{t:'改天。',set:{KX23_GO:'later'},say:[{from:'kexin',text:us?S.KX23_US.later:'好。那週六下午三點，同一個地方。'}]}]};   /* AA_337 第 5 題：「這次我等你」只給答應了卻沒到的（下面 y4_kx23_miss）*/
       at(G,a,G.day===a?Math.max(tzH(G,a,21),G.hour):G.hour,L,'y4_kx23_ask'); }   /* BB_99 第 10 節第 15 項；ask「去／改天」*/
     if(F.KX_PATHS!=null||typeof OUT==='undefined') return;
@@ -294,14 +294,13 @@ const Y34B=(function(){
   S.kx23CallDue=G=>!!G.flags.KX23_CALL&&G.flags.KX_PATHS==null&&dating(G,'kexin');
   /* ================= 1B-23 子晴 Q14 ================= */
   /* AA_370 M8：美國路線、和學姊去大峽谷（10/7～10/14 不能用手機，USL.canyonBack）＝期限延到回到印第安納的隔天中午（大峽谷那段不算）；Q14 的時間照亞利桑那（USL 的 tzOffset −15）*/
-  S.q14Until=function(G){ const d=D('q14'); if(d==null) return null; const u=T(d+2,tzH(G,d+2,0)), b=US(G)&&typeof USL!=='undefined'&&USL.canyonBack?USL.canyonBack(G):null; if(b!=null) return Math.max(u,T(Math.floor(b/24)+1,12));
-    const q=!US(G)&&typeof OUT!=='undefined'&&OUT.get?OUT.get(G,'y4_sis_canyon'):null, d16=DK('2028-10-16'); return q&&q.state==='done'&&d16!=null?Math.max(u,T(d16,12)):u; };   /* AA_378 #15（企劃線 5cd35678）：臺灣、日本路線去大峽谷找學姊（10/7～10/15）的，期限延到回到臺北的隔天中午 10/16 12:00（同美國路線，AA_370 M8）*/
+  S.q14Until=function(G){ const d=D('q14'); if(d==null) return null; const u=T(d+2,tzH(G,d+2,0)), b=US(G)&&typeof USL!=='undefined'&&USL.canyonBack?USL.canyonBack(G):null; return b!=null?Math.max(u,T(Math.floor(b/24)+1,12)):u; };
   S.q14Phone=function(G){ const F=G.flags, d=D('q14'); if(d==null||G.day<d||!law(G)||!fri('heroine_04')||sent(G,'y4_q14')) return; const until=S.q14Until(G); if(G.day>Math.max(d+2,Math.floor(until/24))) return; if(NOW(G)<T(d,tzH(G,d,21))) return;
     const Q=t=>DM('heroine_04',t), us=US(G), dt=dating(G,'heroine_04');
     const open=dt?[Q('我們要跟一間發行商簽約。合約四十頁。'),Q('你不用當律師啦。陪我看到第四十頁就好')]:(us?[Q('你那邊是早上吧'),Q('你是法律系的吧'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]:[Q('欸不是，你是法律系的吧。'),Q('我們要跟一間發行商簽約。合約四十頁。'),Q('我看不懂'),Q('你看得懂嗎')]);
     const fafu=(+F.LAWCLUB_SAT_VISITS||0)>0||(+F.FAFU_SHIFT_N||0)>0, three=!!F.U_COPYRIGHT&&!!F.U_CONTRACT, R=t=>({from:'heroine_04',text:t});
     const o=[us?{t:'我回去陪妳找律師。先把看不懂的地方標起來傳給妳。',set:{ZQ_CONTRACT:'lawyer'},say:[R('好。你標，我畫重點。……我睡醒再看')]}:{t:'我陪妳去找律師。我先幫妳把看不懂的地方標起來。',set:{ZQ_CONTRACT:'lawyer'},say:[R(dt?'好。你標，我畫重點。':'好。你標，我畫重點。……我們好像在念書')]}];
-    if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？你們系上那個社團？……好。')]});   /* AA_378 S5（企劃線 5cd35678）：學姊四年都不在法服 */
+    if(fafu) o.push({t:'介紹法服的指導律師給妳。',set:{ZQ_CONTRACT:'legal_aid'},say:[R('法服？那個學姊的法服？……好。')]});
     o.push({t:'我還是學生，不能給妳正式的法律意見。',set:{ZQ_CONTRACT:'honest'},say:[R('……你好老實。好，那你陪我去找律師。')]});
     if(three) o.push({t:'先看三件事：遊戲的權利歸誰、錢怎麼分、怎麼解約。然後拿去給律師看。',set:{ZQ_CONTRACT:'lawyer'},say:[R('三件事。……你講話越來越像你們那個學姊。')]});   /* U_COPYRIGHT（大四上智財法第 4 週 9/27、第 10 週的討論課）＋U_CONTRACT（民總第 14 週、債總的討論課）：classes3d.js 的討論課照 syllabus 的 understand 記（AA_337 第 6 題）*/
     open[open.length-1].ask={id:'y4_q14',until,opts:o}; at(G,d,tzH(G,d,21),open,'y4_q14'); };
@@ -393,7 +392,7 @@ const Y34B=(function(){
     {speaker:null,text:'（麵店的長桌。阿姨多煮了一鍋湯，說是送的。）'},
     {speaker:'zhe',text:'（舉起麵店的塑膠杯）敬以安。半年。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
-    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
+    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* 小語、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
     {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',goto:'fw_b'}]},
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
@@ -573,9 +572,9 @@ const Y34B=(function(){
   const GATE_US=[ {if:C(dSis),speaker:null,text:'（她在看一本論文。飛機起飛的時候，她把書闔上了。）'},{if:C(xSis),speaker:null,text:'（座位分開。）'} ];
   const NOTE_BUS=[ {speaker:'heroine_03',text:'學姊叫我拿給你的。'},{speaker:null,text:'（一張便條：「好好念書。」）'},{set:{SIS_NOTE_GIVEN:true}} ];
   /* 1B-19 */
-  const yuHere=G=>!dAn(G)&&datingOther(G,'heroine_01')&&met('yu');   /* 和別人交往中（不是和以安）：Alison 也在走廊，三個人一起聽（AA_323）；和以安交往中＝Alison 先走了 */
+  const yuHere=G=>!dAn(G)&&datingOther(G,'heroine_01')&&met('yu');   /* 和別人交往中（不是和以安）：小語也在走廊，三個人一起聽（AA_323）；和以安交往中＝小語先走了 */
   const AN18=[ {scene:'萬才館・研討室外的走廊',bg:false},
-    {if:C(yuHere),speaker:'yu',expression:'neutral'},   /* Alison 一開始就在旁邊（立繪） */
+    {if:C(yuHere),speaker:'yu',expression:'neutral'},   /* 小語一開始就在旁邊（立繪） */
     {unless:C(dAn),speaker:'heroine_01',text:'我決定了。考台大法研所，商法組。'},
     {unless:C(dAn),speaker:'heroine_01',text:'公司法、證交法、保險法。這兩年讀下來，最想再讀的是這些。'},
     {unless:C(dAn),speaker:'heroine_01',text:'讀書會是公法沒錯。那是大一憲法口試完，大家硬推我的。'},
@@ -590,8 +589,8 @@ const Y34B=(function(){
     {label:'n_a'},{speaker:'heroine_01',text:'明年二月。還有四個月。'},{goto:'n_end'},
     {label:'n_b'},{speaker:'heroine_01',text:'她說，先把對方的理由講得比他自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'n_end'},
     {label:'n_c'},
-    {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了 Alison 一眼。Alison 在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* Alison 在旁邊的這一版（AA_337 第 4 節）*/
-    {speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
+    {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了小語一眼。小語在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* 小語在旁邊的這一版（AA_337 第 4 節）*/
+    {speaker:'heroine_01',text:'知道。小語說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
     {label:'n_end'},{set:{AN_CHOICE:'here'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
   /* 1B-20 */
   const ytF=()=>fam('heroine_03'), ytDt=G=>dating(G,'heroine_03');
@@ -604,16 +603,16 @@ const Y34B=(function(){
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
     {speaker:null,text:'（阿姨一碗一碗煮，語彤端，工讀生在洗碗。語彤的媽媽坐在角落，對每個人說：「我女兒很少講話，她今天講太多了。」）'},
     {if:C(ytDt),speaker:'語彤的媽媽',text:'……他也很少講話。你們兩個怎麼聊天的？'},
-    {if:C(()=>met('yu')),speaker:null,text:'（Alison 進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
-    {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）第四年了。這兩個位子，本來就是我們的。'},   /* AA_378 #6：麵店團 2025-09 才開始（到 2028-12 是第四年）*/
+    {if:C(()=>met('yu')),speaker:null,text:'（小語進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
+    {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）四年了。這兩個位子，本來就是我們的。'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗餛飩湯推過去）妳的。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'你怎麼知道我要點這個？'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'妳每次都點這個。……還有，阿姨說妳大一第一次點的也是這個。'},
-    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了三年的麵，原來是真的。'},
+    {if:C(G=>kxIn(G)&&!!G.flags.KX_MET_NOODLE_TEAM),speaker:'kexin',expression:'laugh',text:'你說了四年的麵，原來是真的。'},
     {if:C(()=>met('heroine_05')),speaker:null,text:'（語彤把手機給大家看。）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'（照片：她在美國煮的一碗麵）'},
     {if:C(()=>met('heroine_05')),speaker:'heroine_05',text:'週年快樂。'},
-    {speaker:'zhe',text:'阿姨，三年前我說，我們週二週四都會來。'},
+    {speaker:'zhe',text:'阿姨，四年前我說，我們週二週四都會來。'},
     {speaker:'zhe',text:'我們有做到喔。（停了一下）……大部分有。'},
     {speaker:'zhe',text:'今天剛好是週四。……以後不是週四也一樣，不用約，來就有人。'},
     {speaker:'阿姨',text:'（舉起湯勺）明年也是。'},

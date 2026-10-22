@@ -1,4 +1,4 @@
-"""Alison（李語晴，yu）Blender 人物製作（LAWWW2，角色模型 D59；照 BB 通過的參考圖 story-planning 分支 docs/story_planning/art_reference/yu.webp）。
+"""小語（李語晴，yu）Blender 人物製作（LAWWW2，角色模型 D59；照 BB 通過的參考圖 story-planning 分支 docs/story_planning/art_reference/yu.webp）。
 參考圖：台大法律系一年級、163 cm、19 歲；三個社團（系學會、辯論社、吉他社）、精力旺盛。棕色中長捲髮（蓬鬆、到胸口、旁分瀏海、右邊一支金色長方形髮夾）；
 淡黃／白／灰藍拼色的寬版風衣外套（有帽子、敞開）＋白 T（紮進裙子）＋酒紅色過膝百褶裙（腰帶）＋白色帆布鞋；黑色斜背包＋三個吊飾（天秤、麥克風、吉他）、髮夾是配件（之後另外做）。
 做法照 LAWWW 的人物生產線＋杜可昕、芯慈的模組：
@@ -7,7 +7,7 @@
 LAWWW 的模組放在 tools/blender/char/（這個工作階段的分支還沒有：預設讀 /home/user/char_wt/tools/blender/char，或用環境變數 CHAR_LIB 指定）。
 用法：/opt/blenv/bin/python tools/blender/char_second/yu.py -- <輸出.vrm 或 -（不匯出）> [--blend 工作檔.blend] [--stages stage0,face,clothes,hair] [--render 預覽圖前綴] [--views face_front,body_front]
   反覆調整衣服或頭髮時：先存一份做到臉的工作檔（--stages stage0,face --blend y_face.blend），之後 --from-blend y_face.blend --stages clothes,hair 只重做後面的階段
-之後：python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> Alison [虹膜色]（VRM_BASE=Sendagaya_Shibu）"""
+之後：python3 tools/blender/char_second/vrm_finish2.py <輸出.vrm> <遊戲用.vrm> 小語 [虹膜色]（VRM_BASE=Sendagaya_Shibu）"""
 import sys, os
 HERE = os.path.dirname(os.path.abspath(__file__))
 CHAR_LIB = os.environ.get('CHAR_LIB') or next((p for p in (os.path.join(HERE, '..', 'char'), '/home/user/char_wt/tools/blender/char') if os.path.exists(os.path.join(p, 'common.py'))), None)

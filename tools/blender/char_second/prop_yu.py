@@ -1,4 +1,4 @@
-"""Alison（李語晴，yu）的側背包＋三個社團吊飾 → bag_yu.glb（LAWWW2-C 2026-10-18；角色美術 D59，參考圖 art_reference/yu.webp）。
+"""小語（李語晴，yu）的側背包＋三個社團吊飾 → bag_yu.glb（LAWWW2-C 2026-10-18；角色美術 D59，參考圖 art_reference/yu.webp）。
 參考圖：
   - 右肩側背；包身在右邊腰臀的前側；背帶從胸前繞過右肩到背後。
   - 包：霧黑尼龍、軟的（上緣微塌、底部鼓）、前面一個有蓋的口袋、上緣一條拉鍊；背帶黑色織帶、槍灰金屬環。
@@ -7,7 +7,7 @@
   - 沒有牌子（D77）。
 用法：
   1. 量身體（右肩、右腰臀）→ tools/blender/char_second/prop_yu_fit.json：
-     /opt/blenv/bin/python tools/blender/char_second/prop_yu.py -- --fit <Alison.vrm>
+     /opt/blenv/bin/python tools/blender/char_second/prop_yu.py -- --fit <小語.vrm>
   2. 照 fit.json 做 GLB：
      /opt/blenv/bin/python tools/blender/char_second/prop_yu.py [-- --outdir assets/models/char/second_ai]
 座標＝VRM 的 upperChest 骨頭（three-vrm 的 raw bone，VRM 0.x 檔案空間）：x＝人物右邊、y 上、z＝人物後面（前方 −z；和 props3d.js 的 HELMET_HANG 同一套）。

@@ -1,6 +1,5 @@
 // AA_373 6-1（企劃線 e75d1cce：AA 22:3x 把那一列兩欄都改成整句，羊那句＝AA_359 5-1 B1；原本 bdab2f42；任務 AA373-Y1S2-FIX-1021）：可昕不跟祐廷比輸贏（使用者 10-18「她沒有在跟我比」）——
 // date_lines.js 那一列的兩句由 tools/date/import_date_lines.py 疊在 lines/D12.json、D32.json 上匯入。不需要瀏覽器。用法：node tests/date_lines_aa373_unit.js
-require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SHA='e75d1cce', SPEC='docs/story_planning/AA_373_法律系大一下_時間人在哪與作廢設定_修正稿.md';
 global.window=global;

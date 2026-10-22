@@ -44,7 +44,7 @@ const lines=()=>said.map(s=>(s.who?s.who+'：':'')+s.t);
   check('1. 選①：GRAD_ENVELOPE took、「祐廷接過信封，放進學士服的口袋。」「（媽媽擦了一下眼睛。）」；12:00', G.flags.GRAD_ENVELOPE==='took'&&T.slice(-2).join('|')==='祐廷接過信封，放進學士服的口袋。|（媽媽擦了一下眼睛。）'&&Math.abs(G.hour-12)<0.01);
   check('1. 演過了不再演', !STORY.gradMorningDue(G));
   // 2. 交換延畢
-  for(const [r,want] of [['JP','（還差一門實習，證書下學期才拿得到。）'],['US','（還差一門實習和兩門課，證書下學期才拿得到。）']]){ fresh(dg,7.5,'dorm',{EXCHANGE_ROUTE:r}); picks=[0]; await STORY.gradFamily(GM); T=lines(); check('2. G2 '+r+' 路線：撥穗後「'+want+'」（美國路線還要補修兩門課：AA_382 第 1 節第 1 項）', T[3]===want, T[3]); }
+  for(const r of ['JP','US']){ fresh(dg,7.5,'dorm',{EXCHANGE_ROUTE:r}); picks=[0]; await STORY.gradFamily(GM); T=lines(); check('2. G2 '+r+' 路線：撥穗後「（還差一門實習，證書下學期才拿得到。）」', T[3]==='（還差一門實習，證書下學期才拿得到。）'); }
   // 3. G3
   fresh(dg,7.5,'dorm'); picks=[1]; await STORY.gradFamily(GM); T=lines();
   check('3. G3「媽，今天先拍照。」：「（姊姊比了一個讚。）」「媽媽把信封收回包包：「那晚上給你。」」、later', G.flags.GRAD_ENVELOPE==='later'&&T.slice(-2).join('|')==='（姊姊比了一個讚。）|媽媽把信封收回包包：「那晚上給你。」');

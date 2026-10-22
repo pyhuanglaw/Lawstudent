@@ -159,7 +159,7 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
   { const W=['（麵店的長桌。阿姨換了新的菜單，每一樣多五塊。）','五塊。……大三就是這種感覺。','欸，這學期刑訴，聽說林教授點名都點後面。','後面三排。我問過學長了。','（翻開手帳）讀書會八點。……我們先走。','（端麵過來）……今天乾麵剩四碗。','對。先吃。'];
     check('4. D1 去了：都認識＝五個人各一句（逐字；以安那句照 AA_376 第 7 項）；選項兩個；「對。先吃。」；Y3_FIRST_MEAL',JSON.stringify(all())===JSON.stringify(W)&&JSON.stringify(opts[0])===JSON.stringify(['「先吃。」','「真的點後面三排？」'])&&G.flags.Y3_FIRST_MEAL===true,JSON.stringify(all())); }
   fresh('2027-09-09',19,'dorm'); ['zhe','classmate_bohan'].forEach(meet); await play('ev_y3_first_meal',[1]);
-  check('4. 只認識阿哲、柏翰：Alison、以安、語彤的句子不出現；「真的點後面三排？」→「真的。所以我坐第一排。」',!any(/點名都點後面|讀書會照常|乾麵剩四碗/)&&has('真的。所以我坐第一排。'));
+  check('4. 只認識阿哲、柏翰：小語、以安、語彤的句子不出現；「真的點後面三排？」→「真的。所以我坐第一排。」',!any(/點名都點後面|讀書會照常|乾麵剩四碗/)&&has('真的。所以我坐第一排。'));
   fresh('2027-09-09',19,'dorm'); ['zhe','heroine_03'].forEach(meet); R('heroine_03','FRI'); await play('ev_y3_first_meal',[0,0]);
   { const a=idx('系上老師叫我當助教。質性研究方法。'), b=idx('（端麵過來）……今天乾麵剩四碗。');
     check('4. D2 語彤 13b 還沒演、FRIEND 以上：她端麵過來前先演 13b（兩句＋二選一＋「下週二第一次上台。」）、記 YT_TA',a>0&&b>a&&has('下週二第一次上台。我要講二十分鐘。')&&G.flags.YT_TA===true,JSON.stringify(all())); }
@@ -347,9 +347,9 @@ const W1S=STORY.week1Start, noZhe=()=>{ STORY.week1Start=()=>true; }, zheBack=()
 
   // ===== 12. 2-Y3-12 慈 4「很爛的那一句」 =====
   fresh('2027-10-19',21,'dorm'); R('yu','FAM'); run('2027-10-19',21.25,21.75);
-  check('12. 10/19 21:30 Alison 三則（避開 21:00 的刑訴群組）＋兩個回覆',JSON.stringify(txt('p:yu'))===JSON.stringify(['yu:欸 芯慈跟以安吵架了','yu:吵很大','yu:你明天中午在霖澤館嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_ci4_yu').ask.opts.map(o=>o.t))===JSON.stringify(['在。','怎麼了？']));
+  check('12. 10/19 21:30 小語三則（避開 21:00 的刑訴群組）＋兩個回覆',JSON.stringify(txt('p:yu'))===JSON.stringify(['yu:欸 芯慈跟以安吵架了','yu:吵很大','yu:你明天中午在霖澤館嗎'])&&JSON.stringify(PHONE.byAsk(G,'y3_ci4_yu').ask.opts.map(o=>o.t))===JSON.stringify(['在。','怎麼了？']));
   ans('y3_ci4_yu',1); check('12. 「怎麼了？」→「我也不知道 她們在討論室 我在門外」',txt('p:yu').slice(-1)[0]==='yu:我也不知道 她們在討論室 我在門外');
-  fresh('2027-10-19',21,'dorm'); run('2027-10-19',21.25,21.75); check('12. 和 Alison 不到 FAMILIAR：沒有這三則',!PHONE.sent(G,'y3_ci4_yu'));
+  fresh('2027-10-19',21,'dorm'); run('2027-10-19',21.25,21.75); check('12. 和小語不到 FAMILIAR：沒有這三則',!PHONE.sent(G,'y3_ci4_yu'));
   fresh('2027-10-20',12.3,'linze'); R('classmate_xinci','FAM'); { const e=STORY.schedEnt(CHARACTERS.classmate_xinci,G); check('12. 作息：10/20 12:10～12:40 芯慈在霖澤館二樓走廊',!!e&&e.zone==='linze'&&e.at[3]===1); }
   { const B=ev('ev_xinci_bad_line'); npc('classmate_xinci',1.2,-5.2,1); me(0,-5,1);
     check('12. 在二樓、她在走廊：可以演；一樓不演；12:45 不演；不到 FAMILIAR 不演',EVENTS.check(B)&&(()=>{ me(0,-5,0); const a=!EVENTS.check(B); me(0,-5,1); to('2027-10-20',12.75); const b=!EVENTS.check(B); to('2027-10-20',12.3); R('classmate_xinci','ACQ'); const c=!EVENTS.check(B); R('classmate_xinci','FAM'); return a&&b&&c; })()); }

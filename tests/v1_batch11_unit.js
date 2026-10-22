@@ -63,12 +63,12 @@ const WHO=['heroine_01','heroine_03','zhe','classmate_bohan','classmate_xinci','
     check('T1b：前一晚 21:00 張教授的信（通知）：「明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。」',!!mail&&mail.day===EVE&&mail.h===21&&mail.th==='sys'&&mail.name==='張教授（信）'&&mail.text==='明日停課。附件為明日進度的講義，共四十二頁，請自行閱讀。',JSON.stringify(mail));
     const g=M.filter(m=>m.th==='g:noodle_team');
     const WANTG=[['zhe',20,'四十二頁。颱風比較仁慈。'],['yu',24,'我讀完第一頁了。第一頁是目錄。'],['classmate_bohan',31,'我讀到第十二頁。'],['zhe',32,'……你是颱風嗎？']];   /* 時間：手機每次檢查時送出，差 run() 的一步（3 分鐘）以內 */
-    check('T1b：麵店團群組 21:20 阿哲、21:24 Alison、21:31 柏翰、21:32 阿哲（照 BB_110 的字）',g.length===4&&g.every((m,k)=>m.from===WANTG[k][0]&&m.text===WANTG[k][2]&&m.day===EVE&&Math.abs(m.h*60-21*60-WANTG[k][1])<=3.01),JSON.stringify(g.map(m=>[m.from,m.h,m.text])));
+    check('T1b：麵店團群組 21:20 阿哲、21:24 小語、21:31 柏翰、21:32 阿哲（照 BB_110 的字）',g.length===4&&g.every((m,k)=>m.from===WANTG[k][0]&&m.text===WANTG[k][2]&&m.day===EVE&&Math.abs(m.h*60-21*60-WANTG[k][1])<=3.01),JSON.stringify(g.map(m=>[m.from,m.h,m.text])));
     const last=G.msgs.find(m=>m.tag==='ty1_g4'); check('T1b：最後一則可以回三種',!!last&&!!last.ask&&last.ask.opts.map(o=>o.t).join('／')==='「我讀到第三頁。」／「我在吃泡麵。」／（貼一張颱風的貼圖）',last&&JSON.stringify(last.ask.opts.map(o=>o.t)));
     const WANT=[['我讀到第三頁。','classmate_bohan','很好。','page3'],['我在吃泡麵。','zhe','這才是正確的颱風假。','noodle'],['🌀（颱風的貼圖）','yu','這張貼圖比講義有用。','sticker']]; const bad=[];
     for(let k=0;k<3;k++){ fresh(EVE,20.5,'dorm',{}); joinOn(EVE-3); run(20.5,21.7); const m=G.msgs.find(x=>x.tag==='ty1_g4'); const r=PHONE.answer(G,m.ask.id,k); const out=r&&r.out.map(x=>[x.from,x.text]);
       if(!r||JSON.stringify(out)!==JSON.stringify([['player',WANT[k][0]],[WANT[k][1],WANT[k][2]]])||G.flags.TY1_REPLY!==WANT[k][3]) bad.push(k+':'+JSON.stringify(out)); }
-    check('T1b：三種回覆各自的回應（柏翰「很好。」／阿哲「這才是正確的颱風假。」／Alison「這張貼圖比講義有用。」）',!bad.length,bad.join(' ')); }
+    check('T1b：三種回覆各自的回應（柏翰「很好。」／阿哲「這才是正確的颱風假。」／小語「這張貼圖比講義有用。」）',!bad.length,bad.join(' ')); }
   { fresh(EVE,20.5,'dorm',{}); run(20.5,21.7); const M=tyMsgs(); check('T1b：沒在麵店團群組＝只有新聞通知和張教授的信',M.map(m=>m.tag).join()==='ty1_news,ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
   { fresh(EVE,20.5,'dorm',{}); joinOn(TY); run(20.5,21.7); const M=tyMsgs(); check('T1b：颱風假當天才加入群組＝看不到前一晚的群組訊息（只有新聞和信）',M.map(m=>m.tag).join()==='ty1_news,ty1_mail',JSON.stringify(M.map(m=>m.tag))); }
   { fresh(TY,9,'dorm',{}); joinOn(EVE-3); run(9,9.2); const M=tyMsgs();

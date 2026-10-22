@@ -1,11 +1,11 @@
 {
- "glb": "../../../tmp/claude-0/-home-user-Lawstudent/b2086276-f771-5e36-88cb-063a8a6233cc/scratchpad/charfix/zr_v3/glasses_zhiruo.glb",
+ "glb": "assets/models/char/second_ai/glasses_zhiruo.glb",
  "tris": {
   "glasses_frame": 1252,
   "glasses_lens": 96
  },
  "bytes": 32436,
- "ipd": 0.0766,
+ "ipd": 0.084,
  "rim_diameter": 0.044,
  "wire_d": 0.0017,
  "origin": "兩個鏡片中心的中點；前方 −z、鏡腳往 +z（three.js 模型座標）",

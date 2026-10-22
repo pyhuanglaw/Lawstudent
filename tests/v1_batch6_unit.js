@@ -3,10 +3,10 @@
 //   A9 哲 1（AA_40）：第 4 週週四起、週二週四 17:30–20:30 在麵店、阿哲在旁邊才觸發（第 4 週週二、週一、16:00、宿舍都不會）；錯過週四的順延到下一次；只一次；
 //     台詞照原文（「（對祐廷）」改成「（對你）」）；之後加入「麵店團」群組（一則系統訊息）；上一個麵店日沒來，下一個麵店日 17:30 阿哲在群組揪（四句輪流，AA 2026-10-14；
 //     哲 1 那天、週一三五、放假不揪；一天一次；一直有來＝安靜，第 9 批 v1_batch9_unit 有更多情況）；這個例行訊息不擋每天的手機小事。
-//   A10 語 1（AA_40）：第 3～5 週早上在校園、認識 Alison 之後的另一天（自我介紹那天不會、第 6 週不會、下午不會）；三個選項的反應照原文；
+//   A10 語 1（AA_40）：第 3～5 週早上在校園、認識小語之後的另一天（自我介紹那天不會、第 6 週不會、下午不會）；三個選項的反應照原文；
 //     「坐下來一起吃」記憶 BREAKFAST_YU；只一次；第一次說話（talkYu）記下 metYuDay。
 //   A11 迎新（AA_71 2-1＋BB_95 3-3）：活動在第 4 週週六 14–17 傅鐘前；參加就演、演完到 17:00；自我介紹三個選項（只有「念過一年經濟」設 ECON_PAST_SHARED='full'，
-//     以安見過才記 KNOWS_ECON_YEAR；'half'、'full' 不會被蓋掉）；只放認識的人（Alison、柏翰沒見過就跳過）；沛珊 P0 原文、FIRST_MET、聯絡方式；只一次。
+//     以安見過才記 KNOWS_ECON_YEAR；'half'、'full' 不會被蓋掉）；只放認識的人（小語、柏翰沒見過就跳過）；沛珊 P0 原文、FIRST_MET、聯絡方式；只一次。
 //   A12 以安的報告分工（交接包_v1 第 3 節）：第 4 週週四民總上完就演（翹課、沒有第二天下午、第 6 週、以安不在、已經演過「報告的結論」的舊存檔都沒有）；
 //     第 4 週沒上的第 5 週那堂；「好，一起寫。」照 cafeView 分工＋REPORT_PARTNER；「我已經有組了。」→「好。那我自己寫，寫完給你看。」；
 //     「報告的結論」只給說了有組的玩家、在分工之後；「報告發回來了」第 6 週起，一起寫過的選項是「下次也一起寫。」（AA）。
@@ -69,9 +69,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     { const D=termDay(10,2); keepOn(D,7.5,'campus');   /* 前面兩週已經跑過的日子不再排（tag 一天一次）；第 7 週週二有以安新 3 的群組訊息（劇情訊息，那天本來就不加小事）：用第 10 週週二 */ const d0=G.flags.dpDay; G.flags.dpDay=null; G.flags.dpPick=null; G.flags.dpN={}; G.flags.dpLast=null; PHONE.join(G,'public_law','公法讀書會');   /* 讓沛珊的講義照片（公法讀書會群組）條件成立；法服讀書會已停用（AA_218 17-4）*/
       run(7.5,8); const pick=G.flags.dpPick; check('A9 週二早上已經排了阿哲的例行訊息，每天的手機小事照樣挑（rt_ 不算劇情訊息）',!!pick&&PHONE.rec(G).q.some(q=>q.tag==='rt_zhe_ndl_'+D),JSON.stringify(pick)); } }
   /* ---------- A10 語 1 ---------- */
-  { const e=ev('ev_yu_breakfast'); check('A10 事件存在（ev_yu_breakfast，找 Alison 說話）',!!e&&e.trigger==='interact'&&e.participants[0]==='yu');
+  { const e=ev('ev_yu_breakfast'); check('A10 事件存在（ev_yu_breakfast，找小語說話）',!!e&&e.trigger==='interact'&&e.participants[0]==='yu');
     fresh(W4TUE,10,'campus'); npc('yu',0,1); await STORY._v1.talkYu(GM,GM.npc.yu);
-    check('A10 第一次和 Alison 說話：自我介紹（不是語 1），記下 metYuDay',G.flags.met_yu===true&&G.flags.metYuDay===W4TUE&&lines()[0]==='你是周老師點的那個！我是 Alison，坐你前面右邊。',JSON.stringify(lines()));
+    check('A10 第一次和小語說話：自我介紹（不是語 1），記下 metYuDay',G.flags.met_yu===true&&G.flags.metYuDay===W4TUE&&lines()[0]==='你是周老師點的那個！我是小語，坐你前面右邊。',JSON.stringify(lines()));
     check('A10 自我介紹那天不演語 1（她剛講過三個社團）',!EVENTS.check(e));
     const at=(day,hour,flags,zone)=>{ fresh(day,hour,zone||'campus',Object.assign({met_yu:true,metYuDay:W4TUE},flags||{})); return EVENTS.check(e); };
     const r={next:at(W4TUE+1,8.6),w3:at(3,8.6,{metYuDay:2}),w5:at(W5THU,9),w6:at(W6MON,8.6),pm:at(W4TUE+1,9.3),notmet:at(W4TUE+1,8.6,{met_yu:false}),oldsave:at(W4TUE+1,8.6,{metYuDay:undefined}),lib:at(W4TUE+1,8.6,{},'library')};   /* AA_156 第 4 節：平日上課前 08:20～09:05（原本 9:30～12:00）*/
@@ -82,7 +82,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       check('A10 選「'+pick+'」：開場三句＋'+JSON.stringify(after)+(mem?'、記憶 BREAKFAST_YU、過了 15 分鐘':'、沒有 BREAKFAST_YU'),JSON.stringify(L)===JSON.stringify(intro.concat(after))&&SOCIAL.has('yu','BREAKFAST_YU')===mem&&(mem?Math.abs(G.hour-h0-0.25)<0.01:G.hour===h0),JSON.stringify({L,h:G.hour})); }
     check('A10 三個選項（AA_40 原文；第二個 AA 2026-10-14 改成「我上課要遲到了。」）',JSON.stringify(opts[0])===JSON.stringify(['（坐下來一起吃）','「我上課要遲到了。」','「三個社團不會累嗎？」']),JSON.stringify(opts[0]));
     check('A10 只一次',!EVENTS.check(e));
-    /* AA_156（V1-A10）：吉他社入口、BREAKFAST_YU 的回聲、Alison 的社團 */
+    /* AA_156（V1-A10）：吉他社入口、BREAKFAST_YU 的回聲、小語的社團 */
     { const notes=[]; const na=GM.addNote; GM.addNote=(id,t,b)=>notes.push([id,t,b]);
       const inv={}; for(const pick of ['坐下來','要遲到','不會累']){ fresh(W4TUE+1,10,'campus',{met_yu:true,metYuDay:W4TUE}); npc('yu',0,1); notes.length=0; picks=[pick]; await EVENTS.run(e); inv[pick]=[!!G.flags.YU_CLUB_INVITE,notes.length,!!G.flags.guitar_invite]; }
       GM.addNote=na;
@@ -95,9 +95,9 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
       check('A10b BREAKFAST_YU 大一平日 08:36 找她：第一次「欸，今天也經過！」、同一天第二次不說；09:05 以後、沒有記憶不說（AA_156 第 4 節）',b1.includes('欸，今天也經過！')&&!again.includes('欸，今天也經過！')&&!b2.includes('欸，今天也經過！')&&!b3.includes('欸，今天也經過！'),JSON.stringify([b1,again,b2,b3]));
       const zc=ev('ev_ziqing_club'), club=async(flags,yuHere)=>{ fresh(W6MON,19.2,'wancai',flags); if(yuHere) npc('yu',0,1); npc('heroine_04',1,1); picks=[]; await EVENTS.run(zc); return lines(); };
       const z1=await club({YU_CLUB_INVITE:true},true), z2=await club({guitar_invite:true},true), z3=await club({YU_CLUB_INVITE:true,guitar_invite:true},true), z4=await club({YU_CLUB_INVITE:true},false);
-      check('A10b 吉他社第一次：只有 Alison 的入口＝Alison 兩句再「新人？……法律系的？…」；只有阿凱＝「你就是阿凱的室友？」沒有 Alison；兩個都有＝照阿凱；Alison 不在場＝沒有那兩句',z1[0]==='欸！你真的來了！'&&z1[1]==='學姊，他是我拉來的。'&&/新人？/.test(z1[2])&&!z2.includes('欸！你真的來了！')&&/阿凱的室友/.test(z2[0])&&!z3.includes('欸！你真的來了！')&&!z4.includes('欸！你真的來了！'),JSON.stringify([z1.slice(0,3),z2[0],z3[0],z4[0]]));
+      check('A10b 吉他社第一次：只有小語的入口＝小語兩句再「新人？……法律系的？…」；只有阿凱＝「你就是阿凱的室友？」沒有小語；兩個都有＝照阿凱；小語不在場＝沒有那兩句',z1[0]==='欸！你真的來了！'&&z1[1]==='學姊，他是我拉來的。'&&/新人？/.test(z1[2])&&!z2.includes('欸！你真的來了！')&&/阿凱的室友/.test(z2[0])&&!z3.includes('欸！你真的來了！')&&!z4.includes('欸！你真的來了！'),JSON.stringify([z1.slice(0,3),z2[0],z3[0],z4[0]]));
       const Y=CHARACTERS.yu, ca=ACTIVITIES.list.find(x=>x.id==='club_guitar'); let CM=null; for(let d=termDay(5,1);d<termDay(12,1);d++){ if([1,3].includes(CALENDAR.dateOf(d).wd)&&ACTIVITIES.on(ca,d)){ CM=d; break; } } fresh(CM,19.5,'campus',{}); const ys=STORY.schedEnt(Y,G); fresh(CM,18.5,'campus',{}); const ys2=STORY.schedEnt(Y,G);
-      check('A10b Alison 作息：第一個有社課的週一或週三（第 5～7 週的週一都放假）19:30 在萬才館吉他社、18:30 在校園（社課前散步）',ys&&ys.zone==='wancai'&&ys.act==='club'&&ys2&&ys2.zone==='campus',JSON.stringify([ys&&ys.zone,ys2&&ys2.zone])); } }
+      check('A10b 小語作息：第一個有社課的週一或週三（第 5～7 週的週一都放假）19:30 在萬才館吉他社、18:30 在校園（社課前散步）',ys&&ys.zone==='wancai'&&ys.act==='club'&&ys2&&ys2.zone==='campus',JSON.stringify([ys&&ys.zone,ys2&&ys2.zone])); } }
   /* ---------- A11 迎新 ---------- */
   { const a=ACTIVITIES.list.find(x=>x.id==='welcome_y1s1'), e=ev('ev_welcome_y1s1'), D831=STORY.dayOfKey('2025-08-31');   /* AA_310（使用者 10-20「迎新在9/27不合理阿 應該在開學前」）：8/31（日）09:30～12:00，下午開學典禮 */
     check('A11 活動：法律系迎新，開學前 8/31（日）09:30–12:00，校園傅鐘前的集合點，參加就演 ev_welcome_y1s1、去一次就好；9/27 沒有',!!a&&!!e&&a.zone==='campus'&&a.spot&&ACTIVITIES.on(a,D831)&&!ACTIVITIES.on(a,D831+1)&&!ACTIVITIES.on(a,W4SAT)&&a.t0===9.5&&a.t1===12&&a.once&&a.event==='ev_welcome_y1s1'&&e.trigger==='activity');
@@ -107,7 +107,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     check('A11 自我介紹三個選項（AA_71 2-1）＋沛珊兩個選項（BB_95 3-3）',JSON.stringify(opts[0])===JSON.stringify(['「我叫祐廷，臺北人。」','「我比大家大一歲。」','「我二十歲。念過經濟系，一個多月。」'])&&JSON.stringify(opts[1])===JSON.stringify(['（替她答）「她想知道法律外面還有什麼。」','「我也還在找。」']),JSON.stringify(opts));
     check('A11 「大一歲」不設 ECON_PAST_SHARED、以安不記 KNOWS_ECON_YEAR',G.flags.ECON_PAST_SHARED===undefined&&!SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'));
     check('A11 沛珊：FIRST_MET、拿到她的聯絡方式；只一次（活動去過、事件演過）',SOCIAL.has('classmate_peishan','FIRST_MET')&&INV.hasContact(G,'classmate_peishan')&&!EVENTS.check(e,{chain:true})&&ACTIVITIES.onceDone(G,a));
-    check('A11 沒見過 Alison、柏翰：兩句都跳過（只有認識的人在場）',!L.some(t=>/Alison 自我介紹|她剛剛講了四個/.test(t)));
+    check('A11 沒見過小語、柏翰：兩句都跳過（只有認識的人在場）',!L.some(t=>/小語自我介紹|她剛剛講了四個/.test(t)));
     await attend({},()=>{ meet('heroine_01'); },['念過經濟系','替她答']); const L2=lines();
     check('A11 「念過一年經濟」：全場「喔——」、阿哲「哥！」、ECON_PAST_SHARED=full、以安（見過）記 KNOWS_ECON_YEAR',L2.includes('全場「喔——」。')&&L2.includes('哥！')&&G.flags.ECON_PAST_SHARED==='full'&&SOCIAL.has('heroine_01','KNOWS_ECON_YEAR'),JSON.stringify(L2));
     check('A11 替她答：「她看了你一眼。」「……你怎麼知道。」「關主讓你們過了。」',L2.includes('她看了你一眼。')&&L2.includes('……你怎麼知道。')&&L2.includes('關主讓你們過了。'));
@@ -115,7 +115,7 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
     await attend({ECON_PAST_SHARED:'half'},null,['臺北人']); const h1=G.flags.ECON_PAST_SHARED; await attend({ECON_PAST_SHARED:'full'},null,['大一歲']); const f1=G.flags.ECON_PAST_SHARED;
     check('A11 說過的事不會變成沒說過：重修經原說過 half 的照舊 half、full 照舊 full',h1==='half'&&f1==='full',JSON.stringify({h1,f1}));
     await attend({met_yu:true},null,['臺北人']); const L3=lines(); await attend({met_yu:true},()=>meet('classmate_bohan'),['臺北人']); const L4=lines();
-    check('A11 見過 Alison：「Alison 自我介紹講了三分鐘她的三個社團。」；也見過柏翰才有「（小聲）她剛剛講了四個。」',L3.includes('Alison 自我介紹講了三分鐘她的三個社團。')&&!L3.includes('（小聲）她剛剛講了四個。')&&L4.includes('（小聲）她剛剛講了四個。'),JSON.stringify({L3:L3.slice(0,3),L4:L4.slice(0,3)}));
+    check('A11 見過小語：「小語自我介紹講了三分鐘她的三個社團。」；也見過柏翰才有「（小聲）她剛剛講了四個。」',L3.includes('小語自我介紹講了三分鐘她的三個社團。')&&!L3.includes('（小聲）她剛剛講了四個。')&&L4.includes('（小聲）她剛剛講了四個。'),JSON.stringify({L3:L3.slice(0,3),L4:L4.slice(0,3)}));
     fresh(D831,9.5,'campus'); check('A11 活動前 15 分鐘起可以參加、過了一半（10:45）以後不行',(G.hour=9.25,ACTIVITIES.canJoin(G,a))&&(G.hour=10.85,!ACTIVITIES.canJoin(G,a))); }
   /* ---------- A12 以安的報告分工 ---------- */
   { const e=ev('ev_an_report_split'); check('A12 事件存在（ev_an_report_split，民總下課後）',!!e&&e.afterClass==='civ_general'&&e.trigger==='class');

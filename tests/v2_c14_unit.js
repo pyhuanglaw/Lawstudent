@@ -1,4 +1,4 @@
-// 交接包 v2 C14：以安新 7「和 Alison 吵架，然後開了讀書會」（草稿第 3 節、AA_113 新 7）——不需要瀏覽器。修改前沒有這兩個事件（第 1 項失敗）。
+// 交接包 v2 C14：以安新 7「和小語吵架，然後開了讀書會」（草稿第 3 節、AA_113 新 7）——不需要瀏覽器。修改前沒有這兩個事件（第 1 項失敗）。
 // 檢查：前半（第 11 週週二晚上麵店）台詞、四個選項（原文）、AN_YU_ARGUMENT、法律審查標記；不在場的玩家群組聽說；後半：公法讀書會活動（第 12 週起每週四 20:00 研討室 A）、
 //   第 12 週週一的邀請（群組／私訊）、第一次的白板、PUBLIC_LAW_GROUP、以安週四晚上的作息
 // 用法：node tests/v2_c14_unit.js
@@ -42,17 +42,17 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('前半：法律審查標記已拿掉（BB-B 第 27 批審過，BB_115 L483；BB_161 第 3 節）',!e1.legal_review);
     const play=async k=>{ fresh(T11,20,'wancai'); SOCIAL.meet('heroine_01','campus'); R('heroine_01',10); SOCIAL.meet('yu','noodle'); R('yu',10); picks=[k]; await EVENTS.run(e1); return lines(); };
     let L=await play(0);
-    check('前半：Alison「上街要先申請？那還叫自由嗎？」以安「先分清楚。…」Alison「妳每次都先挑我用詞。」以安「因為用詞不清楚，…」（AA_209）柏翰「（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。」（AA_238 5-3）；四個選項',
-      JSON.stringify(L.slice(0,5))===JSON.stringify(['Alison：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','Alison：妳每次都先挑我用詞。','沈以安：因為用詞不清楚，我們就會在吵兩件不一樣的事。','許柏翰：（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。'])&&JSON.stringify(opts[0])==='["「我站 Alison。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃 Alison 帶的宵夜）"]',JSON.stringify([L.slice(0,5),opts[0]]));
-    check('前半 選 1：Alison「看吧！」以安「那你說說看，哪裡不對？」（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['Alison：看吧！','沈以安：那你說說看，哪裡不對？'])&&G.flags.AN_YU_ARGUMENT==='yu',JSON.stringify(L.slice(5)));
-    L=await play(1); check('前半 選 2：以安「謝謝。」（她轉回去跟 Alison 繼續講，聲音小了一點。）（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：謝謝。','（她轉回去跟 Alison 繼續講，聲音小了一點。）'])&&G.flags.AN_YU_ARGUMENT==='an',JSON.stringify(L.slice(5)));
-    L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）Alison「……幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','Alison：……幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
-    L=await play(3); check('前半 選 4（先吃 Alison 帶的宵夜）：柏翰「明智。……我也要一塊。」',JSON.stringify(L.slice(5))===JSON.stringify(['許柏翰：明智。……我也要一塊。'])&&G.flags.AN_YU_ARGUMENT==='noodle',JSON.stringify(L.slice(5))); }
+    check('前半：小語「上街要先申請？那還叫自由嗎？」以安「先分清楚。…」小語「妳每次都先挑我用詞。」以安「因為用詞不清楚，…」（AA_209）柏翰「（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。」（AA_238 5-3）；四個選項',
+      JSON.stringify(L.slice(0,5))===JSON.stringify(['小語：上街要先申請？那還叫自由嗎？','沈以安：先分清楚。是要申請許可，還是讓人知道你要用哪一條路。','小語：妳每次都先挑我用詞。','沈以安：因為用詞不清楚，我們就會在吵兩件不一樣的事。','許柏翰：（看了一下手錶）妳們兩個講了十二分鐘了。每人十分鐘。'])&&JSON.stringify(opts[0])==='["「我站小語。」","「我站以安。」","「妳們講的是同一件事的兩邊。」","（先吃小語帶的宵夜）"]',JSON.stringify([L.slice(0,5),opts[0]]));
+    check('前半 選 1：小語「看吧！」以安「那你說說看，哪裡不對？」（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['小語：看吧！','沈以安：那你說說看，哪裡不對？'])&&G.flags.AN_YU_ARGUMENT==='yu',JSON.stringify(L.slice(5)));
+    L=await play(1); check('前半 選 2：以安「謝謝。」（她轉回去跟小語繼續講，聲音小了一點。）（AA_209）',JSON.stringify(L.slice(5))===JSON.stringify(['沈以安：謝謝。','（她轉回去跟小語繼續講，聲音小了一點。）'])&&G.flags.AN_YU_ARGUMENT==='an',JSON.stringify(L.slice(5)));
+    L=await play(2); check('前半 選 3：（兩個人同時轉過來看你。）小語「……幹嘛突然這麼有道理。」',JSON.stringify(L.slice(5))===JSON.stringify(['（兩個人同時轉過來看你。）','小語：……幹嘛突然這麼有道理。'])&&G.flags.AN_YU_ARGUMENT==='both',JSON.stringify(L.slice(5)));
+    L=await play(3); check('前半 選 4（先吃小語帶的宵夜）：柏翰「明智。……我也要一塊。」',JSON.stringify(L.slice(5))===JSON.stringify(['許柏翰：明智。……我也要一塊。'])&&G.flags.AN_YU_ARGUMENT==='noodle',JSON.stringify(L.slice(5))); }
   /* 不在場：群組聽說 */
   { fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); run(17,23.95); const L=TH('g:noodle_team').filter(m=>!String(m.tag||'').startsWith('b4_')).map(m=>(m.from||'')+':'+m.text).filter(t=>!/建立了/.test(t));   /* 同一天中午以安在群組揪 B4 演講（交接包 v2 C13，tag b4_invite）：不算在這一項 */
-    check('不在場的玩家（沒去那晚的讀書會）：週四 22:00 Alison 連發三則（AA_238 5-4），記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了','yu:不是真的吵啦 是在講上街要不要申請','yu:柏翰還幫我們計時'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
+    check('不在場的玩家（沒去那晚的讀書會）：週四 22:00 小語連發三則（AA_238 5-4），記「聽說」',JSON.stringify(L)===JSON.stringify(['yu:我跟以安吵架了','yu:不是真的吵啦 是在講上街要不要申請','yu:柏翰還幫我們計時'])&&SOCIAL.has('heroine_01','HEARD_ABOUT'),JSON.stringify(L));
     fresh(T11,17,'dorm'); PHONE.join(G,'noodle_team','麵店團'); G.events.done.ev_an_yu_argument=1; run(17,23.9); check('在場看過的玩家：群組沒有這兩句',!txt('g:noodle_team').some(t=>/吵架/.test(t))); }
-  /* 後半：被拱出來＋邀請（AA_238 5-1、5-2：大一上第 10 週週一 20:30 全班群組被拱出來、21:00 邀請＋Alison「+1 可以帶宵夜嗎」） */
+  /* 後半：被拱出來＋邀請（AA_238 5-1、5-2：大一上第 10 週週一 20:30 全班群組被拱出來、21:00 邀請＋小語「+1 可以帶宵夜嗎」） */
   { const M=termDay('Y1S1',10,1), want=['同學:憲法期中有人知道第三題到底在問什麼嗎','同學:我到現在還是不知道憲法在幹嘛','zhe:問沈以安啊 她考超高','同學:真的假的 以安開課','heroine_01:……我不是老師。','heroine_01:可是可以一起讀。','heroine_01:公法讀書會。週四晚上八點，萬才館研討室。想來的就來，不用報名。','yu:+1 可以帶宵夜嗎','heroine_01:……可以。'];
     const cls=()=>TH('g:law_class').filter(m=>/plg_/.test(String(m.tag||''))||/公法|憲法|沈以安|以安開課|不是老師|一起讀|宵夜|可以。/.test(m.text)).map(m=>(m.from||m.name||'')+':'+m.text);
     fresh(M,18,'dorm'); PHONE.join(G,'law_class','法律系（全班）'); PHONE.join(G,'noodle_team','麵店團'); run(18,20.45); check('20:27 還沒有',!TH('g:law_class').some(m=>/以安開課|公法讀書會/.test(m.text)));
@@ -64,7 +64,7 @@ const txt=(th)=>TH(th).map(m=>(m.from||'')+':'+m.text);
     check('公法讀書會：大一上第 10～15 週、大一下第 2～7、10、12～15 週的週四（16 週制：第 16 週期末停） 20:00–21:30、萬才館研討室 A（門口參加）；大一上第 9 週、大一下第 11 週、週三都沒有',ACTIVITIES.on(A,th)&&ACTIVITIES.on(A,termDay('Y1S2',15,4))&&!ACTIVITIES.on(A,termDay('Y1S2',16,4))&&ACTIVITIES.on(A,termDay('Y1S2',4,4))&&ACTIVITIES.on(A,termDay('Y1S1',10,4))&&ACTIVITIES.on(A,termDay('Y1S1',15,4))&&!ACTIVITIES.on(A,termDay('Y1S1',9,4))&&!ACTIVITIES.on(A,termDay('Y1S2',11,4))&&!ACTIVITIES.on(A,termDay('Y1S2',12,3))&&A.t0===20&&A.t1===21.5&&A.zone==='wancai'&&A.room==='seminarA'&&A.door===true);
     fresh(th,19.9,'wancai'); check('第一次去：CLS.clubEvent 是 ev_public_law_group',CLS.clubEvent(G,A)===e2);
     await EVENTS.run(e2); const L=lines();
-    check('第一次：（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）（Alison 在旁邊補：「可以吃東西。」）、PUBLIC_LAW_GROUP',JSON.stringify(L)===JSON.stringify(['（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）','（Alison 在旁邊補：「可以吃東西。」）'])&&G.flags.PUBLIC_LAW_GROUP===true,JSON.stringify(L));
+    check('第一次：（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）（小語在旁邊補：「可以吃東西。」）、PUBLIC_LAW_GROUP',JSON.stringify(L)===JSON.stringify(['（研討室的白板上寫著「公法讀書會」。下面是以安的字：「每人十分鐘。」）','（小語在旁邊補：「可以吃東西。」）'])&&G.flags.PUBLIC_LAW_GROUP===true,JSON.stringify(L));
     check('之後：沒有第一次的事件（每週照常參加；這天剛好是第 12 週週四＝吵架那一晚，以安不在場時是 null）',(CLS.clubEvent(G,A)||{id:null}).id!=='ev_public_law_group',(CLS.clubEvent(G,A)||{}).id);
     const c=CHARACTERS.heroine_01; G.hour=20.5; const s=STORY.schedEnt(c,G); check('以安週四 20:30 在萬才館（公法讀書會）',s&&s.zone==='wancai',JSON.stringify(s&&s.zone)); }
   /* ---------- C21 沛珊和柏翰：大一下第 4 週週四公法讀書會散場（BB_191 §8-7：原本週三法服讀書會）；法服讀書會停用 ---------- */

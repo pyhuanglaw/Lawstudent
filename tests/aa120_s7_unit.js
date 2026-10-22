@@ -1,7 +1,7 @@
 // AA_120 第 7 節（使用者 2026-10-13 批准，開發分支、不發布）：五處改字、20 位不熟同學的 60 句、資料一致性、初遇與舊存檔——不需要瀏覽器。
 // 檢查：
 //   7-1 柏翰的天數＝到這學期第一個期中考時段的天數（7～14 天才說、每學期一次）；芯慈三個版本照 ECON_PAST_SHARED；ev_xinci_double 只在大一下第 6～7 週、台詞改了；
-//       黃教授那句只在上過她的課以後、是書不是電影；Alison 的引號、第 4～6 週。
+//       黃教授那句只在上過她的課以後、是書不是電影；小語的引號、第 4～6 週。
 //   7-2 20 人各三句、每句只說一次、第 3 句要 SHARED_SECRET；心事（facts[1]）說出來以前不出現在任何閒聊、旁白、手機的人物說明；心事在兩句說完以後、一天一句。
 //   7-3 年級跟著遊戲走（大四封頂）、pool_3 的外觀、學長姊照年級畢業（presence）。
 //   7-4 舊存檔：一般自我介紹留下的女主角 FIRST_MET、相遇事件沒播過 → 標成一般招呼（GREETED），先備份；正常相遇過的、有別的紀錄的不動；只做一次。
@@ -38,7 +38,7 @@ const line=(id,re)=>ST(id).find(e=>(typeof e==='string'?e:e.t).match(re));
   check('ev_xinci_double：（AA_209：開頭一句旁白、（小聲）拿掉）「經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。」、大一下第 6～7 週＝2026-03-30～04-12（START-WEEK 選 1 起寫成週次，日期和原本的第 195～208 天一樣）',ev.dialogue[0].text==='（總圖裡，她壓低聲音。）'&&ev.dialogue[1].text==='經濟的期中在債總的隔天。兩科我都還沒念完……我可能要放棄一科。'&&JSON.stringify(ev.term)==='["Y1S2"]'&&JSON.stringify(ev.weeks)==='[6,7]'&&!ev.day_min&&!ev.day_max&&(()=>{ for(let d=180;d<=220;d++){ const t=CALENDAR.termOf(d), inW=!!t&&t.id==='Y1S2'&&(t.week===6||t.week===7); if(inW!==(d>=dayOf('2026-03-30')&&d<=dayOf('2026-04-12'))) return false; } return true; })());
   check('第 195、208 天是大一下第 6、7 週',CALENDAR.termOf(195).id==='Y1S2'&&CALENDAR.termOf(195).week===6&&CALENDAR.termOf(208).week===7,CALENDAR.termOf(195).week+'、'+CALENDAR.termOf(208).week); }
 { const e=ST('prof_huang')[0]; check('黃教授：「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」，沒有課程條件（2026-10-14 課程調整：法律與社會刪了，AA_130 第 2 節第 3 列）',e==='「最近在重讀《正義：一場思辨之旅》。每讀一次，我就換一邊站。」'&&ST('prof_huang').length===1,JSON.stringify(ST('prof_huang'))); }
-{ const e=line('yu',/辯論社下週/); check('Alison：「辯論社下週辯『網拍標錯價要不要出貨』。」、第 4～6 週、大一上、一次',!!e&&e.t==='「辯論社下週辯『網拍標錯價要不要出貨』。」'&&JSON.stringify(e.week)==='[4,6]'&&e.once===true); }
+{ const e=line('yu',/辯論社下週/); check('小語：「辯論社下週辯『網拍標錯價要不要出貨』。」、第 4～6 週、大一上、一次',!!e&&e.t==='「辯論社下週辯『網拍標錯價要不要出貨』。」'&&JSON.stringify(e.week)==='[4,6]'&&e.once===true); }
 /* ---------- 7-2 不熟同學 ---------- */
 const POOL=Object.keys(CHARACTERS).filter(id=>/^pool_/.test(id));
 check('20 位不熟同學各三句，每句只說一次（once），第 3 句要說過心事（SHARED_SECRET）',POOL.length===20&&POOL.every(id=>ST(id).length===3&&ST(id).every(e=>e.once===true)&&!ST(id)[0].if&&!ST(id)[1].if&&JSON.stringify(ST(id)[2].if)===JSON.stringify({memory:[{npc:id,tag:'SHARED_SECRET'}]})));

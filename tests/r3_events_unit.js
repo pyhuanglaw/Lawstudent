@@ -404,7 +404,7 @@ const askOpts=id=>{ const m=PHONE.byAsk(G,id); return m?m.ask.opts.map(o=>o.t):n
     check('14. 大三上 10/15 17:05 家族群組 Kevin「這週辛苦了各位」「@學姊 妳也是」、溫學姊「辛苦了。」', JSON.stringify(TH('g:family_law').map(m=>m.name+':'+m.text))===JSON.stringify(['Kevin:這週辛苦了各位','Kevin:@學姊 妳也是','溫學姊:辛苦了。'])&&at('g:family_law','辛苦了。')-at('g:family_law','這週辛苦了各位')>=2/60);
     run(D('2027-12-03'),16.5,17.25,0.05); check('14. 12/03 再一次', TH('g:family_law').length===6);
     fresh(D('2027-09-15'),22,'dorm'); PHONE.join(G,'noodle_team','麵店團'); R('heroine_02','FAM'); run(G.day,22,22.75);
-    check('14. M4 9/15 22:30 麵店團群組 Alison「芷若說英國的月亮比較小」「我不信」（沒有「欸芷若妳拍給我看」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:芷若說英國的月亮比較小','yu:我不信']));
+    check('14. M4 9/15 22:30 麵店團群組 小語「芷若說英國的月亮比較小」「我不信」（沒有「欸芷若妳拍給我看」）', JSON.stringify(txt('g:noodle_team'))===JSON.stringify(['yu:芷若說英國的月亮比較小','yu:我不信']));
     fresh(D('2027-09-08'),20.5,'dorm'); date('kexin'); run(G.day,20.5,21.5); check('14. 大三上 9/8 21:10 可昕「民訴開課了。第一堂就抄了十一頁。」', K().includes('kexin:民訴開課了。第一堂就抄了十一頁。'));
     fresh(D('2027-11-10'),8,'dorm'); date('kexin'); only('y3_kx_mid',()=>run(G.day,8,21.5)); ans('dp_y3_kx_mid',1);
     check('14. 大三上第 10 週起「民訴期中，你們那邊考哪一題？」；「不想講。」→「好。不講。」「……我也不想講。」', JSON.stringify(K())===JSON.stringify(['kexin:民訴期中，你們那邊考哪一題？','player:不想講。','kexin:好。不講。','kexin:……我也不想講。']));

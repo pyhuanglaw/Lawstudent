@@ -38,16 +38,16 @@ GM.money=function(n){ G.money+=n; };
   fresh(d23,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); let o=OUT.get(G,'y2_xmas');
   check('1. 聖誕：12/23 21:00 阿哲「聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。」；出發選單 12/24 12:20',txt('g:noodle_team').includes('zhe:聖誕交換禮物，明天中午，霖澤館一樓。兩百以內。')&&o&&o.day===d24&&Math.abs(o.h-(12+20/60))<1e-6,JSON.stringify([txt('g:noodle_team'),o]));
   const X=ev('ev_y2_xmas'); fresh(d24,12.4,'campus'); const k0=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01'].includes(id); meet('heroine_01'); said=[]; G.flags.Y2_XMAS_FROM=null; const r0=Math.random; Math.random=()=>0; await EVENTS.run(X); Math.random=r0; STORY.knows=k0; let L=lines();
-  check('2. 兩個一樣的保溫杯「……為什麼有兩個一樣的保溫杯？」阿哲、Alison「不是我們。」；抽到以安＝空白手帳「理由欄是空的。給你自己寫。」',L.includes('拆到的人：……為什麼有兩個一樣的保溫杯？')&&L.includes('阿哲、Alison：不是我們。')&&L.includes('你抽到以安的：一本空白手帳。')&&L.some(t=>/理由欄是空的。給你自己寫。/.test(t)),JSON.stringify(L));
+  check('2. 兩個一樣的保溫杯「……為什麼有兩個一樣的保溫杯？」阿哲、小語「不是我們。」；抽到以安＝空白手帳「理由欄是空的。給你自己寫。」',L.includes('拆到的人：……為什麼有兩個一樣的保溫杯？')&&L.includes('阿哲、小語：不是我們。')&&L.includes('你抽到以安的：一本空白手帳。')&&L.some(t=>/理由欄是空的。給你自己寫。/.test(t)),JSON.stringify(L));
   // 3. 跨年大二（AA_210 第 1 節＋第 5 節 881ed505：16 週制 12/31 在寒假；取代原本的「十一點五十，頂樓。十分鐘就好。」）
   fresh(d31,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); run(20,21.2); o=OUT.get(G,'nye_y2'); const g3=txt('g:noodle_team');
   check('3. 跨年：12/31 21:00 群組五句（以安「今年頂樓幾點？」…阿哲「去年沒看到，今年要看到」）；出發選單 23:30 宿舍頂樓',g3[0]==='heroine_01:今年頂樓幾點？'&&g3.length===5&&g3[4]==='zhe:去年沒看到，今年要看到'&&!g3.some(t=>/十分鐘就好/.test(t))&&o&&Math.abs(o.h-23.5)<1e-6,JSON.stringify([g3,o&&o.h]));
   fresh(d31,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); check('3. 以安不認識：第一句換成柏翰「今年頂樓有人要去嗎？十一點半。」',txt('g:noodle_team')[0]==='classmate_bohan:今年頂樓有人要去嗎？十一點半。');
   OUT.get(G,'nye_y2').state='missed'; G.hour=24.2; STORY.phoneRules(GM); PHONE.tick(G); const nm=TH('g:noodle_team').filter(m=>m.tag==='nye_y2_photo');
-  check('3. 沒去：00:05 阿哲的照片（信義區人擠人）＋Alison「人超多」；NYE_Y2＝none',nm.length===2&&/人擠人/.test(nm[0].text)&&nm[1].text==='人超多'&&G.flags.NYE_Y2==='none',JSON.stringify(nm.map(m=>[m.day,m.h,m.text])));
-  fresh(d31,20,'campus'); SOCIAL.rel('zhe').fam=30; meet('zhe'); run(20,21.2); check('3. 不在群組、和阿哲 FAMILIAR 以上：阿哲私訊兩則「跨年頂樓十一點半 柏翰他們會去」「我跟 Alison 去信義區 你去頂樓就好」（AA_210 5-5）',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:跨年頂樓十一點半 柏翰他們會去','zhe:我跟 Alison 去信義區 你去頂樓就好'])&&!!OUT.get(G,'nye_y2'),JSON.stringify(txt('p:zhe')));
+  check('3. 沒去：00:05 阿哲的照片（信義區人擠人）＋小語「人超多」；NYE_Y2＝none',nm.length===2&&/人擠人/.test(nm[0].text)&&nm[1].text==='人超多'&&G.flags.NYE_Y2==='none',JSON.stringify(nm.map(m=>[m.day,m.h,m.text])));
+  fresh(d31,20,'campus'); SOCIAL.rel('zhe').fam=30; meet('zhe'); run(20,21.2); check('3. 不在群組、和阿哲 FAMILIAR 以上：阿哲私訊兩則「跨年頂樓十一點半 柏翰他們會去」「我跟小語去信義區 你去頂樓就好」（AA_210 5-5）',JSON.stringify(txt('p:zhe'))===JSON.stringify(['zhe:跨年頂樓十一點半 柏翰他們會去','zhe:我跟小語去信義區 你去頂樓就好'])&&!!OUT.get(G,'nye_y2'),JSON.stringify(txt('p:zhe')));
   fresh(d31,23.5,'dorm',{NYE_Y2:'roof',NYE_Y2_PHOTO:true}); PHONE.join(G,'noodle_team','麵店團'); G.hour=24.2; STORY.phoneRules(GM); PHONE.tick(G); const ph=TH('g:noodle_team').filter(m=>m.tag==='nye_y2_photo').map(m=>m.text);
-  check('3. 拍了照：阿哲的照片、Alison 之後，玩家的照片「頂樓的欄杆後面，煙火的上半截，很清楚」、阿哲「你們那邊比較清楚耶」',ph.length===4&&/欄杆後面/.test(ph[2])&&ph[3]==='你們那邊比較清楚耶',JSON.stringify(ph));
+  check('3. 拍了照：阿哲的照片、小語之後，玩家的照片「頂樓的欄杆後面，煙火的上半截，很清楚」、阿哲「你們那邊比較清楚耶」',ph.length===4&&/欄杆後面/.test(ph[2])&&ph[3]==='你們那邊比較清楚耶',JSON.stringify(ph));
   // 3. 可昕交往中（AA_210 5-2）：12/24 21:00 私訊「今年跨年，高雄還是頂樓？」→ 高雄（2980，錢不夠變灰）／頂樓（零點視訊）；沒回＝視訊；答應高雄沒去＝兩句
   { const kxa=m=>TH('p:kexin').filter(x=>x.tag===m); fresh(d31-7,20,'dorm',{dating_kexin:true}); run(20,21.2); const a=kxa('kx_nye_y2');
     check('5-2. 大二 12/24 21:00 可昕「今年跨年，高雄還是頂樓？」、選項「高雄。／頂樓。」',a.length===1&&a[0].text==='今年跨年，高雄還是頂樓？'&&a[0].ask.opts.map(o=>o.t).join('|')==='高雄。|頂樓。',JSON.stringify(a.map(x=>x.text)));
@@ -70,9 +70,9 @@ GM.money=function(n){ G.money+=n; };
   { const d3=STORY.dayOfKey('2027-12-31'); fresh(d3,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const g=txt('g:noodle_team'), o3=OUT.get(G,'nye_y3');
     check('大三跨年：12/31 21:00 群組三句（阿哲「十一點半，頂樓。以安說她要來。」以安、芯慈）；23:30 頂樓',JSON.stringify(g)===JSON.stringify(['zhe:十一點半，頂樓。以安說她要來。','heroine_01:我會到。','classmate_xinci:我家吃完飯就過去，可能晚一點。'])&&!!o3&&Math.abs(o3.h-23.5)<1e-6,JSON.stringify(g));
     o3.state='missed'; G.hour=24.2; STORY.phoneRules(GM); PHONE.tick(G); const ph=TH('g:noodle_team').filter(m=>m.tag==='nye_y3_photo').map(m=>m.text);
-    check('大三跨年沒去：00:05 Alison 的合照（五個人，芯慈站在最旁邊）＋「今年人到得最齊」',ph.length===2&&/芯慈站在最旁邊/.test(ph[0])&&ph[1]==='今年人到得最齊'&&G.flags.NYE_Y3==='none',JSON.stringify(ph));
+    check('大三跨年沒去：00:05 小語的合照（五個人，芯慈站在最旁邊）＋「今年人到得最齊」',ph.length===2&&/芯慈站在最旁邊/.test(ph[0])&&ph[1]==='今年人到得最齊'&&G.flags.NYE_Y3==='none',JSON.stringify(ph));
     const E3=ev('ev_y3_newyear'); fresh(d3,23.5,'dorm',{EXCHANGE_ROUTE:'JP',dating_heroine_01:true,dating_kexin:true,KX_NYE:{3:'video'}}); meet('heroine_01'); meet('classmate_xinci'); said=[]; await EVENTS.run(E3); const L3=lines();
-    check('大三頂樓：鹹酥雞、以安的行李、日本路線「你跟以安同一班喔？」「對。」、芯慈「捷運好多人。」、可昕視訊「我數到零就掛。」、倒數 Alison 起頭；沒有美國路線那句',L3.includes('（十一點半。阿哲和 Alison 已經在了，地上放著一袋鹹酥雞。）')&&L3.includes('阿哲：你跟以安同一班喔？')&&L3.some(t=>/：對。$/.test(t))&&L3.includes('吳芯慈：捷運好多人。')&&L3.some(t=>/我數到零就掛。/.test(t))&&L3.includes('（倒數是 Alison 起的頭，數到三，大家才跟上。）')&&L3.includes('（零點。煙火照樣只看得到上半截。鹹酥雞的袋子被風吹得沙沙響。）')&&!L3.some(t=>/一月就走/.test(t)),JSON.stringify(L3));
+    check('大三頂樓：鹹酥雞、以安的行李、日本路線「你跟以安同一班喔？」「對。」、芯慈「捷運好多人。」、可昕視訊「我數到零就掛。」、倒數小語起頭；沒有美國路線那句',L3.includes('（十一點半。阿哲和小語已經在了，地上放著一袋鹹酥雞。）')&&L3.includes('阿哲：你跟以安同一班喔？')&&L3.some(t=>/：對。$/.test(t))&&L3.includes('吳芯慈：捷運好多人。')&&L3.some(t=>/我數到零就掛。/.test(t))&&L3.includes('（倒數是小語起的頭，數到三，大家才跟上。）')&&L3.includes('（零點。煙火照樣只看得到上半截。鹹酥雞的袋子被風吹得沙沙響。）')&&!L3.some(t=>/一月就走/.test(t)),JSON.stringify(L3));
     check('大三和以安交往中：她留下來「你排一下。」、選項「好。／妳不是最會排嗎？」；NYE_Y3＝roof',L3.includes('沈以安：你排一下。')&&L3.includes('沈以安：排好傳給我。')&&!L3.includes('沈以安：我也回去了。')&&G.flags.NYE_Y3==='roof',JSON.stringify(L3.slice(-6))); }
   // 3. 跨年大四（AA_210 第 3 節）
   { const d4=STORY.dayOfKey('2028-12-31'); fresh(d4,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); const g=txt('g:noodle_team'), o4=OUT.get(G,'nye_y4');
@@ -84,7 +84,7 @@ GM.money=function(n){ G.money+=n; };
   // 芷若在英國的跨年（AA_210 5-7）＋大四沒去的照片
   { const d3=STORY.dayOfKey('2027-12-31'), d4=STORY.dayOfKey('2028-12-31'), zr='heroine_02';
     fresh(d4,20,'campus'); PHONE.join(G,'noodle_team','麵店團'); run(20,21.2); OUT.get(G,'nye_y4').state='missed'; G.day=d4+1; G.hour=0.2; STORY.phoneRules(GM); PHONE.tick(G); const p4=TH('g:noodle_team').filter(m=>m.tag==='nye_y4_photo').map(m=>m.text);
-    check('大四沒去：00:05 Alison「野餐墊上的五個人，芯慈坐在正中間」、芯慈「今年我最早到。」',p4.length===2&&/芯慈坐在正中間/.test(p4[0])&&p4[1]==='今年我最早到。',JSON.stringify(p4));
+    check('大四沒去：00:05 小語「野餐墊上的五個人，芯慈坐在正中間」、芯慈「今年我最早到。」',p4.length===2&&/芯慈坐在正中間/.test(p4[0])&&p4[1]==='今年我最早到。',JSON.stringify(p4));
     fresh(d3,23.5,'dorm',{dating_heroine_02:true}); meet(zr); run(23.5,24.0,0.05); const e3=txt('p:'+zr); const v3=OUT.get(G,'zr_nye_video_y3');
     check('芷若交往中（大三）：12/31 23:59「你那邊快零點了吧。」「我這邊還是下午。等一下打給你。」；1/1 08:00 視訊（接起來）',JSON.stringify(e3)===JSON.stringify(['heroine_02:你那邊快零點了吧。','heroine_02:我這邊還是下午。等一下打給你。'])&&!!v3&&v3.day===d3+1&&v3.h===8&&v3.verb==='接起來',JSON.stringify([e3,v3]));
     const V3=ev('ev_zr_nye_video_y3'); said=[]; await EVENTS.run(V3); const LV=lines(); check('芷若視訊（大三）：開場兩句、窗外煙火、收尾「我要去睡了。你去吃早餐。」',LV.some(t=>/我這邊剛好跨年。/.test(t))&&LV.includes('（她把手機轉向窗外。很遠的地方有煙火，聲音比畫面慢了一點。）')&&LV.some(t=>/我要去睡了。你去吃早餐。/.test(t)),JSON.stringify(LV));
@@ -98,6 +98,6 @@ GM.money=function(n){ G.money+=n; };
   if(e){ fresh(e.day,16,'campus',{noodleTableDay:3}); PHONE.join(G,'noodle_team','麵店團'); run(16,17.1); check('4. 那天 17:00 阿哲「考完了。七點，麵店。」',txt('g:noodle_team').includes('zhe:考完了。七點，麵店。'),JSON.stringify(txt('g:noodle_team')));
     run(17.2,21.8,0.3); check('4. 21:30 還沒去＝「（空碗疊成一座塔。）」',txt('g:noodle_team').includes('zhe:📷（空碗疊成一座塔。）'));
     const M=ev('ev_term_last_meal_y2s1'); fresh(e.day,19,'noodle',{noodleTableDay:3,YU_ZHE_TOLD:'msg'}); G.hour=Math.max(19,e.h+0.1); const ok=EVENTS.check(M); meet('heroine_01'); meet('heroine_03'); const k1=STORY.knows; STORY.knows=id=>['zhe','yu','heroine_01','heroine_03'].includes(id); said=[]; await EVENTS.run(M); STORY.knows=k1; L=lines();
-    check('4. 期末最後一頓（大二上）：阿姨「考完了，吃好一點。」；Alison 和阿哲坐一起；以安「大二上：完成」；語彤「……今天阿姨說我不用端。」',ok&&L.includes('阿姨：考完了，吃好一點。')&&L.includes('（Alison 和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/今天阿姨說我不用端。/.test(t)),JSON.stringify(L)); }
+    check('4. 期末最後一頓（大二上）：阿姨「考完了，吃好一點。」；小語和阿哲坐一起；以安「大二上：完成」；語彤「……今天阿姨說我不用端。」',ok&&L.includes('阿姨：考完了，吃好一點。')&&L.includes('（小語和阿哲坐在一起。）')&&L.includes('（以安在手帳上寫：「大二上：完成」。）')&&L.some(t=>/今天阿姨說我不用端。/.test(t)),JSON.stringify(L)); }
   console.log(fails?'FAILED: '+fails:'ALL PASS'); process.exit(fails?1:0);
 })().catch(e=>{ console.error(e); process.exit(1); });

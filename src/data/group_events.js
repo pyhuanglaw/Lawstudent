@@ -20,7 +20,7 @@ const GROUP_EVENTS=(function(){
   const G1=()=>typeof GROUP!=='undefined'?GROUP:null;
   const inCar=(G,id)=>{ const g=G1(); return !!g&&!!g.springInCar&&g.springInCar(G,id); }, car=id=>({custom:G=>inCar(G,id)});   /* 春假麵店團那一趟車上的三個人（group3d.js S.springInCar；AA_375 第 5 項）*/
   return [
-  /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多 Alison 那一段 ---------- */
+  /* ---------- 1C-01 春假（大二版）：麵店團 4/4（日）一天來回，祐廷開家裡的車載三個人（AA_324 第 2 節）。沛珊在消失期，不出現；和沛珊 FAMILIAR 以上多小語那一段 ---------- */
   { id:'ev_spring_y2_noodle', title:'春假・市場和海邊', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:11,
     beforeOuting:G=>{ const g=G1(); if(g&&g.springSeat) g.springSeat(G); },   /* 車上的三個人（AA_375 第 5 項，照熟悉度）*/
     dialogue:[ {scene:'車上',bg:'car_morning'},{speaker:null,text:'（你回家把車開出來。後座擠了三個人。）'},
@@ -31,14 +31,14 @@ const GROUP_EVENTS=(function(){
       {if:car('zhe'),speaker:'zhe',text:'（手上拿著一袋剛炸好的東西）這個好吃。我不知道是什麼。'},
       {if:car('heroine_01'),speaker:'heroine_01',text:'第一站選得很有理由。'},
       {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')},speaker:'yu',text:'（看著賣菜的阿姨）……以前這種行程都是沛珊排的。'},
-      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給 Alison。）'},
+      {if:{custom:G=>stAt(G,'classmate_peishan','FAMILIAR')&&typeof STORY!=='undefined'&&STORY.knows('yu',G)&&inCar(G,'yu')&&inCar(G,'heroine_03')},speaker:null,text:'（沒有人接話。語彤把一袋芭樂遞給小語。）'},
       {scene:'海邊',bg:'y0_sea_blue'},{speaker:null,text:'（第二站是海邊。四月的風還有點冷。）'},
       {if:kn('yu'),speaker:'yu',text:'我說要去海邊，真的來了。'},
       {if:kn('classmate_bohan'),speaker:'classmate_bohan',text:'（把鞋子脫了，又穿回去）水太冷。'},
       {if:kn('classmate_xinci'),speaker:'classmate_xinci',text:'我們拍一張。……阿哲你站後面，你太高。'},
       {if:kn('classmate_xinci','zhe'),speaker:'zhe',text:'我哪有。'},
       {choice:[{text:'（下去踩水）',goto:'w'},{text:'（坐在堤防上）',goto:'s'}]},
-      {label:'w'},{if:kn('yu'),speaker:null,text:'（水真的很冷。Alison 在後面笑到蹲下。）'},{goto:'back'},
+      {label:'w'},{if:kn('yu'),speaker:null,text:'（水真的很冷。小語在後面笑到蹲下。）'},{goto:'back'},
       {label:'s'},{if:kn('heroine_03'),speaker:null,text:'（你坐到語彤旁邊。她看著海，筆記本放在膝蓋上，一個字都沒寫。）'},
       {label:'back'},{scene:'車上',bg:'car_night'},{speaker:null,text:'（回程，後座三個人都睡著了。你一個人開到臺北，收音機開得很小聲。）'} ],
     consequences:{memo:'大二的春假：開車載麵店團去小鎮的市場和海邊'},
@@ -94,7 +94,7 @@ const GROUP_EVENTS=(function(){
       {speaker:null,text:'（麵店的長桌上放著一個紙箱。阿哲在上面用麥克筆寫倫敦的地址，寫錯一個字母，又塗掉。）'},
       {if:kn('yu'),speaker:'yu',text:'每個人放一樣東西。不能超過手掌大。'},
       {if:nfam('heroine_02'),set:{XMAS_Y3_BOX:'snack'}},
-      {if:nfam('heroine_02'),speaker:null,text:'（Alison 說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）'},
+      {if:nfam('heroine_02'),speaker:null,text:'（小語說這是要寄給一個在英國的朋友。你不認識她，還是放了一包乖乖。）'},
       {if:nfam('heroine_02'),goto:'next'},
       {choice:[{text:'「Café 的杯墊。」',set:{XMAS_Y3_BOX:'coaster'},goto:'c1'},{text:'「一包乖乖。」',set:{XMAS_Y3_BOX:'snack'},goto:'c2'},{text:'「一張寫了字的便條。」',set:{XMAS_Y3_BOX:'note'},goto:'c3'},
         {text:'（放一張只有你看得懂的便條）',if:{custom:dating('heroine_02')},set:{XMAS_Y3_BOX:'note'},goto:'c4'}]},
@@ -117,7 +117,7 @@ const GROUP_EVENTS=(function(){
       {unless:isDown,speaker:null,text:'（視訊裡，他坐在宿舍的樓梯間，手上一瓶鋁箔包紅茶。）'},   /* 視訊版開頭的舞台指示（AA_336 C10）*/
       {if:isDown,speaker:'zhe',text:'（兩瓶鋁箔包紅茶，一瓶推過來）我爸明天要上來看。'},{unless:isDown,speaker:'zhe',text:'我爸明天要上來看。'},
       {speaker:'zhe',text:'他從來沒有來看過我打球。他是體育老師，他都說：輸了就去跑步，不要哭。'},
-      {speaker:'zhe',text:'我剛剛跟 Alison 說「沒事啦」。'},
+      {speaker:'zhe',text:'我剛剛跟小語說「沒事啦」。'},
       {speaker:'zhe',text:'她說：「你看，你又說沒事。」'},
       {speaker:'zhe',text:'（很久）……'},
       {speaker:'zhe',text:'有事。我很緊張。'},
@@ -126,7 +126,7 @@ const GROUP_EVENTS=(function(){
       {label:'a'},{if:isDown,speaker:null,text:'（他點頭，把紅茶喝完，再去買兩瓶。兩個人坐到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},
       {unless:isDown,if:notJP,speaker:null,text:'（他把紅茶喝完。你們講到十二點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* 視訊版選項①（AA_336 C10）*/
       {if:isJP,speaker:null,text:'（他把紅茶喝完。你們講到臺灣十二點半。你這邊已經一點半。他講了很多，大部分是高雄、他爸、高中的球隊。）'},   /* AA_377 第 2 項：日本版照當地時間（臺灣 4/28 23:00＝日本 4/29 0:00）*/
-      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>jpNow(G)?Math.max(0.25,(G.hour>=12?25.5:1.5)-G.hour):24.5-G.hour},{goto:'end'},   /* 講一個半小時：臺灣到 0:30；日本版 G.hour 是當地 0 點＝到當地 1:30（原本 24.5-G.hour 一口氣跳到 4/30，冠軍賽直播演不到）；沒換日的 24.x 也是到 25.5（BUG-JP-SLEEP-MIDNIGHT-1022：原本只過 15 分鐘）*/
+      {speaker:'zhe',text:'我第一次講這麼多我自己的事。……講完好像沒那麼緊張了。'},{advance:G=>jpNow(G)?Math.max(0.25,1.5-G.hour):24.5-G.hour},{goto:'end'},   /* 講一個半小時：臺灣到 0:30；日本版 G.hour 是當地 0 點＝到當地 1:30（原本 24.5-G.hour 一口氣跳到 4/30，冠軍賽直播演不到）*/
       {label:'b'},{speaker:'zhe',text:'……跟我爸？'},
       {speaker:null,text:'（他想了很久，拿出手機，打了一行字，刪掉，又打。按出去。三十秒後手機震了：「我也是。」他盯著螢幕看了很久，然後笑出來。）'},
       {speaker:'zhe',text:'……他也是。'},{advance:0.25},{goto:'end'},

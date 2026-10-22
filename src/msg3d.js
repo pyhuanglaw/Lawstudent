@@ -44,7 +44,7 @@ const MSG=(function(){
   /* 祐廷和別人交往中，而且她知道（AA_202 第 4 節，2026-10-17：只在她知道時才算） */
   S.takenFor=function(G,id){ const F=G.flags||{}; for(const k in F){ if(k.indexOf('dating_')!==0||!F[k]) continue; const p=k.slice(7); if(p===id) continue;
       if(typeof ROM!=='undefined'&&ROM.knowsOf?ROM.knowsOf(G,id,p):true) return true; } return false; };
-  const herPartner=(G,id)=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };   /* partnerOn 看 fromWeek／untilWeek／startEvent／endEvent（inTerms 只看學期：Alison 開局、沛珊分手後都被當成有伴侶，BUG-INTERMS-PARTNER-1021）；同 date3d、invites3d、termend3d */
+  const herPartner=(G,id)=>{ const c=typeof CHARACTERS!=='undefined'&&CHARACTERS[id]; return !!(c&&c.partner&&typeof STORY!=='undefined'&&(STORY.partnerOn?STORY.partnerOn(G,c.partner):(STORY.inTerms&&STORY.inTerms(G,c.partner)))); };   /* partnerOn 看 fromWeek／untilWeek／startEvent／endEvent（inTerms 只看學期：小語開局、沛珊分手後都被當成有伴侶，BUG-INTERMS-PARTNER-1021）；同 date3d、invites3d、termend3d */
   /* 層：L＝交往中，或第 5 階以上而且兩人都單身（AA_202 6 的格式註、AA_215／AA_216 R8）；R＝朋友、好朋友；A＝認識、有點熟 */
   S.tier=function(G,id){ const F=G.flags||{}; if(F['dating_'+id]===true) return 'L'; const n=stageNum(id);
     if(ROMANTIC.includes(id)&&id!=='kexin'&&n>=5&&!S.takenFor(G,id)&&!Object.keys(F).some(k=>k.indexOf('dating_')===0&&F[k])&&!herPartner(G,id)) return 'L';
@@ -143,7 +143,7 @@ const MSG=(function(){
     m=p.match(/^週([一二三四五六日])～([一二三四五六日]) (\d{1,2}):(\d\d) 以後$/); if(m){ const W='日一二三四五六'; const a=W.indexOf(m[1]), b=W.indexOf(m[2]); return wd>=a&&wd<=b&&h>=+m[3]+(+m[4])/60; }
     m=p.match(/^週([一二三四五六日])、週([一二三四五六日])(下午|晚上)?$/); if(m){ const W='日一二三四五六'; if(![W.indexOf(m[1]),W.indexOf(m[2])].includes(wd)) return false; return m[3]?TIME_TAGS.find(([k])=>k===m[3])[1](h):true; }
     m=p.match(/^(有|沒有) `([A-Z0-9_]+)`$/)||p.match(/^`([A-Z0-9_]+)`$/); if(m){ const f=m.length===3?m[2]:m[1], neg=m.length===3&&m[1]==='沒有'; const v=!!(G.flags&&G.flags[f])||(typeof SOCIAL!=='undefined'&&SOCIAL.has&&SOCIAL.has(id,f)); return neg?!v:v; }
-    if(p==='認識 Alison 才有') return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('yu')!=='STRANGER':false;
+    if(p==='認識小語才有') return typeof SOCIAL!=='undefined'&&SOCIAL.stage?SOCIAL.stage('yu')!=='STRANGER':false;
     return false; };
   S.tagOk=function(G,id,tag){ const s=String(tag).replace(/（[^）]*）|\([^)]*\)|〔[^〕]*〕/g,'').trim(); if(!s) return true;
     const parts=s.split(/[、，；,]/).map(x=>x.trim()).filter(Boolean); if(id==='heroine_05'&&parts.includes('在美國')&&S.usWithHer(G)) return false; return parts.every(p=>S.tok(G,id,p)); };
@@ -184,7 +184,7 @@ const MSG=(function(){
   S.travelPlace=function(G,id){ const pr=presence(G,id); if(!pr||pr.here!==false||!((pr.kind==='trip'&&pr.signal)||pr.kind==='abroad'||pr.kind==='absent')) return null;
     const nm=String(pr.away||'').replace(/^在/,'').trim(); return nm&&!/[（(]/.test(nm)?nm:null; };
   S.travelEntry=function(G,id){ const L=TRAVEL_LINE[id], nm=L&&!S.inUK(G,id)?S.travelPlace(G,id):null; return nm?{topic:'chat',tier:'A',tierMin:true,variant:'旅行、出國',travel:true,msgs:['在'+nm+'。',L],tags:[],ask:null,src:'AA_369 第 7 節第 5 題'}:null; };
-  /* 出門那幾天用她們自己的那一版（AA_369 第 8 節第 1 題，AA 2026-10-21 20:3x）：Alison 營隊（presence「在營隊當隊輔」）＝「7 月營隊期間」、方奕廷上山（「上山做調查（沒有訊號）」）＝「在山上」；
+  /* 出門那幾天用她們自己的那一版（AA_369 第 8 節第 1 題，AA 2026-10-21 20:3x）：小語營隊（presence「在營隊當隊輔」）＝「7 月營隊期間」、方奕廷上山（「上山做調查（沒有訊號）」）＝「在山上」；
      照 presence 的日子，蓋過放假那幾版和一般版。回覆時間照舊（方奕廷沒訊號：下山那天 15:00 才回）*/
   const OWN_TRIP={yu:{v:'7 月營隊期間',away:/營隊/},npc_fangyt:{v:'在山上',away:/上山/}};
   S.ownTrip=function(G,id){ const o=OWN_TRIP[id]; if(!o) return null; const pr=presence(G,id); return pr&&pr.here===false&&pr.kind==='trip'&&o.away.test(String(pr.away||''))?o.v:null; };
@@ -199,7 +199,7 @@ const MSG=(function(){
     if(o.mode==='y0'){ const c=S.y0Pool(G).filter(e=>topicKeys(topic,sub).includes(e.topic)); return c.length?rot(R,id,'y0:'+topic+(sub||'')+'|'+c[0].variant,c):null; }   /* 經濟系那一年的可昕（AA_301）*/
     const all=((POOL().people[id]||{}).replies||[]).filter(e=>topicKeys(topic,sub).includes(e.topic));
     if(o.mode==='uk'){ const U=all.filter(e=>e.variant===UK&&tierFits(e,tier)&&usable(G,id,e,ctx)); return U.length?rot(R,id,'uk:'+topic+(sub||''),U):null; }   /* 芷若在英國：只用「在英國」那一組（朋友那一組好朋友、交往中也用：tierMin）*/
-    if(topic==='chat'){ const ov=S.ownTrip(G,id); if(ov){ const c=all.filter(e=>e.variant===ov&&usable(G,id,e,ctx)); if(c.length) return rot(R,id,'own:'+topic+'|'+ov,c); }   /* Alison 營隊、方奕廷上山：自己那一版（AA_369 第 8 節第 1 題）*/
+    if(topic==='chat'){ const ov=S.ownTrip(G,id); if(ov){ const c=all.filter(e=>e.variant===ov&&usable(G,id,e,ctx)); if(c.length) return rot(R,id,'own:'+topic+'|'+ov,c); }   /* 小語營隊、方奕廷上山：自己那一版（AA_369 第 8 節第 1 題）*/
       const tv=S.travelEntry(G,id); if(tv) return tv; }   /* 旅行、出國的日子「在幹嘛」（AA_369 第 7 節第 5 題）*/
     const order=tier==='L'?['L','R','A']:(tier==='R'?['R','A']:['A','R']);
     for(const tr of order){ const inTier=all.filter(e=>tierFits(e,tr)&&usable(G,id,e,ctx)); if(!inTier.length) continue;
@@ -218,7 +218,7 @@ const MSG=(function(){
   /* 什麼時候回：{day,h,late,after,win,immediate}（late＝隔天才回，先說 wakeLine） */
   S.replyAt=function(G,id){ const Tm=S.timing(id), h=G.hour%24, wd=G.weekday, day=G.day+Math.floor(G.hour/24);
     if(id==='heroine_02'&&S.inUK(G,id)){ const row=S.ukRow(G,id); if(row!=='none') return S.ukReplyAt(G,id,row); }   /* 芷若在英國（BB_178 1-E）*/
-    { const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='trip'&&!pr.signal&&pr.back!=null&&pr.back>day) return {day:pr.back,h:15,late:true}; }   /* 方奕廷暑假上山沒訊號（BB_171 第 1 節「常常晚好幾天才回」）：下山那天 15:00 才回（照寒假初三 15:00 的做法）。signal＝短期出門有訊號（AA_350 S4、S8：阿凱日本／曼谷、以安東京／京都、Alison 營隊），照平常回 */
+    { const pr=presence(G,id); if(pr&&pr.here===false&&pr.kind==='trip'&&!pr.signal&&pr.back!=null&&pr.back>day) return {day:pr.back,h:15,late:true}; }   /* 方奕廷暑假上山沒訊號（BB_171 第 1 節「常常晚好幾天才回」）：下山那天 15:00 才回（照寒假初三 15:00 的做法）。signal＝短期出門有訊號（AA_350 S4、S8：阿凱日本／曼谷、以安東京／京都、小語營隊），照平常回 */
     if(Tm.slots){ const nx=Tm.slots.find(x=>x>h+0.01); if(nx!=null) return {day,h:nx,late:false,after:true}; return {day:day+1,h:Tm.slots[0],late:true}; }   /* 學姊 */
     if(id==='heroine_02'&&yearNow(G)<=2&&S.takenFor(G,id)&&!zrOff(G)){ const s1=15+10/60; return h<s1?{day,h:s1,late:false,after:true}:{day:day+1,h:s1,late:true}; }   /* 芷若：祐廷交往中改 15:10 回（BB_70 1-2）；15:10＝她下午的班結束，6/4～9/2 她不上班＝不照上班作息（AA_375 第 1 項）*/
     const asleep=Tm.sleep!=null&&(Tm.sleep>=12?(h>=Tm.sleep||h<Tm.wake):(h>=Tm.sleep&&h<Tm.wake));
@@ -243,7 +243,7 @@ const MSG=(function(){
   S.newYearDay=G=>isMD(G,1,1)||S.lunarNY(G);
   /* 「謝謝」「還好嗎」的「事」對到遊戲裡的哪一場（AA_202 7-1「條件表 LAWWW 照各人事件的旗標列」、7-2；BB_178 10-2、10-3）：
      ev＝那一場演過那天起算（G.events.last）；flag＝那一場要選到的選項；help:'notes'＝問課時對方回了筆記照片（通則）；on／dates＝固定日期；msg＝她傳的那則（PHONE.sent）；stage＝熟悉度門檻。
-     表裡沒有的（遊戲裡還沒有那一場、日期還沒定：家教學生的家被駁回、交換出發前一週、系籃輸球、Alison 的營隊、國考前一週、M2、F3、學姊 US2、W15…）＝不開 */
+     表裡沒有的（遊戲裡還沒有那一場、日期還沒定：家教學生的家被駁回、交換出發前一週、系籃輸球、小語的營隊、國考前一週、M2、F3、學姊 US2、W15…）＝不開 */
   const EV2={
     'heroine_01:yu_argument':{ev:'ev_an_yu_argument'},
     'heroine_03:aunt_hand':{ev:'ev_yutong_absent'},   /* AA_11 事件 4：阿姨扭到手、她顧店的那兩週 */

@@ -21,7 +21,7 @@ const ROM=(function(){
     dropTo:{heroine_01:'FRIEND',heroine_03:'FRIEND',heroine_02:'FRIEND',heroine_04:'FRIEND',heroine_05:'FRIEND',classmate_peishan:'CLOSE_FRIEND',kexin:'FRIEND'},
     restartWeeks:{heroine_05:6}, restartWeeksDefault:4 };
   /* 誰知道祐廷在和誰交往（knowsRel；BB_191 第 1、9 節 @08429294、第 10 節 @f3ae0e82；AA_218 17-7／17-8／17-10／17-11；使用者 2026-10-17「大家一開始都不知道祐廷有女友」）：
-     G.flags.knowsRel[X][P]＝{state:'confirmed', source, day}：X 知道祐廷在和 P 交往；沒有這一筆＝不知道。X 是任何人（阿哲、Alison、柏翰這些不是戀愛對象的也算），所以不放在 romance[X] 裡。
+     G.flags.knowsRel[X][P]＝{state:'confirmed', source, day}：X 知道祐廷在和 P 交往；沒有這一筆＝不知道。X 是任何人（阿哲、小語、柏翰這些不是戀愛對象的也算），所以不放在 romance[X] 裡。
      只寫 'confirmed'（使用者刪掉「自己看到」「第三人轉述」兩種來源，不再有 'suspects'；欄位保留）。**寫入一律走 ROM.learn。**
      來源：在場（K3 選①「這是可昕，我女朋友。」）、朋友聊天傳開 told_by:<Y>（一次一層；S.spreadTick）、祐廷自己說 yt_told（ROM.tellBy）、子晴問阿凱 told_by:kai（9-7；S.zqAskTick、ev_zq_ask_kai）。
      阿凱（室友）一定知道可昕。知道過就是知道過（分手不刪）。原本的固定名單 KEXIN_KNOWN（以安、語彤、沛珊在 KX_MET_NOODLE_TEAM 以後一律知道）拿掉（9-4 #1）。
@@ -42,7 +42,7 @@ const ROM=(function(){
     for(const id of at){ S.learn(G,id,'kexin','ev_mid_autumn_bbq'); S.tellYt(G,id,'kexin'); } };   /* 他當著大家的面介紹的：在場的人知道，他也知道他們知道 */
   /* 傳開（BB_191 9-3、9-7、9-8；AA_218 17-10、17-11）：只有 SPREAD 這幾組會傳，一次一層、不擲骰；記的 day／h＝兩人下一次一起出現的那一刻。
      以安→沛珊：大二上第 6 週以後、以安知道以後的下一次公法讀書會週四（散會 21:30 一起走回女舍）；子晴⇄芷若：知道以後的下一個週五 14～16，兩人的作息同時在校園（芷若在英國的學期不算）。
-     Alison→子晴：BB 寫「定以前不傳」；語彤、阿哲、Alison、柏翰、方奕廷知道了也不傳給女主角；沛珊聽說以後不再往下傳（她的朋友圈沒有表上的人）。
+     小語→子晴：BB 寫「定以前不傳」；語彤、阿哲、小語、柏翰、方奕廷知道了也不傳給女主角；沛珊聽說以後不再往下傳（她的朋友圈沒有表上的人）。
      阿凱（室友）一定知道、不主動說：只有子晴問的時候（zqAsk：子晴第 5 階以上、沒和祐廷交往、還不知道、祐廷和可昕交往中 → 第一個上課日 17:00 資工系下課；那晚睡覺時演 ev_zq_ask_kai）。
      不是每一幀都從頭算：F.spreadScan 記每一組看到哪一天（存檔讀進來很久以後也會補到正確的那一天）*/
   S.CAMPUS_ZONES=['campus','linze','classroom','wancai','library','library_hall','lawlib','soclib','boya','putong','gym','gym_b1','gym_arena'];   /* gym_arena：新體育館 3F 主球場（ART-GYM2-INT 2026-10-21）*/
