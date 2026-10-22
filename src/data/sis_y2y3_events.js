@@ -1,0 +1,148 @@
+/* ===== 學姊大二到大三的空窗（AA_379 第 2 節，企劃線 30ab5142；AA 2026-10-22 定稿；任務 AA379-SIS-Y2Y3-1021；使用者 10-21 22:5x「學姊才是真正的女主角」）=====
+   她碩一、碩二那兩年補八場。台詞照 AA_379 一字不改（SISY23_LINES）；事件在 SISY23_EVENTS。手機、出遊、說話前接演的接線在 src/sis_y2y3_3d.js。
+   2-1 ev_sis_lab_desk（大二上 9/21 私訊 → 9/22 12:20 研究室）　2-2 ev_sis_seminar_y2（11/17 私訊 → 11/18 19:00 法圖討論室）
+   2-3 想寫的東西（大二下第 5～10 週，在法圖或 Café 第一次找她說話時接在前面演；第 11 週週三 21:00 私訊 → ev_sis_topic_steps 法圖外面的台階）
+   2-4 她的生日 6/2（2026、2027）：ev_sis_bday_y1／ev_sis_bday_y2（當天晚上在她讀書的地方找她說話）、ev_sis_bday_date_y1／y2（交往中：前一天約、法圖旁邊那家）
+   2-5 ev_sis_interview（大三上 10/15 私訊 → 10/16 09:00 法扶）　2-6 明年夏天（11/1～11/9 第一次找她說話時接在前面演；都沒遇到 11/11 私訊 → ev_sis_us_told_steps 11/12 12:20 總圖門口的台階）
+   2-7 ev_sis_us_result（大三下 3/15 21:30 她打電話來）
+   每一場都分「一般」「交往中」；沒有熟悉（FAMILIAR）以上就不演（2-3、2-5、2-7 是朋友以上），不加門檻、不鎖線；錯過都不扣關係。
+   測試：node tests/aa379_sis_y2y3_unit.js */
+'use strict';
+const SISY23_LINES={
+  /* 2-1 研究室靠門的位子（大二上第 3 週，碩一）*/
+  labAsk:['明天中午有空嗎。','研究室分到位子了。書有兩箱，電梯在修。'], labYes:'好。', labNoT:'明天中午有課。', labNo:'好。我自己搬兩趟。',
+  labMissed:['📷（排好的書架）','搬完了。'],
+  /* 2-2 第一次 seminar 報告（大二上第 11 週，碩一）*/
+  semAsk:['明天晚上七點，法圖的討論室。','我要練一次 seminar 的報告。需要一個不是法研所的人聽。'], semYes:'好。', semNoT:'明天晚上不行。', semNo:'好。那我對著牆講。',
+  semMissed:'講完了。牆沒有意見。',
+  /* 2-3 想寫的東西（大二下第 5～10 週，碩一）：第 10 週還沒遇到＝第 11 週週三 21:00 私訊 */
+  topicAsk:'法圖外面的台階。等你十分鐘。',
+  /* 2-4 她的生日（6/2）：12:10 家族群組 Kevin；交往中前一天 21:00 私訊 */
+  bdayKevin:'今天溫學姊生日🎂', bdayAsk:['明天我生日。','晚上七點，法圖旁邊那家。我訂了。'],
+  /* 2-5 訪談（大三上第 6 週，碩二）*/
+  ivAsk:['明天早上九點，我要去訪談一位法扶的律師。','需要一個人幫我做筆記。你打字比我快。'], ivYes:'好。', ivNoT:'明天早上不行。', ivNo:'好。我錄音。',
+  ivMissed:'訪談完了。錄音有雜音，我自己聽了兩遍。',
+  /* 2-6 明年夏天：11/1～11/9 都沒遇到＝11/11（四）21:00 私訊 */
+  usAsk:'明天中午，總圖門口的台階。' };
+const SISY23_EVENTS=(function(){
+  const L=SISY23_LINES, ID='heroine_05';
+  const dating=G=>{ const F=(G&&G.flags)||{}, R=F.romance||{}; return F['dating_'+ID]===true||!!(R[ID]&&R[ID].status==='dating'); };
+  const dt={custom:G=>dating(G)}, SIS=t=>({speaker:ID,text:t}), N=t=>({speaker:null,text:t});
+  const route=G=>typeof STORY!=='undefined'&&STORY.route?STORY.route(G):null;
+  /* 2-3 的台詞（說話前接演、台階那一版共用）*/
+  const TOPIC=[ SIS('我想寫的東西，找到了。'),
+    SIS('債務清理案件的法律扶助。……題目還要再改，方向不會變了。'),
+    {if:{flagIs:{SIS_SEMINAR_Y2:'asked'}},speaker:ID,text:'你上次問我為什麼。……我想好怎麼講了。'},   /* 2-2 問過「妳為什麼選這個題目？」的 */
+    SIS('我大二在法服的時候，有一個阿姨拿著一袋信來。全部是銀行寄的。最舊的那一封，是我國小的時候寄的。'),
+    SIS('我只能跟她說，這個要去找法扶。'),
+    SIS('她說她去過了。排了很久。'),
+    SIS('我想知道『很久』是多久。……還有為什麼要那麼久。'),
+    {choice:[{text:'「那妳查到了嗎？」',goto:'tp_a'},{text:'「那個阿姨後來呢？」',goto:'tp_b'}]},
+    {label:'tp_a'},SIS('還沒。所以要寫兩年。'),{goto:'tp_end'},
+    {label:'tp_b'},SIS('……我不知道。那天以後，就沒再見過她。'),
+    {label:'tp_end'},{if:dt,speaker:ID,text:'我爸媽還不知道。……他們會問，寫這個以後要做什麼。'},
+    {mem:[{npc:ID,tag:'SIS_TOPIC',note:''}]},{set:{SIS_TOPIC_Y2:true}} ];
+  /* 2-6 的台詞（說話前接演、台階那一版共用）*/
+  const US=[ SIS('明年夏天，我想去美國待一個學期。研究交換。'),
+    SIS('八月走，十二月回來。論文的第三章，要在那邊寫。'),
+    {unless:dt,speaker:ID,text:'計畫本上寫了很久。今天才決定要跟人說。'},
+    {unless:dt,choice:[{text:'「去啊。」',goto:'us_a'},{text:'「那妳會回來吧？」',goto:'us_b'}]},
+    {if:dt,speaker:ID,text:'你們系的交換名單，美國那間我查過了。跟我同一個學期。'},
+    {if:dt,speaker:ID,text:'你如果去，我們同一班飛機。'},
+    {if:dt,choice:[{text:'「好。」',goto:'us_c'},{text:'（握住她的手）',goto:'us_d'}]},
+    {label:'us_a'},SIS('嗯。'),N('（她把計畫本闔上）'),SIS('……你說得好簡單。'),{goto:'us_end'},
+    {label:'us_b'},SIS('十二月。回程的日子，計畫本上寫好了。我不會改。'),{goto:'us_end'},
+    {label:'us_c'},SIS('……好。志願表十八號截止。'),{goto:'us_end'},
+    {label:'us_d'},N('（她沒有說話。手翻過來，握回去。）'),
+    {label:'us_end'},{mem:[{npc:ID,tag:'SIS_US_TOLD',note:''}]} ];
+  /* 2-4 生日的一段（一般、交往中共用；year＝2026 'y1'／2027 'y2'）*/
+  const bday=(year,date)=>[ ...(date?[SIS('我自己訂的。我知道你會想訂，可是你會訂錯家。')]:[N('（她在讀書。保溫瓶旁邊多了一小盒蛋糕，還沒拆。）')]),
+    SIS('群組那則看到了吧。Kevin 每年都發。'),
+    ...(year==='y1'?[SIS('下禮拜畢業。……之後還是在這裡讀書，只是換一張學生證。')]:[{if:{flagIs:{SIS_LAB_DESK:'went'}},speaker:ID,text:'碩一過完一年了。研究室那張靠門的椅子，我換了一個坐墊。'}]),
+    {choice:[{text:'「生日快樂。」',goto:'bd_a'},{text:'（遞給她一包茶葉）',goto:'bd_b'},{text:'（把她的保溫瓶拿去裝滿熱水）',goto:'bd_c'}]},
+    {label:'bd_a'},SIS(date?'謝謝。……你今天穿得比平常好看。':'謝謝。……蛋糕分你一半，我吃不完。'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'there'}},{goto:'bd_end'},
+    {label:'bd_b'},SIS('（看了一下包裝）這家我喝過。……你怎麼知道。'),{speaker:'player',text:'妳保溫瓶的味道。'},SIS('……好。'),N('（她收進包包）'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'tea'}},{goto:'bd_end'},
+    {label:'bd_c'},SIS('這不算禮物。'),SIS('……算。'),{set:{['SIS_BDAY_'+year.toUpperCase()]:'water'}},
+    {label:'bd_end'},...(date?[N('（回去的路上，她走得比平常慢。）')]:[]) ];
+  const X=()=>typeof SISY23!=='undefined'?SISY23:null;
+  return [
+    /* ---------- 2-1 9/22（二）12:20 霖澤館・研究室（地點、背景照 ev_sis_plan_lab）---------- */
+    { id:'ev_sis_lab_desk', title:'研究室靠門的位子', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+      dialogue:[ {scene:'霖澤館・研究室',bg:'linze_prof_hall'},
+        N('（研究室有八張桌子。她的在門邊，門一開就撞到椅背。）'),
+        SIS('靠門的位子。每個人進來都會撞到我。'),
+        SIS('……也好。誰來了我都知道。'),
+        N('（你把兩箱書搬上桌。她一本一本排上書架，照顏色。）'),
+        {choice:[{text:'「照顏色排？」',goto:'a'},{text:'（幫她把最重的那一排推進去）',goto:'b'}]},
+        {label:'a'},SIS('照顏色好找。照作者，我會一直想要不要調整。'),{goto:'end'},
+        {label:'b'},SIS('……謝謝。你比電梯可靠。'),
+        {label:'end'},{if:dt,speaker:null,text:'（她撕了一張便條，寫完貼在桌燈上：「中午十二點二十以後，我在這裡。」）'},{if:dt,speaker:ID,text:'……你的。'},
+        {set:{SIS_LAB_DESK:'went'}} ],
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'lab'); } },
+    /* ---------- 2-2 11/18（三）19:00 法圖・討論室（她週三晚上本來就在法圖）---------- */
+    { id:'ev_sis_seminar_y2', title:'第一次 seminar', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1,
+      dialogue:[ {scene:'法圖・討論室'},
+        N('（白板上寫著她的報告題目，字很小。她站在白板前，手上是幾張講稿。）'),
+        SIS('二十分鐘。中間不要問，最後再問。'),
+        N('（她講了十九分鐘。講到一半，停下來喝了一口保溫瓶。）'),
+        SIS('好了。……哪裡聽不懂？'),
+        {choice:[{text:'「中間那段，數字太多了。」',goto:'a'},{text:'「都聽得懂。」',goto:'b'},{text:'「妳為什麼選這個題目？」',goto:'c'}]},
+        {label:'a'},SIS('（在講稿上劃掉一整段）……我也覺得。只是捨不得。'),{set:{SIS_SEMINAR_Y2:'went'}},{goto:'end'},
+        {label:'b'},SIS('（看了你一眼）你上課也都說聽得懂。'),{set:{SIS_SEMINAR_Y2:'went'}},{goto:'end'},
+        {label:'c'},SIS('……這是最後才要問的問題。你先問了。'),SIS('下次再回答你。我還沒想好怎麼講。'),{set:{SIS_SEMINAR_Y2:'asked'}},
+        {label:'end'},{if:dt,speaker:ID,text:'你坐第一排，我比較不會看錯地方。'},
+        SIS('好。我回去改。……你先回宿舍，很晚了。') ],
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'sem'); } },
+    /* ---------- 2-3 第 11 週週三：法圖外面的台階（第 5～10 週沒遇到的，私訊來；可以略過）---------- */
+    { id:'ev_sis_topic_steps', title:'想寫的東西', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+      dialogue:[ {scene:'法圖外面的台階'} ].concat(TOPIC) },
+    /* ---------- 2-4 6/2 晚上：在她讀書的地方找她說話（2026 週二＝Café、2027 週三＝法圖）；熟悉以上、沒在交往 ---------- */
+    { id:'ev_sis_bday_y1', title:'她的生日', participants:[ID], location:['cafe','lawlib'], trigger:'interact', priority:9, once:true, background:'blur',
+      prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y1'); }}, dialogue:bday('y1',false) },
+    { id:'ev_sis_bday_y2', title:'她的生日', participants:[ID], location:['cafe','lawlib'], trigger:'interact', priority:9, once:true, background:'blur',
+      prereq:{custom:G=>{ const x=X(); return !!x&&x.bdayTalkDue(G,'y2'); }}, dialogue:bday('y2',false) },
+    /* ---------- 2-4 交往中：前一天 21:00 她約，6/2 19:00 法圖旁邊那家 ---------- */
+    { id:'ev_sis_bday_date_y1', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y1',true)),
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y1'); } },
+    { id:'ev_sis_bday_date_y2', title:'她的生日', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:1.5,
+      dialogue:[ {scene:'法圖旁邊的簡餐'} ].concat(bday('y2',true)),
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'bday_y2'); } },
+    /* ---------- 2-5 10/16（六）09:00 法扶・臺北的辦公室 → 便利商店門口的桌子 ---------- */
+    { id:'ev_sis_interview', title:'訪談', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:2.5,
+      dialogue:[ {scene:'法扶・臺北的辦公室',bg:'legal_aid_office'},
+        N('（會議室很小。律師講了一個半小時，你打了十一頁。）'),
+        {scene:'便利商店門口的桌子',bg:'dark'},
+        N('（她把你的筆記從頭滑到尾。）'),
+        SIS('你多寫了一句：『他講到這裡，停了很久。』'),
+        SIS('……這句我要。錄音裡聽不到這個。'),
+        {choice:[{text:'「他停下來的時候，在想什麼？」',goto:'a'},{text:'「下次還要記嗎？」',goto:'b'}]},
+        {label:'a'},SIS('在想一個當事人。他沒說是誰。'),SIS('……我也沒問。'),{goto:'end'},
+        {label:'b'},SIS('要。'),SIS('……你有空的話。'),
+        {label:'end'},{if:dt,speaker:null,text:'（她把你的筆記存進雲端，資料夾的名字是「{name}記的」。）'},
+        {mem:[{npc:ID,tag:'SIS_INTERVIEW',note:''}]},{set:{SIS_INTERVIEW:'went'}} ],
+      outingMissed:G=>{ const x=X(); if(x) x.missed(G,'iv'); } },
+    /* ---------- 2-6 11/12（五）12:20 總圖門口的台階（第一次見面的那個台階；11/1～11/9 都沒遇到的）---------- */
+    { id:'ev_sis_us_told_steps', title:'明年夏天', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.5,
+      dialogue:[ {scene:'總圖門口的台階'} ].concat(US,[{set:{SIS_US_TOLD:'steps'}}]) },
+    /* ---------- 2-7 3/15（三）21:30 她打電話來（朋友以上；臺灣、美國路線，日本路線 3/25 才出發）---------- */
+    { id:'ev_sis_us_result', title:'結果', participants:[ID], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+      dialogue:[ {scene:'電話'},
+        SIS('……上了。'),
+        {unless:dt,speaker:ID,text:'信是下午來的。我看了好幾遍，確定沒有看錯，才打給你。'},
+        {unless:dt,speaker:ID,text:'八月二號的飛機。……還沒訂，先把日子想好。'},
+        {unless:dt,choice:[{text:'「恭喜。」',goto:'a'},{text:'「要慶祝嗎？」',goto:'b'}]},
+        {if:{custom:G=>dating(G)&&route(G)==='US'},speaker:ID,text:'八月二號。我們同一班。'},
+        {if:{custom:G=>dating(G)&&route(G)!=='US'},speaker:ID,text:'八月二號。……你要來送我。'},
+        {if:dt,choice:[{text:'「恭喜。」',goto:'c'},{text:'「我現在過去。」',goto:'d'}]},
+        {label:'a'},SIS('嗯。……我以為我會比較高興。現在只想到，要在那邊待四個多月。'),{goto:'end'},
+        {label:'b'},SIS('要。……等我把八月以前的事排完。'),{goto:'end'},
+        {label:'c'},SIS('嗯。……你先不要掛。我想再聽一下你那邊的聲音。'),{goto:'end'},
+        {label:'d'},SIS('很晚了。……明天中午，研究室。'),
+        {label:'end'},{set:{SIS_US_RESULT:'call'}} ],
+      outingMissed:G=>{ if(G.flags.SIS_US_RESULT==null) G.flags.SIS_US_RESULT='missed'; } } ].concat([
+    /* 說話前接演的兩段（src/sis_y2y3_3d.js 的 preTalk 用 EVENTS.runLines 演；這兩筆只放台詞，不會自己觸發）*/
+    { id:'ev_sis_topic', title:'想寫的東西', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:TOPIC },
+    { id:'ev_sis_us_told', title:'明年夏天', participants:[ID], location:'any', trigger:'manual', once:true, dialogue:US.concat([{set:{SIS_US_TOLD:'here'}}]) } ]);
+})();
+for(const e of SISY23_EVENTS){ if(!STORY_EVENTS.some(x=>x.id===e.id)) STORY_EVENTS.push(e); }

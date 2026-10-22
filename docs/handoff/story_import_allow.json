@@ -1401,6 +1401,21 @@
      "task": "AA377-Y3S2-FIX-1021"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md",
+   "sha": "30ab5142",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109；使用者 10-21 22:5x「學姊才是真正的女主角」）；第 1 節（閱覽室、自習區認識學姊）照 6a105a4d 手動放進 events.js、story3d.js（tests/aa379_sis_lib_unit.js，第 1 節在兩個版本一字不差，只改了一個時間註記）；第 2 節八場照稿手動放進 src/data/sis_y2y3_events.js、src/sis_y2y3_3d.js（tests/aa379_sis_y2y3_unit.js 逐句對稿）",
+   "task": "AA379-SIS-Y2Y3-1021",
+   "kind": "text",
+   "history": [
+    {
+     "sha": "6a105a4d",
+     "approvedBy": "AA（帳號 A）2026-10-21 第 1 節（使用者 23:2x「就直接可以說話就好」）",
+     "task": "AA379-SIS-W1-LIB-1021"
+    }
+   ]
   }
  ]
 }
