@@ -16,7 +16,7 @@ def ch(t, reply, rel=None, mem=None, who=None):
     return c
 
 ZR='heroine_02'; ZQ='heroine_04'; SIS='heroine_05'; PS='classmate_peishan'; KX='kexin'
-NO_DATE_ZZ = {'notFlags': ['dating_heroine_02', 'dating_heroine_04']}   # 2026-10-17 BB-C（照 AA_234 b7e7d445）：AA_232 4-1 鋪陳句只在芷若、子晴都沒和祐廷交往時說
+NO_DATE_ZZ = {'notFlags': ['dating_heroine_02', 'dating_heroine_04', 'ZZ_DATING'], 'notEvents': ['ev_zz_home_together']}   # 2026-10-22 AA（帳號 A，AA_385 第 3 項，LAWWW 09:25）：她們兩個交往以後（ZZ_DATING）、4-2 以後不再說鋪陳句   # 2026-10-17 BB-C（照 AA_234 b7e7d445）：AA_232 4-1 鋪陳句只在芷若、子晴都沒和祐廷交往時說
 D = {'_comment': __doc__, 'term': Y, 'characters': {}}
 
 D['characters'][ZR] = {'steps': [

@@ -157,7 +157,11 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ]
        },
        "mem": "ZR_ZQ_SETUP_DOOR",
@@ -170,7 +174,11 @@
        "if": {
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ]
        },
        "unless": {
@@ -296,7 +304,11 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ]
        },
        "mem": "ZR_ZQ_SETUP_FILM",
@@ -309,7 +321,11 @@
        "if": {
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ]
        },
        "unless": {
@@ -736,7 +752,11 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ],
         "notMemory": [
          {
@@ -793,7 +813,11 @@
         },
         "notFlags": [
          "dating_heroine_02",
-         "dating_heroine_04"
+         "dating_heroine_04",
+         "ZZ_DATING"
+        ],
+        "notEvents": [
+         "ev_zz_home_together"
         ]
        },
        "mem": "ZQ_ZR_SETUP_ROUTE",
