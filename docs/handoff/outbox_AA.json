@@ -1436,6 +1436,21 @@
    "receiver": "LAWWW",
    "ack": "SENT",
    "note": "USER_WANTS D53：芷若 2028-08-26 出國前最後一場定稿（BB_119 3-2 提案定稿）；條件改用學期末心意那一套；F3 那天心意條件到、杯子沒演過的她拒絕方奕廷"
+  },
+  {
+   "task": "AA386-SIS-BATCH4-1022",
+   "branch": "claude/story-planning",
+   "sha": "c6a290fe",
+   "files": [
+    "docs/story_planning/AA_386_學姊第四批_直屬學姊替你看路_節日_重新開始.md"
+   ],
+   "state": "已交付",
+   "remaining": "無",
+   "next": "LAWWW：3-3 改成 2028-12-24 21:00 三則私訊；拿掉期末那頓 tableByTerm.Y4S1 後面加的兩句",
+   "noDirectIntegrate": true,
+   "receiver": "LAWWW",
+   "ack": "SENT",
+   "note": "BB 14:2x：大四上學姊交往版期末飯排在 12/25（臺灣）、12/26（美國），3-3 原條件到不了；改成當天私訊"
   }
  ],
  "items": [
