@@ -1,6 +1,6 @@
 # 美國超市街、公寓社區晚上的路燈地面光圈（US-MS-NIGHT-1021）
 
-帳號 A 的 LAWWW2，2026-10-21 起，10-22 03:5x 遊戲內對照。狀態：**WIP**（遊戲內前後對照 j18 看完才交件）。
+帳號 A 的 LAWWW2，2026-10-21 起，10-22 03:5x 遊戲內對照。狀態：**已交付**（遊戲內前後 4 張看過）。
 
 ## 問題
 
@@ -30,7 +30,14 @@
 
 ![](ms_cross_20.webp)
 
-公寓社區（`us_outside`）：（拍完補上）
+公寓社區（`us_outside`）：修改前路燈下面整片黑；修改後每盞路燈下的草地、人行道一圈光。
+
+![](community_20.webp)
+
+## 接法（LAWWW）
+
+- `git apply docs/art-rebuild/second_ai/patches/us_lamp_pools.diff`（`src/us3d.js`＋`tests/us_lamp_pools_unit.js`；對 `c617b2e0`、`6b6ecd80` 乾淨，和 `airport_cam_night.diff` 一起套也乾淨）。
+- 跑 `node tests/us_lamp_pools_unit.js`、`node tests/nav_us_unit.js`。
 
 ## 還不到的地方（誠實寫）
 
