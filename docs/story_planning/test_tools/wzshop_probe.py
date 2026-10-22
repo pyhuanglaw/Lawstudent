@@ -364,6 +364,11 @@ async def enter_shop(pg, cdp, run, res, sid, key, label):
 
 
 WZF = dict(TWF, **BASEF)
+# AA_364 第 5 節（企劃線 2026-10-22 13:3x 補稿）：選「老樣子」的回答、第一次的旁白、吃完（一個人）的旁白
+SAME = {'lin': ('老闆', '好。一樣。'), 'tei': ('店員', '好，一樣的定食。'), 'tea': ('店員', '好，一樣的。'), 'ice': ('老闆娘', '好。一樣的。')}
+FIRST = {'lin': '（攤子前面只有三張小桌子。老闆煮麵的時候，沒有抬頭。）', 'tei': '（店裡只有八個位子。牆上貼著：「味噌湯免費續，但不要浪費。」）',
+         'tea': '（窗口的菜單只有四樣。你點完，後面已經排了兩個人。）', 'ice': '（價目表是手寫的。芒果冰那一行旁邊，用紅筆寫著「六到八月」。）'}
+AFTER = {'lin': '（你吃完的時候，老闆已經在煮下一碗了。）', 'tei': '（你續了一碗味噌湯。比第一碗還燙。）', 'tea': '（你拿著飲料，沿著溫州街走回去。）', 'ice': '（冰化得比你吃得快。最後幾口，你是用喝的。）'}
 DAYS = {'WED': '2027-10-13', 'MON': '2027-10-11', 'TUE': '2027-10-12', 'JUN': '2028-06-13', 'MAY': '2028-05-16'}
 
 
@@ -378,7 +383,8 @@ async def s_lin(p, run, base, sid, out):
         if not inside: return
         await settle(pg, cdp, run, sid)
         o = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '乾麵（小）')
-        run.check('%s：老闆「內用外帶？」→ 選單五樣＋「不用了」→ 乾麵（小）扣 40 元' % sid, bool(o) and said_has(o, '老闆', '內用外帶？') and o['money'][2] == 40 and opt_has(o, '滷蛋'), J(o, 600))
+        run.check('%s：老闆「內用外帶？」→ 選單六樣（含 AA_364 第 5 節加的貢丸湯 30）＋「不用了」→ 乾麵（小）扣 40 元' % sid, bool(o) and said_has(o, '老闆', '內用外帶？') and o['money'][2] == 40 and opt_has(o, '滷蛋') and opt_has(o, '貢丸湯　30'), J(o, 600))
+        run.check('%s：第一次的旁白「%s」、吃完「%s」（AA_364 第 5 節）' % (sid, FIRST['lin'][:12], AFTER['lin'][:12]), bool(o) and seq_in(o['said'], ['（你點了乾麵（小）。）', FIRST['lin'], AFTER['lin']]), J(o and o['said'], 500))
         run.check('%s：「（你點了乾麵（小）。）」、坐下吃（約 40 分鐘）、吃完站起來' % sid, bool(o) and '（你點了乾麵（小）。）' in o['said'] and o['seat'] and 0.55 <= o['h'][2] <= 0.9 and not await pg.evaluate(SEAT), J(o, 600))
         lk = await order(pg, cdp, run, res, sid, {'label': '看菜單'}, '看菜單', None)
         run.note('%s：看菜單 → %s' % (sid, J(lk and lk['said'], 300)))
@@ -397,6 +403,7 @@ async def s_tei(p, run, base, sid, out):
         await settle(pg, cdp, run, sid)
         o = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '薑汁燒肉定食')
         run.check('%s：店員「幾位？這邊坐。」→ 薑汁燒肉定食扣 180 元、坐下吃' % sid, bool(o) and said_has(o, '店員', '幾位？這邊坐。') and o['money'][2] == 180 and o['seat'] and opt_has(o, '味噌湯續一碗'), J(o, 600))
+        run.check('%s：第一次的旁白、吃完的旁白（AA_364 第 5 節）' % sid, bool(o) and seq_in(o['said'], ['（你點了薑汁燒肉定食。）', FIRST['tei'], AFTER['tei']]), J(o and o['said'], 500))
         o2 = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '味噌湯續一碗')
         run.check('%s：味噌湯續一碗＝免費（不扣錢）' % sid, bool(o2) and o2['money'][2] == 0 and opt_has(o2, '免費'), J(o2, 400))
     finally: await finish_page(run, sid, res, errs, b)
@@ -430,8 +437,9 @@ async def s_tea(p, run, base, sid, out):
             if not o: break
         o1 = L5[0] if L5 else None
         run.check('%s：騎樓窗口「%s」：店員「甜度冰塊？」→ 珍珠奶茶扣 55 元、拿了就走（約 5 分鐘、沒坐下）' % (sid, (o1 or {}).get('lab', '')), bool(o1) and said_has(o1, '店員', '甜度冰塊？') and o1['money'][2] == 55 and not o1['seat'] and o1['h'][2] <= 0.2 and o1['zone'][1] == 'wenzhou', J(o1, 600))
+        run.check('%s：第一杯：第一次的旁白、拿了走的旁白（AA_364 第 5 節）' % sid, bool(o1) and seq_in(o1['said'], ['（你點了珍珠奶茶。）', FIRST['tea'], AFTER['tea']]), J(o1 and o1['said'], 500))
         o5 = L5[4] if len(L5) == 5 else None
-        run.check('%s：第 5 杯：店員換「半糖少冰？」、選單多「老樣子」（選了＝同一樣，扣 55）' % sid, bool(o5) and said_has(o5, '店員', '半糖少冰？') and opt_has(o5, '老樣子') and o5['money'][2] == 55, J(o5, 600))
+        run.check('%s：第 5 杯：店員換「半糖少冰？」、選單多「老樣子」→ 店員「好，一樣的。」、扣 55' % sid, bool(o5) and said_has(o5, '店員', '半糖少冰？') and opt_has(o5, '老樣子') and said_has(o5, '店員', '好，一樣的。') and o5['money'][2] == 55, J(o5, 600))
         run.check('%s：第 2～4 杯還是「甜度冰塊？」' % sid, all(o and said_has(o, '店員', '甜度冰塊？') and not opt_has(o, '老樣子') for o in L5[1:4]), J([o and o['said'][-3:] for o in L5[1:4]], 400))
     finally: await finish_page(run, sid, res, errs, b)
 
@@ -453,6 +461,7 @@ async def s_ice(p, run, base, sid, out):
         o = await order(pg, cdp, run, res, sid, {'shop': 'ice'}, '冰菓室窗口', '芒果冰' if sid == 'ICE_JUN' else '紅豆牛奶冰')
         if sid == 'ICE_JUN':
             run.check('%s：6 月：老闆娘「冰要大碗小碗？」、選單有芒果冰 140 → 扣 140、拿了就走' % sid, bool(o) and said_has(o, '老闆娘', '冰要大碗小碗？') and opt_has(o, '芒果冰') and o['money'][2] == 140 and not o['seat'], J(o, 600))
+            run.check('%s：第一次的旁白、吃完的旁白（AA_364 第 5 節）' % sid, bool(o) and seq_in(o['said'], ['（你點了芒果冰。）', FIRST['ice'], AFTER['ice']]), J(o and o['said'], 500))
         else:
             run.check('%s：5 月：開了、沒有芒果冰（6～8 月才有）→ 紅豆牛奶冰扣 70' % sid, bool(o) and not opt_has(o, '芒果冰') and o['money'][2] == 70, J(o, 600))
     finally: await finish_page(run, sid, res, errs, b)
@@ -471,12 +480,26 @@ async def s_lin5(p, run, base, sid, out):
         if not inside: run.check('%s：進得去' % sid, False, J(res.get('door_lin'))); return
         await settle(pg, cdp, run, sid)
         o = await order(pg, cdp, run, res, sid, {'label': '點餐'}, '點餐', '老樣子')
-        run.check('%s：第 5 次：老闆「小的，不加辣。對吧。」、選單多「老樣子」→ 選了＝乾麵（大）扣 55' % sid, bool(o) and said_has(o, '老闆', '小的，不加辣。對吧。') and opt_has(o, '老樣子') and o['money'][2] == 55, J(o, 600))
+        run.check('%s：第 5 次、上次點乾麵（大）：老闆「大的，不加辣。對吧。」（AA_364 第 5 節照上次點的換）、選單多「老樣子」→ 老闆「好。一樣。」、乾麵（大）扣 55' % sid, bool(o) and said_has(o, '老闆', '大的，不加辣。對吧。') and opt_has(o, '老樣子') and said_has(o, '老闆', '好。一樣。') and o['money'][2] == 55, J(o, 600))
     finally: await finish_page(run, sid, res, errs, b)
 
 
-ORDER = ['LIN', 'TEI', 'TEA', 'ICE_JUN', 'ICE_MAY', 'ICE_OCT', 'TEI_LATE', 'LIN_MON', 'TEI_TUE', 'LIN5']
-FN = {'LIN': s_lin, 'TEI': s_tei, 'TEA': s_tea, 'ICE_JUN': s_ice, 'ICE_MAY': s_ice, 'ICE_OCT': s_ice, 'TEI_LATE': s_closed, 'LIN_MON': s_closed, 'TEI_TUE': s_closed, 'LIN5': s_lin5}
+@guard
+async def s_ice_old(p, run, base, sid, out):
+    """冰菓室：【捷徑】吃過 4 次、上次點芒果冰；5 月（不是 6～8 月）點第 5 次＝老闆娘「又來了啊。」、選單沒有「老樣子」（買不到的不列，AA_364 第 5 節）"""
+    res = out.setdefault(sid, {})
+    b, pg, cdp, errs, r = await launch(p, run, base, DAYS['MAY'], 15.0, 'wenzhou', preflags=WZF, label=sid + '（2028-05-16（二）15:00 溫州街）')
+    try:
+        await pg.evaluate(HOOK2); await settle(pg, cdp, run, sid)
+        pre = await pg.evaluate("(()=>{ const R=EAT.rec(GAME.G); R.n['夏日冰菓室']=4; R.last['夏日冰菓室']='芒果冰'; return {n:R.n['夏日冰菓室'], last:R.last['夏日冰菓室']}; })()")
+        run.setup('[捷徑] %s：夏日冰菓室吃過 4 次、上次點芒果冰（EAT.rec）→ %s' % (sid, J(pre)))
+        o = await order(pg, cdp, run, res, sid, {'shop': 'ice'}, '冰菓室窗口', '綜合剉冰')
+        run.check('%s：5 月第 5 次：老闆娘「又來了啊。」、沒有芒果冰也沒有「老樣子」→ 綜合剉冰扣 60' % sid, bool(o) and said_has(o, '老闆娘', '又來了啊。') and not opt_has(o, '老樣子') and not opt_has(o, '芒果冰') and o['money'][2] == 60, J(o, 600))
+    finally: await finish_page(run, sid, res, errs, b)
+
+
+ORDER = ['LIN', 'TEI', 'TEA', 'ICE_JUN', 'ICE_MAY', 'ICE_OCT', 'TEI_LATE', 'LIN_MON', 'TEI_TUE', 'LIN5', 'ICE_OLD']
+FN = {'LIN': s_lin, 'TEI': s_tei, 'TEA': s_tea, 'ICE_JUN': s_ice, 'ICE_MAY': s_ice, 'ICE_OCT': s_ice, 'TEI_LATE': s_closed, 'LIN_MON': s_closed, 'TEI_TUE': s_closed, 'LIN5': s_lin5, 'ICE_OLD': s_ice_old}
 
 
 async def main():
