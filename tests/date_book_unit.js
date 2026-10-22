@@ -97,7 +97,7 @@ const ADV2=global.ADV; ADV2.active=false;
   await INV.flow(GM,'heroine_03',null,false); check('8. 約人的地點清單最後有「去校外…」（還沒到第 5 階＝灰掉）',opts[0].includes('去校外…'),opts[0].join('/'));
   fresh(day,9,'dorm',{}); G.contacts.zhe=1; opts=[]; picks=['算了']; await INV.flow(GM,'zhe',null,false); check('8. 男生（阿哲）沒有「去校外…」',!opts[0].includes('去校外…'),opts[0].join('/'));
   // ---------- 9 她的句子（DATE-S6；date_lines.js 白名單匯入）----------
-  check('9. date_lines.js 來自匯入白名單（BB_128、AA_127、date_prefs 兩個檔＠5e910dd2）',/白名單/.test(DATE_LINES.source)&&DATE_LINES.source.includes('5e910dd2')&&Object.keys(DATE_LINES.lines).length===7,DATE_LINES.source);
+  check('9. date_lines.js 來自匯入白名單（BB_128＠3229ad05、AA_127＠10816dd5——10-22 換版，舊版 741e94f1／5e910dd2 會把 AA_295、AA_313 改過的句子蓋回；date_prefs 兩個檔＠5e910dd2）',/白名單/.test(DATE_LINES.source)&&/BB_128[^＋]*@3229ad05/.test(DATE_LINES.source)&&/AA_127[^＋]*@10816dd5/.test(DATE_LINES.source)&&DATE_LINES.source.includes('date_prefs_bb.json@5e910dd2')&&Object.keys(DATE_LINES.lines).length===7,DATE_LINES.source);
   fresh(day,9,'dorm',{}); G.contacts.heroine_03=1; G.flags.dating_heroine_03=false; R('heroine_03',...LV.CLO);
   { const st=DATE.stageNum('heroine_03'); if(st<5){ const r=SOCIAL.rel('heroine_03'); r.npcRom=60; r.rom=40; r.fam=70; r.trust=60; r.comf=60; } }
   said=[]; opts=[]; picks=['淡水','明天','15:00','就這樣約']; await DATE.menu(GM,'heroine_03',null);

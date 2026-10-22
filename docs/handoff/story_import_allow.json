@@ -355,12 +355,16 @@
   },
   {
    "path": "docs/story_planning/BB_128_校外單獨約會_心願地點與淡水示範規格.md",
-   "sha": "741e94f1",
+   "sha": "3229ad05",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017（BB_128 3-7 照 AA_188 口語版重寫，以 abad2fa0 為準，取代 5e910dd2；outbox_AA b8952924）；741e94f1 沛珊「我跟我媽說那天不回台中。」「……台中很遠。」（AA_276 沛珊的家在台中）",
+   "approvedBy": "AA（帳號 A／AA-C）企劃原檔：9fecc202 可昕不出假設題（使用者 10-18 選擇題，AA_295）、10816dd5／03985a6c AA_313 第 2、4、6 節逐句改（60 句直接改、原檔同步）、3229ad05「記得上次」不綁選項；LAWWW（帳號 A）10-22 15:1x 換版：634f6324（10-21）重匯時白名單還停在 741e94f1，把這些句子蓋回舊版（AA_313 盤點子代理查到）",
    "task": "DATE-S6",
    "scope": "只用 3-6「不分地點的句子」的取消、放鴿子兩欄與 3-7 預約句子",
    "history": [
+    {
+     "sha": "741e94f1",
+     "approvedBy": "AA-C 2026-10-17 06:28Z DATE-REVIEW-1017（BB_128 3-7 照 AA_188 口語版重寫，以 abad2fa0 為準，取代 5e910dd2；outbox_AA b8952924）；741e94f1 沛珊「我跟我媽說那天不回台中。」「……台中很遠。」（AA_276 沛珊的家在台中）"
+    },
     {
      "sha": "5e910dd2",
      "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）"
@@ -369,11 +373,17 @@
   },
   {
    "path": "docs/story_planning/AA_127_以安語彤_心願約會與邀約變化.md",
-   "sha": "5e910dd2",
+   "sha": "10816dd5",
    "status": "approved",
-   "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）",
+   "approvedBy": "AA（帳號 A／AA-C）企劃原檔同步（AA_313 第 2、4、5 節，10-20 15:18）；LAWWW（帳號 A）10-22 15:1x 換版（理由同 BB_128：741e94f1／5e910dd2 舊版把 AA_313 改過的句子蓋回）",
    "task": "DATE-S6",
-   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子"
+   "scope": "只用 1-7、2-7 的取消、30 天內第二次取消兩列與第 8 節預約句子",
+   "history": [
+    {
+     "sha": "5e910dd2",
+     "approvedBy": "AA-C 2026-10-17 06:15Z 交付（outbox_AA.json DATE-S6 5e910dd2，792577ef 通知；BB_128 3-7 BB 五位 AA 已審語氣、AA_127 第 8 節 AA 寫）"
+    }
+   ]
   },
   {
    "path": "docs/story_planning/date_system/date_prefs_bb.json",

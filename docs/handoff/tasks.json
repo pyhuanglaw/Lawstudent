@@ -29397,6 +29397,28 @@
    "authorized": "D85（bug 修正）",
    "cause": "story3d.js kx_anniv4v 的 OUT.plan 沒有 alarm（wakeAlarms 只看 alarm）；那天第一堂 13:00，床的早上選項＝12:00",
    "next": "【LAWWW（帳號 A）14:5x】kx_anniv4v 加 alarm:true（08:30 叫醒）；舊存檔已經排好、沒有 alarm 的補上。us_life_unit S8 兩項（修改前 FAIL）ALL PASS；wakeAlarms／kx_anniv／bedOptions 相關 17 支 ALL PASS。下一步：BB 重跑 USD_kexin"
+  },
+  {
+   "id": "BUG-DATE-LINES-REVERT-1022",
+   "title": "約會預約的句子被重匯蓋回舊版（v9.10.3～v9.10.5 線上都是）：634f6324（10-21 DATE-L 第一批）重跑 import_date_lines.py 時白名單 BB_128 停在 741e94f1、AA_127 停在 5e910dd2，AA_295（使用者 10-18 選擇題：可昕不出假設題）、AA_313 6-1／4-2 改過的約 20 句全部回到舊字",
+   "area": null,
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "first": {
+    "term": "Y1S1",
+    "week": 1,
+    "earliest": "第一次約校外約會（預約、出發、取消、放鴿子的句子）",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA_313 盤點子代理（LAWWW 帳號 A 10-22 14:5x）",
+   "authorized": "D85（bug 修正）；台詞照 AA 企劃原檔（D100）",
+   "cause": "重匯時沒有把白名單換到企劃原檔的最新版（AA 10-18～10-20 已同步改原檔）；沒有測試擋",
+   "next": "【LAWWW（帳號 A）15:0x】白名單 BB_128→3229ad05、AA_127→10816dd5 重匯：只差 16 處（可昕 4、以安 2、語彤 1、子晴 5、學姊 3、沛珊 1），都是 AA_295／AA_313 的新字；tests/date_lines_regress_unit.js（修改前 4 FAIL、修改後 ALL PASS）擋住再被蓋回；date_book_unit 9 改看新版本；約會相關 37 支 ALL PASS。以安放鴿子兩句（AA_313 4-2「第二次了。我在手帳上記了一筆。」「……下次證明我記錯。」）AA_127 原檔第 233 行還是舊字，已問 AA 改原檔。下一步：BB 看可昕預約／出發／取消的句子（沒有「假設」）"
   }
  ]
 }
