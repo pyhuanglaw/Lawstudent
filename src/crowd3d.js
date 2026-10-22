@@ -29,7 +29,26 @@ const CROWD=(function(){
       /* 平日早上出門（07:40–08:50）、傍晚回來（17:20–19:00）、晚上在門口等人或講電話（20:00–22:30）；週末白天零星；深夜沒有人 */
       slots(G){ if(!schoolDay(G)) return []; const wk=typeof CALENDAR!=='undefined'&&CALENDAR.weekend(G.day);
         return wk?[{key:'wkday',t0:10.5,t1:17.5,n:[1,2],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'wkeve',t0:19.5,t1:22,n:[1,3],pose:'talk',talk:0.6,enter:'road',leave:'door'}]
-                 :[{key:'am',t0:7+40/60,t1:8+50/60,n:[2,4],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'eve',t0:17+20/60,t1:19,n:[2,5],pose:'talk',talk:0.6,enter:'road',leave:'door'},{key:'night',t0:20,t1:22.5,n:[1,3],pose:'idle',talk:0.2,enter:'door',leave:'door'}]; } } ];   /* night 原本是 read（坐姿），門口沒有座位＝坐在空中（LAWWW2 10-14 C13 回報）：改站著 */
+                 :[{key:'am',t0:7+40/60,t1:8+50/60,n:[2,4],pose:'idle',talk:0.3,enter:'door',leave:'road'},{key:'eve',t0:17+20/60,t1:19,n:[2,5],pose:'talk',talk:0.6,enter:'road',leave:'door'},{key:'night',t0:20,t1:22.5,n:[1,3],pose:'idle',talk:0.2,enter:'door',leave:'door'}]; },   /* night 原本是 read（坐姿），門口沒有座位＝坐在空中（LAWWW2 10-14 C13 回報）：改站著 */
+      talkLabel:'聽一句', lines(G,slot){ return S.fdormLines(G,slot); } },   /* BB_105 D7 宿舍的人們：點了聽一句（下面 S.FDORM_LINES）*/
+    /* BB_105 D9 新一屆的大一女生（企劃線 BB_105@68a8479e，AA-C 2026-10-18 補台詞；V1-B105-D2）：法律系大二以後，法服在大一女舍外的路邊擺攤招生（社員輪班；語彤不在法服）。
+       日子是 LAWWW 定的：大二、大三、大四上學期第 1～2 週的平日 12:00～17:00（給 AA 的問題）。攤位的桌子、傳單還沒有（場景，D108 歸 LAWWW2）：現在是兩位社員站在路邊，點了「看法服的攤位」。fixed＝人數不加倍 */
+    { id:'fdorm_fafu', zone:'campus', label:'法服的攤位（大一女舍外的路）', c:[-89.4,50.5], spread:[0.8,0.3], door:[-93,47], road:[-93,47], mix:true,
+      slots(G){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null; if(G.stage==='econ'||!T||!/^Y[234]S1$/.test(T.id)||T.week>2||!termDay(G)) return []; return [{key:'fafu',t0:12,t1:17,n:[2,2],fixed:true,pose:'idle',talk:0.5,enter:'road',leave:'road'}]; },
+      talkLabel:'看法服的攤位', allTalk:true, lines(){ return [S.FAFU_LINES]; } } ];
+  /* BB_105 D7 宿舍的人們（企劃線 BB_105@68a8479e 5-3，AA-C 2026-10-18 寫；V1-B105-D2）：大一女舍門口的路人，照時段輪流——開學第一週白天、傍晚、晚上（兩句）、考試週。
+     一群人裡一句給一個人（點了聽那一句）；那個時段沒有句子＝不能點。D8 臨時取消是另一件（V3-B105） */
+  S.FDORM_LINES={ week1:['（一個女生拖著兩個行李箱，在門口打電話）「媽，我到了。……對，有電梯。」'], eve:['「她說五分鐘。……我數到第三個五分鐘了。」'],
+    night:['（提著兩袋宵夜的人）「鹹酥雞到了，誰下來拿？」','（在門口講電話）「沒有啦，我只是想打給你。」'], exam:['（抱著一疊書的人）「總圖還有位子嗎？……那我去社科圖。」'] };
+  S.fdormLines=function(G,slot){ const T=typeof CALENDAR!=='undefined'?CALENDAR.termOf(G.day):null, k=slot&&slot.key;
+    if(T&&T.exam) return S.FDORM_LINES.exam;   /* 期中、期末考週 */
+    if(T&&T.week===1&&(k==='am'||k==='wkday')) return S.FDORM_LINES.week1;   /* 開學第一週白天 */
+    if(k==='eve') return S.FDORM_LINES.eve; if(k==='night'||k==='wkeve') return S.FDORM_LINES.night; return []; };
+  /* BB_105 D9：點了攤位（舞台說明改旁白＋社員一句）*/
+  S.FAFU_LINES=[{t:'（攤位上一疊傳單，法服的社員在喊：「法律服務社！免費法律諮詢的那個！」）'},{who:'法服的社員',t:'新生可以來旁聽喔。……你是學長？那你也可以來。'}];
+  /* 點了路人：一句（或一串）旁白／台詞；在劇情、對話裡不演 */
+  S.overhear=async function(GM,n,script){ if(!GM||(GM.D&&GM.D.active)) return; const L=[].concat(script).map(x=>typeof x==='string'?{t:x}:x); GM.sceneBegin();
+    try{ if(GM.face&&GM.E&&GM.E.player&&n&&n.obj) GM.face(GM.E.player,n.obj.position.x,n.obj.position.z); for(const x of L) await GM.say(x.who?{name:x.who,obj:n&&n.obj}:null,x.t); } finally { GM.sceneEnd(); } };
   /* 教學館室內的等候點（layout 的 waitSpots）：door＝教室門裡面一點（下課的人從這裡出來）、road＝建築出口（從這裡進來、走出去）、seatRoom＝走進去坐的那一間 */
   function insideDoor(r){ if(r.kind==='lecture'&&r.door){ const d=r.door, m=(d.a0+d.a1)/2; return d.wall==='W'?[d.x+0.9,m]:(d.wall==='E'?[d.x-0.9,m]:[m,d.z]); }
     if(r.doorFront){ const dz=r.doorZ!=null?r.doorZ:-0.4, ins=(r.z0+r.z1)/2<dz?-1:1; return [(r.doorFront[0]+r.doorFront[1])/2,dz+ins*0.9]; } return [(r.x0+r.x1)/2,(r.z0+r.z1)/2]; }
@@ -45,7 +64,7 @@ const CROWD=(function(){
   S.SPOTS.push(...S.indoorSpots());
   S.slotAt=function(G,spot,h){ h=h==null?hr(G):h; return spot.slots(G).find(s=>h>=s.t0-1e-6&&h<s.t1)||null; };
   /* 這一天、這個時段的那一群人：人數、位置、朝向、姿勢、外觀（路人編號）都由種子決定 */
-  S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*((typeof STORY!=='undefined'&&STORY.CROWD_X)||1));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）*/ const out=[]; const base=1000+Math.floor(r()*500);
+  S.group=function(G,spot,slot){ const r=prng(hash(spot.id+'|'+slot.key+'|'+G.day)); const n=Math.round((slot.n[0]+Math.floor(r()*(slot.n[1]-slot.n[0]+1)))*(slot.fixed?1:((typeof STORY!=='undefined'&&STORY.CROWD_X)||1)));   /* 使用者 2026-10-17 P0：路人加倍（STORY.CROWD_X）；fixed：攤位的社員這種固定人數的不加倍 */ const out=[]; const base=1000+Math.floor(r()*500);
     for(let k=0;k<n;k++){ const x=spot.c[0]+(r()-0.5)*2*spot.spread[0], z=spot.c[1]+(r()-0.5)*2*spot.spread[1]; let spec=base+k*(spot.female?2:1); if(spot.female&&spec%2) spec++;   /* extraSpec：偶數＝女生 */
       out.push({x:+x.toFixed(2),z:+z.toFixed(2),spec,pose:r()<slot.talk?'talk':slot.pose}); }
     /* 聊天的人轉向彼此（找最近的另一個人），其他的面向門口或馬路 */
@@ -62,7 +81,11 @@ const CROWD=(function(){
       o.position.set(start[0],0,start[1]); o.rotation.y=p.yaw; const n=E.addNPC({obj:o,name:'',beh:'idle',pose:p.pose,idlePose:p.pose,isExtra:true,crowd:spot.id,crowdSpot:spot.id,frozen:!fromDoor,walkSpeed:1.25,lv:slv});
       if(fromDoor){ n.frozen=false; n.pose='walk'; E.moveTo(n,p.x,p.z,()=>{ n.frozen=true; n.pose=p.pose; n.idlePose=p.pose; n.obj.rotation.y=p.yaw; },lv); }
       npcs.push(n); }
+    S.giveLines(GM,spot,slot,npcs);
     live[spot.id]={slotKey:slot.key,npcs}; }
+  /* 點了可以聽一句的路人（spot.lines(G,slot)＝這個時段的句子；一句給一個人，allTalk＝每個人都是同一串）*/
+  S.giveLines=function(GM,spot,slot,npcs){ if(!spot.lines) return []; const L=spot.lines(GM.G,slot)||[]; const out=[];
+    npcs.forEach((n,k)=>{ const sc=spot.allTalk?L[0]:L[k]; if(!sc) return; n.talkLabel=spot.talkLabel||'聽一句'; n.talk=()=>S.overhear(GM,n,sc); out.push(n); }); return out; };
   /* 走進教室、找空位坐下（室內的「上課前在門口等」）：坐下以後就是那堂課的同學（clsStudent），下課時 classes3d.js 讓大家一起走出去 */
   function freeSeat(E,room,used){ const seats=(E.zone&&E.zone.seats||[]).filter(q=>q.room===room&&(q.kind==='class'||q.kind==='lecture'));
     for(const q of seats){ if(used.has(q)||q.taken) continue;   /* taken：替身坐的位子 */ if(E.npcs.some(n=>n.seat&&Math.hypot(n.seat.x-q.x,n.seat.z-q.z)<0.35)) continue; const P=E.player; if(P&&P.seat&&Math.hypot(P.seat.x-q.x,P.seat.z-q.z)<0.35) continue; return q; } return null; }
@@ -71,7 +94,7 @@ const CROWD=(function(){
     for(const [dx,dz] of [[-fx*0.6,-fz*0.6],[fz*0.55,-fx*0.55],[-fz*0.55,fx*0.55],[fx*0.5,fz*0.5],[-fx*0.7,-fz*0.7],[-fx*0.75,-fz*0.75],[fx*0.8,fz*0.8],[-fx*0.9,-fz*0.9]]){ const x=st.x+dx, z=st.z+dz; if(!E.canStand(x,z,0.3,lv)) continue; if(st.y!=null&&Math.abs(E.heightAt(x,z,lv)-st.y)>0.2) continue; return [x,z]; } return null; };
   function sitDown(n,st){ const o=n.obj.position; o.set(st.x,st.y!=null?st.y:o.y,st.z); n.obj.rotation.y=st.yaw||0; n.seat=st; n.pose='sit'; n.idlePose='sit'; n.frozen=true; n.path=null; }
   function leaveGroup(GM,spot,instant){ const E=GM.E, L=live[spot.id]; if(!L) return; delete live[spot.id]; const used=new Set();
-    for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; if(instant){ E.removeNPC(n); continue; }
+    for(const n of L.npcs){ if(!E.npcs.includes(n)) continue; n.talk=null; n.talkLabel=null; if(instant){ E.removeNPC(n); continue; }   /* 走開的人不能再點（D7、D9）*/
       if(L.leave==='seat'){ const st=freeSeat(E,spot.seatRoom,used), ap=st&&S.seatSide(E,st); if(st&&ap){ used.add(st); n.frozen=false; n.pose='walk'; n.crowd=null; n.clsStudent=true; n.clsKey=L.cls; n.seat=st;
           if(E.moveTo(n,ap[0],ap[1],()=>sitDown(n,st),st.lv|0)) continue; n.seat=null; } }
       /* 沒有空位或走不到：走出建築（2026-10-18 使用者「博雅 101 有人看起來很可怕」：開始上課同學已經坐滿（classes3d.js syncRoom full），等在門口的人全部走到教室門口那一點停下來疊成一團）*/
