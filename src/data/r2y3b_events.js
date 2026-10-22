@@ -5,7 +5,8 @@
    2-Y3-38 ev_far_call_jp　39 ev_yu_alone_movie（傅鐘／麵店／視訊）　40 ev_zhiruo_third_row　41 ev_kexin_birthday_y3　42 ev_xinci_first_place（＋_video）
    2-Y3-43 ev_an_town_notice（＋ev_an_town_notice_repair）　44 ev_kexin_k20（＋_call）　45 ev_fangyt_tickets（電話）、ev_zhiruo_f3_cafe
    2-Y3-51 ev_x1_moveout_us　52 ev_an_abroad_video、ev_an_tanabata、ev_an_airport_y3、ev_an_notebook　53 ev_an_white_day、ev_an_far_video
-   2-Y3-54 ev_zhiruo_twelve_slips（BB_165 3-2，AA-C 10-18 審過的台詞）、沒到的 ev_zhiruo_slips_bar（她從吧檯下面拿）／ev_zhiruo_slips_owner（老闆給；AA_343 D8）；46 Z13 杯子的台詞（ALL.Z13、Z13_TXT）、47 Q15 的台詞（ALL.Q15）在檔尾，流程在 r2y3b3d.js 接 TERMEND。
+   2-Y3-54 ev_zhiruo_twelve_slips（BB_165 3-2，AA-C 10-18 審過的台詞）、沒到的 ev_zhiruo_slips_bar（她從吧檯下面拿）／ev_zhiruo_slips_owner（老闆給；AA_343 D8）；46 Z13 杯子的台詞（ALL.Z13、Z13_TXT）、47 Q15 的台詞（ALL.Q15）在檔尾，流程在 r2y3b3d.js 接 TERMEND；
+   47 Q15 的兩通電話 ev_ziqing_exe_call（回了貼紙）、ev_ziqing_noreply_call（到期限沒回）在檔尾（AA_296 2-3-1 ②）。
    不重做：32（AA_322）、48（AA_317）、50（AA_322、AA_323）。測試：node tests/r2y3b_events_unit.js */
 'use strict';
 const R2Y3B_EVENTS=(function(){
@@ -355,7 +356,7 @@ const R2Y3B_EVENTS=(function(){
       {label:'end'},{set:{KX_K20:'call'}} ]),
     after:G=>{ const x=X(); if(x) x.kxDirHeard(G); } };
 
-  /* ---------- 2-Y3-45 方奕廷 F3「我買了」：5/29（一）21:00 演出來的電話（芷若的心意邀約條件那天已到＝延到 6/19）；之後第一次在 Café 點餐，芷若的兩句 ---------- */
+  /* ---------- 2-Y3-45 方奕廷 F3「我買了」：5/29（一）21:00 演出來的電話（芷若的心意邀約條件那天已到＝延到 6/19）；之後第一次在 Café 點餐，芷若的兩句（日本路線＝8/5 回國以後、9/1 以前第一次進 Café，過去式那兩句）---------- */
   const F3={ id:'ev_fangyt_tickets', title:'方奕廷', participants:['npc_fangyt'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
     dialogue:[ {scene:'電話'},
       {speaker:null,text:'（電話。他那邊有風的聲音，像是在陽台。）'},
@@ -369,8 +370,10 @@ const R2Y3B_EVENTS=(function(){
       {label:'end'} ] };
   const F3_CAFE={ id:'ev_zhiruo_f3_cafe', title:'很老的那部', participants:['heroine_02'], location:'cafe', trigger:'interact', priority:9, once:true, background:'blur',
     prereq:{stage:{npc:'heroine_02',min:'FAMILIAR'},custom:G=>{ const x=X(); return !!x&&x.f3CafeDue(G); }},
-    dialogue:[ {speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
-      {speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……我說好。'} ] };
+    dialogue:[ {unless:JP,speaker:'heroine_02',text:'奕廷約我去看電影。很老的那部，《秋天的晚飯》。'},
+      {unless:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……我說好。'},
+      {if:JP,speaker:'heroine_02',text:'奕廷約我去看了一部電影。很老的那部，《秋天的晚飯》。'},   /* 日本路線：8/5 回國以後第一次進 Café，句子改成過去式（AA_296 2-3-1 ⑤，企劃線 3f406dbc；原本是 22:07 的私訊）*/
+      {if:JP,speaker:'heroine_02',text:'他連我高中看過哪幾部都記得。……那時候，我說好了。'} ] };
 
   /* ---------- 2-Y3-51 美國路線 X1 退宿：2028-07-25（二）14:00 宿舍 507（暑假續住的；回家住的接在學期結束搬家那一段，r2y3b3d.js）---------- */
   const X1US={ id:'ev_x1_moveout_us', title:'退宿', participants:[], location:'any', trigger:'manual', once:true, background:'blur',
@@ -498,9 +501,32 @@ const R2Y3B_EVENTS=(function(){
     sure:'欸不是……你認真的？',   /* 說出來的三支都是這一句（這一場「欸不是」一次）*/
     run:['（她講話變快）我、我家到了。我先上去。',{narr:'（她跑進巷子。）'}],   /* BB_98 4-6 原文 */
     exe:'（《找插座的貓》的新關卡。貓找到了插座，插座旁邊坐著另一隻貓。兩隻貓一起充電。）',
-    noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。' };   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）*/
+    noReply:'好，我收到你的不回答了。我們還是最好的朋友。這次是直述句。', noReplyNQ:'好，我收到你的不回答了。我們還是最好的朋友。',   /* 選「這不是問句」的那一支拿掉「這次是直述句。」（裁定 #27）；AA_296 2-3-1 ② 起是不回的那通電話沒接的替代版 */
+    exeOpts:['（回一張插座貓貼紙）','（還沒想好怎麼回）'] };   /* AA_296 2-3-1 ②（企劃線 3f406dbc）：回答.exe 最後那一行字疊完，直接在場面裡給的兩個選項 */
+  /* ---------- 2-Y3-47 Q15 的兩通電話（AA_296 2-3-1 ②，企劃線 3f406dbc；新寫）：有沒有在一起不再只靠手機回貼紙 ----------
+     回了貼紙＝她馬上打來（場面裡選的＝回答.exe 演完接著演；手機回的＝OUT 的電話）；到期限（收到檔案的隔天 21:00）還是沒回＝21:00 她打來（沒接＝原本那一則私訊，r2y3b3d.js 的 q15NoReplyDm）*/
+  const NQ={custom:G=>((G.flags||{}).ZQ_Q15||{}).k==='not_question'};
+  const EXE_CALL={ id:'ev_ziqing_exe_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'電話'},
+      {speaker:null,text:'（手機震了。是她打來的。）'},
+      {speaker:'heroine_04',text:'……你回貼紙喔。'},
+      {speaker:'heroine_04',text:'插座貓的意思，你知道吧。'},
+      {speaker:'player',text:'知道。'},
+      {speaker:'heroine_04',text:'……好啦。'},
+      {speaker:'heroine_04',text:'那、那明天見。'},
+      {speaker:null,text:'（她先掛了。）'} ] };
+  const NOREPLY_CALL={ id:'ev_ziqing_noreply_call', title:'電話', participants:['heroine_04'], location:'any', trigger:'outing', once:true, background:'dark', hours:0.25,
+    dialogue:[ {scene:'電話'},
+      {speaker:null,text:'（晚上九點。她打來了。）'},
+      {speaker:'heroine_04',text:'……你沒回耶。'},
+      {speaker:'heroine_04',text:'好，我收到你的不回答了。'},
+      {speaker:'heroine_04',text:'我們還是最好的朋友。'},
+      {unless:NQ,speaker:'heroine_04',text:'這次是直述句。'},   /* not_question 那一支一樣拿掉最後一句（裁定 #27）*/
+      {speaker:null,text:'（她沒有等你說話，就掛了。）'} ],
+    after:G=>{ const x=X(); if(x) x.q15NoReply(G); },
+    outingMissed:G=>{ const x=X(); if(x) x.q15NoReplyDm(G); } };
 
-  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER];
+  const ALL=[FIRST_MEAL,R228,AZALEA,C6,K18,K18_CALL,XUN,YU4,YU4_CALL,J1,G10,TOAST,SAKURA,FAR,YU5,YU5_NOODLE,YU5_VIDEO,Z11B,KX_BD,XC,XC_VIDEO,J2,J2_REPAIR,K20,K20_CALL,F3,F3_CAFE,X1US,AB_VIDEO,TANABATA,AN_AIRPORT,AN_NOTEBOOK,WHITE,FAR_VIDEO,SLIPS,SLIPS_BAR,SLIPS_OWNER,EXE_CALL,NOREPLY_CALL];
   ALL.AB=AB;   /* 以安在日本的訊息池、視訊、七夕的五段（r2y3b3d.js 用）*/
   ALL.Z13=Z13; ALL.Z13_TXT=Z13_TXT; ALL.Q15=Q15;   /* 學期末專屬版（r2y3b3d.js 包住 TERMEND）*/
   return ALL;

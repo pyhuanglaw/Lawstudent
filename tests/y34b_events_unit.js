@@ -9,6 +9,7 @@
 //   AA_337 第 7 節（6d344677；修改前 FAIL）：1B-17 交往中 17:05 以後才傳＝22:30「明天下午，Café？」＋「好。」（6/3 15:00 Café）／「明天不行。」；日本路線＝台灣 18:00 視訊；
 //   1B-15 阿凱私訊回了「去。」卻沒到＝16:30 阿凱三則。
 //   AA_363（2026-10-21）：R1 阿凱 16:30 的照片換《九點以後》（舊存檔 ZQ_Q12 cat 照舊）、R8 名單的配樂每個玩家都有——在開發分支 6a47ff46 上 5 項 FAIL，改完 PASS。
+//   AA_296 2-3-1 ①（2026-10-22，企劃線 3f406dbc）改了 1B-19 美國路線交往中的期待值：當地 10:00 她打來的視訊，那兩則私訊是沒接的替代版（逐字對稿在 tests/aa296_phone_live_unit.js）。
 // 修改前：沒有 src/y34b3d.js（第 0 項 FAIL）。用法：node tests/y34b_events_unit.js
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path');
@@ -276,7 +277,10 @@ const date=id=>H.date(id);
   { fresh('2028-10-19',21.6,'dorm'); H.FAMILIAR('heroine_01'); PHONE.join(H.G,'noodle_team','麵店團'); check('N3 不在萬才館：不演走廊', !S.an18Due(H.G)); at('2028-10-19',22); phone();
     check('N3 22:00 麵店團群組一則；記「聽說」', th('g:noodle_team').includes('我決定了。考台大法研所，商法組。')&&SOCIAL.has('heroine_01','AN_CHOICE_TOLD')&&H.G.flags.AN_CHOICE==='group'); }
   { fresh('2028-10-19',9,'us_apartment',{US_DEPARTED:true,US_ARRIVED:true},'US'); H.FAMILIAR('heroine_01'); date('heroine_01'); at('2028-10-19',10); H.G.zone='us_apartment'; phone();
-    check('1B-19 美國路線、和以安交往中：當地 10:00 私訊（不發群組）「先跟我媽說了。然後是你。……你那邊早上十點，先去上課。」（AA_337 第 4 節改句）', th('p:heroine_01').includes('先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')&&!th('p:heroine_01').some(t=>/你是第二個/.test(t))); }
+    const qv=OUT.get(H.G,'y4_an18_video');   /* AA_296 2-3-1 ①（企劃線 3f406dbc）：原本這一刻就是兩則私訊，改成她打來的視訊；私訊變成沒接的替代版（台詞、逐字對稿在 tests/aa296_phone_live_unit.js）*/
+    check('1B-19 美國路線、和以安交往中：當地 10:00 她打來的視訊（AA_296 ①；不發群組、不先傳私訊）', !!qv&&qv.place==='視訊'&&Math.abs(qv.h-10)<1e-6&&!!OUT.due(H.G)&&!th('p:heroine_01').length&&!th('g:noodle_team').length, JSON.stringify(qv));
+    at('2028-10-19',10.6); phone();
+    check('1B-19 美國路線、和以安交往中、視訊沒接（30 分鐘）：照原本當地 10:00 的私訊「先跟我媽說了。然後是你。……你那邊早上十點，先去上課。」（AA_337 第 4 節改句）', th('p:heroine_01').includes('先跟我媽說了。然後是你。……你那邊早上十點，先去上課。')&&!th('p:heroine_01').some(t=>/你是第二個/.test(t))&&H.G.flags.AN_CHOICE==='dm'); }
   /* ===== 1B-20 ===== */
   fresh('2028-12-11',20,'dorm'); H.FAMILIAR('heroine_01'); PHONE.join(H.G,'public_law','公法讀書會'); at('2028-12-11',21); phone();
   check('1B-20 12/11 21:00 讀書會群組：以安「學弟說這週四停一次」「大家去麵店」', th('g:public_law').join('|')==='學弟說這週四停一次|大家去麵店');
