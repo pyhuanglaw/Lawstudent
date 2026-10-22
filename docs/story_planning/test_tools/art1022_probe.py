@@ -24,6 +24,8 @@ PST = """(()=>{ const E=GAME.E, P=E.player, c=E.camera.position, n=E.nav; return
   seat:P.seat?{x:+P.seat.x.toFixed(2), z:+P.seat.z.toFixed(2), lift:P.seat.lift||0}:null, px:+P.obj.position.x.toFixed(2), py:+P.obj.position.y.toFixed(3), pz:+P.obj.position.z.toFixed(2),
   pose:P.pose||'', busy:!!P.busy, cam:[+c.x.toFixed(2), +c.y.toFixed(2), +c.z.toFixed(2)], nav:n?[n.ox, n.oz, n.w, n.h]:null,
   btn:(()=>{ const b=document.getElementById('interact'); return b&&!b.classList.contains('hide')?b.textContent.trim():''; })()}; })()"""
+ANON = """(()=>(GAME.E.npcs||[]).filter(n=>n&&n.obj&&CHAR.anonKeyOf&&(CHAR.anonKeyOf(n.obj)||/^x\\d+$/.test(String(((n.obj.userData||{}).buildSpec||{}).id||'')))).map(n=>{ const u=n.obj.userData||{}, key=CHAR.anonKeyOf(n.obj), m=key&&ASSETS.manifest[key]||{};
+  return {key, sex:m.sex||null, id:(u.buildSpec||{}).id||null, name:n.name||'', x:+n.obj.position.x.toFixed(2), y:+n.obj.position.y.toFixed(2), z:+n.obj.position.z.toFixed(2), lv:n.lv|0, vis:n.obj.visible!==false}; }))()"""
 OCC = """(pts=>pts.map(([x,z])=>{ const n=(GAME.E.npcs||[]).find(q=>q&&q.seat&&Math.hypot(q.seat.x-x,q.seat.z-z)<0.35); return n?(n.charId||n.id||'路人'):null; }))"""   # 照遊戲自己的判斷（game3d.js E.nearestInteractable 的 occupied：NPC 的 seat 離座位 < 0.35 m）
 SEE = """(names=>{ const found={}; GAME.E.scene.traverse(o=>{ if(!o.isMesh) return; for(const m of [].concat(o.material)){ if(!m||!names.includes(m.name)) continue;
   const f=found[m.name]||(found[m.name]={n:0, see:0}); f.n++; if(m.userData&&m.userData.seeThrough) f.see++; } }); return found; })"""
@@ -265,6 +267,15 @@ async def s_lounge(p, run, base, sid):
                 await go_it(pg, cdp, run, it, 1.0); await run.shot(pg, '%s_%s' % (sid, pat))
                 n0 = len(await pg.evaluate("window.__LOG||[]")); await L.tap(pg, cdp, '#interact'); await pg.wait_for_timeout(1500); await drain(pg, cdp, 40)
                 lines = (await pg.evaluate("window.__LOG||[]"))[n0:]; res[pat] = lines; say('   %s：%s' % (pat, json.dumps(lines, ensure_ascii=False)[:300]))
+        # 2026-10-22 LAWWW 09:34：男宿二樓走廊那位「看起來像女生」的路人是哪一個底模——列出宿舍裡每個無名路人的底模 key、manifest 的 sex、spec id，一個一個近拍（劇情鏡頭只動鏡頭）
+        an = await pg.evaluate(ANON); res['anon'] = an; say('   宿舍的無名路人 %d 位：%s' % (len(an), json.dumps(an, ensure_ascii=False)[:900]))
+        run.note('%s：宿舍無名路人底模 %s' % (sid, json.dumps([(a['key'], a['sex'], a['id'], a['lv']) for a in an], ensure_ascii=False)))
+        for k, a in enumerate(an[:10]):
+            await pg.evaluate("(([x,y,z])=>{ const t=new THREE.Vector3(x,y+1.45,z); GAME.E.cinematic(new THREE.Vector3(x+1.6,y+1.7,z+1.6), t); })(%s)" % json.dumps([a['x'], a['y'], a['z']]))
+            await pg.wait_for_timeout(2500); await run.shot(pg, '%s_anon_%02d_%s' % (sid, k, (a['key'] or 'none').replace('.', '_')))
+        await pg.evaluate("GAME.E.endCinematic()")
+        if an: run.note('%s：無名路人近拍是【捷徑】劇情鏡頭只動鏡頭（每位 1.6 m 斜前方），不是玩家的鏡頭' % sid)
+        chk(run, sid, '宿舍的無名路人底模都是男生（manifest sex m）', all(a['sex'] == 'm' for a in an if a['key']), json.dumps(an, ensure_ascii=False)[:700])
         res['errs'] = errs[:3]; chk(run, sid, '沒有 JS 例外', not errs, errs[:3])
     except Exception as e: res['err'] = str(e)[:300]; say('   ! 例外', e); chk(run, sid, '測試跑完', False, str(e)[:300])
     await close(b)
