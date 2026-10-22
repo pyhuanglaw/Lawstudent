@@ -29097,9 +29097,9 @@
    "title": "人在國外時，臺灣朋友回訊息的情況版（深夜、00:30 以後傳的）照祐廷當地的時間判斷：美國當地 02:00（她那邊下午兩點）會回「睡不著」那一類",
    "area": "SYS",
    "owner": "LAWWW",
-   "status": "待開工",
+   "status": "已整合待測試",
    "priority": "P2",
-   "next": "msg3d.js S.sitOk 的「深夜」「00:30 以後傳的」改看她回的那一刻、她那邊的時間（臺灣的人＝ctx.at 換回臺灣時間；學姊、何俊朗在美國、以安在日本照當地，同 jp3d.js／us_life3d.js 包 MSG.replyAt 的例外）；測試照 tests/msg_kx_abroad_unit.js",
+   "next": "【LAWWW 帳號 A 10-22 10:0x】修了：jp3d.js、us_life3d.js 包 MSG.replyAt 換算時在結果標 tz（她照臺灣時間）；msg3d.js S.send 挑句子那一下用她那邊的時間（S.herG／S._herOf）：S.tok 的時間標籤（早上、深夜、週日 22:30 以後…）、S.sitOk 的深夜、00:30 以後傳的、考試週。以安在日本、學姊與何俊朗在美國照當地（包的那兩處本來就不換算）；kxdrift3d.js 朋友層自己換算過的不再換。tests/msg_kx_abroad_unit.js 第 5 項（修改前 2f040388 FAIL）。放 v9.10.6，BB 測 ｜ msg3d.js S.sitOk 的「深夜」「00:30 以後傳的」改看她回的那一刻、她那邊的時間（臺灣的人＝ctx.at 換回臺灣時間；學姊、何俊朗在美國、以安在日本照當地，同 jp3d.js／us_life3d.js 包 MSG.replyAt 的例外）；測試照 tests/msg_kx_abroad_unit.js",
    "first": {
     "term": "Y3S2",
     "week": 1,
