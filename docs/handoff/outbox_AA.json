@@ -1291,7 +1291,7 @@
   {
    "task": "BACKLOG-SWEEP-AA-1021",
    "branch": "claude/story-planning",
-   "sha": "PENDING",
+   "sha": "d037c668",
    "files": [
     "docs/story_planning/AA_377_法律系大三下_三條路線_修正稿.md",
     "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md"
