@@ -530,10 +530,10 @@ def build_teishoku(c):
     c.vc.cbox(bx0, bx1, mb['y'] - 0.05, mb['y'] + 0.07, mb['z'] - 0.06, mb['z'] + 0.06, '#3d2a1c')                                              # 掛木札的橫樑
     fu = c.extra.setdefault('fuda', Mesh(f'wz_{c.sid}_fuda', c.mat('fuda', 'teishoku_fuda.png', rough=0.7, clip=True, cull=True)))
     fb = c.extra.setdefault('fudab', Mesh(f'wz_{c.sid}_fudab', c.mat('fudab', 'teishoku_fuda_back.png', rough=0.7, clip=True, cull=True)))
-    fw = 1.26; fx0 = mb['x'] - fw / 2; fz = mb['z'] + 0.065; fy1 = mb['y'] - 0.06; fy0 = fy1 - fw / 3
+    fw = 1.5; fx0 = mb['x'] - fw / 2; fz = mb['z'] + 0.065; fy1 = mb['y'] - 0.06; fy0 = fy1 - fw / 3                                        # 五片木札（貼圖 3:1；每片約 24×48 cm，鏡頭 4 m 外還看得出是菜單）
     uvquad(fu, [(fx0, fy0, fz), (fx0 + fw, fy0, fz), (fx0 + fw, fy1, fz), (fx0, fy1, fz)], (0.0, 0.0, 1.0, 1.0))                               # 正面（客人那一側）
     uvquad(fb, [(fx0 + fw, fy0, fz - 0.004), (fx0, fy0, fz - 0.004), (fx0, fy1, fz - 0.004), (fx0 + fw, fy1, fz - 0.004)], (1.0, 0.0, 0.0, 1.0))   # 背面（廚房那一側：沒有字的木片，形狀和正面疊在一起）
-    for k in range(5): ccyl(c.vc, (fx0 + 0.13 + k * 0.25, fy1, fz - 0.002), (fx0 + 0.13 + k * 0.25, mb['y'] - 0.05, fz - 0.002), 0.003, '#d9c7a0', seg=3, caps=False)
+    for f in (0.095, 0.294, 0.492, 0.69, 0.889): ccyl(c.vc, (fx0 + f * fw, fy1, fz - 0.002), (fx0 + f * fw, mb['y'] - 0.05, fz - 0.002), 0.003, '#d9c7a0', seg=3, caps=False)   # 掛木札的細繩（貼圖裡每片的中心）
     for t in LAY['items']:
         if t['kind'] == 'table2': table(c, t['x'], t['z'], 0.7, 0.7, top='wood', legc='#3a2a1e'); jp_set(c, t['x'] + 0.18, t['z'] - 0.18)
         elif t['kind'] == 'table4': table(c, t['x'], t['z'], 1.2, 0.75, top='wood', legc='#3a2a1e'); jp_set(c, t['x'] + 0.4, t['z'])

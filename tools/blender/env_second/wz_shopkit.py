@@ -677,6 +677,7 @@ def vbox(cm, xf, x0, x1, y0, y1, z0, z1, col, k=1.0, r=0.015):
 
 
 SK['menu_tea'] = _img_mat('wz_menu_tea', 'shop_menu_tea.png', rough=0.35, emit=0.8)
+SK['menu_tea_wz'] = _img_mat('wz_menu_tea_wz', 'shop_menu_tea_wz.png', rough=0.35, emit=0.8)   # 溫州街巷口茶飲（B5）：AA_364 第 2 節的四樣；公館的手搖飲照舊
 SK['menu_ice'] = _img_mat('wz_menu_ice', 'shop_menu_ice.png', rough=0.7)
 SEASON_KEEP = []
 
@@ -754,17 +755,17 @@ def _tea(px, w, zf, zb, cm, pid):
         for k in range(9):
             cx = -w / 2 + 0.55 + k * 0.3; col = ['#c8a26a', '#7a5a3a', '#4a6a3a', '#d9c7a0'][k % 4]
             vbox(cm, px, cx - 0.08, cx + 0.08, y + 0.03, y + 0.26, zb + 0.06, zb + 0.22, col)
-    mw, mh = 1.9, 0.71
-    uvquad(f'sk_menu_{pid}_back', SK['menu_tea'], [px.p(0.3, 1.95, zb + 0.02), px.p(0.3 + mw, 1.95, zb + 0.02), px.p(0.3 + mw, 1.95 + mh, zb + 0.02), px.p(0.3, 1.95 + mh, zb + 0.02)])
+    mw, mh = 1.9, 0.71; mt = SK['menu_tea_wz'] if pid == 'B5' else SK['menu_tea']
+    uvquad(f'sk_menu_{pid}_back', mt, [px.p(0.3, 1.95, zb + 0.02), px.p(0.3 + mw, 1.95, zb + 0.02), px.p(0.3 + mw, 1.95 + mh, zb + 0.02), px.p(0.3, 1.95 + mh, zb + 0.02)])
     px.box(acc(SK['alu2']), c0 + 0.1, c0 + 0.1 + mw + 0.1, 1.92, 1.98 + mh, zf - 0.32, zf - 0.22)                                  # 櫃台上方吊著的燈箱
-    uvquad(f'sk_menu_{pid}_front', SK['menu_tea'], [px.p(c0 + 0.15, 1.95, zf - 0.215), px.p(c0 + 0.15 + mw, 1.95, zf - 0.215), px.p(c0 + 0.15 + mw, 1.95 + mh, zf - 0.215), px.p(c0 + 0.15, 1.95 + mh, zf - 0.215)])
+    uvquad(f'sk_menu_{pid}_front', mt, [px.p(c0 + 0.15, 1.95, zf - 0.215), px.p(c0 + 0.15 + mw, 1.95, zf - 0.215), px.p(c0 + 0.15 + mw, 1.95 + mh, zf - 0.215), px.p(c0 + 0.15, 1.95 + mh, zf - 0.215)])
     for sx in (0.3, mw - 0.1): px.cyl(acc(M['metal']), (c0 + 0.1 + sx, 1.98 + mh, zf - 0.27), (c0 + 0.1 + sx, 2.95, zf - 0.27), 0.008, seg=4)
     CL.glow(root, 'menubox', *px.p(c0 + 0.15 + mw / 2, 1.95 + mh / 2, zf + 0.1), color='rgba(255,252,240,1)', size=1.8, day=0.0, night=0.6)
 
 
 def _ice(px, w, zf, zb, cm, pid, yo):
     """冰菓室：整面拉開（摺門收兩側）、前面的配料冰櫃（不鏽鋼方盒裝紅豆、綠豆、芋頭、粉圓…，斜玻璃擋板）、剉冰機、
-    三張小圓桌＋塑膠凳、木板牆腰＋一排長條木牌菜單、吊扇；冬天（SEASON_ICECLOSED_on）拉下鐵捲門、貼「冬天休息」"""
+    三張小圓桌＋塑膠凳、木板牆腰＋一排長條木牌菜單、吊扇；冬天（SEASON_ICECLOSED_on）拉下鐵捲門、貼「五月見」（AA_364 第 3 節）"""
     for sx in (-1, 1):                                                                               # 摺門收在兩側
         for k in range(4):
             x = sx * (w / 2 - 0.32 - k * 0.07); px.box(acc(SK['alu2']), x - 0.025, x + 0.025, 0.06, yo - 0.3, zf - 0.22 + (k % 2) * 0.1, zf + 0.02)
@@ -795,7 +796,7 @@ def _ice(px, w, zf, zb, cm, pid, yo):
     for k in range(3):
         a_ = k * 2 * math.pi / 3 + 0.4; ex, ez = math.cos(a_) * 0.62, math.sin(a_) * 0.62
         px.quad(acc(SK['wood_dk']), [(fx, 2.63, fz), (fx + ex, 2.63, fz + ez), (fx + ex * 1.0 - ez * 0.16, 2.63, fz + ez + ex * 0.16), (fx - ez * 0.12, 2.63, fz + ex * 0.12)])
-    # 冬天：拉下鐵捲門＋「冬天休息」紙條（季節節點；夏天這組藏起來）
+    # 冬天：拉下鐵捲門＋「五月見」紙條（季節節點；夏天這組藏起來）
     grp = B.group(f'SEASON_ICECLOSED_on_{pid}', root, {'season': 'iceclosed', 'state': 'on'})   # 和公園一樣：_on＝那個季節的樣子（AA_164 1-2：只在 5～9 月開，10～4 月鐵門拉下、冬天休息）
     sh = Mesh(f'SEASON_ICECLOSED_on_{pid}_shutter', M['shutter']); px.quad(sh, [(-w / 2 + 0.27, 0.05, zf + 0.06), (w / 2 - 0.27, 0.05, zf + 0.06), (w / 2 - 0.27, yo - 0.28, zf + 0.06), (-w / 2 + 0.27, yo - 0.28, zf + 0.06)])
     sh.finish(grp, uv=True)
@@ -960,7 +961,7 @@ SF = {
                clutter=[('aboard', 4.4, 0.45, 'menu'), ('pot', -5.8, 0.3, 'broad'), ('pot', -5.2, 0.32), ('umb', 5.6, 0.3)]),
     'B5': dict(split=[dict(id='B5', kind='tea', x0=-7.0, x1=0.0, floor='f_white', shop=dict(name='巷口茶飲', sub='手搖飲・現煮珍珠', signBg='#f4ead8', signColor='#5c3a21', band='#7a9a5a'),
                            notes=[('pay', -2.9, 0.62, 0.26, 0.26), ('hiring', 2.75, 1.1, 0.4, 0.44)], clutter=[('bins', 3.0, 0.4)]),
-                      dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・豆花・古早味', signBg='#f7efe0', signColor='#b0322a', band='#2f7a8a', serif=True),
+                      dict(id='B5i', kind='ice', x0=0.0, x1=7.0, floor='f_terrazzo', shop=dict(name='夏日冰菓室', sub='剉冰・古早味', signBg='#f7efe0', signColor='#b0322a', band='#2f7a8a', serif=True),
                            notes=[('hours', 2.95, 1.3, 0.34, 0.34)], clutter=[('aboard', 3.0, 0.5, 'menu')])]),
     'B7': dict(inner=True, door='wood', sign='wood', awning=None, floor='f_terrazzo', step=0.08, light='warm', door_x=-2.0, door_w=1.0, ac=3.2,   # 半熟：新裝潢的小店（原木、大片玻璃、黑板菜單）
                notes=[('hours', -1.0, 1.25, 0.34, 0.34), ('pay', -0.55, 1.3, 0.26, 0.26)],
