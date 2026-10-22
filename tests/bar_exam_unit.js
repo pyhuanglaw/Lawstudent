@@ -31,7 +31,7 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
     check('3. 9/7 15:00 群組「一試放榜了。」（群組安靜了三秒。）「宵夜。」',H.msgs('g:noodle_team').join('|').includes('一試放榜了。|（群組安靜了三秒。）|宵夜。'));
     H.at('2029-09-07',15+5/60); const r=PG.due(G); check('3. 15:05 系統字',r&&r.id==='r1_2029'); await PG.runStep(GM,r);
     check('3. Y1：答對 14＝「律師一試：通過。司法官一試：未通過。」；BAR_STAGE_2029 lawyer',H.has('律師一試：通過。司法官一試：未通過。')&&G.flags.BAR_STAGE_2029==='lawyer');
-    H.at('2029-09-07',15.2); H.tick(); check('3. 朋友：小語「一試沒過。明年再來。」阿哲「我也沒過。……宵夜照吃。」柏翰「過了。」；沒有「明年一起。」',H.msgs('g:noodle_team').join('|').includes('一試沒過。明年再來。|我也沒過。……宵夜照吃。|過了。')&&!H.msgs('g:noodle_team').includes('明年一起。'));
+    H.at('2029-09-07',15.2); H.tick(); check('3. 朋友：Alison「一試沒過。明年再來。」阿哲「我也沒過。……宵夜照吃。」柏翰「過了。」；沒有「明年一起。」',H.msgs('g:noodle_team').join('|').includes('一試沒過。明年再來。|我也沒過。……宵夜照吃。|過了。')&&!H.msgs('g:noodle_team').includes('明年一起。'));
     check('3. 可昕：「一試過了。二試十月。」「表我再排到十月。」',H.msgs('p:kexin').includes('一試過了。二試十月。')&&H.msgs('p:kexin').includes('表我再排到十月。'));
     // 10/20～21
     H.at('2029-10-20',8.5); const e=PG.due(G); check('4. Y1：10/20 進考場',e&&e.id==='e2a_2029'); await PG.runStep(GM,e); check('4. 字卡「考場」',H.cards.some(c=>c[0]==='考場'));
@@ -92,14 +92,14 @@ const answerK=(qs,k)=>qs.map((q,i)=>{ const o=PG.opts(q); const right=o.findInde
   { const G=H.fresh('2029-08-04',8,'dorm',{BAR_REG:true}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); H.FRIEND('heroine_05'); H.FRIEND('heroine_03');
     const q29=PG.draw(G,2029); H.picks=answerK(q29,10); await H.run('exam_2029');
     H.at('2029-09-07',14.6); PG.rules(GM); H.at('2029-09-07',15.1); await H.run('r1_2029'); H.at('2029-09-07',15.4); H.tick();
-    check('12. Y2：答對 10＝「律師、司法官一試：未通過。」；阿哲「明年一起。」小語「我們一起明年。」',H.has('律師、司法官一試：未通過。')&&H.msgs('g:noodle_team').join('|').includes('明年一起。|我們一起明年。'));
+    check('12. Y2：答對 10＝「律師、司法官一試：未通過。」；阿哲「明年一起。」Alison「我們一起明年。」',H.has('律師、司法官一試：未通過。')&&H.msgs('g:noodle_team').join('|').includes('明年一起。|我們一起明年。'));
     check('12. 學姊 15:20「明年。……讀書計畫我幫你排。」（AA_327 2-Y4-51）',H.msgs('p:heroine_05').includes('明年。……讀書計畫我幫你排。'));
     H.at('2029-10-20',8.5); check('12. Y2：沒有二試',!PG.due(G)||!/^e2/.test(PG.due(G).id));
     const q30=PG.draw(G,2030), s29=new Set(q29.map(q=>q.id)); check('12. 第二年換一組 20 題（和 2029 不重複）',q30.length===20&&q30.every(q=>!s29.has(q.id)));
     H.at('2030-08-02',20.6); PG.rules(GM); H.at('2030-08-02',21.1); H.tick(); check('12. 2030 重考的便條（照片）：「（便條：「早點睡。」「你比去年多念了一年。」）」',H.msgs('p:heroine_05').includes('（便條：「早點睡。」「你比去年多念了一年。」）'));
     H.at('2030-12-13',14.6); G.flags.BAR_SIT_2030=true; G.flags.BAR_SCORE_2030=8; G.flags.BAR_STAGE_2030='lawyer'; PG.rec(G).done.exam_2030=1; PG.rec(G).done.r1_2030=1; PG.rec(G).done.e2a_2030=1; PG.rec(G).done.e2b_2030=1;
     PG.rules(GM); H.at('2030-12-13',15.1); await H.run('r2_2030'); H.at('2030-12-13',15.4); H.tick();
-    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；小語、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&H.msgs('g:noodle_team').includes('阿姨已經在寫紅紙了。')); }
+    check('12. 2030-12-13：學姊「恭喜。」「……這次可以停一下了。」；Alison、語彤的群組',G.flags.BAR_YEAR===2030&&H.msgs('p:heroine_05').join('|').includes('恭喜。|……這次可以停一下了。')&&H.msgs('g:noodle_team').includes('司法官還是沒上。檢察事務官那個，筆試考完了，還在等。')&&H.msgs('g:noodle_team').includes('阿姨已經在寫紅紙了。')); }
   // ---- 2029 已經考上的玩家，2030-12-13 阿哲那一句 ----
   { const G=H.fresh('2030-12-13',14.6,'dorm',{BAR_REG:true,BAR_SIT_2029:true,BAR_SCORE_2029:14,BAR_STAGE_2029:'lawyer',BAR_YEAR:2029}); graduated(G); PHONE.join(G,'noodle_team','麵店團'); PG.rules(GM); H.at('2030-12-13',15.3); H.tick();
     check('13. 2029 已經考上：阿哲「上了。去年那頓宵夜，今天換我請。」；沒考的系統字不出現',H.msgs('g:noodle_team').includes('上了。去年那頓宵夜，今天換我請。')&&!H.msgs('g:noodle_team').includes('國考放榜了。')); }

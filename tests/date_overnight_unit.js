@@ -1,5 +1,6 @@
 // 兩天一夜的約會（DATE-OVERNIGHT-1021；企劃線 AA_359@fb5156ab（第 5 節：AA 回十三題、5-2 九句改字、5-3 BB 對照看到的；之前 e75d1cce、c7dd0000），大原則 AA_128 第 119 行、第 52 行，AA_126 1-1）：src/date3d.js＋outings3d.js 的 OUT.go。
 // 不需要瀏覽器。用法：node tests/date_overnight_unit.js（稿用 git show 讀；證明修改前會失敗時，舊程式放在別的資料夾，SPEC_GIT_DIR＝這個 repo）
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='fb5156ab', SPEC_PATH='docs/story_planning/AA_359_兩天一夜的約會_住宿那一段.md';
 global.window=global; global.self=global; global.P3={CAST:{}};

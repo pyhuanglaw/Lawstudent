@@ -392,7 +392,7 @@ const Y34B=(function(){
     {speaker:null,text:'（麵店的長桌。阿姨多煮了一鍋湯，說是送的。）'},
     {speaker:'zhe',text:'（舉起麵店的塑膠杯）敬以安。半年。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'要傳照片喔。每天。'},{if:C(()=>met('yu')),speaker:'heroine_01',text:'……每天太多了。一個禮拜一張。'},
-    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* 小語、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
+    {if:C(()=>met('heroine_03')),speaker:'heroine_03',text:'（端麵過來）日本有乾麵嗎。'},{if:C(()=>met('heroine_03')),speaker:'heroine_01',text:'應該沒有這種的。'},   /* Alison、語彤不認識的就跳過她們的句子（以安回她們的那一句一起跳）*/
     {if:C(JP),speaker:'zhe',text:'（轉向你）還有你。兩個都要傳。'},
     {unless:C(JP),choice:[{text:'「一路順風。」',goto:'fw_a'},{text:'「回來第一碗我請。」',goto:'fw_b'}]},
     {if:C(JP),choice:[{text:'「到了我幫妳顧行李。」',goto:'fw_c'},{text:'「（舉杯）」',goto:'fw_d'}]},
@@ -572,9 +572,9 @@ const Y34B=(function(){
   const GATE_US=[ {if:C(dSis),speaker:null,text:'（她在看一本論文。飛機起飛的時候，她把書闔上了。）'},{if:C(xSis),speaker:null,text:'（座位分開。）'} ];
   const NOTE_BUS=[ {speaker:'heroine_03',text:'學姊叫我拿給你的。'},{speaker:null,text:'（一張便條：「好好念書。」）'},{set:{SIS_NOTE_GIVEN:true}} ];
   /* 1B-19 */
-  const yuHere=G=>!dAn(G)&&datingOther(G,'heroine_01')&&met('yu');   /* 和別人交往中（不是和以安）：小語也在走廊，三個人一起聽（AA_323）；和以安交往中＝小語先走了 */
+  const yuHere=G=>!dAn(G)&&datingOther(G,'heroine_01')&&met('yu');   /* 和別人交往中（不是和以安）：Alison 也在走廊，三個人一起聽（AA_323）；和以安交往中＝Alison 先走了 */
   const AN18=[ {scene:'萬才館・研討室外的走廊',bg:false},
-    {if:C(yuHere),speaker:'yu',expression:'neutral'},   /* 小語一開始就在旁邊（立繪） */
+    {if:C(yuHere),speaker:'yu',expression:'neutral'},   /* Alison 一開始就在旁邊（立繪） */
     {unless:C(dAn),speaker:'heroine_01',text:'我決定了。考台大法研所，商法組。'},
     {unless:C(dAn),speaker:'heroine_01',text:'公司法、證交法、保險法。這兩年讀下來，最想再讀的是這些。'},
     {unless:C(dAn),speaker:'heroine_01',text:'讀書會是公法沒錯。那是大一憲法口試完，大家硬推我的。'},
@@ -589,8 +589,8 @@ const Y34B=(function(){
     {label:'n_a'},{speaker:'heroine_01',text:'明年二月。還有四個月。'},{goto:'n_end'},
     {label:'n_b'},{speaker:'heroine_01',text:'她說，先把對方的理由講得比他自己還好。'},{speaker:'heroine_01',text:'所以我昨天在電話裡講了一個小時。'},{goto:'n_end'},
     {label:'n_c'},
-    {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了小語一眼。小語在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* 小語在旁邊的這一版（AA_337 第 4 節）*/
-    {speaker:'heroine_01',text:'知道。小語說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
+    {if:C(yuHere),speaker:'heroine_01',text:'知道。'},{if:C(yuHere),speaker:null,text:'（她看了 Alison 一眼。Alison 在看天花板。）'},{if:C(yuHere),goto:'n_end'},   /* Alison 在旁邊的這一版（AA_337 第 4 節）*/
+    {speaker:'heroine_01',text:'知道。Alison 說我背叛憲法。'},{speaker:'heroine_01',text:'……她講完就去幫我印商法的考古題了。'},
     {label:'n_end'},{set:{AN_CHOICE:'here'}},{mem:[{npc:'heroine_01',tag:'AN_CHOICE_TOLD',note:'第一批知道'}]} ];
   /* 1B-20 */
   const ytF=()=>fam('heroine_03'), ytDt=G=>dating(G,'heroine_03');
@@ -603,7 +603,7 @@ const Y34B=(function(){
     {speaker:null,text:'（店裡坐滿，外面還有人排隊。新屋主也來排隊。）'},
     {speaker:null,text:'（阿姨一碗一碗煮，語彤端，工讀生在洗碗。語彤的媽媽坐在角落，對每個人說：「我女兒很少講話，她今天講太多了。」）'},
     {if:C(ytDt),speaker:'語彤的媽媽',text:'……他也很少講話。你們兩個怎麼聊天的？'},
-    {if:C(()=>met('yu')),speaker:null,text:'（小語進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
+    {if:C(()=>met('yu')),speaker:null,text:'（Alison 進門。阿哲旁邊的位子空著，大家都知道是留給誰的。）'},
     {if:C(()=>met('yu')),speaker:'yu',text:'（坐下）四年了。這兩個位子，本來就是我們的。'},
     {if:C(()=>met('yu')),speaker:'zhe',text:'（把一碗餛飩湯推過去）妳的。'},
     {if:C(()=>met('yu')),speaker:'yu',text:'你怎麼知道我要點這個？'},

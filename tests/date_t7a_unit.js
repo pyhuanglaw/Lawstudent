@@ -3,6 +3,7 @@
 //   稿：「她人在台中時手機的『約』整個關著」→「打開，但只列 D26 臺中。她答應的那一句：以安「臺中？……好。我去車站接你。」；芷若「你要來臺中？……好。我帶你走。」」
 //   這裡的做法（稿沒寫的，照最接近稿意的，列給 AA）：還沒到約校外的程度（第 5 階、交往中以外）＝沒有可以列的＝照舊關著；她回臺北以後的日子＝一起從臺北出發，照一般答應的那一句；
 //   在臺北的時候約她回台中那幾天的 D26（AA_350 S6 的例外）照舊一般那一句（T7a 只管她人在台中時）。
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..'), GIT=process.env.SPEC_GIT_DIR||ROOT, SPEC_SHA='2e255e9a', SPEC_PATH='docs/story_planning/AA_350_回LAWWW_AA_QUESTIONS_1021_M_N十八題.md';
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -44,7 +45,7 @@ const phoneAsk=async(id,pk)=>{ said=[]; opts=[]; picks=pk||[]; let r=null, err=n
   const row=(spec.split('\n').find(l=>/^\|\s*T7a\s*\|/.test(l))||''), SP={};
   { const m1=/以安「([^」]*)」/.exec(row), m2=/芷若「([^」]*)」/.exec(row); if(m1) SP.heroine_01=m1[1]; if(m2) SP.heroine_02=m2[1]; }
   check('0. 讀得到稿 AA_350@'+SPEC_SHA+' 的 T7a：「打開，但只列 D26 臺中」＋以安、芷若答應的那一句',!!spec&&/打開，但只列 D26 臺中/.test(row)&&!!SP.heroine_01&&!!SP.heroine_02,J([row.slice(0,200),SP]));
-  check('0. 以安、芷若答應的那一句逐字（DATE.T7A_YES）',!!DT().T7A_YES&&DT().T7A_YES.heroine_01===SP.heroine_01&&DT().T7A_YES.heroine_02===SP.heroine_02&&Object.keys(DT().T7A_YES).length===2,J([DT().T7A_YES,SP]));
+  check('0. 以安、芷若答應的那一句逐字（DATE.T7A_YES；第三句是沛珊，AA_372 第 7 節 da55ec2b，tests/aa372_s7_unit.js 對稿）',!!DT().T7A_YES&&DT().T7A_YES.heroine_01===SP.heroine_01&&DT().T7A_YES.heroine_02===SP.heroine_02&&Object.keys(DT().T7A_YES).length===3&&!!DT().T7A_YES.classmate_peishan,J([DT().T7A_YES,SP]));
   { const al=JSON.parse(fs.readFileSync(path.join(ROOT,'docs/handoff/story_import_allow.json'),'utf8')).files.filter(e=>e.path===SPEC_PATH);
     check('0. 匯入白名單：AA_350 只有一筆 approved＝'+SPEC_SHA+'（DATE-T7A-HOMETOWN-1021）',al.length===1&&al[0].sha===SPEC_SHA&&al[0].status==='approved'&&al[0].task==='DATE-T7A-HOMETOWN-1021'&&!!al[0].approvedBy,J(al.map(e=>[e.sha,e.status,e.task]))); }
   const P=(id,day)=>STORY.presence(id,{day,flags:{},stage:'law'});

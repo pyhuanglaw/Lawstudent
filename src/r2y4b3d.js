@@ -65,9 +65,9 @@ const R2Y4B=(function(){
   S.onAvenue=GM=>{ const P=GM&&GM.E&&GM.E.player&&GM.E.player.obj&&GM.E.player.obj.position; return !!P&&Math.abs(P.z)<=14&&P.x>=-110&&P.x<=72; };   /* 椰林大道（zones3d.js：z=0，校門 x=-124 到總圖前 x≈72；兩側杜鵑在 z=±10.8）*/
   S.azaleaDue=function(G,GM){ const d=DK(AZ); if(d==null||G.day!==d||!law(G)||G.zone!=='campus'||G.flags.AZALEA_Y4!=null) return false; const h=hh(G); if(h<12+25/60||h>=12+55/60) return false;
     const ok=knows('heroine_01',G)&&S.onAvenue(GM); if(ok) G.flags.AZALEA_VER=S.azaleaVer(G); return ok; };   /* 版本在開演前先定：EVENTS.run 一開始的 SOCIAL.meet 會把還不熟的熟悉度補到 5（＝有點熟）*/
-  S.azaleaVer=G=>dating(G,'heroine_01')?'two':((G.flags.EX_heroine_01||!stageAt('heroine_01','ACQUAINTANCE'))?'yu':'shot');   /* 不熟、分開過＝她請小語拍 */
+  S.azaleaVer=G=>dating(G,'heroine_01')?'two':((G.flags.EX_heroine_01||!stageAt('heroine_01','ACQUAINTANCE'))?'yu':'shot');   /* 不熟、分開過＝她請 Alison 拍 */
   S.azaleaNow=G=>G.flags.AZALEA_VER||S.azaleaVer(G);
-  S.azaleaPhoto=G=>{ const d=DK(AZ); if(d!=null&&grp(G)) PHONE.at(G,d,12+40/60,[GR('heroine_01','📷（同一叢杜鵑，同一個位置。以安一個人。第四張。）')],'y4_azalea_photo'); };   /* 12:40 群組一張照片（她請小語拍的）：照片的說明照 AA_345 G5 */
+  S.azaleaPhoto=G=>{ const d=DK(AZ); if(d!=null&&grp(G)) PHONE.at(G,d,12+40/60,[GR('heroine_01','📷（同一叢杜鵑，同一個位置。以安一個人。第四張。）')],'y4_azalea_photo'); };   /* 12:40 群組一張照片（她請 Alison 拍的）：照片的說明照 AA_345 G5 */
   const azaleaPhone=G=>{ const d=DK(AZ), F=G.flags; if(d==null||G.day<d||G.day>d+7) return;
     if(G.day===d&&at(G,AZ,12+10/60)&&hh(G)<12+55/60&&knows('heroine_01',G)&&stageAt('heroine_01','ACQUAINTANCE')&&!F.EX_heroine_01&&contact(G,'heroine_01')) PHONE.at(G,d,12+10/60,[P_('heroine_01','杜鵑開了'),P_('heroine_01','十二點半 老位置')],'y4_azalea_dm');
     if(at(G,AZ,12+55/60)&&F.AZALEA_Y4==null&&knows('heroine_01',G)){ F.AZALEA_Y4='missed'; S.azaleaPhoto(G); } };
@@ -186,11 +186,11 @@ const R2Y4B=(function(){
 
   /* ===================== 2-Y4-39 系籃最後一場＋吉他社成發（5/11 21:00 群組、5/12）===================== */
   const ballPhone=G=>{ const d11=DK('2029-05-11'), d12=d11+1; if(d11==null||G.day<d11||G.day>d12||!grp(G)||!at(G,'2029-05-11',21)) return;
-    if(PHONE.at(G,d11,atH(G,d11,21),[GR('zhe','明天早上十點 最後一場'),GR('zhe','晚上小語成發'),GR('zhe','兩個都給我來')],'y4_last_game')){
+    if(PHONE.at(G,d11,atH(G,d11,21),[GR('zhe','明天早上十點 最後一場'),GR('zhe','晚上 Alison 成發'),GR('zhe','兩個都給我來')],'y4_last_game')){
       plan(G,{id:'y4_last_game',ev:'ev_last_game_y4',day:d12,h:10,late:0.5,place:'新體育館',title:'系籃最後一場',travel:'走過去約 10 分鐘',travelH:1/6});
       plan(G,{id:'y4_concert',ev:'ev_concert_y4',day:d12,h:19,late:0.5,place:'吉他社成發',title:'吉他社成發',travel:'走過去約 10 分鐘',travelH:1/6}); } };
   S.ballMissed=G=>{ const d=DK('2029-05-12'); G.flags.BALL_Y4='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,12.5,[GR('classmate_mingxuan','系籃最後一場打完了。這次我待到最後 😂')],'y4_ball_missed'); };
-  S.concertMissed=G=>{ const d=DK('2029-05-12'); G.flags.CONCERT_Y4='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[GR('zhe','📷（舞台上，小語拿著麥克風，對著台下比了一個讚。）')],'y4_concert_photo'); };
+  S.concertMissed=G=>{ const d=DK('2029-05-12'); G.flags.CONCERT_Y4='missed'; if(d!=null&&grp(G)) PHONE.at(G,d,21.5,[GR('zhe','📷（舞台上，Alison 拿著麥克風，對著台下比了一個讚。）')],'y4_concert_photo'); };
 
   /* ===================== 2-Y4-40 可昕 K25 讀書會的最後一晚（5/16 18:00 私訊、21:00）===================== */
   S.kxInBarGroup=G=>G.flags.Y4_PATH==='bar'&&Array.isArray(G.flags.BAR_STUDY_GROUP)&&G.flags.BAR_STUDY_GROUP.includes('kexin');

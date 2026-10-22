@@ -4,7 +4,7 @@
      那間店門口有常客（見過面的）＝一起吃：招呼換資料裡的 groupGreet（src/data/lane118_shops.js，現在是「幾位？……那邊那張可以坐。」）、吃完換那個人的一句（照 AA_280 第 3 節）。扣錢；吃飯約 40 分鐘、飲料 5 分鐘。
    - 常客：平日中午照 AA_280 第 3 節站在他那間店門口（寒暑假、第 16 週不出現；人在國外、老家、消失期照 STORY.presence）。
    - 阿哲週一 12:00 揪人（AA_280 第 4 節）：第一次 Y1S1 第 2 週；之後每學期第 2～15 週每週一，店照 noodle2 → dian → korea → home 輪；
-     「走。」＝12:15 在那間店門口（出遊 goto，阿哲、小語在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
+     「走。」＝12:15 在那間店門口（出遊 goto，阿哲、Alison 在那裡等）；「今天不行。」＝阿哲「好喔 下次」。不在麵店團群組、和阿哲 FAMILIAR 以上＝私訊（只有阿哲的句子）。
    - AA_311（118 巷每間店的故事）：H1 一一八茶飲 × 學姊（S.h1Due／S.playH1，記 SIS_TEA_ORDER）。其餘 H2～H9、熟客三段招呼還沒做。
    測試：node tests/lane118_unit.js */
 'use strict';
@@ -97,12 +97,12 @@ const L118=(function(){
     if(!inG&&!famZhe) return;
     const first=!F.L118_FIRST_SENT, shop=first?'noodle2':S.lunchShop(T); if(!shop) return; const th=inG?'g:noodle_team':'p:zhe';
     let L=first?Lc.first.slice():[['zhe',Lc.weekly[shop]]];
-    const paired=DK('2026-12-19'); if(!first&&inG&&paired!=null&&G.day>=paired) L.push(['yu',Lc.pairedYu]);   /* 阿哲和小語交往以後（大二上 12/19 起）*/
+    const paired=DK('2026-12-19'); if(!first&&inG&&paired!=null&&G.day>=paired) L.push(['yu',Lc.pairedYu]);   /* 阿哲和 Alison 交往以後（大二上 12/19 起）*/
     if(!inG) L=L.filter(([w])=>w==='zhe');
     const M=L.map(([w,t])=>({th,from:w,text:t})); const last=M[M.length-1];
     last.ask={id:tag,until:now+1.5,opts:[{t:Lc.yes,set:{L118_PICK:G.day+':'+shop},say:[{th,from:'zhe',text:Lc.yesReply}]},{t:Lc.no,say:[{th,from:'zhe',text:Lc.noReply}]}]};
     PHONE.at(G,G.day,12,M,tag); F.L118_FIRST_SENT=true; };
-  /* 回了「走。」：排 12:15 那間店門口（出遊 goto）；阿哲、小語在那裡等 */
+  /* 回了「走。」：排 12:15 那間店門口（出遊 goto）；阿哲、Alison 在那裡等 */
   S.tick=function(G){ const F=G.flags; if(typeof F.L118_PICK!=='string') return; const [ds,shop]=F.L118_PICK.split(':'); delete F.L118_PICK; const day=+ds; const d=S.door(shop), s=S.shop(shop); if(!d||!s) return;
     const withs=['zhe']; const yp=typeof STORY!=='undefined'&&STORY.presence?STORY.presence('yu',G):{here:true}; if(yp.here!==false) withs.push('yu');
     F.L118_LUNCH={day,shop,with:withs};

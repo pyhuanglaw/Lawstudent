@@ -32,8 +32,8 @@ const mk=(day,hour,o)=>{ const G=Object.assign({day,hour,weekday:CALENDAR.dateOf
 const SAT=STORY.termDay('Y1S1',5,6), SUN=STORY.termDay('Y1S1',5,7), SUN6=STORY.termDay('Y1S1',6,7);
 const whoAt=(G,spot)=>ENC.candidates(G,spot).map(c=>c.row.who+(c.tier.t==='acq'?'':':'+c.tier.t)).sort().join(',');
 // 3. 誰會出現
-{ let G=mk(SAT,19.5); check('3. 大一上第 5 週週六 19:30 西門町：芷若、子晴、阿哲、小語、可昕（交往中）',whoAt(G,'D04')==='heroine_02,heroine_04,kexin:dating,yu,zhe',whoAt(G,'D04'));
-  G=mk(SAT,20.5); check('3. 20:30：小語走了（17～20）、芯慈來了（20～23）',whoAt(G,'D04')==='classmate_xinci,heroine_02,heroine_04,kexin:dating,zhe',whoAt(G,'D04'));
+{ let G=mk(SAT,19.5); check('3. 大一上第 5 週週六 19:30 西門町：芷若、子晴、阿哲、Alison、可昕（交往中）',whoAt(G,'D04')==='heroine_02,heroine_04,kexin:dating,yu,zhe',whoAt(G,'D04'));
+  G=mk(SAT,20.5); check('3. 20:30：Alison 走了（17～20）、芯慈來了（20～23）',whoAt(G,'D04')==='classmate_xinci,heroine_02,heroine_04,kexin:dating,zhe',whoAt(G,'D04'));
   STAGE.zhe='STRANGER'; G=mk(SAT,19.5); check('3. 還不認識的（阿哲 STRANGER）不出現：第一次見面只在原本的劇情事件',!/zhe/.test(whoAt(G,'D04'))); delete STAGE.zhe;
   G=mk(STORY.termDay('Y3S1',5,6),19.5); check('3. 芷若大三上（英國交換）不在西門町',!/heroine_02/.test(whoAt(G,'D04')),whoAt(G,'D04'));
   G=mk(STORY.termDay('Y1S1',16,6),19.5); check('3. 期末考週（第 16 週，16 週制）沒有人',whoAt(G,'D04')==='',whoAt(G,'D04'));

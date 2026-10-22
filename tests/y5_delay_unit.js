@@ -147,12 +147,12 @@ const grad=(key,h,flags)=>{ const G=H.fresh(key,h==null?10:h,'dorm',Object.assig
     const L=H.said.map(x=>(x.who?x.who+'：':'')+x.t), nm=id=>SOCIAL.displayName(id);
     const want=['（河濱。烤肉架是阿哲借的，和大一那年同一個。）',nm('classmate_bohan')+'：（手上拿著一本書）我只待一個小時。研究所的報告。',nm('heroine_03')+'：（拿出一顆柚子）……今年蛋糕店有開。我還是買柚子。',nm('heroine_01')+'：（到了以後先看一下手機，然後收進包包）……今天不讀。',
       nm('zhe')+'：（手機舉高）明軒，看。月亮。……他說德國現在是中午。','（螢幕裡，明軒那邊天很亮。他揮了一下手。）',nm('yu')+'：明年中秋，我們還湊得到這麼多人嗎？',nm('yu')+'：……我也不知道。所以今年要吃多一點。','（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）'];
-    check('G5. 3-1 9/20 21:00 麵店團阿哲三則＋「去。」／「這次不行。」；回「去。」＝9/22 18:00 河濱，照 AA 稿（認識的人各一句、明軒的視訊、小語的選擇），MIDAUTUMN_2029＝went',
+    check('G5. 3-1 9/20 21:00 麵店團阿哲三則＋「去。」／「這次不行。」；回「去。」＝9/22 18:00 河濱，照 AA 稿（認識的人各一句、明軒的視訊、Alison 的選擇），MIDAUTUMN_2029＝went',
       JSON.stringify(M)===JSON.stringify(['禮拜六中秋','河濱 六點 一樣','明軒那邊我開視訊 讓他看月亮'])&&!!m&&JSON.stringify(m.ask.opts.map(o=>o.t))==='["去。","這次不行。"]'&&!!q&&q.day===D('2029-09-22')&&q.h===18&&JSON.stringify(L)===JSON.stringify(want)&&JSON.stringify(H.opts[0])==='["「湊得到。」","「不知道。」"]'&&G.flags.MIDAUTUMN_2029==='went',JSON.stringify(M)+JSON.stringify(L)); }
   { const G=moonSetup({EXCHANGE_ROUTE:'JP'},[]); PHONE.answer(G,'pg_moon29',1); STORY.phoneRules(GM); H.at('2029-09-22',22.1); H.tick(); const ph=H.msgs('g:noodle_team').includes('📷（河濱，烤肉架，螢幕裡的明軒在揮手）');
     const G2=moonSetup({EXCHANGE_ROUTE:'US'},[]); PHONE.answer(G2,'pg_moon29',0); STORY.phoneRules(GM); const q=OUT.get(G2,'pg_moon29'); H.at('2029-09-22',17.5); H.said=[]; H.picks=[]; if(q) await OUT.go(GM,q); const L=H.said.map(x=>x.t);
     const G3=grad('2029-09-20',20.9,{EXCHANGE_ROUTE:'TW'}); H.at('2029-09-20',21.05); H.tick(); const none=!(G3.msgs||[]).some(x=>x.ask&&x.ask.id==='pg_moon29');
-    check('G5. 3-1「這次不行。」＝9/22 22:00 群組照片（不扣關係）；延畢的也可以去；沒見過的人那一句不出、明軒不熟＝「（阿哲對著手機講了一下話。）」、沒有小語的選擇；不在麵店團＝沒有',
+    check('G5. 3-1「這次不行。」＝9/22 22:00 群組照片（不扣關係）；延畢的也可以去；沒見過的人那一句不出、明軒不熟＝「（阿哲對著手機講了一下話。）」、沒有 Alison 的選擇；不在麵店團＝沒有',
       G.flags.MIDAUTUMN_2029==='no'&&ph&&JSON.stringify(L)===JSON.stringify(['（河濱。烤肉架是阿哲借的，和大一那年同一個。）','（阿哲對著手機講了一下話。）','（柚子皮後來被阿哲戴在頭上。這件事，每年都有人做。）'])&&G2.flags.MIDAUTUMN_2029==='went'&&none,[G.flags.MIDAUTUMN_2029,ph,JSON.stringify(L),none].join('｜')); }
   /* AA_363 T2：「這次不行。」那張照片是阿哲傳的（群組顯示「阿哲」）；T9：中秋出遊的交通「捷運＋走路 約 30 分鐘」（從家裡出發也是這一句）*/
   { const G=moonSetup({EXCHANGE_ROUTE:'TW'},[]); PHONE.answer(G,'pg_moon29',1); STORY.phoneRules(GM); H.at('2029-09-22',22.1); H.tick(); const m=(G.msgs||[]).find(x=>x.text==='📷（河濱，烤肉架，螢幕裡的明軒在揮手）');

@@ -1,7 +1,7 @@
 """颱風假（交付清單 B3，BB_110 第 2 節）的真實玩家流程（開發分支）。不用 ?turbo。
 [前置／捷徑] 讀檔：大一上第 6 週週日（10/12，第 26 天）21:27、宿舍房間；麵店團群組第 20 天就加入了、見過方奕廷（黃金葛事件）；第一、二天的旗標照劇情。
 A. 等到 21:33（遊戲時間）：手機「訊息」→「通知」：「新聞：明天停止上班上課。」、「張教授（信）：明日停課。……四十二頁……」（看得到是誰傳的）；
-   「麵店團」：阿哲、小語、柏翰、阿哲四則，最後一則有三個回覆按鈕 → 點「（貼一張颱風的貼圖）」→ 小語「這張貼圖比講義有用。」
+   「麵店團」：阿哲、Alison、柏翰、阿哲四則，最後一則有三個回覆按鈕 → 點「（貼一張颱風的貼圖）」→ Alison「這張貼圖比講義有用。」
 B. 走到床邊睡覺 → 第 27 天（10/13 週一）早上：下雨；手機「今天」寫「今天放假（颱風假），沒有課」。
 C. [前置／捷徑] 讀檔：第 27 天 17:57 宿舍房間（同樣的群組、見過方奕廷）→ 等到 18:00：泡麵之夜自己開始；方奕廷進來那一句起是 CG（正式檔、1920×1080）；
    選「看情況。」→ 阿凱「你們法律系每次都這樣。」；結束後可以走動、記了 SAID_DEPENDS。
@@ -86,11 +86,11 @@ async def main():
         pos = [txt.find(t) for t in lines]
         btns = await pg.evaluate("[...document.querySelectorAll('#phoneBody [data-ask]')].map(b=>b.textContent)")
         await run.shot(pg, 'A_group')
-        run.check('「麵店團」：阿哲、小語、柏翰、阿哲四則照順序；最後一則有三個回覆按鈕', all(x >= 0 for x in pos) and pos == sorted(pos) and btns == ['「我讀到第三頁。」', '「我在吃泡麵。」', '（貼一張颱風的貼圖）'], json.dumps({'pos': pos, 'btns': btns}, ensure_ascii=False))
+        run.check('「麵店團」：阿哲、Alison、柏翰、阿哲四則照順序；最後一則有三個回覆按鈕', all(x >= 0 for x in pos) and pos == sorted(pos) and btns == ['「我讀到第三頁。」', '「我在吃泡麵。」', '（貼一張颱風的貼圖）'], json.dumps({'pos': pos, 'btns': btns}, ensure_ascii=False))
         sel = await pg.evaluate("(()=>{ const b=[...document.querySelectorAll('#phoneBody [data-ask]')].find(x=>x.textContent==='（貼一張颱風的貼圖）'); return b?'[data-ask=\"'+b.dataset.ask+'\"]':null; })()")
         if sel: await tap_sel(pg, cdp, '#phoneBody ' + sel); await pg.wait_for_timeout(1200)
         txt = await pg.evaluate("(document.getElementById('phoneBody')||{}).textContent||''")
-        run.check('點「（貼一張颱風的貼圖）」→ 送出貼圖、小語「這張貼圖比講義有用。」、按鈕不見', '🌀（颱風的貼圖）' in txt and '這張貼圖比講義有用。' in txt and not await pg.evaluate("!!document.querySelector('#phoneBody [data-ask]')"), txt[-200:])
+        run.check('點「（貼一張颱風的貼圖）」→ 送出貼圖、Alison「這張貼圖比講義有用。」、按鈕不見', '🌀（颱風的貼圖）' in txt and '這張貼圖比講義有用。' in txt and not await pg.evaluate("!!document.querySelector('#phoneBody [data-ask]')"), txt[-200:])
         await close_phone(pg, cdp)
         # ---------- B：睡到颱風假早上 ----------
         bed = await L.find_it(pg, '睡覺')

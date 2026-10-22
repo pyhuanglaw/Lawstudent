@@ -21,7 +21,7 @@ const R2Y4B_EVENTS=(function(){
   const ex=id=>({custom:G=>!!(G.flags&&G.flags['EX_'+id])});
   const SAW={any:[{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_STUDY'}]},{memory:[{npc:'classmate_mingxuan',tag:'SAW_HIM_TRY'}]}]};
   return [
-  /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝小語拍；交往中＝兩個人入鏡（CG-18）---------- */
+  /* ---------- 2-Y4-31 杜鵑花第四張（2029-03-08（四）12:25～12:55，椰林大道；AA_71 2-9）。有點熟以上＝第四張；不熟或分開過＝Alison 拍；交往中＝兩個人入鏡（CG-18）---------- */
   { id:'ev_azalea_y4', title:'杜鵑花第四張', participants:['heroine_01'], location:'campus', trigger:'auto', once:true, background:'blur',
     prereq:{custom:(G,GM)=>{ const r=R(); return !!r&&r.azaleaDue(G,GM); }},
     dialogue:[ {if:{custom:G=>R().azaleaNow(G)==='two'},goto:'two'},
@@ -34,7 +34,7 @@ const R2Y4B_EVENTS=(function(){
       {label:'s2'},{speaker:'heroine_01',text:'看三月二十二號。'},{goto:'shot'},   /* 研究所放榜那天（2-Y4-34）*/
       {label:'s3'},{speaker:null,text:'（她看了很久，才把手機收起來。）'},
       {label:'shot'},{set:{AZALEA_Y4:'shot'}},{end:true},
-      {label:'yu'},{speaker:null,text:'（她請小語拍。）'},   /* AA_71 2-9（大一那一張的同一句旁白）*/
+      {label:'yu'},{speaker:null,text:'（她請 Alison 拍。）'},   /* AA_71 2-9（大一那一張的同一句旁白）*/
       {if:kn('yu'),speaker:'yu',text:'笑一個嘛！'},{speaker:'heroine_01',text:'不要。'},{set:{AZALEA_Y4:'yu'}},{end:true},
       {label:'two'},{speaker:null,text:'（她把手機交給路過的人。）'},
       {speaker:'heroine_01',text:'麻煩你。……兩個人。'},
@@ -124,7 +124,7 @@ const R2Y4B_EVENTS=(function(){
       {choice:[{text:'「大一中秋，火一直熄。」',goto:'m1'},{text:'「第一次去麵店。」',goto:'m2'},{text:'（聽大家講）',goto:'m3'}]},
       {label:'m1'},{if:kn('zhe'),speaker:'zhe',text:'那是你顧的。'},{goto:'night'},
       {label:'m2'},{if:kn('heroine_01'),speaker:'heroine_01',text:'你點了招牌乾麵。大家都是。'},{goto:'night'},
-      {label:'m3'},{if:kn('yu'),speaker:null,text:'（你沒有說話。小語講到一半自己笑出來。）'},
+      {label:'m3'},{if:kn('yu'),speaker:null,text:'（你沒有說話。Alison 講到一半自己笑出來。）'},
       {label:'night'},{if:{custom:dating('heroine_01')},speaker:'heroine_01',text:'明天早上空了一格。……你排。'},   /* 睡前她把行程表推過來 */
       {advance:toDay('2029-04-04',16)},
       {scene:'高速公路',bg:'car_night'},
@@ -201,7 +201,7 @@ const R2Y4B_EVENTS=(function(){
     outingMissed:G=>{ const r=R(); if(r) r.ballMissed(G); } },
   { id:'ev_concert_y4', title:'吉他社成發', participants:[], location:'any', trigger:'outing', once:true, background:'dark', hours:2,
     dialogue:[ {scene:'萬才館大廳',bg:'dark'},   /* 場地照 AA_13 G3（大一的成發在萬才館大廳，activities.js guitar_show_y1s2）；沒有 2D 底圖＝dark＋字幕 */
-      {speaker:null,text:'（小語拿著流程表跑來跑去。）'},
+      {speaker:null,text:'（Alison 拿著流程表跑來跑去。）'},
       {if:kn('yu'),speaker:'yu',text:'最後一首！最後一首！誰把麥克風拿走了！'},
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。你以前都這麼大聲喔？'},   /* 子晴回來當評審（BB_70 8d）*/
       {if:{custom:G=>R().friendUp(G,'heroine_04')&&!R().has('heroine_04','CLAPPED')},speaker:'heroine_04',text:'原來坐這裡是這種感覺。'},

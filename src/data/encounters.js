@@ -60,7 +60,7 @@ const ENCOUNTERS={
     // ---- D11 新北投（柏翰：大一下～大二下，每學期第 6、7 週週日；大三起週日上午在 D06）----
     {who:'classmate_bohan',spot:'D11',why:'他坐在北投圖書館靠窗的位子，桌上攤著一疊考古題，旁邊放著一個便當。',days:[0],from:10,to:16,terms:['Y1S2','Y2S1','Y2S2'],weeks:[6,7],stageMin:'FAMILIAR',busy:{acq:'short',friend:'no'},join:'friend',memo:'ENC_D11_BH',away:'在北投讀書',
       lines:{acq:['{name}？','總圖這兩週都搶不到位子，我就來這裡。我還有兩題，先不聊。'],friend:['你也是來讀書的？看起來不是。','我要去吃飯了。你要一起的話，我知道哪裡有椅子。']},src:'AA_271 1、1-1'},
-    // ---- D01 華山（小語：大三起，第 3、6、11、14 週週日；避開子晴的第 5、12 週）----
+    // ---- D01 華山（Alison：大三起，第 3、6、11、14 週週日；避開子晴的第 5、12 週）----
     {who:'yu',spot:'D01',why:'她一個人站在展場出口的蓋章台前面，在小冊子上蓋章。',days:[0],from:13,to:17,terms:['Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[3,6,11,14],stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D01_YU',away:'在華山看展',
       lines:{acq:['欸！{name}？你也來看展？','我在蓋章。這個展有六個章，我只找到五個。'],friend:['欸你來得剛好，你有看到第六個章在哪嗎？','我繞兩圈了。……可能根本沒有第六個。']},src:'AA_271 1、1-1'},
     // ---- D02 松菸（芯慈：第 4、12 週週日；芷若是週六）----
@@ -90,7 +90,7 @@ const ENCOUNTERS={
        企劃線 aca122d2（AA-C 照 AA_188 口語審、BB-C 口氣審 b13052e5；週次：以安 D09 第 10 週、阿哲 D25 第 14、15 週——第 16 週是期末考週）。
        第二批的地方遠，每一列都是「某一學期的某一個週末」一次。 ---- */
     {who:'heroine_01',spot:'D09',why:'她和公法讀書會的人坐在茶館最裡面那一桌，桌上攤著一張時間表。',days:[6],from:15,to:19,terms:['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1','Y4S2'],weeks:[10],stageMin:'FAMILIAR',busy:'short',join:false,memo:null,away:'和讀書會在貓空',
-      lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','下次讀書會你要不要來旁聽？時間我再傳給你。'],friend:['{name}？小語剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','七點我下山。你等我，我們一起搭纜車。']},src:'AA_162 8、8-1、8-5'},
+      lines:{acq:['你也來貓空？我們讀書會在這裡聚會。','下次讀書會你要不要來旁聽？時間我再傳給你。'],friend:['{name}？Alison 剛剛說，下一個走進來的人要請大家喝茶。','她說的，不是我。……你要坐這邊嗎？'],dating:['你怎麼在這？我沒跟你說我今天上山。','七點我下山。你等我，我們一起搭纜車。']},src:'AA_162 8、8-1、8-5'},
     {who:'heroine_03',spot:'D18',why:'她跟在一位老師後面，在訪問一位擦香爐的阿嬤。',days:[6],from:10,to:17,terms:['Y3S1','Y3S2'],weeks:[12],stageMin:'ACQUAINTANCE',busy:'yes',busyLine:'（她看到你，點了一下頭，繼續聽阿嬤說話。）',join:false,memo:'ENC_D18_YT',away:'在九份做田野',lines:{},src:'AA_162 8、8-1（她在工作，只點頭；之後在學校說一句）'},
     {who:'zhe',spot:'D25',why:'他和系籃的人在浪裡，被一個浪打倒，站起來大笑。',days:[6],from:14,to:18,terms:['Y2S2','Y3S2','Y4S2'],weeks:[14,15],termWeeks:{Y2S2:[15]}/* AA_375 第 4 項：大二下 5/29（六）14:00 系籃在新體育館比賽，外澳只在第 15 週 6/5；作息 characters.js 一起改 */,stageMin:'ACQUAINTANCE',busy:'no',join:true,memo:'ENC_D25_ZHE',away:'和系籃在外澳',
       lines:{acq:['欸！你也來外澳？下來啊！','水很冷！……超冷。下來就知道。'],friend:['哥！我們差一個人推板子。你來！','你不會衝浪？我也不會啊，我們都在被浪打。快下來！']},src:'AA_162 8、8-1、8-5'},

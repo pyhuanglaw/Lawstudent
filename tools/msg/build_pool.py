@@ -156,7 +156,7 @@ p.add('chat', 'A', ['（語音訊息，背景很吵）在麵店啦！'])
 p.add('chat', 'R', ['在麵店 哥要來嗎'], ask=ZHE_ASK)
 p.add('chat', 'R', ['打球 缺一個'])
 p.add('chat', 'R', ['躺'])
-p.add('course', 'A', ['我也沒抄到', '問小語 她都有抄'], ['認識小語才有'])
+p.add('course', 'A', ['我也沒抄到', '問 Alison 她都有抄'], ['認識 Alison 才有'])
 p.add('course', 'R', ['哥你問錯人了', '我那堂在睡'])
 p.add('share_cat', 'A', ['可愛'])
 p.add('share_cat', 'R', ['這隻我看過！溫州街那隻吧'])
@@ -173,15 +173,15 @@ for e in p.replies:
         e['geFlag'] = 'ZHE_CALLS_GE'
 people.append(p)
 
-# ───────────────────────── AA_202 6-5 小語 ─────────────────────────
-p = P('yu', '小語', 'AA_202 6-5', AA_L)
+# ───────────────────────── AA_202 6-5 Alison ─────────────────────────
+p = P('yu', 'Alison', 'AA_202 6-5', AA_L)
 p.rules = {
     'replyFree': [1, 5],
     'noReplyText': '社課中',
     'openText': AA_OPEN,
     'habitText': '一句拆好幾則、「欸欸欸」、表情符號多',
     'wakeLine': [],
-    'otherText': ['有空時｜1～5 分鐘，常常一次傳好幾則', '小語：一句拆很多則、很多表情符號；'],
+    'otherText': ['有空時｜1～5 分鐘，常常一次傳好幾則', 'Alison：一句拆很多則、很多表情符號；'],
 }
 p.add('chat', 'A', ['在社辦～', '你呢'], ['學期中'],
       ask=ASK(O('總圖', ['好喔～']), O('宿舍', ['好喔～']), O('外面', ['好喔～'])))

@@ -1,8 +1,8 @@
 """真實玩家流程：交接包 v2 C13 的 B4 博雅演講、B5 小桌子（AA_115 第 1、2 節；BB_105 4-5）。不用 ?turbo。
-[前置／捷徑] 讀檔：大一下第 11 週週四 18:48，博雅大廳；「認識以安、小語」用 SOCIAL.remember 補（照劇情這時候早就認識，只是把人放到那個時間）。
+[前置／捷徑] 讀檔：大一下第 11 週週四 18:48，博雅大廳；「認識以安、Alison」用 SOCIAL.remember 補（照劇情這時候早就認識，只是把人放到那個時間）。
 之後都走真的介面：自己走進 101、坐下、選「聽演講」、點對話；散場以安問「要不要去小桌子整理一下？」選「好。」；
 起身、自己走到圓桌以安的旁邊；B5 選第一張便利貼。
-檢查：以安、小語、阿哲照作息走進 101；演講的台詞；聽完（attended）；散場的問題與 B5_GO；以安、小語走到圓桌坐下；
+檢查：以安、Alison、阿哲照作息走進 101；演講的台詞；聽完（attended）；散場的問題與 B5_GO；以安、Alison 走到圓桌坐下；
 走近以安才開始 B5、台詞、B5_THOUGHT、B4_DISCUSSED；沒有 JS 例外。
 用法：python3 tests/flow_b4_lecture.py URL [輸出資料夾]（Playwright 手機模擬＋SwiftShader，不是 iPhone 實機）"""
 import asyncio, json, math, sys, time
@@ -54,17 +54,17 @@ async def main():
         await pg.goto(URL)
         run.check('遊戲載入', await L.wait_loaded(pg))
         thu = await pg.evaluate("STORY.termDay('Y1S2',11,4)")
-        run.setup(f'讀檔：大一下第 11 週週四（第 {thu} 天）18:48，博雅大廳；補「認識以安、小語」的記憶')
+        run.setup(f'讀檔：大一下第 11 週週四（第 {thu} 天）18:48，博雅大廳；補「認識以安、Alison」的記憶')
         await L.load_state(pg, {'zone': 'boya', 'hour': 18.8, 'day': thu, 'weekday': 4, 'weather': 'clear', 'pos': {'x': 0, 'z': 6.8, 'yaw': 3.14}, 'flags': BASE_FLAGS})
         await pg.evaluate("SOCIAL.remember('heroine_01','FIRST_MET','');SOCIAL.remember('yu','FIRST_MET','')")
         await pg.wait_for_timeout(3000)
-        # 1. 以安、小語、阿哲照作息走進 101
+        # 1. 以安、Alison、阿哲照作息走進 101
         w = None
         for _ in range(300):   # SwiftShader 下遊戲時間大約是真實時間的 4 倍：18:48→18:50 以後人才走進來（2026-10-14 第一次跑：150 秒只到 18:46）
             w = dict(await pg.evaluate(WHERE_JS + "(%s)" % json.dumps(FRIENDS)))
             if all(w.get(i) and w[i]['x'] < -6 for i in FRIENDS): break
             await pg.wait_for_timeout(1000)
-        run.check('以安、小語、阿哲照作息走進博雅 101（第 11 週週四 18:50 起）', all(w.get(i) and w[i]['x'] < -6 for i in FRIENDS), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']))
+        run.check('以安、Alison、阿哲照作息走進博雅 101（第 11 週週四 18:50 起）', all(w.get(i) and w[i]['x'] < -6 for i in FRIENDS), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']))
         await run.shot(pg, '1_friends_in_101')
         # 2. 自己走進 101、坐下、選「聽演講」
         for _ in range(90):
@@ -103,7 +103,7 @@ async def main():
         s = await play_through(pg, cdp, run, lambda q: not q['dlg'] and not q['choices'] and not q['busy'], pick_text='「好。」', seen=seen)
         go = await pg.evaluate("GAME.G.flags.B5_GO")
         run.check('選「好。」：記 B5_GO＝今天', go == thu, f'B5_GO={go}')
-        # 4. 以安、小語走到圓桌坐下（story3d.js roomMove：起身、從 101 走出來、走到大廳的圓桌）
+        # 4. 以安、Alison 走到圓桌坐下（story3d.js roomMove：起身、從 101 走出來、走到大廳的圓桌）
         # SwiftShader 演講散場時約 0.5～1 fps：從 101 走到圓桌（約 20 m）要好幾分鐘真實時間（2026-10-14 第三次跑：150 秒時兩個人還在 101 門口往外走）
         w = None; trail = []; t_w = time.time()
         while time.time() - t_w < 600:
@@ -113,7 +113,7 @@ async def main():
             if not trail or abs(trail[-1][1] - an_.get('x', 0)) + abs(trail[-1][2] - an_.get('z', 0)) > 1.0: trail.append((int(time.time() - t_w), an_.get('x'), an_.get('z'), an_.get('pose')))
             await pg.wait_for_timeout(2000)
         run.note('以安走過去的軌跡（秒, x, z, pose）：' + json.dumps(trail[-10:]))
-        run.check('以安、小語走到博雅的圓桌坐下', all(w.get(i) and w[i]['seat'] == 'round' for i in ['heroine_01', 'yu']), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']) + f'；等了 {time.time() - t_w:.0f} 秒')
+        run.check('以安、Alison 走到博雅的圓桌坐下', all(w.get(i) and w[i]['seat'] == 'round' for i in ['heroine_01', 'yu']), json.dumps(w, ensure_ascii=False) + ' 時間 ' + str((await L.state(pg))['hour']) + f'；等了 {time.time() - t_w:.0f} 秒')
         an = w.get('heroine_01')
         if not an: await b.close(); return run.finish()
         # 5. 自己走到以安旁邊（她的座位往桌子外側一公尺）→ B5

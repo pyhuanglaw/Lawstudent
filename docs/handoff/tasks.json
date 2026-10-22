@@ -28456,6 +28456,90 @@
    "source": "BB 10-22 03:01 第 1 點 (a)（bothpresent_probe LIB_HERE）",
    "authorized": "D110",
    "next": "【LAWWW（帳號 A）2026-10-22 03:2x】invites3d.js flow：當面、人已經在那個地方（總圖大廳和 3F 都算）、選「現在」、她回 here＝直接開始（一起坐下、演見面），不念手機那句；inv_both_present_unit 第 8 項（修改前 2 項 FAIL）。不是「現在」的（例：10:00 在閱覽室約下午三點）照舊回那一句——要不要當面的版本問 AA。BB 重跑 LIB_HERE"
+  },
+  {
+   "id": "AA379-SIS-LATE-W1-1022",
+   "title": "AA_379 第 4 節（企劃線 992b58da）：大一沒認識學姊的玩家——大一以後到 2029-06-01 第一次在 Café／法圖／閱覽室／自習區找她說話＝W1 晚到版（四個地點的開頭旁白、「家聚你一次都沒來。」…「以後有問題，私訊我。……這次記得問。」）；記 met_sis、SIS_W1、FIRST_MET、+3、SIS_W1_LATE",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P1",
+   "area": "v2",
+   "first": {
+    "term": "Y1S2",
+    "week": 17,
+    "earliest": "大一暑假以後第一次找學姊說話",
+    "mainline": true,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）10-22 03:19（BB 03:16 讀碼：met_sis 只有大一三件會記）",
+   "authorized": "D109、D110",
+   "next": "【LAWWW（帳號 A）2026-10-22 03:3x】events.js ev_sis_w1_late（Café、法圖、閱覽室、自習區；大一下結束以後到 2029-06-01；記號同 W1＋SIS_W1_LATE）；tests/aa379_late_w1_unit.js；白名單 AA_379@992b58da。BB 測：大一不碰學姊的存檔跳到大二上 9/14 晚上 Café"
+  },
+  {
+   "id": "AA382-PG-FIX-1022",
+   "title": "AA_382（企劃線 e6d4a198）畢業以後清查：交換延畢 6 句（美國路線還差一門實習和兩門課、K26、9/4、10/17、2/11 字卡）、可昕我們的日子 4 句、六位每月一句 10 句（AA_366、AA_367 重新匯入）、AA_367 第 10 節 A4 sixOff、學姊 2030-06-01 私訊→6/2 北海岸（SIS_BDAY_Y5）、明軒尾聲 bar2030",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P2",
+   "area": "v5",
+   "first": {
+    "term": "Y4S2",
+    "week": 15,
+    "earliest": "2029-06-02 以後",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "AA（帳號 A）10-22 03:08",
+   "authorized": "D109、D110",
+   "next": "白名單 AA_366、AA_367 @e6d4a198；import_pg_dates.py 重新匯入；BB 測試照 AA_382 第 7 節"
+  },
+  {
+   "id": "AA372-S7-TAICHUNG-WEEKEND-1022",
+   "title": "AA_372 第 7 節（企劃線 da55ec2b）：以安第 4／8／12 週末、沛珊單數週末回台中（presence trip）——手機的約照 T7a 打開、只列 D26（沛珊答應新句）；前一天在臺北約那個週末的校外約會要擋（以安 S6「那幾天我在台中。……換一天。」、沛珊新句）",
+   "owner": "LAWWW",
+   "status": "已整合待測試",
+   "priority": "P2",
+   "area": "v1",
+   "first": {
+    "term": "Y1S1",
+    "week": 4,
+    "earliest": "大一上第 4 週週末",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 10-22 03:16 讀碼（DATE.check 只看 kind home）；AA 03:17 定",
+   "authorized": "D109、D110",
+   "next": "【LAWWW（帳號 A）2026-10-22 03:4x】date3d.js：awayCity（寒暑假 home＋週末 trip「回台中」）、HOME_NO／T7A_YES 加沛珊；沛珊的寒暑假照她自己那一套（HOME_TRIP_ONLY，不動 hometown3d 的「我去台中找妳？」「她在台中。要見她，得去台中。」——要不要寒暑假也換新句，問 AA）；invites3d.js whyNot 週末 trip 照 T7a；tests/aa372_s7_unit.js（修改前 7 項 FAIL）、date_t7a_unit 第三句"
+  },
+  {
+   "id": "BUG-JP-SLEEP-MIDNIGHT-1022",
+   "title": "日本路線凌晨睡覺可能多睡一天（jp3d.js S.sleep 醒來日＝G.day+1，快轉跨午夜後已換日）；哲 4 日本版 Math.max(0.25,1.5-G.hour) 在 G.hour 24.x 時只過 15 分鐘",
+   "owner": "LAWWW",
+   "status": "待開工",
+   "priority": "P3",
+   "area": "v4",
+   "first": {
+    "term": "Y3S2",
+    "week": 8,
+    "earliest": "日本路線凌晨睡覺",
+    "mainline": false,
+    "blocks": false,
+    "prereq": false,
+    "parallel": true,
+    "confirmed": true
+   },
+   "source": "BB 10-22 03:16 讀碼（瀏覽器還沒驗證）",
+   "authorized": "D110",
+   "next": "Node 先重現再修"
   }
  ]
 }

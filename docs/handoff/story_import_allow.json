@@ -945,12 +945,17 @@
   },
   {
    "path": "docs/story_planning/AA_372_法律系大一上_知道太早與重複_修正稿.md",
-   "sha": "7fca0df5",
+   "sha": "da55ec2b",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；7fca0df5 加第 6 節（AA 20:5x 答實作後十題，2、3、7、8、9、10 要改）。第 13、18 項以安閒聊階梯的兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（tools/ladder/import_ladder.py 不再疊）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js、encounters.js、phone3d.js、social3d.js",
-   "task": "AA372-Y1S1-FIX-1021",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 7 節（週末回台中也照 T7a、S6；沛珊兩句新寫）手動放進 date3d.js、invites3d.js；tests/aa372_s7_unit.js 逐句對稿；前面各節照舊版",
+   "task": "AA372-S7-TAICHUNG-WEEKEND-1022",
    "kind": "text",
    "history": [
+    {
+     "sha": "7fca0df5",
+     "approvedBy": "AA（帳號 A）2026-10-21 定稿（D100、D109：AA 的稿就是定稿；BACKLOG-SWEEP-AA-1021，「整份可以由 LAWWW 做」）；7fca0df5 加第 6 節（AA 20:5x 答實作後十題，2、3、7、8、9、10 要改）。第 13、18 項以安閒聊階梯的兩句改由企劃線 ladder_aa.json@7fca0df5 匯入（tools/ladder/import_ladder.py 不再疊）；其他項照稿手動放進 story3d.js、events.js、rel_lines.js、characters.js、encounters.js、phone3d.js、social3d.js",
+     "task": "AA372-Y1S1-FIX-1021"
+    },
     {
      "sha": "da456892",
      "approvedBy": "AA（帳號 A）2026-10-21 定稿；第 13、18 項以安閒聊階梯的兩句由 tools/ladder/import_ladder.py 疊在 ladder_aa.json 上匯入"
@@ -1409,12 +1414,17 @@
   },
   {
    "path": "docs/story_planning/AA_379_學姊當主要女主角_補強_第一批.md",
-   "sha": "d037c668",
+   "sha": "992b58da",
    "status": "approved",
-   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；2-9、3-1（大一寒假 Café）、3-2（7/29 公館買鎖）、3-4（口試那天的回聲）手動放進 characters.js、sis_y2y3_events.js、sis_y2y3_3d.js、y34b3d.js；tests/aa379_sec3_unit.js 逐句對稿",
-   "task": "AA379-SIS-Y2Y3-1021",
+   "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；第 4 節（大一沒認識她的玩家：W1 晚到版 ev_sis_w1_late）手動放進 events.js；tests/aa379_late_w1_unit.js 逐句對稿；前面各節照 d037c668",
+   "task": "AA379-SIS-LATE-W1-1022",
    "kind": "text",
    "history": [
+    {
+     "sha": "d037c668",
+     "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109）；2-9、3-1（大一寒假 Café）、3-2（7/29 公館買鎖）、3-4（口試那天的回聲）手動放進 characters.js、sis_y2y3_events.js、sis_y2y3_3d.js、y34b3d.js；tests/aa379_sec3_unit.js 逐句對稿",
+     "task": "AA379-SIS-Y2Y3-1021"
+    },
     {
      "sha": "30ab5142",
      "approvedBy": "AA（帳號 A）2026-10-22 定稿（D100、D109；使用者 10-21 22:5x「學姊才是真正的女主角」）；第 1 節（閱覽室、自習區認識學姊）照 6a105a4d 手動放進 events.js、story3d.js（tests/aa379_sis_lib_unit.js，第 1 節在兩個版本一字不差，只改了一個時間註記）；第 2 節八場照稿手動放進 src/data/sis_y2y3_events.js、src/sis_y2y3_3d.js（tests/aa379_sis_y2y3_unit.js 逐句對稿）",

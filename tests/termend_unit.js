@@ -123,7 +123,7 @@ GM.money=function(n){ G.money+=n; };
     G.day=D('2026-06-11'); const P2=TERMEND.plan(G,TERMEND.windowOf('Y1S2')); check('9b. 大一下同一套（戀愛 30、4 次含心願地點）',P2.heart.includes('heroine_01'),JSON.stringify(P2.heart)); }
   check('9c. 校園單獨約出來：第 3 階起她的戀愛 +1、祐廷的戀愛 +1（一天一次，AA_243 第 1 節）',/DATE\.stageNum\(iv\.who\)>=3&&iv\.who!=='kexin'\)\{ const DY=G\.daily\|\|\(G\.daily=\{\}\), k='romAlone_'\+iv\.who; if\(DY\[k\]!==G\.day\)\{ DY\[k\]=G\.day; SOCIAL\.adjust\(iv\.who,\{npcRom:1,rom:1\}\)/.test(fs.readFileSync(path.join(ROOT,'src/invites3d.js'),'utf8')));
   // 9d. 大二以後的話題池、這段期間不在的人
-  { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲改「小語七月在營隊，我回高雄也沒事做。」（01029de1）',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('小語七月在營隊，我回高雄也沒事做。'));
+  { check('9d. 大二上～大四上的話題池都在（AA_250 第 3～7 節）；大二下阿哲改「Alison 七月在營隊，我回高雄也沒事做。」（01029de1）',['Y2S1','Y2S2','Y3S1','Y3S2','Y4S1'].every(k=>TERMEND_LINES.POOL[k]&&Object.keys(TERMEND_LINES.POOL[k]).length>=6)&&TERMEND_LINES.POOL.Y2S2.zhe.includes('Alison 七月在營隊，我回高雄也沒事做。'));
     fresh(D('2026-12-24'),9,'campus',{}); G.stage='law'; meet('classmate_peishan'); R('classmate_peishan',30,0,0); G.termend={contact:{Y2S1:{classmate_peishan:{pts:9,k:{}}}},think:{}};
     const P=TERMEND.plan(G,TERMEND.windowOf('Y2S1')); check('9d. 大二上：沛珊（說要重考以後）不當朋友的邀約人',!P.friend.includes('classmate_peishan'),JSON.stringify(P)); }
   // 9e. 可昕的學期末約會（BB_202 第 6 節、AA_250 9-2 ae841bba）
@@ -194,12 +194,12 @@ GM.money=function(n){ G.money+=n; };
       fresh(D('2026-06-11'),19,'campus',{}); G.stage='law'; meet('heroine_01'); said=[]; opts=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'heroine_01',kind:'friend',term:'Y1S2'}});
       check('11. 以安大一下「暑假我要上日語課。」→「我也想報。」＝直接報名 C03（大一暑假日語課）',lines().some(t=>t.includes('暑假我要上日語課。'))&&VAC.enrolled(G,'C03','Y1'));
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('yu'); said=[]; picks=[0]; await TERMEND.dinner(GM,{te:{who:'yu',kind:'friend',term:'Y1S2'}});
-      const q5=OUT.get(G,'c15_yu_camp'); check('11. 小語「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 12:00 營地；她傳「{日期}中午來！！」）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===12,JSON.stringify(q5));
-      said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追小語、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
-      TERMEND.dayMissed(GM,q5); G.day=q5.day; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：那天晚上 21:00 小語私訊照片「我還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='我還活著！'));
+      const q5=OUT.get(G,'c15_yu_camp'); check('11. Alison「你要不要來探班？」→「我去。」＝C15 營隊探班（7/11 12:00 營地；她傳「{日期}中午來！！」）',lines().some(t=>t.includes('你要不要來探班？'))&&!!q5&&q5.day===D('2026-07-11')&&q5.h===12,JSON.stringify(q5));
+      said=[]; await TERMEND.dayOuting(GM,q5); check('11. 探班那天：操場上一群小朋友在追 Alison、雞塊；記 C15_DONE',lines().some(t=>t.includes('我先救我自己'))&&G.flags.C15_DONE.yu_camp===G.day);
+      TERMEND.dayMissed(GM,q5); G.day=q5.day; G.hour=21.1; PHONE.tick(G); check('11. C15 沒去：那天晚上 21:00 Alison 私訊照片「我還活著！」',(G.msgs||[]).some(m=>m.from==='yu'&&m.text==='我還活著！'));
       fresh(D('2026-06-12'),19,'campus',{}); G.stage='law'; meet('heroine_04');
       check('11. 子晴「要不要玩？」要看過 Q6（PLAYTESTED）',TERMEND.hookFor(G,'Y1S2','heroine_04')===null&&(SOCIAL.remember('heroine_04','PLAYTESTED',''),!!TERMEND.hookFor(G,'Y1S2','heroine_04')));
-      check('11. 每一個 C15 都有傳日子的訊息；小語多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
+      check('11. 每一個 C15 都有傳日子的訊息；Alison 多益不傳照片、其他都有',Object.entries(TL.C15).every(([k,c])=>Array.isArray(c.msg)&&c.msg.length&&(k==='yu_toeic'?c.photo===null:Array.isArray(c.photo))));
     } }
   // 12. 玩家自己約（BB_203 第 1 節第 13 點、AA_268）：期末時段裡用 invites 的「吃飯」約＝期末的飯
   { const P=INVITE_DATA.places, nIdx=P.findIndex(p=>p.id==='noodle'), cIdx=P.findIndex(p=>p.id==='cafe');
@@ -253,7 +253,7 @@ GM.money=function(n){ G.money+=n; };
     TERMEND.hookFor=hf; }
   // 14. AA_250 全檔口語審（01029de1、BB_212 6f6e9c7e）的條件
   { const P=TERMEND_LINES.POOL, res=(x,G)=>typeof x==='function'?x(G):x;
-    check('14. 小語大一上「聖誕節交換禮物，你買好了嗎？」12/24 以前才說；大二上跨年那句 12/31 以前才說',res(P.Y1S1.yu[1],{day:D('2025-12-24')})==='聖誕節交換禮物，你買好了嗎？'&&res(P.Y1S1.yu[1],{day:D('2025-12-25')})==null&&res(P.Y2S1.yu[1],{day:D('2026-12-31')})!=null&&res(P.Y2S1.yu[1],{day:D('2027-01-01')})==null);
+    check('14. Alison 大一上「聖誕節交換禮物，你買好了嗎？」12/24 以前才說；大二上跨年那句 12/31 以前才說',res(P.Y1S1.yu[1],{day:D('2025-12-24')})==='聖誕節交換禮物，你買好了嗎？'&&res(P.Y1S1.yu[1],{day:D('2025-12-25')})==null&&res(P.Y2S1.yu[1],{day:D('2026-12-31')})!=null&&res(P.Y2S1.yu[1],{day:D('2027-01-01')})==null);
     check('14. 以安在期末飯不說「理由」',Object.values(P).every(T=>!(T.heroine_01||[]).some(x=>typeof x==='string'&&x.includes('理由'))));
     check('14. 子晴大三上：看過 Q6＝發表會那個遊戲；沒看過＝「發表會在五月。……」；阿凱大四上在遊戲公司實習',res(P.Y3S1.heroine_04[0],{events:{done:{ev_ziqing_secret_game:1}}}).startsWith('發表會那個遊戲')&&res(P.Y3S1.heroine_04[0],{events:{done:{}}})==='發表會在五月。做完我就要開始找工作了。'&&P.Y4S1.kai[0].startsWith('實習的公司'));
     check('14. 學姊女朋友版的收尾「（她看了一下錶，沒有要起身的意思。）」；朋友版照舊收計畫本',TERMEND_LINES.PLACE.eatery_lib.closeGf==='（她看了一下錶，沒有要起身的意思。）'&&TERMEND_LINES.PLACE.eatery_lib.close==='（她看了一下錶，把計畫本收進包包。）');

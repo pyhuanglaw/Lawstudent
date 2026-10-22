@@ -227,7 +227,7 @@ const TERMEND=(function(){
     if(t.day==='c14'){ const C=Lx.C14; await scene(GM,C.bg,C.open,C.opts); await scene(GM,C.bg,C.close); G.flags.C14_VISITED=G.day; return true; }
     if(t.day==='c15'){ const C=Lx.C15[t.id]; if(!C) return false; await scene(GM,C.bg,C.lines,C.opts); (G.flags.C15_DONE||(G.flags.C15_DONE={}))[t.id]=G.day; return true; }
     return false; };
-  /* 沒去：C14＝芯慈下次見面一句；C15＝那天晚上 21:00 朋友私訊一張照片（AA_270 第 3 節；小語多益不傳）*/
+  /* 沒去：C14＝芯慈下次見面一句；C15＝那天晚上 21:00 朋友私訊一張照片（AA_270 第 3 節；Alison 多益不傳）*/
   S.dayMissed=function(GM,q){ const G=GM.G, t=q&&q.ted, Lx=L(); if(!t||!Lx) return;
     if(t.day==='c14') G.flags.C14_MISSED=G.day;
     if(t.day==='c15'){ const C=Lx.C15[t.id]; if(C&&C.photo&&typeof PHONE!=='undefined') PHONE.at(G,q.day,21,C.photo.map(x=>({th:'p:'+C.who,from:C.who,text:x})),'c15_photo_'+t.id); } };

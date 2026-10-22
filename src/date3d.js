@@ -188,16 +188,20 @@ const DATE=(function(){
   const liveIv=v=>v.state==='accepted'||v.state==='going'||v.state==='offered'||v.state==='changed';
   /* 以安、芷若回台中的日子（presence kind home，AA_350 S6）：校外約會擋掉（和沛珊同一套：約的那一天照那一天算）；約的是她老家那個城市的地點（D26 臺中）不擋——
      「她人在臺中，正好是 D26 檔頭說的『回到自己長大的城市，被你帶著逛』」。婉拒的句子照 S6（她說的話，用「」）。她今天就在台中的話照 T7a（下面的 S.homeOnly），這裡管約到哪一天 */
-  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」'};
+  S.HOME_NO={heroine_01:'「那幾天我在台中。……換一天。」',heroine_02:'「那個禮拜我回台中了。換一天好不好？」',classmate_peishan:'「那幾天我回台中啦！……換一天好不好？」'};   /* 沛珊：AA_372 第 7 節（企劃線 da55ec2b，寒暑假、週末共用）*/
   const cityOf=s=>String(s||'').replace(/臺/g,'台').replace(/[市縣]$/,'');
-  S.homeNo=function(G,id,day,locId){ const w=S.HOME_NO[id]; if(!w||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,Object.assign({},G,{day})); if(p.here||p.kind!=='home') return '';
-    const L=S.loc(locId); if(L&&p.home&&cityOf(L.area)===cityOf(p.home)) return ''; return w; };
+  /* 她那一天在老家的城市：寒暑假（presence kind home）、週末回台中（kind trip「回台中」：以安第 4／8／12 週、沛珊單數週，AA_372 #8；
+     AA_372 第 7 節（企劃線 da55ec2b）：週末也照 T7a、S6——BB 10-22 03:16 讀碼：原本只看 home，前一天在臺北約那個週末照常出發、當天手機的約整個關著）*/
+  S.HOME_TRIP_ONLY={classmate_peishan:true};   /* 沛珊的寒暑假照她自己那一套（hometown3d.js「我去台中找妳？」、「她在台中。要見她，得去台中。」），這裡只管她週末回台中 */
+  const awayCity=(p,id)=>{ if(!p||p.here) return ''; if(p.kind==='home') return !S.HOME_TRIP_ONLY[id]&&!p.keep&&p.home?cityOf(p.home):''; const m=p.kind==='trip'&&/^回(.+)$/.exec(p.away||''); return m?cityOf(m[1]):''; };
+  S.homeNo=function(G,id,day,locId){ const w=S.HOME_NO[id]; if(!w||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,Object.assign({},G,{day})); const c=p.kind==='home'&&!p.here&&!S.HOME_TRIP_ONLY[id]?cityOf(p.home):awayCity(p,id); if(!c) return '';
+    const L=S.loc(locId); if(L&&cityOf(L.area)===c) return ''; return w; };
   /* AA_350 T7a（企劃線 2e255e9a 第 9 節）：「她人在台中時手機的『約』整個關著」→「打開，但只列 D26 臺中」。以安、芷若今天在台中（S6 那幾天，presence kind home）：
      手機的約打開（INV.whyNot、canInvite、flow 只有「去校外…」），約會清單只列她老家那個城市的地點（D26；兩天一夜也只有 D26）。她答應的那一句照 T7a（S.T7A_YES，手抄、照稿逐字）。
      還沒到可以約校外的程度（第 5 階、交往中以外；她在等你說清楚；她有交往的對象）＝沒有可以列的＝照舊關著（「回台中了，不在臺北。」）。
      homeCity：她那一天在老家的城市（S6 的以安、芷若；不在＝''）；homeOnly：今天照 T7a 只能列的地點，不是這種情況＝null */
-  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。'};
-  S.homeCity=function(G,id,day){ if(!S.HOME_NO[id]||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,day==null?G:Object.assign({},G,{day})); return !p.here&&p.kind==='home'&&!p.keep&&p.home?cityOf(p.home):''; };
+  S.T7A_YES={heroine_01:'臺中？……好。我去車站接你。',heroine_02:'你要來臺中？……好。我帶你走。',classmate_peishan:'你要來台中喔？好啊！我幫完早餐店就去車站接你！'};   /* 沛珊：AA_372 第 7 節（新寫）*/
+  S.homeCity=function(G,id,day){ if(!S.HOME_NO[id]||typeof STORY==='undefined'||!STORY.presence) return ''; const p=STORY.presence(id,day==null?G:Object.assign({},G,{day})); return awayCity(p,id); };
   S.homeOnly=function(G,id){ const c=S.homeCity(G,id); if(!c) return null; const L=Object.keys(D().locations).filter(k=>cityOf((S.loc(k)||{}).area)===c&&S.listable(k)); return L.length&&S.canAskCore(G,id).ok?L:null; };
   /* T7a 那一句：從 T7a 的清單約的、出發那天她還在台中（她已經回臺北的日子＝一起從臺北出發，照一般答應的那一句）*/
   S.t7aYes=(G,id,only,day)=>only&&S.T7A_YES[id]&&S.homeCity(G,id,day)?S.T7A_YES[id]:null;

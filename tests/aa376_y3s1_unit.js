@@ -8,6 +8,7 @@
 //   AA_342 3-1：9/21 第一次週二麵店、9/27 群組→9/28 河濱、10/7「下週的題目，你帶。」→10/14「理由呢？」（BB T3）、10/8 柏翰私訊、11/3 摘要日、11/5 群組、12/8 群組→12/9 麵店、12/18 摘要日
 //   台詞逐字比對企劃線的稿（git show 69aa3b0c、f2de8d1c；第 3-1 節和 b7c437a1 一字不差；PG_DOC_REPO＝讀稿的 repo，預設這個 repo）。
 // 修改前（開發分支 f23f5c47）：上面每一項都會失敗（標「對照」的照樣通過）。用法：node tests/aa376_y3s1_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -122,7 +123,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     for(const id of ['zhe','yu','classmate_bohan','heroine_01']) void 0;
     fresh('2027-09-09',19,'noodle'); for(const id of ['zhe','yu','classmate_bohan','heroine_01']) R(id,'FAM'); await play('ev_y3_first_meal',[1]); const L=all(), h1=G.hour;
     check('7. 以安「（翻開手帳）讀書會八點。……我們先走。」（原本「週四的讀書會照常。八點。」）',has('（翻開手帳）讀書會八點。……我們先走。')&&!any(/週四的讀書會照常/),J(L));
-    check('7. 19:40 以安、小語、柏翰先走（照 10/21 那一場：跳到 19:40）；出遊照樣 20:30 結束（hours 剩 50 分鐘）',Math.abs(h1-(19+40/60))<0.01&&Math.abs(ev('ev_y3_first_meal').hours*60-50)<1e-6,String(h1));
+    check('7. 19:40 以安、Alison、柏翰先走（照 10/21 那一場：跳到 19:40）；出遊照樣 20:30 結束（hours 剩 50 分鐘）',Math.abs(h1-(19+40/60))<0.01&&Math.abs(ev('ev_y3_first_meal').hours*60-50)<1e-6,String(h1));
   });
   // ===== 8. 颱風夜 =====
   await sec('8',async()=>{
@@ -242,7 +243,7 @@ const in376=t=>MD376.includes(t), in342=t=>MD342.includes(t);
     fresh('2027-12-18',19,'campus'); STORY.tick(GM); await new Promise(r=>setTimeout(r,0));
     check('3-1 12/18（六）摘要日：「（期末考前的週末。總圖的位子早上八點就沒了。）」',cards.length===1&&cards[0][1]==='（期末考前的週末。總圖的位子早上八點就沒了。）',J(cards));
     fresh('2027-11-05',21.9,'dorm'); NOODLE(); runPhone('2027-11-05',21.9,22.2,0.1);
-    check('3-1 11/5（五）22:00 群組：小語「沒課的一週」「我睡了三天」',J(txt('g:noodle_team').slice(-2))===J(['yu:沒課的一週','yu:我睡了三天']),J(txt('g:noodle_team')));
+    check('3-1 11/5（五）22:00 群組：Alison「沒課的一週」「我睡了三天」',J(txt('g:noodle_team').slice(-2))===J(['yu:沒課的一週','yu:我睡了三天']),J(txt('g:noodle_team')));
     fresh('2027-12-08',20.9,'dorm'); NOODLE(); runPhone('2027-12-08',20.9,21.2,0.1);
     check('3-1 12/8（三）21:00 群組：阿哲「期末前最後一次麵店 禮拜四」',J(txt('g:noodle_team').slice(-1))===J(['zhe:期末前最後一次麵店 禮拜四']),J(txt('g:noodle_team')));
     fresh('2027-12-09',18,'noodle'); NOODLE(); said=[]; EVENTS.onEnter('noodle'); await new Promise(r=>setTimeout(r,0));

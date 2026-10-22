@@ -10,6 +10,7 @@
 //   9  大一下那段（story3d.js）不會把大二以後、畢業以後的 kx_od_ 改成 skipped（修改前會：大一下的 K5 之後每週那段只認 Y1S2）
 //   10 和 AA_351 接（只和她一位交往）：準時 −1（最低 0）、遲到超過 15 分鐘 ＋1、說了「晚一點」沒到 ＋1、「不去了」不算；兩位交往不算
 // 修改前（開發分支 c30d7a79）：沒有 src/kxod3d.js——第 1～8、10 項 FAIL；第 9 項 FAIL（畢業後的格子被改成 skipped）。用法：node tests/kxod_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM}=H;

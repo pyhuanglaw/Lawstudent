@@ -1,6 +1,6 @@
 // 第二天下課以安追上來那段錯過了（BUG-MEET-HEROINES-1020，使用者 2026-10-20：「沈以安到法律系9/17都還沒認識……我一個女主角都沒遇到」，存檔 9/25：classDone、沒有 metAn、沒有 afternoonDone）——不需要瀏覽器。
 //   追上來只在「主線第 2 天、在校園、走出霖澤館門口 6 m」觸發；那天沒在校園走出門（用手機去別的地方、睡過頭）就永遠不會發生，
-//   afternoonDone 永遠不成立，以安、小語、阿哲、學姊（LEGACY_IDS）一直不照作息出現。
+//   afternoonDone 永遠不成立，以安、Alison、阿哲、學姊（LEGACY_IDS）一直不照作息出現。
 //   1. 主線第 3 天以後還沒認識、也沒拒絕：開放（afternoonDone、anMissed、anAfter）——修改前這項 FAIL；
 //   2. 主線第 2 天：照舊等她追上來（不提前開放）；
 //   3. 拒絕過她的邀約（anSkipped）、已經認識（metAn）：不動；經濟系那一年：不動；

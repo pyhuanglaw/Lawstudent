@@ -8,6 +8,7 @@
 //   H 第二批話題（MSG-2，src/data/msg2_pool.js）：生日當天才有「生日快樂」；1/1、除夕到初三才有「新年快樂」；「還好嗎」在那件事以後 3 天內、「謝謝」7 天內一次；
 //     條件對不到遊戲裡的事件就不開；分年份的生日列；學姊事務版用 A；沛珊消失期已送達不回；方奕廷過年初三 15:00 才回；旁白不算她的訊息；每一句逐字在 AA_202／AA_257 原文裡。
 // 修改前：沒有 MSG（第 A 項就失敗）。用法：node tests/msg_chat_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const ROOT=path.resolve(__dirname,'..');
 global.window=global; global.self=global; global.P3={CAST:{}};
@@ -149,7 +150,7 @@ if(typeof MSG2_POOL!=='undefined'){ global.MSG_POOL=REAL?realPool:FAKE; const P2
   { const ny=k=>{ mk('heroine_01',3,K(k),15); return tk('heroine_01').includes('newyear'); };
     check('H3. 新年快樂：1/1、除夕（2026-02-16）、初三（02-19）有；除夕前一日（02-15）、初四（02-20）、1/2 沒有',ny('2026-01-01')&&ny('2026-02-16')&&ny('2026-02-19')&&!ny('2026-02-15')&&!ny('2026-02-20')&&!ny('2026-01-02')); }
   { const d0=STORY.termDay('Y1S2',12,4); const okAt=dd=>{ mk('heroine_01',3,dd,15); G.events.done.ev_an_yu_argument=1; G.events.last.ev_an_yu_argument=d0; return tk('heroine_01').includes('ok'); };
-    check('H4. 以安「還好嗎」：和小語吵架那天起 3 天內有，第 4 天以後、還沒吵架的沒有',okAt(d0)&&okAt(d0+3)&&!okAt(d0+4)&&(mk('heroine_01',3,d0,15),!tk('heroine_01').includes('ok')));
+    check('H4. 以安「還好嗎」：和 Alison 吵架那天起 3 天內有，第 4 天以後、還沒吵架的沒有',okAt(d0)&&okAt(d0+3)&&!okAt(d0+4)&&(mk('heroine_01',3,d0,15),!tk('heroine_01').includes('ok')));
     okAt(d0+1); MSG.send(G,'heroine_01','ok'); check('H4. 回 R「還好。……想一下就好了。」',reply().join('/')==='還好。……想一下就好了。',JSON.stringify(reply())); }
   { mk('zhe',3,K('2025-11-03'),15); check('H5. 阿哲「還好嗎」（系籃輸球那天）：遊戲裡還沒有那一場，不開',!tk('zhe').includes('ok')&&!MSG.conds2(G,'zhe','ok').length); }
   { const d=STORY.termDay('Y1S1',5,3); mk('heroine_01',3,d,15); const R=MSG.rec(G); const a=tk('heroine_01').includes('thanks');

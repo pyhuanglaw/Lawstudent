@@ -49,8 +49,8 @@ const INV=(function(){
     if(!D().layers.includes(c.social_layer)) return '';   /* 教授、店員這些本來就不在約的名單：不寫原因、也不顯示按鈕 */
     const pres=(typeof STORY!=='undefined'&&STORY.presence)?STORY.presence(id,G):{here:true};
     if(!pres.here&&pres.kind==='unreachable') return (typeof SOCIAL!=='undefined'&&SOCIAL.displayName?SOCIAL.displayName(id):pr)+'沒有回覆。';   /* 沛珊消失期（BB_205 第 3 節）*/
-    if(!pres.here&&pres.kind==='trip') return pres.away+'，不在臺北。';   /* 方奕廷暑假上山（BB_171）*/
-    const tc=!pres.here&&pres.kind==='home'&&t7a(G,id);   /* AA_350 T7a：以安、芷若在台中＝約打開（只列 D26）；還沒到約校外的程度照舊寫「回台中了，不在臺北。」*/
+    const tc=!pres.here&&(pres.kind==='home'||pres.kind==='trip')&&t7a(G,id);   /* AA_350 T7a：以安、芷若、沛珊在台中＝約打開（只列 D26）；還沒到約校外的程度照舊寫「回台中了，不在臺北。」。AA_372 第 7 節：週末回台中（trip）也一樣 */
+    if(!pres.here&&pres.kind==='trip'&&!tc) return pres.away+'，不在臺北。';   /* 方奕廷暑假上山（BB_171）*/
     if(!pres.here&&pres.kind==='home'&&!pres.keep&&!hvOk(G,id)&&!tc&&pres.home) return '回'+pres.home+'了，不在臺北。';   /* 明軒回彰化、方奕廷回台中（BB_171）；可昕、沛珊照下面（可以去找她）*/
     if(!pres.here&&pres.kind==='city'&&!hvOk(G,id)) return pres.lost?pres.away:'在'+pres.city+'，不在臺北。';   /* 沛珊大三起在台南（AA_282）：還沒重新聯絡上＝「很久沒聯絡」；可以去台南找她的照下面 */
     if(!pres.here&&/^econ_/.test(id)&&(G.stage||'law')==='law'&&pres.kind!=='home'&&pres.kind!=='trip') return '在台大經濟系';   /* 經濟系的同學在法律系那幾年還在台大經濟系，不是「這學期不在學校」（2026-10-18 使用者）*/

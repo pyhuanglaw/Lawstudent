@@ -11,6 +11,7 @@
 //   9  和 AA_351 接（只和她一位交往）：準時 −1（最低 0）、遲到超過 15 分鐘 ＋1、說了「晚一點」最後沒到 ＋1、「不去了」不算；兩位交往不算
 //   10 沒交往、沒有 KX_OUR_DAY、還沒畢業（不是畢業後篇）、不是法律系：沒有格子、沒有開頭那一則；同時和別人交往，她的日子不變
 // 修改前（開發分支 2eba2fab）：沒有 pg_dates.js、pgdates3d.js——每一節照樣跑（用空的替身），全部 FAIL（第 1 節讀稿那兩項除外）。用法：node tests/aa366_kx_postgrad_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H;

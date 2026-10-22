@@ -6,7 +6,7 @@ const MSG2_POOL={
  "source":{"AA_202": "65239add", "AA_257": "5f9957a2", "BB_178": "741e94f1"},
  "topics":{"thanks": {"say": ["謝謝", "上次謝啦"], "when": "對方幫過忙以後 7 天內，一次（例：借筆記 `LENT_NOTES` 的另一方向、借考古題、幫忙排行程、她送了東西）。條件表 LAWWW 照各人事件的旗標列"}, "bday": {"say": ["生日快樂"], "when": "對方生日當天（00:00～23:59）。生日的節日事件（`AA_126` 第 7 節）演過了也可以傳"}, "ok": {"say": ["還好嗎"], "when": "對方遇到事以後 3 天內（下表 7-2 的「事」）"}, "newyear": {"say": ["新年快樂"], "when": "1/1，以及除夕到初三"}},
  "people":{
-  "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和小語吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
+  "heroine_01":Object.assign({"name": "以安", "birthday": "09-15", "birthdayText": "以安 9/15", "style": "短；貼圖只有兔子「收到」", "conds": {"thanks": [], "ok": [{"key": "yu_argument", "text": "和 Alison 吵架以後（`ev_an_yu_argument`）", "src": "AA_202 7-2"}, {"key": "tutee_rejected", "text": "家教學生的家申請被駁回（新 10）", "src": "AA_202 7-2"}, {"key": "exchange_week", "text": "交換出發前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會。"], "tags": [], "src": "AA_202 7-3 以安"},
    {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["不會。下次換你。"], "tags": [], "src": "AA_202 7-3 以安"},
    {"topic": "thanks", "cond": null, "tier": "L", "msgs": ["嗯。這次我記著。"], "tags": [], "src": "AA_202 7-3 以安", "notes": ["2026-10-17 AA-C：原「記在理由欄了」是 `AA_188` 2-7 的興趣比喻，日常訊息不用"]},
@@ -45,15 +45,15 @@ const MSG2_POOL={
    {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！！"], "tags": [], "src": "AA_202 7-3 阿哲"},
    {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["（照片：高雄的年夜飯）", "新年快樂哥"], "tags": ["過年"], "src": "AA_202 7-3 阿哲", "flags": ["ZHE_CALLS_GE"]}
   ]}),
-  "yu":Object.assign({"name": "小語", "birthday": "01-18", "birthdayText": "小語 1/18", "style": "一句拆好幾則", "conds": {"thanks": [], "ok": [{"key": "camp_end", "text": "營隊結束那天", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
-   {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會不會"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["欸不用謝啦", "下次請我喝飲料就好"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝！！"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["欸欸欸你記得", "謝謝！！", "我今天在板橋 親戚好多"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "ok", "cond": "camp_end", "tier": "A", "msgs": ["還好！"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "ok", "cond": "camp_end", "tier": "R", "msgs": ["還好啦", "……其實沒有很好", "可是會好的"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！"], "tags": [], "src": "AA_202 7-3 小語"},
-   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！！", "（照片：客廳坐滿人）"], "tags": [], "src": "AA_202 7-3 小語"}
+  "yu":Object.assign({"name": "Alison", "birthday": "01-18", "birthdayText": "Alison 1/18", "style": "一句拆好幾則", "conds": {"thanks": [], "ok": [{"key": "camp_end", "text": "營隊結束那天", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
+   {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不會不會"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "thanks", "cond": null, "tier": "R", "msgs": ["欸不用謝啦", "下次請我喝飲料就好"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "bday", "cond": null, "tier": "A", "msgs": ["謝謝！！"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "bday", "cond": null, "tier": "R", "msgs": ["欸欸欸你記得", "謝謝！！", "我今天在板橋 親戚好多"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "ok", "cond": "camp_end", "tier": "A", "msgs": ["還好！"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "ok", "cond": "camp_end", "tier": "R", "msgs": ["還好啦", "……其實沒有很好", "可是會好的"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "newyear", "cond": null, "tier": "A", "msgs": ["新年快樂！"], "tags": [], "src": "AA_202 7-3 Alison"},
+   {"topic": "newyear", "cond": null, "tier": "R", "msgs": ["新年快樂！！", "（照片：客廳坐滿人）"], "tags": [], "src": "AA_202 7-3 Alison"}
   ]}),
   "classmate_bohan":Object.assign({"name": "柏翰", "birthday": "08-14", "birthdayText": "柏翰 8/14", "style": "數字多、不用貼圖", "conds": {"thanks": [], "ok": [{"key": "split_peishan", "text": "和沛珊分開以後（大二上第 6 週起；沒在一起的存檔沒有）", "src": "AA_202 7-2"}, {"key": "bar_exam_week", "text": "國考前一週", "src": "AA_202 7-2"}], "closed": [], "closedText": null}},{"replies":[
    {"topic": "thanks", "cond": null, "tier": "A", "msgs": ["不客氣。"], "tags": [], "src": "AA_202 7-3 柏翰"},

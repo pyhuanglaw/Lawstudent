@@ -47,11 +47,11 @@ const meet=id=>SOCIAL.remember(id,'FIRST_MET','');
   /* 那一趟 */
   const go=async(setup)=>{ fresh(D.d0,7.9,'dorm',{}); PHONE.join(G,'noodle_team','麵店團'); meet('heroine_01'); if(setup) setup(); G.energy=30; const wd0=G.weekday; STORY.springChoose(GM,'noodle',{silent:true}); const q=OUT.get(G,'ndl_trip_y1s2'); said=[]; await OUT.go(GM,q); return {L:lines(),wd0}; };
   let r=await go(()=>{ meet('yu'); });
-  const WANT=['火車上，四個位子怎麼坐，討論了一整站。最後阿哲說：','阿哲：猜拳。','到的第一天就下雨。','沈以安：好，下午改去室內的地方，我再排一下。','雨停的空檔，大家在堤防上排成一排拍照。','第二天早上，阿哲睡過頭，小語在門外敲了五分鐘。','民宿老闆很熱情，每個人多拿了一顆茶葉蛋。'];
+  const WANT=['火車上，四個位子怎麼坐，討論了一整站。最後阿哲說：','阿哲：猜拳。','到的第一天就下雨。','沈以安：好，下午改去室內的地方，我再排一下。','雨停的空檔，大家在堤防上排成一排拍照。','第二天早上，阿哲睡過頭，Alison 在門外敲了五分鐘。','民宿老闆很熱情，每個人多拿了一顆茶葉蛋。'];
   const body=r.L.filter(l=>!/^春假・海邊的小鎮$/.test(l));
-  check('3. 六句照 AA 的順序（認識小語）',JSON.stringify(body.slice(-7))===JSON.stringify(WANT),JSON.stringify(r.L));
+  check('3. 六句照 AA 的順序（認識 Alison）',JSON.stringify(body.slice(-7))===JSON.stringify(WANT),JSON.stringify(r.L));
   check('3. 兩天一夜：回來是 4/4（第二天）17:00、星期往後一天（體力拿掉了，DL-02）',G.day===D.d0+1&&Math.abs(G.hour-17)<0.01&&G.weekday===(r.wd0+1)%7,JSON.stringify({day:G.day,want:D.d0+1,h:G.hour,wd:G.weekday,e:G.energy}));
-  r=await go(null); check('3. 不認識小語：第五句只有「第二天早上，阿哲睡過頭。」',r.L.includes('第二天早上，阿哲睡過頭。')&&!r.L.some(l=>l.includes('小語')),JSON.stringify(r.L));
+  r=await go(null); check('3. 不認識 Alison：第五句只有「第二天早上，阿哲睡過頭。」',r.L.includes('第二天早上，阿哲睡過頭。')&&!r.L.some(l=>l.includes('Alison')),JSON.stringify(r.L));
   /* 宿舍變得很空 */
   fresh(D.d0,10,'dorm',{SPRING_Y1:'dorm'}); check('4. 留在宿舍：4/3 白天走進宿舍會有「宿舍變得很空。」',EVENTS.check(empty));
   fresh(D.d0,20,'dorm',{SPRING_Y1:'dorm'}); check('4. 4/3 晚上不出現',!EVENTS.check(empty));

@@ -10,6 +10,7 @@
 //   7  舊存檔：讀檔那個月開始（那個月的第一個週六過了＝同月下一個週六），過去的月份不補、讀檔當下不一次排一堆
 //   8  沒交往：沒有格子
 // 修改前（開發分支 2eba2fab）：沒有 pg_dates.js、pgdates3d.js——每一節照樣跑（用空的替身），全部 FAIL（第 1 節讀稿那兩項除外）。用法：node tests/aa367_pg_dates_unit.js
+require('./alison.js');   /* AA_380：企劃線的舊稿還寫「小語」，讀稿的時候照匯入工具換成 Alison */
 const H=require('./pg_harness.js');
 const fs=require('fs'), vm=require('vm'), path=require('path'), cp=require('child_process');
 const {check,GM,E}=H;
