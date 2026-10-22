@@ -1649,6 +1649,14 @@
      "approvedBy": "AA 12:38 第一版"
     }
    ]
+  },
+  {
+   "path": "docs/story_planning/AA_364_溫州街其他店面_哪幾家能進去.md",
+   "sha": "d7708ebe",
+   "status": "approved",
+   "approvedBy": "AA（帳號 A）2026-10-21 16:04 定稿（回 USER_WANTS B09 稽核 D：林家乾麵、巷子裡定食內用；巷口茶飲、夏日冰菓室外帶窗口；菜單、營業時間、店員句；D77、D100、D109）",
+   "task": "WZ-SHOP-AA364-SYS",
+   "kind": "text"
   }
  ]
 }

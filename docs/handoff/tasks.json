@@ -26868,7 +26868,7 @@
    "title": "溫州街店面（AA_364）系統：A4、B3 內用點餐接 eat3d.js、茶飲和冰菓室外帶、營業時間、菜單、店員句",
    "owner": "LAWWW",
    "area": "ART",
-   "status": "待開工",
+   "status": "進行中",
    "priority": "P2",
    "first": {
     "term": "Y0S1",
@@ -26886,7 +26886,7 @@
    "pausedReason": "D99 三個優先項目（經濟系、寒暑假、美國交換）先做",
    "resumeWhen": "v9.10.3 發布後",
    "recheckOn": "2026-10-28",
-   "next": "等 WZ-SHOP-AA364-ART 的室內；菜單、營業時間、店員句照 AA_364 第 2、3 節",
+   "next": "【LAWWW（帳號 A）12:5x】室內已整合（WZ-SHOP-AA364-ART，v9.10.5 上線）→ 開工：子代理在獨立 worktree 照 AA_364 第 2～4 節（白名單 AA_364@d7708ebe）：兩家內用接 wzshops3d.js／eat3d.js（菜單、店員句、坐下吃、AA_329 三種效果）、營業時間 places.js、茶飲與冰菓室外帶窗口（冰菓室 5～9 月、芒果冰 6～8 月、其他月份「五月見」）；LAWWW 合併、測試、派 BB（AA_364 第 4 節的測試） ｜ 等 WZ-SHOP-AA364-ART 的室內；菜單、營業時間、店員句照 AA_364 第 2、3 節",
    "xai": {
     "spec": "AA_364 第 2、3 節（企劃線 2b0429cd）",
     "branch": "claude/confident-ritchie-8rwh7t",
