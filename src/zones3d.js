@@ -846,7 +846,10 @@ const Z3 = (function(){
     { const mb=TK.mailbox(); mb.position.set(47.3,0,4.3); mb.rotation.y=Math.PI; g.add(mb); nav.blockRect(47.3,4.3,1.2,0.6,0,0); }
     for(const [ax,az,ry,ls] of [[14.6,3.9,Math.PI,['二手書','民法・刑法','教科書收購']],[-2.4,-3.9,0,['本日定食','鯖魚 / 豚汁','11:30–20:00']]]){ const ab=TK.aBoard(ls); ab.position.set(ax,0,az); ab.rotation.y=ry; g.add(ab); nav.blockCircle(ax,az,0.35); }
     // 店面（不能進去的）用「看櫥窗」：清楚表示只能看，不假裝有完整室內
-    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku))))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成上面 wzShopDoors（三家新店的店門那一段）的「進去」 */
+    for(const it of [{x:14.2,z:3.8,label:'看書店的櫥窗',look:'巷口書房的櫥窗裡擺著一套舊版的《民法總則》，旁邊手寫的紙條：「學長姐留下來的，筆記很多」。'},{x:44,z:3.8,label:'看便利商店',look:'日日便利的自動門開了又關。櫃檯後面的店員在補咖啡豆。'},{x:36,z:3.8,label:'看林家乾麵',look:'林家乾麵外面排了三個人。滷味的味道飄到巷子中間。'},{x:23,z:-6.5,label:'看手搖飲菜單',look:'巷口茶飲的菜單：紅茶 30、綠茶 30、珍珠奶茶 55。騎樓下有兩張塑膠椅。'},{x:-2.6,z:-3.8,label:'看定食店',look:'巷子裡定食的布簾後面傳來煎魚的聲音。今天的定食是鯖魚。'}].filter(it=>!(typeof WZ_SHOPS_LAYOUT!=='undefined'&&((it.label==='看林家乾麵'&&WZ_SHOPS_LAYOUT.lin)||(it.label==='看定食店'&&WZ_SHOPS_LAYOUT.teishoku)))&&!(it.label==='看手搖飲菜單'&&typeof WZS!=='undefined'&&WZS.WINDOW))) E.interactables.push(Object.assign({radius:1.6},it));   /* 林家乾麵、定食店能進去以後（WZ-SHOP-AA364-ART），門口的「看」換成上面 wzShopDoors（三家新店的店門那一段）的「進去」 */
+    /* 巷口茶飲、夏日冰菓室的外帶窗口（AA_364 第 4 節 #3；src/wzshops3d.js 的 WZS.WINDOW，座標照 LAWWW2 交件 README）：茶飲「買一杯飲料」；冰菓室 5～9 月「買一碗冰」、10～4 月「看夏日冰菓室」（鐵捲門＋「五月見」）。
+       騎樓中間原本的「看手搖飲菜單」(23,−6.5) 拿掉（LAWWW2 建議；它的菜單寫「綠茶 30」，AA_364 是「青茶 30」）*/
+    if(typeof WZS!=='undefined'&&WZS.windowItems) for(const it of WZS.windowItems()) E.interactables.push(it);
     // 騎樓柱子
     for(const px of [16.3,23.0,29.7]) nav.blockRect(px,-5.3,0.6,0.6,0,0.05);   /* B5 騎樓的柱子；中間 23.0＝巷口茶飲和夏日冰菓室的分隔柱（溫州街 v5，LAWWW2-B 31323eb9）*/
     // v9.3 參考圖 07 的街道細節：Café 門前的紅磚人行道（平的，不改導航、腳不會陷進去；外緣一條低路緣）＋路口的「溫州街 Wenzhou St.」路名牌
@@ -1623,8 +1626,9 @@ const Z3 = (function(){
       z.seats=[]; for(const st of L.seats){ if(st.npcOnly||/打工/.test(st.label||'')) continue; const fl=st.kind==='floor'?{floor:0.08}:(st.lift?{lift:st.lift}:{}); z.seats.push(Object.assign({x:st.x,z:st.z,yaw:st.yaw,table:st.table,kind:'shop'},fl,st.ap?{ap:st.ap}:{}));   /* floor＝坐墊的高度（茶屋的和室、緣側：跪坐，GAME.sitAt → character3d.js 的 sitFloor；QA-W1 座位檢查：原本用椅子的坐姿，人坐在坐墊上方 0.4 m 的空中）；lift＝吧台高腳凳（巷子裡定食的吧台，座面 0.72 m：坐姿抬高 0.27，和 Café 的吧台一樣）*/
         E.interactables.push({x:st.x,z:st.z,radius:0.9,label:st.label||'坐下',seat:Object.assign({x:st.x,z:st.z,yaw:st.yaw},fl,st.ap?{ap:st.ap}:{}),shop:key}); }   /* 按鈕的座位也要帶 ap：「坐下」用的是這一份（GAME.freeSeat 沒人坐就原樣回傳）*/
       const ex=L.exit; E.interactables.push({x:ex.at.x,z:ex.at.z,radius:1.3,label:ex.label,exit:{to:ex.to,spawn:Object.assign({},ex.spawn)}});
-      /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10 */
-      const CUST={brunch:{cashier:'點餐',chalkboard:'看今日推薦'},teahouse:{tea:'喝茶',garden:'看院子',tokonoma:'看床之間的掛軸'},print:{print:'印東西',stationery:'買文具'}}[key]||{};
+      /* 客人的選單（AA_172，src/wzshops3d.js）：配置檔的互動點只接客人用的；打工用的（出餐檯、廚房、櫃台、膠裝、水屋）等 DL-10。
+         林家乾麵、巷子裡定食（AA_364，WZS.order364）：攤車旁／結帳台＝點餐（店員招呼、選單、坐下吃）、看菜單＝牆上菜單那一行 */
+      const CUST={brunch:{cashier:'點餐',chalkboard:'看今日推薦'},teahouse:{tea:'喝茶',garden:'看院子',tokonoma:'看床之間的掛軸'},print:{print:'印東西',stationery:'買文具'},lin:{order:'點餐',menu:'看菜單'},teishoku:{cashier:'點餐',menu:'看木札菜單'}}[key]||{};
       for(const q of (L.interact||[])) if(CUST[q.kind]) E.interactables.push({x:q.x,z:q.z,radius:1.0,label:CUST[q.kind],wzShop:key,kind:q.kind});
       P3.mergeStatic(g);
       const mk='bldg.wz_'+key+'_interior'; if(typeof ASSETS!=='undefined'&&ASSETS.manifest[mk]) ASSETS.loadOne(mk).then(c=>{ if(!c||!c.scene||E.zone!==z) return; const root=c.scene.clone(true); if(cz) root.position.z-=cz; attachRoomGLB(z,g0,g,root);

@@ -335,6 +335,10 @@ const STORY = (function(){
       if(zoneId==='wz_brunch') clerk(2.6,-2.05,-0.6,46);   // 結帳櫃台（(2.6,-1.1)，客人站西邊 (1.95,-1.1)）北端、廚房門口，面向結帳的客人
       if(zoneId==='wz_print') clerk(-0.9,0.4,0,47);        // 櫃台後面（打工時坐的位置），面向印東西的客人
       if(zoneId==='wz_teahouse') clerk(2.95,1.3,-Math.PI/2,48);   // 水屋（泡茶的地方），面向茶室
+      /* 林家乾麵、巷子裡定食（AA_364）：店員站在室內配置的 clerk（林家：攤車後面、面向街上；定食店：吧台後面的廚房、面向客人；LAWWW2 WZ-SHOP-AA364-ART）。林家是老闆（男，奇數）*/
+      if((zoneId==='wz_lin'||zoneId==='wz_teishoku')&&typeof WZ_SHOPS_LAYOUT!=='undefined'){ const LL=WZ_SHOPS_LAYOUT[zoneId.slice(3)]; if(LL&&LL.clerk) clerk(LL.clerk.x,LL.clerk.z,LL.clerk.yaw,zoneId==='wz_lin'?49:64); }
+      /* 巷口茶飲、夏日冰菓室的外帶窗口（AA_364）：開門的時候店員在窗口裡面（WZS.WINDOW；冰菓室 10～4 月鐵捲門拉著＝沒有人）；冰菓室是老闆娘（女，偶數）*/
+      if(zoneId==='wenzhou'&&typeof WZS!=='undefined'&&WZS.WINDOW&&WZS.windowClerk){ for(const [k,i] of [['tea',65],['ice',66]]){ const w=WZS.WINDOW[k]; if(w&&w.clerk&&WZS.windowClerk(k,G)) clerk(w.clerk.x,w.clerk.z,w.clerk.yaw,i); } }
       if(/^l118_/.test(zoneId)&&typeof L118_SHOP_LAYOUTS!=='undefined'){ const ids=Object.keys(L118_SHOP_LAYOUTS), LL=L118_SHOP_LAYOUTS[zoneId.slice(5)]; if(LL&&LL.clerk) clerk(LL.clerk.x,LL.clerk.z,LL.clerk.yaw,70+ids.indexOf(zoneId.slice(5))); }   /* 118 巷九間店：店員在店裡、站在室內配置的 clerk（LAWWW2-C，LANE118-SHOPS-1020）；每間店換一個路人底模（AA_311 的店員外觀之後接）*/
       if(zoneId==='lane118'&&typeof L118_SHOP_LAYOUTS==='undefined'&&typeof L118!=='undefined'&&typeof LANE118_LAYOUT!=='undefined'){ let k=0; for(const sh of LANE118_LAYOUT.shops){ k++; let open=false; try{ open=L118.isOpen(sh.id,G); }catch(e){} if(!open) continue; const W=sh.side==='W', fx=W?LANE118_LAYOUT.facade.west+0.35:LANE118_LAYOUT.facade.east-0.35;
         clerk(fx,(sh.z0+sh.z1)/2+1.1,W?Math.PI/2:-Math.PI/2,50+k); } }
@@ -1066,7 +1070,7 @@ const STORY = (function(){
     if(it.exit&&it.exit.to==='classroom'&&S.mainDay(G)===2&&isThu(G)&&h(G)>=15.2&&!F.classDone){ F.classDone=true; GM.toast('你錯過了今天的民法總則'); G.flags.classAnswer='absent'; return false; }
     if(it.exit&&PLACES.typhoonClosed&&PLACES.typhoonClosed(it.exit.to,G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 颱風假店家不開（AA_160 3-4 D）*/
     if(it.exit&&it.exit.to==='noodle'&&typeof NOODLE_CLOSED!=='undefined'&&await NOODLE_CLOSED.door(GM)) return true;   /* 阿鳳麵店過年店休（AA_333；src/noodle_closed3d.js）：鐵門、語彤刷椅子腳；那天在麵店有約照常進去 */
-    if(it.exit&&/^wz_(brunch|print|teahouse)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 溫州街三家新店的營業時間（AA_164 1-2）*/
+    if(it.exit&&/^wz_(brunch|print|teahouse|lin|teishoku)$/.test(it.exit.to)&&!PLACES.isOpen(it.exit.to,h(G),G.day)){ GM.toast(PLACES.closedText(it.exit.to,h(G),G.day),4500); return true; }   /* 溫州街新店的營業時間（AA_164 1-2；林家乾麵、巷子裡定食 AA_364 第 2 節：一天兩段、週一／週二公休）*/
     if(it.exit&&it.exit.to==='cafe'&&!PLACES.isOpen('cafe',h(G))){ GM.toast(PLACES.closedText('cafe',h(G)),4500); return true; }   /* 開放時間在 src/data/places.js（入口標記、大地圖讀同一份）*/
     if(it.exit&&it.exit.to==='lawlib'&&G.zone==='wancai'&&!PLACES.isOpen('lawlib',h(G),G.day)){ GM.toast(PLACES.closedText('lawlib',h(G),G.day),5500); return true; }
     if(it.exit&&it.exit.to==='soclib'&&G.zone==='campus'&&!PLACES.isOpen('soclib',h(G),G.day)){ GM.toast(PLACES.closedText('soclib',h(G),G.day),5500); return true; }   /* 社科院圖書館（D62）：只擋從校園進去 */   /* 法律學院圖書館（D46）：只擋從大廳進去；人在館裡照樣走得出來 */
