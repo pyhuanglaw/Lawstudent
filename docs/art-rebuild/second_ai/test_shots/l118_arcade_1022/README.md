@@ -106,6 +106,14 @@
 
 ![](camera_before_after.webp)
 
+### 六個房間（j36b：開發分支 `809ea58b` 前、換 6 份 GLB 後；預設鏡頭、拉到最遠最陡）
+
+- 日本宿舍房間：原本預設鏡頭的畫面右上角就是天花板的上面；改了以後看到窗外。
+- 拉到最遠最陡：原本六間都是整個畫面一大片白；改了以後看得進房間（剖面）。
+- 還看得到的白色長方形是燈具（日光燈燈箱、投影幕）從上面看；霖澤館 3F／4F 的深灰色方塊是電梯井的頂蓋（實心量體的剖面）。
+
+![](rooms_before_after.webp)
+
 ## 接法（LAWWW）
 
 1. `git apply docs/art-rebuild/second_ai/patches/l118_arcade.diff`（`src/zones3d.js` 兩行＋兩支新測試）。
